@@ -1,393 +1,393 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.misc;
+pbckbge sun.reflect.misc;
 
-import java.security.AllPermission;
-import java.security.AccessController;
-import java.security.PermissionCollection;
-import java.security.SecureClassLoader;
-import java.security.PrivilegedExceptionAction;
-import java.security.CodeSource;
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.security.AllPermission;
+import jbvb.security.AccessController;
+import jbvb.security.PermissionCollection;
+import jbvb.security.SecureClbssLobder;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.CodeSource;
+import jbvb.io.InputStrebm;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.IOException;
+import jbvb.net.URL;
+import jbvb.net.URLConnection;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.AccessibleObject;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 import sun.misc.IOUtils;
 
 
-class Trampoline {
-    static {
-        if (Trampoline.class.getClassLoader() == null) {
+clbss Trbmpoline {
+    stbtic {
+        if (Trbmpoline.clbss.getClbssLobder() == null) {
             throw new Error(
-                "Trampoline must not be defined by the bootstrap classloader");
+                "Trbmpoline must not be defined by the bootstrbp clbsslobder");
         }
     }
 
-    private static void ensureInvocableMethod(Method m)
-        throws InvocationTargetException
+    privbte stbtic void ensureInvocbbleMethod(Method m)
+        throws InvocbtionTbrgetException
     {
-        Class<?> clazz = m.getDeclaringClass();
-        if (clazz.equals(AccessController.class) ||
-            clazz.equals(Method.class) ||
-            clazz.getName().startsWith("java.lang.invoke."))
-            throw new InvocationTargetException(
-                new UnsupportedOperationException("invocation not supported"));
+        Clbss<?> clbzz = m.getDeclbringClbss();
+        if (clbzz.equbls(AccessController.clbss) ||
+            clbzz.equbls(Method.clbss) ||
+            clbzz.getNbme().stbrtsWith("jbvb.lbng.invoke."))
+            throw new InvocbtionTbrgetException(
+                new UnsupportedOperbtionException("invocbtion not supported"));
     }
 
-    private static Object invoke(Method m, Object obj, Object[] params)
-        throws InvocationTargetException, IllegalAccessException
+    privbte stbtic Object invoke(Method m, Object obj, Object[] pbrbms)
+        throws InvocbtionTbrgetException, IllegblAccessException
     {
-        ensureInvocableMethod(m);
-        return m.invoke(obj, params);
+        ensureInvocbbleMethod(m);
+        return m.invoke(obj, pbrbms);
     }
 }
 
 /*
- * Create a trampoline class.
+ * Crebte b trbmpoline clbss.
  */
-public final class MethodUtil extends SecureClassLoader {
-    private static String MISC_PKG = "sun.reflect.misc.";
-    private static String TRAMPOLINE = MISC_PKG + "Trampoline";
-    private static Method bounce = getTrampoline();
+public finbl clbss MethodUtil extends SecureClbssLobder {
+    privbte stbtic String MISC_PKG = "sun.reflect.misc.";
+    privbte stbtic String TRAMPOLINE = MISC_PKG + "Trbmpoline";
+    privbte stbtic Method bounce = getTrbmpoline();
 
-    private MethodUtil() {
+    privbte MethodUtil() {
         super();
     }
 
-    public static Method getMethod(Class<?> cls, String name, Class<?>[] args)
+    public stbtic Method getMethod(Clbss<?> cls, String nbme, Clbss<?>[] brgs)
         throws NoSuchMethodException {
-        ReflectUtil.checkPackageAccess(cls);
-        return cls.getMethod(name, args);
+        ReflectUtil.checkPbckbgeAccess(cls);
+        return cls.getMethod(nbme, brgs);
     }
 
-    public static Method[] getMethods(Class<?> cls) {
-        ReflectUtil.checkPackageAccess(cls);
+    public stbtic Method[] getMethods(Clbss<?> cls) {
+        ReflectUtil.checkPbckbgeAccess(cls);
         return cls.getMethods();
     }
 
     /*
-     * Discover the public methods on public classes
-     * and interfaces accessible to any caller by calling
-     * Class.getMethods() and walking towards Object until
+     * Discover the public methods on public clbsses
+     * bnd interfbces bccessible to bny cbller by cblling
+     * Clbss.getMethods() bnd wblking towbrds Object until
      * we're done.
      */
-     public static Method[] getPublicMethods(Class<?> cls) {
-        // compatibility for update release
-        if (System.getSecurityManager() == null) {
+     public stbtic Method[] getPublicMethods(Clbss<?> cls) {
+        // compbtibility for updbte relebse
+        if (System.getSecurityMbnbger() == null) {
             return cls.getMethods();
         }
-        Map<Signature, Method> sigs = new HashMap<Signature, Method>();
+        Mbp<Signbture, Method> sigs = new HbshMbp<Signbture, Method>();
         while (cls != null) {
-            boolean done = getInternalPublicMethods(cls, sigs);
+            boolebn done = getInternblPublicMethods(cls, sigs);
             if (done) {
-                break;
+                brebk;
             }
-            getInterfaceMethods(cls, sigs);
-            cls = cls.getSuperclass();
+            getInterfbceMethods(cls, sigs);
+            cls = cls.getSuperclbss();
         }
-        return sigs.values().toArray(new Method[sigs.size()]);
+        return sigs.vblues().toArrby(new Method[sigs.size()]);
     }
 
     /*
-     * Process the immediate interfaces of this class or interface.
+     * Process the immedibte interfbces of this clbss or interfbce.
      */
-    private static void getInterfaceMethods(Class<?> cls,
-                                            Map<Signature, Method> sigs) {
-        Class<?>[] intfs = cls.getInterfaces();
+    privbte stbtic void getInterfbceMethods(Clbss<?> cls,
+                                            Mbp<Signbture, Method> sigs) {
+        Clbss<?>[] intfs = cls.getInterfbces();
         for (int i=0; i < intfs.length; i++) {
-            Class<?> intf = intfs[i];
-            boolean done = getInternalPublicMethods(intf, sigs);
+            Clbss<?> intf = intfs[i];
+            boolebn done = getInternblPublicMethods(intf, sigs);
             if (!done) {
-                getInterfaceMethods(intf, sigs);
+                getInterfbceMethods(intf, sigs);
             }
         }
     }
 
     /*
      *
-     * Process the methods in this class or interface
+     * Process the methods in this clbss or interfbce
      */
-    private static boolean getInternalPublicMethods(Class<?> cls,
-                                                    Map<Signature, Method> sigs) {
+    privbte stbtic boolebn getInternblPublicMethods(Clbss<?> cls,
+                                                    Mbp<Signbture, Method> sigs) {
         Method[] methods = null;
         try {
             /*
-             * This class or interface is non-public so we
-             * can't use any of it's methods. Go back and
-             * try again with a superclass or superinterface.
+             * This clbss or interfbce is non-public so we
+             * cbn't use bny of it's methods. Go bbck bnd
+             * try bgbin with b superclbss or superinterfbce.
              */
             if (!Modifier.isPublic(cls.getModifiers())) {
-                return false;
+                return fblse;
             }
-            if (!ReflectUtil.isPackageAccessible(cls)) {
-                return false;
+            if (!ReflectUtil.isPbckbgeAccessible(cls)) {
+                return fblse;
             }
 
             methods = cls.getMethods();
-        } catch (SecurityException se) {
-            return false;
+        } cbtch (SecurityException se) {
+            return fblse;
         }
 
         /*
          * Check for inherited methods with non-public
-         * declaring classes. They might override and hide
-         * methods from their superclasses or
-         * superinterfaces.
+         * declbring clbsses. They might override bnd hide
+         * methods from their superclbsses or
+         * superinterfbces.
          */
-        boolean done = true;
+        boolebn done = true;
         for (int i=0; i < methods.length; i++) {
-            Class<?> dc = methods[i].getDeclaringClass();
+            Clbss<?> dc = methods[i].getDeclbringClbss();
             if (!Modifier.isPublic(dc.getModifiers())) {
-                done = false;
-                break;
+                done = fblse;
+                brebk;
             }
         }
 
         if (done) {
             /*
-             * We're done. Spray all the methods into
-             * the list and then we're out of here.
+             * We're done. Sprby bll the methods into
+             * the list bnd then we're out of here.
              */
             for (int i=0; i < methods.length; i++) {
-                addMethod(sigs, methods[i]);
+                bddMethod(sigs, methods[i]);
             }
         } else {
             /*
-             * Simulate cls.getDeclaredMethods() by
-             * stripping away inherited methods.
+             * Simulbte cls.getDeclbredMethods() by
+             * stripping bwby inherited methods.
              */
             for (int i=0; i < methods.length; i++) {
-                Class<?> dc = methods[i].getDeclaringClass();
-                if (cls.equals(dc)) {
-                    addMethod(sigs, methods[i]);
+                Clbss<?> dc = methods[i].getDeclbringClbss();
+                if (cls.equbls(dc)) {
+                    bddMethod(sigs, methods[i]);
                 }
             }
         }
         return done;
     }
 
-    private static void addMethod(Map<Signature, Method> sigs, Method method) {
-        Signature signature = new Signature(method);
-        if (!sigs.containsKey(signature)) {
-            sigs.put(signature, method);
-        } else if (!method.getDeclaringClass().isInterface()){
+    privbte stbtic void bddMethod(Mbp<Signbture, Method> sigs, Method method) {
+        Signbture signbture = new Signbture(method);
+        if (!sigs.contbinsKey(signbture)) {
+            sigs.put(signbture, method);
+        } else if (!method.getDeclbringClbss().isInterfbce()){
             /*
-             * Superclasses beat interfaces.
+             * Superclbsses bebt interfbces.
              */
-            Method old = sigs.get(signature);
-            if (old.getDeclaringClass().isInterface()) {
-                sigs.put(signature, method);
+            Method old = sigs.get(signbture);
+            if (old.getDeclbringClbss().isInterfbce()) {
+                sigs.put(signbture, method);
             }
         }
     }
 
     /**
-     * A class that represents the unique elements of a method that will be a
-     * key in the method cache.
+     * A clbss thbt represents the unique elements of b method thbt will be b
+     * key in the method cbche.
      */
-    private static class Signature {
-        private String methodName;
-        private Class<?>[] argClasses;
+    privbte stbtic clbss Signbture {
+        privbte String methodNbme;
+        privbte Clbss<?>[] brgClbsses;
 
-        private volatile int hashCode = 0;
+        privbte volbtile int hbshCode = 0;
 
-        Signature(Method m) {
-            this.methodName = m.getName();
-            this.argClasses = m.getParameterTypes();
+        Signbture(Method m) {
+            this.methodNbme = m.getNbme();
+            this.brgClbsses = m.getPbrbmeterTypes();
         }
 
-        public boolean equals(Object o2) {
+        public boolebn equbls(Object o2) {
             if (this == o2) {
                 return true;
             }
-            Signature that = (Signature)o2;
-            if (!(methodName.equals(that.methodName))) {
-                return false;
+            Signbture thbt = (Signbture)o2;
+            if (!(methodNbme.equbls(thbt.methodNbme))) {
+                return fblse;
             }
-            if (argClasses.length != that.argClasses.length) {
-                return false;
+            if (brgClbsses.length != thbt.brgClbsses.length) {
+                return fblse;
             }
-            for (int i = 0; i < argClasses.length; i++) {
-                if (!(argClasses[i] == that.argClasses[i])) {
-                  return false;
+            for (int i = 0; i < brgClbsses.length; i++) {
+                if (!(brgClbsses[i] == thbt.brgClbsses[i])) {
+                  return fblse;
                 }
             }
             return true;
         }
 
         /**
-         * Hash code computed using algorithm suggested in
-         * Effective Java, Item 8.
+         * Hbsh code computed using blgorithm suggested in
+         * Effective Jbvb, Item 8.
          */
-        public int hashCode() {
-            if (hashCode == 0) {
+        public int hbshCode() {
+            if (hbshCode == 0) {
                 int result = 17;
-                result = 37 * result + methodName.hashCode();
-                if (argClasses != null) {
-                    for (int i = 0; i < argClasses.length; i++) {
-                        result = 37 * result + ((argClasses[i] == null) ? 0 :
-                            argClasses[i].hashCode());
+                result = 37 * result + methodNbme.hbshCode();
+                if (brgClbsses != null) {
+                    for (int i = 0; i < brgClbsses.length; i++) {
+                        result = 37 * result + ((brgClbsses[i] == null) ? 0 :
+                            brgClbsses[i].hbshCode());
                     }
                 }
-                hashCode = result;
+                hbshCode = result;
             }
-            return hashCode;
+            return hbshCode;
         }
     }
 
 
     /*
-     * Bounce through the trampoline.
+     * Bounce through the trbmpoline.
      */
-    public static Object invoke(Method m, Object obj, Object[] params)
-        throws InvocationTargetException, IllegalAccessException {
+    public stbtic Object invoke(Method m, Object obj, Object[] pbrbms)
+        throws InvocbtionTbrgetException, IllegblAccessException {
         try {
-            return bounce.invoke(null, new Object[] {m, obj, params});
-        } catch (InvocationTargetException ie) {
-            Throwable t = ie.getCause();
+            return bounce.invoke(null, new Object[] {m, obj, pbrbms});
+        } cbtch (InvocbtionTbrgetException ie) {
+            Throwbble t = ie.getCbuse();
 
-            if (t instanceof InvocationTargetException) {
-                throw (InvocationTargetException)t;
-            } else if (t instanceof IllegalAccessException) {
-                throw (IllegalAccessException)t;
-            } else if (t instanceof RuntimeException) {
+            if (t instbnceof InvocbtionTbrgetException) {
+                throw (InvocbtionTbrgetException)t;
+            } else if (t instbnceof IllegblAccessException) {
+                throw (IllegblAccessException)t;
+            } else if (t instbnceof RuntimeException) {
                 throw (RuntimeException)t;
-            } else if (t instanceof Error) {
+            } else if (t instbnceof Error) {
                 throw (Error)t;
             } else {
-                throw new Error("Unexpected invocation error", t);
+                throw new Error("Unexpected invocbtion error", t);
             }
-        } catch (IllegalAccessException iae) {
-            // this can't happen
-            throw new Error("Unexpected invocation error", iae);
+        } cbtch (IllegblAccessException ibe) {
+            // this cbn't hbppen
+            throw new Error("Unexpected invocbtion error", ibe);
         }
     }
 
-    private static Method getTrampoline() {
+    privbte stbtic Method getTrbmpoline() {
         try {
             return AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Method>() {
                     public Method run() throws Exception {
-                        Class<?> t = getTrampolineClass();
-                        Class<?>[] types = {
-                            Method.class, Object.class, Object[].class
+                        Clbss<?> t = getTrbmpolineClbss();
+                        Clbss<?>[] types = {
+                            Method.clbss, Object.clbss, Object[].clbss
                         };
-                        Method b = t.getDeclaredMethod("invoke", types);
+                        Method b = t.getDeclbredMethod("invoke", types);
                         b.setAccessible(true);
                         return b;
                     }
                 });
-        } catch (Exception e) {
-            throw new InternalError("bouncer cannot be found", e);
+        } cbtch (Exception e) {
+            throw new InternblError("bouncer cbnnot be found", e);
         }
     }
 
 
-    protected synchronized Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
+    protected synchronized Clbss<?> lobdClbss(String nbme, boolebn resolve)
+        throws ClbssNotFoundException
     {
-        // First, check if the class has already been loaded
-        ReflectUtil.checkPackageAccess(name);
-        Class<?> c = findLoadedClass(name);
+        // First, check if the clbss hbs blrebdy been lobded
+        ReflectUtil.checkPbckbgeAccess(nbme);
+        Clbss<?> c = findLobdedClbss(nbme);
         if (c == null) {
             try {
-                c = findClass(name);
-            } catch (ClassNotFoundException e) {
-                // Fall through ...
+                c = findClbss(nbme);
+            } cbtch (ClbssNotFoundException e) {
+                // Fbll through ...
             }
             if (c == null) {
-                c = getParent().loadClass(name);
+                c = getPbrent().lobdClbss(nbme);
             }
         }
         if (resolve) {
-            resolveClass(c);
+            resolveClbss(c);
         }
         return c;
     }
 
 
-    protected Class<?> findClass(final String name)
-        throws ClassNotFoundException
+    protected Clbss<?> findClbss(finbl String nbme)
+        throws ClbssNotFoundException
     {
-        if (!name.startsWith(MISC_PKG)) {
-            throw new ClassNotFoundException(name);
+        if (!nbme.stbrtsWith(MISC_PKG)) {
+            throw new ClbssNotFoundException(nbme);
         }
-        String path = name.replace('.', '/').concat(".class");
-        URL res = getResource(path);
+        String pbth = nbme.replbce('.', '/').concbt(".clbss");
+        URL res = getResource(pbth);
         if (res != null) {
             try {
-                return defineClass(name, res);
-            } catch (IOException e) {
-                throw new ClassNotFoundException(name, e);
+                return defineClbss(nbme, res);
+            } cbtch (IOException e) {
+                throw new ClbssNotFoundException(nbme, e);
             }
         } else {
-            throw new ClassNotFoundException(name);
+            throw new ClbssNotFoundException(nbme);
         }
     }
 
 
     /*
-     * Define the proxy classes
+     * Define the proxy clbsses
      */
-    private Class<?> defineClass(String name, URL url) throws IOException {
+    privbte Clbss<?> defineClbss(String nbme, URL url) throws IOException {
         byte[] b = getBytes(url);
-        CodeSource cs = new CodeSource(null, (java.security.cert.Certificate[])null);
-        if (!name.equals(TRAMPOLINE)) {
-            throw new IOException("MethodUtil: bad name " + name);
+        CodeSource cs = new CodeSource(null, (jbvb.security.cert.Certificbte[])null);
+        if (!nbme.equbls(TRAMPOLINE)) {
+            throw new IOException("MethodUtil: bbd nbme " + nbme);
         }
-        return defineClass(name, b, 0, b.length, cs);
+        return defineClbss(nbme, b, 0, b.length, cs);
     }
 
 
     /*
-     * Returns the contents of the specified URL as an array of bytes.
+     * Returns the contents of the specified URL bs bn brrby of bytes.
      */
-    private static byte[] getBytes(URL url) throws IOException {
+    privbte stbtic byte[] getBytes(URL url) throws IOException {
         URLConnection uc = url.openConnection();
-        if (uc instanceof java.net.HttpURLConnection) {
-            java.net.HttpURLConnection huc = (java.net.HttpURLConnection) uc;
+        if (uc instbnceof jbvb.net.HttpURLConnection) {
+            jbvb.net.HttpURLConnection huc = (jbvb.net.HttpURLConnection) uc;
             int code = huc.getResponseCode();
-            if (code >= java.net.HttpURLConnection.HTTP_BAD_REQUEST) {
-                throw new IOException("open HTTP connection failed.");
+            if (code >= jbvb.net.HttpURLConnection.HTTP_BAD_REQUEST) {
+                throw new IOException("open HTTP connection fbiled.");
             }
         }
         int len = uc.getContentLength();
-        InputStream in = new BufferedInputStream(uc.getInputStream());
+        InputStrebm in = new BufferedInputStrebm(uc.getInputStrebm());
 
         byte[] b;
         try {
-            b = IOUtils.readFully(in, len, true);
-        } finally {
+            b = IOUtils.rebdFully(in, len, true);
+        } finblly {
             in.close();
         }
         return b;
@@ -397,14 +397,14 @@ public final class MethodUtil extends SecureClassLoader {
     protected PermissionCollection getPermissions(CodeSource codesource)
     {
         PermissionCollection perms = super.getPermissions(codesource);
-        perms.add(new AllPermission());
+        perms.bdd(new AllPermission());
         return perms;
     }
 
-    private static Class<?> getTrampolineClass() {
+    privbte stbtic Clbss<?> getTrbmpolineClbss() {
         try {
-            return Class.forName(TRAMPOLINE, true, new MethodUtil());
-        } catch (ClassNotFoundException e) {
+            return Clbss.forNbme(TRAMPOLINE, true, new MethodUtil());
+        } cbtch (ClbssNotFoundException e) {
         }
         return null;
     }

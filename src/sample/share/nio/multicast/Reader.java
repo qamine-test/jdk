@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,119 +30,119 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.channels.*;
-import java.nio.charset.*;
-import java.nio.ByteBuffer;
-import java.net.*;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbrset.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.net.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
-public class Reader {
+public clbss Rebder {
 
-    static void usage() {
-        System.err.println("usage: java Reader group:port@interf [-only source...] [-block source...]");
+    stbtic void usbge() {
+        System.err.println("usbge: jbvb Rebder group:port@interf [-only source...] [-block source...]");
         System.exit(-1);
     }
 
-    static void printDatagram(SocketAddress sa, ByteBuffer buf) {
-        System.out.format("-- datagram from %s --\n",
-            ((InetSocketAddress)sa).getAddress().getHostAddress());
-        System.out.println(Charset.defaultCharset().decode(buf));
+    stbtic void printDbtbgrbm(SocketAddress sb, ByteBuffer buf) {
+        System.out.formbt("-- dbtbgrbm from %s --\n",
+            ((InetSocketAddress)sb).getAddress().getHostAddress());
+        System.out.println(Chbrset.defbultChbrset().decode(buf));
     }
 
-    static void parseAddessList(String s, List<InetAddress> list)
+    stbtic void pbrseAddessList(String s, List<InetAddress> list)
         throws UnknownHostException
     {
         String[] sources = s.split(",");
         for (int i=0; i<sources.length; i++) {
-            list.add(InetAddress.getByName(sources[i]));
+            list.bdd(InetAddress.getByNbme(sources[i]));
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length == 0)
-            usage();
+    public stbtic void mbin(String[] brgs) throws IOException {
+        if (brgs.length == 0)
+            usbge();
 
-        // first parameter is the multicast address (interface required)
-        MulticastAddress target = MulticastAddress.parse(args[0]);
-        if (target.interf() == null)
-            usage();
+        // first pbrbmeter is the multicbst bddress (interfbce required)
+        MulticbstAddress tbrget = MulticbstAddress.pbrse(brgs[0]);
+        if (tbrget.interf() == null)
+            usbge();
 
-        // addition arguments are source addresses to include or exclude
-        List<InetAddress> includeList = new ArrayList<InetAddress>();
-        List<InetAddress> excludeList = new ArrayList<InetAddress>();
-        int argc = 1;
-        while (argc < args.length) {
-            String option = args[argc++];
-            if (argc >= args.length)
-                usage();
-            String value = args[argc++];
-            if (option.equals("-only")) {
-                 parseAddessList(value, includeList);
+        // bddition brguments bre source bddresses to include or exclude
+        List<InetAddress> includeList = new ArrbyList<InetAddress>();
+        List<InetAddress> excludeList = new ArrbyList<InetAddress>();
+        int brgc = 1;
+        while (brgc < brgs.length) {
+            String option = brgs[brgc++];
+            if (brgc >= brgs.length)
+                usbge();
+            String vblue = brgs[brgc++];
+            if (option.equbls("-only")) {
+                 pbrseAddessList(vblue, includeList);
                 continue;
             }
-            if (option.equals("-block")) {
-                parseAddessList(value, excludeList);
+            if (option.equbls("-block")) {
+                pbrseAddessList(vblue, excludeList);
                 continue;
             }
-            usage();
+            usbge();
         }
         if (!includeList.isEmpty() && !excludeList.isEmpty()) {
-            usage();
+            usbge();
         }
 
-        // create and bind socket
-        ProtocolFamily family = StandardProtocolFamily.INET;
-        if (target.group() instanceof Inet6Address) {
-            family = StandardProtocolFamily.INET6;
+        // crebte bnd bind socket
+        ProtocolFbmily fbmily = StbndbrdProtocolFbmily.INET;
+        if (tbrget.group() instbnceof Inet6Address) {
+            fbmily = StbndbrdProtocolFbmily.INET6;
         }
-        DatagramChannel dc = DatagramChannel.open(family)
-            .setOption(StandardSocketOptions.SO_REUSEADDR, true)
-            .bind(new InetSocketAddress(target.port()));
+        DbtbgrbmChbnnel dc = DbtbgrbmChbnnel.open(fbmily)
+            .setOption(StbndbrdSocketOptions.SO_REUSEADDR, true)
+            .bind(new InetSocketAddress(tbrget.port()));
 
         if (includeList.isEmpty()) {
-            // join group and block addresses on the exclude list
-            MembershipKey key = dc.join(target.group(), target.interf());
+            // join group bnd block bddresses on the exclude list
+            MembershipKey key = dc.join(tbrget.group(), tbrget.interf());
             for (InetAddress source: excludeList) {
                 key.block(source);
             }
         } else {
-            // join with source-specific membership for each source
+            // join with source-specific membership for ebch source
             for (InetAddress source: includeList) {
-                dc.join(target.group(), target.interf(), source);
+                dc.join(tbrget.group(), tbrget.interf(), source);
             }
         }
 
         // register socket with Selector
         Selector sel = Selector.open();
-        dc.configureBlocking(false);
+        dc.configureBlocking(fblse);
         dc.register(sel, SelectionKey.OP_READ);
 
-        // print out each datagram that we receive
-        ByteBuffer buf = ByteBuffer.allocateDirect(4096);
+        // print out ebch dbtbgrbm thbt we receive
+        ByteBuffer buf = ByteBuffer.bllocbteDirect(4096);
         for (;;) {
-            int updated = sel.select();
-            if (updated > 0) {
-                Iterator<SelectionKey> iter = sel.selectedKeys().iterator();
-                while (iter.hasNext()) {
+            int updbted = sel.select();
+            if (updbted > 0) {
+                Iterbtor<SelectionKey> iter = sel.selectedKeys().iterbtor();
+                while (iter.hbsNext()) {
                     SelectionKey sk = iter.next();
                     iter.remove();
 
-                    DatagramChannel ch = (DatagramChannel)sk.channel();
-                    SocketAddress sa = ch.receive(buf);
-                    if (sa != null) {
+                    DbtbgrbmChbnnel ch = (DbtbgrbmChbnnel)sk.chbnnel();
+                    SocketAddress sb = ch.receive(buf);
+                    if (sb != null) {
                         buf.flip();
-                        printDatagram(sa, buf);
+                        printDbtbgrbm(sb, buf);
                         buf.rewind();
-                        buf.limit(buf.capacity());
+                        buf.limit(buf.cbpbcity());
                     }
                 }
             }

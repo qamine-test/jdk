@@ -1,167 +1,167 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.io.Serializable;
+pbckbge jbvb.util.concurrent.btomic;
+import jbvb.io.Seriblizbble;
 
 /**
- * One or more variables that together maintain an initially zero
- * {@code double} sum.  When updates (method {@link #add}) are
- * contended across threads, the set of variables may grow dynamically
- * to reduce contention.  Method {@link #sum} (or, equivalently {@link
- * #doubleValue}) returns the current total combined across the
- * variables maintaining the sum. The order of accumulation within or
- * across threads is not guaranteed. Thus, this class may not be
- * applicable if numerical stability is required, especially when
- * combining values of substantially different orders of magnitude.
+ * One or more vbribbles thbt together mbintbin bn initiblly zero
+ * {@code double} sum.  When updbtes (method {@link #bdd}) bre
+ * contended bcross threbds, the set of vbribbles mby grow dynbmicblly
+ * to reduce contention.  Method {@link #sum} (or, equivblently {@link
+ * #doubleVblue}) returns the current totbl combined bcross the
+ * vbribbles mbintbining the sum. The order of bccumulbtion within or
+ * bcross threbds is not gubrbnteed. Thus, this clbss mby not be
+ * bpplicbble if numericbl stbbility is required, especiblly when
+ * combining vblues of substbntiblly different orders of mbgnitude.
  *
- * <p>This class is usually preferable to alternatives when multiple
- * threads update a common value that is used for purposes such as
- * summary statistics that are frequently updated but less frequently
- * read.
+ * <p>This clbss is usublly preferbble to blternbtives when multiple
+ * threbds updbte b common vblue thbt is used for purposes such bs
+ * summbry stbtistics thbt bre frequently updbted but less frequently
+ * rebd.
  *
- * <p>This class extends {@link Number}, but does <em>not</em> define
- * methods such as {@code equals}, {@code hashCode} and {@code
- * compareTo} because instances are expected to be mutated, and so are
- * not useful as collection keys.
+ * <p>This clbss extends {@link Number}, but does <em>not</em> define
+ * methods such bs {@code equbls}, {@code hbshCode} bnd {@code
+ * compbreTo} becbuse instbnces bre expected to be mutbted, bnd so bre
+ * not useful bs collection keys.
  *
  * @since 1.8
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class DoubleAdder extends Striped64 implements Serializable {
-    private static final long serialVersionUID = 7249069246863182397L;
+public clbss DoubleAdder extends Striped64 implements Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 7249069246863182397L;
 
     /*
-     * Note that we must use "long" for underlying representations,
-     * because there is no compareAndSet for double, due to the fact
-     * that the bitwise equals used in any CAS implementation is not
-     * the same as double-precision equals.  However, we use CAS only
-     * to detect and alleviate contention, for which bitwise equals
-     * works best anyway. In principle, the long/double conversions
-     * used here should be essentially free on most platforms since
+     * Note thbt we must use "long" for underlying representbtions,
+     * becbuse there is no compbreAndSet for double, due to the fbct
+     * thbt the bitwise equbls used in bny CAS implementbtion is not
+     * the sbme bs double-precision equbls.  However, we use CAS only
+     * to detect bnd bllevibte contention, for which bitwise equbls
+     * works best bnywby. In principle, the long/double conversions
+     * used here should be essentiblly free on most plbtforms since
      * they just re-interpret bits.
      */
 
     /**
-     * Creates a new adder with initial sum of zero.
+     * Crebtes b new bdder with initibl sum of zero.
      */
     public DoubleAdder() {
     }
 
     /**
-     * Adds the given value.
+     * Adds the given vblue.
      *
-     * @param x the value to add
+     * @pbrbm x the vblue to bdd
      */
-    public void add(double x) {
-        Cell[] as; long b, v; int m; Cell a;
-        if ((as = cells) != null ||
-            !casBase(b = base,
-                     Double.doubleToRawLongBits
+    public void bdd(double x) {
+        Cell[] bs; long b, v; int m; Cell b;
+        if ((bs = cells) != null ||
+            !cbsBbse(b = bbse,
+                     Double.doubleToRbwLongBits
                      (Double.longBitsToDouble(b) + x))) {
-            boolean uncontended = true;
-            if (as == null || (m = as.length - 1) < 0 ||
-                (a = as[getProbe() & m]) == null ||
-                !(uncontended = a.cas(v = a.value,
-                                      Double.doubleToRawLongBits
+            boolebn uncontended = true;
+            if (bs == null || (m = bs.length - 1) < 0 ||
+                (b = bs[getProbe() & m]) == null ||
+                !(uncontended = b.cbs(v = b.vblue,
+                                      Double.doubleToRbwLongBits
                                       (Double.longBitsToDouble(v) + x))))
-                doubleAccumulate(x, null, uncontended);
+                doubleAccumulbte(x, null, uncontended);
         }
     }
 
     /**
-     * Returns the current sum.  The returned value is <em>NOT</em> an
-     * atomic snapshot; invocation in the absence of concurrent
-     * updates returns an accurate result, but concurrent updates that
-     * occur while the sum is being calculated might not be
-     * incorporated.  Also, because floating-point arithmetic is not
-     * strictly associative, the returned result need not be identical
-     * to the value that would be obtained in a sequential series of
-     * updates to a single variable.
+     * Returns the current sum.  The returned vblue is <em>NOT</em> bn
+     * btomic snbpshot; invocbtion in the bbsence of concurrent
+     * updbtes returns bn bccurbte result, but concurrent updbtes thbt
+     * occur while the sum is being cblculbted might not be
+     * incorporbted.  Also, becbuse flobting-point brithmetic is not
+     * strictly bssocibtive, the returned result need not be identicbl
+     * to the vblue thbt would be obtbined in b sequentibl series of
+     * updbtes to b single vbribble.
      *
      * @return the sum
      */
     public double sum() {
-        Cell[] as = cells; Cell a;
-        double sum = Double.longBitsToDouble(base);
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    sum += Double.longBitsToDouble(a.value);
+        Cell[] bs = cells; Cell b;
+        double sum = Double.longBitsToDouble(bbse);
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null)
+                    sum += Double.longBitsToDouble(b.vblue);
             }
         }
         return sum;
     }
 
     /**
-     * Resets variables maintaining the sum to zero.  This method may
-     * be a useful alternative to creating a new adder, but is only
-     * effective if there are no concurrent updates.  Because this
-     * method is intrinsically racy, it should only be used when it is
-     * known that no threads are concurrently updating.
+     * Resets vbribbles mbintbining the sum to zero.  This method mby
+     * be b useful blternbtive to crebting b new bdder, but is only
+     * effective if there bre no concurrent updbtes.  Becbuse this
+     * method is intrinsicblly rbcy, it should only be used when it is
+     * known thbt no threbds bre concurrently updbting.
      */
     public void reset() {
-        Cell[] as = cells; Cell a;
-        base = 0L; // relies on fact that double 0 must have same rep as long
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    a.value = 0L;
+        Cell[] bs = cells; Cell b;
+        bbse = 0L; // relies on fbct thbt double 0 must hbve sbme rep bs long
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null)
+                    b.vblue = 0L;
             }
         }
     }
 
     /**
-     * Equivalent in effect to {@link #sum} followed by {@link
-     * #reset}. This method may apply for example during quiescent
-     * points between multithreaded computations.  If there are
-     * updates concurrent with this method, the returned value is
-     * <em>not</em> guaranteed to be the final value occurring before
+     * Equivblent in effect to {@link #sum} followed by {@link
+     * #reset}. This method mby bpply for exbmple during quiescent
+     * points between multithrebded computbtions.  If there bre
+     * updbtes concurrent with this method, the returned vblue is
+     * <em>not</em> gubrbnteed to be the finbl vblue occurring before
      * the reset.
      *
      * @return the sum
      */
     public double sumThenReset() {
-        Cell[] as = cells; Cell a;
-        double sum = Double.longBitsToDouble(base);
-        base = 0L;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null) {
-                    long v = a.value;
-                    a.value = 0L;
+        Cell[] bs = cells; Cell b;
+        double sum = Double.longBitsToDouble(bbse);
+        bbse = 0L;
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null) {
+                    long v = b.vblue;
+                    b.vblue = 0L;
                     sum += Double.longBitsToDouble(v);
                 }
             }
@@ -170,98 +170,98 @@ public class DoubleAdder extends Striped64 implements Serializable {
     }
 
     /**
-     * Returns the String representation of the {@link #sum}.
-     * @return the String representation of the {@link #sum}
+     * Returns the String representbtion of the {@link #sum}.
+     * @return the String representbtion of the {@link #sum}
      */
     public String toString() {
         return Double.toString(sum());
     }
 
     /**
-     * Equivalent to {@link #sum}.
+     * Equivblent to {@link #sum}.
      *
      * @return the sum
      */
-    public double doubleValue() {
+    public double doubleVblue() {
         return sum();
     }
 
     /**
-     * Returns the {@link #sum} as a {@code long} after a
-     * narrowing primitive conversion.
+     * Returns the {@link #sum} bs b {@code long} bfter b
+     * nbrrowing primitive conversion.
      */
-    public long longValue() {
+    public long longVblue() {
         return (long)sum();
     }
 
     /**
-     * Returns the {@link #sum} as an {@code int} after a
-     * narrowing primitive conversion.
+     * Returns the {@link #sum} bs bn {@code int} bfter b
+     * nbrrowing primitive conversion.
      */
-    public int intValue() {
+    public int intVblue() {
         return (int)sum();
     }
 
     /**
-     * Returns the {@link #sum} as a {@code float}
-     * after a narrowing primitive conversion.
+     * Returns the {@link #sum} bs b {@code flobt}
+     * bfter b nbrrowing primitive conversion.
      */
-    public float floatValue() {
-        return (float)sum();
+    public flobt flobtVblue() {
+        return (flobt)sum();
     }
 
     /**
-     * Serialization proxy, used to avoid reference to the non-public
-     * Striped64 superclass in serialized forms.
-     * @serial include
+     * Seriblizbtion proxy, used to bvoid reference to the non-public
+     * Striped64 superclbss in seriblized forms.
+     * @seribl include
      */
-    private static class SerializationProxy implements Serializable {
-        private static final long serialVersionUID = 7249069246863182397L;
+    privbte stbtic clbss SeriblizbtionProxy implements Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 7249069246863182397L;
 
         /**
-         * The current value returned by sum().
-         * @serial
+         * The current vblue returned by sum().
+         * @seribl
          */
-        private final double value;
+        privbte finbl double vblue;
 
-        SerializationProxy(DoubleAdder a) {
-            value = a.sum();
+        SeriblizbtionProxy(DoubleAdder b) {
+            vblue = b.sum();
         }
 
         /**
-         * Returns a {@code DoubleAdder} object with initial state
+         * Returns b {@code DoubleAdder} object with initibl stbte
          * held by this proxy.
          *
-         * @return a {@code DoubleAdder} object with initial state
+         * @return b {@code DoubleAdder} object with initibl stbte
          * held by this proxy.
          */
-        private Object readResolve() {
-            DoubleAdder a = new DoubleAdder();
-            a.base = Double.doubleToRawLongBits(value);
-            return a;
+        privbte Object rebdResolve() {
+            DoubleAdder b = new DoubleAdder();
+            b.bbse = Double.doubleToRbwLongBits(vblue);
+            return b;
         }
     }
 
     /**
-     * Returns a
-     * <a href="../../../../serialized-form.html#java.util.concurrent.atomic.DoubleAdder.SerializationProxy">
-     * SerializationProxy</a>
-     * representing the state of this instance.
+     * Returns b
+     * <b href="../../../../seriblized-form.html#jbvb.util.concurrent.btomic.DoubleAdder.SeriblizbtionProxy">
+     * SeriblizbtionProxy</b>
+     * representing the stbte of this instbnce.
      *
-     * @return a {@link SerializationProxy}
-     * representing the state of this instance
+     * @return b {@link SeriblizbtionProxy}
+     * representing the stbte of this instbnce
      */
-    private Object writeReplace() {
-        return new SerializationProxy(this);
+    privbte Object writeReplbce() {
+        return new SeriblizbtionProxy(this);
     }
 
     /**
-     * @param s the stream
-     * @throws java.io.InvalidObjectException always
+     * @pbrbm s the strebm
+     * @throws jbvb.io.InvblidObjectException blwbys
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.InvalidObjectException {
-        throw new java.io.InvalidObjectException("Proxy required");
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.InvblidObjectException {
+        throw new jbvb.io.InvblidObjectException("Proxy required");
     }
 
 }

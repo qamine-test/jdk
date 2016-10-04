@@ -1,1173 +1,1173 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
 
-<title>JPEG Metadata Format Specification and Usage Notes</title>
-</head>
+<title>JPEG Metbdbtb Formbt Specificbtion bnd Usbge Notes</title>
+</hebd>
 
 <body bgcolor="white">
 
 <center><h1>
-JPEG Metadata Format Specification and Usage Notes
+JPEG Metbdbtb Formbt Specificbtion bnd Usbge Notes
 </h1></center>
 
 <p>
-<a href=#metadata>JPEG Metadata</a><br>
-<a href=#abbrev>Abbreviated Streams</a><br>
-<a href=#tables>Sources of Tables</a><br>
-<a href=#color>Colorspace Transformations and Conventional Markers</a><br>
-<a href=#thumbs>Thumbnail Images</a><br>
-<a href=#prog>Progressive Encoding</a><br>
-<a href=#tree>Native Metadata Format Tree Structure and Editing</a><br>
-<a href=#image>Image Metadata DTD</a><br>
-<a href=#stream>Stream Metadata DTD</a>
+<b href=#metbdbtb>JPEG Metbdbtb</b><br>
+<b href=#bbbrev>Abbrevibted Strebms</b><br>
+<b href=#tbbles>Sources of Tbbles</b><br>
+<b href=#color>Colorspbce Trbnsformbtions bnd Conventionbl Mbrkers</b><br>
+<b href=#thumbs>Thumbnbil Imbges</b><br>
+<b href=#prog>Progressive Encoding</b><br>
+<b href=#tree>Nbtive Metbdbtb Formbt Tree Structure bnd Editing</b><br>
+<b href=#imbge>Imbge Metbdbtb DTD</b><br>
+<b href=#strebm>Strebm Metbdbtb DTD</b>
 <p>
-<bold>NOTE</bold>: It is important to call <code>dispose()</code> 
-on the JPEG reader and writer objects when they are no longer needed, as 
-they consume significant native resources which are not adequately recovered 
-by garbage collection.  Both reader and writer call <code>dispose()</code> 
-in their finalizers, but those finalizers may not be called before the native 
-code has exhausted native memory.
+<bold>NOTE</bold>: It is importbnt to cbll <code>dispose()</code> 
+on the JPEG rebder bnd writer objects when they bre no longer needed, bs 
+they consume significbnt nbtive resources which bre not bdequbtely recovered 
+by gbrbbge collection.  Both rebder bnd writer cbll <code>dispose()</code> 
+in their finblizers, but those finblizers mby not be cblled before the nbtive 
+code hbs exhbusted nbtive memory.
 
 <p>
 
-The JPEG writer does not support replacing pixels.
+The JPEG writer does not support replbcing pixels.
 
 <p>
 <h2>
-<a name=metadata>JPEG Metadata</a>
+<b nbme=metbdbtb>JPEG Metbdbtb</b>
 </h2>
-JPEG metadata consists of the data contained in marker segments in a JPEG
-stream.  The image metadata object returned from a read describes the
-contents of the marker segments between the <code>SOI</code> marker and 
-the <code>EOI</code> marker for that image.  The image metadata object 
-passed into a write determines the contents of the stream between the 
-<code>SOI</code> marker and the <code>EOI</code> marker for that image, 
-subject to the controls in any <code>ImageWriteParam</code>.
+JPEG metbdbtb consists of the dbtb contbined in mbrker segments in b JPEG
+strebm.  The imbge metbdbtb object returned from b rebd describes the
+contents of the mbrker segments between the <code>SOI</code> mbrker bnd 
+the <code>EOI</code> mbrker for thbt imbge.  The imbge metbdbtb object 
+pbssed into b write determines the contents of the strebm between the 
+<code>SOI</code> mbrker bnd the <code>EOI</code> mbrker for thbt imbge, 
+subject to the controls in bny <code>ImbgeWritePbrbm</code>.
 
 <p>
-Stream metadata is used only for tables-only images found (or to be 
-placed) at the beginning of a stream containing abbreviated images.  
-Tables-only images are not treated as images and do not consume an 
-image index.  The stream metadata object returned from a read describes the
-contents of the marker segments between the <code>SOI</code> marker and 
-the <code>EOI</code> marker for the single tables-only image at the 
-beginning of the stream, if one is present.  If no tables-only image is 
-present at the front of the stream, the <code>getStreamMetadata</code> 
-method of <code>ImageReader</code> returns <code>null</code>.  If 
-stream metadata is provided to the writer, a single tables-only image 
-containing the tables from the stream metadata object will be written at 
-the beginning of the stream.  If the stream metadata object contains no
-tables, default tables will be written.  As the sole purpose of stream
-metadata is for specifying tables-only images at the front of abbreviated 
-streams, the stream metadata argument is useful only on the 
-<code>ImageWriter.prepareWriteSequence</code> method.  It is ignored on all 
+Strebm metbdbtb is used only for tbbles-only imbges found (or to be 
+plbced) bt the beginning of b strebm contbining bbbrevibted imbges.  
+Tbbles-only imbges bre not trebted bs imbges bnd do not consume bn 
+imbge index.  The strebm metbdbtb object returned from b rebd describes the
+contents of the mbrker segments between the <code>SOI</code> mbrker bnd 
+the <code>EOI</code> mbrker for the single tbbles-only imbge bt the 
+beginning of the strebm, if one is present.  If no tbbles-only imbge is 
+present bt the front of the strebm, the <code>getStrebmMetbdbtb</code> 
+method of <code>ImbgeRebder</code> returns <code>null</code>.  If 
+strebm metbdbtb is provided to the writer, b single tbbles-only imbge 
+contbining the tbbles from the strebm metbdbtb object will be written bt 
+the beginning of the strebm.  If the strebm metbdbtb object contbins no
+tbbles, defbult tbbles will be written.  As the sole purpose of strebm
+metbdbtb is for specifying tbbles-only imbges bt the front of bbbrevibted 
+strebms, the strebm metbdbtb brgument is useful only on the 
+<code>ImbgeWriter.prepbreWriteSequence</code> method.  It is ignored on bll 
 other methods.
 
 <p> 
-The <code>ImageWriter.getDefaultStreamMetadata</code> method returns an 
-object containing the tables from the <code>ImageWriteParam</code> argument, 
-if it is a <code>JPEGImageWriteParam</code> and contains tables.  Otherwise, 
-the returned object will contain default tables.
+The <code>ImbgeWriter.getDefbultStrebmMetbdbtb</code> method returns bn 
+object contbining the tbbles from the <code>ImbgeWritePbrbm</code> brgument, 
+if it is b <code>JPEGImbgeWritePbrbm</code> bnd contbins tbbles.  Otherwise, 
+the returned object will contbin defbult tbbles.
 
-<p>The <code>ImageWriter.getDefaultImageMetadata</code> method returns a 
-metadata object containing <bold>no</bold> tables if the 
-<code>ImageWriteParam</code> argument contains tables.  Otherwise the 
-returned metadata object will contain default visually lossless tables.  
-Of course, only a <code>JPEGImageWriteParam</code> may contain tables.
+<p>The <code>ImbgeWriter.getDefbultImbgeMetbdbtb</code> method returns b 
+metbdbtb object contbining <bold>no</bold> tbbles if the 
+<code>ImbgeWritePbrbm</code> brgument contbins tbbles.  Otherwise the 
+returned metbdbtb object will contbin defbult visublly lossless tbbles.  
+Of course, only b <code>JPEGImbgeWritePbrbm</code> mby contbin tbbles.
 
 <p>
-If <code>ignoreMetadata</code> is set to <code>true</code> when the input
-is set on the reader, stream metadata will not be available, but image
-metadata will.
+If <code>ignoreMetbdbtb</code> is set to <code>true</code> when the input
+is set on the rebder, strebm metbdbtb will not be bvbilbble, but imbge
+metbdbtb will.
 
 <p>
 <h2>
-<a name=abbrev>Abbreviated Streams</a>
+<b nbme=bbbrev>Abbrevibted Strebms</b>
 </h2>
-Both the reader and the writer retain their tables from one operation to the 
-next, thus permitting the use of abbreviated streams quite naturally, with a 
+Both the rebder bnd the writer retbin their tbbles from one operbtion to the 
+next, thus permitting the use of bbbrevibted strebms quite nbturblly, with b 
 few minor restrictions:  
 <ol>
-  <li> Abbreviated streams may contain only one tables-only image, which must 
-       come first in the stream.  Subsequent tables-only images will cause
-       undefined behavior.</li>
-  <li> Abbreviated streams must be read fully and in order.  No random access
-       is allowed, in either direction.  The same image may be read multiple 
-       times.  If a call is made with an image index that is not the same as
-       or one greater than the most recent call (or 0 if no calls have been
-       made), then an <code>IllegalArgumentException</code> is thrown.</li>
+  <li> Abbrevibted strebms mby contbin only one tbbles-only imbge, which must 
+       come first in the strebm.  Subsequent tbbles-only imbges will cbuse
+       undefined behbvior.</li>
+  <li> Abbrevibted strebms must be rebd fully bnd in order.  No rbndom bccess
+       is bllowed, in either direction.  The sbme imbge mby be rebd multiple 
+       times.  If b cbll is mbde with bn imbge index thbt is not the sbme bs
+       or one grebter thbn the most recent cbll (or 0 if no cblls hbve been
+       mbde), then bn <code>IllegblArgumentException</code> is thrown.</li>
 </ol>
-These restrictions mean that streams may contain abbreviated images 
-interspersed with images containing tables.  As required by JPEG, any tables
-appearing in the stream override previous tables, regardless of the source
-of the previous tables.  
+These restrictions mebn thbt strebms mby contbin bbbrevibted imbges 
+interspersed with imbges contbining tbbles.  As required by JPEG, bny tbbles
+bppebring in the strebm override previous tbbles, regbrdless of the source
+of the previous tbbles.  
 
 <p>
-Note that once a tables-only image has been read, it's contents is available
-as stream metadata from the reader until either another tables-only image
-is read from another stream or the reader is reset.  Changing the input does
-not reset the stream metadata.  This is useful for reading the tables from
-one file, then changing the input to read an abbreviated stream containing 
-a sequence of images.  The tables will be used automatically, and will remain
-available as "stream" metadata.
+Note thbt once b tbbles-only imbge hbs been rebd, it's contents is bvbilbble
+bs strebm metbdbtb from the rebder until either bnother tbbles-only imbge
+is rebd from bnother strebm or the rebder is reset.  Chbnging the input does
+not reset the strebm metbdbtb.  This is useful for rebding the tbbles from
+one file, then chbnging the input to rebd bn bbbrevibted strebm contbining 
+b sequence of imbges.  The tbbles will be used butombticblly, bnd will rembin
+bvbilbble bs "strebm" metbdbtb.
 
 <p>
-Abbreviated streams are written using the sequence methods of 
-<code>ImageWriter</code>.  Stream metadata is used to write a tables-only 
-image at the beginning of the stream, and the tables are set up for use, using
-<code>ImageWriter.prepareWriteSequence</code>.  If no stream metadata is 
-supplied to <code>ImageWriter.prepareWriteSequence</code>, then no 
-tables-only image is written.  If stream metadata containing no tables is
-supplied to <code>ImageWriter.prepareWriteSequence</code>, then a tables-only
-image containing default visually lossless tables is written.
+Abbrevibted strebms bre written using the sequence methods of 
+<code>ImbgeWriter</code>.  Strebm metbdbtb is used to write b tbbles-only 
+imbge bt the beginning of the strebm, bnd the tbbles bre set up for use, using
+<code>ImbgeWriter.prepbreWriteSequence</code>.  If no strebm metbdbtb is 
+supplied to <code>ImbgeWriter.prepbreWriteSequence</code>, then no 
+tbbles-only imbge is written.  If strebm metbdbtb contbining no tbbles is
+supplied to <code>ImbgeWriter.prepbreWriteSequence</code>, then b tbbles-only
+imbge contbining defbult visublly lossless tbbles is written.
 
 <h2>
-<a name=tables>Sources of Tables</a>
+<b nbme=tbbles>Sources of Tbbles</b>
 </h2>
 <p>
-Images are written with tables if tables are present in their metadata objects 
-or without them if no tables are present in their metadata objects.  If no
-metadata object is present then the tables are written.  The tables used for 
-compression are taken from one of the following sources, which are consulted 
+Imbges bre written with tbbles if tbbles bre present in their metbdbtb objects 
+or without them if no tbbles bre present in their metbdbtb objects.  If no
+metbdbtb object is present then the tbbles bre written.  The tbbles used for 
+compression bre tbken from one of the following sources, which bre consulted 
 in order: 
 <ol>
-  <li> If there is an <code>ImageWriteParam</code> and the compression mode is
-       set to <code>EXPLICIT</code>, default tables constructed using the
-       quality setting are used.  They are written only if the metadata 
-       contains tables or if there is no metadata, but they replace the 
-       tables in the metadata.</li>
-  <li> If there is an <code>ImageWriteParam</code> and the compression mode is
-       set to <code>DEFAULT</code>, default visually lossles tables are used.
-       They are written only if the metadata contains tables or if
-       there is no metadata, but they replace the tables in the
-       metadata.</li>
-  <li> Otherwise the compression mode on the <code>ImageWriteParam</code> must
-       be MODE_COPY_FROM_<code>METADATA</code>, in which case the following
-       are used:
+  <li> If there is bn <code>ImbgeWritePbrbm</code> bnd the compression mode is
+       set to <code>EXPLICIT</code>, defbult tbbles constructed using the
+       qublity setting bre used.  They bre written only if the metbdbtb 
+       contbins tbbles or if there is no metbdbtb, but they replbce the 
+       tbbles in the metbdbtb.</li>
+  <li> If there is bn <code>ImbgeWritePbrbm</code> bnd the compression mode is
+       set to <code>DEFAULT</code>, defbult visublly lossles tbbles bre used.
+       They bre written only if the metbdbtb contbins tbbles or if
+       there is no metbdbtb, but they replbce the tbbles in the
+       metbdbtb.</li>
+  <li> Otherwise the compression mode on the <code>ImbgeWritePbrbm</code> must
+       be MODE_COPY_FROM_<code>METADATA</code>, in which cbse the following
+       bre used:
     <ol>
-      <li> the tables in the image metadata, if present</li>
-      <li> the tables in the stream metadata, if present</li>
-      <li> the tables in the <code>JPEGImageWriteParam</code>, if present</li>
-      <li> default visually lossless tables</li>
-    </ol> Tables are written only if they are taken from image metadata.
+      <li> the tbbles in the imbge metbdbtb, if present</li>
+      <li> the tbbles in the strebm metbdbtb, if present</li>
+      <li> the tbbles in the <code>JPEGImbgeWritePbrbm</code>, if present</li>
+      <li> defbult visublly lossless tbbles</li>
+    </ol> Tbbles bre written only if they bre tbken from imbge metbdbtb.
   </li>
 </ol>
 
-This ordering implements the design intention that tables should be included 
-in <code>JPEGImageWriteParam</code>s only as a means of specifying tables 
-when no other source is available, and this can occur only when writing to an
-abbreviated stream without tables using known non-standard tables for 
+This ordering implements the design intention thbt tbbles should be included 
+in <code>JPEGImbgeWritePbrbm</code>s only bs b mebns of specifying tbbles 
+when no other source is bvbilbble, bnd this cbn occur only when writing to bn
+bbbrevibted strebm without tbbles using known non-stbndbrd tbbles for 
 compression.
 
 <p>
-When reading, tables in a <code>JPEGImageReadParam</code> are consulted only 
-if tables have not been set by any previous read.  Tables set from a 
-<code>JPEGImageReadParam</code> are overridden by any tables present in the 
-stream being read.
+When rebding, tbbles in b <code>JPEGImbgeRebdPbrbm</code> bre consulted only 
+if tbbles hbve not been set by bny previous rebd.  Tbbles set from b 
+<code>JPEGImbgeRebdPbrbm</code> bre overridden by bny tbbles present in the 
+strebm being rebd.
 
 <p>
-Note that if no image metadata object is specified for a particular image, a 
-default object is used, which includes default tables.
+Note thbt if no imbge metbdbtb object is specified for b pbrticulbr imbge, b 
+defbult object is used, which includes defbult tbbles.
 
 <p>
 <h2>
-<a name=color>Colorspace Transformations and Conventional Markers</a>
+<b nbme=color>Colorspbce Trbnsformbtions bnd Conventionbl Mbrkers</b>
 </h2>
-Colorspace transformations are controlled by the destination type for
-both reading and writing of images.  When <code>Raster</code>s are
-read, no colorspace transformation is performed, and any destination type 
-is ignored.  A warning is sent to any listeners if a destination type is 
-specified in this case.  When <code>Raster</code>s are written, any 
-destination type is used to interpret the bands.  This might result in a
-JFIF or Adobe header being written, or different component ids being written 
-to the frame and scan headers.  If values present in a metadata object do not 
-match the destination type, the destination type is used and a warning is sent 
-to any listeners.
+Colorspbce trbnsformbtions bre controlled by the destinbtion type for
+both rebding bnd writing of imbges.  When <code>Rbster</code>s bre
+rebd, no colorspbce trbnsformbtion is performed, bnd bny destinbtion type 
+is ignored.  A wbrning is sent to bny listeners if b destinbtion type is 
+specified in this cbse.  When <code>Rbster</code>s bre written, bny 
+destinbtion type is used to interpret the bbnds.  This might result in b
+JFIF or Adobe hebder being written, or different component ids being written 
+to the frbme bnd scbn hebders.  If vblues present in b metbdbtb object do not 
+mbtch the destinbtion type, the destinbtion type is used bnd b wbrning is sent 
+to bny listeners.
 
 <p>
 
-<a name=optcolor><b>Optional ColorSpace support:</b></a>
-Handling of PhotoYCC (YCC), PhotoYCCA (YCCA), RGBA and YCbCrA color spaces
-by the standard plugin, as described below, is dependent on capabilities
-of the libraries used to interpret the JPEG data. Thus all consequential
-behaviors are optional. If the support is not available when decoding,
-the color space will be treated as unrecognized and the appropriate
-default color space for the specified number of component channels
-may be used.
-When writing, an Exception may be thrown if no suitable conversion
-can be applied before encoding.
-But where the support for these color spaces is available, the behavior
-must be as documented. 
+<b nbme=optcolor><b>Optionbl ColorSpbce support:</b></b>
+Hbndling of PhotoYCC (YCC), PhotoYCCA (YCCA), RGBA bnd YCbCrA color spbces
+by the stbndbrd plugin, bs described below, is dependent on cbpbbilities
+of the librbries used to interpret the JPEG dbtb. Thus bll consequentibl
+behbviors bre optionbl. If the support is not bvbilbble when decoding,
+the color spbce will be trebted bs unrecognized bnd the bppropribte
+defbult color spbce for the specified number of component chbnnels
+mby be used.
+When writing, bn Exception mby be thrown if no suitbble conversion
+cbn be bpplied before encoding.
+But where the support for these color spbces is bvbilbble, the behbvior
+must be bs documented. 
 <p>
 
-When reading, the contents of the stream are interpreted by the usual
-JPEG conventions, as follows:
+When rebding, the contents of the strebm bre interpreted by the usubl
+JPEG conventions, bs follows:
 
 <ul>
-  <li> If a JFIF <code>APP0</code> marker segment is present, the colorspace
-       is known to be either grayscale or YCbCr.  If an <code>APP2</code>
-       marker segment containing an embedded ICC profile is also present, then
-       the YCbCr is converted to RGB according to the formulas given in the
-       JFIF spec, and the ICC profile is assumed to refer to the resulting RGB
-       space.
+  <li> If b JFIF <code>APP0</code> mbrker segment is present, the colorspbce
+       is known to be either grbyscble or YCbCr.  If bn <code>APP2</code>
+       mbrker segment contbining bn embedded ICC profile is blso present, then
+       the YCbCr is converted to RGB bccording to the formulbs given in the
+       JFIF spec, bnd the ICC profile is bssumed to refer to the resulting RGB
+       spbce.
   <p>
-  <li> If an Adobe <code>APP14</code> marker segment is present, the 
-       colorspace is determined by consulting the <code>transform</code> flag.
-       The <code>transform</code> flag takes one of three values:
+  <li> If bn Adobe <code>APP14</code> mbrker segment is present, the 
+       colorspbce is determined by consulting the <code>trbnsform</code> flbg.
+       The <code>trbnsform</code> flbg tbkes one of three vblues:
     <ul>
-      <li> 2 - The image is encoded as YCCK (implicitly converted from
+      <li> 2 - The imbge is encoded bs YCCK (implicitly converted from
            CMYK on encoding).
 
-      <li> 1 - The image is encoded as YCbCr (implicitly converted from RGB
+      <li> 1 - The imbge is encoded bs YCbCr (implicitly converted from RGB
            on encoding).
 
-      <li> 0 - Unknown.  3-channel images are assumed to be RGB, 4-channel 
-           images are assumed to be CMYK.
+      <li> 0 - Unknown.  3-chbnnel imbges bre bssumed to be RGB, 4-chbnnel 
+           imbges bre bssumed to be CMYK.
     </ul>
    <p>
-  <li> If neither marker segment is present, the following procedure is
-       followed: Single-channel images are assumed to be grayscale, and
-       2-channel images are assumed to be grayscale with an alpha channel.
-       For 3- and 4-channel images, the component ids are consulted.  If these
-       values are 1-3 for a 3-channel image, then the image is assumed to be
-       YCbCr. Subject to the availability of the
-       <a href=#optcolor>optional color space support</a>
-       described above, if these values are 1-4 for a 4-channel image,
-       then the image is assumed to be YCbCrA. 
-       If these values are > 4, they are checked 
-       against the ASCII codes for 'R', 'G', 'B', 'A', 'C', 'c'.  These can 
-       encode the following colorspaces:
+  <li> If neither mbrker segment is present, the following procedure is
+       followed: Single-chbnnel imbges bre bssumed to be grbyscble, bnd
+       2-chbnnel imbges bre bssumed to be grbyscble with bn blphb chbnnel.
+       For 3- bnd 4-chbnnel imbges, the component ids bre consulted.  If these
+       vblues bre 1-3 for b 3-chbnnel imbge, then the imbge is bssumed to be
+       YCbCr. Subject to the bvbilbbility of the
+       <b href=#optcolor>optionbl color spbce support</b>
+       described bbove, if these vblues bre 1-4 for b 4-chbnnel imbge,
+       then the imbge is bssumed to be YCbCrA. 
+       If these vblues bre > 4, they bre checked 
+       bgbinst the ASCII codes for 'R', 'G', 'B', 'A', 'C', 'c'.  These cbn 
+       encode the following colorspbces:
        <p>
        <br>RGB
        <br>RGBA
-       <br>YCC (as 'Y','C','c'), assumed to be PhotoYCC
-       <br>YCCA (as 'Y','C','c','A'), assumed to be PhotoYCCA
+       <br>YCC (bs 'Y','C','c'), bssumed to be PhotoYCC
+       <br>YCCA (bs 'Y','C','c','A'), bssumed to be PhotoYCCA
        <p>
-       Otherwise, 3-channel subsampled images are assumed to be YCbCr, 
-       3-channel non-subsampled images are assumed to be RGB, 4-channel 
-       subsampled images are assumed to be YCCK, and 4-channel, non-subsampled
-       images are assumed to be CMYK.
+       Otherwise, 3-chbnnel subsbmpled imbges bre bssumed to be YCbCr, 
+       3-chbnnel non-subsbmpled imbges bre bssumed to be RGB, 4-chbnnel 
+       subsbmpled imbges bre bssumed to be YCCK, bnd 4-chbnnel, non-subsbmpled
+       imbges bre bssumed to be CMYK.
 
   <p>
-  <li> All other images are declared uninterpretable and an exception is
-       thrown if an attempt is made to read one as a 
-       <code>BufferedImage</code>.  Such an image may be read only as a 
-       <code>Raster</code>.  If an image is interpretable but there is no Java
-       <code>ColorSpace</code> available corresponding to the encoded 
-       colorspace (<italic>e.g.</italic> YCbCr), then 
-       <code>ImageReader.getRawImageType</code> will return <code>null</code>.
+  <li> All other imbges bre declbred uninterpretbble bnd bn exception is
+       thrown if bn bttempt is mbde to rebd one bs b 
+       <code>BufferedImbge</code>.  Such bn imbge mby be rebd only bs b 
+       <code>Rbster</code>.  If bn imbge is interpretbble but there is no Jbvb
+       <code>ColorSpbce</code> bvbilbble corresponding to the encoded 
+       colorspbce (<itblic>e.g.</itblic> YCbCr), then 
+       <code>ImbgeRebder.getRbwImbgeType</code> will return <code>null</code>.
 </ul>
 
-Once an encoded colorspace is determined, then the target colorspace is 
-determined as follows:
+Once bn encoded colorspbce is determined, then the tbrget colorspbce is 
+determined bs follows:
 
 <ul>
-  <li> If a destination type is not set, then the following default
-       transformations take place after upsampling: YCbCr (and YCbCrA) images 
-       are converted to RGB (and RGBA) using the conversion provided by the
-       underlying IJG library and either the built-in sRGB 
-       <code>ColorSpace</code> or a custom RGB <code>ColorSpace</code> object
-       based on an embedded ICC profile is used to create the output
-       <code>ColorModel</code>.  PhotoYCC and PhotoYCCA images are not
-       converted.  CMYK and YCCK images are currently not supported.</li>
+  <li> If b destinbtion type is not set, then the following defbult
+       trbnsformbtions tbke plbce bfter upsbmpling: YCbCr (bnd YCbCrA) imbges 
+       bre converted to RGB (bnd RGBA) using the conversion provided by the
+       underlying IJG librbry bnd either the built-in sRGB 
+       <code>ColorSpbce</code> or b custom RGB <code>ColorSpbce</code> object
+       bbsed on bn embedded ICC profile is used to crebte the output
+       <code>ColorModel</code>.  PhotoYCC bnd PhotoYCCA imbges bre not
+       converted.  CMYK bnd YCCK imbges bre currently not supported.</li>
 
-  <li> If a destination image or type is set, it is used as follows:
-       If the IJG library provides an appropriate conversion, it is used.
-       Otherwise the default library conversion is followed by a colorspace 
-       conversion in Java.</li>
+  <li> If b destinbtion imbge or type is set, it is used bs follows:
+       If the IJG librbry provides bn bppropribte conversion, it is used.
+       Otherwise the defbult librbry conversion is followed by b colorspbce 
+       conversion in Jbvb.</li>
 
-  <li> Bands are selected AFTER any library colorspace conversion.  If a 
-       subset of either source or destination bands is used, then the default 
-       library conversions are used with no further conversion in Java,
-       regardless of any destination type.</li>
+  <li> Bbnds bre selected AFTER bny librbry colorspbce conversion.  If b 
+       subset of either source or destinbtion bbnds is used, then the defbult 
+       librbry conversions bre used with no further conversion in Jbvb,
+       regbrdless of bny destinbtion type.</li>
 
-  <li> An exception is thrown if an attempt is made to read an image in an 
-       unsupported jpeg colorspace as a <code>BufferedImage</code> 
-       (<italic>e.g.</italic> CMYK).  Such images may be read as
-       <code>Raster</code>s.  If an image colorspace is unsupported or
-       uninterpretable, then <code>ImageReader.getImageTypes</code> will
-       return an empty <code>Iterator</code>.   If a subset of the raw bands
-       are required, a <code>Raster</code> must be obtained first and the
-       bands obtained from that. </li>
+  <li> An exception is thrown if bn bttempt is mbde to rebd bn imbge in bn 
+       unsupported jpeg colorspbce bs b <code>BufferedImbge</code> 
+       (<itblic>e.g.</itblic> CMYK).  Such imbges mby be rebd bs
+       <code>Rbster</code>s.  If bn imbge colorspbce is unsupported or
+       uninterpretbble, then <code>ImbgeRebder.getImbgeTypes</code> will
+       return bn empty <code>Iterbtor</code>.   If b subset of the rbw bbnds
+       bre required, b <code>Rbster</code> must be obtbined first bnd the
+       bbnds obtbined from thbt. </li>
 </ul>
 
 <p>
-For writing, the color transformation to apply is determined as
+For writing, the color trbnsformbtion to bpply is determined bs
 follows:
 
 <p>
-If a subset of the source bands is to be written, no color conversion is 
-performed.  Any destination, if set, must match the number of bands that will 
-be written, and serves as an interpretation of the selected bands, rather than 
-a conversion request.  This behavior is identical to that for 
-<code>Raster</code>s.  If all the bands are to be written and an image 
-(as opposed to a <code>Raster</code>) is being written, any destination type 
-is ignored and a warning is sent to any listeners.
+If b subset of the source bbnds is to be written, no color conversion is 
+performed.  Any destinbtion, if set, must mbtch the number of bbnds thbt will 
+be written, bnd serves bs bn interpretbtion of the selected bbnds, rbther thbn 
+b conversion request.  This behbvior is identicbl to thbt for 
+<code>Rbster</code>s.  If bll the bbnds bre to be written bnd bn imbge 
+(bs opposed to b <code>Rbster</code>) is being written, bny destinbtion type 
+is ignored bnd b wbrning is sent to bny listeners.
 
 <p>
-If a destination type is used and any aspect of the metadata object, if there 
-is one, is not compatible with that type, the destination type is used, the 
-metadata written is modified from that provided, and a warning is sent to 
-listeners.  This includes the <code>app0JFIF</code> and 
-<code>app14Adobe</code> nodes.  The component ids in the <code>sof</code> and 
-<code>sos</code> nodes are not modified, however, as unless a 
-<code>app0JFIF</code> node is present, any values may be used.
+If b destinbtion type is used bnd bny bspect of the metbdbtb object, if there 
+is one, is not compbtible with thbt type, the destinbtion type is used, the 
+metbdbtb written is modified from thbt provided, bnd b wbrning is sent to 
+listeners.  This includes the <code>bpp0JFIF</code> bnd 
+<code>bpp14Adobe</code> nodes.  The component ids in the <code>sof</code> bnd 
+<code>sos</code> nodes bre not modified, however, bs unless b 
+<code>bpp0JFIF</code> node is present, bny vblues mby be used.
 <p>
 
-When a full image is written, a destination colorspace will be 
-chosen based on the image contents and the metadata settings, according to 
-the following algorithm:
+When b full imbge is written, b destinbtion colorspbce will be 
+chosen bbsed on the imbge contents bnd the metbdbtb settings, bccording to 
+the following blgorithm:
 
 <p>
 
-If no metadata object is specified, then the following defaults apply:
+If no metbdbtb object is specified, then the following defbults bpply:
 
 <ul>
-  <li> Grayscale images are written with a JFIF <code>APP0</code> marker
-       segment.  Grayscale images with alpha are written with no special
-       marker.  As required by JFIF, the component ids in the frame and
-       scan header is set to 1.
+  <li> Grbyscble imbges bre written with b JFIF <code>APP0</code> mbrker
+       segment.  Grbyscble imbges with blphb bre written with no specibl
+       mbrker.  As required by JFIF, the component ids in the frbme bnd
+       scbn hebder is set to 1.
 
-  <li> RGB images are converted to YCbCr, subsampled in the chrominance
-       channels by half both vertically and horizontally, and written with a
-       JFIF <code>APP0</code> marker segment.  If the <code>ColorSpace</code>
-       of the image is based on an <code>ICCProfile</code> (it is an instance
-       of <code>ICC_ColorSpace</code>, but is not one of the standard built-in 
-       <code>ColorSpaces</code>), then that profile is embedded in an 
-       <code>APP2</code> marker segment.  As required by JFIF, the 
-       component ids in the frame and scan headers are set to 1, 2, and 3.
+  <li> RGB imbges bre converted to YCbCr, subsbmpled in the chrominbnce
+       chbnnels by hblf both verticblly bnd horizontblly, bnd written with b
+       JFIF <code>APP0</code> mbrker segment.  If the <code>ColorSpbce</code>
+       of the imbge is bbsed on bn <code>ICCProfile</code> (it is bn instbnce
+       of <code>ICC_ColorSpbce</code>, but is not one of the stbndbrd built-in 
+       <code>ColorSpbces</code>), then thbt profile is embedded in bn 
+       <code>APP2</code> mbrker segment.  As required by JFIF, the 
+       component ids in the frbme bnd scbn hebders bre set to 1, 2, bnd 3.
 
 
-  <li> Subject to the <a href=#optcolor>optional library support</a>
-        described above,
-       RGBA images are converted to YCbCrA, subsampled in the
-       chrominance channels by half both vertically and horizontally, and
-       written without any special marker segments.  The component ids 
-       in the frame and scan headers are set to 1, 2, 3, and 4.
+  <li> Subject to the <b href=#optcolor>optionbl librbry support</b>
+        described bbove,
+       RGBA imbges bre converted to YCbCrA, subsbmpled in the
+       chrominbnce chbnnels by hblf both verticblly bnd horizontblly, bnd
+       written without bny specibl mbrker segments.  The component ids 
+       in the frbme bnd scbn hebders bre set to 1, 2, 3, bnd 4.
 
-  <li> Subject to the <a href=#optcolor>optional library support</a>
-       described above,
-       PhotoYCC and YCCAimages are subsampled by half in the chrominance
-       channels both vertically and horizontally and written with an
-       Adobe <code>APP14</code> marker segment and 'Y','C', and 'c' (and
-       'A' if an alpha channel is present) as component ids in the frame
-        and scan headers.
+  <li> Subject to the <b href=#optcolor>optionbl librbry support</b>
+       described bbove,
+       PhotoYCC bnd YCCAimbges bre subsbmpled by hblf in the chrominbnce
+       chbnnels both verticblly bnd horizontblly bnd written with bn
+       Adobe <code>APP14</code> mbrker segment bnd 'Y','C', bnd 'c' (bnd
+       'A' if bn blphb chbnnel is present) bs component ids in the frbme
+        bnd scbn hebders.
 </ul>
 
-Default metadata objects for these image types will reflect these settings.
+Defbult metbdbtb objects for these imbge types will reflect these settings.
 
 <p>
 
-If a metadata object is specified, then the number of channels in the
-frame and scan headers must always match the number of bands to be 
-written, or an exception is thrown.  <code>app0JFIF</code> and 
-<code>app14Adobe</code> nodes may appear in the same metadata object only 
-if the <code>app14Adobe</code> node indicates YCbCr, and the component ids 
-are JFIF compatible (0-2).  The various image types are processed in the 
-following ways:
+If b metbdbtb object is specified, then the number of chbnnels in the
+frbme bnd scbn hebders must blwbys mbtch the number of bbnds to be 
+written, or bn exception is thrown.  <code>bpp0JFIF</code> bnd 
+<code>bpp14Adobe</code> nodes mby bppebr in the sbme metbdbtb object only 
+if the <code>bpp14Adobe</code> node indicbtes YCbCr, bnd the component ids 
+bre JFIF compbtible (0-2).  The vbrious imbge types bre processed in the 
+following wbys:
 
 <br>
 
-(All multi-channel images are subsampled according to the sampling factors 
-in the frame header node of the metadata object, regardless of color space.)
+(All multi-chbnnel imbges bre subsbmpled bccording to the sbmpling fbctors 
+in the frbme hebder node of the metbdbtb object, regbrdless of color spbce.)
 
 <ul>
-  <li> Grayscale Images:
+  <li> Grbyscble Imbges:
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           a JFIF <code>APP0</code> marker segment is written.
-      <li> If an <code>app14Adobe</code> node is present in the metadata 
-           object, it is checked for validity (<code>transform</code> must be
-           <code>UNKNOWN</code>) and written.
-      <li> If neither node is present in the metadata object, no special 
-           marker segment is written.
+      <li> If bn <code>bpp0JFIF</code> node is present in the metbdbtb object,
+           b JFIF <code>APP0</code> mbrker segment is written.
+      <li> If bn <code>bpp14Adobe</code> node is present in the metbdbtb 
+           object, it is checked for vblidity (<code>trbnsform</code> must be
+           <code>UNKNOWN</code>) bnd written.
+      <li> If neither node is present in the metbdbtb object, no specibl 
+           mbrker segment is written.
     </ul>
 
-  <li> Grayscale Images with an Alpha Channel:
+  <li> Grbyscble Imbges with bn Alphb Chbnnel:
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           it is ignored and a warning is sent to listeners, as JFIF does not
-           support 2-channel images.
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, it is checked for validity (<code>transform</code> must be
-           <code>UNKNOWN</code>) and written.  If <code>transform</code> is
-           not <code>UNKNOWN</code>, a warning is sent to listeners and the
-           correct transform is written.
-      <li> If neither node is present in the metadata object, no special 
-           marker segment is written.
+      <li> If bn <code>bpp0JFIF</code> node is present in the metbdbtb object,
+           it is ignored bnd b wbrning is sent to listeners, bs JFIF does not
+           support 2-chbnnel imbges.
+      <li> If bn <code>bpp14Adobe</code> node is present in the metbdbtb
+           object, it is checked for vblidity (<code>trbnsform</code> must be
+           <code>UNKNOWN</code>) bnd written.  If <code>trbnsform</code> is
+           not <code>UNKNOWN</code>, b wbrning is sent to listeners bnd the
+           correct trbnsform is written.
+      <li> If neither node is present in the metbdbtb object, no specibl 
+           mbrker segment is written.
     </ul>
 
-  <li> RGB Images:
+  <li> RGB Imbges:
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           the image is converted to YCbCr and written with a JFIF 
-           <code>APP0</code> marker segment.  If the <code>ColorSpace</code>
-           of the image is based on a non-standard ICC Profile, then that
-           profile is embedded in an <code>APP2</code> marker segment.  If the
-           <code>ColorSpace</code> is not based on a non-standard ICC Profile,
-           but an <code>app2ICC</code> node appears in the metadata, then an
-           <code>APP2</code> marker segment is written with the appropriate
-           standard profile.  Note that the profile must specify an RGB color
-           space, as the file must be JFIF compliant.
+      <li> If bn <code>bpp0JFIF</code> node is present in the metbdbtb object,
+           the imbge is converted to YCbCr bnd written with b JFIF 
+           <code>APP0</code> mbrker segment.  If the <code>ColorSpbce</code>
+           of the imbge is bbsed on b non-stbndbrd ICC Profile, then thbt
+           profile is embedded in bn <code>APP2</code> mbrker segment.  If the
+           <code>ColorSpbce</code> is not bbsed on b non-stbndbrd ICC Profile,
+           but bn <code>bpp2ICC</code> node bppebrs in the metbdbtb, then bn
+           <code>APP2</code> mbrker segment is written with the bppropribte
+           stbndbrd profile.  Note thbt the profile must specify bn RGB color
+           spbce, bs the file must be JFIF complibnt.
 
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, the image is converted according to the color transform
-           setting and written with an Adobe <code>APP14</code> marker
-           segment.  Component ids are written just as they appear in the
-           frame and scan headers.  The color transform must be either YCbCr
-           or <code>UNKNOWN</code>.  If it is <code>UNKNOWN</code>, the image
+      <li> If bn <code>bpp14Adobe</code> node is present in the metbdbtb
+           object, the imbge is converted bccording to the color trbnsform
+           setting bnd written with bn Adobe <code>APP14</code> mbrker
+           segment.  Component ids bre written just bs they bppebr in the
+           frbme bnd scbn hebders.  The color trbnsform must be either YCbCr
+           or <code>UNKNOWN</code>.  If it is <code>UNKNOWN</code>, the imbge
            is not color converted.
 
-      <li> If neither node is present, the component ids in the frame
-           header are consulted.  If these indicate a colorspace as described
-           above, then the image is converted to that colorspace if possible.  
-           If the component ids do not indicate a colorspace, then the
-           sampling factors are consulted.  If the image is to be subsampled,
-           it is converted to YCbCr first.  If the image is not to be
-           subsampled, then no conversion is applied.  No special marker
-           segmentss are written.
+      <li> If neither node is present, the component ids in the frbme
+           hebder bre consulted.  If these indicbte b colorspbce bs described
+           bbove, then the imbge is converted to thbt colorspbce if possible.  
+           If the component ids do not indicbte b colorspbce, then the
+           sbmpling fbctors bre consulted.  If the imbge is to be subsbmpled,
+           it is converted to YCbCr first.  If the imbge is not to be
+           subsbmpled, then no conversion is bpplied.  No specibl mbrker
+           segmentss bre written.
     </ul>
 
-  <li> RGBA images:
-       Subject to the <a href=#optcolor>optional library support</a>
-       described above,
+  <li> RGBA imbges:
+       Subject to the <b href=#optcolor>optionbl librbry support</b>
+       described bbove,
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           it is ignored and a warning is sent to listeners, as JFIF does not
-           support 4-channel images.
+      <li> If bn <code>bpp0JFIF</code> node is present in the metbdbtb object,
+           it is ignored bnd b wbrning is sent to listeners, bs JFIF does not
+           support 4-chbnnel imbges.
 
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, the image is written with an Adobe <code>APP14</code> marker
-           segment.  No colorspace conversion is performed.  Component ids
-           are written just as they appear in the frame and scan  headers.
-           The color transform must be <code>UNKNOWN</code>.  If it is 
-           not, a warning is sent to listeners.
+      <li> If bn <code>bpp14Adobe</code> node is present in the metbdbtb
+           object, the imbge is written with bn Adobe <code>APP14</code> mbrker
+           segment.  No colorspbce conversion is performed.  Component ids
+           bre written just bs they bppebr in the frbme bnd scbn  hebders.
+           The color trbnsform must be <code>UNKNOWN</code>.  If it is 
+           not, b wbrning is sent to listeners.
 
-      <li> If no <code>app14Adobe</code> node is present, the component ids in
-           the frame header are consulted.  If these indicate a colorspace as
-           described above, then the image is converted to that colorspace if
-           possible.  If the component ids do not indicate a colorspace, then
-           the sampling factors are consulted.  If the image is to be
-           subsampled, it is converted to YCbCrA.  If the image is not to be
-           subsampled, then no conversion is applied.  No special marker
-           segments are written.
+      <li> If no <code>bpp14Adobe</code> node is present, the component ids in
+           the frbme hebder bre consulted.  If these indicbte b colorspbce bs
+           described bbove, then the imbge is converted to thbt colorspbce if
+           possible.  If the component ids do not indicbte b colorspbce, then
+           the sbmpling fbctors bre consulted.  If the imbge is to be
+           subsbmpled, it is converted to YCbCrA.  If the imbge is not to be
+           subsbmpled, then no conversion is bpplied.  No specibl mbrker
+           segments bre written.
     </ul>
 
-  <li> PhotoYCC Images:
-       Subject to the <a href=#optcolor>optional library support</a>
-       described above,
+  <li> PhotoYCC Imbges:
+       Subject to the <b href=#optcolor>optionbl librbry support</b>
+       described bbove,
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           the image is converted to sRGB, and then to YCbCr during encoding,
-           and a JFIF <code>APP0</code> marker segment is written.
+      <li> If bn <code>bpp0JFIF</code> node is present in the metbdbtb object,
+           the imbge is converted to sRGB, bnd then to YCbCr during encoding,
+           bnd b JFIF <code>APP0</code> mbrker segment is written.
 
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, no conversion is applied, and an Adobe <code>APP14</code>
-           marker segment is written.  The color transform must be YCC.  If it
-           is not, a warning is sent to listeners.
+      <li> If bn <code>bpp14Adobe</code> node is present in the metbdbtb
+           object, no conversion is bpplied, bnd bn Adobe <code>APP14</code>
+           mbrker segment is written.  The color trbnsform must be YCC.  If it
+           is not, b wbrning is sent to listeners.
 
-      <li> If neither node is present in the metadata object, no conversion
-           is applied, and no special marker segment is written.
+      <li> If neither node is present in the metbdbtb object, no conversion
+           is bpplied, bnd no specibl mbrker segment is written.
     </ul>
 
-  <li> PhotoYCCA Images:
-       Subject to the <a href=#optcolor>optional library support</a>
-       described above,
+  <li> PhotoYCCA Imbges:
+       Subject to the <b href=#optcolor>optionbl librbry support</b>
+       described bbove,
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           it is ignored and a warning is sent to listeners, as JFIF does not
-           support 4-channel images.
+      <li> If bn <code>bpp0JFIF</code> node is present in the metbdbtb object,
+           it is ignored bnd b wbrning is sent to listeners, bs JFIF does not
+           support 4-chbnnel imbges.
 
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, no conversion is applied, and an Adobe <code>APP14</code>
-           marker segment is written.  The color transform must be
-           <code>UNKNOWN</code>.  If it is not, a warning is sent to
+      <li> If bn <code>bpp14Adobe</code> node is present in the metbdbtb
+           object, no conversion is bpplied, bnd bn Adobe <code>APP14</code>
+           mbrker segment is written.  The color trbnsform must be
+           <code>UNKNOWN</code>.  If it is not, b wbrning is sent to
            listeners.
 
-      <li> If neither node is present in the metadata object, no conversion
-           is applied, and no special marker segment is written.
+      <li> If neither node is present in the metbdbtb object, no conversion
+           is bpplied, bnd no specibl mbrker segment is written.
     </ul>
 </ul>
 
 <p>
 <h2>
-<a name=thumbs>Thumbnail Images</a>
+<b nbme=thumbs>Thumbnbil Imbges</b>
 </h2>
-Thumbnails are supported by the use of JFIF and JFIF extension marker segments.
-Thumbnails provided on the write methods determine the thumbnails that will be 
-included.  <code>app0JFIF</code> and <code>app0JFXX</code> nodes present in 
-the metadata do not contain any thumbnail pixel data.  However, the kinds of 
-thumbnails written depend on the contents of the metadata object, as follows.  
-Any thumbnail which is to be written as an indexed or RGB image and which is 
-larger than 255 by 255 will be clipped, not scaled, to 255 by 255.  Thumbnails 
-written as JPEG images may be any size.  A warning is sent to any listeners 
-whenever a thumbnail is clipped.
+Thumbnbils bre supported by the use of JFIF bnd JFIF extension mbrker segments.
+Thumbnbils provided on the write methods determine the thumbnbils thbt will be 
+included.  <code>bpp0JFIF</code> bnd <code>bpp0JFXX</code> nodes present in 
+the metbdbtb do not contbin bny thumbnbil pixel dbtb.  However, the kinds of 
+thumbnbils written depend on the contents of the metbdbtb object, bs follows.  
+Any thumbnbil which is to be written bs bn indexed or RGB imbge bnd which is 
+lbrger thbn 255 by 255 will be clipped, not scbled, to 255 by 255.  Thumbnbils 
+written bs JPEG imbges mby be bny size.  A wbrning is sent to bny listeners 
+whenever b thumbnbil is clipped.
 <ul>
-  <li> If there is a single thumbnail, it is processed as follows:
+  <li> If there is b single thumbnbil, it is processed bs follows:
     <ul>
-      <li> If the thumbnail image is an RGB palette image, it is processed as
+      <li> If the thumbnbil imbge is bn RGB pblette imbge, it is processed bs
            follows:
         <ul>
-          <li> If no <code>app0JFXX</code> node is present in the metadata, or
-               the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbPalette</code> element, a
-               palette thumbnail is written in a JFXX <code>APP0</code> marker
+          <li> If no <code>bpp0JFXX</code> node is present in the metbdbtb, or
+               the first <code>bpp0JFXX</code> node present in the metbdbtb
+               contbins b <code>JFIFthumbPblette</code> element, b
+               pblette thumbnbil is written in b JFXX <code>APP0</code> mbrker
                segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains another thumbnail form (RGB or JPEG), the palette
-               image is expanded to RGB and the indicated thumbnail form is
+          <li> If the first <code>bpp0JFXX</code> node present in the metbdbtb
+               contbins bnother thumbnbil form (RGB or JPEG), the pblette
+               imbge is expbnded to RGB bnd the indicbted thumbnbil form is
                written.  
         </ul>
 
-      <li> If the thumbnail image is an RGB image, it is processed as follows:
+      <li> If the thumbnbil imbge is bn RGB imbge, it is processed bs follows:
         <ul>
-          <li> If no <code>app0JFXX</code> node is present in the metadata,
-               the thumbnail is written as part of the JFIF <code>APP0</code>
-               marker segment. 
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbRGB</code> element, an
-               RGB thumbnail is written in a JFXX <code>APP0</code> marker
+          <li> If no <code>bpp0JFXX</code> node is present in the metbdbtb,
+               the thumbnbil is written bs pbrt of the JFIF <code>APP0</code>
+               mbrker segment. 
+          <li> If the first <code>bpp0JFXX</code> node present in the metbdbtb
+               contbins b <code>JFIFthumbRGB</code> element, bn
+               RGB thumbnbil is written in b JFXX <code>APP0</code> mbrker
                segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbJPEG</code> element, a
-               JPEG thumbnail is written in a JFXX <code>APP0</code> marker
+          <li> If the first <code>bpp0JFXX</code> node present in the metbdbtb
+               contbins b <code>JFIFthumbJPEG</code> element, b
+               JPEG thumbnbil is written in b JFXX <code>APP0</code> mbrker
                segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbPalette</code> element, an
-               RGB thumbnail is written in a JFXX <code>APP0</code> marker
-               segment and a warning is sent to any listeners.
+          <li> If the first <code>bpp0JFXX</code> node present in the metbdbtb
+               contbins b <code>JFIFthumbPblette</code> element, bn
+               RGB thumbnbil is written in b JFXX <code>APP0</code> mbrker
+               segment bnd b wbrning is sent to bny listeners.
         </ul>
 
-      <li> If the thumbnail image is a grayscale image, it is processed as
+      <li> If the thumbnbil imbge is b grbyscble imbge, it is processed bs
            follows:
         <ul>
-          <li> If no <code>app0JFXX</code> node is present in the metadata,
-               the thumbnail is expanded to RGB and written as part of the
-               JFIF <code>APP0</code> marker segment. 
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbRGB</code> element, the thumbnail is
-               expanded to RGB and written in a separate <code>JFXX</code> RGB
-               marker segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbJPEG</code> element, a
-               JPEG thumbnail is written in a JFXX <code>APP0</code> marker
+          <li> If no <code>bpp0JFXX</code> node is present in the metbdbtb,
+               the thumbnbil is expbnded to RGB bnd written bs pbrt of the
+               JFIF <code>APP0</code> mbrker segment. 
+          <li> If the first <code>bpp0JFXX</code> node present in the metbdbtb
+               contbins b <code>JFIFthumbRGB</code> element, the thumbnbil is
+               expbnded to RGB bnd written in b sepbrbte <code>JFXX</code> RGB
+               mbrker segment.
+          <li> If the first <code>bpp0JFXX</code> node present in the metbdbtb
+               contbins b <code>JFIFthumbJPEG</code> element, b
+               JPEG thumbnbil is written in b JFXX <code>APP0</code> mbrker
                segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbPalette</code> element, a
-               JPEG thumbnail is written in a JFXX <code>APP0</code> marker
-               segment and a warning is sent to any listeners.
+          <li> If the first <code>bpp0JFXX</code> node present in the metbdbtb
+               contbins b <code>JFIFthumbPblette</code> element, b
+               JPEG thumbnbil is written in b JFXX <code>APP0</code> mbrker
+               segment bnd b wbrning is sent to bny listeners.
         </ul>
 
-      <li> Any other thumbnail image types are ignored and a warning is sent
-           to any listeners.
+      <li> Any other thumbnbil imbge types bre ignored bnd b wbrning is sent
+           to bny listeners.
     </ul>
 
-  <li> If there are multiple thumbnails, each one is processed as above, except
-       that no thumbnail is placed in the JFIF <code>APP0</code> segment, and
-       the <code>app0JFXX</code> node consulted for each thumbnail is the
-       <code>app0JFXX</code> node from the metadata that occurs in the same
-       sequence as the thumbnail.  <italic>I.e.</italic> the first
-       <code>app0JFXX</code> node applies to the first thumbnail, the second
-       node to the second thumbnail, and so on.  If there are fewer
-       <code>app0JFXX</code> nodes in the metadata than thumbnails, then 
-       those thumbnails are considered to have no matching
-       <code>app0JFXX</code> node.  An RGB thumbnail with no matching
-       <code>app0JFXX</code> node is written in a JFXX <code>APP0</code> marker
-       segment.  A grayscale thumbnail with no matching
-       <code>app0JFXX</code> node is written as a JPEG image to a JFXX 
-       <code>APP0</code> marker segment.
+  <li> If there bre multiple thumbnbils, ebch one is processed bs bbove, except
+       thbt no thumbnbil is plbced in the JFIF <code>APP0</code> segment, bnd
+       the <code>bpp0JFXX</code> node consulted for ebch thumbnbil is the
+       <code>bpp0JFXX</code> node from the metbdbtb thbt occurs in the sbme
+       sequence bs the thumbnbil.  <itblic>I.e.</itblic> the first
+       <code>bpp0JFXX</code> node bpplies to the first thumbnbil, the second
+       node to the second thumbnbil, bnd so on.  If there bre fewer
+       <code>bpp0JFXX</code> nodes in the metbdbtb thbn thumbnbils, then 
+       those thumbnbils bre considered to hbve no mbtching
+       <code>bpp0JFXX</code> node.  An RGB thumbnbil with no mbtching
+       <code>bpp0JFXX</code> node is written in b JFXX <code>APP0</code> mbrker
+       segment.  A grbyscble thumbnbil with no mbtching
+       <code>bpp0JFXX</code> node is written bs b JPEG imbge to b JFXX 
+       <code>APP0</code> mbrker segment.
 </ul>
 <p>
 
-Note that as the only mechanism for storing thumbnails is via the
-JFIF or JFIF extension marker segments, only grayscale or RGB images 
-may have thumbnails.  If thumbnails are present when writing any other type 
-of image, the thumbnails are ignored and a warning is sent to any warning
+Note thbt bs the only mechbnism for storing thumbnbils is vib the
+JFIF or JFIF extension mbrker segments, only grbyscble or RGB imbges 
+mby hbve thumbnbils.  If thumbnbils bre present when writing bny other type 
+of imbge, the thumbnbils bre ignored bnd b wbrning is sent to bny wbrning
 listeners.
 
 <p>
 <h2>
-<a name=prog>Progressive Encoding</a>
+<b nbme=prog>Progressive Encoding</b>
 </h2>
 
-Progressive encoding must be enabled on the <code>ImageWriteParam</code>
-passed in to a write operation, or the image will be written sequentially,
-regardless of the scan headers included in the metadata object.  If 
-progressive encoding is enabled and set to copy from metadata, then
-the sequence of scan headers from the metadata is used to write the 
-image.  If progressive encoding is enabled and set to use a default, 
-then the scans in the metadata are ignored and a default set of scans 
-is used.  Progressive encoding always forces optimized Huffman tables to
-be used.  Any Huffman tables present in the metadata will be ignored,
-and a warning will be sent to any warning listeners.
+Progressive encoding must be enbbled on the <code>ImbgeWritePbrbm</code>
+pbssed in to b write operbtion, or the imbge will be written sequentiblly,
+regbrdless of the scbn hebders included in the metbdbtb object.  If 
+progressive encoding is enbbled bnd set to copy from metbdbtb, then
+the sequence of scbn hebders from the metbdbtb is used to write the 
+imbge.  If progressive encoding is enbbled bnd set to use b defbult, 
+then the scbns in the metbdbtb bre ignored bnd b defbult set of scbns 
+is used.  Progressive encoding blwbys forces optimized Huffmbn tbbles to
+be used.  Any Huffmbn tbbles present in the metbdbtb will be ignored,
+bnd b wbrning will be sent to bny wbrning listeners.
 
-If Huffman-table optimization is requested on the <code>ImageWriteParam</code>,
-all Huffman tables in the metadata or in the <code>ImageWriteParam</code> 
-itself are ignored, and a warning will be sent to any warning listeners if 
-any such tables are present.
+If Huffmbn-tbble optimizbtion is requested on the <code>ImbgeWritePbrbm</code>,
+bll Huffmbn tbbles in the metbdbtb or in the <code>ImbgeWritePbrbm</code> 
+itself bre ignored, bnd b wbrning will be sent to bny wbrning listeners if 
+bny such tbbles bre present.
 
 <p>
 <h2>
-<a name=tree>Native Metadata Format Tree Structure and Editing</a>
+<b nbme=tree>Nbtive Metbdbtb Formbt Tree Structure bnd Editing</b>
 </h2>
 
-The DTDs below describe just the trees of metadata objects actually returned
-by the <code>IIOMetadata</code> object.  They do not include nodes 
+The DTDs below describe just the trees of metbdbtb objects bctublly returned
+by the <code>IIOMetbdbtb</code> object.  They do not include nodes 
 corresponding to <code>SOI</code>, <code>EOI</code>, or <code>RST</code> 
-markers, as these parsing delimiters do not carry any meaningful metadata.  
+mbrkers, bs these pbrsing delimiters do not cbrry bny mebningful metbdbtb.  
 <p>
 
-The first node is always a <code>JPEGvariety</code> node.  In the
-<code>javax_imageio_jpeg_image_1.0</code> version of the JPEG metadata
-format, this node may have one child, an <code>app0JFIF</code> node,
-indicating that the JPEG stream contains a JFIF marker segment and related
-data, or no children, indicating that the stream contains no JFIF marker.
-In future versions of the JPEG metadata format, other varieties of JPEG
-metadata may be supported (e.g. Exif) by defining other types of nodes
-which may appear as a child of the <code>JPEGvariety</code> node.
+The first node is blwbys b <code>JPEGvbriety</code> node.  In the
+<code>jbvbx_imbgeio_jpeg_imbge_1.0</code> version of the JPEG metbdbtb
+formbt, this node mby hbve one child, bn <code>bpp0JFIF</code> node,
+indicbting thbt the JPEG strebm contbins b JFIF mbrker segment bnd relbted
+dbtb, or no children, indicbting thbt the strebm contbins no JFIF mbrker.
+In future versions of the JPEG metbdbtb formbt, other vbrieties of JPEG
+metbdbtb mby be supported (e.g. Exif) by defining other types of nodes
+which mby bppebr bs b child of the <code>JPEGvbriety</code> node.
 <p>
 
-(Note that an application wishing to interpret Exif metadata given
-a metadata tree structure in the <code>javax_imageio_jpeg_image_1.0</code>
-format must check for an <code>unknown</code> marker segment with a tag
-indicating an <code>APP1</code> marker and containing data identifying it
-as an Exif marker segment.  Then it may use application-specific code to
-interpret the data in the marker segment.  If such an application were
-to encounter a metadata tree formatted according to a future version of
-the JPEG metadata format, the Exif marker segment might not be
-<code>unknown</code> in that format - it might be structured as a
-child node of the <code>JPEGvariety</code> node.  Thus, it is important
-for an application to specify which version to use by passing the string
-identifying the version to the method/constructor used to obtain an
-<code>IIOMetadata</code> object.)
+(Note thbt bn bpplicbtion wishing to interpret Exif metbdbtb given
+b metbdbtb tree structure in the <code>jbvbx_imbgeio_jpeg_imbge_1.0</code>
+formbt must check for bn <code>unknown</code> mbrker segment with b tbg
+indicbting bn <code>APP1</code> mbrker bnd contbining dbtb identifying it
+bs bn Exif mbrker segment.  Then it mby use bpplicbtion-specific code to
+interpret the dbtb in the mbrker segment.  If such bn bpplicbtion were
+to encounter b metbdbtb tree formbtted bccording to b future version of
+the JPEG metbdbtb formbt, the Exif mbrker segment might not be
+<code>unknown</code> in thbt formbt - it might be structured bs b
+child node of the <code>JPEGvbriety</code> node.  Thus, it is importbnt
+for bn bpplicbtion to specify which version to use by pbssing the string
+identifying the version to the method/constructor used to obtbin bn
+<code>IIOMetbdbtb</code> object.)
 
 <p>
 
-On reading, <code>JFXX</code> and <code>app2ICC</code> nodes occur as 
-children of an <code>app0JFIF</code> node.
-This is true regardless of where the JFXX <code>APP0</code> and 
-<code>APP2</code> marker segments actually occur in the stream.  The ordering 
-of nodes within the <code>markerSequence</code> node corresponds to the 
-ordering of marker segments found in the JPEG stream.  
+On rebding, <code>JFXX</code> bnd <code>bpp2ICC</code> nodes occur bs 
+children of bn <code>bpp0JFIF</code> node.
+This is true regbrdless of where the JFXX <code>APP0</code> bnd 
+<code>APP2</code> mbrker segments bctublly occur in the strebm.  The ordering 
+of nodes within the <code>mbrkerSequence</code> node corresponds to the 
+ordering of mbrker segments found in the JPEG strebm.  
 <p>
-On writing, any <code>JFXX</code> and <code>app2ICC</code> nodes must 
-occur as children of an <code>app0JFIF</code> node, itself a child of a 
-<code>JPEGvariety</code> node, which must always be the first node.
-(If the stream is not to be JFIF compliant, no <code>app0JFIF</code> node
-should be provided, and the <code>JPEGvariety</code> node should have no
+On writing, bny <code>JFXX</code> bnd <code>bpp2ICC</code> nodes must 
+occur bs children of bn <code>bpp0JFIF</code> node, itself b child of b 
+<code>JPEGvbriety</code> node, which must blwbys be the first node.
+(If the strebm is not to be JFIF complibnt, no <code>bpp0JFIF</code> node
+should be provided, bnd the <code>JPEGvbriety</code> node should hbve no
 children.)  Any 
-JFIF <code>APP0</code>, JFXX <code>APP0</code>, and <code>APP2</code> marker 
-segments are written first, followed by all Adobe <code>APP14</code>, 
-<code>APPn</code>, <code>COM</code> and unknown segments in the 
-order in which their corresponding nodes appear in the 
-<code>markerSequence</code> node, followed by <code>DQT</code> (and 
-<code>DHT</code> for non-progressive writes) marker segments, followed by the 
-<code>SOF</code> and <code>SOS</code> marker segments.  For progressive writes
-using metadata to control progression, the <code>SOS</code> segments are used 
+JFIF <code>APP0</code>, JFXX <code>APP0</code>, bnd <code>APP2</code> mbrker 
+segments bre written first, followed by bll Adobe <code>APP14</code>, 
+<code>APPn</code>, <code>COM</code> bnd unknown segments in the 
+order in which their corresponding nodes bppebr in the 
+<code>mbrkerSequence</code> node, followed by <code>DQT</code> (bnd 
+<code>DHT</code> for non-progressive writes) mbrker segments, followed by the 
+<code>SOF</code> bnd <code>SOS</code> mbrker segments.  For progressive writes
+using metbdbtb to control progression, the <code>SOS</code> segments bre used 
 in the order in which their corresponding nodes occur in the 
-<code>markerSequence</code> node.
+<code>mbrkerSequence</code> node.
 <p>
 
-The <code>reset</code>, <code>mergeTree</code> and <code>setFromTree</code> 
-operations have the following semantics for the JPEG plug-in metadata object:
+The <code>reset</code>, <code>mergeTree</code> bnd <code>setFromTree</code> 
+operbtions hbve the following sembntics for the JPEG plug-in metbdbtb object:
 
-<p> <code>reset</code> - A call to <code>reset</code> will restore the 
-metadata object to the same state it had immediately after creation, whether 
-this came about from reading a stream or by obtaining a default object from 
-the <code>ImageWriter</code>.  This is true regardless of how many times the 
-metadata object has been modified since creation.
+<p> <code>reset</code> - A cbll to <code>reset</code> will restore the 
+metbdbtb object to the sbme stbte it hbd immedibtely bfter crebtion, whether 
+this cbme bbout from rebding b strebm or by obtbining b defbult object from 
+the <code>ImbgeWriter</code>.  This is true regbrdless of how mbny times the 
+metbdbtb object hbs been modified since crebtion.
 
-<p> <code>mergeTree</code> - Native Format
-<br> The <code>mergeTree</code> operation accepts valid trees conforming to 
-the DTD below, and merges the nodes using the following ordering rules.  In 
-all cases, only data present in the new node is changed in a corresponding 
-existing node, if any.  This means that nodes cannot be removed using 
+<p> <code>mergeTree</code> - Nbtive Formbt
+<br> The <code>mergeTree</code> operbtion bccepts vblid trees conforming to 
+the DTD below, bnd merges the nodes using the following ordering rules.  In 
+bll cbses, only dbtb present in the new node is chbnged in b corresponding 
+existing node, if bny.  This mebns thbt nodes cbnnot be removed using 
 <code>mergeTree</code>.  To remove nodes, use <code>setFromTree</code>.  The 
-tree must consist of <code>IIOMetadataNode</code>s.
+tree must consist of <code>IIOMetbdbtbNode</code>s.
 <ul>
-  <li> <code>app0JFIF</code>
+  <li> <code>bpp0JFIF</code>
         <ul>
-          <li> If an <code>app0JFIF</code> node already exists, the contents 
+          <li> If bn <code>bpp0JFIF</code> node blrebdy exists, the contents 
                of the new one modify the existing one. 
-          <li> If there is no such node, a new one is created and inserted in
-               the appropriate position.
+          <li> If there is no such node, b new one is crebted bnd inserted in
+               the bppropribte position.
         </ul>    
   <li> <code>dqt</code>
         <ul>
-          <li> If there already exist <code>dqt</code> nodes in the sequence,
-               then each table in the node replaces the first table, in any
-               <code>dqt</code> node, with the same table id.  
-          <li> If none of the existing <code>dqt</code> nodes contain a table
-               with the same id, then the table is added to the last existing
+          <li> If there blrebdy exist <code>dqt</code> nodes in the sequence,
+               then ebch tbble in the node replbces the first tbble, in bny
+               <code>dqt</code> node, with the sbme tbble id.  
+          <li> If none of the existing <code>dqt</code> nodes contbin b tbble
+               with the sbme id, then the tbble is bdded to the lbst existing
                <code>dqt</code> node.
-          <li> If there are no <code>dqt</code> nodes, then a new one is
-               created and added as follows:
+          <li> If there bre no <code>dqt</code> nodes, then b new one is
+               crebted bnd bdded bs follows:
             <ul>
-              <li> If there are <code>dht</code> nodes, the new
+              <li> If there bre <code>dht</code> nodes, the new
                    <code>dqt</code> node is inserted before the first one.  
-              <li> If there are no <code>dht</code> nodes, the new
-                   <code>dqt</code> node is inserted  before an
+              <li> If there bre no <code>dht</code> nodes, the new
+                   <code>dqt</code> node is inserted  before bn
                    <code>sof</code> node, if there is one. 
               <li> If there is no <code>sof</code> node, the new
                    <code>dqt</code> node is inserted before the first
                    <code>sos</code> node, if there is one.
               <li> If there is no <code>sos</code> node, the new
-                   <code>dqt</code> node is added to the end of the sequence.
+                   <code>dqt</code> node is bdded to the end of the sequence.
             </ul>
         </ul>
   <li> <code>dht</code>
         <ul>
-          <li> If there already exist <code>dht</code> nodes in the sequence,
-               then each table in the node replaces the first table, in any
-               <code>dht</code> node, with the same table class and table id.
-          <li> If none of the existing <code>dht</code> nodes contain a table
-               with the same class and id, then the table is added to the last
+          <li> If there blrebdy exist <code>dht</code> nodes in the sequence,
+               then ebch tbble in the node replbces the first tbble, in bny
+               <code>dht</code> node, with the sbme tbble clbss bnd tbble id.
+          <li> If none of the existing <code>dht</code> nodes contbin b tbble
+               with the sbme clbss bnd id, then the tbble is bdded to the lbst
                existing <code>dht</code> node.
-          <li> If there are no <code>dht</code> nodes, then a new one is
-               created and added as follows:
+          <li> If there bre no <code>dht</code> nodes, then b new one is
+               crebted bnd bdded bs follows:
             <ul>
-              <li> If there are <code>dqt</code> nodes, the new
-                   <code>dht</code> node is inserted immediately following the
-                   last <code>dqt</code> node.
-              <li> If there are no <code>dqt</code> nodes, the new
-                   <code>dht</code> node is inserted before an
+              <li> If there bre <code>dqt</code> nodes, the new
+                   <code>dht</code> node is inserted immedibtely following the
+                   lbst <code>dqt</code> node.
+              <li> If there bre no <code>dqt</code> nodes, the new
+                   <code>dht</code> node is inserted before bn
                    <code>sof</code> node, if there is one. 
               <li> If there is no <code>sof</code> node, the new
                    <code>dht</code> node is inserted before the first
                    <code>sos</code> node, if there is one.
               <li> If there is no <code>sos</code> node, the new
-                   <code>dht</code> node is added to the end of the sequence.
+                   <code>dht</code> node is bdded to the end of the sequence.
             </ul>
         </ul>
   <li> <code>dri</code>
         <ul>
-          <li> If there already exists a <code>dri</code> node, the restart 
-               interval value is updated.
-          <li> If there is no <code>dri</code> node, then a new one is created
-               and added as follows:
+          <li> If there blrebdy exists b <code>dri</code> node, the restbrt 
+               intervbl vblue is updbted.
+          <li> If there is no <code>dri</code> node, then b new one is crebted
+               bnd bdded bs follows:
             <ul>
-              <li> If there is an <code>sof</code> node, the new
+              <li> If there is bn <code>sof</code> node, the new
                    <code>dri</code> node is inserted before it.
               <li> If there is no <code>sof</code> node, the new
                    <code>dri</code> node is inserted before the first
                    <code>sos</code> node, if there is one.
               <li> If there is no <code>sos</code> node, the new
-                   <code>dri</code> node is added to the end of the sequence.
+                   <code>dri</code> node is bdded to the end of the sequence.
             </ul>
         </ul>
   <li> <code>com</code>
-        <br> A new <code>com</code> node is created and inserted as follows:
+        <br> A new <code>com</code> node is crebted bnd inserted bs follows:
         <ul>
-          <li> If there already exist <code>com</code> nodes, the new one is
-               inserted after the last one.
-          <li> If there are no <code>com</code> nodes, the new
-               <code>com</code> node is inserted after the
-               <code>app14Adobe</code> node, if there is one.
-          <li> If there is no <code>app14Adobe</code> node, the new
-               <code>com</code> node is inserted at the beginning of the
+          <li> If there blrebdy exist <code>com</code> nodes, the new one is
+               inserted bfter the lbst one.
+          <li> If there bre no <code>com</code> nodes, the new
+               <code>com</code> node is inserted bfter the
+               <code>bpp14Adobe</code> node, if there is one.
+          <li> If there is no <code>bpp14Adobe</code> node, the new
+               <code>com</code> node is inserted bt the beginning of the
                sequence.
         </ul>
-  <li> <code>app14Adobe</code>
+  <li> <code>bpp14Adobe</code>
         <ul>
-          <li> If there already exists an <code>app14Adobe</code> node, then 
-               its attributes are updated from the node.
-          <li> If there is no <code>app14Adobe</code> node, then a new one is 
-               created and  added as follows:
+          <li> If there blrebdy exists bn <code>bpp14Adobe</code> node, then 
+               its bttributes bre updbted from the node.
+          <li> If there is no <code>bpp14Adobe</code> node, then b new one is 
+               crebted bnd  bdded bs follows:
             <ul> 
-              <li> The new <code>app14Adobe</code> node is inserted after the
-                   last <code>unknown</code> node, if there are any.
-              <li> If there are no <code>unknown</code> nodes, the new
-                   <code>app14Adobe</code> node is inserted at the beginning
+              <li> The new <code>bpp14Adobe</code> node is inserted bfter the
+                   lbst <code>unknown</code> node, if there bre bny.
+              <li> If there bre no <code>unknown</code> nodes, the new
+                   <code>bpp14Adobe</code> node is inserted bt the beginning
                    of the sequence.
             </ul>
         </ul>
   <li> <code>unknown</code>
-       <br> A new <code>unknown</code> node is created and added to the
-            sequence as follows:
+       <br> A new <code>unknown</code> node is crebted bnd bdded to the
+            sequence bs follows:
         <ul>
-          <li> If there already exist <code>unknown</code> marker nodes, the
-               new one is inserted after the last one.
-          <li> If there are no <code>unknown</code> nodes, the new
+          <li> If there blrebdy exist <code>unknown</code> mbrker nodes, the
+               new one is inserted bfter the lbst one.
+          <li> If there bre no <code>unknown</code> nodes, the new
                <code>unknown</code> node is inserted before the
-               <code>app14Adobe</code> node, if there is one.
-          <li> If there is no <code>app14Adobe</code> node, the new
-               <code>unknown</code> node is inserted at the beginning of the
+               <code>bpp14Adobe</code> node, if there is one.
+          <li> If there is no <code>bpp14Adobe</code> node, the new
+               <code>unknown</code> node is inserted bt the beginning of the
                sequence.
         </ul>
   <li> <code>sof</code>
         <ul>
-          <li> If there already exists an <code>sof</code> node in the
-               sequence, then its values are updated from the node.
-          <li> If there is no <code>sof</code> node, then a new one is created
-               and added as follows:
+          <li> If there blrebdy exists bn <code>sof</code> node in the
+               sequence, then its vblues bre updbted from the node.
+          <li> If there is no <code>sof</code> node, then b new one is crebted
+               bnd bdded bs follows:
             <ul>
-              <li> If there are any <code>sos</code> nodes, the new
+              <li> If there bre bny <code>sos</code> nodes, the new
                    <code>sof</code> node is inserted before the first one.
               <li> If there is no <code>sos</code> node, the new
-                   <code>sof</code> node is added to the end of the sequence.
+                   <code>sof</code> node is bdded to the end of the sequence.
             </ul>
         </ul>
   <li> <code>sos</code>
         <ul>
-          <li> If there already exists a single <code>sos</code> node, then
-               the values are updated from the node.
-          <li> If there are more than one existing <code>sos</code> nodes,
-               then an <code>IIOInvalidTreeException</code> is thrown, as
-               <code>sos</code> nodes cannot be merged into a set of
-               progressive scans.
-          <li> If there are no <code>sos</code> nodes, a new one is created
-               and added to the end of the sequence.
+          <li> If there blrebdy exists b single <code>sos</code> node, then
+               the vblues bre updbted from the node.
+          <li> If there bre more thbn one existing <code>sos</code> nodes,
+               then bn <code>IIOInvblidTreeException</code> is thrown, bs
+               <code>sos</code> nodes cbnnot be merged into b set of
+               progressive scbns.
+          <li> If there bre no <code>sos</code> nodes, b new one is crebted
+               bnd bdded to the end of the sequence.
         </ul>
 </ul>
 
-<p> <code>mergeTree</code> - Standard Format
+<p> <code>mergeTree</code> - Stbndbrd Formbt
 <br>
-The <code>mergeTree</code> operation, when given a tree in the standard 
-format, will modify the native tree in the following ways:
+The <code>mergeTree</code> operbtion, when given b tree in the stbndbrd 
+formbt, will modify the nbtive tree in the following wbys:
 <ul>
-   <li> <code>Chroma</code> - The <code>ColorSpaceType</code> subnode of a
-        <code>Chroma</code> node may change the target colorspace of the
-        compressed image.  The selection of a new colorspace can cause a number
-        of changes, in keeping with the algorithms described above: 
-        <code>app0JFIF</code> and <code>app14Adobe</code> nodes may be added
-        or removed, subsampling may be added or removed, component ids may
-        be changed, and <code>sof</code> and <code>sos</code> nodes will be
-        updated accordingly.  If necessary, additional quantization and
-        huffman tables are added.  In the case of quantization tables, the
-        default will be scaled to match the quality level of any existing
-        tables.  No tables are added to metadata that does not already contain
-        tables.  If the existing metadata specifies progressive encoding, then
-        the number of channels must not change.  Any <code>Transparency</code>
-        node is also taken into account, as an explicit value of
-        <code>none</code> for the <code>Alpha</code> subnode can cause the
-        removal of an alpha channel, and anything other than <code>none</code>
-        can cause the addition of an alpha channel.
-   <li> <code>Dimension</code> - A <code>PixelAspectRatio</code> specification
-        can cause the contents of an <code>app0JFIF</code> node to change, if
-        there is one present, or the addition of an <code>app0JFIF</code> node
-        containing appropriate values, if there can be one.  An appropriate
-        pair of integers is computed from the floating-point ratio for
+   <li> <code>Chromb</code> - The <code>ColorSpbceType</code> subnode of b
+        <code>Chromb</code> node mby chbnge the tbrget colorspbce of the
+        compressed imbge.  The selection of b new colorspbce cbn cbuse b number
+        of chbnges, in keeping with the blgorithms described bbove: 
+        <code>bpp0JFIF</code> bnd <code>bpp14Adobe</code> nodes mby be bdded
+        or removed, subsbmpling mby be bdded or removed, component ids mby
+        be chbnged, bnd <code>sof</code> bnd <code>sos</code> nodes will be
+        updbted bccordingly.  If necessbry, bdditionbl qubntizbtion bnd
+        huffmbn tbbles bre bdded.  In the cbse of qubntizbtion tbbles, the
+        defbult will be scbled to mbtch the qublity level of bny existing
+        tbbles.  No tbbles bre bdded to metbdbtb thbt does not blrebdy contbin
+        tbbles.  If the existing metbdbtb specifies progressive encoding, then
+        the number of chbnnels must not chbnge.  Any <code>Trbnspbrency</code>
+        node is blso tbken into bccount, bs bn explicit vblue of
+        <code>none</code> for the <code>Alphb</code> subnode cbn cbuse the
+        removbl of bn blphb chbnnel, bnd bnything other thbn <code>none</code>
+        cbn cbuse the bddition of bn blphb chbnnel.
+   <li> <code>Dimension</code> - A <code>PixelAspectRbtio</code> specificbtion
+        cbn cbuse the contents of bn <code>bpp0JFIF</code> node to chbnge, if
+        there is one present, or the bddition of bn <code>bpp0JFIF</code> node
+        contbining bppropribte vblues, if there cbn be one.  An bppropribte
+        pbir of integers is computed from the flobting-point rbtio for
         inclusion in the node.
-   <li> <code>Text</code> - Each uncompressed text item is converted to a
-        <code>com</code> node and inserted according to the rules above for
+   <li> <code>Text</code> - Ebch uncompressed text item is converted to b
+        <code>com</code> node bnd inserted bccording to the rules bbove for
         merging <code>com</code> nodes.
 </ul>
 
-<p> <code>setFromTree</code> - Native Format
+<p> <code>setFromTree</code> - Nbtive Formbt
 <br>
-The <code>setFromTree</code> operation, when given a tree in the native 
-format described below, will simply replace the existing tree in its entirety 
-with the new one.  The tree must consist of <code>IIOMetadataNode</code>s.
+The <code>setFromTree</code> operbtion, when given b tree in the nbtive 
+formbt described below, will simply replbce the existing tree in its entirety 
+with the new one.  The tree must consist of <code>IIOMetbdbtbNode</code>s.
 
-<p> <code>setFromTree</code> - Standard Format
+<p> <code>setFromTree</code> - Stbndbrd Formbt
 <br>
-The <code>setFromTree</code> operation, when given a tree in the standard 
-format, performs a <code>reset</code> followed by a merge of the new tree.
+The <code>setFromTree</code> operbtion, when given b tree in the stbndbrd 
+formbt, performs b <code>reset</code> followed by b merge of the new tree.
 
 <h2>
-<a name=image>Image Metadata DTD</a>
+<b nbme=imbge>Imbge Metbdbtb DTD</b>
 </h2>
 
 <pre>
-&lt;!DOCTYPE "javax_imageio_jpeg_image_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgeio_jpeg_imbge_1.0" [
 
-  &lt;!ELEMENT "javax_imageio_jpeg_image_1.0" (JPEGvariety, markerSequence)&gt;
+  &lt;!ELEMENT "jbvbx_imbgeio_jpeg_imbge_1.0" (JPEGvbriety, mbrkerSequence)&gt;
 
-    &lt;!ELEMENT "JPEGvariety" (app0JFIF)&gt;
-      &lt;!-- A node grouping all marker segments specific to the variety of
-              stream being read/written (e.g. JFIF) - may be empty --&gt; 
+    &lt;!ELEMENT "JPEGvbriety" (bpp0JFIF)&gt;
+      &lt;!-- A node grouping bll mbrker segments specific to the vbriety of
+              strebm being rebd/written (e.g. JFIF) - mby be empty --&gt; 
 
-      &lt;!ELEMENT "app0JFIF" (JFXX?, app2ICC?)&gt;
-        &lt;!ATTLIST "app0JFIF" "majorVersion" #CDATA "1"&gt;
-          &lt;!-- The major JFIF version number --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "minorVersion" #CDATA "2"&gt;
+      &lt;!ELEMENT "bpp0JFIF" (JFXX?, bpp2ICC?)&gt;
+        &lt;!ATTLIST "bpp0JFIF" "mbjorVersion" #CDATA "1"&gt;
+          &lt;!-- The mbjor JFIF version number --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "minorVersion" #CDATA "2"&gt;
           &lt;!-- The minor JFIF version number --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "resUnits" ("0" | "1" | "2") "0"&gt;
-          &lt;!-- The resolution units for Xdensisty and Ydensity (0 = no 
-               units, just aspect ratio; 1 = dots/inch; 2 = dots/cm) --&gt; 
-        &lt;!ATTLIST "app0JFIF" "Xdensity" #CDATA "1"&gt;
-          &lt;!-- The horizontal density or aspect ratio numerator --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 1 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "Ydensity" #CDATA "1"&gt;
-          &lt;!-- The vertical density or aspect ratio denominator --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 1 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "thumbWidth" #CDATA "0"&gt;
-          &lt;!-- The width of the thumbnail, or 0 if there isn't one --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "thumbHeight" #CDATA "0"&gt;
-          &lt;!-- The height of the thumbnail, or 0 if there isn't one --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "resUnits" ("0" | "1" | "2") "0"&gt;
+          &lt;!-- The resolution units for Xdensisty bnd Ydensity (0 = no 
+               units, just bspect rbtio; 1 = dots/inch; 2 = dots/cm) --&gt; 
+        &lt;!ATTLIST "bpp0JFIF" "Xdensity" #CDATA "1"&gt;
+          &lt;!-- The horizontbl density or bspect rbtio numerbtor --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 1 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "Ydensity" #CDATA "1"&gt;
+          &lt;!-- The verticbl density or bspect rbtio denominbtor --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 1 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "thumbWidth" #CDATA "0"&gt;
+          &lt;!-- The width of the thumbnbil, or 0 if there isn't one --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "thumbHeight" #CDATA "0"&gt;
+          &lt;!-- The height of the thumbnbil, or 0 if there isn't one --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 
-        &lt;!ELEMENT "JFXX" (app0JFXX)*&gt;
+        &lt;!ELEMENT "JFXX" (bpp0JFXX)*&gt;
           &lt;!-- Min children: 1 --&gt;
 
-        &lt;!ELEMENT "app0JFXX" (JFIFthumbJPEG | JFIFthumbPalette | 
+        &lt;!ELEMENT "bpp0JFXX" (JFIFthumbJPEG | JFIFthumbPblette | 
           JFIFthumbRGB)&gt;
-          &lt;!-- A JFIF extension marker segment --&gt; 
-          &lt;!ATTLIST "app0JFXX" "extensionCode" ("16" | "17" | "19")
+          &lt;!-- A JFIF extension mbrker segment --&gt; 
+          &lt;!ATTLIST "bpp0JFXX" "extensionCode" ("16" | "17" | "19")
              #IMPLIED&gt;
-            &lt;!-- The JFXX extension code identifying thumbnail type: (16 = 
+            &lt;!-- The JFXX extension code identifying thumbnbil type: (16 = 
                  JPEG, 17 = indexed, 19 = RGB --&gt; 
 
-          &lt;!ELEMENT "JFIFthumbJPEG" (markerSequence?)&gt;
-            &lt;!-- A JFIF thumbnail in JPEG format (no JFIF segments 
+          &lt;!ELEMENT "JFIFthumbJPEG" (mbrkerSequence?)&gt;
+            &lt;!-- A JFIF thumbnbil in JPEG formbt (no JFIF segments 
                  permitted) --&gt; 
 
-          &lt;!ELEMENT "JFIFthumbPalette" EMPTY&gt;
-            &lt;!-- A JFIF thumbnail as an RGB indexed image --&gt; 
-            &lt;!ATTLIST "JFIFthumbPalette" "thumbWidth" #CDATA #IMPLIED&gt;
-              &lt;!-- The width of the thumbnail --&gt; 
-              &lt;!-- Data type: Integer --&gt;
-              &lt;!-- Min value: 0 (inclusive) --&gt;
-              &lt;!-- Max value: 255 (inclusive) --&gt;
-            &lt;!ATTLIST "JFIFthumbPalette" "thumbHeight" #CDATA #IMPLIED&gt;
-              &lt;!-- The height of the thumbnail --&gt; 
-              &lt;!-- Data type: Integer --&gt;
-              &lt;!-- Min value: 0 (inclusive) --&gt;
-              &lt;!-- Max value: 255 (inclusive) --&gt;
+          &lt;!ELEMENT "JFIFthumbPblette" EMPTY&gt;
+            &lt;!-- A JFIF thumbnbil bs bn RGB indexed imbge --&gt; 
+            &lt;!ATTLIST "JFIFthumbPblette" "thumbWidth" #CDATA #IMPLIED&gt;
+              &lt;!-- The width of the thumbnbil --&gt; 
+              &lt;!-- Dbtb type: Integer --&gt;
+              &lt;!-- Min vblue: 0 (inclusive) --&gt;
+              &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+            &lt;!ATTLIST "JFIFthumbPblette" "thumbHeight" #CDATA #IMPLIED&gt;
+              &lt;!-- The height of the thumbnbil --&gt; 
+              &lt;!-- Dbtb type: Integer --&gt;
+              &lt;!-- Min vblue: 0 (inclusive) --&gt;
+              &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 
           &lt;!ELEMENT "JFIFthumbRGB" EMPTY&gt;
-            &lt;!-- A JFIF thumbnail as an RGB image --&gt; 
+            &lt;!-- A JFIF thumbnbil bs bn RGB imbge --&gt; 
             &lt;!ATTLIST "JFIFthumbRGB" "thumbWidth" #CDATA #IMPLIED&gt;
-              &lt;!-- The width of the thumbnail --&gt; 
-              &lt;!-- Data type: Integer --&gt;
-              &lt;!-- Min value: 0 (inclusive) --&gt;
-              &lt;!-- Max value: 255 (inclusive) --&gt;
+              &lt;!-- The width of the thumbnbil --&gt; 
+              &lt;!-- Dbtb type: Integer --&gt;
+              &lt;!-- Min vblue: 0 (inclusive) --&gt;
+              &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
             &lt;!ATTLIST "JFIFthumbRGB" "thumbHeight" #CDATA #IMPLIED&gt;
-              &lt;!-- The height of the thumbnail --&gt; 
-              &lt;!-- Data type: Integer --&gt;
-              &lt;!-- Min value: 0 (inclusive) --&gt;
-              &lt;!-- Max value: 255 (inclusive) --&gt;
+              &lt;!-- The height of the thumbnbil --&gt; 
+              &lt;!-- Dbtb type: Integer --&gt;
+              &lt;!-- Min vblue: 0 (inclusive) --&gt;
+              &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 
-        &lt;!ELEMENT "app2ICC" EMPTY&gt;
-          &lt;!-- An ICC profile APP2 marker segment --&gt; 
-          &lt;!-- Optional User object: java.awt.color.ICC_Profile --&gt;
+        &lt;!ELEMENT "bpp2ICC" EMPTY&gt;
+          &lt;!-- An ICC profile APP2 mbrker segment --&gt; 
+          &lt;!-- Optionbl User object: jbvb.bwt.color.ICC_Profile --&gt;
 
-    &lt;!ELEMENT "markerSequence" (dqt | dht | dri | com | unknown | 
-      app14Adobe | sof | sos)*&gt;
-      &lt;!-- A node grouping all non-jfif marker segments --&gt; 
+    &lt;!ELEMENT "mbrkerSequence" (dqt | dht | dri | com | unknown | 
+      bpp14Adobe | sof | sos)*&gt;
+      &lt;!-- A node grouping bll non-jfif mbrker segments --&gt; 
 
-      &lt;!ELEMENT "dqt" (dqtable)*&gt;
-        &lt;!-- A Define Quantization Table(s) marker segment --&gt; 
+      &lt;!ELEMENT "dqt" (dqtbble)*&gt;
+        &lt;!-- A Define Qubntizbtion Tbble(s) mbrker segment --&gt; 
         &lt;!-- Min children: 1 --&gt;
-        &lt;!-- Max children: 4 --&gt;
+        &lt;!-- Mbx children: 4 --&gt;
 
-        &lt;!ELEMENT "dqtable" EMPTY&gt;
-          &lt;!-- A single quantization table --&gt; 
-          &lt;!-- User object: javax.imageio.plugins.jpeg.JPEGQTable --&gt;
-          &lt;!ATTLIST "dqtable" "elementPrecision" #CDATA "0"&gt;
-            &lt;!-- The number of bits in each table element (0 = 8, 1 = 16) 
+        &lt;!ELEMENT "dqtbble" EMPTY&gt;
+          &lt;!-- A single qubntizbtion tbble --&gt; 
+          &lt;!-- User object: jbvbx.imbgeio.plugins.jpeg.JPEGQTbble --&gt;
+          &lt;!ATTLIST "dqtbble" "elementPrecision" #CDATA "0"&gt;
+            &lt;!-- The number of bits in ebch tbble element (0 = 8, 1 = 16) 
                  --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-          &lt;!ATTLIST "dqtable" "qtableId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
+            &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!ATTLIST "dqtbble" "qtbbleId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
 
-      &lt;!ELEMENT "dht" (dhtable)*&gt;
-        &lt;!-- A Define Huffman Table(s) marker segment --&gt; 
+      &lt;!ELEMENT "dht" (dhtbble)*&gt;
+        &lt;!-- A Define Huffmbn Tbble(s) mbrker segment --&gt; 
         &lt;!-- Min children: 1 --&gt;
-        &lt;!-- Max children: 4 --&gt;
+        &lt;!-- Mbx children: 4 --&gt;
 
-        &lt;!ELEMENT "dhtable" EMPTY&gt;
-          &lt;!-- A single Huffman table --&gt; 
-          &lt;!-- User object: javax.imageio.plugins.jpeg.JPEGHuffmanTable --&gt;
-          &lt;!ATTLIST "dhtable" "class" ("0" | "1") #REQUIRED&gt;
-            &lt;!-- Indicates whether this is a DC (0) or an AC (1) table --&gt; 
-          &lt;!ATTLIST "dhtable" "htableId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
-            &lt;!-- The table id --&gt; 
+        &lt;!ELEMENT "dhtbble" EMPTY&gt;
+          &lt;!-- A single Huffmbn tbble --&gt; 
+          &lt;!-- User object: jbvbx.imbgeio.plugins.jpeg.JPEGHuffmbnTbble --&gt;
+          &lt;!ATTLIST "dhtbble" "clbss" ("0" | "1") #REQUIRED&gt;
+            &lt;!-- Indicbtes whether this is b DC (0) or bn AC (1) tbble --&gt; 
+          &lt;!ATTLIST "dhtbble" "htbbleId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
+            &lt;!-- The tbble id --&gt; 
 
       &lt;!ELEMENT "dri" EMPTY&gt;
-        &lt;!-- A Define Restart Interval marker segment --&gt; 
-        &lt;!ATTLIST "dri" "interval" #CDATA #REQUIRED&gt;
-          &lt;!-- The restart interval in MCUs --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
+        &lt;!-- A Define Restbrt Intervbl mbrker segment --&gt; 
+        &lt;!ATTLIST "dri" "intervbl" #CDATA #REQUIRED&gt;
+          &lt;!-- The restbrt intervbl in MCUs --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
 
       &lt;!ELEMENT "com" EMPTY&gt;
-        &lt;!-- A Comment marker segment. The user object contains the actual 
+        &lt;!-- A Comment mbrker segment. The user object contbins the bctubl 
              bytes. --&gt; 
-        &lt;!-- User object: array of [B --&gt;
+        &lt;!-- User object: brrby of [B --&gt;
         &lt;!-- Min length: 1 --&gt;
-        &lt;!-- Max length: 65533 --&gt;
+        &lt;!-- Mbx length: 65533 --&gt;
         &lt;!ATTLIST "com" "comment" #CDATA #IMPLIED&gt;
-          &lt;!-- The comment as a string (used only if user object is null) 
+          &lt;!-- The comment bs b string (used only if user object is null) 
                --&gt; 
-          &lt;!-- Data type: String --&gt;
+          &lt;!-- Dbtb type: String --&gt;
 
       &lt;!ELEMENT "unknown" EMPTY&gt;
-        &lt;!-- An unrecognized marker segment. The user object contains the 
-             data not including length. --&gt; 
-        &lt;!-- User object: array of [B --&gt;
+        &lt;!-- An unrecognized mbrker segment. The user object contbins the 
+             dbtb not including length. --&gt; 
+        &lt;!-- User object: brrby of [B --&gt;
         &lt;!-- Min length: 1 --&gt;
-        &lt;!-- Max length: 65533 --&gt;
-        &lt;!ATTLIST "unknown" "MarkerTag" #CDATA #REQUIRED&gt;
-          &lt;!-- The tag identifying this marker segment --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- Mbx length: 65533 --&gt;
+        &lt;!ATTLIST "unknown" "MbrkerTbg" #CDATA #REQUIRED&gt;
+          &lt;!-- The tbg identifying this mbrker segment --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 
-      &lt;!ELEMENT "app14Adobe" EMPTY&gt;
-        &lt;!-- An Adobe APP14 marker segment --&gt; 
-        &lt;!ATTLIST "app14Adobe" "version" #CDATA "100"&gt;
-          &lt;!-- The version of Adobe APP14 marker segment --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 100 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "app14Adobe" "flags0" #CDATA "0"&gt;
-          &lt;!-- The flags0 variable of an APP14 marker segment --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "app14Adobe" "flags1" #CDATA "0"&gt;
-          &lt;!-- The flags1 variable of an APP14 marker segment --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "app14Adobe" "transform" ("0" | "1" | "2") #REQUIRED&gt;
-          &lt;!-- The color transform applied to the image (0 = Unknown, 1 = 
+      &lt;!ELEMENT "bpp14Adobe" EMPTY&gt;
+        &lt;!-- An Adobe APP14 mbrker segment --&gt; 
+        &lt;!ATTLIST "bpp14Adobe" "version" #CDATA "100"&gt;
+          &lt;!-- The version of Adobe APP14 mbrker segment --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 100 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "bpp14Adobe" "flbgs0" #CDATA "0"&gt;
+          &lt;!-- The flbgs0 vbribble of bn APP14 mbrker segment --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+        &lt;!ATTLIST "bpp14Adobe" "flbgs1" #CDATA "0"&gt;
+          &lt;!-- The flbgs1 vbribble of bn APP14 mbrker segment --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+        &lt;!ATTLIST "bpp14Adobe" "trbnsform" ("0" | "1" | "2") #REQUIRED&gt;
+          &lt;!-- The color trbnsform bpplied to the imbge (0 = Unknown, 1 = 
                YCbCr, 2 = YCCK) --&gt; 
 
       &lt;!ELEMENT "sof" (componentSpec)*&gt;
-        &lt;!-- A Start Of Frame marker segment --&gt; 
+        &lt;!-- A Stbrt Of Frbme mbrker segment --&gt; 
         &lt;!-- Min children: 1 --&gt;
-        &lt;!-- Max children: 4 --&gt;
+        &lt;!-- Mbx children: 4 --&gt;
         &lt;!ATTLIST "sof" "process" ("0" | "1" | "2") #IMPLIED&gt;
-          &lt;!-- The JPEG process (0 = Baseline sequential, 1 = Extended 
-               sequential, 2 = Progressive) --&gt; 
-        &lt;!ATTLIST "sof" "samplePrecision" #CDATA "8"&gt;
-          &lt;!-- The number of bits per sample --&gt; 
-          &lt;!-- Data type: Integer --&gt;
+          &lt;!-- The JPEG process (0 = Bbseline sequentibl, 1 = Extended 
+               sequentibl, 2 = Progressive) --&gt; 
+        &lt;!ATTLIST "sof" "sbmplePrecision" #CDATA "8"&gt;
+          &lt;!-- The number of bits per sbmple --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
         &lt;!ATTLIST "sof" "numLines" #CDATA #IMPLIED&gt;
-          &lt;!-- The number of lines in the image --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "sof" "samplesPerLine" #CDATA #IMPLIED&gt;
-          &lt;!-- The number of samples per line --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "sof" "numFrameComponents" ("1" | "2" | "3" | "4")
+          &lt;!-- The number of lines in the imbge --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+        &lt;!ATTLIST "sof" "sbmplesPerLine" #CDATA #IMPLIED&gt;
+          &lt;!-- The number of sbmples per line --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+        &lt;!ATTLIST "sof" "numFrbmeComponents" ("1" | "2" | "3" | "4")
            #IMPLIED&gt;
-          &lt;!-- The number of components in the image --&gt; 
+          &lt;!-- The number of components in the imbge --&gt; 
 
         &lt;!ELEMENT "componentSpec" EMPTY&gt;
-          &lt;!-- A component specification for a frame --&gt; 
+          &lt;!-- A component specificbtion for b frbme --&gt; 
           &lt;!ATTLIST "componentSpec" "componentId" #CDATA #REQUIRED&gt;
             &lt;!-- The id for this component --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-            &lt;!-- Min value: 0 (inclusive) --&gt;
-            &lt;!-- Max value: 255 (inclusive) --&gt;
-          &lt;!ATTLIST "componentSpec" "HsamplingFactor" #CDATA #REQUIRED&gt;
-            &lt;!-- The horizontal sampling factor for this component --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-            &lt;!-- Min value: 1 (inclusive) --&gt;
-            &lt;!-- Max value: 255 (inclusive) --&gt;
-          &lt;!ATTLIST "componentSpec" "VsamplingFactor" #CDATA #REQUIRED&gt;
-            &lt;!-- The vertical sampling factor for this component --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-            &lt;!-- Min value: 1 (inclusive) --&gt;
-            &lt;!-- Max value: 255 (inclusive) --&gt;
-          &lt;!ATTLIST "componentSpec" "QtableSelector" ("0" | "1" | "2" | 
+            &lt;!-- Dbtb type: Integer --&gt;
+            &lt;!-- Min vblue: 0 (inclusive) --&gt;
+            &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+          &lt;!ATTLIST "componentSpec" "HsbmplingFbctor" #CDATA #REQUIRED&gt;
+            &lt;!-- The horizontbl sbmpling fbctor for this component --&gt; 
+            &lt;!-- Dbtb type: Integer --&gt;
+            &lt;!-- Min vblue: 1 (inclusive) --&gt;
+            &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+          &lt;!ATTLIST "componentSpec" "VsbmplingFbctor" #CDATA #REQUIRED&gt;
+            &lt;!-- The verticbl sbmpling fbctor for this component --&gt; 
+            &lt;!-- Dbtb type: Integer --&gt;
+            &lt;!-- Min vblue: 1 (inclusive) --&gt;
+            &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+          &lt;!ATTLIST "componentSpec" "QtbbleSelector" ("0" | "1" | "2" | 
             "3") #REQUIRED&gt;
-            &lt;!-- The quantization table to use for this component --&gt; 
+            &lt;!-- The qubntizbtion tbble to use for this component --&gt; 
 
-      &lt;!ELEMENT "sos" (scanComponentSpec)*&gt;
-        &lt;!-- A Start Of Scan marker segment --&gt; 
+      &lt;!ELEMENT "sos" (scbnComponentSpec)*&gt;
+        &lt;!-- A Stbrt Of Scbn mbrker segment --&gt; 
         &lt;!-- Min children: 1 --&gt;
-        &lt;!-- Max children: 4 --&gt;
-        &lt;!ATTLIST "sos" "numScanComponents" ("1" | "2" | "3" | "4")
+        &lt;!-- Mbx children: 4 --&gt;
+        &lt;!ATTLIST "sos" "numScbnComponents" ("1" | "2" | "3" | "4")
            #REQUIRED&gt;
-          &lt;!-- The number of components in the scan --&gt; 
-        &lt;!ATTLIST "sos" "startSpectralSelection" #CDATA "0"&gt;
-          &lt;!-- The first spectral band included in this scan --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 63 (inclusive) --&gt;
-        &lt;!ATTLIST "sos" "endSpectralSelection" #CDATA "63"&gt;
-          &lt;!-- The last spectral band included in this scan --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 63 (inclusive) --&gt;
-        &lt;!ATTLIST "sos" "approxHigh" #CDATA "0"&gt;
-          &lt;!-- The highest bit position included in this scan --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 15 (inclusive) --&gt;
-        &lt;!ATTLIST "sos" "approxLow" #CDATA "0"&gt;
-          &lt;!-- The lowest bit position included in this scan --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 15 (inclusive) --&gt;
+          &lt;!-- The number of components in the scbn --&gt; 
+        &lt;!ATTLIST "sos" "stbrtSpectrblSelection" #CDATA "0"&gt;
+          &lt;!-- The first spectrbl bbnd included in this scbn --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 63 (inclusive) --&gt;
+        &lt;!ATTLIST "sos" "endSpectrblSelection" #CDATA "63"&gt;
+          &lt;!-- The lbst spectrbl bbnd included in this scbn --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 63 (inclusive) --&gt;
+        &lt;!ATTLIST "sos" "bpproxHigh" #CDATA "0"&gt;
+          &lt;!-- The highest bit position included in this scbn --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 15 (inclusive) --&gt;
+        &lt;!ATTLIST "sos" "bpproxLow" #CDATA "0"&gt;
+          &lt;!-- The lowest bit position included in this scbn --&gt; 
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 15 (inclusive) --&gt;
 
-        &lt;!ELEMENT "scanComponentSpec" EMPTY&gt;
-          &lt;!-- A component specification for a scan --&gt; 
-          &lt;!ATTLIST "scanComponentSpec" "componentSelector" #CDATA
+        &lt;!ELEMENT "scbnComponentSpec" EMPTY&gt;
+          &lt;!-- A component specificbtion for b scbn --&gt; 
+          &lt;!ATTLIST "scbnComponentSpec" "componentSelector" #CDATA
              #REQUIRED&gt;
             &lt;!-- The id of this component --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-            &lt;!-- Min value: 0 (inclusive) --&gt;
-            &lt;!-- Max value: 255 (inclusive) --&gt;
-          &lt;!ATTLIST "scanComponentSpec" "dcHuffTable" ("0" | "1" | "2" | 
+            &lt;!-- Dbtb type: Integer --&gt;
+            &lt;!-- Min vblue: 0 (inclusive) --&gt;
+            &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+          &lt;!ATTLIST "scbnComponentSpec" "dcHuffTbble" ("0" | "1" | "2" | 
             "3") #REQUIRED&gt;
-            &lt;!-- The huffman table to use for encoding DC coefficients --&gt; 
-          &lt;!ATTLIST "scanComponentSpec" "acHuffTable" ("0" | "1" | "2" | 
+            &lt;!-- The huffmbn tbble to use for encoding DC coefficients --&gt; 
+          &lt;!ATTLIST "scbnComponentSpec" "bcHuffTbble" ("0" | "1" | "2" | 
             "3") #REQUIRED&gt;
-            &lt;!-- The huffman table to use for encoding AC coefficients --&gt; 
+            &lt;!-- The huffmbn tbble to use for encoding AC coefficients --&gt; 
 ]&gt;
 </pre>
 
 <h2>
-<a name=stream>Stream Metadata DTD</a>
+<b nbme=strebm>Strebm Metbdbtb DTD</b>
 </h2>
 
 <pre>
-&lt;!DOCTYPE "javax_imageio_jpeg_stream_1.0" [
-  &lt;!ELEMENT "javax_imageio_jpeg_stream_1.0" (dqt |
+&lt;!DOCTYPE "jbvbx_imbgeio_jpeg_strebm_1.0" [
+  &lt;!ELEMENT "jbvbx_imbgeio_jpeg_strebm_1.0" (dqt |
                       dht | 
                       dri | 
                       com | 
                       unknown)*&gt;
    
-  &lt;!-- All elements are as defined above for image metadata --&gt;
+  &lt;!-- All elements bre bs defined bbove for imbge metbdbtb --&gt;
 ]&gt;
 </pre>
 

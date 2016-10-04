@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbckbge sun.jvmstbt.perfdbtb.monitor;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.util.regex.*;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.regex.*;
 
 /**
- * Class for parsing alias files. File format is expected to follow
- * the following syntax:
+ * Clbss for pbrsing blibs files. File formbt is expected to follow
+ * the following syntbx:
  *
- *     alias name [alias]*
+ *     blibs nbme [blibs]*
  *
- * Java style comments can occur anywhere within the file.
- * @author Brian Doherty
+ * Jbvb style comments cbn occur bnywhere within the file.
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class AliasFileParser {
-    private static final String ALIAS = "alias";
-    private static final boolean DEBUG = false;
+public clbss AlibsFilePbrser {
+    privbte stbtic finbl String ALIAS = "blibs";
+    privbte stbtic finbl boolebn DEBUG = fblse;
 
-    // other variables
-    private URL inputfile;
-    private StreamTokenizer st;
-    private Token currentToken;
+    // other vbribbles
+    privbte URL inputfile;
+    privbte StrebmTokenizer st;
+    privbte Token currentToken;
 
-    AliasFileParser(URL inputfile) {
+    AlibsFilePbrser(URL inputfile) {
         this.inputfile = inputfile;
     }
 
-    // value class to hold StreamTokenizer token values
-    private class Token {
-        public String sval;
+    // vblue clbss to hold StrebmTokenizer token vblues
+    privbte clbss Token {
+        public String svbl;
         public int ttype;
 
-        public Token(int ttype, String sval) {
+        public Token(int ttype, String svbl) {
             this.ttype = ttype;
-            this.sval = sval;
+            this.svbl = svbl;
         }
     }
 
-    private void logln(String s) {
+    privbte void logln(String s) {
         if (DEBUG) {
             System.err.println(s);
         }
     }
 
     /**
-     * method to get the next token as a Token type
+     * method to get the next token bs b Token type
      */
-    private void nextToken() throws IOException {
+    privbte void nextToken() throws IOException {
         st.nextToken();
-        currentToken = new Token(st.ttype, st.sval);
+        currentToken = new Token(st.ttype, st.svbl);
 
-        logln("Read token: type = " + currentToken.ttype
-              + " string = " + currentToken.sval);
+        logln("Rebd token: type = " + currentToken.ttype
+              + " string = " + currentToken.svbl);
     }
 
     /**
-     * method to match the current Token to a specified token type and
-     * value Throws a SyntaxException if token doesn't match.
+     * method to mbtch the current Token to b specified token type bnd
+     * vblue Throws b SyntbxException if token doesn't mbtch.
      */
-    private void match(int ttype, String token)
-                 throws IOException, SyntaxException {
+    privbte void mbtch(int ttype, String token)
+                 throws IOException, SyntbxException {
 
         if ((currentToken.ttype == ttype)
-                && (currentToken.sval.compareTo(token) == 0)) {
-            logln("matched type: " + ttype + " and token = "
-                  + currentToken.sval);
+                && (currentToken.svbl.compbreTo(token) == 0)) {
+            logln("mbtched type: " + ttype + " bnd token = "
+                  + currentToken.svbl);
             nextToken();
         } else {
-            throw new SyntaxException(st.lineno());
+            throw new SyntbxException(st.lineno());
         }
     }
 
 
     /*
-     * method to match the current Token to a specified token type.
-     * Throws a SyntaxException if token doesn't match.
+     * method to mbtch the current Token to b specified token type.
+     * Throws b SyntbxException if token doesn't mbtch.
      */
-    private void match(int ttype) throws IOException, SyntaxException {
+    privbte void mbtch(int ttype) throws IOException, SyntbxException {
         if (currentToken.ttype == ttype) {
-            logln("matched type: " + ttype + ", token = " + currentToken.sval);
+            logln("mbtched type: " + ttype + ", token = " + currentToken.svbl);
             nextToken();
         } else {
-            throw new SyntaxException(st.lineno());
+            throw new SyntbxException(st.lineno());
         }
     }
 
-    private void match(String token) throws IOException, SyntaxException {
-        match(StreamTokenizer.TT_WORD, token);
+    privbte void mbtch(String token) throws IOException, SyntbxException {
+        mbtch(StrebmTokenizer.TT_WORD, token);
     }
 
     /**
-     * method to parse the given input file.
+     * method to pbrse the given input file.
      */
-    public void parse(Map<String, ArrayList<String>> map) throws SyntaxException, IOException {
+    public void pbrse(Mbp<String, ArrbyList<String>> mbp) throws SyntbxException, IOException {
 
         if (inputfile == null) {
             return;
         }
 
-        BufferedReader r = new BufferedReader(
-                new InputStreamReader(inputfile.openStream()));
-        st = new StreamTokenizer(r);
+        BufferedRebder r = new BufferedRebder(
+                new InputStrebmRebder(inputfile.openStrebm()));
+        st = new StrebmTokenizer(r);
 
-        // allow both forms of commenting styles
-        st.slashSlashComments(true);
-        st.slashStarComments(true);
-        st.wordChars('_','_');
+        // bllow both forms of commenting styles
+        st.slbshSlbshComments(true);
+        st.slbshStbrComments(true);
+        st.wordChbrs('_','_');
 
         nextToken();
 
-        while (currentToken.ttype != StreamTokenizer.TT_EOF) {
-            // look for the start symbol
-            if ((currentToken.ttype != StreamTokenizer.TT_WORD)
-                    || (currentToken.sval.compareTo(ALIAS) != 0)) {
+        while (currentToken.ttype != StrebmTokenizer.TT_EOF) {
+            // look for the stbrt symbol
+            if ((currentToken.ttype != StrebmTokenizer.TT_WORD)
+                    || (currentToken.svbl.compbreTo(ALIAS) != 0)) {
                 nextToken();
                 continue;
             }
 
-            match(ALIAS);
-            String name = currentToken.sval;
-            match(StreamTokenizer.TT_WORD);
+            mbtch(ALIAS);
+            String nbme = currentToken.svbl;
+            mbtch(StrebmTokenizer.TT_WORD);
 
-            ArrayList<String> aliases = new ArrayList<String>();
+            ArrbyList<String> blibses = new ArrbyList<String>();
 
             do {
-                aliases.add(currentToken.sval);
-                match(StreamTokenizer.TT_WORD);
+                blibses.bdd(currentToken.svbl);
+                mbtch(StrebmTokenizer.TT_WORD);
 
-            } while ((currentToken.ttype != StreamTokenizer.TT_EOF)
-                     && (currentToken.sval.compareTo(ALIAS) != 0));
+            } while ((currentToken.ttype != StrebmTokenizer.TT_EOF)
+                     && (currentToken.svbl.compbreTo(ALIAS) != 0));
 
-            logln("adding map entry for " + name + " values = " + aliases);
+            logln("bdding mbp entry for " + nbme + " vblues = " + blibses);
 
-            map.put(name, aliases);
+            mbp.put(nbme, blibses);
         }
     }
 }

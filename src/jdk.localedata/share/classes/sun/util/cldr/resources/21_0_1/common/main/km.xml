@@ -3,132 +3,132 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="km"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="km"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="aa">ភាសាអាហ្វារ</language>
-			<language type="ae">ភាសាអាវែស្តង់</language>
-			<language type="af">ភាសាអាហ្វ្រីកាអាន</language>
-			<language type="am" draft="unconfirmed">អំហារិក</language>
-			<language type="an">ភាសាអារ៉ាហ្គោន</language>
-			<language type="ar">ភាសាអារ៉ាប់</language>
-			<language type="ay">ភាសាអីម៉ារ៉ា</language>
-			<language type="az">ភាសាអាហ៊្សែរបែហ្សង់</language>
-			<language type="be">ភាសាបេឡារុស្ស</language>
-			<language type="bg">ភាសាប៊ុលហ្ការី</language>
-			<language type="bh">ភាសាបិហារ</language>
-			<language type="bm">ភាសាបាម្បារា</language>
-			<language type="bn">ភាសាបេន្កាលី</language>
-			<language type="bo">ភាសាទីបេ</language>
-			<language type="br" draft="unconfirmed">ប្រីស្តុន</language>
-			<language type="bs" draft="unconfirmed">ប៊ូស្នៀរ</language>
-			<language type="ca">ភាសាកាតាឡាន</language>
-			<language type="cs">ភាសាឆេក</language>
-			<language type="cy" draft="unconfirmed">វេល</language>
-			<language type="da">ភាសាដាណឺម៉ាក</language>
-			<language type="de">ភាសាអាល្លឺម៉ង់</language>
-			<language type="dz">ភាសាប៊ូតាន</language>
-			<language type="el">ភាសាក្រិច</language>
-			<language type="en">ភាសាអង់គ្លេស</language>
-			<language type="eo">ភាសាអេស្ពេរ៉ាន្ទោ</language>
-			<language type="es">ភាសាអេស្ប៉ាញ</language>
-			<language type="et">ភាសាអេស្តូនី</language>
-			<language type="eu">ភាសាបាស្កេ</language>
-			<language type="fa" draft="unconfirmed">ភឺសៀន</language>
-			<language type="fi">ភាសាហ្វាំងឡង់</language>
-			<language type="fil" draft="unconfirmed">ពីលីពីន</language>
-			<language type="fj">ហ្វ៉ីហ្ស៉ី</language>
-			<language type="fo" draft="unconfirmed">ហ្វារូស</language>
-			<language type="fr">ភាសាបារាំង</language>
-			<language type="fy" draft="unconfirmed">ហ្រីសង់</language>
-			<language type="ga">ភាសាហ្កែលិគ</language>
-			<language type="gd">ភាសាហ្កែលិគ [gd]</language>
-			<language type="gl">ភាសាហ្កាលីស៉ី</language>
-			<language type="gn">ភាសាហ្កួរ៉ានី</language>
-			<language type="gu">ភាសាហ្កុយ៉ារាទី</language>
-			<language type="he">ភាសាហេប្រិ</language>
-			<language type="hi">ភាសាហ៉ិនឌី</language>
-			<language type="hr" draft="unconfirmed">ក្រូអាទៀន</language>
-			<language type="hu">ភាសាហុងគ្រី</language>
-			<language type="hy">ភាសាអារមេនី</language>
-			<language type="ia" draft="unconfirmed">អីនធើលីង</language>
-			<language type="id">ភាសាឥណ្ឌូនេស៊ី</language>
-			<language type="is">ភាសាអ៉ីស្លង់</language>
-			<language type="it">ភាសាអ៊ីតាលី</language>
-			<language type="ja">ភាសាជប៉ុន</language>
-			<language type="jv">ភាសាយ៉ាវា</language>
-			<language type="ka">ភាសាហ្សកហ្ស៉ី</language>
-			<language type="kk">ភាសាកាហ្សាក់ស្តង់់</language>
-			<language type="km">ភាសាខ្មែរ</language>
-			<language type="kn">ភាសាកិណាដា</language>
-			<language type="ko">ភាសាកូរ៉េ</language>
-			<language type="ku">ភាសាឃឺដ</language>
-			<language type="ky">ភាសាគៀរហ្គីស្តង់</language>
-			<language type="la">ភាសាឡាតំាង</language>
-			<language type="ln" draft="unconfirmed">លីនកាឡា</language>
-			<language type="lo">ភាសាឡាវ</language>
-			<language type="lt">ភាសាលីទុយអានី</language>
-			<language type="lv">ភាសាឡាតវីយ៉ា</language>
-			<language type="mg">ភាសាម៉ាដាហ្កាសការ</language>
-			<language type="mi">ភាសាម៉ោរី</language>
-			<language type="mk">ភាសាម៉ាសេដូនី</language>
-			<language type="ml">ភាសាម៉ាឡាឡាយ៉ាន</language>
-			<language type="mn">ភាសាម៉ុងហ្គោលី</language>
-			<language type="mo">ភាសាម៉ុលដាវី</language>
-			<language type="mr">ភាសាម៉ារាធី</language>
-			<language type="ms">ភាសាម៉ាលេស៉ី</language>
-			<language type="mt">ភាសាម៉ាល់តា</language>
-			<language type="ne">ភាសានេប៉ាល់</language>
-			<language type="nl">ភាសាហុល្លង់</language>
-			<language type="nn" draft="unconfirmed">ន័រវេ</language>
-			<language type="no">ភាសាន័រវែស</language>
-			<language type="oc" draft="unconfirmed">អូសីតាន់</language>
-			<language type="or">ភាសាអូរីយ៉ា</language>
-			<language type="pa">ភាសាពូនយ៉ាប៊ី</language>
-			<language type="pl">ភាសាប៉ូឡូញ</language>
-			<language type="ps" draft="unconfirmed">បាស្តូ</language>
-			<language type="pt">ភាសាព័រទុយហ្កាល់</language>
-			<language type="qu">ភាសាកេទ្ជូអា</language>
-			<language type="rn">ភាសារូន្ឌី</language>
-			<language type="ro">ភាសារូម៉ានី</language>
-			<language type="sa">ភាសាសំស្ក្រឹត</language>
-			<language type="sd">ភាសាស៉ីន្ដី</language>
-			<language type="sh" draft="unconfirmed">សើបូក្រូទៀន</language>
-			<language type="si" draft="unconfirmed">សីនហាលិស</language>
-			<language type="sk">ភាសាស្លូវ៉ាគី</language>
-			<language type="sl">ភាសាស្លូវ៉ានី</language>
-			<language type="sm">ភាសាសាមូអា</language>
-			<language type="so">ភាសាសូម៉ាលី</language>
-			<language type="sq">ភាសាអាល់បានី</language>
-			<language type="sr" draft="unconfirmed">សើបៀន</language>
-			<language type="st" draft="unconfirmed">សេសូដូ</language>
-			<language type="su">ភាំសាស៊ូដង់</language>
-			<language type="sv">ភាសាស៊ុយអែដ</language>
-			<language type="sw">ភាសាស្វាហ៉ីលី</language>
-			<language type="ta">ភាសាតាមីល</language>
-			<language type="te">ភាសាតេលូហ្គូ</language>
-			<language type="tg">ភាសាតាដហ្ស៉ីគីស្តង់</language>
-			<language type="th">ភាសាថៃ</language>
-			<language type="ti" draft="unconfirmed">ទីរិនយា</language>
-			<language type="tk">ភាសាទួគមេនីស្តង់</language>
-			<language type="tlh" draft="unconfirmed">ខ្លិងសុន</language>
-			<language type="to">ភាសាតុងហ្គោ</language>
-			<language type="tr">ភាសាទួរគី</language>
-			<language type="tt">ភាសាតាតារ</language>
-			<language type="tw" draft="unconfirmed">ទ្វី</language>
-			<language type="uk">ភាសាអ៊ុយក្រែន</language>
-			<language type="ur">ភាសាអ៊ូរ្ឌូ</language>
-			<language type="uz">ភាសាអ៊ូហ្សបេគីស្តង់</language>
-			<language type="vi">ភាសាវៀតណាម</language>
-			<language type="xh">ភាសាឃសា</language>
-			<language type="yi">ភាសាយីឌីហ្ស</language>
-			<language type="yo">ភាសាយរូបា</language>
-			<language type="za">ភាសាចួង</language>
-			<language type="zh">ភាសាចិន</language>
-			<language type="zu">ភាសាហ្ស៉ូលូ</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bb">ភាសាអាហ្វារ</lbngubge>
+			<lbngubge type="be">ភាសាអាវែស្តង់</lbngubge>
+			<lbngubge type="bf">ភាសាអាហ្វ្រីកាអាន</lbngubge>
+			<lbngubge type="bm" drbft="unconfirmed">អំហារិក</lbngubge>
+			<lbngubge type="bn">ភាសាអារ៉ាហ្គោន</lbngubge>
+			<lbngubge type="br">ភាសាអារ៉ាប់</lbngubge>
+			<lbngubge type="by">ភាសាអីម៉ារ៉ា</lbngubge>
+			<lbngubge type="bz">ភាសាអាហ៊្សែរបែហ្សង់</lbngubge>
+			<lbngubge type="be">ភាសាបេឡារុស្ស</lbngubge>
+			<lbngubge type="bg">ភាសាប៊ុលហ្ការី</lbngubge>
+			<lbngubge type="bh">ភាសាបិហារ</lbngubge>
+			<lbngubge type="bm">ភាសាបាម្បារា</lbngubge>
+			<lbngubge type="bn">ភាសាបេន្កាលី</lbngubge>
+			<lbngubge type="bo">ភាសាទីបេ</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">ប្រីស្តុន</lbngubge>
+			<lbngubge type="bs" drbft="unconfirmed">ប៊ូស្នៀរ</lbngubge>
+			<lbngubge type="cb">ភាសាកាតាឡាន</lbngubge>
+			<lbngubge type="cs">ភាសាឆេក</lbngubge>
+			<lbngubge type="cy" drbft="unconfirmed">វេល</lbngubge>
+			<lbngubge type="db">ភាសាដាណឺម៉ាក</lbngubge>
+			<lbngubge type="de">ភាសាអាល្លឺម៉ង់</lbngubge>
+			<lbngubge type="dz">ភាសាប៊ូតាន</lbngubge>
+			<lbngubge type="el">ភាសាក្រិច</lbngubge>
+			<lbngubge type="en">ភាសាអង់គ្លេស</lbngubge>
+			<lbngubge type="eo">ភាសាអេស្ពេរ៉ាន្ទោ</lbngubge>
+			<lbngubge type="es">ភាសាអេស្ប៉ាញ</lbngubge>
+			<lbngubge type="et">ភាសាអេស្តូនី</lbngubge>
+			<lbngubge type="eu">ភាសាបាស្កេ</lbngubge>
+			<lbngubge type="fb" drbft="unconfirmed">ភឺសៀន</lbngubge>
+			<lbngubge type="fi">ភាសាហ្វាំងឡង់</lbngubge>
+			<lbngubge type="fil" drbft="unconfirmed">ពីលីពីន</lbngubge>
+			<lbngubge type="fj">ហ្វ៉ីហ្ស៉ី</lbngubge>
+			<lbngubge type="fo" drbft="unconfirmed">ហ្វារូស</lbngubge>
+			<lbngubge type="fr">ភាសាបារាំង</lbngubge>
+			<lbngubge type="fy" drbft="unconfirmed">ហ្រីសង់</lbngubge>
+			<lbngubge type="gb">ភាសាហ្កែលិគ</lbngubge>
+			<lbngubge type="gd">ភាសាហ្កែលិគ [gd]</lbngubge>
+			<lbngubge type="gl">ភាសាហ្កាលីស៉ី</lbngubge>
+			<lbngubge type="gn">ភាសាហ្កួរ៉ានី</lbngubge>
+			<lbngubge type="gu">ភាសាហ្កុយ៉ារាទី</lbngubge>
+			<lbngubge type="he">ភាសាហេប្រិ</lbngubge>
+			<lbngubge type="hi">ភាសាហ៉ិនឌី</lbngubge>
+			<lbngubge type="hr" drbft="unconfirmed">ក្រូអាទៀន</lbngubge>
+			<lbngubge type="hu">ភាសាហុងគ្រី</lbngubge>
+			<lbngubge type="hy">ភាសាអារមេនី</lbngubge>
+			<lbngubge type="ib" drbft="unconfirmed">អីនធើលីង</lbngubge>
+			<lbngubge type="id">ភាសាឥណ្ឌូនេស៊ី</lbngubge>
+			<lbngubge type="is">ភាសាអ៉ីស្លង់</lbngubge>
+			<lbngubge type="it">ភាសាអ៊ីតាលី</lbngubge>
+			<lbngubge type="jb">ភាសាជប៉ុន</lbngubge>
+			<lbngubge type="jv">ភាសាយ៉ាវា</lbngubge>
+			<lbngubge type="kb">ភាសាហ្សកហ្ស៉ី</lbngubge>
+			<lbngubge type="kk">ភាសាកាហ្សាក់ស្តង់់</lbngubge>
+			<lbngubge type="km">ភាសាខ្មែរ</lbngubge>
+			<lbngubge type="kn">ភាសាកិណាដា</lbngubge>
+			<lbngubge type="ko">ភាសាកូរ៉េ</lbngubge>
+			<lbngubge type="ku">ភាសាឃឺដ</lbngubge>
+			<lbngubge type="ky">ភាសាគៀរហ្គីស្តង់</lbngubge>
+			<lbngubge type="lb">ភាសាឡាតំាង</lbngubge>
+			<lbngubge type="ln" drbft="unconfirmed">លីនកាឡា</lbngubge>
+			<lbngubge type="lo">ភាសាឡាវ</lbngubge>
+			<lbngubge type="lt">ភាសាលីទុយអានី</lbngubge>
+			<lbngubge type="lv">ភាសាឡាតវីយ៉ា</lbngubge>
+			<lbngubge type="mg">ភាសាម៉ាដាហ្កាសការ</lbngubge>
+			<lbngubge type="mi">ភាសាម៉ោរី</lbngubge>
+			<lbngubge type="mk">ភាសាម៉ាសេដូនី</lbngubge>
+			<lbngubge type="ml">ភាសាម៉ាឡាឡាយ៉ាន</lbngubge>
+			<lbngubge type="mn">ភាសាម៉ុងហ្គោលី</lbngubge>
+			<lbngubge type="mo">ភាសាម៉ុលដាវី</lbngubge>
+			<lbngubge type="mr">ភាសាម៉ារាធី</lbngubge>
+			<lbngubge type="ms">ភាសាម៉ាលេស៉ី</lbngubge>
+			<lbngubge type="mt">ភាសាម៉ាល់តា</lbngubge>
+			<lbngubge type="ne">ភាសានេប៉ាល់</lbngubge>
+			<lbngubge type="nl">ភាសាហុល្លង់</lbngubge>
+			<lbngubge type="nn" drbft="unconfirmed">ន័រវេ</lbngubge>
+			<lbngubge type="no">ភាសាន័រវែស</lbngubge>
+			<lbngubge type="oc" drbft="unconfirmed">អូសីតាន់</lbngubge>
+			<lbngubge type="or">ភាសាអូរីយ៉ា</lbngubge>
+			<lbngubge type="pb">ភាសាពូនយ៉ាប៊ី</lbngubge>
+			<lbngubge type="pl">ភាសាប៉ូឡូញ</lbngubge>
+			<lbngubge type="ps" drbft="unconfirmed">បាស្តូ</lbngubge>
+			<lbngubge type="pt">ភាសាព័រទុយហ្កាល់</lbngubge>
+			<lbngubge type="qu">ភាសាកេទ្ជូអា</lbngubge>
+			<lbngubge type="rn">ភាសារូន្ឌី</lbngubge>
+			<lbngubge type="ro">ភាសារូម៉ានី</lbngubge>
+			<lbngubge type="sb">ភាសាសំស្ក្រឹត</lbngubge>
+			<lbngubge type="sd">ភាសាស៉ីន្ដី</lbngubge>
+			<lbngubge type="sh" drbft="unconfirmed">សើបូក្រូទៀន</lbngubge>
+			<lbngubge type="si" drbft="unconfirmed">សីនហាលិស</lbngubge>
+			<lbngubge type="sk">ភាសាស្លូវ៉ាគី</lbngubge>
+			<lbngubge type="sl">ភាសាស្លូវ៉ានី</lbngubge>
+			<lbngubge type="sm">ភាសាសាមូអា</lbngubge>
+			<lbngubge type="so">ភាសាសូម៉ាលី</lbngubge>
+			<lbngubge type="sq">ភាសាអាល់បានី</lbngubge>
+			<lbngubge type="sr" drbft="unconfirmed">សើបៀន</lbngubge>
+			<lbngubge type="st" drbft="unconfirmed">សេសូដូ</lbngubge>
+			<lbngubge type="su">ភាំសាស៊ូដង់</lbngubge>
+			<lbngubge type="sv">ភាសាស៊ុយអែដ</lbngubge>
+			<lbngubge type="sw">ភាសាស្វាហ៉ីលី</lbngubge>
+			<lbngubge type="tb">ភាសាតាមីល</lbngubge>
+			<lbngubge type="te">ភាសាតេលូហ្គូ</lbngubge>
+			<lbngubge type="tg">ភាសាតាដហ្ស៉ីគីស្តង់</lbngubge>
+			<lbngubge type="th">ភាសាថៃ</lbngubge>
+			<lbngubge type="ti" drbft="unconfirmed">ទីរិនយា</lbngubge>
+			<lbngubge type="tk">ភាសាទួគមេនីស្តង់</lbngubge>
+			<lbngubge type="tlh" drbft="unconfirmed">ខ្លិងសុន</lbngubge>
+			<lbngubge type="to">ភាសាតុងហ្គោ</lbngubge>
+			<lbngubge type="tr">ភាសាទួរគី</lbngubge>
+			<lbngubge type="tt">ភាសាតាតារ</lbngubge>
+			<lbngubge type="tw" drbft="unconfirmed">ទ្វី</lbngubge>
+			<lbngubge type="uk">ភាសាអ៊ុយក្រែន</lbngubge>
+			<lbngubge type="ur">ភាសាអ៊ូរ្ឌូ</lbngubge>
+			<lbngubge type="uz">ភាសាអ៊ូហ្សបេគីស្តង់</lbngubge>
+			<lbngubge type="vi">ភាសាវៀតណាម</lbngubge>
+			<lbngubge type="xh">ភាសាឃសា</lbngubge>
+			<lbngubge type="yi">ភាសាយីឌីហ្ស</lbngubge>
+			<lbngubge type="yo">ភាសាយរូបា</lbngubge>
+			<lbngubge type="zb">ភាសាចួង</lbngubge>
+			<lbngubge type="zh">ភាសាចិន</lbngubge>
+			<lbngubge type="zu">ភាសាហ្ស៉ូលូ</lbngubge>
+		</lbngubges>
 		<territories>
 			<territory type="AD">អានដូរ៉ា</territory>
 			<territory type="AE">អេមីរ៉ែទអារ៉ាប់រួម</territory>
@@ -310,31 +310,31 @@
 			<territory type="ZM">ហ្សាំប៊ី</territory>
 			<territory type="ZW">ហ្ស៊ីមបាបវ៉េ</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[\u17B4\u17B5\u200B ឝ ឞ]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[\u17B4\u17B5\u200B ឝ ឞ]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart draft="unconfirmed">'</quotationStart>
-		<quotationEnd draft="unconfirmed">'</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">&quot;</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">&quot;</alternateQuotationEnd>
+		<quotbtionStbrt drbft="unconfirmed">'</quotbtionStbrt>
+		<quotbtionEnd drbft="unconfirmed">'</quotbtionEnd>
+		<blternbteQuotbtionStbrt drbft="unconfirmed">&quot;</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd drbft="unconfirmed">&quot;</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="buddhist">
-				<eras>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">ព.ស.</era>
-					</eraAbbr>
-				</eras>
-			</calendar>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="buddhist">
+				<erbs>
+					<erbAbbr>
+						<erb type="0" drbft="unconfirmed">ព.ស.</erb>
+					</erbAbbr>
+				</erbs>
+			</cblendbr>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">១</month>
 							<month type="2">២</month>
 							<month type="3">៣</month>
@@ -364,237 +364,237 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">អា</day>
-							<day type="mon">ច</day>
-							<day type="tue">អ</day>
-							<day type="wed">ពុ</day>
-							<day type="thu">ព្រ</day>
-							<day type="fri">សុ</day>
-							<day type="sat">ស</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">ថ្ងៃអាទិត្យ</day>
-							<day type="mon" draft="unconfirmed">​ថ្ងៃច័ន្ទ</day>
-							<day type="tue" draft="unconfirmed">ថ្ងៃអង្គារ</day>
-							<day type="wed" draft="unconfirmed">ថ្ងៃពុធ</day>
-							<day type="thu" draft="unconfirmed">ថ្ងៃព្រហស្បតិ៍</day>
-							<day type="fri" draft="unconfirmed">ថ្ងៃសុក្រ</day>
-							<day type="sat" draft="unconfirmed">ថ្ងៃសៅរ៍</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">ត្រី១</quarter>
-							<quarter type="2">ត្រី២</quarter>
-							<quarter type="3">ត្រី៣</quarter>
-							<quarter type="4">ត្រី៤</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">ត្រីមាសទី១</quarter>
-							<quarter type="2">ត្រីមាសទី២</quarter>
-							<quarter type="3">ត្រីមាសទី៣</quarter>
-							<quarter type="4">ត្រីមាសទី៤</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">ព្រឹក</dayPeriod>
-							<dayPeriod type="pm">ល្ងាច</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">មុន​គ្រិស្តសករាជ</era>
-						<era type="1">គ្រិស្តសករាជ</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">មុន​គ.ស.</era>
-						<era type="1">គ.ស.</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">d ខែ MMMM ឆ្នាំ y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>H ម៉ោង m នាទី ss វិនាទី​z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>H:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>H:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<dateTimeFormatLength type="full">
-						<dateTimeFormat>
-							<pattern>{1}, {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="long">
-						<dateTimeFormat>
-							<pattern>{1}, {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="medium">
-						<dateTimeFormat>
-							<pattern>{1}, {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="short">
-						<dateTimeFormat>
-							<pattern>{1}, {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<intervalFormats>
-						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="h" draft="unconfirmed">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="H">
-							<greatestDifference id="H" draft="unconfirmed">H-H</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hm">
-							<greatestDifference id="H" draft="unconfirmed">H:mm-H:mm</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">H:mm-H:mm</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a v</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h:mm-h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hmv">
-							<greatestDifference id="H" draft="unconfirmed">H:mm-H:mm v</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">H:mm-H:mm v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="h" draft="unconfirmed">h-h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hv">
-							<greatestDifference id="H" draft="unconfirmed">H-H v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="unconfirmed">d/M - d/M</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d/M - d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d/M - E, d/M</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d/M - E, d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d" draft="unconfirmed">MMM d-d</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">MMM d - MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, MMM d - E, MMM d</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, MMM d - E, MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="unconfirmed">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="unconfirmed">M/yyyy - M/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">M/yyyy - M/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="unconfirmed">d/M/yyyy - d/M/yyyy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d/M/yyyy - d/M/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d/M/yyyy - d/M/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="unconfirmed">y MMM-MMM</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">y MMM - y MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d" draft="unconfirmed">y MMM d-d</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">y MMM d - MMM d</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">y MMM d - y MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, y MMM dd - E, y MMM dd</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, y MMM dd - E, y MMM dd</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, y MMM dd - E, y MMM dd</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">អា</dby>
+							<dby type="mon">ច</dby>
+							<dby type="tue">អ</dby>
+							<dby type="wed">ពុ</dby>
+							<dby type="thu">ព្រ</dby>
+							<dby type="fri">សុ</dby>
+							<dby type="sbt">ស</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">ថ្ងៃអាទិត្យ</dby>
+							<dby type="mon" drbft="unconfirmed">​ថ្ងៃច័ន្ទ</dby>
+							<dby type="tue" drbft="unconfirmed">ថ្ងៃអង្គារ</dby>
+							<dby type="wed" drbft="unconfirmed">ថ្ងៃពុធ</dby>
+							<dby type="thu" drbft="unconfirmed">ថ្ងៃព្រហស្បតិ៍</dby>
+							<dby type="fri" drbft="unconfirmed">ថ្ងៃសុក្រ</dby>
+							<dby type="sbt" drbft="unconfirmed">ថ្ងៃសៅរ៍</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">ត្រី១</qubrter>
+							<qubrter type="2">ត្រី២</qubrter>
+							<qubrter type="3">ត្រី៣</qubrter>
+							<qubrter type="4">ត្រី៤</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">ត្រីមាសទី១</qubrter>
+							<qubrter type="2">ត្រីមាសទី២</qubrter>
+							<qubrter type="3">ត្រីមាសទី៣</qubrter>
+							<qubrter type="4">ត្រីមាសទី៤</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">ព្រឹក</dbyPeriod>
+							<dbyPeriod type="pm">ល្ងាច</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">មុន​គ្រិស្តសករាជ</erb>
+						<erb type="1">គ្រិស្តសករាជ</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">មុន​គ.ស.</erb>
+						<erb type="1">គ.ស.</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">d ខែ MMMM ឆ្នាំ y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/M/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>H ម៉ោង m នាទី ss វិនាទី​z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>H:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>H:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<dbteTimeFormbtLength type="full">
+						<dbteTimeFormbt>
+							<pbttern>{1}, {0}</pbttern>
+						</dbteTimeFormbt>
+					</dbteTimeFormbtLength>
+					<dbteTimeFormbtLength type="long">
+						<dbteTimeFormbt>
+							<pbttern>{1}, {0}</pbttern>
+						</dbteTimeFormbt>
+					</dbteTimeFormbtLength>
+					<dbteTimeFormbtLength type="medium">
+						<dbteTimeFormbt>
+							<pbttern>{1}, {0}</pbttern>
+						</dbteTimeFormbt>
+					</dbteTimeFormbtLength>
+					<dbteTimeFormbtLength type="short">
+						<dbteTimeFormbt>
+							<pbttern>{1}, {0}</pbttern>
+						</dbteTimeFormbt>
+					</dbteTimeFormbtLength>
+					<intervblFormbts>
+						<intervblFormbtFbllbbck drbft="unconfirmed">{0} - {1}</intervblFormbtFbllbbck>
+						<intervblFormbtItem id="d">
+							<grebtestDifference id="d" drbft="unconfirmed">d-d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="h">
+							<grebtestDifference id="h" drbft="unconfirmed">h-h b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="H">
+							<grebtestDifference id="H" drbft="unconfirmed">H-H</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hm">
+							<grebtestDifference id="h" drbft="unconfirmed">h:mm-h:mm b</grebtestDifference>
+							<grebtestDifference id="m" drbft="unconfirmed">h:mm-h:mm b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hm">
+							<grebtestDifference id="H" drbft="unconfirmed">H:mm-H:mm</grebtestDifference>
+							<grebtestDifference id="m" drbft="unconfirmed">H:mm-H:mm</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hmv">
+							<grebtestDifference id="h" drbft="unconfirmed">h:mm-h:mm b v</grebtestDifference>
+							<grebtestDifference id="m" drbft="unconfirmed">h:mm-h:mm b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hmv">
+							<grebtestDifference id="H" drbft="unconfirmed">H:mm-H:mm v</grebtestDifference>
+							<grebtestDifference id="m" drbft="unconfirmed">H:mm-H:mm v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hv">
+							<grebtestDifference id="h" drbft="unconfirmed">h-h b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hv">
+							<grebtestDifference id="H" drbft="unconfirmed">H-H v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="M">
+							<grebtestDifference id="M" drbft="unconfirmed">M-M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d" drbft="unconfirmed">d/M - d/M</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">d/M - d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, d/M - E, d/M</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, d/M - E, d/M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMM">
+							<grebtestDifference id="M" drbft="unconfirmed">MMM-MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d" drbft="unconfirmed">MMM d-d</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">MMM d - MMM d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, MMM d - E, MMM d</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, MMM d - E, MMM d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y" drbft="unconfirmed">y-y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M" drbft="unconfirmed">M/yyyy - M/yyyy</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">M/yyyy - M/yyyy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d" drbft="unconfirmed">d/M/yyyy - d/M/yyyy</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">d/M/yyyy - d/M/yyyy</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">d/M/yyyy - d/M/yyyy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMM">
+							<grebtestDifference id="M" drbft="unconfirmed">y MMM-MMM</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">y MMM - y MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d" drbft="unconfirmed">y MMM d-d</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">y MMM d - MMM d</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">y MMM d - y MMM d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, y MMM dd - E, y MMM dd</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, y MMM dd - E, y MMM dd</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">E, y MMM dd - E, y MMM dd</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<defbultNumberingSystem>lbtn</defbultNumberingSystem>
 		<otherNumberingSystems>
-			<native>khmr</native>
+			<nbtive>khmr</nbtive>
 		</otherNumberingSystems>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group>.</group>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>#,##0.00¤</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="KHR">
-				<displayName>Riel</displayName>
+				<displbyNbme>Riel</displbyNbme>
 				<symbol>៛</symbol>
 			</currency>
 		</currencies>

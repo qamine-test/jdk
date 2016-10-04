@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.io.IOException;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
-import static sun.nio.ch.EPoll.*;
+import jbvb.nio.chbnnels.spi.AsynchronousChbnnelProvider;
+import jbvb.io.IOException;
+import jbvb.util.concurrent.ArrbyBlockingQueue;
+import jbvb.util.concurrent.RejectedExecutionException;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import stbtic sun.nio.ch.EPoll.*;
 
 /**
- * AsynchronousChannelGroup implementation based on the Linux epoll facility.
+ * AsynchronousChbnnelGroup implementbtion bbsed on the Linux epoll fbcility.
  */
 
-final class EPollPort
+finbl clbss EPollPort
     extends Port
 {
-    // maximum number of events to poll at a time
-    private static final int MAX_EPOLL_EVENTS = 512;
+    // mbximum number of events to poll bt b time
+    privbte stbtic finbl int MAX_EPOLL_EVENTS = 512;
 
     // errors
-    private static final int ENOENT     = 2;
+    privbte stbtic finbl int ENOENT     = 2;
 
     // epoll file descriptor
-    private final int epfd;
+    privbte finbl int epfd;
 
     // true if epoll closed
-    private boolean closed;
+    privbte boolebn closed;
 
-    // socket pair used for wakeup
-    private final int sp[];
+    // socket pbir used for wbkeup
+    privbte finbl int sp[];
 
-    // number of wakeups pending
-    private final AtomicInteger wakeupCount = new AtomicInteger();
+    // number of wbkeups pending
+    privbte finbl AtomicInteger wbkeupCount = new AtomicInteger();
 
-    // address of the poll array passed to epoll_wait
-    private final long address;
+    // bddress of the poll brrby pbssed to epoll_wbit
+    privbte finbl long bddress;
 
-    // encapsulates an event for a channel
-    static class Event {
-        final PollableChannel channel;
-        final int events;
+    // encbpsulbtes bn event for b chbnnel
+    stbtic clbss Event {
+        finbl PollbbleChbnnel chbnnel;
+        finbl int events;
 
-        Event(PollableChannel channel, int events) {
-            this.channel = channel;
+        Event(PollbbleChbnnel chbnnel, int events) {
+            this.chbnnel = chbnnel;
             this.events = events;
         }
 
-        PollableChannel channel()   { return channel; }
+        PollbbleChbnnel chbnnel()   { return chbnnel; }
         int events()                { return events; }
     }
 
-    // queue of events for cases that a polling thread dequeues more than one
+    // queue of events for cbses thbt b polling threbd dequeues more thbn one
     // event
-    private final ArrayBlockingQueue<Event> queue;
-    private final Event NEED_TO_POLL = new Event(null, 0);
-    private final Event EXECUTE_TASK_OR_SHUTDOWN = new Event(null, 0);
+    privbte finbl ArrbyBlockingQueue<Event> queue;
+    privbte finbl Event NEED_TO_POLL = new Event(null, 0);
+    privbte finbl Event EXECUTE_TASK_OR_SHUTDOWN = new Event(null, 0);
 
-    EPollPort(AsynchronousChannelProvider provider, ThreadPool pool)
+    EPollPort(AsynchronousChbnnelProvider provider, ThrebdPool pool)
         throws IOException
     {
         super(provider, pool);
 
         // open epoll
-        this.epfd = epollCreate();
+        this.epfd = epollCrebte();
 
-        // create socket pair for wakeup mechanism
+        // crebte socket pbir for wbkeup mechbnism
         int[] sv = new int[2];
         try {
-            socketpair(sv);
+            socketpbir(sv);
             // register one end with epoll
             epollCtl(epfd, EPOLL_CTL_ADD, sv[0], Net.POLLIN);
-        } catch (IOException x) {
+        } cbtch (IOException x) {
             close0(epfd);
             throw x;
         }
         this.sp = sv;
 
-        // allocate the poll array
-        this.address = allocatePollArray(MAX_EPOLL_EVENTS);
+        // bllocbte the poll brrby
+        this.bddress = bllocbtePollArrby(MAX_EPOLL_EVENTS);
 
-        // create the queue and offer the special event to ensure that the first
-        // threads polls
-        this.queue = new ArrayBlockingQueue<Event>(MAX_EPOLL_EVENTS);
+        // crebte the queue bnd offer the specibl event to ensure thbt the first
+        // threbds polls
+        this.queue = new ArrbyBlockingQueue<Event>(MAX_EPOLL_EVENTS);
         this.queue.offer(NEED_TO_POLL);
     }
 
-    EPollPort start() {
-        startThreads(new EventHandlerTask());
+    EPollPort stbrt() {
+        stbrtThrebds(new EventHbndlerTbsk());
         return this;
     }
 
     /**
-     * Release all resources
+     * Relebse bll resources
      */
-    private void implClose() {
+    privbte void implClose() {
         synchronized (this) {
             if (closed)
                 return;
             closed = true;
         }
-        freePollArray(address);
+        freePollArrby(bddress);
         close0(sp[0]);
         close0(sp[1]);
         close0(epfd);
     }
 
-    private void wakeup() {
-        if (wakeupCount.incrementAndGet() == 1) {
-            // write byte to socketpair to force wakeup
+    privbte void wbkeup() {
+        if (wbkeupCount.incrementAndGet() == 1) {
+            // write byte to socketpbir to force wbkeup
             try {
                 interrupt(sp[1]);
-            } catch (IOException x) {
+            } cbtch (IOException x) {
                 throw new AssertionError(x);
             }
         }
     }
 
     @Override
-    void executeOnHandlerTask(Runnable task) {
+    void executeOnHbndlerTbsk(Runnbble tbsk) {
         synchronized (this) {
             if (closed)
                 throw new RejectedExecutionException();
-            offerTask(task);
-            wakeup();
+            offerTbsk(tbsk);
+            wbkeup();
         }
     }
 
     @Override
-    void shutdownHandlerTasks() {
+    void shutdownHbndlerTbsks() {
         /*
-         * If no tasks are running then just release resources; otherwise
-         * write to the one end of the socketpair to wakeup any polling threads.
+         * If no tbsks bre running then just relebse resources; otherwise
+         * write to the one end of the socketpbir to wbkeup bny polling threbds.
          */
-        int nThreads = threadCount();
-        if (nThreads == 0) {
+        int nThrebds = threbdCount();
+        if (nThrebds == 0) {
             implClose();
         } else {
-            // send interrupt to each thread
-            while (nThreads-- > 0) {
-                wakeup();
+            // send interrupt to ebch threbd
+            while (nThrebds-- > 0) {
+                wbkeup();
             }
         }
     }
 
-    // invoke by clients to register a file descriptor
+    // invoke by clients to register b file descriptor
     @Override
-    void startPoll(int fd, int events) {
-        // update events (or add to epoll on first usage)
+    void stbrtPoll(int fd, int events) {
+        // updbte events (or bdd to epoll on first usbge)
         int err = epollCtl(epfd, EPOLL_CTL_MOD, fd, (events | EPOLLONESHOT));
         if (err == ENOENT)
             err = epollCtl(epfd, EPOLL_CTL_ADD, fd, (events | EPOLLONESHOT));
         if (err != 0)
-            throw new AssertionError();     // should not happen
+            throw new AssertionError();     // should not hbppen
     }
 
     /*
-     * Task to process events from epoll and dispatch to the channel's
-     * onEvent handler.
+     * Tbsk to process events from epoll bnd dispbtch to the chbnnel's
+     * onEvent hbndler.
      *
-     * Events are retreived from epoll in batch and offered to a BlockingQueue
-     * where they are consumed by handler threads. A special "NEED_TO_POLL"
-     * event is used to signal one consumer to re-poll when all events have
+     * Events bre retreived from epoll in bbtch bnd offered to b BlockingQueue
+     * where they bre consumed by hbndler threbds. A specibl "NEED_TO_POLL"
+     * event is used to signbl one consumer to re-poll when bll events hbve
      * been consumed.
      */
-    private class EventHandlerTask implements Runnable {
-        private Event poll() throws IOException {
+    privbte clbss EventHbndlerTbsk implements Runnbble {
+        privbte Event poll() throws IOException {
             try {
                 for (;;) {
-                    int n = epollWait(epfd, address, MAX_EPOLL_EVENTS);
+                    int n = epollWbit(epfd, bddress, MAX_EPOLL_EVENTS);
                     /*
-                     * 'n' events have been read. Here we map them to their
-                     * corresponding channel in batch and queue n-1 so that
-                     * they can be handled by other handler threads. The last
-                     * event is handled by this thread (and so is not queued).
+                     * 'n' events hbve been rebd. Here we mbp them to their
+                     * corresponding chbnnel in bbtch bnd queue n-1 so thbt
+                     * they cbn be hbndled by other hbndler threbds. The lbst
+                     * event is hbndled by this threbd (bnd so is not queued).
                      */
-                    fdToChannelLock.readLock().lock();
+                    fdToChbnnelLock.rebdLock().lock();
                     try {
                         while (n-- > 0) {
-                            long eventAddress = getEvent(address, n);
+                            long eventAddress = getEvent(bddress, n);
                             int fd = getDescriptor(eventAddress);
 
-                            // wakeup
+                            // wbkeup
                             if (fd == sp[0]) {
-                                if (wakeupCount.decrementAndGet() == 0) {
-                                    // no more wakeups so drain pipe
-                                    drain1(sp[0]);
+                                if (wbkeupCount.decrementAndGet() == 0) {
+                                    // no more wbkeups so drbin pipe
+                                    drbin1(sp[0]);
                                 }
 
-                                // queue special event if there are more events
-                                // to handle.
+                                // queue specibl event if there bre more events
+                                // to hbndle.
                                 if (n > 0) {
                                     queue.offer(EXECUTE_TASK_OR_SHUTDOWN);
                                     continue;
@@ -220,13 +220,13 @@ final class EPollPort
                                 return EXECUTE_TASK_OR_SHUTDOWN;
                             }
 
-                            PollableChannel channel = fdToChannel.get(fd);
-                            if (channel != null) {
+                            PollbbleChbnnel chbnnel = fdToChbnnel.get(fd);
+                            if (chbnnel != null) {
                                 int events = getEvents(eventAddress);
-                                Event ev = new Event(channel, events);
+                                Event ev = new Event(chbnnel, events);
 
-                                // n-1 events are queued; This thread handles
-                                // the last one except for the wakeup
+                                // n-1 events bre queued; This threbd hbndles
+                                // the lbst one except for the wbkeup
                                 if (n > 0) {
                                     queue.offer(ev);
                                 } else {
@@ -234,12 +234,12 @@ final class EPollPort
                                 }
                             }
                         }
-                    } finally {
-                        fdToChannelLock.readLock().unlock();
+                    } finblly {
+                        fdToChbnnelLock.rebdLock().unlock();
                     }
                 }
-            } finally {
-                // to ensure that some thread will poll when all events have
+            } finblly {
+                // to ensure thbt some threbd will poll when bll events hbve
                 // been consumed
                 queue.offer(NEED_TO_POLL);
             }
@@ -248,76 +248,76 @@ final class EPollPort
         public void run() {
             Invoker.GroupAndInvokeCount myGroupAndInvokeCount =
                 Invoker.getGroupAndInvokeCount();
-            final boolean isPooledThread = (myGroupAndInvokeCount != null);
-            boolean replaceMe = false;
+            finbl boolebn isPooledThrebd = (myGroupAndInvokeCount != null);
+            boolebn replbceMe = fblse;
             Event ev;
             try {
                 for (;;) {
                     // reset invoke count
-                    if (isPooledThread)
+                    if (isPooledThrebd)
                         myGroupAndInvokeCount.resetInvokeCount();
 
                     try {
-                        replaceMe = false;
-                        ev = queue.take();
+                        replbceMe = fblse;
+                        ev = queue.tbke();
 
-                        // no events and this thread has been "selected" to
+                        // no events bnd this threbd hbs been "selected" to
                         // poll for more.
                         if (ev == NEED_TO_POLL) {
                             try {
                                 ev = poll();
-                            } catch (IOException x) {
-                                x.printStackTrace();
+                            } cbtch (IOException x) {
+                                x.printStbckTrbce();
                                 return;
                             }
                         }
-                    } catch (InterruptedException x) {
+                    } cbtch (InterruptedException x) {
                         continue;
                     }
 
-                    // handle wakeup to execute task or shutdown
+                    // hbndle wbkeup to execute tbsk or shutdown
                     if (ev == EXECUTE_TASK_OR_SHUTDOWN) {
-                        Runnable task = pollTask();
-                        if (task == null) {
+                        Runnbble tbsk = pollTbsk();
+                        if (tbsk == null) {
                             // shutdown request
                             return;
                         }
-                        // run task (may throw error/exception)
-                        replaceMe = true;
-                        task.run();
+                        // run tbsk (mby throw error/exception)
+                        replbceMe = true;
+                        tbsk.run();
                         continue;
                     }
 
                     // process event
                     try {
-                        ev.channel().onEvent(ev.events(), isPooledThread);
-                    } catch (Error x) {
-                        replaceMe = true; throw x;
-                    } catch (RuntimeException x) {
-                        replaceMe = true; throw x;
+                        ev.chbnnel().onEvent(ev.events(), isPooledThrebd);
+                    } cbtch (Error x) {
+                        replbceMe = true; throw x;
+                    } cbtch (RuntimeException x) {
+                        replbceMe = true; throw x;
                     }
                 }
-            } finally {
-                // last handler to exit when shutdown releases resources
-                int remaining = threadExit(this, replaceMe);
-                if (remaining == 0 && isShutdown()) {
+            } finblly {
+                // lbst hbndler to exit when shutdown relebses resources
+                int rembining = threbdExit(this, replbceMe);
+                if (rembining == 0 && isShutdown()) {
                     implClose();
                 }
             }
         }
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native void socketpair(int[] sv) throws IOException;
+    privbte stbtic nbtive void socketpbir(int[] sv) throws IOException;
 
-    private static native void interrupt(int fd) throws IOException;
+    privbte stbtic nbtive void interrupt(int fd) throws IOException;
 
-    private static native void drain1(int fd) throws IOException;
+    privbte stbtic nbtive void drbin1(int fd) throws IOException;
 
-    private static native void close0(int fd);
+    privbte stbtic nbtive void close0(int fd);
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
     }
 }

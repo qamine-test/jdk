@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.InvalidKeyException;
-import javax.crypto.*;
+import jbvb.security.InvblidKeyException;
+import jbvbx.crypto.*;
 
 /**
- * This class represents a block cipher in one of its modes. It wraps
- * a SymmetricCipher maintaining the mode state and providing
- * the capability to encrypt amounts of data larger than a single block.
+ * This clbss represents b block cipher in one of its modes. It wrbps
+ * b SymmetricCipher mbintbining the mode stbte bnd providing
+ * the cbpbbility to encrypt bmounts of dbtb lbrger thbn b single block.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  * @see ElectronicCodeBook
- * @see CipherBlockChaining
- * @see CipherFeedback
- * @see OutputFeedback
+ * @see CipherBlockChbining
+ * @see CipherFeedbbck
+ * @see OutputFeedbbck
  * @see PCBC
  */
-abstract class FeedbackCipher {
+bbstrbct clbss FeedbbckCipher {
 
     // the embedded block cipher
-    final SymmetricCipher embeddedCipher;
+    finbl SymmetricCipher embeddedCipher;
 
     // the block size of the embedded block cipher
-    final int blockSize;
+    finbl int blockSize;
 
-    // the initialization vector
+    // the initiblizbtion vector
     byte[] iv;
 
-    FeedbackCipher(SymmetricCipher embeddedCipher) {
+    FeedbbckCipher(SymmetricCipher embeddedCipher) {
         this.embeddedCipher = embeddedCipher;
         blockSize = embeddedCipher.getBlockSize();
     }
 
-    final SymmetricCipher getEmbeddedCipher() {
+    finbl SymmetricCipher getEmbeddedCipher() {
         return embeddedCipher;
     }
 
@@ -65,179 +65,179 @@ abstract class FeedbackCipher {
      *
      * @return the block size of the embedded cipher
      */
-    final int getBlockSize() {
+    finbl int getBlockSize() {
         return blockSize;
     }
 
     /**
-     * Gets the name of the feedback mechanism
+     * Gets the nbme of the feedbbck mechbnism
      *
-     * @return the name of the feedback mechanism
+     * @return the nbme of the feedbbck mechbnism
      */
-    abstract String getFeedback();
+    bbstrbct String getFeedbbck();
 
     /**
-     * Save the current content of this cipher.
+     * Sbve the current content of this cipher.
      */
-    abstract void save();
+    bbstrbct void sbve();
 
     /**
-     * Restores the content of this cipher to the previous saved one.
+     * Restores the content of this cipher to the previous sbved one.
      */
-    abstract void restore();
+    bbstrbct void restore();
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
+     * Initiblizes the cipher in the specified mode with the given key
+     * bnd iv.
      *
-     * @param decrypting flag indicating encryption or decryption mode
-     * @param algorithm the algorithm name (never null)
-     * @param key the key (never null)
-     * @param iv the iv (either null or blockSize bytes long)
+     * @pbrbm decrypting flbg indicbting encryption or decryption mode
+     * @pbrbm blgorithm the blgorithm nbme (never null)
+     * @pbrbm key the key (never null)
+     * @pbrbm iv the iv (either null or blockSize bytes long)
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher
      */
-    abstract void init(boolean decrypting, String algorithm, byte[] key,
-                       byte[] iv) throws InvalidKeyException;
+    bbstrbct void init(boolebn decrypting, String blgorithm, byte[] key,
+                       byte[] iv) throws InvblidKeyException;
 
    /**
-     * Gets the initialization vector.
+     * Gets the initiblizbtion vector.
      *
-     * @return the initialization vector
+     * @return the initiblizbtion vector
      */
-    final byte[] getIV() {
+    finbl byte[] getIV() {
         return iv;
     }
 
     /**
-     * Resets the iv to its original value.
-     * This is used when doFinal is called in the Cipher class, so that the
-     * cipher can be reused (with its original iv).
+     * Resets the iv to its originbl vblue.
+     * This is used when doFinbl is cblled in the Cipher clbss, so thbt the
+     * cipher cbn be reused (with its originbl iv).
      */
-    abstract void reset();
+    bbstrbct void reset();
 
     /**
-     * Performs encryption operation.
+     * Performs encryption operbtion.
      *
-     * <p>The input <code>plain</code>, starting at <code>plainOffset</code>
-     * and ending at <code>(plainOffset+plainLen-1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
+     * <p>The input <code>plbin</code>, stbrting bt <code>plbinOffset</code>
+     * bnd ending bt <code>(plbinOffset+plbinLen-1)</code>, is encrypted.
+     * The result is stored in <code>cipher</code>, stbrting bt
      * <code>cipherOffset</code>.
      *
-     * <p>The subclass that implements Cipher should ensure that
-     * <code>init</code> has been called before this method is called.
+     * <p>The subclbss thbt implements Cipher should ensure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
      *
-     * @param plain the input buffer with the data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param plainLen the length of the input data
-     * @param cipher the buffer for the encryption result
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @return the number of bytes placed into <code>cipher</code>
+     * @pbrbm plbin the input buffer with the dbtb to be encrypted
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
+     * @pbrbm plbinLen the length of the input dbtb
+     * @pbrbm cipher the buffer for the encryption result
+     * @pbrbm cipherOffset the offset in <code>cipher</code>
+     * @return the number of bytes plbced into <code>cipher</code>
      */
-    abstract int encrypt(byte[] plain, int plainOffset, int plainLen,
+    bbstrbct int encrypt(byte[] plbin, int plbinOffset, int plbinLen,
                          byte[] cipher, int cipherOffset);
     /**
-     * Performs encryption operation for the last time.
+     * Performs encryption operbtion for the lbst time.
      *
-     * <p>NOTE: For cipher feedback modes which does not perform
-     * special handling for the last few blocks, this is essentially
-     * the same as <code>encrypt(...)</code>. Given most modes do
-     * not do special handling, the default impl for this method is
-     * to simply call <code>encrypt(...)</code>.
+     * <p>NOTE: For cipher feedbbck modes which does not perform
+     * specibl hbndling for the lbst few blocks, this is essentiblly
+     * the sbme bs <code>encrypt(...)</code>. Given most modes do
+     * not do specibl hbndling, the defbult impl for this method is
+     * to simply cbll <code>encrypt(...)</code>.
      *
-     * @param plain the input buffer with the data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param plainLen the length of the input data
-     * @param cipher the buffer for the encryption result
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @return the number of bytes placed into <code>cipher</code>
+     * @pbrbm plbin the input buffer with the dbtb to be encrypted
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
+     * @pbrbm plbinLen the length of the input dbtb
+     * @pbrbm cipher the buffer for the encryption result
+     * @pbrbm cipherOffset the offset in <code>cipher</code>
+     * @return the number of bytes plbced into <code>cipher</code>
      */
-     int encryptFinal(byte[] plain, int plainOffset, int plainLen,
+     int encryptFinbl(byte[] plbin, int plbinOffset, int plbinLen,
                       byte[] cipher, int cipherOffset)
-         throws IllegalBlockSizeException, ShortBufferException {
-         return encrypt(plain, plainOffset, plainLen, cipher, cipherOffset);
+         throws IllegblBlockSizeException, ShortBufferException {
+         return encrypt(plbin, plbinOffset, plbinLen, cipher, cipherOffset);
     }
     /**
-     * Performs decryption operation.
+     * Performs decryption operbtion.
      *
-     * <p>The input <code>cipher</code>, starting at <code>cipherOffset</code>
-     * and ending at <code>(cipherOffset+cipherLen-1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * <p>The input <code>cipher</code>, stbrting bt <code>cipherOffset</code>
+     * bnd ending bt <code>(cipherOffset+cipherLen-1)</code>, is decrypted.
+     * The result is stored in <code>plbin</code>, stbrting bt
+     * <code>plbinOffset</code>.
      *
-     * <p>The subclass that implements Cipher should ensure that
-     * <code>init</code> has been called before this method is called.
+     * <p>The subclbss thbt implements Cipher should ensure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
      *
-     * @param cipher the input buffer with the data to be decrypted
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @param cipherLen the length of the input data
-     * @param plain the buffer for the decryption result
-     * @param plainOffset the offset in <code>plain</code>
-     * @return the number of bytes placed into <code>plain</code>
+     * @pbrbm cipher the input buffer with the dbtb to be decrypted
+     * @pbrbm cipherOffset the offset in <code>cipher</code>
+     * @pbrbm cipherLen the length of the input dbtb
+     * @pbrbm plbin the buffer for the decryption result
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
+     * @return the number of bytes plbced into <code>plbin</code>
      */
-    abstract int decrypt(byte[] cipher, int cipherOffset, int cipherLen,
-                         byte[] plain, int plainOffset);
+    bbstrbct int decrypt(byte[] cipher, int cipherOffset, int cipherLen,
+                         byte[] plbin, int plbinOffset);
 
     /**
-     * Performs decryption operation for the last time.
+     * Performs decryption operbtion for the lbst time.
      *
-     * <p>NOTE: For cipher feedback modes which does not perform
-     * special handling for the last few blocks, this is essentially
-     * the same as <code>encrypt(...)</code>. Given most modes do
-     * not do special handling, the default impl for this method is
-     * to simply call <code>decrypt(...)</code>.
+     * <p>NOTE: For cipher feedbbck modes which does not perform
+     * specibl hbndling for the lbst few blocks, this is essentiblly
+     * the sbme bs <code>encrypt(...)</code>. Given most modes do
+     * not do specibl hbndling, the defbult impl for this method is
+     * to simply cbll <code>decrypt(...)</code>.
      *
-     * @param cipher the input buffer with the data to be decrypted
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @param cipherLen the length of the input data
-     * @param plain the buffer for the decryption result
-     * @param plainOffset the offset in <code>plain</code>
-     * @return the number of bytes placed into <code>plain</code>
+     * @pbrbm cipher the input buffer with the dbtb to be decrypted
+     * @pbrbm cipherOffset the offset in <code>cipher</code>
+     * @pbrbm cipherLen the length of the input dbtb
+     * @pbrbm plbin the buffer for the decryption result
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
+     * @return the number of bytes plbced into <code>plbin</code>
      */
-     int decryptFinal(byte[] cipher, int cipherOffset, int cipherLen,
-                      byte[] plain, int plainOffset)
-         throws IllegalBlockSizeException, AEADBadTagException,
+     int decryptFinbl(byte[] cipher, int cipherOffset, int cipherLen,
+                      byte[] plbin, int plbinOffset)
+         throws IllegblBlockSizeException, AEADBbdTbgException,
          ShortBufferException {
-         return decrypt(cipher, cipherOffset, cipherLen, plain, plainOffset);
+         return decrypt(cipher, cipherOffset, cipherLen, plbin, plbinOffset);
      }
 
     /**
-     * Continues a multi-part update of the Additional Authentication
-     * Data (AAD), using a subset of the provided buffer. If this
-     * cipher is operating in either GCM or CCM mode, all AAD must be
-     * supplied before beginning operations on the ciphertext (via the
-     * {@code update} and {@code doFinal} methods).
+     * Continues b multi-pbrt updbte of the Additionbl Authenticbtion
+     * Dbtb (AAD), using b subset of the provided buffer. If this
+     * cipher is operbting in either GCM or CCM mode, bll AAD must be
+     * supplied before beginning operbtions on the ciphertext (vib the
+     * {@code updbte} bnd {@code doFinbl} methods).
      * <p>
-     * NOTE: Given most modes do not accept AAD, default impl for this
-     * method throws IllegalStateException.
+     * NOTE: Given most modes do not bccept AAD, defbult impl for this
+     * method throws IllegblStbteException.
      *
-     * @param src the buffer containing the AAD
-     * @param offset the offset in {@code src} where the AAD input starts
-     * @param len the number of AAD bytes
+     * @pbrbm src the buffer contbining the AAD
+     * @pbrbm offset the offset in {@code src} where the AAD input stbrts
+     * @pbrbm len the number of AAD bytes
      *
-     * @throws IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized), does not accept AAD, or if
-     * operating in either GCM or CCM mode and one of the {@code update}
-     * methods has already been called for the active
-     * encryption/decryption operation
-     * @throws UnsupportedOperationException if this method
-     * has not been overridden by an implementation
+     * @throws IllegblStbteException if this cipher is in b wrong stbte
+     * (e.g., hbs not been initiblized), does not bccept AAD, or if
+     * operbting in either GCM or CCM mode bnd one of the {@code updbte}
+     * methods hbs blrebdy been cblled for the bctive
+     * encryption/decryption operbtion
+     * @throws UnsupportedOperbtionException if this method
+     * hbs not been overridden by bn implementbtion
      *
      * @since 1.8
      */
-    void updateAAD(byte[] src, int offset, int len) {
-        throw new IllegalStateException("No AAD accepted");
+    void updbteAAD(byte[] src, int offset, int len) {
+        throw new IllegblStbteException("No AAD bccepted");
     }
 
     /**
-     * @return the number of bytes that are buffered internally inside
-     * this FeedbackCipher instance.
+     * @return the number of bytes thbt bre buffered internblly inside
+     * this FeedbbckCipher instbnce.
      * @since 1.8
      */
     int getBufferedLength() {
-        // Currently only AEAD cipher impl, e.g. GCM, buffers data
-        // internally during decryption mode
+        // Currently only AEAD cipher impl, e.g. GCM, buffers dbtb
+        // internblly during decryption mode
         return 0;
     }
 }

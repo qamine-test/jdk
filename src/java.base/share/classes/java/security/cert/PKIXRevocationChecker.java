@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import jbvb.net.URI;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Set;
 
 /**
- * A {@code PKIXCertPathChecker} for checking the revocation status of
- * certificates with the PKIX algorithm.
+ * A {@code PKIXCertPbthChecker} for checking the revocbtion stbtus of
+ * certificbtes with the PKIX blgorithm.
  *
- * <p>A {@code PKIXRevocationChecker} checks the revocation status of
- * certificates with the Online Certificate Status Protocol (OCSP) or
- * Certificate Revocation Lists (CRLs). OCSP is described in RFC 2560 and
- * is a network protocol for determining the status of a certificate. A CRL
- * is a time-stamped list identifying revoked certificates, and RFC 5280
- * describes an algorithm for determining the revocation status of certificates
+ * <p>A {@code PKIXRevocbtionChecker} checks the revocbtion stbtus of
+ * certificbtes with the Online Certificbte Stbtus Protocol (OCSP) or
+ * Certificbte Revocbtion Lists (CRLs). OCSP is described in RFC 2560 bnd
+ * is b network protocol for determining the stbtus of b certificbte. A CRL
+ * is b time-stbmped list identifying revoked certificbtes, bnd RFC 5280
+ * describes bn blgorithm for determining the revocbtion stbtus of certificbtes
  * using CRLs.
  *
- * <p>Each {@code PKIXRevocationChecker} must be able to check the revocation
- * status of certificates with OCSP and CRLs. By default, OCSP is the
- * preferred mechanism for checking revocation status, with CRLs as the
- * fallback mechanism. However, this preference can be switched to CRLs with
- * the {@link Option#PREFER_CRLS PREFER_CRLS} option. In addition, the fallback
- * mechanism can be disabled with the {@link Option#NO_FALLBACK NO_FALLBACK}
+ * <p>Ebch {@code PKIXRevocbtionChecker} must be bble to check the revocbtion
+ * stbtus of certificbtes with OCSP bnd CRLs. By defbult, OCSP is the
+ * preferred mechbnism for checking revocbtion stbtus, with CRLs bs the
+ * fbllbbck mechbnism. However, this preference cbn be switched to CRLs with
+ * the {@link Option#PREFER_CRLS PREFER_CRLS} option. In bddition, the fbllbbck
+ * mechbnism cbn be disbbled with the {@link Option#NO_FALLBACK NO_FALLBACK}
  * option.
  *
- * <p>A {@code PKIXRevocationChecker} is obtained by calling the
- * {@link CertPathValidator#getRevocationChecker getRevocationChecker} method
- * of a PKIX {@code CertPathValidator}. Additional parameters and options
- * specific to revocation can be set (by calling the
- * {@link #setOcspResponder setOcspResponder} method for instance). The
- * {@code PKIXRevocationChecker} is added to a {@code PKIXParameters} object
- * using the {@link PKIXParameters#addCertPathChecker addCertPathChecker}
- * or {@link PKIXParameters#setCertPathCheckers setCertPathCheckers} method,
- * and then the {@code PKIXParameters} is passed along with the {@code CertPath}
- * to be validated to the {@link CertPathValidator#validate validate} method
- * of a PKIX {@code CertPathValidator}. When supplying a revocation checker in
- * this manner, it will be used to check revocation irrespective of the setting
- * of the {@link PKIXParameters#isRevocationEnabled RevocationEnabled} flag.
- * Similarly, a {@code PKIXRevocationChecker} may be added to a
- * {@code PKIXBuilderParameters} object for use with a PKIX
- * {@code CertPathBuilder}.
+ * <p>A {@code PKIXRevocbtionChecker} is obtbined by cblling the
+ * {@link CertPbthVblidbtor#getRevocbtionChecker getRevocbtionChecker} method
+ * of b PKIX {@code CertPbthVblidbtor}. Additionbl pbrbmeters bnd options
+ * specific to revocbtion cbn be set (by cblling the
+ * {@link #setOcspResponder setOcspResponder} method for instbnce). The
+ * {@code PKIXRevocbtionChecker} is bdded to b {@code PKIXPbrbmeters} object
+ * using the {@link PKIXPbrbmeters#bddCertPbthChecker bddCertPbthChecker}
+ * or {@link PKIXPbrbmeters#setCertPbthCheckers setCertPbthCheckers} method,
+ * bnd then the {@code PKIXPbrbmeters} is pbssed blong with the {@code CertPbth}
+ * to be vblidbted to the {@link CertPbthVblidbtor#vblidbte vblidbte} method
+ * of b PKIX {@code CertPbthVblidbtor}. When supplying b revocbtion checker in
+ * this mbnner, it will be used to check revocbtion irrespective of the setting
+ * of the {@link PKIXPbrbmeters#isRevocbtionEnbbled RevocbtionEnbbled} flbg.
+ * Similbrly, b {@code PKIXRevocbtionChecker} mby be bdded to b
+ * {@code PKIXBuilderPbrbmeters} object for use with b PKIX
+ * {@code CertPbthBuilder}.
  *
- * <p>Note that when a {@code PKIXRevocationChecker} is added to
- * {@code PKIXParameters}, it clones the {@code PKIXRevocationChecker};
- * thus any subsequent modifications to the {@code PKIXRevocationChecker}
- * have no effect.
+ * <p>Note thbt when b {@code PKIXRevocbtionChecker} is bdded to
+ * {@code PKIXPbrbmeters}, it clones the {@code PKIXRevocbtionChecker};
+ * thus bny subsequent modificbtions to the {@code PKIXRevocbtionChecker}
+ * hbve no effect.
  *
- * <p>Any parameter that is not set (or is set to {@code null}) will be set to
- * the default value for that parameter.
+ * <p>Any pbrbmeter thbt is not set (or is set to {@code null}) will be set to
+ * the defbult vblue for thbt pbrbmeter.
  *
  * <p><b>Concurrent Access</b>
  *
- * <p>Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single object
- * concurrently should synchronize amongst themselves and provide the
- * necessary locking. Multiple threads each manipulating separate objects
+ * <p>Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single object
+ * concurrently should synchronize bmongst themselves bnd provide the
+ * necessbry locking. Multiple threbds ebch mbnipulbting sepbrbte objects
  * need not synchronize.
  *
  * @since 1.8
  *
- * @see <a href="http://www.ietf.org/rfc/rfc2560.txt"><i>RFC&nbsp;2560: X.509
- * Internet Public Key Infrastructure Online Certificate Status Protocol -
- * OCSP</i></a>, <br><a
+ * @see <b href="http://www.ietf.org/rfc/rfc2560.txt"><i>RFC&nbsp;2560: X.509
+ * Internet Public Key Infrbstructure Online Certificbte Stbtus Protocol -
+ * OCSP</i></b>, <br><b
  * href="http://www.ietf.org/rfc/rfc5280.txt"><i>RFC&nbsp;5280: Internet X.509
- * Public Key Infrastructure Certificate and Certificate Revocation List (CRL)
- * Profile</i></a>
+ * Public Key Infrbstructure Certificbte bnd Certificbte Revocbtion List (CRL)
+ * Profile</i></b>
  */
-public abstract class PKIXRevocationChecker extends PKIXCertPathChecker {
-    private URI ocspResponder;
-    private X509Certificate ocspResponderCert;
-    private List<Extension> ocspExtensions = Collections.<Extension>emptyList();
-    private Map<X509Certificate, byte[]> ocspResponses = Collections.emptyMap();
-    private Set<Option> options = Collections.emptySet();
+public bbstrbct clbss PKIXRevocbtionChecker extends PKIXCertPbthChecker {
+    privbte URI ocspResponder;
+    privbte X509Certificbte ocspResponderCert;
+    privbte List<Extension> ocspExtensions = Collections.<Extension>emptyList();
+    privbte Mbp<X509Certificbte, byte[]> ocspResponses = Collections.emptyMbp();
+    privbte Set<Option> options = Collections.emptySet();
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
-    protected PKIXRevocationChecker() {}
+    protected PKIXRevocbtionChecker() {}
 
     /**
-     * Sets the URI that identifies the location of the OCSP responder. This
-     * overrides the {@code ocsp.responderURL} security property and any
-     * responder specified in a certificate's Authority Information Access
-     * Extension, as defined in RFC 5280.
+     * Sets the URI thbt identifies the locbtion of the OCSP responder. This
+     * overrides the {@code ocsp.responderURL} security property bnd bny
+     * responder specified in b certificbte's Authority Informbtion Access
+     * Extension, bs defined in RFC 5280.
      *
-     * @param uri the responder URI
+     * @pbrbm uri the responder URI
      */
     public void setOcspResponder(URI uri) {
         this.ocspResponder = uri;
     }
 
     /**
-     * Gets the URI that identifies the location of the OCSP responder. This
+     * Gets the URI thbt identifies the locbtion of the OCSP responder. This
      * overrides the {@code ocsp.responderURL} security property. If this
-     * parameter or the {@code ocsp.responderURL} property is not set, the
-     * location is determined from the certificate's Authority Information
-     * Access Extension, as defined in RFC 5280.
+     * pbrbmeter or the {@code ocsp.responderURL} property is not set, the
+     * locbtion is determined from the certificbte's Authority Informbtion
+     * Access Extension, bs defined in RFC 5280.
      *
      * @return the responder URI, or {@code null} if not set
      */
@@ -134,184 +134,184 @@ public abstract class PKIXRevocationChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Sets the OCSP responder's certificate. This overrides the
-     * {@code ocsp.responderCertSubjectName},
-     * {@code ocsp.responderCertIssuerName},
-     * and {@code ocsp.responderCertSerialNumber} security properties.
+     * Sets the OCSP responder's certificbte. This overrides the
+     * {@code ocsp.responderCertSubjectNbme},
+     * {@code ocsp.responderCertIssuerNbme},
+     * bnd {@code ocsp.responderCertSeriblNumber} security properties.
      *
-     * @param cert the responder's certificate
+     * @pbrbm cert the responder's certificbte
      */
-    public void setOcspResponderCert(X509Certificate cert) {
+    public void setOcspResponderCert(X509Certificbte cert) {
         this.ocspResponderCert = cert;
     }
 
     /**
-     * Gets the OCSP responder's certificate. This overrides the
-     * {@code ocsp.responderCertSubjectName},
-     * {@code ocsp.responderCertIssuerName},
-     * and {@code ocsp.responderCertSerialNumber} security properties. If this
-     * parameter or the aforementioned properties are not set, then the
-     * responder's certificate is determined as specified in RFC 2560.
+     * Gets the OCSP responder's certificbte. This overrides the
+     * {@code ocsp.responderCertSubjectNbme},
+     * {@code ocsp.responderCertIssuerNbme},
+     * bnd {@code ocsp.responderCertSeriblNumber} security properties. If this
+     * pbrbmeter or the bforementioned properties bre not set, then the
+     * responder's certificbte is determined bs specified in RFC 2560.
      *
-     * @return the responder's certificate, or {@code null} if not set
+     * @return the responder's certificbte, or {@code null} if not set
      */
-    public X509Certificate getOcspResponderCert() {
+    public X509Certificbte getOcspResponderCert() {
         return ocspResponderCert;
     }
 
     // request extensions; single extensions not supported
     /**
-     * Sets the optional OCSP request extensions.
+     * Sets the optionbl OCSP request extensions.
      *
-     * @param extensions a list of extensions. The list is copied to protect
-     *        against subsequent modification.
+     * @pbrbm extensions b list of extensions. The list is copied to protect
+     *        bgbinst subsequent modificbtion.
      */
     public void setOcspExtensions(List<Extension> extensions)
     {
         this.ocspExtensions = (extensions == null)
                               ? Collections.<Extension>emptyList()
-                              : new ArrayList<Extension>(extensions);
+                              : new ArrbyList<Extension>(extensions);
     }
 
     /**
-     * Gets the optional OCSP request extensions.
+     * Gets the optionbl OCSP request extensions.
      *
-     * @return an unmodifiable list of extensions. The list is empty if no
-     *         extensions have been specified.
+     * @return bn unmodifibble list of extensions. The list is empty if no
+     *         extensions hbve been specified.
      */
     public List<Extension> getOcspExtensions() {
-        return Collections.unmodifiableList(ocspExtensions);
+        return Collections.unmodifibbleList(ocspExtensions);
     }
 
     /**
-     * Sets the OCSP responses. These responses are used to determine
-     * the revocation status of the specified certificates when OCSP is used.
+     * Sets the OCSP responses. These responses bre used to determine
+     * the revocbtion stbtus of the specified certificbtes when OCSP is used.
      *
-     * @param responses a map of OCSP responses. Each key is an
-     *        {@code X509Certificate} that maps to the corresponding
-     *        DER-encoded OCSP response for that certificate. A deep copy of
-     *        the map is performed to protect against subsequent modification.
+     * @pbrbm responses b mbp of OCSP responses. Ebch key is bn
+     *        {@code X509Certificbte} thbt mbps to the corresponding
+     *        DER-encoded OCSP response for thbt certificbte. A deep copy of
+     *        the mbp is performed to protect bgbinst subsequent modificbtion.
      */
-    public void setOcspResponses(Map<X509Certificate, byte[]> responses)
+    public void setOcspResponses(Mbp<X509Certificbte, byte[]> responses)
     {
         if (responses == null) {
-            this.ocspResponses = Collections.<X509Certificate, byte[]>emptyMap();
+            this.ocspResponses = Collections.<X509Certificbte, byte[]>emptyMbp();
         } else {
-            Map<X509Certificate, byte[]> copy = new HashMap<>(responses.size());
-            for (Map.Entry<X509Certificate, byte[]> e : responses.entrySet()) {
-                copy.put(e.getKey(), e.getValue().clone());
+            Mbp<X509Certificbte, byte[]> copy = new HbshMbp<>(responses.size());
+            for (Mbp.Entry<X509Certificbte, byte[]> e : responses.entrySet()) {
+                copy.put(e.getKey(), e.getVblue().clone());
             }
             this.ocspResponses = copy;
         }
     }
 
     /**
-     * Gets the OCSP responses. These responses are used to determine
-     * the revocation status of the specified certificates when OCSP is used.
+     * Gets the OCSP responses. These responses bre used to determine
+     * the revocbtion stbtus of the specified certificbtes when OCSP is used.
      *
-     * @return a map of OCSP responses. Each key is an
-     *        {@code X509Certificate} that maps to the corresponding
-     *        DER-encoded OCSP response for that certificate. A deep copy of
-     *        the map is returned to protect against subsequent modification.
-     *        Returns an empty map if no responses have been specified.
+     * @return b mbp of OCSP responses. Ebch key is bn
+     *        {@code X509Certificbte} thbt mbps to the corresponding
+     *        DER-encoded OCSP response for thbt certificbte. A deep copy of
+     *        the mbp is returned to protect bgbinst subsequent modificbtion.
+     *        Returns bn empty mbp if no responses hbve been specified.
      */
-    public Map<X509Certificate, byte[]> getOcspResponses() {
-        Map<X509Certificate, byte[]> copy = new HashMap<>(ocspResponses.size());
-        for (Map.Entry<X509Certificate, byte[]> e : ocspResponses.entrySet()) {
-            copy.put(e.getKey(), e.getValue().clone());
+    public Mbp<X509Certificbte, byte[]> getOcspResponses() {
+        Mbp<X509Certificbte, byte[]> copy = new HbshMbp<>(ocspResponses.size());
+        for (Mbp.Entry<X509Certificbte, byte[]> e : ocspResponses.entrySet()) {
+            copy.put(e.getKey(), e.getVblue().clone());
         }
         return copy;
     }
 
     /**
-     * Sets the revocation options.
+     * Sets the revocbtion options.
      *
-     * @param options a set of revocation options. The set is copied to protect
-     *        against subsequent modification.
+     * @pbrbm options b set of revocbtion options. The set is copied to protect
+     *        bgbinst subsequent modificbtion.
      */
     public void setOptions(Set<Option> options) {
         this.options = (options == null)
                        ? Collections.<Option>emptySet()
-                       : new HashSet<Option>(options);
+                       : new HbshSet<Option>(options);
     }
 
     /**
-     * Gets the revocation options.
+     * Gets the revocbtion options.
      *
-     * @return an unmodifiable set of revocation options. The set is empty if
-     *         no options have been specified.
+     * @return bn unmodifibble set of revocbtion options. The set is empty if
+     *         no options hbve been specified.
      */
     public Set<Option> getOptions() {
-        return Collections.unmodifiableSet(options);
+        return Collections.unmodifibbleSet(options);
     }
 
     /**
-     * Returns a list containing the exceptions that are ignored by the
-     * revocation checker when the {@link Option#SOFT_FAIL SOFT_FAIL} option
-     * is set. The list is cleared each time {@link #init init} is called.
-     * The list is ordered in ascending order according to the certificate
-     * index returned by {@link CertPathValidatorException#getIndex getIndex}
-     * method of each entry.
+     * Returns b list contbining the exceptions thbt bre ignored by the
+     * revocbtion checker when the {@link Option#SOFT_FAIL SOFT_FAIL} option
+     * is set. The list is clebred ebch time {@link #init init} is cblled.
+     * The list is ordered in bscending order bccording to the certificbte
+     * index returned by {@link CertPbthVblidbtorException#getIndex getIndex}
+     * method of ebch entry.
      * <p>
-     * An implementation of {@code PKIXRevocationChecker} is responsible for
-     * adding the ignored exceptions to the list.
+     * An implementbtion of {@code PKIXRevocbtionChecker} is responsible for
+     * bdding the ignored exceptions to the list.
      *
-     * @return an unmodifiable list containing the ignored exceptions. The list
-     *         is empty if no exceptions have been ignored.
+     * @return bn unmodifibble list contbining the ignored exceptions. The list
+     *         is empty if no exceptions hbve been ignored.
      */
-    public abstract List<CertPathValidatorException> getSoftFailExceptions();
+    public bbstrbct List<CertPbthVblidbtorException> getSoftFbilExceptions();
 
     @Override
-    public PKIXRevocationChecker clone() {
-        PKIXRevocationChecker copy = (PKIXRevocationChecker)super.clone();
-        copy.ocspExtensions = new ArrayList<>(ocspExtensions);
-        copy.ocspResponses = new HashMap<>(ocspResponses);
-        // deep-copy the encoded responses, since they are mutable
-        for (Map.Entry<X509Certificate, byte[]> entry :
+    public PKIXRevocbtionChecker clone() {
+        PKIXRevocbtionChecker copy = (PKIXRevocbtionChecker)super.clone();
+        copy.ocspExtensions = new ArrbyList<>(ocspExtensions);
+        copy.ocspResponses = new HbshMbp<>(ocspResponses);
+        // deep-copy the encoded responses, since they bre mutbble
+        for (Mbp.Entry<X509Certificbte, byte[]> entry :
                  copy.ocspResponses.entrySet())
         {
-            byte[] encoded = entry.getValue();
-            entry.setValue(encoded.clone());
+            byte[] encoded = entry.getVblue();
+            entry.setVblue(encoded.clone());
         }
-        copy.options = new HashSet<>(options);
+        copy.options = new HbshSet<>(options);
         return copy;
     }
 
     /**
-     * Various revocation options that can be specified for the revocation
-     * checking mechanism.
+     * Vbrious revocbtion options thbt cbn be specified for the revocbtion
+     * checking mechbnism.
      */
     public enum Option {
         /**
-         * Only check the revocation status of end-entity certificates.
+         * Only check the revocbtion stbtus of end-entity certificbtes.
          */
         ONLY_END_ENTITY,
         /**
-         * Prefer CRLs to OSCP. The default behavior is to prefer OCSP. Each
-         * PKIX implementation should document further details of their
-         * specific preference rules and fallback policies.
+         * Prefer CRLs to OSCP. The defbult behbvior is to prefer OCSP. Ebch
+         * PKIX implementbtion should document further detbils of their
+         * specific preference rules bnd fbllbbck policies.
          */
         PREFER_CRLS,
         /**
-         * Disable the fallback mechanism.
+         * Disbble the fbllbbck mechbnism.
          */
         NO_FALLBACK,
         /**
-         * Allow revocation check to succeed if the revocation status cannot be
-         * determined for one of the following reasons:
+         * Allow revocbtion check to succeed if the revocbtion stbtus cbnnot be
+         * determined for one of the following rebsons:
          * <ul>
-         *  <li>The CRL or OCSP response cannot be obtained because of a
+         *  <li>The CRL or OCSP response cbnnot be obtbined becbuse of b
          *      network error.
          *  <li>The OCSP responder returns one of the following errors
-         *      specified in section 2.3 of RFC 2560: internalError or tryLater.
+         *      specified in section 2.3 of RFC 2560: internblError or tryLbter.
          * </ul><br>
-         * Note that these conditions apply to both OCSP and CRLs, and unless
-         * the {@code NO_FALLBACK} option is set, the revocation check is
-         * allowed to succeed only if both mechanisms fail under one of the
-         * conditions as stated above.
-         * Exceptions that cause the network errors are ignored but can be
-         * later retrieved by calling the
-         * {@link #getSoftFailExceptions getSoftFailExceptions} method.
+         * Note thbt these conditions bpply to both OCSP bnd CRLs, bnd unless
+         * the {@code NO_FALLBACK} option is set, the revocbtion check is
+         * bllowed to succeed only if both mechbnisms fbil under one of the
+         * conditions bs stbted bbove.
+         * Exceptions thbt cbuse the network errors bre ignored but cbn be
+         * lbter retrieved by cblling the
+         * {@link #getSoftFbilExceptions getSoftFbilExceptions} method.
          */
         SOFT_FAIL
     }

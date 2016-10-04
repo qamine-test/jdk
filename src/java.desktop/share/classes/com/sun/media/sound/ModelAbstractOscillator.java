@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
-import javax.sound.midi.Instrument;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.SoundbankResource;
-import javax.sound.midi.VoiceStatus;
+import jbvb.io.IOException;
+import jbvbx.sound.midi.Instrument;
+import jbvbx.sound.midi.MidiChbnnel;
+import jbvbx.sound.midi.Pbtch;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkResource;
+import jbvbx.sound.midi.VoiceStbtus;
 
 /**
- * A abstract class used to simplify creating custom ModelOscillator.
+ * A bbstrbct clbss used to simplify crebting custom ModelOscillbtor.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public abstract class ModelAbstractOscillator
-        implements ModelOscillator, ModelOscillatorStream, Soundbank {
+public bbstrbct clbss ModelAbstrbctOscillbtor
+        implements ModelOscillbtor, ModelOscillbtorStrebm, Soundbbnk {
 
-    protected float pitch = 6000;
-    protected float samplerate;
-    protected MidiChannel channel;
-    protected VoiceStatus voice;
+    protected flobt pitch = 6000;
+    protected flobt sbmplerbte;
+    protected MidiChbnnel chbnnel;
+    protected VoiceStbtus voice;
     protected int noteNumber;
     protected int velocity;
-    protected boolean on = false;
+    protected boolebn on = fblse;
 
     public void init() {
     }
@@ -55,27 +55,27 @@ public abstract class ModelAbstractOscillator
     }
 
     public void noteOff(int velocity) {
-        on = false;
+        on = fblse;
     }
 
-    public void noteOn(MidiChannel channel, VoiceStatus voice, int noteNumber,
+    public void noteOn(MidiChbnnel chbnnel, VoiceStbtus voice, int noteNumber,
             int velocity) {
-        this.channel = channel;
+        this.chbnnel = chbnnel;
         this.voice = voice;
         this.noteNumber = noteNumber;
         this.velocity = velocity;
         on = true;
     }
 
-    public int read(float[][] buffer, int offset, int len) throws IOException {
+    public int rebd(flobt[][] buffer, int offset, int len) throws IOException {
         return -1;
     }
 
-    public MidiChannel getChannel() {
-        return channel;
+    public MidiChbnnel getChbnnel() {
+        return chbnnel;
     }
 
-    public VoiceStatus getVoice() {
+    public VoiceStbtus getVoice() {
         return voice;
     }
 
@@ -87,95 +87,95 @@ public abstract class ModelAbstractOscillator
         return velocity;
     }
 
-    public boolean isOn() {
+    public boolebn isOn() {
         return on;
     }
 
-    public void setPitch(float pitch) {
+    public void setPitch(flobt pitch) {
         this.pitch = pitch;
     }
 
-    public float getPitch() {
+    public flobt getPitch() {
         return pitch;
     }
 
-    public void setSampleRate(float samplerate) {
-        this.samplerate = samplerate;
+    public void setSbmpleRbte(flobt sbmplerbte) {
+        this.sbmplerbte = sbmplerbte;
     }
 
-    public float getSampleRate() {
-        return samplerate;
+    public flobt getSbmpleRbte() {
+        return sbmplerbte;
     }
 
-    public float getAttenuation() {
+    public flobt getAttenubtion() {
         return 0;
     }
 
-    public int getChannels() {
+    public int getChbnnels() {
         return 1;
     }
 
-    public String getName() {
-        return getClass().getName();
+    public String getNbme() {
+        return getClbss().getNbme();
     }
 
-    public Patch getPatch() {
-        return new Patch(0, 0);
+    public Pbtch getPbtch() {
+        return new Pbtch(0, 0);
     }
 
-    public ModelOscillatorStream open(float samplerate) {
-        ModelAbstractOscillator oscs;
+    public ModelOscillbtorStrebm open(flobt sbmplerbte) {
+        ModelAbstrbctOscillbtor oscs;
         try {
-            oscs = this.getClass().newInstance();
-        } catch (InstantiationException e) {
-            throw new IllegalArgumentException(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException(e);
+            oscs = this.getClbss().newInstbnce();
+        } cbtch (InstbntibtionException e) {
+            throw new IllegblArgumentException(e);
+        } cbtch (IllegblAccessException e) {
+            throw new IllegblArgumentException(e);
         }
-        oscs.setSampleRate(samplerate);
+        oscs.setSbmpleRbte(sbmplerbte);
         oscs.init();
         return oscs;
     }
 
     public ModelPerformer getPerformer() {
-        // Create performer for my custom oscillirator
+        // Crebte performer for my custom oscillirbtor
         ModelPerformer performer = new ModelPerformer();
-        performer.getOscillators().add(this);
+        performer.getOscillbtors().bdd(this);
         return performer;
 
     }
 
     public ModelInstrument getInstrument() {
-        // Create Instrument object around my performer
+        // Crebte Instrument object bround my performer
         SimpleInstrument ins = new SimpleInstrument();
-        ins.setName(getName());
-        ins.add(getPerformer());
-        ins.setPatch(getPatch());
+        ins.setNbme(getNbme());
+        ins.bdd(getPerformer());
+        ins.setPbtch(getPbtch());
         return ins;
 
     }
 
-    public Soundbank getSoundBank() {
-        // Create Soundbank object around the instrument
-        SimpleSoundbank sbk = new SimpleSoundbank();
-        sbk.addInstrument(getInstrument());
+    public Soundbbnk getSoundBbnk() {
+        // Crebte Soundbbnk object bround the instrument
+        SimpleSoundbbnk sbk = new SimpleSoundbbnk();
+        sbk.bddInstrument(getInstrument());
         return sbk;
     }
 
     public String getDescription() {
-        return getName();
+        return getNbme();
     }
 
-    public Instrument getInstrument(Patch patch) {
+    public Instrument getInstrument(Pbtch pbtch) {
         Instrument ins = getInstrument();
-        Patch p = ins.getPatch();
-        if (p.getBank() != patch.getBank())
+        Pbtch p = ins.getPbtch();
+        if (p.getBbnk() != pbtch.getBbnk())
             return null;
-        if (p.getProgram() != patch.getProgram())
+        if (p.getProgrbm() != pbtch.getProgrbm())
             return null;
-        if (p instanceof ModelPatch && patch instanceof ModelPatch) {
-            if (((ModelPatch)p).isPercussion()
-                    != ((ModelPatch)patch).isPercussion()) {
+        if (p instbnceof ModelPbtch && pbtch instbnceof ModelPbtch) {
+            if (((ModelPbtch)p).isPercussion()
+                    != ((ModelPbtch)pbtch).isPercussion()) {
                 return null;
             }
         }
@@ -186,8 +186,8 @@ public abstract class ModelAbstractOscillator
         return new Instrument[]{getInstrument()};
     }
 
-    public SoundbankResource[] getResources() {
-        return new SoundbankResource[0];
+    public SoundbbnkResource[] getResources() {
+        return new SoundbbnkResource[0];
     }
 
     public String getVendor() {

@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-
-
-import static javax.swing.SwingConstants.*;
-import static sun.tools.jconsole.JConsole.*;
-import static sun.tools.jconsole.Utilities.*;
+import jbvbx.swing.*;
 
 
-@SuppressWarnings("serial")
-abstract class OverviewPanel extends PlotterPanel {
-    private static final Dimension PREFERRED_PLOTTER_SIZE = new Dimension(300, 200);
-    private static final Dimension MINIMUM_PLOTTER_SIZE = new Dimension(200, 150);
+import stbtic jbvbx.swing.SwingConstbnts.*;
+import stbtic sun.tools.jconsole.JConsole.*;
+import stbtic sun.tools.jconsole.Utilities.*;
 
-    // This is the default view range for all the overview plotters
-    static final int VIEW_RANGE = -1;   // Show all data
 
-    static Color PLOTTER_COLOR = IS_GTK ? new Color(231, 111, 80) : null;
+@SuppressWbrnings("seribl")
+bbstrbct clbss OverviewPbnel extends PlotterPbnel {
+    privbte stbtic finbl Dimension PREFERRED_PLOTTER_SIZE = new Dimension(300, 200);
+    privbte stbtic finbl Dimension MINIMUM_PLOTTER_SIZE = new Dimension(200, 150);
 
-    private JLabel infoLabel;
+    // This is the defbult view rbnge for bll the overview plotters
+    stbtic finbl int VIEW_RANGE = -1;   // Show bll dbtb
 
-    public OverviewPanel(String title) {
+    stbtic Color PLOTTER_COLOR = IS_GTK ? new Color(231, 111, 80) : null;
+
+    privbte JLbbel infoLbbel;
+
+    public OverviewPbnel(String title) {
         this(title, null, null, null);
     }
 
-    public OverviewPanel(String title, String plotterKey,
-                         String plotterName, Plotter.Unit plotterUnit) {
+    public OverviewPbnel(String title, String plotterKey,
+                         String plotterNbme, Plotter.Unit plotterUnit) {
         super(title);
-        setLayout(new BorderLayout(0, 0));
+        setLbyout(new BorderLbyout(0, 0));
 
-        if (plotterKey != null && plotterName != null) {
+        if (plotterKey != null && plotterNbme != null) {
             Plotter plotter = new Plotter();
             plotter.setPreferredSize(PREFERRED_PLOTTER_SIZE);
             plotter.setMinimumSize(MINIMUM_PLOTTER_SIZE);
-            plotter.setViewRange(VIEW_RANGE);
+            plotter.setViewRbnge(VIEW_RANGE);
             if (plotterUnit != null) {
                 plotter.setUnit(plotterUnit);
             }
-            plotter.createSequence(plotterKey, plotterName, PLOTTER_COLOR, true);
-            setAccessibleName(plotter,
-                              Resources.format(Messages.OVERVIEW_PANEL_PLOTTER_ACCESSIBLE_NAME,
+            plotter.crebteSequence(plotterKey, plotterNbme, PLOTTER_COLOR, true);
+            setAccessibleNbme(plotter,
+                              Resources.formbt(Messbges.OVERVIEW_PANEL_PLOTTER_ACCESSIBLE_NAME,
                                       title));
             setPlotter(plotter);
         }
     }
 
 
-    public JLabel getInfoLabel() {
-        if (infoLabel == null) {
-            infoLabel = new JLabel("", CENTER) {
+    public JLbbel getInfoLbbel() {
+        if (infoLbbel == null) {
+            infoLbbel = new JLbbel("", CENTER) {
                 @Override
                 public void setText(String text) {
-                    if (text.startsWith("<html>")) {
-                        // Replace spaces with nbsp, except the
-                        // last one of two or more (to allow wrapping)
+                    if (text.stbrtsWith("<html>")) {
+                        // Replbce spbces with nbsp, except the
+                        // lbst one of two or more (to bllow wrbpping)
                         StringBuilder buf = new StringBuilder();
-                        char[] chars = text.toCharArray();
-                        int n = chars.length;
+                        chbr[] chbrs = text.toChbrArrby();
+                        int n = chbrs.length;
                         for (int i = 0; i < n; i++) {
-                            if (chars[i] == ' '
-                                && ((i < n-1 && chars[i+1] == ' ')
-                                    || ((i == 0 || chars[i-1] != ' ')
-                                        && (i == n-1 || chars[i+1] != ' ')))) {
-                                buf.append("&nbsp;");
+                            if (chbrs[i] == ' '
+                                && ((i < n-1 && chbrs[i+1] == ' ')
+                                    || ((i == 0 || chbrs[i-1] != ' ')
+                                        && (i == n-1 || chbrs[i+1] != ' ')))) {
+                                buf.bppend("&nbsp;");
                             } else {
-                                buf.append(chars[i]);
+                                buf.bppend(chbrs[i]);
                             }
                         }
                         text = buf.toString();
@@ -101,15 +101,15 @@ abstract class OverviewPanel extends PlotterPanel {
             };
 
             if (IS_GTK) {
-                JPanel southPanel = new JPanel(new BorderLayout());
-                JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
-                southPanel.add(separator, BorderLayout.NORTH);
-                southPanel.add(infoLabel, BorderLayout.SOUTH);
-                add(southPanel, BorderLayout.SOUTH);
+                JPbnel southPbnel = new JPbnel(new BorderLbyout());
+                JSepbrbtor sepbrbtor = new JSepbrbtor(JSepbrbtor.HORIZONTAL);
+                southPbnel.bdd(sepbrbtor, BorderLbyout.NORTH);
+                southPbnel.bdd(infoLbbel, BorderLbyout.SOUTH);
+                bdd(southPbnel, BorderLbyout.SOUTH);
             } else {
-                add(infoLabel, BorderLayout.SOUTH);
+                bdd(infoLbbel, BorderLbyout.SOUTH);
             }
         }
-        return infoLabel;
+        return infoLbbel;
     }
 }

@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.util.Collection;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.RbndomAccessFile;
+import jbvb.util.Collection;
 
 /**
- * This class is a pointer to a binary array either in memory or on disk.
+ * This clbss is b pointer to b binbry brrby either in memory or on disk.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class ModelByteBuffer {
+public finbl clbss ModelByteBuffer {
 
-    private ModelByteBuffer root = this;
-    private File file;
-    private long fileoffset;
-    private byte[] buffer;
-    private long offset;
-    private final long len;
+    privbte ModelByteBuffer root = this;
+    privbte File file;
+    privbte long fileoffset;
+    privbte byte[] buffer;
+    privbte long offset;
+    privbte finbl long len;
 
-    private class RandomFileInputStream extends InputStream {
+    privbte clbss RbndomFileInputStrebm extends InputStrebm {
 
-        private final RandomAccessFile raf;
-        private long left;
-        private long mark = 0;
-        private long markleft = 0;
+        privbte finbl RbndomAccessFile rbf;
+        privbte long left;
+        privbte long mbrk = 0;
+        privbte long mbrkleft = 0;
 
-        RandomFileInputStream() throws IOException {
-            raf = new RandomAccessFile(root.file, "r");
-            raf.seek(root.fileoffset + arrayOffset());
-            left = capacity();
+        RbndomFileInputStrebm() throws IOException {
+            rbf = new RbndomAccessFile(root.file, "r");
+            rbf.seek(root.fileoffset + brrbyOffset());
+            left = cbpbcity();
         }
 
-        public int available() throws IOException {
+        public int bvbilbble() throws IOException {
             if (left > Integer.MAX_VALUE)
                 return Integer.MAX_VALUE;
             return (int)left;
         }
 
-        public synchronized void mark(int readlimit) {
+        public synchronized void mbrk(int rebdlimit) {
             try {
-                mark = raf.getFilePointer();
-                markleft = left;
-            } catch (IOException e) {
-                //e.printStackTrace();
+                mbrk = rbf.getFilePointer();
+                mbrkleft = left;
+            } cbtch (IOException e) {
+                //e.printStbckTrbce();
             }
         }
 
-        public boolean markSupported() {
+        public boolebn mbrkSupported() {
             return true;
         }
 
         public synchronized void reset() throws IOException {
-            raf.seek(mark);
-            left = markleft;
+            rbf.seek(mbrk);
+            left = mbrkleft;
         }
 
         public long skip(long n) throws IOException {
@@ -89,41 +89,41 @@ public final class ModelByteBuffer {
                 return 0;
             if (n > left)
                 n = left;
-            long p = raf.getFilePointer();
-            raf.seek(p + n);
+            long p = rbf.getFilePointer();
+            rbf.seek(p + n);
             left -= n;
             return n;
         }
 
-        public int read(byte b[], int off, int len) throws IOException {
+        public int rebd(byte b[], int off, int len) throws IOException {
             if (len > left)
                 len = (int)left;
             if (left == 0)
                 return -1;
-            len = raf.read(b, off, len);
+            len = rbf.rebd(b, off, len);
             if (len == -1)
                 return -1;
             left -= len;
             return len;
         }
 
-        public int read(byte[] b) throws IOException {
+        public int rebd(byte[] b) throws IOException {
             int len = b.length;
             if (len > left)
                 len = (int)left;
             if (left == 0)
                 return -1;
-            len = raf.read(b, 0, len);
+            len = rbf.rebd(b, 0, len);
             if (len == -1)
                 return -1;
             left -= len;
             return len;
         }
 
-        public int read() throws IOException {
+        public int rebd() throws IOException {
             if (left == 0)
                 return -1;
-            int b = raf.read();
+            int b = rbf.rebd();
             if (b == -1)
                 return -1;
             left--;
@@ -131,23 +131,23 @@ public final class ModelByteBuffer {
         }
 
         public void close() throws IOException {
-            raf.close();
+            rbf.close();
         }
     }
 
-    private ModelByteBuffer(ModelByteBuffer parent,
-            long beginIndex, long endIndex, boolean independent) {
-        this.root = parent.root;
+    privbte ModelByteBuffer(ModelByteBuffer pbrent,
+            long beginIndex, long endIndex, boolebn independent) {
+        this.root = pbrent.root;
         this.offset = 0;
-        long parent_len = parent.len;
+        long pbrent_len = pbrent.len;
         if (beginIndex < 0)
             beginIndex = 0;
-        if (beginIndex > parent_len)
-            beginIndex = parent_len;
+        if (beginIndex > pbrent_len)
+            beginIndex = pbrent_len;
         if (endIndex < 0)
             endIndex = 0;
-        if (endIndex > parent_len)
-            endIndex = parent_len;
+        if (endIndex > pbrent_len)
+            endIndex = pbrent_len;
         if (beginIndex > endIndex)
             beginIndex = endIndex;
         offset = beginIndex;
@@ -156,10 +156,10 @@ public final class ModelByteBuffer {
             buffer = root.buffer;
             if (root.file != null) {
                 file = root.file;
-                fileoffset = root.fileoffset + arrayOffset();
+                fileoffset = root.fileoffset + brrbyOffset();
                 offset = 0;
             } else
-                offset = arrayOffset();
+                offset = brrbyOffset();
             root = this;
         }
     }
@@ -188,54 +188,54 @@ public final class ModelByteBuffer {
         this.len = len;
     }
 
-    public void writeTo(OutputStream out) throws IOException {
+    public void writeTo(OutputStrebm out) throws IOException {
         if (root.file != null && root.buffer == null) {
-            InputStream is = getInputStream();
+            InputStrebm is = getInputStrebm();
             byte[] buff = new byte[1024];
             int ret;
-            while ((ret = is.read(buff)) != -1)
+            while ((ret = is.rebd(buff)) != -1)
                 out.write(buff, 0, ret);
         } else
-            out.write(array(), (int) arrayOffset(), (int) capacity());
+            out.write(brrby(), (int) brrbyOffset(), (int) cbpbcity());
     }
 
-    public InputStream getInputStream() {
+    public InputStrebm getInputStrebm() {
         if (root.file != null && root.buffer == null) {
             try {
-                return new RandomFileInputStream();
-            } catch (IOException e) {
-                //e.printStackTrace();
+                return new RbndomFileInputStrebm();
+            } cbtch (IOException e) {
+                //e.printStbckTrbce();
                 return null;
             }
         }
-        return new ByteArrayInputStream(array(),
-                (int)arrayOffset(), (int)capacity());
+        return new ByteArrbyInputStrebm(brrby(),
+                (int)brrbyOffset(), (int)cbpbcity());
     }
 
     public ModelByteBuffer subbuffer(long beginIndex) {
-        return subbuffer(beginIndex, capacity());
+        return subbuffer(beginIndex, cbpbcity());
     }
 
     public ModelByteBuffer subbuffer(long beginIndex, long endIndex) {
-        return subbuffer(beginIndex, endIndex, false);
+        return subbuffer(beginIndex, endIndex, fblse);
     }
 
     public ModelByteBuffer subbuffer(long beginIndex, long endIndex,
-            boolean independent) {
+            boolebn independent) {
         return new ModelByteBuffer(this, beginIndex, endIndex, independent);
     }
 
-    public byte[] array() {
+    public byte[] brrby() {
         return root.buffer;
     }
 
-    public long arrayOffset() {
+    public long brrbyOffset() {
         if (root != this)
-            return root.arrayOffset() + offset;
+            return root.brrbyOffset() + offset;
         return offset;
     }
 
-    public long capacity() {
+    public long cbpbcity() {
         return len;
     }
 
@@ -251,10 +251,10 @@ public final class ModelByteBuffer {
         return fileoffset;
     }
 
-    public static void loadAll(Collection<ModelByteBuffer> col)
+    public stbtic void lobdAll(Collection<ModelByteBuffer> col)
             throws IOException {
         File selfile = null;
-        RandomAccessFile raf = null;
+        RbndomAccessFile rbf = null;
         try {
             for (ModelByteBuffer mbuff : col) {
                 mbuff = mbuff.root;
@@ -262,26 +262,26 @@ public final class ModelByteBuffer {
                     continue;
                 if (mbuff.buffer != null)
                     continue;
-                if (selfile == null || !selfile.equals(mbuff.file)) {
-                    if (raf != null) {
-                        raf.close();
-                        raf = null;
+                if (selfile == null || !selfile.equbls(mbuff.file)) {
+                    if (rbf != null) {
+                        rbf.close();
+                        rbf = null;
                     }
                     selfile = mbuff.file;
-                    raf = new RandomAccessFile(mbuff.file, "r");
+                    rbf = new RbndomAccessFile(mbuff.file, "r");
                 }
-                raf.seek(mbuff.fileoffset);
-                byte[] buffer = new byte[(int) mbuff.capacity()];
+                rbf.seek(mbuff.fileoffset);
+                byte[] buffer = new byte[(int) mbuff.cbpbcity()];
 
-                int read = 0;
-                int avail = buffer.length;
-                while (read != avail) {
-                    if (avail - read > 65536) {
-                        raf.readFully(buffer, read, 65536);
-                        read += 65536;
+                int rebd = 0;
+                int bvbil = buffer.length;
+                while (rebd != bvbil) {
+                    if (bvbil - rebd > 65536) {
+                        rbf.rebdFully(buffer, rebd, 65536);
+                        rebd += 65536;
                     } else {
-                        raf.readFully(buffer, read, avail - read);
-                        read = avail;
+                        rbf.rebdFully(buffer, rebd, bvbil - rebd);
+                        rebd = bvbil;
                     }
 
                 }
@@ -289,40 +289,40 @@ public final class ModelByteBuffer {
                 mbuff.buffer = buffer;
                 mbuff.offset = 0;
             }
-        } finally {
-            if (raf != null)
-                raf.close();
+        } finblly {
+            if (rbf != null)
+                rbf.close();
         }
     }
 
-    public void load() throws IOException {
+    public void lobd() throws IOException {
         if (root != this) {
-            root.load();
+            root.lobd();
             return;
         }
         if (buffer != null)
             return;
         if (file == null) {
-            throw new IllegalStateException(
-                    "No file associated with this ByteBuffer!");
+            throw new IllegblStbteException(
+                    "No file bssocibted with this ByteBuffer!");
         }
 
-        DataInputStream is = new DataInputStream(getInputStream());
-        buffer = new byte[(int) capacity()];
+        DbtbInputStrebm is = new DbtbInputStrebm(getInputStrebm());
+        buffer = new byte[(int) cbpbcity()];
         offset = 0;
-        is.readFully(buffer);
+        is.rebdFully(buffer);
         is.close();
 
     }
 
-    public void unload() {
+    public void unlobd() {
         if (root != this) {
-            root.unload();
+            root.unlobd();
             return;
         }
         if (file == null) {
-            throw new IllegalStateException(
-                    "No file associated with this ByteBuffer!");
+            throw new IllegblStbteException(
+                    "No file bssocibted with this ByteBuffer!");
         }
         root.buffer = null;
     }

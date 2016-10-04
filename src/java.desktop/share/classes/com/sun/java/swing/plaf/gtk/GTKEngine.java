@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2005, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.util.HashMap;
-import javax.swing.*;
-import javax.swing.plaf.synth.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.util.HbshMbp;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.synth.*;
 
-import com.sun.java.swing.plaf.gtk.GTKConstants.ArrowType;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ExpanderStyle;
-import com.sun.java.swing.plaf.gtk.GTKConstants.Orientation;
-import com.sun.java.swing.plaf.gtk.GTKConstants.PositionType;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ShadowType;
-import com.sun.java.swing.plaf.gtk.GTKConstants.TextDirection;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ArrowType;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ExpbnderStyle;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.Orientbtion;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.PositionType;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ShbdowType;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.TextDirection;
 
-import sun.awt.image.SunWritableRaster;
-import sun.swing.ImageCache;
+import sun.bwt.imbge.SunWritbbleRbster;
+import sun.swing.ImbgeCbche;
 
 /**
- * GTKEngine delegates all painting job to native GTK libraries.
+ * GTKEngine delegbtes bll pbinting job to nbtive GTK librbries.
  *
- * Painting with GTKEngine looks like this:
- * First, startPainting() is called. It prepares an offscreen buffer of the
+ * Pbinting with GTKEngine looks like this:
+ * First, stbrtPbinting() is cblled. It prepbres bn offscreen buffer of the
  *   required size.
- * Then, any number of paintXXX() methods can be called. They effectively ignore
- *   the Graphics parameter and draw to the offscreen buffer.
- * Finally, finishPainting() should be called. It fills the data buffer passed
- *   in with the image data.
+ * Then, bny number of pbintXXX() methods cbn be cblled. They effectively ignore
+ *   the Grbphics pbrbmeter bnd drbw to the offscreen buffer.
+ * Finblly, finishPbinting() should be cblled. It fills the dbtb buffer pbssed
+ *   in with the imbge dbtb.
  *
- * @author Josh Outwater
+ * @buthor Josh Outwbter
  */
-class GTKEngine {
+clbss GTKEngine {
 
-    final static GTKEngine INSTANCE = new GTKEngine();
+    finbl stbtic GTKEngine INSTANCE = new GTKEngine();
 
-    /** Size of the image cache */
-    private static final int CACHE_SIZE = 50;
+    /** Size of the imbge cbche */
+    privbte stbtic finbl int CACHE_SIZE = 50;
 
-    /** This enum mirrors that in gtk2_interface.h */
-    static enum WidgetType {
+    /** This enum mirrors thbt in gtk2_interfbce.h */
+    stbtic enum WidgetType {
         BUTTON, CHECK_BOX, CHECK_BOX_MENU_ITEM, COLOR_CHOOSER,
         COMBO_BOX, COMBO_BOX_ARROW_BUTTON, COMBO_BOX_TEXT_FIELD,
         DESKTOP_ICON, DESKTOP_PANE, EDITOR_PANE, FORMATTED_TEXT_FIELD,
@@ -87,272 +87,272 @@ class GTKEngine {
     }
 
     /**
-     * Representation of GtkSettings properties.
-     * When we need more settings we can add them here and
-     * to all implementations of getGTKSetting().
+     * Representbtion of GtkSettings properties.
+     * When we need more settings we cbn bdd them here bnd
+     * to bll implementbtions of getGTKSetting().
      */
-    static enum Settings {
+    stbtic enum Settings {
         GTK_FONT_NAME,
         GTK_ICON_SIZES
     }
 
-    /* Custom regions are needed for representing regions that don't exist
-     * in the original Region class.
+    /* Custom regions bre needed for representing regions thbt don't exist
+     * in the originbl Region clbss.
      */
-    static class CustomRegion extends Region {
+    stbtic clbss CustomRegion extends Region {
         /*
-         * TITLED_BORDER Region is mapped to GtkFrame class which can draw
-         * titled borders around components.
+         * TITLED_BORDER Region is mbpped to GtkFrbme clbss which cbn drbw
+         * titled borders bround components.
          */
-        static Region TITLED_BORDER = new CustomRegion("TitledBorder");
+        stbtic Region TITLED_BORDER = new CustomRegion("TitledBorder");
 
-        private CustomRegion(String name) {
-            super(name, null, false);
+        privbte CustomRegion(String nbme) {
+            super(nbme, null, fblse);
         }
     }
 
 
-    private static HashMap<Region, Object> regionToWidgetTypeMap;
-    private ImageCache cache = new ImageCache(CACHE_SIZE);
-    private int x0, y0, w0, h0;
-    private Graphics graphics;
-    private Object[] cacheArgs;
+    privbte stbtic HbshMbp<Region, Object> regionToWidgetTypeMbp;
+    privbte ImbgeCbche cbche = new ImbgeCbche(CACHE_SIZE);
+    privbte int x0, y0, w0, h0;
+    privbte Grbphics grbphics;
+    privbte Object[] cbcheArgs;
 
-    private native void native_paint_arrow(
-            int widgetType, int state, int shadowType, String detail,
-            int x, int y, int width, int height, int arrowType);
-    private native void native_paint_box(
-            int widgetType, int state, int shadowType, String detail,
-            int x, int y, int width, int height, int synthState, int dir);
-    private native void native_paint_box_gap(
-            int widgetType, int state, int shadowType, String detail,
+    privbte nbtive void nbtive_pbint_brrow(
+            int widgetType, int stbte, int shbdowType, String detbil,
+            int x, int y, int width, int height, int brrowType);
+    privbte nbtive void nbtive_pbint_box(
+            int widgetType, int stbte, int shbdowType, String detbil,
+            int x, int y, int width, int height, int synthStbte, int dir);
+    privbte nbtive void nbtive_pbint_box_gbp(
+            int widgetType, int stbte, int shbdowType, String detbil,
             int x, int y, int width, int height,
-            int gapSide, int gapX, int gapWidth);
-    private native void native_paint_check(
-            int widgetType, int synthState, String detail,
+            int gbpSide, int gbpX, int gbpWidth);
+    privbte nbtive void nbtive_pbint_check(
+            int widgetType, int synthStbte, String detbil,
             int x, int y, int width, int height);
-    private native void native_paint_expander(
-            int widgetType, int state, String detail,
-            int x, int y, int width, int height, int expanderStyle);
-    private native void native_paint_extension(
-            int widgetType, int state, int shadowType, String detail,
-            int x, int y, int width, int height, int placement);
-    private native void native_paint_flat_box(
-            int widgetType, int state, int shadowType, String detail,
-            int x, int y, int width, int height, boolean hasFocus);
-    private native void native_paint_focus(
-            int widgetType, int state, String detail,
+    privbte nbtive void nbtive_pbint_expbnder(
+            int widgetType, int stbte, String detbil,
+            int x, int y, int width, int height, int expbnderStyle);
+    privbte nbtive void nbtive_pbint_extension(
+            int widgetType, int stbte, int shbdowType, String detbil,
+            int x, int y, int width, int height, int plbcement);
+    privbte nbtive void nbtive_pbint_flbt_box(
+            int widgetType, int stbte, int shbdowType, String detbil,
+            int x, int y, int width, int height, boolebn hbsFocus);
+    privbte nbtive void nbtive_pbint_focus(
+            int widgetType, int stbte, String detbil,
             int x, int y, int width, int height);
-    private native void native_paint_handle(
-            int widgetType, int state, int shadowType, String detail,
-            int x, int y, int width, int height, int orientation);
-    private native void native_paint_hline(
-            int widgetType, int state, String detail,
+    privbte nbtive void nbtive_pbint_hbndle(
+            int widgetType, int stbte, int shbdowType, String detbil,
+            int x, int y, int width, int height, int orientbtion);
+    privbte nbtive void nbtive_pbint_hline(
+            int widgetType, int stbte, String detbil,
             int x, int y, int width, int height);
-    private native void native_paint_option(
-            int widgetType, int synthState, String detail,
+    privbte nbtive void nbtive_pbint_option(
+            int widgetType, int synthStbte, String detbil,
             int x, int y, int width, int height);
-    private native void native_paint_shadow(
-            int widgetType, int state, int shadowType, String detail,
-            int x, int y, int width, int height, int synthState, int dir);
-    private native void native_paint_slider(
-            int widgetType, int state, int shadowType, String detail,
-            int x, int y, int width, int height, int orientation);
-    private native void native_paint_vline(
-            int widgetType, int state, String detail,
+    privbte nbtive void nbtive_pbint_shbdow(
+            int widgetType, int stbte, int shbdowType, String detbil,
+            int x, int y, int width, int height, int synthStbte, int dir);
+    privbte nbtive void nbtive_pbint_slider(
+            int widgetType, int stbte, int shbdowType, String detbil,
+            int x, int y, int width, int height, int orientbtion);
+    privbte nbtive void nbtive_pbint_vline(
+            int widgetType, int stbte, String detbil,
             int x, int y, int width, int height);
-    private native void native_paint_background(
-            int widgetType, int state, int x, int y, int width, int height);
-    private native Object native_get_gtk_setting(int property);
-    private native void nativeSetRangeValue(int widgetType, double value,
-                                            double min, double max,
+    privbte nbtive void nbtive_pbint_bbckground(
+            int widgetType, int stbte, int x, int y, int width, int height);
+    privbte nbtive Object nbtive_get_gtk_setting(int property);
+    privbte nbtive void nbtiveSetRbngeVblue(int widgetType, double vblue,
+                                            double min, double mbx,
                                             double visible);
 
-    private native void nativeStartPainting(int w, int h);
-    private native int nativeFinishPainting(int[] buffer, int width, int height);
-    private native void native_switch_theme();
+    privbte nbtive void nbtiveStbrtPbinting(int w, int h);
+    privbte nbtive int nbtiveFinishPbinting(int[] buffer, int width, int height);
+    privbte nbtive void nbtive_switch_theme();
 
-    static {
-        // Make sure the awt toolkit is loaded so we have access to native
+    stbtic {
+        // Mbke sure the bwt toolkit is lobded so we hbve bccess to nbtive
         // methods.
-        Toolkit.getDefaultToolkit();
+        Toolkit.getDefbultToolkit();
 
-        // Initialize regionToWidgetTypeMap
-        regionToWidgetTypeMap = new HashMap<Region, Object>(50);
-        regionToWidgetTypeMap.put(Region.ARROW_BUTTON, new WidgetType[] {
+        // Initiblize regionToWidgetTypeMbp
+        regionToWidgetTypeMbp = new HbshMbp<Region, Object>(50);
+        regionToWidgetTypeMbp.put(Region.ARROW_BUTTON, new WidgetType[] {
             WidgetType.SPINNER_ARROW_BUTTON,
             WidgetType.COMBO_BOX_ARROW_BUTTON,
             WidgetType.HSCROLL_BAR_BUTTON_LEFT,
             WidgetType.HSCROLL_BAR_BUTTON_RIGHT,
             WidgetType.VSCROLL_BAR_BUTTON_UP,
             WidgetType.VSCROLL_BAR_BUTTON_DOWN});
-        regionToWidgetTypeMap.put(Region.BUTTON, WidgetType.BUTTON);
-        regionToWidgetTypeMap.put(Region.CHECK_BOX, WidgetType.CHECK_BOX);
-        regionToWidgetTypeMap.put(Region.CHECK_BOX_MENU_ITEM,
+        regionToWidgetTypeMbp.put(Region.BUTTON, WidgetType.BUTTON);
+        regionToWidgetTypeMbp.put(Region.CHECK_BOX, WidgetType.CHECK_BOX);
+        regionToWidgetTypeMbp.put(Region.CHECK_BOX_MENU_ITEM,
                                   WidgetType.CHECK_BOX_MENU_ITEM);
-        regionToWidgetTypeMap.put(Region.COLOR_CHOOSER, WidgetType.COLOR_CHOOSER);
-        regionToWidgetTypeMap.put(Region.FILE_CHOOSER, WidgetType.OPTION_PANE);
-        regionToWidgetTypeMap.put(Region.COMBO_BOX, WidgetType.COMBO_BOX);
-        regionToWidgetTypeMap.put(Region.DESKTOP_ICON, WidgetType.DESKTOP_ICON);
-        regionToWidgetTypeMap.put(Region.DESKTOP_PANE, WidgetType.DESKTOP_PANE);
-        regionToWidgetTypeMap.put(Region.EDITOR_PANE, WidgetType.EDITOR_PANE);
-        regionToWidgetTypeMap.put(Region.FORMATTED_TEXT_FIELD, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.COLOR_CHOOSER, WidgetType.COLOR_CHOOSER);
+        regionToWidgetTypeMbp.put(Region.FILE_CHOOSER, WidgetType.OPTION_PANE);
+        regionToWidgetTypeMbp.put(Region.COMBO_BOX, WidgetType.COMBO_BOX);
+        regionToWidgetTypeMbp.put(Region.DESKTOP_ICON, WidgetType.DESKTOP_ICON);
+        regionToWidgetTypeMbp.put(Region.DESKTOP_PANE, WidgetType.DESKTOP_PANE);
+        regionToWidgetTypeMbp.put(Region.EDITOR_PANE, WidgetType.EDITOR_PANE);
+        regionToWidgetTypeMbp.put(Region.FORMATTED_TEXT_FIELD, new WidgetType[] {
             WidgetType.FORMATTED_TEXT_FIELD, WidgetType.SPINNER_TEXT_FIELD});
-        regionToWidgetTypeMap.put(GTKRegion.HANDLE_BOX, WidgetType.HANDLE_BOX);
-        regionToWidgetTypeMap.put(Region.INTERNAL_FRAME,
+        regionToWidgetTypeMbp.put(GTKRegion.HANDLE_BOX, WidgetType.HANDLE_BOX);
+        regionToWidgetTypeMbp.put(Region.INTERNAL_FRAME,
                                   WidgetType.INTERNAL_FRAME);
-        regionToWidgetTypeMap.put(Region.INTERNAL_FRAME_TITLE_PANE,
+        regionToWidgetTypeMbp.put(Region.INTERNAL_FRAME_TITLE_PANE,
                                   WidgetType.INTERNAL_FRAME_TITLE_PANE);
-        regionToWidgetTypeMap.put(Region.LABEL, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.LABEL, new WidgetType[] {
             WidgetType.LABEL, WidgetType.COMBO_BOX_TEXT_FIELD});
-        regionToWidgetTypeMap.put(Region.LIST, WidgetType.LIST);
-        regionToWidgetTypeMap.put(Region.MENU, WidgetType.MENU);
-        regionToWidgetTypeMap.put(Region.MENU_BAR, WidgetType.MENU_BAR);
-        regionToWidgetTypeMap.put(Region.MENU_ITEM, WidgetType.MENU_ITEM);
-        regionToWidgetTypeMap.put(Region.MENU_ITEM_ACCELERATOR,
+        regionToWidgetTypeMbp.put(Region.LIST, WidgetType.LIST);
+        regionToWidgetTypeMbp.put(Region.MENU, WidgetType.MENU);
+        regionToWidgetTypeMbp.put(Region.MENU_BAR, WidgetType.MENU_BAR);
+        regionToWidgetTypeMbp.put(Region.MENU_ITEM, WidgetType.MENU_ITEM);
+        regionToWidgetTypeMbp.put(Region.MENU_ITEM_ACCELERATOR,
                                   WidgetType.MENU_ITEM_ACCELERATOR);
-        regionToWidgetTypeMap.put(Region.OPTION_PANE, WidgetType.OPTION_PANE);
-        regionToWidgetTypeMap.put(Region.PANEL, WidgetType.PANEL);
-        regionToWidgetTypeMap.put(Region.PASSWORD_FIELD,
+        regionToWidgetTypeMbp.put(Region.OPTION_PANE, WidgetType.OPTION_PANE);
+        regionToWidgetTypeMbp.put(Region.PANEL, WidgetType.PANEL);
+        regionToWidgetTypeMbp.put(Region.PASSWORD_FIELD,
                                   WidgetType.PASSWORD_FIELD);
-        regionToWidgetTypeMap.put(Region.POPUP_MENU, WidgetType.POPUP_MENU);
-        regionToWidgetTypeMap.put(Region.POPUP_MENU_SEPARATOR,
+        regionToWidgetTypeMbp.put(Region.POPUP_MENU, WidgetType.POPUP_MENU);
+        regionToWidgetTypeMbp.put(Region.POPUP_MENU_SEPARATOR,
                                   WidgetType.POPUP_MENU_SEPARATOR);
-        regionToWidgetTypeMap.put(Region.PROGRESS_BAR, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.PROGRESS_BAR, new WidgetType[] {
             WidgetType.HPROGRESS_BAR, WidgetType.VPROGRESS_BAR});
-        regionToWidgetTypeMap.put(Region.RADIO_BUTTON, WidgetType.RADIO_BUTTON);
-        regionToWidgetTypeMap.put(Region.RADIO_BUTTON_MENU_ITEM,
+        regionToWidgetTypeMbp.put(Region.RADIO_BUTTON, WidgetType.RADIO_BUTTON);
+        regionToWidgetTypeMbp.put(Region.RADIO_BUTTON_MENU_ITEM,
                                   WidgetType.RADIO_BUTTON_MENU_ITEM);
-        regionToWidgetTypeMap.put(Region.ROOT_PANE, WidgetType.ROOT_PANE);
-        regionToWidgetTypeMap.put(Region.SCROLL_BAR, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.ROOT_PANE, WidgetType.ROOT_PANE);
+        regionToWidgetTypeMbp.put(Region.SCROLL_BAR, new WidgetType[] {
             WidgetType.HSCROLL_BAR, WidgetType.VSCROLL_BAR});
-        regionToWidgetTypeMap.put(Region.SCROLL_BAR_THUMB, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.SCROLL_BAR_THUMB, new WidgetType[] {
             WidgetType.HSCROLL_BAR_THUMB, WidgetType.VSCROLL_BAR_THUMB});
-        regionToWidgetTypeMap.put(Region.SCROLL_BAR_TRACK, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.SCROLL_BAR_TRACK, new WidgetType[] {
             WidgetType.HSCROLL_BAR_TRACK, WidgetType.VSCROLL_BAR_TRACK});
-        regionToWidgetTypeMap.put(Region.SCROLL_PANE, WidgetType.SCROLL_PANE);
-        regionToWidgetTypeMap.put(Region.SEPARATOR, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.SCROLL_PANE, WidgetType.SCROLL_PANE);
+        regionToWidgetTypeMbp.put(Region.SEPARATOR, new WidgetType[] {
             WidgetType.HSEPARATOR, WidgetType.VSEPARATOR});
-        regionToWidgetTypeMap.put(Region.SLIDER, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.SLIDER, new WidgetType[] {
             WidgetType.HSLIDER, WidgetType.VSLIDER});
-        regionToWidgetTypeMap.put(Region.SLIDER_THUMB, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.SLIDER_THUMB, new WidgetType[] {
             WidgetType.HSLIDER_THUMB, WidgetType.VSLIDER_THUMB});
-        regionToWidgetTypeMap.put(Region.SLIDER_TRACK, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.SLIDER_TRACK, new WidgetType[] {
             WidgetType.HSLIDER_TRACK, WidgetType.VSLIDER_TRACK});
-        regionToWidgetTypeMap.put(Region.SPINNER, WidgetType.SPINNER);
-        regionToWidgetTypeMap.put(Region.SPLIT_PANE, WidgetType.SPLIT_PANE);
-        regionToWidgetTypeMap.put(Region.SPLIT_PANE_DIVIDER, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.SPINNER, WidgetType.SPINNER);
+        regionToWidgetTypeMbp.put(Region.SPLIT_PANE, WidgetType.SPLIT_PANE);
+        regionToWidgetTypeMbp.put(Region.SPLIT_PANE_DIVIDER, new WidgetType[] {
             WidgetType.HSPLIT_PANE_DIVIDER, WidgetType.VSPLIT_PANE_DIVIDER});
-        regionToWidgetTypeMap.put(Region.TABBED_PANE, WidgetType.TABBED_PANE);
-        regionToWidgetTypeMap.put(Region.TABBED_PANE_CONTENT,
+        regionToWidgetTypeMbp.put(Region.TABBED_PANE, WidgetType.TABBED_PANE);
+        regionToWidgetTypeMbp.put(Region.TABBED_PANE_CONTENT,
                                   WidgetType.TABBED_PANE_CONTENT);
-        regionToWidgetTypeMap.put(Region.TABBED_PANE_TAB,
+        regionToWidgetTypeMbp.put(Region.TABBED_PANE_TAB,
                                   WidgetType.TABBED_PANE_TAB);
-        regionToWidgetTypeMap.put(Region.TABBED_PANE_TAB_AREA,
+        regionToWidgetTypeMbp.put(Region.TABBED_PANE_TAB_AREA,
                                   WidgetType.TABBED_PANE_TAB_AREA);
-        regionToWidgetTypeMap.put(Region.TABLE, WidgetType.TABLE);
-        regionToWidgetTypeMap.put(Region.TABLE_HEADER, WidgetType.TABLE_HEADER);
-        regionToWidgetTypeMap.put(Region.TEXT_AREA, WidgetType.TEXT_AREA);
-        regionToWidgetTypeMap.put(Region.TEXT_FIELD, new WidgetType[] {
+        regionToWidgetTypeMbp.put(Region.TABLE, WidgetType.TABLE);
+        regionToWidgetTypeMbp.put(Region.TABLE_HEADER, WidgetType.TABLE_HEADER);
+        regionToWidgetTypeMbp.put(Region.TEXT_AREA, WidgetType.TEXT_AREA);
+        regionToWidgetTypeMbp.put(Region.TEXT_FIELD, new WidgetType[] {
             WidgetType.TEXT_FIELD, WidgetType.COMBO_BOX_TEXT_FIELD});
-        regionToWidgetTypeMap.put(Region.TEXT_PANE, WidgetType.TEXT_PANE);
-        regionToWidgetTypeMap.put(CustomRegion.TITLED_BORDER, WidgetType.TITLED_BORDER);
-        regionToWidgetTypeMap.put(Region.TOGGLE_BUTTON, WidgetType.TOGGLE_BUTTON);
-        regionToWidgetTypeMap.put(Region.TOOL_BAR, WidgetType.TOOL_BAR);
-        regionToWidgetTypeMap.put(Region.TOOL_BAR_CONTENT, WidgetType.TOOL_BAR);
-        regionToWidgetTypeMap.put(Region.TOOL_BAR_DRAG_WINDOW,
+        regionToWidgetTypeMbp.put(Region.TEXT_PANE, WidgetType.TEXT_PANE);
+        regionToWidgetTypeMbp.put(CustomRegion.TITLED_BORDER, WidgetType.TITLED_BORDER);
+        regionToWidgetTypeMbp.put(Region.TOGGLE_BUTTON, WidgetType.TOGGLE_BUTTON);
+        regionToWidgetTypeMbp.put(Region.TOOL_BAR, WidgetType.TOOL_BAR);
+        regionToWidgetTypeMbp.put(Region.TOOL_BAR_CONTENT, WidgetType.TOOL_BAR);
+        regionToWidgetTypeMbp.put(Region.TOOL_BAR_DRAG_WINDOW,
                                   WidgetType.TOOL_BAR_DRAG_WINDOW);
-        regionToWidgetTypeMap.put(Region.TOOL_BAR_SEPARATOR,
+        regionToWidgetTypeMbp.put(Region.TOOL_BAR_SEPARATOR,
                                   WidgetType.TOOL_BAR_SEPARATOR);
-        regionToWidgetTypeMap.put(Region.TOOL_TIP, WidgetType.TOOL_TIP);
-        regionToWidgetTypeMap.put(Region.TREE, WidgetType.TREE);
-        regionToWidgetTypeMap.put(Region.TREE_CELL, WidgetType.TREE_CELL);
-        regionToWidgetTypeMap.put(Region.VIEWPORT, WidgetType.VIEWPORT);
+        regionToWidgetTypeMbp.put(Region.TOOL_TIP, WidgetType.TOOL_TIP);
+        regionToWidgetTypeMbp.put(Region.TREE, WidgetType.TREE);
+        regionToWidgetTypeMbp.put(Region.TREE_CELL, WidgetType.TREE_CELL);
+        regionToWidgetTypeMbp.put(Region.VIEWPORT, WidgetType.VIEWPORT);
     }
 
-    /** Translate Region and JComponent into WidgetType ordinals */
-    static WidgetType getWidgetType(JComponent c, Region id) {
-        Object value = regionToWidgetTypeMap.get(id);
+    /** Trbnslbte Region bnd JComponent into WidgetType ordinbls */
+    stbtic WidgetType getWidgetType(JComponent c, Region id) {
+        Object vblue = regionToWidgetTypeMbp.get(id);
 
-        if (value instanceof WidgetType) {
-            return (WidgetType)value;
+        if (vblue instbnceof WidgetType) {
+            return (WidgetType)vblue;
         }
 
-        WidgetType[] widgets = (WidgetType[])value;
+        WidgetType[] widgets = (WidgetType[])vblue;
         if (c == null ) {
             return widgets[0];
         }
 
-        if (c instanceof JScrollBar) {
-            return (((JScrollBar)c).getOrientation() == JScrollBar.HORIZONTAL) ?
+        if (c instbnceof JScrollBbr) {
+            return (((JScrollBbr)c).getOrientbtion() == JScrollBbr.HORIZONTAL) ?
                 widgets[0] : widgets[1];
-        } else if (c instanceof JSeparator) {
-            JSeparator separator = (JSeparator)c;
+        } else if (c instbnceof JSepbrbtor) {
+            JSepbrbtor sepbrbtor = (JSepbrbtor)c;
 
-            /* We should return correrct WidgetType if the seperator is inserted
-             * in Menu/PopupMenu/ToolBar. BugID: 6465603
+            /* We should return correrct WidgetType if the seperbtor is inserted
+             * in Menu/PopupMenu/ToolBbr. BugID: 6465603
              */
-            if (separator.getParent() instanceof JPopupMenu) {
+            if (sepbrbtor.getPbrent() instbnceof JPopupMenu) {
                 return WidgetType.POPUP_MENU_SEPARATOR;
-            } else if (separator.getParent() instanceof JToolBar) {
+            } else if (sepbrbtor.getPbrent() instbnceof JToolBbr) {
                 return WidgetType.TOOL_BAR_SEPARATOR;
             }
 
-            return (separator.getOrientation() == JSeparator.HORIZONTAL) ?
+            return (sepbrbtor.getOrientbtion() == JSepbrbtor.HORIZONTAL) ?
                 widgets[0] : widgets[1];
-        } else if (c instanceof JSlider) {
-            return (((JSlider)c).getOrientation() == JSlider.HORIZONTAL) ?
+        } else if (c instbnceof JSlider) {
+            return (((JSlider)c).getOrientbtion() == JSlider.HORIZONTAL) ?
                 widgets[0] : widgets[1];
-        } else if (c instanceof JProgressBar) {
-            return (((JProgressBar)c).getOrientation() == JProgressBar.HORIZONTAL) ?
+        } else if (c instbnceof JProgressBbr) {
+            return (((JProgressBbr)c).getOrientbtion() == JProgressBbr.HORIZONTAL) ?
                 widgets[0] : widgets[1];
-        } else if (c instanceof JSplitPane) {
-            return (((JSplitPane)c).getOrientation() == JSplitPane.HORIZONTAL_SPLIT) ?
+        } else if (c instbnceof JSplitPbne) {
+            return (((JSplitPbne)c).getOrientbtion() == JSplitPbne.HORIZONTAL_SPLIT) ?
                 widgets[1] : widgets[0];
         } else if (id == Region.LABEL) {
             /*
-             * For all ListCellRenderers we will use COMBO_BOX_TEXT_FIELD widget
-             * type because we can get correct insets. List items however won't be
-             * drawn as a text entry (see GTKPainter.paintLabelBackground).
+             * For bll ListCellRenderers we will use COMBO_BOX_TEXT_FIELD widget
+             * type becbuse we cbn get correct insets. List items however won't be
+             * drbwn bs b text entry (see GTKPbinter.pbintLbbelBbckground).
              */
-            if (c instanceof ListCellRenderer) {
+            if (c instbnceof ListCellRenderer) {
                 return widgets[1];
             } else {
                 return widgets[0];
             }
         } else if (id == Region.TEXT_FIELD) {
-            String name = c.getName();
-            if (name != null && name.startsWith("ComboBox")) {
+            String nbme = c.getNbme();
+            if (nbme != null && nbme.stbrtsWith("ComboBox")) {
                 return widgets[1];
             } else {
                 return widgets[0];
             }
         } else if (id == Region.FORMATTED_TEXT_FIELD) {
-            String name = c.getName();
-            if (name != null && name.startsWith("Spinner")) {
+            String nbme = c.getNbme();
+            if (nbme != null && nbme.stbrtsWith("Spinner")) {
                 return widgets[1];
             } else {
                 return widgets[0];
             }
         } else if (id == Region.ARROW_BUTTON) {
-            if (c.getParent() instanceof JScrollBar) {
+            if (c.getPbrent() instbnceof JScrollBbr) {
                 Integer prop = (Integer)
-                    c.getClientProperty("__arrow_direction__");
+                    c.getClientProperty("__brrow_direction__");
                 int dir = (prop != null) ?
-                    prop.intValue() : SwingConstants.WEST;
+                    prop.intVblue() : SwingConstbnts.WEST;
                 switch (dir) {
-                case SwingConstants.WEST:
+                cbse SwingConstbnts.WEST:
                     return WidgetType.HSCROLL_BAR_BUTTON_LEFT;
-                case SwingConstants.EAST:
+                cbse SwingConstbnts.EAST:
                     return WidgetType.HSCROLL_BAR_BUTTON_RIGHT;
-                case SwingConstants.NORTH:
+                cbse SwingConstbnts.NORTH:
                     return WidgetType.VSCROLL_BAR_BUTTON_UP;
-                case SwingConstants.SOUTH:
+                cbse SwingConstbnts.SOUTH:
                     return WidgetType.VSCROLL_BAR_BUTTON_DOWN;
-                default:
+                defbult:
                     return null;
                 }
-            } else if (c.getParent() instanceof JComboBox) {
+            } else if (c.getPbrent() instbnceof JComboBox) {
                 return WidgetType.COMBO_BOX_ARROW_BUTTON;
             } else {
                 return WidgetType.SPINNER_ARROW_BUTTON;
@@ -362,175 +362,175 @@ class GTKEngine {
         return null;
     }
 
-    private static int getTextDirection(SynthContext context) {
+    privbte stbtic int getTextDirection(SynthContext context) {
         TextDirection dir = TextDirection.NONE;
         JComponent comp = context.getComponent();
         if (comp != null) {
-            ComponentOrientation co = comp.getComponentOrientation();
+            ComponentOrientbtion co = comp.getComponentOrientbtion();
             if (co != null) {
                 dir = co.isLeftToRight() ?
                     TextDirection.LTR : TextDirection.RTL;
             }
         }
-        return dir.ordinal();
+        return dir.ordinbl();
     }
 
-    public void paintArrow(Graphics g, SynthContext context,
-            Region id, int state, ShadowType shadowType, ArrowType direction,
-            String detail, int x, int y, int w, int h) {
+    public void pbintArrow(Grbphics g, SynthContext context,
+            Region id, int stbte, ShbdowType shbdowType, ArrowType direction,
+            String detbil, int x, int y, int w, int h) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_arrow(widget, state, shadowType.ordinal(),
-                detail, x - x0, y - y0, w, h, direction.ordinal());
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_brrow(widget, stbte, shbdowType.ordinbl(),
+                detbil, x - x0, y - y0, w, h, direction.ordinbl());
     }
 
-    public void paintBox(Graphics g, SynthContext context,
-            Region id, int state, ShadowType shadowType,
-            String detail, int x, int y, int w, int h) {
+    public void pbintBox(Grbphics g, SynthContext context,
+            Region id, int stbte, ShbdowType shbdowType,
+            String detbil, int x, int y, int w, int h) {
 
-        int gtkState =
-            GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int synthState = context.getComponentState();
+        int gtkStbte =
+            GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int synthStbte = context.getComponentStbte();
         int dir = getTextDirection(context);
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_box(widget, gtkState, shadowType.ordinal(),
-                         detail, x - x0, y - y0, w, h, synthState, dir);
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_box(widget, gtkStbte, shbdowType.ordinbl(),
+                         detbil, x - x0, y - y0, w, h, synthStbte, dir);
     }
 
-    public void paintBoxGap(Graphics g, SynthContext context,
-            Region id, int state, ShadowType shadowType,
-            String detail, int x, int y, int w, int h,
-            PositionType boxGapType, int tabBegin, int size) {
+    public void pbintBoxGbp(Grbphics g, SynthContext context,
+            Region id, int stbte, ShbdowType shbdowType,
+            String detbil, int x, int y, int w, int h,
+            PositionType boxGbpType, int tbbBegin, int size) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_box_gap(widget, state, shadowType.ordinal(), detail,
-                x - x0, y - y0, w, h, boxGapType.ordinal(), tabBegin, size);
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_box_gbp(widget, stbte, shbdowType.ordinbl(), detbil,
+                x - x0, y - y0, w, h, boxGbpType.ordinbl(), tbbBegin, size);
     }
 
-    public void paintCheck(Graphics g, SynthContext context,
-            Region id, String detail, int x, int y, int w, int h) {
+    public void pbintCheck(Grbphics g, SynthContext context,
+            Region id, String detbil, int x, int y, int w, int h) {
 
-        int synthState = context.getComponentState();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_check(widget, synthState, detail, x - x0, y - y0, w, h);
+        int synthStbte = context.getComponentStbte();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_check(widget, synthStbte, detbil, x - x0, y - y0, w, h);
     }
 
-    public void paintExpander(Graphics g, SynthContext context,
-            Region id, int state, ExpanderStyle expanderStyle, String detail,
+    public void pbintExpbnder(Grbphics g, SynthContext context,
+            Region id, int stbte, ExpbnderStyle expbnderStyle, String detbil,
             int x, int y, int w, int h) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_expander(widget, state, detail, x - x0, y - y0, w, h,
-                              expanderStyle.ordinal());
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_expbnder(widget, stbte, detbil, x - x0, y - y0, w, h,
+                              expbnderStyle.ordinbl());
     }
 
-    public void paintExtension(Graphics g, SynthContext context,
-            Region id, int state, ShadowType shadowType, String detail,
-            int x, int y, int w, int h, PositionType placement, int tabIndex) {
+    public void pbintExtension(Grbphics g, SynthContext context,
+            Region id, int stbte, ShbdowType shbdowType, String detbil,
+            int x, int y, int w, int h, PositionType plbcement, int tbbIndex) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_extension(widget, state, shadowType.ordinal(), detail,
-                               x - x0, y - y0, w, h, placement.ordinal());
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_extension(widget, stbte, shbdowType.ordinbl(), detbil,
+                               x - x0, y - y0, w, h, plbcement.ordinbl());
     }
 
-    public void paintFlatBox(Graphics g, SynthContext context,
-            Region id, int state, ShadowType shadowType, String detail,
+    public void pbintFlbtBox(Grbphics g, SynthContext context,
+            Region id, int stbte, ShbdowType shbdowType, String detbil,
             int x, int y, int w, int h, ColorType colorType) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_flat_box(widget, state, shadowType.ordinal(), detail,
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_flbt_box(widget, stbte, shbdowType.ordinbl(), detbil,
                               x - x0, y - y0, w, h,
-                              context.getComponent().hasFocus());
+                              context.getComponent().hbsFocus());
     }
 
-    public void paintFocus(Graphics g, SynthContext context,
-            Region id, int state, String detail, int x, int y, int w, int h) {
+    public void pbintFocus(Grbphics g, SynthContext context,
+            Region id, int stbte, String detbil, int x, int y, int w, int h) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_focus(widget, state, detail, x - x0, y - y0, w, h);
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_focus(widget, stbte, detbil, x - x0, y - y0, w, h);
     }
 
-    public void paintHandle(Graphics g, SynthContext context,
-            Region id, int state, ShadowType shadowType, String detail,
-            int x, int y, int w, int h, Orientation orientation) {
+    public void pbintHbndle(Grbphics g, SynthContext context,
+            Region id, int stbte, ShbdowType shbdowType, String detbil,
+            int x, int y, int w, int h, Orientbtion orientbtion) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_handle(widget, state, shadowType.ordinal(), detail,
-                            x - x0, y - y0, w, h, orientation.ordinal());
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_hbndle(widget, stbte, shbdowType.ordinbl(), detbil,
+                            x - x0, y - y0, w, h, orientbtion.ordinbl());
     }
 
-    public void paintHline(Graphics g, SynthContext context,
-            Region id, int state, String detail, int x, int y, int w, int h) {
+    public void pbintHline(Grbphics g, SynthContext context,
+            Region id, int stbte, String detbil, int x, int y, int w, int h) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_hline(widget, state, detail, x - x0, y - y0, w, h);
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_hline(widget, stbte, detbil, x - x0, y - y0, w, h);
     }
 
-    public void paintOption(Graphics g, SynthContext context,
-            Region id, String detail, int x, int y, int w, int h) {
+    public void pbintOption(Grbphics g, SynthContext context,
+            Region id, String detbil, int x, int y, int w, int h) {
 
-        int synthState = context.getComponentState();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_option(widget, synthState, detail, x - x0, y - y0, w, h);
+        int synthStbte = context.getComponentStbte();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_option(widget, synthStbte, detbil, x - x0, y - y0, w, h);
     }
 
-    public void paintShadow(Graphics g, SynthContext context,
-            Region id, int state, ShadowType shadowType, String detail,
+    public void pbintShbdow(Grbphics g, SynthContext context,
+            Region id, int stbte, ShbdowType shbdowType, String detbil,
             int x, int y, int w, int h) {
 
-        int gtkState =
-            GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int synthState = context.getComponentState();
+        int gtkStbte =
+            GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int synthStbte = context.getComponentStbte();
         int dir = getTextDirection(context);
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_shadow(widget, gtkState, shadowType.ordinal(), detail,
-                            x - x0, y - y0, w, h, synthState, dir);
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_shbdow(widget, gtkStbte, shbdowType.ordinbl(), detbil,
+                            x - x0, y - y0, w, h, synthStbte, dir);
     }
 
-    public void paintSlider(Graphics g, SynthContext context,
-            Region id, int state, ShadowType shadowType, String detail,
-            int x, int y, int w, int h, Orientation orientation) {
+    public void pbintSlider(Grbphics g, SynthContext context,
+            Region id, int stbte, ShbdowType shbdowType, String detbil,
+            int x, int y, int w, int h, Orientbtion orientbtion) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_slider(widget, state, shadowType.ordinal(), detail,
-                            x - x0, y - y0, w, h, orientation.ordinal());
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_slider(widget, stbte, shbdowType.ordinbl(), detbil,
+                            x - x0, y - y0, w, h, orientbtion.ordinbl());
     }
 
-    public void paintVline(Graphics g, SynthContext context,
-            Region id, int state, String detail, int x, int y, int w, int h) {
+    public void pbintVline(Grbphics g, SynthContext context,
+            Region id, int stbte, String detbil, int x, int y, int w, int h) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_vline(widget, state, detail, x - x0, y - y0, w, h);
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_vline(widget, stbte, detbil, x - x0, y - y0, w, h);
     }
 
-    public void paintBackground(Graphics g, SynthContext context,
-            Region id, int state, Color color, int x, int y, int w, int h) {
+    public void pbintBbckground(Grbphics g, SynthContext context,
+            Region id, int stbte, Color color, int x, int y, int w, int h) {
 
-        state = GTKLookAndFeel.synthStateToGTKStateType(state).ordinal();
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        native_paint_background(widget, state, x - x0, y - y0, w, h);
+        stbte = GTKLookAndFeel.synthStbteToGTKStbteType(stbte).ordinbl();
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtive_pbint_bbckground(widget, stbte, x - x0, y - y0, w, h);
     }
 
-    private final static ColorModel[] COLOR_MODELS = {
-        // Transparency.OPAQUE
+    privbte finbl stbtic ColorModel[] COLOR_MODELS = {
+        // Trbnspbrency.OPAQUE
         new DirectColorModel(24, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x00000000),
-        // Transparency.BITMASK
+        // Trbnspbrency.BITMASK
         new DirectColorModel(25, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x01000000),
-        // Transparency.TRANSLUCENT
-        ColorModel.getRGBdefault(),
+        // Trbnspbrency.TRANSLUCENT
+        ColorModel.getRGBdefbult(),
     };
 
-    private final static int[][] BAND_OFFSETS = {
+    privbte finbl stbtic int[][] BAND_OFFSETS = {
         { 0x00ff0000, 0x0000ff00, 0x000000ff },             // OPAQUE
         { 0x00ff0000, 0x0000ff00, 0x000000ff, 0x01000000 }, // BITMASK
         { 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000 }  // TRANSLUCENT
@@ -538,98 +538,98 @@ class GTKEngine {
 
 
     /**
-     * Paint a cached image identified by its size and a set of additional
-     * arguments, if there's one.
+     * Pbint b cbched imbge identified by its size bnd b set of bdditionbl
+     * brguments, if there's one.
      *
-     * @return true if a cached image has been painted, false otherwise
+     * @return true if b cbched imbge hbs been pbinted, fblse otherwise
      */
-    public boolean paintCachedImage(Graphics g,
-            int x, int y, int w, int h, Object... args) {
+    public boolebn pbintCbchedImbge(Grbphics g,
+            int x, int y, int w, int h, Object... brgs) {
         if (w <= 0 || h <= 0) {
             return true;
         }
 
-        // look for cached image
-        Image img = cache.getImage(getClass(), null, w, h, args);
+        // look for cbched imbge
+        Imbge img = cbche.getImbge(getClbss(), null, w, h, brgs);
         if (img != null) {
-            g.drawImage(img, x, y, null);
+            g.drbwImbge(img, x, y, null);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Allocate a native offscreen buffer of the specified size.
+     * Allocbte b nbtive offscreen buffer of the specified size.
      */
-    public void startPainting(Graphics g,
-            int x, int y, int w, int h, Object... args) {
-        nativeStartPainting(w, h);
+    public void stbrtPbinting(Grbphics g,
+            int x, int y, int w, int h, Object... brgs) {
+        nbtiveStbrtPbinting(w, h);
         x0 = x;
         y0 = y;
         w0 = w;
         h0 = h;
-        graphics = g;
-        cacheArgs = args;
+        grbphics = g;
+        cbcheArgs = brgs;
     }
 
     /**
-     * Convenience method that delegates to finishPainting() with
-     * caching enabled.
+     * Convenience method thbt delegbtes to finishPbinting() with
+     * cbching enbbled.
      */
-    public void finishPainting() {
-        finishPainting(true);
+    public void finishPbinting() {
+        finishPbinting(true);
     }
 
     /**
-     * Called to indicate that painting is finished. We create a new
-     * BufferedImage from the offscreen buffer, (optionally) cache it,
-     * and paint it.
+     * Cblled to indicbte thbt pbinting is finished. We crebte b new
+     * BufferedImbge from the offscreen buffer, (optionblly) cbche it,
+     * bnd pbint it.
      */
-    public void finishPainting(boolean useCache) {
-        DataBufferInt dataBuffer = new DataBufferInt(w0 * h0);
-        // Note that stealData() requires a markDirty() afterwards
-        // since we modify the data in it.
-        int transparency =
-            nativeFinishPainting(SunWritableRaster.stealData(dataBuffer, 0),
+    public void finishPbinting(boolebn useCbche) {
+        DbtbBufferInt dbtbBuffer = new DbtbBufferInt(w0 * h0);
+        // Note thbt steblDbtb() requires b mbrkDirty() bfterwbrds
+        // since we modify the dbtb in it.
+        int trbnspbrency =
+            nbtiveFinishPbinting(SunWritbbleRbster.steblDbtb(dbtbBuffer, 0),
                                  w0, h0);
-        SunWritableRaster.markDirty(dataBuffer);
+        SunWritbbleRbster.mbrkDirty(dbtbBuffer);
 
-        int[] bands = BAND_OFFSETS[transparency - 1];
-        WritableRaster raster = Raster.createPackedRaster(
-                dataBuffer, w0, h0, w0, bands, null);
+        int[] bbnds = BAND_OFFSETS[trbnspbrency - 1];
+        WritbbleRbster rbster = Rbster.crebtePbckedRbster(
+                dbtbBuffer, w0, h0, w0, bbnds, null);
 
-        ColorModel cm = COLOR_MODELS[transparency - 1];
-        Image img = new BufferedImage(cm, raster, false, null);
-        if (useCache) {
-            cache.setImage(getClass(), null, w0, h0, cacheArgs, img);
+        ColorModel cm = COLOR_MODELS[trbnspbrency - 1];
+        Imbge img = new BufferedImbge(cm, rbster, fblse, null);
+        if (useCbche) {
+            cbche.setImbge(getClbss(), null, w0, h0, cbcheArgs, img);
         }
-        graphics.drawImage(img, x0, y0, null);
+        grbphics.drbwImbge(img, x0, y0, null);
     }
 
     /**
-     * Notify native layer of theme change, and flush cache
+     * Notify nbtive lbyer of theme chbnge, bnd flush cbche
      */
-    public void themeChanged() {
-        synchronized(sun.awt.UNIXToolkit.GTK_LOCK) {
-            native_switch_theme();
+    public void themeChbnged() {
+        synchronized(sun.bwt.UNIXToolkit.GTK_LOCK) {
+            nbtive_switch_theme();
         }
-        cache.flush();
+        cbche.flush();
     }
 
-    /* GtkSettings enum mirrors that in gtk2_interface.h */
+    /* GtkSettings enum mirrors thbt in gtk2_interfbce.h */
     public Object getSetting(Settings property) {
-        synchronized(sun.awt.UNIXToolkit.GTK_LOCK) {
-            return native_get_gtk_setting(property.ordinal());
+        synchronized(sun.bwt.UNIXToolkit.GTK_LOCK) {
+            return nbtive_get_gtk_setting(property.ordinbl());
         }
     }
 
     /**
-     * Sets up the GtkAdjustment values for the native GtkRange widget
-     * associated with the given region (e.g. SLIDER, SCROLL_BAR).
+     * Sets up the GtkAdjustment vblues for the nbtive GtkRbnge widget
+     * bssocibted with the given region (e.g. SLIDER, SCROLL_BAR).
      */
-    void setRangeValue(SynthContext context, Region id,
-                       double value, double min, double max, double visible) {
-        int widget = getWidgetType(context.getComponent(), id).ordinal();
-        nativeSetRangeValue(widget, value, min, max, visible);
+    void setRbngeVblue(SynthContext context, Region id,
+                       double vblue, double min, double mbx, double visible) {
+        int widget = getWidgetType(context.getComponent(), id).ordinbl();
+        nbtiveSetRbngeVblue(widget, vblue, min, mbx, visible);
     }
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,16 +30,16 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <fcntl.h>
 
 #if !defined(LINUX) && !defined(_ALLBSD_SOURCE) && !defined(AIX)
@@ -58,7 +58,7 @@
 
 #include <netdb.h>
 #include <netinet/in.h>
-#include <sys/param.h>
+#include <sys/pbrbm.h>
 #include <time.h>
 
 #include "jni.h"
@@ -66,13 +66,13 @@
 #include "hprof.h"
 
 #ifdef AIX
-#include "porting_aix.h" /* For the 'dladdr' function. */
+#include "porting_bix.h" /* For the 'dlbddr' function. */
 #endif
 
 int
 md_getpid(void)
 {
-    static int pid = -1;
+    stbtic int pid = -1;
 
     if ( pid >= 0 ) {
         return pid;
@@ -93,11 +93,11 @@ md_init(void)
 #if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
     /* No Hi-Res timer option? */
 #else
-    if ( gdata->micro_state_accounting ) {
-        char proc_ctl_fn[48];
+    if ( gdbtb->micro_stbte_bccounting ) {
+        chbr proc_ctl_fn[48];
         int  procfd;
 
-        /* Turn on micro state accounting, once per process */
+        /* Turn on micro stbte bccounting, once per process */
         (void)md_snprintf(proc_ctl_fn, sizeof(proc_ctl_fn),
                 "/proc/%d/ctl", md_getpid());
 
@@ -115,33 +115,33 @@ md_init(void)
 }
 
 int
-md_connect(char *hostname, unsigned short port)
+md_connect(chbr *hostnbme, unsigned short port)
 {
     struct hostent *hentry;
-    struct sockaddr_in s;
+    struct sockbddr_in s;
     int fd;
 
-    /* create a socket */
+    /* crebte b socket */
     fd = socket(AF_INET, SOCK_STREAM, 0);
     if ( fd < 0 ) {
         return -1;
     }
 
-    /* find remote host's addr from name */
-    if ((hentry = gethostbyname(hostname)) == NULL) {
+    /* find remote host's bddr from nbme */
+    if ((hentry = gethostbynbme(hostnbme)) == NULL) {
         (void)close(fd);
         return -1;
     }
-    (void)memset((char *)&s, 0, sizeof(s));
-    /* set remote host's addr; its already in network byte order */
-    (void)memcpy(&s.sin_addr.s_addr, *(hentry->h_addr_list),
-           (int)sizeof(s.sin_addr.s_addr));
+    (void)memset((chbr *)&s, 0, sizeof(s));
+    /* set remote host's bddr; its blrebdy in network byte order */
+    (void)memcpy(&s.sin_bddr.s_bddr, *(hentry->h_bddr_list),
+           (int)sizeof(s.sin_bddr.s_bddr));
     /* set remote host's port */
     s.sin_port = htons(port);
-    s.sin_family = AF_INET;
+    s.sin_fbmily = AF_INET;
 
     /* now try connecting */
-    if (-1 == connect(fd, (struct sockaddr*)&s, sizeof(s))) {
+    if (-1 == connect(fd, (struct sockbddr*)&s, sizeof(s))) {
         (void)close(fd);
         return 0;
     }
@@ -149,7 +149,7 @@ md_connect(char *hostname, unsigned short port)
 }
 
 int
-md_recv(int f, char *buf, int len, int option)
+md_recv(int f, chbr *buf, int len, int option)
 {
     return recv(f, buf, len, option);
 }
@@ -161,28 +161,28 @@ md_shutdown(int filedes, int option)
 }
 
 int
-md_open(const char *filename)
+md_open(const chbr *filenbme)
 {
-    return open(filename, O_RDONLY);
+    return open(filenbme, O_RDONLY);
 }
 
 int
-md_open_binary(const char *filename)
+md_open_binbry(const chbr *filenbme)
 {
-    return md_open(filename);
+    return md_open(filenbme);
 }
 
 int
-md_creat(const char *filename)
+md_crebt(const chbr *filenbme)
 {
-    return open(filename, O_WRONLY | O_CREAT | O_TRUNC,
+    return open(filenbme, O_WRONLY | O_CREAT | O_TRUNC,
             S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }
 
 int
-md_creat_binary(const char *filename)
+md_crebt_binbry(const chbr *filenbme)
 {
-    return md_creat(filename);
+    return md_crebt(filenbme);
 }
 
 jlong
@@ -205,12 +205,12 @@ md_close(int filedes)
 }
 
 int
-md_send(int s, const char *msg, int len, int flags)
+md_send(int s, const chbr *msg, int len, int flbgs)
 {
     int res;
 
     do {
-        res = send(s, msg, len, flags);
+        res = send(s, msg, len, flbgs);
     } while ((res < 0) && (errno == EINTR));
 
     return res;
@@ -229,24 +229,24 @@ md_write(int filedes, const void *buf, int nbyte)
 }
 
 int
-md_read(int filedes, void *buf, int nbyte)
+md_rebd(int filedes, void *buf, int nbyte)
 {
     int res;
 
     do {
-        res = read(filedes, buf, nbyte);
+        res = rebd(filedes, buf, nbyte);
     } while ((res < 0) && (errno == EINTR));
 
     return res;
 }
 
-/* Time of day in milli-seconds */
-static jlong
-md_timeofday(void)
+/* Time of dby in milli-seconds */
+stbtic jlong
+md_timeofdby(void)
 {
-    struct timeval tv;
+    struct timevbl tv;
 
-    if ( gettimeofday(&tv, (void *)0) != 0 ) {
+    if ( gettimeofdby(&tv, (void *)0) != 0 ) {
         return (jlong)0; /* EOVERFLOW ? */
     }
     /*LINTED*/
@@ -258,100 +258,100 @@ jlong
 md_get_microsecs(void)
 {
 #if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
-    return (jlong)(md_timeofday() * (jlong)1000); /* Milli to micro */
+    return (jlong)(md_timeofdby() * (jlong)1000); /* Milli to micro */
 #else
-    return (jlong)(gethrtime()/(hrtime_t)1000); /* Nano seconds to micro seconds */
+    return (jlong)(gethrtime()/(hrtime_t)1000); /* Nbno seconds to micro seconds */
 #endif
 }
 
-/* Time of day in milli-seconds */
+/* Time of dby in milli-seconds */
 jlong
 md_get_timemillis(void)
 {
-    return md_timeofday();
+    return md_timeofdby();
 }
 
 /* Current CPU hi-res CPU time used */
 jlong
-md_get_thread_cpu_timemillis(void)
+md_get_threbd_cpu_timemillis(void)
 {
 #if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
-    return md_timeofday();
+    return md_timeofdby();
 #else
-    return (jlong)(gethrvtime()/1000); /* Nano seconds to milli seconds */
+    return (jlong)(gethrvtime()/1000); /* Nbno seconds to milli seconds */
 #endif
 }
 
 void
-md_get_prelude_path(char *path, int path_len, char *filename)
+md_get_prelude_pbth(chbr *pbth, int pbth_len, chbr *filenbme)
 {
-    void *addr;
-    char libdir[FILENAME_MAX+1];
+    void *bddr;
+    chbr libdir[FILENAME_MAX+1];
     Dl_info dlinfo;
 
     libdir[0] = 0;
 #if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
-    addr = (void*)&Agent_OnLoad;
+    bddr = (void*)&Agent_OnLobd;
 #else
-    /* Just using &Agent_OnLoad will get the first external symbol with
-     *   this name in the first .so, which may not be libhprof.so.
-     *   On Solaris we can actually ask for the address of our Agent_OnLoad.
+    /* Just using &Agent_OnLobd will get the first externbl symbol with
+     *   this nbme in the first .so, which mby not be libhprof.so.
+     *   On Solbris we cbn bctublly bsk for the bddress of our Agent_OnLobd.
      */
-    addr = dlsym(RTLD_SELF, "Agent_OnLoad");
-    /* Just in case the above didn't work (missing linker patch?). */
-    if ( addr == NULL ) {
-        addr = (void*)&Agent_OnLoad;
+    bddr = dlsym(RTLD_SELF, "Agent_OnLobd");
+    /* Just in cbse the bbove didn't work (missing linker pbtch?). */
+    if ( bddr == NULL ) {
+        bddr = (void*)&Agent_OnLobd;
     }
 #endif
 
-    /* Use dladdr() to get the full path to libhprof.so, which we use to find
+    /* Use dlbddr() to get the full pbth to libhprof.so, which we use to find
      *  the prelude file.
      */
-    dlinfo.dli_fname = NULL;
-    (void)dladdr(addr, &dlinfo);
-    if ( dlinfo.dli_fname != NULL ) {
-        char * lastSlash;
+    dlinfo.dli_fnbme = NULL;
+    (void)dlbddr(bddr, &dlinfo);
+    if ( dlinfo.dli_fnbme != NULL ) {
+        chbr * lbstSlbsh;
 
-        /* Full path to library name, need to move up one directory to 'lib' */
-        (void)strcpy(libdir, (char *)dlinfo.dli_fname);
-        lastSlash = strrchr(libdir, '/');
-        if ( lastSlash != NULL ) {
-            *lastSlash = '\0';
+        /* Full pbth to librbry nbme, need to move up one directory to 'lib' */
+        (void)strcpy(libdir, (chbr *)dlinfo.dli_fnbme);
+        lbstSlbsh = strrchr(libdir, '/');
+        if ( lbstSlbsh != NULL ) {
+            *lbstSlbsh = '\0';
         }
 #ifndef __APPLE__
-        // not sure why other platforms have to go up two levels, but on macos we only need up one
-        lastSlash = strrchr(libdir, '/');
-        if ( lastSlash != NULL ) {
-            *lastSlash = '\0';
+        // not sure why other plbtforms hbve to go up two levels, but on mbcos we only need up one
+        lbstSlbsh = strrchr(libdir, '/');
+        if ( lbstSlbsh != NULL ) {
+            *lbstSlbsh = '\0';
         }
 #endif /* __APPLE__ */
     }
-    (void)snprintf(path, path_len, "%s/%s", libdir, filename);
+    (void)snprintf(pbth, pbth_len, "%s/%s", libdir, filenbme);
 }
 
 
 int
-md_vsnprintf(char *s, int n, const char *format, va_list ap)
+md_vsnprintf(chbr *s, int n, const chbr *formbt, vb_list bp)
 {
-    return vsnprintf(s, n, format, ap);
+    return vsnprintf(s, n, formbt, bp);
 }
 
 int
-md_snprintf(char *s, int n, const char *format, ...)
+md_snprintf(chbr *s, int n, const chbr *formbt, ...)
 {
     int ret;
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    ret = md_vsnprintf(s, n, format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    ret = md_vsnprintf(s, n, formbt, bp);
+    vb_end(bp);
     return ret;
 }
 
 void
-md_system_error(char *buf, int len)
+md_system_error(chbr *buf, int len)
 {
-    char *p;
+    chbr *p;
 
     buf[0] = 0;
     p = strerror(errno);
@@ -384,60 +384,60 @@ md_ntohl(unsigned l)
     return ntohl(l);
 }
 
-static void dll_build_name(char* buffer, size_t buflen,
-                           const char* paths, const char* fname) {
-    char *path, *paths_copy, *next_token;
+stbtic void dll_build_nbme(chbr* buffer, size_t buflen,
+                           const chbr* pbths, const chbr* fnbme) {
+    chbr *pbth, *pbths_copy, *next_token;
 
-    paths_copy = strdup(paths);
-    if (paths_copy == NULL) {
+    pbths_copy = strdup(pbths);
+    if (pbths_copy == NULL) {
         return;
     }
 
     next_token = NULL;
-    path = strtok_r(paths_copy, ":", &next_token);
+    pbth = strtok_r(pbths_copy, ":", &next_token);
 
-    while (path != NULL) {
-        snprintf(buffer, buflen, "%s/lib%s" JNI_LIB_SUFFIX, path, fname);
-        if (access(buffer, F_OK) == 0) {
-            break;
+    while (pbth != NULL) {
+        snprintf(buffer, buflen, "%s/lib%s" JNI_LIB_SUFFIX, pbth, fnbme);
+        if (bccess(buffer, F_OK) == 0) {
+            brebk;
         }
         *buffer = '\0';
-        path = strtok_r(NULL, ":", &next_token);
+        pbth = strtok_r(NULL, ":", &next_token);
     }
 
-    free(paths_copy);
+    free(pbths_copy);
 }
 
-/* Create the actual fill filename for a dynamic library.  */
+/* Crebte the bctubl fill filenbme for b dynbmic librbry.  */
 void
-md_build_library_name(char *holder, int holderlen, const char *pname, const char *fname)
+md_build_librbry_nbme(chbr *holder, int holderlen, const chbr *pnbme, const chbr *fnbme)
 {
-    int   pnamelen;
+    int   pnbmelen;
 
-    /* Length of options directory location. */
-    pnamelen = pname ? strlen(pname) : 0;
+    /* Length of options directory locbtion. */
+    pnbmelen = pnbme ? strlen(pnbme) : 0;
 
     *holder = '\0';
-    /* Quietly truncate on buffer overflow.  Should be an error. */
-    if (pnamelen + (int)strlen(fname) + 10 > holderlen) {
+    /* Quietly truncbte on buffer overflow.  Should be bn error. */
+    if (pnbmelen + (int)strlen(fnbme) + 10 > holderlen) {
         return;
     }
 
-    /* Construct path to library */
-    if (pnamelen == 0) {
-        (void)snprintf(holder, holderlen, "lib%s" JNI_LIB_SUFFIX, fname);
+    /* Construct pbth to librbry */
+    if (pnbmelen == 0) {
+        (void)snprintf(holder, holderlen, "lib%s" JNI_LIB_SUFFIX, fnbme);
     } else {
-      dll_build_name(holder, holderlen, pname, fname);
+      dll_build_nbme(holder, holderlen, pnbme, fnbme);
     }
 }
 
-/* Load this library (return NULL on error, and error message in err_buf) */
+/* Lobd this librbry (return NULL on error, bnd error messbge in err_buf) */
 void *
-md_load_library(const char *name, char *err_buf, int err_buflen)
+md_lobd_librbry(const chbr *nbme, chbr *err_buf, int err_buflen)
 {
     void * result;
 
-    result = dlopen(name, RTLD_LAZY);
+    result = dlopen(nbme, RTLD_LAZY);
     if (result == NULL) {
         (void)strncpy(err_buf, dlerror(), err_buflen-2);
         err_buf[err_buflen-1] = '\0';
@@ -445,20 +445,20 @@ md_load_library(const char *name, char *err_buf, int err_buflen)
     return result;
 }
 
-/* Unload this library */
+/* Unlobd this librbry */
 void
-md_unload_library(void *handle)
+md_unlobd_librbry(void *hbndle)
 {
-    (void)dlclose(handle);
+    (void)dlclose(hbndle);
 }
 
-/* Find an entry point inside this library (return NULL if not found) */
+/* Find bn entry point inside this librbry (return NULL if not found) */
 void *
-md_find_library_entry(void *handle, const char *name)
+md_find_librbry_entry(void *hbndle, const chbr *nbme)
 {
     void * sym;
 
-    sym =  dlsym(handle, name);
+    sym =  dlsym(hbndle, nbme);
     return sym;
 }
 

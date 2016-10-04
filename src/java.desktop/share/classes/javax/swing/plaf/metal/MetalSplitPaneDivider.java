@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.bbsic.*;
 
 
 /**
- * Metal's split pane divider
+ * Metbl's split pbne divider
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Steve Wilson
- * @author Ralph kar
+ * @buthor Steve Wilson
+ * @buthor Rblph kbr
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class MetalSplitPaneDivider extends BasicSplitPaneDivider
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss MetblSplitPbneDivider extends BbsicSplitPbneDivider
 {
-    private MetalBumps bumps = new MetalBumps(10, 10,
-                 MetalLookAndFeel.getControlHighlight(),
-                 MetalLookAndFeel.getControlDarkShadow(),
-                 MetalLookAndFeel.getControl() );
+    privbte MetblBumps bumps = new MetblBumps(10, 10,
+                 MetblLookAndFeel.getControlHighlight(),
+                 MetblLookAndFeel.getControlDbrkShbdow(),
+                 MetblLookAndFeel.getControl() );
 
-    private MetalBumps focusBumps = new MetalBumps(10, 10,
-                 MetalLookAndFeel.getPrimaryControlHighlight(),
-                 MetalLookAndFeel.getPrimaryControlDarkShadow(),
-                 UIManager.getColor("SplitPane.dividerFocusColor"));
+    privbte MetblBumps focusBumps = new MetblBumps(10, 10,
+                 MetblLookAndFeel.getPrimbryControlHighlight(),
+                 MetblLookAndFeel.getPrimbryControlDbrkShbdow(),
+                 UIMbnbger.getColor("SplitPbne.dividerFocusColor"));
 
-    private int inset = 2;
+    privbte int inset = 2;
 
-    private Color controlColor = MetalLookAndFeel.getControl();
-    private Color primaryControlColor = UIManager.getColor(
-                                "SplitPane.dividerFocusColor");
+    privbte Color controlColor = MetblLookAndFeel.getControl();
+    privbte Color primbryControlColor = UIMbnbger.getColor(
+                                "SplitPbne.dividerFocusColor");
 
-    public MetalSplitPaneDivider(BasicSplitPaneUI ui) {
+    public MetblSplitPbneDivider(BbsicSplitPbneUI ui) {
         super(ui);
     }
 
-    public void paint(Graphics g) {
-        MetalBumps usedBumps;
-        if (splitPane.hasFocus()) {
+    public void pbint(Grbphics g) {
+        MetblBumps usedBumps;
+        if (splitPbne.hbsFocus()) {
             usedBumps = focusBumps;
-            g.setColor(primaryControlColor);
+            g.setColor(primbryControlColor);
         }
         else {
             usedBumps = bumps;
             g.setColor(controlColor);
         }
-        Rectangle clip = g.getClipBounds();
+        Rectbngle clip = g.getClipBounds();
         Insets insets = getInsets();
         g.fillRect(clip.x, clip.y, clip.width, clip.height);
         Dimension  size = getSize();
         size.width -= inset * 2;
         size.height -= inset * 2;
-        int drawX = inset;
-        int drawY = inset;
+        int drbwX = inset;
+        int drbwY = inset;
         if (insets != null) {
             size.width -= (insets.left + insets.right);
             size.height -= (insets.top + insets.bottom);
-            drawX += insets.left;
-            drawY += insets.top;
+            drbwX += insets.left;
+            drbwY += insets.top;
         }
-        usedBumps.setBumpArea(size);
-        usedBumps.paintIcon(this, g, drawX, drawY);
-        super.paint(g);
+        usedBumps.setBumpAreb(size);
+        usedBumps.pbintIcon(this, g, drbwX, drbwY);
+        super.pbint(g);
     }
 
     /**
-     * Creates and return an instance of JButton that can be used to
-     * collapse the left component in the metal split pane.
+     * Crebtes bnd return bn instbnce of JButton thbt cbn be used to
+     * collbpse the left component in the metbl split pbne.
      */
-    protected JButton createLeftOneTouchButton() {
+    protected JButton crebteLeftOneTouchButton() {
         JButton b = new JButton() {
-            // Sprite buffer for the arrow image of the left button
+            // Sprite buffer for the brrow imbge of the left button
             int[][]     buffer = {{0, 0, 0, 2, 2, 0, 0, 0, 0},
                                   {0, 0, 2, 1, 1, 1, 0, 0, 0},
                                   {0, 2, 1, 1, 1, 1, 1, 0, 0},
@@ -114,35 +114,35 @@ class MetalSplitPaneDivider extends BasicSplitPaneDivider
             public void setBorder(Border b) {
             }
 
-            public void paint(Graphics g) {
-                JSplitPane splitPane = getSplitPaneFromSuper();
-                if(splitPane != null) {
+            public void pbint(Grbphics g) {
+                JSplitPbne splitPbne = getSplitPbneFromSuper();
+                if(splitPbne != null) {
                     int         oneTouchSize = getOneTouchSizeFromSuper();
-                    int         orientation = getOrientationFromSuper();
-                    int         blockSize = Math.min(getDividerSize(),
+                    int         orientbtion = getOrientbtionFromSuper();
+                    int         blockSize = Mbth.min(getDividerSize(),
                                                      oneTouchSize);
 
-                    // Initialize the color array
+                    // Initiblize the color brrby
                     Color[]     colors = {
-                            this.getBackground(),
-                            MetalLookAndFeel.getPrimaryControlDarkShadow(),
-                            MetalLookAndFeel.getPrimaryControlInfo(),
-                            MetalLookAndFeel.getPrimaryControlHighlight()};
+                            this.getBbckground(),
+                            MetblLookAndFeel.getPrimbryControlDbrkShbdow(),
+                            MetblLookAndFeel.getPrimbryControlInfo(),
+                            MetblLookAndFeel.getPrimbryControlHighlight()};
 
-                    // Fill the background first ...
-                    g.setColor(this.getBackground());
-                    if (isOpaque()) {
+                    // Fill the bbckground first ...
+                    g.setColor(this.getBbckground());
+                    if (isOpbque()) {
                         g.fillRect(0, 0, this.getWidth(),
                                    this.getHeight());
                     }
 
-                    // ... then draw the arrow.
+                    // ... then drbw the brrow.
                     if (getModel().isPressed()) {
-                            // Adjust color mapping for pressed button state
+                            // Adjust color mbpping for pressed button stbte
                             colors[1] = colors[2];
                     }
-                    if(orientation == JSplitPane.VERTICAL_SPLIT) {
-                            // Draw the image for a vertical split
+                    if(orientbtion == JSplitPbne.VERTICAL_SPLIT) {
+                            // Drbw the imbge for b verticbl split
                             for (int i=1; i<=buffer[0].length; i++) {
                                     for (int j=1; j<blockSize; j++) {
                                             if (buffer[j-1][i-1] == 0) {
@@ -152,68 +152,68 @@ class MetalSplitPaneDivider extends BasicSplitPaneDivider
                                                 g.setColor(
                                                     colors[buffer[j-1][i-1]]);
                                             }
-                                            g.drawLine(i, j, i, j);
+                                            g.drbwLine(i, j, i, j);
                                     }
                             }
                     }
                     else {
-                            // Draw the image for a horizontal split
-                            // by simply swaping the i and j axis.
-                            // Except the drawLine() call this code is
-                            // identical to the code block above. This was done
-                            // in order to remove the additional orientation
-                            // check for each pixel.
+                            // Drbw the imbge for b horizontbl split
+                            // by simply swbping the i bnd j bxis.
+                            // Except the drbwLine() cbll this code is
+                            // identicbl to the code block bbove. This wbs done
+                            // in order to remove the bdditionbl orientbtion
+                            // check for ebch pixel.
                             for (int i=1; i<=buffer[0].length; i++) {
                                     for (int j=1; j<blockSize; j++) {
                                             if (buffer[j-1][i-1] == 0) {
                                                     // Nothing needs
-                                                    // to be drawn
+                                                    // to be drbwn
                                                     continue;
                                             }
                                             else {
                                                     // Set the color from the
-                                                    // color map
+                                                    // color mbp
                                                     g.setColor(
                                                     colors[buffer[j-1][i-1]]);
                                             }
-                                            // Draw a pixel
-                                            g.drawLine(j, i, j, i);
+                                            // Drbw b pixel
+                                            g.drbwLine(j, i, j, i);
                                     }
                             }
                     }
                 }
             }
 
-            // Don't want the button to participate in focus traversable.
-            public boolean isFocusTraversable() {
-                return false;
+            // Don't wbnt the button to pbrticipbte in focus trbversbble.
+            public boolebn isFocusTrbversbble() {
+                return fblse;
             }
         };
-        b.setRequestFocusEnabled(false);
+        b.setRequestFocusEnbbled(fblse);
         b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        maybeMakeButtonOpaque(b);
+        b.setFocusPbinted(fblse);
+        b.setBorderPbinted(fblse);
+        mbybeMbkeButtonOpbque(b);
         return b;
     }
 
     /**
-     * If necessary <code>c</code> is made opaque.
+     * If necessbry <code>c</code> is mbde opbque.
      */
-    private void maybeMakeButtonOpaque(JComponent c) {
-        Object opaque = UIManager.get("SplitPane.oneTouchButtonsOpaque");
-        if (opaque != null) {
-            c.setOpaque(((Boolean)opaque).booleanValue());
+    privbte void mbybeMbkeButtonOpbque(JComponent c) {
+        Object opbque = UIMbnbger.get("SplitPbne.oneTouchButtonsOpbque");
+        if (opbque != null) {
+            c.setOpbque(((Boolebn)opbque).boolebnVblue());
         }
     }
 
     /**
-     * Creates and return an instance of JButton that can be used to
-     * collapse the right component in the metal split pane.
+     * Crebtes bnd return bn instbnce of JButton thbt cbn be used to
+     * collbpse the right component in the metbl split pbne.
      */
-    protected JButton createRightOneTouchButton() {
+    protected JButton crebteRightOneTouchButton() {
         JButton b = new JButton() {
-            // Sprite buffer for the arrow image of the right button
+            // Sprite buffer for the brrow imbge of the right button
             int[][]     buffer = {{2, 2, 2, 2, 2, 2, 2, 2},
                                   {0, 1, 1, 1, 1, 1, 1, 3},
                                   {0, 0, 1, 1, 1, 1, 3, 0},
@@ -223,35 +223,35 @@ class MetalSplitPaneDivider extends BasicSplitPaneDivider
             public void setBorder(Border border) {
             }
 
-            public void paint(Graphics g) {
-                JSplitPane splitPane = getSplitPaneFromSuper();
-                if(splitPane != null) {
+            public void pbint(Grbphics g) {
+                JSplitPbne splitPbne = getSplitPbneFromSuper();
+                if(splitPbne != null) {
                     int         oneTouchSize = getOneTouchSizeFromSuper();
-                    int         orientation = getOrientationFromSuper();
-                    int         blockSize = Math.min(getDividerSize(),
+                    int         orientbtion = getOrientbtionFromSuper();
+                    int         blockSize = Mbth.min(getDividerSize(),
                                                      oneTouchSize);
 
-                    // Initialize the color array
+                    // Initiblize the color brrby
                     Color[]     colors = {
-                            this.getBackground(),
-                            MetalLookAndFeel.getPrimaryControlDarkShadow(),
-                            MetalLookAndFeel.getPrimaryControlInfo(),
-                            MetalLookAndFeel.getPrimaryControlHighlight()};
+                            this.getBbckground(),
+                            MetblLookAndFeel.getPrimbryControlDbrkShbdow(),
+                            MetblLookAndFeel.getPrimbryControlInfo(),
+                            MetblLookAndFeel.getPrimbryControlHighlight()};
 
-                    // Fill the background first ...
-                    g.setColor(this.getBackground());
-                    if (isOpaque()) {
+                    // Fill the bbckground first ...
+                    g.setColor(this.getBbckground());
+                    if (isOpbque()) {
                         g.fillRect(0, 0, this.getWidth(),
                                    this.getHeight());
                     }
 
-                    // ... then draw the arrow.
+                    // ... then drbw the brrow.
                     if (getModel().isPressed()) {
-                            // Adjust color mapping for pressed button state
+                            // Adjust color mbpping for pressed button stbte
                             colors[1] = colors[2];
                     }
-                    if(orientation == JSplitPane.VERTICAL_SPLIT) {
-                            // Draw the image for a vertical split
+                    if(orientbtion == JSplitPbne.VERTICAL_SPLIT) {
+                            // Drbw the imbge for b verticbl split
                             for (int i=1; i<=buffer[0].length; i++) {
                                     for (int j=1; j<blockSize; j++) {
                                             if (buffer[j-1][i-1] == 0) {
@@ -261,106 +261,106 @@ class MetalSplitPaneDivider extends BasicSplitPaneDivider
                                                 g.setColor(
                                                     colors[buffer[j-1][i-1]]);
                                             }
-                                            g.drawLine(i, j, i, j);
+                                            g.drbwLine(i, j, i, j);
                                     }
                             }
                     }
                     else {
-                            // Draw the image for a horizontal split
-                            // by simply swaping the i and j axis.
-                            // Except the drawLine() call this code is
-                            // identical to the code block above. This was done
-                            // in order to remove the additional orientation
-                            // check for each pixel.
+                            // Drbw the imbge for b horizontbl split
+                            // by simply swbping the i bnd j bxis.
+                            // Except the drbwLine() cbll this code is
+                            // identicbl to the code block bbove. This wbs done
+                            // in order to remove the bdditionbl orientbtion
+                            // check for ebch pixel.
                             for (int i=1; i<=buffer[0].length; i++) {
                                     for (int j=1; j<blockSize; j++) {
                                             if (buffer[j-1][i-1] == 0) {
                                                     // Nothing needs
-                                                    // to be drawn
+                                                    // to be drbwn
                                                     continue;
                                             }
                                             else {
                                                     // Set the color from the
-                                                    // color map
+                                                    // color mbp
                                                     g.setColor(
                                                     colors[buffer[j-1][i-1]]);
                                             }
-                                            // Draw a pixel
-                                            g.drawLine(j, i, j, i);
+                                            // Drbw b pixel
+                                            g.drbwLine(j, i, j, i);
                                     }
                             }
                     }
                 }
             }
 
-            // Don't want the button to participate in focus traversable.
-            public boolean isFocusTraversable() {
-                return false;
+            // Don't wbnt the button to pbrticipbte in focus trbversbble.
+            public boolebn isFocusTrbversbble() {
+                return fblse;
             }
         };
         b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
-        maybeMakeButtonOpaque(b);
+        b.setFocusPbinted(fblse);
+        b.setBorderPbinted(fblse);
+        b.setRequestFocusEnbbled(fblse);
+        mbybeMbkeButtonOpbque(b);
         return b;
     }
 
     /**
-     * Used to layout a MetalSplitPaneDivider. Layout for the divider
-     * involves appropriately moving the left/right buttons around.
+     * Used to lbyout b MetblSplitPbneDivider. Lbyout for the divider
+     * involves bppropribtely moving the left/right buttons bround.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of MetalSplitPaneDivider.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of MetblSplitPbneDivider.
      */
-    public class MetalDividerLayout implements LayoutManager {
+    public clbss MetblDividerLbyout implements LbyoutMbnbger {
 
         // NOTE NOTE NOTE NOTE NOTE
-        // This class is no longer used, the functionality has
-        // been rolled into BasicSplitPaneDivider.DividerLayout as a
-        // defaults property
+        // This clbss is no longer used, the functionblity hbs
+        // been rolled into BbsicSplitPbneDivider.DividerLbyout bs b
+        // defbults property
 
-        public void layoutContainer(Container c) {
+        public void lbyoutContbiner(Contbiner c) {
             JButton     leftButton = getLeftButtonFromSuper();
             JButton     rightButton = getRightButtonFromSuper();
-            JSplitPane  splitPane = getSplitPaneFromSuper();
-            int         orientation = getOrientationFromSuper();
+            JSplitPbne  splitPbne = getSplitPbneFromSuper();
+            int         orientbtion = getOrientbtionFromSuper();
             int         oneTouchSize = getOneTouchSizeFromSuper();
             int         oneTouchOffset = getOneTouchOffsetFromSuper();
             Insets      insets = getInsets();
 
-            // This layout differs from the one used in BasicSplitPaneDivider.
-            // It does not center justify the oneTouchExpadable buttons.
-            // This was necessary in order to meet the spec of the Metal
-            // splitpane divider.
+            // This lbyout differs from the one used in BbsicSplitPbneDivider.
+            // It does not center justify the oneTouchExpbdbble buttons.
+            // This wbs necessbry in order to meet the spec of the Metbl
+            // splitpbne divider.
             if (leftButton != null && rightButton != null &&
-                c == MetalSplitPaneDivider.this) {
-                if (splitPane.isOneTouchExpandable()) {
-                    if (orientation == JSplitPane.VERTICAL_SPLIT) {
-                        int extraY = (insets != null) ? insets.top : 0;
+                c == MetblSplitPbneDivider.this) {
+                if (splitPbne.isOneTouchExpbndbble()) {
+                    if (orientbtion == JSplitPbne.VERTICAL_SPLIT) {
+                        int extrbY = (insets != null) ? insets.top : 0;
                         int blockSize = getDividerSize();
 
                         if (insets != null) {
                             blockSize -= (insets.top + insets.bottom);
                         }
-                        blockSize = Math.min(blockSize, oneTouchSize);
-                        leftButton.setBounds(oneTouchOffset, extraY,
+                        blockSize = Mbth.min(blockSize, oneTouchSize);
+                        leftButton.setBounds(oneTouchOffset, extrbY,
                                              blockSize * 2, blockSize);
                         rightButton.setBounds(oneTouchOffset +
-                                              oneTouchSize * 2, extraY,
+                                              oneTouchSize * 2, extrbY,
                                               blockSize * 2, blockSize);
                     }
                     else {
                         int blockSize = getDividerSize();
-                        int extraX = (insets != null) ? insets.left : 0;
+                        int extrbX = (insets != null) ? insets.left : 0;
 
                         if (insets != null) {
                             blockSize -= (insets.left + insets.right);
                         }
-                        blockSize = Math.min(blockSize, oneTouchSize);
-                        leftButton.setBounds(extraX, oneTouchOffset,
+                        blockSize = Mbth.min(blockSize, oneTouchSize);
+                        leftButton.setBounds(extrbX, oneTouchOffset,
                                              blockSize, blockSize * 2);
-                        rightButton.setBounds(extraX, oneTouchOffset +
+                        rightButton.setBounds(extrbX, oneTouchOffset +
                                               oneTouchSize * 2, blockSize,
                                               blockSize * 2);
                     }
@@ -372,39 +372,39 @@ class MetalSplitPaneDivider extends BasicSplitPaneDivider
             }
         }
 
-        public Dimension minimumLayoutSize(Container c) {
+        public Dimension minimumLbyoutSize(Contbiner c) {
             return new Dimension(0,0);
         }
 
-        public Dimension preferredLayoutSize(Container c) {
+        public Dimension preferredLbyoutSize(Contbiner c) {
             return new Dimension(0, 0);
         }
 
-        public void removeLayoutComponent(Component c) {}
+        public void removeLbyoutComponent(Component c) {}
 
-        public void addLayoutComponent(String string, Component c) {}
+        public void bddLbyoutComponent(String string, Component c) {}
     }
 
     /*
-     * The following methods only exist in order to be able to access protected
-     * members in the superclass, because these are otherwise not available
-     * in any inner class.
+     * The following methods only exist in order to be bble to bccess protected
+     * members in the superclbss, becbuse these bre otherwise not bvbilbble
+     * in bny inner clbss.
      */
 
     int getOneTouchSizeFromSuper() {
-        return BasicSplitPaneDivider.ONE_TOUCH_SIZE;
+        return BbsicSplitPbneDivider.ONE_TOUCH_SIZE;
     }
 
     int getOneTouchOffsetFromSuper() {
-        return BasicSplitPaneDivider.ONE_TOUCH_OFFSET;
+        return BbsicSplitPbneDivider.ONE_TOUCH_OFFSET;
     }
 
-    int getOrientationFromSuper() {
-        return super.orientation;
+    int getOrientbtionFromSuper() {
+        return super.orientbtion;
     }
 
-    JSplitPane getSplitPaneFromSuper() {
-        return super.splitPane;
+    JSplitPbne getSplitPbneFromSuper() {
+        return super.splitPbne;
     }
 
     JButton getLeftButtonFromSuper() {

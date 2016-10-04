@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.metadata;
+pbckbge jbvbx.imbgeio.metbdbtb;
 
-import javax.imageio.IIOException;
+import jbvbx.imbgeio.IIOException;
 import org.w3c.dom.Node;
 
 /**
- * An <code>IIOInvalidTreeException</code> is thrown when an attempt
- * by an <code>IIOMetadata</code> object to parse a tree of
- * <code>IIOMetadataNode</code>s fails.  The node that led to the
- * parsing error may be stored.  As with any parsing error, the actual
- * error may occur at a different point that that where it is
+ * An <code>IIOInvblidTreeException</code> is thrown when bn bttempt
+ * by bn <code>IIOMetbdbtb</code> object to pbrse b tree of
+ * <code>IIOMetbdbtbNode</code>s fbils.  The node thbt led to the
+ * pbrsing error mby be stored.  As with bny pbrsing error, the bctubl
+ * error mby occur bt b different point thbt thbt where it is
  * detected.  The node returned by <code>getOffendingNode</code>
- * should merely be considered as a clue to the actual nature of the
+ * should merely be considered bs b clue to the bctubl nbture of the
  * problem.
  *
- * @see IIOMetadata#setFromTree
- * @see IIOMetadata#mergeTree
- * @see IIOMetadataNode
+ * @see IIOMetbdbtb#setFromTree
+ * @see IIOMetbdbtb#mergeTree
+ * @see IIOMetbdbtbNode
  *
  */
-public class IIOInvalidTreeException extends IIOException {
-    private static final long serialVersionUID = -1314083172544132777L;
+public clbss IIOInvblidTreeException extends IIOException {
+    privbte stbtic finbl long seriblVersionUID = -1314083172544132777L;
 
     /**
-     * The <code>Node</code> that led to the parsing error, or
+     * The <code>Node</code> thbt led to the pbrsing error, or
      * <code>null</code>.
      */
     protected Node offendingNode = null;
 
     /**
-     * Constructs an <code>IIOInvalidTreeException</code> with a
-     * message string and a reference to the <code>Node</code> that
-     * caused the parsing error.
+     * Constructs bn <code>IIOInvblidTreeException</code> with b
+     * messbge string bnd b reference to the <code>Node</code> thbt
+     * cbused the pbrsing error.
      *
-     * @param message a <code>String</code> containing the reason for
-     * the parsing failure.
-     * @param offendingNode the DOM <code>Node</code> that caused the
+     * @pbrbm messbge b <code>String</code> contbining the rebson for
+     * the pbrsing fbilure.
+     * @pbrbm offendingNode the DOM <code>Node</code> thbt cbused the
      * exception, or <code>null</code>.
      */
-    public IIOInvalidTreeException(String message, Node offendingNode) {
-        super(message);
+    public IIOInvblidTreeException(String messbge, Node offendingNode) {
+        super(messbge);
         this.offendingNode = offendingNode;
     }
 
     /**
-     * Constructs an <code>IIOInvalidTreeException</code> with a
-     * message string, a reference to an exception that caused this
-     * exception, and a reference to the <code>Node</code> that caused
-     * the parsing error.
+     * Constructs bn <code>IIOInvblidTreeException</code> with b
+     * messbge string, b reference to bn exception thbt cbused this
+     * exception, bnd b reference to the <code>Node</code> thbt cbused
+     * the pbrsing error.
      *
-     * @param message a <code>String</code> containing the reason for
-     * the parsing failure.
-     * @param cause the <code>Throwable</code> (<code>Error</code> or
-     * <code>Exception</code>) that caused this exception to occur,
+     * @pbrbm messbge b <code>String</code> contbining the rebson for
+     * the pbrsing fbilure.
+     * @pbrbm cbuse the <code>Throwbble</code> (<code>Error</code> or
+     * <code>Exception</code>) thbt cbused this exception to occur,
      * or <code>null</code>.
-     * @param offendingNode the DOM <code>Node</code> that caused the
+     * @pbrbm offendingNode the DOM <code>Node</code> thbt cbused the
      * exception, or <code>null</code>.
      */
-    public IIOInvalidTreeException(String message, Throwable cause,
+    public IIOInvblidTreeException(String messbge, Throwbble cbuse,
                                    Node offendingNode) {
-        super(message, cause);
+        super(messbge, cbuse);
         this.offendingNode = offendingNode;
     }
 
     /**
-     * Returns the <code>Node</code> that caused the error in parsing.
+     * Returns the <code>Node</code> thbt cbused the error in pbrsing.
      *
      * @return the offending <code>Node</code>.
      */

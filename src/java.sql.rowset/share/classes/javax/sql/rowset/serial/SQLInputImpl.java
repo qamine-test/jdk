@@ -1,666 +1,666 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.sql.rowset.serial;
+pbckbge jbvbx.sql.rowset.seribl;
 
-import java.sql.*;
-import java.util.Arrays;
-import java.util.Map;
+import jbvb.sql.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * An input stream used for custom mapping user-defined types (UDTs).
- * An <code>SQLInputImpl</code> object is an input stream that contains a
- * stream of values that are the attributes of a UDT.
+ * An input strebm used for custom mbpping user-defined types (UDTs).
+ * An <code>SQLInputImpl</code> object is bn input strebm thbt contbins b
+ * strebm of vblues thbt bre the bttributes of b UDT.
  * <p>
- * This class is used by the driver behind the scenes when the method
- * <code>getObject</code> is called on an SQL structured or distinct type
- * that has a custom mapping; a programmer never invokes
- * <code>SQLInputImpl</code> methods directly. They are provided here as a
- * convenience for those who write <code>RowSet</code> implementations.
+ * This clbss is used by the driver behind the scenes when the method
+ * <code>getObject</code> is cblled on bn SQL structured or distinct type
+ * thbt hbs b custom mbpping; b progrbmmer never invokes
+ * <code>SQLInputImpl</code> methods directly. They bre provided here bs b
+ * convenience for those who write <code>RowSet</code> implementbtions.
  * <P>
- * The <code>SQLInputImpl</code> class provides a set of
- * reader methods analogous to the <code>ResultSet</code> getter
- * methods.  These methods make it possible to read the values in an
+ * The <code>SQLInputImpl</code> clbss provides b set of
+ * rebder methods bnblogous to the <code>ResultSet</code> getter
+ * methods.  These methods mbke it possible to rebd the vblues in bn
  * <code>SQLInputImpl</code> object.
  * <P>
- * The method <code>wasNull</code> is used to determine whether the
- * the last value read was SQL <code>NULL</code>.
- * <P>When the method <code>getObject</code> is called with an
- * object of a class implementing the interface <code>SQLData</code>,
- * the JDBC driver calls the method <code>SQLData.getSQLType</code>
- * to determine the SQL type of the UDT being custom mapped. The driver
- * creates an instance of <code>SQLInputImpl</code>, populating it with the
- * attributes of the UDT.  The driver then passes the input
- * stream to the method <code>SQLData.readSQL</code>, which in turn
- * calls the <code>SQLInputImpl</code> reader methods
- * to read the attributes from the input stream.
+ * The method <code>wbsNull</code> is used to determine whether the
+ * the lbst vblue rebd wbs SQL <code>NULL</code>.
+ * <P>When the method <code>getObject</code> is cblled with bn
+ * object of b clbss implementing the interfbce <code>SQLDbtb</code>,
+ * the JDBC driver cblls the method <code>SQLDbtb.getSQLType</code>
+ * to determine the SQL type of the UDT being custom mbpped. The driver
+ * crebtes bn instbnce of <code>SQLInputImpl</code>, populbting it with the
+ * bttributes of the UDT.  The driver then pbsses the input
+ * strebm to the method <code>SQLDbtb.rebdSQL</code>, which in turn
+ * cblls the <code>SQLInputImpl</code> rebder methods
+ * to rebd the bttributes from the input strebm.
  * @since 1.5
- * @see java.sql.SQLData
+ * @see jbvb.sql.SQLDbtb
  */
-public class SQLInputImpl implements SQLInput {
+public clbss SQLInputImpl implements SQLInput {
 
     /**
-     * <code>true</code> if the last value returned was <code>SQL NULL</code>;
-     * <code>false</code> otherwise.
+     * <code>true</code> if the lbst vblue returned wbs <code>SQL NULL</code>;
+     * <code>fblse</code> otherwise.
      */
-    private boolean lastValueWasNull;
+    privbte boolebn lbstVblueWbsNull;
 
     /**
-     * The current index into the array of SQL structured type attributes
-     * that will be read from this <code>SQLInputImpl</code> object and
-     * mapped to the fields of a class in the Java programming language.
+     * The current index into the brrby of SQL structured type bttributes
+     * thbt will be rebd from this <code>SQLInputImpl</code> object bnd
+     * mbpped to the fields of b clbss in the Jbvb progrbmming lbngubge.
      */
-    private int idx;
+    privbte int idx;
 
     /**
-     * The array of attributes to be read from this stream.  The order
-     * of the attributes is the same as the order in which they were
+     * The brrby of bttributes to be rebd from this strebm.  The order
+     * of the bttributes is the sbme bs the order in which they were
      * listed in the SQL definition of the UDT.
      */
-    private Object attrib[];
+    privbte Object bttrib[];
 
     /**
-     * The type map to use when the method <code>readObject</code>
-     * is invoked. This is a <code>java.util.Map</code> object in which
-     * there may be zero or more entries.  Each entry consists of the
-     * fully qualified name of a UDT (the value to be mapped) and the
-     * <code>Class</code> object for a class that implements
-     * <code>SQLData</code> (the Java class that defines how the UDT
-     * will be mapped).
+     * The type mbp to use when the method <code>rebdObject</code>
+     * is invoked. This is b <code>jbvb.util.Mbp</code> object in which
+     * there mby be zero or more entries.  Ebch entry consists of the
+     * fully qublified nbme of b UDT (the vblue to be mbpped) bnd the
+     * <code>Clbss</code> object for b clbss thbt implements
+     * <code>SQLDbtb</code> (the Jbvb clbss thbt defines how the UDT
+     * will be mbpped).
      */
-    private Map<String,Class<?>> map;
+    privbte Mbp<String,Clbss<?>> mbp;
 
 
     /**
-     * Creates an <code>SQLInputImpl</code> object initialized with the
-     * given array of attributes and the given type map. If any of the
-     * attributes is a UDT whose name is in an entry in the type map,
-     * the attribute will be mapped according to the corresponding
-     * <code>SQLData</code> implementation.
+     * Crebtes bn <code>SQLInputImpl</code> object initiblized with the
+     * given brrby of bttributes bnd the given type mbp. If bny of the
+     * bttributes is b UDT whose nbme is in bn entry in the type mbp,
+     * the bttribute will be mbpped bccording to the corresponding
+     * <code>SQLDbtb</code> implementbtion.
      *
-     * @param attributes an array of <code>Object</code> instances in which
-     *        each element is an attribute of a UDT. The order of the
-     *        attributes in the array is the same order in which
-     *        the attributes were defined in the UDT definition.
-     * @param map a <code>java.util.Map</code> object containing zero or more
-     *        entries, with each entry consisting of 1) a <code>String</code>
+     * @pbrbm bttributes bn brrby of <code>Object</code> instbnces in which
+     *        ebch element is bn bttribute of b UDT. The order of the
+     *        bttributes in the brrby is the sbme order in which
+     *        the bttributes were defined in the UDT definition.
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object contbining zero or more
+     *        entries, with ebch entry consisting of 1) b <code>String</code>
      *        giving the fully
-     *        qualified name of the UDT and 2) the <code>Class</code> object
-     *        for the <code>SQLData</code> implementation that defines how
-     *        the UDT is to be mapped
-     * @throws SQLException if the <code>attributes</code> or the <code>map</code>
-     *        is a <code>null</code> value
+     *        qublified nbme of the UDT bnd 2) the <code>Clbss</code> object
+     *        for the <code>SQLDbtb</code> implementbtion thbt defines how
+     *        the UDT is to be mbpped
+     * @throws SQLException if the <code>bttributes</code> or the <code>mbp</code>
+     *        is b <code>null</code> vblue
      */
 
-    public SQLInputImpl(Object[] attributes, Map<String,Class<?>> map)
+    public SQLInputImpl(Object[] bttributes, Mbp<String,Clbss<?>> mbp)
         throws SQLException
     {
-        if ((attributes == null) || (map == null)) {
-            throw new SQLException("Cannot instantiate a SQLInputImpl " +
-            "object with null parameters");
+        if ((bttributes == null) || (mbp == null)) {
+            throw new SQLException("Cbnnot instbntibte b SQLInputImpl " +
+            "object with null pbrbmeters");
         }
-        // assign our local reference to the attribute stream
-        attrib = Arrays.copyOf(attributes, attributes.length);
-        // init the index point before the head of the stream
+        // bssign our locbl reference to the bttribute strebm
+        bttrib = Arrbys.copyOf(bttributes, bttributes.length);
+        // init the index point before the hebd of the strebm
         idx = -1;
-        // set the map
-        this.map = map;
+        // set the mbp
+        this.mbp = mbp;
     }
 
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as an <code>Object</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs bn <code>Object</code> in the Jbvb progrbmming lbngubge.
      *
-     * @return the next value in the input stream
-     *         as an <code>Object</code> in the Java programming language
-     * @throws SQLException if the read position is located at an invalid
-     *         position or if there are no further values in the stream
+     * @return the next vblue in the input strebm
+     *         bs bn <code>Object</code> in the Jbvb progrbmming lbngubge
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *         position or if there bre no further vblues in the strebm
      */
-    private Object getNextAttribute() throws SQLException {
-        if (++idx >= attrib.length) {
-            throw new SQLException("SQLInputImpl exception: Invalid read " +
+    privbte Object getNextAttribute() throws SQLException {
+        if (++idx >= bttrib.length) {
+            throw new SQLException("SQLInputImpl exception: Invblid rebd " +
                                    "position");
         } else {
-            lastValueWasNull = attrib[idx] == null;
-            return attrib[idx];
+            lbstVblueWbsNull = bttrib[idx] == null;
+            return bttrib[idx];
         }
     }
 
 
     //================================================================
-    // Methods for reading attributes from the stream of SQL data.
-    // These methods correspond to the column-accessor methods of
-    // java.sql.ResultSet.
+    // Methods for rebding bttributes from the strebm of SQL dbtb.
+    // These methods correspond to the column-bccessor methods of
+    // jbvb.sql.ResultSet.
     //================================================================
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object as
-     * a <code>String</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object bs
+     * b <code>String</code> in the Jbvb progrbmming lbngubge.
      * <p>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *     if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *     position or if there are no further values in the stream.
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *     if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *     position or if there bre no further vblues in the strebm.
      */
-    public String readString() throws SQLException {
+    public String rebdString() throws SQLException {
         return  (String)getNextAttribute();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object as
-     * a <code>boolean</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object bs
+     * b <code>boolebn</code> in the Jbvb progrbmming lbngubge.
      * <p>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *     if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *     position or if there are no further values in the stream.
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *     if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *     position or if there bre no further vblues in the strebm.
      */
-    public boolean readBoolean() throws SQLException {
-        Boolean attrib = (Boolean)getNextAttribute();
-        return  (attrib == null) ? false : attrib.booleanValue();
+    public boolebn rebdBoolebn() throws SQLException {
+        Boolebn bttrib = (Boolebn)getNextAttribute();
+        return  (bttrib == null) ? fblse : bttrib.boolebnVblue();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object as
-     * a <code>byte</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object bs
+     * b <code>byte</code> in the Jbvb progrbmming lbngubge.
      * <p>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *     if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *     position or if there are no further values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *     if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *     position or if there bre no further vblues in the strebm
      */
-    public byte readByte() throws SQLException {
-        Byte attrib = (Byte)getNextAttribute();
-        return  (attrib == null) ? 0 : attrib.byteValue();
+    public byte rebdByte() throws SQLException {
+        Byte bttrib = (Byte)getNextAttribute();
+        return  (bttrib == null) ? 0 : bttrib.byteVblue();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as a <code>short</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs b <code>short</code> in the Jbvb progrbmming lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code> implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code> implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *       if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *       position or if there are no more values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *       if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *       position or if there bre no more vblues in the strebm
      */
-    public short readShort() throws SQLException {
-        Short attrib = (Short)getNextAttribute();
-        return (attrib == null) ? 0 : attrib.shortValue();
+    public short rebdShort() throws SQLException {
+        Short bttrib = (Short)getNextAttribute();
+        return (bttrib == null) ? 0 : bttrib.shortVblue();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as an <code>int</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs bn <code>int</code> in the Jbvb progrbmming lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code> implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code> implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *       if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *       position or if there are no more values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *       if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *       position or if there bre no more vblues in the strebm
      */
-    public int readInt() throws SQLException {
-        Integer attrib = (Integer)getNextAttribute();
-        return (attrib == null) ? 0 : attrib.intValue();
+    public int rebdInt() throws SQLException {
+        Integer bttrib = (Integer)getNextAttribute();
+        return (bttrib == null) ? 0 : bttrib.intVblue();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as a <code>long</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs b <code>long</code> in the Jbvb progrbmming lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code> implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code> implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *       if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *       position or if there are no more values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *       if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *       position or if there bre no more vblues in the strebm
      */
-    public long readLong() throws SQLException {
-        Long attrib = (Long)getNextAttribute();
-        return (attrib == null) ? 0 : attrib.longValue();
+    public long rebdLong() throws SQLException {
+        Long bttrib = (Long)getNextAttribute();
+        return (bttrib == null) ? 0 : bttrib.longVblue();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as a <code>float</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs b <code>flobt</code> in the Jbvb progrbmming lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code> implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code> implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *       if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *       position or if there are no more values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *       if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *       position or if there bre no more vblues in the strebm
      */
-    public float readFloat() throws SQLException {
-        Float attrib = (Float)getNextAttribute();
-        return (attrib == null) ? 0 : attrib.floatValue();
+    public flobt rebdFlobt() throws SQLException {
+        Flobt bttrib = (Flobt)getNextAttribute();
+        return (bttrib == null) ? 0 : bttrib.flobtVblue();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as a <code>double</code> in the Java programming language.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs b <code>double</code> in the Jbvb progrbmming lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code> implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code> implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *       if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *       position or if there are no more values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *       if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *       position or if there bre no more vblues in the strebm
      */
-    public double readDouble() throws SQLException {
-        Double attrib = (Double)getNextAttribute();
-        return (attrib == null)  ? 0 :  attrib.doubleValue();
+    public double rebdDouble() throws SQLException {
+        Double bttrib = (Double)getNextAttribute();
+        return (bttrib == null)  ? 0 :  bttrib.doubleVblue();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as a <code>java.math.BigDecimal</code>.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs b <code>jbvb.mbth.BigDecimbl</code>.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code> implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code> implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *       if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *       position or if there are no more values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *       if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *       position or if there bre no more vblues in the strebm
      */
-    public java.math.BigDecimal readBigDecimal() throws SQLException {
-        return (java.math.BigDecimal)getNextAttribute();
+    public jbvb.mbth.BigDecimbl rebdBigDecimbl() throws SQLException {
+        return (jbvb.mbth.BigDecimbl)getNextAttribute();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as an array of bytes.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs bn brrby of bytes.
      * <p>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code> implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code> implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *       if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *       position or if there are no more values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *       if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *       position or if there bre no more vblues in the strebm
      */
-    public byte[] readBytes() throws SQLException {
+    public byte[] rebdBytes() throws SQLException {
         return (byte[])getNextAttribute();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> as
-     * a <code>java.sql.Date</code> object.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> bs
+     * b <code>jbvb.sql.Dbte</code> object.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type; this responsibility is delegated
-     * to the UDT mapping as defined by a <code>SQLData</code> implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type; this responsibility is delegbted
+     * to the UDT mbpping bs defined by b <code>SQLDbtb</code> implementbtion.
      *
-     * @return the next attribute in this <code>SQLInputImpl</code> object;
-     *       if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *       position or if there are no more values in the stream
+     * @return the next bttribute in this <code>SQLInputImpl</code> object;
+     *       if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *       position or if there bre no more vblues in the strebm
      */
-    public java.sql.Date readDate() throws SQLException {
-        return (java.sql.Date)getNextAttribute();
+    public jbvb.sql.Dbte rebdDbte() throws SQLException {
+        return (jbvb.sql.Dbte)getNextAttribute();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object as
-     * a <code>java.sql.Time</code> object.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object bs
+     * b <code>jbvb.sql.Time</code> object.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type as this responsibility is delegated
-     * to the UDT mapping as implemented by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type bs this responsibility is delegbted
+     * to the UDT mbpping bs implemented by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return the attribute; if the value is <code>SQL NULL</code>, return
+     * @return the bttribute; if the vblue is <code>SQL NULL</code>, return
      * <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public java.sql.Time readTime() throws SQLException {
-        return (java.sql.Time)getNextAttribute();
+    public jbvb.sql.Time rebdTime() throws SQLException {
+        return (jbvb.sql.Time)getNextAttribute();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object as
-     * a <code>java.sql.Timestamp</code> object.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object bs
+     * b <code>jbvb.sql.Timestbmp</code> object.
      *
-     * @return the attribute; if the value is <code>SQL NULL</code>, return
+     * @return the bttribute; if the vblue is <code>SQL NULL</code>, return
      * <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public java.sql.Timestamp readTimestamp() throws SQLException {
-        return (java.sql.Timestamp)getNextAttribute();
+    public jbvb.sql.Timestbmp rebdTimestbmp() throws SQLException {
+        return (jbvb.sql.Timestbmp)getNextAttribute();
     }
 
     /**
-     * Retrieves the next attribute in this <code>SQLInputImpl</code> object
-     * as a stream of Unicode characters.
+     * Retrieves the next bttribute in this <code>SQLInputImpl</code> object
+     * bs b strebm of Unicode chbrbcters.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type as this responsibility is delegated
-     * to the UDT mapping as implemented by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type bs this responsibility is delegbted
+     * to the UDT mbpping bs implemented by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return the attribute; if the value is <code>SQL NULL</code>, return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @return the bttribute; if the vblue is <code>SQL NULL</code>, return <code>null</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public java.io.Reader readCharacterStream() throws SQLException {
-        return (java.io.Reader)getNextAttribute();
+    public jbvb.io.Rebder rebdChbrbcterStrebm() throws SQLException {
+        return (jbvb.io.Rebder)getNextAttribute();
     }
 
     /**
-     * Returns the next attribute in this <code>SQLInputImpl</code> object
-     * as a stream of ASCII characters.
+     * Returns the next bttribute in this <code>SQLInputImpl</code> object
+     * bs b strebm of ASCII chbrbcters.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type as this responsibility is delegated
-     * to the UDT mapping as implemented by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type bs this responsibility is delegbted
+     * to the UDT mbpping bs implemented by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return the attribute; if the value is <code>SQL NULL</code>,
+     * @return the bttribute; if the vblue is <code>SQL NULL</code>,
      * return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public java.io.InputStream readAsciiStream() throws SQLException {
-        return (java.io.InputStream)getNextAttribute();
+    public jbvb.io.InputStrebm rebdAsciiStrebm() throws SQLException {
+        return (jbvb.io.InputStrebm)getNextAttribute();
     }
 
     /**
-     * Returns the next attribute in this <code>SQLInputImpl</code> object
-     * as a stream of uninterpreted bytes.
+     * Returns the next bttribute in this <code>SQLInputImpl</code> object
+     * bs b strebm of uninterpreted bytes.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type as this responsibility is delegated
-     * to the UDT mapping as implemented by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type bs this responsibility is delegbted
+     * to the UDT mbpping bs implemented by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return the attribute; if the value is <code>SQL NULL</code>, return
+     * @return the bttribute; if the vblue is <code>SQL NULL</code>, return
      * <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public java.io.InputStream readBinaryStream() throws SQLException {
-        return (java.io.InputStream)getNextAttribute();
+    public jbvb.io.InputStrebm rebdBinbryStrebm() throws SQLException {
+        return (jbvb.io.InputStrebm)getNextAttribute();
     }
 
     //================================================================
-    // Methods for reading items of SQL user-defined types from the stream.
+    // Methods for rebding items of SQL user-defined types from the strebm.
     //================================================================
 
     /**
-     * Retrieves the value at the head of this <code>SQLInputImpl</code>
-     * object as an <code>Object</code> in the Java programming language.  The
-     * actual type of the object returned is determined by the default
-     * mapping of SQL types to types in the Java programming language unless
-     * there is a custom mapping, in which case the type of the object
-     * returned is determined by this stream's type map.
+     * Retrieves the vblue bt the hebd of this <code>SQLInputImpl</code>
+     * object bs bn <code>Object</code> in the Jbvb progrbmming lbngubge.  The
+     * bctubl type of the object returned is determined by the defbult
+     * mbpping of SQL types to types in the Jbvb progrbmming lbngubge unless
+     * there is b custom mbpping, in which cbse the type of the object
+     * returned is determined by this strebm's type mbp.
      * <P>
-     * The JDBC technology-enabled driver registers a type map with the stream
-     * before passing the stream to the application.
+     * The JDBC technology-enbbled driver registers b type mbp with the strebm
+     * before pbssing the strebm to the bpplicbtion.
      * <P>
-     * When the datum at the head of the stream is an SQL <code>NULL</code>,
-     * this method returns <code>null</code>.  If the datum is an SQL
-     * structured or distinct type with a custom mapping, this method
-     * determines the SQL type of the datum at the head of the stream,
-     * constructs an object of the appropriate class, and calls the method
-     * <code>SQLData.readSQL</code> on that object. The <code>readSQL</code>
-     * method then calls the appropriate <code>SQLInputImpl.readXXX</code>
-     * methods to retrieve the attribute values from the stream.
+     * When the dbtum bt the hebd of the strebm is bn SQL <code>NULL</code>,
+     * this method returns <code>null</code>.  If the dbtum is bn SQL
+     * structured or distinct type with b custom mbpping, this method
+     * determines the SQL type of the dbtum bt the hebd of the strebm,
+     * constructs bn object of the bppropribte clbss, bnd cblls the method
+     * <code>SQLDbtb.rebdSQL</code> on thbt object. The <code>rebdSQL</code>
+     * method then cblls the bppropribte <code>SQLInputImpl.rebdXXX</code>
+     * methods to retrieve the bttribute vblues from the strebm.
      *
-     * @return the value at the head of the stream as an <code>Object</code>
-     *         in the Java programming language; <code>null</code> if
-     *         the value is SQL <code>NULL</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @return the vblue bt the hebd of the strebm bs bn <code>Object</code>
+     *         in the Jbvb progrbmming lbngubge; <code>null</code> if
+     *         the vblue is SQL <code>NULL</code>
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public Object readObject() throws SQLException {
-        Object attrib = getNextAttribute();
-        if (attrib instanceof Struct) {
-            Struct s = (Struct)attrib;
-            // look up the class in the map
-            Class<?> c = map.get(s.getSQLTypeName());
+    public Object rebdObject() throws SQLException {
+        Object bttrib = getNextAttribute();
+        if (bttrib instbnceof Struct) {
+            Struct s = (Struct)bttrib;
+            // look up the clbss in the mbp
+            Clbss<?> c = mbp.get(s.getSQLTypeNbme());
             if (c != null) {
-                // create new instance of the class
-                SQLData obj = null;
+                // crebte new instbnce of the clbss
+                SQLDbtb obj = null;
                 try {
-                    obj = (SQLData)ReflectUtil.newInstance(c);
-                } catch (Exception ex) {
-                    throw new SQLException("Unable to Instantiate: ", ex);
+                    obj = (SQLDbtb)ReflectUtil.newInstbnce(c);
+                } cbtch (Exception ex) {
+                    throw new SQLException("Unbble to Instbntibte: ", ex);
                 }
-                // get the attributes from the struct
-                Object attribs[] = s.getAttributes(map);
-                // create the SQLInput "stream"
-                SQLInputImpl sqlInput = new SQLInputImpl(attribs, map);
-                // read the values...
-                obj.readSQL(sqlInput, s.getSQLTypeName());
+                // get the bttributes from the struct
+                Object bttribs[] = s.getAttributes(mbp);
+                // crebte the SQLInput "strebm"
+                SQLInputImpl sqlInput = new SQLInputImpl(bttribs, mbp);
+                // rebd the vblues...
+                obj.rebdSQL(sqlInput, s.getSQLTypeNbme());
                 return obj;
             }
         }
-        return attrib;
+        return bttrib;
     }
 
     /**
-     * Retrieves the value at the head of this <code>SQLInputImpl</code> object
-     * as a <code>Ref</code> object in the Java programming language.
+     * Retrieves the vblue bt the hebd of this <code>SQLInputImpl</code> object
+     * bs b <code>Ref</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>Ref</code> object representing the SQL
-     *         <code>REF</code> value at the head of the stream; if the value
+     * @return b <code>Ref</code> object representing the SQL
+     *         <code>REF</code> vblue bt the hebd of the strebm; if the vblue
      *         is <code>SQL NULL</code> return <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     *         position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     *         position; or if there bre no further vblues in the strebm.
      */
-    public Ref readRef() throws SQLException {
+    public Ref rebdRef() throws SQLException {
         return (Ref)getNextAttribute();
     }
 
     /**
-     * Retrieves the <code>BLOB</code> value at the head of this
-     * <code>SQLInputImpl</code> object as a <code>Blob</code> object
-     * in the Java programming language.
+     * Retrieves the <code>BLOB</code> vblue bt the hebd of this
+     * <code>SQLInputImpl</code> object bs b <code>Blob</code> object
+     * in the Jbvb progrbmming lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type as this responsibility is delegated
-     * to the UDT mapping as implemented by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type bs this responsibility is delegbted
+     * to the UDT mbpping bs implemented by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return a <code>Blob</code> object representing the SQL
-     *         <code>BLOB</code> value at the head of this stream;
-     *         if the value is <code>SQL NULL</code>, return
+     * @return b <code>Blob</code> object representing the SQL
+     *         <code>BLOB</code> vblue bt the hebd of this strebm;
+     *         if the vblue is <code>SQL NULL</code>, return
      *         <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public Blob readBlob() throws SQLException {
+    public Blob rebdBlob() throws SQLException {
         return (Blob)getNextAttribute();
     }
 
     /**
-     * Retrieves the <code>CLOB</code> value at the head of this
-     * <code>SQLInputImpl</code> object as a <code>Clob</code> object
-     * in the Java programming language.
+     * Retrieves the <code>CLOB</code> vblue bt the hebd of this
+     * <code>SQLInputImpl</code> object bs b <code>Clob</code> object
+     * in the Jbvb progrbmming lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type as this responsibility is delegated
-     * to the UDT mapping as implemented by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type bs this responsibility is delegbted
+     * to the UDT mbpping bs implemented by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return a <code>Clob</code> object representing the SQL
-     *         <code>CLOB</code> value at the head of the stream;
-     *         if the value is <code>SQL NULL</code>, return
+     * @return b <code>Clob</code> object representing the SQL
+     *         <code>CLOB</code> vblue bt the hebd of the strebm;
+     *         if the vblue is <code>SQL NULL</code>, return
      *         <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public Clob readClob() throws SQLException {
+    public Clob rebdClob() throws SQLException {
         return (Clob)getNextAttribute();
     }
 
     /**
-     * Reads an SQL <code>ARRAY</code> value from the stream and
-     * returns it as an <code>Array</code> object in the Java programming
-     * language.
+     * Rebds bn SQL <code>ARRAY</code> vblue from the strebm bnd
+     * returns it bs bn <code>Arrby</code> object in the Jbvb progrbmming
+     * lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type as this responsibility is delegated
-     * to the UDT mapping as implemented by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type bs this responsibility is delegbted
+     * to the UDT mbpping bs implemented by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return an <code>Array</code> object representing the SQL
-     *         <code>ARRAY</code> value at the head of the stream; *
-     *         if the value is <code>SQL NULL</code>, return
+     * @return bn <code>Arrby</code> object representing the SQL
+     *         <code>ARRAY</code> vblue bt the hebd of the strebm; *
+     *         if the vblue is <code>SQL NULL</code>, return
      *         <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
 
      */
-    public Array readArray() throws SQLException {
-        return (Array)getNextAttribute();
+    public Arrby rebdArrby() throws SQLException {
+        return (Arrby)getNextAttribute();
     }
 
     /**
-     * Ascertains whether the last value read from this
-     * <code>SQLInputImpl</code> object was <code>null</code>.
+     * Ascertbins whether the lbst vblue rebd from this
+     * <code>SQLInputImpl</code> object wbs <code>null</code>.
      *
-     * @return <code>true</code> if the SQL value read most recently was
-     *         <code>null</code>; otherwise, <code>false</code>; by default it
-     *         will return false
-     * @throws SQLException if an error occurs determining the last value
-     *         read was a <code>null</code> value or not;
+     * @return <code>true</code> if the SQL vblue rebd most recently wbs
+     *         <code>null</code>; otherwise, <code>fblse</code>; by defbult it
+     *         will return fblse
+     * @throws SQLException if bn error occurs determining the lbst vblue
+     *         rebd wbs b <code>null</code> vblue or not;
      */
-    public boolean wasNull() throws SQLException {
-        return lastValueWasNull;
+    public boolebn wbsNull() throws SQLException {
+        return lbstVblueWbsNull;
     }
 
     /**
-     * Reads an SQL <code>DATALINK</code> value from the stream and
-     * returns it as an <code>URL</code> object in the Java programming
-     * language.
+     * Rebds bn SQL <code>DATALINK</code> vblue from the strebm bnd
+     * returns it bs bn <code>URL</code> object in the Jbvb progrbmming
+     * lbngubge.
      * <P>
-     * This method does not perform type-safe checking to determine if the
-     * returned type is the expected type as this responsibility is delegated
-     * to the UDT mapping as implemented by a <code>SQLData</code>
-     * implementation.
+     * This method does not perform type-sbfe checking to determine if the
+     * returned type is the expected type bs this responsibility is delegbted
+     * to the UDT mbpping bs implemented by b <code>SQLDbtb</code>
+     * implementbtion.
      *
-     * @return an <code>URL</code> object representing the SQL
-     *         <code>DATALINK</code> value at the head of the stream; *
-     *         if the value is <code>SQL NULL</code>, return
+     * @return bn <code>URL</code> object representing the SQL
+     *         <code>DATALINK</code> vblue bt the hebd of the strebm; *
+     *         if the vblue is <code>SQL NULL</code>, return
      *         <code>null</code>
-     * @throws SQLException if the read position is located at an invalid
-     * position; or if there are no further values in the stream.
+     * @throws SQLException if the rebd position is locbted bt bn invblid
+     * position; or if there bre no further vblues in the strebm.
      */
-    public java.net.URL readURL() throws SQLException {
-        return (java.net.URL)getNextAttribute();
+    public jbvb.net.URL rebdURL() throws SQLException {
+        return (jbvb.net.URL)getNextAttribute();
     }
 
     //---------------------------- JDBC 4.0 -------------------------
 
     /**
-     * Reads an SQL <code>NCLOB</code> value from the stream and returns it as a
-     * <code>Clob</code> object in the Java programming language.
+     * Rebds bn SQL <code>NCLOB</code> vblue from the strebm bnd returns it bs b
+     * <code>Clob</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>NClob</code> object representing data of the SQL <code>NCLOB</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>NClob</code> object representing dbtb of the SQL <code>NCLOB</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-     public NClob readNClob() throws SQLException {
+     public NClob rebdNClob() throws SQLException {
         return (NClob)getNextAttribute();
      }
 
     /**
-     * Reads the next attribute in the stream and returns it as a <code>String</code>
-     * in the Java programming language. It is intended for use when
-     * accessing  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * Rebds the next bttribute in the strebm bnd returns it bs b <code>String</code>
+     * in the Jbvb progrbmming lbngubge. It is intended for use when
+     * bccessing  <code>NCHAR</code>,<code>NVARCHAR</code>
+     * bnd <code>LONGNVARCHAR</code> columns.
      *
-     * @return the attribute; if the value is SQL <code>NULL</code>, returns <code>null</code>
-     * @exception SQLException if a database access error occurs
+     * @return the bttribute; if the vblue is SQL <code>NULL</code>, returns <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public String readNString() throws SQLException {
+    public String rebdNString() throws SQLException {
         return (String)getNextAttribute();
     }
 
     /**
-     * Reads an SQL <code>XML</code> value from the stream and returns it as a
-     * <code>SQLXML</code> object in the Java programming language.
+     * Rebds bn SQL <code>XML</code> vblue from the strebm bnd returns it bs b
+     * <code>SQLXML</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>SQLXML</code> object representing data of the SQL <code>XML</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>SQLXML</code> object representing dbtb of the SQL <code>XML</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public SQLXML readSQLXML() throws SQLException {
+    public SQLXML rebdSQLXML() throws SQLException {
         return (SQLXML)getNextAttribute();
     }
 
     /**
-     * Reads an SQL <code>ROWID</code> value from the stream and returns it as a
-     * <code>RowId</code> object in the Java programming language.
+     * Rebds bn SQL <code>ROWID</code> vblue from the strebm bnd returns it bs b
+     * <code>RowId</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @return a <code>RowId</code> object representing data of the SQL <code>ROWID</code> value
-     * at the head of the stream; <code>null</code> if the value read is
+     * @return b <code>RowId</code> object representing dbtb of the SQL <code>ROWID</code> vblue
+     * bt the hebd of the strebm; <code>null</code> if the vblue rebd is
      * SQL <code>NULL</code>
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public RowId readRowId() throws SQLException {
+    public RowId rebdRowId() throws SQLException {
         return  (RowId)getNextAttribute();
     }
 

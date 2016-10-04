@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2013, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2013, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,105 +59,105 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import java.time.DateTimeException;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.util.List;
-import java.util.Objects;
+import jbvb.time.DbteTimeException;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.util.List;
+import jbvb.util.Objects;
 
 /**
- * A date-based amount of time, such as '3 years, 4 months and 5 days' in an
- * arbitrary chronology, intended for advanced globalization use cases.
+ * A dbte-bbsed bmount of time, such bs '3 yebrs, 4 months bnd 5 dbys' in bn
+ * brbitrbry chronology, intended for bdvbnced globblizbtion use cbses.
  * <p>
- * This interface models a date-based amount of time in a calendar system.
- * While most calendar systems use years, months and days, some do not.
- * Therefore, this interface operates solely in terms of a set of supported
- * units that are defined by the {@code Chronology}.
- * The set of supported units is fixed for a given chronology.
- * The amount of a supported unit may be set to zero.
+ * This interfbce models b dbte-bbsed bmount of time in b cblendbr system.
+ * While most cblendbr systems use yebrs, months bnd dbys, some do not.
+ * Therefore, this interfbce operbtes solely in terms of b set of supported
+ * units thbt bre defined by the {@code Chronology}.
+ * The set of supported units is fixed for b given chronology.
+ * The bmount of b supported unit mby be set to zero.
  * <p>
- * The period is modeled as a directed amount of time, meaning that individual
- * parts of the period may be negative.
+ * The period is modeled bs b directed bmount of time, mebning thbt individubl
+ * pbrts of the period mby be negbtive.
  *
  * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * This interfbce must be implemented with cbre to ensure other clbsses operbte correctly.
+ * All implementbtions thbt cbn be instbntibted must be finbl, immutbble bnd threbd-sbfe.
+ * Subclbsses should be Seriblizbble wherever possible.
  *
  * @since 1.8
  */
-public interface ChronoPeriod
-        extends TemporalAmount {
+public interfbce ChronoPeriod
+        extends TemporblAmount {
 
     /**
-     * Obtains a {@code ChronoPeriod} consisting of amount of time between two dates.
+     * Obtbins b {@code ChronoPeriod} consisting of bmount of time between two dbtes.
      * <p>
-     * The start date is included, but the end date is not.
-     * The period is calculated using {@link ChronoLocalDate#until(ChronoLocalDate)}.
-     * As such, the calculation is chronology specific.
+     * The stbrt dbte is included, but the end dbte is not.
+     * The period is cblculbted using {@link ChronoLocblDbte#until(ChronoLocblDbte)}.
+     * As such, the cblculbtion is chronology specific.
      * <p>
-     * The chronology of the first date is used.
-     * The chronology of the second date is ignored, with the date being converted
-     * to the target chronology system before the calculation starts.
+     * The chronology of the first dbte is used.
+     * The chronology of the second dbte is ignored, with the dbte being converted
+     * to the tbrget chronology system before the cblculbtion stbrts.
      * <p>
-     * The result of this method can be a negative period if the end is before the start.
-     * In most cases, the positive/negative sign will be the same in each of the supported fields.
+     * The result of this method cbn be b negbtive period if the end is before the stbrt.
+     * In most cbses, the positive/negbtive sign will be the sbme in ebch of the supported fields.
      *
-     * @param startDateInclusive  the start date, inclusive, specifying the chronology of the calculation, not null
-     * @param endDateExclusive  the end date, exclusive, in any chronology, not null
-     * @return the period between this date and the end date, not null
-     * @see ChronoLocalDate#until(ChronoLocalDate)
+     * @pbrbm stbrtDbteInclusive  the stbrt dbte, inclusive, specifying the chronology of the cblculbtion, not null
+     * @pbrbm endDbteExclusive  the end dbte, exclusive, in bny chronology, not null
+     * @return the period between this dbte bnd the end dbte, not null
+     * @see ChronoLocblDbte#until(ChronoLocblDbte)
      */
-    public static ChronoPeriod between(ChronoLocalDate startDateInclusive, ChronoLocalDate endDateExclusive) {
-        Objects.requireNonNull(startDateInclusive, "startDateInclusive");
-        Objects.requireNonNull(endDateExclusive, "endDateExclusive");
-        return startDateInclusive.until(endDateExclusive);
+    public stbtic ChronoPeriod between(ChronoLocblDbte stbrtDbteInclusive, ChronoLocblDbte endDbteExclusive) {
+        Objects.requireNonNull(stbrtDbteInclusive, "stbrtDbteInclusive");
+        Objects.requireNonNull(endDbteExclusive, "endDbteExclusive");
+        return stbrtDbteInclusive.until(endDbteExclusive);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the value of the requested unit.
+     * Gets the vblue of the requested unit.
      * <p>
-     * The supported units are chronology specific.
-     * They will typically be {@link ChronoUnit#YEARS YEARS},
-     * {@link ChronoUnit#MONTHS MONTHS} and {@link ChronoUnit#DAYS DAYS}.
-     * Requesting an unsupported unit will throw an exception.
+     * The supported units bre chronology specific.
+     * They will typicblly be {@link ChronoUnit#YEARS YEARS},
+     * {@link ChronoUnit#MONTHS MONTHS} bnd {@link ChronoUnit#DAYS DAYS}.
+     * Requesting bn unsupported unit will throw bn exception.
      *
-     * @param unit the {@code TemporalUnit} for which to return the value
-     * @return the long value of the unit
-     * @throws DateTimeException if the unit is not supported
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm unit the {@code TemporblUnit} for which to return the vblue
+     * @return the long vblue of the unit
+     * @throws DbteTimeException if the unit is not supported
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      */
     @Override
-    long get(TemporalUnit unit);
+    long get(TemporblUnit unit);
 
     /**
      * Gets the set of units supported by this period.
      * <p>
-     * The supported units are chronology specific.
-     * They will typically be {@link ChronoUnit#YEARS YEARS},
-     * {@link ChronoUnit#MONTHS MONTHS} and {@link ChronoUnit#DAYS DAYS}.
-     * They are returned in order from largest to smallest.
+     * The supported units bre chronology specific.
+     * They will typicblly be {@link ChronoUnit#YEARS YEARS},
+     * {@link ChronoUnit#MONTHS MONTHS} bnd {@link ChronoUnit#DAYS DAYS}.
+     * They bre returned in order from lbrgest to smbllest.
      * <p>
-     * This set can be used in conjunction with {@link #get(TemporalUnit)}
-     * to access the entire state of the period.
+     * This set cbn be used in conjunction with {@link #get(TemporblUnit)}
+     * to bccess the entire stbte of the period.
      *
-     * @return a list containing the supported units, not null
+     * @return b list contbining the supported units, not null
      */
     @Override
-    List<TemporalUnit> getUnits();
+    List<TemporblUnit> getUnits();
 
     /**
-     * Gets the chronology that defines the meaning of the supported units.
+     * Gets the chronology thbt defines the mebning of the supported units.
      * <p>
      * The period is defined by the chronology.
-     * It controls the supported units and restricts addition/subtraction
-     * to {@code ChronoLocalDate} instances of the same chronology.
+     * It controls the supported units bnd restricts bddition/subtrbction
+     * to {@code ChronoLocblDbte} instbnces of the sbme chronology.
      *
      * @return the chronology defining the period, not null
      */
@@ -165,199 +165,199 @@ public interface ChronoPeriod
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if all the supported units of this period are zero.
+     * Checks if bll the supported units of this period bre zero.
      *
      * @return true if this period is zero-length
      */
-    default boolean isZero() {
-        for (TemporalUnit unit : getUnits()) {
+    defbult boolebn isZero() {
+        for (TemporblUnit unit : getUnits()) {
             if (get(unit) != 0) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Checks if any of the supported units of this period are negative.
+     * Checks if bny of the supported units of this period bre negbtive.
      *
-     * @return true if any unit of this period is negative
+     * @return true if bny unit of this period is negbtive
      */
-    default boolean isNegative() {
-        for (TemporalUnit unit : getUnits()) {
+    defbult boolebn isNegbtive() {
+        for (TemporblUnit unit : getUnits()) {
             if (get(unit) < 0) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this period with the specified period added.
+     * Returns b copy of this period with the specified period bdded.
      * <p>
-     * If the specified amount is a {@code ChronoPeriod} then it must have
-     * the same chronology as this period. Implementations may choose to
-     * accept or reject other {@code TemporalAmount} implementations.
+     * If the specified bmount is b {@code ChronoPeriod} then it must hbve
+     * the sbme chronology bs this period. Implementbtions mby choose to
+     * bccept or reject other {@code TemporblAmount} implementbtions.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the period to add, not null
-     * @return a {@code ChronoPeriod} based on this period with the requested period added, not null
+     * @pbrbm bmountToAdd  the period to bdd, not null
+     * @return b {@code ChronoPeriod} bbsed on this period with the requested period bdded, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    ChronoPeriod plus(TemporalAmount amountToAdd);
+    ChronoPeriod plus(TemporblAmount bmountToAdd);
 
     /**
-     * Returns a copy of this period with the specified period subtracted.
+     * Returns b copy of this period with the specified period subtrbcted.
      * <p>
-     * If the specified amount is a {@code ChronoPeriod} then it must have
-     * the same chronology as this period. Implementations may choose to
-     * accept or reject other {@code TemporalAmount} implementations.
+     * If the specified bmount is b {@code ChronoPeriod} then it must hbve
+     * the sbme chronology bs this period. Implementbtions mby choose to
+     * bccept or reject other {@code TemporblAmount} implementbtions.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the period to subtract, not null
-     * @return a {@code ChronoPeriod} based on this period with the requested period subtracted, not null
+     * @pbrbm bmountToSubtrbct  the period to subtrbct, not null
+     * @return b {@code ChronoPeriod} bbsed on this period with the requested period subtrbcted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    ChronoPeriod minus(TemporalAmount amountToSubtract);
+    ChronoPeriod minus(TemporblAmount bmountToSubtrbct);
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a new instance with each amount in this period in this period
-     * multiplied by the specified scalar.
+     * Returns b new instbnce with ebch bmount in this period in this period
+     * multiplied by the specified scblbr.
      * <p>
-     * This returns a period with each supported unit individually multiplied.
-     * For example, a period of "2 years, -3 months and 4 days" multiplied by
-     * 3 will return "6 years, -9 months and 12 days".
-     * No normalization is performed.
+     * This returns b period with ebch supported unit individublly multiplied.
+     * For exbmple, b period of "2 yebrs, -3 months bnd 4 dbys" multiplied by
+     * 3 will return "6 yebrs, -9 months bnd 12 dbys".
+     * No normblizbtion is performed.
      *
-     * @param scalar  the scalar to multiply by, not null
-     * @return a {@code ChronoPeriod} based on this period with the amounts multiplied
-     *  by the scalar, not null
+     * @pbrbm scblbr  the scblbr to multiply by, not null
+     * @return b {@code ChronoPeriod} bbsed on this period with the bmounts multiplied
+     *  by the scblbr, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    ChronoPeriod multipliedBy(int scalar);
+    ChronoPeriod multipliedBy(int scblbr);
 
     /**
-     * Returns a new instance with each amount in this period negated.
+     * Returns b new instbnce with ebch bmount in this period negbted.
      * <p>
-     * This returns a period with each supported unit individually negated.
-     * For example, a period of "2 years, -3 months and 4 days" will be
-     * negated to "-2 years, 3 months and -4 days".
-     * No normalization is performed.
+     * This returns b period with ebch supported unit individublly negbted.
+     * For exbmple, b period of "2 yebrs, -3 months bnd 4 dbys" will be
+     * negbted to "-2 yebrs, 3 months bnd -4 dbys".
+     * No normblizbtion is performed.
      *
-     * @return a {@code ChronoPeriod} based on this period with the amounts negated, not null
-     * @throws ArithmeticException if numeric overflow occurs, which only happens if
-     *  one of the units has the value {@code Long.MIN_VALUE}
+     * @return b {@code ChronoPeriod} bbsed on this period with the bmounts negbted, not null
+     * @throws ArithmeticException if numeric overflow occurs, which only hbppens if
+     *  one of the units hbs the vblue {@code Long.MIN_VALUE}
      */
-    default ChronoPeriod negated() {
+    defbult ChronoPeriod negbted() {
         return multipliedBy(-1);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this period with the amounts of each unit normalized.
+     * Returns b copy of this period with the bmounts of ebch unit normblized.
      * <p>
-     * The process of normalization is specific to each calendar system.
-     * For example, in the ISO calendar system, the years and months are
-     * normalized but the days are not, such that "15 months" would be
-     * normalized to "1 year and 3 months".
+     * The process of normblizbtion is specific to ebch cblendbr system.
+     * For exbmple, in the ISO cblendbr system, the yebrs bnd months bre
+     * normblized but the dbys bre not, such thbt "15 months" would be
+     * normblized to "1 yebr bnd 3 months".
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @return a {@code ChronoPeriod} based on this period with the amounts of each
-     *  unit normalized, not null
+     * @return b {@code ChronoPeriod} bbsed on this period with the bmounts of ebch
+     *  unit normblized, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    ChronoPeriod normalized();
+    ChronoPeriod normblized();
 
     //-------------------------------------------------------------------------
     /**
-     * Adds this period to the specified temporal object.
+     * Adds this period to the specified temporbl object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with this period added.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with this period bdded.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#plus(TemporalAmount)}.
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#plus(TemporblAmount)}.
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   dateTime = thisPeriod.addTo(dateTime);
-     *   dateTime = dateTime.plus(thisPeriod);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   dbteTime = thisPeriod.bddTo(dbteTime);
+     *   dbteTime = dbteTime.plus(thisPeriod);
      * </pre>
      * <p>
-     * The specified temporal must have the same chronology as this period.
-     * This returns a temporal with the non-zero supported units added.
+     * The specified temporbl must hbve the sbme chronology bs this period.
+     * This returns b temporbl with the non-zero supported units bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the temporal object to adjust, not null
-     * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to add
+     * @pbrbm temporbl  the temporbl object to bdjust, not null
+     * @return bn object of the sbme type with the bdjustment mbde, not null
+     * @throws DbteTimeException if unbble to bdd
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    Temporal addTo(Temporal temporal);
+    Temporbl bddTo(Temporbl temporbl);
 
     /**
-     * Subtracts this period from the specified temporal object.
+     * Subtrbcts this period from the specified temporbl object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with this period subtracted.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with this period subtrbcted.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#minus(TemporalAmount)}.
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#minus(TemporblAmount)}.
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   dateTime = thisPeriod.subtractFrom(dateTime);
-     *   dateTime = dateTime.minus(thisPeriod);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   dbteTime = thisPeriod.subtrbctFrom(dbteTime);
+     *   dbteTime = dbteTime.minus(thisPeriod);
      * </pre>
      * <p>
-     * The specified temporal must have the same chronology as this period.
-     * This returns a temporal with the non-zero supported units subtracted.
+     * The specified temporbl must hbve the sbme chronology bs this period.
+     * This returns b temporbl with the non-zero supported units subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the temporal object to adjust, not null
-     * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to subtract
+     * @pbrbm temporbl  the temporbl object to bdjust, not null
+     * @return bn object of the sbme type with the bdjustment mbde, not null
+     * @throws DbteTimeException if unbble to subtrbct
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    Temporal subtractFrom(Temporal temporal);
+    Temporbl subtrbctFrom(Temporbl temporbl);
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this period is equal to another period, including the chronology.
+     * Checks if this period is equbl to bnother period, including the chronology.
      * <p>
-     * Compares this period with another ensuring that the type, each amount and
-     * the chronology are the same.
-     * Note that this means that a period of "15 Months" is not equal to a period
-     * of "1 Year and 3 Months".
+     * Compbres this period with bnother ensuring thbt the type, ebch bmount bnd
+     * the chronology bre the sbme.
+     * Note thbt this mebns thbt b period of "15 Months" is not equbl to b period
+     * of "1 Yebr bnd 3 Months".
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other period
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other period
      */
     @Override
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * A hash code for this period.
+     * A hbsh code for this period.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    int hashCode();
+    int hbshCode();
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this period as a {@code String}.
+     * Outputs this period bs b {@code String}.
      * <p>
-     * The output will include the period amounts and chronology.
+     * The output will include the period bmounts bnd chronology.
      *
-     * @return a string representation of this period, not null
+     * @return b string representbtion of this period, not null
      */
     @Override
     String toString();

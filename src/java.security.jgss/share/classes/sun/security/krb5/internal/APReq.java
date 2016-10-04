@@ -1,39 +1,39 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.*;
 import sun.security.util.*;
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
 /**
  * Implements the ASN.1 AP-REQ type.
@@ -42,110 +42,110 @@ import java.math.BigInteger;
  * AP-REQ               ::= [APPLICATION 14] SEQUENCE {
  *      pvno            [0] INTEGER (5),
  *      msg-type        [1] INTEGER (14),
- *      ap-options      [2] APOptions,
+ *      bp-options      [2] APOptions,
  *      ticket          [3] Ticket,
- *      authenticator   [4] EncryptedData -- Authenticator
+ *      buthenticbtor   [4] EncryptedDbtb -- Authenticbtor
  * }
  * </xmp>
  *
  * <p>
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
-public class APReq {
+public clbss APReq {
 
     public int pvno;
     public int msgType;
-    public APOptions apOptions;
+    public APOptions bpOptions;
     public Ticket ticket;
-    public EncryptedData authenticator;
+    public EncryptedDbtb buthenticbtor;
 
     public APReq(
-            APOptions new_apOptions,
+            APOptions new_bpOptions,
             Ticket new_ticket,
-            EncryptedData new_authenticator) {
+            EncryptedDbtb new_buthenticbtor) {
         pvno = Krb5.PVNO;
         msgType = Krb5.KRB_AP_REQ;
-        apOptions = new_apOptions;
+        bpOptions = new_bpOptions;
         ticket = new_ticket;
-        authenticator = new_authenticator;
+        buthenticbtor = new_buthenticbtor;
     }
 
-    public APReq(byte[] data) throws Asn1Exception, IOException, KrbApErrException, RealmException {
-        init(new DerValue(data));
+    public APReq(byte[] dbtb) throws Asn1Exception, IOException, KrbApErrException, ReblmException {
+        init(new DerVblue(dbtb));
     }
 
-    public APReq(DerValue encoding) throws Asn1Exception, IOException, KrbApErrException, RealmException {
+    public APReq(DerVblue encoding) throws Asn1Exception, IOException, KrbApErrException, ReblmException {
         init(encoding);
     }
 
     /**
-     * Initializes an APReq object.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception KrbApErrException if the value read from the DER-encoded data stream does not match the pre-defined value.
-     * @exception RealmException if an error occurs while parsing a Realm object.
+     * Initiblizes bn APReq object.
+     * @pbrbm encoding b single DER-encoded vblue.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @exception KrbApErrException if the vblue rebd from the DER-encoded dbtb strebm does not mbtch the pre-defined vblue.
+     * @exception ReblmException if bn error occurs while pbrsing b Reblm object.
      */
-    private void init(DerValue encoding) throws Asn1Exception,
-            IOException, KrbApErrException, RealmException {
-        DerValue der, subDer;
-        if (((encoding.getTag() & (byte) 0x1F) != Krb5.KRB_AP_REQ)
-                || (encoding.isApplication() != true)
+    privbte void init(DerVblue encoding) throws Asn1Exception,
+            IOException, KrbApErrException, ReblmException {
+        DerVblue der, subDer;
+        if (((encoding.getTbg() & (byte) 0x1F) != Krb5.KRB_AP_REQ)
+                || (encoding.isApplicbtion() != true)
                 || (encoding.isConstructed() != true)) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
+        der = encoding.getDbtb().getDerVblue();
+        if (der.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & (byte) 0x1F) != (byte) 0x00) {
+        subDer = der.getDbtb().getDerVblue();
+        if ((subDer.getTbg() & (byte) 0x1F) != (byte) 0x00) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        pvno = subDer.getData().getBigInteger().intValue();
+        pvno = subDer.getDbtb().getBigInteger().intVblue();
         if (pvno != Krb5.PVNO) {
             throw new KrbApErrException(Krb5.KRB_AP_ERR_BADVERSION);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & (byte) 0x1F) != (byte) 0x01) {
+        subDer = der.getDbtb().getDerVblue();
+        if ((subDer.getTbg() & (byte) 0x1F) != (byte) 0x01) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        msgType = subDer.getData().getBigInteger().intValue();
+        msgType = subDer.getDbtb().getBigInteger().intVblue();
         if (msgType != Krb5.KRB_AP_REQ) {
             throw new KrbApErrException(Krb5.KRB_AP_ERR_MSG_TYPE);
         }
-        apOptions = APOptions.parse(der.getData(), (byte) 0x02, false);
-        ticket = Ticket.parse(der.getData(), (byte) 0x03, false);
-        authenticator = EncryptedData.parse(der.getData(), (byte) 0x04, false);
-        if (der.getData().available() > 0) {
+        bpOptions = APOptions.pbrse(der.getDbtb(), (byte) 0x02, fblse);
+        ticket = Ticket.pbrse(der.getDbtb(), (byte) 0x03, fblse);
+        buthenticbtor = EncryptedDbtb.pbrse(der.getDbtb(), (byte) 0x04, fblse);
+        if (der.getDbtb().bvbilbble() > 0) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Encodes an APReq object.
-     * @return byte array of encoded APReq object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Encodes bn APReq object.
+     * @return byte brrby of encoded APReq object.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(pvno));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x00), temp);
-        temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(msgType));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x01), temp);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x02), apOptions.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x03), ticket.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x04), authenticator.asn1Encode());
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        DerOutputStream apreq = new DerOutputStream();
-        apreq.write(DerValue.createTag(DerValue.TAG_APPLICATION, true, (byte) 0x0E), temp);
-        return apreq.toByteArray();
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
+        temp.putInteger(BigInteger.vblueOf(pvno));
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte) 0x00), temp);
+        temp = new DerOutputStrebm();
+        temp.putInteger(BigInteger.vblueOf(msgType));
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte) 0x01), temp);
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte) 0x02), bpOptions.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte) 0x03), ticket.bsn1Encode());
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte) 0x04), buthenticbtor.bsn1Encode());
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        DerOutputStrebm bpreq = new DerOutputStrebm();
+        bpreq.write(DerVblue.crebteTbg(DerVblue.TAG_APPLICATION, true, (byte) 0x0E), temp);
+        return bpreq.toByteArrby();
     }
 }

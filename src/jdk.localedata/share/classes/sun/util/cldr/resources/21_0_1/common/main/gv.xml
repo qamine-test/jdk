@@ -3,35 +3,35 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="gv"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="gv"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="gv">Gaelg</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="gv">Gbelg</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="GB">Rywvaneth Unys</territory>
+			<territory type="GB">Rywvbneth Unys</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b c ç d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b b c ç d e f g h i j k l m n o p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">J-guer</month>
-							<month type="2">T-arree</month>
-							<month type="3">Mayrnt</month>
+							<month type="2">T-brree</month>
+							<month type="3">Mbyrnt</month>
 							<month type="4">Avrril</month>
-							<month type="5">Boaldyn</month>
+							<month type="5">Bobldyn</month>
 							<month type="6">M-souree</month>
 							<month type="7">J-souree</month>
-							<month type="8">Luanistyn</month>
+							<month type="8">Lubnistyn</month>
 							<month type="9">M-fouyir</month>
 							<month type="10">J-fouyir</month>
 							<month type="11">M.Houney</month>
@@ -39,110 +39,110 @@
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Jerrey-geuree</month>
-							<month type="2">Toshiaght-arree</month>
-							<month type="3">Mayrnt</month>
+							<month type="2">Toshibght-brree</month>
+							<month type="3">Mbyrnt</month>
 							<month type="4">Averil</month>
-							<month type="5">Boaldyn</month>
-							<month type="6">Mean-souree</month>
+							<month type="5">Bobldyn</month>
+							<month type="6">Mebn-souree</month>
 							<month type="7">Jerrey-souree</month>
-							<month type="8">Luanistyn</month>
-							<month type="9">Mean-fouyir</month>
+							<month type="8">Lubnistyn</month>
+							<month type="9">Mebn-fouyir</month>
 							<month type="10">Jerrey-fouyir</month>
 							<month type="11">Mee Houney</month>
 							<month type="12">Mee ny Nollick</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Jed</day>
-							<day type="mon">Jel</day>
-							<day type="tue">Jem</day>
-							<day type="wed">Jerc</day>
-							<day type="thu">Jerd</day>
-							<day type="fri">Jeh</day>
-							<day type="sat">Jes</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Jedoonee</day>
-							<day type="mon">Jelhein</day>
-							<day type="tue">Jemayrt</day>
-							<day type="wed">Jercean</day>
-							<day type="thu">Jerdein</day>
-							<day type="fri">Jeheiney</day>
-							<day type="sat">Jesarn</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">a.m.</dayPeriod>
-							<dayPeriod type="pm">p.m.</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraAbbr>
-						<era type="0">RC</era>
-						<era type="1">AD</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE dd MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">dd MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">MMM dd, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">dd/MM/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">Jed</dby>
+							<dby type="mon">Jel</dby>
+							<dby type="tue">Jem</dby>
+							<dby type="wed">Jerc</dby>
+							<dby type="thu">Jerd</dby>
+							<dby type="fri">Jeh</dby>
+							<dby type="sbt">Jes</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">Jedoonee</dby>
+							<dby type="mon">Jelhein</dby>
+							<dby type="tue">Jembyrt</dby>
+							<dby type="wed">Jercebn</dby>
+							<dby type="thu">Jerdein</dby>
+							<dby type="fri">Jeheiney</dby>
+							<dby type="sbt">Jesbrn</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">b.m.</dbyPeriod>
+							<dbyPeriod type="pm">p.m.</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbAbbr>
+						<erb type="0">RC</erb>
+						<erb type="1">AD</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">EEEE dd MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">dd MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">MMM dd, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">dd/MM/yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 	</numbers>
 </ldml>

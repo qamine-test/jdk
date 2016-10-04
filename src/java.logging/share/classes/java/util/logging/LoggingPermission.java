@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package java.util.logging;
+pbckbge jbvb.util.logging;
 
-import java.security.*;
+import jbvb.security.*;
 
 /**
- * The permission which the SecurityManager will check when code
- * that is running with a SecurityManager calls one of the logging
- * control methods (such as Logger.setLevel).
+ * The permission which the SecurityMbnbger will check when code
+ * thbt is running with b SecurityMbnbger cblls one of the logging
+ * control methods (such bs Logger.setLevel).
  * <p>
- * Currently there is only one named LoggingPermission.  This is "control"
- * and it grants the ability to control the logging configuration, for
- * example by adding or removing Handlers, by adding or removing Filters,
- * or by changing logging levels.
+ * Currently there is only one nbmed LoggingPermission.  This is "control"
+ * bnd it grbnts the bbility to control the logging configurbtion, for
+ * exbmple by bdding or removing Hbndlers, by bdding or removing Filters,
+ * or by chbnging logging levels.
  * <p>
- * Programmers do not normally create LoggingPermission objects directly.
- * Instead they are created by the security policy code based on reading
+ * Progrbmmers do not normblly crebte LoggingPermission objects directly.
+ * Instebd they bre crebted by the security policy code bbsed on rebding
  * the security policy file.
  *
  *
  * @since 1.4
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @see jbvb.security.BbsicPermission
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
+ * @see jbvb.lbng.SecurityMbnbger
  *
  */
 
-public final class LoggingPermission extends java.security.BasicPermission {
+public finbl clbss LoggingPermission extends jbvb.security.BbsicPermission {
 
-    private static final long serialVersionUID = 63564341580231582L;
+    privbte stbtic finbl long seriblVersionUID = 63564341580231582L;
 
     /**
-     * Creates a new LoggingPermission object.
+     * Crebtes b new LoggingPermission object.
      *
-     * @param name Permission name.  Must be "control".
-     * @param actions Must be either null or the empty string.
+     * @pbrbm nbme Permission nbme.  Must be "control".
+     * @pbrbm bctions Must be either null or the empty string.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty or if
-     * arguments are invalid.
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty or if
+     * brguments bre invblid.
      */
-    public LoggingPermission(String name, String actions) throws IllegalArgumentException {
-        super(name);
-        if (!name.equals("control")) {
-            throw new IllegalArgumentException("name: " + name);
+    public LoggingPermission(String nbme, String bctions) throws IllegblArgumentException {
+        super(nbme);
+        if (!nbme.equbls("control")) {
+            throw new IllegblArgumentException("nbme: " + nbme);
         }
-        if (actions != null && actions.length() > 0) {
-            throw new IllegalArgumentException("actions: " + actions);
+        if (bctions != null && bctions.length() > 0) {
+            throw new IllegblArgumentException("bctions: " + bctions);
         }
     }
 }

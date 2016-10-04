@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1994, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * An object that implements the Enumeration interface generates a
- * series of elements, one at a time. Successive calls to the
+ * An object thbt implements the Enumerbtion interfbce generbtes b
+ * series of elements, one bt b time. Successive cblls to the
  * <code>nextElement</code> method return successive elements of the
  * series.
  * <p>
- * For example, to print all elements of a <tt>Vector&lt;E&gt;</tt> <i>v</i>:
+ * For exbmple, to print bll elements of b <tt>Vector&lt;E&gt;</tt> <i>v</i>:
  * <pre>
- *   for (Enumeration&lt;E&gt; e = v.elements(); e.hasMoreElements();)
+ *   for (Enumerbtion&lt;E&gt; e = v.elements(); e.hbsMoreElements();)
  *       System.out.println(e.nextElement());</pre>
  * <p>
- * Methods are provided to enumerate through the elements of a
- * vector, the keys of a hashtable, and the values in a hashtable.
- * Enumerations are also used to specify the input streams to a
- * <code>SequenceInputStream</code>.
+ * Methods bre provided to enumerbte through the elements of b
+ * vector, the keys of b hbshtbble, bnd the vblues in b hbshtbble.
+ * Enumerbtions bre blso used to specify the input strebms to b
+ * <code>SequenceInputStrebm</code>.
  * <p>
- * NOTE: The functionality of this interface is duplicated by the Iterator
- * interface.  In addition, Iterator adds an optional remove operation, and
- * has shorter method names.  New implementations should consider using
- * Iterator in preference to Enumeration.
+ * NOTE: The functionblity of this interfbce is duplicbted by the Iterbtor
+ * interfbce.  In bddition, Iterbtor bdds bn optionbl remove operbtion, bnd
+ * hbs shorter method nbmes.  New implementbtions should consider using
+ * Iterbtor in preference to Enumerbtion.
  *
- * @see     java.util.Iterator
- * @see     java.io.SequenceInputStream
- * @see     java.util.Enumeration#nextElement()
- * @see     java.util.Hashtable
- * @see     java.util.Hashtable#elements()
- * @see     java.util.Hashtable#keys()
- * @see     java.util.Vector
- * @see     java.util.Vector#elements()
+ * @see     jbvb.util.Iterbtor
+ * @see     jbvb.io.SequenceInputStrebm
+ * @see     jbvb.util.Enumerbtion#nextElement()
+ * @see     jbvb.util.Hbshtbble
+ * @see     jbvb.util.Hbshtbble#elements()
+ * @see     jbvb.util.Hbshtbble#keys()
+ * @see     jbvb.util.Vector
+ * @see     jbvb.util.Vector#elements()
  *
- * @author  Lee Boynton
+ * @buthor  Lee Boynton
  * @since   1.0
  */
-public interface Enumeration<E> {
+public interfbce Enumerbtion<E> {
     /**
-     * Tests if this enumeration contains more elements.
+     * Tests if this enumerbtion contbins more elements.
      *
-     * @return  <code>true</code> if and only if this enumeration object
-     *           contains at least one more element to provide;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if bnd only if this enumerbtion object
+     *           contbins bt lebst one more element to provide;
+     *          <code>fblse</code> otherwise.
      */
-    boolean hasMoreElements();
+    boolebn hbsMoreElements();
 
     /**
-     * Returns the next element of this enumeration if this enumeration
-     * object has at least one more element to provide.
+     * Returns the next element of this enumerbtion if this enumerbtion
+     * object hbs bt lebst one more element to provide.
      *
-     * @return     the next element of this enumeration.
+     * @return     the next element of this enumerbtion.
      * @exception  NoSuchElementException  if no more elements exist.
      */
     E nextElement();

@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.WindowEvent;
 
-import java.util.ArrayList;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.ArrbyList;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.dnd.SunDragSourceContextPeer;
+import sun.bwt.dnd.SunDrbgSourceContextPeer;
 
 /**
- * EventDispatchThread is a package-private AWT class which takes
- * events off the EventQueue and dispatches them to the appropriate
+ * EventDispbtchThrebd is b pbckbge-privbte AWT clbss which tbkes
+ * events off the EventQueue bnd dispbtches them to the bppropribte
  * AWT components.
  *
- * The Thread starts a "permanent" event pump with a call to
- * pumpEvents(Conditional) in its run() method. Event handlers can choose to
- * block this event pump at any time, but should start a new pump (<b>not</b>
- * a new EventDispatchThread) by again calling pumpEvents(Conditional). This
- * secondary event pump will exit automatically as soon as the Condtional
- * evaluate()s to false and an additional Event is pumped and dispatched.
+ * The Threbd stbrts b "permbnent" event pump with b cbll to
+ * pumpEvents(Conditionbl) in its run() method. Event hbndlers cbn choose to
+ * block this event pump bt bny time, but should stbrt b new pump (<b>not</b>
+ * b new EventDispbtchThrebd) by bgbin cblling pumpEvents(Conditionbl). This
+ * secondbry event pump will exit butombticblly bs soon bs the Condtionbl
+ * evblubte()s to fblse bnd bn bdditionbl Event is pumped bnd dispbtched.
  *
- * @author Tom Ball
- * @author Amy Fowler
- * @author Fred Ecks
- * @author David Mendenhall
+ * @buthor Tom Bbll
+ * @buthor Amy Fowler
+ * @buthor Fred Ecks
+ * @buthor Dbvid Mendenhbll
  *
  * @since 1.1
  */
-class EventDispatchThread extends Thread {
+clbss EventDispbtchThrebd extends Threbd {
 
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("java.awt.event.EventDispatchThread");
+    privbte stbtic finbl PlbtformLogger eventLog = PlbtformLogger.getLogger("jbvb.bwt.event.EventDispbtchThrebd");
 
-    private EventQueue theQueue;
-    private volatile boolean doDispatch = true;
+    privbte EventQueue theQueue;
+    privbte volbtile boolebn doDispbtch = true;
 
-    private static final int ANY_EVENT = -1;
+    privbte stbtic finbl int ANY_EVENT = -1;
 
-    private ArrayList<EventFilter> eventFilters = new ArrayList<EventFilter>();
+    privbte ArrbyList<EventFilter> eventFilters = new ArrbyList<EventFilter>();
 
-    EventDispatchThread(ThreadGroup group, String name, EventQueue queue) {
-        super(group, name);
+    EventDispbtchThrebd(ThrebdGroup group, String nbme, EventQueue queue) {
+        super(group, nbme);
         setEventQueue(queue);
     }
 
     /*
-     * Must be called on EDT only, that's why no synchronization
+     * Must be cblled on EDT only, thbt's why no synchronizbtion
      */
-    public void stopDispatching() {
-        doDispatch = false;
+    public void stopDispbtching() {
+        doDispbtch = fblse;
     }
 
     public void run() {
         try {
-            pumpEvents(new Conditional() {
-                public boolean evaluate() {
+            pumpEvents(new Conditionbl() {
+                public boolebn evblubte() {
                     return true;
                 }
             });
-        } finally {
-            getEventQueue().detachDispatchThread(this);
+        } finblly {
+            getEventQueue().detbchDispbtchThrebd(this);
         }
     }
 
-    void pumpEvents(Conditional cond) {
+    void pumpEvents(Conditionbl cond) {
         pumpEvents(ANY_EVENT, cond);
     }
 
-    void pumpEventsForHierarchy(Conditional cond, Component modalComponent) {
-        pumpEventsForHierarchy(ANY_EVENT, cond, modalComponent);
+    void pumpEventsForHierbrchy(Conditionbl cond, Component modblComponent) {
+        pumpEventsForHierbrchy(ANY_EVENT, cond, modblComponent);
     }
 
-    void pumpEvents(int id, Conditional cond) {
-        pumpEventsForHierarchy(id, cond, null);
+    void pumpEvents(int id, Conditionbl cond) {
+        pumpEventsForHierbrchy(id, cond, null);
     }
 
-    void pumpEventsForHierarchy(int id, Conditional cond, Component modalComponent) {
-        pumpEventsForFilter(id, cond, new HierarchyEventFilter(modalComponent));
+    void pumpEventsForHierbrchy(int id, Conditionbl cond, Component modblComponent) {
+        pumpEventsForFilter(id, cond, new HierbrchyEventFilter(modblComponent));
     }
 
-    void pumpEventsForFilter(Conditional cond, EventFilter filter) {
+    void pumpEventsForFilter(Conditionbl cond, EventFilter filter) {
         pumpEventsForFilter(ANY_EVENT, cond, filter);
     }
 
-    void pumpEventsForFilter(int id, Conditional cond, EventFilter filter) {
-        addEventFilter(filter);
-        doDispatch = true;
-        while (doDispatch && !isInterrupted() && cond.evaluate()) {
+    void pumpEventsForFilter(int id, Conditionbl cond, EventFilter filter) {
+        bddEventFilter(filter);
+        doDispbtch = true;
+        while (doDispbtch && !isInterrupted() && cond.evblubte()) {
             pumpOneEventForFilters(id);
         }
         removeEventFilter(filter);
     }
 
-    void addEventFilter(EventFilter filter) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            eventLog.finest("adding the event filter: " + filter);
+    void bddEventFilter(EventFilter filter) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            eventLog.finest("bdding the event filter: " + filter);
         }
         synchronized (eventFilters) {
-            if (!eventFilters.contains(filter)) {
-                if (filter instanceof ModalEventFilter) {
-                    ModalEventFilter newFilter = (ModalEventFilter)filter;
+            if (!eventFilters.contbins(filter)) {
+                if (filter instbnceof ModblEventFilter) {
+                    ModblEventFilter newFilter = (ModblEventFilter)filter;
                     int k = 0;
                     for (k = 0; k < eventFilters.size(); k++) {
                         EventFilter f = eventFilters.get(k);
-                        if (f instanceof ModalEventFilter) {
-                            ModalEventFilter cf = (ModalEventFilter)f;
-                            if (cf.compareTo(newFilter) > 0) {
-                                break;
+                        if (f instbnceof ModblEventFilter) {
+                            ModblEventFilter cf = (ModblEventFilter)f;
+                            if (cf.compbreTo(newFilter) > 0) {
+                                brebk;
                             }
                         }
                     }
-                    eventFilters.add(k, filter);
+                    eventFilters.bdd(k, filter);
                 } else {
-                    eventFilters.add(filter);
+                    eventFilters.bdd(filter);
                 }
             }
         }
     }
 
     void removeEventFilter(EventFilter filter) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINEST)) {
             eventLog.finest("removing the event filter: " + filter);
         }
         synchronized (eventFilters) {
@@ -154,11 +154,11 @@ class EventDispatchThread extends Thread {
 
     void pumpOneEventForFilters(int id) {
         AWTEvent event = null;
-        boolean eventOK = false;
+        boolebn eventOK = fblse;
         try {
             EventQueue eq = null;
             do {
-                // EventQueue may change during the dispatching
+                // EventQueue mby chbnge during the dispbtching
                 eq = getEventQueue();
 
                 event = (id == ANY_EVENT) ? eq.getNextEvent() : eq.getNextEvent(id);
@@ -167,46 +167,46 @@ class EventDispatchThread extends Thread {
                 synchronized (eventFilters) {
                     for (int i = eventFilters.size() - 1; i >= 0; i--) {
                         EventFilter f = eventFilters.get(i);
-                        EventFilter.FilterAction accept = f.acceptEvent(event);
-                        if (accept == EventFilter.FilterAction.REJECT) {
-                            eventOK = false;
-                            break;
-                        } else if (accept == EventFilter.FilterAction.ACCEPT_IMMEDIATELY) {
-                            break;
+                        EventFilter.FilterAction bccept = f.bcceptEvent(event);
+                        if (bccept == EventFilter.FilterAction.REJECT) {
+                            eventOK = fblse;
+                            brebk;
+                        } else if (bccept == EventFilter.FilterAction.ACCEPT_IMMEDIATELY) {
+                            brebk;
                         }
                     }
                 }
-                eventOK = eventOK && SunDragSourceContextPeer.checkEvent(event);
+                eventOK = eventOK && SunDrbgSourceContextPeer.checkEvent(event);
                 if (!eventOK) {
                     event.consume();
                 }
             }
-            while (eventOK == false);
+            while (eventOK == fblse);
 
-            if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                eventLog.finest("Dispatching: " + event);
+            if (eventLog.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                eventLog.finest("Dispbtching: " + event);
             }
 
-            eq.dispatchEvent(event);
+            eq.dispbtchEvent(event);
         }
-        catch (ThreadDeath death) {
-            doDispatch = false;
-            throw death;
+        cbtch (ThrebdDebth debth) {
+            doDispbtch = fblse;
+            throw debth;
         }
-        catch (InterruptedException interruptedException) {
-            doDispatch = false; // AppContext.dispose() interrupts all
-                                // Threads in the AppContext
+        cbtch (InterruptedException interruptedException) {
+            doDispbtch = fblse; // AppContext.dispose() interrupts bll
+                                // Threbds in the AppContext
         }
-        catch (Throwable e) {
+        cbtch (Throwbble e) {
             processException(e);
         }
     }
 
-    private void processException(Throwable e) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
+    privbte void processException(Throwbble e) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             eventLog.fine("Processing exception: " + e);
         }
-        getUncaughtExceptionHandler().uncaughtException(this, e);
+        getUncbughtExceptionHbndler().uncbughtException(this, e);
     }
 
     public synchronized EventQueue getEventQueue() {
@@ -216,57 +216,57 @@ class EventDispatchThread extends Thread {
         theQueue = eq;
     }
 
-    private static class HierarchyEventFilter implements EventFilter {
-        private Component modalComponent;
-        public HierarchyEventFilter(Component modalComponent) {
-            this.modalComponent = modalComponent;
+    privbte stbtic clbss HierbrchyEventFilter implements EventFilter {
+        privbte Component modblComponent;
+        public HierbrchyEventFilter(Component modblComponent) {
+            this.modblComponent = modblComponent;
         }
-        public FilterAction acceptEvent(AWTEvent event) {
-            if (modalComponent != null) {
+        public FilterAction bcceptEvent(AWTEvent event) {
+            if (modblComponent != null) {
                 int eventID = event.getID();
-                boolean mouseEvent = (eventID >= MouseEvent.MOUSE_FIRST) &&
+                boolebn mouseEvent = (eventID >= MouseEvent.MOUSE_FIRST) &&
                                      (eventID <= MouseEvent.MOUSE_LAST);
-                boolean actionEvent = (eventID >= ActionEvent.ACTION_FIRST) &&
+                boolebn bctionEvent = (eventID >= ActionEvent.ACTION_FIRST) &&
                                       (eventID <= ActionEvent.ACTION_LAST);
-                boolean windowClosingEvent = (eventID == WindowEvent.WINDOW_CLOSING);
+                boolebn windowClosingEvent = (eventID == WindowEvent.WINDOW_CLOSING);
                 /*
-                 * filter out MouseEvent and ActionEvent that's outside
-                 * the modalComponent hierarchy.
-                 * KeyEvent is handled by using enqueueKeyEvent
-                 * in Dialog.show
+                 * filter out MouseEvent bnd ActionEvent thbt's outside
+                 * the modblComponent hierbrchy.
+                 * KeyEvent is hbndled by using enqueueKeyEvent
+                 * in Diblog.show
                  */
-                if (Component.isInstanceOf(modalComponent, "javax.swing.JInternalFrame")) {
+                if (Component.isInstbnceOf(modblComponent, "jbvbx.swing.JInternblFrbme")) {
                     /*
-                     * Modal internal frames are handled separately. If event is
-                     * for some component from another heavyweight than modalComp,
-                     * it is accepted. If heavyweight is the same - we still accept
-                     * event and perform further filtering in LightweightDispatcher
+                     * Modbl internbl frbmes bre hbndled sepbrbtely. If event is
+                     * for some component from bnother hebvyweight thbn modblComp,
+                     * it is bccepted. If hebvyweight is the sbme - we still bccept
+                     * event bnd perform further filtering in LightweightDispbtcher
                      */
                     return windowClosingEvent ? FilterAction.REJECT : FilterAction.ACCEPT;
                 }
-                if (mouseEvent || actionEvent || windowClosingEvent) {
+                if (mouseEvent || bctionEvent || windowClosingEvent) {
                     Object o = event.getSource();
-                    if (o instanceof sun.awt.ModalExclude) {
-                        // Exclude this object from modality and
+                    if (o instbnceof sun.bwt.ModblExclude) {
+                        // Exclude this object from modblity bnd
                         // continue to pump it's events.
                         return FilterAction.ACCEPT;
-                    } else if (o instanceof Component) {
+                    } else if (o instbnceof Component) {
                         Component c = (Component) o;
-                        // 5.0u3 modal exclusion
-                        boolean modalExcluded = false;
-                        if (modalComponent instanceof Container) {
-                            while (c != modalComponent && c != null) {
-                                if ((c instanceof Window) &&
-                                    (sun.awt.SunToolkit.isModalExcluded((Window)c))) {
-                                    // Exclude this window and all its children from
-                                    //  modality and continue to pump it's events.
-                                    modalExcluded = true;
-                                    break;
+                        // 5.0u3 modbl exclusion
+                        boolebn modblExcluded = fblse;
+                        if (modblComponent instbnceof Contbiner) {
+                            while (c != modblComponent && c != null) {
+                                if ((c instbnceof Window) &&
+                                    (sun.bwt.SunToolkit.isModblExcluded((Window)c))) {
+                                    // Exclude this window bnd bll its children from
+                                    //  modblity bnd continue to pump it's events.
+                                    modblExcluded = true;
+                                    brebk;
                                 }
-                                c = c.getParent();
+                                c = c.getPbrent();
                             }
                         }
-                        if (!modalExcluded && (c != modalComponent)) {
+                        if (!modblExcluded && (c != modblComponent)) {
                             return FilterAction.REJECT;
                         }
                     }

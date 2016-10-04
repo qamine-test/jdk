@@ -5,78 +5,78 @@
 /*
  * jfdctfst.c
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1994-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains a fast, not so accurate integer implementation of the
- * forward DCT (Discrete Cosine Transform).
+ * This file contbins b fbst, not so bccurbte integer implementbtion of the
+ * forwbrd DCT (Discrete Cosine Trbnsform).
  *
- * A 2-D DCT can be done by 1-D DCT on each row followed by 1-D DCT
- * on each column.  Direct algorithms are also available, but they are
- * much more complex and seem not to be any faster when reduced to code.
+ * A 2-D DCT cbn be done by 1-D DCT on ebch row followed by 1-D DCT
+ * on ebch column.  Direct blgorithms bre blso bvbilbble, but they bre
+ * much more complex bnd seem not to be bny fbster when reduced to code.
  *
- * This implementation is based on Arai, Agui, and Nakajima's algorithm for
- * scaled DCT.  Their original paper (Trans. IEICE E-71(11):1095) is in
- * Japanese, but the algorithm is described in the Pennebaker & Mitchell
+ * This implementbtion is bbsed on Arbi, Agui, bnd Nbkbjimb's blgorithm for
+ * scbled DCT.  Their originbl pbper (Trbns. IEICE E-71(11):1095) is in
+ * Jbpbnese, but the blgorithm is described in the Pennebbker & Mitchell
  * JPEG textbook (see REFERENCES section in file README).  The following code
- * is based directly on figure 4-8 in P&M.
- * While an 8-point DCT cannot be done in less than 11 multiplies, it is
- * possible to arrange the computation so that many of the multiplies are
- * simple scalings of the final outputs.  These multiplies can then be
- * folded into the multiplications or divisions by the JPEG quantization
- * table entries.  The AA&N method leaves only 5 multiplies and 29 adds
+ * is bbsed directly on figure 4-8 in P&M.
+ * While bn 8-point DCT cbnnot be done in less thbn 11 multiplies, it is
+ * possible to brrbnge the computbtion so thbt mbny of the multiplies bre
+ * simple scblings of the finbl outputs.  These multiplies cbn then be
+ * folded into the multiplicbtions or divisions by the JPEG qubntizbtion
+ * tbble entries.  The AA&N method lebves only 5 multiplies bnd 29 bdds
  * to be done in the DCT itself.
- * The primary disadvantage of this method is that with fixed-point math,
- * accuracy is lost due to imprecise representation of the scaled
- * quantization values.  The smaller the quantization table entry, the less
- * precise the scaled value, so this implementation does worse with high-
- * quality-setting files than with low-quality ones.
+ * The primbry disbdvbntbge of this method is thbt with fixed-point mbth,
+ * bccurbcy is lost due to imprecise representbtion of the scbled
+ * qubntizbtion vblues.  The smbller the qubntizbtion tbble entry, the less
+ * precise the scbled vblue, so this implementbtion does worse with high-
+ * qublity-setting files thbn with low-qublity ones.
  */
 
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jdct.h"               /* Private declarations for DCT subsystem */
+#include "jdct.h"               /* Privbte declbrbtions for DCT subsystem */
 
 #ifdef DCT_IFAST_SUPPORTED
 
 
 /*
- * This module is specialized to the case DCTSIZE = 8.
+ * This module is speciblized to the cbse DCTSIZE = 8.
  */
 
 #if DCTSIZE != 8
-  Sorry, this code only copes with 8x8 DCTs. /* deliberate syntax err */
+  Sorry, this code only copes with 8x8 DCTs. /* deliberbte syntbx err */
 #endif
 
 
-/* Scaling decisions are generally the same as in the LL&M algorithm;
- * see jfdctint.c for more details.  However, we choose to descale
- * (right shift) multiplication products as soon as they are formed,
- * rather than carrying additional fractional bits into subsequent additions.
- * This compromises accuracy slightly, but it lets us save a few shifts.
- * More importantly, 16-bit arithmetic is then adequate (for 8-bit samples)
- * everywhere except in the multiplications proper; this saves a good deal
- * of work on 16-bit-int machines.
+/* Scbling decisions bre generblly the sbme bs in the LL&M blgorithm;
+ * see jfdctint.c for more detbils.  However, we choose to descble
+ * (right shift) multiplicbtion products bs soon bs they bre formed,
+ * rbther thbn cbrrying bdditionbl frbctionbl bits into subsequent bdditions.
+ * This compromises bccurbcy slightly, but it lets us sbve b few shifts.
+ * More importbntly, 16-bit brithmetic is then bdequbte (for 8-bit sbmples)
+ * everywhere except in the multiplicbtions proper; this sbves b good debl
+ * of work on 16-bit-int mbchines.
  *
- * Again to save a few shifts, the intermediate results between pass 1 and
- * pass 2 are not upscaled, but are represented only to integral precision.
+ * Agbin to sbve b few shifts, the intermedibte results between pbss 1 bnd
+ * pbss 2 bre not upscbled, but bre represented only to integrbl precision.
  *
- * A final compromise is to represent the multiplicative constants to only
- * 8 fractional bits, rather than 13.  This saves some shifting work on some
- * machines, and may also reduce the cost of multiplication (since there
- * are fewer one-bits in the constants).
+ * A finbl compromise is to represent the multiplicbtive constbnts to only
+ * 8 frbctionbl bits, rbther thbn 13.  This sbves some shifting work on some
+ * mbchines, bnd mby blso reduce the cost of multiplicbtion (since there
+ * bre fewer one-bits in the constbnts).
  */
 
 #define CONST_BITS  8
 
 
-/* Some C compilers fail to reduce "FIX(constant)" at compile time, thus
- * causing a lot of useless floating-point operations at run time.
- * To get around this we use the following pre-calculated constants.
- * If you change CONST_BITS you may want to add appropriate values.
- * (With a reasonable C compiler, you can just rely on the FIX() macro...)
+/* Some C compilers fbil to reduce "FIX(constbnt)" bt compile time, thus
+ * cbusing b lot of useless flobting-point operbtions bt run time.
+ * To get bround this we use the following pre-cblculbted constbnts.
+ * If you chbnge CONST_BITS you mby wbnt to bdd bppropribte vblues.
+ * (With b rebsonbble C compiler, you cbn just rely on the FIX() mbcro...)
  */
 
 #if CONST_BITS == 8
@@ -92,9 +92,9 @@
 #endif
 
 
-/* We can gain a little more speed, with a further compromise in accuracy,
- * by omitting the addition in a descaling shift.  This yields an incorrectly
- * rounded result half the time...
+/* We cbn gbin b little more speed, with b further compromise in bccurbcy,
+ * by omitting the bddition in b descbling shift.  This yields bn incorrectly
+ * rounded result hblf the time...
  */
 
 #ifndef USE_ACCURATE_ROUNDING
@@ -103,125 +103,125 @@
 #endif
 
 
-/* Multiply a DCTELEM variable by an INT32 constant, and immediately
- * descale to yield a DCTELEM result.
+/* Multiply b DCTELEM vbribble by bn INT32 constbnt, bnd immedibtely
+ * descble to yield b DCTELEM result.
  */
 
-#define MULTIPLY(var,const)  ((DCTELEM) DESCALE((var) * (const), CONST_BITS))
+#define MULTIPLY(vbr,const)  ((DCTELEM) DESCALE((vbr) * (const), CONST_BITS))
 
 
 /*
- * Perform the forward DCT on one block of samples.
+ * Perform the forwbrd DCT on one block of sbmples.
  */
 
 GLOBAL(void)
-jpeg_fdct_ifast (DCTELEM * data)
+jpeg_fdct_ifbst (DCTELEM * dbtb)
 {
   DCTELEM tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
   DCTELEM tmp10, tmp11, tmp12, tmp13;
   DCTELEM z1, z2, z3, z4, z5, z11, z13;
-  DCTELEM *dataptr;
+  DCTELEM *dbtbptr;
   int ctr;
   SHIFT_TEMPS
 
-  /* Pass 1: process rows. */
+  /* Pbss 1: process rows. */
 
-  dataptr = data;
+  dbtbptr = dbtb;
   for (ctr = DCTSIZE-1; ctr >= 0; ctr--) {
-    tmp0 = dataptr[0] + dataptr[7];
-    tmp7 = dataptr[0] - dataptr[7];
-    tmp1 = dataptr[1] + dataptr[6];
-    tmp6 = dataptr[1] - dataptr[6];
-    tmp2 = dataptr[2] + dataptr[5];
-    tmp5 = dataptr[2] - dataptr[5];
-    tmp3 = dataptr[3] + dataptr[4];
-    tmp4 = dataptr[3] - dataptr[4];
+    tmp0 = dbtbptr[0] + dbtbptr[7];
+    tmp7 = dbtbptr[0] - dbtbptr[7];
+    tmp1 = dbtbptr[1] + dbtbptr[6];
+    tmp6 = dbtbptr[1] - dbtbptr[6];
+    tmp2 = dbtbptr[2] + dbtbptr[5];
+    tmp5 = dbtbptr[2] - dbtbptr[5];
+    tmp3 = dbtbptr[3] + dbtbptr[4];
+    tmp4 = dbtbptr[3] - dbtbptr[4];
 
-    /* Even part */
+    /* Even pbrt */
 
-    tmp10 = tmp0 + tmp3;        /* phase 2 */
+    tmp10 = tmp0 + tmp3;        /* phbse 2 */
     tmp13 = tmp0 - tmp3;
     tmp11 = tmp1 + tmp2;
     tmp12 = tmp1 - tmp2;
 
-    dataptr[0] = tmp10 + tmp11; /* phase 3 */
-    dataptr[4] = tmp10 - tmp11;
+    dbtbptr[0] = tmp10 + tmp11; /* phbse 3 */
+    dbtbptr[4] = tmp10 - tmp11;
 
     z1 = MULTIPLY(tmp12 + tmp13, FIX_0_707106781); /* c4 */
-    dataptr[2] = tmp13 + z1;    /* phase 5 */
-    dataptr[6] = tmp13 - z1;
+    dbtbptr[2] = tmp13 + z1;    /* phbse 5 */
+    dbtbptr[6] = tmp13 - z1;
 
-    /* Odd part */
+    /* Odd pbrt */
 
-    tmp10 = tmp4 + tmp5;        /* phase 2 */
+    tmp10 = tmp4 + tmp5;        /* phbse 2 */
     tmp11 = tmp5 + tmp6;
     tmp12 = tmp6 + tmp7;
 
-    /* The rotator is modified from fig 4-8 to avoid extra negations. */
+    /* The rotbtor is modified from fig 4-8 to bvoid extrb negbtions. */
     z5 = MULTIPLY(tmp10 - tmp12, FIX_0_382683433); /* c6 */
     z2 = MULTIPLY(tmp10, FIX_0_541196100) + z5; /* c2-c6 */
     z4 = MULTIPLY(tmp12, FIX_1_306562965) + z5; /* c2+c6 */
     z3 = MULTIPLY(tmp11, FIX_0_707106781); /* c4 */
 
-    z11 = tmp7 + z3;            /* phase 5 */
+    z11 = tmp7 + z3;            /* phbse 5 */
     z13 = tmp7 - z3;
 
-    dataptr[5] = z13 + z2;      /* phase 6 */
-    dataptr[3] = z13 - z2;
-    dataptr[1] = z11 + z4;
-    dataptr[7] = z11 - z4;
+    dbtbptr[5] = z13 + z2;      /* phbse 6 */
+    dbtbptr[3] = z13 - z2;
+    dbtbptr[1] = z11 + z4;
+    dbtbptr[7] = z11 - z4;
 
-    dataptr += DCTSIZE;         /* advance pointer to next row */
+    dbtbptr += DCTSIZE;         /* bdvbnce pointer to next row */
   }
 
-  /* Pass 2: process columns. */
+  /* Pbss 2: process columns. */
 
-  dataptr = data;
+  dbtbptr = dbtb;
   for (ctr = DCTSIZE-1; ctr >= 0; ctr--) {
-    tmp0 = dataptr[DCTSIZE*0] + dataptr[DCTSIZE*7];
-    tmp7 = dataptr[DCTSIZE*0] - dataptr[DCTSIZE*7];
-    tmp1 = dataptr[DCTSIZE*1] + dataptr[DCTSIZE*6];
-    tmp6 = dataptr[DCTSIZE*1] - dataptr[DCTSIZE*6];
-    tmp2 = dataptr[DCTSIZE*2] + dataptr[DCTSIZE*5];
-    tmp5 = dataptr[DCTSIZE*2] - dataptr[DCTSIZE*5];
-    tmp3 = dataptr[DCTSIZE*3] + dataptr[DCTSIZE*4];
-    tmp4 = dataptr[DCTSIZE*3] - dataptr[DCTSIZE*4];
+    tmp0 = dbtbptr[DCTSIZE*0] + dbtbptr[DCTSIZE*7];
+    tmp7 = dbtbptr[DCTSIZE*0] - dbtbptr[DCTSIZE*7];
+    tmp1 = dbtbptr[DCTSIZE*1] + dbtbptr[DCTSIZE*6];
+    tmp6 = dbtbptr[DCTSIZE*1] - dbtbptr[DCTSIZE*6];
+    tmp2 = dbtbptr[DCTSIZE*2] + dbtbptr[DCTSIZE*5];
+    tmp5 = dbtbptr[DCTSIZE*2] - dbtbptr[DCTSIZE*5];
+    tmp3 = dbtbptr[DCTSIZE*3] + dbtbptr[DCTSIZE*4];
+    tmp4 = dbtbptr[DCTSIZE*3] - dbtbptr[DCTSIZE*4];
 
-    /* Even part */
+    /* Even pbrt */
 
-    tmp10 = tmp0 + tmp3;        /* phase 2 */
+    tmp10 = tmp0 + tmp3;        /* phbse 2 */
     tmp13 = tmp0 - tmp3;
     tmp11 = tmp1 + tmp2;
     tmp12 = tmp1 - tmp2;
 
-    dataptr[DCTSIZE*0] = tmp10 + tmp11; /* phase 3 */
-    dataptr[DCTSIZE*4] = tmp10 - tmp11;
+    dbtbptr[DCTSIZE*0] = tmp10 + tmp11; /* phbse 3 */
+    dbtbptr[DCTSIZE*4] = tmp10 - tmp11;
 
     z1 = MULTIPLY(tmp12 + tmp13, FIX_0_707106781); /* c4 */
-    dataptr[DCTSIZE*2] = tmp13 + z1; /* phase 5 */
-    dataptr[DCTSIZE*6] = tmp13 - z1;
+    dbtbptr[DCTSIZE*2] = tmp13 + z1; /* phbse 5 */
+    dbtbptr[DCTSIZE*6] = tmp13 - z1;
 
-    /* Odd part */
+    /* Odd pbrt */
 
-    tmp10 = tmp4 + tmp5;        /* phase 2 */
+    tmp10 = tmp4 + tmp5;        /* phbse 2 */
     tmp11 = tmp5 + tmp6;
     tmp12 = tmp6 + tmp7;
 
-    /* The rotator is modified from fig 4-8 to avoid extra negations. */
+    /* The rotbtor is modified from fig 4-8 to bvoid extrb negbtions. */
     z5 = MULTIPLY(tmp10 - tmp12, FIX_0_382683433); /* c6 */
     z2 = MULTIPLY(tmp10, FIX_0_541196100) + z5; /* c2-c6 */
     z4 = MULTIPLY(tmp12, FIX_1_306562965) + z5; /* c2+c6 */
     z3 = MULTIPLY(tmp11, FIX_0_707106781); /* c4 */
 
-    z11 = tmp7 + z3;            /* phase 5 */
+    z11 = tmp7 + z3;            /* phbse 5 */
     z13 = tmp7 - z3;
 
-    dataptr[DCTSIZE*5] = z13 + z2; /* phase 6 */
-    dataptr[DCTSIZE*3] = z13 - z2;
-    dataptr[DCTSIZE*1] = z11 + z4;
-    dataptr[DCTSIZE*7] = z11 - z4;
+    dbtbptr[DCTSIZE*5] = z13 + z2; /* phbse 6 */
+    dbtbptr[DCTSIZE*3] = z13 - z2;
+    dbtbptr[DCTSIZE*1] = z11 + z4;
+    dbtbptr[DCTSIZE*7] = z11 - z4;
 
-    dataptr++;                  /* advance pointer to next column */
+    dbtbptr++;                  /* bdvbnce pointer to next column */
   }
 }
 

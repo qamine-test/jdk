@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,605 +30,605 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.border.*;
-import javax.swing.tree.*;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.util.*;
+import jbvbx.swing.UIMbnbger.LookAndFeelInfo;
+import jbvbx.swing.border.*;
+import jbvbx.swing.tree.*;
 
 
 /**
- * A demo for illustrating how to do different things with JTree.
- * The data that this displays is rather boring, that is each node will
- * have 7 children that have random names based on the fonts.  Each node
- * is then drawn with that font and in a different color.
- * While the data isn't interesting the example illustrates a number
+ * A demo for illustrbting how to do different things with JTree.
+ * The dbtb thbt this displbys is rbther boring, thbt is ebch node will
+ * hbve 7 children thbt hbve rbndom nbmes bbsed on the fonts.  Ebch node
+ * is then drbwn with thbt font bnd in b different color.
+ * While the dbtb isn't interesting the exbmple illustrbtes b number
  * of things:
  *
- * For an example of dynamicaly loading children refer to DynamicTreeNode.
- * For an example of adding/removing/inserting/reloading refer to the inner
- *     classes of this class, AddAction, RemovAction, InsertAction and
- *     ReloadAction.
- * For an example of creating your own cell renderer refer to
- *     SampleTreeCellRenderer.
- * For an example of subclassing JTreeModel for editing refer to
- *     SampleTreeModel.
+ * For bn exbmple of dynbmicbly lobding children refer to DynbmicTreeNode.
+ * For bn exbmple of bdding/removing/inserting/relobding refer to the inner
+ *     clbsses of this clbss, AddAction, RemovAction, InsertAction bnd
+ *     RelobdAction.
+ * For bn exbmple of crebting your own cell renderer refer to
+ *     SbmpleTreeCellRenderer.
+ * For bn exbmple of subclbssing JTreeModel for editing refer to
+ *     SbmpleTreeModel.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public final class SampleTree {
+public finbl clbss SbmpleTree {
 
     /** Window for showing Tree. */
-    protected JFrame frame;
-    /** Tree used for the example. */
+    protected JFrbme frbme;
+    /** Tree used for the exbmple. */
     protected JTree tree;
     /** Tree model. */
-    protected DefaultTreeModel treeModel;
+    protected DefbultTreeModel treeModel;
 
     /**
-     * Constructs a new instance of SampleTree.
+     * Constructs b new instbnce of SbmpleTree.
      */
-    public SampleTree() {
-        // Trying to set Nimbus look and feel
+    public SbmpleTree() {
+        // Trying to set Nimbus look bnd feel
         try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            for (LookAndFeelInfo info : UIMbnbger.getInstblledLookAndFeels()) {
+                if ("Nimbus".equbls(info.getNbme())) {
+                    UIMbnbger.setLookAndFeel(info.getClbssNbme());
+                    brebk;
                 }
             }
-        } catch (Exception ignored) {
+        } cbtch (Exception ignored) {
         }
 
-        JMenuBar menuBar = constructMenuBar();
-        JPanel panel = new JPanel(true);
+        JMenuBbr menuBbr = constructMenuBbr();
+        JPbnel pbnel = new JPbnel(true);
 
-        frame = new JFrame("SampleTree");
-        frame.getContentPane().add("Center", panel);
-        frame.setJMenuBar(menuBar);
-        frame.setBackground(Color.lightGray);
+        frbme = new JFrbme("SbmpleTree");
+        frbme.getContentPbne().bdd("Center", pbnel);
+        frbme.setJMenuBbr(menuBbr);
+        frbme.setBbckground(Color.lightGrby);
 
-        /* Create the JTreeModel. */
-        DefaultMutableTreeNode root = createNewNode("Root");
-        treeModel = new SampleTreeModel(root);
+        /* Crebte the JTreeModel. */
+        DefbultMutbbleTreeNode root = crebteNewNode("Root");
+        treeModel = new SbmpleTreeModel(root);
 
-        /* Create the tree. */
+        /* Crebte the tree. */
         tree = new JTree(treeModel);
 
-        /* Enable tool tips for the tree, without this tool tips will not
+        /* Enbble tool tips for the tree, without this tool tips will not
         be picked up. */
-        ToolTipManager.sharedInstance().registerComponent(tree);
+        ToolTipMbnbger.shbredInstbnce().registerComponent(tree);
 
-        /* Make the tree use an instance of SampleTreeCellRenderer for
-        drawing. */
-        tree.setCellRenderer(new SampleTreeCellRenderer());
+        /* Mbke the tree use bn instbnce of SbmpleTreeCellRenderer for
+        drbwing. */
+        tree.setCellRenderer(new SbmpleTreeCellRenderer());
 
-        /* Make tree ask for the height of each row. */
+        /* Mbke tree bsk for the height of ebch row. */
         tree.setRowHeight(-1);
 
-        /* Put the Tree in a scroller. */
-        JScrollPane sp = new JScrollPane();
+        /* Put the Tree in b scroller. */
+        JScrollPbne sp = new JScrollPbne();
         sp.setPreferredSize(new Dimension(300, 300));
-        sp.getViewport().add(tree);
+        sp.getViewport().bdd(tree);
 
         /* And show it. */
-        panel.setLayout(new BorderLayout());
-        panel.add("Center", sp);
-        panel.add("South", constructOptionsPanel());
+        pbnel.setLbyout(new BorderLbyout());
+        pbnel.bdd("Center", sp);
+        pbnel.bdd("South", constructOptionsPbnel());
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        frbme.setDefbultCloseOperbtion(JFrbme.EXIT_ON_CLOSE);
+        frbme.pbck();
+        frbme.setVisible(true);
     }
 
-    /** Constructs a JPanel containing check boxes for the different
-     * options that tree supports. */
-    @SuppressWarnings("serial")
-    private JPanel constructOptionsPanel() {
-        JCheckBox aCheckbox;
-        JPanel retPanel = new JPanel(false);
-        JPanel borderPane = new JPanel(false);
+    /** Constructs b JPbnel contbining check boxes for the different
+     * options thbt tree supports. */
+    @SuppressWbrnings("seribl")
+    privbte JPbnel constructOptionsPbnel() {
+        JCheckBox bCheckbox;
+        JPbnel retPbnel = new JPbnel(fblse);
+        JPbnel borderPbne = new JPbnel(fblse);
 
-        borderPane.setLayout(new BorderLayout());
-        retPanel.setLayout(new FlowLayout());
+        borderPbne.setLbyout(new BorderLbyout());
+        retPbnel.setLbyout(new FlowLbyout());
 
-        aCheckbox = new JCheckBox("show top level handles");
-        aCheckbox.setSelected(tree.getShowsRootHandles());
-        aCheckbox.addChangeListener(new ShowHandlesChangeListener());
-        retPanel.add(aCheckbox);
+        bCheckbox = new JCheckBox("show top level hbndles");
+        bCheckbox.setSelected(tree.getShowsRootHbndles());
+        bCheckbox.bddChbngeListener(new ShowHbndlesChbngeListener());
+        retPbnel.bdd(bCheckbox);
 
-        aCheckbox = new JCheckBox("show root");
-        aCheckbox.setSelected(tree.isRootVisible());
-        aCheckbox.addChangeListener(new ShowRootChangeListener());
-        retPanel.add(aCheckbox);
+        bCheckbox = new JCheckBox("show root");
+        bCheckbox.setSelected(tree.isRootVisible());
+        bCheckbox.bddChbngeListener(new ShowRootChbngeListener());
+        retPbnel.bdd(bCheckbox);
 
-        aCheckbox = new JCheckBox("editable");
-        aCheckbox.setSelected(tree.isEditable());
-        aCheckbox.addChangeListener(new TreeEditableChangeListener());
-        aCheckbox.setToolTipText("Triple click to edit");
-        retPanel.add(aCheckbox);
+        bCheckbox = new JCheckBox("editbble");
+        bCheckbox.setSelected(tree.isEditbble());
+        bCheckbox.bddChbngeListener(new TreeEditbbleChbngeListener());
+        bCheckbox.setToolTipText("Triple click to edit");
+        retPbnel.bdd(bCheckbox);
 
-        borderPane.add(retPanel, BorderLayout.CENTER);
+        borderPbne.bdd(retPbnel, BorderLbyout.CENTER);
 
-        /* Create a set of radio buttons that dictate what selection should
-        be allowed in the tree. */
+        /* Crebte b set of rbdio buttons thbt dictbte whbt selection should
+        be bllowed in the tree. */
         ButtonGroup group = new ButtonGroup();
-        JPanel buttonPane = new JPanel(false);
-        JRadioButton button;
+        JPbnel buttonPbne = new JPbnel(fblse);
+        JRbdioButton button;
 
-        buttonPane.setLayout(new FlowLayout());
-        buttonPane.setBorder(new TitledBorder("Selection Mode"));
-        button = new JRadioButton("Single");
-        button.addActionListener(new AbstractAction() {
+        buttonPbne.setLbyout(new FlowLbyout());
+        buttonPbne.setBorder(new TitledBorder("Selection Mode"));
+        button = new JRbdioButton("Single");
+        button.bddActionListener(new AbstrbctAction() {
 
             @Override
-            public boolean isEnabled() {
+            public boolebn isEnbbled() {
                 return true;
             }
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 tree.getSelectionModel().setSelectionMode(
                         TreeSelectionModel.SINGLE_TREE_SELECTION);
             }
         });
-        group.add(button);
-        buttonPane.add(button);
-        button = new JRadioButton("Contiguous");
-        button.addActionListener(new AbstractAction() {
+        group.bdd(button);
+        buttonPbne.bdd(button);
+        button = new JRbdioButton("Contiguous");
+        button.bddActionListener(new AbstrbctAction() {
 
             @Override
-            public boolean isEnabled() {
+            public boolebn isEnbbled() {
                 return true;
             }
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 tree.getSelectionModel().setSelectionMode(
                         TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
             }
         });
-        group.add(button);
-        buttonPane.add(button);
-        button = new JRadioButton("Discontiguous");
-        button.addActionListener(new AbstractAction() {
+        group.bdd(button);
+        buttonPbne.bdd(button);
+        button = new JRbdioButton("Discontiguous");
+        button.bddActionListener(new AbstrbctAction() {
 
             @Override
-            public boolean isEnabled() {
+            public boolebn isEnbbled() {
                 return true;
             }
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 tree.getSelectionModel().setSelectionMode(
                         TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
             }
         });
         button.setSelected(true);
-        group.add(button);
-        buttonPane.add(button);
+        group.bdd(button);
+        buttonPbne.bdd(button);
 
-        borderPane.add(buttonPane, BorderLayout.SOUTH);
+        borderPbne.bdd(buttonPbne, BorderLbyout.SOUTH);
 
-        // NOTE: This will be enabled in a future release.
-        // Create a label and combobox to determine how many clicks are
-        // needed to expand.
+        // NOTE: This will be enbbled in b future relebse.
+        // Crebte b lbbel bnd combobox to determine how mbny clicks bre
+        // needed to expbnd.
 /*
-        JPanel               clickPanel = new JPanel();
-        Object[]             values = { "Never", new Integer(1),
+        JPbnel               clickPbnel = new JPbnel();
+        Object[]             vblues = { "Never", new Integer(1),
         new Integer(2), new Integer(3) };
-        final JComboBox      clickCBox = new JComboBox(values);
+        finbl JComboBox      clickCBox = new JComboBox(vblues);
 
-        clickPanel.setLayout(new FlowLayout());
-        clickPanel.add(new JLabel("Click count to expand:"));
+        clickPbnel.setLbyout(new FlowLbyout());
+        clickPbnel.bdd(new JLbbel("Click count to expbnd:"));
         clickCBox.setSelectedIndex(2);
-        clickCBox.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent ae) {
+        clickCBox.bddActionListener(new ActionListener() {
+        public void bctionPerformed(ActionEvent be) {
         Object       selItem = clickCBox.getSelectedItem();
 
-        if(selItem instanceof Integer)
-        tree.setToggleClickCount(((Integer)selItem).intValue());
+        if(selItem instbnceof Integer)
+        tree.setToggleClickCount(((Integer)selItem).intVblue());
         else // Don't toggle
         tree.setToggleClickCount(0);
         }
         });
-        clickPanel.add(clickCBox);
-        borderPane.add(clickPanel, BorderLayout.NORTH);
+        clickPbnel.bdd(clickCBox);
+        borderPbne.bdd(clickPbnel, BorderLbyout.NORTH);
          */
-        return borderPane;
+        return borderPbne;
     }
 
-    /** Construct a menu. */
-    private JMenuBar constructMenuBar() {
+    /** Construct b menu. */
+    privbte JMenuBbr constructMenuBbr() {
         JMenu menu;
-        JMenuBar menuBar = new JMenuBar();
+        JMenuBbr menuBbr = new JMenuBbr();
         JMenuItem menuItem;
 
         /* Good ol exit. */
         menu = new JMenu("File");
-        menuBar.add(menu);
+        menuBbr.bdd(menu);
 
-        menuItem = menu.add(new JMenuItem("Exit"));
-        menuItem.addActionListener(new ActionListener() {
+        menuItem = menu.bdd(new JMenuItem("Exit"));
+        menuItem.bddActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void bctionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
 
-        /* Tree related stuff. */
+        /* Tree relbted stuff. */
         menu = new JMenu("Tree");
-        menuBar.add(menu);
+        menuBbr.bdd(menu);
 
-        menuItem = menu.add(new JMenuItem("Add"));
-        menuItem.addActionListener(new AddAction());
+        menuItem = menu.bdd(new JMenuItem("Add"));
+        menuItem.bddActionListener(new AddAction());
 
-        menuItem = menu.add(new JMenuItem("Insert"));
-        menuItem.addActionListener(new InsertAction());
+        menuItem = menu.bdd(new JMenuItem("Insert"));
+        menuItem.bddActionListener(new InsertAction());
 
-        menuItem = menu.add(new JMenuItem("Reload"));
-        menuItem.addActionListener(new ReloadAction());
+        menuItem = menu.bdd(new JMenuItem("Relobd"));
+        menuItem.bddActionListener(new RelobdAction());
 
-        menuItem = menu.add(new JMenuItem("Remove"));
-        menuItem.addActionListener(new RemoveAction());
+        menuItem = menu.bdd(new JMenuItem("Remove"));
+        menuItem.bddActionListener(new RemoveAction());
 
-        return menuBar;
+        return menuBbr;
     }
 
     /**
-     * Returns the TreeNode instance that is selected in the tree.
+     * Returns the TreeNode instbnce thbt is selected in the tree.
      * If nothing is selected, null is returned.
      */
-    protected DefaultMutableTreeNode getSelectedNode() {
-        TreePath selPath = tree.getSelectionPath();
+    protected DefbultMutbbleTreeNode getSelectedNode() {
+        TreePbth selPbth = tree.getSelectionPbth();
 
-        if (selPath != null) {
-            return (DefaultMutableTreeNode) selPath.getLastPathComponent();
+        if (selPbth != null) {
+            return (DefbultMutbbleTreeNode) selPbth.getLbstPbthComponent();
         }
         return null;
     }
 
     /**
-     * Returns the selected TreePaths in the tree, may return null if
+     * Returns the selected TreePbths in the tree, mby return null if
      * nothing is selected.
      */
-    protected TreePath[] getSelectedPaths() {
-        return tree.getSelectionPaths();
+    protected TreePbth[] getSelectedPbths() {
+        return tree.getSelectionPbths();
     }
 
-    protected DefaultMutableTreeNode createNewNode(String name) {
-        return new DynamicTreeNode(new SampleData(null, Color.black, name));
+    protected DefbultMutbbleTreeNode crebteNewNode(String nbme) {
+        return new DynbmicTreeNode(new SbmpleDbtb(null, Color.blbck, nbme));
     }
 
 
     /**
-     * AddAction is used to add a new item after the selected item.
+     * AddAction is used to bdd b new item bfter the selected item.
      */
-    class AddAction extends Object implements ActionListener {
+    clbss AddAction extends Object implements ActionListener {
 
-        /** Number of nodes that have been added. */
-        public int addCount;
+        /** Number of nodes thbt hbve been bdded. */
+        public int bddCount;
 
         /**
-         * Messaged when the user clicks on the Add menu item.
-         * Determines the selection from the Tree and adds an item
-         * after that.  If nothing is selected, an item is added to
+         * Messbged when the user clicks on the Add menu item.
+         * Determines the selection from the Tree bnd bdds bn item
+         * bfter thbt.  If nothing is selected, bn item is bdded to
          * the root.
          */
-        public void actionPerformed(ActionEvent e) {
-            DefaultMutableTreeNode lastItem = getSelectedNode();
-            DefaultMutableTreeNode parent;
+        public void bctionPerformed(ActionEvent e) {
+            DefbultMutbbleTreeNode lbstItem = getSelectedNode();
+            DefbultMutbbleTreeNode pbrent;
 
-            /* Determine where to create the new node. */
-            if (lastItem != null) {
-                parent = (DefaultMutableTreeNode) lastItem.getParent();
-                if (parent == null) {
-                    parent = (DefaultMutableTreeNode) treeModel.getRoot();
-                    lastItem = null;
+            /* Determine where to crebte the new node. */
+            if (lbstItem != null) {
+                pbrent = (DefbultMutbbleTreeNode) lbstItem.getPbrent();
+                if (pbrent == null) {
+                    pbrent = (DefbultMutbbleTreeNode) treeModel.getRoot();
+                    lbstItem = null;
                 }
             } else {
-                parent = (DefaultMutableTreeNode) treeModel.getRoot();
+                pbrent = (DefbultMutbbleTreeNode) treeModel.getRoot();
             }
-            if (parent == null) {
+            if (pbrent == null) {
                 // new root
-                treeModel.setRoot(createNewNode("Added " + Integer.toString(
-                        addCount++)));
+                treeModel.setRoot(crebteNewNode("Added " + Integer.toString(
+                        bddCount++)));
             } else {
                 int newIndex;
-                if (lastItem == null) {
-                    newIndex = treeModel.getChildCount(parent);
+                if (lbstItem == null) {
+                    newIndex = treeModel.getChildCount(pbrent);
                 } else {
-                    newIndex = parent.getIndex(lastItem) + 1;
+                    newIndex = pbrent.getIndex(lbstItem) + 1;
                 }
 
                 /* Let the treemodel know. */
-                treeModel.insertNodeInto(createNewNode("Added " + Integer.
-                        toString(addCount++)),
-                        parent, newIndex);
+                treeModel.insertNodeInto(crebteNewNode("Added " + Integer.
+                        toString(bddCount++)),
+                        pbrent, newIndex);
             }
         }
-    } // End of SampleTree.AddAction
+    } // End of SbmpleTree.AddAction
 
 
     /**
-     * InsertAction is used to insert a new item before the selected item.
+     * InsertAction is used to insert b new item before the selected item.
      */
-    class InsertAction extends Object implements ActionListener {
+    clbss InsertAction extends Object implements ActionListener {
 
-        /** Number of nodes that have been added. */
+        /** Number of nodes thbt hbve been bdded. */
         public int insertCount;
 
         /**
-         * Messaged when the user clicks on the Insert menu item.
-         * Determines the selection from the Tree and inserts an item
-         * after that.  If nothing is selected, an item is added to
+         * Messbged when the user clicks on the Insert menu item.
+         * Determines the selection from the Tree bnd inserts bn item
+         * bfter thbt.  If nothing is selected, bn item is bdded to
          * the root.
          */
-        public void actionPerformed(ActionEvent e) {
-            DefaultMutableTreeNode lastItem = getSelectedNode();
-            DefaultMutableTreeNode parent;
+        public void bctionPerformed(ActionEvent e) {
+            DefbultMutbbleTreeNode lbstItem = getSelectedNode();
+            DefbultMutbbleTreeNode pbrent;
 
-            /* Determine where to create the new node. */
-            if (lastItem != null) {
-                parent = (DefaultMutableTreeNode) lastItem.getParent();
-                if (parent == null) {
-                    parent = (DefaultMutableTreeNode) treeModel.getRoot();
-                    lastItem = null;
+            /* Determine where to crebte the new node. */
+            if (lbstItem != null) {
+                pbrent = (DefbultMutbbleTreeNode) lbstItem.getPbrent();
+                if (pbrent == null) {
+                    pbrent = (DefbultMutbbleTreeNode) treeModel.getRoot();
+                    lbstItem = null;
                 }
             } else {
-                parent = (DefaultMutableTreeNode) treeModel.getRoot();
+                pbrent = (DefbultMutbbleTreeNode) treeModel.getRoot();
             }
-            if (parent == null) {
+            if (pbrent == null) {
                 // new root
-                treeModel.setRoot(createNewNode("Inserted " + Integer.toString(
+                treeModel.setRoot(crebteNewNode("Inserted " + Integer.toString(
                         insertCount++)));
             } else {
                 int newIndex;
 
-                if (lastItem == null) {
-                    newIndex = treeModel.getChildCount(parent);
+                if (lbstItem == null) {
+                    newIndex = treeModel.getChildCount(pbrent);
                 } else {
-                    newIndex = parent.getIndex(lastItem);
+                    newIndex = pbrent.getIndex(lbstItem);
                 }
 
                 /* Let the treemodel know. */
-                treeModel.insertNodeInto(createNewNode("Inserted " + Integer.
+                treeModel.insertNodeInto(crebteNewNode("Inserted " + Integer.
                         toString(insertCount++)),
-                        parent, newIndex);
+                        pbrent, newIndex);
             }
         }
-    } // End of SampleTree.InsertAction
+    } // End of SbmpleTree.InsertAction
 
 
     /**
-     * ReloadAction is used to reload from the selected node.  If nothing
-     * is selected, reload is not issued.
+     * RelobdAction is used to relobd from the selected node.  If nothing
+     * is selected, relobd is not issued.
      */
-    class ReloadAction extends Object implements ActionListener {
+    clbss RelobdAction extends Object implements ActionListener {
 
         /**
-         * Messaged when the user clicks on the Reload menu item.
-         * Determines the selection from the Tree and asks the treemodel
-         * to reload from that node.
+         * Messbged when the user clicks on the Relobd menu item.
+         * Determines the selection from the Tree bnd bsks the treemodel
+         * to relobd from thbt node.
          */
-        public void actionPerformed(ActionEvent e) {
-            DefaultMutableTreeNode lastItem = getSelectedNode();
+        public void bctionPerformed(ActionEvent e) {
+            DefbultMutbbleTreeNode lbstItem = getSelectedNode();
 
-            if (lastItem != null) {
-                treeModel.reload(lastItem);
+            if (lbstItem != null) {
+                treeModel.relobd(lbstItem);
             }
         }
-    } // End of SampleTree.ReloadAction
+    } // End of SbmpleTree.RelobdAction
 
 
     /**
      * RemoveAction removes the selected node from the tree.  If
      * The root or nothing is selected nothing is removed.
      */
-    class RemoveAction extends Object implements ActionListener {
+    clbss RemoveAction extends Object implements ActionListener {
 
         /**
-         * Removes the selected item as long as it isn't root.
+         * Removes the selected item bs long bs it isn't root.
          */
-        public void actionPerformed(ActionEvent e) {
-            TreePath[] selected = getSelectedPaths();
+        public void bctionPerformed(ActionEvent e) {
+            TreePbth[] selected = getSelectedPbths();
 
             if (selected != null && selected.length > 0) {
-                TreePath shallowest;
+                TreePbth shbllowest;
 
                 // The remove process consists of the following steps:
-                // 1 - find the shallowest selected TreePath, the shallowest
-                //     path is the path with the smallest number of path
+                // 1 - find the shbllowest selected TreePbth, the shbllowest
+                //     pbth is the pbth with the smbllest number of pbth
                 //     components.
-                // 2 - Find the siblings of this TreePath
-                // 3 - Remove from selected the TreePaths that are descendants
-                //     of the paths that are going to be removed. They will
-                //     be removed as a result of their ancestors being
+                // 2 - Find the siblings of this TreePbth
+                // 3 - Remove from selected the TreePbths thbt bre descendbnts
+                //     of the pbths thbt bre going to be removed. They will
+                //     be removed bs b result of their bncestors being
                 //     removed.
-                // 4 - continue until selected contains only null paths.
-                while ((shallowest = findShallowestPath(selected)) != null) {
-                    removeSiblings(shallowest, selected);
+                // 4 - continue until selected contbins only null pbths.
+                while ((shbllowest = findShbllowestPbth(selected)) != null) {
+                    removeSiblings(shbllowest, selected);
                 }
             }
         }
 
         /**
-         * Removes the sibling TreePaths of <code>path</code>, that are
-         * located in <code>paths</code>.
+         * Removes the sibling TreePbths of <code>pbth</code>, thbt bre
+         * locbted in <code>pbths</code>.
          */
-        private void removeSiblings(TreePath path, TreePath[] paths) {
+        privbte void removeSiblings(TreePbth pbth, TreePbth[] pbths) {
             // Find the siblings
-            if (path.getPathCount() == 1) {
-                // Special case, set the root to null
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    paths[counter] = null;
+            if (pbth.getPbthCount() == 1) {
+                // Specibl cbse, set the root to null
+                for (int counter = pbths.length - 1; counter >= 0; counter--) {
+                    pbths[counter] = null;
                 }
                 treeModel.setRoot(null);
             } else {
-                // Find the siblings of path.
-                TreePath parent = path.getParentPath();
-                MutableTreeNode parentNode = (MutableTreeNode) parent.
-                        getLastPathComponent();
-                ArrayList<TreePath> toRemove = new ArrayList<TreePath>();
+                // Find the siblings of pbth.
+                TreePbth pbrent = pbth.getPbrentPbth();
+                MutbbleTreeNode pbrentNode = (MutbbleTreeNode) pbrent.
+                        getLbstPbthComponent();
+                ArrbyList<TreePbth> toRemove = new ArrbyList<TreePbth>();
 
-                // First pass, find paths with a parent TreePath of parent
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    if (paths[counter] != null && paths[counter].getParentPath().
-                            equals(parent)) {
-                        toRemove.add(paths[counter]);
-                        paths[counter] = null;
+                // First pbss, find pbths with b pbrent TreePbth of pbrent
+                for (int counter = pbths.length - 1; counter >= 0; counter--) {
+                    if (pbths[counter] != null && pbths[counter].getPbrentPbth().
+                            equbls(pbrent)) {
+                        toRemove.bdd(pbths[counter]);
+                        pbths[counter] = null;
                     }
                 }
 
-                // Second pass, remove any paths that are descendants of the
-                // paths that are going to be removed. These paths are
-                // implicitly removed as a result of removing the paths in
+                // Second pbss, remove bny pbths thbt bre descendbnts of the
+                // pbths thbt bre going to be removed. These pbths bre
+                // implicitly removed bs b result of removing the pbths in
                 // toRemove
                 int rCount = toRemove.size();
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    if (paths[counter] != null) {
+                for (int counter = pbths.length - 1; counter >= 0; counter--) {
+                    if (pbths[counter] != null) {
                         for (int rCounter = rCount - 1; rCounter >= 0;
                                 rCounter--) {
-                            if ((toRemove.get(rCounter)).isDescendant(
-                                    paths[counter])) {
-                                paths[counter] = null;
+                            if ((toRemove.get(rCounter)).isDescendbnt(
+                                    pbths[counter])) {
+                                pbths[counter] = null;
                             }
                         }
                     }
                 }
 
-                // Sort the siblings based on position in the model
+                // Sort the siblings bbsed on position in the model
                 if (rCount > 1) {
-                    Collections.sort(toRemove, new PositionComparator());
+                    Collections.sort(toRemove, new PositionCompbrbtor());
                 }
                 int[] indices = new int[rCount];
                 Object[] removedNodes = new Object[rCount];
                 for (int counter = rCount - 1; counter >= 0; counter--) {
                     removedNodes[counter] = (toRemove.get(counter)).
-                            getLastPathComponent();
-                    indices[counter] = treeModel.getIndexOfChild(parentNode,
+                            getLbstPbthComponent();
+                    indices[counter] = treeModel.getIndexOfChild(pbrentNode,
                             removedNodes[counter]);
-                    parentNode.remove(indices[counter]);
+                    pbrentNode.remove(indices[counter]);
                 }
-                treeModel.nodesWereRemoved(parentNode, indices, removedNodes);
+                treeModel.nodesWereRemoved(pbrentNode, indices, removedNodes);
             }
         }
 
         /**
-         * Returns the TreePath with the smallest path count in
-         * <code>paths</code>. Will return null if there is no non-null
-         * TreePath is <code>paths</code>.
+         * Returns the TreePbth with the smbllest pbth count in
+         * <code>pbths</code>. Will return null if there is no non-null
+         * TreePbth is <code>pbths</code>.
          */
-        private TreePath findShallowestPath(TreePath[] paths) {
-            int shallowest = -1;
-            TreePath shallowestPath = null;
+        privbte TreePbth findShbllowestPbth(TreePbth[] pbths) {
+            int shbllowest = -1;
+            TreePbth shbllowestPbth = null;
 
-            for (int counter = paths.length - 1; counter >= 0; counter--) {
-                if (paths[counter] != null) {
-                    if (shallowest != -1) {
-                        if (paths[counter].getPathCount() < shallowest) {
-                            shallowest = paths[counter].getPathCount();
-                            shallowestPath = paths[counter];
-                            if (shallowest == 1) {
-                                return shallowestPath;
+            for (int counter = pbths.length - 1; counter >= 0; counter--) {
+                if (pbths[counter] != null) {
+                    if (shbllowest != -1) {
+                        if (pbths[counter].getPbthCount() < shbllowest) {
+                            shbllowest = pbths[counter].getPbthCount();
+                            shbllowestPbth = pbths[counter];
+                            if (shbllowest == 1) {
+                                return shbllowestPbth;
                             }
                         }
                     } else {
-                        shallowestPath = paths[counter];
-                        shallowest = paths[counter].getPathCount();
+                        shbllowestPbth = pbths[counter];
+                        shbllowest = pbths[counter].getPbthCount();
                     }
                 }
             }
-            return shallowestPath;
+            return shbllowestPbth;
         }
 
 
         /**
-         * An Comparator that bases the return value on the index of the
-         * passed in objects in the TreeModel.
+         * An Compbrbtor thbt bbses the return vblue on the index of the
+         * pbssed in objects in the TreeModel.
          * <p>
-         * This is actually rather expensive, it would be more efficient
-         * to extract the indices and then do the comparision.
+         * This is bctublly rbther expensive, it would be more efficient
+         * to extrbct the indices bnd then do the compbrision.
          */
-        private class PositionComparator implements Comparator<TreePath> {
+        privbte clbss PositionCompbrbtor implements Compbrbtor<TreePbth> {
 
-            public int compare(TreePath p1, TreePath p2) {
-                int p1Index = treeModel.getIndexOfChild(p1.getParentPath().
-                        getLastPathComponent(), p1.getLastPathComponent());
-                int p2Index = treeModel.getIndexOfChild(p2.getParentPath().
-                        getLastPathComponent(), p2.getLastPathComponent());
+            public int compbre(TreePbth p1, TreePbth p2) {
+                int p1Index = treeModel.getIndexOfChild(p1.getPbrentPbth().
+                        getLbstPbthComponent(), p1.getLbstPbthComponent());
+                int p2Index = treeModel.getIndexOfChild(p2.getPbrentPbth().
+                        getLbstPbthComponent(), p2.getLbstPbthComponent());
                 return p1Index - p2Index;
             }
         }
-    } // End of SampleTree.RemoveAction
+    } // End of SbmpleTree.RemoveAction
 
 
     /**
-     * ShowHandlesChangeListener implements the ChangeListener interface
-     * to toggle the state of showing the handles in the tree.
+     * ShowHbndlesChbngeListener implements the ChbngeListener interfbce
+     * to toggle the stbte of showing the hbndles in the tree.
      */
-    class ShowHandlesChangeListener extends Object implements ChangeListener {
+    clbss ShowHbndlesChbngeListener extends Object implements ChbngeListener {
 
-        public void stateChanged(ChangeEvent e) {
-            tree.setShowsRootHandles(((JCheckBox) e.getSource()).isSelected());
+        public void stbteChbnged(ChbngeEvent e) {
+            tree.setShowsRootHbndles(((JCheckBox) e.getSource()).isSelected());
         }
-    } // End of class SampleTree.ShowHandlesChangeListener
+    } // End of clbss SbmpleTree.ShowHbndlesChbngeListener
 
 
     /**
-     * ShowRootChangeListener implements the ChangeListener interface
-     * to toggle the state of showing the root node in the tree.
+     * ShowRootChbngeListener implements the ChbngeListener interfbce
+     * to toggle the stbte of showing the root node in the tree.
      */
-    class ShowRootChangeListener extends Object implements ChangeListener {
+    clbss ShowRootChbngeListener extends Object implements ChbngeListener {
 
-        public void stateChanged(ChangeEvent e) {
+        public void stbteChbnged(ChbngeEvent e) {
             tree.setRootVisible(((JCheckBox) e.getSource()).isSelected());
         }
-    } // End of class SampleTree.ShowRootChangeListener
+    } // End of clbss SbmpleTree.ShowRootChbngeListener
 
 
     /**
-     * TreeEditableChangeListener implements the ChangeListener interface
-     * to toggle between allowing editing and now allowing editing in
+     * TreeEditbbleChbngeListener implements the ChbngeListener interfbce
+     * to toggle between bllowing editing bnd now bllowing editing in
      * the tree.
      */
-    class TreeEditableChangeListener extends Object implements ChangeListener {
+    clbss TreeEditbbleChbngeListener extends Object implements ChbngeListener {
 
-        public void stateChanged(ChangeEvent e) {
-            tree.setEditable(((JCheckBox) e.getSource()).isSelected());
+        public void stbteChbnged(ChbngeEvent e) {
+            tree.setEditbble(((JCheckBox) e.getSource()).isSelected());
         }
-    } // End of class SampleTree.TreeEditableChangeListener
+    } // End of clbss SbmpleTree.TreeEditbbleChbngeListener
 
-    public static void main(String args[]) {
+    public stbtic void mbin(String brgs[]) {
         try {
-            SwingUtilities.invokeAndWait(new Runnable() {
+            SwingUtilities.invokeAndWbit(new Runnbble() {
 
-                @SuppressWarnings(value = "ResultOfObjectAllocationIgnored")
+                @SuppressWbrnings(vblue = "ResultOfObjectAllocbtionIgnored")
                 public void run() {
-                    new SampleTree();
+                    new SbmpleTree();
                 }
             });
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SampleTree.class.getName()).log(Level.SEVERE, null,
+        } cbtch (InterruptedException ex) {
+            Logger.getLogger(SbmpleTree.clbss.getNbme()).log(Level.SEVERE, null,
                     ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(SampleTree.class.getName()).log(Level.SEVERE, null,
+        } cbtch (InvocbtionTbrgetException ex) {
+            Logger.getLogger(SbmpleTree.clbss.getNbme()).log(Level.SEVERE, null,
                     ex);
         }
     }

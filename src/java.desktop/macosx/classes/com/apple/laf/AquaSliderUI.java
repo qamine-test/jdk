@@ -1,323 +1,323 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.event.MouseEvent;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicSliderUI;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicSliderUI;
 
-import apple.laf.*;
-import apple.laf.JRSUIUtils.NineSliceMetricsProvider;
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIUtils.NineSliceMetricsProvider;
+import bpple.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtilControlSize.*;
-import com.apple.laf.AquaImageFactory.NineSliceMetrics;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import com.bpple.lbf.AqubUtilControlSize.*;
+import com.bpple.lbf.AqubImbgeFbctory.NineSliceMetrics;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-public class AquaSliderUI extends BasicSliderUI implements Sizeable {
-//    static final Dimension roundThumbSize = new Dimension(21 + 4, 21 + 4); // +2px on both sides for focus fuzz
-//    static final Dimension pointingThumbSize = new Dimension(19 + 4, 22 + 4);
+public clbss AqubSliderUI extends BbsicSliderUI implements Sizebble {
+//    stbtic finbl Dimension roundThumbSize = new Dimension(21 + 4, 21 + 4); // +2px on both sides for focus fuzz
+//    stbtic finbl Dimension pointingThumbSize = new Dimension(19 + 4, 22 + 4);
 
-    protected static final RecyclableSingleton<SizeDescriptor> roundThumbDescriptor = new RecyclableSingleton<SizeDescriptor>() {
-        protected SizeDescriptor getInstance() {
-            return new SizeDescriptor(new SizeVariant(25, 25)) {
-                public SizeVariant deriveSmall(final SizeVariant v) {
-                    return super.deriveSmall(v.alterMinSize(-2, -2));
+    protected stbtic finbl RecyclbbleSingleton<SizeDescriptor> roundThumbDescriptor = new RecyclbbleSingleton<SizeDescriptor>() {
+        protected SizeDescriptor getInstbnce() {
+            return new SizeDescriptor(new SizeVbribnt(25, 25)) {
+                public SizeVbribnt deriveSmbll(finbl SizeVbribnt v) {
+                    return super.deriveSmbll(v.blterMinSize(-2, -2));
                 }
-                public SizeVariant deriveMini(final SizeVariant v) {
-                    return super.deriveMini(v.alterMinSize(-2, -2));
-                }
-            };
-        }
-    };
-    protected static final RecyclableSingleton<SizeDescriptor> pointingThumbDescriptor = new RecyclableSingleton<SizeDescriptor>() {
-        protected SizeDescriptor getInstance() {
-            return new SizeDescriptor(new SizeVariant(23, 26)) {
-                public SizeVariant deriveSmall(final SizeVariant v) {
-                    return super.deriveSmall(v.alterMinSize(-2, -2));
-                }
-                public SizeVariant deriveMini(final SizeVariant v) {
-                    return super.deriveMini(v.alterMinSize(-2, -2));
+                public SizeVbribnt deriveMini(finbl SizeVbribnt v) {
+                    return super.deriveMini(v.blterMinSize(-2, -2));
                 }
             };
         }
     };
+    protected stbtic finbl RecyclbbleSingleton<SizeDescriptor> pointingThumbDescriptor = new RecyclbbleSingleton<SizeDescriptor>() {
+        protected SizeDescriptor getInstbnce() {
+            return new SizeDescriptor(new SizeVbribnt(23, 26)) {
+                public SizeVbribnt deriveSmbll(finbl SizeVbribnt v) {
+                    return super.deriveSmbll(v.blterMinSize(-2, -2));
+                }
+                public SizeVbribnt deriveMini(finbl SizeVbribnt v) {
+                    return super.deriveMini(v.blterMinSize(-2, -2));
+                }
+            };
+        }
+    };
 
-    static final AquaPainter<JRSUIState> trackPainter = AquaPainter.create(JRSUIStateFactory.getSliderTrack(), new NineSliceMetricsProvider() {
+    stbtic finbl AqubPbinter<JRSUIStbte> trbckPbinter = AqubPbinter.crebte(JRSUIStbteFbctory.getSliderTrbck(), new NineSliceMetricsProvider() {
         @Override
-        public NineSliceMetrics getNineSliceMetricsForState(JRSUIState state) {
-            if (state.is(Orientation.VERTICAL)) {
-                return new NineSliceMetrics(5, 7, 0, 0, 3, 3, true, false, true);
+        public NineSliceMetrics getNineSliceMetricsForStbte(JRSUIStbte stbte) {
+            if (stbte.is(Orientbtion.VERTICAL)) {
+                return new NineSliceMetrics(5, 7, 0, 0, 3, 3, true, fblse, true);
             }
-            return new NineSliceMetrics(7, 5, 3, 3, 0, 0, true, true, false);
+            return new NineSliceMetrics(7, 5, 3, 3, 0, 0, true, true, fblse);
         }
     });
-    final AquaPainter<JRSUIState> thumbPainter = AquaPainter.create(JRSUIStateFactory.getSliderThumb());
+    finbl AqubPbinter<JRSUIStbte> thumbPbinter = AqubPbinter.crebte(JRSUIStbteFbctory.getSliderThumb());
 
     protected Color tickColor;
-    protected Color disabledTickColor;
+    protected Color disbbledTickColor;
 
-    protected transient boolean fIsDragging = false;
+    protected trbnsient boolebn fIsDrbgging = fblse;
 
-    // From AppearanceManager doc
-    static final int kTickWidth = 3;
-    static final int kTickLength = 8;
+    // From AppebrbnceMbnbger doc
+    stbtic finbl int kTickWidth = 3;
+    stbtic finbl int kTickLength = 8;
 
-    // Create PLAF
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaSliderUI((JSlider)c);
+    // Crebte PLAF
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubSliderUI((JSlider)c);
     }
 
-    public AquaSliderUI(final JSlider b) {
+    public AqubSliderUI(finbl JSlider b) {
         super(b);
     }
 
-    public void installUI(final JComponent c) {
-        super.installUI(c);
+    public void instbllUI(finbl JComponent c) {
+        super.instbllUI(c);
 
-        LookAndFeel.installProperty(slider, "opaque", Boolean.FALSE);
-        tickColor = UIManager.getColor("Slider.tickColor");
+        LookAndFeel.instbllProperty(slider, "opbque", Boolebn.FALSE);
+        tickColor = UIMbnbger.getColor("Slider.tickColor");
     }
 
-    protected BasicSliderUI.TrackListener createTrackListener(final JSlider s) {
-        return new TrackListener();
+    protected BbsicSliderUI.TrbckListener crebteTrbckListener(finbl JSlider s) {
+        return new TrbckListener();
     }
 
-    protected void installListeners(final JSlider s) {
-        super.installListeners(s);
-        AquaFocusHandler.install(s);
-        AquaUtilControlSize.addSizePropertyListener(s);
+    protected void instbllListeners(finbl JSlider s) {
+        super.instbllListeners(s);
+        AqubFocusHbndler.instbll(s);
+        AqubUtilControlSize.bddSizePropertyListener(s);
     }
 
-    protected void uninstallListeners(final JSlider s) {
-        AquaUtilControlSize.removeSizePropertyListener(s);
-        AquaFocusHandler.uninstall(s);
-        super.uninstallListeners(s);
+    protected void uninstbllListeners(finbl JSlider s) {
+        AqubUtilControlSize.removeSizePropertyListener(s);
+        AqubFocusHbndler.uninstbll(s);
+        super.uninstbllListeners(s);
     }
 
-    public void applySizeFor(final JComponent c, final Size size) {
-        thumbPainter.state.set(size);
-        trackPainter.state.set(size);
+    public void bpplySizeFor(finbl JComponent c, finbl Size size) {
+        thumbPbinter.stbte.set(size);
+        trbckPbinter.stbte.set(size);
     }
 
-    // Paint Methods
-    public void paint(final Graphics g, final JComponent c) {
-        // We have to override paint of BasicSliderUI because we need slight differences.
-        // We don't paint focus the same way - it is part of the thumb.
-        // We also need to repaint the whole track when the thumb moves.
-        recalculateIfInsetsChanged();
-        final Rectangle clip = g.getClipBounds();
+    // Pbint Methods
+    public void pbint(finbl Grbphics g, finbl JComponent c) {
+        // We hbve to override pbint of BbsicSliderUI becbuse we need slight differences.
+        // We don't pbint focus the sbme wby - it is pbrt of the thumb.
+        // We blso need to repbint the whole trbck when the thumb moves.
+        recblculbteIfInsetsChbnged();
+        finbl Rectbngle clip = g.getClipBounds();
 
-        final Orientation orientation = slider.getOrientation() == SwingConstants.HORIZONTAL ? Orientation.HORIZONTAL : Orientation.VERTICAL;
-        final State state = getState();
+        finbl Orientbtion orientbtion = slider.getOrientbtion() == SwingConstbnts.HORIZONTAL ? Orientbtion.HORIZONTAL : Orientbtion.VERTICAL;
+        finbl Stbte stbte = getStbte();
 
-        if (slider.getPaintTrack()) {
-            // This is needed for when this is used as a renderer. It is the same as BasicSliderUI.java
-            // and is missing from our reimplementation.
+        if (slider.getPbintTrbck()) {
+            // This is needed for when this is used bs b renderer. It is the sbme bs BbsicSliderUI.jbvb
+            // bnd is missing from our reimplementbtion.
             //
-            // <rdar://problem/3721898> JSlider in TreeCellRenderer component not painted properly.
+            // <rdbr://problem/3721898> JSlider in TreeCellRenderer component not pbinted properly.
             //
-            final boolean trackIntersectsClip = clip.intersects(trackRect);
-            if (!trackIntersectsClip) {
-                calculateGeometry();
+            finbl boolebn trbckIntersectsClip = clip.intersects(trbckRect);
+            if (!trbckIntersectsClip) {
+                cblculbteGeometry();
             }
 
-            if (trackIntersectsClip || clip.intersects(thumbRect)) paintTrack(g, c, orientation, state);
+            if (trbckIntersectsClip || clip.intersects(thumbRect)) pbintTrbck(g, c, orientbtion, stbte);
         }
 
-        if (slider.getPaintTicks() && clip.intersects(tickRect)) {
-            paintTicks(g);
+        if (slider.getPbintTicks() && clip.intersects(tickRect)) {
+            pbintTicks(g);
         }
 
-        if (slider.getPaintLabels() && clip.intersects(labelRect)) {
-            paintLabels(g);
+        if (slider.getPbintLbbels() && clip.intersects(lbbelRect)) {
+            pbintLbbels(g);
         }
 
         if (clip.intersects(thumbRect)) {
-            paintThumb(g, c, orientation, state);
+            pbintThumb(g, c, orientbtion, stbte);
         }
     }
 
-    // Paints track and thumb
-    public void paintTrack(final Graphics g, final JComponent c, final Orientation orientation, final State state) {
-        trackPainter.state.set(orientation);
-        trackPainter.state.set(state);
+    // Pbints trbck bnd thumb
+    public void pbintTrbck(finbl Grbphics g, finbl JComponent c, finbl Orientbtion orientbtion, finbl Stbte stbte) {
+        trbckPbinter.stbte.set(orientbtion);
+        trbckPbinter.stbte.set(stbte);
 
         // for debugging
         //g.setColor(Color.green);
-        //g.drawRect(trackRect.x, trackRect.y, trackRect.width - 1, trackRect.height - 1);
-        trackPainter.paint(g, c, trackRect.x, trackRect.y, trackRect.width, trackRect.height);
+        //g.drbwRect(trbckRect.x, trbckRect.y, trbckRect.width - 1, trbckRect.height - 1);
+        trbckPbinter.pbint(g, c, trbckRect.x, trbckRect.y, trbckRect.width, trbckRect.height);
     }
 
-    // Paints thumb only
-    public void paintThumb(final Graphics g, final JComponent c, final Orientation orientation, final State state) {
-        thumbPainter.state.set(orientation);
-        thumbPainter.state.set(state);
-        thumbPainter.state.set(slider.hasFocus() ? Focused.YES : Focused.NO);
-        thumbPainter.state.set(getDirection(orientation));
+    // Pbints thumb only
+    public void pbintThumb(finbl Grbphics g, finbl JComponent c, finbl Orientbtion orientbtion, finbl Stbte stbte) {
+        thumbPbinter.stbte.set(orientbtion);
+        thumbPbinter.stbte.set(stbte);
+        thumbPbinter.stbte.set(slider.hbsFocus() ? Focused.YES : Focused.NO);
+        thumbPbinter.stbte.set(getDirection(orientbtion));
 
         // for debugging
         //g.setColor(Color.blue);
-        //g.drawRect(thumbRect.x, thumbRect.y, thumbRect.width - 1, thumbRect.height - 1);
-        thumbPainter.paint(g, c, thumbRect.x, thumbRect.y, thumbRect.width, thumbRect.height);
+        //g.drbwRect(thumbRect.x, thumbRect.y, thumbRect.width - 1, thumbRect.height - 1);
+        thumbPbinter.pbint(g, c, thumbRect.x, thumbRect.y, thumbRect.width, thumbRect.height);
     }
 
-    Direction getDirection(final Orientation orientation) {
+    Direction getDirection(finbl Orientbtion orientbtion) {
         if (shouldUseArrowThumb()) {
-            return orientation == Orientation.HORIZONTAL ? Direction.DOWN : Direction.RIGHT;
+            return orientbtion == Orientbtion.HORIZONTAL ? Direction.DOWN : Direction.RIGHT;
         }
 
         return Direction.NONE;
     }
 
-    State getState() {
-        if (!slider.isEnabled()) {
-            return State.DISABLED;
+    Stbte getStbte() {
+        if (!slider.isEnbbled()) {
+            return Stbte.DISABLED;
         }
 
-        if (fIsDragging) {
-            return State.PRESSED;
+        if (fIsDrbgging) {
+            return Stbte.PRESSED;
         }
 
-        if (!AquaFocusHandler.isActive(slider)) {
-            return State.INACTIVE;
+        if (!AqubFocusHbndler.isActive(slider)) {
+            return Stbte.INACTIVE;
         }
 
-        return State.ACTIVE;
+        return Stbte.ACTIVE;
     }
 
-    public void paintTicks(final Graphics g) {
-        if (slider.isEnabled()) {
+    public void pbintTicks(finbl Grbphics g) {
+        if (slider.isEnbbled()) {
             g.setColor(tickColor);
         } else {
-            if (disabledTickColor == null) {
-                disabledTickColor = new Color(tickColor.getRed(), tickColor.getGreen(), tickColor.getBlue(), tickColor.getAlpha() / 2);
+            if (disbbledTickColor == null) {
+                disbbledTickColor = new Color(tickColor.getRed(), tickColor.getGreen(), tickColor.getBlue(), tickColor.getAlphb() / 2);
             }
-            g.setColor(disabledTickColor);
+            g.setColor(disbbledTickColor);
         }
 
-        super.paintTicks(g);
+        super.pbintTicks(g);
     }
 
-    // Layout Methods
+    // Lbyout Methods
 
     // Used lots
-    protected void calculateThumbLocation() {
-        super.calculateThumbLocation();
+    protected void cblculbteThumbLocbtion() {
+        super.cblculbteThumbLocbtion();
 
         if (shouldUseArrowThumb()) {
-            final boolean isHorizonatal = slider.getOrientation() == SwingConstants.HORIZONTAL;
-            final Size size = AquaUtilControlSize.getUserSizeFrom(slider);
+            finbl boolebn isHorizonbtbl = slider.getOrientbtion() == SwingConstbnts.HORIZONTAL;
+            finbl Size size = AqubUtilControlSize.getUserSizeFrom(slider);
 
             if (size == Size.REGULAR) {
-                if (isHorizonatal) thumbRect.y += 3; else thumbRect.x += 2; return;
+                if (isHorizonbtbl) thumbRect.y += 3; else thumbRect.x += 2; return;
             }
 
             if (size == Size.SMALL) {
-                if (isHorizonatal) thumbRect.y += 2; else thumbRect.x += 2; return;
+                if (isHorizonbtbl) thumbRect.y += 2; else thumbRect.x += 2; return;
             }
 
             if (size == Size.MINI) {
-                if (isHorizonatal) thumbRect.y += 1; return;
+                if (isHorizonbtbl) thumbRect.y += 1; return;
             }
         }
     }
 
-    // Only called from calculateGeometry
-    protected void calculateThumbSize() {
-        final SizeDescriptor descriptor = shouldUseArrowThumb() ? pointingThumbDescriptor.get() : roundThumbDescriptor.get();
-        final SizeVariant variant = descriptor.get(slider);
+    // Only cblled from cblculbteGeometry
+    protected void cblculbteThumbSize() {
+        finbl SizeDescriptor descriptor = shouldUseArrowThumb() ? pointingThumbDescriptor.get() : roundThumbDescriptor.get();
+        finbl SizeVbribnt vbribnt = descriptor.get(slider);
 
-        if (slider.getOrientation() == SwingConstants.HORIZONTAL) {
-            thumbRect.setSize(variant.w, variant.h);
+        if (slider.getOrientbtion() == SwingConstbnts.HORIZONTAL) {
+            thumbRect.setSize(vbribnt.w, vbribnt.h);
         } else {
-            thumbRect.setSize(variant.h, variant.w);
+            thumbRect.setSize(vbribnt.h, vbribnt.w);
         }
     }
 
-    protected boolean shouldUseArrowThumb() {
-        if (slider.getPaintTicks() || slider.getPaintLabels()) return true;
+    protected boolebn shouldUseArrowThumb() {
+        if (slider.getPbintTicks() || slider.getPbintLbbels()) return true;
 
-        final Object shouldPaintArrowThumbProperty = slider.getClientProperty("Slider.paintThumbArrowShape");
-        if (shouldPaintArrowThumbProperty != null && shouldPaintArrowThumbProperty instanceof Boolean) {
-            return ((Boolean)shouldPaintArrowThumbProperty).booleanValue();
+        finbl Object shouldPbintArrowThumbProperty = slider.getClientProperty("Slider.pbintThumbArrowShbpe");
+        if (shouldPbintArrowThumbProperty != null && shouldPbintArrowThumbProperty instbnceof Boolebn) {
+            return ((Boolebn)shouldPbintArrowThumbProperty).boolebnVblue();
         }
 
-        return false;
+        return fblse;
     }
 
-    protected void calculateTickRect() {
-        // super assumes tickRect ends align with trackRect ends.
-        // Ours need to inset by trackBuffer
-        // Ours also needs to be *inside* trackRect
-        final int tickLength = slider.getPaintTicks() ? getTickLength() : 0;
-        if (slider.getOrientation() == SwingConstants.HORIZONTAL) {
+    protected void cblculbteTickRect() {
+        // super bssumes tickRect ends blign with trbckRect ends.
+        // Ours need to inset by trbckBuffer
+        // Ours blso needs to be *inside* trbckRect
+        finbl int tickLength = slider.getPbintTicks() ? getTickLength() : 0;
+        if (slider.getOrientbtion() == SwingConstbnts.HORIZONTAL) {
             tickRect.height = tickLength;
-            tickRect.x = trackRect.x + trackBuffer;
-            tickRect.y = trackRect.y + trackRect.height - (tickRect.height / 2);
-            tickRect.width = trackRect.width - (trackBuffer * 2);
+            tickRect.x = trbckRect.x + trbckBuffer;
+            tickRect.y = trbckRect.y + trbckRect.height - (tickRect.height / 2);
+            tickRect.width = trbckRect.width - (trbckBuffer * 2);
         } else {
             tickRect.width = tickLength;
-            tickRect.x = trackRect.x + trackRect.width - (tickRect.width / 2);
-            tickRect.y = trackRect.y + trackBuffer;
-            tickRect.height = trackRect.height - (trackBuffer * 2);
+            tickRect.x = trbckRect.x + trbckRect.width - (tickRect.width / 2);
+            tickRect.y = trbckRect.y + trbckBuffer;
+            tickRect.height = trbckRect.height - (trbckBuffer * 2);
         }
     }
 
-    // Basic's preferred size doesn't allow for our focus ring, throwing off things like SwingSet2
-    public Dimension getPreferredHorizontalSize() {
+    // Bbsic's preferred size doesn't bllow for our focus ring, throwing off things like SwingSet2
+    public Dimension getPreferredHorizontblSize() {
         return new Dimension(190, 21);
     }
 
-    public Dimension getPreferredVerticalSize() {
+    public Dimension getPreferredVerticblSize() {
         return new Dimension(21, 190);
     }
 
-    protected ChangeListener createChangeListener(final JSlider s) {
-        return new ChangeListener() {
-            public void stateChanged(final ChangeEvent e) {
-                if (fIsDragging) return;
-                calculateThumbLocation();
-                slider.repaint();
+    protected ChbngeListener crebteChbngeListener(finbl JSlider s) {
+        return new ChbngeListener() {
+            public void stbteChbnged(finbl ChbngeEvent e) {
+                if (fIsDrbgging) return;
+                cblculbteThumbLocbtion();
+                slider.repbint();
             }
         };
     }
 
-    // This is copied almost verbatim from superclass, except we changed things to use fIsDragging
-    // instead of isDragging since isDragging was a private member.
-    class TrackListener extends javax.swing.plaf.basic.BasicSliderUI.TrackListener {
-        protected transient int offset;
-        protected transient int currentMouseX = -1, currentMouseY = -1;
+    // This is copied blmost verbbtim from superclbss, except we chbnged things to use fIsDrbgging
+    // instebd of isDrbgging since isDrbgging wbs b privbte member.
+    clbss TrbckListener extends jbvbx.swing.plbf.bbsic.BbsicSliderUI.TrbckListener {
+        protected trbnsient int offset;
+        protected trbnsient int currentMouseX = -1, currentMouseY = -1;
 
-        public void mouseReleased(final MouseEvent e) {
-            if (!slider.isEnabled()) return;
+        public void mouseRelebsed(finbl MouseEvent e) {
+            if (!slider.isEnbbled()) return;
 
             currentMouseX = -1;
             currentMouseY = -1;
@@ -325,183 +325,183 @@ public class AquaSliderUI extends BasicSliderUI implements Sizeable {
             offset = 0;
             scrollTimer.stop();
 
-            // This is the way we have to determine snap-to-ticks.  It's hard to explain
-            // but since ChangeEvents don't give us any idea what has changed we don't
-            // have a way to stop the thumb bounds from being recalculated.  Recalculating
-            // the thumb bounds moves the thumb over the current value (i.e., snapping
+            // This is the wby we hbve to determine snbp-to-ticks.  It's hbrd to explbin
+            // but since ChbngeEvents don't give us bny ideb whbt hbs chbnged we don't
+            // hbve b wby to stop the thumb bounds from being recblculbted.  Recblculbting
+            // the thumb bounds moves the thumb over the current vblue (i.e., snbpping
             // to the ticks).
-            if (slider.getSnapToTicks() /*|| slider.getSnapToValue()*/) {
-                fIsDragging = false;
-                slider.setValueIsAdjusting(false);
+            if (slider.getSnbpToTicks() /*|| slider.getSnbpToVblue()*/) {
+                fIsDrbgging = fblse;
+                slider.setVblueIsAdjusting(fblse);
             } else {
-                slider.setValueIsAdjusting(false);
-                fIsDragging = false;
+                slider.setVblueIsAdjusting(fblse);
+                fIsDrbgging = fblse;
             }
 
-            slider.repaint();
+            slider.repbint();
         }
 
-        public void mousePressed(final MouseEvent e) {
-            if (!slider.isEnabled()) return;
+        public void mousePressed(finbl MouseEvent e) {
+            if (!slider.isEnbbled()) return;
 
-            // We should recalculate geometry just before
-            // calculation of the thumb movement direction.
-            // It is important for the case, when JSlider
-            // is a cell editor in JTable. See 6348946.
-            calculateGeometry();
+            // We should recblculbte geometry just before
+            // cblculbtion of the thumb movement direction.
+            // It is importbnt for the cbse, when JSlider
+            // is b cell editor in JTbble. See 6348946.
+            cblculbteGeometry();
 
-            final boolean firstClick = (currentMouseX == -1) && (currentMouseY == -1);
+            finbl boolebn firstClick = (currentMouseX == -1) && (currentMouseY == -1);
 
             currentMouseX = e.getX();
             currentMouseY = e.getY();
 
-            if (slider.isRequestFocusEnabled()) {
+            if (slider.isRequestFocusEnbbled()) {
                 slider.requestFocus();
             }
 
-            boolean isMouseEventInThumb = thumbRect.contains(currentMouseX, currentMouseY);
+            boolebn isMouseEventInThumb = thumbRect.contbins(currentMouseX, currentMouseY);
 
-            // we don't want to move the thumb if we just clicked on the edge of the thumb
+            // we don't wbnt to move the thumb if we just clicked on the edge of the thumb
             if (!firstClick || !isMouseEventInThumb) {
-                slider.setValueIsAdjusting(true);
+                slider.setVblueIsAdjusting(true);
 
-                switch (slider.getOrientation()) {
-                    case SwingConstants.VERTICAL:
-                        slider.setValue(valueForYPosition(currentMouseY));
-                        break;
-                    case SwingConstants.HORIZONTAL:
-                        slider.setValue(valueForXPosition(currentMouseX));
-                        break;
+                switch (slider.getOrientbtion()) {
+                    cbse SwingConstbnts.VERTICAL:
+                        slider.setVblue(vblueForYPosition(currentMouseY));
+                        brebk;
+                    cbse SwingConstbnts.HORIZONTAL:
+                        slider.setVblue(vblueForXPosition(currentMouseX));
+                        brebk;
                 }
 
-                slider.setValueIsAdjusting(false);
+                slider.setVblueIsAdjusting(fblse);
 
                 isMouseEventInThumb = true; // since we just moved it in there
             }
 
-            // Clicked in the Thumb area?
+            // Clicked in the Thumb breb?
             if (isMouseEventInThumb) {
-                switch (slider.getOrientation()) {
-                    case SwingConstants.VERTICAL:
+                switch (slider.getOrientbtion()) {
+                    cbse SwingConstbnts.VERTICAL:
                         offset = currentMouseY - thumbRect.y;
-                        break;
-                    case SwingConstants.HORIZONTAL:
+                        brebk;
+                    cbse SwingConstbnts.HORIZONTAL:
                         offset = currentMouseX - thumbRect.x;
-                        break;
+                        brebk;
                 }
 
-                fIsDragging = true;
+                fIsDrbgging = true;
                 return;
             }
 
-            fIsDragging = false;
+            fIsDrbgging = fblse;
         }
 
-        public boolean shouldScroll(final int direction) {
-            final Rectangle r = thumbRect;
-            if (slider.getOrientation() == SwingConstants.VERTICAL) {
-                if (drawInverted() ? direction < 0 : direction > 0) {
-                    if (r.y + r.height <= currentMouseY) return false;
+        public boolebn shouldScroll(finbl int direction) {
+            finbl Rectbngle r = thumbRect;
+            if (slider.getOrientbtion() == SwingConstbnts.VERTICAL) {
+                if (drbwInverted() ? direction < 0 : direction > 0) {
+                    if (r.y + r.height <= currentMouseY) return fblse;
                 } else {
-                    if (r.y >= currentMouseY) return false;
+                    if (r.y >= currentMouseY) return fblse;
                 }
             } else {
-                if (drawInverted() ? direction < 0 : direction > 0) {
-                    if (r.x + r.width >= currentMouseX) return false;
+                if (drbwInverted() ? direction < 0 : direction > 0) {
+                    if (r.x + r.width >= currentMouseX) return fblse;
                 } else {
-                    if (r.x <= currentMouseX) return false;
+                    if (r.x <= currentMouseX) return fblse;
                 }
             }
 
-            if (direction > 0 && slider.getValue() + slider.getExtent() >= slider.getMaximum()) {
-                return false;
+            if (direction > 0 && slider.getVblue() + slider.getExtent() >= slider.getMbximum()) {
+                return fblse;
             }
 
-            if (direction < 0 && slider.getValue() <= slider.getMinimum()) {
-                return false;
+            if (direction < 0 && slider.getVblue() <= slider.getMinimum()) {
+                return fblse;
             }
 
             return true;
         }
 
         /**
-         * Set the models value to the position of the top/left
-         * of the thumb relative to the origin of the track.
+         * Set the models vblue to the position of the top/left
+         * of the thumb relbtive to the origin of the trbck.
          */
-        public void mouseDragged(final MouseEvent e) {
+        public void mouseDrbgged(finbl MouseEvent e) {
             int thumbMiddle = 0;
 
-            if (!slider.isEnabled()) return;
+            if (!slider.isEnbbled()) return;
 
             currentMouseX = e.getX();
             currentMouseY = e.getY();
 
-            if (!fIsDragging) return;
+            if (!fIsDrbgging) return;
 
-            slider.setValueIsAdjusting(true);
+            slider.setVblueIsAdjusting(true);
 
-            switch (slider.getOrientation()) {
-                case SwingConstants.VERTICAL:
-                    final int halfThumbHeight = thumbRect.height / 2;
+            switch (slider.getOrientbtion()) {
+                cbse SwingConstbnts.VERTICAL:
+                    finbl int hblfThumbHeight = thumbRect.height / 2;
                     int thumbTop = e.getY() - offset;
-                    int trackTop = trackRect.y;
-                    int trackBottom = trackRect.y + (trackRect.height - 1);
-                    final int vMax = yPositionForValue(slider.getMaximum() - slider.getExtent());
+                    int trbckTop = trbckRect.y;
+                    int trbckBottom = trbckRect.y + (trbckRect.height - 1);
+                    finbl int vMbx = yPositionForVblue(slider.getMbximum() - slider.getExtent());
 
-                    if (drawInverted()) {
-                        trackBottom = vMax;
+                    if (drbwInverted()) {
+                        trbckBottom = vMbx;
                     } else {
-                        trackTop = vMax;
+                        trbckTop = vMbx;
                     }
-                    thumbTop = Math.max(thumbTop, trackTop - halfThumbHeight);
-                    thumbTop = Math.min(thumbTop, trackBottom - halfThumbHeight);
+                    thumbTop = Mbth.mbx(thumbTop, trbckTop - hblfThumbHeight);
+                    thumbTop = Mbth.min(thumbTop, trbckBottom - hblfThumbHeight);
 
-                    setThumbLocation(thumbRect.x, thumbTop);
+                    setThumbLocbtion(thumbRect.x, thumbTop);
 
-                    thumbMiddle = thumbTop + halfThumbHeight;
-                    slider.setValue(valueForYPosition(thumbMiddle));
-                    break;
-                case SwingConstants.HORIZONTAL:
-                    final int halfThumbWidth = thumbRect.width / 2;
+                    thumbMiddle = thumbTop + hblfThumbHeight;
+                    slider.setVblue(vblueForYPosition(thumbMiddle));
+                    brebk;
+                cbse SwingConstbnts.HORIZONTAL:
+                    finbl int hblfThumbWidth = thumbRect.width / 2;
                     int thumbLeft = e.getX() - offset;
-                    int trackLeft = trackRect.x;
-                    int trackRight = trackRect.x + (trackRect.width - 1);
-                    final int hMax = xPositionForValue(slider.getMaximum() - slider.getExtent());
+                    int trbckLeft = trbckRect.x;
+                    int trbckRight = trbckRect.x + (trbckRect.width - 1);
+                    finbl int hMbx = xPositionForVblue(slider.getMbximum() - slider.getExtent());
 
-                    if (drawInverted()) {
-                        trackLeft = hMax;
+                    if (drbwInverted()) {
+                        trbckLeft = hMbx;
                     } else {
-                        trackRight = hMax;
+                        trbckRight = hMbx;
                     }
-                    thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth);
-                    thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth);
+                    thumbLeft = Mbth.mbx(thumbLeft, trbckLeft - hblfThumbWidth);
+                    thumbLeft = Mbth.min(thumbLeft, trbckRight - hblfThumbWidth);
 
-                    setThumbLocation(thumbLeft, thumbRect.y);
+                    setThumbLocbtion(thumbLeft, thumbRect.y);
 
-                    thumbMiddle = thumbLeft + halfThumbWidth;
-                    slider.setValue(valueForXPosition(thumbMiddle));
-                    break;
-                default:
+                    thumbMiddle = thumbLeft + hblfThumbWidth;
+                    slider.setVblue(vblueForXPosition(thumbMiddle));
+                    brebk;
+                defbult:
                     return;
             }
 
-            // enable live snap-to-ticks <rdar://problem/3165310>
-            if (slider.getSnapToTicks()) {
-                calculateThumbLocation();
-                setThumbLocation(thumbRect.x, thumbRect.y); // need to call to refresh the repaint region
+            // enbble live snbp-to-ticks <rdbr://problem/3165310>
+            if (slider.getSnbpToTicks()) {
+                cblculbteThumbLocbtion();
+                setThumbLocbtion(thumbRect.x, thumbRect.y); // need to cbll to refresh the repbint region
             }
         }
 
-        public void mouseMoved(final MouseEvent e) { }
+        public void mouseMoved(finbl MouseEvent e) { }
     }
 
-    // Super handles snap-to-ticks by recalculating the thumb rect in the TrackListener
-    // See setThumbLocation for why that doesn't work
-    int getScale() {
-        if (!slider.getSnapToTicks()) return 1;
-        int scale = slider.getMinorTickSpacing();
-            if (scale < 1) scale = slider.getMajorTickSpacing();
-        if (scale < 1) return 1;
-        return scale;
+    // Super hbndles snbp-to-ticks by recblculbting the thumb rect in the TrbckListener
+    // See setThumbLocbtion for why thbt doesn't work
+    int getScble() {
+        if (!slider.getSnbpToTicks()) return 1;
+        int scble = slider.getMinorTickSpbcing();
+            if (scble < 1) scble = slider.getMbjorTickSpbcing();
+        if (scble < 1) return 1;
+        return scble;
     }
 }

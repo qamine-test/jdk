@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-//import static sun.awt.X11.XEmbed.*;
-import java.awt.*;
-import java.awt.event.*;
-import sun.util.logging.PlatformLogger;
-import static sun.awt.X11.XConstants.*;
-import java.util.LinkedList;
+//import stbtic sun.bwt.X11.XEmbed.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import sun.util.logging.PlbtformLogger;
+import stbtic sun.bwt.X11.XConstbnts.*;
+import jbvb.util.LinkedList;
 
 /**
- * Test XEmbed server implementation. See file:///home/dom/bugs/4931668/test_plan.html for
- * specification and references.
+ * Test XEmbed server implementbtion. See file:///home/dom/bugs/4931668/test_plbn.html for
+ * specificbtion bnd references.
  */
-public class XEmbedServerTester implements XEventDispatcher {
-    private static final PlatformLogger xembedLog = PlatformLogger.getLogger("sun.awt.X11.xembed.XEmbedServerTester");
-    private final Object EVENT_LOCK = new Object();
-    static final int SYSTEM_EVENT_MASK = 0x8000;
+public clbss XEmbedServerTester implements XEventDispbtcher {
+    privbte stbtic finbl PlbtformLogger xembedLog = PlbtformLogger.getLogger("sun.bwt.X11.xembed.XEmbedServerTester");
+    privbte finbl Object EVENT_LOCK = new Object();
+    stbtic finbl int SYSTEM_EVENT_MASK = 0x8000;
     int my_version, server_version;
     XEmbedHelper xembed = new XEmbedHelper();
-    boolean focused;
+    boolebn focused;
     int focusedKind;
     int focusedServerComponent;
-    boolean reparent;
-    long parent;
-    boolean windowActive;
-    boolean xembedActive;
-    XBaseWindow window;
-    volatile int eventWaited = -1, eventReceived = -1;
-    int mapped;
-    int accel_key, accel_keysym, accel_mods;
-    static Rectangle initialBounds = new Rectangle(0, 0, 100, 100);
+    boolebn repbrent;
+    long pbrent;
+    boolebn windowActive;
+    boolebn xembedActive;
+    XBbseWindow window;
+    volbtile int eventWbited = -1, eventReceived = -1;
+    int mbpped;
+    int bccel_key, bccel_keysym, bccel_mods;
+    stbtic Rectbngle initiblBounds = new Rectbngle(0, 0, 100, 100);
     Robot robot;
-    Rectangle serverBounds[]; // first rectangle is for the server frame, second is for dummy frame, others are for its children
-    private static final int SERVER_BOUNDS = 0, OTHER_FRAME = 1, SERVER_FOCUS = 2, SERVER_MODAL = 3, MODAL_CLOSE = 4;
+    Rectbngle serverBounds[]; // first rectbngle is for the server frbme, second is for dummy frbme, others bre for its children
+    privbte stbtic finbl int SERVER_BOUNDS = 0, OTHER_FRAME = 1, SERVER_FOCUS = 2, SERVER_MODAL = 3, MODAL_CLOSE = 4;
 
     LinkedList<Integer> events = new LinkedList<Integer>();
 
-    private XEmbedServerTester(Rectangle serverBounds[], long parent) {
-        this.parent = parent;
+    privbte XEmbedServerTester(Rectbngle serverBounds[], long pbrent) {
+        this.pbrent = pbrent;
         focusedKind = -1;
         focusedServerComponent = -1;
-        reparent = false;
-        windowActive = false;
-        xembedActive = false;
+        repbrent = fblse;
+        windowActive = fblse;
+        xembedActive = fblse;
         my_version = XEmbedHelper.XEMBED_VERSION;
-        mapped = XEmbedHelper.XEMBED_MAPPED;
+        mbpped = XEmbedHelper.XEMBED_MAPPED;
         this.serverBounds = serverBounds;
         if (serverBounds.length < 5) {
-            throw new IllegalArgumentException("There must be at least five areas: server-activation, server-deactivation, server-focus, " +
-                                               "server-modal show, modal-close");
+            throw new IllegblArgumentException("There must be bt lebst five brebs: server-bctivbtion, server-debctivbtion, server-focus, " +
+                                               "server-modbl show, modbl-close");
         }
         try {
             robot = new Robot();
-            robot.setAutoDelay(100);
-        } catch (Exception e) {
-            throw new RuntimeException("Can't create robot");
+            robot.setAutoDelby(100);
+        } cbtch (Exception e) {
+            throw new RuntimeException("Cbn't crebte robot");
         }
         initAccel();
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-            xembedLog.finer("XEmbed client(tester), embedder window: " + Long.toHexString(parent));
+        if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            xembedLog.finer("XEmbed client(tester), embedder window: " + Long.toHexString(pbrent));
         }
     }
 
-    public static XEmbedServerTester getTester(Rectangle serverBounds[], long parent) {
-        return new XEmbedServerTester(serverBounds, parent);
+    public stbtic XEmbedServerTester getTester(Rectbngle serverBounds[], long pbrent) {
+        return new XEmbedServerTester(serverBounds, pbrent);
     }
 
-    private void dumpReceivedEvents() {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-            xembedLog.finer("Events received so far:");
+    privbte void dumpReceivedEvents() {
+        if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            xembedLog.finer("Events received so fbr:");
             int pos = 0;
             for (Integer event : events) {
                 xembedLog.finer((pos++) + ":" + XEmbedHelper.msgidToString(event));
@@ -103,56 +103,56 @@ public class XEmbedServerTester implements XEventDispatcher {
 
     public void test1_1() {
         int res = embedCompletely();
-        waitWindowActivated(res);
+        wbitWindowActivbted(res);
         requestFocus();
-        deactivateServer();
-        res = activateServer(getEventPos());
-        waitFocusGained(res);
-        checkFocusGained(XEmbedHelper.XEMBED_FOCUS_CURRENT);
+        debctivbteServer();
+        res = bctivbteServer(getEventPos());
+        wbitFocusGbined(res);
+        checkFocusGbined(XEmbedHelper.XEMBED_FOCUS_CURRENT);
     }
 
     public void test1_2() {
         int res = embedCompletely();
-        waitWindowActivated(res);
+        wbitWindowActivbted(res);
         requestFocus();
-        checkFocusGained(XEmbedHelper.XEMBED_FOCUS_CURRENT);
+        checkFocusGbined(XEmbedHelper.XEMBED_FOCUS_CURRENT);
     }
 
     public void test1_3() {
         embedCompletely();
-        deactivateServer();
-        requestFocusNoWait();
+        debctivbteServer();
+        requestFocusNoWbit();
         checkNotFocused();
     }
 
     public void test1_4() {
         embedCompletely();
-        deactivateServer();
-        requestFocusNoWait();
+        debctivbteServer();
+        requestFocusNoWbit();
         checkNotFocused();
         int res = getEventPos();
-        activateServer(res);
-        waitFocusGained(res);
-        checkFocusGained(XEmbedHelper.XEMBED_FOCUS_CURRENT);
+        bctivbteServer(res);
+        wbitFocusGbined(res);
+        checkFocusGbined(XEmbedHelper.XEMBED_FOCUS_CURRENT);
     }
 
     public void test1_5() {
         int res = embedCompletely();
-        waitWindowActivated(res);
-        checkWindowActivated();
+        wbitWindowActivbted(res);
+        checkWindowActivbted();
     }
 
     public void test1_6() {
         int res = embedCompletely();
-        waitWindowActivated(res);
+        wbitWindowActivbted(res);
         requestFocus();
-        res = deactivateServer();
+        res = debctivbteServer();
         checkFocused();
     }
 
     public void test1_7() {
         int res = embedCompletely();
-        waitWindowActivated(res);
+        wbitWindowActivbted(res);
         requestFocus();
         focusServer();
         checkFocusLost();
@@ -160,7 +160,7 @@ public class XEmbedServerTester implements XEventDispatcher {
 
     public void test2_5() {
         int res = embedCompletely();
-        waitWindowActivated(res);
+        wbitWindowActivbted(res);
         requestFocus();
         focusServerNext();
         checkFocusedServerNext();
@@ -169,7 +169,7 @@ public class XEmbedServerTester implements XEventDispatcher {
 
     public void test2_6() {
         int res = embedCompletely();
-        waitWindowActivated(res);
+        wbitWindowActivbted(res);
         requestFocus();
         focusServerPrev();
         checkFocusedServerPrev();
@@ -177,12 +177,12 @@ public class XEmbedServerTester implements XEventDispatcher {
     }
 
     public void test3_1() {
-        reparent = false;
+        repbrent = fblse;
         embedCompletely();
     }
 
     public void test3_3() {
-        reparent = true;
+        repbrent = true;
         embedCompletely();
     }
 
@@ -190,7 +190,7 @@ public class XEmbedServerTester implements XEventDispatcher {
         my_version = 10;
         embedCompletely();
         if (server_version != XEmbedHelper.XEMBED_VERSION) {
-            throw new RuntimeException("Version " + server_version + " is not minimal");
+            throw new RuntimeException("Version " + server_version + " is not minimbl");
         }
     }
 
@@ -198,11 +198,11 @@ public class XEmbedServerTester implements XEventDispatcher {
         embedCompletely();
 
         window.destroy();
-        // TODO: how can we detect that XEmbed ended?  So far we are
-        // just checking that XEmbed server won't end up with an
+        // TODO: how cbn we detect thbt XEmbed ended?  So fbr we bre
+        // just checking thbt XEmbed server won't end up with bn
         // exception, which should end up testing, hopefully.
 
-        // Sleep before exiting the tester application
+        // Sleep before exiting the tester bpplicbtion
         sleep(1000);
     }
 
@@ -210,144 +210,144 @@ public class XEmbedServerTester implements XEventDispatcher {
         embedCompletely();
 
         sleep(1000);
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XUnmapWindow(XToolkit.getDisplay(), window.getWindow());
-            XlibWrapper.XReparentWindow(XToolkit.getDisplay(), window.getWindow(), XToolkit.getDefaultRootWindow(), 0, 0);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XUnmbpWindow(XToolkit.getDisplby(), window.getWindow());
+            XlibWrbpper.XRepbrentWindow(XToolkit.getDisplby(), window.getWindow(), XToolkit.getDefbultRootWindow(), 0, 0);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
 
         int res = getEventPos();
 
-        activateServerNoWait(res);
+        bctivbteServerNoWbit(res);
 
         sleep(1000);
         if (checkEventList(res, XEmbedHelper.XEMBED_WINDOW_ACTIVATE) != -1) {
-            throw new RuntimeException("Focus was been given to the client after XEmbed has ended");
+            throw new RuntimeException("Focus wbs been given to the client bfter XEmbed hbs ended");
         }
     }
 
     public void test4_1() {
-        mapped = XEmbedHelper.XEMBED_MAPPED;
+        mbpped = XEmbedHelper.XEMBED_MAPPED;
         int res = getEventPos();
         embedCompletely();
         sleep(1000);
-        checkMapped();
+        checkMbpped();
     }
 
     public void test4_2() {
-        mapped = 0;
+        mbpped = 0;
         embedCompletely();
         sleep(1000);
 
         int res = getEventPos();
-        mapped = XEmbedHelper.XEMBED_MAPPED;
-        updateEmbedInfo();
+        mbpped = XEmbedHelper.XEMBED_MAPPED;
+        updbteEmbedInfo();
         sleep(1000);
-        checkMapped();
+        checkMbpped();
     }
 
     public void test4_3() {
         int res = getEventPos();
-        mapped = XEmbedHelper.XEMBED_MAPPED;
+        mbpped = XEmbedHelper.XEMBED_MAPPED;
         embedCompletely();
 
         res = getEventPos();
-        mapped = 0;
-        updateEmbedInfo();
+        mbpped = 0;
+        updbteEmbedInfo();
         sleep(1000);
-        checkNotMapped();
+        checkNotMbpped();
     }
 
     public void test4_4() {
-        mapped = 0;
+        mbpped = 0;
         embedCompletely();
         sleep(1000);
-        if (XlibUtil.getWindowMapState(window.getWindow()) != IsUnmapped) {
-            throw new RuntimeException("Client has been mapped");
+        if (XlibUtil.getWindowMbpStbte(window.getWindow()) != IsUnmbpped) {
+            throw new RuntimeException("Client hbs been mbpped");
         }
     }
 
     public void test6_1_1() {
         embedCompletely();
-        registerAccelerator();
+        registerAccelerbtor();
         focusServer();
         int res = pressAccelKey();
-        waitForEvent(res, XEmbedHelper.XEMBED_ACTIVATE_ACCELERATOR);
+        wbitForEvent(res, XEmbedHelper.XEMBED_ACTIVATE_ACCELERATOR);
     }
 
     public void test6_1_2() {
         embedCompletely();
-        registerAccelerator();
+        registerAccelerbtor();
         focusServer();
-        deactivateServer();
+        debctivbteServer();
         int res = pressAccelKey();
         sleep(1000);
         if (checkEventList(res, XEmbedHelper.XEMBED_ACTIVATE_ACCELERATOR) != -1) {
-            throw new RuntimeException("Accelerator has been activated in inactive embedder");
+            throw new RuntimeException("Accelerbtor hbs been bctivbted in inbctive embedder");
         }
     }
 
     public void test6_1_3() {
         embedCompletely();
-        registerAccelerator();
+        registerAccelerbtor();
         focusServer();
-        deactivateServer();
-        unregisterAccelerator();
+        debctivbteServer();
+        unregisterAccelerbtor();
         int res = pressAccelKey();
         sleep(1000);
         if (checkEventList(res, XEmbedHelper.XEMBED_ACTIVATE_ACCELERATOR) != -1) {
-            throw new RuntimeException("Accelerator has been activated after unregistering");
+            throw new RuntimeException("Accelerbtor hbs been bctivbted bfter unregistering");
         }
     }
 
     public void test6_1_4() {
         embedCompletely();
-        registerAccelerator();
+        registerAccelerbtor();
         requestFocus();
         int res = pressAccelKey();
         sleep(1000);
         if (checkEventList(res, XEmbedHelper.XEMBED_ACTIVATE_ACCELERATOR) != -1) {
-            throw new RuntimeException("Accelerator has been activated in focused client");
+            throw new RuntimeException("Accelerbtor hbs been bctivbted in focused client");
         }
     }
     public void test6_2_1() {
         embedCompletely();
-        grabKey();
+        grbbKey();
         focusServer();
         int res = pressAccelKey();
-        waitSystemEvent(res, KeyPress);
+        wbitSystemEvent(res, KeyPress);
     }
 
     public void test6_2_2() {
         embedCompletely();
-        grabKey();
+        grbbKey();
         focusServer();
-        deactivateServer();
+        debctivbteServer();
         int res = pressAccelKey();
         sleep(1000);
         if (checkEventList(res, SYSTEM_EVENT_MASK | KeyPress) != -1) {
-            throw new RuntimeException("Accelerator has been activated in inactive embedder");
+            throw new RuntimeException("Accelerbtor hbs been bctivbted in inbctive embedder");
         }
     }
 
     public void test6_2_3() {
         embedCompletely();
-        grabKey();
+        grbbKey();
         focusServer();
-        deactivateServer();
-        ungrabKey();
+        debctivbteServer();
+        ungrbbKey();
         int res = pressAccelKey();
         sleep(1000);
         if (checkEventList(res, SYSTEM_EVENT_MASK | KeyPress) != -1) {
-            throw new RuntimeException("Accelerator has been activated after unregistering");
+            throw new RuntimeException("Accelerbtor hbs been bctivbted bfter unregistering");
         }
     }
 
     public void test6_2_4() {
         embedCompletely();
-        grabKey();
+        grbbKey();
         requestFocus();
         int res = pressAccelKey();
         sleep(1000);
@@ -355,224 +355,224 @@ public class XEmbedServerTester implements XEventDispatcher {
         if (pos != -1) {
             pos = checkEventList(pos+1, SYSTEM_EVENT_MASK | KeyPress);
             if (pos != -1) { // Second event
-                throw new RuntimeException("Accelerator has been activated in focused client");
+                throw new RuntimeException("Accelerbtor hbs been bctivbted in focused client");
             }
         }
     }
 
     public void test7_1() {
         embedCompletely();
-        int res = showModalDialog();
-        waitForEvent(res, XEmbedHelper.XEMBED_MODALITY_ON);
+        int res = showModblDiblog();
+        wbitForEvent(res, XEmbedHelper.XEMBED_MODALITY_ON);
     }
 
     public void test7_2() {
         embedCompletely();
-        int res = showModalDialog();
-        waitForEvent(res, XEmbedHelper.XEMBED_MODALITY_ON);
-        res = hideModalDialog();
-        waitForEvent(res, XEmbedHelper.XEMBED_MODALITY_OFF);
+        int res = showModblDiblog();
+        wbitForEvent(res, XEmbedHelper.XEMBED_MODALITY_ON);
+        res = hideModblDiblog();
+        wbitForEvent(res, XEmbedHelper.XEMBED_MODALITY_OFF);
     }
 
     public void test9_1() {
         embedCompletely();
         requestFocus();
         int res = pressAccelKey();
-        waitForEvent(res, SYSTEM_EVENT_MASK | KeyPress);
+        wbitForEvent(res, SYSTEM_EVENT_MASK | KeyPress);
     }
 
-    private int embed() {
+    privbte int embed() {
         int res = getEventPos();
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XCreateWindowParams params =
-                new XCreateWindowParams(new Object[] {
-                    XBaseWindow.PARENT_WINDOW, Long.valueOf(reparent?XToolkit.getDefaultRootWindow():parent),
-                    XBaseWindow.BOUNDS, initialBounds,
-                    XBaseWindow.EMBEDDED, Boolean.TRUE,
-                    XBaseWindow.VISIBLE, Boolean.valueOf(mapped == XEmbedHelper.XEMBED_MAPPED),
-                    XBaseWindow.EVENT_MASK, Long.valueOf(VisibilityChangeMask | StructureNotifyMask |
-                                                     SubstructureNotifyMask | KeyPressMask)});
-            window = new XBaseWindow(params);
+            XCrebteWindowPbrbms pbrbms =
+                new XCrebteWindowPbrbms(new Object[] {
+                    XBbseWindow.PARENT_WINDOW, Long.vblueOf(repbrent?XToolkit.getDefbultRootWindow():pbrent),
+                    XBbseWindow.BOUNDS, initiblBounds,
+                    XBbseWindow.EMBEDDED, Boolebn.TRUE,
+                    XBbseWindow.VISIBLE, Boolebn.vblueOf(mbpped == XEmbedHelper.XEMBED_MAPPED),
+                    XBbseWindow.EVENT_MASK, Long.vblueOf(VisibilityChbngeMbsk | StructureNotifyMbsk |
+                                                     SubstructureNotifyMbsk | KeyPressMbsk)});
+            window = new XBbseWindow(pbrbms);
 
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                xembedLog.finer("Created tester window: " + window);
+            if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                xembedLog.finer("Crebted tester window: " + window);
             }
 
-            XToolkit.addEventDispatcher(window.getWindow(), this);
-            updateEmbedInfo();
-            if (reparent) {
-                xembedLog.finer("Reparenting to embedder");
-                XlibWrapper.XReparentWindow(XToolkit.getDisplay(), window.getWindow(), parent, 0, 0);
+            XToolkit.bddEventDispbtcher(window.getWindow(), this);
+            updbteEmbedInfo();
+            if (repbrent) {
+                xembedLog.finer("Repbrenting to embedder");
+                XlibWrbpper.XRepbrentWindow(XToolkit.getDisplby(), window.getWindow(), pbrent, 0, 0);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
         return res;
     }
 
-    private void updateEmbedInfo() {
-        long[] info = new long[] { my_version, mapped };
-        long data = Native.card32ToData(info);
+    privbte void updbteEmbedInfo() {
+        long[] info = new long[] { my_version, mbpped };
+        long dbtb = Nbtive.cbrd32ToDbtb(info);
         try {
-            XEmbedHelper.XEmbedInfo.setAtomData(window.getWindow(), data, info.length);
-        } finally {
-            XEmbedHelper.unsafe.freeMemory(data);
+            XEmbedHelper.XEmbedInfo.setAtomDbtb(window.getWindow(), dbtb, info.length);
+        } finblly {
+            XEmbedHelper.unsbfe.freeMemory(dbtb);
         }
     }
 
-    private int getEventPos() {
+    privbte int getEventPos() {
         synchronized(EVENT_LOCK) {
             return events.size();
         }
     }
 
-    private int embedCompletely() {
+    privbte int embedCompletely() {
         xembedLog.fine("Embedding completely");
         int res = getEventPos();
         embed();
-        waitEmbeddedNotify(res);
+        wbitEmbeddedNotify(res);
         return res;
     }
-    private int requestFocus() {
+    privbte int requestFocus() {
         xembedLog.fine("Requesting focus");
         int res = getEventPos();
-        sendMessage(XEmbedHelper.XEMBED_REQUEST_FOCUS);
-        waitFocusGained(res);
+        sendMessbge(XEmbedHelper.XEMBED_REQUEST_FOCUS);
+        wbitFocusGbined(res);
         return res;
     }
-    private int requestFocusNoWait() {
-        xembedLog.fine("Requesting focus without wait");
+    privbte int requestFocusNoWbit() {
+        xembedLog.fine("Requesting focus without wbit");
         int res = getEventPos();
-        sendMessage(XEmbedHelper.XEMBED_REQUEST_FOCUS);
+        sendMessbge(XEmbedHelper.XEMBED_REQUEST_FOCUS);
         return res;
     }
-    private int activateServer(int prev) {
-        int res = activateServerNoWait(prev);
-        waitWindowActivated(res);
+    privbte int bctivbteServer(int prev) {
+        int res = bctivbteServerNoWbit(prev);
+        wbitWindowActivbted(res);
         return res;
     }
-    private int activateServerNoWait(int prev) {
-        xembedLog.fine("Activating server");
+    privbte int bctivbteServerNoWbit(int prev) {
+        xembedLog.fine("Activbting server");
         int res = getEventPos();
         if (checkEventList(prev, XEmbedHelper.XEMBED_WINDOW_ACTIVATE) != -1) {
-            xembedLog.fine("Activation already received");
+            xembedLog.fine("Activbtion blrebdy received");
             return res;
         }
-        Point loc = serverBounds[SERVER_BOUNDS].getLocation();
+        Point loc = serverBounds[SERVER_BOUNDS].getLocbtion();
         loc.x += serverBounds[SERVER_BOUNDS].getWidth()/2;
         loc.y += 5;
         robot.mouseMove(loc.x, loc.y);
         robot.mousePress(InputEvent.BUTTON1_MASK);
-        robot.mouseRelease(InputEvent.BUTTON1_MASK);
+        robot.mouseRelebse(InputEvent.BUTTON1_MASK);
         return res;
     }
-    private int deactivateServer() {
-        xembedLog.fine("Deactivating server");
+    privbte int debctivbteServer() {
+        xembedLog.fine("Debctivbting server");
         int res = getEventPos();
-        Point loc = serverBounds[OTHER_FRAME].getLocation();
+        Point loc = serverBounds[OTHER_FRAME].getLocbtion();
         loc.x += serverBounds[OTHER_FRAME].getWidth()/2;
         loc.y += serverBounds[OTHER_FRAME].getHeight()/2;
         robot.mouseMove(loc.x, loc.y);
         robot.mousePress(InputEvent.BUTTON1_MASK);
-        robot.delay(50);
-        robot.mouseRelease(InputEvent.BUTTON1_MASK);
-        waitWindowDeactivated(res);
+        robot.delby(50);
+        robot.mouseRelebse(InputEvent.BUTTON1_MASK);
+        wbitWindowDebctivbted(res);
         return res;
     }
-    private int focusServer() {
+    privbte int focusServer() {
         xembedLog.fine("Focusing server");
-        boolean weFocused = focused;
+        boolebn weFocused = focused;
         int res = getEventPos();
-        Point loc = serverBounds[SERVER_FOCUS].getLocation();
+        Point loc = serverBounds[SERVER_FOCUS].getLocbtion();
         loc.x += 5;
         loc.y += 5;
         robot.mouseMove(loc.x, loc.y);
         robot.mousePress(InputEvent.BUTTON1_MASK);
-        robot.delay(50);
-        robot.mouseRelease(InputEvent.BUTTON1_MASK);
+        robot.delby(50);
+        robot.mouseRelebse(InputEvent.BUTTON1_MASK);
         if (weFocused) {
-            waitFocusLost(res);
+            wbitFocusLost(res);
         }
         return res;
     }
-    private int focusServerNext() {
+    privbte int focusServerNext() {
         xembedLog.fine("Focusing next server component");
         int res = getEventPos();
-        sendMessage(XEmbedHelper.XEMBED_FOCUS_NEXT);
-        waitFocusLost(res);
+        sendMessbge(XEmbedHelper.XEMBED_FOCUS_NEXT);
+        wbitFocusLost(res);
         return res;
     }
-    private int focusServerPrev() {
+    privbte int focusServerPrev() {
         xembedLog.fine("Focusing previous server component");
         int res = getEventPos();
-        sendMessage(XEmbedHelper.XEMBED_FOCUS_PREV);
-        waitFocusLost(res);
+        sendMessbge(XEmbedHelper.XEMBED_FOCUS_PREV);
+        wbitFocusLost(res);
         return res;
     }
 
-    private void waitEmbeddedNotify(int pos) {
-        waitForEvent(pos, XEmbedHelper.XEMBED_EMBEDDED_NOTIFY);
+    privbte void wbitEmbeddedNotify(int pos) {
+        wbitForEvent(pos, XEmbedHelper.XEMBED_EMBEDDED_NOTIFY);
     }
-    private void waitFocusGained(int pos) {
-        waitForEvent(pos, XEmbedHelper.XEMBED_FOCUS_IN);
+    privbte void wbitFocusGbined(int pos) {
+        wbitForEvent(pos, XEmbedHelper.XEMBED_FOCUS_IN);
     }
-    private void waitFocusLost(int pos) {
-        waitForEvent(pos, XEmbedHelper.XEMBED_FOCUS_OUT);
+    privbte void wbitFocusLost(int pos) {
+        wbitForEvent(pos, XEmbedHelper.XEMBED_FOCUS_OUT);
     }
-    private void waitWindowActivated(int pos) {
-        waitForEvent(pos, XEmbedHelper.XEMBED_WINDOW_ACTIVATE);
+    privbte void wbitWindowActivbted(int pos) {
+        wbitForEvent(pos, XEmbedHelper.XEMBED_WINDOW_ACTIVATE);
     }
-    private void waitWindowDeactivated(int pos) {
-        waitForEvent(pos, XEmbedHelper.XEMBED_WINDOW_DEACTIVATE);
-    }
-
-    private void waitSystemEvent(int position, int event) {
-        waitForEvent(position, event | SYSTEM_EVENT_MASK);
+    privbte void wbitWindowDebctivbted(int pos) {
+        wbitForEvent(pos, XEmbedHelper.XEMBED_WINDOW_DEACTIVATE);
     }
 
-    private void waitForEvent(int position, int event) {
+    privbte void wbitSystemEvent(int position, int event) {
+        wbitForEvent(position, event | SYSTEM_EVENT_MASK);
+    }
+
+    privbte void wbitForEvent(int position, int event) {
         synchronized(EVENT_LOCK) {
-            // Check for already received events after the request
+            // Check for blrebdy received events bfter the request
             if (checkEventList(position, event) != -1) {
-                if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    xembedLog.finer("The event " + XEmbedHelper.msgidToString(event) + " has already been received");
+                if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    xembedLog.finer("The event " + XEmbedHelper.msgidToString(event) + " hbs blrebdy been received");
                 }
                 return;
             }
 
             if (eventReceived == event) {
-                // Already received
-                if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    xembedLog.finer("Already received " + XEmbedHelper.msgidToString(event));
+                // Alrebdy received
+                if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    xembedLog.finer("Alrebdy received " + XEmbedHelper.msgidToString(event));
                 }
                 return;
             }
             eventReceived = -1;
-            eventWaited = event;
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                xembedLog.finer("Waiting for " + XEmbedHelper.msgidToString(event) + " starting from " + position);
+            eventWbited = event;
+            if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                xembedLog.finer("Wbiting for " + XEmbedHelper.msgidToString(event) + " stbrting from " + position);
             }
             try {
-                EVENT_LOCK.wait(3000);
-            } catch (InterruptedException ie) {
-                xembedLog.warning("Event wait interrupted", ie);
+                EVENT_LOCK.wbit(3000);
+            } cbtch (InterruptedException ie) {
+                xembedLog.wbrning("Event wbit interrupted", ie);
             }
-            eventWaited = -1;
+            eventWbited = -1;
             if (checkEventList(position, event) == -1) {
                 dumpReceivedEvents();
                 throw new RuntimeException("Didn't receive event " + XEmbedHelper.msgidToString(event) + " but recevied " + XEmbedHelper.msgidToString(eventReceived));
             } else {
-                if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
+                if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                     xembedLog.finer("Successfully recevied " + XEmbedHelper.msgidToString(event));
                 }
             }
         }
     }
     /**
-     * Checks if the <code>event</code> is already in a list at position >= <code>position</code>
+     * Checks if the <code>event</code> is blrebdy in b list bt position >= <code>position</code>
      */
-    private int checkEventList(int position, int event) {
+    privbte int checkEventList(int position, int event) {
         if (position == -1) {
             return -1;
         }
@@ -586,102 +586,102 @@ public class XEmbedServerTester implements XEventDispatcher {
         }
     }
 
-    private void checkFocusedServerNext() {
+    privbte void checkFocusedServerNext() {
         if (focusedServerComponent != 0) {
             throw new RuntimeException("Wrong focused server component, should be 0, but it is " + focusedServerComponent);
         }
     }
-    private void checkFocusedServerPrev() {
+    privbte void checkFocusedServerPrev() {
         if (focusedServerComponent != 2) {
             throw new RuntimeException("Wrong focused server component, should be 2, but it is " + focusedServerComponent);
         }
     }
-    private void checkFocusGained(int kind) {
+    privbte void checkFocusGbined(int kind) {
         if (!focused) {
             throw new RuntimeException("Didn't receive FOCUS_GAINED");
         }
         if (focusedKind != kind) {
-            throw new RuntimeException("Kinds don't match, required: " + kind + ", current: " + focusedKind);
+            throw new RuntimeException("Kinds don't mbtch, required: " + kind + ", current: " + focusedKind);
         }
     }
-    private void checkNotFocused() {
+    privbte void checkNotFocused() {
         if (focused) {
             throw new RuntimeException("Focused");
         }
     }
-    private void checkFocused() {
+    privbte void checkFocused() {
         if (!focused) {
             throw new RuntimeException("Not Focused");
         }
     }
 
-    private void checkFocusLost() {
+    privbte void checkFocusLost() {
         checkNotFocused();
         if (focusedKind != XEmbedHelper.XEMBED_FOCUS_OUT) {
             throw new RuntimeException("Didn't receive FOCUS_LOST");
         }
     }
-    private void checkWindowActivated() {
+    privbte void checkWindowActivbted() {
         if (!windowActive) {
-            throw new RuntimeException("Window is not active");
+            throw new RuntimeException("Window is not bctive");
         }
     }
-    private void checkMapped() {
-        if (XlibUtil.getWindowMapState(window.getWindow()) == IsUnmapped) {
-            throw new RuntimeException("Client is not mapped");
+    privbte void checkMbpped() {
+        if (XlibUtil.getWindowMbpStbte(window.getWindow()) == IsUnmbpped) {
+            throw new RuntimeException("Client is not mbpped");
         }
     }
-    private void checkNotMapped() {
-        if (XlibUtil.getWindowMapState(window.getWindow()) != IsUnmapped) {
-            throw new RuntimeException("Client is mapped");
+    privbte void checkNotMbpped() {
+        if (XlibUtil.getWindowMbpStbte(window.getWindow()) != IsUnmbpped) {
+            throw new RuntimeException("Client is mbpped");
         }
     }
 
-    private void sendMessage(int message) {
-        xembed.sendMessage(parent, message);
+    privbte void sendMessbge(int messbge) {
+        xembed.sendMessbge(pbrent, messbge);
     }
-    private void sendMessage(int message, int detail, long data1, long data2) {
-        xembed.sendMessage(parent, message, detail, data1, data2);
+    privbte void sendMessbge(int messbge, int detbil, long dbtb1, long dbtb2) {
+        xembed.sendMessbge(pbrent, messbge, detbil, dbtb1, dbtb2);
     }
 
-    public void dispatchEvent(XEvent ev) {
-        if (ev.get_type() == ClientMessage) {
-            XClientMessageEvent msg = ev.get_xclient();
-            if (msg.get_message_type() == XEmbedHelper.XEmbed.getAtom()) {
-                if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                    xembedLog.fine("Embedded message: " + XEmbedHelper.msgidToString((int)msg.get_data(1)));
+    public void dispbtchEvent(XEvent ev) {
+        if (ev.get_type() == ClientMessbge) {
+            XClientMessbgeEvent msg = ev.get_xclient();
+            if (msg.get_messbge_type() == XEmbedHelper.XEmbed.getAtom()) {
+                if (xembedLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    xembedLog.fine("Embedded messbge: " + XEmbedHelper.msgidToString((int)msg.get_dbtb(1)));
                 }
-                switch ((int)msg.get_data(1)) {
-                  case XEmbedHelper.XEMBED_EMBEDDED_NOTIFY: // Notification about embedding protocol start
+                switch ((int)msg.get_dbtb(1)) {
+                  cbse XEmbedHelper.XEMBED_EMBEDDED_NOTIFY: // Notificbtion bbout embedding protocol stbrt
                       xembedActive = true;
-                      server_version = (int)msg.get_data(3);
-                      break;
-                  case XEmbedHelper.XEMBED_WINDOW_ACTIVATE:
+                      server_version = (int)msg.get_dbtb(3);
+                      brebk;
+                  cbse XEmbedHelper.XEMBED_WINDOW_ACTIVATE:
                       windowActive = true;
-                      break;
-                  case XEmbedHelper.XEMBED_WINDOW_DEACTIVATE:
-                      windowActive = false;
-                      break;
-                  case XEmbedHelper.XEMBED_FOCUS_IN: // We got focus!
+                      brebk;
+                  cbse XEmbedHelper.XEMBED_WINDOW_DEACTIVATE:
+                      windowActive = fblse;
+                      brebk;
+                  cbse XEmbedHelper.XEMBED_FOCUS_IN: // We got focus!
                       focused = true;
-                      focusedKind = (int)msg.get_data(2);
-                      break;
-                  case XEmbedHelper.XEMBED_FOCUS_OUT:
-                      focused = false;
+                      focusedKind = (int)msg.get_dbtb(2);
+                      brebk;
+                  cbse XEmbedHelper.XEMBED_FOCUS_OUT:
+                      focused = fblse;
                       focusedKind = XEmbedHelper.XEMBED_FOCUS_OUT;
-                      focusedServerComponent = (int)msg.get_data(2);
-                      break;
+                      focusedServerComponent = (int)msg.get_dbtb(2);
+                      brebk;
                 }
                 synchronized(EVENT_LOCK) {
-                    events.add((int)msg.get_data(1));
+                    events.bdd((int)msg.get_dbtb(1));
 
-                    if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                        xembedLog.finer("Tester is waiting for " +  XEmbedHelper.msgidToString(eventWaited));
+                    if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                        xembedLog.finer("Tester is wbiting for " +  XEmbedHelper.msgidToString(eventWbited));
                     }
-                    if ((int)msg.get_data(1) == eventWaited) {
-                        eventReceived = (int)msg.get_data(1);
-                        if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                            xembedLog.finer("Notifying waiting object for event " + System.identityHashCode(EVENT_LOCK));
+                    if ((int)msg.get_dbtb(1) == eventWbited) {
+                        eventReceived = (int)msg.get_dbtb(1);
+                        if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                            xembedLog.finer("Notifying wbiting object for event " + System.identityHbshCode(EVENT_LOCK));
                         }
                         EVENT_LOCK.notifyAll();
                     }
@@ -690,15 +690,15 @@ public class XEmbedServerTester implements XEventDispatcher {
         } else {
             synchronized(EVENT_LOCK) {
                 int eventID = ev.get_type() | SYSTEM_EVENT_MASK;
-                events.add(eventID);
+                events.bdd(eventID);
 
-                if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    xembedLog.finer("Tester is waiting for " + XEmbedHelper.msgidToString(eventWaited) + ", but we received " + ev + "(" + XEmbedHelper.msgidToString(eventID) + ")");
+                if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    xembedLog.finer("Tester is wbiting for " + XEmbedHelper.msgidToString(eventWbited) + ", but we received " + ev + "(" + XEmbedHelper.msgidToString(eventID) + ")");
                 }
-                if (eventID == eventWaited) {
+                if (eventID == eventWbited) {
                     eventReceived = eventID;
-                    if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                        xembedLog.finer("Notifying waiting object" + System.identityHashCode(EVENT_LOCK));
+                    if (xembedLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                        xembedLog.finer("Notifying wbiting object" + System.identityHbshCode(EVENT_LOCK));
                     }
                     EVENT_LOCK.notifyAll();
                 }
@@ -706,64 +706,64 @@ public class XEmbedServerTester implements XEventDispatcher {
         }
     }
 
-    private void sleep(int amount) {
+    privbte void sleep(int bmount) {
         try {
-            Thread.sleep(amount);
-        } catch (Exception e) {
+            Threbd.sleep(bmount);
+        } cbtch (Exception e) {
         }
     }
 
-    private void registerAccelerator() {
-        sendMessage(XEmbedHelper.XEMBED_REGISTER_ACCELERATOR, 1, accel_keysym, accel_mods);
+    privbte void registerAccelerbtor() {
+        sendMessbge(XEmbedHelper.XEMBED_REGISTER_ACCELERATOR, 1, bccel_keysym, bccel_mods);
     }
 
-    private void unregisterAccelerator() {
-        sendMessage(XEmbedHelper.XEMBED_UNREGISTER_ACCELERATOR, 1, 0, 0);
+    privbte void unregisterAccelerbtor() {
+        sendMessbge(XEmbedHelper.XEMBED_UNREGISTER_ACCELERATOR, 1, 0, 0);
     }
 
-    private int pressAccelKey() {
+    privbte int pressAccelKey() {
         int res = getEventPos();
-        robot.keyPress(accel_key);
-        robot.keyRelease(accel_key);
+        robot.keyPress(bccel_key);
+        robot.keyRelebse(bccel_key);
         return res;
     }
 
-    private void initAccel() {
-        accel_key = KeyEvent.VK_A;
-        accel_keysym = XWindow.getKeySymForAWTKeyCode(accel_key);
-        accel_mods = 0;
+    privbte void initAccel() {
+        bccel_key = KeyEvent.VK_A;
+        bccel_keysym = XWindow.getKeySymForAWTKeyCode(bccel_key);
+        bccel_mods = 0;
     }
 
-    private void grabKey() {
-        sendMessage(XEmbedHelper.NON_STANDARD_XEMBED_GTK_GRAB_KEY, 0, accel_keysym, accel_mods);
+    privbte void grbbKey() {
+        sendMessbge(XEmbedHelper.NON_STANDARD_XEMBED_GTK_GRAB_KEY, 0, bccel_keysym, bccel_mods);
     }
-    private void ungrabKey() {
-        sendMessage(XEmbedHelper.NON_STANDARD_XEMBED_GTK_UNGRAB_KEY, 0, accel_keysym, accel_mods);
+    privbte void ungrbbKey() {
+        sendMessbge(XEmbedHelper.NON_STANDARD_XEMBED_GTK_UNGRAB_KEY, 0, bccel_keysym, bccel_mods);
     }
-    private int showModalDialog() {
-        xembedLog.fine("Showing modal dialog");
+    privbte int showModblDiblog() {
+        xembedLog.fine("Showing modbl diblog");
         int res = getEventPos();
-        Point loc = serverBounds[SERVER_MODAL].getLocation();
+        Point loc = serverBounds[SERVER_MODAL].getLocbtion();
         loc.x += 5;
         loc.y += 5;
         robot.mouseMove(loc.x, loc.y);
         robot.mousePress(InputEvent.BUTTON1_MASK);
-        robot.delay(50);
-        robot.mouseRelease(InputEvent.BUTTON1_MASK);
+        robot.delby(50);
+        robot.mouseRelebse(InputEvent.BUTTON1_MASK);
         return res;
     }
-    private int hideModalDialog() {
-        xembedLog.fine("Hide modal dialog");
+    privbte int hideModblDiblog() {
+        xembedLog.fine("Hide modbl diblog");
         int res = getEventPos();
-//         Point loc = serverBounds[MODAL_CLOSE].getLocation();
+//         Point loc = serverBounds[MODAL_CLOSE].getLocbtion();
 //         loc.x += 5;
 //         loc.y += 5;
 //         robot.mouseMove(loc.x, loc.y);
 //         robot.mousePress(InputEvent.BUTTON1_MASK);
-//         robot.delay(50);
-//         robot.mouseRelease(InputEvent.BUTTON1_MASK);
+//         robot.delby(50);
+//         robot.mouseRelebse(InputEvent.BUTTON1_MASK);
         robot.keyPress(KeyEvent.VK_SPACE);
-        robot.keyRelease(KeyEvent.VK_SPACE);
+        robot.keyRelebse(KeyEvent.VK_SPACE);
         return res;
     }
 

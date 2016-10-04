@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -37,70 +37,70 @@
 
 /**
  * \file
- * \brief C++ API: Endian independent access to data for LayoutEngine
+ * \brief C++ API: Endibn independent bccess to dbtb for LbyoutEngine
  */
 
 U_NAMESPACE_BEGIN
 
 /**
- * A convenience macro which invokes the swapWord member function
- * from a concise call.
+ * A convenience mbcro which invokes the swbpWord member function
+ * from b concise cbll.
  *
- * @stable ICU 2.8
+ * @stbble ICU 2.8
  */
 #if defined(U_IS_BIG_ENDIAN)
     #if U_IS_BIG_ENDIAN
-        #define SWAPW(value) (value)
+        #define SWAPW(vblue) (vblue)
     #else
-        #define SWAPW(value) LESwaps::swapWord(value)
+        #define SWAPW(vblue) LESwbps::swbpWord(vblue)
     #endif
 #else
-    #define SWAPW(value) (LESwaps::isBigEndian() ? (value) : LESwaps::swapWord(value))
+    #define SWAPW(vblue) (LESwbps::isBigEndibn() ? (vblue) : LESwbps::swbpWord(vblue))
 #endif
 
 /**
- * A convenience macro which invokes the swapLong member function
- * from a concise call.
+ * A convenience mbcro which invokes the swbpLong member function
+ * from b concise cbll.
  *
- * @stable ICU 2.8
+ * @stbble ICU 2.8
  */
 #if defined(U_IS_BIG_ENDIAN)
     #if U_IS_BIG_ENDIAN
-        #define SWAPL(value) (value)
+        #define SWAPL(vblue) (vblue)
     #else
-        #define SWAPL(value) LESwaps::swapLong(value)
+        #define SWAPL(vblue) LESwbps::swbpLong(vblue)
     #endif
 #else
-    #define SWAPL(value) (LESwaps::isBigEndian() ? (value) : LESwaps::swapLong(value))
+    #define SWAPL(vblue) (LESwbps::isBigEndibn() ? (vblue) : LESwbps::swbpLong(vblue))
 #endif
 
 /**
- * This class is used to access data which stored in big endian order
- * regardless of the conventions of the platform. It has been designed
- * to automatically detect the endian-ness of the platform, so that a
- * compilation flag is not needed.
+ * This clbss is used to bccess dbtb which stored in big endibn order
+ * regbrdless of the conventions of the plbtform. It hbs been designed
+ * to butombticblly detect the endibn-ness of the plbtform, so thbt b
+ * compilbtion flbg is not needed.
  *
- * All methods are static and inline in an attempt to induce the compiler
- * to do most of the calculations at compile time.
+ * All methods bre stbtic bnd inline in bn bttempt to induce the compiler
+ * to do most of the cblculbtions bt compile time.
  *
- * @stable ICU 2.8
+ * @stbble ICU 2.8
  */
-class U_LAYOUT_API LESwaps /* not : public UObject because all methods are static */ {
+clbss U_LAYOUT_API LESwbps /* not : public UObject becbuse bll methods bre stbtic */ {
 public:
 
 #if !defined(U_IS_BIG_ENDIAN)
     /**
-     * This method detects the endian-ness of the platform by
-     * casting a pointer to a word to a pointer to a byte. On
-     * big endian platforms the FF will be in the byte with the
-     * lowest address. On little endian platforms, the FF will
-     * be in the byte with the highest address.
+     * This method detects the endibn-ness of the plbtform by
+     * cbsting b pointer to b word to b pointer to b byte. On
+     * big endibn plbtforms the FF will be in the byte with the
+     * lowest bddress. On little endibn plbtforms, the FF will
+     * be in the byte with the highest bddress.
      *
-     * @return TRUE if the platform is big endian
+     * @return TRUE if the plbtform is big endibn
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static le_uint8 isBigEndian()
+    stbtic le_uint8 isBigEndibn()
     {
         const le_uint16 word = 0xFF00;
 
@@ -109,37 +109,37 @@ public:
 #endif
 
     /**
-     * This method does the byte swap required on little endian platforms
-     * to correctly access a (16-bit) word.
+     * This method does the byte swbp required on little endibn plbtforms
+     * to correctly bccess b (16-bit) word.
      *
-     * @param value - the word to be byte swapped
+     * @pbrbm vblue - the word to be byte swbpped
      *
-     * @return the byte swapped word
+     * @return the byte swbpped word
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static le_uint16 swapWord(le_uint16 value)
+    stbtic le_uint16 swbpWord(le_uint16 vblue)
     {
-        return (((le_uint8) (value >> 8)) | (value << 8));
+        return (((le_uint8) (vblue >> 8)) | (vblue << 8));
     };
 
     /**
-     * This method does the byte swapping required on little endian platforms
-     * to correctly access a (32-bit) long.
+     * This method does the byte swbpping required on little endibn plbtforms
+     * to correctly bccess b (32-bit) long.
      *
-     * @param value - the long to be byte swapped
+     * @pbrbm vblue - the long to be byte swbpped
      *
-     * @return the byte swapped long
+     * @return the byte swbpped long
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static le_uint32 swapLong(le_uint32 value)
+    stbtic le_uint32 swbpLong(le_uint32 vblue)
     {
-        return swapWord((le_uint16) (value >> 16)) | (swapWord((le_uint16) value) << 16);
+        return swbpWord((le_uint16) (vblue >> 16)) | (swbpWord((le_uint16) vblue) << 16);
     };
 
-private:
-    LESwaps() {} // private - forbid instantiation
+privbte:
+    LESwbps() {} // privbte - forbid instbntibtion
 };
 
 U_NAMESPACE_END

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,124 +30,124 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  */
 
-import static java.lang.management.ManagementFactory.*;
-import java.lang.management.ThreadMXBean;
-import java.lang.management.ThreadInfo;
-import java.lang.management.LockInfo;
-import java.lang.management.MonitorInfo;
-import javax.management.*;
-import java.io.*;
+import stbtic jbvb.lbng.mbnbgement.MbnbgementFbctory.*;
+import jbvb.lbng.mbnbgement.ThrebdMXBebn;
+import jbvb.lbng.mbnbgement.ThrebdInfo;
+import jbvb.lbng.mbnbgement.LockInfo;
+import jbvb.lbng.mbnbgement.MonitorInfo;
+import jbvbx.mbnbgement.*;
+import jbvb.io.*;
 
 /**
- * Example of using the java.lang.management API to dump stack trace
- * and to perform deadlock detection.
+ * Exbmple of using the jbvb.lbng.mbnbgement API to dump stbck trbce
+ * bnd to perform debdlock detection.
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  */
-public class ThreadMonitor {
-    private MBeanServerConnection server;
-    private ThreadMXBean tmbean;
-    private ObjectName objname;
+public clbss ThrebdMonitor {
+    privbte MBebnServerConnection server;
+    privbte ThrebdMXBebn tmbebn;
+    privbte ObjectNbme objnbme;
 
-    // default - JDK 6+ VM
-    private String findDeadlocksMethodName = "findDeadlockedThreads";
-    private boolean canDumpLocks = true;
+    // defbult - JDK 6+ VM
+    privbte String findDebdlocksMethodNbme = "findDebdlockedThrebds";
+    privbte boolebn cbnDumpLocks = true;
 
     /**
-     * Constructs a ThreadMonitor object to get thread information
-     * in a remote JVM.
+     * Constructs b ThrebdMonitor object to get threbd informbtion
+     * in b remote JVM.
      */
-    public ThreadMonitor(MBeanServerConnection server) throws IOException {
+    public ThrebdMonitor(MBebnServerConnection server) throws IOException {
        this.server = server;
-       this.tmbean = newPlatformMXBeanProxy(server,
+       this.tmbebn = newPlbtformMXBebnProxy(server,
                                             THREAD_MXBEAN_NAME,
-                                            ThreadMXBean.class);
+                                            ThrebdMXBebn.clbss);
        try {
-           objname = new ObjectName(THREAD_MXBEAN_NAME);
-        } catch (MalformedObjectNameException e) {
-            // should not reach here
-            InternalError ie = new InternalError(e.getMessage());
-            ie.initCause(e);
+           objnbme = new ObjectNbme(THREAD_MXBEAN_NAME);
+        } cbtch (MblformedObjectNbmeException e) {
+            // should not rebch here
+            InternblError ie = new InternblError(e.getMessbge());
+            ie.initCbuse(e);
             throw ie;
        }
-       parseMBeanInfo();
+       pbrseMBebnInfo();
     }
 
     /**
-     * Constructs a ThreadMonitor object to get thread information
-     * in the local JVM.
+     * Constructs b ThrebdMonitor object to get threbd informbtion
+     * in the locbl JVM.
      */
-    public ThreadMonitor() {
-        this.tmbean = getThreadMXBean();
+    public ThrebdMonitor() {
+        this.tmbebn = getThrebdMXBebn();
     }
 
     /**
-     * Prints the thread dump information to System.out.
+     * Prints the threbd dump informbtion to System.out.
      */
-    public void threadDump() {
-        if (canDumpLocks) {
-            if (tmbean.isObjectMonitorUsageSupported() &&
-                tmbean.isSynchronizerUsageSupported()) {
-                // Print lock info if both object monitor usage
-                // and synchronizer usage are supported.
-                // This sample code can be modified to handle if
-                // either monitor usage or synchronizer usage is supported.
-                dumpThreadInfoWithLocks();
+    public void threbdDump() {
+        if (cbnDumpLocks) {
+            if (tmbebn.isObjectMonitorUsbgeSupported() &&
+                tmbebn.isSynchronizerUsbgeSupported()) {
+                // Print lock info if both object monitor usbge
+                // bnd synchronizer usbge bre supported.
+                // This sbmple code cbn be modified to hbndle if
+                // either monitor usbge or synchronizer usbge is supported.
+                dumpThrebdInfoWithLocks();
             }
         } else {
-            dumpThreadInfo();
+            dumpThrebdInfo();
         }
     }
 
-    private void dumpThreadInfo() {
-       System.out.println("Full Java thread dump");
-       long[] tids = tmbean.getAllThreadIds();
-       ThreadInfo[] tinfos = tmbean.getThreadInfo(tids, Integer.MAX_VALUE);
-       for (ThreadInfo ti : tinfos) {
-           printThreadInfo(ti);
+    privbte void dumpThrebdInfo() {
+       System.out.println("Full Jbvb threbd dump");
+       long[] tids = tmbebn.getAllThrebdIds();
+       ThrebdInfo[] tinfos = tmbebn.getThrebdInfo(tids, Integer.MAX_VALUE);
+       for (ThrebdInfo ti : tinfos) {
+           printThrebdInfo(ti);
        }
     }
 
     /**
-     * Prints the thread dump information with locks info to System.out.
+     * Prints the threbd dump informbtion with locks info to System.out.
      */
-    private void dumpThreadInfoWithLocks() {
-       System.out.println("Full Java thread dump with locks info");
+    privbte void dumpThrebdInfoWithLocks() {
+       System.out.println("Full Jbvb threbd dump with locks info");
 
-       ThreadInfo[] tinfos = tmbean.dumpAllThreads(true, true);
-       for (ThreadInfo ti : tinfos) {
-           printThreadInfo(ti);
+       ThrebdInfo[] tinfos = tmbebn.dumpAllThrebds(true, true);
+       for (ThrebdInfo ti : tinfos) {
+           printThrebdInfo(ti);
            LockInfo[] syncs = ti.getLockedSynchronizers();
            printLockInfo(syncs);
        }
        System.out.println();
     }
 
-    private static String INDENT = "    ";
+    privbte stbtic String INDENT = "    ";
 
-    private void printThreadInfo(ThreadInfo ti) {
-       // print thread information
-       printThread(ti);
+    privbte void printThrebdInfo(ThrebdInfo ti) {
+       // print threbd informbtion
+       printThrebd(ti);
 
-       // print stack trace with locks
-       StackTraceElement[] stacktrace = ti.getStackTrace();
+       // print stbck trbce with locks
+       StbckTrbceElement[] stbcktrbce = ti.getStbckTrbce();
        MonitorInfo[] monitors = ti.getLockedMonitors();
-       for (int i = 0; i < stacktrace.length; i++) {
-           StackTraceElement ste = stacktrace[i];
-           System.out.println(INDENT + "at " + ste.toString());
+       for (int i = 0; i < stbcktrbce.length; i++) {
+           StbckTrbceElement ste = stbcktrbce[i];
+           System.out.println(INDENT + "bt " + ste.toString());
            for (MonitorInfo mi : monitors) {
-               if (mi.getLockedStackDepth() == i) {
+               if (mi.getLockedStbckDepth() == i) {
                    System.out.println(INDENT + "  - locked " + mi);
                }
            }
@@ -155,37 +155,37 @@ public class ThreadMonitor {
        System.out.println();
     }
 
-    private void printThread(ThreadInfo ti) {
-       StringBuilder sb = new StringBuilder("\"" + ti.getThreadName() + "\"" +
-                                            " Id=" + ti.getThreadId() +
-                                            " in " + ti.getThreadState());
-       if (ti.getLockName() != null) {
-           sb.append(" on lock=" + ti.getLockName());
+    privbte void printThrebd(ThrebdInfo ti) {
+       StringBuilder sb = new StringBuilder("\"" + ti.getThrebdNbme() + "\"" +
+                                            " Id=" + ti.getThrebdId() +
+                                            " in " + ti.getThrebdStbte());
+       if (ti.getLockNbme() != null) {
+           sb.bppend(" on lock=" + ti.getLockNbme());
        }
        if (ti.isSuspended()) {
-           sb.append(" (suspended)");
+           sb.bppend(" (suspended)");
        }
-       if (ti.isInNative()) {
-           sb.append(" (running in native)");
+       if (ti.isInNbtive()) {
+           sb.bppend(" (running in nbtive)");
        }
        System.out.println(sb.toString());
-       if (ti.getLockOwnerName() != null) {
-            System.out.println(INDENT + " owned by " + ti.getLockOwnerName() +
+       if (ti.getLockOwnerNbme() != null) {
+            System.out.println(INDENT + " owned by " + ti.getLockOwnerNbme() +
                                " Id=" + ti.getLockOwnerId());
        }
     }
 
-    private void printMonitorInfo(ThreadInfo ti) {
+    privbte void printMonitorInfo(ThrebdInfo ti) {
        MonitorInfo[] monitors = ti.getLockedMonitors();
        System.out.println(INDENT + "Locked monitors: count = " + monitors.length);
        for (MonitorInfo mi : monitors) {
-           System.out.println(INDENT + "  - " + mi + " locked at ");
-           System.out.println(INDENT + "      " + mi.getLockedStackDepth() +
-                              " " + mi.getLockedStackFrame());
+           System.out.println(INDENT + "  - " + mi + " locked bt ");
+           System.out.println(INDENT + "      " + mi.getLockedStbckDepth() +
+                              " " + mi.getLockedStbckFrbme());
        }
     }
 
-    private void printLockInfo(LockInfo[] locks) {
+    privbte void printLockInfo(LockInfo[] locks) {
        System.out.println(INDENT + "Locked synchronizers: count = " + locks.length);
        for (LockInfo li : locks) {
            System.out.println(INDENT + "  - " + li);
@@ -194,35 +194,35 @@ public class ThreadMonitor {
     }
 
     /**
-     * Checks if any threads are deadlocked. If any, print
-     * the thread dump information.
+     * Checks if bny threbds bre debdlocked. If bny, print
+     * the threbd dump informbtion.
      */
-    public boolean findDeadlock() {
+    public boolebn findDebdlock() {
        long[] tids;
-       if (findDeadlocksMethodName.equals("findDeadlockedThreads") &&
-               tmbean.isSynchronizerUsageSupported()) {
-           tids = tmbean.findDeadlockedThreads();
+       if (findDebdlocksMethodNbme.equbls("findDebdlockedThrebds") &&
+               tmbebn.isSynchronizerUsbgeSupported()) {
+           tids = tmbebn.findDebdlockedThrebds();
            if (tids == null) {
-               return false;
+               return fblse;
            }
 
-           System.out.println("Deadlock found :-");
-           ThreadInfo[] infos = tmbean.getThreadInfo(tids, true, true);
-           for (ThreadInfo ti : infos) {
-               printThreadInfo(ti);
+           System.out.println("Debdlock found :-");
+           ThrebdInfo[] infos = tmbebn.getThrebdInfo(tids, true, true);
+           for (ThrebdInfo ti : infos) {
+               printThrebdInfo(ti);
                printMonitorInfo(ti);
                printLockInfo(ti.getLockedSynchronizers());
                System.out.println();
            }
        } else {
-           tids = tmbean.findMonitorDeadlockedThreads();
+           tids = tmbebn.findMonitorDebdlockedThrebds();
            if (tids == null) {
-               return false;
+               return fblse;
            }
-           ThreadInfo[] infos = tmbean.getThreadInfo(tids, Integer.MAX_VALUE);
-           for (ThreadInfo ti : infos) {
-               // print thread information
-               printThreadInfo(ti);
+           ThrebdInfo[] infos = tmbebn.getThrebdInfo(tids, Integer.MAX_VALUE);
+           for (ThrebdInfo ti : infos) {
+               // print threbd informbtion
+               printThrebdInfo(ti);
            }
        }
 
@@ -230,36 +230,36 @@ public class ThreadMonitor {
     }
 
 
-    private void parseMBeanInfo() throws IOException {
+    privbte void pbrseMBebnInfo() throws IOException {
         try {
-            MBeanOperationInfo[] mopis = server.getMBeanInfo(objname).getOperations();
+            MBebnOperbtionInfo[] mopis = server.getMBebnInfo(objnbme).getOperbtions();
 
-            // look for findDeadlockedThreads operations;
-            boolean found = false;
-            for (MBeanOperationInfo op : mopis) {
-                if (op.getName().equals(findDeadlocksMethodName)) {
+            // look for findDebdlockedThrebds operbtions;
+            boolebn found = fblse;
+            for (MBebnOperbtionInfo op : mopis) {
+                if (op.getNbme().equbls(findDebdlocksMethodNbme)) {
                     found = true;
-                    break;
+                    brebk;
                 }
             }
             if (!found) {
-                // if findDeadlockedThreads operation doesn't exist,
-                // the target VM is running on JDK 5 and details about
-                // synchronizers and locks cannot be dumped.
-                findDeadlocksMethodName = "findMonitorDeadlockedThreads";
-                canDumpLocks = false;
+                // if findDebdlockedThrebds operbtion doesn't exist,
+                // the tbrget VM is running on JDK 5 bnd detbils bbout
+                // synchronizers bnd locks cbnnot be dumped.
+                findDebdlocksMethodNbme = "findMonitorDebdlockedThrebds";
+                cbnDumpLocks = fblse;
             }
-        } catch (IntrospectionException e) {
-            InternalError ie = new InternalError(e.getMessage());
-            ie.initCause(e);
+        } cbtch (IntrospectionException e) {
+            InternblError ie = new InternblError(e.getMessbge());
+            ie.initCbuse(e);
             throw ie;
-        } catch (InstanceNotFoundException e) {
-            InternalError ie = new InternalError(e.getMessage());
-            ie.initCause(e);
+        } cbtch (InstbnceNotFoundException e) {
+            InternblError ie = new InternblError(e.getMessbge());
+            ie.initCbuse(e);
             throw ie;
-        } catch (ReflectionException e) {
-            InternalError ie = new InternalError(e.getMessage());
-            ie.initCause(e);
+        } cbtch (ReflectionException e) {
+            InternblError ie = new InternblError(e.getMessbge());
+            ie.initCbuse(e);
             throw ie;
         }
     }

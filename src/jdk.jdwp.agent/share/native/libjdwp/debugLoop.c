@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
-#include "transport.h"
+#include "trbnsport.h"
 #include "debugLoop.h"
-#include "debugDispatch.h"
-#include "standardHandlers.h"
-#include "inStream.h"
-#include "outStream.h"
-#include "threadControl.h"
+#include "debugDispbtch.h"
+#include "stbndbrdHbndlers.h"
+#include "inStrebm.h"
+#include "outStrebm.h"
+#include "threbdControl.h"
 
 
-static void JNICALL reader(jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* arg);
-static void enqueue(jdwpPacket *p);
-static jboolean dequeue(jdwpPacket *p);
-static void notifyTransportError(void);
+stbtic void JNICALL rebder(jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* brg);
+stbtic void enqueue(jdwpPbcket *p);
+stbtic jboolebn dequeue(jdwpPbcket *p);
+stbtic void notifyTrbnsportError(void);
 
-struct PacketList {
-    jdwpPacket packet;
-    struct PacketList *next;
+struct PbcketList {
+    jdwpPbcket pbcket;
+    struct PbcketList *next;
 };
 
-static volatile struct PacketList *cmdQueue;
-static jrawMonitorID cmdQueueLock;
-static jrawMonitorID resumeLock;
-static jboolean transportError;
+stbtic volbtile struct PbcketList *cmdQueue;
+stbtic jrbwMonitorID cmdQueueLock;
+stbtic jrbwMonitorID resumeLock;
+stbtic jboolebn trbnsportError;
 
-static jboolean
-lastCommand(jdwpCmdPacket *cmd)
+stbtic jboolebn
+lbstCommbnd(jdwpCmdPbcket *cmd)
 {
-    if ((cmd->cmdSet == JDWP_COMMAND_SET(VirtualMachine)) &&
-        ((cmd->cmd == JDWP_COMMAND(VirtualMachine, Dispose)) ||
-         (cmd->cmd == JDWP_COMMAND(VirtualMachine, Exit)))) {
+    if ((cmd->cmdSet == JDWP_COMMAND_SET(VirtublMbchine)) &&
+        ((cmd->cmd == JDWP_COMMAND(VirtublMbchine, Dispose)) ||
+         (cmd->cmd == JDWP_COMMAND(VirtublMbchine, Exit)))) {
         return JNI_TRUE;
     } else {
         return JNI_FALSE;
     }
 }
 
-static jboolean
-resumeCommand(jdwpCmdPacket *cmd)
+stbtic jboolebn
+resumeCommbnd(jdwpCmdPbcket *cmd)
 {
-    if ( (cmd->cmdSet == JDWP_COMMAND_SET(VirtualMachine)) &&
-         (cmd->cmd == JDWP_COMMAND(VirtualMachine, Resume)) ) {
+    if ( (cmd->cmdSet == JDWP_COMMAND_SET(VirtublMbchine)) &&
+         (cmd->cmd == JDWP_COMMAND(VirtublMbchine, Resume)) ) {
         return JNI_TRUE;
     } else {
         return JNI_FALSE;
@@ -72,9 +72,9 @@ resumeCommand(jdwpCmdPacket *cmd)
 }
 
 void
-debugLoop_initialize(void)
+debugLoop_initiblize(void)
 {
-    resumeLock = debugMonitorCreate("JDWP Resume Lock");
+    resumeLock = debugMonitorCrebte("JDWP Resume Lock");
 }
 
 void
@@ -85,185 +85,185 @@ debugLoop_sync(void)
 }
 
 /*
- * This is where all the work gets done.
+ * This is where bll the work gets done.
  */
 
 void
 debugLoop_run(void)
 {
-    jboolean shouldListen;
-    jdwpPacket p;
-    jvmtiStartFunction func;
+    jboolebn shouldListen;
+    jdwpPbcket p;
+    jvmtiStbrtFunction func;
 
-    /* Initialize all statics */
-    /* We may be starting a new connection after an error */
+    /* Initiblize bll stbtics */
+    /* We mby be stbrting b new connection bfter bn error */
     cmdQueue = NULL;
-    cmdQueueLock = debugMonitorCreate("JDWP Command Queue Lock");
-    transportError = JNI_FALSE;
+    cmdQueueLock = debugMonitorCrebte("JDWP Commbnd Queue Lock");
+    trbnsportError = JNI_FALSE;
 
     shouldListen = JNI_TRUE;
 
-    func = &reader;
-    (void)spawnNewThread(func, NULL, "JDWP Command Reader");
+    func = &rebder;
+    (void)spbwnNewThrebd(func, NULL, "JDWP Commbnd Rebder");
 
-    standardHandlers_onConnect();
-    threadControl_onConnect();
+    stbndbrdHbndlers_onConnect();
+    threbdControl_onConnect();
 
-    /* Okay, start reading cmds! */
+    /* Okby, stbrt rebding cmds! */
     while (shouldListen) {
         if (!dequeue(&p)) {
-            break;
+            brebk;
         }
 
-        if (p.type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
+        if (p.type.cmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
             /*
-             * Its a reply packet.
+             * Its b reply pbcket.
              */
            continue;
         } else {
             /*
-             * Its a cmd packet.
+             * Its b cmd pbcket.
              */
-            jdwpCmdPacket *cmd = &p.type.cmd;
-            PacketInputStream in;
-            PacketOutputStream out;
-            CommandHandler func;
+            jdwpCmdPbcket *cmd = &p.type.cmd;
+            PbcketInputStrebm in;
+            PbcketOutputStrebm out;
+            CommbndHbndler func;
 
             /* Should reply be sent to sender.
-             * For error handling, assume yes, since
+             * For error hbndling, bssume yes, since
              * only VM/exit does not reply
              */
-            jboolean replyToSender = JNI_TRUE;
+            jboolebn replyToSender = JNI_TRUE;
 
             /*
-             * For VirtualMachine.Resume commands we hold the resumeLock
-             * while executing and replying to the command. This ensures
-             * that a Resume after VM_DEATH will be allowed to complete
-             * before the thread posting the VM_DEATH continues VM
-             * termination.
+             * For VirtublMbchine.Resume commbnds we hold the resumeLock
+             * while executing bnd replying to the commbnd. This ensures
+             * thbt b Resume bfter VM_DEATH will be bllowed to complete
+             * before the threbd posting the VM_DEATH continues VM
+             * terminbtion.
              */
-            if (resumeCommand(cmd)) {
+            if (resumeCommbnd(cmd)) {
                 debugMonitorEnter(resumeLock);
             }
 
-            /* Initialize the input and output streams */
-            inStream_init(&in, p);
-            outStream_initReply(&out, inStream_id(&in));
+            /* Initiblize the input bnd output strebms */
+            inStrebm_init(&in, p);
+            outStrebm_initReply(&out, inStrebm_id(&in));
 
-            LOG_MISC(("Command set %d, command %d", cmd->cmdSet, cmd->cmd));
+            LOG_MISC(("Commbnd set %d, commbnd %d", cmd->cmdSet, cmd->cmd));
 
-            func = debugDispatch_getHandler(cmd->cmdSet,cmd->cmd);
+            func = debugDispbtch_getHbndler(cmd->cmdSet,cmd->cmd);
             if (func == NULL) {
-                /* we've never heard of this, so I guess we
-                 * haven't implemented it.
-                 * Handle gracefully for future expansion
-                 * and platform / vendor expansion.
+                /* we've never hebrd of this, so I guess we
+                 * hbven't implemented it.
+                 * Hbndle grbcefully for future expbnsion
+                 * bnd plbtform / vendor expbnsion.
                  */
-                outStream_setError(&out, JDWP_ERROR(NOT_IMPLEMENTED));
-            } else if (gdata->vmDead &&
-             ((cmd->cmdSet) != JDWP_COMMAND_SET(VirtualMachine))) {
-                /* Protect the VM from calls while dead.
-                 * VirtualMachine cmdSet quietly ignores some cmds
-                 * after VM death, so, it sends it's own errors.
+                outStrebm_setError(&out, JDWP_ERROR(NOT_IMPLEMENTED));
+            } else if (gdbtb->vmDebd &&
+             ((cmd->cmdSet) != JDWP_COMMAND_SET(VirtublMbchine))) {
+                /* Protect the VM from cblls while debd.
+                 * VirtublMbchine cmdSet quietly ignores some cmds
+                 * bfter VM debth, so, it sends it's own errors.
                  */
-                outStream_setError(&out, JDWP_ERROR(VM_DEAD));
+                outStrebm_setError(&out, JDWP_ERROR(VM_DEAD));
             } else {
-                /* Call the command handler */
+                /* Cbll the commbnd hbndler */
                 replyToSender = func(&in, &out);
             }
 
             /* Reply to the sender */
             if (replyToSender) {
-                if (inStream_error(&in)) {
-                    outStream_setError(&out, inStream_error(&in));
+                if (inStrebm_error(&in)) {
+                    outStrebm_setError(&out, inStrebm_error(&in));
                 }
-                outStream_sendReply(&out);
+                outStrebm_sendReply(&out);
             }
 
             /*
-             * Release the resumeLock as the reply has been posted.
+             * Relebse the resumeLock bs the reply hbs been posted.
              */
-            if (resumeCommand(cmd)) {
+            if (resumeCommbnd(cmd)) {
                 debugMonitorExit(resumeLock);
             }
 
-            inStream_destroy(&in);
-            outStream_destroy(&out);
+            inStrebm_destroy(&in);
+            outStrebm_destroy(&out);
 
-            shouldListen = !lastCommand(cmd);
+            shouldListen = !lbstCommbnd(cmd);
         }
     }
-    threadControl_onDisconnect();
-    standardHandlers_onDisconnect();
+    threbdControl_onDisconnect();
+    stbndbrdHbndlers_onDisconnect();
 
     /*
-     * Cut off the transport immediately. This has the effect of
-     * cutting off any events that the eventHelper thread might
+     * Cut off the trbnsport immedibtely. This hbs the effect of
+     * cutting off bny events thbt the eventHelper threbd might
      * be trying to send.
      */
-    transport_close();
+    trbnsport_close();
     debugMonitorDestroy(cmdQueueLock);
 
-    /* Reset for a new connection to this VM if it's still alive */
-    if ( ! gdata->vmDead ) {
+    /* Reset for b new connection to this VM if it's still blive */
+    if ( ! gdbtb->vmDebd ) {
         debugInit_reset(getEnv());
     }
 }
 
-/* Command reader */
-static void JNICALL
-reader(jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* arg)
+/* Commbnd rebder */
+stbtic void JNICALL
+rebder(jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* brg)
 {
-    jdwpPacket packet;
-    jdwpCmdPacket *cmd;
-    jboolean shouldListen = JNI_TRUE;
+    jdwpPbcket pbcket;
+    jdwpCmdPbcket *cmd;
+    jboolebn shouldListen = JNI_TRUE;
 
-    LOG_MISC(("Begin reader thread"));
+    LOG_MISC(("Begin rebder threbd"));
 
     while (shouldListen) {
         jint rc;
 
-        rc = transport_receivePacket(&packet);
+        rc = trbnsport_receivePbcket(&pbcket);
 
         /* I/O error or EOF */
-        if (rc != 0 || (rc == 0 && packet.type.cmd.len == 0)) {
+        if (rc != 0 || (rc == 0 && pbcket.type.cmd.len == 0)) {
             shouldListen = JNI_FALSE;
-            notifyTransportError();
+            notifyTrbnsportError();
         } else {
-            cmd = &packet.type.cmd;
+            cmd = &pbcket.type.cmd;
 
-            LOG_MISC(("Command set %d, command %d", cmd->cmdSet, cmd->cmd));
+            LOG_MISC(("Commbnd set %d, commbnd %d", cmd->cmdSet, cmd->cmd));
 
             /*
-             * FIXME! We need to deal with high priority
-             * packets and queue flushes!
+             * FIXME! We need to debl with high priority
+             * pbckets bnd queue flushes!
              */
-            enqueue(&packet);
+            enqueue(&pbcket);
 
-            shouldListen = !lastCommand(cmd);
+            shouldListen = !lbstCommbnd(cmd);
         }
     }
-    LOG_MISC(("End reader thread"));
+    LOG_MISC(("End rebder threbd"));
 }
 
 /*
- * The current system for queueing packets is highly
- * inefficient, and should be rewritten! It'd be nice
- * to avoid any additional memory allocations.
+ * The current system for queueing pbckets is highly
+ * inefficient, bnd should be rewritten! It'd be nice
+ * to bvoid bny bdditionbl memory bllocbtions.
  */
 
-static void
-enqueue(jdwpPacket *packet)
+stbtic void
+enqueue(jdwpPbcket *pbcket)
 {
-    struct PacketList *pL;
-    struct PacketList *walker;
+    struct PbcketList *pL;
+    struct PbcketList *wblker;
 
-    pL = jvmtiAllocate((jint)sizeof(struct PacketList));
+    pL = jvmtiAllocbte((jint)sizeof(struct PbcketList));
     if (pL == NULL) {
-        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"packet list");
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"pbcket list");
     }
 
-    pL->packet = *packet;
+    pL->pbcket = *pbcket;
     pL->next = NULL;
 
     debugMonitorEnter(cmdQueueLock);
@@ -272,43 +272,43 @@ enqueue(jdwpPacket *packet)
         cmdQueue = pL;
         debugMonitorNotify(cmdQueueLock);
     } else {
-        walker = (struct PacketList *)cmdQueue;
-        while (walker->next != NULL)
-            walker = walker->next;
+        wblker = (struct PbcketList *)cmdQueue;
+        while (wblker->next != NULL)
+            wblker = wblker->next;
 
-        walker->next = pL;
+        wblker->next = pL;
     }
 
     debugMonitorExit(cmdQueueLock);
 }
 
-static jboolean
-dequeue(jdwpPacket *packet) {
-    struct PacketList *node = NULL;
+stbtic jboolebn
+dequeue(jdwpPbcket *pbcket) {
+    struct PbcketList *node = NULL;
 
     debugMonitorEnter(cmdQueueLock);
 
-    while (!transportError && (cmdQueue == NULL)) {
-        debugMonitorWait(cmdQueueLock);
+    while (!trbnsportError && (cmdQueue == NULL)) {
+        debugMonitorWbit(cmdQueueLock);
     }
 
     if (cmdQueue != NULL) {
-        node = (struct PacketList *)cmdQueue;
+        node = (struct PbcketList *)cmdQueue;
         cmdQueue = node->next;
     }
     debugMonitorExit(cmdQueueLock);
 
     if (node != NULL) {
-        *packet = node->packet;
-        jvmtiDeallocate(node);
+        *pbcket = node->pbcket;
+        jvmtiDebllocbte(node);
     }
     return (node != NULL);
 }
 
-static void
-notifyTransportError(void) {
+stbtic void
+notifyTrbnsportError(void) {
     debugMonitorEnter(cmdQueueLock);
-    transportError = JNI_TRUE;
+    trbnsportError = JNI_TRUE;
     debugMonitorNotify(cmdQueueLock);
     debugMonitorExit(cmdQueueLock);
 }

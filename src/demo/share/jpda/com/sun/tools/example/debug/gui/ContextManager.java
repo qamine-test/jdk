@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbckbge com.sun.tools.exbmple.debug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 import com.sun.jdi.*;
-import com.sun.tools.example.debug.event.*;
-import com.sun.tools.example.debug.bdi.*;
+import com.sun.tools.exbmple.debug.event.*;
+import com.sun.tools.exbmple.debug.bdi.*;
 
-public class ContextManager {
+public clbss ContextMbnbger {
 
-    private ClassManager classManager;
-    private ExecutionManager runtime;
+    privbte ClbssMbnbger clbssMbnbger;
+    privbte ExecutionMbnbger runtime;
 
-    private String mainClassName;
-    private String vmArguments;
-    private String commandArguments;
-    private String remotePort;
+    privbte String mbinClbssNbme;
+    privbte String vmArguments;
+    privbte String commbndArguments;
+    privbte String remotePort;
 
-    private ThreadReference currentThread;
+    privbte ThrebdReference currentThrebd;
 
-    private boolean verbose;
+    privbte boolebn verbose;
 
-    private ArrayList<ContextListener> contextListeners = new ArrayList<ContextListener>();
+    privbte ArrbyList<ContextListener> contextListeners = new ArrbyList<ContextListener>();
 
-    public ContextManager(Environment env) {
-        classManager = env.getClassManager();
-        runtime = env.getExecutionManager();
-        mainClassName = "";
+    public ContextMbnbger(Environment env) {
+        clbssMbnbger = env.getClbssMbnbger();
+        runtime = env.getExecutionMbnbger();
+        mbinClbssNbme = "";
         vmArguments = "";
-        commandArguments = "";
-        currentThread = null;
+        commbndArguments = "";
+        currentThrebd = null;
 
-        ContextManagerListener listener = new ContextManagerListener();
-        runtime.addJDIListener(listener);
-        runtime.addSessionListener(listener);
+        ContextMbnbgerListener listener = new ContextMbnbgerListener();
+        runtime.bddJDIListener(listener);
+        runtime.bddSessionListener(listener);
     }
 
-    // Program execution defaults.
+    // Progrbm execution defbults.
 
-    //### Should there be change listeners for these?
-    //### They would be needed if we expected a dialog to be
-    //### synchronized with command input while it was open.
+    //### Should there be chbnge listeners for these?
+    //### They would be needed if we expected b diblog to be
+    //### synchronized with commbnd input while it wbs open.
 
-    public String getMainClassName() {
-        return mainClassName;
+    public String getMbinClbssNbme() {
+        return mbinClbssNbme;
     }
 
-    public void setMainClassName(String mainClassName) {
-        this.mainClassName = mainClassName;
+    public void setMbinClbssNbme(String mbinClbssNbme) {
+        this.mbinClbssNbme = mbinClbssNbme;
     }
 
     public String getVmArguments() {
-        return processClasspathDefaults(vmArguments);
+        return processClbsspbthDefbults(vmArguments);
     }
 
     public void setVmArguments(String vmArguments) {
         this.vmArguments = vmArguments;
     }
 
-    public String getProgramArguments() {
-        return commandArguments;
+    public String getProgrbmArguments() {
+        return commbndArguments;
     }
 
-    public void setProgramArguments(String commandArguments) {
-        this.commandArguments = commandArguments;
+    public void setProgrbmArguments(String commbndArguments) {
+        this.commbndArguments = commbndArguments;
     }
 
     public String getRemotePort() {
@@ -110,252 +110,252 @@ public class ContextManager {
     }
 
 
-    // Miscellaneous debugger session preferences.
+    // Miscellbneous debugger session preferences.
 
-    public boolean getVerboseFlag() {
+    public boolebn getVerboseFlbg() {
         return verbose;
     }
 
-    public void setVerboseFlag(boolean verbose) {
+    public void setVerboseFlbg(boolebn verbose) {
         this.verbose = verbose;
     }
 
 
-    // Thread focus.
+    // Threbd focus.
 
-    public ThreadReference getCurrentThread() {
-        return currentThread;
+    public ThrebdReference getCurrentThrebd() {
+        return currentThrebd;
     }
 
-    public void setCurrentThread(ThreadReference t) {
-        if (t != currentThread) {
-            currentThread = t;
-            notifyCurrentThreadChanged(t);
+    public void setCurrentThrebd(ThrebdReference t) {
+        if (t != currentThrebd) {
+            currentThrebd = t;
+            notifyCurrentThrebdChbnged(t);
         }
     }
 
-    public void setCurrentThreadInvalidate(ThreadReference t) {
-        currentThread = t;
-        notifyCurrentFrameChanged(runtime.threadInfo(t),
+    public void setCurrentThrebdInvblidbte(ThrebdReference t) {
+        currentThrebd = t;
+        notifyCurrentFrbmeChbnged(runtime.threbdInfo(t),
                                   0, true);
     }
 
-    public void invalidateCurrentThread() {
-        notifyCurrentFrameChanged(null, 0, true);
+    public void invblidbteCurrentThrebd() {
+        notifyCurrentFrbmeChbnged(null, 0, true);
     }
 
 
-    // If a view is displaying the current thread, it may
-    // choose to indicate which frame is current in the
-    // sense of the command-line UI.  It may also "warp" the
-    // selection to that frame when changed by an 'up' or 'down'
-    // command. Hence, a notifier is provided.
+    // If b view is displbying the current threbd, it mby
+    // choose to indicbte which frbme is current in the
+    // sense of the commbnd-line UI.  It mby blso "wbrp" the
+    // selection to thbt frbme when chbnged by bn 'up' or 'down'
+    // commbnd. Hence, b notifier is provided.
 
     /******
-    public int getCurrentFrameIndex() {
-        return getCurrentFrameIndex(currentThreadInfo);
+    public int getCurrentFrbmeIndex() {
+        return getCurrentFrbmeIndex(currentThrebdInfo);
     }
     ******/
 
-    public int getCurrentFrameIndex(ThreadReference t) {
-        return getCurrentFrameIndex(runtime.threadInfo(t));
+    public int getCurrentFrbmeIndex(ThrebdReference t) {
+        return getCurrentFrbmeIndex(runtime.threbdInfo(t));
     }
 
-    //### Used in StackTraceTool.
-    public int getCurrentFrameIndex(ThreadInfo tinfo) {
+    //### Used in StbckTrbceTool.
+    public int getCurrentFrbmeIndex(ThrebdInfo tinfo) {
         if (tinfo == null) {
             return 0;
         }
-        Integer currentFrame = (Integer)tinfo.getUserObject();
-        if (currentFrame == null) {
+        Integer currentFrbme = (Integer)tinfo.getUserObject();
+        if (currentFrbme == null) {
             return 0;
         } else {
-            return currentFrame.intValue();
+            return currentFrbme.intVblue();
         }
     }
 
-    public int moveCurrentFrameIndex(ThreadReference t, int count) throws VMNotInterruptedException {
-        return setCurrentFrameIndex(t,count, true);
+    public int moveCurrentFrbmeIndex(ThrebdReference t, int count) throws VMNotInterruptedException {
+        return setCurrentFrbmeIndex(t,count, true);
     }
 
-    public int setCurrentFrameIndex(ThreadReference t, int newIndex) throws VMNotInterruptedException {
-        return setCurrentFrameIndex(t, newIndex, false);
+    public int setCurrentFrbmeIndex(ThrebdReference t, int newIndex) throws VMNotInterruptedException {
+        return setCurrentFrbmeIndex(t, newIndex, fblse);
     }
 
-    public int setCurrentFrameIndex(int newIndex) throws VMNotInterruptedException {
-        if (currentThread == null) {
+    public int setCurrentFrbmeIndex(int newIndex) throws VMNotInterruptedException {
+        if (currentThrebd == null) {
             return 0;
         } else {
-            return setCurrentFrameIndex(currentThread, newIndex, false);
+            return setCurrentFrbmeIndex(currentThrebd, newIndex, fblse);
         }
     }
 
-    private int setCurrentFrameIndex(ThreadReference t, int x, boolean relative) throws VMNotInterruptedException {
-        boolean sameThread = t.equals(currentThread);
-        ThreadInfo tinfo = runtime.threadInfo(t);
+    privbte int setCurrentFrbmeIndex(ThrebdReference t, int x, boolebn relbtive) throws VMNotInterruptedException {
+        boolebn sbmeThrebd = t.equbls(currentThrebd);
+        ThrebdInfo tinfo = runtime.threbdInfo(t);
         if (tinfo == null) {
             return 0;
         }
-        int maxIndex = tinfo.getFrameCount()-1;
-        int oldIndex = getCurrentFrameIndex(tinfo);
-        int newIndex = relative? oldIndex + x : x;
-        if (newIndex > maxIndex) {
-            newIndex = maxIndex;
+        int mbxIndex = tinfo.getFrbmeCount()-1;
+        int oldIndex = getCurrentFrbmeIndex(tinfo);
+        int newIndex = relbtive? oldIndex + x : x;
+        if (newIndex > mbxIndex) {
+            newIndex = mbxIndex;
         } else  if (newIndex < 0) {
             newIndex = 0;
         }
-        if (!sameThread || newIndex != oldIndex) {  // don't recurse
-            setCurrentFrameIndex(tinfo, newIndex);
+        if (!sbmeThrebd || newIndex != oldIndex) {  // don't recurse
+            setCurrentFrbmeIndex(tinfo, newIndex);
         }
         return newIndex - oldIndex;
     }
 
-    private void setCurrentFrameIndex(ThreadInfo tinfo, int index) {
+    privbte void setCurrentFrbmeIndex(ThrebdInfo tinfo, int index) {
         tinfo.setUserObject(index);
-        //### In fact, the value may not have changed at this point.
-        //### We need to signal that the user attempted to change it,
-        //### however, so that the selection can be "warped" to the
-        //### current location.
-        notifyCurrentFrameChanged(tinfo.thread(), index);
+        //### In fbct, the vblue mby not hbve chbnged bt this point.
+        //### We need to signbl thbt the user bttempted to chbnge it,
+        //### however, so thbt the selection cbn be "wbrped" to the
+        //### current locbtion.
+        notifyCurrentFrbmeChbnged(tinfo.threbd(), index);
     }
 
-    public StackFrame getCurrentFrame() throws VMNotInterruptedException {
-        return getCurrentFrame(runtime.threadInfo(currentThread));
+    public StbckFrbme getCurrentFrbme() throws VMNotInterruptedException {
+        return getCurrentFrbme(runtime.threbdInfo(currentThrebd));
     }
 
-    public StackFrame getCurrentFrame(ThreadReference t) throws VMNotInterruptedException {
-        return getCurrentFrame(runtime.threadInfo(t));
+    public StbckFrbme getCurrentFrbme(ThrebdReference t) throws VMNotInterruptedException {
+        return getCurrentFrbme(runtime.threbdInfo(t));
     }
 
-    public StackFrame getCurrentFrame(ThreadInfo tinfo) throws VMNotInterruptedException {
-        int index = getCurrentFrameIndex(tinfo);
+    public StbckFrbme getCurrentFrbme(ThrebdInfo tinfo) throws VMNotInterruptedException {
+        int index = getCurrentFrbmeIndex(tinfo);
         try {
-            // It is possible, though unlikely, that the VM was interrupted
-            // before the thread created its Java stack.
-            return tinfo.getFrame(index);
-        } catch (FrameIndexOutOfBoundsException e) {
+            // It is possible, though unlikely, thbt the VM wbs interrupted
+            // before the threbd crebted its Jbvb stbck.
+            return tinfo.getFrbme(index);
+        } cbtch (FrbmeIndexOutOfBoundsException e) {
             return null;
         }
     }
 
-    public void addContextListener(ContextListener cl) {
-        contextListeners.add(cl);
+    public void bddContextListener(ContextListener cl) {
+        contextListeners.bdd(cl);
     }
 
     public void removeContextListener(ContextListener cl) {
         contextListeners.remove(cl);
     }
 
-    //### These notifiers are fired only in response to USER-INITIATED changes
-    //### to the current thread and current frame.  When the current thread is set automatically
-    //### after a breakpoint hit or step completion, no event is generated.  Instead,
-    //### interested parties are expected to listen for the BreakpointHit and StepCompleted
-    //### events.  This convention is unclean, and I believe that it reflects a defect in
-    //### in the current architecture.  Unfortunately, however, we cannot guarantee the
-    //### order in which various listeners receive a given event, and the handlers for
-    //### the very same events that cause automatic changes to the current thread may also
-    //### need to know the current thread.
+    //### These notifiers bre fired only in response to USER-INITIATED chbnges
+    //### to the current threbd bnd current frbme.  When the current threbd is set butombticblly
+    //### bfter b brebkpoint hit or step completion, no event is generbted.  Instebd,
+    //### interested pbrties bre expected to listen for the BrebkpointHit bnd StepCompleted
+    //### events.  This convention is unclebn, bnd I believe thbt it reflects b defect in
+    //### in the current brchitecture.  Unfortunbtely, however, we cbnnot gubrbntee the
+    //### order in which vbrious listeners receive b given event, bnd the hbndlers for
+    //### the very sbme events thbt cbuse butombtic chbnges to the current threbd mby blso
+    //### need to know the current threbd.
 
-    private void notifyCurrentThreadChanged(ThreadReference t) {
-        ThreadInfo tinfo = null;
+    privbte void notifyCurrentThrebdChbnged(ThrebdReference t) {
+        ThrebdInfo tinfo = null;
         int index = 0;
         if (t != null) {
-            tinfo = runtime.threadInfo(t);
-            index = getCurrentFrameIndex(tinfo);
+            tinfo = runtime.threbdInfo(t);
+            index = getCurrentFrbmeIndex(tinfo);
         }
-        notifyCurrentFrameChanged(tinfo, index, false);
+        notifyCurrentFrbmeChbnged(tinfo, index, fblse);
     }
 
-    private void notifyCurrentFrameChanged(ThreadReference t, int index) {
-        notifyCurrentFrameChanged(runtime.threadInfo(t),
-                                  index, false);
+    privbte void notifyCurrentFrbmeChbnged(ThrebdReference t, int index) {
+        notifyCurrentFrbmeChbnged(runtime.threbdInfo(t),
+                                  index, fblse);
     }
 
-    private void notifyCurrentFrameChanged(ThreadInfo tinfo, int index,
-                                           boolean invalidate) {
-        ArrayList<ContextListener> l =  new ArrayList<ContextListener>(contextListeners);
-        CurrentFrameChangedEvent evt =
-            new CurrentFrameChangedEvent(this, tinfo, index, invalidate);
+    privbte void notifyCurrentFrbmeChbnged(ThrebdInfo tinfo, int index,
+                                           boolebn invblidbte) {
+        ArrbyList<ContextListener> l =  new ArrbyList<ContextListener>(contextListeners);
+        CurrentFrbmeChbngedEvent evt =
+            new CurrentFrbmeChbngedEvent(this, tinfo, index, invblidbte);
         for (int i = 0; i < l.size(); i++) {
-            l.get(i).currentFrameChanged(evt);
+            l.get(i).currentFrbmeChbnged(evt);
         }
     }
 
-    private class ContextManagerListener extends JDIAdapter
+    privbte clbss ContextMbnbgerListener extends JDIAdbpter
                        implements SessionListener, JDIListener {
 
         // SessionListener
 
         @Override
-        public void sessionStart(EventObject e) {
-            invalidateCurrentThread();
+        public void sessionStbrt(EventObject e) {
+            invblidbteCurrentThrebd();
         }
 
         @Override
         public void sessionInterrupt(EventObject e) {
-            setCurrentThreadInvalidate(currentThread);
+            setCurrentThrebdInvblidbte(currentThrebd);
         }
 
         @Override
         public void sessionContinue(EventObject e) {
-            invalidateCurrentThread();
+            invblidbteCurrentThrebd();
         }
 
         // JDIListener
 
         @Override
-        public void locationTrigger(LocationTriggerEventSet e) {
-            setCurrentThreadInvalidate(e.getThread());
+        public void locbtionTrigger(LocbtionTriggerEventSet e) {
+            setCurrentThrebdInvblidbte(e.getThrebd());
         }
 
         @Override
         public void exception(ExceptionEventSet e) {
-            setCurrentThreadInvalidate(e.getThread());
+            setCurrentThrebdInvblidbte(e.getThrebd());
         }
 
         @Override
         public void vmDisconnect(VMDisconnectEventSet e) {
-            invalidateCurrentThread();
+            invblidbteCurrentThrebd();
         }
 
     }
 
 
     /**
-     * Add a -classpath argument to the arguments passed to the exec'ed
-     * VM with the contents of CLASSPATH environment variable,
-     * if -classpath was not already specified.
+     * Add b -clbsspbth brgument to the brguments pbssed to the exec'ed
+     * VM with the contents of CLASSPATH environment vbribble,
+     * if -clbsspbth wbs not blrebdy specified.
      *
-     * @param javaArgs the arguments to the VM being exec'd that
-     *                 potentially has a user specified -classpath argument.
-     * @return a javaArgs whose -classpath option has been added
+     * @pbrbm jbvbArgs the brguments to the VM being exec'd thbt
+     *                 potentiblly hbs b user specified -clbsspbth brgument.
+     * @return b jbvbArgs whose -clbsspbth option hbs been bdded
      */
 
-    private String processClasspathDefaults(String javaArgs) {
-        if (javaArgs.indexOf("-classpath ") == -1) {
-            StringBuilder munged = new StringBuilder(javaArgs);
-            SearchPath classpath = classManager.getClassPath();
-            if (classpath.isEmpty()) {
-                String envcp = System.getProperty("env.class.path");
+    privbte String processClbsspbthDefbults(String jbvbArgs) {
+        if (jbvbArgs.indexOf("-clbsspbth ") == -1) {
+            StringBuilder munged = new StringBuilder(jbvbArgs);
+            SebrchPbth clbsspbth = clbssMbnbger.getClbssPbth();
+            if (clbsspbth.isEmpty()) {
+                String envcp = System.getProperty("env.clbss.pbth");
                 if ((envcp != null) && (envcp.length() > 0)) {
-                    munged.append(" -classpath " + envcp);
+                    munged.bppend(" -clbsspbth " + envcp);
                 }
             } else {
-                munged.append(" -classpath " + classpath.asString());
+                munged.bppend(" -clbsspbth " + clbsspbth.bsString());
             }
             return munged.toString();
         } else {
-            return javaArgs;
+            return jbvbArgs;
         }
     }
 
-    private String appendPath(String path1, String path2) {
-        if (path1 == null || path1.length() == 0) {
-            return path2 == null ? "." : path2;
-        } else if (path2 == null || path2.length() == 0) {
-            return path1;
+    privbte String bppendPbth(String pbth1, String pbth2) {
+        if (pbth1 == null || pbth1.length() == 0) {
+            return pbth2 == null ? "." : pbth2;
+        } else if (pbth2 == null || pbth2.length() == 0) {
+            return pbth1;
         } else {
-            return path1  + File.pathSeparator + path2;
+            return pbth1  + File.pbthSepbrbtor + pbth2;
         }
     }
 

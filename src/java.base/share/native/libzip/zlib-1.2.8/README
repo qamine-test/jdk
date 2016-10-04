@@ -1,115 +1,115 @@
 ZLIB DATA COMPRESSION LIBRARY
 
-zlib 1.2.8 is a general purpose data compression library.  All the code is
-thread safe.  The data format used by the zlib library is described by RFCs
+zlib 1.2.8 is b generbl purpose dbtb compression librbry.  All the code is
+threbd sbfe.  The dbtb formbt used by the zlib librbry is described by RFCs
 (Request for Comments) 1950 to 1952 in the files
-http://tools.ietf.org/html/rfc1950 (zlib format), rfc1951 (deflate format) and
-rfc1952 (gzip format).
+http://tools.ietf.org/html/rfc1950 (zlib formbt), rfc1951 (deflbte formbt) bnd
+rfc1952 (gzip formbt).
 
-All functions of the compression library are documented in the file zlib.h
-(volunteer to write man pages welcome, contact zlib@gzip.org).  A usage example
-of the library is given in the file test/example.c which also tests that
-the library is working correctly.  Another example is given in the file
-test/minigzip.c.  The compression library itself is composed of all source
+All functions of the compression librbry bre documented in the file zlib.h
+(volunteer to write mbn pbges welcome, contbct zlib@gzip.org).  A usbge exbmple
+of the librbry is given in the file test/exbmple.c which blso tests thbt
+the librbry is working correctly.  Another exbmple is given in the file
+test/minigzip.c.  The compression librbry itself is composed of bll source
 files in the root directory.
 
-To compile all files and run the test program, follow the instructions given at
-the top of Makefile.in.  In short "./configure; make test", and if that goes
-well, "make install" should work for most flavors of Unix.  For Windows, use
-one of the special makefiles in win32/ or contrib/vstudio/ .  For VMS, use
-make_vms.com.
+To compile bll files bnd run the test progrbm, follow the instructions given bt
+the top of Mbkefile.in.  In short "./configure; mbke test", bnd if thbt goes
+well, "mbke instbll" should work for most flbvors of Unix.  For Windows, use
+one of the specibl mbkefiles in win32/ or contrib/vstudio/ .  For VMS, use
+mbke_vms.com.
 
-Questions about zlib should be sent to <zlib@gzip.org>, or to Gilles Vollant
-<info@winimage.com> for the Windows DLL version.  The zlib home page is
-http://zlib.net/ .  Before reporting a problem, please check this site to
-verify that you have the latest version of zlib; otherwise get the latest
-version and check whether the problem still exists or not.
+Questions bbout zlib should be sent to <zlib@gzip.org>, or to Gilles Vollbnt
+<info@winimbge.com> for the Windows DLL version.  The zlib home pbge is
+http://zlib.net/ .  Before reporting b problem, plebse check this site to
+verify thbt you hbve the lbtest version of zlib; otherwise get the lbtest
+version bnd check whether the problem still exists or not.
 
-PLEASE read the zlib FAQ http://zlib.net/zlib_faq.html before asking for help.
+PLEASE rebd the zlib FAQ http://zlib.net/zlib_fbq.html before bsking for help.
 
-Mark Nelson <markn@ieee.org> wrote an article about zlib for the Jan.  1997
-issue of Dr.  Dobb's Journal; a copy of the article is available at
-http://marknelson.us/1997/01/01/zlib-engine/ .
+Mbrk Nelson <mbrkn@ieee.org> wrote bn brticle bbout zlib for the Jbn.  1997
+issue of Dr.  Dobb's Journbl; b copy of the brticle is bvbilbble bt
+http://mbrknelson.us/1997/01/01/zlib-engine/ .
 
-The changes made in version 1.2.8 are documented in the file ChangeLog.
+The chbnges mbde in version 1.2.8 bre documented in the file ChbngeLog.
 
-Unsupported third party contributions are provided in directory contrib/ .
+Unsupported third pbrty contributions bre provided in directory contrib/ .
 
-zlib is available in Java using the java.util.zip package, documented at
-http://java.sun.com/developer/technicalArticles/Programming/compression/ .
+zlib is bvbilbble in Jbvb using the jbvb.util.zip pbckbge, documented bt
+http://jbvb.sun.com/developer/technicblArticles/Progrbmming/compression/ .
 
-A Perl interface to zlib written by Paul Marquess <pmqs@cpan.org> is available
-at CPAN (Comprehensive Perl Archive Network) sites, including
-http://search.cpan.org/~pmqs/IO-Compress-Zlib/ .
+A Perl interfbce to zlib written by Pbul Mbrquess <pmqs@cpbn.org> is bvbilbble
+bt CPAN (Comprehensive Perl Archive Network) sites, including
+http://sebrch.cpbn.org/~pmqs/IO-Compress-Zlib/ .
 
-A Python interface to zlib written by A.M. Kuchling <amk@amk.ca> is
-available in Python 1.5 and later versions, see
-http://docs.python.org/library/zlib.html .
+A Python interfbce to zlib written by A.M. Kuchling <bmk@bmk.cb> is
+bvbilbble in Python 1.5 bnd lbter versions, see
+http://docs.python.org/librbry/zlib.html .
 
 zlib is built into tcl: http://wiki.tcl.tk/4610 .
 
-An experimental package to read and write files in .zip format, written on top
-of zlib by Gilles Vollant <info@winimage.com>, is available in the
+An experimentbl pbckbge to rebd bnd write files in .zip formbt, written on top
+of zlib by Gilles Vollbnt <info@winimbge.com>, is bvbilbble in the
 contrib/minizip directory of zlib.
 
 
-Notes for some targets:
+Notes for some tbrgets:
 
-- For Windows DLL versions, please see win32/DLL_FAQ.txt
+- For Windows DLL versions, plebse see win32/DLL_FAQ.txt
 
-- For 64-bit Irix, deflate.c must be compiled without any optimization. With
-  -O, one libpng test fails. The test works in 32 bit mode (with the -n32
-  compiler flag). The compiler bug has been reported to SGI.
+- For 64-bit Irix, deflbte.c must be compiled without bny optimizbtion. With
+  -O, one libpng test fbils. The test works in 32 bit mode (with the -n32
+  compiler flbg). The compiler bug hbs been reported to SGI.
 
-- zlib doesn't work with gcc 2.6.3 on a DEC 3000/300LX under OSF/1 2.1 it works
+- zlib doesn't work with gcc 2.6.3 on b DEC 3000/300LX under OSF/1 2.1 it works
   when compiled with cc.
 
-- On Digital Unix 4.0D (formely OSF/1) on AlphaServer, the cc option -std1 is
-  necessary to get gzprintf working correctly. This is done by configure.
+- On Digitbl Unix 4.0D (formely OSF/1) on AlphbServer, the cc option -std1 is
+  necessbry to get gzprintf working correctly. This is done by configure.
 
 - zlib doesn't work on HP-UX 9.05 with some versions of /bin/cc. It works with
-  other compilers. Use "make test" to check your compiler.
+  other compilers. Use "mbke test" to check your compiler.
 
 - gzdopen is not supported on RISCOS or BEOS.
 
-- For PalmOs, see http://palmzlib.sourceforge.net/
+- For PblmOs, see http://pblmzlib.sourceforge.net/
 
 
 Acknowledgments:
 
-  The deflate format used by zlib was defined by Phil Katz.  The deflate and
-  zlib specifications were written by L.  Peter Deutsch.  Thanks to all the
-  people who reported problems and suggested various improvements in zlib; they
-  are too numerous to cite here.
+  The deflbte formbt used by zlib wbs defined by Phil Kbtz.  The deflbte bnd
+  zlib specificbtions were written by L.  Peter Deutsch.  Thbnks to bll the
+  people who reported problems bnd suggested vbrious improvements in zlib; they
+  bre too numerous to cite here.
 
 Copyright notice:
 
- (C) 1995-2013 Jean-loup Gailly and Mark Adler
+ (C) 1995-2013 Jebn-loup Gbilly bnd Mbrk Adler
 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any damages
-  arising from the use of this software.
+  This softwbre is provided 'bs-is', without bny express or implied
+  wbrrbnty.  In no event will the buthors be held libble for bny dbmbges
+  brising from the use of this softwbre.
 
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
+  Permission is grbnted to bnyone to use this softwbre for bny purpose,
+  including commercibl bpplicbtions, bnd to blter it bnd redistribute it
   freely, subject to the following restrictions:
 
-  1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
-  2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
-  3. This notice may not be removed or altered from any source distribution.
+  1. The origin of this softwbre must not be misrepresented; you must not
+     clbim thbt you wrote the originbl softwbre. If you use this softwbre
+     in b product, bn bcknowledgment in the product documentbtion would be
+     bpprecibted but is not required.
+  2. Altered source versions must be plbinly mbrked bs such, bnd must not be
+     misrepresented bs being the originbl softwbre.
+  3. This notice mby not be removed or bltered from bny source distribution.
 
-  Jean-loup Gailly        Mark Adler
-  jloup@gzip.org          madler@alumni.caltech.edu
+  Jebn-loup Gbilly        Mbrk Adler
+  jloup@gzip.org          mbdler@blumni.cbltech.edu
 
-If you use the zlib library in a product, we would appreciate *not* receiving
-lengthy legal documents to sign.  The sources are provided for free but without
-warranty of any kind.  The library has been entirely written by Jean-loup
-Gailly and Mark Adler; it does not include third-party code.
+If you use the zlib librbry in b product, we would bpprecibte *not* receiving
+lengthy legbl documents to sign.  The sources bre provided for free but without
+wbrrbnty of bny kind.  The librbry hbs been entirely written by Jebn-loup
+Gbilly bnd Mbrk Adler; it does not include third-pbrty code.
 
-If you redistribute modified sources, we would appreciate that you include in
-the file ChangeLog history information documenting your changes.  Please read
-the FAQ for more information on the distribution of modified source versions.
+If you redistribute modified sources, we would bpprecibte thbt you include in
+the file ChbngeLog history informbtion documenting your chbnges.  Plebse rebd
+the FAQ for more informbtion on the distribution of modified source versions.

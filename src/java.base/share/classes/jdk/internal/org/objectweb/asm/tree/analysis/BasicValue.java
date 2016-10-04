@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,39 +56,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbckbge jdk.internbl.org.objectweb.bsm.tree.bnblysis;
 
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.Type;
 
 /**
- * A {@link Value} that is represented by its type in a seven types type system.
+ * A {@link Vblue} thbt is represented by its type in b seven types type system.
  * This type system distinguishes the UNINITIALZED, INT, FLOAT, LONG, DOUBLE,
- * REFERENCE and RETURNADDRESS types.
+ * REFERENCE bnd RETURNADDRESS types.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class BasicValue implements Value {
+public clbss BbsicVblue implements Vblue {
 
-    public static final BasicValue UNINITIALIZED_VALUE = new BasicValue(null);
+    public stbtic finbl BbsicVblue UNINITIALIZED_VALUE = new BbsicVblue(null);
 
-    public static final BasicValue INT_VALUE = new BasicValue(Type.INT_TYPE);
+    public stbtic finbl BbsicVblue INT_VALUE = new BbsicVblue(Type.INT_TYPE);
 
-    public static final BasicValue FLOAT_VALUE = new BasicValue(Type.FLOAT_TYPE);
+    public stbtic finbl BbsicVblue FLOAT_VALUE = new BbsicVblue(Type.FLOAT_TYPE);
 
-    public static final BasicValue LONG_VALUE = new BasicValue(Type.LONG_TYPE);
+    public stbtic finbl BbsicVblue LONG_VALUE = new BbsicVblue(Type.LONG_TYPE);
 
-    public static final BasicValue DOUBLE_VALUE = new BasicValue(
+    public stbtic finbl BbsicVblue DOUBLE_VALUE = new BbsicVblue(
             Type.DOUBLE_TYPE);
 
-    public static final BasicValue REFERENCE_VALUE = new BasicValue(
-            Type.getObjectType("java/lang/Object"));
+    public stbtic finbl BbsicVblue REFERENCE_VALUE = new BbsicVblue(
+            Type.getObjectType("jbvb/lbng/Object"));
 
-    public static final BasicValue RETURNADDRESS_VALUE = new BasicValue(
+    public stbtic finbl BbsicVblue RETURNADDRESS_VALUE = new BbsicVblue(
             Type.VOID_TYPE);
 
-    private final Type type;
+    privbte finbl Type type;
 
-    public BasicValue(final Type type) {
+    public BbsicVblue(finbl Type type) {
         this.type = type;
     }
 
@@ -100,29 +100,29 @@ public class BasicValue implements Value {
         return type == Type.LONG_TYPE || type == Type.DOUBLE_TYPE ? 2 : 1;
     }
 
-    public boolean isReference() {
+    public boolebn isReference() {
         return type != null
                 && (type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY);
     }
 
     @Override
-    public boolean equals(final Object value) {
-        if (value == this) {
+    public boolebn equbls(finbl Object vblue) {
+        if (vblue == this) {
             return true;
-        } else if (value instanceof BasicValue) {
+        } else if (vblue instbnceof BbsicVblue) {
             if (type == null) {
-                return ((BasicValue) value).type == null;
+                return ((BbsicVblue) vblue).type == null;
             } else {
-                return type.equals(((BasicValue) value).type);
+                return type.equbls(((BbsicVblue) vblue).type);
             }
         } else {
-            return false;
+            return fblse;
         }
     }
 
     @Override
-    public int hashCode() {
-        return type == null ? 0 : type.hashCode();
+    public int hbshCode() {
+        return type == null ? 0 : type.hbshCode();
     }
 
     @Override

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,349 +28,349 @@
  *
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.font.GraphicAttribute;
-import java.awt.font.GlyphJustificationInfo;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.text.Bidi;
-import java.util.Map;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.LineMetrics;
+import jbvb.bwt.font.GrbphicAttribute;
+import jbvb.bwt.font.GlyphJustificbtionInfo;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.text.Bidi;
+import jbvb.util.Mbp;
 
-public final class GraphicComponent implements TextLineComponent,
-                                               Decoration.Label {
+public finbl clbss GrbphicComponent implements TextLineComponent,
+                                               Decorbtion.Lbbel {
 
-    public static final float GRAPHIC_LEADING = 2;
+    public stbtic finbl flobt GRAPHIC_LEADING = 2;
 
-    private GraphicAttribute graphic;
-    private int graphicCount;
-    private int[] charsLtoV;  // possibly null
-    private byte[] levels; // possibly null
+    privbte GrbphicAttribute grbphic;
+    privbte int grbphicCount;
+    privbte int[] chbrsLtoV;  // possibly null
+    privbte byte[] levels; // possibly null
 
-    // evaluated in computeVisualBounds
-    private Rectangle2D visualBounds = null;
+    // evblubted in computeVisublBounds
+    privbte Rectbngle2D visublBounds = null;
 
-    // used everywhere so we'll cache it
-    private float graphicAdvance;
+    // used everywhere so we'll cbche it
+    privbte flobt grbphicAdvbnce;
 
-    private AffineTransform baseTx;
+    privbte AffineTrbnsform bbseTx;
 
-    private CoreMetrics cm;
-    private Decoration decorator;
+    privbte CoreMetrics cm;
+    privbte Decorbtion decorbtor;
 
 
     /**
-     * Create a new GraphicComponent.  start and limit are indices
-     * into charLtoV and levels.  charsLtoV and levels may be adopted.
+     * Crebte b new GrbphicComponent.  stbrt bnd limit bre indices
+     * into chbrLtoV bnd levels.  chbrsLtoV bnd levels mby be bdopted.
      */
-    public GraphicComponent(GraphicAttribute graphic,
-                            Decoration decorator,
-                            int[] charsLtoV,
+    public GrbphicComponent(GrbphicAttribute grbphic,
+                            Decorbtion decorbtor,
+                            int[] chbrsLtoV,
                             byte[] levels,
-                            int start,
+                            int stbrt,
                             int limit,
-                            AffineTransform baseTx) {
+                            AffineTrbnsform bbseTx) {
 
-        if (limit <= start) {
-            throw new IllegalArgumentException("0 or negative length in GraphicComponent");
+        if (limit <= stbrt) {
+            throw new IllegblArgumentException("0 or negbtive length in GrbphicComponent");
         }
-        this.graphic = graphic;
-        this.graphicAdvance = graphic.getAdvance();
-        this.decorator = decorator;
-        this.cm = createCoreMetrics(graphic);
-        this.baseTx = baseTx;
+        this.grbphic = grbphic;
+        this.grbphicAdvbnce = grbphic.getAdvbnce();
+        this.decorbtor = decorbtor;
+        this.cm = crebteCoreMetrics(grbphic);
+        this.bbseTx = bbseTx;
 
-        initLocalOrdering(charsLtoV, levels, start, limit);
+        initLocblOrdering(chbrsLtoV, levels, stbrt, limit);
     }
 
-    private GraphicComponent(GraphicComponent parent, int start, int limit, int dir) {
+    privbte GrbphicComponent(GrbphicComponent pbrent, int stbrt, int limit, int dir) {
 
-        this.graphic = parent.graphic;
-        this.graphicAdvance = parent.graphicAdvance;
-        this.decorator = parent.decorator;
-        this.cm = parent.cm;
-        this.baseTx = parent.baseTx;
+        this.grbphic = pbrent.grbphic;
+        this.grbphicAdvbnce = pbrent.grbphicAdvbnce;
+        this.decorbtor = pbrent.decorbtor;
+        this.cm = pbrent.cm;
+        this.bbseTx = pbrent.bbseTx;
 
-        int[] charsLtoV = null;
+        int[] chbrsLtoV = null;
         byte[] levels = null;
 
         if (dir == UNCHANGED) {
-            charsLtoV = parent.charsLtoV;
-            levels = parent.levels;
+            chbrsLtoV = pbrent.chbrsLtoV;
+            levels = pbrent.levels;
         }
         else if (dir == LEFT_TO_RIGHT || dir == RIGHT_TO_LEFT) {
-            limit -= start;
-            start = 0;
+            limit -= stbrt;
+            stbrt = 0;
             if (dir == RIGHT_TO_LEFT) {
-                charsLtoV = new int[limit];
+                chbrsLtoV = new int[limit];
                 levels = new byte[limit];
                 for (int i=0; i < limit; i++) {
-                    charsLtoV[i] = limit-i-1;
+                    chbrsLtoV[i] = limit-i-1;
                     levels[i] = (byte) 1;
                 }
             }
         }
         else {
-            throw new IllegalArgumentException("Invalid direction flag");
+            throw new IllegblArgumentException("Invblid direction flbg");
         }
 
-        initLocalOrdering(charsLtoV, levels, start, limit);
+        initLocblOrdering(chbrsLtoV, levels, stbrt, limit);
     }
 
     /**
-     * Initialize graphicCount, also charsLtoV and levels arrays.
+     * Initiblize grbphicCount, blso chbrsLtoV bnd levels brrbys.
      */
-    private void initLocalOrdering(int[] charsLtoV,
+    privbte void initLocblOrdering(int[] chbrsLtoV,
                                    byte[] levels,
-                                   int start,
+                                   int stbrt,
                                    int limit) {
 
-        this.graphicCount = limit - start; // todo: should be codepoints?
+        this.grbphicCount = limit - stbrt; // todo: should be codepoints?
 
-        if (charsLtoV == null || charsLtoV.length == graphicCount) {
-            this.charsLtoV = charsLtoV;
+        if (chbrsLtoV == null || chbrsLtoV.length == grbphicCount) {
+            this.chbrsLtoV = chbrsLtoV;
         }
         else {
-            this.charsLtoV = BidiUtils.createNormalizedMap(charsLtoV, levels, start, limit);
+            this.chbrsLtoV = BidiUtils.crebteNormblizedMbp(chbrsLtoV, levels, stbrt, limit);
         }
 
-        if (levels == null || levels.length == graphicCount) {
+        if (levels == null || levels.length == grbphicCount) {
             this.levels = levels;
         }
         else {
-            this.levels = new byte[graphicCount];
-            System.arraycopy(levels, start, this.levels, 0, graphicCount);
+            this.levels = new byte[grbphicCount];
+            System.brrbycopy(levels, stbrt, this.levels, 0, grbphicCount);
         }
     }
 
-    public boolean isSimple() {
-        return false;
+    public boolebn isSimple() {
+        return fblse;
     }
 
-    public Rectangle getPixelBounds(FontRenderContext frc, float x, float y) {
-        throw new InternalError("do not call if isSimple returns false");
+    public Rectbngle getPixelBounds(FontRenderContext frc, flobt x, flobt y) {
+        throw new InternblError("do not cbll if isSimple returns fblse");
     }
 
-    public Rectangle2D handleGetVisualBounds() {
+    public Rectbngle2D hbndleGetVisublBounds() {
 
-        Rectangle2D bounds = graphic.getBounds();
+        Rectbngle2D bounds = grbphic.getBounds();
 
-        float width = (float) bounds.getWidth() +
-                                 graphicAdvance * (graphicCount-1);
+        flobt width = (flobt) bounds.getWidth() +
+                                 grbphicAdvbnce * (grbphicCount-1);
 
-        return new Rectangle2D.Float((float) bounds.getX(),
-                                     (float) bounds.getY(),
+        return new Rectbngle2D.Flobt((flobt) bounds.getX(),
+                                     (flobt) bounds.getY(),
                                      width,
-                                     (float) bounds.getHeight());
+                                     (flobt) bounds.getHeight());
     }
 
     public CoreMetrics getCoreMetrics() {
         return cm;
     }
 
-    public static CoreMetrics createCoreMetrics(GraphicAttribute graphic) {
-        return new CoreMetrics(graphic.getAscent(),
-                               graphic.getDescent(),
+    public stbtic CoreMetrics crebteCoreMetrics(GrbphicAttribute grbphic) {
+        return new CoreMetrics(grbphic.getAscent(),
+                               grbphic.getDescent(),
                                GRAPHIC_LEADING,
-                               graphic.getAscent() + graphic.getDescent() + GRAPHIC_LEADING,
-                               graphic.getAlignment(),
-                               new float[] { 0, -graphic.getAscent() / 2, -graphic.getAscent() },
-                               -graphic.getAscent() / 2,
-                               graphic.getAscent() / 12,
-                               graphic.getDescent() / 3,
-                               graphic.getAscent() / 12,
+                               grbphic.getAscent() + grbphic.getDescent() + GRAPHIC_LEADING,
+                               grbphic.getAlignment(),
+                               new flobt[] { 0, -grbphic.getAscent() / 2, -grbphic.getAscent() },
+                               -grbphic.getAscent() / 2,
+                               grbphic.getAscent() / 12,
+                               grbphic.getDescent() / 3,
+                               grbphic.getAscent() / 12,
                                0, // ss offset
-                               0); // italic angle -- need api for this
+                               0); // itblic bngle -- need bpi for this
     }
 
-    public float getItalicAngle() {
+    public flobt getItblicAngle() {
 
         return 0;
     }
 
-    public Rectangle2D getVisualBounds() {
+    public Rectbngle2D getVisublBounds() {
 
-        if (visualBounds == null) {
-            visualBounds = decorator.getVisualBounds(this);
+        if (visublBounds == null) {
+            visublBounds = decorbtor.getVisublBounds(this);
         }
-        Rectangle2D.Float bounds = new Rectangle2D.Float();
-        bounds.setRect(visualBounds);
+        Rectbngle2D.Flobt bounds = new Rectbngle2D.Flobt();
+        bounds.setRect(visublBounds);
         return bounds;
     }
 
-    public Shape handleGetOutline(float x, float y) {
-        double[] matrix = { 1, 0, 0, 1, x, y };
+    public Shbpe hbndleGetOutline(flobt x, flobt y) {
+        double[] mbtrix = { 1, 0, 0, 1, x, y };
 
-        if (graphicCount == 1) {
-            AffineTransform tx = new AffineTransform(matrix);
-            return graphic.getOutline(tx);
+        if (grbphicCount == 1) {
+            AffineTrbnsform tx = new AffineTrbnsform(mbtrix);
+            return grbphic.getOutline(tx);
         }
 
-        GeneralPath gp = new GeneralPath();
-        for (int i = 0; i < graphicCount; ++i) {
-            AffineTransform tx = new AffineTransform(matrix);
-            gp.append(graphic.getOutline(tx), false);
-            matrix[4] += graphicAdvance;
+        GenerblPbth gp = new GenerblPbth();
+        for (int i = 0; i < grbphicCount; ++i) {
+            AffineTrbnsform tx = new AffineTrbnsform(mbtrix);
+            gp.bppend(grbphic.getOutline(tx), fblse);
+            mbtrix[4] += grbphicAdvbnce;
         }
 
         return gp;
     }
 
-    public AffineTransform getBaselineTransform() {
-        return baseTx;
+    public AffineTrbnsform getBbselineTrbnsform() {
+        return bbseTx;
     }
 
-    public Shape getOutline(float x, float y) {
+    public Shbpe getOutline(flobt x, flobt y) {
 
-        return decorator.getOutline(this, x, y);
+        return decorbtor.getOutline(this, x, y);
     }
 
-    public void handleDraw(Graphics2D g2d, float x, float y) {
+    public void hbndleDrbw(Grbphics2D g2d, flobt x, flobt y) {
 
-        for (int i=0; i < graphicCount; i++) {
+        for (int i=0; i < grbphicCount; i++) {
 
-            graphic.draw(g2d, x, y);
-            x += graphicAdvance;
+            grbphic.drbw(g2d, x, y);
+            x += grbphicAdvbnce;
         }
     }
 
-    public void draw(Graphics2D g2d, float x, float y) {
+    public void drbw(Grbphics2D g2d, flobt x, flobt y) {
 
-        decorator.drawTextAndDecorations(this, g2d, x, y);
+        decorbtor.drbwTextAndDecorbtions(this, g2d, x, y);
     }
 
-    public Rectangle2D getCharVisualBounds(int index) {
+    public Rectbngle2D getChbrVisublBounds(int index) {
 
-        return decorator.getCharVisualBounds(this, index);
+        return decorbtor.getChbrVisublBounds(this, index);
     }
 
-    public int getNumCharacters() {
+    public int getNumChbrbcters() {
 
-        return graphicCount;
+        return grbphicCount;
     }
 
-    public float getCharX(int index) {
+    public flobt getChbrX(int index) {
 
-        int visIndex = charsLtoV==null? index : charsLtoV[index];
-        return graphicAdvance * visIndex;
+        int visIndex = chbrsLtoV==null? index : chbrsLtoV[index];
+        return grbphicAdvbnce * visIndex;
     }
 
-    public float getCharY(int index) {
+    public flobt getChbrY(int index) {
 
         return 0;
     }
 
-    public float getCharAdvance(int index) {
+    public flobt getChbrAdvbnce(int index) {
 
-        return graphicAdvance;
+        return grbphicAdvbnce;
     }
 
-    public boolean caretAtOffsetIsValid(int index) {
+    public boolebn cbretAtOffsetIsVblid(int index) {
 
         return true;
     }
 
-    public Rectangle2D handleGetCharVisualBounds(int index) {
+    public Rectbngle2D hbndleGetChbrVisublBounds(int index) {
 
-        Rectangle2D bounds = graphic.getBounds();
-        // don't modify their rectangle, just in case they don't copy
+        Rectbngle2D bounds = grbphic.getBounds();
+        // don't modify their rectbngle, just in cbse they don't copy
 
-        Rectangle2D.Float charBounds = new Rectangle2D.Float();
-        charBounds.setRect(bounds);
-        charBounds.x += graphicAdvance * index;
+        Rectbngle2D.Flobt chbrBounds = new Rectbngle2D.Flobt();
+        chbrBounds.setRect(bounds);
+        chbrBounds.x += grbphicAdvbnce * index;
 
-        return charBounds;
+        return chbrBounds;
     }
 
-    // measures characters in context, in logical order
-    public int getLineBreakIndex(int start, float width) {
+    // mebsures chbrbcters in context, in logicbl order
+    public int getLineBrebkIndex(int stbrt, flobt width) {
 
-        int index = (int) (width / graphicAdvance);
-        if (index > graphicCount - start) {
-            index = graphicCount - start;
+        int index = (int) (width / grbphicAdvbnce);
+        if (index > grbphicCount - stbrt) {
+            index = grbphicCount - stbrt;
         }
         return index;
     }
 
-    // measures characters in context, in logical order
-    public float getAdvanceBetween(int start, int limit) {
+    // mebsures chbrbcters in context, in logicbl order
+    public flobt getAdvbnceBetween(int stbrt, int limit) {
 
-        return graphicAdvance * (limit - start);
+        return grbphicAdvbnce * (limit - stbrt);
     }
 
-    public Rectangle2D getLogicalBounds() {
+    public Rectbngle2D getLogicblBounds() {
 
-        float left = 0;
-        float top = -cm.ascent;
-        float width = graphicAdvance * graphicCount;
-        float height = cm.descent - top;
+        flobt left = 0;
+        flobt top = -cm.bscent;
+        flobt width = grbphicAdvbnce * grbphicCount;
+        flobt height = cm.descent - top;
 
-        return new Rectangle2D.Float(left, top, width, height);
+        return new Rectbngle2D.Flobt(left, top, width, height);
     }
 
-    public float getAdvance() {
-        return graphicAdvance * graphicCount;
+    public flobt getAdvbnce() {
+        return grbphicAdvbnce * grbphicCount;
     }
 
-    public Rectangle2D getItalicBounds() {
-        return getLogicalBounds();
+    public Rectbngle2D getItblicBounds() {
+        return getLogicblBounds();
     }
 
-    public TextLineComponent getSubset(int start, int limit, int dir) {
+    public TextLineComponent getSubset(int stbrt, int limit, int dir) {
 
-        if (start < 0 || limit > graphicCount || start >= limit) {
-            throw new IllegalArgumentException("Invalid range.  start="
-                                               +start+"; limit="+limit);
+        if (stbrt < 0 || limit > grbphicCount || stbrt >= limit) {
+            throw new IllegblArgumentException("Invblid rbnge.  stbrt="
+                                               +stbrt+"; limit="+limit);
         }
 
-        if (start == 0 && limit == graphicCount && dir == UNCHANGED) {
+        if (stbrt == 0 && limit == grbphicCount && dir == UNCHANGED) {
             return this;
         }
 
-        return new GraphicComponent(this, start, limit, dir);
+        return new GrbphicComponent(this, stbrt, limit, dir);
     }
 
     public String toString() {
 
-        return "[graphic=" + graphic + ":count=" + getNumCharacters() + "]";
+        return "[grbphic=" + grbphic + ":count=" + getNumChbrbcters() + "]";
     }
 
   /**
-   * Return the number of justification records this uses.
+   * Return the number of justificbtion records this uses.
    */
-  public int getNumJustificationInfos() {
+  public int getNumJustificbtionInfos() {
     return 0;
   }
 
   /**
-   * Return GlyphJustificationInfo objects for the characters between
-   * charStart and charLimit, starting at offset infoStart.  Infos
-   * will be in visual order.  All positions between infoStart and
-   * getNumJustificationInfos will be set.  If a position corresponds
-   * to a character outside the provided range, it is set to null.
+   * Return GlyphJustificbtionInfo objects for the chbrbcters between
+   * chbrStbrt bnd chbrLimit, stbrting bt offset infoStbrt.  Infos
+   * will be in visubl order.  All positions between infoStbrt bnd
+   * getNumJustificbtionInfos will be set.  If b position corresponds
+   * to b chbrbcter outside the provided rbnge, it is set to null.
    */
-  public void getJustificationInfos(GlyphJustificationInfo[] infos, int infoStart, int charStart, int charLimit) {
+  public void getJustificbtionInfos(GlyphJustificbtionInfo[] infos, int infoStbrt, int chbrStbrt, int chbrLimit) {
   }
 
   /**
-   * Apply deltas to the data in this component, starting at offset
-   * deltaStart, and return the new component.  There are two floats
-   * for each justification info, for a total of 2 * getNumJustificationInfos.
-   * The first delta is the left adjustment, the second is the right
-   * adjustment.
+   * Apply deltbs to the dbtb in this component, stbrting bt offset
+   * deltbStbrt, bnd return the new component.  There bre two flobts
+   * for ebch justificbtion info, for b totbl of 2 * getNumJustificbtionInfos.
+   * The first deltb is the left bdjustment, the second is the right
+   * bdjustment.
    * <p>
-   * If flags[0] is true on entry, rejustification is allowed.  If
-   * the new component requires rejustification (ligatures were
-   * formed or split), flags[0] will be set on exit.
+   * If flbgs[0] is true on entry, rejustificbtion is bllowed.  If
+   * the new component requires rejustificbtion (ligbtures were
+   * formed or split), flbgs[0] will be set on exit.
    */
-  public TextLineComponent applyJustificationDeltas(float[] deltas, int deltaStart, boolean[] flags) {
+  public TextLineComponent bpplyJustificbtionDeltbs(flobt[] deltbs, int deltbStbrt, boolebn[] flbgs) {
     return this;
   }
 }

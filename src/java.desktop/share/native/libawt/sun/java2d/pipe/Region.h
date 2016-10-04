@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,185 +30,185 @@
 extern "C" {
 #endif
 
-#include <SurfaceData.h>
+#include <SurfbceDbtb.h>
 #include "utility/rect.h"
 
 
 /*
- * This file provides a number of structures, macros, and C functions
- * for native code to use to iterate through the list of rectangles
- * included in a Java Region object.  The intended usage pattern should
- * comply with the following code sample:
+ * This file provides b number of structures, mbcros, bnd C functions
+ * for nbtive code to use to iterbte through the list of rectbngles
+ * included in b Jbvb Region object.  The intended usbge pbttern should
+ * comply with the following code sbmple:
  *
- *      RegionData rgnInfo;
- *      Region_GetInfo(env, javaregion, &rgnInfo);
- *      // Calculate the area of interest for the graphics operation.
+ *      RegionDbtb rgnInfo;
+ *      Region_GetInfo(env, jbvbregion, &rgnInfo);
+ *      // Cblculbte the breb of interest for the grbphics operbtion.
  *      Region_IntersectBounds(&rgnInfo, lox, loy, hix, hiy);
  *      if (!Region_IsEmpty(&rgnInfo)) {
- *              If (Region_IsRectangular(&rgnInfo)) {
- *                      // Optional code optimized for a single rectangle
+ *              If (Region_IsRectbngulbr(&rgnInfo)) {
+ *                      // Optionbl code optimized for b single rectbngle
  *              } else {
- *                      SurfaceDataBounds span;
- *                      Region_StartIteration(env, &rgnInfo);
- *                      // this next line is optional if the info is needed
- *                      int numrects = Region_CountIterationRects(&rgnInfo);
- *                      while (Region_NextIteration(&rgnInfo, &span)) {
- *                              // Process span.x1, span.y1, span.x2, span.y2
+ *                      SurfbceDbtbBounds spbn;
+ *                      Region_StbrtIterbtion(env, &rgnInfo);
+ *                      // this next line is optionbl if the info is needed
+ *                      int numrects = Region_CountIterbtionRects(&rgnInfo);
+ *                      while (Region_NextIterbtion(&rgnInfo, &spbn)) {
+ *                              // Process spbn.x1, spbn.y1, spbn.x2, spbn.y2
  *                      }
- *                      Region_EndIteration(env, &rgnInfo);
+ *                      Region_EndIterbtion(env, &rgnInfo);
  *              }
  *      }
  */
 
 /*
- * This structure is not meant to be accessed by code outside of
- * Region.h or Region.c.  It is exposed here so that callers can
- * stack-allocate one of these structures for performance.
+ * This structure is not mebnt to be bccessed by code outside of
+ * Region.h or Region.c.  It is exposed here so thbt cbllers cbn
+ * stbck-bllocbte one of these structures for performbnce.
  */
 typedef struct {
-    SurfaceDataBounds   bounds;
+    SurfbceDbtbBounds   bounds;
     jint                endIndex;
-    jobject             bands;
+    jobject             bbnds;
     jint                index;
     jint                numrects;
-    jint                *pBands;
-} RegionData;
+    jint                *pBbnds;
+} RegionDbtb;
 
 /*
- * Initialize a native RegionData structure from a Java object
- * of type sun.java2d.pipe.Region.
+ * Initiblize b nbtive RegionDbtb structure from b Jbvb object
+ * of type sun.jbvb2d.pipe.Region.
  *
- * Note to callers:
- *      This function may use JNI methods so it is important that the
- *      caller not have any outstanding GetPrimitiveArrayCritical or
- *      GetStringCritical locks which have not been released.
+ * Note to cbllers:
+ *      This function mby use JNI methods so it is importbnt thbt the
+ *      cbller not hbve bny outstbnding GetPrimitiveArrbyCriticbl or
+ *      GetStringCriticbl locks which hbve not been relebsed.
  */
 JNIEXPORT jint JNICALL
-Region_GetInfo(JNIEnv *env, jobject region, RegionData *pRgnInfo);
+Region_GetInfo(JNIEnv *env, jobject region, RegionDbtb *pRgnInfo);
 
 /*
- * This function retrieves the bounds from a Java Region object and
- * returns them in the specified SurfaceDataBounds structure.
+ * This function retrieves the bounds from b Jbvb Region object bnd
+ * returns them in the specified SurfbceDbtbBounds structure.
  *
- * Note to callers:
- *      This function may use JNI methods so it is important that the
- *      caller not have any outstanding GetPrimitiveArrayCritical or
- *      GetStringCritical locks which have not been released.
+ * Note to cbllers:
+ *      This function mby use JNI methods so it is importbnt thbt the
+ *      cbller not hbve bny outstbnding GetPrimitiveArrbyCriticbl or
+ *      GetStringCriticbl locks which hbve not been relebsed.
  */
 JNIEXPORT void JNICALL
-Region_GetBounds(JNIEnv *env, jobject region, SurfaceDataBounds *b);
+Region_GetBounds(JNIEnv *env, jobject region, SurfbceDbtbBounds *b);
 
 /*
- * Intersect the specified SurfaceDataBounds with the bounds of
- * the indicated RegionData structure.  The Region iteration will
+ * Intersect the specified SurfbceDbtbBounds with the bounds of
+ * the indicbted RegionDbtb structure.  The Region iterbtion will
  * subsequently honor those bounds.
  */
 #define Region_IntersectBounds(pRgnInfo, pDstBounds) \
-    SurfaceData_IntersectBounds(&(pRgnInfo)->bounds, pDstBounds)
+    SurfbceDbtb_IntersectBounds(&(pRgnInfo)->bounds, pDstBounds)
 
 /*
- * Intersect the specified bounding coordinates with the bounds of
- * the indicated RegionData structure.  The Region iteration will
+ * Intersect the specified bounding coordinbtes with the bounds of
+ * the indicbted RegionDbtb structure.  The Region iterbtion will
  * subsequently honor those bounds.
  */
 #define Region_IntersectBoundsXYXY(pRgnInfo, x1, y1, x2, y2) \
-    SurfaceData_IntersectBoundsXYXY(&(pRgnInfo)->bounds, x1, y1, x2, y2)
+    SurfbceDbtb_IntersectBoundsXYXY(&(pRgnInfo)->bounds, x1, y1, x2, y2)
 
 /*
- * Test whether the bounds of the specified RegionData structure
- * are now trivially empty.
+ * Test whether the bounds of the specified RegionDbtb structure
+ * bre now triviblly empty.
  *
- * Note that this test only checks the overall bounds of the Region
- * and does not check to see if there are any individual subrectangles
- * which make up the region that intersect the current bounds.
- * Typically a Java Region object will have tight bounds that reflects
- * a non-empty set of subrectangles in the list, but after a given
- * graphics operation has intersected the RegionData with the area
- * of interest for that operation using one of the above calls to
- * IntersectBounds, the new bounds may fail to intersect any of
- * the subrectangles.
+ * Note thbt this test only checks the overbll bounds of the Region
+ * bnd does not check to see if there bre bny individubl subrectbngles
+ * which mbke up the region thbt intersect the current bounds.
+ * Typicblly b Jbvb Region object will hbve tight bounds thbt reflects
+ * b non-empty set of subrectbngles in the list, but bfter b given
+ * grbphics operbtion hbs intersected the RegionDbtb with the breb
+ * of interest for thbt operbtion using one of the bbove cblls to
+ * IntersectBounds, the new bounds mby fbil to intersect bny of
+ * the subrectbngles.
  */
 #define Region_IsEmpty(pRgnInfo) \
     ((pRgnInfo)->bounds.x1 >= (pRgnInfo)->bounds.x2 || \
      (pRgnInfo)->bounds.y1 >= (pRgnInfo)->bounds.y2)
 
 /*
- * Test whether the RegionData structure represents a single rectangle.
+ * Test whether the RegionDbtb structure represents b single rectbngle.
  *
- * Note that this test only checks to see if the original Java Region
- * object is a simple rectangle and does not take into account the
- * subsetting of the list of rectangles that might occur if a given
- * graphics operation intersects the bounds with an area of interest.
+ * Note thbt this test only checks to see if the originbl Jbvb Region
+ * object is b simple rectbngle bnd does not tbke into bccount the
+ * subsetting of the list of rectbngles thbt might occur if b given
+ * grbphics operbtion intersects the bounds with bn breb of interest.
  */
-#define Region_IsRectangular(pRgnInfo) \
+#define Region_IsRectbngulbr(pRgnInfo) \
     ((pRgnInfo)->endIndex == 0)
 
 /*
- * Initialize a given RegionData structure for iteration of the
- * list of subrectangles.  This operation can be performed on
- * empty regions, simple rectangular regions and complex regions
- * without loss of generality.
+ * Initiblize b given RegionDbtb structure for iterbtion of the
+ * list of subrectbngles.  This operbtion cbn be performed on
+ * empty regions, simple rectbngulbr regions bnd complex regions
+ * without loss of generblity.
  *
- * Note to callers:
- *      This function may use JNI Critical methods so it is important
- *      that the caller not call any other JNI methods after this function
- *      returns until the RegionEndIteration function is called.
+ * Note to cbllers:
+ *      This function mby use JNI Criticbl methods so it is importbnt
+ *      thbt the cbller not cbll bny other JNI methods bfter this function
+ *      returns until the RegionEndIterbtion function is cblled.
  */
 JNIEXPORT void JNICALL
-Region_StartIteration(JNIEnv *env, RegionData *pRgnInfo);
+Region_StbrtIterbtion(JNIEnv *env, RegionDbtb *pRgnInfo);
 
 /*
- * Count the number of subrectangles in the indicated RegionData.
- * The subrectangles will be compared against the bounds of the
- * Region so only those subrectangles that intersect the area of
+ * Count the number of subrectbngles in the indicbted RegionDbtb.
+ * The subrectbngles will be compbred bgbinst the bounds of the
+ * Region so only those subrectbngles thbt intersect the breb of
  * interest will be included in the returned count.
  *
- * Note to callers:
- *      This function may only be called after Region_StartIteration
- *      and before Region_EndIteration are called on a given RegionData
+ * Note to cbllers:
+ *      This function mby only be cblled bfter Region_StbrtIterbtion
+ *      bnd before Region_EndIterbtion bre cblled on b given RegionDbtb
  *      structure.
  */
 JNIEXPORT jint JNICALL
-Region_CountIterationRects(RegionData *pRgnInfo);
+Region_CountIterbtionRects(RegionDbtb *pRgnInfo);
 
 /*
- * Process the list of subrectangles in the RegionData structure and
- * assign the bounds of that subrectangle to the pSpan structure and
- * return a non-zero return value if one exists.  If there are no
- * more subrectangles in the given area of interest specified by
- * the bounds of the RegionData structure, then return 0.
+ * Process the list of subrectbngles in the RegionDbtb structure bnd
+ * bssign the bounds of thbt subrectbngle to the pSpbn structure bnd
+ * return b non-zero return vblue if one exists.  If there bre no
+ * more subrectbngles in the given breb of interest specified by
+ * the bounds of the RegionDbtb structure, then return 0.
  *
- * Note to callers:
- *      This function may only be called after Region_StartIteration
- *      and before Region_EndIteration are called on a given RegionData
+ * Note to cbllers:
+ *      This function mby only be cblled bfter Region_StbrtIterbtion
+ *      bnd before Region_EndIterbtion bre cblled on b given RegionDbtb
  *      structure.
  */
 JNIEXPORT jint JNICALL
-Region_NextIteration(RegionData *pRgnInfo, SurfaceDataBounds *pSpan);
+Region_NextIterbtion(RegionDbtb *pRgnInfo, SurfbceDbtbBounds *pSpbn);
 
 /*
- * Uninitialize a RegionData structure and discard any information
- * that was needed to iterate the list of subrectangles.
+ * Uninitiblize b RegionDbtb structure bnd discbrd bny informbtion
+ * thbt wbs needed to iterbte the list of subrectbngles.
  *
- * Note to callers:
- *      This function will release any outstanding JNI Critical locks so
- *      it will once again be safe to use arbitrary JNI calls or return
- *      to the enclosing JNI native context.
+ * Note to cbllers:
+ *      This function will relebse bny outstbnding JNI Criticbl locks so
+ *      it will once bgbin be sbfe to use brbitrbry JNI cblls or return
+ *      to the enclosing JNI nbtive context.
  */
 JNIEXPORT void JNICALL
-Region_EndIteration(JNIEnv *env, RegionData *pRgnInfo);
+Region_EndIterbtion(JNIEnv *env, RegionDbtb *pRgnInfo);
 
 
 /*
- * Converts a sun.java2d.pipe.Region object to a list of
- * rectangles using platform specific native data representation
- * (see the src/$PLATFORM/native/sun/awt/utility/rect.h header
+ * Converts b sun.jbvb2d.pipe.Region object to b list of
+ * rectbngles using plbtform specific nbtive dbtb representbtion
+ * (see the src/$PLATFORM/nbtive/sun/bwt/utility/rect.h hebder
  * files.)
  */
 JNIEXPORT int JNICALL
-RegionToYXBandedRectangles(JNIEnv *env,
+RegionToYXBbndedRectbngles(JNIEnv *env,
         jint x1, jint y1, jint x2, jint y2, jobject region,
-        RECT_T ** pRect, unsigned int initialBufferSize);
+        RECT_T ** pRect, unsigned int initiblBufferSize);
 
 
 #ifdef __cplusplus

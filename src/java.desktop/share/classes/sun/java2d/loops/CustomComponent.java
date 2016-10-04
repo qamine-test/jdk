@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
- * @author Jim Graham
+ * @buthor Chbrlton Innovbtions, Inc.
+ * @buthor Jim Grbhbm
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.Composite;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import sun.awt.image.IntegerComponentRaster;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.SpanIterator;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import sun.bwt.imbge.IntegerComponentRbster;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.SpbnIterbtor;
 
 /**
- *   CustomComponent, collection of GraphicsPrimitive
- *   Basically, this collection of components performs conversion from
- *   ANY to ANY via opaque copy
+ *   CustomComponent, collection of GrbphicsPrimitive
+ *   Bbsicblly, this collection of components performs conversion from
+ *   ANY to ANY vib opbque copy
  */
-public final class CustomComponent {
-    public static void register() {
-        // REMIND: This does not work for all destinations yet since
-        // the screen SurfaceData objects do not implement getRaster
-        Class<?> owner = CustomComponent.class;
-        GraphicsPrimitive[] primitives = {
-            new GraphicsPrimitiveProxy(owner, "OpaqueCopyAnyToArgb",
-                                       Blit.methodSignature,
+public finbl clbss CustomComponent {
+    public stbtic void register() {
+        // REMIND: This does not work for bll destinbtions yet since
+        // the screen SurfbceDbtb objects do not implement getRbster
+        Clbss<?> owner = CustomComponent.clbss;
+        GrbphicsPrimitive[] primitives = {
+            new GrbphicsPrimitiveProxy(owner, "OpbqueCopyAnyToArgb",
+                                       Blit.methodSignbture,
                                        Blit.primTypeID,
-                                       SurfaceType.Any,
-                                       CompositeType.SrcNoEa,
-                                       SurfaceType.IntArgb),
-            new GraphicsPrimitiveProxy(owner, "OpaqueCopyArgbToAny",
-                                       Blit.methodSignature,
+                                       SurfbceType.Any,
+                                       CompositeType.SrcNoEb,
+                                       SurfbceType.IntArgb),
+            new GrbphicsPrimitiveProxy(owner, "OpbqueCopyArgbToAny",
+                                       Blit.methodSignbture,
                                        Blit.primTypeID,
-                                       SurfaceType.IntArgb,
-                                       CompositeType.SrcNoEa,
-                                       SurfaceType.Any),
-            new GraphicsPrimitiveProxy(owner, "XorCopyArgbToAny",
-                                       Blit.methodSignature,
+                                       SurfbceType.IntArgb,
+                                       CompositeType.SrcNoEb,
+                                       SurfbceType.Any),
+            new GrbphicsPrimitiveProxy(owner, "XorCopyArgbToAny",
+                                       Blit.methodSignbture,
                                        Blit.primTypeID,
-                                       SurfaceType.IntArgb,
+                                       SurfbceType.IntArgb,
                                        CompositeType.Xor,
-                                       SurfaceType.Any),
+                                       SurfbceType.Any),
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
-    public static Region getRegionOfInterest(SurfaceData src, SurfaceData dst,
+    public stbtic Region getRegionOfInterest(SurfbceDbtb src, SurfbceDbtb dst,
                                              Region clip,
                                              int srcx, int srcy,
                                              int dstx, int dsty,
                                              int w, int h)
     {
         /*
-         * Intersect all of:
-         *   - operation area (dstx, dsty, w, h)
-         *   - destination bounds
-         *   - (translated) src bounds
-         *   - supplied clip (may be non-rectangular)
-         * Intersect the rectangular regions first since those are
-         * simpler operations.
+         * Intersect bll of:
+         *   - operbtion breb (dstx, dsty, w, h)
+         *   - destinbtion bounds
+         *   - (trbnslbted) src bounds
+         *   - supplied clip (mby be non-rectbngulbr)
+         * Intersect the rectbngulbr regions first since those bre
+         * simpler operbtions.
          */
-        Region ret = Region.getInstanceXYWH(dstx, dsty, w, h);
+        Region ret = Region.getInstbnceXYWH(dstx, dsty, w, h);
         ret = ret.getIntersection(dst.getBounds());
-        Rectangle r = src.getBounds();
-        // srcxy in src space maps to dstxy in dst space
-        r.translate(dstx - srcx, dsty - srcy);
+        Rectbngle r = src.getBounds();
+        // srcxy in src spbce mbps to dstxy in dst spbce
+        r.trbnslbte(dstx - srcx, dsty - srcy);
         ret = ret.getIntersection(r);
         if (clip != null) {
-            // Intersect with clip last since it may be non-rectangular
+            // Intersect with clip lbst since it mby be non-rectbngulbr
             ret = ret.getIntersection(clip);
         }
         return ret;
@@ -104,226 +104,226 @@ public final class CustomComponent {
 }
 
 /**
- *   ANY format to ARGB format Blit
+ *   ANY formbt to ARGB formbt Blit
  */
-class OpaqueCopyAnyToArgb extends Blit {
-    OpaqueCopyAnyToArgb() {
-        super(SurfaceType.Any,
-              CompositeType.SrcNoEa,
-              SurfaceType.IntArgb);
+clbss OpbqueCopyAnyToArgb extends Blit {
+    OpbqueCopyAnyToArgb() {
+        super(SurfbceType.Any,
+              CompositeType.SrcNoEb,
+              SurfbceType.IntArgb);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int srcx, int srcy, int dstx, int dsty, int w, int h)
     {
-        Raster srcRast = src.getRaster(srcx, srcy, w, h);
+        Rbster srcRbst = src.getRbster(srcx, srcy, w, h);
         ColorModel srcCM = src.getColorModel();
 
-        Raster dstRast = dst.getRaster(dstx, dsty, w, h);
-        IntegerComponentRaster icr = (IntegerComponentRaster) dstRast;
-        int[] dstPix = icr.getDataStorage();
+        Rbster dstRbst = dst.getRbster(dstx, dsty, w, h);
+        IntegerComponentRbster icr = (IntegerComponentRbster) dstRbst;
+        int[] dstPix = icr.getDbtbStorbge();
 
         Region roi = CustomComponent.getRegionOfInterest(src, dst, clip,
                                                          srcx, srcy,
                                                          dstx, dsty, w, h);
-        SpanIterator si = roi.getSpanIterator();
+        SpbnIterbtor si = roi.getSpbnIterbtor();
 
         Object srcPix = null;
 
-        int dstScan = icr.getScanlineStride();
-        // assert(icr.getPixelStride() == 1);
+        int dstScbn = icr.getScbnlineStride();
+        // bssert(icr.getPixelStride() == 1);
         srcx -= dstx;
         srcy -= dsty;
-        int span[] = new int[4];
-        while (si.nextSpan(span)) {
-            int rowoff = icr.getDataOffset(0) + span[1] * dstScan + span[0];
-            for (int y = span[1]; y < span[3]; y++) {
+        int spbn[] = new int[4];
+        while (si.nextSpbn(spbn)) {
+            int rowoff = icr.getDbtbOffset(0) + spbn[1] * dstScbn + spbn[0];
+            for (int y = spbn[1]; y < spbn[3]; y++) {
                 int off = rowoff;
-                for (int x = span[0]; x < span[2]; x++) {
-                    srcPix = srcRast.getDataElements(x+srcx, y+srcy, srcPix);
+                for (int x = spbn[0]; x < spbn[2]; x++) {
+                    srcPix = srcRbst.getDbtbElements(x+srcx, y+srcy, srcPix);
                     dstPix[off++] = srcCM.getRGB(srcPix);
                 }
-                rowoff += dstScan;
+                rowoff += dstScbn;
             }
         }
         // Pixels in the dest were modified directly, we must
-        // manually notify the raster that it was modified
-        icr.markDirty();
-        // REMIND: We need to do something to make sure that dstRast
-        // is put back to the destination (as in the native Release
+        // mbnublly notify the rbster thbt it wbs modified
+        icr.mbrkDirty();
+        // REMIND: We need to do something to mbke sure thbt dstRbst
+        // is put bbck to the destinbtion (bs in the nbtive Relebse
         // function)
-        // src.releaseRaster(srcRast);  // NOP?
-        // dst.releaseRaster(dstRast);
+        // src.relebseRbster(srcRbst);  // NOP?
+        // dst.relebseRbster(dstRbst);
     }
 }
 
 /**
- *   ARGB format to ANY format Blit
+ *   ARGB formbt to ANY formbt Blit
  */
-class OpaqueCopyArgbToAny extends Blit {
-    OpaqueCopyArgbToAny() {
-        super(SurfaceType.IntArgb,
-              CompositeType.SrcNoEa,
-              SurfaceType.Any);
+clbss OpbqueCopyArgbToAny extends Blit {
+    OpbqueCopyArgbToAny() {
+        super(SurfbceType.IntArgb,
+              CompositeType.SrcNoEb,
+              SurfbceType.Any);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int srcx, int srcy, int dstx, int dsty, int w, int h)
     {
-        Raster srcRast = src.getRaster(srcx, srcy, w, h);
-        IntegerComponentRaster icr = (IntegerComponentRaster) srcRast;
-        int[] srcPix = icr.getDataStorage();
+        Rbster srcRbst = src.getRbster(srcx, srcy, w, h);
+        IntegerComponentRbster icr = (IntegerComponentRbster) srcRbst;
+        int[] srcPix = icr.getDbtbStorbge();
 
-        WritableRaster dstRast =
-            (WritableRaster) dst.getRaster(dstx, dsty, w, h);
+        WritbbleRbster dstRbst =
+            (WritbbleRbster) dst.getRbster(dstx, dsty, w, h);
         ColorModel dstCM = dst.getColorModel();
 
         Region roi = CustomComponent.getRegionOfInterest(src, dst, clip,
                                                          srcx, srcy,
                                                          dstx, dsty, w, h);
-        SpanIterator si = roi.getSpanIterator();
+        SpbnIterbtor si = roi.getSpbnIterbtor();
 
         Object dstPix = null;
 
-        int srcScan = icr.getScanlineStride();
-        // assert(icr.getPixelStride() == 1);
+        int srcScbn = icr.getScbnlineStride();
+        // bssert(icr.getPixelStride() == 1);
         srcx -= dstx;
         srcy -= dsty;
-        int span[] = new int[4];
-        while (si.nextSpan(span)) {
-            int rowoff = (icr.getDataOffset(0) +
-                          (srcy + span[1]) * srcScan +
-                          (srcx + span[0]));
-            for (int y = span[1]; y < span[3]; y++) {
+        int spbn[] = new int[4];
+        while (si.nextSpbn(spbn)) {
+            int rowoff = (icr.getDbtbOffset(0) +
+                          (srcy + spbn[1]) * srcScbn +
+                          (srcx + spbn[0]));
+            for (int y = spbn[1]; y < spbn[3]; y++) {
                 int off = rowoff;
-                for (int x = span[0]; x < span[2]; x++) {
-                    dstPix = dstCM.getDataElements(srcPix[off++], dstPix);
-                    dstRast.setDataElements(x, y, dstPix);
+                for (int x = spbn[0]; x < spbn[2]; x++) {
+                    dstPix = dstCM.getDbtbElements(srcPix[off++], dstPix);
+                    dstRbst.setDbtbElements(x, y, dstPix);
                 }
-                rowoff += srcScan;
+                rowoff += srcScbn;
             }
         }
-        // REMIND: We need to do something to make sure that dstRast
-        // is put back to the destination (as in the native Release
+        // REMIND: We need to do something to mbke sure thbt dstRbst
+        // is put bbck to the destinbtion (bs in the nbtive Relebse
         // function)
-        // src.releaseRaster(srcRast);  // NOP?
-        // dst.releaseRaster(dstRast);
+        // src.relebseRbster(srcRbst);  // NOP?
+        // dst.relebseRbster(dstRbst);
     }
 }
 
 /**
- *   ARGB format to ANY format Blit (pixels are XORed together with XOR pixel)
+ *   ARGB formbt to ANY formbt Blit (pixels bre XORed together with XOR pixel)
  */
-class XorCopyArgbToAny extends Blit {
+clbss XorCopyArgbToAny extends Blit {
     XorCopyArgbToAny() {
-        super(SurfaceType.IntArgb,
+        super(SurfbceType.IntArgb,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int srcx, int srcy, int dstx, int dsty, int w, int h)
     {
-        Raster srcRast = src.getRaster(srcx, srcy, w, h);
-        IntegerComponentRaster icr = (IntegerComponentRaster) srcRast;
-        int[] srcPix = icr.getDataStorage();
+        Rbster srcRbst = src.getRbster(srcx, srcy, w, h);
+        IntegerComponentRbster icr = (IntegerComponentRbster) srcRbst;
+        int[] srcPix = icr.getDbtbStorbge();
 
-        WritableRaster dstRast =
-            (WritableRaster) dst.getRaster(dstx, dsty, w, h);
+        WritbbleRbster dstRbst =
+            (WritbbleRbster) dst.getRbster(dstx, dsty, w, h);
         ColorModel dstCM = dst.getColorModel();
 
         Region roi = CustomComponent.getRegionOfInterest(src, dst, clip,
                                                          srcx, srcy,
                                                          dstx, dsty, w, h);
-        SpanIterator si = roi.getSpanIterator();
+        SpbnIterbtor si = roi.getSpbnIterbtor();
 
         int xorrgb = ((XORComposite)comp).getXorColor().getRGB();
-        Object xorPixel = dstCM.getDataElements(xorrgb, null);
+        Object xorPixel = dstCM.getDbtbElements(xorrgb, null);
 
         Object srcPixel = null;
         Object dstPixel = null;
 
-        int srcScan = icr.getScanlineStride();
-        // assert(icr.getPixelStride() == 1);
+        int srcScbn = icr.getScbnlineStride();
+        // bssert(icr.getPixelStride() == 1);
         srcx -= dstx;
         srcy -= dsty;
-        int span[] = new int[4];
-        while (si.nextSpan(span)) {
-            int rowoff = (icr.getDataOffset(0) +
-                          (srcy + span[1]) * srcScan +
-                          (srcx + span[0]));
-            for (int y = span[1]; y < span[3]; y++) {
+        int spbn[] = new int[4];
+        while (si.nextSpbn(spbn)) {
+            int rowoff = (icr.getDbtbOffset(0) +
+                          (srcy + spbn[1]) * srcScbn +
+                          (srcx + spbn[0]));
+            for (int y = spbn[1]; y < spbn[3]; y++) {
                 int off = rowoff;
-                for (int x = span[0]; x < span[2]; x++) {
-                    // REMIND: alpha bits of the destination pixel are
-                    // currently altered by the XOR operation, but
+                for (int x = spbn[0]; x < spbn[2]; x++) {
+                    // REMIND: blphb bits of the destinbtion pixel bre
+                    // currently bltered by the XOR operbtion, but
                     // should be left untouched
-                    srcPixel = dstCM.getDataElements(srcPix[off++], srcPixel);
-                    dstPixel = dstRast.getDataElements(x, y, dstPixel);
+                    srcPixel = dstCM.getDbtbElements(srcPix[off++], srcPixel);
+                    dstPixel = dstRbst.getDbtbElements(x, y, dstPixel);
 
-                    switch (dstCM.getTransferType()) {
-                    case DataBuffer.TYPE_BYTE:
-                        byte[] bytesrcarr = (byte[]) srcPixel;
-                        byte[] bytedstarr = (byte[]) dstPixel;
-                        byte[] bytexorarr = (byte[]) xorPixel;
-                        for (int i = 0; i < bytedstarr.length; i++) {
-                            bytedstarr[i] ^= bytesrcarr[i] ^ bytexorarr[i];
+                    switch (dstCM.getTrbnsferType()) {
+                    cbse DbtbBuffer.TYPE_BYTE:
+                        byte[] bytesrcbrr = (byte[]) srcPixel;
+                        byte[] bytedstbrr = (byte[]) dstPixel;
+                        byte[] bytexorbrr = (byte[]) xorPixel;
+                        for (int i = 0; i < bytedstbrr.length; i++) {
+                            bytedstbrr[i] ^= bytesrcbrr[i] ^ bytexorbrr[i];
                         }
-                        break;
-                    case DataBuffer.TYPE_SHORT:
-                    case DataBuffer.TYPE_USHORT:
-                        short[] shortsrcarr = (short[]) srcPixel;
-                        short[] shortdstarr = (short[]) dstPixel;
-                        short[] shortxorarr = (short[]) xorPixel;
-                        for (int i = 0; i < shortdstarr.length; i++) {
-                            shortdstarr[i] ^= shortsrcarr[i] ^ shortxorarr[i];
+                        brebk;
+                    cbse DbtbBuffer.TYPE_SHORT:
+                    cbse DbtbBuffer.TYPE_USHORT:
+                        short[] shortsrcbrr = (short[]) srcPixel;
+                        short[] shortdstbrr = (short[]) dstPixel;
+                        short[] shortxorbrr = (short[]) xorPixel;
+                        for (int i = 0; i < shortdstbrr.length; i++) {
+                            shortdstbrr[i] ^= shortsrcbrr[i] ^ shortxorbrr[i];
                         }
-                        break;
-                    case DataBuffer.TYPE_INT:
-                        int[] intsrcarr = (int[]) srcPixel;
-                        int[] intdstarr = (int[]) dstPixel;
-                        int[] intxorarr = (int[]) xorPixel;
-                        for (int i = 0; i < intdstarr.length; i++) {
-                            intdstarr[i] ^= intsrcarr[i] ^ intxorarr[i];
+                        brebk;
+                    cbse DbtbBuffer.TYPE_INT:
+                        int[] intsrcbrr = (int[]) srcPixel;
+                        int[] intdstbrr = (int[]) dstPixel;
+                        int[] intxorbrr = (int[]) xorPixel;
+                        for (int i = 0; i < intdstbrr.length; i++) {
+                            intdstbrr[i] ^= intsrcbrr[i] ^ intxorbrr[i];
                         }
-                        break;
-                    case DataBuffer.TYPE_FLOAT:
-                        float[] floatsrcarr = (float[]) srcPixel;
-                        float[] floatdstarr = (float[]) dstPixel;
-                        float[] floatxorarr = (float[]) xorPixel;
-                        for (int i = 0; i < floatdstarr.length; i++) {
-                            int v = (Float.floatToIntBits(floatdstarr[i]) ^
-                                     Float.floatToIntBits(floatsrcarr[i]) ^
-                                     Float.floatToIntBits(floatxorarr[i]));
-                            floatdstarr[i] = Float.intBitsToFloat(v);
+                        brebk;
+                    cbse DbtbBuffer.TYPE_FLOAT:
+                        flobt[] flobtsrcbrr = (flobt[]) srcPixel;
+                        flobt[] flobtdstbrr = (flobt[]) dstPixel;
+                        flobt[] flobtxorbrr = (flobt[]) xorPixel;
+                        for (int i = 0; i < flobtdstbrr.length; i++) {
+                            int v = (Flobt.flobtToIntBits(flobtdstbrr[i]) ^
+                                     Flobt.flobtToIntBits(flobtsrcbrr[i]) ^
+                                     Flobt.flobtToIntBits(flobtxorbrr[i]));
+                            flobtdstbrr[i] = Flobt.intBitsToFlobt(v);
                         }
-                        break;
-                    case DataBuffer.TYPE_DOUBLE:
-                        double[] doublesrcarr = (double[]) srcPixel;
-                        double[] doubledstarr = (double[]) dstPixel;
-                        double[] doublexorarr = (double[]) xorPixel;
-                        for (int i = 0; i < doubledstarr.length; i++) {
-                            long v = (Double.doubleToLongBits(doubledstarr[i]) ^
-                                      Double.doubleToLongBits(doublesrcarr[i]) ^
-                                      Double.doubleToLongBits(doublexorarr[i]));
-                            doubledstarr[i] = Double.longBitsToDouble(v);
+                        brebk;
+                    cbse DbtbBuffer.TYPE_DOUBLE:
+                        double[] doublesrcbrr = (double[]) srcPixel;
+                        double[] doubledstbrr = (double[]) dstPixel;
+                        double[] doublexorbrr = (double[]) xorPixel;
+                        for (int i = 0; i < doubledstbrr.length; i++) {
+                            long v = (Double.doubleToLongBits(doubledstbrr[i]) ^
+                                      Double.doubleToLongBits(doublesrcbrr[i]) ^
+                                      Double.doubleToLongBits(doublexorbrr[i]));
+                            doubledstbrr[i] = Double.longBitsToDouble(v);
                         }
-                        break;
-                    default:
-                        throw new InternalError("Unsupported XOR pixel type");
+                        brebk;
+                    defbult:
+                        throw new InternblError("Unsupported XOR pixel type");
                     }
-                    dstRast.setDataElements(x, y, dstPixel);
+                    dstRbst.setDbtbElements(x, y, dstPixel);
                 }
-                rowoff += srcScan;
+                rowoff += srcScbn;
             }
         }
-        // REMIND: We need to do something to make sure that dstRast
-        // is put back to the destination (as in the native Release
+        // REMIND: We need to do something to mbke sure thbt dstRbst
+        // is put bbck to the destinbtion (bs in the nbtive Relebse
         // function)
-        // src.releaseRaster(srcRast);  // NOP?
-        // dst.releaseRaster(dstRast);
+        // src.relebseRbster(srcRbst);  // NOP?
+        // dst.relebseRbster(dstRbst);
     }
 }

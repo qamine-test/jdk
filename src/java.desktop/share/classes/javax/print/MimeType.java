@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.Vector;
+import jbvb.util.AbstrbctMbp;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
+import jbvb.util.Vector;
 
 /**
- * Class MimeType encapsulates a Multipurpose Internet Mail Extensions (MIME)
- * media type as defined in <A HREF="http://www.ietf.org/rfc/rfc2045.txt">RFC
- * 2045</A> and <A HREF="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</A>. A
- * MIME type object is part of a {@link DocFlavor DocFlavor} object and
- * specifies the format of the print data.
+ * Clbss MimeType encbpsulbtes b Multipurpose Internet Mbil Extensions (MIME)
+ * medib type bs defined in <A HREF="http://www.ietf.org/rfc/rfc2045.txt">RFC
+ * 2045</A> bnd <A HREF="http://www.ietf.org/rfc/rfc2046.txt">RFC 2046</A>. A
+ * MIME type object is pbrt of b {@link DocFlbvor DocFlbvor} object bnd
+ * specifies the formbt of the print dbtb.
  * <P>
- * Class MimeType is similar to the like-named
- * class in package {@link java.awt.datatransfer java.awt.datatransfer}. Class
- * java.awt.datatransfer.MimeType is not used in the Jini Print Service API
- * for two reasons:
+ * Clbss MimeType is similbr to the like-nbmed
+ * clbss in pbckbge {@link jbvb.bwt.dbtbtrbnsfer jbvb.bwt.dbtbtrbnsfer}. Clbss
+ * jbvb.bwt.dbtbtrbnsfer.MimeType is not used in the Jini Print Service API
+ * for two rebsons:
  * <OL TYPE=1>
  * <LI>
- * Since not all Java profiles include the AWT, the Jini Print Service should
- * not depend on an AWT class.
+ * Since not bll Jbvb profiles include the AWT, the Jini Print Service should
+ * not depend on bn AWT clbss.
  * <P>
  * <LI>
- * The implementation of class java.awt.datatransfer.MimeType does not
- * guarantee
- * that equivalent MIME types will have the same serialized representation.
- * Thus, since the Jini Lookup Service (JLUS) matches service attributes based
- * on equality of serialized representations, JLUS searches involving MIME
- * types encapsulated in class java.awt.datatransfer.MimeType may incorrectly
- * fail to match.
+ * The implementbtion of clbss jbvb.bwt.dbtbtrbnsfer.MimeType does not
+ * gubrbntee
+ * thbt equivblent MIME types will hbve the sbme seriblized representbtion.
+ * Thus, since the Jini Lookup Service (JLUS) mbtches service bttributes bbsed
+ * on equblity of seriblized representbtions, JLUS sebrches involving MIME
+ * types encbpsulbted in clbss jbvb.bwt.dbtbtrbnsfer.MimeType mby incorrectly
+ * fbil to mbtch.
  * </OL>
  * <P>
- * Class MimeType's serialized representation is based on the following
- * canonical form of a MIME type string. Thus, two MIME types that are not
- * identical but that are equivalent (that have the same canonical form) will
- * be considered equal by the JLUS's matching algorithm.
+ * Clbss MimeType's seriblized representbtion is bbsed on the following
+ * cbnonicbl form of b MIME type string. Thus, two MIME types thbt bre not
+ * identicbl but thbt bre equivblent (thbt hbve the sbme cbnonicbl form) will
+ * be considered equbl by the JLUS's mbtching blgorithm.
  * <UL>
- * <LI> The media type, media subtype, and parameters are retained, but all
- *      comments and whitespace characters are discarded.
- * <LI> The media type, media subtype, and parameter names are converted to
- *      lowercase.
- * <LI> The parameter values retain their original case, except a charset
- *      parameter value for a text media type is converted to lowercase.
- * <LI> Quote characters surrounding parameter values are removed.
- * <LI> Quoting backslash characters inside parameter values are removed.
- * <LI> The parameters are arranged in ascending order of parameter name.
+ * <LI> The medib type, medib subtype, bnd pbrbmeters bre retbined, but bll
+ *      comments bnd whitespbce chbrbcters bre discbrded.
+ * <LI> The medib type, medib subtype, bnd pbrbmeter nbmes bre converted to
+ *      lowercbse.
+ * <LI> The pbrbmeter vblues retbin their originbl cbse, except b chbrset
+ *      pbrbmeter vblue for b text medib type is converted to lowercbse.
+ * <LI> Quote chbrbcters surrounding pbrbmeter vblues bre removed.
+ * <LI> Quoting bbckslbsh chbrbcters inside pbrbmeter vblues bre removed.
+ * <LI> The pbrbmeters bre brrbnged in bscending order of pbrbmeter nbme.
  * </UL>
  * <P>
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-class MimeType implements Serializable, Cloneable {
+clbss MimeType implements Seriblizbble, Clonebble {
 
-    private static final long serialVersionUID = -2785720609362367683L;
+    privbte stbtic finbl long seriblVersionUID = -2785720609362367683L;
 
     /**
-     * Array of strings that hold pieces of this MIME type's canonical form.
-     * If the MIME type has <I>n</I> parameters, <I>n</I> &gt;= 0, then the
-     * strings in the array are:
-     * <BR>Index 0 -- Media type.
-     * <BR>Index 1 -- Media subtype.
-     * <BR>Index 2<I>i</I>+2 -- Name of parameter <I>i</I>,
+     * Arrby of strings thbt hold pieces of this MIME type's cbnonicbl form.
+     * If the MIME type hbs <I>n</I> pbrbmeters, <I>n</I> &gt;= 0, then the
+     * strings in the brrby bre:
+     * <BR>Index 0 -- Medib type.
+     * <BR>Index 1 -- Medib subtype.
+     * <BR>Index 2<I>i</I>+2 -- Nbme of pbrbmeter <I>i</I>,
      * <I>i</I>=0,1,...,<I>n</I>-1.
-     * <BR>Index 2<I>i</I>+3 -- Value of parameter <I>i</I>,
+     * <BR>Index 2<I>i</I>+3 -- Vblue of pbrbmeter <I>i</I>,
      * <I>i</I>=0,1,...,<I>n</I>-1.
-     * <BR>Parameters are arranged in ascending order of parameter name.
-     * @serial
+     * <BR>Pbrbmeters bre brrbnged in bscending order of pbrbmeter nbme.
+     * @seribl
      */
-    private String[] myPieces;
+    privbte String[] myPieces;
 
     /**
-     * String value for this MIME type. Computed when needed and cached.
+     * String vblue for this MIME type. Computed when needed bnd cbched.
      */
-    private transient String myStringValue = null;
+    privbte trbnsient String myStringVblue = null;
 
     /**
-     * Parameter map entry set. Computed when needed and cached.
+     * Pbrbmeter mbp entry set. Computed when needed bnd cbched.
      */
-    private transient ParameterMapEntrySet myEntrySet = null;
+    privbte trbnsient PbrbmeterMbpEntrySet myEntrySet = null;
 
     /**
-     * Parameter map. Computed when needed and cached.
+     * Pbrbmeter mbp. Computed when needed bnd cbched.
      */
-    private transient ParameterMap myParameterMap = null;
+    privbte trbnsient PbrbmeterMbp myPbrbmeterMbp = null;
 
     /**
-     * Parameter map entry.
+     * Pbrbmeter mbp entry.
      */
-    private class ParameterMapEntry implements Map.Entry<String, String> {
-        private int myIndex;
-        public ParameterMapEntry(int theIndex) {
+    privbte clbss PbrbmeterMbpEntry implements Mbp.Entry<String, String> {
+        privbte int myIndex;
+        public PbrbmeterMbpEntry(int theIndex) {
             myIndex = theIndex;
         }
         public String getKey(){
             return myPieces[myIndex];
         }
-        public String getValue(){
+        public String getVblue(){
             return myPieces[myIndex+1];
         }
-        public String setValue (String value) {
-            throw new UnsupportedOperationException();
+        public String setVblue (String vblue) {
+            throw new UnsupportedOperbtionException();
         }
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             return (o != null &&
-                    o instanceof Map.Entry &&
-                    getKey().equals (((Map.Entry) o).getKey()) &&
-                    getValue().equals(((Map.Entry) o).getValue()));
+                    o instbnceof Mbp.Entry &&
+                    getKey().equbls (((Mbp.Entry) o).getKey()) &&
+                    getVblue().equbls(((Mbp.Entry) o).getVblue()));
         }
-        public int hashCode() {
-            return getKey().hashCode() ^ getValue().hashCode();
+        public int hbshCode() {
+            return getKey().hbshCode() ^ getVblue().hbshCode();
         }
     }
 
     /**
-     * Parameter map entry set iterator.
+     * Pbrbmeter mbp entry set iterbtor.
      */
-    private class ParameterMapEntrySetIterator implements Iterator<Map.Entry<String, String>> {
-        private int myIndex = 2;
-        public boolean hasNext() {
+    privbte clbss PbrbmeterMbpEntrySetIterbtor implements Iterbtor<Mbp.Entry<String, String>> {
+        privbte int myIndex = 2;
+        public boolebn hbsNext() {
             return myIndex < myPieces.length;
         }
-        public Map.Entry<String, String> next() {
-            if (hasNext()) {
-                ParameterMapEntry result = new ParameterMapEntry (myIndex);
+        public Mbp.Entry<String, String> next() {
+            if (hbsNext()) {
+                PbrbmeterMbpEntry result = new PbrbmeterMbpEntry (myIndex);
                 myIndex += 2;
                 return result;
             } else {
@@ -160,16 +160,16 @@ class MimeType implements Serializable, Cloneable {
             }
         }
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     /**
-     * Parameter map entry set.
+     * Pbrbmeter mbp entry set.
      */
-    private class ParameterMapEntrySet extends AbstractSet<Map.Entry<String, String>> {
-        public Iterator<Map.Entry<String, String>> iterator() {
-            return new ParameterMapEntrySetIterator();
+    privbte clbss PbrbmeterMbpEntrySet extends AbstrbctSet<Mbp.Entry<String, String>> {
+        public Iterbtor<Mbp.Entry<String, String>> iterbtor() {
+            return new PbrbmeterMbpEntrySetIterbtor();
         }
         public int size() {
             return (myPieces.length - 2) / 2;
@@ -177,143 +177,143 @@ class MimeType implements Serializable, Cloneable {
     }
 
     /**
-     * Parameter map.
+     * Pbrbmeter mbp.
      */
-    private class ParameterMap extends AbstractMap<String, String> {
-        public Set<Map.Entry<String, String>> entrySet() {
+    privbte clbss PbrbmeterMbp extends AbstrbctMbp<String, String> {
+        public Set<Mbp.Entry<String, String>> entrySet() {
             if (myEntrySet == null) {
-                myEntrySet = new ParameterMapEntrySet();
+                myEntrySet = new PbrbmeterMbpEntrySet();
             }
             return myEntrySet;
         }
     }
 
     /**
-     * Construct a new MIME type object from the given string. The given
-     * string is converted into canonical form and stored internally.
+     * Construct b new MIME type object from the given string. The given
+     * string is converted into cbnonicbl form bnd stored internblly.
      *
-     * @param  s  MIME media type string.
+     * @pbrbm  s  MIME medib type string.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>s</CODE> is null.
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if <CODE>s</CODE> does not obey the
-     *     syntax for a MIME media type string.
+     *     syntbx for b MIME medib type string.
      */
     public MimeType(String s) {
-        parse (s);
+        pbrse (s);
     }
 
     /**
-     * Returns this MIME type object's MIME type string based on the canonical
-     * form. Each parameter value is enclosed in quotes.
+     * Returns this MIME type object's MIME type string bbsed on the cbnonicbl
+     * form. Ebch pbrbmeter vblue is enclosed in quotes.
      */
     public String getMimeType() {
-        return getStringValue();
+        return getStringVblue();
     }
 
     /**
-     * Returns this MIME type object's media type.
+     * Returns this MIME type object's medib type.
      */
-    public String getMediaType() {
+    public String getMedibType() {
         return myPieces[0];
     }
 
     /**
-     * Returns this MIME type object's media subtype.
+     * Returns this MIME type object's medib subtype.
      */
-    public String getMediaSubtype() {
+    public String getMedibSubtype() {
         return myPieces[1];
     }
 
     /**
-     * Returns an unmodifiable map view of the parameters in this MIME type
-     * object. Each entry in the parameter map view consists of a parameter
-     * name String (key) mapping to a parameter value String. If this MIME
-     * type object has no parameters, an empty map is returned.
+     * Returns bn unmodifibble mbp view of the pbrbmeters in this MIME type
+     * object. Ebch entry in the pbrbmeter mbp view consists of b pbrbmeter
+     * nbme String (key) mbpping to b pbrbmeter vblue String. If this MIME
+     * type object hbs no pbrbmeters, bn empty mbp is returned.
      *
-     * @return  Parameter map for this MIME type object.
+     * @return  Pbrbmeter mbp for this MIME type object.
      */
-    public Map<String, String> getParameterMap() {
-        if (myParameterMap == null) {
-            myParameterMap = new ParameterMap();
+    public Mbp<String, String> getPbrbmeterMbp() {
+        if (myPbrbmeterMbp == null) {
+            myPbrbmeterMbp = new PbrbmeterMbp();
         }
-        return myParameterMap;
+        return myPbrbmeterMbp;
     }
 
     /**
-     * Converts this MIME type object to a string.
+     * Converts this MIME type object to b string.
      *
-     * @return  MIME type string based on the canonical form. Each parameter
-     *          value is enclosed in quotes.
+     * @return  MIME type string bbsed on the cbnonicbl form. Ebch pbrbmeter
+     *          vblue is enclosed in quotes.
      */
     public String toString() {
-        return getStringValue();
+        return getStringVblue();
     }
 
     /**
-     * Returns a hash code for this MIME type object.
+     * Returns b hbsh code for this MIME type object.
      */
-    public int hashCode() {
-        return getStringValue().hashCode();
+    public int hbshCode() {
+        return getStringVblue().hbshCode();
     }
 
     /**
-     * Determine if this MIME type object is equal to the given object. The two
-     * are equal if the given object is not null, is an instance of class
-     * net.jini.print.data.MimeType, and has the same canonical form as this
-     * MIME type object (that is, has the same type, subtype, and parameters).
-     * Thus, if two MIME type objects are the same except for comments, they are
-     * considered equal. However, "text/plain" and "text/plain;
-     * charset=us-ascii" are not considered equal, even though they represent
-     * the same media type (because the default character set for plain text is
+     * Determine if this MIME type object is equbl to the given object. The two
+     * bre equbl if the given object is not null, is bn instbnce of clbss
+     * net.jini.print.dbtb.MimeType, bnd hbs the sbme cbnonicbl form bs this
+     * MIME type object (thbt is, hbs the sbme type, subtype, bnd pbrbmeters).
+     * Thus, if two MIME type objects bre the sbme except for comments, they bre
+     * considered equbl. However, "text/plbin" bnd "text/plbin;
+     * chbrset=us-bscii" bre not considered equbl, even though they represent
+     * the sbme medib type (becbuse the defbult chbrbcter set for plbin text is
      * US-ASCII).
      *
-     * @param  obj  Object to test.
+     * @pbrbm  obj  Object to test.
      *
-     * @return  True if this MIME type object equals <CODE>obj</CODE>, false
+     * @return  True if this MIME type object equbls <CODE>obj</CODE>, fblse
      *          otherwise.
      */
-    public boolean equals (Object obj) {
+    public boolebn equbls (Object obj) {
         return(obj != null &&
-               obj instanceof MimeType &&
-               getStringValue().equals(((MimeType) obj).getStringValue()));
+               obj instbnceof MimeType &&
+               getStringVblue().equbls(((MimeType) obj).getStringVblue()));
     }
 
     /**
-     * Returns this MIME type's string value in canonical form.
+     * Returns this MIME type's string vblue in cbnonicbl form.
      */
-    private String getStringValue() {
-        if (myStringValue == null) {
+    privbte String getStringVblue() {
+        if (myStringVblue == null) {
             StringBuilder result = new StringBuilder();
-            result.append (myPieces[0]);
-            result.append ('/');
-            result.append (myPieces[1]);
+            result.bppend (myPieces[0]);
+            result.bppend ('/');
+            result.bppend (myPieces[1]);
             int n = myPieces.length;
             for (int i = 2; i < n; i += 2) {
-                result.append(';');
-                result.append(' ');
-                result.append(myPieces[i]);
-                result.append('=');
-                result.append(addQuotes (myPieces[i+1]));
+                result.bppend(';');
+                result.bppend(' ');
+                result.bppend(myPieces[i]);
+                result.bppend('=');
+                result.bppend(bddQuotes (myPieces[i+1]));
             }
-            myStringValue = result.toString();
+            myStringVblue = result.toString();
         }
-        return myStringValue;
+        return myStringVblue;
     }
 
-// Hidden classes, constants, and operations for parsing a MIME media type
+// Hidden clbsses, constbnts, bnd operbtions for pbrsing b MIME medib type
 // string.
 
     // Lexeme types.
-    private static final int TOKEN_LEXEME         = 0;
-    private static final int QUOTED_STRING_LEXEME = 1;
-    private static final int TSPECIAL_LEXEME      = 2;
-    private static final int EOF_LEXEME           = 3;
-    private static final int ILLEGAL_LEXEME       = 4;
+    privbte stbtic finbl int TOKEN_LEXEME         = 0;
+    privbte stbtic finbl int QUOTED_STRING_LEXEME = 1;
+    privbte stbtic finbl int TSPECIAL_LEXEME      = 2;
+    privbte stbtic finbl int EOF_LEXEME           = 3;
+    privbte stbtic finbl int ILLEGAL_LEXEME       = 4;
 
-    // Class for a lexical analyzer.
-    private static class LexicalAnalyzer {
+    // Clbss for b lexicbl bnblyzer.
+    privbte stbtic clbss LexicblAnblyzer {
         protected String mySource;
         protected int mySourceLength;
         protected int myCurrentIndex;
@@ -321,7 +321,7 @@ class MimeType implements Serializable, Cloneable {
         protected int myLexemeBeginIndex;
         protected int myLexemeEndIndex;
 
-        public LexicalAnalyzer(String theSource) {
+        public LexicblAnblyzer(String theSource) {
             mySource = theSource;
             mySourceLength = theSource.length();
             myCurrentIndex = 0;
@@ -338,35 +338,35 @@ class MimeType implements Serializable, Cloneable {
                    mySource.substring(myLexemeBeginIndex, myLexemeEndIndex));
         }
 
-        public char getLexemeFirstCharacter() {
+        public chbr getLexemeFirstChbrbcter() {
             return(myLexemeBeginIndex >= mySourceLength ?
                    '\u0000' :
-                   mySource.charAt(myLexemeBeginIndex));
+                   mySource.chbrAt(myLexemeBeginIndex));
         }
 
         public void nextLexeme() {
-            int state = 0;
+            int stbte = 0;
             int commentLevel = 0;
-            char c;
-            while (state >= 0) {
-                switch (state) {
-                    // Looking for a token, quoted string, or tspecial
-                case 0:
+            chbr c;
+            while (stbte >= 0) {
+                switch (stbte) {
+                    // Looking for b token, quoted string, or tspecibl
+                cbse 0:
                     if (myCurrentIndex >= mySourceLength) {
                         myLexemeType = EOF_LEXEME;
                         myLexemeBeginIndex = mySourceLength;
                         myLexemeEndIndex = mySourceLength;
-                        state = -1;
-                    } else if (Character.isWhitespace
-                               (c = mySource.charAt (myCurrentIndex ++))) {
-                        state = 0;
+                        stbte = -1;
+                    } else if (Chbrbcter.isWhitespbce
+                               (c = mySource.chbrAt (myCurrentIndex ++))) {
+                        stbte = 0;
                     } else if (c == '\"') {
                         myLexemeType = QUOTED_STRING_LEXEME;
                         myLexemeBeginIndex = myCurrentIndex;
-                        state = 1;
+                        stbte = 1;
                     } else if (c == '(') {
                         ++ commentLevel;
-                        state = 3;
+                        stbte = 3;
                     } else if (c == '/'  || c == ';' || c == '=' ||
                                c == ')'  || c == '<' || c == '>' ||
                                c == '@'  || c == ',' || c == ':' ||
@@ -375,78 +375,78 @@ class MimeType implements Serializable, Cloneable {
                         myLexemeType = TSPECIAL_LEXEME;
                         myLexemeBeginIndex = myCurrentIndex - 1;
                         myLexemeEndIndex = myCurrentIndex;
-                        state = -1;
+                        stbte = -1;
                     } else {
                         myLexemeType = TOKEN_LEXEME;
                         myLexemeBeginIndex = myCurrentIndex - 1;
-                        state = 5;
+                        stbte = 5;
                     }
-                    break;
-                    // In a quoted string
-                case 1:
+                    brebk;
+                    // In b quoted string
+                cbse 1:
                     if (myCurrentIndex >= mySourceLength) {
                         myLexemeType = ILLEGAL_LEXEME;
                         myLexemeBeginIndex = mySourceLength;
                         myLexemeEndIndex = mySourceLength;
-                        state = -1;
-                    } else if ((c = mySource.charAt (myCurrentIndex ++)) == '\"') {
+                        stbte = -1;
+                    } else if ((c = mySource.chbrAt (myCurrentIndex ++)) == '\"') {
                         myLexemeEndIndex = myCurrentIndex - 1;
-                        state = -1;
+                        stbte = -1;
                     } else if (c == '\\') {
-                        state = 2;
+                        stbte = 2;
                     } else {
-                        state = 1;
+                        stbte = 1;
                     }
-                    break;
-                    // In a quoted string, backslash seen
-                case 2:
+                    brebk;
+                    // In b quoted string, bbckslbsh seen
+                cbse 2:
                     if (myCurrentIndex >= mySourceLength) {
                         myLexemeType = ILLEGAL_LEXEME;
                         myLexemeBeginIndex = mySourceLength;
                         myLexemeEndIndex = mySourceLength;
-                        state = -1;
+                        stbte = -1;
                     } else {
                         ++ myCurrentIndex;
-                        state = 1;
-                    } break;
-                    // In a comment
-                case 3: if (myCurrentIndex >= mySourceLength) {
+                        stbte = 1;
+                    } brebk;
+                    // In b comment
+                cbse 3: if (myCurrentIndex >= mySourceLength) {
                     myLexemeType = ILLEGAL_LEXEME;
                     myLexemeBeginIndex = mySourceLength;
                     myLexemeEndIndex = mySourceLength;
-                    state = -1;
-                } else if ((c = mySource.charAt (myCurrentIndex ++)) == '(') {
+                    stbte = -1;
+                } else if ((c = mySource.chbrAt (myCurrentIndex ++)) == '(') {
                     ++ commentLevel;
-                    state = 3;
+                    stbte = 3;
                 } else if (c == ')') {
                     -- commentLevel;
-                    state = commentLevel == 0 ? 0 : 3;
+                    stbte = commentLevel == 0 ? 0 : 3;
                 } else if (c == '\\') {
-                    state = 4;
-                } else { state = 3;
+                    stbte = 4;
+                } else { stbte = 3;
                 }
-                break;
-                // In a comment, backslash seen
-                case 4:
+                brebk;
+                // In b comment, bbckslbsh seen
+                cbse 4:
                     if (myCurrentIndex >= mySourceLength) {
                         myLexemeType = ILLEGAL_LEXEME;
                         myLexemeBeginIndex = mySourceLength;
                         myLexemeEndIndex = mySourceLength;
-                        state = -1;
+                        stbte = -1;
                     } else {
                         ++ myCurrentIndex;
-                        state = 3;
+                        stbte = 3;
                     }
-                    break;
-                    // In a token
-                case 5:
+                    brebk;
+                    // In b token
+                cbse 5:
                     if (myCurrentIndex >= mySourceLength) {
                         myLexemeEndIndex = myCurrentIndex;
-                        state = -1;
-                    } else if (Character.isWhitespace
-                               (c = mySource.charAt (myCurrentIndex ++))) {
+                        stbte = -1;
+                    } else if (Chbrbcter.isWhitespbce
+                               (c = mySource.chbrAt (myCurrentIndex ++))) {
                         myLexemeEndIndex = myCurrentIndex - 1;
-                        state = -1;
+                        stbte = -1;
                     } else if (c == '\"' || c == '(' || c == '/' ||
                                c == ';'  || c == '=' || c == ')' ||
                                c == '<' || c == '>'  || c == '@' ||
@@ -454,11 +454,11 @@ class MimeType implements Serializable, Cloneable {
                                c == '[' || c == ']' || c == '?') {
                         -- myCurrentIndex;
                         myLexemeEndIndex = myCurrentIndex;
-                        state = -1;
+                        stbte = -1;
                     } else {
-                        state = 5;
+                        stbte = 5;
                     }
-                    break;
+                    brebk;
                 }
             }
 
@@ -467,35 +467,35 @@ class MimeType implements Serializable, Cloneable {
     }
 
     /**
-     * Returns a lowercase version of the given string. The lowercase version
-     * is constructed by applying Character.toLowerCase() to each character of
-     * the given string, which maps characters to lowercase using the rules of
-     * Unicode. This mapping is the same regardless of locale, whereas the
-     * mapping of String.toLowerCase() may be different depending on the
-     * default locale.
+     * Returns b lowercbse version of the given string. The lowercbse version
+     * is constructed by bpplying Chbrbcter.toLowerCbse() to ebch chbrbcter of
+     * the given string, which mbps chbrbcters to lowercbse using the rules of
+     * Unicode. This mbpping is the sbme regbrdless of locble, wherebs the
+     * mbpping of String.toLowerCbse() mby be different depending on the
+     * defbult locble.
      */
-    private static String toUnicodeLowerCase(String s) {
+    privbte stbtic String toUnicodeLowerCbse(String s) {
         int n = s.length();
-        char[] result = new char [n];
+        chbr[] result = new chbr [n];
         for (int i = 0; i < n; ++ i) {
-            result[i] = Character.toLowerCase (s.charAt (i));
+            result[i] = Chbrbcter.toLowerCbse (s.chbrAt (i));
         }
         return new String (result);
     }
 
     /**
-     * Returns a version of the given string with backslashes removed.
+     * Returns b version of the given string with bbckslbshes removed.
      */
-    private static String removeBackslashes(String s) {
+    privbte stbtic String removeBbckslbshes(String s) {
         int n = s.length();
-        char[] result = new char [n];
+        chbr[] result = new chbr [n];
         int i;
         int j = 0;
-        char c;
+        chbr c;
         for (i = 0; i < n; ++ i) {
-            c = s.charAt (i);
+            c = s.chbrAt (i);
             if (c == '\\') {
-                c = s.charAt (++ i);
+                c = s.chbrAt (++ i);
             }
             result[j++] = c;
         }
@@ -503,134 +503,134 @@ class MimeType implements Serializable, Cloneable {
     }
 
     /**
-     * Returns a version of the string surrounded by quotes and with interior
-     * quotes preceded by a backslash.
+     * Returns b version of the string surrounded by quotes bnd with interior
+     * quotes preceded by b bbckslbsh.
      */
-    private static String addQuotes(String s) {
+    privbte stbtic String bddQuotes(String s) {
         int n = s.length();
         int i;
-        char c;
+        chbr c;
         StringBuilder result = new StringBuilder (n+2);
-        result.append ('\"');
+        result.bppend ('\"');
         for (i = 0; i < n; ++ i) {
-            c = s.charAt (i);
+            c = s.chbrAt (i);
             if (c == '\"') {
-                result.append ('\\');
+                result.bppend ('\\');
             }
-            result.append (c);
+            result.bppend (c);
         }
-        result.append ('\"');
+        result.bppend ('\"');
         return result.toString();
     }
 
     /**
-     * Parses the given string into canonical pieces and stores the pieces in
+     * Pbrses the given string into cbnonicbl pieces bnd stores the pieces in
      * {@link #myPieces <CODE>myPieces</CODE>}.
      * <P>
-     * Special rules applied:
+     * Specibl rules bpplied:
      * <UL>
-     * <LI> If the media type is text, the value of a charset parameter is
-     *      converted to lowercase.
+     * <LI> If the medib type is text, the vblue of b chbrset pbrbmeter is
+     *      converted to lowercbse.
      * </UL>
      *
-     * @param  s  MIME media type string.
+     * @pbrbm  s  MIME medib type string.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>s</CODE> is null.
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if <CODE>s</CODE> does not obey the
-     *     syntax for a MIME media type string.
+     *     syntbx for b MIME medib type string.
      */
-    private void parse(String s) {
-        // Initialize.
+    privbte void pbrse(String s) {
+        // Initiblize.
         if (s == null) {
             throw new NullPointerException();
         }
-        LexicalAnalyzer theLexer = new LexicalAnalyzer (s);
+        LexicblAnblyzer theLexer = new LexicblAnblyzer (s);
         int theLexemeType;
         Vector<String> thePieces = new Vector<>();
-        boolean mediaTypeIsText = false;
-        boolean parameterNameIsCharset = false;
+        boolebn medibTypeIsText = fblse;
+        boolebn pbrbmeterNbmeIsChbrset = fblse;
 
-        // Parse media type.
+        // Pbrse medib type.
         if (theLexer.getLexemeType() == TOKEN_LEXEME) {
-            String mt = toUnicodeLowerCase (theLexer.getLexeme());
-            thePieces.add (mt);
+            String mt = toUnicodeLowerCbse (theLexer.getLexeme());
+            thePieces.bdd (mt);
             theLexer.nextLexeme();
-            mediaTypeIsText = mt.equals ("text");
+            medibTypeIsText = mt.equbls ("text");
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
-        // Parse slash.
+        // Pbrse slbsh.
         if (theLexer.getLexemeType() == TSPECIAL_LEXEME &&
-              theLexer.getLexemeFirstCharacter() == '/') {
+              theLexer.getLexemeFirstChbrbcter() == '/') {
             theLexer.nextLexeme();
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
         if (theLexer.getLexemeType() == TOKEN_LEXEME) {
-            thePieces.add (toUnicodeLowerCase (theLexer.getLexeme()));
+            thePieces.bdd (toUnicodeLowerCbse (theLexer.getLexeme()));
             theLexer.nextLexeme();
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
-        // Parse zero or more parameters.
+        // Pbrse zero or more pbrbmeters.
         while (theLexer.getLexemeType() == TSPECIAL_LEXEME &&
-               theLexer.getLexemeFirstCharacter() == ';') {
-            // Parse semicolon.
+               theLexer.getLexemeFirstChbrbcter() == ';') {
+            // Pbrse semicolon.
             theLexer.nextLexeme();
 
-            // Parse parameter name.
+            // Pbrse pbrbmeter nbme.
             if (theLexer.getLexemeType() == TOKEN_LEXEME) {
-                String pn = toUnicodeLowerCase (theLexer.getLexeme());
-                thePieces.add (pn);
+                String pn = toUnicodeLowerCbse (theLexer.getLexeme());
+                thePieces.bdd (pn);
                 theLexer.nextLexeme();
-                parameterNameIsCharset = pn.equals ("charset");
+                pbrbmeterNbmeIsChbrset = pn.equbls ("chbrset");
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
 
-            // Parse equals.
+            // Pbrse equbls.
             if (theLexer.getLexemeType() == TSPECIAL_LEXEME &&
-                theLexer.getLexemeFirstCharacter() == '=') {
+                theLexer.getLexemeFirstChbrbcter() == '=') {
                 theLexer.nextLexeme();
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
 
-            // Parse parameter value.
+            // Pbrse pbrbmeter vblue.
             if (theLexer.getLexemeType() == TOKEN_LEXEME) {
                 String pv = theLexer.getLexeme();
-                thePieces.add(mediaTypeIsText && parameterNameIsCharset ?
-                              toUnicodeLowerCase (pv) :
+                thePieces.bdd(medibTypeIsText && pbrbmeterNbmeIsChbrset ?
+                              toUnicodeLowerCbse (pv) :
                               pv);
                 theLexer.nextLexeme();
             } else if (theLexer.getLexemeType() == QUOTED_STRING_LEXEME) {
-                String pv = removeBackslashes (theLexer.getLexeme());
-                thePieces.add(mediaTypeIsText && parameterNameIsCharset ?
-                              toUnicodeLowerCase (pv) :
+                String pv = removeBbckslbshes (theLexer.getLexeme());
+                thePieces.bdd(medibTypeIsText && pbrbmeterNbmeIsChbrset ?
+                              toUnicodeLowerCbse (pv) :
                               pv);
                 theLexer.nextLexeme();
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
         }
 
-        // Make sure we've consumed everything.
+        // Mbke sure we've consumed everything.
         if (theLexer.getLexemeType() != EOF_LEXEME) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        // Save the pieces. Parameters are not in ascending order yet.
+        // Sbve the pieces. Pbrbmeters bre not in bscending order yet.
         int n = thePieces.size();
-        myPieces = thePieces.toArray (new String [n]);
+        myPieces = thePieces.toArrby (new String [n]);
 
-        // Sort the parameters into ascending order using an insertion sort.
+        // Sort the pbrbmeters into bscending order using bn insertion sort.
         int i, j;
         String temp;
         for (i = 4; i < n; i += 2) {
             j = 2;
-            while (j < i && myPieces[j].compareTo (myPieces[i]) <= 0) {
+            while (j < i && myPieces[j].compbreTo (myPieces[i]) <= 0) {
                 j += 2;
             }
             while (j < i) {

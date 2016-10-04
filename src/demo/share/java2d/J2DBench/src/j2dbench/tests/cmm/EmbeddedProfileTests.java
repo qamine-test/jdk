@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,94 +30,94 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-package j2dbench.tests.cmm;
+pbckbge j2dbench.tests.cmm;
 
 import j2dbench.Group;
 import j2dbench.Option;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.io.IOException;
+import jbvb.net.URL;
+import jbvbx.imbgeio.ImbgeIO;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
-/* This benchmark verifies how changes in cmm library affects image decoding */
-public class EmbeddedProfileTests extends ColorConversionTests {
+/* This benchmbrk verifies how chbnges in cmm librbry bffects imbge decoding */
+public clbss EmbeddedProfileTests extends ColorConversionTests {
 
-    protected static Group grpRoot;
-    protected static Group grpOptionsRoot;
+    protected stbtic Group grpRoot;
+    protected stbtic Group grpOptionsRoot;
 
-    protected static Option inputImages;
+    protected stbtic Option inputImbges;
 
-    public static void init() {
+    public stbtic void init() {
         grpRoot = new Group(colorConvRoot, "embed", "Embedded Profile Tests");
 
         grpOptionsRoot = new Group(grpRoot, "embedOptions", "Options");
 
-        inputImages = createImageList();
+        inputImbges = crebteImbgeList();
 
-        new ReadImageTest();
+        new RebdImbgeTest();
     }
 
-    private static enum IccImageResource {
-        SMALL("images/img_icc_small.jpg", "512x512", "Small: 512x512"),
-        MEDIUM("images/img_icc_medium.jpg", "2048x2048", "Medium: 2048x2048"),
-        LARGE("images/img_icc_large.jpg", "4096x4096", "Large: 4096x4096");
+    privbte stbtic enum IccImbgeResource {
+        SMALL("imbges/img_icc_smbll.jpg", "512x512", "Smbll: 512x512"),
+        MEDIUM("imbges/img_icc_medium.jpg", "2048x2048", "Medium: 2048x2048"),
+        LARGE("imbges/img_icc_lbrge.jpg", "4096x4096", "Lbrge: 4096x4096");
 
-        private IccImageResource(String file, String name, String description) {
-            this.url = CMMTests.class.getResource(file);
-            this.abbrev = name;
+        privbte IccImbgeResource(String file, String nbme, String description) {
+            this.url = CMMTests.clbss.getResource(file);
+            this.bbbrev = nbme;
             this.description = description;
         }
 
-        public final URL url;
-        public final String abbrev;
-        public final String description;
+        public finbl URL url;
+        public finbl String bbbrev;
+        public finbl String description;
     }
 
-    private static Option createImageList() {
-        IccImageResource[] images = IccImageResource.values();
+    privbte stbtic Option crebteImbgeList() {
+        IccImbgeResource[] imbges = IccImbgeResource.vblues();
 
-        int num = images.length;
+        int num = imbges.length;
 
-        String[] names = new String[num];
-        String[] abbrev = new String[num];
+        String[] nbmes = new String[num];
+        String[] bbbrev = new String[num];
         String[] descr = new String[num];
 
         for (int i = 0; i < num; i++) {
-            names[i] = images[i].toString();
-            abbrev[i] = images[i].abbrev;
-            descr[i] = images[i].description;
+            nbmes[i] = imbges[i].toString();
+            bbbrev[i] = imbges[i].bbbrev;
+            descr[i] = imbges[i].description;
         }
 
          Option list = new Option.ObjectList(grpOptionsRoot,
-                "Images", "Input Images",
-                names, images, abbrev, descr, 1);
+                "Imbges", "Input Imbges",
+                nbmes, imbges, bbbrev, descr, 1);
 
          return list;
     }
 
-    public EmbeddedProfileTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(grpOptionsRoot, true);
+    public EmbeddedProfileTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
+        bddDependencies(grpOptionsRoot, true);
     }
 
-    private static class Context {
+    privbte stbtic clbss Context {
         URL input;
 
         public Context(TestEnvironment env, Result res) {
 
-            IccImageResource icc_input = (IccImageResource)
-                    env.getModifier(inputImages);
+            IccImbgeResource icc_input = (IccImbgeResource)
+                    env.getModifier(inputImbges);
 
             input = icc_input.url;
         }
@@ -127,38 +127,38 @@ public class EmbeddedProfileTests extends ColorConversionTests {
         return new Context(env, res);
     }
 
-    public void cleanupTest(TestEnvironment env, Object o) {
+    public void clebnupTest(TestEnvironment env, Object o) {
         Context ctx = (Context)o;
         ctx.input = null;
     }
 
-    private static class ReadImageTest extends EmbeddedProfileTests {
-        public ReadImageTest() {
-            super(grpRoot, "embd_img_read", "ImageReader.read()");
+    privbte stbtic clbss RebdImbgeTest extends EmbeddedProfileTests {
+        public RebdImbgeTest() {
+            super(grpRoot, "embd_img_rebd", "ImbgeRebder.rebd()");
         }
 
         public void runTest(Object octx, int numReps) {
-            final Context ctx = (Context)octx;
-            final URL url = ctx.input;
-            ImageInputStream iis = null;
-            ImageReader reader = null;
+            finbl Context ctx = (Context)octx;
+            finbl URL url = ctx.input;
+            ImbgeInputStrebm iis = null;
+            ImbgeRebder rebder = null;
 
             try {
-                iis = ImageIO.createImageInputStream(url.openStream());
-                reader = ImageIO.getImageReaders(iis).next();
-            } catch (IOException e) {
-                throw new RuntimeException("Unable to run the becnhmark", e);
+                iis = ImbgeIO.crebteImbgeInputStrebm(url.openStrebm());
+                rebder = ImbgeIO.getImbgeRebders(iis).next();
+            } cbtch (IOException e) {
+                throw new RuntimeException("Unbble to run the becnhmbrk", e);
             }
 
             do {
                 try {
-                    reader.setInput(iis);
-                    BufferedImage img = reader.read(0);
-                    reader.reset();
+                    rebder.setInput(iis);
+                    BufferedImbge img = rebder.rebd(0);
+                    rebder.reset();
 
-                    iis = ImageIO.createImageInputStream(url.openStream());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    iis = ImbgeIO.crebteImbgeInputStrebm(url.openStrebm());
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }

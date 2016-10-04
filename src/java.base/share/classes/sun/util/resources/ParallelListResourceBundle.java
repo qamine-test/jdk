@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.resources;
+pbckbge sun.util.resources;
 
-import java.util.AbstractSet;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicMarkableReference;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.Collections;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.ResourceBundle;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.concurrent.btomic.AtomicMbrkbbleReference;
 
 /**
- * ParallelListResourceBundle is another variant of ListResourceBundle
- * supporting "parallel" contents provided by another resource bundle
- * (OpenListResourceBundle). Parallel contents, if any, are added into this
- * bundle on demand.
+ * PbrbllelListResourceBundle is bnother vbribnt of ListResourceBundle
+ * supporting "pbrbllel" contents provided by bnother resource bundle
+ * (OpenListResourceBundle). Pbrbllel contents, if bny, bre bdded into this
+ * bundle on dembnd.
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  */
-public abstract class ParallelListResourceBundle extends ResourceBundle {
-    private volatile ConcurrentMap<String, Object> lookup;
-    private volatile Set<String> keyset;
-    private final AtomicMarkableReference<Object[][]> parallelContents
-            = new AtomicMarkableReference<>(null, false);
+public bbstrbct clbss PbrbllelListResourceBundle extends ResourceBundle {
+    privbte volbtile ConcurrentMbp<String, Object> lookup;
+    privbte volbtile Set<String> keyset;
+    privbte finbl AtomicMbrkbbleReference<Object[][]> pbrbllelContents
+            = new AtomicMbrkbbleReference<>(null, fblse);
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected ParallelListResourceBundle() {
+    protected PbrbllelListResourceBundle() {
     }
 
     /**
-     * Returns an array in which each item is a pair of objects in an
-     * Object array. The first element of each pair is the key, which
-     * must be a String, and the second element is the value
-     * associated with that key. See the class description for
-     * details.
+     * Returns bn brrby in which ebch item is b pbir of objects in bn
+     * Object brrby. The first element of ebch pbir is the key, which
+     * must be b String, bnd the second element is the vblue
+     * bssocibted with thbt key. See the clbss description for
+     * detbils.
      *
-     * @return an array of an Object array representing a key-value pair.
+     * @return bn brrby of bn Object brrby representing b key-vblue pbir.
      */
-    protected abstract Object[][] getContents();
+    protected bbstrbct Object[][] getContents();
 
     /**
-     * Returns the parent of this resource bundle or null if there's no parent.
+     * Returns the pbrent of this resource bundle or null if there's no pbrent.
      *
-     * @return the parent or null if no parent
+     * @return the pbrent or null if no pbrent
      */
-    ResourceBundle getParent() {
-        return parent;
+    ResourceBundle getPbrent() {
+        return pbrent;
     }
 
     /**
-     * Sets the parallel contents to the data given by rb. If rb is null, this
-     * bundle will be marked as `complete'.
+     * Sets the pbrbllel contents to the dbtb given by rb. If rb is null, this
+     * bundle will be mbrked bs `complete'.
      *
-     * @param rb an OpenResourceBundle for parallel contents, or null indicating
-     * there are no parallel contents for this bundle
+     * @pbrbm rb bn OpenResourceBundle for pbrbllel contents, or null indicbting
+     * there bre no pbrbllel contents for this bundle
      */
-    public void setParallelContents(OpenListResourceBundle rb) {
+    public void setPbrbllelContents(OpenListResourceBundle rb) {
         if (rb == null) {
-            parallelContents.compareAndSet(null, null, false, true);
+            pbrbllelContents.compbreAndSet(null, null, fblse, true);
         } else {
-            parallelContents.compareAndSet(null, rb.getContents(), false, false);
+            pbrbllelContents.compbreAndSet(null, rb.getContents(), fblse, fblse);
         }
     }
 
     /**
-     * Returns true if any parallel contents have been set or if this bundle is
-     * marked as complete.
+     * Returns true if bny pbrbllel contents hbve been set or if this bundle is
+     * mbrked bs complete.
      *
-     * @return true if any parallel contents have been processed
+     * @return true if bny pbrbllel contents hbve been processed
      */
-    boolean areParallelContentsComplete() {
+    boolebn brePbrbllelContentsComplete() {
         // Quick check for `complete'
-        if (parallelContents.isMarked()) {
+        if (pbrbllelContents.isMbrked()) {
             return true;
         }
-        boolean[] done = new boolean[1];
-        Object[][] data = parallelContents.get(done);
-        return data != null || done[0];
+        boolebn[] done = new boolebn[1];
+        Object[][] dbtb = pbrbllelContents.get(done);
+        return dbtb != null || done[0];
     }
 
     @Override
-    protected Object handleGetObject(String key) {
+    protected Object hbndleGetObject(String key) {
         if (key == null) {
             throw new NullPointerException();
         }
 
-        loadLookupTablesIfNecessary();
+        lobdLookupTbblesIfNecessbry();
         return lookup.get(key);
     }
 
     @Override
-    public Enumeration<String> getKeys() {
-        return Collections.enumeration(keySet());
+    public Enumerbtion<String> getKeys() {
+        return Collections.enumerbtion(keySet());
     }
 
     @Override
-    public boolean containsKey(String key) {
-        return keySet().contains(key);
+    public boolebn contbinsKey(String key) {
+        return keySet().contbins(key);
     }
 
     @Override
-    protected Set<String> handleKeySet() {
-        loadLookupTablesIfNecessary();
+    protected Set<String> hbndleKeySet() {
+        lobdLookupTbblesIfNecessbry();
         return lookup.keySet();
     }
 
     @Override
-    @SuppressWarnings("UnusedAssignment")
+    @SuppressWbrnings("UnusedAssignment")
     public Set<String> keySet() {
         Set<String> ks;
         while ((ks = keyset) == null) {
-            ks = new KeySet(handleKeySet(), parent);
+            ks = new KeySet(hbndleKeySet(), pbrent);
             synchronized (this) {
                 if (keyset == null) {
                     keyset = ks;
@@ -151,89 +151,89 @@ public abstract class ParallelListResourceBundle extends ResourceBundle {
     }
 
     /**
-     * Discards any cached keyset value. This method is called from
-     * LocaleData for re-creating a KeySet.
+     * Discbrds bny cbched keyset vblue. This method is cblled from
+     * LocbleDbtb for re-crebting b KeySet.
      */
     synchronized void resetKeySet() {
         keyset = null;
     }
 
     /**
-     * Loads the lookup table if they haven't been loaded already.
+     * Lobds the lookup tbble if they hbven't been lobded blrebdy.
      */
-    void loadLookupTablesIfNecessary() {
-        ConcurrentMap<String, Object> map = lookup;
-        if (map == null) {
-            map = new ConcurrentHashMap<>();
+    void lobdLookupTbblesIfNecessbry() {
+        ConcurrentMbp<String, Object> mbp = lookup;
+        if (mbp == null) {
+            mbp = new ConcurrentHbshMbp<>();
             for (Object[] item : getContents()) {
-                map.put((String) item[0], item[1]);
+                mbp.put((String) item[0], item[1]);
             }
         }
 
-        // If there's any parallel contents data, merge the data into map.
-        Object[][] data = parallelContents.getReference();
-        if (data != null) {
-            for (Object[] item : data) {
-                map.putIfAbsent((String) item[0], item[1]);
+        // If there's bny pbrbllel contents dbtb, merge the dbtb into mbp.
+        Object[][] dbtb = pbrbllelContents.getReference();
+        if (dbtb != null) {
+            for (Object[] item : dbtb) {
+                mbp.putIfAbsent((String) item[0], item[1]);
             }
-            parallelContents.set(null, true);
+            pbrbllelContents.set(null, true);
         }
         if (lookup == null) {
             synchronized (this) {
                 if (lookup == null) {
-                    lookup = map;
+                    lookup = mbp;
                 }
             }
         }
     }
 
     /**
-     * This class implements the Set interface for
-     * ParallelListResourceBundle methods.
+     * This clbss implements the Set interfbce for
+     * PbrbllelListResourceBundle methods.
      */
-    private static class KeySet extends AbstractSet<String> {
-        private final Set<String> set;
-        private final ResourceBundle parent;
+    privbte stbtic clbss KeySet extends AbstrbctSet<String> {
+        privbte finbl Set<String> set;
+        privbte finbl ResourceBundle pbrent;
 
-        private KeySet(Set<String> set, ResourceBundle parent) {
+        privbte KeySet(Set<String> set, ResourceBundle pbrent) {
             this.set = set;
-            this.parent = parent;
+            this.pbrent = pbrent;
         }
 
         @Override
-        public boolean contains(Object o) {
-            if (set.contains(o)) {
+        public boolebn contbins(Object o) {
+            if (set.contbins(o)) {
                 return true;
             }
-            return (parent != null) ? parent.containsKey((String) o) : false;
+            return (pbrent != null) ? pbrent.contbinsKey((String) o) : fblse;
         }
 
         @Override
-        public Iterator<String> iterator() {
-            if (parent == null) {
-                return set.iterator();
+        public Iterbtor<String> iterbtor() {
+            if (pbrent == null) {
+                return set.iterbtor();
             }
-            return new Iterator<String>() {
-                private Iterator<String> itr = set.iterator();
-                private boolean usingParent;
+            return new Iterbtor<String>() {
+                privbte Iterbtor<String> itr = set.iterbtor();
+                privbte boolebn usingPbrent;
 
                 @Override
-                public boolean hasNext() {
-                    if (itr.hasNext()) {
+                public boolebn hbsNext() {
+                    if (itr.hbsNext()) {
                         return true;
                     }
-                    if (!usingParent) {
-                        Set<String> nextset = new HashSet<>(parent.keySet());
+                    if (!usingPbrent) {
+                        Set<String> nextset = new HbshSet<>(pbrent.keySet());
                         nextset.removeAll(set);
-                        itr = nextset.iterator();
-                        usingParent = true;
+                        itr = nextset.iterbtor();
+                        usingPbrent = true;
                     }
-                    return itr.hasNext();
+                    return itr.hbsNext();
                 }
 
                 @Override
                 public String next() {
-                    if (hasNext()) {
+                    if (hbsNext()) {
                         return itr.next();
                     }
                     throw new NoSuchElementException();
@@ -241,19 +241,19 @@ public abstract class ParallelListResourceBundle extends ResourceBundle {
 
                 @Override
                 public void remove() {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
             };
         }
 
         @Override
         public int size() {
-            if (parent == null) {
+            if (pbrent == null) {
                 return set.size();
             }
-            Set<String> allset = new HashSet<>(set);
-            allset.addAll(parent.keySet());
-            return allset.size();
+            Set<String> bllset = new HbshSet<>(set);
+            bllset.bddAll(pbrent.keySet());
+            return bllset.size();
         }
     }
 }

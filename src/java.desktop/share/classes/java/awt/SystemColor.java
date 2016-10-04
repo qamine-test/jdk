@@ -1,444 +1,444 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
-import java.io.ObjectStreamException;
+import jbvb.io.ObjectStrebmException;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * A class to encapsulate symbolic colors representing the color of
- * native GUI objects on a system.  For systems which support the dynamic
- * update of the system colors (when the user changes the colors)
- * the actual RGB values of these symbolic colors will also change
- * dynamically.  In order to compare the "current" RGB value of a
- * <code>SystemColor</code> object with a non-symbolic Color object,
- * <code>getRGB</code> should be used rather than <code>equals</code>.
+ * A clbss to encbpsulbte symbolic colors representing the color of
+ * nbtive GUI objects on b system.  For systems which support the dynbmic
+ * updbte of the system colors (when the user chbnges the colors)
+ * the bctubl RGB vblues of these symbolic colors will blso chbnge
+ * dynbmicblly.  In order to compbre the "current" RGB vblue of b
+ * <code>SystemColor</code> object with b non-symbolic Color object,
+ * <code>getRGB</code> should be used rbther thbn <code>equbls</code>.
  * <p>
- * Note that the way in which these system colors are applied to GUI objects
- * may vary slightly from platform to platform since GUI objects may be
- * rendered differently on each platform.
+ * Note thbt the wby in which these system colors bre bpplied to GUI objects
+ * mby vbry slightly from plbtform to plbtform since GUI objects mby be
+ * rendered differently on ebch plbtform.
  * <p>
- * System color values may also be available through the <code>getDesktopProperty</code>
- * method on <code>java.awt.Toolkit</code>.
+ * System color vblues mby blso be bvbilbble through the <code>getDesktopProperty</code>
+ * method on <code>jbvb.bwt.Toolkit</code>.
  *
  * @see Toolkit#getDesktopProperty
  *
- * @author      Carl Quinn
- * @author      Amy Fowler
+ * @buthor      Cbrl Quinn
+ * @buthor      Amy Fowler
  */
-public final class SystemColor extends Color implements java.io.Serializable {
+public finbl clbss SystemColor extends Color implements jbvb.io.Seriblizbble {
 
    /**
-     * The array index for the
+     * The brrby index for the
      * {@link #desktop} system color.
      * @see SystemColor#desktop
      */
-    @Native public final static int DESKTOP = 0;
+    @Nbtive public finbl stbtic int DESKTOP = 0;
 
     /**
-     * The array index for the
-     * {@link #activeCaption} system color.
-     * @see SystemColor#activeCaption
+     * The brrby index for the
+     * {@link #bctiveCbption} system color.
+     * @see SystemColor#bctiveCbption
      */
-    @Native public final static int ACTIVE_CAPTION = 1;
+    @Nbtive public finbl stbtic int ACTIVE_CAPTION = 1;
 
     /**
-     * The array index for the
-     * {@link #activeCaptionText} system color.
-     * @see SystemColor#activeCaptionText
+     * The brrby index for the
+     * {@link #bctiveCbptionText} system color.
+     * @see SystemColor#bctiveCbptionText
      */
-    @Native public final static int ACTIVE_CAPTION_TEXT = 2;
+    @Nbtive public finbl stbtic int ACTIVE_CAPTION_TEXT = 2;
 
     /**
-     * The array index for the
-     * {@link #activeCaptionBorder} system color.
-     * @see SystemColor#activeCaptionBorder
+     * The brrby index for the
+     * {@link #bctiveCbptionBorder} system color.
+     * @see SystemColor#bctiveCbptionBorder
      */
-    @Native public final static int ACTIVE_CAPTION_BORDER = 3;
+    @Nbtive public finbl stbtic int ACTIVE_CAPTION_BORDER = 3;
 
     /**
-     * The array index for the
-     * {@link #inactiveCaption} system color.
-     * @see SystemColor#inactiveCaption
+     * The brrby index for the
+     * {@link #inbctiveCbption} system color.
+     * @see SystemColor#inbctiveCbption
      */
-    @Native public final static int INACTIVE_CAPTION = 4;
+    @Nbtive public finbl stbtic int INACTIVE_CAPTION = 4;
 
     /**
-     * The array index for the
-     * {@link #inactiveCaptionText} system color.
-     * @see SystemColor#inactiveCaptionText
+     * The brrby index for the
+     * {@link #inbctiveCbptionText} system color.
+     * @see SystemColor#inbctiveCbptionText
      */
-    @Native public final static int INACTIVE_CAPTION_TEXT = 5;
+    @Nbtive public finbl stbtic int INACTIVE_CAPTION_TEXT = 5;
 
     /**
-     * The array index for the
-     * {@link #inactiveCaptionBorder} system color.
-     * @see SystemColor#inactiveCaptionBorder
+     * The brrby index for the
+     * {@link #inbctiveCbptionBorder} system color.
+     * @see SystemColor#inbctiveCbptionBorder
      */
-    @Native public final static int INACTIVE_CAPTION_BORDER = 6;
+    @Nbtive public finbl stbtic int INACTIVE_CAPTION_BORDER = 6;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #window} system color.
      * @see SystemColor#window
      */
-    @Native public final static int WINDOW = 7;
+    @Nbtive public finbl stbtic int WINDOW = 7;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #windowBorder} system color.
      * @see SystemColor#windowBorder
      */
-    @Native public final static int WINDOW_BORDER = 8;
+    @Nbtive public finbl stbtic int WINDOW_BORDER = 8;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #windowText} system color.
      * @see SystemColor#windowText
      */
-    @Native public final static int WINDOW_TEXT = 9;
+    @Nbtive public finbl stbtic int WINDOW_TEXT = 9;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #menu} system color.
      * @see SystemColor#menu
      */
-    @Native public final static int MENU = 10;
+    @Nbtive public finbl stbtic int MENU = 10;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #menuText} system color.
      * @see SystemColor#menuText
      */
-    @Native public final static int MENU_TEXT = 11;
+    @Nbtive public finbl stbtic int MENU_TEXT = 11;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #text} system color.
      * @see SystemColor#text
      */
-    @Native public final static int TEXT = 12;
+    @Nbtive public finbl stbtic int TEXT = 12;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #textText} system color.
      * @see SystemColor#textText
      */
-    @Native public final static int TEXT_TEXT = 13;
+    @Nbtive public finbl stbtic int TEXT_TEXT = 13;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #textHighlight} system color.
      * @see SystemColor#textHighlight
      */
-    @Native public final static int TEXT_HIGHLIGHT = 14;
+    @Nbtive public finbl stbtic int TEXT_HIGHLIGHT = 14;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #textHighlightText} system color.
      * @see SystemColor#textHighlightText
      */
-    @Native public final static int TEXT_HIGHLIGHT_TEXT = 15;
+    @Nbtive public finbl stbtic int TEXT_HIGHLIGHT_TEXT = 15;
 
     /**
-     * The array index for the
-     * {@link #textInactiveText} system color.
-     * @see SystemColor#textInactiveText
+     * The brrby index for the
+     * {@link #textInbctiveText} system color.
+     * @see SystemColor#textInbctiveText
      */
-    @Native public final static int TEXT_INACTIVE_TEXT = 16;
+    @Nbtive public finbl stbtic int TEXT_INACTIVE_TEXT = 16;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #control} system color.
      * @see SystemColor#control
      */
-    @Native public final static int CONTROL = 17;
+    @Nbtive public finbl stbtic int CONTROL = 17;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #controlText} system color.
      * @see SystemColor#controlText
      */
-    @Native public final static int CONTROL_TEXT = 18;
+    @Nbtive public finbl stbtic int CONTROL_TEXT = 18;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #controlHighlight} system color.
      * @see SystemColor#controlHighlight
      */
-    @Native public final static int CONTROL_HIGHLIGHT = 19;
+    @Nbtive public finbl stbtic int CONTROL_HIGHLIGHT = 19;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #controlLtHighlight} system color.
      * @see SystemColor#controlLtHighlight
      */
-    @Native public final static int CONTROL_LT_HIGHLIGHT = 20;
+    @Nbtive public finbl stbtic int CONTROL_LT_HIGHLIGHT = 20;
 
     /**
-     * The array index for the
-     * {@link #controlShadow} system color.
-     * @see SystemColor#controlShadow
+     * The brrby index for the
+     * {@link #controlShbdow} system color.
+     * @see SystemColor#controlShbdow
      */
-    @Native public final static int CONTROL_SHADOW = 21;
+    @Nbtive public finbl stbtic int CONTROL_SHADOW = 21;
 
     /**
-     * The array index for the
-     * {@link #controlDkShadow} system color.
-     * @see SystemColor#controlDkShadow
+     * The brrby index for the
+     * {@link #controlDkShbdow} system color.
+     * @see SystemColor#controlDkShbdow
      */
-    @Native public final static int CONTROL_DK_SHADOW = 22;
+    @Nbtive public finbl stbtic int CONTROL_DK_SHADOW = 22;
 
     /**
-     * The array index for the
-     * {@link #scrollbar} system color.
-     * @see SystemColor#scrollbar
+     * The brrby index for the
+     * {@link #scrollbbr} system color.
+     * @see SystemColor#scrollbbr
      */
-    @Native public final static int SCROLLBAR = 23;
+    @Nbtive public finbl stbtic int SCROLLBAR = 23;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #info} system color.
      * @see SystemColor#info
      */
-    @Native public final static int INFO = 24;
+    @Nbtive public finbl stbtic int INFO = 24;
 
     /**
-     * The array index for the
+     * The brrby index for the
      * {@link #infoText} system color.
      * @see SystemColor#infoText
      */
-    @Native public final static int INFO_TEXT = 25;
+    @Nbtive public finbl stbtic int INFO_TEXT = 25;
 
     /**
-     * The number of system colors in the array.
+     * The number of system colors in the brrby.
      */
-    @Native public final static int NUM_COLORS = 26;
+    @Nbtive public finbl stbtic int NUM_COLORS = 26;
 
     /******************************************************************************************/
 
     /*
-     * System colors with default initial values, overwritten by toolkit if
-     * system values differ and are available.
-     * Should put array initialization above first field that is using
-     * SystemColor constructor to initialize.
+     * System colors with defbult initibl vblues, overwritten by toolkit if
+     * system vblues differ bnd bre bvbilbble.
+     * Should put brrby initiblizbtion bbove first field thbt is using
+     * SystemColor constructor to initiblize.
      */
-    private static int[] systemColors = {
+    privbte stbtic int[] systemColors = {
         0xFF005C5C,  // desktop = new Color(0,92,92);
-        0xFF000080,  // activeCaption = new Color(0,0,128);
-        0xFFFFFFFF,  // activeCaptionText = Color.white;
-        0xFFC0C0C0,  // activeCaptionBorder = Color.lightGray;
-        0xFF808080,  // inactiveCaption = Color.gray;
-        0xFFC0C0C0,  // inactiveCaptionText = Color.lightGray;
-        0xFFC0C0C0,  // inactiveCaptionBorder = Color.lightGray;
+        0xFF000080,  // bctiveCbption = new Color(0,0,128);
+        0xFFFFFFFF,  // bctiveCbptionText = Color.white;
+        0xFFC0C0C0,  // bctiveCbptionBorder = Color.lightGrby;
+        0xFF808080,  // inbctiveCbption = Color.grby;
+        0xFFC0C0C0,  // inbctiveCbptionText = Color.lightGrby;
+        0xFFC0C0C0,  // inbctiveCbptionBorder = Color.lightGrby;
         0xFFFFFFFF,  // window = Color.white;
-        0xFF000000,  // windowBorder = Color.black;
-        0xFF000000,  // windowText = Color.black;
-        0xFFC0C0C0,  // menu = Color.lightGray;
-        0xFF000000,  // menuText = Color.black;
-        0xFFC0C0C0,  // text = Color.lightGray;
-        0xFF000000,  // textText = Color.black;
+        0xFF000000,  // windowBorder = Color.blbck;
+        0xFF000000,  // windowText = Color.blbck;
+        0xFFC0C0C0,  // menu = Color.lightGrby;
+        0xFF000000,  // menuText = Color.blbck;
+        0xFFC0C0C0,  // text = Color.lightGrby;
+        0xFF000000,  // textText = Color.blbck;
         0xFF000080,  // textHighlight = new Color(0,0,128);
         0xFFFFFFFF,  // textHighlightText = Color.white;
-        0xFF808080,  // textInactiveText = Color.gray;
-        0xFFC0C0C0,  // control = Color.lightGray;
-        0xFF000000,  // controlText = Color.black;
+        0xFF808080,  // textInbctiveText = Color.grby;
+        0xFFC0C0C0,  // control = Color.lightGrby;
+        0xFF000000,  // controlText = Color.blbck;
         0xFFFFFFFF,  // controlHighlight = Color.white;
         0xFFE0E0E0,  // controlLtHighlight = new Color(224,224,224);
-        0xFF808080,  // controlShadow = Color.gray;
-        0xFF000000,  // controlDkShadow = Color.black;
-        0xFFE0E0E0,  // scrollbar = new Color(224,224,224);
+        0xFF808080,  // controlShbdow = Color.grby;
+        0xFF000000,  // controlDkShbdow = Color.blbck;
+        0xFFE0E0E0,  // scrollbbr = new Color(224,224,224);
         0xFFE0E000,  // info = new Color(224,224,0);
-        0xFF000000,  // infoText = Color.black;
+        0xFF000000,  // infoText = Color.blbck;
     };
 
    /**
-     * The color rendered for the background of the desktop.
+     * The color rendered for the bbckground of the desktop.
      */
-    public final static SystemColor desktop = new SystemColor((byte)DESKTOP);
+    public finbl stbtic SystemColor desktop = new SystemColor((byte)DESKTOP);
 
     /**
-     * The color rendered for the window-title background of the currently active window.
+     * The color rendered for the window-title bbckground of the currently bctive window.
      */
-    public final static SystemColor activeCaption = new SystemColor((byte)ACTIVE_CAPTION);
+    public finbl stbtic SystemColor bctiveCbption = new SystemColor((byte)ACTIVE_CAPTION);
 
     /**
-     * The color rendered for the window-title text of the currently active window.
+     * The color rendered for the window-title text of the currently bctive window.
      */
-    public final static SystemColor activeCaptionText = new SystemColor((byte)ACTIVE_CAPTION_TEXT);
+    public finbl stbtic SystemColor bctiveCbptionText = new SystemColor((byte)ACTIVE_CAPTION_TEXT);
 
     /**
-     * The color rendered for the border around the currently active window.
+     * The color rendered for the border bround the currently bctive window.
      */
-    public final static SystemColor activeCaptionBorder = new SystemColor((byte)ACTIVE_CAPTION_BORDER);
+    public finbl stbtic SystemColor bctiveCbptionBorder = new SystemColor((byte)ACTIVE_CAPTION_BORDER);
 
     /**
-     * The color rendered for the window-title background of inactive windows.
+     * The color rendered for the window-title bbckground of inbctive windows.
      */
-    public final static SystemColor inactiveCaption = new SystemColor((byte)INACTIVE_CAPTION);
+    public finbl stbtic SystemColor inbctiveCbption = new SystemColor((byte)INACTIVE_CAPTION);
 
     /**
-     * The color rendered for the window-title text of inactive windows.
+     * The color rendered for the window-title text of inbctive windows.
      */
-    public final static SystemColor inactiveCaptionText = new SystemColor((byte)INACTIVE_CAPTION_TEXT);
+    public finbl stbtic SystemColor inbctiveCbptionText = new SystemColor((byte)INACTIVE_CAPTION_TEXT);
 
     /**
-     * The color rendered for the border around inactive windows.
+     * The color rendered for the border bround inbctive windows.
      */
-    public final static SystemColor inactiveCaptionBorder = new SystemColor((byte)INACTIVE_CAPTION_BORDER);
+    public finbl stbtic SystemColor inbctiveCbptionBorder = new SystemColor((byte)INACTIVE_CAPTION_BORDER);
 
     /**
-     * The color rendered for the background of interior regions inside windows.
+     * The color rendered for the bbckground of interior regions inside windows.
      */
-    public final static SystemColor window = new SystemColor((byte)WINDOW);
+    public finbl stbtic SystemColor window = new SystemColor((byte)WINDOW);
 
     /**
-     * The color rendered for the border around interior regions inside windows.
+     * The color rendered for the border bround interior regions inside windows.
      */
-    public final static SystemColor windowBorder = new SystemColor((byte)WINDOW_BORDER);
+    public finbl stbtic SystemColor windowBorder = new SystemColor((byte)WINDOW_BORDER);
 
     /**
      * The color rendered for text of interior regions inside windows.
      */
-    public final static SystemColor windowText = new SystemColor((byte)WINDOW_TEXT);
+    public finbl stbtic SystemColor windowText = new SystemColor((byte)WINDOW_TEXT);
 
     /**
-     * The color rendered for the background of menus.
+     * The color rendered for the bbckground of menus.
      */
-    public final static SystemColor menu = new SystemColor((byte)MENU);
+    public finbl stbtic SystemColor menu = new SystemColor((byte)MENU);
 
     /**
      * The color rendered for the text of menus.
      */
-    public final static SystemColor menuText = new SystemColor((byte)MENU_TEXT);
+    public finbl stbtic SystemColor menuText = new SystemColor((byte)MENU_TEXT);
 
     /**
-     * The color rendered for the background of text control objects, such as
-     * textfields and comboboxes.
+     * The color rendered for the bbckground of text control objects, such bs
+     * textfields bnd comboboxes.
      */
-    public final static SystemColor text = new SystemColor((byte)TEXT);
+    public finbl stbtic SystemColor text = new SystemColor((byte)TEXT);
 
     /**
-     * The color rendered for the text of text control objects, such as textfields
-     * and comboboxes.
+     * The color rendered for the text of text control objects, such bs textfields
+     * bnd comboboxes.
      */
-    public final static SystemColor textText = new SystemColor((byte)TEXT_TEXT);
+    public finbl stbtic SystemColor textText = new SystemColor((byte)TEXT_TEXT);
 
     /**
-     * The color rendered for the background of selected items, such as in menus,
-     * comboboxes, and text.
+     * The color rendered for the bbckground of selected items, such bs in menus,
+     * comboboxes, bnd text.
      */
-    public final static SystemColor textHighlight = new SystemColor((byte)TEXT_HIGHLIGHT);
+    public finbl stbtic SystemColor textHighlight = new SystemColor((byte)TEXT_HIGHLIGHT);
 
     /**
-     * The color rendered for the text of selected items, such as in menus, comboboxes,
-     * and text.
+     * The color rendered for the text of selected items, such bs in menus, comboboxes,
+     * bnd text.
      */
-    public final static SystemColor textHighlightText = new SystemColor((byte)TEXT_HIGHLIGHT_TEXT);
+    public finbl stbtic SystemColor textHighlightText = new SystemColor((byte)TEXT_HIGHLIGHT_TEXT);
 
     /**
-     * The color rendered for the text of inactive items, such as in menus.
+     * The color rendered for the text of inbctive items, such bs in menus.
      */
-    public final static SystemColor textInactiveText = new SystemColor((byte)TEXT_INACTIVE_TEXT);
+    public finbl stbtic SystemColor textInbctiveText = new SystemColor((byte)TEXT_INACTIVE_TEXT);
 
     /**
-     * The color rendered for the background of control panels and control objects,
-     * such as pushbuttons.
+     * The color rendered for the bbckground of control pbnels bnd control objects,
+     * such bs pushbuttons.
      */
-    public final static SystemColor control = new SystemColor((byte)CONTROL);
+    public finbl stbtic SystemColor control = new SystemColor((byte)CONTROL);
 
     /**
-     * The color rendered for the text of control panels and control objects,
-     * such as pushbuttons.
+     * The color rendered for the text of control pbnels bnd control objects,
+     * such bs pushbuttons.
      */
-    public final static SystemColor controlText = new SystemColor((byte)CONTROL_TEXT);
+    public finbl stbtic SystemColor controlText = new SystemColor((byte)CONTROL_TEXT);
 
     /**
-     * The color rendered for light areas of 3D control objects, such as pushbuttons.
-     * This color is typically derived from the <code>control</code> background color
-     * to provide a 3D effect.
+     * The color rendered for light brebs of 3D control objects, such bs pushbuttons.
+     * This color is typicblly derived from the <code>control</code> bbckground color
+     * to provide b 3D effect.
      */
-    public final static SystemColor controlHighlight = new SystemColor((byte)CONTROL_HIGHLIGHT);
+    public finbl stbtic SystemColor controlHighlight = new SystemColor((byte)CONTROL_HIGHLIGHT);
 
     /**
-     * The color rendered for highlight areas of 3D control objects, such as pushbuttons.
-     * This color is typically derived from the <code>control</code> background color
-     * to provide a 3D effect.
+     * The color rendered for highlight brebs of 3D control objects, such bs pushbuttons.
+     * This color is typicblly derived from the <code>control</code> bbckground color
+     * to provide b 3D effect.
      */
-    public final static SystemColor controlLtHighlight = new SystemColor((byte)CONTROL_LT_HIGHLIGHT);
+    public finbl stbtic SystemColor controlLtHighlight = new SystemColor((byte)CONTROL_LT_HIGHLIGHT);
 
     /**
-     * The color rendered for shadow areas of 3D control objects, such as pushbuttons.
-     * This color is typically derived from the <code>control</code> background color
-     * to provide a 3D effect.
+     * The color rendered for shbdow brebs of 3D control objects, such bs pushbuttons.
+     * This color is typicblly derived from the <code>control</code> bbckground color
+     * to provide b 3D effect.
      */
-    public final static SystemColor controlShadow = new SystemColor((byte)CONTROL_SHADOW);
+    public finbl stbtic SystemColor controlShbdow = new SystemColor((byte)CONTROL_SHADOW);
 
     /**
-     * The color rendered for dark shadow areas on 3D control objects, such as pushbuttons.
-     * This color is typically derived from the <code>control</code> background color
-     * to provide a 3D effect.
+     * The color rendered for dbrk shbdow brebs on 3D control objects, such bs pushbuttons.
+     * This color is typicblly derived from the <code>control</code> bbckground color
+     * to provide b 3D effect.
      */
-    public final static SystemColor controlDkShadow = new SystemColor((byte)CONTROL_DK_SHADOW);
+    public finbl stbtic SystemColor controlDkShbdow = new SystemColor((byte)CONTROL_DK_SHADOW);
 
     /**
-     * The color rendered for the background of scrollbars.
+     * The color rendered for the bbckground of scrollbbrs.
      */
-    public final static SystemColor scrollbar = new SystemColor((byte)SCROLLBAR);
+    public finbl stbtic SystemColor scrollbbr = new SystemColor((byte)SCROLLBAR);
 
     /**
-     * The color rendered for the background of tooltips or spot help.
+     * The color rendered for the bbckground of tooltips or spot help.
      */
-    public final static SystemColor info = new SystemColor((byte)INFO);
+    public finbl stbtic SystemColor info = new SystemColor((byte)INFO);
 
     /**
      * The color rendered for the text of tooltips or spot help.
      */
-    public final static SystemColor infoText = new SystemColor((byte)INFO_TEXT);
+    public finbl stbtic SystemColor infoText = new SystemColor((byte)INFO_TEXT);
 
     /*
-     * JDK 1.1 serialVersionUID.
+     * JDK 1.1 seriblVersionUID.
      */
-    private static final long serialVersionUID = 4503142729533789064L;
+    privbte stbtic finbl long seriblVersionUID = 4503142729533789064L;
 
     /*
-     * An index into either array of SystemColor objects or values.
+     * An index into either brrby of SystemColor objects or vblues.
      */
-    private transient int index;
+    privbte trbnsient int index;
 
-    private static SystemColor systemColorObjects [] = {
+    privbte stbtic SystemColor systemColorObjects [] = {
         SystemColor.desktop,
-        SystemColor.activeCaption,
-        SystemColor.activeCaptionText,
-        SystemColor.activeCaptionBorder,
-        SystemColor.inactiveCaption,
-        SystemColor.inactiveCaptionText,
-        SystemColor.inactiveCaptionBorder,
+        SystemColor.bctiveCbption,
+        SystemColor.bctiveCbptionText,
+        SystemColor.bctiveCbptionBorder,
+        SystemColor.inbctiveCbption,
+        SystemColor.inbctiveCbptionText,
+        SystemColor.inbctiveCbptionBorder,
         SystemColor.window,
         SystemColor.windowBorder,
         SystemColor.windowText,
@@ -448,101 +448,101 @@ public final class SystemColor extends Color implements java.io.Serializable {
         SystemColor.textText,
         SystemColor.textHighlight,
         SystemColor.textHighlightText,
-        SystemColor.textInactiveText,
+        SystemColor.textInbctiveText,
         SystemColor.control,
         SystemColor.controlText,
         SystemColor.controlHighlight,
         SystemColor.controlLtHighlight,
-        SystemColor.controlShadow,
-        SystemColor.controlDkShadow,
-        SystemColor.scrollbar,
+        SystemColor.controlShbdow,
+        SystemColor.controlDkShbdow,
+        SystemColor.scrollbbr,
         SystemColor.info,
         SystemColor.infoText
     };
 
-    static {
-        AWTAccessor.setSystemColorAccessor(SystemColor::updateSystemColors);
-        updateSystemColors();
+    stbtic {
+        AWTAccessor.setSystemColorAccessor(SystemColor::updbteSystemColors);
+        updbteSystemColors();
     }
 
     /**
-     * Called from {@code <init>} and toolkit to update the above systemColors cache.
+     * Cblled from {@code <init>} bnd toolkit to updbte the bbove systemColors cbche.
      */
-    private static void updateSystemColors() {
-        if (!GraphicsEnvironment.isHeadless()) {
-            Toolkit.getDefaultToolkit().loadSystemColors(systemColors);
+    privbte stbtic void updbteSystemColors() {
+        if (!GrbphicsEnvironment.isHebdless()) {
+            Toolkit.getDefbultToolkit().lobdSystemColors(systemColors);
         }
         for (int i = 0; i < systemColors.length; i++) {
-            systemColorObjects[i].value = systemColors[i];
+            systemColorObjects[i].vblue = systemColors[i];
         }
     }
 
     /**
-     * Creates a symbolic color that represents an indexed entry into system
-     * color cache. Used by above static system colors.
+     * Crebtes b symbolic color thbt represents bn indexed entry into system
+     * color cbche. Used by bbove stbtic system colors.
      */
-    private SystemColor(byte index) {
+    privbte SystemColor(byte index) {
         super(systemColors[index]);
         this.index = index;
     }
 
     /**
-     * Returns a string representation of this <code>Color</code>'s values.
+     * Returns b string representbtion of this <code>Color</code>'s vblues.
      * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations.
-     * The returned string may be empty but may not be <code>null</code>.
+     * bnd the content bnd formbt of the returned string mby vbry between
+     * implementbtions.
+     * The returned string mby be empty but mby not be <code>null</code>.
      *
-     * @return  a string representation of this <code>Color</code>
+     * @return  b string representbtion of this <code>Color</code>
      */
     public String toString() {
-        return getClass().getName() + "[i=" + (index) + "]";
+        return getClbss().getNbme() + "[i=" + (index) + "]";
     }
 
     /**
-     * The design of the {@code SystemColor} class assumes that
-     * the {@code SystemColor} object instances stored in the
-     * static final fields above are the only instances that can
+     * The design of the {@code SystemColor} clbss bssumes thbt
+     * the {@code SystemColor} object instbnces stored in the
+     * stbtic finbl fields bbove bre the only instbnces thbt cbn
      * be used by developers.
-     * This method helps maintain those limits on instantiation
-     * by using the index stored in the value field of the
-     * serialized form of the object to replace the serialized
-     * object with the equivalent static object constant field
+     * This method helps mbintbin those limits on instbntibtion
+     * by using the index stored in the vblue field of the
+     * seriblized form of the object to replbce the seriblized
+     * object with the equivblent stbtic object constbnt field
      * of {@code SystemColor}.
-     * See the {@link #writeReplace} method for more information
-     * on the serialized form of these objects.
-     * @return one of the {@code SystemColor} static object
-     *         fields that refers to the same system color.
+     * See the {@link #writeReplbce} method for more informbtion
+     * on the seriblized form of these objects.
+     * @return one of the {@code SystemColor} stbtic object
+     *         fields thbt refers to the sbme system color.
      */
-    private Object readResolve() {
-        // The instances of SystemColor are tightly controlled and
-        // only the canonical instances appearing above as static
-        // constants are allowed.  The serial form of SystemColor
-        // objects stores the color index as the value.  Here we
-        // map that index back into the canonical instance.
-        return systemColorObjects[value];
+    privbte Object rebdResolve() {
+        // The instbnces of SystemColor bre tightly controlled bnd
+        // only the cbnonicbl instbnces bppebring bbove bs stbtic
+        // constbnts bre bllowed.  The seribl form of SystemColor
+        // objects stores the color index bs the vblue.  Here we
+        // mbp thbt index bbck into the cbnonicbl instbnce.
+        return systemColorObjects[vblue];
     }
 
     /**
-     * Returns a specialized version of the {@code SystemColor}
-     * object for writing to the serialized stream.
-     * @serialData
-     * The value field of a serialized {@code SystemColor} object
-     * contains the array index of the system color instead of the
-     * rgb data for the system color.
-     * This index is used by the {@link #readResolve} method to
-     * resolve the deserialized objects back to the original
-     * static constant versions to ensure unique instances of
-     * each {@code SystemColor} object.
-     * @return a proxy {@code SystemColor} object with its value
-     *         replaced by the corresponding system color index.
+     * Returns b speciblized version of the {@code SystemColor}
+     * object for writing to the seriblized strebm.
+     * @seriblDbtb
+     * The vblue field of b seriblized {@code SystemColor} object
+     * contbins the brrby index of the system color instebd of the
+     * rgb dbtb for the system color.
+     * This index is used by the {@link #rebdResolve} method to
+     * resolve the deseriblized objects bbck to the originbl
+     * stbtic constbnt versions to ensure unique instbnces of
+     * ebch {@code SystemColor} object.
+     * @return b proxy {@code SystemColor} object with its vblue
+     *         replbced by the corresponding system color index.
      */
-    private Object writeReplace() throws ObjectStreamException
+    privbte Object writeReplbce() throws ObjectStrebmException
     {
-        // we put an array index in the SystemColor.value while serialize
-        // to keep compatibility.
+        // we put bn brrby index in the SystemColor.vblue while seriblize
+        // to keep compbtibility.
         SystemColor color = new SystemColor((byte)index);
-        color.value = index;
+        color.vblue = index;
         return color;
     }
 }

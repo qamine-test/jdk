@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.util.Locale;
+import jbvb.io.IOException;
+import jbvb.util.Locble;
 
 import sun.security.util.*;
 
 /**
- * This class implements the DNSName as required by the GeneralNames
+ * This clbss implements the DNSNbme bs required by the GenerblNbmes
  * ASN.1 object.
  * <p>
- * [RFC2459] When the subjectAltName extension contains a domain name service
- * label, the domain name MUST be stored in the dNSName (an IA5String).
- * The name MUST be in the "preferred name syntax," as specified by RFC
- * 1034 [RFC 1034]. Note that while upper and lower case letters are
- * allowed in domain names, no signifigance is attached to the case.  In
- * addition, while the string " " is a legal domain name, subjectAltName
- * extensions with a dNSName " " are not permitted.  Finally, the use of
- * the DNS representation for Internet mail addresses (wpolk.nist.gov
- * instead of wpolk@nist.gov) is not permitted; such identities are to
- * be encoded as rfc822Name.
+ * [RFC2459] When the subjectAltNbme extension contbins b dombin nbme service
+ * lbbel, the dombin nbme MUST be stored in the dNSNbme (bn IA5String).
+ * The nbme MUST be in the "preferred nbme syntbx," bs specified by RFC
+ * 1034 [RFC 1034]. Note thbt while upper bnd lower cbse letters bre
+ * bllowed in dombin nbmes, no signifigbnce is bttbched to the cbse.  In
+ * bddition, while the string " " is b legbl dombin nbme, subjectAltNbme
+ * extensions with b dNSNbme " " bre not permitted.  Finblly, the use of
+ * the DNS representbtion for Internet mbil bddresses (wpolk.nist.gov
+ * instebd of wpolk@nist.gov) is not permitted; such identities bre to
+ * be encoded bs rfc822Nbme.
  * <p>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class DNSName implements GeneralNameInterface {
-    private String name;
+public clbss DNSNbme implements GenerblNbmeInterfbce {
+    privbte String nbme;
 
-    private static final String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    private static final String digitsAndHyphen = "0123456789-";
-    private static final String alphaDigitsAndHyphen = alpha + digitsAndHyphen;
+    privbte stbtic finbl String blphb = "ABCDEFGHIJKLMNOPQRSTUVWXYZbbcdefghijklmnopqrstuvwxyz";
+    privbte stbtic finbl String digitsAndHyphen = "0123456789-";
+    privbte stbtic finbl String blphbDigitsAndHyphen = blphb + digitsAndHyphen;
 
     /**
-     * Create the DNSName object from the passed encoded Der value.
+     * Crebte the DNSNbme object from the pbssed encoded Der vblue.
      *
-     * @param derValue the encoded DER DNSName.
+     * @pbrbm derVblue the encoded DER DNSNbme.
      * @exception IOException on error.
      */
-    public DNSName(DerValue derValue) throws IOException {
-        name = derValue.getIA5String();
+    public DNSNbme(DerVblue derVblue) throws IOException {
+        nbme = derVblue.getIA5String();
     }
 
     /**
-     * Create the DNSName object with the specified name.
+     * Crebte the DNSNbme object with the specified nbme.
      *
-     * @param name the DNSName.
-     * @throws IOException if the name is not a valid DNSName subjectAltName
+     * @pbrbm nbme the DNSNbme.
+     * @throws IOException if the nbme is not b vblid DNSNbme subjectAltNbme
      */
-    public DNSName(String name) throws IOException {
-        if (name == null || name.length() == 0)
-            throw new IOException("DNS name must not be null");
-        if (name.indexOf(' ') != -1)
-            throw new IOException("DNS names or NameConstraints with blank components are not permitted");
-        if (name.charAt(0) == '.' || name.charAt(name.length() -1) == '.')
-            throw new IOException("DNS names or NameConstraints may not begin or end with a .");
-        //Name will consist of label components separated by "."
-        //startIndex is the index of the first character of a component
-        //endIndex is the index of the last character of a component plus 1
-        for (int endIndex,startIndex=0; startIndex < name.length(); startIndex = endIndex+1) {
-            endIndex = name.indexOf('.', startIndex);
+    public DNSNbme(String nbme) throws IOException {
+        if (nbme == null || nbme.length() == 0)
+            throw new IOException("DNS nbme must not be null");
+        if (nbme.indexOf(' ') != -1)
+            throw new IOException("DNS nbmes or NbmeConstrbints with blbnk components bre not permitted");
+        if (nbme.chbrAt(0) == '.' || nbme.chbrAt(nbme.length() -1) == '.')
+            throw new IOException("DNS nbmes or NbmeConstrbints mby not begin or end with b .");
+        //Nbme will consist of lbbel components sepbrbted by "."
+        //stbrtIndex is the index of the first chbrbcter of b component
+        //endIndex is the index of the lbst chbrbcter of b component plus 1
+        for (int endIndex,stbrtIndex=0; stbrtIndex < nbme.length(); stbrtIndex = endIndex+1) {
+            endIndex = nbme.indexOf('.', stbrtIndex);
             if (endIndex < 0) {
-                endIndex = name.length();
+                endIndex = nbme.length();
             }
-            if ((endIndex-startIndex) < 1)
-                throw new IOException("DNSName SubjectAltNames with empty components are not permitted");
+            if ((endIndex-stbrtIndex) < 1)
+                throw new IOException("DNSNbme SubjectAltNbmes with empty components bre not permitted");
 
-            //DNSName components must begin with a letter A-Z or a-z
-            if (alpha.indexOf(name.charAt(startIndex)) < 0)
-                throw new IOException("DNSName components must begin with a letter");
-            //nonStartIndex: index for characters in the component beyond the first one
-            for (int nonStartIndex=startIndex+1; nonStartIndex < endIndex; nonStartIndex++) {
-                char x = name.charAt(nonStartIndex);
-                if ((alphaDigitsAndHyphen).indexOf(x) < 0)
-                    throw new IOException("DNSName components must consist of letters, digits, and hyphens");
+            //DNSNbme components must begin with b letter A-Z or b-z
+            if (blphb.indexOf(nbme.chbrAt(stbrtIndex)) < 0)
+                throw new IOException("DNSNbme components must begin with b letter");
+            //nonStbrtIndex: index for chbrbcters in the component beyond the first one
+            for (int nonStbrtIndex=stbrtIndex+1; nonStbrtIndex < endIndex; nonStbrtIndex++) {
+                chbr x = nbme.chbrAt(nonStbrtIndex);
+                if ((blphbDigitsAndHyphen).indexOf(x) < 0)
+                    throw new IOException("DNSNbme components must consist of letters, digits, bnd hyphens");
             }
         }
-        this.name = name;
+        this.nbme = nbme;
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Return the type of the GenerblNbme.
      */
     public int getType() {
-        return (GeneralNameInterface.NAME_DNS);
+        return (GenerblNbmeInterfbce.NAME_DNS);
     }
 
     /**
-     * Return the actual name value of the GeneralName.
+     * Return the bctubl nbme vblue of the GenerblNbme.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Encode the DNS name into the DerOutputStream.
+     * Encode the DNS nbme into the DerOutputStrebm.
      *
-     * @param out the DER stream to encode the DNSName to.
+     * @pbrbm out the DER strebm to encode the DNSNbme to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        out.putIA5String(name);
+    public void encode(DerOutputStrebm out) throws IOException {
+        out.putIA5String(nbme);
     }
 
     /**
-     * Convert the name into user readable string.
+     * Convert the nbme into user rebdbble string.
      */
     public String toString() {
-        return ("DNSName: " + name);
+        return ("DNSNbme: " + nbme);
     }
 
     /**
-     * Compares this name with another, for equality.
+     * Compbres this nbme with bnother, for equblity.
      *
-     * @return true iff the names are equivalent
-     * according to RFC2459.
+     * @return true iff the nbmes bre equivblent
+     * bccording to RFC2459.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj)
             return true;
 
-        if (!(obj instanceof DNSName))
-            return false;
+        if (!(obj instbnceof DNSNbme))
+            return fblse;
 
-        DNSName other = (DNSName)obj;
+        DNSNbme other = (DNSNbme)obj;
 
-        // RFC2459 mandates that these names are
-        // not case-sensitive
-        return name.equalsIgnoreCase(other.name);
+        // RFC2459 mbndbtes thbt these nbmes bre
+        // not cbse-sensitive
+        return nbme.equblsIgnoreCbse(other.nbme);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return name.toUpperCase(Locale.ENGLISH).hashCode();
+    public int hbshCode() {
+        return nbme.toUpperCbse(Locble.ENGLISH).hbshCode();
     }
 
     /**
-     * Return type of constraint inputName places on this name:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name (i.e. does not constrain).
-     *   <li>NAME_MATCH = 0: input name matches name.
-     *   <li>NAME_NARROWS = 1: input name narrows name (is lower in the naming subtree)
-     *   <li>NAME_WIDENS = 2: input name widens name (is higher in the naming subtree)
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name, but is same type.
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Return type of constrbint inputNbme plbces on this nbme:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbme is different type from nbme (i.e. does not constrbin).
+     *   <li>NAME_MATCH = 0: input nbme mbtches nbme.
+     *   <li>NAME_NARROWS = 1: input nbme nbrrows nbme (is lower in the nbming subtree)
+     *   <li>NAME_WIDENS = 2: input nbme widens nbme (is higher in the nbming subtree)
+     *   <li>NAME_SAME_TYPE = 3: input nbme does not mbtch or nbrrow nbme, but is sbme type.
+     * </ul>.  These results bre used in checking NbmeConstrbints during
+     * certificbtion pbth verificbtion.
      * <p>
-     * RFC2459: DNS name restrictions are expressed as foo.bar.com. Any subdomain
-     * satisfies the name constraint. For example, www.foo.bar.com would
-     * satisfy the constraint but bigfoo.bar.com would not.
+     * RFC2459: DNS nbme restrictions bre expressed bs foo.bbr.com. Any subdombin
+     * sbtisfies the nbme constrbint. For exbmple, www.foo.bbr.com would
+     * sbtisfy the constrbint but bigfoo.bbr.com would not.
      * <p>
-     * draft-ietf-pkix-new-part1-00.txt:  DNS name restrictions are expressed as foo.bar.com.
-     * Any DNS name that
-     * can be constructed by simply adding to the left hand side of the name
-     * satisfies the name constraint. For example, www.foo.bar.com would
-     * satisfy the constraint but foo1.bar.com would not.
+     * drbft-ietf-pkix-new-pbrt1-00.txt:  DNS nbme restrictions bre expressed bs foo.bbr.com.
+     * Any DNS nbme thbt
+     * cbn be constructed by simply bdding to the left hbnd side of the nbme
+     * sbtisfies the nbme constrbint. For exbmple, www.foo.bbr.com would
+     * sbtisfy the constrbint but foo1.bbr.com would not.
      * <p>
-     * RFC1034: By convention, domain names can be stored with arbitrary case, but
-     * domain name comparisons for all present domain functions are done in a
-     * case-insensitive manner, assuming an ASCII character set, and a high
+     * RFC1034: By convention, dombin nbmes cbn be stored with brbitrbry cbse, but
+     * dombin nbme compbrisons for bll present dombin functions bre done in b
+     * cbse-insensitive mbnner, bssuming bn ASCII chbrbcter set, bnd b high
      * order zero bit.
      * <p>
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is not exact match, but narrowing and widening are
-     *          not supported for this name type.
+     * @pbrbm inputNbme to be checked for being constrbined
+     * @returns constrbint type bbove
+     * @throws UnsupportedOperbtionException if nbme is not exbct mbtch, but nbrrowing bnd widening bre
+     *          not supported for this nbme type.
      */
-    public int constrains(GeneralNameInterface inputName) throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null)
-            constraintType = NAME_DIFF_TYPE;
-        else if (inputName.getType() != NAME_DNS)
-            constraintType = NAME_DIFF_TYPE;
+    public int constrbins(GenerblNbmeInterfbce inputNbme) throws UnsupportedOperbtionException {
+        int constrbintType;
+        if (inputNbme == null)
+            constrbintType = NAME_DIFF_TYPE;
+        else if (inputNbme.getType() != NAME_DNS)
+            constrbintType = NAME_DIFF_TYPE;
         else {
-            String inName =
-                (((DNSName)inputName).getName()).toLowerCase(Locale.ENGLISH);
-            String thisName = name.toLowerCase(Locale.ENGLISH);
-            if (inName.equals(thisName))
-                constraintType = NAME_MATCH;
-            else if (thisName.endsWith(inName)) {
-                int inNdx = thisName.lastIndexOf(inName);
-                if (thisName.charAt(inNdx-1) == '.' )
-                    constraintType = NAME_WIDENS;
+            String inNbme =
+                (((DNSNbme)inputNbme).getNbme()).toLowerCbse(Locble.ENGLISH);
+            String thisNbme = nbme.toLowerCbse(Locble.ENGLISH);
+            if (inNbme.equbls(thisNbme))
+                constrbintType = NAME_MATCH;
+            else if (thisNbme.endsWith(inNbme)) {
+                int inNdx = thisNbme.lbstIndexOf(inNbme);
+                if (thisNbme.chbrAt(inNdx-1) == '.' )
+                    constrbintType = NAME_WIDENS;
                 else
-                    constraintType = NAME_SAME_TYPE;
-            } else if (inName.endsWith(thisName)) {
-                int ndx = inName.lastIndexOf(thisName);
-                if (inName.charAt(ndx-1) == '.' )
-                    constraintType = NAME_NARROWS;
+                    constrbintType = NAME_SAME_TYPE;
+            } else if (inNbme.endsWith(thisNbme)) {
+                int ndx = inNbme.lbstIndexOf(thisNbme);
+                if (inNbme.chbrAt(ndx-1) == '.' )
+                    constrbintType = NAME_NARROWS;
                 else
-                    constraintType = NAME_SAME_TYPE;
+                    constrbintType = NAME_SAME_TYPE;
             } else {
-                constraintType = NAME_SAME_TYPE;
+                constrbintType = NAME_SAME_TYPE;
             }
         }
-        return constraintType;
+        return constrbintType;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Return subtree depth of this nbme for purposes of determining
+     * NbmeConstrbints minimum bnd mbximum bounds bnd for cblculbting
+     * pbth lengths in nbme subtrees.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @returns distbnce of nbme from root
+     * @throws UnsupportedOperbtionException if not supported for this nbme type
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        String subtree=name;
+    public int subtreeDepth() throws UnsupportedOperbtionException {
+        String subtree=nbme;
         int i=1;
 
         /* count dots */
-        for (; subtree.lastIndexOf('.') >= 0; i++) {
-            subtree=subtree.substring(0,subtree.lastIndexOf('.'));
+        for (; subtree.lbstIndexOf('.') >= 0; i++) {
+            subtree=subtree.substring(0,subtree.lbstIndexOf('.'));
         }
 
         return i;

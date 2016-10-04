@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.image.VolatileImage;
-import sun.awt.RepaintArea;
-import sun.awt.CausedFocusEvent;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.ToolkitImage;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageProducer;
-import java.awt.image.ImageObserver;
-import java.awt.image.ColorModel;
-import java.awt.event.PaintEvent;
-import java.awt.event.InvocationEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.InputEvent;
-import sun.awt.Win32GraphicsConfig;
-import sun.awt.Win32GraphicsEnvironment;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SurfaceData;
-import sun.java2d.ScreenUpdateManager;
-import sun.java2d.d3d.D3DSurfaceData;
-import sun.java2d.opengl.OGLSurfaceData;
-import sun.java2d.pipe.Region;
-import sun.awt.PaintEventDispatcher;
-import sun.awt.SunToolkit;
-import sun.awt.event.IgnorePaintEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.imbge.VolbtileImbge;
+import sun.bwt.RepbintAreb;
+import sun.bwt.CbusedFocusEvent;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.ToolkitImbge;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.event.PbintEvent;
+import jbvb.bwt.event.InvocbtionEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.MouseWheelEvent;
+import jbvb.bwt.event.InputEvent;
+import sun.bwt.Win32GrbphicsConfig;
+import sun.bwt.Win32GrbphicsEnvironment;
+import sun.jbvb2d.InvblidPipeException;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.ScreenUpdbteMbnbger;
+import sun.jbvb2d.d3d.D3DSurfbceDbtb;
+import sun.jbvb2d.opengl.OGLSurfbceDbtb;
+import sun.jbvb2d.pipe.Region;
+import sun.bwt.PbintEventDispbtcher;
+import sun.bwt.SunToolkit;
+import sun.bwt.event.IgnorePbintEvent;
 
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.peer.DropTargetPeer;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.dnd.DropTbrget;
+import jbvb.bwt.dnd.peer.DropTbrgetPeer;
+import sun.bwt.AWTAccessor;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-public abstract class WComponentPeer extends WObjectPeer
-    implements ComponentPeer, DropTargetPeer
+public bbstrbct clbss WComponentPeer extends WObjectPeer
+    implements ComponentPeer, DropTbrgetPeer
 {
     /**
-     * Handle to native window
+     * Hbndle to nbtive window
      */
-    protected volatile long hwnd;
+    protected volbtile long hwnd;
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.windows.WComponentPeer");
-    private static final PlatformLogger shapeLog = PlatformLogger.getLogger("sun.awt.windows.shape.WComponentPeer");
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.windows.focus.WComponentPeer");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.windows.WComponentPeer");
+    privbte stbtic finbl PlbtformLogger shbpeLog = PlbtformLogger.getLogger("sun.bwt.windows.shbpe.WComponentPeer");
+    privbte stbtic finbl PlbtformLogger focusLog = PlbtformLogger.getLogger("sun.bwt.windows.focus.WComponentPeer");
 
-    // ComponentPeer implementation
-    SurfaceData surfaceData;
+    // ComponentPeer implementbtion
+    SurfbceDbtb surfbceDbtb;
 
-    private RepaintArea paintArea;
+    privbte RepbintAreb pbintAreb;
 
-    protected Win32GraphicsConfig winGraphicsConfig;
+    protected Win32GrbphicsConfig winGrbphicsConfig;
 
-    boolean isLayouting = false;
-    boolean paintPending = false;
+    boolebn isLbyouting = fblse;
+    boolebn pbintPending = fblse;
     int     oldWidth = -1;
     int     oldHeight = -1;
-    private int numBackBuffers = 0;
-    private VolatileImage backBuffer = null;
-    private BufferCapabilities backBufferCaps = null;
+    privbte int numBbckBuffers = 0;
+    privbte VolbtileImbge bbckBuffer = null;
+    privbte BufferCbpbbilities bbckBufferCbps = null;
 
-    // foreground, background and color are cached to avoid calling back
+    // foreground, bbckground bnd color bre cbched to bvoid cblling bbck
     // into the Component.
-    private Color foreground;
-    private Color background;
-    private Font font;
+    privbte Color foreground;
+    privbte Color bbckground;
+    privbte Font font;
 
     @Override
-    public native boolean isObscured();
+    public nbtive boolebn isObscured();
     @Override
-    public boolean canDetermineObscurity() { return true; }
+    public boolebn cbnDetermineObscurity() { return true; }
 
-    // DropTarget support
+    // DropTbrget support
 
-    int nDropTargets;
-    long nativeDropTargetContext; // native pointer
+    int nDropTbrgets;
+    long nbtiveDropTbrgetContext; // nbtive pointer
 
-    private synchronized native void pShow();
-    synchronized native void hide();
-    synchronized native void enable();
-    synchronized native void disable();
+    privbte synchronized nbtive void pShow();
+    synchronized nbtive void hide();
+    synchronized nbtive void enbble();
+    synchronized nbtive void disbble();
 
     public long getHWnd() {
         return hwnd;
@@ -114,11 +114,11 @@ public abstract class WComponentPeer extends WObjectPeer
 
     /* New 1.1 API */
     @Override
-    public native Point getLocationOnScreen();
+    public nbtive Point getLocbtionOnScreen();
 
     /* New 1.1 API */
     @Override
-    public void setVisible(boolean b) {
+    public void setVisible(boolebn b) {
         if (b) {
             show();
         } else {
@@ -127,7 +127,7 @@ public abstract class WComponentPeer extends WObjectPeer
     }
 
     public void show() {
-        Dimension s = ((Component)target).getSize();
+        Dimension s = ((Component)tbrget).getSize();
         oldHeight = s.height;
         oldWidth = s.width;
         pShow();
@@ -135,148 +135,148 @@ public abstract class WComponentPeer extends WObjectPeer
 
     /* New 1.1 API */
     @Override
-    public void setEnabled(boolean b) {
+    public void setEnbbled(boolebn b) {
         if (b) {
-            enable();
+            enbble();
         } else {
-            disable();
+            disbble();
         }
     }
 
-    public int serialNum = 0;
+    public int seriblNum = 0;
 
-    private native void reshapeNoCheck(int x, int y, int width, int height);
+    privbte nbtive void reshbpeNoCheck(int x, int y, int width, int height);
 
     /* New 1.1 API */
     @Override
     public void setBounds(int x, int y, int width, int height, int op) {
-        // Should set paintPending before reahape to prevent
-        // thread race between paint events
-        // Native components do redraw after resize
-        paintPending = (width != oldWidth) || (height != oldHeight);
+        // Should set pbintPending before rebhbpe to prevent
+        // threbd rbce between pbint events
+        // Nbtive components do redrbw bfter resize
+        pbintPending = (width != oldWidth) || (height != oldHeight);
 
         if ( (op & NO_EMBEDDED_CHECK) != 0 ) {
-            reshapeNoCheck(x, y, width, height);
+            reshbpeNoCheck(x, y, width, height);
         } else {
-            reshape(x, y, width, height);
+            reshbpe(x, y, width, height);
         }
         if ((width != oldWidth) || (height != oldHeight)) {
-            // Only recreate surfaceData if this setBounds is called
-            // for a resize; a simple move should not trigger a recreation
+            // Only recrebte surfbceDbtb if this setBounds is cblled
+            // for b resize; b simple move should not trigger b recrebtion
             try {
-                replaceSurfaceData();
-            } catch (InvalidPipeException e) {
-                // REMIND : what do we do if our surface creation failed?
+                replbceSurfbceDbtb();
+            } cbtch (InvblidPipeException e) {
+                // REMIND : whbt do we do if our surfbce crebtion fbiled?
             }
             oldWidth = width;
             oldHeight = height;
         }
 
-        serialNum++;
+        seriblNum++;
     }
 
     /*
-     * Called from native code (on Toolkit thread) in order to
-     * dynamically layout the Container during resizing
+     * Cblled from nbtive code (on Toolkit threbd) in order to
+     * dynbmicblly lbyout the Contbiner during resizing
      */
-    void dynamicallyLayoutContainer() {
-        // If we got the WM_SIZING, this must be a Container, right?
-        // In fact, it must be the top-level Container.
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            Container parent = WToolkit.getNativeContainer((Component)target);
-            if (parent != null) {
-                log.fine("Assertion (parent == null) failed");
+    void dynbmicbllyLbyoutContbiner() {
+        // If we got the WM_SIZING, this must be b Contbiner, right?
+        // In fbct, it must be the top-level Contbiner.
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            Contbiner pbrent = WToolkit.getNbtiveContbiner((Component)tbrget);
+            if (pbrent != null) {
+                log.fine("Assertion (pbrent == null) fbiled");
             }
         }
-        final Container cont = (Container)target;
+        finbl Contbiner cont = (Contbiner)tbrget;
 
-        WToolkit.executeOnEventHandlerThread(cont, new Runnable() {
+        WToolkit.executeOnEventHbndlerThrebd(cont, new Runnbble() {
             @Override
             public void run() {
-                // Discarding old paint events doesn't seem to be necessary.
-                cont.invalidate();
-                cont.validate();
+                // Discbrding old pbint events doesn't seem to be necessbry.
+                cont.invblidbte();
+                cont.vblidbte();
 
-                if (surfaceData instanceof D3DSurfaceData.D3DWindowSurfaceData ||
-                    surfaceData instanceof OGLSurfaceData)
+                if (surfbceDbtb instbnceof D3DSurfbceDbtb.D3DWindowSurfbceDbtb ||
+                    surfbceDbtb instbnceof OGLSurfbceDbtb)
                 {
-                    // When OGL or D3D is enabled, it is necessary to
-                    // replace the SurfaceData for each dynamic layout
-                    // request so that the viewport stays in sync
+                    // When OGL or D3D is enbbled, it is necessbry to
+                    // replbce the SurfbceDbtb for ebch dynbmic lbyout
+                    // request so thbt the viewport stbys in sync
                     // with the window bounds.
                     try {
-                        replaceSurfaceData();
-                    } catch (InvalidPipeException e) {
+                        replbceSurfbceDbtb();
+                    } cbtch (InvblidPipeException e) {
                         // REMIND: this is unlikely to occur for OGL, but
-                        // what do we do if surface creation fails?
+                        // whbt do we do if surfbce crebtion fbils?
                     }
                 }
 
-                // Forcing a paint here doesn't seem to be necessary.
-                // paintDamagedAreaImmediately();
+                // Forcing b pbint here doesn't seem to be necessbry.
+                // pbintDbmbgedArebImmedibtely();
             }
         });
     }
 
     /*
-     * Paints any portion of the component that needs updating
-     * before the call returns (similar to the Win32 API UpdateWindow)
+     * Pbints bny portion of the component thbt needs updbting
+     * before the cbll returns (similbr to the Win32 API UpdbteWindow)
      */
-    void paintDamagedAreaImmediately() {
-        // force Windows to send any pending WM_PAINT events so
-        // the damage area is updated on the Java side
-        updateWindow();
-        // make sure paint events are transferred to main event queue
-        // for coalescing
+    void pbintDbmbgedArebImmedibtely() {
+        // force Windows to send bny pending WM_PAINT events so
+        // the dbmbge breb is updbted on the Jbvb side
+        updbteWindow();
+        // mbke sure pbint events bre trbnsferred to mbin event queue
+        // for coblescing
         SunToolkit.flushPendingEvents();
-        // paint the damaged area
-        paintArea.paint(target, shouldClearRectBeforePaint());
+        // pbint the dbmbged breb
+        pbintAreb.pbint(tbrget, shouldClebrRectBeforePbint());
     }
 
-    native synchronized void updateWindow();
+    nbtive synchronized void updbteWindow();
 
     @Override
-    public void paint(Graphics g) {
-        ((Component)target).paint(g);
+    public void pbint(Grbphics g) {
+        ((Component)tbrget).pbint(g);
     }
 
-    public void repaint(long tm, int x, int y, int width, int height) {
+    public void repbint(long tm, int x, int y, int width, int height) {
     }
 
-    private static final double BANDING_DIVISOR = 4.0;
-    private native int[] createPrintedPixels(int srcX, int srcY,
+    privbte stbtic finbl double BANDING_DIVISOR = 4.0;
+    privbte nbtive int[] crebtePrintedPixels(int srcX, int srcY,
                                              int srcW, int srcH,
-                                             int alpha);
+                                             int blphb);
     @Override
-    public void print(Graphics g) {
+    public void print(Grbphics g) {
 
-        Component comp = (Component)target;
+        Component comp = (Component)tbrget;
 
-        // To conserve memory usage, we will band the image.
+        // To conserve memory usbge, we will bbnd the imbge.
 
-        int totalW = comp.getWidth();
-        int totalH = comp.getHeight();
+        int totblW = comp.getWidth();
+        int totblH = comp.getHeight();
 
-        int hInc = (int)(totalH / BANDING_DIVISOR);
+        int hInc = (int)(totblH / BANDING_DIVISOR);
         if (hInc == 0) {
-            hInc = totalH;
+            hInc = totblH;
         }
 
-        for (int startY = 0; startY < totalH; startY += hInc) {
-            int endY = startY + hInc - 1;
-            if (endY >= totalH) {
-                endY = totalH - 1;
+        for (int stbrtY = 0; stbrtY < totblH; stbrtY += hInc) {
+            int endY = stbrtY + hInc - 1;
+            if (endY >= totblH) {
+                endY = totblH - 1;
             }
-            int h = endY - startY + 1;
+            int h = endY - stbrtY + 1;
 
-            Color bgColor = comp.getBackground();
-            int[] pix = createPrintedPixels(0, startY, totalW, h,
-                                            bgColor == null ? 255 : bgColor.getAlpha());
+            Color bgColor = comp.getBbckground();
+            int[] pix = crebtePrintedPixels(0, stbrtY, totblW, h,
+                                            bgColor == null ? 255 : bgColor.getAlphb());
             if (pix != null) {
-                BufferedImage bim = new BufferedImage(totalW, h,
-                                              BufferedImage.TYPE_INT_ARGB);
-                bim.setRGB(0, 0, totalW, h, pix, 0, totalW);
-                g.drawImage(bim, 0, startY, null);
+                BufferedImbge bim = new BufferedImbge(totblW, h,
+                                              BufferedImbge.TYPE_INT_ARGB);
+                bim.setRGB(0, 0, totblW, h, pix, 0, totblW);
+                g.drbwImbge(bim, 0, stbrtY, null);
                 bim.flush();
             }
         }
@@ -285,102 +285,102 @@ public abstract class WComponentPeer extends WObjectPeer
     }
 
     @Override
-    public void coalescePaintEvent(PaintEvent e) {
-        Rectangle r = e.getUpdateRect();
-        if (!(e instanceof IgnorePaintEvent)) {
-            paintArea.add(r, e.getID());
+    public void coblescePbintEvent(PbintEvent e) {
+        Rectbngle r = e.getUpdbteRect();
+        if (!(e instbnceof IgnorePbintEvent)) {
+            pbintAreb.bdd(r, e.getID());
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
             switch(e.getID()) {
-            case PaintEvent.UPDATE:
-                log.finest("coalescePaintEvent: UPDATE: add: x = " +
+            cbse PbintEvent.UPDATE:
+                log.finest("coblescePbintEvent: UPDATE: bdd: x = " +
                     r.x + ", y = " + r.y + ", width = " + r.width + ", height = " + r.height);
                 return;
-            case PaintEvent.PAINT:
-                log.finest("coalescePaintEvent: PAINT: add: x = " +
+            cbse PbintEvent.PAINT:
+                log.finest("coblescePbintEvent: PAINT: bdd: x = " +
                     r.x + ", y = " + r.y + ", width = " + r.width + ", height = " + r.height);
                 return;
             }
         }
     }
 
-    public synchronized native void reshape(int x, int y, int width, int height);
+    public synchronized nbtive void reshbpe(int x, int y, int width, int height);
 
-    // returns true if the event has been handled and shouldn't be propagated
-    // though handleEvent method chain - e.g. WTextFieldPeer returns true
-    // on handling '\n' to prevent it from being passed to native code
-    public boolean handleJavaKeyEvent(KeyEvent e) { return false; }
+    // returns true if the event hbs been hbndled bnd shouldn't be propbgbted
+    // though hbndleEvent method chbin - e.g. WTextFieldPeer returns true
+    // on hbndling '\n' to prevent it from being pbssed to nbtive code
+    public boolebn hbndleJbvbKeyEvent(KeyEvent e) { return fblse; }
 
-    public void handleJavaMouseEvent(MouseEvent e) {
+    public void hbndleJbvbMouseEvent(MouseEvent e) {
         switch (e.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-              // Note that Swing requests focus in its own mouse event handler.
-              if (target == e.getSource() &&
-                  !((Component)target).isFocusOwner() &&
-                  WKeyboardFocusManagerPeer.shouldFocusOnClick((Component)target))
+          cbse MouseEvent.MOUSE_PRESSED:
+              // Note thbt Swing requests focus in its own mouse event hbndler.
+              if (tbrget == e.getSource() &&
+                  !((Component)tbrget).isFocusOwner() &&
+                  WKeybobrdFocusMbnbgerPeer.shouldFocusOnClick((Component)tbrget))
               {
-                  WKeyboardFocusManagerPeer.requestFocusFor((Component)target,
-                                                            CausedFocusEvent.Cause.MOUSE_EVENT);
+                  WKeybobrdFocusMbnbgerPeer.requestFocusFor((Component)tbrget,
+                                                            CbusedFocusEvent.Cbuse.MOUSE_EVENT);
               }
-              break;
+              brebk;
         }
     }
 
-    native void nativeHandleEvent(AWTEvent e);
+    nbtive void nbtiveHbndleEvent(AWTEvent e);
 
     @Override
-    @SuppressWarnings("fallthrough")
-    public void handleEvent(AWTEvent e) {
+    @SuppressWbrnings("fbllthrough")
+    public void hbndleEvent(AWTEvent e) {
         int id = e.getID();
 
-        if ((e instanceof InputEvent) && !((InputEvent)e).isConsumed() &&
-            ((Component)target).isEnabled())
+        if ((e instbnceof InputEvent) && !((InputEvent)e).isConsumed() &&
+            ((Component)tbrget).isEnbbled())
         {
-            if (e instanceof MouseEvent && !(e instanceof MouseWheelEvent)) {
-                handleJavaMouseEvent((MouseEvent) e);
-            } else if (e instanceof KeyEvent) {
-                if (handleJavaKeyEvent((KeyEvent)e)) {
+            if (e instbnceof MouseEvent && !(e instbnceof MouseWheelEvent)) {
+                hbndleJbvbMouseEvent((MouseEvent) e);
+            } else if (e instbnceof KeyEvent) {
+                if (hbndleJbvbKeyEvent((KeyEvent)e)) {
                     return;
                 }
             }
         }
 
         switch(id) {
-            case PaintEvent.PAINT:
-                // Got native painting
-                paintPending = false;
-                // Fallthrough to next statement
-            case PaintEvent.UPDATE:
-                // Skip all painting while layouting and all UPDATEs
-                // while waiting for native paint
-                if (!isLayouting && ! paintPending) {
-                    paintArea.paint(target,shouldClearRectBeforePaint());
+            cbse PbintEvent.PAINT:
+                // Got nbtive pbinting
+                pbintPending = fblse;
+                // Fbllthrough to next stbtement
+            cbse PbintEvent.UPDATE:
+                // Skip bll pbinting while lbyouting bnd bll UPDATEs
+                // while wbiting for nbtive pbint
+                if (!isLbyouting && ! pbintPending) {
+                    pbintAreb.pbint(tbrget,shouldClebrRectBeforePbint());
                 }
                 return;
-            case FocusEvent.FOCUS_LOST:
-            case FocusEvent.FOCUS_GAINED:
-                handleJavaFocusEvent((FocusEvent)e);
-            default:
-            break;
+            cbse FocusEvent.FOCUS_LOST:
+            cbse FocusEvent.FOCUS_GAINED:
+                hbndleJbvbFocusEvent((FocusEvent)e);
+            defbult:
+            brebk;
         }
 
-        // Call the native code
-        nativeHandleEvent(e);
+        // Cbll the nbtive code
+        nbtiveHbndleEvent(e);
     }
 
-    void handleJavaFocusEvent(FocusEvent fe) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+    void hbndleJbvbFocusEvent(FocusEvent fe) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             focusLog.finer(fe.toString());
         }
         setFocus(fe.getID() == FocusEvent.FOCUS_GAINED);
     }
 
-    native void setFocus(boolean doSetFocus);
+    nbtive void setFocus(boolebn doSetFocus);
 
     @Override
     public Dimension getMinimumSize() {
-        return ((Component)target).getSize();
+        return ((Component)tbrget).getSize();
     }
 
     @Override
@@ -388,151 +388,151 @@ public abstract class WComponentPeer extends WObjectPeer
         return getMinimumSize();
     }
 
-    // Do nothing for heavyweight implementation
+    // Do nothing for hebvyweight implementbtion
     @Override
-    public void layout() {}
+    public void lbyout() {}
 
-    public Rectangle getBounds() {
-        return ((Component)target).getBounds();
+    public Rectbngle getBounds() {
+        return ((Component)tbrget).getBounds();
     }
 
     @Override
-    public boolean isFocusable() {
-        return false;
+    public boolebn isFocusbble() {
+        return fblse;
     }
 
     /*
-     * Return the GraphicsConfiguration associated with this peer, either
-     * the locally stored winGraphicsConfig, or that of the target Component.
+     * Return the GrbphicsConfigurbtion bssocibted with this peer, either
+     * the locblly stored winGrbphicsConfig, or thbt of the tbrget Component.
      */
     @Override
-    public GraphicsConfiguration getGraphicsConfiguration() {
-        if (winGraphicsConfig != null) {
-            return winGraphicsConfig;
+    public GrbphicsConfigurbtion getGrbphicsConfigurbtion() {
+        if (winGrbphicsConfig != null) {
+            return winGrbphicsConfig;
         }
         else {
-            // we don't need a treelock here, since
-            // Component.getGraphicsConfiguration() gets it itself.
-            return ((Component)target).getGraphicsConfiguration();
+            // we don't need b treelock here, since
+            // Component.getGrbphicsConfigurbtion() gets it itself.
+            return ((Component)tbrget).getGrbphicsConfigurbtion();
         }
     }
 
-    public SurfaceData getSurfaceData() {
-        return surfaceData;
+    public SurfbceDbtb getSurfbceDbtb() {
+        return surfbceDbtb;
     }
 
     /**
-     * Creates new surfaceData object and invalidates the previous
-     * surfaceData object.
-     * Replacing the surface data should never lock on any resources which are
-     * required by other threads which may have them and may require
+     * Crebtes new surfbceDbtb object bnd invblidbtes the previous
+     * surfbceDbtb object.
+     * Replbcing the surfbce dbtb should never lock on bny resources which bre
+     * required by other threbds which mby hbve them bnd mby require
      * the tree-lock.
-     * This is a degenerate version of replaceSurfaceData(numBackBuffers), so
-     * just call that version with our current numBackBuffers.
+     * This is b degenerbte version of replbceSurfbceDbtb(numBbckBuffers), so
+     * just cbll thbt version with our current numBbckBuffers.
      */
-    public void replaceSurfaceData() {
-        replaceSurfaceData(this.numBackBuffers, this.backBufferCaps);
+    public void replbceSurfbceDbtb() {
+        replbceSurfbceDbtb(this.numBbckBuffers, this.bbckBufferCbps);
     }
 
-    public void createScreenSurface(boolean isResize)
+    public void crebteScreenSurfbce(boolebn isResize)
     {
-        Win32GraphicsConfig gc = (Win32GraphicsConfig)getGraphicsConfiguration();
-        ScreenUpdateManager mgr = ScreenUpdateManager.getInstance();
+        Win32GrbphicsConfig gc = (Win32GrbphicsConfig)getGrbphicsConfigurbtion();
+        ScreenUpdbteMbnbger mgr = ScreenUpdbteMbnbger.getInstbnce();
 
-        surfaceData = mgr.createScreenSurface(gc, this, numBackBuffers, isResize);
+        surfbceDbtb = mgr.crebteScreenSurfbce(gc, this, numBbckBuffers, isResize);
     }
 
 
     /**
-     * Multi-buffer version of replaceSurfaceData.  This version is called
-     * by createBuffers(), which needs to acquire the same locks in the same
-     * order, but also needs to perform additional functions inside the
+     * Multi-buffer version of replbceSurfbceDbtb.  This version is cblled
+     * by crebteBuffers(), which needs to bcquire the sbme locks in the sbme
+     * order, but blso needs to perform bdditionbl functions inside the
      * locks.
      */
-    public void replaceSurfaceData(int newNumBackBuffers,
-                                   BufferCapabilities caps)
+    public void replbceSurfbceDbtb(int newNumBbckBuffers,
+                                   BufferCbpbbilities cbps)
     {
-        SurfaceData oldData = null;
-        VolatileImage oldBB = null;
-        synchronized(((Component)target).getTreeLock()) {
+        SurfbceDbtb oldDbtb = null;
+        VolbtileImbge oldBB = null;
+        synchronized(((Component)tbrget).getTreeLock()) {
             synchronized(this) {
-                if (pData == 0) {
+                if (pDbtb == 0) {
                     return;
                 }
-                numBackBuffers = newNumBackBuffers;
-                ScreenUpdateManager mgr = ScreenUpdateManager.getInstance();
-                oldData = surfaceData;
-                mgr.dropScreenSurface(oldData);
-                createScreenSurface(true);
-                if (oldData != null) {
-                    oldData.invalidate();
+                numBbckBuffers = newNumBbckBuffers;
+                ScreenUpdbteMbnbger mgr = ScreenUpdbteMbnbger.getInstbnce();
+                oldDbtb = surfbceDbtb;
+                mgr.dropScreenSurfbce(oldDbtb);
+                crebteScreenSurfbce(true);
+                if (oldDbtb != null) {
+                    oldDbtb.invblidbte();
                 }
 
-                oldBB = backBuffer;
-                if (numBackBuffers > 0) {
-                    // set the caps first, they're used when creating the bb
-                    backBufferCaps = caps;
-                    Win32GraphicsConfig gc =
-                        (Win32GraphicsConfig)getGraphicsConfiguration();
-                    backBuffer = gc.createBackBuffer(this);
-                } else if (backBuffer != null) {
-                    backBufferCaps = null;
-                    backBuffer = null;
+                oldBB = bbckBuffer;
+                if (numBbckBuffers > 0) {
+                    // set the cbps first, they're used when crebting the bb
+                    bbckBufferCbps = cbps;
+                    Win32GrbphicsConfig gc =
+                        (Win32GrbphicsConfig)getGrbphicsConfigurbtion();
+                    bbckBuffer = gc.crebteBbckBuffer(this);
+                } else if (bbckBuffer != null) {
+                    bbckBufferCbps = null;
+                    bbckBuffer = null;
                 }
             }
         }
-        // it would be better to do this before we create new ones,
-        // but then we'd run into deadlock issues
-        if (oldData != null) {
-            oldData.flush();
-            // null out the old data to make it collected faster
-            oldData = null;
+        // it would be better to do this before we crebte new ones,
+        // but then we'd run into debdlock issues
+        if (oldDbtb != null) {
+            oldDbtb.flush();
+            // null out the old dbtb to mbke it collected fbster
+            oldDbtb = null;
         }
         if (oldBB != null) {
             oldBB.flush();
-            // null out the old data to make it collected faster
-            oldData = null;
+            // null out the old dbtb to mbke it collected fbster
+            oldDbtb = null;
         }
     }
 
-    public void replaceSurfaceDataLater() {
-        Runnable r = new Runnable() {
+    public void replbceSurfbceDbtbLbter() {
+        Runnbble r = new Runnbble() {
             @Override
             public void run() {
-                // Shouldn't do anything if object is disposed in meanwhile
-                // No need for sync as disposeAction in Window is performed
+                // Shouldn't do bnything if object is disposed in mebnwhile
+                // No need for sync bs disposeAction in Window is performed
                 // on EDT
                 if (!isDisposed()) {
                     try {
-                        replaceSurfaceData();
-                    } catch (InvalidPipeException e) {
-                        // REMIND : what do we do if our surface creation failed?
+                        replbceSurfbceDbtb();
+                    } cbtch (InvblidPipeException e) {
+                        // REMIND : whbt do we do if our surfbce crebtion fbiled?
                     }
                 }
             }
         };
-        Component c = (Component)target;
+        Component c = (Component)tbrget;
         // Fix 6255371.
-        if (!PaintEventDispatcher.getPaintEventDispatcher().queueSurfaceDataReplacing(c, r)) {
-            postEvent(new InvocationEvent(c, r));
+        if (!PbintEventDispbtcher.getPbintEventDispbtcher().queueSurfbceDbtbReplbcing(c, r)) {
+            postEvent(new InvocbtionEvent(c, r));
         }
     }
 
     @Override
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        winGraphicsConfig = (Win32GraphicsConfig)gc;
+    public boolebn updbteGrbphicsDbtb(GrbphicsConfigurbtion gc) {
+        winGrbphicsConfig = (Win32GrbphicsConfig)gc;
         try {
-            replaceSurfaceData();
-        } catch (InvalidPipeException e) {
-            // REMIND : what do we do if our surface creation failed?
+            replbceSurfbceDbtb();
+        } cbtch (InvblidPipeException e) {
+            // REMIND : whbt do we do if our surfbce crebtion fbiled?
         }
-        return false;
+        return fblse;
     }
 
-    //This will return null for Components not yet added to a Container
+    //This will return null for Components not yet bdded to b Contbiner
     @Override
     public ColorModel getColorModel() {
-        GraphicsConfiguration gc = getGraphicsConfiguration();
+        GrbphicsConfigurbtion gc = getGrbphicsConfigurbtion();
         if (gc != null) {
             return gc.getColorModel();
         }
@@ -541,10 +541,10 @@ public abstract class WComponentPeer extends WObjectPeer
         }
     }
 
-    //This will return null for Components not yet added to a Container
+    //This will return null for Components not yet bdded to b Contbiner
     public ColorModel getDeviceColorModel() {
-        Win32GraphicsConfig gc =
-            (Win32GraphicsConfig)getGraphicsConfiguration();
+        Win32GrbphicsConfig gc =
+            (Win32GrbphicsConfig)getGrbphicsConfigurbtion();
         if (gc != null) {
             return gc.getDeviceColorModel();
         }
@@ -553,56 +553,56 @@ public abstract class WComponentPeer extends WObjectPeer
         }
     }
 
-    //Returns null for Components not yet added to a Container
-    public ColorModel getColorModel(int transparency) {
-//      return WToolkit.config.getColorModel(transparency);
-        GraphicsConfiguration gc = getGraphicsConfiguration();
+    //Returns null for Components not yet bdded to b Contbiner
+    public ColorModel getColorModel(int trbnspbrency) {
+//      return WToolkit.config.getColorModel(trbnspbrency);
+        GrbphicsConfigurbtion gc = getGrbphicsConfigurbtion();
         if (gc != null) {
-            return gc.getColorModel(transparency);
+            return gc.getColorModel(trbnspbrency);
         }
         else {
             return null;
         }
     }
 
-    // fallback default font object
-    final static Font defaultFont = new Font(Font.DIALOG, Font.PLAIN, 12);
+    // fbllbbck defbult font object
+    finbl stbtic Font defbultFont = new Font(Font.DIALOG, Font.PLAIN, 12);
 
     @Override
-    @SuppressWarnings("deprecation")
-    public Graphics getGraphics() {
+    @SuppressWbrnings("deprecbtion")
+    public Grbphics getGrbphics() {
         if (isDisposed()) {
             return null;
         }
 
-        Component target = (Component)getTarget();
-        Window window = SunToolkit.getContainingWindow(target);
+        Component tbrget = (Component)getTbrget();
+        Window window = SunToolkit.getContbiningWindow(tbrget);
         if (window != null) {
-            Graphics g =
-                ((WWindowPeer)window.getPeer()).getTranslucentGraphics();
-            // getTranslucentGraphics() returns non-null value for non-opaque windows only
+            Grbphics g =
+                ((WWindowPeer)window.getPeer()).getTrbnslucentGrbphics();
+            // getTrbnslucentGrbphics() returns non-null vblue for non-opbque windows only
             if (g != null) {
-                // Non-opaque windows do not support heavyweight children.
-                // Redirect all painting to the Window's Graphics instead.
-                // The caller is responsible for calling the
-                // WindowPeer.updateWindow() after painting has finished.
+                // Non-opbque windows do not support hebvyweight children.
+                // Redirect bll pbinting to the Window's Grbphics instebd.
+                // The cbller is responsible for cblling the
+                // WindowPeer.updbteWindow() bfter pbinting hbs finished.
                 int x = 0, y = 0;
-                for (Component c = target; c != window; c = c.getParent()) {
+                for (Component c = tbrget; c != window; c = c.getPbrent()) {
                     x += c.getX();
                     y += c.getY();
                 }
 
-                g.translate(x, y);
-                g.clipRect(0, 0, target.getWidth(), target.getHeight());
+                g.trbnslbte(x, y);
+                g.clipRect(0, 0, tbrget.getWidth(), tbrget.getHeight());
 
                 return g;
             }
         }
 
-        SurfaceData surfaceData = this.surfaceData;
-        if (surfaceData != null) {
-            /* Fix for bug 4746122. Color and Font shouldn't be null */
-            Color bgColor = background;
+        SurfbceDbtb surfbceDbtb = this.surfbceDbtb;
+        if (surfbceDbtb != null) {
+            /* Fix for bug 4746122. Color bnd Font shouldn't be null */
+            Color bgColor = bbckground;
             if (bgColor == null) {
                 bgColor = SystemColor.window;
             }
@@ -612,11 +612,11 @@ public abstract class WComponentPeer extends WObjectPeer
             }
             Font font = this.font;
             if (font == null) {
-                font = defaultFont;
+                font = defbultFont;
             }
-            ScreenUpdateManager mgr =
-                ScreenUpdateManager.getInstance();
-            return mgr.createGraphics(surfaceData, this, fgColor,
+            ScreenUpdbteMbnbger mgr =
+                ScreenUpdbteMbnbger.getInstbnce();
+            return mgr.crebteGrbphics(surfbceDbtb, this, fgColor,
                                       bgColor, font);
         }
         return null;
@@ -626,20 +626,20 @@ public abstract class WComponentPeer extends WObjectPeer
         return WFontMetrics.getFontMetrics(font);
     }
 
-    private synchronized native void _dispose();
+    privbte synchronized nbtive void _dispose();
     @Override
     protected void disposeImpl() {
-        SurfaceData oldData = surfaceData;
-        surfaceData = null;
-        ScreenUpdateManager.getInstance().dropScreenSurface(oldData);
-        oldData.invalidate();
-        // remove from updater before calling targetDisposedPeer
-        WToolkit.targetDisposedPeer(target, this);
+        SurfbceDbtb oldDbtb = surfbceDbtb;
+        surfbceDbtb = null;
+        ScreenUpdbteMbnbger.getInstbnce().dropScreenSurfbce(oldDbtb);
+        oldDbtb.invblidbte();
+        // remove from updbter before cblling tbrgetDisposedPeer
+        WToolkit.tbrgetDisposedPeer(tbrget, this);
         _dispose();
     }
 
-    public void disposeLater() {
-        postEvent(new InvocationEvent(target, new Runnable() {
+    public void disposeLbter() {
+        postEvent(new InvocbtionEvent(tbrget, new Runnbble() {
             @Override
             public void run() {
                 dispose();
@@ -654,230 +654,230 @@ public abstract class WComponentPeer extends WObjectPeer
     }
 
     @Override
-    public synchronized void setBackground(Color c) {
-        background = c;
-        _setBackground(c.getRGB());
+    public synchronized void setBbckground(Color c) {
+        bbckground = c;
+        _setBbckground(c.getRGB());
     }
 
     /**
-     * This method is intentionally not synchronized as it is called while
+     * This method is intentionblly not synchronized bs it is cblled while
      * holding other locks.
      *
-     * @see sun.java2d.d3d.D3DScreenUpdateManager#validate(D3DWindowSurfaceData)
+     * @see sun.jbvb2d.d3d.D3DScreenUpdbteMbnbger#vblidbte(D3DWindowSurfbceDbtb)
      */
-    public Color getBackgroundNoSync() {
-        return background;
+    public Color getBbckgroundNoSync() {
+        return bbckground;
     }
 
-    private native void _setForeground(int rgb);
-    private native void _setBackground(int rgb);
+    privbte nbtive void _setForeground(int rgb);
+    privbte nbtive void _setBbckground(int rgb);
 
     @Override
     public synchronized void setFont(Font f) {
         font = f;
         _setFont(f);
     }
-    synchronized native void _setFont(Font f);
+    synchronized nbtive void _setFont(Font f);
     @Override
-    public void updateCursorImmediately() {
-        WGlobalCursorManager.getCursorManager().updateCursorImmediately();
+    public void updbteCursorImmedibtely() {
+        WGlobblCursorMbnbger.getCursorMbnbger().updbteCursorImmedibtely();
     }
 
-    // TODO: consider moving it to KeyboardFocusManagerPeerImpl
+    // TODO: consider moving it to KeybobrdFocusMbnbgerPeerImpl
     @Override
-    @SuppressWarnings("deprecation")
-    public boolean requestFocus(Component lightweightChild, boolean temporary,
-                                boolean focusedWindowChangeAllowed, long time,
-                                CausedFocusEvent.Cause cause)
+    @SuppressWbrnings("deprecbtion")
+    public boolebn requestFocus(Component lightweightChild, boolebn temporbry,
+                                boolebn focusedWindowChbngeAllowed, long time,
+                                CbusedFocusEvent.Cbuse cbuse)
     {
-        if (WKeyboardFocusManagerPeer.
-            processSynchronousLightweightTransfer((Component)target, lightweightChild, temporary,
-                                                  focusedWindowChangeAllowed, time))
+        if (WKeybobrdFocusMbnbgerPeer.
+            processSynchronousLightweightTrbnsfer((Component)tbrget, lightweightChild, temporbry,
+                                                  focusedWindowChbngeAllowed, time))
         {
             return true;
         }
 
-        int result = WKeyboardFocusManagerPeer
-            .shouldNativelyFocusHeavyweight((Component)target, lightweightChild,
-                                            temporary, focusedWindowChangeAllowed,
-                                            time, cause);
+        int result = WKeybobrdFocusMbnbgerPeer
+            .shouldNbtivelyFocusHebvyweight((Component)tbrget, lightweightChild,
+                                            temporbry, focusedWindowChbngeAllowed,
+                                            time, cbuse);
 
         switch (result) {
-          case WKeyboardFocusManagerPeer.SNFH_FAILURE:
-              return false;
-          case WKeyboardFocusManagerPeer.SNFH_SUCCESS_PROCEED:
-              if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
-                  focusLog.finer("Proceeding with request to " + lightweightChild + " in " + target);
+          cbse WKeybobrdFocusMbnbgerPeer.SNFH_FAILURE:
+              return fblse;
+          cbse WKeybobrdFocusMbnbgerPeer.SNFH_SUCCESS_PROCEED:
+              if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                  focusLog.finer("Proceeding with request to " + lightweightChild + " in " + tbrget);
               }
-              Window parentWindow = SunToolkit.getContainingWindow((Component)target);
-              if (parentWindow == null) {
-                  return rejectFocusRequestHelper("WARNING: Parent window is null");
+              Window pbrentWindow = SunToolkit.getContbiningWindow((Component)tbrget);
+              if (pbrentWindow == null) {
+                  return rejectFocusRequestHelper("WARNING: Pbrent window is null");
               }
-              WWindowPeer wpeer = (WWindowPeer)parentWindow.getPeer();
+              WWindowPeer wpeer = (WWindowPeer)pbrentWindow.getPeer();
               if (wpeer == null) {
-                  return rejectFocusRequestHelper("WARNING: Parent window's peer is null");
+                  return rejectFocusRequestHelper("WARNING: Pbrent window's peer is null");
               }
-              boolean res = wpeer.requestWindowFocus(cause);
+              boolebn res = wpeer.requestWindowFocus(cbuse);
 
-              if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+              if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                   focusLog.finer("Requested window focus: " + res);
               }
-              // If parent window can be made focused and has been made focused(synchronously)
-              // then we can proceed with children, otherwise we retreat.
-              if (!(res && parentWindow.isFocused())) {
-                  return rejectFocusRequestHelper("Waiting for asynchronous processing of the request");
+              // If pbrent window cbn be mbde focused bnd hbs been mbde focused(synchronously)
+              // then we cbn proceed with children, otherwise we retrebt.
+              if (!(res && pbrentWindow.isFocused())) {
+                  return rejectFocusRequestHelper("Wbiting for bsynchronous processing of the request");
               }
-              return WKeyboardFocusManagerPeer.deliverFocus(lightweightChild,
-                                                            (Component)target,
-                                                            temporary,
-                                                            focusedWindowChangeAllowed,
-                                                            time, cause);
+              return WKeybobrdFocusMbnbgerPeer.deliverFocus(lightweightChild,
+                                                            (Component)tbrget,
+                                                            temporbry,
+                                                            focusedWindowChbngeAllowed,
+                                                            time, cbuse);
 
-          case WKeyboardFocusManagerPeer.SNFH_SUCCESS_HANDLED:
-              // Either lightweight or excessive request - all events are generated.
+          cbse WKeybobrdFocusMbnbgerPeer.SNFH_SUCCESS_HANDLED:
+              // Either lightweight or excessive request - bll events bre generbted.
               return true;
         }
-        return false;
+        return fblse;
     }
 
-    private boolean rejectFocusRequestHelper(String logMsg) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
+    privbte boolebn rejectFocusRequestHelper(String logMsg) {
+        if (focusLog.isLoggbble(PlbtformLogger.Level.FINER)) {
             focusLog.finer(logMsg);
         }
-        WKeyboardFocusManagerPeer.removeLastFocusRequest((Component)target);
-        return false;
+        WKeybobrdFocusMbnbgerPeer.removeLbstFocusRequest((Component)tbrget);
+        return fblse;
     }
 
     @Override
-    public Image createImage(ImageProducer producer) {
-        return new ToolkitImage(producer);
+    public Imbge crebteImbge(ImbgeProducer producer) {
+        return new ToolkitImbge(producer);
     }
 
     @Override
-    public Image createImage(int width, int height) {
-        Win32GraphicsConfig gc =
-            (Win32GraphicsConfig)getGraphicsConfiguration();
-        return gc.createAcceleratedImage((Component)target, width, height);
+    public Imbge crebteImbge(int width, int height) {
+        Win32GrbphicsConfig gc =
+            (Win32GrbphicsConfig)getGrbphicsConfigurbtion();
+        return gc.crebteAccelerbtedImbge((Component)tbrget, width, height);
     }
 
     @Override
-    public VolatileImage createVolatileImage(int width, int height) {
-        return new SunVolatileImage((Component)target, width, height);
+    public VolbtileImbge crebteVolbtileImbge(int width, int height) {
+        return new SunVolbtileImbge((Component)tbrget, width, height);
     }
 
     @Override
-    public boolean prepareImage(Image img, int w, int h, ImageObserver o) {
-        return Toolkit.getDefaultToolkit().prepareImage(img, w, h, o);
+    public boolebn prepbreImbge(Imbge img, int w, int h, ImbgeObserver o) {
+        return Toolkit.getDefbultToolkit().prepbreImbge(img, w, h, o);
     }
 
     @Override
-    public int checkImage(Image img, int w, int h, ImageObserver o) {
-        return Toolkit.getDefaultToolkit().checkImage(img, w, h, o);
+    public int checkImbge(Imbge img, int w, int h, ImbgeObserver o) {
+        return Toolkit.getDefbultToolkit().checkImbge(img, w, h, o);
     }
 
     // Object overrides
 
     public String toString() {
-        return getClass().getName() + "[" + target + "]";
+        return getClbss().getNbme() + "[" + tbrget + "]";
     }
 
-    // Toolkit & peer internals
+    // Toolkit & peer internbls
 
-    private int updateX1, updateY1, updateX2, updateY2;
+    privbte int updbteX1, updbteY1, updbteX2, updbteY2;
 
-    WComponentPeer(Component target) {
-        this.target = target;
-        this.paintArea = new RepaintArea();
-        create(getNativeParent());
-        // fix for 5088782: check if window object is created successfully
-        checkCreation();
+    WComponentPeer(Component tbrget) {
+        this.tbrget = tbrget;
+        this.pbintAreb = new RepbintAreb();
+        crebte(getNbtivePbrent());
+        // fix for 5088782: check if window object is crebted successfully
+        checkCrebtion();
 
-        createScreenSurface(false);
-        initialize();
-        start();  // Initialize enable/disable state, turn on callbacks
+        crebteScreenSurfbce(fblse);
+        initiblize();
+        stbrt();  // Initiblize enbble/disbble stbte, turn on cbllbbcks
     }
-    abstract void create(WComponentPeer parent);
+    bbstrbct void crebte(WComponentPeer pbrent);
 
     /**
-     * Gets the native parent of this peer. We use the term "parent" explicitly,
-     * because we override the method in top-level window peer implementations.
+     * Gets the nbtive pbrent of this peer. We use the term "pbrent" explicitly,
+     * becbuse we override the method in top-level window peer implementbtions.
      *
-     * @return the parent container/owner of this peer.
+     * @return the pbrent contbiner/owner of this peer.
      */
-    WComponentPeer getNativeParent() {
-        Container parent = SunToolkit.getNativeContainer((Component) target);
-        return (WComponentPeer) WToolkit.targetToPeer(parent);
+    WComponentPeer getNbtivePbrent() {
+        Contbiner pbrent = SunToolkit.getNbtiveContbiner((Component) tbrget);
+        return (WComponentPeer) WToolkit.tbrgetToPeer(pbrent);
     }
 
-    protected void checkCreation()
+    protected void checkCrebtion()
     {
-        if ((hwnd == 0) || (pData == 0))
+        if ((hwnd == 0) || (pDbtb == 0))
         {
-            if (createError != null)
+            if (crebteError != null)
             {
-                throw createError;
+                throw crebteError;
             }
             else
             {
-                throw new InternalError("couldn't create component peer");
+                throw new InternblError("couldn't crebte component peer");
             }
         }
     }
 
-    synchronized native void start();
+    synchronized nbtive void stbrt();
 
-    void initialize() {
-        if (((Component)target).isVisible()) {
-            show();  // the wnd starts hidden
+    void initiblize() {
+        if (((Component)tbrget).isVisible()) {
+            show();  // the wnd stbrts hidden
         }
-        Color fg = ((Component)target).getForeground();
+        Color fg = ((Component)tbrget).getForeground();
         if (fg != null) {
             setForeground(fg);
         }
-        // Set background color in C++, to avoid inheriting a parent's color.
-        Font  f = ((Component)target).getFont();
+        // Set bbckground color in C++, to bvoid inheriting b pbrent's color.
+        Font  f = ((Component)tbrget).getFont();
         if (f != null) {
             setFont(f);
         }
-        if (! ((Component)target).isEnabled()) {
-            disable();
+        if (! ((Component)tbrget).isEnbbled()) {
+            disbble();
         }
-        Rectangle r = ((Component)target).getBounds();
+        Rectbngle r = ((Component)tbrget).getBounds();
         setBounds(r.x, r.y, r.width, r.height, SET_BOUNDS);
     }
 
-    // Callbacks for window-system events to the frame
+    // Cbllbbcks for window-system events to the frbme
 
-    // Invoke a update() method call on the target
-    void handleRepaint(int x, int y, int w, int h) {
-        // Repaints are posted from updateClient now...
+    // Invoke b updbte() method cbll on the tbrget
+    void hbndleRepbint(int x, int y, int w, int h) {
+        // Repbints bre posted from updbteClient now...
     }
 
-    // Invoke a paint() method call on the target, after clearing the
-    // damaged area.
-    void handleExpose(int x, int y, int w, int h) {
-        // Bug ID 4081126 & 4129709 - can't do the clearRect() here,
-        // since it interferes with the java thread working in the
-        // same window on multi-processor NT machines.
+    // Invoke b pbint() method cbll on the tbrget, bfter clebring the
+    // dbmbged breb.
+    void hbndleExpose(int x, int y, int w, int h) {
+        // Bug ID 4081126 & 4129709 - cbn't do the clebrRect() here,
+        // since it interferes with the jbvb threbd working in the
+        // sbme window on multi-processor NT mbchines.
 
-        postPaintIfNecessary(x, y, w, h);
+        postPbintIfNecessbry(x, y, w, h);
     }
 
-    /* Invoke a paint() method call on the target, without clearing the
-     * damaged area.  This is normally called by a native control after
-     * it has painted itself.
+    /* Invoke b pbint() method cbll on the tbrget, without clebring the
+     * dbmbged breb.  This is normblly cblled by b nbtive control bfter
+     * it hbs pbinted itself.
      *
-     * NOTE: This is called on the privileged toolkit thread. Do not
-     *       call directly into user code using this thread!
+     * NOTE: This is cblled on the privileged toolkit threbd. Do not
+     *       cbll directly into user code using this threbd!
      */
-    public void handlePaint(int x, int y, int w, int h) {
-        postPaintIfNecessary(x, y, w, h);
+    public void hbndlePbint(int x, int y, int w, int h) {
+        postPbintIfNecessbry(x, y, w, h);
     }
 
-    private void postPaintIfNecessary(int x, int y, int w, int h) {
-        if ( !AWTAccessor.getComponentAccessor().getIgnoreRepaint( (Component) target) ) {
-            PaintEvent event = PaintEventDispatcher.getPaintEventDispatcher().
-                createPaintEvent((Component)target, x, y, w, h);
+    privbte void postPbintIfNecessbry(int x, int y, int w, int h) {
+        if ( !AWTAccessor.getComponentAccessor().getIgnoreRepbint( (Component) tbrget) ) {
+            PbintEvent event = PbintEventDispbtcher.getPbintEventDispbtcher().
+                crebtePbintEvent((Component)tbrget, x, y, w, h);
             if (event != null) {
                 postEvent(event);
             }
@@ -885,33 +885,33 @@ public abstract class WComponentPeer extends WObjectPeer
     }
 
     /*
-     * Post an event. Queue it for execution by the callback thread.
+     * Post bn event. Queue it for execution by the cbllbbck threbd.
      */
     void postEvent(AWTEvent event) {
         preprocessPostEvent(event);
-        WToolkit.postEvent(WToolkit.targetToAppContext(target), event);
+        WToolkit.postEvent(WToolkit.tbrgetToAppContext(tbrget), event);
     }
 
     void preprocessPostEvent(AWTEvent event) {}
 
     // Routines to support deferred window positioning.
-    public void beginLayout() {
-        // Skip all painting till endLayout
-        isLayouting = true;
+    public void beginLbyout() {
+        // Skip bll pbinting till endLbyout
+        isLbyouting = true;
     }
 
-    public void endLayout() {
-        if(!paintArea.isEmpty() && !paintPending &&
-            !((Component)target).getIgnoreRepaint()) {
-            // if not waiting for native painting repaint damaged area
-            postEvent(new PaintEvent((Component)target, PaintEvent.PAINT,
-                          new Rectangle()));
+    public void endLbyout() {
+        if(!pbintAreb.isEmpty() && !pbintPending &&
+            !((Component)tbrget).getIgnoreRepbint()) {
+            // if not wbiting for nbtive pbinting repbint dbmbged breb
+            postEvent(new PbintEvent((Component)tbrget, PbintEvent.PAINT,
+                          new Rectbngle()));
         }
-        isLayouting = false;
+        isLbyouting = fblse;
     }
 
-    public native void beginValidate();
-    public native void endValidate();
+    public nbtive void beginVblidbte();
+    public nbtive void endVblidbte();
 
     /**
      * DEPRECATED
@@ -921,235 +921,235 @@ public abstract class WComponentPeer extends WObjectPeer
     }
 
     /**
-     * register a DropTarget with this native peer
+     * register b DropTbrget with this nbtive peer
      */
 
     @Override
-    public synchronized void addDropTarget(DropTarget dt) {
-        if (nDropTargets == 0) {
-            nativeDropTargetContext = addNativeDropTarget();
+    public synchronized void bddDropTbrget(DropTbrget dt) {
+        if (nDropTbrgets == 0) {
+            nbtiveDropTbrgetContext = bddNbtiveDropTbrget();
         }
-        nDropTargets++;
+        nDropTbrgets++;
     }
 
     /**
-     * unregister a DropTarget with this native peer
+     * unregister b DropTbrget with this nbtive peer
      */
 
     @Override
-    public synchronized void removeDropTarget(DropTarget dt) {
-        nDropTargets--;
-        if (nDropTargets == 0) {
-            removeNativeDropTarget();
-            nativeDropTargetContext = 0;
+    public synchronized void removeDropTbrget(DropTbrget dt) {
+        nDropTbrgets--;
+        if (nDropTbrgets == 0) {
+            removeNbtiveDropTbrget();
+            nbtiveDropTbrgetContext = 0;
         }
     }
 
     /**
-     * add the native peer's AwtDropTarget COM object
-     * @return reference to AwtDropTarget object
+     * bdd the nbtive peer's AwtDropTbrget COM object
+     * @return reference to AwtDropTbrget object
      */
 
-    native long addNativeDropTarget();
+    nbtive long bddNbtiveDropTbrget();
 
     /**
-     * remove the native peer's AwtDropTarget COM object
+     * remove the nbtive peer's AwtDropTbrget COM object
      */
 
-    native void removeNativeDropTarget();
-    native boolean nativeHandlesWheelScrolling();
+    nbtive void removeNbtiveDropTbrget();
+    nbtive boolebn nbtiveHbndlesWheelScrolling();
 
     @Override
-    public boolean handlesWheelScrolling() {
-        // should this be cached?
-        return nativeHandlesWheelScrolling();
+    public boolebn hbndlesWheelScrolling() {
+        // should this be cbched?
+        return nbtiveHbndlesWheelScrolling();
     }
 
-    // Returns true if we are inside begin/endLayout and
-    // are waiting for native painting
-    public boolean isPaintPending() {
-        return paintPending && isLayouting;
+    // Returns true if we bre inside begin/endLbyout bnd
+    // bre wbiting for nbtive pbinting
+    public boolebn isPbintPending() {
+        return pbintPending && isLbyouting;
     }
 
     /**
-     * The following multibuffering-related methods delegate to our
-     * associated GraphicsConfig (Win or WGL) to handle the appropriate
-     * native windowing system specific actions.
+     * The following multibuffering-relbted methods delegbte to our
+     * bssocibted GrbphicsConfig (Win or WGL) to hbndle the bppropribte
+     * nbtive windowing system specific bctions.
      */
 
     @Override
-    public void createBuffers(int numBuffers, BufferCapabilities caps)
+    public void crebteBuffers(int numBuffers, BufferCbpbbilities cbps)
         throws AWTException
     {
-        Win32GraphicsConfig gc =
-            (Win32GraphicsConfig)getGraphicsConfiguration();
-        gc.assertOperationSupported((Component)target, numBuffers, caps);
+        Win32GrbphicsConfig gc =
+            (Win32GrbphicsConfig)getGrbphicsConfigurbtion();
+        gc.bssertOperbtionSupported((Component)tbrget, numBuffers, cbps);
 
-        // Re-create the primary surface with the new number of back buffers
+        // Re-crebte the primbry surfbce with the new number of bbck buffers
         try {
-            replaceSurfaceData(numBuffers - 1, caps);
-        } catch (InvalidPipeException e) {
-            throw new AWTException(e.getMessage());
+            replbceSurfbceDbtb(numBuffers - 1, cbps);
+        } cbtch (InvblidPipeException e) {
+            throw new AWTException(e.getMessbge());
         }
     }
 
     @Override
     public void destroyBuffers() {
-        replaceSurfaceData(0, null);
+        replbceSurfbceDbtb(0, null);
     }
 
     @Override
     public void flip(int x1, int y1, int x2, int y2,
-                                  BufferCapabilities.FlipContents flipAction)
+                                  BufferCbpbbilities.FlipContents flipAction)
     {
-        VolatileImage backBuffer = this.backBuffer;
-        if (backBuffer == null) {
-            throw new IllegalStateException("Buffers have not been created");
+        VolbtileImbge bbckBuffer = this.bbckBuffer;
+        if (bbckBuffer == null) {
+            throw new IllegblStbteException("Buffers hbve not been crebted");
         }
-        Win32GraphicsConfig gc =
-            (Win32GraphicsConfig)getGraphicsConfiguration();
-        gc.flip(this, (Component)target, backBuffer, x1, y1, x2, y2, flipAction);
+        Win32GrbphicsConfig gc =
+            (Win32GrbphicsConfig)getGrbphicsConfigurbtion();
+        gc.flip(this, (Component)tbrget, bbckBuffer, x1, y1, x2, y2, flipAction);
     }
 
     @Override
-    public synchronized Image getBackBuffer() {
-        Image backBuffer = this.backBuffer;
-        if (backBuffer == null) {
-            throw new IllegalStateException("Buffers have not been created");
+    public synchronized Imbge getBbckBuffer() {
+        Imbge bbckBuffer = this.bbckBuffer;
+        if (bbckBuffer == null) {
+            throw new IllegblStbteException("Buffers hbve not been crebted");
         }
-        return backBuffer;
+        return bbckBuffer;
     }
-    public BufferCapabilities getBackBufferCaps() {
-        return backBufferCaps;
+    public BufferCbpbbilities getBbckBufferCbps() {
+        return bbckBufferCbps;
     }
-    public int getBackBuffersNum() {
-        return numBackBuffers;
+    public int getBbckBuffersNum() {
+        return numBbckBuffers;
     }
 
-    /* override and return false on components that DO NOT require
-       a clearRect() before painting (i.e. native components) */
-    public boolean shouldClearRectBeforePaint() {
+    /* override bnd return fblse on components thbt DO NOT require
+       b clebrRect() before pbinting (i.e. nbtive components) */
+    public boolebn shouldClebrRectBeforePbint() {
         return true;
     }
 
-    native void pSetParent(ComponentPeer newNativeParent);
+    nbtive void pSetPbrent(ComponentPeer newNbtivePbrent);
 
     /**
-     * @see java.awt.peer.ComponentPeer#reparent
+     * @see jbvb.bwt.peer.ComponentPeer#repbrent
      */
     @Override
-    public void reparent(ContainerPeer newNativeParent) {
-        pSetParent(newNativeParent);
+    public void repbrent(ContbinerPeer newNbtivePbrent) {
+        pSetPbrent(newNbtivePbrent);
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer#isReparentSupported
+     * @see jbvb.bwt.peer.ComponentPeer#isRepbrentSupported
      */
     @Override
-    public boolean isReparentSupported() {
+    public boolebn isRepbrentSupported() {
         return true;
     }
 
-    public void setBoundsOperation(int operation) {
+    public void setBoundsOperbtion(int operbtion) {
     }
 
-    private volatile boolean isAccelCapable = true;
+    privbte volbtile boolebn isAccelCbpbble = true;
 
     /**
-     * Returns whether this component is capable of being hw accelerated.
-     * More specifically, whether rendering to this component or a
-     * BufferStrategy's back-buffer for this component can be hw accelerated.
+     * Returns whether this component is cbpbble of being hw bccelerbted.
+     * More specificblly, whether rendering to this component or b
+     * BufferStrbtegy's bbck-buffer for this component cbn be hw bccelerbted.
      *
-     * Conditions which could prevent hw acceleration include the toplevel
-     * window containing this component being
-     * {@link GraphicsDevice.WindowTranslucency#PERPIXEL_TRANSLUCENT
+     * Conditions which could prevent hw bccelerbtion include the toplevel
+     * window contbining this component being
+     * {@link GrbphicsDevice.WindowTrbnslucency#PERPIXEL_TRANSLUCENT
      * PERPIXEL_TRANSLUCENT}.
      *
-     * Another condition is if Xor paint mode was detected when rendering
-     * to an on-screen accelerated surface associated with this peer.
-     * in this case both on- and off-screen acceleration for this peer is
-     * disabled.
+     * Another condition is if Xor pbint mode wbs detected when rendering
+     * to bn on-screen bccelerbted surfbce bssocibted with this peer.
+     * in this cbse both on- bnd off-screen bccelerbtion for this peer is
+     * disbbled.
      *
-     * @return {@code true} if this component is capable of being hw
-     * accelerated, {@code false} otherwise
-     * @see GraphicsDevice.WindowTranslucency#PERPIXEL_TRANSLUCENT
+     * @return {@code true} if this component is cbpbble of being hw
+     * bccelerbted, {@code fblse} otherwise
+     * @see GrbphicsDevice.WindowTrbnslucency#PERPIXEL_TRANSLUCENT
      */
-    public boolean isAccelCapable() {
-        if (!isAccelCapable ||
-            !isContainingTopLevelAccelCapable((Component)target))
+    public boolebn isAccelCbpbble() {
+        if (!isAccelCbpbble ||
+            !isContbiningTopLevelAccelCbpbble((Component)tbrget))
         {
-            return false;
+            return fblse;
         }
 
-        boolean isTranslucent =
-            SunToolkit.isContainingTopLevelTranslucent((Component)target);
-        // D3D/OGL and translucent windows interacted poorly in Windows XP;
-        // these problems are no longer present in Vista
-        return !isTranslucent || Win32GraphicsEnvironment.isVistaOS();
+        boolebn isTrbnslucent =
+            SunToolkit.isContbiningTopLevelTrbnslucent((Component)tbrget);
+        // D3D/OGL bnd trbnslucent windows interbcted poorly in Windows XP;
+        // these problems bre no longer present in Vistb
+        return !isTrbnslucent || Win32GrbphicsEnvironment.isVistbOS();
     }
 
     /**
-     * Disables acceleration for this peer.
+     * Disbbles bccelerbtion for this peer.
      */
-    public void disableAcceleration() {
-        isAccelCapable = false;
+    public void disbbleAccelerbtion() {
+        isAccelCbpbble = fblse;
     }
 
 
-    native void setRectangularShape(int lox, int loy, int hix, int hiy,
+    nbtive void setRectbngulbrShbpe(int lox, int loy, int hix, int hiy,
                      Region region);
 
 
-    // REMIND: Temp workaround for issues with using HW acceleration
-    // in the browser on Vista when DWM is enabled.
-    // @return true if the toplevel container is not an EmbeddedFrame or
-    // if this EmbeddedFrame is acceleration capable, false otherwise
-    @SuppressWarnings("deprecation")
-    private static final boolean isContainingTopLevelAccelCapable(Component c) {
-        while (c != null && !(c instanceof WEmbeddedFrame)) {
-            c = c.getParent();
+    // REMIND: Temp workbround for issues with using HW bccelerbtion
+    // in the browser on Vistb when DWM is enbbled.
+    // @return true if the toplevel contbiner is not bn EmbeddedFrbme or
+    // if this EmbeddedFrbme is bccelerbtion cbpbble, fblse otherwise
+    @SuppressWbrnings("deprecbtion")
+    privbte stbtic finbl boolebn isContbiningTopLevelAccelCbpbble(Component c) {
+        while (c != null && !(c instbnceof WEmbeddedFrbme)) {
+            c = c.getPbrent();
         }
         if (c == null) {
             return true;
         }
-        return ((WEmbeddedFramePeer)c.getPeer()).isAccelCapable();
+        return ((WEmbeddedFrbmePeer)c.getPeer()).isAccelCbpbble();
     }
 
     /**
-     * Applies the shape to the native component window.
+     * Applies the shbpe to the nbtive component window.
      * @since 1.7
      */
     @Override
-    @SuppressWarnings("deprecation")
-    public void applyShape(Region shape) {
-        if (shapeLog.isLoggable(PlatformLogger.Level.FINER)) {
-            shapeLog.finer("*** INFO: Setting shape: PEER: " + this
-                            + "; TARGET: " + target
-                            + "; SHAPE: " + shape);
+    @SuppressWbrnings("deprecbtion")
+    public void bpplyShbpe(Region shbpe) {
+        if (shbpeLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            shbpeLog.finer("*** INFO: Setting shbpe: PEER: " + this
+                            + "; TARGET: " + tbrget
+                            + "; SHAPE: " + shbpe);
         }
 
-        if (shape != null) {
-            setRectangularShape(shape.getLoX(), shape.getLoY(), shape.getHiX(), shape.getHiY(),
-                    (shape.isRectangular() ? null : shape));
+        if (shbpe != null) {
+            setRectbngulbrShbpe(shbpe.getLoX(), shbpe.getLoY(), shbpe.getHiX(), shbpe.getHiY(),
+                    (shbpe.isRectbngulbr() ? null : shbpe));
         } else {
-            setRectangularShape(0, 0, 0, 0, null);
+            setRectbngulbrShbpe(0, 0, 0, 0, null);
         }
     }
 
     /**
-     * Lowers this component at the bottom of the above component. If the above parameter
-     * is null then the method places this component at the top of the Z-order.
+     * Lowers this component bt the bottom of the bbove component. If the bbove pbrbmeter
+     * is null then the method plbces this component bt the top of the Z-order.
      */
     @Override
-    public void setZOrder(ComponentPeer above) {
-        long aboveHWND = (above != null) ? ((WComponentPeer)above).getHWnd() : 0;
+    public void setZOrder(ComponentPeer bbove) {
+        long bboveHWND = (bbove != null) ? ((WComponentPeer)bbove).getHWnd() : 0;
 
-        setZOrder(aboveHWND);
+        setZOrder(bboveHWND);
     }
 
-    private native void setZOrder(long above);
+    privbte nbtive void setZOrder(long bbove);
 
-    public boolean isLightweightFramePeer() {
-        return false;
+    public boolebn isLightweightFrbmePeer() {
+        return fblse;
     }
 }

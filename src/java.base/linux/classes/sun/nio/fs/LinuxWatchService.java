@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.io.IOException;
-import sun.misc.Unsafe;
+import jbvb.nio.file.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
+import jbvb.io.IOException;
+import sun.misc.Unsbfe;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
 
 /**
- * Linux implementation of WatchService based on inotify.
+ * Linux implementbtion of WbtchService bbsed on inotify.
  *
- * In summary a background thread polls inotify plus a socket used for the wakeup
- * mechanism. Requests to add or remove a watch, or close the watch service,
- * cause the thread to wakeup and process the request. Events are processed
- * by the thread which causes it to signal/queue the corresponding watch keys.
+ * In summbry b bbckground threbd polls inotify plus b socket used for the wbkeup
+ * mechbnism. Requests to bdd or remove b wbtch, or close the wbtch service,
+ * cbuse the threbd to wbkeup bnd process the request. Events bre processed
+ * by the threbd which cbuses it to signbl/queue the corresponding wbtch keys.
  */
 
-class LinuxWatchService
-    extends AbstractWatchService
+clbss LinuxWbtchService
+    extends AbstrbctWbtchService
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    // background thread to read change events
-    private final Poller poller;
+    // bbckground threbd to rebd chbnge events
+    privbte finbl Poller poller;
 
-    LinuxWatchService(UnixFileSystem fs) throws IOException {
-        // initialize inotify
+    LinuxWbtchService(UnixFileSystem fs) throws IOException {
+        // initiblize inotify
         int ifd = - 1;
         try {
             ifd = inotifyInit();
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             String msg = (x.errno() == EMFILE) ?
-                "User limit of inotify instances reached or too many open files" :
+                "User limit of inotify instbnces rebched or too mbny open files" :
                 x.errorString();
             throw new IOException(msg);
         }
 
         // configure inotify to be non-blocking
-        // create socketpair used in the close mechanism
+        // crebte socketpbir used in the close mechbnism
         int sp[] = new int[2];
         try {
-            configureBlocking(ifd, false);
-            socketpair(sp);
-            configureBlocking(sp[0], false);
-        } catch (UnixException x) {
-            UnixNativeDispatcher.close(ifd);
+            configureBlocking(ifd, fblse);
+            socketpbir(sp);
+            configureBlocking(sp[0], fblse);
+        } cbtch (UnixException x) {
+            UnixNbtiveDispbtcher.close(ifd);
             throw new IOException(x.errorString());
         }
 
         this.poller = new Poller(fs, this, ifd, sp);
-        this.poller.start();
+        this.poller.stbrt();
     }
 
     @Override
-    WatchKey register(Path dir,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
+    WbtchKey register(Pbth dir,
+                      WbtchEvent.Kind<?>[] events,
+                      WbtchEvent.Modifier... modifiers)
          throws IOException
     {
-        // delegate to poller
+        // delegbte to poller
         return poller.register(dir, events, modifiers);
     }
 
     @Override
     void implClose() throws IOException {
-        // delegate to poller
+        // delegbte to poller
         poller.close();
     }
 
     /**
-     * WatchKey implementation
+     * WbtchKey implementbtion
      */
-    private static class LinuxWatchKey extends AbstractWatchKey {
+    privbte stbtic clbss LinuxWbtchKey extends AbstrbctWbtchKey {
         // inotify descriptor
-        private final int ifd;
-        // watch descriptor
-        private volatile int wd;
+        privbte finbl int ifd;
+        // wbtch descriptor
+        privbte volbtile int wd;
 
-        LinuxWatchKey(UnixPath dir, LinuxWatchService watcher, int ifd, int wd) {
-            super(dir, watcher);
+        LinuxWbtchKey(UnixPbth dir, LinuxWbtchService wbtcher, int ifd, int wd) {
+            super(dir, wbtcher);
             this.ifd = ifd;
             this.wd = wd;
         }
@@ -115,11 +115,11 @@ class LinuxWatchService
             return wd;
         }
 
-        void invalidate(boolean remove) {
+        void invblidbte(boolebn remove) {
             if (remove) {
                 try {
-                    inotifyRmWatch(ifd, wd);
-                } catch (UnixException x) {
+                    inotifyRmWbtch(ifd, wd);
+                } cbtch (UnixException x) {
                     // ignore
                 }
             }
@@ -127,339 +127,339 @@ class LinuxWatchService
         }
 
         @Override
-        public boolean isValid() {
+        public boolebn isVblid() {
             return (wd != -1);
         }
 
         @Override
-        public void cancel() {
-            if (isValid()) {
-                // delegate to poller
-                ((LinuxWatchService)watcher()).poller.cancel(this);
+        public void cbncel() {
+            if (isVblid()) {
+                // delegbte to poller
+                ((LinuxWbtchService)wbtcher()).poller.cbncel(this);
             }
         }
     }
 
     /**
-     * Background thread to read from inotify
+     * Bbckground threbd to rebd from inotify
      */
-    private static class Poller extends AbstractPoller {
+    privbte stbtic clbss Poller extends AbstrbctPoller {
         /**
          * struct inotify_event {
          *     int          wd;
-         *     uint32_t     mask;
+         *     uint32_t     mbsk;
          *     uint32_t     len;
-         *     char name    __flexarr;  // present if len > 0
-         * } act_t;
+         *     chbr nbme    __flexbrr;  // present if len > 0
+         * } bct_t;
          */
-        private static final int SIZEOF_INOTIFY_EVENT  = eventSize();
-        private static final int[] offsets             = eventOffsets();
-        private static final int OFFSETOF_WD           = offsets[0];
-        private static final int OFFSETOF_MASK         = offsets[1];
-        private static final int OFFSETOF_LEN          = offsets[3];
-        private static final int OFFSETOF_NAME         = offsets[4];
+        privbte stbtic finbl int SIZEOF_INOTIFY_EVENT  = eventSize();
+        privbte stbtic finbl int[] offsets             = eventOffsets();
+        privbte stbtic finbl int OFFSETOF_WD           = offsets[0];
+        privbte stbtic finbl int OFFSETOF_MASK         = offsets[1];
+        privbte stbtic finbl int OFFSETOF_LEN          = offsets[3];
+        privbte stbtic finbl int OFFSETOF_NAME         = offsets[4];
 
-        private static final int IN_MODIFY          = 0x00000002;
-        private static final int IN_ATTRIB          = 0x00000004;
-        private static final int IN_MOVED_FROM      = 0x00000040;
-        private static final int IN_MOVED_TO        = 0x00000080;
-        private static final int IN_CREATE          = 0x00000100;
-        private static final int IN_DELETE          = 0x00000200;
+        privbte stbtic finbl int IN_MODIFY          = 0x00000002;
+        privbte stbtic finbl int IN_ATTRIB          = 0x00000004;
+        privbte stbtic finbl int IN_MOVED_FROM      = 0x00000040;
+        privbte stbtic finbl int IN_MOVED_TO        = 0x00000080;
+        privbte stbtic finbl int IN_CREATE          = 0x00000100;
+        privbte stbtic finbl int IN_DELETE          = 0x00000200;
 
-        private static final int IN_UNMOUNT         = 0x00002000;
-        private static final int IN_Q_OVERFLOW      = 0x00004000;
-        private static final int IN_IGNORED         = 0x00008000;
+        privbte stbtic finbl int IN_UNMOUNT         = 0x00002000;
+        privbte stbtic finbl int IN_Q_OVERFLOW      = 0x00004000;
+        privbte stbtic finbl int IN_IGNORED         = 0x00008000;
 
         // sizeof buffer for when polling inotify
-        private static final int BUFFER_SIZE = 8192;
+        privbte stbtic finbl int BUFFER_SIZE = 8192;
 
-        private final UnixFileSystem fs;
-        private final LinuxWatchService watcher;
+        privbte finbl UnixFileSystem fs;
+        privbte finbl LinuxWbtchService wbtcher;
 
         // inotify file descriptor
-        private final int ifd;
-        // socketpair used to shutdown polling thread
-        private final int socketpair[];
-        // maps watch descriptor to Key
-        private final Map<Integer,LinuxWatchKey> wdToKey;
-        // address of read buffer
-        private final long address;
+        privbte finbl int ifd;
+        // socketpbir used to shutdown polling threbd
+        privbte finbl int socketpbir[];
+        // mbps wbtch descriptor to Key
+        privbte finbl Mbp<Integer,LinuxWbtchKey> wdToKey;
+        // bddress of rebd buffer
+        privbte finbl long bddress;
 
-        Poller(UnixFileSystem fs, LinuxWatchService watcher, int ifd, int[] sp) {
+        Poller(UnixFileSystem fs, LinuxWbtchService wbtcher, int ifd, int[] sp) {
             this.fs = fs;
-            this.watcher = watcher;
+            this.wbtcher = wbtcher;
             this.ifd = ifd;
-            this.socketpair = sp;
-            this.wdToKey = new HashMap<Integer,LinuxWatchKey>();
-            this.address = unsafe.allocateMemory(BUFFER_SIZE);
+            this.socketpbir = sp;
+            this.wdToKey = new HbshMbp<Integer,LinuxWbtchKey>();
+            this.bddress = unsbfe.bllocbteMemory(BUFFER_SIZE);
         }
 
         @Override
-        void wakeup() throws IOException {
-            // write to socketpair to wakeup polling thread
+        void wbkeup() throws IOException {
+            // write to socketpbir to wbkeup polling threbd
             try {
-                write(socketpair[1], address, 1);
-            } catch (UnixException x) {
+                write(socketpbir[1], bddress, 1);
+            } cbtch (UnixException x) {
                 throw new IOException(x.errorString());
             }
         }
 
         @Override
-        Object implRegister(Path obj,
-                            Set<? extends WatchEvent.Kind<?>> events,
-                            WatchEvent.Modifier... modifiers)
+        Object implRegister(Pbth obj,
+                            Set<? extends WbtchEvent.Kind<?>> events,
+                            WbtchEvent.Modifier... modifiers)
         {
-            UnixPath dir = (UnixPath)obj;
+            UnixPbth dir = (UnixPbth)obj;
 
-            int mask = 0;
-            for (WatchEvent.Kind<?> event: events) {
-                if (event == StandardWatchEventKinds.ENTRY_CREATE) {
-                    mask |= IN_CREATE | IN_MOVED_TO;
+            int mbsk = 0;
+            for (WbtchEvent.Kind<?> event: events) {
+                if (event == StbndbrdWbtchEventKinds.ENTRY_CREATE) {
+                    mbsk |= IN_CREATE | IN_MOVED_TO;
                     continue;
                 }
-                if (event == StandardWatchEventKinds.ENTRY_DELETE) {
-                    mask |= IN_DELETE | IN_MOVED_FROM;
+                if (event == StbndbrdWbtchEventKinds.ENTRY_DELETE) {
+                    mbsk |= IN_DELETE | IN_MOVED_FROM;
                     continue;
                 }
-                if (event == StandardWatchEventKinds.ENTRY_MODIFY) {
-                    mask |= IN_MODIFY | IN_ATTRIB;
+                if (event == StbndbrdWbtchEventKinds.ENTRY_MODIFY) {
+                    mbsk |= IN_MODIFY | IN_ATTRIB;
                     continue;
                 }
             }
 
-            // no modifiers supported at this time
+            // no modifiers supported bt this time
             if (modifiers.length > 0) {
-                for (WatchEvent.Modifier modifier: modifiers) {
+                for (WbtchEvent.Modifier modifier: modifiers) {
                     if (modifier == null)
                         return new NullPointerException();
-                    if (modifier instanceof com.sun.nio.file.SensitivityWatchEventModifier)
+                    if (modifier instbnceof com.sun.nio.file.SensitivityWbtchEventModifier)
                         continue; // ignore
-                    return new UnsupportedOperationException("Modifier not supported");
+                    return new UnsupportedOperbtionException("Modifier not supported");
                 }
             }
 
             // check file is directory
-            UnixFileAttributes attrs = null;
+            UnixFileAttributes bttrs = null;
             try {
-                attrs = UnixFileAttributes.get(dir, true);
-            } catch (UnixException x) {
-                return x.asIOException(dir);
+                bttrs = UnixFileAttributes.get(dir, true);
+            } cbtch (UnixException x) {
+                return x.bsIOException(dir);
             }
-            if (!attrs.isDirectory()) {
-                return new NotDirectoryException(dir.getPathForExceptionMessage());
+            if (!bttrs.isDirectory()) {
+                return new NotDirectoryException(dir.getPbthForExceptionMessbge());
             }
 
-            // register with inotify (replaces existing mask if already registered)
+            // register with inotify (replbces existing mbsk if blrebdy registered)
             int wd = -1;
             try {
-                NativeBuffer buffer =
-                    NativeBuffers.asNativeBuffer(dir.getByteArrayForSysCalls());
+                NbtiveBuffer buffer =
+                    NbtiveBuffers.bsNbtiveBuffer(dir.getByteArrbyForSysCblls());
                 try {
-                    wd = inotifyAddWatch(ifd, buffer.address(), mask);
-                } finally {
-                    buffer.release();
+                    wd = inotifyAddWbtch(ifd, buffer.bddress(), mbsk);
+                } finblly {
+                    buffer.relebse();
                 }
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 if (x.errno() == ENOSPC) {
-                    return new IOException("User limit of inotify watches reached");
+                    return new IOException("User limit of inotify wbtches rebched");
                 }
-                return x.asIOException(dir);
+                return x.bsIOException(dir);
             }
 
-            // ensure watch descriptor is in map
-            LinuxWatchKey key = wdToKey.get(wd);
+            // ensure wbtch descriptor is in mbp
+            LinuxWbtchKey key = wdToKey.get(wd);
             if (key == null) {
-                key = new LinuxWatchKey(dir, watcher, ifd, wd);
+                key = new LinuxWbtchKey(dir, wbtcher, ifd, wd);
                 wdToKey.put(wd, key);
             }
             return key;
         }
 
-        // cancel single key
+        // cbncel single key
         @Override
-        void implCancelKey(WatchKey obj) {
-            LinuxWatchKey key = (LinuxWatchKey)obj;
-            if (key.isValid()) {
+        void implCbncelKey(WbtchKey obj) {
+            LinuxWbtchKey key = (LinuxWbtchKey)obj;
+            if (key.isVblid()) {
                 wdToKey.remove(key.descriptor());
-                key.invalidate(true);
+                key.invblidbte(true);
             }
         }
 
-        // close watch service
+        // close wbtch service
         @Override
         void implCloseAll() {
-            // invalidate all keys
-            for (Map.Entry<Integer,LinuxWatchKey> entry: wdToKey.entrySet()) {
-                entry.getValue().invalidate(true);
+            // invblidbte bll keys
+            for (Mbp.Entry<Integer,LinuxWbtchKey> entry: wdToKey.entrySet()) {
+                entry.getVblue().invblidbte(true);
             }
-            wdToKey.clear();
+            wdToKey.clebr();
 
             // free resources
-            unsafe.freeMemory(address);
-            UnixNativeDispatcher.close(socketpair[0]);
-            UnixNativeDispatcher.close(socketpair[1]);
-            UnixNativeDispatcher.close(ifd);
+            unsbfe.freeMemory(bddress);
+            UnixNbtiveDispbtcher.close(socketpbir[0]);
+            UnixNbtiveDispbtcher.close(socketpbir[1]);
+            UnixNbtiveDispbtcher.close(ifd);
         }
 
         /**
-         * Poller main loop
+         * Poller mbin loop
          */
         @Override
         public void run() {
             try {
                 for (;;) {
-                    int nReady, bytesRead;
+                    int nRebdy, bytesRebd;
 
-                    // wait for close or inotify event
-                    nReady = poll(ifd, socketpair[0]);
+                    // wbit for close or inotify event
+                    nRebdy = poll(ifd, socketpbir[0]);
 
-                    // read from inotify
+                    // rebd from inotify
                     try {
-                        bytesRead = read(ifd, address, BUFFER_SIZE);
-                    } catch (UnixException x) {
+                        bytesRebd = rebd(ifd, bddress, BUFFER_SIZE);
+                    } cbtch (UnixException x) {
                         if (x.errno() != EAGAIN)
                             throw x;
-                        bytesRead = 0;
+                        bytesRebd = 0;
                     }
 
-                    // process any pending requests
-                    if ((nReady > 1) || (nReady == 1 && bytesRead == 0)) {
+                    // process bny pending requests
+                    if ((nRebdy > 1) || (nRebdy == 1 && bytesRebd == 0)) {
                         try {
-                            read(socketpair[0], address, BUFFER_SIZE);
-                            boolean shutdown = processRequests();
+                            rebd(socketpbir[0], bddress, BUFFER_SIZE);
+                            boolebn shutdown = processRequests();
                             if (shutdown)
-                                break;
-                        } catch (UnixException x) {
-                            if (x.errno() != UnixConstants.EAGAIN)
+                                brebk;
+                        } cbtch (UnixException x) {
+                            if (x.errno() != UnixConstbnts.EAGAIN)
                                 throw x;
                         }
                     }
 
-                    // iterate over buffer to decode events
+                    // iterbte over buffer to decode events
                     int offset = 0;
-                    while (offset < bytesRead) {
-                        long event = address + offset;
-                        int wd = unsafe.getInt(event + OFFSETOF_WD);
-                        int mask = unsafe.getInt(event + OFFSETOF_MASK);
-                        int len = unsafe.getInt(event + OFFSETOF_LEN);
+                    while (offset < bytesRebd) {
+                        long event = bddress + offset;
+                        int wd = unsbfe.getInt(event + OFFSETOF_WD);
+                        int mbsk = unsbfe.getInt(event + OFFSETOF_MASK);
+                        int len = unsbfe.getInt(event + OFFSETOF_LEN);
 
-                        // file name
-                        UnixPath name = null;
+                        // file nbme
+                        UnixPbth nbme = null;
                         if (len > 0) {
-                            int actual = len;
+                            int bctubl = len;
 
-                            // null-terminated and maybe additional null bytes to
-                            // align the next event
-                            while (actual > 0) {
-                                long last = event + OFFSETOF_NAME + actual - 1;
-                                if (unsafe.getByte(last) != 0)
-                                    break;
-                                actual--;
+                            // null-terminbted bnd mbybe bdditionbl null bytes to
+                            // blign the next event
+                            while (bctubl > 0) {
+                                long lbst = event + OFFSETOF_NAME + bctubl - 1;
+                                if (unsbfe.getByte(lbst) != 0)
+                                    brebk;
+                                bctubl--;
                             }
-                            if (actual > 0) {
-                                byte[] buf = new byte[actual];
-                                unsafe.copyMemory(null, event + OFFSETOF_NAME,
-                                    buf, Unsafe.ARRAY_BYTE_BASE_OFFSET, actual);
-                                name = new UnixPath(fs, buf);
+                            if (bctubl > 0) {
+                                byte[] buf = new byte[bctubl];
+                                unsbfe.copyMemory(null, event + OFFSETOF_NAME,
+                                    buf, Unsbfe.ARRAY_BYTE_BASE_OFFSET, bctubl);
+                                nbme = new UnixPbth(fs, buf);
                             }
                         }
 
                         // process event
-                        processEvent(wd, mask, name);
+                        processEvent(wd, mbsk, nbme);
 
                         offset += (SIZEOF_INOTIFY_EVENT + len);
                     }
                 }
-            } catch (UnixException x) {
-                x.printStackTrace();
+            } cbtch (UnixException x) {
+                x.printStbckTrbce();
             }
         }
 
 
         /**
-         * map inotify event to WatchEvent.Kind
+         * mbp inotify event to WbtchEvent.Kind
          */
-        private WatchEvent.Kind<?> maskToEventKind(int mask) {
-            if ((mask & IN_MODIFY) > 0)
-                return StandardWatchEventKinds.ENTRY_MODIFY;
-            if ((mask & IN_ATTRIB) > 0)
-                return StandardWatchEventKinds.ENTRY_MODIFY;
-            if ((mask & IN_CREATE) > 0)
-                return StandardWatchEventKinds.ENTRY_CREATE;
-            if ((mask & IN_MOVED_TO) > 0)
-                return StandardWatchEventKinds.ENTRY_CREATE;
-            if ((mask & IN_DELETE) > 0)
-                return StandardWatchEventKinds.ENTRY_DELETE;
-            if ((mask & IN_MOVED_FROM) > 0)
-                return StandardWatchEventKinds.ENTRY_DELETE;
+        privbte WbtchEvent.Kind<?> mbskToEventKind(int mbsk) {
+            if ((mbsk & IN_MODIFY) > 0)
+                return StbndbrdWbtchEventKinds.ENTRY_MODIFY;
+            if ((mbsk & IN_ATTRIB) > 0)
+                return StbndbrdWbtchEventKinds.ENTRY_MODIFY;
+            if ((mbsk & IN_CREATE) > 0)
+                return StbndbrdWbtchEventKinds.ENTRY_CREATE;
+            if ((mbsk & IN_MOVED_TO) > 0)
+                return StbndbrdWbtchEventKinds.ENTRY_CREATE;
+            if ((mbsk & IN_DELETE) > 0)
+                return StbndbrdWbtchEventKinds.ENTRY_DELETE;
+            if ((mbsk & IN_MOVED_FROM) > 0)
+                return StbndbrdWbtchEventKinds.ENTRY_DELETE;
             return null;
         }
 
         /**
          * Process event from inotify
          */
-        private void processEvent(int wd, int mask, final UnixPath name) {
-            // overflow - signal all keys
-            if ((mask & IN_Q_OVERFLOW) > 0) {
-                for (Map.Entry<Integer,LinuxWatchKey> entry: wdToKey.entrySet()) {
-                    entry.getValue()
-                        .signalEvent(StandardWatchEventKinds.OVERFLOW, null);
+        privbte void processEvent(int wd, int mbsk, finbl UnixPbth nbme) {
+            // overflow - signbl bll keys
+            if ((mbsk & IN_Q_OVERFLOW) > 0) {
+                for (Mbp.Entry<Integer,LinuxWbtchKey> entry: wdToKey.entrySet()) {
+                    entry.getVblue()
+                        .signblEvent(StbndbrdWbtchEventKinds.OVERFLOW, null);
                 }
                 return;
             }
 
             // lookup wd to get key
-            LinuxWatchKey key = wdToKey.get(wd);
+            LinuxWbtchKey key = wdToKey.get(wd);
             if (key == null)
-                return; // should not happen
+                return; // should not hbppen
 
             // file deleted
-            if ((mask & IN_IGNORED) > 0) {
+            if ((mbsk & IN_IGNORED) > 0) {
                 wdToKey.remove(wd);
-                key.invalidate(false);
-                key.signal();
+                key.invblidbte(fblse);
+                key.signbl();
                 return;
             }
 
             // event for directory itself
-            if (name == null)
+            if (nbme == null)
                 return;
 
-            // map to event and queue to key
-            WatchEvent.Kind<?> kind = maskToEventKind(mask);
+            // mbp to event bnd queue to key
+            WbtchEvent.Kind<?> kind = mbskToEventKind(mbsk);
             if (kind != null) {
-                key.signalEvent(kind, name);
+                key.signblEvent(kind, nbme);
             }
         }
     }
 
-    // -- native methods --
+    // -- nbtive methods --
 
     // sizeof inotify_event
-    private static native int eventSize();
+    privbte stbtic nbtive int eventSize();
 
     // offsets of inotify_event
-    private static native int[] eventOffsets();
+    privbte stbtic nbtive int[] eventOffsets();
 
-    private static native int inotifyInit() throws UnixException;
+    privbte stbtic nbtive int inotifyInit() throws UnixException;
 
-    private static native int inotifyAddWatch(int fd, long pathAddress, int mask)
+    privbte stbtic nbtive int inotifyAddWbtch(int fd, long pbthAddress, int mbsk)
         throws UnixException;
 
-    private static native void inotifyRmWatch(int fd, int wd)
+    privbte stbtic nbtive void inotifyRmWbtch(int fd, int wd)
         throws UnixException;
 
-    private static native void configureBlocking(int fd, boolean blocking)
+    privbte stbtic nbtive void configureBlocking(int fd, boolebn blocking)
         throws UnixException;
 
-    private static native void socketpair(int[] sv) throws UnixException;
+    privbte stbtic nbtive void socketpbir(int[] sv) throws UnixException;
 
-    private static native int poll(int fd1, int fd2) throws UnixException;
+    privbte stbtic nbtive int poll(int fd1, int fd2) throws UnixException;
 
-    static {
+    stbtic {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                System.loadLibrary("nio");
+                System.lobdLibrbry("nio");
                 return null;
         }});
     }

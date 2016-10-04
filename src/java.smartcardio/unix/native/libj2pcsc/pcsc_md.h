@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-typedef LONG (*FPTR_SCardEstablishContext)(ULONG dwScope,
+typedef LONG (*FPTR_SCbrdEstbblishContext)(ULONG dwScope,
                 const void *pvReserved1,
                 const void *pvReserved2,
                 LONG *phContext);
 
-typedef LONG (*FPTR_SCardConnect)(LONG hContext,
-                const char *szReader,
-                ULONG dwShareMode,
+typedef LONG (*FPTR_SCbrdConnect)(LONG hContext,
+                const chbr *szRebder,
+                ULONG dwShbreMode,
                 ULONG dwPreferredProtocols,
-                LONG *phCard, ULONG *pdwActiveProtocol);
+                LONG *phCbrd, ULONG *pdwActiveProtocol);
 
-typedef LONG (*FPTR_SCardDisconnect)(LONG hCard, ULONG dwDisposition);
+typedef LONG (*FPTR_SCbrdDisconnect)(LONG hCbrd, ULONG dwDisposition);
 
-typedef LONG (*FPTR_SCardStatus)(LONG hCard,
-                char *mszReaderNames,
-                ULONG *pcchReaderLen,
-                ULONG *pdwState,
+typedef LONG (*FPTR_SCbrdStbtus)(LONG hCbrd,
+                chbr *mszRebderNbmes,
+                ULONG *pcchRebderLen,
+                ULONG *pdwStbte,
                 ULONG *pdwProtocol,
-                unsigned char *pbAtr, ULONG *pcbAtrLen);
+                unsigned chbr *pbAtr, ULONG *pcbAtrLen);
 
-typedef LONG (*FPTR_SCardGetStatusChange)(LONG hContext,
+typedef LONG (*FPTR_SCbrdGetStbtusChbnge)(LONG hContext,
                 ULONG dwTimeout,
-                LPSCARD_READERSTATE_A rgReaderStates, ULONG cReaders);
+                LPSCARD_READERSTATE_A rgRebderStbtes, ULONG cRebders);
 
-typedef LONG (*FPTR_SCardTransmit)(LONG hCard,
+typedef LONG (*FPTR_SCbrdTrbnsmit)(LONG hCbrd,
                 LPCSCARD_IO_REQUEST pioSendPci,
-                const unsigned char *pbSendBuffer,
+                const unsigned chbr *pbSendBuffer,
                 ULONG cbSendLength,
                 LPSCARD_IO_REQUEST pioRecvPci,
-                unsigned char *pbRecvBuffer, ULONG *pcbRecvLength);
+                unsigned chbr *pbRecvBuffer, ULONG *pcbRecvLength);
 
-typedef LONG (*FPTR_SCardListReaders)(LONG hContext,
-                const char *mszGroups,
-                char *mszReaders, ULONG *pcchReaders);
+typedef LONG (*FPTR_SCbrdListRebders)(LONG hContext,
+                const chbr *mszGroups,
+                chbr *mszRebders, ULONG *pcchRebders);
 
-typedef LONG (*FPTR_SCardBeginTransaction)(LONG hCard);
+typedef LONG (*FPTR_SCbrdBeginTrbnsbction)(LONG hCbrd);
 
-typedef LONG (*FPTR_SCardEndTransaction)(LONG hCard, ULONG dwDisposition);
+typedef LONG (*FPTR_SCbrdEndTrbnsbction)(LONG hCbrd, ULONG dwDisposition);
 
-typedef LONG (*FPTR_SCardControl)(LONG hCard, ULONG dwControlCode,
+typedef LONG (*FPTR_SCbrdControl)(LONG hCbrd, ULONG dwControlCode,
     const void* pbSendBuffer, ULONG cbSendLength, const void* pbRecvBuffer,
     ULONG pcbRecvLength, ULONG *lpBytesReturned);
 
-#define CALL_SCardEstablishContext(dwScope, pvReserved1, pvReserved2, phContext) \
-    ((scardEstablishContext)(dwScope, pvReserved1, pvReserved2, phContext))
+#define CALL_SCbrdEstbblishContext(dwScope, pvReserved1, pvReserved2, phContext) \
+    ((scbrdEstbblishContext)(dwScope, pvReserved1, pvReserved2, phContext))
 
-#define CALL_SCardConnect(hContext, szReader, dwSharedMode, dwPreferredProtocols, phCard, pdwActiveProtocols) \
-    ((scardConnect)(hContext, szReader, dwSharedMode, dwPreferredProtocols, phCard, pdwActiveProtocols))
+#define CALL_SCbrdConnect(hContext, szRebder, dwShbredMode, dwPreferredProtocols, phCbrd, pdwActiveProtocols) \
+    ((scbrdConnect)(hContext, szRebder, dwShbredMode, dwPreferredProtocols, phCbrd, pdwActiveProtocols))
 
-#define CALL_SCardDisconnect(hCard, dwDisposition) \
-    ((scardDisconnect)(hCard, dwDisposition))
+#define CALL_SCbrdDisconnect(hCbrd, dwDisposition) \
+    ((scbrdDisconnect)(hCbrd, dwDisposition))
 
-#define CALL_SCardStatus(hCard, mszReaderNames, pcchReaderLen, pdwState, pdwProtocol, pbAtr, pcbAtrLen) \
-    ((scardStatus)(hCard, mszReaderNames, pcchReaderLen, pdwState, pdwProtocol, pbAtr, pcbAtrLen))
+#define CALL_SCbrdStbtus(hCbrd, mszRebderNbmes, pcchRebderLen, pdwStbte, pdwProtocol, pbAtr, pcbAtrLen) \
+    ((scbrdStbtus)(hCbrd, mszRebderNbmes, pcchRebderLen, pdwStbte, pdwProtocol, pbAtr, pcbAtrLen))
 
-#define CALL_SCardGetStatusChange(hContext, dwTimeout, rgReaderStates, cReaders) \
-    ((scardGetStatusChange)(hContext, dwTimeout, rgReaderStates, cReaders))
+#define CALL_SCbrdGetStbtusChbnge(hContext, dwTimeout, rgRebderStbtes, cRebders) \
+    ((scbrdGetStbtusChbnge)(hContext, dwTimeout, rgRebderStbtes, cRebders))
 
-#define CALL_SCardTransmit(hCard, pioSendPci, pbSendBuffer, cbSendLength, \
+#define CALL_SCbrdTrbnsmit(hCbrd, pioSendPci, pbSendBuffer, cbSendLength, \
                             pioRecvPci, pbRecvBuffer, pcbRecvLength) \
-    ((scardTransmit)(hCard, pioSendPci, pbSendBuffer, cbSendLength, \
+    ((scbrdTrbnsmit)(hCbrd, pioSendPci, pbSendBuffer, cbSendLength, \
                             pioRecvPci, pbRecvBuffer, pcbRecvLength))
 
-#define CALL_SCardListReaders(hContext, mszGroups, mszReaders, pcchReaders) \
-    ((scardListReaders)(hContext, mszGroups, mszReaders, pcchReaders))
+#define CALL_SCbrdListRebders(hContext, mszGroups, mszRebders, pcchRebders) \
+    ((scbrdListRebders)(hContext, mszGroups, mszRebders, pcchRebders))
 
-#define CALL_SCardBeginTransaction(hCard) \
-    ((scardBeginTransaction)(hCard))
+#define CALL_SCbrdBeginTrbnsbction(hCbrd) \
+    ((scbrdBeginTrbnsbction)(hCbrd))
 
-#define CALL_SCardEndTransaction(hCard, dwDisposition) \
-    ((scardEndTransaction)(hCard, dwDisposition))
+#define CALL_SCbrdEndTrbnsbction(hCbrd, dwDisposition) \
+    ((scbrdEndTrbnsbction)(hCbrd, dwDisposition))
 
-#define CALL_SCardControl(hCard, dwControlCode, pbSendBuffer, cbSendLength, \
+#define CALL_SCbrdControl(hCbrd, dwControlCode, pbSendBuffer, cbSendLength, \
             pbRecvBuffer, pcbRecvLength, lpBytesReturned) \
-    ((scardControl)(hCard, dwControlCode, pbSendBuffer, cbSendLength, \
+    ((scbrdControl)(hCbrd, dwControlCode, pbSendBuffer, cbSendLength, \
             pbRecvBuffer, pcbRecvLength, lpBytesReturned))
 
-extern FPTR_SCardEstablishContext scardEstablishContext;
-extern FPTR_SCardConnect scardConnect;
-extern FPTR_SCardDisconnect scardDisconnect;
-extern FPTR_SCardStatus scardStatus;
-extern FPTR_SCardGetStatusChange scardGetStatusChange;
-extern FPTR_SCardTransmit scardTransmit;
-extern FPTR_SCardListReaders scardListReaders;
-extern FPTR_SCardBeginTransaction scardBeginTransaction;
-extern FPTR_SCardEndTransaction scardEndTransaction;
-extern FPTR_SCardControl scardControl;
+extern FPTR_SCbrdEstbblishContext scbrdEstbblishContext;
+extern FPTR_SCbrdConnect scbrdConnect;
+extern FPTR_SCbrdDisconnect scbrdDisconnect;
+extern FPTR_SCbrdStbtus scbrdStbtus;
+extern FPTR_SCbrdGetStbtusChbnge scbrdGetStbtusChbnge;
+extern FPTR_SCbrdTrbnsmit scbrdTrbnsmit;
+extern FPTR_SCbrdListRebders scbrdListRebders;
+extern FPTR_SCbrdBeginTrbnsbction scbrdBeginTrbnsbction;
+extern FPTR_SCbrdEndTrbnsbction scbrdEndTrbnsbction;
+extern FPTR_SCbrdControl scbrdControl;

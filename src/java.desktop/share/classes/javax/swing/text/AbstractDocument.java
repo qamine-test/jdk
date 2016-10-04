@@ -1,367 +1,367 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.*;
-import java.io.*;
-import java.awt.font.TextAttribute;
-import java.text.Bidi;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.text.Bidi;
 
-import javax.swing.UIManager;
-import javax.swing.undo.*;
-import javax.swing.event.*;
-import javax.swing.tree.TreeNode;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.tree.TreeNode;
 
 import sun.font.BidiUtils;
 import sun.swing.SwingUtilities2;
 
 /**
- * An implementation of the document interface to serve as a
- * basis for implementing various kinds of documents.  At this
- * level there is very little policy, so there is a corresponding
- * increase in difficulty of use.
+ * An implementbtion of the document interfbce to serve bs b
+ * bbsis for implementing vbrious kinds of documents.  At this
+ * level there is very little policy, so there is b corresponding
+ * increbse in difficulty of use.
  * <p>
- * This class implements a locking mechanism for the document.  It
- * allows multiple readers or one writer, and writers must wait until
- * all observers of the document have been notified of a previous
- * change before beginning another mutation to the document.  The
- * read lock is acquired and released using the <code>render</code>
- * method.  A write lock is acquired by the methods that mutate the
- * document, and are held for the duration of the method call.
- * Notification is done on the thread that produced the mutation,
- * and the thread has full read access to the document for the
- * duration of the notification, but other readers are kept out
- * until the notification has finished.  The notification is a
- * beans event notification which does not allow any further
- * mutations until all listeners have been notified.
+ * This clbss implements b locking mechbnism for the document.  It
+ * bllows multiple rebders or one writer, bnd writers must wbit until
+ * bll observers of the document hbve been notified of b previous
+ * chbnge before beginning bnother mutbtion to the document.  The
+ * rebd lock is bcquired bnd relebsed using the <code>render</code>
+ * method.  A write lock is bcquired by the methods thbt mutbte the
+ * document, bnd bre held for the durbtion of the method cbll.
+ * Notificbtion is done on the threbd thbt produced the mutbtion,
+ * bnd the threbd hbs full rebd bccess to the document for the
+ * durbtion of the notificbtion, but other rebders bre kept out
+ * until the notificbtion hbs finished.  The notificbtion is b
+ * bebns event notificbtion which does not bllow bny further
+ * mutbtions until bll listeners hbve been notified.
  * <p>
- * Any models subclassed from this class and used in conjunction
- * with a text component that has a look and feel implementation
- * that is derived from BasicTextUI may be safely updated
- * asynchronously, because all access to the View hierarchy
- * is serialized by BasicTextUI if the document is of type
- * <code>AbstractDocument</code>.  The locking assumes that an
- * independent thread will access the View hierarchy only from
- * the DocumentListener methods, and that there will be only
- * one event thread active at a time.
+ * Any models subclbssed from this clbss bnd used in conjunction
+ * with b text component thbt hbs b look bnd feel implementbtion
+ * thbt is derived from BbsicTextUI mby be sbfely updbted
+ * bsynchronously, becbuse bll bccess to the View hierbrchy
+ * is seriblized by BbsicTextUI if the document is of type
+ * <code>AbstrbctDocument</code>.  The locking bssumes thbt bn
+ * independent threbd will bccess the View hierbrchy only from
+ * the DocumentListener methods, bnd thbt there will be only
+ * one event threbd bctive bt b time.
  * <p>
- * If concurrency support is desired, there are the following
- * additional implications.  The code path for any DocumentListener
- * implementation and any UndoListener implementation must be threadsafe,
- * and not access the component lock if trying to be safe from deadlocks.
- * The <code>repaint</code> and <code>revalidate</code> methods
- * on JComponent are safe.
+ * If concurrency support is desired, there bre the following
+ * bdditionbl implicbtions.  The code pbth for bny DocumentListener
+ * implementbtion bnd bny UndoListener implementbtion must be threbdsbfe,
+ * bnd not bccess the component lock if trying to be sbfe from debdlocks.
+ * The <code>repbint</code> bnd <code>revblidbte</code> methods
+ * on JComponent bre sbfe.
  * <p>
- * AbstractDocument models an implied break at the end of the document.
- * Among other things this allows you to position the caret after the last
- * character. As a result of this, <code>getLength</code> returns one less
- * than the length of the Content. If you create your own Content, be
- * sure and initialize it to have an additional character. Refer to
- * StringContent and GapContent for examples of this. Another implication
- * of this is that Elements that model the implied end character will have
- * an endOffset == (getLength() + 1). For example, in DefaultStyledDocument
- * <code>getParagraphElement(getLength()).getEndOffset() == getLength() + 1
+ * AbstrbctDocument models bn implied brebk bt the end of the document.
+ * Among other things this bllows you to position the cbret bfter the lbst
+ * chbrbcter. As b result of this, <code>getLength</code> returns one less
+ * thbn the length of the Content. If you crebte your own Content, be
+ * sure bnd initiblize it to hbve bn bdditionbl chbrbcter. Refer to
+ * StringContent bnd GbpContent for exbmples of this. Another implicbtion
+ * of this is thbt Elements thbt model the implied end chbrbcter will hbve
+ * bn endOffset == (getLength() + 1). For exbmple, in DefbultStyledDocument
+ * <code>getPbrbgrbphElement(getLength()).getEndOffset() == getLength() + 1
  * </code>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class AbstractDocument implements Document, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss AbstrbctDocument implements Document, Seriblizbble {
 
     /**
-     * Constructs a new <code>AbstractDocument</code>, wrapped around some
-     * specified content storage mechanism.
+     * Constructs b new <code>AbstrbctDocument</code>, wrbpped bround some
+     * specified content storbge mechbnism.
      *
-     * @param data the content
+     * @pbrbm dbtb the content
      */
-    protected AbstractDocument(Content data) {
-        this(data, StyleContext.getDefaultStyleContext());
+    protected AbstrbctDocument(Content dbtb) {
+        this(dbtb, StyleContext.getDefbultStyleContext());
     }
 
     /**
-     * Constructs a new <code>AbstractDocument</code>, wrapped around some
-     * specified content storage mechanism.
+     * Constructs b new <code>AbstrbctDocument</code>, wrbpped bround some
+     * specified content storbge mechbnism.
      *
-     * @param data the content
-     * @param context the attribute context
+     * @pbrbm dbtb the content
+     * @pbrbm context the bttribute context
      */
-    protected AbstractDocument(Content data, AttributeContext context) {
-        this.data = data;
+    protected AbstrbctDocument(Content dbtb, AttributeContext context) {
+        this.dbtb = dbtb;
         this.context = context;
         bidiRoot = new BidiRootElement();
 
-        if (defaultI18NProperty == null) {
-            // determine default setting for i18n support
-            String o = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<String>() {
+        if (defbultI18NProperty == null) {
+            // determine defbult setting for i18n support
+            String o = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<String>() {
                     public String run() {
                         return System.getProperty(I18NProperty);
                     }
                 }
             );
             if (o != null) {
-                defaultI18NProperty = Boolean.valueOf(o);
+                defbultI18NProperty = Boolebn.vblueOf(o);
             } else {
-                defaultI18NProperty = Boolean.FALSE;
+                defbultI18NProperty = Boolebn.FALSE;
             }
         }
-        putProperty( I18NProperty, defaultI18NProperty);
+        putProperty( I18NProperty, defbultI18NProperty);
 
-        //REMIND(bcb) This creates an initial bidi element to account for
-        //the \n that exists by default in the content.  Doing it this way
-        //seems to expose a little too much knowledge of the content given
-        //to us by the sub-class.  Consider having the sub-class' constructor
-        //make an initial call to insertUpdate.
+        //REMIND(bcb) This crebtes bn initibl bidi element to bccount for
+        //the \n thbt exists by defbult in the content.  Doing it this wby
+        //seems to expose b little too much knowledge of the content given
+        //to us by the sub-clbss.  Consider hbving the sub-clbss' constructor
+        //mbke bn initibl cbll to insertUpdbte.
         writeLock();
         try {
             Element[] p = new Element[1];
             p[0] = new BidiElement( bidiRoot, 0, 1, 0 );
-            bidiRoot.replace(0,0,p);
-        } finally {
+            bidiRoot.replbce(0,0,p);
+        } finblly {
             writeUnlock();
         }
     }
 
     /**
-     * Supports managing a set of properties. Callers
-     * can use the <code>documentProperties</code> dictionary
-     * to annotate the document with document-wide properties.
+     * Supports mbnbging b set of properties. Cbllers
+     * cbn use the <code>documentProperties</code> dictionbry
+     * to bnnotbte the document with document-wide properties.
      *
-     * @return a non-<code>null</code> <code>Dictionary</code>
+     * @return b non-<code>null</code> <code>Dictionbry</code>
      * @see #setDocumentProperties
      */
-    public Dictionary<Object,Object> getDocumentProperties() {
+    public Dictionbry<Object,Object> getDocumentProperties() {
         if (documentProperties == null) {
-            documentProperties = new Hashtable<Object, Object>(2);
+            documentProperties = new Hbshtbble<Object, Object>(2);
         }
         return documentProperties;
     }
 
     /**
-     * Replaces the document properties dictionary for this document.
+     * Replbces the document properties dictionbry for this document.
      *
-     * @param x the new dictionary
+     * @pbrbm x the new dictionbry
      * @see #getDocumentProperties
      */
-    public void setDocumentProperties(Dictionary<Object,Object> x) {
+    public void setDocumentProperties(Dictionbry<Object,Object> x) {
         documentProperties = x;
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @see EventListenerList
      */
-    protected void fireInsertUpdate(DocumentEvent e) {
+    protected void fireInsertUpdbte(DocumentEvent e) {
         notifyingListeners = true;
         try {
-            // Guaranteed to return a non-null array
+            // Gubrbnteed to return b non-null brrby
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners lbst to first, notifying
+            // those thbt bre interested in this event
             for (int i = listeners.length-2; i>=0; i-=2) {
-                if (listeners[i]==DocumentListener.class) {
-                    // Lazily create the event:
+                if (listeners[i]==DocumentListener.clbss) {
+                    // Lbzily crebte the event:
                     // if (e == null)
-                    // e = new ListSelectionEvent(this, firstIndex, lastIndex);
-                    ((DocumentListener)listeners[i+1]).insertUpdate(e);
+                    // e = new ListSelectionEvent(this, firstIndex, lbstIndex);
+                    ((DocumentListener)listeners[i+1]).insertUpdbte(e);
                 }
             }
-        } finally {
-            notifyingListeners = false;
+        } finblly {
+            notifyingListeners = fblse;
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @see EventListenerList
      */
-    protected void fireChangedUpdate(DocumentEvent e) {
+    protected void fireChbngedUpdbte(DocumentEvent e) {
         notifyingListeners = true;
         try {
-            // Guaranteed to return a non-null array
+            // Gubrbnteed to return b non-null brrby
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners lbst to first, notifying
+            // those thbt bre interested in this event
             for (int i = listeners.length-2; i>=0; i-=2) {
-                if (listeners[i]==DocumentListener.class) {
-                    // Lazily create the event:
+                if (listeners[i]==DocumentListener.clbss) {
+                    // Lbzily crebte the event:
                     // if (e == null)
-                    // e = new ListSelectionEvent(this, firstIndex, lastIndex);
-                    ((DocumentListener)listeners[i+1]).changedUpdate(e);
+                    // e = new ListSelectionEvent(this, firstIndex, lbstIndex);
+                    ((DocumentListener)listeners[i+1]).chbngedUpdbte(e);
                 }
             }
-        } finally {
-            notifyingListeners = false;
+        } finblly {
+            notifyingListeners = fblse;
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @see EventListenerList
      */
-    protected void fireRemoveUpdate(DocumentEvent e) {
+    protected void fireRemoveUpdbte(DocumentEvent e) {
         notifyingListeners = true;
         try {
-            // Guaranteed to return a non-null array
+            // Gubrbnteed to return b non-null brrby
             Object[] listeners = listenerList.getListenerList();
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners lbst to first, notifying
+            // those thbt bre interested in this event
             for (int i = listeners.length-2; i>=0; i-=2) {
-                if (listeners[i]==DocumentListener.class) {
-                    // Lazily create the event:
+                if (listeners[i]==DocumentListener.clbss) {
+                    // Lbzily crebte the event:
                     // if (e == null)
-                    // e = new ListSelectionEvent(this, firstIndex, lastIndex);
-                    ((DocumentListener)listeners[i+1]).removeUpdate(e);
+                    // e = new ListSelectionEvent(this, firstIndex, lbstIndex);
+                    ((DocumentListener)listeners[i+1]).removeUpdbte(e);
                 }
             }
-        } finally {
-            notifyingListeners = false;
+        } finblly {
+            notifyingListeners = fblse;
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @see EventListenerList
      */
-    protected void fireUndoableEditUpdate(UndoableEditEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireUndobbleEditUpdbte(UndobbleEditEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==UndoableEditListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==UndobbleEditListener.clbss) {
+                // Lbzily crebte the event:
                 // if (e == null)
-                // e = new ListSelectionEvent(this, firstIndex, lastIndex);
-                ((UndoableEditListener)listeners[i+1]).undoableEditHappened(e);
+                // e = new ListSelectionEvent(this, firstIndex, lbstIndex);
+                ((UndobbleEditListener)listeners[i+1]).undobbleEditHbppened(e);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this document.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
      * document <code>d</code>
      * for its document listeners with the following code:
      *
-     * <pre>DocumentListener[] mls = (DocumentListener[])(d.getListeners(DocumentListener.class));</pre>
+     * <pre>DocumentListener[] mls = (DocumentListener[])(d.getListeners(DocumentListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getDocumentListeners
-     * @see #getUndoableEditListeners
+     * @see #getUndobbleEditListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 
     /**
-     * Gets the asynchronous loading priority.  If less than zero,
-     * the document should not be loaded asynchronously.
+     * Gets the bsynchronous lobding priority.  If less thbn zero,
+     * the document should not be lobded bsynchronously.
      *
-     * @return the asynchronous loading priority, or <code>-1</code>
-     *   if the document should not be loaded asynchronously
+     * @return the bsynchronous lobding priority, or <code>-1</code>
+     *   if the document should not be lobded bsynchronously
      */
-    public int getAsynchronousLoadPriority() {
-        Integer loadPriority = (Integer)
-            getProperty(AbstractDocument.AsyncLoadPriority);
-        if (loadPriority != null) {
-            return loadPriority.intValue();
+    public int getAsynchronousLobdPriority() {
+        Integer lobdPriority = (Integer)
+            getProperty(AbstrbctDocument.AsyncLobdPriority);
+        if (lobdPriority != null) {
+            return lobdPriority.intVblue();
         }
         return -1;
     }
 
     /**
-     * Sets the asynchronous loading priority.
-     * @param p the new asynchronous loading priority; a value
-     *   less than zero indicates that the document should not be
-     *   loaded asynchronously
+     * Sets the bsynchronous lobding priority.
+     * @pbrbm p the new bsynchronous lobding priority; b vblue
+     *   less thbn zero indicbtes thbt the document should not be
+     *   lobded bsynchronously
      */
-    public void setAsynchronousLoadPriority(int p) {
-        Integer loadPriority = (p >= 0) ? Integer.valueOf(p) : null;
-        putProperty(AbstractDocument.AsyncLoadPriority, loadPriority);
+    public void setAsynchronousLobdPriority(int p) {
+        Integer lobdPriority = (p >= 0) ? Integer.vblueOf(p) : null;
+        putProperty(AbstrbctDocument.AsyncLobdPriority, lobdPriority);
     }
 
     /**
      * Sets the <code>DocumentFilter</code>. The <code>DocumentFilter</code>
-     * is passed <code>insert</code> and <code>remove</code> to conditionally
-     * allow inserting/deleting of the text.  A <code>null</code> value
-     * indicates that no filtering will occur.
+     * is pbssed <code>insert</code> bnd <code>remove</code> to conditionblly
+     * bllow inserting/deleting of the text.  A <code>null</code> vblue
+     * indicbtes thbt no filtering will occur.
      *
-     * @param filter the <code>DocumentFilter</code> used to constrain text
+     * @pbrbm filter the <code>DocumentFilter</code> used to constrbin text
      * @see #getDocumentFilter
      * @since 1.4
      */
@@ -370,8 +370,8 @@ public abstract class AbstractDocument implements Document, Serializable {
     }
 
     /**
-     * Returns the <code>DocumentFilter</code> that is responsible for
-     * filtering of insertion/removal. A <code>null</code> return value
+     * Returns the <code>DocumentFilter</code> thbt is responsible for
+     * filtering of insertion/removbl. A <code>null</code> return vblue
      * implies no filtering is to occur.
      *
      * @since 1.4
@@ -385,178 +385,178 @@ public abstract class AbstractDocument implements Document, Serializable {
     // --- Document methods -----------------------------------------
 
     /**
-     * This allows the model to be safely rendered in the presence
-     * of currency, if the model supports being updated asynchronously.
-     * The given runnable will be executed in a way that allows it
-     * to safely read the model with no changes while the runnable
-     * is being executed.  The runnable itself may <em>not</em>
-     * make any mutations.
+     * This bllows the model to be sbfely rendered in the presence
+     * of currency, if the model supports being updbted bsynchronously.
+     * The given runnbble will be executed in b wby thbt bllows it
+     * to sbfely rebd the model with no chbnges while the runnbble
+     * is being executed.  The runnbble itself mby <em>not</em>
+     * mbke bny mutbtions.
      * <p>
-     * This is implemented to acquire a read lock for the duration
-     * of the runnables execution.  There may be multiple runnables
-     * executing at the same time, and all writers will be blocked
-     * while there are active rendering runnables.  If the runnable
-     * throws an exception, its lock will be safely released.
-     * There is no protection against a runnable that never exits,
-     * which will effectively leave the document locked for it's
+     * This is implemented to bcquire b rebd lock for the durbtion
+     * of the runnbbles execution.  There mby be multiple runnbbles
+     * executing bt the sbme time, bnd bll writers will be blocked
+     * while there bre bctive rendering runnbbles.  If the runnbble
+     * throws bn exception, its lock will be sbfely relebsed.
+     * There is no protection bgbinst b runnbble thbt never exits,
+     * which will effectively lebve the document locked for it's
      * lifetime.
      * <p>
-     * If the given runnable attempts to make any mutations in
-     * this implementation, a deadlock will occur.  There is
-     * no tracking of individual rendering threads to enable
-     * detecting this situation, but a subclass could incur
-     * the overhead of tracking them and throwing an error.
+     * If the given runnbble bttempts to mbke bny mutbtions in
+     * this implementbtion, b debdlock will occur.  There is
+     * no trbcking of individubl rendering threbds to enbble
+     * detecting this situbtion, but b subclbss could incur
+     * the overhebd of trbcking them bnd throwing bn error.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param r the renderer to execute
+     * @pbrbm r the renderer to execute
      */
-    public void render(Runnable r) {
-        readLock();
+    public void render(Runnbble r) {
+        rebdLock();
         try {
             r.run();
-        } finally {
-            readUnlock();
+        } finblly {
+            rebdUnlock();
         }
     }
 
     /**
-     * Returns the length of the data.  This is the number of
-     * characters of content that represents the users data.
+     * Returns the length of the dbtb.  This is the number of
+     * chbrbcters of content thbt represents the users dbtb.
      *
      * @return the length &gt;= 0
      * @see Document#getLength
      */
     public int getLength() {
-        return data.length() - 1;
+        return dbtb.length() - 1;
     }
 
     /**
-     * Adds a document listener for notification of any changes.
+     * Adds b document listener for notificbtion of bny chbnges.
      *
-     * @param listener the <code>DocumentListener</code> to add
-     * @see Document#addDocumentListener
+     * @pbrbm listener the <code>DocumentListener</code> to bdd
+     * @see Document#bddDocumentListener
      */
-    public void addDocumentListener(DocumentListener listener) {
-        listenerList.add(DocumentListener.class, listener);
+    public void bddDocumentListener(DocumentListener listener) {
+        listenerList.bdd(DocumentListener.clbss, listener);
     }
 
     /**
-     * Removes a document listener.
+     * Removes b document listener.
      *
-     * @param listener the <code>DocumentListener</code> to remove
+     * @pbrbm listener the <code>DocumentListener</code> to remove
      * @see Document#removeDocumentListener
      */
     public void removeDocumentListener(DocumentListener listener) {
-        listenerList.remove(DocumentListener.class, listener);
+        listenerList.remove(DocumentListener.clbss, listener);
     }
 
     /**
-     * Returns an array of all the document listeners
+     * Returns bn brrby of bll the document listeners
      * registered on this document.
      *
-     * @return all of this document's <code>DocumentListener</code>s
-     *         or an empty array if no document listeners are
+     * @return bll of this document's <code>DocumentListener</code>s
+     *         or bn empty brrby if no document listeners bre
      *         currently registered
      *
-     * @see #addDocumentListener
+     * @see #bddDocumentListener
      * @see #removeDocumentListener
      * @since 1.4
      */
     public DocumentListener[] getDocumentListeners() {
-        return listenerList.getListeners(DocumentListener.class);
+        return listenerList.getListeners(DocumentListener.clbss);
     }
 
     /**
-     * Adds an undo listener for notification of any changes.
-     * Undo/Redo operations performed on the <code>UndoableEdit</code>
-     * will cause the appropriate DocumentEvent to be fired to keep
+     * Adds bn undo listener for notificbtion of bny chbnges.
+     * Undo/Redo operbtions performed on the <code>UndobbleEdit</code>
+     * will cbuse the bppropribte DocumentEvent to be fired to keep
      * the view(s) in sync with the model.
      *
-     * @param listener the <code>UndoableEditListener</code> to add
-     * @see Document#addUndoableEditListener
+     * @pbrbm listener the <code>UndobbleEditListener</code> to bdd
+     * @see Document#bddUndobbleEditListener
      */
-    public void addUndoableEditListener(UndoableEditListener listener) {
-        listenerList.add(UndoableEditListener.class, listener);
+    public void bddUndobbleEditListener(UndobbleEditListener listener) {
+        listenerList.bdd(UndobbleEditListener.clbss, listener);
     }
 
     /**
-     * Removes an undo listener.
+     * Removes bn undo listener.
      *
-     * @param listener the <code>UndoableEditListener</code> to remove
+     * @pbrbm listener the <code>UndobbleEditListener</code> to remove
      * @see Document#removeDocumentListener
      */
-    public void removeUndoableEditListener(UndoableEditListener listener) {
-        listenerList.remove(UndoableEditListener.class, listener);
+    public void removeUndobbleEditListener(UndobbleEditListener listener) {
+        listenerList.remove(UndobbleEditListener.clbss, listener);
     }
 
     /**
-     * Returns an array of all the undoable edit listeners
+     * Returns bn brrby of bll the undobble edit listeners
      * registered on this document.
      *
-     * @return all of this document's <code>UndoableEditListener</code>s
-     *         or an empty array if no undoable edit listeners are
+     * @return bll of this document's <code>UndobbleEditListener</code>s
+     *         or bn empty brrby if no undobble edit listeners bre
      *         currently registered
      *
-     * @see #addUndoableEditListener
-     * @see #removeUndoableEditListener
+     * @see #bddUndobbleEditListener
+     * @see #removeUndobbleEditListener
      *
      * @since 1.4
      */
-    public UndoableEditListener[] getUndoableEditListeners() {
-        return listenerList.getListeners(UndoableEditListener.class);
+    public UndobbleEditListener[] getUndobbleEditListeners() {
+        return listenerList.getListeners(UndobbleEditListener.clbss);
     }
 
     /**
-     * A convenience method for looking up a property value. It is
-     * equivalent to:
+     * A convenience method for looking up b property vblue. It is
+     * equivblent to:
      * <pre>
      * getDocumentProperties().get(key);
      * </pre>
      *
-     * @param key the non-<code>null</code> property key
-     * @return the value of this property or <code>null</code>
+     * @pbrbm key the non-<code>null</code> property key
+     * @return the vblue of this property or <code>null</code>
      * @see #getDocumentProperties
      */
-    public final Object getProperty(Object key) {
+    public finbl Object getProperty(Object key) {
         return getDocumentProperties().get(key);
     }
 
 
     /**
-     * A convenience method for storing up a property value.  It is
-     * equivalent to:
+     * A convenience method for storing up b property vblue.  It is
+     * equivblent to:
      * <pre>
-     * getDocumentProperties().put(key, value);
+     * getDocumentProperties().put(key, vblue);
      * </pre>
-     * If <code>value</code> is <code>null</code> this method will
+     * If <code>vblue</code> is <code>null</code> this method will
      * remove the property.
      *
-     * @param key the non-<code>null</code> key
-     * @param value the property value
+     * @pbrbm key the non-<code>null</code> key
+     * @pbrbm vblue the property vblue
      * @see #getDocumentProperties
      */
-    public final void putProperty(Object key, Object value) {
-        if (value != null) {
-            getDocumentProperties().put(key, value);
+    public finbl void putProperty(Object key, Object vblue) {
+        if (vblue != null) {
+            getDocumentProperties().put(key, vblue);
         } else {
             getDocumentProperties().remove(key);
         }
         if( key == TextAttribute.RUN_DIRECTION
-            && Boolean.TRUE.equals(getProperty(I18NProperty)) )
+            && Boolebn.TRUE.equbls(getProperty(I18NProperty)) )
         {
             //REMIND - this needs to flip on the i18n property if run dir
-            //is rtl and the i18n property is not already on.
+            //is rtl bnd the i18n property is not blrebdy on.
             writeLock();
             try {
-                DefaultDocumentEvent e
-                    = new DefaultDocumentEvent(0, getLength(),
+                DefbultDocumentEvent e
+                    = new DefbultDocumentEvent(0, getLength(),
                                                DocumentEvent.EventType.INSERT);
-                updateBidi( e );
-            } finally {
+                updbteBidi( e );
+            } finblly {
                 writeUnlock();
             }
         }
@@ -564,93 +564,93 @@ public abstract class AbstractDocument implements Document, Serializable {
 
     /**
      * Removes some content from the document.
-     * Removing content causes a write lock to be held while the
-     * actual changes are taking place.  Observers are notified
-     * of the change on the thread that called this method.
+     * Removing content cbuses b write lock to be held while the
+     * bctubl chbnges bre tbking plbce.  Observers bre notified
+     * of the chbnge on the threbd thbt cblled this method.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param offs the starting offset &gt;= 0
-     * @param len the number of characters to remove &gt;= 0
-     * @exception BadLocationException  the given remove position is not a valid
+     * @pbrbm offs the stbrting offset &gt;= 0
+     * @pbrbm len the number of chbrbcters to remove &gt;= 0
+     * @exception BbdLocbtionException  the given remove position is not b vblid
      *   position within the document
      * @see Document#remove
      */
-    public void remove(int offs, int len) throws BadLocationException {
+    public void remove(int offs, int len) throws BbdLocbtionException {
         DocumentFilter filter = getDocumentFilter();
 
         writeLock();
         try {
             if (filter != null) {
-                filter.remove(getFilterBypass(), offs, len);
+                filter.remove(getFilterBypbss(), offs, len);
             }
             else {
-                handleRemove(offs, len);
+                hbndleRemove(offs, len);
             }
-        } finally {
+        } finblly {
             writeUnlock();
         }
     }
 
     /**
-     * Performs the actual work of the remove. It is assumed the caller
-     * will have obtained a <code>writeLock</code> before invoking this.
+     * Performs the bctubl work of the remove. It is bssumed the cbller
+     * will hbve obtbined b <code>writeLock</code> before invoking this.
      */
-    void handleRemove(int offs, int len) throws BadLocationException {
+    void hbndleRemove(int offs, int len) throws BbdLocbtionException {
         if (len > 0) {
             if (offs < 0 || (offs + len) > getLength()) {
-                throw new BadLocationException("Invalid remove",
+                throw new BbdLocbtionException("Invblid remove",
                                                getLength() + 1);
             }
-            DefaultDocumentEvent chng =
-                    new DefaultDocumentEvent(offs, len, DocumentEvent.EventType.REMOVE);
+            DefbultDocumentEvent chng =
+                    new DefbultDocumentEvent(offs, len, DocumentEvent.EventType.REMOVE);
 
-            boolean isComposedTextElement;
+            boolebn isComposedTextElement;
             // Check whether the position of interest is the composed text
             isComposedTextElement = Utilities.isComposedTextElement(this, offs);
 
-            removeUpdate(chng);
-            UndoableEdit u = data.remove(offs, len);
+            removeUpdbte(chng);
+            UndobbleEdit u = dbtb.remove(offs, len);
             if (u != null) {
-                chng.addEdit(u);
+                chng.bddEdit(u);
             }
-            postRemoveUpdate(chng);
-            // Mark the edit as done.
+            postRemoveUpdbte(chng);
+            // Mbrk the edit bs done.
             chng.end();
-            fireRemoveUpdate(chng);
-            // only fire undo if Content implementation supports it
+            fireRemoveUpdbte(chng);
+            // only fire undo if Content implementbtion supports it
             // undo for the composed text is not supported for now
             if ((u != null) && !isComposedTextElement) {
-                fireUndoableEditUpdate(new UndoableEditEvent(this, chng));
+                fireUndobbleEditUpdbte(new UndobbleEditEvent(this, chng));
             }
         }
     }
 
     /**
      * Deletes the region of text from <code>offset</code> to
-     * <code>offset + length</code>, and replaces it with <code>text</code>.
-     * It is up to the implementation as to how this is implemented, some
-     * implementations may treat this as two distinct operations: a remove
-     * followed by an insert, others may treat the replace as one atomic
-     * operation.
+     * <code>offset + length</code>, bnd replbces it with <code>text</code>.
+     * It is up to the implementbtion bs to how this is implemented, some
+     * implementbtions mby trebt this bs two distinct operbtions: b remove
+     * followed by bn insert, others mby trebt the replbce bs one btomic
+     * operbtion.
      *
-     * @param offset index of child element
-     * @param length length of text to delete, may be 0 indicating don't
-     *               delete anything
-     * @param text text to insert, <code>null</code> indicates no text to insert
-     * @param attrs AttributeSet indicating attributes of inserted text,
+     * @pbrbm offset index of child element
+     * @pbrbm length length of text to delete, mby be 0 indicbting don't
+     *               delete bnything
+     * @pbrbm text text to insert, <code>null</code> indicbtes no text to insert
+     * @pbrbm bttrs AttributeSet indicbting bttributes of inserted text,
      *              <code>null</code>
-     *              is legal, and typically treated as an empty attributeset,
-     *              but exact interpretation is left to the subclass
-     * @exception BadLocationException the given position is not a valid
+     *              is legbl, bnd typicblly trebted bs bn empty bttributeset,
+     *              but exbct interpretbtion is left to the subclbss
+     * @exception BbdLocbtionException the given position is not b vblid
      *            position within the document
      * @since 1.4
      */
-    public void replace(int offset, int length, String text,
-                        AttributeSet attrs) throws BadLocationException {
+    public void replbce(int offset, int length, String text,
+                        AttributeSet bttrs) throws BbdLocbtionException {
         if (length == 0 && (text == null || text.length() == 0)) {
             return;
         }
@@ -659,41 +659,41 @@ public abstract class AbstractDocument implements Document, Serializable {
         writeLock();
         try {
             if (filter != null) {
-                filter.replace(getFilterBypass(), offset, length, text,
-                               attrs);
+                filter.replbce(getFilterBypbss(), offset, length, text,
+                               bttrs);
             }
             else {
                 if (length > 0) {
                     remove(offset, length);
                 }
                 if (text != null && text.length() > 0) {
-                    insertString(offset, text, attrs);
+                    insertString(offset, text, bttrs);
                 }
             }
-        } finally {
+        } finblly {
             writeUnlock();
         }
     }
 
     /**
      * Inserts some content into the document.
-     * Inserting content causes a write lock to be held while the
-     * actual changes are taking place, followed by notification
-     * to the observers on the thread that grabbed the write lock.
+     * Inserting content cbuses b write lock to be held while the
+     * bctubl chbnges bre tbking plbce, followed by notificbtion
+     * to the observers on the threbd thbt grbbbed the write lock.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param offs the starting offset &gt;= 0
-     * @param str the string to insert; does nothing with null/empty strings
-     * @param a the attributes for the inserted content
-     * @exception BadLocationException  the given insert position is not a valid
+     * @pbrbm offs the stbrting offset &gt;= 0
+     * @pbrbm str the string to insert; does nothing with null/empty strings
+     * @pbrbm b the bttributes for the inserted content
+     * @exception BbdLocbtionException  the given insert position is not b vblid
      *   position within the document
      * @see Document#insertString
      */
-    public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+    public void insertString(int offs, String str, AttributeSet b) throws BbdLocbtionException {
         if ((str == null) || (str.length() == 0)) {
             return;
         }
@@ -703,93 +703,93 @@ public abstract class AbstractDocument implements Document, Serializable {
 
         try {
             if (filter != null) {
-                filter.insertString(getFilterBypass(), offs, str, a);
+                filter.insertString(getFilterBypbss(), offs, str, b);
             } else {
-                handleInsertString(offs, str, a);
+                hbndleInsertString(offs, str, b);
             }
-        } finally {
+        } finblly {
             writeUnlock();
         }
     }
 
     /**
-     * Performs the actual work of inserting the text; it is assumed the
-     * caller has obtained a write lock before invoking this.
+     * Performs the bctubl work of inserting the text; it is bssumed the
+     * cbller hbs obtbined b write lock before invoking this.
      */
-    private void handleInsertString(int offs, String str, AttributeSet a)
-            throws BadLocationException {
+    privbte void hbndleInsertString(int offs, String str, AttributeSet b)
+            throws BbdLocbtionException {
         if ((str == null) || (str.length() == 0)) {
             return;
         }
-        UndoableEdit u = data.insertString(offs, str);
-        DefaultDocumentEvent e =
-            new DefaultDocumentEvent(offs, str.length(), DocumentEvent.EventType.INSERT);
+        UndobbleEdit u = dbtb.insertString(offs, str);
+        DefbultDocumentEvent e =
+            new DefbultDocumentEvent(offs, str.length(), DocumentEvent.EventType.INSERT);
         if (u != null) {
-            e.addEdit(u);
+            e.bddEdit(u);
         }
 
-        // see if complex glyph layout support is needed
-        if( getProperty(I18NProperty).equals( Boolean.FALSE ) ) {
-            // if a default direction of right-to-left has been specified,
-            // we want complex layout even if the text is all left to right.
+        // see if complex glyph lbyout support is needed
+        if( getProperty(I18NProperty).equbls( Boolebn.FALSE ) ) {
+            // if b defbult direction of right-to-left hbs been specified,
+            // we wbnt complex lbyout even if the text is bll left to right.
             Object d = getProperty(TextAttribute.RUN_DIRECTION);
-            if ((d != null) && (d.equals(TextAttribute.RUN_DIRECTION_RTL))) {
-                putProperty( I18NProperty, Boolean.TRUE);
+            if ((d != null) && (d.equbls(TextAttribute.RUN_DIRECTION_RTL))) {
+                putProperty( I18NProperty, Boolebn.TRUE);
             } else {
-                char[] chars = str.toCharArray();
-                if (SwingUtilities2.isComplexLayout(chars, 0, chars.length)) {
-                    putProperty( I18NProperty, Boolean.TRUE);
+                chbr[] chbrs = str.toChbrArrby();
+                if (SwingUtilities2.isComplexLbyout(chbrs, 0, chbrs.length)) {
+                    putProperty( I18NProperty, Boolebn.TRUE);
                 }
             }
         }
 
-        insertUpdate(e, a);
-        // Mark the edit as done.
+        insertUpdbte(e, b);
+        // Mbrk the edit bs done.
         e.end();
-        fireInsertUpdate(e);
-        // only fire undo if Content implementation supports it
+        fireInsertUpdbte(e);
+        // only fire undo if Content implementbtion supports it
         // undo for the composed text is not supported for now
-        if (u != null && (a == null || !a.isDefined(StyleConstants.ComposedTextAttribute))) {
-            fireUndoableEditUpdate(new UndoableEditEvent(this, e));
+        if (u != null && (b == null || !b.isDefined(StyleConstbnts.ComposedTextAttribute))) {
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, e));
         }
     }
 
     /**
-     * Gets a sequence of text from the document.
+     * Gets b sequence of text from the document.
      *
-     * @param offset the starting offset &gt;= 0
-     * @param length the number of characters to retrieve &gt;= 0
+     * @pbrbm offset the stbrting offset &gt;= 0
+     * @pbrbm length the number of chbrbcters to retrieve &gt;= 0
      * @return the text
-     * @exception BadLocationException  the range given includes a position
-     *   that is not a valid position within the document
+     * @exception BbdLocbtionException  the rbnge given includes b position
+     *   thbt is not b vblid position within the document
      * @see Document#getText
      */
-    public String getText(int offset, int length) throws BadLocationException {
+    public String getText(int offset, int length) throws BbdLocbtionException {
         if (length < 0) {
-            throw new BadLocationException("Length must be positive", length);
+            throw new BbdLocbtionException("Length must be positive", length);
         }
-        String str = data.getString(offset, length);
+        String str = dbtb.getString(offset, length);
         return str;
     }
 
     /**
-     * Fetches the text contained within the given portion
+     * Fetches the text contbined within the given portion
      * of the document.
      * <p>
-     * If the partialReturn property on the txt parameter is false, the
-     * data returned in the Segment will be the entire length requested and
-     * may or may not be a copy depending upon how the data was stored.
-     * If the partialReturn property is true, only the amount of text that
-     * can be returned without creating a copy is returned.  Using partial
-     * returns will give better performance for situations where large
-     * parts of the document are being scanned.  The following is an example
-     * of using the partial return to access the entire document:
+     * If the pbrtiblReturn property on the txt pbrbmeter is fblse, the
+     * dbtb returned in the Segment will be the entire length requested bnd
+     * mby or mby not be b copy depending upon how the dbtb wbs stored.
+     * If the pbrtiblReturn property is true, only the bmount of text thbt
+     * cbn be returned without crebting b copy is returned.  Using pbrtibl
+     * returns will give better performbnce for situbtions where lbrge
+     * pbrts of the document bre being scbnned.  The following is bn exbmple
+     * of using the pbrtibl return to bccess the entire document:
      *
      * <pre>
      * &nbsp; int nleft = doc.getDocumentLength();
      * &nbsp; Segment text = new Segment();
      * &nbsp; int offs = 0;
-     * &nbsp; text.setPartialReturn(true);
+     * &nbsp; text.setPbrtiblReturn(true);
      * &nbsp; while (nleft &gt; 0) {
      * &nbsp;     doc.getText(offs, nleft, text);
      * &nbsp;     // do something with text
@@ -798,112 +798,112 @@ public abstract class AbstractDocument implements Document, Serializable {
      * &nbsp; }
      * </pre>
      *
-     * @param offset the starting offset &gt;= 0
-     * @param length the number of characters to retrieve &gt;= 0
-     * @param txt the Segment object to retrieve the text into
-     * @exception BadLocationException  the range given includes a position
-     *   that is not a valid position within the document
+     * @pbrbm offset the stbrting offset &gt;= 0
+     * @pbrbm length the number of chbrbcters to retrieve &gt;= 0
+     * @pbrbm txt the Segment object to retrieve the text into
+     * @exception BbdLocbtionException  the rbnge given includes b position
+     *   thbt is not b vblid position within the document
      */
-    public void getText(int offset, int length, Segment txt) throws BadLocationException {
+    public void getText(int offset, int length, Segment txt) throws BbdLocbtionException {
         if (length < 0) {
-            throw new BadLocationException("Length must be positive", length);
+            throw new BbdLocbtionException("Length must be positive", length);
         }
-        data.getChars(offset, length, txt);
+        dbtb.getChbrs(offset, length, txt);
     }
 
     /**
-     * Returns a position that will track change as the document
-     * is altered.
+     * Returns b position thbt will trbck chbnge bs the document
+     * is bltered.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param offs the position in the model &gt;= 0
+     * @pbrbm offs the position in the model &gt;= 0
      * @return the position
-     * @exception BadLocationException  if the given position does not
-     *   represent a valid location in the associated document
-     * @see Document#createPosition
+     * @exception BbdLocbtionException  if the given position does not
+     *   represent b vblid locbtion in the bssocibted document
+     * @see Document#crebtePosition
      */
-    public synchronized Position createPosition(int offs) throws BadLocationException {
-        return data.createPosition(offs);
+    public synchronized Position crebtePosition(int offs) throws BbdLocbtionException {
+        return dbtb.crebtePosition(offs);
     }
 
     /**
-     * Returns a position that represents the start of the document.  The
-     * position returned can be counted on to track change and stay
-     * located at the beginning of the document.
+     * Returns b position thbt represents the stbrt of the document.  The
+     * position returned cbn be counted on to trbck chbnge bnd stby
+     * locbted bt the beginning of the document.
      *
      * @return the position
      */
-    public final Position getStartPosition() {
+    public finbl Position getStbrtPosition() {
         Position p;
         try {
-            p = createPosition(0);
-        } catch (BadLocationException bl) {
+            p = crebtePosition(0);
+        } cbtch (BbdLocbtionException bl) {
             p = null;
         }
         return p;
     }
 
     /**
-     * Returns a position that represents the end of the document.  The
-     * position returned can be counted on to track change and stay
-     * located at the end of the document.
+     * Returns b position thbt represents the end of the document.  The
+     * position returned cbn be counted on to trbck chbnge bnd stby
+     * locbted bt the end of the document.
      *
      * @return the position
      */
-    public final Position getEndPosition() {
+    public finbl Position getEndPosition() {
         Position p;
         try {
-            p = createPosition(data.length());
-        } catch (BadLocationException bl) {
+            p = crebtePosition(dbtb.length());
+        } cbtch (BbdLocbtionException bl) {
             p = null;
         }
         return p;
     }
 
     /**
-     * Gets all root elements defined.  Typically, there
-     * will only be one so the default implementation
-     * is to return the default root element.
+     * Gets bll root elements defined.  Typicblly, there
+     * will only be one so the defbult implementbtion
+     * is to return the defbult root element.
      *
      * @return the root element
      */
     public Element[] getRootElements() {
         Element[] elems = new Element[2];
-        elems[0] = getDefaultRootElement();
+        elems[0] = getDefbultRootElement();
         elems[1] = getBidiRootElement();
         return elems;
     }
 
     /**
-     * Returns the root element that views should be based upon
-     * unless some other mechanism for assigning views to element
+     * Returns the root element thbt views should be bbsed upon
+     * unless some other mechbnism for bssigning views to element
      * structures is provided.
      *
      * @return the root element
-     * @see Document#getDefaultRootElement
+     * @see Document#getDefbultRootElement
      */
-    public abstract Element getDefaultRootElement();
+    public bbstrbct Element getDefbultRootElement();
 
-    // ---- local methods -----------------------------------------
+    // ---- locbl methods -----------------------------------------
 
     /**
-     * Returns the <code>FilterBypass</code>. This will create one if one
+     * Returns the <code>FilterBypbss</code>. This will crebte one if one
      * does not yet exist.
      */
-    private DocumentFilter.FilterBypass getFilterBypass() {
-        if (filterBypass == null) {
-            filterBypass = new DefaultFilterBypass();
+    privbte DocumentFilter.FilterBypbss getFilterBypbss() {
+        if (filterBypbss == null) {
+            filterBypbss = new DefbultFilterBypbss();
         }
-        return filterBypass;
+        return filterBypbss;
     }
 
     /**
-     * Returns the root element of the bidirectional structure for this
-     * document.  Its children represent character runs with a given
+     * Returns the root element of the bidirectionbl structure for this
+     * document.  Its children represent chbrbcter runs with b given
      * Unicode bidi level.
      */
     public Element getBidiRootElement() {
@@ -911,19 +911,19 @@ public abstract class AbstractDocument implements Document, Serializable {
     }
 
     /**
-     * Returns true if the text in the range <code>p0</code> to
+     * Returns true if the text in the rbnge <code>p0</code> to
      * <code>p1</code> is left to right.
      */
-    static boolean isLeftToRight(Document doc, int p0, int p1) {
-        if (Boolean.TRUE.equals(doc.getProperty(I18NProperty))) {
-            if (doc instanceof AbstractDocument) {
-                AbstractDocument adoc = (AbstractDocument) doc;
-                Element bidiRoot = adoc.getBidiRootElement();
+    stbtic boolebn isLeftToRight(Document doc, int p0, int p1) {
+        if (Boolebn.TRUE.equbls(doc.getProperty(I18NProperty))) {
+            if (doc instbnceof AbstrbctDocument) {
+                AbstrbctDocument bdoc = (AbstrbctDocument) doc;
+                Element bidiRoot = bdoc.getBidiRootElement();
                 int index = bidiRoot.getElementIndex(p0);
                 Element bidiElem = bidiRoot.getElement(index);
                 if (bidiElem.getEndOffset() >= p1) {
                     AttributeSet bidiAttrs = bidiElem.getAttributes();
-                    return ((StyleConstants.getBidiLevel(bidiAttrs) % 2) == 0);
+                    return ((StyleConstbnts.getBidiLevel(bidiAttrs) % 2) == 0);
                 }
             }
         }
@@ -931,175 +931,175 @@ public abstract class AbstractDocument implements Document, Serializable {
     }
 
     /**
-     * Get the paragraph element containing the given position.  Sub-classes
-     * must define for themselves what exactly constitutes a paragraph.  They
-     * should keep in mind however that a paragraph should at least be the
-     * unit of text over which to run the Unicode bidirectional algorithm.
+     * Get the pbrbgrbph element contbining the given position.  Sub-clbsses
+     * must define for themselves whbt exbctly constitutes b pbrbgrbph.  They
+     * should keep in mind however thbt b pbrbgrbph should bt lebst be the
+     * unit of text over which to run the Unicode bidirectionbl blgorithm.
      *
-     * @param pos the starting offset &gt;= 0
+     * @pbrbm pos the stbrting offset &gt;= 0
      * @return the element */
-    public abstract Element getParagraphElement(int pos);
+    public bbstrbct Element getPbrbgrbphElement(int pos);
 
 
     /**
-     * Fetches the context for managing attributes.  This
-     * method effectively establishes the strategy used
-     * for compressing AttributeSet information.
+     * Fetches the context for mbnbging bttributes.  This
+     * method effectively estbblishes the strbtegy used
+     * for compressing AttributeSet informbtion.
      *
      * @return the context
      */
-    protected final AttributeContext getAttributeContext() {
+    protected finbl AttributeContext getAttributeContext() {
         return context;
     }
 
     /**
-     * Updates document structure as a result of text insertion.  This
-     * will happen within a write lock.  If a subclass of
-     * this class reimplements this method, it should delegate to the
-     * superclass as well.
+     * Updbtes document structure bs b result of text insertion.  This
+     * will hbppen within b write lock.  If b subclbss of
+     * this clbss reimplements this method, it should delegbte to the
+     * superclbss bs well.
      *
-     * @param chng a description of the change
-     * @param attr the attributes for the change
+     * @pbrbm chng b description of the chbnge
+     * @pbrbm bttr the bttributes for the chbnge
      */
-    protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
-        if( getProperty(I18NProperty).equals( Boolean.TRUE ) )
-            updateBidi( chng );
+    protected void insertUpdbte(DefbultDocumentEvent chng, AttributeSet bttr) {
+        if( getProperty(I18NProperty).equbls( Boolebn.TRUE ) )
+            updbteBidi( chng );
 
-        // Check if a multi byte is encountered in the inserted text.
+        // Check if b multi byte is encountered in the inserted text.
         if (chng.type == DocumentEvent.EventType.INSERT &&
                         chng.getLength() > 0 &&
-                        !Boolean.TRUE.equals(getProperty(MultiByteProperty))) {
-            Segment segment = SegmentCache.getSharedSegment();
+                        !Boolebn.TRUE.equbls(getProperty(MultiByteProperty))) {
+            Segment segment = SegmentCbche.getShbredSegment();
             try {
                 getText(chng.getOffset(), chng.getLength(), segment);
                 segment.first();
                 do {
                     if ((int)segment.current() > 255) {
-                        putProperty(MultiByteProperty, Boolean.TRUE);
-                        break;
+                        putProperty(MultiByteProperty, Boolebn.TRUE);
+                        brebk;
                     }
                 } while (segment.next() != Segment.DONE);
-            } catch (BadLocationException ble) {
-                // Should never happen
+            } cbtch (BbdLocbtionException ble) {
+                // Should never hbppen
             }
-            SegmentCache.releaseSharedSegment(segment);
+            SegmentCbche.relebseShbredSegment(segment);
         }
     }
 
     /**
-     * Updates any document structure as a result of text removal.  This
-     * method is called before the text is actually removed from the Content.
-     * This will happen within a write lock. If a subclass
-     * of this class reimplements this method, it should delegate to the
-     * superclass as well.
+     * Updbtes bny document structure bs b result of text removbl.  This
+     * method is cblled before the text is bctublly removed from the Content.
+     * This will hbppen within b write lock. If b subclbss
+     * of this clbss reimplements this method, it should delegbte to the
+     * superclbss bs well.
      *
-     * @param chng a description of the change
+     * @pbrbm chng b description of the chbnge
      */
-    protected void removeUpdate(DefaultDocumentEvent chng) {
+    protected void removeUpdbte(DefbultDocumentEvent chng) {
     }
 
     /**
-     * Updates any document structure as a result of text removal.  This
-     * method is called after the text has been removed from the Content.
-     * This will happen within a write lock. If a subclass
-     * of this class reimplements this method, it should delegate to the
-     * superclass as well.
+     * Updbtes bny document structure bs b result of text removbl.  This
+     * method is cblled bfter the text hbs been removed from the Content.
+     * This will hbppen within b write lock. If b subclbss
+     * of this clbss reimplements this method, it should delegbte to the
+     * superclbss bs well.
      *
-     * @param chng a description of the change
+     * @pbrbm chng b description of the chbnge
      */
-    protected void postRemoveUpdate(DefaultDocumentEvent chng) {
-        if( getProperty(I18NProperty).equals( Boolean.TRUE ) )
-            updateBidi( chng );
+    protected void postRemoveUpdbte(DefbultDocumentEvent chng) {
+        if( getProperty(I18NProperty).equbls( Boolebn.TRUE ) )
+            updbteBidi( chng );
     }
 
 
     /**
-     * Update the bidi element structure as a result of the given change
-     * to the document.  The given change will be updated to reflect the
-     * changes made to the bidi structure.
+     * Updbte the bidi element structure bs b result of the given chbnge
+     * to the document.  The given chbnge will be updbted to reflect the
+     * chbnges mbde to the bidi structure.
      *
-     * This method assumes that every offset in the model is contained in
-     * exactly one paragraph.  This method also assumes that it is called
-     * after the change is made to the default element structure.
+     * This method bssumes thbt every offset in the model is contbined in
+     * exbctly one pbrbgrbph.  This method blso bssumes thbt it is cblled
+     * bfter the chbnge is mbde to the defbult element structure.
      */
-    void updateBidi( DefaultDocumentEvent chng ) {
+    void updbteBidi( DefbultDocumentEvent chng ) {
 
-        // Calculate the range of paragraphs affected by the change.
-        int firstPStart;
-        int lastPEnd;
+        // Cblculbte the rbnge of pbrbgrbphs bffected by the chbnge.
+        int firstPStbrt;
+        int lbstPEnd;
         if( chng.type == DocumentEvent.EventType.INSERT
             || chng.type == DocumentEvent.EventType.CHANGE )
         {
-            int chngStart = chng.getOffset();
-            int chngEnd =  chngStart + chng.getLength();
-            firstPStart = getParagraphElement(chngStart).getStartOffset();
-            lastPEnd = getParagraphElement(chngEnd).getEndOffset();
+            int chngStbrt = chng.getOffset();
+            int chngEnd =  chngStbrt + chng.getLength();
+            firstPStbrt = getPbrbgrbphElement(chngStbrt).getStbrtOffset();
+            lbstPEnd = getPbrbgrbphElement(chngEnd).getEndOffset();
         } else if( chng.type == DocumentEvent.EventType.REMOVE ) {
-            Element paragraph = getParagraphElement( chng.getOffset() );
-            firstPStart = paragraph.getStartOffset();
-            lastPEnd = paragraph.getEndOffset();
+            Element pbrbgrbph = getPbrbgrbphElement( chng.getOffset() );
+            firstPStbrt = pbrbgrbph.getStbrtOffset();
+            lbstPEnd = pbrbgrbph.getEndOffset();
         } else {
-            throw new Error("Internal error: unknown event type.");
+            throw new Error("Internbl error: unknown event type.");
         }
-        //System.out.println("updateBidi: firstPStart = " + firstPStart + " lastPEnd = " + lastPEnd );
+        //System.out.println("updbteBidi: firstPStbrt = " + firstPStbrt + " lbstPEnd = " + lbstPEnd );
 
 
-        // Calculate the bidi levels for the affected range of paragraphs.  The
-        // levels array will contain a bidi level for each character in the
-        // affected text.
-        byte levels[] = calculateBidiLevels( firstPStart, lastPEnd );
+        // Cblculbte the bidi levels for the bffected rbnge of pbrbgrbphs.  The
+        // levels brrby will contbin b bidi level for ebch chbrbcter in the
+        // bffected text.
+        byte levels[] = cblculbteBidiLevels( firstPStbrt, lbstPEnd );
 
 
         Vector<Element> newElements = new Vector<Element>();
 
-        // Calculate the first span of characters in the affected range with
-        // the same bidi level.  If this level is the same as the level of the
-        // previous bidi element (the existing bidi element containing
-        // firstPStart-1), then merge in the previous element.  If not, but
-        // the previous element overlaps the affected range, truncate the
-        // previous element at firstPStart.
-        int firstSpanStart = firstPStart;
+        // Cblculbte the first spbn of chbrbcters in the bffected rbnge with
+        // the sbme bidi level.  If this level is the sbme bs the level of the
+        // previous bidi element (the existing bidi element contbining
+        // firstPStbrt-1), then merge in the previous element.  If not, but
+        // the previous element overlbps the bffected rbnge, truncbte the
+        // previous element bt firstPStbrt.
+        int firstSpbnStbrt = firstPStbrt;
         int removeFromIndex = 0;
-        if( firstSpanStart > 0 ) {
-            int prevElemIndex = bidiRoot.getElementIndex(firstPStart-1);
+        if( firstSpbnStbrt > 0 ) {
+            int prevElemIndex = bidiRoot.getElementIndex(firstPStbrt-1);
             removeFromIndex = prevElemIndex;
             Element prevElem = bidiRoot.getElement(prevElemIndex);
-            int prevLevel=StyleConstants.getBidiLevel(prevElem.getAttributes());
-            //System.out.println("createbidiElements: prevElem= " + prevElem  + " prevLevel= " + prevLevel + "level[0] = " + levels[0]);
+            int prevLevel=StyleConstbnts.getBidiLevel(prevElem.getAttributes());
+            //System.out.println("crebtebidiElements: prevElem= " + prevElem  + " prevLevel= " + prevLevel + "level[0] = " + levels[0]);
             if( prevLevel==levels[0] ) {
-                firstSpanStart = prevElem.getStartOffset();
-            } else if( prevElem.getEndOffset() > firstPStart ) {
-                newElements.addElement(new BidiElement(bidiRoot,
-                                                       prevElem.getStartOffset(),
-                                                       firstPStart, prevLevel));
+                firstSpbnStbrt = prevElem.getStbrtOffset();
+            } else if( prevElem.getEndOffset() > firstPStbrt ) {
+                newElements.bddElement(new BidiElement(bidiRoot,
+                                                       prevElem.getStbrtOffset(),
+                                                       firstPStbrt, prevLevel));
             } else {
                 removeFromIndex++;
             }
         }
 
-        int firstSpanEnd = 0;
-        while((firstSpanEnd<levels.length) && (levels[firstSpanEnd]==levels[0]))
-            firstSpanEnd++;
+        int firstSpbnEnd = 0;
+        while((firstSpbnEnd<levels.length) && (levels[firstSpbnEnd]==levels[0]))
+            firstSpbnEnd++;
 
 
-        // Calculate the last span of characters in the affected range with
-        // the same bidi level.  If this level is the same as the level of the
-        // next bidi element (the existing bidi element containing lastPEnd),
+        // Cblculbte the lbst spbn of chbrbcters in the bffected rbnge with
+        // the sbme bidi level.  If this level is the sbme bs the level of the
+        // next bidi element (the existing bidi element contbining lbstPEnd),
         // then merge in the next element.  If not, but the next element
-        // overlaps the affected range, adjust the next element to start at
-        // lastPEnd.
-        int lastSpanEnd = lastPEnd;
+        // overlbps the bffected rbnge, bdjust the next element to stbrt bt
+        // lbstPEnd.
+        int lbstSpbnEnd = lbstPEnd;
         Element newNextElem = null;
         int removeToIndex = bidiRoot.getElementCount() - 1;
-        if( lastSpanEnd <= getLength() ) {
-            int nextElemIndex = bidiRoot.getElementIndex( lastPEnd );
+        if( lbstSpbnEnd <= getLength() ) {
+            int nextElemIndex = bidiRoot.getElementIndex( lbstPEnd );
             removeToIndex = nextElemIndex;
             Element nextElem = bidiRoot.getElement( nextElemIndex );
-            int nextLevel = StyleConstants.getBidiLevel(nextElem.getAttributes());
+            int nextLevel = StyleConstbnts.getBidiLevel(nextElem.getAttributes());
             if( nextLevel == levels[levels.length-1] ) {
-                lastSpanEnd = nextElem.getEndOffset();
-            } else if( nextElem.getStartOffset() < lastPEnd ) {
-                newNextElem = new BidiElement(bidiRoot, lastPEnd,
+                lbstSpbnEnd = nextElem.getEndOffset();
+            } else if( nextElem.getStbrtOffset() < lbstPEnd ) {
+                newNextElem = new BidiElement(bidiRoot, lbstPEnd,
                                               nextElem.getEndOffset(),
                                               nextLevel);
             } else {
@@ -1107,46 +1107,46 @@ public abstract class AbstractDocument implements Document, Serializable {
             }
         }
 
-        int lastSpanStart = levels.length;
-        while( (lastSpanStart>firstSpanEnd)
-               && (levels[lastSpanStart-1]==levels[levels.length-1]) )
-            lastSpanStart--;
+        int lbstSpbnStbrt = levels.length;
+        while( (lbstSpbnStbrt>firstSpbnEnd)
+               && (levels[lbstSpbnStbrt-1]==levels[levels.length-1]) )
+            lbstSpbnStbrt--;
 
 
-        // If the first and last spans are contiguous and have the same level,
-        // merge them and create a single new element for the entire span.
-        // Otherwise, create elements for the first and last spans as well as
-        // any spans in between.
-        if((firstSpanEnd==lastSpanStart)&&(levels[0]==levels[levels.length-1])){
-            newElements.addElement(new BidiElement(bidiRoot, firstSpanStart,
-                                                   lastSpanEnd, levels[0]));
+        // If the first bnd lbst spbns bre contiguous bnd hbve the sbme level,
+        // merge them bnd crebte b single new element for the entire spbn.
+        // Otherwise, crebte elements for the first bnd lbst spbns bs well bs
+        // bny spbns in between.
+        if((firstSpbnEnd==lbstSpbnStbrt)&&(levels[0]==levels[levels.length-1])){
+            newElements.bddElement(new BidiElement(bidiRoot, firstSpbnStbrt,
+                                                   lbstSpbnEnd, levels[0]));
         } else {
-            // Create an element for the first span.
-            newElements.addElement(new BidiElement(bidiRoot, firstSpanStart,
-                                                   firstSpanEnd+firstPStart,
+            // Crebte bn element for the first spbn.
+            newElements.bddElement(new BidiElement(bidiRoot, firstSpbnStbrt,
+                                                   firstSpbnEnd+firstPStbrt,
                                                    levels[0]));
-            // Create elements for the spans in between the first and last
-            for( int i=firstSpanEnd; i<lastSpanStart; ) {
+            // Crebte elements for the spbns in between the first bnd lbst
+            for( int i=firstSpbnEnd; i<lbstSpbnStbrt; ) {
                 //System.out.println("executed line 872");
                 int j;
                 for( j=i;  (j<levels.length) && (levels[j] == levels[i]); j++ );
-                newElements.addElement(new BidiElement(bidiRoot, firstPStart+i,
-                                                       firstPStart+j,
+                newElements.bddElement(new BidiElement(bidiRoot, firstPStbrt+i,
+                                                       firstPStbrt+j,
                                                        (int)levels[i]));
                 i=j;
             }
-            // Create an element for the last span.
-            newElements.addElement(new BidiElement(bidiRoot,
-                                                   lastSpanStart+firstPStart,
-                                                   lastSpanEnd,
+            // Crebte bn element for the lbst spbn.
+            newElements.bddElement(new BidiElement(bidiRoot,
+                                                   lbstSpbnStbrt+firstPStbrt,
+                                                   lbstSpbnEnd,
                                                    levels[levels.length-1]));
         }
 
         if( newNextElem != null )
-            newElements.addElement( newNextElem );
+            newElements.bddElement( newNextElem );
 
 
-        // Calculate the set of existing bidi elements which must be
+        // Cblculbte the set of existing bidi elements which must be
         // removed.
         int removedElemCount = 0;
         if( bidiRoot.getElementCount() > 0 ) {
@@ -1157,93 +1157,93 @@ public abstract class AbstractDocument implements Document, Serializable {
             removedElems[i] = bidiRoot.getElement(removeFromIndex+i);
         }
 
-        Element[] addedElems = new Element[ newElements.size() ];
-        newElements.copyInto( addedElems );
+        Element[] bddedElems = new Element[ newElements.size() ];
+        newElements.copyInto( bddedElems );
 
-        // Update the change record.
+        // Updbte the chbnge record.
         ElementEdit ee = new ElementEdit( bidiRoot, removeFromIndex,
-                                          removedElems, addedElems );
-        chng.addEdit( ee );
+                                          removedElems, bddedElems );
+        chng.bddEdit( ee );
 
-        // Update the bidi element structure.
-        bidiRoot.replace( removeFromIndex, removedElems.length, addedElems );
+        // Updbte the bidi element structure.
+        bidiRoot.replbce( removeFromIndex, removedElems.length, bddedElems );
     }
 
 
     /**
-     * Calculate the levels array for a range of paragraphs.
+     * Cblculbte the levels brrby for b rbnge of pbrbgrbphs.
      */
-    private byte[] calculateBidiLevels( int firstPStart, int lastPEnd ) {
+    privbte byte[] cblculbteBidiLevels( int firstPStbrt, int lbstPEnd ) {
 
-        byte levels[] = new byte[ lastPEnd - firstPStart ];
+        byte levels[] = new byte[ lbstPEnd - firstPStbrt ];
         int  levelsEnd = 0;
-        Boolean defaultDirection = null;
+        Boolebn defbultDirection = null;
         Object d = getProperty(TextAttribute.RUN_DIRECTION);
-        if (d instanceof Boolean) {
-            defaultDirection = (Boolean) d;
+        if (d instbnceof Boolebn) {
+            defbultDirection = (Boolebn) d;
         }
 
-        // For each paragraph in the given range of paragraphs, get its
-        // levels array and add it to the levels array for the entire span.
-        for(int o=firstPStart; o<lastPEnd; ) {
-            Element p = getParagraphElement( o );
-            int pStart = p.getStartOffset();
+        // For ebch pbrbgrbph in the given rbnge of pbrbgrbphs, get its
+        // levels brrby bnd bdd it to the levels brrby for the entire spbn.
+        for(int o=firstPStbrt; o<lbstPEnd; ) {
+            Element p = getPbrbgrbphElement( o );
+            int pStbrt = p.getStbrtOffset();
             int pEnd = p.getEndOffset();
 
-            // default run direction for the paragraph.  This will be
+            // defbult run direction for the pbrbgrbph.  This will be
             // null if there is no direction override specified (i.e.
             // the direction will be determined from the content).
-            Boolean direction = defaultDirection;
+            Boolebn direction = defbultDirection;
             d = p.getAttributes().getAttribute(TextAttribute.RUN_DIRECTION);
-            if (d instanceof Boolean) {
-                direction = (Boolean) d;
+            if (d instbnceof Boolebn) {
+                direction = (Boolebn) d;
             }
 
-            //System.out.println("updateBidi: paragraph start = " + pStart + " paragraph end = " + pEnd);
+            //System.out.println("updbteBidi: pbrbgrbph stbrt = " + pStbrt + " pbrbgrbph end = " + pEnd);
 
-            // Create a Bidi over this paragraph then get the level
-            // array.
-            Segment seg = SegmentCache.getSharedSegment();
+            // Crebte b Bidi over this pbrbgrbph then get the level
+            // brrby.
+            Segment seg = SegmentCbche.getShbredSegment();
             try {
-                getText(pStart, pEnd-pStart, seg);
-            } catch (BadLocationException e ) {
-                throw new Error("Internal error: " + e.toString());
+                getText(pStbrt, pEnd-pStbrt, seg);
+            } cbtch (BbdLocbtionException e ) {
+                throw new Error("Internbl error: " + e.toString());
             }
-            // REMIND(bcb) we should really be using a Segment here.
-            Bidi bidiAnalyzer;
-            int bidiflag = Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT;
+            // REMIND(bcb) we should reblly be using b Segment here.
+            Bidi bidiAnblyzer;
+            int bidiflbg = Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT;
             if (direction != null) {
-                if (TextAttribute.RUN_DIRECTION_LTR.equals(direction)) {
-                    bidiflag = Bidi.DIRECTION_LEFT_TO_RIGHT;
+                if (TextAttribute.RUN_DIRECTION_LTR.equbls(direction)) {
+                    bidiflbg = Bidi.DIRECTION_LEFT_TO_RIGHT;
                 } else {
-                    bidiflag = Bidi.DIRECTION_RIGHT_TO_LEFT;
+                    bidiflbg = Bidi.DIRECTION_RIGHT_TO_LEFT;
                 }
             }
-            bidiAnalyzer = new Bidi(seg.array, seg.offset, null, 0, seg.count,
-                    bidiflag);
-            BidiUtils.getLevels(bidiAnalyzer, levels, levelsEnd);
-            levelsEnd += bidiAnalyzer.getLength();
+            bidiAnblyzer = new Bidi(seg.brrby, seg.offset, null, 0, seg.count,
+                    bidiflbg);
+            BidiUtils.getLevels(bidiAnblyzer, levels, levelsEnd);
+            levelsEnd += bidiAnblyzer.getLength();
 
             o =  p.getEndOffset();
-            SegmentCache.releaseSharedSegment(seg);
+            SegmentCbche.relebseShbredSegment(seg);
         }
 
         // REMIND(bcb) remove this code when debugging is done.
         if( levelsEnd != levels.length )
-            throw new Error("levelsEnd assertion failed.");
+            throw new Error("levelsEnd bssertion fbiled.");
 
         return levels;
     }
 
     /**
-     * Gives a diagnostic dump.
+     * Gives b dibgnostic dump.
      *
-     * @param out the output stream
+     * @pbrbm out the output strebm
      */
-    public void dump(PrintStream out) {
-        Element root = getDefaultRootElement();
-        if (root instanceof AbstractElement) {
-            ((AbstractElement)root).dump(out, 0);
+    public void dump(PrintStrebm out) {
+        Element root = getDefbultRootElement();
+        if (root instbnceof AbstrbctElement) {
+            ((AbstrbctElement)root).dump(out, 0);
         }
         bidiRoot.dump(out,0);
     }
@@ -1253,112 +1253,112 @@ public abstract class AbstractDocument implements Document, Serializable {
      *
      * @return the content
      */
-    protected final Content getContent() {
-        return data;
+    protected finbl Content getContent() {
+        return dbtb;
     }
 
     /**
-     * Creates a document leaf element.
-     * Hook through which elements are created to represent the
-     * document structure.  Because this implementation keeps
-     * structure and content separate, elements grow automatically
+     * Crebtes b document lebf element.
+     * Hook through which elements bre crebted to represent the
+     * document structure.  Becbuse this implementbtion keeps
+     * structure bnd content sepbrbte, elements grow butombticblly
      * when content is extended so splits of existing elements
-     * follow.  The document itself gets to decide how to generate
+     * follow.  The document itself gets to decide how to generbte
      * elements to give flexibility in the type of elements used.
      *
-     * @param parent the parent element
-     * @param a the attributes for the element
-     * @param p0 the beginning of the range &gt;= 0
-     * @param p1 the end of the range &gt;= p0
+     * @pbrbm pbrent the pbrent element
+     * @pbrbm b the bttributes for the element
+     * @pbrbm p0 the beginning of the rbnge &gt;= 0
+     * @pbrbm p1 the end of the rbnge &gt;= p0
      * @return the new element
      */
-    protected Element createLeafElement(Element parent, AttributeSet a, int p0, int p1) {
-        return new LeafElement(parent, a, p0, p1);
+    protected Element crebteLebfElement(Element pbrent, AttributeSet b, int p0, int p1) {
+        return new LebfElement(pbrent, b, p0, p1);
     }
 
     /**
-     * Creates a document branch element, that can contain other elements.
+     * Crebtes b document brbnch element, thbt cbn contbin other elements.
      *
-     * @param parent the parent element
-     * @param a the attributes
+     * @pbrbm pbrent the pbrent element
+     * @pbrbm b the bttributes
      * @return the element
      */
-    protected Element createBranchElement(Element parent, AttributeSet a) {
-        return new BranchElement(parent, a);
+    protected Element crebteBrbnchElement(Element pbrent, AttributeSet b) {
+        return new BrbnchElement(pbrent, b);
     }
 
     // --- Document locking ----------------------------------
 
     /**
-     * Fetches the current writing thread if there is one.
-     * This can be used to distinguish whether a method is
-     * being called as part of an existing modification or
-     * if a lock needs to be acquired and a new transaction
-     * started.
+     * Fetches the current writing threbd if there is one.
+     * This cbn be used to distinguish whether b method is
+     * being cblled bs pbrt of bn existing modificbtion or
+     * if b lock needs to be bcquired bnd b new trbnsbction
+     * stbrted.
      *
-     * @return the thread actively modifying the document
-     *  or <code>null</code> if there are no modifications in progress
+     * @return the threbd bctively modifying the document
+     *  or <code>null</code> if there bre no modificbtions in progress
      */
-    protected synchronized final Thread getCurrentWriter() {
+    protected synchronized finbl Threbd getCurrentWriter() {
         return currWriter;
     }
 
     /**
-     * Acquires a lock to begin mutating the document this lock
-     * protects.  There can be no writing, notification of changes, or
-     * reading going on in order to gain the lock.  Additionally a thread is
-     * allowed to gain more than one <code>writeLock</code>,
-     * as long as it doesn't attempt to gain additional <code>writeLock</code>s
-     * from within document notification.  Attempting to gain a
-     * <code>writeLock</code> from within a DocumentListener notification will
-     * result in an <code>IllegalStateException</code>.  The ability
-     * to obtain more than one <code>writeLock</code> per thread allows
-     * subclasses to gain a writeLock, perform a number of operations, then
-     * release the lock.
+     * Acquires b lock to begin mutbting the document this lock
+     * protects.  There cbn be no writing, notificbtion of chbnges, or
+     * rebding going on in order to gbin the lock.  Additionblly b threbd is
+     * bllowed to gbin more thbn one <code>writeLock</code>,
+     * bs long bs it doesn't bttempt to gbin bdditionbl <code>writeLock</code>s
+     * from within document notificbtion.  Attempting to gbin b
+     * <code>writeLock</code> from within b DocumentListener notificbtion will
+     * result in bn <code>IllegblStbteException</code>.  The bbility
+     * to obtbin more thbn one <code>writeLock</code> per threbd bllows
+     * subclbsses to gbin b writeLock, perform b number of operbtions, then
+     * relebse the lock.
      * <p>
-     * Calls to <code>writeLock</code>
-     * must be balanced with calls to <code>writeUnlock</code>, else the
-     * <code>Document</code> will be left in a locked state so that no
-     * reading or writing can be done.
+     * Cblls to <code>writeLock</code>
+     * must be bblbnced with cblls to <code>writeUnlock</code>, else the
+     * <code>Document</code> will be left in b locked stbte so thbt no
+     * rebding or writing cbn be done.
      *
-     * @exception IllegalStateException thrown on illegal lock
-     *  attempt.  If the document is implemented properly, this can
-     *  only happen if a document listener attempts to mutate the
-     *  document.  This situation violates the bean event model
-     *  where order of delivery is not guaranteed and all listeners
-     *  should be notified before further mutations are allowed.
+     * @exception IllegblStbteException thrown on illegbl lock
+     *  bttempt.  If the document is implemented properly, this cbn
+     *  only hbppen if b document listener bttempts to mutbte the
+     *  document.  This situbtion violbtes the bebn event model
+     *  where order of delivery is not gubrbnteed bnd bll listeners
+     *  should be notified before further mutbtions bre bllowed.
      */
-    protected synchronized final void writeLock() {
+    protected synchronized finbl void writeLock() {
         try {
-            while ((numReaders > 0) || (currWriter != null)) {
-                if (Thread.currentThread() == currWriter) {
+            while ((numRebders > 0) || (currWriter != null)) {
+                if (Threbd.currentThrebd() == currWriter) {
                     if (notifyingListeners) {
-                        // Assuming one doesn't do something wrong in a
-                        // subclass this should only happen if a
-                        // DocumentListener tries to mutate the document.
-                        throw new IllegalStateException(
-                                      "Attempt to mutate in notification");
+                        // Assuming one doesn't do something wrong in b
+                        // subclbss this should only hbppen if b
+                        // DocumentListener tries to mutbte the document.
+                        throw new IllegblStbteException(
+                                      "Attempt to mutbte in notificbtion");
                     }
                     numWriters++;
                     return;
                 }
-                wait();
+                wbit();
             }
-            currWriter = Thread.currentThread();
+            currWriter = Threbd.currentThrebd();
             numWriters = 1;
-        } catch (InterruptedException e) {
-            throw new Error("Interrupted attempt to acquire write lock");
+        } cbtch (InterruptedException e) {
+            throw new Error("Interrupted bttempt to bcquire write lock");
         }
     }
 
     /**
-     * Releases a write lock previously obtained via <code>writeLock</code>.
-     * After decrementing the lock count if there are no outstanding locks
-     * this will allow a new writer, or readers.
+     * Relebses b write lock previously obtbined vib <code>writeLock</code>.
+     * After decrementing the lock count if there bre no outstbnding locks
+     * this will bllow b new writer, or rebders.
      *
      * @see #writeLock
      */
-    protected synchronized final void writeUnlock() {
+    protected synchronized finbl void writeUnlock() {
         if (--numWriters <= 0) {
             numWriters = 0;
             currWriter = null;
@@ -1367,122 +1367,122 @@ public abstract class AbstractDocument implements Document, Serializable {
     }
 
     /**
-     * Acquires a lock to begin reading some state from the
-     * document.  There can be multiple readers at the same time.
-     * Writing blocks the readers until notification of the change
-     * to the listeners has been completed.  This method should
-     * be used very carefully to avoid unintended compromise
-     * of the document.  It should always be balanced with a
-     * <code>readUnlock</code>.
+     * Acquires b lock to begin rebding some stbte from the
+     * document.  There cbn be multiple rebders bt the sbme time.
+     * Writing blocks the rebders until notificbtion of the chbnge
+     * to the listeners hbs been completed.  This method should
+     * be used very cbrefully to bvoid unintended compromise
+     * of the document.  It should blwbys be bblbnced with b
+     * <code>rebdUnlock</code>.
      *
-     * @see #readUnlock
+     * @see #rebdUnlock
      */
-    public synchronized final void readLock() {
+    public synchronized finbl void rebdLock() {
         try {
             while (currWriter != null) {
-                if (currWriter == Thread.currentThread()) {
-                    // writer has full read access.... may try to acquire
-                    // lock in notification
+                if (currWriter == Threbd.currentThrebd()) {
+                    // writer hbs full rebd bccess.... mby try to bcquire
+                    // lock in notificbtion
                     return;
                 }
-                wait();
+                wbit();
             }
-            numReaders += 1;
-        } catch (InterruptedException e) {
-            throw new Error("Interrupted attempt to acquire read lock");
+            numRebders += 1;
+        } cbtch (InterruptedException e) {
+            throw new Error("Interrupted bttempt to bcquire rebd lock");
         }
     }
 
     /**
-     * Does a read unlock.  This signals that one
-     * of the readers is done.  If there are no more readers
-     * then writing can begin again.  This should be balanced
-     * with a readLock, and should occur in a finally statement
-     * so that the balance is guaranteed.  The following is an
-     * example.
+     * Does b rebd unlock.  This signbls thbt one
+     * of the rebders is done.  If there bre no more rebders
+     * then writing cbn begin bgbin.  This should be bblbnced
+     * with b rebdLock, bnd should occur in b finblly stbtement
+     * so thbt the bblbnce is gubrbnteed.  The following is bn
+     * exbmple.
      * <pre><code>
-     * &nbsp;   readLock();
+     * &nbsp;   rebdLock();
      * &nbsp;   try {
      * &nbsp;       // do something
-     * &nbsp;   } finally {
-     * &nbsp;       readUnlock();
+     * &nbsp;   } finblly {
+     * &nbsp;       rebdUnlock();
      * &nbsp;   }
      * </code></pre>
      *
-     * @see #readLock
+     * @see #rebdLock
      */
-    public synchronized final void readUnlock() {
-        if (currWriter == Thread.currentThread()) {
-            // writer has full read access.... may try to acquire
-            // lock in notification
+    public synchronized finbl void rebdUnlock() {
+        if (currWriter == Threbd.currentThrebd()) {
+            // writer hbs full rebd bccess.... mby try to bcquire
+            // lock in notificbtion
             return;
         }
-        if (numReaders <= 0) {
-            throw new StateInvariantError(BAD_LOCK_STATE);
+        if (numRebders <= 0) {
+            throw new StbteInvbribntError(BAD_LOCK_STATE);
         }
-        numReaders -= 1;
+        numRebders -= 1;
         notify();
     }
 
-    // --- serialization ---------------------------------------------
+    // --- seriblizbtion ---------------------------------------------
 
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException
     {
-        s.defaultReadObject();
+        s.defbultRebdObject();
         listenerList = new EventListenerList();
 
         // Restore bidi structure
-        //REMIND(bcb) This creates an initial bidi element to account for
-        //the \n that exists by default in the content.
+        //REMIND(bcb) This crebtes bn initibl bidi element to bccount for
+        //the \n thbt exists by defbult in the content.
         bidiRoot = new BidiRootElement();
         try {
             writeLock();
             Element[] p = new Element[1];
             p[0] = new BidiElement( bidiRoot, 0, 1, 0 );
-            bidiRoot.replace(0,0,p);
-        } finally {
+            bidiRoot.replbce(0,0,p);
+        } finblly {
             writeUnlock();
         }
-        // At this point bidi root is only partially correct. To fully
-        // restore it we need access to getDefaultRootElement. But, this
-        // is created by the subclass and at this point will be null. We
-        // thus use registerValidation.
-        s.registerValidation(new ObjectInputValidation() {
-            public void validateObject() {
+        // At this point bidi root is only pbrtiblly correct. To fully
+        // restore it we need bccess to getDefbultRootElement. But, this
+        // is crebted by the subclbss bnd bt this point will be null. We
+        // thus use registerVblidbtion.
+        s.registerVblidbtion(new ObjectInputVblidbtion() {
+            public void vblidbteObject() {
                 try {
                     writeLock();
-                    DefaultDocumentEvent e = new DefaultDocumentEvent
+                    DefbultDocumentEvent e = new DefbultDocumentEvent
                                    (0, getLength(),
                                     DocumentEvent.EventType.INSERT);
-                    updateBidi( e );
+                    updbteBidi( e );
                 }
-                finally {
+                finblly {
                     writeUnlock();
                 }
             }
         }, 0);
     }
 
-    // ----- member variables ------------------------------------------
+    // ----- member vbribbles ------------------------------------------
 
-    private transient int numReaders;
-    private transient Thread currWriter;
+    privbte trbnsient int numRebders;
+    privbte trbnsient Threbd currWriter;
     /**
-     * The number of writers, all obtained from <code>currWriter</code>.
+     * The number of writers, bll obtbined from <code>currWriter</code>.
      */
-    private transient int numWriters;
+    privbte trbnsient int numWriters;
     /**
      * True will notifying listeners.
      */
-    private transient boolean notifyingListeners;
+    privbte trbnsient boolebn notifyingListeners;
 
-    private static Boolean defaultI18NProperty;
+    privbte stbtic Boolebn defbultI18NProperty;
 
     /**
-     * Storage for document-wide properties.
+     * Storbge for document-wide properties.
      */
-    private Dictionary<Object,Object> documentProperties = null;
+    privbte Dictionbry<Object,Object> documentProperties = null;
 
     /**
      * The event listener list for the document.
@@ -1490,566 +1490,566 @@ public abstract class AbstractDocument implements Document, Serializable {
     protected EventListenerList listenerList = new EventListenerList();
 
     /**
-     * Where the text is actually stored, and a set of marks
-     * that track change as the document is edited are managed.
+     * Where the text is bctublly stored, bnd b set of mbrks
+     * thbt trbck chbnge bs the document is edited bre mbnbged.
      */
-    private Content data;
+    privbte Content dbtb;
 
     /**
-     * Factory for the attributes.  This is the strategy for
-     * attribute compression and control of the lifetime of
-     * a set of attributes as a collection.  This may be shared
+     * Fbctory for the bttributes.  This is the strbtegy for
+     * bttribute compression bnd control of the lifetime of
+     * b set of bttributes bs b collection.  This mby be shbred
      * with other documents.
      */
-    private AttributeContext context;
+    privbte AttributeContext context;
 
     /**
-     * The root of the bidirectional structure for this document.  Its children
-     * represent character runs with the same Unicode bidi level.
+     * The root of the bidirectionbl structure for this document.  Its children
+     * represent chbrbcter runs with the sbme Unicode bidi level.
      */
-    private transient BranchElement bidiRoot;
+    privbte trbnsient BrbnchElement bidiRoot;
 
     /**
      * Filter for inserting/removing of text.
      */
-    private DocumentFilter documentFilter;
+    privbte DocumentFilter documentFilter;
 
     /**
-     * Used by DocumentFilter to do actual insert/remove.
+     * Used by DocumentFilter to do bctubl insert/remove.
      */
-    private transient DocumentFilter.FilterBypass filterBypass;
+    privbte trbnsient DocumentFilter.FilterBypbss filterBypbss;
 
-    private static final String BAD_LOCK_STATE = "document lock failure";
+    privbte stbtic finbl String BAD_LOCK_STATE = "document lock fbilure";
 
     /**
-     * Error message to indicate a bad location.
+     * Error messbge to indicbte b bbd locbtion.
      */
-    protected static final String BAD_LOCATION = "document location failure";
+    protected stbtic finbl String BAD_LOCATION = "document locbtion fbilure";
 
     /**
-     * Name of elements used to represent paragraphs
+     * Nbme of elements used to represent pbrbgrbphs
      */
-    public static final String ParagraphElementName = "paragraph";
+    public stbtic finbl String PbrbgrbphElementNbme = "pbrbgrbph";
 
     /**
-     * Name of elements used to represent content
+     * Nbme of elements used to represent content
      */
-    public static final String ContentElementName = "content";
+    public stbtic finbl String ContentElementNbme = "content";
 
     /**
-     * Name of elements used to hold sections (lines/paragraphs).
+     * Nbme of elements used to hold sections (lines/pbrbgrbphs).
      */
-    public static final String SectionElementName = "section";
+    public stbtic finbl String SectionElementNbme = "section";
 
     /**
-     * Name of elements used to hold a unidirectional run
+     * Nbme of elements used to hold b unidirectionbl run
      */
-    public static final String BidiElementName = "bidi level";
+    public stbtic finbl String BidiElementNbme = "bidi level";
 
     /**
-     * Name of the attribute used to specify element
-     * names.
+     * Nbme of the bttribute used to specify element
+     * nbmes.
      */
-    public static final String ElementNameAttribute = "$ename";
+    public stbtic finbl String ElementNbmeAttribute = "$enbme";
 
     /**
-     * Document property that indicates whether internationalization
-     * functions such as text reordering or reshaping should be
+     * Document property thbt indicbtes whether internbtionblizbtion
+     * functions such bs text reordering or reshbping should be
      * performed. This property should not be publicly exposed,
-     * since it is used for implementation convenience only.  As a
-     * side effect, copies of this property may be in its subclasses
-     * that live in different packages (e.g. HTMLDocument as of now),
-     * so those copies should also be taken care of when this property
+     * since it is used for implementbtion convenience only.  As b
+     * side effect, copies of this property mby be in its subclbsses
+     * thbt live in different pbckbges (e.g. HTMLDocument bs of now),
+     * so those copies should blso be tbken cbre of when this property
      * needs to be modified.
      */
-    static final String I18NProperty = "i18n";
+    stbtic finbl String I18NProperty = "i18n";
 
     /**
-     * Document property that indicates if a character has been inserted
-     * into the document that is more than one byte long.  GlyphView uses
-     * this to determine if it should use BreakIterator.
+     * Document property thbt indicbtes if b chbrbcter hbs been inserted
+     * into the document thbt is more thbn one byte long.  GlyphView uses
+     * this to determine if it should use BrebkIterbtor.
      */
-    static final Object MultiByteProperty = "multiByte";
+    stbtic finbl Object MultiByteProperty = "multiByte";
 
     /**
-     * Document property that indicates asynchronous loading is
-     * desired, with the thread priority given as the value.
+     * Document property thbt indicbtes bsynchronous lobding is
+     * desired, with the threbd priority given bs the vblue.
      */
-    static final String AsyncLoadPriority = "load priority";
+    stbtic finbl String AsyncLobdPriority = "lobd priority";
 
     /**
-     * Interface to describe a sequence of character content that
-     * can be edited.  Implementations may or may not support a
-     * history mechanism which will be reflected by whether or not
-     * mutations return an UndoableEdit implementation.
-     * @see AbstractDocument
+     * Interfbce to describe b sequence of chbrbcter content thbt
+     * cbn be edited.  Implementbtions mby or mby not support b
+     * history mechbnism which will be reflected by whether or not
+     * mutbtions return bn UndobbleEdit implementbtion.
+     * @see AbstrbctDocument
      */
-    public interface Content {
+    public interfbce Content {
 
         /**
-         * Creates a position within the content that will
-         * track change as the content is mutated.
+         * Crebtes b position within the content thbt will
+         * trbck chbnge bs the content is mutbted.
          *
-         * @param offset the offset in the content &gt;= 0
-         * @return a Position
-         * @exception BadLocationException for an invalid offset
+         * @pbrbm offset the offset in the content &gt;= 0
+         * @return b Position
+         * @exception BbdLocbtionException for bn invblid offset
          */
-        public Position createPosition(int offset) throws BadLocationException;
+        public Position crebtePosition(int offset) throws BbdLocbtionException;
 
         /**
-         * Current length of the sequence of character content.
+         * Current length of the sequence of chbrbcter content.
          *
          * @return the length &gt;= 0
          */
         public int length();
 
         /**
-         * Inserts a string of characters into the sequence.
+         * Inserts b string of chbrbcters into the sequence.
          *
-         * @param where   offset into the sequence to make the insertion &gt;= 0
-         * @param str     string to insert
-         * @return  if the implementation supports a history mechanism,
-         *    a reference to an <code>Edit</code> implementation will be returned,
+         * @pbrbm where   offset into the sequence to mbke the insertion &gt;= 0
+         * @pbrbm str     string to insert
+         * @return  if the implementbtion supports b history mechbnism,
+         *    b reference to bn <code>Edit</code> implementbtion will be returned,
          *    otherwise returns <code>null</code>
-         * @exception BadLocationException  thrown if the area covered by
-         *   the arguments is not contained in the character sequence
+         * @exception BbdLocbtionException  thrown if the breb covered by
+         *   the brguments is not contbined in the chbrbcter sequence
          */
-        public UndoableEdit insertString(int where, String str) throws BadLocationException;
+        public UndobbleEdit insertString(int where, String str) throws BbdLocbtionException;
 
         /**
          * Removes some portion of the sequence.
          *
-         * @param where   The offset into the sequence to make the
+         * @pbrbm where   The offset into the sequence to mbke the
          *   insertion &gt;= 0.
-         * @param nitems  The number of items in the sequence to remove &gt;= 0.
-         * @return  If the implementation supports a history mechanism,
-         *    a reference to an Edit implementation will be returned,
+         * @pbrbm nitems  The number of items in the sequence to remove &gt;= 0.
+         * @return  If the implementbtion supports b history mechbnism,
+         *    b reference to bn Edit implementbtion will be returned,
          *    otherwise null.
-         * @exception BadLocationException  Thrown if the area covered by
-         *   the arguments is not contained in the character sequence.
+         * @exception BbdLocbtionException  Thrown if the breb covered by
+         *   the brguments is not contbined in the chbrbcter sequence.
          */
-        public UndoableEdit remove(int where, int nitems) throws BadLocationException;
+        public UndobbleEdit remove(int where, int nitems) throws BbdLocbtionException;
 
         /**
-         * Fetches a string of characters contained in the sequence.
+         * Fetches b string of chbrbcters contbined in the sequence.
          *
-         * @param where   Offset into the sequence to fetch &gt;= 0.
-         * @param len     number of characters to copy &gt;= 0.
+         * @pbrbm where   Offset into the sequence to fetch &gt;= 0.
+         * @pbrbm len     number of chbrbcters to copy &gt;= 0.
          * @return the string
-         * @exception BadLocationException  Thrown if the area covered by
-         *   the arguments is not contained in the character sequence.
+         * @exception BbdLocbtionException  Thrown if the breb covered by
+         *   the brguments is not contbined in the chbrbcter sequence.
          */
-        public String getString(int where, int len) throws BadLocationException;
+        public String getString(int where, int len) throws BbdLocbtionException;
 
         /**
-         * Gets a sequence of characters and copies them into a Segment.
+         * Gets b sequence of chbrbcters bnd copies them into b Segment.
          *
-         * @param where the starting offset &gt;= 0
-         * @param len the number of characters &gt;= 0
-         * @param txt the target location to copy into
-         * @exception BadLocationException  Thrown if the area covered by
-         *   the arguments is not contained in the character sequence.
+         * @pbrbm where the stbrting offset &gt;= 0
+         * @pbrbm len the number of chbrbcters &gt;= 0
+         * @pbrbm txt the tbrget locbtion to copy into
+         * @exception BbdLocbtionException  Thrown if the breb covered by
+         *   the brguments is not contbined in the chbrbcter sequence.
          */
-        public void getChars(int where, int len, Segment txt) throws BadLocationException;
+        public void getChbrs(int where, int len, Segment txt) throws BbdLocbtionException;
     }
 
     /**
-     * An interface that can be used to allow MutableAttributeSet
-     * implementations to use pluggable attribute compression
-     * techniques.  Each mutation of the attribute set can be
-     * used to exchange a previous AttributeSet instance with
-     * another, preserving the possibility of the AttributeSet
-     * remaining immutable.  An implementation is provided by
-     * the StyleContext class.
+     * An interfbce thbt cbn be used to bllow MutbbleAttributeSet
+     * implementbtions to use pluggbble bttribute compression
+     * techniques.  Ebch mutbtion of the bttribute set cbn be
+     * used to exchbnge b previous AttributeSet instbnce with
+     * bnother, preserving the possibility of the AttributeSet
+     * rembining immutbble.  An implementbtion is provided by
+     * the StyleContext clbss.
      *
-     * The Element implementations provided by this class use
-     * this interface to provide their MutableAttributeSet
-     * implementations, so that different AttributeSet compression
-     * techniques can be employed.  The method
+     * The Element implementbtions provided by this clbss use
+     * this interfbce to provide their MutbbleAttributeSet
+     * implementbtions, so thbt different AttributeSet compression
+     * techniques cbn be employed.  The method
      * <code>getAttributeContext</code> should be implemented to
      * return the object responsible for implementing the desired
      * compression technique.
      *
      * @see StyleContext
      */
-    public interface AttributeContext {
+    public interfbce AttributeContext {
 
         /**
-         * Adds an attribute to the given set, and returns
-         * the new representative set.
+         * Adds bn bttribute to the given set, bnd returns
+         * the new representbtive set.
          *
-         * @param old the old attribute set
-         * @param name the non-null attribute name
-         * @param value the attribute value
-         * @return the updated attribute set
-         * @see MutableAttributeSet#addAttribute
+         * @pbrbm old the old bttribute set
+         * @pbrbm nbme the non-null bttribute nbme
+         * @pbrbm vblue the bttribute vblue
+         * @return the updbted bttribute set
+         * @see MutbbleAttributeSet#bddAttribute
          */
-        public AttributeSet addAttribute(AttributeSet old, Object name, Object value);
+        public AttributeSet bddAttribute(AttributeSet old, Object nbme, Object vblue);
 
         /**
-         * Adds a set of attributes to the element.
+         * Adds b set of bttributes to the element.
          *
-         * @param old the old attribute set
-         * @param attr the attributes to add
-         * @return the updated attribute set
-         * @see MutableAttributeSet#addAttribute
+         * @pbrbm old the old bttribute set
+         * @pbrbm bttr the bttributes to bdd
+         * @return the updbted bttribute set
+         * @see MutbbleAttributeSet#bddAttribute
          */
-        public AttributeSet addAttributes(AttributeSet old, AttributeSet attr);
+        public AttributeSet bddAttributes(AttributeSet old, AttributeSet bttr);
 
         /**
-         * Removes an attribute from the set.
+         * Removes bn bttribute from the set.
          *
-         * @param old the old attribute set
-         * @param name the non-null attribute name
-         * @return the updated attribute set
-         * @see MutableAttributeSet#removeAttribute
+         * @pbrbm old the old bttribute set
+         * @pbrbm nbme the non-null bttribute nbme
+         * @return the updbted bttribute set
+         * @see MutbbleAttributeSet#removeAttribute
          */
-        public AttributeSet removeAttribute(AttributeSet old, Object name);
+        public AttributeSet removeAttribute(AttributeSet old, Object nbme);
 
         /**
-         * Removes a set of attributes for the element.
+         * Removes b set of bttributes for the element.
          *
-         * @param old the old attribute set
-         * @param names the attribute names
-         * @return the updated attribute set
-         * @see MutableAttributeSet#removeAttributes
+         * @pbrbm old the old bttribute set
+         * @pbrbm nbmes the bttribute nbmes
+         * @return the updbted bttribute set
+         * @see MutbbleAttributeSet#removeAttributes
          */
-        public AttributeSet removeAttributes(AttributeSet old, Enumeration<?> names);
+        public AttributeSet removeAttributes(AttributeSet old, Enumerbtion<?> nbmes);
 
         /**
-         * Removes a set of attributes for the element.
+         * Removes b set of bttributes for the element.
          *
-         * @param old the old attribute set
-         * @param attrs the attributes
-         * @return the updated attribute set
-         * @see MutableAttributeSet#removeAttributes
+         * @pbrbm old the old bttribute set
+         * @pbrbm bttrs the bttributes
+         * @return the updbted bttribute set
+         * @see MutbbleAttributeSet#removeAttributes
          */
-        public AttributeSet removeAttributes(AttributeSet old, AttributeSet attrs);
+        public AttributeSet removeAttributes(AttributeSet old, AttributeSet bttrs);
 
         /**
-         * Fetches an empty AttributeSet.
+         * Fetches bn empty AttributeSet.
          *
-         * @return the attribute set
+         * @return the bttribute set
          */
         public AttributeSet getEmptySet();
 
         /**
-         * Reclaims an attribute set.
-         * This is a way for a MutableAttributeSet to mark that it no
-         * longer need a particular immutable set.  This is only necessary
-         * in 1.1 where there are no weak references.  A 1.1 implementation
-         * would call this in its finalize method.
+         * Reclbims bn bttribute set.
+         * This is b wby for b MutbbleAttributeSet to mbrk thbt it no
+         * longer need b pbrticulbr immutbble set.  This is only necessbry
+         * in 1.1 where there bre no webk references.  A 1.1 implementbtion
+         * would cbll this in its finblize method.
          *
-         * @param a the attribute set to reclaim
+         * @pbrbm b the bttribute set to reclbim
          */
-        public void reclaim(AttributeSet a);
+        public void reclbim(AttributeSet b);
     }
 
     /**
-     * Implements the abstract part of an element.  By default elements
-     * support attributes by having a field that represents the immutable
-     * part of the current attribute set for the element.  The element itself
-     * implements MutableAttributeSet which can be used to modify the set
-     * by fetching a new immutable set.  The immutable sets are provided
-     * by the AttributeContext associated with the document.
+     * Implements the bbstrbct pbrt of bn element.  By defbult elements
+     * support bttributes by hbving b field thbt represents the immutbble
+     * pbrt of the current bttribute set for the element.  The element itself
+     * implements MutbbleAttributeSet which cbn be used to modify the set
+     * by fetching b new immutbble set.  The immutbble sets bre provided
+     * by the AttributeContext bssocibted with the document.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public abstract class AbstractElement implements Element, MutableAttributeSet, Serializable, TreeNode {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public bbstrbct clbss AbstrbctElement implements Element, MutbbleAttributeSet, Seriblizbble, TreeNode {
 
         /**
-         * Creates a new AbstractElement.
+         * Crebtes b new AbstrbctElement.
          *
-         * @param parent the parent element
-         * @param a the attributes for the element
+         * @pbrbm pbrent the pbrent element
+         * @pbrbm b the bttributes for the element
          * @since 1.4
          */
-        public AbstractElement(Element parent, AttributeSet a) {
-            this.parent = parent;
-            attributes = getAttributeContext().getEmptySet();
-            if (a != null) {
-                addAttributes(a);
+        public AbstrbctElement(Element pbrent, AttributeSet b) {
+            this.pbrent = pbrent;
+            bttributes = getAttributeContext().getEmptySet();
+            if (b != null) {
+                bddAttributes(b);
             }
         }
 
-        private final void indent(PrintWriter out, int n) {
+        privbte finbl void indent(PrintWriter out, int n) {
             for (int i = 0; i < n; i++) {
                 out.print("  ");
             }
         }
 
         /**
-         * Dumps a debugging representation of the element hierarchy.
+         * Dumps b debugging representbtion of the element hierbrchy.
          *
-         * @param psOut the output stream
-         * @param indentAmount the indentation level &gt;= 0
+         * @pbrbm psOut the output strebm
+         * @pbrbm indentAmount the indentbtion level &gt;= 0
          */
-        public void dump(PrintStream psOut, int indentAmount) {
+        public void dump(PrintStrebm psOut, int indentAmount) {
             PrintWriter out;
             try {
-                out = new PrintWriter(new OutputStreamWriter(psOut,"JavaEsc"),
+                out = new PrintWriter(new OutputStrebmWriter(psOut,"JbvbEsc"),
                                       true);
-            } catch (UnsupportedEncodingException e){
+            } cbtch (UnsupportedEncodingException e){
                 out = new PrintWriter(psOut,true);
             }
             indent(out, indentAmount);
-            if (getName() == null) {
+            if (getNbme() == null) {
                 out.print("<??");
             } else {
-                out.print("<" + getName());
+                out.print("<" + getNbme());
             }
             if (getAttributeCount() > 0) {
                 out.println("");
-                // dump the attributes
-                Enumeration<?> names = attributes.getAttributeNames();
-                while (names.hasMoreElements()) {
-                    Object name = names.nextElement();
+                // dump the bttributes
+                Enumerbtion<?> nbmes = bttributes.getAttributeNbmes();
+                while (nbmes.hbsMoreElements()) {
+                    Object nbme = nbmes.nextElement();
                     indent(out, indentAmount + 1);
-                    out.println(name + "=" + getAttribute(name));
+                    out.println(nbme + "=" + getAttribute(nbme));
                 }
                 indent(out, indentAmount);
             }
             out.println(">");
 
-            if (isLeaf()) {
+            if (isLebf()) {
                 indent(out, indentAmount+1);
-                out.print("[" + getStartOffset() + "," + getEndOffset() + "]");
+                out.print("[" + getStbrtOffset() + "," + getEndOffset() + "]");
                 Content c = getContent();
                 try {
-                    String contentStr = c.getString(getStartOffset(),
-                                                    getEndOffset() - getStartOffset())/*.trim()*/;
+                    String contentStr = c.getString(getStbrtOffset(),
+                                                    getEndOffset() - getStbrtOffset())/*.trim()*/;
                     if (contentStr.length() > 40) {
                         contentStr = contentStr.substring(0, 40) + "...";
                     }
                     out.println("["+contentStr+"]");
-                } catch (BadLocationException e) {
+                } cbtch (BbdLocbtionException e) {
                 }
 
             } else {
                 int n = getElementCount();
                 for (int i = 0; i < n; i++) {
-                    AbstractElement e = (AbstractElement) getElement(i);
+                    AbstrbctElement e = (AbstrbctElement) getElement(i);
                     e.dump(psOut, indentAmount+1);
                 }
             }
         }
 
         // --- AttributeSet ----------------------------
-        // delegated to the immutable field "attributes"
+        // delegbted to the immutbble field "bttributes"
 
         /**
-         * Gets the number of attributes that are defined.
+         * Gets the number of bttributes thbt bre defined.
          *
-         * @return the number of attributes &gt;= 0
+         * @return the number of bttributes &gt;= 0
          * @see AttributeSet#getAttributeCount
          */
         public int getAttributeCount() {
-            return attributes.getAttributeCount();
+            return bttributes.getAttributeCount();
         }
 
         /**
-         * Checks whether a given attribute is defined.
+         * Checks whether b given bttribute is defined.
          *
-         * @param attrName the non-null attribute name
-         * @return true if the attribute is defined
+         * @pbrbm bttrNbme the non-null bttribute nbme
+         * @return true if the bttribute is defined
          * @see AttributeSet#isDefined
          */
-        public boolean isDefined(Object attrName) {
-            return attributes.isDefined(attrName);
+        public boolebn isDefined(Object bttrNbme) {
+            return bttributes.isDefined(bttrNbme);
         }
 
         /**
-         * Checks whether two attribute sets are equal.
+         * Checks whether two bttribute sets bre equbl.
          *
-         * @param attr the attribute set to check against
-         * @return true if the same
-         * @see AttributeSet#isEqual
+         * @pbrbm bttr the bttribute set to check bgbinst
+         * @return true if the sbme
+         * @see AttributeSet#isEqubl
          */
-        public boolean isEqual(AttributeSet attr) {
-            return attributes.isEqual(attr);
+        public boolebn isEqubl(AttributeSet bttr) {
+            return bttributes.isEqubl(bttr);
         }
 
         /**
-         * Copies a set of attributes.
+         * Copies b set of bttributes.
          *
          * @return the copy
          * @see AttributeSet#copyAttributes
          */
         public AttributeSet copyAttributes() {
-            return attributes.copyAttributes();
+            return bttributes.copyAttributes();
         }
 
         /**
-         * Gets the value of an attribute.
+         * Gets the vblue of bn bttribute.
          *
-         * @param attrName the non-null attribute name
-         * @return the attribute value
+         * @pbrbm bttrNbme the non-null bttribute nbme
+         * @return the bttribute vblue
          * @see AttributeSet#getAttribute
          */
-        public Object getAttribute(Object attrName) {
-            Object value = attributes.getAttribute(attrName);
-            if (value == null) {
-                // The delegate nor it's resolvers had a match,
-                // so we'll try to resolve through the parent
+        public Object getAttribute(Object bttrNbme) {
+            Object vblue = bttributes.getAttribute(bttrNbme);
+            if (vblue == null) {
+                // The delegbte nor it's resolvers hbd b mbtch,
+                // so we'll try to resolve through the pbrent
                 // element.
-                AttributeSet a = (parent != null) ? parent.getAttributes() : null;
-                if (a != null) {
-                    value = a.getAttribute(attrName);
+                AttributeSet b = (pbrent != null) ? pbrent.getAttributes() : null;
+                if (b != null) {
+                    vblue = b.getAttribute(bttrNbme);
                 }
             }
-            return value;
+            return vblue;
         }
 
         /**
-         * Gets the names of all attributes.
+         * Gets the nbmes of bll bttributes.
          *
-         * @return the attribute names as an enumeration
-         * @see AttributeSet#getAttributeNames
+         * @return the bttribute nbmes bs bn enumerbtion
+         * @see AttributeSet#getAttributeNbmes
          */
-        public Enumeration<?> getAttributeNames() {
-            return attributes.getAttributeNames();
+        public Enumerbtion<?> getAttributeNbmes() {
+            return bttributes.getAttributeNbmes();
         }
 
         /**
-         * Checks whether a given attribute name/value is defined.
+         * Checks whether b given bttribute nbme/vblue is defined.
          *
-         * @param name the non-null attribute name
-         * @param value the attribute value
-         * @return true if the name/value is defined
-         * @see AttributeSet#containsAttribute
+         * @pbrbm nbme the non-null bttribute nbme
+         * @pbrbm vblue the bttribute vblue
+         * @return true if the nbme/vblue is defined
+         * @see AttributeSet#contbinsAttribute
          */
-        public boolean containsAttribute(Object name, Object value) {
-            return attributes.containsAttribute(name, value);
+        public boolebn contbinsAttribute(Object nbme, Object vblue) {
+            return bttributes.contbinsAttribute(nbme, vblue);
         }
 
 
         /**
-         * Checks whether the element contains all the attributes.
+         * Checks whether the element contbins bll the bttributes.
          *
-         * @param attrs the attributes to check
-         * @return true if the element contains all the attributes
-         * @see AttributeSet#containsAttributes
+         * @pbrbm bttrs the bttributes to check
+         * @return true if the element contbins bll the bttributes
+         * @see AttributeSet#contbinsAttributes
          */
-        public boolean containsAttributes(AttributeSet attrs) {
-            return attributes.containsAttributes(attrs);
+        public boolebn contbinsAttributes(AttributeSet bttrs) {
+            return bttributes.contbinsAttributes(bttrs);
         }
 
         /**
-         * Gets the resolving parent.
-         * If not overridden, the resolving parent defaults to
-         * the parent element.
+         * Gets the resolving pbrent.
+         * If not overridden, the resolving pbrent defbults to
+         * the pbrent element.
          *
-         * @return the attributes from the parent, <code>null</code> if none
-         * @see AttributeSet#getResolveParent
+         * @return the bttributes from the pbrent, <code>null</code> if none
+         * @see AttributeSet#getResolvePbrent
          */
-        public AttributeSet getResolveParent() {
-            AttributeSet a = attributes.getResolveParent();
-            if ((a == null) && (parent != null)) {
-                a = parent.getAttributes();
+        public AttributeSet getResolvePbrent() {
+            AttributeSet b = bttributes.getResolvePbrent();
+            if ((b == null) && (pbrent != null)) {
+                b = pbrent.getAttributes();
             }
-            return a;
+            return b;
         }
 
-        // --- MutableAttributeSet ----------------------------------
-        // should fetch a new immutable record for the field
-        // "attributes".
+        // --- MutbbleAttributeSet ----------------------------------
+        // should fetch b new immutbble record for the field
+        // "bttributes".
 
         /**
-         * Adds an attribute to the element.
+         * Adds bn bttribute to the element.
          *
-         * @param name the non-null attribute name
-         * @param value the attribute value
-         * @see MutableAttributeSet#addAttribute
+         * @pbrbm nbme the non-null bttribute nbme
+         * @pbrbm vblue the bttribute vblue
+         * @see MutbbleAttributeSet#bddAttribute
          */
-        public void addAttribute(Object name, Object value) {
-            checkForIllegalCast();
+        public void bddAttribute(Object nbme, Object vblue) {
+            checkForIllegblCbst();
             AttributeContext context = getAttributeContext();
-            attributes = context.addAttribute(attributes, name, value);
-        }
-
-        /**
-         * Adds a set of attributes to the element.
-         *
-         * @param attr the attributes to add
-         * @see MutableAttributeSet#addAttribute
-         */
-        public void addAttributes(AttributeSet attr) {
-            checkForIllegalCast();
-            AttributeContext context = getAttributeContext();
-            attributes = context.addAttributes(attributes, attr);
+            bttributes = context.bddAttribute(bttributes, nbme, vblue);
         }
 
         /**
-         * Removes an attribute from the set.
+         * Adds b set of bttributes to the element.
          *
-         * @param name the non-null attribute name
-         * @see MutableAttributeSet#removeAttribute
+         * @pbrbm bttr the bttributes to bdd
+         * @see MutbbleAttributeSet#bddAttribute
          */
-        public void removeAttribute(Object name) {
-            checkForIllegalCast();
+        public void bddAttributes(AttributeSet bttr) {
+            checkForIllegblCbst();
             AttributeContext context = getAttributeContext();
-            attributes = context.removeAttribute(attributes, name);
+            bttributes = context.bddAttributes(bttributes, bttr);
         }
 
         /**
-         * Removes a set of attributes for the element.
+         * Removes bn bttribute from the set.
          *
-         * @param names the attribute names
-         * @see MutableAttributeSet#removeAttributes
+         * @pbrbm nbme the non-null bttribute nbme
+         * @see MutbbleAttributeSet#removeAttribute
          */
-        public void removeAttributes(Enumeration<?> names) {
-            checkForIllegalCast();
+        public void removeAttribute(Object nbme) {
+            checkForIllegblCbst();
             AttributeContext context = getAttributeContext();
-            attributes = context.removeAttributes(attributes, names);
+            bttributes = context.removeAttribute(bttributes, nbme);
         }
 
         /**
-         * Removes a set of attributes for the element.
+         * Removes b set of bttributes for the element.
          *
-         * @param attrs the attributes
-         * @see MutableAttributeSet#removeAttributes
+         * @pbrbm nbmes the bttribute nbmes
+         * @see MutbbleAttributeSet#removeAttributes
          */
-        public void removeAttributes(AttributeSet attrs) {
-            checkForIllegalCast();
+        public void removeAttributes(Enumerbtion<?> nbmes) {
+            checkForIllegblCbst();
             AttributeContext context = getAttributeContext();
-            if (attrs == this) {
-                attributes = context.getEmptySet();
+            bttributes = context.removeAttributes(bttributes, nbmes);
+        }
+
+        /**
+         * Removes b set of bttributes for the element.
+         *
+         * @pbrbm bttrs the bttributes
+         * @see MutbbleAttributeSet#removeAttributes
+         */
+        public void removeAttributes(AttributeSet bttrs) {
+            checkForIllegblCbst();
+            AttributeContext context = getAttributeContext();
+            if (bttrs == this) {
+                bttributes = context.getEmptySet();
             } else {
-                attributes = context.removeAttributes(attributes, attrs);
+                bttributes = context.removeAttributes(bttributes, bttrs);
             }
         }
 
         /**
-         * Sets the resolving parent.
+         * Sets the resolving pbrent.
          *
-         * @param parent the parent, null if none
-         * @see MutableAttributeSet#setResolveParent
+         * @pbrbm pbrent the pbrent, null if none
+         * @see MutbbleAttributeSet#setResolvePbrent
          */
-        public void setResolveParent(AttributeSet parent) {
-            checkForIllegalCast();
+        public void setResolvePbrent(AttributeSet pbrent) {
+            checkForIllegblCbst();
             AttributeContext context = getAttributeContext();
-            if (parent != null) {
-                attributes =
-                    context.addAttribute(attributes, StyleConstants.ResolveAttribute,
-                                         parent);
+            if (pbrent != null) {
+                bttributes =
+                    context.bddAttribute(bttributes, StyleConstbnts.ResolveAttribute,
+                                         pbrent);
             } else {
-                attributes =
-                    context.removeAttribute(attributes, StyleConstants.ResolveAttribute);
+                bttributes =
+                    context.removeAttribute(bttributes, StyleConstbnts.ResolveAttribute);
             }
         }
 
-        private final void checkForIllegalCast() {
-            Thread t = getCurrentWriter();
-            if ((t == null) || (t != Thread.currentThread())) {
-                throw new StateInvariantError("Illegal cast to MutableAttributeSet");
+        privbte finbl void checkForIllegblCbst() {
+            Threbd t = getCurrentWriter();
+            if ((t == null) || (t != Threbd.currentThrebd())) {
+                throw new StbteInvbribntError("Illegbl cbst to MutbbleAttributeSet");
             }
         }
 
@@ -2061,87 +2061,87 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the model
          */
         public Document getDocument() {
-            return AbstractDocument.this;
+            return AbstrbctDocument.this;
         }
 
         /**
-         * Gets the parent of the element.
+         * Gets the pbrent of the element.
          *
-         * @return the parent
+         * @return the pbrent
          */
-        public Element getParentElement() {
-            return parent;
+        public Element getPbrentElement() {
+            return pbrent;
         }
 
         /**
-         * Gets the attributes for the element.
+         * Gets the bttributes for the element.
          *
-         * @return the attribute set
+         * @return the bttribute set
          */
         public AttributeSet getAttributes() {
             return this;
         }
 
         /**
-         * Gets the name of the element.
+         * Gets the nbme of the element.
          *
-         * @return the name, null if none
+         * @return the nbme, null if none
          */
-        public String getName() {
-            if (attributes.isDefined(ElementNameAttribute)) {
-                return (String) attributes.getAttribute(ElementNameAttribute);
+        public String getNbme() {
+            if (bttributes.isDefined(ElementNbmeAttribute)) {
+                return (String) bttributes.getAttribute(ElementNbmeAttribute);
             }
             return null;
         }
 
         /**
-         * Gets the starting offset in the model for the element.
+         * Gets the stbrting offset in the model for the element.
          *
          * @return the offset &gt;= 0
          */
-        public abstract int getStartOffset();
+        public bbstrbct int getStbrtOffset();
 
         /**
          * Gets the ending offset in the model for the element.
          *
          * @return the offset &gt;= 0
          */
-        public abstract int getEndOffset();
+        public bbstrbct int getEndOffset();
 
         /**
-         * Gets a child element.
+         * Gets b child element.
          *
-         * @param index the child index, &gt;= 0 &amp;&amp; &lt; getElementCount()
+         * @pbrbm index the child index, &gt;= 0 &bmp;&bmp; &lt; getElementCount()
          * @return the child element
          */
-        public abstract Element getElement(int index);
+        public bbstrbct Element getElement(int index);
 
         /**
          * Gets the number of children for the element.
          *
          * @return the number of children &gt;= 0
          */
-        public abstract int getElementCount();
+        public bbstrbct int getElementCount();
 
         /**
          * Gets the child element index closest to the given model offset.
          *
-         * @param offset the offset &gt;= 0
+         * @pbrbm offset the offset &gt;= 0
          * @return the element index &gt;= 0
          */
-        public abstract int getElementIndex(int offset);
+        public bbstrbct int getElementIndex(int offset);
 
         /**
-         * Checks whether the element is a leaf.
+         * Checks whether the element is b lebf.
          *
-         * @return true if a leaf
+         * @return true if b lebf
          */
-        public abstract boolean isLeaf();
+        public bbstrbct boolebn isLebf();
 
         // --- TreeNode methods -------------------------------------
 
         /**
-         * Returns the child <code>TreeNode</code> at index
+         * Returns the child <code>TreeNode</code> bt index
          * <code>childIndex</code>.
          */
         public TreeNode getChildAt(int childIndex) {
@@ -2150,29 +2150,29 @@ public abstract class AbstractDocument implements Document, Serializable {
 
         /**
          * Returns the number of children <code>TreeNode</code>'s
-         * receiver contains.
+         * receiver contbins.
          * @return the number of children <code>TreeNodews</code>'s
-         * receiver contains
+         * receiver contbins
          */
         public int getChildCount() {
             return getElementCount();
         }
 
         /**
-         * Returns the parent <code>TreeNode</code> of the receiver.
-         * @return the parent <code>TreeNode</code> of the receiver
+         * Returns the pbrent <code>TreeNode</code> of the receiver.
+         * @return the pbrent <code>TreeNode</code> of the receiver
          */
-        public TreeNode getParent() {
-            return (TreeNode)getParentElement();
+        public TreeNode getPbrent() {
+            return (TreeNode)getPbrentElement();
         }
 
         /**
          * Returns the index of <code>node</code> in the receivers children.
-         * If the receiver does not contain <code>node</code>, -1 will be
+         * If the receiver does not contbin <code>node</code>, -1 will be
          * returned.
-         * @param node the location of interest
+         * @pbrbm node the locbtion of interest
          * @return the index of <code>node</code> in the receiver's
-         * children, or -1 if absent
+         * children, or -1 if bbsent
          */
         public int getIndex(TreeNode node) {
             for(int counter = getChildCount() - 1; counter >= 0; counter--)
@@ -2182,85 +2182,85 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Returns true if the receiver allows children.
-         * @return true if the receiver allows children, otherwise false
+         * Returns true if the receiver bllows children.
+         * @return true if the receiver bllows children, otherwise fblse
          */
-        public abstract boolean getAllowsChildren();
+        public bbstrbct boolebn getAllowsChildren();
 
 
         /**
-         * Returns the children of the receiver as an
-         * <code>Enumeration</code>.
-         * @return the children of the receiver as an <code>Enumeration</code>
+         * Returns the children of the receiver bs bn
+         * <code>Enumerbtion</code>.
+         * @return the children of the receiver bs bn <code>Enumerbtion</code>
          */
-        public abstract Enumeration<TreeNode> children();
+        public bbstrbct Enumerbtion<TreeNode> children();
 
 
-        // --- serialization ---------------------------------------------
+        // --- seriblizbtion ---------------------------------------------
 
-        private void writeObject(ObjectOutputStream s) throws IOException {
-            s.defaultWriteObject();
-            StyleContext.writeAttributeSet(s, attributes);
+        privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+            s.defbultWriteObject();
+            StyleContext.writeAttributeSet(s, bttributes);
         }
 
-        private void readObject(ObjectInputStream s)
-            throws ClassNotFoundException, IOException
+        privbte void rebdObject(ObjectInputStrebm s)
+            throws ClbssNotFoundException, IOException
         {
-            s.defaultReadObject();
-            MutableAttributeSet attr = new SimpleAttributeSet();
-            StyleContext.readAttributeSet(s, attr);
+            s.defbultRebdObject();
+            MutbbleAttributeSet bttr = new SimpleAttributeSet();
+            StyleContext.rebdAttributeSet(s, bttr);
             AttributeContext context = getAttributeContext();
-            attributes = context.addAttributes(SimpleAttributeSet.EMPTY, attr);
+            bttributes = context.bddAttributes(SimpleAttributeSet.EMPTY, bttr);
         }
 
-        // ---- variables -----------------------------------------------------
+        // ---- vbribbles -----------------------------------------------------
 
-        private Element parent;
-        private transient AttributeSet attributes;
+        privbte Element pbrent;
+        privbte trbnsient AttributeSet bttributes;
 
     }
 
     /**
-     * Implements a composite element that contains other elements.
+     * Implements b composite element thbt contbins other elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class BranchElement extends AbstractElement {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss BrbnchElement extends AbstrbctElement {
 
         /**
-         * Constructs a composite element that initially contains
+         * Constructs b composite element thbt initiblly contbins
          * no children.
          *
-         * @param parent  The parent element
-         * @param a the attributes for the element
+         * @pbrbm pbrent  The pbrent element
+         * @pbrbm b the bttributes for the element
          * @since 1.4
          */
-        public BranchElement(Element parent, AttributeSet a) {
-            super(parent, a);
-            children = new AbstractElement[1];
+        public BrbnchElement(Element pbrent, AttributeSet b) {
+            super(pbrent, b);
+            children = new AbstrbctElement[1];
             nchildren = 0;
-            lastIndex = -1;
+            lbstIndex = -1;
         }
 
         /**
-         * Gets the child element that contains
+         * Gets the child element thbt contbins
          * the given model position.
          *
-         * @param pos the position &gt;= 0
+         * @pbrbm pos the position &gt;= 0
          * @return the element, null if none
          */
         public Element positionToElement(int pos) {
             int index = getElementIndex(pos);
             Element child = children[index];
-            int p0 = child.getStartOffset();
+            int p0 = child.getStbrtOffset();
             int p1 = child.getEndOffset();
             if ((pos >= p0) && (pos < p1)) {
                 return child;
@@ -2269,70 +2269,70 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Replaces content with a new set of elements.
+         * Replbces content with b new set of elements.
          *
-         * @param offset the starting offset &gt;= 0
-         * @param length the length to replace &gt;= 0
-         * @param elems the new elements
+         * @pbrbm offset the stbrting offset &gt;= 0
+         * @pbrbm length the length to replbce &gt;= 0
+         * @pbrbm elems the new elements
          */
-        public void replace(int offset, int length, Element[] elems) {
-            int delta = elems.length - length;
+        public void replbce(int offset, int length, Element[] elems) {
+            int deltb = elems.length - length;
             int src = offset + length;
             int nmove = nchildren - src;
-            int dest = src + delta;
-            if ((nchildren + delta) >= children.length) {
-                // need to grow the array
-                int newLength = Math.max(2*children.length, nchildren + delta);
-                AbstractElement[] newChildren = new AbstractElement[newLength];
-                System.arraycopy(children, 0, newChildren, 0, offset);
-                System.arraycopy(elems, 0, newChildren, offset, elems.length);
-                System.arraycopy(children, src, newChildren, dest, nmove);
+            int dest = src + deltb;
+            if ((nchildren + deltb) >= children.length) {
+                // need to grow the brrby
+                int newLength = Mbth.mbx(2*children.length, nchildren + deltb);
+                AbstrbctElement[] newChildren = new AbstrbctElement[newLength];
+                System.brrbycopy(children, 0, newChildren, 0, offset);
+                System.brrbycopy(elems, 0, newChildren, offset, elems.length);
+                System.brrbycopy(children, src, newChildren, dest, nmove);
                 children = newChildren;
             } else {
-                // patch the existing array
-                System.arraycopy(children, src, children, dest, nmove);
-                System.arraycopy(elems, 0, children, offset, elems.length);
+                // pbtch the existing brrby
+                System.brrbycopy(children, src, children, dest, nmove);
+                System.brrbycopy(elems, 0, children, offset, elems.length);
             }
-            nchildren = nchildren + delta;
+            nchildren = nchildren + deltb;
         }
 
         /**
-         * Converts the element to a string.
+         * Converts the element to b string.
          *
          * @return the string
          */
         public String toString() {
-            return "BranchElement(" + getName() + ") " + getStartOffset() + "," +
+            return "BrbnchElement(" + getNbme() + ") " + getStbrtOffset() + "," +
                 getEndOffset() + "\n";
         }
 
         // --- Element methods -----------------------------------
 
         /**
-         * Gets the element name.
+         * Gets the element nbme.
          *
-         * @return the element name
+         * @return the element nbme
          */
-        public String getName() {
-            String nm = super.getName();
+        public String getNbme() {
+            String nm = super.getNbme();
             if (nm == null) {
-                nm = ParagraphElementName;
+                nm = PbrbgrbphElementNbme;
             }
             return nm;
         }
 
         /**
-         * Gets the starting offset in the model for the element.
+         * Gets the stbrting offset in the model for the element.
          *
          * @return the offset &gt;= 0
          */
-        public int getStartOffset() {
-            return children[0].getStartOffset();
+        public int getStbrtOffset() {
+            return children[0].getStbrtOffset();
         }
 
         /**
          * Gets the ending offset in the model for the element.
-         * @throws NullPointerException if this element has no children
+         * @throws NullPointerException if this element hbs no children
          *
          * @return the offset &gt;= 0
          */
@@ -2343,9 +2343,9 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Gets a child element.
+         * Gets b child element.
          *
-         * @param index the child index, &gt;= 0 &amp;&amp; &lt; getElementCount()
+         * @pbrbm index the child index, &gt;= 0 &bmp;&bmp; &lt; getElementCount()
          * @return the child element, null if none
          */
         public Element getElement(int index) {
@@ -2367,7 +2367,7 @@ public abstract class AbstractDocument implements Document, Serializable {
         /**
          * Gets the child element index closest to the given model offset.
          *
-         * @param offset the offset &gt;= 0
+         * @pbrbm offset the offset &gt;= 0
          * @return the element index &gt;= 0
          */
         public int getElementIndex(int offset) {
@@ -2375,7 +2375,7 @@ public abstract class AbstractDocument implements Document, Serializable {
             int lower = 0;
             int upper = nchildren - 1;
             int mid = 0;
-            int p0 = getStartOffset();
+            int p0 = getStbrtOffset();
             int p1;
 
             if (nchildren == 0) {
@@ -2385,33 +2385,33 @@ public abstract class AbstractDocument implements Document, Serializable {
                 return nchildren - 1;
             }
 
-            // see if the last index can be used.
-            if ((lastIndex >= lower) && (lastIndex <= upper)) {
-                Element lastHit = children[lastIndex];
-                p0 = lastHit.getStartOffset();
-                p1 = lastHit.getEndOffset();
+            // see if the lbst index cbn be used.
+            if ((lbstIndex >= lower) && (lbstIndex <= upper)) {
+                Element lbstHit = children[lbstIndex];
+                p0 = lbstHit.getStbrtOffset();
+                p1 = lbstHit.getEndOffset();
                 if ((offset >= p0) && (offset < p1)) {
-                    return lastIndex;
+                    return lbstIndex;
                 }
 
-                // last index wasn't a hit, but it does give useful info about
-                // where a hit (if any) would be.
+                // lbst index wbsn't b hit, but it does give useful info bbout
+                // where b hit (if bny) would be.
                 if (offset < p0) {
-                    upper = lastIndex;
+                    upper = lbstIndex;
                 } else  {
-                    lower = lastIndex;
+                    lower = lbstIndex;
                 }
             }
 
             while (lower <= upper) {
                 mid = lower + ((upper - lower) / 2);
                 Element elem = children[mid];
-                p0 = elem.getStartOffset();
+                p0 = elem.getStbrtOffset();
                 p1 = elem.getEndOffset();
                 if ((offset >= p0) && (offset < p1)) {
-                    // found the location
+                    // found the locbtion
                     index = mid;
-                    lastIndex = index;
+                    lbstIndex = index;
                     return index;
                 } else if (offset < p0) {
                     upper = mid - 1;
@@ -2420,117 +2420,117 @@ public abstract class AbstractDocument implements Document, Serializable {
                 }
             }
 
-            // didn't find it, but we indicate the index of where it would belong
+            // didn't find it, but we indicbte the index of where it would belong
             if (offset < p0) {
                 index = mid;
             } else {
                 index = mid + 1;
             }
-            lastIndex = index;
+            lbstIndex = index;
             return index;
         }
 
         /**
-         * Checks whether the element is a leaf.
+         * Checks whether the element is b lebf.
          *
-         * @return true if a leaf
+         * @return true if b lebf
          */
-        public boolean isLeaf() {
-            return false;
+        public boolebn isLebf() {
+            return fblse;
         }
 
 
         // ------ TreeNode ----------------------------------------------
 
         /**
-         * Returns true if the receiver allows children.
-         * @return true if the receiver allows children, otherwise false
+         * Returns true if the receiver bllows children.
+         * @return true if the receiver bllows children, otherwise fblse
          */
-        public boolean getAllowsChildren() {
+        public boolebn getAllowsChildren() {
             return true;
         }
 
 
         /**
-         * Returns the children of the receiver as an
-         * <code>Enumeration</code>.
+         * Returns the children of the receiver bs bn
+         * <code>Enumerbtion</code>.
          * @return the children of the receiver
          */
-        public Enumeration<TreeNode> children() {
+        public Enumerbtion<TreeNode> children() {
             if(nchildren == 0)
                 return null;
 
             Vector<TreeNode> tempVector = new Vector<>(nchildren);
 
             for(int counter = 0; counter < nchildren; counter++)
-                tempVector.addElement(children[counter]);
+                tempVector.bddElement(children[counter]);
             return tempVector.elements();
         }
 
         // ------ members ----------------------------------------------
 
-        private AbstractElement[] children;
-        private int nchildren;
-        private int lastIndex;
+        privbte AbstrbctElement[] children;
+        privbte int nchildren;
+        privbte int lbstIndex;
     }
 
     /**
-     * Implements an element that directly represents content of
+     * Implements bn element thbt directly represents content of
      * some kind.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      *
      * @see     Element
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class LeafElement extends AbstractElement {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss LebfElement extends AbstrbctElement {
 
         /**
-         * Constructs an element that represents content within the
-         * document (has no children).
+         * Constructs bn element thbt represents content within the
+         * document (hbs no children).
          *
-         * @param parent  The parent element
-         * @param a       The element attributes
-         * @param offs0   The start offset &gt;= 0
-         * @param offs1   The end offset &gt;= offs0
+         * @pbrbm pbrent  The pbrent element
+         * @pbrbm b       The element bttributes
+         * @pbrbm offs0   The stbrt offset &gt;= 0
+         * @pbrbm offs1   The end offset &gt;= offs0
          * @since 1.4
          */
-        public LeafElement(Element parent, AttributeSet a, int offs0, int offs1) {
-            super(parent, a);
+        public LebfElement(Element pbrent, AttributeSet b, int offs0, int offs1) {
+            super(pbrent, b);
             try {
-                p0 = createPosition(offs0);
-                p1 = createPosition(offs1);
-            } catch (BadLocationException e) {
+                p0 = crebtePosition(offs0);
+                p1 = crebtePosition(offs1);
+            } cbtch (BbdLocbtionException e) {
                 p0 = null;
                 p1 = null;
-                throw new StateInvariantError("Can't create Position references");
+                throw new StbteInvbribntError("Cbn't crebte Position references");
             }
         }
 
         /**
-         * Converts the element to a string.
+         * Converts the element to b string.
          *
          * @return the string
          */
         public String toString() {
-            return "LeafElement(" + getName() + ") " + p0 + "," + p1 + "\n";
+            return "LebfElement(" + getNbme() + ") " + p0 + "," + p1 + "\n";
         }
 
         // --- Element methods ---------------------------------------------
 
         /**
-         * Gets the starting offset in the model for the element.
+         * Gets the stbrting offset in the model for the element.
          *
          * @return the offset &gt;= 0
          */
-        public int getStartOffset() {
+        public int getStbrtOffset() {
             return p0.getOffset();
         }
 
@@ -2544,14 +2544,14 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Gets the element name.
+         * Gets the element nbme.
          *
-         * @return the name
+         * @return the nbme
          */
-        public String getName() {
-            String nm = super.getName();
+        public String getNbme() {
+            String nm = super.getNbme();
             if (nm == null) {
-                nm = ContentElementName;
+                nm = ContentElementNbme;
             }
             return nm;
         }
@@ -2559,7 +2559,7 @@ public abstract class AbstractDocument implements Document, Serializable {
         /**
          * Gets the child element index closest to the given model offset.
          *
-         * @param pos the offset &gt;= 0
+         * @pbrbm pos the offset &gt;= 0
          * @return the element index &gt;= 0
          */
         public int getElementIndex(int pos) {
@@ -2567,9 +2567,9 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Gets a child element.
+         * Gets b child element.
          *
-         * @param index the child index, &gt;= 0 &amp;&amp; &lt; getElementCount()
+         * @pbrbm index the child index, &gt;= 0 &bmp;&bmp; &lt; getElementCount()
          * @return the child element
          */
         public Element getElement(int index) {
@@ -2586,141 +2586,141 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Checks whether the element is a leaf.
+         * Checks whether the element is b lebf.
          *
-         * @return true if a leaf
+         * @return true if b lebf
          */
-        public boolean isLeaf() {
+        public boolebn isLebf() {
             return true;
         }
 
         // ------ TreeNode ----------------------------------------------
 
         /**
-         * Returns true if the receiver allows children.
-         * @return true if the receiver allows children, otherwise false
+         * Returns true if the receiver bllows children.
+         * @return true if the receiver bllows children, otherwise fblse
          */
-        public boolean getAllowsChildren() {
-            return false;
+        public boolebn getAllowsChildren() {
+            return fblse;
         }
 
 
         /**
-         * Returns the children of the receiver as an
-         * <code>Enumeration</code>.
+         * Returns the children of the receiver bs bn
+         * <code>Enumerbtion</code>.
          * @return the children of the receiver
          */
         @Override
-        public Enumeration<TreeNode> children() {
+        public Enumerbtion<TreeNode> children() {
             return null;
         }
 
-        // --- serialization ---------------------------------------------
+        // --- seriblizbtion ---------------------------------------------
 
-        private void writeObject(ObjectOutputStream s) throws IOException {
-            s.defaultWriteObject();
+        privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+            s.defbultWriteObject();
             s.writeInt(p0.getOffset());
             s.writeInt(p1.getOffset());
         }
 
-        private void readObject(ObjectInputStream s)
-            throws ClassNotFoundException, IOException
+        privbte void rebdObject(ObjectInputStrebm s)
+            throws ClbssNotFoundException, IOException
         {
-            s.defaultReadObject();
+            s.defbultRebdObject();
 
-            // set the range with positions that track change
-            int off0 = s.readInt();
-            int off1 = s.readInt();
+            // set the rbnge with positions thbt trbck chbnge
+            int off0 = s.rebdInt();
+            int off1 = s.rebdInt();
             try {
-                p0 = createPosition(off0);
-                p1 = createPosition(off1);
-            } catch (BadLocationException e) {
+                p0 = crebtePosition(off0);
+                p1 = crebtePosition(off1);
+            } cbtch (BbdLocbtionException e) {
                 p0 = null;
                 p1 = null;
-                throw new IOException("Can't restore Position references");
+                throw new IOException("Cbn't restore Position references");
             }
         }
 
         // ---- members -----------------------------------------------------
 
-        private transient Position p0;
-        private transient Position p1;
+        privbte trbnsient Position p0;
+        privbte trbnsient Position p1;
     }
 
     /**
-     * Represents the root element of the bidirectional element structure.
+     * Represents the root element of the bidirectionbl element structure.
      * The root element is the only element in the bidi element structure
-     * which contains children.
+     * which contbins children.
      */
-    class BidiRootElement extends BranchElement {
+    clbss BidiRootElement extends BrbnchElement {
 
         BidiRootElement() {
             super( null, null );
         }
 
         /**
-         * Gets the name of the element.
-         * @return the name
+         * Gets the nbme of the element.
+         * @return the nbme
          */
-        public String getName() {
+        public String getNbme() {
             return "bidi root";
         }
     }
 
     /**
-     * Represents an element of the bidirectional element structure.
+     * Represents bn element of the bidirectionbl element structure.
      */
-    class BidiElement extends LeafElement {
+    clbss BidiElement extends LebfElement {
 
         /**
-         * Creates a new BidiElement.
+         * Crebtes b new BidiElement.
          */
-        BidiElement(Element parent, int start, int end, int level) {
-            super(parent, new SimpleAttributeSet(), start, end);
-            addAttribute(StyleConstants.BidiLevel, Integer.valueOf(level));
-            //System.out.println("BidiElement: start = " + start
+        BidiElement(Element pbrent, int stbrt, int end, int level) {
+            super(pbrent, new SimpleAttributeSet(), stbrt, end);
+            bddAttribute(StyleConstbnts.BidiLevel, Integer.vblueOf(level));
+            //System.out.println("BidiElement: stbrt = " + stbrt
             //                   + " end = " + end + " level = " + level );
         }
 
         /**
-         * Gets the name of the element.
-         * @return the name
+         * Gets the nbme of the element.
+         * @return the nbme
          */
-        public String getName() {
-            return BidiElementName;
+        public String getNbme() {
+            return BidiElementNbme;
         }
 
         int getLevel() {
-            Integer o = (Integer) getAttribute(StyleConstants.BidiLevel);
+            Integer o = (Integer) getAttribute(StyleConstbnts.BidiLevel);
             if (o != null) {
-                return o.intValue();
+                return o.intVblue();
             }
-            return 0;  // Level 0 is base level (non-embedded) left-to-right
+            return 0;  // Level 0 is bbse level (non-embedded) left-to-right
         }
 
-        boolean isLeftToRight() {
+        boolebn isLeftToRight() {
             return ((getLevel() % 2) == 0);
         }
     }
 
     /**
-     * Stores document changes as the document is being
-     * modified.  Can subsequently be used for change notification
-     * when done with the document modification transaction.
-     * This is used by the AbstractDocument class and its extensions
-     * for broadcasting change information to the document listeners.
+     * Stores document chbnges bs the document is being
+     * modified.  Cbn subsequently be used for chbnge notificbtion
+     * when done with the document modificbtion trbnsbction.
+     * This is used by the AbstrbctDocument clbss bnd its extensions
+     * for brobdcbsting chbnge informbtion to the document listeners.
      */
-    public class DefaultDocumentEvent extends CompoundEdit implements DocumentEvent {
+    public clbss DefbultDocumentEvent extends CompoundEdit implements DocumentEvent {
 
         /**
-         * Constructs a change record.
+         * Constructs b chbnge record.
          *
-         * @param offs the offset into the document of the change &gt;= 0
-         * @param len  the length of the change &gt;= 0
-         * @param type the type of event (DocumentEvent.EventType)
+         * @pbrbm offs the offset into the document of the chbnge &gt;= 0
+         * @pbrbm len  the length of the chbnge &gt;= 0
+         * @pbrbm type the type of event (DocumentEvent.EventType)
          * @since 1.4
          */
-        public DefaultDocumentEvent(int offs, int len, DocumentEvent.EventType type) {
+        public DefbultDocumentEvent(int offs, int len, DocumentEvent.EventType type) {
             super();
             offset = offs;
             length = len;
@@ -2728,9 +2728,9 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Returns a string description of the change event.
+         * Returns b string description of the chbnge event.
          *
-         * @return a string
+         * @return b string
          */
         public String toString() {
             return edits.toString();
@@ -2739,135 +2739,135 @@ public abstract class AbstractDocument implements Document, Serializable {
         // --- CompoundEdit methods --------------------------
 
         /**
-         * Adds a document edit.  If the number of edits crosses
-         * a threshold, this switches on a hashtable lookup for
-         * ElementChange implementations since access of these
-         * needs to be relatively quick.
+         * Adds b document edit.  If the number of edits crosses
+         * b threshold, this switches on b hbshtbble lookup for
+         * ElementChbnge implementbtions since bccess of these
+         * needs to be relbtively quick.
          *
-         * @param anEdit a document edit record
-         * @return true if the edit was added
+         * @pbrbm bnEdit b document edit record
+         * @return true if the edit wbs bdded
          */
-        public boolean addEdit(UndoableEdit anEdit) {
-            // if the number of changes gets too great, start using
-            // a hashtable for to locate the change for a given element.
-            if ((changeLookup == null) && (edits.size() > 10)) {
-                changeLookup = new Hashtable<Element, ElementChange>();
+        public boolebn bddEdit(UndobbleEdit bnEdit) {
+            // if the number of chbnges gets too grebt, stbrt using
+            // b hbshtbble for to locbte the chbnge for b given element.
+            if ((chbngeLookup == null) && (edits.size() > 10)) {
+                chbngeLookup = new Hbshtbble<Element, ElementChbnge>();
                 int n = edits.size();
                 for (int i = 0; i < n; i++) {
                     Object o = edits.elementAt(i);
-                    if (o instanceof DocumentEvent.ElementChange) {
-                        DocumentEvent.ElementChange ec = (DocumentEvent.ElementChange) o;
-                        changeLookup.put(ec.getElement(), ec);
+                    if (o instbnceof DocumentEvent.ElementChbnge) {
+                        DocumentEvent.ElementChbnge ec = (DocumentEvent.ElementChbnge) o;
+                        chbngeLookup.put(ec.getElement(), ec);
                     }
                 }
             }
 
-            // if we have a hashtable... add the entry if it's
-            // an ElementChange.
-            if ((changeLookup != null) && (anEdit instanceof DocumentEvent.ElementChange)) {
-                DocumentEvent.ElementChange ec = (DocumentEvent.ElementChange) anEdit;
-                changeLookup.put(ec.getElement(), ec);
+            // if we hbve b hbshtbble... bdd the entry if it's
+            // bn ElementChbnge.
+            if ((chbngeLookup != null) && (bnEdit instbnceof DocumentEvent.ElementChbnge)) {
+                DocumentEvent.ElementChbnge ec = (DocumentEvent.ElementChbnge) bnEdit;
+                chbngeLookup.put(ec.getElement(), ec);
             }
-            return super.addEdit(anEdit);
+            return super.bddEdit(bnEdit);
         }
 
         /**
-         * Redoes a change.
+         * Redoes b chbnge.
          *
-         * @exception CannotRedoException if the change cannot be redone
+         * @exception CbnnotRedoException if the chbnge cbnnot be redone
          */
-        public void redo() throws CannotRedoException {
+        public void redo() throws CbnnotRedoException {
             writeLock();
             try {
-                // change the state
+                // chbnge the stbte
                 super.redo();
-                // fire a DocumentEvent to notify the view(s)
-                UndoRedoDocumentEvent ev = new UndoRedoDocumentEvent(this, false);
+                // fire b DocumentEvent to notify the view(s)
+                UndoRedoDocumentEvent ev = new UndoRedoDocumentEvent(this, fblse);
                 if (type == DocumentEvent.EventType.INSERT) {
-                    fireInsertUpdate(ev);
+                    fireInsertUpdbte(ev);
                 } else if (type == DocumentEvent.EventType.REMOVE) {
-                    fireRemoveUpdate(ev);
+                    fireRemoveUpdbte(ev);
                 } else {
-                    fireChangedUpdate(ev);
+                    fireChbngedUpdbte(ev);
                 }
-            } finally {
+            } finblly {
                 writeUnlock();
             }
         }
 
         /**
-         * Undoes a change.
+         * Undoes b chbnge.
          *
-         * @exception CannotUndoException if the change cannot be undone
+         * @exception CbnnotUndoException if the chbnge cbnnot be undone
          */
-        public void undo() throws CannotUndoException {
+        public void undo() throws CbnnotUndoException {
             writeLock();
             try {
-                // change the state
+                // chbnge the stbte
                 super.undo();
-                // fire a DocumentEvent to notify the view(s)
+                // fire b DocumentEvent to notify the view(s)
                 UndoRedoDocumentEvent ev = new UndoRedoDocumentEvent(this, true);
                 if (type == DocumentEvent.EventType.REMOVE) {
-                    fireInsertUpdate(ev);
+                    fireInsertUpdbte(ev);
                 } else if (type == DocumentEvent.EventType.INSERT) {
-                    fireRemoveUpdate(ev);
+                    fireRemoveUpdbte(ev);
                 } else {
-                    fireChangedUpdate(ev);
+                    fireChbngedUpdbte(ev);
                 }
-            } finally {
+            } finblly {
                 writeUnlock();
             }
         }
 
         /**
-         * DefaultDocument events are significant.  If you wish to aggregate
-         * DefaultDocumentEvents to present them as a single edit to the user
-         * place them into a CompoundEdit.
+         * DefbultDocument events bre significbnt.  If you wish to bggregbte
+         * DefbultDocumentEvents to present them bs b single edit to the user
+         * plbce them into b CompoundEdit.
          *
-         * @return whether the event is significant for edit undo purposes
+         * @return whether the event is significbnt for edit undo purposes
          */
-        public boolean isSignificant() {
+        public boolebn isSignificbnt() {
             return true;
         }
 
 
         /**
-         * Provides a localized, human readable description of this edit
-         * suitable for use in, say, a change log.
+         * Provides b locblized, humbn rebdbble description of this edit
+         * suitbble for use in, sby, b chbnge log.
          *
          * @return the description
          */
-        public String getPresentationName() {
+        public String getPresentbtionNbme() {
             DocumentEvent.EventType type = getType();
             if(type == DocumentEvent.EventType.INSERT)
-                return UIManager.getString("AbstractDocument.additionText");
+                return UIMbnbger.getString("AbstrbctDocument.bdditionText");
             if(type == DocumentEvent.EventType.REMOVE)
-                return UIManager.getString("AbstractDocument.deletionText");
-            return UIManager.getString("AbstractDocument.styleChangeText");
+                return UIMbnbger.getString("AbstrbctDocument.deletionText");
+            return UIMbnbger.getString("AbstrbctDocument.styleChbngeText");
         }
 
         /**
-         * Provides a localized, human readable description of the undoable
-         * form of this edit, e.g. for use as an Undo menu item. Typically
+         * Provides b locblized, humbn rebdbble description of the undobble
+         * form of this edit, e.g. for use bs bn Undo menu item. Typicblly
          * derived from getDescription();
          *
          * @return the description
          */
-        public String getUndoPresentationName() {
-            return UIManager.getString("AbstractDocument.undoText") + " " +
-                getPresentationName();
+        public String getUndoPresentbtionNbme() {
+            return UIMbnbger.getString("AbstrbctDocument.undoText") + " " +
+                getPresentbtionNbme();
         }
 
         /**
-         * Provides a localized, human readable description of the redoable
-         * form of this edit, e.g. for use as a Redo menu item. Typically
-         * derived from getPresentationName();
+         * Provides b locblized, humbn rebdbble description of the redobble
+         * form of this edit, e.g. for use bs b Redo menu item. Typicblly
+         * derived from getPresentbtionNbme();
          *
          * @return the description
          */
-        public String getRedoPresentationName() {
-            return UIManager.getString("AbstractDocument.redoText") + " " +
-                getPresentationName();
+        public String getRedoPresentbtionNbme() {
+            return UIMbnbger.getString("AbstrbctDocument.redoText") + " " +
+                getPresentbtionNbme();
         }
 
         // --- DocumentEvent methods --------------------------
@@ -2875,7 +2875,7 @@ public abstract class AbstractDocument implements Document, Serializable {
         /**
          * Returns the type of event.
          *
-         * @return the event type as a DocumentEvent.EventType
+         * @return the event type bs b DocumentEvent.EventType
          * @see DocumentEvent#getType
          */
         public DocumentEvent.EventType getType() {
@@ -2883,7 +2883,7 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Returns the offset within the document of the start of the change.
+         * Returns the offset within the document of the stbrt of the chbnge.
          *
          * @return the offset &gt;= 0
          * @see DocumentEvent#getOffset
@@ -2893,7 +2893,7 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Returns the length of the change.
+         * Returns the length of the chbnge.
          *
          * @return the length &gt;= 0
          * @see DocumentEvent#getLength
@@ -2903,31 +2903,31 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Gets the document that sourced the change event.
+         * Gets the document thbt sourced the chbnge event.
          *
          * @return the document
          * @see DocumentEvent#getDocument
          */
         public Document getDocument() {
-            return AbstractDocument.this;
+            return AbstrbctDocument.this;
         }
 
         /**
-         * Gets the changes for an element.
+         * Gets the chbnges for bn element.
          *
-         * @param elem the element
-         * @return the changes
+         * @pbrbm elem the element
+         * @return the chbnges
          */
-        public DocumentEvent.ElementChange getChange(Element elem) {
-            if (changeLookup != null) {
-                return changeLookup.get(elem);
+        public DocumentEvent.ElementChbnge getChbnge(Element elem) {
+            if (chbngeLookup != null) {
+                return chbngeLookup.get(elem);
             }
             int n = edits.size();
             for (int i = 0; i < n; i++) {
                 Object o = edits.elementAt(i);
-                if (o instanceof DocumentEvent.ElementChange) {
-                    DocumentEvent.ElementChange c = (DocumentEvent.ElementChange) o;
-                    if (elem.equals(c.getElement())) {
+                if (o instbnceof DocumentEvent.ElementChbnge) {
+                    DocumentEvent.ElementChbnge c = (DocumentEvent.ElementChbnge) o;
+                    if (elem.equbls(c.getElement())) {
                         return c;
                     }
                 }
@@ -2935,31 +2935,31 @@ public abstract class AbstractDocument implements Document, Serializable {
             return null;
         }
 
-        // --- member variables ------------------------------------
+        // --- member vbribbles ------------------------------------
 
-        private int offset;
-        private int length;
-        private Hashtable<Element, ElementChange> changeLookup;
-        private DocumentEvent.EventType type;
+        privbte int offset;
+        privbte int length;
+        privbte Hbshtbble<Element, ElementChbnge> chbngeLookup;
+        privbte DocumentEvent.EventType type;
 
     }
 
     /**
-     * This event used when firing document changes while Undo/Redo
-     * operations. It just wraps DefaultDocumentEvent and delegates
-     * all calls to it except getType() which depends on operation
+     * This event used when firing document chbnges while Undo/Redo
+     * operbtions. It just wrbps DefbultDocumentEvent bnd delegbtes
+     * bll cblls to it except getType() which depends on operbtion
      * (Undo or Redo).
      */
-    class UndoRedoDocumentEvent implements DocumentEvent {
-        private DefaultDocumentEvent src = null;
-        private EventType type = null;
+    clbss UndoRedoDocumentEvent implements DocumentEvent {
+        privbte DefbultDocumentEvent src = null;
+        privbte EventType type = null;
 
-        public UndoRedoDocumentEvent(DefaultDocumentEvent src, boolean isUndo) {
+        public UndoRedoDocumentEvent(DefbultDocumentEvent src, boolebn isUndo) {
             this.src = src;
             if(isUndo) {
-                if(src.getType().equals(EventType.INSERT)) {
+                if(src.getType().equbls(EventType.INSERT)) {
                     type = EventType.REMOVE;
-                } else if(src.getType().equals(EventType.REMOVE)) {
+                } else if(src.getType().equbls(EventType.REMOVE)) {
                     type = EventType.INSERT;
                 } else {
                     type = src.getType();
@@ -2969,12 +2969,12 @@ public abstract class AbstractDocument implements Document, Serializable {
             }
         }
 
-        public DefaultDocumentEvent getSource() {
+        public DefbultDocumentEvent getSource() {
             return src;
         }
 
-        // DocumentEvent methods delegated to DefaultDocumentEvent source
-        // except getType() which depends on operation (Undo or Redo).
+        // DocumentEvent methods delegbted to DefbultDocumentEvent source
+        // except getType() which depends on operbtion (Undo or Redo).
         public int getOffset() {
             return src.getOffset();
         }
@@ -2991,33 +2991,33 @@ public abstract class AbstractDocument implements Document, Serializable {
             return type;
         }
 
-        public DocumentEvent.ElementChange getChange(Element elem) {
-            return src.getChange(elem);
+        public DocumentEvent.ElementChbnge getChbnge(Element elem) {
+            return src.getChbnge(elem);
         }
     }
 
     /**
-     * An implementation of ElementChange that can be added to the document
+     * An implementbtion of ElementChbnge thbt cbn be bdded to the document
      * event.
      */
-    public static class ElementEdit extends AbstractUndoableEdit implements DocumentEvent.ElementChange {
+    public stbtic clbss ElementEdit extends AbstrbctUndobbleEdit implements DocumentEvent.ElementChbnge {
 
         /**
-         * Constructs an edit record.  This does not modify the element
-         * so it can safely be used to <em>catch up</em> a view to the
-         * current model state for views that just attached to a model.
+         * Constructs bn edit record.  This does not modify the element
+         * so it cbn sbfely be used to <em>cbtch up</em> b view to the
+         * current model stbte for views thbt just bttbched to b model.
          *
-         * @param e the element
-         * @param index the index into the model &gt;= 0
-         * @param removed a set of elements that were removed
-         * @param added a set of elements that were added
+         * @pbrbm e the element
+         * @pbrbm index the index into the model &gt;= 0
+         * @pbrbm removed b set of elements thbt were removed
+         * @pbrbm bdded b set of elements thbt were bdded
          */
-        public ElementEdit(Element e, int index, Element[] removed, Element[] added) {
+        public ElementEdit(Element e, int index, Element[] removed, Element[] bdded) {
             super();
             this.e = e;
             this.index = index;
             this.removed = removed;
-            this.added = added;
+            this.bdded = bdded;
         }
 
         /**
@@ -3039,7 +3039,7 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Gets a list of children that were removed.
+         * Gets b list of children thbt were removed.
          *
          * @return the list
          */
@@ -3048,74 +3048,74 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         /**
-         * Gets a list of children that were added.
+         * Gets b list of children thbt were bdded.
          *
          * @return the list
          */
         public Element[] getChildrenAdded() {
-            return added;
+            return bdded;
         }
 
         /**
-         * Redoes a change.
+         * Redoes b chbnge.
          *
-         * @exception CannotRedoException if the change cannot be redone
+         * @exception CbnnotRedoException if the chbnge cbnnot be redone
          */
-        public void redo() throws CannotRedoException {
+        public void redo() throws CbnnotRedoException {
             super.redo();
 
-            // Since this event will be reused, switch around added/removed.
+            // Since this event will be reused, switch bround bdded/removed.
             Element[] tmp = removed;
-            removed = added;
-            added = tmp;
+            removed = bdded;
+            bdded = tmp;
 
-            // PENDING(prinz) need MutableElement interface, canRedo() should check
-            ((AbstractDocument.BranchElement)e).replace(index, removed.length, added);
+            // PENDING(prinz) need MutbbleElement interfbce, cbnRedo() should check
+            ((AbstrbctDocument.BrbnchElement)e).replbce(index, removed.length, bdded);
         }
 
         /**
-         * Undoes a change.
+         * Undoes b chbnge.
          *
-         * @exception CannotUndoException if the change cannot be undone
+         * @exception CbnnotUndoException if the chbnge cbnnot be undone
          */
-        public void undo() throws CannotUndoException {
+        public void undo() throws CbnnotUndoException {
             super.undo();
-            // PENDING(prinz) need MutableElement interface, canUndo() should check
-            ((AbstractDocument.BranchElement)e).replace(index, added.length, removed);
+            // PENDING(prinz) need MutbbleElement interfbce, cbnUndo() should check
+            ((AbstrbctDocument.BrbnchElement)e).replbce(index, bdded.length, removed);
 
-            // Since this event will be reused, switch around added/removed.
+            // Since this event will be reused, switch bround bdded/removed.
             Element[] tmp = removed;
-            removed = added;
-            added = tmp;
+            removed = bdded;
+            bdded = tmp;
         }
 
-        private Element e;
-        private int index;
-        private Element[] removed;
-        private Element[] added;
+        privbte Element e;
+        privbte int index;
+        privbte Element[] removed;
+        privbte Element[] bdded;
     }
 
 
-    private class DefaultFilterBypass extends DocumentFilter.FilterBypass {
+    privbte clbss DefbultFilterBypbss extends DocumentFilter.FilterBypbss {
         public Document getDocument() {
-            return AbstractDocument.this;
+            return AbstrbctDocument.this;
         }
 
         public void remove(int offset, int length) throws
-            BadLocationException {
-            handleRemove(offset, length);
+            BbdLocbtionException {
+            hbndleRemove(offset, length);
         }
 
         public void insertString(int offset, String string,
-                                 AttributeSet attr) throws
-                                        BadLocationException {
-            handleInsertString(offset, string, attr);
+                                 AttributeSet bttr) throws
+                                        BbdLocbtionException {
+            hbndleInsertString(offset, string, bttr);
         }
 
-        public void replace(int offset, int length, String text,
-                            AttributeSet attrs) throws BadLocationException {
-            handleRemove(offset, length);
-            handleInsertString(offset, text, attrs);
+        public void replbce(int offset, int length, String text,
+                            AttributeSet bttrs) throws BbdLocbtionException {
+            hbndleRemove(offset, length);
+            hbndleInsertString(offset, text, bttrs);
         }
     }
 }

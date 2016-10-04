@@ -3,203 +3,203 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMSignedInfo.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMSignedInfo.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.security.Provider;
-import java.util.*;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.Provider;
+import jbvb.util.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.UnsyncBufferedOutputStream;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.UnsyncBufferedOutputStrebm;
 
 /**
- * DOM-based implementation of SignedInfo.
+ * DOM-bbsed implementbtion of SignedInfo.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMSignedInfo extends DOMStructure implements SignedInfo {
+public finbl clbss DOMSignedInfo extends DOMStructure implements SignedInfo {
 
     /**
-     * The maximum number of references per Manifest, if secure validation is enabled.
+     * The mbximum number of references per Mbnifest, if secure vblidbtion is enbbled.
      */
-    public static final int MAXIMUM_REFERENCE_COUNT = 30;
+    public stbtic finbl int MAXIMUM_REFERENCE_COUNT = 30;
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger("org.jcp.xml.dsig.internbl.dom");
 
-    /** Signature - NOT Recommended RSAwithMD5 */
-    private static final String ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-md5";
+    /** Signbture - NOT Recommended RSAwithMD5 */
+    privbte stbtic finbl String ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5 =
+        Constbnts.MoreAlgorithmsSpecNS + "rsb-md5";
 
     /** HMAC - NOT Recommended HMAC-MD5 */
-    private static final String ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-md5";
+    privbte stbtic finbl String ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5 =
+        Constbnts.MoreAlgorithmsSpecNS + "hmbc-md5";
 
-    private List<Reference> references;
-    private CanonicalizationMethod canonicalizationMethod;
-    private SignatureMethod signatureMethod;
-    private String id;
-    private Document ownerDoc;
-    private Element localSiElem;
-    private InputStream canonData;
+    privbte List<Reference> references;
+    privbte CbnonicblizbtionMethod cbnonicblizbtionMethod;
+    privbte SignbtureMethod signbtureMethod;
+    privbte String id;
+    privbte Document ownerDoc;
+    privbte Element locblSiElem;
+    privbte InputStrebm cbnonDbtb;
 
     /**
-     * Creates a <code>DOMSignedInfo</code> from the specified parameters. Use
+     * Crebtes b <code>DOMSignedInfo</code> from the specified pbrbmeters. Use
      * this constructor when the <code>Id</code> is not specified.
      *
-     * @param cm the canonicalization method
-     * @param sm the signature method
-     * @param references the list of references. The list is copied.
+     * @pbrbm cm the cbnonicblizbtion method
+     * @pbrbm sm the signbture method
+     * @pbrbm references the list of references. The list is copied.
      * @throws NullPointerException if
      *    <code>cm</code>, <code>sm</code>, or <code>references</code> is
      *    <code>null</code>
-     * @throws IllegalArgumentException if <code>references</code> is empty
-     * @throws ClassCastException if any of the references are not of
+     * @throws IllegblArgumentException if <code>references</code> is empty
+     * @throws ClbssCbstException if bny of the references bre not of
      *    type <code>Reference</code>
      */
-    public DOMSignedInfo(CanonicalizationMethod cm, SignatureMethod sm,
+    public DOMSignedInfo(CbnonicblizbtionMethod cm, SignbtureMethod sm,
                          List<? extends Reference> references) {
         if (cm == null || sm == null || references == null) {
             throw new NullPointerException();
         }
-        this.canonicalizationMethod = cm;
-        this.signatureMethod = sm;
-        this.references = Collections.unmodifiableList(
-            new ArrayList<Reference>(references));
+        this.cbnonicblizbtionMethod = cm;
+        this.signbtureMethod = sm;
+        this.references = Collections.unmodifibbleList(
+            new ArrbyList<Reference>(references));
         if (this.references.isEmpty()) {
-            throw new IllegalArgumentException("list of references must " +
-                "contain at least one entry");
+            throw new IllegblArgumentException("list of references must " +
+                "contbin bt lebst one entry");
         }
         for (int i = 0, size = this.references.size(); i < size; i++) {
             Object obj = this.references.get(i);
-            if (!(obj instanceof Reference)) {
-                throw new ClassCastException("list of references contains " +
-                    "an illegal type");
+            if (!(obj instbnceof Reference)) {
+                throw new ClbssCbstException("list of references contbins " +
+                    "bn illegbl type");
             }
         }
     }
 
     /**
-     * Creates a <code>DOMSignedInfo</code> from the specified parameters.
+     * Crebtes b <code>DOMSignedInfo</code> from the specified pbrbmeters.
      *
-     * @param cm the canonicalization method
-     * @param sm the signature method
-     * @param references the list of references. The list is copied.
-     * @param id an optional identifer that will allow this
-     *    <code>SignedInfo</code> to be referenced by other signatures and
+     * @pbrbm cm the cbnonicblizbtion method
+     * @pbrbm sm the signbture method
+     * @pbrbm references the list of references. The list is copied.
+     * @pbrbm id bn optionbl identifer thbt will bllow this
+     *    <code>SignedInfo</code> to be referenced by other signbtures bnd
      *    objects
      * @throws NullPointerException if <code>cm</code>, <code>sm</code>,
      *    or <code>references</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>references</code> is empty
-     * @throws ClassCastException if any of the references are not of
+     * @throws IllegblArgumentException if <code>references</code> is empty
+     * @throws ClbssCbstException if bny of the references bre not of
      *    type <code>Reference</code>
      */
-    public DOMSignedInfo(CanonicalizationMethod cm, SignatureMethod sm,
+    public DOMSignedInfo(CbnonicblizbtionMethod cm, SignbtureMethod sm,
                          List<? extends Reference> references, String id) {
         this(cm, sm, references);
         this.id = id;
     }
 
     /**
-     * Creates a <code>DOMSignedInfo</code> from an element.
+     * Crebtes b <code>DOMSignedInfo</code> from bn element.
      *
-     * @param siElem a SignedInfo element
+     * @pbrbm siElem b SignedInfo element
      */
     public DOMSignedInfo(Element siElem, XMLCryptoContext context, Provider provider)
-        throws MarshalException {
-        localSiElem = siElem;
+        throws MbrshblException {
+        locblSiElem = siElem;
         ownerDoc = siElem.getOwnerDocument();
 
-        // get Id attribute, if specified
-        id = DOMUtils.getAttributeValue(siElem, "Id");
+        // get Id bttribute, if specified
+        id = DOMUtils.getAttributeVblue(siElem, "Id");
 
-        // unmarshal CanonicalizationMethod
+        // unmbrshbl CbnonicblizbtionMethod
         Element cmElem = DOMUtils.getFirstChildElement(siElem,
-                                                       "CanonicalizationMethod");
-        canonicalizationMethod = new DOMCanonicalizationMethod(cmElem, context,
+                                                       "CbnonicblizbtionMethod");
+        cbnonicblizbtionMethod = new DOMCbnonicblizbtionMethod(cmElem, context,
                                                                provider);
 
-        // unmarshal SignatureMethod
+        // unmbrshbl SignbtureMethod
         Element smElem = DOMUtils.getNextSiblingElement(cmElem,
-                                                        "SignatureMethod");
-        signatureMethod = DOMSignatureMethod.unmarshal(smElem);
+                                                        "SignbtureMethod");
+        signbtureMethod = DOMSignbtureMethod.unmbrshbl(smElem);
 
-        boolean secVal = Utils.secureValidation(context);
+        boolebn secVbl = Utils.secureVblidbtion(context);
 
-        String signatureMethodAlgorithm = signatureMethod.getAlgorithm();
-        if (secVal && ((ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.equals(signatureMethodAlgorithm)
-                || ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.equals(signatureMethodAlgorithm)))) {
-            throw new MarshalException(
-                "It is forbidden to use algorithm " + signatureMethod + " when secure validation is enabled"
+        String signbtureMethodAlgorithm = signbtureMethod.getAlgorithm();
+        if (secVbl && ((ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5.equbls(signbtureMethodAlgorithm)
+                || ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5.equbls(signbtureMethodAlgorithm)))) {
+            throw new MbrshblException(
+                "It is forbidden to use blgorithm " + signbtureMethod + " when secure vblidbtion is enbbled"
             );
         }
 
-        // unmarshal References
-        ArrayList<Reference> refList = new ArrayList<Reference>(5);
+        // unmbrshbl References
+        ArrbyList<Reference> refList = new ArrbyList<Reference>(5);
         Element refElem = DOMUtils.getNextSiblingElement(smElem, "Reference");
-        refList.add(new DOMReference(refElem, context, provider));
+        refList.bdd(new DOMReference(refElem, context, provider));
 
         refElem = DOMUtils.getNextSiblingElement(refElem);
         while (refElem != null) {
-            String name = refElem.getLocalName();
-            if (!name.equals("Reference")) {
-                throw new MarshalException("Invalid element name: " +
-                                           name + ", expected Reference");
+            String nbme = refElem.getLocblNbme();
+            if (!nbme.equbls("Reference")) {
+                throw new MbrshblException("Invblid element nbme: " +
+                                           nbme + ", expected Reference");
             }
-            refList.add(new DOMReference(refElem, context, provider));
+            refList.bdd(new DOMReference(refElem, context, provider));
 
-            if (secVal && (refList.size() > MAXIMUM_REFERENCE_COUNT)) {
-                String error = "A maxiumum of " + MAXIMUM_REFERENCE_COUNT + " "
-                    + "references per Manifest are allowed with secure validation";
-                throw new MarshalException(error);
+            if (secVbl && (refList.size() > MAXIMUM_REFERENCE_COUNT)) {
+                String error = "A mbxiumum of " + MAXIMUM_REFERENCE_COUNT + " "
+                    + "references per Mbnifest bre bllowed with secure vblidbtion";
+                throw new MbrshblException(error);
             }
             refElem = DOMUtils.getNextSiblingElement(refElem);
         }
-        references = Collections.unmodifiableList(refList);
+        references = Collections.unmodifibbleList(refList);
     }
 
-    public CanonicalizationMethod getCanonicalizationMethod() {
-        return canonicalizationMethod;
+    public CbnonicblizbtionMethod getCbnonicblizbtionMethod() {
+        return cbnonicblizbtionMethod;
     }
 
-    public SignatureMethod getSignatureMethod() {
-        return signatureMethod;
+    public SignbtureMethod getSignbtureMethod() {
+        return signbtureMethod;
     }
 
     public String getId() {
@@ -210,115 +210,115 @@ public final class DOMSignedInfo extends DOMStructure implements SignedInfo {
         return references;
     }
 
-    public InputStream getCanonicalizedData() {
-        return canonData;
+    public InputStrebm getCbnonicblizedDbtb() {
+        return cbnonDbtb;
     }
 
-    public void canonicalize(XMLCryptoContext context, ByteArrayOutputStream bos)
-        throws XMLSignatureException {
+    public void cbnonicblize(XMLCryptoContext context, ByteArrbyOutputStrebm bos)
+        throws XMLSignbtureException {
         if (context == null) {
-            throw new NullPointerException("context cannot be null");
+            throw new NullPointerException("context cbnnot be null");
         }
 
-        OutputStream os = new UnsyncBufferedOutputStream(bos);
+        OutputStrebm os = new UnsyncBufferedOutputStrebm(bos);
 
-        DOMSubTreeData subTree = new DOMSubTreeData(localSiElem, true);
+        DOMSubTreeDbtb subTree = new DOMSubTreeDbtb(locblSiElem, true);
         try {
-            ((DOMCanonicalizationMethod)
-                canonicalizationMethod).canonicalize(subTree, context, os);
-        } catch (TransformException te) {
-            throw new XMLSignatureException(te);
+            ((DOMCbnonicblizbtionMethod)
+                cbnonicblizbtionMethod).cbnonicblize(subTree, context, os);
+        } cbtch (TrbnsformException te) {
+            throw new XMLSignbtureException(te);
         }
 
         try {
             os.flush();
-        } catch (IOException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+        } cbtch (IOException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, e.getMessbge(), e);
             }
             // Impossible
         }
 
-        byte[] signedInfoBytes = bos.toByteArray();
+        byte[] signedInfoBytes = bos.toByteArrby();
 
-        // this whole block should only be done if logging is enabled
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Canonicalized SignedInfo:");
+        // this whole block should only be done if logging is enbbled
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbnonicblized SignedInfo:");
             StringBuilder sb = new StringBuilder(signedInfoBytes.length);
             for (int i = 0; i < signedInfoBytes.length; i++) {
-                sb.append((char)signedInfoBytes[i]);
+                sb.bppend((chbr)signedInfoBytes[i]);
             }
-            log.log(java.util.logging.Level.FINE, sb.toString());
-            log.log(java.util.logging.Level.FINE, "Data to be signed/verified:" + Base64.encode(signedInfoBytes));
+            log.log(jbvb.util.logging.Level.FINE, sb.toString());
+            log.log(jbvb.util.logging.Level.FINE, "Dbtb to be signed/verified:" + Bbse64.encode(signedInfoBytes));
         }
 
-        this.canonData = new ByteArrayInputStream(signedInfoBytes);
+        this.cbnonDbtb = new ByteArrbyInputStrebm(signedInfoBytes);
 
         try {
             os.close();
-        } catch (IOException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+        } cbtch (IOException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, e.getMessbge(), e);
             }
             // Impossible
         }
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        ownerDoc = DOMUtils.getOwnerDocument(parent);
-        Element siElem = DOMUtils.createElement(ownerDoc, "SignedInfo",
-                                                XMLSignature.XMLNS, dsPrefix);
+        ownerDoc = DOMUtils.getOwnerDocument(pbrent);
+        Element siElem = DOMUtils.crebteElement(ownerDoc, "SignedInfo",
+                                                XMLSignbture.XMLNS, dsPrefix);
 
-        // create and append CanonicalizationMethod element
-        DOMCanonicalizationMethod dcm =
-            (DOMCanonicalizationMethod)canonicalizationMethod;
-        dcm.marshal(siElem, dsPrefix, context);
+        // crebte bnd bppend CbnonicblizbtionMethod element
+        DOMCbnonicblizbtionMethod dcm =
+            (DOMCbnonicblizbtionMethod)cbnonicblizbtionMethod;
+        dcm.mbrshbl(siElem, dsPrefix, context);
 
-        // create and append SignatureMethod element
-        ((DOMStructure)signatureMethod).marshal(siElem, dsPrefix, context);
+        // crebte bnd bppend SignbtureMethod element
+        ((DOMStructure)signbtureMethod).mbrshbl(siElem, dsPrefix, context);
 
-        // create and append Reference elements
+        // crebte bnd bppend Reference elements
         for (Reference reference : references) {
-            ((DOMReference)reference).marshal(siElem, dsPrefix, context);
+            ((DOMReference)reference).mbrshbl(siElem, dsPrefix, context);
         }
 
-        // append Id attribute
+        // bppend Id bttribute
         DOMUtils.setAttributeID(siElem, "Id", id);
 
-        parent.appendChild(siElem);
-        localSiElem = siElem;
+        pbrent.bppendChild(siElem);
+        locblSiElem = siElem;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
 
-        if (!(o instanceof SignedInfo)) {
-            return false;
+        if (!(o instbnceof SignedInfo)) {
+            return fblse;
         }
         SignedInfo osi = (SignedInfo)o;
 
-        boolean idEqual = (id == null ? osi.getId() == null
-                                      : id.equals(osi.getId()));
+        boolebn idEqubl = (id == null ? osi.getId() == null
+                                      : id.equbls(osi.getId()));
 
-        return (canonicalizationMethod.equals(osi.getCanonicalizationMethod())
-                && signatureMethod.equals(osi.getSignatureMethod()) &&
-                references.equals(osi.getReferences()) && idEqual);
+        return (cbnonicblizbtionMethod.equbls(osi.getCbnonicblizbtionMethod())
+                && signbtureMethod.equbls(osi.getSignbtureMethod()) &&
+                references.equbls(osi.getReferences()) && idEqubl);
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            result = 31 * result + id.hbshCode();
         }
-        result = 31 * result + canonicalizationMethod.hashCode();
-        result = 31 * result + signatureMethod.hashCode();
-        result = 31 * result + references.hashCode();
+        result = 31 * result + cbnonicblizbtionMethod.hbshCode();
+        result = 31 * result + signbtureMethod.hbshCode();
+        result = 31 * result + references.hbshCode();
 
         return result;
     }

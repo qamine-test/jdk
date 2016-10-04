@@ -2,34 +2,34 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,26 +45,26 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class CK_MECHANISM_INFO provides information about a particular mechanism.
+ * clbss CK_MECHANISM_INFO provides informbtion bbout b pbrticulbr mechbnism.
  * <p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  * typedef struct CK_MECHANISM_INFO {&nbsp;&nbsp;
  *   CK_ULONG ulMinKeySize;&nbsp;&nbsp;
- *   CK_ULONG ulMaxKeySize;&nbsp;&nbsp;
- *   CK_FLAGS flags;&nbsp;&nbsp;
+ *   CK_ULONG ulMbxKeySize;&nbsp;&nbsp;
+ *   CK_FLAGS flbgs;&nbsp;&nbsp;
  * } CK_MECHANISM_INFO;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class CK_MECHANISM_INFO {
+public clbss CK_MECHANISM_INFO {
 
     /**
      * <B>PKCS#11:</B>
@@ -77,50 +77,50 @@ public class CK_MECHANISM_INFO {
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulMaxKeySize;
+     *   CK_ULONG ulMbxKeySize;
      * </PRE>
      */
-    public long ulMaxKeySize;
+    public long ulMbxKeySize;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_FLAGS flags;
+     *   CK_FLAGS flbgs;
      * </PRE>
      */
-    public long flags;
+    public long flbgs;
 
-    public CK_MECHANISM_INFO(long minKeySize, long maxKeySize,
-                             long flags) {
+    public CK_MECHANISM_INFO(long minKeySize, long mbxKeySize,
+                             long flbgs) {
         this.ulMinKeySize = minKeySize;
-        this.ulMaxKeySize = maxKeySize;
-        this.flags = flags;
+        this.ulMbxKeySize = mbxKeySize;
+        this.flbgs = flbgs;
     }
 
     /**
-     * Returns the string representation of CK_MECHANISM_INFO.
+     * Returns the string representbtion of CK_MECHANISM_INFO.
      *
-     * @return the string representation of CK_MECHANISM_INFO
+     * @return the string representbtion of CK_MECHANISM_INFO
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Constants.INDENT);
-        sb.append("ulMinKeySize: ");
-        sb.append(String.valueOf(ulMinKeySize));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("ulMinKeySize: ");
+        sb.bppend(String.vblueOf(ulMinKeySize));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulMaxKeySize: ");
-        sb.append(String.valueOf(ulMaxKeySize));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("ulMbxKeySize: ");
+        sb.bppend(String.vblueOf(ulMbxKeySize));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("flags: ");
-        sb.append(String.valueOf(flags));
-        sb.append(" = ");
-        sb.append(Functions.mechanismInfoFlagsToString(flags));
-        //buffer.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("flbgs: ");
+        sb.bppend(String.vblueOf(flbgs));
+        sb.bppend(" = ");
+        sb.bppend(Functions.mechbnismInfoFlbgsToString(flbgs));
+        //buffer.bppend(Constbnts.NEWLINE);
 
         return sb.toString() ;
     }

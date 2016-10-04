@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.local;
+pbckbge sun.jvmstbt.perfdbtb.monitor.protocol.locbl;
 
-import java.io.File;
-import java.io.FilenameFilter;
+import jbvb.io.File;
+import jbvb.io.FilenbmeFilter;
 
 /**
- * Class to provide translations from the local Vm Identifier
- * name space into the file system name space and vice-versa.
+ * Clbss to provide trbnslbtions from the locbl Vm Identifier
+ * nbme spbce into the file system nbme spbce bnd vice-versb.
  * <p>
- * Provides a factory for creating a File object to the backing
- * store file for instrumentation shared memory region for a JVM
- * identified by its Local Java Virtual Machine Identifier, or
+ * Provides b fbctory for crebting b File object to the bbcking
+ * store file for instrumentbtion shbred memory region for b JVM
+ * identified by its Locbl Jbvb Virtubl Mbchine Identifier, or
  * <em>lvmid</em>.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
- * @see java.io.File
+ * @see jbvb.io.File
  */
-public class PerfDataFile {
-    private PerfDataFile() { };
+public clbss PerfDbtbFile {
+    privbte PerfDbtbFile() { };
 
     /**
-     * The name of the of the system dependent temporary directory
+     * The nbme of the of the system dependent temporbry directory
      */
-    public static final String tmpDirName;
+    public stbtic finbl String tmpDirNbme;
 
     /**
-     * The file name prefix for PerfData shared memory files.
+     * The file nbme prefix for PerfDbtb shbred memory files.
      * <p>
      * This prefix must be kept in sync with the prefix used by the JVM.
      */
-    public static final String dirNamePrefix = "hsperfdata_";
+    public stbtic finbl String dirNbmePrefix = "hsperfdbtb_";
 
     /**
-     * The directory name pattern for the user directories.
+     * The directory nbme pbttern for the user directories.
      */
-    public static final String userDirNamePattern = "hsperfdata_\\S*";
+    public stbtic finbl String userDirNbmePbttern = "hsperfdbtb_\\S*";
 
     /**
-     * The file name pattern for PerfData shared memory files.
+     * The file nbme pbttern for PerfDbtb shbred memory files.
      * <p>
-     * This pattern must be kept in synch with the file name pattern
-     * used by the 1.4.2 and later HotSpot JVM.
+     * This pbttern must be kept in synch with the file nbme pbttern
+     * used by the 1.4.2 bnd lbter HotSpot JVM.
      */
-    public static final String fileNamePattern = "^[0-9]+$";
+    public stbtic finbl String fileNbmePbttern = "^[0-9]+$";
 
     /**
-     * The file name pattern for 1.4.1 PerfData shared memory files.
+     * The file nbme pbttern for 1.4.1 PerfDbtb shbred memory files.
      * <p>
-     * This pattern must be kept in synch with the file name pattern
+     * This pbttern must be kept in synch with the file nbme pbttern
      * used by the 1.4.1 HotSpot JVM.
      */
-    public static final String tmpFileNamePattern =
-            "^hsperfdata_[0-9]+(_[1-2]+)?$";
+    public stbtic finbl String tmpFileNbmePbttern =
+            "^hsperfdbtb_[0-9]+(_[1-2]+)?$";
 
 
     /**
-     * Get a File object for the instrumentation backing store file
-     * for the JVM identified by the given local Vm Identifier.
+     * Get b File object for the instrumentbtion bbcking store file
+     * for the JVM identified by the given locbl Vm Identifier.
      * <p>
-     * This method looks for the most up to date backing store file for
-     * the given <tt>lvmid</tt>. It will search all the user specific
-     * directories in the temporary directory for the host operating
-     * system, which may be influenced by platform specific environment
-     * variables.
+     * This method looks for the most up to dbte bbcking store file for
+     * the given <tt>lvmid</tt>. It will sebrch bll the user specific
+     * directories in the temporbry directory for the host operbting
+     * system, which mby be influenced by plbtform specific environment
+     * vbribbles.
      *
-     * @param lvmid  the local Java Virtual Machine Identifier for the target
-     * @return File - a File object to the backing store file for the named
-     *                shared memory region of the target JVM.
-     * @see java.io.File
+     * @pbrbm lvmid  the locbl Jbvb Virtubl Mbchine Identifier for the tbrget
+     * @return File - b File object to the bbcking store file for the nbmed
+     *                shbred memory region of the tbrget JVM.
+     * @see jbvb.io.File
      * @see #getTempDirectory()
      */
-    public static File getFile(int lvmid) {
+    public stbtic File getFile(int lvmid) {
         if (lvmid == 0) {
             /*
-             * lvmid == 0 is used to indicate the current Java Virtual Machine.
-             * If the SDK provided an API to get a unique Java Virtual Machine
-             * identifier, then a filename could be constructed with that
-             * identifier. In absence of such an api, return null.
+             * lvmid == 0 is used to indicbte the current Jbvb Virtubl Mbchine.
+             * If the SDK provided bn API to get b unique Jbvb Virtubl Mbchine
+             * identifier, then b filenbme could be constructed with thbt
+             * identifier. In bbsence of such bn bpi, return null.
              */
             return null;
         }
 
         /*
-         * iterate over all files in all directories in tmpDirName that
-         * match the file name patterns.
+         * iterbte over bll files in bll directories in tmpDirNbme thbt
+         * mbtch the file nbme pbtterns.
          */
-        File tmpDir = new File(tmpDirName);
-        String[] files = tmpDir.list(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                if (!name.startsWith(dirNamePrefix)) {
-                    return false;
+        File tmpDir = new File(tmpDirNbme);
+        String[] files = tmpDir.list(new FilenbmeFilter() {
+            public boolebn bccept(File dir, String nbme) {
+                if (!nbme.stbrtsWith(dirNbmePrefix)) {
+                    return fblse;
                 }
-                File candidate = new File(dir, name);
-                return ((candidate.isDirectory() || candidate.isFile())
-                        && candidate.canRead());
+                File cbndidbte = new File(dir, nbme);
+                return ((cbndidbte.isDirectory() || cbndidbte.isFile())
+                        && cbndidbte.cbnRebd());
             }
         });
 
@@ -126,36 +126,36 @@ public class PerfDataFile {
         File newest = null;
 
         for (int i = 0; i < files.length; i++) {
-            File f = new File(tmpDirName + files[i]);
-            File candidate = null;
+            File f = new File(tmpDirNbme + files[i]);
+            File cbndidbte = null;
 
             if (f.exists() && f.isDirectory()) {
                 /*
-                 * found a directory matching the name patterns. This
-                 * is a 1.4.2 hsperfdata_<user> directory. Check for
-                 * file named <lvmid> in that directory
+                 * found b directory mbtching the nbme pbtterns. This
+                 * is b 1.4.2 hsperfdbtb_<user> directory. Check for
+                 * file nbmed <lvmid> in thbt directory
                  */
-                String name = Integer.toString(lvmid);
-                candidate = new File(f.getName(), name);
+                String nbme = Integer.toString(lvmid);
+                cbndidbte = new File(f.getNbme(), nbme);
 
             } else if (f.exists() && f.isFile()) {
                 /*
-                 * found a file matching the name patterns. This
-                 * is a 1.4.1 hsperfdata_<lvmid> file.
+                 * found b file mbtching the nbme pbtterns. This
+                 * is b 1.4.1 hsperfdbtb_<lvmid> file.
                  */
-                candidate = f;
+                cbndidbte = f;
 
             } else {
-                // unexpected - let conditional below filter this one out
-                candidate = f;
+                // unexpected - let conditionbl below filter this one out
+                cbndidbte = f;
             }
 
-            if (candidate.exists() && candidate.isFile()
-                    && candidate.canRead()) {
-                long modTime = candidate.lastModified();
+            if (cbndidbte.exists() && cbndidbte.isFile()
+                    && cbndidbte.cbnRebd()) {
+                long modTime = cbndidbte.lbstModified();
                 if (modTime >= newestTime) {
                     newestTime = modTime;
-                    newest = candidate;
+                    newest = cbndidbte;
                 }
             }
         }
@@ -163,37 +163,37 @@ public class PerfDataFile {
     }
 
     /**
-     * Return the File object for the backing store file for the specified Java
-     * Virtual Machine.
+     * Return the File object for the bbcking store file for the specified Jbvb
+     * Virtubl Mbchine.
      * <p>
-     * This method looks for the most up to date backing store file for
-     * the JVM identified by the given user name and lvmid. The directory
-     * searched is the temporary directory for the host operating system,
-     * which may be influenced by environment variables.
+     * This method looks for the most up to dbte bbcking store file for
+     * the JVM identified by the given user nbme bnd lvmid. The directory
+     * sebrched is the temporbry directory for the host operbting system,
+     * which mby be influenced by environment vbribbles.
      *
-     * @param user   the user name
-     * @param lvmid  the local Java Virtual Machine Identifier for the target
-     * @return File - a File object to the backing store file for the named
-     *                shared memory region of the target JVM.
-     * @see java.io.File
+     * @pbrbm user   the user nbme
+     * @pbrbm lvmid  the locbl Jbvb Virtubl Mbchine Identifier for the tbrget
+     * @return File - b File object to the bbcking store file for the nbmed
+     *                shbred memory region of the tbrget JVM.
+     * @see jbvb.io.File
      * @see #getTempDirectory()
      */
-    public static File getFile(String user, int lvmid) {
+    public stbtic File getFile(String user, int lvmid) {
         if (lvmid == 0) {
             /*
-             * lvmid == 0 is used to indicate the current Java Virtual Machine.
-             * If the SDK provided an API to get a unique Java Virtual Machine
-             * identifier, then a filename could be constructed with that
-             * identifier. In absence of such an api, return null.
+             * lvmid == 0 is used to indicbte the current Jbvb Virtubl Mbchine.
+             * If the SDK provided bn API to get b unique Jbvb Virtubl Mbchine
+             * identifier, then b filenbme could be constructed with thbt
+             * identifier. In bbsence of such bn bpi, return null.
              */
             return null;
         }
 
-        // first try for 1.4.2 and later JVMs
-        String basename = getTempDirectory(user) + Integer.toString(lvmid);
-        File f = new File(basename);
+        // first try for 1.4.2 bnd lbter JVMs
+        String bbsenbme = getTempDirectory(user) + Integer.toString(lvmid);
+        File f = new File(bbsenbme);
 
-        if (f.exists() && f.isFile() && f.canRead()) {
+        if (f.exists() && f.isFile() && f.cbnRebd()) {
             return f;
         }
 
@@ -202,16 +202,16 @@ public class PerfDataFile {
         File newest = null;
         for (int i = 0; i < 2; i++) {
             if (i == 0) {
-                basename = getTempDirectory() + Integer.toString(lvmid);
+                bbsenbme = getTempDirectory() + Integer.toString(lvmid);
             } else {
-                basename = getTempDirectory() + Integer.toString(lvmid)
+                bbsenbme = getTempDirectory() + Integer.toString(lvmid)
                            + Integer.toString(i);
             }
 
-            f = new File(basename);
+            f = new File(bbsenbme);
 
-            if (f.exists() && f.isFile() && f.canRead()) {
-                long modTime = f.lastModified();
+            if (f.exists() && f.isFile() && f.cbnRebd()) {
+                long modTime = f.lbstModified();
                 if (modTime >= newestTime) {
                     newestTime = modTime;
                     newest = f;
@@ -222,86 +222,86 @@ public class PerfDataFile {
     }
 
     /**
-     * Method to extract a local Java Virtual Machine Identifier from the
-     * file name of the given File object.
+     * Method to extrbct b locbl Jbvb Virtubl Mbchine Identifier from the
+     * file nbme of the given File object.
      *
-     * @param file A File object representing the name of a
-     *             shared memory region for a target JVM
-     * @return int - the local Java Virtual Machine Identifier for the target
-     *               associated with the file
-     * @throws java.lang.IllegalArgumentException Thrown if the file name
-     *               does not conform to the expected pattern
+     * @pbrbm file A File object representing the nbme of b
+     *             shbred memory region for b tbrget JVM
+     * @return int - the locbl Jbvb Virtubl Mbchine Identifier for the tbrget
+     *               bssocibted with the file
+     * @throws jbvb.lbng.IllegblArgumentException Thrown if the file nbme
+     *               does not conform to the expected pbttern
      */
-    public static int getLocalVmId(File file) {
+    public stbtic int getLocblVmId(File file) {
         try {
-            // try 1.4.2 and later format first
-            return Integer.parseInt(file.getName());
-        } catch (NumberFormatException e) { }
+            // try 1.4.2 bnd lbter formbt first
+            return Integer.pbrseInt(file.getNbme());
+        } cbtch (NumberFormbtException e) { }
 
-        // now try the 1.4.1 format
-        String name = file.getName();
-        if (name.startsWith(dirNamePrefix)) {
-            int first = name.indexOf('_');
-            int last = name.lastIndexOf('_');
+        // now try the 1.4.1 formbt
+        String nbme = file.getNbme();
+        if (nbme.stbrtsWith(dirNbmePrefix)) {
+            int first = nbme.indexOf('_');
+            int lbst = nbme.lbstIndexOf('_');
             try {
-                if (first == last) {
-                    return Integer.parseInt(name.substring(first + 1));
+                if (first == lbst) {
+                    return Integer.pbrseInt(nbme.substring(first + 1));
                 } else {
-                    return Integer.parseInt(name.substring(first + 1, last));
+                    return Integer.pbrseInt(nbme.substring(first + 1, lbst));
                 }
-            } catch (NumberFormatException e) { }
+            } cbtch (NumberFormbtException e) { }
         }
-        throw new IllegalArgumentException("file name does not match pattern");
+        throw new IllegblArgumentException("file nbme does not mbtch pbttern");
     }
 
     /**
-     * Return the name of the temporary directory being searched for
-     * HotSpot PerfData backing store files.
+     * Return the nbme of the temporbry directory being sebrched for
+     * HotSpot PerfDbtb bbcking store files.
      * <p>
-     * This method generally returns the value of the java.io.tmpdir
-     * property. However, on some platforms it may return a different
-     * directory, as the JVM implementation may store the PerfData backing
-     * store files in a different directory for performance reasons.
+     * This method generblly returns the vblue of the jbvb.io.tmpdir
+     * property. However, on some plbtforms it mby return b different
+     * directory, bs the JVM implementbtion mby store the PerfDbtb bbcking
+     * store files in b different directory for performbnce rebsons.
      *
-     * @return String - the name of the temporary directory.
+     * @return String - the nbme of the temporbry directory.
      */
-    public static String getTempDirectory() {
-        return tmpDirName;
+    public stbtic String getTempDirectory() {
+        return tmpDirNbme;
     }
 
     /**
-     * Return the name of the temporary directory to be searched
-     * for HotSpot PerfData backing store files for a given user.
+     * Return the nbme of the temporbry directory to be sebrched
+     * for HotSpot PerfDbtb bbcking store files for b given user.
      * <p>
-     * This method generally returns the name of a subdirectory of
-     * the directory indicated in the java.io.tmpdir property. However,
-     * on some platforms it may return a different directory, as the
-     * JVM implementation may store the PerfData backing store files
-     * in a different directory for performance reasons.
+     * This method generblly returns the nbme of b subdirectory of
+     * the directory indicbted in the jbvb.io.tmpdir property. However,
+     * on some plbtforms it mby return b different directory, bs the
+     * JVM implementbtion mby store the PerfDbtb bbcking store files
+     * in b different directory for performbnce rebsons.
      *
-     * @return String - the name of the temporary directory.
+     * @return String - the nbme of the temporbry directory.
      */
-    public static String getTempDirectory(String user) {
-        return tmpDirName + dirNamePrefix + user + File.separator;
+    public stbtic String getTempDirectory(String user) {
+        return tmpDirNbme + dirNbmePrefix + user + File.sepbrbtor;
     }
 
-    static {
+    stbtic {
         /*
-         * For this to work, the target VM and this code need to use
-         * the same directory. Instead of guessing which directory the
-         * VM is using, we will ask.
+         * For this to work, the tbrget VM bnd this code need to use
+         * the sbme directory. Instebd of guessing which directory the
+         * VM is using, we will bsk.
          */
-        String tmpdir = sun.misc.VMSupport.getVMTemporaryDirectory();
+        String tmpdir = sun.misc.VMSupport.getVMTemporbryDirectory();
 
         /*
-         * Assure that the string returned has a trailing File.separator
-         * character. This check was added because the Linux implementation
-         * changed such that the java.io.tmpdir string no longer terminates
-         * with a File.separator character.
+         * Assure thbt the string returned hbs b trbiling File.sepbrbtor
+         * chbrbcter. This check wbs bdded becbuse the Linux implementbtion
+         * chbnged such thbt the jbvb.io.tmpdir string no longer terminbtes
+         * with b File.sepbrbtor chbrbcter.
          */
-        if (tmpdir.lastIndexOf(File.separator) != (tmpdir.length()-1)) {
-            tmpdir = tmpdir + File.separator;
+        if (tmpdir.lbstIndexOf(File.sepbrbtor) != (tmpdir.length()-1)) {
+            tmpdir = tmpdir + File.sepbrbtor;
         }
-        tmpDirName = tmpdir;
+        tmpDirNbme = tmpdir;
     }
 }

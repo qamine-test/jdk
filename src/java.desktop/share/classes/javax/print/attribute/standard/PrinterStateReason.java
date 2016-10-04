@@ -1,368 +1,368 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.Attribute;
 
 /**
- * Class PrinterStateReason is a printing attribute class, an enumeration,
- * that provides additional information about the printer's current state,
- * i.e., information that augments the value of the printer's
- * {@link PrinterState PrinterState} attribute.
- * Class PrinterStateReason defines standard printer
- * state reason values. A Print Service implementation only needs to report
- * those printer state reasons which are appropriate for the particular
- * implementation; it does not have to report every defined printer state
- * reason.
+ * Clbss PrinterStbteRebson is b printing bttribute clbss, bn enumerbtion,
+ * thbt provides bdditionbl informbtion bbout the printer's current stbte,
+ * i.e., informbtion thbt bugments the vblue of the printer's
+ * {@link PrinterStbte PrinterStbte} bttribute.
+ * Clbss PrinterStbteRebson defines stbndbrd printer
+ * stbte rebson vblues. A Print Service implementbtion only needs to report
+ * those printer stbte rebsons which bre bppropribte for the pbrticulbr
+ * implementbtion; it does not hbve to report every defined printer stbte
+ * rebson.
  * <P>
- * Instances of PrinterStateReason do not appear in a Print Service's
- * attribute set directly.
- * Rather, a {@link PrinterStateReasons PrinterStateReasons}
- * attribute appears in the Print Service's attribute set. The {@link
- * PrinterStateReasons PrinterStateReasons} attribute contains zero, one, or
- * more than one PrinterStateReason objects which pertain to the
- * Print Service's status, and each PrinterStateReason object is
- * associated with a {@link Severity Severity} level of REPORT (least severe),
- * WARNING, or ERROR (most severe). The printer adds a PrinterStateReason
+ * Instbnces of PrinterStbteRebson do not bppebr in b Print Service's
+ * bttribute set directly.
+ * Rbther, b {@link PrinterStbteRebsons PrinterStbteRebsons}
+ * bttribute bppebrs in the Print Service's bttribute set. The {@link
+ * PrinterStbteRebsons PrinterStbteRebsons} bttribute contbins zero, one, or
+ * more thbn one PrinterStbteRebson objects which pertbin to the
+ * Print Service's stbtus, bnd ebch PrinterStbteRebson object is
+ * bssocibted with b {@link Severity Severity} level of REPORT (lebst severe),
+ * WARNING, or ERROR (most severe). The printer bdds b PrinterStbteRebson
  * object to the Print Service's
- * {@link PrinterStateReasons PrinterStateReasons} attribute when the
- * corresponding condition becomes true of the printer, and the printer
- * removes the PrinterStateReason object again when the corresponding
- * condition becomes false, regardless of whether the Print Service's overall
- * {@link PrinterState PrinterState} also changed.
+ * {@link PrinterStbteRebsons PrinterStbteRebsons} bttribute when the
+ * corresponding condition becomes true of the printer, bnd the printer
+ * removes the PrinterStbteRebson object bgbin when the corresponding
+ * condition becomes fblse, regbrdless of whether the Print Service's overbll
+ * {@link PrinterStbte PrinterStbte} blso chbnged.
  * <P>
- * <B>IPP Compatibility:</B>
- * The string values returned by each individual {@link PrinterStateReason} and
- * associated {@link Severity} object's <CODE>toString()</CODE>
- * methods, concatenated together with a hyphen (<CODE>"-"</CODE>) in
- * between, gives the IPP keyword value for a {@link PrinterStateReasons}.
- * The category name returned by <CODE>getName()</CODE> gives the IPP
- * attribute name.
+ * <B>IPP Compbtibility:</B>
+ * The string vblues returned by ebch individubl {@link PrinterStbteRebson} bnd
+ * bssocibted {@link Severity} object's <CODE>toString()</CODE>
+ * methods, concbtenbted together with b hyphen (<CODE>"-"</CODE>) in
+ * between, gives the IPP keyword vblue for b {@link PrinterStbteRebsons}.
+ * The cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP
+ * bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public class PrinterStateReason extends EnumSyntax implements Attribute {
+public clbss PrinterStbteRebson extends EnumSyntbx implements Attribute {
 
-    private static final long serialVersionUID = -1623720656201472593L;
+    privbte stbtic finbl long seriblVersionUID = -1623720656201472593L;
 
     /**
-     * The printer has detected an error other than ones listed below.
+     * The printer hbs detected bn error other thbn ones listed below.
      */
-    public static final PrinterStateReason OTHER = new PrinterStateReason(0);
+    public stbtic finbl PrinterStbteRebson OTHER = new PrinterStbteRebson(0);
 
     /**
-     * A tray has run out of media.
+     * A trby hbs run out of medib.
      */
-    public static final PrinterStateReason
-        MEDIA_NEEDED = new PrinterStateReason(1);
+    public stbtic finbl PrinterStbteRebson
+        MEDIA_NEEDED = new PrinterStbteRebson(1);
 
     /**
-     * The device has a media jam.
+     * The device hbs b medib jbm.
      */
-    public static final PrinterStateReason
-        MEDIA_JAM = new PrinterStateReason(2);
+    public stbtic finbl PrinterStbteRebson
+        MEDIA_JAM = new PrinterStbteRebson(2);
 
     /**
-     * Someone has paused the printer, but the device(s) are taking an
-     * appreciable time to stop. Later, when all output has stopped,
-     * the {@link  PrinterState PrinterState} becomes STOPPED,
-     * and the PAUSED value replaces
-     * the MOVING_TO_PAUSED value in the {@link PrinterStateReasons
-     * PrinterStateReasons} attribute. This value must be supported if the
-     * printer can be paused and the implementation takes significant time to
-     * pause a device in certain circumstances.
+     * Someone hbs pbused the printer, but the device(s) bre tbking bn
+     * bpprecibble time to stop. Lbter, when bll output hbs stopped,
+     * the {@link  PrinterStbte PrinterStbte} becomes STOPPED,
+     * bnd the PAUSED vblue replbces
+     * the MOVING_TO_PAUSED vblue in the {@link PrinterStbteRebsons
+     * PrinterStbteRebsons} bttribute. This vblue must be supported if the
+     * printer cbn be pbused bnd the implementbtion tbkes significbnt time to
+     * pbuse b device in certbin circumstbnces.
      */
-    public static final PrinterStateReason
-        MOVING_TO_PAUSED = new PrinterStateReason(3);
+    public stbtic finbl PrinterStbteRebson
+        MOVING_TO_PAUSED = new PrinterStbteRebson(3);
 
     /**
-     * Someone has paused the printer and the printer's {@link PrinterState
-     * PrinterState} is STOPPED. In this state, a printer must not produce
-     * printed output, but it must perform other operations requested by a
-     * client. If a printer had been printing a job when the printer was
-     * paused,
-     * the Printer must resume printing that job when the printer is no longer
-     * paused and leave no evidence in the printed output of such a pause.
-     * This value must be supported if the printer can be paused.
+     * Someone hbs pbused the printer bnd the printer's {@link PrinterStbte
+     * PrinterStbte} is STOPPED. In this stbte, b printer must not produce
+     * printed output, but it must perform other operbtions requested by b
+     * client. If b printer hbd been printing b job when the printer wbs
+     * pbused,
+     * the Printer must resume printing thbt job when the printer is no longer
+     * pbused bnd lebve no evidence in the printed output of such b pbuse.
+     * This vblue must be supported if the printer cbn be pbused.
      */
-    public static final PrinterStateReason
-        PAUSED = new PrinterStateReason(4);
+    public stbtic finbl PrinterStbteRebson
+        PAUSED = new PrinterStbteRebson(4);
 
     /**
-     * Someone has removed a printer from service, and the device may be
-     * powered down or physically removed.
-     * In this state, a printer must not produce
-     * printed output, and unless the printer is realized by a print server
-     * that is still active, the printer must perform no other operations
-     * requested by a client.
-     * If a printer had been printing a job when it was shut down,
-     * the printer need not resume printing that job when the printer is no
-     * longer shut down. If the printer resumes printing such a job, it may
-     * leave evidence in the printed output of such a shutdown, e.g. the part
-     * printed before the shutdown may be printed a second time after the
+     * Someone hbs removed b printer from service, bnd the device mby be
+     * powered down or physicblly removed.
+     * In this stbte, b printer must not produce
+     * printed output, bnd unless the printer is reblized by b print server
+     * thbt is still bctive, the printer must perform no other operbtions
+     * requested by b client.
+     * If b printer hbd been printing b job when it wbs shut down,
+     * the printer need not resume printing thbt job when the printer is no
+     * longer shut down. If the printer resumes printing such b job, it mby
+     * lebve evidence in the printed output of such b shutdown, e.g. the pbrt
+     * printed before the shutdown mby be printed b second time bfter the
      * shutdown.
          */
-    public static final PrinterStateReason
-        SHUTDOWN = new PrinterStateReason(5);
+    public stbtic finbl PrinterStbteRebson
+        SHUTDOWN = new PrinterStbteRebson(5);
 
     /**
-     * The printer has scheduled a job on the output device and is in the
-     * process of connecting to a shared network output device (and might not
-     * be able to actually start printing the job for an arbitrarily long time
-     * depending on the usage of the output device by other servers on the
+     * The printer hbs scheduled b job on the output device bnd is in the
+     * process of connecting to b shbred network output device (bnd might not
+     * be bble to bctublly stbrt printing the job for bn brbitrbrily long time
+     * depending on the usbge of the output device by other servers on the
      * network).
      */
-    public static final PrinterStateReason
-        CONNECTING_TO_DEVICE = new PrinterStateReason(6);
+    public stbtic finbl PrinterStbteRebson
+        CONNECTING_TO_DEVICE = new PrinterStbteRebson(6);
 
     /**
-     * The server was able to connect to the output device (or is always
-     * connected), but was unable to get a response from the output device.
+     * The server wbs bble to connect to the output device (or is blwbys
+     * connected), but wbs unbble to get b response from the output device.
      */
-    public static final PrinterStateReason
-        TIMED_OUT = new PrinterStateReason(7);
+    public stbtic finbl PrinterStbteRebson
+        TIMED_OUT = new PrinterStbteRebson(7);
 
     /**
-     * The printer is in the process of stopping the device and will be
-     * stopped in a while.
-     * When the device is stopped, the printer will change the
-     * {@link PrinterState PrinterState} to STOPPED. The STOPPING reason is
-     * never an error, even for a printer with a single output device. When an
-     * output device ceases accepting jobs, the printer's {@link
-     * PrinterStateReasons PrinterStateReasons} will have this reason while
+     * The printer is in the process of stopping the device bnd will be
+     * stopped in b while.
+     * When the device is stopped, the printer will chbnge the
+     * {@link PrinterStbte PrinterStbte} to STOPPED. The STOPPING rebson is
+     * never bn error, even for b printer with b single output device. When bn
+     * output device cebses bccepting jobs, the printer's {@link
+     * PrinterStbteRebsons PrinterStbteRebsons} will hbve this rebson while
      * the output device completes printing.
      */
-    public static final PrinterStateReason
-        STOPPING = new PrinterStateReason(8);
+    public stbtic finbl PrinterStbteRebson
+        STOPPING = new PrinterStbteRebson(8);
 
     /**
-     * When a printer controls more than one output device, this reason
-     * indicates that one or more output devices are stopped. If the reason's
-     * severity is a report, fewer than half of the output devices are
+     * When b printer controls more thbn one output device, this rebson
+     * indicbtes thbt one or more output devices bre stopped. If the rebson's
+     * severity is b report, fewer thbn hblf of the output devices bre
      * stopped.
-     * If the reason's severity is a warning, half or more but fewer than
-     * all of the output devices are stopped.
+     * If the rebson's severity is b wbrning, hblf or more but fewer thbn
+     * bll of the output devices bre stopped.
      */
-    public static final PrinterStateReason
-        STOPPED_PARTLY = new PrinterStateReason(9);
+    public stbtic finbl PrinterStbteRebson
+        STOPPED_PARTLY = new PrinterStbteRebson(9);
 
     /**
      * The device is low on toner.
      */
-    public static final PrinterStateReason
-        TONER_LOW = new PrinterStateReason(10);
+    public stbtic finbl PrinterStbteRebson
+        TONER_LOW = new PrinterStbteRebson(10);
 
     /**
      * The device is out of toner.
      */
-    public static final PrinterStateReason
-        TONER_EMPTY = new PrinterStateReason(11);
+    public stbtic finbl PrinterStbteRebson
+        TONER_EMPTY = new PrinterStbteRebson(11);
 
     /**
-     * The limit of persistent storage allocated for spooling has been
-     * reached.
-     * The printer is temporarily unable to accept more jobs. The printer will
-     * remove this reason when it is able to accept more jobs.
-     * This value should  be used by a non-spooling printer that only
-     * accepts one or a small number
-     * jobs at a time or a spooling printer that has filled the spool space.
+     * The limit of persistent storbge bllocbted for spooling hbs been
+     * rebched.
+     * The printer is temporbrily unbble to bccept more jobs. The printer will
+     * remove this rebson when it is bble to bccept more jobs.
+     * This vblue should  be used by b non-spooling printer thbt only
+     * bccepts one or b smbll number
+     * jobs bt b time or b spooling printer thbt hbs filled the spool spbce.
      */
-    public static final PrinterStateReason
-        SPOOL_AREA_FULL = new PrinterStateReason(12);
+    public stbtic finbl PrinterStbteRebson
+        SPOOL_AREA_FULL = new PrinterStbteRebson(12);
 
     /**
-     * One or more covers on the device are open.
+     * One or more covers on the device bre open.
      */
-    public static final PrinterStateReason
-        COVER_OPEN = new PrinterStateReason(13);
+    public stbtic finbl PrinterStbteRebson
+        COVER_OPEN = new PrinterStbteRebson(13);
 
     /**
-     * One or more interlock devices on the printer are unlocked.
+     * One or more interlock devices on the printer bre unlocked.
      */
-    public static final PrinterStateReason
-        INTERLOCK_OPEN = new PrinterStateReason(14);
+    public stbtic finbl PrinterStbteRebson
+        INTERLOCK_OPEN = new PrinterStbteRebson(14);
 
     /**
-     * One or more doors on the device are open.
+     * One or more doors on the device bre open.
      */
-    public static final PrinterStateReason
-        DOOR_OPEN = new PrinterStateReason(15);
+    public stbtic finbl PrinterStbteRebson
+        DOOR_OPEN = new PrinterStbteRebson(15);
 
     /**
-     * One or more input trays are not in the device.
+     * One or more input trbys bre not in the device.
      */
-    public static final PrinterStateReason
-        INPUT_TRAY_MISSING = new PrinterStateReason(16);
+    public stbtic finbl PrinterStbteRebson
+        INPUT_TRAY_MISSING = new PrinterStbteRebson(16);
 
     /**
-     * At least one input tray is low on media.
+     * At lebst one input trby is low on medib.
      */
-    public static final PrinterStateReason
-        MEDIA_LOW = new PrinterStateReason(17);
+    public stbtic finbl PrinterStbteRebson
+        MEDIA_LOW = new PrinterStbteRebson(17);
 
     /**
-     * At least one input tray is empty.
+     * At lebst one input trby is empty.
      */
-    public static final PrinterStateReason
-        MEDIA_EMPTY = new PrinterStateReason(18);
+    public stbtic finbl PrinterStbteRebson
+        MEDIA_EMPTY = new PrinterStbteRebson(18);
 
     /**
-     * One or more output trays are not in the device.
+     * One or more output trbys bre not in the device.
      */
-    public static final PrinterStateReason
-        OUTPUT_TRAY_MISSING = new PrinterStateReason(19);
+    public stbtic finbl PrinterStbteRebson
+        OUTPUT_TRAY_MISSING = new PrinterStbteRebson(19);
 
     /**
-     * One or more output areas are almost full
-     * (e.g. tray, stacker, collator).
+     * One or more output brebs bre blmost full
+     * (e.g. trby, stbcker, collbtor).
      */
-    public static final PrinterStateReason
-        OUTPUT_AREA_ALMOST_FULL = new PrinterStateReason(20);
+    public stbtic finbl PrinterStbteRebson
+        OUTPUT_AREA_ALMOST_FULL = new PrinterStbteRebson(20);
 
     /**
-     * One or more output areas are full (e.g. tray, stacker, collator).
+     * One or more output brebs bre full (e.g. trby, stbcker, collbtor).
      */
-    public static final PrinterStateReason
-        OUTPUT_AREA_FULL = new PrinterStateReason(21);
+    public stbtic finbl PrinterStbteRebson
+        OUTPUT_AREA_FULL = new PrinterStbteRebson(21);
 
     /**
-     * The device is low on at least one marker supply (e.g. toner, ink,
+     * The device is low on bt lebst one mbrker supply (e.g. toner, ink,
      * ribbon).
      */
-    public static final PrinterStateReason
-        MARKER_SUPPLY_LOW = new PrinterStateReason(22);
+    public stbtic finbl PrinterStbteRebson
+        MARKER_SUPPLY_LOW = new PrinterStbteRebson(22);
 
     /**
-     * The device is out of at least one marker supply (e.g. toner, ink,
+     * The device is out of bt lebst one mbrker supply (e.g. toner, ink,
      * ribbon).
      */
-    public static final PrinterStateReason
-        MARKER_SUPPLY_EMPTY = new PrinterStateReason(23);
+    public stbtic finbl PrinterStbteRebson
+        MARKER_SUPPLY_EMPTY = new PrinterStbteRebson(23);
 
     /**
-     * The device marker supply waste receptacle is almost full.
+     * The device mbrker supply wbste receptbcle is blmost full.
      */
-    public static final PrinterStateReason
-        MARKER_WASTE_ALMOST_FULL = new PrinterStateReason(24);
+    public stbtic finbl PrinterStbteRebson
+        MARKER_WASTE_ALMOST_FULL = new PrinterStbteRebson(24);
 
     /**
-     * The device marker supply waste receptacle is full.
+     * The device mbrker supply wbste receptbcle is full.
      */
-    public static final PrinterStateReason
-        MARKER_WASTE_FULL = new PrinterStateReason(25);
+    public stbtic finbl PrinterStbteRebson
+        MARKER_WASTE_FULL = new PrinterStbteRebson(25);
 
     /**
-     * The fuser temperature is above normal.
+     * The fuser temperbture is bbove normbl.
      */
-    public static final PrinterStateReason
-        FUSER_OVER_TEMP = new PrinterStateReason(26);
+    public stbtic finbl PrinterStbteRebson
+        FUSER_OVER_TEMP = new PrinterStbteRebson(26);
 
     /**
-     * The fuser temperature is below normal.
+     * The fuser temperbture is below normbl.
      */
-    public static final PrinterStateReason
-        FUSER_UNDER_TEMP = new PrinterStateReason(27);
+    public stbtic finbl PrinterStbteRebson
+        FUSER_UNDER_TEMP = new PrinterStbteRebson(27);
 
     /**
-     * The optical photo conductor is near end of life.
+     * The opticbl photo conductor is nebr end of life.
      */
-    public static final PrinterStateReason
-        OPC_NEAR_EOL = new PrinterStateReason(28);
+    public stbtic finbl PrinterStbteRebson
+        OPC_NEAR_EOL = new PrinterStbteRebson(28);
 
     /**
-     * The optical photo conductor is no longer functioning.
+     * The opticbl photo conductor is no longer functioning.
      */
-    public static final PrinterStateReason
-        OPC_LIFE_OVER = new PrinterStateReason(29);
+    public stbtic finbl PrinterStbteRebson
+        OPC_LIFE_OVER = new PrinterStbteRebson(29);
 
     /**
      * The device is low on developer.
      */
-    public static final PrinterStateReason
-        DEVELOPER_LOW = new PrinterStateReason(30);
+    public stbtic finbl PrinterStbteRebson
+        DEVELOPER_LOW = new PrinterStbteRebson(30);
 
     /**
      * The device is out of developer.
      */
-    public static final PrinterStateReason
-        DEVELOPER_EMPTY = new PrinterStateReason(31);
+    public stbtic finbl PrinterStbteRebson
+        DEVELOPER_EMPTY = new PrinterStbteRebson(31);
 
     /**
-     * An interpreter resource is unavailable (e.g., font, form).
+     * An interpreter resource is unbvbilbble (e.g., font, form).
      */
-    public static final PrinterStateReason
-        INTERPRETER_RESOURCE_UNAVAILABLE = new PrinterStateReason(32);
+    public stbtic finbl PrinterStbteRebson
+        INTERPRETER_RESOURCE_UNAVAILABLE = new PrinterStbteRebson(32);
 
     /**
-     * Construct a new printer state reason enumeration value with
-     * the given integer value.
+     * Construct b new printer stbte rebson enumerbtion vblue with
+     * the given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected PrinterStateReason(int value) {
-        super (value);
+    protected PrinterStbteRebson(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
+    privbte stbtic finbl String[] myStringTbble = {
         "other",
-        "media-needed",
-        "media-jam",
-        "moving-to-paused",
-        "paused",
+        "medib-needed",
+        "medib-jbm",
+        "moving-to-pbused",
+        "pbused",
         "shutdown",
         "connecting-to-device",
         "timed-out",
         "stopping",
-        "stopped-partly",
+        "stopped-pbrtly",
         "toner-low",
         "toner-empty",
-        "spool-area-full",
+        "spool-breb-full",
         "cover-open",
         "interlock-open",
         "door-open",
-        "input-tray-missing",
-        "media-low",
-        "media-empty",
-        "output-tray-missing",
-        "output-area-almost-full",
-        "output-area-full",
-        "marker-supply-low",
-        "marker-supply-empty",
-        "marker-waste-almost-full",
-        "marker-waste-full",
+        "input-trby-missing",
+        "medib-low",
+        "medib-empty",
+        "output-trby-missing",
+        "output-breb-blmost-full",
+        "output-breb-full",
+        "mbrker-supply-low",
+        "mbrker-supply-empty",
+        "mbrker-wbste-blmost-full",
+        "mbrker-wbste-full",
         "fuser-over-temp",
         "fuser-under-temp",
-        "opc-near-eol",
+        "opc-nebr-eol",
         "opc-life-over",
         "developer-low",
         "developer-empty",
-        "interpreter-resource-unavailable"
+        "interpreter-resource-unbvbilbble"
     };
 
-    private static final PrinterStateReason[] myEnumValueTable = {
+    privbte stbtic finbl PrinterStbteRebson[] myEnumVblueTbble = {
         OTHER,
         MEDIA_NEEDED,
         MEDIA_JAM,
@@ -399,45 +399,45 @@ public class PrinterStateReason extends EnumSyntax implements Attribute {
     };
 
     /**
-     * Returns the string table for class PrinterStateReason.
+     * Returns the string tbble for clbss PrinterStbteRebson.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protected String[] getStringTbble() {
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class PrinterStateReason.
+     * Returns the enumerbtion vblue tbble for clbss PrinterStbteRebson.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PrinterStateReason and any vendor-defined subclasses, the
-     * category is class PrinterStateReason itself.
+     * For clbss PrinterStbteRebson bnd bny vendor-defined subclbsses, the
+     * cbtegory is clbss PrinterStbteRebson itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterStateReason.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PrinterStbteRebson.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PrinterStateReason and any vendor-defined subclasses, the
-     * category name is <CODE>"printer-state-reason"</CODE>.
+     * For clbss PrinterStbteRebson bnd bny vendor-defined subclbsses, the
+     * cbtegory nbme is <CODE>"printer-stbte-rebson"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "printer-state-reason";
+    public finbl String getNbme() {
+        return "printer-stbte-rebson";
     }
 
 }

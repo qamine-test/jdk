@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,48 +53,48 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
-// Multilocalized unicode objects. That is an attempt to encapsulate i18n.
+// Multilocblized unicode objects. Thbt is bn bttempt to encbpsulbte i18n.
 
 
-// Allocates an empty multi localizad unicode object
-cmsMLU* CMSEXPORT cmsMLUalloc(cmsContext ContextID, cmsUInt32Number nItems)
+// Allocbtes bn empty multi locblizbd unicode object
+cmsMLU* CMSEXPORT cmsMLUblloc(cmsContext ContextID, cmsUInt32Number nItems)
 {
     cmsMLU* mlu;
 
     // nItems should be positive if given
     if (nItems <= 0) nItems = 2;
 
-    // Create the container
-    mlu = (cmsMLU*) _cmsMallocZero(ContextID, sizeof(cmsMLU));
+    // Crebte the contbiner
+    mlu = (cmsMLU*) _cmsMbllocZero(ContextID, sizeof(cmsMLU));
     if (mlu == NULL) return NULL;
 
     mlu ->ContextID = ContextID;
 
-    // Create entry array
-    mlu ->Entries = (_cmsMLUentry*) _cmsCalloc(ContextID, nItems, sizeof(_cmsMLUentry));
+    // Crebte entry brrby
+    mlu ->Entries = (_cmsMLUentry*) _cmsCblloc(ContextID, nItems, sizeof(_cmsMLUentry));
     if (mlu ->Entries == NULL) {
         _cmsFree(ContextID, mlu);
         return NULL;
     }
 
-    // Ok, keep indexes up to date
-    mlu ->AllocatedEntries    = nItems;
+    // Ok, keep indexes up to dbte
+    mlu ->AllocbtedEntries    = nItems;
     mlu ->UsedEntries         = 0;
 
     return mlu;
 }
 
 
-// Grows a mempool table for a MLU. Each time this function is called, mempool size is multiplied times two.
-static
+// Grows b mempool tbble for b MLU. Ebch time this function is cblled, mempool size is multiplied times two.
+stbtic
 cmsBool GrowMLUpool(cmsMLU* mlu)
 {
     cmsUInt32Number size;
     void *NewPtr;
 
-    // Sanity check
+    // Sbnity check
     if (mlu == NULL) return FALSE;
 
     if (mlu ->PoolSize == 0)
@@ -105,8 +105,8 @@ cmsBool GrowMLUpool(cmsMLU* mlu)
     // Check for overflow
     if (size < mlu ->PoolSize) return FALSE;
 
-    // Reallocate the pool
-    NewPtr = _cmsRealloc(mlu ->ContextID, mlu ->MemPool, size);
+    // Rebllocbte the pool
+    NewPtr = _cmsReblloc(mlu ->ContextID, mlu ->MemPool, size);
     if (NewPtr == NULL) return FALSE;
 
 
@@ -117,71 +117,71 @@ cmsBool GrowMLUpool(cmsMLU* mlu)
 }
 
 
-// Grows a entry table for a MLU. Each time this function is called, table size is multiplied times two.
-static
-cmsBool GrowMLUtable(cmsMLU* mlu)
+// Grows b entry tbble for b MLU. Ebch time this function is cblled, tbble size is multiplied times two.
+stbtic
+cmsBool GrowMLUtbble(cmsMLU* mlu)
 {
-    int AllocatedEntries;
+    int AllocbtedEntries;
     _cmsMLUentry *NewPtr;
 
-    // Sanity check
+    // Sbnity check
     if (mlu == NULL) return FALSE;
 
-    AllocatedEntries = mlu ->AllocatedEntries * 2;
+    AllocbtedEntries = mlu ->AllocbtedEntries * 2;
 
     // Check for overflow
-    if (AllocatedEntries / 2 != mlu ->AllocatedEntries) return FALSE;
+    if (AllocbtedEntries / 2 != mlu ->AllocbtedEntries) return FALSE;
 
-    // Reallocate the memory
-    NewPtr = (_cmsMLUentry*)_cmsRealloc(mlu ->ContextID, mlu ->Entries, AllocatedEntries*sizeof(_cmsMLUentry));
+    // Rebllocbte the memory
+    NewPtr = (_cmsMLUentry*)_cmsReblloc(mlu ->ContextID, mlu ->Entries, AllocbtedEntries*sizeof(_cmsMLUentry));
     if (NewPtr == NULL) return FALSE;
 
     mlu ->Entries          = NewPtr;
-    mlu ->AllocatedEntries = AllocatedEntries;
+    mlu ->AllocbtedEntries = AllocbtedEntries;
 
     return TRUE;
 }
 
 
-// Search for a specific entry in the structure. Language and Country are used.
-static
-int SearchMLUEntry(cmsMLU* mlu, cmsUInt16Number LanguageCode, cmsUInt16Number CountryCode)
+// Sebrch for b specific entry in the structure. Lbngubge bnd Country bre used.
+stbtic
+int SebrchMLUEntry(cmsMLU* mlu, cmsUInt16Number LbngubgeCode, cmsUInt16Number CountryCode)
 {
     int i;
 
-    // Sanity check
+    // Sbnity check
     if (mlu == NULL) return -1;
 
-    // Iterate whole table
+    // Iterbte whole tbble
     for (i=0; i < mlu ->UsedEntries; i++) {
 
         if (mlu ->Entries[i].Country  == CountryCode &&
-            mlu ->Entries[i].Language == LanguageCode) return i;
+            mlu ->Entries[i].Lbngubge == LbngubgeCode) return i;
     }
 
     // Not found
     return -1;
 }
 
-// Add a block of characters to the intended MLU. Language and country are specified.
-// Only one entry for Language/country pair is allowed.
-static
-cmsBool AddMLUBlock(cmsMLU* mlu, cmsUInt32Number size, const wchar_t *Block,
-                     cmsUInt16Number LanguageCode, cmsUInt16Number CountryCode)
+// Add b block of chbrbcters to the intended MLU. Lbngubge bnd country bre specified.
+// Only one entry for Lbngubge/country pbir is bllowed.
+stbtic
+cmsBool AddMLUBlock(cmsMLU* mlu, cmsUInt32Number size, const wchbr_t *Block,
+                     cmsUInt16Number LbngubgeCode, cmsUInt16Number CountryCode)
 {
     cmsUInt32Number Offset;
     cmsUInt8Number* Ptr;
 
-    // Sanity check
+    // Sbnity check
     if (mlu == NULL) return FALSE;
 
-    // Is there any room available?
-    if (mlu ->UsedEntries >= mlu ->AllocatedEntries) {
-        if (!GrowMLUtable(mlu)) return FALSE;
+    // Is there bny room bvbilbble?
+    if (mlu ->UsedEntries >= mlu ->AllocbtedEntries) {
+        if (!GrowMLUtbble(mlu)) return FALSE;
     }
 
     // Only one ASCII string
-    if (SearchMLUEntry(mlu, LanguageCode, CountryCode) >= 0) return FALSE;  // Only one  is allowed!
+    if (SebrchMLUEntry(mlu, LbngubgeCode, CountryCode) >= 0) return FALSE;  // Only one  is bllowed!
 
     // Check for size
     while ((mlu ->PoolSize - mlu ->PoolUsed) < size) {
@@ -201,42 +201,42 @@ cmsBool AddMLUBlock(cmsMLU* mlu, cmsUInt32Number size, const wchar_t *Block,
     mlu ->Entries[mlu ->UsedEntries].StrW     = Offset;
     mlu ->Entries[mlu ->UsedEntries].Len      = size;
     mlu ->Entries[mlu ->UsedEntries].Country  = CountryCode;
-    mlu ->Entries[mlu ->UsedEntries].Language = LanguageCode;
+    mlu ->Entries[mlu ->UsedEntries].Lbngubge = LbngubgeCode;
     mlu ->UsedEntries++;
 
     return TRUE;
 }
 
 
-// Add an ASCII entry.
-cmsBool CMSEXPORT cmsMLUsetASCII(cmsMLU* mlu, const char LanguageCode[3], const char CountryCode[3], const char* ASCIIString)
+// Add bn ASCII entry.
+cmsBool CMSEXPORT cmsMLUsetASCII(cmsMLU* mlu, const chbr LbngubgeCode[3], const chbr CountryCode[3], const chbr* ASCIIString)
 {
     cmsUInt32Number i, len = (cmsUInt32Number) strlen(ASCIIString)+1;
-    wchar_t* WStr;
+    wchbr_t* WStr;
     cmsBool  rc;
-    cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
-    cmsUInt16Number Cntry = _cmsAdjustEndianess16(*(cmsUInt16Number*) CountryCode);
+    cmsUInt16Number Lbng  = _cmsAdjustEndibness16(*(cmsUInt16Number*) LbngubgeCode);
+    cmsUInt16Number Cntry = _cmsAdjustEndibness16(*(cmsUInt16Number*) CountryCode);
 
     if (mlu == NULL) return FALSE;
 
-    WStr = (wchar_t*) _cmsCalloc(mlu ->ContextID, len,  sizeof(wchar_t));
+    WStr = (wchbr_t*) _cmsCblloc(mlu ->ContextID, len,  sizeof(wchbr_t));
     if (WStr == NULL) return FALSE;
 
     for (i=0; i < len; i++)
-        WStr[i] = (wchar_t) ASCIIString[i];
+        WStr[i] = (wchbr_t) ASCIIString[i];
 
-    rc = AddMLUBlock(mlu, len  * sizeof(wchar_t), WStr, Lang, Cntry);
+    rc = AddMLUBlock(mlu, len  * sizeof(wchbr_t), WStr, Lbng, Cntry);
 
     _cmsFree(mlu ->ContextID, WStr);
     return rc;
 
 }
 
-// We don't need any wcs support library
-static
-cmsUInt32Number mywcslen(const wchar_t *s)
+// We don't need bny wcs support librbry
+stbtic
+cmsUInt32Number mywcslen(const wchbr_t *s)
 {
-    const wchar_t *p;
+    const wchbr_t *p;
 
     p = s;
     while (*p)
@@ -246,48 +246,48 @@ cmsUInt32Number mywcslen(const wchar_t *s)
 }
 
 
-// Add a wide entry
-cmsBool  CMSEXPORT cmsMLUsetWide(cmsMLU* mlu, const char Language[3], const char Country[3], const wchar_t* WideString)
+// Add b wide entry
+cmsBool  CMSEXPORT cmsMLUsetWide(cmsMLU* mlu, const chbr Lbngubge[3], const chbr Country[3], const wchbr_t* WideString)
 {
-    cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) Language);
-    cmsUInt16Number Cntry = _cmsAdjustEndianess16(*(cmsUInt16Number*) Country);
+    cmsUInt16Number Lbng  = _cmsAdjustEndibness16(*(cmsUInt16Number*) Lbngubge);
+    cmsUInt16Number Cntry = _cmsAdjustEndibness16(*(cmsUInt16Number*) Country);
     cmsUInt32Number len;
 
     if (mlu == NULL) return FALSE;
     if (WideString == NULL) return FALSE;
 
-    len = (cmsUInt32Number) (mywcslen(WideString) + 1) * sizeof(wchar_t);
-    return AddMLUBlock(mlu, len, WideString, Lang, Cntry);
+    len = (cmsUInt32Number) (mywcslen(WideString) + 1) * sizeof(wchbr_t);
+    return AddMLUBlock(mlu, len, WideString, Lbng, Cntry);
 }
 
-// Duplicating a MLU is as easy as copying all members
+// Duplicbting b MLU is bs ebsy bs copying bll members
 cmsMLU* CMSEXPORT cmsMLUdup(const cmsMLU* mlu)
 {
     cmsMLU* NewMlu = NULL;
 
-    // Duplicating a NULL obtains a NULL
+    // Duplicbting b NULL obtbins b NULL
     if (mlu == NULL) return NULL;
 
-    NewMlu = cmsMLUalloc(mlu ->ContextID, mlu ->UsedEntries);
+    NewMlu = cmsMLUblloc(mlu ->ContextID, mlu ->UsedEntries);
     if (NewMlu == NULL) return NULL;
 
-    // Should never happen
-    if (NewMlu ->AllocatedEntries < mlu ->UsedEntries)
+    // Should never hbppen
+    if (NewMlu ->AllocbtedEntries < mlu ->UsedEntries)
         goto Error;
 
-    // Sanitize...
+    // Sbnitize...
     if (NewMlu ->Entries == NULL || mlu ->Entries == NULL)  goto Error;
 
     memmove(NewMlu ->Entries, mlu ->Entries, mlu ->UsedEntries * sizeof(_cmsMLUentry));
     NewMlu ->UsedEntries = mlu ->UsedEntries;
 
-    // The MLU may be empty
+    // The MLU mby be empty
     if (mlu ->PoolUsed == 0) {
         NewMlu ->MemPool = NULL;
     }
     else {
         // It is not empty
-        NewMlu ->MemPool = _cmsMalloc(mlu ->ContextID, mlu ->PoolUsed);
+        NewMlu ->MemPool = _cmsMblloc(mlu ->ContextID, mlu ->PoolUsed);
         if (NewMlu ->MemPool == NULL) goto Error;
     }
 
@@ -306,7 +306,7 @@ Error:
     return NULL;
 }
 
-// Free any used memory
+// Free bny used memory
 void CMSEXPORT cmsMLUfree(cmsMLU* mlu)
 {
     if (mlu) {
@@ -319,13 +319,13 @@ void CMSEXPORT cmsMLUfree(cmsMLU* mlu)
 }
 
 
-// The algorithm first searches for an exact match of country and language, if not found it uses
-// the Language. If none is found, first entry is used instead.
-static
-const wchar_t* _cmsMLUgetWide(const cmsMLU* mlu,
+// The blgorithm first sebrches for bn exbct mbtch of country bnd lbngubge, if not found it uses
+// the Lbngubge. If none is found, first entry is used instebd.
+stbtic
+const wchbr_t* _cmsMLUgetWide(const cmsMLU* mlu,
                               cmsUInt32Number *len,
-                              cmsUInt16Number LanguageCode, cmsUInt16Number CountryCode,
-                              cmsUInt16Number* UsedLanguageCode, cmsUInt16Number* UsedCountryCode)
+                              cmsUInt16Number LbngubgeCode, cmsUInt16Number CountryCode,
+                              cmsUInt16Number* UsedLbngubgeCode, cmsUInt16Number* UsedCountryCode)
 {
     int i;
     int Best = -1;
@@ -333,24 +333,24 @@ const wchar_t* _cmsMLUgetWide(const cmsMLU* mlu,
 
     if (mlu == NULL) return NULL;
 
-    if (mlu -> AllocatedEntries <= 0) return NULL;
+    if (mlu -> AllocbtedEntries <= 0) return NULL;
 
     for (i=0; i < mlu ->UsedEntries; i++) {
 
         v = mlu ->Entries + i;
 
-        if (v -> Language == LanguageCode) {
+        if (v -> Lbngubge == LbngubgeCode) {
 
             if (Best == -1) Best = i;
 
             if (v -> Country == CountryCode) {
 
-                if (UsedLanguageCode != NULL) *UsedLanguageCode = v ->Language;
+                if (UsedLbngubgeCode != NULL) *UsedLbngubgeCode = v ->Lbngubge;
                 if (UsedCountryCode  != NULL) *UsedCountryCode = v ->Country;
 
                 if (len != NULL) *len = v ->Len;
 
-                return (wchar_t*) ((cmsUInt8Number*) mlu ->MemPool + v -> StrW);        // Found exact match
+                return (wchbr_t*) ((cmsUInt8Number*) mlu ->MemPool + v -> StrW);        // Found exbct mbtch
             }
         }
     }
@@ -361,133 +361,133 @@ const wchar_t* _cmsMLUgetWide(const cmsMLU* mlu,
 
     v = mlu ->Entries + Best;
 
-    if (UsedLanguageCode != NULL) *UsedLanguageCode = v ->Language;
+    if (UsedLbngubgeCode != NULL) *UsedLbngubgeCode = v ->Lbngubge;
     if (UsedCountryCode  != NULL) *UsedCountryCode = v ->Country;
 
     if (len != NULL) *len   = v ->Len;
 
-    return(wchar_t*) ((cmsUInt8Number*) mlu ->MemPool + v ->StrW);
+    return(wchbr_t*) ((cmsUInt8Number*) mlu ->MemPool + v ->StrW);
 }
 
 
-// Obtain an ASCII representation of the wide string. Setting buffer to NULL returns the len
+// Obtbin bn ASCII representbtion of the wide string. Setting buffer to NULL returns the len
 cmsUInt32Number CMSEXPORT cmsMLUgetASCII(const cmsMLU* mlu,
-                                       const char LanguageCode[3], const char CountryCode[3],
-                                       char* Buffer, cmsUInt32Number BufferSize)
+                                       const chbr LbngubgeCode[3], const chbr CountryCode[3],
+                                       chbr* Buffer, cmsUInt32Number BufferSize)
 {
-    const wchar_t *Wide;
+    const wchbr_t *Wide;
     cmsUInt32Number  StrLen = 0;
     cmsUInt32Number ASCIIlen, i;
 
-    cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
-    cmsUInt16Number Cntry = _cmsAdjustEndianess16(*(cmsUInt16Number*) CountryCode);
+    cmsUInt16Number Lbng  = _cmsAdjustEndibness16(*(cmsUInt16Number*) LbngubgeCode);
+    cmsUInt16Number Cntry = _cmsAdjustEndibness16(*(cmsUInt16Number*) CountryCode);
 
-    // Sanitize
+    // Sbnitize
     if (mlu == NULL) return 0;
 
-    // Get WideChar
-    Wide = _cmsMLUgetWide(mlu, &StrLen, Lang, Cntry, NULL, NULL);
+    // Get WideChbr
+    Wide = _cmsMLUgetWide(mlu, &StrLen, Lbng, Cntry, NULL, NULL);
     if (Wide == NULL) return 0;
 
-    ASCIIlen = StrLen / sizeof(wchar_t);
+    ASCIIlen = StrLen / sizeof(wchbr_t);
 
-    // Maybe we want only to know the len?
-    if (Buffer == NULL) return ASCIIlen + 1; // Note the zero at the end
+    // Mbybe we wbnt only to know the len?
+    if (Buffer == NULL) return ASCIIlen + 1; // Note the zero bt the end
 
-    // No buffer size means no data
+    // No buffer size mebns no dbtb
     if (BufferSize <= 0) return 0;
 
-    // Some clipping may be required
+    // Some clipping mby be required
     if (BufferSize < ASCIIlen + 1)
         ASCIIlen = BufferSize - 1;
 
-    // Precess each character
+    // Precess ebch chbrbcter
     for (i=0; i < ASCIIlen; i++) {
 
         if (Wide[i] == 0)
             Buffer[i] = 0;
         else
-            Buffer[i] = (char) Wide[i];
+            Buffer[i] = (chbr) Wide[i];
     }
 
-    // We put a termination "\0"
+    // We put b terminbtion "\0"
     Buffer[ASCIIlen] = 0;
     return ASCIIlen + 1;
 }
 
-// Obtain a wide representation of the MLU, on depending on current locale settings
+// Obtbin b wide representbtion of the MLU, on depending on current locble settings
 cmsUInt32Number CMSEXPORT cmsMLUgetWide(const cmsMLU* mlu,
-                                      const char LanguageCode[3], const char CountryCode[3],
-                                      wchar_t* Buffer, cmsUInt32Number BufferSize)
+                                      const chbr LbngubgeCode[3], const chbr CountryCode[3],
+                                      wchbr_t* Buffer, cmsUInt32Number BufferSize)
 {
-    const wchar_t *Wide;
+    const wchbr_t *Wide;
     cmsUInt32Number  StrLen = 0;
 
-    cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
-    cmsUInt16Number Cntry = _cmsAdjustEndianess16(*(cmsUInt16Number*) CountryCode);
+    cmsUInt16Number Lbng  = _cmsAdjustEndibness16(*(cmsUInt16Number*) LbngubgeCode);
+    cmsUInt16Number Cntry = _cmsAdjustEndibness16(*(cmsUInt16Number*) CountryCode);
 
-    // Sanitize
+    // Sbnitize
     if (mlu == NULL) return 0;
 
-    Wide = _cmsMLUgetWide(mlu, &StrLen, Lang, Cntry, NULL, NULL);
+    Wide = _cmsMLUgetWide(mlu, &StrLen, Lbng, Cntry, NULL, NULL);
     if (Wide == NULL) return 0;
 
-    // Maybe we want only to know the len?
-    if (Buffer == NULL) return StrLen + sizeof(wchar_t);
+    // Mbybe we wbnt only to know the len?
+    if (Buffer == NULL) return StrLen + sizeof(wchbr_t);
 
-  // No buffer size means no data
+  // No buffer size mebns no dbtb
     if (BufferSize <= 0) return 0;
 
-    // Some clipping may be required
-    if (BufferSize < StrLen + sizeof(wchar_t))
-        StrLen = BufferSize - + sizeof(wchar_t);
+    // Some clipping mby be required
+    if (BufferSize < StrLen + sizeof(wchbr_t))
+        StrLen = BufferSize - + sizeof(wchbr_t);
 
     memmove(Buffer, Wide, StrLen);
-    Buffer[StrLen / sizeof(wchar_t)] = 0;
+    Buffer[StrLen / sizeof(wchbr_t)] = 0;
 
-    return StrLen + sizeof(wchar_t);
+    return StrLen + sizeof(wchbr_t);
 }
 
 
-// Get also the language and country
-CMSAPI cmsBool CMSEXPORT cmsMLUgetTranslation(const cmsMLU* mlu,
-                                              const char LanguageCode[3], const char CountryCode[3],
-                                              char ObtainedLanguage[3], char ObtainedCountry[3])
+// Get blso the lbngubge bnd country
+CMSAPI cmsBool CMSEXPORT cmsMLUgetTrbnslbtion(const cmsMLU* mlu,
+                                              const chbr LbngubgeCode[3], const chbr CountryCode[3],
+                                              chbr ObtbinedLbngubge[3], chbr ObtbinedCountry[3])
 {
-    const wchar_t *Wide;
+    const wchbr_t *Wide;
 
-    cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
-    cmsUInt16Number Cntry = _cmsAdjustEndianess16(*(cmsUInt16Number*) CountryCode);
-    cmsUInt16Number ObtLang, ObtCode;
+    cmsUInt16Number Lbng  = _cmsAdjustEndibness16(*(cmsUInt16Number*) LbngubgeCode);
+    cmsUInt16Number Cntry = _cmsAdjustEndibness16(*(cmsUInt16Number*) CountryCode);
+    cmsUInt16Number ObtLbng, ObtCode;
 
-    // Sanitize
+    // Sbnitize
     if (mlu == NULL) return FALSE;
 
-    Wide = _cmsMLUgetWide(mlu, NULL, Lang, Cntry, &ObtLang, &ObtCode);
+    Wide = _cmsMLUgetWide(mlu, NULL, Lbng, Cntry, &ObtLbng, &ObtCode);
     if (Wide == NULL) return FALSE;
 
-    // Get used language and code
-    *(cmsUInt16Number *)ObtainedLanguage = _cmsAdjustEndianess16(ObtLang);
-    *(cmsUInt16Number *)ObtainedCountry  = _cmsAdjustEndianess16(ObtCode);
+    // Get used lbngubge bnd code
+    *(cmsUInt16Number *)ObtbinedLbngubge = _cmsAdjustEndibness16(ObtLbng);
+    *(cmsUInt16Number *)ObtbinedCountry  = _cmsAdjustEndibness16(ObtCode);
 
-    ObtainedLanguage[2] = ObtainedCountry[2] = 0;
+    ObtbinedLbngubge[2] = ObtbinedCountry[2] = 0;
     return TRUE;
 }
 
 
 
-// Get the number of translations in the MLU object
-cmsUInt32Number CMSEXPORT cmsMLUtranslationsCount(const cmsMLU* mlu)
+// Get the number of trbnslbtions in the MLU object
+cmsUInt32Number CMSEXPORT cmsMLUtrbnslbtionsCount(const cmsMLU* mlu)
 {
     if (mlu == NULL) return 0;
     return mlu->UsedEntries;
 }
 
-// Get the language and country codes for a specific MLU index
-cmsBool CMSEXPORT cmsMLUtranslationsCodes(const cmsMLU* mlu,
+// Get the lbngubge bnd country codes for b specific MLU index
+cmsBool CMSEXPORT cmsMLUtrbnslbtionsCodes(const cmsMLU* mlu,
                                           cmsUInt32Number idx,
-                                          char LanguageCode[3],
-                                          char CountryCode[3])
+                                          chbr LbngubgeCode[3],
+                                          chbr CountryCode[3])
 {
     _cmsMLUentry *entry;
 
@@ -497,45 +497,45 @@ cmsBool CMSEXPORT cmsMLUtranslationsCodes(const cmsMLU* mlu,
 
     entry = &mlu->Entries[idx];
 
-    *(cmsUInt16Number *)LanguageCode = _cmsAdjustEndianess16(entry->Language);
-    *(cmsUInt16Number *)CountryCode  = _cmsAdjustEndianess16(entry->Country);
+    *(cmsUInt16Number *)LbngubgeCode = _cmsAdjustEndibness16(entry->Lbngubge);
+    *(cmsUInt16Number *)CountryCode  = _cmsAdjustEndibness16(entry->Country);
 
     return TRUE;
 }
 
 
-// Named color lists --------------------------------------------------------------------------------------------
+// Nbmed color lists --------------------------------------------------------------------------------------------
 
-// Grow the list to keep at least NumElements
-static
-cmsBool  GrowNamedColorList(cmsNAMEDCOLORLIST* v)
+// Grow the list to keep bt lebst NumElements
+stbtic
+cmsBool  GrowNbmedColorList(cmsNAMEDCOLORLIST* v)
 {
     cmsUInt32Number size;
     _cmsNAMEDCOLOR * NewPtr;
 
     if (v == NULL) return FALSE;
 
-    if (v ->Allocated == 0)
-        size = 64;   // Initial guess
+    if (v ->Allocbted == 0)
+        size = 64;   // Initibl guess
     else
-        size = v ->Allocated * 2;
+        size = v ->Allocbted * 2;
 
-    // Keep a maximum color lists can grow, 100K entries seems reasonable
+    // Keep b mbximum color lists cbn grow, 100K entries seems rebsonbble
     if (size > 1024*100) return FALSE;
 
-    NewPtr = (_cmsNAMEDCOLOR*) _cmsRealloc(v ->ContextID, v ->List, size * sizeof(_cmsNAMEDCOLOR));
+    NewPtr = (_cmsNAMEDCOLOR*) _cmsReblloc(v ->ContextID, v ->List, size * sizeof(_cmsNAMEDCOLOR));
     if (NewPtr == NULL)
         return FALSE;
 
     v ->List      = NewPtr;
-    v ->Allocated = size;
+    v ->Allocbted = size;
     return TRUE;
 }
 
-// Allocate a list for n elements
-cmsNAMEDCOLORLIST* CMSEXPORT cmsAllocNamedColorList(cmsContext ContextID, cmsUInt32Number n, cmsUInt32Number ColorantCount, const char* Prefix, const char* Suffix)
+// Allocbte b list for n elements
+cmsNAMEDCOLORLIST* CMSEXPORT cmsAllocNbmedColorList(cmsContext ContextID, cmsUInt32Number n, cmsUInt32Number ColorbntCount, const chbr* Prefix, const chbr* Suffix)
 {
-    cmsNAMEDCOLORLIST* v = (cmsNAMEDCOLORLIST*) _cmsMallocZero(ContextID, sizeof(cmsNAMEDCOLORLIST));
+    cmsNAMEDCOLORLIST* v = (cmsNAMEDCOLORLIST*) _cmsMbllocZero(ContextID, sizeof(cmsNAMEDCOLORLIST));
 
     if (v == NULL) return NULL;
 
@@ -543,123 +543,123 @@ cmsNAMEDCOLORLIST* CMSEXPORT cmsAllocNamedColorList(cmsContext ContextID, cmsUIn
     v ->nColors   = 0;
     v ->ContextID  = ContextID;
 
-    while (v -> Allocated < n)
-        GrowNamedColorList(v);
+    while (v -> Allocbted < n)
+        GrowNbmedColorList(v);
 
     strncpy(v ->Prefix, Prefix, sizeof(v ->Prefix)-1);
     strncpy(v ->Suffix, Suffix, sizeof(v ->Suffix)-1);
     v->Prefix[32] = v->Suffix[32] = 0;
 
-    v -> ColorantCount = ColorantCount;
+    v -> ColorbntCount = ColorbntCount;
 
     return v;
 }
 
-// Free a list
-void CMSEXPORT cmsFreeNamedColorList(cmsNAMEDCOLORLIST* v)
+// Free b list
+void CMSEXPORT cmsFreeNbmedColorList(cmsNAMEDCOLORLIST* v)
 {
     if (v == NULL) return;
     if (v ->List) _cmsFree(v ->ContextID, v ->List);
     _cmsFree(v ->ContextID, v);
 }
 
-cmsNAMEDCOLORLIST* CMSEXPORT cmsDupNamedColorList(const cmsNAMEDCOLORLIST* v)
+cmsNAMEDCOLORLIST* CMSEXPORT cmsDupNbmedColorList(const cmsNAMEDCOLORLIST* v)
 {
     cmsNAMEDCOLORLIST* NewNC;
 
     if (v == NULL) return NULL;
 
-    NewNC= cmsAllocNamedColorList(v ->ContextID, v -> nColors, v ->ColorantCount, v ->Prefix, v ->Suffix);
+    NewNC= cmsAllocNbmedColorList(v ->ContextID, v -> nColors, v ->ColorbntCount, v ->Prefix, v ->Suffix);
     if (NewNC == NULL) return NULL;
 
-    // For really large tables we need this
-    while (NewNC ->Allocated < v ->Allocated)
-        GrowNamedColorList(NewNC);
+    // For reblly lbrge tbbles we need this
+    while (NewNC ->Allocbted < v ->Allocbted)
+        GrowNbmedColorList(NewNC);
 
     memmove(NewNC ->Prefix, v ->Prefix, sizeof(v ->Prefix));
     memmove(NewNC ->Suffix, v ->Suffix, sizeof(v ->Suffix));
-    NewNC ->ColorantCount = v ->ColorantCount;
+    NewNC ->ColorbntCount = v ->ColorbntCount;
     memmove(NewNC->List, v ->List, v->nColors * sizeof(_cmsNAMEDCOLOR));
     NewNC ->nColors = v ->nColors;
     return NewNC;
 }
 
 
-// Append a color to a list. List pointer may change if reallocated
-cmsBool  CMSEXPORT cmsAppendNamedColor(cmsNAMEDCOLORLIST* NamedColorList,
-                                       const char* Name,
-                                       cmsUInt16Number PCS[3], cmsUInt16Number Colorant[cmsMAXCHANNELS])
+// Append b color to b list. List pointer mby chbnge if rebllocbted
+cmsBool  CMSEXPORT cmsAppendNbmedColor(cmsNAMEDCOLORLIST* NbmedColorList,
+                                       const chbr* Nbme,
+                                       cmsUInt16Number PCS[3], cmsUInt16Number Colorbnt[cmsMAXCHANNELS])
 {
     cmsUInt32Number i;
 
-    if (NamedColorList == NULL) return FALSE;
+    if (NbmedColorList == NULL) return FALSE;
 
-    if (NamedColorList ->nColors + 1 > NamedColorList ->Allocated) {
-        if (!GrowNamedColorList(NamedColorList)) return FALSE;
+    if (NbmedColorList ->nColors + 1 > NbmedColorList ->Allocbted) {
+        if (!GrowNbmedColorList(NbmedColorList)) return FALSE;
     }
 
-    for (i=0; i < NamedColorList ->ColorantCount; i++)
-        NamedColorList ->List[NamedColorList ->nColors].DeviceColorant[i] = Colorant == NULL? 0 : Colorant[i];
+    for (i=0; i < NbmedColorList ->ColorbntCount; i++)
+        NbmedColorList ->List[NbmedColorList ->nColors].DeviceColorbnt[i] = Colorbnt == NULL? 0 : Colorbnt[i];
 
     for (i=0; i < 3; i++)
-        NamedColorList ->List[NamedColorList ->nColors].PCS[i] = PCS == NULL ? 0 : PCS[i];
+        NbmedColorList ->List[NbmedColorList ->nColors].PCS[i] = PCS == NULL ? 0 : PCS[i];
 
-    if (Name != NULL) {
+    if (Nbme != NULL) {
 
-        strncpy(NamedColorList ->List[NamedColorList ->nColors].Name, Name, cmsMAX_PATH-1);
-        NamedColorList ->List[NamedColorList ->nColors].Name[cmsMAX_PATH-1] = 0;
+        strncpy(NbmedColorList ->List[NbmedColorList ->nColors].Nbme, Nbme, cmsMAX_PATH-1);
+        NbmedColorList ->List[NbmedColorList ->nColors].Nbme[cmsMAX_PATH-1] = 0;
 
     }
     else
-        NamedColorList ->List[NamedColorList ->nColors].Name[0] = 0;
+        NbmedColorList ->List[NbmedColorList ->nColors].Nbme[0] = 0;
 
 
-    NamedColorList ->nColors++;
+    NbmedColorList ->nColors++;
     return TRUE;
 }
 
 // Returns number of elements
-cmsUInt32Number CMSEXPORT cmsNamedColorCount(const cmsNAMEDCOLORLIST* NamedColorList)
+cmsUInt32Number CMSEXPORT cmsNbmedColorCount(const cmsNAMEDCOLORLIST* NbmedColorList)
 {
-     if (NamedColorList == NULL) return 0;
-     return NamedColorList ->nColors;
+     if (NbmedColorList == NULL) return 0;
+     return NbmedColorList ->nColors;
 }
 
-// Info aboout a given color
-cmsBool  CMSEXPORT cmsNamedColorInfo(const cmsNAMEDCOLORLIST* NamedColorList, cmsUInt32Number nColor,
-                                     char* Name,
-                                     char* Prefix,
-                                     char* Suffix,
+// Info bboout b given color
+cmsBool  CMSEXPORT cmsNbmedColorInfo(const cmsNAMEDCOLORLIST* NbmedColorList, cmsUInt32Number nColor,
+                                     chbr* Nbme,
+                                     chbr* Prefix,
+                                     chbr* Suffix,
                                      cmsUInt16Number* PCS,
-                                     cmsUInt16Number* Colorant)
+                                     cmsUInt16Number* Colorbnt)
 {
-    if (NamedColorList == NULL) return FALSE;
+    if (NbmedColorList == NULL) return FALSE;
 
-    if (nColor >= cmsNamedColorCount(NamedColorList)) return FALSE;
+    if (nColor >= cmsNbmedColorCount(NbmedColorList)) return FALSE;
 
-    if (Name) strcpy(Name, NamedColorList->List[nColor].Name);
-    if (Prefix) strcpy(Prefix, NamedColorList->Prefix);
-    if (Suffix) strcpy(Suffix, NamedColorList->Suffix);
+    if (Nbme) strcpy(Nbme, NbmedColorList->List[nColor].Nbme);
+    if (Prefix) strcpy(Prefix, NbmedColorList->Prefix);
+    if (Suffix) strcpy(Suffix, NbmedColorList->Suffix);
     if (PCS)
-        memmove(PCS, NamedColorList ->List[nColor].PCS, 3*sizeof(cmsUInt16Number));
+        memmove(PCS, NbmedColorList ->List[nColor].PCS, 3*sizeof(cmsUInt16Number));
 
-    if (Colorant)
-        memmove(Colorant, NamedColorList ->List[nColor].DeviceColorant,
-                                sizeof(cmsUInt16Number) * NamedColorList ->ColorantCount);
+    if (Colorbnt)
+        memmove(Colorbnt, NbmedColorList ->List[nColor].DeviceColorbnt,
+                                sizeof(cmsUInt16Number) * NbmedColorList ->ColorbntCount);
 
 
     return TRUE;
 }
 
-// Search for a given color name (no prefix or suffix)
-cmsInt32Number CMSEXPORT cmsNamedColorIndex(const cmsNAMEDCOLORLIST* NamedColorList, const char* Name)
+// Sebrch for b given color nbme (no prefix or suffix)
+cmsInt32Number CMSEXPORT cmsNbmedColorIndex(const cmsNAMEDCOLORLIST* NbmedColorList, const chbr* Nbme)
 {
     int i, n;
 
-    if (NamedColorList == NULL) return -1;
-    n = cmsNamedColorCount(NamedColorList);
+    if (NbmedColorList == NULL) return -1;
+    n = cmsNbmedColorCount(NbmedColorList);
     for (i=0; i < n; i++) {
-        if (cmsstrcasecmp(Name,  NamedColorList->List[i].Name) == 0)
+        if (cmsstrcbsecmp(Nbme,  NbmedColorList->List[i].Nbme) == 0)
             return i;
     }
 
@@ -668,77 +668,77 @@ cmsInt32Number CMSEXPORT cmsNamedColorIndex(const cmsNAMEDCOLORLIST* NamedColorL
 
 // MPE support -----------------------------------------------------------------------------------------------------------------
 
-static
-void FreeNamedColorList(cmsStage* mpe)
+stbtic
+void FreeNbmedColorList(cmsStbge* mpe)
 {
-    cmsNAMEDCOLORLIST* List = (cmsNAMEDCOLORLIST*) mpe ->Data;
-    cmsFreeNamedColorList(List);
+    cmsNAMEDCOLORLIST* List = (cmsNAMEDCOLORLIST*) mpe ->Dbtb;
+    cmsFreeNbmedColorList(List);
 }
 
-static
-void* DupNamedColorList(cmsStage* mpe)
+stbtic
+void* DupNbmedColorList(cmsStbge* mpe)
 {
-    cmsNAMEDCOLORLIST* List = (cmsNAMEDCOLORLIST*) mpe ->Data;
-    return cmsDupNamedColorList(List);
+    cmsNAMEDCOLORLIST* List = (cmsNAMEDCOLORLIST*) mpe ->Dbtb;
+    return cmsDupNbmedColorList(List);
 }
 
-static
-void EvalNamedColorPCS(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+stbtic
+void EvblNbmedColorPCS(const cmsFlobt32Number In[], cmsFlobt32Number Out[], const cmsStbge *mpe)
 {
-    cmsNAMEDCOLORLIST* NamedColorList = (cmsNAMEDCOLORLIST*) mpe ->Data;
-    cmsUInt16Number index = (cmsUInt16Number) _cmsQuickSaturateWord(In[0] * 65535.0);
+    cmsNAMEDCOLORLIST* NbmedColorList = (cmsNAMEDCOLORLIST*) mpe ->Dbtb;
+    cmsUInt16Number index = (cmsUInt16Number) _cmsQuickSbturbteWord(In[0] * 65535.0);
 
-    if (index >= NamedColorList-> nColors) {
-        cmsSignalError(NamedColorList ->ContextID, cmsERROR_RANGE, "Color %d out of range; ignored", index);
+    if (index >= NbmedColorList-> nColors) {
+        cmsSignblError(NbmedColorList ->ContextID, cmsERROR_RANGE, "Color %d out of rbnge; ignored", index);
     }
     else {
 
-            // Named color always uses Lab
-            Out[0] = (cmsFloat32Number) (NamedColorList->List[index].PCS[0] / 65535.0);
-            Out[1] = (cmsFloat32Number) (NamedColorList->List[index].PCS[1] / 65535.0);
-            Out[2] = (cmsFloat32Number) (NamedColorList->List[index].PCS[2] / 65535.0);
+            // Nbmed color blwbys uses Lbb
+            Out[0] = (cmsFlobt32Number) (NbmedColorList->List[index].PCS[0] / 65535.0);
+            Out[1] = (cmsFlobt32Number) (NbmedColorList->List[index].PCS[1] / 65535.0);
+            Out[2] = (cmsFlobt32Number) (NbmedColorList->List[index].PCS[2] / 65535.0);
     }
 }
 
-static
-void EvalNamedColor(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+stbtic
+void EvblNbmedColor(const cmsFlobt32Number In[], cmsFlobt32Number Out[], const cmsStbge *mpe)
 {
-    cmsNAMEDCOLORLIST* NamedColorList = (cmsNAMEDCOLORLIST*) mpe ->Data;
-    cmsUInt16Number index = (cmsUInt16Number) _cmsQuickSaturateWord(In[0] * 65535.0);
+    cmsNAMEDCOLORLIST* NbmedColorList = (cmsNAMEDCOLORLIST*) mpe ->Dbtb;
+    cmsUInt16Number index = (cmsUInt16Number) _cmsQuickSbturbteWord(In[0] * 65535.0);
     cmsUInt32Number j;
 
-    if (index >= NamedColorList-> nColors) {
-        cmsSignalError(NamedColorList ->ContextID, cmsERROR_RANGE, "Color %d out of range; ignored", index);
+    if (index >= NbmedColorList-> nColors) {
+        cmsSignblError(NbmedColorList ->ContextID, cmsERROR_RANGE, "Color %d out of rbnge; ignored", index);
     }
     else {
-        for (j=0; j < NamedColorList ->ColorantCount; j++)
-            Out[j] = (cmsFloat32Number) (NamedColorList->List[index].DeviceColorant[j] / 65535.0);
+        for (j=0; j < NbmedColorList ->ColorbntCount; j++)
+            Out[j] = (cmsFlobt32Number) (NbmedColorList->List[index].DeviceColorbnt[j] / 65535.0);
     }
 }
 
 
-// Named color lookup element
-cmsStage* _cmsStageAllocNamedColor(cmsNAMEDCOLORLIST* NamedColorList, cmsBool UsePCS)
+// Nbmed color lookup element
+cmsStbge* _cmsStbgeAllocNbmedColor(cmsNAMEDCOLORLIST* NbmedColorList, cmsBool UsePCS)
 {
-    return _cmsStageAllocPlaceholder(NamedColorList ->ContextID,
-                                   cmsSigNamedColorElemType,
-                                   1, UsePCS ? 3 : NamedColorList ->ColorantCount,
-                                   UsePCS ? EvalNamedColorPCS : EvalNamedColor,
-                                   DupNamedColorList,
-                                   FreeNamedColorList,
-                                   cmsDupNamedColorList(NamedColorList));
+    return _cmsStbgeAllocPlbceholder(NbmedColorList ->ContextID,
+                                   cmsSigNbmedColorElemType,
+                                   1, UsePCS ? 3 : NbmedColorList ->ColorbntCount,
+                                   UsePCS ? EvblNbmedColorPCS : EvblNbmedColor,
+                                   DupNbmedColorList,
+                                   FreeNbmedColorList,
+                                   cmsDupNbmedColorList(NbmedColorList));
 
 }
 
 
-// Retrieve the named color list from a transform. Should be first element in the LUT
-cmsNAMEDCOLORLIST* CMSEXPORT cmsGetNamedColorList(cmsHTRANSFORM xform)
+// Retrieve the nbmed color list from b trbnsform. Should be first element in the LUT
+cmsNAMEDCOLORLIST* CMSEXPORT cmsGetNbmedColorList(cmsHTRANSFORM xform)
 {
     _cmsTRANSFORM* v = (_cmsTRANSFORM*) xform;
-    cmsStage* mpe  = v ->Lut->Elements;
+    cmsStbge* mpe  = v ->Lut->Elements;
 
-    if (mpe ->Type != cmsSigNamedColorElemType) return NULL;
-    return (cmsNAMEDCOLORLIST*) mpe ->Data;
+    if (mpe ->Type != cmsSigNbmedColorElemType) return NULL;
+    return (cmsNAMEDCOLORLIST*) mpe ->Dbtb;
 }
 
 
@@ -751,15 +751,15 @@ cmsSEQ* CMSEXPORT cmsAllocProfileSequenceDescription(cmsContext ContextID, cmsUI
 
     if (n == 0) return NULL;
 
-    // In a absolutely arbitrary way, I hereby decide to allow a maxim of 255 profiles linked
-    // in a devicelink. It makes not sense anyway and may be used for exploits, so let's close the door!
+    // In b bbsolutely brbitrbry wby, I hereby decide to bllow b mbxim of 255 profiles linked
+    // in b devicelink. It mbkes not sense bnywby bnd mby be used for exploits, so let's close the door!
     if (n > 255) return NULL;
 
-    Seq = (cmsSEQ*) _cmsMallocZero(ContextID, sizeof(cmsSEQ));
+    Seq = (cmsSEQ*) _cmsMbllocZero(ContextID, sizeof(cmsSEQ));
     if (Seq == NULL) return NULL;
 
     Seq -> ContextID = ContextID;
-    Seq -> seq      = (cmsPSEQDESC*) _cmsCalloc(ContextID, n, sizeof(cmsPSEQDESC));
+    Seq -> seq      = (cmsPSEQDESC*) _cmsCblloc(ContextID, n, sizeof(cmsPSEQDESC));
     Seq -> n        = n;
 
     if (Seq -> seq == NULL) {
@@ -768,7 +768,7 @@ cmsSEQ* CMSEXPORT cmsAllocProfileSequenceDescription(cmsContext ContextID, cmsUI
     }
 
     for (i=0; i < n; i++) {
-        Seq -> seq[i].Manufacturer = NULL;
+        Seq -> seq[i].Mbnufbcturer = NULL;
         Seq -> seq[i].Model        = NULL;
         Seq -> seq[i].Description  = NULL;
     }
@@ -781,7 +781,7 @@ void CMSEXPORT cmsFreeProfileSequenceDescription(cmsSEQ* pseq)
     cmsUInt32Number i;
 
     for (i=0; i < pseq ->n; i++) {
-        if (pseq ->seq[i].Manufacturer != NULL) cmsMLUfree(pseq ->seq[i].Manufacturer);
+        if (pseq ->seq[i].Mbnufbcturer != NULL) cmsMLUfree(pseq ->seq[i].Mbnufbcturer);
         if (pseq ->seq[i].Model != NULL) cmsMLUfree(pseq ->seq[i].Model);
         if (pseq ->seq[i].Description != NULL) cmsMLUfree(pseq ->seq[i].Description);
     }
@@ -798,11 +798,11 @@ cmsSEQ* CMSEXPORT cmsDupProfileSequenceDescription(const cmsSEQ* pseq)
     if (pseq == NULL)
         return NULL;
 
-    NewSeq = (cmsSEQ*) _cmsMalloc(pseq -> ContextID, sizeof(cmsSEQ));
+    NewSeq = (cmsSEQ*) _cmsMblloc(pseq -> ContextID, sizeof(cmsSEQ));
     if (NewSeq == NULL) return NULL;
 
 
-    NewSeq -> seq      = (cmsPSEQDESC*) _cmsCalloc(pseq ->ContextID, pseq ->n, sizeof(cmsPSEQDESC));
+    NewSeq -> seq      = (cmsPSEQDESC*) _cmsCblloc(pseq ->ContextID, pseq ->n, sizeof(cmsPSEQDESC));
     if (NewSeq ->seq == NULL) goto Error;
 
     NewSeq -> ContextID = pseq ->ContextID;
@@ -810,14 +810,14 @@ cmsSEQ* CMSEXPORT cmsDupProfileSequenceDescription(const cmsSEQ* pseq)
 
     for (i=0; i < pseq->n; i++) {
 
-        memmove(&NewSeq ->seq[i].attributes, &pseq ->seq[i].attributes, sizeof(cmsUInt64Number));
+        memmove(&NewSeq ->seq[i].bttributes, &pseq ->seq[i].bttributes, sizeof(cmsUInt64Number));
 
         NewSeq ->seq[i].deviceMfg   = pseq ->seq[i].deviceMfg;
         NewSeq ->seq[i].deviceModel = pseq ->seq[i].deviceModel;
         memmove(&NewSeq ->seq[i].ProfileID, &pseq ->seq[i].ProfileID, sizeof(cmsProfileID));
         NewSeq ->seq[i].technology  = pseq ->seq[i].technology;
 
-        NewSeq ->seq[i].Manufacturer = cmsMLUdup(pseq ->seq[i].Manufacturer);
+        NewSeq ->seq[i].Mbnufbcturer = cmsMLUdup(pseq ->seq[i].Mbnufbcturer);
         NewSeq ->seq[i].Model        = cmsMLUdup(pseq ->seq[i].Model);
         NewSeq ->seq[i].Description  = cmsMLUdup(pseq ->seq[i].Description);
 
@@ -831,21 +831,21 @@ Error:
     return NULL;
 }
 
-// Dictionaries --------------------------------------------------------------------------------------------------------
+// Dictionbries --------------------------------------------------------------------------------------------------------
 
-// Dictionaries are just very simple linked lists
+// Dictionbries bre just very simple linked lists
 
 
 typedef struct _cmsDICT_struct {
-    cmsDICTentry* head;
+    cmsDICTentry* hebd;
     cmsContext ContextID;
 } _cmsDICT;
 
 
-// Allocate an empty dictionary
+// Allocbte bn empty dictionbry
 cmsHANDLE CMSEXPORT cmsDictAlloc(cmsContext ContextID)
 {
-    _cmsDICT* dict = (_cmsDICT*) _cmsMallocZero(ContextID, sizeof(_cmsDICT));
+    _cmsDICT* dict = (_cmsDICT*) _cmsMbllocZero(ContextID, sizeof(_cmsDICT));
     if (dict == NULL) return NULL;
 
     dict ->ContextID = ContextID;
@@ -861,16 +861,16 @@ void CMSEXPORT cmsDictFree(cmsHANDLE hDict)
 
     _cmsAssert(dict != NULL);
 
-    // Walk the list freeing all nodes
-    entry = dict ->head;
+    // Wblk the list freeing bll nodes
+    entry = dict ->hebd;
     while (entry != NULL) {
 
-            if (entry ->DisplayName  != NULL) cmsMLUfree(entry ->DisplayName);
-            if (entry ->DisplayValue != NULL) cmsMLUfree(entry ->DisplayValue);
-            if (entry ->Name != NULL) _cmsFree(dict ->ContextID, entry -> Name);
-            if (entry ->Value != NULL) _cmsFree(dict ->ContextID, entry -> Value);
+            if (entry ->DisplbyNbme  != NULL) cmsMLUfree(entry ->DisplbyNbme);
+            if (entry ->DisplbyVblue != NULL) cmsMLUfree(entry ->DisplbyVblue);
+            if (entry ->Nbme != NULL) _cmsFree(dict ->ContextID, entry -> Nbme);
+            if (entry ->Vblue != NULL) _cmsFree(dict ->ContextID, entry -> Vblue);
 
-            // Don't fall in the habitual trap...
+            // Don't fbll in the hbbitubl trbp...
             next = entry ->Next;
             _cmsFree(dict ->ContextID, entry);
 
@@ -881,39 +881,39 @@ void CMSEXPORT cmsDictFree(cmsHANDLE hDict)
 }
 
 
-// Duplicate a wide char string
-static
-wchar_t* DupWcs(cmsContext ContextID, const wchar_t* ptr)
+// Duplicbte b wide chbr string
+stbtic
+wchbr_t* DupWcs(cmsContext ContextID, const wchbr_t* ptr)
 {
     if (ptr == NULL) return NULL;
-    return (wchar_t*) _cmsDupMem(ContextID, ptr, (mywcslen(ptr) + 1) * sizeof(wchar_t));
+    return (wchbr_t*) _cmsDupMem(ContextID, ptr, (mywcslen(ptr) + 1) * sizeof(wchbr_t));
 }
 
-// Add a new entry to the linked list
-cmsBool CMSEXPORT cmsDictAddEntry(cmsHANDLE hDict, const wchar_t* Name, const wchar_t* Value, const cmsMLU *DisplayName, const cmsMLU *DisplayValue)
+// Add b new entry to the linked list
+cmsBool CMSEXPORT cmsDictAddEntry(cmsHANDLE hDict, const wchbr_t* Nbme, const wchbr_t* Vblue, const cmsMLU *DisplbyNbme, const cmsMLU *DisplbyVblue)
 {
     _cmsDICT* dict = (_cmsDICT*) hDict;
     cmsDICTentry *entry;
 
     _cmsAssert(dict != NULL);
-    _cmsAssert(Name != NULL);
+    _cmsAssert(Nbme != NULL);
 
-    entry = (cmsDICTentry*) _cmsMallocZero(dict ->ContextID, sizeof(cmsDICTentry));
+    entry = (cmsDICTentry*) _cmsMbllocZero(dict ->ContextID, sizeof(cmsDICTentry));
     if (entry == NULL) return FALSE;
 
-    entry ->DisplayName  = cmsMLUdup(DisplayName);
-    entry ->DisplayValue = cmsMLUdup(DisplayValue);
-    entry ->Name         = DupWcs(dict ->ContextID, Name);
-    entry ->Value        = DupWcs(dict ->ContextID, Value);
+    entry ->DisplbyNbme  = cmsMLUdup(DisplbyNbme);
+    entry ->DisplbyVblue = cmsMLUdup(DisplbyVblue);
+    entry ->Nbme         = DupWcs(dict ->ContextID, Nbme);
+    entry ->Vblue        = DupWcs(dict ->ContextID, Vblue);
 
-    entry ->Next = dict ->head;
-    dict ->head = entry;
+    entry ->Next = dict ->hebd;
+    dict ->hebd = entry;
 
     return TRUE;
 }
 
 
-// Duplicates an existing dictionary
+// Duplicbtes bn existing dictionbry
 cmsHANDLE CMSEXPORT cmsDictDup(cmsHANDLE hDict)
 {
     _cmsDICT* old_dict = (_cmsDICT*) hDict;
@@ -925,11 +925,11 @@ cmsHANDLE CMSEXPORT cmsDictDup(cmsHANDLE hDict)
     hNew  = cmsDictAlloc(old_dict ->ContextID);
     if (hNew == NULL) return NULL;
 
-    // Walk the list freeing all nodes
-    entry = old_dict ->head;
+    // Wblk the list freeing bll nodes
+    entry = old_dict ->hebd;
     while (entry != NULL) {
 
-        if (!cmsDictAddEntry(hNew, entry ->Name, entry ->Value, entry ->DisplayName, entry ->DisplayValue)) {
+        if (!cmsDictAddEntry(hNew, entry ->Nbme, entry ->Vblue, entry ->DisplbyNbme, entry ->DisplbyVblue)) {
 
             cmsDictFree(hNew);
             return NULL;
@@ -941,16 +941,16 @@ cmsHANDLE CMSEXPORT cmsDictDup(cmsHANDLE hDict)
     return hNew;
 }
 
-// Get a pointer to the linked list
+// Get b pointer to the linked list
 const cmsDICTentry* CMSEXPORT cmsDictGetEntryList(cmsHANDLE hDict)
 {
     _cmsDICT* dict = (_cmsDICT*) hDict;
 
     if (dict == NULL) return NULL;
-    return dict ->head;
+    return dict ->hebd;
 }
 
-// Helper For external languages
+// Helper For externbl lbngubges
 const cmsDICTentry* CMSEXPORT cmsDictNextEntry(const cmsDICTentry* e)
 {
      if (e == NULL) return NULL;

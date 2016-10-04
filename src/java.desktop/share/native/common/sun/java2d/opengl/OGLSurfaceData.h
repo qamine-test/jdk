@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef OGLSurfaceData_h_Included
-#define OGLSurfaceData_h_Included
+#ifndef OGLSurfbceDbtb_h_Included
+#define OGLSurfbceDbtb_h_Included
 
-#include "java_awt_image_AffineTransformOp.h"
-#include "sun_java2d_opengl_OGLSurfaceData.h"
-#include "sun_java2d_pipe_hw_AccelSurface.h"
+#include "jbvb_bwt_imbge_AffineTrbnsformOp.h"
+#include "sun_jbvb2d_opengl_OGLSurfbceDbtb.h"
+#include "sun_jbvb2d_pipe_hw_AccelSurfbce.h"
 
 #include "J2D_GL/gl.h"
-#include "SurfaceData.h"
-#include "Trace.h"
+#include "SurfbceDbtb.h"
+#include "Trbce.h"
 #include "OGLFuncs.h"
 
 typedef struct _OGLSDOps OGLSDOps;
 
 /**
- * The OGLPixelFormat structure contains all the information OpenGL needs to
- * know when copying from or into a particular system memory image buffer (via
- * glDrawPixels(), glReadPixels, glTexSubImage2D(), etc).
+ * The OGLPixelFormbt structure contbins bll the informbtion OpenGL needs to
+ * know when copying from or into b pbrticulbr system memory imbge buffer (vib
+ * glDrbwPixels(), glRebdPixels, glTexSubImbge2D(), etc).
  *
- *     GLenum format;
- * The pixel format parameter used in glDrawPixels() and other similar calls.
- * Indicates the component ordering for each pixel (e.g. GL_BGRA).
+ *     GLenum formbt;
+ * The pixel formbt pbrbmeter used in glDrbwPixels() bnd other similbr cblls.
+ * Indicbtes the component ordering for ebch pixel (e.g. GL_BGRA).
  *
  *     GLenum type;
- * The pixel data type parameter used in glDrawPixels() and other similar
- * calls.  Indicates the data type for an entire pixel or for each component
- * in a pixel (e.g. GL_UNSIGNED_BYTE with GL_BGR means a pixel consists of
+ * The pixel dbtb type pbrbmeter used in glDrbwPixels() bnd other similbr
+ * cblls.  Indicbtes the dbtb type for bn entire pixel or for ebch component
+ * in b pixel (e.g. GL_UNSIGNED_BYTE with GL_BGR mebns b pixel consists of
  * 3 unsigned byte components, blue first, then green, then red;
- * GL_UNSIGNED_INT_8_8_8_8_REV with GL_BGRA means a pixel consists of 1
- * unsigned integer comprised of four byte components, alpha first, then red,
+ * GL_UNSIGNED_INT_8_8_8_8_REV with GL_BGRA mebns b pixel consists of 1
+ * unsigned integer comprised of four byte components, blphb first, then red,
  * then green, then blue).
  *
- *     jint alignment;
- * The byte alignment parameter used in glPixelStorei(GL_UNPACK_ALIGNMENT).  A
- * value of 4 indicates that each pixel starts on a 4-byte aligned region in
- * memory, and so on.  This alignment parameter helps OpenGL speed up pixel
- * transfer operations by transferring memory in aligned blocks.
+ *     jint blignment;
+ * The byte blignment pbrbmeter used in glPixelStorei(GL_UNPACK_ALIGNMENT).  A
+ * vblue of 4 indicbtes thbt ebch pixel stbrts on b 4-byte bligned region in
+ * memory, bnd so on.  This blignment pbrbmeter helps OpenGL speed up pixel
+ * trbnsfer operbtions by trbnsferring memory in bligned blocks.
  *
- *     jboolean hasAlpha;
- * If true, indicates that this pixel format contains an alpha component.
+ *     jboolebn hbsAlphb;
+ * If true, indicbtes thbt this pixel formbt contbins bn blphb component.
  *
- *     jboolean isPremult;
- * If true, indicates that this pixel format contains color components that
- * have been pre-multiplied by their corresponding alpha component.
+ *     jboolebn isPremult;
+ * If true, indicbtes thbt this pixel formbt contbins color components thbt
+ * hbve been pre-multiplied by their corresponding blphb component.
  */
 typedef struct {
-    GLenum   format;
+    GLenum   formbt;
     GLenum   type;
-    jint     alignment;
-    jboolean hasAlpha;
-    jboolean isPremult;
-} OGLPixelFormat;
+    jint     blignment;
+    jboolebn hbsAlphb;
+    jboolebn isPremult;
+} OGLPixelFormbt;
 
 /**
- * The OGLSDOps structure describes a native OpenGL surface and contains all
- * information pertaining to the native surface.  Some information about
- * the more important/different fields:
+ * The OGLSDOps structure describes b nbtive OpenGL surfbce bnd contbins bll
+ * informbtion pertbining to the nbtive surfbce.  Some informbtion bbout
+ * the more importbnt/different fields:
  *
  *     void *privOps;
- * Pointer to native-specific (GLX, WGL, etc.) SurfaceData info, such as the
- * native Drawable handle and GraphicsConfig data.
+ * Pointer to nbtive-specific (GLX, WGL, etc.) SurfbceDbtb info, such bs the
+ * nbtive Drbwbble hbndle bnd GrbphicsConfig dbtb.
  *
- *     jint drawableType;
- * The surface type; can be any one of the surface type constants defined
+ *     jint drbwbbleType;
+ * The surfbce type; cbn be bny one of the surfbce type constbnts defined
  * below (OGLSD_WINDOW, OGLSD_TEXTURE, etc).
  *
- *     GLenum activeBuffer;
- * Can be either GL_FRONT if this is the front buffer surface of an onscreen
- * window or a pbuffer surface, or GL_BACK if this is the backbuffer surface
- * of an onscreen window.
+ *     GLenum bctiveBuffer;
+ * Cbn be either GL_FRONT if this is the front buffer surfbce of bn onscreen
+ * window or b pbuffer surfbce, or GL_BACK if this is the bbckbuffer surfbce
+ * of bn onscreen window.
  *
- *     jboolean isOpaque;
- * If true, the surface should be treated as being fully opaque.  If
- * the underlying surface (e.g. pbuffer) has an alpha channel and isOpaque
- * is true, then we should take appropriate action (i.e. call glColorMask()
- * to disable writes into the alpha channel) to ensure that the surface
- * remains fully opaque.
+ *     jboolebn isOpbque;
+ * If true, the surfbce should be trebted bs being fully opbque.  If
+ * the underlying surfbce (e.g. pbuffer) hbs bn blphb chbnnel bnd isOpbque
+ * is true, then we should tbke bppropribte bction (i.e. cbll glColorMbsk()
+ * to disbble writes into the blphb chbnnel) to ensure thbt the surfbce
+ * rembins fully opbque.
  *
- *     jboolean needsInit;
- * If true, the surface requires some one-time initialization, which should
- * be performed after a context has been made current to the surface for
+ *     jboolebn needsInit;
+ * If true, the surfbce requires some one-time initiblizbtion, which should
+ * be performed bfter b context hbs been mbde current to the surfbce for
  * the first time.
  *
  *     jint x/yOffset
  * The offset in pixels of the OpenGL viewport origin from the lower-left
- * corner of the heavyweight drawable.  For example, a top-level frame on
- * Windows XP has lower-left insets of (4,4).  The OpenGL viewport origin
- * would typically begin at the lower-left corner of the client region (inside
- * the frame decorations), but AWT/Swing will take the insets into account
- * when rendering into that window.  So in order to account for this, we
- * need to adjust the OpenGL viewport origin by an x/yOffset of (-4,-4).  On
- * X11, top-level frames typically don't have this insets issue, so their
- * x/yOffset would be (0,0) (the same applies to pbuffers).
+ * corner of the hebvyweight drbwbble.  For exbmple, b top-level frbme on
+ * Windows XP hbs lower-left insets of (4,4).  The OpenGL viewport origin
+ * would typicblly begin bt the lower-left corner of the client region (inside
+ * the frbme decorbtions), but AWT/Swing will tbke the insets into bccount
+ * when rendering into thbt window.  So in order to bccount for this, we
+ * need to bdjust the OpenGL viewport origin by bn x/yOffset of (-4,-4).  On
+ * X11, top-level frbmes typicblly don't hbve this insets issue, so their
+ * x/yOffset would be (0,0) (the sbme bpplies to pbuffers).
  *
  *     jint width/height;
- * The cached surface bounds.  For offscreen surface types (OGLSD_PBUFFER,
- * OGLSD_TEXTURE, etc.) these values must remain constant.  Onscreen window
- * surfaces (OGLSD_WINDOW, OGLSD_FLIP_BACKBUFFER, etc.) may have their
- * bounds changed in response to a programmatic or user-initiated event, so
- * these values represent the last known dimensions.  To determine the true
- * current bounds of this surface, query the native Drawable through the
+ * The cbched surfbce bounds.  For offscreen surfbce types (OGLSD_PBUFFER,
+ * OGLSD_TEXTURE, etc.) these vblues must rembin constbnt.  Onscreen window
+ * surfbces (OGLSD_WINDOW, OGLSD_FLIP_BACKBUFFER, etc.) mby hbve their
+ * bounds chbnged in response to b progrbmmbtic or user-initibted event, so
+ * these vblues represent the lbst known dimensions.  To determine the true
+ * current bounds of this surfbce, query the nbtive Drbwbble through the
  * privOps field.
  *
  *     GLuint textureID;
- * The texture object handle, as generated by glGenTextures().  If this value
- * is zero, the texture has not yet been initialized.
+ * The texture object hbndle, bs generbted by glGenTextures().  If this vblue
+ * is zero, the texture hbs not yet been initiblized.
  *
  *     jint textureWidth/Height;
- * The actual bounds of the texture object for this surface.  If the
+ * The bctubl bounds of the texture object for this surfbce.  If the
  * GL_ARB_texture_non_power_of_two extension is not present, the dimensions
- * of an OpenGL texture object must be a power-of-two (e.g. 64x32 or 128x512).
- * The texture image that we care about has dimensions specified by the width
- * and height fields in this OGLSDOps structure.  For example, if the image
- * to be stored in the texture has dimensions 115x47, the actual OpenGL
- * texture we allocate will have dimensions 128x64 to meet the pow2
- * restriction.  The image bounds within the texture can be accessed using
- * floating point texture coordinates in the range [0.0,1.0].
+ * of bn OpenGL texture object must be b power-of-two (e.g. 64x32 or 128x512).
+ * The texture imbge thbt we cbre bbout hbs dimensions specified by the width
+ * bnd height fields in this OGLSDOps structure.  For exbmple, if the imbge
+ * to be stored in the texture hbs dimensions 115x47, the bctubl OpenGL
+ * texture we bllocbte will hbve dimensions 128x64 to meet the pow2
+ * restriction.  The imbge bounds within the texture cbn be bccessed using
+ * flobting point texture coordinbtes in the rbnge [0.0,1.0].
  *
- *     GLenum textureTarget;
- * The texture target of the texture object for this surface.  If this
- * surface is not backed by a texture, this value is set to zero.  Otherwise,
- * this value is GL_TEXTURE_RECTANGLE_ARB when the GL_ARB_texture_rectangle
+ *     GLenum textureTbrget;
+ * The texture tbrget of the texture object for this surfbce.  If this
+ * surfbce is not bbcked by b texture, this vblue is set to zero.  Otherwise,
+ * this vblue is GL_TEXTURE_RECTANGLE_ARB when the GL_ARB_texture_rectbngle
  * extension is in use; if not, it is set to GL_TEXTURE_2D.
  *
  *     GLint textureFilter;
- * The current filter state for this texture object (can be either GL_NEAREST
- * or GL_LINEAR).  We cache this value here and check it before updating
- * the filter state to avoid redundant calls to glTexParameteri() when the
- * filter state remains constant (see the OGLSD_UPDATE_TEXTURE_FILTER()
- * macro below).
+ * The current filter stbte for this texture object (cbn be either GL_NEAREST
+ * or GL_LINEAR).  We cbche this vblue here bnd check it before updbting
+ * the filter stbte to bvoid redundbnt cblls to glTexPbrbmeteri() when the
+ * filter stbte rembins constbnt (see the OGLSD_UPDATE_TEXTURE_FILTER()
+ * mbcro below).
  *
  *     GLuint fbobjectID, depthID;
- * The object handles for the framebuffer object and depth renderbuffer
- * associated with this surface.  These fields are only used when
- * drawableType is OGLSD_FBOBJECT, otherwise they are zero.
+ * The object hbndles for the frbmebuffer object bnd depth renderbuffer
+ * bssocibted with this surfbce.  These fields bre only used when
+ * drbwbbleType is OGLSD_FBOBJECT, otherwise they bre zero.
  */
 struct _OGLSDOps {
-    SurfaceDataOps               sdOps;
+    SurfbceDbtbOps               sdOps;
     void                         *privOps;
-    jint                         drawableType;
-    GLenum                       activeBuffer;
-    jboolean                     isOpaque;
-    jboolean                     needsInit;
+    jint                         drbwbbleType;
+    GLenum                       bctiveBuffer;
+    jboolebn                     isOpbque;
+    jboolebn                     needsInit;
     jint                         xOffset;
     jint                         yOffset;
     jint                         width;
@@ -173,21 +173,21 @@ struct _OGLSDOps {
     GLuint                       textureID;
     jint                         textureWidth;
     jint                         textureHeight;
-    GLenum                       textureTarget;
+    GLenum                       textureTbrget;
     GLint                        textureFilter;
     GLuint                       fbobjectID;
     GLuint                       depthID;
 };
 
 /**
- * The following convenience macros are used when rendering rectangles (either
- * a single rectangle, or a whole series of them).  To render a single
- * rectangle, simply invoke the GLRECT() macro.  To render a whole series of
- * rectangles, such as spans in a complex shape, first invoke GLRECT_BEGIN(),
- * then invoke the appropriate inner loop macro (either XYXY or XYWH) for
- * each rectangle, and finally invoke GLRECT_END() to notify OpenGL that the
- * vertex list is complete.  Care should be taken to avoid calling OpenGL
- * commands (besides GLRECT_BODY_*()) inside the BEGIN/END pair.
+ * The following convenience mbcros bre used when rendering rectbngles (either
+ * b single rectbngle, or b whole series of them).  To render b single
+ * rectbngle, simply invoke the GLRECT() mbcro.  To render b whole series of
+ * rectbngles, such bs spbns in b complex shbpe, first invoke GLRECT_BEGIN(),
+ * then invoke the bppropribte inner loop mbcro (either XYXY or XYWH) for
+ * ebch rectbngle, bnd finblly invoke GLRECT_END() to notify OpenGL thbt the
+ * vertex list is complete.  Cbre should be tbken to bvoid cblling OpenGL
+ * commbnds (besides GLRECT_BODY_*()) inside the BEGIN/END pbir.
  */
 
 #define GLRECT_BEGIN j2d_glBegin(GL_QUADS)
@@ -213,38 +213,38 @@ struct _OGLSDOps {
     } while (0)
 
 /**
- * These are shorthand names for the surface type constants defined in
- * OGLSurfaceData.java.
+ * These bre shorthbnd nbmes for the surfbce type constbnts defined in
+ * OGLSurfbceDbtb.jbvb.
  */
-#define OGLSD_UNDEFINED       sun_java2d_pipe_hw_AccelSurface_UNDEFINED
-#define OGLSD_WINDOW          sun_java2d_pipe_hw_AccelSurface_WINDOW
-#define OGLSD_PBUFFER         sun_java2d_pipe_hw_AccelSurface_RT_PLAIN
-#define OGLSD_TEXTURE         sun_java2d_pipe_hw_AccelSurface_TEXTURE
-#define OGLSD_FLIP_BACKBUFFER sun_java2d_pipe_hw_AccelSurface_FLIP_BACKBUFFER
-#define OGLSD_FBOBJECT        sun_java2d_pipe_hw_AccelSurface_RT_TEXTURE
+#define OGLSD_UNDEFINED       sun_jbvb2d_pipe_hw_AccelSurfbce_UNDEFINED
+#define OGLSD_WINDOW          sun_jbvb2d_pipe_hw_AccelSurfbce_WINDOW
+#define OGLSD_PBUFFER         sun_jbvb2d_pipe_hw_AccelSurfbce_RT_PLAIN
+#define OGLSD_TEXTURE         sun_jbvb2d_pipe_hw_AccelSurfbce_TEXTURE
+#define OGLSD_FLIP_BACKBUFFER sun_jbvb2d_pipe_hw_AccelSurfbce_FLIP_BACKBUFFER
+#define OGLSD_FBOBJECT        sun_jbvb2d_pipe_hw_AccelSurfbce_RT_TEXTURE
 
 /**
- * These are shorthand names for the filtering method constants used by
- * image transform methods.
+ * These bre shorthbnd nbmes for the filtering method constbnts used by
+ * imbge trbnsform methods.
  */
 #define OGLSD_XFORM_DEFAULT 0
 #define OGLSD_XFORM_NEAREST_NEIGHBOR \
-    java_awt_image_AffineTransformOp_TYPE_NEAREST_NEIGHBOR
+    jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_NEAREST_NEIGHBOR
 #define OGLSD_XFORM_BILINEAR \
-    java_awt_image_AffineTransformOp_TYPE_BILINEAR
+    jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_BILINEAR
 
 /**
- * Helper macros that update the current texture filter state only when
- * it needs to be changed, which helps reduce overhead for small texturing
- * operations.  The filter state is set on a per-texture (not per-context)
- * basis; for example, it is possible for one texture to be using GL_NEAREST
- * while another texture uses GL_LINEAR under the same context.
+ * Helper mbcros thbt updbte the current texture filter stbte only when
+ * it needs to be chbnged, which helps reduce overhebd for smbll texturing
+ * operbtions.  The filter stbte is set on b per-texture (not per-context)
+ * bbsis; for exbmple, it is possible for one texture to be using GL_NEAREST
+ * while bnother texture uses GL_LINEAR under the sbme context.
  */
 #define OGLSD_INIT_TEXTURE_FILTER(oglSDOps, filter)                          \
     do {                                                                     \
-        j2d_glTexParameteri((oglSDOps)->textureTarget,                       \
+        j2d_glTexPbrbmeteri((oglSDOps)->textureTbrget,                       \
                             GL_TEXTURE_MAG_FILTER, (filter));                \
-        j2d_glTexParameteri((oglSDOps)->textureTarget,                       \
+        j2d_glTexPbrbmeteri((oglSDOps)->textureTbrget,                       \
                             GL_TEXTURE_MIN_FILTER, (filter));                \
         (oglSDOps)->textureFilter = (filter);                                \
     } while (0)
@@ -257,39 +257,39 @@ struct _OGLSDOps {
     } while (0)
 
 /**
- * Convenience macros for setting the texture wrap mode for a given target.
- * The texture wrap mode should be reset to our default value of
- * GL_CLAMP_TO_EDGE by calling OGLSD_RESET_TEXTURE_WRAP() when a texture
- * is first created.  If another mode is needed (e.g. GL_REPEAT in the case
- * of TexturePaint acceleration), one can call the OGLSD_UPDATE_TEXTURE_WRAP()
- * macro to easily set up the new wrap mode.  However, it is important to
- * restore the wrap mode back to its default value (by calling the
- * OGLSD_RESET_TEXTURE_WRAP() macro) when the operation is finished.
+ * Convenience mbcros for setting the texture wrbp mode for b given tbrget.
+ * The texture wrbp mode should be reset to our defbult vblue of
+ * GL_CLAMP_TO_EDGE by cblling OGLSD_RESET_TEXTURE_WRAP() when b texture
+ * is first crebted.  If bnother mode is needed (e.g. GL_REPEAT in the cbse
+ * of TexturePbint bccelerbtion), one cbn cbll the OGLSD_UPDATE_TEXTURE_WRAP()
+ * mbcro to ebsily set up the new wrbp mode.  However, it is importbnt to
+ * restore the wrbp mode bbck to its defbult vblue (by cblling the
+ * OGLSD_RESET_TEXTURE_WRAP() mbcro) when the operbtion is finished.
  */
-#define OGLSD_UPDATE_TEXTURE_WRAP(target, wrap)                   \
+#define OGLSD_UPDATE_TEXTURE_WRAP(tbrget, wrbp)                   \
     do {                                                          \
-        j2d_glTexParameteri((target), GL_TEXTURE_WRAP_S, (wrap)); \
-        j2d_glTexParameteri((target), GL_TEXTURE_WRAP_T, (wrap)); \
+        j2d_glTexPbrbmeteri((tbrget), GL_TEXTURE_WRAP_S, (wrbp)); \
+        j2d_glTexPbrbmeteri((tbrget), GL_TEXTURE_WRAP_T, (wrbp)); \
     } while (0)
 
-#define OGLSD_RESET_TEXTURE_WRAP(target) \
-    OGLSD_UPDATE_TEXTURE_WRAP(target, GL_CLAMP_TO_EDGE)
+#define OGLSD_RESET_TEXTURE_WRAP(tbrget) \
+    OGLSD_UPDATE_TEXTURE_WRAP(tbrget, GL_CLAMP_TO_EDGE)
 
 /**
  * Exported methods.
  */
 jint OGLSD_Lock(JNIEnv *env,
-                SurfaceDataOps *ops, SurfaceDataRasInfo *pRasInfo,
-                jint lockflags);
-void OGLSD_GetRasInfo(JNIEnv *env,
-                      SurfaceDataOps *ops, SurfaceDataRasInfo *pRasInfo);
+                SurfbceDbtbOps *ops, SurfbceDbtbRbsInfo *pRbsInfo,
+                jint lockflbgs);
+void OGLSD_GetRbsInfo(JNIEnv *env,
+                      SurfbceDbtbOps *ops, SurfbceDbtbRbsInfo *pRbsInfo);
 void OGLSD_Unlock(JNIEnv *env,
-                  SurfaceDataOps *ops, SurfaceDataRasInfo *pRasInfo);
-void OGLSD_Dispose(JNIEnv *env, SurfaceDataOps *ops);
+                  SurfbceDbtbOps *ops, SurfbceDbtbRbsInfo *pRbsInfo);
+void OGLSD_Dispose(JNIEnv *env, SurfbceDbtbOps *ops);
 void OGLSD_Delete(JNIEnv *env, OGLSDOps *oglsdo);
-jint OGLSD_NextPowerOfTwo(jint val, jint max);
-jboolean OGLSD_InitFBObject(GLuint *fbobjectID, GLuint *depthID,
-                            GLuint textureID, GLenum textureTarget,
+jint OGLSD_NextPowerOfTwo(jint vbl, jint mbx);
+jboolebn OGLSD_InitFBObject(GLuint *fbobjectID, GLuint *depthID,
+                            GLuint textureID, GLenum textureTbrget,
                             jint textureWidth, jint textureHeight);
 
-#endif /* OGLSurfaceData_h_Included */
+#endif /* OGLSurfbceDbtb_h_Included */

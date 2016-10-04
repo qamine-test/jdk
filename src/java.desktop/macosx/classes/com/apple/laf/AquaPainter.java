@@ -1,232 +1,232 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.util.HashMap;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.util.HbshMbp;
 
-import com.apple.laf.AquaImageFactory.RecyclableSlicedImageControl;
-import com.apple.laf.AquaImageFactory.NineSliceMetrics;
-import com.apple.laf.AquaImageFactory.SlicedImageControl;
+import com.bpple.lbf.AqubImbgeFbctory.RecyclbbleSlicedImbgeControl;
+import com.bpple.lbf.AqubImbgeFbctory.NineSliceMetrics;
+import com.bpple.lbf.AqubImbgeFbctory.SlicedImbgeControl;
 
-import sun.awt.image.*;
-import sun.java2d.*;
+import sun.bwt.imbge.*;
+import sun.jbvb2d.*;
 import sun.print.*;
-import apple.laf.*;
-import apple.laf.JRSUIUtils.NineSliceMetricsProvider;
-import sun.awt.image.ImageCache;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIUtils.NineSliceMetricsProvider;
+import sun.bwt.imbge.ImbgeCbche;
 
-abstract class AquaPainter <T extends JRSUIState> {
-    static <T extends JRSUIState> AquaPainter<T> create(final T state) {
-        return new AquaSingleImagePainter<>(state);
+bbstrbct clbss AqubPbinter <T extends JRSUIStbte> {
+    stbtic <T extends JRSUIStbte> AqubPbinter<T> crebte(finbl T stbte) {
+        return new AqubSingleImbgePbinter<>(stbte);
     }
 
-    static <T extends JRSUIState> AquaPainter<T> create(final T state, final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut) {
-        return create(state, minWidth, minHeight, westCut, eastCut, northCut, southCut, true);
+    stbtic <T extends JRSUIStbte> AqubPbinter<T> crebte(finbl T stbte, finbl int minWidth, finbl int minHeight, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut) {
+        return crebte(stbte, minWidth, minHeight, westCut, ebstCut, northCut, southCut, true);
     }
 
-    static <T extends JRSUIState> AquaPainter<T> create(final T state, final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean useMiddle) {
-        return create(state, minWidth, minHeight, westCut, eastCut, northCut, southCut, useMiddle, true, true);
+    stbtic <T extends JRSUIStbte> AqubPbinter<T> crebte(finbl T stbte, finbl int minWidth, finbl int minHeight, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut, finbl boolebn useMiddle) {
+        return crebte(stbte, minWidth, minHeight, westCut, ebstCut, northCut, southCut, useMiddle, true, true);
     }
 
-    static <T extends JRSUIState> AquaPainter<T> create(final T state, final int minWidth, final int minHeight, final int westCut, final int eastCut, final int northCut, final int southCut, final boolean useMiddle, final boolean stretchHorizontally, final boolean stretchVertically) {
-        return create(state, new NineSliceMetricsProvider() {
+    stbtic <T extends JRSUIStbte> AqubPbinter<T> crebte(finbl T stbte, finbl int minWidth, finbl int minHeight, finbl int westCut, finbl int ebstCut, finbl int northCut, finbl int southCut, finbl boolebn useMiddle, finbl boolebn stretchHorizontblly, finbl boolebn stretchVerticblly) {
+        return crebte(stbte, new NineSliceMetricsProvider() {
             @Override
-               public NineSliceMetrics getNineSliceMetricsForState(JRSUIState state) {
-                return new NineSliceMetrics(minWidth, minHeight, westCut, eastCut, northCut, southCut, useMiddle, stretchHorizontally, stretchVertically);
+               public NineSliceMetrics getNineSliceMetricsForStbte(JRSUIStbte stbte) {
+                return new NineSliceMetrics(minWidth, minHeight, westCut, ebstCut, northCut, southCut, useMiddle, stretchHorizontblly, stretchVerticblly);
             }
         });
     }
 
-    static <T extends JRSUIState> AquaPainter<T> create(final T state, final NineSliceMetricsProvider metricsProvider) {
-        return new AquaNineSlicingImagePainter<>(state, metricsProvider);
+    stbtic <T extends JRSUIStbte> AqubPbinter<T> crebte(finbl T stbte, finbl NineSliceMetricsProvider metricsProvider) {
+        return new AqubNineSlicingImbgePbinter<>(stbte, metricsProvider);
     }
 
-    abstract void paint(Graphics2D g, T stateToPaint);
+    bbstrbct void pbint(Grbphics2D g, T stbteToPbint);
 
-    final Rectangle boundsRect = new Rectangle();
-    final JRSUIControl control;
-    T state;
-    AquaPainter(final JRSUIControl control, final T state) {
+    finbl Rectbngle boundsRect = new Rectbngle();
+    finbl JRSUIControl control;
+    T stbte;
+    AqubPbinter(finbl JRSUIControl control, finbl T stbte) {
         this.control = control;
-        this.state = state;
+        this.stbte = stbte;
     }
 
-    final JRSUIControl getControl() {
-        control.set(state = state.derive());
+    finbl JRSUIControl getControl() {
+        control.set(stbte = stbte.derive());
         return control;
     }
 
-    final void paint(final Graphics g, final Component c, final int x,
-                     final int y, final int w, final int h) {
+    finbl void pbint(finbl Grbphics g, finbl Component c, finbl int x,
+                     finbl int y, finbl int w, finbl int h) {
         boundsRect.setBounds(x, y, w, h);
 
-        final T nextState = state.derive();
-        final Graphics2D g2d = getGraphics2D(g);
-        if (g2d != null) paint(g2d, nextState);
-        state = nextState;
+        finbl T nextStbte = stbte.derive();
+        finbl Grbphics2D g2d = getGrbphics2D(g);
+        if (g2d != null) pbint(g2d, nextStbte);
+        stbte = nextStbte;
     }
 
-    private static class AquaNineSlicingImagePainter<T extends JRSUIState>
-            extends AquaPainter<T> {
+    privbte stbtic clbss AqubNineSlicingImbgePbinter<T extends JRSUIStbte>
+            extends AqubPbinter<T> {
 
-        private final HashMap<T, RecyclableJRSUISlicedImageControl> slicedControlImages;
-        private final NineSliceMetricsProvider metricsProvider;
+        privbte finbl HbshMbp<T, RecyclbbleJRSUISlicedImbgeControl> slicedControlImbges;
+        privbte finbl NineSliceMetricsProvider metricsProvider;
 
-        AquaNineSlicingImagePainter(final T state) {
-            this(state, null);
+        AqubNineSlicingImbgePbinter(finbl T stbte) {
+            this(stbte, null);
         }
 
-        AquaNineSlicingImagePainter(final T state, final NineSliceMetricsProvider metricsProvider) {
-            super(new JRSUIControl(false), state);
+        AqubNineSlicingImbgePbinter(finbl T stbte, finbl NineSliceMetricsProvider metricsProvider) {
+            super(new JRSUIControl(fblse), stbte);
             this.metricsProvider = metricsProvider;
-            slicedControlImages = new HashMap<>();
+            slicedControlImbges = new HbshMbp<>();
         }
 
         @Override
-        void paint(final Graphics2D g, final T stateToPaint) {
+        void pbint(finbl Grbphics2D g, finbl T stbteToPbint) {
             if (metricsProvider == null) {
-                AquaSingleImagePainter.paintFromSingleCachedImage(g, control, stateToPaint, boundsRect);
+                AqubSingleImbgePbinter.pbintFromSingleCbchedImbge(g, control, stbteToPbint, boundsRect);
                 return;
             }
 
-            RecyclableJRSUISlicedImageControl slicesRef = slicedControlImages.get(stateToPaint);
+            RecyclbbleJRSUISlicedImbgeControl slicesRef = slicedControlImbges.get(stbteToPbint);
             if (slicesRef == null) {
-                final NineSliceMetrics metrics = metricsProvider.getNineSliceMetricsForState(stateToPaint);
+                finbl NineSliceMetrics metrics = metricsProvider.getNineSliceMetricsForStbte(stbteToPbint);
                 if (metrics == null) {
-                    AquaSingleImagePainter.paintFromSingleCachedImage(g, control, stateToPaint, boundsRect);
+                    AqubSingleImbgePbinter.pbintFromSingleCbchedImbge(g, control, stbteToPbint, boundsRect);
                     return;
                 }
-                slicesRef = new RecyclableJRSUISlicedImageControl(control, stateToPaint, metrics);
-                slicedControlImages.put(stateToPaint, slicesRef);
+                slicesRef = new RecyclbbleJRSUISlicedImbgeControl(control, stbteToPbint, metrics);
+                slicedControlImbges.put(stbteToPbint, slicesRef);
             }
-            final SlicedImageControl slices = slicesRef.get();
-            slices.paint(g, boundsRect.x, boundsRect.y, boundsRect.width, boundsRect.height);
+            finbl SlicedImbgeControl slices = slicesRef.get();
+            slices.pbint(g, boundsRect.x, boundsRect.y, boundsRect.width, boundsRect.height);
         }
     }
 
-    private static final class AquaSingleImagePainter<T extends JRSUIState>
-            extends AquaPainter<T> {
+    privbte stbtic finbl clbss AqubSingleImbgePbinter<T extends JRSUIStbte>
+            extends AqubPbinter<T> {
 
-        AquaSingleImagePainter(final T state) {
-            super(new JRSUIControl(false), state);
+        AqubSingleImbgePbinter(finbl T stbte) {
+            super(new JRSUIControl(fblse), stbte);
         }
 
         @Override
-        void paint(final Graphics2D g, final T stateToPaint) {
-            paintFromSingleCachedImage(g, control, stateToPaint, boundsRect);
+        void pbint(finbl Grbphics2D g, finbl T stbteToPbint) {
+            pbintFromSingleCbchedImbge(g, control, stbteToPbint, boundsRect);
         }
 
         /**
-         * Paints a native control, which identified by its size and a set of
-         * additional arguments using a cached image.
+         * Pbints b nbtive control, which identified by its size bnd b set of
+         * bdditionbl brguments using b cbched imbge.
          *
-         * @param  g Graphics to draw the control
-         * @param  control the reference to the native control
-         * @param  controlState the state of the native control
-         * @param  bounds the rectangle where the native part should be drawn.
-         *         Note: the focus can/will be drawn outside of this bounds.
+         * @pbrbm  g Grbphics to drbw the control
+         * @pbrbm  control the reference to the nbtive control
+         * @pbrbm  controlStbte the stbte of the nbtive control
+         * @pbrbm  bounds the rectbngle where the nbtive pbrt should be drbwn.
+         *         Note: the focus cbn/will be drbwn outside of this bounds.
          */
-        static void paintFromSingleCachedImage(final Graphics2D g,
-                                               final JRSUIControl control,
-                                               final JRSUIState controlState,
-                                               final Rectangle bounds) {
+        stbtic void pbintFromSingleCbchedImbge(finbl Grbphics2D g,
+                                               finbl JRSUIControl control,
+                                               finbl JRSUIStbte controlStbte,
+                                               finbl Rectbngle bounds) {
             if (bounds.width <= 0 || bounds.height <= 0) {
                 return;
             }
 
             int focus = 0;
-            if (controlState.is(JRSUIConstants.Focused.YES)) {
-                focus = JRSUIConstants.FOCUS_SIZE;
+            if (controlStbte.is(JRSUIConstbnts.Focused.YES)) {
+                focus = JRSUIConstbnts.FOCUS_SIZE;
             }
 
-            final int imgX = bounds.x - focus;
-            final int imgY = bounds.y - focus;
-            final int imgW = bounds.width + (focus << 1);
-            final int imgH = bounds.height + (focus << 1);
-            final GraphicsConfiguration config = g.getDeviceConfiguration();
-            final ImageCache cache = ImageCache.getInstance();
-            final AquaPixelsKey key = new AquaPixelsKey(config, imgW, imgH,
-                                                        bounds, controlState);
-            Image img = cache.getImage(key);
+            finbl int imgX = bounds.x - focus;
+            finbl int imgY = bounds.y - focus;
+            finbl int imgW = bounds.width + (focus << 1);
+            finbl int imgH = bounds.height + (focus << 1);
+            finbl GrbphicsConfigurbtion config = g.getDeviceConfigurbtion();
+            finbl ImbgeCbche cbche = ImbgeCbche.getInstbnce();
+            finbl AqubPixelsKey key = new AqubPixelsKey(config, imgW, imgH,
+                                                        bounds, controlStbte);
+            Imbge img = cbche.getImbge(key);
             if (img == null) {
-                img = new MultiResolutionCachedImage(imgW, imgH,
-                        (rvWidth, rvHeight) -> createImage(imgX, imgY,
-                         rvWidth, rvHeight, bounds, control, controlState));
+                img = new MultiResolutionCbchedImbge(imgW, imgH,
+                        (rvWidth, rvHeight) -> crebteImbge(imgX, imgY,
+                         rvWidth, rvHeight, bounds, control, controlStbte));
 
-                if (!controlState.is(JRSUIConstants.Animating.YES)) {
-                    cache.setImage(key, img);
+                if (!controlStbte.is(JRSUIConstbnts.Animbting.YES)) {
+                    cbche.setImbge(key, img);
                 }
             }
 
-            g.drawImage(img, imgX, imgY, imgW, imgH, null);
+            g.drbwImbge(img, imgX, imgY, imgW, imgH, null);
         }
 
-        private static Image createImage(int imgX, int imgY, int imgW, int imgH,
-                                         final Rectangle bounds,
-                                         final JRSUIControl control,
-                                         JRSUIState controlState) {
-            BufferedImage img = new BufferedImage(imgW, imgH,
-                    BufferedImage.TYPE_INT_ARGB_PRE);
+        privbte stbtic Imbge crebteImbge(int imgX, int imgY, int imgW, int imgH,
+                                         finbl Rectbngle bounds,
+                                         finbl JRSUIControl control,
+                                         JRSUIStbte controlStbte) {
+            BufferedImbge img = new BufferedImbge(imgW, imgH,
+                    BufferedImbge.TYPE_INT_ARGB_PRE);
 
-            final WritableRaster raster = img.getRaster();
-            final DataBufferInt buffer = (DataBufferInt) raster.getDataBuffer();
+            finbl WritbbleRbster rbster = img.getRbster();
+            finbl DbtbBufferInt buffer = (DbtbBufferInt) rbster.getDbtbBuffer();
 
-            control.set(controlState);
-            control.paint(SunWritableRaster.stealData(buffer, 0), imgW, imgH,
+            control.set(controlStbte);
+            control.pbint(SunWritbbleRbster.steblDbtb(buffer, 0), imgW, imgH,
                           bounds.x - imgX, bounds.y - imgY, bounds.width,
                           bounds.height);
-            SunWritableRaster.markDirty(buffer);
+            SunWritbbleRbster.mbrkDirty(buffer);
             return img;
         }
     }
 
-    private static class AquaPixelsKey implements ImageCache.PixelsKey {
+    privbte stbtic clbss AqubPixelsKey implements ImbgeCbche.PixelsKey {
 
-        private final int pixelCount;
-        private final int hash;
+        privbte finbl int pixelCount;
+        privbte finbl int hbsh;
 
-        // key parts
-        private final GraphicsConfiguration config;
-        private final int w;
-        private final int h;
-        private final Rectangle bounds;
-        private final JRSUIState state;
+        // key pbrts
+        privbte finbl GrbphicsConfigurbtion config;
+        privbte finbl int w;
+        privbte finbl int h;
+        privbte finbl Rectbngle bounds;
+        privbte finbl JRSUIStbte stbte;
 
-        AquaPixelsKey(final GraphicsConfiguration config,
-                final int w, final int h, final Rectangle bounds,
-                final JRSUIState state) {
+        AqubPixelsKey(finbl GrbphicsConfigurbtion config,
+                finbl int w, finbl int h, finbl Rectbngle bounds,
+                finbl JRSUIStbte stbte) {
             this.pixelCount = w * h;
             this.config = config;
             this.w = w;
             this.h = h;
             this.bounds = bounds;
-            this.state = state;
-            this.hash = hash();
+            this.stbte = stbte;
+            this.hbsh = hbsh();
         }
 
         @Override
@@ -234,74 +234,74 @@ abstract class AquaPainter <T extends JRSUIState> {
             return pixelCount;
         }
 
-        private int hash() {
-            int hash = config != null ? config.hashCode() : 0;
-            hash = 31 * hash + w;
-            hash = 31 * hash + h;
-            hash = 31 * hash + bounds.hashCode();
-            hash = 31 * hash + state.hashCode();
-            return hash;
+        privbte int hbsh() {
+            int hbsh = config != null ? config.hbshCode() : 0;
+            hbsh = 31 * hbsh + w;
+            hbsh = 31 * hbsh + h;
+            hbsh = 31 * hbsh + bounds.hbshCode();
+            hbsh = 31 * hbsh + stbte.hbshCode();
+            return hbsh;
         }
 
         @Override
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof AquaPixelsKey) {
-                AquaPixelsKey key = (AquaPixelsKey) obj;
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof AqubPixelsKey) {
+                AqubPixelsKey key = (AqubPixelsKey) obj;
                 return config == key.config && w == key.w && h == key.h
-                        && bounds.equals(key.bounds) && state.equals(key.state);
+                        && bounds.equbls(key.bounds) && stbte.equbls(key.stbte);
             }
-            return false;
+            return fblse;
         }
     }
 
-    private static class RecyclableJRSUISlicedImageControl
-            extends RecyclableSlicedImageControl {
+    privbte stbtic clbss RecyclbbleJRSUISlicedImbgeControl
+            extends RecyclbbleSlicedImbgeControl {
 
-        private final JRSUIControl control;
-        private final JRSUIState state;
+        privbte finbl JRSUIControl control;
+        privbte finbl JRSUIStbte stbte;
 
-        RecyclableJRSUISlicedImageControl(final JRSUIControl control, final JRSUIState state, final NineSliceMetrics metrics) {
+        RecyclbbleJRSUISlicedImbgeControl(finbl JRSUIControl control, finbl JRSUIStbte stbte, finbl NineSliceMetrics metrics) {
             super(metrics);
             this.control = control;
-            this.state = state;
+            this.stbte = stbte;
         }
 
         @Override
-        protected Image createTemplateImage(int width, int height) {
-            BufferedImage image = new BufferedImage(metrics.minW, metrics.minH, BufferedImage.TYPE_INT_ARGB_PRE);
+        protected Imbge crebteTemplbteImbge(int width, int height) {
+            BufferedImbge imbge = new BufferedImbge(metrics.minW, metrics.minH, BufferedImbge.TYPE_INT_ARGB_PRE);
 
-            final WritableRaster raster = image.getRaster();
-            final DataBufferInt buffer = (DataBufferInt)raster.getDataBuffer();
+            finbl WritbbleRbster rbster = imbge.getRbster();
+            finbl DbtbBufferInt buffer = (DbtbBufferInt)rbster.getDbtbBuffer();
 
-            control.set(state);
-            control.paint(SunWritableRaster.stealData(buffer, 0), metrics.minW, metrics.minH, 0, 0, metrics.minW, metrics.minH);
+            control.set(stbte);
+            control.pbint(SunWritbbleRbster.steblDbtb(buffer, 0), metrics.minW, metrics.minH, 0, 0, metrics.minW, metrics.minH);
 
-            SunWritableRaster.markDirty(buffer);
+            SunWritbbleRbster.mbrkDirty(buffer);
 
-            return image;
+            return imbge;
         }
     }
 
-    private Graphics2D getGraphics2D(final Graphics g) {
+    privbte Grbphics2D getGrbphics2D(finbl Grbphics g) {
         try {
-            return (SunGraphics2D)g; // doing a blind try is faster than checking instanceof
-        } catch (Exception ignored) {
-            if (g instanceof PeekGraphics) {
-                // if it is a peek just dirty the region
+            return (SunGrbphics2D)g; // doing b blind try is fbster thbn checking instbnceof
+        } cbtch (Exception ignored) {
+            if (g instbnceof PeekGrbphics) {
+                // if it is b peek just dirty the region
                 g.fillRect(boundsRect.x, boundsRect.y, boundsRect.width, boundsRect.height);
-            } else if (g instanceof ProxyGraphics2D) {
-                final ProxyGraphics2D pg = (ProxyGraphics2D)g;
-                final Graphics2D g2d = pg.getDelegate();
-                if (g2d instanceof SunGraphics2D) {
+            } else if (g instbnceof ProxyGrbphics2D) {
+                finbl ProxyGrbphics2D pg = (ProxyGrbphics2D)g;
+                finbl Grbphics2D g2d = pg.getDelegbte();
+                if (g2d instbnceof SunGrbphics2D) {
                     return g2d;
                 }
-            } else if (g instanceof Graphics2D) {
-                return (Graphics2D) g;
+            } else if (g instbnceof Grbphics2D) {
+                return (Grbphics2D) g;
             }
         }
 

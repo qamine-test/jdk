@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.lang.reflect.Proxy;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.rmi.*;
-import java.rmi.activation.*;
-import java.rmi.server.Operation;
-import java.rmi.server.RMIClassLoader;
-import java.rmi.server.RemoteCall;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteObjectInvocationHandler;
-import java.rmi.server.RemoteRef;
-import java.rmi.server.RemoteStub;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvb.rmi.*;
+import jbvb.rmi.bctivbtion.*;
+import jbvb.rmi.server.Operbtion;
+import jbvb.rmi.server.RMIClbssLobder;
+import jbvb.rmi.server.RemoteCbll;
+import jbvb.rmi.server.RemoteObject;
+import jbvb.rmi.server.RemoteObjectInvocbtionHbndler;
+import jbvb.rmi.server.RemoteRef;
+import jbvb.rmi.server.RemoteStub;
 
-@SuppressWarnings("deprecation")
-public class ActivatableRef implements RemoteRef {
+@SuppressWbrnings("deprecbtion")
+public clbss ActivbtbbleRef implements RemoteRef {
 
-    private static final long serialVersionUID = 7579060052569229166L;
+    privbte stbtic finbl long seriblVersionUID = 7579060052569229166L;
 
-    protected ActivationID id;
+    protected ActivbtionID id;
     protected RemoteRef ref;
-    transient boolean force = false;
+    trbnsient boolebn force = fblse;
 
-    private static final int MAX_RETRIES = 3;
-    private static final String versionComplaint =
-        "activation requires 1.2 stubs";
+    privbte stbtic finbl int MAX_RETRIES = 3;
+    privbte stbtic finbl String versionComplbint =
+        "bctivbtion requires 1.2 stubs";
 
     /**
-     * Create a new (empty) ActivatableRef
+     * Crebte b new (empty) ActivbtbbleRef
      */
-    public ActivatableRef()
+    public ActivbtbbleRef()
     {}
 
     /**
-     * Create a ActivatableRef with the specified id
+     * Crebte b ActivbtbbleRef with the specified id
      */
-    public ActivatableRef(ActivationID id, RemoteRef ref)
+    public ActivbtbbleRef(ActivbtionID id, RemoteRef ref)
     {
         this.id = id;
         this.ref = ref;
     }
 
     /**
-     * Returns the stub for the remote object whose class is
-     * specified in the activation descriptor. The ActivatableRef
-     * in the resulting stub has its activation id set to the
-     * activation id supplied as the second argument.
+     * Returns the stub for the remote object whose clbss is
+     * specified in the bctivbtion descriptor. The ActivbtbbleRef
+     * in the resulting stub hbs its bctivbtion id set to the
+     * bctivbtion id supplied bs the second brgument.
      */
-    public static Remote getStub(ActivationDesc desc, ActivationID id)
+    public stbtic Remote getStub(ActivbtionDesc desc, ActivbtionID id)
         throws StubNotFoundException
     {
-        String className = desc.getClassName();
+        String clbssNbme = desc.getClbssNbme();
 
         try {
-            Class<?> cl =
-                RMIClassLoader.loadClass(desc.getLocation(), className);
-            RemoteRef clientRef = new ActivatableRef(id, null);
-            return Util.createProxy(cl, clientRef, false);
+            Clbss<?> cl =
+                RMIClbssLobder.lobdClbss(desc.getLocbtion(), clbssNbme);
+            RemoteRef clientRef = new ActivbtbbleRef(id, null);
+            return Util.crebteProxy(cl, clientRef, fblse);
 
-        } catch (IllegalArgumentException e) {
+        } cbtch (IllegblArgumentException e) {
             throw new StubNotFoundException(
-                "class implements an illegal remote interface", e);
+                "clbss implements bn illegbl remote interfbce", e);
 
-        } catch (ClassNotFoundException e) {
-            throw new StubNotFoundException("unable to load class: " +
-                                            className, e);
-        } catch (MalformedURLException e) {
-            throw new StubNotFoundException("malformed URL", e);
+        } cbtch (ClbssNotFoundException e) {
+            throw new StubNotFoundException("unbble to lobd clbss: " +
+                                            clbssNbme, e);
+        } cbtch (MblformedURLException e) {
+            throw new StubNotFoundException("mblformed URL", e);
         }
     }
 
     /**
-     * Invoke method on remote object. This method delegates remote
-     * method invocation to the underlying ref type.  If the
+     * Invoke method on remote object. This method delegbtes remote
+     * method invocbtion to the underlying ref type.  If the
      * underlying reference is not known (is null), then the object
-     * must be activated first.  If an attempt at method invocation
-     * fails, the object should force reactivation.  Method invocation
-     * must preserve "at most once" call semantics.  In RMI, "at most
-     * once" applies to parameter deserialization at the remote site
-     * and the remote object's method execution.  "At most once" does
-     * not apply to parameter serialization at the client so the
-     * parameters of a call don't need to be buffered in anticipation
-     * of call retry. Thus, a method call is only be retried if the
-     * initial method invocation does not execute at all at the server
-     * (including parameter deserialization).
+     * must be bctivbted first.  If bn bttempt bt method invocbtion
+     * fbils, the object should force rebctivbtion.  Method invocbtion
+     * must preserve "bt most once" cbll sembntics.  In RMI, "bt most
+     * once" bpplies to pbrbmeter deseriblizbtion bt the remote site
+     * bnd the remote object's method execution.  "At most once" does
+     * not bpply to pbrbmeter seriblizbtion bt the client so the
+     * pbrbmeters of b cbll don't need to be buffered in bnticipbtion
+     * of cbll retry. Thus, b method cbll is only be retried if the
+     * initibl method invocbtion does not execute bt bll bt the server
+     * (including pbrbmeter deseriblizbtion).
      */
     public Object invoke(Remote obj,
-                         java.lang.reflect.Method method,
-                         Object[] params,
+                         jbvb.lbng.reflect.Method method,
+                         Object[] pbrbms,
                          long opnum)
         throws Exception
     {
 
-        boolean force = false;
-        RemoteRef localRef;
+        boolebn force = fblse;
+        RemoteRef locblRef;
         Exception exception = null;
 
         /*
-         * Attempt object activation if active ref is unknown.
-         * Throws a RemoteException if object can't be activated.
+         * Attempt object bctivbtion if bctive ref is unknown.
+         * Throws b RemoteException if object cbn't be bctivbted.
          */
         synchronized (this) {
             if (ref == null) {
-                localRef = activate(force);
+                locblRef = bctivbte(force);
                 force = true;
             } else {
-                localRef = ref;
+                locblRef = ref;
             }
         }
 
         for (int retries = MAX_RETRIES; retries > 0; retries--) {
 
             try {
-                return localRef.invoke(obj, method, params, opnum);
-            } catch (NoSuchObjectException e) {
+                return locblRef.invoke(obj, method, pbrbms, opnum);
+            } cbtch (NoSuchObjectException e) {
                 /*
-                 * Object is not active in VM; retry call
+                 * Object is not bctive in VM; retry cbll
                  */
                 exception = e;
-            } catch (ConnectException e) {
+            } cbtch (ConnectException e) {
                 /*
-                 * Failure during connection setup; retry call
+                 * Fbilure during connection setup; retry cbll
                  */
                 exception = e;
-            } catch (UnknownHostException e) {
+            } cbtch (UnknownHostException e) {
                 /*
-                 * Failure during connection setup; retry call.
+                 * Fbilure during connection setup; retry cbll.
                  */
                 exception = e;
-            } catch (ConnectIOException e) {
+            } cbtch (ConnectIOException e) {
                 /*
-                 * Failure setting up multiplexed connection or reusing
-                 * cached connection; retry call
+                 * Fbilure setting up multiplexed connection or reusing
+                 * cbched connection; retry cbll
                  */
                 exception = e;
-            } catch (MarshalException e) {
+            } cbtch (MbrshblException e) {
                 /*
-                 * Failure during parameter serialization; call may
-                 * have reached server, so call retry not possible.
+                 * Fbilure during pbrbmeter seriblizbtion; cbll mby
+                 * hbve rebched server, so cbll retry not possible.
                  */
                 throw e;
-            } catch (ServerError e) {
+            } cbtch (ServerError e) {
                 /*
-                 * Call reached server; propagate remote exception.
+                 * Cbll rebched server; propbgbte remote exception.
                  */
                 throw e;
-            } catch (ServerException e) {
+            } cbtch (ServerException e) {
                 /*
-                 * Call reached server; propagate remote exception
+                 * Cbll rebched server; propbgbte remote exception
                  */
                 throw e;
-            } catch (RemoteException e) {
+            } cbtch (RemoteException e) {
                 /*
-                 * This is a catch-all for other RemoteExceptions.
-                 * UnmarshalException being the only one relevant.
+                 * This is b cbtch-bll for other RemoteExceptions.
+                 * UnmbrshblException being the only one relevbnt.
                  *
-                 * StubNotFoundException should never show up because
-                 * it is generally thrown when attempting to locate
-                 * a stub.
+                 * StubNotFoundException should never show up becbuse
+                 * it is generblly thrown when bttempting to locbte
+                 * b stub.
                  *
-                 * UnexpectedException should never show up because
-                 * it is only thrown by a stub and would be wrapped
-                 * in a ServerException if it was propagated by a
-                 * remote call.
+                 * UnexpectedException should never show up becbuse
+                 * it is only thrown by b stub bnd would be wrbpped
+                 * in b ServerException if it wbs propbgbted by b
+                 * remote cbll.
                  */
                 synchronized (this) {
-                    if (localRef == ref) {
-                        ref = null;     // this may be overly conservative
+                    if (locblRef == ref) {
+                        ref = null;     // this mby be overly conservbtive
                     }
                 }
 
@@ -203,210 +203,210 @@ public class ActivatableRef implements RemoteRef {
 
             if (retries > 1) {
                 /*
-                 * Activate object, since object could not be reached.
+                 * Activbte object, since object could not be rebched.
                  */
                 synchronized (this) {
-                    if (localRef.remoteEquals(ref) || ref == null) {
-                        RemoteRef newRef = activate(force);
+                    if (locblRef.remoteEqubls(ref) || ref == null) {
+                        RemoteRef newRef = bctivbte(force);
 
-                        if (newRef.remoteEquals(localRef) &&
-                            exception instanceof NoSuchObjectException &&
-                            force == false) {
+                        if (newRef.remoteEqubls(locblRef) &&
+                            exception instbnceof NoSuchObjectException &&
+                            force == fblse) {
                             /*
-                             * If last exception was NoSuchObjectException,
-                             * then old value of ref is definitely wrong,
-                             * so make sure that it is different.
+                             * If lbst exception wbs NoSuchObjectException,
+                             * then old vblue of ref is definitely wrong,
+                             * so mbke sure thbt it is different.
                              */
-                            newRef = activate(true);
+                            newRef = bctivbte(true);
                         }
 
-                        localRef = newRef;
+                        locblRef = newRef;
                         force = true;
                     } else {
-                        localRef = ref;
-                        force = false;
+                        locblRef = ref;
+                        force = fblse;
                     }
                 }
             }
         }
 
         /*
-         * Retries unsuccessful, so throw last exception
+         * Retries unsuccessful, so throw lbst exception
          */
         throw exception;
     }
 
     /**
-     * private method to obtain the ref for a call.
+     * privbte method to obtbin the ref for b cbll.
      */
-    private synchronized RemoteRef getRef()
+    privbte synchronized RemoteRef getRef()
         throws RemoteException
     {
         if (ref == null) {
-            ref = activate(false);
+            ref = bctivbte(fblse);
         }
 
         return ref;
     }
 
     /**
-     * private method to activate the remote object.
+     * privbte method to bctivbte the remote object.
      *
-     * NOTE: the caller must be synchronized on "this" before
-     * calling this method.
+     * NOTE: the cbller must be synchronized on "this" before
+     * cblling this method.
      */
-    private RemoteRef activate(boolean force)
+    privbte RemoteRef bctivbte(boolebn force)
         throws RemoteException
     {
-        assert Thread.holdsLock(this);
+        bssert Threbd.holdsLock(this);
 
         ref = null;
         try {
             /*
-             * Activate the object and retrieve the remote reference
-             * from inside the stub returned as the result. Then
-             * set this activatable ref's internal ref to be the
-             * ref inside the ref of the stub. In more clear terms,
-             * the stub returned from the activate call contains an
-             * ActivatableRef. We need to set the ref in *this*
-             * ActivatableRef to the ref inside the ActivatableRef
+             * Activbte the object bnd retrieve the remote reference
+             * from inside the stub returned bs the result. Then
+             * set this bctivbtbble ref's internbl ref to be the
+             * ref inside the ref of the stub. In more clebr terms,
+             * the stub returned from the bctivbte cbll contbins bn
+             * ActivbtbbleRef. We need to set the ref in *this*
+             * ActivbtbbleRef to the ref inside the ActivbtbbleRef
              * retrieved from the stub. The ref type embedded in the
-             * ActivatableRef is typically a UnicastRef.
+             * ActivbtbbleRef is typicblly b UnicbstRef.
              */
 
-            Remote proxy = id.activate(force);
-            ActivatableRef newRef = null;
+            Remote proxy = id.bctivbte(force);
+            ActivbtbbleRef newRef = null;
 
-            if (proxy instanceof RemoteStub) {
-                newRef = (ActivatableRef) ((RemoteStub) proxy).getRef();
+            if (proxy instbnceof RemoteStub) {
+                newRef = (ActivbtbbleRef) ((RemoteStub) proxy).getRef();
             } else {
                 /*
-                 * Assume that proxy is an instance of a dynamic proxy
-                 * class.  If that assumption is not correct, or either of
-                 * the casts below fails, the resulting exception will be
-                 * wrapped in an ActivateFailedException below.
+                 * Assume thbt proxy is bn instbnce of b dynbmic proxy
+                 * clbss.  If thbt bssumption is not correct, or either of
+                 * the cbsts below fbils, the resulting exception will be
+                 * wrbpped in bn ActivbteFbiledException below.
                  */
-                RemoteObjectInvocationHandler handler =
-                    (RemoteObjectInvocationHandler)
-                    Proxy.getInvocationHandler(proxy);
-                newRef = (ActivatableRef) handler.getRef();
+                RemoteObjectInvocbtionHbndler hbndler =
+                    (RemoteObjectInvocbtionHbndler)
+                    Proxy.getInvocbtionHbndler(proxy);
+                newRef = (ActivbtbbleRef) hbndler.getRef();
             }
             ref = newRef.ref;
             return ref;
 
-        } catch (ConnectException e) {
-            throw new ConnectException("activation failed", e);
-        } catch (RemoteException e) {
-            throw new ConnectIOException("activation failed", e);
-        } catch (UnknownObjectException e) {
+        } cbtch (ConnectException e) {
+            throw new ConnectException("bctivbtion fbiled", e);
+        } cbtch (RemoteException e) {
+            throw new ConnectIOException("bctivbtion fbiled", e);
+        } cbtch (UnknownObjectException e) {
             throw new NoSuchObjectException("object not registered");
-        } catch (ActivationException e) {
-            throw new ActivateFailedException("activation failed", e);
+        } cbtch (ActivbtionException e) {
+            throw new ActivbteFbiledException("bctivbtion fbiled", e);
         }
     }
 
     /**
-     * This call is used by the old 1.1 stub protocol and is
-     * unsupported since activation requires 1.2 stubs.
+     * This cbll is used by the old 1.1 stub protocol bnd is
+     * unsupported since bctivbtion requires 1.2 stubs.
      */
-    public synchronized RemoteCall newCall(RemoteObject obj,
-                                           Operation[] ops,
+    public synchronized RemoteCbll newCbll(RemoteObject obj,
+                                           Operbtion[] ops,
                                            int opnum,
-                                           long hash)
+                                           long hbsh)
         throws RemoteException
     {
-        throw new UnsupportedOperationException(versionComplaint);
+        throw new UnsupportedOperbtionException(versionComplbint);
     }
 
     /**
-     * This call is used by the old 1.1 stub protocol and is
-     * unsupported since activation requires 1.2 stubs.
+     * This cbll is used by the old 1.1 stub protocol bnd is
+     * unsupported since bctivbtion requires 1.2 stubs.
      */
-    public void invoke(RemoteCall call) throws Exception
+    public void invoke(RemoteCbll cbll) throws Exception
     {
-        throw new UnsupportedOperationException(versionComplaint);
+        throw new UnsupportedOperbtionException(versionComplbint);
     }
 
     /**
-     * This call is used by the old 1.1 stub protocol and is
-     * unsupported since activation requires 1.2 stubs.
+     * This cbll is used by the old 1.1 stub protocol bnd is
+     * unsupported since bctivbtion requires 1.2 stubs.
      */
-    public void done(RemoteCall call) throws RemoteException {
-        throw new UnsupportedOperationException(versionComplaint);
+    public void done(RemoteCbll cbll) throws RemoteException {
+        throw new UnsupportedOperbtionException(versionComplbint);
     }
 
     /**
-     * Returns the class of the ref type to be serialized
+     * Returns the clbss of the ref type to be seriblized
      */
-    public String getRefClass(ObjectOutput out)
+    public String getRefClbss(ObjectOutput out)
     {
-        return "ActivatableRef";
+        return "ActivbtbbleRef";
     }
 
     /**
-     * Write out external representation for remote ref.
+     * Write out externbl representbtion for remote ref.
      */
-    public void writeExternal(ObjectOutput out) throws IOException
+    public void writeExternbl(ObjectOutput out) throws IOException
     {
-        RemoteRef localRef = ref;
+        RemoteRef locblRef = ref;
 
         out.writeObject(id);
-        if (localRef == null) {
+        if (locblRef == null) {
             out.writeUTF("");
         } else {
-            out.writeUTF(localRef.getRefClass(out));
-            localRef.writeExternal(out);
+            out.writeUTF(locblRef.getRefClbss(out));
+            locblRef.writeExternbl(out);
         }
     }
 
     /**
-     * Read in external representation for remote ref.
-     * @exception ClassNotFoundException If the class for an object
-     * being restored cannot be found.
+     * Rebd in externbl representbtion for remote ref.
+     * @exception ClbssNotFoundException If the clbss for bn object
+     * being restored cbnnot be found.
      */
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    public void rebdExternbl(ObjectInput in)
+        throws IOException, ClbssNotFoundException
     {
-        id = (ActivationID)in.readObject();
+        id = (ActivbtionID)in.rebdObject();
         ref = null;
-        String className = in.readUTF();
+        String clbssNbme = in.rebdUTF();
 
-        if (className.equals("")) return;
+        if (clbssNbme.equbls("")) return;
 
         try {
-            Class<?> refClass = Class.forName(RemoteRef.packagePrefix + "." +
-                                              className);
-            ref = (RemoteRef)refClass.newInstance();
-            ref.readExternal(in);
-        } catch (InstantiationException e) {
-            throw new UnmarshalException("Unable to create remote reference",
+            Clbss<?> refClbss = Clbss.forNbme(RemoteRef.pbckbgePrefix + "." +
+                                              clbssNbme);
+            ref = (RemoteRef)refClbss.newInstbnce();
+            ref.rebdExternbl(in);
+        } cbtch (InstbntibtionException e) {
+            throw new UnmbrshblException("Unbble to crebte remote reference",
                                          e);
-        } catch (IllegalAccessException e) {
-            throw new UnmarshalException("Illegal access creating remote reference");
+        } cbtch (IllegblAccessException e) {
+            throw new UnmbrshblException("Illegbl bccess crebting remote reference");
         }
     }
 
     //----------------------------------------------------------------------;
     /**
-     * Method from object, forward from RemoteObject
+     * Method from object, forwbrd from RemoteObject
      */
     public String remoteToString() {
-        return Util.getUnqualifiedName(getClass()) +
+        return Util.getUnqublifiedNbme(getClbss()) +
                 " [remoteRef: " + ref + "]";
     }
 
     /**
-     * default implementation of hashCode for remote objects
+     * defbult implementbtion of hbshCode for remote objects
      */
-    public int remoteHashCode() {
-        return id.hashCode();
+    public int remoteHbshCode() {
+        return id.hbshCode();
     }
 
-    /** default implementation of equals for remote objects
+    /** defbult implementbtion of equbls for remote objects
      */
-    public boolean remoteEquals(RemoteRef ref) {
-        if (ref instanceof ActivatableRef)
-            return id.equals(((ActivatableRef)ref).id);
-        return false;
+    public boolebn remoteEqubls(RemoteRef ref) {
+        if (ref instbnceof ActivbtbbleRef)
+            return id.equbls(((ActivbtbbleRef)ref).id);
+        return fblse;
     }
 }

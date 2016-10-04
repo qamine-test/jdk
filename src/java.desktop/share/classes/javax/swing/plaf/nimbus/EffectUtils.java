@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Transparency;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.ColorModel;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.ColorModel;
 
 /**
  * EffectUtils
  *
- * @author Created by Jasper Potts (Jun 18, 2007)
+ * @buthor Crebted by Jbsper Potts (Jun 18, 2007)
  */
-class EffectUtils {
+clbss EffectUtils {
 
     /**
-     * Clear a transparent image to 100% transparent
+     * Clebr b trbnspbrent imbge to 100% trbnspbrent
      *
-     * @param img The image to clear
+     * @pbrbm img The imbge to clebr
      */
-    static void clearImage(BufferedImage img) {
-        Graphics2D g2 = img.createGraphics();
-        g2.setComposite(AlphaComposite.Clear);
+    stbtic void clebrImbge(BufferedImbge img) {
+        Grbphics2D g2 = img.crebteGrbphics();
+        g2.setComposite(AlphbComposite.Clebr);
         g2.fillRect(0, 0, img.getWidth(), img.getHeight());
         g2.dispose();
     }
@@ -57,71 +57,71 @@ class EffectUtils {
     // Blur
 
     /**
-     * Apply Gaussian Blur to Image
+     * Apply Gbussibn Blur to Imbge
      *
-     * @param src    The image tp
-     * @param dst    The destination image to draw blured src image into, null if you want a new one created
-     * @param radius The blur kernel radius
-     * @return The blured image
+     * @pbrbm src    The imbge tp
+     * @pbrbm dst    The destinbtion imbge to drbw blured src imbge into, null if you wbnt b new one crebted
+     * @pbrbm rbdius The blur kernel rbdius
+     * @return The blured imbge
      */
-    static BufferedImage gaussianBlur(BufferedImage src, BufferedImage dst, int radius) {
+    stbtic BufferedImbge gbussibnBlur(BufferedImbge src, BufferedImbge dst, int rbdius) {
         int width = src.getWidth();
         int height = src.getHeight();
         if (dst == null || dst.getWidth() != width || dst.getHeight() != height || src.getType() != dst.getType()) {
-            dst = createColorModelCompatibleImage(src);
+            dst = crebteColorModelCompbtibleImbge(src);
         }
-        float[] kernel = createGaussianKernel(radius);
-        if (src.getType() == BufferedImage.TYPE_INT_ARGB) {
+        flobt[] kernel = crebteGbussibnKernel(rbdius);
+        if (src.getType() == BufferedImbge.TYPE_INT_ARGB) {
             int[] srcPixels = new int[width * height];
             int[] dstPixels = new int[width * height];
             getPixels(src, 0, 0, width, height, srcPixels);
-            // horizontal pass
-            blur(srcPixels, dstPixels, width, height, kernel, radius);
-            // vertical pass
-            //noinspection SuspiciousNameCombination
-            blur(dstPixels, srcPixels, height, width, kernel, radius);
-            // the result is now stored in srcPixels due to the 2nd pass
+            // horizontbl pbss
+            blur(srcPixels, dstPixels, width, height, kernel, rbdius);
+            // verticbl pbss
+            //noinspection SuspiciousNbmeCombinbtion
+            blur(dstPixels, srcPixels, height, width, kernel, rbdius);
+            // the result is now stored in srcPixels due to the 2nd pbss
             setPixels(dst, 0, 0, width, height, srcPixels);
-        } else if (src.getType() == BufferedImage.TYPE_BYTE_GRAY) {
+        } else if (src.getType() == BufferedImbge.TYPE_BYTE_GRAY) {
             byte[] srcPixels = new byte[width * height];
             byte[] dstPixels = new byte[width * height];
             getPixels(src, 0, 0, width, height, srcPixels);
-            // horizontal pass
-            blur(srcPixels, dstPixels, width, height, kernel, radius);
-            // vertical pass
-            //noinspection SuspiciousNameCombination
-            blur(dstPixels, srcPixels, height, width, kernel, radius);
-            // the result is now stored in srcPixels due to the 2nd pass
+            // horizontbl pbss
+            blur(srcPixels, dstPixels, width, height, kernel, rbdius);
+            // verticbl pbss
+            //noinspection SuspiciousNbmeCombinbtion
+            blur(dstPixels, srcPixels, height, width, kernel, rbdius);
+            // the result is now stored in srcPixels due to the 2nd pbss
             setPixels(dst, 0, 0, width, height, srcPixels);
         } else {
-            throw new IllegalArgumentException("EffectUtils.gaussianBlur() src image is not a supported type, type=[" +
+            throw new IllegblArgumentException("EffectUtils.gbussibnBlur() src imbge is not b supported type, type=[" +
                     src.getType() + "]");
         }
         return dst;
     }
 
     /**
-     * <p>Blurs the source pixels into the destination pixels. The force of the blur is specified by the radius which
-     * must be greater than 0.</p> <p>The source and destination pixels arrays are expected to be in the INT_ARGB
-     * format.</p> <p>After this method is executed, dstPixels contains a transposed and filtered copy of
+     * <p>Blurs the source pixels into the destinbtion pixels. The force of the blur is specified by the rbdius which
+     * must be grebter thbn 0.</p> <p>The source bnd destinbtion pixels brrbys bre expected to be in the INT_ARGB
+     * formbt.</p> <p>After this method is executed, dstPixels contbins b trbnsposed bnd filtered copy of
      * srcPixels.</p>
      *
-     * @param srcPixels the source pixels
-     * @param dstPixels the destination pixels
-     * @param width     the width of the source picture
-     * @param height    the height of the source picture
-     * @param kernel    the kernel of the blur effect
-     * @param radius    the radius of the blur effect
+     * @pbrbm srcPixels the source pixels
+     * @pbrbm dstPixels the destinbtion pixels
+     * @pbrbm width     the width of the source picture
+     * @pbrbm height    the height of the source picture
+     * @pbrbm kernel    the kernel of the blur effect
+     * @pbrbm rbdius    the rbdius of the blur effect
      */
-    private static void blur(int[] srcPixels, int[] dstPixels,
+    privbte stbtic void blur(int[] srcPixels, int[] dstPixels,
                              int width, int height,
-                             float[] kernel, int radius) {
-        float a;
-        float r;
-        float g;
-        float b;
+                             flobt[] kernel, int rbdius) {
+        flobt b;
+        flobt r;
+        flobt g;
+        flobt b;
 
-        int ca;
+        int cb;
         int cr;
         int cg;
         int cb;
@@ -131,29 +131,29 @@ class EffectUtils {
             int offset = y * width;
 
             for (int x = 0; x < width; x++) {
-                a = r = g = b = 0.0f;
+                b = r = g = b = 0.0f;
 
-                for (int i = -radius; i <= radius; i++) {
+                for (int i = -rbdius; i <= rbdius; i++) {
                     int subOffset = x + i;
                     if (subOffset < 0 || subOffset >= width) {
                         subOffset = (x + width) % width;
                     }
 
                     int pixel = srcPixels[offset + subOffset];
-                    float blurFactor = kernel[radius + i];
+                    flobt blurFbctor = kernel[rbdius + i];
 
-                    a += blurFactor * ((pixel >> 24) & 0xFF);
-                    r += blurFactor * ((pixel >> 16) & 0xFF);
-                    g += blurFactor * ((pixel >> 8) & 0xFF);
-                    b += blurFactor * ((pixel) & 0xFF);
+                    b += blurFbctor * ((pixel >> 24) & 0xFF);
+                    r += blurFbctor * ((pixel >> 16) & 0xFF);
+                    g += blurFbctor * ((pixel >> 8) & 0xFF);
+                    b += blurFbctor * ((pixel) & 0xFF);
                 }
 
-                ca = (int) (a + 0.5f);
+                cb = (int) (b + 0.5f);
                 cr = (int) (r + 0.5f);
                 cg = (int) (g + 0.5f);
                 cb = (int) (b + 0.5f);
 
-                dstPixels[index] = ((ca > 255 ? 255 : ca) << 24) |
+                dstPixels[index] = ((cb > 255 ? 255 : cb) << 24) |
                         ((cr > 255 ? 255 : cr) << 16) |
                         ((cg > 255 ? 255 : cg) << 8) |
                         (cb > 255 ? 255 : cb);
@@ -163,29 +163,29 @@ class EffectUtils {
     }
 
     /**
-     * <p>Blurs the source pixels into the destination pixels. The force of the blur is specified by the radius which
-     * must be greater than 0.</p> <p>The source and destination pixels arrays are expected to be in the BYTE_GREY
-     * format.</p> <p>After this method is executed, dstPixels contains a transposed and filtered copy of
+     * <p>Blurs the source pixels into the destinbtion pixels. The force of the blur is specified by the rbdius which
+     * must be grebter thbn 0.</p> <p>The source bnd destinbtion pixels brrbys bre expected to be in the BYTE_GREY
+     * formbt.</p> <p>After this method is executed, dstPixels contbins b trbnsposed bnd filtered copy of
      * srcPixels.</p>
      *
-     * @param srcPixels the source pixels
-     * @param dstPixels the destination pixels
-     * @param width     the width of the source picture
-     * @param height    the height of the source picture
-     * @param kernel    the kernel of the blur effect
-     * @param radius    the radius of the blur effect
+     * @pbrbm srcPixels the source pixels
+     * @pbrbm dstPixels the destinbtion pixels
+     * @pbrbm width     the width of the source picture
+     * @pbrbm height    the height of the source picture
+     * @pbrbm kernel    the kernel of the blur effect
+     * @pbrbm rbdius    the rbdius of the blur effect
      */
-    static void blur(byte[] srcPixels, byte[] dstPixels,
+    stbtic void blur(byte[] srcPixels, byte[] dstPixels,
                             int width, int height,
-                            float[] kernel, int radius) {
-        float p;
+                            flobt[] kernel, int rbdius) {
+        flobt p;
         int cp;
         for (int y = 0; y < height; y++) {
             int index = y;
             int offset = y * width;
             for (int x = 0; x < width; x++) {
                 p = 0.0f;
-                for (int i = -radius; i <= radius; i++) {
+                for (int i = -rbdius; i <= rbdius; i++) {
                     int subOffset = x + i;
 //                    if (subOffset < 0) subOffset = 0;
 //                    if (subOffset >= width) subOffset = width-1;
@@ -193,8 +193,8 @@ class EffectUtils {
                         subOffset = (x + width) % width;
                     }
                     int pixel = srcPixels[offset + subOffset] & 0xFF;
-                    float blurFactor = kernel[radius + i];
-                    p += blurFactor * pixel;
+                    flobt blurFbctor = kernel[rbdius + i];
+                    p += blurFbctor * pixel;
                 }
                 cp = (int) (p + 0.5f);
                 dstPixels[index] = (byte) (cp > 255 ? 255 : cp);
@@ -203,51 +203,51 @@ class EffectUtils {
         }
     }
 
-    static float[] createGaussianKernel(int radius) {
-        if (radius < 1) {
-            throw new IllegalArgumentException("Radius must be >= 1");
+    stbtic flobt[] crebteGbussibnKernel(int rbdius) {
+        if (rbdius < 1) {
+            throw new IllegblArgumentException("Rbdius must be >= 1");
         }
 
-        float[] data = new float[radius * 2 + 1];
+        flobt[] dbtb = new flobt[rbdius * 2 + 1];
 
-        float sigma = radius / 3.0f;
-        float twoSigmaSquare = 2.0f * sigma * sigma;
-        float sigmaRoot = (float) Math.sqrt(twoSigmaSquare * Math.PI);
-        float total = 0.0f;
+        flobt sigmb = rbdius / 3.0f;
+        flobt twoSigmbSqubre = 2.0f * sigmb * sigmb;
+        flobt sigmbRoot = (flobt) Mbth.sqrt(twoSigmbSqubre * Mbth.PI);
+        flobt totbl = 0.0f;
 
-        for (int i = -radius; i <= radius; i++) {
-            float distance = i * i;
-            int index = i + radius;
-            data[index] = (float) Math.exp(-distance / twoSigmaSquare) / sigmaRoot;
-            total += data[index];
+        for (int i = -rbdius; i <= rbdius; i++) {
+            flobt distbnce = i * i;
+            int index = i + rbdius;
+            dbtb[index] = (flobt) Mbth.exp(-distbnce / twoSigmbSqubre) / sigmbRoot;
+            totbl += dbtb[index];
         }
 
-        for (int i = 0; i < data.length; i++) {
-            data[i] /= total;
+        for (int i = 0; i < dbtb.length; i++) {
+            dbtb[i] /= totbl;
         }
 
-        return data;
+        return dbtb;
     }
 
     // =================================================================================================================
     // Get/Set Pixels helper methods
 
     /**
-     * <p>Returns an array of pixels, stored as integers, from a <code>BufferedImage</code>. The pixels are grabbed from
-     * a rectangular area defined by a location and two dimensions. Calling this method on an image of type different
-     * from <code>BufferedImage.TYPE_INT_ARGB</code> and <code>BufferedImage.TYPE_INT_RGB</code> will unmanage the
-     * image.</p>
+     * <p>Returns bn brrby of pixels, stored bs integers, from b <code>BufferedImbge</code>. The pixels bre grbbbed from
+     * b rectbngulbr breb defined by b locbtion bnd two dimensions. Cblling this method on bn imbge of type different
+     * from <code>BufferedImbge.TYPE_INT_ARGB</code> bnd <code>BufferedImbge.TYPE_INT_RGB</code> will unmbnbge the
+     * imbge.</p>
      *
-     * @param img    the source image
-     * @param x      the x location at which to start grabbing pixels
-     * @param y      the y location at which to start grabbing pixels
-     * @param w      the width of the rectangle of pixels to grab
-     * @param h      the height of the rectangle of pixels to grab
-     * @param pixels a pre-allocated array of pixels of size w*h; can be null
-     * @return <code>pixels</code> if non-null, a new array of integers otherwise
-     * @throws IllegalArgumentException is <code>pixels</code> is non-null and of length &lt; w*h
+     * @pbrbm img    the source imbge
+     * @pbrbm x      the x locbtion bt which to stbrt grbbbing pixels
+     * @pbrbm y      the y locbtion bt which to stbrt grbbbing pixels
+     * @pbrbm w      the width of the rectbngle of pixels to grbb
+     * @pbrbm h      the height of the rectbngle of pixels to grbb
+     * @pbrbm pixels b pre-bllocbted brrby of pixels of size w*h; cbn be null
+     * @return <code>pixels</code> if non-null, b new brrby of integers otherwise
+     * @throws IllegblArgumentException is <code>pixels</code> is non-null bnd of length &lt; w*h
      */
-    static byte[] getPixels(BufferedImage img,
+    stbtic byte[] getPixels(BufferedImbge img,
                                    int x, int y, int w, int h, byte[] pixels) {
         if (w == 0 || h == 0) {
             return new byte[0];
@@ -256,66 +256,66 @@ class EffectUtils {
         if (pixels == null) {
             pixels = new byte[w * h];
         } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length >= w*h");
+            throw new IllegblArgumentException("pixels brrby must hbve b length >= w*h");
         }
 
-        int imageType = img.getType();
-        if (imageType == BufferedImage.TYPE_BYTE_GRAY) {
-            Raster raster = img.getRaster();
-            return (byte[]) raster.getDataElements(x, y, w, h, pixels);
+        int imbgeType = img.getType();
+        if (imbgeType == BufferedImbge.TYPE_BYTE_GRAY) {
+            Rbster rbster = img.getRbster();
+            return (byte[]) rbster.getDbtbElements(x, y, w, h, pixels);
         } else {
-            throw new IllegalArgumentException("Only type BYTE_GRAY is supported");
+            throw new IllegblArgumentException("Only type BYTE_GRAY is supported");
         }
     }
 
     /**
-     * <p>Writes a rectangular area of pixels in the destination <code>BufferedImage</code>. Calling this method on an
-     * image of type different from <code>BufferedImage.TYPE_INT_ARGB</code> and <code>BufferedImage.TYPE_INT_RGB</code>
-     * will unmanage the image.</p>
+     * <p>Writes b rectbngulbr breb of pixels in the destinbtion <code>BufferedImbge</code>. Cblling this method on bn
+     * imbge of type different from <code>BufferedImbge.TYPE_INT_ARGB</code> bnd <code>BufferedImbge.TYPE_INT_RGB</code>
+     * will unmbnbge the imbge.</p>
      *
-     * @param img    the destination image
-     * @param x      the x location at which to start storing pixels
-     * @param y      the y location at which to start storing pixels
-     * @param w      the width of the rectangle of pixels to store
-     * @param h      the height of the rectangle of pixels to store
-     * @param pixels an array of pixels, stored as integers
-     * @throws IllegalArgumentException is <code>pixels</code> is non-null and of length &lt; w*h
+     * @pbrbm img    the destinbtion imbge
+     * @pbrbm x      the x locbtion bt which to stbrt storing pixels
+     * @pbrbm y      the y locbtion bt which to stbrt storing pixels
+     * @pbrbm w      the width of the rectbngle of pixels to store
+     * @pbrbm h      the height of the rectbngle of pixels to store
+     * @pbrbm pixels bn brrby of pixels, stored bs integers
+     * @throws IllegblArgumentException is <code>pixels</code> is non-null bnd of length &lt; w*h
      */
-    static void setPixels(BufferedImage img,
+    stbtic void setPixels(BufferedImbge img,
                                  int x, int y, int w, int h, byte[] pixels) {
         if (pixels == null || w == 0 || h == 0) {
             return;
         } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length >= w*h");
+            throw new IllegblArgumentException("pixels brrby must hbve b length >= w*h");
         }
-        int imageType = img.getType();
-        if (imageType == BufferedImage.TYPE_BYTE_GRAY) {
-            WritableRaster raster = img.getRaster();
-            raster.setDataElements(x, y, w, h, pixels);
+        int imbgeType = img.getType();
+        if (imbgeType == BufferedImbge.TYPE_BYTE_GRAY) {
+            WritbbleRbster rbster = img.getRbster();
+            rbster.setDbtbElements(x, y, w, h, pixels);
         } else {
-            throw new IllegalArgumentException("Only type BYTE_GRAY is supported");
+            throw new IllegblArgumentException("Only type BYTE_GRAY is supported");
         }
     }
 
     /**
-     * <p>Returns an array of pixels, stored as integers, from a
-     * <code>BufferedImage</code>. The pixels are grabbed from a rectangular
-     * area defined by a location and two dimensions. Calling this method on
-     * an image of type different from <code>BufferedImage.TYPE_INT_ARGB</code>
-     * and <code>BufferedImage.TYPE_INT_RGB</code> will unmanage the image.</p>
+     * <p>Returns bn brrby of pixels, stored bs integers, from b
+     * <code>BufferedImbge</code>. The pixels bre grbbbed from b rectbngulbr
+     * breb defined by b locbtion bnd two dimensions. Cblling this method on
+     * bn imbge of type different from <code>BufferedImbge.TYPE_INT_ARGB</code>
+     * bnd <code>BufferedImbge.TYPE_INT_RGB</code> will unmbnbge the imbge.</p>
      *
-     * @param img the source image
-     * @param x the x location at which to start grabbing pixels
-     * @param y the y location at which to start grabbing pixels
-     * @param w the width of the rectangle of pixels to grab
-     * @param h the height of the rectangle of pixels to grab
-     * @param pixels a pre-allocated array of pixels of size w*h; can be null
-     * @return <code>pixels</code> if non-null, a new array of integers
+     * @pbrbm img the source imbge
+     * @pbrbm x the x locbtion bt which to stbrt grbbbing pixels
+     * @pbrbm y the y locbtion bt which to stbrt grbbbing pixels
+     * @pbrbm w the width of the rectbngle of pixels to grbb
+     * @pbrbm h the height of the rectbngle of pixels to grbb
+     * @pbrbm pixels b pre-bllocbted brrby of pixels of size w*h; cbn be null
+     * @return <code>pixels</code> if non-null, b new brrby of integers
      *   otherwise
-     * @throws IllegalArgumentException is <code>pixels</code> is non-null and
+     * @throws IllegblArgumentException is <code>pixels</code> is non-null bnd
      *   of length &lt; w*h
      */
-    public static int[] getPixels(BufferedImage img,
+    public stbtic int[] getPixels(BufferedImbge img,
                                   int x, int y, int w, int h, int[] pixels) {
         if (w == 0 || h == 0) {
             return new int[0];
@@ -324,103 +324,103 @@ class EffectUtils {
         if (pixels == null) {
             pixels = new int[w * h];
         } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length" +
+            throw new IllegblArgumentException("pixels brrby must hbve b length" +
                                                " >= w*h");
         }
 
-        int imageType = img.getType();
-        if (imageType == BufferedImage.TYPE_INT_ARGB ||
-            imageType == BufferedImage.TYPE_INT_RGB) {
-            Raster raster = img.getRaster();
-            return (int[]) raster.getDataElements(x, y, w, h, pixels);
+        int imbgeType = img.getType();
+        if (imbgeType == BufferedImbge.TYPE_INT_ARGB ||
+            imbgeType == BufferedImbge.TYPE_INT_RGB) {
+            Rbster rbster = img.getRbster();
+            return (int[]) rbster.getDbtbElements(x, y, w, h, pixels);
         }
 
-        // Unmanages the image
+        // Unmbnbges the imbge
         return img.getRGB(x, y, w, h, pixels, 0, w);
     }
 
     /**
-     * <p>Writes a rectangular area of pixels in the destination
-     * <code>BufferedImage</code>. Calling this method on
-     * an image of type different from <code>BufferedImage.TYPE_INT_ARGB</code>
-     * and <code>BufferedImage.TYPE_INT_RGB</code> will unmanage the image.</p>
+     * <p>Writes b rectbngulbr breb of pixels in the destinbtion
+     * <code>BufferedImbge</code>. Cblling this method on
+     * bn imbge of type different from <code>BufferedImbge.TYPE_INT_ARGB</code>
+     * bnd <code>BufferedImbge.TYPE_INT_RGB</code> will unmbnbge the imbge.</p>
      *
-     * @param img the destination image
-     * @param x the x location at which to start storing pixels
-     * @param y the y location at which to start storing pixels
-     * @param w the width of the rectangle of pixels to store
-     * @param h the height of the rectangle of pixels to store
-     * @param pixels an array of pixels, stored as integers
-     * @throws IllegalArgumentException is <code>pixels</code> is non-null and
+     * @pbrbm img the destinbtion imbge
+     * @pbrbm x the x locbtion bt which to stbrt storing pixels
+     * @pbrbm y the y locbtion bt which to stbrt storing pixels
+     * @pbrbm w the width of the rectbngle of pixels to store
+     * @pbrbm h the height of the rectbngle of pixels to store
+     * @pbrbm pixels bn brrby of pixels, stored bs integers
+     * @throws IllegblArgumentException is <code>pixels</code> is non-null bnd
      *   of length &lt; w*h
      */
-    public static void setPixels(BufferedImage img,
+    public stbtic void setPixels(BufferedImbge img,
                                  int x, int y, int w, int h, int[] pixels) {
         if (pixels == null || w == 0 || h == 0) {
             return;
         } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length" +
+            throw new IllegblArgumentException("pixels brrby must hbve b length" +
                                                " >= w*h");
         }
 
-        int imageType = img.getType();
-        if (imageType == BufferedImage.TYPE_INT_ARGB ||
-            imageType == BufferedImage.TYPE_INT_RGB) {
-            WritableRaster raster = img.getRaster();
-            raster.setDataElements(x, y, w, h, pixels);
+        int imbgeType = img.getType();
+        if (imbgeType == BufferedImbge.TYPE_INT_ARGB ||
+            imbgeType == BufferedImbge.TYPE_INT_RGB) {
+            WritbbleRbster rbster = img.getRbster();
+            rbster.setDbtbElements(x, y, w, h, pixels);
         } else {
-            // Unmanages the image
+            // Unmbnbges the imbge
             img.setRGB(x, y, w, h, pixels, 0, w);
         }
     }
 
     /**
-     * <p>Returns a new <code>BufferedImage</code> using the same color model
-     * as the image passed as a parameter. The returned image is only compatible
-     * with the image passed as a parameter. This does not mean the returned
-     * image is compatible with the hardware.</p>
+     * <p>Returns b new <code>BufferedImbge</code> using the sbme color model
+     * bs the imbge pbssed bs b pbrbmeter. The returned imbge is only compbtible
+     * with the imbge pbssed bs b pbrbmeter. This does not mebn the returned
+     * imbge is compbtible with the hbrdwbre.</p>
      *
-     * @param image the reference image from which the color model of the new
-     *   image is obtained
-     * @return a new <code>BufferedImage</code>, compatible with the color model
-     *   of <code>image</code>
+     * @pbrbm imbge the reference imbge from which the color model of the new
+     *   imbge is obtbined
+     * @return b new <code>BufferedImbge</code>, compbtible with the color model
+     *   of <code>imbge</code>
      */
-    public static BufferedImage createColorModelCompatibleImage(BufferedImage image) {
-        ColorModel cm = image.getColorModel();
-        return new BufferedImage(cm,
-            cm.createCompatibleWritableRaster(image.getWidth(),
-                                              image.getHeight()),
-            cm.isAlphaPremultiplied(), null);
+    public stbtic BufferedImbge crebteColorModelCompbtibleImbge(BufferedImbge imbge) {
+        ColorModel cm = imbge.getColorModel();
+        return new BufferedImbge(cm,
+            cm.crebteCompbtibleWritbbleRbster(imbge.getWidth(),
+                                              imbge.getHeight()),
+            cm.isAlphbPremultiplied(), null);
     }
 
     /**
-     * <p>Returns a new translucent compatible image of the specified width and
-     * height. That is, the returned <code>BufferedImage</code> is compatible with
-     * the graphics hardware. If the method is called in a headless
-     * environment, then the returned BufferedImage will be compatible with
-     * the source image.</p>
+     * <p>Returns b new trbnslucent compbtible imbge of the specified width bnd
+     * height. Thbt is, the returned <code>BufferedImbge</code> is compbtible with
+     * the grbphics hbrdwbre. If the method is cblled in b hebdless
+     * environment, then the returned BufferedImbge will be compbtible with
+     * the source imbge.</p>
      *
-     * @param width the width of the new image
-     * @param height the height of the new image
-     * @return a new translucent compatible <code>BufferedImage</code> of the
-     *   specified width and height
+     * @pbrbm width the width of the new imbge
+     * @pbrbm height the height of the new imbge
+     * @return b new trbnslucent compbtible <code>BufferedImbge</code> of the
+     *   specified width bnd height
      */
-    public static BufferedImage createCompatibleTranslucentImage(int width,
+    public stbtic BufferedImbge crebteCompbtibleTrbnslucentImbge(int width,
                                                                  int height) {
-        return isHeadless() ?
-                new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB) :
-                getGraphicsConfiguration().createCompatibleImage(width, height,
-                                                   Transparency.TRANSLUCENT);
+        return isHebdless() ?
+                new BufferedImbge(width, height, BufferedImbge.TYPE_INT_ARGB) :
+                getGrbphicsConfigurbtion().crebteCompbtibleImbge(width, height,
+                                                   Trbnspbrency.TRANSLUCENT);
     }
 
-    private static boolean isHeadless() {
-        return GraphicsEnvironment.isHeadless();
+    privbte stbtic boolebn isHebdless() {
+        return GrbphicsEnvironment.isHebdless();
     }
 
-    // Returns the graphics configuration for the primary screen
-    private static GraphicsConfiguration getGraphicsConfiguration() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().
-                    getDefaultScreenDevice().getDefaultConfiguration();
+    // Returns the grbphics configurbtion for the primbry screen
+    privbte stbtic GrbphicsConfigurbtion getGrbphicsConfigurbtion() {
+        return GrbphicsEnvironment.getLocblGrbphicsEnvironment().
+                    getDefbultScreenDevice().getDefbultConfigurbtion();
     }
 
 }

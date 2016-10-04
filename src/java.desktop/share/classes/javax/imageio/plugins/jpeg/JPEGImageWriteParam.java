@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.plugins.jpeg;
+pbckbge jbvbx.imbgeio.plugins.jpeg;
 
-import java.util.Locale;
-import javax.imageio.ImageWriteParam;
+import jbvb.util.Locble;
+import jbvbx.imbgeio.ImbgeWritePbrbm;
 
-import com.sun.imageio.plugins.jpeg.JPEG;
+import com.sun.imbgeio.plugins.jpeg.JPEG;
 
 /**
- * This class adds the ability to set JPEG quantization and Huffman
- * tables when using the built-in JPEG writer plug-in, and to request that
- * optimized Huffman tables be computed for an image.  An instance of
- * this class will be returned from the
- * <code>getDefaultImageWriteParam</code> methods of the built-in JPEG
- * <code>ImageWriter</code>.
+ * This clbss bdds the bbility to set JPEG qubntizbtion bnd Huffmbn
+ * tbbles when using the built-in JPEG writer plug-in, bnd to request thbt
+ * optimized Huffmbn tbbles be computed for bn imbge.  An instbnce of
+ * this clbss will be returned from the
+ * <code>getDefbultImbgeWritePbrbm</code> methods of the built-in JPEG
+ * <code>ImbgeWriter</code>.
 
- * <p> The principal purpose of these additions is to allow the
- * specification of tables to use in encoding abbreviated streams.
- * The built-in JPEG writer will also accept an ordinary
- * <code>ImageWriteParam</code>, in which case the writer will
- * construct the necessary tables internally.
+ * <p> The principbl purpose of these bdditions is to bllow the
+ * specificbtion of tbbles to use in encoding bbbrevibted strebms.
+ * The built-in JPEG writer will blso bccept bn ordinbry
+ * <code>ImbgeWritePbrbm</code>, in which cbse the writer will
+ * construct the necessbry tbbles internblly.
  *
- * <p> In either case, the quality setting in an <code>ImageWriteParam</code>
- * has the same meaning as for the underlying library: 1.00 means a
- * quantization table of all 1's, 0.75 means the "standard", visually
- * lossless quantization table, and 0.00 means aquantization table of
- * all 255's.
+ * <p> In either cbse, the qublity setting in bn <code>ImbgeWritePbrbm</code>
+ * hbs the sbme mebning bs for the underlying librbry: 1.00 mebns b
+ * qubntizbtion tbble of bll 1's, 0.75 mebns the "stbndbrd", visublly
+ * lossless qubntizbtion tbble, bnd 0.00 mebns bqubntizbtion tbble of
+ * bll 255's.
  *
- * <p> While tables for abbreviated streams are often specified by
- * first writing an abbreviated stream containing only the tables, in
- * some applications the tables are fixed ahead of time.  This class
- * allows the tables to be specified directly from client code.
+ * <p> While tbbles for bbbrevibted strebms bre often specified by
+ * first writing bn bbbrevibted strebm contbining only the tbbles, in
+ * some bpplicbtions the tbbles bre fixed bhebd of time.  This clbss
+ * bllows the tbbles to be specified directly from client code.
  *
- * <p> Normally, the tables are specified in the
- * <code>IIOMetadata</code> objects passed in to the writer, and any
- * tables included in these objects are written to the stream.
- * If no tables are specified in the metadata, then an abbreviated
- * stream is written.  If no tables are included in the metadata and
- * no tables are specified in a <code>JPEGImageWriteParam</code>, then
- * an abbreviated stream is encoded using the "standard" visually
- * lossless tables.  This class is necessary for specifying tables
- * when an abbreviated stream must be written without writing any tables
- * to a stream first.  In order to use this class, the metadata object
- * passed into the writer must contain no tables, and no stream metadata
- * must be provided.  See {@link JPEGQTable JPEGQTable} and
- * {@link JPEGHuffmanTable JPEGHuffmanTable} for more
- * information on the default tables.
+ * <p> Normblly, the tbbles bre specified in the
+ * <code>IIOMetbdbtb</code> objects pbssed in to the writer, bnd bny
+ * tbbles included in these objects bre written to the strebm.
+ * If no tbbles bre specified in the metbdbtb, then bn bbbrevibted
+ * strebm is written.  If no tbbles bre included in the metbdbtb bnd
+ * no tbbles bre specified in b <code>JPEGImbgeWritePbrbm</code>, then
+ * bn bbbrevibted strebm is encoded using the "stbndbrd" visublly
+ * lossless tbbles.  This clbss is necessbry for specifying tbbles
+ * when bn bbbrevibted strebm must be written without writing bny tbbles
+ * to b strebm first.  In order to use this clbss, the metbdbtb object
+ * pbssed into the writer must contbin no tbbles, bnd no strebm metbdbtb
+ * must be provided.  See {@link JPEGQTbble JPEGQTbble} bnd
+ * {@link JPEGHuffmbnTbble JPEGHuffmbnTbble} for more
+ * informbtion on the defbult tbbles.
  *
- * <p> The default <code>JPEGImageWriteParam</code> returned by the
- * <code>getDefaultWriteParam</code> method of the writer contains no
- * tables.  Default tables are included in the default
- * <code>IIOMetadata</code> objects returned by the writer.
+ * <p> The defbult <code>JPEGImbgeWritePbrbm</code> returned by the
+ * <code>getDefbultWritePbrbm</code> method of the writer contbins no
+ * tbbles.  Defbult tbbles bre included in the defbult
+ * <code>IIOMetbdbtb</code> objects returned by the writer.
  *
- * <p> If the metadata does contain tables, the tables given in a
- * <code>JPEGImageWriteParam</code> are ignored.  Furthermore, once a
- * set of tables has been written, only tables in the metadata can
- * override them for subsequent writes, whether to the same stream or
- * a different one.  In order to specify new tables using this class,
- * the {@link javax.imageio.ImageWriter#reset reset}
- * method of the writer must be called.
+ * <p> If the metbdbtb does contbin tbbles, the tbbles given in b
+ * <code>JPEGImbgeWritePbrbm</code> bre ignored.  Furthermore, once b
+ * set of tbbles hbs been written, only tbbles in the metbdbtb cbn
+ * override them for subsequent writes, whether to the sbme strebm or
+ * b different one.  In order to specify new tbbles using this clbss,
+ * the {@link jbvbx.imbgeio.ImbgeWriter#reset reset}
+ * method of the writer must be cblled.
  *
  * <p>
- * For more information about the operation of the built-in JPEG plug-ins,
- * see the <A HREF="../../metadata/doc-files/jpeg_metadata.html">JPEG
- * metadata format specification and usage notes</A>.
+ * For more informbtion bbout the operbtion of the built-in JPEG plug-ins,
+ * see the <A HREF="../../metbdbtb/doc-files/jpeg_metbdbtb.html">JPEG
+ * metbdbtb formbt specificbtion bnd usbge notes</A>.
  *
  */
-public class JPEGImageWriteParam extends ImageWriteParam {
+public clbss JPEGImbgeWritePbrbm extends ImbgeWritePbrbm {
 
-    private JPEGQTable[] qTables = null;
-    private JPEGHuffmanTable[] DCHuffmanTables = null;
-    private JPEGHuffmanTable[] ACHuffmanTables = null;
-    private boolean optimizeHuffman = false;
-    private String[] compressionNames = {"JPEG"};
-    private float[] qualityVals = { 0.00F, 0.30F, 0.75F, 1.00F };
-    private String[] qualityDescs = {
-        "Low quality",       // 0.00 -> 0.30
-        "Medium quality",    // 0.30 -> 0.75
-        "Visually lossless"  // 0.75 -> 1.00
+    privbte JPEGQTbble[] qTbbles = null;
+    privbte JPEGHuffmbnTbble[] DCHuffmbnTbbles = null;
+    privbte JPEGHuffmbnTbble[] ACHuffmbnTbbles = null;
+    privbte boolebn optimizeHuffmbn = fblse;
+    privbte String[] compressionNbmes = {"JPEG"};
+    privbte flobt[] qublityVbls = { 0.00F, 0.30F, 0.75F, 1.00F };
+    privbte String[] qublityDescs = {
+        "Low qublity",       // 0.00 -> 0.30
+        "Medium qublity",    // 0.30 -> 0.75
+        "Visublly lossless"  // 0.75 -> 1.00
     };
 
     /**
-     * Constructs a <code>JPEGImageWriteParam</code>.  Tiling is not
-     * supported.  Progressive encoding is supported. The default
+     * Constructs b <code>JPEGImbgeWritePbrbm</code>.  Tiling is not
+     * supported.  Progressive encoding is supported. The defbult
      * progressive mode is MODE_DISABLED.  A single form of compression,
-     * named "JPEG", is supported.  The default compression quality is
+     * nbmed "JPEG", is supported.  The defbult compression qublity is
      * 0.75.
      *
-     * @param locale a <code>Locale</code> to be used by the
-     * superclass to localize compression type names and quality
+     * @pbrbm locble b <code>Locble</code> to be used by the
+     * superclbss to locblize compression type nbmes bnd qublity
      * descriptions, or <code>null</code>.
      */
-    public JPEGImageWriteParam(Locale locale) {
-        super(locale);
-        this.canWriteProgressive = true;
+    public JPEGImbgeWritePbrbm(Locble locble) {
+        super(locble);
+        this.cbnWriteProgressive = true;
         this.progressiveMode = MODE_DISABLED;
-        this.canWriteCompressed = true;
-        this.compressionTypes = compressionNames;
+        this.cbnWriteCompressed = true;
+        this.compressionTypes = compressionNbmes;
         this.compressionType = compressionTypes[0];
-        this.compressionQuality = JPEG.DEFAULT_QUALITY;
+        this.compressionQublity = JPEG.DEFAULT_QUALITY;
     }
 
     /**
-     * Removes any previous compression quality setting.
+     * Removes bny previous compression qublity setting.
      *
-     * <p> The default implementation resets the compression quality
+     * <p> The defbult implementbtion resets the compression qublity
      * to <code>0.75F</code>.
      *
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
      */
     public void unsetCompression() {
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
-        this.compressionQuality = JPEG.DEFAULT_QUALITY;
+        this.compressionQublity = JPEG.DEFAULT_QUALITY;
     }
 
     /**
-     * Returns <code>false</code> since the JPEG plug-in only supports
+     * Returns <code>fblse</code> since the JPEG plug-in only supports
      * lossy compression.
      *
-     * @return <code>false</code>.
+     * @return <code>fblse</code>.
      *
-     * @exception IllegalStateException if the compression mode is not
+     * @exception IllegblStbteException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
      */
-    public boolean isCompressionLossless() {
+    public boolebn isCompressionLossless() {
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
-        return false;
+        return fblse;
     }
 
-    public String[] getCompressionQualityDescriptions() {
+    public String[] getCompressionQublityDescriptions() {
         if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
-                ("Compression mode not MODE_EXPLICIT!");
-        }
-        if ((getCompressionTypes() != null) &&
-            (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
-        }
-        return qualityDescs.clone();
-    }
-
-    public float[] getCompressionQualityValues() {
-        if (getCompressionMode() != MODE_EXPLICIT) {
-            throw new IllegalStateException
+            throw new IllegblStbteException
                 ("Compression mode not MODE_EXPLICIT!");
         }
         if ((getCompressionTypes() != null) &&
             (getCompressionType() == null)) {
-            throw new IllegalStateException("No compression type set!");
+            throw new IllegblStbteException("No compression type set!");
         }
-        return qualityVals.clone();
+        return qublityDescs.clone();
+    }
+
+    public flobt[] getCompressionQublityVblues() {
+        if (getCompressionMode() != MODE_EXPLICIT) {
+            throw new IllegblStbteException
+                ("Compression mode not MODE_EXPLICIT!");
+        }
+        if ((getCompressionTypes() != null) &&
+            (getCompressionType() == null)) {
+            throw new IllegblStbteException("No compression type set!");
+        }
+        return qublityVbls.clone();
     }
     /**
-     * Returns <code>true</code> if tables are currently set.
+     * Returns <code>true</code> if tbbles bre currently set.
      *
-     * @return <code>true</code> if tables are present.
+     * @return <code>true</code> if tbbles bre present.
      */
-    public boolean areTablesSet() {
-        return (qTables != null);
+    public boolebn breTbblesSet() {
+        return (qTbbles != null);
     }
 
     /**
-     * Sets the quantization and Huffman tables to use in encoding
-     * abbreviated streams.  There may be a maximum of 4 tables of
-     * each type.  These tables are ignored if tables are specified in
-     * the metadata.  All arguments must be non-<code>null</code>.
-     * The two arrays of Huffman tables must have the same number of
-     * elements.  The table specifiers in the frame and scan headers
-     * in the metadata are assumed to be equivalent to indices into
-     * these arrays.  The argument arrays are copied by this method.
+     * Sets the qubntizbtion bnd Huffmbn tbbles to use in encoding
+     * bbbrevibted strebms.  There mby be b mbximum of 4 tbbles of
+     * ebch type.  These tbbles bre ignored if tbbles bre specified in
+     * the metbdbtb.  All brguments must be non-<code>null</code>.
+     * The two brrbys of Huffmbn tbbles must hbve the sbme number of
+     * elements.  The tbble specifiers in the frbme bnd scbn hebders
+     * in the metbdbtb bre bssumed to be equivblent to indices into
+     * these brrbys.  The brgument brrbys bre copied by this method.
      *
-     * @param qTables An array of quantization table objects.
-     * @param DCHuffmanTables An array of Huffman table objects.
-     * @param ACHuffmanTables An array of Huffman table objects.
+     * @pbrbm qTbbles An brrby of qubntizbtion tbble objects.
+     * @pbrbm DCHuffmbnTbbles An brrby of Huffmbn tbble objects.
+     * @pbrbm ACHuffmbnTbbles An brrby of Huffmbn tbble objects.
      *
-     * @exception IllegalArgumentException if any of the arguments
-     * is <code>null</code> or has more than 4 elements, or if the
-     * numbers of DC and AC tables differ.
+     * @exception IllegblArgumentException if bny of the brguments
+     * is <code>null</code> or hbs more thbn 4 elements, or if the
+     * numbers of DC bnd AC tbbles differ.
      *
-     * @see #unsetEncodeTables
+     * @see #unsetEncodeTbbles
      */
-    public void setEncodeTables(JPEGQTable[] qTables,
-                                JPEGHuffmanTable[] DCHuffmanTables,
-                                JPEGHuffmanTable[] ACHuffmanTables) {
-        if ((qTables == null) ||
-            (DCHuffmanTables == null) ||
-            (ACHuffmanTables == null) ||
-            (qTables.length > 4) ||
-            (DCHuffmanTables.length > 4) ||
-            (ACHuffmanTables.length > 4) ||
-            (DCHuffmanTables.length != ACHuffmanTables.length)) {
-                throw new IllegalArgumentException("Invalid JPEG table arrays");
+    public void setEncodeTbbles(JPEGQTbble[] qTbbles,
+                                JPEGHuffmbnTbble[] DCHuffmbnTbbles,
+                                JPEGHuffmbnTbble[] ACHuffmbnTbbles) {
+        if ((qTbbles == null) ||
+            (DCHuffmbnTbbles == null) ||
+            (ACHuffmbnTbbles == null) ||
+            (qTbbles.length > 4) ||
+            (DCHuffmbnTbbles.length > 4) ||
+            (ACHuffmbnTbbles.length > 4) ||
+            (DCHuffmbnTbbles.length != ACHuffmbnTbbles.length)) {
+                throw new IllegblArgumentException("Invblid JPEG tbble brrbys");
         }
-        this.qTables = qTables.clone();
-        this.DCHuffmanTables = DCHuffmanTables.clone();
-        this.ACHuffmanTables = ACHuffmanTables.clone();
+        this.qTbbles = qTbbles.clone();
+        this.DCHuffmbnTbbles = DCHuffmbnTbbles.clone();
+        this.ACHuffmbnTbbles = ACHuffmbnTbbles.clone();
     }
 
     /**
-     * Removes any quantization and Huffman tables that are currently
+     * Removes bny qubntizbtion bnd Huffmbn tbbles thbt bre currently
      * set.
      *
-     * @see #setEncodeTables
+     * @see #setEncodeTbbles
      */
-    public void unsetEncodeTables() {
-        this.qTables = null;
-        this.DCHuffmanTables = null;
-        this.ACHuffmanTables = null;
+    public void unsetEncodeTbbles() {
+        this.qTbbles = null;
+        this.DCHuffmbnTbbles = null;
+        this.ACHuffmbnTbbles = null;
     }
 
     /**
-     * Returns a copy of the array of quantization tables set on the
-     * most recent call to <code>setEncodeTables</code>, or
-     * <code>null</code> if tables are not currently set.
+     * Returns b copy of the brrby of qubntizbtion tbbles set on the
+     * most recent cbll to <code>setEncodeTbbles</code>, or
+     * <code>null</code> if tbbles bre not currently set.
      *
-     * @return an array of <code>JPEGQTable</code> objects, or
+     * @return bn brrby of <code>JPEGQTbble</code> objects, or
      * <code>null</code>.
      *
-     * @see #setEncodeTables
+     * @see #setEncodeTbbles
      */
-    public JPEGQTable[] getQTables() {
-        return (qTables != null) ? qTables.clone() : null;
+    public JPEGQTbble[] getQTbbles() {
+        return (qTbbles != null) ? qTbbles.clone() : null;
     }
 
     /**
-     * Returns a copy of the array of DC Huffman tables set on the
-     * most recent call to <code>setEncodeTables</code>, or
-     * <code>null</code> if tables are not currently set.
+     * Returns b copy of the brrby of DC Huffmbn tbbles set on the
+     * most recent cbll to <code>setEncodeTbbles</code>, or
+     * <code>null</code> if tbbles bre not currently set.
      *
-     * @return an array of <code>JPEGHuffmanTable</code> objects, or
+     * @return bn brrby of <code>JPEGHuffmbnTbble</code> objects, or
      * <code>null</code>.
      *
-     * @see #setEncodeTables
+     * @see #setEncodeTbbles
      */
-    public JPEGHuffmanTable[] getDCHuffmanTables() {
-        return (DCHuffmanTables != null)
-            ? DCHuffmanTables.clone()
+    public JPEGHuffmbnTbble[] getDCHuffmbnTbbles() {
+        return (DCHuffmbnTbbles != null)
+            ? DCHuffmbnTbbles.clone()
             : null;
     }
 
     /**
-     * Returns a copy of the array of AC Huffman tables set on the
-     * most recent call to <code>setEncodeTables</code>, or
-     * <code>null</code> if tables are not currently set.
+     * Returns b copy of the brrby of AC Huffmbn tbbles set on the
+     * most recent cbll to <code>setEncodeTbbles</code>, or
+     * <code>null</code> if tbbles bre not currently set.
      *
-     * @return an array of <code>JPEGHuffmanTable</code> objects, or
+     * @return bn brrby of <code>JPEGHuffmbnTbble</code> objects, or
      * <code>null</code>.
      *
-     * @see #setEncodeTables
+     * @see #setEncodeTbbles
      */
-    public JPEGHuffmanTable[] getACHuffmanTables() {
-        return (ACHuffmanTables != null)
-            ? ACHuffmanTables.clone()
+    public JPEGHuffmbnTbble[] getACHuffmbnTbbles() {
+        return (ACHuffmbnTbbles != null)
+            ? ACHuffmbnTbbles.clone()
             : null;
     }
 
     /**
-     * Tells the writer to generate optimized Huffman tables
-     * for the image as part of the writing process.  The
-     * default is <code>false</code>.  If this flag is set
-     * to <code>true</code>, it overrides any tables specified
-     * in the metadata.  Note that this means that any image
-     * written with this flag set to <code>true</code> will
-     * always contain Huffman tables.
+     * Tells the writer to generbte optimized Huffmbn tbbles
+     * for the imbge bs pbrt of the writing process.  The
+     * defbult is <code>fblse</code>.  If this flbg is set
+     * to <code>true</code>, it overrides bny tbbles specified
+     * in the metbdbtb.  Note thbt this mebns thbt bny imbge
+     * written with this flbg set to <code>true</code> will
+     * blwbys contbin Huffmbn tbbles.
      *
-     * @param optimize A boolean indicating whether to generate
-     * optimized Huffman tables when writing.
+     * @pbrbm optimize A boolebn indicbting whether to generbte
+     * optimized Huffmbn tbbles when writing.
      *
-     * @see #getOptimizeHuffmanTables
+     * @see #getOptimizeHuffmbnTbbles
      */
-    public void setOptimizeHuffmanTables(boolean optimize) {
-        optimizeHuffman = optimize;
+    public void setOptimizeHuffmbnTbbles(boolebn optimize) {
+        optimizeHuffmbn = optimize;
     }
 
     /**
-     * Returns the value passed into the most recent call
-     * to <code>setOptimizeHuffmanTables</code>, or
-     * <code>false</code> if <code>setOptimizeHuffmanTables</code>
-     * has never been called.
+     * Returns the vblue pbssed into the most recent cbll
+     * to <code>setOptimizeHuffmbnTbbles</code>, or
+     * <code>fblse</code> if <code>setOptimizeHuffmbnTbbles</code>
+     * hbs never been cblled.
      *
-     * @return <code>true</code> if the writer will generate optimized
-     * Huffman tables.
+     * @return <code>true</code> if the writer will generbte optimized
+     * Huffmbn tbbles.
      *
-     * @see #setOptimizeHuffmanTables
+     * @see #setOptimizeHuffmbnTbbles
      */
-    public boolean getOptimizeHuffmanTables() {
-        return optimizeHuffman;
+    public boolebn getOptimizeHuffmbnTbbles() {
+        return optimizeHuffmbn;
     }
 }

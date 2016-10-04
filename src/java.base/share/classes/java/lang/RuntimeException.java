@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * {@code RuntimeException} is the superclass of those
- * exceptions that can be thrown during the normal operation of the
- * Java Virtual Machine.
+ * {@code RuntimeException} is the superclbss of those
+ * exceptions thbt cbn be thrown during the normbl operbtion of the
+ * Jbvb Virtubl Mbchine.
  *
- * <p>{@code RuntimeException} and its subclasses are <em>unchecked
+ * <p>{@code RuntimeException} bnd its subclbsses bre <em>unchecked
  * exceptions</em>.  Unchecked exceptions do <em>not</em> need to be
- * declared in a method or constructor's {@code throws} clause if they
- * can be thrown by the execution of the method or constructor and
- * propagate outside the method or constructor boundary.
+ * declbred in b method or constructor's {@code throws} clbuse if they
+ * cbn be thrown by the execution of the method or constructor bnd
+ * propbgbte outside the method or constructor boundbry.
  *
- * @author  Frank Yellin
+ * @buthor  Frbnk Yellin
  * @jls 11.2 Compile-Time Checking of Exceptions
  * @since   1.0
  */
-public class RuntimeException extends Exception {
-    static final long serialVersionUID = -7034897190745766939L;
+public clbss RuntimeException extends Exception {
+    stbtic finbl long seriblVersionUID = -7034897190745766939L;
 
-    /** Constructs a new runtime exception with {@code null} as its
-     * detail message.  The cause is not initialized, and may subsequently be
-     * initialized by a call to {@link #initCause}.
+    /** Constructs b new runtime exception with {@code null} bs its
+     * detbil messbge.  The cbuse is not initiblized, bnd mby subsequently be
+     * initiblized by b cbll to {@link #initCbuse}.
      */
     public RuntimeException() {
         super();
     }
 
-    /** Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
+    /** Constructs b new runtime exception with the specified detbil messbge.
+     * The cbuse is not initiblized, bnd mby subsequently be initiblized by b
+     * cbll to {@link #initCbuse}.
      *
-     * @param   message   the detail message. The detail message is saved for
-     *          later retrieval by the {@link #getMessage()} method.
+     * @pbrbm   messbge   the detbil messbge. The detbil messbge is sbved for
+     *          lbter retrievbl by the {@link #getMessbge()} method.
      */
-    public RuntimeException(String message) {
-        super(message);
+    public RuntimeException(String messbge) {
+        super(messbge);
     }
 
     /**
-     * Constructs a new runtime exception with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
-     * {@code cause} is <i>not</i> automatically incorporated in
-     * this runtime exception's detail message.
+     * Constructs b new runtime exception with the specified detbil messbge bnd
+     * cbuse.  <p>Note thbt the detbil messbge bssocibted with
+     * {@code cbuse} is <i>not</i> butombticblly incorporbted in
+     * this runtime exception's detbil messbge.
      *
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link #getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A <tt>null</tt> value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  messbge the detbil messbge (which is sbved for lbter retrievbl
+     *         by the {@link #getMessbge()} method).
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link #getCbuse()} method).  (A <tt>null</tt> vblue is
+     *         permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
      * @since  1.4
      */
-    public RuntimeException(String message, Throwable cause) {
-        super(message, cause);
+    public RuntimeException(String messbge, Throwbble cbuse) {
+        super(messbge, cbuse);
     }
 
-    /** Constructs a new runtime exception with the specified cause and a
-     * detail message of <tt>(cause==null ? null : cause.toString())</tt>
-     * (which typically contains the class and detail message of
-     * <tt>cause</tt>).  This constructor is useful for runtime exceptions
-     * that are little more than wrappers for other throwables.
+    /** Constructs b new runtime exception with the specified cbuse bnd b
+     * detbil messbge of <tt>(cbuse==null ? null : cbuse.toString())</tt>
+     * (which typicblly contbins the clbss bnd detbil messbge of
+     * <tt>cbuse</tt>).  This constructor is useful for runtime exceptions
+     * thbt bre little more thbn wrbppers for other throwbbles.
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A <tt>null</tt> value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link #getCbuse()} method).  (A <tt>null</tt> vblue is
+     *         permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
      * @since  1.4
      */
-    public RuntimeException(Throwable cause) {
-        super(cause);
+    public RuntimeException(Throwbble cbuse) {
+        super(cbuse);
     }
 
     /**
-     * Constructs a new runtime exception with the specified detail
-     * message, cause, suppression enabled or disabled, and writable
-     * stack trace enabled or disabled.
+     * Constructs b new runtime exception with the specified detbil
+     * messbge, cbuse, suppression enbbled or disbbled, bnd writbble
+     * stbck trbce enbbled or disbbled.
      *
-     * @param  message the detail message.
-     * @param cause the cause.  (A {@code null} value is permitted,
-     * and indicates that the cause is nonexistent or unknown.)
-     * @param enableSuppression whether or not suppression is enabled
-     *                          or disabled
-     * @param writableStackTrace whether or not the stack trace should
-     *                           be writable
+     * @pbrbm  messbge the detbil messbge.
+     * @pbrbm cbuse the cbuse.  (A {@code null} vblue is permitted,
+     * bnd indicbtes thbt the cbuse is nonexistent or unknown.)
+     * @pbrbm enbbleSuppression whether or not suppression is enbbled
+     *                          or disbbled
+     * @pbrbm writbbleStbckTrbce whether or not the stbck trbce should
+     *                           be writbble
      *
      * @since 1.7
      */
-    protected RuntimeException(String message, Throwable cause,
-                               boolean enableSuppression,
-                               boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    protected RuntimeException(String messbge, Throwbble cbuse,
+                               boolebn enbbleSuppression,
+                               boolebn writbbleStbckTrbce) {
+        super(messbge, cbuse, enbbleSuppression, writbbleStbckTrbce);
     }
 }

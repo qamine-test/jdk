@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1996, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.image.ImageConsumer;
-import java.awt.image.ColorModel;
-import java.util.Hashtable;
-import java.awt.Rectangle;
+import jbvb.bwt.imbge.ImbgeConsumer;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.util.Hbshtbble;
+import jbvb.bwt.Rectbngle;
 
 /**
- * An ImageFilter class for scaling images using a simple area averaging
- * algorithm that produces smoother results than the nearest neighbor
- * algorithm.
- * <p>This class extends the basic ImageFilter Class to scale an existing
- * image and provide a source for a new image containing the resampled
- * image.  The pixels in the source image are blended to produce pixels
- * for an image of the specified size.  The blending process is analogous
- * to scaling up the source image to a multiple of the destination size
- * using pixel replication and then scaling it back down to the destination
- * size by simply averaging all the pixels in the supersized image that
- * fall within a given pixel of the destination image.  If the data from
+ * An ImbgeFilter clbss for scbling imbges using b simple breb bverbging
+ * blgorithm thbt produces smoother results thbn the nebrest neighbor
+ * blgorithm.
+ * <p>This clbss extends the bbsic ImbgeFilter Clbss to scble bn existing
+ * imbge bnd provide b source for b new imbge contbining the resbmpled
+ * imbge.  The pixels in the source imbge bre blended to produce pixels
+ * for bn imbge of the specified size.  The blending process is bnblogous
+ * to scbling up the source imbge to b multiple of the destinbtion size
+ * using pixel replicbtion bnd then scbling it bbck down to the destinbtion
+ * size by simply bverbging bll the pixels in the supersized imbge thbt
+ * fbll within b given pixel of the destinbtion imbge.  If the dbtb from
  * the source is not delivered in TopDownLeftRight order then the filter
- * will back off to a simple pixel replication behavior and utilize the
- * requestTopDownLeftRightResend() method to refilter the pixels in a
- * better way at the end.
- * <p>It is meant to be used in conjunction with a FilteredImageSource
- * object to produce scaled versions of existing images.  Due to
- * implementation dependencies, there may be differences in pixel values
- * of an image filtered on different platforms.
+ * will bbck off to b simple pixel replicbtion behbvior bnd utilize the
+ * requestTopDownLeftRightResend() method to refilter the pixels in b
+ * better wby bt the end.
+ * <p>It is mebnt to be used in conjunction with b FilteredImbgeSource
+ * object to produce scbled versions of existing imbges.  Due to
+ * implementbtion dependencies, there mby be differences in pixel vblues
+ * of bn imbge filtered on different plbtforms.
  *
- * @see FilteredImageSource
- * @see ReplicateScaleFilter
- * @see ImageFilter
+ * @see FilteredImbgeSource
+ * @see ReplicbteScbleFilter
+ * @see ImbgeFilter
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  */
-public class AreaAveragingScaleFilter extends ReplicateScaleFilter {
-    private static final ColorModel rgbmodel = ColorModel.getRGBdefault();
-    private static final int neededHints = (TOPDOWNLEFTRIGHT
+public clbss ArebAverbgingScbleFilter extends ReplicbteScbleFilter {
+    privbte stbtic finbl ColorModel rgbmodel = ColorModel.getRGBdefbult();
+    privbte stbtic finbl int neededHints = (TOPDOWNLEFTRIGHT
                                             | COMPLETESCANLINES);
 
-    private boolean passthrough;
-    private float reds[], greens[], blues[], alphas[];
-    private int savedy;
-    private int savedyrem;
+    privbte boolebn pbssthrough;
+    privbte flobt reds[], greens[], blues[], blphbs[];
+    privbte int sbvedy;
+    privbte int sbvedyrem;
 
     /**
-     * Constructs an AreaAveragingScaleFilter that scales the pixels from
-     * its source Image as specified by the width and height parameters.
-     * @param width the target width to scale the image
-     * @param height the target height to scale the image
+     * Constructs bn ArebAverbgingScbleFilter thbt scbles the pixels from
+     * its source Imbge bs specified by the width bnd height pbrbmeters.
+     * @pbrbm width the tbrget width to scble the imbge
+     * @pbrbm height the tbrget height to scble the imbge
      */
-    public AreaAveragingScaleFilter(int width, int height) {
+    public ArebAverbgingScbleFilter(int width, int height) {
         super(width, height);
     }
 
     /**
-     * Detect if the data is being delivered with the necessary hints
-     * to allow the averaging algorithm to do its work.
+     * Detect if the dbtb is being delivered with the necessbry hints
+     * to bllow the bverbging blgorithm to do its work.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code> whose
-     * pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ImageConsumer#setHints
+     * Note: This method is intended to be cblled by the
+     * <code>ImbgeProducer</code> of the <code>Imbge</code> whose
+     * pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ImbgeConsumer#setHints
      */
     public void setHints(int hints) {
-        passthrough = ((hints & neededHints) != neededHints);
+        pbssthrough = ((hints & neededHints) != neededHints);
         super.setHints(hints);
     }
 
-    private void makeAccumBuffers() {
-        reds = new float[destWidth];
-        greens = new float[destWidth];
-        blues = new float[destWidth];
-        alphas = new float[destWidth];
+    privbte void mbkeAccumBuffers() {
+        reds = new flobt[destWidth];
+        greens = new flobt[destWidth];
+        blues = new flobt[destWidth];
+        blphbs = new flobt[destWidth];
     }
 
-    private int[] calcRow() {
-        float origmult = ((float) srcWidth) * srcHeight;
-        if (outpixbuf == null || !(outpixbuf instanceof int[])) {
+    privbte int[] cblcRow() {
+        flobt origmult = ((flobt) srcWidth) * srcHeight;
+        if (outpixbuf == null || !(outpixbuf instbnceof int[])) {
             outpixbuf = new int[destWidth];
         }
         int[] outpix = (int[]) outpixbuf;
         for (int x = 0; x < destWidth; x++) {
-            float mult = origmult;
-            int a = Math.round(alphas[x] / mult);
-            if (a <= 0) {
-                a = 0;
-            } else if (a >= 255) {
-                a = 255;
+            flobt mult = origmult;
+            int b = Mbth.round(blphbs[x] / mult);
+            if (b <= 0) {
+                b = 0;
+            } else if (b >= 255) {
+                b = 255;
             } else {
                 // un-premultiply the components (by modifying mult here, we
-                // are effectively doing the divide by mult and divide by
-                // alpha in the same step)
-                mult = alphas[x] / 255;
+                // bre effectively doing the divide by mult bnd divide by
+                // blphb in the sbme step)
+                mult = blphbs[x] / 255;
             }
-            int r = Math.round(reds[x] / mult);
-            int g = Math.round(greens[x] / mult);
-            int b = Math.round(blues[x] / mult);
+            int r = Mbth.round(reds[x] / mult);
+            int g = Mbth.round(greens[x] / mult);
+            int b = Mbth.round(blues[x] / mult);
             if (r < 0) {r = 0;} else if (r > 255) {r = 255;}
             if (g < 0) {g = 0;} else if (g > 255) {g = 255;}
             if (b < 0) {b = 0;} else if (b > 255) {b = 255;}
-            outpix[x] = (a << 24 | r << 16 | g << 8 | b);
+            outpix[x] = (b << 24 | r << 16 | g << 8 | b);
         }
         return outpix;
     }
 
-    private void accumPixels(int x, int y, int w, int h,
+    privbte void bccumPixels(int x, int y, int w, int h,
                              ColorModel model, Object pixels, int off,
-                             int scansize) {
+                             int scbnsize) {
         if (reds == null) {
-            makeAccumBuffers();
+            mbkeAccumBuffers();
         }
         int sy = y;
         int syrem = destHeight;
@@ -144,138 +144,138 @@ public class AreaAveragingScaleFilter extends ReplicateScaleFilter {
             dy = 0;
             dyrem = 0;
         } else {
-            dy = savedy;
-            dyrem = savedyrem;
+            dy = sbvedy;
+            dyrem = sbvedyrem;
         }
         while (sy < y + h) {
-            int amty;
+            int bmty;
             if (dyrem == 0) {
                 for (int i = 0; i < destWidth; i++) {
-                    alphas[i] = reds[i] = greens[i] = blues[i] = 0f;
+                    blphbs[i] = reds[i] = greens[i] = blues[i] = 0f;
                 }
                 dyrem = srcHeight;
             }
             if (syrem < dyrem) {
-                amty = syrem;
+                bmty = syrem;
             } else {
-                amty = dyrem;
+                bmty = dyrem;
             }
             int sx = 0;
             int dx = 0;
             int sxrem = 0;
             int dxrem = srcWidth;
-            float a = 0f, r = 0f, g = 0f, b = 0f;
+            flobt b = 0f, r = 0f, g = 0f, b = 0f;
             while (sx < w) {
                 if (sxrem == 0) {
                     sxrem = destWidth;
                     int rgb;
-                    if (pixels instanceof byte[]) {
+                    if (pixels instbnceof byte[]) {
                         rgb = ((byte[]) pixels)[off + sx] & 0xff;
                     } else {
                         rgb = ((int[]) pixels)[off + sx];
                     }
-                    // getRGB() always returns non-premultiplied components
+                    // getRGB() blwbys returns non-premultiplied components
                     rgb = model.getRGB(rgb);
-                    a = rgb >>> 24;
+                    b = rgb >>> 24;
                     r = (rgb >> 16) & 0xff;
                     g = (rgb >>  8) & 0xff;
                     b = rgb & 0xff;
-                    // premultiply the components if necessary
-                    if (a != 255.0f) {
-                        float ascale = a / 255.0f;
-                        r *= ascale;
-                        g *= ascale;
-                        b *= ascale;
+                    // premultiply the components if necessbry
+                    if (b != 255.0f) {
+                        flobt bscble = b / 255.0f;
+                        r *= bscble;
+                        g *= bscble;
+                        b *= bscble;
                     }
                 }
-                int amtx;
+                int bmtx;
                 if (sxrem < dxrem) {
-                    amtx = sxrem;
+                    bmtx = sxrem;
                 } else {
-                    amtx = dxrem;
+                    bmtx = dxrem;
                 }
-                float mult = ((float) amtx) * amty;
-                alphas[dx] += mult * a;
+                flobt mult = ((flobt) bmtx) * bmty;
+                blphbs[dx] += mult * b;
                 reds[dx] += mult * r;
                 greens[dx] += mult * g;
                 blues[dx] += mult * b;
-                if ((sxrem -= amtx) == 0) {
+                if ((sxrem -= bmtx) == 0) {
                     sx++;
                 }
-                if ((dxrem -= amtx) == 0) {
+                if ((dxrem -= bmtx) == 0) {
                     dx++;
                     dxrem = srcWidth;
                 }
             }
-            if ((dyrem -= amty) == 0) {
-                int outpix[] = calcRow();
+            if ((dyrem -= bmty) == 0) {
+                int outpix[] = cblcRow();
                 do {
                     consumer.setPixels(0, dy, destWidth, 1,
                                        rgbmodel, outpix, 0, destWidth);
                     dy++;
-                } while ((syrem -= amty) >= amty && amty == srcHeight);
+                } while ((syrem -= bmty) >= bmty && bmty == srcHeight);
             } else {
-                syrem -= amty;
+                syrem -= bmty;
             }
             if (syrem == 0) {
                 syrem = destHeight;
                 sy++;
-                off += scansize;
+                off += scbnsize;
             }
         }
-        savedyrem = dyrem;
-        savedy = dy;
+        sbvedyrem = dyrem;
+        sbvedy = dy;
     }
 
     /**
      * Combine the components for the delivered byte pixels into the
-     * accumulation arrays and send on any averaged data for rows of
-     * pixels that are complete.  If the correct hints were not
-     * specified in the setHints call then relay the work to our
-     * superclass which is capable of scaling pixels regardless of
+     * bccumulbtion brrbys bnd send on bny bverbged dbtb for rows of
+     * pixels thbt bre complete.  If the correct hints were not
+     * specified in the setHints cbll then relby the work to our
+     * superclbss which is cbpbble of scbling pixels regbrdless of
      * the delivery hints.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code>
-     * whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ReplicateScaleFilter
+     * Note: This method is intended to be cblled by the
+     * <code>ImbgeProducer</code> of the <code>Imbge</code>
+     * whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ReplicbteScbleFilter
      */
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, byte pixels[], int off,
-                          int scansize) {
-        if (passthrough) {
-            super.setPixels(x, y, w, h, model, pixels, off, scansize);
+                          int scbnsize) {
+        if (pbssthrough) {
+            super.setPixels(x, y, w, h, model, pixels, off, scbnsize);
         } else {
-            accumPixels(x, y, w, h, model, pixels, off, scansize);
+            bccumPixels(x, y, w, h, model, pixels, off, scbnsize);
         }
     }
 
     /**
      * Combine the components for the delivered int pixels into the
-     * accumulation arrays and send on any averaged data for rows of
-     * pixels that are complete.  If the correct hints were not
-     * specified in the setHints call then relay the work to our
-     * superclass which is capable of scaling pixels regardless of
+     * bccumulbtion brrbys bnd send on bny bverbged dbtb for rows of
+     * pixels thbt bre complete.  If the correct hints were not
+     * specified in the setHints cbll then relby the work to our
+     * superclbss which is cbpbble of scbling pixels regbrdless of
      * the delivery hints.
      * <p>
-     * Note: This method is intended to be called by the
-     * <code>ImageProducer</code> of the <code>Image</code>
-     * whose pixels are being filtered.  Developers using
-     * this class to filter pixels from an image should avoid calling
-     * this method directly since that operation could interfere
-     * with the filtering operation.
-     * @see ReplicateScaleFilter
+     * Note: This method is intended to be cblled by the
+     * <code>ImbgeProducer</code> of the <code>Imbge</code>
+     * whose pixels bre being filtered.  Developers using
+     * this clbss to filter pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could interfere
+     * with the filtering operbtion.
+     * @see ReplicbteScbleFilter
      */
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, int pixels[], int off,
-                          int scansize) {
-        if (passthrough) {
-            super.setPixels(x, y, w, h, model, pixels, off, scansize);
+                          int scbnsize) {
+        if (pbssthrough) {
+            super.setPixels(x, y, w, h, model, pixels, off, scbnsize);
         } else {
-            accumPixels(x, y, w, h, model, pixels, off, scansize);
+            bccumPixels(x, y, w, h, model, pixels, off, scbnsize);
         }
     }
 }

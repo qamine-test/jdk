@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.loading;
+pbckbge jbvbx.mbnbgement.lobding;
 
-import javax.management.MBeanServer; // for Javadoc
+import jbvbx.mbnbgement.MBebnServer; // for Jbvbdoc
 
 /**
- * <p>Instances of this interface are used to keep the list of ClassLoaders
- * registered in an MBean Server.
- * They provide the necessary methods to load classes using the registered
- * ClassLoaders.</p>
+ * <p>Instbnces of this interfbce bre used to keep the list of ClbssLobders
+ * registered in bn MBebn Server.
+ * They provide the necessbry methods to lobd clbsses using the registered
+ * ClbssLobders.</p>
  *
- * <p>The first ClassLoader in a <code>ClassLoaderRepository</code> is
- * always the MBean Server's own ClassLoader.</p>
+ * <p>The first ClbssLobder in b <code>ClbssLobderRepository</code> is
+ * blwbys the MBebn Server's own ClbssLobder.</p>
  *
- * <p>When an MBean is registered in an MBean Server, if it is of a
- * subclass of {@link java.lang.ClassLoader} and if it does not
- * implement the interface {@link PrivateClassLoader}, it is added to
- * the end of the MBean Server's <code>ClassLoaderRepository</code>.
- * If it is subsequently unregistered from the MBean Server, it is
- * removed from the <code>ClassLoaderRepository</code>.</p>
+ * <p>When bn MBebn is registered in bn MBebn Server, if it is of b
+ * subclbss of {@link jbvb.lbng.ClbssLobder} bnd if it does not
+ * implement the interfbce {@link PrivbteClbssLobder}, it is bdded to
+ * the end of the MBebn Server's <code>ClbssLobderRepository</code>.
+ * If it is subsequently unregistered from the MBebn Server, it is
+ * removed from the <code>ClbssLobderRepository</code>.</p>
  *
- * <p>The order of MBeans in the <code>ClassLoaderRepository</code> is
- * significant.  For any two MBeans <em>X</em> and <em>Y</em> in the
- * <code>ClassLoaderRepository</code>, <em>X</em> must appear before
- * <em>Y</em> if the registration of <em>X</em> was completed before
- * the registration of <em>Y</em> started.  If <em>X</em> and
+ * <p>The order of MBebns in the <code>ClbssLobderRepository</code> is
+ * significbnt.  For bny two MBebns <em>X</em> bnd <em>Y</em> in the
+ * <code>ClbssLobderRepository</code>, <em>X</em> must bppebr before
+ * <em>Y</em> if the registrbtion of <em>X</em> wbs completed before
+ * the registrbtion of <em>Y</em> stbrted.  If <em>X</em> bnd
  * <em>Y</em> were registered concurrently, their order is
- * indeterminate.  The registration of an MBean corresponds to the
- * call to {@link MBeanServer#registerMBean} or one of the {@link
- * MBeanServer}<code>.createMBean</code> methods.</p>
+ * indeterminbte.  The registrbtion of bn MBebn corresponds to the
+ * cbll to {@link MBebnServer#registerMBebn} or one of the {@link
+ * MBebnServer}<code>.crebteMBebn</code> methods.</p>
  *
- * @see javax.management.MBeanServerFactory
+ * @see jbvbx.mbnbgement.MBebnServerFbctory
  *
  * @since 1.5
  */
-public interface ClassLoaderRepository {
+public interfbce ClbssLobderRepository {
 
     /**
-     * <p>Load the given class name through the list of class loaders.
-     * Each ClassLoader in turn from the ClassLoaderRepository is
-     * asked to load the class via its {@link
-     * ClassLoader#loadClass(String)} method.  If it successfully
-     * returns a {@link Class} object, that is the result of this
-     * method.  If it throws a {@link ClassNotFoundException}, the
-     * search continues with the next ClassLoader.  If it throws
-     * another exception, the exception is propagated from this
-     * method.  If the end of the list is reached, a {@link
-     * ClassNotFoundException} is thrown.</p>
+     * <p>Lobd the given clbss nbme through the list of clbss lobders.
+     * Ebch ClbssLobder in turn from the ClbssLobderRepository is
+     * bsked to lobd the clbss vib its {@link
+     * ClbssLobder#lobdClbss(String)} method.  If it successfully
+     * returns b {@link Clbss} object, thbt is the result of this
+     * method.  If it throws b {@link ClbssNotFoundException}, the
+     * sebrch continues with the next ClbssLobder.  If it throws
+     * bnother exception, the exception is propbgbted from this
+     * method.  If the end of the list is rebched, b {@link
+     * ClbssNotFoundException} is thrown.</p>
      *
-     * @param className The name of the class to be loaded.
+     * @pbrbm clbssNbme The nbme of the clbss to be lobded.
      *
-     * @return the loaded class.
+     * @return the lobded clbss.
      *
-     * @exception ClassNotFoundException The specified class could not be
+     * @exception ClbssNotFoundException The specified clbss could not be
      *            found.
      */
-    public Class<?> loadClass(String className)
-            throws ClassNotFoundException;
+    public Clbss<?> lobdClbss(String clbssNbme)
+            throws ClbssNotFoundException;
 
     /**
-     * <p>Load the given class name through the list of class loaders,
-     * excluding the given one.  Each ClassLoader in turn from the
-     * ClassLoaderRepository, except <code>exclude</code>, is asked to
-     * load the class via its {@link ClassLoader#loadClass(String)}
-     * method.  If it successfully returns a {@link Class} object,
-     * that is the result of this method.  If it throws a {@link
-     * ClassNotFoundException}, the search continues with the next
-     * ClassLoader.  If it throws another exception, the exception is
-     * propagated from this method.  If the end of the list is
-     * reached, a {@link ClassNotFoundException} is thrown.</p>
+     * <p>Lobd the given clbss nbme through the list of clbss lobders,
+     * excluding the given one.  Ebch ClbssLobder in turn from the
+     * ClbssLobderRepository, except <code>exclude</code>, is bsked to
+     * lobd the clbss vib its {@link ClbssLobder#lobdClbss(String)}
+     * method.  If it successfully returns b {@link Clbss} object,
+     * thbt is the result of this method.  If it throws b {@link
+     * ClbssNotFoundException}, the sebrch continues with the next
+     * ClbssLobder.  If it throws bnother exception, the exception is
+     * propbgbted from this method.  If the end of the list is
+     * rebched, b {@link ClbssNotFoundException} is thrown.</p>
      *
-     * <p>Be aware that if a ClassLoader in the ClassLoaderRepository
-     * calls this method from its {@link ClassLoader#loadClass(String)
-     * loadClass} method, it exposes itself to a deadlock if another
-     * ClassLoader in the ClassLoaderRepository does the same thing at
-     * the same time.  The {@link #loadClassBefore} method is
-     * recommended to avoid the risk of deadlock.</p>
+     * <p>Be bwbre thbt if b ClbssLobder in the ClbssLobderRepository
+     * cblls this method from its {@link ClbssLobder#lobdClbss(String)
+     * lobdClbss} method, it exposes itself to b debdlock if bnother
+     * ClbssLobder in the ClbssLobderRepository does the sbme thing bt
+     * the sbme time.  The {@link #lobdClbssBefore} method is
+     * recommended to bvoid the risk of debdlock.</p>
      *
-     * @param className The name of the class to be loaded.
-     * @param exclude The class loader to be excluded.  May be null,
-     * in which case this method is equivalent to {@link #loadClass
-     * loadClass(className)}.
+     * @pbrbm clbssNbme The nbme of the clbss to be lobded.
+     * @pbrbm exclude The clbss lobder to be excluded.  Mby be null,
+     * in which cbse this method is equivblent to {@link #lobdClbss
+     * lobdClbss(clbssNbme)}.
      *
-     * @return the loaded class.
+     * @return the lobded clbss.
      *
-     * @exception ClassNotFoundException The specified class could not
+     * @exception ClbssNotFoundException The specified clbss could not
      * be found.
      */
-    public Class<?> loadClassWithout(ClassLoader exclude,
-                                     String className)
-            throws ClassNotFoundException;
+    public Clbss<?> lobdClbssWithout(ClbssLobder exclude,
+                                     String clbssNbme)
+            throws ClbssNotFoundException;
 
     /**
-     * <p>Load the given class name through the list of class loaders,
-     * stopping at the given one.  Each ClassLoader in turn from the
-     * ClassLoaderRepository is asked to load the class via its {@link
-     * ClassLoader#loadClass(String)} method.  If it successfully
-     * returns a {@link Class} object, that is the result of this
-     * method.  If it throws a {@link ClassNotFoundException}, the
-     * search continues with the next ClassLoader.  If it throws
-     * another exception, the exception is propagated from this
-     * method.  If the search reaches <code>stop</code> or the end of
-     * the list, a {@link ClassNotFoundException} is thrown.</p>
+     * <p>Lobd the given clbss nbme through the list of clbss lobders,
+     * stopping bt the given one.  Ebch ClbssLobder in turn from the
+     * ClbssLobderRepository is bsked to lobd the clbss vib its {@link
+     * ClbssLobder#lobdClbss(String)} method.  If it successfully
+     * returns b {@link Clbss} object, thbt is the result of this
+     * method.  If it throws b {@link ClbssNotFoundException}, the
+     * sebrch continues with the next ClbssLobder.  If it throws
+     * bnother exception, the exception is propbgbted from this
+     * method.  If the sebrch rebches <code>stop</code> or the end of
+     * the list, b {@link ClbssNotFoundException} is thrown.</p>
      *
-     * <p>Typically this method is called from the {@link
-     * ClassLoader#loadClass(String) loadClass} method of
-     * <code>stop</code>, to consult loaders that appear before it
-     * in the <code>ClassLoaderRepository</code>.  By stopping the
-     * search as soon as <code>stop</code> is reached, a potential
-     * deadlock with concurrent class loading is avoided.</p>
+     * <p>Typicblly this method is cblled from the {@link
+     * ClbssLobder#lobdClbss(String) lobdClbss} method of
+     * <code>stop</code>, to consult lobders thbt bppebr before it
+     * in the <code>ClbssLobderRepository</code>.  By stopping the
+     * sebrch bs soon bs <code>stop</code> is rebched, b potentibl
+     * debdlock with concurrent clbss lobding is bvoided.</p>
      *
-     * @param className The name of the class to be loaded.
-     * @param stop The class loader at which to stop.  May be null, in
-     * which case this method is equivalent to {@link #loadClass(String)
-     * loadClass(className)}.
+     * @pbrbm clbssNbme The nbme of the clbss to be lobded.
+     * @pbrbm stop The clbss lobder bt which to stop.  Mby be null, in
+     * which cbse this method is equivblent to {@link #lobdClbss(String)
+     * lobdClbss(clbssNbme)}.
      *
-     * @return the loaded class.
+     * @return the lobded clbss.
      *
-     * @exception ClassNotFoundException The specified class could not
+     * @exception ClbssNotFoundException The specified clbss could not
      * be found.
      *
      */
-    public Class<?> loadClassBefore(ClassLoader stop,
-                                    String className)
-            throws ClassNotFoundException;
+    public Clbss<?> lobdClbssBefore(ClbssLobder stop,
+                                    String clbssNbme)
+            throws ClbssNotFoundException;
 
 }

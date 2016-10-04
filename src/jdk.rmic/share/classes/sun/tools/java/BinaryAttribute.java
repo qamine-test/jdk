@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.io.IOException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import jbvb.io.IOException;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.DbtbOutputStrebm;
 
 /**
- * This class is used to represent an attribute from a binary class.
- * This class should go away once arrays are objects.
+ * This clbss is used to represent bn bttribute from b binbry clbss.
+ * This clbss should go bwby once brrbys bre objects.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-public final
-class BinaryAttribute implements Constants {
-    Identifier name;
-    byte data[];
-    BinaryAttribute next;
+public finbl
+clbss BinbryAttribute implements Constbnts {
+    Identifier nbme;
+    byte dbtb[];
+    BinbryAttribute next;
 
     /**
      * Constructor
      */
-    BinaryAttribute(Identifier name, byte data[], BinaryAttribute next) {
-        this.name = name;
-        this.data = data;
+    BinbryAttribute(Identifier nbme, byte dbtb[], BinbryAttribute next) {
+        this.nbme = nbme;
+        this.dbtb = dbtb;
         this.next = next;
     }
 
     /**
-     * Load a list of attributes
+     * Lobd b list of bttributes
      */
-    public static BinaryAttribute load(DataInputStream in, BinaryConstantPool cpool, int mask) throws IOException {
-        BinaryAttribute atts = null;
-        int natt = in.readUnsignedShort();  // JVM 4.6 method_info.attrutes_count
+    public stbtic BinbryAttribute lobd(DbtbInputStrebm in, BinbryConstbntPool cpool, int mbsk) throws IOException {
+        BinbryAttribute btts = null;
+        int nbtt = in.rebdUnsignedShort();  // JVM 4.6 method_info.bttrutes_count
 
-        for (int i = 0 ; i < natt ; i++) {
-            // id from JVM 4.7 attribute_info.attribute_name_index
-            Identifier id = cpool.getIdentifier(in.readUnsignedShort());
-            // id from JVM 4.7 attribute_info.attribute_length
-            int len = in.readInt();
+        for (int i = 0 ; i < nbtt ; i++) {
+            // id from JVM 4.7 bttribute_info.bttribute_nbme_index
+            Identifier id = cpool.getIdentifier(in.rebdUnsignedShort());
+            // id from JVM 4.7 bttribute_info.bttribute_length
+            int len = in.rebdInt();
 
-            if (id.equals(idCode) && ((mask & ATT_CODE) == 0)) {
+            if (id.equbls(idCode) && ((mbsk & ATT_CODE) == 0)) {
                 in.skipBytes(len);
             } else {
-                byte data[] = new byte[len];
-                in.readFully(data);
-                atts = new BinaryAttribute(id, data, atts);
+                byte dbtb[] = new byte[len];
+                in.rebdFully(dbtb);
+                btts = new BinbryAttribute(id, dbtb, btts);
             }
         }
-        return atts;
+        return btts;
     }
 
-    // write out the Binary attributes to the given stream
-    // (note that attributes may be null)
-    static void write(BinaryAttribute attributes, DataOutputStream out,
-                      BinaryConstantPool cpool, Environment env) throws IOException {
-        // count the number of attributes
-        int attributeCount = 0;
-        for (BinaryAttribute att = attributes; att != null; att = att.next)
-            attributeCount++;
-        out.writeShort(attributeCount);
+    // write out the Binbry bttributes to the given strebm
+    // (note thbt bttributes mby be null)
+    stbtic void write(BinbryAttribute bttributes, DbtbOutputStrebm out,
+                      BinbryConstbntPool cpool, Environment env) throws IOException {
+        // count the number of bttributes
+        int bttributeCount = 0;
+        for (BinbryAttribute btt = bttributes; btt != null; btt = btt.next)
+            bttributeCount++;
+        out.writeShort(bttributeCount);
 
-        // write out each attribute
-        for (BinaryAttribute att = attributes; att != null; att = att.next) {
-            Identifier name = att.name;
-            byte data[] = att.data;
+        // write out ebch bttribute
+        for (BinbryAttribute btt = bttributes; btt != null; btt = btt.next) {
+            Identifier nbme = btt.nbme;
+            byte dbtb[] = btt.dbtb;
             // write the identifier
-            out.writeShort(cpool.indexString(name.toString(), env));
+            out.writeShort(cpool.indexString(nbme.toString(), env));
             // write the length
-            out.writeInt(data.length);
-            // write the data
-            out.write(data, 0, data.length);
+            out.writeInt(dbtb.length);
+            // write the dbtb
+            out.write(dbtb, 0, dbtb.length);
         }
     }
 
@@ -103,10 +103,10 @@ class BinaryAttribute implements Constants {
      * Accessors
      */
 
-    public Identifier getName() { return name; }
+    public Identifier getNbme() { return nbme; }
 
-    public byte getData()[] { return data; }
+    public byte getDbtb()[] { return dbtb; }
 
-    public BinaryAttribute getNextAttribute() { return next; }
+    public BinbryAttribute getNextAttribute() { return next; }
 
 }

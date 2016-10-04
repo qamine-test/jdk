@@ -1,401 +1,401 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
-import java.io.IOException;
+import jbvb.util.concurrent.btomic.AtomicReferenceFieldUpdbter;
+import jbvb.io.IOException;
 
 
 /**
- * A token representing the registration of a {@link SelectableChannel} with a
+ * A token representing the registrbtion of b {@link SelectbbleChbnnel} with b
  * {@link Selector}.
  *
- * <p> A selection key is created each time a channel is registered with a
- * selector.  A key remains valid until it is <i>cancelled</i> by invoking its
- * {@link #cancel cancel} method, by closing its channel, or by closing its
- * selector.  Cancelling a key does not immediately remove it from its
- * selector; it is instead added to the selector's <a
- * href="Selector.html#ks"><i>cancelled-key set</i></a> for removal during the
- * next selection operation.  The validity of a key may be tested by invoking
- * its {@link #isValid isValid} method.
+ * <p> A selection key is crebted ebch time b chbnnel is registered with b
+ * selector.  A key rembins vblid until it is <i>cbncelled</i> by invoking its
+ * {@link #cbncel cbncel} method, by closing its chbnnel, or by closing its
+ * selector.  Cbncelling b key does not immedibtely remove it from its
+ * selector; it is instebd bdded to the selector's <b
+ * href="Selector.html#ks"><i>cbncelled-key set</i></b> for removbl during the
+ * next selection operbtion.  The vblidity of b key mby be tested by invoking
+ * its {@link #isVblid isVblid} method.
  *
- * <a name="opsets"></a>
+ * <b nbme="opsets"></b>
  *
- * <p> A selection key contains two <i>operation sets</i> represented as
- * integer values.  Each bit of an operation set denotes a category of
- * selectable operations that are supported by the key's channel.
+ * <p> A selection key contbins two <i>operbtion sets</i> represented bs
+ * integer vblues.  Ebch bit of bn operbtion set denotes b cbtegory of
+ * selectbble operbtions thbt bre supported by the key's chbnnel.
  *
  * <ul>
  *
- *   <li><p> The <i>interest set</i> determines which operation categories will
- *   be tested for readiness the next time one of the selector's selection
- *   methods is invoked.  The interest set is initialized with the value given
- *   when the key is created; it may later be changed via the {@link
+ *   <li><p> The <i>interest set</i> determines which operbtion cbtegories will
+ *   be tested for rebdiness the next time one of the selector's selection
+ *   methods is invoked.  The interest set is initiblized with the vblue given
+ *   when the key is crebted; it mby lbter be chbnged vib the {@link
  *   #interestOps(int)} method. </p></li>
  *
- *   <li><p> The <i>ready set</i> identifies the operation categories for which
- *   the key's channel has been detected to be ready by the key's selector.
- *   The ready set is initialized to zero when the key is created; it may later
- *   be updated by the selector during a selection operation, but it cannot be
- *   updated directly. </p></li>
+ *   <li><p> The <i>rebdy set</i> identifies the operbtion cbtegories for which
+ *   the key's chbnnel hbs been detected to be rebdy by the key's selector.
+ *   The rebdy set is initiblized to zero when the key is crebted; it mby lbter
+ *   be updbted by the selector during b selection operbtion, but it cbnnot be
+ *   updbted directly. </p></li>
  *
  * </ul>
  *
- * <p> That a selection key's ready set indicates that its channel is ready for
- * some operation category is a hint, but not a guarantee, that an operation in
- * such a category may be performed by a thread without causing the thread to
- * block.  A ready set is most likely to be accurate immediately after the
- * completion of a selection operation.  It is likely to be made inaccurate by
- * external events and by I/O operations that are invoked upon the
- * corresponding channel.
+ * <p> Thbt b selection key's rebdy set indicbtes thbt its chbnnel is rebdy for
+ * some operbtion cbtegory is b hint, but not b gubrbntee, thbt bn operbtion in
+ * such b cbtegory mby be performed by b threbd without cbusing the threbd to
+ * block.  A rebdy set is most likely to be bccurbte immedibtely bfter the
+ * completion of b selection operbtion.  It is likely to be mbde inbccurbte by
+ * externbl events bnd by I/O operbtions thbt bre invoked upon the
+ * corresponding chbnnel.
  *
- * <p> This class defines all known operation-set bits, but precisely which
- * bits are supported by a given channel depends upon the type of the channel.
- * Each subclass of {@link SelectableChannel} defines an {@link
- * SelectableChannel#validOps() validOps()} method which returns a set
- * identifying just those operations that are supported by the channel.  An
- * attempt to set or test an operation-set bit that is not supported by a key's
- * channel will result in an appropriate run-time exception.
+ * <p> This clbss defines bll known operbtion-set bits, but precisely which
+ * bits bre supported by b given chbnnel depends upon the type of the chbnnel.
+ * Ebch subclbss of {@link SelectbbleChbnnel} defines bn {@link
+ * SelectbbleChbnnel#vblidOps() vblidOps()} method which returns b set
+ * identifying just those operbtions thbt bre supported by the chbnnel.  An
+ * bttempt to set or test bn operbtion-set bit thbt is not supported by b key's
+ * chbnnel will result in bn bppropribte run-time exception.
  *
- * <p> It is often necessary to associate some application-specific data with a
- * selection key, for example an object that represents the state of a
- * higher-level protocol and handles readiness notifications in order to
- * implement that protocol.  Selection keys therefore support the
- * <i>attachment</i> of a single arbitrary object to a key.  An object can be
- * attached via the {@link #attach attach} method and then later retrieved via
- * the {@link #attachment() attachment} method.
+ * <p> It is often necessbry to bssocibte some bpplicbtion-specific dbtb with b
+ * selection key, for exbmple bn object thbt represents the stbte of b
+ * higher-level protocol bnd hbndles rebdiness notificbtions in order to
+ * implement thbt protocol.  Selection keys therefore support the
+ * <i>bttbchment</i> of b single brbitrbry object to b key.  An object cbn be
+ * bttbched vib the {@link #bttbch bttbch} method bnd then lbter retrieved vib
+ * the {@link #bttbchment() bttbchment} method.
  *
- * <p> Selection keys are safe for use by multiple concurrent threads.  The
- * operations of reading and writing the interest set will, in general, be
- * synchronized with certain operations of the selector.  Exactly how this
- * synchronization is performed is implementation-dependent: In a naive
- * implementation, reading or writing the interest set may block indefinitely
- * if a selection operation is already in progress; in a high-performance
- * implementation, reading or writing the interest set may block briefly, if at
- * all.  In any case, a selection operation will always use the interest-set
- * value that was current at the moment that the operation began.  </p>
+ * <p> Selection keys bre sbfe for use by multiple concurrent threbds.  The
+ * operbtions of rebding bnd writing the interest set will, in generbl, be
+ * synchronized with certbin operbtions of the selector.  Exbctly how this
+ * synchronizbtion is performed is implementbtion-dependent: In b nbive
+ * implementbtion, rebding or writing the interest set mby block indefinitely
+ * if b selection operbtion is blrebdy in progress; in b high-performbnce
+ * implementbtion, rebding or writing the interest set mby block briefly, if bt
+ * bll.  In bny cbse, b selection operbtion will blwbys use the interest-set
+ * vblue thbt wbs current bt the moment thbt the operbtion begbn.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  *
- * @see SelectableChannel
+ * @see SelectbbleChbnnel
  * @see Selector
  */
 
-public abstract class SelectionKey {
+public bbstrbct clbss SelectionKey {
 
     /**
-     * Constructs an instance of this class.
+     * Constructs bn instbnce of this clbss.
      */
     protected SelectionKey() { }
 
 
-    // -- Channel and selector operations --
+    // -- Chbnnel bnd selector operbtions --
 
     /**
-     * Returns the channel for which this key was created.  This method will
-     * continue to return the channel even after the key is cancelled.
+     * Returns the chbnnel for which this key wbs crebted.  This method will
+     * continue to return the chbnnel even bfter the key is cbncelled.
      *
-     * @return  This key's channel
+     * @return  This key's chbnnel
      */
-    public abstract SelectableChannel channel();
+    public bbstrbct SelectbbleChbnnel chbnnel();
 
     /**
-     * Returns the selector for which this key was created.  This method will
-     * continue to return the selector even after the key is cancelled.
+     * Returns the selector for which this key wbs crebted.  This method will
+     * continue to return the selector even bfter the key is cbncelled.
      *
      * @return  This key's selector
      */
-    public abstract Selector selector();
+    public bbstrbct Selector selector();
 
     /**
-     * Tells whether or not this key is valid.
+     * Tells whether or not this key is vblid.
      *
-     * <p> A key is valid upon creation and remains so until it is cancelled,
-     * its channel is closed, or its selector is closed.  </p>
+     * <p> A key is vblid upon crebtion bnd rembins so until it is cbncelled,
+     * its chbnnel is closed, or its selector is closed.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this key is valid
+     * @return  <tt>true</tt> if, bnd only if, this key is vblid
      */
-    public abstract boolean isValid();
+    public bbstrbct boolebn isVblid();
 
     /**
-     * Requests that the registration of this key's channel with its selector
-     * be cancelled.  Upon return the key will be invalid and will have been
-     * added to its selector's cancelled-key set.  The key will be removed from
-     * all of the selector's key sets during the next selection operation.
+     * Requests thbt the registrbtion of this key's chbnnel with its selector
+     * be cbncelled.  Upon return the key will be invblid bnd will hbve been
+     * bdded to its selector's cbncelled-key set.  The key will be removed from
+     * bll of the selector's key sets during the next selection operbtion.
      *
-     * <p> If this key has already been cancelled then invoking this method has
-     * no effect.  Once cancelled, a key remains forever invalid. </p>
+     * <p> If this key hbs blrebdy been cbncelled then invoking this method hbs
+     * no effect.  Once cbncelled, b key rembins forever invblid. </p>
      *
-     * <p> This method may be invoked at any time.  It synchronizes on the
-     * selector's cancelled-key set, and therefore may block briefly if invoked
-     * concurrently with a cancellation or selection operation involving the
-     * same selector.  </p>
+     * <p> This method mby be invoked bt bny time.  It synchronizes on the
+     * selector's cbncelled-key set, bnd therefore mby block briefly if invoked
+     * concurrently with b cbncellbtion or selection operbtion involving the
+     * sbme selector.  </p>
      */
-    public abstract void cancel();
+    public bbstrbct void cbncel();
 
 
-    // -- Operation-set accessors --
+    // -- Operbtion-set bccessors --
 
     /**
      * Retrieves this key's interest set.
      *
-     * <p> It is guaranteed that the returned set will only contain operation
-     * bits that are valid for this key's channel.
+     * <p> It is gubrbnteed thbt the returned set will only contbin operbtion
+     * bits thbt bre vblid for this key's chbnnel.
      *
-     * <p> This method may be invoked at any time.  Whether or not it blocks,
-     * and for how long, is implementation-dependent.  </p>
+     * <p> This method mby be invoked bt bny time.  Whether or not it blocks,
+     * bnd for how long, is implementbtion-dependent.  </p>
      *
      * @return  This key's interest set
      *
-     * @throws  CancelledKeyException
-     *          If this key has been cancelled
+     * @throws  CbncelledKeyException
+     *          If this key hbs been cbncelled
      */
-    public abstract int interestOps();
+    public bbstrbct int interestOps();
 
     /**
-     * Sets this key's interest set to the given value.
+     * Sets this key's interest set to the given vblue.
      *
-     * <p> This method may be invoked at any time.  Whether or not it blocks,
-     * and for how long, is implementation-dependent.  </p>
+     * <p> This method mby be invoked bt bny time.  Whether or not it blocks,
+     * bnd for how long, is implementbtion-dependent.  </p>
      *
-     * @param  ops  The new interest set
+     * @pbrbm  ops  The new interest set
      *
      * @return  This selection key
      *
-     * @throws  IllegalArgumentException
-     *          If a bit in the set does not correspond to an operation that
-     *          is supported by this key's channel, that is, if
-     *          {@code (ops & ~channel().validOps()) != 0}
+     * @throws  IllegblArgumentException
+     *          If b bit in the set does not correspond to bn operbtion thbt
+     *          is supported by this key's chbnnel, thbt is, if
+     *          {@code (ops & ~chbnnel().vblidOps()) != 0}
      *
-     * @throws  CancelledKeyException
-     *          If this key has been cancelled
+     * @throws  CbncelledKeyException
+     *          If this key hbs been cbncelled
      */
-    public abstract SelectionKey interestOps(int ops);
+    public bbstrbct SelectionKey interestOps(int ops);
 
     /**
-     * Retrieves this key's ready-operation set.
+     * Retrieves this key's rebdy-operbtion set.
      *
-     * <p> It is guaranteed that the returned set will only contain operation
-     * bits that are valid for this key's channel.  </p>
+     * <p> It is gubrbnteed thbt the returned set will only contbin operbtion
+     * bits thbt bre vblid for this key's chbnnel.  </p>
      *
-     * @return  This key's ready-operation set
+     * @return  This key's rebdy-operbtion set
      *
-     * @throws  CancelledKeyException
-     *          If this key has been cancelled
+     * @throws  CbncelledKeyException
+     *          If this key hbs been cbncelled
      */
-    public abstract int readyOps();
+    public bbstrbct int rebdyOps();
 
 
-    // -- Operation bits and bit-testing convenience methods --
+    // -- Operbtion bits bnd bit-testing convenience methods --
 
     /**
-     * Operation-set bit for read operations.
+     * Operbtion-set bit for rebd operbtions.
      *
-     * <p> Suppose that a selection key's interest set contains
-     * <tt>OP_READ</tt> at the start of a <a
-     * href="Selector.html#selop">selection operation</a>.  If the selector
-     * detects that the corresponding channel is ready for reading, has reached
-     * end-of-stream, has been remotely shut down for further reading, or has
-     * an error pending, then it will add <tt>OP_READ</tt> to the key's
-     * ready-operation set and add the key to its selected-key&nbsp;set.  </p>
+     * <p> Suppose thbt b selection key's interest set contbins
+     * <tt>OP_READ</tt> bt the stbrt of b <b
+     * href="Selector.html#selop">selection operbtion</b>.  If the selector
+     * detects thbt the corresponding chbnnel is rebdy for rebding, hbs rebched
+     * end-of-strebm, hbs been remotely shut down for further rebding, or hbs
+     * bn error pending, then it will bdd <tt>OP_READ</tt> to the key's
+     * rebdy-operbtion set bnd bdd the key to its selected-key&nbsp;set.  </p>
      */
-    public static final int OP_READ = 1 << 0;
+    public stbtic finbl int OP_READ = 1 << 0;
 
     /**
-     * Operation-set bit for write operations.
+     * Operbtion-set bit for write operbtions.
      *
-     * <p> Suppose that a selection key's interest set contains
-     * <tt>OP_WRITE</tt> at the start of a <a
-     * href="Selector.html#selop">selection operation</a>.  If the selector
-     * detects that the corresponding channel is ready for writing, has been
-     * remotely shut down for further writing, or has an error pending, then it
-     * will add <tt>OP_WRITE</tt> to the key's ready set and add the key to its
+     * <p> Suppose thbt b selection key's interest set contbins
+     * <tt>OP_WRITE</tt> bt the stbrt of b <b
+     * href="Selector.html#selop">selection operbtion</b>.  If the selector
+     * detects thbt the corresponding chbnnel is rebdy for writing, hbs been
+     * remotely shut down for further writing, or hbs bn error pending, then it
+     * will bdd <tt>OP_WRITE</tt> to the key's rebdy set bnd bdd the key to its
      * selected-key&nbsp;set.  </p>
      */
-    public static final int OP_WRITE = 1 << 2;
+    public stbtic finbl int OP_WRITE = 1 << 2;
 
     /**
-     * Operation-set bit for socket-connect operations.
+     * Operbtion-set bit for socket-connect operbtions.
      *
-     * <p> Suppose that a selection key's interest set contains
-     * <tt>OP_CONNECT</tt> at the start of a <a
-     * href="Selector.html#selop">selection operation</a>.  If the selector
-     * detects that the corresponding socket channel is ready to complete its
-     * connection sequence, or has an error pending, then it will add
-     * <tt>OP_CONNECT</tt> to the key's ready set and add the key to its
+     * <p> Suppose thbt b selection key's interest set contbins
+     * <tt>OP_CONNECT</tt> bt the stbrt of b <b
+     * href="Selector.html#selop">selection operbtion</b>.  If the selector
+     * detects thbt the corresponding socket chbnnel is rebdy to complete its
+     * connection sequence, or hbs bn error pending, then it will bdd
+     * <tt>OP_CONNECT</tt> to the key's rebdy set bnd bdd the key to its
      * selected-key&nbsp;set.  </p>
      */
-    public static final int OP_CONNECT = 1 << 3;
+    public stbtic finbl int OP_CONNECT = 1 << 3;
 
     /**
-     * Operation-set bit for socket-accept operations.
+     * Operbtion-set bit for socket-bccept operbtions.
      *
-     * <p> Suppose that a selection key's interest set contains
-     * <tt>OP_ACCEPT</tt> at the start of a <a
-     * href="Selector.html#selop">selection operation</a>.  If the selector
-     * detects that the corresponding server-socket channel is ready to accept
-     * another connection, or has an error pending, then it will add
-     * <tt>OP_ACCEPT</tt> to the key's ready set and add the key to its
+     * <p> Suppose thbt b selection key's interest set contbins
+     * <tt>OP_ACCEPT</tt> bt the stbrt of b <b
+     * href="Selector.html#selop">selection operbtion</b>.  If the selector
+     * detects thbt the corresponding server-socket chbnnel is rebdy to bccept
+     * bnother connection, or hbs bn error pending, then it will bdd
+     * <tt>OP_ACCEPT</tt> to the key's rebdy set bnd bdd the key to its
      * selected-key&nbsp;set.  </p>
      */
-    public static final int OP_ACCEPT = 1 << 4;
+    public stbtic finbl int OP_ACCEPT = 1 << 4;
 
     /**
-     * Tests whether this key's channel is ready for reading.
+     * Tests whether this key's chbnnel is rebdy for rebding.
      *
-     * <p> An invocation of this method of the form <tt>k.isReadable()</tt>
-     * behaves in exactly the same way as the expression
+     * <p> An invocbtion of this method of the form <tt>k.isRebdbble()</tt>
+     * behbves in exbctly the sbme wby bs the expression
      *
      * <blockquote><pre>{@code
-     * k.readyOps() & OP_READ != 0
+     * k.rebdyOps() & OP_READ != 0
      * }</pre></blockquote>
      *
-     * <p> If this key's channel does not support read operations then this
-     * method always returns <tt>false</tt>.  </p>
+     * <p> If this key's chbnnel does not support rebd operbtions then this
+     * method blwbys returns <tt>fblse</tt>.  </p>
      *
-     * @return  <tt>true</tt> if, and only if,
-                {@code readyOps() & OP_READ} is nonzero
+     * @return  <tt>true</tt> if, bnd only if,
+                {@code rebdyOps() & OP_READ} is nonzero
      *
-     * @throws  CancelledKeyException
-     *          If this key has been cancelled
+     * @throws  CbncelledKeyException
+     *          If this key hbs been cbncelled
      */
-    public final boolean isReadable() {
-        return (readyOps() & OP_READ) != 0;
+    public finbl boolebn isRebdbble() {
+        return (rebdyOps() & OP_READ) != 0;
     }
 
     /**
-     * Tests whether this key's channel is ready for writing.
+     * Tests whether this key's chbnnel is rebdy for writing.
      *
-     * <p> An invocation of this method of the form <tt>k.isWritable()</tt>
-     * behaves in exactly the same way as the expression
+     * <p> An invocbtion of this method of the form <tt>k.isWritbble()</tt>
+     * behbves in exbctly the sbme wby bs the expression
      *
      * <blockquote><pre>{@code
-     * k.readyOps() & OP_WRITE != 0
+     * k.rebdyOps() & OP_WRITE != 0
      * }</pre></blockquote>
      *
-     * <p> If this key's channel does not support write operations then this
-     * method always returns <tt>false</tt>.  </p>
+     * <p> If this key's chbnnel does not support write operbtions then this
+     * method blwbys returns <tt>fblse</tt>.  </p>
      *
-     * @return  <tt>true</tt> if, and only if,
-     *          {@code readyOps() & OP_WRITE} is nonzero
+     * @return  <tt>true</tt> if, bnd only if,
+     *          {@code rebdyOps() & OP_WRITE} is nonzero
      *
-     * @throws  CancelledKeyException
-     *          If this key has been cancelled
+     * @throws  CbncelledKeyException
+     *          If this key hbs been cbncelled
      */
-    public final boolean isWritable() {
-        return (readyOps() & OP_WRITE) != 0;
+    public finbl boolebn isWritbble() {
+        return (rebdyOps() & OP_WRITE) != 0;
     }
 
     /**
-     * Tests whether this key's channel has either finished, or failed to
-     * finish, its socket-connection operation.
+     * Tests whether this key's chbnnel hbs either finished, or fbiled to
+     * finish, its socket-connection operbtion.
      *
-     * <p> An invocation of this method of the form <tt>k.isConnectable()</tt>
-     * behaves in exactly the same way as the expression
+     * <p> An invocbtion of this method of the form <tt>k.isConnectbble()</tt>
+     * behbves in exbctly the sbme wby bs the expression
      *
      * <blockquote><pre>{@code
-     * k.readyOps() & OP_CONNECT != 0
+     * k.rebdyOps() & OP_CONNECT != 0
      * }</pre></blockquote>
      *
-     * <p> If this key's channel does not support socket-connect operations
-     * then this method always returns <tt>false</tt>.  </p>
+     * <p> If this key's chbnnel does not support socket-connect operbtions
+     * then this method blwbys returns <tt>fblse</tt>.  </p>
      *
-     * @return  <tt>true</tt> if, and only if,
-     *          {@code readyOps() & OP_CONNECT} is nonzero
+     * @return  <tt>true</tt> if, bnd only if,
+     *          {@code rebdyOps() & OP_CONNECT} is nonzero
      *
-     * @throws  CancelledKeyException
-     *          If this key has been cancelled
+     * @throws  CbncelledKeyException
+     *          If this key hbs been cbncelled
      */
-    public final boolean isConnectable() {
-        return (readyOps() & OP_CONNECT) != 0;
+    public finbl boolebn isConnectbble() {
+        return (rebdyOps() & OP_CONNECT) != 0;
     }
 
     /**
-     * Tests whether this key's channel is ready to accept a new socket
+     * Tests whether this key's chbnnel is rebdy to bccept b new socket
      * connection.
      *
-     * <p> An invocation of this method of the form <tt>k.isAcceptable()</tt>
-     * behaves in exactly the same way as the expression
+     * <p> An invocbtion of this method of the form <tt>k.isAcceptbble()</tt>
+     * behbves in exbctly the sbme wby bs the expression
      *
      * <blockquote><pre>{@code
-     * k.readyOps() & OP_ACCEPT != 0
+     * k.rebdyOps() & OP_ACCEPT != 0
      * }</pre></blockquote>
      *
-     * <p> If this key's channel does not support socket-accept operations then
-     * this method always returns <tt>false</tt>.  </p>
+     * <p> If this key's chbnnel does not support socket-bccept operbtions then
+     * this method blwbys returns <tt>fblse</tt>.  </p>
      *
-     * @return  <tt>true</tt> if, and only if,
-     *          {@code readyOps() & OP_ACCEPT} is nonzero
+     * @return  <tt>true</tt> if, bnd only if,
+     *          {@code rebdyOps() & OP_ACCEPT} is nonzero
      *
-     * @throws  CancelledKeyException
-     *          If this key has been cancelled
+     * @throws  CbncelledKeyException
+     *          If this key hbs been cbncelled
      */
-    public final boolean isAcceptable() {
-        return (readyOps() & OP_ACCEPT) != 0;
+    public finbl boolebn isAcceptbble() {
+        return (rebdyOps() & OP_ACCEPT) != 0;
     }
 
 
-    // -- Attachments --
+    // -- Attbchments --
 
-    private volatile Object attachment = null;
+    privbte volbtile Object bttbchment = null;
 
-    private static final AtomicReferenceFieldUpdater<SelectionKey,Object>
-        attachmentUpdater = AtomicReferenceFieldUpdater.newUpdater(
-            SelectionKey.class, Object.class, "attachment"
+    privbte stbtic finbl AtomicReferenceFieldUpdbter<SelectionKey,Object>
+        bttbchmentUpdbter = AtomicReferenceFieldUpdbter.newUpdbter(
+            SelectionKey.clbss, Object.clbss, "bttbchment"
         );
 
     /**
-     * Attaches the given object to this key.
+     * Attbches the given object to this key.
      *
-     * <p> An attached object may later be retrieved via the {@link #attachment()
-     * attachment} method.  Only one object may be attached at a time; invoking
-     * this method causes any previous attachment to be discarded.  The current
-     * attachment may be discarded by attaching <tt>null</tt>.  </p>
+     * <p> An bttbched object mby lbter be retrieved vib the {@link #bttbchment()
+     * bttbchment} method.  Only one object mby be bttbched bt b time; invoking
+     * this method cbuses bny previous bttbchment to be discbrded.  The current
+     * bttbchment mby be discbrded by bttbching <tt>null</tt>.  </p>
      *
-     * @param  ob
-     *         The object to be attached; may be <tt>null</tt>
+     * @pbrbm  ob
+     *         The object to be bttbched; mby be <tt>null</tt>
      *
-     * @return  The previously-attached object, if any,
+     * @return  The previously-bttbched object, if bny,
      *          otherwise <tt>null</tt>
      */
-    public final Object attach(Object ob) {
-        return attachmentUpdater.getAndSet(this, ob);
+    public finbl Object bttbch(Object ob) {
+        return bttbchmentUpdbter.getAndSet(this, ob);
     }
 
     /**
-     * Retrieves the current attachment.
+     * Retrieves the current bttbchment.
      *
-     * @return  The object currently attached to this key,
-     *          or <tt>null</tt> if there is no attachment
+     * @return  The object currently bttbched to this key,
+     *          or <tt>null</tt> if there is no bttbchment
      */
-    public final Object attachment() {
-        return attachment;
+    public finbl Object bttbchment() {
+        return bttbchment;
     }
 
 }

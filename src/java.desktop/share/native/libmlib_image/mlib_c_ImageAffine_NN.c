@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      mlib_ImageAffine_u8_1ch_nn
- *      mlib_ImageAffine_u8_2ch_nn
- *      mlib_ImageAffine_u8_3ch_nn
- *      mlib_ImageAffine_u8_4ch_nn
- *      mlib_ImageAffine_s16_1ch_nn
- *      mlib_ImageAffine_s16_2ch_nn
- *      mlib_ImageAffine_s16_3ch_nn
- *      mlib_ImageAffine_s16_4ch_nn
- *        - image affine transformation with Nearest Neighbor filtering
+ *      mlib_ImbgeAffine_u8_1ch_nn
+ *      mlib_ImbgeAffine_u8_2ch_nn
+ *      mlib_ImbgeAffine_u8_3ch_nn
+ *      mlib_ImbgeAffine_u8_4ch_nn
+ *      mlib_ImbgeAffine_s16_1ch_nn
+ *      mlib_ImbgeAffine_s16_2ch_nn
+ *      mlib_ImbgeAffine_s16_3ch_nn
+ *      mlib_ImbgeAffine_s16_4ch_nn
+ *        - imbge bffine trbnsformbtion with Nebrest Neighbor filtering
  * SYNOPSIS
- *      mlib_status mlib_ImageAffine_[u8|s16]_?ch_nn(mlib_s32 *leftEdges,
+ *      mlib_stbtus mlib_ImbgeAffine_[u8|s16]_?ch_nn(mlib_s32 *leftEdges,
  *                                                   mlib_s32 *rightEdges,
- *                                                   mlib_s32 *xStarts,
- *                                                   mlib_s32 *yStarts,
+ *                                                   mlib_s32 *xStbrts,
+ *                                                   mlib_s32 *yStbrts,
  *                                                   mlib_s32 *sides,
- *                                                   mlib_u8  *dstData,
+ *                                                   mlib_u8  *dstDbtb,
  *                                                   mlib_u8  **lineAddr,
  *                                                   mlib_s32 dstYStride,
- *                                                   mlib_s32 is_affine)
+ *                                                   mlib_s32 is_bffine)
  *
  * ARGUMENTS
- *      leftEdges  array[dstHeight] of xLeft coordinates
- *      RightEdges array[dstHeight] of xRight coordinates
- *      xStarts    array[dstHeight] of xStart * 65536 coordinates
- *      yStarts    array[dstHeight] of yStart * 65536 coordinates
- *      sides      output array[4]. sides[0] is yStart, sides[1] is yFinish,
+ *      leftEdges  brrby[dstHeight] of xLeft coordinbtes
+ *      RightEdges brrby[dstHeight] of xRight coordinbtes
+ *      xStbrts    brrby[dstHeight] of xStbrt * 65536 coordinbtes
+ *      yStbrts    brrby[dstHeight] of yStbrt * 65536 coordinbtes
+ *      sides      output brrby[4]. sides[0] is yStbrt, sides[1] is yFinish,
  *                 sides[2] is dx * 65536, sides[3] is dy * 65536
- *      dstData    pointer to the first pixel on (yStart - 1) line
- *      lineAddr   array[srcHeight] of pointers to the first pixel on
+ *      dstDbtb    pointer to the first pixel on (yStbrt - 1) line
+ *      lineAddr   brrby[srcHeight] of pointers to the first pixel on
  *                 the corresponding lines
- *      dstYStride stride of destination image
- *      is_affine  indicator (Affine - GridWarp)
+ *      dstYStride stride of destinbtion imbge
+ *      is_bffine  indicbtor (Affine - GridWbrp)
  *
  * DESCRIPTION
- *      The functions step along the lines from xLeft to xRight and get the
- *      nearest pixel values as being with the following coordinates
- *      ((xStart - (i - xLeft) * dx) >> 16, (yStart - (i - xLeft) * dy) >> 16)
+ *      The functions step blong the lines from xLeft to xRight bnd get the
+ *      nebrest pixel vblues bs being with the following coordinbtes
+ *      ((xStbrt - (i - xLeft) * dx) >> 16, (yStbrt - (i - xLeft) * dy) >> 16)
  *
  */
 
-#include "mlib_ImageAffine.h"
+#include "mlib_ImbgeAffine.h"
 
 /***************************************************************/
 #undef  DTYPE
 #define DTYPE mlib_u8
 
-mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_u8_1ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_NN();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     DTYPE pix0;
 
     CLIP(1);
-    dstLineEnd = (DTYPE *) dstData + xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + xRight;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr <= dstLineEnd; dstPixelPtr++) {
       ySrc = MLIB_POINTER_SHIFT(Y);
@@ -101,16 +101,16 @@ mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_u8_2ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_u8_2ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_NN();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     DTYPE pix0, pix1;
 
     CLIP(2);
-    dstLineEnd = (DTYPE *) dstData + 2 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 2 * xRight;
 
     ySrc = MLIB_POINTER_SHIFT(Y);
     Y += dY;
@@ -124,7 +124,7 @@ mlib_status mlib_ImageAffine_u8_2ch_nn(mlib_affine_param *param)
     xSrc = X >> MLIB_SHIFT;
     X += dX;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 2) {
       srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 2 * xSrc;
@@ -146,16 +146,16 @@ mlib_status mlib_ImageAffine_u8_2ch_nn(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_u8_3ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_NN();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     DTYPE pix0, pix1, pix2;
 
     CLIP(3);
-    dstLineEnd = (DTYPE *) dstData + 3 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 3 * xRight;
 
     ySrc = MLIB_POINTER_SHIFT(Y);
     Y += dY;
@@ -170,7 +170,7 @@ mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
     xSrc = X >> MLIB_SHIFT;
     X += dX;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 3) {
       srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 3 * xSrc;
@@ -195,15 +195,15 @@ mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_u8_4ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_u8_4ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_NN();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     DTYPE pix0, pix1, pix2, pix3;
     CLIP(4);
-    dstLineEnd = (DTYPE *) dstData + 4 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 4 * xRight;
 
     ySrc = MLIB_POINTER_SHIFT(Y);
     Y += dY;
@@ -247,16 +247,16 @@ mlib_status mlib_ImageAffine_u8_4ch_nn(mlib_affine_param *param)
 #undef  DTYPE
 #define DTYPE mlib_u16
 
-mlib_status mlib_ImageAffine_s16_1ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_s16_1ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_NN();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_s32 pix0;
 
     CLIP(1);
-    dstLineEnd = (DTYPE *) dstData + xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + xRight;
 
     ySrc = MLIB_POINTER_SHIFT(Y);
     Y += dY;
@@ -283,16 +283,16 @@ mlib_status mlib_ImageAffine_s16_1ch_nn(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s16_2ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_s16_2ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_NN();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_s32 pix0, pix1;
 
     CLIP(2);
-    dstLineEnd = (DTYPE *) dstData + 2 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 2 * xRight;
 
     ySrc = MLIB_POINTER_SHIFT(Y);
     Y += dY;
@@ -306,7 +306,7 @@ mlib_status mlib_ImageAffine_s16_2ch_nn(mlib_affine_param *param)
     xSrc = X >> MLIB_SHIFT;
     X += dX;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 2) {
       srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 2 * xSrc;
@@ -328,16 +328,16 @@ mlib_status mlib_ImageAffine_s16_2ch_nn(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s16_3ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_s16_3ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_NN();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_s32 pix0, pix1, pix2;
 
     CLIP(3);
-    dstLineEnd = (DTYPE *) dstData + 3 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 3 * xRight;
 
     ySrc = MLIB_POINTER_SHIFT(Y);
     Y += dY;
@@ -352,7 +352,7 @@ mlib_status mlib_ImageAffine_s16_3ch_nn(mlib_affine_param *param)
     xSrc = X >> MLIB_SHIFT;
     X += dX;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 3) {
       srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 3 * xSrc;
@@ -377,15 +377,15 @@ mlib_status mlib_ImageAffine_s16_3ch_nn(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s16_4ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_s16_4ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR_NN();
   DTYPE *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_s32 pix0, pix1, pix2, pix3;
     CLIP(4);
-    dstLineEnd = (DTYPE *) dstData + 4 * xRight;
+    dstLineEnd = (DTYPE *) dstDbtb + 4 * xRight;
 
     ySrc = MLIB_POINTER_SHIFT(Y);
     Y += dY;

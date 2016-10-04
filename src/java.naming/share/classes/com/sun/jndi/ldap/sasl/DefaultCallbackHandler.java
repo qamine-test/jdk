@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap.sasl;
+pbckbge com.sun.jndi.ldbp.sbsl;
 
-import javax.security.auth.callback.*;
-import javax.security.sasl.RealmCallback;
-import javax.security.sasl.RealmChoiceCallback;
-import java.io.IOException;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.sbsl.ReblmCbllbbck;
+import jbvbx.security.sbsl.ReblmChoiceCbllbbck;
+import jbvb.io.IOException;
 
 /**
- * DefaultCallbackHandler for satisfying NameCallback and
- * PasswordCallback for an LDAP client.
- * NameCallback is used for getting the authentication ID and is
- * gotten from the java.naming.security.principal property.
- * PasswordCallback is gotten from the java.naming.security.credentials
- * property and must be of type String, char[] or byte[].
- * If byte[], it is assumed to have UTF-8 encoding.
+ * DefbultCbllbbckHbndler for sbtisfying NbmeCbllbbck bnd
+ * PbsswordCbllbbck for bn LDAP client.
+ * NbmeCbllbbck is used for getting the buthenticbtion ID bnd is
+ * gotten from the jbvb.nbming.security.principbl property.
+ * PbsswordCbllbbck is gotten from the jbvb.nbming.security.credentibls
+ * property bnd must be of type String, chbr[] or byte[].
+ * If byte[], it is bssumed to hbve UTF-8 encoding.
  *
- * If the caller of getPassword() will be using the password as
- * a byte array, then it should encode the char[] array returned by
- * getPassword() into a byte[] using UTF-8.
+ * If the cbller of getPbssword() will be using the pbssword bs
+ * b byte brrby, then it should encode the chbr[] brrby returned by
+ * getPbssword() into b byte[] using UTF-8.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-final class DefaultCallbackHandler implements CallbackHandler {
-    private char[] passwd;
-    private String authenticationID;
-    private String authRealm;
+finbl clbss DefbultCbllbbckHbndler implements CbllbbckHbndler {
+    privbte chbr[] pbsswd;
+    privbte String buthenticbtionID;
+    privbte String buthReblm;
 
-    DefaultCallbackHandler(String principal, Object cred, String realm)
+    DefbultCbllbbckHbndler(String principbl, Object cred, String reblm)
         throws IOException {
-        authenticationID = principal;
-        authRealm = realm;
-        if (cred instanceof String) {
-            passwd = ((String)cred).toCharArray();
-        } else if (cred instanceof char[]) {
-            passwd = ((char[])cred).clone();
+        buthenticbtionID = principbl;
+        buthReblm = reblm;
+        if (cred instbnceof String) {
+            pbsswd = ((String)cred).toChbrArrby();
+        } else if (cred instbnceof chbr[]) {
+            pbsswd = ((chbr[])cred).clone();
         } else if (cred != null) {
-            // assume UTF-8 encoding
+            // bssume UTF-8 encoding
             String orig = new String((byte[])cred, "UTF8");
-            passwd = orig.toCharArray();
+            pbsswd = orig.toChbrArrby();
         }
     }
 
-    public void handle(Callback[] callbacks)
-        throws IOException, UnsupportedCallbackException {
-            for (int i = 0; i < callbacks.length; i++) {
-                if (callbacks[i] instanceof NameCallback) {
-                    ((NameCallback)callbacks[i]).setName(authenticationID);
+    public void hbndle(Cbllbbck[] cbllbbcks)
+        throws IOException, UnsupportedCbllbbckException {
+            for (int i = 0; i < cbllbbcks.length; i++) {
+                if (cbllbbcks[i] instbnceof NbmeCbllbbck) {
+                    ((NbmeCbllbbck)cbllbbcks[i]).setNbme(buthenticbtionID);
 
-                } else if (callbacks[i] instanceof PasswordCallback) {
-                    ((PasswordCallback)callbacks[i]).setPassword(passwd);
+                } else if (cbllbbcks[i] instbnceof PbsswordCbllbbck) {
+                    ((PbsswordCbllbbck)cbllbbcks[i]).setPbssword(pbsswd);
 
-                } else if (callbacks[i] instanceof RealmChoiceCallback) {
-                    /* Deals with a choice of realms */
+                } else if (cbllbbcks[i] instbnceof ReblmChoiceCbllbbck) {
+                    /* Debls with b choice of reblms */
                     String[] choices =
-                        ((RealmChoiceCallback)callbacks[i]).getChoices();
+                        ((ReblmChoiceCbllbbck)cbllbbcks[i]).getChoices();
                     int selected = 0;
 
-                    if (authRealm != null && authRealm.length() > 0) {
-                        selected = -1; // no realm chosen
+                    if (buthReblm != null && buthReblm.length() > 0) {
+                        selected = -1; // no reblm chosen
                         for (int j = 0; j < choices.length; j++) {
-                            if (choices[j].equals(authRealm)) {
+                            if (choices[j].equbls(buthReblm)) {
                                 selected = j;
                             }
                         }
                         if (selected == -1) {
-                            StringBuilder allChoices = new StringBuilder();
+                            StringBuilder bllChoices = new StringBuilder();
                             for (int j = 0; j <  choices.length; j++) {
-                                allChoices.append(choices[j] + ",");
+                                bllChoices.bppend(choices[j] + ",");
                             }
-                            throw new IOException("Cannot match " +
-                                "'java.naming.security.sasl.realm' property value, '" +
-                                authRealm + "' with choices " + allChoices +
-                                "in RealmChoiceCallback");
+                            throw new IOException("Cbnnot mbtch " +
+                                "'jbvb.nbming.security.sbsl.reblm' property vblue, '" +
+                                buthReblm + "' with choices " + bllChoices +
+                                "in ReblmChoiceCbllbbck");
                         }
                     }
 
-                    ((RealmChoiceCallback)callbacks[i]).setSelectedIndex(selected);
+                    ((ReblmChoiceCbllbbck)cbllbbcks[i]).setSelectedIndex(selected);
 
-                } else if (callbacks[i] instanceof RealmCallback) {
-                    /* 1 or 0 realms specified in challenge */
-                    RealmCallback rcb = (RealmCallback) callbacks[i];
-                    if (authRealm != null) {
-                        rcb.setText(authRealm);  // Use what user supplied
+                } else if (cbllbbcks[i] instbnceof ReblmCbllbbck) {
+                    /* 1 or 0 reblms specified in chbllenge */
+                    ReblmCbllbbck rcb = (ReblmCbllbbck) cbllbbcks[i];
+                    if (buthReblm != null) {
+                        rcb.setText(buthReblm);  // Use whbt user supplied
                     } else {
-                        String defaultRealm = rcb.getDefaultText();
-                        if (defaultRealm != null) {
-                            rcb.setText(defaultRealm); // Use what server supplied
+                        String defbultReblm = rcb.getDefbultText();
+                        if (defbultReblm != null) {
+                            rcb.setText(defbultReblm); // Use whbt server supplied
                         } else {
-                            rcb.setText("");  // Specify no realm
+                            rcb.setText("");  // Specify no reblm
                         }
                     }
                 } else {
-                    throw new UnsupportedCallbackException(callbacks[i]);
+                    throw new UnsupportedCbllbbckException(cbllbbcks[i]);
                 }
             }
     }
 
-    void clearPassword() {
-        if (passwd != null) {
-            for (int i = 0; i < passwd.length; i++) {
-                passwd[i] = '\0';
+    void clebrPbssword() {
+        if (pbsswd != null) {
+            for (int i = 0; i < pbsswd.length; i++) {
+                pbsswd[i] = '\0';
             }
-            passwd = null;
+            pbsswd = null;
         }
     }
 
-    protected void finalize() throws Throwable {
-        clearPassword();
+    protected void finblize() throws Throwbble {
+        clebrPbssword();
     }
 }

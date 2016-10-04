@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jndi.toolkit.dir;
+pbckbge com.sun.jndi.toolkit.dir;
 
-import javax.naming.*;
-import javax.naming.directory.SearchControls;
-import java.util.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.SebrchControls;
+import jbvb.util.*;
 
 /**
-  * A class for recursively enumerating the contents of a Context;
+  * A clbss for recursively enumerbting the contents of b Context;
   *
-  * @author Jon Ruiz
+  * @buthor Jon Ruiz
   */
-public class ContextEnumerator implements NamingEnumeration<Binding> {
+public clbss ContextEnumerbtor implements NbmingEnumerbtion<Binding> {
 
-    private static boolean debug = false;
-    private NamingEnumeration<Binding> children = null;
-    private Binding currentChild = null;
-    private boolean currentReturned = false;
-    private Context root;
-    private ContextEnumerator currentChildEnum = null;
-    private boolean currentChildExpanded = false;
-    private boolean rootProcessed = false;
-    private int scope = SearchControls.SUBTREE_SCOPE;
-    private String contextName = "";
+    privbte stbtic boolebn debug = fblse;
+    privbte NbmingEnumerbtion<Binding> children = null;
+    privbte Binding currentChild = null;
+    privbte boolebn currentReturned = fblse;
+    privbte Context root;
+    privbte ContextEnumerbtor currentChildEnum = null;
+    privbte boolebn currentChildExpbnded = fblse;
+    privbte boolebn rootProcessed = fblse;
+    privbte int scope = SebrchControls.SUBTREE_SCOPE;
+    privbte String contextNbme = "";
 
-    public ContextEnumerator(Context context) throws NamingException {
-        this(context, SearchControls.SUBTREE_SCOPE);
+    public ContextEnumerbtor(Context context) throws NbmingException {
+        this(context, SebrchControls.SUBTREE_SCOPE);
     }
 
-    public ContextEnumerator(Context context, int scope)
-        throws NamingException {
-            // return this object except when searching single-level
-        this(context, scope, "", scope != SearchControls.ONELEVEL_SCOPE);
+    public ContextEnumerbtor(Context context, int scope)
+        throws NbmingException {
+            // return this object except when sebrching single-level
+        this(context, scope, "", scope != SebrchControls.ONELEVEL_SCOPE);
    }
 
-    protected ContextEnumerator(Context context, int scope, String contextName,
-                             boolean returnSelf)
-        throws NamingException {
+    protected ContextEnumerbtor(Context context, int scope, String contextNbme,
+                             boolebn returnSelf)
+        throws NbmingException {
         if(context == null) {
-            throw new IllegalArgumentException("null context passed");
+            throw new IllegblArgumentException("null context pbssed");
         }
 
         root = context;
 
-        // No need to list children if we're only searching object
-        if (scope != SearchControls.OBJECT_SCOPE) {
-            children = getImmediateChildren(context);
+        // No need to list children if we're only sebrching object
+        if (scope != SebrchControls.OBJECT_SCOPE) {
+            children = getImmedibteChildren(context);
         }
         this.scope = scope;
-        this.contextName = contextName;
+        this.contextNbme = contextNbme;
         // pretend root is processed, if we're not supposed to return ourself
         rootProcessed = !returnSelf;
         prepNextChild();
     }
 
-    // Subclass should override if it wants to avoid calling obj factory
-    protected NamingEnumeration<Binding> getImmediateChildren(Context ctx)
-        throws NamingException {
+    // Subclbss should override if it wbnts to bvoid cblling obj fbctory
+    protected NbmingEnumerbtion<Binding> getImmedibteChildren(Context ctx)
+        throws NbmingException {
             return ctx.listBindings("");
     }
 
-    // Subclass should override so that instance is of same type as subclass
-    protected ContextEnumerator newEnumerator(Context ctx, int scope,
-        String contextName, boolean returnSelf) throws NamingException {
-            return new ContextEnumerator(ctx, scope, contextName, returnSelf);
+    // Subclbss should override so thbt instbnce is of sbme type bs subclbss
+    protected ContextEnumerbtor newEnumerbtor(Context ctx, int scope,
+        String contextNbme, boolebn returnSelf) throws NbmingException {
+            return new ContextEnumerbtor(ctx, scope, contextNbme, returnSelf);
     }
 
-    public boolean hasMore() throws NamingException {
+    public boolebn hbsMore() throws NbmingException {
         return !rootProcessed ||
-            (scope != SearchControls.OBJECT_SCOPE && hasMoreDescendants());
+            (scope != SebrchControls.OBJECT_SCOPE && hbsMoreDescendbnts());
     }
 
-    public boolean hasMoreElements() {
+    public boolebn hbsMoreElements() {
         try {
-            return hasMore();
-        } catch (NamingException e) {
-            return false;
+            return hbsMore();
+        } cbtch (NbmingException e) {
+            return fblse;
         }
     }
 
     public Binding nextElement() {
         try {
             return next();
-        } catch (NamingException e) {
+        } cbtch (NbmingException e) {
             throw new NoSuchElementException(e.toString());
         }
     }
 
-    public Binding next() throws NamingException {
+    public Binding next() throws NbmingException {
         if (!rootProcessed) {
             rootProcessed = true;
-            return new Binding("", root.getClass().getName(),
+            return new Binding("", root.getClbss().getNbme(),
                                root, true);
         }
 
-        if (scope != SearchControls.OBJECT_SCOPE && hasMoreDescendants()) {
-            return getNextDescendant();
+        if (scope != SebrchControls.OBJECT_SCOPE && hbsMoreDescendbnts()) {
+            return getNextDescendbnt();
         }
 
         throw new NoSuchElementException();
     }
 
-    public void close() throws NamingException {
+    public void close() throws NbmingException {
         root = null;
     }
 
-    private boolean hasMoreChildren() throws NamingException {
-        return children != null && children.hasMore();
+    privbte boolebn hbsMoreChildren() throws NbmingException {
+        return children != null && children.hbsMore();
     }
 
-    private Binding getNextChild() throws NamingException {
+    privbte Binding getNextChild() throws NbmingException {
         Binding oldBinding = children.next();
         Binding newBinding = null;
 
-        // if the name is relative, we need to add it to the name of this
-        // context to keep it relative w.r.t. the root context we are
-        // enumerating
-        if(oldBinding.isRelative() && !contextName.equals("")) {
-            NameParser parser = root.getNameParser("");
-            Name newName = parser.parse(contextName);
-            newName.add(oldBinding.getName());
+        // if the nbme is relbtive, we need to bdd it to the nbme of this
+        // context to keep it relbtive w.r.t. the root context we bre
+        // enumerbting
+        if(oldBinding.isRelbtive() && !contextNbme.equbls("")) {
+            NbmePbrser pbrser = root.getNbmePbrser("");
+            Nbme newNbme = pbrser.pbrse(contextNbme);
+            newNbme.bdd(oldBinding.getNbme());
             if(debug) {
-                System.out.println("ContextEnumerator: adding " + newName);
+                System.out.println("ContextEnumerbtor: bdding " + newNbme);
             }
-            newBinding = new Binding(newName.toString(),
-                                     oldBinding.getClassName(),
+            newBinding = new Binding(newNbme.toString(),
+                                     oldBinding.getClbssNbme(),
                                      oldBinding.getObject(),
-                                     oldBinding.isRelative());
+                                     oldBinding.isRelbtive());
         } else {
             if(debug) {
-                System.out.println("ContextEnumerator: using old binding");
+                System.out.println("ContextEnumerbtor: using old binding");
             }
             newBinding = oldBinding;
         }
@@ -159,77 +159,77 @@ public class ContextEnumerator implements NamingEnumeration<Binding> {
         return newBinding;
     }
 
-    private boolean hasMoreDescendants() throws NamingException {
-        // if the current child is expanded, see if it has more elements
+    privbte boolebn hbsMoreDescendbnts() throws NbmingException {
+        // if the current child is expbnded, see if it hbs more elements
         if (!currentReturned) {
-            if(debug) {System.out.println("hasMoreDescendants returning " +
+            if(debug) {System.out.println("hbsMoreDescendbnts returning " +
                                           (currentChild != null) ); }
             return currentChild != null;
-        } else if (currentChildExpanded && currentChildEnum.hasMore()) {
+        } else if (currentChildExpbnded && currentChildEnum.hbsMore()) {
 
-            if(debug) {System.out.println("hasMoreDescendants returning " +
+            if(debug) {System.out.println("hbsMoreDescendbnts returning " +
                 "true");}
 
             return true;
         } else {
-            if(debug) {System.out.println("hasMoreDescendants returning " +
-                "hasMoreChildren");}
-            return hasMoreChildren();
+            if(debug) {System.out.println("hbsMoreDescendbnts returning " +
+                "hbsMoreChildren");}
+            return hbsMoreChildren();
         }
     }
 
-    private Binding getNextDescendant() throws NamingException {
+    privbte Binding getNextDescendbnt() throws NbmingException {
 
         if (!currentReturned) {
-            // returning parent
-            if(debug) {System.out.println("getNextDescendant: simple case");}
+            // returning pbrent
+            if(debug) {System.out.println("getNextDescendbnt: simple cbse");}
 
             currentReturned = true;
             return currentChild;
 
-        } else if (currentChildExpanded && currentChildEnum.hasMore()) {
+        } else if (currentChildExpbnded && currentChildEnum.hbsMore()) {
 
-            if(debug) {System.out.println("getNextDescendant: expanded case");}
+            if(debug) {System.out.println("getNextDescendbnt: expbnded cbse");}
 
-            // if the current child is expanded, use it's enumerator
+            // if the current child is expbnded, use it's enumerbtor
             return currentChildEnum.next();
 
         } else {
 
-            // Ready to go onto next child
-            if(debug) {System.out.println("getNextDescendant: next case");}
+            // Rebdy to go onto next child
+            if(debug) {System.out.println("getNextDescendbnt: next cbse");}
 
             prepNextChild();
-            return getNextDescendant();
+            return getNextDescendbnt();
         }
     }
 
-    private void prepNextChild() throws NamingException {
-        if(hasMoreChildren()) {
+    privbte void prepNextChild() throws NbmingException {
+        if(hbsMoreChildren()) {
             try {
                 currentChild = getNextChild();
-                currentReturned = false;
-            } catch (NamingException e){
+                currentReturned = fblse;
+            } cbtch (NbmingException e){
                 if (debug) System.out.println(e);
-                if (debug) e.printStackTrace();
+                if (debug) e.printStbckTrbce();
             }
         } else {
             currentChild = null;
             return;
         }
 
-        if(scope == SearchControls.SUBTREE_SCOPE &&
-           currentChild.getObject() instanceof Context) {
-            currentChildEnum = newEnumerator(
+        if(scope == SebrchControls.SUBTREE_SCOPE &&
+           currentChild.getObject() instbnceof Context) {
+            currentChildEnum = newEnumerbtor(
                                           (Context)(currentChild.getObject()),
-                                          scope, currentChild.getName(),
-                                          false);
-            currentChildExpanded = true;
-            if(debug) {System.out.println("prepNextChild: expanded");}
+                                          scope, currentChild.getNbme(),
+                                          fblse);
+            currentChildExpbnded = true;
+            if(debug) {System.out.println("prepNextChild: expbnded");}
         } else {
-            currentChildExpanded = false;
+            currentChildExpbnded = fblse;
             currentChildEnum = null;
-            if(debug) {System.out.println("prepNextChild: normal");}
+            if(debug) {System.out.println("prepNextChild: normbl");}
         }
     }
 }

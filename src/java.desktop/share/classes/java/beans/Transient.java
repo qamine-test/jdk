@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import jbvb.lbng.bnnotbtion.Retention;
+import jbvb.lbng.bnnotbtion.Tbrget;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import stbtic jbvb.lbng.bnnotbtion.ElementType.METHOD;
+import stbtic jbvb.lbng.bnnotbtion.RetentionPolicy.RUNTIME;
 
 /**
- * Indicates that an attribute called "transient"
- * should be declared with the given {@code value}
+ * Indicbtes thbt bn bttribute cblled "trbnsient"
+ * should be declbred with the given {@code vblue}
  * when the {@link Introspector} constructs
- * a {@link PropertyDescriptor} or {@link EventSetDescriptor}
- * classes associated with the annotated code element.
- * A {@code true} value for the "transient" attribute
- * indicates to encoders derived from {@link Encoder}
- * that this feature should be ignored.
+ * b {@link PropertyDescriptor} or {@link EventSetDescriptor}
+ * clbsses bssocibted with the bnnotbted code element.
+ * A {@code true} vblue for the "trbnsient" bttribute
+ * indicbtes to encoders derived from {@link Encoder}
+ * thbt this febture should be ignored.
  * <p>
- * The {@code Transient} annotation may be be used
- * in any of the methods that are involved
- * in a {@link FeatureDescriptor} subclass
- * to identify the transient feature in the annotated class and its subclasses.
- * Normally, the method that starts with "get" is the best place
- * to put the annotation and it is this declaration
- * that takes precedence in the case of multiple annotations
- * being defined for the same feature.
+ * The {@code Trbnsient} bnnotbtion mby be be used
+ * in bny of the methods thbt bre involved
+ * in b {@link FebtureDescriptor} subclbss
+ * to identify the trbnsient febture in the bnnotbted clbss bnd its subclbsses.
+ * Normblly, the method thbt stbrts with "get" is the best plbce
+ * to put the bnnotbtion bnd it is this declbrbtion
+ * thbt tbkes precedence in the cbse of multiple bnnotbtions
+ * being defined for the sbme febture.
  * <p>
- * To declare a feature non-transient in a class
- * whose superclass declares it transient,
- * use {@code @Transient(false)}.
- * In all cases, the {@link Introspector} decides
- * if a feature is transient by referring to the annotation
- * on the most specific superclass.
- * If no {@code Transient} annotation is present
- * in any superclass the feature is not transient.
+ * To declbre b febture non-trbnsient in b clbss
+ * whose superclbss declbres it trbnsient,
+ * use {@code @Trbnsient(fblse)}.
+ * In bll cbses, the {@link Introspector} decides
+ * if b febture is trbnsient by referring to the bnnotbtion
+ * on the most specific superclbss.
+ * If no {@code Trbnsient} bnnotbtion is present
+ * in bny superclbss the febture is not trbnsient.
  *
  * @since 1.7
  */
-@Target({METHOD})
+@Tbrget({METHOD})
 @Retention(RUNTIME)
-public @interface Transient {
+public @interfbce Trbnsient {
     /**
      * Returns whether or not the {@code Introspector} should
-     * construct artifacts for the annotated method.
+     * construct brtifbcts for the bnnotbted method.
      * @return whether or not the {@code Introspector} should
-     * construct artifacts for the annotated method
+     * construct brtifbcts for the bnnotbted method
      */
-    boolean value() default true;
+    boolebn vblue() defbult true;
 }

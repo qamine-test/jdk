@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.file.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
 /**
- * Base implementation of background poller thread used in watch service
- * implementations. A poller thread waits on events from the file system and
- * also services "requests" from clients to register for new events or cancel
- * existing registrations.
+ * Bbse implementbtion of bbckground poller threbd used in wbtch service
+ * implementbtions. A poller threbd wbits on events from the file system bnd
+ * blso services "requests" from clients to register for new events or cbncel
+ * existing registrbtions.
  */
 
-abstract class AbstractPoller implements Runnable {
+bbstrbct clbss AbstrbctPoller implements Runnbble {
 
-    // list of requests pending to the poller thread
-    private final LinkedList<Request> requestList;
+    // list of requests pending to the poller threbd
+    privbte finbl LinkedList<Request> requestList;
 
     // set to true when shutdown
-    private boolean shutdown;
+    privbte boolebn shutdown;
 
-    protected AbstractPoller() {
+    protected AbstrbctPoller() {
         this.requestList = new LinkedList<Request>();
-        this.shutdown = false;
+        this.shutdown = fblse;
     }
 
     /**
-     * Starts the poller thread
+     * Stbrts the poller threbd
      */
-    public void start() {
-        final Runnable thisRunnable = this;
+    public void stbrt() {
+        finbl Runnbble thisRunnbble = this;
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             @Override
             public Object run() {
-                Thread thr = new Thread(thisRunnable);
-                thr.setDaemon(true);
-                thr.start();
+                Threbd thr = new Threbd(thisRunnbble);
+                thr.setDbemon(true);
+                thr.stbrt();
                 return null;
             }
          });
     }
 
     /**
-     * Wakeup poller thread so that it can service pending requests
+     * Wbkeup poller threbd so thbt it cbn service pending requests
      */
-    abstract void wakeup() throws IOException;
+    bbstrbct void wbkeup() throws IOException;
 
     /**
-     * Executed by poller thread to register directory for changes
+     * Executed by poller threbd to register directory for chbnges
      */
-    abstract Object implRegister(Path path,
-                                 Set<? extends WatchEvent.Kind<?>> events,
-                                 WatchEvent.Modifier... modifiers);
+    bbstrbct Object implRegister(Pbth pbth,
+                                 Set<? extends WbtchEvent.Kind<?>> events,
+                                 WbtchEvent.Modifier... modifiers);
 
     /**
-     * Executed by poller thread to cancel key
+     * Executed by poller threbd to cbncel key
      */
-    abstract void implCancelKey(WatchKey key);
+    bbstrbct void implCbncelKey(WbtchKey key);
 
     /**
-     * Executed by poller thread to shutdown and cancel all keys
+     * Executed by poller threbd to shutdown bnd cbncel bll keys
      */
-    abstract void implCloseAll();
+    bbstrbct void implCloseAll();
 
     /**
-     * Requests, and waits on, poller thread to register given file.
+     * Requests, bnd wbits on, poller threbd to register given file.
      */
-    final WatchKey register(Path dir,
-                            WatchEvent.Kind<?>[] events,
-                            WatchEvent.Modifier... modifiers)
+    finbl WbtchKey register(Pbth dir,
+                            WbtchEvent.Kind<?>[] events,
+                            WbtchEvent.Modifier... modifiers)
         throws IOException
     {
-        // validate arguments before request to poller
+        // vblidbte brguments before request to poller
         if (dir == null)
             throw new NullPointerException();
-        Set<WatchEvent.Kind<?>> eventSet = new HashSet<>(events.length);
-        for (WatchEvent.Kind<?> event: events) {
-            // standard events
-            if (event == StandardWatchEventKinds.ENTRY_CREATE ||
-                event == StandardWatchEventKinds.ENTRY_MODIFY ||
-                event == StandardWatchEventKinds.ENTRY_DELETE)
+        Set<WbtchEvent.Kind<?>> eventSet = new HbshSet<>(events.length);
+        for (WbtchEvent.Kind<?> event: events) {
+            // stbndbrd events
+            if (event == StbndbrdWbtchEventKinds.ENTRY_CREATE ||
+                event == StbndbrdWbtchEventKinds.ENTRY_MODIFY ||
+                event == StbndbrdWbtchEventKinds.ENTRY_DELETE)
             {
-                eventSet.add(event);
+                eventSet.bdd(event);
                 continue;
             }
 
             // OVERFLOW is ignored
-            if (event == StandardWatchEventKinds.OVERFLOW)
+            if (event == StbndbrdWbtchEventKinds.OVERFLOW)
                 continue;
 
             // null/unsupported
             if (event == null)
                 throw new NullPointerException("An element in event set is 'null'");
-            throw new UnsupportedOperationException(event.name());
+            throw new UnsupportedOperbtionException(event.nbme());
         }
         if (eventSet.isEmpty())
-            throw new IllegalArgumentException("No events to register");
-        return (WatchKey)invoke(RequestType.REGISTER, dir, eventSet, modifiers);
+            throw new IllegblArgumentException("No events to register");
+        return (WbtchKey)invoke(RequestType.REGISTER, dir, eventSet, modifiers);
     }
 
     /**
-     * Cancels, and waits on, poller thread to cancel given key.
+     * Cbncels, bnd wbits on, poller threbd to cbncel given key.
      */
-    final void cancel(WatchKey key) {
+    finbl void cbncel(WbtchKey key) {
         try {
             invoke(RequestType.CANCEL, key);
-        } catch (IOException x) {
-            // should not happen
-            throw new AssertionError(x.getMessage());
+        } cbtch (IOException x) {
+            // should not hbppen
+            throw new AssertionError(x.getMessbge());
         }
     }
 
     /**
-     * Shutdown poller thread
+     * Shutdown poller threbd
      */
-    final void close() throws IOException {
+    finbl void close() throws IOException {
         invoke(RequestType.CLOSE);
     }
 
     /**
-     * Types of request that the poller thread must handle
+     * Types of request thbt the poller threbd must hbndle
      */
-    private static enum RequestType {
+    privbte stbtic enum RequestType {
         REGISTER,
         CANCEL,
         CLOSE;
     }
 
     /**
-     * Encapsulates a request (command) to the poller thread.
+     * Encbpsulbtes b request (commbnd) to the poller threbd.
      */
-    private static class Request {
-        private final RequestType type;
-        private final Object[] params;
+    privbte stbtic clbss Request {
+        privbte finbl RequestType type;
+        privbte finbl Object[] pbrbms;
 
-        private boolean completed = false;
-        private Object result = null;
+        privbte boolebn completed = fblse;
+        privbte Object result = null;
 
-        Request(RequestType type, Object... params) {
+        Request(RequestType type, Object... pbrbms) {
             this.type = type;
-            this.params = params;
+            this.pbrbms = pbrbms;
         }
 
         RequestType type() {
             return type;
         }
 
-        Object[] parameters() {
-            return params;
+        Object[] pbrbmeters() {
+            return pbrbms;
         }
 
-        void release(Object result) {
+        void relebse(Object result) {
             synchronized (this) {
                 this.completed = true;
                 this.result = result;
@@ -185,103 +185,103 @@ abstract class AbstractPoller implements Runnable {
         }
 
         /**
-         * Await completion of the request. The return value is the result of
+         * Awbit completion of the request. The return vblue is the result of
          * the request.
          */
-        Object awaitResult() {
-            boolean interrupted = false;
+        Object bwbitResult() {
+            boolebn interrupted = fblse;
             synchronized (this) {
                 while (!completed) {
                     try {
-                        wait();
-                    } catch (InterruptedException x) {
+                        wbit();
+                    } cbtch (InterruptedException x) {
                         interrupted = true;
                     }
                 }
                 if (interrupted)
-                    Thread.currentThread().interrupt();
+                    Threbd.currentThrebd().interrupt();
                 return result;
             }
         }
     }
 
     /**
-     * Enqueues request to poller thread and waits for result
+     * Enqueues request to poller threbd bnd wbits for result
      */
-    private Object invoke(RequestType type, Object... params) throws IOException {
+    privbte Object invoke(RequestType type, Object... pbrbms) throws IOException {
         // submit request
-        Request req = new Request(type, params);
+        Request req = new Request(type, pbrbms);
         synchronized (requestList) {
             if (shutdown) {
-                throw new ClosedWatchServiceException();
+                throw new ClosedWbtchServiceException();
             }
-            requestList.add(req);
+            requestList.bdd(req);
         }
 
-        // wakeup thread
-        wakeup();
+        // wbkeup threbd
+        wbkeup();
 
-        // wait for result
-        Object result = req.awaitResult();
+        // wbit for result
+        Object result = req.bwbitResult();
 
-        if (result instanceof RuntimeException)
+        if (result instbnceof RuntimeException)
             throw (RuntimeException)result;
-        if (result instanceof IOException )
+        if (result instbnceof IOException )
             throw (IOException)result;
         return result;
     }
 
     /**
-     * Invoked by poller thread to process all pending requests
+     * Invoked by poller threbd to process bll pending requests
      *
-     * @return  true if poller thread should shutdown
+     * @return  true if poller threbd should shutdown
      */
-    @SuppressWarnings("unchecked")
-    boolean processRequests() {
+    @SuppressWbrnings("unchecked")
+    boolebn processRequests() {
         synchronized (requestList) {
             Request req;
             while ((req = requestList.poll()) != null) {
                 // if in process of shutdown then reject request
                 if (shutdown) {
-                    req.release(new ClosedWatchServiceException());
+                    req.relebse(new ClosedWbtchServiceException());
                 }
 
                 switch (req.type()) {
                     /**
                      * Register directory
                      */
-                    case REGISTER: {
-                        Object[] params = req.parameters();
-                        Path path = (Path)params[0];
-                        Set<? extends WatchEvent.Kind<?>> events =
-                            (Set<? extends WatchEvent.Kind<?>>)params[1];
-                        WatchEvent.Modifier[] modifiers =
-                            (WatchEvent.Modifier[])params[2];
-                        req.release(implRegister(path, events, modifiers));
-                        break;
+                    cbse REGISTER: {
+                        Object[] pbrbms = req.pbrbmeters();
+                        Pbth pbth = (Pbth)pbrbms[0];
+                        Set<? extends WbtchEvent.Kind<?>> events =
+                            (Set<? extends WbtchEvent.Kind<?>>)pbrbms[1];
+                        WbtchEvent.Modifier[] modifiers =
+                            (WbtchEvent.Modifier[])pbrbms[2];
+                        req.relebse(implRegister(pbth, events, modifiers));
+                        brebk;
                     }
                     /**
-                     * Cancel existing key
+                     * Cbncel existing key
                      */
-                    case CANCEL : {
-                        Object[] params = req.parameters();
-                        WatchKey key = (WatchKey)params[0];
-                        implCancelKey(key);
-                        req.release(null);
-                        break;
+                    cbse CANCEL : {
+                        Object[] pbrbms = req.pbrbmeters();
+                        WbtchKey key = (WbtchKey)pbrbms[0];
+                        implCbncelKey(key);
+                        req.relebse(null);
+                        brebk;
                     }
                     /**
-                     * Close watch service
+                     * Close wbtch service
                      */
-                    case CLOSE: {
+                    cbse CLOSE: {
                         implCloseAll();
-                        req.release(null);
+                        req.relebse(null);
                         shutdown = true;
-                        break;
+                        brebk;
                     }
 
-                    default:
-                        req.release(new IOException("request not recognized"));
+                    defbult:
+                        req.relebse(new IOException("request not recognized"));
                 }
             }
         }

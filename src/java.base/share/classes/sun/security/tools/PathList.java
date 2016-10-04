@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.tools;
+pbckbge sun.security.tools;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.String;
-import java.util.StringTokenizer;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.MalformedURLException;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.lbng.String;
+import jbvb.util.StringTokenizer;
+import jbvb.net.URL;
+import jbvb.net.URLClbssLobder;
+import jbvb.net.MblformedURLException;
 
 /**
- * A utility class for handle path list
+ * A utility clbss for hbndle pbth list
  *
  */
-public class PathList {
+public clbss PbthList {
     /**
-     * Utility method for appending path from pathFrom to pathTo.
+     * Utility method for bppending pbth from pbthFrom to pbthTo.
      *
-     * @param pathTo the target path
-     * @param pathSource the path to be appended to pathTo
-     * @return the resulting path
+     * @pbrbm pbthTo the tbrget pbth
+     * @pbrbm pbthSource the pbth to be bppended to pbthTo
+     * @return the resulting pbth
      */
-    public static String appendPath(String pathTo, String pathFrom) {
-        if (pathTo == null || pathTo.length() == 0) {
-            return pathFrom;
-        } else if (pathFrom == null || pathFrom.length() == 0) {
-            return pathTo;
+    public stbtic String bppendPbth(String pbthTo, String pbthFrom) {
+        if (pbthTo == null || pbthTo.length() == 0) {
+            return pbthFrom;
+        } else if (pbthFrom == null || pbthFrom.length() == 0) {
+            return pbthTo;
         } else {
-            return pathTo  + File.pathSeparator + pathFrom;
+            return pbthTo  + File.pbthSepbrbtor + pbthFrom;
         }
     }
 
     /**
-     * Utility method for converting a search path string to an array
-     * of directory and JAR file URLs.
+     * Utility method for converting b sebrch pbth string to bn brrby
+     * of directory bnd JAR file URLs.
      *
-     * @param path the search path string
-     * @return the resulting array of directory and JAR file URLs
+     * @pbrbm pbth the sebrch pbth string
+     * @return the resulting brrby of directory bnd JAR file URLs
      */
-    public static URL[] pathToURLs(String path) {
-        StringTokenizer st = new StringTokenizer(path, File.pathSeparator);
+    public stbtic URL[] pbthToURLs(String pbth) {
+        StringTokenizer st = new StringTokenizer(pbth, File.pbthSepbrbtor);
         URL[] urls = new URL[st.countTokens()];
         int count = 0;
-        while (st.hasMoreTokens()) {
+        while (st.hbsMoreTokens()) {
             URL url = fileToURL(new File(st.nextToken()));
             if (url != null) {
                 urls[count++] = url;
@@ -74,7 +74,7 @@ public class PathList {
         }
         if (urls.length != count) {
             URL[] tmp = new URL[count];
-            System.arraycopy(urls, 0, tmp, 0, count);
+            System.brrbycopy(urls, 0, tmp, 0, count);
             urls = tmp;
         }
         return urls;
@@ -82,30 +82,30 @@ public class PathList {
 
     /**
      * Returns the directory or JAR file URL corresponding to the specified
-     * local file name.
+     * locbl file nbme.
      *
-     * @param file the File object
+     * @pbrbm file the File object
      * @return the resulting directory or JAR file URL, or null if unknown
      */
-    private static URL fileToURL(File file) {
-        String name;
+    privbte stbtic URL fileToURL(File file) {
+        String nbme;
         try {
-            name = file.getCanonicalPath();
-        } catch (IOException e) {
-            name = file.getAbsolutePath();
+            nbme = file.getCbnonicblPbth();
+        } cbtch (IOException e) {
+            nbme = file.getAbsolutePbth();
         }
-        name = name.replace(File.separatorChar, '/');
-        if (!name.startsWith("/")) {
-            name = "/" + name;
+        nbme = nbme.replbce(File.sepbrbtorChbr, '/');
+        if (!nbme.stbrtsWith("/")) {
+            nbme = "/" + nbme;
         }
-        // If the file does not exist, then assume that it's a directory
+        // If the file does not exist, then bssume thbt it's b directory
         if (!file.isFile()) {
-            name = name + "/";
+            nbme = nbme + "/";
         }
         try {
-            return new URL("file", "", name);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("file");
+            return new URL("file", "", nbme);
+        } cbtch (MblformedURLException e) {
+            throw new IllegblArgumentException("file");
         }
     }
 }

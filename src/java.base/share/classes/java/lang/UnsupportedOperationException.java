@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown to indicate that the requested operation is not supported.<p>
+ * Thrown to indicbte thbt the requested operbtion is not supported.<p>
  *
- * This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @since   1.2
  */
-public class UnsupportedOperationException extends RuntimeException {
+public clbss UnsupportedOperbtionException extends RuntimeException {
     /**
-     * Constructs an UnsupportedOperationException with no detail message.
+     * Constructs bn UnsupportedOperbtionException with no detbil messbge.
      */
-    public UnsupportedOperationException() {
+    public UnsupportedOperbtionException() {
     }
 
     /**
-     * Constructs an UnsupportedOperationException with the specified
-     * detail message.
+     * Constructs bn UnsupportedOperbtionException with the specified
+     * detbil messbge.
      *
-     * @param message the detail message
+     * @pbrbm messbge the detbil messbge
      */
-    public UnsupportedOperationException(String message) {
-        super(message);
+    public UnsupportedOperbtionException(String messbge) {
+        super(messbge);
     }
 
     /**
-     * Constructs a new exception with the specified detail message and
-     * cause.
+     * Constructs b new exception with the specified detbil messbge bnd
+     * cbuse.
      *
-     * <p>Note that the detail message associated with <code>cause</code> is
-     * <i>not</i> automatically incorporated in this exception's detail
-     * message.
+     * <p>Note thbt the detbil messbge bssocibted with <code>cbuse</code> is
+     * <i>not</i> butombticblly incorporbted in this exception's detbil
+     * messbge.
      *
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link Throwable#getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link Throwable#getCause()} method).  (A <tt>null</tt> value
-     *         is permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  messbge the detbil messbge (which is sbved for lbter retrievbl
+     *         by the {@link Throwbble#getMessbge()} method).
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link Throwbble#getCbuse()} method).  (A <tt>null</tt> vblue
+     *         is permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
      * @since 1.5
      */
-    public UnsupportedOperationException(String message, Throwable cause) {
-        super(message, cause);
+    public UnsupportedOperbtionException(String messbge, Throwbble cbuse) {
+        super(messbge, cbuse);
     }
 
     /**
-     * Constructs a new exception with the specified cause and a detail
-     * message of <tt>(cause==null ? null : cause.toString())</tt> (which
-     * typically contains the class and detail message of <tt>cause</tt>).
-     * This constructor is useful for exceptions that are little more than
-     * wrappers for other throwables (for example, {@link
-     * java.security.PrivilegedActionException}).
+     * Constructs b new exception with the specified cbuse bnd b detbil
+     * messbge of <tt>(cbuse==null ? null : cbuse.toString())</tt> (which
+     * typicblly contbins the clbss bnd detbil messbge of <tt>cbuse</tt>).
+     * This constructor is useful for exceptions thbt bre little more thbn
+     * wrbppers for other throwbbles (for exbmple, {@link
+     * jbvb.security.PrivilegedActionException}).
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link Throwable#getCause()} method).  (A <tt>null</tt> value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  cbuse the cbuse (which is sbved for lbter retrievbl by the
+     *         {@link Throwbble#getCbuse()} method).  (A <tt>null</tt> vblue is
+     *         permitted, bnd indicbtes thbt the cbuse is nonexistent or
      *         unknown.)
      * @since  1.5
      */
-    public UnsupportedOperationException(Throwable cause) {
-        super(cause);
+    public UnsupportedOperbtionException(Throwbble cbuse) {
+        super(cbuse);
     }
 
-    static final long serialVersionUID = -1242599979055084673L;
+    stbtic finbl long seriblVersionUID = -1242599979055084673L;
 }

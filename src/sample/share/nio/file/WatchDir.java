@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,55 +30,55 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.file.*;
-import static java.nio.file.StandardWatchEventKinds.*;
-import static java.nio.file.LinkOption.*;
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.file.*;
+import stbtic jbvb.nio.file.StbndbrdWbtchEventKinds.*;
+import stbtic jbvb.nio.file.LinkOption.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.IOException;
 
 /**
- * Example to watch a directory (or tree) for changes to files.
+ * Exbmple to wbtch b directory (or tree) for chbnges to files.
  */
 
-public class WatchDir {
+public clbss WbtchDir {
 
-    private final WatchService watcher;
-    private final boolean recursive;
-    private boolean trace = false;
-    private int count;
+    privbte finbl WbtchService wbtcher;
+    privbte finbl boolebn recursive;
+    privbte boolebn trbce = fblse;
+    privbte int count;
 
-    @SuppressWarnings("unchecked")
-    static <T> WatchEvent<T> cast(WatchEvent<?> event) {
-        return (WatchEvent<T>)event;
+    @SuppressWbrnings("unchecked")
+    stbtic <T> WbtchEvent<T> cbst(WbtchEvent<?> event) {
+        return (WbtchEvent<T>)event;
     }
 
     /**
-     * Register the given directory with the WatchService
+     * Register the given directory with the WbtchService
      */
-    private void register(Path dir) throws IOException {
-        WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+    privbte void register(Pbth dir) throws IOException {
+        WbtchKey key = dir.register(wbtcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
         count++;
-        if (trace)
-            System.out.format("register: %s\n", dir);
+        if (trbce)
+            System.out.formbt("register: %s\n", dir);
     }
 
     /**
-     * Register the given directory, and all its sub-directories, with the
-     * WatchService.
+     * Register the given directory, bnd bll its sub-directories, with the
+     * WbtchService.
      */
-    private void registerAll(final Path start) throws IOException {
-        // register directory and sub-directories
-        Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
+    privbte void registerAll(finbl Pbth stbrt) throws IOException {
+        // register directory bnd sub-directories
+        Files.wblkFileTree(stbrt, new SimpleFileVisitor<Pbth>() {
             @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+            public FileVisitResult preVisitDirectory(Pbth dir, BbsicFileAttributes bttrs)
                 throws IOException
             {
                 register(dir);
@@ -88,98 +88,98 @@ public class WatchDir {
     }
 
     /**
-     * Creates a WatchService and registers the given directory
+     * Crebtes b WbtchService bnd registers the given directory
      */
-    WatchDir(Path dir, boolean recursive) throws IOException {
-        this.watcher = FileSystems.getDefault().newWatchService();
+    WbtchDir(Pbth dir, boolebn recursive) throws IOException {
+        this.wbtcher = FileSystems.getDefbult().newWbtchService();
         this.recursive = recursive;
 
         if (recursive) {
-            System.out.format("Scanning %s ...\n", dir);
+            System.out.formbt("Scbnning %s ...\n", dir);
             registerAll(dir);
             System.out.println("Done.");
         } else {
             register(dir);
         }
 
-        // enable trace after initial registration
-        this.trace = true;
+        // enbble trbce bfter initibl registrbtion
+        this.trbce = true;
     }
 
     /**
-     * Process all events for keys queued to the watcher
+     * Process bll events for keys queued to the wbtcher
      */
     void processEvents() {
         for (;;) {
 
-            // wait for key to be signalled
-            WatchKey key;
+            // wbit for key to be signblled
+            WbtchKey key;
             try {
-                key = watcher.take();
-            } catch (InterruptedException x) {
+                key = wbtcher.tbke();
+            } cbtch (InterruptedException x) {
                 return;
             }
 
-            for (WatchEvent<?> event: key.pollEvents()) {
-                WatchEvent.Kind kind = event.kind();
+            for (WbtchEvent<?> event: key.pollEvents()) {
+                WbtchEvent.Kind kind = event.kind();
 
-                // TBD - provide example of how OVERFLOW event is handled
+                // TBD - provide exbmple of how OVERFLOW event is hbndled
                 if (kind == OVERFLOW) {
                     continue;
                 }
 
-                // Context for directory entry event is the file name of entry
-                WatchEvent<Path> ev = cast(event);
-                Path name = ev.context();
-                Path child = ((Path)key.watchable()).resolve(name);
+                // Context for directory entry event is the file nbme of entry
+                WbtchEvent<Pbth> ev = cbst(event);
+                Pbth nbme = ev.context();
+                Pbth child = ((Pbth)key.wbtchbble()).resolve(nbme);
 
                 // print out event
-                System.out.format("%s: %s\n", event.kind().name(), child);
+                System.out.formbt("%s: %s\n", event.kind().nbme(), child);
 
-                // if directory is created, and watching recursively, then
-                // register it and its sub-directories
+                // if directory is crebted, bnd wbtching recursively, then
+                // register it bnd its sub-directories
                 if (recursive && (kind == ENTRY_CREATE)) {
                     try {
                         if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
                             registerAll(child);
                         }
-                    } catch (IOException x) {
-                        // ignore to keep sample readbale
+                    } cbtch (IOException x) {
+                        // ignore to keep sbmple rebdbble
                     }
                 }
             }
 
             // reset key
-            boolean valid = key.reset();
-            if (!valid) {
-                // directory no longer accessible
+            boolebn vblid = key.reset();
+            if (!vblid) {
+                // directory no longer bccessible
                 count--;
                 if (count == 0)
-                    break;
+                    brebk;
             }
         }
     }
 
-    static void usage() {
-        System.err.println("usage: java WatchDir [-r] dir");
+    stbtic void usbge() {
+        System.err.println("usbge: jbvb WbtchDir [-r] dir");
         System.exit(-1);
     }
 
-    public static void main(String[] args) throws IOException {
-        // parse arguments
-        if (args.length == 0 || args.length > 2)
-            usage();
-        boolean recursive = false;
+    public stbtic void mbin(String[] brgs) throws IOException {
+        // pbrse brguments
+        if (brgs.length == 0 || brgs.length > 2)
+            usbge();
+        boolebn recursive = fblse;
         int dirArg = 0;
-        if (args[0].equals("-r")) {
-            if (args.length < 2)
-                usage();
+        if (brgs[0].equbls("-r")) {
+            if (brgs.length < 2)
+                usbge();
             recursive = true;
             dirArg++;
         }
 
-        // register directory and process its events
-        Path dir = Paths.get(args[dirArg]);
-        new WatchDir(dir, recursive).processEvents();
+        // register directory bnd process its events
+        Pbth dir = Pbths.get(brgs[dirArg]);
+        new WbtchDir(dir, recursive).processEvents();
     }
 }

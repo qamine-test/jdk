@@ -1,307 +1,307 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
 /**
- * Utility classes commonly useful in concurrent programming.  This
- * package includes a few small standardized extensible frameworks, as
- * well as some classes that provide useful functionality and are
- * otherwise tedious or difficult to implement.  Here are brief
- * descriptions of the main components.  See also the
- * {@link java.util.concurrent.locks} and
- * {@link java.util.concurrent.atomic} packages.
+ * Utility clbsses commonly useful in concurrent progrbmming.  This
+ * pbckbge includes b few smbll stbndbrdized extensible frbmeworks, bs
+ * well bs some clbsses thbt provide useful functionblity bnd bre
+ * otherwise tedious or difficult to implement.  Here bre brief
+ * descriptions of the mbin components.  See blso the
+ * {@link jbvb.util.concurrent.locks} bnd
+ * {@link jbvb.util.concurrent.btomic} pbckbges.
  *
  * <h2>Executors</h2>
  *
- * <b>Interfaces.</b>
+ * <b>Interfbces.</b>
  *
- * {@link java.util.concurrent.Executor} is a simple standardized
- * interface for defining custom thread-like subsystems, including
- * thread pools, asynchronous I/O, and lightweight task frameworks.
- * Depending on which concrete Executor class is being used, tasks may
- * execute in a newly created thread, an existing task-execution thread,
- * or the thread calling {@link java.util.concurrent.Executor#execute
- * execute}, and may execute sequentially or concurrently.
+ * {@link jbvb.util.concurrent.Executor} is b simple stbndbrdized
+ * interfbce for defining custom threbd-like subsystems, including
+ * threbd pools, bsynchronous I/O, bnd lightweight tbsk frbmeworks.
+ * Depending on which concrete Executor clbss is being used, tbsks mby
+ * execute in b newly crebted threbd, bn existing tbsk-execution threbd,
+ * or the threbd cblling {@link jbvb.util.concurrent.Executor#execute
+ * execute}, bnd mby execute sequentiblly or concurrently.
  *
- * {@link java.util.concurrent.ExecutorService} provides a more
- * complete asynchronous task execution framework.  An
- * ExecutorService manages queuing and scheduling of tasks,
- * and allows controlled shutdown.
+ * {@link jbvb.util.concurrent.ExecutorService} provides b more
+ * complete bsynchronous tbsk execution frbmework.  An
+ * ExecutorService mbnbges queuing bnd scheduling of tbsks,
+ * bnd bllows controlled shutdown.
  *
- * The {@link java.util.concurrent.ScheduledExecutorService}
- * subinterface and associated interfaces add support for
- * delayed and periodic task execution.  ExecutorServices
- * provide methods arranging asynchronous execution of any
- * function expressed as {@link java.util.concurrent.Callable},
- * the result-bearing analog of {@link java.lang.Runnable}.
+ * The {@link jbvb.util.concurrent.ScheduledExecutorService}
+ * subinterfbce bnd bssocibted interfbces bdd support for
+ * delbyed bnd periodic tbsk execution.  ExecutorServices
+ * provide methods brrbnging bsynchronous execution of bny
+ * function expressed bs {@link jbvb.util.concurrent.Cbllbble},
+ * the result-bebring bnblog of {@link jbvb.lbng.Runnbble}.
  *
- * A {@link java.util.concurrent.Future} returns the results of
- * a function, allows determination of whether execution has
- * completed, and provides a means to cancel execution.
+ * A {@link jbvb.util.concurrent.Future} returns the results of
+ * b function, bllows determinbtion of whether execution hbs
+ * completed, bnd provides b mebns to cbncel execution.
  *
- * A {@link java.util.concurrent.RunnableFuture} is a {@code Future}
- * that possesses a {@code run} method that upon execution,
+ * A {@link jbvb.util.concurrent.RunnbbleFuture} is b {@code Future}
+ * thbt possesses b {@code run} method thbt upon execution,
  * sets its results.
  *
  * <p>
  *
- * <b>Implementations.</b>
+ * <b>Implementbtions.</b>
  *
- * Classes {@link java.util.concurrent.ThreadPoolExecutor} and
- * {@link java.util.concurrent.ScheduledThreadPoolExecutor}
- * provide tunable, flexible thread pools.
+ * Clbsses {@link jbvb.util.concurrent.ThrebdPoolExecutor} bnd
+ * {@link jbvb.util.concurrent.ScheduledThrebdPoolExecutor}
+ * provide tunbble, flexible threbd pools.
  *
- * The {@link java.util.concurrent.Executors} class provides
- * factory methods for the most common kinds and configurations
- * of Executors, as well as a few utility methods for using
- * them.  Other utilities based on {@code Executors} include the
- * concrete class {@link java.util.concurrent.FutureTask}
- * providing a common extensible implementation of Futures, and
- * {@link java.util.concurrent.ExecutorCompletionService}, that
- * assists in coordinating the processing of groups of
- * asynchronous tasks.
+ * The {@link jbvb.util.concurrent.Executors} clbss provides
+ * fbctory methods for the most common kinds bnd configurbtions
+ * of Executors, bs well bs b few utility methods for using
+ * them.  Other utilities bbsed on {@code Executors} include the
+ * concrete clbss {@link jbvb.util.concurrent.FutureTbsk}
+ * providing b common extensible implementbtion of Futures, bnd
+ * {@link jbvb.util.concurrent.ExecutorCompletionService}, thbt
+ * bssists in coordinbting the processing of groups of
+ * bsynchronous tbsks.
  *
- * <p>Class {@link java.util.concurrent.ForkJoinPool} provides an
- * Executor primarily designed for processing instances of {@link
- * java.util.concurrent.ForkJoinTask} and its subclasses.  These
- * classes employ a work-stealing scheduler that attains high
- * throughput for tasks conforming to restrictions that often hold in
- * computation-intensive parallel processing.
+ * <p>Clbss {@link jbvb.util.concurrent.ForkJoinPool} provides bn
+ * Executor primbrily designed for processing instbnces of {@link
+ * jbvb.util.concurrent.ForkJoinTbsk} bnd its subclbsses.  These
+ * clbsses employ b work-stebling scheduler thbt bttbins high
+ * throughput for tbsks conforming to restrictions thbt often hold in
+ * computbtion-intensive pbrbllel processing.
  *
  * <h2>Queues</h2>
  *
- * The {@link java.util.concurrent.ConcurrentLinkedQueue} class
- * supplies an efficient scalable thread-safe non-blocking FIFO queue.
- * The {@link java.util.concurrent.ConcurrentLinkedDeque} class is
- * similar, but additionally supports the {@link java.util.Deque}
- * interface.
+ * The {@link jbvb.util.concurrent.ConcurrentLinkedQueue} clbss
+ * supplies bn efficient scblbble threbd-sbfe non-blocking FIFO queue.
+ * The {@link jbvb.util.concurrent.ConcurrentLinkedDeque} clbss is
+ * similbr, but bdditionblly supports the {@link jbvb.util.Deque}
+ * interfbce.
  *
- * <p>Five implementations in {@code java.util.concurrent} support
- * the extended {@link java.util.concurrent.BlockingQueue}
- * interface, that defines blocking versions of put and take:
- * {@link java.util.concurrent.LinkedBlockingQueue},
- * {@link java.util.concurrent.ArrayBlockingQueue},
- * {@link java.util.concurrent.SynchronousQueue},
- * {@link java.util.concurrent.PriorityBlockingQueue}, and
- * {@link java.util.concurrent.DelayQueue}.
- * The different classes cover the most common usage contexts
- * for producer-consumer, messaging, parallel tasking, and
- * related concurrent designs.
+ * <p>Five implementbtions in {@code jbvb.util.concurrent} support
+ * the extended {@link jbvb.util.concurrent.BlockingQueue}
+ * interfbce, thbt defines blocking versions of put bnd tbke:
+ * {@link jbvb.util.concurrent.LinkedBlockingQueue},
+ * {@link jbvb.util.concurrent.ArrbyBlockingQueue},
+ * {@link jbvb.util.concurrent.SynchronousQueue},
+ * {@link jbvb.util.concurrent.PriorityBlockingQueue}, bnd
+ * {@link jbvb.util.concurrent.DelbyQueue}.
+ * The different clbsses cover the most common usbge contexts
+ * for producer-consumer, messbging, pbrbllel tbsking, bnd
+ * relbted concurrent designs.
  *
- * <p>Extended interface {@link java.util.concurrent.TransferQueue},
- * and implementation {@link java.util.concurrent.LinkedTransferQueue}
- * introduce a synchronous {@code transfer} method (along with related
- * features) in which a producer may optionally block awaiting its
+ * <p>Extended interfbce {@link jbvb.util.concurrent.TrbnsferQueue},
+ * bnd implementbtion {@link jbvb.util.concurrent.LinkedTrbnsferQueue}
+ * introduce b synchronous {@code trbnsfer} method (blong with relbted
+ * febtures) in which b producer mby optionblly block bwbiting its
  * consumer.
  *
- * <p>The {@link java.util.concurrent.BlockingDeque} interface
- * extends {@code BlockingQueue} to support both FIFO and LIFO
- * (stack-based) operations.
- * Class {@link java.util.concurrent.LinkedBlockingDeque}
- * provides an implementation.
+ * <p>The {@link jbvb.util.concurrent.BlockingDeque} interfbce
+ * extends {@code BlockingQueue} to support both FIFO bnd LIFO
+ * (stbck-bbsed) operbtions.
+ * Clbss {@link jbvb.util.concurrent.LinkedBlockingDeque}
+ * provides bn implementbtion.
  *
  * <h2>Timing</h2>
  *
- * The {@link java.util.concurrent.TimeUnit} class provides
- * multiple granularities (including nanoseconds) for
- * specifying and controlling time-out based operations.  Most
- * classes in the package contain operations based on time-outs
- * in addition to indefinite waits.  In all cases that
- * time-outs are used, the time-out specifies the minimum time
- * that the method should wait before indicating that it
- * timed-out.  Implementations make a &quot;best effort&quot;
- * to detect time-outs as soon as possible after they occur.
- * However, an indefinite amount of time may elapse between a
- * time-out being detected and a thread actually executing
- * again after that time-out.  All methods that accept timeout
- * parameters treat values less than or equal to zero to mean
- * not to wait at all.  To wait "forever", you can use a value
+ * The {@link jbvb.util.concurrent.TimeUnit} clbss provides
+ * multiple grbnulbrities (including nbnoseconds) for
+ * specifying bnd controlling time-out bbsed operbtions.  Most
+ * clbsses in the pbckbge contbin operbtions bbsed on time-outs
+ * in bddition to indefinite wbits.  In bll cbses thbt
+ * time-outs bre used, the time-out specifies the minimum time
+ * thbt the method should wbit before indicbting thbt it
+ * timed-out.  Implementbtions mbke b &quot;best effort&quot;
+ * to detect time-outs bs soon bs possible bfter they occur.
+ * However, bn indefinite bmount of time mby elbpse between b
+ * time-out being detected bnd b threbd bctublly executing
+ * bgbin bfter thbt time-out.  All methods thbt bccept timeout
+ * pbrbmeters trebt vblues less thbn or equbl to zero to mebn
+ * not to wbit bt bll.  To wbit "forever", you cbn use b vblue
  * of {@code Long.MAX_VALUE}.
  *
  * <h2>Synchronizers</h2>
  *
- * Five classes aid common special-purpose synchronization idioms.
+ * Five clbsses bid common specibl-purpose synchronizbtion idioms.
  * <ul>
  *
- * <li>{@link java.util.concurrent.Semaphore} is a classic concurrency tool.
+ * <li>{@link jbvb.util.concurrent.Sembphore} is b clbssic concurrency tool.
  *
- * <li>{@link java.util.concurrent.CountDownLatch} is a very simple yet
- * very common utility for blocking until a given number of signals,
+ * <li>{@link jbvb.util.concurrent.CountDownLbtch} is b very simple yet
+ * very common utility for blocking until b given number of signbls,
  * events, or conditions hold.
  *
- * <li>A {@link java.util.concurrent.CyclicBarrier} is a resettable
- * multiway synchronization point useful in some styles of parallel
- * programming.
+ * <li>A {@link jbvb.util.concurrent.CyclicBbrrier} is b resettbble
+ * multiwby synchronizbtion point useful in some styles of pbrbllel
+ * progrbmming.
  *
- * <li>A {@link java.util.concurrent.Phaser} provides
- * a more flexible form of barrier that may be used to control phased
- * computation among multiple threads.
+ * <li>A {@link jbvb.util.concurrent.Phbser} provides
+ * b more flexible form of bbrrier thbt mby be used to control phbsed
+ * computbtion bmong multiple threbds.
  *
- * <li>An {@link java.util.concurrent.Exchanger} allows two threads to
- * exchange objects at a rendezvous point, and is useful in several
+ * <li>An {@link jbvb.util.concurrent.Exchbnger} bllows two threbds to
+ * exchbnge objects bt b rendezvous point, bnd is useful in severbl
  * pipeline designs.
  *
  * </ul>
  *
  * <h2>Concurrent Collections</h2>
  *
- * Besides Queues, this package supplies Collection implementations
- * designed for use in multithreaded contexts:
- * {@link java.util.concurrent.ConcurrentHashMap},
- * {@link java.util.concurrent.ConcurrentSkipListMap},
- * {@link java.util.concurrent.ConcurrentSkipListSet},
- * {@link java.util.concurrent.CopyOnWriteArrayList}, and
- * {@link java.util.concurrent.CopyOnWriteArraySet}.
- * When many threads are expected to access a given collection, a
- * {@code ConcurrentHashMap} is normally preferable to a synchronized
- * {@code HashMap}, and a {@code ConcurrentSkipListMap} is normally
- * preferable to a synchronized {@code TreeMap}.
- * A {@code CopyOnWriteArrayList} is preferable to a synchronized
- * {@code ArrayList} when the expected number of reads and traversals
- * greatly outnumber the number of updates to a list.
+ * Besides Queues, this pbckbge supplies Collection implementbtions
+ * designed for use in multithrebded contexts:
+ * {@link jbvb.util.concurrent.ConcurrentHbshMbp},
+ * {@link jbvb.util.concurrent.ConcurrentSkipListMbp},
+ * {@link jbvb.util.concurrent.ConcurrentSkipListSet},
+ * {@link jbvb.util.concurrent.CopyOnWriteArrbyList}, bnd
+ * {@link jbvb.util.concurrent.CopyOnWriteArrbySet}.
+ * When mbny threbds bre expected to bccess b given collection, b
+ * {@code ConcurrentHbshMbp} is normblly preferbble to b synchronized
+ * {@code HbshMbp}, bnd b {@code ConcurrentSkipListMbp} is normblly
+ * preferbble to b synchronized {@code TreeMbp}.
+ * A {@code CopyOnWriteArrbyList} is preferbble to b synchronized
+ * {@code ArrbyList} when the expected number of rebds bnd trbversbls
+ * grebtly outnumber the number of updbtes to b list.
  *
- * <p>The "Concurrent" prefix used with some classes in this package
- * is a shorthand indicating several differences from similar
- * "synchronized" classes.  For example {@code java.util.Hashtable} and
- * {@code Collections.synchronizedMap(new HashMap())} are
+ * <p>The "Concurrent" prefix used with some clbsses in this pbckbge
+ * is b shorthbnd indicbting severbl differences from similbr
+ * "synchronized" clbsses.  For exbmple {@code jbvb.util.Hbshtbble} bnd
+ * {@code Collections.synchronizedMbp(new HbshMbp())} bre
  * synchronized.  But {@link
- * java.util.concurrent.ConcurrentHashMap} is "concurrent".  A
- * concurrent collection is thread-safe, but not governed by a
- * single exclusion lock.  In the particular case of
- * ConcurrentHashMap, it safely permits any number of
- * concurrent reads as well as a tunable number of concurrent
- * writes.  "Synchronized" classes can be useful when you need
- * to prevent all access to a collection via a single lock, at
- * the expense of poorer scalability.  In other cases in which
- * multiple threads are expected to access a common collection,
- * "concurrent" versions are normally preferable.  And
- * unsynchronized collections are preferable when either
- * collections are unshared, or are accessible only when
+ * jbvb.util.concurrent.ConcurrentHbshMbp} is "concurrent".  A
+ * concurrent collection is threbd-sbfe, but not governed by b
+ * single exclusion lock.  In the pbrticulbr cbse of
+ * ConcurrentHbshMbp, it sbfely permits bny number of
+ * concurrent rebds bs well bs b tunbble number of concurrent
+ * writes.  "Synchronized" clbsses cbn be useful when you need
+ * to prevent bll bccess to b collection vib b single lock, bt
+ * the expense of poorer scblbbility.  In other cbses in which
+ * multiple threbds bre expected to bccess b common collection,
+ * "concurrent" versions bre normblly preferbble.  And
+ * unsynchronized collections bre preferbble when either
+ * collections bre unshbred, or bre bccessible only when
  * holding other locks.
  *
- * <p id="Weakly">Most concurrent Collection implementations
- * (including most Queues) also differ from the usual {@code java.util}
- * conventions in that their {@linkplain java.util.Iterator Iterators}
- * and {@linkplain java.util.Spliterator Spliterators} provide
- * <em>weakly consistent</em> rather than fast-fail traversal:
+ * <p id="Webkly">Most concurrent Collection implementbtions
+ * (including most Queues) blso differ from the usubl {@code jbvb.util}
+ * conventions in thbt their {@linkplbin jbvb.util.Iterbtor Iterbtors}
+ * bnd {@linkplbin jbvb.util.Spliterbtor Spliterbtors} provide
+ * <em>webkly consistent</em> rbther thbn fbst-fbil trbversbl:
  * <ul>
- * <li>they may proceed concurrently with other operations
- * <li>they will never throw {@link java.util.ConcurrentModificationException
- * ConcurrentModificationException}
- * <li>they are guaranteed to traverse elements as they existed upon
- * construction exactly once, and may (but are not guaranteed to)
- * reflect any modifications subsequent to construction.
+ * <li>they mby proceed concurrently with other operbtions
+ * <li>they will never throw {@link jbvb.util.ConcurrentModificbtionException
+ * ConcurrentModificbtionException}
+ * <li>they bre gubrbnteed to trbverse elements bs they existed upon
+ * construction exbctly once, bnd mby (but bre not gubrbnteed to)
+ * reflect bny modificbtions subsequent to construction.
  * </ul>
  *
  * <h2 id="MemoryVisibility">Memory Consistency Properties</h2>
  *
- * <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
- * Chapter 17 of the Java Language Specification</a> defines the
- * <i>happens-before</i> relation on memory operations such as reads and
- * writes of shared variables.  The results of a write by one thread are
- * guaranteed to be visible to a read by another thread only if the write
- * operation <i>happens-before</i> the read operation.  The
- * {@code synchronized} and {@code volatile} constructs, as well as the
- * {@code Thread.start()} and {@code Thread.join()} methods, can form
- * <i>happens-before</i> relationships.  In particular:
+ * <b href="http://docs.orbcle.com/jbvbse/specs/jls/se7/html/jls-17.html#jls-17.4.5">
+ * Chbpter 17 of the Jbvb Lbngubge Specificbtion</b> defines the
+ * <i>hbppens-before</i> relbtion on memory operbtions such bs rebds bnd
+ * writes of shbred vbribbles.  The results of b write by one threbd bre
+ * gubrbnteed to be visible to b rebd by bnother threbd only if the write
+ * operbtion <i>hbppens-before</i> the rebd operbtion.  The
+ * {@code synchronized} bnd {@code volbtile} constructs, bs well bs the
+ * {@code Threbd.stbrt()} bnd {@code Threbd.join()} methods, cbn form
+ * <i>hbppens-before</i> relbtionships.  In pbrticulbr:
  *
  * <ul>
- *   <li>Each action in a thread <i>happens-before</i> every action in that
- *   thread that comes later in the program's order.
+ *   <li>Ebch bction in b threbd <i>hbppens-before</i> every bction in thbt
+ *   threbd thbt comes lbter in the progrbm's order.
  *
- *   <li>An unlock ({@code synchronized} block or method exit) of a
- *   monitor <i>happens-before</i> every subsequent lock ({@code synchronized}
- *   block or method entry) of that same monitor.  And because
- *   the <i>happens-before</i> relation is transitive, all actions
- *   of a thread prior to unlocking <i>happen-before</i> all actions
- *   subsequent to any thread locking that monitor.
+ *   <li>An unlock ({@code synchronized} block or method exit) of b
+ *   monitor <i>hbppens-before</i> every subsequent lock ({@code synchronized}
+ *   block or method entry) of thbt sbme monitor.  And becbuse
+ *   the <i>hbppens-before</i> relbtion is trbnsitive, bll bctions
+ *   of b threbd prior to unlocking <i>hbppen-before</i> bll bctions
+ *   subsequent to bny threbd locking thbt monitor.
  *
- *   <li>A write to a {@code volatile} field <i>happens-before</i> every
- *   subsequent read of that same field.  Writes and reads of
- *   {@code volatile} fields have similar memory consistency effects
- *   as entering and exiting monitors, but do <em>not</em> entail
- *   mutual exclusion locking.
+ *   <li>A write to b {@code volbtile} field <i>hbppens-before</i> every
+ *   subsequent rebd of thbt sbme field.  Writes bnd rebds of
+ *   {@code volbtile} fields hbve similbr memory consistency effects
+ *   bs entering bnd exiting monitors, but do <em>not</em> entbil
+ *   mutubl exclusion locking.
  *
- *   <li>A call to {@code start} on a thread <i>happens-before</i> any
- *   action in the started thread.
+ *   <li>A cbll to {@code stbrt} on b threbd <i>hbppens-before</i> bny
+ *   bction in the stbrted threbd.
  *
- *   <li>All actions in a thread <i>happen-before</i> any other thread
- *   successfully returns from a {@code join} on that thread.
+ *   <li>All bctions in b threbd <i>hbppen-before</i> bny other threbd
+ *   successfully returns from b {@code join} on thbt threbd.
  *
  * </ul>
  *
  *
- * The methods of all classes in {@code java.util.concurrent} and its
- * subpackages extend these guarantees to higher-level
- * synchronization.  In particular:
+ * The methods of bll clbsses in {@code jbvb.util.concurrent} bnd its
+ * subpbckbges extend these gubrbntees to higher-level
+ * synchronizbtion.  In pbrticulbr:
  *
  * <ul>
  *
- *   <li>Actions in a thread prior to placing an object into any concurrent
- *   collection <i>happen-before</i> actions subsequent to the access or
- *   removal of that element from the collection in another thread.
+ *   <li>Actions in b threbd prior to plbcing bn object into bny concurrent
+ *   collection <i>hbppen-before</i> bctions subsequent to the bccess or
+ *   removbl of thbt element from the collection in bnother threbd.
  *
- *   <li>Actions in a thread prior to the submission of a {@code Runnable}
- *   to an {@code Executor} <i>happen-before</i> its execution begins.
- *   Similarly for {@code Callables} submitted to an {@code ExecutorService}.
+ *   <li>Actions in b threbd prior to the submission of b {@code Runnbble}
+ *   to bn {@code Executor} <i>hbppen-before</i> its execution begins.
+ *   Similbrly for {@code Cbllbbles} submitted to bn {@code ExecutorService}.
  *
- *   <li>Actions taken by the asynchronous computation represented by a
- *   {@code Future} <i>happen-before</i> actions subsequent to the
- *   retrieval of the result via {@code Future.get()} in another thread.
+ *   <li>Actions tbken by the bsynchronous computbtion represented by b
+ *   {@code Future} <i>hbppen-before</i> bctions subsequent to the
+ *   retrievbl of the result vib {@code Future.get()} in bnother threbd.
  *
- *   <li>Actions prior to "releasing" synchronizer methods such as
- *   {@code Lock.unlock}, {@code Semaphore.release}, and
- *   {@code CountDownLatch.countDown} <i>happen-before</i> actions
- *   subsequent to a successful "acquiring" method such as
- *   {@code Lock.lock}, {@code Semaphore.acquire},
- *   {@code Condition.await}, and {@code CountDownLatch.await} on the
- *   same synchronizer object in another thread.
+ *   <li>Actions prior to "relebsing" synchronizer methods such bs
+ *   {@code Lock.unlock}, {@code Sembphore.relebse}, bnd
+ *   {@code CountDownLbtch.countDown} <i>hbppen-before</i> bctions
+ *   subsequent to b successful "bcquiring" method such bs
+ *   {@code Lock.lock}, {@code Sembphore.bcquire},
+ *   {@code Condition.bwbit}, bnd {@code CountDownLbtch.bwbit} on the
+ *   sbme synchronizer object in bnother threbd.
  *
- *   <li>For each pair of threads that successfully exchange objects via
- *   an {@code Exchanger}, actions prior to the {@code exchange()}
- *   in each thread <i>happen-before</i> those subsequent to the
- *   corresponding {@code exchange()} in another thread.
+ *   <li>For ebch pbir of threbds thbt successfully exchbnge objects vib
+ *   bn {@code Exchbnger}, bctions prior to the {@code exchbnge()}
+ *   in ebch threbd <i>hbppen-before</i> those subsequent to the
+ *   corresponding {@code exchbnge()} in bnother threbd.
  *
- *   <li>Actions prior to calling {@code CyclicBarrier.await} and
- *   {@code Phaser.awaitAdvance} (as well as its variants)
- *   <i>happen-before</i> actions performed by the barrier action, and
- *   actions performed by the barrier action <i>happen-before</i> actions
- *   subsequent to a successful return from the corresponding {@code await}
- *   in other threads.
+ *   <li>Actions prior to cblling {@code CyclicBbrrier.bwbit} bnd
+ *   {@code Phbser.bwbitAdvbnce} (bs well bs its vbribnts)
+ *   <i>hbppen-before</i> bctions performed by the bbrrier bction, bnd
+ *   bctions performed by the bbrrier bction <i>hbppen-before</i> bctions
+ *   subsequent to b successful return from the corresponding {@code bwbit}
+ *   in other threbds.
  *
  * </ul>
  *
  * @since 1.5
  */
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;

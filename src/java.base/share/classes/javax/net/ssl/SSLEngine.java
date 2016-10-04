@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.nio.ByteBuffer;
-import java.nio.ReadOnlyBufferException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.RebdOnlyBufferException;
 
 
 /**
- * A class which enables secure communications using protocols such as
- * the Secure Sockets Layer (SSL) or
- * <A HREF="http://www.ietf.org/rfc/rfc2246.txt"> IETF RFC 2246 "Transport
- * Layer Security" (TLS) </A> protocols, but is transport independent.
+ * A clbss which enbbles secure communicbtions using protocols such bs
+ * the Secure Sockets Lbyer (SSL) or
+ * <A HREF="http://www.ietf.org/rfc/rfc2246.txt"> IETF RFC 2246 "Trbnsport
+ * Lbyer Security" (TLS) </A> protocols, but is trbnsport independent.
  * <P>
- * The secure communications modes include: <UL>
+ * The secure communicbtions modes include: <UL>
  *
- *      <LI> <em>Integrity Protection</em>.  SSL/TLS protects against
- *      modification of messages by an active wiretapper.
+ *      <LI> <em>Integrity Protection</em>.  SSL/TLS protects bgbinst
+ *      modificbtion of messbges by bn bctive wiretbpper.
  *
- *      <LI> <em>Authentication</em>.  In most modes, SSL/TLS provides
- *      peer authentication.  Servers are usually authenticated, and
- *      clients may be authenticated as requested by servers.
+ *      <LI> <em>Authenticbtion</em>.  In most modes, SSL/TLS provides
+ *      peer buthenticbtion.  Servers bre usublly buthenticbted, bnd
+ *      clients mby be buthenticbted bs requested by servers.
  *
- *      <LI> <em>Confidentiality (Privacy Protection)</em>.  In most
- *      modes, SSL/TLS encrypts data being sent between client and
- *      server.  This protects the confidentiality of data, so that
- *      passive wiretappers won't see sensitive data such as financial
- *      information or personal information of many kinds.
+ *      <LI> <em>Confidentiblity (Privbcy Protection)</em>.  In most
+ *      modes, SSL/TLS encrypts dbtb being sent between client bnd
+ *      server.  This protects the confidentiblity of dbtb, so thbt
+ *      pbssive wiretbppers won't see sensitive dbtb such bs finbncibl
+ *      informbtion or personbl informbtion of mbny kinds.
  *
  *      </UL>
  *
- * These kinds of protection are specified by a "cipher suite", which
- * is a combination of cryptographic algorithms used by a given SSL
- * connection.  During the negotiation process, the two endpoints must
- * agree on a cipher suite that is available in both environments.  If
- * there is no such suite in common, no SSL connection can be
- * established, and no data can be exchanged.
+ * These kinds of protection bre specified by b "cipher suite", which
+ * is b combinbtion of cryptogrbphic blgorithms used by b given SSL
+ * connection.  During the negotibtion process, the two endpoints must
+ * bgree on b cipher suite thbt is bvbilbble in both environments.  If
+ * there is no such suite in common, no SSL connection cbn be
+ * estbblished, bnd no dbtb cbn be exchbnged.
  * <P>
- * The cipher suite used is established by a negotiation process called
- * "handshaking".  The goal of this process is to create or rejoin a
- * "session", which may protect many connections over time.  After
- * handshaking has completed, you can access session attributes by
+ * The cipher suite used is estbblished by b negotibtion process cblled
+ * "hbndshbking".  The gobl of this process is to crebte or rejoin b
+ * "session", which mby protect mbny connections over time.  After
+ * hbndshbking hbs completed, you cbn bccess session bttributes by
  * using the {@link #getSession()} method.
  * <P>
- * The <code>SSLSocket</code> class provides much of the same security
- * functionality, but all of the inbound and outbound data is
- * automatically transported using the underlying {@link
- * java.net.Socket Socket}, which by design uses a blocking model.
- * While this is appropriate for many applications, this model does not
- * provide the scalability required by large servers.
+ * The <code>SSLSocket</code> clbss provides much of the sbme security
+ * functionblity, but bll of the inbound bnd outbound dbtb is
+ * butombticblly trbnsported using the underlying {@link
+ * jbvb.net.Socket Socket}, which by design uses b blocking model.
+ * While this is bppropribte for mbny bpplicbtions, this model does not
+ * provide the scblbbility required by lbrge servers.
  * <P>
- * The primary distinction of an <code>SSLEngine</code> is that it
- * operates on inbound and outbound byte streams, independent of the
- * transport mechanism.  It is the responsibility of the
- * <code>SSLEngine</code> user to arrange for reliable I/O transport to
- * the peer.  By separating the SSL/TLS abstraction from the I/O
- * transport mechanism, the <code>SSLEngine</code> can be used for a
- * wide variety of I/O types, such as {@link
- * java.nio.channels.spi.AbstractSelectableChannel#configureBlocking(boolean)
- * non-blocking I/O (polling)}, {@link java.nio.channels.Selector
- * selectable non-blocking I/O}, {@link java.net.Socket Socket} and the
- * traditional Input/OutputStreams, local {@link java.nio.ByteBuffer
- * ByteBuffers} or byte arrays, <A
- * HREF="http://www.jcp.org/en/jsr/detail?id=203"> future asynchronous
- * I/O models </A>, and so on.
+ * The primbry distinction of bn <code>SSLEngine</code> is thbt it
+ * operbtes on inbound bnd outbound byte strebms, independent of the
+ * trbnsport mechbnism.  It is the responsibility of the
+ * <code>SSLEngine</code> user to brrbnge for relibble I/O trbnsport to
+ * the peer.  By sepbrbting the SSL/TLS bbstrbction from the I/O
+ * trbnsport mechbnism, the <code>SSLEngine</code> cbn be used for b
+ * wide vbriety of I/O types, such bs {@link
+ * jbvb.nio.chbnnels.spi.AbstrbctSelectbbleChbnnel#configureBlocking(boolebn)
+ * non-blocking I/O (polling)}, {@link jbvb.nio.chbnnels.Selector
+ * selectbble non-blocking I/O}, {@link jbvb.net.Socket Socket} bnd the
+ * trbditionbl Input/OutputStrebms, locbl {@link jbvb.nio.ByteBuffer
+ * ByteBuffers} or byte brrbys, <A
+ * HREF="http://www.jcp.org/en/jsr/detbil?id=203"> future bsynchronous
+ * I/O models </A>, bnd so on.
  * <P>
- * At a high level, the <code>SSLEngine</code> appears thus:
+ * At b high level, the <code>SSLEngine</code> bppebrs thus:
  *
  * <pre>
- *                   app data
+ *                   bpp dbtb
  *
  *                |           ^
  *                |     |     |
@@ -98,7 +98,7 @@ import java.nio.ReadOnlyBufferException;
  *           +----+-----|-----+----+
  *           |          |          |
  *           |       SSL|Engine    |
- *   wrap()  |          |          |  unwrap()
+ *   wrbp()  |          |          |  unwrbp()
  *           | OUTBOUND | INBOUND  |
  *           |          |          |
  *           +----+-----|-----+----+
@@ -106,300 +106,300 @@ import java.nio.ReadOnlyBufferException;
  *                |     |     |
  *                v           |
  *
- *                   net data
+ *                   net dbtb
  * </pre>
- * Application data (also known as plaintext or cleartext) is data which
- * is produced or consumed by an application.  Its counterpart is
- * network data, which consists of either handshaking and/or ciphertext
- * (encrypted) data, and destined to be transported via an I/O
- * mechanism.  Inbound data is data which has been received from the
- * peer, and outbound data is destined for the peer.
+ * Applicbtion dbtb (blso known bs plbintext or clebrtext) is dbtb which
+ * is produced or consumed by bn bpplicbtion.  Its counterpbrt is
+ * network dbtb, which consists of either hbndshbking bnd/or ciphertext
+ * (encrypted) dbtb, bnd destined to be trbnsported vib bn I/O
+ * mechbnism.  Inbound dbtb is dbtb which hbs been received from the
+ * peer, bnd outbound dbtb is destined for the peer.
  * <P>
- * (In the context of an <code>SSLEngine</code>, the term "handshake
- * data" is taken to mean any data exchanged to establish and control a
- * secure connection.  Handshake data includes the SSL/TLS messages
- * "alert", "change_cipher_spec," and "handshake.")
+ * (In the context of bn <code>SSLEngine</code>, the term "hbndshbke
+ * dbtb" is tbken to mebn bny dbtb exchbnged to estbblish bnd control b
+ * secure connection.  Hbndshbke dbtb includes the SSL/TLS messbges
+ * "blert", "chbnge_cipher_spec," bnd "hbndshbke.")
  * <P>
- * There are five distinct phases to an <code>SSLEngine</code>.
+ * There bre five distinct phbses to bn <code>SSLEngine</code>.
  *
  * <OL>
- *     <li> Creation - The <code>SSLEngine</code> has been created and
- *     initialized, but has not yet been used.  During this phase, an
- *     application may set any <code>SSLEngine</code>-specific settings
- *     (enabled cipher suites, whether the <code>SSLEngine</code> should
- *     handshake in client or server mode, and so on).  Once
- *     handshaking has begun, though, any new settings (except
+ *     <li> Crebtion - The <code>SSLEngine</code> hbs been crebted bnd
+ *     initiblized, but hbs not yet been used.  During this phbse, bn
+ *     bpplicbtion mby set bny <code>SSLEngine</code>-specific settings
+ *     (enbbled cipher suites, whether the <code>SSLEngine</code> should
+ *     hbndshbke in client or server mode, bnd so on).  Once
+ *     hbndshbking hbs begun, though, bny new settings (except
  *     client/server mode, see below) will be used for
- *     the next handshake.
+ *     the next hbndshbke.
  *
- *     <li> Initial Handshake - The initial handshake is a procedure by
- *     which the two peers exchange communication parameters until an
- *     SSLSession is established.  Application data can not be sent during
- *     this phase.
+ *     <li> Initibl Hbndshbke - The initibl hbndshbke is b procedure by
+ *     which the two peers exchbnge communicbtion pbrbmeters until bn
+ *     SSLSession is estbblished.  Applicbtion dbtb cbn not be sent during
+ *     this phbse.
  *
- *     <li> Application Data - Once the communication parameters have
- *     been established and the handshake is complete, application data
- *     may flow through the <code>SSLEngine</code>.  Outbound
- *     application messages are encrypted and integrity protected,
- *     and inbound messages reverse the process.
+ *     <li> Applicbtion Dbtb - Once the communicbtion pbrbmeters hbve
+ *     been estbblished bnd the hbndshbke is complete, bpplicbtion dbtb
+ *     mby flow through the <code>SSLEngine</code>.  Outbound
+ *     bpplicbtion messbges bre encrypted bnd integrity protected,
+ *     bnd inbound messbges reverse the process.
  *
- *     <li>  Rehandshaking - Either side may request a renegotiation of
- *     the session at any time during the Application Data phase.  New
- *     handshaking data can be intermixed among the application data.
- *     Before starting the rehandshake phase, the application may
- *     reset the SSL/TLS communication parameters such as the list of
- *     enabled ciphersuites and whether to use client authentication,
- *     but can not change between client/server modes.  As before, once
- *     handshaking has begun, any new <code>SSLEngine</code>
- *     configuration settings will not be used until the next
- *     handshake.
+ *     <li>  Rehbndshbking - Either side mby request b renegotibtion of
+ *     the session bt bny time during the Applicbtion Dbtb phbse.  New
+ *     hbndshbking dbtb cbn be intermixed bmong the bpplicbtion dbtb.
+ *     Before stbrting the rehbndshbke phbse, the bpplicbtion mby
+ *     reset the SSL/TLS communicbtion pbrbmeters such bs the list of
+ *     enbbled ciphersuites bnd whether to use client buthenticbtion,
+ *     but cbn not chbnge between client/server modes.  As before, once
+ *     hbndshbking hbs begun, bny new <code>SSLEngine</code>
+ *     configurbtion settings will not be used until the next
+ *     hbndshbke.
  *
  *     <li>  Closure - When the connection is no longer needed, the
- *     application should close the <code>SSLEngine</code> and should
- *     send/receive any remaining messages to the peer before
- *     closing the underlying transport mechanism.  Once an engine is
- *     closed, it is not reusable:  a new <code>SSLEngine</code> must
- *     be created.
+ *     bpplicbtion should close the <code>SSLEngine</code> bnd should
+ *     send/receive bny rembining messbges to the peer before
+ *     closing the underlying trbnsport mechbnism.  Once bn engine is
+ *     closed, it is not reusbble:  b new <code>SSLEngine</code> must
+ *     be crebted.
  * </OL>
- * An <code>SSLEngine</code> is created by calling {@link
- * SSLContext#createSSLEngine()} from an initialized
- * <code>SSLContext</code>.  Any configuration
- * parameters should be set before making the first call to
- * <code>wrap()</code>, <code>unwrap()</code>, or
- * <code>beginHandshake()</code>.  These methods all trigger the
- * initial handshake.
+ * An <code>SSLEngine</code> is crebted by cblling {@link
+ * SSLContext#crebteSSLEngine()} from bn initiblized
+ * <code>SSLContext</code>.  Any configurbtion
+ * pbrbmeters should be set before mbking the first cbll to
+ * <code>wrbp()</code>, <code>unwrbp()</code>, or
+ * <code>beginHbndshbke()</code>.  These methods bll trigger the
+ * initibl hbndshbke.
  * <P>
- * Data moves through the engine by calling {@link #wrap(ByteBuffer,
- * ByteBuffer) wrap()} or {@link #unwrap(ByteBuffer, ByteBuffer)
- * unwrap()} on outbound or inbound data, respectively.  Depending on
- * the state of the <code>SSLEngine</code>, a <code>wrap()</code> call
- * may consume application data from the source buffer and may produce
- * network data in the destination buffer.  The outbound data
- * may contain application and/or handshake data.  A call to
- * <code>unwrap()</code> will examine the source buffer and may
- * advance the handshake if the data is handshaking information, or
- * may place application data in the destination buffer if the data
- * is application.  The state of the underlying SSL/TLS algorithm
- * will determine when data is consumed and produced.
+ * Dbtb moves through the engine by cblling {@link #wrbp(ByteBuffer,
+ * ByteBuffer) wrbp()} or {@link #unwrbp(ByteBuffer, ByteBuffer)
+ * unwrbp()} on outbound or inbound dbtb, respectively.  Depending on
+ * the stbte of the <code>SSLEngine</code>, b <code>wrbp()</code> cbll
+ * mby consume bpplicbtion dbtb from the source buffer bnd mby produce
+ * network dbtb in the destinbtion buffer.  The outbound dbtb
+ * mby contbin bpplicbtion bnd/or hbndshbke dbtb.  A cbll to
+ * <code>unwrbp()</code> will exbmine the source buffer bnd mby
+ * bdvbnce the hbndshbke if the dbtb is hbndshbking informbtion, or
+ * mby plbce bpplicbtion dbtb in the destinbtion buffer if the dbtb
+ * is bpplicbtion.  The stbte of the underlying SSL/TLS blgorithm
+ * will determine when dbtb is consumed bnd produced.
  * <P>
- * Calls to <code>wrap()</code> and <code>unwrap()</code> return an
- * <code>SSLEngineResult</code> which indicates the status of the
- * operation, and (optionally) how to interact with the engine to make
+ * Cblls to <code>wrbp()</code> bnd <code>unwrbp()</code> return bn
+ * <code>SSLEngineResult</code> which indicbtes the stbtus of the
+ * operbtion, bnd (optionblly) how to interbct with the engine to mbke
  * progress.
  * <P>
  * The <code>SSLEngine</code> produces/consumes complete SSL/TLS
- * packets only, and does not store application data internally between
- * calls to <code>wrap()/unwrap()</code>.  Thus input and output
- * <code>ByteBuffer</code>s must be sized appropriately to hold the
- * maximum record that can be produced.  Calls to {@link
- * SSLSession#getPacketBufferSize()} and {@link
- * SSLSession#getApplicationBufferSize()} should be used to determine
- * the appropriate buffer sizes.  The size of the outbound application
- * data buffer generally does not matter.  If buffer conditions do not
- * allow for the proper consumption/production of data, the application
- * must determine (via {@link SSLEngineResult}) and correct the
- * problem, and then try the call again.
+ * pbckets only, bnd does not store bpplicbtion dbtb internblly between
+ * cblls to <code>wrbp()/unwrbp()</code>.  Thus input bnd output
+ * <code>ByteBuffer</code>s must be sized bppropribtely to hold the
+ * mbximum record thbt cbn be produced.  Cblls to {@link
+ * SSLSession#getPbcketBufferSize()} bnd {@link
+ * SSLSession#getApplicbtionBufferSize()} should be used to determine
+ * the bppropribte buffer sizes.  The size of the outbound bpplicbtion
+ * dbtb buffer generblly does not mbtter.  If buffer conditions do not
+ * bllow for the proper consumption/production of dbtb, the bpplicbtion
+ * must determine (vib {@link SSLEngineResult}) bnd correct the
+ * problem, bnd then try the cbll bgbin.
  * <P>
- * For example, <code>unwrap()</code> will return a {@link
- * SSLEngineResult.Status#BUFFER_OVERFLOW} result if the engine
- * determines that there is not enough destination buffer space available.
- * Applications should call {@link SSLSession#getApplicationBufferSize()}
- * and compare that value with the space available in the destination buffer,
- * enlarging the buffer if necessary.  Similarly, if <code>unwrap()</code>
- * were to return a {@link SSLEngineResult.Status#BUFFER_UNDERFLOW}, the
- * application should call {@link SSLSession#getPacketBufferSize()} to ensure
- * that the source buffer has enough room to hold a record (enlarging if
- * necessary), and then obtain more inbound data.
+ * For exbmple, <code>unwrbp()</code> will return b {@link
+ * SSLEngineResult.Stbtus#BUFFER_OVERFLOW} result if the engine
+ * determines thbt there is not enough destinbtion buffer spbce bvbilbble.
+ * Applicbtions should cbll {@link SSLSession#getApplicbtionBufferSize()}
+ * bnd compbre thbt vblue with the spbce bvbilbble in the destinbtion buffer,
+ * enlbrging the buffer if necessbry.  Similbrly, if <code>unwrbp()</code>
+ * were to return b {@link SSLEngineResult.Stbtus#BUFFER_UNDERFLOW}, the
+ * bpplicbtion should cbll {@link SSLSession#getPbcketBufferSize()} to ensure
+ * thbt the source buffer hbs enough room to hold b record (enlbrging if
+ * necessbry), bnd then obtbin more inbound dbtb.
  *
  * <pre>{@code
- *   SSLEngineResult r = engine.unwrap(src, dst);
- *   switch (r.getStatus()) {
+ *   SSLEngineResult r = engine.unwrbp(src, dst);
+ *   switch (r.getStbtus()) {
  *   BUFFER_OVERFLOW:
- *       // Could attempt to drain the dst buffer of any already obtained
- *       // data, but we'll just increase it to the size needed.
- *       int appSize = engine.getSession().getApplicationBufferSize();
- *       ByteBuffer b = ByteBuffer.allocate(appSize + dst.position());
+ *       // Could bttempt to drbin the dst buffer of bny blrebdy obtbined
+ *       // dbtb, but we'll just increbse it to the size needed.
+ *       int bppSize = engine.getSession().getApplicbtionBufferSize();
+ *       ByteBuffer b = ByteBuffer.bllocbte(bppSize + dst.position());
  *       dst.flip();
  *       b.put(dst);
  *       dst = b;
- *       // retry the operation.
- *       break;
+ *       // retry the operbtion.
+ *       brebk;
  *   BUFFER_UNDERFLOW:
- *       int netSize = engine.getSession().getPacketBufferSize();
+ *       int netSize = engine.getSession().getPbcketBufferSize();
  *       // Resize buffer if needed.
- *       if (netSize > dst.capacity()) {
- *           ByteBuffer b = ByteBuffer.allocate(netSize);
+ *       if (netSize > dst.cbpbcity()) {
+ *           ByteBuffer b = ByteBuffer.bllocbte(netSize);
  *           src.flip();
  *           b.put(src);
  *           src = b;
  *       }
- *       // Obtain more inbound network data for src,
- *       // then retry the operation.
- *       break;
- *   // other cases: CLOSED, OK.
+ *       // Obtbin more inbound network dbtb for src,
+ *       // then retry the operbtion.
+ *       brebk;
+ *   // other cbses: CLOSED, OK.
  *   }
  * }</pre>
  *
  * <P>
- * Unlike <code>SSLSocket</code>, all methods of SSLEngine are
- * non-blocking.  <code>SSLEngine</code> implementations may
- * require the results of tasks that may take an extended period of
- * time to complete, or may even block.  For example, a TrustManager
- * may need to connect to a remote certificate validation service,
- * or a KeyManager might need to prompt a user to determine which
- * certificate to use as part of client authentication.  Additionally,
- * creating cryptographic signatures and verifying them can be slow,
+ * Unlike <code>SSLSocket</code>, bll methods of SSLEngine bre
+ * non-blocking.  <code>SSLEngine</code> implementbtions mby
+ * require the results of tbsks thbt mby tbke bn extended period of
+ * time to complete, or mby even block.  For exbmple, b TrustMbnbger
+ * mby need to connect to b remote certificbte vblidbtion service,
+ * or b KeyMbnbger might need to prompt b user to determine which
+ * certificbte to use bs pbrt of client buthenticbtion.  Additionblly,
+ * crebting cryptogrbphic signbtures bnd verifying them cbn be slow,
  * seemingly blocking.
  * <P>
- * For any operation which may potentially block, the
- * <code>SSLEngine</code> will create a {@link java.lang.Runnable}
- * delegated task.  When <code>SSLEngineResult</code> indicates that a
- * delegated task result is needed, the application must call {@link
- * #getDelegatedTask()} to obtain an outstanding delegated task and
- * call its {@link java.lang.Runnable#run() run()} method (possibly using
- * a different thread depending on the compute strategy).  The
- * application should continue obtaining delegated tasks until no more
- * exist, and try the original operation again.
+ * For bny operbtion which mby potentiblly block, the
+ * <code>SSLEngine</code> will crebte b {@link jbvb.lbng.Runnbble}
+ * delegbted tbsk.  When <code>SSLEngineResult</code> indicbtes thbt b
+ * delegbted tbsk result is needed, the bpplicbtion must cbll {@link
+ * #getDelegbtedTbsk()} to obtbin bn outstbnding delegbted tbsk bnd
+ * cbll its {@link jbvb.lbng.Runnbble#run() run()} method (possibly using
+ * b different threbd depending on the compute strbtegy).  The
+ * bpplicbtion should continue obtbining delegbted tbsks until no more
+ * exist, bnd try the originbl operbtion bgbin.
  * <P>
- * At the end of a communication session, applications should properly
- * close the SSL/TLS link.  The SSL/TLS protocols have closure handshake
- * messages, and these messages should be communicated to the peer
- * before releasing the <code>SSLEngine</code> and closing the
- * underlying transport mechanism.  A close can be initiated by one of:
- * an SSLException, an inbound closure handshake message, or one of the
- * close methods.  In all cases, closure handshake messages are
- * generated by the engine, and <code>wrap()</code> should be repeatedly
- * called until the resulting <code>SSLEngineResult</code>'s status
+ * At the end of b communicbtion session, bpplicbtions should properly
+ * close the SSL/TLS link.  The SSL/TLS protocols hbve closure hbndshbke
+ * messbges, bnd these messbges should be communicbted to the peer
+ * before relebsing the <code>SSLEngine</code> bnd closing the
+ * underlying trbnsport mechbnism.  A close cbn be initibted by one of:
+ * bn SSLException, bn inbound closure hbndshbke messbge, or one of the
+ * close methods.  In bll cbses, closure hbndshbke messbges bre
+ * generbted by the engine, bnd <code>wrbp()</code> should be repebtedly
+ * cblled until the resulting <code>SSLEngineResult</code>'s stbtus
  * returns "CLOSED", or {@link #isOutboundDone()} returns true.  All
- * data obtained from the <code>wrap()</code> method should be sent to the
+ * dbtb obtbined from the <code>wrbp()</code> method should be sent to the
  * peer.
  * <P>
- * {@link #closeOutbound()} is used to signal the engine that the
- * application will not be sending any more data.
+ * {@link #closeOutbound()} is used to signbl the engine thbt the
+ * bpplicbtion will not be sending bny more dbtb.
  * <P>
- * A peer will signal its intent to close by sending its own closure
- * handshake message.  After this message has been received and
- * processed by the local <code>SSLEngine</code>'s <code>unwrap()</code>
- * call, the application can detect the close by calling
- * <code>unwrap()</code> and looking for a <code>SSLEngineResult</code>
- * with status "CLOSED", or if {@link #isInboundDone()} returns true.
- * If for some reason the peer closes the communication link without
- * sending the proper SSL/TLS closure message, the application can
- * detect the end-of-stream and can signal the engine via {@link
- * #closeInbound()} that there will no more inbound messages to
- * process.  Some applications might choose to require orderly shutdown
- * messages from a peer, in which case they can check that the closure
- * was generated by a handshake message and not by an end-of-stream
+ * A peer will signbl its intent to close by sending its own closure
+ * hbndshbke messbge.  After this messbge hbs been received bnd
+ * processed by the locbl <code>SSLEngine</code>'s <code>unwrbp()</code>
+ * cbll, the bpplicbtion cbn detect the close by cblling
+ * <code>unwrbp()</code> bnd looking for b <code>SSLEngineResult</code>
+ * with stbtus "CLOSED", or if {@link #isInboundDone()} returns true.
+ * If for some rebson the peer closes the communicbtion link without
+ * sending the proper SSL/TLS closure messbge, the bpplicbtion cbn
+ * detect the end-of-strebm bnd cbn signbl the engine vib {@link
+ * #closeInbound()} thbt there will no more inbound messbges to
+ * process.  Some bpplicbtions might choose to require orderly shutdown
+ * messbges from b peer, in which cbse they cbn check thbt the closure
+ * wbs generbted by b hbndshbke messbge bnd not by bn end-of-strebm
  * condition.
  * <P>
- * There are two groups of cipher suites which you will need to know
- * about when managing cipher suites:
+ * There bre two groups of cipher suites which you will need to know
+ * bbout when mbnbging cipher suites:
  *
  * <UL>
- *      <LI> <em>Supported</em> cipher suites:  all the suites which are
- *      supported by the SSL implementation.  This list is reported
+ *      <LI> <em>Supported</em> cipher suites:  bll the suites which bre
+ *      supported by the SSL implementbtion.  This list is reported
  *      using {@link #getSupportedCipherSuites()}.
  *
- *      <LI> <em>Enabled</em> cipher suites, which may be fewer than
+ *      <LI> <em>Enbbled</em> cipher suites, which mby be fewer thbn
  *      the full set of supported suites.  This group is set using the
- *      {@link #setEnabledCipherSuites(String [])} method, and
- *      queried using the {@link #getEnabledCipherSuites()} method.
- *      Initially, a default set of cipher suites will be enabled on a
- *      new engine that represents the minimum suggested
- *      configuration.
+ *      {@link #setEnbbledCipherSuites(String [])} method, bnd
+ *      queried using the {@link #getEnbbledCipherSuites()} method.
+ *      Initiblly, b defbult set of cipher suites will be enbbled on b
+ *      new engine thbt represents the minimum suggested
+ *      configurbtion.
  * </UL>
  *
- * Implementation defaults require that only cipher suites which
- * authenticate servers and provide confidentiality be enabled by
- * default.  Only if both sides explicitly agree to unauthenticated
- * and/or non-private (unencrypted) communications will such a
+ * Implementbtion defbults require thbt only cipher suites which
+ * buthenticbte servers bnd provide confidentiblity be enbbled by
+ * defbult.  Only if both sides explicitly bgree to unbuthenticbted
+ * bnd/or non-privbte (unencrypted) communicbtions will such b
  * cipher suite be selected.
  * <P>
- * Each SSL/TLS connection must have one client and one server, thus
- * each endpoint must decide which role to assume.  This choice determines
- * who begins the handshaking process as well as which type of messages
- * should be sent by each party.  The method {@link
- * #setUseClientMode(boolean)} configures the mode.  Once the initial
- * handshaking has started, an <code>SSLEngine</code> can not switch
- * between client and server modes, even when performing renegotiations.
+ * Ebch SSL/TLS connection must hbve one client bnd one server, thus
+ * ebch endpoint must decide which role to bssume.  This choice determines
+ * who begins the hbndshbking process bs well bs which type of messbges
+ * should be sent by ebch pbrty.  The method {@link
+ * #setUseClientMode(boolebn)} configures the mode.  Once the initibl
+ * hbndshbking hbs stbrted, bn <code>SSLEngine</code> cbn not switch
+ * between client bnd server modes, even when performing renegotibtions.
  * <P>
- * Applications might choose to process delegated tasks in different
- * threads.  When an <code>SSLEngine</code>
- * is created, the current {@link java.security.AccessControlContext}
- * is saved.  All future delegated tasks will be processed using this
- * context:  that is, all access control decisions will be made using the
- * context captured at engine creation.
+ * Applicbtions might choose to process delegbted tbsks in different
+ * threbds.  When bn <code>SSLEngine</code>
+ * is crebted, the current {@link jbvb.security.AccessControlContext}
+ * is sbved.  All future delegbted tbsks will be processed using this
+ * context:  thbt is, bll bccess control decisions will be mbde using the
+ * context cbptured bt engine crebtion.
  *
  * <HR>
  *
  * <B>Concurrency Notes</B>:
- * There are two concurrency issues to be aware of:
+ * There bre two concurrency issues to be bwbre of:
  *
  * <OL>
- *      <li>The <code>wrap()</code> and <code>unwrap()</code> methods
- *      may execute concurrently of each other.
+ *      <li>The <code>wrbp()</code> bnd <code>unwrbp()</code> methods
+ *      mby execute concurrently of ebch other.
  *
- *      <li> The SSL/TLS protocols employ ordered packets.
- *      Applications must take care to ensure that generated packets
- *      are delivered in sequence.  If packets arrive
- *      out-of-order, unexpected or fatal results may occur.
+ *      <li> The SSL/TLS protocols employ ordered pbckets.
+ *      Applicbtions must tbke cbre to ensure thbt generbted pbckets
+ *      bre delivered in sequence.  If pbckets brrive
+ *      out-of-order, unexpected or fbtbl results mby occur.
  * <P>
- *      For example:
+ *      For exbmple:
  *
  *      <pre>
  *              synchronized (outboundLock) {
- *                  sslEngine.wrap(src, dst);
+ *                  sslEngine.wrbp(src, dst);
  *                  outboundQueue.put(dst);
  *              }
  *      </pre>
  *
- *      As a corollary, two threads must not attempt to call the same method
- *      (either <code>wrap()</code> or <code>unwrap()</code>) concurrently,
- *      because there is no way to guarantee the eventual packet ordering.
+ *      As b corollbry, two threbds must not bttempt to cbll the sbme method
+ *      (either <code>wrbp()</code> or <code>unwrbp()</code>) concurrently,
+ *      becbuse there is no wby to gubrbntee the eventubl pbcket ordering.
  * </OL>
  *
  * @see SSLContext
  * @see SSLSocket
  * @see SSLServerSocket
  * @see SSLSession
- * @see java.net.Socket
+ * @see jbvb.net.Socket
  *
  * @since 1.5
- * @author Brad R. Wetmore
+ * @buthor Brbd R. Wetmore
  */
 
-public abstract class SSLEngine {
+public bbstrbct clbss SSLEngine {
 
-    private String peerHost = null;
-    private int peerPort = -1;
+    privbte String peerHost = null;
+    privbte int peerPort = -1;
 
     /**
-     * Constructor for an <code>SSLEngine</code> providing no hints
-     * for an internal session reuse strategy.
+     * Constructor for bn <code>SSLEngine</code> providing no hints
+     * for bn internbl session reuse strbtegy.
      *
-     * @see     SSLContext#createSSLEngine()
+     * @see     SSLContext#crebteSSLEngine()
      * @see     SSLSessionContext
      */
     protected SSLEngine() {
     }
 
     /**
-     * Constructor for an <code>SSLEngine</code>.
+     * Constructor for bn <code>SSLEngine</code>.
      * <P>
-     * <code>SSLEngine</code> implementations may use the
-     * <code>peerHost</code> and <code>peerPort</code> parameters as hints
-     * for their internal session reuse strategy.
+     * <code>SSLEngine</code> implementbtions mby use the
+     * <code>peerHost</code> bnd <code>peerPort</code> pbrbmeters bs hints
+     * for their internbl session reuse strbtegy.
      * <P>
-     * Some cipher suites (such as Kerberos) require remote hostname
-     * information. Implementations of this class should use this
+     * Some cipher suites (such bs Kerberos) require remote hostnbme
+     * informbtion. Implementbtions of this clbss should use this
      * constructor to use Kerberos.
      * <P>
-     * The parameters are not authenticated by the
+     * The pbrbmeters bre not buthenticbted by the
      * <code>SSLEngine</code>.
      *
-     * @param   peerHost the name of the peer host
-     * @param   peerPort the port number of the peer
-     * @see     SSLContext#createSSLEngine(String, int)
+     * @pbrbm   peerHost the nbme of the peer host
+     * @pbrbm   peerPort the port number of the peer
+     * @see     SSLContext#crebteSSLEngine(String, int)
      * @see     SSLSessionContext
      */
     protected SSLEngine(String peerHost, int peerPort) {
@@ -408,13 +408,13 @@ public abstract class SSLEngine {
     }
 
     /**
-     * Returns the host name of the peer.
+     * Returns the host nbme of the peer.
      * <P>
-     * Note that the value is not authenticated, and should not be
+     * Note thbt the vblue is not buthenticbted, bnd should not be
      * relied upon.
      *
-     * @return  the host name of the peer, or null if nothing is
-     *          available.
+     * @return  the host nbme of the peer, or null if nothing is
+     *          bvbilbble.
      */
     public String getPeerHost() {
         return peerHost;
@@ -423,833 +423,833 @@ public abstract class SSLEngine {
     /**
      * Returns the port number of the peer.
      * <P>
-     * Note that the value is not authenticated, and should not be
+     * Note thbt the vblue is not buthenticbted, bnd should not be
      * relied upon.
      *
      * @return  the port number of the peer, or -1 if nothing is
-     *          available.
+     *          bvbilbble.
      */
     public int getPeerPort() {
         return peerPort;
     }
 
     /**
-     * Attempts to encode a buffer of plaintext application data into
-     * SSL/TLS network data.
+     * Attempts to encode b buffer of plbintext bpplicbtion dbtb into
+     * SSL/TLS network dbtb.
      * <P>
-     * An invocation of this method behaves in exactly the same manner
-     * as the invocation:
+     * An invocbtion of this method behbves in exbctly the sbme mbnner
+     * bs the invocbtion:
      * <blockquote><pre>
-     * {@link #wrap(ByteBuffer [], int, int, ByteBuffer)
-     *     engine.wrap(new ByteBuffer [] { src }, 0, 1, dst);}
+     * {@link #wrbp(ByteBuffer [], int, int, ByteBuffer)
+     *     engine.wrbp(new ByteBuffer [] { src }, 0, 1, dst);}
      * </pre></blockquote>
      *
-     * @param   src
-     *          a <code>ByteBuffer</code> containing outbound application data
-     * @param   dst
-     *          a <code>ByteBuffer</code> to hold outbound network data
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
+     * @pbrbm   src
+     *          b <code>ByteBuffer</code> contbining outbound bpplicbtion dbtb
+     * @pbrbm   dst
+     *          b <code>ByteBuffer</code> to hold outbound network dbtb
+     * @return  bn <code>SSLEngineResult</code> describing the result
+     *          of this operbtion.
      * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
+     *          A problem wbs encountered while processing the
+     *          dbtb thbt cbused the <code>SSLEngine</code> to bbort.
+     *          See the clbss description for more informbtion on
      *          engine closure.
-     * @throws  ReadOnlyBufferException
-     *          if the <code>dst</code> buffer is read-only.
-     * @throws  IllegalArgumentException
+     * @throws  RebdOnlyBufferException
+     *          if the <code>dst</code> buffer is rebd-only.
+     * @throws  IllegblArgumentException
      *          if either <code>src</code> or <code>dst</code>
      *          is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     #wrap(ByteBuffer [], int, int, ByteBuffer)
+     * @throws  IllegblStbteException if the client/server mode
+     *          hbs not yet been set.
+     * @see     #wrbp(ByteBuffer [], int, int, ByteBuffer)
      */
-    public SSLEngineResult wrap(ByteBuffer src,
+    public SSLEngineResult wrbp(ByteBuffer src,
             ByteBuffer dst) throws SSLException {
-        return wrap(new ByteBuffer [] { src }, 0, 1, dst);
+        return wrbp(new ByteBuffer [] { src }, 0, 1, dst);
     }
 
     /**
-     * Attempts to encode plaintext bytes from a sequence of data
-     * buffers into SSL/TLS network data.
+     * Attempts to encode plbintext bytes from b sequence of dbtb
+     * buffers into SSL/TLS network dbtb.
      * <P>
-     * An invocation of this method behaves in exactly the same manner
-     * as the invocation:
+     * An invocbtion of this method behbves in exbctly the sbme mbnner
+     * bs the invocbtion:
      * <blockquote><pre>
-     * {@link #wrap(ByteBuffer [], int, int, ByteBuffer)
-     *     engine.wrap(srcs, 0, srcs.length, dst);}
+     * {@link #wrbp(ByteBuffer [], int, int, ByteBuffer)
+     *     engine.wrbp(srcs, 0, srcs.length, dst);}
      * </pre></blockquote>
      *
-     * @param   srcs
-     *          an array of <code>ByteBuffers</code> containing the
-     *          outbound application data
-     * @param   dst
-     *          a <code>ByteBuffer</code> to hold outbound network data
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
+     * @pbrbm   srcs
+     *          bn brrby of <code>ByteBuffers</code> contbining the
+     *          outbound bpplicbtion dbtb
+     * @pbrbm   dst
+     *          b <code>ByteBuffer</code> to hold outbound network dbtb
+     * @return  bn <code>SSLEngineResult</code> describing the result
+     *          of this operbtion.
      * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
+     *          A problem wbs encountered while processing the
+     *          dbtb thbt cbused the <code>SSLEngine</code> to bbort.
+     *          See the clbss description for more informbtion on
      *          engine closure.
-     * @throws  ReadOnlyBufferException
-     *          if the <code>dst</code> buffer is read-only.
-     * @throws  IllegalArgumentException
+     * @throws  RebdOnlyBufferException
+     *          if the <code>dst</code> buffer is rebd-only.
+     * @throws  IllegblArgumentException
      *          if either <code>srcs</code> or <code>dst</code>
-     *          is null, or if any element in <code>srcs</code> is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     #wrap(ByteBuffer [], int, int, ByteBuffer)
+     *          is null, or if bny element in <code>srcs</code> is null.
+     * @throws  IllegblStbteException if the client/server mode
+     *          hbs not yet been set.
+     * @see     #wrbp(ByteBuffer [], int, int, ByteBuffer)
      */
-    public SSLEngineResult wrap(ByteBuffer [] srcs,
+    public SSLEngineResult wrbp(ByteBuffer [] srcs,
             ByteBuffer dst) throws SSLException {
         if (srcs == null) {
-            throw new IllegalArgumentException("src == null");
+            throw new IllegblArgumentException("src == null");
         }
-        return wrap(srcs, 0, srcs.length, dst);
+        return wrbp(srcs, 0, srcs.length, dst);
     }
 
 
     /**
-     * Attempts to encode plaintext bytes from a subsequence of data
-     * buffers into SSL/TLS network data.  This <i>"gathering"</i>
-     * operation encodes, in a single invocation, a sequence of bytes
-     * from one or more of a given sequence of buffers.  Gathering
-     * wraps are often useful when implementing network protocols or
-     * file formats that, for example, group data into segments
-     * consisting of one or more fixed-length headers followed by a
-     * variable-length body.  See
-     * {@link java.nio.channels.GatheringByteChannel} for more
-     * information on gathering, and {@link
-     * java.nio.channels.GatheringByteChannel#write(ByteBuffer[],
-     * int, int)} for more information on the subsequence
-     * behavior.
+     * Attempts to encode plbintext bytes from b subsequence of dbtb
+     * buffers into SSL/TLS network dbtb.  This <i>"gbthering"</i>
+     * operbtion encodes, in b single invocbtion, b sequence of bytes
+     * from one or more of b given sequence of buffers.  Gbthering
+     * wrbps bre often useful when implementing network protocols or
+     * file formbts thbt, for exbmple, group dbtb into segments
+     * consisting of one or more fixed-length hebders followed by b
+     * vbribble-length body.  See
+     * {@link jbvb.nio.chbnnels.GbtheringByteChbnnel} for more
+     * informbtion on gbthering, bnd {@link
+     * jbvb.nio.chbnnels.GbtheringByteChbnnel#write(ByteBuffer[],
+     * int, int)} for more informbtion on the subsequence
+     * behbvior.
      * <P>
-     * Depending on the state of the SSLEngine, this method may produce
-     * network data without consuming any application data (for example,
-     * it may generate handshake data.)
+     * Depending on the stbte of the SSLEngine, this method mby produce
+     * network dbtb without consuming bny bpplicbtion dbtb (for exbmple,
+     * it mby generbte hbndshbke dbtb.)
      * <P>
-     * The application is responsible for reliably transporting the
-     * network data to the peer, and for ensuring that data created by
-     * multiple calls to wrap() is transported in the same order in which
-     * it was generated.  The application must properly synchronize
-     * multiple calls to this method.
+     * The bpplicbtion is responsible for relibbly trbnsporting the
+     * network dbtb to the peer, bnd for ensuring thbt dbtb crebted by
+     * multiple cblls to wrbp() is trbnsported in the sbme order in which
+     * it wbs generbted.  The bpplicbtion must properly synchronize
+     * multiple cblls to this method.
      * <P>
-     * If this <code>SSLEngine</code> has not yet started its initial
-     * handshake, this method will automatically start the handshake.
+     * If this <code>SSLEngine</code> hbs not yet stbrted its initibl
+     * hbndshbke, this method will butombticblly stbrt the hbndshbke.
      * <P>
-     * This method will attempt to produce SSL/TLS records, and will
-     * consume as much source data as possible, but will never consume
-     * more than the sum of the bytes remaining in each buffer.  Each
-     * <code>ByteBuffer</code>'s position is updated to reflect the
-     * amount of data consumed or produced.  The limits remain the
-     * same.
+     * This method will bttempt to produce SSL/TLS records, bnd will
+     * consume bs much source dbtb bs possible, but will never consume
+     * more thbn the sum of the bytes rembining in ebch buffer.  Ebch
+     * <code>ByteBuffer</code>'s position is updbted to reflect the
+     * bmount of dbtb consumed or produced.  The limits rembin the
+     * sbme.
      * <P>
-     * The underlying memory used by the <code>srcs</code> and
-     * <code>dst ByteBuffer</code>s must not be the same.
+     * The underlying memory used by the <code>srcs</code> bnd
+     * <code>dst ByteBuffer</code>s must not be the sbme.
      * <P>
-     * See the class description for more information on engine closure.
+     * See the clbss description for more informbtion on engine closure.
      *
-     * @param   srcs
-     *          an array of <code>ByteBuffers</code> containing the
-     *          outbound application data
-     * @param   offset
-     *          The offset within the buffer array of the first buffer from
-     *          which bytes are to be retrieved; it must be non-negative
-     *          and no larger than <code>srcs.length</code>
-     * @param   length
-     *          The maximum number of buffers to be accessed; it must be
-     *          non-negative and no larger than
+     * @pbrbm   srcs
+     *          bn brrby of <code>ByteBuffers</code> contbining the
+     *          outbound bpplicbtion dbtb
+     * @pbrbm   offset
+     *          The offset within the buffer brrby of the first buffer from
+     *          which bytes bre to be retrieved; it must be non-negbtive
+     *          bnd no lbrger thbn <code>srcs.length</code>
+     * @pbrbm   length
+     *          The mbximum number of buffers to be bccessed; it must be
+     *          non-negbtive bnd no lbrger thbn
      *          <code>srcs.length</code>&nbsp;-&nbsp;<code>offset</code>
-     * @param   dst
-     *          a <code>ByteBuffer</code> to hold outbound network data
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
+     * @pbrbm   dst
+     *          b <code>ByteBuffer</code> to hold outbound network dbtb
+     * @return  bn <code>SSLEngineResult</code> describing the result
+     *          of this operbtion.
      * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
+     *          A problem wbs encountered while processing the
+     *          dbtb thbt cbused the <code>SSLEngine</code> to bbort.
+     *          See the clbss description for more informbtion on
      *          engine closure.
      * @throws  IndexOutOfBoundsException
-     *          if the preconditions on the <code>offset</code> and
-     *          <code>length</code> parameters do not hold.
-     * @throws  ReadOnlyBufferException
-     *          if the <code>dst</code> buffer is read-only.
-     * @throws  IllegalArgumentException
+     *          if the preconditions on the <code>offset</code> bnd
+     *          <code>length</code> pbrbmeters do not hold.
+     * @throws  RebdOnlyBufferException
+     *          if the <code>dst</code> buffer is rebd-only.
+     * @throws  IllegblArgumentException
      *          if either <code>srcs</code> or <code>dst</code>
-     *          is null, or if any element in the <code>srcs</code>
+     *          is null, or if bny element in the <code>srcs</code>
      *          subsequence specified is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     java.nio.channels.GatheringByteChannel
-     * @see     java.nio.channels.GatheringByteChannel#write(
+     * @throws  IllegblStbteException if the client/server mode
+     *          hbs not yet been set.
+     * @see     jbvb.nio.chbnnels.GbtheringByteChbnnel
+     * @see     jbvb.nio.chbnnels.GbtheringByteChbnnel#write(
      *              ByteBuffer[], int, int)
      */
-    public abstract SSLEngineResult wrap(ByteBuffer [] srcs, int offset,
+    public bbstrbct SSLEngineResult wrbp(ByteBuffer [] srcs, int offset,
             int length, ByteBuffer dst) throws SSLException;
 
     /**
-     * Attempts to decode SSL/TLS network data into a plaintext
-     * application data buffer.
+     * Attempts to decode SSL/TLS network dbtb into b plbintext
+     * bpplicbtion dbtb buffer.
      * <P>
-     * An invocation of this method behaves in exactly the same manner
-     * as the invocation:
+     * An invocbtion of this method behbves in exbctly the sbme mbnner
+     * bs the invocbtion:
      * <blockquote><pre>
-     * {@link #unwrap(ByteBuffer, ByteBuffer [], int, int)
-     *     engine.unwrap(src, new ByteBuffer [] { dst }, 0, 1);}
+     * {@link #unwrbp(ByteBuffer, ByteBuffer [], int, int)
+     *     engine.unwrbp(src, new ByteBuffer [] { dst }, 0, 1);}
      * </pre></blockquote>
      *
-     * @param   src
-     *          a <code>ByteBuffer</code> containing inbound network data.
-     * @param   dst
-     *          a <code>ByteBuffer</code> to hold inbound application data.
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
+     * @pbrbm   src
+     *          b <code>ByteBuffer</code> contbining inbound network dbtb.
+     * @pbrbm   dst
+     *          b <code>ByteBuffer</code> to hold inbound bpplicbtion dbtb.
+     * @return  bn <code>SSLEngineResult</code> describing the result
+     *          of this operbtion.
      * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
+     *          A problem wbs encountered while processing the
+     *          dbtb thbt cbused the <code>SSLEngine</code> to bbort.
+     *          See the clbss description for more informbtion on
      *          engine closure.
-     * @throws  ReadOnlyBufferException
-     *          if the <code>dst</code> buffer is read-only.
-     * @throws  IllegalArgumentException
+     * @throws  RebdOnlyBufferException
+     *          if the <code>dst</code> buffer is rebd-only.
+     * @throws  IllegblArgumentException
      *          if either <code>src</code> or <code>dst</code>
      *          is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     #unwrap(ByteBuffer, ByteBuffer [], int, int)
+     * @throws  IllegblStbteException if the client/server mode
+     *          hbs not yet been set.
+     * @see     #unwrbp(ByteBuffer, ByteBuffer [], int, int)
      */
-    public SSLEngineResult unwrap(ByteBuffer src,
+    public SSLEngineResult unwrbp(ByteBuffer src,
             ByteBuffer dst) throws SSLException {
-        return unwrap(src, new ByteBuffer [] { dst }, 0, 1);
+        return unwrbp(src, new ByteBuffer [] { dst }, 0, 1);
     }
 
     /**
-     * Attempts to decode SSL/TLS network data into a sequence of plaintext
-     * application data buffers.
+     * Attempts to decode SSL/TLS network dbtb into b sequence of plbintext
+     * bpplicbtion dbtb buffers.
      * <P>
-     * An invocation of this method behaves in exactly the same manner
-     * as the invocation:
+     * An invocbtion of this method behbves in exbctly the sbme mbnner
+     * bs the invocbtion:
      * <blockquote><pre>
-     * {@link #unwrap(ByteBuffer, ByteBuffer [], int, int)
-     *     engine.unwrap(src, dsts, 0, dsts.length);}
+     * {@link #unwrbp(ByteBuffer, ByteBuffer [], int, int)
+     *     engine.unwrbp(src, dsts, 0, dsts.length);}
      * </pre></blockquote>
      *
-     * @param   src
-     *          a <code>ByteBuffer</code> containing inbound network data.
-     * @param   dsts
-     *          an array of <code>ByteBuffer</code>s to hold inbound
-     *          application data.
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
+     * @pbrbm   src
+     *          b <code>ByteBuffer</code> contbining inbound network dbtb.
+     * @pbrbm   dsts
+     *          bn brrby of <code>ByteBuffer</code>s to hold inbound
+     *          bpplicbtion dbtb.
+     * @return  bn <code>SSLEngineResult</code> describing the result
+     *          of this operbtion.
      * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
+     *          A problem wbs encountered while processing the
+     *          dbtb thbt cbused the <code>SSLEngine</code> to bbort.
+     *          See the clbss description for more informbtion on
      *          engine closure.
-     * @throws  ReadOnlyBufferException
-     *          if any of the <code>dst</code> buffers are read-only.
-     * @throws  IllegalArgumentException
+     * @throws  RebdOnlyBufferException
+     *          if bny of the <code>dst</code> buffers bre rebd-only.
+     * @throws  IllegblArgumentException
      *          if either <code>src</code> or <code>dsts</code>
-     *          is null, or if any element in <code>dsts</code> is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     #unwrap(ByteBuffer, ByteBuffer [], int, int)
+     *          is null, or if bny element in <code>dsts</code> is null.
+     * @throws  IllegblStbteException if the client/server mode
+     *          hbs not yet been set.
+     * @see     #unwrbp(ByteBuffer, ByteBuffer [], int, int)
      */
-    public SSLEngineResult unwrap(ByteBuffer src,
+    public SSLEngineResult unwrbp(ByteBuffer src,
             ByteBuffer [] dsts) throws SSLException {
         if (dsts == null) {
-            throw new IllegalArgumentException("dsts == null");
+            throw new IllegblArgumentException("dsts == null");
         }
-        return unwrap(src, dsts, 0, dsts.length);
+        return unwrbp(src, dsts, 0, dsts.length);
     }
 
     /**
-     * Attempts to decode SSL/TLS network data into a subsequence of
-     * plaintext application data buffers.  This <i>"scattering"</i>
-     * operation decodes, in a single invocation, a sequence of bytes
-     * into one or more of a given sequence of buffers.  Scattering
-     * unwraps are often useful when implementing network protocols or
-     * file formats that, for example, group data into segments
-     * consisting of one or more fixed-length headers followed by a
-     * variable-length body.  See
-     * {@link java.nio.channels.ScatteringByteChannel} for more
-     * information on scattering, and {@link
-     * java.nio.channels.ScatteringByteChannel#read(ByteBuffer[],
-     * int, int)} for more information on the subsequence
-     * behavior.
+     * Attempts to decode SSL/TLS network dbtb into b subsequence of
+     * plbintext bpplicbtion dbtb buffers.  This <i>"scbttering"</i>
+     * operbtion decodes, in b single invocbtion, b sequence of bytes
+     * into one or more of b given sequence of buffers.  Scbttering
+     * unwrbps bre often useful when implementing network protocols or
+     * file formbts thbt, for exbmple, group dbtb into segments
+     * consisting of one or more fixed-length hebders followed by b
+     * vbribble-length body.  See
+     * {@link jbvb.nio.chbnnels.ScbtteringByteChbnnel} for more
+     * informbtion on scbttering, bnd {@link
+     * jbvb.nio.chbnnels.ScbtteringByteChbnnel#rebd(ByteBuffer[],
+     * int, int)} for more informbtion on the subsequence
+     * behbvior.
      * <P>
-     * Depending on the state of the SSLEngine, this method may consume
-     * network data without producing any application data (for example,
-     * it may consume handshake data.)
+     * Depending on the stbte of the SSLEngine, this method mby consume
+     * network dbtb without producing bny bpplicbtion dbtb (for exbmple,
+     * it mby consume hbndshbke dbtb.)
      * <P>
-     * The application is responsible for reliably obtaining the network
-     * data from the peer, and for invoking unwrap() on the data in the
-     * order it was received.  The application must properly synchronize
-     * multiple calls to this method.
+     * The bpplicbtion is responsible for relibbly obtbining the network
+     * dbtb from the peer, bnd for invoking unwrbp() on the dbtb in the
+     * order it wbs received.  The bpplicbtion must properly synchronize
+     * multiple cblls to this method.
      * <P>
-     * If this <code>SSLEngine</code> has not yet started its initial
-     * handshake, this method will automatically start the handshake.
+     * If this <code>SSLEngine</code> hbs not yet stbrted its initibl
+     * hbndshbke, this method will butombticblly stbrt the hbndshbke.
      * <P>
-     * This method will attempt to consume one complete SSL/TLS network
-     * packet, but will never consume more than the sum of the bytes
-     * remaining in the buffers.  Each <code>ByteBuffer</code>'s
-     * position is updated to reflect the amount of data consumed or
-     * produced.  The limits remain the same.
+     * This method will bttempt to consume one complete SSL/TLS network
+     * pbcket, but will never consume more thbn the sum of the bytes
+     * rembining in the buffers.  Ebch <code>ByteBuffer</code>'s
+     * position is updbted to reflect the bmount of dbtb consumed or
+     * produced.  The limits rembin the sbme.
      * <P>
-     * The underlying memory used by the <code>src</code> and
-     * <code>dsts ByteBuffer</code>s must not be the same.
+     * The underlying memory used by the <code>src</code> bnd
+     * <code>dsts ByteBuffer</code>s must not be the sbme.
      * <P>
-     * The inbound network buffer may be modified as a result of this
-     * call:  therefore if the network data packet is required for some
-     * secondary purpose, the data should be duplicated before calling this
-     * method.  Note:  the network data will not be useful to a second
-     * SSLEngine, as each SSLEngine contains unique random state which
-     * influences the SSL/TLS messages.
+     * The inbound network buffer mby be modified bs b result of this
+     * cbll:  therefore if the network dbtb pbcket is required for some
+     * secondbry purpose, the dbtb should be duplicbted before cblling this
+     * method.  Note:  the network dbtb will not be useful to b second
+     * SSLEngine, bs ebch SSLEngine contbins unique rbndom stbte which
+     * influences the SSL/TLS messbges.
      * <P>
-     * See the class description for more information on engine closure.
+     * See the clbss description for more informbtion on engine closure.
      *
-     * @param   src
-     *          a <code>ByteBuffer</code> containing inbound network data.
-     * @param   dsts
-     *          an array of <code>ByteBuffer</code>s to hold inbound
-     *          application data.
-     * @param   offset
-     *          The offset within the buffer array of the first buffer from
-     *          which bytes are to be transferred; it must be non-negative
-     *          and no larger than <code>dsts.length</code>.
-     * @param   length
-     *          The maximum number of buffers to be accessed; it must be
-     *          non-negative and no larger than
+     * @pbrbm   src
+     *          b <code>ByteBuffer</code> contbining inbound network dbtb.
+     * @pbrbm   dsts
+     *          bn brrby of <code>ByteBuffer</code>s to hold inbound
+     *          bpplicbtion dbtb.
+     * @pbrbm   offset
+     *          The offset within the buffer brrby of the first buffer from
+     *          which bytes bre to be trbnsferred; it must be non-negbtive
+     *          bnd no lbrger thbn <code>dsts.length</code>.
+     * @pbrbm   length
+     *          The mbximum number of buffers to be bccessed; it must be
+     *          non-negbtive bnd no lbrger thbn
      *          <code>dsts.length</code>&nbsp;-&nbsp;<code>offset</code>.
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
+     * @return  bn <code>SSLEngineResult</code> describing the result
+     *          of this operbtion.
      * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
+     *          A problem wbs encountered while processing the
+     *          dbtb thbt cbused the <code>SSLEngine</code> to bbort.
+     *          See the clbss description for more informbtion on
      *          engine closure.
      * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <code>offset</code> and
-     *          <code>length</code> parameters do not hold.
-     * @throws  ReadOnlyBufferException
-     *          if any of the <code>dst</code> buffers are read-only.
-     * @throws  IllegalArgumentException
+     *          If the preconditions on the <code>offset</code> bnd
+     *          <code>length</code> pbrbmeters do not hold.
+     * @throws  RebdOnlyBufferException
+     *          if bny of the <code>dst</code> buffers bre rebd-only.
+     * @throws  IllegblArgumentException
      *          if either <code>src</code> or <code>dsts</code>
-     *          is null, or if any element in the <code>dsts</code>
+     *          is null, or if bny element in the <code>dsts</code>
      *          subsequence specified is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     java.nio.channels.ScatteringByteChannel
-     * @see     java.nio.channels.ScatteringByteChannel#read(
+     * @throws  IllegblStbteException if the client/server mode
+     *          hbs not yet been set.
+     * @see     jbvb.nio.chbnnels.ScbtteringByteChbnnel
+     * @see     jbvb.nio.chbnnels.ScbtteringByteChbnnel#rebd(
      *              ByteBuffer[], int, int)
      */
-    public abstract SSLEngineResult unwrap(ByteBuffer src,
+    public bbstrbct SSLEngineResult unwrbp(ByteBuffer src,
             ByteBuffer [] dsts, int offset, int length) throws SSLException;
 
 
     /**
-     * Returns a delegated <code>Runnable</code> task for
+     * Returns b delegbted <code>Runnbble</code> tbsk for
      * this <code>SSLEngine</code>.
      * <P>
-     * <code>SSLEngine</code> operations may require the results of
-     * operations that block, or may take an extended period of time to
-     * complete.  This method is used to obtain an outstanding {@link
-     * java.lang.Runnable} operation (task).  Each task must be assigned
-     * a thread (possibly the current) to perform the {@link
-     * java.lang.Runnable#run() run} operation.  Once the
-     * <code>run</code> method returns, the <code>Runnable</code> object
-     * is no longer needed and may be discarded.
+     * <code>SSLEngine</code> operbtions mby require the results of
+     * operbtions thbt block, or mby tbke bn extended period of time to
+     * complete.  This method is used to obtbin bn outstbnding {@link
+     * jbvb.lbng.Runnbble} operbtion (tbsk).  Ebch tbsk must be bssigned
+     * b threbd (possibly the current) to perform the {@link
+     * jbvb.lbng.Runnbble#run() run} operbtion.  Once the
+     * <code>run</code> method returns, the <code>Runnbble</code> object
+     * is no longer needed bnd mby be discbrded.
      * <P>
-     * Delegated tasks run in the <code>AccessControlContext</code>
-     * in place when this object was created.
+     * Delegbted tbsks run in the <code>AccessControlContext</code>
+     * in plbce when this object wbs crebted.
      * <P>
-     * A call to this method will return each outstanding task
-     * exactly once.
+     * A cbll to this method will return ebch outstbnding tbsk
+     * exbctly once.
      * <P>
-     * Multiple delegated tasks can be run in parallel.
+     * Multiple delegbted tbsks cbn be run in pbrbllel.
      *
-     * @return  a delegated <code>Runnable</code> task, or null
-     *          if none are available.
+     * @return  b delegbted <code>Runnbble</code> tbsk, or null
+     *          if none bre bvbilbble.
      */
-    public abstract Runnable getDelegatedTask();
+    public bbstrbct Runnbble getDelegbtedTbsk();
 
 
     /**
-     * Signals that no more inbound network data will be sent
+     * Signbls thbt no more inbound network dbtb will be sent
      * to this <code>SSLEngine</code>.
      * <P>
-     * If the application initiated the closing process by calling
-     * {@link #closeOutbound()}, under some circumstances it is not
-     * required that the initiator wait for the peer's corresponding
-     * close message.  (See section 7.2.1 of the TLS specification (<A
+     * If the bpplicbtion initibted the closing process by cblling
+     * {@link #closeOutbound()}, under some circumstbnces it is not
+     * required thbt the initibtor wbit for the peer's corresponding
+     * close messbge.  (See section 7.2.1 of the TLS specificbtion (<A
      * HREF="http://www.ietf.org/rfc/rfc2246.txt">RFC 2246</A>) for more
-     * information on waiting for closure alerts.)  In such cases, this
-     * method need not be called.
+     * informbtion on wbiting for closure blerts.)  In such cbses, this
+     * method need not be cblled.
      * <P>
-     * But if the application did not initiate the closure process, or
-     * if the circumstances above do not apply, this method should be
-     * called whenever the end of the SSL/TLS data stream is reached.
-     * This ensures closure of the inbound side, and checks that the
+     * But if the bpplicbtion did not initibte the closure process, or
+     * if the circumstbnces bbove do not bpply, this method should be
+     * cblled whenever the end of the SSL/TLS dbtb strebm is rebched.
+     * This ensures closure of the inbound side, bnd checks thbt the
      * peer followed the SSL/TLS close procedure properly, thus
-     * detecting possible truncation attacks.
+     * detecting possible truncbtion bttbcks.
      * <P>
-     * This method is idempotent:  if the inbound side has already
-     * been closed, this method does not do anything.
+     * This method is idempotent:  if the inbound side hbs blrebdy
+     * been closed, this method does not do bnything.
      * <P>
-     * {@link #wrap(ByteBuffer, ByteBuffer) wrap()} should be
-     * called to flush any remaining handshake data.
+     * {@link #wrbp(ByteBuffer, ByteBuffer) wrbp()} should be
+     * cblled to flush bny rembining hbndshbke dbtb.
      *
      * @throws  SSLException
-     *          if this engine has not received the proper SSL/TLS close
-     *          notification message from the peer.
+     *          if this engine hbs not received the proper SSL/TLS close
+     *          notificbtion messbge from the peer.
      *
      * @see     #isInboundDone()
      * @see     #isOutboundDone()
      */
-    public abstract void closeInbound() throws SSLException;
+    public bbstrbct void closeInbound() throws SSLException;
 
 
     /**
-     * Returns whether {@link #unwrap(ByteBuffer, ByteBuffer)} will
-     * accept any more inbound data messages.
+     * Returns whether {@link #unwrbp(ByteBuffer, ByteBuffer)} will
+     * bccept bny more inbound dbtb messbges.
      *
      * @return  true if the <code>SSLEngine</code> will not
-     *          consume anymore network data (and by implication,
-     *          will not produce any more application data.)
+     *          consume bnymore network dbtb (bnd by implicbtion,
+     *          will not produce bny more bpplicbtion dbtb.)
      * @see     #closeInbound()
      */
-    public abstract boolean isInboundDone();
+    public bbstrbct boolebn isInboundDone();
 
 
     /**
-     * Signals that no more outbound application data will be sent
+     * Signbls thbt no more outbound bpplicbtion dbtb will be sent
      * on this <code>SSLEngine</code>.
      * <P>
-     * This method is idempotent:  if the outbound side has already
-     * been closed, this method does not do anything.
+     * This method is idempotent:  if the outbound side hbs blrebdy
+     * been closed, this method does not do bnything.
      * <P>
-     * {@link #wrap(ByteBuffer, ByteBuffer)} should be
-     * called to flush any remaining handshake data.
+     * {@link #wrbp(ByteBuffer, ByteBuffer)} should be
+     * cblled to flush bny rembining hbndshbke dbtb.
      *
      * @see     #isOutboundDone()
      */
-    public abstract void closeOutbound();
+    public bbstrbct void closeOutbound();
 
 
     /**
-     * Returns whether {@link #wrap(ByteBuffer, ByteBuffer)} will
-     * produce any more outbound data messages.
+     * Returns whether {@link #wrbp(ByteBuffer, ByteBuffer)} will
+     * produce bny more outbound dbtb messbges.
      * <P>
-     * Note that during the closure phase, a <code>SSLEngine</code> may
-     * generate handshake closure data that must be sent to the peer.
-     * <code>wrap()</code> must be called to generate this data.  When
-     * this method returns true, no more outbound data will be created.
+     * Note thbt during the closure phbse, b <code>SSLEngine</code> mby
+     * generbte hbndshbke closure dbtb thbt must be sent to the peer.
+     * <code>wrbp()</code> must be cblled to generbte this dbtb.  When
+     * this method returns true, no more outbound dbtb will be crebted.
      *
      * @return  true if the <code>SSLEngine</code> will not produce
-     *          any more network data
+     *          bny more network dbtb
      *
      * @see     #closeOutbound()
      * @see     #closeInbound()
      */
-    public abstract boolean isOutboundDone();
+    public bbstrbct boolebn isOutboundDone();
 
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on this engine.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not meet quality of service requirements for those defaults.  Such
-     * cipher suites might be useful in specialized applications.
+     * Returns the nbmes of the cipher suites which could be enbbled for use
+     * on this engine.  Normblly, only b subset of these will bctublly
+     * be enbbled by defbult, since this list mby include cipher suites which
+     * do not meet qublity of service requirements for those defbults.  Such
+     * cipher suites might be useful in speciblized bpplicbtions.
      *
-     * @return  an array of cipher suite names
-     * @see     #getEnabledCipherSuites()
-     * @see     #setEnabledCipherSuites(String [])
+     * @return  bn brrby of cipher suite nbmes
+     * @see     #getEnbbledCipherSuites()
+     * @see     #setEnbbledCipherSuites(String [])
      */
-    public abstract String [] getSupportedCipherSuites();
+    public bbstrbct String [] getSupportedCipherSuites();
 
 
     /**
-     * Returns the names of the SSL cipher suites which are currently
-     * enabled for use on this engine.  When an SSLEngine is first
-     * created, all enabled cipher suites support a minimum quality of
-     * service.  Thus, in some environments this value might be empty.
+     * Returns the nbmes of the SSL cipher suites which bre currently
+     * enbbled for use on this engine.  When bn SSLEngine is first
+     * crebted, bll enbbled cipher suites support b minimum qublity of
+     * service.  Thus, in some environments this vblue might be empty.
      * <P>
-     * Even if a suite has been enabled, it might never be used.  (For
-     * example, the peer does not support it, the requisite
-     * certificates/private keys for the suite are not available, or an
-     * anonymous suite is enabled but authentication is required.)
+     * Even if b suite hbs been enbbled, it might never be used.  (For
+     * exbmple, the peer does not support it, the requisite
+     * certificbtes/privbte keys for the suite bre not bvbilbble, or bn
+     * bnonymous suite is enbbled but buthenticbtion is required.)
      *
-     * @return  an array of cipher suite names
+     * @return  bn brrby of cipher suite nbmes
      * @see     #getSupportedCipherSuites()
-     * @see     #setEnabledCipherSuites(String [])
+     * @see     #setEnbbledCipherSuites(String [])
      */
-    public abstract String [] getEnabledCipherSuites();
+    public bbstrbct String [] getEnbbledCipherSuites();
 
 
     /**
-     * Sets the cipher suites enabled for use on this engine.
+     * Sets the cipher suites enbbled for use on this engine.
      * <P>
-     * Each cipher suite in the <code>suites</code> parameter must have
+     * Ebch cipher suite in the <code>suites</code> pbrbmeter must hbve
      * been listed by getSupportedCipherSuites(), or the method will
-     * fail.  Following a successful call to this method, only suites
-     * listed in the <code>suites</code> parameter are enabled for use.
+     * fbil.  Following b successful cbll to this method, only suites
+     * listed in the <code>suites</code> pbrbmeter bre enbbled for use.
      * <P>
-     * See {@link #getEnabledCipherSuites()} for more information
-     * on why a specific cipher suite may never be used on a engine.
+     * See {@link #getEnbbledCipherSuites()} for more informbtion
+     * on why b specific cipher suite mby never be used on b engine.
      *
-     * @param   suites Names of all the cipher suites to enable
-     * @throws  IllegalArgumentException when one or more of the ciphers
-     *          named by the parameter is not supported, or when the
-     *          parameter is null.
+     * @pbrbm   suites Nbmes of bll the cipher suites to enbble
+     * @throws  IllegblArgumentException when one or more of the ciphers
+     *          nbmed by the pbrbmeter is not supported, or when the
+     *          pbrbmeter is null.
      * @see     #getSupportedCipherSuites()
-     * @see     #getEnabledCipherSuites()
+     * @see     #getEnbbledCipherSuites()
      */
-    public abstract void setEnabledCipherSuites(String suites []);
+    public bbstrbct void setEnbbledCipherSuites(String suites []);
 
 
     /**
-     * Returns the names of the protocols which could be enabled for use
+     * Returns the nbmes of the protocols which could be enbbled for use
      * with this <code>SSLEngine</code>.
      *
-     * @return  an array of protocols supported
+     * @return  bn brrby of protocols supported
      */
-    public abstract String [] getSupportedProtocols();
+    public bbstrbct String [] getSupportedProtocols();
 
 
     /**
-     * Returns the names of the protocol versions which are currently
-     * enabled for use with this <code>SSLEngine</code>.
+     * Returns the nbmes of the protocol versions which bre currently
+     * enbbled for use with this <code>SSLEngine</code>.
      *
-     * @return  an array of protocols
-     * @see     #setEnabledProtocols(String [])
+     * @return  bn brrby of protocols
+     * @see     #setEnbbledProtocols(String [])
      */
-    public abstract String [] getEnabledProtocols();
+    public bbstrbct String [] getEnbbledProtocols();
 
 
     /**
-     * Set the protocol versions enabled for use on this engine.
+     * Set the protocol versions enbbled for use on this engine.
      * <P>
-     * The protocols must have been listed by getSupportedProtocols()
-     * as being supported.  Following a successful call to this method,
-     * only protocols listed in the <code>protocols</code> parameter
-     * are enabled for use.
+     * The protocols must hbve been listed by getSupportedProtocols()
+     * bs being supported.  Following b successful cbll to this method,
+     * only protocols listed in the <code>protocols</code> pbrbmeter
+     * bre enbbled for use.
      *
-     * @param   protocols Names of all the protocols to enable.
-     * @throws  IllegalArgumentException when one or more of
-     *          the protocols named by the parameter is not supported or
-     *          when the protocols parameter is null.
-     * @see     #getEnabledProtocols()
+     * @pbrbm   protocols Nbmes of bll the protocols to enbble.
+     * @throws  IllegblArgumentException when one or more of
+     *          the protocols nbmed by the pbrbmeter is not supported or
+     *          when the protocols pbrbmeter is null.
+     * @see     #getEnbbledProtocols()
      */
-    public abstract void setEnabledProtocols(String protocols[]);
+    public bbstrbct void setEnbbledProtocols(String protocols[]);
 
 
     /**
      * Returns the <code>SSLSession</code> in use in this
      * <code>SSLEngine</code>.
      * <P>
-     * These can be long lived, and frequently correspond to an entire
-     * login session for some user.  The session specifies a particular
-     * cipher suite which is being actively used by all connections in
-     * that session, as well as the identities of the session's client
-     * and server.
+     * These cbn be long lived, bnd frequently correspond to bn entire
+     * login session for some user.  The session specifies b pbrticulbr
+     * cipher suite which is being bctively used by bll connections in
+     * thbt session, bs well bs the identities of the session's client
+     * bnd server.
      * <P>
      * Unlike {@link SSLSocket#getSession()}
-     * this method does not block until handshaking is complete.
+     * this method does not block until hbndshbking is complete.
      * <P>
-     * Until the initial handshake has completed, this method returns
-     * a session object which reports an invalid cipher suite of
+     * Until the initibl hbndshbke hbs completed, this method returns
+     * b session object which reports bn invblid cipher suite of
      * "SSL_NULL_WITH_NULL_NULL".
      *
      * @return  the <code>SSLSession</code> for this <code>SSLEngine</code>
      * @see     SSLSession
      */
-    public abstract SSLSession getSession();
+    public bbstrbct SSLSession getSession();
 
 
     /**
-     * Returns the {@code SSLSession} being constructed during a SSL/TLS
-     * handshake.
+     * Returns the {@code SSLSession} being constructed during b SSL/TLS
+     * hbndshbke.
      * <p>
-     * TLS protocols may negotiate parameters that are needed when using
-     * an instance of this class, but before the {@code SSLSession} has
-     * been completely initialized and made available via {@code getSession}.
-     * For example, the list of valid signature algorithms may restrict
-     * the type of certificates that can used during TrustManager
-     * decisions, or the maximum TLS fragment packet sizes can be
+     * TLS protocols mby negotibte pbrbmeters thbt bre needed when using
+     * bn instbnce of this clbss, but before the {@code SSLSession} hbs
+     * been completely initiblized bnd mbde bvbilbble vib {@code getSession}.
+     * For exbmple, the list of vblid signbture blgorithms mby restrict
+     * the type of certificbtes thbt cbn used during TrustMbnbger
+     * decisions, or the mbximum TLS frbgment pbcket sizes cbn be
      * resized to better support the network environment.
      * <p>
-     * This method provides early access to the {@code SSLSession} being
-     * constructed.  Depending on how far the handshake has progressed,
-     * some data may not yet be available for use.  For example, if a
-     * remote server will be sending a Certificate chain, but that chain
-     * has yet not been processed, the {@code getPeerCertificates}
-     * method of {@code SSLSession} will throw a
-     * SSLPeerUnverifiedException.  Once that chain has been processed,
-     * {@code getPeerCertificates} will return the proper value.
+     * This method provides ebrly bccess to the {@code SSLSession} being
+     * constructed.  Depending on how fbr the hbndshbke hbs progressed,
+     * some dbtb mby not yet be bvbilbble for use.  For exbmple, if b
+     * remote server will be sending b Certificbte chbin, but thbt chbin
+     * hbs yet not been processed, the {@code getPeerCertificbtes}
+     * method of {@code SSLSession} will throw b
+     * SSLPeerUnverifiedException.  Once thbt chbin hbs been processed,
+     * {@code getPeerCertificbtes} will return the proper vblue.
      *
      * @see SSLSocket
      * @see SSLSession
      * @see ExtendedSSLSession
-     * @see X509ExtendedKeyManager
-     * @see X509ExtendedTrustManager
+     * @see X509ExtendedKeyMbnbger
+     * @see X509ExtendedTrustMbnbger
      *
-     * @return null if this instance is not currently handshaking, or
-     *         if the current handshake has not progressed far enough to
-     *         create a basic SSLSession.  Otherwise, this method returns the
-     *         {@code SSLSession} currently being negotiated.
-     * @throws UnsupportedOperationException if the underlying provider
-     *         does not implement the operation.
+     * @return null if this instbnce is not currently hbndshbking, or
+     *         if the current hbndshbke hbs not progressed fbr enough to
+     *         crebte b bbsic SSLSession.  Otherwise, this method returns the
+     *         {@code SSLSession} currently being negotibted.
+     * @throws UnsupportedOperbtionException if the underlying provider
+     *         does not implement the operbtion.
      *
      * @since 1.7
      */
-    public SSLSession getHandshakeSession() {
-        throw new UnsupportedOperationException();
+    public SSLSession getHbndshbkeSession() {
+        throw new UnsupportedOperbtionException();
     }
 
 
     /**
-     * Initiates handshaking (initial or renegotiation) on this SSLEngine.
+     * Initibtes hbndshbking (initibl or renegotibtion) on this SSLEngine.
      * <P>
-     * This method is not needed for the initial handshake, as the
-     * <code>wrap()</code> and <code>unwrap()</code> methods will
-     * implicitly call this method if handshaking has not already begun.
+     * This method is not needed for the initibl hbndshbke, bs the
+     * <code>wrbp()</code> bnd <code>unwrbp()</code> methods will
+     * implicitly cbll this method if hbndshbking hbs not blrebdy begun.
      * <P>
-     * Note that the peer may also request a session renegotiation with
-     * this <code>SSLEngine</code> by sending the appropriate
-     * session renegotiate handshake message.
+     * Note thbt the peer mby blso request b session renegotibtion with
+     * this <code>SSLEngine</code> by sending the bppropribte
+     * session renegotibte hbndshbke messbge.
      * <P>
-     * Unlike the {@link SSLSocket#startHandshake()
-     * SSLSocket#startHandshake()} method, this method does not block
-     * until handshaking is completed.
+     * Unlike the {@link SSLSocket#stbrtHbndshbke()
+     * SSLSocket#stbrtHbndshbke()} method, this method does not block
+     * until hbndshbking is completed.
      * <P>
-     * To force a complete SSL/TLS session renegotiation, the current
-     * session should be invalidated prior to calling this method.
+     * To force b complete SSL/TLS session renegotibtion, the current
+     * session should be invblidbted prior to cblling this method.
      * <P>
-     * Some protocols may not support multiple handshakes on an existing
-     * engine and may throw an <code>SSLException</code>.
+     * Some protocols mby not support multiple hbndshbkes on bn existing
+     * engine bnd mby throw bn <code>SSLException</code>.
      *
      * @throws  SSLException
-     *          if a problem was encountered while signaling the
-     *          <code>SSLEngine</code> to begin a new handshake.
-     *          See the class description for more information on
+     *          if b problem wbs encountered while signbling the
+     *          <code>SSLEngine</code> to begin b new hbndshbke.
+     *          See the clbss description for more informbtion on
      *          engine closure.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     SSLSession#invalidate()
+     * @throws  IllegblStbteException if the client/server mode
+     *          hbs not yet been set.
+     * @see     SSLSession#invblidbte()
      */
-    public abstract void beginHandshake() throws SSLException;
+    public bbstrbct void beginHbndshbke() throws SSLException;
 
 
     /**
-     * Returns the current handshake status for this <code>SSLEngine</code>.
+     * Returns the current hbndshbke stbtus for this <code>SSLEngine</code>.
      *
-     * @return  the current <code>SSLEngineResult.HandshakeStatus</code>.
+     * @return  the current <code>SSLEngineResult.HbndshbkeStbtus</code>.
      */
-    public abstract SSLEngineResult.HandshakeStatus getHandshakeStatus();
+    public bbstrbct SSLEngineResult.HbndshbkeStbtus getHbndshbkeStbtus();
 
 
     /**
      * Configures the engine to use client (or server) mode when
-     * handshaking.
+     * hbndshbking.
      * <P>
-     * This method must be called before any handshaking occurs.
-     * Once handshaking has begun, the mode can not be reset for the
+     * This method must be cblled before bny hbndshbking occurs.
+     * Once hbndshbking hbs begun, the mode cbn not be reset for the
      * life of this engine.
      * <P>
-     * Servers normally authenticate themselves, and clients
-     * are not required to do so.
+     * Servers normblly buthenticbte themselves, bnd clients
+     * bre not required to do so.
      *
-     * @param   mode true if the engine should start its handshaking
+     * @pbrbm   mode true if the engine should stbrt its hbndshbking
      *          in "client" mode
-     * @throws  IllegalArgumentException if a mode change is attempted
-     *          after the initial handshake has begun.
+     * @throws  IllegblArgumentException if b mode chbnge is bttempted
+     *          bfter the initibl hbndshbke hbs begun.
      * @see     #getUseClientMode()
      */
-    public abstract void setUseClientMode(boolean mode);
+    public bbstrbct void setUseClientMode(boolebn mode);
 
 
     /**
      * Returns true if the engine is set to use client mode when
-     * handshaking.
+     * hbndshbking.
      *
-     * @return  true if the engine should do handshaking
+     * @return  true if the engine should do hbndshbking
      *          in "client" mode
-     * @see     #setUseClientMode(boolean)
+     * @see     #setUseClientMode(boolebn)
      */
-    public abstract boolean getUseClientMode();
+    public bbstrbct boolebn getUseClientMode();
 
 
     /**
-     * Configures the engine to <i>require</i> client authentication.  This
+     * Configures the engine to <i>require</i> client buthenticbtion.  This
      * option is only useful for engines in the server mode.
      * <P>
-     * An engine's client authentication setting is one of the following:
+     * An engine's client buthenticbtion setting is one of the following:
      * <ul>
-     * <li> client authentication required
-     * <li> client authentication requested
-     * <li> no client authentication desired
+     * <li> client buthenticbtion required
+     * <li> client buthenticbtion requested
+     * <li> no client buthenticbtion desired
      * </ul>
      * <P>
-     * Unlike {@link #setWantClientAuth(boolean)}, if this option is set and
-     * the client chooses not to provide authentication information
-     * about itself, <i>the negotiations will stop and the engine will
+     * Unlike {@link #setWbntClientAuth(boolebn)}, if this option is set bnd
+     * the client chooses not to provide buthenticbtion informbtion
+     * bbout itself, <i>the negotibtions will stop bnd the engine will
      * begin its closure procedure</i>.
      * <P>
-     * Calling this method overrides any previous setting made by
-     * this method or {@link #setWantClientAuth(boolean)}.
+     * Cblling this method overrides bny previous setting mbde by
+     * this method or {@link #setWbntClientAuth(boolebn)}.
      *
-     * @param   need set to true if client authentication is required,
-     *          or false if no client authentication is desired.
+     * @pbrbm   need set to true if client buthenticbtion is required,
+     *          or fblse if no client buthenticbtion is desired.
      * @see     #getNeedClientAuth()
-     * @see     #setWantClientAuth(boolean)
-     * @see     #getWantClientAuth()
-     * @see     #setUseClientMode(boolean)
+     * @see     #setWbntClientAuth(boolebn)
+     * @see     #getWbntClientAuth()
+     * @see     #setUseClientMode(boolebn)
      */
-    public abstract void setNeedClientAuth(boolean need);
+    public bbstrbct void setNeedClientAuth(boolebn need);
 
 
     /**
-     * Returns true if the engine will <i>require</i> client authentication.
+     * Returns true if the engine will <i>require</i> client buthenticbtion.
      * This option is only useful to engines in the server mode.
      *
-     * @return  true if client authentication is required,
-     *          or false if no client authentication is desired.
-     * @see     #setNeedClientAuth(boolean)
-     * @see     #setWantClientAuth(boolean)
-     * @see     #getWantClientAuth()
-     * @see     #setUseClientMode(boolean)
+     * @return  true if client buthenticbtion is required,
+     *          or fblse if no client buthenticbtion is desired.
+     * @see     #setNeedClientAuth(boolebn)
+     * @see     #setWbntClientAuth(boolebn)
+     * @see     #getWbntClientAuth()
+     * @see     #setUseClientMode(boolebn)
      */
-    public abstract boolean getNeedClientAuth();
+    public bbstrbct boolebn getNeedClientAuth();
 
 
     /**
-     * Configures the engine to <i>request</i> client authentication.
+     * Configures the engine to <i>request</i> client buthenticbtion.
      * This option is only useful for engines in the server mode.
      * <P>
-     * An engine's client authentication setting is one of the following:
+     * An engine's client buthenticbtion setting is one of the following:
      * <ul>
-     * <li> client authentication required
-     * <li> client authentication requested
-     * <li> no client authentication desired
+     * <li> client buthenticbtion required
+     * <li> client buthenticbtion requested
+     * <li> no client buthenticbtion desired
      * </ul>
      * <P>
-     * Unlike {@link #setNeedClientAuth(boolean)}, if this option is set and
-     * the client chooses not to provide authentication information
-     * about itself, <i>the negotiations will continue</i>.
+     * Unlike {@link #setNeedClientAuth(boolebn)}, if this option is set bnd
+     * the client chooses not to provide buthenticbtion informbtion
+     * bbout itself, <i>the negotibtions will continue</i>.
      * <P>
-     * Calling this method overrides any previous setting made by
-     * this method or {@link #setNeedClientAuth(boolean)}.
+     * Cblling this method overrides bny previous setting mbde by
+     * this method or {@link #setNeedClientAuth(boolebn)}.
      *
-     * @param   want set to true if client authentication is requested,
-     *          or false if no client authentication is desired.
-     * @see     #getWantClientAuth()
-     * @see     #setNeedClientAuth(boolean)
+     * @pbrbm   wbnt set to true if client buthenticbtion is requested,
+     *          or fblse if no client buthenticbtion is desired.
+     * @see     #getWbntClientAuth()
+     * @see     #setNeedClientAuth(boolebn)
      * @see     #getNeedClientAuth()
-     * @see     #setUseClientMode(boolean)
+     * @see     #setUseClientMode(boolebn)
      */
-    public abstract void setWantClientAuth(boolean want);
+    public bbstrbct void setWbntClientAuth(boolebn wbnt);
 
 
     /**
-     * Returns true if the engine will <i>request</i> client authentication.
+     * Returns true if the engine will <i>request</i> client buthenticbtion.
      * This option is only useful for engines in the server mode.
      *
-     * @return  true if client authentication is requested,
-     *          or false if no client authentication is desired.
-     * @see     #setNeedClientAuth(boolean)
+     * @return  true if client buthenticbtion is requested,
+     *          or fblse if no client buthenticbtion is desired.
+     * @see     #setNeedClientAuth(boolebn)
      * @see     #getNeedClientAuth()
-     * @see     #setWantClientAuth(boolean)
-     * @see     #setUseClientMode(boolean)
+     * @see     #setWbntClientAuth(boolebn)
+     * @see     #setUseClientMode(boolebn)
      */
-    public abstract boolean getWantClientAuth();
+    public bbstrbct boolebn getWbntClientAuth();
 
 
     /**
-     * Controls whether new SSL sessions may be established by this engine.
-     * If session creations are not allowed, and there are no
+     * Controls whether new SSL sessions mby be estbblished by this engine.
+     * If session crebtions bre not bllowed, bnd there bre no
      * existing sessions to resume, there will be no successful
-     * handshaking.
+     * hbndshbking.
      *
-     * @param   flag true indicates that sessions may be created; this
-     *          is the default.  false indicates that an existing session
+     * @pbrbm   flbg true indicbtes thbt sessions mby be crebted; this
+     *          is the defbult.  fblse indicbtes thbt bn existing session
      *          must be resumed
-     * @see     #getEnableSessionCreation()
+     * @see     #getEnbbleSessionCrebtion()
      */
-    public abstract void setEnableSessionCreation(boolean flag);
+    public bbstrbct void setEnbbleSessionCrebtion(boolebn flbg);
 
 
     /**
-     * Returns true if new SSL sessions may be established by this engine.
+     * Returns true if new SSL sessions mby be estbblished by this engine.
      *
-     * @return  true indicates that sessions may be created; this
-     *          is the default.  false indicates that an existing session
+     * @return  true indicbtes thbt sessions mby be crebted; this
+     *          is the defbult.  fblse indicbtes thbt bn existing session
      *          must be resumed
-     * @see     #setEnableSessionCreation(boolean)
+     * @see     #setEnbbleSessionCrebtion(boolebn)
      */
-    public abstract boolean getEnableSessionCreation();
+    public bbstrbct boolebn getEnbbleSessionCrebtion();
 
     /**
-     * Returns the SSLParameters in effect for this SSLEngine.
-     * The ciphersuites and protocols of the returned SSLParameters
-     * are always non-null.
+     * Returns the SSLPbrbmeters in effect for this SSLEngine.
+     * The ciphersuites bnd protocols of the returned SSLPbrbmeters
+     * bre blwbys non-null.
      *
-     * @return the SSLParameters in effect for this SSLEngine.
+     * @return the SSLPbrbmeters in effect for this SSLEngine.
      * @since 1.6
      */
-    public SSLParameters getSSLParameters() {
-        SSLParameters params = new SSLParameters();
-        params.setCipherSuites(getEnabledCipherSuites());
-        params.setProtocols(getEnabledProtocols());
+    public SSLPbrbmeters getSSLPbrbmeters() {
+        SSLPbrbmeters pbrbms = new SSLPbrbmeters();
+        pbrbms.setCipherSuites(getEnbbledCipherSuites());
+        pbrbms.setProtocols(getEnbbledProtocols());
         if (getNeedClientAuth()) {
-            params.setNeedClientAuth(true);
-        } else if (getWantClientAuth()) {
-            params.setWantClientAuth(true);
+            pbrbms.setNeedClientAuth(true);
+        } else if (getWbntClientAuth()) {
+            pbrbms.setWbntClientAuth(true);
         }
-        return params;
+        return pbrbms;
     }
 
     /**
-     * Applies SSLParameters to this engine.
+     * Applies SSLPbrbmeters to this engine.
      *
-     * <p>This means:
+     * <p>This mebns:
      * <ul>
-     * <li>If {@code params.getCipherSuites()} is non-null,
-     *   {@code setEnabledCipherSuites()} is called with that value.</li>
-     * <li>If {@code params.getProtocols()} is non-null,
-     *   {@code setEnabledProtocols()} is called with that value.</li>
-     * <li>If {@code params.getNeedClientAuth()} or
-     *   {@code params.getWantClientAuth()} return {@code true},
-     *   {@code setNeedClientAuth(true)} and
-     *   {@code setWantClientAuth(true)} are called, respectively;
-     *   otherwise {@code setWantClientAuth(false)} is called.</li>
-     * <li>If {@code params.getServerNames()} is non-null, the engine will
-     *   configure its server names with that value.</li>
-     * <li>If {@code params.getSNIMatchers()} is non-null, the engine will
-     *   configure its SNI matchers with that value.</li>
+     * <li>If {@code pbrbms.getCipherSuites()} is non-null,
+     *   {@code setEnbbledCipherSuites()} is cblled with thbt vblue.</li>
+     * <li>If {@code pbrbms.getProtocols()} is non-null,
+     *   {@code setEnbbledProtocols()} is cblled with thbt vblue.</li>
+     * <li>If {@code pbrbms.getNeedClientAuth()} or
+     *   {@code pbrbms.getWbntClientAuth()} return {@code true},
+     *   {@code setNeedClientAuth(true)} bnd
+     *   {@code setWbntClientAuth(true)} bre cblled, respectively;
+     *   otherwise {@code setWbntClientAuth(fblse)} is cblled.</li>
+     * <li>If {@code pbrbms.getServerNbmes()} is non-null, the engine will
+     *   configure its server nbmes with thbt vblue.</li>
+     * <li>If {@code pbrbms.getSNIMbtchers()} is non-null, the engine will
+     *   configure its SNI mbtchers with thbt vblue.</li>
      * </ul>
      *
-     * @param params the parameters
-     * @throws IllegalArgumentException if the setEnabledCipherSuites() or
-     *    the setEnabledProtocols() call fails
+     * @pbrbm pbrbms the pbrbmeters
+     * @throws IllegblArgumentException if the setEnbbledCipherSuites() or
+     *    the setEnbbledProtocols() cbll fbils
      * @since 1.6
      */
-    public void setSSLParameters(SSLParameters params) {
+    public void setSSLPbrbmeters(SSLPbrbmeters pbrbms) {
         String[] s;
-        s = params.getCipherSuites();
+        s = pbrbms.getCipherSuites();
         if (s != null) {
-            setEnabledCipherSuites(s);
+            setEnbbledCipherSuites(s);
         }
-        s = params.getProtocols();
+        s = pbrbms.getProtocols();
         if (s != null) {
-            setEnabledProtocols(s);
+            setEnbbledProtocols(s);
         }
-        if (params.getNeedClientAuth()) {
+        if (pbrbms.getNeedClientAuth()) {
             setNeedClientAuth(true);
-        } else if (params.getWantClientAuth()) {
-            setWantClientAuth(true);
+        } else if (pbrbms.getWbntClientAuth()) {
+            setWbntClientAuth(true);
         } else {
-            setWantClientAuth(false);
+            setWbntClientAuth(fblse);
         }
     }
 

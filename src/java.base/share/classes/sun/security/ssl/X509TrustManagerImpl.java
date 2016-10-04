@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.net.Socket;
-import javax.net.ssl.SSLSession;
+import jbvb.net.Socket;
+import jbvbx.net.ssl.SSLSession;
 
-import java.util.*;
-import java.security.*;
-import java.security.cert.*;
-import javax.net.ssl.*;
+import jbvb.util.*;
+import jbvb.security.*;
+import jbvb.security.cert.*;
+import jbvbx.net.ssl.*;
 
-import sun.security.validator.*;
-import sun.security.util.HostnameChecker;
+import sun.security.vblidbtor.*;
+import sun.security.util.HostnbmeChecker;
 
 /**
- * This class implements the SunJSSE X.509 trust manager using the internal
- * validator API in J2SE core. The logic in this class is minimal.<p>
+ * This clbss implements the SunJSSE X.509 trust mbnbger using the internbl
+ * vblidbtor API in J2SE core. The logic in this clbss is minimbl.<p>
  * <p>
- * This class supports both the Simple validation algorithm from previous
- * JSSE versions and PKIX validation. Currently, it is not possible for the
- * application to specify PKIX parameters other than trust anchors. This will
- * be fixed in a future release using new APIs. When that happens, it may also
- * make sense to separate the Simple and PKIX trust managers into separate
- * classes.
+ * This clbss supports both the Simple vblidbtion blgorithm from previous
+ * JSSE versions bnd PKIX vblidbtion. Currently, it is not possible for the
+ * bpplicbtion to specify PKIX pbrbmeters other thbn trust bnchors. This will
+ * be fixed in b future relebse using new APIs. When thbt hbppens, it mby blso
+ * mbke sense to sepbrbte the Simple bnd PKIX trust mbnbgers into sepbrbte
+ * clbsses.
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-final class X509TrustManagerImpl extends X509ExtendedTrustManager
-        implements X509TrustManager {
+finbl clbss X509TrustMbnbgerImpl extends X509ExtendedTrustMbnbger
+        implements X509TrustMbnbger {
 
-    private final String validatorType;
+    privbte finbl String vblidbtorType;
 
     /**
-     * The Set of trusted X509Certificates.
+     * The Set of trusted X509Certificbtes.
      */
-    private final Collection<X509Certificate> trustedCerts;
+    privbte finbl Collection<X509Certificbte> trustedCerts;
 
-    private final PKIXBuilderParameters pkixParams;
+    privbte finbl PKIXBuilderPbrbmeters pkixPbrbms;
 
-    // note that we need separate validator for client and server due to
-    // the different extension checks. They are initialized lazily on demand.
-    private volatile Validator clientValidator, serverValidator;
+    // note thbt we need sepbrbte vblidbtor for client bnd server due to
+    // the different extension checks. They bre initiblized lbzily on dembnd.
+    privbte volbtile Vblidbtor clientVblidbtor, serverVblidbtor;
 
-    private static final Debug debug = Debug.getInstance("ssl");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
-    X509TrustManagerImpl(String validatorType, KeyStore ks)
+    X509TrustMbnbgerImpl(String vblidbtorType, KeyStore ks)
             throws KeyStoreException {
-        this.validatorType = validatorType;
-        this.pkixParams = null;
+        this.vblidbtorType = vblidbtorType;
+        this.pkixPbrbms = null;
         if (ks == null) {
-            trustedCerts = Collections.<X509Certificate>emptySet();
+            trustedCerts = Collections.<X509Certificbte>emptySet();
         } else {
             trustedCerts = KeyStores.getTrustedCerts(ks);
         }
         showTrustedCerts();
     }
 
-    X509TrustManagerImpl(String validatorType, PKIXBuilderParameters params) {
-        this.validatorType = validatorType;
-        this.pkixParams = params;
-        // create server validator eagerly so that we can conveniently
-        // get the trusted certificates
-        // clients need it anyway eventually, and servers will not mind
-        // the little extra footprint
-        Validator v = getValidator(Validator.VAR_TLS_SERVER);
-        trustedCerts = v.getTrustedCertificates();
-        serverValidator = v;
+    X509TrustMbnbgerImpl(String vblidbtorType, PKIXBuilderPbrbmeters pbrbms) {
+        this.vblidbtorType = vblidbtorType;
+        this.pkixPbrbms = pbrbms;
+        // crebte server vblidbtor ebgerly so thbt we cbn conveniently
+        // get the trusted certificbtes
+        // clients need it bnywby eventublly, bnd servers will not mind
+        // the little extrb footprint
+        Vblidbtor v = getVblidbtor(Vblidbtor.VAR_TLS_SERVER);
+        trustedCerts = v.getTrustedCertificbtes();
+        serverVblidbtor = v;
         showTrustedCerts();
     }
 
     @Override
-    public void checkClientTrusted(X509Certificate chain[], String authType)
-            throws CertificateException {
-        checkTrusted(chain, authType, (Socket)null, true);
+    public void checkClientTrusted(X509Certificbte chbin[], String buthType)
+            throws CertificbteException {
+        checkTrusted(chbin, buthType, (Socket)null, true);
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate chain[], String authType)
-            throws CertificateException {
-        checkTrusted(chain, authType, (Socket)null, false);
+    public void checkServerTrusted(X509Certificbte chbin[], String buthType)
+            throws CertificbteException {
+        checkTrusted(chbin, buthType, (Socket)null, fblse);
     }
 
     @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        X509Certificate[] certsArray = new X509Certificate[trustedCerts.size()];
-        trustedCerts.toArray(certsArray);
-        return certsArray;
+    public X509Certificbte[] getAcceptedIssuers() {
+        X509Certificbte[] certsArrby = new X509Certificbte[trustedCerts.size()];
+        trustedCerts.toArrby(certsArrby);
+        return certsArrby;
     }
 
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-                Socket socket) throws CertificateException {
-        checkTrusted(chain, authType, socket, true);
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType,
+                Socket socket) throws CertificbteException {
+        checkTrusted(chbin, buthType, socket, true);
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            Socket socket) throws CertificateException {
-        checkTrusted(chain, authType, socket, false);
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType,
+            Socket socket) throws CertificbteException {
+        checkTrusted(chbin, buthType, socket, fblse);
     }
 
     @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        checkTrusted(chain, authType, engine, true);
+    public void checkClientTrusted(X509Certificbte[] chbin, String buthType,
+            SSLEngine engine) throws CertificbteException {
+        checkTrusted(chbin, buthType, engine, true);
     }
 
     @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        checkTrusted(chain, authType, engine, false);
+    public void checkServerTrusted(X509Certificbte[] chbin, String buthType,
+            SSLEngine engine) throws CertificbteException {
+        checkTrusted(chbin, buthType, engine, fblse);
     }
 
-    private Validator checkTrustedInit(X509Certificate[] chain,
-                                        String authType, boolean isClient) {
-        if (chain == null || chain.length == 0) {
-            throw new IllegalArgumentException(
-                "null or zero-length certificate chain");
+    privbte Vblidbtor checkTrustedInit(X509Certificbte[] chbin,
+                                        String buthType, boolebn isClient) {
+        if (chbin == null || chbin.length == 0) {
+            throw new IllegblArgumentException(
+                "null or zero-length certificbte chbin");
         }
 
-        if (authType == null || authType.length() == 0) {
-            throw new IllegalArgumentException(
-                "null or zero-length authentication type");
+        if (buthType == null || buthType.length() == 0) {
+            throw new IllegblArgumentException(
+                "null or zero-length buthenticbtion type");
         }
 
-        Validator v = null;
+        Vblidbtor v = null;
         if (isClient) {
-            v = clientValidator;
+            v = clientVblidbtor;
             if (v == null) {
                 synchronized (this) {
-                    v = clientValidator;
+                    v = clientVblidbtor;
                     if (v == null) {
-                        v = getValidator(Validator.VAR_TLS_CLIENT);
-                        clientValidator = v;
+                        v = getVblidbtor(Vblidbtor.VAR_TLS_CLIENT);
+                        clientVblidbtor = v;
                     }
                 }
             }
         } else {
-            // assume double checked locking with a volatile flag works
-            // (guaranteed under the new Tiger memory model)
-            v = serverValidator;
+            // bssume double checked locking with b volbtile flbg works
+            // (gubrbnteed under the new Tiger memory model)
+            v = serverVblidbtor;
             if (v == null) {
                 synchronized (this) {
-                    v = serverValidator;
+                    v = serverVblidbtor;
                     if (v == null) {
-                        v = getValidator(Validator.VAR_TLS_SERVER);
-                        serverValidator = v;
+                        v = getVblidbtor(Vblidbtor.VAR_TLS_SERVER);
+                        serverVblidbtor = v;
                     }
                 }
             }
@@ -179,126 +179,126 @@ final class X509TrustManagerImpl extends X509ExtendedTrustManager
     }
 
 
-    private void checkTrusted(X509Certificate[] chain, String authType,
-                Socket socket, boolean isClient) throws CertificateException {
-        Validator v = checkTrustedInit(chain, authType, isClient);
+    privbte void checkTrusted(X509Certificbte[] chbin, String buthType,
+                Socket socket, boolebn isClient) throws CertificbteException {
+        Vblidbtor v = checkTrustedInit(chbin, buthType, isClient);
 
-        AlgorithmConstraints constraints = null;
+        AlgorithmConstrbints constrbints = null;
         if ((socket != null) && socket.isConnected() &&
-                                        (socket instanceof SSLSocket)) {
+                                        (socket instbnceof SSLSocket)) {
 
             SSLSocket sslSocket = (SSLSocket)socket;
-            SSLSession session = sslSocket.getHandshakeSession();
+            SSLSession session = sslSocket.getHbndshbkeSession();
             if (session == null) {
-                throw new CertificateException("No handshake session");
+                throw new CertificbteException("No hbndshbke session");
             }
 
             // check endpoint identity
-            String identityAlg = sslSocket.getSSLParameters().
-                                        getEndpointIdentificationAlgorithm();
+            String identityAlg = sslSocket.getSSLPbrbmeters().
+                                        getEndpointIdentificbtionAlgorithm();
             if (identityAlg != null && identityAlg.length() != 0) {
-                checkIdentity(session, chain[0], identityAlg, isClient,
-                        getRequestedServerNames(socket));
+                checkIdentity(session, chbin[0], identityAlg, isClient,
+                        getRequestedServerNbmes(socket));
             }
 
-            // create the algorithm constraints
+            // crebte the blgorithm constrbints
             ProtocolVersion protocolVersion =
-                ProtocolVersion.valueOf(session.getProtocol());
+                ProtocolVersion.vblueOf(session.getProtocol());
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                if (session instanceof ExtendedSSLSession) {
+                if (session instbnceof ExtendedSSLSession) {
                     ExtendedSSLSession extSession =
                                     (ExtendedSSLSession)session;
-                    String[] localSupportedSignAlgs =
-                            extSession.getLocalSupportedSignatureAlgorithms();
+                    String[] locblSupportedSignAlgs =
+                            extSession.getLocblSupportedSignbtureAlgorithms();
 
-                    constraints = new SSLAlgorithmConstraints(
-                                    sslSocket, localSupportedSignAlgs, false);
+                    constrbints = new SSLAlgorithmConstrbints(
+                                    sslSocket, locblSupportedSignAlgs, fblse);
                 } else {
-                    constraints =
-                            new SSLAlgorithmConstraints(sslSocket, false);
+                    constrbints =
+                            new SSLAlgorithmConstrbints(sslSocket, fblse);
                 }
             } else {
-                constraints = new SSLAlgorithmConstraints(sslSocket, false);
+                constrbints = new SSLAlgorithmConstrbints(sslSocket, fblse);
             }
         }
 
-        X509Certificate[] trustedChain = null;
+        X509Certificbte[] trustedChbin = null;
         if (isClient) {
-            trustedChain = validate(v, chain, constraints, null);
+            trustedChbin = vblidbte(v, chbin, constrbints, null);
         } else {
-            trustedChain = validate(v, chain, constraints, authType);
+            trustedChbin = vblidbte(v, chbin, constrbints, buthType);
         }
-        if (debug != null && Debug.isOn("trustmanager")) {
-            System.out.println("Found trusted certificate:");
-            System.out.println(trustedChain[trustedChain.length - 1]);
+        if (debug != null && Debug.isOn("trustmbnbger")) {
+            System.out.println("Found trusted certificbte:");
+            System.out.println(trustedChbin[trustedChbin.length - 1]);
         }
     }
 
-    private void checkTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine, boolean isClient) throws CertificateException {
-        Validator v = checkTrustedInit(chain, authType, isClient);
+    privbte void checkTrusted(X509Certificbte[] chbin, String buthType,
+            SSLEngine engine, boolebn isClient) throws CertificbteException {
+        Vblidbtor v = checkTrustedInit(chbin, buthType, isClient);
 
-        AlgorithmConstraints constraints = null;
+        AlgorithmConstrbints constrbints = null;
         if (engine != null) {
-            SSLSession session = engine.getHandshakeSession();
+            SSLSession session = engine.getHbndshbkeSession();
             if (session == null) {
-                throw new CertificateException("No handshake session");
+                throw new CertificbteException("No hbndshbke session");
             }
 
             // check endpoint identity
-            String identityAlg = engine.getSSLParameters().
-                                        getEndpointIdentificationAlgorithm();
+            String identityAlg = engine.getSSLPbrbmeters().
+                                        getEndpointIdentificbtionAlgorithm();
             if (identityAlg != null && identityAlg.length() != 0) {
-                checkIdentity(session, chain[0], identityAlg, isClient,
-                        getRequestedServerNames(engine));
+                checkIdentity(session, chbin[0], identityAlg, isClient,
+                        getRequestedServerNbmes(engine));
             }
 
-            // create the algorithm constraints
+            // crebte the blgorithm constrbints
             ProtocolVersion protocolVersion =
-                ProtocolVersion.valueOf(session.getProtocol());
+                ProtocolVersion.vblueOf(session.getProtocol());
             if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                if (session instanceof ExtendedSSLSession) {
+                if (session instbnceof ExtendedSSLSession) {
                     ExtendedSSLSession extSession =
                                     (ExtendedSSLSession)session;
-                    String[] localSupportedSignAlgs =
-                            extSession.getLocalSupportedSignatureAlgorithms();
+                    String[] locblSupportedSignAlgs =
+                            extSession.getLocblSupportedSignbtureAlgorithms();
 
-                    constraints = new SSLAlgorithmConstraints(
-                                    engine, localSupportedSignAlgs, false);
+                    constrbints = new SSLAlgorithmConstrbints(
+                                    engine, locblSupportedSignAlgs, fblse);
                 } else {
-                    constraints =
-                            new SSLAlgorithmConstraints(engine, false);
+                    constrbints =
+                            new SSLAlgorithmConstrbints(engine, fblse);
                 }
             } else {
-                constraints = new SSLAlgorithmConstraints(engine, false);
+                constrbints = new SSLAlgorithmConstrbints(engine, fblse);
             }
         }
 
-        X509Certificate[] trustedChain = null;
+        X509Certificbte[] trustedChbin = null;
         if (isClient) {
-            trustedChain = validate(v, chain, constraints, null);
+            trustedChbin = vblidbte(v, chbin, constrbints, null);
         } else {
-            trustedChain = validate(v, chain, constraints, authType);
+            trustedChbin = vblidbte(v, chbin, constrbints, buthType);
         }
-        if (debug != null && Debug.isOn("trustmanager")) {
-            System.out.println("Found trusted certificate:");
-            System.out.println(trustedChain[trustedChain.length - 1]);
+        if (debug != null && Debug.isOn("trustmbnbger")) {
+            System.out.println("Found trusted certificbte:");
+            System.out.println(trustedChbin[trustedChbin.length - 1]);
         }
     }
 
-    private void showTrustedCerts() {
-        if (debug != null && Debug.isOn("trustmanager")) {
-            for (X509Certificate cert : trustedCerts) {
-                System.out.println("adding as trusted cert:");
+    privbte void showTrustedCerts() {
+        if (debug != null && Debug.isOn("trustmbnbger")) {
+            for (X509Certificbte cert : trustedCerts) {
+                System.out.println("bdding bs trusted cert:");
                 System.out.println("  Subject: "
-                                        + cert.getSubjectX500Principal());
+                                        + cert.getSubjectX500Principbl());
                 System.out.println("  Issuer:  "
-                                        + cert.getIssuerX500Principal());
+                                        + cert.getIssuerX500Principbl());
                 System.out.println("  Algorithm: "
                                         + cert.getPublicKey().getAlgorithm()
-                                        + "; Serial number: 0x"
-                                        + cert.getSerialNumber().toString(16));
-                System.out.println("  Valid from "
+                                        + "; Seribl number: 0x"
+                                        + cert.getSeriblNumber().toString(16));
+                System.out.println("  Vblid from "
                                         + cert.getNotBefore() + " until "
                                         + cert.getNotAfter());
                 System.out.println();
@@ -306,161 +306,161 @@ final class X509TrustManagerImpl extends X509ExtendedTrustManager
         }
     }
 
-    private Validator getValidator(String variant) {
-        Validator v;
-        if (pkixParams == null) {
-            v = Validator.getInstance(validatorType, variant, trustedCerts);
+    privbte Vblidbtor getVblidbtor(String vbribnt) {
+        Vblidbtor v;
+        if (pkixPbrbms == null) {
+            v = Vblidbtor.getInstbnce(vblidbtorType, vbribnt, trustedCerts);
         } else {
-            v = Validator.getInstance(validatorType, variant, pkixParams);
+            v = Vblidbtor.getInstbnce(vblidbtorType, vbribnt, pkixPbrbms);
         }
         return v;
     }
 
-    private static X509Certificate[] validate(Validator v,
-            X509Certificate[] chain, AlgorithmConstraints constraints,
-            String authType) throws CertificateException {
+    privbte stbtic X509Certificbte[] vblidbte(Vblidbtor v,
+            X509Certificbte[] chbin, AlgorithmConstrbints constrbints,
+            String buthType) throws CertificbteException {
         Object o = JsseJce.beginFipsProvider();
         try {
-            return v.validate(chain, null, constraints, authType);
-        } finally {
+            return v.vblidbte(chbin, null, constrbints, buthType);
+        } finblly {
             JsseJce.endFipsProvider(o);
         }
     }
 
-    // Get string representation of HostName from a list of server names.
+    // Get string representbtion of HostNbme from b list of server nbmes.
     //
-    // We are only accepting host_name name type in the list.
-    private static String getHostNameInSNI(List<SNIServerName> sniNames) {
+    // We bre only bccepting host_nbme nbme type in the list.
+    privbte stbtic String getHostNbmeInSNI(List<SNIServerNbme> sniNbmes) {
 
-        SNIHostName hostname = null;
-        for (SNIServerName sniName : sniNames) {
-            if (sniName.getType() != StandardConstants.SNI_HOST_NAME) {
+        SNIHostNbme hostnbme = null;
+        for (SNIServerNbme sniNbme : sniNbmes) {
+            if (sniNbme.getType() != StbndbrdConstbnts.SNI_HOST_NAME) {
                 continue;
             }
 
-            if (sniName instanceof SNIHostName) {
-                hostname = (SNIHostName)sniName;
+            if (sniNbme instbnceof SNIHostNbme) {
+                hostnbme = (SNIHostNbme)sniNbme;
             } else {
                 try {
-                    hostname = new SNIHostName(sniName.getEncoded());
-                } catch (IllegalArgumentException iae) {
-                    // unlikely to happen, just in case ...
-                    if ((debug != null) && Debug.isOn("trustmanager")) {
-                        System.out.println("Illegal server name: " + sniName);
+                    hostnbme = new SNIHostNbme(sniNbme.getEncoded());
+                } cbtch (IllegblArgumentException ibe) {
+                    // unlikely to hbppen, just in cbse ...
+                    if ((debug != null) && Debug.isOn("trustmbnbger")) {
+                        System.out.println("Illegbl server nbme: " + sniNbme);
                     }
                 }
             }
 
-            // no more than server name of the same name type
-            break;
+            // no more thbn server nbme of the sbme nbme type
+            brebk;
         }
 
-        if (hostname != null) {
-            return hostname.getAsciiName();
+        if (hostnbme != null) {
+            return hostnbme.getAsciiNbme();
         }
 
         return null;
     }
 
-    // Also used by X509KeyManagerImpl
-    static List<SNIServerName> getRequestedServerNames(Socket socket) {
+    // Also used by X509KeyMbnbgerImpl
+    stbtic List<SNIServerNbme> getRequestedServerNbmes(Socket socket) {
         if (socket != null && socket.isConnected() &&
-                                        socket instanceof SSLSocket) {
+                                        socket instbnceof SSLSocket) {
 
             SSLSocket sslSocket = (SSLSocket)socket;
-            SSLSession session = sslSocket.getHandshakeSession();
+            SSLSession session = sslSocket.getHbndshbkeSession();
 
-            if (session != null && (session instanceof ExtendedSSLSession)) {
+            if (session != null && (session instbnceof ExtendedSSLSession)) {
                 ExtendedSSLSession extSession = (ExtendedSSLSession)session;
-                return extSession.getRequestedServerNames();
+                return extSession.getRequestedServerNbmes();
             }
         }
 
-        return Collections.<SNIServerName>emptyList();
+        return Collections.<SNIServerNbme>emptyList();
     }
 
-    // Also used by X509KeyManagerImpl
-    static List<SNIServerName> getRequestedServerNames(SSLEngine engine) {
+    // Also used by X509KeyMbnbgerImpl
+    stbtic List<SNIServerNbme> getRequestedServerNbmes(SSLEngine engine) {
         if (engine != null) {
-            SSLSession session = engine.getHandshakeSession();
+            SSLSession session = engine.getHbndshbkeSession();
 
-            if (session != null && (session instanceof ExtendedSSLSession)) {
+            if (session != null && (session instbnceof ExtendedSSLSession)) {
                 ExtendedSSLSession extSession = (ExtendedSSLSession)session;
-                return extSession.getRequestedServerNames();
+                return extSession.getRequestedServerNbmes();
             }
         }
 
-        return Collections.<SNIServerName>emptyList();
+        return Collections.<SNIServerNbme>emptyList();
     }
 
     /*
-     * Per RFC 6066, if an application negotiates a server name using an
-     * application protocol and then upgrades to TLS, and if a server_name
-     * extension is sent, then the extension SHOULD contain the same name
-     * that was negotiated in the application protocol.  If the server_name
-     * is established in the TLS session handshake, the client SHOULD NOT
-     * attempt to request a different server name at the application layer.
+     * Per RFC 6066, if bn bpplicbtion negotibtes b server nbme using bn
+     * bpplicbtion protocol bnd then upgrbdes to TLS, bnd if b server_nbme
+     * extension is sent, then the extension SHOULD contbin the sbme nbme
+     * thbt wbs negotibted in the bpplicbtion protocol.  If the server_nbme
+     * is estbblished in the TLS session hbndshbke, the client SHOULD NOT
+     * bttempt to request b different server nbme bt the bpplicbtion lbyer.
      *
-     * According to the above spec, we only need to check either the identity
-     * in server_name extension or the peer host of the connection.  Peer host
-     * is not always a reliable fully qualified domain name. The HostName in
-     * server_name extension is more reliable than peer host. So we prefer
-     * the identity checking aginst the server_name extension if present, and
-     * may failove to peer host checking.
+     * According to the bbove spec, we only need to check either the identity
+     * in server_nbme extension or the peer host of the connection.  Peer host
+     * is not blwbys b relibble fully qublified dombin nbme. The HostNbme in
+     * server_nbme extension is more relibble thbn peer host. So we prefer
+     * the identity checking bginst the server_nbme extension if present, bnd
+     * mby fbilove to peer host checking.
      */
-    private static void checkIdentity(SSLSession session,
-            X509Certificate cert,
-            String algorithm,
-            boolean isClient,
-            List<SNIServerName> sniNames) throws CertificateException {
+    privbte stbtic void checkIdentity(SSLSession session,
+            X509Certificbte cert,
+            String blgorithm,
+            boolebn isClient,
+            List<SNIServerNbme> sniNbmes) throws CertificbteException {
 
-        boolean identifiable = false;
+        boolebn identifibble = fblse;
         String peerHost = session.getPeerHost();
         if (isClient) {
-            String hostname = getHostNameInSNI(sniNames);
-            if (hostname != null) {
+            String hostnbme = getHostNbmeInSNI(sniNbmes);
+            if (hostnbme != null) {
                 try {
-                    checkIdentity(hostname, cert, algorithm);
-                    identifiable = true;
-                } catch (CertificateException ce) {
-                    if (hostname.equalsIgnoreCase(peerHost)) {
+                    checkIdentity(hostnbme, cert, blgorithm);
+                    identifibble = true;
+                } cbtch (CertificbteException ce) {
+                    if (hostnbme.equblsIgnoreCbse(peerHost)) {
                         throw ce;
                     }
 
-                    // otherwisw, failover to check peer host
+                    // otherwisw, fbilover to check peer host
                 }
             }
         }
 
-        if (!identifiable) {
-            checkIdentity(peerHost, cert, algorithm);
+        if (!identifibble) {
+            checkIdentity(peerHost, cert, blgorithm);
         }
     }
 
     /*
-     * Identify the peer by its certificate and hostname.
+     * Identify the peer by its certificbte bnd hostnbme.
      *
      * Lifted from sun.net.www.protocol.https.HttpsClient.
      */
-    static void checkIdentity(String hostname, X509Certificate cert,
-            String algorithm) throws CertificateException {
-        if (algorithm != null && algorithm.length() != 0) {
+    stbtic void checkIdentity(String hostnbme, X509Certificbte cert,
+            String blgorithm) throws CertificbteException {
+        if (blgorithm != null && blgorithm.length() != 0) {
             // if IPv6 strip off the "[]"
-            if ((hostname != null) && hostname.startsWith("[") &&
-                    hostname.endsWith("]")) {
-                hostname = hostname.substring(1, hostname.length() - 1);
+            if ((hostnbme != null) && hostnbme.stbrtsWith("[") &&
+                    hostnbme.endsWith("]")) {
+                hostnbme = hostnbme.substring(1, hostnbme.length() - 1);
             }
 
-            if (algorithm.equalsIgnoreCase("HTTPS")) {
-                HostnameChecker.getInstance(HostnameChecker.TYPE_TLS).match(
-                        hostname, cert);
-            } else if (algorithm.equalsIgnoreCase("LDAP") ||
-                    algorithm.equalsIgnoreCase("LDAPS")) {
-                HostnameChecker.getInstance(HostnameChecker.TYPE_LDAP).match(
-                        hostname, cert);
+            if (blgorithm.equblsIgnoreCbse("HTTPS")) {
+                HostnbmeChecker.getInstbnce(HostnbmeChecker.TYPE_TLS).mbtch(
+                        hostnbme, cert);
+            } else if (blgorithm.equblsIgnoreCbse("LDAP") ||
+                    blgorithm.equblsIgnoreCbse("LDAPS")) {
+                HostnbmeChecker.getInstbnce(HostnbmeChecker.TYPE_LDAP).mbtch(
+                        hostnbme, cert);
             } else {
-                throw new CertificateException(
-                        "Unknown identification algorithm: " + algorithm);
+                throw new CertificbteException(
+                        "Unknown identificbtion blgorithm: " + blgorithm);
             }
         }
     }

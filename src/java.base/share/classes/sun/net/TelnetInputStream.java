@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 1994, 1995, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 1995, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net;
+pbckbge sun.net;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * This class provides input and output streams for telnet clients.
- * This class overrides read to do CRLF processing as specified in
- * RFC 854. The class assumes it is running on a system where lines
- * are terminated with a single newline <LF> character.
+ * This clbss provides input bnd output strebms for telnet clients.
+ * This clbss overrides rebd to do CRLF processing bs specified in
+ * RFC 854. The clbss bssumes it is running on b system where lines
+ * bre terminbted with b single newline <LF> chbrbcter.
  *
- * This is the relevant section of RFC 824 regarding CRLF processing:
+ * This is the relevbnt section of RFC 824 regbrding CRLF processing:
  *
  * <pre>
- * The sequence "CR LF", as defined, will cause the NVT to be
- * positioned at the left margin of the next print line (as would,
- * for example, the sequence "LF CR").  However, many systems and
- * terminals do not treat CR and LF independently, and will have to
- * go to some effort to simulate their effect.  (For example, some
- * terminals do not have a CR independent of the LF, but on such
- * terminals it may be possible to simulate a CR by backspacing.)
- * Therefore, the sequence "CR LF" must be treated as a single "new
- * line" character and used whenever their combined action is
- * intended; the sequence "CR NUL" must be used where a carriage
- * return alone is actually desired; and the CR character must be
- * avoided in other contexts.  This rule gives assurance to systems
- * which must decide whether to perform a "new line" function or a
- * multiple-backspace that the TELNET stream contains a character
- * following a CR that will allow a rational decision.
+ * The sequence "CR LF", bs defined, will cbuse the NVT to be
+ * positioned bt the left mbrgin of the next print line (bs would,
+ * for exbmple, the sequence "LF CR").  However, mbny systems bnd
+ * terminbls do not trebt CR bnd LF independently, bnd will hbve to
+ * go to some effort to simulbte their effect.  (For exbmple, some
+ * terminbls do not hbve b CR independent of the LF, but on such
+ * terminbls it mby be possible to simulbte b CR by bbckspbcing.)
+ * Therefore, the sequence "CR LF" must be trebted bs b single "new
+ * line" chbrbcter bnd used whenever their combined bction is
+ * intended; the sequence "CR NUL" must be used where b cbrribge
+ * return blone is bctublly desired; bnd the CR chbrbcter must be
+ * bvoided in other contexts.  This rule gives bssurbnce to systems
+ * which must decide whether to perform b "new line" function or b
+ * multiple-bbckspbce thbt the TELNET strebm contbins b chbrbcter
+ * following b CR thbt will bllow b rbtionbl decision.
  *
- *    Note that "CR LF" or "CR NUL" is required in both directions
- *    (in the default ASCII mode), to preserve the symmetry of the
- *    NVT model.  Even though it may be known in some situations
- *    (e.g., with remote echo and suppress go ahead options in
- *    effect) that characters are not being sent to an actual
- *    printer, nonetheless, for the sake of consistency, the protocol
- *    requires that a NUL be inserted following a CR not followed by
- *    a LF in the data stream.  The converse of this is that a NUL
- *    received in the data stream after a CR (in the absence of
- *    options negotiations which explicitly specify otherwise) should
- *    be stripped out prior to applying the NVT to local character
- *    set mapping.
+ *    Note thbt "CR LF" or "CR NUL" is required in both directions
+ *    (in the defbult ASCII mode), to preserve the symmetry of the
+ *    NVT model.  Even though it mby be known in some situbtions
+ *    (e.g., with remote echo bnd suppress go bhebd options in
+ *    effect) thbt chbrbcters bre not being sent to bn bctubl
+ *    printer, nonetheless, for the sbke of consistency, the protocol
+ *    requires thbt b NUL be inserted following b CR not followed by
+ *    b LF in the dbtb strebm.  The converse of this is thbt b NUL
+ *    received in the dbtb strebm bfter b CR (in the bbsence of
+ *    options negotibtions which explicitly specify otherwise) should
+ *    be stripped out prior to bpplying the NVT to locbl chbrbcter
+ *    set mbpping.
  * </pre>
  *
- * @author      Jonathan Payne
+ * @buthor      Jonbthbn Pbyne
  */
 
-public class TelnetInputStream extends FilterInputStream {
-    /** If stickyCRLF is true, then we're a machine, like an IBM PC,
-        where a Newline is a CR followed by LF.  On UNIX, this is false
-        because Newline is represented with just a LF character. */
-    boolean         stickyCRLF = false;
-    boolean         seenCR = false;
+public clbss TelnetInputStrebm extends FilterInputStrebm {
+    /** If stickyCRLF is true, then we're b mbchine, like bn IBM PC,
+        where b Newline is b CR followed by LF.  On UNIX, this is fblse
+        becbuse Newline is represented with just b LF chbrbcter. */
+    boolebn         stickyCRLF = fblse;
+    boolebn         seenCR = fblse;
 
-    public boolean  binaryMode = false;
+    public boolebn  binbryMode = fblse;
 
-    public TelnetInputStream(InputStream fd, boolean binary) {
+    public TelnetInputStrebm(InputStrebm fd, boolebn binbry) {
         super(fd);
-        binaryMode = binary;
+        binbryMode = binbry;
     }
 
-    public void setStickyCRLF(boolean on) {
+    public void setStickyCRLF(boolebn on) {
         stickyCRLF = on;
     }
 
-    public int read() throws IOException {
-        if (binaryMode)
-            return super.read();
+    public int rebd() throws IOException {
+        if (binbryMode)
+            return super.rebd();
 
         int c;
 
-        /* If last time we determined we saw a CRLF pair, and we're
-           not turning that into just a Newline (that is, we're
-           stickyCRLF), then return the LF part of that sticky
-           pair now. */
+        /* If lbst time we determined we sbw b CRLF pbir, bnd we're
+           not turning thbt into just b Newline (thbt is, we're
+           stickyCRLF), then return the LF pbrt of thbt sticky
+           pbir now. */
 
         if (seenCR) {
-            seenCR = false;
+            seenCR = fblse;
             return '\n';
         }
 
-        if ((c = super.read()) == '\r') {    /* CR */
-            switch (c = super.read()) {
-            default:
-            case -1:                        /* this is an error */
-                throw new TelnetProtocolException("misplaced CR in input");
+        if ((c = super.rebd()) == '\r') {    /* CR */
+            switch (c = super.rebd()) {
+            defbult:
+            cbse -1:                        /* this is bn error */
+                throw new TelnetProtocolException("misplbced CR in input");
 
-            case 0:                         /* NUL - treat CR as CR */
+            cbse 0:                         /* NUL - trebt CR bs CR */
                 return '\r';
 
-            case '\n':                      /* CRLF - treat as NL */
+            cbse '\n':                      /* CRLF - trebt bs NL */
                 if (stickyCRLF) {
                     seenCR = true;
                     return '\r';
@@ -124,28 +124,28 @@ public class TelnetInputStream extends FilterInputStream {
         return c;
     }
 
-    /** read into a byte array */
-    public int read(byte bytes[]) throws IOException {
-        return read(bytes, 0, bytes.length);
+    /** rebd into b byte brrby */
+    public int rebd(byte bytes[]) throws IOException {
+        return rebd(bytes, 0, bytes.length);
     }
 
     /**
-     * Read into a byte array at offset <i>off</i> for length <i>length</i>
+     * Rebd into b byte brrby bt offset <i>off</i> for length <i>length</i>
      * bytes.
      */
-    public int read(byte bytes[], int off, int length) throws IOException {
-        if (binaryMode)
-            return super.read(bytes, off, length);
+    public int rebd(byte bytes[], int off, int length) throws IOException {
+        if (binbryMode)
+            return super.rebd(bytes, off, length);
 
         int c;
-        int offStart = off;
+        int offStbrt = off;
 
         while (--length >= 0) {
-            c = read();
+            c = rebd();
             if (c == -1)
-                break;
+                brebk;
             bytes[off++] = (byte)c;
         }
-        return (off > offStart) ? off - offStart : -1;
+        return (off > offStbrt) ? off - offStbrt : -1;
     }
 }

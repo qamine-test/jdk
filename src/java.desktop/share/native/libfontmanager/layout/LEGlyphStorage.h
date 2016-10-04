@@ -1,32 +1,32 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
 
 /*
  **********************************************************************
- *   Copyright (C) 1998-2010, International Business Machines
- *   Corporation and others.  All Rights Reserved.
+ *   Copyright (C) 1998-2010, Internbtionbl Business Mbchines
+ *   Corporbtion bnd others.  All Rights Reserved.
  **********************************************************************
  */
 
@@ -38,529 +38,529 @@
 
 /**
  * \file
- * \brief C++ API: This class encapsulates the per-glyph storage used by the ICU LayoutEngine.
+ * \brief C++ API: This clbss encbpsulbtes the per-glyph storbge used by the ICU LbyoutEngine.
  */
 
 U_NAMESPACE_BEGIN
 
 /**
- * This class encapsulates the per-glyph storage used by the ICU LayoutEngine.
- * For each glyph it holds the glyph ID, the index of the backing store character
- * which produced the glyph, the X and Y position of the glyph and an auxillary data
+ * This clbss encbpsulbtes the per-glyph storbge used by the ICU LbyoutEngine.
+ * For ebch glyph it holds the glyph ID, the index of the bbcking store chbrbcter
+ * which produced the glyph, the X bnd Y position of the glyph bnd bn buxillbry dbtb
  * pointer.
  *
- * The storage is growable using the <code>LEInsertionList</code> class.
+ * The storbge is growbble using the <code>LEInsertionList</code> clbss.
  *
  *
  * @see LEInsertionList.h
  *
- * @stable ICU 3.6
+ * @stbble ICU 3.6
  */
-class U_LAYOUT_API LEGlyphStorage : public UObject, protected LEInsertionCallback
+clbss U_LAYOUT_API LEGlyphStorbge : public UObject, protected LEInsertionCbllbbck
 {
-private:
+privbte:
     /**
-     * The number of entries in the per-glyph arrays.
+     * The number of entries in the per-glyph brrbys.
      *
-     * @internal
+     * @internbl
      */
     le_int32   fGlyphCount;
 
     /**
-     * The glyph ID array.
+     * The glyph ID brrby.
      *
-     * @internal
+     * @internbl
      */
     LEGlyphID *fGlyphs;
 
     /**
-     * The char indices array.
+     * The chbr indices brrby.
      *
-     * @internal
+     * @internbl
      */
-    le_int32  *fCharIndices;
+    le_int32  *fChbrIndices;
 
     /**
-     * The glyph positions array.
+     * The glyph positions brrby.
      *
-     * @internal
+     * @internbl
      */
-    float     *fPositions;
+    flobt     *fPositions;
 
     /**
-     * The auxillary data array.
+     * The buxillbry dbtb brrby.
      *
-     * @internal
+     * @internbl
      */
-    le_uint32 *fAuxData;
+    le_uint32 *fAuxDbtb;
 
 
     /**
-     * The insertion list, used to grow the above arrays.
+     * The insertion list, used to grow the bbove brrbys.
      *
-     * @internal
+     * @internbl
      */
     LEInsertionList *fInsertionList;
 
     /**
-     * The source index while growing the data arrays.
+     * The source index while growing the dbtb brrbys.
      *
-     * @internal
+     * @internbl
      */
     le_int32 fSrcIndex;
 
     /**
-     * The destination index used while growing the data arrays.
+     * The destinbtion index used while growing the dbtb brrbys.
      *
-     * @internal
+     * @internbl
      */
     le_int32 fDestIndex;
 
 protected:
     /**
-     * This implements <code>LEInsertionCallback</code>. The <code>LEInsertionList</code>
-     * will call this method once for each insertion.
+     * This implements <code>LEInsertionCbllbbck</code>. The <code>LEInsertionList</code>
+     * will cbll this method once for ebch insertion.
      *
-     * @param atPosition the position of the insertion
-     * @param count the number of glyphs being inserted
-     * @param newGlyphs the address of the new glyph IDs
+     * @pbrbm btPosition the position of the insertion
+     * @pbrbm count the number of glyphs being inserted
+     * @pbrbm newGlyphs the bddress of the new glyph IDs
      *
      * @return <code>true</code> if <code>LEInsertionList</code> should stop
-     *         processing the insertion list after this insertion.
+     *         processing the insertion list bfter this insertion.
      *
      * @see LEInsertionList.h
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    virtual le_bool applyInsertion(le_int32 atPosition, le_int32 count, LEGlyphID newGlyphs[]);
+    virtubl le_bool bpplyInsertion(le_int32 btPosition, le_int32 count, LEGlyphID newGlyphs[]);
 
 public:
 
     /**
-     * Allocates an empty <code>LEGlyphStorage</code> object. You must call
-     * <code>allocateGlyphArray, allocatePositions and allocateAuxData</code>
-     * to allocate the data.
+     * Allocbtes bn empty <code>LEGlyphStorbge</code> object. You must cbll
+     * <code>bllocbteGlyphArrby, bllocbtePositions bnd bllocbteAuxDbtb</code>
+     * to bllocbte the dbtb.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    LEGlyphStorage();
+    LEGlyphStorbge();
 
     /**
-     * The destructor. This will deallocate all of the arrays.
+     * The destructor. This will debllocbte bll of the brrbys.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    ~LEGlyphStorage();
+    ~LEGlyphStorbge();
 
     /**
-     * This method returns the number of glyphs in the glyph array.
+     * This method returns the number of glyphs in the glyph brrby.
      *
-     * @return the number of glyphs in the glyph array
+     * @return the number of glyphs in the glyph brrby
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
     inline le_int32 getGlyphCount() const;
 
     /**
-     * This method copies the glyph array into a caller supplied array.
-     * The caller must ensure that the array is large enough to hold all
+     * This method copies the glyph brrby into b cbller supplied brrby.
+     * The cbller must ensure thbt the brrby is lbrge enough to hold bll
      * the glyphs.
      *
-     * @param glyphs - the destiniation glyph array
-     * @param success - set to an error code if the operation fails
+     * @pbrbm glyphs - the destinibtion glyph brrby
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
     void getGlyphs(LEGlyphID glyphs[], LEErrorCode &success) const;
 
     /**
-     * This method copies the glyph array into a caller supplied array,
-     * ORing in extra bits. (This functionality is needed by the JDK,
+     * This method copies the glyph brrby into b cbller supplied brrby,
+     * ORing in extrb bits. (This functionblity is needed by the JDK,
      * which uses 32 bits pre glyph idex, with the high 16 bits encoding
      * the composite font slot number)
      *
-     * @param glyphs - the destination (32 bit) glyph array
-     * @param extraBits - this value will be ORed with each glyph index
-     * @param success - set to an error code if the operation fails
+     * @pbrbm glyphs - the destinbtion (32 bit) glyph brrby
+     * @pbrbm extrbBits - this vblue will be ORed with ebch glyph index
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void getGlyphs(le_uint32 glyphs[], le_uint32 extraBits, LEErrorCode &success) const;
+    void getGlyphs(le_uint32 glyphs[], le_uint32 extrbBits, LEErrorCode &success) const;
 
     /**
-     * This method copies the character index array into a caller supplied array.
-     * The caller must ensure that the array is large enough to hold a
-     * character index for each glyph.
+     * This method copies the chbrbcter index brrby into b cbller supplied brrby.
+     * The cbller must ensure thbt the brrby is lbrge enough to hold b
+     * chbrbcter index for ebch glyph.
      *
-     * @param charIndices - the destiniation character index array
-     * @param success - set to an error code if the operation fails
+     * @pbrbm chbrIndices - the destinibtion chbrbcter index brrby
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void getCharIndices(le_int32 charIndices[], LEErrorCode &success) const;
+    void getChbrIndices(le_int32 chbrIndices[], LEErrorCode &success) const;
 
     /**
-     * This method copies the character index array into a caller supplied array.
-     * The caller must ensure that the array is large enough to hold a
-     * character index for each glyph.
+     * This method copies the chbrbcter index brrby into b cbller supplied brrby.
+     * The cbller must ensure thbt the brrby is lbrge enough to hold b
+     * chbrbcter index for ebch glyph.
      *
-     * @param charIndices - the destiniation character index array
-     * @param indexBase - an offset which will be added to each index
-     * @param success - set to an error code if the operation fails
+     * @pbrbm chbrIndices - the destinibtion chbrbcter index brrby
+     * @pbrbm indexBbse - bn offset which will be bdded to ebch index
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void getCharIndices(le_int32 charIndices[], le_int32 indexBase, LEErrorCode &success) const;
+    void getChbrIndices(le_int32 chbrIndices[], le_int32 indexBbse, LEErrorCode &success) const;
 
     /**
-     * This method copies the position array into a caller supplied array.
-     * The caller must ensure that the array is large enough to hold an
-     * X and Y position for each glyph, plus an extra X and Y for the
-     * advance of the last glyph.
+     * This method copies the position brrby into b cbller supplied brrby.
+     * The cbller must ensure thbt the brrby is lbrge enough to hold bn
+     * X bnd Y position for ebch glyph, plus bn extrb X bnd Y for the
+     * bdvbnce of the lbst glyph.
      *
-     * @param positions - the destiniation position array
-     * @param success - set to an error code if the operation fails
+     * @pbrbm positions - the destinibtion position brrby
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void getGlyphPositions(float positions[], LEErrorCode &success) const;
+    void getGlyphPositions(flobt positions[], LEErrorCode &success) const;
 
     /**
-     * This method returns the X and Y position of the glyph at
+     * This method returns the X bnd Y position of the glyph bt
      * the given index.
      *
-     * Input parameters:
-     * @param glyphIndex - the index of the glyph
+     * Input pbrbmeters:
+     * @pbrbm glyphIndex - the index of the glyph
      *
-     * Output parameters:
-     * @param x - the glyph's X position
-     * @param y - the glyph's Y position
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm x - the glyph's X position
+     * @pbrbm y - the glyph's Y position
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void getGlyphPosition(le_int32 glyphIndex, float &x, float &y, LEErrorCode &success) const;
+    void getGlyphPosition(le_int32 glyphIndex, flobt &x, flobt &y, LEErrorCode &success) const;
 
     /**
-     * This method allocates the glyph array, the char indices array and the insertion list. You
-     * must call this method before using the object. This method also initializes the char indices
-     * array.
+     * This method bllocbtes the glyph brrby, the chbr indices brrby bnd the insertion list. You
+     * must cbll this method before using the object. This method blso initiblizes the chbr indices
+     * brrby.
      *
-     * @param initialGlyphCount the initial size of the glyph and char indices arrays.
-     * @param rightToLeft <code>true</code> if the original input text is right to left.
-     * @param success set to an error code if the storage cannot be allocated of if the initial
+     * @pbrbm initiblGlyphCount the initibl size of the glyph bnd chbr indices brrbys.
+     * @pbrbm rightToLeft <code>true</code> if the originbl input text is right to left.
+     * @pbrbm success set to bn error code if the storbge cbnnot be bllocbted of if the initibl
      *        glyph count is not positive.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void allocateGlyphArray(le_int32 initialGlyphCount, le_bool rightToLeft, LEErrorCode &success);
+    void bllocbteGlyphArrby(le_int32 initiblGlyphCount, le_bool rightToLeft, LEErrorCode &success);
 
     /**
-     * This method allocates the storage for the glyph positions. It allocates one extra X, Y
-     * position pair for the position just after the last glyph.
+     * This method bllocbtes the storbge for the glyph positions. It bllocbtes one extrb X, Y
+     * position pbir for the position just bfter the lbst glyph.
      *
-     * @param success set to an error code if the positions array cannot be allocated.
+     * @pbrbm success set to bn error code if the positions brrby cbnnot be bllocbted.
      *
-     * @return the number of X, Y position pairs allocated.
+     * @return the number of X, Y position pbirs bllocbted.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    le_int32 allocatePositions(LEErrorCode &success);
+    le_int32 bllocbtePositions(LEErrorCode &success);
 
     /**
-     * This method allocates the storage for the auxillary glyph data.
+     * This method bllocbtes the storbge for the buxillbry glyph dbtb.
      *
-     * @param success set to an error code if the aulillary data array cannot be allocated.
+     * @pbrbm success set to bn error code if the bulillbry dbtb brrby cbnnot be bllocbted.
      *
-     * @return the size of the auxillary data array.
+     * @return the size of the buxillbry dbtb brrby.
      *
-     * @stable ICU 3.6
+     * @stbble ICU 3.6
      */
-    le_int32 allocateAuxData(LEErrorCode &success);
+    le_int32 bllocbteAuxDbtb(LEErrorCode &success);
 
     /**
-     * Copy the entire auxillary data array.
+     * Copy the entire buxillbry dbtb brrby.
      *
-     * @param auxData the auxillary data array will be copied to this address
-     * @param success set to an error code if the data cannot be copied
+     * @pbrbm buxDbtb the buxillbry dbtb brrby will be copied to this bddress
+     * @pbrbm success set to bn error code if the dbtb cbnnot be copied
      *
-     * @stable ICU 3.6
+     * @stbble ICU 3.6
      */
-    void getAuxData(le_uint32 auxData[], LEErrorCode &success) const;
+    void getAuxDbtb(le_uint32 buxDbtb[], LEErrorCode &success) const;
 
     /**
-     * Get the glyph ID for a particular glyph.
+     * Get the glyph ID for b pbrticulbr glyph.
      *
-     * @param glyphIndex the index into the glyph array
-     * @param success set to an error code if the glyph ID cannot be retrieved.
+     * @pbrbm glyphIndex the index into the glyph brrby
+     * @pbrbm success set to bn error code if the glyph ID cbnnot be retrieved.
      *
      * @return the glyph ID
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
     LEGlyphID getGlyphID(le_int32 glyphIndex, LEErrorCode &success) const;
 
     /**
-     * Get the char index for a particular glyph.
+     * Get the chbr index for b pbrticulbr glyph.
      *
-     * @param glyphIndex the index into the glyph array
-     * @param success set to an error code if the char index cannot be retrieved.
+     * @pbrbm glyphIndex the index into the glyph brrby
+     * @pbrbm success set to bn error code if the chbr index cbnnot be retrieved.
      *
-     * @return the character index
+     * @return the chbrbcter index
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    le_int32  getCharIndex(le_int32 glyphIndex, LEErrorCode &success) const;
+    le_int32  getChbrIndex(le_int32 glyphIndex, LEErrorCode &success) const;
 
 
     /**
-     * Get the auxillary data for a particular glyph.
+     * Get the buxillbry dbtb for b pbrticulbr glyph.
      *
-     * @param glyphIndex the index into the glyph array
-     * @param success set to an error code if the auxillary data cannot be retrieved.
+     * @pbrbm glyphIndex the index into the glyph brrby
+     * @pbrbm success set to bn error code if the buxillbry dbtb cbnnot be retrieved.
      *
-     * @return the auxillary data
+     * @return the buxillbry dbtb
      *
-     * @stable ICU 3.6
+     * @stbble ICU 3.6
      */
-    le_uint32 getAuxData(le_int32 glyphIndex, LEErrorCode &success) const;
+    le_uint32 getAuxDbtb(le_int32 glyphIndex, LEErrorCode &success) const;
 
     /**
-     * This operator allows direct access to the glyph array
-     * using the index operator.
+     * This operbtor bllows direct bccess to the glyph brrby
+     * using the index operbtor.
      *
-     * @param glyphIndex the index into the glyph array
+     * @pbrbm glyphIndex the index into the glyph brrby
      *
-     * @return a reference to the given location in the glyph array
+     * @return b reference to the given locbtion in the glyph brrby
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    inline LEGlyphID &operator[](le_int32 glyphIndex) const;
+    inline LEGlyphID &operbtor[](le_int32 glyphIndex) const;
 
     /**
-     * Call this method to replace a single glyph in the glyph array
+     * Cbll this method to replbce b single glyph in the glyph brrby
      * with multiple glyphs. This method uses the <code>LEInsertionList</code>
-     * to do the insertion. It returns the address of storage where the new
-     * glyph IDs can be stored. They will not actually be inserted into the
-     * glyph array until <code>applyInsertions</code> is called.
+     * to do the insertion. It returns the bddress of storbge where the new
+     * glyph IDs cbn be stored. They will not bctublly be inserted into the
+     * glyph brrby until <code>bpplyInsertions</code> is cblled.
      *
-     * @param atIndex the index of the glyph to be replaced
-     * @param insertCount the number of glyphs to replace it with
-     * @param success set to an error code if the auxillary data cannot be retrieved.
+     * @pbrbm btIndex the index of the glyph to be replbced
+     * @pbrbm insertCount the number of glyphs to replbce it with
+     * @pbrbm success set to bn error code if the buxillbry dbtb cbnnot be retrieved.
      *
-     * @return the address at which to store the replacement glyphs.
+     * @return the bddress bt which to store the replbcement glyphs.
      *
      * @see LEInsertionList.h
      *
-     * @stable ICU 4.2
+     * @stbble ICU 4.2
      */
-    LEGlyphID *insertGlyphs(le_int32 atIndex, le_int32 insertCount, LEErrorCode& success);
+    LEGlyphID *insertGlyphs(le_int32 btIndex, le_int32 insertCount, LEErrorCode& success);
 
     /**
-     * Call this method to replace a single glyph in the glyph array
+     * Cbll this method to replbce b single glyph in the glyph brrby
      * with multiple glyphs. This method uses the <code>LEInsertionList</code>
-     * to do the insertion. It returns the address of storage where the new
-     * glyph IDs can be stored. They will not actually be inserted into the
-     * glyph array until <code>applyInsertions</code> is called.
+     * to do the insertion. It returns the bddress of storbge where the new
+     * glyph IDs cbn be stored. They will not bctublly be inserted into the
+     * glyph brrby until <code>bpplyInsertions</code> is cblled.
      *
-     * Note: Don't use this version, use the other version of this function which has an error code.
+     * Note: Don't use this version, use the other version of this function which hbs bn error code.
      *
-     * @param atIndex the index of the glyph to be replaced
-     * @param insertCount the number of glyphs to replace it with
+     * @pbrbm btIndex the index of the glyph to be replbced
+     * @pbrbm insertCount the number of glyphs to replbce it with
      *
-     * @return the address at which to store the replacement glyphs.
+     * @return the bddress bt which to store the replbcement glyphs.
      *
      * @see LEInsertionList.h
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    LEGlyphID *insertGlyphs(le_int32 atIndex, le_int32 insertCount);
+    LEGlyphID *insertGlyphs(le_int32 btIndex, le_int32 insertCount);
 
     /**
      * This method is used to reposition glyphs during Indic v2 processing.  It moves
-     * all of the relevant glyph information ( glyph, indices, positions, and auxData ),
-     * from the source position to the target position, and also allows for a marker bit
-     * to be set in the target glyph's auxData so that it won't be reprocessed later in the
+     * bll of the relevbnt glyph informbtion ( glyph, indices, positions, bnd buxDbtb ),
+     * from the source position to the tbrget position, bnd blso bllows for b mbrker bit
+     * to be set in the tbrget glyph's buxDbtb so thbt it won't be reprocessed lbter in the
      * cycle.
      *
-     * @param fromPosition - position of the glyph to be moved
-     * @param toPosition - target position of the glyph
-     * @param marker marker bit
+     * @pbrbm fromPosition - position of the glyph to be moved
+     * @pbrbm toPosition - tbrget position of the glyph
+     * @pbrbm mbrker mbrker bit
      *
-     * @stable ICU 4.2
+     * @stbble ICU 4.2
      */
-    void moveGlyph(le_int32 fromPosition, le_int32 toPosition, le_uint32 marker);
+    void moveGlyph(le_int32 fromPosition, le_int32 toPosition, le_uint32 mbrker);
 
     /**
-     * This method causes all of the glyph insertions recorded by
-     * <code>insertGlyphs</code> to be applied to the glyph array. The
-     * new slots in the char indices and the auxillary data arrays
-     * will be filled in with the values for the glyph being replaced.
+     * This method cbuses bll of the glyph insertions recorded by
+     * <code>insertGlyphs</code> to be bpplied to the glyph brrby. The
+     * new slots in the chbr indices bnd the buxillbry dbtb brrbys
+     * will be filled in with the vblues for the glyph being replbced.
      *
-     * @return the new size of the glyph array
+     * @return the new size of the glyph brrby
      *
      * @see LEInsertionList.h
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    le_int32 applyInsertions();
+    le_int32 bpplyInsertions();
 
     /**
-     * Set the glyph ID for a particular glyph.
+     * Set the glyph ID for b pbrticulbr glyph.
      *
-     * @param glyphIndex the index of the glyph
-     * @param glyphID the new glyph ID
-     * @param success will be set to an error code if the glyph ID cannot be set.
+     * @pbrbm glyphIndex the index of the glyph
+     * @pbrbm glyphID the new glyph ID
+     * @pbrbm success will be set to bn error code if the glyph ID cbnnot be set.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
     void setGlyphID(le_int32 glyphIndex, LEGlyphID glyphID, LEErrorCode &success);
 
     /**
-     * Set the char index for a particular glyph.
+     * Set the chbr index for b pbrticulbr glyph.
      *
-     * @param glyphIndex the index of the glyph
-     * @param charIndex the new char index
-     * @param success will be set to an error code if the char index cannot be set.
+     * @pbrbm glyphIndex the index of the glyph
+     * @pbrbm chbrIndex the new chbr index
+     * @pbrbm success will be set to bn error code if the chbr index cbnnot be set.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void setCharIndex(le_int32 glyphIndex, le_int32 charIndex, LEErrorCode &success);
+    void setChbrIndex(le_int32 glyphIndex, le_int32 chbrIndex, LEErrorCode &success);
 
     /**
-     * Set the X, Y position for a particular glyph.
+     * Set the X, Y position for b pbrticulbr glyph.
      *
-     * @param glyphIndex the index of the glyph
-     * @param x the new X position
-     * @param y the new Y position
-     * @param success will be set to an error code if the position cannot be set.
+     * @pbrbm glyphIndex the index of the glyph
+     * @pbrbm x the new X position
+     * @pbrbm y the new Y position
+     * @pbrbm success will be set to bn error code if the position cbnnot be set.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void setPosition(le_int32 glyphIndex, float x, float y, LEErrorCode &success);
+    void setPosition(le_int32 glyphIndex, flobt x, flobt y, LEErrorCode &success);
 
     /**
-     * Adjust the X, Y position for a particular glyph.
+     * Adjust the X, Y position for b pbrticulbr glyph.
      *
-     * @param glyphIndex the index of the glyph
-     * @param xAdjust the adjustment to the glyph's X position
-     * @param yAdjust the adjustment to the glyph's Y position
-     * @param success will be set to an error code if the glyph's position cannot be adjusted.
+     * @pbrbm glyphIndex the index of the glyph
+     * @pbrbm xAdjust the bdjustment to the glyph's X position
+     * @pbrbm yAdjust the bdjustment to the glyph's Y position
+     * @pbrbm success will be set to bn error code if the glyph's position cbnnot be bdjusted.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void adjustPosition(le_int32 glyphIndex, float xAdjust, float yAdjust, LEErrorCode &success);
+    void bdjustPosition(le_int32 glyphIndex, flobt xAdjust, flobt yAdjust, LEErrorCode &success);
 
     /**
-     * Set the auxillary data for a particular glyph.
+     * Set the buxillbry dbtb for b pbrticulbr glyph.
      *
-     * @param glyphIndex the index of the glyph
-     * @param auxData the new auxillary data
-     * @param success will be set to an error code if the auxillary data cannot be set.
+     * @pbrbm glyphIndex the index of the glyph
+     * @pbrbm buxDbtb the new buxillbry dbtb
+     * @pbrbm success will be set to bn error code if the buxillbry dbtb cbnnot be set.
      *
-     * @stable ICU 3.6
+     * @stbble ICU 3.6
      */
-    void setAuxData(le_int32 glyphIndex, le_uint32 auxData, LEErrorCode &success);
+    void setAuxDbtb(le_int32 glyphIndex, le_uint32 buxDbtb, LEErrorCode &success);
 
     /**
-     * Delete the glyph array and replace it with the one
-     * in <code>from</code>. Set the glyph array pointer
+     * Delete the glyph brrby bnd replbce it with the one
+     * in <code>from</code>. Set the glyph brrby pointer
      * in <code>from</code> to <code>NULL</code>.
      *
-     * @param from the <code>LEGlyphStorage</code> object from which
-     *             to get the new glyph array.
+     * @pbrbm from the <code>LEGlyphStorbge</code> object from which
+     *             to get the new glyph brrby.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void adoptGlyphArray(LEGlyphStorage &from);
+    void bdoptGlyphArrby(LEGlyphStorbge &from);
 
     /**
-     * Delete the char indices array and replace it with the one
-     * in <code>from</code>. Set the char indices array pointer
+     * Delete the chbr indices brrby bnd replbce it with the one
+     * in <code>from</code>. Set the chbr indices brrby pointer
      * in <code>from</code> to <code>NULL</code>.
      *
-     * @param from the <code>LEGlyphStorage</code> object from which
-     *             to get the new char indices array.
+     * @pbrbm from the <code>LEGlyphStorbge</code> object from which
+     *             to get the new chbr indices brrby.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void adoptCharIndicesArray(LEGlyphStorage &from);
+    void bdoptChbrIndicesArrby(LEGlyphStorbge &from);
 
     /**
-     * Delete the position array and replace it with the one
-     * in <code>from</code>. Set the position array pointer
+     * Delete the position brrby bnd replbce it with the one
+     * in <code>from</code>. Set the position brrby pointer
      * in <code>from</code> to <code>NULL</code>.
      *
-     * @param from the <code>LEGlyphStorage</code> object from which
-     *             to get the new position array.
+     * @pbrbm from the <code>LEGlyphStorbge</code> object from which
+     *             to get the new position brrby.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void adoptPositionArray(LEGlyphStorage &from);
+    void bdoptPositionArrby(LEGlyphStorbge &from);
 
     /**
-     * Delete the auxillary data array and replace it with the one
-     * in <code>from</code>. Set the auxillary data array pointer
+     * Delete the buxillbry dbtb brrby bnd replbce it with the one
+     * in <code>from</code>. Set the buxillbry dbtb brrby pointer
      * in <code>from</code> to <code>NULL</code>.
      *
-     * @param from the <code>LEGlyphStorage</code> object from which
-     *             to get the new auxillary data array.
+     * @pbrbm from the <code>LEGlyphStorbge</code> object from which
+     *             to get the new buxillbry dbtb brrby.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void adoptAuxDataArray(LEGlyphStorage &from);
+    void bdoptAuxDbtbArrby(LEGlyphStorbge &from);
 
     /**
-     * Change the glyph count of this object to be the same
-     * as the one in <code>from</code>.
+     * Chbnge the glyph count of this object to be the sbme
+     * bs the one in <code>from</code>.
      *
-     * @param from the <code>LEGlyphStorage</code> object from which
+     * @pbrbm from the <code>LEGlyphStorbge</code> object from which
      *             to get the new glyph count.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void adoptGlyphCount(LEGlyphStorage &from);
+    void bdoptGlyphCount(LEGlyphStorbge &from);
 
     /**
-     * Change the glyph count of this object to the given value.
+     * Chbnge the glyph count of this object to the given vblue.
      *
-     * @param newGlyphCount the new glyph count.
+     * @pbrbm newGlyphCount the new glyph count.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    void adoptGlyphCount(le_int32 newGlyphCount);
+    void bdoptGlyphCount(le_int32 newGlyphCount);
 
     /**
-     * This method frees the glyph, character index, position  and
-     * auxillary data arrays so that the LayoutEngine can be reused
-     * to layout a different characer array. (This method is also called
+     * This method frees the glyph, chbrbcter index, position  bnd
+     * buxillbry dbtb brrbys so thbt the LbyoutEngine cbn be reused
+     * to lbyout b different chbrbcer brrby. (This method is blso cblled
      * by the destructor)
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
     void reset();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for the bctubl clbss.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID getDynbmicClbssID() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for this clbss.
      *
-     * @stable ICU 3.0
+     * @stbble ICU 3.0
      */
-    static UClassID getStaticClassID();
+    stbtic UClbssID getStbticClbssID();
 };
 
-inline le_int32 LEGlyphStorage::getGlyphCount() const
+inline le_int32 LEGlyphStorbge::getGlyphCount() const
 {
     return fGlyphCount;
 }
 
-inline LEGlyphID &LEGlyphStorage::operator[](le_int32 glyphIndex) const
+inline LEGlyphID &LEGlyphStorbge::operbtor[](le_int32 glyphIndex) const
 {
     return fGlyphs[glyphIndex];
 }

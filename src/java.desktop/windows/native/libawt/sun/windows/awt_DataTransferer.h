@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,77 +29,77 @@
 #include "stdhdrs.h"
 struct IUnknown;
 
-class AwtDataTransferer {
+clbss AwtDbtbTrbnsferer {
   public:
-    static jobject GetDataTransferer(JNIEnv* env);
-    static jbyteArray ConvertData(JNIEnv* env, jobject source, jobject contents,
-                                  jlong format, jobject formatMap);
-    static jobject ConcatData(JNIEnv* env, jobject obj1, jobject obj2);
+    stbtic jobject GetDbtbTrbnsferer(JNIEnv* env);
+    stbtic jbyteArrby ConvertDbtb(JNIEnv* env, jobject source, jobject contents,
+                                  jlong formbt, jobject formbtMbp);
+    stbtic jobject ConcbtDbtb(JNIEnv* env, jobject obj1, jobject obj2);
 
-    static jbyteArray GetPaletteBytes(HGDIOBJ hGdiObj, DWORD dwGdiObjType,
-                                      BOOL bFailSafe);
-    static jbyteArray LCIDToTextEncoding(JNIEnv *env, LCID lcid);
-    static void SecondaryMessageLoop();
+    stbtic jbyteArrby GetPbletteBytes(HGDIOBJ hGdiObj, DWORD dwGdiObjType,
+                                      BOOL bFbilSbfe);
+    stbtic jbyteArrby LCIDToTextEncoding(JNIEnv *env, LCID lcid);
+    stbtic void SecondbryMessbgeLoop();
 };
 
 /*
- * NOTE: You need these macros only if you take care of performance, since they
- * provide proper caching. Otherwise you can use JNU_CallMethodByName etc.
+ * NOTE: You need these mbcros only if you tbke cbre of performbnce, since they
+ * provide proper cbching. Otherwise you cbn use JNU_CbllMethodByNbme etc.
  */
 
 /*
- * This macro defines a function which returns the class for the specified
- * class name with proper caching and error handling.
+ * This mbcro defines b function which returns the clbss for the specified
+ * clbss nbme with proper cbching bnd error hbndling.
  */
-#define DECLARE_JAVA_CLASS(javaclazz, name)                                    \
-static jclass                                                                  \
-get_ ## javaclazz(JNIEnv* env) {                                               \
-    static jclass javaclazz = NULL;                                            \
+#define DECLARE_JAVA_CLASS(jbvbclbzz, nbme)                                    \
+stbtic jclbss                                                                  \
+get_ ## jbvbclbzz(JNIEnv* env) {                                               \
+    stbtic jclbss jbvbclbzz = NULL;                                            \
                                                                                \
-    if (JNU_IsNull(env, javaclazz)) {                                          \
-        jclass javaclazz ## Local = env->FindClass(name);                      \
+    if (JNU_IsNull(env, jbvbclbzz)) {                                          \
+        jclbss jbvbclbzz ## Locbl = env->FindClbss(nbme);                      \
                                                                                \
-        if (!JNU_IsNull(env, javaclazz ## Local)) {                            \
-            javaclazz = (jclass)env->NewGlobalRef(javaclazz ## Local);         \
-            env->DeleteLocalRef(javaclazz ## Local);                           \
-            if (JNU_IsNull(env, javaclazz)) {                                  \
+        if (!JNU_IsNull(env, jbvbclbzz ## Locbl)) {                            \
+            jbvbclbzz = (jclbss)env->NewGlobblRef(jbvbclbzz ## Locbl);         \
+            env->DeleteLocblRef(jbvbclbzz ## Locbl);                           \
+            if (JNU_IsNull(env, jbvbclbzz)) {                                  \
                 JNU_ThrowOutOfMemoryError(env, "");                            \
             }                                                                  \
         }                                                                      \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
+        if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {                   \
             env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+            env->ExceptionClebr();                                             \
         }                                                                      \
     }                                                                          \
                                                                                \
-    DASSERT(!JNU_IsNull(env, javaclazz));                                      \
+    DASSERT(!JNU_IsNull(env, jbvbclbzz));                                      \
                                                                                \
-    return javaclazz;                                                          \
+    return jbvbclbzz;                                                          \
 }
 
 /*
- * The following macros defines blocks of code which retrieve a method of the
- * specified class identified with the specified name and signature.
- * The specified class should be previously declared with DECLARE_JAVA_CLASS.
- * These macros should be placed at the beginning of a block, after definition
- * of local variables, but before the code begins.
+ * The following mbcros defines blocks of code which retrieve b method of the
+ * specified clbss identified with the specified nbme bnd signbture.
+ * The specified clbss should be previously declbred with DECLARE_JAVA_CLASS.
+ * These mbcros should be plbced bt the beginning of b block, bfter definition
+ * of locbl vbribbles, but before the code begins.
  */
-#define DECLARE_VOID_JAVA_METHOD(method, javaclazz, name, signature)           \
-    static jmethodID method = NULL;                                            \
+#define DECLARE_VOID_JAVA_METHOD(method, jbvbclbzz, nbme, signbture)           \
+    stbtic jmethodID method = NULL;                                            \
                                                                                \
     if (JNU_IsNull(env, method)) {                                             \
-        jclass clazz = get_ ## javaclazz(env);                                 \
+        jclbss clbzz = get_ ## jbvbclbzz(env);                                 \
                                                                                \
-        if (JNU_IsNull(env, clazz)) {                                          \
+        if (JNU_IsNull(env, clbzz)) {                                          \
             return;                                                            \
         }                                                                      \
                                                                                \
-        method = env->GetMethodID(clazz, name, signature);                     \
+        method = env->GetMethodID(clbzz, nbme, signbture);                     \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
+        if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {                   \
             env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+            env->ExceptionClebr();                                             \
         }                                                                      \
                                                                                \
         if (JNU_IsNull(env, method)) {                                         \
@@ -108,44 +108,44 @@ get_ ## javaclazz(JNIEnv* env) {                                               \
         }                                                                      \
     }
 
-#define DECLARE_JINT_JAVA_METHOD(method, javaclazz, name, signature)           \
-    static jmethodID method = NULL;                                            \
+#define DECLARE_JINT_JAVA_METHOD(method, jbvbclbzz, nbme, signbture)           \
+    stbtic jmethodID method = NULL;                                            \
                                                                                \
     if (JNU_IsNull(env, method)) {                                             \
-        jclass clazz = get_ ## javaclazz(env);                                 \
+        jclbss clbzz = get_ ## jbvbclbzz(env);                                 \
                                                                                \
-        if (JNU_IsNull(env, clazz)) {                                          \
-            return java_awt_dnd_DnDConstants_ACTION_NONE;                      \
+        if (JNU_IsNull(env, clbzz)) {                                          \
+            return jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;                      \
         }                                                                      \
                                                                                \
-        method = env->GetMethodID(clazz, name, signature);                     \
+        method = env->GetMethodID(clbzz, nbme, signbture);                     \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
+        if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {                   \
             env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+            env->ExceptionClebr();                                             \
         }                                                                      \
                                                                                \
         if (JNU_IsNull(env, method)) {                                         \
             DASSERT(FALSE);                                                    \
-            return java_awt_dnd_DnDConstants_ACTION_NONE;                      \
+            return jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;                      \
         }                                                                      \
     }
 
-#define DECLARE_OBJECT_JAVA_METHOD(method, javaclazz, name, signature)         \
-    static jmethodID method = NULL;                                            \
+#define DECLARE_OBJECT_JAVA_METHOD(method, jbvbclbzz, nbme, signbture)         \
+    stbtic jmethodID method = NULL;                                            \
                                                                                \
     if (JNU_IsNull(env, method)) {                                             \
-        jclass clazz = get_ ## javaclazz(env);                                 \
+        jclbss clbzz = get_ ## jbvbclbzz(env);                                 \
                                                                                \
-        if (JNU_IsNull(env, clazz)) {                                          \
+        if (JNU_IsNull(env, clbzz)) {                                          \
             return NULL;                                                       \
         }                                                                      \
                                                                                \
-        method = env->GetMethodID(clazz, name, signature);                     \
+        method = env->GetMethodID(clbzz, nbme, signbture);                     \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
+        if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {                   \
             env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+            env->ExceptionClebr();                                             \
         }                                                                      \
                                                                                \
         if (JNU_IsNull(env, method)) {                                         \
@@ -154,20 +154,20 @@ get_ ## javaclazz(JNIEnv* env) {                                               \
         }                                                                      \
     }
 
-#define DECLARE_STATIC_OBJECT_JAVA_METHOD(method, javaclazz, name, signature)  \
-    static jmethodID method = NULL;                                            \
-    jclass clazz = get_ ## javaclazz(env);                                     \
+#define DECLARE_STATIC_OBJECT_JAVA_METHOD(method, jbvbclbzz, nbme, signbture)  \
+    stbtic jmethodID method = NULL;                                            \
+    jclbss clbzz = get_ ## jbvbclbzz(env);                                     \
                                                                                \
-    if (JNU_IsNull(env, clazz)) {                                              \
+    if (JNU_IsNull(env, clbzz)) {                                              \
         return NULL;                                                           \
     }                                                                          \
                                                                                \
     if (JNU_IsNull(env, method)) {                                             \
-        method = env->GetStaticMethodID(clazz, name, signature);               \
+        method = env->GetStbticMethodID(clbzz, nbme, signbture);               \
                                                                                \
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {                   \
+        if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {                   \
             env->ExceptionDescribe();                                          \
-            env->ExceptionClear();                                             \
+            env->ExceptionClebr();                                             \
         }                                                                      \
                                                                                \
         if (JNU_IsNull(env, method)) {                                         \

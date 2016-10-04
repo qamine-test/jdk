@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #if !defined(JAVA2D_NO_MLIB) || defined(MLIB_ADD_SUFF)
 
 #include <vis_proto.h>
-#include "java2d_Mlib.h"
-#include "vis_AlphaMacros.h"
+#include "jbvb2d_Mlib.h"
+#include "vis_AlphbMbcros.h"
 
 /***************************************************************/
 
-const mlib_u8 vis_sat_sh3_tbl[128 + 256 + 128] = {
+const mlib_u8 vis_sbt_sh3_tbl[128 + 256 + 128] = {
    0,  0,  0,  0,  0,  0,  0,  0,
    0,  0,  0,  0,  0,  0,  0,  0,
    0,  0,  0,  0,  0,  0,  0,  0,
@@ -107,26 +107,26 @@ const mlib_u8 vis_sat_sh3_tbl[128 + 256 + 128] = {
 #define FUNC_CONVERT(FUNC, SRC_T)                                      \
 void ADD_SUFF(SRC_T##ToByteIndexed##FUNC)(BLIT_PARAMS)                 \
 {                                                                      \
-    const mlib_u8 *p_tbl = vis_sat_sh3_tbl + 128;                      \
+    const mlib_u8 *p_tbl = vis_sbt_sh3_tbl + 128;                      \
     mlib_s32 DstWriteXDither, DstWriteYDither;                         \
     mlib_s8 *DstWritererr, *DstWritegerr, *DstWriteberr;               \
     mlib_u8 *DstWriteInvLut;                                           \
-    mlib_s32 srcScan = pSrcInfo->scanStride;                           \
-    mlib_s32 dstScan = pDstInfo->scanStride;                           \
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;                           \
+    mlib_s32 dstScbn = pDstInfo->scbnStride;                           \
     mlib_s32 r, g, b;                                                  \
     mlib_s32 i, j;                                                     \
     CHECK_LUT                                                          \
                                                                        \
     DstWriteYDither = (pDstInfo->bounds.y1 & 7) << 3;                  \
-    DstWriteInvLut = pDstInfo->invColorTable;                          \
+    DstWriteInvLut = pDstInfo->invColorTbble;                          \
                                                                        \
     for (j = 0; j < height; j++) {                                     \
-        mlib_u8 *pSrc = srcBase;                                       \
-        mlib_u8 *pDst = dstBase;                                       \
+        mlib_u8 *pSrc = srcBbse;                                       \
+        mlib_u8 *pDst = dstBbse;                                       \
                                                                        \
-        DstWritererr = pDstInfo->redErrTable + DstWriteYDither;        \
-        DstWritegerr = pDstInfo->grnErrTable + DstWriteYDither;        \
-        DstWriteberr = pDstInfo->bluErrTable + DstWriteYDither;        \
+        DstWritererr = pDstInfo->redErrTbble + DstWriteYDither;        \
+        DstWritegerr = pDstInfo->grnErrTbble + DstWriteYDither;        \
+        DstWriteberr = pDstInfo->bluErrTbble + DstWriteYDither;        \
                                                                        \
         DstWriteXDither = pDstInfo->bounds.x1 & 7;                     \
                                                                        \
@@ -143,8 +143,8 @@ void ADD_SUFF(SRC_T##ToByteIndexed##FUNC)(BLIT_PARAMS)                 \
             DstWriteXDither = (DstWriteXDither + 1) & 7;               \
         }                                                              \
                                                                        \
-        PTR_ADD(dstBase, dstScan);                                     \
-        PTR_ADD(srcBase, srcScan);                                     \
+        PTR_ADD(dstBbse, dstScbn);                                     \
+        PTR_ADD(srcBbse, srcScbn);                                     \
                                                                        \
         DstWriteYDither = (DstWriteYDither + (1 << 3)) & (7 << 3);     \
     }                                                                  \
@@ -155,29 +155,29 @@ void ADD_SUFF(SRC_T##ToByteIndexed##FUNC)(BLIT_PARAMS)                 \
 #define FUNC_SCALE_CONVERT(FUNC, SRC_T)                                \
 void ADD_SUFF(SRC_T##ToByteIndexed##FUNC)(SCALE_PARAMS)                \
 {                                                                      \
-    const mlib_u8 *p_tbl = vis_sat_sh3_tbl + 128;                      \
+    const mlib_u8 *p_tbl = vis_sbt_sh3_tbl + 128;                      \
     mlib_s32 DstWriteXDither, DstWriteYDither;                         \
     mlib_s8 *DstWritererr, *DstWritegerr, *DstWriteberr;               \
     mlib_u8 *DstWriteInvLut;                                           \
-    mlib_s32 srcScan = pSrcInfo->scanStride;                           \
-    mlib_s32 dstScan = pDstInfo->scanStride;                           \
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;                           \
+    mlib_s32 dstScbn = pDstInfo->scbnStride;                           \
     mlib_s32 r, g, b;                                                  \
     mlib_s32 i, j;                                                     \
     CHECK_LUT                                                          \
                                                                        \
     DstWriteYDither = (pDstInfo->bounds.y1 & 7) << 3;                  \
-    DstWriteInvLut = pDstInfo->invColorTable;                          \
+    DstWriteInvLut = pDstInfo->invColorTbble;                          \
                                                                        \
     for (j = 0; j < height; j++) {                                     \
-        mlib_u8 *pSrc = srcBase;                                       \
-        mlib_u8 *pDst = dstBase;                                       \
+        mlib_u8 *pSrc = srcBbse;                                       \
+        mlib_u8 *pDst = dstBbse;                                       \
         mlib_s32 tmpsxloc = sxloc;                                     \
                                                                        \
-        PTR_ADD(pSrc, (syloc >> shift) * srcScan);                     \
+        PTR_ADD(pSrc, (syloc >> shift) * srcScbn);                     \
                                                                        \
-        DstWritererr = pDstInfo->redErrTable + DstWriteYDither;        \
-        DstWritegerr = pDstInfo->grnErrTable + DstWriteYDither;        \
-        DstWriteberr = pDstInfo->bluErrTable + DstWriteYDither;        \
+        DstWritererr = pDstInfo->redErrTbble + DstWriteYDither;        \
+        DstWritegerr = pDstInfo->grnErrTbble + DstWriteYDither;        \
+        DstWriteberr = pDstInfo->bluErrTbble + DstWriteYDither;        \
                                                                        \
         DstWriteXDither = pDstInfo->bounds.x1 & 7;                     \
                                                                        \
@@ -196,7 +196,7 @@ void ADD_SUFF(SRC_T##ToByteIndexed##FUNC)(SCALE_PARAMS)                \
             tmpsxloc += sxinc;                                         \
         }                                                              \
                                                                        \
-        PTR_ADD(dstBase, dstScan);                                     \
+        PTR_ADD(dstBbse, dstScbn);                                     \
         syloc += syinc;                                                \
                                                                        \
         DstWriteYDither = (DstWriteYDither + (1 << 3)) & (7 << 3);     \
@@ -210,32 +210,32 @@ void ADD_SUFF(SRC_T##ToByteIndexed##FUNC)(SCALE_PARAMS)                \
     if (pixel >> 24)
 
 #define GET_PIX_ByteIndexedBm(i)               \
-    mlib_s32 pixel = SrcReadLut[pSrc[i]];      \
+    mlib_s32 pixel = SrcRebdLut[pSrc[i]];      \
     if (pixel < 0)
 
 #define FUNC_BGCOPY(SRC_T)                                             \
-void ADD_SUFF(SRC_T##ToByteIndexedXparBgCopy)(BCOPY_PARAMS)            \
+void ADD_SUFF(SRC_T##ToByteIndexedXpbrBgCopy)(BCOPY_PARAMS)            \
 {                                                                      \
-    const mlib_u8 *p_tbl = vis_sat_sh3_tbl + 128;                      \
+    const mlib_u8 *p_tbl = vis_sbt_sh3_tbl + 128;                      \
     mlib_s32 DstWriteXDither, DstWriteYDither;                         \
     mlib_s8 *DstWritererr, *DstWritegerr, *DstWriteberr;               \
     mlib_u8 *DstWriteInvLut;                                           \
-    mlib_s32 srcScan = pSrcInfo->scanStride;                           \
-    mlib_s32 dstScan = pDstInfo->scanStride;                           \
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;                           \
+    mlib_s32 dstScbn = pDstInfo->scbnStride;                           \
     mlib_s32 r, g, b;                                                  \
     mlib_s32 i, j;                                                     \
-    jint *SrcReadLut = pSrcInfo->lutBase;                              \
+    jint *SrcRebdLut = pSrcInfo->lutBbse;                              \
                                                                        \
     DstWriteYDither = (pDstInfo->bounds.y1 & 7) << 3;                  \
-    DstWriteInvLut = pDstInfo->invColorTable;                          \
+    DstWriteInvLut = pDstInfo->invColorTbble;                          \
                                                                        \
     for (j = 0; j < height; j++) {                                     \
-        mlib_u8 *pSrc = srcBase;                                       \
-        mlib_u8 *pDst = dstBase;                                       \
+        mlib_u8 *pSrc = srcBbse;                                       \
+        mlib_u8 *pDst = dstBbse;                                       \
                                                                        \
-        DstWritererr = pDstInfo->redErrTable + DstWriteYDither;        \
-        DstWritegerr = pDstInfo->grnErrTable + DstWriteYDither;        \
-        DstWriteberr = pDstInfo->bluErrTable + DstWriteYDither;        \
+        DstWritererr = pDstInfo->redErrTbble + DstWriteYDither;        \
+        DstWritegerr = pDstInfo->grnErrTbble + DstWriteYDither;        \
+        DstWriteberr = pDstInfo->bluErrTbble + DstWriteYDither;        \
                                                                        \
         DstWriteXDither = pDstInfo->bounds.x1 & 7;                     \
                                                                        \
@@ -258,8 +258,8 @@ void ADD_SUFF(SRC_T##ToByteIndexedXparBgCopy)(BCOPY_PARAMS)            \
             DstWriteXDither = (DstWriteXDither + 1) & 7;               \
         }                                                              \
                                                                        \
-        PTR_ADD(dstBase, dstScan);                                     \
-        PTR_ADD(srcBase, srcScan);                                     \
+        PTR_ADD(dstBbse, dstScbn);                                     \
+        PTR_ADD(srcBbse, srcScbn);                                     \
                                                                        \
         DstWriteYDither = (DstWriteYDither + (1 << 3)) & (7 << 3);     \
     }                                                                  \
@@ -281,16 +281,16 @@ FUNC_BGCOPY(IntArgbBm)
     g = pSrc[3*i + 1];                 \
     r = pSrc[3*i + 2];
 
-#define GET_RGB_ByteGray(i)    \
+#define GET_RGB_ByteGrby(i)    \
     r = g = b = pSrc[i];
 
-#define GET_RGB_Index12Gray(i)                         \
-    r = SrcReadLut[((mlib_u16*)pSrc)[i] & 0xfff];      \
+#define GET_RGB_Index12Grby(i)                         \
+    r = SrcRebdLut[((mlib_u16*)pSrc)[i] & 0xfff];      \
     r &= 0xff;                                         \
     g = b = r;
 
 #define GET_RGB_ByteIndexed(i)                 \
-    mlib_u32 pixel = SrcReadLut[pSrc[i]];      \
+    mlib_u32 pixel = SrcRebdLut[pSrc[i]];      \
     b = (pixel) & 0xff;                        \
     g = (pixel >> 8) & 0xff;                   \
     r = (pixel >> 16) & 0xff;
@@ -303,7 +303,7 @@ FUNC_BGCOPY(IntArgbBm)
     if (pixel >> 24)
 
 #define GET_RGB_ByteIndexedBm(i)               \
-    mlib_s32 pixel = SrcReadLut[pSrc[i]];      \
+    mlib_s32 pixel = SrcRebdLut[pSrc[i]];      \
     b = (pixel) & 0xff;                        \
     g = (pixel >> 8) & 0xff;                   \
     r = (pixel >> 16) & 0xff;                  \
@@ -313,32 +313,32 @@ FUNC_BGCOPY(IntArgbBm)
 
 FUNC_CONVERT(Convert, IntArgb)
 FUNC_CONVERT(Convert, ThreeByteBgr)
-FUNC_CONVERT(Convert, ByteGray)
-FUNC_CONVERT(XparOver, IntArgbBm)
-FUNC_SCALE_CONVERT(ScaleConvert, IntArgb)
-FUNC_SCALE_CONVERT(ScaleConvert, ThreeByteBgr)
-FUNC_SCALE_CONVERT(ScaleConvert, ByteGray)
-FUNC_SCALE_CONVERT(ScaleXparOver, IntArgbBm)
+FUNC_CONVERT(Convert, ByteGrby)
+FUNC_CONVERT(XpbrOver, IntArgbBm)
+FUNC_SCALE_CONVERT(ScbleConvert, IntArgb)
+FUNC_SCALE_CONVERT(ScbleConvert, ThreeByteBgr)
+FUNC_SCALE_CONVERT(ScbleConvert, ByteGrby)
+FUNC_SCALE_CONVERT(ScbleXpbrOver, IntArgbBm)
 
 /***************************************************************/
 
 #undef  CHECK_LUT
 #define CHECK_LUT      \
-    jint *SrcReadLut = pSrcInfo->lutBase;
+    jint *SrcRebdLut = pSrcInfo->lutBbse;
 
-FUNC_CONVERT(Convert, Index12Gray)
-FUNC_SCALE_CONVERT(ScaleConvert, Index12Gray)
+FUNC_CONVERT(Convert, Index12Grby)
+FUNC_SCALE_CONVERT(ScbleConvert, Index12Grby)
 
-FUNC_CONVERT(XparOver, ByteIndexedBm)
-FUNC_SCALE_CONVERT(ScaleXparOver, ByteIndexedBm)
+FUNC_CONVERT(XpbrOver, ByteIndexedBm)
+FUNC_SCALE_CONVERT(ScbleXpbrOver, ByteIndexedBm)
 
 /***************************************************************/
 
 #undef  CHECK_LUT
 #define CHECK_LUT                                                      \
-    jint *SrcReadLut = pSrcInfo->lutBase;                              \
-    jint *DstReadLut = pDstInfo->lutBase;                              \
-    if (checkSameLut(SrcReadLut, DstReadLut, pSrcInfo, pDstInfo)) {    \
+    jint *SrcRebdLut = pSrcInfo->lutBbse;                              \
+    jint *DstRebdLut = pDstInfo->lutBbse;                              \
+    if (checkSbmeLut(SrcRebdLut, DstRebdLut, pSrcInfo, pDstInfo)) {    \
         ADD_SUFF(AnyByteIsomorphicCopy)(BLIT_CALL_PARAMS);             \
         return;                                                        \
     }
@@ -347,31 +347,31 @@ FUNC_CONVERT(Convert, ByteIndexed)
 
 #undef  CHECK_LUT
 #define CHECK_LUT                                                      \
-    jint *SrcReadLut = pSrcInfo->lutBase;                              \
-    jint *DstReadLut = pDstInfo->lutBase;                              \
-    if (checkSameLut(SrcReadLut, DstReadLut, pSrcInfo, pDstInfo)) {    \
-        ADD_SUFF(AnyByteIsomorphicScaleCopy)(SCALE_CALL_PARAMS);       \
+    jint *SrcRebdLut = pSrcInfo->lutBbse;                              \
+    jint *DstRebdLut = pDstInfo->lutBbse;                              \
+    if (checkSbmeLut(SrcRebdLut, DstRebdLut, pSrcInfo, pDstInfo)) {    \
+        ADD_SUFF(AnyByteIsomorphicScbleCopy)(SCALE_CALL_PARAMS);       \
         return;                                                        \
     }
 
-FUNC_SCALE_CONVERT(ScaleConvert, ByteIndexed)
+FUNC_SCALE_CONVERT(ScbleConvert, ByteIndexed)
 
 /***************************************************************/
 
 void ADD_SUFF(IntArgbToByteIndexedXorBlit)(BLIT_PARAMS)
 {
     mlib_u8  *DstWriteInvLut;
-    mlib_s32 srcScan = pSrcInfo->scanStride;
-    mlib_s32 dstScan = pDstInfo->scanStride;
-    mlib_s32 xorpixel = pCompInfo->details.xorPixel;
-    mlib_s32 alphamask = pCompInfo->alphaMask;
+    mlib_s32 srcScbn = pSrcInfo->scbnStride;
+    mlib_s32 dstScbn = pDstInfo->scbnStride;
+    mlib_s32 xorpixel = pCompInfo->detbils.xorPixel;
+    mlib_s32 blphbmbsk = pCompInfo->blphbMbsk;
     mlib_s32 i, j;
 
-    DstWriteInvLut = pDstInfo->invColorTable;
+    DstWriteInvLut = pDstInfo->invColorTbble;
 
     for (j = 0; j < height; j++) {
-        mlib_s32 *pSrc = srcBase;
-        mlib_u8  *pDst = dstBase;
+        mlib_s32 *pSrc = srcBbse;
+        mlib_u8  *pDst = dstBbse;
 
         for (i = 0; i < width; i++) {
             mlib_s32 spix = pSrc[i];
@@ -380,33 +380,33 @@ void ADD_SUFF(IntArgbToByteIndexedXorBlit)(BLIT_PARAMS)
                 dpix = DstWriteInvLut[((spix >> 9) & 0x7C00) +
                                       ((spix >> 6) & 0x03E0) +
                                       ((spix >> 3) & 0x001F)];
-                pDst[i] ^= (dpix ^ xorpixel) &~ alphamask;
+                pDst[i] ^= (dpix ^ xorpixel) &~ blphbmbsk;
             }
         }
 
-        PTR_ADD(dstBase, dstScan);
-        PTR_ADD(srcBase, srcScan);
+        PTR_ADD(dstBbse, dstScbn);
+        PTR_ADD(srcBbse, srcScbn);
     }
 }
 
 /***************************************************************/
 
-#define MASK_FILL(rr, pathA, dstA, dstARGB)                    \
+#define MASK_FILL(rr, pbthA, dstA, dstARGB)                    \
 {                                                              \
     mlib_d64 t0, t1;                                           \
     mlib_s32 srcF, dstF, srcA;                                 \
                                                                \
     srcF = ((dstA & SrcOpAnd) ^ SrcOpXor) + SrcOpAdd;          \
                                                                \
-    srcF = MUL8_INT(srcF, pathA);                              \
-    dstF = MUL8_INT(dstFbase, pathA) + (0xff - pathA);         \
+    srcF = MUL8_INT(srcF, pbthA);                              \
+    dstF = MUL8_INT(dstFbbse, pbthA) + (0xff - pbthA);         \
                                                                \
     srcA = MUL8_INT(cnstA, srcF);                              \
     dstA = MUL8_INT(dstF, dstA);                               \
                                                                \
     t0 = MUL8_VIS(cnstARGB0, srcF);                            \
     t1 = MUL8_VIS(dstARGB, dstA);                              \
-    rr = vis_fpadd16(t0, t1);                                  \
+    rr = vis_fpbdd16(t0, t1);                                  \
                                                                \
     dstA += srcA;                                              \
     DIV_ALPHA(rr, dstA);                                       \
@@ -414,30 +414,30 @@ void ADD_SUFF(IntArgbToByteIndexedXorBlit)(BLIT_PARAMS)
 
 /***************************************************************/
 
-void ADD_SUFF(ByteIndexedAlphaMaskFill)(void *dstBase,
-                                        jubyte *pMask,
-                                        jint maskOff,
-                                        jint maskScan,
+void ADD_SUFF(ByteIndexedAlphbMbskFill)(void *dstBbse,
+                                        jubyte *pMbsk,
+                                        jint mbskOff,
+                                        jint mbskScbn,
                                         jint width,
                                         jint height,
                                         jint fgColor,
-                                        SurfaceDataRasInfo *pDstInfo,
-                                        NativePrimitive *pPrim,
+                                        SurfbceDbtbRbsInfo *pDstInfo,
+                                        NbtivePrimitive *pPrim,
                                         CompositeInfo *pCompInfo)
 {
-    const mlib_u8 *mul8_tbl = (void*)mul8table;
-    const mlib_u8 *p_tbl = vis_sat_sh3_tbl + 128;
+    const mlib_u8 *mul8_tbl = (void*)mul8tbble;
+    const mlib_u8 *p_tbl = vis_sbt_sh3_tbl + 128;
     mlib_s32 DstWriteXDither, DstWriteYDither;
     mlib_s8 *DstWritererr, *DstWritegerr, *DstWriteberr;
     mlib_u8 *DstWriteInvLut;
     mlib_s32 r, g, b;
-    mlib_f32 *DstReadLut = (void*)(pDstInfo->lutBase);
+    mlib_f32 *DstRebdLut = (void*)(pDstInfo->lutBbse);
     mlib_s32 cnstA, cnstR, cnstG, cnstB;
-    mlib_s32 dstScan = pDstInfo->scanStride;
+    mlib_s32 dstScbn = pDstInfo->scbnStride;
     mlib_f32 cnstARGB0;
     mlib_s32 SrcOpAnd, SrcOpXor, SrcOpAdd;
     mlib_s32 DstOpAnd, DstOpXor, DstOpAdd;
-    mlib_s32 dstFbase;
+    mlib_s32 dstFbbse;
     mlib_s32 j;
 
     cnstA = (fgColor >> 24) & 0xff;
@@ -446,59 +446,59 @@ void ADD_SUFF(ByteIndexedAlphaMaskFill)(void *dstBase,
     cnstB = (fgColor      ) & 0xff;
 
     if (cnstA != 0xff) {
-        cnstR = mul8table[cnstA][cnstR];
-        cnstG = mul8table[cnstA][cnstG];
-        cnstB = mul8table[cnstA][cnstB];
+        cnstR = mul8tbble[cnstA][cnstR];
+        cnstG = mul8tbble[cnstA][cnstG];
+        cnstB = mul8tbble[cnstA][cnstB];
     }
 
     cnstARGB0 = F32_FROM_U8x4(cnstA, cnstR, cnstG, cnstB);
 
-    SrcOpAnd = (AlphaRules[pCompInfo->rule].srcOps).andval;
-    SrcOpXor = (AlphaRules[pCompInfo->rule].srcOps).xorval;
-    SrcOpAdd = (AlphaRules[pCompInfo->rule].srcOps).addval;
+    SrcOpAnd = (AlphbRules[pCompInfo->rule].srcOps).bndvbl;
+    SrcOpXor = (AlphbRules[pCompInfo->rule].srcOps).xorvbl;
+    SrcOpAdd = (AlphbRules[pCompInfo->rule].srcOps).bddvbl;
     SrcOpAdd -= SrcOpXor;
 
-    DstOpAnd = (AlphaRules[pCompInfo->rule].dstOps).andval;
-    DstOpXor = (AlphaRules[pCompInfo->rule].dstOps).xorval;
-    DstOpAdd = (AlphaRules[pCompInfo->rule].dstOps).addval;
+    DstOpAnd = (AlphbRules[pCompInfo->rule].dstOps).bndvbl;
+    DstOpXor = (AlphbRules[pCompInfo->rule].dstOps).xorvbl;
+    DstOpAdd = (AlphbRules[pCompInfo->rule].dstOps).bddvbl;
     DstOpAdd -= DstOpXor;
 
-    dstFbase = (((cnstA) & DstOpAnd) ^ DstOpXor) + DstOpAdd;
+    dstFbbse = (((cnstA) & DstOpAnd) ^ DstOpXor) + DstOpAdd;
 
     vis_write_gsr(7 << 3);
 
-    if (pMask != NULL) {
+    if (pMbsk != NULL) {
         DstWriteYDither = (pDstInfo->bounds.y1 & 7) << 3;
-        DstWriteInvLut = pDstInfo->invColorTable;
+        DstWriteInvLut = pDstInfo->invColorTbble;
 
-        pMask += maskOff;
+        pMbsk += mbskOff;
 
-        if (dstScan == width && maskScan == width) {
+        if (dstScbn == width && mbskScbn == width) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            mlib_u8  *pDst = dstBase;
+            mlib_u8  *pDst = dstBbse;
             mlib_s32 i;
-            mlib_s32 pathA0, dstA0, dst_val, pixel;
+            mlib_s32 pbthA0, dstA0, dst_vbl, pixel;
             mlib_d64 res0;
             mlib_f32 dstARGB0;
 
-            DstWritererr = pDstInfo->redErrTable + DstWriteYDither;
-            DstWritegerr = pDstInfo->grnErrTable + DstWriteYDither;
-            DstWriteberr = pDstInfo->bluErrTable + DstWriteYDither;
+            DstWritererr = pDstInfo->redErrTbble + DstWriteYDither;
+            DstWritegerr = pDstInfo->grnErrTbble + DstWriteYDither;
+            DstWriteberr = pDstInfo->bluErrTbble + DstWriteYDither;
 
             DstWriteXDither = pDstInfo->bounds.x1 & 7;
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
             for (i = 0; i < width; i++) {
-                dst_val = pDst[i];
-                pathA0 = pMask[i];
-                dstA0 = *(mlib_u8*)(DstReadLut + dst_val);
-                dstARGB0 = DstReadLut[dst_val];
-                MASK_FILL(res0, pathA0, dstA0, dstARGB0);
-                dstARGB0 = vis_fpack16(res0);
+                dst_vbl = pDst[i];
+                pbthA0 = pMbsk[i];
+                dstA0 = *(mlib_u8*)(DstRebdLut + dst_vbl);
+                dstARGB0 = DstRebdLut[dst_vbl];
+                MASK_FILL(res0, pbthA0, dstA0, dstARGB0);
+                dstARGB0 = vis_fpbck16(res0);
 
                 pixel = *(mlib_s32*)&dstARGB0;
                 b = (pixel) & 0xff;
@@ -512,23 +512,23 @@ void ADD_SUFF(ByteIndexedAlphaMaskFill)(void *dstBase,
                 DstWriteXDither = (DstWriteXDither + 1) & 7;
             }
 
-            PTR_ADD(dstBase, dstScan);
-            PTR_ADD(pMask, maskScan);
+            PTR_ADD(dstBbse, dstScbn);
+            PTR_ADD(pMbsk, mbskScbn);
             DstWriteYDither = (DstWriteYDither + (1 << 3)) & (7 << 3);
         }
     }/* else {
-        if (dstScan == 4*width) {
+        if (dstScbn == 4*width) {
             width *= height;
             height = 1;
         }
 
         for (j = 0; j < height; j++) {
-            IntArgbAlphaMaskFill_A1_line(dstBase, pMask, width,
+            IntArgbAlphbMbskFill_A1_line(dstBbse, pMbsk, width,
                                          cnstARGB0,
-                                         log_val, mul8_cnstA, mul8_dstF,
-                                         (void*)mul8table);
+                                         log_vbl, mul8_cnstA, mul8_dstF,
+                                         (void*)mul8tbble);
 
-            PTR_ADD(dstBase, dstScan);
+            PTR_ADD(dstBbse, dstScbn);
         }
     }*/
 }

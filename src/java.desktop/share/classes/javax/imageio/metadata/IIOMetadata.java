@@ -1,898 +1,898 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.metadata;
+pbckbge jbvbx.imbgeio.metbdbtb;
 
 import org.w3c.dom.Node;
-import java.lang.reflect.Method;
+import jbvb.lbng.reflect.Method;
 
 /**
- * An abstract class to be extended by objects that represent metadata
- * (non-image data) associated with images and streams.  Plug-ins
- * represent metadata using opaque, plug-in specific objects.  These
- * objects, however, provide the ability to access their internal
- * information as a tree of <code>IIOMetadataNode</code> objects that
- * support the XML DOM interfaces as well as additional interfaces for
- * storing non-textual data and retrieving information about legal
- * data values.  The format of such trees is plug-in dependent, but
- * plug-ins may choose to support a plug-in neutral format described
- * below.  A single plug-in may support multiple metadata formats,
- * whose names maybe determined by calling
- * <code>getMetadataFormatNames</code>.  The plug-in may also support
- * a single special format, referred to as the "native" format, which
- * is designed to encode its metadata losslessly.  This format will
- * typically be designed specifically to work with a specific file
- * format, so that images may be loaded and saved in the same format
- * with no loss of metadata, but may be less useful for transferring
- * metadata between an <code>ImageReader</code> and an
- * <code>ImageWriter</code> for different image formats.  To convert
- * between two native formats as losslessly as the image file formats
- * will allow, an <code>ImageTranscoder</code> object must be used.
+ * An bbstrbct clbss to be extended by objects thbt represent metbdbtb
+ * (non-imbge dbtb) bssocibted with imbges bnd strebms.  Plug-ins
+ * represent metbdbtb using opbque, plug-in specific objects.  These
+ * objects, however, provide the bbility to bccess their internbl
+ * informbtion bs b tree of <code>IIOMetbdbtbNode</code> objects thbt
+ * support the XML DOM interfbces bs well bs bdditionbl interfbces for
+ * storing non-textubl dbtb bnd retrieving informbtion bbout legbl
+ * dbtb vblues.  The formbt of such trees is plug-in dependent, but
+ * plug-ins mby choose to support b plug-in neutrbl formbt described
+ * below.  A single plug-in mby support multiple metbdbtb formbts,
+ * whose nbmes mbybe determined by cblling
+ * <code>getMetbdbtbFormbtNbmes</code>.  The plug-in mby blso support
+ * b single specibl formbt, referred to bs the "nbtive" formbt, which
+ * is designed to encode its metbdbtb losslessly.  This formbt will
+ * typicblly be designed specificblly to work with b specific file
+ * formbt, so thbt imbges mby be lobded bnd sbved in the sbme formbt
+ * with no loss of metbdbtb, but mby be less useful for trbnsferring
+ * metbdbtb between bn <code>ImbgeRebder</code> bnd bn
+ * <code>ImbgeWriter</code> for different imbge formbts.  To convert
+ * between two nbtive formbts bs losslessly bs the imbge file formbts
+ * will bllow, bn <code>ImbgeTrbnscoder</code> object must be used.
  *
- * @see javax.imageio.ImageReader#getImageMetadata
- * @see javax.imageio.ImageReader#getStreamMetadata
- * @see javax.imageio.ImageReader#readAll
- * @see javax.imageio.ImageWriter#getDefaultStreamMetadata
- * @see javax.imageio.ImageWriter#getDefaultImageMetadata
- * @see javax.imageio.ImageWriter#write
- * @see javax.imageio.ImageWriter#convertImageMetadata
- * @see javax.imageio.ImageWriter#convertStreamMetadata
- * @see javax.imageio.IIOImage
- * @see javax.imageio.ImageTranscoder
+ * @see jbvbx.imbgeio.ImbgeRebder#getImbgeMetbdbtb
+ * @see jbvbx.imbgeio.ImbgeRebder#getStrebmMetbdbtb
+ * @see jbvbx.imbgeio.ImbgeRebder#rebdAll
+ * @see jbvbx.imbgeio.ImbgeWriter#getDefbultStrebmMetbdbtb
+ * @see jbvbx.imbgeio.ImbgeWriter#getDefbultImbgeMetbdbtb
+ * @see jbvbx.imbgeio.ImbgeWriter#write
+ * @see jbvbx.imbgeio.ImbgeWriter#convertImbgeMetbdbtb
+ * @see jbvbx.imbgeio.ImbgeWriter#convertStrebmMetbdbtb
+ * @see jbvbx.imbgeio.IIOImbge
+ * @see jbvbx.imbgeio.ImbgeTrbnscoder
  *
  */
-public abstract class IIOMetadata {
+public bbstrbct clbss IIOMetbdbtb {
 
     /**
-     * A boolean indicating whether the concrete subclass supports the
-     * standard metadata format, set via the constructor.
+     * A boolebn indicbting whether the concrete subclbss supports the
+     * stbndbrd metbdbtb formbt, set vib the constructor.
      */
-    protected boolean standardFormatSupported;
+    protected boolebn stbndbrdFormbtSupported;
 
     /**
-     * The name of the native metadata format for this object,
-     * initialized to <code>null</code> and set via the constructor.
+     * The nbme of the nbtive metbdbtb formbt for this object,
+     * initiblized to <code>null</code> bnd set vib the constructor.
      */
-    protected String nativeMetadataFormatName = null;
+    protected String nbtiveMetbdbtbFormbtNbme = null;
 
     /**
-     * The name of the class implementing <code>IIOMetadataFormat</code>
-     * and representing the native metadata format, initialized to
-     * <code>null</code> and set via the constructor.
+     * The nbme of the clbss implementing <code>IIOMetbdbtbFormbt</code>
+     * bnd representing the nbtive metbdbtb formbt, initiblized to
+     * <code>null</code> bnd set vib the constructor.
      */
-    protected String nativeMetadataFormatClassName = null;
+    protected String nbtiveMetbdbtbFormbtClbssNbme = null;
 
     /**
-     * An array of names of formats, other than the standard and
-     * native formats, that are supported by this plug-in,
-     * initialized to <code>null</code> and set via the constructor.
+     * An brrby of nbmes of formbts, other thbn the stbndbrd bnd
+     * nbtive formbts, thbt bre supported by this plug-in,
+     * initiblized to <code>null</code> bnd set vib the constructor.
      */
-    protected String[] extraMetadataFormatNames = null;
+    protected String[] extrbMetbdbtbFormbtNbmes = null;
 
     /**
-     * An array of names of classes implementing <code>IIOMetadataFormat</code>
-     * and representing the metadata formats, other than the standard and
-     * native formats, that are supported by this plug-in,
-     * initialized to <code>null</code> and set via the constructor.
+     * An brrby of nbmes of clbsses implementing <code>IIOMetbdbtbFormbt</code>
+     * bnd representing the metbdbtb formbts, other thbn the stbndbrd bnd
+     * nbtive formbts, thbt bre supported by this plug-in,
+     * initiblized to <code>null</code> bnd set vib the constructor.
      */
-    protected String[] extraMetadataFormatClassNames = null;
+    protected String[] extrbMetbdbtbFormbtClbssNbmes = null;
 
     /**
-     * An <code>IIOMetadataController</code> that is suggested for use
-     * as the controller for this <code>IIOMetadata</code> object.  It
-     * may be retrieved via <code>getDefaultController</code>.  To
-     * install the default controller, call
-     * <code>setController(getDefaultController())</code>.  This
-     * instance variable should be set by subclasses that choose to
-     * provide their own default controller, usually a GUI, for
-     * setting parameters.
+     * An <code>IIOMetbdbtbController</code> thbt is suggested for use
+     * bs the controller for this <code>IIOMetbdbtb</code> object.  It
+     * mby be retrieved vib <code>getDefbultController</code>.  To
+     * instbll the defbult controller, cbll
+     * <code>setController(getDefbultController())</code>.  This
+     * instbnce vbribble should be set by subclbsses thbt choose to
+     * provide their own defbult controller, usublly b GUI, for
+     * setting pbrbmeters.
      *
-     * @see IIOMetadataController
-     * @see #getDefaultController
+     * @see IIOMetbdbtbController
+     * @see #getDefbultController
      */
-    protected IIOMetadataController defaultController = null;
+    protected IIOMetbdbtbController defbultController = null;
 
     /**
-     * The <code>IIOMetadataController</code> that will be
-     * used to provide settings for this <code>IIOMetadata</code>
-     * object when the <code>activateController</code> method
-     * is called.  This value overrides any default controller,
+     * The <code>IIOMetbdbtbController</code> thbt will be
+     * used to provide settings for this <code>IIOMetbdbtb</code>
+     * object when the <code>bctivbteController</code> method
+     * is cblled.  This vblue overrides bny defbult controller,
      * even when <code>null</code>.
      *
-     * @see IIOMetadataController
-     * @see #setController(IIOMetadataController)
-     * @see #hasController()
-     * @see #activateController()
+     * @see IIOMetbdbtbController
+     * @see #setController(IIOMetbdbtbController)
+     * @see #hbsController()
+     * @see #bctivbteController()
      */
-    protected IIOMetadataController controller = null;
+    protected IIOMetbdbtbController controller = null;
 
     /**
-     * Constructs an empty <code>IIOMetadata</code> object.  The
-     * subclass is responsible for supplying values for all protected
-     * instance variables that will allow any non-overridden default
-     * implementations of methods to satisfy their contracts.  For example,
-     * <code>extraMetadataFormatNames</code> should not have length 0.
+     * Constructs bn empty <code>IIOMetbdbtb</code> object.  The
+     * subclbss is responsible for supplying vblues for bll protected
+     * instbnce vbribbles thbt will bllow bny non-overridden defbult
+     * implementbtions of methods to sbtisfy their contrbcts.  For exbmple,
+     * <code>extrbMetbdbtbFormbtNbmes</code> should not hbve length 0.
      */
-    protected IIOMetadata() {}
+    protected IIOMetbdbtb() {}
 
     /**
-     * Constructs an <code>IIOMetadata</code> object with the given
-     * format names and format class names, as well as a boolean
-     * indicating whether the standard format is supported.
+     * Constructs bn <code>IIOMetbdbtb</code> object with the given
+     * formbt nbmes bnd formbt clbss nbmes, bs well bs b boolebn
+     * indicbting whether the stbndbrd formbt is supported.
      *
-     * <p> This constructor does not attempt to check the class names
-     * for validity.  Invalid class names may cause exceptions in
-     * subsequent calls to <code>getMetadataFormat</code>.
+     * <p> This constructor does not bttempt to check the clbss nbmes
+     * for vblidity.  Invblid clbss nbmes mby cbuse exceptions in
+     * subsequent cblls to <code>getMetbdbtbFormbt</code>.
      *
-     * @param standardMetadataFormatSupported <code>true</code> if
-     * this object can return or accept a DOM tree using the standard
-     * metadata format.
-     * @param nativeMetadataFormatName the name of the native metadata
-     * format, as a <code>String</code>, or <code>null</code> if there
-     * is no native format.
-     * @param nativeMetadataFormatClassName the name of the class of
-     * the native metadata format, or <code>null</code> if there is
-     * no native format.
-     * @param extraMetadataFormatNames an array of <code>String</code>s
-     * indicating additional formats supported by this object, or
-     * <code>null</code> if there are none.
-     * @param extraMetadataFormatClassNames an array of <code>String</code>s
-     * indicating the class names of any additional formats supported by
-     * this object, or <code>null</code> if there are none.
+     * @pbrbm stbndbrdMetbdbtbFormbtSupported <code>true</code> if
+     * this object cbn return or bccept b DOM tree using the stbndbrd
+     * metbdbtb formbt.
+     * @pbrbm nbtiveMetbdbtbFormbtNbme the nbme of the nbtive metbdbtb
+     * formbt, bs b <code>String</code>, or <code>null</code> if there
+     * is no nbtive formbt.
+     * @pbrbm nbtiveMetbdbtbFormbtClbssNbme the nbme of the clbss of
+     * the nbtive metbdbtb formbt, or <code>null</code> if there is
+     * no nbtive formbt.
+     * @pbrbm extrbMetbdbtbFormbtNbmes bn brrby of <code>String</code>s
+     * indicbting bdditionbl formbts supported by this object, or
+     * <code>null</code> if there bre none.
+     * @pbrbm extrbMetbdbtbFormbtClbssNbmes bn brrby of <code>String</code>s
+     * indicbting the clbss nbmes of bny bdditionbl formbts supported by
+     * this object, or <code>null</code> if there bre none.
      *
-     * @exception IllegalArgumentException if
-     * <code>extraMetadataFormatNames</code> has length 0.
-     * @exception IllegalArgumentException if
-     * <code>extraMetadataFormatNames</code> and
-     * <code>extraMetadataFormatClassNames</code> are neither both
-     * <code>null</code>, nor of the same length.
+     * @exception IllegblArgumentException if
+     * <code>extrbMetbdbtbFormbtNbmes</code> hbs length 0.
+     * @exception IllegblArgumentException if
+     * <code>extrbMetbdbtbFormbtNbmes</code> bnd
+     * <code>extrbMetbdbtbFormbtClbssNbmes</code> bre neither both
+     * <code>null</code>, nor of the sbme length.
      */
-    protected IIOMetadata(boolean standardMetadataFormatSupported,
-                          String nativeMetadataFormatName,
-                          String nativeMetadataFormatClassName,
-                          String[] extraMetadataFormatNames,
-                          String[] extraMetadataFormatClassNames) {
-        this.standardFormatSupported = standardMetadataFormatSupported;
-        this.nativeMetadataFormatName = nativeMetadataFormatName;
-        this.nativeMetadataFormatClassName = nativeMetadataFormatClassName;
-        if (extraMetadataFormatNames != null) {
-            if (extraMetadataFormatNames.length == 0) {
-                throw new IllegalArgumentException
-                    ("extraMetadataFormatNames.length == 0!");
+    protected IIOMetbdbtb(boolebn stbndbrdMetbdbtbFormbtSupported,
+                          String nbtiveMetbdbtbFormbtNbme,
+                          String nbtiveMetbdbtbFormbtClbssNbme,
+                          String[] extrbMetbdbtbFormbtNbmes,
+                          String[] extrbMetbdbtbFormbtClbssNbmes) {
+        this.stbndbrdFormbtSupported = stbndbrdMetbdbtbFormbtSupported;
+        this.nbtiveMetbdbtbFormbtNbme = nbtiveMetbdbtbFormbtNbme;
+        this.nbtiveMetbdbtbFormbtClbssNbme = nbtiveMetbdbtbFormbtClbssNbme;
+        if (extrbMetbdbtbFormbtNbmes != null) {
+            if (extrbMetbdbtbFormbtNbmes.length == 0) {
+                throw new IllegblArgumentException
+                    ("extrbMetbdbtbFormbtNbmes.length == 0!");
             }
-            if (extraMetadataFormatClassNames == null) {
-                throw new IllegalArgumentException
-                    ("extraMetadataFormatNames != null && extraMetadataFormatClassNames == null!");
+            if (extrbMetbdbtbFormbtClbssNbmes == null) {
+                throw new IllegblArgumentException
+                    ("extrbMetbdbtbFormbtNbmes != null && extrbMetbdbtbFormbtClbssNbmes == null!");
             }
-            if (extraMetadataFormatClassNames.length !=
-                extraMetadataFormatNames.length) {
-                throw new IllegalArgumentException
-                    ("extraMetadataFormatClassNames.length != extraMetadataFormatNames.length!");
+            if (extrbMetbdbtbFormbtClbssNbmes.length !=
+                extrbMetbdbtbFormbtNbmes.length) {
+                throw new IllegblArgumentException
+                    ("extrbMetbdbtbFormbtClbssNbmes.length != extrbMetbdbtbFormbtNbmes.length!");
             }
-            this.extraMetadataFormatNames = extraMetadataFormatNames.clone();
-            this.extraMetadataFormatClassNames = extraMetadataFormatClassNames.clone();
+            this.extrbMetbdbtbFormbtNbmes = extrbMetbdbtbFormbtNbmes.clone();
+            this.extrbMetbdbtbFormbtClbssNbmes = extrbMetbdbtbFormbtClbssNbmes.clone();
         } else {
-            if (extraMetadataFormatClassNames != null) {
-                throw new IllegalArgumentException
-                    ("extraMetadataFormatNames == null && extraMetadataFormatClassNames != null!");
+            if (extrbMetbdbtbFormbtClbssNbmes != null) {
+                throw new IllegblArgumentException
+                    ("extrbMetbdbtbFormbtNbmes == null && extrbMetbdbtbFormbtClbssNbmes != null!");
             }
         }
     }
 
     /**
-     * Returns <code>true</code> if the standard metadata format is
-     * supported by <code>getMetadataFormat</code>,
-     * <code>getAsTree</code>, <code>setFromTree</code>, and
+     * Returns <code>true</code> if the stbndbrd metbdbtb formbt is
+     * supported by <code>getMetbdbtbFormbt</code>,
+     * <code>getAsTree</code>, <code>setFromTree</code>, bnd
      * <code>mergeTree</code>.
      *
-     * <p> The default implementation returns the value of the
-     * <code>standardFormatSupported</code> instance variable.
+     * <p> The defbult implementbtion returns the vblue of the
+     * <code>stbndbrdFormbtSupported</code> instbnce vbribble.
      *
-     * @return <code>true</code> if the standard metadata format
+     * @return <code>true</code> if the stbndbrd metbdbtb formbt
      * is supported.
      *
      * @see #getAsTree
      * @see #setFromTree
      * @see #mergeTree
-     * @see #getMetadataFormat
+     * @see #getMetbdbtbFormbt
      */
-    public boolean isStandardMetadataFormatSupported() {
-        return standardFormatSupported;
+    public boolebn isStbndbrdMetbdbtbFormbtSupported() {
+        return stbndbrdFormbtSupported;
     }
 
     /**
      * Returns <code>true</code> if this object does not support the
-     * <code>mergeTree</code>, <code>setFromTree</code>, and
+     * <code>mergeTree</code>, <code>setFromTree</code>, bnd
      * <code>reset</code> methods.
      *
-     * @return true if this <code>IIOMetadata</code> object cannot be
+     * @return true if this <code>IIOMetbdbtb</code> object cbnnot be
      * modified.
      */
-    public abstract boolean isReadOnly();
+    public bbstrbct boolebn isRebdOnly();
 
     /**
-     * Returns the name of the "native" metadata format for this
-     * plug-in, which typically allows for lossless encoding and
-     * transmission of the metadata stored in the format handled by
-     * this plug-in.  If no such format is supported,
+     * Returns the nbme of the "nbtive" metbdbtb formbt for this
+     * plug-in, which typicblly bllows for lossless encoding bnd
+     * trbnsmission of the metbdbtb stored in the formbt hbndled by
+     * this plug-in.  If no such formbt is supported,
      * <code>null</code>will be returned.
      *
-     * <p> The structure and contents of the "native" metadata format
-     * are defined by the plug-in that created this
-     * <code>IIOMetadata</code> object.  Plug-ins for simple formats
-     * will usually create a dummy node for the root, and then a
-     * series of child nodes representing individual tags, chunks, or
-     * keyword/value pairs.  A plug-in may choose whether or not to
-     * document its native format.
+     * <p> The structure bnd contents of the "nbtive" metbdbtb formbt
+     * bre defined by the plug-in thbt crebted this
+     * <code>IIOMetbdbtb</code> object.  Plug-ins for simple formbts
+     * will usublly crebte b dummy node for the root, bnd then b
+     * series of child nodes representing individubl tbgs, chunks, or
+     * keyword/vblue pbirs.  A plug-in mby choose whether or not to
+     * document its nbtive formbt.
      *
-     * <p> The default implementation returns the value of the
-     * <code>nativeMetadataFormatName</code> instance variable.
+     * <p> The defbult implementbtion returns the vblue of the
+     * <code>nbtiveMetbdbtbFormbtNbme</code> instbnce vbribble.
      *
-     * @return the name of the native format, or <code>null</code>.
+     * @return the nbme of the nbtive formbt, or <code>null</code>.
      *
-     * @see #getExtraMetadataFormatNames
-     * @see #getMetadataFormatNames
+     * @see #getExtrbMetbdbtbFormbtNbmes
+     * @see #getMetbdbtbFormbtNbmes
      */
-    public String getNativeMetadataFormatName() {
-        return nativeMetadataFormatName;
+    public String getNbtiveMetbdbtbFormbtNbme() {
+        return nbtiveMetbdbtbFormbtNbme;
     }
 
     /**
-     * Returns an array of <code>String</code>s containing the names
-     * of additional metadata formats, other than the native and standard
-     * formats, recognized by this plug-in's
-     * <code>getAsTree</code>, <code>setFromTree</code>, and
-     * <code>mergeTree</code> methods.  If there are no such additional
-     * formats, <code>null</code> is returned.
+     * Returns bn brrby of <code>String</code>s contbining the nbmes
+     * of bdditionbl metbdbtb formbts, other thbn the nbtive bnd stbndbrd
+     * formbts, recognized by this plug-in's
+     * <code>getAsTree</code>, <code>setFromTree</code>, bnd
+     * <code>mergeTree</code> methods.  If there bre no such bdditionbl
+     * formbts, <code>null</code> is returned.
      *
-     * <p> The default implementation returns a clone of the
-     * <code>extraMetadataFormatNames</code> instance variable.
+     * <p> The defbult implementbtion returns b clone of the
+     * <code>extrbMetbdbtbFormbtNbmes</code> instbnce vbribble.
      *
-     * @return an array of <code>String</code>s with length at least
+     * @return bn brrby of <code>String</code>s with length bt lebst
      * 1, or <code>null</code>.
      *
      * @see #getAsTree
      * @see #setFromTree
      * @see #mergeTree
-     * @see #getNativeMetadataFormatName
-     * @see #getMetadataFormatNames
+     * @see #getNbtiveMetbdbtbFormbtNbme
+     * @see #getMetbdbtbFormbtNbmes
      */
-    public String[] getExtraMetadataFormatNames() {
-        if (extraMetadataFormatNames == null) {
+    public String[] getExtrbMetbdbtbFormbtNbmes() {
+        if (extrbMetbdbtbFormbtNbmes == null) {
             return null;
         }
-        return extraMetadataFormatNames.clone();
+        return extrbMetbdbtbFormbtNbmes.clone();
     }
 
     /**
-     * Returns an array of <code>String</code>s containing the names
-     * of all metadata formats, including the native and standard
-     * formats, recognized by this plug-in's <code>getAsTree</code>,
-     * <code>setFromTree</code>, and <code>mergeTree</code> methods.
-     * If there are no such formats, <code>null</code> is returned.
+     * Returns bn brrby of <code>String</code>s contbining the nbmes
+     * of bll metbdbtb formbts, including the nbtive bnd stbndbrd
+     * formbts, recognized by this plug-in's <code>getAsTree</code>,
+     * <code>setFromTree</code>, bnd <code>mergeTree</code> methods.
+     * If there bre no such formbts, <code>null</code> is returned.
      *
-     * <p> The default implementation calls
-     * <code>getNativeMetadataFormatName</code>,
-     * <code>isStandardMetadataFormatSupported</code>, and
-     * <code>getExtraMetadataFormatNames</code> and returns the
+     * <p> The defbult implementbtion cblls
+     * <code>getNbtiveMetbdbtbFormbtNbme</code>,
+     * <code>isStbndbrdMetbdbtbFormbtSupported</code>, bnd
+     * <code>getExtrbMetbdbtbFormbtNbmes</code> bnd returns the
      * combined results.
      *
-     * @return an array of <code>String</code>s.
+     * @return bn brrby of <code>String</code>s.
      *
-     * @see #getNativeMetadataFormatName
-     * @see #isStandardMetadataFormatSupported
-     * @see #getExtraMetadataFormatNames
+     * @see #getNbtiveMetbdbtbFormbtNbme
+     * @see #isStbndbrdMetbdbtbFormbtSupported
+     * @see #getExtrbMetbdbtbFormbtNbmes
      */
-    public String[] getMetadataFormatNames() {
-        String nativeName = getNativeMetadataFormatName();
-        String standardName = isStandardMetadataFormatSupported() ?
-            IIOMetadataFormatImpl.standardMetadataFormatName : null;
-        String[] extraNames = getExtraMetadataFormatNames();
+    public String[] getMetbdbtbFormbtNbmes() {
+        String nbtiveNbme = getNbtiveMetbdbtbFormbtNbme();
+        String stbndbrdNbme = isStbndbrdMetbdbtbFormbtSupported() ?
+            IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme : null;
+        String[] extrbNbmes = getExtrbMetbdbtbFormbtNbmes();
 
-        int numFormats = 0;
-        if (nativeName != null) {
-            ++numFormats;
+        int numFormbts = 0;
+        if (nbtiveNbme != null) {
+            ++numFormbts;
         }
-        if (standardName != null) {
-            ++numFormats;
+        if (stbndbrdNbme != null) {
+            ++numFormbts;
         }
-        if (extraNames != null) {
-            numFormats += extraNames.length;
+        if (extrbNbmes != null) {
+            numFormbts += extrbNbmes.length;
         }
-        if (numFormats == 0) {
+        if (numFormbts == 0) {
             return null;
         }
 
-        String[] formats = new String[numFormats];
+        String[] formbts = new String[numFormbts];
         int index = 0;
-        if (nativeName != null) {
-            formats[index++] = nativeName;
+        if (nbtiveNbme != null) {
+            formbts[index++] = nbtiveNbme;
         }
-        if (standardName != null) {
-            formats[index++] = standardName;
+        if (stbndbrdNbme != null) {
+            formbts[index++] = stbndbrdNbme;
         }
-        if (extraNames != null) {
-            for (int i = 0; i < extraNames.length; i++) {
-                formats[index++] = extraNames[i];
+        if (extrbNbmes != null) {
+            for (int i = 0; i < extrbNbmes.length; i++) {
+                formbts[index++] = extrbNbmes[i];
             }
         }
 
-        return formats;
+        return formbts;
     }
 
     /**
-     * Returns an <code>IIOMetadataFormat</code> object describing the
-     * given metadata format, or <code>null</code> if no description
-     * is available.  The supplied name must be one of those returned
-     * by <code>getMetadataFormatNames</code> (<i>i.e.</i>, either the
-     * native format name, the standard format name, or one of those
-     * returned by <code>getExtraMetadataFormatNames</code>).
+     * Returns bn <code>IIOMetbdbtbFormbt</code> object describing the
+     * given metbdbtb formbt, or <code>null</code> if no description
+     * is bvbilbble.  The supplied nbme must be one of those returned
+     * by <code>getMetbdbtbFormbtNbmes</code> (<i>i.e.</i>, either the
+     * nbtive formbt nbme, the stbndbrd formbt nbme, or one of those
+     * returned by <code>getExtrbMetbdbtbFormbtNbmes</code>).
      *
-     * <p> The default implementation checks the name against the
-     * global standard metadata format name, and returns that format
-     * if it is supported.  Otherwise, it checks against the native
-     * format names followed by any additional format names.  If a
-     * match is found, it retrieves the name of the
-     * <code>IIOMetadataFormat</code> class from
-     * <code>nativeMetadataFormatClassName</code> or
-     * <code>extraMetadataFormatClassNames</code> as appropriate, and
-     * constructs an instance of that class using its
-     * <code>getInstance</code> method.
+     * <p> The defbult implementbtion checks the nbme bgbinst the
+     * globbl stbndbrd metbdbtb formbt nbme, bnd returns thbt formbt
+     * if it is supported.  Otherwise, it checks bgbinst the nbtive
+     * formbt nbmes followed by bny bdditionbl formbt nbmes.  If b
+     * mbtch is found, it retrieves the nbme of the
+     * <code>IIOMetbdbtbFormbt</code> clbss from
+     * <code>nbtiveMetbdbtbFormbtClbssNbme</code> or
+     * <code>extrbMetbdbtbFormbtClbssNbmes</code> bs bppropribte, bnd
+     * constructs bn instbnce of thbt clbss using its
+     * <code>getInstbnce</code> method.
      *
-     * @param formatName the desired metadata format.
+     * @pbrbm formbtNbme the desired metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataFormat</code> object.
+     * @return bn <code>IIOMetbdbtbFormbt</code> object.
      *
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not one of the names recognized by
+     * @exception IllegblArgumentException if <code>formbtNbme</code>
+     * is <code>null</code> or is not one of the nbmes recognized by
      * the plug-in.
-     * @exception IllegalStateException if the class corresponding to
-     * the format name cannot be loaded.
+     * @exception IllegblStbteException if the clbss corresponding to
+     * the formbt nbme cbnnot be lobded.
      */
-    public IIOMetadataFormat getMetadataFormat(String formatName) {
-        if (formatName == null) {
-            throw new IllegalArgumentException("formatName == null!");
+    public IIOMetbdbtbFormbt getMetbdbtbFormbt(String formbtNbme) {
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("formbtNbme == null!");
         }
-        if (standardFormatSupported
-            && formatName.equals
-                (IIOMetadataFormatImpl.standardMetadataFormatName)) {
-            return IIOMetadataFormatImpl.getStandardFormatInstance();
+        if (stbndbrdFormbtSupported
+            && formbtNbme.equbls
+                (IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme)) {
+            return IIOMetbdbtbFormbtImpl.getStbndbrdFormbtInstbnce();
         }
-        String formatClassName = null;
-        if (formatName.equals(nativeMetadataFormatName)) {
-            formatClassName = nativeMetadataFormatClassName;
-        } else if (extraMetadataFormatNames != null) {
-            for (int i = 0; i < extraMetadataFormatNames.length; i++) {
-                if (formatName.equals(extraMetadataFormatNames[i])) {
-                    formatClassName = extraMetadataFormatClassNames[i];
-                    break;  // out of for
+        String formbtClbssNbme = null;
+        if (formbtNbme.equbls(nbtiveMetbdbtbFormbtNbme)) {
+            formbtClbssNbme = nbtiveMetbdbtbFormbtClbssNbme;
+        } else if (extrbMetbdbtbFormbtNbmes != null) {
+            for (int i = 0; i < extrbMetbdbtbFormbtNbmes.length; i++) {
+                if (formbtNbme.equbls(extrbMetbdbtbFormbtNbmes[i])) {
+                    formbtClbssNbme = extrbMetbdbtbFormbtClbssNbmes[i];
+                    brebk;  // out of for
                 }
             }
         }
-        if (formatClassName == null) {
-            throw new IllegalArgumentException("Unsupported format name");
+        if (formbtClbssNbme == null) {
+            throw new IllegblArgumentException("Unsupported formbt nbme");
         }
         try {
-            Class<?> cls = null;
-            final Object o = this;
+            Clbss<?> cls = null;
+            finbl Object o = this;
 
-            // firstly we try to use classloader used for loading
-            // the IIOMetadata implemantation for this plugin.
-            ClassLoader loader =
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<ClassLoader>() {
-                            public ClassLoader run() {
-                                return o.getClass().getClassLoader();
+            // firstly we try to use clbsslobder used for lobding
+            // the IIOMetbdbtb implembntbtion for this plugin.
+            ClbssLobder lobder =
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<ClbssLobder>() {
+                            public ClbssLobder run() {
+                                return o.getClbss().getClbssLobder();
                             }
                         });
 
             try {
-                cls = Class.forName(formatClassName, true,
-                                    loader);
-            } catch (ClassNotFoundException e) {
-                // we failed to load IIOMetadataFormat class by
-                // using IIOMetadata classloader.Next try is to
-                // use thread context classloader.
-                loader =
-                    java.security.AccessController.doPrivileged(
-                        new java.security.PrivilegedAction<ClassLoader>() {
-                                public ClassLoader run() {
-                                    return Thread.currentThread().getContextClassLoader();
+                cls = Clbss.forNbme(formbtClbssNbme, true,
+                                    lobder);
+            } cbtch (ClbssNotFoundException e) {
+                // we fbiled to lobd IIOMetbdbtbFormbt clbss by
+                // using IIOMetbdbtb clbsslobder.Next try is to
+                // use threbd context clbsslobder.
+                lobder =
+                    jbvb.security.AccessController.doPrivileged(
+                        new jbvb.security.PrivilegedAction<ClbssLobder>() {
+                                public ClbssLobder run() {
+                                    return Threbd.currentThrebd().getContextClbssLobder();
                                 }
                         });
                 try {
-                    cls = Class.forName(formatClassName, true,
-                                        loader);
-                } catch (ClassNotFoundException e1) {
-                    // finally we try to use system classloader in case
-                    // if we failed to load IIOMetadataFormat implementation
-                    // class above.
-                    cls = Class.forName(formatClassName, true,
-                                        ClassLoader.getSystemClassLoader());
+                    cls = Clbss.forNbme(formbtClbssNbme, true,
+                                        lobder);
+                } cbtch (ClbssNotFoundException e1) {
+                    // finblly we try to use system clbsslobder in cbse
+                    // if we fbiled to lobd IIOMetbdbtbFormbt implementbtion
+                    // clbss bbove.
+                    cls = Clbss.forNbme(formbtClbssNbme, true,
+                                        ClbssLobder.getSystemClbssLobder());
                 }
             }
 
-            Method meth = cls.getMethod("getInstance");
-            return (IIOMetadataFormat) meth.invoke(null);
-        } catch (Exception e) {
+            Method meth = cls.getMethod("getInstbnce");
+            return (IIOMetbdbtbFormbt) meth.invoke(null);
+        } cbtch (Exception e) {
             RuntimeException ex =
-                new IllegalStateException ("Can't obtain format");
-            ex.initCause(e);
+                new IllegblStbteException ("Cbn't obtbin formbt");
+            ex.initCbuse(e);
             throw ex;
         }
 
     }
 
     /**
-     * Returns an XML DOM <code>Node</code> object that represents the
-     * root of a tree of metadata contained within this object
-     * according to the conventions defined by a given metadata
-     * format.
+     * Returns bn XML DOM <code>Node</code> object thbt represents the
+     * root of b tree of metbdbtb contbined within this object
+     * bccording to the conventions defined by b given metbdbtb
+     * formbt.
      *
-     * <p> The names of the available metadata formats may be queried
-     * using the <code>getMetadataFormatNames</code> method.
+     * <p> The nbmes of the bvbilbble metbdbtb formbts mby be queried
+     * using the <code>getMetbdbtbFormbtNbmes</code> method.
      *
-     * @param formatName the desired metadata format.
+     * @pbrbm formbtNbme the desired metbdbtb formbt.
      *
-     * @return an XML DOM <code>Node</code> object forming the
-     * root of a tree.
+     * @return bn XML DOM <code>Node</code> object forming the
+     * root of b tree.
      *
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not one of the names returned by
-     * <code>getMetadataFormatNames</code>.
+     * @exception IllegblArgumentException if <code>formbtNbme</code>
+     * is <code>null</code> or is not one of the nbmes returned by
+     * <code>getMetbdbtbFormbtNbmes</code>.
      *
-     * @see #getMetadataFormatNames
+     * @see #getMetbdbtbFormbtNbmes
      * @see #setFromTree
      * @see #mergeTree
      */
-    public abstract Node getAsTree(String formatName);
+    public bbstrbct Node getAsTree(String formbtNbme);
 
     /**
-     * Alters the internal state of this <code>IIOMetadata</code>
-     * object from a tree of XML DOM <code>Node</code>s whose syntax
-     * is defined by the given metadata format.  The previous state is
-     * altered only as necessary to accommodate the nodes that are
+     * Alters the internbl stbte of this <code>IIOMetbdbtb</code>
+     * object from b tree of XML DOM <code>Node</code>s whose syntbx
+     * is defined by the given metbdbtb formbt.  The previous stbte is
+     * bltered only bs necessbry to bccommodbte the nodes thbt bre
      * present in the given tree.  If the tree structure or contents
-     * are invalid, an <code>IIOInvalidTreeException</code> will be
+     * bre invblid, bn <code>IIOInvblidTreeException</code> will be
      * thrown.
      *
-     * <p> As the semantics of how a tree or subtree may be merged with
-     * another tree are completely format-specific, plug-in authors may
-     * implement this method in whatever manner is most appropriate for
-     * the format, including simply replacing all existing state with the
+     * <p> As the sembntics of how b tree or subtree mby be merged with
+     * bnother tree bre completely formbt-specific, plug-in buthors mby
+     * implement this method in whbtever mbnner is most bppropribte for
+     * the formbt, including simply replbcing bll existing stbte with the
      * contents of the given tree.
      *
-     * @param formatName the desired metadata format.
-     * @param root an XML DOM <code>Node</code> object forming the
-     * root of a tree.
+     * @pbrbm formbtNbme the desired metbdbtb formbt.
+     * @pbrbm root bn XML DOM <code>Node</code> object forming the
+     * root of b tree.
      *
-     * @exception IllegalStateException if this object is read-only.
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not one of the names returned by
-     * <code>getMetadataFormatNames</code>.
-     * @exception IllegalArgumentException if <code>root</code> is
+     * @exception IllegblStbteException if this object is rebd-only.
+     * @exception IllegblArgumentException if <code>formbtNbme</code>
+     * is <code>null</code> or is not one of the nbmes returned by
+     * <code>getMetbdbtbFormbtNbmes</code>.
+     * @exception IllegblArgumentException if <code>root</code> is
      * <code>null</code>.
-     * @exception IIOInvalidTreeException if the tree cannot be parsed
-     * successfully using the rules of the given format.
+     * @exception IIOInvblidTreeException if the tree cbnnot be pbrsed
+     * successfully using the rules of the given formbt.
      *
-     * @see #getMetadataFormatNames
+     * @see #getMetbdbtbFormbtNbmes
      * @see #getAsTree
      * @see #setFromTree
      */
-    public abstract void mergeTree(String formatName, Node root)
-        throws IIOInvalidTreeException;
+    public bbstrbct void mergeTree(String formbtNbme, Node root)
+        throws IIOInvblidTreeException;
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the chroma
-     * information of the standard <code>javax_imageio_1.0</code>
-     * metadata format, or <code>null</code> if no such information is
-     * available.  This method is intended to be called by the utility
-     * routine <code>getStandardTree</code>.
+     * Returns bn <code>IIOMetbdbtbNode</code> representing the chromb
+     * informbtion of the stbndbrd <code>jbvbx_imbgeio_1.0</code>
+     * metbdbtb formbt, or <code>null</code> if no such informbtion is
+     * bvbilbble.  This method is intended to be cblled by the utility
+     * routine <code>getStbndbrdTree</code>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> The defbult implementbtion returns <code>null</code>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subclbsses should override this method to produce bn
+     * bppropribte subtree if they wish to support the stbndbrd
+     * metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtbNode</code>, or <code>null</code>.
      *
-     * @see #getStandardTree
+     * @see #getStbndbrdTree
      */
-    protected IIOMetadataNode getStandardChromaNode() {
+    protected IIOMetbdbtbNode getStbndbrdChrombNode() {
         return null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the
-     * compression information of the standard
-     * <code>javax_imageio_1.0</code> metadata format, or
-     * <code>null</code> if no such information is available.  This
-     * method is intended to be called by the utility routine
-     * <code>getStandardTree</code>.
+     * Returns bn <code>IIOMetbdbtbNode</code> representing the
+     * compression informbtion of the stbndbrd
+     * <code>jbvbx_imbgeio_1.0</code> metbdbtb formbt, or
+     * <code>null</code> if no such informbtion is bvbilbble.  This
+     * method is intended to be cblled by the utility routine
+     * <code>getStbndbrdTree</code>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> The defbult implementbtion returns <code>null</code>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subclbsses should override this method to produce bn
+     * bppropribte subtree if they wish to support the stbndbrd
+     * metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtbNode</code>, or <code>null</code>.
      *
-     * @see #getStandardTree
+     * @see #getStbndbrdTree
      */
-    protected IIOMetadataNode getStandardCompressionNode() {
+    protected IIOMetbdbtbNode getStbndbrdCompressionNode() {
         return null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the data
-     * format information of the standard
-     * <code>javax_imageio_1.0</code> metadata format, or
-     * <code>null</code> if no such information is available.  This
-     * method is intended to be called by the utility routine
-     * <code>getStandardTree</code>.
+     * Returns bn <code>IIOMetbdbtbNode</code> representing the dbtb
+     * formbt informbtion of the stbndbrd
+     * <code>jbvbx_imbgeio_1.0</code> metbdbtb formbt, or
+     * <code>null</code> if no such informbtion is bvbilbble.  This
+     * method is intended to be cblled by the utility routine
+     * <code>getStbndbrdTree</code>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> The defbult implementbtion returns <code>null</code>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subclbsses should override this method to produce bn
+     * bppropribte subtree if they wish to support the stbndbrd
+     * metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtbNode</code>, or <code>null</code>.
      *
-     * @see #getStandardTree
+     * @see #getStbndbrdTree
      */
-    protected IIOMetadataNode getStandardDataNode() {
+    protected IIOMetbdbtbNode getStbndbrdDbtbNode() {
         return null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the
-     * dimension information of the standard
-     * <code>javax_imageio_1.0</code> metadata format, or
-     * <code>null</code> if no such information is available.  This
-     * method is intended to be called by the utility routine
-     * <code>getStandardTree</code>.
+     * Returns bn <code>IIOMetbdbtbNode</code> representing the
+     * dimension informbtion of the stbndbrd
+     * <code>jbvbx_imbgeio_1.0</code> metbdbtb formbt, or
+     * <code>null</code> if no such informbtion is bvbilbble.  This
+     * method is intended to be cblled by the utility routine
+     * <code>getStbndbrdTree</code>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> The defbult implementbtion returns <code>null</code>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subclbsses should override this method to produce bn
+     * bppropribte subtree if they wish to support the stbndbrd
+     * metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtbNode</code>, or <code>null</code>.
      *
-     * @see #getStandardTree
+     * @see #getStbndbrdTree
      */
-    protected IIOMetadataNode getStandardDimensionNode() {
+    protected IIOMetbdbtbNode getStbndbrdDimensionNode() {
         return null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the document
-     * information of the standard <code>javax_imageio_1.0</code>
-     * metadata format, or <code>null</code> if no such information is
-     * available.  This method is intended to be called by the utility
-     * routine <code>getStandardTree</code>.
+     * Returns bn <code>IIOMetbdbtbNode</code> representing the document
+     * informbtion of the stbndbrd <code>jbvbx_imbgeio_1.0</code>
+     * metbdbtb formbt, or <code>null</code> if no such informbtion is
+     * bvbilbble.  This method is intended to be cblled by the utility
+     * routine <code>getStbndbrdTree</code>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> The defbult implementbtion returns <code>null</code>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subclbsses should override this method to produce bn
+     * bppropribte subtree if they wish to support the stbndbrd
+     * metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtbNode</code>, or <code>null</code>.
      *
-     * @see #getStandardTree
+     * @see #getStbndbrdTree
      */
-    protected IIOMetadataNode getStandardDocumentNode() {
+    protected IIOMetbdbtbNode getStbndbrdDocumentNode() {
         return null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the textual
-     * information of the standard <code>javax_imageio_1.0</code>
-     * metadata format, or <code>null</code> if no such information is
-     * available.  This method is intended to be called by the utility
-     * routine <code>getStandardTree</code>.
+     * Returns bn <code>IIOMetbdbtbNode</code> representing the textubl
+     * informbtion of the stbndbrd <code>jbvbx_imbgeio_1.0</code>
+     * metbdbtb formbt, or <code>null</code> if no such informbtion is
+     * bvbilbble.  This method is intended to be cblled by the utility
+     * routine <code>getStbndbrdTree</code>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> The defbult implementbtion returns <code>null</code>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subclbsses should override this method to produce bn
+     * bppropribte subtree if they wish to support the stbndbrd
+     * metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtbNode</code>, or <code>null</code>.
      *
-     * @see #getStandardTree
+     * @see #getStbndbrdTree
      */
-    protected IIOMetadataNode getStandardTextNode() {
+    protected IIOMetbdbtbNode getStbndbrdTextNode() {
         return null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the tiling
-     * information of the standard <code>javax_imageio_1.0</code>
-     * metadata format, or <code>null</code> if no such information is
-     * available.  This method is intended to be called by the utility
-     * routine <code>getStandardTree</code>.
+     * Returns bn <code>IIOMetbdbtbNode</code> representing the tiling
+     * informbtion of the stbndbrd <code>jbvbx_imbgeio_1.0</code>
+     * metbdbtb formbt, or <code>null</code> if no such informbtion is
+     * bvbilbble.  This method is intended to be cblled by the utility
+     * routine <code>getStbndbrdTree</code>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> The defbult implementbtion returns <code>null</code>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subclbsses should override this method to produce bn
+     * bppropribte subtree if they wish to support the stbndbrd
+     * metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtbNode</code>, or <code>null</code>.
      *
-     * @see #getStandardTree
+     * @see #getStbndbrdTree
      */
-    protected IIOMetadataNode getStandardTileNode() {
+    protected IIOMetbdbtbNode getStbndbrdTileNode() {
         return null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the
-     * transparency information of the standard
-     * <code>javax_imageio_1.0</code> metadata format, or
-     * <code>null</code> if no such information is available.  This
-     * method is intended to be called by the utility routine
-     * <code>getStandardTree</code>.
+     * Returns bn <code>IIOMetbdbtbNode</code> representing the
+     * trbnspbrency informbtion of the stbndbrd
+     * <code>jbvbx_imbgeio_1.0</code> metbdbtb formbt, or
+     * <code>null</code> if no such informbtion is bvbilbble.  This
+     * method is intended to be cblled by the utility routine
+     * <code>getStbndbrdTree</code>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> The defbult implementbtion returns <code>null</code>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subclbsses should override this method to produce bn
+     * bppropribte subtree if they wish to support the stbndbrd
+     * metbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @return bn <code>IIOMetbdbtbNode</code>, or <code>null</code>.
      */
-    protected IIOMetadataNode getStandardTransparencyNode() {
+    protected IIOMetbdbtbNode getStbndbrdTrbnspbrencyNode() {
         return null;
     }
 
     /**
-     * Appends a new node to an existing node, if the new node is
+     * Appends b new node to bn existing node, if the new node is
      * non-<code>null</code>.
      */
-    private void append(IIOMetadataNode root, IIOMetadataNode node) {
+    privbte void bppend(IIOMetbdbtbNode root, IIOMetbdbtbNode node) {
         if (node != null) {
-            root.appendChild(node);
+            root.bppendChild(node);
         }
     }
 
     /**
-     * A utility method to return a tree of
-     * <code>IIOMetadataNode</code>s representing the metadata
-     * contained within this object according to the conventions of
-     * the standard <code>javax_imageio_1.0</code> metadata format.
+     * A utility method to return b tree of
+     * <code>IIOMetbdbtbNode</code>s representing the metbdbtb
+     * contbined within this object bccording to the conventions of
+     * the stbndbrd <code>jbvbx_imbgeio_1.0</code> metbdbtb formbt.
      *
-     * <p> This method calls the various <code>getStandard*Node</code>
-     * methods to supply each of the subtrees rooted at the children
-     * of the root node.  If any of those methods returns
+     * <p> This method cblls the vbrious <code>getStbndbrd*Node</code>
+     * methods to supply ebch of the subtrees rooted bt the children
+     * of the root node.  If bny of those methods returns
      * <code>null</code>, the corresponding subtree will be omitted.
-     * If all of them return <code>null</code>, a tree consisting of a
+     * If bll of them return <code>null</code>, b tree consisting of b
      * single root node will be returned.
      *
-     * @return an <code>IIOMetadataNode</code> representing the root
-     * of a metadata tree in the <code>javax_imageio_1.0</code>
-     * format.
+     * @return bn <code>IIOMetbdbtbNode</code> representing the root
+     * of b metbdbtb tree in the <code>jbvbx_imbgeio_1.0</code>
+     * formbt.
      *
-     * @see #getStandardChromaNode
-     * @see #getStandardCompressionNode
-     * @see #getStandardDataNode
-     * @see #getStandardDimensionNode
-     * @see #getStandardDocumentNode
-     * @see #getStandardTextNode
-     * @see #getStandardTileNode
-     * @see #getStandardTransparencyNode
+     * @see #getStbndbrdChrombNode
+     * @see #getStbndbrdCompressionNode
+     * @see #getStbndbrdDbtbNode
+     * @see #getStbndbrdDimensionNode
+     * @see #getStbndbrdDocumentNode
+     * @see #getStbndbrdTextNode
+     * @see #getStbndbrdTileNode
+     * @see #getStbndbrdTrbnspbrencyNode
      */
-    protected final IIOMetadataNode getStandardTree() {
-        IIOMetadataNode root = new IIOMetadataNode
-                (IIOMetadataFormatImpl.standardMetadataFormatName);
-        append(root, getStandardChromaNode());
-        append(root, getStandardCompressionNode());
-        append(root, getStandardDataNode());
-        append(root, getStandardDimensionNode());
-        append(root, getStandardDocumentNode());
-        append(root, getStandardTextNode());
-        append(root, getStandardTileNode());
-        append(root, getStandardTransparencyNode());
+    protected finbl IIOMetbdbtbNode getStbndbrdTree() {
+        IIOMetbdbtbNode root = new IIOMetbdbtbNode
+                (IIOMetbdbtbFormbtImpl.stbndbrdMetbdbtbFormbtNbme);
+        bppend(root, getStbndbrdChrombNode());
+        bppend(root, getStbndbrdCompressionNode());
+        bppend(root, getStbndbrdDbtbNode());
+        bppend(root, getStbndbrdDimensionNode());
+        bppend(root, getStbndbrdDocumentNode());
+        bppend(root, getStbndbrdTextNode());
+        bppend(root, getStbndbrdTileNode());
+        bppend(root, getStbndbrdTrbnspbrencyNode());
         return root;
     }
 
     /**
-     * Sets the internal state of this <code>IIOMetadata</code> object
-     * from a tree of XML DOM <code>Node</code>s whose syntax is
-     * defined by the given metadata format.  The previous state is
-     * discarded.  If the tree's structure or contents are invalid, an
-     * <code>IIOInvalidTreeException</code> will be thrown.
+     * Sets the internbl stbte of this <code>IIOMetbdbtb</code> object
+     * from b tree of XML DOM <code>Node</code>s whose syntbx is
+     * defined by the given metbdbtb formbt.  The previous stbte is
+     * discbrded.  If the tree's structure or contents bre invblid, bn
+     * <code>IIOInvblidTreeException</code> will be thrown.
      *
-     * <p> The default implementation calls <code>reset</code>
-     * followed by <code>mergeTree(formatName, root)</code>.
+     * <p> The defbult implementbtion cblls <code>reset</code>
+     * followed by <code>mergeTree(formbtNbme, root)</code>.
      *
-     * @param formatName the desired metadata format.
-     * @param root an XML DOM <code>Node</code> object forming the
-     * root of a tree.
+     * @pbrbm formbtNbme the desired metbdbtb formbt.
+     * @pbrbm root bn XML DOM <code>Node</code> object forming the
+     * root of b tree.
      *
-     * @exception IllegalStateException if this object is read-only.
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not one of the names returned by
-     * <code>getMetadataFormatNames</code>.
-     * @exception IllegalArgumentException if <code>root</code> is
+     * @exception IllegblStbteException if this object is rebd-only.
+     * @exception IllegblArgumentException if <code>formbtNbme</code>
+     * is <code>null</code> or is not one of the nbmes returned by
+     * <code>getMetbdbtbFormbtNbmes</code>.
+     * @exception IllegblArgumentException if <code>root</code> is
      * <code>null</code>.
-     * @exception IIOInvalidTreeException if the tree cannot be parsed
-     * successfully using the rules of the given format.
+     * @exception IIOInvblidTreeException if the tree cbnnot be pbrsed
+     * successfully using the rules of the given formbt.
      *
-     * @see #getMetadataFormatNames
+     * @see #getMetbdbtbFormbtNbmes
      * @see #getAsTree
      * @see #mergeTree
      */
-    public void setFromTree(String formatName, Node root)
-        throws IIOInvalidTreeException {
+    public void setFromTree(String formbtNbme, Node root)
+        throws IIOInvblidTreeException {
         reset();
-        mergeTree(formatName, root);
+        mergeTree(formbtNbme, root);
     }
 
     /**
-     * Resets all the data stored in this object to default values,
-     * usually to the state this object was in immediately after
-     * construction, though the precise semantics are plug-in specific.
-     * Note that there are many possible default values, depending on
-     * how the object was created.
+     * Resets bll the dbtb stored in this object to defbult vblues,
+     * usublly to the stbte this object wbs in immedibtely bfter
+     * construction, though the precise sembntics bre plug-in specific.
+     * Note thbt there bre mbny possible defbult vblues, depending on
+     * how the object wbs crebted.
      *
-     * @exception IllegalStateException if this object is read-only.
+     * @exception IllegblStbteException if this object is rebd-only.
      *
-     * @see javax.imageio.ImageReader#getStreamMetadata
-     * @see javax.imageio.ImageReader#getImageMetadata
-     * @see javax.imageio.ImageWriter#getDefaultStreamMetadata
-     * @see javax.imageio.ImageWriter#getDefaultImageMetadata
+     * @see jbvbx.imbgeio.ImbgeRebder#getStrebmMetbdbtb
+     * @see jbvbx.imbgeio.ImbgeRebder#getImbgeMetbdbtb
+     * @see jbvbx.imbgeio.ImbgeWriter#getDefbultStrebmMetbdbtb
+     * @see jbvbx.imbgeio.ImbgeWriter#getDefbultImbgeMetbdbtb
      */
-    public abstract void reset();
+    public bbstrbct void reset();
 
     /**
-     * Sets the <code>IIOMetadataController</code> to be used
-     * to provide settings for this <code>IIOMetadata</code>
-     * object when the <code>activateController</code> method
-     * is called, overriding any default controller.  If the
-     * argument is <code>null</code>, no controller will be
-     * used, including any default.  To restore the default, use
-     * <code>setController(getDefaultController())</code>.
+     * Sets the <code>IIOMetbdbtbController</code> to be used
+     * to provide settings for this <code>IIOMetbdbtb</code>
+     * object when the <code>bctivbteController</code> method
+     * is cblled, overriding bny defbult controller.  If the
+     * brgument is <code>null</code>, no controller will be
+     * used, including bny defbult.  To restore the defbult, use
+     * <code>setController(getDefbultController())</code>.
      *
-     * <p> The default implementation sets the <code>controller</code>
-     * instance variable to the supplied value.
+     * <p> The defbult implementbtion sets the <code>controller</code>
+     * instbnce vbribble to the supplied vblue.
      *
-     * @param controller An appropriate
-     * <code>IIOMetadataController</code>, or <code>null</code>.
+     * @pbrbm controller An bppropribte
+     * <code>IIOMetbdbtbController</code>, or <code>null</code>.
      *
-     * @see IIOMetadataController
+     * @see IIOMetbdbtbController
      * @see #getController
-     * @see #getDefaultController
-     * @see #hasController
-     * @see #activateController()
+     * @see #getDefbultController
+     * @see #hbsController
+     * @see #bctivbteController()
      */
-    public void setController(IIOMetadataController controller) {
+    public void setController(IIOMetbdbtbController controller) {
         this.controller = controller;
     }
 
     /**
-     * Returns whatever <code>IIOMetadataController</code> is currently
-     * installed.  This could be the default if there is one,
-     * <code>null</code>, or the argument of the most recent call
+     * Returns whbtever <code>IIOMetbdbtbController</code> is currently
+     * instblled.  This could be the defbult if there is one,
+     * <code>null</code>, or the brgument of the most recent cbll
      * to <code>setController</code>.
      *
-     * <p> The default implementation returns the value of the
-     * <code>controller</code> instance variable.
+     * <p> The defbult implementbtion returns the vblue of the
+     * <code>controller</code> instbnce vbribble.
      *
-     * @return the currently installed
-     * <code>IIOMetadataController</code>, or <code>null</code>.
+     * @return the currently instblled
+     * <code>IIOMetbdbtbController</code>, or <code>null</code>.
      *
-     * @see IIOMetadataController
+     * @see IIOMetbdbtbController
      * @see #setController
-     * @see #getDefaultController
-     * @see #hasController
-     * @see #activateController()
+     * @see #getDefbultController
+     * @see #hbsController
+     * @see #bctivbteController()
      */
-    public IIOMetadataController getController() {
+    public IIOMetbdbtbController getController() {
         return controller;
     }
 
     /**
-     * Returns the default <code>IIOMetadataController</code>, if there
-     * is one, regardless of the currently installed controller.  If
-     * there is no default controller, returns <code>null</code>.
+     * Returns the defbult <code>IIOMetbdbtbController</code>, if there
+     * is one, regbrdless of the currently instblled controller.  If
+     * there is no defbult controller, returns <code>null</code>.
      *
-     * <p> The default implementation returns the value of the
-     * <code>defaultController</code> instance variable.
+     * <p> The defbult implementbtion returns the vblue of the
+     * <code>defbultController</code> instbnce vbribble.
      *
-     * @return the default <code>IIOMetadataController</code>, or
+     * @return the defbult <code>IIOMetbdbtbController</code>, or
      * <code>null</code>.
      *
-     * @see IIOMetadataController
-     * @see #setController(IIOMetadataController)
+     * @see IIOMetbdbtbController
+     * @see #setController(IIOMetbdbtbController)
      * @see #getController
-     * @see #hasController
-     * @see #activateController()
+     * @see #hbsController
+     * @see #bctivbteController()
      */
-    public IIOMetadataController getDefaultController() {
-        return defaultController;
+    public IIOMetbdbtbController getDefbultController() {
+        return defbultController;
     }
 
     /**
-     * Returns <code>true</code> if there is a controller installed
-     * for this <code>IIOMetadata</code> object.
+     * Returns <code>true</code> if there is b controller instblled
+     * for this <code>IIOMetbdbtb</code> object.
      *
-     * <p> The default implementation returns <code>true</code> if the
-     * <code>getController</code> method returns a
-     * non-<code>null</code> value.
+     * <p> The defbult implementbtion returns <code>true</code> if the
+     * <code>getController</code> method returns b
+     * non-<code>null</code> vblue.
      *
-     * @return <code>true</code> if a controller is installed.
+     * @return <code>true</code> if b controller is instblled.
      *
-     * @see IIOMetadataController
-     * @see #setController(IIOMetadataController)
+     * @see IIOMetbdbtbController
+     * @see #setController(IIOMetbdbtbController)
      * @see #getController
-     * @see #getDefaultController
-     * @see #activateController()
+     * @see #getDefbultController
+     * @see #bctivbteController()
      */
-    public boolean hasController() {
+    public boolebn hbsController() {
         return (getController() != null);
     }
 
     /**
-     * Activates the installed <code>IIOMetadataController</code> for
-     * this <code>IIOMetadata</code> object and returns the resulting
-     * value.  When this method returns <code>true</code>, all values for this
-     * <code>IIOMetadata</code> object will be ready for the next write
-     * operation.  If <code>false</code> is
-     * returned, no settings in this object will have been disturbed
-     * (<i>i.e.</i>, the user canceled the operation).
+     * Activbtes the instblled <code>IIOMetbdbtbController</code> for
+     * this <code>IIOMetbdbtb</code> object bnd returns the resulting
+     * vblue.  When this method returns <code>true</code>, bll vblues for this
+     * <code>IIOMetbdbtb</code> object will be rebdy for the next write
+     * operbtion.  If <code>fblse</code> is
+     * returned, no settings in this object will hbve been disturbed
+     * (<i>i.e.</i>, the user cbnceled the operbtion).
      *
-     * <p> Ordinarily, the controller will be a GUI providing a user
-     * interface for a subclass of <code>IIOMetadata</code> for a
-     * particular plug-in.  Controllers need not be GUIs, however.
+     * <p> Ordinbrily, the controller will be b GUI providing b user
+     * interfbce for b subclbss of <code>IIOMetbdbtb</code> for b
+     * pbrticulbr plug-in.  Controllers need not be GUIs, however.
      *
-     * <p> The default implementation calls <code>getController</code>
-     * and the calls <code>activate</code> on the returned object if
-     * <code>hasController</code> returns <code>true</code>.
+     * <p> The defbult implementbtion cblls <code>getController</code>
+     * bnd the cblls <code>bctivbte</code> on the returned object if
+     * <code>hbsController</code> returns <code>true</code>.
      *
-     * @return <code>true</code> if the controller completed normally.
+     * @return <code>true</code> if the controller completed normblly.
      *
-     * @exception IllegalStateException if there is no controller
-     * currently installed.
+     * @exception IllegblStbteException if there is no controller
+     * currently instblled.
      *
-     * @see IIOMetadataController
-     * @see #setController(IIOMetadataController)
+     * @see IIOMetbdbtbController
+     * @see #setController(IIOMetbdbtbController)
      * @see #getController
-     * @see #getDefaultController
-     * @see #hasController
+     * @see #getDefbultController
+     * @see #hbsController
      */
-    public boolean activateController() {
-        if (!hasController()) {
-            throw new IllegalStateException("hasController() == false!");
+    public boolebn bctivbteController() {
+        if (!hbsController()) {
+            throw new IllegblStbteException("hbsController() == fblse!");
         }
-        return getController().activate(this);
+        return getController().bctivbte(this);
     }
 }

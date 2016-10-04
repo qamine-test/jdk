@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.security.AlgorithmConstraints;
-import java.security.CryptoPrimitive;
-import java.security.AlgorithmParameters;
+import jbvb.security.AlgorithmConstrbints;
+import jbvb.security.CryptoPrimitive;
+import jbvb.security.AlgorithmPbrbmeters;
 
-import java.security.Key;
-import java.security.Security;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
+import jbvb.security.Key;
+import jbvb.security.Security;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AccessController;
 
-import java.util.Locale;
-import java.util.Set;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import jbvb.util.Locble;
+import jbvb.util.Set;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.regex.Pbttern;
+import jbvb.util.regex.Mbtcher;
 
 /**
- * Algorithm constraints for disabled algorithms property
+ * Algorithm constrbints for disbbled blgorithms property
  *
- * See the "jdk.certpath.disabledAlgorithms" specification in java.security
- * for the syntax of the disabled algorithm string.
+ * See the "jdk.certpbth.disbbledAlgorithms" specificbtion in jbvb.security
+ * for the syntbx of the disbbled blgorithm string.
  */
-public class DisabledAlgorithmConstraints implements AlgorithmConstraints {
+public clbss DisbbledAlgorithmConstrbints implements AlgorithmConstrbints {
 
-    // the known security property, jdk.certpath.disabledAlgorithms
-    public final static String PROPERTY_CERTPATH_DISABLED_ALGS =
-            "jdk.certpath.disabledAlgorithms";
+    // the known security property, jdk.certpbth.disbbledAlgorithms
+    public finbl stbtic String PROPERTY_CERTPATH_DISABLED_ALGS =
+            "jdk.certpbth.disbbledAlgorithms";
 
-    // the known security property, jdk.tls.disabledAlgorithms
-    public final static String PROPERTY_TLS_DISABLED_ALGS =
-            "jdk.tls.disabledAlgorithms";
+    // the known security property, jdk.tls.disbbledAlgorithms
+    public finbl stbtic String PROPERTY_TLS_DISABLED_ALGS =
+            "jdk.tls.disbbledAlgorithms";
 
-    private final static Map<String, String[]> disabledAlgorithmsMap =
-                                                            new HashMap<>();
-    private final static Map<String, KeySizeConstraints> keySizeConstraintsMap =
-                                                            new HashMap<>();
+    privbte finbl stbtic Mbp<String, String[]> disbbledAlgorithmsMbp =
+                                                            new HbshMbp<>();
+    privbte finbl stbtic Mbp<String, KeySizeConstrbints> keySizeConstrbintsMbp =
+                                                            new HbshMbp<>();
 
-    private String[] disabledAlgorithms;
-    private KeySizeConstraints keySizeConstraints;
+    privbte String[] disbbledAlgorithms;
+    privbte KeySizeConstrbints keySizeConstrbints;
 
     /**
-     * Initialize algorithm constraints with the specified security property.
+     * Initiblize blgorithm constrbints with the specified security property.
      *
-     * @param propertyName the security property name that define the disabled
-     *        algorithm constraints
+     * @pbrbm propertyNbme the security property nbme thbt define the disbbled
+     *        blgorithm constrbints
      */
-    public DisabledAlgorithmConstraints(String propertyName) {
-        // Both disabledAlgorithmsMap and keySizeConstraintsMap are
-        // synchronized with the lock of disabledAlgorithmsMap.
-        synchronized (disabledAlgorithmsMap) {
-            if(!disabledAlgorithmsMap.containsKey(propertyName)) {
-                loadDisabledAlgorithmsMap(propertyName);
+    public DisbbledAlgorithmConstrbints(String propertyNbme) {
+        // Both disbbledAlgorithmsMbp bnd keySizeConstrbintsMbp bre
+        // synchronized with the lock of disbbledAlgorithmsMbp.
+        synchronized (disbbledAlgorithmsMbp) {
+            if(!disbbledAlgorithmsMbp.contbinsKey(propertyNbme)) {
+                lobdDisbbledAlgorithmsMbp(propertyNbme);
             }
 
-            disabledAlgorithms = disabledAlgorithmsMap.get(propertyName);
-            keySizeConstraints = keySizeConstraintsMap.get(propertyName);
+            disbbledAlgorithms = disbbledAlgorithmsMbp.get(propertyNbme);
+            keySizeConstrbints = keySizeConstrbintsMbp.get(propertyNbme);
         }
     }
 
     @Override
-    final public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, AlgorithmParameters parameters) {
+    finbl public boolebn permits(Set<CryptoPrimitive> primitives,
+            String blgorithm, AlgorithmPbrbmeters pbrbmeters) {
 
-        if (algorithm == null || algorithm.length() == 0) {
-            throw new IllegalArgumentException("No algorithm name specified");
+        if (blgorithm == null || blgorithm.length() == 0) {
+            throw new IllegblArgumentException("No blgorithm nbme specified");
         }
 
         if (primitives == null || primitives.isEmpty()) {
-            throw new IllegalArgumentException(
-                        "No cryptographic primitive specified");
+            throw new IllegblArgumentException(
+                        "No cryptogrbphic primitive specified");
         }
 
         Set<String> elements = null;
-        for (String disabled : disabledAlgorithms) {
-            if (disabled == null || disabled.isEmpty()) {
+        for (String disbbled : disbbledAlgorithms) {
+            if (disbbled == null || disbbled.isEmpty()) {
                 continue;
             }
 
-            // check the full name
-            if (disabled.equalsIgnoreCase(algorithm)) {
-                return false;
+            // check the full nbme
+            if (disbbled.equblsIgnoreCbse(blgorithm)) {
+                return fblse;
             }
 
-            // decompose the algorithm into sub-elements
+            // decompose the blgorithm into sub-elements
             if (elements == null) {
-                elements = decomposes(algorithm);
+                elements = decomposes(blgorithm);
             }
 
-            // check the items of the algorithm
+            // check the items of the blgorithm
             for (String element : elements) {
-                if (disabled.equalsIgnoreCase(element)) {
-                    return false;
+                if (disbbled.equblsIgnoreCbse(element)) {
+                    return fblse;
                 }
             }
         }
@@ -127,251 +127,251 @@ public class DisabledAlgorithmConstraints implements AlgorithmConstraints {
     }
 
     @Override
-    final public boolean permits(Set<CryptoPrimitive> primitives, Key key) {
-        return checkConstraints(primitives, "", key, null);
+    finbl public boolebn permits(Set<CryptoPrimitive> primitives, Key key) {
+        return checkConstrbints(primitives, "", key, null);
     }
 
     @Override
-    final public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, Key key, AlgorithmParameters parameters) {
+    finbl public boolebn permits(Set<CryptoPrimitive> primitives,
+            String blgorithm, Key key, AlgorithmPbrbmeters pbrbmeters) {
 
-        if (algorithm == null || algorithm.length() == 0) {
-            throw new IllegalArgumentException("No algorithm name specified");
+        if (blgorithm == null || blgorithm.length() == 0) {
+            throw new IllegblArgumentException("No blgorithm nbme specified");
         }
 
-        return checkConstraints(primitives, algorithm, key, parameters);
+        return checkConstrbints(primitives, blgorithm, key, pbrbmeters);
     }
 
     /**
-     * Decompose the standard algorithm name into sub-elements.
+     * Decompose the stbndbrd blgorithm nbme into sub-elements.
      * <p>
-     * For example, we need to decompose "SHA1WithRSA" into "SHA1" and "RSA"
-     * so that we can check the "SHA1" and "RSA" algorithm constraints
-     * separately.
+     * For exbmple, we need to decompose "SHA1WithRSA" into "SHA1" bnd "RSA"
+     * so thbt we cbn check the "SHA1" bnd "RSA" blgorithm constrbints
+     * sepbrbtely.
      * <p>
-     * Please override the method if need to support more name pattern.
+     * Plebse override the method if need to support more nbme pbttern.
      */
-    protected Set<String> decomposes(String algorithm) {
-        if (algorithm == null || algorithm.length() == 0) {
-            return new HashSet<String>();
+    protected Set<String> decomposes(String blgorithm) {
+        if (blgorithm == null || blgorithm.length() == 0) {
+            return new HbshSet<String>();
         }
 
-        // algorithm/mode/padding
-        Pattern transPattern = Pattern.compile("/");
-        String[] transTockens = transPattern.split(algorithm);
+        // blgorithm/mode/pbdding
+        Pbttern trbnsPbttern = Pbttern.compile("/");
+        String[] trbnsTockens = trbnsPbttern.split(blgorithm);
 
-        Set<String> elements = new HashSet<String>();
-        for (String transTocken : transTockens) {
-            if (transTocken == null || transTocken.length() == 0) {
+        Set<String> elements = new HbshSet<String>();
+        for (String trbnsTocken : trbnsTockens) {
+            if (trbnsTocken == null || trbnsTocken.length() == 0) {
                 continue;
             }
 
             // PBEWith<digest>And<encryption>
             // PBEWith<prf>And<encryption>
-            // OAEPWith<digest>And<mgf>Padding
+            // OAEPWith<digest>And<mgf>Pbdding
             // <digest>with<encryption>
-            // <digest>with<encryption>and<mgf>
-            Pattern pattern =
-                    Pattern.compile("with|and", Pattern.CASE_INSENSITIVE);
-            String[] tokens = pattern.split(transTocken);
+            // <digest>with<encryption>bnd<mgf>
+            Pbttern pbttern =
+                    Pbttern.compile("with|bnd", Pbttern.CASE_INSENSITIVE);
+            String[] tokens = pbttern.split(trbnsTocken);
 
             for (String token : tokens) {
                 if (token == null || token.length() == 0) {
                     continue;
                 }
 
-                elements.add(token);
+                elements.bdd(token);
             }
         }
 
-        // In Java standard algorithm name specification, for different
-        // purpose, the SHA-1 and SHA-2 algorithm names are different. For
-        // example, for MessageDigest, the standard name is "SHA-256", while
-        // for Signature, the digest algorithm component is "SHA256" for
-        // signature algorithm "SHA256withRSA". So we need to check both
-        // "SHA-256" and "SHA256" to make the right constraint checking.
+        // In Jbvb stbndbrd blgorithm nbme specificbtion, for different
+        // purpose, the SHA-1 bnd SHA-2 blgorithm nbmes bre different. For
+        // exbmple, for MessbgeDigest, the stbndbrd nbme is "SHA-256", while
+        // for Signbture, the digest blgorithm component is "SHA256" for
+        // signbture blgorithm "SHA256withRSA". So we need to check both
+        // "SHA-256" bnd "SHA256" to mbke the right constrbint checking.
 
-        // handle special name: SHA-1 and SHA1
-        if (elements.contains("SHA1") && !elements.contains("SHA-1")) {
-            elements.add("SHA-1");
+        // hbndle specibl nbme: SHA-1 bnd SHA1
+        if (elements.contbins("SHA1") && !elements.contbins("SHA-1")) {
+            elements.bdd("SHA-1");
         }
-        if (elements.contains("SHA-1") && !elements.contains("SHA1")) {
-            elements.add("SHA1");
-        }
-
-        // handle special name: SHA-224 and SHA224
-        if (elements.contains("SHA224") && !elements.contains("SHA-224")) {
-            elements.add("SHA-224");
-        }
-        if (elements.contains("SHA-224") && !elements.contains("SHA224")) {
-            elements.add("SHA224");
+        if (elements.contbins("SHA-1") && !elements.contbins("SHA1")) {
+            elements.bdd("SHA1");
         }
 
-        // handle special name: SHA-256 and SHA256
-        if (elements.contains("SHA256") && !elements.contains("SHA-256")) {
-            elements.add("SHA-256");
+        // hbndle specibl nbme: SHA-224 bnd SHA224
+        if (elements.contbins("SHA224") && !elements.contbins("SHA-224")) {
+            elements.bdd("SHA-224");
         }
-        if (elements.contains("SHA-256") && !elements.contains("SHA256")) {
-            elements.add("SHA256");
-        }
-
-        // handle special name: SHA-384 and SHA384
-        if (elements.contains("SHA384") && !elements.contains("SHA-384")) {
-            elements.add("SHA-384");
-        }
-        if (elements.contains("SHA-384") && !elements.contains("SHA384")) {
-            elements.add("SHA384");
+        if (elements.contbins("SHA-224") && !elements.contbins("SHA224")) {
+            elements.bdd("SHA224");
         }
 
-        // handle special name: SHA-512 and SHA512
-        if (elements.contains("SHA512") && !elements.contains("SHA-512")) {
-            elements.add("SHA-512");
+        // hbndle specibl nbme: SHA-256 bnd SHA256
+        if (elements.contbins("SHA256") && !elements.contbins("SHA-256")) {
+            elements.bdd("SHA-256");
         }
-        if (elements.contains("SHA-512") && !elements.contains("SHA512")) {
-            elements.add("SHA512");
+        if (elements.contbins("SHA-256") && !elements.contbins("SHA256")) {
+            elements.bdd("SHA256");
+        }
+
+        // hbndle specibl nbme: SHA-384 bnd SHA384
+        if (elements.contbins("SHA384") && !elements.contbins("SHA-384")) {
+            elements.bdd("SHA-384");
+        }
+        if (elements.contbins("SHA-384") && !elements.contbins("SHA384")) {
+            elements.bdd("SHA384");
+        }
+
+        // hbndle specibl nbme: SHA-512 bnd SHA512
+        if (elements.contbins("SHA512") && !elements.contbins("SHA-512")) {
+            elements.bdd("SHA-512");
+        }
+        if (elements.contbins("SHA-512") && !elements.contbins("SHA512")) {
+            elements.bdd("SHA512");
         }
 
         return elements;
     }
 
-    // Check algorithm constraints
-    private boolean checkConstraints(Set<CryptoPrimitive> primitives,
-            String algorithm, Key key, AlgorithmParameters parameters) {
+    // Check blgorithm constrbints
+    privbte boolebn checkConstrbints(Set<CryptoPrimitive> primitives,
+            String blgorithm, Key key, AlgorithmPbrbmeters pbrbmeters) {
 
-        // check the key parameter, it cannot be null.
+        // check the key pbrbmeter, it cbnnot be null.
         if (key == null) {
-            throw new IllegalArgumentException("The key cannot be null");
+            throw new IllegblArgumentException("The key cbnnot be null");
         }
 
-        // check the target algorithm
-        if (algorithm != null && algorithm.length() != 0) {
-            if (!permits(primitives, algorithm, parameters)) {
-                return false;
+        // check the tbrget blgorithm
+        if (blgorithm != null && blgorithm.length() != 0) {
+            if (!permits(primitives, blgorithm, pbrbmeters)) {
+                return fblse;
             }
         }
 
-        // check the key algorithm
+        // check the key blgorithm
         if (!permits(primitives, key.getAlgorithm(), null)) {
-            return false;
+            return fblse;
         }
 
-        // check the key constraints
-        if (keySizeConstraints.disables(key)) {
-            return false;
+        // check the key constrbints
+        if (keySizeConstrbints.disbbles(key)) {
+            return fblse;
         }
 
         return true;
     }
 
-    // Get disabled algorithm constraints from the specified security property.
-    private static void loadDisabledAlgorithmsMap(
-            final String propertyName) {
+    // Get disbbled blgorithm constrbints from the specified security property.
+    privbte stbtic void lobdDisbbledAlgorithmsMbp(
+            finbl String propertyNbme) {
 
         String property = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
                 public String run() {
-                    return Security.getProperty(propertyName);
+                    return Security.getProperty(propertyNbme);
                 }
             });
 
-        String[] algorithmsInProperty = null;
+        String[] blgorithmsInProperty = null;
 
         if (property != null && !property.isEmpty()) {
 
-            // remove double quote marks from beginning/end of the property
-            if (property.charAt(0) == '"' &&
-                    property.charAt(property.length() - 1) == '"') {
+            // remove double quote mbrks from beginning/end of the property
+            if (property.chbrAt(0) == '"' &&
+                    property.chbrAt(property.length() - 1) == '"') {
                 property = property.substring(1, property.length() - 1);
             }
 
-            algorithmsInProperty = property.split(",");
-            for (int i = 0; i < algorithmsInProperty.length; i++) {
-                algorithmsInProperty[i] = algorithmsInProperty[i].trim();
+            blgorithmsInProperty = property.split(",");
+            for (int i = 0; i < blgorithmsInProperty.length; i++) {
+                blgorithmsInProperty[i] = blgorithmsInProperty[i].trim();
             }
         }
 
-        // map the disabled algorithms
-        if (algorithmsInProperty == null) {
-            algorithmsInProperty = new String[0];
+        // mbp the disbbled blgorithms
+        if (blgorithmsInProperty == null) {
+            blgorithmsInProperty = new String[0];
         }
-        disabledAlgorithmsMap.put(propertyName, algorithmsInProperty);
+        disbbledAlgorithmsMbp.put(propertyNbme, blgorithmsInProperty);
 
-        // map the key constraints
-        KeySizeConstraints keySizeConstraints =
-            new KeySizeConstraints(algorithmsInProperty);
-        keySizeConstraintsMap.put(propertyName, keySizeConstraints);
+        // mbp the key constrbints
+        KeySizeConstrbints keySizeConstrbints =
+            new KeySizeConstrbints(blgorithmsInProperty);
+        keySizeConstrbintsMbp.put(propertyNbme, keySizeConstrbints);
     }
 
     /**
-     * key constraints
+     * key constrbints
      */
-    private static class KeySizeConstraints {
-        private static final Pattern pattern = Pattern.compile(
+    privbte stbtic clbss KeySizeConstrbints {
+        privbte stbtic finbl Pbttern pbttern = Pbttern.compile(
                 "(\\S+)\\s+keySize\\s*(<=|<|==|!=|>|>=)\\s*(\\d+)");
 
-        private Map<String, Set<KeySizeConstraint>> constraintsMap =
-            Collections.synchronizedMap(
-                        new HashMap<String, Set<KeySizeConstraint>>());
+        privbte Mbp<String, Set<KeySizeConstrbint>> constrbintsMbp =
+            Collections.synchronizedMbp(
+                        new HbshMbp<String, Set<KeySizeConstrbint>>());
 
-        public KeySizeConstraints(String[] restrictions) {
+        public KeySizeConstrbints(String[] restrictions) {
             for (String restriction : restrictions) {
                 if (restriction == null || restriction.isEmpty()) {
                     continue;
                 }
 
-                Matcher matcher = pattern.matcher(restriction);
-                if (matcher.matches()) {
-                    String algorithm = matcher.group(1);
+                Mbtcher mbtcher = pbttern.mbtcher(restriction);
+                if (mbtcher.mbtches()) {
+                    String blgorithm = mbtcher.group(1);
 
-                    KeySizeConstraint.Operator operator =
-                             KeySizeConstraint.Operator.of(matcher.group(2));
-                    int length = Integer.parseInt(matcher.group(3));
+                    KeySizeConstrbint.Operbtor operbtor =
+                             KeySizeConstrbint.Operbtor.of(mbtcher.group(2));
+                    int length = Integer.pbrseInt(mbtcher.group(3));
 
-                    algorithm = algorithm.toLowerCase(Locale.ENGLISH);
+                    blgorithm = blgorithm.toLowerCbse(Locble.ENGLISH);
 
-                    synchronized (constraintsMap) {
-                        if (!constraintsMap.containsKey(algorithm)) {
-                            constraintsMap.put(algorithm,
-                                new HashSet<KeySizeConstraint>());
+                    synchronized (constrbintsMbp) {
+                        if (!constrbintsMbp.contbinsKey(blgorithm)) {
+                            constrbintsMbp.put(blgorithm,
+                                new HbshSet<KeySizeConstrbint>());
                         }
 
-                        Set<KeySizeConstraint> constraintSet =
-                            constraintsMap.get(algorithm);
-                        KeySizeConstraint constraint =
-                            new KeySizeConstraint(operator, length);
-                        constraintSet.add(constraint);
+                        Set<KeySizeConstrbint> constrbintSet =
+                            constrbintsMbp.get(blgorithm);
+                        KeySizeConstrbint constrbint =
+                            new KeySizeConstrbint(operbtor, length);
+                        constrbintSet.bdd(constrbint);
                     }
                 }
             }
         }
 
-        // Does this KeySizeConstraints disable the specified key?
-        public boolean disables(Key key) {
-            String algorithm = key.getAlgorithm().toLowerCase(Locale.ENGLISH);
-            synchronized (constraintsMap) {
-                if (constraintsMap.containsKey(algorithm)) {
-                    Set<KeySizeConstraint> constraintSet =
-                                        constraintsMap.get(algorithm);
-                    for (KeySizeConstraint constraint : constraintSet) {
-                        if (constraint.disables(key)) {
+        // Does this KeySizeConstrbints disbble the specified key?
+        public boolebn disbbles(Key key) {
+            String blgorithm = key.getAlgorithm().toLowerCbse(Locble.ENGLISH);
+            synchronized (constrbintsMbp) {
+                if (constrbintsMbp.contbinsKey(blgorithm)) {
+                    Set<KeySizeConstrbint> constrbintSet =
+                                        constrbintsMbp.get(blgorithm);
+                    for (KeySizeConstrbint constrbint : constrbintSet) {
+                        if (constrbint.disbbles(key)) {
                             return true;
                         }
                     }
                 }
             }
 
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Key size constraint.
+     * Key size constrbint.
      *
      * e.g.  "keysize <= 1024"
      */
-    private static class KeySizeConstraint {
-        // operator
-        static enum Operator {
+    privbte stbtic clbss KeySizeConstrbint {
+        // operbtor
+        stbtic enum Operbtor {
             EQ,         // "=="
             NE,         // "!="
             LT,         // "<"
@@ -379,78 +379,78 @@ public class DisabledAlgorithmConstraints implements AlgorithmConstraints {
             GT,         // ">"
             GE;         // ">="
 
-            static Operator of(String s) {
+            stbtic Operbtor of(String s) {
                 switch (s) {
-                    case "==":
+                    cbse "==":
                         return EQ;
-                    case "!=":
+                    cbse "!=":
                         return NE;
-                    case "<":
+                    cbse "<":
                         return LT;
-                    case "<=":
+                    cbse "<=":
                         return LE;
-                    case ">":
+                    cbse ">":
                         return GT;
-                    case ">=":
+                    cbse ">=":
                         return GE;
                 }
 
-                throw new IllegalArgumentException(
-                        s + " is not a legal Operator");
+                throw new IllegblArgumentException(
+                        s + " is not b legbl Operbtor");
             }
         }
 
-        private int minSize;            // the minimal available key size
-        private int maxSize;            // the maximal available key size
-        private int prohibitedSize = -1;    // unavailable key sizes
+        privbte int minSize;            // the minimbl bvbilbble key size
+        privbte int mbxSize;            // the mbximbl bvbilbble key size
+        privbte int prohibitedSize = -1;    // unbvbilbble key sizes
 
-        public KeySizeConstraint(Operator operator, int length) {
-            switch (operator) {
-                case EQ:      // an unavailable key size
+        public KeySizeConstrbint(Operbtor operbtor, int length) {
+            switch (operbtor) {
+                cbse EQ:      // bn unbvbilbble key size
                     this.minSize = 0;
-                    this.maxSize = Integer.MAX_VALUE;
+                    this.mbxSize = Integer.MAX_VALUE;
                     prohibitedSize = length;
-                    break;
-                case NE:
+                    brebk;
+                cbse NE:
                     this.minSize = length;
-                    this.maxSize = length;
-                    break;
-                case LT:
+                    this.mbxSize = length;
+                    brebk;
+                cbse LT:
                     this.minSize = length;
-                    this.maxSize = Integer.MAX_VALUE;
-                    break;
-                case LE:
+                    this.mbxSize = Integer.MAX_VALUE;
+                    brebk;
+                cbse LE:
                     this.minSize = length + 1;
-                    this.maxSize = Integer.MAX_VALUE;
-                    break;
-                case GT:
+                    this.mbxSize = Integer.MAX_VALUE;
+                    brebk;
+                cbse GT:
                     this.minSize = 0;
-                    this.maxSize = length;
-                    break;
-                case GE:
+                    this.mbxSize = length;
+                    brebk;
+                cbse GE:
                     this.minSize = 0;
-                    this.maxSize = length > 1 ? (length - 1) : 0;
-                    break;
-                default:
-                    // unlikely to happen
+                    this.mbxSize = length > 1 ? (length - 1) : 0;
+                    brebk;
+                defbult:
+                    // unlikely to hbppen
                     this.minSize = Integer.MAX_VALUE;
-                    this.maxSize = -1;
+                    this.mbxSize = -1;
             }
         }
 
-        // Does this key constraint disable the specified key?
-        public boolean disables(Key key) {
+        // Does this key constrbint disbble the specified key?
+        public boolebn disbbles(Key key) {
             int size = KeyUtil.getKeySize(key);
 
             if (size == 0) {
-                return true;    // we don't allow any key of size 0.
+                return true;    // we don't bllow bny key of size 0.
             } else if (size > 0) {
-                return ((size < minSize) || (size > maxSize) ||
+                return ((size < minSize) || (size > mbxSize) ||
                     (prohibitedSize == size));
-            }   // Otherwise, the key size is not accessible. Conservatively,
-                // please don't disable such keys.
+            }   // Otherwise, the key size is not bccessible. Conservbtively,
+                // plebse don't disbble such keys.
 
-            return false;
+            return fblse;
         }
     }
 

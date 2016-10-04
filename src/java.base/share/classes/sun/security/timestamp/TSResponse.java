@@ -1,384 +1,384 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.timestamp;
+pbckbge sun.security.timestbmp;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 import sun.security.pkcs.PKCS7;
 import sun.security.util.Debug;
-import sun.security.util.DerValue;
+import sun.security.util.DerVblue;
 
 /**
- * This class provides the response corresponding to a timestamp request,
- * as defined in
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
+ * This clbss provides the response corresponding to b timestbmp request,
+ * bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</b>.
  *
- * The TimeStampResp ASN.1 type has the following definition:
+ * The TimeStbmpResp ASN.1 type hbs the following definition:
  * <pre>
  *
- *     TimeStampResp ::= SEQUENCE {
- *         status            PKIStatusInfo,
- *         timeStampToken    TimeStampToken OPTIONAL ]
+ *     TimeStbmpResp ::= SEQUENCE {
+ *         stbtus            PKIStbtusInfo,
+ *         timeStbmpToken    TimeStbmpToken OPTIONAL ]
  *
- *     PKIStatusInfo ::= SEQUENCE {
- *         status        PKIStatus,
- *         statusString  PKIFreeText OPTIONAL,
- *         failInfo      PKIFailureInfo OPTIONAL }
+ *     PKIStbtusInfo ::= SEQUENCE {
+ *         stbtus        PKIStbtus,
+ *         stbtusString  PKIFreeText OPTIONAL,
+ *         fbilInfo      PKIFbilureInfo OPTIONAL }
  *
- *     PKIStatus ::= INTEGER {
- *         granted                (0),
- *           -- when the PKIStatus contains the value zero a TimeStampToken, as
+ *     PKIStbtus ::= INTEGER {
+ *         grbnted                (0),
+ *           -- when the PKIStbtus contbins the vblue zero b TimeStbmpToken, bs
  *           -- requested, is present.
- *         grantedWithMods        (1),
- *           -- when the PKIStatus contains the value one a TimeStampToken,
- *           -- with modifications, is present.
+ *         grbntedWithMods        (1),
+ *           -- when the PKIStbtus contbins the vblue one b TimeStbmpToken,
+ *           -- with modificbtions, is present.
  *         rejection              (2),
- *         waiting                (3),
- *         revocationWarning      (4),
- *           -- this message contains a warning that a revocation is
+ *         wbiting                (3),
+ *         revocbtionWbrning      (4),
+ *           -- this messbge contbins b wbrning thbt b revocbtion is
  *           -- imminent
- *         revocationNotification (5)
- *           -- notification that a revocation has occurred }
+ *         revocbtionNotificbtion (5)
+ *           -- notificbtion thbt b revocbtion hbs occurred }
  *
  *     PKIFreeText ::= SEQUENCE SIZE (1..MAX) OF UTF8String
- *           -- text encoded as UTF-8 String (note:  each UTF8String SHOULD
- *           -- include an RFC 1766 language tag to indicate the language
- *           -- of the contained text)
+ *           -- text encoded bs UTF-8 String (note:  ebch UTF8String SHOULD
+ *           -- include bn RFC 1766 lbngubge tbg to indicbte the lbngubge
+ *           -- of the contbined text)
  *
- *     PKIFailureInfo ::= BIT STRING {
- *         badAlg              (0),
+ *     PKIFbilureInfo ::= BIT STRING {
+ *         bbdAlg              (0),
  *           -- unrecognized or unsupported Algorithm Identifier
- *         badRequest          (2),
- *           -- transaction not permitted or supported
- *         badDataFormat       (5),
- *           -- the data submitted has the wrong format
- *         timeNotAvailable    (14),
- *           -- the TSA's time source is not available
- *         unacceptedPolicy    (15),
+ *         bbdRequest          (2),
+ *           -- trbnsbction not permitted or supported
+ *         bbdDbtbFormbt       (5),
+ *           -- the dbtb submitted hbs the wrong formbt
+ *         timeNotAvbilbble    (14),
+ *           -- the TSA's time source is not bvbilbble
+ *         unbcceptedPolicy    (15),
  *           -- the requested TSA policy is not supported by the TSA
- *         unacceptedExtension (16),
+ *         unbcceptedExtension (16),
  *           -- the requested extension is not supported by the TSA
- *         addInfoNotAvailable (17)
- *           -- the additional information requested could not be understood
- *           -- or is not available
- *         systemFailure       (25)
- *           -- the request cannot be handled due to system failure }
+ *         bddInfoNotAvbilbble (17)
+ *           -- the bdditionbl informbtion requested could not be understood
+ *           -- or is not bvbilbble
+ *         systemFbilure       (25)
+ *           -- the request cbnnot be hbndled due to system fbilure }
  *
- *     TimeStampToken ::= ContentInfo
- *         -- contentType is id-signedData
- *         -- content is SignedData
- *         -- eContentType within SignedData is id-ct-TSTInfo
- *         -- eContent within SignedData is TSTInfo
+ *     TimeStbmpToken ::= ContentInfo
+ *         -- contentType is id-signedDbtb
+ *         -- content is SignedDbtb
+ *         -- eContentType within SignedDbtb is id-ct-TSTInfo
+ *         -- eContent within SignedDbtb is TSTInfo
  *
  * </pre>
  *
  * @since 1.5
- * @author Vincent Ryan
- * @see Timestamper
+ * @buthor Vincent Rybn
+ * @see Timestbmper
  */
 
-public class TSResponse {
+public clbss TSResponse {
 
-    // Status codes (from RFC 3161)
-
-    /**
-     * The requested timestamp was granted.
-     */
-    public static final int GRANTED = 0;
+    // Stbtus codes (from RFC 3161)
 
     /**
-     * The requested timestamp was granted with some modifications.
+     * The requested timestbmp wbs grbnted.
      */
-    public static final int GRANTED_WITH_MODS = 1;
+    public stbtic finbl int GRANTED = 0;
 
     /**
-     * The requested timestamp was not granted.
+     * The requested timestbmp wbs grbnted with some modificbtions.
      */
-    public static final int REJECTION = 2;
+    public stbtic finbl int GRANTED_WITH_MODS = 1;
 
     /**
-     * The requested timestamp has not yet been processed.
+     * The requested timestbmp wbs not grbnted.
      */
-    public static final int WAITING = 3;
+    public stbtic finbl int REJECTION = 2;
 
     /**
-     * A warning that a certificate revocation is imminent.
+     * The requested timestbmp hbs not yet been processed.
      */
-    public static final int REVOCATION_WARNING = 4;
+    public stbtic finbl int WAITING = 3;
 
     /**
-     * Notification that a certificate revocation has occurred.
+     * A wbrning thbt b certificbte revocbtion is imminent.
      */
-    public static final int REVOCATION_NOTIFICATION = 5;
-
-    // Failure codes (from RFC 3161)
+    public stbtic finbl int REVOCATION_WARNING = 4;
 
     /**
-     * Unrecognized or unsupported algorithm identifier.
+     * Notificbtion thbt b certificbte revocbtion hbs occurred.
      */
-    public static final int BAD_ALG = 0;
+    public stbtic finbl int REVOCATION_NOTIFICATION = 5;
+
+    // Fbilure codes (from RFC 3161)
 
     /**
-     * The requested transaction is not permitted or supported.
+     * Unrecognized or unsupported blgorithm identifier.
      */
-    public static final int BAD_REQUEST = 2;
+    public stbtic finbl int BAD_ALG = 0;
 
     /**
-     * The data submitted has the wrong format.
+     * The requested trbnsbction is not permitted or supported.
      */
-    public static final int BAD_DATA_FORMAT = 5;
+    public stbtic finbl int BAD_REQUEST = 2;
 
     /**
-     * The TSA's time source is not available.
+     * The dbtb submitted hbs the wrong formbt.
      */
-    public static final int TIME_NOT_AVAILABLE = 14;
+    public stbtic finbl int BAD_DATA_FORMAT = 5;
+
+    /**
+     * The TSA's time source is not bvbilbble.
+     */
+    public stbtic finbl int TIME_NOT_AVAILABLE = 14;
 
     /**
      * The requested TSA policy is not supported by the TSA.
      */
-    public static final int UNACCEPTED_POLICY = 15;
+    public stbtic finbl int UNACCEPTED_POLICY = 15;
 
     /**
      * The requested extension is not supported by the TSA.
      */
-    public static final int UNACCEPTED_EXTENSION = 16;
+    public stbtic finbl int UNACCEPTED_EXTENSION = 16;
 
     /**
-     * The additional information requested could not be understood or is not
-     * available.
+     * The bdditionbl informbtion requested could not be understood or is not
+     * bvbilbble.
      */
-    public static final int ADD_INFO_NOT_AVAILABLE = 17;
+    public stbtic finbl int ADD_INFO_NOT_AVAILABLE = 17;
 
     /**
-     * The request cannot be handled due to system failure.
+     * The request cbnnot be hbndled due to system fbilure.
      */
-    public static final int SYSTEM_FAILURE = 25;
+    public stbtic finbl int SYSTEM_FAILURE = 25;
 
-    private static final Debug debug = Debug.getInstance("ts");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ts");
 
-    private int status;
+    privbte int stbtus;
 
-    private String[] statusString = null;
+    privbte String[] stbtusString = null;
 
-    private boolean[] failureInfo = null;
+    privbte boolebn[] fbilureInfo = null;
 
-    private byte[] encodedTsToken = null;
+    privbte byte[] encodedTsToken = null;
 
-    private PKCS7 tsToken = null;
+    privbte PKCS7 tsToken = null;
 
-    private TimestampToken tstInfo;
+    privbte TimestbmpToken tstInfo;
 
     /**
-     * Constructs an object to store the response to a timestamp request.
+     * Constructs bn object to store the response to b timestbmp request.
      *
-     * @param status A buffer containing the ASN.1 BER encoded response.
-     * @throws IOException The exception is thrown if a problem is encountered
-     *         parsing the timestamp response.
+     * @pbrbm stbtus A buffer contbining the ASN.1 BER encoded response.
+     * @throws IOException The exception is thrown if b problem is encountered
+     *         pbrsing the timestbmp response.
      */
     TSResponse(byte[] tsReply) throws IOException {
-        parse(tsReply);
+        pbrse(tsReply);
     }
 
     /**
-     * Retrieve the status code returned by the TSA.
+     * Retrieve the stbtus code returned by the TSA.
      */
-    public int getStatusCode() {
-        return status;
+    public int getStbtusCode() {
+        return stbtus;
     }
 
     /**
-     * Retrieve the status messages returned by the TSA.
+     * Retrieve the stbtus messbges returned by the TSA.
      *
-     * @return If null then no status messages were received.
+     * @return If null then no stbtus messbges were received.
      */
-    public String[] getStatusMessages() {
-        return statusString;
+    public String[] getStbtusMessbges() {
+        return stbtusString;
     }
 
     /**
-     * Retrieve the failure info returned by the TSA.
+     * Retrieve the fbilure info returned by the TSA.
      *
-     * @return the failure info, or null if no failure code was received.
+     * @return the fbilure info, or null if no fbilure code wbs received.
      */
-    public boolean[] getFailureInfo() {
-        return failureInfo;
+    public boolebn[] getFbilureInfo() {
+        return fbilureInfo;
     }
 
-    public String getStatusCodeAsText() {
+    public String getStbtusCodeAsText() {
 
-        switch (status)  {
-        case GRANTED:
-            return "the timestamp request was granted.";
+        switch (stbtus)  {
+        cbse GRANTED:
+            return "the timestbmp request wbs grbnted.";
 
-        case GRANTED_WITH_MODS:
+        cbse GRANTED_WITH_MODS:
             return
-                "the timestamp request was granted with some modifications.";
+                "the timestbmp request wbs grbnted with some modificbtions.";
 
-        case REJECTION:
-            return "the timestamp request was rejected.";
+        cbse REJECTION:
+            return "the timestbmp request wbs rejected.";
 
-        case WAITING:
-            return "the timestamp request has not yet been processed.";
+        cbse WAITING:
+            return "the timestbmp request hbs not yet been processed.";
 
-        case REVOCATION_WARNING:
-            return "warning: a certificate revocation is imminent.";
+        cbse REVOCATION_WARNING:
+            return "wbrning: b certificbte revocbtion is imminent.";
 
-        case REVOCATION_NOTIFICATION:
-            return "notification: a certificate revocation has occurred.";
+        cbse REVOCATION_NOTIFICATION:
+            return "notificbtion: b certificbte revocbtion hbs occurred.";
 
-        default:
-            return ("unknown status code " + status + ".");
+        defbult:
+            return ("unknown stbtus code " + stbtus + ".");
         }
     }
 
-    private boolean isSet(int position) {
-        return failureInfo[position];
+    privbte boolebn isSet(int position) {
+        return fbilureInfo[position];
     }
 
-    public String getFailureCodeAsText() {
+    public String getFbilureCodeAsText() {
 
-        if (failureInfo == null) {
+        if (fbilureInfo == null) {
             return "";
         }
 
         try {
             if (isSet(BAD_ALG))
-                return "Unrecognized or unsupported algorithm identifier.";
+                return "Unrecognized or unsupported blgorithm identifier.";
             if (isSet(BAD_REQUEST))
-                return "The requested transaction is not permitted or " +
+                return "The requested trbnsbction is not permitted or " +
                        "supported.";
             if (isSet(BAD_DATA_FORMAT))
-                return "The data submitted has the wrong format.";
+                return "The dbtb submitted hbs the wrong formbt.";
             if (isSet(TIME_NOT_AVAILABLE))
-                return "The TSA's time source is not available.";
+                return "The TSA's time source is not bvbilbble.";
             if (isSet(UNACCEPTED_POLICY))
                 return "The requested TSA policy is not supported by the TSA.";
             if (isSet(UNACCEPTED_EXTENSION))
                 return "The requested extension is not supported by the TSA.";
             if (isSet(ADD_INFO_NOT_AVAILABLE))
-                return "The additional information requested could not be " +
-                       "understood or is not available.";
+                return "The bdditionbl informbtion requested could not be " +
+                       "understood or is not bvbilbble.";
             if (isSet(SYSTEM_FAILURE))
-                return "The request cannot be handled due to system failure.";
-        } catch (ArrayIndexOutOfBoundsException ex) {}
+                return "The request cbnnot be hbndled due to system fbilure.";
+        } cbtch (ArrbyIndexOutOfBoundsException ex) {}
 
-        return ("unknown failure code");
+        return ("unknown fbilure code");
     }
 
     /**
-     * Retrieve the timestamp token returned by the TSA.
+     * Retrieve the timestbmp token returned by the TSA.
      *
-     * @return If null then no token was received.
+     * @return If null then no token wbs received.
      */
     public PKCS7 getToken() {
         return tsToken;
     }
 
-    public TimestampToken getTimestampToken() {
+    public TimestbmpToken getTimestbmpToken() {
         return tstInfo;
     }
 
     /**
-     * Retrieve the ASN.1 BER encoded timestamp token returned by the TSA.
+     * Retrieve the ASN.1 BER encoded timestbmp token returned by the TSA.
      *
-     * @return If null then no token was received.
+     * @return If null then no token wbs received.
      */
     public byte[] getEncodedToken() {
         return encodedTsToken;
     }
 
     /*
-     * Parses the timestamp response.
+     * Pbrses the timestbmp response.
      *
-     * @param status A buffer containing the ASN.1 BER encoded response.
-     * @throws IOException The exception is thrown if a problem is encountered
-     *         parsing the timestamp response.
+     * @pbrbm stbtus A buffer contbining the ASN.1 BER encoded response.
+     * @throws IOException The exception is thrown if b problem is encountered
+     *         pbrsing the timestbmp response.
      */
-    private void parse(byte[] tsReply) throws IOException {
-        // Decode TimeStampResp
+    privbte void pbrse(byte[] tsReply) throws IOException {
+        // Decode TimeStbmpResp
 
-        DerValue derValue = new DerValue(tsReply);
-        if (derValue.tag != DerValue.tag_Sequence) {
-            throw new IOException("Bad encoding for timestamp response");
+        DerVblue derVblue = new DerVblue(tsReply);
+        if (derVblue.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Bbd encoding for timestbmp response");
         }
 
-        // Parse status
+        // Pbrse stbtus
 
-        DerValue statusInfo = derValue.data.getDerValue();
-        this.status = statusInfo.data.getInteger();
+        DerVblue stbtusInfo = derVblue.dbtb.getDerVblue();
+        this.stbtus = stbtusInfo.dbtb.getInteger();
         if (debug != null) {
-            debug.println("timestamp response: status=" + this.status);
+            debug.println("timestbmp response: stbtus=" + this.stbtus);
         }
-        // Parse statusString, if present
-        if (statusInfo.data.available() > 0) {
-            byte tag = (byte)statusInfo.data.peekByte();
-            if (tag == DerValue.tag_SequenceOf) {
-                DerValue[] strings = statusInfo.data.getSequence(1);
-                statusString = new String[strings.length];
+        // Pbrse stbtusString, if present
+        if (stbtusInfo.dbtb.bvbilbble() > 0) {
+            byte tbg = (byte)stbtusInfo.dbtb.peekByte();
+            if (tbg == DerVblue.tbg_SequenceOf) {
+                DerVblue[] strings = stbtusInfo.dbtb.getSequence(1);
+                stbtusString = new String[strings.length];
                 for (int i = 0; i < strings.length; i++) {
-                    statusString[i] = strings[i].getUTF8String();
+                    stbtusString[i] = strings[i].getUTF8String();
                     if (debug != null) {
-                        debug.println("timestamp response: statusString=" +
-                                      statusString[i]);
+                        debug.println("timestbmp response: stbtusString=" +
+                                      stbtusString[i]);
                     }
                 }
             }
         }
-        // Parse failInfo, if present
-        if (statusInfo.data.available() > 0) {
-            this.failureInfo
-                = statusInfo.data.getUnalignedBitString().toBooleanArray();
+        // Pbrse fbilInfo, if present
+        if (stbtusInfo.dbtb.bvbilbble() > 0) {
+            this.fbilureInfo
+                = stbtusInfo.dbtb.getUnblignedBitString().toBoolebnArrby();
         }
 
-        // Parse timeStampToken, if present
-        if (derValue.data.available() > 0) {
-            DerValue timestampToken = derValue.data.getDerValue();
-            encodedTsToken = timestampToken.toByteArray();
+        // Pbrse timeStbmpToken, if present
+        if (derVblue.dbtb.bvbilbble() > 0) {
+            DerVblue timestbmpToken = derVblue.dbtb.getDerVblue();
+            encodedTsToken = timestbmpToken.toByteArrby();
             tsToken = new PKCS7(encodedTsToken);
-            tstInfo = new TimestampToken(tsToken.getContentInfo().getData());
+            tstInfo = new TimestbmpToken(tsToken.getContentInfo().getDbtb());
         }
 
-        // Check the format of the timestamp response
-        if (this.status == 0 || this.status == 1) {
+        // Check the formbt of the timestbmp response
+        if (this.stbtus == 0 || this.stbtus == 1) {
             if (tsToken == null) {
-                throw new TimestampException(
-                    "Bad encoding for timestamp response: " +
-                    "expected a timeStampToken element to be present");
+                throw new TimestbmpException(
+                    "Bbd encoding for timestbmp response: " +
+                    "expected b timeStbmpToken element to be present");
             }
         } else if (tsToken != null) {
-            throw new TimestampException(
-                "Bad encoding for timestamp response: " +
-                "expected no timeStampToken element to be present");
+            throw new TimestbmpException(
+                "Bbd encoding for timestbmp response: " +
+                "expected no timeStbmpToken element to be present");
         }
     }
 
-    final static class TimestampException extends IOException {
-        private static final long serialVersionUID = -1631631794891940953L;
+    finbl stbtic clbss TimestbmpException extends IOException {
+        privbte stbtic finbl long seriblVersionUID = -1631631794891940953L;
 
-        TimestampException(String message) {
-            super(message);
+        TimestbmpException(String messbge) {
+            super(messbge);
         }
     }
 }

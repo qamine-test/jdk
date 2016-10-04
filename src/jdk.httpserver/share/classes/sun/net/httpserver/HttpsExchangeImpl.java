@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
+pbckbge sun.net.httpserver;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.net.*;
-import javax.net.ssl.*;
-import java.util.*;
-import sun.net.www.MessageHeader;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.*;
+import jbvbx.net.ssl.*;
+import jbvb.util.*;
+import sun.net.www.MessbgeHebder;
 import com.sun.net.httpserver.*;
 import com.sun.net.httpserver.spi.*;
 
-class HttpsExchangeImpl extends HttpsExchange {
+clbss HttpsExchbngeImpl extends HttpsExchbnge {
 
-    ExchangeImpl impl;
+    ExchbngeImpl impl;
 
-    HttpsExchangeImpl (ExchangeImpl impl) throws IOException {
+    HttpsExchbngeImpl (ExchbngeImpl impl) throws IOException {
         this.impl = impl;
     }
 
-    public Headers getRequestHeaders () {
-        return impl.getRequestHeaders();
+    public Hebders getRequestHebders () {
+        return impl.getRequestHebders();
     }
 
-    public Headers getResponseHeaders () {
-        return impl.getResponseHeaders();
+    public Hebders getResponseHebders () {
+        return impl.getResponseHebders();
     }
 
     public URI getRequestURI () {
@@ -67,7 +67,7 @@ class HttpsExchangeImpl extends HttpsExchange {
         impl.close();
     }
 
-    public InputStream getRequestBody () {
+    public InputStrebm getRequestBody () {
         return impl.getRequestBody();
     }
 
@@ -75,23 +75,23 @@ class HttpsExchangeImpl extends HttpsExchange {
         return impl.getResponseCode();
     }
 
-    public OutputStream getResponseBody () {
+    public OutputStrebm getResponseBody () {
         return impl.getResponseBody();
     }
 
 
-    public void sendResponseHeaders (int rCode, long contentLen)
+    public void sendResponseHebders (int rCode, long contentLen)
     throws IOException
     {
-        impl.sendResponseHeaders (rCode, contentLen);
+        impl.sendResponseHebders (rCode, contentLen);
     }
 
     public InetSocketAddress getRemoteAddress (){
         return impl.getRemoteAddress();
     }
 
-    public InetSocketAddress getLocalAddress (){
-        return impl.getLocalAddress();
+    public InetSocketAddress getLocblAddress (){
+        return impl.getLocblAddress();
     }
 
     public String getProtocol (){
@@ -102,23 +102,23 @@ class HttpsExchangeImpl extends HttpsExchange {
         return impl.getSSLSession ();
     }
 
-    public Object getAttribute (String name) {
-        return impl.getAttribute (name);
+    public Object getAttribute (String nbme) {
+        return impl.getAttribute (nbme);
     }
 
-    public void setAttribute (String name, Object value) {
-        impl.setAttribute (name, value);
+    public void setAttribute (String nbme, Object vblue) {
+        impl.setAttribute (nbme, vblue);
     }
 
-    public void setStreams (InputStream i, OutputStream o) {
-        impl.setStreams (i, o);
+    public void setStrebms (InputStrebm i, OutputStrebm o) {
+        impl.setStrebms (i, o);
     }
 
-    public HttpPrincipal getPrincipal () {
-        return impl.getPrincipal();
+    public HttpPrincipbl getPrincipbl () {
+        return impl.getPrincipbl();
     }
 
-    ExchangeImpl getExchangeImpl () {
+    ExchbngeImpl getExchbngeImpl () {
         return impl;
     }
 }

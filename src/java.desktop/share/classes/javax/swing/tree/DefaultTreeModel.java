@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
-import java.util.*;
-import java.beans.ConstructorProperties;
-import java.io.*;
-import javax.swing.event.*;
+import jbvb.util.*;
+import jbvb.bebns.ConstructorProperties;
+import jbvb.io.*;
+import jbvbx.swing.event.*;
 
 /**
- * A simple tree data model that uses TreeNodes.
- * For further information and examples that use DefaultTreeModel,
- * see <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
- * in <em>The Java Tutorial.</em>
+ * A simple tree dbtb model thbt uses TreeNodes.
+ * For further informbtion bnd exbmples thbt use DefbultTreeModel,
+ * see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tree.html">How to Use Trees</b>
+ * in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Rob Davis
- * @author Ray Ryan
- * @author Scott Violet
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTreeModel implements Serializable, TreeModel {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultTreeModel implements Seriblizbble, TreeModel {
     /** Root of the tree. */
     protected TreeNode root;
     /** Listeners. */
     protected EventListenerList listenerList = new EventListenerList();
     /**
-      * Determines how the <code>isLeaf</code> method figures
-      * out if a node is a leaf node. If true, a node is a leaf
-      * node if it does not allow children. (If it allows
-      * children, it is not a leaf node, even if no children
-      * are present.) That lets you distinguish between <i>folder</i>
-      * nodes and <i>file</i> nodes in a file system, for example.
+      * Determines how the <code>isLebf</code> method figures
+      * out if b node is b lebf node. If true, b node is b lebf
+      * node if it does not bllow children. (If it bllows
+      * children, it is not b lebf node, even if no children
+      * bre present.) Thbt lets you distinguish between <i>folder</i>
+      * nodes bnd <i>file</i> nodes in b file system, for exbmple.
       * <p>
-      * If this value is false, then any node which has no
-      * children is a leaf node, and any node may acquire
+      * If this vblue is fblse, then bny node which hbs no
+      * children is b lebf node, bnd bny node mby bcquire
       * children.
       *
       * @see TreeNode#getAllowsChildren
-      * @see TreeModel#isLeaf
+      * @see TreeModel#isLebf
       * @see #setAsksAllowsChildren
       */
-    protected boolean asksAllowsChildren;
+    protected boolebn bsksAllowsChildren;
 
 
     /**
-      * Creates a tree in which any node can have children.
+      * Crebtes b tree in which bny node cbn hbve children.
       *
-      * @param root a TreeNode object that is the root of the tree
-      * @see #DefaultTreeModel(TreeNode, boolean)
+      * @pbrbm root b TreeNode object thbt is the root of the tree
+      * @see #DefbultTreeModel(TreeNode, boolebn)
       */
      @ConstructorProperties({"root"})
-     public DefaultTreeModel(TreeNode root) {
-        this(root, false);
+     public DefbultTreeModel(TreeNode root) {
+        this(root, fblse);
     }
 
     /**
-      * Creates a tree specifying whether any node can have children,
-      * or whether only certain nodes can have children.
+      * Crebtes b tree specifying whether bny node cbn hbve children,
+      * or whether only certbin nodes cbn hbve children.
       *
-      * @param root a TreeNode object that is the root of the tree
-      * @param asksAllowsChildren a boolean, false if any node can
-      *        have children, true if each node is asked to see if
-      *        it can have children
-      * @see #asksAllowsChildren
+      * @pbrbm root b TreeNode object thbt is the root of the tree
+      * @pbrbm bsksAllowsChildren b boolebn, fblse if bny node cbn
+      *        hbve children, true if ebch node is bsked to see if
+      *        it cbn hbve children
+      * @see #bsksAllowsChildren
       */
-    public DefaultTreeModel(TreeNode root, boolean asksAllowsChildren) {
+    public DefbultTreeModel(TreeNode root, boolebn bsksAllowsChildren) {
         super();
         this.root = root;
-        this.asksAllowsChildren = asksAllowsChildren;
+        this.bsksAllowsChildren = bsksAllowsChildren;
     }
 
     /**
-      * Sets whether or not to test leafness by asking getAllowsChildren()
-      * or isLeaf() to the TreeNodes.  If newvalue is true, getAllowsChildren()
-      * is messaged, otherwise isLeaf() is messaged.
+      * Sets whether or not to test lebfness by bsking getAllowsChildren()
+      * or isLebf() to the TreeNodes.  If newvblue is true, getAllowsChildren()
+      * is messbged, otherwise isLebf() is messbged.
       *
-      * @param newValue if true, getAllowsChildren() is messaged, otherwise
-      *                 isLeaf() is messaged
+      * @pbrbm newVblue if true, getAllowsChildren() is messbged, otherwise
+      *                 isLebf() is messbged
       */
-    public void setAsksAllowsChildren(boolean newValue) {
-        asksAllowsChildren = newValue;
+    public void setAsksAllowsChildren(boolebn newVblue) {
+        bsksAllowsChildren = newVblue;
     }
 
     /**
-      * Tells how leaf nodes are determined.
+      * Tells how lebf nodes bre determined.
       *
-      * @return true if only nodes which do not allow children are
-      *         leaf nodes, false if nodes which have no children
-      *         (even if allowed) are leaf nodes
-      * @see #asksAllowsChildren
+      * @return true if only nodes which do not bllow children bre
+      *         lebf nodes, fblse if nodes which hbve no children
+      *         (even if bllowed) bre lebf nodes
+      * @see #bsksAllowsChildren
       */
-    public boolean asksAllowsChildren() {
-        return asksAllowsChildren;
+    public boolebn bsksAllowsChildren() {
+        return bsksAllowsChildren;
     }
 
     /**
      * Sets the root to <code>root</code>. A null <code>root</code> implies
-     * the tree is to display nothing, and is legal.
+     * the tree is to displby nothing, bnd is legbl.
      *
-     * @param root new value of tree root
+     * @pbrbm root new vblue of tree root
      */
     public void setRoot(TreeNode root) {
         Object oldRoot = this.root;
         this.root = root;
         if (root == null && oldRoot != null) {
-            fireTreeStructureChanged(this, null);
+            fireTreeStructureChbnged(this, null);
         }
         else {
-            nodeStructureChanged(root);
+            nodeStructureChbnged(root);
         }
     }
 
     /**
-     * Returns the root of the tree.  Returns null only if the tree has
+     * Returns the root of the tree.  Returns null only if the tree hbs
      * no nodes.
      *
      * @return  the root of the tree
@@ -153,172 +153,172 @@ public class DefaultTreeModel implements Serializable, TreeModel {
     }
 
     /**
-     * Returns the index of child in parent.
-     * If either the parent or child is <code>null</code>, returns -1.
-     * @param parent a note in the tree, obtained from this data source
-     * @param child the node we are interested in
-     * @return the index of the child in the parent, or -1
-     *    if either the parent or the child is <code>null</code>
+     * Returns the index of child in pbrent.
+     * If either the pbrent or child is <code>null</code>, returns -1.
+     * @pbrbm pbrent b note in the tree, obtbined from this dbtb source
+     * @pbrbm child the node we bre interested in
+     * @return the index of the child in the pbrent, or -1
+     *    if either the pbrent or the child is <code>null</code>
      */
-    public int getIndexOfChild(Object parent, Object child) {
-        if(parent == null || child == null)
+    public int getIndexOfChild(Object pbrent, Object child) {
+        if(pbrent == null || child == null)
             return -1;
-        return ((TreeNode)parent).getIndex((TreeNode)child);
+        return ((TreeNode)pbrent).getIndex((TreeNode)child);
     }
 
     /**
-     * Returns the child of <I>parent</I> at index <I>index</I> in the parent's
-     * child array.  <I>parent</I> must be a node previously obtained from
-     * this data source. This should not return null if <i>index</i>
-     * is a valid index for <i>parent</i> (that is <i>index</i> &gt;= 0 &amp;&amp;
-     * <i>index</i> &lt; getChildCount(<i>parent</i>)).
+     * Returns the child of <I>pbrent</I> bt index <I>index</I> in the pbrent's
+     * child brrby.  <I>pbrent</I> must be b node previously obtbined from
+     * this dbtb source. This should not return null if <i>index</i>
+     * is b vblid index for <i>pbrent</i> (thbt is <i>index</i> &gt;= 0 &bmp;&bmp;
+     * <i>index</i> &lt; getChildCount(<i>pbrent</i>)).
      *
-     * @param   parent  a node in the tree, obtained from this data source
-     * @return  the child of <I>parent</I> at index <I>index</I>
+     * @pbrbm   pbrent  b node in the tree, obtbined from this dbtb source
+     * @return  the child of <I>pbrent</I> bt index <I>index</I>
      */
-    public Object getChild(Object parent, int index) {
-        return ((TreeNode)parent).getChildAt(index);
+    public Object getChild(Object pbrent, int index) {
+        return ((TreeNode)pbrent).getChildAt(index);
     }
 
     /**
-     * Returns the number of children of <I>parent</I>.  Returns 0 if the node
-     * is a leaf or if it has no children.  <I>parent</I> must be a node
-     * previously obtained from this data source.
+     * Returns the number of children of <I>pbrent</I>.  Returns 0 if the node
+     * is b lebf or if it hbs no children.  <I>pbrent</I> must be b node
+     * previously obtbined from this dbtb source.
      *
-     * @param   parent  a node in the tree, obtained from this data source
-     * @return  the number of children of the node <I>parent</I>
+     * @pbrbm   pbrent  b node in the tree, obtbined from this dbtb source
+     * @return  the number of children of the node <I>pbrent</I>
      */
-    public int getChildCount(Object parent) {
-        return ((TreeNode)parent).getChildCount();
+    public int getChildCount(Object pbrent) {
+        return ((TreeNode)pbrent).getChildCount();
     }
 
     /**
-     * Returns whether the specified node is a leaf node.
-     * The way the test is performed depends on the
-     * <code>askAllowsChildren</code> setting.
+     * Returns whether the specified node is b lebf node.
+     * The wby the test is performed depends on the
+     * <code>bskAllowsChildren</code> setting.
      *
-     * @param node the node to check
-     * @return true if the node is a leaf node
+     * @pbrbm node the node to check
+     * @return true if the node is b lebf node
      *
-     * @see #asksAllowsChildren
-     * @see TreeModel#isLeaf
+     * @see #bsksAllowsChildren
+     * @see TreeModel#isLebf
      */
-    public boolean isLeaf(Object node) {
-        if(asksAllowsChildren)
+    public boolebn isLebf(Object node) {
+        if(bsksAllowsChildren)
             return !((TreeNode)node).getAllowsChildren();
-        return ((TreeNode)node).isLeaf();
+        return ((TreeNode)node).isLebf();
     }
 
     /**
      * Invoke this method if you've modified the {@code TreeNode}s upon which
-     * this model depends. The model will notify all of its listeners that the
-     * model has changed.
+     * this model depends. The model will notify bll of its listeners thbt the
+     * model hbs chbnged.
      */
-    public void reload() {
-        reload(root);
+    public void relobd() {
+        relobd(root);
     }
 
     /**
-      * This sets the user object of the TreeNode identified by path
-      * and posts a node changed.  If you use custom user objects in
-      * the TreeModel you're going to need to subclass this and
-      * set the user object of the changed node to something meaningful.
+      * This sets the user object of the TreeNode identified by pbth
+      * bnd posts b node chbnged.  If you use custom user objects in
+      * the TreeModel you're going to need to subclbss this bnd
+      * set the user object of the chbnged node to something mebningful.
       */
-    public void valueForPathChanged(TreePath path, Object newValue) {
-        MutableTreeNode   aNode = (MutableTreeNode)path.getLastPathComponent();
+    public void vblueForPbthChbnged(TreePbth pbth, Object newVblue) {
+        MutbbleTreeNode   bNode = (MutbbleTreeNode)pbth.getLbstPbthComponent();
 
-        aNode.setUserObject(newValue);
-        nodeChanged(aNode);
+        bNode.setUserObject(newVblue);
+        nodeChbnged(bNode);
     }
 
     /**
-     * Invoked this to insert newChild at location index in parents children.
-     * This will then message nodesWereInserted to create the appropriate
-     * event. This is the preferred way to add children as it will create
-     * the appropriate event.
+     * Invoked this to insert newChild bt locbtion index in pbrents children.
+     * This will then messbge nodesWereInserted to crebte the bppropribte
+     * event. This is the preferred wby to bdd children bs it will crebte
+     * the bppropribte event.
      *
-     * @param newChild  child node to be inserted
-     * @param parent    node to which children new node will be added
-     * @param index     index of parent's children
+     * @pbrbm newChild  child node to be inserted
+     * @pbrbm pbrent    node to which children new node will be bdded
+     * @pbrbm index     index of pbrent's children
      */
-    public void insertNodeInto(MutableTreeNode newChild,
-                               MutableTreeNode parent, int index){
-        parent.insert(newChild, index);
+    public void insertNodeInto(MutbbleTreeNode newChild,
+                               MutbbleTreeNode pbrent, int index){
+        pbrent.insert(newChild, index);
 
         int[]           newIndexs = new int[1];
 
         newIndexs[0] = index;
-        nodesWereInserted(parent, newIndexs);
+        nodesWereInserted(pbrent, newIndexs);
     }
 
     /**
-     * Message this to remove node from its parent. This will message
-     * nodesWereRemoved to create the appropriate event. This is the
-     * preferred way to remove a node as it handles the event creation
+     * Messbge this to remove node from its pbrent. This will messbge
+     * nodesWereRemoved to crebte the bppropribte event. This is the
+     * preferred wby to remove b node bs it hbndles the event crebtion
      * for you.
      *
-     * @param node the node to be removed from it's parrent
+     * @pbrbm node the node to be removed from it's pbrrent
      */
-    public void removeNodeFromParent(MutableTreeNode node) {
-        MutableTreeNode         parent = (MutableTreeNode)node.getParent();
+    public void removeNodeFromPbrent(MutbbleTreeNode node) {
+        MutbbleTreeNode         pbrent = (MutbbleTreeNode)node.getPbrent();
 
-        if(parent == null)
-            throw new IllegalArgumentException("node does not have a parent.");
+        if(pbrent == null)
+            throw new IllegblArgumentException("node does not hbve b pbrent.");
 
         int[]            childIndex = new int[1];
-        Object[]         removedArray = new Object[1];
+        Object[]         removedArrby = new Object[1];
 
-        childIndex[0] = parent.getIndex(node);
-        parent.remove(childIndex[0]);
-        removedArray[0] = node;
-        nodesWereRemoved(parent, childIndex, removedArray);
+        childIndex[0] = pbrent.getIndex(node);
+        pbrent.remove(childIndex[0]);
+        removedArrby[0] = node;
+        nodesWereRemoved(pbrent, childIndex, removedArrby);
     }
 
     /**
-      * Invoke this method after you've changed how node is to be
+      * Invoke this method bfter you've chbnged how node is to be
       * represented in the tree.
       *
-      * @param node the changed node
+      * @pbrbm node the chbnged node
       */
-    public void nodeChanged(TreeNode node) {
+    public void nodeChbnged(TreeNode node) {
         if(listenerList != null && node != null) {
-            TreeNode         parent = node.getParent();
+            TreeNode         pbrent = node.getPbrent();
 
-            if(parent != null) {
-                int        anIndex = parent.getIndex(node);
-                if(anIndex != -1) {
+            if(pbrent != null) {
+                int        bnIndex = pbrent.getIndex(node);
+                if(bnIndex != -1) {
                     int[]        cIndexs = new int[1];
 
-                    cIndexs[0] = anIndex;
-                    nodesChanged(parent, cIndexs);
+                    cIndexs[0] = bnIndex;
+                    nodesChbnged(pbrent, cIndexs);
                 }
             }
             else if (node == getRoot()) {
-                nodesChanged(node, null);
+                nodesChbnged(node, null);
             }
         }
     }
 
     /**
      * Invoke this method if you've modified the {@code TreeNode}s upon which
-     * this model depends. The model will notify all of its listeners that the
-     * model has changed below the given node.
+     * this model depends. The model will notify bll of its listeners thbt the
+     * model hbs chbnged below the given node.
      *
-     * @param node the node below which the model has changed
+     * @pbrbm node the node below which the model hbs chbnged
      */
-    public void reload(TreeNode node) {
+    public void relobd(TreeNode node) {
         if(node != null) {
-            fireTreeStructureChanged(this, getPathToRoot(node), null, null);
+            fireTreeStructureChbnged(this, getPbthToRoot(node), null, null);
         }
     }
 
     /**
-      * Invoke this method after you've inserted some TreeNodes into
-      * node.  childIndices should be the index of the new elements and
-      * must be sorted in ascending order.
+      * Invoke this method bfter you've inserted some TreeNodes into
+      * node.  childIndices should be the index of the new elements bnd
+      * must be sorted in bscending order.
       *
-      * @param node         parent node which children count been incremented
-      * @param childIndices indexes of inserted children
+      * @pbrbm node         pbrent node which children count been incremented
+      * @pbrbm childIndices indexes of inserted children
       */
     public void nodesWereInserted(TreeNode node, int[] childIndices) {
         if(listenerList != null && node != null && childIndices != null
@@ -328,37 +328,37 @@ public class DefaultTreeModel implements Serializable, TreeModel {
 
             for(int counter = 0; counter < cCount; counter++)
                 newChildren[counter] = node.getChildAt(childIndices[counter]);
-            fireTreeNodesInserted(this, getPathToRoot(node), childIndices,
+            fireTreeNodesInserted(this, getPbthToRoot(node), childIndices,
                                   newChildren);
         }
     }
 
     /**
-      * Invoke this method after you've removed some TreeNodes from
-      * node.  childIndices should be the index of the removed elements and
-      * must be sorted in ascending order. And removedChildren should be
-      * the array of the children objects that were removed.
+      * Invoke this method bfter you've removed some TreeNodes from
+      * node.  childIndices should be the index of the removed elements bnd
+      * must be sorted in bscending order. And removedChildren should be
+      * the brrby of the children objects thbt were removed.
       *
-      * @param node             parent node which childred were removed
-      * @param childIndices     indexes of removed childs
-      * @param removedChildren  array of the children objects that were removed
+      * @pbrbm node             pbrent node which childred were removed
+      * @pbrbm childIndices     indexes of removed childs
+      * @pbrbm removedChildren  brrby of the children objects thbt were removed
       */
     public void nodesWereRemoved(TreeNode node, int[] childIndices,
                                  Object[] removedChildren) {
         if(node != null && childIndices != null) {
-            fireTreeNodesRemoved(this, getPathToRoot(node), childIndices,
+            fireTreeNodesRemoved(this, getPbthToRoot(node), childIndices,
                                  removedChildren);
         }
     }
 
     /**
-      * Invoke this method after you've changed how the children identified by
-      * childIndicies are to be represented in the tree.
+      * Invoke this method bfter you've chbnged how the children identified by
+      * childIndicies bre to be represented in the tree.
       *
-      * @param node         changed node
-      * @param childIndices indexes of changed children
+      * @pbrbm node         chbnged node
+      * @pbrbm childIndices indexes of chbnged children
       */
-    public void nodesChanged(TreeNode node, int[] childIndices) {
+    public void nodesChbnged(TreeNode node, int[] childIndices) {
         if(node != null) {
             if (childIndices != null) {
                 int            cCount = childIndices.length;
@@ -369,63 +369,63 @@ public class DefaultTreeModel implements Serializable, TreeModel {
                     for(int counter = 0; counter < cCount; counter++)
                         cChildren[counter] = node.getChildAt
                             (childIndices[counter]);
-                    fireTreeNodesChanged(this, getPathToRoot(node),
+                    fireTreeNodesChbnged(this, getPbthToRoot(node),
                                          childIndices, cChildren);
                 }
             }
             else if (node == getRoot()) {
-                fireTreeNodesChanged(this, getPathToRoot(node), null, null);
+                fireTreeNodesChbnged(this, getPbthToRoot(node), null, null);
             }
         }
     }
 
     /**
-      * Invoke this method if you've totally changed the children of
-      * node and its children's children...  This will post a
-      * treeStructureChanged event.
+      * Invoke this method if you've totblly chbnged the children of
+      * node bnd its children's children...  This will post b
+      * treeStructureChbnged event.
       *
-      * @param node changed node
+      * @pbrbm node chbnged node
       */
-    public void nodeStructureChanged(TreeNode node) {
+    public void nodeStructureChbnged(TreeNode node) {
         if(node != null) {
-           fireTreeStructureChanged(this, getPathToRoot(node), null, null);
+           fireTreeStructureChbnged(this, getPbthToRoot(node), null, null);
         }
     }
 
     /**
-     * Builds the parents of node up to and including the root node,
-     * where the original node is the last element in the returned array.
-     * The length of the returned array gives the node's depth in the
+     * Builds the pbrents of node up to bnd including the root node,
+     * where the originbl node is the lbst element in the returned brrby.
+     * The length of the returned brrby gives the node's depth in the
      * tree.
      *
-     * @param aNode the TreeNode to get the path for
-     * @return an array of TreeNodes giving the path from the root
+     * @pbrbm bNode the TreeNode to get the pbth for
+     * @return bn brrby of TreeNodes giving the pbth from the root
      */
-    public TreeNode[] getPathToRoot(TreeNode aNode) {
-        return getPathToRoot(aNode, 0);
+    public TreeNode[] getPbthToRoot(TreeNode bNode) {
+        return getPbthToRoot(bNode, 0);
     }
 
     /**
-     * Builds the parents of node up to and including the root node,
-     * where the original node is the last element in the returned array.
-     * The length of the returned array gives the node's depth in the
+     * Builds the pbrents of node up to bnd including the root node,
+     * where the originbl node is the lbst element in the returned brrby.
+     * The length of the returned brrby gives the node's depth in the
      * tree.
      *
-     * @param aNode  the TreeNode to get the path for
-     * @param depth  an int giving the number of steps already taken towards
-     *        the root (on recursive calls), used to size the returned array
-     * @return an array of TreeNodes giving the path from the root to the
+     * @pbrbm bNode  the TreeNode to get the pbth for
+     * @pbrbm depth  bn int giving the number of steps blrebdy tbken towbrds
+     *        the root (on recursive cblls), used to size the returned brrby
+     * @return bn brrby of TreeNodes giving the pbth from the root to the
      *         specified node
      */
-    protected TreeNode[] getPathToRoot(TreeNode aNode, int depth) {
+    protected TreeNode[] getPbthToRoot(TreeNode bNode, int depth) {
         TreeNode[]              retNodes;
-        // This method recurses, traversing towards the root in order
-        // size the array. On the way back, it fills in the nodes,
-        // starting from the root and working back to the original node.
+        // This method recurses, trbversing towbrds the root in order
+        // size the brrby. On the wby bbck, it fills in the nodes,
+        // stbrting from the root bnd working bbck to the originbl node.
 
-        /* Check for null, in case someone passed in a null node, or
-           they passed in an element that isn't rooted at root. */
-        if(aNode == null) {
+        /* Check for null, in cbse someone pbssed in b null node, or
+           they pbssed in bn element thbt isn't rooted bt root. */
+        if(bNode == null) {
             if(depth == 0)
                 return null;
             else
@@ -433,11 +433,11 @@ public class DefaultTreeModel implements Serializable, TreeModel {
         }
         else {
             depth++;
-            if(aNode == root)
+            if(bNode == root)
                 retNodes = new TreeNode[depth];
             else
-                retNodes = getPathToRoot(aNode.getParent(), depth);
-            retNodes[retNodes.length - depth] = aNode;
+                retNodes = getPbthToRoot(bNode.getPbrent(), depth);
+            retNodes[retNodes.length - depth] = bNode;
         }
         return retNodes;
     }
@@ -447,99 +447,99 @@ public class DefaultTreeModel implements Serializable, TreeModel {
     //
 
     /**
-     * Adds a listener for the TreeModelEvent posted after the tree changes.
+     * Adds b listener for the TreeModelEvent posted bfter the tree chbnges.
      *
      * @see     #removeTreeModelListener
-     * @param   l       the listener to add
+     * @pbrbm   l       the listener to bdd
      */
-    public void addTreeModelListener(TreeModelListener l) {
-        listenerList.add(TreeModelListener.class, l);
+    public void bddTreeModelListener(TreeModelListener l) {
+        listenerList.bdd(TreeModelListener.clbss, l);
     }
 
     /**
-     * Removes a listener previously added with <B>addTreeModelListener()</B>.
+     * Removes b listener previously bdded with <B>bddTreeModelListener()</B>.
      *
-     * @see     #addTreeModelListener
-     * @param   l       the listener to remove
+     * @see     #bddTreeModelListener
+     * @pbrbm   l       the listener to remove
      */
     public void removeTreeModelListener(TreeModelListener l) {
-        listenerList.remove(TreeModelListener.class, l);
+        listenerList.remove(TreeModelListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the tree model listeners
+     * Returns bn brrby of bll the tree model listeners
      * registered on this model.
      *
-     * @return all of this model's <code>TreeModelListener</code>s
-     *         or an empty
-     *         array if no tree model listeners are currently registered
+     * @return bll of this model's <code>TreeModelListener</code>s
+     *         or bn empty
+     *         brrby if no tree model listeners bre currently registered
      *
-     * @see #addTreeModelListener
+     * @see #bddTreeModelListener
      * @see #removeTreeModelListener
      *
      * @since 1.4
      */
     public TreeModelListener[] getTreeModelListeners() {
-        return listenerList.getListeners(TreeModelListener.class);
+        return listenerList.getListeners(TreeModelListener.clbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent of the nodes that changed; use
-     *             {@code null} to identify the root has changed
-     * @param childIndices the indices of the changed elements
-     * @param children the changed elements
+     * @pbrbm source the source of the {@code TreeModelEvent};
+     *               typicblly {@code this}
+     * @pbrbm pbth the pbth to the pbrent of the nodes thbt chbnged; use
+     *             {@code null} to identify the root hbs chbnged
+     * @pbrbm childIndices the indices of the chbnged elements
+     * @pbrbm children the chbnged elements
      */
-    protected void fireTreeNodesChanged(Object source, Object[] path,
+    protected void fireTreeNodesChbnged(Object source, Object[] pbth,
                                         int[] childIndices,
                                         Object[] children) {
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeModelListener.clbss) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeModelEvent(source, path,
+                    e = new TreeModelEvent(source, pbth,
                                            childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesChanged(e);
+                ((TreeModelListener)listeners[i+1]).treeNodesChbnged(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent the nodes were added to
-     * @param childIndices the indices of the new elements
-     * @param children the new elements
+     * @pbrbm source the source of the {@code TreeModelEvent};
+     *               typicblly {@code this}
+     * @pbrbm pbth the pbth to the pbrent the nodes were bdded to
+     * @pbrbm childIndices the indices of the new elements
+     * @pbrbm children the new elements
      */
-    protected void fireTreeNodesInserted(Object source, Object[] path,
+    protected void fireTreeNodesInserted(Object source, Object[] pbth,
                                         int[] childIndices,
                                         Object[] children) {
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeModelListener.clbss) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeModelEvent(source, path,
+                    e = new TreeModelEvent(source, pbth,
                                            childIndices, children);
                 ((TreeModelListener)listeners[i+1]).treeNodesInserted(e);
             }
@@ -547,30 +547,30 @@ public class DefaultTreeModel implements Serializable, TreeModel {
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent the nodes were removed from
-     * @param childIndices the indices of the removed elements
-     * @param children the removed elements
+     * @pbrbm source the source of the {@code TreeModelEvent};
+     *               typicblly {@code this}
+     * @pbrbm pbth the pbth to the pbrent the nodes were removed from
+     * @pbrbm childIndices the indices of the removed elements
+     * @pbrbm children the removed elements
      */
-    protected void fireTreeNodesRemoved(Object source, Object[] path,
+    protected void fireTreeNodesRemoved(Object source, Object[] pbth,
                                         int[] childIndices,
                                         Object[] children) {
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeModelListener.clbss) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeModelEvent(source, path,
+                    e = new TreeModelEvent(source, pbth,
                                            childIndices, children);
                 ((TreeModelListener)listeners[i+1]).treeNodesRemoved(e);
             }
@@ -578,131 +578,131 @@ public class DefaultTreeModel implements Serializable, TreeModel {
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent of the structure that has changed;
-     *             use {@code null} to identify the root has changed
-     * @param childIndices the indices of the affected elements
-     * @param children the affected elements
+     * @pbrbm source the source of the {@code TreeModelEvent};
+     *               typicblly {@code this}
+     * @pbrbm pbth the pbth to the pbrent of the structure thbt hbs chbnged;
+     *             use {@code null} to identify the root hbs chbnged
+     * @pbrbm childIndices the indices of the bffected elements
+     * @pbrbm children the bffected elements
      */
-    protected void fireTreeStructureChanged(Object source, Object[] path,
+    protected void fireTreeStructureChbnged(Object source, Object[] pbth,
                                         int[] childIndices,
                                         Object[] children) {
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeModelListener.clbss) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeModelEvent(source, path,
+                    e = new TreeModelEvent(source, pbth,
                                            childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeStructureChanged(e);
+                ((TreeModelListener)listeners[i+1]).treeStructureChbnged(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      *
-     * @param source the source of the {@code TreeModelEvent};
-     *               typically {@code this}
-     * @param path the path to the parent of the structure that has changed;
-     *             use {@code null} to identify the root has changed
+     * @pbrbm source the source of the {@code TreeModelEvent};
+     *               typicblly {@code this}
+     * @pbrbm pbth the pbth to the pbrent of the structure thbt hbs chbnged;
+     *             use {@code null} to identify the root hbs chbnged
      */
-    private void fireTreeStructureChanged(Object source, TreePath path) {
-        // Guaranteed to return a non-null array
+    privbte void fireTreeStructureChbnged(Object source, TreePbth pbth) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TreeModelListener.clbss) {
+                // Lbzily crebte the event:
                 if (e == null)
-                    e = new TreeModelEvent(source, path);
-                ((TreeModelListener)listeners[i+1]).treeStructureChanged(e);
+                    e = new TreeModelEvent(source, pbth);
+                ((TreeModelListener)listeners[i+1]).treeStructureChbnged(e);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this model.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
      *
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,
-     * such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>DefaultTreeModel</code> <code>m</code>
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl,
+     * such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
+     * <code>DefbultTreeModel</code> <code>m</code>
      * for its tree model listeners with the following code:
      *
-     * <pre>TreeModelListener[] tmls = (TreeModelListener[])(m.getListeners(TreeModelListener.class));</pre>
+     * <pre>TreeModelListener[] tmls = (TreeModelListener[])(m.getListeners(TreeModelListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getTreeModelListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 
-    // Serialization support.
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Vector<Object> values = new Vector<Object>();
+    // Seriblizbtion support.
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        Vector<Object> vblues = new Vector<Object>();
 
-        s.defaultWriteObject();
-        // Save the root, if its Serializable.
-        if(root != null && root instanceof Serializable) {
-            values.addElement("root");
-            values.addElement(root);
+        s.defbultWriteObject();
+        // Sbve the root, if its Seriblizbble.
+        if(root != null && root instbnceof Seriblizbble) {
+            vblues.bddElement("root");
+            vblues.bddElement(root);
         }
-        s.writeObject(values);
+        s.writeObject(vblues);
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
 
-        Vector<?>       values = (Vector)s.readObject();
+        Vector<?>       vblues = (Vector)s.rebdObject();
         int             indexCounter = 0;
-        int             maxCounter = values.size();
+        int             mbxCounter = vblues.size();
 
-        if(indexCounter < maxCounter && values.elementAt(indexCounter).
-           equals("root")) {
-            root = (TreeNode)values.elementAt(++indexCounter);
+        if(indexCounter < mbxCounter && vblues.elementAt(indexCounter).
+           equbls("root")) {
+            root = (TreeNode)vblues.elementAt(++indexCounter);
             indexCounter++;
         }
     }
 
 
-} // End of class DefaultTreeModel
+} // End of clbss DefbultTreeModel

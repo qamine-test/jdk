@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.nio.cs;
+pbckbge sun.nio.cs;
 
-import java.nio.charset.*;
+import jbvb.nio.chbrset.*;
 
 
 /**
- * Utility class for caching per-thread decoders and encoders.
+ * Utility clbss for cbching per-threbd decoders bnd encoders.
  */
 
-public class ThreadLocalCoders {
+public clbss ThrebdLocblCoders {
 
-    private static final int CACHE_SIZE = 3;
+    privbte stbtic finbl int CACHE_SIZE = 3;
 
-    private static abstract class Cache {
+    privbte stbtic bbstrbct clbss Cbche {
 
-        // Thread-local reference to array of cached objects, in LRU order
-        private ThreadLocal<Object[]> cache = new ThreadLocal<>();
-        private final int size;
+        // Threbd-locbl reference to brrby of cbched objects, in LRU order
+        privbte ThrebdLocbl<Object[]> cbche = new ThrebdLocbl<>();
+        privbte finbl int size;
 
-        Cache(int size) {
+        Cbche(int size) {
             this.size = size;
         }
 
-        abstract Object create(Object name);
+        bbstrbct Object crebte(Object nbme);
 
-        private void moveToFront(Object[] oa, int i) {
-            Object ob = oa[i];
+        privbte void moveToFront(Object[] ob, int i) {
+            Object ob = ob[i];
             for (int j = i; j > 0; j--)
-                oa[j] = oa[j - 1];
-            oa[0] = ob;
+                ob[j] = ob[j - 1];
+            ob[0] = ob;
         }
 
-        abstract boolean hasName(Object ob, Object name);
+        bbstrbct boolebn hbsNbme(Object ob, Object nbme);
 
-        Object forName(Object name) {
-            Object[] oa = cache.get();
-            if (oa == null) {
-                oa = new Object[size];
-                cache.set(oa);
+        Object forNbme(Object nbme) {
+            Object[] ob = cbche.get();
+            if (ob == null) {
+                ob = new Object[size];
+                cbche.set(ob);
             } else {
-                for (int i = 0; i < oa.length; i++) {
-                    Object ob = oa[i];
+                for (int i = 0; i < ob.length; i++) {
+                    Object ob = ob[i];
                     if (ob == null)
                         continue;
-                    if (hasName(ob, name)) {
+                    if (hbsNbme(ob, nbme)) {
                         if (i > 0)
-                            moveToFront(oa, i);
+                            moveToFront(ob, i);
                         return ob;
                     }
                 }
             }
 
-            // Create a new object
-            Object ob = create(name);
-            oa[oa.length - 1] = ob;
-            moveToFront(oa, oa.length - 1);
+            // Crebte b new object
+            Object ob = crebte(nbme);
+            ob[ob.length - 1] = ob;
+            moveToFront(ob, ob.length - 1);
             return ob;
         }
 
     }
 
-    private static Cache decoderCache = new Cache(CACHE_SIZE) {
-            boolean hasName(Object ob, Object name) {
-                if (name instanceof String)
-                    return (((CharsetDecoder)ob).charset().name().equals(name));
-                if (name instanceof Charset)
-                    return ((CharsetDecoder)ob).charset().equals(name);
-                return false;
+    privbte stbtic Cbche decoderCbche = new Cbche(CACHE_SIZE) {
+            boolebn hbsNbme(Object ob, Object nbme) {
+                if (nbme instbnceof String)
+                    return (((ChbrsetDecoder)ob).chbrset().nbme().equbls(nbme));
+                if (nbme instbnceof Chbrset)
+                    return ((ChbrsetDecoder)ob).chbrset().equbls(nbme);
+                return fblse;
             }
-            Object create(Object name) {
-                if (name instanceof String)
-                    return Charset.forName((String)name).newDecoder();
-                if (name instanceof Charset)
-                    return ((Charset)name).newDecoder();
-                assert false;
+            Object crebte(Object nbme) {
+                if (nbme instbnceof String)
+                    return Chbrset.forNbme((String)nbme).newDecoder();
+                if (nbme instbnceof Chbrset)
+                    return ((Chbrset)nbme).newDecoder();
+                bssert fblse;
                 return null;
             }
         };
 
-    public static CharsetDecoder decoderFor(Object name) {
-        CharsetDecoder cd = (CharsetDecoder)decoderCache.forName(name);
+    public stbtic ChbrsetDecoder decoderFor(Object nbme) {
+        ChbrsetDecoder cd = (ChbrsetDecoder)decoderCbche.forNbme(nbme);
         cd.reset();
         return cd;
     }
 
-    private static Cache encoderCache = new Cache(CACHE_SIZE) {
-            boolean hasName(Object ob, Object name) {
-                if (name instanceof String)
-                    return (((CharsetEncoder)ob).charset().name().equals(name));
-                if (name instanceof Charset)
-                    return ((CharsetEncoder)ob).charset().equals(name);
-                return false;
+    privbte stbtic Cbche encoderCbche = new Cbche(CACHE_SIZE) {
+            boolebn hbsNbme(Object ob, Object nbme) {
+                if (nbme instbnceof String)
+                    return (((ChbrsetEncoder)ob).chbrset().nbme().equbls(nbme));
+                if (nbme instbnceof Chbrset)
+                    return ((ChbrsetEncoder)ob).chbrset().equbls(nbme);
+                return fblse;
             }
-            Object create(Object name) {
-                if (name instanceof String)
-                    return Charset.forName((String)name).newEncoder();
-                if (name instanceof Charset)
-                    return ((Charset)name).newEncoder();
-                assert false;
+            Object crebte(Object nbme) {
+                if (nbme instbnceof String)
+                    return Chbrset.forNbme((String)nbme).newEncoder();
+                if (nbme instbnceof Chbrset)
+                    return ((Chbrset)nbme).newEncoder();
+                bssert fblse;
                 return null;
             }
         };
 
-    public static CharsetEncoder encoderFor(Object name) {
-        CharsetEncoder ce = (CharsetEncoder)encoderCache.forName(name);
+    public stbtic ChbrsetEncoder encoderFor(Object nbme) {
+        ChbrsetEncoder ce = (ChbrsetEncoder)encoderCbche.forNbme(nbme);
         ce.reset();
         return ce;
     }

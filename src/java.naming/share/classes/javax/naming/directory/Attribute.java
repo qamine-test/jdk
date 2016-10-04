@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.NoSuchElementException;
 
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
-import javax.naming.OperationNotSupportedException;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.NbmingEnumerbtion;
+import jbvbx.nbming.OperbtionNotSupportedException;
 
 /**
-  * This interface represents an attribute associated with a named object.
+  * This interfbce represents bn bttribute bssocibted with b nbmed object.
   *<p>
-  * In a directory, named objects can have associated with them
-  * attributes.  The <tt>Attribute</tt> interface represents an attribute associated
-  * with a named object.  An attribute contains 0 or more, possibly null, values.
-  * The attribute values can be ordered or unordered (see <tt>isOrdered()</tt>).
-  * If the values are unordered, no duplicates are allowed.
-  * If the values are ordered, duplicates are allowed.
+  * In b directory, nbmed objects cbn hbve bssocibted with them
+  * bttributes.  The <tt>Attribute</tt> interfbce represents bn bttribute bssocibted
+  * with b nbmed object.  An bttribute contbins 0 or more, possibly null, vblues.
+  * The bttribute vblues cbn be ordered or unordered (see <tt>isOrdered()</tt>).
+  * If the vblues bre unordered, no duplicbtes bre bllowed.
+  * If the vblues bre ordered, duplicbtes bre bllowed.
   *<p>
-  * The content and representation of an attribute and its values is defined by
-  * the attribute's <em>schema</em>. The schema contains information
-  * about the attribute's syntax and other properties about the attribute.
-  * See <tt>getAttributeDefinition()</tt> and
-  * <tt>getAttributeSyntaxDefinition()</tt>
-  * for details regarding how to get schema information about an attribute
-  * if the underlying directory service supports schemas.
+  * The content bnd representbtion of bn bttribute bnd its vblues is defined by
+  * the bttribute's <em>schemb</em>. The schemb contbins informbtion
+  * bbout the bttribute's syntbx bnd other properties bbout the bttribute.
+  * See <tt>getAttributeDefinition()</tt> bnd
+  * <tt>getAttributeSyntbxDefinition()</tt>
+  * for detbils regbrding how to get schemb informbtion bbout bn bttribute
+  * if the underlying directory service supports schembs.
   *<p>
-  * Equality of two attributes is determined by the implementation class.
-  * A simple implementation can use <tt>Object.equals()</tt> to determine equality
-  * of attribute values, while a more sophisticated implementation might
-  * make use of schema information to determine equality.
-  * Similarly, one implementation might provide a static storage
-  * structure which simply returns the values passed to its
-  * constructor, while another implementation might define <tt>get()</tt> and
+  * Equblity of two bttributes is determined by the implementbtion clbss.
+  * A simple implementbtion cbn use <tt>Object.equbls()</tt> to determine equblity
+  * of bttribute vblues, while b more sophisticbted implementbtion might
+  * mbke use of schemb informbtion to determine equblity.
+  * Similbrly, one implementbtion might provide b stbtic storbge
+  * structure which simply returns the vblues pbssed to its
+  * constructor, while bnother implementbtion might define <tt>get()</tt> bnd
   * <tt>getAll()</tt>.
-  * to get the values dynamically from the directory.
+  * to get the vblues dynbmicblly from the directory.
   *<p>
-  * Note that updates to <tt>Attribute</tt> (such as adding or removing a
-  * value) do not affect the corresponding representation of the attribute
-  * in the directory.  Updates to the directory can only be effected
-  * using operations in the <tt>DirContext</tt> interface.
+  * Note thbt updbtes to <tt>Attribute</tt> (such bs bdding or removing b
+  * vblue) do not bffect the corresponding representbtion of the bttribute
+  * in the directory.  Updbtes to the directory cbn only be effected
+  * using operbtions in the <tt>DirContext</tt> interfbce.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see BasicAttribute
+  * @see BbsicAttribute
   * @since 1.3
   */
-public interface Attribute extends Cloneable, java.io.Serializable {
+public interfbce Attribute extends Clonebble, jbvb.io.Seriblizbble {
     /**
-      * Retrieves an enumeration of the attribute's values.
-      * The behaviour of this enumeration is unspecified
-      * if the attribute's values are added, changed,
-      * or removed while the enumeration is in progress.
-      * If the attribute values are ordered, the enumeration's items
+      * Retrieves bn enumerbtion of the bttribute's vblues.
+      * The behbviour of this enumerbtion is unspecified
+      * if the bttribute's vblues bre bdded, chbnged,
+      * or removed while the enumerbtion is in progress.
+      * If the bttribute vblues bre ordered, the enumerbtion's items
       * will be ordered.
       *
-      * @return A non-null enumeration of the attribute's values.
-      * Each element of the enumeration is a possibly null Object. The object's
-      * class is the class of the attribute value. The element is null
-      * if the attribute's value is null.
-      * If the attribute has zero values, an empty enumeration
+      * @return A non-null enumerbtion of the bttribute's vblues.
+      * Ebch element of the enumerbtion is b possibly null Object. The object's
+      * clbss is the clbss of the bttribute vblue. The element is null
+      * if the bttribute's vblue is null.
+      * If the bttribute hbs zero vblues, bn empty enumerbtion
       * is returned.
-      * @exception NamingException
-      *         If a naming exception was encountered while retrieving
-      *         the values.
+      * @exception NbmingException
+      *         If b nbming exception wbs encountered while retrieving
+      *         the vblues.
       * @see #isOrdered
       */
-    NamingEnumeration<?> getAll() throws NamingException;
+    NbmingEnumerbtion<?> getAll() throws NbmingException;
 
     /**
-      * Retrieves one of this attribute's values.
-      * If the attribute has more than one value and is unordered, any one of
-      * the values is returned.
-      * If the attribute has more than one value and is ordered, the
-      * first value is returned.
+      * Retrieves one of this bttribute's vblues.
+      * If the bttribute hbs more thbn one vblue bnd is unordered, bny one of
+      * the vblues is returned.
+      * If the bttribute hbs more thbn one vblue bnd is ordered, the
+      * first vblue is returned.
       *
       * @return A possibly null object representing one of
-      *        the attribute's value. It is null if the attribute's value
+      *        the bttribute's vblue. It is null if the bttribute's vblue
       *        is null.
-      * @exception NamingException
-      *         If a naming exception was encountered while retrieving
-      *         the value.
-      * @exception java.util.NoSuchElementException
-      *         If this attribute has no values.
+      * @exception NbmingException
+      *         If b nbming exception wbs encountered while retrieving
+      *         the vblue.
+      * @exception jbvb.util.NoSuchElementException
+      *         If this bttribute hbs no vblues.
       */
-    Object get() throws NamingException;
+    Object get() throws NbmingException;
 
     /**
-      * Retrieves the number of values in this attribute.
+      * Retrieves the number of vblues in this bttribute.
       *
-      * @return The nonnegative number of values in this attribute.
+      * @return The nonnegbtive number of vblues in this bttribute.
       */
     int size();
 
     /**
-      * Retrieves the id of this attribute.
+      * Retrieves the id of this bttribute.
       *
-      * @return The id of this attribute. It cannot be null.
+      * @return The id of this bttribute. It cbnnot be null.
       */
     String getID();
 
     /**
-      * Determines whether a value is in the attribute.
-      * Equality is determined by the implementation, which may use
-      * <tt>Object.equals()</tt> or schema information to determine equality.
+      * Determines whether b vblue is in the bttribute.
+      * Equblity is determined by the implementbtion, which mby use
+      * <tt>Object.equbls()</tt> or schemb informbtion to determine equblity.
       *
-      * @param attrVal The possibly null value to check. If null, check
-      *  whether the attribute has an attribute value whose value is null.
-      * @return true if attrVal is one of this attribute's values; false otherwise.
-      * @see java.lang.Object#equals
-      * @see BasicAttribute#equals
+      * @pbrbm bttrVbl The possibly null vblue to check. If null, check
+      *  whether the bttribute hbs bn bttribute vblue whose vblue is null.
+      * @return true if bttrVbl is one of this bttribute's vblues; fblse otherwise.
+      * @see jbvb.lbng.Object#equbls
+      * @see BbsicAttribute#equbls
       */
-    boolean contains(Object attrVal);
+    boolebn contbins(Object bttrVbl);
     /**
-      * Adds a new value to the attribute.
-      * If the attribute values are unordered and
-      * <tt>attrVal</tt> is already in the attribute, this method does nothing.
-      * If the attribute values are ordered, <tt>attrVal</tt> is added to the end of
-      * the list of attribute values.
+      * Adds b new vblue to the bttribute.
+      * If the bttribute vblues bre unordered bnd
+      * <tt>bttrVbl</tt> is blrebdy in the bttribute, this method does nothing.
+      * If the bttribute vblues bre ordered, <tt>bttrVbl</tt> is bdded to the end of
+      * the list of bttribute vblues.
       *<p>
-      * Equality is determined by the implementation, which may use
-      * <tt>Object.equals()</tt> or schema information to determine equality.
+      * Equblity is determined by the implementbtion, which mby use
+      * <tt>Object.equbls()</tt> or schemb informbtion to determine equblity.
       *
-      * @param attrVal The new possibly null value to add. If null, null
-      *  is added as an attribute value.
-      * @return true if a value was added; false otherwise.
+      * @pbrbm bttrVbl The new possibly null vblue to bdd. If null, null
+      *  is bdded bs bn bttribute vblue.
+      * @return true if b vblue wbs bdded; fblse otherwise.
       */
-    boolean add(Object attrVal);
+    boolebn bdd(Object bttrVbl);
 
     /**
-      * Removes a specified value from the attribute.
-      * If <tt>attrval</tt> is not in the attribute, this method does nothing.
-      * If the attribute values are ordered, the first occurrence of
-      * <tt>attrVal</tt> is removed and attribute values at indices greater
-      * than the removed
-      * value are shifted up towards the head of the list (and their indices
+      * Removes b specified vblue from the bttribute.
+      * If <tt>bttrvbl</tt> is not in the bttribute, this method does nothing.
+      * If the bttribute vblues bre ordered, the first occurrence of
+      * <tt>bttrVbl</tt> is removed bnd bttribute vblues bt indices grebter
+      * thbn the removed
+      * vblue bre shifted up towbrds the hebd of the list (bnd their indices
       * decremented by one).
       *<p>
-      * Equality is determined by the implementation, which may use
-      * <tt>Object.equals()</tt> or schema information to determine equality.
+      * Equblity is determined by the implementbtion, which mby use
+      * <tt>Object.equbls()</tt> or schemb informbtion to determine equblity.
       *
-      * @param attrval The possibly null value to remove from this attribute.
-      * If null, remove the attribute value that is null.
-      * @return true if the value was removed; false otherwise.
+      * @pbrbm bttrvbl The possibly null vblue to remove from this bttribute.
+      * If null, remove the bttribute vblue thbt is null.
+      * @return true if the vblue wbs removed; fblse otherwise.
       */
-    boolean remove(Object attrval);
+    boolebn remove(Object bttrvbl);
 
     /**
-      * Removes all values from this attribute.
+      * Removes bll vblues from this bttribute.
       */
-    void clear();
+    void clebr();
 
     /**
-      * Retrieves the syntax definition associated with the attribute.
-      * An attribute's syntax definition specifies the format
-      * of the attribute's value(s). Note that this is different from
-      * the attribute value's representation as a Java object. Syntax
-      * definition refers to the directory's notion of <em>syntax</em>.
+      * Retrieves the syntbx definition bssocibted with the bttribute.
+      * An bttribute's syntbx definition specifies the formbt
+      * of the bttribute's vblue(s). Note thbt this is different from
+      * the bttribute vblue's representbtion bs b Jbvb object. Syntbx
+      * definition refers to the directory's notion of <em>syntbx</em>.
       *<p>
-      * For example, even though a value might be
-      * a Java String object, its directory syntax might be "Printable String"
-      * or "Telephone Number". Or a value might be a byte array, and its
-      * directory syntax is "JPEG" or "Certificate".
-      * For example, if this attribute's syntax is "JPEG",
-      * this method would return the syntax definition for "JPEG".
+      * For exbmple, even though b vblue might be
+      * b Jbvb String object, its directory syntbx might be "Printbble String"
+      * or "Telephone Number". Or b vblue might be b byte brrby, bnd its
+      * directory syntbx is "JPEG" or "Certificbte".
+      * For exbmple, if this bttribute's syntbx is "JPEG",
+      * this method would return the syntbx definition for "JPEG".
       * <p>
-      * The information that you can retrieve from a syntax definition
+      * The informbtion thbt you cbn retrieve from b syntbx definition
       * is directory-dependent.
       *<p>
-      * If an implementation does not support schemas, it should throw
-      * OperationNotSupportedException. If an implementation does support
-      * schemas, it should define this method to return the appropriate
-      * information.
-      * @return The attribute's syntax definition. Null if the implementation
-      *    supports schemas but this particular attribute does not have
-      *    any schema information.
-      * @exception OperationNotSupportedException If getting the schema
+      * If bn implementbtion does not support schembs, it should throw
+      * OperbtionNotSupportedException. If bn implementbtion does support
+      * schembs, it should define this method to return the bppropribte
+      * informbtion.
+      * @return The bttribute's syntbx definition. Null if the implementbtion
+      *    supports schembs but this pbrticulbr bttribute does not hbve
+      *    bny schemb informbtion.
+      * @exception OperbtionNotSupportedException If getting the schemb
       *         is not supported.
-      * @exception NamingException If a naming exception occurs while getting
-      *         the schema.
+      * @exception NbmingException If b nbming exception occurs while getting
+      *         the schemb.
       */
 
-    DirContext getAttributeSyntaxDefinition() throws NamingException;
+    DirContext getAttributeSyntbxDefinition() throws NbmingException;
 
     /**
-      * Retrieves the attribute's schema definition.
-      * An attribute's schema definition contains information
-      * such as whether the attribute is multivalued or single-valued,
-      * the matching rules to use when comparing the attribute's values.
+      * Retrieves the bttribute's schemb definition.
+      * An bttribute's schemb definition contbins informbtion
+      * such bs whether the bttribute is multivblued or single-vblued,
+      * the mbtching rules to use when compbring the bttribute's vblues.
       *
-      * The information that you can retrieve from an attribute definition
+      * The informbtion thbt you cbn retrieve from bn bttribute definition
       * is directory-dependent.
       *
       *<p>
-      * If an implementation does not support schemas, it should throw
-      * OperationNotSupportedException. If an implementation does support
-      * schemas, it should define this method to return the appropriate
-      * information.
-      * @return This attribute's schema definition. Null if the implementation
-      *     supports schemas but this particular attribute does not have
-      *     any schema information.
-      * @exception OperationNotSupportedException If getting the schema
+      * If bn implementbtion does not support schembs, it should throw
+      * OperbtionNotSupportedException. If bn implementbtion does support
+      * schembs, it should define this method to return the bppropribte
+      * informbtion.
+      * @return This bttribute's schemb definition. Null if the implementbtion
+      *     supports schembs but this pbrticulbr bttribute does not hbve
+      *     bny schemb informbtion.
+      * @exception OperbtionNotSupportedException If getting the schemb
       *         is not supported.
-      * @exception NamingException If a naming exception occurs while getting
-      *         the schema.
+      * @exception NbmingException If b nbming exception occurs while getting
+      *         the schemb.
       */
-    DirContext getAttributeDefinition() throws NamingException;
+    DirContext getAttributeDefinition() throws NbmingException;
 
     /**
-      * Makes a copy of the attribute.
-      * The copy contains the same attribute values as the original attribute:
-      * the attribute values are not themselves cloned.
-      * Changes to the copy will not affect the original and vice versa.
+      * Mbkes b copy of the bttribute.
+      * The copy contbins the sbme bttribute vblues bs the originbl bttribute:
+      * the bttribute vblues bre not themselves cloned.
+      * Chbnges to the copy will not bffect the originbl bnd vice versb.
       *
-      * @return A non-null copy of the attribute.
+      * @return A non-null copy of the bttribute.
       */
     Object clone();
 
-    //----------- Methods to support ordered multivalued attributes
+    //----------- Methods to support ordered multivblued bttributes
 
     /**
-      * Determines whether this attribute's values are ordered.
-      * If an attribute's values are ordered, duplicate values are allowed.
-      * If an attribute's values are unordered, they are presented
-      * in any order and there are no duplicate values.
-      * @return true if this attribute's values are ordered; false otherwise.
+      * Determines whether this bttribute's vblues bre ordered.
+      * If bn bttribute's vblues bre ordered, duplicbte vblues bre bllowed.
+      * If bn bttribute's vblues bre unordered, they bre presented
+      * in bny order bnd there bre no duplicbte vblues.
+      * @return true if this bttribute's vblues bre ordered; fblse otherwise.
       * @see #get(int)
       * @see #remove(int)
-      * @see #add(int, java.lang.Object)
-      * @see #set(int, java.lang.Object)
+      * @see #bdd(int, jbvb.lbng.Object)
+      * @see #set(int, jbvb.lbng.Object)
       */
-    boolean isOrdered();
+    boolebn isOrdered();
 
     /**
-     * Retrieves the attribute value from the ordered list of attribute values.
-     * This method returns the value at the <tt>ix</tt> index of the list of
-     * attribute values.
-     * If the attribute values are unordered,
-     * this method returns the value that happens to be at that index.
-     * @param ix The index of the value in the ordered list of attribute values.
+     * Retrieves the bttribute vblue from the ordered list of bttribute vblues.
+     * This method returns the vblue bt the <tt>ix</tt> index of the list of
+     * bttribute vblues.
+     * If the bttribute vblues bre unordered,
+     * this method returns the vblue thbt hbppens to be bt thbt index.
+     * @pbrbm ix The index of the vblue in the ordered list of bttribute vblues.
      * {@code 0 <= ix < size()}.
-     * @return The possibly null attribute value at index <tt>ix</tt>;
-     *   null if the attribute value is null.
-     * @exception NamingException If a naming exception was encountered while
-     * retrieving the value.
-     * @exception IndexOutOfBoundsException If <tt>ix</tt> is outside the specified range.
+     * @return The possibly null bttribute vblue bt index <tt>ix</tt>;
+     *   null if the bttribute vblue is null.
+     * @exception NbmingException If b nbming exception wbs encountered while
+     * retrieving the vblue.
+     * @exception IndexOutOfBoundsException If <tt>ix</tt> is outside the specified rbnge.
      */
-    Object get(int ix) throws NamingException;
+    Object get(int ix) throws NbmingException;
 
     /**
-     * Removes an attribute value from the ordered list of attribute values.
-     * This method removes the value at the <tt>ix</tt> index of the list of
-     * attribute values.
-     * If the attribute values are unordered,
-     * this method removes the value that happens to be at that index.
-     * Values located at indices greater than <tt>ix</tt> are shifted up towards
-     * the front of the list (and their indices decremented by one).
+     * Removes bn bttribute vblue from the ordered list of bttribute vblues.
+     * This method removes the vblue bt the <tt>ix</tt> index of the list of
+     * bttribute vblues.
+     * If the bttribute vblues bre unordered,
+     * this method removes the vblue thbt hbppens to be bt thbt index.
+     * Vblues locbted bt indices grebter thbn <tt>ix</tt> bre shifted up towbrds
+     * the front of the list (bnd their indices decremented by one).
      *
-     * @param ix The index of the value to remove.
+     * @pbrbm ix The index of the vblue to remove.
      * {@code 0 <= ix < size()}.
-     * @return The possibly null attribute value at index <tt>ix</tt> that was removed;
-     *   null if the attribute value is null.
-     * @exception IndexOutOfBoundsException If <tt>ix</tt> is outside the specified range.
+     * @return The possibly null bttribute vblue bt index <tt>ix</tt> thbt wbs removed;
+     *   null if the bttribute vblue is null.
+     * @exception IndexOutOfBoundsException If <tt>ix</tt> is outside the specified rbnge.
      */
     Object remove(int ix);
 
     /**
-     * Adds an attribute value to the ordered list of attribute values.
-     * This method adds <tt>attrVal</tt> to the list of attribute values at
+     * Adds bn bttribute vblue to the ordered list of bttribute vblues.
+     * This method bdds <tt>bttrVbl</tt> to the list of bttribute vblues bt
      * index <tt>ix</tt>.
-     * Values located at indices at or greater than <tt>ix</tt> are
-     * shifted down towards the end of the list (and their indices incremented
+     * Vblues locbted bt indices bt or grebter thbn <tt>ix</tt> bre
+     * shifted down towbrds the end of the list (bnd their indices incremented
      * by one).
-     * If the attribute values are unordered and already have <tt>attrVal</tt>,
-     * <tt>IllegalStateException</tt> is thrown.
+     * If the bttribute vblues bre unordered bnd blrebdy hbve <tt>bttrVbl</tt>,
+     * <tt>IllegblStbteException</tt> is thrown.
      *
-     * @param ix The index in the ordered list of attribute values to add the new value.
+     * @pbrbm ix The index in the ordered list of bttribute vblues to bdd the new vblue.
      * {@code 0 <= ix <= size()}.
-     * @param attrVal The possibly null attribute value to add; if null, null is
-     * the value added.
-     * @exception IndexOutOfBoundsException If <tt>ix</tt> is outside the specified range.
-     * @exception IllegalStateException If the attribute values are unordered and
-     * <tt>attrVal</tt> is one of those values.
+     * @pbrbm bttrVbl The possibly null bttribute vblue to bdd; if null, null is
+     * the vblue bdded.
+     * @exception IndexOutOfBoundsException If <tt>ix</tt> is outside the specified rbnge.
+     * @exception IllegblStbteException If the bttribute vblues bre unordered bnd
+     * <tt>bttrVbl</tt> is one of those vblues.
      */
-    void add(int ix, Object attrVal);
+    void bdd(int ix, Object bttrVbl);
 
 
     /**
-     * Sets an attribute value in the ordered list of attribute values.
-     * This method sets the value at the <tt>ix</tt> index of the list of
-     * attribute values to be <tt>attrVal</tt>. The old value is removed.
-     * If the attribute values are unordered,
-     * this method sets the value that happens to be at that index
-     * to <tt>attrVal</tt>, unless <tt>attrVal</tt> is already one of the values.
-     * In that case, <tt>IllegalStateException</tt> is thrown.
+     * Sets bn bttribute vblue in the ordered list of bttribute vblues.
+     * This method sets the vblue bt the <tt>ix</tt> index of the list of
+     * bttribute vblues to be <tt>bttrVbl</tt>. The old vblue is removed.
+     * If the bttribute vblues bre unordered,
+     * this method sets the vblue thbt hbppens to be bt thbt index
+     * to <tt>bttrVbl</tt>, unless <tt>bttrVbl</tt> is blrebdy one of the vblues.
+     * In thbt cbse, <tt>IllegblStbteException</tt> is thrown.
      *
-     * @param ix The index of the value in the ordered list of attribute values.
+     * @pbrbm ix The index of the vblue in the ordered list of bttribute vblues.
      * {@code 0 <= ix < size()}.
-     * @param attrVal The possibly null attribute value to use.
-     * If null, 'null' replaces the old value.
-     * @return The possibly null attribute value at index ix that was replaced.
-     *   Null if the attribute value was null.
-     * @exception IndexOutOfBoundsException If <tt>ix</tt> is outside the specified range.
-     * @exception IllegalStateException If <tt>attrVal</tt> already exists and the
-     *    attribute values are unordered.
+     * @pbrbm bttrVbl The possibly null bttribute vblue to use.
+     * If null, 'null' replbces the old vblue.
+     * @return The possibly null bttribute vblue bt index ix thbt wbs replbced.
+     *   Null if the bttribute vblue wbs null.
+     * @exception IndexOutOfBoundsException If <tt>ix</tt> is outside the specified rbnge.
+     * @exception IllegblStbteException If <tt>bttrVbl</tt> blrebdy exists bnd the
+     *    bttribute vblues bre unordered.
      */
-    Object set(int ix, Object attrVal);
+    Object set(int ix, Object bttrVbl);
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability.
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility.
      */
-    static final long serialVersionUID = 8707690322213556804L;
+    stbtic finbl long seriblVersionUID = 8707690322213556804L;
 }

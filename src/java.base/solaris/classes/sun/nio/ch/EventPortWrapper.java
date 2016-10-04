@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.IOException;
-import java.security.AccessController;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.util.BitSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import sun.misc.Unsafe;
-import sun.security.action.GetIntegerAction;
-import static sun.nio.ch.SolarisEventPort.*;
+import sun.misc.Unsbfe;
+import sun.security.bction.GetIntegerAction;
+import stbtic sun.nio.ch.SolbrisEventPort.*;
 
 /**
- * Manages a Solaris event port and manipulates a native array of pollfd structs
- * on Solaris.
+ * Mbnbges b Solbris event port bnd mbnipulbtes b nbtive brrby of pollfd structs
+ * on Solbris.
  */
 
-class EventPortWrapper {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final int addressSize = unsafe.addressSize();
+clbss EventPortWrbpper {
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic finbl int bddressSize = unsbfe.bddressSize();
 
-    // Maximum number of open file descriptors
-    static final int   OPEN_MAX     = IOUtil.fdLimit();
+    // Mbximum number of open file descriptors
+    stbtic finbl int   OPEN_MAX     = IOUtil.fdLimit();
 
-    // Maximum number of events to retrive in one call to port_getn
-    static final int   POLL_MAX     =  Math.min(OPEN_MAX-1, 1024);
+    // Mbximum number of events to retrive in one cbll to port_getn
+    stbtic finbl int   POLL_MAX     =  Mbth.min(OPEN_MAX-1, 1024);
 
-    // initial size of the array to hold pending updates
-    private final int INITIAL_PENDING_UPDATE_SIZE = 256;
+    // initibl size of the brrby to hold pending updbtes
+    privbte finbl int INITIAL_PENDING_UPDATE_SIZE = 256;
 
-    // maximum size of updateArray
-    private static final int MAX_UPDATE_ARRAY_SIZE = AccessController.doPrivileged(
-        new GetIntegerAction("sun.nio.ch.maxUpdateArraySize", Math.min(OPEN_MAX, 64*1024)));
+    // mbximum size of updbteArrby
+    privbte stbtic finbl int MAX_UPDATE_ARRAY_SIZE = AccessController.doPrivileged(
+        new GetIntegerAction("sun.nio.ch.mbxUpdbteArrbySize", Mbth.min(OPEN_MAX, 64*1024)));
 
-    // special update status to indicate that it should be ignored
-    private static final byte IGNORE = -1;
+    // specibl updbte stbtus to indicbte thbt it should be ignored
+    privbte stbtic finbl byte IGNORE = -1;
 
     // port file descriptor
-    private final int pfd;
+    privbte finbl int pfd;
 
-    // the poll array (populated by port_getn)
-    private final long pollArrayAddress;
-    private final AllocatedNativeObject pollArray;
+    // the poll brrby (populbted by port_getn)
+    privbte finbl long pollArrbyAddress;
+    privbte finbl AllocbtedNbtiveObject pollArrby;
 
-    // required when accessing the update* fields
-    private final Object updateLock = new Object();
+    // required when bccessing the updbte* fields
+    privbte finbl Object updbteLock = new Object();
 
-    // the number of pending updates
-    private int updateCount;
+    // the number of pending updbtes
+    privbte int updbteCount;
 
-    // queue of file descriptors with updates pending
-    private int[] updateDescriptors = new int[INITIAL_PENDING_UPDATE_SIZE];
+    // queue of file descriptors with updbtes pending
+    privbte int[] updbteDescriptors = new int[INITIAL_PENDING_UPDATE_SIZE];
 
-    // events for file descriptors with registration changes pending, indexed
-    // by file descriptor and stored as bytes for efficiency reasons. For
-    // file descriptors higher than MAX_UPDATE_ARRAY_SIZE (unlimited case at
-    // least then the update is stored in a map.
-    private final byte[] eventsLow = new byte[MAX_UPDATE_ARRAY_SIZE];
-    private Map<Integer,Byte> eventsHigh;
-    // Used by release and updateRegistrations to track whether a file
+    // events for file descriptors with registrbtion chbnges pending, indexed
+    // by file descriptor bnd stored bs bytes for efficiency rebsons. For
+    // file descriptors higher thbn MAX_UPDATE_ARRAY_SIZE (unlimited cbse bt
+    // lebst then the updbte is stored in b mbp.
+    privbte finbl byte[] eventsLow = new byte[MAX_UPDATE_ARRAY_SIZE];
+    privbte Mbp<Integer,Byte> eventsHigh;
+    // Used by relebse bnd updbteRegistrbtions to trbck whether b file
     // descriptor is registered with /dev/poll.
-    private final BitSet registered = new BitSet();
+    privbte finbl BitSet registered = new BitSet();
 
-    // bit set to indicate if a file descriptor has been visited when
-    // processing updates (used to avoid duplicates calls to port_associate)
-    private BitSet visited = new BitSet();
+    // bit set to indicbte if b file descriptor hbs been visited when
+    // processing updbtes (used to bvoid duplicbtes cblls to port_bssocibte)
+    privbte BitSet visited = new BitSet();
 
-    EventPortWrapper() throws IOException {
-        int allocationSize = POLL_MAX * SIZEOF_PORT_EVENT;
-        pollArray = new AllocatedNativeObject(allocationSize, true);
-        pollArrayAddress = pollArray.address();
-        this.pfd = port_create();
+    EventPortWrbpper() throws IOException {
+        int bllocbtionSize = POLL_MAX * SIZEOF_PORT_EVENT;
+        pollArrby = new AllocbtedNbtiveObject(bllocbtionSize, true);
+        pollArrbyAddress = pollArrby.bddress();
+        this.pfd = port_crebte();
         if (OPEN_MAX > MAX_UPDATE_ARRAY_SIZE)
-            eventsHigh = new HashMap<>();
+            eventsHigh = new HbshMbp<>();
     }
 
     void close() throws IOException {
         port_close(pfd);
-        pollArray.free();
+        pollArrby.free();
     }
 
-    private short getSource(int i) {
+    privbte short getSource(int i) {
         int offset = SIZEOF_PORT_EVENT * i + OFFSETOF_SOURCE;
-        return pollArray.getShort(offset);
+        return pollArrby.getShort(offset);
     }
 
     int getEventOps(int i) {
         int offset = SIZEOF_PORT_EVENT * i + OFFSETOF_EVENTS;
-        return pollArray.getInt(offset);
+        return pollArrby.getInt(offset);
     }
 
     int getDescriptor(int i) {
         int offset = SIZEOF_PORT_EVENT * i + OFFSETOF_OBJECT;
-        if (addressSize == 4) {
-            return pollArray.getInt(offset);
+        if (bddressSize == 4) {
+            return pollArrby.getInt(offset);
         } else {
-            return (int) pollArray.getLong(offset);
+            return (int) pollArrby.getLong(offset);
         }
     }
 
-    private void setDescriptor(int i, int fd) {
+    privbte void setDescriptor(int i, int fd) {
         int offset = SIZEOF_PORT_EVENT * i + OFFSETOF_OBJECT;
-        if (addressSize == 4) {
-            pollArray.putInt(offset, fd);
+        if (bddressSize == 4) {
+            pollArrby.putInt(offset, fd);
         } else {
-            pollArray.putLong(offset, fd);
+            pollArrby.putLong(offset, fd);
         }
     }
 
-    private void setUpdate(int fd, byte events) {
+    privbte void setUpdbte(int fd, byte events) {
         if (fd < MAX_UPDATE_ARRAY_SIZE) {
             eventsLow[fd] = events;
         } else {
-            eventsHigh.put(Integer.valueOf(fd), Byte.valueOf(events));
+            eventsHigh.put(Integer.vblueOf(fd), Byte.vblueOf(events));
         }
     }
 
-    private byte getUpdate(int fd) {
+    privbte byte getUpdbte(int fd) {
         if (fd < MAX_UPDATE_ARRAY_SIZE) {
             return eventsLow[fd];
         } else {
-            Byte result = eventsHigh.get(Integer.valueOf(fd));
+            Byte result = eventsHigh.get(Integer.vblueOf(fd));
             // result should never be null
-            return result.byteValue();
+            return result.byteVblue();
         }
     }
 
     int poll(long timeout) throws IOException {
-        // update registrations prior to poll
-        synchronized (updateLock) {
+        // updbte registrbtions prior to poll
+        synchronized (updbteLock) {
 
-            // process newest updates first
-            int i = updateCount - 1;
+            // process newest updbtes first
+            int i = updbteCount - 1;
             while (i >= 0) {
-                int fd = updateDescriptors[i];
+                int fd = updbteDescriptors[i];
                 if (!visited.get(fd)) {
-                    short ev = getUpdate(fd);
+                    short ev = getUpdbte(fd);
                     if (ev != IGNORE) {
                         if (ev == 0) {
                             if (registered.get(fd)) {
-                                port_dissociate(pfd, PORT_SOURCE_FD, (long)fd);
-                                registered.clear(fd);
+                                port_dissocibte(pfd, PORT_SOURCE_FD, (long)fd);
+                                registered.clebr(fd);
                             }
                         } else {
-                            if (port_associate(pfd, PORT_SOURCE_FD, (long)fd, ev)) {
+                            if (port_bssocibte(pfd, PORT_SOURCE_FD, (long)fd, ev)) {
                                 registered.set(fd);
                             }
                         }
@@ -177,86 +177,86 @@ class EventPortWrapper {
                 }
                 i--;
             }
-            updateCount = 0;
+            updbteCount = 0;
         }
 
         // poll for events
-        int updated = port_getn(pfd, pollArrayAddress, POLL_MAX, timeout);
+        int updbted = port_getn(pfd, pollArrbyAddress, POLL_MAX, timeout);
 
-        // after polling we need to queue all polled file descriptors as they
-        // are candidates to register for the next poll.
-        synchronized (updateLock) {
-            for (int i=0; i<updated; i++) {
+        // bfter polling we need to queue bll polled file descriptors bs they
+        // bre cbndidbtes to register for the next poll.
+        synchronized (updbteLock) {
+            for (int i=0; i<updbted; i++) {
                 if (getSource(i) == PORT_SOURCE_USER) {
                     interrupted = true;
                     setDescriptor(i, -1);
                 } else {
-                    // the default is to re-associate for the next poll
+                    // the defbult is to re-bssocibte for the next poll
                     int fd = getDescriptor(i);
-                    registered.clear(fd);
+                    registered.clebr(fd);
                     setInterest(fd);
                 }
             }
         }
 
-        return updated;
+        return updbted;
     }
 
-    private void setInterest(int fd) {
-        assert Thread.holdsLock(updateLock);
+    privbte void setInterest(int fd) {
+        bssert Threbd.holdsLock(updbteLock);
 
-        // record the file descriptor and events, expanding the
-        // respective arrays first if necessary.
-        int oldCapacity = updateDescriptors.length;
-        if (updateCount >= oldCapacity) {
-            int newCapacity = oldCapacity + INITIAL_PENDING_UPDATE_SIZE;
-            int[] newDescriptors = new int[newCapacity];
-            System.arraycopy(updateDescriptors, 0, newDescriptors, 0, oldCapacity);
-            updateDescriptors = newDescriptors;
+        // record the file descriptor bnd events, expbnding the
+        // respective brrbys first if necessbry.
+        int oldCbpbcity = updbteDescriptors.length;
+        if (updbteCount >= oldCbpbcity) {
+            int newCbpbcity = oldCbpbcity + INITIAL_PENDING_UPDATE_SIZE;
+            int[] newDescriptors = new int[newCbpbcity];
+            System.brrbycopy(updbteDescriptors, 0, newDescriptors, 0, oldCbpbcity);
+            updbteDescriptors = newDescriptors;
         }
-        updateDescriptors[updateCount++] = fd;
-        visited.clear(fd);
+        updbteDescriptors[updbteCount++] = fd;
+        visited.clebr(fd);
     }
 
-    void setInterest(int fd, int mask) {
-        synchronized (updateLock) {
+    void setInterest(int fd, int mbsk) {
+        synchronized (updbteLock) {
             setInterest(fd);
-            setUpdate(fd, (byte)mask);
-            assert getUpdate(fd) == mask;
+            setUpdbte(fd, (byte)mbsk);
+            bssert getUpdbte(fd) == mbsk;
         }
     }
 
-    void release(int fd) {
-        synchronized (updateLock) {
+    void relebse(int fd) {
+        synchronized (updbteLock) {
             if (registered.get(fd)) {
                 try {
-                    port_dissociate(pfd, PORT_SOURCE_FD, (long)fd);
-                } catch (IOException ioe) {
-                    throw new InternalError(ioe);
+                    port_dissocibte(pfd, PORT_SOURCE_FD, (long)fd);
+                } cbtch (IOException ioe) {
+                    throw new InternblError(ioe);
                 }
-                registered.clear(fd);
+                registered.clebr(fd);
             }
-            setUpdate(fd, IGNORE);
+            setUpdbte(fd, IGNORE);
         }
     }
 
-    // -- wakeup support --
+    // -- wbkeup support --
 
-    private boolean interrupted;
+    privbte boolebn interrupted;
 
     public void interrupt() {
         try {
             port_send(pfd, 0);
-        } catch (IOException ioe) {
-            throw new InternalError(ioe);
+        } cbtch (IOException ioe) {
+            throw new InternblError(ioe);
         }
     }
 
-    boolean interrupted() {
+    boolebn interrupted() {
         return interrupted;
     }
 
-    void clearInterrupted() {
-        interrupted = false;
+    void clebrInterrupted() {
+        interrupted = fblse;
     }
 }

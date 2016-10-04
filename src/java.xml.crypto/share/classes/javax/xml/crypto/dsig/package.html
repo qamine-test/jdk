@@ -1,68 +1,68 @@
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
 
-</head>
+</hebd>
 <body>
-Classes for generating and validating XML digital
-signatures. This package includes classes that represent the core elements 
-defined in the W3C XML digital signature specification:
-{@link javax.xml.crypto.dsig.XMLSignature XMLSignature},
-{@link javax.xml.crypto.dsig.SignedInfo SignedInfo},
-{@link javax.xml.crypto.dsig.CanonicalizationMethod CanonicalizationMethod},
-{@link javax.xml.crypto.dsig.SignatureMethod SignatureMethod},
-{@link javax.xml.crypto.dsig.Reference Reference}, 
-{@link javax.xml.crypto.dsig.DigestMethod DigestMethod},
-{@link javax.xml.crypto.dsig.XMLObject XMLObject}, 
-{@link javax.xml.crypto.dsig.Manifest Manifest},
-{@link javax.xml.crypto.dsig.SignatureProperties SignatureProperties}, and
-{@link javax.xml.crypto.dsig.SignatureProperty SignatureProperty}. 
+Clbsses for generbting bnd vblidbting XML digitbl
+signbtures. This pbckbge includes clbsses thbt represent the core elements 
+defined in the W3C XML digitbl signbture specificbtion:
+{@link jbvbx.xml.crypto.dsig.XMLSignbture XMLSignbture},
+{@link jbvbx.xml.crypto.dsig.SignedInfo SignedInfo},
+{@link jbvbx.xml.crypto.dsig.CbnonicblizbtionMethod CbnonicblizbtionMethod},
+{@link jbvbx.xml.crypto.dsig.SignbtureMethod SignbtureMethod},
+{@link jbvbx.xml.crypto.dsig.Reference Reference}, 
+{@link jbvbx.xml.crypto.dsig.DigestMethod DigestMethod},
+{@link jbvbx.xml.crypto.dsig.XMLObject XMLObject}, 
+{@link jbvbx.xml.crypto.dsig.Mbnifest Mbnifest},
+{@link jbvbx.xml.crypto.dsig.SignbtureProperties SignbtureProperties}, bnd
+{@link jbvbx.xml.crypto.dsig.SignbtureProperty SignbtureProperty}. 
 <code>KeyInfo</code> types
-are defined in the {@link javax.xml.crypto.dsig.keyinfo} subpackage.
-{@link javax.xml.crypto.dsig.XMLSignatureFactory XMLSignatureFactory}
-is an abstract factory that creates 
-{@link javax.xml.crypto.dsig.XMLSignature XMLSignature} objects from scratch
-or from a pre-existing XML representation, such as a DOM node.
-{@link javax.xml.crypto.dsig.TransformService} is a service provider
-interface for creating and plugging in implementations of
-transform and canonicalization algorithms.
+bre defined in the {@link jbvbx.xml.crypto.dsig.keyinfo} subpbckbge.
+{@link jbvbx.xml.crypto.dsig.XMLSignbtureFbctory XMLSignbtureFbctory}
+is bn bbstrbct fbctory thbt crebtes 
+{@link jbvbx.xml.crypto.dsig.XMLSignbture XMLSignbture} objects from scrbtch
+or from b pre-existing XML representbtion, such bs b DOM node.
+{@link jbvbx.xml.crypto.dsig.TrbnsformService} is b service provider
+interfbce for crebting bnd plugging in implementbtions of
+trbnsform bnd cbnonicblizbtion blgorithms.
 
-<p>Of primary significance in this package is the 
-{@link javax.xml.crypto.dsig.XMLSignature XMLSignature} class,
-which allows you to sign and validate an XML digital signature.
+<p>Of primbry significbnce in this pbckbge is the 
+{@link jbvbx.xml.crypto.dsig.XMLSignbture XMLSignbture} clbss,
+which bllows you to sign bnd vblidbte bn XML digitbl signbture.
 
-<h2>Package Specification</h2>
+<h2>Pbckbge Specificbtion</h2>
 
 <ul>
 <li>
-<a href="http://www.w3.org/TR/xmldsig-core/">
-XML-Signature Syntax and Processing: W3C Recommendation</a>
+<b href="http://www.w3.org/TR/xmldsig-core/">
+XML-Signbture Syntbx bnd Processing: W3C Recommendbtion</b>
 <li>
-<a href="http://www.ietf.org/rfc/rfc3275.txt">
-RFC 3275: XML-Signature Syntax and Processing</a>
+<b href="http://www.ietf.org/rfc/rfc3275.txt">
+RFC 3275: XML-Signbture Syntbx bnd Processing</b>
 </ul>
 
 <p>

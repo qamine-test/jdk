@@ -1,39 +1,39 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Adapted from JDK 1.2 linker_md.c v1.37. Note that we #define
- * NATIVE here, whether or not we're running solaris native threads.
- * Outside the VM, it's unclear how we can do the locking that is
- * done in the green threads version of the code below.
+ * Adbpted from JDK 1.2 linker_md.c v1.37. Note thbt we #define
+ * NATIVE here, whether or not we're running solbris nbtive threbds.
+ * Outside the VM, it's unclebr how we cbn do the locking thbt is
+ * done in the green threbds version of the code below.
  */
 #define NATIVE
 
 /*
- * Machine Dependent implementation of the dynamic linking support
- * for java.  This routine is Solaris specific.
+ * Mbchine Dependent implementbtion of the dynbmic linking support
+ * for jbvb.  This routine is Solbris specific.
  */
 
 #include <stdio.h>
@@ -42,10 +42,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "path_md.h"
+#include "pbth_md.h"
 #ifndef NATIVE
 #include "iomgr.h"
-#include "threads_md.h"
+#include "threbds_md.h"
 #endif
 
 #ifdef __APPLE__
@@ -54,87 +54,87 @@
 #define LIB_SUFFIX "so"
 #endif
 
-static void dll_build_name(char* buffer, size_t buflen,
-                           const char* paths, const char* fname) {
-    char *path, *paths_copy, *next_token;
+stbtic void dll_build_nbme(chbr* buffer, size_t buflen,
+                           const chbr* pbths, const chbr* fnbme) {
+    chbr *pbth, *pbths_copy, *next_token;
 
-    paths_copy = strdup(paths);
-    if (paths_copy == NULL) {
+    pbths_copy = strdup(pbths);
+    if (pbths_copy == NULL) {
         return;
     }
 
     next_token = NULL;
-    path = strtok_r(paths_copy, PATH_SEPARATOR, &next_token);
+    pbth = strtok_r(pbths_copy, PATH_SEPARATOR, &next_token);
 
-    while (path != NULL) {
-        snprintf(buffer, buflen, "%s/lib%s." LIB_SUFFIX, path, fname);
-        if (access(buffer, F_OK) == 0) {
-            break;
+    while (pbth != NULL) {
+        snprintf(buffer, buflen, "%s/lib%s." LIB_SUFFIX, pbth, fnbme);
+        if (bccess(buffer, F_OK) == 0) {
+            brebk;
         }
         *buffer = '\0';
-        path = strtok_r(NULL, PATH_SEPARATOR, &next_token);
+        pbth = strtok_r(NULL, PATH_SEPARATOR, &next_token);
     }
 
-    free(paths_copy);
+    free(pbths_copy);
 }
 
 /*
- * create a string for the JNI native function name by adding the
- * appropriate decorations.
+ * crebte b string for the JNI nbtive function nbme by bdding the
+ * bppropribte decorbtions.
  */
 int
-dbgsysBuildFunName(char *name, int nameLen, int args_size, int encodingIndex)
+dbgsysBuildFunNbme(chbr *nbme, int nbmeLen, int brgs_size, int encodingIndex)
 {
-  /* On Solaris, there is only one encoding method. */
+  /* On Solbris, there is only one encoding method. */
     if (encodingIndex == 0)
         return 1;
     return 0;
 }
 
 /*
- * create a string for the dynamic lib open call by adding the
- * appropriate pre and extensions to a filename and the path
+ * crebte b string for the dynbmic lib open cbll by bdding the
+ * bppropribte pre bnd extensions to b filenbme bnd the pbth
  */
 void
-dbgsysBuildLibName(char *holder, int holderlen, const char *pname, const char *fname)
+dbgsysBuildLibNbme(chbr *holder, int holderlen, const chbr *pnbme, const chbr *fnbme)
 {
-    const int pnamelen = pname ? strlen(pname) : 0;
+    const int pnbmelen = pnbme ? strlen(pnbme) : 0;
 
     *holder = '\0';
-    /* Quietly truncate on buffer overflow.  Should be an error. */
-    if (pnamelen + (int)strlen(fname) + 10 > holderlen) {
+    /* Quietly truncbte on buffer overflow.  Should be bn error. */
+    if (pnbmelen + (int)strlen(fnbme) + 10 > holderlen) {
         return;
     }
 
-    if (pnamelen == 0) {
-        (void)snprintf(holder, holderlen, "lib%s." LIB_SUFFIX, fname);
+    if (pnbmelen == 0) {
+        (void)snprintf(holder, holderlen, "lib%s." LIB_SUFFIX, fnbme);
     } else {
-      dll_build_name(holder, holderlen, pname, fname);
+      dll_build_nbme(holder, holderlen, pnbme, fnbme);
     }
 }
 
 #ifndef NATIVE
-extern int thr_main(void);
+extern int thr_mbin(void);
 #endif
 
 void *
-dbgsysLoadLibrary(const char *name, char *err_buf, int err_buflen)
+dbgsysLobdLibrbry(const chbr *nbme, chbr *err_buf, int err_buflen)
 {
     void * result;
 #ifdef NATIVE
-    result = dlopen(name, RTLD_LAZY);
+    result = dlopen(nbme, RTLD_LAZY);
 #else
-    sysMonitorEnter(greenThreadSelf(), &_dl_lock);
-    result = dlopen(name, RTLD_NOW);
-    sysMonitorExit(greenThreadSelf(), &_dl_lock);
+    sysMonitorEnter(greenThrebdSelf(), &_dl_lock);
+    result = dlopen(nbme, RTLD_NOW);
+    sysMonitorExit(greenThrebdSelf(), &_dl_lock);
     /*
-     * This is a bit of bulletproofing to catch the commonly occurring
-     * problem of people loading a library which depends on libthread into
-     * the VM.  thr_main() should always return -1 which means that libthread
-     * isn't loaded.
+     * This is b bit of bulletproofing to cbtch the commonly occurring
+     * problem of people lobding b librbry which depends on libthrebd into
+     * the VM.  thr_mbin() should blwbys return -1 which mebns thbt libthrebd
+     * isn't lobded.
      */
-    if (thr_main() != -1) {
-         VM_CALL(panic)("libthread loaded into green threads");
+    if (thr_mbin() != -1) {
+         VM_CALL(pbnic)("libthrebd lobded into green threbds");
     }
 #endif
     if (result == NULL) {
@@ -144,26 +144,26 @@ dbgsysLoadLibrary(const char *name, char *err_buf, int err_buflen)
     return result;
 }
 
-void dbgsysUnloadLibrary(void *handle)
+void dbgsysUnlobdLibrbry(void *hbndle)
 {
 #ifndef NATIVE
-    sysMonitorEnter(greenThreadSelf(), &_dl_lock);
+    sysMonitorEnter(greenThrebdSelf(), &_dl_lock);
 #endif
-    (void)dlclose(handle);
+    (void)dlclose(hbndle);
 #ifndef NATIVE
-    sysMonitorExit(greenThreadSelf(), &_dl_lock);
+    sysMonitorExit(greenThrebdSelf(), &_dl_lock);
 #endif
 }
 
-void * dbgsysFindLibraryEntry(void *handle, const char *name)
+void * dbgsysFindLibrbryEntry(void *hbndle, const chbr *nbme)
 {
     void * sym;
 #ifndef NATIVE
-    sysMonitorEnter(greenThreadSelf(), &_dl_lock);
+    sysMonitorEnter(greenThrebdSelf(), &_dl_lock);
 #endif
-    sym =  dlsym(handle, name);
+    sym =  dlsym(hbndle, nbme);
 #ifndef NATIVE
-    sysMonitorExit(greenThreadSelf(), &_dl_lock);
+    sysMonitorExit(greenThrebdSelf(), &_dl_lock);
 #endif
     return sym;
 }

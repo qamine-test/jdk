@@ -1,500 +1,500 @@
 /*
- * Copyright (c) 2001, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.png;
+pbckbge com.sun.imbgeio.plugins.png;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ListResourceBundle;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.ListResourceBundle;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbt;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
 
-public class PNGMetadataFormat extends IIOMetadataFormatImpl {
+public clbss PNGMetbdbtbFormbt extends IIOMetbdbtbFormbtImpl {
 
-    private static IIOMetadataFormat instance = null;
+    privbte stbtic IIOMetbdbtbFormbt instbnce = null;
 
-    private static String VALUE_0 = "0";
-    private static String VALUE_1 = "1";
-    private static String VALUE_12 = "12";
-    private static String VALUE_23 = "23";
-    private static String VALUE_31 = "31";
-    private static String VALUE_59 = "59";
-    private static String VALUE_60 = "60";
-    private static String VALUE_255 = "255";
-    private static String VALUE_MAX_16 = "65535"; // 2^16 - 1
-    private static String VALUE_MAX_32 = "2147483647"; // 2^32 - 1
+    privbte stbtic String VALUE_0 = "0";
+    privbte stbtic String VALUE_1 = "1";
+    privbte stbtic String VALUE_12 = "12";
+    privbte stbtic String VALUE_23 = "23";
+    privbte stbtic String VALUE_31 = "31";
+    privbte stbtic String VALUE_59 = "59";
+    privbte stbtic String VALUE_60 = "60";
+    privbte stbtic String VALUE_255 = "255";
+    privbte stbtic String VALUE_MAX_16 = "65535"; // 2^16 - 1
+    privbte stbtic String VALUE_MAX_32 = "2147483647"; // 2^32 - 1
 
-    private PNGMetadataFormat() {
-        super(PNGMetadata.nativeMetadataFormatName,
+    privbte PNGMetbdbtbFormbt() {
+        super(PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
               CHILD_POLICY_SOME);
 
         // root -> IHDR
-        addElement("IHDR", PNGMetadata.nativeMetadataFormatName,
+        bddElement("IHDR", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("IHDR", "width",
+        bddAttribute("IHDR", "width",
                      DATATYPE_INTEGER, true, null,
                      VALUE_1, VALUE_MAX_32, true, true);
 
-        addAttribute("IHDR", "height",
+        bddAttribute("IHDR", "height",
                      DATATYPE_INTEGER, true, null,
                      VALUE_1, VALUE_MAX_32, true, true);
 
-        addAttribute("IHDR", "bitDepth",
+        bddAttribute("IHDR", "bitDepth",
                      DATATYPE_INTEGER, true, null,
-                     Arrays.asList(PNGMetadata.IHDR_bitDepths));
+                     Arrbys.bsList(PNGMetbdbtb.IHDR_bitDepths));
 
         String[] colorTypes = {
-            "Grayscale", "RGB", "Palette", "GrayAlpha", "RGBAlpha"
+            "Grbyscble", "RGB", "Pblette", "GrbyAlphb", "RGBAlphb"
         };
-        addAttribute("IHDR", "colorType",
+        bddAttribute("IHDR", "colorType",
                      DATATYPE_STRING, true, null,
-                     Arrays.asList(colorTypes));
+                     Arrbys.bsList(colorTypes));
 
-        addAttribute("IHDR", "compressionMethod",
+        bddAttribute("IHDR", "compressionMethod",
                      DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.IHDR_compressionMethodNames));
+                     Arrbys.bsList(PNGMetbdbtb.IHDR_compressionMethodNbmes));
 
-        addAttribute("IHDR", "filterMethod",
+        bddAttribute("IHDR", "filterMethod",
                      DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.IHDR_filterMethodNames));
+                     Arrbys.bsList(PNGMetbdbtb.IHDR_filterMethodNbmes));
 
-        addAttribute("IHDR", "interlaceMethod",
+        bddAttribute("IHDR", "interlbceMethod",
                      DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.IHDR_interlaceMethodNames));
+                     Arrbys.bsList(PNGMetbdbtb.IHDR_interlbceMethodNbmes));
 
         // root -> PLTE
-        addElement("PLTE", PNGMetadata.nativeMetadataFormatName,
+        bddElement("PLTE", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    1, 256);
 
         // root -> PLTE -> PLTEEntry
-        addElement("PLTEEntry", "PLTE",
+        bddElement("PLTEEntry", "PLTE",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("PLTEEntry", "index",
+        bddAttribute("PLTEEntry", "index",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("PLTEEntry", "red",
+        bddAttribute("PLTEEntry", "red",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("PLTEEntry", "green",
+        bddAttribute("PLTEEntry", "green",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("PLTEEntry", "blue",
+        bddAttribute("PLTEEntry", "blue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
         // root -> bKGD
-        addElement("bKGD", PNGMetadata.nativeMetadataFormatName,
+        bddElement("bKGD", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_CHOICE);
 
-        // root -> bKGD -> bKGD_Grayscale
-        addElement("bKGD_Grayscale", "bKGD",
+        // root -> bKGD -> bKGD_Grbyscble
+        bddElement("bKGD_Grbyscble", "bKGD",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("bKGD_Grayscale", "gray",
+        bddAttribute("bKGD_Grbyscble", "grby",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
         // root -> bKGD -> bKGD_RGB
-        addElement("bKGD_RGB", "bKGD",
+        bddElement("bKGD_RGB", "bKGD",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("bKGD_RGB", "red",
+        bddAttribute("bKGD_RGB", "red",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("bKGD_RGB", "green",
+        bddAttribute("bKGD_RGB", "green",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("bKGD_RGB", "blue",
+        bddAttribute("bKGD_RGB", "blue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        // root -> bKGD -> bKGD_Palette
-        addElement("bKGD_Palette", "bKGD",
+        // root -> bKGD -> bKGD_Pblette
+        bddElement("bKGD_Pblette", "bKGD",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("bKGD_Palette", "index",
+        bddAttribute("bKGD_Pblette", "index",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
         // root -> cHRM
-        addElement("cHRM", PNGMetadata.nativeMetadataFormatName,
+        bddElement("cHRM", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("cHRM", "whitePointX",
+        bddAttribute("cHRM", "whitePointX",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("cHRM", "whitePointY",
+        bddAttribute("cHRM", "whitePointY",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("cHRM", "redX",
+        bddAttribute("cHRM", "redX",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("cHRM", "redY",
+        bddAttribute("cHRM", "redY",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("cHRM", "greenX",
+        bddAttribute("cHRM", "greenX",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("cHRM", "greenY",
+        bddAttribute("cHRM", "greenY",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("cHRM", "blueX",
+        bddAttribute("cHRM", "blueX",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("cHRM", "blueY",
+        bddAttribute("cHRM", "blueY",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
         // root -> gAMA
-        addElement("gAMA", PNGMetadata.nativeMetadataFormatName,
+        bddElement("gAMA", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("gAMA", "value",
+        bddAttribute("gAMA", "vblue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_32, true, true);
 
         // root -> hIST
-        addElement("hIST", PNGMetadata.nativeMetadataFormatName,
+        bddElement("hIST", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    1, 256);
 
         // root -> hISTEntry
-        addElement("hISTEntry", "hIST",
+        bddElement("hISTEntry", "hIST",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("hISTEntry", "index",
+        bddAttribute("hISTEntry", "index",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("hISTEntry", "value",
+        bddAttribute("hISTEntry", "vblue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
         // root -> iCCP
-        addElement("iCCP", PNGMetadata.nativeMetadataFormatName,
+        bddElement("iCCP", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("iCCP", "profileName",
+        bddAttribute("iCCP", "profileNbme",
                      DATATYPE_STRING, true, null);
 
-        addAttribute("iCCP", "compressionMethod",
+        bddAttribute("iCCP", "compressionMethod",
                      DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.iCCP_compressionMethodNames));
+                     Arrbys.bsList(PNGMetbdbtb.iCCP_compressionMethodNbmes));
 
-        addObjectValue("iCCP", byte.class, 0, Integer.MAX_VALUE);
+        bddObjectVblue("iCCP", byte.clbss, 0, Integer.MAX_VALUE);
 
         // root -> iTXt
-        addElement("iTXt", PNGMetadata.nativeMetadataFormatName,
+        bddElement("iTXt", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    1, Integer.MAX_VALUE);
 
         // root -> iTXt -> iTXtEntry
-        addElement("iTXtEntry", "iTXt",
+        bddElement("iTXtEntry", "iTXt",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("iTXtEntry", "keyword",
+        bddAttribute("iTXtEntry", "keyword",
                      DATATYPE_STRING, true, null);
 
-        addBooleanAttribute("iTXtEntry", "compressionFlag",
-                            false, false);
+        bddBoolebnAttribute("iTXtEntry", "compressionFlbg",
+                            fblse, fblse);
 
-        addAttribute("iTXtEntry", "compressionMethod",
+        bddAttribute("iTXtEntry", "compressionMethod",
                      DATATYPE_STRING, true, null);
 
-        addAttribute("iTXtEntry", "languageTag",
+        bddAttribute("iTXtEntry", "lbngubgeTbg",
                      DATATYPE_STRING, true, null);
 
-        addAttribute("iTXtEntry", "translatedKeyword",
+        bddAttribute("iTXtEntry", "trbnslbtedKeyword",
                      DATATYPE_STRING, true, null);
 
-        addAttribute("iTXtEntry", "text",
+        bddAttribute("iTXtEntry", "text",
                      DATATYPE_STRING, true, null);
 
         // root -> pHYS
-        addElement("pHYS", PNGMetadata.nativeMetadataFormatName,
+        bddElement("pHYS", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("pHYS", "pixelsPerUnitXAxis",
+        bddAttribute("pHYS", "pixelsPerUnitXAxis",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_32, true, true);
-        addAttribute("pHYS", "pixelsPerUnitYAxis",
+        bddAttribute("pHYS", "pixelsPerUnitYAxis",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_32, true, true);
-        addAttribute("pHYS", "unitSpecifier",
+        bddAttribute("pHYS", "unitSpecifier",
                      DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.unitSpecifierNames));
+                     Arrbys.bsList(PNGMetbdbtb.unitSpecifierNbmes));
 
         // root -> sBIT
-        addElement("sBIT", PNGMetadata.nativeMetadataFormatName,
+        bddElement("sBIT", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_CHOICE);
 
-        // root -> sBIT -> sBIT_Grayscale
-        addElement("sBIT_Grayscale", "sBIT",
+        // root -> sBIT -> sBIT_Grbyscble
+        bddElement("sBIT_Grbyscble", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_Grayscale", "gray",
+        bddAttribute("sBIT_Grbyscble", "grby",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        // root -> sBIT -> sBIT_GrayAlpha
-        addElement("sBIT_GrayAlpha", "sBIT",
+        // root -> sBIT -> sBIT_GrbyAlphb
+        bddElement("sBIT_GrbyAlphb", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_GrayAlpha", "gray",
+        bddAttribute("sBIT_GrbyAlphb", "grby",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sBIT_GrayAlpha", "alpha",
+        bddAttribute("sBIT_GrbyAlphb", "blphb",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
         // root -> sBIT -> sBIT_RGB
-        addElement("sBIT_RGB", "sBIT",
+        bddElement("sBIT_RGB", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_RGB", "red",
+        bddAttribute("sBIT_RGB", "red",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sBIT_RGB", "green",
+        bddAttribute("sBIT_RGB", "green",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sBIT_RGB", "blue",
+        bddAttribute("sBIT_RGB", "blue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        // root -> sBIT -> sBIT_RGBAlpha
-        addElement("sBIT_RGBAlpha", "sBIT",
+        // root -> sBIT -> sBIT_RGBAlphb
+        bddElement("sBIT_RGBAlphb", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_RGBAlpha", "red",
+        bddAttribute("sBIT_RGBAlphb", "red",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sBIT_RGBAlpha", "green",
+        bddAttribute("sBIT_RGBAlphb", "green",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sBIT_RGBAlpha", "blue",
+        bddAttribute("sBIT_RGBAlphb", "blue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sBIT_RGBAlpha", "alpha",
+        bddAttribute("sBIT_RGBAlphb", "blphb",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        // root -> sBIT -> sBIT_Palette
-        addElement("sBIT_Palette", "sBIT",
+        // root -> sBIT -> sBIT_Pblette
+        bddElement("sBIT_Pblette", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_Palette", "red",
+        bddAttribute("sBIT_Pblette", "red",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sBIT_Palette", "green",
+        bddAttribute("sBIT_Pblette", "green",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sBIT_Palette", "blue",
+        bddAttribute("sBIT_Pblette", "blue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
         // root -> sPLT
-        addElement("sPLT", PNGMetadata.nativeMetadataFormatName,
+        bddElement("sPLT", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    1, 256);
 
         // root -> sPLT -> sPLTEntry
-        addElement("sPLTEntry", "sPLT",
+        bddElement("sPLTEntry", "sPLT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sPLTEntry", "index",
+        bddAttribute("sPLTEntry", "index",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sPLTEntry", "red",
+        bddAttribute("sPLTEntry", "red",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sPLTEntry", "green",
+        bddAttribute("sPLTEntry", "green",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sPLTEntry", "blue",
+        bddAttribute("sPLTEntry", "blue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("sPLTEntry", "alpha",
+        bddAttribute("sPLTEntry", "blphb",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
         // root -> sRGB
-        addElement("sRGB", PNGMetadata.nativeMetadataFormatName,
+        bddElement("sRGB", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sRGB", "renderingIntent",
+        bddAttribute("sRGB", "renderingIntent",
                      DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.renderingIntentNames));
+                     Arrbys.bsList(PNGMetbdbtb.renderingIntentNbmes));
 
         // root -> tEXt
-        addElement("tEXt", PNGMetadata.nativeMetadataFormatName,
+        bddElement("tEXt", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    1, Integer.MAX_VALUE);
 
         // root -> tEXt -> tEXtEntry
-        addElement("tEXtEntry", "tEXt",
+        bddElement("tEXtEntry", "tEXt",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tEXtEntry", "keyword",
+        bddAttribute("tEXtEntry", "keyword",
                      DATATYPE_STRING, true, null);
 
-        addAttribute("tEXtEntry", "value",
+        bddAttribute("tEXtEntry", "vblue",
                      DATATYPE_STRING, true, null);
 
         // root -> tIME
-        addElement("tIME", PNGMetadata.nativeMetadataFormatName,
+        bddElement("tIME", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tIME", "year",
+        bddAttribute("tIME", "yebr",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("tIME", "month",
+        bddAttribute("tIME", "month",
                      DATATYPE_INTEGER, true, null,
                      VALUE_1, VALUE_12, true, true);
 
-        addAttribute("tIME", "day",
+        bddAttribute("tIME", "dby",
                      DATATYPE_INTEGER, true, null,
                      VALUE_1, VALUE_31, true, true);
 
-        addAttribute("tIME", "hour",
+        bddAttribute("tIME", "hour",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_23, true, true);
 
-        addAttribute("tIME", "minute",
+        bddAttribute("tIME", "minute",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_59, true, true);
 
-        addAttribute("tIME", "second",
+        bddAttribute("tIME", "second",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_60, true, true);
 
         // root -> tRNS
-        addElement("tRNS", PNGMetadata.nativeMetadataFormatName,
+        bddElement("tRNS", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_CHOICE);
 
-        // root -> tRNS -> tRNS_Grayscale
-        addElement("tRNS_Grayscale", "tRNS",
+        // root -> tRNS -> tRNS_Grbyscble
+        bddElement("tRNS_Grbyscble", "tRNS",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tRNS_Grayscale", "gray",
+        bddAttribute("tRNS_Grbyscble", "grby",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
         // root -> tRNS -> tRNS_RGB
-        addElement("tRNS_RGB", "tRNS",
+        bddElement("tRNS_RGB", "tRNS",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tRNS_RGB", "red",
+        bddAttribute("tRNS_RGB", "red",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("tRNS_RGB", "green",
+        bddAttribute("tRNS_RGB", "green",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        addAttribute("tRNS_RGB", "blue",
+        bddAttribute("tRNS_RGB", "blue",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_MAX_16, true, true);
 
-        // root -> tRNS -> tRNS_Palette
-        addElement("tRNS_Palette", "tRNS",
+        // root -> tRNS -> tRNS_Pblette
+        bddElement("tRNS_Pblette", "tRNS",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tRNS_Palette", "index",
+        bddAttribute("tRNS_Pblette", "index",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
-        addAttribute("tRNS_Palette", "alpha",
+        bddAttribute("tRNS_Pblette", "blphb",
                      DATATYPE_INTEGER, true, null,
                      VALUE_0, VALUE_255, true, true);
 
         // root -> zTXt
-        addElement("zTXt", PNGMetadata.nativeMetadataFormatName,
+        bddElement("zTXt", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    1, Integer.MAX_VALUE);
 
         // root -> zTXt -> zTXtEntry
-        addElement("zTXtEntry", "zTXt",
+        bddElement("zTXtEntry", "zTXt",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("zTXtEntry", "keyword",
+        bddAttribute("zTXtEntry", "keyword",
                      DATATYPE_STRING, true, null);
 
-        addAttribute("zTXtEntry", "compressionMethod",
+        bddAttribute("zTXtEntry", "compressionMethod",
                      DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.zTXt_compressionMethodNames));
+                     Arrbys.bsList(PNGMetbdbtb.zTXt_compressionMethodNbmes));
 
-        addAttribute("zTXtEntry", "text",
+        bddAttribute("zTXtEntry", "text",
                      DATATYPE_STRING, true, null);
 
         // root -> UnknownChunks
-        addElement("UnknownChunks", PNGMetadata.nativeMetadataFormatName,
+        bddElement("UnknownChunks", PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    1, Integer.MAX_VALUE);
 
         // root -> UnknownChunks -> UnknownChunk
-        addElement("UnknownChunk", "UnknownChunks",
+        bddElement("UnknownChunk", "UnknownChunks",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("UnknownChunk", "type",
+        bddAttribute("UnknownChunk", "type",
                      DATATYPE_STRING, true, null);
 
-        addObjectValue("UnknownChunk", byte.class, 0, Integer.MAX_VALUE);
+        bddObjectVblue("UnknownChunk", byte.clbss, 0, Integer.MAX_VALUE);
     }
 
-    public boolean canNodeAppear(String elementName,
-                                 ImageTypeSpecifier imageType) {
+    public boolebn cbnNodeAppebr(String elementNbme,
+                                 ImbgeTypeSpecifier imbgeType) {
         return true;
     }
 
-    public static synchronized IIOMetadataFormat getInstance() {
-        if (instance == null) {
-            instance = new PNGMetadataFormat();
+    public stbtic synchronized IIOMetbdbtbFormbt getInstbnce() {
+        if (instbnce == null) {
+            instbnce = new PNGMetbdbtbFormbt();
         }
-        return instance;
+        return instbnce;
     }
 }

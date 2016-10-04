@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net;
+pbckbge sun.net;
 
-import java.util.EventObject;
-import java.net.URL;
+import jbvb.util.EventObject;
+import jbvb.net.URL;
 
 /**
- * ProgressEvent represents an progress event in monitering network input stream.
+ * ProgressEvent represents bn progress event in monitering network input strebm.
  *
- * @author Stanley Man-Kit Ho
+ * @buthor Stbnley Mbn-Kit Ho
  */
-@SuppressWarnings("serial")  // never serialized
-public class ProgressEvent extends EventObject  {
-    // URL of the stream
-    private URL url;
-    // content type of the stream
-    private String contentType;
-    // method associated with URL
-    private String method;
-    // bytes read
-    private long progress;
+@SuppressWbrnings("seribl")  // never seriblized
+public clbss ProgressEvent extends EventObject  {
+    // URL of the strebm
+    privbte URL url;
+    // content type of the strebm
+    privbte String contentType;
+    // method bssocibted with URL
+    privbte String method;
+    // bytes rebd
+    privbte long progress;
     // bytes expected
-    private long expected;
-    // the last thing to happen
-    private ProgressSource.State state;
+    privbte long expected;
+    // the lbst thing to hbppen
+    privbte ProgressSource.Stbte stbte;
 
     /**
-     * Construct a ProgressEvent object.
+     * Construct b ProgressEvent object.
      */
-    public ProgressEvent(ProgressSource source, URL url, String method, String contentType, ProgressSource.State state, long progress, long expected) {
+    public ProgressEvent(ProgressSource source, URL url, String method, String contentType, ProgressSource.Stbte stbte, long progress, long expected) {
         super(source);
         this.url = url;
         this.method = method;
         this.contentType = contentType;
         this.progress = progress;
         this.expected = expected;
-        this.state = state;
+        this.stbte = stbte;
     }
 
     /**
-     * Return URL related to the progress.
+     * Return URL relbted to the progress.
      */
     public URL getURL()
     {
@@ -69,7 +69,7 @@ public class ProgressEvent extends EventObject  {
     }
 
     /**
-     * Return method associated with URL.
+     * Return method bssocibted with URL.
      */
     public String getMethod()
     {
@@ -85,7 +85,7 @@ public class ProgressEvent extends EventObject  {
     }
 
     /**
-     * Return current progress value.
+     * Return current progress vblue.
      */
     public long getProgress()
     {
@@ -93,21 +93,21 @@ public class ProgressEvent extends EventObject  {
     }
 
     /**
-     * Return expected maximum progress value; -1 if expected is unknown.
+     * Return expected mbximum progress vblue; -1 if expected is unknown.
      */
     public long getExpected() {
         return expected;
     }
 
     /**
-     * Return state.
+     * Return stbte.
      */
-    public ProgressSource.State getState() {
-        return state;
+    public ProgressSource.Stbte getStbte() {
+        return stbte;
     }
 
     public String toString()    {
-        return getClass().getName() + "[url=" + url + ", method=" + method + ", state=" + state
+        return getClbss().getNbme() + "[url=" + url + ", method=" + method + ", stbte=" + stbte
              + ", content-type=" + contentType + ", progress=" + progress + ", expected=" + expected + "]";
     }
 }

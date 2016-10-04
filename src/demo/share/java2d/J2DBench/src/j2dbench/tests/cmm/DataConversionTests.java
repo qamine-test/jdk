@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,26 +30,26 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-package j2dbench.tests.cmm;
+pbckbge j2dbench.tests.cmm;
 
 import j2dbench.Group;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
-import java.awt.color.ColorSpace;
+import jbvb.bwt.color.ColorSpbce;
 
-public class DataConversionTests extends ColorConversionTests {
+public clbss DbtbConversionTests extends ColorConversionTests {
 
-    protected static Group dataConvRoot;
+    protected stbtic Group dbtbConvRoot;
 
-    public static void init() {
-        dataConvRoot = new Group(colorConvRoot, "data", "Data Conversoion Tests");
+    public stbtic void init() {
+        dbtbConvRoot = new Group(colorConvRoot, "dbtb", "Dbtb Conversoion Tests");
 
         new FromRGBTest();
         new ToRGBTest();
@@ -57,140 +57,140 @@ public class DataConversionTests extends ColorConversionTests {
         new ToCIEXYZTest();
     }
 
-    public DataConversionTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    public DbtbConversionTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    protected static class Context {
+    protected stbtic clbss Context {
 
-        ColorSpace cs;
+        ColorSpbce cs;
         int numComponents;
-        float[] val;
-        float[] rgb;
-        float[] cie;
+        flobt[] vbl;
+        flobt[] rgb;
+        flobt[] cie;
         TestEnvironment env;
         Result res;
 
-        public Context(TestEnvironment env, Result result, ColorSpace cs) {
+        public Context(TestEnvironment env, Result result, ColorSpbce cs) {
             this.cs = cs;
             this.env = env;
             this.res = result;
 
             numComponents = cs.getNumComponents();
 
-            val = new float[numComponents];
+            vbl = new flobt[numComponents];
 
             for (int i = 0; i < numComponents; i++) {
-                float min = cs.getMinValue(i);
-                float max = cs.getMaxValue(i);
+                flobt min = cs.getMinVblue(i);
+                flobt mbx = cs.getMbxVblue(i);
 
-                val[i] = 0.5f * (max - min);
+                vbl[i] = 0.5f * (mbx - min);
             }
 
-            rgb = new float[]{0.5f, 0.5f, 0.5f};
-            cie = new float[]{0.5f, 0.5f, 0.5f};
+            rgb = new flobt[]{0.5f, 0.5f, 0.5f};
+            cie = new flobt[]{0.5f, 0.5f, 0.5f};
         }
     }
 
     @Override
     public Object initTest(TestEnvironment env, Result result) {
-        ColorSpace cs = getColorSpace(env);
+        ColorSpbce cs = getColorSpbce(env);
         return new Context(env, result, cs);
     }
 
     @Override
-    public void cleanupTest(TestEnvironment te, Object o) {
+    public void clebnupTest(TestEnvironment te, Object o) {
     }
 
-    private static class FromRGBTest extends DataConversionTests {
+    privbte stbtic clbss FromRGBTest extends DbtbConversionTests {
 
         public FromRGBTest() {
-            super(dataConvRoot,
+            super(dbtbConvRoot,
                     "fromRGB",
-                    "ColorSpace.fromRGB()");
+                    "ColorSpbce.fromRGB()");
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ColorSpace cs = ictx.cs;
+            finbl Context ictx = (Context) ctx;
+            finbl ColorSpbce cs = ictx.cs;
 
-            final float[] rgb = ictx.rgb;
+            finbl flobt[] rgb = ictx.rgb;
             do {
                 try {
                     cs.fromRGB(rgb);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class FromCIEXYZTest extends DataConversionTests {
+    privbte stbtic clbss FromCIEXYZTest extends DbtbConversionTests {
 
         public FromCIEXYZTest() {
-            super(dataConvRoot,
+            super(dbtbConvRoot,
                     "fromCIEXYZ",
-                    "ColorSpace.fromCIEXYZ()");
+                    "ColorSpbce.fromCIEXYZ()");
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ColorSpace cs = ictx.cs;
+            finbl Context ictx = (Context) ctx;
+            finbl ColorSpbce cs = ictx.cs;
 
-            final float[] val = ictx.cie;
+            finbl flobt[] vbl = ictx.cie;
             do {
                 try {
-                    cs.fromCIEXYZ(val);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    cs.fromCIEXYZ(vbl);
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class ToCIEXYZTest extends DataConversionTests {
+    privbte stbtic clbss ToCIEXYZTest extends DbtbConversionTests {
 
         public ToCIEXYZTest() {
-            super(dataConvRoot,
+            super(dbtbConvRoot,
                     "toCIEXYZ",
-                    "ColorSpace.toCIEXYZ()");
+                    "ColorSpbce.toCIEXYZ()");
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ColorSpace cs = ictx.cs;
+            finbl Context ictx = (Context) ctx;
+            finbl ColorSpbce cs = ictx.cs;
 
-            final float[] val = ictx.val;
+            finbl flobt[] vbl = ictx.vbl;
 
             do {
                 try {
-                    cs.toCIEXYZ(val);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    cs.toCIEXYZ(vbl);
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class ToRGBTest extends DataConversionTests {
+    privbte stbtic clbss ToRGBTest extends DbtbConversionTests {
 
         public ToRGBTest() {
-            super(dataConvRoot,
+            super(dbtbConvRoot,
                     "toRGB",
-                    "ColorSpace.toRGB()");
+                    "ColorSpbce.toRGB()");
         }
 
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ColorSpace cs = ictx.cs;
+            finbl Context ictx = (Context) ctx;
+            finbl ColorSpbce cs = ictx.cs;
 
-            final float[] val = ictx.val;
+            finbl flobt[] vbl = ictx.vbl;
 
             do {
                 try {
-                    cs.toRGB(val);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    cs.toRGB(vbl);
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }

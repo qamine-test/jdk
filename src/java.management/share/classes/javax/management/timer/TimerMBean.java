@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.timer;
+pbckbge jbvbx.mbnbgement.timer;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.util.Date;
-import java.util.Vector;
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//import java.io.Serializable;
+import jbvb.util.Dbte;
+import jbvb.util.Vector;
+// NPCTE fix for bugId 4464388, esc 0,  MR , to be bdded bfter modificbtion of jmx spec
+//import jbvb.io.Seriblizbble;
 // end of NPCTE fix for bugId 4464388
 
 // jmx imports
 //
-import javax.management.InstanceNotFoundException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
 
 /**
- * Exposes the management interface of the timer MBean.
+ * Exposes the mbnbgement interfbce of the timer MBebn.
  *
  * @since 1.5
  */
-public interface TimerMBean {
+public interfbce TimerMBebn {
 
     /**
-     * Starts the timer.
+     * Stbrts the timer.
      * <P>
-     * If there is one or more timer notifications before the time in the list of notifications, the notification
-     * is sent according to the <CODE>sendPastNotifications</CODE> flag and then, updated
-     * according to its period and remaining number of occurrences.
-     * If the timer notification date remains earlier than the current date, this notification is just removed
-     * from the list of notifications.
+     * If there is one or more timer notificbtions before the time in the list of notificbtions, the notificbtion
+     * is sent bccording to the <CODE>sendPbstNotificbtions</CODE> flbg bnd then, updbted
+     * bccording to its period bnd rembining number of occurrences.
+     * If the timer notificbtion dbte rembins ebrlier thbn the current dbte, this notificbtion is just removed
+     * from the list of notificbtions.
      */
-    public void start();
+    public void stbrt();
 
     /**
      * Stops the timer.
@@ -63,314 +63,314 @@ public interface TimerMBean {
     public void stop();
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date,
-     * period and number of occurrences.
+     * Crebtes b new timer notificbtion with the specified <CODE>type</CODE>, <CODE>messbge</CODE>
+     * bnd <CODE>userDbtb</CODE> bnd inserts it into the list of notificbtions with b given dbte,
+     * period bnd number of occurrences.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. <BR>
-     * For once-off notifications, the notification is delivered immediately. <BR>
-     * For periodic notifications, the first notification is delivered immediately and the
-     * subsequent ones are spaced as specified by the period parameter.
+     * If the timer notificbtion to be inserted hbs b dbte thbt is before the current dbte,
+     * the method behbves bs if the specified dbte were the current dbte. <BR>
+     * For once-off notificbtions, the notificbtion is delivered immedibtely. <BR>
+     * For periodic notificbtions, the first notificbtion is delivered immedibtely bnd the
+     * subsequent ones bre spbced bs specified by the period pbrbmeter.
      * <P>
-     * Note that once the timer notification has been added into the list of notifications,
-     * its associated date, period and number of occurrences cannot be updated.
+     * Note thbt once the timer notificbtion hbs been bdded into the list of notificbtions,
+     * its bssocibted dbte, period bnd number of occurrences cbnnot be updbted.
      * <P>
-     * In the case of a periodic notification, the value of parameter <i>fixedRate</i> is used to
-     * specify the execution scheme, as specified in {@link java.util.Timer}.
+     * In the cbse of b periodic notificbtion, the vblue of pbrbmeter <i>fixedRbte</i> is used to
+     * specify the execution scheme, bs specified in {@link jbvb.util.Timer}.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
-     * @param nbOccurences The total number the timer notification will be emitted.
-     * @param fixedRate If <code>true</code> and if the notification is periodic, the notification
-     *                  is scheduled with a <i>fixed-rate</i> execution scheme. If
-     *                  <code>false</code> and if the notification is periodic, the notification
-     *                  is scheduled with a <i>fixed-delay</i> execution scheme. Ignored if the
-     *                  notification is not periodic.
+     * @pbrbm type The timer notificbtion type.
+     * @pbrbm messbge The timer notificbtion detbiled messbge.
+     * @pbrbm userDbtb The timer notificbtion user dbtb object.
+     * @pbrbm dbte The dbte when the notificbtion occurs.
+     * @pbrbm period The period of the timer notificbtion (in milliseconds).
+     * @pbrbm nbOccurences The totbl number the timer notificbtion will be emitted.
+     * @pbrbm fixedRbte If <code>true</code> bnd if the notificbtion is periodic, the notificbtion
+     *                  is scheduled with b <i>fixed-rbte</i> execution scheme. If
+     *                  <code>fblse</code> bnd if the notificbtion is periodic, the notificbtion
+     *                  is scheduled with b <i>fixed-delby</i> execution scheme. Ignored if the
+     *                  notificbtion is not periodic.
      *
-     * @return The identifier of the new created timer notification.
+     * @return The identifier of the new crebted timer notificbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period or the number of occurrences is negative.
+     * @exception jbvb.lbng.IllegblArgumentException The dbte is {@code null} or
+     * the period or the number of occurrences is negbtive.
      *
-     * @see #addNotification(String, String, Object, Date, long, long)
+     * @see #bddNotificbtion(String, String, Object, Dbte, long, long)
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR, to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                                Date date, long period, long nbOccurences)
+// NPCTE fix for bugId 4464388, esc 0,  MR, to be bdded bfter modificbtion of jmx spec
+//  public synchronized Integer bddNotificbtion(String type, String messbge, Seriblizbble userDbtb,
+//                                                Dbte dbte, long period, long nbOccurences)
 // end of NPCTE fix for bugId 4464388
 
-    public Integer addNotification(String type, String message, Object userData,
-                                   Date date, long period, long nbOccurences, boolean fixedRate)
-        throws java.lang.IllegalArgumentException;
+    public Integer bddNotificbtion(String type, String messbge, Object userDbtb,
+                                   Dbte dbte, long period, long nbOccurences, boolebn fixedRbte)
+        throws jbvb.lbng.IllegblArgumentException;
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date,
-     * period and number of occurrences.
+     * Crebtes b new timer notificbtion with the specified <CODE>type</CODE>, <CODE>messbge</CODE>
+     * bnd <CODE>userDbtb</CODE> bnd inserts it into the list of notificbtions with b given dbte,
+     * period bnd number of occurrences.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. <BR>
-     * For once-off notifications, the notification is delivered immediately. <BR>
-     * For periodic notifications, the first notification is delivered immediately and the
-     * subsequent ones are spaced as specified by the period parameter.
+     * If the timer notificbtion to be inserted hbs b dbte thbt is before the current dbte,
+     * the method behbves bs if the specified dbte were the current dbte. <BR>
+     * For once-off notificbtions, the notificbtion is delivered immedibtely. <BR>
+     * For periodic notificbtions, the first notificbtion is delivered immedibtely bnd the
+     * subsequent ones bre spbced bs specified by the period pbrbmeter.
      * <P>
-     * Note that once the timer notification has been added into the list of notifications,
-     * its associated date, period and number of occurrences cannot be updated.
+     * Note thbt once the timer notificbtion hbs been bdded into the list of notificbtions,
+     * its bssocibted dbte, period bnd number of occurrences cbnnot be updbted.
      * <P>
-     * In the case of a periodic notification, uses a <i>fixed-delay</i> execution scheme, as specified in
-     * {@link java.util.Timer}. In order to use a <i>fixed-rate</i> execution scheme, use
-     * {@link #addNotification(String, String, Object, Date, long, long, boolean)} instead.
+     * In the cbse of b periodic notificbtion, uses b <i>fixed-delby</i> execution scheme, bs specified in
+     * {@link jbvb.util.Timer}. In order to use b <i>fixed-rbte</i> execution scheme, use
+     * {@link #bddNotificbtion(String, String, Object, Dbte, long, long, boolebn)} instebd.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
-     * @param nbOccurences The total number the timer notification will be emitted.
+     * @pbrbm type The timer notificbtion type.
+     * @pbrbm messbge The timer notificbtion detbiled messbge.
+     * @pbrbm userDbtb The timer notificbtion user dbtb object.
+     * @pbrbm dbte The dbte when the notificbtion occurs.
+     * @pbrbm period The period of the timer notificbtion (in milliseconds).
+     * @pbrbm nbOccurences The totbl number the timer notificbtion will be emitted.
      *
-     * @return The identifier of the new created timer notification.
+     * @return The identifier of the new crebted timer notificbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period or the number of occurrences is negative.
+     * @exception jbvb.lbng.IllegblArgumentException The dbte is {@code null} or
+     * the period or the number of occurrences is negbtive.
      *
-     * @see #addNotification(String, String, Object, Date, long, long, boolean)
+     * @see #bddNotificbtion(String, String, Object, Dbte, long, long, boolebn)
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                              Date date, long period)
+// NPCTE fix for bugId 4464388, esc 0,  MR , to be bdded bfter modificbtion of jmx spec
+//  public synchronized Integer bddNotificbtion(String type, String messbge, Seriblizbble userDbtb,
+//                                              Dbte dbte, long period)
 // end of NPCTE fix for bugId 4464388 */
 
-    public Integer addNotification(String type, String message, Object userData,
-                                   Date date, long period, long nbOccurences)
-        throws java.lang.IllegalArgumentException;
+    public Integer bddNotificbtion(String type, String messbge, Object userDbtb,
+                                   Dbte dbte, long period, long nbOccurences)
+        throws jbvb.lbng.IllegblArgumentException;
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date
-     * and period and a null number of occurrences.
+     * Crebtes b new timer notificbtion with the specified <CODE>type</CODE>, <CODE>messbge</CODE>
+     * bnd <CODE>userDbtb</CODE> bnd inserts it into the list of notificbtions with b given dbte
+     * bnd period bnd b null number of occurrences.
      * <P>
-     * The timer notification will repeat continuously using the timer period using a <i>fixed-delay</i>
-     * execution scheme, as specified in {@link java.util.Timer}. In order to use a <i>fixed-rate</i>
-     * execution scheme, use {@link #addNotification(String, String, Object, Date, long, long,
-     * boolean)} instead.
+     * The timer notificbtion will repebt continuously using the timer period using b <i>fixed-delby</i>
+     * execution scheme, bs specified in {@link jbvb.util.Timer}. In order to use b <i>fixed-rbte</i>
+     * execution scheme, use {@link #bddNotificbtion(String, String, Object, Dbte, long, long,
+     * boolebn)} instebd.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. The
-     * first notification is delivered immediately and the subsequent ones are
-     * spaced as specified by the period parameter.
+     * If the timer notificbtion to be inserted hbs b dbte thbt is before the current dbte,
+     * the method behbves bs if the specified dbte were the current dbte. The
+     * first notificbtion is delivered immedibtely bnd the subsequent ones bre
+     * spbced bs specified by the period pbrbmeter.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
+     * @pbrbm type The timer notificbtion type.
+     * @pbrbm messbge The timer notificbtion detbiled messbge.
+     * @pbrbm userDbtb The timer notificbtion user dbtb object.
+     * @pbrbm dbte The dbte when the notificbtion occurs.
+     * @pbrbm period The period of the timer notificbtion (in milliseconds).
      *
-     * @return The identifier of the new created timer notification.
+     * @return The identifier of the new crebted timer notificbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period is negative.
+     * @exception jbvb.lbng.IllegblArgumentException The dbte is {@code null} or
+     * the period is negbtive.
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                              Date date, long period)
+// NPCTE fix for bugId 4464388, esc 0,  MR , to be bdded bfter modificbtion of jmx spec
+//  public synchronized Integer bddNotificbtion(String type, String messbge, Seriblizbble userDbtb,
+//                                              Dbte dbte, long period)
 // end of NPCTE fix for bugId 4464388 */
 
-    public Integer addNotification(String type, String message, Object userData,
-                                   Date date, long period)
-        throws java.lang.IllegalArgumentException;
+    public Integer bddNotificbtion(String type, String messbge, Object userDbtb,
+                                   Dbte dbte, long period)
+        throws jbvb.lbng.IllegblArgumentException;
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date
-     * and a null period and number of occurrences.
+     * Crebtes b new timer notificbtion with the specified <CODE>type</CODE>, <CODE>messbge</CODE>
+     * bnd <CODE>userDbtb</CODE> bnd inserts it into the list of notificbtions with b given dbte
+     * bnd b null period bnd number of occurrences.
      * <P>
-     * The timer notification will be handled once at the specified date.
+     * The timer notificbtion will be hbndled once bt the specified dbte.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date and the
-     * notification is delivered immediately.
+     * If the timer notificbtion to be inserted hbs b dbte thbt is before the current dbte,
+     * the method behbves bs if the specified dbte were the current dbte bnd the
+     * notificbtion is delivered immedibtely.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
+     * @pbrbm type The timer notificbtion type.
+     * @pbrbm messbge The timer notificbtion detbiled messbge.
+     * @pbrbm userDbtb The timer notificbtion user dbtb object.
+     * @pbrbm dbte The dbte when the notificbtion occurs.
      *
-     * @return The identifier of the new created timer notification.
+     * @return The identifier of the new crebted timer notificbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null}.
+     * @exception jbvb.lbng.IllegblArgumentException The dbte is {@code null}.
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR, to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData, Date date)
-//      throws java.lang.IllegalArgumentException {
+// NPCTE fix for bugId 4464388, esc 0,  MR, to be bdded bfter modificbtion of jmx spec
+//  public synchronized Integer bddNotificbtion(String type, String messbge, Seriblizbble userDbtb, Dbte dbte)
+//      throws jbvb.lbng.IllegblArgumentException {
 // end of NPCTE fix for bugId 4464388
 
-    public Integer addNotification(String type, String message, Object userData, Date date)
-        throws java.lang.IllegalArgumentException;
+    public Integer bddNotificbtion(String type, String messbge, Object userDbtb, Dbte dbte)
+        throws jbvb.lbng.IllegblArgumentException;
 
     /**
-     * Removes the timer notification corresponding to the specified identifier from the list of notifications.
+     * Removes the timer notificbtion corresponding to the specified identifier from the list of notificbtions.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @exception InstanceNotFoundException The specified identifier does not correspond to any timer notification
-     * in the list of notifications of this timer MBean.
+     * @exception InstbnceNotFoundException The specified identifier does not correspond to bny timer notificbtion
+     * in the list of notificbtions of this timer MBebn.
      */
-    public void removeNotification(Integer id) throws InstanceNotFoundException;
+    public void removeNotificbtion(Integer id) throws InstbnceNotFoundException;
 
     /**
-     * Removes all the timer notifications corresponding to the specified type from the list of notifications.
+     * Removes bll the timer notificbtions corresponding to the specified type from the list of notificbtions.
      *
-     * @param type The timer notification type.
+     * @pbrbm type The timer notificbtion type.
      *
-     * @exception InstanceNotFoundException The specified type does not correspond to any timer notification
-     * in the list of notifications of this timer MBean.
+     * @exception InstbnceNotFoundException The specified type does not correspond to bny timer notificbtion
+     * in the list of notificbtions of this timer MBebn.
      */
-    public void removeNotifications(String type) throws InstanceNotFoundException;
+    public void removeNotificbtions(String type) throws InstbnceNotFoundException;
 
     /**
-     * Removes all the timer notifications from the list of notifications
-     * and resets the counter used to update the timer notification identifiers.
+     * Removes bll the timer notificbtions from the list of notificbtions
+     * bnd resets the counter used to updbte the timer notificbtion identifiers.
      */
-    public void removeAllNotifications();
+    public void removeAllNotificbtions();
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Gets the number of timer notifications registered into the list of notifications.
+     * Gets the number of timer notificbtions registered into the list of notificbtions.
      *
-     * @return The number of timer notifications.
+     * @return The number of timer notificbtions.
      */
-    public int getNbNotifications();
+    public int getNbNotificbtions();
 
     /**
-     * Gets all timer notification identifiers registered into the list of notifications.
+     * Gets bll timer notificbtion identifiers registered into the list of notificbtions.
      *
-     * @return A vector of <CODE>Integer</CODE> objects containing all the timer notification identifiers.
-     * <BR>The vector is empty if there is no timer notification registered for this timer MBean.
+     * @return A vector of <CODE>Integer</CODE> objects contbining bll the timer notificbtion identifiers.
+     * <BR>The vector is empty if there is no timer notificbtion registered for this timer MBebn.
      */
-    public Vector<Integer> getAllNotificationIDs();
+    public Vector<Integer> getAllNotificbtionIDs();
 
     /**
-     * Gets all the identifiers of timer notifications corresponding to the specified type.
+     * Gets bll the identifiers of timer notificbtions corresponding to the specified type.
      *
-     * @param type The timer notification type.
+     * @pbrbm type The timer notificbtion type.
      *
-     * @return A vector of <CODE>Integer</CODE> objects containing all the identifiers of
-     * timer notifications with the specified <CODE>type</CODE>.
-     * <BR>The vector is empty if there is no timer notifications registered for this timer MBean
+     * @return A vector of <CODE>Integer</CODE> objects contbining bll the identifiers of
+     * timer notificbtions with the specified <CODE>type</CODE>.
+     * <BR>The vector is empty if there is no timer notificbtions registered for this timer MBebn
      * with the specified <CODE>type</CODE>.
      */
-    public Vector<Integer> getNotificationIDs(String type);
+    public Vector<Integer> getNotificbtionIDs(String type);
 
     /**
-     * Gets the timer notification type corresponding to the specified identifier.
+     * Gets the timer notificbtion type corresponding to the specified identifier.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return The timer notification type or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return The timer notificbtion type or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
-    public String getNotificationType(Integer id);
+    public String getNotificbtionType(Integer id);
 
     /**
-     * Gets the timer notification detailed message corresponding to the specified identifier.
+     * Gets the timer notificbtion detbiled messbge corresponding to the specified identifier.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return The timer notification detailed message or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return The timer notificbtion detbiled messbge or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
-    public String getNotificationMessage(Integer id);
+    public String getNotificbtionMessbge(Integer id);
 
     /**
-     * Gets the timer notification user data object corresponding to the specified identifier.
+     * Gets the timer notificbtion user dbtb object corresponding to the specified identifier.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return The timer notification user data object or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return The timer notificbtion user dbtb object or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
-    // NPCTE fix for bugId 4464388, esc 0 , MR , 03 sept 2001 , to be added after modification of jmx spec
-    //public Serializable getNotificationUserData(Integer id);
+    // NPCTE fix for bugId 4464388, esc 0 , MR , 03 sept 2001 , to be bdded bfter modificbtion of jmx spec
+    //public Seriblizbble getNotificbtionUserDbtb(Integer id);
     // end of NPCTE fix for bugId 4464388
-    public Object getNotificationUserData(Integer id);
+    public Object getNotificbtionUserDbtb(Integer id);
     /**
-     * Gets a copy of the date associated to a timer notification.
+     * Gets b copy of the dbte bssocibted to b timer notificbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return A copy of the date or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return A copy of the dbte or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
-    public Date getDate(Integer id);
+    public Dbte getDbte(Integer id);
 
     /**
-     * Gets a copy of the period (in milliseconds) associated to a timer notification.
+     * Gets b copy of the period (in milliseconds) bssocibted to b timer notificbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return A copy of the period or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return A copy of the period or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
     public Long getPeriod(Integer id);
 
     /**
-     * Gets a copy of the remaining number of occurrences associated to a timer notification.
+     * Gets b copy of the rembining number of occurrences bssocibted to b timer notificbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return A copy of the remaining number of occurrences or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return A copy of the rembining number of occurrences or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
     public Long getNbOccurences(Integer id);
 
     /**
-     * Gets a copy of the flag indicating whether a periodic notification is
-     * executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
+     * Gets b copy of the flbg indicbting whether b periodic notificbtion is
+     * executed bt <i>fixed-delby</i> or bt <i>fixed-rbte</i>.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return A copy of the flag indicating whether a periodic notification is
-     *         executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
+     * @return A copy of the flbg indicbting whether b periodic notificbtion is
+     *         executed bt <i>fixed-delby</i> or bt <i>fixed-rbte</i>.
      */
-    public Boolean getFixedRate(Integer id);
+    public Boolebn getFixedRbte(Integer id);
 
     /**
-     * Gets the flag indicating whether or not the timer sends past notifications.
+     * Gets the flbg indicbting whether or not the timer sends pbst notificbtions.
      *
-     * @return The past notifications sending on/off flag value.
+     * @return The pbst notificbtions sending on/off flbg vblue.
      *
-     * @see #setSendPastNotifications
+     * @see #setSendPbstNotificbtions
      */
-    public boolean getSendPastNotifications();
+    public boolebn getSendPbstNotificbtions();
 
     /**
-     * Sets the flag indicating whether the timer sends past notifications or not.
+     * Sets the flbg indicbting whether the timer sends pbst notificbtions or not.
      *
-     * @param value The past notifications sending on/off flag value.
+     * @pbrbm vblue The pbst notificbtions sending on/off flbg vblue.
      *
-     * @see #getSendPastNotifications
+     * @see #getSendPbstNotificbtions
      */
-    public void setSendPastNotifications(boolean value);
+    public void setSendPbstNotificbtions(boolebn vblue);
 
     /**
-     * Tests whether the timer MBean is active.
-     * A timer MBean is marked active when the {@link #start start} method is called.
-     * It becomes inactive when the {@link #stop stop} method is called.
+     * Tests whether the timer MBebn is bctive.
+     * A timer MBebn is mbrked bctive when the {@link #stbrt stbrt} method is cblled.
+     * It becomes inbctive when the {@link #stop stop} method is cblled.
      *
-     * @return <CODE>true</CODE> if the timer MBean is active, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the timer MBebn is bctive, <CODE>fblse</CODE> otherwise.
      */
-    public boolean isActive();
+    public boolebn isActive();
 
     /**
-     * Tests whether the list of timer notifications is empty.
+     * Tests whether the list of timer notificbtions is empty.
      *
-     * @return <CODE>true</CODE> if the list of timer notifications is empty, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the list of timer notificbtions is empty, <CODE>fblse</CODE> otherwise.
      */
-    public boolean isEmpty();
+    public boolebn isEmpty();
 }

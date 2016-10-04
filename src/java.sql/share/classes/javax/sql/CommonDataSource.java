@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql;
+pbckbge jbvbx.sql;
 
-import java.sql.SQLException;
-import java.io.PrintWriter;
-import java.sql.SQLFeatureNotSupportedException;
-import java.util.logging.Logger;
+import jbvb.sql.SQLException;
+import jbvb.io.PrintWriter;
+import jbvb.sql.SQLFebtureNotSupportedException;
+import jbvb.util.logging.Logger;
 
 /**
- * Interface that defines the methods which are common between <code>DataSource</code>,
- * <code>XADataSource</code> and <code>ConnectionPoolDataSource</code>.
+ * Interfbce thbt defines the methods which bre common between <code>DbtbSource</code>,
+ * <code>XADbtbSource</code> bnd <code>ConnectionPoolDbtbSource</code>.
  *
  * @since 1.6
  */
-public interface CommonDataSource {
+public interfbce CommonDbtbSource {
 
     /**
-     * <p>Retrieves the log writer for this <code>DataSource</code>
+     * <p>Retrieves the log writer for this <code>DbtbSource</code>
      * object.
      *
-     * <p>The log writer is a character output stream to which all logging
-     * and tracing messages for this data source will be
-     * printed.  This includes messages printed by the methods of this
-     * object, messages printed by methods of other objects manufactured
-     * by this object, and so on.  Messages printed to a data source
-     * specific log writer are not printed to the log writer associated
-     * with the <code>java.sql.DriverManager</code> class.  When a
-     * <code>DataSource</code> object is
-     * created, the log writer is initially null; in other words, the
-     * default is for logging to be disabled.
+     * <p>The log writer is b chbrbcter output strebm to which bll logging
+     * bnd trbcing messbges for this dbtb source will be
+     * printed.  This includes messbges printed by the methods of this
+     * object, messbges printed by methods of other objects mbnufbctured
+     * by this object, bnd so on.  Messbges printed to b dbtb source
+     * specific log writer bre not printed to the log writer bssocibted
+     * with the <code>jbvb.sql.DriverMbnbger</code> clbss.  When b
+     * <code>DbtbSource</code> object is
+     * crebted, the log writer is initiblly null; in other words, the
+     * defbult is for logging to be disbbled.
      *
-     * @return the log writer for this data source or null if
-     *        logging is disabled
-     * @exception java.sql.SQLException if a database access error occurs
+     * @return the log writer for this dbtb source or null if
+     *        logging is disbbled
+     * @exception jbvb.sql.SQLException if b dbtbbbse bccess error occurs
      * @see #setLogWriter
      * @since 1.4
      */
-    java.io.PrintWriter getLogWriter() throws SQLException;
+    jbvb.io.PrintWriter getLogWriter() throws SQLException;
 
     /**
-     * <p>Sets the log writer for this <code>DataSource</code>
-     * object to the given <code>java.io.PrintWriter</code> object.
+     * <p>Sets the log writer for this <code>DbtbSource</code>
+     * object to the given <code>jbvb.io.PrintWriter</code> object.
      *
-     * <p>The log writer is a character output stream to which all logging
-     * and tracing messages for this data source will be
-     * printed.  This includes messages printed by the methods of this
-     * object, messages printed by methods of other objects manufactured
-     * by this object, and so on.  Messages printed to a data source-
-     * specific log writer are not printed to the log writer associated
-     * with the <code>java.sql.DriverManager</code> class. When a
-     * <code>DataSource</code> object is created the log writer is
-     * initially null; in other words, the default is for logging to be
-     * disabled.
+     * <p>The log writer is b chbrbcter output strebm to which bll logging
+     * bnd trbcing messbges for this dbtb source will be
+     * printed.  This includes messbges printed by the methods of this
+     * object, messbges printed by methods of other objects mbnufbctured
+     * by this object, bnd so on.  Messbges printed to b dbtb source-
+     * specific log writer bre not printed to the log writer bssocibted
+     * with the <code>jbvb.sql.DriverMbnbger</code> clbss. When b
+     * <code>DbtbSource</code> object is crebted the log writer is
+     * initiblly null; in other words, the defbult is for logging to be
+     * disbbled.
      *
-     * @param out the new log writer; to disable logging, set to null
-     * @exception SQLException if a database access error occurs
+     * @pbrbm out the new log writer; to disbble logging, set to null
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @see #getLogWriter
      * @since 1.4
      */
-    void setLogWriter(java.io.PrintWriter out) throws SQLException;
+    void setLogWriter(jbvb.io.PrintWriter out) throws SQLException;
 
     /**
-     * <p>Sets the maximum time in seconds that this data source will wait
-     * while attempting to connect to a database.  A value of zero
-     * specifies that the timeout is the default system timeout
-     * if there is one; otherwise, it specifies that there is no timeout.
-     * When a <code>DataSource</code> object is created, the login timeout is
-     * initially zero.
+     * <p>Sets the mbximum time in seconds thbt this dbtb source will wbit
+     * while bttempting to connect to b dbtbbbse.  A vblue of zero
+     * specifies thbt the timeout is the defbult system timeout
+     * if there is one; otherwise, it specifies thbt there is no timeout.
+     * When b <code>DbtbSource</code> object is crebted, the login timeout is
+     * initiblly zero.
      *
-     * @param seconds the data source login time limit
-     * @exception SQLException if a database access error occurs.
+     * @pbrbm seconds the dbtb source login time limit
+     * @exception SQLException if b dbtbbbse bccess error occurs.
      * @see #getLoginTimeout
      * @since 1.4
      */
     void setLoginTimeout(int seconds) throws SQLException;
 
     /**
-     * Gets the maximum time in seconds that this data source can wait
-     * while attempting to connect to a database.  A value of zero
-     * means that the timeout is the default system timeout
-     * if there is one; otherwise, it means that there is no timeout.
-     * When a <code>DataSource</code> object is created, the login timeout is
-     * initially zero.
+     * Gets the mbximum time in seconds thbt this dbtb source cbn wbit
+     * while bttempting to connect to b dbtbbbse.  A vblue of zero
+     * mebns thbt the timeout is the defbult system timeout
+     * if there is one; otherwise, it mebns thbt there is no timeout.
+     * When b <code>DbtbSource</code> object is crebted, the login timeout is
+     * initiblly zero.
      *
-     * @return the data source login time limit
-     * @exception SQLException if a database access error occurs.
+     * @return the dbtb source login time limit
+     * @exception SQLException if b dbtbbbse bccess error occurs.
      * @see #setLoginTimeout
      * @since 1.4
      */
@@ -116,16 +116,16 @@ public interface CommonDataSource {
     //------------------------- JDBC 4.1 -----------------------------------
 
     /**
-     * Return the parent Logger of all the Loggers used by this data source. This
-     * should be the Logger farthest from the root Logger that is
-     * still an ancestor of all of the Loggers used by this data source. Configuring
-     * this Logger will affect all of the log messages generated by the data source.
-     * In the worst case, this may be the root Logger.
+     * Return the pbrent Logger of bll the Loggers used by this dbtb source. This
+     * should be the Logger fbrthest from the root Logger thbt is
+     * still bn bncestor of bll of the Loggers used by this dbtb source. Configuring
+     * this Logger will bffect bll of the log messbges generbted by the dbtb source.
+     * In the worst cbse, this mby be the root Logger.
      *
-     * @return the parent Logger for this data source
-     * @throws SQLFeatureNotSupportedException if the data source does not use
-     * {@code java.util.logging}
+     * @return the pbrent Logger for this dbtb source
+     * @throws SQLFebtureNotSupportedException if the dbtb source does not use
+     * {@code jbvb.util.logging}
      * @since 1.7
      */
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException;
+    public Logger getPbrentLogger() throws SQLFebtureNotSupportedException;
 }

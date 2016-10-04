@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.ref;
+pbckbge jbvb.lbng.ref;
 
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import sun.misc.JavaLangAccess;
-import sun.misc.SharedSecrets;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import sun.misc.JbvbLbngAccess;
+import sun.misc.ShbredSecrets;
 import sun.misc.VM;
 
-final class Finalizer extends FinalReference<Object> { /* Package-private; must be in
-                                                          same package as the Reference
-                                                          class */
+finbl clbss Finblizer extends FinblReference<Object> { /* Pbckbge-privbte; must be in
+                                                          sbme pbckbge bs the Reference
+                                                          clbss */
 
-    private static ReferenceQueue<Object> queue = new ReferenceQueue<>();
-    private static Finalizer unfinalized = null;
-    private static final Object lock = new Object();
+    privbte stbtic ReferenceQueue<Object> queue = new ReferenceQueue<>();
+    privbte stbtic Finblizer unfinblized = null;
+    privbte stbtic finbl Object lock = new Object();
 
-    private Finalizer
+    privbte Finblizer
         next = null,
         prev = null;
 
-    private boolean hasBeenFinalized() {
+    privbte boolebn hbsBeenFinblized() {
         return (next == this);
     }
 
-    private void add() {
+    privbte void bdd() {
         synchronized (lock) {
-            if (unfinalized != null) {
-                this.next = unfinalized;
-                unfinalized.prev = this;
+            if (unfinblized != null) {
+                this.next = unfinblized;
+                unfinblized.prev = this;
             }
-            unfinalized = this;
+            unfinblized = this;
         }
     }
 
-    private void remove() {
+    privbte void remove() {
         synchronized (lock) {
-            if (unfinalized == this) {
+            if (unfinblized == this) {
                 if (this.next != null) {
-                    unfinalized = this.next;
+                    unfinblized = this.next;
                 } else {
-                    unfinalized = this.prev;
+                    unfinblized = this.prev;
                 }
             }
             if (this.next != null) {
@@ -72,158 +72,158 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
             if (this.prev != null) {
                 this.prev.next = this.next;
             }
-            this.next = this;   /* Indicates that this has been finalized */
+            this.next = this;   /* Indicbtes thbt this hbs been finblized */
             this.prev = this;
         }
     }
 
-    private Finalizer(Object finalizee) {
-        super(finalizee, queue);
-        add();
+    privbte Finblizer(Object finblizee) {
+        super(finblizee, queue);
+        bdd();
     }
 
     /* Invoked by VM */
-    static void register(Object finalizee) {
-        new Finalizer(finalizee);
+    stbtic void register(Object finblizee) {
+        new Finblizer(finblizee);
     }
 
-    private void runFinalizer(JavaLangAccess jla) {
+    privbte void runFinblizer(JbvbLbngAccess jlb) {
         synchronized (this) {
-            if (hasBeenFinalized()) return;
+            if (hbsBeenFinblized()) return;
             remove();
         }
         try {
-            Object finalizee = this.get();
-            if (finalizee != null && !(finalizee instanceof java.lang.Enum)) {
-                jla.invokeFinalize(finalizee);
+            Object finblizee = this.get();
+            if (finblizee != null && !(finblizee instbnceof jbvb.lbng.Enum)) {
+                jlb.invokeFinblize(finblizee);
 
-                /* Clear stack slot containing this variable, to decrease
-                   the chances of false retention with a conservative GC */
-                finalizee = null;
+                /* Clebr stbck slot contbining this vbribble, to decrebse
+                   the chbnces of fblse retention with b conservbtive GC */
+                finblizee = null;
             }
-        } catch (Throwable x) { }
-        super.clear();
+        } cbtch (Throwbble x) { }
+        super.clebr();
     }
 
-    /* Create a privileged secondary finalizer thread in the system thread
-       group for the given Runnable, and wait for it to complete.
+    /* Crebte b privileged secondbry finblizer threbd in the system threbd
+       group for the given Runnbble, bnd wbit for it to complete.
 
-       This method is used by both runFinalization and runFinalizersOnExit.
-       The former method invokes all pending finalizers, while the latter
-       invokes all uninvoked finalizers if on-exit finalization has been
-       enabled.
+       This method is used by both runFinblizbtion bnd runFinblizersOnExit.
+       The former method invokes bll pending finblizers, while the lbtter
+       invokes bll uninvoked finblizers if on-exit finblizbtion hbs been
+       enbbled.
 
-       These two methods could have been implemented by offloading their work
-       to the regular finalizer thread and waiting for that thread to finish.
-       The advantage of creating a fresh thread, however, is that it insulates
-       invokers of these methods from a stalled or deadlocked finalizer thread.
+       These two methods could hbve been implemented by offlobding their work
+       to the regulbr finblizer threbd bnd wbiting for thbt threbd to finish.
+       The bdvbntbge of crebting b fresh threbd, however, is thbt it insulbtes
+       invokers of these methods from b stblled or debdlocked finblizer threbd.
      */
-    private static void forkSecondaryFinalizer(final Runnable proc) {
+    privbte stbtic void forkSecondbryFinblizer(finbl Runnbble proc) {
         AccessController.doPrivileged(
             new PrivilegedAction<Void>() {
                 public Void run() {
-                ThreadGroup tg = Thread.currentThread().getThreadGroup();
-                for (ThreadGroup tgn = tg;
+                ThrebdGroup tg = Threbd.currentThrebd().getThrebdGroup();
+                for (ThrebdGroup tgn = tg;
                      tgn != null;
-                     tg = tgn, tgn = tg.getParent());
-                Thread sft = new Thread(tg, proc, "Secondary finalizer");
-                sft.start();
+                     tg = tgn, tgn = tg.getPbrent());
+                Threbd sft = new Threbd(tg, proc, "Secondbry finblizer");
+                sft.stbrt();
                 try {
                     sft.join();
-                } catch (InterruptedException x) {
+                } cbtch (InterruptedException x) {
                     /* Ignore */
                 }
                 return null;
                 }});
     }
 
-    /* Called by Runtime.runFinalization() */
-    static void runFinalization() {
+    /* Cblled by Runtime.runFinblizbtion() */
+    stbtic void runFinblizbtion() {
         if (!VM.isBooted()) {
             return;
         }
 
-        forkSecondaryFinalizer(new Runnable() {
-            private volatile boolean running;
+        forkSecondbryFinblizer(new Runnbble() {
+            privbte volbtile boolebn running;
             public void run() {
                 if (running)
                     return;
-                final JavaLangAccess jla = SharedSecrets.getJavaLangAccess();
+                finbl JbvbLbngAccess jlb = ShbredSecrets.getJbvbLbngAccess();
                 running = true;
                 for (;;) {
-                    Finalizer f = (Finalizer)queue.poll();
-                    if (f == null) break;
-                    f.runFinalizer(jla);
+                    Finblizer f = (Finblizer)queue.poll();
+                    if (f == null) brebk;
+                    f.runFinblizer(jlb);
                 }
             }
         });
     }
 
-    /* Invoked by java.lang.Shutdown */
-    static void runAllFinalizers() {
+    /* Invoked by jbvb.lbng.Shutdown */
+    stbtic void runAllFinblizers() {
         if (!VM.isBooted()) {
             return;
         }
 
-        forkSecondaryFinalizer(new Runnable() {
-            private volatile boolean running;
+        forkSecondbryFinblizer(new Runnbble() {
+            privbte volbtile boolebn running;
             public void run() {
                 if (running)
                     return;
-                final JavaLangAccess jla = SharedSecrets.getJavaLangAccess();
+                finbl JbvbLbngAccess jlb = ShbredSecrets.getJbvbLbngAccess();
                 running = true;
                 for (;;) {
-                    Finalizer f;
+                    Finblizer f;
                     synchronized (lock) {
-                        f = unfinalized;
-                        if (f == null) break;
-                        unfinalized = f.next;
+                        f = unfinblized;
+                        if (f == null) brebk;
+                        unfinblized = f.next;
                     }
-                    f.runFinalizer(jla);
+                    f.runFinblizer(jlb);
                 }}});
     }
 
-    private static class FinalizerThread extends Thread {
-        private volatile boolean running;
-        FinalizerThread(ThreadGroup g) {
-            super(g, "Finalizer");
+    privbte stbtic clbss FinblizerThrebd extends Threbd {
+        privbte volbtile boolebn running;
+        FinblizerThrebd(ThrebdGroup g) {
+            super(g, "Finblizer");
         }
         public void run() {
             if (running)
                 return;
 
-            // Finalizer thread starts before System.initializeSystemClass
-            // is called.  Wait until JavaLangAccess is available
+            // Finblizer threbd stbrts before System.initiblizeSystemClbss
+            // is cblled.  Wbit until JbvbLbngAccess is bvbilbble
             while (!VM.isBooted()) {
-                // delay until VM completes initialization
+                // delby until VM completes initiblizbtion
                 try {
-                    VM.awaitBooted();
-                } catch (InterruptedException x) {
-                    // ignore and continue
+                    VM.bwbitBooted();
+                } cbtch (InterruptedException x) {
+                    // ignore bnd continue
                 }
             }
-            final JavaLangAccess jla = SharedSecrets.getJavaLangAccess();
+            finbl JbvbLbngAccess jlb = ShbredSecrets.getJbvbLbngAccess();
             running = true;
             for (;;) {
                 try {
-                    Finalizer f = (Finalizer)queue.remove();
-                    f.runFinalizer(jla);
-                } catch (InterruptedException x) {
-                    // ignore and continue
+                    Finblizer f = (Finblizer)queue.remove();
+                    f.runFinblizer(jlb);
+                } cbtch (InterruptedException x) {
+                    // ignore bnd continue
                 }
             }
         }
     }
 
-    static {
-        ThreadGroup tg = Thread.currentThread().getThreadGroup();
-        for (ThreadGroup tgn = tg;
+    stbtic {
+        ThrebdGroup tg = Threbd.currentThrebd().getThrebdGroup();
+        for (ThrebdGroup tgn = tg;
              tgn != null;
-             tg = tgn, tgn = tg.getParent());
-        Thread finalizer = new FinalizerThread(tg);
-        finalizer.setPriority(Thread.MAX_PRIORITY - 2);
-        finalizer.setDaemon(true);
-        finalizer.start();
+             tg = tgn, tgn = tg.getPbrent());
+        Threbd finblizer = new FinblizerThrebd(tg);
+        finblizer.setPriority(Threbd.MAX_PRIORITY - 2);
+        finblizer.setDbemon(true);
+        finblizer.stbrt();
     }
 
 }

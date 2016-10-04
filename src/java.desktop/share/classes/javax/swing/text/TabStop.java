@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * This class encapsulates a single tab stop (basically as tab stops
- * are thought of by RTF). A tab stop is at a specified distance from the
- * left margin, aligns text in a specified way, and has a specified leader.
- * TabStops are immutable, and usually contained in TabSets.
+ * This clbss encbpsulbtes b single tbb stop (bbsicblly bs tbb stops
+ * bre thought of by RTF). A tbb stop is bt b specified distbnce from the
+ * left mbrgin, bligns text in b specified wby, bnd hbs b specified lebder.
+ * TbbStops bre immutbble, bnd usublly contbined in TbbSets.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TabStop implements Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss TbbStop implements Seriblizbble {
 
-    /** Character following tab is positioned at location. */
-    public static final int ALIGN_LEFT    = 0;
-    /** Characters following tab are positioned such that all following
-     * characters up to next tab/newline end at location. */
-    public static final int ALIGN_RIGHT   = 1;
-    /** Characters following tab are positioned such that all following
-     * characters up to next tab/newline are centered around the tabs
-     * location. */
-    public static final int ALIGN_CENTER  = 2;
-    /** Characters following tab are aligned such that next
-     * decimal/tab/newline is at the tab location, very similar to
-     * RIGHT_TAB, just includes decimal as additional character to look for.
+    /** Chbrbcter following tbb is positioned bt locbtion. */
+    public stbtic finbl int ALIGN_LEFT    = 0;
+    /** Chbrbcters following tbb bre positioned such thbt bll following
+     * chbrbcters up to next tbb/newline end bt locbtion. */
+    public stbtic finbl int ALIGN_RIGHT   = 1;
+    /** Chbrbcters following tbb bre positioned such thbt bll following
+     * chbrbcters up to next tbb/newline bre centered bround the tbbs
+     * locbtion. */
+    public stbtic finbl int ALIGN_CENTER  = 2;
+    /** Chbrbcters following tbb bre bligned such thbt next
+     * decimbl/tbb/newline is bt the tbb locbtion, very similbr to
+     * RIGHT_TAB, just includes decimbl bs bdditionbl chbrbcter to look for.
      */
-    public static final int ALIGN_DECIMAL = 4;
-    public static final int ALIGN_BAR     = 5;
+    public stbtic finbl int ALIGN_DECIMAL = 4;
+    public stbtic finbl int ALIGN_BAR     = 5;
 
-    /* Bar tabs (whatever they are) are actually a separate kind of tab
-       in the RTF spec. However, being a bar tab and having alignment
-       properties are mutually exclusive, so the reader treats barness
-       as being a kind of alignment. */
+    /* Bbr tbbs (whbtever they bre) bre bctublly b sepbrbte kind of tbb
+       in the RTF spec. However, being b bbr tbb bnd hbving blignment
+       properties bre mutublly exclusive, so the rebder trebts bbrness
+       bs being b kind of blignment. */
 
-    public static final int LEAD_NONE      = 0;
-    public static final int LEAD_DOTS      = 1;
-    public static final int LEAD_HYPHENS   = 2;
-    public static final int LEAD_UNDERLINE = 3;
-    public static final int LEAD_THICKLINE = 4;
-    public static final int LEAD_EQUALS    = 5;
+    public stbtic finbl int LEAD_NONE      = 0;
+    public stbtic finbl int LEAD_DOTS      = 1;
+    public stbtic finbl int LEAD_HYPHENS   = 2;
+    public stbtic finbl int LEAD_UNDERLINE = 3;
+    public stbtic finbl int LEAD_THICKLINE = 4;
+    public stbtic finbl int LEAD_EQUALS    = 5;
 
-    /** Tab type. */
-    private int alignment;
-    /** Location, from the left margin, that tab is at. */
-    private float position;
-    private int leader;
+    /** Tbb type. */
+    privbte int blignment;
+    /** Locbtion, from the left mbrgin, thbt tbb is bt. */
+    privbte flobt position;
+    privbte int lebder;
 
     /**
-     * Creates a tab at position <code>pos</code> with a default alignment
-     * and default leader.
+     * Crebtes b tbb bt position <code>pos</code> with b defbult blignment
+     * bnd defbult lebder.
      */
-    public TabStop(float pos) {
+    public TbbStop(flobt pos) {
         this(pos, ALIGN_LEFT, LEAD_NONE);
     }
 
     /**
-     * Creates a tab with the specified position <code>pos</code>,
-     * alignment <code>align</code> and leader <code>leader</code>.
+     * Crebtes b tbb with the specified position <code>pos</code>,
+     * blignment <code>blign</code> bnd lebder <code>lebder</code>.
      */
-    public TabStop(float pos, int align, int leader) {
-        alignment = align;
-        this.leader = leader;
+    public TbbStop(flobt pos, int blign, int lebder) {
+        blignment = blign;
+        this.lebder = lebder;
         position = pos;
     }
 
     /**
-     * Returns the position, as a float, of the tab.
-     * @return the position of the tab
+     * Returns the position, bs b flobt, of the tbb.
+     * @return the position of the tbb
      */
-    public float getPosition() {
+    public flobt getPosition() {
         return position;
     }
 
     /**
-     * Returns the alignment, as an integer, of the tab.
-     * @return the alignment of the tab
+     * Returns the blignment, bs bn integer, of the tbb.
+     * @return the blignment of the tbb
      */
     public int getAlignment() {
-        return alignment;
+        return blignment;
     }
 
     /**
-     * Returns the leader of the tab.
-     * @return the leader of the tab
+     * Returns the lebder of the tbb.
+     * @return the lebder of the tbb
      */
-    public int getLeader() {
-        return leader;
+    public int getLebder() {
+        return lebder;
     }
 
     /**
-     * Returns true if the tabs are equal.
-     * @return true if the tabs are equal, otherwise false
+     * Returns true if the tbbs bre equbl.
+     * @return true if the tbbs bre equbl, otherwise fblse
      */
-    public boolean equals(Object other)
+    public boolebn equbls(Object other)
     {
         if (other == this) {
             return true;
         }
-        if (other instanceof TabStop) {
-            TabStop o = (TabStop)other;
-            return ( (alignment == o.alignment) &&
-                     (leader == o.leader) &&
+        if (other instbnceof TbbStop) {
+            TbbStop o = (TbbStop)other;
+            return ( (blignment == o.blignment) &&
+                     (lebder == o.lebder) &&
                      (position == o.position) );  /* TODO: epsilon */
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the hashCode for the object.  This must be defined
+     * Returns the hbshCode for the object.  This must be defined
      * here to ensure 100% pure.
      *
-     * @return the hashCode for the object
+     * @return the hbshCode for the object
      */
-    public int hashCode() {
-        return alignment ^ leader ^ Math.round(position);
+    public int hbshCode() {
+        return blignment ^ lebder ^ Mbth.round(position);
     }
 
-    /* This is for debugging; perhaps it should be removed before release */
+    /* This is for debugging; perhbps it should be removed before relebse */
     public String toString() {
         String buf;
-        switch(alignment) {
-          default:
-          case ALIGN_LEFT:
+        switch(blignment) {
+          defbult:
+          cbse ALIGN_LEFT:
             buf = "";
-            break;
-          case ALIGN_RIGHT:
+            brebk;
+          cbse ALIGN_RIGHT:
             buf = "right ";
-            break;
-          case ALIGN_CENTER:
+            brebk;
+          cbse ALIGN_CENTER:
             buf = "center ";
-            break;
-          case ALIGN_DECIMAL:
-            buf = "decimal ";
-            break;
-          case ALIGN_BAR:
-            buf = "bar ";
-            break;
+            brebk;
+          cbse ALIGN_DECIMAL:
+            buf = "decimbl ";
+            brebk;
+          cbse ALIGN_BAR:
+            buf = "bbr ";
+            brebk;
         }
-        buf = buf + "tab @" + String.valueOf(position);
-        if (leader != LEAD_NONE)
-            buf = buf + " (w/leaders)";
+        buf = buf + "tbb @" + String.vblueOf(position);
+        if (lebder != LEAD_NONE)
+            buf = buf + " (w/lebders)";
         return buf;
     }
 }

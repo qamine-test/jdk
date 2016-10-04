@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.SecureRandom;
-import java.security.interfaces.DSAParams;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.spec.DSAParameterSpec;
+import jbvb.security.*;
+import jbvb.security.SecureRbndom;
+import jbvb.security.interfbces.DSAPbrbms;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvb.security.spec.DSAPbrbmeterSpec;
 
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 
 /**
- * This class generates DSA key parameters and public/private key
- * pairs according to the DSS standard NIST FIPS 186. It uses the
- * updated version of SHA, SHA-1 as described in FIPS 180-1.
+ * This clbss generbtes DSA key pbrbmeters bnd public/privbte key
+ * pbirs bccording to the DSS stbndbrd NIST FIPS 186. It uses the
+ * updbted version of SHA, SHA-1 bs described in FIPS 180-1.
  *
- * @author Benjamin Renaud
- * @author Andreas Sterbenz
+ * @buthor Benjbmin Renbud
+ * @buthor Andrebs Sterbenz
  *
  */
-public class DSAKeyPairGenerator extends KeyPairGenerator
-implements java.security.interfaces.DSAKeyPairGenerator {
+public clbss DSAKeyPbirGenerbtor extends KeyPbirGenerbtor
+implements jbvb.security.interfbces.DSAKeyPbirGenerbtor {
 
-    /* Length for prime P and subPrime Q in bits */
-    private int plen;
-    private int qlen;
+    /* Length for prime P bnd subPrime Q in bits */
+    privbte int plen;
+    privbte int qlen;
 
-    /* whether to force new parameters to be generated for each KeyPair */
-    private boolean forceNewParameters;
+    /* whether to force new pbrbmeters to be generbted for ebch KeyPbir */
+    privbte boolebn forceNewPbrbmeters;
 
-    /* preset algorithm parameters. */
-    private DSAParameterSpec params;
+    /* preset blgorithm pbrbmeters. */
+    privbte DSAPbrbmeterSpec pbrbms;
 
-    /* The source of random bits to use */
-    private SecureRandom random;
+    /* The source of rbndom bits to use */
+    privbte SecureRbndom rbndom;
 
-    public DSAKeyPairGenerator() {
+    public DSAKeyPbirGenerbtor() {
         super("DSA");
-        initialize(1024, null);
+        initiblize(1024, null);
     }
 
-    private static void checkStrength(int sizeP, int sizeQ) {
+    privbte stbtic void checkStrength(int sizeP, int sizeQ) {
         if ((sizeP >= 512) && (sizeP <= 1024) && (sizeP % 64 == 0)
             && sizeQ == 160) {
-            // traditional - allow for backward compatibility
-            // L=multiples of 64 and between 512 and 1024 (inclusive)
+            // trbditionbl - bllow for bbckwbrd compbtibility
+            // L=multiples of 64 bnd between 512 bnd 1024 (inclusive)
             // N=160
         } else if (sizeP == 2048 && (sizeQ == 224 || sizeQ == 256)) {
             // L=2048, N=224 or 256
         } else {
-            throw new InvalidParameterException
-                ("Unsupported prime and subprime size combination: " +
+            throw new InvblidPbrbmeterException
+                ("Unsupported prime bnd subprime size combinbtion: " +
                  sizeP + ", " + sizeQ);
         }
     }
 
-    public void initialize(int modlen, SecureRandom random) {
-        // generate new parameters when no precomputed ones available.
-        initialize(modlen, true, random);
-        this.forceNewParameters = false;
+    public void initiblize(int modlen, SecureRbndom rbndom) {
+        // generbte new pbrbmeters when no precomputed ones bvbilbble.
+        initiblize(modlen, true, rbndom);
+        this.forceNewPbrbmeters = fblse;
     }
 
     /**
-     * Initializes the DSA key pair generator. If <code>genParams</code>
-     * is false, a set of pre-computed parameters is used.
+     * Initiblizes the DSA key pbir generbtor. If <code>genPbrbms</code>
+     * is fblse, b set of pre-computed pbrbmeters is used.
      */
-    public void initialize(int modlen, boolean genParams, SecureRandom random) {
+    public void initiblize(int modlen, boolebn genPbrbms, SecureRbndom rbndom) {
         int subPrimeLen = -1;
         if (modlen <= 1024) {
             subPrimeLen = 160;
@@ -99,145 +99,145 @@ implements java.security.interfaces.DSAKeyPairGenerator {
             subPrimeLen = 224;
         }
         checkStrength(modlen, subPrimeLen);
-        if (genParams) {
-            params = null;
+        if (genPbrbms) {
+            pbrbms = null;
         } else {
-            params = ParameterCache.getCachedDSAParameterSpec(modlen,
+            pbrbms = PbrbmeterCbche.getCbchedDSAPbrbmeterSpec(modlen,
                 subPrimeLen);
-            if (params == null) {
-                throw new InvalidParameterException
-                    ("No precomputed parameters for requested modulus size "
-                     + "available");
+            if (pbrbms == null) {
+                throw new InvblidPbrbmeterException
+                    ("No precomputed pbrbmeters for requested modulus size "
+                     + "bvbilbble");
             }
 
         }
         this.plen = modlen;
         this.qlen = subPrimeLen;
-        this.random = random;
-        this.forceNewParameters = genParams;
+        this.rbndom = rbndom;
+        this.forceNewPbrbmeters = genPbrbms;
     }
 
     /**
-     * Initializes the DSA object using a DSA parameter object.
+     * Initiblizes the DSA object using b DSA pbrbmeter object.
      *
-     * @param params a fully initialized DSA parameter object.
+     * @pbrbm pbrbms b fully initiblized DSA pbrbmeter object.
      */
-    public void initialize(DSAParams params, SecureRandom random) {
-        if (params == null) {
-            throw new InvalidParameterException("Params must not be null");
+    public void initiblize(DSAPbrbms pbrbms, SecureRbndom rbndom) {
+        if (pbrbms == null) {
+            throw new InvblidPbrbmeterException("Pbrbms must not be null");
         }
-        DSAParameterSpec spec = new DSAParameterSpec
-                                (params.getP(), params.getQ(), params.getG());
-        initialize0(spec, random);
+        DSAPbrbmeterSpec spec = new DSAPbrbmeterSpec
+                                (pbrbms.getP(), pbrbms.getQ(), pbrbms.getG());
+        initiblize0(spec, rbndom);
     }
 
     /**
-     * Initializes the DSA object using a parameter object.
+     * Initiblizes the DSA object using b pbrbmeter object.
      *
-     * @param params the parameter set to be used to generate
+     * @pbrbm pbrbms the pbrbmeter set to be used to generbte
      * the keys.
-     * @param random the source of randomness for this generator.
+     * @pbrbm rbndom the source of rbndomness for this generbtor.
      *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key pair generator
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeters
+     * bre inbppropribte for this key pbir generbtor
      */
-    public void initialize(AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidAlgorithmParameterException {
-        if (!(params instanceof DSAParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("Inappropriate parameter");
+    public void initiblize(AlgorithmPbrbmeterSpec pbrbms, SecureRbndom rbndom)
+            throws InvblidAlgorithmPbrbmeterException {
+        if (!(pbrbms instbnceof DSAPbrbmeterSpec)) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Inbppropribte pbrbmeter");
         }
-        initialize0((DSAParameterSpec)params, random);
+        initiblize0((DSAPbrbmeterSpec)pbrbms, rbndom);
     }
 
-    private void initialize0(DSAParameterSpec params, SecureRandom random) {
-        int sizeP = params.getP().bitLength();
-        int sizeQ = params.getQ().bitLength();
+    privbte void initiblize0(DSAPbrbmeterSpec pbrbms, SecureRbndom rbndom) {
+        int sizeP = pbrbms.getP().bitLength();
+        int sizeQ = pbrbms.getQ().bitLength();
         checkStrength(sizeP, sizeQ);
         this.plen = sizeP;
         this.qlen = sizeQ;
-        this.params = params;
-        this.random = random;
-        this.forceNewParameters = false;
+        this.pbrbms = pbrbms;
+        this.rbndom = rbndom;
+        this.forceNewPbrbmeters = fblse;
     }
 
     /**
-     * Generates a pair of keys usable by any JavaSecurity compliant
-     * DSA implementation.
+     * Generbtes b pbir of keys usbble by bny JbvbSecurity complibnt
+     * DSA implementbtion.
      */
-    public KeyPair generateKeyPair() {
-        if (random == null) {
-            random = JCAUtil.getSecureRandom();
+    public KeyPbir generbteKeyPbir() {
+        if (rbndom == null) {
+            rbndom = JCAUtil.getSecureRbndom();
         }
-        DSAParameterSpec spec;
+        DSAPbrbmeterSpec spec;
         try {
-            if (forceNewParameters) {
-                // generate new parameters each time
-                spec = ParameterCache.getNewDSAParameterSpec(plen, qlen, random);
+            if (forceNewPbrbmeters) {
+                // generbte new pbrbmeters ebch time
+                spec = PbrbmeterCbche.getNewDSAPbrbmeterSpec(plen, qlen, rbndom);
             } else {
-                if (params == null) {
-                    params =
-                        ParameterCache.getDSAParameterSpec(plen, qlen, random);
+                if (pbrbms == null) {
+                    pbrbms =
+                        PbrbmeterCbche.getDSAPbrbmeterSpec(plen, qlen, rbndom);
                 }
-                spec = params;
+                spec = pbrbms;
             }
-        } catch (GeneralSecurityException e) {
+        } cbtch (GenerblSecurityException e) {
             throw new ProviderException(e);
         }
-        return generateKeyPair(spec.getP(), spec.getQ(), spec.getG(), random);
+        return generbteKeyPbir(spec.getP(), spec.getQ(), spec.getG(), rbndom);
     }
 
-    public KeyPair generateKeyPair(BigInteger p, BigInteger q, BigInteger g,
-                                   SecureRandom random) {
+    public KeyPbir generbteKeyPbir(BigInteger p, BigInteger q, BigInteger g,
+                                   SecureRbndom rbndom) {
 
-        BigInteger x = generateX(random, q);
-        BigInteger y = generateY(x, p, g);
+        BigInteger x = generbteX(rbndom, q);
+        BigInteger y = generbteY(x, p, g);
 
         try {
 
-            // See the comments in DSAKeyFactory, 4532506, and 6232513.
+            // See the comments in DSAKeyFbctory, 4532506, bnd 6232513.
 
             DSAPublicKey pub;
-            if (DSAKeyFactory.SERIAL_INTEROP) {
+            if (DSAKeyFbctory.SERIAL_INTEROP) {
                 pub = new DSAPublicKey(y, p, q, g);
             } else {
                 pub = new DSAPublicKeyImpl(y, p, q, g);
             }
-            DSAPrivateKey priv = new DSAPrivateKey(x, p, q, g);
+            DSAPrivbteKey priv = new DSAPrivbteKey(x, p, q, g);
 
-            KeyPair pair = new KeyPair(pub, priv);
-            return pair;
-        } catch (InvalidKeyException e) {
+            KeyPbir pbir = new KeyPbir(pub, priv);
+            return pbir;
+        } cbtch (InvblidKeyException e) {
             throw new ProviderException(e);
         }
     }
 
     /**
-     * Generate the private key component of the key pair using the
-     * provided source of random bits. This method uses the random but
-     * source passed to generate a seed and then calls the seed-based
-     * generateX method.
+     * Generbte the privbte key component of the key pbir using the
+     * provided source of rbndom bits. This method uses the rbndom but
+     * source pbssed to generbte b seed bnd then cblls the seed-bbsed
+     * generbteX method.
      */
-    private BigInteger generateX(SecureRandom random, BigInteger q) {
+    privbte BigInteger generbteX(SecureRbndom rbndom, BigInteger q) {
         BigInteger x = null;
         byte[] temp = new byte[qlen];
         while (true) {
-            random.nextBytes(temp);
+            rbndom.nextBytes(temp);
             x = new BigInteger(1, temp).mod(q);
-            if (x.signum() > 0 && (x.compareTo(q) < 0)) {
+            if (x.signum() > 0 && (x.compbreTo(q) < 0)) {
                 return x;
             }
         }
     }
 
     /**
-     * Generate the public key component y of the key pair.
+     * Generbte the public key component y of the key pbir.
      *
-     * @param x the private key component.
+     * @pbrbm x the privbte key component.
      *
-     * @param p the base parameter.
+     * @pbrbm p the bbse pbrbmeter.
      */
-    BigInteger generateY(BigInteger x, BigInteger p, BigInteger g) {
+    BigInteger generbteY(BigInteger x, BigInteger p, BigInteger g) {
         BigInteger y = g.modPow(x, p);
         return y;
     }

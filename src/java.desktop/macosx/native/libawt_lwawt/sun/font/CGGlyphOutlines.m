@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import "CGGlyphOutlines.h"
 
-static void
-AWTPathGetMoreSpaceIfNecessary(AWTPathRef path)
+stbtic void
+AWTPbthGetMoreSpbceIfNecessbry(AWTPbthRef pbth)
 {
-    while ((path->fAllocatedSegmentTypeSpace - path->fNumberOfSegments) < 1) {
-        size_t growth = sizeof(jbyte)*path->fAllocatedSegmentTypeSpace*kStorageSizeChangeOnGetMoreFactor;
-        path->fSegmentType = (jbyte*) realloc(path->fSegmentType, growth);
-        path->fAllocatedSegmentTypeSpace *= kStorageSizeChangeOnGetMoreFactor;
+    while ((pbth->fAllocbtedSegmentTypeSpbce - pbth->fNumberOfSegments) < 1) {
+        size_t growth = sizeof(jbyte)*pbth->fAllocbtedSegmentTypeSpbce*kStorbgeSizeChbngeOnGetMoreFbctor;
+        pbth->fSegmentType = (jbyte*) reblloc(pbth->fSegmentType, growth);
+        pbth->fAllocbtedSegmentTypeSpbce *= kStorbgeSizeChbngeOnGetMoreFbctor;
     }
 
-    while ((path->fAllocatedSegmentDataSpace - path->fNumberOfDataElements) < 7) {
-        size_t growth = sizeof(jfloat)*path->fAllocatedSegmentDataSpace*kStorageSizeChangeOnGetMoreFactor;
-        path->fSegmentData = (jfloat*) realloc(path->fSegmentData, growth);
-        path->fAllocatedSegmentDataSpace *= kStorageSizeChangeOnGetMoreFactor;
+    while ((pbth->fAllocbtedSegmentDbtbSpbce - pbth->fNumberOfDbtbElements) < 7) {
+        size_t growth = sizeof(jflobt)*pbth->fAllocbtedSegmentDbtbSpbce*kStorbgeSizeChbngeOnGetMoreFbctor;
+        pbth->fSegmentDbtb = (jflobt*) reblloc(pbth->fSegmentDbtb, growth);
+        pbth->fAllocbtedSegmentDbtbSpbce *= kStorbgeSizeChbngeOnGetMoreFbctor;
     }
 }
 
-static void
-AWTPathMoveTo(void* data, CGPoint p)
+stbtic void
+AWTPbthMoveTo(void* dbtb, CGPoint p)
 {
-    CGFloat x = p.x;
-    CGFloat y = p.y;
+    CGFlobt x = p.x;
+    CGFlobt y = p.y;
 
-    AWTPathRef path = (AWTPathRef)data;
-    CGFloat tx    = path->fTranslate.width;
-    CGFloat ty    = path->fTranslate.height;
-    CGFloat pathX =  x+tx;
-    CGFloat pathY = -y+ty;
+    AWTPbthRef pbth = (AWTPbthRef)dbtb;
+    CGFlobt tx    = pbth->fTrbnslbte.width;
+    CGFlobt ty    = pbth->fTrbnslbte.height;
+    CGFlobt pbthX =  x+tx;
+    CGFlobt pbthY = -y+ty;
 
 #ifdef AWT_GV_DEBUG
     fprintf(stderr, "eMoveTo \n");
     fprintf(stderr, "    tx=%f, ty=%f\n", tx, ty);
     fprintf(stderr, "    x=%f, y=%f\n", x, y);
-    fprintf(stderr, "    pathX=%f, pathY=%f\n", pathX, pathY);
+    fprintf(stderr, "    pbthX=%f, pbthY=%f\n", pbthX, pbthY);
 #endif
 
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbthGetMoreSpbceIfNecessbry(pbth);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eMoveTo;
+    pbth->fSegmentType[pbth->fNumberOfSegments++] = (jbyte)eMoveTo;
 
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthX;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthY;
 }
 
-static void
-AWTPathLineTo(void* data, CGPoint p)
+stbtic void
+AWTPbthLineTo(void* dbtb, CGPoint p)
 {
-    CGFloat x = p.x;
-    CGFloat y = p.y;
+    CGFlobt x = p.x;
+    CGFlobt y = p.y;
 
-    AWTPathRef path = (AWTPathRef)data;
-    CGFloat tx    = path->fTranslate.width;
-    CGFloat ty    = path->fTranslate.height;
-    CGFloat pathX =  x+tx;
-    CGFloat pathY = -y+ty;
+    AWTPbthRef pbth = (AWTPbthRef)dbtb;
+    CGFlobt tx    = pbth->fTrbnslbte.width;
+    CGFlobt ty    = pbth->fTrbnslbte.height;
+    CGFlobt pbthX =  x+tx;
+    CGFlobt pbthY = -y+ty;
 
 #ifdef AWT_GV_DEBUG
     fprintf(stderr, "eLineTo \n");
     fprintf(stderr, "    tx=%f, ty=%f\n", tx, ty);
     fprintf(stderr, "    x=%f, y=%f\n", x, y);
-    fprintf(stderr, "    pathX=%f, pathY=%f\n", pathX, pathY);
+    fprintf(stderr, "    pbthX=%f, pbthY=%f\n", pbthX, pbthY);
 #endif
 
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbthGetMoreSpbceIfNecessbry(pbth);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eLineTo;
+    pbth->fSegmentType[pbth->fNumberOfSegments++] = (jbyte)eLineTo;
 
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthX;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthY;
 }
 
-static void
-AWTPathQuadTo(void* data, CGPoint p1, CGPoint p2)
+stbtic void
+AWTPbthQubdTo(void* dbtb, CGPoint p1, CGPoint p2)
 {
-    CGFloat x1 = p1.x;
-    CGFloat y1 = p1.y;
-    CGFloat x2 = p2.x;
-    CGFloat y2 = p2.y;
+    CGFlobt x1 = p1.x;
+    CGFlobt y1 = p1.y;
+    CGFlobt x2 = p2.x;
+    CGFlobt y2 = p2.y;
 
-    AWTPathRef path = (AWTPathRef)data;
-    CGFloat tx     = path->fTranslate.width;
-    CGFloat ty     = path->fTranslate.height;
-    CGFloat pathX1 =  x1+tx;
-    CGFloat pathY1 = -y1+ty;
-    CGFloat pathX2 =  x2+tx;
-    CGFloat pathY2 = -y2+ty;
+    AWTPbthRef pbth = (AWTPbthRef)dbtb;
+    CGFlobt tx     = pbth->fTrbnslbte.width;
+    CGFlobt ty     = pbth->fTrbnslbte.height;
+    CGFlobt pbthX1 =  x1+tx;
+    CGFlobt pbthY1 = -y1+ty;
+    CGFlobt pbthX2 =  x2+tx;
+    CGFlobt pbthY2 = -y2+ty;
 
 #ifdef AWT_GV_DEBUG
-    fprintf(stderr, "eQuadTo \n");
+    fprintf(stderr, "eQubdTo \n");
     fprintf(stderr, "    tx=%f, ty=%f\n", tx, ty);
     fprintf(stderr, "    x1=%f, y1=%f\n", x1, y1);
     fprintf(stderr, "    x2=%f, y2=%f\n", x2, y2);
-    fprintf(stderr, "    pathX1=%f, path1Y=%f\n", pathX1, pathY1);
-    fprintf(stderr, "    pathX2=%f, pathY2=%f\n", pathX2, pathY2);
+    fprintf(stderr, "    pbthX1=%f, pbth1Y=%f\n", pbthX1, pbthY1);
+    fprintf(stderr, "    pbthX2=%f, pbthY2=%f\n", pbthX2, pbthY2);
 #endif
 
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbthGetMoreSpbceIfNecessbry(pbth);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eQuadTo;
+    pbth->fSegmentType[pbth->fNumberOfSegments++] = (jbyte)eQubdTo;
 
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX1;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY1;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX2;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY2;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthX1;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthY1;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthX2;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthY2;
 }
 
-static void
-AWTPathCubicTo(void* data, CGPoint p1, CGPoint p2, CGPoint p3)
+stbtic void
+AWTPbthCubicTo(void* dbtb, CGPoint p1, CGPoint p2, CGPoint p3)
 {
-    CGFloat x1 = p1.x;
-    CGFloat y1 = p1.y;
-    CGFloat x2 = p2.x;
-    CGFloat y2 = p2.y;
-    CGFloat x3 = p3.x;
-    CGFloat y3 = p3.y;
+    CGFlobt x1 = p1.x;
+    CGFlobt y1 = p1.y;
+    CGFlobt x2 = p2.x;
+    CGFlobt y2 = p2.y;
+    CGFlobt x3 = p3.x;
+    CGFlobt y3 = p3.y;
 
-    AWTPathRef path = (AWTPathRef)data;
-    CGFloat tx     = path->fTranslate.width;
-    CGFloat ty     = path->fTranslate.height;
-    CGFloat pathX1 =  x1+tx;
-    CGFloat pathY1 = -y1+ty;
-    CGFloat pathX2 =  x2+tx;
-    CGFloat pathY2 = -y2+ty;
-    CGFloat pathX3 =  x3+tx;
-    CGFloat pathY3 = -y3+ty;
+    AWTPbthRef pbth = (AWTPbthRef)dbtb;
+    CGFlobt tx     = pbth->fTrbnslbte.width;
+    CGFlobt ty     = pbth->fTrbnslbte.height;
+    CGFlobt pbthX1 =  x1+tx;
+    CGFlobt pbthY1 = -y1+ty;
+    CGFlobt pbthX2 =  x2+tx;
+    CGFlobt pbthY2 = -y2+ty;
+    CGFlobt pbthX3 =  x3+tx;
+    CGFlobt pbthY3 = -y3+ty;
 
 #ifdef AWT_GV_DEBUG
     fprintf(stderr, "eCubicTo \n");
@@ -156,115 +156,115 @@ AWTPathCubicTo(void* data, CGPoint p1, CGPoint p2, CGPoint p3)
     fprintf(stderr, "    x1=%f, y1=%f\n", x1, y1);
     fprintf(stderr, "    x2=%f, y2=%f\n", x2, y2);
     fprintf(stderr, "    x3=%f, y3=%f\n", x3, y3);
-    fprintf(stderr, "    pathX1=%f, path1Y=%f\n", pathX1, pathY1);
-    fprintf(stderr, "    pathX2=%f, pathY2=%f\n", pathX2, pathY2);
-    fprintf(stderr, "    pathX3=%f, pathY3=%f\n", pathX3, pathY3);
+    fprintf(stderr, "    pbthX1=%f, pbth1Y=%f\n", pbthX1, pbthY1);
+    fprintf(stderr, "    pbthX2=%f, pbthY2=%f\n", pbthX2, pbthY2);
+    fprintf(stderr, "    pbthX3=%f, pbthY3=%f\n", pbthX3, pbthY3);
 #endif
 
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbthGetMoreSpbceIfNecessbry(pbth);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eCubicTo;
+    pbth->fSegmentType[pbth->fNumberOfSegments++] = (jbyte)eCubicTo;
 
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX1;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY1;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX2;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY2;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX3;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY3;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthX1;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthY1;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthX2;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthY2;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthX3;
+    pbth->fSegmentDbtb[pbth->fNumberOfDbtbElements++] = pbthY3;
 }
 
-static void
-AWTPathClose(void* data)
+stbtic void
+AWTPbthClose(void* dbtb)
 {
 #ifdef AWT_GV_DEBUG
-    fprintf(stderr, "GVGlyphPathCallBackClosePath \n");
+    fprintf(stderr, "GVGlyphPbthCbllBbckClosePbth \n");
 #endif
 
-    AWTPathRef path = (AWTPathRef) data;
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbthRef pbth = (AWTPbthRef) dbtb;
+    AWTPbthGetMoreSpbceIfNecessbry(pbth);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eClosePath;
+    pbth->fSegmentType[pbth->fNumberOfSegments++] = (jbyte)eClosePbth;
 }
 
-AWTPathRef
-AWTPathCreate(CGSize translate)
+AWTPbthRef
+AWTPbthCrebte(CGSize trbnslbte)
 {
 #ifdef AWT_GV_DEBUG
-    fprintf(stderr, "AWTPathCreate \n");
-    fprintf(stderr, "    translate.width=%f \n", translate.width);
-    fprintf(stderr, "    translate.height=%f \n", translate.height);
+    fprintf(stderr, "AWTPbthCrebte \n");
+    fprintf(stderr, "    trbnslbte.width=%f \n", trbnslbte.width);
+    fprintf(stderr, "    trbnslbte.height=%f \n", trbnslbte.height);
 #endif
 
-    AWTPathRef path = (AWTPathRef) malloc(sizeof(AWTPath));
-    path->fTranslate    = translate;
-    path->fSegmentData  = (jfloat*)malloc(sizeof(jfloat) * kInitialAllocatedPathSegments);
-    path->fSegmentType  = (jbyte*)malloc(sizeof(jbyte) * kInitialAllocatedPathSegments);
-    path->fNumberOfDataElements = 0;
-    path->fNumberOfSegments = 0;
-    path->fAllocatedSegmentTypeSpace = kInitialAllocatedPathSegments;
-    path->fAllocatedSegmentDataSpace = kInitialAllocatedPathSegments;
+    AWTPbthRef pbth = (AWTPbthRef) mblloc(sizeof(AWTPbth));
+    pbth->fTrbnslbte    = trbnslbte;
+    pbth->fSegmentDbtb  = (jflobt*)mblloc(sizeof(jflobt) * kInitiblAllocbtedPbthSegments);
+    pbth->fSegmentType  = (jbyte*)mblloc(sizeof(jbyte) * kInitiblAllocbtedPbthSegments);
+    pbth->fNumberOfDbtbElements = 0;
+    pbth->fNumberOfSegments = 0;
+    pbth->fAllocbtedSegmentTypeSpbce = kInitiblAllocbtedPbthSegments;
+    pbth->fAllocbtedSegmentDbtbSpbce = kInitiblAllocbtedPbthSegments;
 
-    return path;
+    return pbth;
 }
 
 void
-AWTPathFree(AWTPathRef pathRef)
+AWTPbthFree(AWTPbthRef pbthRef)
 {
 #ifdef AWT_GV_DEBUG
-    fprintf(stderr, "--B--AWTPathFree\n");
-    fprintf(stderr, "pathRef->fSegmentData (%p)\n",pathRef->fSegmentData);
+    fprintf(stderr, "--B--AWTPbthFree\n");
+    fprintf(stderr, "pbthRef->fSegmentDbtb (%p)\n",pbthRef->fSegmentDbtb);
 #endif
 
-    free(pathRef->fSegmentData);
-    //fprintf(stderr, "pathRef->fSegmentType (%d)\n",pathRef->fSegmentType);
-    free(pathRef->fSegmentType);
-    //fprintf(stderr, "pathRef (%d)\n", pathRef);
-    free(pathRef);
-    //fprintf(stderr, "--E--AWTPathFree\n");
+    free(pbthRef->fSegmentDbtb);
+    //fprintf(stderr, "pbthRef->fSegmentType (%d)\n",pbthRef->fSegmentType);
+    free(pbthRef->fSegmentType);
+    //fprintf(stderr, "pbthRef (%d)\n", pbthRef);
+    free(pbthRef);
+    //fprintf(stderr, "--E--AWTPbthFree\n");
 }
 
-static void
-AWTPathApplierCallback(void *info, const CGPathElement *element)
+stbtic void
+AWTPbthApplierCbllbbck(void *info, const CGPbthElement *element)
 {
     switch (element->type) {
-    case kCGPathElementMoveToPoint:
-        AWTPathMoveTo(info, element->points[0]);
-        break;
-    case kCGPathElementAddLineToPoint:
-        AWTPathLineTo(info, element->points[0]);
-        break;
-    case kCGPathElementAddQuadCurveToPoint:
-        AWTPathQuadTo(info, element->points[0], element->points[1]);
-        break;
-    case kCGPathElementAddCurveToPoint:
-        AWTPathCubicTo(info, element->points[0],
+    cbse kCGPbthElementMoveToPoint:
+        AWTPbthMoveTo(info, element->points[0]);
+        brebk;
+    cbse kCGPbthElementAddLineToPoint:
+        AWTPbthLineTo(info, element->points[0]);
+        brebk;
+    cbse kCGPbthElementAddQubdCurveToPoint:
+        AWTPbthQubdTo(info, element->points[0], element->points[1]);
+        brebk;
+    cbse kCGPbthElementAddCurveToPoint:
+        AWTPbthCubicTo(info, element->points[0],
                        element->points[1], element->points[2]);
-        break;
-    case kCGPathElementCloseSubpath:
-        AWTPathClose(info);
-        break;
+        brebk;
+    cbse kCGPbthElementCloseSubpbth:
+        AWTPbthClose(info);
+        brebk;
     }
 }
 
-OSStatus
+OSStbtus
 AWTGetGlyphOutline(CGGlyph *glyphs, NSFont *font,
-                   CGSize *advanceArray, CGAffineTransform *tx,
-                   UInt32 inStartIndex, size_t length,
-                   AWTPathRef* outPath)
+                   CGSize *bdvbnceArrby, CGAffineTrbnsform *tx,
+                   UInt32 inStbrtIndex, size_t length,
+                   AWTPbthRef* outPbth)
 {
 #ifdef AWT_GV_DEBUG
     fprintf(stderr, "AWTGetGlyphOutline\n");
-    fprintf(stderr, "    inAffineTransform a=%f, b=%f, c=%f, d=%f, tx=%f, ty=%f \n", tx->a, tx->b, tx->c, tx->d, tx->tx, tx->ty);
+    fprintf(stderr, "    inAffineTrbnsform b=%f, b=%f, c=%f, d=%f, tx=%f, ty=%f \n", tx->b, tx->b, tx->c, tx->d, tx->tx, tx->ty);
 #endif
 
-    OSStatus status = noErr;
+    OSStbtus stbtus = noErr;
 
-    glyphs = glyphs + inStartIndex;
-//    advanceArray = advanceArray + inStartIndex; // TODO(cpc): use advance
+    glyphs = glyphs + inStbrtIndex;
+//    bdvbnceArrby = bdvbnceArrby + inStbrtIndex; // TODO(cpc): use bdvbnce
 
-    CGPathRef cgPath = CTFontCreatePathForGlyph((CTFontRef)font, glyphs[0], tx);
-    CGPathApply(cgPath, *outPath, AWTPathApplierCallback);
-    CGPathRelease(cgPath);
+    CGPbthRef cgPbth = CTFontCrebtePbthForGlyph((CTFontRef)font, glyphs[0], tx);
+    CGPbthApply(cgPbth, *outPbth, AWTPbthApplierCbllbbck);
+    CGPbthRelebse(cgPbth);
 
-    return status;
+    return stbtus;
 }

@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,251 +30,251 @@
  */
 
 #include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "ValueRecords.h"
-#include "DeviceTables.h"
-#include "GlyphIterator.h"
-#include "LESwaps.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "VblueRecords.h"
+#include "DeviceTbbles.h"
+#include "GlyphIterbtor.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-#define Nibble(value, nibble) ((value >> (nibble * 4)) & 0xF)
-#define NibbleBits(value, nibble) (bitsInNibble[Nibble(value, nibble)])
+#define Nibble(vblue, nibble) ((vblue >> (nibble * 4)) & 0xF)
+#define NibbleBits(vblue, nibble) (bitsInNibble[Nibble(vblue, nibble)])
 
-le_int16 ValueRecord::getFieldValue(ValueFormat valueFormat, ValueRecordField field) const
+le_int16 VblueRecord::getFieldVblue(VblueFormbt vblueFormbt, VblueRecordField field) const
 {
-    le_int16 valueIndex = getFieldIndex(valueFormat, field);
-    le_int16 value = values[valueIndex];
+    le_int16 vblueIndex = getFieldIndex(vblueFormbt, field);
+    le_int16 vblue = vblues[vblueIndex];
 
-    return SWAPW(value);
+    return SWAPW(vblue);
 }
 
-le_int16 ValueRecord::getFieldValue(le_int16 index, ValueFormat valueFormat, ValueRecordField field) const
+le_int16 VblueRecord::getFieldVblue(le_int16 index, VblueFormbt vblueFormbt, VblueRecordField field) const
 {
-    le_int16 baseIndex = getFieldCount(valueFormat) * index;
-    le_int16 valueIndex = getFieldIndex(valueFormat, field);
-    le_int16 value = values[baseIndex + valueIndex];
+    le_int16 bbseIndex = getFieldCount(vblueFormbt) * index;
+    le_int16 vblueIndex = getFieldIndex(vblueFormbt, field);
+    le_int16 vblue = vblues[bbseIndex + vblueIndex];
 
-    return SWAPW(value);
+    return SWAPW(vblue);
 }
 
-void ValueRecord::adjustPosition(ValueFormat valueFormat, const LETableReference& base, GlyphIterator &glyphIterator,
-                                 const LEFontInstance *fontInstance, LEErrorCode &success) const
+void VblueRecord::bdjustPosition(VblueFormbt vblueFormbt, const LETbbleReference& bbse, GlyphIterbtor &glyphIterbtor,
+                                 const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const
 {
-    float xPlacementAdjustment = 0;
-    float yPlacementAdjustment = 0;
-    float xAdvanceAdjustment   = 0;
-    float yAdvanceAdjustment   = 0;
+    flobt xPlbcementAdjustment = 0;
+    flobt yPlbcementAdjustment = 0;
+    flobt xAdvbnceAdjustment   = 0;
+    flobt yAdvbnceAdjustment   = 0;
 
-    if ((valueFormat & vfbXPlacement) != 0) {
-        le_int16 value = getFieldValue(valueFormat, vrfXPlacement);
+    if ((vblueFormbt & vfbXPlbcement) != 0) {
+        le_int16 vblue = getFieldVblue(vblueFormbt, vrfXPlbcement);
         LEPoint pixels;
 
-        fontInstance->transformFunits(value, 0, pixels);
+        fontInstbnce->trbnsformFunits(vblue, 0, pixels);
 
-        xPlacementAdjustment += fontInstance->xPixelsToUnits(pixels.fX);
-        yPlacementAdjustment += fontInstance->yPixelsToUnits(pixels.fY);
+        xPlbcementAdjustment += fontInstbnce->xPixelsToUnits(pixels.fX);
+        yPlbcementAdjustment += fontInstbnce->yPixelsToUnits(pixels.fY);
     }
 
-    if ((valueFormat & vfbYPlacement) != 0) {
-        le_int16 value = getFieldValue(valueFormat, vrfYPlacement);
+    if ((vblueFormbt & vfbYPlbcement) != 0) {
+        le_int16 vblue = getFieldVblue(vblueFormbt, vrfYPlbcement);
         LEPoint pixels;
 
-        fontInstance->transformFunits(0, value, pixels);
+        fontInstbnce->trbnsformFunits(0, vblue, pixels);
 
-        xPlacementAdjustment += fontInstance->xPixelsToUnits(pixels.fX);
-        yPlacementAdjustment += fontInstance->yPixelsToUnits(pixels.fY);
+        xPlbcementAdjustment += fontInstbnce->xPixelsToUnits(pixels.fX);
+        yPlbcementAdjustment += fontInstbnce->yPixelsToUnits(pixels.fY);
     }
 
-    if ((valueFormat & vfbXAdvance) != 0) {
-        le_int16 value = getFieldValue(valueFormat, vrfXAdvance);
+    if ((vblueFormbt & vfbXAdvbnce) != 0) {
+        le_int16 vblue = getFieldVblue(vblueFormbt, vrfXAdvbnce);
         LEPoint pixels;
 
-        fontInstance->transformFunits(value, 0, pixels);
+        fontInstbnce->trbnsformFunits(vblue, 0, pixels);
 
-        xAdvanceAdjustment += fontInstance->xPixelsToUnits(pixels.fX);
-        yAdvanceAdjustment += fontInstance->yPixelsToUnits(pixels.fY);
+        xAdvbnceAdjustment += fontInstbnce->xPixelsToUnits(pixels.fX);
+        yAdvbnceAdjustment += fontInstbnce->yPixelsToUnits(pixels.fY);
     }
 
-    if ((valueFormat & vfbYAdvance) != 0) {
-        le_int16 value = getFieldValue(valueFormat, vrfYAdvance);
+    if ((vblueFormbt & vfbYAdvbnce) != 0) {
+        le_int16 vblue = getFieldVblue(vblueFormbt, vrfYAdvbnce);
         LEPoint pixels;
 
-        fontInstance->transformFunits(0, value, pixels);
+        fontInstbnce->trbnsformFunits(0, vblue, pixels);
 
-        xAdvanceAdjustment += fontInstance->xPixelsToUnits(pixels.fX);
-        yAdvanceAdjustment += fontInstance->yPixelsToUnits(pixels.fY);
+        xAdvbnceAdjustment += fontInstbnce->xPixelsToUnits(pixels.fX);
+        yAdvbnceAdjustment += fontInstbnce->yPixelsToUnits(pixels.fY);
     }
 
-    // FIXME: The device adjustments should really be transformed, but
-    // the only way I know how to do that is to convert them to le_int16 units,
-    // transform them, and then convert them back to pixels. Sigh...
-    if ((valueFormat & vfbAnyDevice) != 0) {
-        le_int16 xppem = (le_int16) fontInstance->getXPixelsPerEm();
-        le_int16 yppem = (le_int16) fontInstance->getYPixelsPerEm();
+    // FIXME: The device bdjustments should reblly be trbnsformed, but
+    // the only wby I know how to do thbt is to convert them to le_int16 units,
+    // trbnsform them, bnd then convert them bbck to pixels. Sigh...
+    if ((vblueFormbt & vfbAnyDevice) != 0) {
+        le_int16 xppem = (le_int16) fontInstbnce->getXPixelsPerEm();
+        le_int16 yppem = (le_int16) fontInstbnce->getYPixelsPerEm();
 
-        if ((valueFormat & vfbXPlaDevice) != 0) {
-            Offset dtOffset = getFieldValue(valueFormat, vrfXPlaDevice);
+        if ((vblueFormbt & vfbXPlbDevice) != 0) {
+            Offset dtOffset = getFieldVblue(vblueFormbt, vrfXPlbDevice);
 
             if (dtOffset != 0) {
-                 LEReferenceTo<DeviceTable> dt(base, success, dtOffset);
+                 LEReferenceTo<DeviceTbble> dt(bbse, success, dtOffset);
                 le_int16 xAdj = dt->getAdjustment(dt, xppem, success);
 
-                xPlacementAdjustment += fontInstance->xPixelsToUnits(xAdj);
+                xPlbcementAdjustment += fontInstbnce->xPixelsToUnits(xAdj);
             }
         }
 
-        if ((valueFormat & vfbYPlaDevice) != 0) {
-            Offset dtOffset = getFieldValue(valueFormat, vrfYPlaDevice);
+        if ((vblueFormbt & vfbYPlbDevice) != 0) {
+            Offset dtOffset = getFieldVblue(vblueFormbt, vrfYPlbDevice);
 
             if (dtOffset != 0) {
-                 LEReferenceTo<DeviceTable> dt(base, success, dtOffset);
+                 LEReferenceTo<DeviceTbble> dt(bbse, success, dtOffset);
                 le_int16 yAdj = dt->getAdjustment(dt, yppem, success);
 
-                yPlacementAdjustment += fontInstance->yPixelsToUnits(yAdj);
+                yPlbcementAdjustment += fontInstbnce->yPixelsToUnits(yAdj);
             }
         }
 
-        if ((valueFormat & vfbXAdvDevice) != 0) {
-            Offset dtOffset = getFieldValue(valueFormat, vrfXAdvDevice);
+        if ((vblueFormbt & vfbXAdvDevice) != 0) {
+            Offset dtOffset = getFieldVblue(vblueFormbt, vrfXAdvDevice);
 
             if (dtOffset != 0) {
-                 LEReferenceTo<DeviceTable> dt(base, success, dtOffset);
+                 LEReferenceTo<DeviceTbble> dt(bbse, success, dtOffset);
                 le_int16 xAdj = dt->getAdjustment(dt, xppem, success);
 
-                xAdvanceAdjustment += fontInstance->xPixelsToUnits(xAdj);
+                xAdvbnceAdjustment += fontInstbnce->xPixelsToUnits(xAdj);
             }
         }
 
-        if ((valueFormat & vfbYAdvDevice) != 0) {
-            Offset dtOffset = getFieldValue(valueFormat, vrfYAdvDevice);
+        if ((vblueFormbt & vfbYAdvDevice) != 0) {
+            Offset dtOffset = getFieldVblue(vblueFormbt, vrfYAdvDevice);
 
             if (dtOffset != 0) {
-              LEReferenceTo<DeviceTable> dt(base, success, dtOffset);
+              LEReferenceTo<DeviceTbble> dt(bbse, success, dtOffset);
               le_int16 yAdj = dt->getAdjustment(dt, yppem, success);
 
-              yAdvanceAdjustment += fontInstance->yPixelsToUnits(yAdj);
+              yAdvbnceAdjustment += fontInstbnce->yPixelsToUnits(yAdj);
             }
         }
     }
 
-    glyphIterator.adjustCurrGlyphPositionAdjustment(
-        xPlacementAdjustment, yPlacementAdjustment, xAdvanceAdjustment, yAdvanceAdjustment);
+    glyphIterbtor.bdjustCurrGlyphPositionAdjustment(
+        xPlbcementAdjustment, yPlbcementAdjustment, xAdvbnceAdjustment, yAdvbnceAdjustment);
 }
 
-void ValueRecord::adjustPosition(le_int16 index, ValueFormat valueFormat, const LETableReference& base, GlyphIterator &glyphIterator,
-                                 const LEFontInstance *fontInstance, LEErrorCode &success) const
+void VblueRecord::bdjustPosition(le_int16 index, VblueFormbt vblueFormbt, const LETbbleReference& bbse, GlyphIterbtor &glyphIterbtor,
+                                 const LEFontInstbnce *fontInstbnce, LEErrorCode &success) const
 {
-    float xPlacementAdjustment = 0;
-    float yPlacementAdjustment = 0;
-    float xAdvanceAdjustment   = 0;
-    float yAdvanceAdjustment   = 0;
+    flobt xPlbcementAdjustment = 0;
+    flobt yPlbcementAdjustment = 0;
+    flobt xAdvbnceAdjustment   = 0;
+    flobt yAdvbnceAdjustment   = 0;
 
-    if ((valueFormat & vfbXPlacement) != 0) {
-        le_int16 value = getFieldValue(index, valueFormat, vrfXPlacement);
+    if ((vblueFormbt & vfbXPlbcement) != 0) {
+        le_int16 vblue = getFieldVblue(index, vblueFormbt, vrfXPlbcement);
         LEPoint pixels;
 
-        fontInstance->transformFunits(value, 0, pixels);
+        fontInstbnce->trbnsformFunits(vblue, 0, pixels);
 
-        xPlacementAdjustment += fontInstance->xPixelsToUnits(pixels.fX);
-        yPlacementAdjustment += fontInstance->yPixelsToUnits(pixels.fY);
+        xPlbcementAdjustment += fontInstbnce->xPixelsToUnits(pixels.fX);
+        yPlbcementAdjustment += fontInstbnce->yPixelsToUnits(pixels.fY);
     }
 
-    if ((valueFormat & vfbYPlacement) != 0) {
-        le_int16 value = getFieldValue(index, valueFormat, vrfYPlacement);
+    if ((vblueFormbt & vfbYPlbcement) != 0) {
+        le_int16 vblue = getFieldVblue(index, vblueFormbt, vrfYPlbcement);
         LEPoint pixels;
 
-        fontInstance->transformFunits(0, value, pixels);
+        fontInstbnce->trbnsformFunits(0, vblue, pixels);
 
-        xPlacementAdjustment += fontInstance->xPixelsToUnits(pixels.fX);
-        yPlacementAdjustment += fontInstance->yPixelsToUnits(pixels.fY);
+        xPlbcementAdjustment += fontInstbnce->xPixelsToUnits(pixels.fX);
+        yPlbcementAdjustment += fontInstbnce->yPixelsToUnits(pixels.fY);
     }
 
-    if ((valueFormat & vfbXAdvance) != 0) {
-        le_int16 value = getFieldValue(index, valueFormat, vrfXAdvance);
+    if ((vblueFormbt & vfbXAdvbnce) != 0) {
+        le_int16 vblue = getFieldVblue(index, vblueFormbt, vrfXAdvbnce);
         LEPoint pixels;
 
-        fontInstance->transformFunits(value, 0, pixels);
+        fontInstbnce->trbnsformFunits(vblue, 0, pixels);
 
-        xAdvanceAdjustment += fontInstance->xPixelsToUnits(pixels.fX);
-        yAdvanceAdjustment += fontInstance->yPixelsToUnits(pixels.fY);
+        xAdvbnceAdjustment += fontInstbnce->xPixelsToUnits(pixels.fX);
+        yAdvbnceAdjustment += fontInstbnce->yPixelsToUnits(pixels.fY);
     }
 
-    if ((valueFormat & vfbYAdvance) != 0) {
-        le_int16 value = getFieldValue(index, valueFormat, vrfYAdvance);
+    if ((vblueFormbt & vfbYAdvbnce) != 0) {
+        le_int16 vblue = getFieldVblue(index, vblueFormbt, vrfYAdvbnce);
         LEPoint pixels;
 
-        fontInstance->transformFunits(0, value, pixels);
+        fontInstbnce->trbnsformFunits(0, vblue, pixels);
 
-        xAdvanceAdjustment += fontInstance->xPixelsToUnits(pixels.fX);
-        yAdvanceAdjustment += fontInstance->yPixelsToUnits(pixels.fY);
+        xAdvbnceAdjustment += fontInstbnce->xPixelsToUnits(pixels.fX);
+        yAdvbnceAdjustment += fontInstbnce->yPixelsToUnits(pixels.fY);
     }
 
-    // FIXME: The device adjustments should really be transformed, but
-    // the only way I know how to do that is to convert them to le_int16 units,
-    // transform them, and then convert them back to pixels. Sigh...
-    if ((valueFormat & vfbAnyDevice) != 0) {
-        le_int16 xppem = (le_int16) fontInstance->getXPixelsPerEm();
-        le_int16 yppem = (le_int16) fontInstance->getYPixelsPerEm();
+    // FIXME: The device bdjustments should reblly be trbnsformed, but
+    // the only wby I know how to do thbt is to convert them to le_int16 units,
+    // trbnsform them, bnd then convert them bbck to pixels. Sigh...
+    if ((vblueFormbt & vfbAnyDevice) != 0) {
+        le_int16 xppem = (le_int16) fontInstbnce->getXPixelsPerEm();
+        le_int16 yppem = (le_int16) fontInstbnce->getYPixelsPerEm();
 
-        if ((valueFormat & vfbXPlaDevice) != 0) {
-            Offset dtOffset = getFieldValue(index, valueFormat, vrfXPlaDevice);
+        if ((vblueFormbt & vfbXPlbDevice) != 0) {
+            Offset dtOffset = getFieldVblue(index, vblueFormbt, vrfXPlbDevice);
 
             if (dtOffset != 0) {
-                LEReferenceTo<DeviceTable> dt(base, success, dtOffset);
+                LEReferenceTo<DeviceTbble> dt(bbse, success, dtOffset);
                 le_int16 xAdj = dt->getAdjustment(dt, xppem, success);
 
-                xPlacementAdjustment += fontInstance->xPixelsToUnits(xAdj);
+                xPlbcementAdjustment += fontInstbnce->xPixelsToUnits(xAdj);
             }
         }
 
-        if ((valueFormat & vfbYPlaDevice) != 0) {
-            Offset dtOffset = getFieldValue(index, valueFormat, vrfYPlaDevice);
+        if ((vblueFormbt & vfbYPlbDevice) != 0) {
+            Offset dtOffset = getFieldVblue(index, vblueFormbt, vrfYPlbDevice);
 
             if (dtOffset != 0) {
-                LEReferenceTo<DeviceTable> dt(base, success, dtOffset);
+                LEReferenceTo<DeviceTbble> dt(bbse, success, dtOffset);
                 le_int16 yAdj = dt->getAdjustment(dt, yppem, success);
 
-                yPlacementAdjustment += fontInstance->yPixelsToUnits(yAdj);
+                yPlbcementAdjustment += fontInstbnce->yPixelsToUnits(yAdj);
             }
         }
 
-        if ((valueFormat & vfbXAdvDevice) != 0) {
-            Offset dtOffset = getFieldValue(index, valueFormat, vrfXAdvDevice);
+        if ((vblueFormbt & vfbXAdvDevice) != 0) {
+            Offset dtOffset = getFieldVblue(index, vblueFormbt, vrfXAdvDevice);
 
             if (dtOffset != 0) {
-                LEReferenceTo<DeviceTable> dt(base, success, dtOffset);
+                LEReferenceTo<DeviceTbble> dt(bbse, success, dtOffset);
                 le_int16 xAdj = dt->getAdjustment(dt, xppem, success);
 
-                xAdvanceAdjustment += fontInstance->xPixelsToUnits(xAdj);
+                xAdvbnceAdjustment += fontInstbnce->xPixelsToUnits(xAdj);
             }
         }
 
-        if ((valueFormat & vfbYAdvDevice) != 0) {
-            Offset dtOffset = getFieldValue(index, valueFormat, vrfYAdvDevice);
+        if ((vblueFormbt & vfbYAdvDevice) != 0) {
+            Offset dtOffset = getFieldVblue(index, vblueFormbt, vrfYAdvDevice);
 
             if (dtOffset != 0) {
-                LEReferenceTo<DeviceTable> dt(base, success, dtOffset);
+                LEReferenceTo<DeviceTbble> dt(bbse, success, dtOffset);
                 le_int16 yAdj = dt->getAdjustment(dt, yppem, success);
 
-                yAdvanceAdjustment += fontInstance->yPixelsToUnits(yAdj);
+                yAdvbnceAdjustment += fontInstbnce->yPixelsToUnits(yAdj);
             }
         }
     }
 
-    glyphIterator.adjustCurrGlyphPositionAdjustment(
-        xPlacementAdjustment, yPlacementAdjustment, xAdvanceAdjustment, yAdvanceAdjustment);
+    glyphIterbtor.bdjustCurrGlyphPositionAdjustment(
+        xPlbcementAdjustment, yPlbcementAdjustment, xAdvbnceAdjustment, yAdvbnceAdjustment);
 }
 
-le_int16 ValueRecord::getSize(ValueFormat valueFormat)
+le_int16 VblueRecord::getSize(VblueFormbt vblueFormbt)
 {
-    return getFieldCount(valueFormat) * sizeof(le_int16);
+    return getFieldCount(vblueFormbt) * sizeof(le_int16);
 }
 
-le_int16 ValueRecord::getFieldCount(ValueFormat valueFormat)
+le_int16 VblueRecord::getFieldCount(VblueFormbt vblueFormbt)
 {
-    static const le_int16 bitsInNibble[] =
+    stbtic const le_int16 bitsInNibble[] =
     {
         0 + 0 + 0 + 0,
         0 + 0 + 0 + 1,
@@ -294,15 +294,15 @@ le_int16 ValueRecord::getFieldCount(ValueFormat valueFormat)
         1 + 1 + 1 + 1
     };
 
-    valueFormat &= ~vfbReserved;
+    vblueFormbt &= ~vfbReserved;
 
-    return NibbleBits(valueFormat, 0) + NibbleBits(valueFormat, 1) +
-           NibbleBits(valueFormat, 2) + NibbleBits(valueFormat, 3);
+    return NibbleBits(vblueFormbt, 0) + NibbleBits(vblueFormbt, 1) +
+           NibbleBits(vblueFormbt, 2) + NibbleBits(vblueFormbt, 3);
 }
 
-le_int16 ValueRecord::getFieldIndex(ValueFormat valueFormat, ValueRecordField field)
+le_int16 VblueRecord::getFieldIndex(VblueFormbt vblueFormbt, VblueRecordField field)
 {
-    static const le_uint16 beforeMasks[] =
+    stbtic const le_uint16 beforeMbsks[] =
     {
         0x0000,
         0x0001,
@@ -323,7 +323,7 @@ le_int16 ValueRecord::getFieldIndex(ValueFormat valueFormat, ValueRecordField fi
         0xFFFF
     };
 
-    return getFieldCount(valueFormat & beforeMasks[field]);
+    return getFieldCount(vblueFormbt & beforeMbsks[field]);
 }
 
 U_NAMESPACE_END

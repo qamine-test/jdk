@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <stdio.h>
@@ -28,22 +28,22 @@
 #include <stdlib.h>
 
 #include "sysShmem.h"
-#include "shmemBase.h"
-#include "jdwpTransport.h"  /* for Packet, TransportCallback */
+#include "shmemBbse.h"
+#include "jdwpTrbnsport.h"  /* for Pbcket, TrbnsportCbllbbck */
 
 #define MIN(x,y) ((x)<(y)?(x):(y))
 
 /*
- * This is the base shared memory transport implementation that is used
- * by both front-end transports (through com.sun.tools.jdi) and
- * back-end transports (through JDWP_OnLoad and the function tables
+ * This is the bbse shbred memory trbnsport implementbtion thbt is used
+ * by both front-end trbnsports (through com.sun.tools.jdi) bnd
+ * bbck-end trbnsports (through JDWP_OnLobd bnd the function tbbles
  * it requires). It supports multiple connections for the benefit of the
- * front-end client; the back end interface assumes only a single connection.
+ * front-end client; the bbck end interfbce bssumes only b single connection.
  */
 
-#define MAX_IPC_PREFIX 50   /* user-specified or generated name for */
-                            /* shared memory seg and prefix for other IPC */
-#define MAX_IPC_SUFFIX 25   /* suffix to shmem name for other IPC names */
+#define MAX_IPC_PREFIX 50   /* user-specified or generbted nbme for */
+                            /* shbred memory seg bnd prefix for other IPC */
+#define MAX_IPC_SUFFIX 25   /* suffix to shmem nbme for other IPC nbmes */
 #define MAX_IPC_NAME   (MAX_IPC_PREFIX + MAX_IPC_SUFFIX)
 
 #define MAX_GENERATION_RETRIES 20
@@ -52,122 +52,122 @@
 #define CHECK_ERROR(expr) do { \
                               jint error = (expr); \
                               if (error != SYS_OK) { \
-                                  setLastError(error); \
+                                  setLbstError(error); \
                                   return error; \
                               } \
                           } while (0)
 
 /*
- * The following assertions should hold anytime the stream's mutex is not held
+ * The following bssertions should hold bnytime the strebm's mutex is not held
  */
-#define STREAM_INVARIANT(stream) \
+#define STREAM_INVARIANT(strebm) \
         do { \
-            SHMEM_ASSERT((stream->shared->readOffset < SHARED_BUFFER_SIZE) \
-                         && (stream->shared->readOffset >= 0)); \
-            SHMEM_ASSERT((stream->shared->writeOffset < SHARED_BUFFER_SIZE) \
-                         && (stream->shared->writeOffset >= 0)); \
+            SHMEM_ASSERT((strebm->shbred->rebdOffset < SHARED_BUFFER_SIZE) \
+                         && (strebm->shbred->rebdOffset >= 0)); \
+            SHMEM_ASSERT((strebm->shbred->writeOffset < SHARED_BUFFER_SIZE) \
+                         && (strebm->shbred->writeOffset >= 0)); \
         } while (0)
 
 /*
- * Transports are duplex, so carve the shared memory into "streams",
- * one used to send from client to server, the other vice versa.
+ * Trbnsports bre duplex, so cbrve the shbred memory into "strebms",
+ * one used to send from client to server, the other vice versb.
  */
-typedef struct SharedMemoryListener {
-    char mutexName[MAX_IPC_NAME];
-    char acceptEventName[MAX_IPC_NAME];
-    char attachEventName[MAX_IPC_NAME];
-    jboolean isListening;
-    jboolean isAccepted;
-    jlong acceptingPID;
-    jlong attachingPID;
-} SharedListener;
+typedef struct ShbredMemoryListener {
+    chbr mutexNbme[MAX_IPC_NAME];
+    chbr bcceptEventNbme[MAX_IPC_NAME];
+    chbr bttbchEventNbme[MAX_IPC_NAME];
+    jboolebn isListening;
+    jboolebn isAccepted;
+    jlong bcceptingPID;
+    jlong bttbchingPID;
+} ShbredListener;
 
-typedef struct SharedMemoryTransport {
-    char name[MAX_IPC_PREFIX];
+typedef struct ShbredMemoryTrbnsport {
+    chbr nbme[MAX_IPC_PREFIX];
     sys_ipmutex_t mutex;
-    sys_event_t acceptEvent;
-    sys_event_t attachEvent;
-    sys_shmem_t sharedMemory;
-    SharedListener *shared;
-} SharedMemoryTransport;
+    sys_event_t bcceptEvent;
+    sys_event_t bttbchEvent;
+    sys_shmem_t shbredMemory;
+    ShbredListener *shbred;
+} ShbredMemoryTrbnsport;
 
 /*
- * Access must be syncronized.  Holds one shared
- * memory buffer and its state.
+ * Access must be syncronized.  Holds one shbred
+ * memory buffer bnd its stbte.
  */
-typedef struct SharedStream {
-    char mutexName[MAX_IPC_NAME];
-    char hasDataEventName[MAX_IPC_NAME];
-    char hasSpaceEventName[MAX_IPC_NAME];
-    int readOffset;
+typedef struct ShbredStrebm {
+    chbr mutexNbme[MAX_IPC_NAME];
+    chbr hbsDbtbEventNbme[MAX_IPC_NAME];
+    chbr hbsSpbceEventNbme[MAX_IPC_NAME];
+    int rebdOffset;
     int writeOffset;
-    jboolean isFull;
+    jboolebn isFull;
     jbyte buffer[SHARED_BUFFER_SIZE];
-} SharedStream;
+} ShbredStrebm;
 
 /*
- * The two shared streams: client to server and
+ * The two shbred strebms: client to server bnd
  * server to client.
  */
-typedef struct SharedMemory {
-    SharedStream toClient;
-    SharedStream toServer;
-} SharedMemory;
+typedef struct ShbredMemory {
+    ShbredStrebm toClient;
+    ShbredStrebm toServer;
+} ShbredMemory;
 
 /*
- * Local (to process) access to the shared memory
- * stream.  access to hasData and hasSpace synchronized
+ * Locbl (to process) bccess to the shbred memory
+ * strebm.  bccess to hbsDbtb bnd hbsSpbce synchronized
  * by OS.
  */
-typedef struct Stream {
+typedef struct Strebm {
     sys_ipmutex_t mutex;
-    sys_event_t hasData;
-    sys_event_t hasSpace;
-    SharedStream *shared;
-    jint state;
-} Stream;
+    sys_event_t hbsDbtb;
+    sys_event_t hbsSpbce;
+    ShbredStrebm *shbred;
+    jint stbte;
+} Strebm;
 
 /*
- * Values for Stream.state field above.
+ * Vblues for Strebm.stbte field bbove.
  */
 #define STATE_CLOSED 0xDEAD
 #define STATE_OPEN   (STATE_CLOSED -1)
 /*
- * State checking macro. We compare against the STATE_OPEN value so
- * that STATE_CLOSED and any other value will be considered closed.
- * This catches a freed Stream as long as the memory page is still
- * valid. If the memory page is gone, then there is little that we
- * can do.
+ * Stbte checking mbcro. We compbre bgbinst the STATE_OPEN vblue so
+ * thbt STATE_CLOSED bnd bny other vblue will be considered closed.
+ * This cbtches b freed Strebm bs long bs the memory pbge is still
+ * vblid. If the memory pbge is gone, then there is little thbt we
+ * cbn do.
  */
-#define IS_STATE_CLOSED(state) (state != STATE_OPEN)
+#define IS_STATE_CLOSED(stbte) (stbte != STATE_OPEN)
 
 
-typedef struct SharedMemoryConnection {
-    char name[MAX_IPC_NAME];
-    SharedMemory *shared;
-    sys_shmem_t sharedMemory;
-    Stream incoming;
-    Stream outgoing;
+typedef struct ShbredMemoryConnection {
+    chbr nbme[MAX_IPC_NAME];
+    ShbredMemory *shbred;
+    sys_shmem_t shbredMemory;
+    Strebm incoming;
+    Strebm outgoing;
     sys_process_t otherProcess;
-    sys_event_t shutdown;           /* signalled to indicate shutdown */
-} SharedMemoryConnection;
+    sys_event_t shutdown;           /* signblled to indicbte shutdown */
+} ShbredMemoryConnection;
 
-static jdwpTransportCallback *callback;
-static JavaVM *jvm;
-static int tlsIndex;
+stbtic jdwpTrbnsportCbllbbck *cbllbbck;
+stbtic JbvbVM *jvm;
+stbtic int tlsIndex;
 
-typedef jint (*CreateFunc)(char *name, void *arg);
+typedef jint (*CrebteFunc)(chbr *nbme, void *brg);
 
 /*
- * Set the per-thread error message (if not already set)
+ * Set the per-threbd error messbge (if not blrebdy set)
  */
-static void
-setLastErrorMsg(char *newmsg) {
-    char *msg;
+stbtic void
+setLbstErrorMsg(chbr *newmsg) {
+    chbr *msg;
 
-    msg = (char *)sysTlsGet(tlsIndex);
+    msg = (chbr *)sysTlsGet(tlsIndex);
     if (msg == NULL) {
-        msg = (*callback->alloc)((int)strlen(newmsg)+1);
+        msg = (*cbllbbck->blloc)((int)strlen(newmsg)+1);
         if (msg != NULL) {
            strcpy(msg, newmsg);
         }
@@ -176,344 +176,344 @@ setLastErrorMsg(char *newmsg) {
 }
 
 /*
- * Clear last per-thread error message
+ * Clebr lbst per-threbd error messbge
  */
-static void
-clearLastError() {
-    char* msg = (char *)sysTlsGet(tlsIndex);
+stbtic void
+clebrLbstError() {
+    chbr* msg = (chbr *)sysTlsGet(tlsIndex);
     if (msg != NULL) {
-        (*callback->free)(msg);
+        (*cbllbbck->free)(msg);
         sysTlsPut(tlsIndex, NULL);
     }
 }
 
 /*
- * Set the per-thread error message to the textual representation
- * of the last system error (if not already set)
+ * Set the per-threbd error messbge to the textubl representbtion
+ * of the lbst system error (if not blrebdy set)
  */
-static void
-setLastError(jint error) {
-    char buf[128];
+stbtic void
+setLbstError(jint error) {
+    chbr buf[128];
 
     switch (error) {
-        case SYS_OK      : return;      /* no-op */
-        case SYS_DIED    : strcpy(buf, "Other process terminated"); break;
-        case SYS_TIMEOUT : strcpy(buf, "Timed out"); break;
-        default          : sysGetLastError(buf, sizeof(buf));
+        cbse SYS_OK      : return;      /* no-op */
+        cbse SYS_DIED    : strcpy(buf, "Other process terminbted"); brebk;
+        cbse SYS_TIMEOUT : strcpy(buf, "Timed out"); brebk;
+        defbult          : sysGetLbstError(buf, sizeof(buf));
     }
-    setLastErrorMsg(buf);
+    setLbstErrorMsg(buf);
 }
 
 jint
-shmemBase_initialize(JavaVM *vm, jdwpTransportCallback *cbPtr)
+shmemBbse_initiblize(JbvbVM *vm, jdwpTrbnsportCbllbbck *cbPtr)
 {
     jvm = vm;
-    callback = cbPtr;
+    cbllbbck = cbPtr;
     tlsIndex = sysTlsAlloc();
     return SYS_OK;
 }
 
-static jint
-createWithGeneratedName(char *prefix, char *nameBuffer, CreateFunc func, void *arg)
+stbtic jint
+crebteWithGenerbtedNbme(chbr *prefix, chbr *nbmeBuffer, CrebteFunc func, void *brg)
 {
     jint error;
     jint i = 0;
 
     do {
-        strcpy(nameBuffer, prefix);
+        strcpy(nbmeBuffer, prefix);
         if (i > 0) {
-            char buf[10];
+            chbr buf[10];
             sprintf(buf, ".%d", i+1);
-            strcat(nameBuffer, buf);
+            strcbt(nbmeBuffer, buf);
         }
-        error = func(nameBuffer, arg);
+        error = func(nbmeBuffer, brg);
         i++;
     } while ((error == SYS_INUSE) && (i < MAX_GENERATION_RETRIES));
 
     if (error != SYS_OK) {
-        setLastError(error);
+        setLbstError(error);
     }
 
     return error;
 }
 
-typedef struct SharedMemoryArg {
+typedef struct ShbredMemoryArg {
     jint size;
     sys_shmem_t memory;
-    void *start;
-} SharedMemoryArg;
+    void *stbrt;
+} ShbredMemoryArg;
 
-static jint
-createSharedMem(char *name, void *ptr)
+stbtic jint
+crebteShbredMem(chbr *nbme, void *ptr)
 {
-    SharedMemoryArg *arg = ptr;
-    return sysSharedMemCreate(name, arg->size, &arg->memory, &arg->start);
+    ShbredMemoryArg *brg = ptr;
+    return sysShbredMemCrebte(nbme, brg->size, &brg->memory, &brg->stbrt);
 }
 
-static jint
-createMutex(char *name, void *arg)
+stbtic jint
+crebteMutex(chbr *nbme, void *brg)
 {
-    sys_ipmutex_t *retArg = arg;
-    return sysIPMutexCreate(name, retArg);
+    sys_ipmutex_t *retArg = brg;
+    return sysIPMutexCrebte(nbme, retArg);
 }
 
 /*
- * Creates named or unnamed event that is automatically reset
- * (in other words, no need to reset event after it has signalled
- * a thread).
+ * Crebtes nbmed or unnbmed event thbt is butombticblly reset
+ * (in other words, no need to reset event bfter it hbs signblled
+ * b threbd).
  */
-static jint
-createEvent(char *name, void *arg)
+stbtic jint
+crebteEvent(chbr *nbme, void *brg)
 {
-    sys_event_t *retArg = arg;
-    return sysEventCreate(name, retArg, JNI_FALSE);
+    sys_event_t *retArg = brg;
+    return sysEventCrebte(nbme, retArg, JNI_FALSE);
 }
 
 #define ADD_OFFSET(o1, o2) ((o1 + o2) % SHARED_BUFFER_SIZE)
-#define FULL(stream) (stream->shared->isFull)
-#define EMPTY(stream) ((stream->shared->writeOffset == stream->shared->readOffset) \
-                       && !stream->shared->isFull)
+#define FULL(strebm) (strebm->shbred->isFull)
+#define EMPTY(strebm) ((strebm->shbred->writeOffset == strebm->shbred->rebdOffset) \
+                       && !strebm->shbred->isFull)
 
-static jint
-leaveMutex(Stream *stream)
+stbtic jint
+lebveMutex(Strebm *strebm)
 {
-    return sysIPMutexExit(stream->mutex);
+    return sysIPMutexExit(strebm->mutex);
 }
 
-/* enter the stream's mutex and (optionally) check for a closed stream */
-static jint
-enterMutex(Stream *stream, sys_event_t event)
+/* enter the strebm's mutex bnd (optionblly) check for b closed strebm */
+stbtic jint
+enterMutex(Strebm *strebm, sys_event_t event)
 {
-    jint ret = sysIPMutexEnter(stream->mutex, event);
+    jint ret = sysIPMutexEnter(strebm->mutex, event);
     if (ret != SYS_OK) {
-        if (IS_STATE_CLOSED(stream->state)) {
-            setLastErrorMsg("stream closed");
+        if (IS_STATE_CLOSED(strebm->stbte)) {
+            setLbstErrorMsg("strebm closed");
         }
         return ret;
     }
-    if (IS_STATE_CLOSED(stream->state)) {
-        setLastErrorMsg("stream closed");
-        (void)leaveMutex(stream);
+    if (IS_STATE_CLOSED(strebm->stbte)) {
+        setLbstErrorMsg("strebm closed");
+        (void)lebveMutex(strebm);
         return SYS_ERR;
     }
     return SYS_OK;
 }
 
 /*
- * Enter/exit with stream mutex held.
- * On error, does not hold the stream mutex.
+ * Enter/exit with strebm mutex held.
+ * On error, does not hold the strebm mutex.
  */
-static jint
-waitForSpace(SharedMemoryConnection *connection, Stream *stream)
+stbtic jint
+wbitForSpbce(ShbredMemoryConnection *connection, Strebm *strebm)
 {
     jint error = SYS_OK;
 
-    /* Assumes mutex is held on call */
-    while ((error == SYS_OK) && FULL(stream)) {
-        CHECK_ERROR(leaveMutex(stream));
-        error = sysEventWait(connection->otherProcess, stream->hasSpace, 0);
+    /* Assumes mutex is held on cbll */
+    while ((error == SYS_OK) && FULL(strebm)) {
+        CHECK_ERROR(lebveMutex(strebm));
+        error = sysEventWbit(connection->otherProcess, strebm->hbsSpbce, 0);
         if (error == SYS_OK) {
-            CHECK_ERROR(enterMutex(stream, connection->shutdown));
+            CHECK_ERROR(enterMutex(strebm, connection->shutdown));
         } else {
-            setLastError(error);
+            setLbstError(error);
         }
     }
     return error;
 }
 
-static jint
-signalSpace(Stream *stream)
+stbtic jint
+signblSpbce(Strebm *strebm)
 {
-    return sysEventSignal(stream->hasSpace);
+    return sysEventSignbl(strebm->hbsSpbce);
 }
 
 /*
- * Enter/exit with stream mutex held.
- * On error, does not hold the stream mutex.
+ * Enter/exit with strebm mutex held.
+ * On error, does not hold the strebm mutex.
  */
-static jint
-waitForData(SharedMemoryConnection *connection, Stream *stream)
+stbtic jint
+wbitForDbtb(ShbredMemoryConnection *connection, Strebm *strebm)
 {
     jint error = SYS_OK;
 
-    /* Assumes mutex is held on call */
-    while ((error == SYS_OK) && EMPTY(stream)) {
-        CHECK_ERROR(leaveMutex(stream));
-        error = sysEventWait(connection->otherProcess, stream->hasData, 0);
+    /* Assumes mutex is held on cbll */
+    while ((error == SYS_OK) && EMPTY(strebm)) {
+        CHECK_ERROR(lebveMutex(strebm));
+        error = sysEventWbit(connection->otherProcess, strebm->hbsDbtb, 0);
         if (error == SYS_OK) {
-            CHECK_ERROR(enterMutex(stream, connection->shutdown));
+            CHECK_ERROR(enterMutex(strebm, connection->shutdown));
         } else {
-            setLastError(error);
+            setLbstError(error);
         }
     }
     return error;
 }
 
-static jint
-signalData(Stream *stream)
+stbtic jint
+signblDbtb(Strebm *strebm)
 {
-    return sysEventSignal(stream->hasData);
+    return sysEventSignbl(strebm->hbsDbtb);
 }
 
 
-static jint
-closeStream(Stream *stream, jboolean linger)
+stbtic jint
+closeStrebm(Strebm *strebm, jboolebn linger)
 {
     /*
-     * Lock stream during close - ignore shutdown event as we are
-     * closing down and shutdown should be signalled.
+     * Lock strebm during close - ignore shutdown event bs we bre
+     * closing down bnd shutdown should be signblled.
      */
-    CHECK_ERROR(enterMutex(stream, NULL));
+    CHECK_ERROR(enterMutex(strebm, NULL));
 
-    /* mark the stream as closed */
-    stream->state = STATE_CLOSED;
-    /* wake up waitForData() if it is in sysEventWait() */
-    sysEventSignal(stream->hasData);
-    sysEventClose(stream->hasData);
-    /* wake up waitForSpace() if it is in sysEventWait() */
-    sysEventSignal(stream->hasSpace);
-    sysEventClose(stream->hasSpace);
+    /* mbrk the strebm bs closed */
+    strebm->stbte = STATE_CLOSED;
+    /* wbke up wbitForDbtb() if it is in sysEventWbit() */
+    sysEventSignbl(strebm->hbsDbtb);
+    sysEventClose(strebm->hbsDbtb);
+    /* wbke up wbitForSpbce() if it is in sysEventWbit() */
+    sysEventSignbl(strebm->hbsSpbce);
+    sysEventClose(strebm->hbsSpbce);
 
     /*
-     * If linger requested then give the stream a few seconds to
-     * drain before closing it.
+     * If linger requested then give the strebm b few seconds to
+     * drbin before closing it.
      */
     if (linger) {
-        int attempts = 10;
-        while (!EMPTY(stream) && attempts>0) {
-            CHECK_ERROR(leaveMutex(stream));
+        int bttempts = 10;
+        while (!EMPTY(strebm) && bttempts>0) {
+            CHECK_ERROR(lebveMutex(strebm));
             sysSleep(200);
-            CHECK_ERROR(enterMutex(stream, NULL));
-            attempts--;
+            CHECK_ERROR(enterMutex(strebm, NULL));
+            bttempts--;
         }
     }
 
-    CHECK_ERROR(leaveMutex(stream));
-    sysIPMutexClose(stream->mutex);
+    CHECK_ERROR(lebveMutex(strebm));
+    sysIPMutexClose(strebm->mutex);
     return SYS_OK;
 }
 
 /*
- * Server creates stream.
+ * Server crebtes strebm.
  */
-static int
-createStream(char *name, Stream *stream)
+stbtic int
+crebteStrebm(chbr *nbme, Strebm *strebm)
 {
     jint error;
-    char prefix[MAX_IPC_PREFIX];
+    chbr prefix[MAX_IPC_PREFIX];
 
-    sprintf(prefix, "%s.mutex", name);
-    error = createWithGeneratedName(prefix, stream->shared->mutexName,
-                                    createMutex, &stream->mutex);
+    sprintf(prefix, "%s.mutex", nbme);
+    error = crebteWithGenerbtedNbme(prefix, strebm->shbred->mutexNbme,
+                                    crebteMutex, &strebm->mutex);
     if (error != SYS_OK) {
         return error;
     }
 
-    sprintf(prefix, "%s.hasData", name);
-    error = createWithGeneratedName(prefix, stream->shared->hasDataEventName,
-                                    createEvent, &stream->hasData);
+    sprintf(prefix, "%s.hbsDbtb", nbme);
+    error = crebteWithGenerbtedNbme(prefix, strebm->shbred->hbsDbtbEventNbme,
+                                    crebteEvent, &strebm->hbsDbtb);
     if (error != SYS_OK) {
-        (void)closeStream(stream, JNI_FALSE);
+        (void)closeStrebm(strebm, JNI_FALSE);
         return error;
     }
 
-    sprintf(prefix, "%s.hasSpace", name);
-    error = createWithGeneratedName(prefix, stream->shared->hasSpaceEventName,
-                                    createEvent, &stream->hasSpace);
+    sprintf(prefix, "%s.hbsSpbce", nbme);
+    error = crebteWithGenerbtedNbme(prefix, strebm->shbred->hbsSpbceEventNbme,
+                                    crebteEvent, &strebm->hbsSpbce);
     if (error != SYS_OK) {
-        (void)closeStream(stream, JNI_FALSE);
+        (void)closeStrebm(strebm, JNI_FALSE);
         return error;
     }
 
-    stream->shared->readOffset = 0;
-    stream->shared->writeOffset = 0;
-    stream->shared->isFull = JNI_FALSE;
-    stream->state = STATE_OPEN;
+    strebm->shbred->rebdOffset = 0;
+    strebm->shbred->writeOffset = 0;
+    strebm->shbred->isFull = JNI_FALSE;
+    strebm->stbte = STATE_OPEN;
     return SYS_OK;
 }
 
 
 /*
- * Initialization for the stream opened by the other process
+ * Initiblizbtion for the strebm opened by the other process
  */
-static int
-openStream(Stream *stream)
+stbtic int
+openStrebm(Strebm *strebm)
 {
     jint error;
 
-    CHECK_ERROR(sysIPMutexOpen(stream->shared->mutexName, &stream->mutex));
+    CHECK_ERROR(sysIPMutexOpen(strebm->shbred->mutexNbme, &strebm->mutex));
 
-    error = sysEventOpen(stream->shared->hasDataEventName,
-                             &stream->hasData);
+    error = sysEventOpen(strebm->shbred->hbsDbtbEventNbme,
+                             &strebm->hbsDbtb);
     if (error != SYS_OK) {
-        setLastError(error);
-        (void)closeStream(stream, JNI_FALSE);
+        setLbstError(error);
+        (void)closeStrebm(strebm, JNI_FALSE);
         return error;
     }
 
-    error = sysEventOpen(stream->shared->hasSpaceEventName,
-                             &stream->hasSpace);
+    error = sysEventOpen(strebm->shbred->hbsSpbceEventNbme,
+                             &strebm->hbsSpbce);
     if (error != SYS_OK) {
-        setLastError(error);
-        (void)closeStream(stream, JNI_FALSE);
+        setLbstError(error);
+        (void)closeStrebm(strebm, JNI_FALSE);
         return error;
     }
 
-    stream->state = STATE_OPEN;
+    strebm->stbte = STATE_OPEN;
 
     return SYS_OK;
 }
 
 /********************************************************************/
 
-static SharedMemoryConnection *
-allocConnection(void)
+stbtic ShbredMemoryConnection *
+bllocConnection(void)
 {
     /*
-     * TO DO: Track all allocated connections for clean shutdown?
+     * TO DO: Trbck bll bllocbted connections for clebn shutdown?
      */
-    SharedMemoryConnection *conn = (*callback->alloc)(sizeof(SharedMemoryConnection));
+    ShbredMemoryConnection *conn = (*cbllbbck->blloc)(sizeof(ShbredMemoryConnection));
     if (conn != NULL) {
-        memset(conn, 0, sizeof(SharedMemoryConnection));
+        memset(conn, 0, sizeof(ShbredMemoryConnection));
     }
     return conn;
 }
 
-static void
-freeConnection(SharedMemoryConnection *connection)
+stbtic void
+freeConnection(ShbredMemoryConnection *connection)
 {
-    (*callback->free)(connection);
+    (*cbllbbck->free)(connection);
 }
 
-static void
-closeConnection(SharedMemoryConnection *connection)
+stbtic void
+closeConnection(ShbredMemoryConnection *connection)
 {
     /*
-     * Signal all threads accessing this connection that we are
+     * Signbl bll threbds bccessing this connection thbt we bre
      * shutting down.
      */
     if (connection->shutdown) {
-        sysEventSignal(connection->shutdown);
+        sysEventSignbl(connection->shutdown);
     }
 
 
-    (void)closeStream(&connection->outgoing, JNI_TRUE);
-    (void)closeStream(&connection->incoming, JNI_FALSE);
+    (void)closeStrebm(&connection->outgoing, JNI_TRUE);
+    (void)closeStrebm(&connection->incoming, JNI_FALSE);
 
-    if (connection->sharedMemory) {
-        sysSharedMemClose(connection->sharedMemory, connection->shared);
+    if (connection->shbredMemory) {
+        sysShbredMemClose(connection->shbredMemory, connection->shbred);
     }
     if (connection->otherProcess) {
         sysProcessClose(connection->otherProcess);
     }
 
     /*
-     * Ideally we should close the connection->shutdown event and
-     * free the connection structure. However as closing the
-     * connection is asynchronous it means that other threads may
-     * still be accessing the connection structure. On Win32 this
-     * means we leak 132 bytes and one event per connection. This
-     * memory will be reclaim at process exit.
+     * Ideblly we should close the connection->shutdown event bnd
+     * free the connection structure. However bs closing the
+     * connection is bsynchronous it mebns thbt other threbds mby
+     * still be bccessing the connection structure. On Win32 this
+     * mebns we lebk 132 bytes bnd one event per connection. This
+     * memory will be reclbim bt process exit.
      *
      * if (connection->shutdown)
      *     sysEventClose(connection->shutdown);
@@ -523,39 +523,39 @@ closeConnection(SharedMemoryConnection *connection)
 
 
 /*
- * For client: connect to the shared memory.  Open incoming and
- * outgoing streams.
+ * For client: connect to the shbred memory.  Open incoming bnd
+ * outgoing strebms.
  */
-static jint
-openConnection(SharedMemoryTransport *transport, jlong otherPID,
-               SharedMemoryConnection **connectionPtr)
+stbtic jint
+openConnection(ShbredMemoryTrbnsport *trbnsport, jlong otherPID,
+               ShbredMemoryConnection **connectionPtr)
 {
     jint error;
 
-    SharedMemoryConnection *connection = allocConnection();
+    ShbredMemoryConnection *connection = bllocConnection();
     if (connection == NULL) {
         return SYS_NOMEM;
     }
 
-    sprintf(connection->name, "%s.%ld", transport->name, sysProcessGetID());
-    error = sysSharedMemOpen(connection->name, &connection->sharedMemory,
-                             &connection->shared);
+    sprintf(connection->nbme, "%s.%ld", trbnsport->nbme, sysProcessGetID());
+    error = sysShbredMemOpen(connection->nbme, &connection->shbredMemory,
+                             &connection->shbred);
     if (error != SYS_OK) {
         closeConnection(connection);
         return error;
     }
 
     /* This process is the client */
-    connection->incoming.shared = &connection->shared->toClient;
-    connection->outgoing.shared = &connection->shared->toServer;
+    connection->incoming.shbred = &connection->shbred->toClient;
+    connection->outgoing.shbred = &connection->shbred->toServer;
 
-    error = openStream(&connection->incoming);
+    error = openStrebm(&connection->incoming);
     if (error != SYS_OK) {
         closeConnection(connection);
         return error;
     }
 
-    error = openStream(&connection->outgoing);
+    error = openStrebm(&connection->outgoing);
     if (error != SYS_OK) {
         closeConnection(connection);
         return error;
@@ -563,20 +563,20 @@ openConnection(SharedMemoryTransport *transport, jlong otherPID,
 
     error = sysProcessOpen(otherPID, &connection->otherProcess);
     if (error != SYS_OK) {
-        setLastError(error);
+        setLbstError(error);
         closeConnection(connection);
         return error;
     }
 
     /*
-     * Create an event that signals that the connection is shutting
-     * down. The event is unnamed as it's process local, and is
-     * manually reset (so that signalling the event will signal
-     * all threads waiting on it).
+     * Crebte bn event thbt signbls thbt the connection is shutting
+     * down. The event is unnbmed bs it's process locbl, bnd is
+     * mbnublly reset (so thbt signblling the event will signbl
+     * bll threbds wbiting on it).
      */
-    error = sysEventCreate(NULL, &connection->shutdown, JNI_TRUE);
+    error = sysEventCrebte(NULL, &connection->shutdown, JNI_TRUE);
     if (error != SYS_OK) {
-        setLastError(error);
+        setLbstError(error);
         closeConnection(connection);
         return error;
     }
@@ -586,46 +586,46 @@ openConnection(SharedMemoryTransport *transport, jlong otherPID,
 }
 
 /*
- * For server: create the shared memory.  Create incoming and
- * outgoing streams.
+ * For server: crebte the shbred memory.  Crebte incoming bnd
+ * outgoing strebms.
  */
-static jint
-createConnection(SharedMemoryTransport *transport, jlong otherPID,
-                 SharedMemoryConnection **connectionPtr)
+stbtic jint
+crebteConnection(ShbredMemoryTrbnsport *trbnsport, jlong otherPID,
+                 ShbredMemoryConnection **connectionPtr)
 {
     jint error;
-    char streamPrefix[MAX_IPC_NAME];
+    chbr strebmPrefix[MAX_IPC_NAME];
 
-    SharedMemoryConnection *connection = allocConnection();
+    ShbredMemoryConnection *connection = bllocConnection();
     if (connection == NULL) {
         return SYS_NOMEM;
     }
 
-    sprintf(connection->name, "%s.%ld", transport->name, otherPID);
-    error = sysSharedMemCreate(connection->name, sizeof(SharedMemory),
-                               &connection->sharedMemory, &connection->shared);
+    sprintf(connection->nbme, "%s.%ld", trbnsport->nbme, otherPID);
+    error = sysShbredMemCrebte(connection->nbme, sizeof(ShbredMemory),
+                               &connection->shbredMemory, &connection->shbred);
     if (error != SYS_OK) {
         closeConnection(connection);
         return error;
     }
 
-    memset(connection->shared, 0, sizeof(SharedMemory));
+    memset(connection->shbred, 0, sizeof(ShbredMemory));
 
     /* This process is the server */
-    connection->incoming.shared = &connection->shared->toServer;
-    connection->outgoing.shared = &connection->shared->toClient;
+    connection->incoming.shbred = &connection->shbred->toServer;
+    connection->outgoing.shbred = &connection->shbred->toClient;
 
-    strcpy(streamPrefix, connection->name);
-    strcat(streamPrefix, ".ctos");
-    error = createStream(streamPrefix, &connection->incoming);
+    strcpy(strebmPrefix, connection->nbme);
+    strcbt(strebmPrefix, ".ctos");
+    error = crebteStrebm(strebmPrefix, &connection->incoming);
     if (error != SYS_OK) {
         closeConnection(connection);
         return error;
     }
 
-    strcpy(streamPrefix, connection->name);
-    strcat(streamPrefix, ".stoc");
-    error = createStream(streamPrefix, &connection->outgoing);
+    strcpy(strebmPrefix, connection->nbme);
+    strcbt(strebmPrefix, ".stoc");
+    error = crebteStrebm(strebmPrefix, &connection->outgoing);
     if (error != SYS_OK) {
         closeConnection(connection);
         return error;
@@ -633,20 +633,20 @@ createConnection(SharedMemoryTransport *transport, jlong otherPID,
 
     error = sysProcessOpen(otherPID, &connection->otherProcess);
     if (error != SYS_OK) {
-        setLastError(error);
+        setLbstError(error);
         closeConnection(connection);
         return error;
     }
 
     /*
-     * Create an event that signals that the connection is shutting
-     * down. The event is unnamed as it's process local, and is
-     * manually reset (so that a signalling the event will signal
-     * all threads waiting on it).
+     * Crebte bn event thbt signbls thbt the connection is shutting
+     * down. The event is unnbmed bs it's process locbl, bnd is
+     * mbnublly reset (so thbt b signblling the event will signbl
+     * bll threbds wbiting on it).
      */
-    error = sysEventCreate(NULL, &connection->shutdown, JNI_TRUE);
+    error = sysEventCrebte(NULL, &connection->shutdown, JNI_TRUE);
     if (error != SYS_OK) {
-        setLastError(error);
+        setLbstError(error);
         closeConnection(connection);
         return error;
     }
@@ -657,203 +657,203 @@ createConnection(SharedMemoryTransport *transport, jlong otherPID,
 
 /********************************************************************/
 
-static SharedMemoryTransport *
-allocTransport(void)
+stbtic ShbredMemoryTrbnsport *
+bllocTrbnsport(void)
 {
     /*
-     * TO DO: Track all allocated transports for clean shutdown?
+     * TO DO: Trbck bll bllocbted trbnsports for clebn shutdown?
      */
-    return (*callback->alloc)(sizeof(SharedMemoryTransport));
+    return (*cbllbbck->blloc)(sizeof(ShbredMemoryTrbnsport));
 }
 
-static void
-freeTransport(SharedMemoryTransport *transport)
+stbtic void
+freeTrbnsport(ShbredMemoryTrbnsport *trbnsport)
 {
-    (*callback->free)(transport);
+    (*cbllbbck->free)(trbnsport);
 }
 
-static void
-closeTransport(SharedMemoryTransport *transport)
+stbtic void
+closeTrbnsport(ShbredMemoryTrbnsport *trbnsport)
 {
-    sysIPMutexClose(transport->mutex);
-    sysEventClose(transport->acceptEvent);
-    sysEventClose(transport->attachEvent);
-    sysSharedMemClose(transport->sharedMemory, transport->shared);
-    freeTransport(transport);
+    sysIPMutexClose(trbnsport->mutex);
+    sysEventClose(trbnsport->bcceptEvent);
+    sysEventClose(trbnsport->bttbchEvent);
+    sysShbredMemClose(trbnsport->shbredMemory, trbnsport->shbred);
+    freeTrbnsport(trbnsport);
 }
 
-static int
-openTransport(const char *address, SharedMemoryTransport **transportPtr)
+stbtic int
+openTrbnsport(const chbr *bddress, ShbredMemoryTrbnsport **trbnsportPtr)
 {
     jint error;
-    SharedMemoryTransport *transport;
+    ShbredMemoryTrbnsport *trbnsport;
 
-    transport = allocTransport();
-    if (transport == NULL) {
+    trbnsport = bllocTrbnsport();
+    if (trbnsport == NULL) {
         return SYS_NOMEM;
     }
-    memset(transport, 0, sizeof(*transport));
+    memset(trbnsport, 0, sizeof(*trbnsport));
 
-    if (strlen(address) >= MAX_IPC_PREFIX) {
-        char buf[128];
-        sprintf(buf, "Error: address strings longer than %d characters are invalid\n", MAX_IPC_PREFIX);
-        setLastErrorMsg(buf);
-        closeTransport(transport);
+    if (strlen(bddress) >= MAX_IPC_PREFIX) {
+        chbr buf[128];
+        sprintf(buf, "Error: bddress strings longer thbn %d chbrbcters bre invblid\n", MAX_IPC_PREFIX);
+        setLbstErrorMsg(buf);
+        closeTrbnsport(trbnsport);
         return SYS_ERR;
     }
 
-    error = sysSharedMemOpen(address, &transport->sharedMemory, &transport->shared);
+    error = sysShbredMemOpen(bddress, &trbnsport->shbredMemory, &trbnsport->shbred);
     if (error != SYS_OK) {
-        setLastError(error);
-        closeTransport(transport);
+        setLbstError(error);
+        closeTrbnsport(trbnsport);
         return error;
     }
-    strcpy(transport->name, address);
+    strcpy(trbnsport->nbme, bddress);
 
-    error = sysIPMutexOpen(transport->shared->mutexName, &transport->mutex);
+    error = sysIPMutexOpen(trbnsport->shbred->mutexNbme, &trbnsport->mutex);
     if (error != SYS_OK) {
-        setLastError(error);
-        closeTransport(transport);
-        return error;
-    }
-
-    error = sysEventOpen(transport->shared->acceptEventName,
-                             &transport->acceptEvent);
-    if (error != SYS_OK) {
-        setLastError(error);
-        closeTransport(transport);
+        setLbstError(error);
+        closeTrbnsport(trbnsport);
         return error;
     }
 
-    error = sysEventOpen(transport->shared->attachEventName,
-                             &transport->attachEvent);
+    error = sysEventOpen(trbnsport->shbred->bcceptEventNbme,
+                             &trbnsport->bcceptEvent);
     if (error != SYS_OK) {
-        setLastError(error);
-        closeTransport(transport);
+        setLbstError(error);
+        closeTrbnsport(trbnsport);
         return error;
     }
 
-    *transportPtr = transport;
+    error = sysEventOpen(trbnsport->shbred->bttbchEventNbme,
+                             &trbnsport->bttbchEvent);
+    if (error != SYS_OK) {
+        setLbstError(error);
+        closeTrbnsport(trbnsport);
+        return error;
+    }
+
+    *trbnsportPtr = trbnsport;
     return SYS_OK;
 }
 
-static jint
-createTransport(const char *address, SharedMemoryTransport **transportPtr)
+stbtic jint
+crebteTrbnsport(const chbr *bddress, ShbredMemoryTrbnsport **trbnsportPtr)
 {
-    SharedMemoryTransport *transport;
+    ShbredMemoryTrbnsport *trbnsport;
     jint error;
-    char prefix[MAX_IPC_PREFIX];
+    chbr prefix[MAX_IPC_PREFIX];
 
 
 
-    transport = allocTransport();
-    if (transport == NULL) {
+    trbnsport = bllocTrbnsport();
+    if (trbnsport == NULL) {
         return SYS_NOMEM;
     }
-    memset(transport, 0, sizeof(*transport));
+    memset(trbnsport, 0, sizeof(*trbnsport));
 
-    if ((address == NULL) || (address[0] == '\0')) {
-        SharedMemoryArg arg;
-        arg.size = sizeof(SharedListener);
-        error = createWithGeneratedName("javadebug", transport->name,
-                                        createSharedMem, &arg);
-        transport->shared = arg.start;
-        transport->sharedMemory = arg.memory;
+    if ((bddress == NULL) || (bddress[0] == '\0')) {
+        ShbredMemoryArg brg;
+        brg.size = sizeof(ShbredListener);
+        error = crebteWithGenerbtedNbme("jbvbdebug", trbnsport->nbme,
+                                        crebteShbredMem, &brg);
+        trbnsport->shbred = brg.stbrt;
+        trbnsport->shbredMemory = brg.memory;
     } else {
-        if (strlen(address) >= MAX_IPC_PREFIX) {
-            char buf[128];
-            sprintf(buf, "Error: address strings longer than %d characters are invalid\n", MAX_IPC_PREFIX);
-            setLastErrorMsg(buf);
-            closeTransport(transport);
+        if (strlen(bddress) >= MAX_IPC_PREFIX) {
+            chbr buf[128];
+            sprintf(buf, "Error: bddress strings longer thbn %d chbrbcters bre invblid\n", MAX_IPC_PREFIX);
+            setLbstErrorMsg(buf);
+            closeTrbnsport(trbnsport);
             return SYS_ERR;
         }
-        strcpy(transport->name, address);
-        error = sysSharedMemCreate(address, sizeof(SharedListener),
-                                   &transport->sharedMemory, &transport->shared);
+        strcpy(trbnsport->nbme, bddress);
+        error = sysShbredMemCrebte(bddress, sizeof(ShbredListener),
+                                   &trbnsport->shbredMemory, &trbnsport->shbred);
     }
     if (error != SYS_OK) {
-        setLastError(error);
-        closeTransport(transport);
+        setLbstError(error);
+        closeTrbnsport(trbnsport);
         return error;
     }
 
-    memset(transport->shared, 0, sizeof(SharedListener));
-    transport->shared->acceptingPID = sysProcessGetID();
+    memset(trbnsport->shbred, 0, sizeof(ShbredListener));
+    trbnsport->shbred->bcceptingPID = sysProcessGetID();
 
-    sprintf(prefix, "%s.mutex", transport->name);
-    error = createWithGeneratedName(prefix, transport->shared->mutexName,
-                                    createMutex, &transport->mutex);
+    sprintf(prefix, "%s.mutex", trbnsport->nbme);
+    error = crebteWithGenerbtedNbme(prefix, trbnsport->shbred->mutexNbme,
+                                    crebteMutex, &trbnsport->mutex);
     if (error != SYS_OK) {
-        closeTransport(transport);
+        closeTrbnsport(trbnsport);
         return error;
     }
 
-    sprintf(prefix, "%s.accept", transport->name);
-    error = createWithGeneratedName(prefix, transport->shared->acceptEventName,
-                                    createEvent, &transport->acceptEvent);
+    sprintf(prefix, "%s.bccept", trbnsport->nbme);
+    error = crebteWithGenerbtedNbme(prefix, trbnsport->shbred->bcceptEventNbme,
+                                    crebteEvent, &trbnsport->bcceptEvent);
     if (error != SYS_OK) {
-        closeTransport(transport);
+        closeTrbnsport(trbnsport);
         return error;
     }
 
-    sprintf(prefix, "%s.attach", transport->name);
-    error = createWithGeneratedName(prefix, transport->shared->attachEventName,
-                                    createEvent, &transport->attachEvent);
+    sprintf(prefix, "%s.bttbch", trbnsport->nbme);
+    error = crebteWithGenerbtedNbme(prefix, trbnsport->shbred->bttbchEventNbme,
+                                    crebteEvent, &trbnsport->bttbchEvent);
     if (error != SYS_OK) {
-        closeTransport(transport);
+        closeTrbnsport(trbnsport);
         return error;
     }
 
-    *transportPtr = transport;
+    *trbnsportPtr = trbnsport;
     return SYS_OK;
 }
 
 
 jint
-shmemBase_listen(const char *address, SharedMemoryTransport **transportPtr)
+shmemBbse_listen(const chbr *bddress, ShbredMemoryTrbnsport **trbnsportPtr)
 {
     int error;
 
-    clearLastError();
+    clebrLbstError();
 
-    error = createTransport(address, transportPtr);
+    error = crebteTrbnsport(bddress, trbnsportPtr);
     if (error == SYS_OK) {
-        (*transportPtr)->shared->isListening = JNI_TRUE;
+        (*trbnsportPtr)->shbred->isListening = JNI_TRUE;
     }
     return error;
 }
 
 
 jint
-shmemBase_accept(SharedMemoryTransport *transport,
+shmemBbse_bccept(ShbredMemoryTrbnsport *trbnsport,
                  long timeout,
-                 SharedMemoryConnection **connectionPtr)
+                 ShbredMemoryConnection **connectionPtr)
 {
     jint error;
-    SharedMemoryConnection *connection;
+    ShbredMemoryConnection *connection;
 
-    clearLastError();
+    clebrLbstError();
 
-    CHECK_ERROR(sysEventWait(NULL, transport->attachEvent, timeout));
+    CHECK_ERROR(sysEventWbit(NULL, trbnsport->bttbchEvent, timeout));
 
-    error = createConnection(transport, transport->shared->attachingPID,
+    error = crebteConnection(trbnsport, trbnsport->shbred->bttbchingPID,
                              &connection);
     if (error != SYS_OK) {
         /*
-         * Reject the attacher
+         * Reject the bttbcher
          */
-        transport->shared->isAccepted = JNI_FALSE;
-        sysEventSignal(transport->acceptEvent);
+        trbnsport->shbred->isAccepted = JNI_FALSE;
+        sysEventSignbl(trbnsport->bcceptEvent);
 
         freeConnection(connection);
         return error;
     }
 
-    transport->shared->isAccepted = JNI_TRUE;
-    error = sysEventSignal(transport->acceptEvent);
+    trbnsport->shbred->isAccepted = JNI_TRUE;
+    error = sysEventSignbl(trbnsport->bcceptEvent);
     if (error != SYS_OK) {
         /*
-         * No real point trying to reject it.
+         * No rebl point trying to reject it.
          */
         closeConnection(connection);
         return error;
@@ -863,56 +863,56 @@ shmemBase_accept(SharedMemoryTransport *transport,
     return SYS_OK;
 }
 
-static jint
-doAttach(SharedMemoryTransport *transport, long timeout)
+stbtic jint
+doAttbch(ShbredMemoryTrbnsport *trbnsport, long timeout)
 {
-    transport->shared->attachingPID = sysProcessGetID();
-    CHECK_ERROR(sysEventSignal(transport->attachEvent));
-    CHECK_ERROR(sysEventWait(NULL, transport->acceptEvent, timeout));
+    trbnsport->shbred->bttbchingPID = sysProcessGetID();
+    CHECK_ERROR(sysEventSignbl(trbnsport->bttbchEvent));
+    CHECK_ERROR(sysEventWbit(NULL, trbnsport->bcceptEvent, timeout));
     return SYS_OK;
 }
 
 jint
-shmemBase_attach(const char *addressString, long timeout, SharedMemoryConnection **connectionPtr)
+shmemBbse_bttbch(const chbr *bddressString, long timeout, ShbredMemoryConnection **connectionPtr)
 {
     int error;
-    SharedMemoryTransport *transport;
-    jlong acceptingPID;
+    ShbredMemoryTrbnsport *trbnsport;
+    jlong bcceptingPID;
 
-    clearLastError();
+    clebrLbstError();
 
-    error = openTransport(addressString, &transport);
+    error = openTrbnsport(bddressString, &trbnsport);
     if (error != SYS_OK) {
         return error;
     }
 
-    /* lock transport - no additional event to wait on as no connection yet */
-    error = sysIPMutexEnter(transport->mutex, NULL);
+    /* lock trbnsport - no bdditionbl event to wbit on bs no connection yet */
+    error = sysIPMutexEnter(trbnsport->mutex, NULL);
     if (error != SYS_OK) {
-        setLastError(error);
-        closeTransport(transport);
+        setLbstError(error);
+        closeTrbnsport(trbnsport);
         return error;
     }
 
-    if (transport->shared->isListening) {
-        error = doAttach(transport, timeout);
+    if (trbnsport->shbred->isListening) {
+        error = doAttbch(trbnsport, timeout);
         if (error == SYS_OK) {
-            acceptingPID = transport->shared->acceptingPID;
+            bcceptingPID = trbnsport->shbred->bcceptingPID;
         }
     } else {
         /* Not listening: error */
         error = SYS_ERR;
     }
 
-    sysIPMutexExit(transport->mutex);
+    sysIPMutexExit(trbnsport->mutex);
     if (error != SYS_OK) {
-        closeTransport(transport);
+        closeTrbnsport(trbnsport);
         return error;
     }
 
-    error = openConnection(transport, acceptingPID, connectionPtr);
+    error = openConnection(trbnsport, bcceptingPID, connectionPtr);
 
-    closeTransport(transport);
+    closeTrbnsport(trbnsport);
 
     return error;
 }
@@ -921,218 +921,218 @@ shmemBase_attach(const char *addressString, long timeout, SharedMemoryConnection
 
 
 void
-shmemBase_closeConnection(SharedMemoryConnection *connection)
+shmemBbse_closeConnection(ShbredMemoryConnection *connection)
 {
-    clearLastError();
+    clebrLbstError();
     closeConnection(connection);
 }
 
 void
-shmemBase_closeTransport(SharedMemoryTransport *transport)
+shmemBbse_closeTrbnsport(ShbredMemoryTrbnsport *trbnsport)
 {
-    clearLastError();
-    closeTransport(transport);
+    clebrLbstError();
+    closeTrbnsport(trbnsport);
 }
 
 jint
-shmemBase_sendByte(SharedMemoryConnection *connection, jbyte data)
+shmemBbse_sendByte(ShbredMemoryConnection *connection, jbyte dbtb)
 {
-    Stream *stream = &connection->outgoing;
-    SharedStream *shared = stream->shared;
+    Strebm *strebm = &connection->outgoing;
+    ShbredStrebm *shbred = strebm->shbred;
     int offset;
 
-    clearLastError();
+    clebrLbstError();
 
-    CHECK_ERROR(enterMutex(stream, connection->shutdown));
-    CHECK_ERROR(waitForSpace(connection, stream));
-    SHMEM_ASSERT(!FULL(stream));
-    offset = shared->writeOffset;
-    shared->buffer[offset] = data;
-    shared->writeOffset = ADD_OFFSET(offset, 1);
-    shared->isFull = (shared->readOffset == shared->writeOffset);
+    CHECK_ERROR(enterMutex(strebm, connection->shutdown));
+    CHECK_ERROR(wbitForSpbce(connection, strebm));
+    SHMEM_ASSERT(!FULL(strebm));
+    offset = shbred->writeOffset;
+    shbred->buffer[offset] = dbtb;
+    shbred->writeOffset = ADD_OFFSET(offset, 1);
+    shbred->isFull = (shbred->rebdOffset == shbred->writeOffset);
 
-    STREAM_INVARIANT(stream);
-    CHECK_ERROR(leaveMutex(stream));
+    STREAM_INVARIANT(strebm);
+    CHECK_ERROR(lebveMutex(strebm));
 
-    CHECK_ERROR(signalData(stream));
+    CHECK_ERROR(signblDbtb(strebm));
 
     return SYS_OK;
 }
 
 jint
-shmemBase_receiveByte(SharedMemoryConnection *connection, jbyte *data)
+shmemBbse_receiveByte(ShbredMemoryConnection *connection, jbyte *dbtb)
 {
-    Stream *stream = &connection->incoming;
-    SharedStream *shared = stream->shared;
+    Strebm *strebm = &connection->incoming;
+    ShbredStrebm *shbred = strebm->shbred;
     int offset;
 
-    clearLastError();
+    clebrLbstError();
 
-    CHECK_ERROR(enterMutex(stream, connection->shutdown));
-    CHECK_ERROR(waitForData(connection, stream));
-    SHMEM_ASSERT(!EMPTY(stream));
-    offset = shared->readOffset;
-    *data = shared->buffer[offset];
-    shared->readOffset = ADD_OFFSET(offset, 1);
-    shared->isFull = JNI_FALSE;
+    CHECK_ERROR(enterMutex(strebm, connection->shutdown));
+    CHECK_ERROR(wbitForDbtb(connection, strebm));
+    SHMEM_ASSERT(!EMPTY(strebm));
+    offset = shbred->rebdOffset;
+    *dbtb = shbred->buffer[offset];
+    shbred->rebdOffset = ADD_OFFSET(offset, 1);
+    shbred->isFull = JNI_FALSE;
 
-    STREAM_INVARIANT(stream);
-    CHECK_ERROR(leaveMutex(stream));
+    STREAM_INVARIANT(strebm);
+    CHECK_ERROR(lebveMutex(strebm));
 
-    CHECK_ERROR(signalSpace(stream));
+    CHECK_ERROR(signblSpbce(strebm));
 
     return SYS_OK;
 }
 
-static jint
-sendBytes(SharedMemoryConnection *connection, const void *bytes, jint length)
+stbtic jint
+sendBytes(ShbredMemoryConnection *connection, const void *bytes, jint length)
 {
-    Stream *stream = &connection->outgoing;
-    SharedStream *shared = stream->shared;
-    jint fragmentStart;
-    jint fragmentLength;
+    Strebm *strebm = &connection->outgoing;
+    ShbredStrebm *shbred = strebm->shbred;
+    jint frbgmentStbrt;
+    jint frbgmentLength;
     jint index = 0;
-    jint maxLength;
+    jint mbxLength;
 
-    clearLastError();
+    clebrLbstError();
 
-    CHECK_ERROR(enterMutex(stream, connection->shutdown));
+    CHECK_ERROR(enterMutex(strebm, connection->shutdown));
     while (index < length) {
-        CHECK_ERROR(waitForSpace(connection, stream));
-        SHMEM_ASSERT(!FULL(stream));
+        CHECK_ERROR(wbitForSpbce(connection, strebm));
+        SHMEM_ASSERT(!FULL(strebm));
 
-        fragmentStart = shared->writeOffset;
+        frbgmentStbrt = shbred->writeOffset;
 
-        if (fragmentStart < shared->readOffset) {
-            maxLength = shared->readOffset - fragmentStart;
+        if (frbgmentStbrt < shbred->rebdOffset) {
+            mbxLength = shbred->rebdOffset - frbgmentStbrt;
         } else {
-            maxLength = SHARED_BUFFER_SIZE - fragmentStart;
+            mbxLength = SHARED_BUFFER_SIZE - frbgmentStbrt;
         }
-        fragmentLength = MIN(maxLength, length - index);
-        memcpy(shared->buffer + fragmentStart, (jbyte *)bytes + index, fragmentLength);
-        shared->writeOffset = ADD_OFFSET(fragmentStart, fragmentLength);
-        index += fragmentLength;
+        frbgmentLength = MIN(mbxLength, length - index);
+        memcpy(shbred->buffer + frbgmentStbrt, (jbyte *)bytes + index, frbgmentLength);
+        shbred->writeOffset = ADD_OFFSET(frbgmentStbrt, frbgmentLength);
+        index += frbgmentLength;
 
-        shared->isFull = (shared->readOffset == shared->writeOffset);
+        shbred->isFull = (shbred->rebdOffset == shbred->writeOffset);
 
-        STREAM_INVARIANT(stream);
-        CHECK_ERROR(signalData(stream));
+        STREAM_INVARIANT(strebm);
+        CHECK_ERROR(signblDbtb(strebm));
 
     }
-    CHECK_ERROR(leaveMutex(stream));
+    CHECK_ERROR(lebveMutex(strebm));
 
     return SYS_OK;
 }
 
 
 /*
- * Send packet header followed by data.
+ * Send pbcket hebder followed by dbtb.
  */
 jint
-shmemBase_sendPacket(SharedMemoryConnection *connection, const jdwpPacket *packet)
+shmemBbse_sendPbcket(ShbredMemoryConnection *connection, const jdwpPbcket *pbcket)
 {
-    jint data_length;
+    jint dbtb_length;
 
-    clearLastError();
+    clebrLbstError();
 
-    CHECK_ERROR(sendBytes(connection, &packet->type.cmd.id, sizeof(jint)));
-    CHECK_ERROR(sendBytes(connection, &packet->type.cmd.flags, sizeof(jbyte)));
+    CHECK_ERROR(sendBytes(connection, &pbcket->type.cmd.id, sizeof(jint)));
+    CHECK_ERROR(sendBytes(connection, &pbcket->type.cmd.flbgs, sizeof(jbyte)));
 
-    if (packet->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
-        CHECK_ERROR(sendBytes(connection, &packet->type.reply.errorCode, sizeof(jshort)));
+    if (pbcket->type.cmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        CHECK_ERROR(sendBytes(connection, &pbcket->type.reply.errorCode, sizeof(jshort)));
     } else {
-        CHECK_ERROR(sendBytes(connection, &packet->type.cmd.cmdSet, sizeof(jbyte)));
-        CHECK_ERROR(sendBytes(connection, &packet->type.cmd.cmd, sizeof(jbyte)));
+        CHECK_ERROR(sendBytes(connection, &pbcket->type.cmd.cmdSet, sizeof(jbyte)));
+        CHECK_ERROR(sendBytes(connection, &pbcket->type.cmd.cmd, sizeof(jbyte)));
     }
 
-    data_length = packet->type.cmd.len - 11;
-    SHMEM_GUARANTEE(data_length >= 0);
-    CHECK_ERROR(sendBytes(connection, &data_length, sizeof(jint)));
+    dbtb_length = pbcket->type.cmd.len - 11;
+    SHMEM_GUARANTEE(dbtb_length >= 0);
+    CHECK_ERROR(sendBytes(connection, &dbtb_length, sizeof(jint)));
 
-    if (data_length > 0) {
-        CHECK_ERROR(sendBytes(connection, packet->type.cmd.data, data_length));
+    if (dbtb_length > 0) {
+        CHECK_ERROR(sendBytes(connection, pbcket->type.cmd.dbtb, dbtb_length));
     }
 
     return SYS_OK;
 }
 
-static jint
-receiveBytes(SharedMemoryConnection *connection, void *bytes, jint length)
+stbtic jint
+receiveBytes(ShbredMemoryConnection *connection, void *bytes, jint length)
 {
-    Stream *stream = &connection->incoming;
-    SharedStream *shared = stream->shared;
-    jint fragmentStart;
-    jint fragmentLength;
+    Strebm *strebm = &connection->incoming;
+    ShbredStrebm *shbred = strebm->shbred;
+    jint frbgmentStbrt;
+    jint frbgmentLength;
     jint index = 0;
-    jint maxLength;
+    jint mbxLength;
 
-    clearLastError();
+    clebrLbstError();
 
-    CHECK_ERROR(enterMutex(stream, connection->shutdown));
+    CHECK_ERROR(enterMutex(strebm, connection->shutdown));
     while (index < length) {
-        CHECK_ERROR(waitForData(connection, stream));
-        SHMEM_ASSERT(!EMPTY(stream));
+        CHECK_ERROR(wbitForDbtb(connection, strebm));
+        SHMEM_ASSERT(!EMPTY(strebm));
 
-        fragmentStart = shared->readOffset;
-        if (fragmentStart < shared->writeOffset) {
-            maxLength = shared->writeOffset - fragmentStart;
+        frbgmentStbrt = shbred->rebdOffset;
+        if (frbgmentStbrt < shbred->writeOffset) {
+            mbxLength = shbred->writeOffset - frbgmentStbrt;
         } else {
-            maxLength = SHARED_BUFFER_SIZE - fragmentStart;
+            mbxLength = SHARED_BUFFER_SIZE - frbgmentStbrt;
         }
-        fragmentLength = MIN(maxLength, length - index);
-        memcpy((jbyte *)bytes + index, shared->buffer + fragmentStart, fragmentLength);
-        shared->readOffset = ADD_OFFSET(fragmentStart, fragmentLength);
-        index += fragmentLength;
+        frbgmentLength = MIN(mbxLength, length - index);
+        memcpy((jbyte *)bytes + index, shbred->buffer + frbgmentStbrt, frbgmentLength);
+        shbred->rebdOffset = ADD_OFFSET(frbgmentStbrt, frbgmentLength);
+        index += frbgmentLength;
 
-        shared->isFull = JNI_FALSE;
+        shbred->isFull = JNI_FALSE;
 
-        STREAM_INVARIANT(stream);
-        CHECK_ERROR(signalSpace(stream));
+        STREAM_INVARIANT(strebm);
+        CHECK_ERROR(signblSpbce(strebm));
     }
-    CHECK_ERROR(leaveMutex(stream));
+    CHECK_ERROR(lebveMutex(strebm));
 
     return SYS_OK;
 }
 
 /*
- * Read packet header and insert into packet structure.
- * Allocate space for the data and fill it in.
+ * Rebd pbcket hebder bnd insert into pbcket structure.
+ * Allocbte spbce for the dbtb bnd fill it in.
  */
 jint
-shmemBase_receivePacket(SharedMemoryConnection *connection, jdwpPacket *packet)
+shmemBbse_receivePbcket(ShbredMemoryConnection *connection, jdwpPbcket *pbcket)
 {
-    jint data_length;
+    jint dbtb_length;
     jint error;
 
-    clearLastError();
+    clebrLbstError();
 
-    CHECK_ERROR(receiveBytes(connection, &packet->type.cmd.id, sizeof(jint)));
-    CHECK_ERROR(receiveBytes(connection, &packet->type.cmd.flags, sizeof(jbyte)));
+    CHECK_ERROR(receiveBytes(connection, &pbcket->type.cmd.id, sizeof(jint)));
+    CHECK_ERROR(receiveBytes(connection, &pbcket->type.cmd.flbgs, sizeof(jbyte)));
 
-    if (packet->type.cmd.flags & JDWPTRANSPORT_FLAGS_REPLY) {
-        CHECK_ERROR(receiveBytes(connection, &packet->type.reply.errorCode, sizeof(jshort)));
+    if (pbcket->type.cmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        CHECK_ERROR(receiveBytes(connection, &pbcket->type.reply.errorCode, sizeof(jshort)));
     } else {
-        CHECK_ERROR(receiveBytes(connection, &packet->type.cmd.cmdSet, sizeof(jbyte)));
-        CHECK_ERROR(receiveBytes(connection, &packet->type.cmd.cmd, sizeof(jbyte)));
+        CHECK_ERROR(receiveBytes(connection, &pbcket->type.cmd.cmdSet, sizeof(jbyte)));
+        CHECK_ERROR(receiveBytes(connection, &pbcket->type.cmd.cmd, sizeof(jbyte)));
     }
 
-    CHECK_ERROR(receiveBytes(connection, &data_length, sizeof(jint)));
+    CHECK_ERROR(receiveBytes(connection, &dbtb_length, sizeof(jint)));
 
-    if (data_length < 0) {
+    if (dbtb_length < 0) {
         return SYS_ERR;
-    } else if (data_length == 0) {
-        packet->type.cmd.len = 11;
-        packet->type.cmd.data = NULL;
+    } else if (dbtb_length == 0) {
+        pbcket->type.cmd.len = 11;
+        pbcket->type.cmd.dbtb = NULL;
     } else {
-        packet->type.cmd.len = data_length + 11;
-        packet->type.cmd.data = (*callback->alloc)(data_length);
-        if (packet->type.cmd.data == NULL) {
+        pbcket->type.cmd.len = dbtb_length + 11;
+        pbcket->type.cmd.dbtb = (*cbllbbck->blloc)(dbtb_length);
+        if (pbcket->type.cmd.dbtb == NULL) {
             return SYS_ERR;
         }
 
-        error = receiveBytes(connection, packet->type.cmd.data, data_length);
+        error = receiveBytes(connection, pbcket->type.cmd.dbtb, dbtb_length);
         if (error != SYS_OK) {
-            (*callback->free)(packet->type.cmd.data);
+            (*cbllbbck->free)(pbcket->type.cmd.dbtb);
             return error;
         }
     }
@@ -1141,15 +1141,15 @@ shmemBase_receivePacket(SharedMemoryConnection *connection, jdwpPacket *packet)
 }
 
 jint
-shmemBase_name(struct SharedMemoryTransport *transport, char **name)
+shmemBbse_nbme(struct ShbredMemoryTrbnsport *trbnsport, chbr **nbme)
 {
-    *name = transport->name;
+    *nbme = trbnsport->nbme;
     return SYS_OK;
 }
 
 jint
-shmemBase_getlasterror(char *msg, jint size) {
-    char *errstr = (char *)sysTlsGet(tlsIndex);
+shmemBbse_getlbsterror(chbr *msg, jint size) {
+    chbr *errstr = (chbr *)sysTlsGet(tlsIndex);
     if (errstr != NULL) {
         strcpy(msg, errstr);
         return SYS_OK;
@@ -1160,23 +1160,23 @@ shmemBase_getlasterror(char *msg, jint size) {
 
 
 void
-exitTransportWithError(char *message, char *fileName,
-                       char *date, int lineNumber)
+exitTrbnsportWithError(chbr *messbge, chbr *fileNbme,
+                       chbr *dbte, int lineNumber)
 {
     JNIEnv *env;
     jint error;
-    char buffer[500];
+    chbr buffer[500];
 
-    sprintf(buffer, "Shared Memory Transport \"%s\" (%s), line %d: %s\n",
-            fileName, date, lineNumber, message);
+    sprintf(buffer, "Shbred Memory Trbnsport \"%s\" (%s), line %d: %s\n",
+            fileNbme, dbte, lineNumber, messbge);
     error = (*jvm)->GetEnv(jvm, (void **)&env, JNI_VERSION_1_2);
     if (error != JNI_OK) {
         /*
-         * We're forced into a direct call to exit()
+         * We're forced into b direct cbll to exit()
          */
         fprintf(stderr, "%s", buffer);
         exit(-1);
     } else {
-        (*env)->FatalError(env, buffer);
+        (*env)->FbtblError(env, buffer);
     }
 }

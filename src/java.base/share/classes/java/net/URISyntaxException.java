@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
 
 /**
- * Checked exception thrown to indicate that a string could not be parsed as a
+ * Checked exception thrown to indicbte thbt b string could not be pbrsed bs b
  * URI reference.
  *
- * @author Mark Reinhold
+ * @buthor Mbrk Reinhold
  * @see URI
  * @since 1.4
  */
 
-public class URISyntaxException
+public clbss URISyntbxException
     extends Exception
 {
-    private static final long serialVersionUID = 2137979680897488891L;
+    privbte stbtic finbl long seriblVersionUID = 2137979680897488891L;
 
-    private String input;
-    private int index;
+    privbte String input;
+    privbte int index;
 
     /**
-     * Constructs an instance from the given input string, reason, and error
+     * Constructs bn instbnce from the given input string, rebson, bnd error
      * index.
      *
-     * @param  input   The input string
-     * @param  reason  A string explaining why the input could not be parsed
-     * @param  index   The index at which the parse error occurred,
+     * @pbrbm  input   The input string
+     * @pbrbm  rebson  A string explbining why the input could not be pbrsed
+     * @pbrbm  index   The index bt which the pbrse error occurred,
      *                 or {@code -1} if the index is not known
      *
      * @throws  NullPointerException
-     *          If either the input or reason strings are {@code null}
+     *          If either the input or rebson strings bre {@code null}
      *
-     * @throws  IllegalArgumentException
-     *          If the error index is less than {@code -1}
+     * @throws  IllegblArgumentException
+     *          If the error index is less thbn {@code -1}
      */
-    public URISyntaxException(String input, String reason, int index) {
-        super(reason);
-        if ((input == null) || (reason == null))
+    public URISyntbxException(String input, String rebson, int index) {
+        super(rebson);
+        if ((input == null) || (rebson == null))
             throw new NullPointerException();
         if (index < -1)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         this.input = input;
         this.index = index;
     }
 
     /**
-     * Constructs an instance from the given input string and reason.  The
-     * resulting object will have an error index of {@code -1}.
+     * Constructs bn instbnce from the given input string bnd rebson.  The
+     * resulting object will hbve bn error index of {@code -1}.
      *
-     * @param  input   The input string
-     * @param  reason  A string explaining why the input could not be parsed
+     * @pbrbm  input   The input string
+     * @pbrbm  rebson  A string explbining why the input could not be pbrsed
      *
      * @throws  NullPointerException
-     *          If either the input or reason strings are {@code null}
+     *          If either the input or rebson strings bre {@code null}
      */
-    public URISyntaxException(String input, String reason) {
-        this(input, reason, -1);
+    public URISyntbxException(String input, String rebson) {
+        this(input, rebson, -1);
     }
 
     /**
@@ -92,17 +92,17 @@ public class URISyntaxException
     }
 
     /**
-     * Returns a string explaining why the input string could not be parsed.
+     * Returns b string explbining why the input string could not be pbrsed.
      *
-     * @return  The reason string
+     * @return  The rebson string
      */
-    public String getReason() {
-        return super.getMessage();
+    public String getRebson() {
+        return super.getMessbge();
     }
 
     /**
-     * Returns an index into the input string of the position at which the
-     * parse error occurred, or {@code -1} if this position is not known.
+     * Returns bn index into the input string of the position bt which the
+     * pbrse error occurred, or {@code -1} if this position is not known.
      *
      * @return  The error index
      */
@@ -111,24 +111,24 @@ public class URISyntaxException
     }
 
     /**
-     * Returns a string describing the parse error.  The resulting string
-     * consists of the reason string followed by a colon character
-     * ({@code ':'}), a space, and the input string.  If the error index is
-     * defined then the string {@code " at index "} followed by the index, in
-     * decimal, is inserted after the reason string and before the colon
-     * character.
+     * Returns b string describing the pbrse error.  The resulting string
+     * consists of the rebson string followed by b colon chbrbcter
+     * ({@code ':'}), b spbce, bnd the input string.  If the error index is
+     * defined then the string {@code " bt index "} followed by the index, in
+     * decimbl, is inserted bfter the rebson string bnd before the colon
+     * chbrbcter.
      *
-     * @return  A string describing the parse error
+     * @return  A string describing the pbrse error
      */
-    public String getMessage() {
+    public String getMessbge() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getReason());
+        sb.bppend(getRebson());
         if (index > -1) {
-            sb.append(" at index ");
-            sb.append(index);
+            sb.bppend(" bt index ");
+            sb.bppend(index);
         }
-        sb.append(": ");
-        sb.append(input);
+        sb.bppend(": ");
+        sb.bppend(input);
         return sb.toString();
     }
 

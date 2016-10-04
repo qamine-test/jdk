@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.decoder;
+pbckbge com.sun.bebns.decoder;
 
 /**
- * This class is intended to handle &lt;var&gt; element.
- * This element retrieves the value of specified variable.
- * For example:<pre>
- * &lt;var id="id1" idref="id2"/&gt;</pre>
- * is equivalent to {@code id1 = id2} in Java code.
- * <p>The following attributes are supported:
+ * This clbss is intended to hbndle &lt;vbr&gt; element.
+ * This element retrieves the vblue of specified vbribble.
+ * For exbmple:<pre>
+ * &lt;vbr id="id1" idref="id2"/&gt;</pre>
+ * is equivblent to {@code id1 = id2} in Jbvb code.
+ * <p>The following bttributes bre supported:
  * <dl>
  * <dt>idref
- * <dd>the identifier to refer to the variable
+ * <dd>the identifier to refer to the vbribble
  * <dt>id
- * <dd>the identifier of the variable that is intended to store the result
+ * <dd>the identifier of the vbribble thbt is intended to store the result
  * </dl>
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-final class VarElementHandler extends ElementHandler {
-    private ValueObject value;
+finbl clbss VbrElementHbndler extends ElementHbndler {
+    privbte VblueObject vblue;
 
     /**
-     * Parses attributes of the element.
-     * The following attributes are supported:
+     * Pbrses bttributes of the element.
+     * The following bttributes bre supported:
      * <dl>
      * <dt>idref
-     * <dd>the identifier to refer to the variable
+     * <dd>the identifier to refer to the vbribble
      * <dt>id
-     * <dd>the identifier of the variable that is intended to store the result
+     * <dd>the identifier of the vbribble thbt is intended to store the result
      * </dl>
      *
-     * @param name   the attribute name
-     * @param value  the attribute value
+     * @pbrbm nbme   the bttribute nbme
+     * @pbrbm vblue  the bttribute vblue
      */
     @Override
-    public void addAttribute(String name, String value) {
-        if (name.equals("idref")) { // NON-NLS: the attribute name
-            this.value = ValueObjectImpl.create(getVariable(value));
+    public void bddAttribute(String nbme, String vblue) {
+        if (nbme.equbls("idref")) { // NON-NLS: the bttribute nbme
+            this.vblue = VblueObjectImpl.crebte(getVbribble(vblue));
         } else {
-            super.addAttribute(name, value);
+            super.bddAttribute(nbme, vblue);
         }
     }
 
     /**
-     * Returns the value of this element.
+     * Returns the vblue of this element.
      *
-     * @return the value of this element
+     * @return the vblue of this element
      */
     @Override
-    protected ValueObject getValueObject() {
-        if (this.value == null) {
-            throw new IllegalArgumentException("Variable name is not set");
+    protected VblueObject getVblueObject() {
+        if (this.vblue == null) {
+            throw new IllegblArgumentException("Vbribble nbme is not set");
         }
-        return this.value;
+        return this.vblue;
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -35,39 +35,39 @@
 #include <sys/poll.h>
 
 int NET_Timeout(int s, long timeout);
-int NET_Read(int s, void* buf, size_t len);
-int NET_RecvFrom(int s, void *buf, int len, unsigned int flags,
-                 struct sockaddr *from, socklen_t *fromlen);
-int NET_ReadV(int s, const struct iovec * vector, int count);
-int NET_Send(int s, void *msg, int len, unsigned int flags);
+int NET_Rebd(int s, void* buf, size_t len);
+int NET_RecvFrom(int s, void *buf, int len, unsigned int flbgs,
+                 struct sockbddr *from, socklen_t *fromlen);
+int NET_RebdV(int s, const struct iovec * vector, int count);
+int NET_Send(int s, void *msg, int len, unsigned int flbgs);
 int NET_SendTo(int s, const void *msg, int len,  unsigned  int
-               flags, const struct sockaddr *to, int tolen);
+               flbgs, const struct sockbddr *to, int tolen);
 int NET_Writev(int s, const struct iovec * vector, int count);
-int NET_Connect(int s, struct sockaddr *addr, int addrlen);
-int NET_Accept(int s, struct sockaddr *addr, socklen_t *addrlen);
+int NET_Connect(int s, struct sockbddr *bddr, int bddrlen);
+int NET_Accept(int s, struct sockbddr *bddr, socklen_t *bddrlen);
 int NET_SocketClose(int s);
 int NET_Dup2(int oldfd, int newfd);
 int NET_Poll(struct pollfd *ufds, unsigned int nfds, int timeout);
-int NET_SocketAvailable(int s, jint *pbytes);
+int NET_SocketAvbilbble(int s, jint *pbytes);
 
-void NET_ThrowUnknownHostExceptionWithGaiError(JNIEnv *env,
-                                               const char* hostname,
-                                               int gai_error);
-void NET_ThrowByNameWithLastError(JNIEnv *env, const char *name,
-                                  const char *defaultDetail);
+void NET_ThrowUnknownHostExceptionWithGbiError(JNIEnv *env,
+                                               const chbr* hostnbme,
+                                               int gbi_error);
+void NET_ThrowByNbmeWithLbstError(JNIEnv *env, const chbr *nbme,
+                                  const chbr *defbultDetbil);
 
 #define NET_WAIT_READ    0x01
 #define NET_WAIT_WRITE   0x02
 #define NET_WAIT_CONNECT 0x04
 
-jint NET_Wait(JNIEnv *env, jint fd, jint flags, jint timeout);
+jint NET_Wbit(JNIEnv *env, jint fd, jint flbgs, jint timeout);
 
 /************************************************************************
- * Macros and constants
+ * Mbcros bnd constbnts
  */
 
 /*
- * On 64-bit JDKs we use a much larger stack and heap buffer.
+ * On 64-bit JDKs we use b much lbrger stbck bnd hebp buffer.
  */
 #ifdef _LP64
 #define MAX_BUFFER_LEN 65536
@@ -80,16 +80,16 @@ jint NET_Wait(JNIEnv *env, jint fd, jint flags, jint timeout);
 #ifdef AF_INET6
 
 #define SOCKADDR        union { \
-                            struct sockaddr_in him4; \
-                            struct sockaddr_in6 him6; \
+                            struct sockbddr_in him4; \
+                            struct sockbddr_in6 him6; \
                         }
 
-#define SOCKADDR_LEN    (ipv6_available() ? sizeof(SOCKADDR) : \
-                         sizeof(struct sockaddr_in))
+#define SOCKADDR_LEN    (ipv6_bvbilbble() ? sizeof(SOCKADDR) : \
+                         sizeof(struct sockbddr_in))
 
 #else
 
-#define SOCKADDR        union { struct sockaddr_in him4; }
+#define SOCKADDR        union { struct sockbddr_in him4; }
 #define SOCKADDR_LEN    sizeof(SOCKADDR)
 
 #endif
@@ -101,53 +101,53 @@ jint NET_Wait(JNIEnv *env, jint fd, jint flags, jint timeout);
 #ifdef __linux__
 int kernelIsV24();
 #ifdef AF_INET6
-int getDefaultIPv6Interface(struct in6_addr *target_addr);
+int getDefbultIPv6Interfbce(struct in6_bddr *tbrget_bddr);
 #endif
 #endif
 
-#ifdef __solaris__
-int net_getParam(char *driver, char *param);
+#ifdef __solbris__
+int net_getPbrbm(chbr *driver, chbr *pbrbm);
 
 #ifndef SO_FLOW_SLA
 #define SO_FLOW_SLA 0x1018
 
 #if _LONG_LONG_ALIGNMENT == 8 && _LONG_LONG_ALIGNMENT_32 == 4
-#pragma pack(4)
+#prbgmb pbck(4)
 #endif
 
 /*
- * Used with the setsockopt(SO_FLOW_SLA, ...) call to set
+ * Used with the setsockopt(SO_FLOW_SLA, ...) cbll to set
  * per socket service level properties.
- * When the application uses per-socket API, we will enforce the properties
- * on both outbound and inbound packets.
+ * When the bpplicbtion uses per-socket API, we will enforce the properties
+ * on both outbound bnd inbound pbckets.
  *
- * For now, only priority and maxbw are supported in SOCK_FLOW_PROP_VERSION1.
+ * For now, only priority bnd mbxbw bre supported in SOCK_FLOW_PROP_VERSION1.
  */
 typedef struct sock_flow_props_s {
         int             sfp_version;
-        uint32_t        sfp_mask;
+        uint32_t        sfp_mbsk;
         int             sfp_priority;   /* flow priority */
-        uint64_t        sfp_maxbw;      /* bandwidth limit in bps */
-        int             sfp_status;     /* flow create status for getsockopt */
+        uint64_t        sfp_mbxbw;      /* bbndwidth limit in bps */
+        int             sfp_stbtus;     /* flow crebte stbtus for getsockopt */
 } sock_flow_props_t;
 
 #define SOCK_FLOW_PROP_VERSION1 1
 
-/* bit mask values for sfp_mask */
-#define SFP_MAXBW       0x00000001      /* Flow Bandwidth Limit */
+/* bit mbsk vblues for sfp_mbsk */
+#define SFP_MAXBW       0x00000001      /* Flow Bbndwidth Limit */
 #define SFP_PRIORITY    0x00000008      /* Flow priority */
 
-/* possible values for sfp_priority */
+/* possible vblues for sfp_priority */
 #define SFP_PRIO_NORMAL 1
 #define SFP_PRIO_HIGH   2
 
 #if _LONG_LONG_ALIGNMENT == 8 && _LONG_LONG_ALIGNMENT_32 == 4
-#pragma pack()
+#prbgmb pbck()
 #endif /* _LONG_LONG_ALIGNMENT */
 
 #endif /* SO_FLOW_SLA */
-#endif /* __solaris__ */
+#endif /* __solbris__ */
 
-JNIEXPORT jboolean JNICALL NET_IsFlowSupported();
+JNIEXPORT jboolebn JNICALL NET_IsFlowSupported();
 
 #endif /* NET_UTILS_MD_H */

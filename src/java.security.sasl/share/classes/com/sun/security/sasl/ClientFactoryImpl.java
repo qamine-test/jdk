@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl;
+pbckbge com.sun.security.sbsl;
 
-import javax.security.sasl.*;
-import com.sun.security.sasl.util.PolicyUtils;
+import jbvbx.security.sbsl.*;
+import com.sun.security.sbsl.util.PolicyUtils;
 
-import java.util.Map;
-import java.io.IOException;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
+import jbvb.util.Mbp;
+import jbvb.io.IOException;
+import jbvbx.security.buth.cbllbbck.Cbllbbck;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
+import jbvbx.security.buth.cbllbbck.NbmeCbllbbck;
+import jbvbx.security.buth.cbllbbck.PbsswordCbllbbck;
+import jbvbx.security.buth.cbllbbck.UnsupportedCbllbbckException;
 
 /**
-  * Client factory for EXTERNAL, CRAM-MD5, PLAIN.
+  * Client fbctory for EXTERNAL, CRAM-MD5, PLAIN.
   *
-  * Requires the following callbacks to be satisfied by callback handler
+  * Requires the following cbllbbcks to be sbtisfied by cbllbbck hbndler
   * when using CRAM-MD5 or PLAIN.
-  * - NameCallback (to get username)
-  * - PasswordCallback (to get password)
+  * - NbmeCbllbbck (to get usernbme)
+  * - PbsswordCbllbbck (to get pbssword)
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
-final public class ClientFactoryImpl implements SaslClientFactory {
-    private static final String myMechs[] = {
+finbl public clbss ClientFbctoryImpl implements SbslClientFbctory {
+    privbte stbtic finbl String myMechs[] = {
         "EXTERNAL",
         "CRAM-MD5",
         "PLAIN",
     };
 
-    private static final int mechPolicies[] = {
-        // %%% RL: Policies should actually depend on the external channel
+    privbte stbtic finbl int mechPolicies[] = {
+        // %%% RL: Policies should bctublly depend on the externbl chbnnel
         PolicyUtils.NOPLAINTEXT|PolicyUtils.NOACTIVE|PolicyUtils.NODICTIONARY,
         PolicyUtils.NOPLAINTEXT|PolicyUtils.NOANONYMOUS,    // CRAM-MD5
         PolicyUtils.NOANONYMOUS,                            // PLAIN
     };
 
-    private static final int EXTERNAL = 0;
-    private static final int CRAMMD5 = 1;
-    private static final int PLAIN = 2;
+    privbte stbtic finbl int EXTERNAL = 0;
+    privbte stbtic finbl int CRAMMD5 = 1;
+    privbte stbtic finbl int PLAIN = 2;
 
-    public ClientFactoryImpl() {
+    public ClientFbctoryImpl() {
     }
 
-    public SaslClient createSaslClient(String[] mechs,
-        String authorizationId,
+    public SbslClient crebteSbslClient(String[] mechs,
+        String buthorizbtionId,
         String protocol,
-        String serverName,
-        Map<String,?> props,
-        CallbackHandler cbh) throws SaslException {
+        String serverNbme,
+        Mbp<String,?> props,
+        CbllbbckHbndler cbh) throws SbslException {
 
             for (int i = 0; i < mechs.length; i++) {
-                if (mechs[i].equals(myMechs[EXTERNAL])
+                if (mechs[i].equbls(myMechs[EXTERNAL])
                     && PolicyUtils.checkPolicy(mechPolicies[EXTERNAL], props)) {
-                    return new ExternalClient(authorizationId);
+                    return new ExternblClient(buthorizbtionId);
 
-                } else if (mechs[i].equals(myMechs[CRAMMD5])
+                } else if (mechs[i].equbls(myMechs[CRAMMD5])
                     && PolicyUtils.checkPolicy(mechPolicies[CRAMMD5], props)) {
 
-                    Object[] uinfo = getUserInfo("CRAM-MD5", authorizationId, cbh);
+                    Object[] uinfo = getUserInfo("CRAM-MD5", buthorizbtionId, cbh);
 
-                    // Callee responsible for clearing bytepw
-                    return new CramMD5Client((String) uinfo[0],
+                    // Cbllee responsible for clebring bytepw
+                    return new CrbmMD5Client((String) uinfo[0],
                         (byte []) uinfo[1]);
 
-                } else if (mechs[i].equals(myMechs[PLAIN])
+                } else if (mechs[i].equbls(myMechs[PLAIN])
                     && PolicyUtils.checkPolicy(mechPolicies[PLAIN], props)) {
 
-                    Object[] uinfo = getUserInfo("PLAIN", authorizationId, cbh);
+                    Object[] uinfo = getUserInfo("PLAIN", buthorizbtionId, cbh);
 
-                    // Callee responsible for clearing bytepw
-                    return new PlainClient(authorizationId,
+                    // Cbllee responsible for clebring bytepw
+                    return new PlbinClient(buthorizbtionId,
                         (String) uinfo[0], (byte []) uinfo[1]);
                 }
             }
             return null;
     };
 
-    public String[] getMechanismNames(Map<String,?> props) {
+    public String[] getMechbnismNbmes(Mbp<String,?> props) {
         return PolicyUtils.filterMechs(myMechs, mechPolicies, props);
     }
 
     /**
-     * Gets the authentication id and password. The
-     * password is converted to bytes using UTF-8 and stored in bytepw.
-     * The authentication id is stored in authId.
+     * Gets the buthenticbtion id bnd pbssword. The
+     * pbssword is converted to bytes using UTF-8 bnd stored in bytepw.
+     * The buthenticbtion id is stored in buthId.
      *
-     * @param prefix The non-null prefix to use for the prompt (e.g., mechanism
-     *  name)
-     * @param authorizationId The possibly null authorization id. This is used
-     * as a default for the NameCallback. If null, it is not used in prompt.
-     * @param cbh The non-null callback handler to use.
-     * @return an {authid, passwd} pair
+     * @pbrbm prefix The non-null prefix to use for the prompt (e.g., mechbnism
+     *  nbme)
+     * @pbrbm buthorizbtionId The possibly null buthorizbtion id. This is used
+     * bs b defbult for the NbmeCbllbbck. If null, it is not used in prompt.
+     * @pbrbm cbh The non-null cbllbbck hbndler to use.
+     * @return bn {buthid, pbsswd} pbir
      */
-    private Object[] getUserInfo(String prefix, String authorizationId,
-        CallbackHandler cbh) throws SaslException {
+    privbte Object[] getUserInfo(String prefix, String buthorizbtionId,
+        CbllbbckHbndler cbh) throws SbslException {
         if (cbh == null) {
-            throw new SaslException(
-                "Callback handler to get username/password required");
+            throw new SbslException(
+                "Cbllbbck hbndler to get usernbme/pbssword required");
         }
         try {
-            String userPrompt = prefix + " authentication id: ";
-            String passwdPrompt = prefix + " password: ";
+            String userPrompt = prefix + " buthenticbtion id: ";
+            String pbsswdPrompt = prefix + " pbssword: ";
 
-            NameCallback ncb = authorizationId == null?
-                new NameCallback(userPrompt) :
-                new NameCallback(userPrompt, authorizationId);
+            NbmeCbllbbck ncb = buthorizbtionId == null?
+                new NbmeCbllbbck(userPrompt) :
+                new NbmeCbllbbck(userPrompt, buthorizbtionId);
 
-            PasswordCallback pcb = new PasswordCallback(passwdPrompt, false);
+            PbsswordCbllbbck pcb = new PbsswordCbllbbck(pbsswdPrompt, fblse);
 
-            cbh.handle(new Callback[]{ncb,pcb});
+            cbh.hbndle(new Cbllbbck[]{ncb,pcb});
 
-            char[] pw = pcb.getPassword();
+            chbr[] pw = pcb.getPbssword();
 
             byte[] bytepw;
-            String authId;
+            String buthId;
 
             if (pw != null) {
                 bytepw = new String(pw).getBytes("UTF8");
-                pcb.clearPassword();
+                pcb.clebrPbssword();
             } else {
                 bytepw = null;
             }
 
-            authId = ncb.getName();
+            buthId = ncb.getNbme();
 
-            return new Object[]{authId, bytepw};
+            return new Object[]{buthId, bytepw};
 
-        } catch (IOException e) {
-            throw new SaslException("Cannot get password", e);
-        } catch (UnsupportedCallbackException e) {
-            throw new SaslException("Cannot get userid/password", e);
+        } cbtch (IOException e) {
+            throw new SbslException("Cbnnot get pbssword", e);
+        } cbtch (UnsupportedCbllbbckException e) {
+            throw new SbslException("Cbnnot get userid/pbssword", e);
         }
     }
 }

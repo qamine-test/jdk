@@ -3,67 +3,67 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.exceptions;
+pbckbge com.sun.org.bpbche.xml.internbl.security.exceptions;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.text.MessageFormat;
+import jbvb.io.PrintStrebm;
+import jbvb.io.PrintWriter;
+import jbvb.text.MessbgeFormbt;
 
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.I18n;
 
 /**
- * The mother of all runtime Exceptions in this bundle. It allows exceptions to have
- * their messages translated to the different locales.
+ * The mother of bll runtime Exceptions in this bundle. It bllows exceptions to hbve
+ * their messbges trbnslbted to the different locbles.
  *
- * The <code>xmlsecurity_en.properties</code> file contains this line:
+ * The <code>xmlsecurity_en.properties</code> file contbins this line:
  * <pre>
- * xml.WrongElement = Can't create a {0} from a {1} element
+ * xml.WrongElement = Cbn't crebte b {0} from b {1} element
  * </pre>
  *
- * Usage in the Java source is:
+ * Usbge in the Jbvb source is:
  * <pre>
  * {
- *    Object exArgs[] = { Constants._TAG_TRANSFORMS, "BadElement" };
+ *    Object exArgs[] = { Constbnts._TAG_TRANSFORMS, "BbdElement" };
  *
  *    throw new XMLSecurityException("xml.WrongElement", exArgs);
  * }
  * </pre>
  *
- * Additionally, if another Exception has been caught, we can supply it, too>
+ * Additionblly, if bnother Exception hbs been cbught, we cbn supply it, too>
  * <pre>
  * try {
  *    ...
- * } catch (Exception oldEx) {
- *    Object exArgs[] = { Constants._TAG_TRANSFORMS, "BadElement" };
+ * } cbtch (Exception oldEx) {
+ *    Object exArgs[] = { Constbnts._TAG_TRANSFORMS, "BbdElement" };
  *
  *    throw new XMLSecurityException("xml.WrongElement", exArgs, oldEx);
  * }
  * </pre>
  *
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class XMLSecurityRuntimeException extends RuntimeException {
+public clbss XMLSecurityRuntimeException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
+    privbte stbtic finbl long seriblVersionUID = 1L;
 
     /** Field msgID */
     protected String msgID;
@@ -73,7 +73,7 @@ public class XMLSecurityRuntimeException extends RuntimeException {
      *
      */
     public XMLSecurityRuntimeException() {
-        super("Missing message string");
+        super("Missing messbge string");
 
         this.msgID = null;
     }
@@ -81,10 +81,10 @@ public class XMLSecurityRuntimeException extends RuntimeException {
     /**
      * Constructor XMLSecurityRuntimeException
      *
-     * @param msgID
+     * @pbrbm msgID
      */
     public XMLSecurityRuntimeException(String msgID) {
-        super(I18n.getExceptionMessage(msgID));
+        super(I18n.getExceptionMessbge(msgID));
 
         this.msgID = msgID;
     }
@@ -92,11 +92,11 @@ public class XMLSecurityRuntimeException extends RuntimeException {
     /**
      * Constructor XMLSecurityRuntimeException
      *
-     * @param msgID
-     * @param exArgs
+     * @pbrbm msgID
+     * @pbrbm exArgs
      */
     public XMLSecurityRuntimeException(String msgID, Object exArgs[]) {
-        super(MessageFormat.format(I18n.getExceptionMessage(msgID), exArgs));
+        super(MessbgeFormbt.formbt(I18n.getExceptionMessbge(msgID), exArgs));
 
         this.msgID = msgID;
     }
@@ -104,24 +104,24 @@ public class XMLSecurityRuntimeException extends RuntimeException {
     /**
      * Constructor XMLSecurityRuntimeException
      *
-     * @param originalException
+     * @pbrbm originblException
      */
-    public XMLSecurityRuntimeException(Exception originalException) {
-        super("Missing message ID to locate message string in resource bundle \""
-              + Constants.exceptionMessagesResourceBundleBase
-              + "\". Original Exception was a "
-              + originalException.getClass().getName() + " and message "
-              + originalException.getMessage(), originalException);
+    public XMLSecurityRuntimeException(Exception originblException) {
+        super("Missing messbge ID to locbte messbge string in resource bundle \""
+              + Constbnts.exceptionMessbgesResourceBundleBbse
+              + "\". Originbl Exception wbs b "
+              + originblException.getClbss().getNbme() + " bnd messbge "
+              + originblException.getMessbge(), originblException);
     }
 
     /**
      * Constructor XMLSecurityRuntimeException
      *
-     * @param msgID
-     * @param originalException
+     * @pbrbm msgID
+     * @pbrbm originblException
      */
-    public XMLSecurityRuntimeException(String msgID, Exception originalException) {
-        super(I18n.getExceptionMessage(msgID, originalException), originalException);
+    public XMLSecurityRuntimeException(String msgID, Exception originblException) {
+        super(I18n.getExceptionMessbge(msgID, originblException), originblException);
 
         this.msgID = msgID;
     }
@@ -129,12 +129,12 @@ public class XMLSecurityRuntimeException extends RuntimeException {
     /**
      * Constructor XMLSecurityRuntimeException
      *
-     * @param msgID
-     * @param exArgs
-     * @param originalException
+     * @pbrbm msgID
+     * @pbrbm exArgs
+     * @pbrbm originblException
      */
-    public XMLSecurityRuntimeException(String msgID, Object exArgs[], Exception originalException) {
-        super(MessageFormat.format(I18n.getExceptionMessage(msgID), exArgs));
+    public XMLSecurityRuntimeException(String msgID, Object exArgs[], Exception originblException) {
+        super(MessbgeFormbt.formbt(I18n.getExceptionMessbge(msgID), exArgs));
 
         this.msgID = msgID;
     }
@@ -142,69 +142,69 @@ public class XMLSecurityRuntimeException extends RuntimeException {
     /**
      * Method getMsgID
      *
-     * @return the messageId
+     * @return the messbgeId
      */
     public String getMsgID() {
         if (msgID == null) {
-            return "Missing message ID";
+            return "Missing messbge ID";
         }
         return msgID;
     }
 
     /** @inheritDoc */
     public String toString() {
-        String s = this.getClass().getName();
-        String message = super.getLocalizedMessage();
+        String s = this.getClbss().getNbme();
+        String messbge = super.getLocblizedMessbge();
 
-        if (message != null) {
-            message = s + ": " + message;
+        if (messbge != null) {
+            messbge = s + ": " + messbge;
         } else {
-            message = s;
+            messbge = s;
         }
 
-        if (this.getCause() != null) {
-            message = message + "\nOriginal Exception was " + this.getCause().toString();
+        if (this.getCbuse() != null) {
+            messbge = messbge + "\nOriginbl Exception wbs " + this.getCbuse().toString();
         }
 
-        return message;
+        return messbge;
     }
 
     /**
-     * Method printStackTrace
+     * Method printStbckTrbce
      *
      */
-    public void printStackTrace() {
+    public void printStbckTrbce() {
         synchronized (System.err) {
-            super.printStackTrace(System.err);
+            super.printStbckTrbce(System.err);
         }
     }
 
     /**
-     * Method printStackTrace
+     * Method printStbckTrbce
      *
-     * @param printwriter
+     * @pbrbm printwriter
      */
-    public void printStackTrace(PrintWriter printwriter) {
-        super.printStackTrace(printwriter);
+    public void printStbckTrbce(PrintWriter printwriter) {
+        super.printStbckTrbce(printwriter);
     }
 
     /**
-     * Method printStackTrace
+     * Method printStbckTrbce
      *
-     * @param printstream
+     * @pbrbm printstrebm
      */
-    public void printStackTrace(PrintStream printstream) {
-        super.printStackTrace(printstream);
+    public void printStbckTrbce(PrintStrebm printstrebm) {
+        super.printStbckTrbce(printstrebm);
     }
 
     /**
-     * Method getOriginalException
+     * Method getOriginblException
      *
-     * @return the original exception
+     * @return the originbl exception
      */
-    public Exception getOriginalException() {
-        if (this.getCause() instanceof Exception) {
-            return (Exception)this.getCause();
+    public Exception getOriginblException() {
+        if (this.getCbuse() instbnceof Exception) {
+            return (Exception)this.getCbuse();
         }
         return null;
     }

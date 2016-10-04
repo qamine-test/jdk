@@ -1,580 +1,580 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Portions Copyright IBM Corporation, 2001. All Rights Reserved.
+ * Portions Copyright IBM Corporbtion, 2001. All Rights Reserved.
  */
 
-package java.math;
+pbckbge jbvb.mbth;
 
-import static java.math.BigInteger.LONG_MASK;
-import java.util.Arrays;
+import stbtic jbvb.mbth.BigInteger.LONG_MASK;
+import jbvb.util.Arrbys;
 
 /**
- * Immutable, arbitrary-precision signed decimal numbers.  A
- * {@code BigDecimal} consists of an arbitrary precision integer
- * <i>unscaled value</i> and a 32-bit integer <i>scale</i>.  If zero
- * or positive, the scale is the number of digits to the right of the
- * decimal point.  If negative, the unscaled value of the number is
- * multiplied by ten to the power of the negation of the scale.  The
- * value of the number represented by the {@code BigDecimal} is
- * therefore <tt>(unscaledValue &times; 10<sup>-scale</sup>)</tt>.
+ * Immutbble, brbitrbry-precision signed decimbl numbers.  A
+ * {@code BigDecimbl} consists of bn brbitrbry precision integer
+ * <i>unscbled vblue</i> bnd b 32-bit integer <i>scble</i>.  If zero
+ * or positive, the scble is the number of digits to the right of the
+ * decimbl point.  If negbtive, the unscbled vblue of the number is
+ * multiplied by ten to the power of the negbtion of the scble.  The
+ * vblue of the number represented by the {@code BigDecimbl} is
+ * therefore <tt>(unscbledVblue &times; 10<sup>-scble</sup>)</tt>.
  *
- * <p>The {@code BigDecimal} class provides operations for
- * arithmetic, scale manipulation, rounding, comparison, hashing, and
- * format conversion.  The {@link #toString} method provides a
- * canonical representation of a {@code BigDecimal}.
+ * <p>The {@code BigDecimbl} clbss provides operbtions for
+ * brithmetic, scble mbnipulbtion, rounding, compbrison, hbshing, bnd
+ * formbt conversion.  The {@link #toString} method provides b
+ * cbnonicbl representbtion of b {@code BigDecimbl}.
  *
- * <p>The {@code BigDecimal} class gives its user complete control
- * over rounding behavior.  If no rounding mode is specified and the
- * exact result cannot be represented, an exception is thrown;
- * otherwise, calculations can be carried out to a chosen precision
- * and rounding mode by supplying an appropriate {@link MathContext}
- * object to the operation.  In either case, eight <em>rounding
- * modes</em> are provided for the control of rounding.  Using the
- * integer fields in this class (such as {@link #ROUND_HALF_UP}) to
- * represent rounding mode is largely obsolete; the enumeration values
- * of the {@code RoundingMode} {@code enum}, (such as {@link
- * RoundingMode#HALF_UP}) should be used instead.
+ * <p>The {@code BigDecimbl} clbss gives its user complete control
+ * over rounding behbvior.  If no rounding mode is specified bnd the
+ * exbct result cbnnot be represented, bn exception is thrown;
+ * otherwise, cblculbtions cbn be cbrried out to b chosen precision
+ * bnd rounding mode by supplying bn bppropribte {@link MbthContext}
+ * object to the operbtion.  In either cbse, eight <em>rounding
+ * modes</em> bre provided for the control of rounding.  Using the
+ * integer fields in this clbss (such bs {@link #ROUND_HALF_UP}) to
+ * represent rounding mode is lbrgely obsolete; the enumerbtion vblues
+ * of the {@code RoundingMode} {@code enum}, (such bs {@link
+ * RoundingMode#HALF_UP}) should be used instebd.
  *
- * <p>When a {@code MathContext} object is supplied with a precision
- * setting of 0 (for example, {@link MathContext#UNLIMITED}),
- * arithmetic operations are exact, as are the arithmetic methods
- * which take no {@code MathContext} object.  (This is the only
- * behavior that was supported in releases prior to 5.)  As a
- * corollary of computing the exact result, the rounding mode setting
- * of a {@code MathContext} object with a precision setting of 0 is
- * not used and thus irrelevant.  In the case of divide, the exact
- * quotient could have an infinitely long decimal expansion; for
- * example, 1 divided by 3.  If the quotient has a nonterminating
- * decimal expansion and the operation is specified to return an exact
- * result, an {@code ArithmeticException} is thrown.  Otherwise, the
- * exact result of the division is returned, as done for other
- * operations.
+ * <p>When b {@code MbthContext} object is supplied with b precision
+ * setting of 0 (for exbmple, {@link MbthContext#UNLIMITED}),
+ * brithmetic operbtions bre exbct, bs bre the brithmetic methods
+ * which tbke no {@code MbthContext} object.  (This is the only
+ * behbvior thbt wbs supported in relebses prior to 5.)  As b
+ * corollbry of computing the exbct result, the rounding mode setting
+ * of b {@code MbthContext} object with b precision setting of 0 is
+ * not used bnd thus irrelevbnt.  In the cbse of divide, the exbct
+ * quotient could hbve bn infinitely long decimbl expbnsion; for
+ * exbmple, 1 divided by 3.  If the quotient hbs b nonterminbting
+ * decimbl expbnsion bnd the operbtion is specified to return bn exbct
+ * result, bn {@code ArithmeticException} is thrown.  Otherwise, the
+ * exbct result of the division is returned, bs done for other
+ * operbtions.
  *
  * <p>When the precision setting is not 0, the rules of
- * {@code BigDecimal} arithmetic are broadly compatible with selected
- * modes of operation of the arithmetic defined in ANSI X3.274-1996
- * and ANSI X3.274-1996/AM 1-2000 (section 7.4).  Unlike those
- * standards, {@code BigDecimal} includes many rounding modes, which
- * were mandatory for division in {@code BigDecimal} releases prior
- * to 5.  Any conflicts between these ANSI standards and the
- * {@code BigDecimal} specification are resolved in favor of
- * {@code BigDecimal}.
+ * {@code BigDecimbl} brithmetic bre brobdly compbtible with selected
+ * modes of operbtion of the brithmetic defined in ANSI X3.274-1996
+ * bnd ANSI X3.274-1996/AM 1-2000 (section 7.4).  Unlike those
+ * stbndbrds, {@code BigDecimbl} includes mbny rounding modes, which
+ * were mbndbtory for division in {@code BigDecimbl} relebses prior
+ * to 5.  Any conflicts between these ANSI stbndbrds bnd the
+ * {@code BigDecimbl} specificbtion bre resolved in fbvor of
+ * {@code BigDecimbl}.
  *
- * <p>Since the same numerical value can have different
- * representations (with different scales), the rules of arithmetic
- * and rounding must specify both the numerical result and the scale
- * used in the result's representation.
+ * <p>Since the sbme numericbl vblue cbn hbve different
+ * representbtions (with different scbles), the rules of brithmetic
+ * bnd rounding must specify both the numericbl result bnd the scble
+ * used in the result's representbtion.
  *
  *
- * <p>In general the rounding modes and precision setting determine
- * how operations return results with a limited number of digits when
- * the exact result has more digits (perhaps infinitely many in the
- * case of division) than the number of digits returned.
+ * <p>In generbl the rounding modes bnd precision setting determine
+ * how operbtions return results with b limited number of digits when
+ * the exbct result hbs more digits (perhbps infinitely mbny in the
+ * cbse of division) thbn the number of digits returned.
  *
  * First, the
- * total number of digits to return is specified by the
- * {@code MathContext}'s {@code precision} setting; this determines
- * the result's <i>precision</i>.  The digit count starts from the
- * leftmost nonzero digit of the exact result.  The rounding mode
- * determines how any discarded trailing digits affect the returned
+ * totbl number of digits to return is specified by the
+ * {@code MbthContext}'s {@code precision} setting; this determines
+ * the result's <i>precision</i>.  The digit count stbrts from the
+ * leftmost nonzero digit of the exbct result.  The rounding mode
+ * determines how bny discbrded trbiling digits bffect the returned
  * result.
  *
- * <p>For all arithmetic operators , the operation is carried out as
- * though an exact intermediate result were first calculated and then
+ * <p>For bll brithmetic operbtors , the operbtion is cbrried out bs
+ * though bn exbct intermedibte result were first cblculbted bnd then
  * rounded to the number of digits specified by the precision setting
- * (if necessary), using the selected rounding mode.  If the exact
- * result is not returned, some digit positions of the exact result
- * are discarded.  When rounding increases the magnitude of the
- * returned result, it is possible for a new digit position to be
- * created by a carry propagating to a leading {@literal "9"} digit.
- * For example, rounding the value 999.9 to three digits rounding up
- * would be numerically equal to one thousand, represented as
- * 100&times;10<sup>1</sup>.  In such cases, the new {@literal "1"} is
- * the leading digit position of the returned result.
+ * (if necessbry), using the selected rounding mode.  If the exbct
+ * result is not returned, some digit positions of the exbct result
+ * bre discbrded.  When rounding increbses the mbgnitude of the
+ * returned result, it is possible for b new digit position to be
+ * crebted by b cbrry propbgbting to b lebding {@literbl "9"} digit.
+ * For exbmple, rounding the vblue 999.9 to three digits rounding up
+ * would be numericblly equbl to one thousbnd, represented bs
+ * 100&times;10<sup>1</sup>.  In such cbses, the new {@literbl "1"} is
+ * the lebding digit position of the returned result.
  *
- * <p>Besides a logical exact result, each arithmetic operation has a
- * preferred scale for representing a result.  The preferred
- * scale for each operation is listed in the table below.
+ * <p>Besides b logicbl exbct result, ebch brithmetic operbtion hbs b
+ * preferred scble for representing b result.  The preferred
+ * scble for ebch operbtion is listed in the tbble below.
  *
- * <table border>
- * <caption><b>Preferred Scales for Results of Arithmetic Operations
- * </b></caption>
- * <tr><th>Operation</th><th>Preferred Scale of Result</th></tr>
- * <tr><td>Add</td><td>max(addend.scale(), augend.scale())</td>
- * <tr><td>Subtract</td><td>max(minuend.scale(), subtrahend.scale())</td>
- * <tr><td>Multiply</td><td>multiplier.scale() + multiplicand.scale()</td>
- * <tr><td>Divide</td><td>dividend.scale() - divisor.scale()</td>
- * </table>
+ * <tbble border>
+ * <cbption><b>Preferred Scbles for Results of Arithmetic Operbtions
+ * </b></cbption>
+ * <tr><th>Operbtion</th><th>Preferred Scble of Result</th></tr>
+ * <tr><td>Add</td><td>mbx(bddend.scble(), bugend.scble())</td>
+ * <tr><td>Subtrbct</td><td>mbx(minuend.scble(), subtrbhend.scble())</td>
+ * <tr><td>Multiply</td><td>multiplier.scble() + multiplicbnd.scble()</td>
+ * <tr><td>Divide</td><td>dividend.scble() - divisor.scble()</td>
+ * </tbble>
  *
- * These scales are the ones used by the methods which return exact
- * arithmetic results; except that an exact divide may have to use a
- * larger scale since the exact result may have more digits.  For
- * example, {@code 1/32} is {@code 0.03125}.
+ * These scbles bre the ones used by the methods which return exbct
+ * brithmetic results; except thbt bn exbct divide mby hbve to use b
+ * lbrger scble since the exbct result mby hbve more digits.  For
+ * exbmple, {@code 1/32} is {@code 0.03125}.
  *
- * <p>Before rounding, the scale of the logical exact intermediate
- * result is the preferred scale for that operation.  If the exact
- * numerical result cannot be represented in {@code precision}
- * digits, rounding selects the set of digits to return and the scale
- * of the result is reduced from the scale of the intermediate result
- * to the least scale which can represent the {@code precision}
- * digits actually returned.  If the exact result can be represented
- * with at most {@code precision} digits, the representation
- * of the result with the scale closest to the preferred scale is
- * returned.  In particular, an exactly representable quotient may be
- * represented in fewer than {@code precision} digits by removing
- * trailing zeros and decreasing the scale.  For example, rounding to
- * three digits using the {@linkplain RoundingMode#FLOOR floor}
+ * <p>Before rounding, the scble of the logicbl exbct intermedibte
+ * result is the preferred scble for thbt operbtion.  If the exbct
+ * numericbl result cbnnot be represented in {@code precision}
+ * digits, rounding selects the set of digits to return bnd the scble
+ * of the result is reduced from the scble of the intermedibte result
+ * to the lebst scble which cbn represent the {@code precision}
+ * digits bctublly returned.  If the exbct result cbn be represented
+ * with bt most {@code precision} digits, the representbtion
+ * of the result with the scble closest to the preferred scble is
+ * returned.  In pbrticulbr, bn exbctly representbble quotient mby be
+ * represented in fewer thbn {@code precision} digits by removing
+ * trbiling zeros bnd decrebsing the scble.  For exbmple, rounding to
+ * three digits using the {@linkplbin RoundingMode#FLOOR floor}
  * rounding mode, <br>
  *
- * {@code 19/100 = 0.19   // integer=19,  scale=2} <br>
+ * {@code 19/100 = 0.19   // integer=19,  scble=2} <br>
  *
  * but<br>
  *
- * {@code 21/110 = 0.190  // integer=190, scale=3} <br>
+ * {@code 21/110 = 0.190  // integer=190, scble=3} <br>
  *
- * <p>Note that for add, subtract, and multiply, the reduction in
- * scale will equal the number of digit positions of the exact result
- * which are discarded. If the rounding causes a carry propagation to
- * create a new high-order digit position, an additional digit of the
- * result is discarded than when no new digit position is created.
+ * <p>Note thbt for bdd, subtrbct, bnd multiply, the reduction in
+ * scble will equbl the number of digit positions of the exbct result
+ * which bre discbrded. If the rounding cbuses b cbrry propbgbtion to
+ * crebte b new high-order digit position, bn bdditionbl digit of the
+ * result is discbrded thbn when no new digit position is crebted.
  *
- * <p>Other methods may have slightly different rounding semantics.
- * For example, the result of the {@code pow} method using the
- * {@linkplain #pow(int, MathContext) specified algorithm} can
- * occasionally differ from the rounded mathematical result by more
- * than one unit in the last place, one <i>{@linkplain #ulp() ulp}</i>.
+ * <p>Other methods mby hbve slightly different rounding sembntics.
+ * For exbmple, the result of the {@code pow} method using the
+ * {@linkplbin #pow(int, MbthContext) specified blgorithm} cbn
+ * occbsionblly differ from the rounded mbthembticbl result by more
+ * thbn one unit in the lbst plbce, one <i>{@linkplbin #ulp() ulp}</i>.
  *
- * <p>Two types of operations are provided for manipulating the scale
- * of a {@code BigDecimal}: scaling/rounding operations and decimal
- * point motion operations.  Scaling/rounding operations ({@link
- * #setScale setScale} and {@link #round round}) return a
- * {@code BigDecimal} whose value is approximately (or exactly) equal
- * to that of the operand, but whose scale or precision is the
- * specified value; that is, they increase or decrease the precision
- * of the stored number with minimal effect on its value.  Decimal
- * point motion operations ({@link #movePointLeft movePointLeft} and
- * {@link #movePointRight movePointRight}) return a
- * {@code BigDecimal} created from the operand by moving the decimal
- * point a specified distance in the specified direction.
+ * <p>Two types of operbtions bre provided for mbnipulbting the scble
+ * of b {@code BigDecimbl}: scbling/rounding operbtions bnd decimbl
+ * point motion operbtions.  Scbling/rounding operbtions ({@link
+ * #setScble setScble} bnd {@link #round round}) return b
+ * {@code BigDecimbl} whose vblue is bpproximbtely (or exbctly) equbl
+ * to thbt of the operbnd, but whose scble or precision is the
+ * specified vblue; thbt is, they increbse or decrebse the precision
+ * of the stored number with minimbl effect on its vblue.  Decimbl
+ * point motion operbtions ({@link #movePointLeft movePointLeft} bnd
+ * {@link #movePointRight movePointRight}) return b
+ * {@code BigDecimbl} crebted from the operbnd by moving the decimbl
+ * point b specified distbnce in the specified direction.
  *
- * <p>For the sake of brevity and clarity, pseudo-code is used
- * throughout the descriptions of {@code BigDecimal} methods.  The
- * pseudo-code expression {@code (i + j)} is shorthand for "a
- * {@code BigDecimal} whose value is that of the {@code BigDecimal}
- * {@code i} added to that of the {@code BigDecimal}
+ * <p>For the sbke of brevity bnd clbrity, pseudo-code is used
+ * throughout the descriptions of {@code BigDecimbl} methods.  The
+ * pseudo-code expression {@code (i + j)} is shorthbnd for "b
+ * {@code BigDecimbl} whose vblue is thbt of the {@code BigDecimbl}
+ * {@code i} bdded to thbt of the {@code BigDecimbl}
  * {@code j}." The pseudo-code expression {@code (i == j)} is
- * shorthand for "{@code true} if and only if the
- * {@code BigDecimal} {@code i} represents the same value as the
- * {@code BigDecimal} {@code j}." Other pseudo-code expressions
- * are interpreted similarly.  Square brackets are used to represent
- * the particular {@code BigInteger} and scale pair defining a
- * {@code BigDecimal} value; for example [19, 2] is the
- * {@code BigDecimal} numerically equal to 0.19 having a scale of 2.
+ * shorthbnd for "{@code true} if bnd only if the
+ * {@code BigDecimbl} {@code i} represents the sbme vblue bs the
+ * {@code BigDecimbl} {@code j}." Other pseudo-code expressions
+ * bre interpreted similbrly.  Squbre brbckets bre used to represent
+ * the pbrticulbr {@code BigInteger} bnd scble pbir defining b
+ * {@code BigDecimbl} vblue; for exbmple [19, 2] is the
+ * {@code BigDecimbl} numericblly equbl to 0.19 hbving b scble of 2.
  *
- * <p>Note: care should be exercised if {@code BigDecimal} objects
- * are used as keys in a {@link java.util.SortedMap SortedMap} or
- * elements in a {@link java.util.SortedSet SortedSet} since
- * {@code BigDecimal}'s <i>natural ordering</i> is <i>inconsistent
- * with equals</i>.  See {@link Comparable}, {@link
- * java.util.SortedMap} or {@link java.util.SortedSet} for more
- * information.
+ * <p>Note: cbre should be exercised if {@code BigDecimbl} objects
+ * bre used bs keys in b {@link jbvb.util.SortedMbp SortedMbp} or
+ * elements in b {@link jbvb.util.SortedSet SortedSet} since
+ * {@code BigDecimbl}'s <i>nbturbl ordering</i> is <i>inconsistent
+ * with equbls</i>.  See {@link Compbrbble}, {@link
+ * jbvb.util.SortedMbp} or {@link jbvb.util.SortedSet} for more
+ * informbtion.
  *
- * <p>All methods and constructors for this class throw
- * {@code NullPointerException} when passed a {@code null} object
- * reference for any input parameter.
+ * <p>All methods bnd constructors for this clbss throw
+ * {@code NullPointerException} when pbssed b {@code null} object
+ * reference for bny input pbrbmeter.
  *
  * @see     BigInteger
- * @see     MathContext
+ * @see     MbthContext
  * @see     RoundingMode
- * @see     java.util.SortedMap
- * @see     java.util.SortedSet
- * @author  Josh Bloch
- * @author  Mike Cowlishaw
- * @author  Joseph D. Darcy
- * @author  Sergey V. Kuksenko
+ * @see     jbvb.util.SortedMbp
+ * @see     jbvb.util.SortedSet
+ * @buthor  Josh Bloch
+ * @buthor  Mike Cowlishbw
+ * @buthor  Joseph D. Dbrcy
+ * @buthor  Sergey V. Kuksenko
  */
-public class BigDecimal extends Number implements Comparable<BigDecimal> {
+public clbss BigDecimbl extends Number implements Compbrbble<BigDecimbl> {
     /**
-     * The unscaled value of this BigDecimal, as returned by {@link
-     * #unscaledValue}.
+     * The unscbled vblue of this BigDecimbl, bs returned by {@link
+     * #unscbledVblue}.
      *
-     * @serial
-     * @see #unscaledValue
+     * @seribl
+     * @see #unscbledVblue
      */
-    private final BigInteger intVal;
+    privbte finbl BigInteger intVbl;
 
     /**
-     * The scale of this BigDecimal, as returned by {@link #scale}.
+     * The scble of this BigDecimbl, bs returned by {@link #scble}.
      *
-     * @serial
-     * @see #scale
+     * @seribl
+     * @see #scble
      */
-    private final int scale;  // Note: this may have any value, so
-                              // calculations must be done in longs
+    privbte finbl int scble;  // Note: this mby hbve bny vblue, so
+                              // cblculbtions must be done in longs
 
     /**
-     * The number of decimal digits in this BigDecimal, or 0 if the
-     * number of digits are not known (lookaside information).  If
-     * nonzero, the value is guaranteed correct.  Use the precision()
-     * method to obtain and set the value if it might be 0.  This
-     * field is mutable until set nonzero.
+     * The number of decimbl digits in this BigDecimbl, or 0 if the
+     * number of digits bre not known (lookbside informbtion).  If
+     * nonzero, the vblue is gubrbnteed correct.  Use the precision()
+     * method to obtbin bnd set the vblue if it might be 0.  This
+     * field is mutbble until set nonzero.
      *
      * @since  1.5
      */
-    private transient int precision;
+    privbte trbnsient int precision;
 
     /**
-     * Used to store the canonical string representation, if computed.
+     * Used to store the cbnonicbl string representbtion, if computed.
      */
-    private transient String stringCache;
+    privbte trbnsient String stringCbche;
 
     /**
-     * Sentinel value for {@link #intCompact} indicating the
-     * significand information is only available from {@code intVal}.
+     * Sentinel vblue for {@link #intCompbct} indicbting the
+     * significbnd informbtion is only bvbilbble from {@code intVbl}.
      */
-    static final long INFLATED = Long.MIN_VALUE;
+    stbtic finbl long INFLATED = Long.MIN_VALUE;
 
-    private static final BigInteger INFLATED_BIGINT = BigInteger.valueOf(INFLATED);
+    privbte stbtic finbl BigInteger INFLATED_BIGINT = BigInteger.vblueOf(INFLATED);
 
     /**
-     * If the absolute value of the significand of this BigDecimal is
-     * less than or equal to {@code Long.MAX_VALUE}, the value can be
-     * compactly stored in this field and used in computations.
+     * If the bbsolute vblue of the significbnd of this BigDecimbl is
+     * less thbn or equbl to {@code Long.MAX_VALUE}, the vblue cbn be
+     * compbctly stored in this field bnd used in computbtions.
      */
-    private final transient long intCompact;
+    privbte finbl trbnsient long intCompbct;
 
-    // All 18-digit base ten strings fit into a long; not all 19-digit
+    // All 18-digit bbse ten strings fit into b long; not bll 19-digit
     // strings will
-    private static final int MAX_COMPACT_DIGITS = 18;
+    privbte stbtic finbl int MAX_COMPACT_DIGITS = 18;
 
-    /* Appease the serialization gods */
-    private static final long serialVersionUID = 6108874887143696463L;
+    /* Appebse the seriblizbtion gods */
+    privbte stbtic finbl long seriblVersionUID = 6108874887143696463L;
 
-    private static final ThreadLocal<StringBuilderHelper>
-        threadLocalStringBuilderHelper = new ThreadLocal<StringBuilderHelper>() {
+    privbte stbtic finbl ThrebdLocbl<StringBuilderHelper>
+        threbdLocblStringBuilderHelper = new ThrebdLocbl<StringBuilderHelper>() {
         @Override
-        protected StringBuilderHelper initialValue() {
+        protected StringBuilderHelper initiblVblue() {
             return new StringBuilderHelper();
         }
     };
 
-    // Cache of common small BigDecimal values.
-    private static final BigDecimal ZERO_THROUGH_TEN[] = {
-        new BigDecimal(BigInteger.ZERO,       0,  0, 1),
-        new BigDecimal(BigInteger.ONE,        1,  0, 1),
-        new BigDecimal(BigInteger.valueOf(2), 2,  0, 1),
-        new BigDecimal(BigInteger.valueOf(3), 3,  0, 1),
-        new BigDecimal(BigInteger.valueOf(4), 4,  0, 1),
-        new BigDecimal(BigInteger.valueOf(5), 5,  0, 1),
-        new BigDecimal(BigInteger.valueOf(6), 6,  0, 1),
-        new BigDecimal(BigInteger.valueOf(7), 7,  0, 1),
-        new BigDecimal(BigInteger.valueOf(8), 8,  0, 1),
-        new BigDecimal(BigInteger.valueOf(9), 9,  0, 1),
-        new BigDecimal(BigInteger.TEN,        10, 0, 2),
+    // Cbche of common smbll BigDecimbl vblues.
+    privbte stbtic finbl BigDecimbl ZERO_THROUGH_TEN[] = {
+        new BigDecimbl(BigInteger.ZERO,       0,  0, 1),
+        new BigDecimbl(BigInteger.ONE,        1,  0, 1),
+        new BigDecimbl(BigInteger.vblueOf(2), 2,  0, 1),
+        new BigDecimbl(BigInteger.vblueOf(3), 3,  0, 1),
+        new BigDecimbl(BigInteger.vblueOf(4), 4,  0, 1),
+        new BigDecimbl(BigInteger.vblueOf(5), 5,  0, 1),
+        new BigDecimbl(BigInteger.vblueOf(6), 6,  0, 1),
+        new BigDecimbl(BigInteger.vblueOf(7), 7,  0, 1),
+        new BigDecimbl(BigInteger.vblueOf(8), 8,  0, 1),
+        new BigDecimbl(BigInteger.vblueOf(9), 9,  0, 1),
+        new BigDecimbl(BigInteger.TEN,        10, 0, 2),
     };
 
-    // Cache of zero scaled by 0 - 15
-    private static final BigDecimal[] ZERO_SCALED_BY = {
+    // Cbche of zero scbled by 0 - 15
+    privbte stbtic finbl BigDecimbl[] ZERO_SCALED_BY = {
         ZERO_THROUGH_TEN[0],
-        new BigDecimal(BigInteger.ZERO, 0, 1, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 2, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 3, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 4, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 5, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 6, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 7, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 8, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 9, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 10, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 11, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 12, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 13, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 14, 1),
-        new BigDecimal(BigInteger.ZERO, 0, 15, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 1, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 2, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 3, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 4, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 5, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 6, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 7, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 8, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 9, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 10, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 11, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 12, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 13, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 14, 1),
+        new BigDecimbl(BigInteger.ZERO, 0, 15, 1),
     };
 
-    // Half of Long.MIN_VALUE & Long.MAX_VALUE.
-    private static final long HALF_LONG_MAX_VALUE = Long.MAX_VALUE / 2;
-    private static final long HALF_LONG_MIN_VALUE = Long.MIN_VALUE / 2;
+    // Hblf of Long.MIN_VALUE & Long.MAX_VALUE.
+    privbte stbtic finbl long HALF_LONG_MAX_VALUE = Long.MAX_VALUE / 2;
+    privbte stbtic finbl long HALF_LONG_MIN_VALUE = Long.MIN_VALUE / 2;
 
-    // Constants
+    // Constbnts
     /**
-     * The value 0, with a scale of 0.
+     * The vblue 0, with b scble of 0.
      *
      * @since  1.5
      */
-    public static final BigDecimal ZERO =
+    public stbtic finbl BigDecimbl ZERO =
         ZERO_THROUGH_TEN[0];
 
     /**
-     * The value 1, with a scale of 0.
+     * The vblue 1, with b scble of 0.
      *
      * @since  1.5
      */
-    public static final BigDecimal ONE =
+    public stbtic finbl BigDecimbl ONE =
         ZERO_THROUGH_TEN[1];
 
     /**
-     * The value 10, with a scale of 0.
+     * The vblue 10, with b scble of 0.
      *
      * @since  1.5
      */
-    public static final BigDecimal TEN =
+    public stbtic finbl BigDecimbl TEN =
         ZERO_THROUGH_TEN[10];
 
     // Constructors
 
     /**
-     * Trusted package private constructor.
-     * Trusted simply means if val is INFLATED, intVal could not be null and
-     * if intVal is null, val could not be INFLATED.
+     * Trusted pbckbge privbte constructor.
+     * Trusted simply mebns if vbl is INFLATED, intVbl could not be null bnd
+     * if intVbl is null, vbl could not be INFLATED.
      */
-    BigDecimal(BigInteger intVal, long val, int scale, int prec) {
-        this.scale = scale;
+    BigDecimbl(BigInteger intVbl, long vbl, int scble, int prec) {
+        this.scble = scble;
         this.precision = prec;
-        this.intCompact = val;
-        this.intVal = intVal;
+        this.intCompbct = vbl;
+        this.intVbl = intVbl;
     }
 
     /**
-     * Translates a character array representation of a
-     * {@code BigDecimal} into a {@code BigDecimal}, accepting the
-     * same sequence of characters as the {@link #BigDecimal(String)}
-     * constructor, while allowing a sub-array to be specified.
+     * Trbnslbtes b chbrbcter brrby representbtion of b
+     * {@code BigDecimbl} into b {@code BigDecimbl}, bccepting the
+     * sbme sequence of chbrbcters bs the {@link #BigDecimbl(String)}
+     * constructor, while bllowing b sub-brrby to be specified.
      *
-     * <p>Note that if the sequence of characters is already available
-     * within a character array, using this constructor is faster than
-     * converting the {@code char} array to string and using the
-     * {@code BigDecimal(String)} constructor .
+     * <p>Note thbt if the sequence of chbrbcters is blrebdy bvbilbble
+     * within b chbrbcter brrby, using this constructor is fbster thbn
+     * converting the {@code chbr} brrby to string bnd using the
+     * {@code BigDecimbl(String)} constructor .
      *
-     * @param  in {@code char} array that is the source of characters.
-     * @param  offset first character in the array to inspect.
-     * @param  len number of characters to consider.
-     * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code BigDecimal} or the defined subarray
+     * @pbrbm  in {@code chbr} brrby thbt is the source of chbrbcters.
+     * @pbrbm  offset first chbrbcter in the brrby to inspect.
+     * @pbrbm  len number of chbrbcters to consider.
+     * @throws NumberFormbtException if {@code in} is not b vblid
+     *         representbtion of b {@code BigDecimbl} or the defined subbrrby
      *         is not wholly within {@code in}.
      * @since  1.5
      */
-    public BigDecimal(char[] in, int offset, int len) {
-        this(in,offset,len,MathContext.UNLIMITED);
+    public BigDecimbl(chbr[] in, int offset, int len) {
+        this(in,offset,len,MbthContext.UNLIMITED);
     }
 
     /**
-     * Translates a character array representation of a
-     * {@code BigDecimal} into a {@code BigDecimal}, accepting the
-     * same sequence of characters as the {@link #BigDecimal(String)}
-     * constructor, while allowing a sub-array to be specified and
-     * with rounding according to the context settings.
+     * Trbnslbtes b chbrbcter brrby representbtion of b
+     * {@code BigDecimbl} into b {@code BigDecimbl}, bccepting the
+     * sbme sequence of chbrbcters bs the {@link #BigDecimbl(String)}
+     * constructor, while bllowing b sub-brrby to be specified bnd
+     * with rounding bccording to the context settings.
      *
-     * <p>Note that if the sequence of characters is already available
-     * within a character array, using this constructor is faster than
-     * converting the {@code char} array to string and using the
-     * {@code BigDecimal(String)} constructor .
+     * <p>Note thbt if the sequence of chbrbcters is blrebdy bvbilbble
+     * within b chbrbcter brrby, using this constructor is fbster thbn
+     * converting the {@code chbr} brrby to string bnd using the
+     * {@code BigDecimbl(String)} constructor .
      *
-     * @param  in {@code char} array that is the source of characters.
-     * @param  offset first character in the array to inspect.
-     * @param  len number of characters to consider..
-     * @param  mc the context to use.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  in {@code chbr} brrby thbt is the source of chbrbcters.
+     * @pbrbm  offset first chbrbcter in the brrby to inspect.
+     * @pbrbm  len number of chbrbcters to consider..
+     * @pbrbm  mc the context to use.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
-     * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code BigDecimal} or the defined subarray
+     * @throws NumberFormbtException if {@code in} is not b vblid
+     *         representbtion of b {@code BigDecimbl} or the defined subbrrby
      *         is not wholly within {@code in}.
      * @since  1.5
      */
-    public BigDecimal(char[] in, int offset, int len, MathContext mc) {
-        // protect against huge length.
+    public BigDecimbl(chbr[] in, int offset, int len, MbthContext mc) {
+        // protect bgbinst huge length.
         if (offset + len > in.length || offset < 0)
-            throw new NumberFormatException("Bad offset or len arguments for char[] input.");
-        // This is the primary string to BigDecimal constructor; all
+            throw new NumberFormbtException("Bbd offset or len brguments for chbr[] input.");
+        // This is the primbry string to BigDecimbl constructor; bll
         // incoming strings end up here; it uses explicit (inline)
-        // parsing for speed and generates at most one intermediate
-        // (temporary) object (a char[] array) for non-compact case.
+        // pbrsing for speed bnd generbtes bt most one intermedibte
+        // (temporbry) object (b chbr[] brrby) for non-compbct cbse.
 
-        // Use locals for all fields values until completion
-        int prec = 0;                 // record precision value
-        int scl = 0;                  // record scale value
-        long rs = 0;                  // the compact value in long
-        BigInteger rb = null;         // the inflated value in BigInteger
-        // use array bounds checking to handle too-long, len == 0,
-        // bad offset, etc.
+        // Use locbls for bll fields vblues until completion
+        int prec = 0;                 // record precision vblue
+        int scl = 0;                  // record scble vblue
+        long rs = 0;                  // the compbct vblue in long
+        BigInteger rb = null;         // the inflbted vblue in BigInteger
+        // use brrby bounds checking to hbndle too-long, len == 0,
+        // bbd offset, etc.
         try {
-            // handle the sign
-            boolean isneg = false;          // assume positive
+            // hbndle the sign
+            boolebn isneg = fblse;          // bssume positive
             if (in[offset] == '-') {
-                isneg = true;               // leading minus means negative
+                isneg = true;               // lebding minus mebns negbtive
                 offset++;
                 len--;
-            } else if (in[offset] == '+') { // leading + allowed
+            } else if (in[offset] == '+') { // lebding + bllowed
                 offset++;
                 len--;
             }
 
-            // should now be at numeric part of the significand
-            boolean dot = false;             // true when there is a '.'
+            // should now be bt numeric pbrt of the significbnd
+            boolebn dot = fblse;             // true when there is b '.'
             long exp = 0;                    // exponent
-            char c;                          // current character
-            boolean isCompact = (len <= MAX_COMPACT_DIGITS);
-            // integer significand array & idx is the index to it. The array
-            // is ONLY used when we can't use a compact representation.
+            chbr c;                          // current chbrbcter
+            boolebn isCompbct = (len <= MAX_COMPACT_DIGITS);
+            // integer significbnd brrby & idx is the index to it. The brrby
+            // is ONLY used when we cbn't use b compbct representbtion.
             int idx = 0;
-            if (isCompact) {
-                // First compact case, we need not to preserve the character
-                // and we can just compute the value in place.
+            if (isCompbct) {
+                // First compbct cbse, we need not to preserve the chbrbcter
+                // bnd we cbn just compute the vblue in plbce.
                 for (; len > 0; offset++, len--) {
                     c = in[offset];
-                    if ((c == '0')) { // have zero
+                    if ((c == '0')) { // hbve zero
                         if (prec == 0)
                             prec = 1;
                         else if (rs != 0) {
                             rs *= 10;
                             ++prec;
-                        } // else digit is a redundant leading zero
+                        } // else digit is b redundbnt lebding zero
                         if (dot)
                             ++scl;
-                    } else if ((c >= '1' && c <= '9')) { // have digit
+                    } else if ((c >= '1' && c <= '9')) { // hbve digit
                         int digit = c - '0';
                         if (prec != 1 || rs != 0)
-                            ++prec; // prec unchanged if preceded by 0s
+                            ++prec; // prec unchbnged if preceded by 0s
                         rs = rs * 10 + digit;
                         if (dot)
                             ++scl;
-                    } else if (c == '.') {   // have dot
-                        // have dot
+                    } else if (c == '.') {   // hbve dot
+                        // hbve dot
                         if (dot) // two dots
-                            throw new NumberFormatException();
+                            throw new NumberFormbtException();
                         dot = true;
-                    } else if (Character.isDigit(c)) { // slow path
-                        int digit = Character.digit(c, 10);
+                    } else if (Chbrbcter.isDigit(c)) { // slow pbth
+                        int digit = Chbrbcter.digit(c, 10);
                         if (digit == 0) {
                             if (prec == 0)
                                 prec = 1;
                             else if (rs != 0) {
                                 rs *= 10;
                                 ++prec;
-                            } // else digit is a redundant leading zero
+                            } // else digit is b redundbnt lebding zero
                         } else {
                             if (prec != 1 || rs != 0)
-                                ++prec; // prec unchanged if preceded by 0s
+                                ++prec; // prec unchbnged if preceded by 0s
                             rs = rs * 10 + digit;
                         }
                         if (dot)
                             ++scl;
                     } else if ((c == 'e') || (c == 'E')) {
-                        exp = parseExp(in, offset, len);
-                        // Next test is required for backwards compatibility
+                        exp = pbrseExp(in, offset, len);
+                        // Next test is required for bbckwbrds compbtibility
                         if ((int) exp != exp) // overflow
-                            throw new NumberFormatException();
-                        break; // [saves a test]
+                            throw new NumberFormbtException();
+                        brebk; // [sbves b test]
                     } else {
-                        throw new NumberFormatException();
+                        throw new NumberFormbtException();
                     }
                 }
                 if (prec == 0) // no digits found
-                    throw new NumberFormatException();
-                // Adjust scale if exp is not zero.
-                if (exp != 0) { // had significant exponent
-                    scl = adjustScale(scl, exp);
+                    throw new NumberFormbtException();
+                // Adjust scble if exp is not zero.
+                if (exp != 0) { // hbd significbnt exponent
+                    scl = bdjustScble(scl, exp);
                 }
                 rs = isneg ? -rs : rs;
                 int mcp = mc.precision;
-                int drop = prec - mcp; // prec has range [1, MAX_INT], mcp has range [0, MAX_INT];
-                                       // therefore, this subtract cannot overflow
+                int drop = prec - mcp; // prec hbs rbnge [1, MAX_INT], mcp hbs rbnge [0, MAX_INT];
+                                       // therefore, this subtrbct cbnnot overflow
                 if (mcp > 0 && drop > 0) {  // do rounding
                     while (drop > 0) {
-                        scl = checkScaleNonZero((long) scl - drop);
+                        scl = checkScbleNonZero((long) scl - drop);
                         rs = divideAndRound(rs, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
                         prec = longDigitLength(rs);
                         drop = prec - mcp;
                     }
                 }
             } else {
-                char coeff[] = new char[len];
+                chbr coeff[] = new chbr[len];
                 for (; len > 0; offset++, len--) {
                     c = in[offset];
-                    // have digit
-                    if ((c >= '0' && c <= '9') || Character.isDigit(c)) {
-                        // First compact case, we need not to preserve the character
-                        // and we can just compute the value in place.
-                        if (c == '0' || Character.digit(c, 10) == 0) {
+                    // hbve digit
+                    if ((c >= '0' && c <= '9') || Chbrbcter.isDigit(c)) {
+                        // First compbct cbse, we need not to preserve the chbrbcter
+                        // bnd we cbn just compute the vblue in plbce.
+                        if (c == '0' || Chbrbcter.digit(c, 10) == 0) {
                             if (prec == 0) {
                                 coeff[idx] = c;
                                 prec = 1;
                             } else if (idx != 0) {
                                 coeff[idx++] = c;
                                 ++prec;
-                            } // else c must be a redundant leading zero
+                            } // else c must be b redundbnt lebding zero
                         } else {
                             if (prec != 1 || idx != 0)
-                                ++prec; // prec unchanged if preceded by 0s
+                                ++prec; // prec unchbnged if preceded by 0s
                             coeff[idx++] = c;
                         }
                         if (dot)
                             ++scl;
                         continue;
                     }
-                    // have dot
+                    // hbve dot
                     if (c == '.') {
-                        // have dot
+                        // hbve dot
                         if (dot) // two dots
-                            throw new NumberFormatException();
+                            throw new NumberFormbtException();
                         dot = true;
                         continue;
                     }
                     // exponent expected
                     if ((c != 'e') && (c != 'E'))
-                        throw new NumberFormatException();
-                    exp = parseExp(in, offset, len);
-                    // Next test is required for backwards compatibility
+                        throw new NumberFormbtException();
+                    exp = pbrseExp(in, offset, len);
+                    // Next test is required for bbckwbrds compbtibility
                     if ((int) exp != exp) // overflow
-                        throw new NumberFormatException();
-                    break; // [saves a test]
+                        throw new NumberFormbtException();
+                    brebk; // [sbves b test]
                 }
-                // here when no characters left
+                // here when no chbrbcters left
                 if (prec == 0) // no digits found
-                    throw new NumberFormatException();
-                // Adjust scale if exp is not zero.
-                if (exp != 0) { // had significant exponent
-                    scl = adjustScale(scl, exp);
+                    throw new NumberFormbtException();
+                // Adjust scble if exp is not zero.
+                if (exp != 0) { // hbd significbnt exponent
+                    scl = bdjustScble(scl, exp);
                 }
-                // Remove leading zeros from precision (digits count)
+                // Remove lebding zeros from precision (digits count)
                 rb = new BigInteger(coeff, isneg ? -1 : 1, prec);
-                rs = compactValFor(rb);
+                rs = compbctVblFor(rb);
                 int mcp = mc.precision;
                 if (mcp > 0 && (prec > mcp)) {
                     if (rs == INFLATED) {
                         int drop = prec - mcp;
                         while (drop > 0) {
-                            scl = checkScaleNonZero((long) scl - drop);
+                            scl = checkScbleNonZero((long) scl - drop);
                             rb = divideAndRoundByTenPow(rb, drop, mc.roundingMode.oldMode);
-                            rs = compactValFor(rb);
+                            rs = compbctVblFor(rb);
                             if (rs != INFLATED) {
                                 prec = longDigitLength(rs);
-                                break;
+                                brebk;
                             }
                             prec = bigDigitLength(rb);
                             drop = prec - mcp;
@@ -583,7 +583,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
                     if (rs != INFLATED) {
                         int drop = prec - mcp;
                         while (drop > 0) {
-                            scl = checkScaleNonZero((long) scl - drop);
+                            scl = checkScbleNonZero((long) scl - drop);
                             rs = divideAndRound(rs, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
                             prec = longDigitLength(rs);
                             drop = prec - mcp;
@@ -592,155 +592,155 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
                     }
                 }
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new NumberFormatException();
-        } catch (NegativeArraySizeException e) {
-            throw new NumberFormatException();
+        } cbtch (ArrbyIndexOutOfBoundsException e) {
+            throw new NumberFormbtException();
+        } cbtch (NegbtiveArrbySizeException e) {
+            throw new NumberFormbtException();
         }
-        this.scale = scl;
+        this.scble = scl;
         this.precision = prec;
-        this.intCompact = rs;
-        this.intVal = rb;
+        this.intCompbct = rs;
+        this.intVbl = rb;
     }
 
-    private int adjustScale(int scl, long exp) {
-        long adjustedScale = scl - exp;
-        if (adjustedScale > Integer.MAX_VALUE || adjustedScale < Integer.MIN_VALUE)
-            throw new NumberFormatException("Scale out of range.");
-        scl = (int) adjustedScale;
+    privbte int bdjustScble(int scl, long exp) {
+        long bdjustedScble = scl - exp;
+        if (bdjustedScble > Integer.MAX_VALUE || bdjustedScble < Integer.MIN_VALUE)
+            throw new NumberFormbtException("Scble out of rbnge.");
+        scl = (int) bdjustedScble;
         return scl;
     }
 
     /*
-     * parse exponent
+     * pbrse exponent
      */
-    private static long parseExp(char[] in, int offset, int len){
+    privbte stbtic long pbrseExp(chbr[] in, int offset, int len){
         long exp = 0;
         offset++;
-        char c = in[offset];
+        chbr c = in[offset];
         len--;
-        boolean negexp = (c == '-');
-        // optional sign
+        boolebn negexp = (c == '-');
+        // optionbl sign
         if (negexp || c == '+') {
             offset++;
             c = in[offset];
             len--;
         }
         if (len <= 0) // no exponent digits
-            throw new NumberFormatException();
-        // skip leading zeros in the exponent
-        while (len > 10 && (c=='0' || (Character.digit(c, 10) == 0))) {
+            throw new NumberFormbtException();
+        // skip lebding zeros in the exponent
+        while (len > 10 && (c=='0' || (Chbrbcter.digit(c, 10) == 0))) {
             offset++;
             c = in[offset];
             len--;
         }
-        if (len > 10) // too many nonzero exponent digits
-            throw new NumberFormatException();
+        if (len > 10) // too mbny nonzero exponent digits
+            throw new NumberFormbtException();
         // c now holds first digit of exponent
         for (;; len--) {
             int v;
             if (c >= '0' && c <= '9') {
                 v = c - '0';
             } else {
-                v = Character.digit(c, 10);
-                if (v < 0) // not a digit
-                    throw new NumberFormatException();
+                v = Chbrbcter.digit(c, 10);
+                if (v < 0) // not b digit
+                    throw new NumberFormbtException();
             }
             exp = exp * 10 + v;
             if (len == 1)
-                break; // that was final character
+                brebk; // thbt wbs finbl chbrbcter
             offset++;
             c = in[offset];
         }
-        if (negexp) // apply sign
+        if (negexp) // bpply sign
             exp = -exp;
         return exp;
     }
 
     /**
-     * Translates a character array representation of a
-     * {@code BigDecimal} into a {@code BigDecimal}, accepting the
-     * same sequence of characters as the {@link #BigDecimal(String)}
+     * Trbnslbtes b chbrbcter brrby representbtion of b
+     * {@code BigDecimbl} into b {@code BigDecimbl}, bccepting the
+     * sbme sequence of chbrbcters bs the {@link #BigDecimbl(String)}
      * constructor.
      *
-     * <p>Note that if the sequence of characters is already available
-     * as a character array, using this constructor is faster than
-     * converting the {@code char} array to string and using the
-     * {@code BigDecimal(String)} constructor .
+     * <p>Note thbt if the sequence of chbrbcters is blrebdy bvbilbble
+     * bs b chbrbcter brrby, using this constructor is fbster thbn
+     * converting the {@code chbr} brrby to string bnd using the
+     * {@code BigDecimbl(String)} constructor .
      *
-     * @param in {@code char} array that is the source of characters.
-     * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code BigDecimal}.
+     * @pbrbm in {@code chbr} brrby thbt is the source of chbrbcters.
+     * @throws NumberFormbtException if {@code in} is not b vblid
+     *         representbtion of b {@code BigDecimbl}.
      * @since  1.5
      */
-    public BigDecimal(char[] in) {
+    public BigDecimbl(chbr[] in) {
         this(in, 0, in.length);
     }
 
     /**
-     * Translates a character array representation of a
-     * {@code BigDecimal} into a {@code BigDecimal}, accepting the
-     * same sequence of characters as the {@link #BigDecimal(String)}
-     * constructor and with rounding according to the context
+     * Trbnslbtes b chbrbcter brrby representbtion of b
+     * {@code BigDecimbl} into b {@code BigDecimbl}, bccepting the
+     * sbme sequence of chbrbcters bs the {@link #BigDecimbl(String)}
+     * constructor bnd with rounding bccording to the context
      * settings.
      *
-     * <p>Note that if the sequence of characters is already available
-     * as a character array, using this constructor is faster than
-     * converting the {@code char} array to string and using the
-     * {@code BigDecimal(String)} constructor .
+     * <p>Note thbt if the sequence of chbrbcters is blrebdy bvbilbble
+     * bs b chbrbcter brrby, using this constructor is fbster thbn
+     * converting the {@code chbr} brrby to string bnd using the
+     * {@code BigDecimbl(String)} constructor .
      *
-     * @param  in {@code char} array that is the source of characters.
-     * @param  mc the context to use.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  in {@code chbr} brrby thbt is the source of chbrbcters.
+     * @pbrbm  mc the context to use.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
-     * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code BigDecimal}.
+     * @throws NumberFormbtException if {@code in} is not b vblid
+     *         representbtion of b {@code BigDecimbl}.
      * @since  1.5
      */
-    public BigDecimal(char[] in, MathContext mc) {
+    public BigDecimbl(chbr[] in, MbthContext mc) {
         this(in, 0, in.length, mc);
     }
 
     /**
-     * Translates the string representation of a {@code BigDecimal}
-     * into a {@code BigDecimal}.  The string representation consists
-     * of an optional sign, {@code '+'} (<tt> '&#92;u002B'</tt>) or
-     * {@code '-'} (<tt>'&#92;u002D'</tt>), followed by a sequence of
-     * zero or more decimal digits ("the integer"), optionally
-     * followed by a fraction, optionally followed by an exponent.
+     * Trbnslbtes the string representbtion of b {@code BigDecimbl}
+     * into b {@code BigDecimbl}.  The string representbtion consists
+     * of bn optionbl sign, {@code '+'} (<tt> '&#92;u002B'</tt>) or
+     * {@code '-'} (<tt>'&#92;u002D'</tt>), followed by b sequence of
+     * zero or more decimbl digits ("the integer"), optionblly
+     * followed by b frbction, optionblly followed by bn exponent.
      *
-     * <p>The fraction consists of a decimal point followed by zero
-     * or more decimal digits.  The string must contain at least one
-     * digit in either the integer or the fraction.  The number formed
-     * by the sign, the integer and the fraction is referred to as the
-     * <i>significand</i>.
+     * <p>The frbction consists of b decimbl point followed by zero
+     * or more decimbl digits.  The string must contbin bt lebst one
+     * digit in either the integer or the frbction.  The number formed
+     * by the sign, the integer bnd the frbction is referred to bs the
+     * <i>significbnd</i>.
      *
-     * <p>The exponent consists of the character {@code 'e'}
+     * <p>The exponent consists of the chbrbcter {@code 'e'}
      * (<tt>'&#92;u0065'</tt>) or {@code 'E'} (<tt>'&#92;u0045'</tt>)
-     * followed by one or more decimal digits.  The value of the
+     * followed by one or more decimbl digits.  The vblue of the
      * exponent must lie between -{@link Integer#MAX_VALUE} ({@link
-     * Integer#MIN_VALUE}+1) and {@link Integer#MAX_VALUE}, inclusive.
+     * Integer#MIN_VALUE}+1) bnd {@link Integer#MAX_VALUE}, inclusive.
      *
-     * <p>More formally, the strings this constructor accepts are
-     * described by the following grammar:
+     * <p>More formblly, the strings this constructor bccepts bre
+     * described by the following grbmmbr:
      * <blockquote>
      * <dl>
-     * <dt><i>BigDecimalString:</i>
-     * <dd><i>Sign<sub>opt</sub> Significand Exponent<sub>opt</sub></i>
+     * <dt><i>BigDecimblString:</i>
+     * <dd><i>Sign<sub>opt</sub> Significbnd Exponent<sub>opt</sub></i>
      * <dt><i>Sign:</i>
      * <dd>{@code +}
      * <dd>{@code -}
-     * <dt><i>Significand:</i>
-     * <dd><i>IntegerPart</i> {@code .} <i>FractionPart<sub>opt</sub></i>
-     * <dd>{@code .} <i>FractionPart</i>
-     * <dd><i>IntegerPart</i>
-     * <dt><i>IntegerPart:</i>
+     * <dt><i>Significbnd:</i>
+     * <dd><i>IntegerPbrt</i> {@code .} <i>FrbctionPbrt<sub>opt</sub></i>
+     * <dd>{@code .} <i>FrbctionPbrt</i>
+     * <dd><i>IntegerPbrt</i>
+     * <dt><i>IntegerPbrt:</i>
      * <dd><i>Digits</i>
-     * <dt><i>FractionPart:</i>
+     * <dt><i>FrbctionPbrt:</i>
      * <dd><i>Digits</i>
      * <dt><i>Exponent:</i>
-     * <dd><i>ExponentIndicator SignedInteger</i>
-     * <dt><i>ExponentIndicator:</i>
+     * <dd><i>ExponentIndicbtor SignedInteger</i>
+     * <dt><i>ExponentIndicbtor:</i>
      * <dd>{@code e}
      * <dd>{@code E}
      * <dt><i>SignedInteger:</i>
@@ -749,29 +749,29 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      * <dd><i>Digit</i>
      * <dd><i>Digits Digit</i>
      * <dt><i>Digit:</i>
-     * <dd>any character for which {@link Character#isDigit}
+     * <dd>bny chbrbcter for which {@link Chbrbcter#isDigit}
      * returns {@code true}, including 0, 1, 2 ...
      * </dl>
      * </blockquote>
      *
-     * <p>The scale of the returned {@code BigDecimal} will be the
-     * number of digits in the fraction, or zero if the string
-     * contains no decimal point, subject to adjustment for any
-     * exponent; if the string contains an exponent, the exponent is
-     * subtracted from the scale.  The value of the resulting scale
-     * must lie between {@code Integer.MIN_VALUE} and
+     * <p>The scble of the returned {@code BigDecimbl} will be the
+     * number of digits in the frbction, or zero if the string
+     * contbins no decimbl point, subject to bdjustment for bny
+     * exponent; if the string contbins bn exponent, the exponent is
+     * subtrbcted from the scble.  The vblue of the resulting scble
+     * must lie between {@code Integer.MIN_VALUE} bnd
      * {@code Integer.MAX_VALUE}, inclusive.
      *
-     * <p>The character-to-digit mapping is provided by {@link
-     * java.lang.Character#digit} set to convert to radix 10.  The
-     * String may not contain any extraneous characters (whitespace,
-     * for example).
+     * <p>The chbrbcter-to-digit mbpping is provided by {@link
+     * jbvb.lbng.Chbrbcter#digit} set to convert to rbdix 10.  The
+     * String mby not contbin bny extrbneous chbrbcters (whitespbce,
+     * for exbmple).
      *
-     * <p><b>Examples:</b><br>
-     * The value of the returned {@code BigDecimal} is equal to
-     * <i>significand</i> &times; 10<sup>&nbsp;<i>exponent</i></sup>.
-     * For each string on the left, the resulting representation
-     * [{@code BigInteger}, {@code scale}] is shown on the right.
+     * <p><b>Exbmples:</b><br>
+     * The vblue of the returned {@code BigDecimbl} is equbl to
+     * <i>significbnd</i> &times; 10<sup>&nbsp;<i>exponent</i></sup>.
+     * For ebch string on the left, the resulting representbtion
+     * [{@code BigInteger}, {@code scble}] is shown on the right.
      * <pre>
      * "0"            [0,0]
      * "0.00"         [0,2]
@@ -789,761 +789,761 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      * "-0"           [0,0]
      * </pre>
      *
-     * <p>Note: For values other than {@code float} and
-     * {@code double} NaN and &plusmn;Infinity, this constructor is
-     * compatible with the values returned by {@link Float#toString}
-     * and {@link Double#toString}.  This is generally the preferred
-     * way to convert a {@code float} or {@code double} into a
-     * BigDecimal, as it doesn't suffer from the unpredictability of
-     * the {@link #BigDecimal(double)} constructor.
+     * <p>Note: For vblues other thbn {@code flobt} bnd
+     * {@code double} NbN bnd &plusmn;Infinity, this constructor is
+     * compbtible with the vblues returned by {@link Flobt#toString}
+     * bnd {@link Double#toString}.  This is generblly the preferred
+     * wby to convert b {@code flobt} or {@code double} into b
+     * BigDecimbl, bs it doesn't suffer from the unpredictbbility of
+     * the {@link #BigDecimbl(double)} constructor.
      *
-     * @param val String representation of {@code BigDecimal}.
+     * @pbrbm vbl String representbtion of {@code BigDecimbl}.
      *
-     * @throws NumberFormatException if {@code val} is not a valid
-     *         representation of a {@code BigDecimal}.
+     * @throws NumberFormbtException if {@code vbl} is not b vblid
+     *         representbtion of b {@code BigDecimbl}.
      */
-    public BigDecimal(String val) {
-        this(val.toCharArray(), 0, val.length());
+    public BigDecimbl(String vbl) {
+        this(vbl.toChbrArrby(), 0, vbl.length());
     }
 
     /**
-     * Translates the string representation of a {@code BigDecimal}
-     * into a {@code BigDecimal}, accepting the same strings as the
-     * {@link #BigDecimal(String)} constructor, with rounding
-     * according to the context settings.
+     * Trbnslbtes the string representbtion of b {@code BigDecimbl}
+     * into b {@code BigDecimbl}, bccepting the sbme strings bs the
+     * {@link #BigDecimbl(String)} constructor, with rounding
+     * bccording to the context settings.
      *
-     * @param  val string representation of a {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  vbl string representbtion of b {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
-     * @throws NumberFormatException if {@code val} is not a valid
-     *         representation of a BigDecimal.
+     * @throws NumberFormbtException if {@code vbl} is not b vblid
+     *         representbtion of b BigDecimbl.
      * @since  1.5
      */
-    public BigDecimal(String val, MathContext mc) {
-        this(val.toCharArray(), 0, val.length(), mc);
+    public BigDecimbl(String vbl, MbthContext mc) {
+        this(vbl.toChbrArrby(), 0, vbl.length(), mc);
     }
 
     /**
-     * Translates a {@code double} into a {@code BigDecimal} which
-     * is the exact decimal representation of the {@code double}'s
-     * binary floating-point value.  The scale of the returned
-     * {@code BigDecimal} is the smallest value such that
-     * <tt>(10<sup>scale</sup> &times; val)</tt> is an integer.
+     * Trbnslbtes b {@code double} into b {@code BigDecimbl} which
+     * is the exbct decimbl representbtion of the {@code double}'s
+     * binbry flobting-point vblue.  The scble of the returned
+     * {@code BigDecimbl} is the smbllest vblue such thbt
+     * <tt>(10<sup>scble</sup> &times; vbl)</tt> is bn integer.
      * <p>
      * <b>Notes:</b>
      * <ol>
      * <li>
-     * The results of this constructor can be somewhat unpredictable.
-     * One might assume that writing {@code new BigDecimal(0.1)} in
-     * Java creates a {@code BigDecimal} which is exactly equal to
-     * 0.1 (an unscaled value of 1, with a scale of 1), but it is
-     * actually equal to
+     * The results of this constructor cbn be somewhbt unpredictbble.
+     * One might bssume thbt writing {@code new BigDecimbl(0.1)} in
+     * Jbvb crebtes b {@code BigDecimbl} which is exbctly equbl to
+     * 0.1 (bn unscbled vblue of 1, with b scble of 1), but it is
+     * bctublly equbl to
      * 0.1000000000000000055511151231257827021181583404541015625.
-     * This is because 0.1 cannot be represented exactly as a
-     * {@code double} (or, for that matter, as a binary fraction of
-     * any finite length).  Thus, the value that is being passed
-     * <i>in</i> to the constructor is not exactly equal to 0.1,
-     * appearances notwithstanding.
+     * This is becbuse 0.1 cbnnot be represented exbctly bs b
+     * {@code double} (or, for thbt mbtter, bs b binbry frbction of
+     * bny finite length).  Thus, the vblue thbt is being pbssed
+     * <i>in</i> to the constructor is not exbctly equbl to 0.1,
+     * bppebrbnces notwithstbnding.
      *
      * <li>
-     * The {@code String} constructor, on the other hand, is
-     * perfectly predictable: writing {@code new BigDecimal("0.1")}
-     * creates a {@code BigDecimal} which is <i>exactly</i> equal to
-     * 0.1, as one would expect.  Therefore, it is generally
-     * recommended that the {@linkplain #BigDecimal(String)
+     * The {@code String} constructor, on the other hbnd, is
+     * perfectly predictbble: writing {@code new BigDecimbl("0.1")}
+     * crebtes b {@code BigDecimbl} which is <i>exbctly</i> equbl to
+     * 0.1, bs one would expect.  Therefore, it is generblly
+     * recommended thbt the {@linkplbin #BigDecimbl(String)
      * <tt>String</tt> constructor} be used in preference to this one.
      *
      * <li>
-     * When a {@code double} must be used as a source for a
-     * {@code BigDecimal}, note that this constructor provides an
-     * exact conversion; it does not give the same result as
-     * converting the {@code double} to a {@code String} using the
-     * {@link Double#toString(double)} method and then using the
-     * {@link #BigDecimal(String)} constructor.  To get that result,
-     * use the {@code static} {@link #valueOf(double)} method.
+     * When b {@code double} must be used bs b source for b
+     * {@code BigDecimbl}, note thbt this constructor provides bn
+     * exbct conversion; it does not give the sbme result bs
+     * converting the {@code double} to b {@code String} using the
+     * {@link Double#toString(double)} method bnd then using the
+     * {@link #BigDecimbl(String)} constructor.  To get thbt result,
+     * use the {@code stbtic} {@link #vblueOf(double)} method.
      * </ol>
      *
-     * @param val {@code double} value to be converted to
-     *        {@code BigDecimal}.
-     * @throws NumberFormatException if {@code val} is infinite or NaN.
+     * @pbrbm vbl {@code double} vblue to be converted to
+     *        {@code BigDecimbl}.
+     * @throws NumberFormbtException if {@code vbl} is infinite or NbN.
      */
-    public BigDecimal(double val) {
-        this(val,MathContext.UNLIMITED);
+    public BigDecimbl(double vbl) {
+        this(vbl,MbthContext.UNLIMITED);
     }
 
     /**
-     * Translates a {@code double} into a {@code BigDecimal}, with
-     * rounding according to the context settings.  The scale of the
-     * {@code BigDecimal} is the smallest value such that
-     * <tt>(10<sup>scale</sup> &times; val)</tt> is an integer.
+     * Trbnslbtes b {@code double} into b {@code BigDecimbl}, with
+     * rounding bccording to the context settings.  The scble of the
+     * {@code BigDecimbl} is the smbllest vblue such thbt
+     * <tt>(10<sup>scble</sup> &times; vbl)</tt> is bn integer.
      *
-     * <p>The results of this constructor can be somewhat unpredictable
-     * and its use is generally not recommended; see the notes under
-     * the {@link #BigDecimal(double)} constructor.
+     * <p>The results of this constructor cbn be somewhbt unpredictbble
+     * bnd its use is generblly not recommended; see the notes under
+     * the {@link #BigDecimbl(double)} constructor.
      *
-     * @param  val {@code double} value to be converted to
-     *         {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  vbl {@code double} vblue to be converted to
+     *         {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @throws ArithmeticException if the result is inexbct but the
      *         RoundingMode is UNNECESSARY.
-     * @throws NumberFormatException if {@code val} is infinite or NaN.
+     * @throws NumberFormbtException if {@code vbl} is infinite or NbN.
      * @since  1.5
      */
-    public BigDecimal(double val, MathContext mc) {
-        if (Double.isInfinite(val) || Double.isNaN(val))
-            throw new NumberFormatException("Infinite or NaN");
-        // Translate the double into sign, exponent and significand, according
-        // to the formulae in JLS, Section 20.10.22.
-        long valBits = Double.doubleToLongBits(val);
-        int sign = ((valBits >> 63) == 0 ? 1 : -1);
-        int exponent = (int) ((valBits >> 52) & 0x7ffL);
-        long significand = (exponent == 0
-                ? (valBits & ((1L << 52) - 1)) << 1
-                : (valBits & ((1L << 52) - 1)) | (1L << 52));
+    public BigDecimbl(double vbl, MbthContext mc) {
+        if (Double.isInfinite(vbl) || Double.isNbN(vbl))
+            throw new NumberFormbtException("Infinite or NbN");
+        // Trbnslbte the double into sign, exponent bnd significbnd, bccording
+        // to the formulbe in JLS, Section 20.10.22.
+        long vblBits = Double.doubleToLongBits(vbl);
+        int sign = ((vblBits >> 63) == 0 ? 1 : -1);
+        int exponent = (int) ((vblBits >> 52) & 0x7ffL);
+        long significbnd = (exponent == 0
+                ? (vblBits & ((1L << 52) - 1)) << 1
+                : (vblBits & ((1L << 52) - 1)) | (1L << 52));
         exponent -= 1075;
-        // At this point, val == sign * significand * 2**exponent.
+        // At this point, vbl == sign * significbnd * 2**exponent.
 
         /*
-         * Special case zero to supress nonterminating normalization and bogus
-         * scale calculation.
+         * Specibl cbse zero to supress nonterminbting normblizbtion bnd bogus
+         * scble cblculbtion.
          */
-        if (significand == 0) {
-            this.intVal = BigInteger.ZERO;
-            this.scale = 0;
-            this.intCompact = 0;
+        if (significbnd == 0) {
+            this.intVbl = BigInteger.ZERO;
+            this.scble = 0;
+            this.intCompbct = 0;
             this.precision = 1;
             return;
         }
-        // Normalize
-        while ((significand & 1) == 0) { // i.e., significand is even
-            significand >>= 1;
+        // Normblize
+        while ((significbnd & 1) == 0) { // i.e., significbnd is even
+            significbnd >>= 1;
             exponent++;
         }
         int scl = 0;
-        // Calculate intVal and scale
+        // Cblculbte intVbl bnd scble
         BigInteger rb;
-        long compactVal = sign * significand;
+        long compbctVbl = sign * significbnd;
         if (exponent == 0) {
-            rb = (compactVal == INFLATED) ? INFLATED_BIGINT : null;
+            rb = (compbctVbl == INFLATED) ? INFLATED_BIGINT : null;
         } else {
             if (exponent < 0) {
-                rb = BigInteger.valueOf(5).pow(-exponent).multiply(compactVal);
+                rb = BigInteger.vblueOf(5).pow(-exponent).multiply(compbctVbl);
                 scl = -exponent;
             } else { //  (exponent > 0)
-                rb = BigInteger.valueOf(2).pow(exponent).multiply(compactVal);
+                rb = BigInteger.vblueOf(2).pow(exponent).multiply(compbctVbl);
             }
-            compactVal = compactValFor(rb);
+            compbctVbl = compbctVblFor(rb);
         }
         int prec = 0;
         int mcp = mc.precision;
         if (mcp > 0) { // do rounding
             int mode = mc.roundingMode.oldMode;
             int drop;
-            if (compactVal == INFLATED) {
+            if (compbctVbl == INFLATED) {
                 prec = bigDigitLength(rb);
                 drop = prec - mcp;
                 while (drop > 0) {
-                    scl = checkScaleNonZero((long) scl - drop);
+                    scl = checkScbleNonZero((long) scl - drop);
                     rb = divideAndRoundByTenPow(rb, drop, mode);
-                    compactVal = compactValFor(rb);
-                    if (compactVal != INFLATED) {
-                        break;
+                    compbctVbl = compbctVblFor(rb);
+                    if (compbctVbl != INFLATED) {
+                        brebk;
                     }
                     prec = bigDigitLength(rb);
                     drop = prec - mcp;
                 }
             }
-            if (compactVal != INFLATED) {
-                prec = longDigitLength(compactVal);
+            if (compbctVbl != INFLATED) {
+                prec = longDigitLength(compbctVbl);
                 drop = prec - mcp;
                 while (drop > 0) {
-                    scl = checkScaleNonZero((long) scl - drop);
-                    compactVal = divideAndRound(compactVal, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
-                    prec = longDigitLength(compactVal);
+                    scl = checkScbleNonZero((long) scl - drop);
+                    compbctVbl = divideAndRound(compbctVbl, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
+                    prec = longDigitLength(compbctVbl);
                     drop = prec - mcp;
                 }
                 rb = null;
             }
         }
-        this.intVal = rb;
-        this.intCompact = compactVal;
-        this.scale = scl;
+        this.intVbl = rb;
+        this.intCompbct = compbctVbl;
+        this.scble = scl;
         this.precision = prec;
     }
 
     /**
-     * Translates a {@code BigInteger} into a {@code BigDecimal}.
-     * The scale of the {@code BigDecimal} is zero.
+     * Trbnslbtes b {@code BigInteger} into b {@code BigDecimbl}.
+     * The scble of the {@code BigDecimbl} is zero.
      *
-     * @param val {@code BigInteger} value to be converted to
-     *            {@code BigDecimal}.
+     * @pbrbm vbl {@code BigInteger} vblue to be converted to
+     *            {@code BigDecimbl}.
      */
-    public BigDecimal(BigInteger val) {
-        scale = 0;
-        intVal = val;
-        intCompact = compactValFor(val);
+    public BigDecimbl(BigInteger vbl) {
+        scble = 0;
+        intVbl = vbl;
+        intCompbct = compbctVblFor(vbl);
     }
 
     /**
-     * Translates a {@code BigInteger} into a {@code BigDecimal}
-     * rounding according to the context settings.  The scale of the
-     * {@code BigDecimal} is zero.
+     * Trbnslbtes b {@code BigInteger} into b {@code BigDecimbl}
+     * rounding bccording to the context settings.  The scble of the
+     * {@code BigDecimbl} is zero.
      *
-     * @param val {@code BigInteger} value to be converted to
-     *            {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm vbl {@code BigInteger} vblue to be converted to
+     *            {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public BigDecimal(BigInteger val, MathContext mc) {
-        this(val,0,mc);
+    public BigDecimbl(BigInteger vbl, MbthContext mc) {
+        this(vbl,0,mc);
     }
 
     /**
-     * Translates a {@code BigInteger} unscaled value and an
-     * {@code int} scale into a {@code BigDecimal}.  The value of
-     * the {@code BigDecimal} is
-     * <tt>(unscaledVal &times; 10<sup>-scale</sup>)</tt>.
+     * Trbnslbtes b {@code BigInteger} unscbled vblue bnd bn
+     * {@code int} scble into b {@code BigDecimbl}.  The vblue of
+     * the {@code BigDecimbl} is
+     * <tt>(unscbledVbl &times; 10<sup>-scble</sup>)</tt>.
      *
-     * @param unscaledVal unscaled value of the {@code BigDecimal}.
-     * @param scale scale of the {@code BigDecimal}.
+     * @pbrbm unscbledVbl unscbled vblue of the {@code BigDecimbl}.
+     * @pbrbm scble scble of the {@code BigDecimbl}.
      */
-    public BigDecimal(BigInteger unscaledVal, int scale) {
-        // Negative scales are now allowed
-        this.intVal = unscaledVal;
-        this.intCompact = compactValFor(unscaledVal);
-        this.scale = scale;
+    public BigDecimbl(BigInteger unscbledVbl, int scble) {
+        // Negbtive scbles bre now bllowed
+        this.intVbl = unscbledVbl;
+        this.intCompbct = compbctVblFor(unscbledVbl);
+        this.scble = scble;
     }
 
     /**
-     * Translates a {@code BigInteger} unscaled value and an
-     * {@code int} scale into a {@code BigDecimal}, with rounding
-     * according to the context settings.  The value of the
-     * {@code BigDecimal} is <tt>(unscaledVal &times;
-     * 10<sup>-scale</sup>)</tt>, rounded according to the
-     * {@code precision} and rounding mode settings.
+     * Trbnslbtes b {@code BigInteger} unscbled vblue bnd bn
+     * {@code int} scble into b {@code BigDecimbl}, with rounding
+     * bccording to the context settings.  The vblue of the
+     * {@code BigDecimbl} is <tt>(unscbledVbl &times;
+     * 10<sup>-scble</sup>)</tt>, rounded bccording to the
+     * {@code precision} bnd rounding mode settings.
      *
-     * @param  unscaledVal unscaled value of the {@code BigDecimal}.
-     * @param  scale scale of the {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  unscbledVbl unscbled vblue of the {@code BigDecimbl}.
+     * @pbrbm  scble scble of the {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public BigDecimal(BigInteger unscaledVal, int scale, MathContext mc) {
-        long compactVal = compactValFor(unscaledVal);
+    public BigDecimbl(BigInteger unscbledVbl, int scble, MbthContext mc) {
+        long compbctVbl = compbctVblFor(unscbledVbl);
         int mcp = mc.precision;
         int prec = 0;
         if (mcp > 0) { // do rounding
             int mode = mc.roundingMode.oldMode;
-            if (compactVal == INFLATED) {
-                prec = bigDigitLength(unscaledVal);
+            if (compbctVbl == INFLATED) {
+                prec = bigDigitLength(unscbledVbl);
                 int drop = prec - mcp;
                 while (drop > 0) {
-                    scale = checkScaleNonZero((long) scale - drop);
-                    unscaledVal = divideAndRoundByTenPow(unscaledVal, drop, mode);
-                    compactVal = compactValFor(unscaledVal);
-                    if (compactVal != INFLATED) {
-                        break;
+                    scble = checkScbleNonZero((long) scble - drop);
+                    unscbledVbl = divideAndRoundByTenPow(unscbledVbl, drop, mode);
+                    compbctVbl = compbctVblFor(unscbledVbl);
+                    if (compbctVbl != INFLATED) {
+                        brebk;
                     }
-                    prec = bigDigitLength(unscaledVal);
+                    prec = bigDigitLength(unscbledVbl);
                     drop = prec - mcp;
                 }
             }
-            if (compactVal != INFLATED) {
-                prec = longDigitLength(compactVal);
-                int drop = prec - mcp;     // drop can't be more than 18
+            if (compbctVbl != INFLATED) {
+                prec = longDigitLength(compbctVbl);
+                int drop = prec - mcp;     // drop cbn't be more thbn 18
                 while (drop > 0) {
-                    scale = checkScaleNonZero((long) scale - drop);
-                    compactVal = divideAndRound(compactVal, LONG_TEN_POWERS_TABLE[drop], mode);
-                    prec = longDigitLength(compactVal);
+                    scble = checkScbleNonZero((long) scble - drop);
+                    compbctVbl = divideAndRound(compbctVbl, LONG_TEN_POWERS_TABLE[drop], mode);
+                    prec = longDigitLength(compbctVbl);
                     drop = prec - mcp;
                 }
-                unscaledVal = null;
+                unscbledVbl = null;
             }
         }
-        this.intVal = unscaledVal;
-        this.intCompact = compactVal;
-        this.scale = scale;
+        this.intVbl = unscbledVbl;
+        this.intCompbct = compbctVbl;
+        this.scble = scble;
         this.precision = prec;
     }
 
     /**
-     * Translates an {@code int} into a {@code BigDecimal}.  The
-     * scale of the {@code BigDecimal} is zero.
+     * Trbnslbtes bn {@code int} into b {@code BigDecimbl}.  The
+     * scble of the {@code BigDecimbl} is zero.
      *
-     * @param val {@code int} value to be converted to
-     *            {@code BigDecimal}.
+     * @pbrbm vbl {@code int} vblue to be converted to
+     *            {@code BigDecimbl}.
      * @since  1.5
      */
-    public BigDecimal(int val) {
-        this.intCompact = val;
-        this.scale = 0;
-        this.intVal = null;
+    public BigDecimbl(int vbl) {
+        this.intCompbct = vbl;
+        this.scble = 0;
+        this.intVbl = null;
     }
 
     /**
-     * Translates an {@code int} into a {@code BigDecimal}, with
-     * rounding according to the context settings.  The scale of the
-     * {@code BigDecimal}, before any rounding, is zero.
+     * Trbnslbtes bn {@code int} into b {@code BigDecimbl}, with
+     * rounding bccording to the context settings.  The scble of the
+     * {@code BigDecimbl}, before bny rounding, is zero.
      *
-     * @param  val {@code int} value to be converted to {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  vbl {@code int} vblue to be converted to {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public BigDecimal(int val, MathContext mc) {
+    public BigDecimbl(int vbl, MbthContext mc) {
         int mcp = mc.precision;
-        long compactVal = val;
+        long compbctVbl = vbl;
         int scl = 0;
         int prec = 0;
         if (mcp > 0) { // do rounding
-            prec = longDigitLength(compactVal);
-            int drop = prec - mcp; // drop can't be more than 18
+            prec = longDigitLength(compbctVbl);
+            int drop = prec - mcp; // drop cbn't be more thbn 18
             while (drop > 0) {
-                scl = checkScaleNonZero((long) scl - drop);
-                compactVal = divideAndRound(compactVal, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
-                prec = longDigitLength(compactVal);
+                scl = checkScbleNonZero((long) scl - drop);
+                compbctVbl = divideAndRound(compbctVbl, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
+                prec = longDigitLength(compbctVbl);
                 drop = prec - mcp;
             }
         }
-        this.intVal = null;
-        this.intCompact = compactVal;
-        this.scale = scl;
+        this.intVbl = null;
+        this.intCompbct = compbctVbl;
+        this.scble = scl;
         this.precision = prec;
     }
 
     /**
-     * Translates a {@code long} into a {@code BigDecimal}.  The
-     * scale of the {@code BigDecimal} is zero.
+     * Trbnslbtes b {@code long} into b {@code BigDecimbl}.  The
+     * scble of the {@code BigDecimbl} is zero.
      *
-     * @param val {@code long} value to be converted to {@code BigDecimal}.
+     * @pbrbm vbl {@code long} vblue to be converted to {@code BigDecimbl}.
      * @since  1.5
      */
-    public BigDecimal(long val) {
-        this.intCompact = val;
-        this.intVal = (val == INFLATED) ? INFLATED_BIGINT : null;
-        this.scale = 0;
+    public BigDecimbl(long vbl) {
+        this.intCompbct = vbl;
+        this.intVbl = (vbl == INFLATED) ? INFLATED_BIGINT : null;
+        this.scble = 0;
     }
 
     /**
-     * Translates a {@code long} into a {@code BigDecimal}, with
-     * rounding according to the context settings.  The scale of the
-     * {@code BigDecimal}, before any rounding, is zero.
+     * Trbnslbtes b {@code long} into b {@code BigDecimbl}, with
+     * rounding bccording to the context settings.  The scble of the
+     * {@code BigDecimbl}, before bny rounding, is zero.
      *
-     * @param  val {@code long} value to be converted to {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  vbl {@code long} vblue to be converted to {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public BigDecimal(long val, MathContext mc) {
+    public BigDecimbl(long vbl, MbthContext mc) {
         int mcp = mc.precision;
         int mode = mc.roundingMode.oldMode;
         int prec = 0;
         int scl = 0;
-        BigInteger rb = (val == INFLATED) ? INFLATED_BIGINT : null;
+        BigInteger rb = (vbl == INFLATED) ? INFLATED_BIGINT : null;
         if (mcp > 0) { // do rounding
-            if (val == INFLATED) {
+            if (vbl == INFLATED) {
                 prec = 19;
                 int drop = prec - mcp;
                 while (drop > 0) {
-                    scl = checkScaleNonZero((long) scl - drop);
+                    scl = checkScbleNonZero((long) scl - drop);
                     rb = divideAndRoundByTenPow(rb, drop, mode);
-                    val = compactValFor(rb);
-                    if (val != INFLATED) {
-                        break;
+                    vbl = compbctVblFor(rb);
+                    if (vbl != INFLATED) {
+                        brebk;
                     }
                     prec = bigDigitLength(rb);
                     drop = prec - mcp;
                 }
             }
-            if (val != INFLATED) {
-                prec = longDigitLength(val);
+            if (vbl != INFLATED) {
+                prec = longDigitLength(vbl);
                 int drop = prec - mcp;
                 while (drop > 0) {
-                    scl = checkScaleNonZero((long) scl - drop);
-                    val = divideAndRound(val, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
-                    prec = longDigitLength(val);
+                    scl = checkScbleNonZero((long) scl - drop);
+                    vbl = divideAndRound(vbl, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
+                    prec = longDigitLength(vbl);
                     drop = prec - mcp;
                 }
                 rb = null;
             }
         }
-        this.intVal = rb;
-        this.intCompact = val;
-        this.scale = scl;
+        this.intVbl = rb;
+        this.intCompbct = vbl;
+        this.scble = scl;
         this.precision = prec;
     }
 
-    // Static Factory Methods
+    // Stbtic Fbctory Methods
 
     /**
-     * Translates a {@code long} unscaled value and an
-     * {@code int} scale into a {@code BigDecimal}.  This
-     * {@literal "static factory method"} is provided in preference to
-     * a ({@code long}, {@code int}) constructor because it
-     * allows for reuse of frequently used {@code BigDecimal} values..
+     * Trbnslbtes b {@code long} unscbled vblue bnd bn
+     * {@code int} scble into b {@code BigDecimbl}.  This
+     * {@literbl "stbtic fbctory method"} is provided in preference to
+     * b ({@code long}, {@code int}) constructor becbuse it
+     * bllows for reuse of frequently used {@code BigDecimbl} vblues..
      *
-     * @param unscaledVal unscaled value of the {@code BigDecimal}.
-     * @param scale scale of the {@code BigDecimal}.
-     * @return a {@code BigDecimal} whose value is
-     *         <tt>(unscaledVal &times; 10<sup>-scale</sup>)</tt>.
+     * @pbrbm unscbledVbl unscbled vblue of the {@code BigDecimbl}.
+     * @pbrbm scble scble of the {@code BigDecimbl}.
+     * @return b {@code BigDecimbl} whose vblue is
+     *         <tt>(unscbledVbl &times; 10<sup>-scble</sup>)</tt>.
      */
-    public static BigDecimal valueOf(long unscaledVal, int scale) {
-        if (scale == 0)
-            return valueOf(unscaledVal);
-        else if (unscaledVal == 0) {
-            return zeroValueOf(scale);
+    public stbtic BigDecimbl vblueOf(long unscbledVbl, int scble) {
+        if (scble == 0)
+            return vblueOf(unscbledVbl);
+        else if (unscbledVbl == 0) {
+            return zeroVblueOf(scble);
         }
-        return new BigDecimal(unscaledVal == INFLATED ?
+        return new BigDecimbl(unscbledVbl == INFLATED ?
                               INFLATED_BIGINT : null,
-                              unscaledVal, scale, 0);
+                              unscbledVbl, scble, 0);
     }
 
     /**
-     * Translates a {@code long} value into a {@code BigDecimal}
-     * with a scale of zero.  This {@literal "static factory method"}
-     * is provided in preference to a ({@code long}) constructor
-     * because it allows for reuse of frequently used
-     * {@code BigDecimal} values.
+     * Trbnslbtes b {@code long} vblue into b {@code BigDecimbl}
+     * with b scble of zero.  This {@literbl "stbtic fbctory method"}
+     * is provided in preference to b ({@code long}) constructor
+     * becbuse it bllows for reuse of frequently used
+     * {@code BigDecimbl} vblues.
      *
-     * @param val value of the {@code BigDecimal}.
-     * @return a {@code BigDecimal} whose value is {@code val}.
+     * @pbrbm vbl vblue of the {@code BigDecimbl}.
+     * @return b {@code BigDecimbl} whose vblue is {@code vbl}.
      */
-    public static BigDecimal valueOf(long val) {
-        if (val >= 0 && val < ZERO_THROUGH_TEN.length)
-            return ZERO_THROUGH_TEN[(int)val];
-        else if (val != INFLATED)
-            return new BigDecimal(null, val, 0, 0);
-        return new BigDecimal(INFLATED_BIGINT, val, 0, 0);
+    public stbtic BigDecimbl vblueOf(long vbl) {
+        if (vbl >= 0 && vbl < ZERO_THROUGH_TEN.length)
+            return ZERO_THROUGH_TEN[(int)vbl];
+        else if (vbl != INFLATED)
+            return new BigDecimbl(null, vbl, 0, 0);
+        return new BigDecimbl(INFLATED_BIGINT, vbl, 0, 0);
     }
 
-    static BigDecimal valueOf(long unscaledVal, int scale, int prec) {
-        if (scale == 0 && unscaledVal >= 0 && unscaledVal < ZERO_THROUGH_TEN.length) {
-            return ZERO_THROUGH_TEN[(int) unscaledVal];
-        } else if (unscaledVal == 0) {
-            return zeroValueOf(scale);
+    stbtic BigDecimbl vblueOf(long unscbledVbl, int scble, int prec) {
+        if (scble == 0 && unscbledVbl >= 0 && unscbledVbl < ZERO_THROUGH_TEN.length) {
+            return ZERO_THROUGH_TEN[(int) unscbledVbl];
+        } else if (unscbledVbl == 0) {
+            return zeroVblueOf(scble);
         }
-        return new BigDecimal(unscaledVal == INFLATED ? INFLATED_BIGINT : null,
-                unscaledVal, scale, prec);
+        return new BigDecimbl(unscbledVbl == INFLATED ? INFLATED_BIGINT : null,
+                unscbledVbl, scble, prec);
     }
 
-    static BigDecimal valueOf(BigInteger intVal, int scale, int prec) {
-        long val = compactValFor(intVal);
-        if (val == 0) {
-            return zeroValueOf(scale);
-        } else if (scale == 0 && val >= 0 && val < ZERO_THROUGH_TEN.length) {
-            return ZERO_THROUGH_TEN[(int) val];
+    stbtic BigDecimbl vblueOf(BigInteger intVbl, int scble, int prec) {
+        long vbl = compbctVblFor(intVbl);
+        if (vbl == 0) {
+            return zeroVblueOf(scble);
+        } else if (scble == 0 && vbl >= 0 && vbl < ZERO_THROUGH_TEN.length) {
+            return ZERO_THROUGH_TEN[(int) vbl];
         }
-        return new BigDecimal(intVal, val, scale, prec);
+        return new BigDecimbl(intVbl, vbl, scble, prec);
     }
 
-    static BigDecimal zeroValueOf(int scale) {
-        if (scale >= 0 && scale < ZERO_SCALED_BY.length)
-            return ZERO_SCALED_BY[scale];
+    stbtic BigDecimbl zeroVblueOf(int scble) {
+        if (scble >= 0 && scble < ZERO_SCALED_BY.length)
+            return ZERO_SCALED_BY[scble];
         else
-            return new BigDecimal(BigInteger.ZERO, 0, scale, 1);
+            return new BigDecimbl(BigInteger.ZERO, 0, scble, 1);
     }
 
     /**
-     * Translates a {@code double} into a {@code BigDecimal}, using
-     * the {@code double}'s canonical string representation provided
+     * Trbnslbtes b {@code double} into b {@code BigDecimbl}, using
+     * the {@code double}'s cbnonicbl string representbtion provided
      * by the {@link Double#toString(double)} method.
      *
-     * <p><b>Note:</b> This is generally the preferred way to convert
-     * a {@code double} (or {@code float}) into a
-     * {@code BigDecimal}, as the value returned is equal to that
-     * resulting from constructing a {@code BigDecimal} from the
+     * <p><b>Note:</b> This is generblly the preferred wby to convert
+     * b {@code double} (or {@code flobt}) into b
+     * {@code BigDecimbl}, bs the vblue returned is equbl to thbt
+     * resulting from constructing b {@code BigDecimbl} from the
      * result of using {@link Double#toString(double)}.
      *
-     * @param  val {@code double} to convert to a {@code BigDecimal}.
-     * @return a {@code BigDecimal} whose value is equal to or approximately
-     *         equal to the value of {@code val}.
-     * @throws NumberFormatException if {@code val} is infinite or NaN.
+     * @pbrbm  vbl {@code double} to convert to b {@code BigDecimbl}.
+     * @return b {@code BigDecimbl} whose vblue is equbl to or bpproximbtely
+     *         equbl to the vblue of {@code vbl}.
+     * @throws NumberFormbtException if {@code vbl} is infinite or NbN.
      * @since  1.5
      */
-    public static BigDecimal valueOf(double val) {
-        // Reminder: a zero double returns '0.0', so we cannot fastpath
-        // to use the constant ZERO.  This might be important enough to
-        // justify a factory approach, a cache, or a few private
-        // constants, later.
-        return new BigDecimal(Double.toString(val));
+    public stbtic BigDecimbl vblueOf(double vbl) {
+        // Reminder: b zero double returns '0.0', so we cbnnot fbstpbth
+        // to use the constbnt ZERO.  This might be importbnt enough to
+        // justify b fbctory bpprobch, b cbche, or b few privbte
+        // constbnts, lbter.
+        return new BigDecimbl(Double.toString(vbl));
     }
 
-    // Arithmetic Operations
+    // Arithmetic Operbtions
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this +
-     * augend)}, and whose scale is {@code max(this.scale(),
-     * augend.scale())}.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this +
+     * bugend)}, bnd whose scble is {@code mbx(this.scble(),
+     * bugend.scble())}.
      *
-     * @param  augend value to be added to this {@code BigDecimal}.
-     * @return {@code this + augend}
+     * @pbrbm  bugend vblue to be bdded to this {@code BigDecimbl}.
+     * @return {@code this + bugend}
      */
-    public BigDecimal add(BigDecimal augend) {
-        if (this.intCompact != INFLATED) {
-            if ((augend.intCompact != INFLATED)) {
-                return add(this.intCompact, this.scale, augend.intCompact, augend.scale);
+    public BigDecimbl bdd(BigDecimbl bugend) {
+        if (this.intCompbct != INFLATED) {
+            if ((bugend.intCompbct != INFLATED)) {
+                return bdd(this.intCompbct, this.scble, bugend.intCompbct, bugend.scble);
             } else {
-                return add(this.intCompact, this.scale, augend.intVal, augend.scale);
+                return bdd(this.intCompbct, this.scble, bugend.intVbl, bugend.scble);
             }
         } else {
-            if ((augend.intCompact != INFLATED)) {
-                return add(augend.intCompact, augend.scale, this.intVal, this.scale);
+            if ((bugend.intCompbct != INFLATED)) {
+                return bdd(bugend.intCompbct, bugend.scble, this.intVbl, this.scble);
             } else {
-                return add(this.intVal, this.scale, augend.intVal, augend.scale);
+                return bdd(this.intVbl, this.scble, bugend.intVbl, bugend.scble);
             }
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this + augend)},
-     * with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this + bugend)},
+     * with rounding bccording to the context settings.
      *
-     * If either number is zero and the precision setting is nonzero then
-     * the other number, rounded if necessary, is used as the result.
+     * If either number is zero bnd the precision setting is nonzero then
+     * the other number, rounded if necessbry, is used bs the result.
      *
-     * @param  augend value to be added to this {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @return {@code this + augend}, rounded as necessary.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  bugend vblue to be bdded to this {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @return {@code this + bugend}, rounded bs necessbry.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public BigDecimal add(BigDecimal augend, MathContext mc) {
+    public BigDecimbl bdd(BigDecimbl bugend, MbthContext mc) {
         if (mc.precision == 0)
-            return add(augend);
-        BigDecimal lhs = this;
+            return bdd(bugend);
+        BigDecimbl lhs = this;
 
-        // If either number is zero then the other number, rounded and
-        // scaled if necessary, is used as the result.
+        // If either number is zero then the other number, rounded bnd
+        // scbled if necessbry, is used bs the result.
         {
-            boolean lhsIsZero = lhs.signum() == 0;
-            boolean augendIsZero = augend.signum() == 0;
+            boolebn lhsIsZero = lhs.signum() == 0;
+            boolebn bugendIsZero = bugend.signum() == 0;
 
-            if (lhsIsZero || augendIsZero) {
-                int preferredScale = Math.max(lhs.scale(), augend.scale());
-                BigDecimal result;
+            if (lhsIsZero || bugendIsZero) {
+                int preferredScble = Mbth.mbx(lhs.scble(), bugend.scble());
+                BigDecimbl result;
 
-                if (lhsIsZero && augendIsZero)
-                    return zeroValueOf(preferredScale);
-                result = lhsIsZero ? doRound(augend, mc) : doRound(lhs, mc);
+                if (lhsIsZero && bugendIsZero)
+                    return zeroVblueOf(preferredScble);
+                result = lhsIsZero ? doRound(bugend, mc) : doRound(lhs, mc);
 
-                if (result.scale() == preferredScale)
+                if (result.scble() == preferredScble)
                     return result;
-                else if (result.scale() > preferredScale) {
-                    return stripZerosToMatchScale(result.intVal, result.intCompact, result.scale, preferredScale);
-                } else { // result.scale < preferredScale
+                else if (result.scble() > preferredScble) {
+                    return stripZerosToMbtchScble(result.intVbl, result.intCompbct, result.scble, preferredScble);
+                } else { // result.scble < preferredScble
                     int precisionDiff = mc.precision - result.precision();
-                    int scaleDiff     = preferredScale - result.scale();
+                    int scbleDiff     = preferredScble - result.scble();
 
-                    if (precisionDiff >= scaleDiff)
-                        return result.setScale(preferredScale); // can achieve target scale
+                    if (precisionDiff >= scbleDiff)
+                        return result.setScble(preferredScble); // cbn bchieve tbrget scble
                     else
-                        return result.setScale(result.scale() + precisionDiff);
+                        return result.setScble(result.scble() + precisionDiff);
                 }
             }
         }
 
-        long padding = (long) lhs.scale - augend.scale;
-        if (padding != 0) { // scales differ; alignment needed
-            BigDecimal arg[] = preAlign(lhs, augend, padding, mc);
-            matchScale(arg);
-            lhs = arg[0];
-            augend = arg[1];
+        long pbdding = (long) lhs.scble - bugend.scble;
+        if (pbdding != 0) { // scbles differ; blignment needed
+            BigDecimbl brg[] = preAlign(lhs, bugend, pbdding, mc);
+            mbtchScble(brg);
+            lhs = brg[0];
+            bugend = brg[1];
         }
-        return doRound(lhs.inflated().add(augend.inflated()), lhs.scale, mc);
+        return doRound(lhs.inflbted().bdd(bugend.inflbted()), lhs.scble, mc);
     }
 
     /**
-     * Returns an array of length two, the sum of whose entries is
-     * equal to the rounded sum of the {@code BigDecimal} arguments.
+     * Returns bn brrby of length two, the sum of whose entries is
+     * equbl to the rounded sum of the {@code BigDecimbl} brguments.
      *
-     * <p>If the digit positions of the arguments have a sufficient
-     * gap between them, the value smaller in magnitude can be
-     * condensed into a {@literal "sticky bit"} and the end result will
-     * round the same way <em>if</em> the precision of the final
-     * result does not include the high order digit of the small
-     * magnitude operand.
+     * <p>If the digit positions of the brguments hbve b sufficient
+     * gbp between them, the vblue smbller in mbgnitude cbn be
+     * condensed into b {@literbl "sticky bit"} bnd the end result will
+     * round the sbme wby <em>if</em> the precision of the finbl
+     * result does not include the high order digit of the smbll
+     * mbgnitude operbnd.
      *
-     * <p>Note that while strictly speaking this is an optimization,
-     * it makes a much wider range of additions practical.
+     * <p>Note thbt while strictly spebking this is bn optimizbtion,
+     * it mbkes b much wider rbnge of bdditions prbcticbl.
      *
-     * <p>This corresponds to a pre-shift operation in a fixed
-     * precision floating-point adder; this method is complicated by
-     * variable precision of the result as determined by the
-     * MathContext.  A more nuanced operation could implement a
-     * {@literal "right shift"} on the smaller magnitude operand so
-     * that the number of digits of the smaller operand could be
-     * reduced even though the significands partially overlapped.
+     * <p>This corresponds to b pre-shift operbtion in b fixed
+     * precision flobting-point bdder; this method is complicbted by
+     * vbribble precision of the result bs determined by the
+     * MbthContext.  A more nubnced operbtion could implement b
+     * {@literbl "right shift"} on the smbller mbgnitude operbnd so
+     * thbt the number of digits of the smbller operbnd could be
+     * reduced even though the significbnds pbrtiblly overlbpped.
      */
-    private BigDecimal[] preAlign(BigDecimal lhs, BigDecimal augend, long padding, MathContext mc) {
-        assert padding != 0;
-        BigDecimal big;
-        BigDecimal small;
+    privbte BigDecimbl[] preAlign(BigDecimbl lhs, BigDecimbl bugend, long pbdding, MbthContext mc) {
+        bssert pbdding != 0;
+        BigDecimbl big;
+        BigDecimbl smbll;
 
-        if (padding < 0) { // lhs is big; augend is small
+        if (pbdding < 0) { // lhs is big; bugend is smbll
             big = lhs;
-            small = augend;
-        } else { // lhs is small; augend is big
-            big = augend;
-            small = lhs;
+            smbll = bugend;
+        } else { // lhs is smbll; bugend is big
+            big = bugend;
+            smbll = lhs;
         }
 
         /*
-         * This is the estimated scale of an ulp of the result; it assumes that
-         * the result doesn't have a carry-out on a true add (e.g. 999 + 1 =>
-         * 1000) or any subtractive cancellation on borrowing (e.g. 100 - 1.2 =>
+         * This is the estimbted scble of bn ulp of the result; it bssumes thbt
+         * the result doesn't hbve b cbrry-out on b true bdd (e.g. 999 + 1 =>
+         * 1000) or bny subtrbctive cbncellbtion on borrowing (e.g. 100 - 1.2 =>
          * 98.8)
          */
-        long estResultUlpScale = (long) big.scale - big.precision() + mc.precision;
+        long estResultUlpScble = (long) big.scble - big.precision() + mc.precision;
 
         /*
-         * The low-order digit position of big is big.scale().  This
-         * is true regardless of whether big has a positive or
-         * negative scale.  The high-order digit position of small is
-         * small.scale - (small.precision() - 1).  To do the full
-         * condensation, the digit positions of big and small must be
-         * disjoint *and* the digit positions of small should not be
+         * The low-order digit position of big is big.scble().  This
+         * is true regbrdless of whether big hbs b positive or
+         * negbtive scble.  The high-order digit position of smbll is
+         * smbll.scble - (smbll.precision() - 1).  To do the full
+         * condensbtion, the digit positions of big bnd smbll must be
+         * disjoint *bnd* the digit positions of smbll should not be
          * directly visible in the result.
          */
-        long smallHighDigitPos = (long) small.scale - small.precision() + 1;
-        if (smallHighDigitPos > big.scale + 2 && // big and small disjoint
-            smallHighDigitPos > estResultUlpScale + 2) { // small digits not visible
-            small = BigDecimal.valueOf(small.signum(), this.checkScale(Math.max(big.scale, estResultUlpScale) + 3));
+        long smbllHighDigitPos = (long) smbll.scble - smbll.precision() + 1;
+        if (smbllHighDigitPos > big.scble + 2 && // big bnd smbll disjoint
+            smbllHighDigitPos > estResultUlpScble + 2) { // smbll digits not visible
+            smbll = BigDecimbl.vblueOf(smbll.signum(), this.checkScble(Mbth.mbx(big.scble, estResultUlpScble) + 3));
         }
 
-        // Since addition is symmetric, preserving input order in
-        // returned operands doesn't matter
-        BigDecimal[] result = {big, small};
+        // Since bddition is symmetric, preserving input order in
+        // returned operbnds doesn't mbtter
+        BigDecimbl[] result = {big, smbll};
         return result;
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this -
-     * subtrahend)}, and whose scale is {@code max(this.scale(),
-     * subtrahend.scale())}.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this -
+     * subtrbhend)}, bnd whose scble is {@code mbx(this.scble(),
+     * subtrbhend.scble())}.
      *
-     * @param  subtrahend value to be subtracted from this {@code BigDecimal}.
-     * @return {@code this - subtrahend}
+     * @pbrbm  subtrbhend vblue to be subtrbcted from this {@code BigDecimbl}.
+     * @return {@code this - subtrbhend}
      */
-    public BigDecimal subtract(BigDecimal subtrahend) {
-        if (this.intCompact != INFLATED) {
-            if ((subtrahend.intCompact != INFLATED)) {
-                return add(this.intCompact, this.scale, -subtrahend.intCompact, subtrahend.scale);
+    public BigDecimbl subtrbct(BigDecimbl subtrbhend) {
+        if (this.intCompbct != INFLATED) {
+            if ((subtrbhend.intCompbct != INFLATED)) {
+                return bdd(this.intCompbct, this.scble, -subtrbhend.intCompbct, subtrbhend.scble);
             } else {
-                return add(this.intCompact, this.scale, subtrahend.intVal.negate(), subtrahend.scale);
+                return bdd(this.intCompbct, this.scble, subtrbhend.intVbl.negbte(), subtrbhend.scble);
             }
         } else {
-            if ((subtrahend.intCompact != INFLATED)) {
-                // Pair of subtrahend values given before pair of
-                // values from this BigDecimal to avoid need for
-                // method overloading on the specialized add method
-                return add(-subtrahend.intCompact, subtrahend.scale, this.intVal, this.scale);
+            if ((subtrbhend.intCompbct != INFLATED)) {
+                // Pbir of subtrbhend vblues given before pbir of
+                // vblues from this BigDecimbl to bvoid need for
+                // method overlobding on the speciblized bdd method
+                return bdd(-subtrbhend.intCompbct, subtrbhend.scble, this.intVbl, this.scble);
             } else {
-                return add(this.intVal, this.scale, subtrahend.intVal.negate(), subtrahend.scale);
+                return bdd(this.intVbl, this.scble, subtrbhend.intVbl.negbte(), subtrbhend.scble);
             }
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this - subtrahend)},
-     * with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this - subtrbhend)},
+     * with rounding bccording to the context settings.
      *
-     * If {@code subtrahend} is zero then this, rounded if necessary, is used as the
-     * result.  If this is zero then the result is {@code subtrahend.negate(mc)}.
+     * If {@code subtrbhend} is zero then this, rounded if necessbry, is used bs the
+     * result.  If this is zero then the result is {@code subtrbhend.negbte(mc)}.
      *
-     * @param  subtrahend value to be subtracted from this {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @return {@code this - subtrahend}, rounded as necessary.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  subtrbhend vblue to be subtrbcted from this {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @return {@code this - subtrbhend}, rounded bs necessbry.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public BigDecimal subtract(BigDecimal subtrahend, MathContext mc) {
+    public BigDecimbl subtrbct(BigDecimbl subtrbhend, MbthContext mc) {
         if (mc.precision == 0)
-            return subtract(subtrahend);
-        // share the special rounding code in add()
-        return add(subtrahend.negate(), mc);
+            return subtrbct(subtrbhend);
+        // shbre the specibl rounding code in bdd()
+        return bdd(subtrbhend.negbte(), mc);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is <tt>(this &times;
-     * multiplicand)</tt>, and whose scale is {@code (this.scale() +
-     * multiplicand.scale())}.
+     * Returns b {@code BigDecimbl} whose vblue is <tt>(this &times;
+     * multiplicbnd)</tt>, bnd whose scble is {@code (this.scble() +
+     * multiplicbnd.scble())}.
      *
-     * @param  multiplicand value to be multiplied by this {@code BigDecimal}.
-     * @return {@code this * multiplicand}
+     * @pbrbm  multiplicbnd vblue to be multiplied by this {@code BigDecimbl}.
+     * @return {@code this * multiplicbnd}
      */
-    public BigDecimal multiply(BigDecimal multiplicand) {
-        int productScale = checkScale((long) scale + multiplicand.scale);
-        if (this.intCompact != INFLATED) {
-            if ((multiplicand.intCompact != INFLATED)) {
-                return multiply(this.intCompact, multiplicand.intCompact, productScale);
+    public BigDecimbl multiply(BigDecimbl multiplicbnd) {
+        int productScble = checkScble((long) scble + multiplicbnd.scble);
+        if (this.intCompbct != INFLATED) {
+            if ((multiplicbnd.intCompbct != INFLATED)) {
+                return multiply(this.intCompbct, multiplicbnd.intCompbct, productScble);
             } else {
-                return multiply(this.intCompact, multiplicand.intVal, productScale);
+                return multiply(this.intCompbct, multiplicbnd.intVbl, productScble);
             }
         } else {
-            if ((multiplicand.intCompact != INFLATED)) {
-                return multiply(multiplicand.intCompact, this.intVal, productScale);
+            if ((multiplicbnd.intCompbct != INFLATED)) {
+                return multiply(multiplicbnd.intCompbct, this.intVbl, productScble);
             } else {
-                return multiply(this.intVal, multiplicand.intVal, productScale);
+                return multiply(this.intVbl, multiplicbnd.intVbl, productScble);
             }
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is <tt>(this &times;
-     * multiplicand)</tt>, with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is <tt>(this &times;
+     * multiplicbnd)</tt>, with rounding bccording to the context settings.
      *
-     * @param  multiplicand value to be multiplied by this {@code BigDecimal}.
-     * @param  mc the context to use.
-     * @return {@code this * multiplicand}, rounded as necessary.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  multiplicbnd vblue to be multiplied by this {@code BigDecimbl}.
+     * @pbrbm  mc the context to use.
+     * @return {@code this * multiplicbnd}, rounded bs necessbry.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public BigDecimal multiply(BigDecimal multiplicand, MathContext mc) {
+    public BigDecimbl multiply(BigDecimbl multiplicbnd, MbthContext mc) {
         if (mc.precision == 0)
-            return multiply(multiplicand);
-        int productScale = checkScale((long) scale + multiplicand.scale);
-        if (this.intCompact != INFLATED) {
-            if ((multiplicand.intCompact != INFLATED)) {
-                return multiplyAndRound(this.intCompact, multiplicand.intCompact, productScale, mc);
+            return multiply(multiplicbnd);
+        int productScble = checkScble((long) scble + multiplicbnd.scble);
+        if (this.intCompbct != INFLATED) {
+            if ((multiplicbnd.intCompbct != INFLATED)) {
+                return multiplyAndRound(this.intCompbct, multiplicbnd.intCompbct, productScble, mc);
             } else {
-                return multiplyAndRound(this.intCompact, multiplicand.intVal, productScale, mc);
+                return multiplyAndRound(this.intCompbct, multiplicbnd.intVbl, productScble, mc);
             }
         } else {
-            if ((multiplicand.intCompact != INFLATED)) {
-                return multiplyAndRound(multiplicand.intCompact, this.intVal, productScale, mc);
+            if ((multiplicbnd.intCompbct != INFLATED)) {
+                return multiplyAndRound(multiplicbnd.intCompbct, this.intVbl, productScble, mc);
             } else {
-                return multiplyAndRound(this.intVal, multiplicand.intVal, productScale, mc);
+                return multiplyAndRound(this.intVbl, multiplicbnd.intVbl, productScble, mc);
             }
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this /
-     * divisor)}, and whose scale is as specified.  If rounding must
-     * be performed to generate a result with the specified scale, the
-     * specified rounding mode is applied.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this /
+     * divisor)}, bnd whose scble is bs specified.  If rounding must
+     * be performed to generbte b result with the specified scble, the
+     * specified rounding mode is bpplied.
      *
-     * <p>The new {@link #divide(BigDecimal, int, RoundingMode)} method
-     * should be used in preference to this legacy method.
+     * <p>The new {@link #divide(BigDecimbl, int, RoundingMode)} method
+     * should be used in preference to this legbcy method.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @param  scale scale of the {@code BigDecimal} quotient to be returned.
-     * @param  roundingMode rounding mode to apply.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @pbrbm  scble scble of the {@code BigDecimbl} quotient to be returned.
+     * @pbrbm  roundingMode rounding mode to bpply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor} is zero,
-     *         {@code roundingMode==ROUND_UNNECESSARY} and
-     *         the specified scale is insufficient to represent the result
-     *         of the division exactly.
-     * @throws IllegalArgumentException if {@code roundingMode} does not
-     *         represent a valid rounding mode.
+     *         {@code roundingMode==ROUND_UNNECESSARY} bnd
+     *         the specified scble is insufficient to represent the result
+     *         of the division exbctly.
+     * @throws IllegblArgumentException if {@code roundingMode} does not
+     *         represent b vblid rounding mode.
      * @see    #ROUND_UP
      * @see    #ROUND_DOWN
      * @see    #ROUND_CEILING
@@ -1553,62 +1553,62 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public BigDecimal divide(BigDecimal divisor, int scale, int roundingMode) {
+    public BigDecimbl divide(BigDecimbl divisor, int scble, int roundingMode) {
         if (roundingMode < ROUND_UP || roundingMode > ROUND_UNNECESSARY)
-            throw new IllegalArgumentException("Invalid rounding mode");
-        if (this.intCompact != INFLATED) {
-            if ((divisor.intCompact != INFLATED)) {
-                return divide(this.intCompact, this.scale, divisor.intCompact, divisor.scale, scale, roundingMode);
+            throw new IllegblArgumentException("Invblid rounding mode");
+        if (this.intCompbct != INFLATED) {
+            if ((divisor.intCompbct != INFLATED)) {
+                return divide(this.intCompbct, this.scble, divisor.intCompbct, divisor.scble, scble, roundingMode);
             } else {
-                return divide(this.intCompact, this.scale, divisor.intVal, divisor.scale, scale, roundingMode);
+                return divide(this.intCompbct, this.scble, divisor.intVbl, divisor.scble, scble, roundingMode);
             }
         } else {
-            if ((divisor.intCompact != INFLATED)) {
-                return divide(this.intVal, this.scale, divisor.intCompact, divisor.scale, scale, roundingMode);
+            if ((divisor.intCompbct != INFLATED)) {
+                return divide(this.intVbl, this.scble, divisor.intCompbct, divisor.scble, scble, roundingMode);
             } else {
-                return divide(this.intVal, this.scale, divisor.intVal, divisor.scale, scale, roundingMode);
+                return divide(this.intVbl, this.scble, divisor.intVbl, divisor.scble, scble, roundingMode);
             }
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this /
-     * divisor)}, and whose scale is as specified.  If rounding must
-     * be performed to generate a result with the specified scale, the
-     * specified rounding mode is applied.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this /
+     * divisor)}, bnd whose scble is bs specified.  If rounding must
+     * be performed to generbte b result with the specified scble, the
+     * specified rounding mode is bpplied.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @param  scale scale of the {@code BigDecimal} quotient to be returned.
-     * @param  roundingMode rounding mode to apply.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @pbrbm  scble scble of the {@code BigDecimbl} quotient to be returned.
+     * @pbrbm  roundingMode rounding mode to bpply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor} is zero,
-     *         {@code roundingMode==RoundingMode.UNNECESSARY} and
-     *         the specified scale is insufficient to represent the result
-     *         of the division exactly.
+     *         {@code roundingMode==RoundingMode.UNNECESSARY} bnd
+     *         the specified scble is insufficient to represent the result
+     *         of the division exbctly.
      * @since 1.5
      */
-    public BigDecimal divide(BigDecimal divisor, int scale, RoundingMode roundingMode) {
-        return divide(divisor, scale, roundingMode.oldMode);
+    public BigDecimbl divide(BigDecimbl divisor, int scble, RoundingMode roundingMode) {
+        return divide(divisor, scble, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this /
-     * divisor)}, and whose scale is {@code this.scale()}.  If
-     * rounding must be performed to generate a result with the given
-     * scale, the specified rounding mode is applied.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this /
+     * divisor)}, bnd whose scble is {@code this.scble()}.  If
+     * rounding must be performed to generbte b result with the given
+     * scble, the specified rounding mode is bpplied.
      *
-     * <p>The new {@link #divide(BigDecimal, RoundingMode)} method
-     * should be used in preference to this legacy method.
+     * <p>The new {@link #divide(BigDecimbl, RoundingMode)} method
+     * should be used in preference to this legbcy method.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @param  roundingMode rounding mode to apply.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @pbrbm  roundingMode rounding mode to bpply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor==0}, or
-     *         {@code roundingMode==ROUND_UNNECESSARY} and
-     *         {@code this.scale()} is insufficient to represent the result
-     *         of the division exactly.
-     * @throws IllegalArgumentException if {@code roundingMode} does not
-     *         represent a valid rounding mode.
+     *         {@code roundingMode==ROUND_UNNECESSARY} bnd
+     *         {@code this.scble()} is insufficient to represent the result
+     *         of the division exbctly.
+     * @throws IllegblArgumentException if {@code roundingMode} does not
+     *         represent b vblid rounding mode.
      * @see    #ROUND_UP
      * @see    #ROUND_DOWN
      * @see    #ROUND_CEILING
@@ -1618,626 +1618,626 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public BigDecimal divide(BigDecimal divisor, int roundingMode) {
-        return this.divide(divisor, scale, roundingMode);
+    public BigDecimbl divide(BigDecimbl divisor, int roundingMode) {
+        return this.divide(divisor, scble, roundingMode);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this /
-     * divisor)}, and whose scale is {@code this.scale()}.  If
-     * rounding must be performed to generate a result with the given
-     * scale, the specified rounding mode is applied.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this /
+     * divisor)}, bnd whose scble is {@code this.scble()}.  If
+     * rounding must be performed to generbte b result with the given
+     * scble, the specified rounding mode is bpplied.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @param  roundingMode rounding mode to apply.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @pbrbm  roundingMode rounding mode to bpply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor==0}, or
-     *         {@code roundingMode==RoundingMode.UNNECESSARY} and
-     *         {@code this.scale()} is insufficient to represent the result
-     *         of the division exactly.
+     *         {@code roundingMode==RoundingMode.UNNECESSARY} bnd
+     *         {@code this.scble()} is insufficient to represent the result
+     *         of the division exbctly.
      * @since 1.5
      */
-    public BigDecimal divide(BigDecimal divisor, RoundingMode roundingMode) {
-        return this.divide(divisor, scale, roundingMode.oldMode);
+    public BigDecimbl divide(BigDecimbl divisor, RoundingMode roundingMode) {
+        return this.divide(divisor, scble, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this /
-     * divisor)}, and whose preferred scale is {@code (this.scale() -
-     * divisor.scale())}; if the exact quotient cannot be
-     * represented (because it has a non-terminating decimal
-     * expansion) an {@code ArithmeticException} is thrown.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this /
+     * divisor)}, bnd whose preferred scble is {@code (this.scble() -
+     * divisor.scble())}; if the exbct quotient cbnnot be
+     * represented (becbuse it hbs b non-terminbting decimbl
+     * expbnsion) bn {@code ArithmeticException} is thrown.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @throws ArithmeticException if the exact quotient does not have a
-     *         terminating decimal expansion
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @throws ArithmeticException if the exbct quotient does not hbve b
+     *         terminbting decimbl expbnsion
      * @return {@code this / divisor}
      * @since 1.5
-     * @author Joseph D. Darcy
+     * @buthor Joseph D. Dbrcy
      */
-    public BigDecimal divide(BigDecimal divisor) {
+    public BigDecimbl divide(BigDecimbl divisor) {
         /*
-         * Handle zero cases first.
+         * Hbndle zero cbses first.
          */
         if (divisor.signum() == 0) {   // x/0
             if (this.signum() == 0)    // 0/0
-                throw new ArithmeticException("Division undefined");  // NaN
+                throw new ArithmeticException("Division undefined");  // NbN
             throw new ArithmeticException("Division by zero");
         }
 
-        // Calculate preferred scale
-        int preferredScale = saturateLong((long) this.scale - divisor.scale);
+        // Cblculbte preferred scble
+        int preferredScble = sbturbteLong((long) this.scble - divisor.scble);
 
         if (this.signum() == 0) // 0/y
-            return zeroValueOf(preferredScale);
+            return zeroVblueOf(preferredScble);
         else {
             /*
-             * If the quotient this/divisor has a terminating decimal
-             * expansion, the expansion can have no more than
-             * (a.precision() + ceil(10*b.precision)/3) digits.
-             * Therefore, create a MathContext object with this
-             * precision and do a divide with the UNNECESSARY rounding
+             * If the quotient this/divisor hbs b terminbting decimbl
+             * expbnsion, the expbnsion cbn hbve no more thbn
+             * (b.precision() + ceil(10*b.precision)/3) digits.
+             * Therefore, crebte b MbthContext object with this
+             * precision bnd do b divide with the UNNECESSARY rounding
              * mode.
              */
-            MathContext mc = new MathContext( (int)Math.min(this.precision() +
-                                                            (long)Math.ceil(10.0*divisor.precision()/3.0),
+            MbthContext mc = new MbthContext( (int)Mbth.min(this.precision() +
+                                                            (long)Mbth.ceil(10.0*divisor.precision()/3.0),
                                                             Integer.MAX_VALUE),
                                               RoundingMode.UNNECESSARY);
-            BigDecimal quotient;
+            BigDecimbl quotient;
             try {
                 quotient = this.divide(divisor, mc);
-            } catch (ArithmeticException e) {
-                throw new ArithmeticException("Non-terminating decimal expansion; " +
-                                              "no exact representable decimal result.");
+            } cbtch (ArithmeticException e) {
+                throw new ArithmeticException("Non-terminbting decimbl expbnsion; " +
+                                              "no exbct representbble decimbl result.");
             }
 
-            int quotientScale = quotient.scale();
+            int quotientScble = quotient.scble();
 
-            // divide(BigDecimal, mc) tries to adjust the quotient to
-            // the desired one by removing trailing zeros; since the
-            // exact divide method does not have an explicit digit
-            // limit, we can add zeros too.
-            if (preferredScale > quotientScale)
-                return quotient.setScale(preferredScale, ROUND_UNNECESSARY);
+            // divide(BigDecimbl, mc) tries to bdjust the quotient to
+            // the desired one by removing trbiling zeros; since the
+            // exbct divide method does not hbve bn explicit digit
+            // limit, we cbn bdd zeros too.
+            if (preferredScble > quotientScble)
+                return quotient.setScble(preferredScble, ROUND_UNNECESSARY);
 
             return quotient;
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this /
-     * divisor)}, with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this /
+     * divisor)}, with rounding bccording to the context settings.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @param  mc the context to use.
-     * @return {@code this / divisor}, rounded as necessary.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @pbrbm  mc the context to use.
+     * @return {@code this / divisor}, rounded bs necessbry.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY} or
-     *         {@code mc.precision == 0} and the quotient has a
-     *         non-terminating decimal expansion.
+     *         {@code mc.precision == 0} bnd the quotient hbs b
+     *         non-terminbting decimbl expbnsion.
      * @since  1.5
      */
-    public BigDecimal divide(BigDecimal divisor, MathContext mc) {
+    public BigDecimbl divide(BigDecimbl divisor, MbthContext mc) {
         int mcp = mc.precision;
         if (mcp == 0)
             return divide(divisor);
 
-        BigDecimal dividend = this;
-        long preferredScale = (long)dividend.scale - divisor.scale;
-        // Now calculate the answer.  We use the existing
-        // divide-and-round method, but as this rounds to scale we have
-        // to normalize the values here to achieve the desired result.
-        // For x/y we first handle y=0 and x=0, and then normalize x and
-        // y to give x' and y' with the following constraints:
-        //   (a) 0.1 <= x' < 1
+        BigDecimbl dividend = this;
+        long preferredScble = (long)dividend.scble - divisor.scble;
+        // Now cblculbte the bnswer.  We use the existing
+        // divide-bnd-round method, but bs this rounds to scble we hbve
+        // to normblize the vblues here to bchieve the desired result.
+        // For x/y we first hbndle y=0 bnd x=0, bnd then normblize x bnd
+        // y to give x' bnd y' with the following constrbints:
+        //   (b) 0.1 <= x' < 1
         //   (b)  x' <= y' < 10*x'
-        // Dividing x'/y' with the required scale set to mc.precision then
-        // will give a result in the range 0.1 to 1 rounded to exactly
-        // the right number of digits (except in the case of a result of
-        // 1.000... which can arise when x=y, or when rounding overflows
-        // The 1.000... case will reduce properly to 1.
+        // Dividing x'/y' with the required scble set to mc.precision then
+        // will give b result in the rbnge 0.1 to 1 rounded to exbctly
+        // the right number of digits (except in the cbse of b result of
+        // 1.000... which cbn brise when x=y, or when rounding overflows
+        // The 1.000... cbse will reduce properly to 1.
         if (divisor.signum() == 0) {      // x/0
             if (dividend.signum() == 0)    // 0/0
-                throw new ArithmeticException("Division undefined");  // NaN
+                throw new ArithmeticException("Division undefined");  // NbN
             throw new ArithmeticException("Division by zero");
         }
         if (dividend.signum() == 0) // 0/y
-            return zeroValueOf(saturateLong(preferredScale));
-        int xscale = dividend.precision();
-        int yscale = divisor.precision();
-        if(dividend.intCompact!=INFLATED) {
-            if(divisor.intCompact!=INFLATED) {
-                return divide(dividend.intCompact, xscale, divisor.intCompact, yscale, preferredScale, mc);
+            return zeroVblueOf(sbturbteLong(preferredScble));
+        int xscble = dividend.precision();
+        int yscble = divisor.precision();
+        if(dividend.intCompbct!=INFLATED) {
+            if(divisor.intCompbct!=INFLATED) {
+                return divide(dividend.intCompbct, xscble, divisor.intCompbct, yscble, preferredScble, mc);
             } else {
-                return divide(dividend.intCompact, xscale, divisor.intVal, yscale, preferredScale, mc);
+                return divide(dividend.intCompbct, xscble, divisor.intVbl, yscble, preferredScble, mc);
             }
         } else {
-            if(divisor.intCompact!=INFLATED) {
-                return divide(dividend.intVal, xscale, divisor.intCompact, yscale, preferredScale, mc);
+            if(divisor.intCompbct!=INFLATED) {
+                return divide(dividend.intVbl, xscble, divisor.intCompbct, yscble, preferredScble, mc);
             } else {
-                return divide(dividend.intVal, xscale, divisor.intVal, yscale, preferredScale, mc);
+                return divide(dividend.intVbl, xscble, divisor.intVbl, yscble, preferredScble, mc);
             }
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is the integer part
+     * Returns b {@code BigDecimbl} whose vblue is the integer pbrt
      * of the quotient {@code (this / divisor)} rounded down.  The
-     * preferred scale of the result is {@code (this.scale() -
-     * divisor.scale())}.
+     * preferred scble of the result is {@code (this.scble() -
+     * divisor.scble())}.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @return The integer part of {@code this / divisor}.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @return The integer pbrt of {@code this / divisor}.
      * @throws ArithmeticException if {@code divisor==0}
      * @since  1.5
      */
-    public BigDecimal divideToIntegralValue(BigDecimal divisor) {
-        // Calculate preferred scale
-        int preferredScale = saturateLong((long) this.scale - divisor.scale);
-        if (this.compareMagnitude(divisor) < 0) {
-            // much faster when this << divisor
-            return zeroValueOf(preferredScale);
+    public BigDecimbl divideToIntegrblVblue(BigDecimbl divisor) {
+        // Cblculbte preferred scble
+        int preferredScble = sbturbteLong((long) this.scble - divisor.scble);
+        if (this.compbreMbgnitude(divisor) < 0) {
+            // much fbster when this << divisor
+            return zeroVblueOf(preferredScble);
         }
 
         if (this.signum() == 0 && divisor.signum() != 0)
-            return this.setScale(preferredScale, ROUND_UNNECESSARY);
+            return this.setScble(preferredScble, ROUND_UNNECESSARY);
 
-        // Perform a divide with enough digits to round to a correct
-        // integer value; then remove any fractional digits
+        // Perform b divide with enough digits to round to b correct
+        // integer vblue; then remove bny frbctionbl digits
 
-        int maxDigits = (int)Math.min(this.precision() +
-                                      (long)Math.ceil(10.0*divisor.precision()/3.0) +
-                                      Math.abs((long)this.scale() - divisor.scale()) + 2,
+        int mbxDigits = (int)Mbth.min(this.precision() +
+                                      (long)Mbth.ceil(10.0*divisor.precision()/3.0) +
+                                      Mbth.bbs((long)this.scble() - divisor.scble()) + 2,
                                       Integer.MAX_VALUE);
-        BigDecimal quotient = this.divide(divisor, new MathContext(maxDigits,
+        BigDecimbl quotient = this.divide(divisor, new MbthContext(mbxDigits,
                                                                    RoundingMode.DOWN));
-        if (quotient.scale > 0) {
-            quotient = quotient.setScale(0, RoundingMode.DOWN);
-            quotient = stripZerosToMatchScale(quotient.intVal, quotient.intCompact, quotient.scale, preferredScale);
+        if (quotient.scble > 0) {
+            quotient = quotient.setScble(0, RoundingMode.DOWN);
+            quotient = stripZerosToMbtchScble(quotient.intVbl, quotient.intCompbct, quotient.scble, preferredScble);
         }
 
-        if (quotient.scale < preferredScale) {
-            // pad with zeros if necessary
-            quotient = quotient.setScale(preferredScale, ROUND_UNNECESSARY);
+        if (quotient.scble < preferredScble) {
+            // pbd with zeros if necessbry
+            quotient = quotient.setScble(preferredScble, ROUND_UNNECESSARY);
         }
 
         return quotient;
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is the integer part
-     * of {@code (this / divisor)}.  Since the integer part of the
-     * exact quotient does not depend on the rounding mode, the
-     * rounding mode does not affect the values returned by this
-     * method.  The preferred scale of the result is
-     * {@code (this.scale() - divisor.scale())}.  An
-     * {@code ArithmeticException} is thrown if the integer part of
-     * the exact quotient needs more than {@code mc.precision}
+     * Returns b {@code BigDecimbl} whose vblue is the integer pbrt
+     * of {@code (this / divisor)}.  Since the integer pbrt of the
+     * exbct quotient does not depend on the rounding mode, the
+     * rounding mode does not bffect the vblues returned by this
+     * method.  The preferred scble of the result is
+     * {@code (this.scble() - divisor.scble())}.  An
+     * {@code ArithmeticException} is thrown if the integer pbrt of
+     * the exbct quotient needs more thbn {@code mc.precision}
      * digits.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @param  mc the context to use.
-     * @return The integer part of {@code this / divisor}.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @pbrbm  mc the context to use.
+     * @return The integer pbrt of {@code this / divisor}.
      * @throws ArithmeticException if {@code divisor==0}
-     * @throws ArithmeticException if {@code mc.precision} {@literal >} 0 and the result
-     *         requires a precision of more than {@code mc.precision} digits.
+     * @throws ArithmeticException if {@code mc.precision} {@literbl >} 0 bnd the result
+     *         requires b precision of more thbn {@code mc.precision} digits.
      * @since  1.5
-     * @author Joseph D. Darcy
+     * @buthor Joseph D. Dbrcy
      */
-    public BigDecimal divideToIntegralValue(BigDecimal divisor, MathContext mc) {
-        if (mc.precision == 0 || // exact result
-            (this.compareMagnitude(divisor) < 0)) // zero result
-            return divideToIntegralValue(divisor);
+    public BigDecimbl divideToIntegrblVblue(BigDecimbl divisor, MbthContext mc) {
+        if (mc.precision == 0 || // exbct result
+            (this.compbreMbgnitude(divisor) < 0)) // zero result
+            return divideToIntegrblVblue(divisor);
 
-        // Calculate preferred scale
-        int preferredScale = saturateLong((long)this.scale - divisor.scale);
+        // Cblculbte preferred scble
+        int preferredScble = sbturbteLong((long)this.scble - divisor.scble);
 
         /*
-         * Perform a normal divide to mc.precision digits.  If the
-         * remainder has absolute value less than the divisor, the
+         * Perform b normbl divide to mc.precision digits.  If the
+         * rembinder hbs bbsolute vblue less thbn the divisor, the
          * integer portion of the quotient fits into mc.precision
-         * digits.  Next, remove any fractional digits from the
-         * quotient and adjust the scale to the preferred value.
+         * digits.  Next, remove bny frbctionbl digits from the
+         * quotient bnd bdjust the scble to the preferred vblue.
          */
-        BigDecimal result = this.divide(divisor, new MathContext(mc.precision, RoundingMode.DOWN));
+        BigDecimbl result = this.divide(divisor, new MbthContext(mc.precision, RoundingMode.DOWN));
 
-        if (result.scale() < 0) {
+        if (result.scble() < 0) {
             /*
-             * Result is an integer. See if quotient represents the
-             * full integer portion of the exact quotient; if it does,
-             * the computed remainder will be less than the divisor.
+             * Result is bn integer. See if quotient represents the
+             * full integer portion of the exbct quotient; if it does,
+             * the computed rembinder will be less thbn the divisor.
              */
-            BigDecimal product = result.multiply(divisor);
-            // If the quotient is the full integer value,
+            BigDecimbl product = result.multiply(divisor);
+            // If the quotient is the full integer vblue,
             // |dividend-product| < |divisor|.
-            if (this.subtract(product).compareMagnitude(divisor) >= 0) {
+            if (this.subtrbct(product).compbreMbgnitude(divisor) >= 0) {
                 throw new ArithmeticException("Division impossible");
             }
-        } else if (result.scale() > 0) {
+        } else if (result.scble() > 0) {
             /*
              * Integer portion of quotient will fit into precision
-             * digits; recompute quotient to scale 0 to avoid double
-             * rounding and then try to adjust, if necessary.
+             * digits; recompute quotient to scble 0 to bvoid double
+             * rounding bnd then try to bdjust, if necessbry.
              */
-            result = result.setScale(0, RoundingMode.DOWN);
+            result = result.setScble(0, RoundingMode.DOWN);
         }
-        // else result.scale() == 0;
+        // else result.scble() == 0;
 
         int precisionDiff;
-        if ((preferredScale > result.scale()) &&
+        if ((preferredScble > result.scble()) &&
             (precisionDiff = mc.precision - result.precision()) > 0) {
-            return result.setScale(result.scale() +
-                                   Math.min(precisionDiff, preferredScale - result.scale) );
+            return result.setScble(result.scble() +
+                                   Mbth.min(precisionDiff, preferredScble - result.scble) );
         } else {
-            return stripZerosToMatchScale(result.intVal,result.intCompact,result.scale,preferredScale);
+            return stripZerosToMbtchScble(result.intVbl,result.intCompbct,result.scble,preferredScble);
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this % divisor)}.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this % divisor)}.
      *
-     * <p>The remainder is given by
-     * {@code this.subtract(this.divideToIntegralValue(divisor).multiply(divisor))}.
-     * Note that this is not the modulo operation (the result can be
-     * negative).
+     * <p>The rembinder is given by
+     * {@code this.subtrbct(this.divideToIntegrblVblue(divisor).multiply(divisor))}.
+     * Note thbt this is not the modulo operbtion (the result cbn be
+     * negbtive).
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
      * @return {@code this % divisor}.
      * @throws ArithmeticException if {@code divisor==0}
      * @since  1.5
      */
-    public BigDecimal remainder(BigDecimal divisor) {
-        BigDecimal divrem[] = this.divideAndRemainder(divisor);
+    public BigDecimbl rembinder(BigDecimbl divisor) {
+        BigDecimbl divrem[] = this.divideAndRembinder(divisor);
         return divrem[1];
     }
 
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (this %
-     * divisor)}, with rounding according to the context settings.
-     * The {@code MathContext} settings affect the implicit divide
-     * used to compute the remainder.  The remainder computation
-     * itself is by definition exact.  Therefore, the remainder may
-     * contain more than {@code mc.getPrecision()} digits.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (this %
+     * divisor)}, with rounding bccording to the context settings.
+     * The {@code MbthContext} settings bffect the implicit divide
+     * used to compute the rembinder.  The rembinder computbtion
+     * itself is by definition exbct.  Therefore, the rembinder mby
+     * contbin more thbn {@code mc.getPrecision()} digits.
      *
-     * <p>The remainder is given by
-     * {@code this.subtract(this.divideToIntegralValue(divisor,
-     * mc).multiply(divisor))}.  Note that this is not the modulo
-     * operation (the result can be negative).
+     * <p>The rembinder is given by
+     * {@code this.subtrbct(this.divideToIntegrblVblue(divisor,
+     * mc).multiply(divisor))}.  Note thbt this is not the modulo
+     * operbtion (the result cbn be negbtive).
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided.
-     * @param  mc the context to use.
-     * @return {@code this % divisor}, rounded as necessary.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided.
+     * @pbrbm  mc the context to use.
+     * @return {@code this % divisor}, rounded bs necessbry.
      * @throws ArithmeticException if {@code divisor==0}
-     * @throws ArithmeticException if the result is inexact but the
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}, or {@code mc.precision}
-     *         {@literal >} 0 and the result of {@code this.divideToIntgralValue(divisor)} would
-     *         require a precision of more than {@code mc.precision} digits.
-     * @see    #divideToIntegralValue(java.math.BigDecimal, java.math.MathContext)
+     *         {@literbl >} 0 bnd the result of {@code this.divideToIntgrblVblue(divisor)} would
+     *         require b precision of more thbn {@code mc.precision} digits.
+     * @see    #divideToIntegrblVblue(jbvb.mbth.BigDecimbl, jbvb.mbth.MbthContext)
      * @since  1.5
      */
-    public BigDecimal remainder(BigDecimal divisor, MathContext mc) {
-        BigDecimal divrem[] = this.divideAndRemainder(divisor, mc);
+    public BigDecimbl rembinder(BigDecimbl divisor, MbthContext mc) {
+        BigDecimbl divrem[] = this.divideAndRembinder(divisor, mc);
         return divrem[1];
     }
 
     /**
-     * Returns a two-element {@code BigDecimal} array containing the
-     * result of {@code divideToIntegralValue} followed by the result of
-     * {@code remainder} on the two operands.
+     * Returns b two-element {@code BigDecimbl} brrby contbining the
+     * result of {@code divideToIntegrblVblue} followed by the result of
+     * {@code rembinder} on the two operbnds.
      *
-     * <p>Note that if both the integer quotient and remainder are
-     * needed, this method is faster than using the
-     * {@code divideToIntegralValue} and {@code remainder} methods
-     * separately because the division need only be carried out once.
+     * <p>Note thbt if both the integer quotient bnd rembinder bre
+     * needed, this method is fbster thbn using the
+     * {@code divideToIntegrblVblue} bnd {@code rembinder} methods
+     * sepbrbtely becbuse the division need only be cbrried out once.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided,
-     *         and the remainder computed.
-     * @return a two element {@code BigDecimal} array: the quotient
-     *         (the result of {@code divideToIntegralValue}) is the initial element
-     *         and the remainder is the final element.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided,
+     *         bnd the rembinder computed.
+     * @return b two element {@code BigDecimbl} brrby: the quotient
+     *         (the result of {@code divideToIntegrblVblue}) is the initibl element
+     *         bnd the rembinder is the finbl element.
      * @throws ArithmeticException if {@code divisor==0}
-     * @see    #divideToIntegralValue(java.math.BigDecimal, java.math.MathContext)
-     * @see    #remainder(java.math.BigDecimal, java.math.MathContext)
+     * @see    #divideToIntegrblVblue(jbvb.mbth.BigDecimbl, jbvb.mbth.MbthContext)
+     * @see    #rembinder(jbvb.mbth.BigDecimbl, jbvb.mbth.MbthContext)
      * @since  1.5
      */
-    public BigDecimal[] divideAndRemainder(BigDecimal divisor) {
+    public BigDecimbl[] divideAndRembinder(BigDecimbl divisor) {
         // we use the identity  x = i * y + r to determine r
-        BigDecimal[] result = new BigDecimal[2];
+        BigDecimbl[] result = new BigDecimbl[2];
 
-        result[0] = this.divideToIntegralValue(divisor);
-        result[1] = this.subtract(result[0].multiply(divisor));
+        result[0] = this.divideToIntegrblVblue(divisor);
+        result[1] = this.subtrbct(result[0].multiply(divisor));
         return result;
     }
 
     /**
-     * Returns a two-element {@code BigDecimal} array containing the
-     * result of {@code divideToIntegralValue} followed by the result of
-     * {@code remainder} on the two operands calculated with rounding
-     * according to the context settings.
+     * Returns b two-element {@code BigDecimbl} brrby contbining the
+     * result of {@code divideToIntegrblVblue} followed by the result of
+     * {@code rembinder} on the two operbnds cblculbted with rounding
+     * bccording to the context settings.
      *
-     * <p>Note that if both the integer quotient and remainder are
-     * needed, this method is faster than using the
-     * {@code divideToIntegralValue} and {@code remainder} methods
-     * separately because the division need only be carried out once.
+     * <p>Note thbt if both the integer quotient bnd rembinder bre
+     * needed, this method is fbster thbn using the
+     * {@code divideToIntegrblVblue} bnd {@code rembinder} methods
+     * sepbrbtely becbuse the division need only be cbrried out once.
      *
-     * @param  divisor value by which this {@code BigDecimal} is to be divided,
-     *         and the remainder computed.
-     * @param  mc the context to use.
-     * @return a two element {@code BigDecimal} array: the quotient
-     *         (the result of {@code divideToIntegralValue}) is the
-     *         initial element and the remainder is the final element.
+     * @pbrbm  divisor vblue by which this {@code BigDecimbl} is to be divided,
+     *         bnd the rembinder computed.
+     * @pbrbm  mc the context to use.
+     * @return b two element {@code BigDecimbl} brrby: the quotient
+     *         (the result of {@code divideToIntegrblVblue}) is the
+     *         initibl element bnd the rembinder is the finbl element.
      * @throws ArithmeticException if {@code divisor==0}
-     * @throws ArithmeticException if the result is inexact but the
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}, or {@code mc.precision}
-     *         {@literal >} 0 and the result of {@code this.divideToIntgralValue(divisor)} would
-     *         require a precision of more than {@code mc.precision} digits.
-     * @see    #divideToIntegralValue(java.math.BigDecimal, java.math.MathContext)
-     * @see    #remainder(java.math.BigDecimal, java.math.MathContext)
+     *         {@literbl >} 0 bnd the result of {@code this.divideToIntgrblVblue(divisor)} would
+     *         require b precision of more thbn {@code mc.precision} digits.
+     * @see    #divideToIntegrblVblue(jbvb.mbth.BigDecimbl, jbvb.mbth.MbthContext)
+     * @see    #rembinder(jbvb.mbth.BigDecimbl, jbvb.mbth.MbthContext)
      * @since  1.5
      */
-    public BigDecimal[] divideAndRemainder(BigDecimal divisor, MathContext mc) {
+    public BigDecimbl[] divideAndRembinder(BigDecimbl divisor, MbthContext mc) {
         if (mc.precision == 0)
-            return divideAndRemainder(divisor);
+            return divideAndRembinder(divisor);
 
-        BigDecimal[] result = new BigDecimal[2];
-        BigDecimal lhs = this;
+        BigDecimbl[] result = new BigDecimbl[2];
+        BigDecimbl lhs = this;
 
-        result[0] = lhs.divideToIntegralValue(divisor, mc);
-        result[1] = lhs.subtract(result[0].multiply(divisor));
+        result[0] = lhs.divideToIntegrblVblue(divisor, mc);
+        result[1] = lhs.subtrbct(result[0].multiply(divisor));
         return result;
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is
-     * <tt>(this<sup>n</sup>)</tt>, The power is computed exactly, to
+     * Returns b {@code BigDecimbl} whose vblue is
+     * <tt>(this<sup>n</sup>)</tt>, The power is computed exbctly, to
      * unlimited precision.
      *
-     * <p>The parameter {@code n} must be in the range 0 through
+     * <p>The pbrbmeter {@code n} must be in the rbnge 0 through
      * 999999999, inclusive.  {@code ZERO.pow(0)} returns {@link
      * #ONE}.
      *
-     * Note that future releases may expand the allowable exponent
-     * range of this method.
+     * Note thbt future relebses mby expbnd the bllowbble exponent
+     * rbnge of this method.
      *
-     * @param  n power to raise this {@code BigDecimal} to.
+     * @pbrbm  n power to rbise this {@code BigDecimbl} to.
      * @return <tt>this<sup>n</sup></tt>
-     * @throws ArithmeticException if {@code n} is out of range.
+     * @throws ArithmeticException if {@code n} is out of rbnge.
      * @since  1.5
      */
-    public BigDecimal pow(int n) {
+    public BigDecimbl pow(int n) {
         if (n < 0 || n > 999999999)
-            throw new ArithmeticException("Invalid operation");
-        // No need to calculate pow(n) if result will over/underflow.
-        // Don't attempt to support "supernormal" numbers.
-        int newScale = checkScale((long)scale * n);
-        return new BigDecimal(this.inflated().pow(n), newScale);
+            throw new ArithmeticException("Invblid operbtion");
+        // No need to cblculbte pow(n) if result will over/underflow.
+        // Don't bttempt to support "supernormbl" numbers.
+        int newScble = checkScble((long)scble * n);
+        return new BigDecimbl(this.inflbted().pow(n), newScble);
     }
 
 
     /**
-     * Returns a {@code BigDecimal} whose value is
-     * <tt>(this<sup>n</sup>)</tt>.  The current implementation uses
-     * the core algorithm defined in ANSI standard X3.274-1996 with
-     * rounding according to the context settings.  In general, the
-     * returned numerical value is within two ulps of the exact
-     * numerical value for the chosen precision.  Note that future
-     * releases may use a different algorithm with a decreased
-     * allowable error bound and increased allowable exponent range.
+     * Returns b {@code BigDecimbl} whose vblue is
+     * <tt>(this<sup>n</sup>)</tt>.  The current implementbtion uses
+     * the core blgorithm defined in ANSI stbndbrd X3.274-1996 with
+     * rounding bccording to the context settings.  In generbl, the
+     * returned numericbl vblue is within two ulps of the exbct
+     * numericbl vblue for the chosen precision.  Note thbt future
+     * relebses mby use b different blgorithm with b decrebsed
+     * bllowbble error bound bnd increbsed bllowbble exponent rbnge.
      *
-     * <p>The X3.274-1996 algorithm is:
+     * <p>The X3.274-1996 blgorithm is:
      *
      * <ul>
      * <li> An {@code ArithmeticException} exception is thrown if
      *  <ul>
-     *    <li>{@code abs(n) > 999999999}
-     *    <li>{@code mc.precision == 0} and {@code n < 0}
-     *    <li>{@code mc.precision > 0} and {@code n} has more than
-     *    {@code mc.precision} decimal digits
+     *    <li>{@code bbs(n) > 999999999}
+     *    <li>{@code mc.precision == 0} bnd {@code n < 0}
+     *    <li>{@code mc.precision > 0} bnd {@code n} hbs more thbn
+     *    {@code mc.precision} decimbl digits
      *  </ul>
      *
      * <li> if {@code n} is zero, {@link #ONE} is returned even if
      * {@code this} is zero, otherwise
      * <ul>
-     *   <li> if {@code n} is positive, the result is calculated via
-     *   the repeated squaring technique into a single accumulator.
-     *   The individual multiplications with the accumulator use the
-     *   same math context settings as in {@code mc} except for a
-     *   precision increased to {@code mc.precision + elength + 1}
-     *   where {@code elength} is the number of decimal digits in
+     *   <li> if {@code n} is positive, the result is cblculbted vib
+     *   the repebted squbring technique into b single bccumulbtor.
+     *   The individubl multiplicbtions with the bccumulbtor use the
+     *   sbme mbth context settings bs in {@code mc} except for b
+     *   precision increbsed to {@code mc.precision + elength + 1}
+     *   where {@code elength} is the number of decimbl digits in
      *   {@code n}.
      *
-     *   <li> if {@code n} is negative, the result is calculated as if
-     *   {@code n} were positive; this value is then divided into one
-     *   using the working precision specified above.
+     *   <li> if {@code n} is negbtive, the result is cblculbted bs if
+     *   {@code n} were positive; this vblue is then divided into one
+     *   using the working precision specified bbove.
      *
-     *   <li> The final value from either the positive or negative case
-     *   is then rounded to the destination precision.
+     *   <li> The finbl vblue from either the positive or negbtive cbse
+     *   is then rounded to the destinbtion precision.
      *   </ul>
      * </ul>
      *
-     * @param  n power to raise this {@code BigDecimal} to.
-     * @param  mc the context to use.
-     * @return <tt>this<sup>n</sup></tt> using the ANSI standard X3.274-1996
-     *         algorithm
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm  n power to rbise this {@code BigDecimbl} to.
+     * @pbrbm  mc the context to use.
+     * @return <tt>this<sup>n</sup></tt> using the ANSI stbndbrd X3.274-1996
+     *         blgorithm
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}, or {@code n} is out
-     *         of range.
+     *         of rbnge.
      * @since  1.5
      */
-    public BigDecimal pow(int n, MathContext mc) {
+    public BigDecimbl pow(int n, MbthContext mc) {
         if (mc.precision == 0)
             return pow(n);
         if (n < -999999999 || n > 999999999)
-            throw new ArithmeticException("Invalid operation");
+            throw new ArithmeticException("Invblid operbtion");
         if (n == 0)
             return ONE;                      // x**0 == 1 in X3.274
-        BigDecimal lhs = this;
-        MathContext workmc = mc;           // working settings
-        int mag = Math.abs(n);               // magnitude of n
+        BigDecimbl lhs = this;
+        MbthContext workmc = mc;           // working settings
+        int mbg = Mbth.bbs(n);               // mbgnitude of n
         if (mc.precision > 0) {
-            int elength = longDigitLength(mag); // length of n in digits
+            int elength = longDigitLength(mbg); // length of n in digits
             if (elength > mc.precision)        // X3.274 rule
-                throw new ArithmeticException("Invalid operation");
-            workmc = new MathContext(mc.precision + elength + 1,
+                throw new ArithmeticException("Invblid operbtion");
+            workmc = new MbthContext(mc.precision + elength + 1,
                                       mc.roundingMode);
         }
-        // ready to carry out power calculation...
-        BigDecimal acc = ONE;           // accumulator
-        boolean seenbit = false;        // set once we've seen a 1-bit
-        for (int i=1;;i++) {            // for each bit [top bit ignored]
-            mag += mag;                 // shift left 1 bit
-            if (mag < 0) {              // top bit is set
+        // rebdy to cbrry out power cblculbtion...
+        BigDecimbl bcc = ONE;           // bccumulbtor
+        boolebn seenbit = fblse;        // set once we've seen b 1-bit
+        for (int i=1;;i++) {            // for ebch bit [top bit ignored]
+            mbg += mbg;                 // shift left 1 bit
+            if (mbg < 0) {              // top bit is set
                 seenbit = true;         // OK, we're off
-                acc = acc.multiply(lhs, workmc); // acc=acc*x
+                bcc = bcc.multiply(lhs, workmc); // bcc=bcc*x
             }
             if (i == 31)
-                break;                  // that was the last bit
+                brebk;                  // thbt wbs the lbst bit
             if (seenbit)
-                acc=acc.multiply(acc, workmc);   // acc=acc*acc [square]
-                // else (!seenbit) no point in squaring ONE
+                bcc=bcc.multiply(bcc, workmc);   // bcc=bcc*bcc [squbre]
+                // else (!seenbit) no point in squbring ONE
         }
-        // if negative n, calculate the reciprocal using working precision
+        // if negbtive n, cblculbte the reciprocbl using working precision
         if (n < 0) // [hence mc.precision>0]
-            acc=ONE.divide(acc, workmc);
-        // round to final precision and strip zeros
-        return doRound(acc, mc);
+            bcc=ONE.divide(bcc, workmc);
+        // round to finbl precision bnd strip zeros
+        return doRound(bcc, mc);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is the absolute value
-     * of this {@code BigDecimal}, and whose scale is
-     * {@code this.scale()}.
+     * Returns b {@code BigDecimbl} whose vblue is the bbsolute vblue
+     * of this {@code BigDecimbl}, bnd whose scble is
+     * {@code this.scble()}.
      *
-     * @return {@code abs(this)}
+     * @return {@code bbs(this)}
      */
-    public BigDecimal abs() {
-        return (signum() < 0 ? negate() : this);
+    public BigDecimbl bbs() {
+        return (signum() < 0 ? negbte() : this);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is the absolute value
-     * of this {@code BigDecimal}, with rounding according to the
+     * Returns b {@code BigDecimbl} whose vblue is the bbsolute vblue
+     * of this {@code BigDecimbl}, with rounding bccording to the
      * context settings.
      *
-     * @param mc the context to use.
-     * @return {@code abs(this)}, rounded as necessary.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm mc the context to use.
+     * @return {@code bbs(this)}, rounded bs necessbry.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since 1.5
      */
-    public BigDecimal abs(MathContext mc) {
-        return (signum() < 0 ? negate(mc) : plus(mc));
+    public BigDecimbl bbs(MbthContext mc) {
+        return (signum() < 0 ? negbte(mc) : plus(mc));
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (-this)},
-     * and whose scale is {@code this.scale()}.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (-this)},
+     * bnd whose scble is {@code this.scble()}.
      *
      * @return {@code -this}.
      */
-    public BigDecimal negate() {
-        if (intCompact == INFLATED) {
-            return new BigDecimal(intVal.negate(), INFLATED, scale, precision);
+    public BigDecimbl negbte() {
+        if (intCompbct == INFLATED) {
+            return new BigDecimbl(intVbl.negbte(), INFLATED, scble, precision);
         } else {
-            return valueOf(-intCompact, scale, precision);
+            return vblueOf(-intCompbct, scble, precision);
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (-this)},
-     * with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (-this)},
+     * with rounding bccording to the context settings.
      *
-     * @param mc the context to use.
-     * @return {@code -this}, rounded as necessary.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm mc the context to use.
+     * @return {@code -this}, rounded bs necessbry.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public BigDecimal negate(MathContext mc) {
-        return negate().plus(mc);
+    public BigDecimbl negbte(MbthContext mc) {
+        return negbte().plus(mc);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (+this)}, and whose
-     * scale is {@code this.scale()}.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (+this)}, bnd whose
+     * scble is {@code this.scble()}.
      *
-     * <p>This method, which simply returns this {@code BigDecimal}
-     * is included for symmetry with the unary minus method {@link
-     * #negate()}.
+     * <p>This method, which simply returns this {@code BigDecimbl}
+     * is included for symmetry with the unbry minus method {@link
+     * #negbte()}.
      *
      * @return {@code this}.
-     * @see #negate()
+     * @see #negbte()
      * @since  1.5
      */
-    public BigDecimal plus() {
+    public BigDecimbl plus() {
         return this;
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (+this)},
-     * with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (+this)},
+     * with rounding bccording to the context settings.
      *
-     * <p>The effect of this method is identical to that of the {@link
-     * #round(MathContext)} method.
+     * <p>The effect of this method is identicbl to thbt of the {@link
+     * #round(MbthContext)} method.
      *
-     * @param mc the context to use.
-     * @return {@code this}, rounded as necessary.  A zero result will
-     *         have a scale of 0.
-     * @throws ArithmeticException if the result is inexact but the
+     * @pbrbm mc the context to use.
+     * @return {@code this}, rounded bs necessbry.  A zero result will
+     *         hbve b scble of 0.
+     * @throws ArithmeticException if the result is inexbct but the
      *         rounding mode is {@code UNNECESSARY}.
-     * @see    #round(MathContext)
+     * @see    #round(MbthContext)
      * @since  1.5
      */
-    public BigDecimal plus(MathContext mc) {
-        if (mc.precision == 0)                 // no rounding please
+    public BigDecimbl plus(MbthContext mc) {
+        if (mc.precision == 0)                 // no rounding plebse
             return this;
         return doRound(this, mc);
     }
 
     /**
-     * Returns the signum function of this {@code BigDecimal}.
+     * Returns the signum function of this {@code BigDecimbl}.
      *
-     * @return -1, 0, or 1 as the value of this {@code BigDecimal}
-     *         is negative, zero, or positive.
+     * @return -1, 0, or 1 bs the vblue of this {@code BigDecimbl}
+     *         is negbtive, zero, or positive.
      */
     public int signum() {
-        return (intCompact != INFLATED)?
-            Long.signum(intCompact):
-            intVal.signum();
+        return (intCompbct != INFLATED)?
+            Long.signum(intCompbct):
+            intVbl.signum();
     }
 
     /**
-     * Returns the <i>scale</i> of this {@code BigDecimal}.  If zero
-     * or positive, the scale is the number of digits to the right of
-     * the decimal point.  If negative, the unscaled value of the
-     * number is multiplied by ten to the power of the negation of the
-     * scale.  For example, a scale of {@code -3} means the unscaled
-     * value is multiplied by 1000.
+     * Returns the <i>scble</i> of this {@code BigDecimbl}.  If zero
+     * or positive, the scble is the number of digits to the right of
+     * the decimbl point.  If negbtive, the unscbled vblue of the
+     * number is multiplied by ten to the power of the negbtion of the
+     * scble.  For exbmple, b scble of {@code -3} mebns the unscbled
+     * vblue is multiplied by 1000.
      *
-     * @return the scale of this {@code BigDecimal}.
+     * @return the scble of this {@code BigDecimbl}.
      */
-    public int scale() {
-        return scale;
+    public int scble() {
+        return scble;
     }
 
     /**
-     * Returns the <i>precision</i> of this {@code BigDecimal}.  (The
-     * precision is the number of digits in the unscaled value.)
+     * Returns the <i>precision</i> of this {@code BigDecimbl}.  (The
+     * precision is the number of digits in the unscbled vblue.)
      *
-     * <p>The precision of a zero value is 1.
+     * <p>The precision of b zero vblue is 1.
      *
-     * @return the precision of this {@code BigDecimal}.
+     * @return the precision of this {@code BigDecimbl}.
      * @since  1.5
      */
     public int precision() {
         int result = precision;
         if (result == 0) {
-            long s = intCompact;
+            long s = intCompbct;
             if (s != INFLATED)
                 result = longDigitLength(s);
             else
-                result = bigDigitLength(intVal);
+                result = bigDigitLength(intVbl);
             precision = result;
         }
         return result;
@@ -2245,178 +2245,178 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
 
 
     /**
-     * Returns a {@code BigInteger} whose value is the <i>unscaled
-     * value</i> of this {@code BigDecimal}.  (Computes <tt>(this *
-     * 10<sup>this.scale()</sup>)</tt>.)
+     * Returns b {@code BigInteger} whose vblue is the <i>unscbled
+     * vblue</i> of this {@code BigDecimbl}.  (Computes <tt>(this *
+     * 10<sup>this.scble()</sup>)</tt>.)
      *
-     * @return the unscaled value of this {@code BigDecimal}.
+     * @return the unscbled vblue of this {@code BigDecimbl}.
      * @since  1.2
      */
-    public BigInteger unscaledValue() {
-        return this.inflated();
+    public BigInteger unscbledVblue() {
+        return this.inflbted();
     }
 
     // Rounding Modes
 
     /**
-     * Rounding mode to round away from zero.  Always increments the
-     * digit prior to a nonzero discarded fraction.  Note that this rounding
-     * mode never decreases the magnitude of the calculated value.
+     * Rounding mode to round bwby from zero.  Alwbys increments the
+     * digit prior to b nonzero discbrded frbction.  Note thbt this rounding
+     * mode never decrebses the mbgnitude of the cblculbted vblue.
      */
-    public final static int ROUND_UP =           0;
+    public finbl stbtic int ROUND_UP =           0;
 
     /**
-     * Rounding mode to round towards zero.  Never increments the digit
-     * prior to a discarded fraction (i.e., truncates).  Note that this
-     * rounding mode never increases the magnitude of the calculated value.
+     * Rounding mode to round towbrds zero.  Never increments the digit
+     * prior to b discbrded frbction (i.e., truncbtes).  Note thbt this
+     * rounding mode never increbses the mbgnitude of the cblculbted vblue.
      */
-    public final static int ROUND_DOWN =         1;
+    public finbl stbtic int ROUND_DOWN =         1;
 
     /**
-     * Rounding mode to round towards positive infinity.  If the
-     * {@code BigDecimal} is positive, behaves as for
-     * {@code ROUND_UP}; if negative, behaves as for
-     * {@code ROUND_DOWN}.  Note that this rounding mode never
-     * decreases the calculated value.
+     * Rounding mode to round towbrds positive infinity.  If the
+     * {@code BigDecimbl} is positive, behbves bs for
+     * {@code ROUND_UP}; if negbtive, behbves bs for
+     * {@code ROUND_DOWN}.  Note thbt this rounding mode never
+     * decrebses the cblculbted vblue.
      */
-    public final static int ROUND_CEILING =      2;
+    public finbl stbtic int ROUND_CEILING =      2;
 
     /**
-     * Rounding mode to round towards negative infinity.  If the
-     * {@code BigDecimal} is positive, behave as for
-     * {@code ROUND_DOWN}; if negative, behave as for
-     * {@code ROUND_UP}.  Note that this rounding mode never
-     * increases the calculated value.
+     * Rounding mode to round towbrds negbtive infinity.  If the
+     * {@code BigDecimbl} is positive, behbve bs for
+     * {@code ROUND_DOWN}; if negbtive, behbve bs for
+     * {@code ROUND_UP}.  Note thbt this rounding mode never
+     * increbses the cblculbted vblue.
      */
-    public final static int ROUND_FLOOR =        3;
+    public finbl stbtic int ROUND_FLOOR =        3;
 
     /**
-     * Rounding mode to round towards {@literal "nearest neighbor"}
-     * unless both neighbors are equidistant, in which case round up.
-     * Behaves as for {@code ROUND_UP} if the discarded fraction is
-     * &ge; 0.5; otherwise, behaves as for {@code ROUND_DOWN}.  Note
-     * that this is the rounding mode that most of us were taught in
-     * grade school.
+     * Rounding mode to round towbrds {@literbl "nebrest neighbor"}
+     * unless both neighbors bre equidistbnt, in which cbse round up.
+     * Behbves bs for {@code ROUND_UP} if the discbrded frbction is
+     * &ge; 0.5; otherwise, behbves bs for {@code ROUND_DOWN}.  Note
+     * thbt this is the rounding mode thbt most of us were tbught in
+     * grbde school.
      */
-    public final static int ROUND_HALF_UP =      4;
+    public finbl stbtic int ROUND_HALF_UP =      4;
 
     /**
-     * Rounding mode to round towards {@literal "nearest neighbor"}
-     * unless both neighbors are equidistant, in which case round
-     * down.  Behaves as for {@code ROUND_UP} if the discarded
-     * fraction is {@literal >} 0.5; otherwise, behaves as for
+     * Rounding mode to round towbrds {@literbl "nebrest neighbor"}
+     * unless both neighbors bre equidistbnt, in which cbse round
+     * down.  Behbves bs for {@code ROUND_UP} if the discbrded
+     * frbction is {@literbl >} 0.5; otherwise, behbves bs for
      * {@code ROUND_DOWN}.
      */
-    public final static int ROUND_HALF_DOWN =    5;
+    public finbl stbtic int ROUND_HALF_DOWN =    5;
 
     /**
-     * Rounding mode to round towards the {@literal "nearest neighbor"}
-     * unless both neighbors are equidistant, in which case, round
-     * towards the even neighbor.  Behaves as for
+     * Rounding mode to round towbrds the {@literbl "nebrest neighbor"}
+     * unless both neighbors bre equidistbnt, in which cbse, round
+     * towbrds the even neighbor.  Behbves bs for
      * {@code ROUND_HALF_UP} if the digit to the left of the
-     * discarded fraction is odd; behaves as for
-     * {@code ROUND_HALF_DOWN} if it's even.  Note that this is the
-     * rounding mode that minimizes cumulative error when applied
-     * repeatedly over a sequence of calculations.
+     * discbrded frbction is odd; behbves bs for
+     * {@code ROUND_HALF_DOWN} if it's even.  Note thbt this is the
+     * rounding mode thbt minimizes cumulbtive error when bpplied
+     * repebtedly over b sequence of cblculbtions.
      */
-    public final static int ROUND_HALF_EVEN =    6;
+    public finbl stbtic int ROUND_HALF_EVEN =    6;
 
     /**
-     * Rounding mode to assert that the requested operation has an exact
-     * result, hence no rounding is necessary.  If this rounding mode is
-     * specified on an operation that yields an inexact result, an
+     * Rounding mode to bssert thbt the requested operbtion hbs bn exbct
+     * result, hence no rounding is necessbry.  If this rounding mode is
+     * specified on bn operbtion thbt yields bn inexbct result, bn
      * {@code ArithmeticException} is thrown.
      */
-    public final static int ROUND_UNNECESSARY =  7;
+    public finbl stbtic int ROUND_UNNECESSARY =  7;
 
 
-    // Scaling/Rounding Operations
+    // Scbling/Rounding Operbtions
 
     /**
-     * Returns a {@code BigDecimal} rounded according to the
-     * {@code MathContext} settings.  If the precision setting is 0 then
-     * no rounding takes place.
+     * Returns b {@code BigDecimbl} rounded bccording to the
+     * {@code MbthContext} settings.  If the precision setting is 0 then
+     * no rounding tbkes plbce.
      *
-     * <p>The effect of this method is identical to that of the
-     * {@link #plus(MathContext)} method.
+     * <p>The effect of this method is identicbl to thbt of the
+     * {@link #plus(MbthContext)} method.
      *
-     * @param mc the context to use.
-     * @return a {@code BigDecimal} rounded according to the
-     *         {@code MathContext} settings.
+     * @pbrbm mc the context to use.
+     * @return b {@code BigDecimbl} rounded bccording to the
+     *         {@code MbthContext} settings.
      * @throws ArithmeticException if the rounding mode is
-     *         {@code UNNECESSARY} and the
-     *         {@code BigDecimal}  operation would require rounding.
-     * @see    #plus(MathContext)
+     *         {@code UNNECESSARY} bnd the
+     *         {@code BigDecimbl}  operbtion would require rounding.
+     * @see    #plus(MbthContext)
      * @since  1.5
      */
-    public BigDecimal round(MathContext mc) {
+    public BigDecimbl round(MbthContext mc) {
         return plus(mc);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose scale is the specified
-     * value, and whose unscaled value is determined by multiplying or
-     * dividing this {@code BigDecimal}'s unscaled value by the
-     * appropriate power of ten to maintain its overall value.  If the
-     * scale is reduced by the operation, the unscaled value must be
-     * divided (rather than multiplied), and the value may be changed;
-     * in this case, the specified rounding mode is applied to the
+     * Returns b {@code BigDecimbl} whose scble is the specified
+     * vblue, bnd whose unscbled vblue is determined by multiplying or
+     * dividing this {@code BigDecimbl}'s unscbled vblue by the
+     * bppropribte power of ten to mbintbin its overbll vblue.  If the
+     * scble is reduced by the operbtion, the unscbled vblue must be
+     * divided (rbther thbn multiplied), bnd the vblue mby be chbnged;
+     * in this cbse, the specified rounding mode is bpplied to the
      * division.
      *
-     * <p>Note that since BigDecimal objects are immutable, calls of
-     * this method do <i>not</i> result in the original object being
-     * modified, contrary to the usual convention of having methods
-     * named <tt>set<i>X</i></tt> mutate field <i>{@code X}</i>.
-     * Instead, {@code setScale} returns an object with the proper
-     * scale; the returned object may or may not be newly allocated.
+     * <p>Note thbt since BigDecimbl objects bre immutbble, cblls of
+     * this method do <i>not</i> result in the originbl object being
+     * modified, contrbry to the usubl convention of hbving methods
+     * nbmed <tt>set<i>X</i></tt> mutbte field <i>{@code X}</i>.
+     * Instebd, {@code setScble} returns bn object with the proper
+     * scble; the returned object mby or mby not be newly bllocbted.
      *
-     * @param  newScale scale of the {@code BigDecimal} value to be returned.
-     * @param  roundingMode The rounding mode to apply.
-     * @return a {@code BigDecimal} whose scale is the specified value,
-     *         and whose unscaled value is determined by multiplying or
-     *         dividing this {@code BigDecimal}'s unscaled value by the
-     *         appropriate power of ten to maintain its overall value.
+     * @pbrbm  newScble scble of the {@code BigDecimbl} vblue to be returned.
+     * @pbrbm  roundingMode The rounding mode to bpply.
+     * @return b {@code BigDecimbl} whose scble is the specified vblue,
+     *         bnd whose unscbled vblue is determined by multiplying or
+     *         dividing this {@code BigDecimbl}'s unscbled vblue by the
+     *         bppropribte power of ten to mbintbin its overbll vblue.
      * @throws ArithmeticException if {@code roundingMode==UNNECESSARY}
-     *         and the specified scaling operation would require
+     *         bnd the specified scbling operbtion would require
      *         rounding.
      * @see    RoundingMode
      * @since  1.5
      */
-    public BigDecimal setScale(int newScale, RoundingMode roundingMode) {
-        return setScale(newScale, roundingMode.oldMode);
+    public BigDecimbl setScble(int newScble, RoundingMode roundingMode) {
+        return setScble(newScble, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose scale is the specified
-     * value, and whose unscaled value is determined by multiplying or
-     * dividing this {@code BigDecimal}'s unscaled value by the
-     * appropriate power of ten to maintain its overall value.  If the
-     * scale is reduced by the operation, the unscaled value must be
-     * divided (rather than multiplied), and the value may be changed;
-     * in this case, the specified rounding mode is applied to the
+     * Returns b {@code BigDecimbl} whose scble is the specified
+     * vblue, bnd whose unscbled vblue is determined by multiplying or
+     * dividing this {@code BigDecimbl}'s unscbled vblue by the
+     * bppropribte power of ten to mbintbin its overbll vblue.  If the
+     * scble is reduced by the operbtion, the unscbled vblue must be
+     * divided (rbther thbn multiplied), bnd the vblue mby be chbnged;
+     * in this cbse, the specified rounding mode is bpplied to the
      * division.
      *
-     * <p>Note that since BigDecimal objects are immutable, calls of
-     * this method do <i>not</i> result in the original object being
-     * modified, contrary to the usual convention of having methods
-     * named <tt>set<i>X</i></tt> mutate field <i>{@code X}</i>.
-     * Instead, {@code setScale} returns an object with the proper
-     * scale; the returned object may or may not be newly allocated.
+     * <p>Note thbt since BigDecimbl objects bre immutbble, cblls of
+     * this method do <i>not</i> result in the originbl object being
+     * modified, contrbry to the usubl convention of hbving methods
+     * nbmed <tt>set<i>X</i></tt> mutbte field <i>{@code X}</i>.
+     * Instebd, {@code setScble} returns bn object with the proper
+     * scble; the returned object mby or mby not be newly bllocbted.
      *
-     * <p>The new {@link #setScale(int, RoundingMode)} method should
-     * be used in preference to this legacy method.
+     * <p>The new {@link #setScble(int, RoundingMode)} method should
+     * be used in preference to this legbcy method.
      *
-     * @param  newScale scale of the {@code BigDecimal} value to be returned.
-     * @param  roundingMode The rounding mode to apply.
-     * @return a {@code BigDecimal} whose scale is the specified value,
-     *         and whose unscaled value is determined by multiplying or
-     *         dividing this {@code BigDecimal}'s unscaled value by the
-     *         appropriate power of ten to maintain its overall value.
+     * @pbrbm  newScble scble of the {@code BigDecimbl} vblue to be returned.
+     * @pbrbm  roundingMode The rounding mode to bpply.
+     * @return b {@code BigDecimbl} whose scble is the specified vblue,
+     *         bnd whose unscbled vblue is determined by multiplying or
+     *         dividing this {@code BigDecimbl}'s unscbled vblue by the
+     *         bppropribte power of ten to mbintbin its overbll vblue.
      * @throws ArithmeticException if {@code roundingMode==ROUND_UNNECESSARY}
-     *         and the specified scaling operation would require
+     *         bnd the specified scbling operbtion would require
      *         rounding.
-     * @throws IllegalArgumentException if {@code roundingMode} does not
-     *         represent a valid rounding mode.
+     * @throws IllegblArgumentException if {@code roundingMode} does not
+     *         represent b vblid rounding mode.
      * @see    #ROUND_UP
      * @see    #ROUND_DOWN
      * @see    #ROUND_CEILING
@@ -2426,411 +2426,411 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public BigDecimal setScale(int newScale, int roundingMode) {
+    public BigDecimbl setScble(int newScble, int roundingMode) {
         if (roundingMode < ROUND_UP || roundingMode > ROUND_UNNECESSARY)
-            throw new IllegalArgumentException("Invalid rounding mode");
+            throw new IllegblArgumentException("Invblid rounding mode");
 
-        int oldScale = this.scale;
-        if (newScale == oldScale)        // easy case
+        int oldScble = this.scble;
+        if (newScble == oldScble)        // ebsy cbse
             return this;
-        if (this.signum() == 0)            // zero can have any scale
-            return zeroValueOf(newScale);
-        if(this.intCompact!=INFLATED) {
-            long rs = this.intCompact;
-            if (newScale > oldScale) {
-                int raise = checkScale((long) newScale - oldScale);
-                if ((rs = longMultiplyPowerTen(rs, raise)) != INFLATED) {
-                    return valueOf(rs,newScale);
+        if (this.signum() == 0)            // zero cbn hbve bny scble
+            return zeroVblueOf(newScble);
+        if(this.intCompbct!=INFLATED) {
+            long rs = this.intCompbct;
+            if (newScble > oldScble) {
+                int rbise = checkScble((long) newScble - oldScble);
+                if ((rs = longMultiplyPowerTen(rs, rbise)) != INFLATED) {
+                    return vblueOf(rs,newScble);
                 }
-                BigInteger rb = bigMultiplyPowerTen(raise);
-                return new BigDecimal(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
+                BigInteger rb = bigMultiplyPowerTen(rbise);
+                return new BigDecimbl(rb, INFLATED, newScble, (precision > 0) ? precision + rbise : 0);
             } else {
-                // newScale < oldScale -- drop some digits
-                // Can't predict the precision due to the effect of rounding.
-                int drop = checkScale((long) oldScale - newScale);
+                // newScble < oldScble -- drop some digits
+                // Cbn't predict the precision due to the effect of rounding.
+                int drop = checkScble((long) oldScble - newScble);
                 if (drop < LONG_TEN_POWERS_TABLE.length) {
-                    return divideAndRound(rs, LONG_TEN_POWERS_TABLE[drop], newScale, roundingMode, newScale);
+                    return divideAndRound(rs, LONG_TEN_POWERS_TABLE[drop], newScble, roundingMode, newScble);
                 } else {
-                    return divideAndRound(this.inflated(), bigTenToThe(drop), newScale, roundingMode, newScale);
+                    return divideAndRound(this.inflbted(), bigTenToThe(drop), newScble, roundingMode, newScble);
                 }
             }
         } else {
-            if (newScale > oldScale) {
-                int raise = checkScale((long) newScale - oldScale);
-                BigInteger rb = bigMultiplyPowerTen(this.intVal,raise);
-                return new BigDecimal(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
+            if (newScble > oldScble) {
+                int rbise = checkScble((long) newScble - oldScble);
+                BigInteger rb = bigMultiplyPowerTen(this.intVbl,rbise);
+                return new BigDecimbl(rb, INFLATED, newScble, (precision > 0) ? precision + rbise : 0);
             } else {
-                // newScale < oldScale -- drop some digits
-                // Can't predict the precision due to the effect of rounding.
-                int drop = checkScale((long) oldScale - newScale);
+                // newScble < oldScble -- drop some digits
+                // Cbn't predict the precision due to the effect of rounding.
+                int drop = checkScble((long) oldScble - newScble);
                 if (drop < LONG_TEN_POWERS_TABLE.length)
-                    return divideAndRound(this.intVal, LONG_TEN_POWERS_TABLE[drop], newScale, roundingMode,
-                                          newScale);
+                    return divideAndRound(this.intVbl, LONG_TEN_POWERS_TABLE[drop], newScble, roundingMode,
+                                          newScble);
                 else
-                    return divideAndRound(this.intVal,  bigTenToThe(drop), newScale, roundingMode, newScale);
+                    return divideAndRound(this.intVbl,  bigTenToThe(drop), newScble, roundingMode, newScble);
             }
         }
     }
 
     /**
-     * Returns a {@code BigDecimal} whose scale is the specified
-     * value, and whose value is numerically equal to this
-     * {@code BigDecimal}'s.  Throws an {@code ArithmeticException}
+     * Returns b {@code BigDecimbl} whose scble is the specified
+     * vblue, bnd whose vblue is numericblly equbl to this
+     * {@code BigDecimbl}'s.  Throws bn {@code ArithmeticException}
      * if this is not possible.
      *
-     * <p>This call is typically used to increase the scale, in which
-     * case it is guaranteed that there exists a {@code BigDecimal}
-     * of the specified scale and the correct value.  The call can
-     * also be used to reduce the scale if the caller knows that the
-     * {@code BigDecimal} has sufficiently many zeros at the end of
-     * its fractional part (i.e., factors of ten in its integer value)
-     * to allow for the rescaling without changing its value.
+     * <p>This cbll is typicblly used to increbse the scble, in which
+     * cbse it is gubrbnteed thbt there exists b {@code BigDecimbl}
+     * of the specified scble bnd the correct vblue.  The cbll cbn
+     * blso be used to reduce the scble if the cbller knows thbt the
+     * {@code BigDecimbl} hbs sufficiently mbny zeros bt the end of
+     * its frbctionbl pbrt (i.e., fbctors of ten in its integer vblue)
+     * to bllow for the rescbling without chbnging its vblue.
      *
-     * <p>This method returns the same result as the two-argument
-     * versions of {@code setScale}, but saves the caller the trouble
-     * of specifying a rounding mode in cases where it is irrelevant.
+     * <p>This method returns the sbme result bs the two-brgument
+     * versions of {@code setScble}, but sbves the cbller the trouble
+     * of specifying b rounding mode in cbses where it is irrelevbnt.
      *
-     * <p>Note that since {@code BigDecimal} objects are immutable,
-     * calls of this method do <i>not</i> result in the original
-     * object being modified, contrary to the usual convention of
-     * having methods named <tt>set<i>X</i></tt> mutate field
-     * <i>{@code X}</i>.  Instead, {@code setScale} returns an
-     * object with the proper scale; the returned object may or may
-     * not be newly allocated.
+     * <p>Note thbt since {@code BigDecimbl} objects bre immutbble,
+     * cblls of this method do <i>not</i> result in the originbl
+     * object being modified, contrbry to the usubl convention of
+     * hbving methods nbmed <tt>set<i>X</i></tt> mutbte field
+     * <i>{@code X}</i>.  Instebd, {@code setScble} returns bn
+     * object with the proper scble; the returned object mby or mby
+     * not be newly bllocbted.
      *
-     * @param  newScale scale of the {@code BigDecimal} value to be returned.
-     * @return a {@code BigDecimal} whose scale is the specified value, and
-     *         whose unscaled value is determined by multiplying or dividing
-     *         this {@code BigDecimal}'s unscaled value by the appropriate
-     *         power of ten to maintain its overall value.
-     * @throws ArithmeticException if the specified scaling operation would
+     * @pbrbm  newScble scble of the {@code BigDecimbl} vblue to be returned.
+     * @return b {@code BigDecimbl} whose scble is the specified vblue, bnd
+     *         whose unscbled vblue is determined by multiplying or dividing
+     *         this {@code BigDecimbl}'s unscbled vblue by the bppropribte
+     *         power of ten to mbintbin its overbll vblue.
+     * @throws ArithmeticException if the specified scbling operbtion would
      *         require rounding.
-     * @see    #setScale(int, int)
-     * @see    #setScale(int, RoundingMode)
+     * @see    #setScble(int, int)
+     * @see    #setScble(int, RoundingMode)
      */
-    public BigDecimal setScale(int newScale) {
-        return setScale(newScale, ROUND_UNNECESSARY);
+    public BigDecimbl setScble(int newScble) {
+        return setScble(newScble, ROUND_UNNECESSARY);
     }
 
-    // Decimal Point Motion Operations
+    // Decimbl Point Motion Operbtions
 
     /**
-     * Returns a {@code BigDecimal} which is equivalent to this one
-     * with the decimal point moved {@code n} places to the left.  If
-     * {@code n} is non-negative, the call merely adds {@code n} to
-     * the scale.  If {@code n} is negative, the call is equivalent
-     * to {@code movePointRight(-n)}.  The {@code BigDecimal}
-     * returned by this call has value <tt>(this &times;
-     * 10<sup>-n</sup>)</tt> and scale {@code max(this.scale()+n,
+     * Returns b {@code BigDecimbl} which is equivblent to this one
+     * with the decimbl point moved {@code n} plbces to the left.  If
+     * {@code n} is non-negbtive, the cbll merely bdds {@code n} to
+     * the scble.  If {@code n} is negbtive, the cbll is equivblent
+     * to {@code movePointRight(-n)}.  The {@code BigDecimbl}
+     * returned by this cbll hbs vblue <tt>(this &times;
+     * 10<sup>-n</sup>)</tt> bnd scble {@code mbx(this.scble()+n,
      * 0)}.
      *
-     * @param  n number of places to move the decimal point to the left.
-     * @return a {@code BigDecimal} which is equivalent to this one with the
-     *         decimal point moved {@code n} places to the left.
-     * @throws ArithmeticException if scale overflows.
+     * @pbrbm  n number of plbces to move the decimbl point to the left.
+     * @return b {@code BigDecimbl} which is equivblent to this one with the
+     *         decimbl point moved {@code n} plbces to the left.
+     * @throws ArithmeticException if scble overflows.
      */
-    public BigDecimal movePointLeft(int n) {
-        // Cannot use movePointRight(-n) in case of n==Integer.MIN_VALUE
-        int newScale = checkScale((long)scale + n);
-        BigDecimal num = new BigDecimal(intVal, intCompact, newScale, 0);
-        return num.scale < 0 ? num.setScale(0, ROUND_UNNECESSARY) : num;
+    public BigDecimbl movePointLeft(int n) {
+        // Cbnnot use movePointRight(-n) in cbse of n==Integer.MIN_VALUE
+        int newScble = checkScble((long)scble + n);
+        BigDecimbl num = new BigDecimbl(intVbl, intCompbct, newScble, 0);
+        return num.scble < 0 ? num.setScble(0, ROUND_UNNECESSARY) : num;
     }
 
     /**
-     * Returns a {@code BigDecimal} which is equivalent to this one
-     * with the decimal point moved {@code n} places to the right.
-     * If {@code n} is non-negative, the call merely subtracts
-     * {@code n} from the scale.  If {@code n} is negative, the call
-     * is equivalent to {@code movePointLeft(-n)}.  The
-     * {@code BigDecimal} returned by this call has value <tt>(this
-     * &times; 10<sup>n</sup>)</tt> and scale {@code max(this.scale()-n,
+     * Returns b {@code BigDecimbl} which is equivblent to this one
+     * with the decimbl point moved {@code n} plbces to the right.
+     * If {@code n} is non-negbtive, the cbll merely subtrbcts
+     * {@code n} from the scble.  If {@code n} is negbtive, the cbll
+     * is equivblent to {@code movePointLeft(-n)}.  The
+     * {@code BigDecimbl} returned by this cbll hbs vblue <tt>(this
+     * &times; 10<sup>n</sup>)</tt> bnd scble {@code mbx(this.scble()-n,
      * 0)}.
      *
-     * @param  n number of places to move the decimal point to the right.
-     * @return a {@code BigDecimal} which is equivalent to this one
-     *         with the decimal point moved {@code n} places to the right.
-     * @throws ArithmeticException if scale overflows.
+     * @pbrbm  n number of plbces to move the decimbl point to the right.
+     * @return b {@code BigDecimbl} which is equivblent to this one
+     *         with the decimbl point moved {@code n} plbces to the right.
+     * @throws ArithmeticException if scble overflows.
      */
-    public BigDecimal movePointRight(int n) {
-        // Cannot use movePointLeft(-n) in case of n==Integer.MIN_VALUE
-        int newScale = checkScale((long)scale - n);
-        BigDecimal num = new BigDecimal(intVal, intCompact, newScale, 0);
-        return num.scale < 0 ? num.setScale(0, ROUND_UNNECESSARY) : num;
+    public BigDecimbl movePointRight(int n) {
+        // Cbnnot use movePointLeft(-n) in cbse of n==Integer.MIN_VALUE
+        int newScble = checkScble((long)scble - n);
+        BigDecimbl num = new BigDecimbl(intVbl, intCompbct, newScble, 0);
+        return num.scble < 0 ? num.setScble(0, ROUND_UNNECESSARY) : num;
     }
 
     /**
-     * Returns a BigDecimal whose numerical value is equal to
-     * ({@code this} * 10<sup>n</sup>).  The scale of
-     * the result is {@code (this.scale() - n)}.
+     * Returns b BigDecimbl whose numericbl vblue is equbl to
+     * ({@code this} * 10<sup>n</sup>).  The scble of
+     * the result is {@code (this.scble() - n)}.
      *
-     * @param n the exponent power of ten to scale by
-     * @return a BigDecimal whose numerical value is equal to
+     * @pbrbm n the exponent power of ten to scble by
+     * @return b BigDecimbl whose numericbl vblue is equbl to
      * ({@code this} * 10<sup>n</sup>)
-     * @throws ArithmeticException if the scale would be
-     *         outside the range of a 32-bit integer.
+     * @throws ArithmeticException if the scble would be
+     *         outside the rbnge of b 32-bit integer.
      *
      * @since 1.5
      */
-    public BigDecimal scaleByPowerOfTen(int n) {
-        return new BigDecimal(intVal, intCompact,
-                              checkScale((long)scale - n), precision);
+    public BigDecimbl scbleByPowerOfTen(int n) {
+        return new BigDecimbl(intVbl, intCompbct,
+                              checkScble((long)scble - n), precision);
     }
 
     /**
-     * Returns a {@code BigDecimal} which is numerically equal to
-     * this one but with any trailing zeros removed from the
-     * representation.  For example, stripping the trailing zeros from
-     * the {@code BigDecimal} value {@code 600.0}, which has
-     * [{@code BigInteger}, {@code scale}] components equals to
+     * Returns b {@code BigDecimbl} which is numericblly equbl to
+     * this one but with bny trbiling zeros removed from the
+     * representbtion.  For exbmple, stripping the trbiling zeros from
+     * the {@code BigDecimbl} vblue {@code 600.0}, which hbs
+     * [{@code BigInteger}, {@code scble}] components equbls to
      * [6000, 1], yields {@code 6E2} with [{@code BigInteger},
-     * {@code scale}] components equals to [6, -2].  If
-     * this BigDecimal is numerically equal to zero, then
-     * {@code BigDecimal.ZERO} is returned.
+     * {@code scble}] components equbls to [6, -2].  If
+     * this BigDecimbl is numericblly equbl to zero, then
+     * {@code BigDecimbl.ZERO} is returned.
      *
-     * @return a numerically equal {@code BigDecimal} with any
-     * trailing zeros removed.
+     * @return b numericblly equbl {@code BigDecimbl} with bny
+     * trbiling zeros removed.
      * @since 1.5
      */
-    public BigDecimal stripTrailingZeros() {
-        if (intCompact == 0 || (intVal != null && intVal.signum() == 0)) {
-            return BigDecimal.ZERO;
-        } else if (intCompact != INFLATED) {
-            return createAndStripZerosToMatchScale(intCompact, scale, Long.MIN_VALUE);
+    public BigDecimbl stripTrbilingZeros() {
+        if (intCompbct == 0 || (intVbl != null && intVbl.signum() == 0)) {
+            return BigDecimbl.ZERO;
+        } else if (intCompbct != INFLATED) {
+            return crebteAndStripZerosToMbtchScble(intCompbct, scble, Long.MIN_VALUE);
         } else {
-            return createAndStripZerosToMatchScale(intVal, scale, Long.MIN_VALUE);
+            return crebteAndStripZerosToMbtchScble(intVbl, scble, Long.MIN_VALUE);
         }
     }
 
-    // Comparison Operations
+    // Compbrison Operbtions
 
     /**
-     * Compares this {@code BigDecimal} with the specified
-     * {@code BigDecimal}.  Two {@code BigDecimal} objects that are
-     * equal in value but have a different scale (like 2.0 and 2.00)
-     * are considered equal by this method.  This method is provided
-     * in preference to individual methods for each of the six boolean
-     * comparison operators ({@literal <}, ==,
-     * {@literal >}, {@literal >=}, !=, {@literal <=}).  The
-     * suggested idiom for performing these comparisons is:
-     * {@code (x.compareTo(y)} &lt;<i>op</i>&gt; {@code 0)}, where
-     * &lt;<i>op</i>&gt; is one of the six comparison operators.
+     * Compbres this {@code BigDecimbl} with the specified
+     * {@code BigDecimbl}.  Two {@code BigDecimbl} objects thbt bre
+     * equbl in vblue but hbve b different scble (like 2.0 bnd 2.00)
+     * bre considered equbl by this method.  This method is provided
+     * in preference to individubl methods for ebch of the six boolebn
+     * compbrison operbtors ({@literbl <}, ==,
+     * {@literbl >}, {@literbl >=}, !=, {@literbl <=}).  The
+     * suggested idiom for performing these compbrisons is:
+     * {@code (x.compbreTo(y)} &lt;<i>op</i>&gt; {@code 0)}, where
+     * &lt;<i>op</i>&gt; is one of the six compbrison operbtors.
      *
-     * @param  val {@code BigDecimal} to which this {@code BigDecimal} is
-     *         to be compared.
-     * @return -1, 0, or 1 as this {@code BigDecimal} is numerically
-     *          less than, equal to, or greater than {@code val}.
+     * @pbrbm  vbl {@code BigDecimbl} to which this {@code BigDecimbl} is
+     *         to be compbred.
+     * @return -1, 0, or 1 bs this {@code BigDecimbl} is numericblly
+     *          less thbn, equbl to, or grebter thbn {@code vbl}.
      */
     @Override
-    public int compareTo(BigDecimal val) {
-        // Quick path for equal scale and non-inflated case.
-        if (scale == val.scale) {
-            long xs = intCompact;
-            long ys = val.intCompact;
+    public int compbreTo(BigDecimbl vbl) {
+        // Quick pbth for equbl scble bnd non-inflbted cbse.
+        if (scble == vbl.scble) {
+            long xs = intCompbct;
+            long ys = vbl.intCompbct;
             if (xs != INFLATED && ys != INFLATED)
                 return xs != ys ? ((xs > ys) ? 1 : -1) : 0;
         }
         int xsign = this.signum();
-        int ysign = val.signum();
+        int ysign = vbl.signum();
         if (xsign != ysign)
             return (xsign > ysign) ? 1 : -1;
         if (xsign == 0)
             return 0;
-        int cmp = compareMagnitude(val);
+        int cmp = compbreMbgnitude(vbl);
         return (xsign > 0) ? cmp : -cmp;
     }
 
     /**
-     * Version of compareTo that ignores sign.
+     * Version of compbreTo thbt ignores sign.
      */
-    private int compareMagnitude(BigDecimal val) {
-        // Match scales, avoid unnecessary inflation
-        long ys = val.intCompact;
-        long xs = this.intCompact;
+    privbte int compbreMbgnitude(BigDecimbl vbl) {
+        // Mbtch scbles, bvoid unnecessbry inflbtion
+        long ys = vbl.intCompbct;
+        long xs = this.intCompbct;
         if (xs == 0)
             return (ys == 0) ? 0 : -1;
         if (ys == 0)
             return 1;
 
-        long sdiff = (long)this.scale - val.scale;
+        long sdiff = (long)this.scble - vbl.scble;
         if (sdiff != 0) {
-            // Avoid matching scales if the (adjusted) exponents differ
-            long xae = (long)this.precision() - this.scale;   // [-1]
-            long yae = (long)val.precision() - val.scale;     // [-1]
-            if (xae < yae)
+            // Avoid mbtching scbles if the (bdjusted) exponents differ
+            long xbe = (long)this.precision() - this.scble;   // [-1]
+            long ybe = (long)vbl.precision() - vbl.scble;     // [-1]
+            if (xbe < ybe)
                 return -1;
-            if (xae > yae)
+            if (xbe > ybe)
                 return 1;
             if (sdiff < 0) {
-                // The cases sdiff <= Integer.MIN_VALUE intentionally fall through.
+                // The cbses sdiff <= Integer.MIN_VALUE intentionblly fbll through.
                 if ( sdiff > Integer.MIN_VALUE &&
                       (xs == INFLATED ||
                       (xs = longMultiplyPowerTen(xs, (int)-sdiff)) == INFLATED) &&
                      ys == INFLATED) {
                     BigInteger rb = bigMultiplyPowerTen((int)-sdiff);
-                    return rb.compareMagnitude(val.intVal);
+                    return rb.compbreMbgnitude(vbl.intVbl);
                 }
             } else { // sdiff > 0
-                // The cases sdiff > Integer.MAX_VALUE intentionally fall through.
+                // The cbses sdiff > Integer.MAX_VALUE intentionblly fbll through.
                 if ( sdiff <= Integer.MAX_VALUE &&
                       (ys == INFLATED ||
                       (ys = longMultiplyPowerTen(ys, (int)sdiff)) == INFLATED) &&
                      xs == INFLATED) {
-                    BigInteger rb = val.bigMultiplyPowerTen((int)sdiff);
-                    return this.intVal.compareMagnitude(rb);
+                    BigInteger rb = vbl.bigMultiplyPowerTen((int)sdiff);
+                    return this.intVbl.compbreMbgnitude(rb);
                 }
             }
         }
         if (xs != INFLATED)
-            return (ys != INFLATED) ? longCompareMagnitude(xs, ys) : -1;
+            return (ys != INFLATED) ? longCompbreMbgnitude(xs, ys) : -1;
         else if (ys != INFLATED)
             return 1;
         else
-            return this.intVal.compareMagnitude(val.intVal);
+            return this.intVbl.compbreMbgnitude(vbl.intVbl);
     }
 
     /**
-     * Compares this {@code BigDecimal} with the specified
-     * {@code Object} for equality.  Unlike {@link
-     * #compareTo(BigDecimal) compareTo}, this method considers two
-     * {@code BigDecimal} objects equal only if they are equal in
-     * value and scale (thus 2.0 is not equal to 2.00 when compared by
+     * Compbres this {@code BigDecimbl} with the specified
+     * {@code Object} for equblity.  Unlike {@link
+     * #compbreTo(BigDecimbl) compbreTo}, this method considers two
+     * {@code BigDecimbl} objects equbl only if they bre equbl in
+     * vblue bnd scble (thus 2.0 is not equbl to 2.00 when compbred by
      * this method).
      *
-     * @param  x {@code Object} to which this {@code BigDecimal} is
-     *         to be compared.
-     * @return {@code true} if and only if the specified {@code Object} is a
-     *         {@code BigDecimal} whose value and scale are equal to this
-     *         {@code BigDecimal}'s.
-     * @see    #compareTo(java.math.BigDecimal)
-     * @see    #hashCode
+     * @pbrbm  x {@code Object} to which this {@code BigDecimbl} is
+     *         to be compbred.
+     * @return {@code true} if bnd only if the specified {@code Object} is b
+     *         {@code BigDecimbl} whose vblue bnd scble bre equbl to this
+     *         {@code BigDecimbl}'s.
+     * @see    #compbreTo(jbvb.mbth.BigDecimbl)
+     * @see    #hbshCode
      */
     @Override
-    public boolean equals(Object x) {
-        if (!(x instanceof BigDecimal))
-            return false;
-        BigDecimal xDec = (BigDecimal) x;
+    public boolebn equbls(Object x) {
+        if (!(x instbnceof BigDecimbl))
+            return fblse;
+        BigDecimbl xDec = (BigDecimbl) x;
         if (x == this)
             return true;
-        if (scale != xDec.scale)
-            return false;
-        long s = this.intCompact;
-        long xs = xDec.intCompact;
+        if (scble != xDec.scble)
+            return fblse;
+        long s = this.intCompbct;
+        long xs = xDec.intCompbct;
         if (s != INFLATED) {
             if (xs == INFLATED)
-                xs = compactValFor(xDec.intVal);
+                xs = compbctVblFor(xDec.intVbl);
             return xs == s;
         } else if (xs != INFLATED)
-            return xs == compactValFor(this.intVal);
+            return xs == compbctVblFor(this.intVbl);
 
-        return this.inflated().equals(xDec.inflated());
+        return this.inflbted().equbls(xDec.inflbted());
     }
 
     /**
-     * Returns the minimum of this {@code BigDecimal} and
-     * {@code val}.
+     * Returns the minimum of this {@code BigDecimbl} bnd
+     * {@code vbl}.
      *
-     * @param  val value with which the minimum is to be computed.
-     * @return the {@code BigDecimal} whose value is the lesser of this
-     *         {@code BigDecimal} and {@code val}.  If they are equal,
-     *         as defined by the {@link #compareTo(BigDecimal) compareTo}
+     * @pbrbm  vbl vblue with which the minimum is to be computed.
+     * @return the {@code BigDecimbl} whose vblue is the lesser of this
+     *         {@code BigDecimbl} bnd {@code vbl}.  If they bre equbl,
+     *         bs defined by the {@link #compbreTo(BigDecimbl) compbreTo}
      *         method, {@code this} is returned.
-     * @see    #compareTo(java.math.BigDecimal)
+     * @see    #compbreTo(jbvb.mbth.BigDecimbl)
      */
-    public BigDecimal min(BigDecimal val) {
-        return (compareTo(val) <= 0 ? this : val);
+    public BigDecimbl min(BigDecimbl vbl) {
+        return (compbreTo(vbl) <= 0 ? this : vbl);
     }
 
     /**
-     * Returns the maximum of this {@code BigDecimal} and {@code val}.
+     * Returns the mbximum of this {@code BigDecimbl} bnd {@code vbl}.
      *
-     * @param  val value with which the maximum is to be computed.
-     * @return the {@code BigDecimal} whose value is the greater of this
-     *         {@code BigDecimal} and {@code val}.  If they are equal,
-     *         as defined by the {@link #compareTo(BigDecimal) compareTo}
+     * @pbrbm  vbl vblue with which the mbximum is to be computed.
+     * @return the {@code BigDecimbl} whose vblue is the grebter of this
+     *         {@code BigDecimbl} bnd {@code vbl}.  If they bre equbl,
+     *         bs defined by the {@link #compbreTo(BigDecimbl) compbreTo}
      *         method, {@code this} is returned.
-     * @see    #compareTo(java.math.BigDecimal)
+     * @see    #compbreTo(jbvb.mbth.BigDecimbl)
      */
-    public BigDecimal max(BigDecimal val) {
-        return (compareTo(val) >= 0 ? this : val);
+    public BigDecimbl mbx(BigDecimbl vbl) {
+        return (compbreTo(vbl) >= 0 ? this : vbl);
     }
 
-    // Hash Function
+    // Hbsh Function
 
     /**
-     * Returns the hash code for this {@code BigDecimal}.  Note that
-     * two {@code BigDecimal} objects that are numerically equal but
-     * differ in scale (like 2.0 and 2.00) will generally <i>not</i>
-     * have the same hash code.
+     * Returns the hbsh code for this {@code BigDecimbl}.  Note thbt
+     * two {@code BigDecimbl} objects thbt bre numericblly equbl but
+     * differ in scble (like 2.0 bnd 2.00) will generblly <i>not</i>
+     * hbve the sbme hbsh code.
      *
-     * @return hash code for this {@code BigDecimal}.
-     * @see #equals(Object)
+     * @return hbsh code for this {@code BigDecimbl}.
+     * @see #equbls(Object)
      */
     @Override
-    public int hashCode() {
-        if (intCompact != INFLATED) {
-            long val2 = (intCompact < 0)? -intCompact : intCompact;
-            int temp = (int)( ((int)(val2 >>> 32)) * 31  +
-                              (val2 & LONG_MASK));
-            return 31*((intCompact < 0) ?-temp:temp) + scale;
+    public int hbshCode() {
+        if (intCompbct != INFLATED) {
+            long vbl2 = (intCompbct < 0)? -intCompbct : intCompbct;
+            int temp = (int)( ((int)(vbl2 >>> 32)) * 31  +
+                              (vbl2 & LONG_MASK));
+            return 31*((intCompbct < 0) ?-temp:temp) + scble;
         } else
-            return 31*intVal.hashCode() + scale;
+            return 31*intVbl.hbshCode() + scble;
     }
 
-    // Format Converters
+    // Formbt Converters
 
     /**
-     * Returns the string representation of this {@code BigDecimal},
-     * using scientific notation if an exponent is needed.
+     * Returns the string representbtion of this {@code BigDecimbl},
+     * using scientific notbtion if bn exponent is needed.
      *
-     * <p>A standard canonical string form of the {@code BigDecimal}
-     * is created as though by the following steps: first, the
-     * absolute value of the unscaled value of the {@code BigDecimal}
-     * is converted to a string in base ten using the characters
-     * {@code '0'} through {@code '9'} with no leading zeros (except
-     * if its value is zero, in which case a single {@code '0'}
-     * character is used).
+     * <p>A stbndbrd cbnonicbl string form of the {@code BigDecimbl}
+     * is crebted bs though by the following steps: first, the
+     * bbsolute vblue of the unscbled vblue of the {@code BigDecimbl}
+     * is converted to b string in bbse ten using the chbrbcters
+     * {@code '0'} through {@code '9'} with no lebding zeros (except
+     * if its vblue is zero, in which cbse b single {@code '0'}
+     * chbrbcter is used).
      *
-     * <p>Next, an <i>adjusted exponent</i> is calculated; this is the
-     * negated scale, plus the number of characters in the converted
-     * unscaled value, less one.  That is,
-     * {@code -scale+(ulength-1)}, where {@code ulength} is the
-     * length of the absolute value of the unscaled value in decimal
+     * <p>Next, bn <i>bdjusted exponent</i> is cblculbted; this is the
+     * negbted scble, plus the number of chbrbcters in the converted
+     * unscbled vblue, less one.  Thbt is,
+     * {@code -scble+(ulength-1)}, where {@code ulength} is the
+     * length of the bbsolute vblue of the unscbled vblue in decimbl
      * digits (its <i>precision</i>).
      *
-     * <p>If the scale is greater than or equal to zero and the
-     * adjusted exponent is greater than or equal to {@code -6}, the
-     * number will be converted to a character form without using
-     * exponential notation.  In this case, if the scale is zero then
-     * no decimal point is added and if the scale is positive a
-     * decimal point will be inserted with the scale specifying the
-     * number of characters to the right of the decimal point.
-     * {@code '0'} characters are added to the left of the converted
-     * unscaled value as necessary.  If no character precedes the
-     * decimal point after this insertion then a conventional
-     * {@code '0'} character is prefixed.
+     * <p>If the scble is grebter thbn or equbl to zero bnd the
+     * bdjusted exponent is grebter thbn or equbl to {@code -6}, the
+     * number will be converted to b chbrbcter form without using
+     * exponentibl notbtion.  In this cbse, if the scble is zero then
+     * no decimbl point is bdded bnd if the scble is positive b
+     * decimbl point will be inserted with the scble specifying the
+     * number of chbrbcters to the right of the decimbl point.
+     * {@code '0'} chbrbcters bre bdded to the left of the converted
+     * unscbled vblue bs necessbry.  If no chbrbcter precedes the
+     * decimbl point bfter this insertion then b conventionbl
+     * {@code '0'} chbrbcter is prefixed.
      *
-     * <p>Otherwise (that is, if the scale is negative, or the
-     * adjusted exponent is less than {@code -6}), the number will be
-     * converted to a character form using exponential notation.  In
-     * this case, if the converted {@code BigInteger} has more than
-     * one digit a decimal point is inserted after the first digit.
-     * An exponent in character form is then suffixed to the converted
-     * unscaled value (perhaps with inserted decimal point); this
-     * comprises the letter {@code 'E'} followed immediately by the
-     * adjusted exponent converted to a character form.  The latter is
-     * in base ten, using the characters {@code '0'} through
-     * {@code '9'} with no leading zeros, and is always prefixed by a
-     * sign character {@code '-'} (<tt>'&#92;u002D'</tt>) if the
-     * adjusted exponent is negative, {@code '+'}
+     * <p>Otherwise (thbt is, if the scble is negbtive, or the
+     * bdjusted exponent is less thbn {@code -6}), the number will be
+     * converted to b chbrbcter form using exponentibl notbtion.  In
+     * this cbse, if the converted {@code BigInteger} hbs more thbn
+     * one digit b decimbl point is inserted bfter the first digit.
+     * An exponent in chbrbcter form is then suffixed to the converted
+     * unscbled vblue (perhbps with inserted decimbl point); this
+     * comprises the letter {@code 'E'} followed immedibtely by the
+     * bdjusted exponent converted to b chbrbcter form.  The lbtter is
+     * in bbse ten, using the chbrbcters {@code '0'} through
+     * {@code '9'} with no lebding zeros, bnd is blwbys prefixed by b
+     * sign chbrbcter {@code '-'} (<tt>'&#92;u002D'</tt>) if the
+     * bdjusted exponent is negbtive, {@code '+'}
      * (<tt>'&#92;u002B'</tt>) otherwise).
      *
-     * <p>Finally, the entire string is prefixed by a minus sign
-     * character {@code '-'} (<tt>'&#92;u002D'</tt>) if the unscaled
-     * value is less than zero.  No sign character is prefixed if the
-     * unscaled value is zero or positive.
+     * <p>Finblly, the entire string is prefixed by b minus sign
+     * chbrbcter {@code '-'} (<tt>'&#92;u002D'</tt>) if the unscbled
+     * vblue is less thbn zero.  No sign chbrbcter is prefixed if the
+     * unscbled vblue is zero or positive.
      *
-     * <p><b>Examples:</b>
-     * <p>For each representation [<i>unscaled value</i>, <i>scale</i>]
+     * <p><b>Exbmples:</b>
+     * <p>For ebch representbtion [<i>unscbled vblue</i>, <i>scble</i>]
      * on the left, the resulting string is shown on the right.
      * <pre>
      * [123,0]      "123"
@@ -2846,448 +2846,448 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      * <b>Notes:</b>
      * <ol>
      *
-     * <li>There is a one-to-one mapping between the distinguishable
-     * {@code BigDecimal} values and the result of this conversion.
-     * That is, every distinguishable {@code BigDecimal} value
-     * (unscaled value and scale) has a unique string representation
-     * as a result of using {@code toString}.  If that string
-     * representation is converted back to a {@code BigDecimal} using
-     * the {@link #BigDecimal(String)} constructor, then the original
-     * value will be recovered.
+     * <li>There is b one-to-one mbpping between the distinguishbble
+     * {@code BigDecimbl} vblues bnd the result of this conversion.
+     * Thbt is, every distinguishbble {@code BigDecimbl} vblue
+     * (unscbled vblue bnd scble) hbs b unique string representbtion
+     * bs b result of using {@code toString}.  If thbt string
+     * representbtion is converted bbck to b {@code BigDecimbl} using
+     * the {@link #BigDecimbl(String)} constructor, then the originbl
+     * vblue will be recovered.
      *
-     * <li>The string produced for a given number is always the same;
-     * it is not affected by locale.  This means that it can be used
-     * as a canonical string representation for exchanging decimal
-     * data, or as a key for a Hashtable, etc.  Locale-sensitive
-     * number formatting and parsing is handled by the {@link
-     * java.text.NumberFormat} class and its subclasses.
+     * <li>The string produced for b given number is blwbys the sbme;
+     * it is not bffected by locble.  This mebns thbt it cbn be used
+     * bs b cbnonicbl string representbtion for exchbnging decimbl
+     * dbtb, or bs b key for b Hbshtbble, etc.  Locble-sensitive
+     * number formbtting bnd pbrsing is hbndled by the {@link
+     * jbvb.text.NumberFormbt} clbss bnd its subclbsses.
      *
-     * <li>The {@link #toEngineeringString} method may be used for
-     * presenting numbers with exponents in engineering notation, and the
-     * {@link #setScale(int,RoundingMode) setScale} method may be used for
-     * rounding a {@code BigDecimal} so it has a known number of digits after
-     * the decimal point.
+     * <li>The {@link #toEngineeringString} method mby be used for
+     * presenting numbers with exponents in engineering notbtion, bnd the
+     * {@link #setScble(int,RoundingMode) setScble} method mby be used for
+     * rounding b {@code BigDecimbl} so it hbs b known number of digits bfter
+     * the decimbl point.
      *
-     * <li>The digit-to-character mapping provided by
-     * {@code Character.forDigit} is used.
+     * <li>The digit-to-chbrbcter mbpping provided by
+     * {@code Chbrbcter.forDigit} is used.
      *
      * </ol>
      *
-     * @return string representation of this {@code BigDecimal}.
-     * @see    Character#forDigit
-     * @see    #BigDecimal(java.lang.String)
+     * @return string representbtion of this {@code BigDecimbl}.
+     * @see    Chbrbcter#forDigit
+     * @see    #BigDecimbl(jbvb.lbng.String)
      */
     @Override
     public String toString() {
-        String sc = stringCache;
+        String sc = stringCbche;
         if (sc == null) {
-            stringCache = sc = layoutChars(true);
+            stringCbche = sc = lbyoutChbrs(true);
         }
         return sc;
     }
 
     /**
-     * Returns a string representation of this {@code BigDecimal},
-     * using engineering notation if an exponent is needed.
+     * Returns b string representbtion of this {@code BigDecimbl},
+     * using engineering notbtion if bn exponent is needed.
      *
-     * <p>Returns a string that represents the {@code BigDecimal} as
-     * described in the {@link #toString()} method, except that if
-     * exponential notation is used, the power of ten is adjusted to
-     * be a multiple of three (engineering notation) such that the
-     * integer part of nonzero values will be in the range 1 through
-     * 999.  If exponential notation is used for zero values, a
-     * decimal point and one or two fractional zero digits are used so
-     * that the scale of the zero value is preserved.  Note that
+     * <p>Returns b string thbt represents the {@code BigDecimbl} bs
+     * described in the {@link #toString()} method, except thbt if
+     * exponentibl notbtion is used, the power of ten is bdjusted to
+     * be b multiple of three (engineering notbtion) such thbt the
+     * integer pbrt of nonzero vblues will be in the rbnge 1 through
+     * 999.  If exponentibl notbtion is used for zero vblues, b
+     * decimbl point bnd one or two frbctionbl zero digits bre used so
+     * thbt the scble of the zero vblue is preserved.  Note thbt
      * unlike the output of {@link #toString()}, the output of this
-     * method is <em>not</em> guaranteed to recover the same [integer,
-     * scale] pair of this {@code BigDecimal} if the output string is
-     * converting back to a {@code BigDecimal} using the {@linkplain
-     * #BigDecimal(String) string constructor}.  The result of this method meets
-     * the weaker constraint of always producing a numerically equal
-     * result from applying the string constructor to the method's output.
+     * method is <em>not</em> gubrbnteed to recover the sbme [integer,
+     * scble] pbir of this {@code BigDecimbl} if the output string is
+     * converting bbck to b {@code BigDecimbl} using the {@linkplbin
+     * #BigDecimbl(String) string constructor}.  The result of this method meets
+     * the webker constrbint of blwbys producing b numericblly equbl
+     * result from bpplying the string constructor to the method's output.
      *
-     * @return string representation of this {@code BigDecimal}, using
-     *         engineering notation if an exponent is needed.
+     * @return string representbtion of this {@code BigDecimbl}, using
+     *         engineering notbtion if bn exponent is needed.
      * @since  1.5
      */
     public String toEngineeringString() {
-        return layoutChars(false);
+        return lbyoutChbrs(fblse);
     }
 
     /**
-     * Returns a string representation of this {@code BigDecimal}
-     * without an exponent field.  For values with a positive scale,
-     * the number of digits to the right of the decimal point is used
-     * to indicate scale.  For values with a zero or negative scale,
-     * the resulting string is generated as if the value were
-     * converted to a numerically equal value with zero scale and as
-     * if all the trailing zeros of the zero scale value were present
+     * Returns b string representbtion of this {@code BigDecimbl}
+     * without bn exponent field.  For vblues with b positive scble,
+     * the number of digits to the right of the decimbl point is used
+     * to indicbte scble.  For vblues with b zero or negbtive scble,
+     * the resulting string is generbted bs if the vblue were
+     * converted to b numericblly equbl vblue with zero scble bnd bs
+     * if bll the trbiling zeros of the zero scble vblue were present
      * in the result.
      *
-     * The entire string is prefixed by a minus sign character '-'
-     * (<tt>'&#92;u002D'</tt>) if the unscaled value is less than
-     * zero. No sign character is prefixed if the unscaled value is
+     * The entire string is prefixed by b minus sign chbrbcter '-'
+     * (<tt>'&#92;u002D'</tt>) if the unscbled vblue is less thbn
+     * zero. No sign chbrbcter is prefixed if the unscbled vblue is
      * zero or positive.
      *
-     * Note that if the result of this method is passed to the
-     * {@linkplain #BigDecimal(String) string constructor}, only the
-     * numerical value of this {@code BigDecimal} will necessarily be
-     * recovered; the representation of the new {@code BigDecimal}
-     * may have a different scale.  In particular, if this
-     * {@code BigDecimal} has a negative scale, the string resulting
-     * from this method will have a scale of zero when processed by
+     * Note thbt if the result of this method is pbssed to the
+     * {@linkplbin #BigDecimbl(String) string constructor}, only the
+     * numericbl vblue of this {@code BigDecimbl} will necessbrily be
+     * recovered; the representbtion of the new {@code BigDecimbl}
+     * mby hbve b different scble.  In pbrticulbr, if this
+     * {@code BigDecimbl} hbs b negbtive scble, the string resulting
+     * from this method will hbve b scble of zero when processed by
      * the string constructor.
      *
-     * (This method behaves analogously to the {@code toString}
-     * method in 1.4 and earlier releases.)
+     * (This method behbves bnblogously to the {@code toString}
+     * method in 1.4 bnd ebrlier relebses.)
      *
-     * @return a string representation of this {@code BigDecimal}
-     * without an exponent field.
+     * @return b string representbtion of this {@code BigDecimbl}
+     * without bn exponent field.
      * @since 1.5
      * @see #toString()
      * @see #toEngineeringString()
      */
-    public String toPlainString() {
-        if(scale==0) {
-            if(intCompact!=INFLATED) {
-                return Long.toString(intCompact);
+    public String toPlbinString() {
+        if(scble==0) {
+            if(intCompbct!=INFLATED) {
+                return Long.toString(intCompbct);
             } else {
-                return intVal.toString();
+                return intVbl.toString();
             }
         }
-        if(this.scale<0) { // No decimal point
+        if(this.scble<0) { // No decimbl point
             if(signum()==0) {
                 return "0";
             }
-            int trailingZeros = checkScaleNonZero((-(long)scale));
+            int trbilingZeros = checkScbleNonZero((-(long)scble));
             StringBuilder buf;
-            if(intCompact!=INFLATED) {
-                buf = new StringBuilder(20+trailingZeros);
-                buf.append(intCompact);
+            if(intCompbct!=INFLATED) {
+                buf = new StringBuilder(20+trbilingZeros);
+                buf.bppend(intCompbct);
             } else {
-                String str = intVal.toString();
-                buf = new StringBuilder(str.length()+trailingZeros);
-                buf.append(str);
+                String str = intVbl.toString();
+                buf = new StringBuilder(str.length()+trbilingZeros);
+                buf.bppend(str);
             }
-            for (int i = 0; i < trailingZeros; i++) {
-                buf.append('0');
+            for (int i = 0; i < trbilingZeros; i++) {
+                buf.bppend('0');
             }
             return buf.toString();
         }
         String str ;
-        if(intCompact!=INFLATED) {
-            str = Long.toString(Math.abs(intCompact));
+        if(intCompbct!=INFLATED) {
+            str = Long.toString(Mbth.bbs(intCompbct));
         } else {
-            str = intVal.abs().toString();
+            str = intVbl.bbs().toString();
         }
-        return getValueString(signum(), str, scale);
+        return getVblueString(signum(), str, scble);
     }
 
-    /* Returns a digit.digit string */
-    private String getValueString(int signum, String intString, int scale) {
-        /* Insert decimal point */
+    /* Returns b digit.digit string */
+    privbte String getVblueString(int signum, String intString, int scble) {
+        /* Insert decimbl point */
         StringBuilder buf;
-        int insertionPoint = intString.length() - scale;
-        if (insertionPoint == 0) {  /* Point goes right before intVal */
+        int insertionPoint = intString.length() - scble;
+        if (insertionPoint == 0) {  /* Point goes right before intVbl */
             return (signum<0 ? "-0." : "0.") + intString;
-        } else if (insertionPoint > 0) { /* Point goes inside intVal */
+        } else if (insertionPoint > 0) { /* Point goes inside intVbl */
             buf = new StringBuilder(intString);
             buf.insert(insertionPoint, '.');
             if (signum < 0)
                 buf.insert(0, '-');
-        } else { /* We must insert zeros between point and intVal */
+        } else { /* We must insert zeros between point bnd intVbl */
             buf = new StringBuilder(3-insertionPoint + intString.length());
-            buf.append(signum<0 ? "-0." : "0.");
+            buf.bppend(signum<0 ? "-0." : "0.");
             for (int i=0; i<-insertionPoint; i++) {
-                buf.append('0');
+                buf.bppend('0');
             }
-            buf.append(intString);
+            buf.bppend(intString);
         }
         return buf.toString();
     }
 
     /**
-     * Converts this {@code BigDecimal} to a {@code BigInteger}.
-     * This conversion is analogous to the
-     * <i>narrowing primitive conversion</i> from {@code double} to
-     * {@code long} as defined in section 5.1.3 of
-     * <cite>The Java&trade; Language Specification</cite>:
-     * any fractional part of this
-     * {@code BigDecimal} will be discarded.  Note that this
-     * conversion can lose information about the precision of the
-     * {@code BigDecimal} value.
+     * Converts this {@code BigDecimbl} to b {@code BigInteger}.
+     * This conversion is bnblogous to the
+     * <i>nbrrowing primitive conversion</i> from {@code double} to
+     * {@code long} bs defined in section 5.1.3 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>:
+     * bny frbctionbl pbrt of this
+     * {@code BigDecimbl} will be discbrded.  Note thbt this
+     * conversion cbn lose informbtion bbout the precision of the
+     * {@code BigDecimbl} vblue.
      * <p>
-     * To have an exception thrown if the conversion is inexact (in
-     * other words if a nonzero fractional part is discarded), use the
-     * {@link #toBigIntegerExact()} method.
+     * To hbve bn exception thrown if the conversion is inexbct (in
+     * other words if b nonzero frbctionbl pbrt is discbrded), use the
+     * {@link #toBigIntegerExbct()} method.
      *
-     * @return this {@code BigDecimal} converted to a {@code BigInteger}.
+     * @return this {@code BigDecimbl} converted to b {@code BigInteger}.
      */
     public BigInteger toBigInteger() {
-        // force to an integer, quietly
-        return this.setScale(0, ROUND_DOWN).inflated();
+        // force to bn integer, quietly
+        return this.setScble(0, ROUND_DOWN).inflbted();
     }
 
     /**
-     * Converts this {@code BigDecimal} to a {@code BigInteger},
-     * checking for lost information.  An exception is thrown if this
-     * {@code BigDecimal} has a nonzero fractional part.
+     * Converts this {@code BigDecimbl} to b {@code BigInteger},
+     * checking for lost informbtion.  An exception is thrown if this
+     * {@code BigDecimbl} hbs b nonzero frbctionbl pbrt.
      *
-     * @return this {@code BigDecimal} converted to a {@code BigInteger}.
-     * @throws ArithmeticException if {@code this} has a nonzero
-     *         fractional part.
+     * @return this {@code BigDecimbl} converted to b {@code BigInteger}.
+     * @throws ArithmeticException if {@code this} hbs b nonzero
+     *         frbctionbl pbrt.
      * @since  1.5
      */
-    public BigInteger toBigIntegerExact() {
-        // round to an integer, with Exception if decimal part non-0
-        return this.setScale(0, ROUND_UNNECESSARY).inflated();
+    public BigInteger toBigIntegerExbct() {
+        // round to bn integer, with Exception if decimbl pbrt non-0
+        return this.setScble(0, ROUND_UNNECESSARY).inflbted();
     }
 
     /**
-     * Converts this {@code BigDecimal} to a {@code long}.
-     * This conversion is analogous to the
-     * <i>narrowing primitive conversion</i> from {@code double} to
-     * {@code short} as defined in section 5.1.3 of
-     * <cite>The Java&trade; Language Specification</cite>:
-     * any fractional part of this
-     * {@code BigDecimal} will be discarded, and if the resulting
-     * "{@code BigInteger}" is too big to fit in a
-     * {@code long}, only the low-order 64 bits are returned.
-     * Note that this conversion can lose information about the
-     * overall magnitude and precision of this {@code BigDecimal} value as well
-     * as return a result with the opposite sign.
+     * Converts this {@code BigDecimbl} to b {@code long}.
+     * This conversion is bnblogous to the
+     * <i>nbrrowing primitive conversion</i> from {@code double} to
+     * {@code short} bs defined in section 5.1.3 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>:
+     * bny frbctionbl pbrt of this
+     * {@code BigDecimbl} will be discbrded, bnd if the resulting
+     * "{@code BigInteger}" is too big to fit in b
+     * {@code long}, only the low-order 64 bits bre returned.
+     * Note thbt this conversion cbn lose informbtion bbout the
+     * overbll mbgnitude bnd precision of this {@code BigDecimbl} vblue bs well
+     * bs return b result with the opposite sign.
      *
-     * @return this {@code BigDecimal} converted to a {@code long}.
+     * @return this {@code BigDecimbl} converted to b {@code long}.
      */
     @Override
-    public long longValue(){
-        return (intCompact != INFLATED && scale == 0) ?
-            intCompact:
-            toBigInteger().longValue();
+    public long longVblue(){
+        return (intCompbct != INFLATED && scble == 0) ?
+            intCompbct:
+            toBigInteger().longVblue();
     }
 
     /**
-     * Converts this {@code BigDecimal} to a {@code long}, checking
-     * for lost information.  If this {@code BigDecimal} has a
-     * nonzero fractional part or is out of the possible range for a
-     * {@code long} result then an {@code ArithmeticException} is
+     * Converts this {@code BigDecimbl} to b {@code long}, checking
+     * for lost informbtion.  If this {@code BigDecimbl} hbs b
+     * nonzero frbctionbl pbrt or is out of the possible rbnge for b
+     * {@code long} result then bn {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code BigDecimal} converted to a {@code long}.
-     * @throws ArithmeticException if {@code this} has a nonzero
-     *         fractional part, or will not fit in a {@code long}.
+     * @return this {@code BigDecimbl} converted to b {@code long}.
+     * @throws ArithmeticException if {@code this} hbs b nonzero
+     *         frbctionbl pbrt, or will not fit in b {@code long}.
      * @since  1.5
      */
-    public long longValueExact() {
-        if (intCompact != INFLATED && scale == 0)
-            return intCompact;
-        // If more than 19 digits in integer part it cannot possibly fit
-        if ((precision() - scale) > 19) // [OK for negative scale too]
-            throw new java.lang.ArithmeticException("Overflow");
-        // Fastpath zero and < 1.0 numbers (the latter can be very slow
-        // to round if very small)
+    public long longVblueExbct() {
+        if (intCompbct != INFLATED && scble == 0)
+            return intCompbct;
+        // If more thbn 19 digits in integer pbrt it cbnnot possibly fit
+        if ((precision() - scble) > 19) // [OK for negbtive scble too]
+            throw new jbvb.lbng.ArithmeticException("Overflow");
+        // Fbstpbth zero bnd < 1.0 numbers (the lbtter cbn be very slow
+        // to round if very smbll)
         if (this.signum() == 0)
             return 0;
-        if ((this.precision() - this.scale) <= 0)
-            throw new ArithmeticException("Rounding necessary");
-        // round to an integer, with Exception if decimal part non-0
-        BigDecimal num = this.setScale(0, ROUND_UNNECESSARY);
-        if (num.precision() >= 19) // need to check carefully
+        if ((this.precision() - this.scble) <= 0)
+            throw new ArithmeticException("Rounding necessbry");
+        // round to bn integer, with Exception if decimbl pbrt non-0
+        BigDecimbl num = this.setScble(0, ROUND_UNNECESSARY);
+        if (num.precision() >= 19) // need to check cbrefully
             LongOverflow.check(num);
-        return num.inflated().longValue();
+        return num.inflbted().longVblue();
     }
 
-    private static class LongOverflow {
-        /** BigInteger equal to Long.MIN_VALUE. */
-        private static final BigInteger LONGMIN = BigInteger.valueOf(Long.MIN_VALUE);
+    privbte stbtic clbss LongOverflow {
+        /** BigInteger equbl to Long.MIN_VALUE. */
+        privbte stbtic finbl BigInteger LONGMIN = BigInteger.vblueOf(Long.MIN_VALUE);
 
-        /** BigInteger equal to Long.MAX_VALUE. */
-        private static final BigInteger LONGMAX = BigInteger.valueOf(Long.MAX_VALUE);
+        /** BigInteger equbl to Long.MAX_VALUE. */
+        privbte stbtic finbl BigInteger LONGMAX = BigInteger.vblueOf(Long.MAX_VALUE);
 
-        public static void check(BigDecimal num) {
-            BigInteger intVal = num.inflated();
-            if (intVal.compareTo(LONGMIN) < 0 ||
-                intVal.compareTo(LONGMAX) > 0)
-                throw new java.lang.ArithmeticException("Overflow");
+        public stbtic void check(BigDecimbl num) {
+            BigInteger intVbl = num.inflbted();
+            if (intVbl.compbreTo(LONGMIN) < 0 ||
+                intVbl.compbreTo(LONGMAX) > 0)
+                throw new jbvb.lbng.ArithmeticException("Overflow");
         }
     }
 
     /**
-     * Converts this {@code BigDecimal} to an {@code int}.
-     * This conversion is analogous to the
-     * <i>narrowing primitive conversion</i> from {@code double} to
-     * {@code short} as defined in section 5.1.3 of
-     * <cite>The Java&trade; Language Specification</cite>:
-     * any fractional part of this
-     * {@code BigDecimal} will be discarded, and if the resulting
-     * "{@code BigInteger}" is too big to fit in an
-     * {@code int}, only the low-order 32 bits are returned.
-     * Note that this conversion can lose information about the
-     * overall magnitude and precision of this {@code BigDecimal}
-     * value as well as return a result with the opposite sign.
+     * Converts this {@code BigDecimbl} to bn {@code int}.
+     * This conversion is bnblogous to the
+     * <i>nbrrowing primitive conversion</i> from {@code double} to
+     * {@code short} bs defined in section 5.1.3 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>:
+     * bny frbctionbl pbrt of this
+     * {@code BigDecimbl} will be discbrded, bnd if the resulting
+     * "{@code BigInteger}" is too big to fit in bn
+     * {@code int}, only the low-order 32 bits bre returned.
+     * Note thbt this conversion cbn lose informbtion bbout the
+     * overbll mbgnitude bnd precision of this {@code BigDecimbl}
+     * vblue bs well bs return b result with the opposite sign.
      *
-     * @return this {@code BigDecimal} converted to an {@code int}.
+     * @return this {@code BigDecimbl} converted to bn {@code int}.
      */
     @Override
-    public int intValue() {
-        return  (intCompact != INFLATED && scale == 0) ?
-            (int)intCompact :
-            toBigInteger().intValue();
+    public int intVblue() {
+        return  (intCompbct != INFLATED && scble == 0) ?
+            (int)intCompbct :
+            toBigInteger().intVblue();
     }
 
     /**
-     * Converts this {@code BigDecimal} to an {@code int}, checking
-     * for lost information.  If this {@code BigDecimal} has a
-     * nonzero fractional part or is out of the possible range for an
-     * {@code int} result then an {@code ArithmeticException} is
+     * Converts this {@code BigDecimbl} to bn {@code int}, checking
+     * for lost informbtion.  If this {@code BigDecimbl} hbs b
+     * nonzero frbctionbl pbrt or is out of the possible rbnge for bn
+     * {@code int} result then bn {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code BigDecimal} converted to an {@code int}.
-     * @throws ArithmeticException if {@code this} has a nonzero
-     *         fractional part, or will not fit in an {@code int}.
+     * @return this {@code BigDecimbl} converted to bn {@code int}.
+     * @throws ArithmeticException if {@code this} hbs b nonzero
+     *         frbctionbl pbrt, or will not fit in bn {@code int}.
      * @since  1.5
      */
-    public int intValueExact() {
+    public int intVblueExbct() {
        long num;
-       num = this.longValueExact();     // will check decimal part
+       num = this.longVblueExbct();     // will check decimbl pbrt
        if ((int)num != num)
-           throw new java.lang.ArithmeticException("Overflow");
+           throw new jbvb.lbng.ArithmeticException("Overflow");
        return (int)num;
     }
 
     /**
-     * Converts this {@code BigDecimal} to a {@code short}, checking
-     * for lost information.  If this {@code BigDecimal} has a
-     * nonzero fractional part or is out of the possible range for a
-     * {@code short} result then an {@code ArithmeticException} is
+     * Converts this {@code BigDecimbl} to b {@code short}, checking
+     * for lost informbtion.  If this {@code BigDecimbl} hbs b
+     * nonzero frbctionbl pbrt or is out of the possible rbnge for b
+     * {@code short} result then bn {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code BigDecimal} converted to a {@code short}.
-     * @throws ArithmeticException if {@code this} has a nonzero
-     *         fractional part, or will not fit in a {@code short}.
+     * @return this {@code BigDecimbl} converted to b {@code short}.
+     * @throws ArithmeticException if {@code this} hbs b nonzero
+     *         frbctionbl pbrt, or will not fit in b {@code short}.
      * @since  1.5
      */
-    public short shortValueExact() {
+    public short shortVblueExbct() {
        long num;
-       num = this.longValueExact();     // will check decimal part
+       num = this.longVblueExbct();     // will check decimbl pbrt
        if ((short)num != num)
-           throw new java.lang.ArithmeticException("Overflow");
+           throw new jbvb.lbng.ArithmeticException("Overflow");
        return (short)num;
     }
 
     /**
-     * Converts this {@code BigDecimal} to a {@code byte}, checking
-     * for lost information.  If this {@code BigDecimal} has a
-     * nonzero fractional part or is out of the possible range for a
-     * {@code byte} result then an {@code ArithmeticException} is
+     * Converts this {@code BigDecimbl} to b {@code byte}, checking
+     * for lost informbtion.  If this {@code BigDecimbl} hbs b
+     * nonzero frbctionbl pbrt or is out of the possible rbnge for b
+     * {@code byte} result then bn {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code BigDecimal} converted to a {@code byte}.
-     * @throws ArithmeticException if {@code this} has a nonzero
-     *         fractional part, or will not fit in a {@code byte}.
+     * @return this {@code BigDecimbl} converted to b {@code byte}.
+     * @throws ArithmeticException if {@code this} hbs b nonzero
+     *         frbctionbl pbrt, or will not fit in b {@code byte}.
      * @since  1.5
      */
-    public byte byteValueExact() {
+    public byte byteVblueExbct() {
        long num;
-       num = this.longValueExact();     // will check decimal part
+       num = this.longVblueExbct();     // will check decimbl pbrt
        if ((byte)num != num)
-           throw new java.lang.ArithmeticException("Overflow");
+           throw new jbvb.lbng.ArithmeticException("Overflow");
        return (byte)num;
     }
 
     /**
-     * Converts this {@code BigDecimal} to a {@code float}.
-     * This conversion is similar to the
-     * <i>narrowing primitive conversion</i> from {@code double} to
-     * {@code float} as defined in section 5.1.3 of
-     * <cite>The Java&trade; Language Specification</cite>:
-     * if this {@code BigDecimal} has too great a
-     * magnitude to represent as a {@code float}, it will be
-     * converted to {@link Float#NEGATIVE_INFINITY} or {@link
-     * Float#POSITIVE_INFINITY} as appropriate.  Note that even when
-     * the return value is finite, this conversion can lose
-     * information about the precision of the {@code BigDecimal}
-     * value.
+     * Converts this {@code BigDecimbl} to b {@code flobt}.
+     * This conversion is similbr to the
+     * <i>nbrrowing primitive conversion</i> from {@code double} to
+     * {@code flobt} bs defined in section 5.1.3 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>:
+     * if this {@code BigDecimbl} hbs too grebt b
+     * mbgnitude to represent bs b {@code flobt}, it will be
+     * converted to {@link Flobt#NEGATIVE_INFINITY} or {@link
+     * Flobt#POSITIVE_INFINITY} bs bppropribte.  Note thbt even when
+     * the return vblue is finite, this conversion cbn lose
+     * informbtion bbout the precision of the {@code BigDecimbl}
+     * vblue.
      *
-     * @return this {@code BigDecimal} converted to a {@code float}.
+     * @return this {@code BigDecimbl} converted to b {@code flobt}.
      */
     @Override
-    public float floatValue(){
-        if(intCompact != INFLATED) {
-            if (scale == 0) {
-                return (float)intCompact;
+    public flobt flobtVblue(){
+        if(intCompbct != INFLATED) {
+            if (scble == 0) {
+                return (flobt)intCompbct;
             } else {
                 /*
-                 * If both intCompact and the scale can be exactly
-                 * represented as float values, perform a single float
+                 * If both intCompbct bnd the scble cbn be exbctly
+                 * represented bs flobt vblues, perform b single flobt
                  * multiply or divide to compute the (properly
                  * rounded) result.
                  */
-                if (Math.abs(intCompact) < 1L<<22 ) {
-                    // Don't have too guard against
-                    // Math.abs(MIN_VALUE) because of outer check
-                    // against INFLATED.
-                    if (scale > 0 && scale < FLOAT_10_POW.length) {
-                        return (float)intCompact / FLOAT_10_POW[scale];
-                    } else if (scale < 0 && scale > -FLOAT_10_POW.length) {
-                        return (float)intCompact * FLOAT_10_POW[-scale];
+                if (Mbth.bbs(intCompbct) < 1L<<22 ) {
+                    // Don't hbve too gubrd bgbinst
+                    // Mbth.bbs(MIN_VALUE) becbuse of outer check
+                    // bgbinst INFLATED.
+                    if (scble > 0 && scble < FLOAT_10_POW.length) {
+                        return (flobt)intCompbct / FLOAT_10_POW[scble];
+                    } else if (scble < 0 && scble > -FLOAT_10_POW.length) {
+                        return (flobt)intCompbct * FLOAT_10_POW[-scble];
                     }
                 }
             }
         }
-        // Somewhat inefficient, but guaranteed to work.
-        return Float.parseFloat(this.toString());
+        // Somewhbt inefficient, but gubrbnteed to work.
+        return Flobt.pbrseFlobt(this.toString());
     }
 
     /**
-     * Converts this {@code BigDecimal} to a {@code double}.
-     * This conversion is similar to the
-     * <i>narrowing primitive conversion</i> from {@code double} to
-     * {@code float} as defined in section 5.1.3 of
-     * <cite>The Java&trade; Language Specification</cite>:
-     * if this {@code BigDecimal} has too great a
-     * magnitude represent as a {@code double}, it will be
+     * Converts this {@code BigDecimbl} to b {@code double}.
+     * This conversion is similbr to the
+     * <i>nbrrowing primitive conversion</i> from {@code double} to
+     * {@code flobt} bs defined in section 5.1.3 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>:
+     * if this {@code BigDecimbl} hbs too grebt b
+     * mbgnitude represent bs b {@code double}, it will be
      * converted to {@link Double#NEGATIVE_INFINITY} or {@link
-     * Double#POSITIVE_INFINITY} as appropriate.  Note that even when
-     * the return value is finite, this conversion can lose
-     * information about the precision of the {@code BigDecimal}
-     * value.
+     * Double#POSITIVE_INFINITY} bs bppropribte.  Note thbt even when
+     * the return vblue is finite, this conversion cbn lose
+     * informbtion bbout the precision of the {@code BigDecimbl}
+     * vblue.
      *
-     * @return this {@code BigDecimal} converted to a {@code double}.
+     * @return this {@code BigDecimbl} converted to b {@code double}.
      */
     @Override
-    public double doubleValue(){
-        if(intCompact != INFLATED) {
-            if (scale == 0) {
-                return (double)intCompact;
+    public double doubleVblue(){
+        if(intCompbct != INFLATED) {
+            if (scble == 0) {
+                return (double)intCompbct;
             } else {
                 /*
-                 * If both intCompact and the scale can be exactly
-                 * represented as double values, perform a single
+                 * If both intCompbct bnd the scble cbn be exbctly
+                 * represented bs double vblues, perform b single
                  * double multiply or divide to compute the (properly
                  * rounded) result.
                  */
-                if (Math.abs(intCompact) < 1L<<52 ) {
-                    // Don't have too guard against
-                    // Math.abs(MIN_VALUE) because of outer check
-                    // against INFLATED.
-                    if (scale > 0 && scale < DOUBLE_10_POW.length) {
-                        return (double)intCompact / DOUBLE_10_POW[scale];
-                    } else if (scale < 0 && scale > -DOUBLE_10_POW.length) {
-                        return (double)intCompact * DOUBLE_10_POW[-scale];
+                if (Mbth.bbs(intCompbct) < 1L<<52 ) {
+                    // Don't hbve too gubrd bgbinst
+                    // Mbth.bbs(MIN_VALUE) becbuse of outer check
+                    // bgbinst INFLATED.
+                    if (scble > 0 && scble < DOUBLE_10_POW.length) {
+                        return (double)intCompbct / DOUBLE_10_POW[scble];
+                    } else if (scble < 0 && scble > -DOUBLE_10_POW.length) {
+                        return (double)intCompbct * DOUBLE_10_POW[-scble];
                     }
                 }
             }
         }
-        // Somewhat inefficient, but guaranteed to work.
-        return Double.parseDouble(this.toString());
+        // Somewhbt inefficient, but gubrbnteed to work.
+        return Double.pbrseDouble(this.toString());
     }
 
     /**
-     * Powers of 10 which can be represented exactly in {@code
+     * Powers of 10 which cbn be represented exbctly in {@code
      * double}.
      */
-    private static final double DOUBLE_10_POW[] = {
+    privbte stbtic finbl double DOUBLE_10_POW[] = {
         1.0e0,  1.0e1,  1.0e2,  1.0e3,  1.0e4,  1.0e5,
         1.0e6,  1.0e7,  1.0e8,  1.0e9,  1.0e10, 1.0e11,
         1.0e12, 1.0e13, 1.0e14, 1.0e15, 1.0e16, 1.0e17,
@@ -3295,47 +3295,47 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     };
 
     /**
-     * Powers of 10 which can be represented exactly in {@code
-     * float}.
+     * Powers of 10 which cbn be represented exbctly in {@code
+     * flobt}.
      */
-    private static final float FLOAT_10_POW[] = {
+    privbte stbtic finbl flobt FLOAT_10_POW[] = {
         1.0e0f, 1.0e1f, 1.0e2f, 1.0e3f, 1.0e4f, 1.0e5f,
         1.0e6f, 1.0e7f, 1.0e8f, 1.0e9f, 1.0e10f
     };
 
     /**
-     * Returns the size of an ulp, a unit in the last place, of this
-     * {@code BigDecimal}.  An ulp of a nonzero {@code BigDecimal}
-     * value is the positive distance between this value and the
-     * {@code BigDecimal} value next larger in magnitude with the
-     * same number of digits.  An ulp of a zero value is numerically
-     * equal to 1 with the scale of {@code this}.  The result is
-     * stored with the same scale as {@code this} so the result
-     * for zero and nonzero values is equal to {@code [1,
-     * this.scale()]}.
+     * Returns the size of bn ulp, b unit in the lbst plbce, of this
+     * {@code BigDecimbl}.  An ulp of b nonzero {@code BigDecimbl}
+     * vblue is the positive distbnce between this vblue bnd the
+     * {@code BigDecimbl} vblue next lbrger in mbgnitude with the
+     * sbme number of digits.  An ulp of b zero vblue is numericblly
+     * equbl to 1 with the scble of {@code this}.  The result is
+     * stored with the sbme scble bs {@code this} so the result
+     * for zero bnd nonzero vblues is equbl to {@code [1,
+     * this.scble()]}.
      *
-     * @return the size of an ulp of {@code this}
+     * @return the size of bn ulp of {@code this}
      * @since 1.5
      */
-    public BigDecimal ulp() {
-        return BigDecimal.valueOf(1, this.scale(), 1);
+    public BigDecimbl ulp() {
+        return BigDecimbl.vblueOf(1, this.scble(), 1);
     }
 
-    // Private class to build a string representation for BigDecimal object.
-    // "StringBuilderHelper" is constructed as a thread local variable so it is
-    // thread safe. The StringBuilder field acts as a buffer to hold the temporary
-    // representation of BigDecimal. The cmpCharArray holds all the characters for
-    // the compact representation of BigDecimal (except for '-' sign' if it is
-    // negative) if its intCompact field is not INFLATED. It is shared by all
-    // calls to toString() and its variants in that particular thread.
-    static class StringBuilderHelper {
-        final StringBuilder sb;    // Placeholder for BigDecimal string
-        final char[] cmpCharArray; // character array to place the intCompact
+    // Privbte clbss to build b string representbtion for BigDecimbl object.
+    // "StringBuilderHelper" is constructed bs b threbd locbl vbribble so it is
+    // threbd sbfe. The StringBuilder field bcts bs b buffer to hold the temporbry
+    // representbtion of BigDecimbl. The cmpChbrArrby holds bll the chbrbcters for
+    // the compbct representbtion of BigDecimbl (except for '-' sign' if it is
+    // negbtive) if its intCompbct field is not INFLATED. It is shbred by bll
+    // cblls to toString() bnd its vbribnts in thbt pbrticulbr threbd.
+    stbtic clbss StringBuilderHelper {
+        finbl StringBuilder sb;    // Plbceholder for BigDecimbl string
+        finbl chbr[] cmpChbrArrby; // chbrbcter brrby to plbce the intCompbct
 
         StringBuilderHelper() {
             sb = new StringBuilder();
-            // All non negative longs can be made to fit into 19 character array.
-            cmpCharArray = new char[19];
+            // All non negbtive longs cbn be mbde to fit into 19 chbrbcter brrby.
+            cmpChbrArrby = new chbr[19];
         }
 
         // Accessors.
@@ -3344,56 +3344,56 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             return sb;
         }
 
-        char[] getCompactCharArray() {
-            return cmpCharArray;
+        chbr[] getCompbctChbrArrby() {
+            return cmpChbrArrby;
         }
 
         /**
-         * Places characters representing the intCompact in {@code long} into
-         * cmpCharArray and returns the offset to the array where the
-         * representation starts.
+         * Plbces chbrbcters representing the intCompbct in {@code long} into
+         * cmpChbrArrby bnd returns the offset to the brrby where the
+         * representbtion stbrts.
          *
-         * @param intCompact the number to put into the cmpCharArray.
-         * @return offset to the array where the representation starts.
-         * Note: intCompact must be greater or equal to zero.
+         * @pbrbm intCompbct the number to put into the cmpChbrArrby.
+         * @return offset to the brrby where the representbtion stbrts.
+         * Note: intCompbct must be grebter or equbl to zero.
          */
-        int putIntCompact(long intCompact) {
-            assert intCompact >= 0;
+        int putIntCompbct(long intCompbct) {
+            bssert intCompbct >= 0;
 
             long q;
             int r;
-            // since we start from the least significant digit, charPos points to
-            // the last character in cmpCharArray.
-            int charPos = cmpCharArray.length;
+            // since we stbrt from the lebst significbnt digit, chbrPos points to
+            // the lbst chbrbcter in cmpChbrArrby.
+            int chbrPos = cmpChbrArrby.length;
 
-            // Get 2 digits/iteration using longs until quotient fits into an int
-            while (intCompact > Integer.MAX_VALUE) {
-                q = intCompact / 100;
-                r = (int)(intCompact - q * 100);
-                intCompact = q;
-                cmpCharArray[--charPos] = DIGIT_ONES[r];
-                cmpCharArray[--charPos] = DIGIT_TENS[r];
+            // Get 2 digits/iterbtion using longs until quotient fits into bn int
+            while (intCompbct > Integer.MAX_VALUE) {
+                q = intCompbct / 100;
+                r = (int)(intCompbct - q * 100);
+                intCompbct = q;
+                cmpChbrArrby[--chbrPos] = DIGIT_ONES[r];
+                cmpChbrArrby[--chbrPos] = DIGIT_TENS[r];
             }
 
-            // Get 2 digits/iteration using ints when i2 >= 100
+            // Get 2 digits/iterbtion using ints when i2 >= 100
             int q2;
-            int i2 = (int)intCompact;
+            int i2 = (int)intCompbct;
             while (i2 >= 100) {
                 q2 = i2 / 100;
                 r  = i2 - q2 * 100;
                 i2 = q2;
-                cmpCharArray[--charPos] = DIGIT_ONES[r];
-                cmpCharArray[--charPos] = DIGIT_TENS[r];
+                cmpChbrArrby[--chbrPos] = DIGIT_ONES[r];
+                cmpChbrArrby[--chbrPos] = DIGIT_TENS[r];
             }
 
-            cmpCharArray[--charPos] = DIGIT_ONES[i2];
+            cmpChbrArrby[--chbrPos] = DIGIT_ONES[i2];
             if (i2 >= 10)
-                cmpCharArray[--charPos] = DIGIT_TENS[i2];
+                cmpChbrArrby[--chbrPos] = DIGIT_TENS[i2];
 
-            return charPos;
+            return chbrPos;
         }
 
-        final static char[] DIGIT_TENS = {
+        finbl stbtic chbr[] DIGIT_TENS = {
             '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
             '1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
             '2', '2', '2', '2', '2', '2', '2', '2', '2', '2',
@@ -3406,7 +3406,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             '9', '9', '9', '9', '9', '9', '9', '9', '9', '9',
         };
 
-        final static char[] DIGIT_ONES = {
+        finbl stbtic chbr[] DIGIT_ONES = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -3421,122 +3421,122 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     /**
-     * Lay out this {@code BigDecimal} into a {@code char[]} array.
-     * The Java 1.2 equivalent to this was called {@code getValueString}.
+     * Lby out this {@code BigDecimbl} into b {@code chbr[]} brrby.
+     * The Jbvb 1.2 equivblent to this wbs cblled {@code getVblueString}.
      *
-     * @param  sci {@code true} for Scientific exponential notation;
-     *          {@code false} for Engineering
-     * @return string with canonical string representation of this
-     *         {@code BigDecimal}
+     * @pbrbm  sci {@code true} for Scientific exponentibl notbtion;
+     *          {@code fblse} for Engineering
+     * @return string with cbnonicbl string representbtion of this
+     *         {@code BigDecimbl}
      */
-    private String layoutChars(boolean sci) {
-        if (scale == 0)                      // zero scale is trivial
-            return (intCompact != INFLATED) ?
-                Long.toString(intCompact):
-                intVal.toString();
-        if (scale == 2  &&
-            intCompact >= 0 && intCompact < Integer.MAX_VALUE) {
-            // currency fast path
-            int lowInt = (int)intCompact % 100;
-            int highInt = (int)intCompact / 100;
+    privbte String lbyoutChbrs(boolebn sci) {
+        if (scble == 0)                      // zero scble is trivibl
+            return (intCompbct != INFLATED) ?
+                Long.toString(intCompbct):
+                intVbl.toString();
+        if (scble == 2  &&
+            intCompbct >= 0 && intCompbct < Integer.MAX_VALUE) {
+            // currency fbst pbth
+            int lowInt = (int)intCompbct % 100;
+            int highInt = (int)intCompbct / 100;
             return (Integer.toString(highInt) + '.' +
                     StringBuilderHelper.DIGIT_TENS[lowInt] +
                     StringBuilderHelper.DIGIT_ONES[lowInt]) ;
         }
 
-        StringBuilderHelper sbHelper = threadLocalStringBuilderHelper.get();
-        char[] coeff;
-        int offset;  // offset is the starting index for coeff array
-        // Get the significand as an absolute value
-        if (intCompact != INFLATED) {
-            offset = sbHelper.putIntCompact(Math.abs(intCompact));
-            coeff  = sbHelper.getCompactCharArray();
+        StringBuilderHelper sbHelper = threbdLocblStringBuilderHelper.get();
+        chbr[] coeff;
+        int offset;  // offset is the stbrting index for coeff brrby
+        // Get the significbnd bs bn bbsolute vblue
+        if (intCompbct != INFLATED) {
+            offset = sbHelper.putIntCompbct(Mbth.bbs(intCompbct));
+            coeff  = sbHelper.getCompbctChbrArrby();
         } else {
             offset = 0;
-            coeff  = intVal.abs().toString().toCharArray();
+            coeff  = intVbl.bbs().toString().toChbrArrby();
         }
 
-        // Construct a buffer, with sufficient capacity for all cases.
-        // If E-notation is needed, length will be: +1 if negative, +1
-        // if '.' needed, +2 for "E+", + up to 10 for adjusted exponent.
-        // Otherwise it could have +1 if negative, plus leading "0.00000"
+        // Construct b buffer, with sufficient cbpbcity for bll cbses.
+        // If E-notbtion is needed, length will be: +1 if negbtive, +1
+        // if '.' needed, +2 for "E+", + up to 10 for bdjusted exponent.
+        // Otherwise it could hbve +1 if negbtive, plus lebding "0.00000"
         StringBuilder buf = sbHelper.getStringBuilder();
-        if (signum() < 0)             // prefix '-' if negative
-            buf.append('-');
+        if (signum() < 0)             // prefix '-' if negbtive
+            buf.bppend('-');
         int coeffLen = coeff.length - offset;
-        long adjusted = -(long)scale + (coeffLen -1);
-        if ((scale >= 0) && (adjusted >= -6)) { // plain number
-            int pad = scale - coeffLen;         // count of padding zeros
-            if (pad >= 0) {                     // 0.xxx form
-                buf.append('0');
-                buf.append('.');
-                for (; pad>0; pad--) {
-                    buf.append('0');
+        long bdjusted = -(long)scble + (coeffLen -1);
+        if ((scble >= 0) && (bdjusted >= -6)) { // plbin number
+            int pbd = scble - coeffLen;         // count of pbdding zeros
+            if (pbd >= 0) {                     // 0.xxx form
+                buf.bppend('0');
+                buf.bppend('.');
+                for (; pbd>0; pbd--) {
+                    buf.bppend('0');
                 }
-                buf.append(coeff, offset, coeffLen);
+                buf.bppend(coeff, offset, coeffLen);
             } else {                         // xx.xx form
-                buf.append(coeff, offset, -pad);
-                buf.append('.');
-                buf.append(coeff, -pad + offset, scale);
+                buf.bppend(coeff, offset, -pbd);
+                buf.bppend('.');
+                buf.bppend(coeff, -pbd + offset, scble);
             }
-        } else { // E-notation is needed
-            if (sci) {                       // Scientific notation
-                buf.append(coeff[offset]);   // first character
+        } else { // E-notbtion is needed
+            if (sci) {                       // Scientific notbtion
+                buf.bppend(coeff[offset]);   // first chbrbcter
                 if (coeffLen > 1) {          // more to come
-                    buf.append('.');
-                    buf.append(coeff, offset + 1, coeffLen - 1);
+                    buf.bppend('.');
+                    buf.bppend(coeff, offset + 1, coeffLen - 1);
                 }
-            } else {                         // Engineering notation
-                int sig = (int)(adjusted % 3);
+            } else {                         // Engineering notbtion
+                int sig = (int)(bdjusted % 3);
                 if (sig < 0)
-                    sig += 3;                // [adjusted was negative]
-                adjusted -= sig;             // now a multiple of 3
+                    sig += 3;                // [bdjusted wbs negbtive]
+                bdjusted -= sig;             // now b multiple of 3
                 sig++;
                 if (signum() == 0) {
                     switch (sig) {
-                    case 1:
-                        buf.append('0'); // exponent is a multiple of three
-                        break;
-                    case 2:
-                        buf.append("0.00");
-                        adjusted += 3;
-                        break;
-                    case 3:
-                        buf.append("0.0");
-                        adjusted += 3;
-                        break;
-                    default:
-                        throw new AssertionError("Unexpected sig value " + sig);
+                    cbse 1:
+                        buf.bppend('0'); // exponent is b multiple of three
+                        brebk;
+                    cbse 2:
+                        buf.bppend("0.00");
+                        bdjusted += 3;
+                        brebk;
+                    cbse 3:
+                        buf.bppend("0.0");
+                        bdjusted += 3;
+                        brebk;
+                    defbult:
+                        throw new AssertionError("Unexpected sig vblue " + sig);
                     }
-                } else if (sig >= coeffLen) {   // significand all in integer
-                    buf.append(coeff, offset, coeffLen);
-                    // may need some zeros, too
+                } else if (sig >= coeffLen) {   // significbnd bll in integer
+                    buf.bppend(coeff, offset, coeffLen);
+                    // mby need some zeros, too
                     for (int i = sig - coeffLen; i > 0; i--) {
-                        buf.append('0');
+                        buf.bppend('0');
                     }
                 } else {                     // xx.xxE form
-                    buf.append(coeff, offset, sig);
-                    buf.append('.');
-                    buf.append(coeff, offset + sig, coeffLen - sig);
+                    buf.bppend(coeff, offset, sig);
+                    buf.bppend('.');
+                    buf.bppend(coeff, offset + sig, coeffLen - sig);
                 }
             }
-            if (adjusted != 0) {             // [!sci could have made 0]
-                buf.append('E');
-                if (adjusted > 0)            // force sign for positive
-                    buf.append('+');
-                buf.append(adjusted);
+            if (bdjusted != 0) {             // [!sci could hbve mbde 0]
+                buf.bppend('E');
+                if (bdjusted > 0)            // force sign for positive
+                    buf.bppend('+');
+                buf.bppend(bdjusted);
             }
         }
         return buf.toString();
     }
 
     /**
-     * Return 10 to the power n, as a {@code BigInteger}.
+     * Return 10 to the power n, bs b {@code BigInteger}.
      *
-     * @param  n the power of ten to be returned (>=0)
-     * @return a {@code BigInteger} with the value (10<sup>n</sup>)
+     * @pbrbm  n the power of ten to be returned (>=0)
+     * @return b {@code BigInteger} with the vblue (10<sup>n</sup>)
      */
-    private static BigInteger bigTenToThe(int n) {
+    privbte stbtic BigInteger bigTenToThe(int n) {
         if (n < 0)
             return BigInteger.ZERO;
 
@@ -3545,46 +3545,46 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             if (n < pows.length)
                 return pows[n];
             else
-                return expandBigIntegerTenPowers(n);
+                return expbndBigIntegerTenPowers(n);
         }
 
         return BigInteger.TEN.pow(n);
     }
 
     /**
-     * Expand the BIG_TEN_POWERS_TABLE array to contain at least 10**n.
+     * Expbnd the BIG_TEN_POWERS_TABLE brrby to contbin bt lebst 10**n.
      *
-     * @param n the power of ten to be returned (>=0)
-     * @return a {@code BigDecimal} with the value (10<sup>n</sup>) and
-     *         in the meantime, the BIG_TEN_POWERS_TABLE array gets
-     *         expanded to the size greater than n.
+     * @pbrbm n the power of ten to be returned (>=0)
+     * @return b {@code BigDecimbl} with the vblue (10<sup>n</sup>) bnd
+     *         in the mebntime, the BIG_TEN_POWERS_TABLE brrby gets
+     *         expbnded to the size grebter thbn n.
      */
-    private static BigInteger expandBigIntegerTenPowers(int n) {
-        synchronized(BigDecimal.class) {
+    privbte stbtic BigInteger expbndBigIntegerTenPowers(int n) {
+        synchronized(BigDecimbl.clbss) {
             BigInteger[] pows = BIG_TEN_POWERS_TABLE;
             int curLen = pows.length;
-            // The following comparison and the above synchronized statement is
-            // to prevent multiple threads from expanding the same array.
+            // The following compbrison bnd the bbove synchronized stbtement is
+            // to prevent multiple threbds from expbnding the sbme brrby.
             if (curLen <= n) {
                 int newLen = curLen << 1;
                 while (newLen <= n) {
                     newLen <<= 1;
                 }
-                pows = Arrays.copyOf(pows, newLen);
+                pows = Arrbys.copyOf(pows, newLen);
                 for (int i = curLen; i < newLen; i++) {
                     pows[i] = pows[i - 1].multiply(BigInteger.TEN);
                 }
-                // Based on the following facts:
-                // 1. pows is a private local varible;
-                // 2. the following store is a volatile store.
-                // the newly created array elements can be safely published.
+                // Bbsed on the following fbcts:
+                // 1. pows is b privbte locbl vbrible;
+                // 2. the following store is b volbtile store.
+                // the newly crebted brrby elements cbn be sbfely published.
                 BIG_TEN_POWERS_TABLE = pows;
             }
             return pows[n];
         }
     }
 
-    private static final long[] LONG_TEN_POWERS_TABLE = {
+    privbte stbtic finbl long[] LONG_TEN_POWERS_TABLE = {
         1,                     // 0 / 10^0
         10,                    // 1 / 10^1
         100,                   // 2 / 10^2
@@ -3606,34 +3606,34 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         1000000000000000000L   // 18 / 10^18
     };
 
-    private static volatile BigInteger BIG_TEN_POWERS_TABLE[] = {
+    privbte stbtic volbtile BigInteger BIG_TEN_POWERS_TABLE[] = {
         BigInteger.ONE,
-        BigInteger.valueOf(10),
-        BigInteger.valueOf(100),
-        BigInteger.valueOf(1000),
-        BigInteger.valueOf(10000),
-        BigInteger.valueOf(100000),
-        BigInteger.valueOf(1000000),
-        BigInteger.valueOf(10000000),
-        BigInteger.valueOf(100000000),
-        BigInteger.valueOf(1000000000),
-        BigInteger.valueOf(10000000000L),
-        BigInteger.valueOf(100000000000L),
-        BigInteger.valueOf(1000000000000L),
-        BigInteger.valueOf(10000000000000L),
-        BigInteger.valueOf(100000000000000L),
-        BigInteger.valueOf(1000000000000000L),
-        BigInteger.valueOf(10000000000000000L),
-        BigInteger.valueOf(100000000000000000L),
-        BigInteger.valueOf(1000000000000000000L)
+        BigInteger.vblueOf(10),
+        BigInteger.vblueOf(100),
+        BigInteger.vblueOf(1000),
+        BigInteger.vblueOf(10000),
+        BigInteger.vblueOf(100000),
+        BigInteger.vblueOf(1000000),
+        BigInteger.vblueOf(10000000),
+        BigInteger.vblueOf(100000000),
+        BigInteger.vblueOf(1000000000),
+        BigInteger.vblueOf(10000000000L),
+        BigInteger.vblueOf(100000000000L),
+        BigInteger.vblueOf(1000000000000L),
+        BigInteger.vblueOf(10000000000000L),
+        BigInteger.vblueOf(100000000000000L),
+        BigInteger.vblueOf(1000000000000000L),
+        BigInteger.vblueOf(10000000000000000L),
+        BigInteger.vblueOf(100000000000000000L),
+        BigInteger.vblueOf(1000000000000000000L)
     };
 
-    private static final int BIG_TEN_POWERS_TABLE_INITLEN =
+    privbte stbtic finbl int BIG_TEN_POWERS_TABLE_INITLEN =
         BIG_TEN_POWERS_TABLE.length;
-    private static final int BIG_TEN_POWERS_TABLE_MAX =
+    privbte stbtic finbl int BIG_TEN_POWERS_TABLE_MAX =
         16 * BIG_TEN_POWERS_TABLE_INITLEN;
 
-    private static final long THRESHOLDS_TABLE[] = {
+    privbte stbtic finbl long THRESHOLDS_TABLE[] = {
         Long.MAX_VALUE,                     // 0
         Long.MAX_VALUE/10L,                 // 1
         Long.MAX_VALUE/100L,                // 2
@@ -3656,208 +3656,208 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     };
 
     /**
-     * Compute val * 10 ^ n; return this product if it is
-     * representable as a long, INFLATED otherwise.
+     * Compute vbl * 10 ^ n; return this product if it is
+     * representbble bs b long, INFLATED otherwise.
      */
-    private static long longMultiplyPowerTen(long val, int n) {
-        if (val == 0 || n <= 0)
-            return val;
-        long[] tab = LONG_TEN_POWERS_TABLE;
+    privbte stbtic long longMultiplyPowerTen(long vbl, int n) {
+        if (vbl == 0 || n <= 0)
+            return vbl;
+        long[] tbb = LONG_TEN_POWERS_TABLE;
         long[] bounds = THRESHOLDS_TABLE;
-        if (n < tab.length && n < bounds.length) {
-            long tenpower = tab[n];
-            if (val == 1)
+        if (n < tbb.length && n < bounds.length) {
+            long tenpower = tbb[n];
+            if (vbl == 1)
                 return tenpower;
-            if (Math.abs(val) <= bounds[n])
-                return val * tenpower;
+            if (Mbth.bbs(vbl) <= bounds[n])
+                return vbl * tenpower;
         }
         return INFLATED;
     }
 
     /**
      * Compute this * 10 ^ n.
-     * Needed mainly to allow special casing to trap zero value
+     * Needed mbinly to bllow specibl cbsing to trbp zero vblue
      */
-    private BigInteger bigMultiplyPowerTen(int n) {
+    privbte BigInteger bigMultiplyPowerTen(int n) {
         if (n <= 0)
-            return this.inflated();
+            return this.inflbted();
 
-        if (intCompact != INFLATED)
-            return bigTenToThe(n).multiply(intCompact);
+        if (intCompbct != INFLATED)
+            return bigTenToThe(n).multiply(intCompbct);
         else
-            return intVal.multiply(bigTenToThe(n));
+            return intVbl.multiply(bigTenToThe(n));
     }
 
     /**
-     * Returns appropriate BigInteger from intVal field if intVal is
-     * null, i.e. the compact representation is in use.
+     * Returns bppropribte BigInteger from intVbl field if intVbl is
+     * null, i.e. the compbct representbtion is in use.
      */
-    private BigInteger inflated() {
-        if (intVal == null) {
-            return BigInteger.valueOf(intCompact);
+    privbte BigInteger inflbted() {
+        if (intVbl == null) {
+            return BigInteger.vblueOf(intCompbct);
         }
-        return intVal;
+        return intVbl;
     }
 
     /**
-     * Match the scales of two {@code BigDecimal}s to align their
-     * least significant digits.
+     * Mbtch the scbles of two {@code BigDecimbl}s to blign their
+     * lebst significbnt digits.
      *
-     * <p>If the scales of val[0] and val[1] differ, rescale
-     * (non-destructively) the lower-scaled {@code BigDecimal} so
-     * they match.  That is, the lower-scaled reference will be
-     * replaced by a reference to a new object with the same scale as
-     * the other {@code BigDecimal}.
+     * <p>If the scbles of vbl[0] bnd vbl[1] differ, rescble
+     * (non-destructively) the lower-scbled {@code BigDecimbl} so
+     * they mbtch.  Thbt is, the lower-scbled reference will be
+     * replbced by b reference to b new object with the sbme scble bs
+     * the other {@code BigDecimbl}.
      *
-     * @param  val array of two elements referring to the two
-     *         {@code BigDecimal}s to be aligned.
+     * @pbrbm  vbl brrby of two elements referring to the two
+     *         {@code BigDecimbl}s to be bligned.
      */
-    private static void matchScale(BigDecimal[] val) {
-        if (val[0].scale < val[1].scale) {
-            val[0] = val[0].setScale(val[1].scale, ROUND_UNNECESSARY);
-        } else if (val[1].scale < val[0].scale) {
-            val[1] = val[1].setScale(val[0].scale, ROUND_UNNECESSARY);
+    privbte stbtic void mbtchScble(BigDecimbl[] vbl) {
+        if (vbl[0].scble < vbl[1].scble) {
+            vbl[0] = vbl[0].setScble(vbl[1].scble, ROUND_UNNECESSARY);
+        } else if (vbl[1].scble < vbl[0].scble) {
+            vbl[1] = vbl[1].setScble(vbl[0].scble, ROUND_UNNECESSARY);
         }
     }
 
-    private static class UnsafeHolder {
-        private static final sun.misc.Unsafe unsafe;
-        private static final long intCompactOffset;
-        private static final long intValOffset;
-        static {
+    privbte stbtic clbss UnsbfeHolder {
+        privbte stbtic finbl sun.misc.Unsbfe unsbfe;
+        privbte stbtic finbl long intCompbctOffset;
+        privbte stbtic finbl long intVblOffset;
+        stbtic {
             try {
-                unsafe = sun.misc.Unsafe.getUnsafe();
-                intCompactOffset = unsafe.objectFieldOffset
-                    (BigDecimal.class.getDeclaredField("intCompact"));
-                intValOffset = unsafe.objectFieldOffset
-                    (BigDecimal.class.getDeclaredField("intVal"));
-            } catch (Exception ex) {
-                throw new ExceptionInInitializerError(ex);
+                unsbfe = sun.misc.Unsbfe.getUnsbfe();
+                intCompbctOffset = unsbfe.objectFieldOffset
+                    (BigDecimbl.clbss.getDeclbredField("intCompbct"));
+                intVblOffset = unsbfe.objectFieldOffset
+                    (BigDecimbl.clbss.getDeclbredField("intVbl"));
+            } cbtch (Exception ex) {
+                throw new ExceptionInInitiblizerError(ex);
             }
         }
-        static void setIntCompactVolatile(BigDecimal bd, long val) {
-            unsafe.putLongVolatile(bd, intCompactOffset, val);
+        stbtic void setIntCompbctVolbtile(BigDecimbl bd, long vbl) {
+            unsbfe.putLongVolbtile(bd, intCompbctOffset, vbl);
         }
 
-        static void setIntValVolatile(BigDecimal bd, BigInteger val) {
-            unsafe.putObjectVolatile(bd, intValOffset, val);
+        stbtic void setIntVblVolbtile(BigDecimbl bd, BigInteger vbl) {
+            unsbfe.putObjectVolbtile(bd, intVblOffset, vbl);
         }
     }
 
     /**
-     * Reconstitute the {@code BigDecimal} instance from a stream (that is,
-     * deserialize it).
+     * Reconstitute the {@code BigDecimbl} instbnce from b strebm (thbt is,
+     * deseriblize it).
      *
-     * @param s the stream being read.
+     * @pbrbm s the strebm being rebd.
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        // Read in all fields
-        s.defaultReadObject();
-        // validate possibly bad fields
-        if (intVal == null) {
-            String message = "BigDecimal: null intVal in stream";
-            throw new java.io.StreamCorruptedException(message);
-        // [all values of scale are now allowed]
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        // Rebd in bll fields
+        s.defbultRebdObject();
+        // vblidbte possibly bbd fields
+        if (intVbl == null) {
+            String messbge = "BigDecimbl: null intVbl in strebm";
+            throw new jbvb.io.StrebmCorruptedException(messbge);
+        // [bll vblues of scble bre now bllowed]
         }
-        UnsafeHolder.setIntCompactVolatile(this, compactValFor(intVal));
+        UnsbfeHolder.setIntCompbctVolbtile(this, compbctVblFor(intVbl));
     }
 
    /**
-    * Serialize this {@code BigDecimal} to the stream in question
+    * Seriblize this {@code BigDecimbl} to the strebm in question
     *
-    * @param s the stream to serialize to.
+    * @pbrbm s the strebm to seriblize to.
     */
-   private void writeObject(java.io.ObjectOutputStream s)
-       throws java.io.IOException {
-       // Must inflate to maintain compatible serial form.
-       if (this.intVal == null)
-           UnsafeHolder.setIntValVolatile(this, BigInteger.valueOf(this.intCompact));
-       // Could reset intVal back to null if it has to be set.
-       s.defaultWriteObject();
+   privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+       throws jbvb.io.IOException {
+       // Must inflbte to mbintbin compbtible seribl form.
+       if (this.intVbl == null)
+           UnsbfeHolder.setIntVblVolbtile(this, BigInteger.vblueOf(this.intCompbct));
+       // Could reset intVbl bbck to null if it hbs to be set.
+       s.defbultWriteObject();
    }
 
     /**
-     * Returns the length of the absolute value of a {@code long}, in decimal
+     * Returns the length of the bbsolute vblue of b {@code long}, in decimbl
      * digits.
      *
-     * @param x the {@code long}
-     * @return the length of the unscaled value, in deciaml digits.
+     * @pbrbm x the {@code long}
+     * @return the length of the unscbled vblue, in decibml digits.
      */
-    static int longDigitLength(long x) {
+    stbtic int longDigitLength(long x) {
         /*
-         * As described in "Bit Twiddling Hacks" by Sean Anderson,
-         * (http://graphics.stanford.edu/~seander/bithacks.html)
+         * As described in "Bit Twiddling Hbcks" by Sebn Anderson,
+         * (http://grbphics.stbnford.edu/~sebnder/bithbcks.html)
          * integer log 10 of x is within 1 of (1233/4096)* (1 +
-         * integer log 2 of x). The fraction 1233/4096 approximates
-         * log10(2). So we first do a version of log2 (a variant of
-         * Long class with pre-checks and opposite directionality) and
-         * then scale and check against powers table. This is a little
-         * simpler in present context than the version in Hacker's
-         * Delight sec 11-4. Adding one to bit length allows comparing
-         * downward from the LONG_TEN_POWERS_TABLE that we need
-         * anyway.
+         * integer log 2 of x). The frbction 1233/4096 bpproximbtes
+         * log10(2). So we first do b version of log2 (b vbribnt of
+         * Long clbss with pre-checks bnd opposite directionblity) bnd
+         * then scble bnd check bgbinst powers tbble. This is b little
+         * simpler in present context thbn the version in Hbcker's
+         * Delight sec 11-4. Adding one to bit length bllows compbring
+         * downwbrd from the LONG_TEN_POWERS_TABLE thbt we need
+         * bnywby.
          */
-        assert x != BigDecimal.INFLATED;
+        bssert x != BigDecimbl.INFLATED;
         if (x < 0)
             x = -x;
-        if (x < 10) // must screen for 0, might as well 10
+        if (x < 10) // must screen for 0, might bs well 10
             return 1;
-        int r = ((64 - Long.numberOfLeadingZeros(x) + 1) * 1233) >>> 12;
-        long[] tab = LONG_TEN_POWERS_TABLE;
-        // if r >= length, must have max possible digits for long
-        return (r >= tab.length || x < tab[r]) ? r : r + 1;
+        int r = ((64 - Long.numberOfLebdingZeros(x) + 1) * 1233) >>> 12;
+        long[] tbb = LONG_TEN_POWERS_TABLE;
+        // if r >= length, must hbve mbx possible digits for long
+        return (r >= tbb.length || x < tbb[r]) ? r : r + 1;
     }
 
     /**
-     * Returns the length of the absolute value of a BigInteger, in
-     * decimal digits.
+     * Returns the length of the bbsolute vblue of b BigInteger, in
+     * decimbl digits.
      *
-     * @param b the BigInteger
-     * @return the length of the unscaled value, in decimal digits
+     * @pbrbm b the BigInteger
+     * @return the length of the unscbled vblue, in decimbl digits
      */
-    private static int bigDigitLength(BigInteger b) {
+    privbte stbtic int bigDigitLength(BigInteger b) {
         /*
-         * Same idea as the long version, but we need a better
-         * approximation of log10(2). Using 646456993/2^31
-         * is accurate up to max possible reported bitLength.
+         * Sbme ideb bs the long version, but we need b better
+         * bpproximbtion of log10(2). Using 646456993/2^31
+         * is bccurbte up to mbx possible reported bitLength.
          */
         if (b.signum == 0)
             return 1;
         int r = (int)((((long)b.bitLength() + 1) * 646456993) >>> 31);
-        return b.compareMagnitude(bigTenToThe(r)) < 0? r : r+1;
+        return b.compbreMbgnitude(bigTenToThe(r)) < 0? r : r+1;
     }
 
     /**
-     * Check a scale for Underflow or Overflow.  If this BigDecimal is
-     * nonzero, throw an exception if the scale is outof range. If this
-     * is zero, saturate the scale to the extreme value of the right
-     * sign if the scale is out of range.
+     * Check b scble for Underflow or Overflow.  If this BigDecimbl is
+     * nonzero, throw bn exception if the scble is outof rbnge. If this
+     * is zero, sbturbte the scble to the extreme vblue of the right
+     * sign if the scble is out of rbnge.
      *
-     * @param val The new scale.
+     * @pbrbm vbl The new scble.
      * @throws ArithmeticException (overflow or underflow) if the new
-     *         scale is out of range.
-     * @return validated scale as an int.
+     *         scble is out of rbnge.
+     * @return vblidbted scble bs bn int.
      */
-    private int checkScale(long val) {
-        int asInt = (int)val;
-        if (asInt != val) {
-            asInt = val>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+    privbte int checkScble(long vbl) {
+        int bsInt = (int)vbl;
+        if (bsInt != vbl) {
+            bsInt = vbl>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
             BigInteger b;
-            if (intCompact != 0 &&
-                ((b = intVal) == null || b.signum() != 0))
-                throw new ArithmeticException(asInt>0 ? "Underflow":"Overflow");
+            if (intCompbct != 0 &&
+                ((b = intVbl) == null || b.signum() != 0))
+                throw new ArithmeticException(bsInt>0 ? "Underflow":"Overflow");
         }
-        return asInt;
+        return bsInt;
     }
 
    /**
-     * Returns the compact value for given {@code BigInteger}, or
-     * INFLATED if too big. Relies on internal representation of
+     * Returns the compbct vblue for given {@code BigInteger}, or
+     * INFLATED if too big. Relies on internbl representbtion of
      * {@code BigInteger}.
      */
-    private static long compactValFor(BigInteger b) {
-        int[] m = b.mag;
+    privbte stbtic long compbctVblFor(BigInteger b) {
+        int[] m = b.mbg;
         int len = m.length;
         if (len == 0)
             return 0;
@@ -3871,7 +3871,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return (b.signum < 0)? -u : u;
     }
 
-    private static int longCompareMagnitude(long x, long y) {
+    privbte stbtic int longCompbreMbgnitude(long x, long y) {
         if (x < 0)
             x = -x;
         if (y < 0)
@@ -3879,267 +3879,267 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return (x < y) ? -1 : ((x == y) ? 0 : 1);
     }
 
-    private static int saturateLong(long s) {
+    privbte stbtic int sbturbteLong(long s) {
         int i = (int)s;
         return (s == i) ? i : (s < 0 ? Integer.MIN_VALUE : Integer.MAX_VALUE);
     }
 
     /*
-     * Internal printing routine
+     * Internbl printing routine
      */
-    private static void print(String name, BigDecimal bd) {
-        System.err.format("%s:\tintCompact %d\tintVal %d\tscale %d\tprecision %d%n",
-                          name,
-                          bd.intCompact,
-                          bd.intVal,
-                          bd.scale,
+    privbte stbtic void print(String nbme, BigDecimbl bd) {
+        System.err.formbt("%s:\tintCompbct %d\tintVbl %d\tscble %d\tprecision %d%n",
+                          nbme,
+                          bd.intCompbct,
+                          bd.intVbl,
+                          bd.scble,
                           bd.precision);
     }
 
     /**
-     * Check internal invariants of this BigDecimal.  These invariants
+     * Check internbl invbribnts of this BigDecimbl.  These invbribnts
      * include:
      *
      * <ul>
      *
-     * <li>The object must be initialized; either intCompact must not be
-     * INFLATED or intVal is non-null.  Both of these conditions may
+     * <li>The object must be initiblized; either intCompbct must not be
+     * INFLATED or intVbl is non-null.  Both of these conditions mby
      * be true.
      *
-     * <li>If both intCompact and intVal and set, their values must be
+     * <li>If both intCompbct bnd intVbl bnd set, their vblues must be
      * consistent.
      *
-     * <li>If precision is nonzero, it must have the right value.
+     * <li>If precision is nonzero, it must hbve the right vblue.
      * </ul>
      *
-     * Note: Since this is an audit method, we are not supposed to change the
-     * state of this BigDecimal object.
+     * Note: Since this is bn budit method, we bre not supposed to chbnge the
+     * stbte of this BigDecimbl object.
      */
-    private BigDecimal audit() {
-        if (intCompact == INFLATED) {
-            if (intVal == null) {
-                print("audit", this);
-                throw new AssertionError("null intVal");
+    privbte BigDecimbl budit() {
+        if (intCompbct == INFLATED) {
+            if (intVbl == null) {
+                print("budit", this);
+                throw new AssertionError("null intVbl");
             }
             // Check precision
-            if (precision > 0 && precision != bigDigitLength(intVal)) {
-                print("audit", this);
-                throw new AssertionError("precision mismatch");
+            if (precision > 0 && precision != bigDigitLength(intVbl)) {
+                print("budit", this);
+                throw new AssertionError("precision mismbtch");
             }
         } else {
-            if (intVal != null) {
-                long val = intVal.longValue();
-                if (val != intCompact) {
-                    print("audit", this);
-                    throw new AssertionError("Inconsistent state, intCompact=" +
-                                             intCompact + "\t intVal=" + val);
+            if (intVbl != null) {
+                long vbl = intVbl.longVblue();
+                if (vbl != intCompbct) {
+                    print("budit", this);
+                    throw new AssertionError("Inconsistent stbte, intCompbct=" +
+                                             intCompbct + "\t intVbl=" + vbl);
                 }
             }
             // Check precision
-            if (precision > 0 && precision != longDigitLength(intCompact)) {
-                print("audit", this);
-                throw new AssertionError("precision mismatch");
+            if (precision > 0 && precision != longDigitLength(intCompbct)) {
+                print("budit", this);
+                throw new AssertionError("precision mismbtch");
             }
         }
         return this;
     }
 
-    /* the same as checkScale where value!=0 */
-    private static int checkScaleNonZero(long val) {
-        int asInt = (int)val;
-        if (asInt != val) {
-            throw new ArithmeticException(asInt>0 ? "Underflow":"Overflow");
+    /* the sbme bs checkScble where vblue!=0 */
+    privbte stbtic int checkScbleNonZero(long vbl) {
+        int bsInt = (int)vbl;
+        if (bsInt != vbl) {
+            throw new ArithmeticException(bsInt>0 ? "Underflow":"Overflow");
         }
-        return asInt;
+        return bsInt;
     }
 
-    private static int checkScale(long intCompact, long val) {
-        int asInt = (int)val;
-        if (asInt != val) {
-            asInt = val>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-            if (intCompact != 0)
-                throw new ArithmeticException(asInt>0 ? "Underflow":"Overflow");
+    privbte stbtic int checkScble(long intCompbct, long vbl) {
+        int bsInt = (int)vbl;
+        if (bsInt != vbl) {
+            bsInt = vbl>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            if (intCompbct != 0)
+                throw new ArithmeticException(bsInt>0 ? "Underflow":"Overflow");
         }
-        return asInt;
+        return bsInt;
     }
 
-    private static int checkScale(BigInteger intVal, long val) {
-        int asInt = (int)val;
-        if (asInt != val) {
-            asInt = val>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-            if (intVal.signum() != 0)
-                throw new ArithmeticException(asInt>0 ? "Underflow":"Overflow");
+    privbte stbtic int checkScble(BigInteger intVbl, long vbl) {
+        int bsInt = (int)vbl;
+        if (bsInt != vbl) {
+            bsInt = vbl>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            if (intVbl.signum() != 0)
+                throw new ArithmeticException(bsInt>0 ? "Underflow":"Overflow");
         }
-        return asInt;
+        return bsInt;
     }
 
     /**
-     * Returns a {@code BigDecimal} rounded according to the MathContext
+     * Returns b {@code BigDecimbl} rounded bccording to the MbthContext
      * settings;
-     * If rounding is needed a new {@code BigDecimal} is created and returned.
+     * If rounding is needed b new {@code BigDecimbl} is crebted bnd returned.
      *
-     * @param val the value to be rounded
-     * @param mc the context to use.
-     * @return a {@code BigDecimal} rounded according to the MathContext
-     *         settings.  May return {@code value}, if no rounding needed.
+     * @pbrbm vbl the vblue to be rounded
+     * @pbrbm mc the context to use.
+     * @return b {@code BigDecimbl} rounded bccording to the MbthContext
+     *         settings.  Mby return {@code vblue}, if no rounding needed.
      * @throws ArithmeticException if the rounding mode is
-     *         {@code RoundingMode.UNNECESSARY} and the
-     *         result is inexact.
+     *         {@code RoundingMode.UNNECESSARY} bnd the
+     *         result is inexbct.
      */
-    private static BigDecimal doRound(BigDecimal val, MathContext mc) {
+    privbte stbtic BigDecimbl doRound(BigDecimbl vbl, MbthContext mc) {
         int mcp = mc.precision;
-        boolean wasDivided = false;
+        boolebn wbsDivided = fblse;
         if (mcp > 0) {
-            BigInteger intVal = val.intVal;
-            long compactVal = val.intCompact;
-            int scale = val.scale;
-            int prec = val.precision();
+            BigInteger intVbl = vbl.intVbl;
+            long compbctVbl = vbl.intCompbct;
+            int scble = vbl.scble;
+            int prec = vbl.precision();
             int mode = mc.roundingMode.oldMode;
             int drop;
-            if (compactVal == INFLATED) {
+            if (compbctVbl == INFLATED) {
                 drop = prec - mcp;
                 while (drop > 0) {
-                    scale = checkScaleNonZero((long) scale - drop);
-                    intVal = divideAndRoundByTenPow(intVal, drop, mode);
-                    wasDivided = true;
-                    compactVal = compactValFor(intVal);
-                    if (compactVal != INFLATED) {
-                        prec = longDigitLength(compactVal);
-                        break;
+                    scble = checkScbleNonZero((long) scble - drop);
+                    intVbl = divideAndRoundByTenPow(intVbl, drop, mode);
+                    wbsDivided = true;
+                    compbctVbl = compbctVblFor(intVbl);
+                    if (compbctVbl != INFLATED) {
+                        prec = longDigitLength(compbctVbl);
+                        brebk;
                     }
-                    prec = bigDigitLength(intVal);
+                    prec = bigDigitLength(intVbl);
                     drop = prec - mcp;
                 }
             }
-            if (compactVal != INFLATED) {
-                drop = prec - mcp;  // drop can't be more than 18
+            if (compbctVbl != INFLATED) {
+                drop = prec - mcp;  // drop cbn't be more thbn 18
                 while (drop > 0) {
-                    scale = checkScaleNonZero((long) scale - drop);
-                    compactVal = divideAndRound(compactVal, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
-                    wasDivided = true;
-                    prec = longDigitLength(compactVal);
+                    scble = checkScbleNonZero((long) scble - drop);
+                    compbctVbl = divideAndRound(compbctVbl, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
+                    wbsDivided = true;
+                    prec = longDigitLength(compbctVbl);
                     drop = prec - mcp;
-                    intVal = null;
+                    intVbl = null;
                 }
             }
-            return wasDivided ? new BigDecimal(intVal,compactVal,scale,prec) : val;
+            return wbsDivided ? new BigDecimbl(intVbl,compbctVbl,scble,prec) : vbl;
         }
-        return val;
+        return vbl;
     }
 
     /*
-     * Returns a {@code BigDecimal} created from {@code long} value with
-     * given scale rounded according to the MathContext settings
+     * Returns b {@code BigDecimbl} crebted from {@code long} vblue with
+     * given scble rounded bccording to the MbthContext settings
      */
-    private static BigDecimal doRound(long compactVal, int scale, MathContext mc) {
+    privbte stbtic BigDecimbl doRound(long compbctVbl, int scble, MbthContext mc) {
         int mcp = mc.precision;
         if (mcp > 0 && mcp < 19) {
-            int prec = longDigitLength(compactVal);
-            int drop = prec - mcp;  // drop can't be more than 18
+            int prec = longDigitLength(compbctVbl);
+            int drop = prec - mcp;  // drop cbn't be more thbn 18
             while (drop > 0) {
-                scale = checkScaleNonZero((long) scale - drop);
-                compactVal = divideAndRound(compactVal, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
-                prec = longDigitLength(compactVal);
+                scble = checkScbleNonZero((long) scble - drop);
+                compbctVbl = divideAndRound(compbctVbl, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
+                prec = longDigitLength(compbctVbl);
                 drop = prec - mcp;
             }
-            return valueOf(compactVal, scale, prec);
+            return vblueOf(compbctVbl, scble, prec);
         }
-        return valueOf(compactVal, scale);
+        return vblueOf(compbctVbl, scble);
     }
 
     /*
-     * Returns a {@code BigDecimal} created from {@code BigInteger} value with
-     * given scale rounded according to the MathContext settings
+     * Returns b {@code BigDecimbl} crebted from {@code BigInteger} vblue with
+     * given scble rounded bccording to the MbthContext settings
      */
-    private static BigDecimal doRound(BigInteger intVal, int scale, MathContext mc) {
+    privbte stbtic BigDecimbl doRound(BigInteger intVbl, int scble, MbthContext mc) {
         int mcp = mc.precision;
         int prec = 0;
         if (mcp > 0) {
-            long compactVal = compactValFor(intVal);
+            long compbctVbl = compbctVblFor(intVbl);
             int mode = mc.roundingMode.oldMode;
             int drop;
-            if (compactVal == INFLATED) {
-                prec = bigDigitLength(intVal);
+            if (compbctVbl == INFLATED) {
+                prec = bigDigitLength(intVbl);
                 drop = prec - mcp;
                 while (drop > 0) {
-                    scale = checkScaleNonZero((long) scale - drop);
-                    intVal = divideAndRoundByTenPow(intVal, drop, mode);
-                    compactVal = compactValFor(intVal);
-                    if (compactVal != INFLATED) {
-                        break;
+                    scble = checkScbleNonZero((long) scble - drop);
+                    intVbl = divideAndRoundByTenPow(intVbl, drop, mode);
+                    compbctVbl = compbctVblFor(intVbl);
+                    if (compbctVbl != INFLATED) {
+                        brebk;
                     }
-                    prec = bigDigitLength(intVal);
+                    prec = bigDigitLength(intVbl);
                     drop = prec - mcp;
                 }
             }
-            if (compactVal != INFLATED) {
-                prec = longDigitLength(compactVal);
-                drop = prec - mcp;     // drop can't be more than 18
+            if (compbctVbl != INFLATED) {
+                prec = longDigitLength(compbctVbl);
+                drop = prec - mcp;     // drop cbn't be more thbn 18
                 while (drop > 0) {
-                    scale = checkScaleNonZero((long) scale - drop);
-                    compactVal = divideAndRound(compactVal, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
-                    prec = longDigitLength(compactVal);
+                    scble = checkScbleNonZero((long) scble - drop);
+                    compbctVbl = divideAndRound(compbctVbl, LONG_TEN_POWERS_TABLE[drop], mc.roundingMode.oldMode);
+                    prec = longDigitLength(compbctVbl);
                     drop = prec - mcp;
                 }
-                return valueOf(compactVal,scale,prec);
+                return vblueOf(compbctVbl,scble,prec);
             }
         }
-        return new BigDecimal(intVal,INFLATED,scale,prec);
+        return new BigDecimbl(intVbl,INFLATED,scble,prec);
     }
 
     /*
-     * Divides {@code BigInteger} value by ten power.
+     * Divides {@code BigInteger} vblue by ten power.
      */
-    private static BigInteger divideAndRoundByTenPow(BigInteger intVal, int tenPow, int roundingMode) {
+    privbte stbtic BigInteger divideAndRoundByTenPow(BigInteger intVbl, int tenPow, int roundingMode) {
         if (tenPow < LONG_TEN_POWERS_TABLE.length)
-            intVal = divideAndRound(intVal, LONG_TEN_POWERS_TABLE[tenPow], roundingMode);
+            intVbl = divideAndRound(intVbl, LONG_TEN_POWERS_TABLE[tenPow], roundingMode);
         else
-            intVal = divideAndRound(intVal, bigTenToThe(tenPow), roundingMode);
-        return intVal;
+            intVbl = divideAndRound(intVbl, bigTenToThe(tenPow), roundingMode);
+        return intVbl;
     }
 
     /**
-     * Internally used for division operation for division {@code long} by
+     * Internblly used for division operbtion for division {@code long} by
      * {@code long}.
-     * The returned {@code BigDecimal} object is the quotient whose scale is set
-     * to the passed in scale. If the remainder is not zero, it will be rounded
-     * based on the passed in roundingMode. Also, if the remainder is zero and
-     * the last parameter, i.e. preferredScale is NOT equal to scale, the
-     * trailing zeros of the result is stripped to match the preferredScale.
+     * The returned {@code BigDecimbl} object is the quotient whose scble is set
+     * to the pbssed in scble. If the rembinder is not zero, it will be rounded
+     * bbsed on the pbssed in roundingMode. Also, if the rembinder is zero bnd
+     * the lbst pbrbmeter, i.e. preferredScble is NOT equbl to scble, the
+     * trbiling zeros of the result is stripped to mbtch the preferredScble.
      */
-    private static BigDecimal divideAndRound(long ldividend, long ldivisor, int scale, int roundingMode,
-                                             int preferredScale) {
+    privbte stbtic BigDecimbl divideAndRound(long ldividend, long ldivisor, int scble, int roundingMode,
+                                             int preferredScble) {
 
         int qsign; // quotient sign
         long q = ldividend / ldivisor; // store quotient in long
-        if (roundingMode == ROUND_DOWN && scale == preferredScale)
-            return valueOf(q, scale);
-        long r = ldividend % ldivisor; // store remainder in long
+        if (roundingMode == ROUND_DOWN && scble == preferredScble)
+            return vblueOf(q, scble);
+        long r = ldividend % ldivisor; // store rembinder in long
         qsign = ((ldividend < 0) == (ldivisor < 0)) ? 1 : -1;
         if (r != 0) {
-            boolean increment = needIncrement(ldivisor, roundingMode, qsign, q, r);
-            return valueOf((increment ? q + qsign : q), scale);
+            boolebn increment = needIncrement(ldivisor, roundingMode, qsign, q, r);
+            return vblueOf((increment ? q + qsign : q), scble);
         } else {
-            if (preferredScale != scale)
-                return createAndStripZerosToMatchScale(q, scale, preferredScale);
+            if (preferredScble != scble)
+                return crebteAndStripZerosToMbtchScble(q, scble, preferredScble);
             else
-                return valueOf(q, scale);
+                return vblueOf(q, scble);
         }
     }
 
     /**
-     * Divides {@code long} by {@code long} and do rounding based on the
-     * passed in roundingMode.
+     * Divides {@code long} by {@code long} bnd do rounding bbsed on the
+     * pbssed in roundingMode.
      */
-    private static long divideAndRound(long ldividend, long ldivisor, int roundingMode) {
+    privbte stbtic long divideAndRound(long ldividend, long ldivisor, int roundingMode) {
         int qsign; // quotient sign
         long q = ldividend / ldivisor; // store quotient in long
         if (roundingMode == ROUND_DOWN)
             return q;
-        long r = ldividend % ldivisor; // store remainder in long
+        long r = ldividend % ldivisor; // store rembinder in long
         qsign = ((ldividend < 0) == (ldivisor < 0)) ? 1 : -1;
         if (r != 0) {
-            boolean increment = needIncrement(ldivisor, roundingMode, qsign, q,     r);
+            boolebn increment = needIncrement(ldivisor, roundingMode, qsign, q,     r);
             return increment ? q + qsign : q;
         } else {
             return q;
@@ -4147,48 +4147,48 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     /**
-     * Shared logic of need increment computation.
+     * Shbred logic of need increment computbtion.
      */
-    private static boolean commonNeedIncrement(int roundingMode, int qsign,
-                                        int cmpFracHalf, boolean oddQuot) {
+    privbte stbtic boolebn commonNeedIncrement(int roundingMode, int qsign,
+                                        int cmpFrbcHblf, boolebn oddQuot) {
         switch(roundingMode) {
-        case ROUND_UNNECESSARY:
-            throw new ArithmeticException("Rounding necessary");
+        cbse ROUND_UNNECESSARY:
+            throw new ArithmeticException("Rounding necessbry");
 
-        case ROUND_UP: // Away from zero
+        cbse ROUND_UP: // Awby from zero
             return true;
 
-        case ROUND_DOWN: // Towards zero
-            return false;
+        cbse ROUND_DOWN: // Towbrds zero
+            return fblse;
 
-        case ROUND_CEILING: // Towards +infinity
+        cbse ROUND_CEILING: // Towbrds +infinity
             return qsign > 0;
 
-        case ROUND_FLOOR: // Towards -infinity
+        cbse ROUND_FLOOR: // Towbrds -infinity
             return qsign < 0;
 
-        default: // Some kind of half-way rounding
-            assert roundingMode >= ROUND_HALF_UP &&
-                roundingMode <= ROUND_HALF_EVEN: "Unexpected rounding mode" + RoundingMode.valueOf(roundingMode);
+        defbult: // Some kind of hblf-wby rounding
+            bssert roundingMode >= ROUND_HALF_UP &&
+                roundingMode <= ROUND_HALF_EVEN: "Unexpected rounding mode" + RoundingMode.vblueOf(roundingMode);
 
-            if (cmpFracHalf < 0 ) // We're closer to higher digit
-                return false;
-            else if (cmpFracHalf > 0 ) // We're closer to lower digit
+            if (cmpFrbcHblf < 0 ) // We're closer to higher digit
+                return fblse;
+            else if (cmpFrbcHblf > 0 ) // We're closer to lower digit
                 return true;
-            else { // half-way
-                assert cmpFracHalf == 0;
+            else { // hblf-wby
+                bssert cmpFrbcHblf == 0;
 
                 switch(roundingMode) {
-                case ROUND_HALF_DOWN:
-                    return false;
+                cbse ROUND_HALF_DOWN:
+                    return fblse;
 
-                case ROUND_HALF_UP:
+                cbse ROUND_HALF_UP:
                     return true;
 
-                case ROUND_HALF_EVEN:
+                cbse ROUND_HALF_EVEN:
                     return oddQuot;
 
-                default:
+                defbult:
                     throw new AssertionError("Unexpected rounding mode" + roundingMode);
                 }
             }
@@ -4196,234 +4196,234 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     /**
-     * Tests if quotient has to be incremented according the roundingMode
+     * Tests if quotient hbs to be incremented bccording the roundingMode
      */
-    private static boolean needIncrement(long ldivisor, int roundingMode,
+    privbte stbtic boolebn needIncrement(long ldivisor, int roundingMode,
                                          int qsign, long q, long r) {
-        assert r != 0L;
+        bssert r != 0L;
 
-        int cmpFracHalf;
+        int cmpFrbcHblf;
         if (r <= HALF_LONG_MIN_VALUE || r > HALF_LONG_MAX_VALUE) {
-            cmpFracHalf = 1; // 2 * r can't fit into long
+            cmpFrbcHblf = 1; // 2 * r cbn't fit into long
         } else {
-            cmpFracHalf = longCompareMagnitude(2 * r, ldivisor);
+            cmpFrbcHblf = longCompbreMbgnitude(2 * r, ldivisor);
         }
 
-        return commonNeedIncrement(roundingMode, qsign, cmpFracHalf, (q & 1L) != 0L);
+        return commonNeedIncrement(roundingMode, qsign, cmpFrbcHblf, (q & 1L) != 0L);
     }
 
     /**
-     * Divides {@code BigInteger} value by {@code long} value and
-     * do rounding based on the passed in roundingMode.
+     * Divides {@code BigInteger} vblue by {@code long} vblue bnd
+     * do rounding bbsed on the pbssed in roundingMode.
      */
-    private static BigInteger divideAndRound(BigInteger bdividend, long ldivisor, int roundingMode) {
-        // Descend into mutables for faster remainder checks
-        MutableBigInteger mdividend = new MutableBigInteger(bdividend.mag);
+    privbte stbtic BigInteger divideAndRound(BigInteger bdividend, long ldivisor, int roundingMode) {
+        // Descend into mutbbles for fbster rembinder checks
+        MutbbleBigInteger mdividend = new MutbbleBigInteger(bdividend.mbg);
         // store quotient
-        MutableBigInteger mq = new MutableBigInteger();
-        // store quotient & remainder in long
+        MutbbleBigInteger mq = new MutbbleBigInteger();
+        // store quotient & rembinder in long
         long r = mdividend.divide(ldivisor, mq);
-        // record remainder is zero or not
-        boolean isRemainderZero = (r == 0);
+        // record rembinder is zero or not
+        boolebn isRembinderZero = (r == 0);
         // quotient sign
         int qsign = (ldivisor < 0) ? -bdividend.signum : bdividend.signum;
-        if (!isRemainderZero) {
+        if (!isRembinderZero) {
             if(needIncrement(ldivisor, roundingMode, qsign, mq, r)) {
-                mq.add(MutableBigInteger.ONE);
+                mq.bdd(MutbbleBigInteger.ONE);
             }
         }
         return mq.toBigInteger(qsign);
     }
 
     /**
-     * Internally used for division operation for division {@code BigInteger}
+     * Internblly used for division operbtion for division {@code BigInteger}
      * by {@code long}.
-     * The returned {@code BigDecimal} object is the quotient whose scale is set
-     * to the passed in scale. If the remainder is not zero, it will be rounded
-     * based on the passed in roundingMode. Also, if the remainder is zero and
-     * the last parameter, i.e. preferredScale is NOT equal to scale, the
-     * trailing zeros of the result is stripped to match the preferredScale.
+     * The returned {@code BigDecimbl} object is the quotient whose scble is set
+     * to the pbssed in scble. If the rembinder is not zero, it will be rounded
+     * bbsed on the pbssed in roundingMode. Also, if the rembinder is zero bnd
+     * the lbst pbrbmeter, i.e. preferredScble is NOT equbl to scble, the
+     * trbiling zeros of the result is stripped to mbtch the preferredScble.
      */
-    private static BigDecimal divideAndRound(BigInteger bdividend,
-                                             long ldivisor, int scale, int roundingMode, int preferredScale) {
-        // Descend into mutables for faster remainder checks
-        MutableBigInteger mdividend = new MutableBigInteger(bdividend.mag);
+    privbte stbtic BigDecimbl divideAndRound(BigInteger bdividend,
+                                             long ldivisor, int scble, int roundingMode, int preferredScble) {
+        // Descend into mutbbles for fbster rembinder checks
+        MutbbleBigInteger mdividend = new MutbbleBigInteger(bdividend.mbg);
         // store quotient
-        MutableBigInteger mq = new MutableBigInteger();
-        // store quotient & remainder in long
+        MutbbleBigInteger mq = new MutbbleBigInteger();
+        // store quotient & rembinder in long
         long r = mdividend.divide(ldivisor, mq);
-        // record remainder is zero or not
-        boolean isRemainderZero = (r == 0);
+        // record rembinder is zero or not
+        boolebn isRembinderZero = (r == 0);
         // quotient sign
         int qsign = (ldivisor < 0) ? -bdividend.signum : bdividend.signum;
-        if (!isRemainderZero) {
+        if (!isRembinderZero) {
             if(needIncrement(ldivisor, roundingMode, qsign, mq, r)) {
-                mq.add(MutableBigInteger.ONE);
+                mq.bdd(MutbbleBigInteger.ONE);
             }
-            return mq.toBigDecimal(qsign, scale);
+            return mq.toBigDecimbl(qsign, scble);
         } else {
-            if (preferredScale != scale) {
-                long compactVal = mq.toCompactValue(qsign);
-                if(compactVal!=INFLATED) {
-                    return createAndStripZerosToMatchScale(compactVal, scale, preferredScale);
+            if (preferredScble != scble) {
+                long compbctVbl = mq.toCompbctVblue(qsign);
+                if(compbctVbl!=INFLATED) {
+                    return crebteAndStripZerosToMbtchScble(compbctVbl, scble, preferredScble);
                 }
-                BigInteger intVal =  mq.toBigInteger(qsign);
-                return createAndStripZerosToMatchScale(intVal,scale, preferredScale);
+                BigInteger intVbl =  mq.toBigInteger(qsign);
+                return crebteAndStripZerosToMbtchScble(intVbl,scble, preferredScble);
             } else {
-                return mq.toBigDecimal(qsign, scale);
+                return mq.toBigDecimbl(qsign, scble);
             }
         }
     }
 
     /**
-     * Tests if quotient has to be incremented according the roundingMode
+     * Tests if quotient hbs to be incremented bccording the roundingMode
      */
-    private static boolean needIncrement(long ldivisor, int roundingMode,
-                                         int qsign, MutableBigInteger mq, long r) {
-        assert r != 0L;
+    privbte stbtic boolebn needIncrement(long ldivisor, int roundingMode,
+                                         int qsign, MutbbleBigInteger mq, long r) {
+        bssert r != 0L;
 
-        int cmpFracHalf;
+        int cmpFrbcHblf;
         if (r <= HALF_LONG_MIN_VALUE || r > HALF_LONG_MAX_VALUE) {
-            cmpFracHalf = 1; // 2 * r can't fit into long
+            cmpFrbcHblf = 1; // 2 * r cbn't fit into long
         } else {
-            cmpFracHalf = longCompareMagnitude(2 * r, ldivisor);
+            cmpFrbcHblf = longCompbreMbgnitude(2 * r, ldivisor);
         }
 
-        return commonNeedIncrement(roundingMode, qsign, cmpFracHalf, mq.isOdd());
+        return commonNeedIncrement(roundingMode, qsign, cmpFrbcHblf, mq.isOdd());
     }
 
     /**
-     * Divides {@code BigInteger} value by {@code BigInteger} value and
-     * do rounding based on the passed in roundingMode.
+     * Divides {@code BigInteger} vblue by {@code BigInteger} vblue bnd
+     * do rounding bbsed on the pbssed in roundingMode.
      */
-    private static BigInteger divideAndRound(BigInteger bdividend, BigInteger bdivisor, int roundingMode) {
-        boolean isRemainderZero; // record remainder is zero or not
+    privbte stbtic BigInteger divideAndRound(BigInteger bdividend, BigInteger bdivisor, int roundingMode) {
+        boolebn isRembinderZero; // record rembinder is zero or not
         int qsign; // quotient sign
-        // Descend into mutables for faster remainder checks
-        MutableBigInteger mdividend = new MutableBigInteger(bdividend.mag);
-        MutableBigInteger mq = new MutableBigInteger();
-        MutableBigInteger mdivisor = new MutableBigInteger(bdivisor.mag);
-        MutableBigInteger mr = mdividend.divide(mdivisor, mq);
-        isRemainderZero = mr.isZero();
+        // Descend into mutbbles for fbster rembinder checks
+        MutbbleBigInteger mdividend = new MutbbleBigInteger(bdividend.mbg);
+        MutbbleBigInteger mq = new MutbbleBigInteger();
+        MutbbleBigInteger mdivisor = new MutbbleBigInteger(bdivisor.mbg);
+        MutbbleBigInteger mr = mdividend.divide(mdivisor, mq);
+        isRembinderZero = mr.isZero();
         qsign = (bdividend.signum != bdivisor.signum) ? -1 : 1;
-        if (!isRemainderZero) {
+        if (!isRembinderZero) {
             if (needIncrement(mdivisor, roundingMode, qsign, mq, mr)) {
-                mq.add(MutableBigInteger.ONE);
+                mq.bdd(MutbbleBigInteger.ONE);
             }
         }
         return mq.toBigInteger(qsign);
     }
 
     /**
-     * Internally used for division operation for division {@code BigInteger}
+     * Internblly used for division operbtion for division {@code BigInteger}
      * by {@code BigInteger}.
-     * The returned {@code BigDecimal} object is the quotient whose scale is set
-     * to the passed in scale. If the remainder is not zero, it will be rounded
-     * based on the passed in roundingMode. Also, if the remainder is zero and
-     * the last parameter, i.e. preferredScale is NOT equal to scale, the
-     * trailing zeros of the result is stripped to match the preferredScale.
+     * The returned {@code BigDecimbl} object is the quotient whose scble is set
+     * to the pbssed in scble. If the rembinder is not zero, it will be rounded
+     * bbsed on the pbssed in roundingMode. Also, if the rembinder is zero bnd
+     * the lbst pbrbmeter, i.e. preferredScble is NOT equbl to scble, the
+     * trbiling zeros of the result is stripped to mbtch the preferredScble.
      */
-    private static BigDecimal divideAndRound(BigInteger bdividend, BigInteger bdivisor, int scale, int roundingMode,
-                                             int preferredScale) {
-        boolean isRemainderZero; // record remainder is zero or not
+    privbte stbtic BigDecimbl divideAndRound(BigInteger bdividend, BigInteger bdivisor, int scble, int roundingMode,
+                                             int preferredScble) {
+        boolebn isRembinderZero; // record rembinder is zero or not
         int qsign; // quotient sign
-        // Descend into mutables for faster remainder checks
-        MutableBigInteger mdividend = new MutableBigInteger(bdividend.mag);
-        MutableBigInteger mq = new MutableBigInteger();
-        MutableBigInteger mdivisor = new MutableBigInteger(bdivisor.mag);
-        MutableBigInteger mr = mdividend.divide(mdivisor, mq);
-        isRemainderZero = mr.isZero();
+        // Descend into mutbbles for fbster rembinder checks
+        MutbbleBigInteger mdividend = new MutbbleBigInteger(bdividend.mbg);
+        MutbbleBigInteger mq = new MutbbleBigInteger();
+        MutbbleBigInteger mdivisor = new MutbbleBigInteger(bdivisor.mbg);
+        MutbbleBigInteger mr = mdividend.divide(mdivisor, mq);
+        isRembinderZero = mr.isZero();
         qsign = (bdividend.signum != bdivisor.signum) ? -1 : 1;
-        if (!isRemainderZero) {
+        if (!isRembinderZero) {
             if (needIncrement(mdivisor, roundingMode, qsign, mq, mr)) {
-                mq.add(MutableBigInteger.ONE);
+                mq.bdd(MutbbleBigInteger.ONE);
             }
-            return mq.toBigDecimal(qsign, scale);
+            return mq.toBigDecimbl(qsign, scble);
         } else {
-            if (preferredScale != scale) {
-                long compactVal = mq.toCompactValue(qsign);
-                if (compactVal != INFLATED) {
-                    return createAndStripZerosToMatchScale(compactVal, scale, preferredScale);
+            if (preferredScble != scble) {
+                long compbctVbl = mq.toCompbctVblue(qsign);
+                if (compbctVbl != INFLATED) {
+                    return crebteAndStripZerosToMbtchScble(compbctVbl, scble, preferredScble);
                 }
-                BigInteger intVal = mq.toBigInteger(qsign);
-                return createAndStripZerosToMatchScale(intVal, scale, preferredScale);
+                BigInteger intVbl = mq.toBigInteger(qsign);
+                return crebteAndStripZerosToMbtchScble(intVbl, scble, preferredScble);
             } else {
-                return mq.toBigDecimal(qsign, scale);
+                return mq.toBigDecimbl(qsign, scble);
             }
         }
     }
 
     /**
-     * Tests if quotient has to be incremented according the roundingMode
+     * Tests if quotient hbs to be incremented bccording the roundingMode
      */
-    private static boolean needIncrement(MutableBigInteger mdivisor, int roundingMode,
-                                         int qsign, MutableBigInteger mq, MutableBigInteger mr) {
-        assert !mr.isZero();
-        int cmpFracHalf = mr.compareHalf(mdivisor);
-        return commonNeedIncrement(roundingMode, qsign, cmpFracHalf, mq.isOdd());
+    privbte stbtic boolebn needIncrement(MutbbleBigInteger mdivisor, int roundingMode,
+                                         int qsign, MutbbleBigInteger mq, MutbbleBigInteger mr) {
+        bssert !mr.isZero();
+        int cmpFrbcHblf = mr.compbreHblf(mdivisor);
+        return commonNeedIncrement(roundingMode, qsign, cmpFrbcHblf, mq.isOdd());
     }
 
     /**
-     * Remove insignificant trailing zeros from this
-     * {@code BigInteger} value until the preferred scale is reached or no
-     * more zeros can be removed.  If the preferred scale is less than
-     * Integer.MIN_VALUE, all the trailing zeros will be removed.
+     * Remove insignificbnt trbiling zeros from this
+     * {@code BigInteger} vblue until the preferred scble is rebched or no
+     * more zeros cbn be removed.  If the preferred scble is less thbn
+     * Integer.MIN_VALUE, bll the trbiling zeros will be removed.
      *
-     * @return new {@code BigDecimal} with a scale possibly reduced
-     * to be closed to the preferred scale.
+     * @return new {@code BigDecimbl} with b scble possibly reduced
+     * to be closed to the preferred scble.
      */
-    private static BigDecimal createAndStripZerosToMatchScale(BigInteger intVal, int scale, long preferredScale) {
-        BigInteger qr[]; // quotient-remainder pair
-        while (intVal.compareMagnitude(BigInteger.TEN) >= 0
-               && scale > preferredScale) {
-            if (intVal.testBit(0))
-                break; // odd number cannot end in 0
-            qr = intVal.divideAndRemainder(BigInteger.TEN);
+    privbte stbtic BigDecimbl crebteAndStripZerosToMbtchScble(BigInteger intVbl, int scble, long preferredScble) {
+        BigInteger qr[]; // quotient-rembinder pbir
+        while (intVbl.compbreMbgnitude(BigInteger.TEN) >= 0
+               && scble > preferredScble) {
+            if (intVbl.testBit(0))
+                brebk; // odd number cbnnot end in 0
+            qr = intVbl.divideAndRembinder(BigInteger.TEN);
             if (qr[1].signum() != 0)
-                break; // non-0 remainder
-            intVal = qr[0];
-            scale = checkScale(intVal,(long) scale - 1); // could Overflow
+                brebk; // non-0 rembinder
+            intVbl = qr[0];
+            scble = checkScble(intVbl,(long) scble - 1); // could Overflow
         }
-        return valueOf(intVal, scale, 0);
+        return vblueOf(intVbl, scble, 0);
     }
 
     /**
-     * Remove insignificant trailing zeros from this
-     * {@code long} value until the preferred scale is reached or no
-     * more zeros can be removed.  If the preferred scale is less than
-     * Integer.MIN_VALUE, all the trailing zeros will be removed.
+     * Remove insignificbnt trbiling zeros from this
+     * {@code long} vblue until the preferred scble is rebched or no
+     * more zeros cbn be removed.  If the preferred scble is less thbn
+     * Integer.MIN_VALUE, bll the trbiling zeros will be removed.
      *
-     * @return new {@code BigDecimal} with a scale possibly reduced
-     * to be closed to the preferred scale.
+     * @return new {@code BigDecimbl} with b scble possibly reduced
+     * to be closed to the preferred scble.
      */
-    private static BigDecimal createAndStripZerosToMatchScale(long compactVal, int scale, long preferredScale) {
-        while (Math.abs(compactVal) >= 10L && scale > preferredScale) {
-            if ((compactVal & 1L) != 0L)
-                break; // odd number cannot end in 0
-            long r = compactVal % 10L;
+    privbte stbtic BigDecimbl crebteAndStripZerosToMbtchScble(long compbctVbl, int scble, long preferredScble) {
+        while (Mbth.bbs(compbctVbl) >= 10L && scble > preferredScble) {
+            if ((compbctVbl & 1L) != 0L)
+                brebk; // odd number cbnnot end in 0
+            long r = compbctVbl % 10L;
             if (r != 0L)
-                break; // non-0 remainder
-            compactVal /= 10;
-            scale = checkScale(compactVal, (long) scale - 1); // could Overflow
+                brebk; // non-0 rembinder
+            compbctVbl /= 10;
+            scble = checkScble(compbctVbl, (long) scble - 1); // could Overflow
         }
-        return valueOf(compactVal, scale);
+        return vblueOf(compbctVbl, scble);
     }
 
-    private static BigDecimal stripZerosToMatchScale(BigInteger intVal, long intCompact, int scale, int preferredScale) {
-        if(intCompact!=INFLATED) {
-            return createAndStripZerosToMatchScale(intCompact, scale, preferredScale);
+    privbte stbtic BigDecimbl stripZerosToMbtchScble(BigInteger intVbl, long intCompbct, int scble, int preferredScble) {
+        if(intCompbct!=INFLATED) {
+            return crebteAndStripZerosToMbtchScble(intCompbct, scble, preferredScble);
         } else {
-            return createAndStripZerosToMatchScale(intVal==null ? INFLATED_BIGINT : intVal,
-                                                   scale, preferredScale);
+            return crebteAndStripZerosToMbtchScble(intVbl==null ? INFLATED_BIGINT : intVbl,
+                                                   scble, preferredScble);
         }
     }
 
     /*
      * returns INFLATED if oveflow
      */
-    private static long add(long xs, long ys){
+    privbte stbtic long bdd(long xs, long ys){
         long sum = xs + ys;
-        // See "Hacker's Delight" section 2-12 for explanation of
+        // See "Hbcker's Delight" section 2-12 for explbnbtion of
         // the overflow test.
         if ( (((sum ^ xs) & (sum ^ ys))) >= 0L) { // not overflowed
             return sum;
@@ -4431,347 +4431,347 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return INFLATED;
     }
 
-    private static BigDecimal add(long xs, long ys, int scale){
-        long sum = add(xs, ys);
+    privbte stbtic BigDecimbl bdd(long xs, long ys, int scble){
+        long sum = bdd(xs, ys);
         if (sum!=INFLATED)
-            return BigDecimal.valueOf(sum, scale);
-        return new BigDecimal(BigInteger.valueOf(xs).add(ys), scale);
+            return BigDecimbl.vblueOf(sum, scble);
+        return new BigDecimbl(BigInteger.vblueOf(xs).bdd(ys), scble);
     }
 
-    private static BigDecimal add(final long xs, int scale1, final long ys, int scale2) {
-        long sdiff = (long) scale1 - scale2;
+    privbte stbtic BigDecimbl bdd(finbl long xs, int scble1, finbl long ys, int scble2) {
+        long sdiff = (long) scble1 - scble2;
         if (sdiff == 0) {
-            return add(xs, ys, scale1);
+            return bdd(xs, ys, scble1);
         } else if (sdiff < 0) {
-            int raise = checkScale(xs,-sdiff);
-            long scaledX = longMultiplyPowerTen(xs, raise);
-            if (scaledX != INFLATED) {
-                return add(scaledX, ys, scale2);
+            int rbise = checkScble(xs,-sdiff);
+            long scbledX = longMultiplyPowerTen(xs, rbise);
+            if (scbledX != INFLATED) {
+                return bdd(scbledX, ys, scble2);
             } else {
-                BigInteger bigsum = bigMultiplyPowerTen(xs,raise).add(ys);
-                return ((xs^ys)>=0) ? // same sign test
-                    new BigDecimal(bigsum, INFLATED, scale2, 0)
-                    : valueOf(bigsum, scale2, 0);
+                BigInteger bigsum = bigMultiplyPowerTen(xs,rbise).bdd(ys);
+                return ((xs^ys)>=0) ? // sbme sign test
+                    new BigDecimbl(bigsum, INFLATED, scble2, 0)
+                    : vblueOf(bigsum, scble2, 0);
             }
         } else {
-            int raise = checkScale(ys,sdiff);
-            long scaledY = longMultiplyPowerTen(ys, raise);
-            if (scaledY != INFLATED) {
-                return add(xs, scaledY, scale1);
+            int rbise = checkScble(ys,sdiff);
+            long scbledY = longMultiplyPowerTen(ys, rbise);
+            if (scbledY != INFLATED) {
+                return bdd(xs, scbledY, scble1);
             } else {
-                BigInteger bigsum = bigMultiplyPowerTen(ys,raise).add(xs);
+                BigInteger bigsum = bigMultiplyPowerTen(ys,rbise).bdd(xs);
                 return ((xs^ys)>=0) ?
-                    new BigDecimal(bigsum, INFLATED, scale1, 0)
-                    : valueOf(bigsum, scale1, 0);
+                    new BigDecimbl(bigsum, INFLATED, scble1, 0)
+                    : vblueOf(bigsum, scble1, 0);
             }
         }
     }
 
-    private static BigDecimal add(final long xs, int scale1, BigInteger snd, int scale2) {
-        int rscale = scale1;
-        long sdiff = (long)rscale - scale2;
-        boolean sameSigns =  (Long.signum(xs) == snd.signum);
+    privbte stbtic BigDecimbl bdd(finbl long xs, int scble1, BigInteger snd, int scble2) {
+        int rscble = scble1;
+        long sdiff = (long)rscble - scble2;
+        boolebn sbmeSigns =  (Long.signum(xs) == snd.signum);
         BigInteger sum;
         if (sdiff < 0) {
-            int raise = checkScale(xs,-sdiff);
-            rscale = scale2;
-            long scaledX = longMultiplyPowerTen(xs, raise);
-            if (scaledX == INFLATED) {
-                sum = snd.add(bigMultiplyPowerTen(xs,raise));
+            int rbise = checkScble(xs,-sdiff);
+            rscble = scble2;
+            long scbledX = longMultiplyPowerTen(xs, rbise);
+            if (scbledX == INFLATED) {
+                sum = snd.bdd(bigMultiplyPowerTen(xs,rbise));
             } else {
-                sum = snd.add(scaledX);
+                sum = snd.bdd(scbledX);
             }
         } else { //if (sdiff > 0) {
-            int raise = checkScale(snd,sdiff);
-            snd = bigMultiplyPowerTen(snd,raise);
-            sum = snd.add(xs);
+            int rbise = checkScble(snd,sdiff);
+            snd = bigMultiplyPowerTen(snd,rbise);
+            sum = snd.bdd(xs);
         }
-        return (sameSigns) ?
-            new BigDecimal(sum, INFLATED, rscale, 0) :
-            valueOf(sum, rscale, 0);
+        return (sbmeSigns) ?
+            new BigDecimbl(sum, INFLATED, rscble, 0) :
+            vblueOf(sum, rscble, 0);
     }
 
-    private static BigDecimal add(BigInteger fst, int scale1, BigInteger snd, int scale2) {
-        int rscale = scale1;
-        long sdiff = (long)rscale - scale2;
+    privbte stbtic BigDecimbl bdd(BigInteger fst, int scble1, BigInteger snd, int scble2) {
+        int rscble = scble1;
+        long sdiff = (long)rscble - scble2;
         if (sdiff != 0) {
             if (sdiff < 0) {
-                int raise = checkScale(fst,-sdiff);
-                rscale = scale2;
-                fst = bigMultiplyPowerTen(fst,raise);
+                int rbise = checkScble(fst,-sdiff);
+                rscble = scble2;
+                fst = bigMultiplyPowerTen(fst,rbise);
             } else {
-                int raise = checkScale(snd,sdiff);
-                snd = bigMultiplyPowerTen(snd,raise);
+                int rbise = checkScble(snd,sdiff);
+                snd = bigMultiplyPowerTen(snd,rbise);
             }
         }
-        BigInteger sum = fst.add(snd);
+        BigInteger sum = fst.bdd(snd);
         return (fst.signum == snd.signum) ?
-                new BigDecimal(sum, INFLATED, rscale, 0) :
-                valueOf(sum, rscale, 0);
+                new BigDecimbl(sum, INFLATED, rscble, 0) :
+                vblueOf(sum, rscble, 0);
     }
 
-    private static BigInteger bigMultiplyPowerTen(long value, int n) {
+    privbte stbtic BigInteger bigMultiplyPowerTen(long vblue, int n) {
         if (n <= 0)
-            return BigInteger.valueOf(value);
-        return bigTenToThe(n).multiply(value);
+            return BigInteger.vblueOf(vblue);
+        return bigTenToThe(n).multiply(vblue);
     }
 
-    private static BigInteger bigMultiplyPowerTen(BigInteger value, int n) {
+    privbte stbtic BigInteger bigMultiplyPowerTen(BigInteger vblue, int n) {
         if (n <= 0)
-            return value;
+            return vblue;
         if(n<LONG_TEN_POWERS_TABLE.length) {
-                return value.multiply(LONG_TEN_POWERS_TABLE[n]);
+                return vblue.multiply(LONG_TEN_POWERS_TABLE[n]);
         }
-        return value.multiply(bigTenToThe(n));
+        return vblue.multiply(bigTenToThe(n));
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (xs /
-     * ys)}, with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (xs /
+     * ys)}, with rounding bccording to the context settings.
      *
-     * Fast path - used only when (xscale <= yscale && yscale < 18
+     * Fbst pbth - used only when (xscble <= yscble && yscble < 18
      *  && mc.presision<18) {
      */
-    private static BigDecimal divideSmallFastPath(final long xs, int xscale,
-                                                  final long ys, int yscale,
-                                                  long preferredScale, MathContext mc) {
+    privbte stbtic BigDecimbl divideSmbllFbstPbth(finbl long xs, int xscble,
+                                                  finbl long ys, int yscble,
+                                                  long preferredScble, MbthContext mc) {
         int mcp = mc.precision;
         int roundingMode = mc.roundingMode.oldMode;
 
-        assert (xscale <= yscale) && (yscale < 18) && (mcp < 18);
-        int xraise = yscale - xscale; // xraise >=0
-        long scaledX = (xraise==0) ? xs :
-            longMultiplyPowerTen(xs, xraise); // can't overflow here!
-        BigDecimal quotient;
+        bssert (xscble <= yscble) && (yscble < 18) && (mcp < 18);
+        int xrbise = yscble - xscble; // xrbise >=0
+        long scbledX = (xrbise==0) ? xs :
+            longMultiplyPowerTen(xs, xrbise); // cbn't overflow here!
+        BigDecimbl quotient;
 
-        int cmp = longCompareMagnitude(scaledX, ys);
-        if(cmp > 0) { // satisfy constraint (b)
-            yscale -= 1; // [that is, divisor *= 10]
-            int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
-            if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
-                // assert newScale >= xscale
-                int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-                long scaledXs;
-                if ((scaledXs = longMultiplyPowerTen(xs, raise)) == INFLATED) {
+        int cmp = longCompbreMbgnitude(scbledX, ys);
+        if(cmp > 0) { // sbtisfy constrbint (b)
+            yscble -= 1; // [thbt is, divisor *= 10]
+            int scl = checkScbleNonZero(preferredScble + yscble - xscble + mcp);
+            if (checkScbleNonZero((long) mcp + yscble - xscble) > 0) {
+                // bssert newScble >= xscble
+                int rbise = checkScbleNonZero((long) mcp + yscble - xscble);
+                long scbledXs;
+                if ((scbledXs = longMultiplyPowerTen(xs, rbise)) == INFLATED) {
                     quotient = null;
                     if((mcp-1) >=0 && (mcp-1)<LONG_TEN_POWERS_TABLE.length) {
-                        quotient = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[mcp-1], scaledX, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+                        quotient = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[mcp-1], scbledX, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
                     }
                     if(quotient==null) {
-                        BigInteger rb = bigMultiplyPowerTen(scaledX,mcp-1);
+                        BigInteger rb = bigMultiplyPowerTen(scbledX,mcp-1);
                         quotient = divideAndRound(rb, ys,
-                                                  scl, roundingMode, checkScaleNonZero(preferredScale));
+                                                  scl, roundingMode, checkScbleNonZero(preferredScble));
                     }
                 } else {
-                    quotient = divideAndRound(scaledXs, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+                    quotient = divideAndRound(scbledXs, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
                 }
             } else {
-                int newScale = checkScaleNonZero((long) xscale - mcp);
-                // assert newScale >= yscale
-                if (newScale == yscale) { // easy case
-                    quotient = divideAndRound(xs, ys, scl, roundingMode,checkScaleNonZero(preferredScale));
+                int newScble = checkScbleNonZero((long) xscble - mcp);
+                // bssert newScble >= yscble
+                if (newScble == yscble) { // ebsy cbse
+                    quotient = divideAndRound(xs, ys, scl, roundingMode,checkScbleNonZero(preferredScble));
                 } else {
-                    int raise = checkScaleNonZero((long) newScale - yscale);
-                    long scaledYs;
-                    if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                        BigInteger rb = bigMultiplyPowerTen(ys,raise);
-                        quotient = divideAndRound(BigInteger.valueOf(xs),
-                                                  rb, scl, roundingMode,checkScaleNonZero(preferredScale));
+                    int rbise = checkScbleNonZero((long) newScble - yscble);
+                    long scbledYs;
+                    if ((scbledYs = longMultiplyPowerTen(ys, rbise)) == INFLATED) {
+                        BigInteger rb = bigMultiplyPowerTen(ys,rbise);
+                        quotient = divideAndRound(BigInteger.vblueOf(xs),
+                                                  rb, scl, roundingMode,checkScbleNonZero(preferredScble));
                     } else {
-                        quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
+                        quotient = divideAndRound(xs, scbledYs, scl, roundingMode,checkScbleNonZero(preferredScble));
                     }
                 }
             }
         } else {
-            // abs(scaledX) <= abs(ys)
-            // result is "scaledX * 10^msp / ys"
-            int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
+            // bbs(scbledX) <= bbs(ys)
+            // result is "scbledX * 10^msp / ys"
+            int scl = checkScbleNonZero(preferredScble + yscble - xscble + mcp);
             if(cmp==0) {
-                // abs(scaleX)== abs(ys) => result will be scaled 10^mcp + correct sign
-                quotient = roundedTenPower(((scaledX < 0) == (ys < 0)) ? 1 : -1, mcp, scl, checkScaleNonZero(preferredScale));
+                // bbs(scbleX)== bbs(ys) => result will be scbled 10^mcp + correct sign
+                quotient = roundedTenPower(((scbledX < 0) == (ys < 0)) ? 1 : -1, mcp, scl, checkScbleNonZero(preferredScble));
             } else {
-                // abs(scaledX) < abs(ys)
-                long scaledXs;
-                if ((scaledXs = longMultiplyPowerTen(scaledX, mcp)) == INFLATED) {
+                // bbs(scbledX) < bbs(ys)
+                long scbledXs;
+                if ((scbledXs = longMultiplyPowerTen(scbledX, mcp)) == INFLATED) {
                     quotient = null;
                     if(mcp<LONG_TEN_POWERS_TABLE.length) {
-                        quotient = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[mcp], scaledX, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+                        quotient = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[mcp], scbledX, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
                     }
                     if(quotient==null) {
-                        BigInteger rb = bigMultiplyPowerTen(scaledX,mcp);
+                        BigInteger rb = bigMultiplyPowerTen(scbledX,mcp);
                         quotient = divideAndRound(rb, ys,
-                                                  scl, roundingMode, checkScaleNonZero(preferredScale));
+                                                  scl, roundingMode, checkScbleNonZero(preferredScble));
                     }
                 } else {
-                    quotient = divideAndRound(scaledXs, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+                    quotient = divideAndRound(scbledXs, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
                 }
             }
         }
-        // doRound, here, only affects 1000000000 case.
+        // doRound, here, only bffects 1000000000 cbse.
         return doRound(quotient,mc);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (xs /
-     * ys)}, with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (xs /
+     * ys)}, with rounding bccording to the context settings.
      */
-    private static BigDecimal divide(final long xs, int xscale, final long ys, int yscale, long preferredScale, MathContext mc) {
+    privbte stbtic BigDecimbl divide(finbl long xs, int xscble, finbl long ys, int yscble, long preferredScble, MbthContext mc) {
         int mcp = mc.precision;
-        if(xscale <= yscale && yscale < 18 && mcp<18) {
-            return divideSmallFastPath(xs, xscale, ys, yscale, preferredScale, mc);
+        if(xscble <= yscble && yscble < 18 && mcp<18) {
+            return divideSmbllFbstPbth(xs, xscble, ys, yscble, preferredScble, mc);
         }
-        if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
-            yscale -= 1; // [that is, divisor *= 10]
+        if (compbreMbgnitudeNormblized(xs, xscble, ys, yscble) > 0) {// sbtisfy constrbint (b)
+            yscble -= 1; // [thbt is, divisor *= 10]
         }
         int roundingMode = mc.roundingMode.oldMode;
-        // In order to find out whether the divide generates the exact result,
-        // we avoid calling the above divide method. 'quotient' holds the
-        // return BigDecimal object whose scale will be set to 'scl'.
-        int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
-        BigDecimal quotient;
-        if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
-            int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            long scaledXs;
-            if ((scaledXs = longMultiplyPowerTen(xs, raise)) == INFLATED) {
-                BigInteger rb = bigMultiplyPowerTen(xs,raise);
-                quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+        // In order to find out whether the divide generbtes the exbct result,
+        // we bvoid cblling the bbove divide method. 'quotient' holds the
+        // return BigDecimbl object whose scble will be set to 'scl'.
+        int scl = checkScbleNonZero(preferredScble + yscble - xscble + mcp);
+        BigDecimbl quotient;
+        if (checkScbleNonZero((long) mcp + yscble - xscble) > 0) {
+            int rbise = checkScbleNonZero((long) mcp + yscble - xscble);
+            long scbledXs;
+            if ((scbledXs = longMultiplyPowerTen(xs, rbise)) == INFLATED) {
+                BigInteger rb = bigMultiplyPowerTen(xs,rbise);
+                quotient = divideAndRound(rb, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
             } else {
-                quotient = divideAndRound(scaledXs, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+                quotient = divideAndRound(scbledXs, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
             }
         } else {
-            int newScale = checkScaleNonZero((long) xscale - mcp);
-            // assert newScale >= yscale
-            if (newScale == yscale) { // easy case
-                quotient = divideAndRound(xs, ys, scl, roundingMode,checkScaleNonZero(preferredScale));
+            int newScble = checkScbleNonZero((long) xscble - mcp);
+            // bssert newScble >= yscble
+            if (newScble == yscble) { // ebsy cbse
+                quotient = divideAndRound(xs, ys, scl, roundingMode,checkScbleNonZero(preferredScble));
             } else {
-                int raise = checkScaleNonZero((long) newScale - yscale);
-                long scaledYs;
-                if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                    BigInteger rb = bigMultiplyPowerTen(ys,raise);
-                    quotient = divideAndRound(BigInteger.valueOf(xs),
-                                              rb, scl, roundingMode,checkScaleNonZero(preferredScale));
+                int rbise = checkScbleNonZero((long) newScble - yscble);
+                long scbledYs;
+                if ((scbledYs = longMultiplyPowerTen(ys, rbise)) == INFLATED) {
+                    BigInteger rb = bigMultiplyPowerTen(ys,rbise);
+                    quotient = divideAndRound(BigInteger.vblueOf(xs),
+                                              rb, scl, roundingMode,checkScbleNonZero(preferredScble));
                 } else {
-                    quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
+                    quotient = divideAndRound(xs, scbledYs, scl, roundingMode,checkScbleNonZero(preferredScble));
                 }
             }
         }
-        // doRound, here, only affects 1000000000 case.
+        // doRound, here, only bffects 1000000000 cbse.
         return doRound(quotient,mc);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (xs /
-     * ys)}, with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (xs /
+     * ys)}, with rounding bccording to the context settings.
      */
-    private static BigDecimal divide(BigInteger xs, int xscale, long ys, int yscale, long preferredScale, MathContext mc) {
-        // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-        if ((-compareMagnitudeNormalized(ys, yscale, xs, xscale)) > 0) {// satisfy constraint (b)
-            yscale -= 1; // [that is, divisor *= 10]
+    privbte stbtic BigDecimbl divide(BigInteger xs, int xscble, long ys, int yscble, long preferredScble, MbthContext mc) {
+        // Normblize dividend & divisor so thbt both fbll into [0.1, 0.999...]
+        if ((-compbreMbgnitudeNormblized(ys, yscble, xs, xscble)) > 0) {// sbtisfy constrbint (b)
+            yscble -= 1; // [thbt is, divisor *= 10]
         }
         int mcp = mc.precision;
         int roundingMode = mc.roundingMode.oldMode;
 
-        // In order to find out whether the divide generates the exact result,
-        // we avoid calling the above divide method. 'quotient' holds the
-        // return BigDecimal object whose scale will be set to 'scl'.
-        BigDecimal quotient;
-        int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
-        if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
-            int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            BigInteger rb = bigMultiplyPowerTen(xs,raise);
-            quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+        // In order to find out whether the divide generbtes the exbct result,
+        // we bvoid cblling the bbove divide method. 'quotient' holds the
+        // return BigDecimbl object whose scble will be set to 'scl'.
+        BigDecimbl quotient;
+        int scl = checkScbleNonZero(preferredScble + yscble - xscble + mcp);
+        if (checkScbleNonZero((long) mcp + yscble - xscble) > 0) {
+            int rbise = checkScbleNonZero((long) mcp + yscble - xscble);
+            BigInteger rb = bigMultiplyPowerTen(xs,rbise);
+            quotient = divideAndRound(rb, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
         } else {
-            int newScale = checkScaleNonZero((long) xscale - mcp);
-            // assert newScale >= yscale
-            if (newScale == yscale) { // easy case
-                quotient = divideAndRound(xs, ys, scl, roundingMode,checkScaleNonZero(preferredScale));
+            int newScble = checkScbleNonZero((long) xscble - mcp);
+            // bssert newScble >= yscble
+            if (newScble == yscble) { // ebsy cbse
+                quotient = divideAndRound(xs, ys, scl, roundingMode,checkScbleNonZero(preferredScble));
             } else {
-                int raise = checkScaleNonZero((long) newScale - yscale);
-                long scaledYs;
-                if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                    BigInteger rb = bigMultiplyPowerTen(ys,raise);
-                    quotient = divideAndRound(xs, rb, scl, roundingMode,checkScaleNonZero(preferredScale));
+                int rbise = checkScbleNonZero((long) newScble - yscble);
+                long scbledYs;
+                if ((scbledYs = longMultiplyPowerTen(ys, rbise)) == INFLATED) {
+                    BigInteger rb = bigMultiplyPowerTen(ys,rbise);
+                    quotient = divideAndRound(xs, rb, scl, roundingMode,checkScbleNonZero(preferredScble));
                 } else {
-                    quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
+                    quotient = divideAndRound(xs, scbledYs, scl, roundingMode,checkScbleNonZero(preferredScble));
                 }
             }
         }
-        // doRound, here, only affects 1000000000 case.
+        // doRound, here, only bffects 1000000000 cbse.
         return doRound(quotient, mc);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (xs /
-     * ys)}, with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (xs /
+     * ys)}, with rounding bccording to the context settings.
      */
-    private static BigDecimal divide(long xs, int xscale, BigInteger ys, int yscale, long preferredScale, MathContext mc) {
-        // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-        if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
-            yscale -= 1; // [that is, divisor *= 10]
+    privbte stbtic BigDecimbl divide(long xs, int xscble, BigInteger ys, int yscble, long preferredScble, MbthContext mc) {
+        // Normblize dividend & divisor so thbt both fbll into [0.1, 0.999...]
+        if (compbreMbgnitudeNormblized(xs, xscble, ys, yscble) > 0) {// sbtisfy constrbint (b)
+            yscble -= 1; // [thbt is, divisor *= 10]
         }
         int mcp = mc.precision;
         int roundingMode = mc.roundingMode.oldMode;
 
-        // In order to find out whether the divide generates the exact result,
-        // we avoid calling the above divide method. 'quotient' holds the
-        // return BigDecimal object whose scale will be set to 'scl'.
-        BigDecimal quotient;
-        int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
-        if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
-            int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            BigInteger rb = bigMultiplyPowerTen(xs,raise);
-            quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+        // In order to find out whether the divide generbtes the exbct result,
+        // we bvoid cblling the bbove divide method. 'quotient' holds the
+        // return BigDecimbl object whose scble will be set to 'scl'.
+        BigDecimbl quotient;
+        int scl = checkScbleNonZero(preferredScble + yscble - xscble + mcp);
+        if (checkScbleNonZero((long) mcp + yscble - xscble) > 0) {
+            int rbise = checkScbleNonZero((long) mcp + yscble - xscble);
+            BigInteger rb = bigMultiplyPowerTen(xs,rbise);
+            quotient = divideAndRound(rb, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
         } else {
-            int newScale = checkScaleNonZero((long) xscale - mcp);
-            int raise = checkScaleNonZero((long) newScale - yscale);
-            BigInteger rb = bigMultiplyPowerTen(ys,raise);
-            quotient = divideAndRound(BigInteger.valueOf(xs), rb, scl, roundingMode,checkScaleNonZero(preferredScale));
+            int newScble = checkScbleNonZero((long) xscble - mcp);
+            int rbise = checkScbleNonZero((long) newScble - yscble);
+            BigInteger rb = bigMultiplyPowerTen(ys,rbise);
+            quotient = divideAndRound(BigInteger.vblueOf(xs), rb, scl, roundingMode,checkScbleNonZero(preferredScble));
         }
-        // doRound, here, only affects 1000000000 case.
+        // doRound, here, only bffects 1000000000 cbse.
         return doRound(quotient, mc);
     }
 
     /**
-     * Returns a {@code BigDecimal} whose value is {@code (xs /
-     * ys)}, with rounding according to the context settings.
+     * Returns b {@code BigDecimbl} whose vblue is {@code (xs /
+     * ys)}, with rounding bccording to the context settings.
      */
-    private static BigDecimal divide(BigInteger xs, int xscale, BigInteger ys, int yscale, long preferredScale, MathContext mc) {
-        // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-        if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
-            yscale -= 1; // [that is, divisor *= 10]
+    privbte stbtic BigDecimbl divide(BigInteger xs, int xscble, BigInteger ys, int yscble, long preferredScble, MbthContext mc) {
+        // Normblize dividend & divisor so thbt both fbll into [0.1, 0.999...]
+        if (compbreMbgnitudeNormblized(xs, xscble, ys, yscble) > 0) {// sbtisfy constrbint (b)
+            yscble -= 1; // [thbt is, divisor *= 10]
         }
         int mcp = mc.precision;
         int roundingMode = mc.roundingMode.oldMode;
 
-        // In order to find out whether the divide generates the exact result,
-        // we avoid calling the above divide method. 'quotient' holds the
-        // return BigDecimal object whose scale will be set to 'scl'.
-        BigDecimal quotient;
-        int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
-        if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
-            int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            BigInteger rb = bigMultiplyPowerTen(xs,raise);
-            quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+        // In order to find out whether the divide generbtes the exbct result,
+        // we bvoid cblling the bbove divide method. 'quotient' holds the
+        // return BigDecimbl object whose scble will be set to 'scl'.
+        BigDecimbl quotient;
+        int scl = checkScbleNonZero(preferredScble + yscble - xscble + mcp);
+        if (checkScbleNonZero((long) mcp + yscble - xscble) > 0) {
+            int rbise = checkScbleNonZero((long) mcp + yscble - xscble);
+            BigInteger rb = bigMultiplyPowerTen(xs,rbise);
+            quotient = divideAndRound(rb, ys, scl, roundingMode, checkScbleNonZero(preferredScble));
         } else {
-            int newScale = checkScaleNonZero((long) xscale - mcp);
-            int raise = checkScaleNonZero((long) newScale - yscale);
-            BigInteger rb = bigMultiplyPowerTen(ys,raise);
-            quotient = divideAndRound(xs, rb, scl, roundingMode,checkScaleNonZero(preferredScale));
+            int newScble = checkScbleNonZero((long) xscble - mcp);
+            int rbise = checkScbleNonZero((long) newScble - yscble);
+            BigInteger rb = bigMultiplyPowerTen(ys,rbise);
+            quotient = divideAndRound(xs, rb, scl, roundingMode,checkScbleNonZero(preferredScble));
         }
-        // doRound, here, only affects 1000000000 case.
+        // doRound, here, only bffects 1000000000 cbse.
         return doRound(quotient, mc);
     }
 
     /*
      * performs divideAndRound for (dividend0*dividend1, divisor)
-     * returns null if quotient can't fit into long value;
+     * returns null if quotient cbn't fit into long vblue;
      */
-    private static BigDecimal multiplyDivideAndRound(long dividend0, long dividend1, long divisor, int scale, int roundingMode,
-                                                     int preferredScale) {
+    privbte stbtic BigDecimbl multiplyDivideAndRound(long dividend0, long dividend1, long divisor, int scble, int roundingMode,
+                                                     int preferredScble) {
         int qsign = Long.signum(dividend0)*Long.signum(dividend1)*Long.signum(divisor);
-        dividend0 = Math.abs(dividend0);
-        dividend1 = Math.abs(dividend1);
-        divisor = Math.abs(divisor);
+        dividend0 = Mbth.bbs(dividend0);
+        dividend1 = Mbth.bbs(dividend1);
+        divisor = Mbth.bbs(divisor);
         // multiply dividend0 * dividend1
         long d0_hi = dividend0 >>> 32;
         long d0_lo = dividend0 & LONG_MASK;
@@ -4791,29 +4791,29 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         product = d0_hi*d1_hi + d2;
         d2 = product & LONG_MASK;
         d3 = ((product>>>32) + d3) & LONG_MASK;
-        final long dividendHi = make64(d3,d2);
-        final long dividendLo = make64(d1,d0);
+        finbl long dividendHi = mbke64(d3,d2);
+        finbl long dividendLo = mbke64(d1,d0);
         // divide
-        return divideAndRound128(dividendHi, dividendLo, divisor, qsign, scale, roundingMode, preferredScale);
+        return divideAndRound128(dividendHi, dividendLo, divisor, qsign, scble, roundingMode, preferredScble);
     }
 
-    private static final long DIV_NUM_BASE = (1L<<32); // Number base (32 bits).
+    privbte stbtic finbl long DIV_NUM_BASE = (1L<<32); // Number bbse (32 bits).
 
     /*
-     * divideAndRound 128-bit value by long divisor.
-     * returns null if quotient can't fit into long value;
-     * Specialized version of Knuth's division
+     * divideAndRound 128-bit vblue by long divisor.
+     * returns null if quotient cbn't fit into long vblue;
+     * Speciblized version of Knuth's division
      */
-    private static BigDecimal divideAndRound128(final long dividendHi, final long dividendLo, long divisor, int sign,
-                                                int scale, int roundingMode, int preferredScale) {
+    privbte stbtic BigDecimbl divideAndRound128(finbl long dividendHi, finbl long dividendLo, long divisor, int sign,
+                                                int scble, int roundingMode, int preferredScble) {
         if (dividendHi >= divisor) {
             return null;
         }
-        final int shift = Long.numberOfLeadingZeros(divisor);
+        finbl int shift = Long.numberOfLebdingZeros(divisor);
         divisor <<= shift;
 
-        final long v1 = divisor >>> 32;
-        final long v0 = divisor & LONG_MASK;
+        finbl long v1 = divisor >>> 32;
+        finbl long v0 = divisor & LONG_MASK;
 
         long q1, q0;
         long r_tmp;
@@ -4827,103 +4827,103 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         tmp = divWord(tmp,v1);
         q1 = tmp & LONG_MASK;
         r_tmp = tmp >>> 32;
-        while(q1 >= DIV_NUM_BASE || unsignedLongCompare(q1*v0, make64(r_tmp, u1))) {
+        while(q1 >= DIV_NUM_BASE || unsignedLongCompbre(q1*v0, mbke64(r_tmp, u1))) {
             q1--;
             r_tmp += v1;
             if (r_tmp >= DIV_NUM_BASE)
-                break;
+                brebk;
         }
         tmp = mulsub(u2,u1,v1,v0,q1);
         u1 = tmp & LONG_MASK;
         tmp = divWord(tmp,v1);
         q0 = tmp & LONG_MASK;
         r_tmp = tmp >>> 32;
-        while(q0 >= DIV_NUM_BASE || unsignedLongCompare(q0*v0,make64(r_tmp,u0))) {
+        while(q0 >= DIV_NUM_BASE || unsignedLongCompbre(q0*v0,mbke64(r_tmp,u0))) {
             q0--;
             r_tmp += v1;
             if (r_tmp >= DIV_NUM_BASE)
-                break;
+                brebk;
         }
         if((int)q1 < 0) {
-            // result (which is positive and unsigned here)
-            // can't fit into long due to sign bit is used for value
-            MutableBigInteger mq = new MutableBigInteger(new int[]{(int)q1, (int)q0});
-            if (roundingMode == ROUND_DOWN && scale == preferredScale) {
-                return mq.toBigDecimal(sign, scale);
+            // result (which is positive bnd unsigned here)
+            // cbn't fit into long due to sign bit is used for vblue
+            MutbbleBigInteger mq = new MutbbleBigInteger(new int[]{(int)q1, (int)q0});
+            if (roundingMode == ROUND_DOWN && scble == preferredScble) {
+                return mq.toBigDecimbl(sign, scble);
             }
             long r = mulsub(u1, u0, v1, v0, q0) >>> shift;
             if (r != 0) {
                 if(needIncrement(divisor >>> shift, roundingMode, sign, mq, r)){
-                    mq.add(MutableBigInteger.ONE);
+                    mq.bdd(MutbbleBigInteger.ONE);
                 }
-                return mq.toBigDecimal(sign, scale);
+                return mq.toBigDecimbl(sign, scble);
             } else {
-                if (preferredScale != scale) {
-                    BigInteger intVal =  mq.toBigInteger(sign);
-                    return createAndStripZerosToMatchScale(intVal,scale, preferredScale);
+                if (preferredScble != scble) {
+                    BigInteger intVbl =  mq.toBigInteger(sign);
+                    return crebteAndStripZerosToMbtchScble(intVbl,scble, preferredScble);
                 } else {
-                    return mq.toBigDecimal(sign, scale);
+                    return mq.toBigDecimbl(sign, scble);
                 }
             }
         }
-        long q = make64(q1,q0);
+        long q = mbke64(q1,q0);
         q*=sign;
-        if (roundingMode == ROUND_DOWN && scale == preferredScale)
-            return valueOf(q, scale);
+        if (roundingMode == ROUND_DOWN && scble == preferredScble)
+            return vblueOf(q, scble);
         long r = mulsub(u1, u0, v1, v0, q0) >>> shift;
         if (r != 0) {
-            boolean increment = needIncrement(divisor >>> shift, roundingMode, sign, q, r);
-            return valueOf((increment ? q + sign : q), scale);
+            boolebn increment = needIncrement(divisor >>> shift, roundingMode, sign, q, r);
+            return vblueOf((increment ? q + sign : q), scble);
         } else {
-            if (preferredScale != scale) {
-                return createAndStripZerosToMatchScale(q, scale, preferredScale);
+            if (preferredScble != scble) {
+                return crebteAndStripZerosToMbtchScble(q, scble, preferredScble);
             } else {
-                return valueOf(q, scale);
+                return vblueOf(q, scble);
             }
         }
     }
 
     /*
-     * calculate divideAndRound for ldividend*10^raise / divisor
-     * when abs(dividend)==abs(divisor);
+     * cblculbte divideAndRound for ldividend*10^rbise / divisor
+     * when bbs(dividend)==bbs(divisor);
      */
-    private static BigDecimal roundedTenPower(int qsign, int raise, int scale, int preferredScale) {
-        if (scale > preferredScale) {
-            int diff = scale - preferredScale;
-            if(diff < raise) {
-                return scaledTenPow(raise - diff, qsign, preferredScale);
+    privbte stbtic BigDecimbl roundedTenPower(int qsign, int rbise, int scble, int preferredScble) {
+        if (scble > preferredScble) {
+            int diff = scble - preferredScble;
+            if(diff < rbise) {
+                return scbledTenPow(rbise - diff, qsign, preferredScble);
             } else {
-                return valueOf(qsign,scale-raise);
+                return vblueOf(qsign,scble-rbise);
             }
         } else {
-            return scaledTenPow(raise, qsign, scale);
+            return scbledTenPow(rbise, qsign, scble);
         }
     }
 
-    static BigDecimal scaledTenPow(int n, int sign, int scale) {
+    stbtic BigDecimbl scbledTenPow(int n, int sign, int scble) {
         if (n < LONG_TEN_POWERS_TABLE.length)
-            return valueOf(sign*LONG_TEN_POWERS_TABLE[n],scale);
+            return vblueOf(sign*LONG_TEN_POWERS_TABLE[n],scble);
         else {
-            BigInteger unscaledVal = bigTenToThe(n);
+            BigInteger unscbledVbl = bigTenToThe(n);
             if(sign==-1) {
-                unscaledVal = unscaledVal.negate();
+                unscbledVbl = unscbledVbl.negbte();
             }
-            return new BigDecimal(unscaledVal, INFLATED, scale, n+1);
+            return new BigDecimbl(unscbledVbl, INFLATED, scble, n+1);
         }
     }
 
-    private static long divWord(long n, long dLong) {
+    privbte stbtic long divWord(long n, long dLong) {
         long r;
         long q;
         if (dLong == 1) {
             q = (int)n;
             return (q & LONG_MASK);
         }
-        // Approximate the quotient and remainder
+        // Approximbte the quotient bnd rembinder
         q = (n >>> 1) / (dLong >>> 1);
         r = n - q*dLong;
 
-        // Correct the approximation
+        // Correct the bpproximbtion
         while (r < 0) {
             r += dLong;
             q--;
@@ -4936,28 +4936,28 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return (r << 32) | (q & LONG_MASK);
     }
 
-    private static long make64(long hi, long lo) {
+    privbte stbtic long mbke64(long hi, long lo) {
         return hi<<32 | lo;
     }
 
-    private static long mulsub(long u1, long u0, final long v1, final long v0, long q0) {
+    privbte stbtic long mulsub(long u1, long u0, finbl long v1, finbl long v0, long q0) {
         long tmp = u0 - q0*v0;
-        return make64(u1 + (tmp>>>32) - q0*v1,tmp & LONG_MASK);
+        return mbke64(u1 + (tmp>>>32) - q0*v1,tmp & LONG_MASK);
     }
 
-    private static boolean unsignedLongCompare(long one, long two) {
+    privbte stbtic boolebn unsignedLongCompbre(long one, long two) {
         return (one+Long.MIN_VALUE) > (two+Long.MIN_VALUE);
     }
 
-    private static boolean unsignedLongCompareEq(long one, long two) {
+    privbte stbtic boolebn unsignedLongCompbreEq(long one, long two) {
         return (one+Long.MIN_VALUE) >= (two+Long.MIN_VALUE);
     }
 
 
-    // Compare Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-    private static int compareMagnitudeNormalized(long xs, int xscale, long ys, int yscale) {
-        // assert xs!=0 && ys!=0
-        int sdiff = xscale - yscale;
+    // Compbre Normblize dividend & divisor so thbt both fbll into [0.1, 0.999...]
+    privbte stbtic int compbreMbgnitudeNormblized(long xs, int xscble, long ys, int yscble) {
+        // bssert xs!=0 && ys!=0
+        int sdiff = xscble - yscble;
         if (sdiff != 0) {
             if (sdiff < 0) {
                 xs = longMultiplyPowerTen(xs, -sdiff);
@@ -4966,73 +4966,73 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             }
         }
         if (xs != INFLATED)
-            return (ys != INFLATED) ? longCompareMagnitude(xs, ys) : -1;
+            return (ys != INFLATED) ? longCompbreMbgnitude(xs, ys) : -1;
         else
             return 1;
     }
 
-    // Compare Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-    private static int compareMagnitudeNormalized(long xs, int xscale, BigInteger ys, int yscale) {
-        // assert "ys can't be represented as long"
+    // Compbre Normblize dividend & divisor so thbt both fbll into [0.1, 0.999...]
+    privbte stbtic int compbreMbgnitudeNormblized(long xs, int xscble, BigInteger ys, int yscble) {
+        // bssert "ys cbn't be represented bs long"
         if (xs == 0)
             return -1;
-        int sdiff = xscale - yscale;
+        int sdiff = xscble - yscble;
         if (sdiff < 0) {
             if (longMultiplyPowerTen(xs, -sdiff) == INFLATED ) {
-                return bigMultiplyPowerTen(xs, -sdiff).compareMagnitude(ys);
+                return bigMultiplyPowerTen(xs, -sdiff).compbreMbgnitude(ys);
             }
         }
         return -1;
     }
 
-    // Compare Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-    private static int compareMagnitudeNormalized(BigInteger xs, int xscale, BigInteger ys, int yscale) {
-        int sdiff = xscale - yscale;
+    // Compbre Normblize dividend & divisor so thbt both fbll into [0.1, 0.999...]
+    privbte stbtic int compbreMbgnitudeNormblized(BigInteger xs, int xscble, BigInteger ys, int yscble) {
+        int sdiff = xscble - yscble;
         if (sdiff < 0) {
-            return bigMultiplyPowerTen(xs, -sdiff).compareMagnitude(ys);
+            return bigMultiplyPowerTen(xs, -sdiff).compbreMbgnitude(ys);
         } else { // sdiff >= 0
-            return xs.compareMagnitude(bigMultiplyPowerTen(ys, sdiff));
+            return xs.compbreMbgnitude(bigMultiplyPowerTen(ys, sdiff));
         }
     }
 
-    private static long multiply(long x, long y){
+    privbte stbtic long multiply(long x, long y){
                 long product = x * y;
-        long ax = Math.abs(x);
-        long ay = Math.abs(y);
-        if (((ax | ay) >>> 31 == 0) || (y == 0) || (product / y == x)){
+        long bx = Mbth.bbs(x);
+        long by = Mbth.bbs(y);
+        if (((bx | by) >>> 31 == 0) || (y == 0) || (product / y == x)){
                         return product;
                 }
         return INFLATED;
     }
 
-    private static BigDecimal multiply(long x, long y, int scale) {
+    privbte stbtic BigDecimbl multiply(long x, long y, int scble) {
         long product = multiply(x, y);
         if(product!=INFLATED) {
-            return valueOf(product,scale);
+            return vblueOf(product,scble);
         }
-        return new BigDecimal(BigInteger.valueOf(x).multiply(y),INFLATED,scale,0);
+        return new BigDecimbl(BigInteger.vblueOf(x).multiply(y),INFLATED,scble,0);
     }
 
-    private static BigDecimal multiply(long x, BigInteger y, int scale) {
+    privbte stbtic BigDecimbl multiply(long x, BigInteger y, int scble) {
         if(x==0) {
-            return zeroValueOf(scale);
+            return zeroVblueOf(scble);
         }
-        return new BigDecimal(y.multiply(x),INFLATED,scale,0);
+        return new BigDecimbl(y.multiply(x),INFLATED,scble,0);
     }
 
-    private static BigDecimal multiply(BigInteger x, BigInteger y, int scale) {
-        return new BigDecimal(x.multiply(y),INFLATED,scale,0);
+    privbte stbtic BigDecimbl multiply(BigInteger x, BigInteger y, int scble) {
+        return new BigDecimbl(x.multiply(y),INFLATED,scble,0);
     }
 
     /**
-     * Multiplies two long values and rounds according {@code MathContext}
+     * Multiplies two long vblues bnd rounds bccording {@code MbthContext}
      */
-    private static BigDecimal multiplyAndRound(long x, long y, int scale, MathContext mc) {
+    privbte stbtic BigDecimbl multiplyAndRound(long x, long y, int scble, MbthContext mc) {
         long product = multiply(x, y);
         if(product!=INFLATED) {
-            return doRound(product, scale, mc);
+            return doRound(product, scble, mc);
         }
-        // attempt to do it in 128 bits
+        // bttempt to do it in 128 bits
         int rsign = 1;
         if(x < 0) {
             x = -x;
@@ -5061,38 +5061,38 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         product = m0_hi*m1_hi + m2;
         m2 = product & LONG_MASK;
         m3 = ((product>>>32) + m3) & LONG_MASK;
-        final long mHi = make64(m3,m2);
-        final long mLo = make64(m1,m0);
-        BigDecimal res = doRound128(mHi, mLo, rsign, scale, mc);
+        finbl long mHi = mbke64(m3,m2);
+        finbl long mLo = mbke64(m1,m0);
+        BigDecimbl res = doRound128(mHi, mLo, rsign, scble, mc);
         if(res!=null) {
             return res;
         }
-        res = new BigDecimal(BigInteger.valueOf(x).multiply(y*rsign), INFLATED, scale, 0);
+        res = new BigDecimbl(BigInteger.vblueOf(x).multiply(y*rsign), INFLATED, scble, 0);
         return doRound(res,mc);
     }
 
-    private static BigDecimal multiplyAndRound(long x, BigInteger y, int scale, MathContext mc) {
+    privbte stbtic BigDecimbl multiplyAndRound(long x, BigInteger y, int scble, MbthContext mc) {
         if(x==0) {
-            return zeroValueOf(scale);
+            return zeroVblueOf(scble);
         }
-        return doRound(y.multiply(x), scale, mc);
+        return doRound(y.multiply(x), scble, mc);
     }
 
-    private static BigDecimal multiplyAndRound(BigInteger x, BigInteger y, int scale, MathContext mc) {
-        return doRound(x.multiply(y), scale, mc);
+    privbte stbtic BigDecimbl multiplyAndRound(BigInteger x, BigInteger y, int scble, MbthContext mc) {
+        return doRound(x.multiply(y), scble, mc);
     }
 
     /**
-     * rounds 128-bit value according {@code MathContext}
-     * returns null if result can't be repsented as compact BigDecimal.
+     * rounds 128-bit vblue bccording {@code MbthContext}
+     * returns null if result cbn't be repsented bs compbct BigDecimbl.
      */
-    private static BigDecimal doRound128(long hi, long lo, int sign, int scale, MathContext mc) {
+    privbte stbtic BigDecimbl doRound128(long hi, long lo, int sign, int scble, MbthContext mc) {
         int mcp = mc.precision;
         int drop;
-        BigDecimal res = null;
+        BigDecimbl res = null;
         if(((drop = precision(hi, lo) - mcp) > 0)&&(drop<LONG_TEN_POWERS_TABLE.length)) {
-            scale = checkScaleNonZero((long)scale - drop);
-            res = divideAndRound128(hi, lo, LONG_TEN_POWERS_TABLE[drop], sign, scale, mc.roundingMode.oldMode, scale);
+            scble = checkScbleNonZero((long)scble - drop);
+            res = divideAndRound128(hi, lo, LONG_TEN_POWERS_TABLE[drop], sign, scble, mc.roundingMode.oldMode, scble);
         }
         if(res!=null) {
             return doRound(res,mc);
@@ -5100,132 +5100,132 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return null;
     }
 
-    private static final long[][] LONGLONG_TEN_POWERS_TABLE = {
+    privbte stbtic finbl long[][] LONGLONG_TEN_POWERS_TABLE = {
         {   0L, 0x8AC7230489E80000L },  //10^19
         {       0x5L, 0x6bc75e2d63100000L },  //10^20
-        {       0x36L, 0x35c9adc5dea00000L },  //10^21
-        {       0x21eL, 0x19e0c9bab2400000L  },  //10^22
-        {       0x152dL, 0x02c7e14af6800000L  },  //10^23
-        {       0xd3c2L, 0x1bcecceda1000000L  },  //10^24
-        {       0x84595L, 0x161401484a000000L  },  //10^25
+        {       0x36L, 0x35c9bdc5deb00000L },  //10^21
+        {       0x21eL, 0x19e0c9bbb2400000L  },  //10^22
+        {       0x152dL, 0x02c7e14bf6800000L  },  //10^23
+        {       0xd3c2L, 0x1bceccedb1000000L  },  //10^24
+        {       0x84595L, 0x161401484b000000L  },  //10^25
         {       0x52b7d2L, 0xdcc80cd2e4000000L  },  //10^26
         {       0x33b2e3cL, 0x9fd0803ce8000000L  },  //10^27
         {       0x204fce5eL, 0x3e25026110000000L  },  //10^28
-        {       0x1431e0faeL, 0x6d7217caa0000000L  },  //10^29
-        {       0xc9f2c9cd0L, 0x4674edea40000000L  },  //10^30
+        {       0x1431e0fbeL, 0x6d7217cbb0000000L  },  //10^29
+        {       0xc9f2c9cd0L, 0x4674edeb40000000L  },  //10^30
         {       0x7e37be2022L, 0xc0914b2680000000L  },  //10^31
-        {       0x4ee2d6d415bL, 0x85acef8100000000L  },  //10^32
-        {       0x314dc6448d93L, 0x38c15b0a00000000L  },  //10^33
-        {       0x1ed09bead87c0L, 0x378d8e6400000000L  },  //10^34
+        {       0x4ee2d6d415bL, 0x85bcef8100000000L  },  //10^32
+        {       0x314dc6448d93L, 0x38c15b0b00000000L  },  //10^33
+        {       0x1ed09bebd87c0L, 0x378d8e6400000000L  },  //10^34
         {       0x13426172c74d82L, 0x2b878fe800000000L  },  //10^35
         {       0xc097ce7bc90715L, 0xb34b9f1000000000L  },  //10^36
-        {       0x785ee10d5da46d9L, 0x00f436a000000000L  },  //10^37
-        {       0x4b3b4ca85a86c47aL, 0x098a224000000000L  },  //10^38
+        {       0x785ee10d5db46d9L, 0x00f436b000000000L  },  //10^37
+        {       0x4b3b4cb85b86c47bL, 0x098b224000000000L  },  //10^38
     };
 
     /*
-     * returns precision of 128-bit value
+     * returns precision of 128-bit vblue
      */
-    private static int precision(long hi, long lo){
+    privbte stbtic int precision(long hi, long lo){
         if(hi==0) {
             if(lo>=0) {
                 return longDigitLength(lo);
             }
-            return (unsignedLongCompareEq(lo, LONGLONG_TEN_POWERS_TABLE[0][1])) ? 20 : 19;
+            return (unsignedLongCompbreEq(lo, LONGLONG_TEN_POWERS_TABLE[0][1])) ? 20 : 19;
             // 0x8AC7230489E80000L  = unsigned 2^19
         }
-        int r = ((128 - Long.numberOfLeadingZeros(hi) + 1) * 1233) >>> 12;
+        int r = ((128 - Long.numberOfLebdingZeros(hi) + 1) * 1233) >>> 12;
         int idx = r-19;
-        return (idx >= LONGLONG_TEN_POWERS_TABLE.length || longLongCompareMagnitude(hi, lo,
+        return (idx >= LONGLONG_TEN_POWERS_TABLE.length || longLongCompbreMbgnitude(hi, lo,
                                                                                     LONGLONG_TEN_POWERS_TABLE[idx][0], LONGLONG_TEN_POWERS_TABLE[idx][1])) ? r : r + 1;
     }
 
     /*
      * returns true if 128 bit number <hi0,lo0> is less then <hi1,lo1>
-     * hi0 & hi1 should be non-negative
+     * hi0 & hi1 should be non-negbtive
      */
-    private static boolean longLongCompareMagnitude(long hi0, long lo0, long hi1, long lo1) {
+    privbte stbtic boolebn longLongCompbreMbgnitude(long hi0, long lo0, long hi1, long lo1) {
         if(hi0!=hi1) {
             return hi0<hi1;
         }
         return (lo0+Long.MIN_VALUE) <(lo1+Long.MIN_VALUE);
     }
 
-    private static BigDecimal divide(long dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
-        if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
-            int newScale = scale + divisorScale;
-            int raise = newScale - dividendScale;
-            if(raise<LONG_TEN_POWERS_TABLE.length) {
+    privbte stbtic BigDecimbl divide(long dividend, int dividendScble, long divisor, int divisorScble, int scble, int roundingMode) {
+        if (checkScble(dividend,(long)scble + divisorScble) > dividendScble) {
+            int newScble = scble + divisorScble;
+            int rbise = newScble - dividendScble;
+            if(rbise<LONG_TEN_POWERS_TABLE.length) {
                 long xs = dividend;
-                if ((xs = longMultiplyPowerTen(xs, raise)) != INFLATED) {
-                    return divideAndRound(xs, divisor, scale, roundingMode, scale);
+                if ((xs = longMultiplyPowerTen(xs, rbise)) != INFLATED) {
+                    return divideAndRound(xs, divisor, scble, roundingMode, scble);
                 }
-                BigDecimal q = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[raise], dividend, divisor, scale, roundingMode, scale);
+                BigDecimbl q = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[rbise], dividend, divisor, scble, roundingMode, scble);
                 if(q!=null) {
                     return q;
                 }
             }
-            BigInteger scaledDividend = bigMultiplyPowerTen(dividend, raise);
-            return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
+            BigInteger scbledDividend = bigMultiplyPowerTen(dividend, rbise);
+            return divideAndRound(scbledDividend, divisor, scble, roundingMode, scble);
         } else {
-            int newScale = checkScale(divisor,(long)dividendScale - scale);
-            int raise = newScale - divisorScale;
-            if(raise<LONG_TEN_POWERS_TABLE.length) {
+            int newScble = checkScble(divisor,(long)dividendScble - scble);
+            int rbise = newScble - divisorScble;
+            if(rbise<LONG_TEN_POWERS_TABLE.length) {
                 long ys = divisor;
-                if ((ys = longMultiplyPowerTen(ys, raise)) != INFLATED) {
-                    return divideAndRound(dividend, ys, scale, roundingMode, scale);
+                if ((ys = longMultiplyPowerTen(ys, rbise)) != INFLATED) {
+                    return divideAndRound(dividend, ys, scble, roundingMode, scble);
                 }
             }
-            BigInteger scaledDivisor = bigMultiplyPowerTen(divisor, raise);
-            return divideAndRound(BigInteger.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
+            BigInteger scbledDivisor = bigMultiplyPowerTen(divisor, rbise);
+            return divideAndRound(BigInteger.vblueOf(dividend), scbledDivisor, scble, roundingMode, scble);
         }
     }
 
-    private static BigDecimal divide(BigInteger dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
-        if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
-            int newScale = scale + divisorScale;
-            int raise = newScale - dividendScale;
-            BigInteger scaledDividend = bigMultiplyPowerTen(dividend, raise);
-            return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
+    privbte stbtic BigDecimbl divide(BigInteger dividend, int dividendScble, long divisor, int divisorScble, int scble, int roundingMode) {
+        if (checkScble(dividend,(long)scble + divisorScble) > dividendScble) {
+            int newScble = scble + divisorScble;
+            int rbise = newScble - dividendScble;
+            BigInteger scbledDividend = bigMultiplyPowerTen(dividend, rbise);
+            return divideAndRound(scbledDividend, divisor, scble, roundingMode, scble);
         } else {
-            int newScale = checkScale(divisor,(long)dividendScale - scale);
-            int raise = newScale - divisorScale;
-            if(raise<LONG_TEN_POWERS_TABLE.length) {
+            int newScble = checkScble(divisor,(long)dividendScble - scble);
+            int rbise = newScble - divisorScble;
+            if(rbise<LONG_TEN_POWERS_TABLE.length) {
                 long ys = divisor;
-                if ((ys = longMultiplyPowerTen(ys, raise)) != INFLATED) {
-                    return divideAndRound(dividend, ys, scale, roundingMode, scale);
+                if ((ys = longMultiplyPowerTen(ys, rbise)) != INFLATED) {
+                    return divideAndRound(dividend, ys, scble, roundingMode, scble);
                 }
             }
-            BigInteger scaledDivisor = bigMultiplyPowerTen(divisor, raise);
-            return divideAndRound(dividend, scaledDivisor, scale, roundingMode, scale);
+            BigInteger scbledDivisor = bigMultiplyPowerTen(divisor, rbise);
+            return divideAndRound(dividend, scbledDivisor, scble, roundingMode, scble);
         }
     }
 
-    private static BigDecimal divide(long dividend, int dividendScale, BigInteger divisor, int divisorScale, int scale, int roundingMode) {
-        if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
-            int newScale = scale + divisorScale;
-            int raise = newScale - dividendScale;
-            BigInteger scaledDividend = bigMultiplyPowerTen(dividend, raise);
-            return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
+    privbte stbtic BigDecimbl divide(long dividend, int dividendScble, BigInteger divisor, int divisorScble, int scble, int roundingMode) {
+        if (checkScble(dividend,(long)scble + divisorScble) > dividendScble) {
+            int newScble = scble + divisorScble;
+            int rbise = newScble - dividendScble;
+            BigInteger scbledDividend = bigMultiplyPowerTen(dividend, rbise);
+            return divideAndRound(scbledDividend, divisor, scble, roundingMode, scble);
         } else {
-            int newScale = checkScale(divisor,(long)dividendScale - scale);
-            int raise = newScale - divisorScale;
-            BigInteger scaledDivisor = bigMultiplyPowerTen(divisor, raise);
-            return divideAndRound(BigInteger.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
+            int newScble = checkScble(divisor,(long)dividendScble - scble);
+            int rbise = newScble - divisorScble;
+            BigInteger scbledDivisor = bigMultiplyPowerTen(divisor, rbise);
+            return divideAndRound(BigInteger.vblueOf(dividend), scbledDivisor, scble, roundingMode, scble);
         }
     }
 
-    private static BigDecimal divide(BigInteger dividend, int dividendScale, BigInteger divisor, int divisorScale, int scale, int roundingMode) {
-        if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
-            int newScale = scale + divisorScale;
-            int raise = newScale - dividendScale;
-            BigInteger scaledDividend = bigMultiplyPowerTen(dividend, raise);
-            return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
+    privbte stbtic BigDecimbl divide(BigInteger dividend, int dividendScble, BigInteger divisor, int divisorScble, int scble, int roundingMode) {
+        if (checkScble(dividend,(long)scble + divisorScble) > dividendScble) {
+            int newScble = scble + divisorScble;
+            int rbise = newScble - dividendScble;
+            BigInteger scbledDividend = bigMultiplyPowerTen(dividend, rbise);
+            return divideAndRound(scbledDividend, divisor, scble, roundingMode, scble);
         } else {
-            int newScale = checkScale(divisor,(long)dividendScale - scale);
-            int raise = newScale - divisorScale;
-            BigInteger scaledDivisor = bigMultiplyPowerTen(divisor, raise);
-            return divideAndRound(dividend, scaledDivisor, scale, roundingMode, scale);
+            int newScble = checkScble(divisor,(long)dividendScble - scble);
+            int rbise = newScble - divisorScble;
+            BigInteger scbledDivisor = bigMultiplyPowerTen(divisor, rbise);
+            return divideAndRound(dividend, scbledDivisor, scble, roundingMode, scble);
         }
     }
 

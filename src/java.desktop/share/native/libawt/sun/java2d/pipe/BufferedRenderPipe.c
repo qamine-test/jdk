@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <jni.h>
 #include <jlong.h>
 #include <jni_util.h>
-#include "sun_java2d_pipe_BufferedRenderPipe.h"
-#include "sun_java2d_pipe_BufferedOpCodes.h"
-#include "SpanIterator.h"
-#include "Trace.h"
+#include "sun_jbvb2d_pipe_BufferedRenderPipe.h"
+#include "sun_jbvb2d_pipe_BufferedOpCodes.h"
+#include "SpbnIterbtor.h"
+#include "Trbce.h"
 
-/* The "header" consists of a jint opcode and a jint span count value */
+/* The "hebder" consists of b jint opcode bnd b jint spbn count vblue */
 #define INTS_PER_HEADER  2
 #define BYTES_PER_HEADER 8
 
-#define BYTES_PER_SPAN sun_java2d_pipe_BufferedRenderPipe_BYTES_PER_SPAN
+#define BYTES_PER_SPAN sun_jbvb2d_pipe_BufferedRenderPipe_BYTES_PER_SPAN
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_pipe_BufferedRenderPipe_fillSpans
+Jbvb_sun_jbvb2d_pipe_BufferedRenderPipe_fillSpbns
     (JNIEnv *env, jobject pipe,
      jobject rq, jlong buf,
      jint bpos, jint limit,
-     jobject si, jlong pIterator,
-     jint transx, jint transy)
+     jobject si, jlong pIterbtor,
+     jint trbnsx, jint trbnsy)
 {
-    SpanIteratorFuncs *pFuncs = (SpanIteratorFuncs *)jlong_to_ptr(pIterator);
-    void *srData;
-    jint spanbox[4];
-    jint spanCount = 0;
-    jint remainingBytes, remainingSpans;
-    unsigned char *bbuf;
+    SpbnIterbtorFuncs *pFuncs = (SpbnIterbtorFuncs *)jlong_to_ptr(pIterbtor);
+    void *srDbtb;
+    jint spbnbox[4];
+    jint spbnCount = 0;
+    jint rembiningBytes, rembiningSpbns;
+    unsigned chbr *bbuf;
     jint *ibuf;
     jint ipos;
-    jboolean hasException;
+    jboolebn hbsException;
 
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "BufferedRenderPipe_fillSpans: bpos=%d limit=%d",
+    J2dTrbceLn2(J2D_TRACE_INFO,
+                "BufferedRenderPipe_fillSpbns: bpos=%d limit=%d",
                 bpos, limit);
 
     if (JNU_IsNull(env, rq)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "BufferedRenderPipe_fillSpans: rq is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "BufferedRenderPipe_fillSpbns: rq is null");
         return bpos;
     }
 
     if (JNU_IsNull(env, si)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "BufferedRenderPipe_fillSpans: span iterator is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "BufferedRenderPipe_fillSpbns: spbn iterbtor is null");
         return bpos;
     }
 
     if (pFuncs == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "BufferedRenderPipe_fillSpans: native iterator not supplied");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "BufferedRenderPipe_fillSpbns: nbtive iterbtor not supplied");
         return bpos;
     }
 
-    bbuf = (unsigned char *)jlong_to_ptr(buf);
+    bbuf = (unsigned chbr *)jlong_to_ptr(buf);
     if (bbuf == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "BufferedRenderPipe_fillSpans: cannot get direct buffer address");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "BufferedRenderPipe_fillSpbns: cbnnot get direct buffer bddress");
         return bpos;
     }
 
-    // adjust the int pointer to the current buffer position
+    // bdjust the int pointer to the current buffer position
     ibuf = (jint *)(bbuf + bpos);
 
-    // start new operation
-    ibuf[0] = sun_java2d_pipe_BufferedOpCodes_FILL_SPANS;
-    ibuf[1] = 0; // placeholder for the span count
+    // stbrt new operbtion
+    ibuf[0] = sun_jbvb2d_pipe_BufferedOpCodes_FILL_SPANS;
+    ibuf[1] = 0; // plbceholder for the spbn count
 
-    // skip the opcode and span count
+    // skip the opcode bnd spbn count
     ipos = INTS_PER_HEADER;
-    bpos += BYTES_PER_HEADER; // skip the opcode and span count
+    bpos += BYTES_PER_HEADER; // skip the opcode bnd spbn count
 
-    remainingBytes = limit - bpos;
-    remainingSpans = remainingBytes / BYTES_PER_SPAN;
+    rembiningBytes = limit - bpos;
+    rembiningSpbns = rembiningBytes / BYTES_PER_SPAN;
 
-    srData = (*pFuncs->open)(env, si);
-    while ((*pFuncs->nextSpan)(srData, spanbox)) {
-        if (remainingSpans == 0) {
-            // fill in span count
-            ibuf[1] = spanCount;
+    srDbtb = (*pFuncs->open)(env, si);
+    while ((*pFuncs->nextSpbn)(srDbtb, spbnbox)) {
+        if (rembiningSpbns == 0) {
+            // fill in spbn count
+            ibuf[1] = spbnCount;
 
             // flush the queue
-            JNU_CallMethodByName(env, &hasException, rq, "flushNow", "(I)V", bpos);
-            if (hasException) {
-                break;
+            JNU_CbllMethodByNbme(env, &hbsException, rq, "flushNow", "(I)V", bpos);
+            if (hbsException) {
+                brebk;
             }
 
-            // now start a new operation
+            // now stbrt b new operbtion
             ibuf = (jint *)bbuf;
-            ibuf[0] = sun_java2d_pipe_BufferedOpCodes_FILL_SPANS;
-            ibuf[1] = 0; // placeholder for the span count
+            ibuf[0] = sun_jbvb2d_pipe_BufferedOpCodes_FILL_SPANS;
+            ibuf[1] = 0; // plbceholder for the spbn count
 
-            // skip the opcode and span count
+            // skip the opcode bnd spbn count
             ipos = INTS_PER_HEADER;
             bpos = BYTES_PER_HEADER;
 
-            // calculate new limits
-            remainingBytes = limit - bpos;
-            remainingSpans = remainingBytes / BYTES_PER_SPAN;
-            spanCount = 0;
+            // cblculbte new limits
+            rembiningBytes = limit - bpos;
+            rembiningSpbns = rembiningBytes / BYTES_PER_SPAN;
+            spbnCount = 0;
         }
 
-        // enqueue span
-        ibuf[ipos++] = spanbox[0] + transx; // x1
-        ibuf[ipos++] = spanbox[1] + transy; // y1
-        ibuf[ipos++] = spanbox[2] + transx; // x2
-        ibuf[ipos++] = spanbox[3] + transy; // y2
+        // enqueue spbn
+        ibuf[ipos++] = spbnbox[0] + trbnsx; // x1
+        ibuf[ipos++] = spbnbox[1] + trbnsy; // y1
+        ibuf[ipos++] = spbnbox[2] + trbnsx; // x2
+        ibuf[ipos++] = spbnbox[3] + trbnsy; // y2
 
-        // update positions
+        // updbte positions
         bpos += BYTES_PER_SPAN;
-        spanCount++;
-        remainingSpans--;
+        spbnCount++;
+        rembiningSpbns--;
     }
-    (*pFuncs->close)(env, srData);
+    (*pFuncs->close)(env, srDbtb);
 
-    // fill in span count
-    ibuf[1] = spanCount;
+    // fill in spbn count
+    ibuf[1] = spbnCount;
 
     // return the current byte position
     return bpos;

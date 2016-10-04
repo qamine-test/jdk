@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * Context during upcalls from object stream to class-defined
- * readObject/writeObject methods.
- * Holds object currently being deserialized and descriptor for current class.
+ * Context during upcblls from object strebm to clbss-defined
+ * rebdObject/writeObject methods.
+ * Holds object currently being deseriblized bnd descriptor for current clbss.
  *
- * This context keeps track of the thread it was constructed on, and allows
- * only a single call of defaultReadObject, readFields, defaultWriteObject
- * or writeFields which must be invoked on the same thread before the class's
- * readObject/writeObject method has returned.
- * If not set to the current thread, the getObj method throws NotActiveException.
+ * This context keeps trbck of the threbd it wbs constructed on, bnd bllows
+ * only b single cbll of defbultRebdObject, rebdFields, defbultWriteObject
+ * or writeFields which must be invoked on the sbme threbd before the clbss's
+ * rebdObject/writeObject method hbs returned.
+ * If not set to the current threbd, the getObj method throws NotActiveException.
  */
-final class SerialCallbackContext {
-    private final Object obj;
-    private final ObjectStreamClass desc;
+finbl clbss SeriblCbllbbckContext {
+    privbte finbl Object obj;
+    privbte finbl ObjectStrebmClbss desc;
     /**
-     * Thread this context is in use by.
-     * As this only works in one thread, we do not need to worry about thread-safety.
+     * Threbd this context is in use by.
+     * As this only works in one threbd, we do not need to worry bbout threbd-sbfety.
      */
-    private Thread thread;
+    privbte Threbd threbd;
 
-    public SerialCallbackContext(Object obj, ObjectStreamClass desc) {
+    public SeriblCbllbbckContext(Object obj, ObjectStrebmClbss desc) {
         this.obj = obj;
         this.desc = desc;
-        this.thread = Thread.currentThread();
+        this.threbd = Threbd.currentThrebd();
     }
 
     public Object getObj() throws NotActiveException {
@@ -56,19 +56,19 @@ final class SerialCallbackContext {
         return obj;
     }
 
-    public ObjectStreamClass getDesc() {
+    public ObjectStrebmClbss getDesc() {
         return desc;
     }
 
     public void checkAndSetUsed() throws NotActiveException {
-        if (thread != Thread.currentThread()) {
+        if (threbd != Threbd.currentThrebd()) {
              throw new NotActiveException(
-              "not in readObject invocation or fields already read");
+              "not in rebdObject invocbtion or fields blrebdy rebd");
         }
-        thread = null;
+        threbd = null;
     }
 
     public void setUsed() {
-        thread = null;
+        threbd = null;
     }
 }

@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * A collection of assertion status directives (such as "enable assertions
- * in package p" or "disable assertions in class c").  This class is used by
- * the JVM to communicate the assertion status directives implied by
- * the <tt>java</tt> command line flags <tt>-enableassertions</tt>
- * (<tt>-ea</tt>) and <tt>-disableassertions</tt> (<tt>-da</tt>).
+ * A collection of bssertion stbtus directives (such bs "enbble bssertions
+ * in pbckbge p" or "disbble bssertions in clbss c").  This clbss is used by
+ * the JVM to communicbte the bssertion stbtus directives implied by
+ * the <tt>jbvb</tt> commbnd line flbgs <tt>-enbblebssertions</tt>
+ * (<tt>-eb</tt>) bnd <tt>-disbblebssertions</tt> (<tt>-db</tt>).
  *
  * @since  1.4
- * @author Josh Bloch
+ * @buthor Josh Bloch
  */
-class AssertionStatusDirectives {
+clbss AssertionStbtusDirectives {
     /**
-     * The classes for which assertions are to be enabled or disabled.
-     * The strings in this array are fully qualified class names (for
-     * example,"com.xyz.foo.Bar").
+     * The clbsses for which bssertions bre to be enbbled or disbbled.
+     * The strings in this brrby bre fully qublified clbss nbmes (for
+     * exbmple,"com.xyz.foo.Bbr").
      */
-    String[] classes;
+    String[] clbsses;
 
     /**
-     * A parallel array to <tt>classes</tt>, indicating whether each class
-     * is to have assertions enabled or disabled.  A value of <tt>true</tt>
-     * for <tt>classEnabled[i]</tt> indicates that the class named by
-     * <tt>classes[i]</tt> should have assertions enabled; a value of
-     * <tt>false</tt> indicates that it should have classes disabled.
-     * This array must have the same number of elements as <tt>classes</tt>.
+     * A pbrbllel brrby to <tt>clbsses</tt>, indicbting whether ebch clbss
+     * is to hbve bssertions enbbled or disbbled.  A vblue of <tt>true</tt>
+     * for <tt>clbssEnbbled[i]</tt> indicbtes thbt the clbss nbmed by
+     * <tt>clbsses[i]</tt> should hbve bssertions enbbled; b vblue of
+     * <tt>fblse</tt> indicbtes thbt it should hbve clbsses disbbled.
+     * This brrby must hbve the sbme number of elements bs <tt>clbsses</tt>.
      *
-     * <p>In the case of conflicting directives for the same class, the
-     * last directive for a given class wins.  In other words, if a string
-     * <tt>s</tt> appears multiple times in the <tt>classes</tt> array
-     * and <tt>i</tt> is the highest integer for which
-     * <tt>classes[i].equals(s)</tt>, then <tt>classEnabled[i]</tt>
-     * indicates whether assertions are to be enabled in class <tt>s</tt>.
+     * <p>In the cbse of conflicting directives for the sbme clbss, the
+     * lbst directive for b given clbss wins.  In other words, if b string
+     * <tt>s</tt> bppebrs multiple times in the <tt>clbsses</tt> brrby
+     * bnd <tt>i</tt> is the highest integer for which
+     * <tt>clbsses[i].equbls(s)</tt>, then <tt>clbssEnbbled[i]</tt>
+     * indicbtes whether bssertions bre to be enbbled in clbss <tt>s</tt>.
      */
-    boolean[] classEnabled;
+    boolebn[] clbssEnbbled;
 
     /**
-     * The package-trees for which assertions are to be enabled or disabled.
-     * The strings in this array are compete or partial package names
-     * (for example, "com.xyz" or "com.xyz.foo").
+     * The pbckbge-trees for which bssertions bre to be enbbled or disbbled.
+     * The strings in this brrby bre compete or pbrtibl pbckbge nbmes
+     * (for exbmple, "com.xyz" or "com.xyz.foo").
      */
-    String[] packages;
+    String[] pbckbges;
 
     /**
-     * A parallel array to <tt>packages</tt>, indicating whether each
-     * package-tree is to have assertions enabled or disabled.  A value of
-     * <tt>true</tt> for <tt>packageEnabled[i]</tt> indicates that the
-     * package-tree named by <tt>packages[i]</tt> should have assertions
-     * enabled; a value of <tt>false</tt> indicates that it should have
-     * assertions disabled.  This array must have the same number of
-     * elements as <tt>packages</tt>.
+     * A pbrbllel brrby to <tt>pbckbges</tt>, indicbting whether ebch
+     * pbckbge-tree is to hbve bssertions enbbled or disbbled.  A vblue of
+     * <tt>true</tt> for <tt>pbckbgeEnbbled[i]</tt> indicbtes thbt the
+     * pbckbge-tree nbmed by <tt>pbckbges[i]</tt> should hbve bssertions
+     * enbbled; b vblue of <tt>fblse</tt> indicbtes thbt it should hbve
+     * bssertions disbbled.  This brrby must hbve the sbme number of
+     * elements bs <tt>pbckbges</tt>.
      *
-     * In the case of conflicting directives for the same package-tree, the
-     * last directive for a given package-tree wins.  In other words, if a
-     * string <tt>s</tt> appears multiple times in the <tt>packages</tt> array
-     * and <tt>i</tt> is the highest integer for which
-     * <tt>packages[i].equals(s)</tt>, then <tt>packageEnabled[i]</tt>
-     * indicates whether assertions are to be enabled in package-tree
+     * In the cbse of conflicting directives for the sbme pbckbge-tree, the
+     * lbst directive for b given pbckbge-tree wins.  In other words, if b
+     * string <tt>s</tt> bppebrs multiple times in the <tt>pbckbges</tt> brrby
+     * bnd <tt>i</tt> is the highest integer for which
+     * <tt>pbckbges[i].equbls(s)</tt>, then <tt>pbckbgeEnbbled[i]</tt>
+     * indicbtes whether bssertions bre to be enbbled in pbckbge-tree
      * <tt>s</tt>.
      */
-    boolean[] packageEnabled;
+    boolebn[] pbckbgeEnbbled;
 
     /**
-     * Whether or not assertions in non-system classes are to be enabled
-     * by default.
+     * Whether or not bssertions in non-system clbsses bre to be enbbled
+     * by defbult.
      */
-    boolean deflt;
+    boolebn deflt;
 }

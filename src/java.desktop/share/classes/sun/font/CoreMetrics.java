@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -29,103 +29,103 @@
  *
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.font.LineMetrics;
-import java.awt.font.GraphicAttribute;
+import jbvb.bwt.font.LineMetrics;
+import jbvb.bwt.font.GrbphicAttribute;
 
-public final class CoreMetrics {
+public finbl clbss CoreMetrics {
 
-    public CoreMetrics(float ascent,
-                       float descent,
-                       float leading,
-                       float height,
-                       int baselineIndex,
-                       float[] baselineOffsets,
-                       float strikethroughOffset,
-                       float strikethroughThickness,
-                       float underlineOffset,
-                       float underlineThickness,
-                       float ssOffset,
-                       float italicAngle) {
-        this.ascent = ascent;
+    public CoreMetrics(flobt bscent,
+                       flobt descent,
+                       flobt lebding,
+                       flobt height,
+                       int bbselineIndex,
+                       flobt[] bbselineOffsets,
+                       flobt strikethroughOffset,
+                       flobt strikethroughThickness,
+                       flobt underlineOffset,
+                       flobt underlineThickness,
+                       flobt ssOffset,
+                       flobt itblicAngle) {
+        this.bscent = bscent;
         this.descent = descent;
-        this.leading = leading;
+        this.lebding = lebding;
         this.height = height;
-        this.baselineIndex = baselineIndex;
-        this.baselineOffsets = baselineOffsets;
+        this.bbselineIndex = bbselineIndex;
+        this.bbselineOffsets = bbselineOffsets;
         this.strikethroughOffset = strikethroughOffset;
         this.strikethroughThickness = strikethroughThickness;
         this.underlineOffset = underlineOffset;
         this.underlineThickness = underlineThickness;
         this.ssOffset = ssOffset;
-        this.italicAngle = italicAngle;
+        this.itblicAngle = itblicAngle;
     }
 
-    public static CoreMetrics get(LineMetrics lm) {
+    public stbtic CoreMetrics get(LineMetrics lm) {
         return ((FontLineMetrics)lm).cm;
     }
 
-    public final int hashCode() {
-        return Float.floatToIntBits(ascent + ssOffset);
+    public finbl int hbshCode() {
+        return Flobt.flobtToIntBits(bscent + ssOffset);
     }
 
-    public final boolean equals(Object rhs) {
+    public finbl boolebn equbls(Object rhs) {
         try {
-            return equals((CoreMetrics)rhs);
+            return equbls((CoreMetrics)rhs);
         }
-        catch(ClassCastException e) {
-            return false;
+        cbtch(ClbssCbstException e) {
+            return fblse;
         }
     }
 
-    public final boolean equals(CoreMetrics rhs) {
+    public finbl boolebn equbls(CoreMetrics rhs) {
         if (rhs != null) {
             if (this == rhs) {
                 return true;
             }
 
-            return ascent == rhs.ascent
+            return bscent == rhs.bscent
                 && descent == rhs.descent
-                && leading == rhs.leading
-                && baselineIndex == rhs.baselineIndex
-                && baselineOffsets[0] == rhs.baselineOffsets[0]
-                && baselineOffsets[1] == rhs.baselineOffsets[1]
-                && baselineOffsets[2] == rhs.baselineOffsets[2]
+                && lebding == rhs.lebding
+                && bbselineIndex == rhs.bbselineIndex
+                && bbselineOffsets[0] == rhs.bbselineOffsets[0]
+                && bbselineOffsets[1] == rhs.bbselineOffsets[1]
+                && bbselineOffsets[2] == rhs.bbselineOffsets[2]
                 && strikethroughOffset == rhs.strikethroughOffset
                 && strikethroughThickness == rhs.strikethroughThickness
                 && underlineOffset == rhs.underlineOffset
                 && underlineThickness == rhs.underlineThickness
                 && ssOffset == rhs.ssOffset
-                && italicAngle == rhs.italicAngle;
+                && itblicAngle == rhs.itblicAngle;
         }
-        return false;
+        return fblse;
     }
 
-    // fullOffsets is an array of 5 baseline offsets,
-    // roman, center, hanging, bottom, and top in that order
-    // this does NOT add the ssOffset
-    public final float effectiveBaselineOffset(float[] fullOffsets) {
-        switch (baselineIndex) {
-        case GraphicAttribute.TOP_ALIGNMENT:
-            return fullOffsets[4] + ascent;
-        case GraphicAttribute.BOTTOM_ALIGNMENT:
+    // fullOffsets is bn brrby of 5 bbseline offsets,
+    // rombn, center, hbnging, bottom, bnd top in thbt order
+    // this does NOT bdd the ssOffset
+    public finbl flobt effectiveBbselineOffset(flobt[] fullOffsets) {
+        switch (bbselineIndex) {
+        cbse GrbphicAttribute.TOP_ALIGNMENT:
+            return fullOffsets[4] + bscent;
+        cbse GrbphicAttribute.BOTTOM_ALIGNMENT:
             return fullOffsets[3] - descent;
-        default:
-            return fullOffsets[baselineIndex];
+        defbult:
+            return fullOffsets[bbselineIndex];
         }
     }
 
-    public final float   ascent;
-    public final float   descent;
-    public final float   leading;
-    public final float   height;
-    public final int     baselineIndex;
-    public final float[] baselineOffsets; // !! this is a hole, don't expose this class
-    public final float   strikethroughOffset;
-    public final float   strikethroughThickness;
-    public final float   underlineOffset;
-    public final float   underlineThickness;
-    public final float   ssOffset;
-    public final float   italicAngle;
+    public finbl flobt   bscent;
+    public finbl flobt   descent;
+    public finbl flobt   lebding;
+    public finbl flobt   height;
+    public finbl int     bbselineIndex;
+    public finbl flobt[] bbselineOffsets; // !! this is b hole, don't expose this clbss
+    public finbl flobt   strikethroughOffset;
+    public finbl flobt   strikethroughThickness;
+    public finbl flobt   underlineOffset;
+    public finbl flobt   underlineThickness;
+    public finbl flobt   ssOffset;
+    public finbl flobt   itblicAngle;
 }

@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.stream;
+pbckbge jbvbx.imbgeio.strebm;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
 /**
- * An implementation of <code>ImageOutputStream</code> that writes its
- * output to a regular <code>OutputStream</code>.  A memory buffer is
- * used to cache at least the data between the discard position and
- * the current write position.  The only constructor takes an
- * <code>OutputStream</code>, so this class may not be used for
- * read/modify/write operations.  Reading can occur only on parts of
- * the stream that have already been written to the cache and not
+ * An implementbtion of <code>ImbgeOutputStrebm</code> thbt writes its
+ * output to b regulbr <code>OutputStrebm</code>.  A memory buffer is
+ * used to cbche bt lebst the dbtb between the discbrd position bnd
+ * the current write position.  The only constructor tbkes bn
+ * <code>OutputStrebm</code>, so this clbss mby not be used for
+ * rebd/modify/write operbtions.  Rebding cbn occur only on pbrts of
+ * the strebm thbt hbve blrebdy been written to the cbche bnd not
  * yet flushed.
  *
  */
-public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
+public clbss MemoryCbcheImbgeOutputStrebm extends ImbgeOutputStrebmImpl {
 
-    private OutputStream stream;
+    privbte OutputStrebm strebm;
 
-    private MemoryCache cache = new MemoryCache();
+    privbte MemoryCbche cbche = new MemoryCbche();
 
     /**
-     * Constructs a <code>MemoryCacheImageOutputStream</code> that will write
-     * to a given <code>OutputStream</code>.
+     * Constructs b <code>MemoryCbcheImbgeOutputStrebm</code> thbt will write
+     * to b given <code>OutputStrebm</code>.
      *
-     * @param stream an <code>OutputStream</code> to write to.
+     * @pbrbm strebm bn <code>OutputStrebm</code> to write to.
      *
-     * @exception IllegalArgumentException if <code>stream</code> is
+     * @exception IllegblArgumentException if <code>strebm</code> is
      * <code>null</code>.
      */
-    public MemoryCacheImageOutputStream(OutputStream stream) {
-        if (stream == null) {
-            throw new IllegalArgumentException("stream == null!");
+    public MemoryCbcheImbgeOutputStrebm(OutputStrebm strebm) {
+        if (strebm == null) {
+            throw new IllegblArgumentException("strebm == null!");
         }
-        this.stream = stream;
+        this.strebm = strebm;
     }
 
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         checkClosed();
 
         bitOffset = 0;
 
-        int val = cache.read(streamPos);
-        if (val != -1) {
-            ++streamPos;
+        int vbl = cbche.rebd(strebmPos);
+        if (vbl != -1) {
+            ++strebmPos;
         }
-        return val;
+        return vbl;
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         checkClosed();
 
         if (b == null) {
             throw new NullPointerException("b == null!");
         }
-        // Fix 4467608: read([B,I,I) works incorrectly if len<=0
+        // Fix 4467608: rebd([B,I,I) works incorrectly if len<=0
         if (off < 0 || len < 0 || off + len > b.length || off + len < 0) {
             throw new IndexOutOfBoundsException
                 ("off < 0 || len < 0 || off+len > b.length || off+len < 0!");
@@ -91,106 +91,106 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
             return 0;
         }
 
-        // check if we're already at/past EOF i.e.
-        // no more bytes left to read from cache
-        long bytesLeftInCache = cache.getLength() - streamPos;
-        if (bytesLeftInCache <= 0) {
+        // check if we're blrebdy bt/pbst EOF i.e.
+        // no more bytes left to rebd from cbche
+        long bytesLeftInCbche = cbche.getLength() - strebmPos;
+        if (bytesLeftInCbche <= 0) {
             return -1; // EOF
         }
 
-        // guaranteed by now that bytesLeftInCache > 0 && len > 0
-        // and so the rest of the error checking is done by cache.read()
-        // NOTE that alot of error checking is duplicated
-        len = (int)Math.min(bytesLeftInCache, (long)len);
-        cache.read(b, off, len, streamPos);
-        streamPos += len;
+        // gubrbnteed by now thbt bytesLeftInCbche > 0 && len > 0
+        // bnd so the rest of the error checking is done by cbche.rebd()
+        // NOTE thbt blot of error checking is duplicbted
+        len = (int)Mbth.min(bytesLeftInCbche, (long)len);
+        cbche.rebd(b, off, len, strebmPos);
+        strebmPos += len;
         return len;
     }
 
     public void write(int b) throws IOException {
-        flushBits(); // this will call checkClosed() for us
-        cache.write(b, streamPos);
-        ++streamPos;
+        flushBits(); // this will cbll checkClosed() for us
+        cbche.write(b, strebmPos);
+        ++strebmPos;
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
-        flushBits(); // this will call checkClosed() for us
-        cache.write(b, off, len, streamPos);
-        streamPos += len;
+        flushBits(); // this will cbll checkClosed() for us
+        cbche.write(b, off, len, strebmPos);
+        strebmPos += len;
     }
 
     public long length() {
         try {
             checkClosed();
-            return cache.getLength();
-        } catch (IOException e) {
+            return cbche.getLength();
+        } cbtch (IOException e) {
             return -1L;
         }
     }
 
     /**
      * Returns <code>true</code> since this
-     * <code>ImageOutputStream</code> caches data in order to allow
-     * seeking backwards.
+     * <code>ImbgeOutputStrebm</code> cbches dbtb in order to bllow
+     * seeking bbckwbrds.
      *
      * @return <code>true</code>.
      *
-     * @see #isCachedMemory
-     * @see #isCachedFile
+     * @see #isCbchedMemory
+     * @see #isCbchedFile
      */
-    public boolean isCached() {
+    public boolebn isCbched() {
         return true;
     }
 
     /**
-     * Returns <code>false</code> since this
-     * <code>ImageOutputStream</code> does not maintain a file cache.
+     * Returns <code>fblse</code> since this
+     * <code>ImbgeOutputStrebm</code> does not mbintbin b file cbche.
      *
-     * @return <code>false</code>.
+     * @return <code>fblse</code>.
      *
-     * @see #isCached
-     * @see #isCachedMemory
+     * @see #isCbched
+     * @see #isCbchedMemory
      */
-    public boolean isCachedFile() {
-        return false;
+    public boolebn isCbchedFile() {
+        return fblse;
     }
 
     /**
      * Returns <code>true</code> since this
-     * <code>ImageOutputStream</code> maintains a main memory cache.
+     * <code>ImbgeOutputStrebm</code> mbintbins b mbin memory cbche.
      *
      * @return <code>true</code>.
      *
-     * @see #isCached
-     * @see #isCachedFile
+     * @see #isCbched
+     * @see #isCbchedFile
      */
-    public boolean isCachedMemory() {
+    public boolebn isCbchedMemory() {
         return true;
     }
 
     /**
-     * Closes this <code>MemoryCacheImageOutputStream</code>.  All
-     * pending data is flushed to the output, and the cache
-     * is released.  The destination <code>OutputStream</code>
+     * Closes this <code>MemoryCbcheImbgeOutputStrebm</code>.  All
+     * pending dbtb is flushed to the output, bnd the cbche
+     * is relebsed.  The destinbtion <code>OutputStrebm</code>
      * is not closed.
      */
     public void close() throws IOException {
-        long length = cache.getLength();
+        long length = cbche.getLength();
         seek(length);
         flushBefore(length);
         super.close();
-        cache.reset();
-        cache = null;
-        stream = null;
+        cbche.reset();
+        cbche = null;
+        strebm = null;
     }
 
     public void flushBefore(long pos) throws IOException {
         long oFlushedPos = flushedPos;
-        super.flushBefore(pos); // this will call checkClosed() for us
+        super.flushBefore(pos); // this will cbll checkClosed() for us
 
         long flushBytes = flushedPos - oFlushedPos;
-        cache.writeToStream(stream, oFlushedPos, flushBytes);
-        cache.disposeBefore(flushedPos);
-        stream.flush();
+        cbche.writeToStrebm(strebm, oFlushedPos, flushBytes);
+        cbche.disposeBefore(flushedPos);
+        strebm.flush();
     }
 }

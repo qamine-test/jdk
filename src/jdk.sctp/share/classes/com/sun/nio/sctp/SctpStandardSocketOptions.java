@@ -1,421 +1,421 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.nio.sctp;
+pbckbge com.sun.nio.sctp;
 
-import java.net.SocketAddress;
+import jbvb.net.SocketAddress;
 import sun.nio.ch.sctp.SctpStdSocketOption;
 
 /**
- * SCTP channels supports the socket options defined by this class
- * (as well as those listed in the particular channel class) and may support
- * additional Implementation specific socket options.
+ * SCTP chbnnels supports the socket options defined by this clbss
+ * (bs well bs those listed in the pbrticulbr chbnnel clbss) bnd mby support
+ * bdditionbl Implementbtion specific socket options.
  *
  * @since 1.7
  */
 @jdk.Exported
-public class SctpStandardSocketOptions {
-    private SctpStandardSocketOptions() {}
+public clbss SctpStbndbrdSocketOptions {
+    privbte SctpStbndbrdSocketOptions() {}
     /**
-     * Enables or disables message fragmentation.
+     * Enbbles or disbbles messbge frbgmentbtion.
      *
-     * <P> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. If enabled no SCTP message
-     * fragmentation will be performed. Instead if a message being sent
-     * exceeds the current PMTU size, the message will NOT be sent and
-     * an error will be indicated to the user.
+     * <P> The vblue of this socket option is b {@code Boolebn} thbt represents
+     * whether the option is enbbled or disbbled. If enbbled no SCTP messbge
+     * frbgmentbtion will be performed. Instebd if b messbge being sent
+     * exceeds the current PMTU size, the messbge will NOT be sent bnd
+     * bn error will be indicbted to the user.
      *
-     * <P> It is implementation specific whether or not this option is
+     * <P> It is implementbtion specific whether or not this option is
      * supported.
      */
-    public static final SctpSocketOption<Boolean> SCTP_DISABLE_FRAGMENTS = new
-        SctpStdSocketOption<Boolean>("SCTP_DISABLE_FRAGMENTS", Boolean.class,
+    public stbtic finbl SctpSocketOption<Boolebn> SCTP_DISABLE_FRAGMENTS = new
+        SctpStdSocketOption<Boolebn>("SCTP_DISABLE_FRAGMENTS", Boolebn.clbss,
         sun.nio.ch.sctp.SctpStdSocketOption.SCTP_DISABLE_FRAGMENTS);
 
     /**
-     * Enables or disables explicit message completion.
+     * Enbbles or disbbles explicit messbge completion.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. When this option is enabled,
-     * the {@code send} method may be invoked multiple times to a send message.
-     * The {@code isComplete} parameter of the {@link MessageInfo} must only
-     * be set to {@code true} for the final send to indicate that the message is
-     * complete. If this option is disabled then each individual {@code send}
-     * invocation is considered complete.
+     * <p> The vblue of this socket option is b {@code Boolebn} thbt represents
+     * whether the option is enbbled or disbbled. When this option is enbbled,
+     * the {@code send} method mby be invoked multiple times to b send messbge.
+     * The {@code isComplete} pbrbmeter of the {@link MessbgeInfo} must only
+     * be set to {@code true} for the finbl send to indicbte thbt the messbge is
+     * complete. If this option is disbbled then ebch individubl {@code send}
+     * invocbtion is considered complete.
      *
-     * <P> The default value of the option is {@code false} indicating that the
-     * option is disabled. It is implementation specific whether or not this
+     * <P> The defbult vblue of the option is {@code fblse} indicbting thbt the
+     * option is disbbled. It is implementbtion specific whether or not this
      * option is supported.
      */
-    public static final SctpSocketOption<Boolean> SCTP_EXPLICIT_COMPLETE = new
-        SctpStdSocketOption<Boolean>("SCTP_EXPLICIT_COMPLETE", Boolean.class,
+    public stbtic finbl SctpSocketOption<Boolebn> SCTP_EXPLICIT_COMPLETE = new
+        SctpStdSocketOption<Boolebn>("SCTP_EXPLICIT_COMPLETE", Boolebn.clbss,
         sun.nio.ch.sctp.SctpStdSocketOption.SCTP_EXPLICIT_COMPLETE);
 
     /**
-     * Fragmented interleave controls how the presentation of messages occur
-     * for the message receiver. There are three levels of fragment interleave
-     * defined. Two of the levels effect {@link SctpChannel}, while
-     * {@link SctpMultiChannel} is effected by all three levels.
+     * Frbgmented interlebve controls how the presentbtion of messbges occur
+     * for the messbge receiver. There bre three levels of frbgment interlebve
+     * defined. Two of the levels effect {@link SctpChbnnel}, while
+     * {@link SctpMultiChbnnel} is effected by bll three levels.
      *
-     * <P> This option takes an {@code Integer} value. It can be set to a value
+     * <P> This option tbkes bn {@code Integer} vblue. It cbn be set to b vblue
      * of {@code 0}, {@code 1} or {@code 2}.
      *
      * <P> Setting the three levels provides the following receiver
-     * interactions:
+     * interbctions:
      *
-     * <P> {@code level 0} - Prevents the interleaving of any messages. This
-     * means that when a partial delivery begins, no other messages will be
-     * received except the message being partially delivered. If another message
-     * arrives on a different stream (or association) that could be delivered,
-     * it will be blocked waiting for the user to read all of the partially
-     * delivered message.
+     * <P> {@code level 0} - Prevents the interlebving of bny messbges. This
+     * mebns thbt when b pbrtibl delivery begins, no other messbges will be
+     * received except the messbge being pbrtiblly delivered. If bnother messbge
+     * brrives on b different strebm (or bssocibtion) thbt could be delivered,
+     * it will be blocked wbiting for the user to rebd bll of the pbrtiblly
+     * delivered messbge.
      *
-     * <P> {@code level 1} - Allows interleaving of messages that are from
-     * different associations. For {@code SctpChannel}, level 0 and
-     * level 1 have the same meaning since an {@code SctpChannel} always
-     * receives messages from the same association. Note that setting an {@code
-     * SctpMultiChannel} to this level may cause multiple partial
-     * delivers from different associations but for any given association, only
-     * one message will be delivered until all parts of a message have been
-     * delivered. This means that one large message, being read with an
-     * association identification of "X", will block other messages from
-     * association "X" from being delivered.
+     * <P> {@code level 1} - Allows interlebving of messbges thbt bre from
+     * different bssocibtions. For {@code SctpChbnnel}, level 0 bnd
+     * level 1 hbve the sbme mebning since bn {@code SctpChbnnel} blwbys
+     * receives messbges from the sbme bssocibtion. Note thbt setting bn {@code
+     * SctpMultiChbnnel} to this level mby cbuse multiple pbrtibl
+     * delivers from different bssocibtions but for bny given bssocibtion, only
+     * one messbge will be delivered until bll pbrts of b messbge hbve been
+     * delivered. This mebns thbt one lbrge messbge, being rebd with bn
+     * bssocibtion identificbtion of "X", will block other messbges from
+     * bssocibtion "X" from being delivered.
      *
-     * <P> {@code level 2} - Allows complete interleaving of messages. This
-     * level requires that the sender carefully observe not only the peer
-     * {@code Association} but also must pay careful attention to the stream
-     * number. With this option enabled a partially delivered message may begin
-     * being delivered for association "X" stream "Y" and the next subsequent
-     * receive may return a message from association "X" stream "Z". Note that
-     * no other messages would be delivered for association "X" stream "Y"
-     * until all of stream "Y"'s partially delivered message was read.
-     * Note that this option effects both channel types.  Also note that
-     * for an {@code SctpMultiChannel} not only may another streams
-     * message from the same association be delivered from the next receive,
-     * some other associations message may be delivered upon the next receive.
+     * <P> {@code level 2} - Allows complete interlebving of messbges. This
+     * level requires thbt the sender cbrefully observe not only the peer
+     * {@code Associbtion} but blso must pby cbreful bttention to the strebm
+     * number. With this option enbbled b pbrtiblly delivered messbge mby begin
+     * being delivered for bssocibtion "X" strebm "Y" bnd the next subsequent
+     * receive mby return b messbge from bssocibtion "X" strebm "Z". Note thbt
+     * no other messbges would be delivered for bssocibtion "X" strebm "Y"
+     * until bll of strebm "Y"'s pbrtiblly delivered messbge wbs rebd.
+     * Note thbt this option effects both chbnnel types.  Also note thbt
+     * for bn {@code SctpMultiChbnnel} not only mby bnother strebms
+     * messbge from the sbme bssocibtion be delivered from the next receive,
+     * some other bssocibtions messbge mby be delivered upon the next receive.
      *
-     * <P> It is implementation specific whether or not this option is
+     * <P> It is implementbtion specific whether or not this option is
      * supported.
      */
-    public static final SctpSocketOption<Integer> SCTP_FRAGMENT_INTERLEAVE =
+    public stbtic finbl SctpSocketOption<Integer> SCTP_FRAGMENT_INTERLEAVE =
             new SctpStdSocketOption<Integer>("SCTP_FRAGMENT_INTERLEAVE",
-                  Integer.class,
+                  Integer.clbss,
                   sun.nio.ch.sctp.SctpStdSocketOption.SCTP_FRAGMENT_INTERLEAVE);
 
     /**
-     * The maximum number of streams requested by the local endpoint during
-     * association initialization.
+     * The mbximum number of strebms requested by the locbl endpoint during
+     * bssocibtion initiblizbtion.
      *
-     * <P> The value of this socket option is an {@link
-     * SctpStandardSocketOptions.InitMaxStreams InitMaxStreams}, that represents
-     * the maximum number of inbound and outbound streams that an association
-     * on the channel is prepared to support.
+     * <P> The vblue of this socket option is bn {@link
+     * SctpStbndbrdSocketOptions.InitMbxStrebms InitMbxStrebms}, thbt represents
+     * the mbximum number of inbound bnd outbound strebms thbt bn bssocibtion
+     * on the chbnnel is prepbred to support.
      *
-     * <P> For an {@link SctpChannel} this option may only be used to
-     * change the number of inbound/outbound streams prior to connecting.
+     * <P> For bn {@link SctpChbnnel} this option mby only be used to
+     * chbnge the number of inbound/outbound strebms prior to connecting.
      *
-     * <P> For an {@link SctpMultiChannel} this option determines
-     * the maximum number of inbound/outbound streams new associations setup
-     * on the channel will be prepared to support.
+     * <P> For bn {@link SctpMultiChbnnel} this option determines
+     * the mbximum number of inbound/outbound strebms new bssocibtions setup
+     * on the chbnnel will be prepbred to support.
      *
-     * <P> For an {@link SctpServerChannel} this option determines the
-     * maximum number of inbound/outbound streams accepted sockets will
-     * negotiate with their connecting peer.
+     * <P> For bn {@link SctpServerChbnnel} this option determines the
+     * mbximum number of inbound/outbound strebms bccepted sockets will
+     * negotibte with their connecting peer.
      *
-     * <P> In all cases the value set by this option is used in the negotiation
-     * of new associations setup on the channel's socket and the actual
-     * maximum number of inbound/outbound streams that have been negotiated
-     * with the peer can be retrieved from the appropriate {@link
-     * Association}. The {@code Association} can be retrieved from the
-     * {@link AssociationChangeNotification.AssocChangeEvent#COMM_UP COMM_UP}
-     * {@link AssociationChangeNotification} belonging to that association.
+     * <P> In bll cbses the vblue set by this option is used in the negotibtion
+     * of new bssocibtions setup on the chbnnel's socket bnd the bctubl
+     * mbximum number of inbound/outbound strebms thbt hbve been negotibted
+     * with the peer cbn be retrieved from the bppropribte {@link
+     * Associbtion}. The {@code Associbtion} cbn be retrieved from the
+     * {@link AssocibtionChbngeNotificbtion.AssocChbngeEvent#COMM_UP COMM_UP}
+     * {@link AssocibtionChbngeNotificbtion} belonging to thbt bssocibtion.
      *
-     * <p> This value is bounded by the actual implementation. In other
-     * words the user may be able to support more streams than the Operating
-     * System. In such a case, the Operating System limit may override the
-     * value requested by the user. The default value of 0 indicates to use
-     * the endpoints default value.
+     * <p> This vblue is bounded by the bctubl implementbtion. In other
+     * words the user mby be bble to support more strebms thbn the Operbting
+     * System. In such b cbse, the Operbting System limit mby override the
+     * vblue requested by the user. The defbult vblue of 0 indicbtes to use
+     * the endpoints defbult vblue.
      */
-    public static final SctpSocketOption
-        <SctpStandardSocketOptions.InitMaxStreams> SCTP_INIT_MAXSTREAMS =
-        new SctpStdSocketOption<SctpStandardSocketOptions.InitMaxStreams>(
-        "SCTP_INIT_MAXSTREAMS", SctpStandardSocketOptions.InitMaxStreams.class);
+    public stbtic finbl SctpSocketOption
+        <SctpStbndbrdSocketOptions.InitMbxStrebms> SCTP_INIT_MAXSTREAMS =
+        new SctpStdSocketOption<SctpStbndbrdSocketOptions.InitMbxStrebms>(
+        "SCTP_INIT_MAXSTREAMS", SctpStbndbrdSocketOptions.InitMbxStrebms.clbss);
 
     /**
-     * Enables or disables a Nagle-like algorithm.
+     * Enbbles or disbbles b Nbgle-like blgorithm.
      *
-     * <P> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. SCTP uses an algorithm like
-     * <em>The Nagle Algorithm</em> to coalesce short segments and
+     * <P> The vblue of this socket option is b {@code Boolebn} thbt represents
+     * whether the option is enbbled or disbbled. SCTP uses bn blgorithm like
+     * <em>The Nbgle Algorithm</em> to coblesce short segments bnd
      * improve network efficiency.
      */
-    public static final SctpSocketOption<Boolean> SCTP_NODELAY =
-        new SctpStdSocketOption<Boolean>("SCTP_NODELAY", Boolean.class,
+    public stbtic finbl SctpSocketOption<Boolebn> SCTP_NODELAY =
+        new SctpStdSocketOption<Boolebn>("SCTP_NODELAY", Boolebn.clbss,
         sun.nio.ch.sctp.SctpStdSocketOption.SCTP_NODELAY);
 
     /**
-     * Requests that the local SCTP stack use the given peer address as
-     * the association primary.
+     * Requests thbt the locbl SCTP stbck use the given peer bddress bs
+     * the bssocibtion primbry.
      *
-     * <P> The value of this socket option is a {@code SocketAddress}
-     * that represents the peer address that the local SCTP stack should use as
-     * the association primary. The address must be one of the association
-     * peer's addresses.
+     * <P> The vblue of this socket option is b {@code SocketAddress}
+     * thbt represents the peer bddress thbt the locbl SCTP stbck should use bs
+     * the bssocibtion primbry. The bddress must be one of the bssocibtion
+     * peer's bddresses.
      *
-     * <P> An {@code SctpMultiChannel} can control more than one
-     * association, the association parameter must be given when setting or
+     * <P> An {@code SctpMultiChbnnel} cbn control more thbn one
+     * bssocibtion, the bssocibtion pbrbmeter must be given when setting or
      * retrieving this option.
      *
-     * <P> Since {@code SctpChannel} only controls one association,
-     * the association parameter is not required and this option can be
+     * <P> Since {@code SctpChbnnel} only controls one bssocibtion,
+     * the bssocibtion pbrbmeter is not required bnd this option cbn be
      * set or queried directly.
      */
-     public static final SctpSocketOption<SocketAddress> SCTP_PRIMARY_ADDR =
+     public stbtic finbl SctpSocketOption<SocketAddress> SCTP_PRIMARY_ADDR =
              new SctpStdSocketOption<SocketAddress>
-             ("SCTP_PRIMARY_ADDR", SocketAddress.class);
+             ("SCTP_PRIMARY_ADDR", SocketAddress.clbss);
 
      /**
-     * Requests that the peer mark the enclosed address as the association
-     * primary.
+     * Requests thbt the peer mbrk the enclosed bddress bs the bssocibtion
+     * primbry.
      *
-     * <P> The value of this socket option is a {@code SocketAddress}
-     * that represents the local address that the peer should use as its
-     * primary address. The given address must be one of the association's
-     * locally bound addresses.
+     * <P> The vblue of this socket option is b {@code SocketAddress}
+     * thbt represents the locbl bddress thbt the peer should use bs its
+     * primbry bddress. The given bddress must be one of the bssocibtion's
+     * locblly bound bddresses.
      *
-     * <P> An {@code SctpMultiChannel} can control more than one
-     * association, the association parameter must be given when setting or
+     * <P> An {@code SctpMultiChbnnel} cbn control more thbn one
+     * bssocibtion, the bssocibtion pbrbmeter must be given when setting or
      * retrieving this option.
      *
-     * <P> Since {@code SctpChannel} only controls one association,
-     * the association parameter is not required and this option can be
+     * <P> Since {@code SctpChbnnel} only controls one bssocibtion,
+     * the bssocibtion pbrbmeter is not required bnd this option cbn be
      * queried directly.
      *
-     * <P> Note, this is a set only option and cannot be retrieved by {@code
-     * getOption}. It is implementation specific whether or not this
+     * <P> Note, this is b set only option bnd cbnnot be retrieved by {@code
+     * getOption}. It is implementbtion specific whether or not this
      * option is supported.
      */
-    public static final SctpSocketOption<SocketAddress> SCTP_SET_PEER_PRIMARY_ADDR =
+    public stbtic finbl SctpSocketOption<SocketAddress> SCTP_SET_PEER_PRIMARY_ADDR =
             new SctpStdSocketOption<SocketAddress>
-            ("SCTP_SET_PEER_PRIMARY_ADDR", SocketAddress.class);
+            ("SCTP_SET_PEER_PRIMARY_ADDR", SocketAddress.clbss);
 
     /**
      * The size of the socket send buffer.
      *
-     * <p> The value of this socket option is an {@code Integer} that is the
-     * size of the socket send buffer in bytes. The socket send buffer is an
-     * output buffer used by the networking implementation. It may need to be
-     * increased for high-volume connections. The value of the socket option is
-     * a <em>hint</em> to the implementation to size the buffer and the actual
-     * size may differ. The socket option can be queried to retrieve the actual
+     * <p> The vblue of this socket option is bn {@code Integer} thbt is the
+     * size of the socket send buffer in bytes. The socket send buffer is bn
+     * output buffer used by the networking implementbtion. It mby need to be
+     * increbsed for high-volume connections. The vblue of the socket option is
+     * b <em>hint</em> to the implementbtion to size the buffer bnd the bctubl
+     * size mby differ. The socket option cbn be queried to retrieve the bctubl
      * size.
      *
-     * <p> For {@code SctpChannel}, this controls the amount of data
-     * the SCTP stack may have waiting in internal buffers to be sent. This
-     * option therefore bounds the maximum size of data that can be sent in a
-     * single send call.
+     * <p> For {@code SctpChbnnel}, this controls the bmount of dbtb
+     * the SCTP stbck mby hbve wbiting in internbl buffers to be sent. This
+     * option therefore bounds the mbximum size of dbtb thbt cbn be sent in b
+     * single send cbll.
      *
-     * <P> For {@code SctpMultiChannel}, the effect is the same as for {@code
-     * SctpChannel}, except that it applies to all associations. The option
-     * applies to each association's window size separately.
+     * <P> For {@code SctpMultiChbnnel}, the effect is the sbme bs for {@code
+     * SctpChbnnel}, except thbt it bpplies to bll bssocibtions. The option
+     * bpplies to ebch bssocibtion's window size sepbrbtely.
      *
-     * <p> An implementation allows this socket option to be set before the
-     * socket is bound or connected. Whether an implementation allows the
-     * socket send buffer to be changed after the socket is bound is system
+     * <p> An implementbtion bllows this socket option to be set before the
+     * socket is bound or connected. Whether bn implementbtion bllows the
+     * socket send buffer to be chbnged bfter the socket is bound is system
      * dependent.
      */
-    public static final SctpSocketOption<Integer> SO_SNDBUF =
-        new SctpStdSocketOption<Integer>("SO_SNDBUF", Integer.class,
+    public stbtic finbl SctpSocketOption<Integer> SO_SNDBUF =
+        new SctpStdSocketOption<Integer>("SO_SNDBUF", Integer.clbss,
         sun.nio.ch.sctp.SctpStdSocketOption.SO_SNDBUF);
 
     /**
      * The size of the socket receive buffer.
      *
-     * <P> The value of this socket option is an {@code Integer} that is the
+     * <P> The vblue of this socket option is bn {@code Integer} thbt is the
      * size of the socket receive buffer in bytes. The socket receive buffer is
-     * an input buffer used by the networking implementation. It may need to be
-     * increased for high-volume connections or decreased to limit the possible
-     * backlog of incoming data. The value of the socket option is a
-     * <em>hint</em> to the implementation to size the buffer and the actual
-     * size may differ.
+     * bn input buffer used by the networking implementbtion. It mby need to be
+     * increbsed for high-volume connections or decrebsed to limit the possible
+     * bbcklog of incoming dbtb. The vblue of the socket option is b
+     * <em>hint</em> to the implementbtion to size the buffer bnd the bctubl
+     * size mby differ.
      *
-     * <P> For {@code SctpChannel}, this controls the receiver window size.
+     * <P> For {@code SctpChbnnel}, this controls the receiver window size.
      *
-     * <P> For {@code SctpMultiChannel}, the meaning is implementation
-     * dependent. It might control the receive buffer for each association bound
+     * <P> For {@code SctpMultiChbnnel}, the mebning is implementbtion
+     * dependent. It might control the receive buffer for ebch bssocibtion bound
      * to the socket descriptor or it might control the receive buffer for the
      * whole socket.
      *
-     * <p> An implementation allows this socket option to be set before the
-     * socket is bound or connected. Whether an implementation allows the
-     * socket receive buffer to be changed after the socket is bound is system
+     * <p> An implementbtion bllows this socket option to be set before the
+     * socket is bound or connected. Whether bn implementbtion bllows the
+     * socket receive buffer to be chbnged bfter the socket is bound is system
      * dependent.
      */
-    public static final SctpSocketOption<Integer> SO_RCVBUF =
-        new SctpStdSocketOption<Integer>("SO_RCVBUF", Integer.class,
+    public stbtic finbl SctpSocketOption<Integer> SO_RCVBUF =
+        new SctpStdSocketOption<Integer>("SO_RCVBUF", Integer.clbss,
         sun.nio.ch.sctp.SctpStdSocketOption.SO_RCVBUF);
 
     /**
-     * Linger on close if data is present.
+     * Linger on close if dbtb is present.
      *
-     * <p> The value of this socket option is an {@code Integer} that controls
-     * the action taken when unsent data is queued on the socket and a method
-     * to close the socket is invoked. If the value of the socket option is zero
-     * or greater, then it represents a timeout value, in seconds, known as the
-     * <em>linger interval</em>. The linger interval is the timeout for the
-     * {@code close} method to block while the operating system attempts to
-     * transmit the unsent data or it decides that it is unable to transmit the
-     * data. If the value of the socket option is less than zero then the option
-     * is disabled. In that case the {@code close} method does not wait until
-     * unsent data is transmitted; if possible the operating system will transmit
-     * any unsent data before the connection is closed.
+     * <p> The vblue of this socket option is bn {@code Integer} thbt controls
+     * the bction tbken when unsent dbtb is queued on the socket bnd b method
+     * to close the socket is invoked. If the vblue of the socket option is zero
+     * or grebter, then it represents b timeout vblue, in seconds, known bs the
+     * <em>linger intervbl</em>. The linger intervbl is the timeout for the
+     * {@code close} method to block while the operbting system bttempts to
+     * trbnsmit the unsent dbtb or it decides thbt it is unbble to trbnsmit the
+     * dbtb. If the vblue of the socket option is less thbn zero then the option
+     * is disbbled. In thbt cbse the {@code close} method does not wbit until
+     * unsent dbtb is trbnsmitted; if possible the operbting system will trbnsmit
+     * bny unsent dbtb before the connection is closed.
      *
-     * <p> This socket option is intended for use with sockets that are configured
-     * in {@link java.nio.channels.SelectableChannel#isBlocking() blocking} mode
-     * only. The behavior of the {@code close} method when this option is
-     * enabled on a non-blocking socket is not defined.
+     * <p> This socket option is intended for use with sockets thbt bre configured
+     * in {@link jbvb.nio.chbnnels.SelectbbleChbnnel#isBlocking() blocking} mode
+     * only. The behbvior of the {@code close} method when this option is
+     * enbbled on b non-blocking socket is not defined.
      *
-     * <p> The initial value of this socket option is a negative value, meaning
-     * that the option is disabled. The option may be enabled, or the linger
-     * interval changed, at any time. The maximum value of the linger interval
-     * is system dependent. Setting the linger interval to a value that is
-     * greater than its maximum value causes the linger interval to be set to
-     * its maximum value.
+     * <p> The initibl vblue of this socket option is b negbtive vblue, mebning
+     * thbt the option is disbbled. The option mby be enbbled, or the linger
+     * intervbl chbnged, bt bny time. The mbximum vblue of the linger intervbl
+     * is system dependent. Setting the linger intervbl to b vblue thbt is
+     * grebter thbn its mbximum vblue cbuses the linger intervbl to be set to
+     * its mbximum vblue.
      */
-    public static final SctpSocketOption<Integer> SO_LINGER =
-        new SctpStdSocketOption<Integer>("SO_LINGER", Integer.class,
+    public stbtic finbl SctpSocketOption<Integer> SO_LINGER =
+        new SctpStdSocketOption<Integer>("SO_LINGER", Integer.clbss,
         sun.nio.ch.sctp.SctpStdSocketOption.SO_LINGER);
 
     /**
-     * This class is used to set the maximum number of inbound/outbound streams
-     * used by the local endpoint during association initialization. An
-     * instance of this class is used to set the {@link
-     * SctpStandardSocketOptions#SCTP_INIT_MAXSTREAMS SCTP_INIT_MAXSTREAMS}
+     * This clbss is used to set the mbximum number of inbound/outbound strebms
+     * used by the locbl endpoint during bssocibtion initiblizbtion. An
+     * instbnce of this clbss is used to set the {@link
+     * SctpStbndbrdSocketOptions#SCTP_INIT_MAXSTREAMS SCTP_INIT_MAXSTREAMS}
      * socket option.
      *
      * @since 1.7
      */
     @jdk.Exported
-    public static class InitMaxStreams {
-        private int maxInStreams;
-        private int maxOutStreams;
+    public stbtic clbss InitMbxStrebms {
+        privbte int mbxInStrebms;
+        privbte int mbxOutStrebms;
 
-        private InitMaxStreams(int maxInStreams, int maxOutStreams) {
-           this.maxInStreams = maxInStreams;
-           this.maxOutStreams = maxOutStreams;
+        privbte InitMbxStrebms(int mbxInStrebms, int mbxOutStrebms) {
+           this.mbxInStrebms = mbxInStrebms;
+           this.mbxOutStrebms = mbxOutStrebms;
         }
 
         /**
-         * Creates an InitMaxStreams instance.
+         * Crebtes bn InitMbxStrebms instbnce.
          *
-         * @param  maxInStreams
-         *         The maximum number of inbound streams, where
-         *         {@code 0 <= maxInStreams <= 65536}
+         * @pbrbm  mbxInStrebms
+         *         The mbximum number of inbound strebms, where
+         *         {@code 0 <= mbxInStrebms <= 65536}
          *
-         * @param  maxOutStreams
-         *         The maximum number of outbound streams, where
-         *         {@code 0 <= maxOutStreams <= 65536}
+         * @pbrbm  mbxOutStrebms
+         *         The mbximum number of outbound strebms, where
+         *         {@code 0 <= mbxOutStrebms <= 65536}
          *
-         * @return  An {@code InitMaxStreams} instance
+         * @return  An {@code InitMbxStrebms} instbnce
          *
-         * @throws  IllegalArgumentException
-         *          If an argument is outside of specified bounds
+         * @throws  IllegblArgumentException
+         *          If bn brgument is outside of specified bounds
          */
-        public static InitMaxStreams create
-              (int maxInStreams, int maxOutStreams) {
-            if (maxOutStreams < 0 || maxOutStreams > 65535)
-                throw new IllegalArgumentException(
-                      "Invalid maxOutStreams value");
-            if (maxInStreams < 0 || maxInStreams > 65535)
-                throw new IllegalArgumentException(
-                      "Invalid maxInStreams value");
+        public stbtic InitMbxStrebms crebte
+              (int mbxInStrebms, int mbxOutStrebms) {
+            if (mbxOutStrebms < 0 || mbxOutStrebms > 65535)
+                throw new IllegblArgumentException(
+                      "Invblid mbxOutStrebms vblue");
+            if (mbxInStrebms < 0 || mbxInStrebms > 65535)
+                throw new IllegblArgumentException(
+                      "Invblid mbxInStrebms vblue");
 
-            return new InitMaxStreams(maxInStreams, maxOutStreams);
+            return new InitMbxStrebms(mbxInStrebms, mbxOutStrebms);
         }
 
         /**
-         * Returns the maximum number of inbound streams.
+         * Returns the mbximum number of inbound strebms.
          *
-         * @return  Maximum inbound streams
+         * @return  Mbximum inbound strebms
          */
-        public int maxInStreams() {
-            return maxInStreams;
+        public int mbxInStrebms() {
+            return mbxInStrebms;
         }
 
         /**
-         * Returns the maximum number of outbound streams.
+         * Returns the mbximum number of outbound strebms.
          *
-         * @return  Maximum outbound streams
+         * @return  Mbximum outbound strebms
          */
-        public int maxOutStreams() {
-            return maxOutStreams;
+        public int mbxOutStrebms() {
+            return mbxOutStrebms;
         }
 
         /**
-         * Returns a string representation of this init max streams, including
-         * the maximum in and out bound streams.
+         * Returns b string representbtion of this init mbx strebms, including
+         * the mbximum in bnd out bound strebms.
          *
-         * @return  A string representation of this init max streams
+         * @return  A string representbtion of this init mbx strebms
          */
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append(super.toString()).append(" [");
-            sb.append("maxInStreams:").append(maxInStreams);
-            sb.append("maxOutStreams:").append(maxOutStreams).append("]");
+            sb.bppend(super.toString()).bppend(" [");
+            sb.bppend("mbxInStrebms:").bppend(mbxInStrebms);
+            sb.bppend("mbxOutStrebms:").bppend(mbxOutStrebms).bppend("]");
             return sb.toString();
         }
 
         /**
-         * Returns true if the specified object is another {@code InitMaxStreams}
-         * instance with the same number of in and out bound streams.
+         * Returns true if the specified object is bnother {@code InitMbxStrebms}
+         * instbnce with the sbme number of in bnd out bound strebms.
          *
-         * @param  obj
-         *         The object to be compared with this init max streams
+         * @pbrbm  obj
+         *         The object to be compbred with this init mbx strebms
          *
-         * @return  true if the specified object is another
-         *          {@code InitMaxStreams} instance with the same number of in
-         *          and out bound streams
+         * @return  true if the specified object is bnother
+         *          {@code InitMbxStrebms} instbnce with the sbme number of in
+         *          bnd out bound strebms
          */
         @Override
-        public boolean equals(Object obj) {
-            if (obj != null && obj instanceof InitMaxStreams) {
-                InitMaxStreams that = (InitMaxStreams) obj;
-                if (this.maxInStreams == that.maxInStreams &&
-                    this.maxOutStreams == that.maxOutStreams)
+        public boolebn equbls(Object obj) {
+            if (obj != null && obj instbnceof InitMbxStrebms) {
+                InitMbxStrebms thbt = (InitMbxStrebms) obj;
+                if (this.mbxInStrebms == thbt.mbxInStrebms &&
+                    this.mbxOutStrebms == thbt.mbxOutStrebms)
                     return true;
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Returns a hash code value for this init max streams.
+         * Returns b hbsh code vblue for this init mbx strebms.
          */
         @Override
-        public int hashCode() {
-            int hash = 7 ^ maxInStreams ^ maxOutStreams;
-            return hash;
+        public int hbshCode() {
+            int hbsh = 7 ^ mbxInStrebms ^ mbxOutStrebms;
+            return hbsh;
         }
     }
 }

@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.FilterOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
 
 /**
- * Implements an output stream filter for uncompressing data stored in the
- * "deflate" compression format.
+ * Implements bn output strebm filter for uncompressing dbtb stored in the
+ * "deflbte" compression formbt.
  *
  * @since       1.6
- * @author      David R Tribble (david@tribble.com)
+ * @buthor      Dbvid R Tribble (dbvid@tribble.com)
  *
- * @see InflaterInputStream
- * @see DeflaterInputStream
- * @see DeflaterOutputStream
+ * @see InflbterInputStrebm
+ * @see DeflbterInputStrebm
+ * @see DeflbterOutputStrebm
  */
 
-public class InflaterOutputStream extends FilterOutputStream {
-    /** Decompressor for this stream. */
-    protected final Inflater inf;
+public clbss InflbterOutputStrebm extends FilterOutputStrebm {
+    /** Decompressor for this strebm. */
+    protected finbl Inflbter inf;
 
-    /** Output buffer for writing uncompressed data. */
-    protected final byte[] buf;
+    /** Output buffer for writing uncompressed dbtb. */
+    protected finbl byte[] buf;
 
-    /** Temporary write buffer. */
-    private final byte[] wbuf = new byte[1];
+    /** Temporbry write buffer. */
+    privbte finbl byte[] wbuf = new byte[1];
 
-    /** Default decompressor is used. */
-    private boolean usesDefaultInflater = false;
+    /** Defbult decompressor is used. */
+    privbte boolebn usesDefbultInflbter = fblse;
 
-    /** true iff {@link #close()} has been called. */
-    private boolean closed = false;
+    /** true iff {@link #close()} hbs been cblled. */
+    privbte boolebn closed = fblse;
 
     /**
-     * Checks to make sure that this stream has not been closed.
+     * Checks to mbke sure thbt this strebm hbs not been closed.
      */
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (closed) {
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
         }
     }
 
     /**
-     * Creates a new output stream with a default decompressor and buffer
+     * Crebtes b new output strebm with b defbult decompressor bnd buffer
      * size.
      *
-     * @param out output stream to write the uncompressed data to
+     * @pbrbm out output strebm to write the uncompressed dbtb to
      * @throws NullPointerException if {@code out} is null
      */
-    public InflaterOutputStream(OutputStream out) {
-        this(out, new Inflater());
-        usesDefaultInflater = true;
+    public InflbterOutputStrebm(OutputStrebm out) {
+        this(out, new Inflbter());
+        usesDefbultInflbter = true;
     }
 
     /**
-     * Creates a new output stream with the specified decompressor and a
-     * default buffer size.
+     * Crebtes b new output strebm with the specified decompressor bnd b
+     * defbult buffer size.
      *
-     * @param out output stream to write the uncompressed data to
-     * @param infl decompressor ("inflater") for this stream
+     * @pbrbm out output strebm to write the uncompressed dbtb to
+     * @pbrbm infl decompressor ("inflbter") for this strebm
      * @throws NullPointerException if {@code out} or {@code infl} is null
      */
-    public InflaterOutputStream(OutputStream out, Inflater infl) {
+    public InflbterOutputStrebm(OutputStrebm out, Inflbter infl) {
         this(out, infl, 512);
     }
 
     /**
-     * Creates a new output stream with the specified decompressor and
+     * Crebtes b new output strebm with the specified decompressor bnd
      * buffer size.
      *
-     * @param out output stream to write the uncompressed data to
-     * @param infl decompressor ("inflater") for this stream
-     * @param bufLen decompression buffer size
-     * @throws IllegalArgumentException if {@code bufLen <= 0}
+     * @pbrbm out output strebm to write the uncompressed dbtb to
+     * @pbrbm infl decompressor ("inflbter") for this strebm
+     * @pbrbm bufLen decompression buffer size
+     * @throws IllegblArgumentException if {@code bufLen <= 0}
      * @throws NullPointerException if {@code out} or {@code infl} is null
      */
-    public InflaterOutputStream(OutputStream out, Inflater infl, int bufLen) {
+    public InflbterOutputStrebm(OutputStrebm out, Inflbter infl, int bufLen) {
         super(out);
 
-        // Sanity checks
+        // Sbnity checks
         if (out == null)
             throw new NullPointerException("Null output");
         if (infl == null)
-            throw new NullPointerException("Null inflater");
+            throw new NullPointerException("Null inflbter");
         if (bufLen <= 0)
-            throw new IllegalArgumentException("Buffer size < 1");
+            throw new IllegblArgumentException("Buffer size < 1");
 
-        // Initialize
+        // Initiblize
         inf = infl;
         buf = new byte[bufLen];
     }
 
     /**
-     * Writes any remaining uncompressed data to the output stream and closes
-     * the underlying output stream.
+     * Writes bny rembining uncompressed dbtb to the output strebm bnd closes
+     * the underlying output strebm.
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if bn I/O error occurs
      */
     public void close() throws IOException {
         if (!closed) {
             // Complete the uncompressed output
             try {
                 finish();
-            } finally {
+            } finblly {
                 out.close();
                 closed = true;
             }
@@ -135,36 +135,36 @@ public class InflaterOutputStream extends FilterOutputStream {
     }
 
     /**
-     * Flushes this output stream, forcing any pending buffered output bytes to be
+     * Flushes this output strebm, forcing bny pending buffered output bytes to be
      * written.
      *
-     * @throws IOException if an I/O error occurs or this stream is already
+     * @throws IOException if bn I/O error occurs or this strebm is blrebdy
      * closed
      */
     public void flush() throws IOException {
         ensureOpen();
 
-        // Finish decompressing and writing pending output data
+        // Finish decompressing bnd writing pending output dbtb
         if (!inf.finished()) {
             try {
                 while (!inf.finished()  &&  !inf.needsInput()) {
                     int n;
 
-                    // Decompress pending output data
-                    n = inf.inflate(buf, 0, buf.length);
+                    // Decompress pending output dbtb
+                    n = inf.inflbte(buf, 0, buf.length);
                     if (n < 1) {
-                        break;
+                        brebk;
                     }
 
-                    // Write the uncompressed output data block
+                    // Write the uncompressed output dbtb block
                     out.write(buf, 0, n);
                 }
                 super.flush();
-            } catch (DataFormatException ex) {
-                // Improperly formatted compressed (ZIP) data
-                String msg = ex.getMessage();
+            } cbtch (DbtbFormbtException ex) {
+                // Improperly formbtted compressed (ZIP) dbtb
+                String msg = ex.getMessbge();
                 if (msg == null) {
-                    msg = "Invalid ZLIB data format";
+                    msg = "Invblid ZLIB dbtb formbt";
                 }
                 throw new ZipException(msg);
             }
@@ -172,85 +172,85 @@ public class InflaterOutputStream extends FilterOutputStream {
     }
 
     /**
-     * Finishes writing uncompressed data to the output stream without closing
-     * the underlying stream.  Use this method when applying multiple filters in
-     * succession to the same output stream.
+     * Finishes writing uncompressed dbtb to the output strebm without closing
+     * the underlying strebm.  Use this method when bpplying multiple filters in
+     * succession to the sbme output strebm.
      *
-     * @throws IOException if an I/O error occurs or this stream is already
+     * @throws IOException if bn I/O error occurs or this strebm is blrebdy
      * closed
      */
     public void finish() throws IOException {
         ensureOpen();
 
-        // Finish decompressing and writing pending output data
+        // Finish decompressing bnd writing pending output dbtb
         flush();
-        if (usesDefaultInflater) {
+        if (usesDefbultInflbter) {
             inf.end();
         }
     }
 
     /**
-     * Writes a byte to the uncompressed output stream.
+     * Writes b byte to the uncompressed output strebm.
      *
-     * @param b a single byte of compressed data to decompress and write to
-     * the output stream
-     * @throws IOException if an I/O error occurs or this stream is already
+     * @pbrbm b b single byte of compressed dbtb to decompress bnd write to
+     * the output strebm
+     * @throws IOException if bn I/O error occurs or this strebm is blrebdy
      * closed
-     * @throws ZipException if a compression (ZIP) format error occurs
+     * @throws ZipException if b compression (ZIP) formbt error occurs
      */
     public void write(int b) throws IOException {
-        // Write a single byte of data
+        // Write b single byte of dbtb
         wbuf[0] = (byte) b;
         write(wbuf, 0, 1);
     }
 
     /**
-     * Writes an array of bytes to the uncompressed output stream.
+     * Writes bn brrby of bytes to the uncompressed output strebm.
      *
-     * @param b buffer containing compressed data to decompress and write to
-     * the output stream
-     * @param off starting offset of the compressed data within {@code b}
-     * @param len number of bytes to decompress from {@code b}
+     * @pbrbm b buffer contbining compressed dbtb to decompress bnd write to
+     * the output strebm
+     * @pbrbm off stbrting offset of the compressed dbtb within {@code b}
+     * @pbrbm len number of bytes to decompress from {@code b}
      * @throws IndexOutOfBoundsException if {@code off < 0}, or if
      * {@code len < 0}, or if {@code len > b.length - off}
-     * @throws IOException if an I/O error occurs or this stream is already
+     * @throws IOException if bn I/O error occurs or this strebm is blrebdy
      * closed
      * @throws NullPointerException if {@code b} is null
-     * @throws ZipException if a compression (ZIP) format error occurs
+     * @throws ZipException if b compression (ZIP) formbt error occurs
      */
     public void write(byte[] b, int off, int len) throws IOException {
-        // Sanity checks
+        // Sbnity checks
         ensureOpen();
         if (b == null) {
-            throw new NullPointerException("Null buffer for read");
+            throw new NullPointerException("Null buffer for rebd");
         } else if (off < 0 || len < 0 || len > b.length - off) {
             throw new IndexOutOfBoundsException();
         } else if (len == 0) {
             return;
         }
 
-        // Write uncompressed data to the output stream
+        // Write uncompressed dbtb to the output strebm
         try {
             for (;;) {
                 int n;
 
-                // Fill the decompressor buffer with output data
+                // Fill the decompressor buffer with output dbtb
                 if (inf.needsInput()) {
-                    int part;
+                    int pbrt;
 
                     if (len < 1) {
-                        break;
+                        brebk;
                     }
 
-                    part = (len < 512 ? len : 512);
-                    inf.setInput(b, off, part);
-                    off += part;
-                    len -= part;
+                    pbrt = (len < 512 ? len : 512);
+                    inf.setInput(b, off, pbrt);
+                    off += pbrt;
+                    len -= pbrt;
                 }
 
-                // Decompress and write blocks of output data
+                // Decompress bnd write blocks of output dbtb
                 do {
-                    n = inf.inflate(buf, 0, buf.length);
+                    n = inf.inflbte(buf, 0, buf.length);
                     if (n > 0) {
                         out.write(buf, 0, n);
                     }
@@ -258,17 +258,17 @@ public class InflaterOutputStream extends FilterOutputStream {
 
                 // Check the decompressor
                 if (inf.finished()) {
-                    break;
+                    brebk;
                 }
-                if (inf.needsDictionary()) {
-                    throw new ZipException("ZLIB dictionary missing");
+                if (inf.needsDictionbry()) {
+                    throw new ZipException("ZLIB dictionbry missing");
                 }
             }
-        } catch (DataFormatException ex) {
-            // Improperly formatted compressed (ZIP) data
-            String msg = ex.getMessage();
+        } cbtch (DbtbFormbtException ex) {
+            // Improperly formbtted compressed (ZIP) dbtb
+            String msg = ex.getMessbge();
             if (msg == null) {
-                msg = "Invalid ZLIB data format";
+                msg = "Invblid ZLIB dbtb formbt";
             }
             throw new ZipException(msg);
         }

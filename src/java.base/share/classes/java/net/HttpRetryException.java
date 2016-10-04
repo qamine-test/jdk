@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * Thrown to indicate that a HTTP request needs to be retried
- * but cannot be retried automatically, due to streaming mode
- * being enabled.
+ * Thrown to indicbte thbt b HTTP request needs to be retried
+ * but cbnnot be retried butombticblly, due to strebming mode
+ * being enbbled.
  *
- * @author  Michael McMahon
+ * @buthor  Michbel McMbhon
  * @since   1.5
  */
 public
-class HttpRetryException extends IOException {
-    private static final long serialVersionUID = -9186022286469111381L;
+clbss HttpRetryException extends IOException {
+    privbte stbtic finbl long seriblVersionUID = -9186022286469111381L;
 
-    private int responseCode;
-    private String location;
+    privbte int responseCode;
+    privbte String locbtion;
 
     /**
-     * Constructs a new {@code HttpRetryException} from the
-     * specified response code and exception detail message
+     * Constructs b new {@code HttpRetryException} from the
+     * specified response code bnd exception detbil messbge
      *
-     * @param   detail   the detail message.
-     * @param   code   the HTTP response code from server.
+     * @pbrbm   detbil   the detbil messbge.
+     * @pbrbm   code   the HTTP response code from server.
      */
-    public HttpRetryException(String detail, int code) {
-        super(detail);
+    public HttpRetryException(String detbil, int code) {
+        super(detbil);
         responseCode = code;
     }
 
     /**
-     * Constructs a new {@code HttpRetryException} with detail message
-     * responseCode and the contents of the Location response header field.
+     * Constructs b new {@code HttpRetryException} with detbil messbge
+     * responseCode bnd the contents of the Locbtion response hebder field.
      *
-     * @param   detail   the detail message.
-     * @param   code   the HTTP response code from server.
-     * @param   location   the URL to be redirected to
+     * @pbrbm   detbil   the detbil messbge.
+     * @pbrbm   code   the HTTP response code from server.
+     * @pbrbm   locbtion   the URL to be redirected to
      */
-    public HttpRetryException(String detail, int code, String location) {
-        super (detail);
+    public HttpRetryException(String detbil, int code, String locbtion) {
+        super (detbil);
         responseCode = code;
-        this.location = location;
+        this.locbtion = locbtion;
     }
 
     /**
@@ -78,22 +78,22 @@ class HttpRetryException extends IOException {
     }
 
     /**
-     * Returns a string explaining why the http request could
+     * Returns b string explbining why the http request could
      * not be retried.
      *
-     * @return  The reason string
+     * @return  The rebson string
      */
-    public String getReason() {
-        return super.getMessage();
+    public String getRebson() {
+        return super.getMessbge();
     }
 
     /**
-     * Returns the value of the Location header field if the
+     * Returns the vblue of the Locbtion hebder field if the
      * error resulted from redirection.
      *
-     * @return The location string
+     * @return The locbtion string
      */
-    public String getLocation() {
-        return location;
+    public String getLocbtion() {
+        return locbtion;
     }
 }

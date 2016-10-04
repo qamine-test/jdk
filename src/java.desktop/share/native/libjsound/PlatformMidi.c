@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,24 +27,24 @@
 #define USE_ERROR
 #define USE_TRACE
 
-#include "PlatformMidi.h"
+#include "PlbtformMidi.h"
 
-char* GetInternalErrorStr(INT32 err) {
+chbr* GetInternblErrorStr(INT32 err) {
     switch (err) {
-    case MIDI_SUCCESS:          return "";
-    case MIDI_NOT_SUPPORTED:    return "feature not supported";
-    case MIDI_INVALID_DEVICEID: return "invalid device ID";
-    case MIDI_INVALID_HANDLE:   return "internal error: invalid handle";
-    case MIDI_OUT_OF_MEMORY:    return "out of memory";
+    cbse MIDI_SUCCESS:          return "";
+    cbse MIDI_NOT_SUPPORTED:    return "febture not supported";
+    cbse MIDI_INVALID_DEVICEID: return "invblid device ID";
+    cbse MIDI_INVALID_HANDLE:   return "internbl error: invblid hbndle";
+    cbse MIDI_OUT_OF_MEMORY:    return "out of memory";
     }
     return NULL;
 }
 
 /*
- * internal implementation for getting error string
+ * internbl implementbtion for getting error string
  */
-char* MIDI_IN_InternalGetErrorString(INT32 err) {
-    char* result = GetInternalErrorStr(err);
+chbr* MIDI_IN_InternblGetErrorString(INT32 err) {
+    chbr* result = GetInternblErrorStr(err);
 
 #if USE_PLATFORM_MIDI_IN == TRUE
     if (!result) {
@@ -52,16 +52,16 @@ char* MIDI_IN_InternalGetErrorString(INT32 err) {
     }
 #endif
     if (!result) {
-        result = GetInternalErrorStr(MIDI_NOT_SUPPORTED);
+        result = GetInternblErrorStr(MIDI_NOT_SUPPORTED);
     }
     return result;
 }
 
 /*
- * internal implementation for getting error string
+ * internbl implementbtion for getting error string
  */
-char* MIDI_OUT_InternalGetErrorString(INT32 err) {
-    char* result = GetInternalErrorStr(err);
+chbr* MIDI_OUT_InternblGetErrorString(INT32 err) {
+    chbr* result = GetInternblErrorStr(err);
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
     if (!result) {
@@ -69,7 +69,7 @@ char* MIDI_OUT_InternalGetErrorString(INT32 err) {
     }
 #endif
     if (!result) {
-        result = GetInternalErrorStr(MIDI_NOT_SUPPORTED);
+        result = GetInternblErrorStr(MIDI_NOT_SUPPORTED);
     }
     return result;
 }
@@ -77,22 +77,22 @@ char* MIDI_OUT_InternalGetErrorString(INT32 err) {
 
 #if USE_MIDI_QUEUE == TRUE
 
-// MessageQueue implementation
+// MessbgeQueue implementbtion
 
-MidiMessageQueue* MIDI_CreateQueue(int capacity) {
-    MidiMessageQueue* queue = (MidiMessageQueue*) malloc(sizeof(MidiMessageQueue) + ((capacity-1) * sizeof(MidiMessage)));
+MidiMessbgeQueue* MIDI_CrebteQueue(int cbpbcity) {
+    MidiMessbgeQueue* queue = (MidiMessbgeQueue*) mblloc(sizeof(MidiMessbgeQueue) + ((cbpbcity-1) * sizeof(MidiMessbge)));
     if (queue) {
-        TRACE0("MIDI_CreateQueue\n");
-        queue->lock = MIDI_CreateLock();
-        queue->capacity = capacity;
+        TRACE0("MIDI_CrebteQueue\n");
+        queue->lock = MIDI_CrebteLock();
+        queue->cbpbcity = cbpbcity;
         queue->size = 0;
-        queue->readIndex = 0;
+        queue->rebdIndex = 0;
         queue->writeIndex = 0;
     }
     return queue;
 }
 
-void MIDI_DestroyQueue(MidiMessageQueue* queue) {
+void MIDI_DestroyQueue(MidiMessbgeQueue* queue) {
     if (queue) {
         void* lock = queue->lock;
         MIDI_Lock(lock);
@@ -103,68 +103,68 @@ void MIDI_DestroyQueue(MidiMessageQueue* queue) {
     }
 }
 
-// if overwrite is true, oldest messages will be overwritten when the queue is full
-// returns true, if message has been added
-int MIDI_QueueAddShort(MidiMessageQueue* queue, UINT32 packedMsg, INT64 timestamp, int overwrite) {
+// if overwrite is true, oldest messbges will be overwritten when the queue is full
+// returns true, if messbge hbs been bdded
+int MIDI_QueueAddShort(MidiMessbgeQueue* queue, UINT32 pbckedMsg, INT64 timestbmp, int overwrite) {
     if (queue) {
         MIDI_Lock(queue->lock);
-        if (queue->size == queue->capacity) {
+        if (queue->size == queue->cbpbcity) {
             TRACE0("MIDI_QueueAddShort: overflow\n");
             if (!overwrite || queue->queue[queue->writeIndex].locked) {
-                return FALSE; // failed
+                return FALSE; // fbiled
             }
-            // adjust overwritten readIndex
-            queue->readIndex = (queue->readIndex+1) % queue->capacity;
+            // bdjust overwritten rebdIndex
+            queue->rebdIndex = (queue->rebdIndex+1) % queue->cbpbcity;
         } else {
             queue->size++;
         }
         TRACE2("MIDI_QueueAddShort. index=%d, size=%d\n", queue->writeIndex, queue->size);
         queue->queue[queue->writeIndex].type = SHORT_MESSAGE;
-        queue->queue[queue->writeIndex].data.s.packedMsg = packedMsg;
-        queue->queue[queue->writeIndex].timestamp = timestamp;
-        queue->writeIndex = (queue->writeIndex+1) % queue->capacity;
+        queue->queue[queue->writeIndex].dbtb.s.pbckedMsg = pbckedMsg;
+        queue->queue[queue->writeIndex].timestbmp = timestbmp;
+        queue->writeIndex = (queue->writeIndex+1) % queue->cbpbcity;
         MIDI_Unlock(queue->lock);
         return TRUE;
     }
     return FALSE;
 }
 
-int MIDI_QueueAddLong(MidiMessageQueue* queue, UBYTE* data, UINT32 size,
-                      INT32 sysexIndex, INT64 timestamp, int overwrite) {
+int MIDI_QueueAddLong(MidiMessbgeQueue* queue, UBYTE* dbtb, UINT32 size,
+                      INT32 sysexIndex, INT64 timestbmp, int overwrite) {
     if (queue) {
         MIDI_Lock(queue->lock);
-        if (queue->size == queue->capacity) {
+        if (queue->size == queue->cbpbcity) {
             TRACE0("MIDI_QueueAddLong: overflow\n");
             if (!overwrite || queue->queue[queue->writeIndex].locked) {
-                return FALSE; // failed
+                return FALSE; // fbiled
             }
-            // adjust overwritten readIndex
-            queue->readIndex = (queue->readIndex+1) % queue->capacity;
+            // bdjust overwritten rebdIndex
+            queue->rebdIndex = (queue->rebdIndex+1) % queue->cbpbcity;
         } else {
             queue->size++;
         }
         TRACE2("MIDI_QueueAddLong. index=%d, size=%d\n", queue->writeIndex, queue->size);
         //fprintf(stdout, "MIDI_QueueAddLong sysex-index %d\n", sysexIndex); fflush(stdout);
         queue->queue[queue->writeIndex].type = LONG_MESSAGE;
-        queue->queue[queue->writeIndex].data.l.size = size;
-        queue->queue[queue->writeIndex].data.l.data = data;
-        queue->queue[queue->writeIndex].data.l.index = sysexIndex;
-        queue->queue[queue->writeIndex].timestamp = timestamp;
-        queue->writeIndex = (queue->writeIndex+1) % queue->capacity;
+        queue->queue[queue->writeIndex].dbtb.l.size = size;
+        queue->queue[queue->writeIndex].dbtb.l.dbtb = dbtb;
+        queue->queue[queue->writeIndex].dbtb.l.index = sysexIndex;
+        queue->queue[queue->writeIndex].timestbmp = timestbmp;
+        queue->writeIndex = (queue->writeIndex+1) % queue->cbpbcity;
         MIDI_Unlock(queue->lock);
         return TRUE;
     }
     return FALSE;
 }
 
-// returns NULL if no messages in queue.
-MidiMessage* MIDI_QueueRead(MidiMessageQueue* queue) {
-    MidiMessage* msg = NULL;
+// returns NULL if no messbges in queue.
+MidiMessbge* MIDI_QueueRebd(MidiMessbgeQueue* queue) {
+    MidiMessbge* msg = NULL;
     if (queue) {
         MIDI_Lock(queue->lock);
         if (queue->size > 0) {
-            msg = &(queue->queue[queue->readIndex]);
-            TRACE2("MIDI_QueueRead. index=%d, size=%d\n", queue->readIndex, queue->size);
+            msg = &(queue->queue[queue->rebdIndex]);
+            TRACE2("MIDI_QueueRebd. index=%d, size=%d\n", queue->rebdIndex, queue->size);
             msg->locked = TRUE;
         }
         MIDI_Unlock(queue->lock);
@@ -172,14 +172,14 @@ MidiMessage* MIDI_QueueRead(MidiMessageQueue* queue) {
     return msg;
 }
 
-void MIDI_QueueRemove(MidiMessageQueue* queue, INT32 onlyLocked) {
+void MIDI_QueueRemove(MidiMessbgeQueue* queue, INT32 onlyLocked) {
     if (queue) {
         MIDI_Lock(queue->lock);
         if (queue->size > 0) {
-            MidiMessage* msg = &(queue->queue[queue->readIndex]);
+            MidiMessbge* msg = &(queue->queue[queue->rebdIndex]);
             if (!onlyLocked || msg->locked) {
-                TRACE2("MIDI_QueueRemove. index=%d, size=%d\n", queue->readIndex, queue->size);
-                queue->readIndex = (queue->readIndex+1) % queue->capacity;
+                TRACE2("MIDI_QueueRemove. index=%d, size=%d\n", queue->rebdIndex, queue->size);
+                queue->rebdIndex = (queue->rebdIndex+1) % queue->cbpbcity;
                 queue->size--;
             }
             msg->locked = FALSE;
@@ -188,11 +188,11 @@ void MIDI_QueueRemove(MidiMessageQueue* queue, INT32 onlyLocked) {
     }
 }
 
-void MIDI_QueueClear(MidiMessageQueue* queue) {
+void MIDI_QueueClebr(MidiMessbgeQueue* queue) {
     if (queue) {
         MIDI_Lock(queue->lock);
         queue->size = 0;
-        queue->readIndex = 0;
+        queue->rebdIndex = 0;
         queue->writeIndex = 0;
         MIDI_Unlock(queue->lock);
     }

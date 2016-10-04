@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.text.*;
-import java.util.Enumeration;
-import java.lang.Integer;
+import jbvb.bwt.*;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.text.*;
+import jbvb.util.Enumerbtion;
+import jbvb.lbng.Integer;
 
 /**
- * A view implementation to display an html horizontal
+ * A view implementbtion to displby bn html horizontbl
  * rule.
  *
- * @author  Timothy Prinzing
- * @author  Sara Swanson
+ * @buthor  Timothy Prinzing
+ * @buthor  Sbrb Swbnson
  */
-class HRuleView extends View  {
+clbss HRuleView extends View  {
 
     /**
-     * Creates a new view that represents an &lt;hr&gt; element.
+     * Crebtes b new view thbt represents bn &lt;hr&gt; element.
      *
-     * @param elem the element to create a view for
+     * @pbrbm elem the element to crebte b view for
      */
     public HRuleView(Element elem) {
         super(elem);
@@ -50,162 +50,162 @@ class HRuleView extends View  {
     }
 
     /**
-     * Update any cached values that come from attributes.
+     * Updbte bny cbched vblues thbt come from bttributes.
      */
     protected void setPropertiesFromAttributes() {
         StyleSheet sheet = ((HTMLDocument)getDocument()).getStyleSheet();
         AttributeSet eAttr = getElement().getAttributes();
-        attr = sheet.getViewAttributes(this);
+        bttr = sheet.getViewAttributes(this);
 
-        alignment = StyleConstants.ALIGN_CENTER;
+        blignment = StyleConstbnts.ALIGN_CENTER;
         size = 0;
-        noshade = null;
-        widthValue = null;
+        noshbde = null;
+        widthVblue = null;
 
-        if (attr != null) {
-            // getAlignment() returns ALIGN_LEFT by default, and HR should
-            // use ALIGN_CENTER by default, so we check if the alignment
-            // attribute is actually defined
-            if (attr.getAttribute(StyleConstants.Alignment) != null) {
-                alignment = StyleConstants.getAlignment(attr);
+        if (bttr != null) {
+            // getAlignment() returns ALIGN_LEFT by defbult, bnd HR should
+            // use ALIGN_CENTER by defbult, so we check if the blignment
+            // bttribute is bctublly defined
+            if (bttr.getAttribute(StyleConstbnts.Alignment) != null) {
+                blignment = StyleConstbnts.getAlignment(bttr);
             }
 
-            noshade = (String)eAttr.getAttribute(HTML.Attribute.NOSHADE);
-            Object value = eAttr.getAttribute(HTML.Attribute.SIZE);
-            if (value != null && (value instanceof String)) {
+            noshbde = (String)eAttr.getAttribute(HTML.Attribute.NOSHADE);
+            Object vblue = eAttr.getAttribute(HTML.Attribute.SIZE);
+            if (vblue != null && (vblue instbnceof String)) {
                 try {
-                    size = Integer.parseInt((String)value);
-                } catch (NumberFormatException e) {
+                    size = Integer.pbrseInt((String)vblue);
+                } cbtch (NumberFormbtException e) {
                     size = 1;
                 }
             }
-            value = attr.getAttribute(CSS.Attribute.WIDTH);
-            if (value != null && (value instanceof CSS.LengthValue)) {
-                widthValue = (CSS.LengthValue)value;
+            vblue = bttr.getAttribute(CSS.Attribute.WIDTH);
+            if (vblue != null && (vblue instbnceof CSS.LengthVblue)) {
+                widthVblue = (CSS.LengthVblue)vblue;
             }
-            topMargin = getLength(CSS.Attribute.MARGIN_TOP, attr);
-            bottomMargin = getLength(CSS.Attribute.MARGIN_BOTTOM, attr);
-            leftMargin = getLength(CSS.Attribute.MARGIN_LEFT, attr);
-            rightMargin = getLength(CSS.Attribute.MARGIN_RIGHT, attr);
+            topMbrgin = getLength(CSS.Attribute.MARGIN_TOP, bttr);
+            bottomMbrgin = getLength(CSS.Attribute.MARGIN_BOTTOM, bttr);
+            leftMbrgin = getLength(CSS.Attribute.MARGIN_LEFT, bttr);
+            rightMbrgin = getLength(CSS.Attribute.MARGIN_RIGHT, bttr);
         }
         else {
-            topMargin = bottomMargin = leftMargin = rightMargin = 0;
+            topMbrgin = bottomMbrgin = leftMbrgin = rightMbrgin = 0;
         }
-        size = Math.max(2, size);
+        size = Mbth.mbx(2, size);
     }
 
-    // This will be removed and centralized at some point, need to unify this
-    // and avoid private classes.
-    private float getLength(CSS.Attribute key, AttributeSet a) {
-        CSS.LengthValue lv = (CSS.LengthValue) a.getAttribute(key);
-        float len = (lv != null) ? lv.getValue() : 0;
+    // This will be removed bnd centrblized bt some point, need to unify this
+    // bnd bvoid privbte clbsses.
+    privbte flobt getLength(CSS.Attribute key, AttributeSet b) {
+        CSS.LengthVblue lv = (CSS.LengthVblue) b.getAttribute(key);
+        flobt len = (lv != null) ? lv.getVblue() : 0;
         return len;
     }
 
     // --- View methods ---------------------------------------------
 
     /**
-     * Paints the view.
+     * Pbints the view.
      *
-     * @param g the graphics context
-     * @param a the allocation region for the view
-     * @see View#paint
+     * @pbrbm g the grbphics context
+     * @pbrbm b the bllocbtion region for the view
+     * @see View#pbint
      */
-    public void paint(Graphics g, Shape a) {
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-                          a.getBounds();
+    public void pbint(Grbphics g, Shbpe b) {
+        Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b :
+                          b.getBounds();
         int x = 0;
-        int y = alloc.y + SPACE_ABOVE + (int)topMargin;
-        int width = alloc.width - (int)(leftMargin + rightMargin);
-        if (widthValue != null) {
-            width = (int)widthValue.getValue((float)width);
+        int y = blloc.y + SPACE_ABOVE + (int)topMbrgin;
+        int width = blloc.width - (int)(leftMbrgin + rightMbrgin);
+        if (widthVblue != null) {
+            width = (int)widthVblue.getVblue((flobt)width);
         }
-        int height = alloc.height - (SPACE_ABOVE + SPACE_BELOW +
-                                     (int)topMargin + (int)bottomMargin);
+        int height = blloc.height - (SPACE_ABOVE + SPACE_BELOW +
+                                     (int)topMbrgin + (int)bottomMbrgin);
         if (size > 0)
                 height = size;
 
-        // Align the rule horizontally.
-        switch (alignment) {
-        case StyleConstants.ALIGN_CENTER:
-            x = alloc.x + (alloc.width / 2) - (width / 2);
-            break;
-        case StyleConstants.ALIGN_RIGHT:
-            x = alloc.x + alloc.width - width - (int)rightMargin;
-            break;
-        case StyleConstants.ALIGN_LEFT:
-        default:
-            x = alloc.x + (int)leftMargin;
-            break;
+        // Align the rule horizontblly.
+        switch (blignment) {
+        cbse StyleConstbnts.ALIGN_CENTER:
+            x = blloc.x + (blloc.width / 2) - (width / 2);
+            brebk;
+        cbse StyleConstbnts.ALIGN_RIGHT:
+            x = blloc.x + blloc.width - width - (int)rightMbrgin;
+            brebk;
+        cbse StyleConstbnts.ALIGN_LEFT:
+        defbult:
+            x = blloc.x + (int)leftMbrgin;
+            brebk;
         }
 
-        // Paint either a shaded rule or a solid line.
-        if (noshade != null) {
-            g.setColor(Color.black);
+        // Pbint either b shbded rule or b solid line.
+        if (noshbde != null) {
+            g.setColor(Color.blbck);
             g.fillRect(x, y, width, height);
         }
         else {
-            Color bg = getContainer().getBackground();
+            Color bg = getContbiner().getBbckground();
             Color bottom, top;
-            if (bg == null || bg.equals(Color.white)) {
-                top = Color.darkGray;
-                bottom = Color.lightGray;
+            if (bg == null || bg.equbls(Color.white)) {
+                top = Color.dbrkGrby;
+                bottom = Color.lightGrby;
             }
             else {
-                top = Color.darkGray;
+                top = Color.dbrkGrby;
                 bottom = Color.white;
             }
             g.setColor(bottom);
-            g.drawLine(x + width - 1, y, x + width - 1, y + height - 1);
-            g.drawLine(x, y + height - 1, x + width - 1, y + height - 1);
+            g.drbwLine(x + width - 1, y, x + width - 1, y + height - 1);
+            g.drbwLine(x, y + height - 1, x + width - 1, y + height - 1);
             g.setColor(top);
-            g.drawLine(x, y, x + width - 1, y);
-            g.drawLine(x, y, x, y + height - 1);
+            g.drbwLine(x, y, x + width - 1, y);
+            g.drbwLine(x, y, x, y + height - 1);
         }
 
     }
 
 
     /**
-     * Calculates the desired shape of the rule... this is
-     * basically the preferred size of the border.
+     * Cblculbtes the desired shbpe of the rule... this is
+     * bbsicblly the preferred size of the border.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
-     * @return the desired span
-     * @see View#getPreferredSpan
+     * @pbrbm bxis mby be either X_AXIS or Y_AXIS
+     * @return the desired spbn
+     * @see View#getPreferredSpbn
      */
-    public float getPreferredSpan(int axis) {
-        switch (axis) {
-        case View.X_AXIS:
+    public flobt getPreferredSpbn(int bxis) {
+        switch (bxis) {
+        cbse View.X_AXIS:
             return 1;
-        case View.Y_AXIS:
+        cbse View.Y_AXIS:
             if (size > 0) {
-                return size + SPACE_ABOVE + SPACE_BELOW + topMargin +
-                    bottomMargin;
+                return size + SPACE_ABOVE + SPACE_BELOW + topMbrgin +
+                    bottomMbrgin;
             } else {
-                if (noshade != null) {
-                    return 2 + SPACE_ABOVE + SPACE_BELOW + topMargin +
-                        bottomMargin;
+                if (noshbde != null) {
+                    return 2 + SPACE_ABOVE + SPACE_BELOW + topMbrgin +
+                        bottomMbrgin;
                 } else {
-                    return SPACE_ABOVE + SPACE_BELOW + topMargin +bottomMargin;
+                    return SPACE_ABOVE + SPACE_BELOW + topMbrgin +bottomMbrgin;
                 }
             }
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+        defbult:
+            throw new IllegblArgumentException("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Gets the resize weight for the axis.
-     * The rule is: rigid vertically and flexible horizontally.
+     * Gets the resize weight for the bxis.
+     * The rule is: rigid verticblly bnd flexible horizontblly.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
+     * @pbrbm bxis mby be either X_AXIS or Y_AXIS
      * @return the weight
      */
-    public int getResizeWeight(int axis) {
-        if (axis == View.X_AXIS) {
+    public int getResizeWeight(int bxis) {
+        if (bxis == View.X_AXIS) {
                 return 1;
-        } else if (axis == View.Y_AXIS) {
+        } else if (bxis == View.Y_AXIS) {
                 return 0;
         } else {
             return 0;
@@ -213,47 +213,47 @@ class HRuleView extends View  {
     }
 
     /**
-     * Determines how attractive a break opportunity in
-     * this view is.  This is implemented to request a forced break.
+     * Determines how bttrbctive b brebk opportunity in
+     * this view is.  This is implemented to request b forced brebk.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @param pos the potential location of the start of the
-     *   broken view (greater than or equal to zero).
-     *   This may be useful for calculating tab
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @pbrbm pos the potentibl locbtion of the stbrt of the
+     *   broken view (grebter thbn or equbl to zero).
+     *   This mby be useful for cblculbting tbb
      *   positions.
-     * @param len specifies the relative length from <em>pos</em>
-     *   where a potential break is desired. The value must be greater
-     *   than or equal to zero.
-     * @return the weight, which should be a value between
-     *   ForcedBreakWeight and BadBreakWeight.
+     * @pbrbm len specifies the relbtive length from <em>pos</em>
+     *   where b potentibl brebk is desired. The vblue must be grebter
+     *   thbn or equbl to zero.
+     * @return the weight, which should be b vblue between
+     *   ForcedBrebkWeight bnd BbdBrebkWeight.
      */
-    public int getBreakWeight(int axis, float pos, float len) {
-        if (axis == X_AXIS) {
-            return ForcedBreakWeight;
+    public int getBrebkWeight(int bxis, flobt pos, flobt len) {
+        if (bxis == X_AXIS) {
+            return ForcedBrebkWeight;
         }
-        return BadBreakWeight;
+        return BbdBrebkWeight;
     }
 
-    public View breakView(int axis, int offset, float pos, float len) {
+    public View brebkView(int bxis, int offset, flobt pos, flobt len) {
         return null;
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Provides b mbpping from the document model coordinbte spbce
+     * to the coordinbte spbce of the view mbpped to it.
      *
-     * @param pos the position to convert
-     * @param a the allocated region to render into
+     * @pbrbm pos the position to convert
+     * @pbrbm b the bllocbted region to render into
      * @return the bounding box of the given position
-     * @exception BadLocationException  if the given position does not
-     * represent a valid location in the associated document
+     * @exception BbdLocbtionException  if the given position does not
+     * represent b vblid locbtion in the bssocibted document
      * @see View#modelToView
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        int p0 = getStartOffset();
+    public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException {
+        int p0 = getStbrtOffset();
         int p1 = getEndOffset();
         if ((pos >= p0) && (pos <= p1)) {
-            Rectangle r = a.getBounds();
+            Rectbngle r = b.getBounds();
             if (pos == p1) {
                 r.x += r.width;
             }
@@ -264,58 +264,58 @@ class HRuleView extends View  {
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.
      *
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     * @param a the allocated region to render into
-     * @return the location within the model that best represents the
+     * @pbrbm x the X coordinbte
+     * @pbrbm y the Y coordinbte
+     * @pbrbm b the bllocbted region to render into
+     * @return the locbtion within the model thbt best represents the
      *  given point of view
      * @see View#viewToModel
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-        Rectangle alloc = (Rectangle) a;
-        if (x < alloc.x + (alloc.width / 2)) {
-            bias[0] = Position.Bias.Forward;
-            return getStartOffset();
+    public int viewToModel(flobt x, flobt y, Shbpe b, Position.Bibs[] bibs) {
+        Rectbngle blloc = (Rectbngle) b;
+        if (x < blloc.x + (blloc.width / 2)) {
+            bibs[0] = Position.Bibs.Forwbrd;
+            return getStbrtOffset();
         }
-        bias[0] = Position.Bias.Backward;
+        bibs[0] = Position.Bibs.Bbckwbrd;
         return getEndOffset();
     }
 
     /**
-     * Fetches the attributes to use when rendering.  This is
-     * implemented to multiplex the attributes specified in the
-     * model with a StyleSheet.
+     * Fetches the bttributes to use when rendering.  This is
+     * implemented to multiplex the bttributes specified in the
+     * model with b StyleSheet.
      */
     public AttributeSet getAttributes() {
-        return attr;
+        return bttr;
     }
 
-    public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        super.changedUpdate(changes, a, f);
-        int pos = changes.getOffset();
-        if (pos <= getStartOffset() && (pos + changes.getLength()) >=
+    public void chbngedUpdbte(DocumentEvent chbnges, Shbpe b, ViewFbctory f) {
+        super.chbngedUpdbte(chbnges, b, f);
+        int pos = chbnges.getOffset();
+        if (pos <= getStbrtOffset() && (pos + chbnges.getLength()) >=
             getEndOffset()) {
             setPropertiesFromAttributes();
         }
     }
 
-    // --- variables ------------------------------------------------
+    // --- vbribbles ------------------------------------------------
 
-    private float topMargin;
-    private float bottomMargin;
-    private float leftMargin;
-    private float rightMargin;
-    private int alignment = StyleConstants.ALIGN_CENTER;
-    private String noshade = null;
-    private int size = 0;
-    private CSS.LengthValue widthValue;
+    privbte flobt topMbrgin;
+    privbte flobt bottomMbrgin;
+    privbte flobt leftMbrgin;
+    privbte flobt rightMbrgin;
+    privbte int blignment = StyleConstbnts.ALIGN_CENTER;
+    privbte String noshbde = null;
+    privbte int size = 0;
+    privbte CSS.LengthVblue widthVblue;
 
-    private static final int SPACE_ABOVE = 3;
-    private static final int SPACE_BELOW = 3;
+    privbte stbtic finbl int SPACE_ABOVE = 3;
+    privbte stbtic finbl int SPACE_BELOW = 3;
 
     /** View Attributes. */
-    private AttributeSet attr;
+    privbte AttributeSet bttr;
 }

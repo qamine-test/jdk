@@ -1,369 +1,369 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.net.InetSocketAddress;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.misc.Unsafe;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.InetSocketAddress;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.btomic.AtomicBoolebn;
+import jbvb.io.IOException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.misc.Unsbfe;
 
 /**
- * Windows implementation of AsynchronousServerSocketChannel using overlapped I/O.
+ * Windows implementbtion of AsynchronousServerSocketChbnnel using overlbpped I/O.
  */
 
-class WindowsAsynchronousServerSocketChannelImpl
-    extends AsynchronousServerSocketChannelImpl implements Iocp.OverlappedChannel
+clbss WindowsAsynchronousServerSocketChbnnelImpl
+    extends AsynchronousServerSocketChbnnelImpl implements Iocp.OverlbppedChbnnel
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
     // 2 * (sizeof(SOCKET_ADDRESS) + 16)
-    private static final int DATA_BUFFER_SIZE = 88;
+    privbte stbtic finbl int DATA_BUFFER_SIZE = 88;
 
-    private final long handle;
-    private final int completionKey;
-    private final Iocp iocp;
+    privbte finbl long hbndle;
+    privbte finbl int completionKey;
+    privbte finbl Iocp iocp;
 
-    // typically there will be zero, or one I/O operations pending. In rare
-    // cases there may be more. These rare cases arise when a sequence of accept
-    // operations complete immediately and handled by the initiating thread.
-    // The corresponding OVERLAPPED cannot be reused/released until the completion
-    // event has been posted.
-    private final PendingIoCache ioCache;
+    // typicblly there will be zero, or one I/O operbtions pending. In rbre
+    // cbses there mby be more. These rbre cbses brise when b sequence of bccept
+    // operbtions complete immedibtely bnd hbndled by the initibting threbd.
+    // The corresponding OVERLAPPED cbnnot be reused/relebsed until the completion
+    // event hbs been posted.
+    privbte finbl PendingIoCbche ioCbche;
 
-    // the data buffer to receive the local/remote socket address
-    private final long dataBuffer;
+    // the dbtb buffer to receive the locbl/remote socket bddress
+    privbte finbl long dbtbBuffer;
 
-    // flag to indicate that an accept operation is outstanding
-    private AtomicBoolean accepting = new AtomicBoolean();
+    // flbg to indicbte thbt bn bccept operbtion is outstbnding
+    privbte AtomicBoolebn bccepting = new AtomicBoolebn();
 
 
-    WindowsAsynchronousServerSocketChannelImpl(Iocp iocp) throws IOException {
+    WindowsAsynchronousServerSocketChbnnelImpl(Iocp iocp) throws IOException {
         super(iocp);
 
-        // associate socket with given completion port
-        long h = IOUtil.fdVal(fd);
+        // bssocibte socket with given completion port
+        long h = IOUtil.fdVbl(fd);
         int key;
         try {
-            key = iocp.associate(this, h);
-        } catch (IOException x) {
-            closesocket0(h);   // prevent leak
+            key = iocp.bssocibte(this, h);
+        } cbtch (IOException x) {
+            closesocket0(h);   // prevent lebk
             throw x;
         }
 
-        this.handle = h;
+        this.hbndle = h;
         this.completionKey = key;
         this.iocp = iocp;
-        this.ioCache = new PendingIoCache();
-        this.dataBuffer = unsafe.allocateMemory(DATA_BUFFER_SIZE);
+        this.ioCbche = new PendingIoCbche();
+        this.dbtbBuffer = unsbfe.bllocbteMemory(DATA_BUFFER_SIZE);
     }
 
     @Override
-    public <V,A> PendingFuture<V,A> getByOverlapped(long overlapped) {
-        return ioCache.remove(overlapped);
+    public <V,A> PendingFuture<V,A> getByOverlbpped(long overlbpped) {
+        return ioCbche.remove(overlbpped);
     }
 
     @Override
     void implClose() throws IOException {
-        // close socket (which may cause outstanding accept to be aborted).
-        closesocket0(handle);
+        // close socket (which mby cbuse outstbnding bccept to be bborted).
+        closesocket0(hbndle);
 
-        // waits until the accept operations have completed
-        ioCache.close();
+        // wbits until the bccept operbtions hbve completed
+        ioCbche.close();
 
-        // finally disassociate from the completion port
-        iocp.disassociate(completionKey);
+        // finblly disbssocibte from the completion port
+        iocp.disbssocibte(completionKey);
 
-        // release other resources
-        unsafe.freeMemory(dataBuffer);
+        // relebse other resources
+        unsbfe.freeMemory(dbtbBuffer);
     }
 
     @Override
-    public AsynchronousChannelGroupImpl group() {
+    public AsynchronousChbnnelGroupImpl group() {
         return iocp;
     }
 
     /**
-     * Task to initiate accept operation and to handle result.
+     * Tbsk to initibte bccept operbtion bnd to hbndle result.
      */
-    private class AcceptTask implements Runnable, Iocp.ResultHandler {
-        private final WindowsAsynchronousSocketChannelImpl channel;
-        private final AccessControlContext acc;
-        private final PendingFuture<AsynchronousSocketChannel,Object> result;
+    privbte clbss AcceptTbsk implements Runnbble, Iocp.ResultHbndler {
+        privbte finbl WindowsAsynchronousSocketChbnnelImpl chbnnel;
+        privbte finbl AccessControlContext bcc;
+        privbte finbl PendingFuture<AsynchronousSocketChbnnel,Object> result;
 
-        AcceptTask(WindowsAsynchronousSocketChannelImpl channel,
-                   AccessControlContext acc,
-                   PendingFuture<AsynchronousSocketChannel,Object> result)
+        AcceptTbsk(WindowsAsynchronousSocketChbnnelImpl chbnnel,
+                   AccessControlContext bcc,
+                   PendingFuture<AsynchronousSocketChbnnel,Object> result)
         {
-            this.channel = channel;
-            this.acc = acc;
+            this.chbnnel = chbnnel;
+            this.bcc = bcc;
             this.result = result;
         }
 
-        void enableAccept() {
-            accepting.set(false);
+        void enbbleAccept() {
+            bccepting.set(fblse);
         }
 
-        void closeChildChannel() {
+        void closeChildChbnnel() {
             try {
-                channel.close();
-            } catch (IOException ignore) { }
+                chbnnel.close();
+            } cbtch (IOException ignore) { }
         }
 
-        // caller must have acquired read lock for the listener and child channel.
+        // cbller must hbve bcquired rebd lock for the listener bnd child chbnnel.
         void finishAccept() throws IOException {
             /**
-             * Set local/remote addresses. This is currently very inefficient
-             * in that it requires 2 calls to getsockname and 2 calls to getpeername.
-             * (should change this to use GetAcceptExSockaddrs)
+             * Set locbl/remote bddresses. This is currently very inefficient
+             * in thbt it requires 2 cblls to getsocknbme bnd 2 cblls to getpeernbme.
+             * (should chbnge this to use GetAcceptExSockbddrs)
              */
-            updateAcceptContext(handle, channel.handle());
+            updbteAcceptContext(hbndle, chbnnel.hbndle());
 
-            InetSocketAddress local = Net.localAddress(channel.fd);
-            final InetSocketAddress remote = Net.remoteAddress(channel.fd);
-            channel.setConnected(local, remote);
+            InetSocketAddress locbl = Net.locblAddress(chbnnel.fd);
+            finbl InetSocketAddress remote = Net.remoteAddress(chbnnel.fd);
+            chbnnel.setConnected(locbl, remote);
 
-            // permission check (in context of initiating thread)
-            if (acc != null) {
+            // permission check (in context of initibting threbd)
+            if (bcc != null) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     public Void run() {
-                        SecurityManager sm = System.getSecurityManager();
+                        SecurityMbnbger sm = System.getSecurityMbnbger();
                         sm.checkAccept(remote.getAddress().getHostAddress(),
                                        remote.getPort());
                         return null;
                     }
-                }, acc);
+                }, bcc);
             }
         }
 
         /**
-         * Initiates the accept operation.
+         * Initibtes the bccept operbtion.
          */
         @Override
         public void run() {
-            long overlapped = 0L;
+            long overlbpped = 0L;
 
             try {
-                // begin usage of listener socket
+                // begin usbge of listener socket
                 begin();
                 try {
-                    // begin usage of child socket (as it is registered with
-                    // completion port and so may be closed in the event that
+                    // begin usbge of child socket (bs it is registered with
+                    // completion port bnd so mby be closed in the event thbt
                     // the group is forcefully closed).
-                    channel.begin();
+                    chbnnel.begin();
 
                     synchronized (result) {
-                        overlapped = ioCache.add(result);
+                        overlbpped = ioCbche.bdd(result);
 
-                        int n = accept0(handle, channel.handle(), overlapped, dataBuffer);
-                        if (n == IOStatus.UNAVAILABLE) {
+                        int n = bccept0(hbndle, chbnnel.hbndle(), overlbpped, dbtbBuffer);
+                        if (n == IOStbtus.UNAVAILABLE) {
                             return;
                         }
 
-                        // connection accepted immediately
+                        // connection bccepted immedibtely
                         finishAccept();
 
-                        // allow another accept before the result is set
-                        enableAccept();
-                        result.setResult(channel);
+                        // bllow bnother bccept before the result is set
+                        enbbleAccept();
+                        result.setResult(chbnnel);
                     }
-                } finally {
-                    // end usage on child socket
-                    channel.end();
+                } finblly {
+                    // end usbge on child socket
+                    chbnnel.end();
                 }
-            } catch (Throwable x) {
-                // failed to initiate accept so release resources
-                if (overlapped != 0L)
-                    ioCache.remove(overlapped);
-                closeChildChannel();
-                if (x instanceof ClosedChannelException)
+            } cbtch (Throwbble x) {
+                // fbiled to initibte bccept so relebse resources
+                if (overlbpped != 0L)
+                    ioCbche.remove(overlbpped);
+                closeChildChbnnel();
+                if (x instbnceof ClosedChbnnelException)
                     x = new AsynchronousCloseException();
-                if (!(x instanceof IOException) && !(x instanceof SecurityException))
+                if (!(x instbnceof IOException) && !(x instbnceof SecurityException))
                     x = new IOException(x);
-                enableAccept();
-                result.setFailure(x);
-            } finally {
-                // end of usage of listener socket
+                enbbleAccept();
+                result.setFbilure(x);
+            } finblly {
+                // end of usbge of listener socket
                 end();
             }
 
-            // accept completed immediately but may not have executed on
-            // initiating thread in which case the operation may have been
-            // cancelled.
-            if (result.isCancelled()) {
-                closeChildChannel();
+            // bccept completed immedibtely but mby not hbve executed on
+            // initibting threbd in which cbse the operbtion mby hbve been
+            // cbncelled.
+            if (result.isCbncelled()) {
+                closeChildChbnnel();
             }
 
-            // invoke completion handler
+            // invoke completion hbndler
             Invoker.invokeIndirectly(result);
         }
 
         /**
-         * Executed when the I/O has completed
+         * Executed when the I/O hbs completed
          */
         @Override
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
+        public void completed(int bytesTrbnsferred, boolebn cbnInvokeDirect) {
             try {
-                // connection accept after group has shutdown
+                // connection bccept bfter group hbs shutdown
                 if (iocp.isShutdown()) {
-                    throw new IOException(new ShutdownChannelGroupException());
+                    throw new IOException(new ShutdownChbnnelGroupException());
                 }
 
-                // finish the accept
+                // finish the bccept
                 try {
                     begin();
                     try {
-                        channel.begin();
+                        chbnnel.begin();
                         finishAccept();
-                    } finally {
-                        channel.end();
+                    } finblly {
+                        chbnnel.end();
                     }
-                } finally {
+                } finblly {
                     end();
                 }
 
-                // allow another accept before the result is set
-                enableAccept();
-                result.setResult(channel);
-            } catch (Throwable x) {
-                enableAccept();
-                closeChildChannel();
-                if (x instanceof ClosedChannelException)
+                // bllow bnother bccept before the result is set
+                enbbleAccept();
+                result.setResult(chbnnel);
+            } cbtch (Throwbble x) {
+                enbbleAccept();
+                closeChildChbnnel();
+                if (x instbnceof ClosedChbnnelException)
                     x = new AsynchronousCloseException();
-                if (!(x instanceof IOException) && !(x instanceof SecurityException))
+                if (!(x instbnceof IOException) && !(x instbnceof SecurityException))
                     x = new IOException(x);
-                result.setFailure(x);
+                result.setFbilure(x);
             }
 
-            // if an async cancel has already cancelled the operation then
-            // close the new channel so as to free resources
-            if (result.isCancelled()) {
-                closeChildChannel();
+            // if bn bsync cbncel hbs blrebdy cbncelled the operbtion then
+            // close the new chbnnel so bs to free resources
+            if (result.isCbncelled()) {
+                closeChildChbnnel();
             }
 
-            // invoke handler (but not directly)
+            // invoke hbndler (but not directly)
             Invoker.invokeIndirectly(result);
         }
 
         @Override
-        public void failed(int error, IOException x) {
-            enableAccept();
-            closeChildChannel();
+        public void fbiled(int error, IOException x) {
+            enbbleAccept();
+            closeChildChbnnel();
 
-            // release waiters
+            // relebse wbiters
             if (isOpen()) {
-                result.setFailure(x);
+                result.setFbilure(x);
             } else {
-                result.setFailure(new AsynchronousCloseException());
+                result.setFbilure(new AsynchronousCloseException());
             }
             Invoker.invokeIndirectly(result);
         }
     }
 
     @Override
-    Future<AsynchronousSocketChannel> implAccept(Object attachment,
-        final CompletionHandler<AsynchronousSocketChannel,Object> handler)
+    Future<AsynchronousSocketChbnnel> implAccept(Object bttbchment,
+        finbl CompletionHbndler<AsynchronousSocketChbnnel,Object> hbndler)
     {
         if (!isOpen()) {
-            Throwable exc = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(exc);
-            Invoker.invokeIndirectly(this, handler, attachment, null, exc);
+            Throwbble exc = new ClosedChbnnelException();
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(exc);
+            Invoker.invokeIndirectly(this, hbndler, bttbchment, null, exc);
             return null;
         }
         if (isAcceptKilled())
-            throw new RuntimeException("Accept not allowed due to cancellation");
+            throw new RuntimeException("Accept not bllowed due to cbncellbtion");
 
-        // ensure channel is bound to local address
-        if (localAddress == null)
+        // ensure chbnnel is bound to locbl bddress
+        if (locblAddress == null)
             throw new NotYetBoundException();
 
-        // create the socket that will be accepted. The creation of the socket
-        // is enclosed by a begin/end for the listener socket to ensure that
-        // we check that the listener is open and also to prevent the I/O
-        // port from being closed as the new socket is registered.
-        WindowsAsynchronousSocketChannelImpl ch = null;
+        // crebte the socket thbt will be bccepted. The crebtion of the socket
+        // is enclosed by b begin/end for the listener socket to ensure thbt
+        // we check thbt the listener is open bnd blso to prevent the I/O
+        // port from being closed bs the new socket is registered.
+        WindowsAsynchronousSocketChbnnelImpl ch = null;
         IOException ioe = null;
         try {
             begin();
-            ch = new WindowsAsynchronousSocketChannelImpl(iocp, false);
-        } catch (IOException x) {
+            ch = new WindowsAsynchronousSocketChbnnelImpl(iocp, fblse);
+        } cbtch (IOException x) {
             ioe = x;
-        } finally {
+        } finblly {
             end();
         }
         if (ioe != null) {
-            if (handler == null)
-                return CompletedFuture.withFailure(ioe);
-            Invoker.invokeIndirectly(this, handler, attachment, null, ioe);
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(ioe);
+            Invoker.invokeIndirectly(this, hbndler, bttbchment, null, ioe);
             return null;
         }
 
-        // need calling context when there is security manager as
-        // permission check may be done in a different thread without
-        // any application call frames on the stack
-        AccessControlContext acc = (System.getSecurityManager() == null) ?
+        // need cblling context when there is security mbnbger bs
+        // permission check mby be done in b different threbd without
+        // bny bpplicbtion cbll frbmes on the stbck
+        AccessControlContext bcc = (System.getSecurityMbnbger() == null) ?
             null : AccessController.getContext();
 
-        PendingFuture<AsynchronousSocketChannel,Object> result =
-            new PendingFuture<AsynchronousSocketChannel,Object>(this, handler, attachment);
-        AcceptTask task = new AcceptTask(ch, acc, result);
-        result.setContext(task);
+        PendingFuture<AsynchronousSocketChbnnel,Object> result =
+            new PendingFuture<AsynchronousSocketChbnnel,Object>(this, hbndler, bttbchment);
+        AcceptTbsk tbsk = new AcceptTbsk(ch, bcc, result);
+        result.setContext(tbsk);
 
-        // check and set flag to prevent concurrent accepting
-        if (!accepting.compareAndSet(false, true))
+        // check bnd set flbg to prevent concurrent bccepting
+        if (!bccepting.compbreAndSet(fblse, true))
             throw new AcceptPendingException();
 
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            task.run();
+        // initibte I/O
+        if (Iocp.supportsThrebdAgnosticIo()) {
+            tbsk.run();
         } else {
-            Invoker.invokeOnThreadInThreadPool(this, task);
+            Invoker.invokeOnThrebdInThrebdPool(this, tbsk);
         }
         return result;
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private static native int accept0(long listenSocket, long acceptSocket,
-        long overlapped, long dataBuffer) throws IOException;
+    privbte stbtic nbtive int bccept0(long listenSocket, long bcceptSocket,
+        long overlbpped, long dbtbBuffer) throws IOException;
 
-    private static native void updateAcceptContext(long listenSocket,
-        long acceptSocket) throws IOException;
+    privbte stbtic nbtive void updbteAcceptContext(long listenSocket,
+        long bcceptSocket) throws IOException;
 
-    private static native void closesocket0(long socket) throws IOException;
+    privbte stbtic nbtive void closesocket0(long socket) throws IOException;
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         initIDs();
     }
 }

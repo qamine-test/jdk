@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,46 +30,46 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #ifndef HPROF_TABLE_H
 #define HPROF_TABLE_H
 
-/* Key based generic lookup table */
+/* Key bbsed generic lookup tbble */
 
-struct LookupTable;
+struct LookupTbble;
 
-typedef void (*LookupTableIterator)
-                (TableIndex, void *key_ptr, int key_len, void*, void*);
+typedef void (*LookupTbbleIterbtor)
+                (TbbleIndex, void *key_ptr, int key_len, void*, void*);
 
-struct LookupTable * table_initialize(const char *name, int size,
+struct LookupTbble * tbble_initiblize(const chbr *nbme, int size,
                                 int incr, int buckets, int esize);
-int                  table_element_count(struct LookupTable *ltable);
-TableIndex           table_create_entry(struct LookupTable *ltable,
+int                  tbble_element_count(struct LookupTbble *ltbble);
+TbbleIndex           tbble_crebte_entry(struct LookupTbble *ltbble,
                                 void *key_ptr, int key_len, void *info_ptr);
-TableIndex           table_find_entry(struct LookupTable *ltable,
+TbbleIndex           tbble_find_entry(struct LookupTbble *ltbble,
                                 void *key_ptr, int key_len);
-TableIndex           table_find_or_create_entry(struct LookupTable *ltable,
+TbbleIndex           tbble_find_or_crebte_entry(struct LookupTbble *ltbble,
                                 void *key_ptr, int key_len,
-                                jboolean *pnew_entry, void *info_ptr);
-void                 table_free_entry(struct LookupTable *ltable,
-                                TableIndex index);
-void                 table_cleanup(struct LookupTable *ltable,
-                                LookupTableIterator func, void *arg);
-void                 table_walk_items(struct LookupTable *ltable,
-                                LookupTableIterator func, void *arg);
-void *               table_get_info(struct LookupTable *ltable,
-                                TableIndex index);
-void                 table_get_key(struct LookupTable *ltable,
-                                TableIndex index, void **pkey_ptr,
+                                jboolebn *pnew_entry, void *info_ptr);
+void                 tbble_free_entry(struct LookupTbble *ltbble,
+                                TbbleIndex index);
+void                 tbble_clebnup(struct LookupTbble *ltbble,
+                                LookupTbbleIterbtor func, void *brg);
+void                 tbble_wblk_items(struct LookupTbble *ltbble,
+                                LookupTbbleIterbtor func, void *brg);
+void *               tbble_get_info(struct LookupTbble *ltbble,
+                                TbbleIndex index);
+void                 tbble_get_key(struct LookupTbble *ltbble,
+                                TbbleIndex index, void **pkey_ptr,
                                 int *pkey_len);
-void                 table_lock_enter(struct LookupTable *ltable);
-void                 table_lock_exit(struct LookupTable *ltable);
+void                 tbble_lock_enter(struct LookupTbble *ltbble);
+void                 tbble_lock_exit(struct LookupTbble *ltbble);
 
 #endif

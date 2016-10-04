@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.util.HashSet;
-import java.util.Set;
-import sun.awt.SunToolkit;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
+import sun.bwt.SunToolkit;
 
 /**
- * The RenderQueue class encapsulates a RenderBuffer on which rendering
- * operations are enqueued.  Note that the RenderQueue lock must be acquired
- * before performing any operations on the queue (e.g. enqueuing an operation
- * or flushing the queue).  A sample usage scenario follows:
+ * The RenderQueue clbss encbpsulbtes b RenderBuffer on which rendering
+ * operbtions bre enqueued.  Note thbt the RenderQueue lock must be bcquired
+ * before performing bny operbtions on the queue (e.g. enqueuing bn operbtion
+ * or flushing the queue).  A sbmple usbge scenbrio follows:
  *
- *     public void drawSomething(...) {
+ *     public void drbwSomething(...) {
  *         rq.lock();
  *         try {
- *             ctx.validate(...);
- *             rq.ensureCapacity(4);
+ *             ctx.vblidbte(...);
+ *             rq.ensureCbpbcity(4);
  *             rq.getBuffer().putInt(DRAW_SOMETHING);
  *             ...
- *         } finally {
+ *         } finblly {
  *             rq.unlock();
  *         }
  *     }
  *
- * If you are enqueuing an operation that involves 8-byte parameters (i.e.
- * long or double values), it is imperative that you ensure proper
- * alignment of the underlying RenderBuffer.  This can be accomplished
- * simply by providing an offset to the first 8-byte parameter in your
- * operation to the ensureCapacityAndAlignment() method.  For example:
+ * If you bre enqueuing bn operbtion thbt involves 8-byte pbrbmeters (i.e.
+ * long or double vblues), it is imperbtive thbt you ensure proper
+ * blignment of the underlying RenderBuffer.  This cbn be bccomplished
+ * simply by providing bn offset to the first 8-byte pbrbmeter in your
+ * operbtion to the ensureCbpbcityAndAlignment() method.  For exbmple:
  *
- *     public void drawStuff(...) {
+ *     public void drbwStuff(...) {
  *         rq.lock();
  *         try {
  *             RenderBuffer buf = rq.getBuffer();
- *             ctx.validate(...);
- *             // 28 total bytes in the operation, 12 bytes to the first long
- *             rq.ensureCapacityAndAlignment(28, 12);
+ *             ctx.vblidbte(...);
+ *             // 28 totbl bytes in the operbtion, 12 bytes to the first long
+ *             rq.ensureCbpbcityAndAlignment(28, 12);
  *             buf.putInt(DRAW_STUFF);
  *             buf.putInt(x).putInt(y);
- *             buf.putLong(addr1);
- *             buf.putLong(addr2);
- *         } finally {
+ *             buf.putLong(bddr1);
+ *             buf.putLong(bddr2);
+ *         } finblly {
  *             rq.unlock();
  *         }
  *     }
  */
-public abstract class RenderQueue {
+public bbstrbct clbss RenderQueue {
 
     /** The size of the underlying buffer, in bytes. */
-    private static final int BUFFER_SIZE = 32000;
+    privbte stbtic finbl int BUFFER_SIZE = 32000;
 
     /** The underlying buffer for this queue. */
     protected RenderBuffer buf;
 
     /**
-     * A Set containing hard references to Objects that must stay alive until
-     * the queue has been completely flushed.
+     * A Set contbining hbrd references to Objects thbt must stby blive until
+     * the queue hbs been completely flushed.
      */
     protected Set<Object> refSet;
 
     protected RenderQueue() {
-        refSet = new HashSet<>();
-        buf = RenderBuffer.allocate(BUFFER_SIZE);
+        refSet = new HbshSet<>();
+        buf = RenderBuffer.bllocbte(BUFFER_SIZE);
     }
 
     /**
-     * Locks the queue for read/write access.
+     * Locks the queue for rebd/write bccess.
      */
-    public final void lock() {
+    public finbl void lock() {
         /*
-         * Implementation note: In theory we should have two separate locks:
-         * one lock to synchronize access to the RenderQueue, and then a
-         * separate lock (the AWT lock) that only needs to be acquired when
-         * we are about to flush the queue (using native windowing system
-         * operations).  In practice it has been difficult to enforce the
-         * correct lock ordering; sometimes AWT will have already acquired
-         * the AWT lock before grabbing the RQ lock (see 6253009), while the
-         * expected order should be RQ lock and then AWT lock.  Due to this
-         * issue, using two separate locks is prone to deadlocks.  Therefore,
-         * to solve this issue we have decided to eliminate the separate RQ
-         * lock and instead just acquire the AWT lock here.  (Someday it might
-         * be nice to go back to the old two-lock system, but that would
-         * require potentially risky changes to AWT to ensure that it never
-         * acquires the AWT lock before calling into 2D code that wants to
-         * acquire the RQ lock.)
+         * Implementbtion note: In theory we should hbve two sepbrbte locks:
+         * one lock to synchronize bccess to the RenderQueue, bnd then b
+         * sepbrbte lock (the AWT lock) thbt only needs to be bcquired when
+         * we bre bbout to flush the queue (using nbtive windowing system
+         * operbtions).  In prbctice it hbs been difficult to enforce the
+         * correct lock ordering; sometimes AWT will hbve blrebdy bcquired
+         * the AWT lock before grbbbing the RQ lock (see 6253009), while the
+         * expected order should be RQ lock bnd then AWT lock.  Due to this
+         * issue, using two sepbrbte locks is prone to debdlocks.  Therefore,
+         * to solve this issue we hbve decided to eliminbte the sepbrbte RQ
+         * lock bnd instebd just bcquire the AWT lock here.  (Somedby it might
+         * be nice to go bbck to the old two-lock system, but thbt would
+         * require potentiblly risky chbnges to AWT to ensure thbt it never
+         * bcquires the AWT lock before cblling into 2D code thbt wbnts to
+         * bcquire the RQ lock.)
          */
-        SunToolkit.awtLock();
+        SunToolkit.bwtLock();
     }
 
     /**
      * Attempts to lock the queue.  If successful, this method returns true,
-     * indicating that the caller is responsible for calling
-     * <code>unlock</code>; otherwise this method returns false.
+     * indicbting thbt the cbller is responsible for cblling
+     * <code>unlock</code>; otherwise this method returns fblse.
      */
-    public final boolean tryLock() {
-        return SunToolkit.awtTryLock();
+    public finbl boolebn tryLock() {
+        return SunToolkit.bwtTryLock();
     }
 
     /**
      * Unlocks the queue.
      */
-    public final void unlock() {
-        SunToolkit.awtUnlock();
+    public finbl void unlock() {
+        SunToolkit.bwtUnlock();
     }
 
     /**
-     * Adds the given Object to the set of hard references, which will
-     * prevent that Object from being disposed until the queue has been
-     * flushed completely.  This is useful in cases where some enqueued
-     * data could become invalid if the reference Object were garbage
-     * collected before the queue could be processed.  (For example, keeping
-     * a hard reference to a FontStrike will prevent any enqueued glyph
-     * images associated with that strike from becoming invalid before the
-     * queue is flushed.)  The reference set will be cleared immediately
-     * after the queue is flushed each time.
+     * Adds the given Object to the set of hbrd references, which will
+     * prevent thbt Object from being disposed until the queue hbs been
+     * flushed completely.  This is useful in cbses where some enqueued
+     * dbtb could become invblid if the reference Object were gbrbbge
+     * collected before the queue could be processed.  (For exbmple, keeping
+     * b hbrd reference to b FontStrike will prevent bny enqueued glyph
+     * imbges bssocibted with thbt strike from becoming invblid before the
+     * queue is flushed.)  The reference set will be clebred immedibtely
+     * bfter the queue is flushed ebch time.
      */
-    public final void addReference(Object ref) {
-        refSet.add(ref);
+    public finbl void bddReference(Object ref) {
+        refSet.bdd(ref);
     }
 
     /**
-     * Returns the encapsulated RenderBuffer object.
+     * Returns the encbpsulbted RenderBuffer object.
      */
-    public final RenderBuffer getBuffer() {
+    public finbl RenderBuffer getBuffer() {
         return buf;
     }
 
     /**
-     * Ensures that there will be enough room on the underlying buffer
-     * for the following operation.  If the operation will not fit given
-     * the remaining space, the buffer will be flushed immediately, leaving
-     * an empty buffer for the impending operation.
+     * Ensures thbt there will be enough room on the underlying buffer
+     * for the following operbtion.  If the operbtion will not fit given
+     * the rembining spbce, the buffer will be flushed immedibtely, lebving
+     * bn empty buffer for the impending operbtion.
      *
-     * @param opsize size (in bytes) of the following operation
+     * @pbrbm opsize size (in bytes) of the following operbtion
      */
-    public final void ensureCapacity(int opsize) {
-        if (buf.remaining() < opsize) {
+    public finbl void ensureCbpbcity(int opsize) {
+        if (buf.rembining() < opsize) {
             flushNow();
         }
     }
 
     /**
-     * Convenience method that is equivalent to calling ensureCapacity()
-     * followed by ensureAlignment().  The ensureCapacity() call allows for an
-     * extra 4 bytes of space in case the ensureAlignment() method needs to
-     * insert a NOOP token on the buffer.
+     * Convenience method thbt is equivblent to cblling ensureCbpbcity()
+     * followed by ensureAlignment().  The ensureCbpbcity() cbll bllows for bn
+     * extrb 4 bytes of spbce in cbse the ensureAlignment() method needs to
+     * insert b NOOP token on the buffer.
      *
-     * @param opsize size (in bytes) of the following operation
-     * @param first8ByteValueOffset offset (in bytes) from the current
-     * position to the first 8-byte value used in the following operation
+     * @pbrbm opsize size (in bytes) of the following operbtion
+     * @pbrbm first8ByteVblueOffset offset (in bytes) from the current
+     * position to the first 8-byte vblue used in the following operbtion
      */
-    public final void ensureCapacityAndAlignment(int opsize,
-                                                 int first8ByteValueOffset)
+    public finbl void ensureCbpbcityAndAlignment(int opsize,
+                                                 int first8ByteVblueOffset)
     {
-        ensureCapacity(opsize + 4);
-        ensureAlignment(first8ByteValueOffset);
+        ensureCbpbcity(opsize + 4);
+        ensureAlignment(first8ByteVblueOffset);
     }
 
     /**
-     * Inserts a 4-byte NOOP token when necessary to ensure that all 8-byte
-     * parameters for the following operation are added to the underlying
-     * buffer with an 8-byte memory alignment.
+     * Inserts b 4-byte NOOP token when necessbry to ensure thbt bll 8-byte
+     * pbrbmeters for the following operbtion bre bdded to the underlying
+     * buffer with bn 8-byte memory blignment.
      *
-     * @param first8ByteValueOffset offset (in bytes) from the current
-     * position to the first 8-byte value used in the following operation
+     * @pbrbm first8ByteVblueOffset offset (in bytes) from the current
+     * position to the first 8-byte vblue used in the following operbtion
      */
-    public final void ensureAlignment(int first8ByteValueOffset) {
-        int first8ByteValuePosition = buf.position() + first8ByteValueOffset;
-        if ((first8ByteValuePosition & 7) != 0) {
+    public finbl void ensureAlignment(int first8ByteVblueOffset) {
+        int first8ByteVbluePosition = buf.position() + first8ByteVblueOffset;
+        if ((first8ByteVbluePosition & 7) != 0) {
             buf.putInt(BufferedOpCodes.NOOP);
         }
     }
 
     /**
-     * Immediately processes each operation currently pending on the buffer.
-     * This method will block until the entire buffer has been flushed.  The
-     * queue lock must be acquired before calling this method.
+     * Immedibtely processes ebch operbtion currently pending on the buffer.
+     * This method will block until the entire buffer hbs been flushed.  The
+     * queue lock must be bcquired before cblling this method.
      */
-    public abstract void flushNow();
+    public bbstrbct void flushNow();
 
     /**
-     * Immediately processes each operation currently pending on the buffer,
-     * and then invokes the provided task.  This method will block until the
-     * entire buffer has been flushed and the provided task has been executed.
-     * The queue lock must be acquired before calling this method.
+     * Immedibtely processes ebch operbtion currently pending on the buffer,
+     * bnd then invokes the provided tbsk.  This method will block until the
+     * entire buffer hbs been flushed bnd the provided tbsk hbs been executed.
+     * The queue lock must be bcquired before cblling this method.
      */
-    public abstract void flushAndInvokeNow(Runnable task);
+    public bbstrbct void flushAndInvokeNow(Runnbble tbsk);
 
     /**
-     * Updates the current position of the underlying buffer, and then
-     * flushes the queue immediately.  This method is useful when native code
-     * has added data to the queue and needs to flush immediately.
+     * Updbtes the current position of the underlying buffer, bnd then
+     * flushes the queue immedibtely.  This method is useful when nbtive code
+     * hbs bdded dbtb to the queue bnd needs to flush immedibtely.
      */
     public void flushNow(int position) {
         buf.position(position);

@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import java.io.File;
-import java.io.FilePermission;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
+import jbvb.io.File;
+import jbvb.io.FilePermission;
+import jbvb.nio.file.DirectoryStrebm;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.Pbths;
+import jbvb.nio.file.Pbth;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedExceptionAction;
 
-import sun.net.dns.ResolverConfiguration;
-import sun.security.krb5.internal.crypto.EType;
-import sun.security.krb5.internal.Krb5;
+import sun.net.dns.ResolverConfigurbtion;
+import sun.security.krb5.internbl.crypto.EType;
+import sun.security.krb5.internbl.Krb5;
 
 /**
- * This class maintains key-value pairs of Kerberos configurable constants
- * from configuration file or from user specified system properties.
+ * This clbss mbintbins key-vblue pbirs of Kerberos configurbble constbnts
+ * from configurbtion file or from user specified system properties.
  */
 
-public class Config {
+public clbss Config {
 
     /*
-     * Only allow a single instance of Config.
+     * Only bllow b single instbnce of Config.
      */
-    private static Config singleton = null;
+    privbte stbtic Config singleton = null;
 
     /*
-     * Hashtable used to store configuration information.
+     * Hbshtbble used to store configurbtion informbtion.
      */
-    private Hashtable<String,Object> stanzaTable = new Hashtable<>();
+    privbte Hbshtbble<String,Object> stbnzbTbble = new Hbshtbble<>();
 
-    private static boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
+    privbte stbtic boolebn DEBUG = sun.security.krb5.internbl.Krb5.DEBUG;
 
-    // these are used for hexdecimal calculation.
-    private static final int BASE16_0 = 1;
-    private static final int BASE16_1 = 16;
-    private static final int BASE16_2 = 16 * 16;
-    private static final int BASE16_3 = 16 * 16 * 16;
+    // these bre used for hexdecimbl cblculbtion.
+    privbte stbtic finbl int BASE16_0 = 1;
+    privbte stbtic finbl int BASE16_1 = 16;
+    privbte stbtic finbl int BASE16_2 = 16 * 16;
+    privbte stbtic finbl int BASE16_3 = 16 * 16 * 16;
 
     /**
      * Specified by system properties. Must be both null or non-null.
      */
-    private final String defaultRealm;
-    private final String defaultKDC;
+    privbte finbl String defbultReblm;
+    privbte finbl String defbultKDC;
 
-    // used for native interface
-    private static native String getWindowsDirectory(boolean isSystem);
+    // used for nbtive interfbce
+    privbte stbtic nbtive String getWindowsDirectory(boolebn isSystem);
 
 
     /**
-     * Gets an instance of Config class. One and only one instance (the
+     * Gets bn instbnce of Config clbss. One bnd only one instbnce (the
      * singleton) is returned.
      *
-     * @exception KrbException if error occurs when constructing a Config
-     * instance. Possible causes would be either of java.security.krb5.realm or
-     * java.security.krb5.kdc not specified, error reading configuration file.
+     * @exception KrbException if error occurs when constructing b Config
+     * instbnce. Possible cbuses would be either of jbvb.security.krb5.reblm or
+     * jbvb.security.krb5.kdc not specified, error rebding configurbtion file.
      */
-    public static synchronized Config getInstance() throws KrbException {
+    public stbtic synchronized Config getInstbnce() throws KrbException {
         if (singleton == null) {
             singleton = new Config();
         }
@@ -99,132 +99,132 @@ public class Config {
     }
 
     /**
-     * Refresh and reload the Configuration. This could involve,
-     * for example reading the Configuration file again or getting
-     * the java.security.krb5.* system properties again. This method
-     * also tries its best to update static fields in other classes
-     * that depend on the configuration.
+     * Refresh bnd relobd the Configurbtion. This could involve,
+     * for exbmple rebding the Configurbtion file bgbin or getting
+     * the jbvb.security.krb5.* system properties bgbin. This method
+     * blso tries its best to updbte stbtic fields in other clbsses
+     * thbt depend on the configurbtion.
      *
-     * @exception KrbException if error occurs when constructing a Config
-     * instance. Possible causes would be either of java.security.krb5.realm or
-     * java.security.krb5.kdc not specified, error reading configuration file.
+     * @exception KrbException if error occurs when constructing b Config
+     * instbnce. Possible cbuses would be either of jbvb.security.krb5.reblm or
+     * jbvb.security.krb5.kdc not specified, error rebding configurbtion file.
      */
 
-    public static synchronized void refresh() throws KrbException {
+    public stbtic synchronized void refresh() throws KrbException {
         singleton = new Config();
-        KdcComm.initStatic();
-        EType.initStatic();
-        Checksum.initStatic();
+        KdcComm.initStbtic();
+        EType.initStbtic();
+        Checksum.initStbtic();
     }
 
 
-    private static boolean isMacosLionOrBetter() {
+    privbte stbtic boolebn isMbcosLionOrBetter() {
         // split the "10.x.y" version number
-        String osname = getProperty("os.name");
-        if (!osname.contains("OS X")) {
-            return false;
+        String osnbme = getProperty("os.nbme");
+        if (!osnbme.contbins("OS X")) {
+            return fblse;
         }
 
         String osVersion = getProperty("os.version");
-        String[] fragments = osVersion.split("\\.");
+        String[] frbgments = osVersion.split("\\.");
 
-        // sanity check the "10." part of the version
-        if (!fragments[0].equals("10")) return false;
-        if (fragments.length < 2) return false;
+        // sbnity check the "10." pbrt of the version
+        if (!frbgments[0].equbls("10")) return fblse;
+        if (frbgments.length < 2) return fblse;
 
-        // check if Mac OS X 10.7(.y)
+        // check if Mbc OS X 10.7(.y)
         try {
-            int minorVers = Integer.parseInt(fragments[1]);
+            int minorVers = Integer.pbrseInt(frbgments[1]);
             if (minorVers >= 7) return true;
-        } catch (NumberFormatException e) {
-            // was not an integer
+        } cbtch (NumberFormbtException e) {
+            // wbs not bn integer
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Private constructor - can not be instantiated externally.
+     * Privbte constructor - cbn not be instbntibted externblly.
      */
-    private Config() throws KrbException {
+    privbte Config() throws KrbException {
         /*
          * If either one system property is specified, we throw exception.
          */
-        String tmp = getProperty("java.security.krb5.kdc");
+        String tmp = getProperty("jbvb.security.krb5.kdc");
         if (tmp != null) {
-            // The user can specify a list of kdc hosts separated by ":"
-            defaultKDC = tmp.replace(':', ' ');
+            // The user cbn specify b list of kdc hosts sepbrbted by ":"
+            defbultKDC = tmp.replbce(':', ' ');
         } else {
-            defaultKDC = null;
+            defbultKDC = null;
         }
-        defaultRealm = getProperty("java.security.krb5.realm");
-        if ((defaultKDC == null && defaultRealm != null) ||
-            (defaultRealm == null && defaultKDC != null)) {
+        defbultReblm = getProperty("jbvb.security.krb5.reblm");
+        if ((defbultKDC == null && defbultReblm != null) ||
+            (defbultReblm == null && defbultKDC != null)) {
             throw new KrbException
-                ("System property java.security.krb5.kdc and " +
-                 "java.security.krb5.realm both must be set or " +
+                ("System property jbvb.security.krb5.kdc bnd " +
+                 "jbvb.security.krb5.reblm both must be set or " +
                  "neither must be set.");
         }
 
-        // Always read the Kerberos configuration file
+        // Alwbys rebd the Kerberos configurbtion file
         try {
             List<String> configFile;
-            String fileName = getJavaFileName();
-            if (fileName != null) {
-                configFile = loadConfigFile(fileName);
-                stanzaTable = parseStanzaTable(configFile);
+            String fileNbme = getJbvbFileNbme();
+            if (fileNbme != null) {
+                configFile = lobdConfigFile(fileNbme);
+                stbnzbTbble = pbrseStbnzbTbble(configFile);
                 if (DEBUG) {
-                    System.out.println("Loaded from Java config");
+                    System.out.println("Lobded from Jbvb config");
                 }
             } else {
-                boolean found = false;
-                if (isMacosLionOrBetter()) {
+                boolebn found = fblse;
+                if (isMbcosLionOrBetter()) {
                     try {
-                        stanzaTable = SCDynamicStoreConfig.getConfig();
+                        stbnzbTbble = SCDynbmicStoreConfig.getConfig();
                         if (DEBUG) {
-                            System.out.println("Loaded from SCDynamicStoreConfig");
+                            System.out.println("Lobded from SCDynbmicStoreConfig");
                         }
                         found = true;
-                    } catch (IOException ioe) {
+                    } cbtch (IOException ioe) {
                         // OK. Will go on with file
                     }
                 }
                 if (!found) {
-                    fileName = getNativeFileName();
-                    configFile = loadConfigFile(fileName);
-                    stanzaTable = parseStanzaTable(configFile);
+                    fileNbme = getNbtiveFileNbme();
+                    configFile = lobdConfigFile(fileNbme);
+                    stbnzbTbble = pbrseStbnzbTbble(configFile);
                     if (DEBUG) {
-                        System.out.println("Loaded from native config");
+                        System.out.println("Lobded from nbtive config");
                     }
                 }
             }
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             if (DEBUG) {
-                System.out.println("Exception thrown in loading config:");
-                ioe.printStackTrace(System.out);
+                System.out.println("Exception thrown in lobding config:");
+                ioe.printStbckTrbce(System.out);
             }
-            throw new KrbException("krb5.conf loading failed");
+            throw new KrbException("krb5.conf lobding fbiled");
         }
     }
 
     /**
-     * Gets the last-defined string value for the specified keys.
-     * @param keys the keys, as an array from section name, sub-section names
-     * (if any), to value name.
-     * @return the value. When there are multiple values for the same key,
-     * returns the first one. {@code null} is returned if not all the keys are
-     * defined. For example, {@code get("libdefaults", "forwardable")} will
-     * return null if "forwardable" is not defined in [libdefaults], and
-     * {@code get("realms", "R", "kdc")} will return null if "R" is not
-     * defined in [realms] or "kdc" is not defined for "R".
-     * @throws IllegalArgumentException if any of the keys is illegal, either
-     * because a key not the last one is not a (sub)section name or the last
-     * key is still a section name. For example, {@code get("libdefaults")}
-     * throws this exception because [libdefaults] is a section name instead of
-     * a value name, and {@code get("libdefaults", "forwardable", "tail")}
-     * also throws this exception because "forwardable" is already a value name
-     * and has no sub-key at all (given "forwardable" is defined, otherwise,
-     * this method has no knowledge if it's a value name or a section name),
+     * Gets the lbst-defined string vblue for the specified keys.
+     * @pbrbm keys the keys, bs bn brrby from section nbme, sub-section nbmes
+     * (if bny), to vblue nbme.
+     * @return the vblue. When there bre multiple vblues for the sbme key,
+     * returns the first one. {@code null} is returned if not bll the keys bre
+     * defined. For exbmple, {@code get("libdefbults", "forwbrdbble")} will
+     * return null if "forwbrdbble" is not defined in [libdefbults], bnd
+     * {@code get("reblms", "R", "kdc")} will return null if "R" is not
+     * defined in [reblms] or "kdc" is not defined for "R".
+     * @throws IllegblArgumentException if bny of the keys is illegbl, either
+     * becbuse b key not the lbst one is not b (sub)section nbme or the lbst
+     * key is still b section nbme. For exbmple, {@code get("libdefbults")}
+     * throws this exception becbuse [libdefbults] is b section nbme instebd of
+     * b vblue nbme, bnd {@code get("libdefbults", "forwbrdbble", "tbil")}
+     * blso throws this exception becbuse "forwbrdbble" is blrebdy b vblue nbme
+     * bnd hbs no sub-key bt bll (given "forwbrdbble" is defined, otherwise,
+     * this method hbs no knowledge if it's b vblue nbme or b section nbme),
      */
     public String get(String... keys) {
         Vector<String> v = getString0(keys);
@@ -233,224 +233,224 @@ public class Config {
     }
 
     /**
-     * Gets the boolean value for the specified keys. Returns TRUE if the
-     * string value is "yes", or "true", FALSE if "no", or "false", or null
-     * if otherwise or not defined. The comparision is case-insensitive.
+     * Gets the boolebn vblue for the specified keys. Returns TRUE if the
+     * string vblue is "yes", or "true", FALSE if "no", or "fblse", or null
+     * if otherwise or not defined. The compbrision is cbse-insensitive.
      *
-     * @param keys the keys, see {@link #get(String...)}
-     * @return the boolean value, or null if there is no value defined or the
-     * value does not look like a boolean value.
-     * @throws IllegalArgumentException see {@link #get(String...)}
+     * @pbrbm keys the keys, see {@link #get(String...)}
+     * @return the boolebn vblue, or null if there is no vblue defined or the
+     * vblue does not look like b boolebn vblue.
+     * @throws IllegblArgumentException see {@link #get(String...)}
      */
-    public Boolean getBooleanObject(String... keys) {
+    public Boolebn getBoolebnObject(String... keys) {
         String s = get(keys);
         if (s == null) {
             return null;
         }
-        switch (s.toLowerCase(Locale.US)) {
-            case "yes": case "true":
-                return Boolean.TRUE;
-            case "no": case "false":
-                return Boolean.FALSE;
-            default:
+        switch (s.toLowerCbse(Locble.US)) {
+            cbse "yes": cbse "true":
+                return Boolebn.TRUE;
+            cbse "no": cbse "fblse":
+                return Boolebn.FALSE;
+            defbult:
                 return null;
         }
     }
 
     /**
-     * Gets all values for the specified keys.
-     * @throws IllegalArgumentException if any of the keys is illegal
+     * Gets bll vblues for the specified keys.
+     * @throws IllegblArgumentException if bny of the keys is illegbl
      *         (See {@link #get})
      */
     public String getAll(String... keys) {
         Vector<String> v = getString0(keys);
         if (v == null) return null;
         StringBuilder sb = new StringBuilder();
-        boolean first = true;
+        boolebn first = true;
         for (String s: v) {
             if (first) {
-                sb.append(s);
-                first = false;
+                sb.bppend(s);
+                first = fblse;
             } else {
-                sb.append(' ').append(s);
+                sb.bppend(' ').bppend(s);
             }
         }
         return sb.toString();
     }
 
     /**
-     * Returns true if keys exists, can be final string(s) or a sub-section
-     * @throws IllegalArgumentException if any of the keys is illegal
+     * Returns true if keys exists, cbn be finbl string(s) or b sub-section
+     * @throws IllegblArgumentException if bny of the keys is illegbl
      *         (See {@link #get})
      */
-    public boolean exists(String... keys) {
+    public boolebn exists(String... keys) {
         return get0(keys) != null;
     }
 
-    // Returns final string value(s) for given keys.
-    @SuppressWarnings("unchecked")
-    private Vector<String> getString0(String... keys) {
+    // Returns finbl string vblue(s) for given keys.
+    @SuppressWbrnings("unchecked")
+    privbte Vector<String> getString0(String... keys) {
         try {
             return (Vector<String>)get0(keys);
-        } catch (ClassCastException cce) {
-            throw new IllegalArgumentException(cce);
+        } cbtch (ClbssCbstException cce) {
+            throw new IllegblArgumentException(cce);
         }
     }
 
-    // Internal method. Returns the value for keys, which can be a sub-section
-    // (as a Hashtable) or final string value(s) (as a Vector). This is the
-    // only method (except for toString) that reads stanzaTable directly.
-    @SuppressWarnings("unchecked")
-    private Object get0(String... keys) {
-        Object current = stanzaTable;
+    // Internbl method. Returns the vblue for keys, which cbn be b sub-section
+    // (bs b Hbshtbble) or finbl string vblue(s) (bs b Vector). This is the
+    // only method (except for toString) thbt rebds stbnzbTbble directly.
+    @SuppressWbrnings("unchecked")
+    privbte Object get0(String... keys) {
+        Object current = stbnzbTbble;
         try {
             for (String key: keys) {
-                current = ((Hashtable<String,Object>)current).get(key);
+                current = ((Hbshtbble<String,Object>)current).get(key);
                 if (current == null) return null;
             }
             return current;
-        } catch (ClassCastException cce) {
-            throw new IllegalArgumentException(cce);
+        } cbtch (ClbssCbstException cce) {
+            throw new IllegblArgumentException(cce);
         }
     }
 
     /**
-     * Gets the int value for the specified keys.
-     * @param keys the keys
-     * @return the int value, Integer.MIN_VALUE is returned if it cannot be
-     * found or the value is not a legal integer.
-     * @throw IllegalArgumentException if any of the keys is illegal
-     * @see #get(java.lang.String[])
+     * Gets the int vblue for the specified keys.
+     * @pbrbm keys the keys
+     * @return the int vblue, Integer.MIN_VALUE is returned if it cbnnot be
+     * found or the vblue is not b legbl integer.
+     * @throw IllegblArgumentException if bny of the keys is illegbl
+     * @see #get(jbvb.lbng.String[])
      */
-    public int getIntValue(String... keys) {
+    public int getIntVblue(String... keys) {
         String result = get(keys);
-        int value = Integer.MIN_VALUE;
+        int vblue = Integer.MIN_VALUE;
         if (result != null) {
             try {
-                value = parseIntValue(result);
-            } catch (NumberFormatException e) {
+                vblue = pbrseIntVblue(result);
+            } cbtch (NumberFormbtException e) {
                 if (DEBUG) {
-                    System.out.println("Exception in getting value of " +
-                                       Arrays.toString(keys) + " " +
-                                       e.getMessage());
-                    System.out.println("Setting " + Arrays.toString(keys) +
-                                       " to minimum value");
+                    System.out.println("Exception in getting vblue of " +
+                                       Arrbys.toString(keys) + " " +
+                                       e.getMessbge());
+                    System.out.println("Setting " + Arrbys.toString(keys) +
+                                       " to minimum vblue");
                 }
-                value = Integer.MIN_VALUE;
+                vblue = Integer.MIN_VALUE;
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Parses a string to an integer. The convertible strings include the
-     * string representations of positive integers, negative integers, and
-     * hex decimal integers.  Valid inputs are, e.g., -1234, +1234,
+     * Pbrses b string to bn integer. The convertible strings include the
+     * string representbtions of positive integers, negbtive integers, bnd
+     * hex decimbl integers.  Vblid inputs bre, e.g., -1234, +1234,
      * 0x40000.
      *
-     * @param input the String to be converted to an Integer.
-     * @return an numeric value represented by the string
-     * @exception NumberFormatException if the String does not contain a
-     * parsable integer.
+     * @pbrbm input the String to be converted to bn Integer.
+     * @return bn numeric vblue represented by the string
+     * @exception NumberFormbtException if the String does not contbin b
+     * pbrsbble integer.
      */
-    private int parseIntValue(String input) throws NumberFormatException {
-        int value = 0;
-        if (input.startsWith("+")) {
+    privbte int pbrseIntVblue(String input) throws NumberFormbtException {
+        int vblue = 0;
+        if (input.stbrtsWith("+")) {
             String temp = input.substring(1);
-            return Integer.parseInt(temp);
-        } else if (input.startsWith("0x")) {
+            return Integer.pbrseInt(temp);
+        } else if (input.stbrtsWith("0x")) {
             String temp = input.substring(2);
-            char[] chars = temp.toCharArray();
-            if (chars.length > 8) {
-                throw new NumberFormatException();
+            chbr[] chbrs = temp.toChbrArrby();
+            if (chbrs.length > 8) {
+                throw new NumberFormbtException();
             } else {
-                for (int i = 0; i < chars.length; i++) {
-                    int index = chars.length - i - 1;
-                    switch (chars[i]) {
-                    case '0':
-                        value += 0;
-                        break;
-                    case '1':
-                        value += 1 * getBase(index);
-                        break;
-                    case '2':
-                        value += 2 * getBase(index);
-                        break;
-                    case '3':
-                        value += 3 * getBase(index);
-                        break;
-                    case '4':
-                        value += 4 * getBase(index);
-                        break;
-                    case '5':
-                        value += 5 * getBase(index);
-                        break;
-                    case '6':
-                        value += 6 * getBase(index);
-                        break;
-                    case '7':
-                        value += 7 * getBase(index);
-                        break;
-                    case '8':
-                        value += 8 * getBase(index);
-                        break;
-                    case '9':
-                        value += 9 * getBase(index);
-                        break;
-                    case 'a':
-                    case 'A':
-                        value += 10 * getBase(index);
-                        break;
-                    case 'b':
-                    case 'B':
-                        value += 11 * getBase(index);
-                        break;
-                    case 'c':
-                    case 'C':
-                        value += 12 * getBase(index);
-                        break;
-                    case 'd':
-                    case 'D':
-                        value += 13 * getBase(index);
-                        break;
-                    case 'e':
-                    case 'E':
-                        value += 14 * getBase(index);
-                        break;
-                    case 'f':
-                    case 'F':
-                        value += 15 * getBase(index);
-                        break;
-                    default:
-                        throw new NumberFormatException("Invalid numerical format");
+                for (int i = 0; i < chbrs.length; i++) {
+                    int index = chbrs.length - i - 1;
+                    switch (chbrs[i]) {
+                    cbse '0':
+                        vblue += 0;
+                        brebk;
+                    cbse '1':
+                        vblue += 1 * getBbse(index);
+                        brebk;
+                    cbse '2':
+                        vblue += 2 * getBbse(index);
+                        brebk;
+                    cbse '3':
+                        vblue += 3 * getBbse(index);
+                        brebk;
+                    cbse '4':
+                        vblue += 4 * getBbse(index);
+                        brebk;
+                    cbse '5':
+                        vblue += 5 * getBbse(index);
+                        brebk;
+                    cbse '6':
+                        vblue += 6 * getBbse(index);
+                        brebk;
+                    cbse '7':
+                        vblue += 7 * getBbse(index);
+                        brebk;
+                    cbse '8':
+                        vblue += 8 * getBbse(index);
+                        brebk;
+                    cbse '9':
+                        vblue += 9 * getBbse(index);
+                        brebk;
+                    cbse 'b':
+                    cbse 'A':
+                        vblue += 10 * getBbse(index);
+                        brebk;
+                    cbse 'b':
+                    cbse 'B':
+                        vblue += 11 * getBbse(index);
+                        brebk;
+                    cbse 'c':
+                    cbse 'C':
+                        vblue += 12 * getBbse(index);
+                        brebk;
+                    cbse 'd':
+                    cbse 'D':
+                        vblue += 13 * getBbse(index);
+                        brebk;
+                    cbse 'e':
+                    cbse 'E':
+                        vblue += 14 * getBbse(index);
+                        brebk;
+                    cbse 'f':
+                    cbse 'F':
+                        vblue += 15 * getBbse(index);
+                        brebk;
+                    defbult:
+                        throw new NumberFormbtException("Invblid numericbl formbt");
                     }
                 }
             }
-            if (value < 0) {
-                throw new NumberFormatException("Data overflow.");
+            if (vblue < 0) {
+                throw new NumberFormbtException("Dbtb overflow.");
             }
         } else {
-            value = Integer.parseInt(input);
+            vblue = Integer.pbrseInt(input);
         }
-        return value;
+        return vblue;
     }
 
-    private int getBase(int i) {
+    privbte int getBbse(int i) {
         int result = 16;
         switch (i) {
-        case 0:
+        cbse 0:
             result = BASE16_0;
-            break;
-        case 1:
+            brebk;
+        cbse 1:
             result = BASE16_1;
-            break;
-        case 2:
+            brebk;
+        cbse 2:
             result = BASE16_2;
-            break;
-        case 3:
+            brebk;
+        cbse 3:
             result = BASE16_3;
-            break;
-        default:
+            brebk;
+        defbult:
             for (int j = 1; j < i; j++) {
                 result *= 16;
             }
@@ -459,60 +459,60 @@ public class Config {
     }
 
     /**
-     * Reads the lines of the configuration file. All include and includedir
-     * directives are resolved by calling this method recursively.
+     * Rebds the lines of the configurbtion file. All include bnd includedir
+     * directives bre resolved by cblling this method recursively.
      *
-     * @param file the krb5.conf file, must be absolute
-     * @param content the lines. Comment and empty lines are removed,
-     *                all lines trimmed, include and includedir
+     * @pbrbm file the krb5.conf file, must be bbsolute
+     * @pbrbm content the lines. Comment bnd empty lines bre removed,
+     *                bll lines trimmed, include bnd includedir
      *                directives resolved, unknown directives ignored
-     * @param dups a set of Paths to check for possible infinite loop
-     * @throws IOException if there is an I/O error
+     * @pbrbm dups b set of Pbths to check for possible infinite loop
+     * @throws IOException if there is bn I/O error
      */
-    private static Void readConfigFileLines(
-            Path file, List<String> content, Set<Path> dups)
+    privbte stbtic Void rebdConfigFileLines(
+            Pbth file, List<String> content, Set<Pbth> dups)
             throws IOException {
 
         if (DEBUG) {
-            System.out.println("Loading krb5 profile at " + file);
+            System.out.println("Lobding krb5 profile bt " + file);
         }
         if (!file.isAbsolute()) {
-            throw new IOException("Profile path not absolute");
+            throw new IOException("Profile pbth not bbsolute");
         }
 
-        if (!dups.add(file)) {
-            throw new IOException("Profile path included more than once");
+        if (!dups.bdd(file)) {
+            throw new IOException("Profile pbth included more thbn once");
         }
 
-        List<String> lines = Files.readAllLines(file);
+        List<String> lines = Files.rebdAllLines(file);
 
-        boolean inDirectives = true;
+        boolebn inDirectives = true;
         for (String line: lines) {
             line = line.trim();
-            if (line.isEmpty() || line.startsWith("#")) {
+            if (line.isEmpty() || line.stbrtsWith("#")) {
                 continue;
             }
             if (inDirectives) {
-                if (line.charAt(0) == '[') {
-                    inDirectives = false;
-                    content.add(line);
-                } else if (line.startsWith("includedir ")) {
-                    Path dir = Paths.get(
+                if (line.chbrAt(0) == '[') {
+                    inDirectives = fblse;
+                    content.bdd(line);
+                } else if (line.stbrtsWith("includedir ")) {
+                    Pbth dir = Pbths.get(
                             line.substring("includedir ".length()).trim());
-                    try (DirectoryStream<Path> files =
-                                 Files.newDirectoryStream(dir)) {
-                        for (Path p: files) {
+                    try (DirectoryStrebm<Pbth> files =
+                                 Files.newDirectoryStrebm(dir)) {
+                        for (Pbth p: files) {
                             if (Files.isDirectory(p)) continue;
-                            String name = p.getFileName().toString();
-                            if (name.matches("[a-zA-Z0-9_-]+")) {
-                                // if dir is absolute, so is p
-                                readConfigFileLines(p, content, dups);
+                            String nbme = p.getFileNbme().toString();
+                            if (nbme.mbtches("[b-zA-Z0-9_-]+")) {
+                                // if dir is bbsolute, so is p
+                                rebdConfigFileLines(p, content, dups);
                             }
                         }
                     }
-                } else if (line.startsWith("include ")) {
-                    readConfigFileLines(
-                            Paths.get(line.substring("include ".length()).trim()),
+                } else if (line.stbrtsWith("include ")) {
+                    rebdConfigFileLines(
+                            Pbths.get(line.substring("include ".length()).trim()),
                             content, dups);
                 } else {
                     // Unsupported directives
@@ -521,317 +521,317 @@ public class Config {
                     }
                 }
             } else {
-                content.add(line);
+                content.bdd(line);
             }
         }
         return null;
     }
 
     /**
-     * Reads the configuration file and return normalized lines.
-     * If the original file is:
+     * Rebds the configurbtion file bnd return normblized lines.
+     * If the originbl file is:
      *
-     *     [realms]
+     *     [reblms]
      *     EXAMPLE.COM =
      *     {
-     *         kdc = kerberos.example.com
+     *         kdc = kerberos.exbmple.com
      *         ...
      *     }
      *     ...
      *
-     * The result will be (no indentations):
+     * The result will be (no indentbtions):
      *
      *     {
-     *         realms = {
+     *         reblms = {
      *             EXAMPLE.COM = {
-     *                 kdc = kerberos.example.com
+     *                 kdc = kerberos.exbmple.com
      *                 ...
      *             }
      *         }
      *         ...
      *     }
      *
-     * @param fileName the configuration file
-     * @return normalized lines
+     * @pbrbm fileNbme the configurbtion file
+     * @return normblized lines
      */
-    private List<String> loadConfigFile(final String fileName)
+    privbte List<String> lobdConfigFile(finbl String fileNbme)
             throws IOException, KrbException {
 
-        List<String> result = new ArrayList<>();
-        List<String> raw = new ArrayList<>();
-        Set<Path> dupsCheck = new HashSet<>();
+        List<String> result = new ArrbyList<>();
+        List<String> rbw = new ArrbyList<>();
+        Set<Pbth> dupsCheck = new HbshSet<>();
 
         try {
-            Path fullp = AccessController.doPrivileged((PrivilegedAction<Path>)
-                        () -> Paths.get(fileName).toAbsolutePath(),
+            Pbth fullp = AccessController.doPrivileged((PrivilegedAction<Pbth>)
+                        () -> Pbths.get(fileNbme).toAbsolutePbth(),
                     null,
-                    new PropertyPermission("user.dir", "read"));
+                    new PropertyPermission("user.dir", "rebd"));
             AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Void>() {
                         @Override
                         public Void run() throws IOException {
-                            Path path = Paths.get(fileName);
-                            if (!Files.exists(path)) {
-                                // This is OK. There are other ways to get
+                            Pbth pbth = Pbths.get(fileNbme);
+                            if (!Files.exists(pbth)) {
+                                // This is OK. There bre other wbys to get
                                 // Kerberos 5 settings
                                 return null;
                             } else {
-                                return readConfigFileLines(
-                                        fullp, raw, dupsCheck);
+                                return rebdConfigFileLines(
+                                        fullp, rbw, dupsCheck);
                             }
                         }
                     },
                     null,
-                    // include/includedir can go anywhere
-                    new FilePermission("<<ALL FILES>>", "read"));
-        } catch (java.security.PrivilegedActionException pe) {
+                    // include/includedir cbn go bnywhere
+                    new FilePermission("<<ALL FILES>>", "rebd"));
+        } cbtch (jbvb.security.PrivilegedActionException pe) {
             throw (IOException)pe.getException();
         }
         String previous = null;
-        for (String line: raw) {
-            if (line.startsWith("[")) {
+        for (String line: rbw) {
+            if (line.stbrtsWith("[")) {
                 if (!line.endsWith("]")) {
-                    throw new KrbException("Illegal config content:"
+                    throw new KrbException("Illegbl config content:"
                             + line);
                 }
                 if (previous != null) {
-                    result.add(previous);
-                    result.add("}");
+                    result.bdd(previous);
+                    result.bdd("}");
                 }
                 String title = line.substring(
                         1, line.length()-1).trim();
                 if (title.isEmpty()) {
-                    throw new KrbException("Illegal config content:"
+                    throw new KrbException("Illegbl config content:"
                             + line);
                 }
                 previous = title + " = {";
-            } else if (line.startsWith("{")) {
+            } else if (line.stbrtsWith("{")) {
                 if (previous == null) {
                     throw new KrbException(
-                        "Config file should not start with \"{\"");
+                        "Config file should not stbrt with \"{\"");
                 }
                 previous += " {";
                 if (line.length() > 1) {
-                    // { and content on the same line
-                    result.add(previous);
+                    // { bnd content on the sbme line
+                    result.bdd(previous);
                     previous = line.substring(1).trim();
                 }
             } else {
                 if (previous == null) {
-                    // This won't happen, because before a section
-                    // all directives have been resolved
+                    // This won't hbppen, becbuse before b section
+                    // bll directives hbve been resolved
                     throw new KrbException(
-                        "Config file must starts with a section");
+                        "Config file must stbrts with b section");
                 }
-                result.add(previous);
+                result.bdd(previous);
                 previous = line;
             }
         }
         if (previous != null) {
-            result.add(previous);
-            result.add("}");
+            result.bdd(previous);
+            result.bdd("}");
         }
         return result;
     }
 
     /**
-     * Parses the input lines to a hashtable. The key would be section names
-     * (libdefaults, realms, domain_realms, etc), and the value would be
-     * another hashtable which contains the key-value pairs inside the section.
-     * The value of this sub-hashtable can be another hashtable containing
-     * another sub-sub-section or a non-empty vector of strings for final values
-     * (even if there is only one value defined).
+     * Pbrses the input lines to b hbshtbble. The key would be section nbmes
+     * (libdefbults, reblms, dombin_reblms, etc), bnd the vblue would be
+     * bnother hbshtbble which contbins the key-vblue pbirs inside the section.
+     * The vblue of this sub-hbshtbble cbn be bnother hbshtbble contbining
+     * bnother sub-sub-section or b non-empty vector of strings for finbl vblues
+     * (even if there is only one vblue defined).
      * <p>
-     * For top-level sections with duplicates names, their contents are merged.
-     * For sub-sections the former overwrites the latter. For final values,
-     * they are stored in a vector in their appearing order. Please note these
-     * values must appear in the same sub-section. Otherwise, the sub-section
-     * appears first should have already overridden the others.
+     * For top-level sections with duplicbtes nbmes, their contents bre merged.
+     * For sub-sections the former overwrites the lbtter. For finbl vblues,
+     * they bre stored in b vector in their bppebring order. Plebse note these
+     * vblues must bppebr in the sbme sub-section. Otherwise, the sub-section
+     * bppebrs first should hbve blrebdy overridden the others.
      * <p>
-     * As a corner case, if the same name is used as both a section name and a
-     * value name, the first appearance decides the type. That is to say, if the
-     * first one is for a section, all latter appearances are ignored. If it's
-     * a value, latter appearances as sections are ignored, but those as values
-     * are added to the vector.
+     * As b corner cbse, if the sbme nbme is used bs both b section nbme bnd b
+     * vblue nbme, the first bppebrbnce decides the type. Thbt is to sby, if the
+     * first one is for b section, bll lbtter bppebrbnces bre ignored. If it's
+     * b vblue, lbtter bppebrbnces bs sections bre ignored, but those bs vblues
+     * bre bdded to the vector.
      * <p>
-     * The behavior described above is compatible to other krb5 implementations
-     * but it's not decumented publicly anywhere. the best practice is not to
-     * assume any kind of override functionality and only specify values for
-     * a particular key in one place.
+     * The behbvior described bbove is compbtible to other krb5 implementbtions
+     * but it's not decumented publicly bnywhere. the best prbctice is not to
+     * bssume bny kind of override functionblity bnd only specify vblues for
+     * b pbrticulbr key in one plbce.
      *
-     * @param v the normalized input as return by loadConfigFile
-     * @throws KrbException if there is a file format error
+     * @pbrbm v the normblized input bs return by lobdConfigFile
+     * @throws KrbException if there is b file formbt error
      */
-    @SuppressWarnings("unchecked")
-    private Hashtable<String,Object> parseStanzaTable(List<String> v)
+    @SuppressWbrnings("unchecked")
+    privbte Hbshtbble<String,Object> pbrseStbnzbTbble(List<String> v)
             throws KrbException {
-        Hashtable<String,Object> current = stanzaTable;
+        Hbshtbble<String,Object> current = stbnzbTbble;
         for (String line: v) {
-            // There are only 3 kinds of lines
-            // 1. a = b
-            // 2. a = {
+            // There bre only 3 kinds of lines
+            // 1. b = b
+            // 2. b = {
             // 3. }
-            if (line.equals("}")) {
-                // Go back to parent, see below
-                current = (Hashtable<String,Object>)current.remove(" PARENT ");
+            if (line.equbls("}")) {
+                // Go bbck to pbrent, see below
+                current = (Hbshtbble<String,Object>)current.remove(" PARENT ");
                 if (current == null) {
-                    throw new KrbException("Unmatched close brace");
+                    throw new KrbException("Unmbtched close brbce");
                 }
             } else {
                 int pos = line.indexOf('=');
                 if (pos < 0) {
-                    throw new KrbException("Illegal config content:" + line);
+                    throw new KrbException("Illegbl config content:" + line);
                 }
                 String key = line.substring(0, pos).trim();
-                String value = unquote(line.substring(pos + 1));
-                if (value.equals("{")) {
-                    Hashtable<String,Object> subTable;
-                    if (current == stanzaTable) {
-                        key = key.toLowerCase(Locale.US);
+                String vblue = unquote(line.substring(pos + 1));
+                if (vblue.equbls("{")) {
+                    Hbshtbble<String,Object> subTbble;
+                    if (current == stbnzbTbble) {
+                        key = key.toLowerCbse(Locble.US);
                     }
-                    // When there are dup names for sections
-                    if (current.containsKey(key)) {
-                        if (current == stanzaTable) {   // top-level, merge
-                            // The value at top-level must be another Hashtable
-                            subTable = (Hashtable<String,Object>)current.get(key);
+                    // When there bre dup nbmes for sections
+                    if (current.contbinsKey(key)) {
+                        if (current == stbnzbTbble) {   // top-level, merge
+                            // The vblue bt top-level must be bnother Hbshtbble
+                            subTbble = (Hbshtbble<String,Object>)current.get(key);
                         } else {                        // otherwise, ignored
-                            // read and ignore it (do not put into current)
-                            subTable = new Hashtable<>();
+                            // rebd bnd ignore it (do not put into current)
+                            subTbble = new Hbshtbble<>();
                         }
                     } else {
-                        subTable = new Hashtable<>();
-                        current.put(key, subTable);
+                        subTbble = new Hbshtbble<>();
+                        current.put(key, subTbble);
                     }
-                    // A special entry for its parent. Put whitespaces around,
-                    // so will never be confused with a normal key
-                    subTable.put(" PARENT ", current);
-                    current = subTable;
+                    // A specibl entry for its pbrent. Put whitespbces bround,
+                    // so will never be confused with b normbl key
+                    subTbble.put(" PARENT ", current);
+                    current = subTbble;
                 } else {
-                    Vector<String> values;
-                    if (current.containsKey(key)) {
+                    Vector<String> vblues;
+                    if (current.contbinsKey(key)) {
                         Object obj = current.get(key);
-                        if (obj instanceof Vector) {
-                            // String values are merged
-                            values = (Vector<String>)obj;
-                            values.add(value);
+                        if (obj instbnceof Vector) {
+                            // String vblues bre merged
+                            vblues = (Vector<String>)obj;
+                            vblues.bdd(vblue);
                         } else {
-                            // If a key shows as section first and then a value,
-                            // ignore the value.
+                            // If b key shows bs section first bnd then b vblue,
+                            // ignore the vblue.
                         }
                     } else {
-                        values = new Vector<String>();
-                        values.add(value);
-                        current.put(key, values);
+                        vblues = new Vector<String>();
+                        vblues.bdd(vblue);
+                        current.put(key, vblues);
                     }
                 }
             }
         }
-        if (current != stanzaTable) {
+        if (current != stbnzbTbble) {
             throw new KrbException("Not closed");
         }
         return current;
     }
 
     /**
-     * Gets the default Java configuration file name.
+     * Gets the defbult Jbvb configurbtion file nbme.
      *
-     * If the system property "java.security.krb5.conf" is defined, we'll
-     * use its value, no matter if the file exists or not. Otherwise, we
-     * will look at $JAVA_HOME/lib/security directory with "krb5.conf" name,
-     * and return it if the file exists.
+     * If the system property "jbvb.security.krb5.conf" is defined, we'll
+     * use its vblue, no mbtter if the file exists or not. Otherwise, we
+     * will look bt $JAVA_HOME/lib/security directory with "krb5.conf" nbme,
+     * bnd return it if the file exists.
      *
-     * The method returns null if it cannot find a Java config file.
+     * The method returns null if it cbnnot find b Jbvb config file.
      */
-    private String getJavaFileName() {
-        String name = getProperty("java.security.krb5.conf");
-        if (name == null) {
-            name = getProperty("java.home") + File.separator +
-                                "lib" + File.separator + "security" +
-                                File.separator + "krb5.conf";
-            if (!fileExists(name)) {
-                name = null;
+    privbte String getJbvbFileNbme() {
+        String nbme = getProperty("jbvb.security.krb5.conf");
+        if (nbme == null) {
+            nbme = getProperty("jbvb.home") + File.sepbrbtor +
+                                "lib" + File.sepbrbtor + "security" +
+                                File.sepbrbtor + "krb5.conf";
+            if (!fileExists(nbme)) {
+                nbme = null;
             }
         }
         if (DEBUG) {
-            System.out.println("Java config name: " + name);
+            System.out.println("Jbvb config nbme: " + nbme);
         }
-        return name;
+        return nbme;
     }
 
     /**
-     * Gets the default native configuration file name.
+     * Gets the defbult nbtive configurbtion file nbme.
      *
-     * Depending on the OS type, the method returns the default native
-     * kerberos config file name, which is at windows directory with
-     * the name of "krb5.ini" for Windows, /etc/krb5/krb5.conf for Solaris,
-     * /etc/krb5.conf otherwise. Mac OSX X has a different file name.
+     * Depending on the OS type, the method returns the defbult nbtive
+     * kerberos config file nbme, which is bt windows directory with
+     * the nbme of "krb5.ini" for Windows, /etc/krb5/krb5.conf for Solbris,
+     * /etc/krb5.conf otherwise. Mbc OSX X hbs b different file nbme.
      *
-     * Note: When the Terminal Service is started in Windows (from 2003),
-     * there are two kinds of Windows directories: A system one (say,
-     * C:\Windows), and a user-private one (say, C:\Users\Me\Windows).
-     * We will first look for krb5.ini in the user-private one. If not
-     * found, try the system one instead.
+     * Note: When the Terminbl Service is stbrted in Windows (from 2003),
+     * there bre two kinds of Windows directories: A system one (sby,
+     * C:\Windows), bnd b user-privbte one (sby, C:\Users\Me\Windows).
+     * We will first look for krb5.ini in the user-privbte one. If not
+     * found, try the system one instebd.
      *
-     * This method will always return a non-null non-empty file name,
-     * even if that file does not exist.
+     * This method will blwbys return b non-null non-empty file nbme,
+     * even if thbt file does not exist.
      */
-    private String getNativeFileName() {
-        String name = null;
-        String osname = getProperty("os.name");
-        if (osname.startsWith("Windows")) {
+    privbte String getNbtiveFileNbme() {
+        String nbme = null;
+        String osnbme = getProperty("os.nbme");
+        if (osnbme.stbrtsWith("Windows")) {
             try {
-                Credentials.ensureLoaded();
-            } catch (Exception e) {
+                Credentibls.ensureLobded();
+            } cbtch (Exception e) {
                 // ignore exceptions
             }
-            if (Credentials.alreadyLoaded) {
-                String path = getWindowsDirectory(false);
-                if (path != null) {
-                    if (path.endsWith("\\")) {
-                        path = path + "krb5.ini";
+            if (Credentibls.blrebdyLobded) {
+                String pbth = getWindowsDirectory(fblse);
+                if (pbth != null) {
+                    if (pbth.endsWith("\\")) {
+                        pbth = pbth + "krb5.ini";
                     } else {
-                        path = path + "\\krb5.ini";
+                        pbth = pbth + "\\krb5.ini";
                     }
-                    if (fileExists(path)) {
-                        name = path;
+                    if (fileExists(pbth)) {
+                        nbme = pbth;
                     }
                 }
-                if (name == null) {
-                    path = getWindowsDirectory(true);
-                    if (path != null) {
-                        if (path.endsWith("\\")) {
-                            path = path + "krb5.ini";
+                if (nbme == null) {
+                    pbth = getWindowsDirectory(true);
+                    if (pbth != null) {
+                        if (pbth.endsWith("\\")) {
+                            pbth = pbth + "krb5.ini";
                         } else {
-                            path = path + "\\krb5.ini";
+                            pbth = pbth + "\\krb5.ini";
                         }
-                        name = path;
+                        nbme = pbth;
                     }
                 }
             }
-            if (name == null) {
-                name = "c:\\winnt\\krb5.ini";
+            if (nbme == null) {
+                nbme = "c:\\winnt\\krb5.ini";
             }
-        } else if (osname.startsWith("SunOS")) {
-            name =  "/etc/krb5/krb5.conf";
-        } else if (osname.contains("OS X")) {
-            name = findMacosConfigFile();
+        } else if (osnbme.stbrtsWith("SunOS")) {
+            nbme =  "/etc/krb5/krb5.conf";
+        } else if (osnbme.contbins("OS X")) {
+            nbme = findMbcosConfigFile();
         } else {
-            name =  "/etc/krb5.conf";
+            nbme =  "/etc/krb5.conf";
         }
         if (DEBUG) {
-            System.out.println("Native config name: " + name);
+            System.out.println("Nbtive config nbme: " + nbme);
         }
-        return name;
+        return nbme;
     }
 
-    private static String getProperty(String property) {
-        return java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(property));
+    privbte stbtic String getProperty(String property) {
+        return jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction(property));
     }
 
-    private String findMacosConfigFile() {
+    privbte String findMbcosConfigFile() {
         String userHome = getProperty("user.home");
-        final String PREF_FILE = "/Library/Preferences/edu.mit.Kerberos";
+        finbl String PREF_FILE = "/Librbry/Preferences/edu.mit.Kerberos";
         String userPrefs = userHome + PREF_FILE;
 
         if (fileExists(userPrefs)) {
@@ -845,63 +845,63 @@ public class Config {
         return "/etc/krb5.conf";
     }
 
-    private static String unquote(String s) {
+    privbte stbtic String unquote(String s) {
         s = s.trim();
         if (s.isEmpty()) return s;
-        if (s.charAt(0) == '"' && s.charAt(s.length()-1) == '"' ||
-                s.charAt(0) == '\'' && s.charAt(s.length()-1) == '\'') {
+        if (s.chbrAt(0) == '"' && s.chbrAt(s.length()-1) == '"' ||
+                s.chbrAt(0) == '\'' && s.chbrAt(s.length()-1) == '\'') {
             s = s.substring(1, s.length()-1).trim();
         }
         return s;
     }
 
     /**
-     * For testing purpose. This method lists all information being parsed from
-     * the configuration file to the hashtable.
+     * For testing purpose. This method lists bll informbtion being pbrsed from
+     * the configurbtion file to the hbshtbble.
      */
-    public void listTable() {
+    public void listTbble() {
         System.out.println(this);
     }
 
     /**
-     * Returns all etypes specified in krb5.conf for the given configName,
-     * or all the builtin defaults. This result is always non-empty.
-     * If no etypes are found, an exception is thrown.
+     * Returns bll etypes specified in krb5.conf for the given configNbme,
+     * or bll the builtin defbults. This result is blwbys non-empty.
+     * If no etypes bre found, bn exception is thrown.
      */
-    public int[] defaultEtype(String configName) throws KrbException {
-        String default_enctypes;
-        default_enctypes = get("libdefaults", configName);
+    public int[] defbultEtype(String configNbme) throws KrbException {
+        String defbult_enctypes;
+        defbult_enctypes = get("libdefbults", configNbme);
         int[] etype;
-        if (default_enctypes == null) {
+        if (defbult_enctypes == null) {
             if (DEBUG) {
-                System.out.println("Using builtin default etypes for " +
-                    configName);
+                System.out.println("Using builtin defbult etypes for " +
+                    configNbme);
             }
-            etype = EType.getBuiltInDefaults();
+            etype = EType.getBuiltInDefbults();
         } else {
             String delim = " ";
             StringTokenizer st;
-            for (int j = 0; j < default_enctypes.length(); j++) {
-                if (default_enctypes.substring(j, j + 1).equals(",")) {
-                    // only two delimiters are allowed to use
-                    // according to Kerberos DCE doc.
+            for (int j = 0; j < defbult_enctypes.length(); j++) {
+                if (defbult_enctypes.substring(j, j + 1).equbls(",")) {
+                    // only two delimiters bre bllowed to use
+                    // bccording to Kerberos DCE doc.
                     delim = ",";
-                    break;
+                    brebk;
                 }
             }
-            st = new StringTokenizer(default_enctypes, delim);
+            st = new StringTokenizer(defbult_enctypes, delim);
             int len = st.countTokens();
-            ArrayList<Integer> ls = new ArrayList<>(len);
+            ArrbyList<Integer> ls = new ArrbyList<>(len);
             int type;
             for (int i = 0; i < len; i++) {
                 type = Config.getType(st.nextToken());
                 if (type != -1 && EType.isSupported(type)) {
-                    ls.add(type);
+                    ls.bdd(type);
                 }
             }
             if (ls.isEmpty()) {
-                throw new KrbException("no supported default etypes for "
-                        + configName);
+                throw new KrbException("no supported defbult etypes for "
+                        + configNbme);
             } else {
                 etype = new int[ls.size()];
                 for (int i = 0; i < etype.length; i++) {
@@ -911,7 +911,7 @@ public class Config {
         }
 
         if (DEBUG) {
-            System.out.print("default etypes for " + configName + ":");
+            System.out.print("defbult etypes for " + configNbme + ":");
             for (int i = 0; i < etype.length; i++) {
                 System.out.print(" " + etype[i]);
             }
@@ -922,202 +922,202 @@ public class Config {
 
 
     /**
-     * Get the etype and checksum value for the specified encryption and
+     * Get the etype bnd checksum vblue for the specified encryption bnd
      * checksum type.
      *
      */
     /*
-     * This method converts the string representation of encryption type and
-     * checksum type to int value that can be later used by EType and
-     * Checksum classes.
+     * This method converts the string representbtion of encryption type bnd
+     * checksum type to int vblue thbt cbn be lbter used by EType bnd
+     * Checksum clbsses.
      */
-    public static int getType(String input) {
+    public stbtic int getType(String input) {
         int result = -1;
         if (input == null) {
             return result;
         }
-        if (input.startsWith("d") || (input.startsWith("D"))) {
-            if (input.equalsIgnoreCase("des-cbc-crc")) {
-                result = EncryptedData.ETYPE_DES_CBC_CRC;
-            } else if (input.equalsIgnoreCase("des-cbc-md5")) {
-                result = EncryptedData.ETYPE_DES_CBC_MD5;
-            } else if (input.equalsIgnoreCase("des-mac")) {
+        if (input.stbrtsWith("d") || (input.stbrtsWith("D"))) {
+            if (input.equblsIgnoreCbse("des-cbc-crc")) {
+                result = EncryptedDbtb.ETYPE_DES_CBC_CRC;
+            } else if (input.equblsIgnoreCbse("des-cbc-md5")) {
+                result = EncryptedDbtb.ETYPE_DES_CBC_MD5;
+            } else if (input.equblsIgnoreCbse("des-mbc")) {
                 result = Checksum.CKSUMTYPE_DES_MAC;
-            } else if (input.equalsIgnoreCase("des-mac-k")) {
+            } else if (input.equblsIgnoreCbse("des-mbc-k")) {
                 result = Checksum.CKSUMTYPE_DES_MAC_K;
-            } else if (input.equalsIgnoreCase("des-cbc-md4")) {
-                result = EncryptedData.ETYPE_DES_CBC_MD4;
-            } else if (input.equalsIgnoreCase("des3-cbc-sha1") ||
-                input.equalsIgnoreCase("des3-hmac-sha1") ||
-                input.equalsIgnoreCase("des3-cbc-sha1-kd") ||
-                input.equalsIgnoreCase("des3-cbc-hmac-sha1-kd")) {
-                result = EncryptedData.ETYPE_DES3_CBC_HMAC_SHA1_KD;
+            } else if (input.equblsIgnoreCbse("des-cbc-md4")) {
+                result = EncryptedDbtb.ETYPE_DES_CBC_MD4;
+            } else if (input.equblsIgnoreCbse("des3-cbc-shb1") ||
+                input.equblsIgnoreCbse("des3-hmbc-shb1") ||
+                input.equblsIgnoreCbse("des3-cbc-shb1-kd") ||
+                input.equblsIgnoreCbse("des3-cbc-hmbc-shb1-kd")) {
+                result = EncryptedDbtb.ETYPE_DES3_CBC_HMAC_SHA1_KD;
             }
-        } else if (input.startsWith("a") || (input.startsWith("A"))) {
+        } else if (input.stbrtsWith("b") || (input.stbrtsWith("A"))) {
             // AES
-            if (input.equalsIgnoreCase("aes128-cts") ||
-                input.equalsIgnoreCase("aes128-cts-hmac-sha1-96")) {
-                result = EncryptedData.ETYPE_AES128_CTS_HMAC_SHA1_96;
-            } else if (input.equalsIgnoreCase("aes256-cts") ||
-                input.equalsIgnoreCase("aes256-cts-hmac-sha1-96")) {
-                result = EncryptedData.ETYPE_AES256_CTS_HMAC_SHA1_96;
+            if (input.equblsIgnoreCbse("bes128-cts") ||
+                input.equblsIgnoreCbse("bes128-cts-hmbc-shb1-96")) {
+                result = EncryptedDbtb.ETYPE_AES128_CTS_HMAC_SHA1_96;
+            } else if (input.equblsIgnoreCbse("bes256-cts") ||
+                input.equblsIgnoreCbse("bes256-cts-hmbc-shb1-96")) {
+                result = EncryptedDbtb.ETYPE_AES256_CTS_HMAC_SHA1_96;
             // ARCFOUR-HMAC
-            } else if (input.equalsIgnoreCase("arcfour-hmac") ||
-                   input.equalsIgnoreCase("arcfour-hmac-md5")) {
-                result = EncryptedData.ETYPE_ARCFOUR_HMAC;
+            } else if (input.equblsIgnoreCbse("brcfour-hmbc") ||
+                   input.equblsIgnoreCbse("brcfour-hmbc-md5")) {
+                result = EncryptedDbtb.ETYPE_ARCFOUR_HMAC;
             }
         // RC4-HMAC
-        } else if (input.equalsIgnoreCase("rc4-hmac")) {
-            result = EncryptedData.ETYPE_ARCFOUR_HMAC;
-        } else if (input.equalsIgnoreCase("CRC32")) {
+        } else if (input.equblsIgnoreCbse("rc4-hmbc")) {
+            result = EncryptedDbtb.ETYPE_ARCFOUR_HMAC;
+        } else if (input.equblsIgnoreCbse("CRC32")) {
             result = Checksum.CKSUMTYPE_CRC32;
-        } else if (input.startsWith("r") || (input.startsWith("R"))) {
-            if (input.equalsIgnoreCase("rsa-md5")) {
+        } else if (input.stbrtsWith("r") || (input.stbrtsWith("R"))) {
+            if (input.equblsIgnoreCbse("rsb-md5")) {
                 result = Checksum.CKSUMTYPE_RSA_MD5;
-            } else if (input.equalsIgnoreCase("rsa-md5-des")) {
+            } else if (input.equblsIgnoreCbse("rsb-md5-des")) {
                 result = Checksum.CKSUMTYPE_RSA_MD5_DES;
             }
-        } else if (input.equalsIgnoreCase("hmac-sha1-des3-kd")) {
+        } else if (input.equblsIgnoreCbse("hmbc-shb1-des3-kd")) {
             result = Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD;
-        } else if (input.equalsIgnoreCase("hmac-sha1-96-aes128")) {
+        } else if (input.equblsIgnoreCbse("hmbc-shb1-96-bes128")) {
             result = Checksum.CKSUMTYPE_HMAC_SHA1_96_AES128;
-        } else if (input.equalsIgnoreCase("hmac-sha1-96-aes256")) {
+        } else if (input.equblsIgnoreCbse("hmbc-shb1-96-bes256")) {
             result = Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256;
-        } else if (input.equalsIgnoreCase("hmac-md5-rc4") ||
-                input.equalsIgnoreCase("hmac-md5-arcfour") ||
-                input.equalsIgnoreCase("hmac-md5-enc")) {
+        } else if (input.equblsIgnoreCbse("hmbc-md5-rc4") ||
+                input.equblsIgnoreCbse("hmbc-md5-brcfour") ||
+                input.equblsIgnoreCbse("hmbc-md5-enc")) {
             result = Checksum.CKSUMTYPE_HMAC_MD5_ARCFOUR;
-        } else if (input.equalsIgnoreCase("NULL")) {
-            result = EncryptedData.ETYPE_NULL;
+        } else if (input.equblsIgnoreCbse("NULL")) {
+            result = EncryptedDbtb.ETYPE_NULL;
         }
 
         return result;
     }
 
     /**
-     * Resets the default kdc realm.
-     * We do not need to synchronize these methods since assignments are atomic
+     * Resets the defbult kdc reblm.
+     * We do not need to synchronize these methods since bssignments bre btomic
      *
-     * This method was useless. Kept here in case some class still calls it.
+     * This method wbs useless. Kept here in cbse some clbss still cblls it.
      */
-    public void resetDefaultRealm(String realm) {
+    public void resetDefbultReblm(String reblm) {
         if (DEBUG) {
-            System.out.println(">>> Config try resetting default kdc " + realm);
+            System.out.println(">>> Config try resetting defbult kdc " + reblm);
         }
     }
 
     /**
-     * Check to use addresses in tickets
-     * use addresses if "no_addresses" or "noaddresses" is set to false
+     * Check to use bddresses in tickets
+     * use bddresses if "no_bddresses" or "nobddresses" is set to fblse
      */
-    public boolean useAddresses() {
-        return getBooleanObject("libdefaults", "no_addresses") == Boolean.FALSE ||
-                getBooleanObject("libdefaults", "noaddresses") == Boolean.FALSE;
+    public boolebn useAddresses() {
+        return getBoolebnObject("libdefbults", "no_bddresses") == Boolebn.FALSE ||
+                getBoolebnObject("libdefbults", "nobddresses") == Boolebn.FALSE;
     }
 
     /**
-     * Check if need to use DNS to locate Kerberos services for name. If not
-     * defined, check dns_fallback, whose default value is true.
+     * Check if need to use DNS to locbte Kerberos services for nbme. If not
+     * defined, check dns_fbllbbck, whose defbult vblue is true.
      */
-    private boolean useDNS(String name) {
-        Boolean value = getBooleanObject("libdefaults", name);
-        if (value != null) {
-            return value.booleanValue();
+    privbte boolebn useDNS(String nbme) {
+        Boolebn vblue = getBoolebnObject("libdefbults", nbme);
+        if (vblue != null) {
+            return vblue.boolebnVblue();
         } else {
-            return getBooleanObject("libdefaults", "dns_fallback") != Boolean.FALSE;
+            return getBoolebnObject("libdefbults", "dns_fbllbbck") != Boolebn.FALSE;
         }
     }
 
     /**
-     * Check if need to use DNS to locate the KDC
+     * Check if need to use DNS to locbte the KDC
      */
-    private boolean useDNS_KDC() {
+    privbte boolebn useDNS_KDC() {
         return useDNS("dns_lookup_kdc");
     }
 
     /*
-     * Check if need to use DNS to locate the Realm
+     * Check if need to use DNS to locbte the Reblm
      */
-    private boolean useDNS_Realm() {
-        return useDNS("dns_lookup_realm");
+    privbte boolebn useDNS_Reblm() {
+        return useDNS("dns_lookup_reblm");
     }
 
     /**
-     * Gets default realm.
-     * @throws KrbException where no realm can be located
-     * @return the default realm, always non null
+     * Gets defbult reblm.
+     * @throws KrbException where no reblm cbn be locbted
+     * @return the defbult reblm, blwbys non null
      */
-    public String getDefaultRealm() throws KrbException {
-        if (defaultRealm != null) {
-            return defaultRealm;
+    public String getDefbultReblm() throws KrbException {
+        if (defbultReblm != null) {
+            return defbultReblm;
         }
-        Exception cause = null;
-        String realm = get("libdefaults", "default_realm");
-        if ((realm == null) && useDNS_Realm()) {
-            // use DNS to locate Kerberos realm
+        Exception cbuse = null;
+        String reblm = get("libdefbults", "defbult_reblm");
+        if ((reblm == null) && useDNS_Reblm()) {
+            // use DNS to locbte Kerberos reblm
             try {
-                realm = getRealmFromDNS();
-            } catch (KrbException ke) {
-                cause = ke;
+                reblm = getReblmFromDNS();
+            } cbtch (KrbException ke) {
+                cbuse = ke;
             }
         }
-        if (realm == null) {
-            realm = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<String>() {
+        if (reblm == null) {
+            reblm = jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<String>() {
                 @Override
                 public String run() {
-                    String osname = System.getProperty("os.name");
-                    if (osname.startsWith("Windows")) {
+                    String osnbme = System.getProperty("os.nbme");
+                    if (osnbme.stbrtsWith("Windows")) {
                         return System.getenv("USERDNSDOMAIN");
                     }
                     return null;
                 }
             });
         }
-        if (realm == null) {
-            KrbException ke = new KrbException("Cannot locate default realm");
-            if (cause != null) {
-                ke.initCause(cause);
+        if (reblm == null) {
+            KrbException ke = new KrbException("Cbnnot locbte defbult reblm");
+            if (cbuse != null) {
+                ke.initCbuse(cbuse);
             }
             throw ke;
         }
-        return realm;
+        return reblm;
     }
 
     /**
-     * Returns a list of KDC's with each KDC separated by a space
+     * Returns b list of KDC's with ebch KDC sepbrbted by b spbce
      *
-     * @param realm the realm for which the KDC list is desired
-     * @throws KrbException if there's no way to find KDC for the realm
-     * @return the list of KDCs separated by a space, always non null
+     * @pbrbm reblm the reblm for which the KDC list is desired
+     * @throws KrbException if there's no wby to find KDC for the reblm
+     * @return the list of KDCs sepbrbted by b spbce, blwbys non null
      */
-    public String getKDCList(String realm) throws KrbException {
-        if (realm == null) {
-            realm = getDefaultRealm();
+    public String getKDCList(String reblm) throws KrbException {
+        if (reblm == null) {
+            reblm = getDefbultReblm();
         }
-        if (realm.equalsIgnoreCase(defaultRealm)) {
-            return defaultKDC;
+        if (reblm.equblsIgnoreCbse(defbultReblm)) {
+            return defbultKDC;
         }
-        Exception cause = null;
-        String kdcs = getAll("realms", realm, "kdc");
+        Exception cbuse = null;
+        String kdcs = getAll("reblms", reblm, "kdc");
         if ((kdcs == null) && useDNS_KDC()) {
-            // use DNS to locate KDC
+            // use DNS to locbte KDC
             try {
-                kdcs = getKDCFromDNS(realm);
-            } catch (KrbException ke) {
-                cause = ke;
+                kdcs = getKDCFromDNS(reblm);
+            } cbtch (KrbException ke) {
+                cbuse = ke;
             }
         }
         if (kdcs == null) {
-            kdcs = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<String>() {
+            kdcs = jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<String>() {
                 @Override
                 public String run() {
-                    String osname = System.getProperty("os.name");
-                    if (osname.startsWith("Windows")) {
+                    String osnbme = System.getProperty("os.nbme");
+                    if (osnbme.stbrtsWith("Windows")) {
                         String logonServer = System.getenv("LOGONSERVER");
                         if (logonServer != null
-                                && logonServer.startsWith("\\\\")) {
+                                && logonServer.stbrtsWith("\\\\")) {
                             logonServer = logonServer.substring(2);
                         }
                         return logonServer;
@@ -1127,12 +1127,12 @@ public class Config {
             });
         }
         if (kdcs == null) {
-            if (defaultKDC != null) {
-                return defaultKDC;
+            if (defbultKDC != null) {
+                return defbultKDC;
             }
-            KrbException ke = new KrbException("Cannot locate KDC");
-            if (cause != null) {
-                ke.initCause(cause);
+            KrbException ke = new KrbException("Cbnnot locbte KDC");
+            if (cbuse != null) {
+                ke.initCbuse(cbuse);
             }
             throw ke;
         }
@@ -1140,62 +1140,62 @@ public class Config {
     }
 
     /**
-     * Locate Kerberos realm using DNS
+     * Locbte Kerberos reblm using DNS
      *
-     * @return the Kerberos realm
+     * @return the Kerberos reblm
      */
-    private String getRealmFromDNS() throws KrbException {
-        // use DNS to locate Kerberos realm
-        String realm = null;
-        String hostName = null;
+    privbte String getReblmFromDNS() throws KrbException {
+        // use DNS to locbte Kerberos reblm
+        String reblm = null;
+        String hostNbme = null;
         try {
-            hostName = InetAddress.getLocalHost().getCanonicalHostName();
-        } catch (UnknownHostException e) {
+            hostNbme = InetAddress.getLocblHost().getCbnonicblHostNbme();
+        } cbtch (UnknownHostException e) {
             KrbException ke = new KrbException(Krb5.KRB_ERR_GENERIC,
-                "Unable to locate Kerberos realm: " + e.getMessage());
-            ke.initCause(e);
+                "Unbble to locbte Kerberos reblm: " + e.getMessbge());
+            ke.initCbuse(e);
             throw (ke);
         }
-        // get the domain realm mapping from the configuration
-        String mapRealm = PrincipalName.mapHostToRealm(hostName);
-        if (mapRealm == null) {
-            // No match. Try search and/or domain in /etc/resolv.conf
-            List<String> srchlist = ResolverConfiguration.open().searchlist();
-            for (String domain: srchlist) {
-                realm = checkRealm(domain);
-                if (realm != null) {
-                    break;
+        // get the dombin reblm mbpping from the configurbtion
+        String mbpReblm = PrincipblNbme.mbpHostToReblm(hostNbme);
+        if (mbpReblm == null) {
+            // No mbtch. Try sebrch bnd/or dombin in /etc/resolv.conf
+            List<String> srchlist = ResolverConfigurbtion.open().sebrchlist();
+            for (String dombin: srchlist) {
+                reblm = checkReblm(dombin);
+                if (reblm != null) {
+                    brebk;
                 }
             }
         } else {
-            realm = checkRealm(mapRealm);
+            reblm = checkReblm(mbpReblm);
         }
-        if (realm == null) {
+        if (reblm == null) {
             throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                                "Unable to locate Kerberos realm");
+                                "Unbble to locbte Kerberos reblm");
         }
-        return realm;
+        return reblm;
     }
 
     /**
-     * Check if the provided realm is the correct realm
-     * @return the realm if correct, or null otherwise
+     * Check if the provided reblm is the correct reblm
+     * @return the reblm if correct, or null otherwise
      */
-    private static String checkRealm(String mapRealm) {
+    privbte stbtic String checkReblm(String mbpReblm) {
         if (DEBUG) {
-            System.out.println("getRealmFromDNS: trying " + mapRealm);
+            System.out.println("getReblmFromDNS: trying " + mbpReblm);
         }
         String[] records = null;
-        String newRealm = mapRealm;
-        while ((records == null) && (newRealm != null)) {
-            // locate DNS TXT record
-            records = KrbServiceLocator.getKerberosService(newRealm);
-            newRealm = Realm.parseRealmComponent(newRealm);
-            // if no DNS TXT records found, try again using sub-realm
+        String newReblm = mbpReblm;
+        while ((records == null) && (newReblm != null)) {
+            // locbte DNS TXT record
+            records = KrbServiceLocbtor.getKerberosService(newReblm);
+            newReblm = Reblm.pbrseReblmComponent(newReblm);
+            // if no DNS TXT records found, try bgbin using sub-reblm
         }
         if (records != null) {
             for (int i = 0; i < records.length; i++) {
-                if (records[i].equalsIgnoreCase(mapRealm)) {
+                if (records[i].equblsIgnoreCbse(mbpReblm)) {
                     return records[i];
                 }
             }
@@ -1204,31 +1204,31 @@ public class Config {
     }
 
     /**
-     * Locate KDC using DNS
+     * Locbte KDC using DNS
      *
-     * @param realm the realm for which the master KDC is desired
+     * @pbrbm reblm the reblm for which the mbster KDC is desired
      * @return the KDC
      */
-    private String getKDCFromDNS(String realm) throws KrbException {
-        // use DNS to locate KDC
+    privbte String getKDCFromDNS(String reblm) throws KrbException {
+        // use DNS to locbte KDC
         String kdcs = "";
         String[] srvs = null;
-        // locate DNS SRV record using UDP
+        // locbte DNS SRV record using UDP
         if (DEBUG) {
             System.out.println("getKDCFromDNS using UDP");
         }
-        srvs = KrbServiceLocator.getKerberosService(realm, "_udp");
+        srvs = KrbServiceLocbtor.getKerberosService(reblm, "_udp");
         if (srvs == null) {
-            // locate DNS SRV record using TCP
+            // locbte DNS SRV record using TCP
             if (DEBUG) {
                 System.out.println("getKDCFromDNS using TCP");
             }
-            srvs = KrbServiceLocator.getKerberosService(realm, "_tcp");
+            srvs = KrbServiceLocbtor.getKerberosService(reblm, "_tcp");
         }
         if (srvs == null) {
             // no DNS SRV records
             throw new KrbException(Krb5.KRB_ERR_GENERIC,
-                "Unable to locate KDC for realm " + realm);
+                "Unbble to locbte KDC for reblm " + reblm);
         }
         if (srvs.length == 0) {
             return null;
@@ -1237,38 +1237,38 @@ public class Config {
             kdcs += srvs[i].trim() + " ";
         }
         kdcs = kdcs.trim();
-        if (kdcs.equals("")) {
+        if (kdcs.equbls("")) {
             return null;
         }
         return kdcs;
     }
 
-    private boolean fileExists(String name) {
-        return java.security.AccessController.doPrivileged(
-                                new FileExistsAction(name));
+    privbte boolebn fileExists(String nbme) {
+        return jbvb.security.AccessController.doPrivileged(
+                                new FileExistsAction(nbme));
     }
 
-    static class FileExistsAction
-        implements java.security.PrivilegedAction<Boolean> {
+    stbtic clbss FileExistsAction
+        implements jbvb.security.PrivilegedAction<Boolebn> {
 
-        private String fileName;
+        privbte String fileNbme;
 
-        public FileExistsAction(String fileName) {
-            this.fileName = fileName;
+        public FileExistsAction(String fileNbme) {
+            this.fileNbme = fileNbme;
         }
 
-        public Boolean run() {
-            return new File(fileName).exists();
+        public Boolebn run() {
+            return new File(fileNbme).exists();
         }
     }
 
     // Shows the content of the Config object for debug purpose.
     //
     // {
-    //      libdefaults = {
-    //          default_realm = R
+    //      libdefbults = {
+    //          defbult_reblm = R
     //      }
-    //      realms = {
+    //      reblms = {
     //          R = {
     //              kdc = [k1,k2]
     //          }
@@ -1278,36 +1278,36 @@ public class Config {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        toStringInternal("", stanzaTable, sb);
+        toStringInternbl("", stbnzbTbble, sb);
         return sb.toString();
     }
-    private static void toStringInternal(String prefix, Object obj,
+    privbte stbtic void toStringInternbl(String prefix, Object obj,
             StringBuffer sb) {
-        if (obj instanceof String) {
-            // A string value, just print it
-            sb.append(obj).append('\n');
-        } else if (obj instanceof Hashtable) {
-            // A table, start a new sub-section...
-            Hashtable<?, ?> tab = (Hashtable<?, ?>)obj;
-            sb.append("{\n");
-            for (Object o: tab.keySet()) {
-                // ...indent, print "key = ", and
-                sb.append(prefix).append("    ").append(o).append(" = ");
-                // ...go recursively into value
-                toStringInternal(prefix + "    ", tab.get(o), sb);
+        if (obj instbnceof String) {
+            // A string vblue, just print it
+            sb.bppend(obj).bppend('\n');
+        } else if (obj instbnceof Hbshtbble) {
+            // A tbble, stbrt b new sub-section...
+            Hbshtbble<?, ?> tbb = (Hbshtbble<?, ?>)obj;
+            sb.bppend("{\n");
+            for (Object o: tbb.keySet()) {
+                // ...indent, print "key = ", bnd
+                sb.bppend(prefix).bppend("    ").bppend(o).bppend(" = ");
+                // ...go recursively into vblue
+                toStringInternbl(prefix + "    ", tbb.get(o), sb);
             }
-            sb.append(prefix).append("}\n");
-        } else if (obj instanceof Vector) {
-            // A vector of strings, print them inside [ and ]
+            sb.bppend(prefix).bppend("}\n");
+        } else if (obj instbnceof Vector) {
+            // A vector of strings, print them inside [ bnd ]
             Vector<?> v = (Vector<?>)obj;
-            sb.append("[");
-            boolean first = true;
-            for (Object o: v.toArray()) {
-                if (!first) sb.append(",");
-                sb.append(o);
-                first = false;
+            sb.bppend("[");
+            boolebn first = true;
+            for (Object o: v.toArrby()) {
+                if (!first) sb.bppend(",");
+                sb.bppend(o);
+                first = fblse;
             }
-            sb.append("]\n");
+            sb.bppend("]\n");
         }
     }
 }

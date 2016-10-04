@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing;
+pbckbge sun.swing;
 
-import java.awt.Container;
-import java.awt.Insets;
-import javax.swing.*;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Insets;
+import jbvbx.swing.*;
+import jbvbx.swing.LbyoutStyle.ComponentPlbcement;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.UIResource;
 
 /**
- * An implementation of <code>LayoutStyle</code> that returns 6 for related
- * components, otherwise 12.  This class also provides helper methods for
- * subclasses.
+ * An implementbtion of <code>LbyoutStyle</code> thbt returns 6 for relbted
+ * components, otherwise 12.  This clbss blso provides helper methods for
+ * subclbsses.
  *
  */
-public class DefaultLayoutStyle extends LayoutStyle {
-    private static final DefaultLayoutStyle INSTANCE =
-            new DefaultLayoutStyle();
+public clbss DefbultLbyoutStyle extends LbyoutStyle {
+    privbte stbtic finbl DefbultLbyoutStyle INSTANCE =
+            new DefbultLbyoutStyle();
 
-    public static LayoutStyle getInstance() {
+    public stbtic LbyoutStyle getInstbnce() {
         return INSTANCE;
     }
 
     @Override
-    public int getPreferredGap(JComponent component1, JComponent component2,
-            ComponentPlacement type, int position, Container parent) {
+    public int getPreferredGbp(JComponent component1, JComponent component2,
+            ComponentPlbcement type, int position, Contbiner pbrent) {
         if (component1 == null || component2 == null || type == null) {
             throw new NullPointerException();
         }
 
         checkPosition(position);
 
-        if (type == ComponentPlacement.INDENT &&
-                (position == SwingConstants.EAST ||
-                 position == SwingConstants.WEST)) {
+        if (type == ComponentPlbcement.INDENT &&
+                (position == SwingConstbnts.EAST ||
+                 position == SwingConstbnts.WEST)) {
             int indent = getIndent(component1, position);
             if (indent > 0) {
                 return indent;
             }
         }
-        return (type == ComponentPlacement.UNRELATED) ? 12 : 6;
+        return (type == ComponentPlbcement.UNRELATED) ? 12 : 6;
     }
 
     @Override
-    public int getContainerGap(JComponent component, int position,
-                               Container parent) {
+    public int getContbinerGbp(JComponent component, int position,
+                               Contbiner pbrent) {
         if (component == null) {
             throw new NullPointerException();
         }
@@ -76,38 +76,38 @@ public class DefaultLayoutStyle extends LayoutStyle {
     }
 
     /**
-     * Returns true if the classes identify a JLabel and a non-JLabel
-     * along the horizontal axis.
+     * Returns true if the clbsses identify b JLbbel bnd b non-JLbbel
+     * blong the horizontbl bxis.
      */
-    protected boolean isLabelAndNonlabel(JComponent c1, JComponent c2,
+    protected boolebn isLbbelAndNonlbbel(JComponent c1, JComponent c2,
                                          int position) {
-        if (position == SwingConstants.EAST ||
-                position == SwingConstants.WEST) {
-            boolean c1Label = (c1 instanceof JLabel);
-            boolean c2Label = (c2 instanceof JLabel);
-            return ((c1Label || c2Label) && (c1Label != c2Label));
+        if (position == SwingConstbnts.EAST ||
+                position == SwingConstbnts.WEST) {
+            boolebn c1Lbbel = (c1 instbnceof JLbbel);
+            boolebn c2Lbbel = (c2 instbnceof JLbbel);
+            return ((c1Lbbel || c2Lbbel) && (c1Lbbel != c2Lbbel));
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * For some look and feels check boxs and radio buttons typically
-     * don't paint the border, yet they have padding for a border.  Look
-     * and feel guidelines generally don't include this space.  Use
-     * this method to subtract this space from the specified
+     * For some look bnd feels check boxs bnd rbdio buttons typicblly
+     * don't pbint the border, yet they hbve pbdding for b border.  Look
+     * bnd feel guidelines generblly don't include this spbce.  Use
+     * this method to subtrbct this spbce from the specified
      * components.
      *
-     * @param source First component
-     * @param target Second component
-     * @param position Position doing layout along.
-     * @param offset Ideal offset, not including border/margin
-     * @return offset - border/margin around the component.
+     * @pbrbm source First component
+     * @pbrbm tbrget Second component
+     * @pbrbm position Position doing lbyout blong.
+     * @pbrbm offset Idebl offset, not including border/mbrgin
+     * @return offset - border/mbrgin bround the component.
      */
-    protected int getButtonGap(JComponent source, JComponent target,
+    protected int getButtonGbp(JComponent source, JComponent tbrget,
                                int position, int offset) {
-        offset -= getButtonGap(source, position);
+        offset -= getButtonGbp(source, position);
         if (offset > 0) {
-            offset -= getButtonGap(target, flipDirection(position));
+            offset -= getButtonGbp(tbrget, flipDirection(position));
         }
         if (offset < 0) {
             return 0;
@@ -116,144 +116,144 @@ public class DefaultLayoutStyle extends LayoutStyle {
     }
 
     /**
-     * For some look and feels check boxs and radio buttons typically
-     * don't paint the border, yet they have padding for a border.  Look
-     * and feel guidelines generally don't include this space.  Use
-     * this method to subtract this space from the specified
+     * For some look bnd feels check boxs bnd rbdio buttons typicblly
+     * don't pbint the border, yet they hbve pbdding for b border.  Look
+     * bnd feel guidelines generblly don't include this spbce.  Use
+     * this method to subtrbct this spbce from the specified
      * components.
      *
-     * @param source Component
-     * @param position Position doing layout along.
-     * @param offset Ideal offset, not including border/margin
-     * @return offset - border/margin around the component.
+     * @pbrbm source Component
+     * @pbrbm position Position doing lbyout blong.
+     * @pbrbm offset Idebl offset, not including border/mbrgin
+     * @return offset - border/mbrgin bround the component.
      */
-    protected int getButtonGap(JComponent source, int position, int offset) {
-        offset -= getButtonGap(source, position);
-        return Math.max(offset, 0);
+    protected int getButtonGbp(JComponent source, int position, int offset) {
+        offset -= getButtonGbp(source, position);
+        return Mbth.mbx(offset, 0);
     }
 
     /**
-     * If <code>c</code> is a check box or radio button, and the border is
-     * not painted this returns the inset along the specified axis.
+     * If <code>c</code> is b check box or rbdio button, bnd the border is
+     * not pbinted this returns the inset blong the specified bxis.
      */
-    public int getButtonGap(JComponent c, int position) {
-        String classID = c.getUIClassID();
-        if ((classID == "CheckBoxUI" || classID == "RadioButtonUI") &&
-                !((AbstractButton)c).isBorderPainted()) {
+    public int getButtonGbp(JComponent c, int position) {
+        String clbssID = c.getUIClbssID();
+        if ((clbssID == "CheckBoxUI" || clbssID == "RbdioButtonUI") &&
+                !((AbstrbctButton)c).isBorderPbinted()) {
             Border border = c.getBorder();
-            if (border instanceof UIResource) {
+            if (border instbnceof UIResource) {
                 return getInset(c, position);
             }
         }
         return 0;
     }
 
-    private void checkPosition(int position) {
-        if (position != SwingConstants.NORTH &&
-                position != SwingConstants.SOUTH &&
-                position != SwingConstants.WEST &&
-                position != SwingConstants.EAST) {
-            throw new IllegalArgumentException();
+    privbte void checkPosition(int position) {
+        if (position != SwingConstbnts.NORTH &&
+                position != SwingConstbnts.SOUTH &&
+                position != SwingConstbnts.WEST &&
+                position != SwingConstbnts.EAST) {
+            throw new IllegblArgumentException();
         }
     }
 
     protected int flipDirection(int position) {
         switch(position) {
-        case SwingConstants.NORTH:
-            return SwingConstants.SOUTH;
-        case SwingConstants.SOUTH:
-            return SwingConstants.NORTH;
-        case SwingConstants.EAST:
-            return SwingConstants.WEST;
-        case SwingConstants.WEST:
-            return SwingConstants.EAST;
+        cbse SwingConstbnts.NORTH:
+            return SwingConstbnts.SOUTH;
+        cbse SwingConstbnts.SOUTH:
+            return SwingConstbnts.NORTH;
+        cbse SwingConstbnts.EAST:
+            return SwingConstbnts.WEST;
+        cbse SwingConstbnts.WEST:
+            return SwingConstbnts.EAST;
         }
-        assert false;
+        bssert fblse;
         return 0;
     }
 
     /**
-     * Returns the amount to indent the specified component if it's
-     * a JCheckBox or JRadioButton.  If the component is not a JCheckBox or
-     * JRadioButton, 0 will be returned.
+     * Returns the bmount to indent the specified component if it's
+     * b JCheckBox or JRbdioButton.  If the component is not b JCheckBox or
+     * JRbdioButton, 0 will be returned.
      */
     protected int getIndent(JComponent c, int position) {
-        String classID = c.getUIClassID();
-        if (classID == "CheckBoxUI" || classID == "RadioButtonUI") {
-            AbstractButton button = (AbstractButton)c;
+        String clbssID = c.getUIClbssID();
+        if (clbssID == "CheckBoxUI" || clbssID == "RbdioButtonUI") {
+            AbstrbctButton button = (AbstrbctButton)c;
             Insets insets = c.getInsets();
             Icon icon = getIcon(button);
-            int gap = button.getIconTextGap();
+            int gbp = button.getIconTextGbp();
             if (isLeftAligned(button, position)) {
-                return insets.left + icon.getIconWidth() + gap;
+                return insets.left + icon.getIconWidth() + gbp;
             } else if (isRightAligned(button, position)) {
-                return insets.right + icon.getIconWidth() + gap;
+                return insets.right + icon.getIconWidth() + gbp;
             }
         }
         return 0;
     }
 
-    private Icon getIcon(AbstractButton button) {
+    privbte Icon getIcon(AbstrbctButton button) {
         Icon icon = button.getIcon();
         if (icon != null) {
             return icon;
         }
         String key = null;
-        if (button instanceof JCheckBox) {
+        if (button instbnceof JCheckBox) {
             key = "CheckBox.icon";
-        } else if (button instanceof JRadioButton) {
-            key = "RadioButton.icon";
+        } else if (button instbnceof JRbdioButton) {
+            key = "RbdioButton.icon";
         }
         if (key != null) {
-            Object oIcon = UIManager.get(key);
-            if (oIcon instanceof Icon) {
+            Object oIcon = UIMbnbger.get(key);
+            if (oIcon instbnceof Icon) {
                 return (Icon)oIcon;
             }
         }
         return null;
     }
 
-    private boolean isLeftAligned(AbstractButton button, int position) {
-        if (position == SwingConstants.WEST) {
-            boolean ltr = button.getComponentOrientation().isLeftToRight();
-            int hAlign = button.getHorizontalAlignment();
-            return ((ltr && (hAlign == SwingConstants.LEFT ||
-                             hAlign == SwingConstants.LEADING)) ||
-                    (!ltr && (hAlign == SwingConstants.TRAILING)));
+    privbte boolebn isLeftAligned(AbstrbctButton button, int position) {
+        if (position == SwingConstbnts.WEST) {
+            boolebn ltr = button.getComponentOrientbtion().isLeftToRight();
+            int hAlign = button.getHorizontblAlignment();
+            return ((ltr && (hAlign == SwingConstbnts.LEFT ||
+                             hAlign == SwingConstbnts.LEADING)) ||
+                    (!ltr && (hAlign == SwingConstbnts.TRAILING)));
         }
-        return false;
+        return fblse;
     }
 
-    private boolean isRightAligned(AbstractButton button, int position) {
-        if (position == SwingConstants.EAST) {
-            boolean ltr = button.getComponentOrientation().isLeftToRight();
-            int hAlign = button.getHorizontalAlignment();
-            return ((ltr && (hAlign == SwingConstants.RIGHT ||
-                             hAlign == SwingConstants.TRAILING)) ||
-                    (!ltr && (hAlign == SwingConstants.LEADING)));
+    privbte boolebn isRightAligned(AbstrbctButton button, int position) {
+        if (position == SwingConstbnts.EAST) {
+            boolebn ltr = button.getComponentOrientbtion().isLeftToRight();
+            int hAlign = button.getHorizontblAlignment();
+            return ((ltr && (hAlign == SwingConstbnts.RIGHT ||
+                             hAlign == SwingConstbnts.TRAILING)) ||
+                    (!ltr && (hAlign == SwingConstbnts.LEADING)));
         }
-        return false;
+        return fblse;
     }
 
-    private int getInset(JComponent c, int position) {
+    privbte int getInset(JComponent c, int position) {
         return getInset(c.getInsets(), position);
     }
 
-    private int getInset(Insets insets, int position) {
+    privbte int getInset(Insets insets, int position) {
         if (insets == null) {
             return 0;
         }
         switch(position) {
-        case SwingConstants.NORTH:
+        cbse SwingConstbnts.NORTH:
             return insets.top;
-        case SwingConstants.SOUTH:
+        cbse SwingConstbnts.SOUTH:
             return insets.bottom;
-        case SwingConstants.EAST:
+        cbse SwingConstbnts.EAST:
             return insets.right;
-        case SwingConstants.WEST:
+        cbse SwingConstbnts.WEST:
             return insets.left;
         }
-        assert false;
+        bssert fblse;
         return 0;
     }
 }

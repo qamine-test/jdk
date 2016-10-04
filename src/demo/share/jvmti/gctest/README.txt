@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Redistribution bnd use in source bnd binbry forms, with or without
+# modificbtion, bre permitted provided thbt the following conditions
+# bre met:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Redistributions of source code must retbin the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Redistributions in binbry form must reproduce the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer in the
+#     documentbtion bnd/or other mbteribls provided with the distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Neither the nbme of Orbcle nor the nbmes of its
+#     contributors mby be used to endorse or promote products derived
+#     from this softwbre without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,24 +31,24 @@
 
 gctest
 
-This agent library can be used to track garbage collection events.
+This bgent librbry cbn be used to trbck gbrbbge collection events.
 
-You can use this agent library as follows:
+You cbn use this bgent librbry bs follows:
 
-    java -agentlib:gctest ...  
+    jbvb -bgentlib:gctest ...  
 	  
-To get help on the available options try:
+To get help on the bvbilbble options try:
 
-    java -agentlib:gctest=help
+    jbvb -bgentlib:gctest=help
 
-See ${JAVA_HOME}/demo/jvmti/index.html for help running and building agents.
+See ${JAVA_HOME}/demo/jvmti/index.html for help running bnd building bgents.
 
 The Events JVMTI_EVENT_GARBAGE_COLLECTION_START,
-JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, and JVMTI_EVENT_OBJECT_FREE 
-all have limitations as to what can be called directly inside the 
-agent callback functions (e.g. no JNI calls are allowed, and limited 
-interface calls can be made). However, by using raw monitors and a separate 
-watcher thread, this agent demonstrates how these limitations can be 
-easily avoided, allowing the watcher thread to do just about anything
-after the JVMTI_EVENT_GARBAGE_COLLECTION_FINISH event.
+JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, bnd JVMTI_EVENT_OBJECT_FREE 
+bll hbve limitbtions bs to whbt cbn be cblled directly inside the 
+bgent cbllbbck functions (e.g. no JNI cblls bre bllowed, bnd limited 
+interfbce cblls cbn be mbde). However, by using rbw monitors bnd b sepbrbte 
+wbtcher threbd, this bgent demonstrbtes how these limitbtions cbn be 
+ebsily bvoided, bllowing the wbtcher threbd to do just bbout bnything
+bfter the JVMTI_EVENT_GARBAGE_COLLECTION_FINISH event.
 

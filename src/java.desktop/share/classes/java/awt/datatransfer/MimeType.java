@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.datatransfer;
+pbckbge jbvb.bwt.dbtbtrbnsfer;
 
-import java.io.Externalizable;
-import java.io.ObjectOutput;
-import java.io.ObjectInput;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Locale;
+import jbvb.io.Externblizbble;
+import jbvb.io.ObjectOutput;
+import jbvb.io.ObjectInput;
+import jbvb.io.IOException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Locble;
 
 
 /**
- * A Multipurpose Internet Mail Extension (MIME) type, as defined
- * in RFC 2045 and 2046.
+ * A Multipurpose Internet Mbil Extension (MIME) type, bs defined
+ * in RFC 2045 bnd 2046.
  *
- * THIS IS *NOT* - REPEAT *NOT* - A PUBLIC CLASS! DataFlavor IS
+ * THIS IS *NOT* - REPEAT *NOT* - A PUBLIC CLASS! DbtbFlbvor IS
  * THE PUBLIC INTERFACE, AND THIS IS PROVIDED AS A ***PRIVATE***
  * (THAT IS AS IN *NOT* PUBLIC) HELPER CLASS!
  */
-class MimeType implements Externalizable, Cloneable {
+clbss MimeType implements Externblizbble, Clonebble {
 
     /*
-     * serialization support
+     * seriblizbtion support
      */
 
-    static final long serialVersionUID = -6568722458793895906L;
+    stbtic finbl long seriblVersionUID = -6568722458793895906L;
 
     /**
-     * Constructor for externalization; this constructor should not be
-     * called directly by an application, since the result will be an
-     * uninitialized, immutable <code>MimeType</code> object.
+     * Constructor for externblizbtion; this constructor should not be
+     * cblled directly by bn bpplicbtion, since the result will be bn
+     * uninitiblized, immutbble <code>MimeType</code> object.
      */
     public MimeType() {
     }
 
     /**
-     * Builds a <code>MimeType</code> from a <code>String</code>.
+     * Builds b <code>MimeType</code> from b <code>String</code>.
      *
-     * @param rawdata text used to initialize the <code>MimeType</code>
-     * @throws NullPointerException if <code>rawdata</code> is null
+     * @pbrbm rbwdbtb text used to initiblize the <code>MimeType</code>
+     * @throws NullPointerException if <code>rbwdbtb</code> is null
      */
-    public MimeType(String rawdata) throws MimeTypeParseException {
-        parse(rawdata);
+    public MimeType(String rbwdbtb) throws MimeTypePbrseException {
+        pbrse(rbwdbtb);
     }
 
     /**
-     * Builds a <code>MimeType</code> with the given primary and sub
-     * type but has an empty parameter list.
+     * Builds b <code>MimeType</code> with the given primbry bnd sub
+     * type but hbs bn empty pbrbmeter list.
      *
-     * @param primary the primary type of this <code>MimeType</code>
-     * @param sub the subtype of this <code>MimeType</code>
-     * @throws NullPointerException if either <code>primary</code> or
+     * @pbrbm primbry the primbry type of this <code>MimeType</code>
+     * @pbrbm sub the subtype of this <code>MimeType</code>
+     * @throws NullPointerException if either <code>primbry</code> or
      *         <code>sub</code> is null
      */
-    public MimeType(String primary, String sub) throws MimeTypeParseException {
-        this(primary, sub, new MimeTypeParameterList());
+    public MimeType(String primbry, String sub) throws MimeTypePbrseException {
+        this(primbry, sub, new MimeTypePbrbmeterList());
     }
 
     /**
-     * Builds a <code>MimeType</code> with a pre-defined
-     * and valid (or empty) parameter list.
+     * Builds b <code>MimeType</code> with b pre-defined
+     * bnd vblid (or empty) pbrbmeter list.
      *
-     * @param primary the primary type of this <code>MimeType</code>
-     * @param sub the subtype of this <code>MimeType</code>
-     * @param mtpl the requested parameter list
-     * @throws NullPointerException if either <code>primary</code>,
+     * @pbrbm primbry the primbry type of this <code>MimeType</code>
+     * @pbrbm sub the subtype of this <code>MimeType</code>
+     * @pbrbm mtpl the requested pbrbmeter list
+     * @throws NullPointerException if either <code>primbry</code>,
      *         <code>sub</code> or <code>mtpl</code> is null
      */
-    public MimeType(String primary, String sub, MimeTypeParameterList mtpl) throws
-MimeTypeParseException {
-        //    check to see if primary is valid
-        if(isValidToken(primary)) {
-            primaryType = primary.toLowerCase(Locale.ENGLISH);
+    public MimeType(String primbry, String sub, MimeTypePbrbmeterList mtpl) throws
+MimeTypePbrseException {
+        //    check to see if primbry is vblid
+        if(isVblidToken(primbry)) {
+            primbryType = primbry.toLowerCbse(Locble.ENGLISH);
         } else {
-            throw new MimeTypeParseException("Primary type is invalid.");
+            throw new MimeTypePbrseException("Primbry type is invblid.");
         }
 
-        //    check to see if sub is valid
-        if(isValidToken(sub)) {
-            subType = sub.toLowerCase(Locale.ENGLISH);
+        //    check to see if sub is vblid
+        if(isVblidToken(sub)) {
+            subType = sub.toLowerCbse(Locble.ENGLISH);
         } else {
-            throw new MimeTypeParseException("Sub type is invalid.");
+            throw new MimeTypePbrseException("Sub type is invblid.");
         }
 
-        parameters = (MimeTypeParameterList)mtpl.clone();
+        pbrbmeters = (MimeTypePbrbmeterList)mtpl.clone();
     }
 
-    public int hashCode() {
+    public int hbshCode() {
 
-        // We sum up the hash codes for all of the strings. This
-        // way, the order of the strings is irrelevant
+        // We sum up the hbsh codes for bll of the strings. This
+        // wby, the order of the strings is irrelevbnt
         int code = 0;
-        code += primaryType.hashCode();
-        code += subType.hashCode();
-        code += parameters.hashCode();
+        code += primbryType.hbshCode();
+        code += subType.hbshCode();
+        code += pbrbmeters.hbshCode();
         return code;
-    } // hashCode()
+    } // hbshCode()
 
     /**
-     * <code>MimeType</code>s are equal if their primary types,
-     * subtypes, and  parameters are all equal. No default values
-     * are taken into account.
-     * @param thatObject the object to be evaluated as a
+     * <code>MimeType</code>s bre equbl if their primbry types,
+     * subtypes, bnd  pbrbmeters bre bll equbl. No defbult vblues
+     * bre tbken into bccount.
+     * @pbrbm thbtObject the object to be evblubted bs b
      *    <code>MimeType</code>
-     * @return <code>true</code> if <code>thatObject</code> is
-     *    a <code>MimeType</code>; otherwise returns <code>false</code>
+     * @return <code>true</code> if <code>thbtObject</code> is
+     *    b <code>MimeType</code>; otherwise returns <code>fblse</code>
      */
-    public boolean equals(Object thatObject) {
-        if (!(thatObject instanceof MimeType)) {
-            return false;
+    public boolebn equbls(Object thbtObject) {
+        if (!(thbtObject instbnceof MimeType)) {
+            return fblse;
         }
-        MimeType that = (MimeType)thatObject;
-        boolean isIt =
-            ((this.primaryType.equals(that.primaryType)) &&
-             (this.subType.equals(that.subType)) &&
-             (this.parameters.equals(that.parameters)));
+        MimeType thbt = (MimeType)thbtObject;
+        boolebn isIt =
+            ((this.primbryType.equbls(thbt.primbryType)) &&
+             (this.subType.equbls(thbt.subType)) &&
+             (this.pbrbmeters.equbls(thbt.pbrbmeters)));
         return isIt;
-    } // equals()
+    } // equbls()
 
     /**
-     * A routine for parsing the MIME type out of a String.
+     * A routine for pbrsing the MIME type out of b String.
      *
-     * @throws NullPointerException if <code>rawdata</code> is null
+     * @throws NullPointerException if <code>rbwdbtb</code> is null
      */
-    private void parse(String rawdata) throws MimeTypeParseException {
-        int slashIndex = rawdata.indexOf('/');
-        int semIndex = rawdata.indexOf(';');
-        if((slashIndex < 0) && (semIndex < 0)) {
-            //    neither character is present, so treat it
-            //    as an error
-            throw new MimeTypeParseException("Unable to find a sub type.");
-        } else if((slashIndex < 0) && (semIndex >= 0)) {
-            //    we have a ';' (and therefore a parameter list),
-            //    but no '/' indicating a sub type is present
-            throw new MimeTypeParseException("Unable to find a sub type.");
-        } else if((slashIndex >= 0) && (semIndex < 0)) {
-            //    we have a primary and sub type but no parameter list
-            primaryType = rawdata.substring(0,slashIndex).
-                trim().toLowerCase(Locale.ENGLISH);
-            subType = rawdata.substring(slashIndex + 1).
-                trim().toLowerCase(Locale.ENGLISH);
-            parameters = new MimeTypeParameterList();
-        } else if (slashIndex < semIndex) {
-            //    we have all three items in the proper sequence
-            primaryType = rawdata.substring(0, slashIndex).
-                trim().toLowerCase(Locale.ENGLISH);
-            subType = rawdata.substring(slashIndex + 1,
-                semIndex).trim().toLowerCase(Locale.ENGLISH);
-            parameters = new
-MimeTypeParameterList(rawdata.substring(semIndex));
+    privbte void pbrse(String rbwdbtb) throws MimeTypePbrseException {
+        int slbshIndex = rbwdbtb.indexOf('/');
+        int semIndex = rbwdbtb.indexOf(';');
+        if((slbshIndex < 0) && (semIndex < 0)) {
+            //    neither chbrbcter is present, so trebt it
+            //    bs bn error
+            throw new MimeTypePbrseException("Unbble to find b sub type.");
+        } else if((slbshIndex < 0) && (semIndex >= 0)) {
+            //    we hbve b ';' (bnd therefore b pbrbmeter list),
+            //    but no '/' indicbting b sub type is present
+            throw new MimeTypePbrseException("Unbble to find b sub type.");
+        } else if((slbshIndex >= 0) && (semIndex < 0)) {
+            //    we hbve b primbry bnd sub type but no pbrbmeter list
+            primbryType = rbwdbtb.substring(0,slbshIndex).
+                trim().toLowerCbse(Locble.ENGLISH);
+            subType = rbwdbtb.substring(slbshIndex + 1).
+                trim().toLowerCbse(Locble.ENGLISH);
+            pbrbmeters = new MimeTypePbrbmeterList();
+        } else if (slbshIndex < semIndex) {
+            //    we hbve bll three items in the proper sequence
+            primbryType = rbwdbtb.substring(0, slbshIndex).
+                trim().toLowerCbse(Locble.ENGLISH);
+            subType = rbwdbtb.substring(slbshIndex + 1,
+                semIndex).trim().toLowerCbse(Locble.ENGLISH);
+            pbrbmeters = new
+MimeTypePbrbmeterList(rbwdbtb.substring(semIndex));
         } else {
-            //    we have a ';' lexically before a '/' which means we have a primary type
-            //    & a parameter list but no sub type
-            throw new MimeTypeParseException("Unable to find a sub type.");
+            //    we hbve b ';' lexicblly before b '/' which mebns we hbve b primbry type
+            //    & b pbrbmeter list but no sub type
+            throw new MimeTypePbrseException("Unbble to find b sub type.");
         }
 
-        //    now validate the primary and sub types
+        //    now vblidbte the primbry bnd sub types
 
-        //    check to see if primary is valid
-        if(!isValidToken(primaryType)) {
-            throw new MimeTypeParseException("Primary type is invalid.");
+        //    check to see if primbry is vblid
+        if(!isVblidToken(primbryType)) {
+            throw new MimeTypePbrseException("Primbry type is invblid.");
         }
 
-        //    check to see if sub is valid
-        if(!isValidToken(subType)) {
-            throw new MimeTypeParseException("Sub type is invalid.");
+        //    check to see if sub is vblid
+        if(!isVblidToken(subType)) {
+            throw new MimeTypePbrseException("Sub type is invblid.");
         }
     }
 
     /**
-     * Retrieve the primary type of this object.
+     * Retrieve the primbry type of this object.
      */
-    public String getPrimaryType() {
-        return primaryType;
+    public String getPrimbryType() {
+        return primbryType;
     }
 
     /**
@@ -206,104 +206,104 @@ MimeTypeParameterList(rawdata.substring(semIndex));
     }
 
     /**
-     * Retrieve a copy of this object's parameter list.
+     * Retrieve b copy of this object's pbrbmeter list.
      */
-    public MimeTypeParameterList getParameters() {
-        return (MimeTypeParameterList)parameters.clone();
+    public MimeTypePbrbmeterList getPbrbmeters() {
+        return (MimeTypePbrbmeterList)pbrbmeters.clone();
     }
 
     /**
-     * Retrieve the value associated with the given name, or null if there
-     * is no current association.
+     * Retrieve the vblue bssocibted with the given nbme, or null if there
+     * is no current bssocibtion.
      */
-    public String getParameter(String name) {
-        return parameters.get(name);
+    public String getPbrbmeter(String nbme) {
+        return pbrbmeters.get(nbme);
     }
 
     /**
-     * Set the value to be associated with the given name, replacing
-     * any previous association.
+     * Set the vblue to be bssocibted with the given nbme, replbcing
+     * bny previous bssocibtion.
      *
-     * @throw IllegalArgumentException if parameter or value is illegal
+     * @throw IllegblArgumentException if pbrbmeter or vblue is illegbl
      */
-    public void setParameter(String name, String value) {
-        parameters.set(name, value);
+    public void setPbrbmeter(String nbme, String vblue) {
+        pbrbmeters.set(nbme, vblue);
     }
 
     /**
-     * Remove any value associated with the given name.
+     * Remove bny vblue bssocibted with the given nbme.
      *
-     * @throw IllegalArgumentExcpetion if parameter may not be deleted
+     * @throw IllegblArgumentExcpetion if pbrbmeter mby not be deleted
      */
-    public void removeParameter(String name) {
-        parameters.remove(name);
+    public void removePbrbmeter(String nbme) {
+        pbrbmeters.remove(nbme);
     }
 
     /**
-     * Return the String representation of this object.
+     * Return the String representbtion of this object.
      */
     public String toString() {
-        return getBaseType() + parameters.toString();
+        return getBbseType() + pbrbmeters.toString();
     }
 
     /**
-     * Return a String representation of this object
-     * without the parameter list.
+     * Return b String representbtion of this object
+     * without the pbrbmeter list.
      */
-    public String getBaseType() {
-        return primaryType + "/" + subType;
+    public String getBbseType() {
+        return primbryType + "/" + subType;
     }
 
     /**
-     * Returns <code>true</code> if the primary type and the
-     * subtype of this object are the same as the specified
-     * <code>type</code>; otherwise returns <code>false</code>.
+     * Returns <code>true</code> if the primbry type bnd the
+     * subtype of this object bre the sbme bs the specified
+     * <code>type</code>; otherwise returns <code>fblse</code>.
      *
-     * @param type the type to compare to <code>this</code>'s type
-     * @return <code>true</code> if the primary type and the
-     *    subtype of this object are the same as the
+     * @pbrbm type the type to compbre to <code>this</code>'s type
+     * @return <code>true</code> if the primbry type bnd the
+     *    subtype of this object bre the sbme bs the
      *    specified <code>type</code>; otherwise returns
-     *    <code>false</code>
+     *    <code>fblse</code>
      */
-    public boolean match(MimeType type) {
+    public boolebn mbtch(MimeType type) {
         if (type == null)
-            return false;
-        return primaryType.equals(type.getPrimaryType())
-                    && (subType.equals("*")
-                            || type.getSubType().equals("*")
-                            || (subType.equals(type.getSubType())));
+            return fblse;
+        return primbryType.equbls(type.getPrimbryType())
+                    && (subType.equbls("*")
+                            || type.getSubType().equbls("*")
+                            || (subType.equbls(type.getSubType())));
     }
 
     /**
-     * Returns <code>true</code> if the primary type and the
-     * subtype of this object are the same as the content type
-     * described in <code>rawdata</code>; otherwise returns
-     * <code>false</code>.
+     * Returns <code>true</code> if the primbry type bnd the
+     * subtype of this object bre the sbme bs the content type
+     * described in <code>rbwdbtb</code>; otherwise returns
+     * <code>fblse</code>.
      *
-     * @param rawdata the raw data to be examined
-     * @return <code>true</code> if the primary type and the
-     *    subtype of this object are the same as the content type
-     *    described in <code>rawdata</code>; otherwise returns
-     *    <code>false</code>; if <code>rawdata</code> is
-     *    <code>null</code>, returns <code>false</code>
+     * @pbrbm rbwdbtb the rbw dbtb to be exbmined
+     * @return <code>true</code> if the primbry type bnd the
+     *    subtype of this object bre the sbme bs the content type
+     *    described in <code>rbwdbtb</code>; otherwise returns
+     *    <code>fblse</code>; if <code>rbwdbtb</code> is
+     *    <code>null</code>, returns <code>fblse</code>
      */
-    public boolean match(String rawdata) throws MimeTypeParseException {
-        if (rawdata == null)
-            return false;
-        return match(new MimeType(rawdata));
+    public boolebn mbtch(String rbwdbtb) throws MimeTypePbrseException {
+        if (rbwdbtb == null)
+            return fblse;
+        return mbtch(new MimeType(rbwdbtb));
     }
 
     /**
-     * The object implements the writeExternal method to save its contents
-     * by calling the methods of DataOutput for its primitive values or
-     * calling the writeObject method of ObjectOutput for objects, strings
-     * and arrays.
-     * @exception IOException Includes any I/O exceptions that may occur
+     * The object implements the writeExternbl method to sbve its contents
+     * by cblling the methods of DbtbOutput for its primitive vblues or
+     * cblling the writeObject method of ObjectOutput for objects, strings
+     * bnd brrbys.
+     * @exception IOException Includes bny I/O exceptions thbt mby occur
      */
-    public void writeExternal(ObjectOutput out) throws IOException {
-        String s = toString(); // contains ASCII chars only
-        // one-to-one correspondence between ASCII char and byte in UTF string
-        if (s.length() <= 65535) { // 65535 is max length of UTF string
+    public void writeExternbl(ObjectOutput out) throws IOException {
+        String s = toString(); // contbins ASCII chbrs only
+        // one-to-one correspondence between ASCII chbr bnd byte in UTF string
+        if (s.length() <= 65535) { // 65535 is mbx length of UTF string
             out.writeUTF(s);
         } else {
             out.writeByte(0);
@@ -314,81 +314,81 @@ MimeTypeParameterList(rawdata.substring(semIndex));
     }
 
     /**
-     * The object implements the readExternal method to restore its
-     * contents by calling the methods of DataInput for primitive
-     * types and readObject for objects, strings and arrays.  The
-     * readExternal method must read the values in the same sequence
-     * and with the same types as were written by writeExternal.
-     * @exception ClassNotFoundException If the class for an object being
-     *              restored cannot be found.
+     * The object implements the rebdExternbl method to restore its
+     * contents by cblling the methods of DbtbInput for primitive
+     * types bnd rebdObject for objects, strings bnd brrbys.  The
+     * rebdExternbl method must rebd the vblues in the sbme sequence
+     * bnd with the sbme types bs were written by writeExternbl.
+     * @exception ClbssNotFoundException If the clbss for bn object being
+     *              restored cbnnot be found.
      */
-    public void readExternal(ObjectInput in) throws IOException,
-ClassNotFoundException {
-        String s = in.readUTF();
+    public void rebdExternbl(ObjectInput in) throws IOException,
+ClbssNotFoundException {
+        String s = in.rebdUTF();
         if (s == null || s.length() == 0) { // long mime type
-            byte[] ba = new byte[in.readInt()];
-            in.readFully(ba);
-            s = new String(ba);
+            byte[] bb = new byte[in.rebdInt()];
+            in.rebdFully(bb);
+            s = new String(bb);
         }
         try {
-            parse(s);
-        } catch(MimeTypeParseException e) {
+            pbrse(s);
+        } cbtch(MimeTypePbrseException e) {
             throw new IOException(e.toString());
         }
     }
 
     /**
-     * Returns a clone of this object.
-     * @return a clone of this object
+     * Returns b clone of this object.
+     * @return b clone of this object
      */
 
     public Object clone() {
         MimeType newObj = null;
         try {
             newObj = (MimeType)super.clone();
-        } catch (CloneNotSupportedException cannotHappen) {
+        } cbtch (CloneNotSupportedException cbnnotHbppen) {
         }
-        newObj.parameters = (MimeTypeParameterList)parameters.clone();
+        newObj.pbrbmeters = (MimeTypePbrbmeterList)pbrbmeters.clone();
         return newObj;
     }
 
-    private String    primaryType;
-    private String    subType;
-    private MimeTypeParameterList parameters;
+    privbte String    primbryType;
+    privbte String    subType;
+    privbte MimeTypePbrbmeterList pbrbmeters;
 
-    //    below here be scary parsing related things
+    //    below here be scbry pbrsing relbted things
 
     /**
-     * Determines whether or not a given character belongs to a legal token.
+     * Determines whether or not b given chbrbcter belongs to b legbl token.
      */
-    private static boolean isTokenChar(char c) {
+    privbte stbtic boolebn isTokenChbr(chbr c) {
         return ((c > 040) && (c < 0177)) && (TSPECIALS.indexOf(c) < 0);
     }
 
     /**
-     * Determines whether or not a given string is a legal token.
+     * Determines whether or not b given string is b legbl token.
      *
      * @throws NullPointerException if <code>s</code> is null
      */
-    private boolean isValidToken(String s) {
+    privbte boolebn isVblidToken(String s) {
         int len = s.length();
         if(len > 0) {
             for (int i = 0; i < len; ++i) {
-                char c = s.charAt(i);
-                if (!isTokenChar(c)) {
-                    return false;
+                chbr c = s.chbrAt(i);
+                if (!isTokenChbr(c)) {
+                    return fblse;
                 }
             }
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * A string that holds all the special chars.
+     * A string thbt holds bll the specibl chbrs.
      */
 
-    private static final String TSPECIALS = "()<>@,;:\\\"/[]?=";
+    privbte stbtic finbl String TSPECIALS = "()<>@,;:\\\"/[]?=";
 
-} // class MimeType
+} // clbss MimeType

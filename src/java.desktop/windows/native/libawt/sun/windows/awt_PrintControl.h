@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,99 +30,99 @@
 #include <commdlg.h>
 
 /************************************************************************
- * AwtPrintControl class
+ * AwtPrintControl clbss
  */
 
-class AwtPrintControl {
+clbss AwtPrintControl {
 public:
 
-    /* sun.awt.windows.WPrinterJob methods & fields */
+    /* sun.bwt.windows.WPrinterJob methods & fields */
 
-    static jfieldID  dialogOwnerPeerID;
-    static jfieldID  driverDoesMultipleCopiesID;
-    static jfieldID  driverDoesCollationID;
-    static jmethodID getPrintDCID;
-    static jmethodID setPrintDCID;
-    static jmethodID getDevmodeID;
-    static jmethodID setDevmodeID;
-    static jmethodID getDevnamesID;
-    static jmethodID setDevnamesID;
-    static jmethodID getWin32MediaID;
-    static jmethodID setWin32MediaID;
-    static jmethodID getWin32MediaTrayID;
-    static jmethodID setWin32MediaTrayID;
-    static jmethodID getColorID;
-    static jmethodID getCopiesID;
-    static jmethodID getSelectID;
-    static jmethodID getDestID;
-    static jmethodID getDialogID;
-    static jmethodID getFromPageID;
-    static jmethodID getMaxPageID;
-    static jmethodID getMinPageID;
-    static jmethodID getCollateID;
-    static jmethodID getOrientID;
-    static jmethodID getQualityID;
-    static jmethodID getPrintToFileEnabledID;
-    static jmethodID getPrinterID;
-    static jmethodID setPrinterID;
-    static jmethodID getResID;
-    static jmethodID getSidesID;
-    static jmethodID getToPageID;
-    static jmethodID setToPageID;
-    static jmethodID setNativeAttID;
-    static jmethodID setRangeCopiesID;
-    static jmethodID setResID;
-    static jmethodID setJobAttributesID;
+    stbtic jfieldID  diblogOwnerPeerID;
+    stbtic jfieldID  driverDoesMultipleCopiesID;
+    stbtic jfieldID  driverDoesCollbtionID;
+    stbtic jmethodID getPrintDCID;
+    stbtic jmethodID setPrintDCID;
+    stbtic jmethodID getDevmodeID;
+    stbtic jmethodID setDevmodeID;
+    stbtic jmethodID getDevnbmesID;
+    stbtic jmethodID setDevnbmesID;
+    stbtic jmethodID getWin32MedibID;
+    stbtic jmethodID setWin32MedibID;
+    stbtic jmethodID getWin32MedibTrbyID;
+    stbtic jmethodID setWin32MedibTrbyID;
+    stbtic jmethodID getColorID;
+    stbtic jmethodID getCopiesID;
+    stbtic jmethodID getSelectID;
+    stbtic jmethodID getDestID;
+    stbtic jmethodID getDiblogID;
+    stbtic jmethodID getFromPbgeID;
+    stbtic jmethodID getMbxPbgeID;
+    stbtic jmethodID getMinPbgeID;
+    stbtic jmethodID getCollbteID;
+    stbtic jmethodID getOrientID;
+    stbtic jmethodID getQublityID;
+    stbtic jmethodID getPrintToFileEnbbledID;
+    stbtic jmethodID getPrinterID;
+    stbtic jmethodID setPrinterID;
+    stbtic jmethodID getResID;
+    stbtic jmethodID getSidesID;
+    stbtic jmethodID getToPbgeID;
+    stbtic jmethodID setToPbgeID;
+    stbtic jmethodID setNbtiveAttID;
+    stbtic jmethodID setRbngeCopiesID;
+    stbtic jmethodID setResID;
+    stbtic jmethodID setJobAttributesID;
 
-    static void initIDs(JNIEnv *env, jclass cls);
-    static BOOL FindPrinter(jstring printerName, LPBYTE pPrinterEnum,
+    stbtic void initIDs(JNIEnv *env, jclbss cls);
+    stbtic BOOL FindPrinter(jstring printerNbme, LPBYTE pPrinterEnum,
                             LPDWORD pcbBuf, LPTSTR * foundPrinter,
                             LPTSTR * foundPORT);
     // This function determines whether the printer driver
-    // for the passed printer handle supports PRINTER_INFO
+    // for the pbssed printer hbndle supports PRINTER_INFO
     // structure of level dwLevel.
-    static BOOL IsSupportedLevel(HANDLE hPrinter, DWORD dwLevel);
-    static BOOL CreateDevModeAndDevNames(PRINTDLG *ppd,
-                                               LPTSTR pPrinterName,
-                                               LPTSTR pPortName);
-    static BOOL InitPrintDialog(JNIEnv *env,
+    stbtic BOOL IsSupportedLevel(HANDLE hPrinter, DWORD dwLevel);
+    stbtic BOOL CrebteDevModeAndDevNbmes(PRINTDLG *ppd,
+                                               LPTSTR pPrinterNbme,
+                                               LPTSTR pPortNbme);
+    stbtic BOOL InitPrintDiblog(JNIEnv *env,
                                       jobject printCtrl, PRINTDLG &pd);
-    static BOOL UpdateAttributes(JNIEnv *env,
+    stbtic BOOL UpdbteAttributes(JNIEnv *env,
                                       jobject printCtrl, PRINTDLG &pd);
-    static WORD getNearestMatchingPaper(LPTSTR printer, LPTSTR port,
+    stbtic WORD getNebrestMbtchingPbper(LPTSTR printer, LPTSTR port,
                                       double origWid, double origHgt,
                                       double* newWid, double *newHgt);
 
-    static BOOL getDevmode(HANDLE hPrinter,
-                                 LPTSTR pPrinterName,
+    stbtic BOOL getDevmode(HANDLE hPrinter,
+                                 LPTSTR pPrinterNbme,
                                  LPDEVMODE *pDevMode);
 
-    inline static  HDC getPrintDC(JNIEnv *env, jobject self) {
-      return (HDC)env->CallLongMethod(self, getPrintDCID);
+    inline stbtic  HDC getPrintDC(JNIEnv *env, jobject self) {
+      return (HDC)env->CbllLongMethod(self, getPrintDCID);
     }
 
-    inline static void setPrintDC(JNIEnv *env, jobject self, HDC printDC) {
-      env->CallVoidMethod(self, setPrintDCID, (jlong)printDC);
+    inline stbtic void setPrintDC(JNIEnv *env, jobject self, HDC printDC) {
+      env->CbllVoidMethod(self, setPrintDCID, (jlong)printDC);
     }
 
-    inline static HGLOBAL getPrintHDMode(JNIEnv *env, jobject self) {
-      return (HGLOBAL) env->CallLongMethod(self, getDevmodeID);
+    inline stbtic HGLOBAL getPrintHDMode(JNIEnv *env, jobject self) {
+      return (HGLOBAL) env->CbllLongMethod(self, getDevmodeID);
     }
 
-    inline static void setPrintHDMode(JNIEnv *env, jobject self,
-                                      HGLOBAL hGlobal) {
-      env->CallVoidMethod(self, setDevmodeID,
-                          reinterpret_cast<jlong>(hGlobal));
+    inline stbtic void setPrintHDMode(JNIEnv *env, jobject self,
+                                      HGLOBAL hGlobbl) {
+      env->CbllVoidMethod(self, setDevmodeID,
+                          reinterpret_cbst<jlong>(hGlobbl));
     }
 
-    inline static HGLOBAL getPrintHDName(JNIEnv *env, jobject self) {
-      return (HGLOBAL) env->CallLongMethod(self, getDevnamesID);
+    inline stbtic HGLOBAL getPrintHDNbme(JNIEnv *env, jobject self) {
+      return (HGLOBAL) env->CbllLongMethod(self, getDevnbmesID);
     }
 
-    inline static void setPrintHDName(JNIEnv *env, jobject self,
-                                      HGLOBAL hGlobal) {
-      env->CallVoidMethod(self, setDevnamesID,
-                          reinterpret_cast<jlong>(hGlobal));
+    inline stbtic void setPrintHDNbme(JNIEnv *env, jobject self,
+                                      HGLOBAL hGlobbl) {
+      env->CbllVoidMethod(self, setDevnbmesID,
+                          reinterpret_cbst<jlong>(hGlobbl));
     }
 
 };

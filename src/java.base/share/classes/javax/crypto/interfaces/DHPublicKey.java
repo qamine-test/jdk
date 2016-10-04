@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.interfaces;
+pbckbge jbvbx.crypto.interfbces;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
 /**
- * The interface to a Diffie-Hellman public key.
+ * The interfbce to b Diffie-Hellmbn public key.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @see DHKey
- * @see DHPrivateKey
+ * @see DHPrivbteKey
  * @since 1.4
  */
-public interface DHPublicKey extends DHKey, java.security.PublicKey {
+public interfbce DHPublicKey extends DHKey, jbvb.security.PublicKey {
 
     /**
-     * The class fingerprint that is set to indicate serialization
-     * compatibility since J2SE 1.4.
+     * The clbss fingerprint thbt is set to indicbte seriblizbtion
+     * compbtibility since J2SE 1.4.
      */
-    static final long serialVersionUID = -6628103563352519193L;
+    stbtic finbl long seriblVersionUID = -6628103563352519193L;
 
     /**
-     * Returns the public value, <code>y</code>.
+     * Returns the public vblue, <code>y</code>.
      *
-     * @return the public value, <code>y</code>
+     * @return the public vblue, <code>y</code>
      */
     BigInteger getY();
 }

@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect;
+pbckbge sun.reflect;
 
-class ByteVectorImpl implements ByteVector {
-    private byte[] data;
-    private int pos;
+clbss ByteVectorImpl implements ByteVector {
+    privbte byte[] dbtb;
+    privbte int pos;
 
     public ByteVectorImpl() {
         this(100);
     }
 
     public ByteVectorImpl(int sz) {
-        data = new byte[sz];
+        dbtb = new byte[sz];
         pos = -1;
     }
 
@@ -43,46 +43,46 @@ class ByteVectorImpl implements ByteVector {
     }
 
     public byte get(int index) {
-        if (index >= data.length) {
+        if (index >= dbtb.length) {
             resize(index);
             pos = index;
         }
-        return data[index];
+        return dbtb[index];
     }
 
-    public void put(int index, byte value) {
-        if (index >= data.length) {
+    public void put(int index, byte vblue) {
+        if (index >= dbtb.length) {
             resize(index);
             pos = index;
         }
-        data[index] = value;
+        dbtb[index] = vblue;
     }
 
-    public void add(byte value) {
-        if (++pos >= data.length) {
+    public void bdd(byte vblue) {
+        if (++pos >= dbtb.length) {
             resize(pos);
         }
-        data[pos] = value;
+        dbtb[pos] = vblue;
     }
 
     public void trim() {
-        if (pos != data.length - 1) {
-            byte[] newData = new byte[pos + 1];
-            System.arraycopy(data, 0, newData, 0, pos + 1);
-            data = newData;
+        if (pos != dbtb.length - 1) {
+            byte[] newDbtb = new byte[pos + 1];
+            System.brrbycopy(dbtb, 0, newDbtb, 0, pos + 1);
+            dbtb = newDbtb;
         }
     }
 
-    public byte[] getData() {
-        return data;
+    public byte[] getDbtb() {
+        return dbtb;
     }
 
-    private void resize(int minSize) {
-        if (minSize <= 2 * data.length) {
-            minSize = 2 * data.length;
+    privbte void resize(int minSize) {
+        if (minSize <= 2 * dbtb.length) {
+            minSize = 2 * dbtb.length;
         }
-        byte[] newData = new byte[minSize];
-        System.arraycopy(data, 0, newData, 0, data.length);
-        data = newData;
+        byte[] newDbtb = new byte[minSize];
+        System.brrbycopy(dbtb, 0, newDbtb, 0, dbtb.length);
+        dbtb = newDbtb;
     }
 }

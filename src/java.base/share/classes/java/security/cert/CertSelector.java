@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
 /**
- * A selector that defines a set of criteria for selecting
- * {@code Certificate}s. Classes that implement this interface
- * are often used to specify which {@code Certificate}s should
- * be retrieved from a {@code CertStore}.
+ * A selector thbt defines b set of criterib for selecting
+ * {@code Certificbte}s. Clbsses thbt implement this interfbce
+ * bre often used to specify which {@code Certificbte}s should
+ * be retrieved from b {@code CertStore}.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this interface are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this interfbce bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
- * @see Certificate
+ * @see Certificbte
  * @see CertStore
- * @see CertStore#getCertificates
+ * @see CertStore#getCertificbtes
  *
- * @author      Steve Hanna
+ * @buthor      Steve Hbnnb
  * @since       1.4
  */
-public interface CertSelector extends Cloneable {
+public interfbce CertSelector extends Clonebble {
 
     /**
-     * Decides whether a {@code Certificate} should be selected.
+     * Decides whether b {@code Certificbte} should be selected.
      *
-     * @param   cert    the {@code Certificate} to be checked
-     * @return  {@code true} if the {@code Certificate}
-     * should be selected, {@code false} otherwise
+     * @pbrbm   cert    the {@code Certificbte} to be checked
+     * @return  {@code true} if the {@code Certificbte}
+     * should be selected, {@code fblse} otherwise
      */
-    boolean match(Certificate cert);
+    boolebn mbtch(Certificbte cert);
 
     /**
-     * Makes a copy of this {@code CertSelector}. Changes to the
-     * copy will not affect the original and vice versa.
+     * Mbkes b copy of this {@code CertSelector}. Chbnges to the
+     * copy will not bffect the originbl bnd vice versb.
      *
-     * @return a copy of this {@code CertSelector}
+     * @return b copy of this {@code CertSelector}
      */
     Object clone();
 }

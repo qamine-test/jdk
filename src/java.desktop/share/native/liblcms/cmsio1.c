@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,95 +53,95 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
-// Read tags using low-level functions, provides necessary glue code to adapt versions, etc.
+// Rebd tbgs using low-level functions, provides necessbry glue code to bdbpt versions, etc.
 
-// LUT tags
-static const cmsTagSignature Device2PCS16[]   =  {cmsSigAToB0Tag,     // Perceptual
-                                                  cmsSigAToB1Tag,     // Relative colorimetric
-                                                  cmsSigAToB2Tag,     // Saturation
-                                                  cmsSigAToB1Tag };   // Absolute colorimetric
+// LUT tbgs
+stbtic const cmsTbgSignbture Device2PCS16[]   =  {cmsSigAToB0Tbg,     // Perceptubl
+                                                  cmsSigAToB1Tbg,     // Relbtive colorimetric
+                                                  cmsSigAToB2Tbg,     // Sbturbtion
+                                                  cmsSigAToB1Tbg };   // Absolute colorimetric
 
-static const cmsTagSignature Device2PCSFloat[] = {cmsSigDToB0Tag,     // Perceptual
-                                                  cmsSigDToB1Tag,     // Relative colorimetric
-                                                  cmsSigDToB2Tag,     // Saturation
-                                                  cmsSigDToB3Tag };   // Absolute colorimetric
+stbtic const cmsTbgSignbture Device2PCSFlobt[] = {cmsSigDToB0Tbg,     // Perceptubl
+                                                  cmsSigDToB1Tbg,     // Relbtive colorimetric
+                                                  cmsSigDToB2Tbg,     // Sbturbtion
+                                                  cmsSigDToB3Tbg };   // Absolute colorimetric
 
-static const cmsTagSignature PCS2Device16[]    = {cmsSigBToA0Tag,     // Perceptual
-                                                  cmsSigBToA1Tag,     // Relative colorimetric
-                                                  cmsSigBToA2Tag,     // Saturation
-                                                  cmsSigBToA1Tag };   // Absolute colorimetric
+stbtic const cmsTbgSignbture PCS2Device16[]    = {cmsSigBToA0Tbg,     // Perceptubl
+                                                  cmsSigBToA1Tbg,     // Relbtive colorimetric
+                                                  cmsSigBToA2Tbg,     // Sbturbtion
+                                                  cmsSigBToA1Tbg };   // Absolute colorimetric
 
-static const cmsTagSignature PCS2DeviceFloat[] = {cmsSigBToD0Tag,     // Perceptual
-                                                  cmsSigBToD1Tag,     // Relative colorimetric
-                                                  cmsSigBToD2Tag,     // Saturation
-                                                  cmsSigBToD3Tag };   // Absolute colorimetric
+stbtic const cmsTbgSignbture PCS2DeviceFlobt[] = {cmsSigBToD0Tbg,     // Perceptubl
+                                                  cmsSigBToD1Tbg,     // Relbtive colorimetric
+                                                  cmsSigBToD2Tbg,     // Sbturbtion
+                                                  cmsSigBToD3Tbg };   // Absolute colorimetric
 
 
-// Factors to convert from 1.15 fixed point to 0..1.0 range and vice-versa
+// Fbctors to convert from 1.15 fixed point to 0..1.0 rbnge bnd vice-versb
 #define InpAdj   (1.0/MAX_ENCODEABLE_XYZ)     // (65536.0/(65535.0*2.0))
 #define OutpAdj  (MAX_ENCODEABLE_XYZ)         // ((2.0*65535.0)/65536.0)
 
-// Several resources for gray conversions.
-static const cmsFloat64Number GrayInputMatrix[] = { (InpAdj*cmsD50X),  (InpAdj*cmsD50Y),  (InpAdj*cmsD50Z) };
-static const cmsFloat64Number OneToThreeInputMatrix[] = { 1, 1, 1 };
-static const cmsFloat64Number PickYMatrix[] = { 0, (OutpAdj*cmsD50Y), 0 };
-static const cmsFloat64Number PickLstarMatrix[] = { 1, 0, 0 };
+// Severbl resources for grby conversions.
+stbtic const cmsFlobt64Number GrbyInputMbtrix[] = { (InpAdj*cmsD50X),  (InpAdj*cmsD50Y),  (InpAdj*cmsD50Z) };
+stbtic const cmsFlobt64Number OneToThreeInputMbtrix[] = { 1, 1, 1 };
+stbtic const cmsFlobt64Number PickYMbtrix[] = { 0, (OutpAdj*cmsD50Y), 0 };
+stbtic const cmsFlobt64Number PickLstbrMbtrix[] = { 1, 0, 0 };
 
-// Get a media white point fixing some issues found in certain old profiles
-cmsBool  _cmsReadMediaWhitePoint(cmsCIEXYZ* Dest, cmsHPROFILE hProfile)
+// Get b medib white point fixing some issues found in certbin old profiles
+cmsBool  _cmsRebdMedibWhitePoint(cmsCIEXYZ* Dest, cmsHPROFILE hProfile)
 {
-    cmsCIEXYZ* Tag;
+    cmsCIEXYZ* Tbg;
 
     _cmsAssert(Dest != NULL);
 
-    Tag = (cmsCIEXYZ*) cmsReadTag(hProfile, cmsSigMediaWhitePointTag);
+    Tbg = (cmsCIEXYZ*) cmsRebdTbg(hProfile, cmsSigMedibWhitePointTbg);
 
-    // If no wp, take D50
-    if (Tag == NULL) {
+    // If no wp, tbke D50
+    if (Tbg == NULL) {
         *Dest = *cmsD50_XYZ();
         return TRUE;
     }
 
-    // V2 display profiles should give D50
+    // V2 displby profiles should give D50
     if (cmsGetEncodedICCversion(hProfile) < 0x4000000) {
 
-        if (cmsGetDeviceClass(hProfile) == cmsSigDisplayClass) {
+        if (cmsGetDeviceClbss(hProfile) == cmsSigDisplbyClbss) {
             *Dest = *cmsD50_XYZ();
             return TRUE;
         }
     }
 
     // All seems ok
-    *Dest = *Tag;
+    *Dest = *Tbg;
     return TRUE;
 }
 
 
-// Chromatic adaptation matrix. Fix some issues as well
-cmsBool  _cmsReadCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile)
+// Chrombtic bdbptbtion mbtrix. Fix some issues bs well
+cmsBool  _cmsRebdCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile)
 {
-    cmsMAT3* Tag;
+    cmsMAT3* Tbg;
 
     _cmsAssert(Dest != NULL);
 
-    Tag = (cmsMAT3*) cmsReadTag(hProfile, cmsSigChromaticAdaptationTag);
+    Tbg = (cmsMAT3*) cmsRebdTbg(hProfile, cmsSigChrombticAdbptbtionTbg);
 
-    if (Tag != NULL) {
-        *Dest = *Tag;
+    if (Tbg != NULL) {
+        *Dest = *Tbg;
         return TRUE;
     }
 
-    // No CHAD available, default it to identity
+    // No CHAD bvbilbble, defbult it to identity
     _cmsMAT3identity(Dest);
 
-    // V2 display profiles should give D50
+    // V2 displby profiles should give D50
     if (cmsGetEncodedICCversion(hProfile) < 0x4000000) {
 
-        if (cmsGetDeviceClass(hProfile) == cmsSigDisplayClass) {
+        if (cmsGetDeviceClbss(hProfile) == cmsSigDisplbyClbss) {
 
-            cmsCIEXYZ* White = (cmsCIEXYZ*) cmsReadTag(hProfile, cmsSigMediaWhitePointTag);
+            cmsCIEXYZ* White = (cmsCIEXYZ*) cmsRebdTbg(hProfile, cmsSigMedibWhitePointTbg);
 
             if (White == NULL) {
 
@@ -149,7 +149,7 @@ cmsBool  _cmsReadCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile)
                 return TRUE;
             }
 
-            return _cmsAdaptationMatrix(Dest, NULL, White, cmsD50_XYZ());
+            return _cmsAdbptbtionMbtrix(Dest, NULL, White, cmsD50_XYZ());
         }
     }
 
@@ -157,17 +157,17 @@ cmsBool  _cmsReadCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile)
 }
 
 
-// Auxiliar, read colorants as a MAT3 structure. Used by any function that needs a matrix-shaper
-static
-cmsBool ReadICCMatrixRGB2XYZ(cmsMAT3* r, cmsHPROFILE hProfile)
+// Auxilibr, rebd colorbnts bs b MAT3 structure. Used by bny function thbt needs b mbtrix-shbper
+stbtic
+cmsBool RebdICCMbtrixRGB2XYZ(cmsMAT3* r, cmsHPROFILE hProfile)
 {
     cmsCIEXYZ *PtrRed, *PtrGreen, *PtrBlue;
 
     _cmsAssert(r != NULL);
 
-    PtrRed   = (cmsCIEXYZ *) cmsReadTag(hProfile, cmsSigRedColorantTag);
-    PtrGreen = (cmsCIEXYZ *) cmsReadTag(hProfile, cmsSigGreenColorantTag);
-    PtrBlue  = (cmsCIEXYZ *) cmsReadTag(hProfile, cmsSigBlueColorantTag);
+    PtrRed   = (cmsCIEXYZ *) cmsRebdTbg(hProfile, cmsSigRedColorbntTbg);
+    PtrGreen = (cmsCIEXYZ *) cmsRebdTbg(hProfile, cmsSigGreenColorbntTbg);
+    PtrBlue  = (cmsCIEXYZ *) cmsRebdTbg(hProfile, cmsSigBlueColorbntTbg);
 
     if (PtrRed == NULL || PtrGreen == NULL || PtrBlue == NULL)
         return FALSE;
@@ -180,102 +180,102 @@ cmsBool ReadICCMatrixRGB2XYZ(cmsMAT3* r, cmsHPROFILE hProfile)
 }
 
 
-// Gray input pipeline
-static
-cmsPipeline* BuildGrayInputMatrixPipeline(cmsHPROFILE hProfile)
+// Grby input pipeline
+stbtic
+cmsPipeline* BuildGrbyInputMbtrixPipeline(cmsHPROFILE hProfile)
 {
-    cmsToneCurve *GrayTRC;
+    cmsToneCurve *GrbyTRC;
     cmsPipeline* Lut;
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
-    GrayTRC = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigGrayTRCTag);
-    if (GrayTRC == NULL) return NULL;
+    GrbyTRC = (cmsToneCurve *) cmsRebdTbg(hProfile, cmsSigGrbyTRCTbg);
+    if (GrbyTRC == NULL) return NULL;
 
     Lut = cmsPipelineAlloc(ContextID, 1, 3);
     if (Lut == NULL)
         goto Error;
 
-    if (cmsGetPCS(hProfile) == cmsSigLabData) {
+    if (cmsGetPCS(hProfile) == cmsSigLbbDbtb) {
 
-        // In this case we implement the profile as an  identity matrix plus 3 tone curves
+        // In this cbse we implement the profile bs bn  identity mbtrix plus 3 tone curves
         cmsUInt16Number Zero[2] = { 0x8080, 0x8080 };
-        cmsToneCurve* EmptyTab;
-        cmsToneCurve* LabCurves[3];
+        cmsToneCurve* EmptyTbb;
+        cmsToneCurve* LbbCurves[3];
 
-        EmptyTab = cmsBuildTabulatedToneCurve16(ContextID, 2, Zero);
+        EmptyTbb = cmsBuildTbbulbtedToneCurve16(ContextID, 2, Zero);
 
-        if (EmptyTab == NULL)
+        if (EmptyTbb == NULL)
             goto Error;
 
-        LabCurves[0] = GrayTRC;
-        LabCurves[1] = EmptyTab;
-        LabCurves[2] = EmptyTab;
+        LbbCurves[0] = GrbyTRC;
+        LbbCurves[1] = EmptyTbb;
+        LbbCurves[2] = EmptyTbb;
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3,  1, OneToThreeInputMatrix, NULL)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 3, LabCurves))) {
-                cmsFreeToneCurve(EmptyTab);
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocMbtrix(ContextID, 3,  1, OneToThreeInputMbtrix, NULL)) ||
+            !cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocToneCurves(ContextID, 3, LbbCurves))) {
+                cmsFreeToneCurve(EmptyTbb);
                 goto Error;
         }
 
-        cmsFreeToneCurve(EmptyTab);
+        cmsFreeToneCurve(EmptyTbb);
 
     }
     else  {
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 1, &GrayTRC)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3,  1, GrayInputMatrix, NULL)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocToneCurves(ContextID, 1, &GrbyTRC)) ||
+            !cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocMbtrix(ContextID, 3,  1, GrbyInputMbtrix, NULL)))
             goto Error;
     }
 
     return Lut;
 
 Error:
-    cmsFreeToneCurve(GrayTRC);
+    cmsFreeToneCurve(GrbyTRC);
     cmsPipelineFree(Lut);
     return NULL;
 }
 
-// RGB Matrix shaper
-static
-cmsPipeline* BuildRGBInputMatrixShaper(cmsHPROFILE hProfile)
+// RGB Mbtrix shbper
+stbtic
+cmsPipeline* BuildRGBInputMbtrixShbper(cmsHPROFILE hProfile)
 {
     cmsPipeline* Lut;
-    cmsMAT3 Mat;
-    cmsToneCurve *Shapes[3];
+    cmsMAT3 Mbt;
+    cmsToneCurve *Shbpes[3];
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
     int i, j;
 
-    if (!ReadICCMatrixRGB2XYZ(&Mat, hProfile)) return NULL;
+    if (!RebdICCMbtrixRGB2XYZ(&Mbt, hProfile)) return NULL;
 
-    // XYZ PCS in encoded in 1.15 format, and the matrix output comes in 0..0xffff range, so
-    // we need to adjust the output by a factor of (0x10000/0xffff) to put data in
-    // a 1.16 range, and then a >> 1 to obtain 1.15. The total factor is (65536.0)/(65535.0*2)
+    // XYZ PCS in encoded in 1.15 formbt, bnd the mbtrix output comes in 0..0xffff rbnge, so
+    // we need to bdjust the output by b fbctor of (0x10000/0xffff) to put dbtb in
+    // b 1.16 rbnge, bnd then b >> 1 to obtbin 1.15. The totbl fbctor is (65536.0)/(65535.0*2)
 
     for (i=0; i < 3; i++)
         for (j=0; j < 3; j++)
-            Mat.v[i].n[j] *= InpAdj;
+            Mbt.v[i].n[j] *= InpAdj;
 
 
-    Shapes[0] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigRedTRCTag);
-    Shapes[1] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigGreenTRCTag);
-    Shapes[2] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigBlueTRCTag);
+    Shbpes[0] = (cmsToneCurve *) cmsRebdTbg(hProfile, cmsSigRedTRCTbg);
+    Shbpes[1] = (cmsToneCurve *) cmsRebdTbg(hProfile, cmsSigGreenTRCTbg);
+    Shbpes[2] = (cmsToneCurve *) cmsRebdTbg(hProfile, cmsSigBlueTRCTbg);
 
-    if (!Shapes[0] || !Shapes[1] || !Shapes[2])
+    if (!Shbpes[0] || !Shbpes[1] || !Shbpes[2])
         return NULL;
 
     Lut = cmsPipelineAlloc(ContextID, 3, 3);
     if (Lut != NULL) {
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 3, Shapes)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3, 3, (cmsFloat64Number*) &Mat, NULL)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocToneCurves(ContextID, 3, Shbpes)) ||
+            !cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocMbtrix(ContextID, 3, 3, (cmsFlobt64Number*) &Mbt, NULL)))
             goto Error;
 
-        // Note that it is certainly possible a single profile would have a LUT based
-        // tag for output working in lab and a matrix-shaper for the fallback cases.
-        // This is not allowed by the spec, but this code is tolerant to those cases
-        if (cmsGetPCS(hProfile) == cmsSigLabData) {
+        // Note thbt it is certbinly possible b single profile would hbve b LUT bbsed
+        // tbg for output working in lbb bnd b mbtrix-shbper for the fbllbbck cbses.
+        // This is not bllowed by the spec, but this code is tolerbnt to those cbses
+        if (cmsGetPCS(hProfile) == cmsSigLbbDbtb) {
 
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocXYZ2Lab(ContextID)))
+            if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeAllocXYZ2Lbb(ContextID)))
                 goto Error;
         }
 
@@ -290,38 +290,38 @@ Error:
 
 
 
-// Read the DToAX tag, adjusting the encoding of Lab or XYZ if neded
-static
-cmsPipeline* _cmsReadFloatInputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
+// Rebd the DToAX tbg, bdjusting the encoding of Lbb or XYZ if neded
+stbtic
+cmsPipeline* _cmsRebdFlobtInputTbg(cmsHPROFILE hProfile, cmsTbgSignbture tbgFlobt)
 {
     cmsContext ContextID       = cmsGetProfileContextID(hProfile);
-    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
-    cmsColorSpaceSignature spc = cmsGetColorSpace(hProfile);
-    cmsColorSpaceSignature PCS = cmsGetPCS(hProfile);
+    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsRebdTbg(hProfile, tbgFlobt));
+    cmsColorSpbceSignbture spc = cmsGetColorSpbce(hProfile);
+    cmsColorSpbceSignbture PCS = cmsGetPCS(hProfile);
 
     if (Lut == NULL) return NULL;
 
-    // input and output of transform are in lcms 0..1 encoding.  If XYZ or Lab spaces are used,
-    //  these need to be normalized into the appropriate ranges (Lab = 100,0,0, XYZ=1.0,1.0,1.0)
-    if ( spc == cmsSigLabData)
+    // input bnd output of trbnsform bre in lcms 0..1 encoding.  If XYZ or Lbb spbces bre used,
+    //  these need to be normblized into the bppropribte rbnges (Lbb = 100,0,0, XYZ=1.0,1.0,1.0)
+    if ( spc == cmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToLabFloat(ContextID)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeNormblizeToLbbFlobt(ContextID)))
             goto Error;
     }
-    else if (spc == cmsSigXYZData)
+    else if (spc == cmsSigXYZDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeNormblizeToXyzFlobt(ContextID)))
             goto Error;
     }
 
-    if ( PCS == cmsSigLabData)
+    if ( PCS == cmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromLabFloat(ContextID)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeNormblizeFromLbbFlobt(ContextID)))
             goto Error;
     }
-    else if( PCS == cmsSigXYZData)
+    else if( PCS == cmsSigXYZDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeNormblizeFromXyzFlobt(ContextID)))
             goto Error;
     }
 
@@ -333,74 +333,74 @@ Error:
 }
 
 
-// Read and create a BRAND NEW MPE LUT from a given profile. All stuff dependent of version, etc
-// is adjusted here in order to create a LUT that takes care of all those details
-cmsPipeline* _cmsReadInputLUT(cmsHPROFILE hProfile, int Intent)
+// Rebd bnd crebte b BRAND NEW MPE LUT from b given profile. All stuff dependent of version, etc
+// is bdjusted here in order to crebte b LUT thbt tbkes cbre of bll those detbils
+cmsPipeline* _cmsRebdInputLUT(cmsHPROFILE hProfile, int Intent)
 {
-    cmsTagTypeSignature OriginalType;
-    cmsTagSignature tag16    = Device2PCS16[Intent];
-    cmsTagSignature tagFloat = Device2PCSFloat[Intent];
+    cmsTbgTypeSignbture OriginblType;
+    cmsTbgSignbture tbg16    = Device2PCS16[Intent];
+    cmsTbgSignbture tbgFlobt = Device2PCSFlobt[Intent];
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
-    // On named color, take the appropiate tag
-    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+    // On nbmed color, tbke the bppropibte tbg
+    if (cmsGetDeviceClbss(hProfile) == cmsSigNbmedColorClbss) {
 
         cmsPipeline* Lut;
-        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
+        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsRebdTbg(hProfile, cmsSigNbmedColor2Tbg);
 
         if (nc == NULL) return NULL;
 
         Lut = cmsPipelineAlloc(ContextID, 0, 0);
         if (Lut == NULL) {
-            cmsFreeNamedColorList(nc);
+            cmsFreeNbmedColorList(nc);
             return NULL;
         }
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocNamedColor(nc, TRUE)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID))) {
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeAllocNbmedColor(nc, TRUE)) ||
+            !cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeAllocLbbV2ToV4(ContextID))) {
             cmsPipelineFree(Lut);
             return NULL;
         }
         return Lut;
     }
 
-    if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
+    if (cmsIsTbg(hProfile, tbgFlobt)) {  // Flobt tbg tbkes precedence
 
-        // Floating point LUT are always V4, but the encoding range is no
-        // longer 0..1.0, so we need to add an stage depending on the color space
-         return _cmsReadFloatInputTag(hProfile, tagFloat);
+        // Flobting point LUT bre blwbys V4, but the encoding rbnge is no
+        // longer 0..1.0, so we need to bdd bn stbge depending on the color spbce
+         return _cmsRebdFlobtInputTbg(hProfile, tbgFlobt);
     }
 
-    // Revert to perceptual if no tag is found
-    if (!cmsIsTag(hProfile, tag16)) {
-        tag16 = Device2PCS16[0];
+    // Revert to perceptubl if no tbg is found
+    if (!cmsIsTbg(hProfile, tbg16)) {
+        tbg16 = Device2PCS16[0];
     }
 
-    if (cmsIsTag(hProfile, tag16)) { // Is there any LUT-Based table?
+    if (cmsIsTbg(hProfile, tbg16)) { // Is there bny LUT-Bbsed tbble?
 
-        // Check profile version and LUT type. Do the necessary adjustments if needed
+        // Check profile version bnd LUT type. Do the necessbry bdjustments if needed
 
-        // First read the tag
-        cmsPipeline* Lut = (cmsPipeline*) cmsReadTag(hProfile, tag16);
+        // First rebd the tbg
+        cmsPipeline* Lut = (cmsPipeline*) cmsRebdTbg(hProfile, tbg16);
         if (Lut == NULL) return NULL;
 
-        // After reading it, we have now info about the original type
-        OriginalType =  _cmsGetTagTrueType(hProfile, tag16);
+        // After rebding it, we hbve now info bbout the originbl type
+        OriginblType =  _cmsGetTbgTrueType(hProfile, tbg16);
 
         // The profile owns the Lut, so we need to copy it
         Lut = cmsPipelineDup(Lut);
 
-        // We need to adjust data only for Lab16 on output
-        if (OriginalType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLabData)
+        // We need to bdjust dbtb only for Lbb16 on output
+        if (OriginblType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLbbDbtb)
             return Lut;
 
-        // If the input is Lab, add also a conversion at the begin
-        if (cmsGetColorSpace(hProfile) == cmsSigLabData &&
-            !cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID)))
+        // If the input is Lbb, bdd blso b conversion bt the begin
+        if (cmsGetColorSpbce(hProfile) == cmsSigLbbDbtb &&
+            !cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeAllocLbbV4ToV2(ContextID)))
             goto Error;
 
-        // Add a matrix for conversion V2 to V4 Lab PCS
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID)))
+        // Add b mbtrix for conversion V2 to V4 Lbb PCS
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeAllocLbbV2ToV4(ContextID)))
             goto Error;
 
         return Lut;
@@ -409,188 +409,188 @@ Error:
         return NULL;
     }
 
-    // Lut was not found, try to create a matrix-shaper
+    // Lut wbs not found, try to crebte b mbtrix-shbper
 
-    // Check if this is a grayscale profile.
-    if (cmsGetColorSpace(hProfile) == cmsSigGrayData) {
+    // Check if this is b grbyscble profile.
+    if (cmsGetColorSpbce(hProfile) == cmsSigGrbyDbtb) {
 
-        // if so, build appropiate conversion tables.
-        // The tables are the PCS iluminant, scaled across GrayTRC
-        return BuildGrayInputMatrixPipeline(hProfile);
+        // if so, build bppropibte conversion tbbles.
+        // The tbbles bre the PCS iluminbnt, scbled bcross GrbyTRC
+        return BuildGrbyInputMbtrixPipeline(hProfile);
     }
 
-    // Not gray, create a normal matrix-shaper
-    return BuildRGBInputMatrixShaper(hProfile);
+    // Not grby, crebte b normbl mbtrix-shbper
+    return BuildRGBInputMbtrixShbper(hProfile);
 }
 
 // ---------------------------------------------------------------------------------------------------------------
 
-// Gray output pipeline.
-// XYZ -> Gray or Lab -> Gray. Since we only know the GrayTRC, we need to do some assumptions. Gray component will be
-// given by Y on XYZ PCS and by L* on Lab PCS, Both across inverse TRC curve.
-// The complete pipeline on XYZ is Matrix[3:1] -> Tone curve and in Lab Matrix[3:1] -> Tone Curve as well.
+// Grby output pipeline.
+// XYZ -> Grby or Lbb -> Grby. Since we only know the GrbyTRC, we need to do some bssumptions. Grby component will be
+// given by Y on XYZ PCS bnd by L* on Lbb PCS, Both bcross inverse TRC curve.
+// The complete pipeline on XYZ is Mbtrix[3:1] -> Tone curve bnd in Lbb Mbtrix[3:1] -> Tone Curve bs well.
 
-static
-cmsPipeline* BuildGrayOutputPipeline(cmsHPROFILE hProfile)
+stbtic
+cmsPipeline* BuildGrbyOutputPipeline(cmsHPROFILE hProfile)
 {
-    cmsToneCurve *GrayTRC, *RevGrayTRC;
+    cmsToneCurve *GrbyTRC, *RevGrbyTRC;
     cmsPipeline* Lut;
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
-    GrayTRC = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigGrayTRCTag);
-    if (GrayTRC == NULL) return NULL;
+    GrbyTRC = (cmsToneCurve *) cmsRebdTbg(hProfile, cmsSigGrbyTRCTbg);
+    if (GrbyTRC == NULL) return NULL;
 
-    RevGrayTRC = cmsReverseToneCurve(GrayTRC);
-    if (RevGrayTRC == NULL) return NULL;
+    RevGrbyTRC = cmsReverseToneCurve(GrbyTRC);
+    if (RevGrbyTRC == NULL) return NULL;
 
     Lut = cmsPipelineAlloc(ContextID, 3, 1);
     if (Lut == NULL) {
-        cmsFreeToneCurve(RevGrayTRC);
+        cmsFreeToneCurve(RevGrbyTRC);
         return NULL;
     }
 
-    if (cmsGetPCS(hProfile) == cmsSigLabData) {
+    if (cmsGetPCS(hProfile) == cmsSigLbbDbtb) {
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 1,  3, PickLstarMatrix, NULL)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocMbtrix(ContextID, 1,  3, PickLstbrMbtrix, NULL)))
             goto Error;
     }
     else  {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 1,  3, PickYMatrix, NULL)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocMbtrix(ContextID, 1,  3, PickYMbtrix, NULL)))
             goto Error;
     }
 
-    if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 1, &RevGrayTRC)))
+    if (!cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocToneCurves(ContextID, 1, &RevGrbyTRC)))
         goto Error;
 
-    cmsFreeToneCurve(RevGrayTRC);
+    cmsFreeToneCurve(RevGrbyTRC);
     return Lut;
 
 Error:
-    cmsFreeToneCurve(RevGrayTRC);
+    cmsFreeToneCurve(RevGrbyTRC);
     cmsPipelineFree(Lut);
     return NULL;
 }
 
 
-static
-cmsPipeline* BuildRGBOutputMatrixShaper(cmsHPROFILE hProfile)
+stbtic
+cmsPipeline* BuildRGBOutputMbtrixShbper(cmsHPROFILE hProfile)
 {
     cmsPipeline* Lut;
-    cmsToneCurve *Shapes[3], *InvShapes[3];
-    cmsMAT3 Mat, Inv;
+    cmsToneCurve *Shbpes[3], *InvShbpes[3];
+    cmsMAT3 Mbt, Inv;
     int i, j;
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
-    if (!ReadICCMatrixRGB2XYZ(&Mat, hProfile))
+    if (!RebdICCMbtrixRGB2XYZ(&Mbt, hProfile))
         return NULL;
 
-    if (!_cmsMAT3inverse(&Mat, &Inv))
+    if (!_cmsMAT3inverse(&Mbt, &Inv))
         return NULL;
 
-    // XYZ PCS in encoded in 1.15 format, and the matrix input should come in 0..0xffff range, so
-    // we need to adjust the input by a << 1 to obtain a 1.16 fixed and then by a factor of
-    // (0xffff/0x10000) to put data in 0..0xffff range. Total factor is (2.0*65535.0)/65536.0;
+    // XYZ PCS in encoded in 1.15 formbt, bnd the mbtrix input should come in 0..0xffff rbnge, so
+    // we need to bdjust the input by b << 1 to obtbin b 1.16 fixed bnd then by b fbctor of
+    // (0xffff/0x10000) to put dbtb in 0..0xffff rbnge. Totbl fbctor is (2.0*65535.0)/65536.0;
 
     for (i=0; i < 3; i++)
         for (j=0; j < 3; j++)
             Inv.v[i].n[j] *= OutpAdj;
 
-    Shapes[0] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigRedTRCTag);
-    Shapes[1] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigGreenTRCTag);
-    Shapes[2] = (cmsToneCurve *) cmsReadTag(hProfile, cmsSigBlueTRCTag);
+    Shbpes[0] = (cmsToneCurve *) cmsRebdTbg(hProfile, cmsSigRedTRCTbg);
+    Shbpes[1] = (cmsToneCurve *) cmsRebdTbg(hProfile, cmsSigGreenTRCTbg);
+    Shbpes[2] = (cmsToneCurve *) cmsRebdTbg(hProfile, cmsSigBlueTRCTbg);
 
-    if (!Shapes[0] || !Shapes[1] || !Shapes[2])
+    if (!Shbpes[0] || !Shbpes[1] || !Shbpes[2])
         return NULL;
 
-    InvShapes[0] = cmsReverseToneCurve(Shapes[0]);
-    InvShapes[1] = cmsReverseToneCurve(Shapes[1]);
-    InvShapes[2] = cmsReverseToneCurve(Shapes[2]);
+    InvShbpes[0] = cmsReverseToneCurve(Shbpes[0]);
+    InvShbpes[1] = cmsReverseToneCurve(Shbpes[1]);
+    InvShbpes[2] = cmsReverseToneCurve(Shbpes[2]);
 
-    if (!InvShapes[0] || !InvShapes[1] || !InvShapes[2]) {
+    if (!InvShbpes[0] || !InvShbpes[1] || !InvShbpes[2]) {
         return NULL;
     }
 
     Lut = cmsPipelineAlloc(ContextID, 3, 3);
     if (Lut != NULL) {
 
-        // Note that it is certainly possible a single profile would have a LUT based
-        // tag for output working in lab and a matrix-shaper for the fallback cases.
-        // This is not allowed by the spec, but this code is tolerant to those cases
-        if (cmsGetPCS(hProfile) == cmsSigLabData) {
+        // Note thbt it is certbinly possible b single profile would hbve b LUT bbsed
+        // tbg for output working in lbb bnd b mbtrix-shbper for the fbllbbck cbses.
+        // This is not bllowed by the spec, but this code is tolerbnt to those cbses
+        if (cmsGetPCS(hProfile) == cmsSigLbbDbtb) {
 
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLab2XYZ(ContextID)))
+            if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeAllocLbb2XYZ(ContextID)))
                 goto Error;
         }
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocMatrix(ContextID, 3, 3, (cmsFloat64Number*) &Inv, NULL)) ||
-            !cmsPipelineInsertStage(Lut, cmsAT_END, cmsStageAllocToneCurves(ContextID, 3, InvShapes)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocMbtrix(ContextID, 3, 3, (cmsFlobt64Number*) &Inv, NULL)) ||
+            !cmsPipelineInsertStbge(Lut, cmsAT_END, cmsStbgeAllocToneCurves(ContextID, 3, InvShbpes)))
             goto Error;
     }
 
-    cmsFreeToneCurveTriple(InvShapes);
+    cmsFreeToneCurveTriple(InvShbpes);
     return Lut;
 Error:
-    cmsFreeToneCurveTriple(InvShapes);
+    cmsFreeToneCurveTriple(InvShbpes);
     cmsPipelineFree(Lut);
     return NULL;
 }
 
 
-// Change CLUT interpolation to trilinear
-static
-void ChangeInterpolationToTrilinear(cmsPipeline* Lut)
+// Chbnge CLUT interpolbtion to trilinebr
+stbtic
+void ChbngeInterpolbtionToTrilinebr(cmsPipeline* Lut)
 {
-    cmsStage* Stage;
+    cmsStbge* Stbge;
 
-    for (Stage = cmsPipelineGetPtrToFirstStage(Lut);
-        Stage != NULL;
-        Stage = cmsStageNext(Stage)) {
+    for (Stbge = cmsPipelineGetPtrToFirstStbge(Lut);
+        Stbge != NULL;
+        Stbge = cmsStbgeNext(Stbge)) {
 
-            if (cmsStageType(Stage) == cmsSigCLutElemType) {
+            if (cmsStbgeType(Stbge) == cmsSigCLutElemType) {
 
-                _cmsStageCLutData* CLUT = (_cmsStageCLutData*) Stage ->Data;
+                _cmsStbgeCLutDbtb* CLUT = (_cmsStbgeCLutDbtb*) Stbge ->Dbtb;
 
-                CLUT ->Params->dwFlags |= CMS_LERP_FLAGS_TRILINEAR;
-                _cmsSetInterpolationRoutine(CLUT ->Params);
+                CLUT ->Pbrbms->dwFlbgs |= CMS_LERP_FLAGS_TRILINEAR;
+                _cmsSetInterpolbtionRoutine(CLUT ->Pbrbms);
             }
     }
 }
 
 
-// Read the DToAX tag, adjusting the encoding of Lab or XYZ if neded
-static
-cmsPipeline* _cmsReadFloatOutputTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
+// Rebd the DToAX tbg, bdjusting the encoding of Lbb or XYZ if neded
+stbtic
+cmsPipeline* _cmsRebdFlobtOutputTbg(cmsHPROFILE hProfile, cmsTbgSignbture tbgFlobt)
 {
     cmsContext ContextID       = cmsGetProfileContextID(hProfile);
-    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
-    cmsColorSpaceSignature PCS = cmsGetPCS(hProfile);
-    cmsColorSpaceSignature dataSpace = cmsGetColorSpace(hProfile);
+    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsRebdTbg(hProfile, tbgFlobt));
+    cmsColorSpbceSignbture PCS = cmsGetPCS(hProfile);
+    cmsColorSpbceSignbture dbtbSpbce = cmsGetColorSpbce(hProfile);
 
     if (Lut == NULL) return NULL;
 
-    // If PCS is Lab or XYZ, the floating point tag is accepting data in the space encoding,
-    // and since the formatter has already accomodated to 0..1.0, we should undo this change
-    if ( PCS == cmsSigLabData)
+    // If PCS is Lbb or XYZ, the flobting point tbg is bccepting dbtb in the spbce encoding,
+    // bnd since the formbtter hbs blrebdy bccomodbted to 0..1.0, we should undo this chbnge
+    if ( PCS == cmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToLabFloat(ContextID)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeNormblizeToLbbFlobt(ContextID)))
             goto Error;
     }
     else
-        if (PCS == cmsSigXYZData)
+        if (PCS == cmsSigXYZDbtb)
         {
-            if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID)))
+            if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeNormblizeToXyzFlobt(ContextID)))
                 goto Error;
         }
 
-    // the output can be Lab or XYZ, in which case normalisation is needed on the end of the pipeline
-    if ( dataSpace == cmsSigLabData)
+    // the output cbn be Lbb or XYZ, in which cbse normblisbtion is needed on the end of the pipeline
+    if ( dbtbSpbce == cmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromLabFloat(ContextID)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeNormblizeFromLbbFlobt(ContextID)))
             goto Error;
     }
-    else if (dataSpace == cmsSigXYZData)
+    else if (dbtbSpbce == cmsSigXYZDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeNormblizeFromXyzFlobt(ContextID)))
             goto Error;
     }
 
@@ -601,56 +601,56 @@ Error:
     return NULL;
 }
 
-// Create an output MPE LUT from agiven profile. Version mismatches are handled here
-cmsPipeline* _cmsReadOutputLUT(cmsHPROFILE hProfile, int Intent)
+// Crebte bn output MPE LUT from bgiven profile. Version mismbtches bre hbndled here
+cmsPipeline* _cmsRebdOutputLUT(cmsHPROFILE hProfile, int Intent)
 {
-    cmsTagTypeSignature OriginalType;
-    cmsTagSignature tag16    = PCS2Device16[Intent];
-    cmsTagSignature tagFloat = PCS2DeviceFloat[Intent];
+    cmsTbgTypeSignbture OriginblType;
+    cmsTbgSignbture tbg16    = PCS2Device16[Intent];
+    cmsTbgSignbture tbgFlobt = PCS2DeviceFlobt[Intent];
     cmsContext ContextID     = cmsGetProfileContextID(hProfile);
 
-    if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
+    if (cmsIsTbg(hProfile, tbgFlobt)) {  // Flobt tbg tbkes precedence
 
-        // Floating point LUT are always V4
-        return _cmsReadFloatOutputTag(hProfile, tagFloat);
+        // Flobting point LUT bre blwbys V4
+        return _cmsRebdFlobtOutputTbg(hProfile, tbgFlobt);
     }
 
-    // Revert to perceptual if no tag is found
-    if (!cmsIsTag(hProfile, tag16)) {
-        tag16 = PCS2Device16[0];
+    // Revert to perceptubl if no tbg is found
+    if (!cmsIsTbg(hProfile, tbg16)) {
+        tbg16 = PCS2Device16[0];
     }
 
-    if (cmsIsTag(hProfile, tag16)) { // Is there any LUT-Based table?
+    if (cmsIsTbg(hProfile, tbg16)) { // Is there bny LUT-Bbsed tbble?
 
-        // Check profile version and LUT type. Do the necessary adjustments if needed
+        // Check profile version bnd LUT type. Do the necessbry bdjustments if needed
 
-        // First read the tag
-        cmsPipeline* Lut = (cmsPipeline*) cmsReadTag(hProfile, tag16);
+        // First rebd the tbg
+        cmsPipeline* Lut = (cmsPipeline*) cmsRebdTbg(hProfile, tbg16);
         if (Lut == NULL) return NULL;
 
-        // After reading it, we have info about the original type
-        OriginalType =  _cmsGetTagTrueType(hProfile, tag16);
+        // After rebding it, we hbve info bbout the originbl type
+        OriginblType =  _cmsGetTbgTrueType(hProfile, tbg16);
 
         // The profile owns the Lut, so we need to copy it
         Lut = cmsPipelineDup(Lut);
         if (Lut == NULL) return NULL;
 
-        // Now it is time for a controversial stuff. I found that for 3D LUTS using
-        // Lab used as indexer space,  trilinear interpolation should be used
-        if (cmsGetPCS(hProfile) == cmsSigLabData)
-            ChangeInterpolationToTrilinear(Lut);
+        // Now it is time for b controversibl stuff. I found thbt for 3D LUTS using
+        // Lbb used bs indexer spbce,  trilinebr interpolbtion should be used
+        if (cmsGetPCS(hProfile) == cmsSigLbbDbtb)
+            ChbngeInterpolbtionToTrilinebr(Lut);
 
-        // We need to adjust data only for Lab and Lut16 type
-        if (OriginalType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLabData)
+        // We need to bdjust dbtb only for Lbb bnd Lut16 type
+        if (OriginblType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLbbDbtb)
             return Lut;
 
-        // Add a matrix for conversion V4 to V2 Lab PCS
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID)))
+        // Add b mbtrix for conversion V4 to V2 Lbb PCS
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeAllocLbbV4ToV2(ContextID)))
             goto Error;
 
-        // If the output is Lab, add also a conversion at the end
-        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID)))
+        // If the output is Lbb, bdd blso b conversion bt the end
+        if (cmsGetColorSpbce(hProfile) == cmsSigLbbDbtb)
+            if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeAllocLbbV2ToV4(ContextID)))
                 goto Error;
 
         return Lut;
@@ -659,54 +659,54 @@ Error:
         return NULL;
     }
 
-    // Lut not found, try to create a matrix-shaper
+    // Lut not found, try to crebte b mbtrix-shbper
 
-    // Check if this is a grayscale profile.
-    if (cmsGetColorSpace(hProfile) == cmsSigGrayData) {
+    // Check if this is b grbyscble profile.
+    if (cmsGetColorSpbce(hProfile) == cmsSigGrbyDbtb) {
 
-        // if so, build appropiate conversion tables.
-        // The tables are the PCS iluminant, scaled across GrayTRC
-        return BuildGrayOutputPipeline(hProfile);
+        // if so, build bppropibte conversion tbbles.
+        // The tbbles bre the PCS iluminbnt, scbled bcross GrbyTRC
+        return BuildGrbyOutputPipeline(hProfile);
     }
 
-    // Not gray, create a normal matrix-shaper, which only operates in XYZ space
-    return BuildRGBOutputMatrixShaper(hProfile);
+    // Not grby, crebte b normbl mbtrix-shbper, which only operbtes in XYZ spbce
+    return BuildRGBOutputMbtrixShbper(hProfile);
 }
 
 // ---------------------------------------------------------------------------------------------------------------
 
-// Read the AToD0 tag, adjusting the encoding of Lab or XYZ if neded
-static
-cmsPipeline* _cmsReadFloatDevicelinkTag(cmsHPROFILE hProfile, cmsTagSignature tagFloat)
+// Rebd the AToD0 tbg, bdjusting the encoding of Lbb or XYZ if neded
+stbtic
+cmsPipeline* _cmsRebdFlobtDevicelinkTbg(cmsHPROFILE hProfile, cmsTbgSignbture tbgFlobt)
 {
     cmsContext ContextID       = cmsGetProfileContextID(hProfile);
-    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
-    cmsColorSpaceSignature PCS = cmsGetPCS(hProfile);
-    cmsColorSpaceSignature spc = cmsGetColorSpace(hProfile);
+    cmsPipeline* Lut           = cmsPipelineDup((cmsPipeline*) cmsRebdTbg(hProfile, tbgFlobt));
+    cmsColorSpbceSignbture PCS = cmsGetPCS(hProfile);
+    cmsColorSpbceSignbture spc = cmsGetColorSpbce(hProfile);
 
     if (Lut == NULL) return NULL;
 
-    if (spc == cmsSigLabData)
+    if (spc == cmsSigLbbDbtb)
     {
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToLabFloat(ContextID)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeNormblizeToLbbFlobt(ContextID)))
             goto Error;
     }
     else
-        if (spc == cmsSigXYZData)
+        if (spc == cmsSigXYZDbtb)
         {
-            if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageNormalizeToXyzFloat(ContextID)))
+            if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeNormblizeToXyzFlobt(ContextID)))
                 goto Error;
         }
 
-        if (PCS == cmsSigLabData)
+        if (PCS == cmsSigLbbDbtb)
         {
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromLabFloat(ContextID)))
+            if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeNormblizeFromLbbFlobt(ContextID)))
                 goto Error;
         }
         else
-            if (PCS == cmsSigXYZData)
+            if (PCS == cmsSigXYZDbtb)
             {
-                if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageNormalizeFromXyzFloat(ContextID)))
+                if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeNormblizeFromXyzFlobt(ContextID)))
                     goto Error;
             }
 
@@ -716,21 +716,21 @@ Error:
     return NULL;
 }
 
-// This one includes abstract profiles as well. Matrix-shaper cannot be obtained on that device class. The
-// tag name here may default to AToB0
-cmsPipeline* _cmsReadDevicelinkLUT(cmsHPROFILE hProfile, int Intent)
+// This one includes bbstrbct profiles bs well. Mbtrix-shbper cbnnot be obtbined on thbt device clbss. The
+// tbg nbme here mby defbult to AToB0
+cmsPipeline* _cmsRebdDevicelinkLUT(cmsHPROFILE hProfile, int Intent)
 {
     cmsPipeline* Lut;
-    cmsTagTypeSignature OriginalType;
-    cmsTagSignature tag16    = Device2PCS16[Intent];
-    cmsTagSignature tagFloat = Device2PCSFloat[Intent];
+    cmsTbgTypeSignbture OriginblType;
+    cmsTbgSignbture tbg16    = Device2PCS16[Intent];
+    cmsTbgSignbture tbgFlobt = Device2PCSFlobt[Intent];
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
 
-    // On named color, take the appropiate tag
-    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+    // On nbmed color, tbke the bppropibte tbg
+    if (cmsGetDeviceClbss(hProfile) == cmsSigNbmedColorClbss) {
 
-        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
+        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsRebdTbg(hProfile, cmsSigNbmedColor2Tbg);
 
         if (nc == NULL) return NULL;
 
@@ -738,68 +738,68 @@ cmsPipeline* _cmsReadDevicelinkLUT(cmsHPROFILE hProfile, int Intent)
         if (Lut == NULL)
             goto Error;
 
-        if (!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocNamedColor(nc, FALSE)))
+        if (!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeAllocNbmedColor(nc, FALSE)))
             goto Error;
 
-        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
-            if (!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID)))
+        if (cmsGetColorSpbce(hProfile) == cmsSigLbbDbtb)
+            if (!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeAllocLbbV2ToV4(ContextID)))
                 goto Error;
 
         return Lut;
 Error:
         cmsPipelineFree(Lut);
-        cmsFreeNamedColorList(nc);
+        cmsFreeNbmedColorList(nc);
         return NULL;
     }
 
-    if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
+    if (cmsIsTbg(hProfile, tbgFlobt)) {  // Flobt tbg tbkes precedence
 
-        // Floating point LUT are always V
-        return _cmsReadFloatDevicelinkTag(hProfile, tagFloat);
+        // Flobting point LUT bre blwbys V
+        return _cmsRebdFlobtDevicelinkTbg(hProfile, tbgFlobt);
     }
 
-    tagFloat = Device2PCSFloat[0];
-    if (cmsIsTag(hProfile, tagFloat)) {
+    tbgFlobt = Device2PCSFlobt[0];
+    if (cmsIsTbg(hProfile, tbgFlobt)) {
 
-        return cmsPipelineDup((cmsPipeline*) cmsReadTag(hProfile, tagFloat));
+        return cmsPipelineDup((cmsPipeline*) cmsRebdTbg(hProfile, tbgFlobt));
     }
 
-    if (!cmsIsTag(hProfile, tag16)) {  // Is there any LUT-Based table?
+    if (!cmsIsTbg(hProfile, tbg16)) {  // Is there bny LUT-Bbsed tbble?
 
-        tag16    = Device2PCS16[0];
-        if (!cmsIsTag(hProfile, tag16)) return NULL;
+        tbg16    = Device2PCS16[0];
+        if (!cmsIsTbg(hProfile, tbg16)) return NULL;
     }
 
-    // Check profile version and LUT type. Do the necessary adjustments if needed
+    // Check profile version bnd LUT type. Do the necessbry bdjustments if needed
 
-    // Read the tag
-    Lut = (cmsPipeline*) cmsReadTag(hProfile, tag16);
+    // Rebd the tbg
+    Lut = (cmsPipeline*) cmsRebdTbg(hProfile, tbg16);
     if (Lut == NULL) return NULL;
 
     // The profile owns the Lut, so we need to copy it
     Lut = cmsPipelineDup(Lut);
     if (Lut == NULL) return NULL;
 
-    // Now it is time for a controversial stuff. I found that for 3D LUTS using
-    // Lab used as indexer space,  trilinear interpolation should be used
-    if (cmsGetColorSpace(hProfile) == cmsSigLabData)
-        ChangeInterpolationToTrilinear(Lut);
+    // Now it is time for b controversibl stuff. I found thbt for 3D LUTS using
+    // Lbb used bs indexer spbce,  trilinebr interpolbtion should be used
+    if (cmsGetColorSpbce(hProfile) == cmsSigLbbDbtb)
+        ChbngeInterpolbtionToTrilinebr(Lut);
 
-    // After reading it, we have info about the original type
-    OriginalType =  _cmsGetTagTrueType(hProfile, tag16);
+    // After rebding it, we hbve info bbout the originbl type
+    OriginblType =  _cmsGetTbgTrueType(hProfile, tbg16);
 
-    // We need to adjust data for Lab16 on output
-    if (OriginalType != cmsSigLut16Type) return Lut;
+    // We need to bdjust dbtb for Lbb16 on output
+    if (OriginblType != cmsSigLut16Type) return Lut;
 
-    // Here it is possible to get Lab on both sides
+    // Here it is possible to get Lbb on both sides
 
-    if (cmsGetPCS(hProfile) == cmsSigLabData) {
-        if(!cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID)))
+    if (cmsGetPCS(hProfile) == cmsSigLbbDbtb) {
+        if(!cmsPipelineInsertStbge(Lut, cmsAT_BEGIN, _cmsStbgeAllocLbbV4ToV2(ContextID)))
             goto Error2;
     }
 
-    if (cmsGetColorSpace(hProfile) == cmsSigLabData) {
-        if(!cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID)))
+    if (cmsGetColorSpbce(hProfile) == cmsSigLbbDbtb) {
+        if(!cmsPipelineInsertStbge(Lut, cmsAT_END, _cmsStbgeAllocLbbV2ToV4(ContextID)))
             goto Error2;
     }
 
@@ -812,99 +812,99 @@ Error2:
 
 // ---------------------------------------------------------------------------------------------------------------
 
-// Returns TRUE if the profile is implemented as matrix-shaper
-cmsBool  CMSEXPORT cmsIsMatrixShaper(cmsHPROFILE hProfile)
+// Returns TRUE if the profile is implemented bs mbtrix-shbper
+cmsBool  CMSEXPORT cmsIsMbtrixShbper(cmsHPROFILE hProfile)
 {
-    switch (cmsGetColorSpace(hProfile)) {
+    switch (cmsGetColorSpbce(hProfile)) {
 
-    case cmsSigGrayData:
+    cbse cmsSigGrbyDbtb:
 
-        return cmsIsTag(hProfile, cmsSigGrayTRCTag);
+        return cmsIsTbg(hProfile, cmsSigGrbyTRCTbg);
 
-    case cmsSigRgbData:
+    cbse cmsSigRgbDbtb:
 
-        return (cmsIsTag(hProfile, cmsSigRedColorantTag) &&
-                cmsIsTag(hProfile, cmsSigGreenColorantTag) &&
-                cmsIsTag(hProfile, cmsSigBlueColorantTag) &&
-                cmsIsTag(hProfile, cmsSigRedTRCTag) &&
-                cmsIsTag(hProfile, cmsSigGreenTRCTag) &&
-                cmsIsTag(hProfile, cmsSigBlueTRCTag));
+        return (cmsIsTbg(hProfile, cmsSigRedColorbntTbg) &&
+                cmsIsTbg(hProfile, cmsSigGreenColorbntTbg) &&
+                cmsIsTbg(hProfile, cmsSigBlueColorbntTbg) &&
+                cmsIsTbg(hProfile, cmsSigRedTRCTbg) &&
+                cmsIsTbg(hProfile, cmsSigGreenTRCTbg) &&
+                cmsIsTbg(hProfile, cmsSigBlueTRCTbg));
 
-    default:
+    defbult:
 
         return FALSE;
     }
 }
 
-// Returns TRUE if the intent is implemented as CLUT
+// Returns TRUE if the intent is implemented bs CLUT
 cmsBool  CMSEXPORT cmsIsCLUT(cmsHPROFILE hProfile, cmsUInt32Number Intent, cmsUInt32Number UsedDirection)
 {
-    const cmsTagSignature* TagTable;
+    const cmsTbgSignbture* TbgTbble;
 
-    // For devicelinks, the supported intent is that one stated in the header
-    if (cmsGetDeviceClass(hProfile) == cmsSigLinkClass) {
-            return (cmsGetHeaderRenderingIntent(hProfile) == Intent);
+    // For devicelinks, the supported intent is thbt one stbted in the hebder
+    if (cmsGetDeviceClbss(hProfile) == cmsSigLinkClbss) {
+            return (cmsGetHebderRenderingIntent(hProfile) == Intent);
     }
 
     switch (UsedDirection) {
 
-       case LCMS_USED_AS_INPUT: TagTable = Device2PCS16; break;
-       case LCMS_USED_AS_OUTPUT:TagTable = PCS2Device16; break;
+       cbse LCMS_USED_AS_INPUT: TbgTbble = Device2PCS16; brebk;
+       cbse LCMS_USED_AS_OUTPUT:TbgTbble = PCS2Device16; brebk;
 
        // For proofing, we need rel. colorimetric in output. Let's do some recursion
-       case LCMS_USED_AS_PROOF:
+       cbse LCMS_USED_AS_PROOF:
            return cmsIsIntentSupported(hProfile, Intent, LCMS_USED_AS_INPUT) &&
                   cmsIsIntentSupported(hProfile, INTENT_RELATIVE_COLORIMETRIC, LCMS_USED_AS_OUTPUT);
 
-       default:
-           cmsSignalError(cmsGetProfileContextID(hProfile), cmsERROR_RANGE, "Unexpected direction (%d)", UsedDirection);
+       defbult:
+           cmsSignblError(cmsGetProfileContextID(hProfile), cmsERROR_RANGE, "Unexpected direction (%d)", UsedDirection);
            return FALSE;
     }
 
-    return cmsIsTag(hProfile, TagTable[Intent]);
+    return cmsIsTbg(hProfile, TbgTbble[Intent]);
 
 }
 
 
-// Return info about supported intents
+// Return info bbout supported intents
 cmsBool  CMSEXPORT cmsIsIntentSupported(cmsHPROFILE hProfile,
                                         cmsUInt32Number Intent, cmsUInt32Number UsedDirection)
 {
 
     if (cmsIsCLUT(hProfile, Intent, UsedDirection)) return TRUE;
 
-    // Is there any matrix-shaper? If so, the intent is supported. This is a bit odd, since V2 matrix shaper
-    // does not fully support relative colorimetric because they cannot deal with non-zero black points, but
-    // many profiles claims that, and this is certainly not true for V4 profiles. Lets answer "yes" no matter
-    // the accuracy would be less than optimal in rel.col and v2 case.
+    // Is there bny mbtrix-shbper? If so, the intent is supported. This is b bit odd, since V2 mbtrix shbper
+    // does not fully support relbtive colorimetric becbuse they cbnnot debl with non-zero blbck points, but
+    // mbny profiles clbims thbt, bnd this is certbinly not true for V4 profiles. Lets bnswer "yes" no mbtter
+    // the bccurbcy would be less thbn optimbl in rel.col bnd v2 cbse.
 
-    return cmsIsMatrixShaper(hProfile);
+    return cmsIsMbtrixShbper(hProfile);
 }
 
 
 // ---------------------------------------------------------------------------------------------------------------
 
-// Read both, profile sequence description and profile sequence id if present. Then combine both to
-// create qa unique structure holding both. Shame on ICC to store things in such complicated way.
-cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
+// Rebd both, profile sequence description bnd profile sequence id if present. Then combine both to
+// crebte qb unique structure holding both. Shbme on ICC to store things in such complicbted wby.
+cmsSEQ* _cmsRebdProfileSequence(cmsHPROFILE hProfile)
 {
     cmsSEQ* ProfileSeq;
     cmsSEQ* ProfileId;
     cmsSEQ* NewSeq;
     cmsUInt32Number i;
 
-    // Take profile sequence description first
-    ProfileSeq = (cmsSEQ*) cmsReadTag(hProfile, cmsSigProfileSequenceDescTag);
+    // Tbke profile sequence description first
+    ProfileSeq = (cmsSEQ*) cmsRebdTbg(hProfile, cmsSigProfileSequenceDescTbg);
 
-    // Take profile sequence ID
-    ProfileId  = (cmsSEQ*) cmsReadTag(hProfile, cmsSigProfileSequenceIdTag);
+    // Tbke profile sequence ID
+    ProfileId  = (cmsSEQ*) cmsRebdTbg(hProfile, cmsSigProfileSequenceIdTbg);
 
     if (ProfileSeq == NULL && ProfileId == NULL) return NULL;
 
     if (ProfileSeq == NULL) return cmsDupProfileSequenceDescription(ProfileId);
     if (ProfileId  == NULL) return cmsDupProfileSequenceDescription(ProfileSeq);
 
-    // We have to mix both together. For that they must agree
+    // We hbve to mix both together. For thbt they must bgree
     if (ProfileSeq ->n != ProfileId ->n) return cmsDupProfileSequenceDescription(ProfileSeq);
 
     NewSeq = cmsDupProfileSequenceDescription(ProfileSeq);
@@ -920,31 +920,31 @@ cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
     return NewSeq;
 }
 
-// Dump the contents of profile sequence in both tags (if v4 available)
+// Dump the contents of profile sequence in both tbgs (if v4 bvbilbble)
 cmsBool _cmsWriteProfileSequence(cmsHPROFILE hProfile, const cmsSEQ* seq)
 {
-    if (!cmsWriteTag(hProfile, cmsSigProfileSequenceDescTag, seq)) return FALSE;
+    if (!cmsWriteTbg(hProfile, cmsSigProfileSequenceDescTbg, seq)) return FALSE;
 
     if (cmsGetProfileVersion(hProfile) >= 4.0) {
 
-            if (!cmsWriteTag(hProfile, cmsSigProfileSequenceIdTag, seq)) return FALSE;
+            if (!cmsWriteTbg(hProfile, cmsSigProfileSequenceIdTbg, seq)) return FALSE;
     }
 
     return TRUE;
 }
 
 
-// Auxiliar, read and duplicate a MLU if found.
-static
-cmsMLU* GetMLUFromProfile(cmsHPROFILE h, cmsTagSignature sig)
+// Auxilibr, rebd bnd duplicbte b MLU if found.
+stbtic
+cmsMLU* GetMLUFromProfile(cmsHPROFILE h, cmsTbgSignbture sig)
 {
-    cmsMLU* mlu = (cmsMLU*) cmsReadTag(h, sig);
+    cmsMLU* mlu = (cmsMLU*) cmsRebdTbg(h, sig);
     if (mlu == NULL) return NULL;
 
     return cmsMLUdup(mlu);
 }
 
-// Create a sequence description out of an array of profiles
+// Crebte b sequence description out of bn brrby of profiles
 cmsSEQ* _cmsCompileProfileSequence(cmsContext ContextID, cmsUInt32Number nProfiles, cmsHPROFILE hProfiles[])
 {
     cmsUInt32Number i;
@@ -956,22 +956,22 @@ cmsSEQ* _cmsCompileProfileSequence(cmsContext ContextID, cmsUInt32Number nProfil
 
         cmsPSEQDESC* ps = &seq ->seq[i];
         cmsHPROFILE h = hProfiles[i];
-        cmsTechnologySignature* techpt;
+        cmsTechnologySignbture* techpt;
 
-        cmsGetHeaderAttributes(h, &ps ->attributes);
-        cmsGetHeaderProfileID(h, ps ->ProfileID.ID8);
-        ps ->deviceMfg   = cmsGetHeaderManufacturer(h);
-        ps ->deviceModel = cmsGetHeaderModel(h);
+        cmsGetHebderAttributes(h, &ps ->bttributes);
+        cmsGetHebderProfileID(h, ps ->ProfileID.ID8);
+        ps ->deviceMfg   = cmsGetHebderMbnufbcturer(h);
+        ps ->deviceModel = cmsGetHebderModel(h);
 
-        techpt = (cmsTechnologySignature*) cmsReadTag(h, cmsSigTechnologyTag);
+        techpt = (cmsTechnologySignbture*) cmsRebdTbg(h, cmsSigTechnologyTbg);
         if (techpt == NULL)
-            ps ->technology   =  (cmsTechnologySignature) 0;
+            ps ->technology   =  (cmsTechnologySignbture) 0;
         else
             ps ->technology   = *techpt;
 
-        ps ->Manufacturer = GetMLUFromProfile(h,  cmsSigDeviceMfgDescTag);
-        ps ->Model        = GetMLUFromProfile(h,  cmsSigDeviceModelDescTag);
-        ps ->Description  = GetMLUFromProfile(h, cmsSigProfileDescriptionTag);
+        ps ->Mbnufbcturer = GetMLUFromProfile(h,  cmsSigDeviceMfgDescTbg);
+        ps ->Model        = GetMLUFromProfile(h,  cmsSigDeviceModelDescTbg);
+        ps ->Description  = GetMLUFromProfile(h, cmsSigProfileDescriptionTbg);
 
     }
 
@@ -981,55 +981,55 @@ cmsSEQ* _cmsCompileProfileSequence(cmsContext ContextID, cmsUInt32Number nProfil
 // -------------------------------------------------------------------------------------------------------------------
 
 
-static
+stbtic
 const cmsMLU* GetInfo(cmsHPROFILE hProfile, cmsInfoType Info)
 {
-    cmsTagSignature sig;
+    cmsTbgSignbture sig;
 
     switch (Info) {
 
-    case cmsInfoDescription:
-        sig = cmsSigProfileDescriptionTag;
-        break;
+    cbse cmsInfoDescription:
+        sig = cmsSigProfileDescriptionTbg;
+        brebk;
 
-    case cmsInfoManufacturer:
-        sig = cmsSigDeviceMfgDescTag;
-        break;
+    cbse cmsInfoMbnufbcturer:
+        sig = cmsSigDeviceMfgDescTbg;
+        brebk;
 
-    case cmsInfoModel:
-        sig = cmsSigDeviceModelDescTag;
-         break;
+    cbse cmsInfoModel:
+        sig = cmsSigDeviceModelDescTbg;
+         brebk;
 
-    case cmsInfoCopyright:
-        sig = cmsSigCopyrightTag;
-        break;
+    cbse cmsInfoCopyright:
+        sig = cmsSigCopyrightTbg;
+        brebk;
 
-    default: return NULL;
+    defbult: return NULL;
     }
 
 
-    return (cmsMLU*) cmsReadTag(hProfile, sig);
+    return (cmsMLU*) cmsRebdTbg(hProfile, sig);
 }
 
 
 
 cmsUInt32Number CMSEXPORT cmsGetProfileInfo(cmsHPROFILE hProfile, cmsInfoType Info,
-                                            const char LanguageCode[3], const char CountryCode[3],
-                                            wchar_t* Buffer, cmsUInt32Number BufferSize)
+                                            const chbr LbngubgeCode[3], const chbr CountryCode[3],
+                                            wchbr_t* Buffer, cmsUInt32Number BufferSize)
 {
     const cmsMLU* mlu = GetInfo(hProfile, Info);
     if (mlu == NULL) return 0;
 
-    return cmsMLUgetWide(mlu, LanguageCode, CountryCode, Buffer, BufferSize);
+    return cmsMLUgetWide(mlu, LbngubgeCode, CountryCode, Buffer, BufferSize);
 }
 
 
 cmsUInt32Number  CMSEXPORT cmsGetProfileInfoASCII(cmsHPROFILE hProfile, cmsInfoType Info,
-                                                          const char LanguageCode[3], const char CountryCode[3],
-                                                          char* Buffer, cmsUInt32Number BufferSize)
+                                                          const chbr LbngubgeCode[3], const chbr CountryCode[3],
+                                                          chbr* Buffer, cmsUInt32Number BufferSize)
 {
     const cmsMLU* mlu = GetInfo(hProfile, Info);
     if (mlu == NULL) return 0;
 
-    return cmsMLUgetASCII(mlu, LanguageCode, CountryCode, Buffer, BufferSize);
+    return cmsMLUgetASCII(mlu, LbngubgeCode, CountryCode, Buffer, BufferSize);
 }

@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.dns;
+pbckbge com.sun.jndi.dns;
 
 
-import java.net.MalformedURLException;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import jbvb.net.MblformedURLException;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
 
 import com.sun.jndi.toolkit.url.Uri;
 import com.sun.jndi.toolkit.url.UrlUtil;
 
 
 /**
- * A DnsUrl represents a DNS pseudo-URL of the form
+ * A DnsUrl represents b DNS pseudo-URL of the form
  * <pre>
- *   dns://[host][:port][/[domain]]
+ *   dns://[host][:port][/[dombin]]
  * or
- *   dns:[/][domain]
+ *   dns:[/][dombin]
  * </pre>
- * The host names a DNS server.  If the host is not provided, it
- * indicates that the underlying platform's DNS server(s) should be
- * used if possible, or that "localhost" should be used otherwise.  If
- * the port is not provided, the DNS default port 53 will be used.
- * The domain indicates the domain name of the context, and is not
- * necessarily related to the domain of the server; if it is not
- * provided, the root domain "." is used.  Special characters in
- * the domain name must be %-escaped as described in RFC 2396.
+ * The host nbmes b DNS server.  If the host is not provided, it
+ * indicbtes thbt the underlying plbtform's DNS server(s) should be
+ * used if possible, or thbt "locblhost" should be used otherwise.  If
+ * the port is not provided, the DNS defbult port 53 will be used.
+ * The dombin indicbtes the dombin nbme of the context, bnd is not
+ * necessbrily relbted to the dombin of the server; if it is not
+ * provided, the root dombin "." is used.  Specibl chbrbcters in
+ * the dombin nbme must be %-escbped bs described in RFC 2396.
  *
- * @author Scott Seligman
+ * @buthor Scott Seligmbn
  */
 
 
-public class DnsUrl extends Uri {
+public clbss DnsUrl extends Uri {
 
-    private String domain;      // domain name of the context
+    privbte String dombin;      // dombin nbme of the context
 
 
     /**
-     * Given a space-separated list of DNS URLs, returns an array of DnsUrl
+     * Given b spbce-sepbrbted list of DNS URLs, returns bn brrby of DnsUrl
      * objects.
      */
-    public static DnsUrl[] fromList(String urlList)
-            throws MalformedURLException {
+    public stbtic DnsUrl[] fromList(String urlList)
+            throws MblformedURLException {
 
         DnsUrl[] urls = new DnsUrl[(urlList.length() + 1) / 2];
-        int i = 0;              // next available index in urls
+        int i = 0;              // next bvbilbble index in urls
         StringTokenizer st = new StringTokenizer(urlList, " ");
 
-        while (st.hasMoreTokens()) {
+        while (st.hbsMoreTokens()) {
             urls[i++] = new DnsUrl(st.nextToken());
         }
         DnsUrl[] trimmed = new DnsUrl[i];
-        System.arraycopy(urls, 0, trimmed, 0, i);
+        System.brrbycopy(urls, 0, trimmed, 0, i);
         return trimmed;
     }
 
-    public DnsUrl(String url) throws MalformedURLException {
+    public DnsUrl(String url) throws MblformedURLException {
         super(url);
 
-        if (!scheme.equals("dns")) {
-            throw new MalformedURLException(
-                    url + " is not a valid DNS pseudo-URL");
+        if (!scheme.equbls("dns")) {
+            throw new MblformedURLException(
+                    url + " is not b vblid DNS pseudo-URL");
         }
 
-        domain = path.startsWith("/")
-            ? path.substring(1)
-            : path;
-        domain = domain.equals("")
+        dombin = pbth.stbrtsWith("/")
+            ? pbth.substring(1)
+            : pbth;
+        dombin = dombin.equbls("")
             ? "."
-            : UrlUtil.decode(domain);
+            : UrlUtil.decode(dombin);
 
         // Debug
         // System.out.println("host=" + host + " port=" + port +
-        //                    " domain=" + domain);
+        //                    " dombin=" + dombin);
     }
 
     /**
-     * Returns the domain of this URL, or "." if none is provided.
+     * Returns the dombin of this URL, or "." if none is provided.
      * Never null.
      */
-    public String getDomain() {
-        return domain;
+    public String getDombin() {
+        return dombin;
     }
 
 
 /*
     // Debug
-    public static void main(String args[]) throws MalformedURLException {
-        DnsUrl[] urls = fromList(args[0]);
+    public stbtic void mbin(String brgs[]) throws MblformedURLException {
+        DnsUrl[] urls = fromList(brgs[0]);
         for (int i = 0; i < urls.length; i++) {
             System.out.println(urls[i].toString());
         }

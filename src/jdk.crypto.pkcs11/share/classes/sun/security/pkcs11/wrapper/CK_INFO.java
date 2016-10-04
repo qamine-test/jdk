@@ -2,34 +2,34 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,30 +45,30 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class  CK_INFO provides general information about Cryptoki.<p>
+ * clbss  CK_INFO provides generbl informbtion bbout Cryptoki.<p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  *  typedef struct CK_INFO {&nbsp;&nbsp;
  *    CK_VERSION cryptokiVersion;&nbsp;&nbsp;
- *    CK_UTF8CHAR manufacturerID[32];&nbsp;&nbsp;
- *    CK_FLAGS flags;&nbsp;&nbsp;
- *    CK_UTF8CHAR libraryDescription[32];&nbsp;&nbsp;
- *    CK_VERSION libraryVersion;&nbsp;&nbsp;
+ *    CK_UTF8CHAR mbnufbcturerID[32];&nbsp;&nbsp;
+ *    CK_FLAGS flbgs;&nbsp;&nbsp;
+ *    CK_UTF8CHAR librbryDescription[32];&nbsp;&nbsp;
+ *    CK_VERSION librbryVersion;&nbsp;&nbsp;
  *  } CK_INFO;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class CK_INFO {
+public clbss CK_INFO {
 
     /**
-     * Cryptoki interface version number<p>
+     * Cryptoki interfbce version number<p>
      * <B>PKCS#11:</B>
      * <PRE>
      *   CK_VERSION cryptokiVersion;
@@ -77,86 +77,86 @@ public class CK_INFO {
     public CK_VERSION cryptokiVersion;
 
     /**
-     * ID of the Cryptoki library manufacturer. must be blank
-     * padded - only the first 32 chars will be used<p>
+     * ID of the Cryptoki librbry mbnufbcturer. must be blbnk
+     * pbdded - only the first 32 chbrs will be used<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_UTF8CHAR manufacturerID[32];
+     *   CK_UTF8CHAR mbnufbcturerID[32];
      * </PRE>
      */
-    public char[] manufacturerID;
+    public chbr[] mbnufbcturerID;
 
     /**
-     * bit flags reserved for future versions. must be zero<p>
+     * bit flbgs reserved for future versions. must be zero<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_FLAGS flags;
+     *   CK_FLAGS flbgs;
      * </PRE>
      */
-    public long flags;
+    public long flbgs;
 
 
-/* libraryDescription and libraryVersion are new for v2.0 */
+/* librbryDescription bnd librbryVersion bre new for v2.0 */
 
     /**
-     * must be blank padded - only the first 32 chars will be used<p>
+     * must be blbnk pbdded - only the first 32 chbrs will be used<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_UTF8CHAR libraryDescription[32];
+     *   CK_UTF8CHAR librbryDescription[32];
      * </PRE>
      */
-    public char[] libraryDescription;
+    public chbr[] librbryDescription;
 
     /**
-     * Cryptoki library version number<p>
+     * Cryptoki librbry version number<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VERSION libraryVersion;
+     *   CK_VERSION librbryVersion;
      * </PRE>
      */
-    public CK_VERSION libraryVersion;
+    public CK_VERSION librbryVersion;
 
-    public CK_INFO(CK_VERSION cryptoVer, char[] vendor, long flags,
-                   char[] libDesc, CK_VERSION libVer) {
+    public CK_INFO(CK_VERSION cryptoVer, chbr[] vendor, long flbgs,
+                   chbr[] libDesc, CK_VERSION libVer) {
         this.cryptokiVersion = cryptoVer;
-        this.manufacturerID = vendor;
-        this.flags = flags;
-        this.libraryDescription = libDesc;
-        this.libraryVersion = libVer;
+        this.mbnufbcturerID = vendor;
+        this.flbgs = flbgs;
+        this.librbryDescription = libDesc;
+        this.librbryVersion = libVer;
     }
 
     /**
-     * Returns the string representation of CK_INFO.
+     * Returns the string representbtion of CK_INFO.
      *
-     * @return the string representation of CK_INFO
+     * @return the string representbtion of CK_INFO
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Constants.INDENT);
-        sb.append("cryptokiVersion: ");
-        sb.append(cryptokiVersion.toString());
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("cryptokiVersion: ");
+        sb.bppend(cryptokiVersion.toString());
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("manufacturerID: ");
-        sb.append(new String(manufacturerID));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("mbnufbcturerID: ");
+        sb.bppend(new String(mbnufbcturerID));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("flags: ");
-        sb.append(Functions.toBinaryString(flags));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("flbgs: ");
+        sb.bppend(Functions.toBinbryString(flbgs));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("libraryDescription: ");
-        sb.append(new String(libraryDescription));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("librbryDescription: ");
+        sb.bppend(new String(librbryDescription));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("libraryVersion: ");
-        sb.append(libraryVersion.toString());
-        //buffer.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("librbryVersion: ");
+        sb.bppend(librbryVersion.toString());
+        //buffer.bppend(Constbnts.NEWLINE);
 
         return sb.toString() ;
     }

@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1994, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*-
- *      Verify that the code within a method block doesn't exploit any
+ *      Verify thbt the code within b method block doesn't exploit bny
  *      security holes.
  */
 /*
    Exported function:
 
-   jboolean
-   VerifyClass(JNIEnv *env, jclass cb, char *message_buffer,
+   jboolebn
+   VerifyClbss(JNIEnv *env, jclbss cb, chbr *messbge_buffer,
                jint buffer_length)
-   jboolean
-   VerifyClassForMajorVersion(JNIEnv *env, jclass cb, char *message_buffer,
-                              jint buffer_length, jint major_version)
+   jboolebn
+   VerifyClbssForMbjorVersion(JNIEnv *env, jclbss cb, chbr *messbge_buffer,
+                              jint buffer_length, jint mbjor_version)
 
-   This file now only uses the standard JNI and the following VM functions
+   This file now only uses the stbndbrd JNI bnd the following VM functions
    exported in jvm.h:
 
-   JVM_FindClassFromClass
-   JVM_IsInterface
-   JVM_GetClassNameUTF
-   JVM_GetClassCPEntriesCount
-   JVM_GetClassCPTypes
-   JVM_GetClassFieldsCount
-   JVM_GetClassMethodsCount
+   JVM_FindClbssFromClbss
+   JVM_IsInterfbce
+   JVM_GetClbssNbmeUTF
+   JVM_GetClbssCPEntriesCount
+   JVM_GetClbssCPTypes
+   JVM_GetClbssFieldsCount
+   JVM_GetClbssMethodsCount
 
    JVM_GetFieldIxModifiers
 
    JVM_GetMethodIxModifiers
-   JVM_GetMethodIxExceptionTableLength
-   JVM_GetMethodIxLocalsCount
+   JVM_GetMethodIxExceptionTbbleLength
+   JVM_GetMethodIxLocblsCount
    JVM_GetMethodIxArgsSize
-   JVM_GetMethodIxMaxStack
-   JVM_GetMethodIxNameUTF
-   JVM_GetMethodIxSignatureUTF
+   JVM_GetMethodIxMbxStbck
+   JVM_GetMethodIxNbmeUTF
+   JVM_GetMethodIxSignbtureUTF
    JVM_GetMethodIxExceptionsCount
    JVM_GetMethodIxExceptionIndexes
    JVM_GetMethodIxByteCodeLength
    JVM_GetMethodIxByteCode
-   JVM_GetMethodIxExceptionTableEntry
+   JVM_GetMethodIxExceptionTbbleEntry
    JVM_IsConstructorIx
 
-   JVM_GetCPClassNameUTF
-   JVM_GetCPFieldNameUTF
-   JVM_GetCPMethodNameUTF
-   JVM_GetCPFieldSignatureUTF
-   JVM_GetCPMethodSignatureUTF
-   JVM_GetCPFieldClassNameUTF
-   JVM_GetCPMethodClassNameUTF
+   JVM_GetCPClbssNbmeUTF
+   JVM_GetCPFieldNbmeUTF
+   JVM_GetCPMethodNbmeUTF
+   JVM_GetCPFieldSignbtureUTF
+   JVM_GetCPMethodSignbtureUTF
+   JVM_GetCPFieldClbssNbmeUTF
+   JVM_GetCPMethodClbssNbmeUTF
    JVM_GetCPFieldModifiers
    JVM_GetCPMethodModifiers
 
-   JVM_ReleaseUTF
-   JVM_IsSameClassPackage
+   JVM_RelebseUTF
+   JVM_IsSbmeClbssPbckbge
 
  */
 
 #include <string.h>
 #include <setjmp.h>
-#include <assert.h>
+#include <bssert.h>
 #include <limits.h>
 #include <stdlib.h>
 
 #include "jni.h"
 #include "jvm.h"
-#include "classfile_constants.h"
+#include "clbssfile_constbnts.h"
 #include "opcodes.in_out"
 
-/* On AIX malloc(0) and calloc(0, ...) return a NULL pointer, which is legal,
- * but the code here does not handles it. So we wrap the methods and return non-NULL
- * pointers even if we allocate 0 bytes.
+/* On AIX mblloc(0) bnd cblloc(0, ...) return b NULL pointer, which is legbl,
+ * but the code here does not hbndles it. So we wrbp the methods bnd return non-NULL
+ * pointers even if we bllocbte 0 bytes.
  */
 #ifdef _AIX
-static int aix_dummy;
-static void* aix_malloc(size_t len) {
+stbtic int bix_dummy;
+stbtic void* bix_mblloc(size_t len) {
   if (len == 0) {
-    return &aix_dummy;
+    return &bix_dummy;
   }
-  return malloc(len);
+  return mblloc(len);
 }
 
-static void* aix_calloc(size_t n, size_t size) {
+stbtic void* bix_cblloc(size_t n, size_t size) {
   if (n == 0) {
-    return &aix_dummy;
+    return &bix_dummy;
   }
-  return calloc(n, size);
+  return cblloc(n, size);
 }
 
-static void aix_free(void* p) {
-  if (p == &aix_dummy) {
+stbtic void bix_free(void* p) {
+  if (p == &bix_dummy) {
     return;
   }
   free(p);
 }
 
-#undef malloc
-#undef calloc
+#undef mblloc
+#undef cblloc
 #undef free
-#define malloc aix_malloc
-#define calloc aix_calloc
-#define free aix_free
+#define mblloc bix_mblloc
+#define cblloc bix_cblloc
+#define free bix_free
 #endif
 
 #ifdef __APPLE__
-/* use setjmp/longjmp versions that do not save/restore the signal mask */
+/* use setjmp/longjmp versions thbt do not sbve/restore the signbl mbsk */
 #define setjmp _setjmp
 #define longjmp _longjmp
 #endif
 
 #define MAX_ARRAY_DIMENSIONS 255
-/* align byte code */
+/* blign byte code */
 #ifndef ALIGN_UP
-#define ALIGN_UP(n,align_grain) (((n) + ((align_grain) - 1)) & ~((align_grain)-1))
+#define ALIGN_UP(n,blign_grbin) (((n) + ((blign_grbin) - 1)) & ~((blign_grbin)-1))
 #endif /* ALIGN_UP */
-#define UCALIGN(n) ((unsigned char *)ALIGN_UP((uintptr_t)(n),sizeof(int)))
+#define UCALIGN(n) ((unsigned chbr *)ALIGN_UP((uintptr_t)(n),sizeof(int)))
 
 #ifdef DEBUG
 
 int verify_verbose = 0;
-static struct context_type *GlobalContext;
+stbtic struct context_type *GlobblContext;
 #endif
 
 enum {
     ITEM_Bogus,
-    ITEM_Void,                  /* only as a function return value */
+    ITEM_Void,                  /* only bs b function return vblue */
     ITEM_Integer,
-    ITEM_Float,
+    ITEM_Flobt,
     ITEM_Double,
     ITEM_Double_2,              /* 2nd word of double in register */
     ITEM_Long,
     ITEM_Long_2,                /* 2nd word of long in register */
-    ITEM_Array,
-    ITEM_Object,                /* Extra info field gives name. */
-    ITEM_NewObject,             /* Like object, but uninitialized. */
-    ITEM_InitObject,            /* "this" is init method, before call
+    ITEM_Arrby,
+    ITEM_Object,                /* Extrb info field gives nbme. */
+    ITEM_NewObject,             /* Like object, but uninitiblized. */
+    ITEM_InitObject,            /* "this" is init method, before cbll
                                     to super() */
-    ITEM_ReturnAddress,         /* Extra info gives instr # of start pc */
-    /* The following three are only used within array types.
-     * Normally, we use ITEM_Integer, instead. */
+    ITEM_ReturnAddress,         /* Extrb info gives instr # of stbrt pc */
+    /* The following three bre only used within brrby types.
+     * Normblly, we use ITEM_Integer, instebd. */
     ITEM_Byte,
     ITEM_Short,
-    ITEM_Char
+    ITEM_Chbr
 };
 
 
@@ -173,13 +173,13 @@ enum {
 
 #undef MAX
 #undef MIN
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(b, b) ((b) > (b) ? (b) : (b))
+#define MIN(b, b) ((b) < (b) ? (b) : (b))
 
-#define BITS_PER_INT   (CHAR_BIT * sizeof(int)/sizeof(char))
-#define SET_BIT(flags, i)  (flags[(i)/BITS_PER_INT] |= \
+#define BITS_PER_INT   (CHAR_BIT * sizeof(int)/sizeof(chbr))
+#define SET_BIT(flbgs, i)  (flbgs[(i)/BITS_PER_INT] |= \
                                        ((unsigned)1 << ((i) % BITS_PER_INT)))
-#define IS_BIT_SET(flags, i) (flags[(i)/BITS_PER_INT] & \
+#define IS_BIT_SET(flbgs, i) (flbgs[(i)/BITS_PER_INT] & \
                                        ((unsigned)1 << ((i) % BITS_PER_INT)))
 
 typedef unsigned int fullinfo_type;
@@ -191,56 +191,56 @@ typedef unsigned int *bitvector;
 #define WITH_ZERO_INDIRECTION(thing) ((thing) & ~(0xFFE0))
 #define WITH_ZERO_EXTRA_INFO(thing) ((thing) & 0xFFFF)
 
-#define MAKE_FULLINFO(type, indirect, extra) \
-     ((type) + ((indirect) << 5) + ((extra) << 16))
+#define MAKE_FULLINFO(type, indirect, extrb) \
+     ((type) + ((indirect) << 5) + ((extrb) << 16))
 
 #define MAKE_Object_ARRAY(indirect) \
        (context->object_info + ((indirect) << 5))
 
 #define NULL_FULLINFO MAKE_FULLINFO(ITEM_Object, 0, 0)
 
-/* JVM_OPC_invokespecial calls to <init> need to be treated special */
+/* JVM_OPC_invokespecibl cblls to <init> need to be trebted specibl */
 #define JVM_OPC_invokeinit 0x100
 
-/* A hash mechanism used by the verifier.
- * Maps class names to unique 16 bit integers.
+/* A hbsh mechbnism used by the verifier.
+ * Mbps clbss nbmes to unique 16 bit integers.
  */
 
 #define HASH_TABLE_SIZE 503
 
-/* The buckets are managed as a 256 by 256 matrix. We allocate an entire
- * row (256 buckets) at a time to minimize fragmentation. Rows are
- * allocated on demand so that we don't waste too much space.
+/* The buckets bre mbnbged bs b 256 by 256 mbtrix. We bllocbte bn entire
+ * row (256 buckets) bt b time to minimize frbgmentbtion. Rows bre
+ * bllocbted on dembnd so thbt we don't wbste too much spbce.
  */
 
 #define MAX_HASH_ENTRIES 65536
 #define HASH_ROW_SIZE 256
 
-typedef struct hash_bucket_type {
-    char *name;
-    unsigned int hash;
-    jclass class;
+typedef struct hbsh_bucket_type {
+    chbr *nbme;
+    unsigned int hbsh;
+    jclbss clbss;
     unsigned short ID;
     unsigned short next;
-    unsigned loadable:1;  /* from context->class loader */
-} hash_bucket_type;
+    unsigned lobdbble:1;  /* from context->clbss lobder */
+} hbsh_bucket_type;
 
 typedef struct {
-    hash_bucket_type **buckets;
-    unsigned short *table;
+    hbsh_bucket_type **buckets;
+    unsigned short *tbble;
     int entries_used;
-} hash_table_type;
+} hbsh_tbble_type;
 
-#define GET_BUCKET(class_hash, ID)\
-    (class_hash->buckets[ID / HASH_ROW_SIZE] + ID % HASH_ROW_SIZE)
+#define GET_BUCKET(clbss_hbsh, ID)\
+    (clbss_hbsh->buckets[ID / HASH_ROW_SIZE] + ID % HASH_ROW_SIZE)
 
 /*
- * There are currently two types of resources that we need to keep
- * track of (in addition to the CCalloc pool).
+ * There bre currently two types of resources thbt we need to keep
+ * trbck of (in bddition to the CCblloc pool).
  */
 enum {
-    VM_STRING_UTF, /* VM-allocated UTF strings */
-    VM_MALLOC_BLK  /* malloc'ed blocks */
+    VM_STRING_UTF, /* VM-bllocbted UTF strings */
+    VM_MALLOC_BLK  /* mblloc'ed blocks */
 };
 
 #define LDC_CLASS_MAJOR_VERSION 49
@@ -253,13 +253,13 @@ enum {
 
 #define ALLOC_STACK_SIZE 16 /* big enough */
 
-typedef struct alloc_stack_type {
+typedef struct blloc_stbck_type {
     void *ptr;
     int kind;
-    struct alloc_stack_type *next;
-} alloc_stack_type;
+    struct blloc_stbck_type *next;
+} blloc_stbck_type;
 
-/* The context type encapsulates the current invocation of the byte
+/* The context type encbpsulbtes the current invocbtion of the byte
  * code verifier.
  */
 struct context_type {
@@ -267,359 +267,359 @@ struct context_type {
     JNIEnv *env;                /* current JNIEnv */
 
     /* buffers etc. */
-    char *message;
-    jint message_buf_len;
-    jboolean err_code;
+    chbr *messbge;
+    jint messbge_buf_len;
+    jboolebn err_code;
 
-    alloc_stack_type *allocated_memory; /* all memory blocks that we have not
-                                           had a chance to free */
-    /* Store up to ALLOC_STACK_SIZE number of handles to allocated memory
-       blocks here, to save mallocs. */
-    alloc_stack_type alloc_stack[ALLOC_STACK_SIZE];
-    int alloc_stack_top;
+    blloc_stbck_type *bllocbted_memory; /* bll memory blocks thbt we hbve not
+                                           hbd b chbnce to free */
+    /* Store up to ALLOC_STACK_SIZE number of hbndles to bllocbted memory
+       blocks here, to sbve mbllocs. */
+    blloc_stbck_type blloc_stbck[ALLOC_STACK_SIZE];
+    int blloc_stbck_top;
 
-    /* these fields are per class */
-    jclass class;               /* current class */
-    jint major_version;
-    jint nconstants;
-    unsigned char *constant_types;
-    hash_table_type class_hash;
+    /* these fields bre per clbss */
+    jclbss clbss;               /* current clbss */
+    jint mbjor_version;
+    jint nconstbnts;
+    unsigned chbr *constbnt_types;
+    hbsh_tbble_type clbss_hbsh;
 
-    fullinfo_type object_info;  /* fullinfo for java/lang/Object */
-    fullinfo_type string_info;  /* fullinfo for java/lang/String */
-    fullinfo_type throwable_info; /* fullinfo for java/lang/Throwable */
-    fullinfo_type cloneable_info; /* fullinfo for java/lang/Cloneable */
-    fullinfo_type serializable_info; /* fullinfo for java/io/Serializable */
+    fullinfo_type object_info;  /* fullinfo for jbvb/lbng/Object */
+    fullinfo_type string_info;  /* fullinfo for jbvb/lbng/String */
+    fullinfo_type throwbble_info; /* fullinfo for jbvb/lbng/Throwbble */
+    fullinfo_type clonebble_info; /* fullinfo for jbvb/lbng/Clonebble */
+    fullinfo_type seriblizbble_info; /* fullinfo for jbvb/io/Seriblizbble */
 
-    fullinfo_type currentclass_info; /* fullinfo for context->class */
-    fullinfo_type superclass_info;   /* fullinfo for superclass */
+    fullinfo_type currentclbss_info; /* fullinfo for context->clbss */
+    fullinfo_type superclbss_info;   /* fullinfo for superclbss */
 
-    /* these fields are per method */
+    /* these fields bre per method */
     int method_index;   /* current method */
     unsigned short *exceptions; /* exceptions */
-    unsigned char *code;        /* current code object */
+    unsigned chbr *code;        /* current code object */
     jint code_length;
-    int *code_data;             /* offset to instruction number */
-    struct instruction_data_type *instruction_data; /* info about each */
-    struct handler_info_type *handler_info;
-    fullinfo_type *superclasses; /* null terminated superclasses */
+    int *code_dbtb;             /* offset to instruction number */
+    struct instruction_dbtb_type *instruction_dbtb; /* info bbout ebch */
+    struct hbndler_info_type *hbndler_info;
+    fullinfo_type *superclbsses; /* null terminbted superclbsses */
     int instruction_count;      /* number of instructions */
     fullinfo_type return_type;  /* function return type */
-    fullinfo_type swap_table[4]; /* used for passing information */
-    int bitmask_size;           /* words needed to hold bitmap of arguments */
+    fullinfo_type swbp_tbble[4]; /* used for pbssing informbtion */
+    int bitmbsk_size;           /* words needed to hold bitmbp of brguments */
 
-    /* these fields are per field */
+    /* these fields bre per field */
     int field_index;
 
-    /* Used by the space allocator */
+    /* Used by the spbce bllocbtor */
     struct CCpool *CCroot, *CCcurrent;
-    char *CCfree_ptr;
+    chbr *CCfree_ptr;
     int CCfree_size;
 
-    /* Jump here on any error. */
+    /* Jump here on bny error. */
     jmp_buf jump_buffer;
 
 #ifdef DEBUG
-    /* keep track of how many global refs are allocated. */
-    int n_globalrefs;
+    /* keep trbck of how mbny globbl refs bre bllocbted. */
+    int n_globblrefs;
 #endif
 };
 
-struct stack_info_type {
-    struct stack_item_type *stack;
-    int stack_size;
+struct stbck_info_type {
+    struct stbck_item_type *stbck;
+    int stbck_size;
 };
 
 struct register_info_type {
     int register_count;         /* number of registers used */
     fullinfo_type *registers;
-    int mask_count;             /* number of masks in the following */
-    struct mask_type *masks;
+    int mbsk_count;             /* number of mbsks in the following */
+    struct mbsk_type *mbsks;
 };
 
-struct mask_type {
+struct mbsk_type {
     int entry;
     int *modifies;
 };
 
-typedef unsigned short flag_type;
+typedef unsigned short flbg_type;
 
-struct instruction_data_type {
-    int opcode;         /* may turn into "canonical" opcode */
-    unsigned changed:1;         /* has it changed */
-    unsigned protected:1;       /* must accessor be a subclass of "this" */
+struct instruction_dbtb_type {
+    int opcode;         /* mby turn into "cbnonicbl" opcode */
+    unsigned chbnged:1;         /* hbs it chbnged */
+    unsigned protected:1;       /* must bccessor be b subclbss of "this" */
     union {
-        int i;                  /* operand to the opcode */
+        int i;                  /* operbnd to the opcode */
         int *ip;
         fullinfo_type fi;
-    } operand, operand2;
+    } operbnd, operbnd2;
     fullinfo_type p;
-    struct stack_info_type stack_info;
+    struct stbck_info_type stbck_info;
     struct register_info_type register_info;
-#define FLAG_REACHED            0x01 /* instruction reached */
-#define FLAG_NEED_CONSTRUCTOR   0x02 /* must call this.<init> or super.<init> */
+#define FLAG_REACHED            0x01 /* instruction rebched */
+#define FLAG_NEED_CONSTRUCTOR   0x02 /* must cbll this.<init> or super.<init> */
 #define FLAG_NO_RETURN          0x04 /* must throw out of method */
-    flag_type or_flags;         /* true for at least one path to this inst */
-#define FLAG_CONSTRUCTED        0x01 /* this.<init> or super.<init> called */
-    flag_type and_flags;        /* true for all paths to this instruction */
+    flbg_type or_flbgs;         /* true for bt lebst one pbth to this inst */
+#define FLAG_CONSTRUCTED        0x01 /* this.<init> or super.<init> cblled */
+    flbg_type bnd_flbgs;        /* true for bll pbths to this instruction */
 };
 
-struct handler_info_type {
-    int start, end, handler;
-    struct stack_info_type stack_info;
+struct hbndler_info_type {
+    int stbrt, end, hbndler;
+    struct stbck_info_type stbck_info;
 };
 
-struct stack_item_type {
+struct stbck_item_type {
     fullinfo_type item;
-    struct stack_item_type *next;
+    struct stbck_item_type *next;
 };
 
 typedef struct context_type context_type;
-typedef struct instruction_data_type instruction_data_type;
-typedef struct stack_item_type stack_item_type;
+typedef struct instruction_dbtb_type instruction_dbtb_type;
+typedef struct stbck_item_type stbck_item_type;
 typedef struct register_info_type register_info_type;
-typedef struct stack_info_type stack_info_type;
-typedef struct mask_type mask_type;
+typedef struct stbck_info_type stbck_info_type;
+typedef struct mbsk_type mbsk_type;
 
-static void read_all_code(context_type *context, jclass cb, int num_methods,
-                          int** code_lengths, unsigned char*** code);
-static void verify_method(context_type *context, jclass cb, int index,
-                          int code_length, unsigned char* code);
-static void free_all_code(context_type* context, int num_methods,
-                          unsigned char** code);
-static void verify_field(context_type *context, jclass cb, int index);
+stbtic void rebd_bll_code(context_type *context, jclbss cb, int num_methods,
+                          int** code_lengths, unsigned chbr*** code);
+stbtic void verify_method(context_type *context, jclbss cb, int index,
+                          int code_length, unsigned chbr* code);
+stbtic void free_bll_code(context_type* context, int num_methods,
+                          unsigned chbr** code);
+stbtic void verify_field(context_type *context, jclbss cb, int index);
 
-static void verify_opcode_operands (context_type *, unsigned int inumber, int offset);
-static void set_protected(context_type *, unsigned int inumber, int key, int);
-static jboolean is_superclass(context_type *, fullinfo_type);
+stbtic void verify_opcode_operbnds (context_type *, unsigned int inumber, int offset);
+stbtic void set_protected(context_type *, unsigned int inumber, int key, int);
+stbtic jboolebn is_superclbss(context_type *, fullinfo_type);
 
-static void initialize_exception_table(context_type *);
-static int instruction_length(unsigned char *iptr, unsigned char *end);
-static jboolean isLegalTarget(context_type *, int offset);
-static void verify_constant_pool_type(context_type *, int, unsigned);
+stbtic void initiblize_exception_tbble(context_type *);
+stbtic int instruction_length(unsigned chbr *iptr, unsigned chbr *end);
+stbtic jboolebn isLegblTbrget(context_type *, int offset);
+stbtic void verify_constbnt_pool_type(context_type *, int, unsigned);
 
-static void initialize_dataflow(context_type *);
-static void run_dataflow(context_type *context);
-static void check_register_values(context_type *context, unsigned int inumber);
-static void check_flags(context_type *context, unsigned int inumber);
-static void pop_stack(context_type *, unsigned int inumber, stack_info_type *);
-static void update_registers(context_type *, unsigned int inumber, register_info_type *);
-static void update_flags(context_type *, unsigned int inumber,
-                         flag_type *new_and_flags, flag_type *new_or_flags);
-static void push_stack(context_type *, unsigned int inumber, stack_info_type *stack);
+stbtic void initiblize_dbtbflow(context_type *);
+stbtic void run_dbtbflow(context_type *context);
+stbtic void check_register_vblues(context_type *context, unsigned int inumber);
+stbtic void check_flbgs(context_type *context, unsigned int inumber);
+stbtic void pop_stbck(context_type *, unsigned int inumber, stbck_info_type *);
+stbtic void updbte_registers(context_type *, unsigned int inumber, register_info_type *);
+stbtic void updbte_flbgs(context_type *, unsigned int inumber,
+                         flbg_type *new_bnd_flbgs, flbg_type *new_or_flbgs);
+stbtic void push_stbck(context_type *, unsigned int inumber, stbck_info_type *stbck);
 
-static void merge_into_successors(context_type *, unsigned int inumber,
+stbtic void merge_into_successors(context_type *, unsigned int inumber,
                                   register_info_type *register_info,
-                                  stack_info_type *stack_info,
-                                  flag_type and_flags, flag_type or_flags);
-static void merge_into_one_successor(context_type *context,
+                                  stbck_info_type *stbck_info,
+                                  flbg_type bnd_flbgs, flbg_type or_flbgs);
+stbtic void merge_into_one_successor(context_type *context,
                                      unsigned int from_inumber,
                                      unsigned int inumber,
                                      register_info_type *register_info,
-                                     stack_info_type *stack_info,
-                                     flag_type and_flags, flag_type or_flags,
-                                     jboolean isException);
-static void merge_stack(context_type *, unsigned int inumber,
-                        unsigned int to_inumber, stack_info_type *);
-static void merge_registers(context_type *, unsigned int inumber,
+                                     stbck_info_type *stbck_info,
+                                     flbg_type bnd_flbgs, flbg_type or_flbgs,
+                                     jboolebn isException);
+stbtic void merge_stbck(context_type *, unsigned int inumber,
+                        unsigned int to_inumber, stbck_info_type *);
+stbtic void merge_registers(context_type *, unsigned int inumber,
                             unsigned int to_inumber,
                             register_info_type *);
-static void merge_flags(context_type *context, unsigned int from_inumber,
+stbtic void merge_flbgs(context_type *context, unsigned int from_inumber,
                         unsigned int to_inumber,
-                        flag_type new_and_flags, flag_type new_or_flags);
+                        flbg_type new_bnd_flbgs, flbg_type new_or_flbgs);
 
-static stack_item_type *copy_stack(context_type *, stack_item_type *);
-static mask_type *copy_masks(context_type *, mask_type *masks, int mask_count);
-static mask_type *add_to_masks(context_type *, mask_type *, int , int);
+stbtic stbck_item_type *copy_stbck(context_type *, stbck_item_type *);
+stbtic mbsk_type *copy_mbsks(context_type *, mbsk_type *mbsks, int mbsk_count);
+stbtic mbsk_type *bdd_to_mbsks(context_type *, mbsk_type *, int , int);
 
-static fullinfo_type decrement_indirection(fullinfo_type);
+stbtic fullinfo_type decrement_indirection(fullinfo_type);
 
-static fullinfo_type merge_fullinfo_types(context_type *context,
-                                          fullinfo_type a,
+stbtic fullinfo_type merge_fullinfo_types(context_type *context,
                                           fullinfo_type b,
-                                          jboolean assignment);
-static jboolean isAssignableTo(context_type *,
-                               fullinfo_type a,
+                                          fullinfo_type b,
+                                          jboolebn bssignment);
+stbtic jboolebn isAssignbbleTo(context_type *,
+                               fullinfo_type b,
                                fullinfo_type b);
 
-static jclass object_fullinfo_to_classclass(context_type *, fullinfo_type);
+stbtic jclbss object_fullinfo_to_clbssclbss(context_type *, fullinfo_type);
 
 
 #define NEW(type, count) \
-        ((type *)CCalloc(context, (count)*(sizeof(type)), JNI_FALSE))
+        ((type *)CCblloc(context, (count)*(sizeof(type)), JNI_FALSE))
 #define ZNEW(type, count) \
-        ((type *)CCalloc(context, (count)*(sizeof(type)), JNI_TRUE))
+        ((type *)CCblloc(context, (count)*(sizeof(type)), JNI_TRUE))
 
-static void CCinit(context_type *context);
-static void CCreinit(context_type *context);
-static void CCdestroy(context_type *context);
-static void *CCalloc(context_type *context, int size, jboolean zero);
+stbtic void CCinit(context_type *context);
+stbtic void CCreinit(context_type *context);
+stbtic void CCdestroy(context_type *context);
+stbtic void *CCblloc(context_type *context, int size, jboolebn zero);
 
-static fullinfo_type cp_index_to_class_fullinfo(context_type *, int, int);
+stbtic fullinfo_type cp_index_to_clbss_fullinfo(context_type *, int, int);
 
-static char signature_to_fieldtype(context_type *context,
-                                   const char **signature_p, fullinfo_type *info);
+stbtic chbr signbture_to_fieldtype(context_type *context,
+                                   const chbr **signbture_p, fullinfo_type *info);
 
-static void CCerror (context_type *, char *format, ...);
-static void CFerror (context_type *, char *format, ...);
-static void CCout_of_memory (context_type *);
+stbtic void CCerror (context_type *, chbr *formbt, ...);
+stbtic void CFerror (context_type *, chbr *formbt, ...);
+stbtic void CCout_of_memory (context_type *);
 
-/* Because we can longjmp any time, we need to be very careful about
- * remembering what needs to be freed. */
+/* Becbuse we cbn longjmp bny time, we need to be very cbreful bbout
+ * remembering whbt needs to be freed. */
 
-static void check_and_push(context_type *context, const void *ptr, int kind);
-static void pop_and_free(context_type *context);
+stbtic void check_bnd_push(context_type *context, const void *ptr, int kind);
+stbtic void pop_bnd_free(context_type *context);
 
-static int signature_to_args_size(const char *method_signature);
+stbtic int signbture_to_brgs_size(const chbr *method_signbture);
 
 #ifdef DEBUG
-static void print_stack (context_type *, stack_info_type *stack_info);
-static void print_registers(context_type *, register_info_type *register_info);
-static void print_flags(context_type *, flag_type, flag_type);
-static void print_formatted_fieldname(context_type *context, int index);
-static void print_formatted_methodname(context_type *context, int index);
+stbtic void print_stbck (context_type *, stbck_info_type *stbck_info);
+stbtic void print_registers(context_type *, register_info_type *register_info);
+stbtic void print_flbgs(context_type *, flbg_type, flbg_type);
+stbtic void print_formbtted_fieldnbme(context_type *context, int index);
+stbtic void print_formbtted_methodnbme(context_type *context, int index);
 #endif
 
-void initialize_class_hash(context_type *context)
+void initiblize_clbss_hbsh(context_type *context)
 {
-    hash_table_type *class_hash = &(context->class_hash);
-    class_hash->buckets = (hash_bucket_type **)
-        calloc(MAX_HASH_ENTRIES / HASH_ROW_SIZE, sizeof(hash_bucket_type *));
-    class_hash->table = (unsigned short *)
-        calloc(HASH_TABLE_SIZE, sizeof(unsigned short));
-    if (class_hash->buckets == 0 ||
-        class_hash->table == 0)
+    hbsh_tbble_type *clbss_hbsh = &(context->clbss_hbsh);
+    clbss_hbsh->buckets = (hbsh_bucket_type **)
+        cblloc(MAX_HASH_ENTRIES / HASH_ROW_SIZE, sizeof(hbsh_bucket_type *));
+    clbss_hbsh->tbble = (unsigned short *)
+        cblloc(HASH_TABLE_SIZE, sizeof(unsigned short));
+    if (clbss_hbsh->buckets == 0 ||
+        clbss_hbsh->tbble == 0)
         CCout_of_memory(context);
-    class_hash->entries_used = 0;
+    clbss_hbsh->entries_used = 0;
 }
 
-static void finalize_class_hash(context_type *context)
+stbtic void finblize_clbss_hbsh(context_type *context)
 {
-    hash_table_type *class_hash = &(context->class_hash);
+    hbsh_tbble_type *clbss_hbsh = &(context->clbss_hbsh);
     JNIEnv *env = context->env;
     int i;
-    /* 4296677: bucket index starts from 1. */
-    for (i=1;i<=class_hash->entries_used;i++) {
-        hash_bucket_type *bucket = GET_BUCKET(class_hash, i);
-        assert(bucket != NULL);
-        free(bucket->name);
-        if (bucket->class) {
-            (*env)->DeleteGlobalRef(env, bucket->class);
+    /* 4296677: bucket index stbrts from 1. */
+    for (i=1;i<=clbss_hbsh->entries_used;i++) {
+        hbsh_bucket_type *bucket = GET_BUCKET(clbss_hbsh, i);
+        bssert(bucket != NULL);
+        free(bucket->nbme);
+        if (bucket->clbss) {
+            (*env)->DeleteGlobblRef(env, bucket->clbss);
 #ifdef DEBUG
-            context->n_globalrefs--;
+            context->n_globblrefs--;
 #endif
         }
     }
-    if (class_hash->buckets) {
+    if (clbss_hbsh->buckets) {
         for (i=0;i<MAX_HASH_ENTRIES / HASH_ROW_SIZE; i++) {
-            if (class_hash->buckets[i] == 0)
-                break;
-            free(class_hash->buckets[i]);
+            if (clbss_hbsh->buckets[i] == 0)
+                brebk;
+            free(clbss_hbsh->buckets[i]);
         }
     }
-    free(class_hash->buckets);
-    free(class_hash->table);
+    free(clbss_hbsh->buckets);
+    free(clbss_hbsh->tbble);
 }
 
-static hash_bucket_type *
+stbtic hbsh_bucket_type *
 new_bucket(context_type *context, unsigned short *pID)
 {
-    hash_table_type *class_hash = &(context->class_hash);
-    int i = *pID = class_hash->entries_used + 1;
+    hbsh_tbble_type *clbss_hbsh = &(context->clbss_hbsh);
+    int i = *pID = clbss_hbsh->entries_used + 1;
     int row = i / HASH_ROW_SIZE;
     if (i >= MAX_HASH_ENTRIES)
-        CCerror(context, "Exceeded verifier's limit of 65535 referred classes");
-    if (class_hash->buckets[row] == 0) {
-        class_hash->buckets[row] = (hash_bucket_type*)
-            calloc(HASH_ROW_SIZE, sizeof(hash_bucket_type));
-        if (class_hash->buckets[row] == 0)
+        CCerror(context, "Exceeded verifier's limit of 65535 referred clbsses");
+    if (clbss_hbsh->buckets[row] == 0) {
+        clbss_hbsh->buckets[row] = (hbsh_bucket_type*)
+            cblloc(HASH_ROW_SIZE, sizeof(hbsh_bucket_type));
+        if (clbss_hbsh->buckets[row] == 0)
             CCout_of_memory(context);
     }
-    class_hash->entries_used++; /* only increment when we are sure there
+    clbss_hbsh->entries_used++; /* only increment when we bre sure there
                                    is no overflow. */
-    return GET_BUCKET(class_hash, i);
+    return GET_BUCKET(clbss_hbsh, i);
 }
 
-static unsigned int
-class_hash_fun(const char *s)
+stbtic unsigned int
+clbss_hbsh_fun(const chbr *s)
 {
     int i;
-    unsigned raw_hash;
-    for (raw_hash = 0; (i = *s) != '\0'; ++s)
-        raw_hash = raw_hash * 37 + i;
-    return raw_hash;
+    unsigned rbw_hbsh;
+    for (rbw_hbsh = 0; (i = *s) != '\0'; ++s)
+        rbw_hbsh = rbw_hbsh * 37 + i;
+    return rbw_hbsh;
 }
 
 /*
- * Find a class using the defining loader of the current class
- * and return a local reference to it.
+ * Find b clbss using the defining lobder of the current clbss
+ * bnd return b locbl reference to it.
  */
-static jclass load_class_local(context_type *context,const char *classname)
+stbtic jclbss lobd_clbss_locbl(context_type *context,const chbr *clbssnbme)
 {
-    jclass cb = JVM_FindClassFromClass(context->env, classname,
-                                 JNI_FALSE, context->class);
+    jclbss cb = JVM_FindClbssFromClbss(context->env, clbssnbme,
+                                 JNI_FALSE, context->clbss);
     if (cb == 0)
-         CCerror(context, "Cannot find class %s", classname);
+         CCerror(context, "Cbnnot find clbss %s", clbssnbme);
     return cb;
 }
 
 /*
- * Find a class using the defining loader of the current class
- * and return a global reference to it.
+ * Find b clbss using the defining lobder of the current clbss
+ * bnd return b globbl reference to it.
  */
-static jclass load_class_global(context_type *context, const char *classname)
+stbtic jclbss lobd_clbss_globbl(context_type *context, const chbr *clbssnbme)
 {
     JNIEnv *env = context->env;
-    jclass local, global;
+    jclbss locbl, globbl;
 
-    local = load_class_local(context, classname);
-    global = (*env)->NewGlobalRef(env, local);
-    if (global == 0)
+    locbl = lobd_clbss_locbl(context, clbssnbme);
+    globbl = (*env)->NewGlobblRef(env, locbl);
+    if (globbl == 0)
         CCout_of_memory(context);
 #ifdef DEBUG
-    context->n_globalrefs++;
+    context->n_globblrefs++;
 #endif
-    (*env)->DeleteLocalRef(env, local);
-    return global;
+    (*env)->DeleteLocblRef(env, locbl);
+    return globbl;
 }
 
 /*
- * Return a unique ID given a local class reference. The loadable
- * flag is true if the defining class loader of context->class
- * is known to be capable of loading the class.
+ * Return b unique ID given b locbl clbss reference. The lobdbble
+ * flbg is true if the defining clbss lobder of context->clbss
+ * is known to be cbpbble of lobding the clbss.
  */
-static unsigned short
-class_to_ID(context_type *context, jclass cb, jboolean loadable)
+stbtic unsigned short
+clbss_to_ID(context_type *context, jclbss cb, jboolebn lobdbble)
 {
     JNIEnv *env = context->env;
-    hash_table_type *class_hash = &(context->class_hash);
-    unsigned int hash;
-    hash_bucket_type *bucket;
+    hbsh_tbble_type *clbss_hbsh = &(context->clbss_hbsh);
+    unsigned int hbsh;
+    hbsh_bucket_type *bucket;
     unsigned short *pID;
-    const char *name = JVM_GetClassNameUTF(env, cb);
+    const chbr *nbme = JVM_GetClbssNbmeUTF(env, cb);
 
-    check_and_push(context, name, VM_STRING_UTF);
-    hash = class_hash_fun(name);
-    pID = &(class_hash->table[hash % HASH_TABLE_SIZE]);
+    check_bnd_push(context, nbme, VM_STRING_UTF);
+    hbsh = clbss_hbsh_fun(nbme);
+    pID = &(clbss_hbsh->tbble[hbsh % HASH_TABLE_SIZE]);
     while (*pID) {
-        bucket = GET_BUCKET(class_hash, *pID);
-        if (bucket->hash == hash && strcmp(name, bucket->name) == 0) {
+        bucket = GET_BUCKET(clbss_hbsh, *pID);
+        if (bucket->hbsh == hbsh && strcmp(nbme, bucket->nbme) == 0) {
             /*
-             * There is an unresolved entry with our name
-             * so we're forced to load it in case it matches us.
+             * There is bn unresolved entry with our nbme
+             * so we're forced to lobd it in cbse it mbtches us.
              */
-            if (bucket->class == 0) {
-                assert(bucket->loadable == JNI_TRUE);
-                bucket->class = load_class_global(context, name);
+            if (bucket->clbss == 0) {
+                bssert(bucket->lobdbble == JNI_TRUE);
+                bucket->clbss = lobd_clbss_globbl(context, nbme);
             }
 
             /*
-             * It's already in the table. Update the loadable
-             * state if it's known and then we're done.
+             * It's blrebdy in the tbble. Updbte the lobdbble
+             * stbte if it's known bnd then we're done.
              */
-            if ((*env)->IsSameObject(env, cb, bucket->class)) {
-                if (loadable && !bucket->loadable)
-                    bucket->loadable = JNI_TRUE;
+            if ((*env)->IsSbmeObject(env, cb, bucket->clbss)) {
+                if (lobdbble && !bucket->lobdbble)
+                    bucket->lobdbble = JNI_TRUE;
                 goto done;
             }
         }
@@ -627,337 +627,337 @@ class_to_ID(context_type *context, jclass cb, jboolean loadable)
     }
     bucket = new_bucket(context, pID);
     bucket->next = 0;
-    bucket->hash = hash;
-    bucket->name = malloc(strlen(name) + 1);
-    if (bucket->name == 0)
+    bucket->hbsh = hbsh;
+    bucket->nbme = mblloc(strlen(nbme) + 1);
+    if (bucket->nbme == 0)
         CCout_of_memory(context);
-    strcpy(bucket->name, name);
-    bucket->loadable = loadable;
-    bucket->class = (*env)->NewGlobalRef(env, cb);
-    if (bucket->class == 0)
+    strcpy(bucket->nbme, nbme);
+    bucket->lobdbble = lobdbble;
+    bucket->clbss = (*env)->NewGlobblRef(env, cb);
+    if (bucket->clbss == 0)
         CCout_of_memory(context);
 #ifdef DEBUG
-    context->n_globalrefs++;
+    context->n_globblrefs++;
 #endif
 
 done:
-    pop_and_free(context);
+    pop_bnd_free(context);
     return *pID;
 }
 
 /*
- * Return a unique ID given a class name from the constant pool.
- * All classes are lazily loaded from the defining loader of
- * context->class.
+ * Return b unique ID given b clbss nbme from the constbnt pool.
+ * All clbsses bre lbzily lobded from the defining lobder of
+ * context->clbss.
  */
-static unsigned short
-class_name_to_ID(context_type *context, const char *name)
+stbtic unsigned short
+clbss_nbme_to_ID(context_type *context, const chbr *nbme)
 {
-    hash_table_type *class_hash = &(context->class_hash);
-    unsigned int hash = class_hash_fun(name);
-    hash_bucket_type *bucket;
+    hbsh_tbble_type *clbss_hbsh = &(context->clbss_hbsh);
+    unsigned int hbsh = clbss_hbsh_fun(nbme);
+    hbsh_bucket_type *bucket;
     unsigned short *pID;
-    jboolean force_load = JNI_FALSE;
+    jboolebn force_lobd = JNI_FALSE;
 
-    pID = &(class_hash->table[hash % HASH_TABLE_SIZE]);
+    pID = &(clbss_hbsh->tbble[hbsh % HASH_TABLE_SIZE]);
     while (*pID) {
-        bucket = GET_BUCKET(class_hash, *pID);
-        if (bucket->hash == hash && strcmp(name, bucket->name) == 0) {
-            if (bucket->loadable)
+        bucket = GET_BUCKET(clbss_hbsh, *pID);
+        if (bucket->hbsh == hbsh && strcmp(nbme, bucket->nbme) == 0) {
+            if (bucket->lobdbble)
                 goto done;
-            force_load = JNI_TRUE;
+            force_lobd = JNI_TRUE;
         }
         pID = &bucket->next;
     }
 
-    if (force_load) {
+    if (force_lobd) {
         /*
-         * We found at least one matching named entry for a class that
-         * was not known to be loadable through the defining class loader
-         * of context->class. We must load our named class and update
-         * the hash table in case one these entries matches our class.
+         * We found bt lebst one mbtching nbmed entry for b clbss thbt
+         * wbs not known to be lobdbble through the defining clbss lobder
+         * of context->clbss. We must lobd our nbmed clbss bnd updbte
+         * the hbsh tbble in cbse one these entries mbtches our clbss.
          */
         JNIEnv *env = context->env;
-        jclass cb = load_class_local(context, name);
-        unsigned short id = class_to_ID(context, cb, JNI_TRUE);
-        (*env)->DeleteLocalRef(env, cb);
+        jclbss cb = lobd_clbss_locbl(context, nbme);
+        unsigned short id = clbss_to_ID(context, cb, JNI_TRUE);
+        (*env)->DeleteLocblRef(env, cb);
         return id;
     }
 
     bucket = new_bucket(context, pID);
     bucket->next = 0;
-    bucket->class = 0;
-    bucket->loadable = JNI_TRUE; /* name-only IDs are implicitly loadable */
-    bucket->hash = hash;
-    bucket->name = malloc(strlen(name) + 1);
-    if (bucket->name == 0)
+    bucket->clbss = 0;
+    bucket->lobdbble = JNI_TRUE; /* nbme-only IDs bre implicitly lobdbble */
+    bucket->hbsh = hbsh;
+    bucket->nbme = mblloc(strlen(nbme) + 1);
+    if (bucket->nbme == 0)
         CCout_of_memory(context);
-    strcpy(bucket->name, name);
+    strcpy(bucket->nbme, nbme);
 
 done:
     return *pID;
 }
 
-static const char *
-ID_to_class_name(context_type *context, unsigned short ID)
+stbtic const chbr *
+ID_to_clbss_nbme(context_type *context, unsigned short ID)
 {
-    hash_table_type *class_hash = &(context->class_hash);
-    hash_bucket_type *bucket = GET_BUCKET(class_hash, ID);
-    return bucket->name;
+    hbsh_tbble_type *clbss_hbsh = &(context->clbss_hbsh);
+    hbsh_bucket_type *bucket = GET_BUCKET(clbss_hbsh, ID);
+    return bucket->nbme;
 }
 
-static jclass
-ID_to_class(context_type *context, unsigned short ID)
+stbtic jclbss
+ID_to_clbss(context_type *context, unsigned short ID)
 {
-    hash_table_type *class_hash = &(context->class_hash);
-    hash_bucket_type *bucket = GET_BUCKET(class_hash, ID);
-    if (bucket->class == 0) {
-        assert(bucket->loadable == JNI_TRUE);
-        bucket->class = load_class_global(context, bucket->name);
+    hbsh_tbble_type *clbss_hbsh = &(context->clbss_hbsh);
+    hbsh_bucket_type *bucket = GET_BUCKET(clbss_hbsh, ID);
+    if (bucket->clbss == 0) {
+        bssert(bucket->lobdbble == JNI_TRUE);
+        bucket->clbss = lobd_clbss_globbl(context, bucket->nbme);
     }
-    return bucket->class;
+    return bucket->clbss;
 }
 
-static fullinfo_type
-make_loadable_class_info(context_type *context, jclass cb)
+stbtic fullinfo_type
+mbke_lobdbble_clbss_info(context_type *context, jclbss cb)
 {
     return MAKE_FULLINFO(ITEM_Object, 0,
-                           class_to_ID(context, cb, JNI_TRUE));
+                           clbss_to_ID(context, cb, JNI_TRUE));
 }
 
-static fullinfo_type
-make_class_info(context_type *context, jclass cb)
+stbtic fullinfo_type
+mbke_clbss_info(context_type *context, jclbss cb)
 {
     return MAKE_FULLINFO(ITEM_Object, 0,
-                         class_to_ID(context, cb, JNI_FALSE));
+                         clbss_to_ID(context, cb, JNI_FALSE));
 }
 
-static fullinfo_type
-make_class_info_from_name(context_type *context, const char *name)
+stbtic fullinfo_type
+mbke_clbss_info_from_nbme(context_type *context, const chbr *nbme)
 {
     return MAKE_FULLINFO(ITEM_Object, 0,
-                         class_name_to_ID(context, name));
+                         clbss_nbme_to_ID(context, nbme));
 }
 
 /* RETURNS
- * 1: on success       chosen to be consistent with previous VerifyClass
+ * 1: on success       chosen to be consistent with previous VerifyClbss
  * 0: verify error
  * 2: out of memory
- * 3: class format error
+ * 3: clbss formbt error
  *
- * Called by verify_class.  Verify the code of each of the methods
- * in a class.  Note that this function apparently can't be JNICALL,
- * because if it is the dynamic linker doesn't appear to be able to
+ * Cblled by verify_clbss.  Verify the code of ebch of the methods
+ * in b clbss.  Note thbt this function bppbrently cbn't be JNICALL,
+ * becbuse if it is the dynbmic linker doesn't bppebr to be bble to
  * find it on Win32.
  */
 
 #define CC_OK 1
 #define CC_VerifyError 0
 #define CC_OutOfMemory 2
-#define CC_ClassFormatError 3
+#define CC_ClbssFormbtError 3
 
-JNIEXPORT jboolean
-VerifyClassForMajorVersion(JNIEnv *env, jclass cb, char *buffer, jint len,
-                           jint major_version)
+JNIEXPORT jboolebn
+VerifyClbssForMbjorVersion(JNIEnv *env, jclbss cb, chbr *buffer, jint len,
+                           jint mbjor_version)
 {
     context_type context_structure;
     context_type *context = &context_structure;
-    jboolean result = CC_OK;
+    jboolebn result = CC_OK;
     int i;
     int num_methods;
     int* code_lengths;
-    unsigned char** code;
+    unsigned chbr** code;
 
 #ifdef DEBUG
-    GlobalContext = context;
+    GlobblContext = context;
 #endif
 
     memset(context, 0, sizeof(context_type));
-    context->message = buffer;
-    context->message_buf_len = len;
+    context->messbge = buffer;
+    context->messbge_buf_len = len;
 
     context->env = env;
-    context->class = cb;
+    context->clbss = cb;
 
-    /* Set invalid method/field index of the context, in case anyone
-       calls CCerror */
+    /* Set invblid method/field index of the context, in cbse bnyone
+       cblls CCerror */
     context->method_index = -1;
     context->field_index = -1;
 
-    /* Don't call CCerror or anything that can call it above the setjmp! */
+    /* Don't cbll CCerror or bnything thbt cbn cbll it bbove the setjmp! */
     if (!setjmp(context->jump_buffer)) {
-        jclass super;
+        jclbss super;
 
-        CCinit(context);                /* initialize heap; may throw */
+        CCinit(context);                /* initiblize hebp; mby throw */
 
-        initialize_class_hash(context);
+        initiblize_clbss_hbsh(context);
 
-        context->major_version = major_version;
-        context->nconstants = JVM_GetClassCPEntriesCount(env, cb);
-        context->constant_types = (unsigned char *)
-            malloc(sizeof(unsigned char) * context->nconstants + 1);
+        context->mbjor_version = mbjor_version;
+        context->nconstbnts = JVM_GetClbssCPEntriesCount(env, cb);
+        context->constbnt_types = (unsigned chbr *)
+            mblloc(sizeof(unsigned chbr) * context->nconstbnts + 1);
 
-        if (context->constant_types == 0)
+        if (context->constbnt_types == 0)
             CCout_of_memory(context);
 
-        JVM_GetClassCPTypes(env, cb, context->constant_types);
+        JVM_GetClbssCPTypes(env, cb, context->constbnt_types);
 
-        if (context->constant_types == 0)
+        if (context->constbnt_types == 0)
             CCout_of_memory(context);
 
         context->object_info =
-            make_class_info_from_name(context, "java/lang/Object");
+            mbke_clbss_info_from_nbme(context, "jbvb/lbng/Object");
         context->string_info =
-            make_class_info_from_name(context, "java/lang/String");
-        context->throwable_info =
-            make_class_info_from_name(context, "java/lang/Throwable");
-        context->cloneable_info =
-            make_class_info_from_name(context, "java/lang/Cloneable");
-        context->serializable_info =
-            make_class_info_from_name(context, "java/io/Serializable");
+            mbke_clbss_info_from_nbme(context, "jbvb/lbng/String");
+        context->throwbble_info =
+            mbke_clbss_info_from_nbme(context, "jbvb/lbng/Throwbble");
+        context->clonebble_info =
+            mbke_clbss_info_from_nbme(context, "jbvb/lbng/Clonebble");
+        context->seriblizbble_info =
+            mbke_clbss_info_from_nbme(context, "jbvb/io/Seriblizbble");
 
-        context->currentclass_info = make_loadable_class_info(context, cb);
+        context->currentclbss_info = mbke_lobdbble_clbss_info(context, cb);
 
-        super = (*env)->GetSuperclass(env, cb);
+        super = (*env)->GetSuperclbss(env, cb);
 
         if (super != 0) {
             fullinfo_type *gptr;
             int i = 0;
 
-            context->superclass_info = make_loadable_class_info(context, super);
+            context->superclbss_info = mbke_lobdbble_clbss_info(context, super);
 
             while(super != 0) {
-                jclass tmp_cb = (*env)->GetSuperclass(env, super);
-                (*env)->DeleteLocalRef(env, super);
+                jclbss tmp_cb = (*env)->GetSuperclbss(env, super);
+                (*env)->DeleteLocblRef(env, super);
                 super = tmp_cb;
                 i++;
             }
-            (*env)->DeleteLocalRef(env, super);
+            (*env)->DeleteLocblRef(env, super);
             super = 0;
 
-            /* Can't go on context heap since it survives more than
+            /* Cbn't go on context hebp since it survives more thbn
                one method */
-            context->superclasses = gptr =
-                malloc(sizeof(fullinfo_type)*(i + 1));
+            context->superclbsses = gptr =
+                mblloc(sizeof(fullinfo_type)*(i + 1));
             if (gptr == 0) {
                 CCout_of_memory(context);
             }
 
-            super = (*env)->GetSuperclass(env, context->class);
+            super = (*env)->GetSuperclbss(env, context->clbss);
             while(super != 0) {
-                jclass tmp_cb;
-                *gptr++ = make_class_info(context, super);
-                tmp_cb = (*env)->GetSuperclass(env, super);
-                (*env)->DeleteLocalRef(env, super);
+                jclbss tmp_cb;
+                *gptr++ = mbke_clbss_info(context, super);
+                tmp_cb = (*env)->GetSuperclbss(env, super);
+                (*env)->DeleteLocblRef(env, super);
                 super = tmp_cb;
             }
             *gptr = 0;
         } else {
-            context->superclass_info = 0;
+            context->superclbss_info = 0;
         }
 
-        (*env)->DeleteLocalRef(env, super);
+        (*env)->DeleteLocblRef(env, super);
 
-        /* Look at each method */
-        for (i = JVM_GetClassFieldsCount(env, cb); --i >= 0;)
+        /* Look bt ebch method */
+        for (i = JVM_GetClbssFieldsCount(env, cb); --i >= 0;)
             verify_field(context, cb, i);
-        num_methods = JVM_GetClassMethodsCount(env, cb);
-        read_all_code(context, cb, num_methods, &code_lengths, &code);
+        num_methods = JVM_GetClbssMethodsCount(env, cb);
+        rebd_bll_code(context, cb, num_methods, &code_lengths, &code);
         for (i = num_methods - 1; i >= 0; --i)
             verify_method(context, cb, i, code_lengths[i], code[i]);
-        free_all_code(context, num_methods, code);
+        free_bll_code(context, num_methods, code);
         result = CC_OK;
     } else {
         result = context->err_code;
     }
 
-    /* Cleanup */
-    finalize_class_hash(context);
+    /* Clebnup */
+    finblize_clbss_hbsh(context);
 
-    while(context->allocated_memory)
-        pop_and_free(context);
+    while(context->bllocbted_memory)
+        pop_bnd_free(context);
 
 #ifdef DEBUG
-    GlobalContext = 0;
+    GlobblContext = 0;
 #endif
 
     if (context->exceptions)
         free(context->exceptions);
 
-    if (context->constant_types)
-        free(context->constant_types);
+    if (context->constbnt_types)
+        free(context->constbnt_types);
 
-    if (context->superclasses)
-        free(context->superclasses);
+    if (context->superclbsses)
+        free(context->superclbsses);
 
 #ifdef DEBUG
-    /* Make sure all global refs created in the verifier are freed */
-    assert(context->n_globalrefs == 0);
+    /* Mbke sure bll globbl refs crebted in the verifier bre freed */
+    bssert(context->n_globblrefs == 0);
 #endif
 
-    CCdestroy(context);         /* destroy heap */
+    CCdestroy(context);         /* destroy hebp */
     return result;
 }
 
 #define OLD_FORMAT_MAX_MAJOR_VERSION 48
 
-JNIEXPORT jboolean
-VerifyClass(JNIEnv *env, jclass cb, char *buffer, jint len)
+JNIEXPORT jboolebn
+VerifyClbss(JNIEnv *env, jclbss cb, chbr *buffer, jint len)
 {
-    static int warned = 0;
-    if (!warned) {
-      jio_fprintf(stdout, "Warning! An old version of jvm is used. This is not supported.\n");
-      warned = 1;
+    stbtic int wbrned = 0;
+    if (!wbrned) {
+      jio_fprintf(stdout, "Wbrning! An old version of jvm is used. This is not supported.\n");
+      wbrned = 1;
     }
-    return VerifyClassForMajorVersion(env, cb, buffer, len,
+    return VerifyClbssForMbjorVersion(env, cb, buffer, len,
                                       OLD_FORMAT_MAX_MAJOR_VERSION);
 }
 
-static void
-verify_field(context_type *context, jclass cb, int field_index)
+stbtic void
+verify_field(context_type *context, jclbss cb, int field_index)
 {
     JNIEnv *env = context->env;
-    int access_bits = JVM_GetFieldIxModifiers(env, cb, field_index);
+    int bccess_bits = JVM_GetFieldIxModifiers(env, cb, field_index);
     context->field_index = field_index;
 
-    if (  ((access_bits & JVM_ACC_PUBLIC) != 0) &&
-          ((access_bits & (JVM_ACC_PRIVATE | JVM_ACC_PROTECTED)) != 0)) {
-        CCerror(context, "Inconsistent access bits.");
+    if (  ((bccess_bits & JVM_ACC_PUBLIC) != 0) &&
+          ((bccess_bits & (JVM_ACC_PRIVATE | JVM_ACC_PROTECTED)) != 0)) {
+        CCerror(context, "Inconsistent bccess bits.");
     }
     context->field_index = -1;
 }
 
 
 /**
- * We read all of the class's methods' code because it is possible that
- * the verification of one method could resulting in linking further
- * down the stack (due to class loading), which could end up rewriting
- * some of the bytecode of methods we haven't verified yet.  Since we
- * don't want to see the rewritten bytecode, cache all the code and
- * operate only on that.
+ * We rebd bll of the clbss's methods' code becbuse it is possible thbt
+ * the verificbtion of one method could resulting in linking further
+ * down the stbck (due to clbss lobding), which could end up rewriting
+ * some of the bytecode of methods we hbven't verified yet.  Since we
+ * don't wbnt to see the rewritten bytecode, cbche bll the code bnd
+ * operbte only on thbt.
  */
-static void
-read_all_code(context_type* context, jclass cb, int num_methods,
-              int** lengths_addr, unsigned char*** code_addr)
+stbtic void
+rebd_bll_code(context_type* context, jclbss cb, int num_methods,
+              int** lengths_bddr, unsigned chbr*** code_bddr)
 {
     int* lengths;
-    unsigned char** code;
+    unsigned chbr** code;
     int i;
 
-    lengths = malloc(sizeof(int) * num_methods);
-    check_and_push(context, lengths, VM_MALLOC_BLK);
+    lengths = mblloc(sizeof(int) * num_methods);
+    check_bnd_push(context, lengths, VM_MALLOC_BLK);
 
-    code = malloc(sizeof(unsigned char*) * num_methods);
-    check_and_push(context, code, VM_MALLOC_BLK);
+    code = mblloc(sizeof(unsigned chbr*) * num_methods);
+    check_bnd_push(context, code, VM_MALLOC_BLK);
 
-    *(lengths_addr) = lengths;
-    *(code_addr) = code;
+    *(lengths_bddr) = lengths;
+    *(code_bddr) = code;
 
     for (i = 0; i < num_methods; ++i) {
         lengths[i] = JVM_GetMethodIxByteCodeLength(context->env, cb, i);
         if (lengths[i] > 0) {
-            code[i] = malloc(sizeof(unsigned char) * (lengths[i] + 1));
-            check_and_push(context, code[i], VM_MALLOC_BLK);
+            code[i] = mblloc(sizeof(unsigned chbr) * (lengths[i] + 1));
+            check_bnd_push(context, code[i], VM_MALLOC_BLK);
             JVM_GetMethodIxByteCode(context->env, cb, i, code[i]);
         } else {
             code[i] = NULL;
@@ -965,104 +965,104 @@ read_all_code(context_type* context, jclass cb, int num_methods,
     }
 }
 
-static void
-free_all_code(context_type* context, int num_methods, unsigned char** code)
+stbtic void
+free_bll_code(context_type* context, int num_methods, unsigned chbr** code)
 {
   int i;
   for (i = 0; i < num_methods; ++i) {
       if (code[i] != NULL) {
-          pop_and_free(context);
+          pop_bnd_free(context);
       }
   }
-  pop_and_free(context); /* code */
-  pop_and_free(context); /* lengths */
+  pop_bnd_free(context); /* code */
+  pop_bnd_free(context); /* lengths */
 }
 
 /* Verify the code of one method */
-static void
-verify_method(context_type *context, jclass cb, int method_index,
-              int code_length, unsigned char* code)
+stbtic void
+verify_method(context_type *context, jclbss cb, int method_index,
+              int code_length, unsigned chbr* code)
 {
     JNIEnv *env = context->env;
-    int access_bits = JVM_GetMethodIxModifiers(env, cb, method_index);
-    int *code_data;
-    instruction_data_type *idata = 0;
+    int bccess_bits = JVM_GetMethodIxModifiers(env, cb, method_index);
+    int *code_dbtb;
+    instruction_dbtb_type *idbtb = 0;
     int instruction_count;
     int i, offset;
     unsigned int inumber;
     jint nexceptions;
 
-    if ((access_bits & (JVM_ACC_NATIVE | JVM_ACC_ABSTRACT)) != 0) {
-        /* not much to do for abstract and native methods */
+    if ((bccess_bits & (JVM_ACC_NATIVE | JVM_ACC_ABSTRACT)) != 0) {
+        /* not much to do for bbstrbct bnd nbtive methods */
         return;
     }
 
     context->code_length = code_length;
     context->code = code;
 
-    /* CCerror can give method-specific info once this is set */
+    /* CCerror cbn give method-specific info once this is set */
     context->method_index = method_index;
 
-    CCreinit(context);          /* initial heap */
-    code_data = NEW(int, code_length);
+    CCreinit(context);          /* initibl hebp */
+    code_dbtb = NEW(int, code_length);
 
 #ifdef DEBUG
     if (verify_verbose) {
-        const char *classname = JVM_GetClassNameUTF(env, cb);
-        const char *methodname =
-            JVM_GetMethodIxNameUTF(env, cb, method_index);
-        const char *signature =
-            JVM_GetMethodIxSignatureUTF(env, cb, method_index);
-        jio_fprintf(stdout, "Looking at %s.%s%s\n",
-                    (classname ? classname : ""),
-                    (methodname ? methodname : ""),
-                    (signature ? signature : ""));
-        JVM_ReleaseUTF(classname);
-        JVM_ReleaseUTF(methodname);
-        JVM_ReleaseUTF(signature);
+        const chbr *clbssnbme = JVM_GetClbssNbmeUTF(env, cb);
+        const chbr *methodnbme =
+            JVM_GetMethodIxNbmeUTF(env, cb, method_index);
+        const chbr *signbture =
+            JVM_GetMethodIxSignbtureUTF(env, cb, method_index);
+        jio_fprintf(stdout, "Looking bt %s.%s%s\n",
+                    (clbssnbme ? clbssnbme : ""),
+                    (methodnbme ? methodnbme : ""),
+                    (signbture ? signbture : ""));
+        JVM_RelebseUTF(clbssnbme);
+        JVM_RelebseUTF(methodnbme);
+        JVM_RelebseUTF(signbture);
     }
 #endif
 
-    if (((access_bits & JVM_ACC_PUBLIC) != 0) &&
-        ((access_bits & (JVM_ACC_PRIVATE | JVM_ACC_PROTECTED)) != 0)) {
-        CCerror(context, "Inconsistent access bits.");
+    if (((bccess_bits & JVM_ACC_PUBLIC) != 0) &&
+        ((bccess_bits & (JVM_ACC_PRIVATE | JVM_ACC_PROTECTED)) != 0)) {
+        CCerror(context, "Inconsistent bccess bits.");
     }
 
-    // If this method is an overpass method, which is generated by the VM,
-    // we trust the code and no check needs to be done.
-    if (JVM_IsVMGeneratedMethodIx(env, cb, method_index)) {
+    // If this method is bn overpbss method, which is generbted by the VM,
+    // we trust the code bnd no check needs to be done.
+    if (JVM_IsVMGenerbtedMethodIx(env, cb, method_index)) {
       return;
     }
 
-    /* Run through the code.  Mark the start of each instruction, and give
-     * the instruction a number */
+    /* Run through the code.  Mbrk the stbrt of ebch instruction, bnd give
+     * the instruction b number */
     for (i = 0, offset = 0; offset < code_length; i++) {
         int length = instruction_length(&code[offset], code + code_length);
         int next_offset = offset + length;
         if (length <= 0)
-            CCerror(context, "Illegal instruction found at offset %d", offset);
+            CCerror(context, "Illegbl instruction found bt offset %d", offset);
         if (next_offset > code_length)
             CCerror(context, "Code stops in the middle of instruction "
-                    " starting at offset %d", offset);
-        code_data[offset] = i;
+                    " stbrting bt offset %d", offset);
+        code_dbtb[offset] = i;
         while (++offset < next_offset)
-            code_data[offset] = -1; /* illegal location */
+            code_dbtb[offset] = -1; /* illegbl locbtion */
     }
     instruction_count = i;      /* number of instructions in code */
 
-    /* Allocate a structure to hold info about each instruction. */
-    idata = NEW(instruction_data_type, instruction_count);
+    /* Allocbte b structure to hold info bbout ebch instruction. */
+    idbtb = NEW(instruction_dbtb_type, instruction_count);
 
-    /* Initialize the heap, and other info in the context structure. */
+    /* Initiblize the hebp, bnd other info in the context structure. */
     context->code = code;
-    context->instruction_data = idata;
-    context->code_data = code_data;
+    context->instruction_dbtb = idbtb;
+    context->code_dbtb = code_dbtb;
     context->instruction_count = instruction_count;
-    context->handler_info =
-        NEW(struct handler_info_type,
-            JVM_GetMethodIxExceptionTableLength(env, cb, method_index));
-    context->bitmask_size =
-        (JVM_GetMethodIxLocalsCount(env, cb, method_index)
+    context->hbndler_info =
+        NEW(struct hbndler_info_type,
+            JVM_GetMethodIxExceptionTbbleLength(env, cb, method_index));
+    context->bitmbsk_size =
+        (JVM_GetMethodIxLocblsCount(env, cb, method_index)
          + (BITS_PER_INT - 1))/BITS_PER_INT;
 
     if (instruction_count == 0)
@@ -1070,41 +1070,41 @@ verify_method(context_type *context, jclass cb, int method_index,
 
     for (inumber = 0, offset = 0; offset < code_length; inumber++) {
         int length = instruction_length(&code[offset], code + code_length);
-        instruction_data_type *this_idata = &idata[inumber];
-        this_idata->opcode = code[offset];
-        this_idata->stack_info.stack = NULL;
-        this_idata->stack_info.stack_size  = UNKNOWN_STACK_SIZE;
-        this_idata->register_info.register_count = UNKNOWN_REGISTER_COUNT;
-        this_idata->changed = JNI_FALSE;  /* no need to look at it yet. */
-        this_idata->protected = JNI_FALSE;  /* no need to look at it yet. */
-        this_idata->and_flags = (flag_type) -1; /* "bottom" and value */
-        this_idata->or_flags = 0; /* "bottom" or value*/
-        /* This also sets up this_data->operand.  It also makes the
-         * xload_x and xstore_x instructions look like the generic form. */
-        verify_opcode_operands(context, inumber, offset);
+        instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+        this_idbtb->opcode = code[offset];
+        this_idbtb->stbck_info.stbck = NULL;
+        this_idbtb->stbck_info.stbck_size  = UNKNOWN_STACK_SIZE;
+        this_idbtb->register_info.register_count = UNKNOWN_REGISTER_COUNT;
+        this_idbtb->chbnged = JNI_FALSE;  /* no need to look bt it yet. */
+        this_idbtb->protected = JNI_FALSE;  /* no need to look bt it yet. */
+        this_idbtb->bnd_flbgs = (flbg_type) -1; /* "bottom" bnd vblue */
+        this_idbtb->or_flbgs = 0; /* "bottom" or vblue*/
+        /* This blso sets up this_dbtb->operbnd.  It blso mbkes the
+         * xlobd_x bnd xstore_x instructions look like the generic form. */
+        verify_opcode_operbnds(context, inumber, offset);
         offset += length;
     }
 
 
-    /* make sure exception table is reasonable. */
-    initialize_exception_table(context);
-    /* Set up first instruction, and start of exception handlers. */
-    initialize_dataflow(context);
-    /* Run data flow analysis on the instructions. */
-    run_dataflow(context);
+    /* mbke sure exception tbble is rebsonbble. */
+    initiblize_exception_tbble(context);
+    /* Set up first instruction, bnd stbrt of exception hbndlers. */
+    initiblize_dbtbflow(context);
+    /* Run dbtb flow bnblysis on the instructions. */
+    run_dbtbflow(context);
 
-    /* verify checked exceptions, if any */
+    /* verify checked exceptions, if bny */
     nexceptions = JVM_GetMethodIxExceptionsCount(env, cb, method_index);
     context->exceptions = (unsigned short *)
-        malloc(sizeof(unsigned short) * nexceptions + 1);
+        mblloc(sizeof(unsigned short) * nexceptions + 1);
     if (context->exceptions == 0)
         CCout_of_memory(context);
     JVM_GetMethodIxExceptionIndexes(env, cb, method_index,
                                     context->exceptions);
     for (i = 0; i < nexceptions; i++) {
-        /* Make sure the constant pool item is JVM_CONSTANT_Class */
-        verify_constant_pool_type(context, (int)context->exceptions[i],
-                                  1 << JVM_CONSTANT_Class);
+        /* Mbke sure the constbnt pool item is JVM_CONSTANT_Clbss */
+        verify_constbnt_pool_type(context, (int)context->exceptions[i],
+                                  1 << JVM_CONSTANT_Clbss);
     }
     free(context->exceptions);
     context->exceptions = 0;
@@ -1113,629 +1113,629 @@ verify_method(context_type *context, jclass cb, int method_index,
 }
 
 
-/* Look at a single instruction, and verify its operands.  Also, for
- * simplicity, move the operand into the ->operand field.
- * Make sure that branches don't go into the middle of nowhere.
+/* Look bt b single instruction, bnd verify its operbnds.  Also, for
+ * simplicity, move the operbnd into the ->operbnd field.
+ * Mbke sure thbt brbnches don't go into the middle of nowhere.
  */
 
-static jint _ck_ntohl(jint n)
+stbtic jint _ck_ntohl(jint n)
 {
-    unsigned char *p = (unsigned char *)&n;
+    unsigned chbr *p = (unsigned chbr *)&n;
     return (p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3];
 }
 
-static void
-verify_opcode_operands(context_type *context, unsigned int inumber, int offset)
+stbtic void
+verify_opcode_operbnds(context_type *context, unsigned int inumber, int offset)
 {
     JNIEnv *env = context->env;
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[inumber];
-    int *code_data = context->code_data;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+    int *code_dbtb = context->code_dbtb;
     int mi = context->method_index;
-    unsigned char *code = context->code;
-    int opcode = this_idata->opcode;
-    int var;
+    unsigned chbr *code = context->code;
+    int opcode = this_idbtb->opcode;
+    int vbr;
 
     /*
-     * Set the ip fields to 0 not the i fields because the ip fields
-     * are 64 bits on 64 bit architectures, the i field is only 32
+     * Set the ip fields to 0 not the i fields becbuse the ip fields
+     * bre 64 bits on 64 bit brchitectures, the i field is only 32
      */
-    this_idata->operand.ip = 0;
-    this_idata->operand2.ip = 0;
+    this_idbtb->operbnd.ip = 0;
+    this_idbtb->operbnd2.ip = 0;
 
     switch (opcode) {
 
-    case JVM_OPC_jsr:
-        /* instruction of ret statement */
-        this_idata->operand2.i = UNKNOWN_RET_INSTRUCTION;
+    cbse JVM_OPC_jsr:
+        /* instruction of ret stbtement */
+        this_idbtb->operbnd2.i = UNKNOWN_RET_INSTRUCTION;
         /* FALLTHROUGH */
-    case JVM_OPC_ifeq: case JVM_OPC_ifne: case JVM_OPC_iflt:
-    case JVM_OPC_ifge: case JVM_OPC_ifgt: case JVM_OPC_ifle:
-    case JVM_OPC_ifnull: case JVM_OPC_ifnonnull:
-    case JVM_OPC_if_icmpeq: case JVM_OPC_if_icmpne: case JVM_OPC_if_icmplt:
-    case JVM_OPC_if_icmpge: case JVM_OPC_if_icmpgt: case JVM_OPC_if_icmple:
-    case JVM_OPC_if_acmpeq: case JVM_OPC_if_acmpne:
-    case JVM_OPC_goto: {
-        /* Set the ->operand to be the instruction number of the target. */
-        int jump = (((signed char)(code[offset+1])) << 8) + code[offset+2];
-        int target = offset + jump;
-        if (!isLegalTarget(context, target))
-            CCerror(context, "Illegal target of jump or branch");
-        this_idata->operand.i = code_data[target];
-        break;
+    cbse JVM_OPC_ifeq: cbse JVM_OPC_ifne: cbse JVM_OPC_iflt:
+    cbse JVM_OPC_ifge: cbse JVM_OPC_ifgt: cbse JVM_OPC_ifle:
+    cbse JVM_OPC_ifnull: cbse JVM_OPC_ifnonnull:
+    cbse JVM_OPC_if_icmpeq: cbse JVM_OPC_if_icmpne: cbse JVM_OPC_if_icmplt:
+    cbse JVM_OPC_if_icmpge: cbse JVM_OPC_if_icmpgt: cbse JVM_OPC_if_icmple:
+    cbse JVM_OPC_if_bcmpeq: cbse JVM_OPC_if_bcmpne:
+    cbse JVM_OPC_goto: {
+        /* Set the ->operbnd to be the instruction number of the tbrget. */
+        int jump = (((signed chbr)(code[offset+1])) << 8) + code[offset+2];
+        int tbrget = offset + jump;
+        if (!isLegblTbrget(context, tbrget))
+            CCerror(context, "Illegbl tbrget of jump or brbnch");
+        this_idbtb->operbnd.i = code_dbtb[tbrget];
+        brebk;
     }
 
-    case JVM_OPC_jsr_w:
-        /* instruction of ret statement */
-        this_idata->operand2.i = UNKNOWN_RET_INSTRUCTION;
+    cbse JVM_OPC_jsr_w:
+        /* instruction of ret stbtement */
+        this_idbtb->operbnd2.i = UNKNOWN_RET_INSTRUCTION;
         /* FALLTHROUGH */
-    case JVM_OPC_goto_w: {
-        /* Set the ->operand to be the instruction number of the target. */
-        int jump = (((signed char)(code[offset+1])) << 24) +
+    cbse JVM_OPC_goto_w: {
+        /* Set the ->operbnd to be the instruction number of the tbrget. */
+        int jump = (((signed chbr)(code[offset+1])) << 24) +
                      (code[offset+2] << 16) + (code[offset+3] << 8) +
                      (code[offset + 4]);
-        int target = offset + jump;
-        if (!isLegalTarget(context, target))
-            CCerror(context, "Illegal target of jump or branch");
-        this_idata->operand.i = code_data[target];
-        break;
+        int tbrget = offset + jump;
+        if (!isLegblTbrget(context, tbrget))
+            CCerror(context, "Illegbl tbrget of jump or brbnch");
+        this_idbtb->operbnd.i = code_dbtb[tbrget];
+        brebk;
     }
 
-    case JVM_OPC_tableswitch:
-    case JVM_OPC_lookupswitch: {
-        /* Set the ->operand to be a table of possible instruction targets. */
+    cbse JVM_OPC_tbbleswitch:
+    cbse JVM_OPC_lookupswitch: {
+        /* Set the ->operbnd to be b tbble of possible instruction tbrgets. */
         int *lpc = (int *) UCALIGN(code + offset + 1);
         int *lptr;
-        int *saved_operand;
+        int *sbved_operbnd;
         int keys;
-        int k, delta;
+        int k, deltb;
 
-        if (context->major_version < NONZERO_PADDING_BYTES_IN_SWITCH_MAJOR_VERSION) {
-            /* 4639449, 4647081: Padding bytes must be zero. */
-            unsigned char* bptr = (unsigned char*) (code + offset + 1);
-            for (; bptr < (unsigned char*)lpc; bptr++) {
+        if (context->mbjor_version < NONZERO_PADDING_BYTES_IN_SWITCH_MAJOR_VERSION) {
+            /* 4639449, 4647081: Pbdding bytes must be zero. */
+            unsigned chbr* bptr = (unsigned chbr*) (code + offset + 1);
+            for (; bptr < (unsigned chbr*)lpc; bptr++) {
                 if (*bptr != 0) {
-                    CCerror(context, "Non zero padding bytes in switch");
+                    CCerror(context, "Non zero pbdding bytes in switch");
                 }
             }
         }
-        if (opcode == JVM_OPC_tableswitch) {
+        if (opcode == JVM_OPC_tbbleswitch) {
             keys = _ck_ntohl(lpc[2]) -  _ck_ntohl(lpc[1]) + 1;
-            delta = 1;
+            deltb = 1;
         } else {
-            keys = _ck_ntohl(lpc[1]); /* number of pairs */
-            delta = 2;
-            /* Make sure that the tableswitch items are sorted */
+            keys = _ck_ntohl(lpc[1]); /* number of pbirs */
+            deltb = 2;
+            /* Mbke sure thbt the tbbleswitch items bre sorted */
             for (k = keys - 1, lptr = &lpc[2]; --k >= 0; lptr += 2) {
-                int this_key = _ck_ntohl(lptr[0]);  /* NB: ntohl may be unsigned */
+                int this_key = _ck_ntohl(lptr[0]);  /* NB: ntohl mby be unsigned */
                 int next_key = _ck_ntohl(lptr[2]);
                 if (this_key >= next_key) {
                     CCerror(context, "Unsorted lookup switch");
                 }
             }
         }
-        saved_operand = NEW(int, keys + 2);
-        if (!isLegalTarget(context, offset + _ck_ntohl(lpc[0])))
-            CCerror(context, "Illegal default target in switch");
-        saved_operand[keys + 1] = code_data[offset + _ck_ntohl(lpc[0])];
-        for (k = keys, lptr = &lpc[3]; --k >= 0; lptr += delta) {
-            int target = offset + _ck_ntohl(lptr[0]);
-            if (!isLegalTarget(context, target))
-                CCerror(context, "Illegal branch in tableswitch");
-            saved_operand[k + 1] = code_data[target];
+        sbved_operbnd = NEW(int, keys + 2);
+        if (!isLegblTbrget(context, offset + _ck_ntohl(lpc[0])))
+            CCerror(context, "Illegbl defbult tbrget in switch");
+        sbved_operbnd[keys + 1] = code_dbtb[offset + _ck_ntohl(lpc[0])];
+        for (k = keys, lptr = &lpc[3]; --k >= 0; lptr += deltb) {
+            int tbrget = offset + _ck_ntohl(lptr[0]);
+            if (!isLegblTbrget(context, tbrget))
+                CCerror(context, "Illegbl brbnch in tbbleswitch");
+            sbved_operbnd[k + 1] = code_dbtb[tbrget];
         }
-        saved_operand[0] = keys + 1; /* number of successors */
-        this_idata->operand.ip = saved_operand;
-        break;
+        sbved_operbnd[0] = keys + 1; /* number of successors */
+        this_idbtb->operbnd.ip = sbved_operbnd;
+        brebk;
     }
 
-    case JVM_OPC_ldc: {
-        /* Make sure the constant pool item is the right type. */
+    cbse JVM_OPC_ldc: {
+        /* Mbke sure the constbnt pool item is the right type. */
         int key = code[offset + 1];
-        int types = (1 << JVM_CONSTANT_Integer) | (1 << JVM_CONSTANT_Float) |
+        int types = (1 << JVM_CONSTANT_Integer) | (1 << JVM_CONSTANT_Flobt) |
                     (1 << JVM_CONSTANT_String);
-        if (context->major_version >= LDC_CLASS_MAJOR_VERSION) {
-            types |= 1 << JVM_CONSTANT_Class;
+        if (context->mbjor_version >= LDC_CLASS_MAJOR_VERSION) {
+            types |= 1 << JVM_CONSTANT_Clbss;
         }
-        if (context->major_version >= LDC_METHOD_HANDLE_MAJOR_VERSION) {
-            types |= (1 << JVM_CONSTANT_MethodHandle) |
+        if (context->mbjor_version >= LDC_METHOD_HANDLE_MAJOR_VERSION) {
+            types |= (1 << JVM_CONSTANT_MethodHbndle) |
                      (1 << JVM_CONSTANT_MethodType);
         }
-        this_idata->operand.i = key;
-        verify_constant_pool_type(context, key, types);
-        break;
+        this_idbtb->operbnd.i = key;
+        verify_constbnt_pool_type(context, key, types);
+        brebk;
     }
 
-    case JVM_OPC_ldc_w: {
-        /* Make sure the constant pool item is the right type. */
+    cbse JVM_OPC_ldc_w: {
+        /* Mbke sure the constbnt pool item is the right type. */
         int key = (code[offset + 1] << 8) + code[offset + 2];
-        int types = (1 << JVM_CONSTANT_Integer) | (1 << JVM_CONSTANT_Float) |
+        int types = (1 << JVM_CONSTANT_Integer) | (1 << JVM_CONSTANT_Flobt) |
                     (1 << JVM_CONSTANT_String);
-        if (context->major_version >= LDC_CLASS_MAJOR_VERSION) {
-            types |= 1 << JVM_CONSTANT_Class;
+        if (context->mbjor_version >= LDC_CLASS_MAJOR_VERSION) {
+            types |= 1 << JVM_CONSTANT_Clbss;
         }
-        if (context->major_version >= LDC_METHOD_HANDLE_MAJOR_VERSION) {
-            types |= (1 << JVM_CONSTANT_MethodHandle) |
+        if (context->mbjor_version >= LDC_METHOD_HANDLE_MAJOR_VERSION) {
+            types |= (1 << JVM_CONSTANT_MethodHbndle) |
                      (1 << JVM_CONSTANT_MethodType);
         }
-        this_idata->operand.i = key;
-        verify_constant_pool_type(context, key, types);
-        break;
+        this_idbtb->operbnd.i = key;
+        verify_constbnt_pool_type(context, key, types);
+        brebk;
     }
 
-    case JVM_OPC_ldc2_w: {
-        /* Make sure the constant pool item is the right type. */
+    cbse JVM_OPC_ldc2_w: {
+        /* Mbke sure the constbnt pool item is the right type. */
         int key = (code[offset + 1] << 8) + code[offset + 2];
         int types = (1 << JVM_CONSTANT_Double) | (1 << JVM_CONSTANT_Long);
-        this_idata->operand.i = key;
-        verify_constant_pool_type(context, key, types);
-        break;
+        this_idbtb->operbnd.i = key;
+        verify_constbnt_pool_type(context, key, types);
+        brebk;
     }
 
-    case JVM_OPC_getfield: case JVM_OPC_putfield:
-    case JVM_OPC_getstatic: case JVM_OPC_putstatic: {
-        /* Make sure the constant pool item is the right type. */
+    cbse JVM_OPC_getfield: cbse JVM_OPC_putfield:
+    cbse JVM_OPC_getstbtic: cbse JVM_OPC_putstbtic: {
+        /* Mbke sure the constbnt pool item is the right type. */
         int key = (code[offset + 1] << 8) + code[offset + 2];
-        this_idata->operand.i = key;
-        verify_constant_pool_type(context, key, 1 << JVM_CONSTANT_Fieldref);
+        this_idbtb->operbnd.i = key;
+        verify_constbnt_pool_type(context, key, 1 << JVM_CONSTANT_Fieldref);
         if (opcode == JVM_OPC_getfield || opcode == JVM_OPC_putfield)
             set_protected(context, inumber, key, opcode);
-        break;
+        brebk;
     }
 
-    case JVM_OPC_invokevirtual:
-    case JVM_OPC_invokespecial:
-    case JVM_OPC_invokestatic:
-    case JVM_OPC_invokedynamic:
-    case JVM_OPC_invokeinterface: {
-        /* Make sure the constant pool item is the right type. */
+    cbse JVM_OPC_invokevirtubl:
+    cbse JVM_OPC_invokespecibl:
+    cbse JVM_OPC_invokestbtic:
+    cbse JVM_OPC_invokedynbmic:
+    cbse JVM_OPC_invokeinterfbce: {
+        /* Mbke sure the constbnt pool item is the right type. */
         int key = (code[offset + 1] << 8) + code[offset + 2];
-        const char *methodname;
-        jclass cb = context->class;
-        fullinfo_type clazz_info;
-        int is_constructor, is_internal, is_invokedynamic;
+        const chbr *methodnbme;
+        jclbss cb = context->clbss;
+        fullinfo_type clbzz_info;
+        int is_constructor, is_internbl, is_invokedynbmic;
         int kind;
 
         switch (opcode ) {
-        case JVM_OPC_invokestatic:
-            kind = ((context->major_version < STATIC_METHOD_IN_INTERFACE_MAJOR_VERSION)
+        cbse JVM_OPC_invokestbtic:
+            kind = ((context->mbjor_version < STATIC_METHOD_IN_INTERFACE_MAJOR_VERSION)
                        ? (1 << JVM_CONSTANT_Methodref)
-                       : ((1 << JVM_CONSTANT_InterfaceMethodref) | (1 << JVM_CONSTANT_Methodref)));
-            break;
-        case JVM_OPC_invokedynamic:
-            kind = 1 << JVM_CONSTANT_NameAndType;
-            break;
-        case JVM_OPC_invokeinterface:
-            kind = 1 << JVM_CONSTANT_InterfaceMethodref;
-            break;
-        default:
+                       : ((1 << JVM_CONSTANT_InterfbceMethodref) | (1 << JVM_CONSTANT_Methodref)));
+            brebk;
+        cbse JVM_OPC_invokedynbmic:
+            kind = 1 << JVM_CONSTANT_NbmeAndType;
+            brebk;
+        cbse JVM_OPC_invokeinterfbce:
+            kind = 1 << JVM_CONSTANT_InterfbceMethodref;
+            brebk;
+        defbult:
             kind = 1 << JVM_CONSTANT_Methodref;
         }
 
-        is_invokedynamic = opcode == JVM_OPC_invokedynamic;
-        /* Make sure the constant pool item is the right type. */
-        verify_constant_pool_type(context, key, kind);
-        methodname = JVM_GetCPMethodNameUTF(env, cb, key);
-        check_and_push(context, methodname, VM_STRING_UTF);
-        is_constructor = !strcmp(methodname, "<init>");
-        is_internal = methodname[0] == '<';
-        pop_and_free(context);
+        is_invokedynbmic = opcode == JVM_OPC_invokedynbmic;
+        /* Mbke sure the constbnt pool item is the right type. */
+        verify_constbnt_pool_type(context, key, kind);
+        methodnbme = JVM_GetCPMethodNbmeUTF(env, cb, key);
+        check_bnd_push(context, methodnbme, VM_STRING_UTF);
+        is_constructor = !strcmp(methodnbme, "<init>");
+        is_internbl = methodnbme[0] == '<';
+        pop_bnd_free(context);
 
-        if (is_invokedynamic)
-          clazz_info = context->object_info;  // anything will do
+        if (is_invokedynbmic)
+          clbzz_info = context->object_info;  // bnything will do
         else
-          clazz_info = cp_index_to_class_fullinfo(context, key,
+          clbzz_info = cp_index_to_clbss_fullinfo(context, key,
                                                   JVM_CONSTANT_Methodref);
-        this_idata->operand.i = key;
-        this_idata->operand2.fi = clazz_info;
+        this_idbtb->operbnd.i = key;
+        this_idbtb->operbnd2.fi = clbzz_info;
         if (is_constructor) {
-            if (opcode != JVM_OPC_invokespecial) {
+            if (opcode != JVM_OPC_invokespecibl) {
                 CCerror(context,
-                        "Must call initializers using invokespecial");
+                        "Must cbll initiblizers using invokespecibl");
             }
-            this_idata->opcode = JVM_OPC_invokeinit;
+            this_idbtb->opcode = JVM_OPC_invokeinit;
         } else {
-            if (is_internal) {
-                CCerror(context, "Illegal call to internal method");
+            if (is_internbl) {
+                CCerror(context, "Illegbl cbll to internbl method");
             }
-            if (opcode == JVM_OPC_invokespecial
-                   && clazz_info != context->currentclass_info
-                   && clazz_info != context->superclass_info) {
+            if (opcode == JVM_OPC_invokespecibl
+                   && clbzz_info != context->currentclbss_info
+                   && clbzz_info != context->superclbss_info) {
                 int not_found = 1;
 
-                jclass super = (*env)->GetSuperclass(env, context->class);
+                jclbss super = (*env)->GetSuperclbss(env, context->clbss);
                 while(super != 0) {
-                    jclass tmp_cb;
-                    fullinfo_type new_info = make_class_info(context, super);
-                    if (clazz_info == new_info) {
+                    jclbss tmp_cb;
+                    fullinfo_type new_info = mbke_clbss_info(context, super);
+                    if (clbzz_info == new_info) {
                         not_found = 0;
-                        break;
+                        brebk;
                     }
-                    tmp_cb = (*env)->GetSuperclass(env, super);
-                    (*env)->DeleteLocalRef(env, super);
+                    tmp_cb = (*env)->GetSuperclbss(env, super);
+                    (*env)->DeleteLocblRef(env, super);
                     super = tmp_cb;
                 }
-                (*env)->DeleteLocalRef(env, super);
+                (*env)->DeleteLocblRef(env, super);
 
-                /* The optimizer may cause this to happen on local code */
+                /* The optimizer mby cbuse this to hbppen on locbl code */
                 if (not_found) {
-                    CCerror(context, "Illegal use of nonvirtual function call");
+                    CCerror(context, "Illegbl use of nonvirtubl function cbll");
                 }
             }
         }
-        if (opcode == JVM_OPC_invokeinterface) {
-            unsigned int args1;
-            unsigned int args2;
-            const char *signature =
-                JVM_GetCPMethodSignatureUTF(env, context->class, key);
-            check_and_push(context, signature, VM_STRING_UTF);
-            args1 = signature_to_args_size(signature) + 1;
-            args2 = code[offset + 3];
-            if (args1 != args2) {
+        if (opcode == JVM_OPC_invokeinterfbce) {
+            unsigned int brgs1;
+            unsigned int brgs2;
+            const chbr *signbture =
+                JVM_GetCPMethodSignbtureUTF(env, context->clbss, key);
+            check_bnd_push(context, signbture, VM_STRING_UTF);
+            brgs1 = signbture_to_brgs_size(signbture) + 1;
+            brgs2 = code[offset + 3];
+            if (brgs1 != brgs2) {
                 CCerror(context,
-                        "Inconsistent args_size for invokeinterface");
+                        "Inconsistent brgs_size for invokeinterfbce");
             }
             if (code[offset + 4] != 0) {
                 CCerror(context,
-                        "Fourth operand byte of invokeinterface must be zero");
+                        "Fourth operbnd byte of invokeinterfbce must be zero");
             }
-            pop_and_free(context);
-        } else if (opcode == JVM_OPC_invokedynamic) {
+            pop_bnd_free(context);
+        } else if (opcode == JVM_OPC_invokedynbmic) {
             if (code[offset + 3] != 0 || code[offset + 4] != 0) {
                 CCerror(context,
-                        "Third and fourth operand bytes of invokedynamic must be zero");
+                        "Third bnd fourth operbnd bytes of invokedynbmic must be zero");
             }
-        } else if (opcode == JVM_OPC_invokevirtual
-                      || opcode == JVM_OPC_invokespecial)
+        } else if (opcode == JVM_OPC_invokevirtubl
+                      || opcode == JVM_OPC_invokespecibl)
             set_protected(context, inumber, key, opcode);
-        break;
+        brebk;
     }
 
 
-    case JVM_OPC_instanceof:
-    case JVM_OPC_checkcast:
-    case JVM_OPC_new:
-    case JVM_OPC_anewarray:
-    case JVM_OPC_multianewarray: {
-        /* Make sure the constant pool item is a class */
+    cbse JVM_OPC_instbnceof:
+    cbse JVM_OPC_checkcbst:
+    cbse JVM_OPC_new:
+    cbse JVM_OPC_bnewbrrby:
+    cbse JVM_OPC_multibnewbrrby: {
+        /* Mbke sure the constbnt pool item is b clbss */
         int key = (code[offset + 1] << 8) + code[offset + 2];
-        fullinfo_type target;
-        verify_constant_pool_type(context, key, 1 << JVM_CONSTANT_Class);
-        target = cp_index_to_class_fullinfo(context, key, JVM_CONSTANT_Class);
-        if (GET_ITEM_TYPE(target) == ITEM_Bogus)
-            CCerror(context, "Illegal type");
+        fullinfo_type tbrget;
+        verify_constbnt_pool_type(context, key, 1 << JVM_CONSTANT_Clbss);
+        tbrget = cp_index_to_clbss_fullinfo(context, key, JVM_CONSTANT_Clbss);
+        if (GET_ITEM_TYPE(tbrget) == ITEM_Bogus)
+            CCerror(context, "Illegbl type");
         switch(opcode) {
-        case JVM_OPC_anewarray:
-            if ((GET_INDIRECTION(target)) >= MAX_ARRAY_DIMENSIONS)
-                CCerror(context, "Array with too many dimensions");
-            this_idata->operand.fi = MAKE_FULLINFO(GET_ITEM_TYPE(target),
-                                                   GET_INDIRECTION(target) + 1,
-                                                   GET_EXTRA_INFO(target));
-            break;
-        case JVM_OPC_new:
-            if (WITH_ZERO_EXTRA_INFO(target) !=
+        cbse JVM_OPC_bnewbrrby:
+            if ((GET_INDIRECTION(tbrget)) >= MAX_ARRAY_DIMENSIONS)
+                CCerror(context, "Arrby with too mbny dimensions");
+            this_idbtb->operbnd.fi = MAKE_FULLINFO(GET_ITEM_TYPE(tbrget),
+                                                   GET_INDIRECTION(tbrget) + 1,
+                                                   GET_EXTRA_INFO(tbrget));
+            brebk;
+        cbse JVM_OPC_new:
+            if (WITH_ZERO_EXTRA_INFO(tbrget) !=
                              MAKE_FULLINFO(ITEM_Object, 0, 0))
-                CCerror(context, "Illegal creation of multi-dimensional array");
-            /* operand gets set to the "unitialized object".  operand2 gets
-             * set to what the value will be after it's initialized. */
-            this_idata->operand.fi = MAKE_FULLINFO(ITEM_NewObject, 0, inumber);
-            this_idata->operand2.fi = target;
-            break;
-        case JVM_OPC_multianewarray:
-            this_idata->operand.fi = target;
-            this_idata->operand2.i = code[offset + 3];
-            if (    (this_idata->operand2.i > (int)GET_INDIRECTION(target))
-                 || (this_idata->operand2.i == 0))
-                CCerror(context, "Illegal dimension argument");
-            break;
-        default:
-            this_idata->operand.fi = target;
+                CCerror(context, "Illegbl crebtion of multi-dimensionbl brrby");
+            /* operbnd gets set to the "unitiblized object".  operbnd2 gets
+             * set to whbt the vblue will be bfter it's initiblized. */
+            this_idbtb->operbnd.fi = MAKE_FULLINFO(ITEM_NewObject, 0, inumber);
+            this_idbtb->operbnd2.fi = tbrget;
+            brebk;
+        cbse JVM_OPC_multibnewbrrby:
+            this_idbtb->operbnd.fi = tbrget;
+            this_idbtb->operbnd2.i = code[offset + 3];
+            if (    (this_idbtb->operbnd2.i > (int)GET_INDIRECTION(tbrget))
+                 || (this_idbtb->operbnd2.i == 0))
+                CCerror(context, "Illegbl dimension brgument");
+            brebk;
+        defbult:
+            this_idbtb->operbnd.fi = tbrget;
         }
-        break;
+        brebk;
     }
 
-    case JVM_OPC_newarray: {
-        /* Cache the result of the JVM_OPC_newarray into the operand slot */
+    cbse JVM_OPC_newbrrby: {
+        /* Cbche the result of the JVM_OPC_newbrrby into the operbnd slot */
         fullinfo_type full_info;
         switch (code[offset + 1]) {
-            case JVM_T_INT:
-                full_info = MAKE_FULLINFO(ITEM_Integer, 1, 0); break;
-            case JVM_T_LONG:
-                full_info = MAKE_FULLINFO(ITEM_Long, 1, 0); break;
-            case JVM_T_FLOAT:
-                full_info = MAKE_FULLINFO(ITEM_Float, 1, 0); break;
-            case JVM_T_DOUBLE:
-                full_info = MAKE_FULLINFO(ITEM_Double, 1, 0); break;
-            case JVM_T_BYTE: case JVM_T_BOOLEAN:
-                full_info = MAKE_FULLINFO(ITEM_Byte, 1, 0); break;
-            case JVM_T_CHAR:
-                full_info = MAKE_FULLINFO(ITEM_Char, 1, 0); break;
-            case JVM_T_SHORT:
-                full_info = MAKE_FULLINFO(ITEM_Short, 1, 0); break;
-            default:
-                full_info = 0;          /* Keep lint happy */
-                CCerror(context, "Bad type passed to newarray");
+            cbse JVM_T_INT:
+                full_info = MAKE_FULLINFO(ITEM_Integer, 1, 0); brebk;
+            cbse JVM_T_LONG:
+                full_info = MAKE_FULLINFO(ITEM_Long, 1, 0); brebk;
+            cbse JVM_T_FLOAT:
+                full_info = MAKE_FULLINFO(ITEM_Flobt, 1, 0); brebk;
+            cbse JVM_T_DOUBLE:
+                full_info = MAKE_FULLINFO(ITEM_Double, 1, 0); brebk;
+            cbse JVM_T_BYTE: cbse JVM_T_BOOLEAN:
+                full_info = MAKE_FULLINFO(ITEM_Byte, 1, 0); brebk;
+            cbse JVM_T_CHAR:
+                full_info = MAKE_FULLINFO(ITEM_Chbr, 1, 0); brebk;
+            cbse JVM_T_SHORT:
+                full_info = MAKE_FULLINFO(ITEM_Short, 1, 0); brebk;
+            defbult:
+                full_info = 0;          /* Keep lint hbppy */
+                CCerror(context, "Bbd type pbssed to newbrrby");
         }
-        this_idata->operand.fi = full_info;
-        break;
+        this_idbtb->operbnd.fi = full_info;
+        brebk;
     }
 
-    /* Fudge iload_x, aload_x, etc to look like their generic cousin. */
-    case JVM_OPC_iload_0: case JVM_OPC_iload_1: case JVM_OPC_iload_2: case JVM_OPC_iload_3:
-        this_idata->opcode = JVM_OPC_iload;
-        var = opcode - JVM_OPC_iload_0;
-        goto check_local_variable;
+    /* Fudge ilobd_x, blobd_x, etc to look like their generic cousin. */
+    cbse JVM_OPC_ilobd_0: cbse JVM_OPC_ilobd_1: cbse JVM_OPC_ilobd_2: cbse JVM_OPC_ilobd_3:
+        this_idbtb->opcode = JVM_OPC_ilobd;
+        vbr = opcode - JVM_OPC_ilobd_0;
+        goto check_locbl_vbribble;
 
-    case JVM_OPC_fload_0: case JVM_OPC_fload_1: case JVM_OPC_fload_2: case JVM_OPC_fload_3:
-        this_idata->opcode = JVM_OPC_fload;
-        var = opcode - JVM_OPC_fload_0;
-        goto check_local_variable;
+    cbse JVM_OPC_flobd_0: cbse JVM_OPC_flobd_1: cbse JVM_OPC_flobd_2: cbse JVM_OPC_flobd_3:
+        this_idbtb->opcode = JVM_OPC_flobd;
+        vbr = opcode - JVM_OPC_flobd_0;
+        goto check_locbl_vbribble;
 
-    case JVM_OPC_aload_0: case JVM_OPC_aload_1: case JVM_OPC_aload_2: case JVM_OPC_aload_3:
-        this_idata->opcode = JVM_OPC_aload;
-        var = opcode - JVM_OPC_aload_0;
-        goto check_local_variable;
+    cbse JVM_OPC_blobd_0: cbse JVM_OPC_blobd_1: cbse JVM_OPC_blobd_2: cbse JVM_OPC_blobd_3:
+        this_idbtb->opcode = JVM_OPC_blobd;
+        vbr = opcode - JVM_OPC_blobd_0;
+        goto check_locbl_vbribble;
 
-    case JVM_OPC_lload_0: case JVM_OPC_lload_1: case JVM_OPC_lload_2: case JVM_OPC_lload_3:
-        this_idata->opcode = JVM_OPC_lload;
-        var = opcode - JVM_OPC_lload_0;
-        goto check_local_variable2;
+    cbse JVM_OPC_llobd_0: cbse JVM_OPC_llobd_1: cbse JVM_OPC_llobd_2: cbse JVM_OPC_llobd_3:
+        this_idbtb->opcode = JVM_OPC_llobd;
+        vbr = opcode - JVM_OPC_llobd_0;
+        goto check_locbl_vbribble2;
 
-    case JVM_OPC_dload_0: case JVM_OPC_dload_1: case JVM_OPC_dload_2: case JVM_OPC_dload_3:
-        this_idata->opcode = JVM_OPC_dload;
-        var = opcode - JVM_OPC_dload_0;
-        goto check_local_variable2;
+    cbse JVM_OPC_dlobd_0: cbse JVM_OPC_dlobd_1: cbse JVM_OPC_dlobd_2: cbse JVM_OPC_dlobd_3:
+        this_idbtb->opcode = JVM_OPC_dlobd;
+        vbr = opcode - JVM_OPC_dlobd_0;
+        goto check_locbl_vbribble2;
 
-    case JVM_OPC_istore_0: case JVM_OPC_istore_1: case JVM_OPC_istore_2: case JVM_OPC_istore_3:
-        this_idata->opcode = JVM_OPC_istore;
-        var = opcode - JVM_OPC_istore_0;
-        goto check_local_variable;
+    cbse JVM_OPC_istore_0: cbse JVM_OPC_istore_1: cbse JVM_OPC_istore_2: cbse JVM_OPC_istore_3:
+        this_idbtb->opcode = JVM_OPC_istore;
+        vbr = opcode - JVM_OPC_istore_0;
+        goto check_locbl_vbribble;
 
-    case JVM_OPC_fstore_0: case JVM_OPC_fstore_1: case JVM_OPC_fstore_2: case JVM_OPC_fstore_3:
-        this_idata->opcode = JVM_OPC_fstore;
-        var = opcode - JVM_OPC_fstore_0;
-        goto check_local_variable;
+    cbse JVM_OPC_fstore_0: cbse JVM_OPC_fstore_1: cbse JVM_OPC_fstore_2: cbse JVM_OPC_fstore_3:
+        this_idbtb->opcode = JVM_OPC_fstore;
+        vbr = opcode - JVM_OPC_fstore_0;
+        goto check_locbl_vbribble;
 
-    case JVM_OPC_astore_0: case JVM_OPC_astore_1: case JVM_OPC_astore_2: case JVM_OPC_astore_3:
-        this_idata->opcode = JVM_OPC_astore;
-        var = opcode - JVM_OPC_astore_0;
-        goto check_local_variable;
+    cbse JVM_OPC_bstore_0: cbse JVM_OPC_bstore_1: cbse JVM_OPC_bstore_2: cbse JVM_OPC_bstore_3:
+        this_idbtb->opcode = JVM_OPC_bstore;
+        vbr = opcode - JVM_OPC_bstore_0;
+        goto check_locbl_vbribble;
 
-    case JVM_OPC_lstore_0: case JVM_OPC_lstore_1: case JVM_OPC_lstore_2: case JVM_OPC_lstore_3:
-        this_idata->opcode = JVM_OPC_lstore;
-        var = opcode - JVM_OPC_lstore_0;
-        goto check_local_variable2;
+    cbse JVM_OPC_lstore_0: cbse JVM_OPC_lstore_1: cbse JVM_OPC_lstore_2: cbse JVM_OPC_lstore_3:
+        this_idbtb->opcode = JVM_OPC_lstore;
+        vbr = opcode - JVM_OPC_lstore_0;
+        goto check_locbl_vbribble2;
 
-    case JVM_OPC_dstore_0: case JVM_OPC_dstore_1: case JVM_OPC_dstore_2: case JVM_OPC_dstore_3:
-        this_idata->opcode = JVM_OPC_dstore;
-        var = opcode - JVM_OPC_dstore_0;
-        goto check_local_variable2;
+    cbse JVM_OPC_dstore_0: cbse JVM_OPC_dstore_1: cbse JVM_OPC_dstore_2: cbse JVM_OPC_dstore_3:
+        this_idbtb->opcode = JVM_OPC_dstore;
+        vbr = opcode - JVM_OPC_dstore_0;
+        goto check_locbl_vbribble2;
 
-    case JVM_OPC_wide:
-        this_idata->opcode = code[offset + 1];
-        var = (code[offset + 2] << 8) + code[offset + 3];
-        switch(this_idata->opcode) {
-            case JVM_OPC_lload:  case JVM_OPC_dload:
-            case JVM_OPC_lstore: case JVM_OPC_dstore:
-                goto check_local_variable2;
-            default:
-                goto check_local_variable;
+    cbse JVM_OPC_wide:
+        this_idbtb->opcode = code[offset + 1];
+        vbr = (code[offset + 2] << 8) + code[offset + 3];
+        switch(this_idbtb->opcode) {
+            cbse JVM_OPC_llobd:  cbse JVM_OPC_dlobd:
+            cbse JVM_OPC_lstore: cbse JVM_OPC_dstore:
+                goto check_locbl_vbribble2;
+            defbult:
+                goto check_locbl_vbribble;
         }
 
-    case JVM_OPC_iinc:              /* the increment amount doesn't matter */
-    case JVM_OPC_ret:
-    case JVM_OPC_aload: case JVM_OPC_iload: case JVM_OPC_fload:
-    case JVM_OPC_astore: case JVM_OPC_istore: case JVM_OPC_fstore:
-        var = code[offset + 1];
-    check_local_variable:
-        /* Make sure that the variable number isn't illegal. */
-        this_idata->operand.i = var;
-        if (var >= JVM_GetMethodIxLocalsCount(env, context->class, mi))
-            CCerror(context, "Illegal local variable number");
-        break;
+    cbse JVM_OPC_iinc:              /* the increment bmount doesn't mbtter */
+    cbse JVM_OPC_ret:
+    cbse JVM_OPC_blobd: cbse JVM_OPC_ilobd: cbse JVM_OPC_flobd:
+    cbse JVM_OPC_bstore: cbse JVM_OPC_istore: cbse JVM_OPC_fstore:
+        vbr = code[offset + 1];
+    check_locbl_vbribble:
+        /* Mbke sure thbt the vbribble number isn't illegbl. */
+        this_idbtb->operbnd.i = vbr;
+        if (vbr >= JVM_GetMethodIxLocblsCount(env, context->clbss, mi))
+            CCerror(context, "Illegbl locbl vbribble number");
+        brebk;
 
-    case JVM_OPC_lload: case JVM_OPC_dload: case JVM_OPC_lstore: case JVM_OPC_dstore:
-        var = code[offset + 1];
-    check_local_variable2:
-        /* Make sure that the variable number isn't illegal. */
-        this_idata->operand.i = var;
-        if ((var + 1) >= JVM_GetMethodIxLocalsCount(env, context->class, mi))
-            CCerror(context, "Illegal local variable number");
-        break;
+    cbse JVM_OPC_llobd: cbse JVM_OPC_dlobd: cbse JVM_OPC_lstore: cbse JVM_OPC_dstore:
+        vbr = code[offset + 1];
+    check_locbl_vbribble2:
+        /* Mbke sure thbt the vbribble number isn't illegbl. */
+        this_idbtb->operbnd.i = vbr;
+        if ((vbr + 1) >= JVM_GetMethodIxLocblsCount(env, context->clbss, mi))
+            CCerror(context, "Illegbl locbl vbribble number");
+        brebk;
 
-    default:
+    defbult:
         if (opcode > JVM_OPC_MAX)
-            CCerror(context, "Quick instructions shouldn't appear yet.");
-        break;
+            CCerror(context, "Quick instructions shouldn't bppebr yet.");
+        brebk;
     } /* of switch */
 }
 
 
-static void
+stbtic void
 set_protected(context_type *context, unsigned int inumber, int key, int opcode)
 {
     JNIEnv *env = context->env;
-    fullinfo_type clazz_info;
-    if (opcode != JVM_OPC_invokevirtual && opcode != JVM_OPC_invokespecial) {
-        clazz_info = cp_index_to_class_fullinfo(context, key,
+    fullinfo_type clbzz_info;
+    if (opcode != JVM_OPC_invokevirtubl && opcode != JVM_OPC_invokespecibl) {
+        clbzz_info = cp_index_to_clbss_fullinfo(context, key,
                                                 JVM_CONSTANT_Fieldref);
     } else {
-        clazz_info = cp_index_to_class_fullinfo(context, key,
+        clbzz_info = cp_index_to_clbss_fullinfo(context, key,
                                                 JVM_CONSTANT_Methodref);
     }
-    if (is_superclass(context, clazz_info)) {
-        jclass calledClass =
-            object_fullinfo_to_classclass(context, clazz_info);
-        int access;
+    if (is_superclbss(context, clbzz_info)) {
+        jclbss cblledClbss =
+            object_fullinfo_to_clbssclbss(context, clbzz_info);
+        int bccess;
         /* 4734966: JVM_GetCPFieldModifiers() or JVM_GetCPMethodModifiers() only
-           searches the referenced field or method in calledClass. The following
-           while loop is added to search up the superclass chain to make this
+           sebrches the referenced field or method in cblledClbss. The following
+           while loop is bdded to sebrch up the superclbss chbin to mbke this
            symbolic resolution consistent with the field/method resolution
            specified in VM spec 5.4.3. */
-        calledClass = (*env)->NewLocalRef(env, calledClass);
+        cblledClbss = (*env)->NewLocblRef(env, cblledClbss);
         do {
-            jclass tmp_cb;
-            if (opcode != JVM_OPC_invokevirtual && opcode != JVM_OPC_invokespecial) {
-                access = JVM_GetCPFieldModifiers
-                    (env, context->class, key, calledClass);
+            jclbss tmp_cb;
+            if (opcode != JVM_OPC_invokevirtubl && opcode != JVM_OPC_invokespecibl) {
+                bccess = JVM_GetCPFieldModifiers
+                    (env, context->clbss, key, cblledClbss);
             } else {
-                access = JVM_GetCPMethodModifiers
-                    (env, context->class, key, calledClass);
+                bccess = JVM_GetCPMethodModifiers
+                    (env, context->clbss, key, cblledClbss);
             }
-            if (access != -1) {
-                break;
+            if (bccess != -1) {
+                brebk;
             }
-            tmp_cb = (*env)->GetSuperclass(env, calledClass);
-            (*env)->DeleteLocalRef(env, calledClass);
-            calledClass = tmp_cb;
-        } while (calledClass != 0);
+            tmp_cb = (*env)->GetSuperclbss(env, cblledClbss);
+            (*env)->DeleteLocblRef(env, cblledClbss);
+            cblledClbss = tmp_cb;
+        } while (cblledClbss != 0);
 
-        if (access == -1) {
-            /* field/method not found, detected at runtime. */
-        } else if (access & JVM_ACC_PROTECTED) {
-            if (!JVM_IsSameClassPackage(env, calledClass, context->class))
-                context->instruction_data[inumber].protected = JNI_TRUE;
+        if (bccess == -1) {
+            /* field/method not found, detected bt runtime. */
+        } else if (bccess & JVM_ACC_PROTECTED) {
+            if (!JVM_IsSbmeClbssPbckbge(env, cblledClbss, context->clbss))
+                context->instruction_dbtb[inumber].protected = JNI_TRUE;
         }
-        (*env)->DeleteLocalRef(env, calledClass);
+        (*env)->DeleteLocblRef(env, cblledClbss);
     }
 }
 
 
-static jboolean
-is_superclass(context_type *context, fullinfo_type clazz_info) {
-    fullinfo_type *fptr = context->superclasses;
+stbtic jboolebn
+is_superclbss(context_type *context, fullinfo_type clbzz_info) {
+    fullinfo_type *fptr = context->superclbsses;
 
     if (fptr == 0)
         return JNI_FALSE;
     for (; *fptr != 0; fptr++) {
-        if (*fptr == clazz_info)
+        if (*fptr == clbzz_info)
             return JNI_TRUE;
     }
     return JNI_FALSE;
 }
 
 
-/* Look through each item on the exception table.  Each of the fields must
- * refer to a legal instruction.
+/* Look through ebch item on the exception tbble.  Ebch of the fields must
+ * refer to b legbl instruction.
  */
-static void
-initialize_exception_table(context_type *context)
+stbtic void
+initiblize_exception_tbble(context_type *context)
 {
     JNIEnv *env = context->env;
     int mi = context->method_index;
-    struct handler_info_type *handler_info = context->handler_info;
-    int *code_data = context->code_data;
+    struct hbndler_info_type *hbndler_info = context->hbndler_info;
+    int *code_dbtb = context->code_dbtb;
     int code_length = context->code_length;
-    int max_stack_size = JVM_GetMethodIxMaxStack(env, context->class, mi);
-    int i = JVM_GetMethodIxExceptionTableLength(env, context->class, mi);
-    if (max_stack_size < 1 && i > 0) {
-        // If the method contains exception handlers, it must have room
-        // on the expression stack for the exception that the VM could push
-        CCerror(context, "Stack size too large");
+    int mbx_stbck_size = JVM_GetMethodIxMbxStbck(env, context->clbss, mi);
+    int i = JVM_GetMethodIxExceptionTbbleLength(env, context->clbss, mi);
+    if (mbx_stbck_size < 1 && i > 0) {
+        // If the method contbins exception hbndlers, it must hbve room
+        // on the expression stbck for the exception thbt the VM could push
+        CCerror(context, "Stbck size too lbrge");
     }
-    for (; --i >= 0; handler_info++) {
-        JVM_ExceptionTableEntryType einfo;
-        stack_item_type *stack_item = NEW(stack_item_type, 1);
+    for (; --i >= 0; hbndler_info++) {
+        JVM_ExceptionTbbleEntryType einfo;
+        stbck_item_type *stbck_item = NEW(stbck_item_type, 1);
 
-        JVM_GetMethodIxExceptionTableEntry(env, context->class, mi,
+        JVM_GetMethodIxExceptionTbbleEntry(env, context->clbss, mi,
                                            i, &einfo);
 
-        if (!(einfo.start_pc < einfo.end_pc &&
-              einfo.start_pc >= 0 &&
-              isLegalTarget(context, einfo.start_pc) &&
+        if (!(einfo.stbrt_pc < einfo.end_pc &&
+              einfo.stbrt_pc >= 0 &&
+              isLegblTbrget(context, einfo.stbrt_pc) &&
               (einfo.end_pc ==  code_length ||
-               isLegalTarget(context, einfo.end_pc)))) {
-            CFerror(context, "Illegal exception table range");
+               isLegblTbrget(context, einfo.end_pc)))) {
+            CFerror(context, "Illegbl exception tbble rbnge");
         }
-        if (!((einfo.handler_pc > 0) &&
-              isLegalTarget(context, einfo.handler_pc))) {
-            CFerror(context, "Illegal exception table handler");
+        if (!((einfo.hbndler_pc > 0) &&
+              isLegblTbrget(context, einfo.hbndler_pc))) {
+            CFerror(context, "Illegbl exception tbble hbndler");
         }
 
-        handler_info->start = code_data[einfo.start_pc];
-        /* einfo.end_pc may point to one byte beyond the end of bytecodes. */
-        handler_info->end = (einfo.end_pc == context->code_length) ?
-            context->instruction_count : code_data[einfo.end_pc];
-        handler_info->handler = code_data[einfo.handler_pc];
-        handler_info->stack_info.stack = stack_item;
-        handler_info->stack_info.stack_size = 1;
-        stack_item->next = NULL;
-        if (einfo.catchType != 0) {
-            const char *classname;
-            /* Constant pool entry type has been checked in format checker */
-            classname = JVM_GetCPClassNameUTF(env,
-                                              context->class,
-                                              einfo.catchType);
-            check_and_push(context, classname, VM_STRING_UTF);
-            stack_item->item = make_class_info_from_name(context, classname);
-            if (!isAssignableTo(context,
-                                stack_item->item,
-                                context->throwable_info))
-                CCerror(context, "catch_type not a subclass of Throwable");
-            pop_and_free(context);
+        hbndler_info->stbrt = code_dbtb[einfo.stbrt_pc];
+        /* einfo.end_pc mby point to one byte beyond the end of bytecodes. */
+        hbndler_info->end = (einfo.end_pc == context->code_length) ?
+            context->instruction_count : code_dbtb[einfo.end_pc];
+        hbndler_info->hbndler = code_dbtb[einfo.hbndler_pc];
+        hbndler_info->stbck_info.stbck = stbck_item;
+        hbndler_info->stbck_info.stbck_size = 1;
+        stbck_item->next = NULL;
+        if (einfo.cbtchType != 0) {
+            const chbr *clbssnbme;
+            /* Constbnt pool entry type hbs been checked in formbt checker */
+            clbssnbme = JVM_GetCPClbssNbmeUTF(env,
+                                              context->clbss,
+                                              einfo.cbtchType);
+            check_bnd_push(context, clbssnbme, VM_STRING_UTF);
+            stbck_item->item = mbke_clbss_info_from_nbme(context, clbssnbme);
+            if (!isAssignbbleTo(context,
+                                stbck_item->item,
+                                context->throwbble_info))
+                CCerror(context, "cbtch_type not b subclbss of Throwbble");
+            pop_bnd_free(context);
         } else {
-            stack_item->item = context->throwable_info;
+            stbck_item->item = context->throwbble_info;
         }
     }
 }
 
 
-/* Given a pointer to an instruction, return its length.  Use the table
- * opcode_length[] which is automatically built.
+/* Given b pointer to bn instruction, return its length.  Use the tbble
+ * opcode_length[] which is butombticblly built.
  */
-static int instruction_length(unsigned char *iptr, unsigned char *end)
+stbtic int instruction_length(unsigned chbr *iptr, unsigned chbr *end)
 {
-    static unsigned char opcode_length[] = JVM_OPCODE_LENGTH_INITIALIZER;
+    stbtic unsigned chbr opcode_length[] = JVM_OPCODE_LENGTH_INITIALIZER;
     int instruction = *iptr;
     switch (instruction) {
-        case JVM_OPC_tableswitch: {
+        cbse JVM_OPC_tbbleswitch: {
             int *lpc = (int *)UCALIGN(iptr + 1);
             int index;
             if (lpc + 2 >= (int *)end) {
-                return -1; /* do not read pass the end */
+                return -1; /* do not rebd pbss the end */
             }
             index = _ck_ntohl(lpc[2]) - _ck_ntohl(lpc[1]);
             if ((index < 0) || (index > 65535)) {
-                return -1;      /* illegal */
+                return -1;      /* illegbl */
             } else {
-                return (unsigned char *)(&lpc[index + 4]) - iptr;
+                return (unsigned chbr *)(&lpc[index + 4]) - iptr;
             }
         }
 
-        case JVM_OPC_lookupswitch: {
+        cbse JVM_OPC_lookupswitch: {
             int *lpc = (int *) UCALIGN(iptr + 1);
-            int npairs;
+            int npbirs;
             if (lpc + 1 >= (int *)end)
-                return -1; /* do not read pass the end */
-            npairs = _ck_ntohl(lpc[1]);
-            /* There can't be more than 64K labels because of the limit
+                return -1; /* do not rebd pbss the end */
+            npbirs = _ck_ntohl(lpc[1]);
+            /* There cbn't be more thbn 64K lbbels becbuse of the limit
              * on per-method byte code length.
              */
-            if (npairs < 0 || npairs >= 65536)
+            if (npbirs < 0 || npbirs >= 65536)
                 return  -1;
             else
-                return (unsigned char *)(&lpc[2 * (npairs + 1)]) - iptr;
+                return (unsigned chbr *)(&lpc[2 * (npbirs + 1)]) - iptr;
         }
 
-        case JVM_OPC_wide:
+        cbse JVM_OPC_wide:
             if (iptr + 1 >= end)
-                return -1; /* do not read pass the end */
+                return -1; /* do not rebd pbss the end */
             switch(iptr[1]) {
-                case JVM_OPC_ret:
-                case JVM_OPC_iload: case JVM_OPC_istore:
-                case JVM_OPC_fload: case JVM_OPC_fstore:
-                case JVM_OPC_aload: case JVM_OPC_astore:
-                case JVM_OPC_lload: case JVM_OPC_lstore:
-                case JVM_OPC_dload: case JVM_OPC_dstore:
+                cbse JVM_OPC_ret:
+                cbse JVM_OPC_ilobd: cbse JVM_OPC_istore:
+                cbse JVM_OPC_flobd: cbse JVM_OPC_fstore:
+                cbse JVM_OPC_blobd: cbse JVM_OPC_bstore:
+                cbse JVM_OPC_llobd: cbse JVM_OPC_lstore:
+                cbse JVM_OPC_dlobd: cbse JVM_OPC_dstore:
                     return 4;
-                case JVM_OPC_iinc:
+                cbse JVM_OPC_iinc:
                     return 6;
-                default:
+                defbult:
                     return -1;
             }
 
-        default: {
-            /* A length of 0 indicates an error. */
+        defbult: {
+            /* A length of 0 indicbtes bn error. */
             int length = opcode_length[instruction];
             return (length <= 0) ? -1 : length;
         }
@@ -1743,225 +1743,225 @@ static int instruction_length(unsigned char *iptr, unsigned char *end)
 }
 
 
-/* Given the target of a branch, make sure that it's a legal target. */
-static jboolean
-isLegalTarget(context_type *context, int offset)
+/* Given the tbrget of b brbnch, mbke sure thbt it's b legbl tbrget. */
+stbtic jboolebn
+isLegblTbrget(context_type *context, int offset)
 {
     int code_length = context->code_length;
-    int *code_data = context->code_data;
-    return (offset >= 0 && offset < code_length && code_data[offset] >= 0);
+    int *code_dbtb = context->code_dbtb;
+    return (offset >= 0 && offset < code_length && code_dbtb[offset] >= 0);
 }
 
 
-/* Make sure that an element of the constant pool really is of the indicated
+/* Mbke sure thbt bn element of the constbnt pool reblly is of the indicbted
  * type.
  */
-static void
-verify_constant_pool_type(context_type *context, int index, unsigned mask)
+stbtic void
+verify_constbnt_pool_type(context_type *context, int index, unsigned mbsk)
 {
-    int nconstants = context->nconstants;
-    unsigned char *type_table = context->constant_types;
+    int nconstbnts = context->nconstbnts;
+    unsigned chbr *type_tbble = context->constbnt_types;
     unsigned type;
 
-    if ((index <= 0) || (index >= nconstants))
-        CCerror(context, "Illegal constant pool index");
+    if ((index <= 0) || (index >= nconstbnts))
+        CCerror(context, "Illegbl constbnt pool index");
 
-    type = type_table[index];
-    if ((mask & (1 << type)) == 0)
-        CCerror(context, "Illegal type in constant pool");
+    type = type_tbble[index];
+    if ((mbsk & (1 << type)) == 0)
+        CCerror(context, "Illegbl type in constbnt pool");
 }
 
 
-static void
-initialize_dataflow(context_type *context)
+stbtic void
+initiblize_dbtbflow(context_type *context)
 {
     JNIEnv *env = context->env;
-    instruction_data_type *idata = context->instruction_data;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
     int mi = context->method_index;
-    jclass cb = context->class;
-    int args_size = JVM_GetMethodIxArgsSize(env, cb, mi);
+    jclbss cb = context->clbss;
+    int brgs_size = JVM_GetMethodIxArgsSize(env, cb, mi);
     fullinfo_type *reg_ptr;
     fullinfo_type full_info;
-    const char *p;
-    const char *signature;
+    const chbr *p;
+    const chbr *signbture;
 
-    /* Initialize the function entry, since we know everything about it. */
-    idata[0].stack_info.stack_size = 0;
-    idata[0].stack_info.stack = NULL;
-    idata[0].register_info.register_count = args_size;
-    idata[0].register_info.registers = NEW(fullinfo_type, args_size);
-    idata[0].register_info.mask_count = 0;
-    idata[0].register_info.masks = NULL;
-    idata[0].and_flags = 0;     /* nothing needed */
-    idata[0].or_flags = FLAG_REACHED; /* instruction reached */
-    reg_ptr = idata[0].register_info.registers;
+    /* Initiblize the function entry, since we know everything bbout it. */
+    idbtb[0].stbck_info.stbck_size = 0;
+    idbtb[0].stbck_info.stbck = NULL;
+    idbtb[0].register_info.register_count = brgs_size;
+    idbtb[0].register_info.registers = NEW(fullinfo_type, brgs_size);
+    idbtb[0].register_info.mbsk_count = 0;
+    idbtb[0].register_info.mbsks = NULL;
+    idbtb[0].bnd_flbgs = 0;     /* nothing needed */
+    idbtb[0].or_flbgs = FLAG_REACHED; /* instruction rebched */
+    reg_ptr = idbtb[0].register_info.registers;
 
     if ((JVM_GetMethodIxModifiers(env, cb, mi) & JVM_ACC_STATIC) == 0) {
-        /* A non static method.  If this is an <init> method, the first
-         * argument is an uninitialized object.  Otherwise it is an object of
-         * the given class type.  java.lang.Object.<init> is special since
-         * we don't call its superclass <init> method.
+        /* A non stbtic method.  If this is bn <init> method, the first
+         * brgument is bn uninitiblized object.  Otherwise it is bn object of
+         * the given clbss type.  jbvb.lbng.Object.<init> is specibl since
+         * we don't cbll its superclbss <init> method.
          */
         if (JVM_IsConstructorIx(env, cb, mi)
-                && context->currentclass_info != context->object_info) {
+                && context->currentclbss_info != context->object_info) {
             *reg_ptr++ = MAKE_FULLINFO(ITEM_InitObject, 0, 0);
-            idata[0].or_flags |= FLAG_NEED_CONSTRUCTOR;
+            idbtb[0].or_flbgs |= FLAG_NEED_CONSTRUCTOR;
         } else {
-            *reg_ptr++ = context->currentclass_info;
+            *reg_ptr++ = context->currentclbss_info;
         }
     }
-    signature = JVM_GetMethodIxSignatureUTF(env, cb, mi);
-    check_and_push(context, signature, VM_STRING_UTF);
-    /* Fill in each of the arguments into the registers. */
-    for (p = signature + 1; *p != JVM_SIGNATURE_ENDFUNC; ) {
-        char fieldchar = signature_to_fieldtype(context, &p, &full_info);
-        switch (fieldchar) {
-            case 'D': case 'L':
+    signbture = JVM_GetMethodIxSignbtureUTF(env, cb, mi);
+    check_bnd_push(context, signbture, VM_STRING_UTF);
+    /* Fill in ebch of the brguments into the registers. */
+    for (p = signbture + 1; *p != JVM_SIGNATURE_ENDFUNC; ) {
+        chbr fieldchbr = signbture_to_fieldtype(context, &p, &full_info);
+        switch (fieldchbr) {
+            cbse 'D': cbse 'L':
                 *reg_ptr++ = full_info;
                 *reg_ptr++ = full_info + 1;
-                break;
-            default:
+                brebk;
+            defbult:
                 *reg_ptr++ = full_info;
-                break;
+                brebk;
         }
     }
-    p++;                        /* skip over right parenthesis */
+    p++;                        /* skip over right pbrenthesis */
     if (*p == 'V') {
         context->return_type = MAKE_FULLINFO(ITEM_Void, 0, 0);
     } else {
-        signature_to_fieldtype(context, &p, &full_info);
+        signbture_to_fieldtype(context, &p, &full_info);
         context->return_type = full_info;
     }
-    pop_and_free(context);
-    /* Indicate that we need to look at the first instruction. */
-    idata[0].changed = JNI_TRUE;
+    pop_bnd_free(context);
+    /* Indicbte thbt we need to look bt the first instruction. */
+    idbtb[0].chbnged = JNI_TRUE;
 }
 
 
-/* Run the data flow analysis, as long as there are things to change. */
-static void
-run_dataflow(context_type *context) {
+/* Run the dbtb flow bnblysis, bs long bs there bre things to chbnge. */
+stbtic void
+run_dbtbflow(context_type *context) {
     JNIEnv *env = context->env;
     int mi = context->method_index;
-    jclass cb = context->class;
-    int max_stack_size = JVM_GetMethodIxMaxStack(env, cb, mi);
-    instruction_data_type *idata = context->instruction_data;
+    jclbss cb = context->clbss;
+    int mbx_stbck_size = JVM_GetMethodIxMbxStbck(env, cb, mi);
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
     unsigned int icount = context->instruction_count;
-    jboolean work_to_do = JNI_TRUE;
+    jboolebn work_to_do = JNI_TRUE;
     unsigned int inumber;
 
     /* Run through the loop, until there is nothing left to do. */
     while (work_to_do) {
         work_to_do = JNI_FALSE;
         for (inumber = 0; inumber < icount; inumber++) {
-            instruction_data_type *this_idata = &idata[inumber];
-            if (this_idata->changed) {
+            instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+            if (this_idbtb->chbnged) {
                 register_info_type new_register_info;
-                stack_info_type new_stack_info;
-                flag_type new_and_flags, new_or_flags;
+                stbck_info_type new_stbck_info;
+                flbg_type new_bnd_flbgs, new_or_flbgs;
 
-                this_idata->changed = JNI_FALSE;
+                this_idbtb->chbnged = JNI_FALSE;
                 work_to_do = JNI_TRUE;
 #ifdef DEBUG
                 if (verify_verbose) {
-                    int opcode = this_idata->opcode;
+                    int opcode = this_idbtb->opcode;
                     jio_fprintf(stdout, "Instruction %d: ", inumber);
-                    print_stack(context, &this_idata->stack_info);
-                    print_registers(context, &this_idata->register_info);
-                    print_flags(context,
-                                this_idata->and_flags, this_idata->or_flags);
+                    print_stbck(context, &this_idbtb->stbck_info);
+                    print_registers(context, &this_idbtb->register_info);
+                    print_flbgs(context,
+                                this_idbtb->bnd_flbgs, this_idbtb->or_flbgs);
                     fflush(stdout);
                 }
 #endif
-                /* Make sure the registers and flags are appropriate */
-                check_register_values(context, inumber);
-                check_flags(context, inumber);
+                /* Mbke sure the registers bnd flbgs bre bppropribte */
+                check_register_vblues(context, inumber);
+                check_flbgs(context, inumber);
 
-                /* Make sure the stack can deal with this instruction */
-                pop_stack(context, inumber, &new_stack_info);
+                /* Mbke sure the stbck cbn debl with this instruction */
+                pop_stbck(context, inumber, &new_stbck_info);
 
-                /* Update the registers  and flags */
-                update_registers(context, inumber, &new_register_info);
-                update_flags(context, inumber, &new_and_flags, &new_or_flags);
+                /* Updbte the registers  bnd flbgs */
+                updbte_registers(context, inumber, &new_register_info);
+                updbte_flbgs(context, inumber, &new_bnd_flbgs, &new_or_flbgs);
 
-                /* Update the stack. */
-                push_stack(context, inumber, &new_stack_info);
+                /* Updbte the stbck. */
+                push_stbck(context, inumber, &new_stbck_info);
 
-                if (new_stack_info.stack_size > max_stack_size)
-                    CCerror(context, "Stack size too large");
+                if (new_stbck_info.stbck_size > mbx_stbck_size)
+                    CCerror(context, "Stbck size too lbrge");
 #ifdef DEBUG
                 if (verify_verbose) {
                     jio_fprintf(stdout, "  ");
-                    print_stack(context, &new_stack_info);
+                    print_stbck(context, &new_stbck_info);
                     print_registers(context, &new_register_info);
-                    print_flags(context, new_and_flags, new_or_flags);
+                    print_flbgs(context, new_bnd_flbgs, new_or_flbgs);
                     fflush(stdout);
                 }
 #endif
-                /* Add the new stack and register information to any
-                 * instructions that can follow this instruction.     */
+                /* Add the new stbck bnd register informbtion to bny
+                 * instructions thbt cbn follow this instruction.     */
                 merge_into_successors(context, inumber,
-                                      &new_register_info, &new_stack_info,
-                                      new_and_flags, new_or_flags);
+                                      &new_register_info, &new_stbck_info,
+                                      new_bnd_flbgs, new_or_flbgs);
             }
         }
     }
 }
 
 
-/* Make sure that the registers contain a legitimate value for the given
+/* Mbke sure thbt the registers contbin b legitimbte vblue for the given
  * instruction.
 */
 
-static void
-check_register_values(context_type *context, unsigned int inumber)
+stbtic void
+check_register_vblues(context_type *context, unsigned int inumber)
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[inumber];
-    int opcode = this_idata->opcode;
-    int operand = this_idata->operand.i;
-    int register_count = this_idata->register_info.register_count;
-    fullinfo_type *registers = this_idata->register_info.registers;
-    jboolean double_word = JNI_FALSE;   /* default value */
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+    int opcode = this_idbtb->opcode;
+    int operbnd = this_idbtb->operbnd.i;
+    int register_count = this_idbtb->register_info.register_count;
+    fullinfo_type *registers = this_idbtb->register_info.registers;
+    jboolebn double_word = JNI_FALSE;   /* defbult vblue */
     int type;
 
     switch (opcode) {
-        default:
+        defbult:
             return;
-        case JVM_OPC_iload: case JVM_OPC_iinc:
-            type = ITEM_Integer; break;
-        case JVM_OPC_fload:
-            type = ITEM_Float; break;
-        case JVM_OPC_aload:
-            type = ITEM_Object; break;
-        case JVM_OPC_ret:
-            type = ITEM_ReturnAddress; break;
-        case JVM_OPC_lload:
-            type = ITEM_Long; double_word = JNI_TRUE; break;
-        case JVM_OPC_dload:
-            type = ITEM_Double; double_word = JNI_TRUE; break;
+        cbse JVM_OPC_ilobd: cbse JVM_OPC_iinc:
+            type = ITEM_Integer; brebk;
+        cbse JVM_OPC_flobd:
+            type = ITEM_Flobt; brebk;
+        cbse JVM_OPC_blobd:
+            type = ITEM_Object; brebk;
+        cbse JVM_OPC_ret:
+            type = ITEM_ReturnAddress; brebk;
+        cbse JVM_OPC_llobd:
+            type = ITEM_Long; double_word = JNI_TRUE; brebk;
+        cbse JVM_OPC_dlobd:
+            type = ITEM_Double; double_word = JNI_TRUE; brebk;
     }
     if (!double_word) {
         fullinfo_type reg;
-        /* Make sure we don't have an illegal register or one with wrong type */
-        if (operand >= register_count) {
+        /* Mbke sure we don't hbve bn illegbl register or one with wrong type */
+        if (operbnd >= register_count) {
             CCerror(context,
-                    "Accessing value from uninitialized register %d", operand);
+                    "Accessing vblue from uninitiblized register %d", operbnd);
         }
-        reg = registers[operand];
+        reg = registers[operbnd];
 
         if (WITH_ZERO_EXTRA_INFO(reg) == (unsigned)MAKE_FULLINFO(type, 0, 0)) {
             /* the register is obviously of the given type */
             return;
         } else if (GET_INDIRECTION(reg) > 0 && type == ITEM_Object) {
-            /* address type stuff be used on all arrays */
+            /* bddress type stuff be used on bll brrbys */
             return;
         } else if (GET_ITEM_TYPE(reg) == ITEM_ReturnAddress) {
-            CCerror(context, "Cannot load return address from register %d",
-                              operand);
-            /* alternatively
+            CCerror(context, "Cbnnot lobd return bddress from register %d",
+                              operbnd);
+            /* blternbtively
                       (GET_ITEM_TYPE(reg) == ITEM_ReturnAddress)
-                   && (opcode == JVM_OPC_iload)
+                   && (opcode == JVM_OPC_ilobd)
                    && (type == ITEM_Object || type == ITEM_Integer)
                but this never occurs
             */
@@ -1972,639 +1972,639 @@ check_register_values(context_type *context, unsigned int inumber)
                    type == ITEM_Object) {
             return;
         } else {
-            CCerror(context, "Register %d contains wrong type", operand);
+            CCerror(context, "Register %d contbins wrong type", operbnd);
         }
     } else {
-        /* Make sure we don't have an illegal register or one with wrong type */
-        if ((operand + 1) >= register_count) {
+        /* Mbke sure we don't hbve bn illegbl register or one with wrong type */
+        if ((operbnd + 1) >= register_count) {
             CCerror(context,
-                    "Accessing value from uninitialized register pair %d/%d",
-                    operand, operand+1);
+                    "Accessing vblue from uninitiblized register pbir %d/%d",
+                    operbnd, operbnd+1);
         } else {
-            if ((registers[operand] == (unsigned)MAKE_FULLINFO(type, 0, 0)) &&
-                (registers[operand + 1] == (unsigned)MAKE_FULLINFO(type + 1, 0, 0))) {
+            if ((registers[operbnd] == (unsigned)MAKE_FULLINFO(type, 0, 0)) &&
+                (registers[operbnd + 1] == (unsigned)MAKE_FULLINFO(type + 1, 0, 0))) {
                 return;
             } else {
-                CCerror(context, "Register pair %d/%d contains wrong type",
-                        operand, operand+1);
+                CCerror(context, "Register pbir %d/%d contbins wrong type",
+                        operbnd, operbnd+1);
             }
         }
     }
 }
 
 
-/* Make sure the flags contain legitimate values for this instruction.
+/* Mbke sure the flbgs contbin legitimbte vblues for this instruction.
 */
 
-static void
-check_flags(context_type *context, unsigned int inumber)
+stbtic void
+check_flbgs(context_type *context, unsigned int inumber)
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[inumber];
-    int opcode = this_idata->opcode;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+    int opcode = this_idbtb->opcode;
     switch (opcode) {
-        case JVM_OPC_return:
-            /* We need a constructor, but we aren't guaranteed it's called */
-            if ((this_idata->or_flags & FLAG_NEED_CONSTRUCTOR) &&
-                   !(this_idata->and_flags & FLAG_CONSTRUCTED))
-                CCerror(context, "Constructor must call super() or this()");
-            /* fall through */
-        case JVM_OPC_ireturn: case JVM_OPC_lreturn:
-        case JVM_OPC_freturn: case JVM_OPC_dreturn: case JVM_OPC_areturn:
-            if (this_idata->or_flags & FLAG_NO_RETURN)
-                /* This method cannot exit normally */
-                CCerror(context, "Cannot return normally");
-        default:
-            break; /* nothing to do. */
+        cbse JVM_OPC_return:
+            /* We need b constructor, but we bren't gubrbnteed it's cblled */
+            if ((this_idbtb->or_flbgs & FLAG_NEED_CONSTRUCTOR) &&
+                   !(this_idbtb->bnd_flbgs & FLAG_CONSTRUCTED))
+                CCerror(context, "Constructor must cbll super() or this()");
+            /* fbll through */
+        cbse JVM_OPC_ireturn: cbse JVM_OPC_lreturn:
+        cbse JVM_OPC_freturn: cbse JVM_OPC_dreturn: cbse JVM_OPC_breturn:
+            if (this_idbtb->or_flbgs & FLAG_NO_RETURN)
+                /* This method cbnnot exit normblly */
+                CCerror(context, "Cbnnot return normblly");
+        defbult:
+            brebk; /* nothing to do. */
     }
 }
 
-/* Make sure that the top of the stack contains reasonable values for the
- * given instruction.  The post-pop values of the stack and its size are
- * returned in *new_stack_info.
+/* Mbke sure thbt the top of the stbck contbins rebsonbble vblues for the
+ * given instruction.  The post-pop vblues of the stbck bnd its size bre
+ * returned in *new_stbck_info.
  */
 
-static void
-pop_stack(context_type *context, unsigned int inumber, stack_info_type *new_stack_info)
+stbtic void
+pop_stbck(context_type *context, unsigned int inumber, stbck_info_type *new_stbck_info)
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[inumber];
-    int opcode = this_idata->opcode;
-    stack_item_type *stack = this_idata->stack_info.stack;
-    int stack_size = this_idata->stack_info.stack_size;
-    char *stack_operands, *p;
-    char buffer[257];           /* for holding manufactured argument lists */
-    fullinfo_type stack_extra_info_buffer[256]; /* save info popped off stack */
-    fullinfo_type *stack_extra_info = &stack_extra_info_buffer[256];
-    fullinfo_type full_info;    /* only used in case of invoke instructions */
-    fullinfo_type put_full_info; /* only used in case JVM_OPC_putstatic and JVM_OPC_putfield */
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+    int opcode = this_idbtb->opcode;
+    stbck_item_type *stbck = this_idbtb->stbck_info.stbck;
+    int stbck_size = this_idbtb->stbck_info.stbck_size;
+    chbr *stbck_operbnds, *p;
+    chbr buffer[257];           /* for holding mbnufbctured brgument lists */
+    fullinfo_type stbck_extrb_info_buffer[256]; /* sbve info popped off stbck */
+    fullinfo_type *stbck_extrb_info = &stbck_extrb_info_buffer[256];
+    fullinfo_type full_info;    /* only used in cbse of invoke instructions */
+    fullinfo_type put_full_info; /* only used in cbse JVM_OPC_putstbtic bnd JVM_OPC_putfield */
 
     switch(opcode) {
-        default:
-            /* For most instructions, we just use a built-in table */
-            stack_operands = opcode_in_out[opcode][0];
-            break;
+        defbult:
+            /* For most instructions, we just use b built-in tbble */
+            stbck_operbnds = opcode_in_out[opcode][0];
+            brebk;
 
-        case JVM_OPC_putstatic: case JVM_OPC_putfield: {
-            /* The top thing on the stack depends on the signature of
+        cbse JVM_OPC_putstbtic: cbse JVM_OPC_putfield: {
+            /* The top thing on the stbck depends on the signbture of
              * the object.                         */
-            int operand = this_idata->operand.i;
-            const char *signature =
-                JVM_GetCPFieldSignatureUTF(context->env,
-                                           context->class,
-                                           operand);
-            char *ip = buffer;
-            check_and_push(context, signature, VM_STRING_UTF);
+            int operbnd = this_idbtb->operbnd.i;
+            const chbr *signbture =
+                JVM_GetCPFieldSignbtureUTF(context->env,
+                                           context->clbss,
+                                           operbnd);
+            chbr *ip = buffer;
+            check_bnd_push(context, signbture, VM_STRING_UTF);
 #ifdef DEBUG
             if (verify_verbose) {
-                print_formatted_fieldname(context, operand);
+                print_formbtted_fieldnbme(context, operbnd);
             }
 #endif
             if (opcode == JVM_OPC_putfield)
                 *ip++ = 'A';    /* object for putfield */
-            *ip++ = signature_to_fieldtype(context, &signature, &put_full_info);
+            *ip++ = signbture_to_fieldtype(context, &signbture, &put_full_info);
             *ip = '\0';
-            stack_operands = buffer;
-            pop_and_free(context);
-            break;
+            stbck_operbnds = buffer;
+            pop_bnd_free(context);
+            brebk;
         }
 
-        case JVM_OPC_invokevirtual: case JVM_OPC_invokespecial:
-        case JVM_OPC_invokeinit:    /* invokespecial call to <init> */
-        case JVM_OPC_invokedynamic:
-        case JVM_OPC_invokestatic: case JVM_OPC_invokeinterface: {
-            /* The top stuff on the stack depends on the method signature */
-            int operand = this_idata->operand.i;
-            const char *signature =
-                JVM_GetCPMethodSignatureUTF(context->env,
-                                            context->class,
-                                            operand);
-            char *ip = buffer;
-            const char *p;
-            check_and_push(context, signature, VM_STRING_UTF);
+        cbse JVM_OPC_invokevirtubl: cbse JVM_OPC_invokespecibl:
+        cbse JVM_OPC_invokeinit:    /* invokespecibl cbll to <init> */
+        cbse JVM_OPC_invokedynbmic:
+        cbse JVM_OPC_invokestbtic: cbse JVM_OPC_invokeinterfbce: {
+            /* The top stuff on the stbck depends on the method signbture */
+            int operbnd = this_idbtb->operbnd.i;
+            const chbr *signbture =
+                JVM_GetCPMethodSignbtureUTF(context->env,
+                                            context->clbss,
+                                            operbnd);
+            chbr *ip = buffer;
+            const chbr *p;
+            check_bnd_push(context, signbture, VM_STRING_UTF);
 #ifdef DEBUG
             if (verify_verbose) {
-                print_formatted_methodname(context, operand);
+                print_formbtted_methodnbme(context, operbnd);
             }
 #endif
-            if (opcode != JVM_OPC_invokestatic &&
-                opcode != JVM_OPC_invokedynamic)
+            if (opcode != JVM_OPC_invokestbtic &&
+                opcode != JVM_OPC_invokedynbmic)
                 /* First, push the object */
                 *ip++ = (opcode == JVM_OPC_invokeinit ? '@' : 'A');
-            for (p = signature + 1; *p != JVM_SIGNATURE_ENDFUNC; ) {
-                *ip++ = signature_to_fieldtype(context, &p, &full_info);
+            for (p = signbture + 1; *p != JVM_SIGNATURE_ENDFUNC; ) {
+                *ip++ = signbture_to_fieldtype(context, &p, &full_info);
                 if (ip >= buffer + sizeof(buffer) - 1)
-                    CCerror(context, "Signature %s has too many arguments",
-                            signature);
+                    CCerror(context, "Signbture %s hbs too mbny brguments",
+                            signbture);
             }
             *ip = 0;
-            stack_operands = buffer;
-            pop_and_free(context);
-            break;
+            stbck_operbnds = buffer;
+            pop_bnd_free(context);
+            brebk;
         }
 
-        case JVM_OPC_multianewarray: {
-            /* Count can't be larger than 255. So can't overflow buffer */
-            int count = this_idata->operand2.i; /* number of ints on stack */
+        cbse JVM_OPC_multibnewbrrby: {
+            /* Count cbn't be lbrger thbn 255. So cbn't overflow buffer */
+            int count = this_idbtb->operbnd2.i; /* number of ints on stbck */
             memset(buffer, 'I', count);
             buffer[count] = '\0';
-            stack_operands = buffer;
-            break;
+            stbck_operbnds = buffer;
+            brebk;
         }
 
     } /* of switch */
 
-    /* Run through the list of operands >>backwards<< */
-    for (   p = stack_operands + strlen(stack_operands);
-            p > stack_operands;
-            stack = stack->next) {
+    /* Run through the list of operbnds >>bbckwbrds<< */
+    for (   p = stbck_operbnds + strlen(stbck_operbnds);
+            p > stbck_operbnds;
+            stbck = stbck->next) {
         int type = *--p;
-        fullinfo_type top_type = stack ? stack->item : 0;
+        fullinfo_type top_type = stbck ? stbck->item : 0;
         int size = (type == 'D' || type == 'L') ? 2 : 1;
-        *--stack_extra_info = top_type;
-        if (stack == NULL)
-            CCerror(context, "Unable to pop operand off an empty stack");
+        *--stbck_extrb_info = top_type;
+        if (stbck == NULL)
+            CCerror(context, "Unbble to pop operbnd off bn empty stbck");
 
         switch (type) {
-            case 'I':
+            cbse 'I':
                 if (top_type != MAKE_FULLINFO(ITEM_Integer, 0, 0))
-                    CCerror(context, "Expecting to find integer on stack");
-                break;
+                    CCerror(context, "Expecting to find integer on stbck");
+                brebk;
 
-            case 'F':
-                if (top_type != MAKE_FULLINFO(ITEM_Float, 0, 0))
-                    CCerror(context, "Expecting to find float on stack");
-                break;
+            cbse 'F':
+                if (top_type != MAKE_FULLINFO(ITEM_Flobt, 0, 0))
+                    CCerror(context, "Expecting to find flobt on stbck");
+                brebk;
 
-            case 'A':           /* object or array */
+            cbse 'A':           /* object or brrby */
                 if (   (GET_ITEM_TYPE(top_type) != ITEM_Object)
                     && (GET_INDIRECTION(top_type) == 0)) {
-                    /* The thing isn't an object or an array.  Let's see if it's
-                     * one of the special cases  */
+                    /* The thing isn't bn object or bn brrby.  Let's see if it's
+                     * one of the specibl cbses  */
                     if (  (WITH_ZERO_EXTRA_INFO(top_type) ==
                                 MAKE_FULLINFO(ITEM_ReturnAddress, 0, 0))
-                        && (opcode == JVM_OPC_astore))
-                        break;
+                        && (opcode == JVM_OPC_bstore))
+                        brebk;
                     if (   (GET_ITEM_TYPE(top_type) == ITEM_NewObject
                             || (GET_ITEM_TYPE(top_type) == ITEM_InitObject))
-                        && ((opcode == JVM_OPC_astore) || (opcode == JVM_OPC_aload)
+                        && ((opcode == JVM_OPC_bstore) || (opcode == JVM_OPC_blobd)
                             || (opcode == JVM_OPC_ifnull) || (opcode == JVM_OPC_ifnonnull)))
-                        break;
-                    /* The 2nd edition VM of the specification allows field
-                     * initializations before the superclass initializer,
-                     * if the field is defined within the current class.
+                        brebk;
+                    /* The 2nd edition VM of the specificbtion bllows field
+                     * initiblizbtions before the superclbss initiblizer,
+                     * if the field is defined within the current clbss.
                      */
                      if (   (GET_ITEM_TYPE(top_type) == ITEM_InitObject)
                          && (opcode == JVM_OPC_putfield)) {
-                        int operand = this_idata->operand.i;
-                        int access_bits = JVM_GetCPFieldModifiers(context->env,
-                                                                  context->class,
-                                                                  operand,
-                                                                  context->class);
-                        /* Note: This relies on the fact that
-                         * JVM_GetCPFieldModifiers retrieves only local fields,
-                         * and does not respect inheritance.
+                        int operbnd = this_idbtb->operbnd.i;
+                        int bccess_bits = JVM_GetCPFieldModifiers(context->env,
+                                                                  context->clbss,
+                                                                  operbnd,
+                                                                  context->clbss);
+                        /* Note: This relies on the fbct thbt
+                         * JVM_GetCPFieldModifiers retrieves only locbl fields,
+                         * bnd does not respect inheritbnce.
                          */
-                        if (access_bits != -1) {
-                            if ( cp_index_to_class_fullinfo(context, operand, JVM_CONSTANT_Fieldref) ==
-                                 context->currentclass_info ) {
-                                top_type = context->currentclass_info;
-                                *stack_extra_info = top_type;
-                                break;
+                        if (bccess_bits != -1) {
+                            if ( cp_index_to_clbss_fullinfo(context, operbnd, JVM_CONSTANT_Fieldref) ==
+                                 context->currentclbss_info ) {
+                                top_type = context->currentclbss_info;
+                                *stbck_extrb_info = top_type;
+                                brebk;
                             }
                         }
                     }
-                    CCerror(context, "Expecting to find object/array on stack");
+                    CCerror(context, "Expecting to find object/brrby on stbck");
                 }
-                break;
+                brebk;
 
-            case '@': {         /* unitialized object, for call to <init> */
+            cbse '@': {         /* unitiblized object, for cbll to <init> */
                 int item_type = GET_ITEM_TYPE(top_type);
                 if (item_type != ITEM_NewObject && item_type != ITEM_InitObject)
                     CCerror(context,
-                            "Expecting to find unitialized object on stack");
-                break;
+                            "Expecting to find unitiblized object on stbck");
+                brebk;
             }
 
-            case 'O':           /* object, not array */
+            cbse 'O':           /* object, not brrby */
                 if (WITH_ZERO_EXTRA_INFO(top_type) !=
                        MAKE_FULLINFO(ITEM_Object, 0, 0))
-                    CCerror(context, "Expecting to find object on stack");
-                break;
+                    CCerror(context, "Expecting to find object on stbck");
+                brebk;
 
-            case 'a':           /* integer, object, or array */
+            cbse 'b':           /* integer, object, or brrby */
                 if (      (top_type != MAKE_FULLINFO(ITEM_Integer, 0, 0))
                        && (GET_ITEM_TYPE(top_type) != ITEM_Object)
                        && (GET_INDIRECTION(top_type) == 0))
                     CCerror(context,
-                            "Expecting to find object, array, or int on stack");
-                break;
+                            "Expecting to find object, brrby, or int on stbck");
+                brebk;
 
-            case 'D':           /* double */
+            cbse 'D':           /* double */
                 if (top_type != MAKE_FULLINFO(ITEM_Double, 0, 0))
-                    CCerror(context, "Expecting to find double on stack");
-                break;
+                    CCerror(context, "Expecting to find double on stbck");
+                brebk;
 
-            case 'L':           /* long */
+            cbse 'L':           /* long */
                 if (top_type != MAKE_FULLINFO(ITEM_Long, 0, 0))
-                    CCerror(context, "Expecting to find long on stack");
-                break;
+                    CCerror(context, "Expecting to find long on stbck");
+                brebk;
 
-            case ']':           /* array of some type */
+            cbse ']':           /* brrby of some type */
                 if (top_type == NULL_FULLINFO) {
                     /* do nothing */
                 } else switch(p[-1]) {
-                    case 'I':   /* array of integers */
+                    cbse 'I':   /* brrby of integers */
                         if (top_type != MAKE_FULLINFO(ITEM_Integer, 1, 0) &&
                             top_type != NULL_FULLINFO)
                             CCerror(context,
-                                    "Expecting to find array of ints on stack");
-                        break;
+                                    "Expecting to find brrby of ints on stbck");
+                        brebk;
 
-                    case 'L':   /* array of longs */
+                    cbse 'L':   /* brrby of longs */
                         if (top_type != MAKE_FULLINFO(ITEM_Long, 1, 0))
                             CCerror(context,
-                                   "Expecting to find array of longs on stack");
-                        break;
+                                   "Expecting to find brrby of longs on stbck");
+                        brebk;
 
-                    case 'F':   /* array of floats */
-                        if (top_type != MAKE_FULLINFO(ITEM_Float, 1, 0))
+                    cbse 'F':   /* brrby of flobts */
+                        if (top_type != MAKE_FULLINFO(ITEM_Flobt, 1, 0))
                             CCerror(context,
-                                 "Expecting to find array of floats on stack");
-                        break;
+                                 "Expecting to find brrby of flobts on stbck");
+                        brebk;
 
-                    case 'D':   /* array of doubles */
+                    cbse 'D':   /* brrby of doubles */
                         if (top_type != MAKE_FULLINFO(ITEM_Double, 1, 0))
                             CCerror(context,
-                                "Expecting to find array of doubles on stack");
-                        break;
+                                "Expecting to find brrby of doubles on stbck");
+                        brebk;
 
-                    case 'A': { /* array of addresses (arrays or objects) */
+                    cbse 'A': { /* brrby of bddresses (brrbys or objects) */
                         int indirection = GET_INDIRECTION(top_type);
                         if ((indirection == 0) ||
                             ((indirection == 1) &&
                                 (GET_ITEM_TYPE(top_type) != ITEM_Object)))
                             CCerror(context,
-                                "Expecting to find array of objects or arrays "
-                                    "on stack");
-                        break;
+                                "Expecting to find brrby of objects or brrbys "
+                                    "on stbck");
+                        brebk;
                     }
 
-                    case 'B':   /* array of bytes */
+                    cbse 'B':   /* brrby of bytes */
                         if (top_type != MAKE_FULLINFO(ITEM_Byte, 1, 0))
                             CCerror(context,
-                                  "Expecting to find array of bytes on stack");
-                        break;
+                                  "Expecting to find brrby of bytes on stbck");
+                        brebk;
 
-                    case 'C':   /* array of characters */
-                        if (top_type != MAKE_FULLINFO(ITEM_Char, 1, 0))
+                    cbse 'C':   /* brrby of chbrbcters */
+                        if (top_type != MAKE_FULLINFO(ITEM_Chbr, 1, 0))
                             CCerror(context,
-                                  "Expecting to find array of chars on stack");
-                        break;
+                                  "Expecting to find brrby of chbrs on stbck");
+                        brebk;
 
-                    case 'S':   /* array of shorts */
+                    cbse 'S':   /* brrby of shorts */
                         if (top_type != MAKE_FULLINFO(ITEM_Short, 1, 0))
                             CCerror(context,
-                                 "Expecting to find array of shorts on stack");
-                        break;
+                                 "Expecting to find brrby of shorts on stbck");
+                        brebk;
 
-                    case '?':   /* any type of array is okay */
+                    cbse '?':   /* bny type of brrby is okby */
                         if (GET_INDIRECTION(top_type) == 0)
                             CCerror(context,
-                                    "Expecting to find array on stack");
-                        break;
+                                    "Expecting to find brrby on stbck");
+                        brebk;
 
-                    default:
-                        CCerror(context, "Internal error #1");
-                        break;
+                    defbult:
+                        CCerror(context, "Internbl error #1");
+                        brebk;
                 }
-                p -= 2;         /* skip over [ <char> */
-                break;
+                p -= 2;         /* skip over [ <chbr> */
+                brebk;
 
-            case '1': case '2': case '3': case '4': /* stack swapping */
+            cbse '1': cbse '2': cbse '3': cbse '4': /* stbck swbpping */
                 if (top_type == MAKE_FULLINFO(ITEM_Double, 0, 0)
                     || top_type == MAKE_FULLINFO(ITEM_Long, 0, 0)) {
-                    if ((p > stack_operands) && (p[-1] == '+')) {
-                        context->swap_table[type - '1'] = top_type + 1;
-                        context->swap_table[p[-2] - '1'] = top_type;
+                    if ((p > stbck_operbnds) && (p[-1] == '+')) {
+                        context->swbp_tbble[type - '1'] = top_type + 1;
+                        context->swbp_tbble[p[-2] - '1'] = top_type;
                         size = 2;
                         p -= 2;
                     } else {
                         CCerror(context,
-                                "Attempt to split long or double on the stack");
+                                "Attempt to split long or double on the stbck");
                     }
                 } else {
-                    context->swap_table[type - '1'] = stack->item;
-                    if ((p > stack_operands) && (p[-1] == '+'))
+                    context->swbp_tbble[type - '1'] = stbck->item;
+                    if ((p > stbck_operbnds) && (p[-1] == '+'))
                         p--;    /* ignore */
                 }
-                break;
-            case '+':           /* these should have been caught. */
-            default:
-                CCerror(context, "Internal error #2");
+                brebk;
+            cbse '+':           /* these should hbve been cbught. */
+            defbult:
+                CCerror(context, "Internbl error #2");
         }
-        stack_size -= size;
+        stbck_size -= size;
     }
 
-    /* For many of the opcodes that had an "A" in their field, we really
-     * need to go back and do a little bit more accurate testing.  We can, of
-     * course, assume that the minimal type checking has already been done.
+    /* For mbny of the opcodes thbt hbd bn "A" in their field, we reblly
+     * need to go bbck bnd do b little bit more bccurbte testing.  We cbn, of
+     * course, bssume thbt the minimbl type checking hbs blrebdy been done.
      */
     switch (opcode) {
-        default: break;
-        case JVM_OPC_aastore: {     /* array index object  */
-            fullinfo_type array_type = stack_extra_info[0];
-            fullinfo_type object_type = stack_extra_info[2];
-            fullinfo_type target_type = decrement_indirection(array_type);
+        defbult: brebk;
+        cbse JVM_OPC_bbstore: {     /* brrby index object  */
+            fullinfo_type brrby_type = stbck_extrb_info[0];
+            fullinfo_type object_type = stbck_extrb_info[2];
+            fullinfo_type tbrget_type = decrement_indirection(brrby_type);
             if ((GET_ITEM_TYPE(object_type) != ITEM_Object)
                     && (GET_INDIRECTION(object_type) == 0)) {
-                CCerror(context, "Expecting reference type on operand stack in aastore");
+                CCerror(context, "Expecting reference type on operbnd stbck in bbstore");
             }
-            if ((GET_ITEM_TYPE(target_type) != ITEM_Object)
-                    && (GET_INDIRECTION(target_type) == 0)) {
-                CCerror(context, "Component type of the array must be reference type in aastore");
+            if ((GET_ITEM_TYPE(tbrget_type) != ITEM_Object)
+                    && (GET_INDIRECTION(tbrget_type) == 0)) {
+                CCerror(context, "Component type of the brrby must be reference type in bbstore");
             }
-            break;
+            brebk;
         }
 
-        case JVM_OPC_putfield:
-        case JVM_OPC_getfield:
-        case JVM_OPC_putstatic: {
-            int operand = this_idata->operand.i;
-            fullinfo_type stack_object = stack_extra_info[0];
+        cbse JVM_OPC_putfield:
+        cbse JVM_OPC_getfield:
+        cbse JVM_OPC_putstbtic: {
+            int operbnd = this_idbtb->operbnd.i;
+            fullinfo_type stbck_object = stbck_extrb_info[0];
             if (opcode == JVM_OPC_putfield || opcode == JVM_OPC_getfield) {
-                if (!isAssignableTo
+                if (!isAssignbbleTo
                         (context,
-                         stack_object,
-                         cp_index_to_class_fullinfo
-                             (context, operand, JVM_CONSTANT_Fieldref))) {
+                         stbck_object,
+                         cp_index_to_clbss_fullinfo
+                             (context, operbnd, JVM_CONSTANT_Fieldref))) {
                     CCerror(context,
-                            "Incompatible type for getting or setting field");
+                            "Incompbtible type for getting or setting field");
                 }
-                if (this_idata->protected &&
-                    !isAssignableTo(context, stack_object,
-                                    context->currentclass_info)) {
-                    CCerror(context, "Bad access to protected data");
+                if (this_idbtb->protected &&
+                    !isAssignbbleTo(context, stbck_object,
+                                    context->currentclbss_info)) {
+                    CCerror(context, "Bbd bccess to protected dbtb");
                 }
             }
-            if (opcode == JVM_OPC_putfield || opcode == JVM_OPC_putstatic) {
+            if (opcode == JVM_OPC_putfield || opcode == JVM_OPC_putstbtic) {
                 int item = (opcode == JVM_OPC_putfield ? 1 : 0);
-                if (!isAssignableTo(context,
-                                    stack_extra_info[item], put_full_info)) {
-                    CCerror(context, "Bad type in putfield/putstatic");
+                if (!isAssignbbleTo(context,
+                                    stbck_extrb_info[item], put_full_info)) {
+                    CCerror(context, "Bbd type in putfield/putstbtic");
                 }
             }
-            break;
+            brebk;
         }
 
-        case JVM_OPC_athrow:
-            if (!isAssignableTo(context, stack_extra_info[0],
-                                context->throwable_info)) {
-                CCerror(context, "Can only throw Throwable objects");
+        cbse JVM_OPC_bthrow:
+            if (!isAssignbbleTo(context, stbck_extrb_info[0],
+                                context->throwbble_info)) {
+                CCerror(context, "Cbn only throw Throwbble objects");
             }
-            break;
+            brebk;
 
-        case JVM_OPC_aaload: {      /* array index */
-            /* We need to pass the information to the stack updater */
-            fullinfo_type array_type = stack_extra_info[0];
-            context->swap_table[0] = decrement_indirection(array_type);
-            break;
+        cbse JVM_OPC_bblobd: {      /* brrby index */
+            /* We need to pbss the informbtion to the stbck updbter */
+            fullinfo_type brrby_type = stbck_extrb_info[0];
+            context->swbp_tbble[0] = decrement_indirection(brrby_type);
+            brebk;
         }
 
-        case JVM_OPC_invokevirtual: case JVM_OPC_invokespecial:
-        case JVM_OPC_invokeinit:
-        case JVM_OPC_invokedynamic:
-        case JVM_OPC_invokeinterface: case JVM_OPC_invokestatic: {
-            int operand = this_idata->operand.i;
-            const char *signature =
-                JVM_GetCPMethodSignatureUTF(context->env,
-                                            context->class,
-                                            operand);
+        cbse JVM_OPC_invokevirtubl: cbse JVM_OPC_invokespecibl:
+        cbse JVM_OPC_invokeinit:
+        cbse JVM_OPC_invokedynbmic:
+        cbse JVM_OPC_invokeinterfbce: cbse JVM_OPC_invokestbtic: {
+            int operbnd = this_idbtb->operbnd.i;
+            const chbr *signbture =
+                JVM_GetCPMethodSignbtureUTF(context->env,
+                                            context->clbss,
+                                            operbnd);
             int item;
-            const char *p;
-            check_and_push(context, signature, VM_STRING_UTF);
-            if (opcode == JVM_OPC_invokestatic ||
-                opcode == JVM_OPC_invokedynamic) {
+            const chbr *p;
+            check_bnd_push(context, signbture, VM_STRING_UTF);
+            if (opcode == JVM_OPC_invokestbtic ||
+                opcode == JVM_OPC_invokedynbmic) {
                 item = 0;
             } else if (opcode == JVM_OPC_invokeinit) {
-                fullinfo_type init_type = this_idata->operand2.fi;
-                fullinfo_type object_type = stack_extra_info[0];
-                context->swap_table[0] = object_type; /* save value */
-                if (GET_ITEM_TYPE(stack_extra_info[0]) == ITEM_NewObject) {
-                    /* We better be calling the appropriate init.  Find the
-                     * inumber of the "JVM_OPC_new" instruction", and figure
-                     * out what the type really is.
+                fullinfo_type init_type = this_idbtb->operbnd2.fi;
+                fullinfo_type object_type = stbck_extrb_info[0];
+                context->swbp_tbble[0] = object_type; /* sbve vblue */
+                if (GET_ITEM_TYPE(stbck_extrb_info[0]) == ITEM_NewObject) {
+                    /* We better be cblling the bppropribte init.  Find the
+                     * inumber of the "JVM_OPC_new" instruction", bnd figure
+                     * out whbt the type reblly is.
                      */
-                    unsigned int new_inumber = GET_EXTRA_INFO(stack_extra_info[0]);
-                    fullinfo_type target_type = idata[new_inumber].operand2.fi;
-                    context->swap_table[1] = target_type;
+                    unsigned int new_inumber = GET_EXTRA_INFO(stbck_extrb_info[0]);
+                    fullinfo_type tbrget_type = idbtb[new_inumber].operbnd2.fi;
+                    context->swbp_tbble[1] = tbrget_type;
 
-                    if (target_type != init_type) {
-                        CCerror(context, "Call to wrong initialization method");
+                    if (tbrget_type != init_type) {
+                        CCerror(context, "Cbll to wrong initiblizbtion method");
                     }
-                    if (this_idata->protected
-                        && context->major_version > LDC_CLASS_MAJOR_VERSION
-                        && !isAssignableTo(context, object_type,
-                                           context->currentclass_info)) {
-                      CCerror(context, "Bad access to protected data");
+                    if (this_idbtb->protected
+                        && context->mbjor_version > LDC_CLASS_MAJOR_VERSION
+                        && !isAssignbbleTo(context, object_type,
+                                           context->currentclbss_info)) {
+                      CCerror(context, "Bbd bccess to protected dbtb");
                     }
                 } else {
-                    /* We better be calling super() or this(). */
-                    if (init_type != context->superclass_info &&
-                        init_type != context->currentclass_info) {
-                        CCerror(context, "Call to wrong initialization method");
+                    /* We better be cblling super() or this(). */
+                    if (init_type != context->superclbss_info &&
+                        init_type != context->currentclbss_info) {
+                        CCerror(context, "Cbll to wrong initiblizbtion method");
                     }
-                    context->swap_table[1] = context->currentclass_info;
+                    context->swbp_tbble[1] = context->currentclbss_info;
                 }
                 item = 1;
             } else {
-                fullinfo_type target_type = this_idata->operand2.fi;
-                fullinfo_type object_type = stack_extra_info[0];
-                if (!isAssignableTo(context, object_type, target_type)){
+                fullinfo_type tbrget_type = this_idbtb->operbnd2.fi;
+                fullinfo_type object_type = stbck_extrb_info[0];
+                if (!isAssignbbleTo(context, object_type, tbrget_type)){
                     CCerror(context,
-                            "Incompatible object argument for function call");
+                            "Incompbtible object brgument for function cbll");
                 }
-                if (opcode == JVM_OPC_invokespecial
-                    && !isAssignableTo(context, object_type,
-                                       context->currentclass_info)) {
-                    /* Make sure object argument is assignment compatible to current class */
+                if (opcode == JVM_OPC_invokespecibl
+                    && !isAssignbbleTo(context, object_type,
+                                       context->currentclbss_info)) {
+                    /* Mbke sure object brgument is bssignment compbtible to current clbss */
                     CCerror(context,
-                            "Incompatible object argument for invokespecial");
+                            "Incompbtible object brgument for invokespecibl");
                 }
-                if (this_idata->protected
-                    && !isAssignableTo(context, object_type,
-                                       context->currentclass_info)) {
-                    /* This is ugly. Special dispensation.  Arrays pretend to
+                if (this_idbtb->protected
+                    && !isAssignbbleTo(context, object_type,
+                                       context->currentclbss_info)) {
+                    /* This is ugly. Specibl dispensbtion.  Arrbys pretend to
                        implement public Object clone() even though they don't */
-                    const char *utfName =
-                        JVM_GetCPMethodNameUTF(context->env,
-                                               context->class,
-                                               this_idata->operand.i);
-                    int is_clone = utfName && (strcmp(utfName, "clone") == 0);
-                    JVM_ReleaseUTF(utfName);
+                    const chbr *utfNbme =
+                        JVM_GetCPMethodNbmeUTF(context->env,
+                                               context->clbss,
+                                               this_idbtb->operbnd.i);
+                    int is_clone = utfNbme && (strcmp(utfNbme, "clone") == 0);
+                    JVM_RelebseUTF(utfNbme);
 
-                    if ((target_type == context->object_info) &&
+                    if ((tbrget_type == context->object_info) &&
                         (GET_INDIRECTION(object_type) > 0) &&
                         is_clone) {
                     } else {
-                        CCerror(context, "Bad access to protected data");
+                        CCerror(context, "Bbd bccess to protected dbtb");
                     }
                 }
                 item = 1;
             }
-            for (p = signature + 1; *p != JVM_SIGNATURE_ENDFUNC; item++)
-                if (signature_to_fieldtype(context, &p, &full_info) == 'A') {
-                    if (!isAssignableTo(context,
-                                        stack_extra_info[item], full_info)) {
-                        CCerror(context, "Incompatible argument to function");
+            for (p = signbture + 1; *p != JVM_SIGNATURE_ENDFUNC; item++)
+                if (signbture_to_fieldtype(context, &p, &full_info) == 'A') {
+                    if (!isAssignbbleTo(context,
+                                        stbck_extrb_info[item], full_info)) {
+                        CCerror(context, "Incompbtible brgument to function");
                     }
                 }
 
-            pop_and_free(context);
-            break;
+            pop_bnd_free(context);
+            brebk;
         }
 
-        case JVM_OPC_return:
+        cbse JVM_OPC_return:
             if (context->return_type != MAKE_FULLINFO(ITEM_Void, 0, 0))
                 CCerror(context, "Wrong return type in function");
-            break;
+            brebk;
 
-        case JVM_OPC_ireturn: case JVM_OPC_lreturn: case JVM_OPC_freturn:
-        case JVM_OPC_dreturn: case JVM_OPC_areturn: {
-            fullinfo_type target_type = context->return_type;
-            fullinfo_type object_type = stack_extra_info[0];
-            if (!isAssignableTo(context, object_type, target_type)) {
+        cbse JVM_OPC_ireturn: cbse JVM_OPC_lreturn: cbse JVM_OPC_freturn:
+        cbse JVM_OPC_dreturn: cbse JVM_OPC_breturn: {
+            fullinfo_type tbrget_type = context->return_type;
+            fullinfo_type object_type = stbck_extrb_info[0];
+            if (!isAssignbbleTo(context, object_type, tbrget_type)) {
                 CCerror(context, "Wrong return type in function");
             }
-            break;
+            brebk;
         }
 
-        case JVM_OPC_new: {
-            /* Make sure that nothing on the stack already looks like what
-             * we want to create.  I can't image how this could possibly happen
-             * but we should test for it anyway, since if it could happen, the
-             * result would be an unitialized object being able to masquerade
-             * as an initialized one.
+        cbse JVM_OPC_new: {
+            /* Mbke sure thbt nothing on the stbck blrebdy looks like whbt
+             * we wbnt to crebte.  I cbn't imbge how this could possibly hbppen
+             * but we should test for it bnywby, since if it could hbppen, the
+             * result would be bn unitiblized object being bble to mbsquerbde
+             * bs bn initiblized one.
              */
-            stack_item_type *item;
-            for (item = stack; item != NULL; item = item->next) {
-                if (item->item == this_idata->operand.fi) {
+            stbck_item_type *item;
+            for (item = stbck; item != NULL; item = item->next) {
+                if (item->item == this_idbtb->operbnd.fi) {
                     CCerror(context,
-                            "Uninitialized object on stack at creating point");
+                            "Uninitiblized object on stbck bt crebting point");
                 }
             }
-            /* Info for update_registers */
-            context->swap_table[0] = this_idata->operand.fi;
-            context->swap_table[1] = MAKE_FULLINFO(ITEM_Bogus, 0, 0);
+            /* Info for updbte_registers */
+            context->swbp_tbble[0] = this_idbtb->operbnd.fi;
+            context->swbp_tbble[1] = MAKE_FULLINFO(ITEM_Bogus, 0, 0);
 
-            break;
+            brebk;
         }
     }
-    new_stack_info->stack = stack;
-    new_stack_info->stack_size = stack_size;
+    new_stbck_info->stbck = stbck;
+    new_stbck_info->stbck_size = stbck_size;
 }
 
 
-/* We've already determined that the instruction is legal.  Perform the
- * operation on the registers, and return the updated results in
- * new_register_count_p and new_registers.
+/* We've blrebdy determined thbt the instruction is legbl.  Perform the
+ * operbtion on the registers, bnd return the updbted results in
+ * new_register_count_p bnd new_registers.
  */
 
-static void
-update_registers(context_type *context, unsigned int inumber,
+stbtic void
+updbte_registers(context_type *context, unsigned int inumber,
                  register_info_type *new_register_info)
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[inumber];
-    int opcode = this_idata->opcode;
-    int operand = this_idata->operand.i;
-    int register_count = this_idata->register_info.register_count;
-    fullinfo_type *registers = this_idata->register_info.registers;
-    stack_item_type *stack = this_idata->stack_info.stack;
-    int mask_count = this_idata->register_info.mask_count;
-    mask_type *masks = this_idata->register_info.masks;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+    int opcode = this_idbtb->opcode;
+    int operbnd = this_idbtb->operbnd.i;
+    int register_count = this_idbtb->register_info.register_count;
+    fullinfo_type *registers = this_idbtb->register_info.registers;
+    stbck_item_type *stbck = this_idbtb->stbck_info.stbck;
+    int mbsk_count = this_idbtb->register_info.mbsk_count;
+    mbsk_type *mbsks = this_idbtb->register_info.mbsks;
 
-    /* Use these as default new values. */
+    /* Use these bs defbult new vblues. */
     int            new_register_count = register_count;
-    int            new_mask_count = mask_count;
+    int            new_mbsk_count = mbsk_count;
     fullinfo_type *new_registers = registers;
-    mask_type     *new_masks = masks;
+    mbsk_type     *new_mbsks = mbsks;
 
-    enum { ACCESS_NONE, ACCESS_SINGLE, ACCESS_DOUBLE } access = ACCESS_NONE;
+    enum { ACCESS_NONE, ACCESS_SINGLE, ACCESS_DOUBLE } bccess = ACCESS_NONE;
     int i;
 
-    /* Remember, we've already verified the type at the top of the stack. */
+    /* Remember, we've blrebdy verified the type bt the top of the stbck. */
     switch (opcode) {
-        default: break;
-        case JVM_OPC_istore: case JVM_OPC_fstore: case JVM_OPC_astore:
-            access = ACCESS_SINGLE;
+        defbult: brebk;
+        cbse JVM_OPC_istore: cbse JVM_OPC_fstore: cbse JVM_OPC_bstore:
+            bccess = ACCESS_SINGLE;
             goto continue_store;
 
-        case JVM_OPC_lstore: case JVM_OPC_dstore:
-            access = ACCESS_DOUBLE;
+        cbse JVM_OPC_lstore: cbse JVM_OPC_dstore:
+            bccess = ACCESS_DOUBLE;
             goto continue_store;
 
         continue_store: {
-            /* We have a modification to the registers.  Copy them if needed. */
-            fullinfo_type stack_top_type = stack->item;
-            int max_operand = operand + ((access == ACCESS_DOUBLE) ? 1 : 0);
+            /* We hbve b modificbtion to the registers.  Copy them if needed. */
+            fullinfo_type stbck_top_type = stbck->item;
+            int mbx_operbnd = operbnd + ((bccess == ACCESS_DOUBLE) ? 1 : 0);
 
-            if (     max_operand < register_count
-                  && registers[operand] == stack_top_type
-                  && ((access == ACCESS_SINGLE) ||
-                         (registers[operand + 1]== stack_top_type + 1)))
-                /* No changes have been made to the registers. */
-                break;
-            new_register_count = MAX(max_operand + 1, register_count);
+            if (     mbx_operbnd < register_count
+                  && registers[operbnd] == stbck_top_type
+                  && ((bccess == ACCESS_SINGLE) ||
+                         (registers[operbnd + 1]== stbck_top_type + 1)))
+                /* No chbnges hbve been mbde to the registers. */
+                brebk;
+            new_register_count = MAX(mbx_operbnd + 1, register_count);
             new_registers = NEW(fullinfo_type, new_register_count);
             for (i = 0; i < register_count; i++)
                 new_registers[i] = registers[i];
             for (i = register_count; i < new_register_count; i++)
                 new_registers[i] = MAKE_FULLINFO(ITEM_Bogus, 0, 0);
-            new_registers[operand] = stack_top_type;
-            if (access == ACCESS_DOUBLE)
-                new_registers[operand + 1] = stack_top_type + 1;
-            break;
+            new_registers[operbnd] = stbck_top_type;
+            if (bccess == ACCESS_DOUBLE)
+                new_registers[operbnd + 1] = stbck_top_type + 1;
+            brebk;
         }
 
-        case JVM_OPC_iload: case JVM_OPC_fload: case JVM_OPC_aload:
-        case JVM_OPC_iinc: case JVM_OPC_ret:
-            access = ACCESS_SINGLE;
-            break;
+        cbse JVM_OPC_ilobd: cbse JVM_OPC_flobd: cbse JVM_OPC_blobd:
+        cbse JVM_OPC_iinc: cbse JVM_OPC_ret:
+            bccess = ACCESS_SINGLE;
+            brebk;
 
-        case JVM_OPC_lload: case JVM_OPC_dload:
-            access = ACCESS_DOUBLE;
-            break;
+        cbse JVM_OPC_llobd: cbse JVM_OPC_dlobd:
+            bccess = ACCESS_DOUBLE;
+            brebk;
 
-        case JVM_OPC_jsr: case JVM_OPC_jsr_w:
-            for (i = 0; i < new_mask_count; i++)
-                if (new_masks[i].entry == operand)
-                    CCerror(context, "Recursive call to jsr entry");
-            new_masks = add_to_masks(context, masks, mask_count, operand);
-            new_mask_count++;
-            break;
+        cbse JVM_OPC_jsr: cbse JVM_OPC_jsr_w:
+            for (i = 0; i < new_mbsk_count; i++)
+                if (new_mbsks[i].entry == operbnd)
+                    CCerror(context, "Recursive cbll to jsr entry");
+            new_mbsks = bdd_to_mbsks(context, mbsks, mbsk_count, operbnd);
+            new_mbsk_count++;
+            brebk;
 
-        case JVM_OPC_invokeinit:
-        case JVM_OPC_new: {
-            /* For invokeinit, an uninitialized object has been initialized.
-             * For new, all previous occurrences of an uninitialized object
-             * from the same instruction must be made bogus.
-             * We find all occurrences of swap_table[0] in the registers, and
-             * replace them with swap_table[1];
+        cbse JVM_OPC_invokeinit:
+        cbse JVM_OPC_new: {
+            /* For invokeinit, bn uninitiblized object hbs been initiblized.
+             * For new, bll previous occurrences of bn uninitiblized object
+             * from the sbme instruction must be mbde bogus.
+             * We find bll occurrences of swbp_tbble[0] in the registers, bnd
+             * replbce them with swbp_tbble[1];
              */
-            fullinfo_type from = context->swap_table[0];
-            fullinfo_type to = context->swap_table[1];
+            fullinfo_type from = context->swbp_tbble[0];
+            fullinfo_type to = context->swbp_tbble[1];
 
             int i;
             for (i = 0; i < register_count; i++) {
                 if (new_registers[i] == from) {
-                    /* Found a match */
-                    break;
+                    /* Found b mbtch */
+                    brebk;
                 }
             }
-            if (i < register_count) { /* We broke out loop for match */
-                /* We have to change registers, and possibly a mask */
-                jboolean copied_mask = JNI_FALSE;
+            if (i < register_count) { /* We broke out loop for mbtch */
+                /* We hbve to chbnge registers, bnd possibly b mbsk */
+                jboolebn copied_mbsk = JNI_FALSE;
                 int k;
                 new_registers = NEW(fullinfo_type, register_count);
                 memcpy(new_registers, registers,
@@ -2612,512 +2612,512 @@ update_registers(context_type *context, unsigned int inumber,
                 for ( ; i < register_count; i++) {
                     if (new_registers[i] == from) {
                         new_registers[i] = to;
-                        for (k = 0; k < new_mask_count; k++) {
-                            if (!IS_BIT_SET(new_masks[k].modifies, i)) {
-                                if (!copied_mask) {
-                                    new_masks = copy_masks(context, new_masks,
-                                                           mask_count);
-                                    copied_mask = JNI_TRUE;
+                        for (k = 0; k < new_mbsk_count; k++) {
+                            if (!IS_BIT_SET(new_mbsks[k].modifies, i)) {
+                                if (!copied_mbsk) {
+                                    new_mbsks = copy_mbsks(context, new_mbsks,
+                                                           mbsk_count);
+                                    copied_mbsk = JNI_TRUE;
                                 }
-                                SET_BIT(new_masks[k].modifies, i);
+                                SET_BIT(new_mbsks[k].modifies, i);
                             }
                         }
                     }
                 }
             }
-            break;
+            brebk;
         }
     } /* of switch */
 
-    if ((access != ACCESS_NONE) && (new_mask_count > 0)) {
+    if ((bccess != ACCESS_NONE) && (new_mbsk_count > 0)) {
         int i, j;
-        for (i = 0; i < new_mask_count; i++) {
-            int *mask = new_masks[i].modifies;
-            if ((!IS_BIT_SET(mask, operand)) ||
-                  ((access == ACCESS_DOUBLE) &&
-                   !IS_BIT_SET(mask, operand + 1))) {
-                new_masks = copy_masks(context, new_masks, mask_count);
-                for (j = i; j < new_mask_count; j++) {
-                    SET_BIT(new_masks[j].modifies, operand);
-                    if (access == ACCESS_DOUBLE)
-                        SET_BIT(new_masks[j].modifies, operand + 1);
+        for (i = 0; i < new_mbsk_count; i++) {
+            int *mbsk = new_mbsks[i].modifies;
+            if ((!IS_BIT_SET(mbsk, operbnd)) ||
+                  ((bccess == ACCESS_DOUBLE) &&
+                   !IS_BIT_SET(mbsk, operbnd + 1))) {
+                new_mbsks = copy_mbsks(context, new_mbsks, mbsk_count);
+                for (j = i; j < new_mbsk_count; j++) {
+                    SET_BIT(new_mbsks[j].modifies, operbnd);
+                    if (bccess == ACCESS_DOUBLE)
+                        SET_BIT(new_mbsks[j].modifies, operbnd + 1);
                 }
-                break;
+                brebk;
             }
         }
     }
 
     new_register_info->register_count = new_register_count;
     new_register_info->registers = new_registers;
-    new_register_info->masks = new_masks;
-    new_register_info->mask_count = new_mask_count;
+    new_register_info->mbsks = new_mbsks;
+    new_register_info->mbsk_count = new_mbsk_count;
 }
 
 
 
-/* We've already determined that the instruction is legal, and have updated
- * the registers.  Update the flags, too.
+/* We've blrebdy determined thbt the instruction is legbl, bnd hbve updbted
+ * the registers.  Updbte the flbgs, too.
  */
 
 
-static void
-update_flags(context_type *context, unsigned int inumber,
-             flag_type *new_and_flags, flag_type *new_or_flags)
+stbtic void
+updbte_flbgs(context_type *context, unsigned int inumber,
+             flbg_type *new_bnd_flbgs, flbg_type *new_or_flbgs)
 
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[inumber];
-    flag_type and_flags = this_idata->and_flags;
-    flag_type or_flags = this_idata->or_flags;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+    flbg_type bnd_flbgs = this_idbtb->bnd_flbgs;
+    flbg_type or_flbgs = this_idbtb->or_flbgs;
 
-    /* Set the "we've done a constructor" flag */
-    if (this_idata->opcode == JVM_OPC_invokeinit) {
-        fullinfo_type from = context->swap_table[0];
+    /* Set the "we've done b constructor" flbg */
+    if (this_idbtb->opcode == JVM_OPC_invokeinit) {
+        fullinfo_type from = context->swbp_tbble[0];
         if (from == MAKE_FULLINFO(ITEM_InitObject, 0, 0))
-            and_flags |= FLAG_CONSTRUCTED;
+            bnd_flbgs |= FLAG_CONSTRUCTED;
     }
-    *new_and_flags = and_flags;
-    *new_or_flags = or_flags;
+    *new_bnd_flbgs = bnd_flbgs;
+    *new_or_flbgs = or_flbgs;
 }
 
 
 
-/* We've already determined that the instruction is legal.  Perform the
- * operation on the stack;
+/* We've blrebdy determined thbt the instruction is legbl.  Perform the
+ * operbtion on the stbck;
  *
- * new_stack_size_p and new_stack_p point to the results after the pops have
- * already been done.  Do the pushes, and then put the results back there.
+ * new_stbck_size_p bnd new_stbck_p point to the results bfter the pops hbve
+ * blrebdy been done.  Do the pushes, bnd then put the results bbck there.
  */
 
-static void
-push_stack(context_type *context, unsigned int inumber, stack_info_type *new_stack_info)
+stbtic void
+push_stbck(context_type *context, unsigned int inumber, stbck_info_type *new_stbck_info)
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[inumber];
-    int opcode = this_idata->opcode;
-    int operand = this_idata->operand.i;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+    int opcode = this_idbtb->opcode;
+    int operbnd = this_idbtb->operbnd.i;
 
-    int stack_size = new_stack_info->stack_size;
-    stack_item_type *stack = new_stack_info->stack;
-    char *stack_results;
+    int stbck_size = new_stbck_info->stbck_size;
+    stbck_item_type *stbck = new_stbck_info->stbck;
+    chbr *stbck_results;
 
     fullinfo_type full_info = 0;
-    char buffer[5], *p;         /* actually [2] is big enough */
+    chbr buffer[5], *p;         /* bctublly [2] is big enough */
 
-    /* We need to look at all those opcodes in which either we can't tell the
-     * value pushed onto the stack from the opcode, or in which the value
-     * pushed onto the stack is an object or array.  For the latter, we need
-     * to make sure that full_info is set to the right value.
+    /* We need to look bt bll those opcodes in which either we cbn't tell the
+     * vblue pushed onto the stbck from the opcode, or in which the vblue
+     * pushed onto the stbck is bn object or brrby.  For the lbtter, we need
+     * to mbke sure thbt full_info is set to the right vblue.
      */
     switch(opcode) {
-        default:
-            stack_results = opcode_in_out[opcode][1];
-            break;
+        defbult:
+            stbck_results = opcode_in_out[opcode][1];
+            brebk;
 
-        case JVM_OPC_ldc: case JVM_OPC_ldc_w: case JVM_OPC_ldc2_w: {
-            /* Look to constant pool to determine correct result. */
-            unsigned char *type_table = context->constant_types;
-            switch (type_table[operand]) {
-                case JVM_CONSTANT_Integer:
-                    stack_results = "I"; break;
-                case JVM_CONSTANT_Float:
-                    stack_results = "F"; break;
-                case JVM_CONSTANT_Double:
-                    stack_results = "D"; break;
-                case JVM_CONSTANT_Long:
-                    stack_results = "L"; break;
-                case JVM_CONSTANT_String:
-                    stack_results = "A";
+        cbse JVM_OPC_ldc: cbse JVM_OPC_ldc_w: cbse JVM_OPC_ldc2_w: {
+            /* Look to constbnt pool to determine correct result. */
+            unsigned chbr *type_tbble = context->constbnt_types;
+            switch (type_tbble[operbnd]) {
+                cbse JVM_CONSTANT_Integer:
+                    stbck_results = "I"; brebk;
+                cbse JVM_CONSTANT_Flobt:
+                    stbck_results = "F"; brebk;
+                cbse JVM_CONSTANT_Double:
+                    stbck_results = "D"; brebk;
+                cbse JVM_CONSTANT_Long:
+                    stbck_results = "L"; brebk;
+                cbse JVM_CONSTANT_String:
+                    stbck_results = "A";
                     full_info = context->string_info;
-                    break;
-                case JVM_CONSTANT_Class:
-                    if (context->major_version < LDC_CLASS_MAJOR_VERSION)
-                        CCerror(context, "Internal error #3");
-                    stack_results = "A";
-                    full_info = make_class_info_from_name(context,
-                                                          "java/lang/Class");
-                    break;
-                case JVM_CONSTANT_MethodHandle:
-                case JVM_CONSTANT_MethodType:
-                    if (context->major_version < LDC_METHOD_HANDLE_MAJOR_VERSION)
-                        CCerror(context, "Internal error #3");
-                    stack_results = "A";
-                    switch (type_table[operand]) {
-                    case JVM_CONSTANT_MethodType:
-                      full_info = make_class_info_from_name(context,
-                                                            "java/lang/invoke/MethodType");
-                      break;
-                    default: //JVM_CONSTANT_MethodHandle
-                      full_info = make_class_info_from_name(context,
-                                                            "java/lang/invoke/MethodHandle");
-                      break;
+                    brebk;
+                cbse JVM_CONSTANT_Clbss:
+                    if (context->mbjor_version < LDC_CLASS_MAJOR_VERSION)
+                        CCerror(context, "Internbl error #3");
+                    stbck_results = "A";
+                    full_info = mbke_clbss_info_from_nbme(context,
+                                                          "jbvb/lbng/Clbss");
+                    brebk;
+                cbse JVM_CONSTANT_MethodHbndle:
+                cbse JVM_CONSTANT_MethodType:
+                    if (context->mbjor_version < LDC_METHOD_HANDLE_MAJOR_VERSION)
+                        CCerror(context, "Internbl error #3");
+                    stbck_results = "A";
+                    switch (type_tbble[operbnd]) {
+                    cbse JVM_CONSTANT_MethodType:
+                      full_info = mbke_clbss_info_from_nbme(context,
+                                                            "jbvb/lbng/invoke/MethodType");
+                      brebk;
+                    defbult: //JVM_CONSTANT_MethodHbndle
+                      full_info = mbke_clbss_info_from_nbme(context,
+                                                            "jbvb/lbng/invoke/MethodHbndle");
+                      brebk;
                     }
-                    break;
-                default:
-                    CCerror(context, "Internal error #3");
-                    stack_results = ""; /* Never reached: keep lint happy */
+                    brebk;
+                defbult:
+                    CCerror(context, "Internbl error #3");
+                    stbck_results = ""; /* Never rebched: keep lint hbppy */
             }
-            break;
+            brebk;
         }
 
-        case JVM_OPC_getstatic: case JVM_OPC_getfield: {
-            /* Look to signature to determine correct result. */
-            int operand = this_idata->operand.i;
-            const char *signature = JVM_GetCPFieldSignatureUTF(context->env,
-                                                               context->class,
-                                                               operand);
-            check_and_push(context, signature, VM_STRING_UTF);
+        cbse JVM_OPC_getstbtic: cbse JVM_OPC_getfield: {
+            /* Look to signbture to determine correct result. */
+            int operbnd = this_idbtb->operbnd.i;
+            const chbr *signbture = JVM_GetCPFieldSignbtureUTF(context->env,
+                                                               context->clbss,
+                                                               operbnd);
+            check_bnd_push(context, signbture, VM_STRING_UTF);
 #ifdef DEBUG
             if (verify_verbose) {
-                print_formatted_fieldname(context, operand);
+                print_formbtted_fieldnbme(context, operbnd);
             }
 #endif
-            buffer[0] = signature_to_fieldtype(context, &signature, &full_info);
+            buffer[0] = signbture_to_fieldtype(context, &signbture, &full_info);
             buffer[1] = '\0';
-            stack_results = buffer;
-            pop_and_free(context);
-            break;
+            stbck_results = buffer;
+            pop_bnd_free(context);
+            brebk;
         }
 
-        case JVM_OPC_invokevirtual: case JVM_OPC_invokespecial:
-        case JVM_OPC_invokeinit:
-        case JVM_OPC_invokedynamic:
-        case JVM_OPC_invokestatic: case JVM_OPC_invokeinterface: {
-            /* Look to signature to determine correct result. */
-            int operand = this_idata->operand.i;
-            const char *signature = JVM_GetCPMethodSignatureUTF(context->env,
-                                                                context->class,
-                                                                operand);
-            const char *result_signature;
-            check_and_push(context, signature, VM_STRING_UTF);
-            result_signature = strchr(signature, JVM_SIGNATURE_ENDFUNC);
-            if (result_signature++ == NULL) {
-                CCerror(context, "Illegal signature %s", signature);
+        cbse JVM_OPC_invokevirtubl: cbse JVM_OPC_invokespecibl:
+        cbse JVM_OPC_invokeinit:
+        cbse JVM_OPC_invokedynbmic:
+        cbse JVM_OPC_invokestbtic: cbse JVM_OPC_invokeinterfbce: {
+            /* Look to signbture to determine correct result. */
+            int operbnd = this_idbtb->operbnd.i;
+            const chbr *signbture = JVM_GetCPMethodSignbtureUTF(context->env,
+                                                                context->clbss,
+                                                                operbnd);
+            const chbr *result_signbture;
+            check_bnd_push(context, signbture, VM_STRING_UTF);
+            result_signbture = strchr(signbture, JVM_SIGNATURE_ENDFUNC);
+            if (result_signbture++ == NULL) {
+                CCerror(context, "Illegbl signbture %s", signbture);
             }
-            if (result_signature[0] == JVM_SIGNATURE_VOID) {
-                stack_results = "";
+            if (result_signbture[0] == JVM_SIGNATURE_VOID) {
+                stbck_results = "";
             } else {
-                buffer[0] = signature_to_fieldtype(context, &result_signature,
+                buffer[0] = signbture_to_fieldtype(context, &result_signbture,
                                                    &full_info);
                 buffer[1] = '\0';
-                stack_results = buffer;
+                stbck_results = buffer;
             }
-            pop_and_free(context);
-            break;
+            pop_bnd_free(context);
+            brebk;
         }
 
-        case JVM_OPC_aconst_null:
-            stack_results = opcode_in_out[opcode][1];
-            full_info = NULL_FULLINFO; /* special NULL */
-            break;
+        cbse JVM_OPC_bconst_null:
+            stbck_results = opcode_in_out[opcode][1];
+            full_info = NULL_FULLINFO; /* specibl NULL */
+            brebk;
 
-        case JVM_OPC_new:
-        case JVM_OPC_checkcast:
-        case JVM_OPC_newarray:
-        case JVM_OPC_anewarray:
-        case JVM_OPC_multianewarray:
-            stack_results = opcode_in_out[opcode][1];
+        cbse JVM_OPC_new:
+        cbse JVM_OPC_checkcbst:
+        cbse JVM_OPC_newbrrby:
+        cbse JVM_OPC_bnewbrrby:
+        cbse JVM_OPC_multibnewbrrby:
+            stbck_results = opcode_in_out[opcode][1];
             /* Conveniently, this result type is stored here */
-            full_info = this_idata->operand.fi;
-            break;
+            full_info = this_idbtb->operbnd.fi;
+            brebk;
 
-        case JVM_OPC_aaload:
-            stack_results = opcode_in_out[opcode][1];
-            /* pop_stack() saved value for us. */
-            full_info = context->swap_table[0];
-            break;
+        cbse JVM_OPC_bblobd:
+            stbck_results = opcode_in_out[opcode][1];
+            /* pop_stbck() sbved vblue for us. */
+            full_info = context->swbp_tbble[0];
+            brebk;
 
-        case JVM_OPC_aload:
-            stack_results = opcode_in_out[opcode][1];
-            /* The register hasn't been modified, so we can use its value. */
-            full_info = this_idata->register_info.registers[operand];
-            break;
+        cbse JVM_OPC_blobd:
+            stbck_results = opcode_in_out[opcode][1];
+            /* The register hbsn't been modified, so we cbn use its vblue. */
+            full_info = this_idbtb->register_info.registers[operbnd];
+            brebk;
     } /* of switch */
 
-    for (p = stack_results; *p != 0; p++) {
+    for (p = stbck_results; *p != 0; p++) {
         int type = *p;
-        stack_item_type *new_item = NEW(stack_item_type, 1);
-        new_item->next = stack;
-        stack = new_item;
+        stbck_item_type *new_item = NEW(stbck_item_type, 1);
+        new_item->next = stbck;
+        stbck = new_item;
         switch (type) {
-            case 'I':
-                stack->item = MAKE_FULLINFO(ITEM_Integer, 0, 0); break;
-            case 'F':
-                stack->item = MAKE_FULLINFO(ITEM_Float, 0, 0); break;
-            case 'D':
-                stack->item = MAKE_FULLINFO(ITEM_Double, 0, 0);
-                stack_size++; break;
-            case 'L':
-                stack->item = MAKE_FULLINFO(ITEM_Long, 0, 0);
-                stack_size++; break;
-            case 'R':
-                stack->item = MAKE_FULLINFO(ITEM_ReturnAddress, 0, operand);
-                break;
-            case '1': case '2': case '3': case '4': {
-                /* Get the info saved in the swap_table */
-                fullinfo_type stype = context->swap_table[type - '1'];
-                stack->item = stype;
+            cbse 'I':
+                stbck->item = MAKE_FULLINFO(ITEM_Integer, 0, 0); brebk;
+            cbse 'F':
+                stbck->item = MAKE_FULLINFO(ITEM_Flobt, 0, 0); brebk;
+            cbse 'D':
+                stbck->item = MAKE_FULLINFO(ITEM_Double, 0, 0);
+                stbck_size++; brebk;
+            cbse 'L':
+                stbck->item = MAKE_FULLINFO(ITEM_Long, 0, 0);
+                stbck_size++; brebk;
+            cbse 'R':
+                stbck->item = MAKE_FULLINFO(ITEM_ReturnAddress, 0, operbnd);
+                brebk;
+            cbse '1': cbse '2': cbse '3': cbse '4': {
+                /* Get the info sbved in the swbp_tbble */
+                fullinfo_type stype = context->swbp_tbble[type - '1'];
+                stbck->item = stype;
                 if (stype == MAKE_FULLINFO(ITEM_Long, 0, 0) ||
                     stype == MAKE_FULLINFO(ITEM_Double, 0, 0)) {
-                    stack_size++; p++;
+                    stbck_size++; p++;
                 }
-                break;
+                brebk;
             }
-            case 'A':
-                /* full_info should have the appropriate value. */
-                assert(full_info != 0);
-                stack->item = full_info;
-                break;
-            default:
-                CCerror(context, "Internal error #4");
+            cbse 'A':
+                /* full_info should hbve the bppropribte vblue. */
+                bssert(full_info != 0);
+                stbck->item = full_info;
+                brebk;
+            defbult:
+                CCerror(context, "Internbl error #4");
 
             } /* switch type */
-        stack_size++;
+        stbck_size++;
     } /* outer for loop */
 
     if (opcode == JVM_OPC_invokeinit) {
-        /* If there are any instances of "from" on the stack, we need to
-         * replace it with "to", since calling <init> initializes all versions
+        /* If there bre bny instbnces of "from" on the stbck, we need to
+         * replbce it with "to", since cblling <init> initiblizes bll versions
          * of the object, obviously.     */
-        fullinfo_type from = context->swap_table[0];
-        stack_item_type *ptr;
-        for (ptr = stack; ptr != NULL; ptr = ptr->next) {
+        fullinfo_type from = context->swbp_tbble[0];
+        stbck_item_type *ptr;
+        for (ptr = stbck; ptr != NULL; ptr = ptr->next) {
             if (ptr->item == from) {
-                fullinfo_type to = context->swap_table[1];
-                stack = copy_stack(context, stack);
-                for (ptr = stack; ptr != NULL; ptr = ptr->next)
+                fullinfo_type to = context->swbp_tbble[1];
+                stbck = copy_stbck(context, stbck);
+                for (ptr = stbck; ptr != NULL; ptr = ptr->next)
                     if (ptr->item == from) ptr->item = to;
-                break;
+                brebk;
             }
         }
     }
 
-    new_stack_info->stack_size = stack_size;
-    new_stack_info->stack = stack;
+    new_stbck_info->stbck_size = stbck_size;
+    new_stbck_info->stbck = stbck;
 }
 
 
-/* We've performed an instruction, and determined the new registers and stack
- * value.  Look at all of the possibly subsequent instructions, and merge
- * this stack value into theirs.
+/* We've performed bn instruction, bnd determined the new registers bnd stbck
+ * vblue.  Look bt bll of the possibly subsequent instructions, bnd merge
+ * this stbck vblue into theirs.
  */
 
-static void
+stbtic void
 merge_into_successors(context_type *context, unsigned int inumber,
                       register_info_type *register_info,
-                      stack_info_type *stack_info,
-                      flag_type and_flags, flag_type or_flags)
+                      stbck_info_type *stbck_info,
+                      flbg_type bnd_flbgs, flbg_type or_flbgs)
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[inumber];
-    int opcode = this_idata->opcode;
-    int operand = this_idata->operand.i;
-    struct handler_info_type *handler_info = context->handler_info;
-    int handler_info_length =
-        JVM_GetMethodIxExceptionTableLength(context->env,
-                                            context->class,
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[inumber];
+    int opcode = this_idbtb->opcode;
+    int operbnd = this_idbtb->operbnd.i;
+    struct hbndler_info_type *hbndler_info = context->hbndler_info;
+    int hbndler_info_length =
+        JVM_GetMethodIxExceptionTbbleLength(context->env,
+                                            context->clbss,
                                             context->method_index);
 
 
-    int buffer[2];              /* default value for successors */
-    int *successors = buffer;   /* table of successors */
+    int buffer[2];              /* defbult vblue for successors */
+    int *successors = buffer;   /* tbble of successors */
     int successors_count;
     int i;
 
     switch (opcode) {
-    default:
+    defbult:
         successors_count = 1;
         buffer[0] = inumber + 1;
-        break;
+        brebk;
 
-    case JVM_OPC_ifeq: case JVM_OPC_ifne: case JVM_OPC_ifgt:
-    case JVM_OPC_ifge: case JVM_OPC_iflt: case JVM_OPC_ifle:
-    case JVM_OPC_ifnull: case JVM_OPC_ifnonnull:
-    case JVM_OPC_if_icmpeq: case JVM_OPC_if_icmpne: case JVM_OPC_if_icmpgt:
-    case JVM_OPC_if_icmpge: case JVM_OPC_if_icmplt: case JVM_OPC_if_icmple:
-    case JVM_OPC_if_acmpeq: case JVM_OPC_if_acmpne:
+    cbse JVM_OPC_ifeq: cbse JVM_OPC_ifne: cbse JVM_OPC_ifgt:
+    cbse JVM_OPC_ifge: cbse JVM_OPC_iflt: cbse JVM_OPC_ifle:
+    cbse JVM_OPC_ifnull: cbse JVM_OPC_ifnonnull:
+    cbse JVM_OPC_if_icmpeq: cbse JVM_OPC_if_icmpne: cbse JVM_OPC_if_icmpgt:
+    cbse JVM_OPC_if_icmpge: cbse JVM_OPC_if_icmplt: cbse JVM_OPC_if_icmple:
+    cbse JVM_OPC_if_bcmpeq: cbse JVM_OPC_if_bcmpne:
         successors_count = 2;
         buffer[0] = inumber + 1;
-        buffer[1] = operand;
-        break;
+        buffer[1] = operbnd;
+        brebk;
 
-    case JVM_OPC_jsr: case JVM_OPC_jsr_w:
-        if (this_idata->operand2.i != UNKNOWN_RET_INSTRUCTION)
-            idata[this_idata->operand2.i].changed = JNI_TRUE;
+    cbse JVM_OPC_jsr: cbse JVM_OPC_jsr_w:
+        if (this_idbtb->operbnd2.i != UNKNOWN_RET_INSTRUCTION)
+            idbtb[this_idbtb->operbnd2.i].chbnged = JNI_TRUE;
         /* FALLTHROUGH */
-    case JVM_OPC_goto: case JVM_OPC_goto_w:
+    cbse JVM_OPC_goto: cbse JVM_OPC_goto_w:
         successors_count = 1;
-        buffer[0] = operand;
-        break;
+        buffer[0] = operbnd;
+        brebk;
 
 
-    case JVM_OPC_ireturn: case JVM_OPC_lreturn: case JVM_OPC_return:
-    case JVM_OPC_freturn: case JVM_OPC_dreturn: case JVM_OPC_areturn:
-    case JVM_OPC_athrow:
-        /* The testing for the returns is handled in pop_stack() */
+    cbse JVM_OPC_ireturn: cbse JVM_OPC_lreturn: cbse JVM_OPC_return:
+    cbse JVM_OPC_freturn: cbse JVM_OPC_dreturn: cbse JVM_OPC_breturn:
+    cbse JVM_OPC_bthrow:
+        /* The testing for the returns is hbndled in pop_stbck() */
         successors_count = 0;
-        break;
+        brebk;
 
-    case JVM_OPC_ret: {
-        /* This is slightly slow, but good enough for a seldom used instruction.
-         * The EXTRA_ITEM_INFO of the ITEM_ReturnAddress indicates the
-         * address of the first instruction of the subroutine.  We can return
-         * to 1 after any instruction that jsr's to that instruction.
+    cbse JVM_OPC_ret: {
+        /* This is slightly slow, but good enough for b seldom used instruction.
+         * The EXTRA_ITEM_INFO of the ITEM_ReturnAddress indicbtes the
+         * bddress of the first instruction of the subroutine.  We cbn return
+         * to 1 bfter bny instruction thbt jsr's to thbt instruction.
          */
-        if (this_idata->operand2.ip == NULL) {
-            fullinfo_type *registers = this_idata->register_info.registers;
-            int called_instruction = GET_EXTRA_INFO(registers[operand]);
+        if (this_idbtb->operbnd2.ip == NULL) {
+            fullinfo_type *registers = this_idbtb->register_info.registers;
+            int cblled_instruction = GET_EXTRA_INFO(registers[operbnd]);
             int i, count, *ptr;;
             for (i = context->instruction_count, count = 0; --i >= 0; ) {
-                if (((idata[i].opcode == JVM_OPC_jsr) ||
-                     (idata[i].opcode == JVM_OPC_jsr_w)) &&
-                    (idata[i].operand.i == called_instruction))
+                if (((idbtb[i].opcode == JVM_OPC_jsr) ||
+                     (idbtb[i].opcode == JVM_OPC_jsr_w)) &&
+                    (idbtb[i].operbnd.i == cblled_instruction))
                     count++;
             }
-            this_idata->operand2.ip = ptr = NEW(int, count + 1);
+            this_idbtb->operbnd2.ip = ptr = NEW(int, count + 1);
             *ptr++ = count;
             for (i = context->instruction_count, count = 0; --i >= 0; ) {
-                if (((idata[i].opcode == JVM_OPC_jsr) ||
-                     (idata[i].opcode == JVM_OPC_jsr_w)) &&
-                    (idata[i].operand.i == called_instruction))
+                if (((idbtb[i].opcode == JVM_OPC_jsr) ||
+                     (idbtb[i].opcode == JVM_OPC_jsr_w)) &&
+                    (idbtb[i].operbnd.i == cblled_instruction))
                     *ptr++ = i + 1;
             }
         }
-        successors = this_idata->operand2.ip; /* use this instead */
+        successors = this_idbtb->operbnd2.ip; /* use this instebd */
         successors_count = *successors++;
-        break;
+        brebk;
 
     }
 
-    case JVM_OPC_tableswitch:
-    case JVM_OPC_lookupswitch:
-        successors = this_idata->operand.ip; /* use this instead */
+    cbse JVM_OPC_tbbleswitch:
+    cbse JVM_OPC_lookupswitch:
+        successors = this_idbtb->operbnd.ip; /* use this instebd */
         successors_count = *successors++;
-        break;
+        brebk;
     }
 
 #ifdef DEBUG
     if (verify_verbose) {
         jio_fprintf(stdout, " [");
-        for (i = handler_info_length; --i >= 0; handler_info++)
-            if (handler_info->start <= (int)inumber && handler_info->end > (int)inumber)
-                jio_fprintf(stdout, "%d* ", handler_info->handler);
+        for (i = hbndler_info_length; --i >= 0; hbndler_info++)
+            if (hbndler_info->stbrt <= (int)inumber && hbndler_info->end > (int)inumber)
+                jio_fprintf(stdout, "%d* ", hbndler_info->hbndler);
         for (i = 0; i < successors_count; i++)
             jio_fprintf(stdout, "%d ", successors[i]);
         jio_fprintf(stdout,   "]\n");
     }
 #endif
 
-    handler_info = context->handler_info;
-    for (i = handler_info_length; --i >= 0; handler_info++) {
-        if (handler_info->start <= (int)inumber && handler_info->end > (int)inumber) {
-            int handler = handler_info->handler;
+    hbndler_info = context->hbndler_info;
+    for (i = hbndler_info_length; --i >= 0; hbndler_info++) {
+        if (hbndler_info->stbrt <= (int)inumber && hbndler_info->end > (int)inumber) {
+            int hbndler = hbndler_info->hbndler;
             if (opcode != JVM_OPC_invokeinit) {
-                merge_into_one_successor(context, inumber, handler,
-                                         &this_idata->register_info, /* old */
-                                         &handler_info->stack_info,
-                                         (flag_type) (and_flags
-                                                      & this_idata->and_flags),
-                                         (flag_type) (or_flags
-                                                      | this_idata->or_flags),
+                merge_into_one_successor(context, inumber, hbndler,
+                                         &this_idbtb->register_info, /* old */
+                                         &hbndler_info->stbck_info,
+                                         (flbg_type) (bnd_flbgs
+                                                      & this_idbtb->bnd_flbgs),
+                                         (flbg_type) (or_flbgs
+                                                      | this_idbtb->or_flbgs),
                                          JNI_TRUE);
             } else {
-                /* We need to be a little bit more careful with this
-                 * instruction.  Things could either be in the state before
-                 * the instruction or in the state afterwards */
-                fullinfo_type from = context->swap_table[0];
-                flag_type temp_or_flags = or_flags;
+                /* We need to be b little bit more cbreful with this
+                 * instruction.  Things could either be in the stbte before
+                 * the instruction or in the stbte bfterwbrds */
+                fullinfo_type from = context->swbp_tbble[0];
+                flbg_type temp_or_flbgs = or_flbgs;
                 if (from == MAKE_FULLINFO(ITEM_InitObject, 0, 0))
-                    temp_or_flags |= FLAG_NO_RETURN;
-                merge_into_one_successor(context, inumber, handler,
-                                         &this_idata->register_info, /* old */
-                                         &handler_info->stack_info,
-                                         this_idata->and_flags,
-                                         this_idata->or_flags,
+                    temp_or_flbgs |= FLAG_NO_RETURN;
+                merge_into_one_successor(context, inumber, hbndler,
+                                         &this_idbtb->register_info, /* old */
+                                         &hbndler_info->stbck_info,
+                                         this_idbtb->bnd_flbgs,
+                                         this_idbtb->or_flbgs,
                                          JNI_TRUE);
-                merge_into_one_successor(context, inumber, handler,
+                merge_into_one_successor(context, inumber, hbndler,
                                          register_info,
-                                         &handler_info->stack_info,
-                                         and_flags, temp_or_flags, JNI_TRUE);
+                                         &hbndler_info->stbck_info,
+                                         bnd_flbgs, temp_or_flbgs, JNI_TRUE);
             }
         }
     }
     for (i = 0; i < successors_count; i++) {
-        int target = successors[i];
-        if (target >= context->instruction_count)
-            CCerror(context, "Falling off the end of the code");
-        merge_into_one_successor(context, inumber, target,
-                                 register_info, stack_info, and_flags, or_flags,
+        int tbrget = successors[i];
+        if (tbrget >= context->instruction_count)
+            CCerror(context, "Fblling off the end of the code");
+        merge_into_one_successor(context, inumber, tbrget,
+                                 register_info, stbck_info, bnd_flbgs, or_flbgs,
                                  JNI_FALSE);
     }
 }
 
-/* We have a new set of registers and stack values for a given instruction.
- * Merge this new set into the values that are already there.
+/* We hbve b new set of registers bnd stbck vblues for b given instruction.
+ * Merge this new set into the vblues thbt bre blrebdy there.
  */
 
-static void
+stbtic void
 merge_into_one_successor(context_type *context,
                          unsigned int from_inumber, unsigned int to_inumber,
                          register_info_type *new_register_info,
-                         stack_info_type *new_stack_info,
-                         flag_type new_and_flags, flag_type new_or_flags,
-                         jboolean isException)
+                         stbck_info_type *new_stbck_info,
+                         flbg_type new_bnd_flbgs, flbg_type new_or_flbgs,
+                         jboolebn isException)
 {
-    instruction_data_type *idata = context->instruction_data;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
     register_info_type register_info_buf;
-    stack_info_type stack_info_buf;
+    stbck_info_type stbck_info_buf;
 #ifdef DEBUG
-    instruction_data_type *this_idata = &idata[to_inumber];
+    instruction_dbtb_type *this_idbtb = &idbtb[to_inumber];
     register_info_type old_reg_info;
-    stack_info_type old_stack_info;
-    flag_type old_and_flags = 0;
-    flag_type old_or_flags = 0;
+    stbck_info_type old_stbck_info;
+    flbg_type old_bnd_flbgs = 0;
+    flbg_type old_or_flbgs = 0;
 #endif
 
 #ifdef DEBUG
     if (verify_verbose) {
-        old_reg_info = this_idata->register_info;
-        old_stack_info = this_idata->stack_info;
-        old_and_flags = this_idata->and_flags;
-        old_or_flags = this_idata->or_flags;
+        old_reg_info = this_idbtb->register_info;
+        old_stbck_info = this_idbtb->stbck_info;
+        old_bnd_flbgs = this_idbtb->bnd_flbgs;
+        old_or_flbgs = this_idbtb->or_flbgs;
     }
 #endif
 
-    /* All uninitialized objects are set to "bogus" when jsr and
-     * ret are executed. Thus uninitialized objects can't propagate
-     * into or out of a subroutine.
+    /* All uninitiblized objects bre set to "bogus" when jsr bnd
+     * ret bre executed. Thus uninitiblized objects cbn't propbgbte
+     * into or out of b subroutine.
      */
-    if (idata[from_inumber].opcode == JVM_OPC_ret ||
-        idata[from_inumber].opcode == JVM_OPC_jsr ||
-        idata[from_inumber].opcode == JVM_OPC_jsr_w) {
+    if (idbtb[from_inumber].opcode == JVM_OPC_ret ||
+        idbtb[from_inumber].opcode == JVM_OPC_jsr ||
+        idbtb[from_inumber].opcode == JVM_OPC_jsr_w) {
         int new_register_count = new_register_info->register_count;
         fullinfo_type *new_registers = new_register_info->registers;
         int i;
-        stack_item_type *item;
+        stbck_item_type *item;
 
-        for (item = new_stack_info->stack; item != NULL; item = item->next) {
+        for (item = new_stbck_info->stbck; item != NULL; item = item->next) {
             if (GET_ITEM_TYPE(item->item) == ITEM_NewObject) {
-                /* This check only succeeds for hand-contrived code.
-                 * Efficiency is not an issue.
+                /* This check only succeeds for hbnd-contrived code.
+                 * Efficiency is not bn issue.
                  */
-                stack_info_buf.stack = copy_stack(context,
-                                                  new_stack_info->stack);
-                stack_info_buf.stack_size = new_stack_info->stack_size;
-                new_stack_info = &stack_info_buf;
-                for (item = new_stack_info->stack; item != NULL;
+                stbck_info_buf.stbck = copy_stbck(context,
+                                                  new_stbck_info->stbck);
+                stbck_info_buf.stbck_size = new_stbck_info->stbck_size;
+                new_stbck_info = &stbck_info_buf;
+                for (item = new_stbck_info->stbck; item != NULL;
                      item = item->next) {
                     if (GET_ITEM_TYPE(item->item) == ITEM_NewObject) {
                         item->item = MAKE_FULLINFO(ITEM_Bogus, 0, 0);
                     }
                 }
-                break;
+                brebk;
             }
         }
         for (i = 0; i < new_register_count; i++) {
             if (GET_ITEM_TYPE(new_registers[i]) == ITEM_NewObject) {
-                /* This check only succeeds for hand-contrived code.
-                 * Efficiency is not an issue.
+                /* This check only succeeds for hbnd-contrived code.
+                 * Efficiency is not bn issue.
                  */
                 fullinfo_type *new_set = NEW(fullinfo_type,
                                              new_register_count);
@@ -3128,98 +3128,98 @@ merge_into_one_successor(context_type *context,
                 }
                 register_info_buf.register_count = new_register_count;
                 register_info_buf.registers = new_set;
-                register_info_buf.mask_count = new_register_info->mask_count;
-                register_info_buf.masks = new_register_info->masks;
+                register_info_buf.mbsk_count = new_register_info->mbsk_count;
+                register_info_buf.mbsks = new_register_info->mbsks;
                 new_register_info = &register_info_buf;
-                break;
+                brebk;
             }
         }
     }
 
-    /* Returning from a subroutine is somewhat ugly.  The actual thing
-     * that needs to get merged into the new instruction is a joining
+    /* Returning from b subroutine is somewhbt ugly.  The bctubl thing
+     * thbt needs to get merged into the new instruction is b joining
      * of info from the ret instruction with stuff in the jsr instruction
      */
-    if (idata[from_inumber].opcode == JVM_OPC_ret && !isException) {
+    if (idbtb[from_inumber].opcode == JVM_OPC_ret && !isException) {
         int new_register_count = new_register_info->register_count;
         fullinfo_type *new_registers = new_register_info->registers;
-        int new_mask_count = new_register_info->mask_count;
-        mask_type *new_masks = new_register_info->masks;
-        int operand = idata[from_inumber].operand.i;
-        int called_instruction = GET_EXTRA_INFO(new_registers[operand]);
-        instruction_data_type *jsr_idata = &idata[to_inumber - 1];
-        register_info_type *jsr_reginfo = &jsr_idata->register_info;
-        if (jsr_idata->operand2.i != (int)from_inumber) {
-            if (jsr_idata->operand2.i != UNKNOWN_RET_INSTRUCTION)
+        int new_mbsk_count = new_register_info->mbsk_count;
+        mbsk_type *new_mbsks = new_register_info->mbsks;
+        int operbnd = idbtb[from_inumber].operbnd.i;
+        int cblled_instruction = GET_EXTRA_INFO(new_registers[operbnd]);
+        instruction_dbtb_type *jsr_idbtb = &idbtb[to_inumber - 1];
+        register_info_type *jsr_reginfo = &jsr_idbtb->register_info;
+        if (jsr_idbtb->operbnd2.i != (int)from_inumber) {
+            if (jsr_idbtb->operbnd2.i != UNKNOWN_RET_INSTRUCTION)
                 CCerror(context, "Multiple returns to single jsr");
-            jsr_idata->operand2.i = from_inumber;
+            jsr_idbtb->operbnd2.i = from_inumber;
         }
         if (jsr_reginfo->register_count == UNKNOWN_REGISTER_COUNT) {
-            /* We don't want to handle the returned-to instruction until
-             * we've dealt with the jsr instruction.   When we get to the
-             * jsr instruction (if ever), we'll re-mark the ret instruction
+            /* We don't wbnt to hbndle the returned-to instruction until
+             * we've deblt with the jsr instruction.   When we get to the
+             * jsr instruction (if ever), we'll re-mbrk the ret instruction
              */
             ;
         } else {
             int register_count = jsr_reginfo->register_count;
             fullinfo_type *registers = jsr_reginfo->registers;
-            int max_registers = MAX(register_count, new_register_count);
-            fullinfo_type *new_set = NEW(fullinfo_type, max_registers);
-            int *return_mask;
+            int mbx_registers = MAX(register_count, new_register_count);
+            fullinfo_type *new_set = NEW(fullinfo_type, mbx_registers);
+            int *return_mbsk;
             struct register_info_type new_new_register_info;
             int i;
-            /* Make sure the place we're returning from is legal! */
-            for (i = new_mask_count; --i >= 0; )
-                if (new_masks[i].entry == called_instruction)
-                    break;
+            /* Mbke sure the plbce we're returning from is legbl! */
+            for (i = new_mbsk_count; --i >= 0; )
+                if (new_mbsks[i].entry == cblled_instruction)
+                    brebk;
             if (i < 0)
-                CCerror(context, "Illegal return from subroutine");
-            /* pop the masks down to the indicated one.  Remember the mask
+                CCerror(context, "Illegbl return from subroutine");
+            /* pop the mbsks down to the indicbted one.  Remember the mbsk
              * we're popping off. */
-            return_mask = new_masks[i].modifies;
-            new_mask_count = i;
-            for (i = 0; i < max_registers; i++) {
-                if (IS_BIT_SET(return_mask, i))
+            return_mbsk = new_mbsks[i].modifies;
+            new_mbsk_count = i;
+            for (i = 0; i < mbx_registers; i++) {
+                if (IS_BIT_SET(return_mbsk, i))
                     new_set[i] = i < new_register_count ?
                           new_registers[i] : MAKE_FULLINFO(ITEM_Bogus, 0, 0);
                 else
                     new_set[i] = i < register_count ?
                         registers[i] : MAKE_FULLINFO(ITEM_Bogus, 0, 0);
             }
-            new_new_register_info.register_count = max_registers;
+            new_new_register_info.register_count = mbx_registers;
             new_new_register_info.registers      = new_set;
-            new_new_register_info.mask_count     = new_mask_count;
-            new_new_register_info.masks          = new_masks;
+            new_new_register_info.mbsk_count     = new_mbsk_count;
+            new_new_register_info.mbsks          = new_mbsks;
 
 
-            merge_stack(context, from_inumber, to_inumber, new_stack_info);
+            merge_stbck(context, from_inumber, to_inumber, new_stbck_info);
             merge_registers(context, to_inumber - 1, to_inumber,
                             &new_new_register_info);
-            merge_flags(context, from_inumber, to_inumber, new_and_flags, new_or_flags);
+            merge_flbgs(context, from_inumber, to_inumber, new_bnd_flbgs, new_or_flbgs);
         }
     } else {
-        merge_stack(context, from_inumber, to_inumber, new_stack_info);
+        merge_stbck(context, from_inumber, to_inumber, new_stbck_info);
         merge_registers(context, from_inumber, to_inumber, new_register_info);
-        merge_flags(context, from_inumber, to_inumber,
-                    new_and_flags, new_or_flags);
+        merge_flbgs(context, from_inumber, to_inumber,
+                    new_bnd_flbgs, new_or_flbgs);
     }
 
 #ifdef DEBUG
-    if (verify_verbose && idata[to_inumber].changed) {
-        register_info_type *register_info = &this_idata->register_info;
-        stack_info_type *stack_info = &this_idata->stack_info;
+    if (verify_verbose && idbtb[to_inumber].chbnged) {
+        register_info_type *register_info = &this_idbtb->register_info;
+        stbck_info_type *stbck_info = &this_idbtb->stbck_info;
         if (memcmp(&old_reg_info, register_info, sizeof(old_reg_info)) ||
-            memcmp(&old_stack_info, stack_info, sizeof(old_stack_info)) ||
-            (old_and_flags != this_idata->and_flags) ||
-            (old_or_flags != this_idata->or_flags)) {
+            memcmp(&old_stbck_info, stbck_info, sizeof(old_stbck_info)) ||
+            (old_bnd_flbgs != this_idbtb->bnd_flbgs) ||
+            (old_or_flbgs != this_idbtb->or_flbgs)) {
             jio_fprintf(stdout, "   %2d:", to_inumber);
-            print_stack(context, &old_stack_info);
+            print_stbck(context, &old_stbck_info);
             print_registers(context, &old_reg_info);
-            print_flags(context, old_and_flags, old_or_flags);
+            print_flbgs(context, old_bnd_flbgs, old_or_flbgs);
             jio_fprintf(stdout, " => ");
-            print_stack(context, &this_idata->stack_info);
-            print_registers(context, &this_idata->register_info);
-            print_flags(context, this_idata->and_flags, this_idata->or_flags);
+            print_stbck(context, &this_idbtb->stbck_info);
+            print_registers(context, &this_idbtb->register_info);
+            print_flbgs(context, this_idbtb->bnd_flbgs, this_idbtb->or_flbgs);
             jio_fprintf(stdout, "\n");
         }
     }
@@ -3227,106 +3227,106 @@ merge_into_one_successor(context_type *context,
 
 }
 
-static void
-merge_stack(context_type *context, unsigned int from_inumber,
-            unsigned int to_inumber, stack_info_type *new_stack_info)
+stbtic void
+merge_stbck(context_type *context, unsigned int from_inumber,
+            unsigned int to_inumber, stbck_info_type *new_stbck_info)
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[to_inumber];
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[to_inumber];
 
-    int new_stack_size =  new_stack_info->stack_size;
-    stack_item_type *new_stack = new_stack_info->stack;
+    int new_stbck_size =  new_stbck_info->stbck_size;
+    stbck_item_type *new_stbck = new_stbck_info->stbck;
 
-    int stack_size = this_idata->stack_info.stack_size;
+    int stbck_size = this_idbtb->stbck_info.stbck_size;
 
-    if (stack_size == UNKNOWN_STACK_SIZE) {
-        /* First time at this instruction.  Just copy. */
-        this_idata->stack_info.stack_size = new_stack_size;
-        this_idata->stack_info.stack = new_stack;
-        this_idata->changed = JNI_TRUE;
-    } else if (new_stack_size != stack_size) {
-        CCerror(context, "Inconsistent stack height %d != %d",
-                new_stack_size, stack_size);
+    if (stbck_size == UNKNOWN_STACK_SIZE) {
+        /* First time bt this instruction.  Just copy. */
+        this_idbtb->stbck_info.stbck_size = new_stbck_size;
+        this_idbtb->stbck_info.stbck = new_stbck;
+        this_idbtb->chbnged = JNI_TRUE;
+    } else if (new_stbck_size != stbck_size) {
+        CCerror(context, "Inconsistent stbck height %d != %d",
+                new_stbck_size, stbck_size);
     } else {
-        stack_item_type *stack = this_idata->stack_info.stack;
-        stack_item_type *old, *new;
-        jboolean change = JNI_FALSE;
-        for (old = stack, new = new_stack; old != NULL;
+        stbck_item_type *stbck = this_idbtb->stbck_info.stbck;
+        stbck_item_type *old, *new;
+        jboolebn chbnge = JNI_FALSE;
+        for (old = stbck, new = new_stbck; old != NULL;
                    old = old->next, new = new->next) {
-            if (!isAssignableTo(context, new->item, old->item)) {
-                change = JNI_TRUE;
-                break;
+            if (!isAssignbbleTo(context, new->item, old->item)) {
+                chbnge = JNI_TRUE;
+                brebk;
             }
         }
-        if (change) {
-            stack = copy_stack(context, stack);
-            for (old = stack, new = new_stack; old != NULL;
+        if (chbnge) {
+            stbck = copy_stbck(context, stbck);
+            for (old = stbck, new = new_stbck; old != NULL;
                           old = old->next, new = new->next) {
                 if (new == NULL) {
-                    break;
+                    brebk;
                 }
                 old->item = merge_fullinfo_types(context, old->item, new->item,
                                                  JNI_FALSE);
                 if (GET_ITEM_TYPE(old->item) == ITEM_Bogus) {
-                        CCerror(context, "Mismatched stack types");
+                        CCerror(context, "Mismbtched stbck types");
                 }
             }
             if (old != NULL || new != NULL) {
-                CCerror(context, "Mismatched stack types");
+                CCerror(context, "Mismbtched stbck types");
             }
-            this_idata->stack_info.stack = stack;
-            this_idata->changed = JNI_TRUE;
+            this_idbtb->stbck_info.stbck = stbck;
+            this_idbtb->chbnged = JNI_TRUE;
         }
     }
 }
 
-static void
+stbtic void
 merge_registers(context_type *context, unsigned int from_inumber,
                 unsigned int to_inumber, register_info_type *new_register_info)
 {
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[to_inumber];
-    register_info_type    *this_reginfo = &this_idata->register_info;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[to_inumber];
+    register_info_type    *this_reginfo = &this_idbtb->register_info;
 
     int            new_register_count = new_register_info->register_count;
     fullinfo_type *new_registers = new_register_info->registers;
-    int            new_mask_count = new_register_info->mask_count;
-    mask_type     *new_masks = new_register_info->masks;
+    int            new_mbsk_count = new_register_info->mbsk_count;
+    mbsk_type     *new_mbsks = new_register_info->mbsks;
 
 
     if (this_reginfo->register_count == UNKNOWN_REGISTER_COUNT) {
         this_reginfo->register_count = new_register_count;
         this_reginfo->registers = new_registers;
-        this_reginfo->mask_count = new_mask_count;
-        this_reginfo->masks = new_masks;
-        this_idata->changed = JNI_TRUE;
+        this_reginfo->mbsk_count = new_mbsk_count;
+        this_reginfo->mbsks = new_mbsks;
+        this_idbtb->chbnged = JNI_TRUE;
     } else {
-        /* See if we've got new information on the register set. */
+        /* See if we've got new informbtion on the register set. */
         int register_count = this_reginfo->register_count;
         fullinfo_type *registers = this_reginfo->registers;
-        int mask_count = this_reginfo->mask_count;
-        mask_type *masks = this_reginfo->masks;
+        int mbsk_count = this_reginfo->mbsk_count;
+        mbsk_type *mbsks = this_reginfo->mbsks;
 
-        jboolean copy = JNI_FALSE;
+        jboolebn copy = JNI_FALSE;
         int i, j;
         if (register_count > new_register_count) {
-            /* Any register larger than new_register_count is now bogus */
+            /* Any register lbrger thbn new_register_count is now bogus */
             this_reginfo->register_count = new_register_count;
             register_count = new_register_count;
-            this_idata->changed = JNI_TRUE;
+            this_idbtb->chbnged = JNI_TRUE;
         }
         for (i = 0; i < register_count; i++) {
-            fullinfo_type prev_value = registers[i];
+            fullinfo_type prev_vblue = registers[i];
             if ((i < new_register_count)
-                  ? (!isAssignableTo(context, new_registers[i], prev_value))
-                  : (prev_value != MAKE_FULLINFO(ITEM_Bogus, 0, 0))) {
+                  ? (!isAssignbbleTo(context, new_registers[i], prev_vblue))
+                  : (prev_vblue != MAKE_FULLINFO(ITEM_Bogus, 0, 0))) {
                 copy = JNI_TRUE;
-                break;
+                brebk;
             }
         }
 
         if (copy) {
-            /* We need a copy.  So do it. */
+            /* We need b copy.  So do it. */
             fullinfo_type *new_set = NEW(fullinfo_type, register_count);
             for (j = 0; j < i; j++)
                 new_set[j] =  registers[j];
@@ -3339,71 +3339,71 @@ merge_registers(context_type *context, unsigned int from_inumber,
                                                       registers[j], JNI_FALSE);
             }
             /* Some of the end items might now be bogus. This step isn't
-             * necessary, but it may save work later. */
+             * necessbry, but it mby sbve work lbter. */
             while (   register_count > 0
                    && GET_ITEM_TYPE(new_set[register_count-1]) == ITEM_Bogus)
                 register_count--;
             this_reginfo->register_count = register_count;
             this_reginfo->registers = new_set;
-            this_idata->changed = JNI_TRUE;
+            this_idbtb->chbnged = JNI_TRUE;
         }
-        if (mask_count > 0) {
-            /* If the target instruction already has a sequence of masks, then
-             * we need to merge new_masks into it.  We want the entries on
-             * the mask to be the longest common substring of the two.
-             *   (e.g.   a->b->d merged with a->c->d should give a->d)
-             * The bits set in the mask should be the or of the corresponding
-             * entries in each of the original masks.
+        if (mbsk_count > 0) {
+            /* If the tbrget instruction blrebdy hbs b sequence of mbsks, then
+             * we need to merge new_mbsks into it.  We wbnt the entries on
+             * the mbsk to be the longest common substring of the two.
+             *   (e.g.   b->b->d merged with b->c->d should give b->d)
+             * The bits set in the mbsk should be the or of the corresponding
+             * entries in ebch of the originbl mbsks.
              */
             int i, j, k;
-            int matches = 0;
-            int last_match = -1;
-            jboolean copy_needed = JNI_FALSE;
-            for (i = 0; i < mask_count; i++) {
-                int entry = masks[i].entry;
-                for (j = last_match + 1; j < new_mask_count; j++) {
-                    if (new_masks[j].entry == entry) {
-                        /* We have a match */
-                        int *prev = masks[i].modifies;
-                        int *new = new_masks[j].modifies;
-                        matches++;
-                        /* See if new_mask has bits set for "entry" that
-                         * weren't set for mask.  If so, need to copy. */
-                        for (k = context->bitmask_size - 1;
+            int mbtches = 0;
+            int lbst_mbtch = -1;
+            jboolebn copy_needed = JNI_FALSE;
+            for (i = 0; i < mbsk_count; i++) {
+                int entry = mbsks[i].entry;
+                for (j = lbst_mbtch + 1; j < new_mbsk_count; j++) {
+                    if (new_mbsks[j].entry == entry) {
+                        /* We hbve b mbtch */
+                        int *prev = mbsks[i].modifies;
+                        int *new = new_mbsks[j].modifies;
+                        mbtches++;
+                        /* See if new_mbsk hbs bits set for "entry" thbt
+                         * weren't set for mbsk.  If so, need to copy. */
+                        for (k = context->bitmbsk_size - 1;
                                !copy_needed && k >= 0;
                                k--)
                             if (~prev[k] & new[k])
                                 copy_needed = JNI_TRUE;
-                        last_match = j;
-                        break;
+                        lbst_mbtch = j;
+                        brebk;
                     }
                 }
             }
-            if ((matches < mask_count) || copy_needed) {
-                /* We need to make a copy for the new item, since either the
-                 * size has decreased, or new bits are set. */
-                mask_type *copy = NEW(mask_type, matches);
-                for (i = 0; i < matches; i++) {
-                    copy[i].modifies = NEW(int, context->bitmask_size);
+            if ((mbtches < mbsk_count) || copy_needed) {
+                /* We need to mbke b copy for the new item, since either the
+                 * size hbs decrebsed, or new bits bre set. */
+                mbsk_type *copy = NEW(mbsk_type, mbtches);
+                for (i = 0; i < mbtches; i++) {
+                    copy[i].modifies = NEW(int, context->bitmbsk_size);
                 }
-                this_reginfo->masks = copy;
-                this_reginfo->mask_count = matches;
-                this_idata->changed = JNI_TRUE;
-                matches = 0;
-                last_match = -1;
-                for (i = 0; i < mask_count; i++) {
-                    int entry = masks[i].entry;
-                    for (j = last_match + 1; j < new_mask_count; j++) {
-                        if (new_masks[j].entry == entry) {
-                            int *prev1 = masks[i].modifies;
-                            int *prev2 = new_masks[j].modifies;
-                            int *new = copy[matches].modifies;
-                            copy[matches].entry = entry;
-                            for (k = context->bitmask_size - 1; k >= 0; k--)
+                this_reginfo->mbsks = copy;
+                this_reginfo->mbsk_count = mbtches;
+                this_idbtb->chbnged = JNI_TRUE;
+                mbtches = 0;
+                lbst_mbtch = -1;
+                for (i = 0; i < mbsk_count; i++) {
+                    int entry = mbsks[i].entry;
+                    for (j = lbst_mbtch + 1; j < new_mbsk_count; j++) {
+                        if (new_mbsks[j].entry == entry) {
+                            int *prev1 = mbsks[i].modifies;
+                            int *prev2 = new_mbsks[j].modifies;
+                            int *new = copy[mbtches].modifies;
+                            copy[mbtches].entry = entry;
+                            for (k = context->bitmbsk_size - 1; k >= 0; k--)
                                 new[k] = prev1[k] | prev2[k];
-                            matches++;
-                            last_match = j;
-                            break;
+                            mbtches++;
+                            lbst_mbtch = j;
+                            brebk;
                         }
                     }
                 }
@@ -3413,112 +3413,112 @@ merge_registers(context_type *context, unsigned int from_inumber,
 }
 
 
-static void
-merge_flags(context_type *context, unsigned int from_inumber,
+stbtic void
+merge_flbgs(context_type *context, unsigned int from_inumber,
             unsigned int to_inumber,
-            flag_type new_and_flags, flag_type new_or_flags)
+            flbg_type new_bnd_flbgs, flbg_type new_or_flbgs)
 {
-    /* Set this_idata->and_flags &= new_and_flags
-           this_idata->or_flags |= new_or_flags
+    /* Set this_idbtb->bnd_flbgs &= new_bnd_flbgs
+           this_idbtb->or_flbgs |= new_or_flbgs
      */
-    instruction_data_type *idata = context->instruction_data;
-    instruction_data_type *this_idata = &idata[to_inumber];
-    flag_type this_and_flags = this_idata->and_flags;
-    flag_type this_or_flags = this_idata->or_flags;
-    flag_type merged_and = this_and_flags & new_and_flags;
-    flag_type merged_or = this_or_flags | new_or_flags;
+    instruction_dbtb_type *idbtb = context->instruction_dbtb;
+    instruction_dbtb_type *this_idbtb = &idbtb[to_inumber];
+    flbg_type this_bnd_flbgs = this_idbtb->bnd_flbgs;
+    flbg_type this_or_flbgs = this_idbtb->or_flbgs;
+    flbg_type merged_bnd = this_bnd_flbgs & new_bnd_flbgs;
+    flbg_type merged_or = this_or_flbgs | new_or_flbgs;
 
-    if ((merged_and != this_and_flags) || (merged_or != this_or_flags)) {
-        this_idata->and_flags = merged_and;
-        this_idata->or_flags = merged_or;
-        this_idata->changed = JNI_TRUE;
+    if ((merged_bnd != this_bnd_flbgs) || (merged_or != this_or_flbgs)) {
+        this_idbtb->bnd_flbgs = merged_bnd;
+        this_idbtb->or_flbgs = merged_or;
+        this_idbtb->chbnged = JNI_TRUE;
     }
 }
 
 
-/* Make a copy of a stack */
+/* Mbke b copy of b stbck */
 
-static stack_item_type *
-copy_stack(context_type *context, stack_item_type *stack)
+stbtic stbck_item_type *
+copy_stbck(context_type *context, stbck_item_type *stbck)
 {
     int length;
-    stack_item_type *ptr;
+    stbck_item_type *ptr;
 
     /* Find the length */
-    for (ptr = stack, length = 0; ptr != NULL; ptr = ptr->next, length++);
+    for (ptr = stbck, length = 0; ptr != NULL; ptr = ptr->next, length++);
 
     if (length > 0) {
-        stack_item_type *new_stack = NEW(stack_item_type, length);
-        stack_item_type *new_ptr;
-        for (    ptr = stack, new_ptr = new_stack;
+        stbck_item_type *new_stbck = NEW(stbck_item_type, length);
+        stbck_item_type *new_ptr;
+        for (    ptr = stbck, new_ptr = new_stbck;
                  ptr != NULL;
                  ptr = ptr->next, new_ptr++) {
             new_ptr->item = ptr->item;
             new_ptr->next = new_ptr + 1;
         }
-        new_stack[length - 1].next = NULL;
-        return new_stack;
+        new_stbck[length - 1].next = NULL;
+        return new_stbck;
     } else {
         return NULL;
     }
 }
 
 
-static mask_type *
-copy_masks(context_type *context, mask_type *masks, int mask_count)
+stbtic mbsk_type *
+copy_mbsks(context_type *context, mbsk_type *mbsks, int mbsk_count)
 {
-    mask_type *result = NEW(mask_type, mask_count);
-    int bitmask_size = context->bitmask_size;
-    int *bitmaps = NEW(int, mask_count * bitmask_size);
+    mbsk_type *result = NEW(mbsk_type, mbsk_count);
+    int bitmbsk_size = context->bitmbsk_size;
+    int *bitmbps = NEW(int, mbsk_count * bitmbsk_size);
     int i;
-    for (i = 0; i < mask_count; i++) {
-        result[i].entry = masks[i].entry;
-        result[i].modifies = &bitmaps[i * bitmask_size];
-        memcpy(result[i].modifies, masks[i].modifies, bitmask_size * sizeof(int));
+    for (i = 0; i < mbsk_count; i++) {
+        result[i].entry = mbsks[i].entry;
+        result[i].modifies = &bitmbps[i * bitmbsk_size];
+        memcpy(result[i].modifies, mbsks[i].modifies, bitmbsk_size * sizeof(int));
     }
     return result;
 }
 
 
-static mask_type *
-add_to_masks(context_type *context, mask_type *masks, int mask_count, int d)
+stbtic mbsk_type *
+bdd_to_mbsks(context_type *context, mbsk_type *mbsks, int mbsk_count, int d)
 {
-    mask_type *result = NEW(mask_type, mask_count + 1);
-    int bitmask_size = context->bitmask_size;
-    int *bitmaps = NEW(int, (mask_count + 1) * bitmask_size);
+    mbsk_type *result = NEW(mbsk_type, mbsk_count + 1);
+    int bitmbsk_size = context->bitmbsk_size;
+    int *bitmbps = NEW(int, (mbsk_count + 1) * bitmbsk_size);
     int i;
-    for (i = 0; i < mask_count; i++) {
-        result[i].entry = masks[i].entry;
-        result[i].modifies = &bitmaps[i * bitmask_size];
-        memcpy(result[i].modifies, masks[i].modifies, bitmask_size * sizeof(int));
+    for (i = 0; i < mbsk_count; i++) {
+        result[i].entry = mbsks[i].entry;
+        result[i].modifies = &bitmbps[i * bitmbsk_size];
+        memcpy(result[i].modifies, mbsks[i].modifies, bitmbsk_size * sizeof(int));
     }
-    result[mask_count].entry = d;
-    result[mask_count].modifies = &bitmaps[mask_count * bitmask_size];
-    memset(result[mask_count].modifies, 0, bitmask_size * sizeof(int));
+    result[mbsk_count].entry = d;
+    result[mbsk_count].modifies = &bitmbps[mbsk_count * bitmbsk_size];
+    memset(result[mbsk_count].modifies, 0, bitmbsk_size * sizeof(int));
     return result;
 }
 
 
 
-/* We create our own storage manager, since we malloc lots of little items,
- * and I don't want to keep trace of when they become free.  I sure wish that
- * we had heaps, and I could just free the heap when done.
+/* We crebte our own storbge mbnbger, since we mblloc lots of little items,
+ * bnd I don't wbnt to keep trbce of when they become free.  I sure wish thbt
+ * we hbd hebps, bnd I could just free the hebp when done.
  */
 
 #define CCSegSize 2000
 
-struct CCpool {                 /* a segment of allocated memory in the pool */
+struct CCpool {                 /* b segment of bllocbted memory in the pool */
     struct CCpool *next;
-    int segSize;                /* almost always CCSegSize */
-    int poolPad;
-    char space[CCSegSize];
+    int segSize;                /* blmost blwbys CCSegSize */
+    int poolPbd;
+    chbr spbce[CCSegSize];
 };
 
-/* Initialize the context's heap. */
-static void CCinit(context_type *context)
+/* Initiblize the context's hebp. */
+stbtic void CCinit(context_type *context)
 {
-    struct CCpool *new = (struct CCpool *) malloc(sizeof(struct CCpool));
-    /* Set context->CCroot to 0 if new == 0 to tell CCdestroy to lay off */
+    struct CCpool *new = (struct CCpool *) mblloc(sizeof(struct CCpool));
+    /* Set context->CCroot to 0 if new == 0 to tell CCdestroy to lby off */
     context->CCroot = context->CCcurrent = new;
     if (new == 0) {
         CCout_of_memory(context);
@@ -3526,21 +3526,21 @@ static void CCinit(context_type *context)
     new->next = NULL;
     new->segSize = CCSegSize;
     context->CCfree_size = CCSegSize;
-    context->CCfree_ptr = &new->space[0];
+    context->CCfree_ptr = &new->spbce[0];
 }
 
 
-/* Reuse all the space that we have in the context's heap. */
-static void CCreinit(context_type *context)
+/* Reuse bll the spbce thbt we hbve in the context's hebp. */
+stbtic void CCreinit(context_type *context)
 {
     struct CCpool *first = context->CCroot;
     context->CCcurrent = first;
     context->CCfree_size = CCSegSize;
-    context->CCfree_ptr = &first->space[0];
+    context->CCfree_ptr = &first->spbce[0];
 }
 
-/* Destroy the context's heap. */
-static void CCdestroy(context_type *context)
+/* Destroy the context's hebp. */
+stbtic void CCdestroy(context_type *context)
 {
     struct CCpool *this = context->CCroot;
     while (this) {
@@ -3548,25 +3548,25 @@ static void CCdestroy(context_type *context)
         free(this);
         this = next;
     }
-    /* These two aren't necessary.  But can't hurt either */
+    /* These two bren't necessbry.  But cbn't hurt either */
     context->CCroot = context->CCcurrent = NULL;
     context->CCfree_ptr = 0;
 }
 
-/* Allocate an object of the given size from the context's heap. */
-static void *
-CCalloc(context_type *context, int size, jboolean zero)
+/* Allocbte bn object of the given size from the context's hebp. */
+stbtic void *
+CCblloc(context_type *context, int size, jboolebn zero)
 {
 
-    register char *p;
-    /* Round CC to the size of a pointer */
+    register chbr *p;
+    /* Round CC to the size of b pointer */
     size = (size + (sizeof(void *) - 1)) & ~(sizeof(void *) - 1);
 
     if (context->CCfree_size <  size) {
         struct CCpool *current = context->CCcurrent;
         struct CCpool *new;
-        if (size > CCSegSize) { /* we need to allocate a special block */
-            new = (struct CCpool *)malloc(sizeof(struct CCpool) +
+        if (size > CCSegSize) { /* we need to bllocbte b specibl block */
+            new = (struct CCpool *)mblloc(sizeof(struct CCpool) +
                                           (size - CCSegSize));
             if (new == 0) {
                 CCout_of_memory(context);
@@ -3577,7 +3577,7 @@ CCalloc(context_type *context, int size, jboolean zero)
         } else {
             new = current->next;
             if (new == NULL) {
-                new = (struct CCpool *) malloc(sizeof(struct CCpool));
+                new = (struct CCpool *) mblloc(sizeof(struct CCpool));
                 if (new == 0) {
                     CCout_of_memory(context);
                 }
@@ -3587,7 +3587,7 @@ CCalloc(context_type *context, int size, jboolean zero)
             }
         }
         context->CCcurrent = new;
-        context->CCfree_ptr = &new->space[0];
+        context->CCfree_ptr = &new->spbce[0];
         context->CCfree_size = new->segSize;
     }
     p = context->CCfree_ptr;
@@ -3598,99 +3598,99 @@ CCalloc(context_type *context, int size, jboolean zero)
     return p;
 }
 
-/* Get the class associated with a particular field or method or class in the
- * constant pool.  If is_field is true, we've got a field or method.  If
- * false, we've got a class.
+/* Get the clbss bssocibted with b pbrticulbr field or method or clbss in the
+ * constbnt pool.  If is_field is true, we've got b field or method.  If
+ * fblse, we've got b clbss.
  */
-static fullinfo_type
-cp_index_to_class_fullinfo(context_type *context, int cp_index, int kind)
+stbtic fullinfo_type
+cp_index_to_clbss_fullinfo(context_type *context, int cp_index, int kind)
 {
     JNIEnv *env = context->env;
     fullinfo_type result;
-    const char *classname;
+    const chbr *clbssnbme;
     switch (kind) {
-    case JVM_CONSTANT_Class:
-        classname = JVM_GetCPClassNameUTF(env,
-                                          context->class,
+    cbse JVM_CONSTANT_Clbss:
+        clbssnbme = JVM_GetCPClbssNbmeUTF(env,
+                                          context->clbss,
                                           cp_index);
-        break;
-    case JVM_CONSTANT_Methodref:
-        classname = JVM_GetCPMethodClassNameUTF(env,
-                                                context->class,
+        brebk;
+    cbse JVM_CONSTANT_Methodref:
+        clbssnbme = JVM_GetCPMethodClbssNbmeUTF(env,
+                                                context->clbss,
                                                 cp_index);
-        break;
-    case JVM_CONSTANT_Fieldref:
-        classname = JVM_GetCPFieldClassNameUTF(env,
-                                               context->class,
+        brebk;
+    cbse JVM_CONSTANT_Fieldref:
+        clbssnbme = JVM_GetCPFieldClbssNbmeUTF(env,
+                                               context->clbss,
                                                cp_index);
-        break;
-    default:
-        classname = NULL;
-        CCerror(context, "Internal error #5");
+        brebk;
+    defbult:
+        clbssnbme = NULL;
+        CCerror(context, "Internbl error #5");
     }
 
-    check_and_push(context, classname, VM_STRING_UTF);
-    if (classname[0] == JVM_SIGNATURE_ARRAY) {
-        /* This make recursively call us, in case of a class array */
-        signature_to_fieldtype(context, &classname, &result);
+    check_bnd_push(context, clbssnbme, VM_STRING_UTF);
+    if (clbssnbme[0] == JVM_SIGNATURE_ARRAY) {
+        /* This mbke recursively cbll us, in cbse of b clbss brrby */
+        signbture_to_fieldtype(context, &clbssnbme, &result);
     } else {
-        result = make_class_info_from_name(context, classname);
+        result = mbke_clbss_info_from_nbme(context, clbssnbme);
     }
-    pop_and_free(context);
+    pop_bnd_free(context);
     return result;
 }
 
 
-static int
+stbtic int
 print_CCerror_info(context_type *context)
 {
     JNIEnv *env = context->env;
-    jclass cb = context->class;
-    const char *classname = JVM_GetClassNameUTF(env, cb);
-    const char *name = 0;
-    const char *signature = 0;
+    jclbss cb = context->clbss;
+    const chbr *clbssnbme = JVM_GetClbssNbmeUTF(env, cb);
+    const chbr *nbme = 0;
+    const chbr *signbture = 0;
     int n = 0;
     if (context->method_index != -1) {
-        name = JVM_GetMethodIxNameUTF(env, cb, context->method_index);
-        signature =
-            JVM_GetMethodIxSignatureUTF(env, cb, context->method_index);
-        n += jio_snprintf(context->message, context->message_buf_len,
-                          "(class: %s, method: %s signature: %s) ",
-                          (classname ? classname : ""),
-                          (name ? name : ""),
-                          (signature ? signature : ""));
+        nbme = JVM_GetMethodIxNbmeUTF(env, cb, context->method_index);
+        signbture =
+            JVM_GetMethodIxSignbtureUTF(env, cb, context->method_index);
+        n += jio_snprintf(context->messbge, context->messbge_buf_len,
+                          "(clbss: %s, method: %s signbture: %s) ",
+                          (clbssnbme ? clbssnbme : ""),
+                          (nbme ? nbme : ""),
+                          (signbture ? signbture : ""));
     } else if (context->field_index != -1 ) {
-        name = JVM_GetMethodIxNameUTF(env, cb, context->field_index);
-        n += jio_snprintf(context->message, context->message_buf_len,
-                          "(class: %s, field: %s) ",
-                          (classname ? classname : 0),
-                          (name ? name : 0));
+        nbme = JVM_GetMethodIxNbmeUTF(env, cb, context->field_index);
+        n += jio_snprintf(context->messbge, context->messbge_buf_len,
+                          "(clbss: %s, field: %s) ",
+                          (clbssnbme ? clbssnbme : 0),
+                          (nbme ? nbme : 0));
     } else {
-        n += jio_snprintf(context->message, context->message_buf_len,
-                          "(class: %s) ", classname ? classname : "");
+        n += jio_snprintf(context->messbge, context->messbge_buf_len,
+                          "(clbss: %s) ", clbssnbme ? clbssnbme : "");
     }
-    JVM_ReleaseUTF(classname);
-    JVM_ReleaseUTF(name);
-    JVM_ReleaseUTF(signature);
+    JVM_RelebseUTF(clbssnbme);
+    JVM_RelebseUTF(nbme);
+    JVM_RelebseUTF(signbture);
     return n;
 }
 
-static void
-CCerror (context_type *context, char *format, ...)
+stbtic void
+CCerror (context_type *context, chbr *formbt, ...)
 {
     int n = print_CCerror_info(context);
-    va_list args;
-    if (n >= 0 && n < context->message_buf_len) {
-        va_start(args, format);
-        jio_vsnprintf(context->message + n, context->message_buf_len - n,
-                      format, args);
-        va_end(args);
+    vb_list brgs;
+    if (n >= 0 && n < context->messbge_buf_len) {
+        vb_stbrt(brgs, formbt);
+        jio_vsnprintf(context->messbge + n, context->messbge_buf_len - n,
+                      formbt, brgs);
+        vb_end(brgs);
     }
     context->err_code = CC_VerifyError;
     longjmp(context->jump_buffer, 1);
 }
 
-static void
+stbtic void
 CCout_of_memory(context_type *context)
 {
     int n = print_CCerror_info(context);
@@ -3698,511 +3698,511 @@ CCout_of_memory(context_type *context)
     longjmp(context->jump_buffer, 1);
 }
 
-static void
-CFerror(context_type *context, char *format, ...)
+stbtic void
+CFerror(context_type *context, chbr *formbt, ...)
 {
     int n = print_CCerror_info(context);
-    va_list args;
-    if (n >= 0 && n < context->message_buf_len) {
-        va_start(args, format);
-        jio_vsnprintf(context->message + n, context->message_buf_len - n,
-                      format, args);
-        va_end(args);
+    vb_list brgs;
+    if (n >= 0 && n < context->messbge_buf_len) {
+        vb_stbrt(brgs, formbt);
+        jio_vsnprintf(context->messbge + n, context->messbge_buf_len - n,
+                      formbt, brgs);
+        vb_end(brgs);
     }
-    context->err_code = CC_ClassFormatError;
+    context->err_code = CC_ClbssFormbtError;
     longjmp(context->jump_buffer, 1);
 }
 
-static char
-signature_to_fieldtype(context_type *context,
-                       const char **signature_p, fullinfo_type *full_info_p)
+stbtic chbr
+signbture_to_fieldtype(context_type *context,
+                       const chbr **signbture_p, fullinfo_type *full_info_p)
 {
-    const char *p = *signature_p;
+    const chbr *p = *signbture_p;
     fullinfo_type full_info = MAKE_FULLINFO(ITEM_Bogus, 0, 0);
-    char result;
-    int array_depth = 0;
+    chbr result;
+    int brrby_depth = 0;
 
     for (;;) {
         switch(*p++) {
-            default:
+            defbult:
                 result = 0;
-                break;
+                brebk;
 
-            case JVM_SIGNATURE_BOOLEAN: case JVM_SIGNATURE_BYTE:
-                full_info = (array_depth > 0)
+            cbse JVM_SIGNATURE_BOOLEAN: cbse JVM_SIGNATURE_BYTE:
+                full_info = (brrby_depth > 0)
                               ? MAKE_FULLINFO(ITEM_Byte, 0, 0)
                               : MAKE_FULLINFO(ITEM_Integer, 0, 0);
                 result = 'I';
-                break;
+                brebk;
 
-            case JVM_SIGNATURE_CHAR:
-                full_info = (array_depth > 0)
-                              ? MAKE_FULLINFO(ITEM_Char, 0, 0)
+            cbse JVM_SIGNATURE_CHAR:
+                full_info = (brrby_depth > 0)
+                              ? MAKE_FULLINFO(ITEM_Chbr, 0, 0)
                               : MAKE_FULLINFO(ITEM_Integer, 0, 0);
                 result = 'I';
-                break;
+                brebk;
 
-            case JVM_SIGNATURE_SHORT:
-                full_info = (array_depth > 0)
+            cbse JVM_SIGNATURE_SHORT:
+                full_info = (brrby_depth > 0)
                               ? MAKE_FULLINFO(ITEM_Short, 0, 0)
                               : MAKE_FULLINFO(ITEM_Integer, 0, 0);
                 result = 'I';
-                break;
+                brebk;
 
-            case JVM_SIGNATURE_INT:
+            cbse JVM_SIGNATURE_INT:
                 full_info = MAKE_FULLINFO(ITEM_Integer, 0, 0);
                 result = 'I';
-                break;
+                brebk;
 
-            case JVM_SIGNATURE_FLOAT:
-                full_info = MAKE_FULLINFO(ITEM_Float, 0, 0);
+            cbse JVM_SIGNATURE_FLOAT:
+                full_info = MAKE_FULLINFO(ITEM_Flobt, 0, 0);
                 result = 'F';
-                break;
+                brebk;
 
-            case JVM_SIGNATURE_DOUBLE:
+            cbse JVM_SIGNATURE_DOUBLE:
                 full_info = MAKE_FULLINFO(ITEM_Double, 0, 0);
                 result = 'D';
-                break;
+                brebk;
 
-            case JVM_SIGNATURE_LONG:
+            cbse JVM_SIGNATURE_LONG:
                 full_info = MAKE_FULLINFO(ITEM_Long, 0, 0);
                 result = 'L';
-                break;
+                brebk;
 
-            case JVM_SIGNATURE_ARRAY:
-                array_depth++;
+            cbse JVM_SIGNATURE_ARRAY:
+                brrby_depth++;
                 continue;       /* only time we ever do the loop > 1 */
 
-            case JVM_SIGNATURE_CLASS: {
-                char buffer_space[256];
-                char *buffer = buffer_space;
-                char *finish = strchr(p, JVM_SIGNATURE_ENDCLASS);
+            cbse JVM_SIGNATURE_CLASS: {
+                chbr buffer_spbce[256];
+                chbr *buffer = buffer_spbce;
+                chbr *finish = strchr(p, JVM_SIGNATURE_ENDCLASS);
                 int length;
                 if (finish == NULL) {
-                    /* Signature must have ';' after the class name.
-                     * If it does not, return 0 and ITEM_Bogus in full_info. */
+                    /* Signbture must hbve ';' bfter the clbss nbme.
+                     * If it does not, return 0 bnd ITEM_Bogus in full_info. */
                     result = 0;
-                    break;
+                    brebk;
                 }
                 length = finish - p;
-                if (length + 1 > (int)sizeof(buffer_space)) {
-                    buffer = malloc(length + 1);
-                    check_and_push(context, buffer, VM_MALLOC_BLK);
+                if (length + 1 > (int)sizeof(buffer_spbce)) {
+                    buffer = mblloc(length + 1);
+                    check_bnd_push(context, buffer, VM_MALLOC_BLK);
                 }
                 memcpy(buffer, p, length);
                 buffer[length] = '\0';
-                full_info = make_class_info_from_name(context, buffer);
+                full_info = mbke_clbss_info_from_nbme(context, buffer);
                 result = 'A';
                 p = finish + 1;
-                if (buffer != buffer_space)
-                    pop_and_free(context);
-                break;
+                if (buffer != buffer_spbce)
+                    pop_bnd_free(context);
+                brebk;
             }
         } /* end of switch */
-        break;
+        brebk;
     }
-    *signature_p = p;
-    if (array_depth == 0 || result == 0) {
-        /* either not an array, or result is bogus */
+    *signbture_p = p;
+    if (brrby_depth == 0 || result == 0) {
+        /* either not bn brrby, or result is bogus */
         *full_info_p = full_info;
         return result;
     } else {
-        if (array_depth > MAX_ARRAY_DIMENSIONS)
-            CCerror(context, "Array with too many dimensions");
+        if (brrby_depth > MAX_ARRAY_DIMENSIONS)
+            CCerror(context, "Arrby with too mbny dimensions");
         *full_info_p = MAKE_FULLINFO(GET_ITEM_TYPE(full_info),
-                                     array_depth,
+                                     brrby_depth,
                                      GET_EXTRA_INFO(full_info));
         return 'A';
     }
 }
 
 
-/* Given an array type, create the type that has one less level of
+/* Given bn brrby type, crebte the type thbt hbs one less level of
  * indirection.
  */
 
-static fullinfo_type
-decrement_indirection(fullinfo_type array_info)
+stbtic fullinfo_type
+decrement_indirection(fullinfo_type brrby_info)
 {
-    if (array_info == NULL_FULLINFO) {
+    if (brrby_info == NULL_FULLINFO) {
         return NULL_FULLINFO;
     } else {
-        int type = GET_ITEM_TYPE(array_info);
-        int indirection = GET_INDIRECTION(array_info) - 1;
-        int extra_info = GET_EXTRA_INFO(array_info);
+        int type = GET_ITEM_TYPE(brrby_info);
+        int indirection = GET_INDIRECTION(brrby_info) - 1;
+        int extrb_info = GET_EXTRA_INFO(brrby_info);
         if (   (indirection == 0)
-               && ((type == ITEM_Short || type == ITEM_Byte || type == ITEM_Char)))
+               && ((type == ITEM_Short || type == ITEM_Byte || type == ITEM_Chbr)))
             type = ITEM_Integer;
-        return MAKE_FULLINFO(type, indirection, extra_info);
+        return MAKE_FULLINFO(type, indirection, extrb_info);
     }
 }
 
 
-/* See if we can assign an object of the "from" type to an object
+/* See if we cbn bssign bn object of the "from" type to bn object
  * of the "to" type.
  */
 
-static jboolean isAssignableTo(context_type *context,
+stbtic jboolebn isAssignbbleTo(context_type *context,
                              fullinfo_type from, fullinfo_type to)
 {
     return (merge_fullinfo_types(context, from, to, JNI_TRUE) == to);
 }
 
-/* Given two fullinfo_type's, find their lowest common denominator.  If
- * the assignable_p argument is non-null, we're really just calling to find
- * out if "<target> := <value>" is a legitimate assignment.
+/* Given two fullinfo_type's, find their lowest common denominbtor.  If
+ * the bssignbble_p brgument is non-null, we're reblly just cblling to find
+ * out if "<tbrget> := <vblue>" is b legitimbte bssignment.
  *
- * We treat all interfaces as if they were of type java/lang/Object, since the
+ * We trebt bll interfbces bs if they were of type jbvb/lbng/Object, since the
  * runtime will do the full checking.
  */
-static fullinfo_type
+stbtic fullinfo_type
 merge_fullinfo_types(context_type *context,
-                     fullinfo_type value, fullinfo_type target,
-                     jboolean for_assignment)
+                     fullinfo_type vblue, fullinfo_type tbrget,
+                     jboolebn for_bssignment)
 {
     JNIEnv *env = context->env;
-    if (value == target) {
-        /* If they're identical, clearly just return what we've got */
-        return value;
+    if (vblue == tbrget) {
+        /* If they're identicbl, clebrly just return whbt we've got */
+        return vblue;
     }
 
-    /* Both must be either arrays or objects to go further */
-    if (GET_INDIRECTION(value) == 0 && GET_ITEM_TYPE(value) != ITEM_Object)
+    /* Both must be either brrbys or objects to go further */
+    if (GET_INDIRECTION(vblue) == 0 && GET_ITEM_TYPE(vblue) != ITEM_Object)
         return MAKE_FULLINFO(ITEM_Bogus, 0, 0);
-    if (GET_INDIRECTION(target) == 0 && GET_ITEM_TYPE(target) != ITEM_Object)
+    if (GET_INDIRECTION(tbrget) == 0 && GET_ITEM_TYPE(tbrget) != ITEM_Object)
         return MAKE_FULLINFO(ITEM_Bogus, 0, 0);
 
     /* If either is NULL, return the other. */
-    if (value == NULL_FULLINFO)
-        return target;
-    else if (target == NULL_FULLINFO)
-        return value;
+    if (vblue == NULL_FULLINFO)
+        return tbrget;
+    else if (tbrget == NULL_FULLINFO)
+        return vblue;
 
-    /* If either is java/lang/Object, that's the result. */
-    if (target == context->object_info)
-        return target;
-    else if (value == context->object_info) {
-        /* Minor hack.  For assignments, Interface := Object, return Interface
-         * rather than Object, so that isAssignableTo() will get the right
+    /* If either is jbvb/lbng/Object, thbt's the result. */
+    if (tbrget == context->object_info)
+        return tbrget;
+    else if (vblue == context->object_info) {
+        /* Minor hbck.  For bssignments, Interfbce := Object, return Interfbce
+         * rbther thbn Object, so thbt isAssignbbleTo() will get the right
          * result.      */
-        if (for_assignment && (WITH_ZERO_EXTRA_INFO(target) ==
+        if (for_bssignment && (WITH_ZERO_EXTRA_INFO(tbrget) ==
                                   MAKE_FULLINFO(ITEM_Object, 0, 0))) {
-            jclass cb = object_fullinfo_to_classclass(context,
-                                                      target);
-            int is_interface = cb && JVM_IsInterface(env, cb);
-            if (is_interface)
-                return target;
+            jclbss cb = object_fullinfo_to_clbssclbss(context,
+                                                      tbrget);
+            int is_interfbce = cb && JVM_IsInterfbce(env, cb);
+            if (is_interfbce)
+                return tbrget;
         }
-        return value;
+        return vblue;
     }
-    if (GET_INDIRECTION(value) > 0 || GET_INDIRECTION(target) > 0) {
-        /* At least one is an array.  Neither is java/lang/Object or NULL.
-         * Moreover, the types are not identical.
-         * The result must either be Object, or an array of some object type.
+    if (GET_INDIRECTION(vblue) > 0 || GET_INDIRECTION(tbrget) > 0) {
+        /* At lebst one is bn brrby.  Neither is jbvb/lbng/Object or NULL.
+         * Moreover, the types bre not identicbl.
+         * The result must either be Object, or bn brrby of some object type.
          */
-        fullinfo_type value_base, target_base;
-        int dimen_value = GET_INDIRECTION(value);
-        int dimen_target = GET_INDIRECTION(target);
+        fullinfo_type vblue_bbse, tbrget_bbse;
+        int dimen_vblue = GET_INDIRECTION(vblue);
+        int dimen_tbrget = GET_INDIRECTION(tbrget);
 
-        if (target == context->cloneable_info ||
-            target == context->serializable_info) {
-            return target;
+        if (tbrget == context->clonebble_info ||
+            tbrget == context->seriblizbble_info) {
+            return tbrget;
         }
 
-        if (value == context->cloneable_info ||
-            value == context->serializable_info) {
-            return value;
+        if (vblue == context->clonebble_info ||
+            vblue == context->seriblizbble_info) {
+            return vblue;
         }
 
-        /* First, if either item's base type isn't ITEM_Object, promote it up
-         * to an object or array of object.  If either is elemental, we can
+        /* First, if either item's bbse type isn't ITEM_Object, promote it up
+         * to bn object or brrby of object.  If either is elementbl, we cbn
          * punt.
          */
-        if (GET_ITEM_TYPE(value) != ITEM_Object) {
-            if (dimen_value == 0)
+        if (GET_ITEM_TYPE(vblue) != ITEM_Object) {
+            if (dimen_vblue == 0)
                 return MAKE_FULLINFO(ITEM_Bogus, 0, 0);
-            dimen_value--;
-            value = MAKE_Object_ARRAY(dimen_value);
+            dimen_vblue--;
+            vblue = MAKE_Object_ARRAY(dimen_vblue);
 
         }
-        if (GET_ITEM_TYPE(target) != ITEM_Object) {
-            if (dimen_target == 0)
+        if (GET_ITEM_TYPE(tbrget) != ITEM_Object) {
+            if (dimen_tbrget == 0)
                 return MAKE_FULLINFO(ITEM_Bogus, 0, 0);
-            dimen_target--;
-            target = MAKE_Object_ARRAY(dimen_target);
+            dimen_tbrget--;
+            tbrget = MAKE_Object_ARRAY(dimen_tbrget);
         }
-        /* Both are now objects or arrays of some sort of object type */
-        value_base = WITH_ZERO_INDIRECTION(value);
-        target_base = WITH_ZERO_INDIRECTION(target);
-        if (dimen_value == dimen_target) {
-            /* Arrays of the same dimension.  Merge their base types. */
-            fullinfo_type  result_base =
-                merge_fullinfo_types(context, value_base, target_base,
-                                            for_assignment);
-            if (result_base == MAKE_FULLINFO(ITEM_Bogus, 0, 0))
+        /* Both bre now objects or brrbys of some sort of object type */
+        vblue_bbse = WITH_ZERO_INDIRECTION(vblue);
+        tbrget_bbse = WITH_ZERO_INDIRECTION(tbrget);
+        if (dimen_vblue == dimen_tbrget) {
+            /* Arrbys of the sbme dimension.  Merge their bbse types. */
+            fullinfo_type  result_bbse =
+                merge_fullinfo_types(context, vblue_bbse, tbrget_bbse,
+                                            for_bssignment);
+            if (result_bbse == MAKE_FULLINFO(ITEM_Bogus, 0, 0))
                 /* bogus in, bogus out */
-                return result_base;
-            return MAKE_FULLINFO(ITEM_Object, dimen_value,
-                                 GET_EXTRA_INFO(result_base));
+                return result_bbse;
+            return MAKE_FULLINFO(ITEM_Object, dimen_vblue,
+                                 GET_EXTRA_INFO(result_bbse));
         } else {
-            /* Arrays of different sizes. If the smaller dimension array's base
-             * type is java/lang/Cloneable or java/io/Serializable, return it.
-             * Otherwise return java/lang/Object with a dimension of the smaller
+            /* Arrbys of different sizes. If the smbller dimension brrby's bbse
+             * type is jbvb/lbng/Clonebble or jbvb/io/Seriblizbble, return it.
+             * Otherwise return jbvb/lbng/Object with b dimension of the smbller
              * of the two */
-            if (dimen_value < dimen_target) {
-                if (value_base == context->cloneable_info ||
-                    value_base == context ->serializable_info) {
-                    return value;
+            if (dimen_vblue < dimen_tbrget) {
+                if (vblue_bbse == context->clonebble_info ||
+                    vblue_bbse == context ->seriblizbble_info) {
+                    return vblue;
                 }
-                return MAKE_Object_ARRAY(dimen_value);
+                return MAKE_Object_ARRAY(dimen_vblue);
             } else {
-                if (target_base == context->cloneable_info ||
-                    target_base == context->serializable_info) {
-                    return target;
+                if (tbrget_bbse == context->clonebble_info ||
+                    tbrget_bbse == context->seriblizbble_info) {
+                    return tbrget;
                 }
-                return MAKE_Object_ARRAY(dimen_target);
+                return MAKE_Object_ARRAY(dimen_tbrget);
             }
         }
     } else {
-        /* Both are non-array objects. Neither is java/lang/Object or NULL */
-        jclass cb_value, cb_target, cb_super_value, cb_super_target;
+        /* Both bre non-brrby objects. Neither is jbvb/lbng/Object or NULL */
+        jclbss cb_vblue, cb_tbrget, cb_super_vblue, cb_super_tbrget;
         fullinfo_type result_info;
 
-        /* Let's get the classes corresponding to each of these.  Treat
-         * interfaces as if they were java/lang/Object.  See hack note above. */
-        cb_target = object_fullinfo_to_classclass(context, target);
-        if (cb_target == 0)
+        /* Let's get the clbsses corresponding to ebch of these.  Trebt
+         * interfbces bs if they were jbvb/lbng/Object.  See hbck note bbove. */
+        cb_tbrget = object_fullinfo_to_clbssclbss(context, tbrget);
+        if (cb_tbrget == 0)
             return MAKE_FULLINFO(ITEM_Bogus, 0, 0);
-        if (JVM_IsInterface(env, cb_target))
-            return for_assignment ? target : context->object_info;
-        cb_value = object_fullinfo_to_classclass(context, value);
-        if (cb_value == 0)
+        if (JVM_IsInterfbce(env, cb_tbrget))
+            return for_bssignment ? tbrget : context->object_info;
+        cb_vblue = object_fullinfo_to_clbssclbss(context, vblue);
+        if (cb_vblue == 0)
             return MAKE_FULLINFO(ITEM_Bogus, 0, 0);
-        if (JVM_IsInterface(env, cb_value))
+        if (JVM_IsInterfbce(env, cb_vblue))
             return context->object_info;
 
-        /* If this is for assignment of target := value, we just need to see if
-         * cb_target is a superclass of cb_value.  Save ourselves a lot of
+        /* If this is for bssignment of tbrget := vblue, we just need to see if
+         * cb_tbrget is b superclbss of cb_vblue.  Sbve ourselves b lot of
          * work.
          */
-        if (for_assignment) {
-            cb_super_value = (*env)->GetSuperclass(env, cb_value);
-            while (cb_super_value != 0) {
-                jclass tmp_cb;
-                if ((*env)->IsSameObject(env, cb_super_value, cb_target)) {
-                    (*env)->DeleteLocalRef(env, cb_super_value);
-                    return target;
+        if (for_bssignment) {
+            cb_super_vblue = (*env)->GetSuperclbss(env, cb_vblue);
+            while (cb_super_vblue != 0) {
+                jclbss tmp_cb;
+                if ((*env)->IsSbmeObject(env, cb_super_vblue, cb_tbrget)) {
+                    (*env)->DeleteLocblRef(env, cb_super_vblue);
+                    return tbrget;
                 }
-                tmp_cb =  (*env)->GetSuperclass(env, cb_super_value);
-                (*env)->DeleteLocalRef(env, cb_super_value);
-                cb_super_value = tmp_cb;
+                tmp_cb =  (*env)->GetSuperclbss(env, cb_super_vblue);
+                (*env)->DeleteLocblRef(env, cb_super_vblue);
+                cb_super_vblue = tmp_cb;
             }
-            (*env)->DeleteLocalRef(env, cb_super_value);
+            (*env)->DeleteLocblRef(env, cb_super_vblue);
             return context->object_info;
         }
 
-        /* Find out whether cb_value or cb_target is deeper in the class
-         * tree by moving both toward the root, and seeing who gets there
+        /* Find out whether cb_vblue or cb_tbrget is deeper in the clbss
+         * tree by moving both towbrd the root, bnd seeing who gets there
          * first.                                                          */
-        cb_super_value = (*env)->GetSuperclass(env, cb_value);
-        cb_super_target = (*env)->GetSuperclass(env, cb_target);
-        while((cb_super_value != 0) &&
-              (cb_super_target != 0)) {
-            jclass tmp_cb;
-            /* Optimization.  If either hits the other when going up looking
-             * for a parent, then might as well return the parent immediately */
-            if ((*env)->IsSameObject(env, cb_super_value, cb_target)) {
-                (*env)->DeleteLocalRef(env, cb_super_value);
-                (*env)->DeleteLocalRef(env, cb_super_target);
-                return target;
+        cb_super_vblue = (*env)->GetSuperclbss(env, cb_vblue);
+        cb_super_tbrget = (*env)->GetSuperclbss(env, cb_tbrget);
+        while((cb_super_vblue != 0) &&
+              (cb_super_tbrget != 0)) {
+            jclbss tmp_cb;
+            /* Optimizbtion.  If either hits the other when going up looking
+             * for b pbrent, then might bs well return the pbrent immedibtely */
+            if ((*env)->IsSbmeObject(env, cb_super_vblue, cb_tbrget)) {
+                (*env)->DeleteLocblRef(env, cb_super_vblue);
+                (*env)->DeleteLocblRef(env, cb_super_tbrget);
+                return tbrget;
             }
-            if ((*env)->IsSameObject(env, cb_super_target, cb_value)) {
-                (*env)->DeleteLocalRef(env, cb_super_value);
-                (*env)->DeleteLocalRef(env, cb_super_target);
-                return value;
+            if ((*env)->IsSbmeObject(env, cb_super_tbrget, cb_vblue)) {
+                (*env)->DeleteLocblRef(env, cb_super_vblue);
+                (*env)->DeleteLocblRef(env, cb_super_tbrget);
+                return vblue;
             }
-            tmp_cb = (*env)->GetSuperclass(env, cb_super_value);
-            (*env)->DeleteLocalRef(env, cb_super_value);
-            cb_super_value = tmp_cb;
+            tmp_cb = (*env)->GetSuperclbss(env, cb_super_vblue);
+            (*env)->DeleteLocblRef(env, cb_super_vblue);
+            cb_super_vblue = tmp_cb;
 
-            tmp_cb = (*env)->GetSuperclass(env, cb_super_target);
-            (*env)->DeleteLocalRef(env, cb_super_target);
-            cb_super_target = tmp_cb;
+            tmp_cb = (*env)->GetSuperclbss(env, cb_super_tbrget);
+            (*env)->DeleteLocblRef(env, cb_super_tbrget);
+            cb_super_tbrget = tmp_cb;
         }
-        cb_value = (*env)->NewLocalRef(env, cb_value);
-        cb_target = (*env)->NewLocalRef(env, cb_target);
-        /* At most one of the following two while clauses will be executed.
-         * Bring the deeper of cb_target and cb_value to the depth of the
-         * shallower one.
+        cb_vblue = (*env)->NewLocblRef(env, cb_vblue);
+        cb_tbrget = (*env)->NewLocblRef(env, cb_tbrget);
+        /* At most one of the following two while clbuses will be executed.
+         * Bring the deeper of cb_tbrget bnd cb_vblue to the depth of the
+         * shbllower one.
          */
-        while (cb_super_value != 0) {
-          /* cb_value is deeper */
-            jclass cb_tmp;
+        while (cb_super_vblue != 0) {
+          /* cb_vblue is deeper */
+            jclbss cb_tmp;
 
-            cb_tmp = (*env)->GetSuperclass(env, cb_super_value);
-            (*env)->DeleteLocalRef(env, cb_super_value);
-            cb_super_value = cb_tmp;
+            cb_tmp = (*env)->GetSuperclbss(env, cb_super_vblue);
+            (*env)->DeleteLocblRef(env, cb_super_vblue);
+            cb_super_vblue = cb_tmp;
 
-            cb_tmp = (*env)->GetSuperclass(env, cb_value);
-            (*env)->DeleteLocalRef(env, cb_value);
-            cb_value = cb_tmp;
+            cb_tmp = (*env)->GetSuperclbss(env, cb_vblue);
+            (*env)->DeleteLocblRef(env, cb_vblue);
+            cb_vblue = cb_tmp;
         }
-        while (cb_super_target != 0) {
-          /* cb_target is deeper */
-            jclass cb_tmp;
+        while (cb_super_tbrget != 0) {
+          /* cb_tbrget is deeper */
+            jclbss cb_tmp;
 
-            cb_tmp = (*env)->GetSuperclass(env, cb_super_target);
-            (*env)->DeleteLocalRef(env, cb_super_target);
-            cb_super_target = cb_tmp;
+            cb_tmp = (*env)->GetSuperclbss(env, cb_super_tbrget);
+            (*env)->DeleteLocblRef(env, cb_super_tbrget);
+            cb_super_tbrget = cb_tmp;
 
-            cb_tmp = (*env)->GetSuperclass(env, cb_target);
-            (*env)->DeleteLocalRef(env, cb_target);
-            cb_target = cb_tmp;
+            cb_tmp = (*env)->GetSuperclbss(env, cb_tbrget);
+            (*env)->DeleteLocblRef(env, cb_tbrget);
+            cb_tbrget = cb_tmp;
         }
 
-        /* Walk both up, maintaining equal depth, until a join is found.  We
-         * know that we will find one.  */
-        while (!(*env)->IsSameObject(env, cb_value, cb_target)) {
-            jclass cb_tmp;
-            cb_tmp = (*env)->GetSuperclass(env, cb_value);
-            (*env)->DeleteLocalRef(env, cb_value);
-            cb_value = cb_tmp;
-            cb_tmp = (*env)->GetSuperclass(env, cb_target);
-            (*env)->DeleteLocalRef(env, cb_target);
-            cb_target = cb_tmp;
+        /* Wblk both up, mbintbining equbl depth, until b join is found.  We
+         * know thbt we will find one.  */
+        while (!(*env)->IsSbmeObject(env, cb_vblue, cb_tbrget)) {
+            jclbss cb_tmp;
+            cb_tmp = (*env)->GetSuperclbss(env, cb_vblue);
+            (*env)->DeleteLocblRef(env, cb_vblue);
+            cb_vblue = cb_tmp;
+            cb_tmp = (*env)->GetSuperclbss(env, cb_tbrget);
+            (*env)->DeleteLocblRef(env, cb_tbrget);
+            cb_tbrget = cb_tmp;
         }
-        result_info = make_class_info(context, cb_value);
-        (*env)->DeleteLocalRef(env, cb_value);
-        (*env)->DeleteLocalRef(env, cb_super_value);
-        (*env)->DeleteLocalRef(env, cb_target);
-        (*env)->DeleteLocalRef(env, cb_super_target);
+        result_info = mbke_clbss_info(context, cb_vblue);
+        (*env)->DeleteLocblRef(env, cb_vblue);
+        (*env)->DeleteLocblRef(env, cb_super_vblue);
+        (*env)->DeleteLocblRef(env, cb_tbrget);
+        (*env)->DeleteLocblRef(env, cb_super_tbrget);
         return result_info;
-    } /* both items are classes */
+    } /* both items bre clbsses */
 }
 
 
-/* Given a fullinfo_type corresponding to an Object, return the jclass
- * of that type.
+/* Given b fullinfo_type corresponding to bn Object, return the jclbss
+ * of thbt type.
  *
- * This function always returns a global reference!
+ * This function blwbys returns b globbl reference!
  */
 
-static jclass
-object_fullinfo_to_classclass(context_type *context, fullinfo_type classinfo)
+stbtic jclbss
+object_fullinfo_to_clbssclbss(context_type *context, fullinfo_type clbssinfo)
 {
-    unsigned short info = GET_EXTRA_INFO(classinfo);
-    return ID_to_class(context, info);
+    unsigned short info = GET_EXTRA_INFO(clbssinfo);
+    return ID_to_clbss(context, info);
 }
 
-static void free_block(void *ptr, int kind)
+stbtic void free_block(void *ptr, int kind)
 {
     switch (kind) {
-    case VM_STRING_UTF:
-        JVM_ReleaseUTF(ptr);
-        break;
-    case VM_MALLOC_BLK:
+    cbse VM_STRING_UTF:
+        JVM_RelebseUTF(ptr);
+        brebk;
+    cbse VM_MALLOC_BLK:
         free(ptr);
-        break;
+        brebk;
     }
 }
 
-static void check_and_push(context_type *context, const void *ptr, int kind)
+stbtic void check_bnd_push(context_type *context, const void *ptr, int kind)
 {
-    alloc_stack_type *p;
+    blloc_stbck_type *p;
     if (ptr == 0)
         CCout_of_memory(context);
-    if (context->alloc_stack_top < ALLOC_STACK_SIZE)
-        p = &(context->alloc_stack[context->alloc_stack_top++]);
+    if (context->blloc_stbck_top < ALLOC_STACK_SIZE)
+        p = &(context->blloc_stbck[context->blloc_stbck_top++]);
     else {
-        /* Otherwise we have to malloc */
-        p = malloc(sizeof(alloc_stack_type));
+        /* Otherwise we hbve to mblloc */
+        p = mblloc(sizeof(blloc_stbck_type));
         if (p == 0) {
-            /* Make sure we clean up. */
+            /* Mbke sure we clebn up. */
             free_block((void *)ptr, kind);
             CCout_of_memory(context);
         }
     }
     p->kind = kind;
     p->ptr = (void *)ptr;
-    p->next = context->allocated_memory;
-    context->allocated_memory = p;
+    p->next = context->bllocbted_memory;
+    context->bllocbted_memory = p;
 }
 
-static void pop_and_free(context_type *context)
+stbtic void pop_bnd_free(context_type *context)
 {
-    alloc_stack_type *p = context->allocated_memory;
-    context->allocated_memory = p->next;
+    blloc_stbck_type *p = context->bllocbted_memory;
+    context->bllocbted_memory = p->next;
     free_block(p->ptr, p->kind);
-    if (p < context->alloc_stack + ALLOC_STACK_SIZE &&
-        p >= context->alloc_stack)
-        context->alloc_stack_top--;
+    if (p < context->blloc_stbck + ALLOC_STACK_SIZE &&
+        p >= context->blloc_stbck)
+        context->blloc_stbck_top--;
     else
         free(p);
 }
 
-static int signature_to_args_size(const char *method_signature)
+stbtic int signbture_to_brgs_size(const chbr *method_signbture)
 {
-    const char *p;
-    int args_size = 0;
-    for (p = method_signature; *p != JVM_SIGNATURE_ENDFUNC; p++) {
+    const chbr *p;
+    int brgs_size = 0;
+    for (p = method_signbture; *p != JVM_SIGNATURE_ENDFUNC; p++) {
         switch (*p) {
-          case JVM_SIGNATURE_BOOLEAN:
-          case JVM_SIGNATURE_BYTE:
-          case JVM_SIGNATURE_CHAR:
-          case JVM_SIGNATURE_SHORT:
-          case JVM_SIGNATURE_INT:
-          case JVM_SIGNATURE_FLOAT:
-            args_size += 1;
-            break;
-          case JVM_SIGNATURE_CLASS:
-            args_size += 1;
+          cbse JVM_SIGNATURE_BOOLEAN:
+          cbse JVM_SIGNATURE_BYTE:
+          cbse JVM_SIGNATURE_CHAR:
+          cbse JVM_SIGNATURE_SHORT:
+          cbse JVM_SIGNATURE_INT:
+          cbse JVM_SIGNATURE_FLOAT:
+            brgs_size += 1;
+            brebk;
+          cbse JVM_SIGNATURE_CLASS:
+            brgs_size += 1;
             while (*p != JVM_SIGNATURE_ENDCLASS) p++;
-            break;
-          case JVM_SIGNATURE_ARRAY:
-            args_size += 1;
+            brebk;
+          cbse JVM_SIGNATURE_ARRAY:
+            brgs_size += 1;
             while ((*p == JVM_SIGNATURE_ARRAY)) p++;
-            /* If an array of classes, skip over class name, too. */
+            /* If bn brrby of clbsses, skip over clbss nbme, too. */
             if (*p == JVM_SIGNATURE_CLASS) {
                 while (*p != JVM_SIGNATURE_ENDCLASS)
                   p++;
             }
-            break;
-          case JVM_SIGNATURE_DOUBLE:
-          case JVM_SIGNATURE_LONG:
-            args_size += 2;
-            break;
-          case JVM_SIGNATURE_FUNC:  /* ignore initial (, if given */
-            break;
-          default:
-            /* Indicate an error. */
+            brebk;
+          cbse JVM_SIGNATURE_DOUBLE:
+          cbse JVM_SIGNATURE_LONG:
+            brgs_size += 2;
+            brebk;
+          cbse JVM_SIGNATURE_FUNC:  /* ignore initibl (, if given */
+            brebk;
+          defbult:
+            /* Indicbte bn error. */
             return 0;
         }
     }
-    return args_size;
+    return brgs_size;
 }
 
 #ifdef DEBUG
 
-/* Below are for debugging. */
+/* Below bre for debugging. */
 
-static void print_fullinfo_type(context_type *, fullinfo_type, jboolean);
+stbtic void print_fullinfo_type(context_type *, fullinfo_type, jboolebn);
 
-static void
-print_stack(context_type *context, stack_info_type *stack_info)
+stbtic void
+print_stbck(context_type *context, stbck_info_type *stbck_info)
 {
-    stack_item_type *stack = stack_info->stack;
-    if (stack_info->stack_size == UNKNOWN_STACK_SIZE) {
+    stbck_item_type *stbck = stbck_info->stbck;
+    if (stbck_info->stbck_size == UNKNOWN_STACK_SIZE) {
         jio_fprintf(stdout, "x");
     } else {
         jio_fprintf(stdout, "(");
-        for ( ; stack != 0; stack = stack->next)
-            print_fullinfo_type(context, stack->item,
-                (jboolean)(verify_verbose > 1 ? JNI_TRUE : JNI_FALSE));
+        for ( ; stbck != 0; stbck = stbck->next)
+            print_fullinfo_type(context, stbck->item,
+                (jboolebn)(verify_verbose > 1 ? JNI_TRUE : JNI_FALSE));
         jio_fprintf(stdout, ")");
     }
 }
 
-static void
+stbtic void
 print_registers(context_type *context, register_info_type *register_info)
 {
     int register_count = register_info->register_count;
@@ -4210,27 +4210,27 @@ print_registers(context_type *context, register_info_type *register_info)
         jio_fprintf(stdout, "x");
     } else {
         fullinfo_type *registers = register_info->registers;
-        int mask_count = register_info->mask_count;
-        mask_type *masks = register_info->masks;
+        int mbsk_count = register_info->mbsk_count;
+        mbsk_type *mbsks = register_info->mbsks;
         int i, j;
 
         jio_fprintf(stdout, "{");
         for (i = 0; i < register_count; i++)
             print_fullinfo_type(context, registers[i],
-                (jboolean)(verify_verbose > 1 ? JNI_TRUE : JNI_FALSE));
+                (jboolebn)(verify_verbose > 1 ? JNI_TRUE : JNI_FALSE));
         jio_fprintf(stdout, "}");
-        for (i = 0; i < mask_count; i++) {
-            char *separator = "";
-            int *modifies = masks[i].modifies;
-            jio_fprintf(stdout, "<%d: ", masks[i].entry);
+        for (i = 0; i < mbsk_count; i++) {
+            chbr *sepbrbtor = "";
+            int *modifies = mbsks[i].modifies;
+            jio_fprintf(stdout, "<%d: ", mbsks[i].entry);
             for (j = 0;
-                 j < JVM_GetMethodIxLocalsCount(context->env,
-                                                context->class,
+                 j < JVM_GetMethodIxLocblsCount(context->env,
+                                                context->clbss,
                                                 context->method_index);
                  j++)
                 if (IS_BIT_SET(modifies, j)) {
-                    jio_fprintf(stdout, "%s%d", separator, j);
-                    separator = ",";
+                    jio_fprintf(stdout, "%s%d", sepbrbtor, j);
+                    sepbrbtor = ",";
                 }
             jio_fprintf(stdout, ">");
         }
@@ -4238,104 +4238,104 @@ print_registers(context_type *context, register_info_type *register_info)
 }
 
 
-static void
-print_flags(context_type *context, flag_type and_flags, flag_type or_flags)
+stbtic void
+print_flbgs(context_type *context, flbg_type bnd_flbgs, flbg_type or_flbgs)
 {
-    if (and_flags != ((flag_type)-1) || or_flags != 0) {
-        jio_fprintf(stdout, "<%x %x>", and_flags, or_flags);
+    if (bnd_flbgs != ((flbg_type)-1) || or_flbgs != 0) {
+        jio_fprintf(stdout, "<%x %x>", bnd_flbgs, or_flbgs);
     }
 }
 
-static void
-print_fullinfo_type(context_type *context, fullinfo_type type, jboolean verbose)
+stbtic void
+print_fullinfo_type(context_type *context, fullinfo_type type, jboolebn verbose)
 {
     int i;
     int indirection = GET_INDIRECTION(type);
     for (i = indirection; i-- > 0; )
         jio_fprintf(stdout, "[");
     switch (GET_ITEM_TYPE(type)) {
-        case ITEM_Integer:
-            jio_fprintf(stdout, "I"); break;
-        case ITEM_Float:
-            jio_fprintf(stdout, "F"); break;
-        case ITEM_Double:
-            jio_fprintf(stdout, "D"); break;
-        case ITEM_Double_2:
-            jio_fprintf(stdout, "d"); break;
-        case ITEM_Long:
-            jio_fprintf(stdout, "L"); break;
-        case ITEM_Long_2:
-            jio_fprintf(stdout, "l"); break;
-        case ITEM_ReturnAddress:
-            jio_fprintf(stdout, "a"); break;
-        case ITEM_Object:
+        cbse ITEM_Integer:
+            jio_fprintf(stdout, "I"); brebk;
+        cbse ITEM_Flobt:
+            jio_fprintf(stdout, "F"); brebk;
+        cbse ITEM_Double:
+            jio_fprintf(stdout, "D"); brebk;
+        cbse ITEM_Double_2:
+            jio_fprintf(stdout, "d"); brebk;
+        cbse ITEM_Long:
+            jio_fprintf(stdout, "L"); brebk;
+        cbse ITEM_Long_2:
+            jio_fprintf(stdout, "l"); brebk;
+        cbse ITEM_ReturnAddress:
+            jio_fprintf(stdout, "b"); brebk;
+        cbse ITEM_Object:
             if (!verbose) {
                 jio_fprintf(stdout, "A");
             } else {
-                unsigned short extra = GET_EXTRA_INFO(type);
-                if (extra == 0) {
+                unsigned short extrb = GET_EXTRA_INFO(type);
+                if (extrb == 0) {
                     jio_fprintf(stdout, "/Null/");
                 } else {
-                    const char *name = ID_to_class_name(context, extra);
-                    const char *name2 = strrchr(name, '/');
-                    jio_fprintf(stdout, "/%s/", name2 ? name2 + 1 : name);
+                    const chbr *nbme = ID_to_clbss_nbme(context, extrb);
+                    const chbr *nbme2 = strrchr(nbme, '/');
+                    jio_fprintf(stdout, "/%s/", nbme2 ? nbme2 + 1 : nbme);
                 }
             }
-            break;
-        case ITEM_Char:
-            jio_fprintf(stdout, "C"); break;
-        case ITEM_Short:
-            jio_fprintf(stdout, "S"); break;
-        case ITEM_Byte:
-            jio_fprintf(stdout, "B"); break;
-        case ITEM_NewObject:
+            brebk;
+        cbse ITEM_Chbr:
+            jio_fprintf(stdout, "C"); brebk;
+        cbse ITEM_Short:
+            jio_fprintf(stdout, "S"); brebk;
+        cbse ITEM_Byte:
+            jio_fprintf(stdout, "B"); brebk;
+        cbse ITEM_NewObject:
             if (!verbose) {
                 jio_fprintf(stdout, "@");
             } else {
                 int inum = GET_EXTRA_INFO(type);
-                fullinfo_type real_type =
-                    context->instruction_data[inum].operand2.fi;
+                fullinfo_type rebl_type =
+                    context->instruction_dbtb[inum].operbnd2.fi;
                 jio_fprintf(stdout, ">");
-                print_fullinfo_type(context, real_type, JNI_TRUE);
+                print_fullinfo_type(context, rebl_type, JNI_TRUE);
                 jio_fprintf(stdout, "<");
             }
-            break;
-        case ITEM_InitObject:
+            brebk;
+        cbse ITEM_InitObject:
             jio_fprintf(stdout, verbose ? ">/this/<" : "@");
-            break;
+            brebk;
 
-        default:
-            jio_fprintf(stdout, "?"); break;
+        defbult:
+            jio_fprintf(stdout, "?"); brebk;
     }
     for (i = indirection; i-- > 0; )
         jio_fprintf(stdout, "]");
 }
 
 
-static void
-print_formatted_fieldname(context_type *context, int index)
+stbtic void
+print_formbtted_fieldnbme(context_type *context, int index)
 {
     JNIEnv *env = context->env;
-    jclass cb = context->class;
-    const char *classname = JVM_GetCPFieldClassNameUTF(env, cb, index);
-    const char *fieldname = JVM_GetCPFieldNameUTF(env, cb, index);
+    jclbss cb = context->clbss;
+    const chbr *clbssnbme = JVM_GetCPFieldClbssNbmeUTF(env, cb, index);
+    const chbr *fieldnbme = JVM_GetCPFieldNbmeUTF(env, cb, index);
     jio_fprintf(stdout, "  <%s.%s>",
-                classname ? classname : "", fieldname ? fieldname : "");
-    JVM_ReleaseUTF(classname);
-    JVM_ReleaseUTF(fieldname);
+                clbssnbme ? clbssnbme : "", fieldnbme ? fieldnbme : "");
+    JVM_RelebseUTF(clbssnbme);
+    JVM_RelebseUTF(fieldnbme);
 }
 
-static void
-print_formatted_methodname(context_type *context, int index)
+stbtic void
+print_formbtted_methodnbme(context_type *context, int index)
 {
     JNIEnv *env = context->env;
-    jclass cb = context->class;
-    const char *classname = JVM_GetCPMethodClassNameUTF(env, cb, index);
-    const char *methodname = JVM_GetCPMethodNameUTF(env, cb, index);
+    jclbss cb = context->clbss;
+    const chbr *clbssnbme = JVM_GetCPMethodClbssNbmeUTF(env, cb, index);
+    const chbr *methodnbme = JVM_GetCPMethodNbmeUTF(env, cb, index);
     jio_fprintf(stdout, "  <%s.%s>",
-                classname ? classname : "", methodname ? methodname : "");
-    JVM_ReleaseUTF(classname);
-    JVM_ReleaseUTF(methodname);
+                clbssnbme ? clbssnbme : "", methodnbme ? methodnbme : "");
+    JVM_RelebseUTF(clbssnbme);
+    JVM_RelebseUTF(methodnbme);
 }
 
 #endif /*DEBUG*/

@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
 /**
- * Interface to describe a structural piece of a document.  It
- * is intended to capture the spirit of an SGML element.
+ * Interfbce to describe b structurbl piece of b document.  It
+ * is intended to cbpture the spirit of bn SGML element.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public interface Element {
+public interfbce Element {
 
     /**
-     * Fetches the document associated with this element.
+     * Fetches the document bssocibted with this element.
      *
      * @return the document
      */
     public Document getDocument();
 
     /**
-     * Fetches the parent element.  If the element is a root level
+     * Fetches the pbrent element.  If the element is b root level
      * element returns <code>null</code>.
      *
-     * @return the parent element
+     * @return the pbrent element
      */
-    public Element getParentElement();
+    public Element getPbrentElement();
 
     /**
-     * Fetches the name of the element.  If the element is used to
+     * Fetches the nbme of the element.  If the element is used to
      * represent some type of structure, this would be the type
-     * name.
+     * nbme.
      *
-     * @return the element name
+     * @return the element nbme
      */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Fetches the collection of attributes this element contains.
+     * Fetches the collection of bttributes this element contbins.
      *
-     * @return the attributes for the element
+     * @return the bttributes for the element
      */
     public AttributeSet getAttributes();
 
     /**
      * Fetches the offset from the beginning of the document
-     * that this element begins at.  If this element has
+     * thbt this element begins bt.  If this element hbs
      * children, this will be the offset of the first child.
-     * As a document position, there is an implied forward bias.
+     * As b document position, there is bn implied forwbrd bibs.
      *
-     * @return the starting offset &gt;= 0 and &lt; getEndOffset();
+     * @return the stbrting offset &gt;= 0 bnd &lt; getEndOffset();
      * @see Document
-     * @see AbstractDocument
+     * @see AbstrbctDocument
      */
-    public int getStartOffset();
+    public int getStbrtOffset();
 
     /**
      * Fetches the offset from the beginning of the document
-     * that this element ends at.  If this element has
-     * children, this will be the end offset of the last child.
-     * As a document position, there is an implied backward bias.
+     * thbt this element ends bt.  If this element hbs
+     * children, this will be the end offset of the lbst child.
+     * As b document position, there is bn implied bbckwbrd bibs.
      * <p>
-     * All the default <code>Document</code> implementations
-     * descend from <code>AbstractDocument</code>.
-     * <code>AbstractDocument</code> models an implied break at the end of
-     * the document. As a result of this, it is possible for this to
-     * return a value greater than the length of the document.
+     * All the defbult <code>Document</code> implementbtions
+     * descend from <code>AbstrbctDocument</code>.
+     * <code>AbstrbctDocument</code> models bn implied brebk bt the end of
+     * the document. As b result of this, it is possible for this to
+     * return b vblue grebter thbn the length of the document.
      *
-     * @return the ending offset &gt; getStartOffset() and
+     * @return the ending offset &gt; getStbrtOffset() bnd
      *     &lt;= getDocument().getLength() + 1
      * @see Document
-     * @see AbstractDocument
+     * @see AbstrbctDocument
      */
     public int getEndOffset();
 
     /**
      * Gets the child element index closest to the given offset.
-     * The offset is specified relative to the beginning of the
+     * The offset is specified relbtive to the beginning of the
      * document.  Returns <code>-1</code> if the
-     * <code>Element</code> is a leaf, otherwise returns
-     * the index of the <code>Element</code> that best represents
-     * the given location.  Returns <code>0</code> if the location
-     * is less than the start offset. Returns
-     * <code>getElementCount() - 1</code> if the location is
-     * greater than or equal to the end offset.
+     * <code>Element</code> is b lebf, otherwise returns
+     * the index of the <code>Element</code> thbt best represents
+     * the given locbtion.  Returns <code>0</code> if the locbtion
+     * is less thbn the stbrt offset. Returns
+     * <code>getElementCount() - 1</code> if the locbtion is
+     * grebter thbn or equbl to the end offset.
      *
-     * @param offset the specified offset &gt;= 0
+     * @pbrbm offset the specified offset &gt;= 0
      * @return the element index &gt;= 0
      */
     public int getElementIndex(int offset);
 
     /**
-     * Gets the number of child elements contained by this element.
-     * If this element is a leaf, a count of zero is returned.
+     * Gets the number of child elements contbined by this element.
+     * If this element is b lebf, b count of zero is returned.
      *
      * @return the number of child elements &gt;= 0
      */
     public int getElementCount();
 
     /**
-     * Fetches the child element at the given index.
+     * Fetches the child element bt the given index.
      *
-     * @param index the specified index &gt;= 0
+     * @pbrbm index the specified index &gt;= 0
      * @return the child element
      */
     public Element getElement(int index);
 
     /**
-     * Is this element a leaf element? An element that
-     * <i>may</i> have children, even if it currently
-     * has no children, would return <code>false</code>.
+     * Is this element b lebf element? An element thbt
+     * <i>mby</i> hbve children, even if it currently
+     * hbs no children, would return <code>fblse</code>.
      *
-     * @return true if a leaf element else false
+     * @return true if b lebf element else fblse
      */
-    public boolean isLeaf();
+    public boolebn isLebf();
 
 
 }

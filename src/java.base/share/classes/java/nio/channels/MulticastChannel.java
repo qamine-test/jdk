@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.io.IOException;
-import java.net.ProtocolFamily;             // javadoc
-import java.net.StandardProtocolFamily;     // javadoc
-import java.net.StandardSocketOptions;      // javadoc
+import jbvb.net.InetAddress;
+import jbvb.net.NetworkInterfbce;
+import jbvb.io.IOException;
+import jbvb.net.ProtocolFbmily;             // jbvbdoc
+import jbvb.net.StbndbrdProtocolFbmily;     // jbvbdoc
+import jbvb.net.StbndbrdSocketOptions;      // jbvbdoc
 
 /**
- * A network channel that supports Internet Protocol (IP) multicasting.
+ * A network chbnnel thbt supports Internet Protocol (IP) multicbsting.
  *
- * <p> IP multicasting is the transmission of IP datagrams to members of
- * a <em>group</em> that is zero or more hosts identified by a single destination
- * address.
+ * <p> IP multicbsting is the trbnsmission of IP dbtbgrbms to members of
+ * b <em>group</em> thbt is zero or more hosts identified by b single destinbtion
+ * bddress.
  *
- * <p> In the case of a channel to an {@link StandardProtocolFamily#INET IPv4} socket,
- * the underlying operating system supports <a href="http://www.ietf.org/rfc/rfc2236.txt">
- * <i>RFC&nbsp;2236: Internet Group Management Protocol, Version 2 (IGMPv2)</i></a>.
- * It may optionally support source filtering as specified by <a
+ * <p> In the cbse of b chbnnel to bn {@link StbndbrdProtocolFbmily#INET IPv4} socket,
+ * the underlying operbting system supports <b href="http://www.ietf.org/rfc/rfc2236.txt">
+ * <i>RFC&nbsp;2236: Internet Group Mbnbgement Protocol, Version 2 (IGMPv2)</i></b>.
+ * It mby optionblly support source filtering bs specified by <b
  * href="http://www.ietf.org/rfc/rfc3376.txt"> <i>RFC&nbsp;3376: Internet Group
- * Management Protocol, Version 3 (IGMPv3)</i></a>.
- * For channels to an {@link StandardProtocolFamily#INET6 IPv6} socket, the equivalent
- * standards are <a href="http://www.ietf.org/rfc/rfc2710.txt"> <i>RFC&nbsp;2710:
- * Multicast Listener Discovery (MLD) for IPv6</i></a> and <a
- * href="http://www.ietf.org/rfc/rfc3810.txt"> <i>RFC&nbsp;3810: Multicast Listener
- * Discovery Version 2 (MLDv2) for IPv6</i></a>.
+ * Mbnbgement Protocol, Version 3 (IGMPv3)</i></b>.
+ * For chbnnels to bn {@link StbndbrdProtocolFbmily#INET6 IPv6} socket, the equivblent
+ * stbndbrds bre <b href="http://www.ietf.org/rfc/rfc2710.txt"> <i>RFC&nbsp;2710:
+ * Multicbst Listener Discovery (MLD) for IPv6</i></b> bnd <b
+ * href="http://www.ietf.org/rfc/rfc3810.txt"> <i>RFC&nbsp;3810: Multicbst Listener
+ * Discovery Version 2 (MLDv2) for IPv6</i></b>.
  *
- * <p> The {@link #join(InetAddress,NetworkInterface)} method is used to
- * join a group and receive all multicast datagrams sent to the group. A channel
- * may join several multicast groups and may join the same group on several
- * {@link NetworkInterface interfaces}. Membership is dropped by invoking the {@link
+ * <p> The {@link #join(InetAddress,NetworkInterfbce)} method is used to
+ * join b group bnd receive bll multicbst dbtbgrbms sent to the group. A chbnnel
+ * mby join severbl multicbst groups bnd mby join the sbme group on severbl
+ * {@link NetworkInterfbce interfbces}. Membership is dropped by invoking the {@link
  * MembershipKey#drop drop} method on the returned {@link MembershipKey}. If the
- * underlying platform supports source filtering then the {@link MembershipKey#block
- * block} and {@link MembershipKey#unblock unblock} methods can be used to block or
- * unblock multicast datagrams from particular source addresses.
+ * underlying plbtform supports source filtering then the {@link MembershipKey#block
+ * block} bnd {@link MembershipKey#unblock unblock} methods cbn be used to block or
+ * unblock multicbst dbtbgrbms from pbrticulbr source bddresses.
  *
- * <p> The {@link #join(InetAddress,NetworkInterface,InetAddress)} method
- * is used to begin receiving datagrams sent to a group whose source address matches
- * a given source address. This method throws {@link UnsupportedOperationException}
- * if the underlying platform does not support source filtering.  Membership is
- * <em>cumulative</em> and this method may be invoked again with the same group
- * and interface to allow receiving datagrams from other source addresses. The
- * method returns a {@link MembershipKey} that represents membership to receive
- * datagrams from the given source address. Invoking the key's {@link
- * MembershipKey#drop drop} method drops membership so that datagrams from the
- * source address can no longer be received.
+ * <p> The {@link #join(InetAddress,NetworkInterfbce,InetAddress)} method
+ * is used to begin receiving dbtbgrbms sent to b group whose source bddress mbtches
+ * b given source bddress. This method throws {@link UnsupportedOperbtionException}
+ * if the underlying plbtform does not support source filtering.  Membership is
+ * <em>cumulbtive</em> bnd this method mby be invoked bgbin with the sbme group
+ * bnd interfbce to bllow receiving dbtbgrbms from other source bddresses. The
+ * method returns b {@link MembershipKey} thbt represents membership to receive
+ * dbtbgrbms from the given source bddress. Invoking the key's {@link
+ * MembershipKey#drop drop} method drops membership so thbt dbtbgrbms from the
+ * source bddress cbn no longer be received.
  *
- * <h2>Platform dependencies</h2>
+ * <h2>Plbtform dependencies</h2>
  *
- * The multicast implementation is intended to map directly to the native
- * multicasting facility. Consequently, the following items should be considered
- * when developing an application that receives IP multicast datagrams:
+ * The multicbst implementbtion is intended to mbp directly to the nbtive
+ * multicbsting fbcility. Consequently, the following items should be considered
+ * when developing bn bpplicbtion thbt receives IP multicbst dbtbgrbms:
  *
  * <ol>
  *
- * <li><p> The creation of the channel should specify the {@link ProtocolFamily}
- * that corresponds to the address type of the multicast groups that the channel
- * will join. There is no guarantee that a channel to a socket in one protocol
- * family can join and receive multicast datagrams when the address of the
- * multicast group corresponds to another protocol family. For example, it is
- * implementation specific if a channel to an {@link StandardProtocolFamily#INET6 IPv6}
- * socket can join an {@link StandardProtocolFamily#INET IPv4} multicast group and receive
- * multicast datagrams sent to the group. </p></li>
+ * <li><p> The crebtion of the chbnnel should specify the {@link ProtocolFbmily}
+ * thbt corresponds to the bddress type of the multicbst groups thbt the chbnnel
+ * will join. There is no gubrbntee thbt b chbnnel to b socket in one protocol
+ * fbmily cbn join bnd receive multicbst dbtbgrbms when the bddress of the
+ * multicbst group corresponds to bnother protocol fbmily. For exbmple, it is
+ * implementbtion specific if b chbnnel to bn {@link StbndbrdProtocolFbmily#INET6 IPv6}
+ * socket cbn join bn {@link StbndbrdProtocolFbmily#INET IPv4} multicbst group bnd receive
+ * multicbst dbtbgrbms sent to the group. </p></li>
  *
- * <li><p> The channel's socket should be bound to the {@link
- * InetAddress#isAnyLocalAddress wildcard} address. If the socket is bound to
- * a specific address, rather than the wildcard address then it is implementation
- * specific if multicast datagrams are received by the socket. </p></li>
+ * <li><p> The chbnnel's socket should be bound to the {@link
+ * InetAddress#isAnyLocblAddress wildcbrd} bddress. If the socket is bound to
+ * b specific bddress, rbther thbn the wildcbrd bddress then it is implementbtion
+ * specific if multicbst dbtbgrbms bre received by the socket. </p></li>
  *
- * <li><p> The {@link StandardSocketOptions#SO_REUSEADDR SO_REUSEADDR} option should be
- * enabled prior to {@link NetworkChannel#bind binding} the socket. This is
- * required to allow multiple members of the group to bind to the same
- * address. </p></li>
+ * <li><p> The {@link StbndbrdSocketOptions#SO_REUSEADDR SO_REUSEADDR} option should be
+ * enbbled prior to {@link NetworkChbnnel#bind binding} the socket. This is
+ * required to bllow multiple members of the group to bind to the sbme
+ * bddress. </p></li>
  *
  * </ol>
  *
- * <p> <b>Usage Example:</b>
+ * <p> <b>Usbge Exbmple:</b>
  * <pre>
- *     // join multicast group on this interface, and also use this
- *     // interface for outgoing multicast datagrams
- *     NetworkInterface ni = NetworkInterface.getByName("hme0");
+ *     // join multicbst group on this interfbce, bnd blso use this
+ *     // interfbce for outgoing multicbst dbtbgrbms
+ *     NetworkInterfbce ni = NetworkInterfbce.getByNbme("hme0");
  *
- *     DatagramChannel dc = DatagramChannel.open(StandardProtocolFamily.INET)
- *         .setOption(StandardSocketOptions.SO_REUSEADDR, true)
+ *     DbtbgrbmChbnnel dc = DbtbgrbmChbnnel.open(StbndbrdProtocolFbmily.INET)
+ *         .setOption(StbndbrdSocketOptions.SO_REUSEADDR, true)
  *         .bind(new InetSocketAddress(5000))
- *         .setOption(StandardSocketOptions.IP_MULTICAST_IF, ni);
+ *         .setOption(StbndbrdSocketOptions.IP_MULTICAST_IF, ni);
  *
- *     InetAddress group = InetAddress.getByName("225.4.5.6");
+ *     InetAddress group = InetAddress.getByNbme("225.4.5.6");
  *
  *     MembershipKey key = dc.join(group, ni);
  * </pre>
@@ -119,112 +119,112 @@ import java.net.StandardSocketOptions;      // javadoc
  * @since 1.7
  */
 
-public interface MulticastChannel
-    extends NetworkChannel
+public interfbce MulticbstChbnnel
+    extends NetworkChbnnel
 {
     /**
-     * Closes this channel.
+     * Closes this chbnnel.
      *
-     * <p> If the channel is a member of a multicast group then the membership
+     * <p> If the chbnnel is b member of b multicbst group then the membership
      * is {@link MembershipKey#drop dropped}. Upon return, the {@link
-     * MembershipKey membership-key} will be {@link MembershipKey#isValid
-     * invalid}.
+     * MembershipKey membership-key} will be {@link MembershipKey#isVblid
+     * invblid}.
      *
-     * <p> This method otherwise behaves exactly as specified by the {@link
-     * Channel} interface.
+     * <p> This method otherwise behbves exbctly bs specified by the {@link
+     * Chbnnel} interfbce.
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
     @Override void close() throws IOException;
 
     /**
-     * Joins a multicast group to begin receiving all datagrams sent to the group,
-     * returning a membership key.
+     * Joins b multicbst group to begin receiving bll dbtbgrbms sent to the group,
+     * returning b membership key.
      *
-     * <p> If this channel is currently a member of the group on the given
-     * interface to receive all datagrams then the membership key, representing
-     * that membership, is returned. Otherwise this channel joins the group and
+     * <p> If this chbnnel is currently b member of the group on the given
+     * interfbce to receive bll dbtbgrbms then the membership key, representing
+     * thbt membership, is returned. Otherwise this chbnnel joins the group bnd
      * the resulting new membership key is returned. The resulting membership key
      * is not {@link MembershipKey#sourceAddress source-specific}.
      *
-     * <p> A multicast channel may join several multicast groups, including
-     * the same group on more than one interface. An implementation may impose a
-     * limit on the number of groups that may be joined at the same time.
+     * <p> A multicbst chbnnel mby join severbl multicbst groups, including
+     * the sbme group on more thbn one interfbce. An implementbtion mby impose b
+     * limit on the number of groups thbt mby be joined bt the sbme time.
      *
-     * @param   group
-     *          The multicast address to join
-     * @param   interf
-     *          The network interface on which to join the group
+     * @pbrbm   group
+     *          The multicbst bddress to join
+     * @pbrbm   interf
+     *          The network interfbce on which to join the group
      *
      * @return  The membership key
      *
-     * @throws  IllegalArgumentException
-     *          If the group parameter is not a {@link InetAddress#isMulticastAddress
-     *          multicast} address, or the group parameter is an address type
-     *          that is not supported by this channel
-     * @throws  IllegalStateException
-     *          If the channel already has source-specific membership of the
-     *          group on the interface
-     * @throws  UnsupportedOperationException
-     *          If the channel's socket is not an Internet Protocol socket
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  IllegblArgumentException
+     *          If the group pbrbmeter is not b {@link InetAddress#isMulticbstAddress
+     *          multicbst} bddress, or the group pbrbmeter is bn bddress type
+     *          thbt is not supported by this chbnnel
+     * @throws  IllegblStbteException
+     *          If the chbnnel blrebdy hbs source-specific membership of the
+     *          group on the interfbce
+     * @throws  UnsupportedOperbtionException
+     *          If the chbnnel's socket is not bn Internet Protocol socket
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          If a security manager is set, and its
-     *          {@link SecurityManager#checkMulticast(InetAddress) checkMulticast}
-     *          method denies access to the multiast group
+     *          If b security mbnbger is set, bnd its
+     *          {@link SecurityMbnbger#checkMulticbst(InetAddress) checkMulticbst}
+     *          method denies bccess to the multibst group
      */
-    MembershipKey join(InetAddress group, NetworkInterface interf)
+    MembershipKey join(InetAddress group, NetworkInterfbce interf)
         throws IOException;
 
     /**
-     * Joins a multicast group to begin receiving datagrams sent to the group
-     * from a given source address.
+     * Joins b multicbst group to begin receiving dbtbgrbms sent to the group
+     * from b given source bddress.
      *
-     * <p> If this channel is currently a member of the group on the given
-     * interface to receive datagrams from the given source address then the
-     * membership key, representing that membership, is returned. Otherwise this
-     * channel joins the group and the resulting new membership key is returned.
+     * <p> If this chbnnel is currently b member of the group on the given
+     * interfbce to receive dbtbgrbms from the given source bddress then the
+     * membership key, representing thbt membership, is returned. Otherwise this
+     * chbnnel joins the group bnd the resulting new membership key is returned.
      * The resulting membership key is {@link MembershipKey#sourceAddress
      * source-specific}.
      *
-     * <p> Membership is <em>cumulative</em> and this method may be invoked
-     * again with the same group and interface to allow receiving datagrams sent
-     * by other source addresses to the group.
+     * <p> Membership is <em>cumulbtive</em> bnd this method mby be invoked
+     * bgbin with the sbme group bnd interfbce to bllow receiving dbtbgrbms sent
+     * by other source bddresses to the group.
      *
-     * @param   group
-     *          The multicast address to join
-     * @param   interf
-     *          The network interface on which to join the group
-     * @param   source
-     *          The source address
+     * @pbrbm   group
+     *          The multicbst bddress to join
+     * @pbrbm   interf
+     *          The network interfbce on which to join the group
+     * @pbrbm   source
+     *          The source bddress
      *
      * @return  The membership key
      *
-     * @throws  IllegalArgumentException
-     *          If the group parameter is not a {@link
-     *          InetAddress#isMulticastAddress multicast} address, the
-     *          source parameter is not a unicast address, the group
-     *          parameter is an address type that is not supported by this channel,
-     *          or the source parameter is not the same address type as the group
-     * @throws  IllegalStateException
-     *          If the channel is currently a member of the group on the given
-     *          interface to receive all datagrams
-     * @throws  UnsupportedOperationException
-     *          If the channel's socket is not an Internet Protocol socket or
+     * @throws  IllegblArgumentException
+     *          If the group pbrbmeter is not b {@link
+     *          InetAddress#isMulticbstAddress multicbst} bddress, the
+     *          source pbrbmeter is not b unicbst bddress, the group
+     *          pbrbmeter is bn bddress type thbt is not supported by this chbnnel,
+     *          or the source pbrbmeter is not the sbme bddress type bs the group
+     * @throws  IllegblStbteException
+     *          If the chbnnel is currently b member of the group on the given
+     *          interfbce to receive bll dbtbgrbms
+     * @throws  UnsupportedOperbtionException
+     *          If the chbnnel's socket is not bn Internet Protocol socket or
      *          source filtering is not supported
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          If a security manager is set, and its
-     *          {@link SecurityManager#checkMulticast(InetAddress) checkMulticast}
-     *          method denies access to the multiast group
+     *          If b security mbnbger is set, bnd its
+     *          {@link SecurityMbnbger#checkMulticbst(InetAddress) checkMulticbst}
+     *          method denies bccess to the multibst group
      */
-    MembershipKey join(InetAddress group, NetworkInterface interf, InetAddress source)
+    MembershipKey join(InetAddress group, NetworkInterfbce interf, InetAddress source)
         throws IOException;
 }

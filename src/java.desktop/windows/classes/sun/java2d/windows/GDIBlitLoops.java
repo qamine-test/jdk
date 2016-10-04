@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.windows;
+pbckbge sun.jbvb2d.windows;
 
-import java.awt.Composite;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.GraphicsPrimitiveMgr;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.Blit;
-import sun.java2d.pipe.Region;
-import sun.java2d.SurfaceData;
+import jbvb.bwt.Composite;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.loops.GrbphicsPrimitiveMgr;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.SurfbceDbtb;
 
 /**
  * GDIBlitLoops
  *
- * This class accelerates Blits between certain surfaces and the
- * screen, using GDI.  The reason for these loops is to find
- * a way of copying to the screen without using DDraw locking
- * that is faster than our current fallback (which creates
- * a temporary GDI DIB)
+ * This clbss bccelerbtes Blits between certbin surfbces bnd the
+ * screen, using GDI.  The rebson for these loops is to find
+ * b wby of copying to the screen without using DDrbw locking
+ * thbt is fbster thbn our current fbllbbck (which crebtes
+ * b temporbry GDI DIB)
  */
-public class GDIBlitLoops extends Blit {
+public clbss GDIBlitLoops extends Blit {
 
-    // Store these values to be passed to native code
-    int rmask, gmask, bmask;
+    // Store these vblues to be pbssed to nbtive code
+    int rmbsk, gmbsk, bmbsk;
 
-    // Needs lookup table (for indexed color image copies)
-    boolean indexed = false;
+    // Needs lookup tbble (for indexed color imbge copies)
+    boolebn indexed = fblse;
 
     /**
-     * Note that we do not register loops to 8-byte destinations.  This
-     * is due to faster processing of dithering through our software
-     * loops than through GDI StretchBlt processing.
+     * Note thbt we do not register loops to 8-byte destinbtions.  This
+     * is due to fbster processing of dithering through our softwbre
+     * loops thbn through GDI StretchBlt processing.
      */
-    public static void register()
+    public stbtic void register()
     {
-        GraphicsPrimitive[] primitives = {
-            new GDIBlitLoops(SurfaceType.IntRgb,
-                             GDIWindowSurfaceData.AnyGdi),
-            new GDIBlitLoops(SurfaceType.Ushort555Rgb,
-                             GDIWindowSurfaceData.AnyGdi,
+        GrbphicsPrimitive[] primitives = {
+            new GDIBlitLoops(SurfbceType.IntRgb,
+                             GDIWindowSurfbceDbtb.AnyGdi),
+            new GDIBlitLoops(SurfbceType.Ushort555Rgb,
+                             GDIWindowSurfbceDbtb.AnyGdi,
                              0x7C00, 0x03E0, 0x001F),
-            new GDIBlitLoops(SurfaceType.Ushort565Rgb,
-                             GDIWindowSurfaceData.AnyGdi,
+            new GDIBlitLoops(SurfbceType.Ushort565Rgb,
+                             GDIWindowSurfbceDbtb.AnyGdi,
                              0xF800, 0x07E0, 0x001F),
-            new GDIBlitLoops(SurfaceType.ThreeByteBgr,
-                             GDIWindowSurfaceData.AnyGdi),
-            new GDIBlitLoops(SurfaceType.ByteIndexedOpaque,
-                             GDIWindowSurfaceData.AnyGdi,
+            new GDIBlitLoops(SurfbceType.ThreeByteBgr,
+                             GDIWindowSurfbceDbtb.AnyGdi),
+            new GDIBlitLoops(SurfbceType.ByteIndexedOpbque,
+                             GDIWindowSurfbceDbtb.AnyGdi,
                              true),
-            new GDIBlitLoops(SurfaceType.Index8Gray,
-                             GDIWindowSurfaceData.AnyGdi,
+            new GDIBlitLoops(SurfbceType.Index8Grby,
+                             GDIWindowSurfbceDbtb.AnyGdi,
                              true),
-            new GDIBlitLoops(SurfaceType.ByteGray,
-                             GDIWindowSurfaceData.AnyGdi),
+            new GDIBlitLoops(SurfbceType.ByteGrby,
+                             GDIWindowSurfbceDbtb.AnyGdi),
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
     /**
-     * This constructor exists for srcTypes that have no need of
-     * component masks. GDI only expects masks for 2- and 4-byte
-     * DIBs, so all 1- and 3-byte srcTypes can skip the mask setting.
+     * This constructor exists for srcTypes thbt hbve no need of
+     * component mbsks. GDI only expects mbsks for 2- bnd 4-byte
+     * DIBs, so bll 1- bnd 3-byte srcTypes cbn skip the mbsk setting.
      */
-    public GDIBlitLoops(SurfaceType srcType, SurfaceType dstType) {
+    public GDIBlitLoops(SurfbceType srcType, SurfbceType dstType) {
         this(srcType, dstType, 0, 0, 0);
     }
 
     /**
-     * This constructor exists for srcTypes that need lookup tables
-     * during image copying.
+     * This constructor exists for srcTypes thbt need lookup tbbles
+     * during imbge copying.
      */
-    public GDIBlitLoops(SurfaceType srcType, SurfaceType dstType,
-                        boolean indexed)
+    public GDIBlitLoops(SurfbceType srcType, SurfbceType dstType,
+                        boolebn indexed)
     {
         this(srcType, dstType, 0, 0, 0);
         this.indexed = indexed;
     }
 
     /**
-     * This constructor sets mask for this primitive which can be
-     * retrieved in native code to set the appropriate values for GDI.
+     * This constructor sets mbsk for this primitive which cbn be
+     * retrieved in nbtive code to set the bppropribte vblues for GDI.
      */
-    public GDIBlitLoops(SurfaceType srcType, SurfaceType dstType,
-                        int rmask, int gmask, int bmask)
+    public GDIBlitLoops(SurfbceType srcType, SurfbceType dstType,
+                        int rmbsk, int gmbsk, int bmbsk)
     {
-        super(srcType, CompositeType.SrcNoEa, dstType);
-        this.rmask = rmask;
-        this.gmask = gmask;
-        this.bmask = bmask;
+        super(srcType, CompositeType.SrcNoEb, dstType);
+        this.rmbsk = rmbsk;
+        this.gmbsk = gmbsk;
+        this.bmbsk = bmbsk;
     }
 
     /**
-     * nativeBlit
-     * This native method is where all of the work happens in the
-     * accelerated Blit.
+     * nbtiveBlit
+     * This nbtive method is where bll of the work hbppens in the
+     * bccelerbted Blit.
      */
-    public native void nativeBlit(SurfaceData src, SurfaceData dst,
+    public nbtive void nbtiveBlit(SurfbceDbtb src, SurfbceDbtb dst,
                                   Region clip,
                                   int sx, int sy, int dx, int dy,
                                   int w, int h,
-                                  int rmask, int gmask, int bmask,
-                                  boolean needLut);
+                                  int rmbsk, int gmbsk, int bmbsk,
+                                  boolebn needLut);
 
     /**
      * Blit
-     * This method wraps the nativeBlit call, sending in additional
-     * info on whether the native method needs to get LUT info
-     * from the source image.  Note that we do not pass in the
-     * Composite data because we only register these loops for
-     * SrcNoEa composite operations.
+     * This method wrbps the nbtiveBlit cbll, sending in bdditionbl
+     * info on whether the nbtive method needs to get LUT info
+     * from the source imbge.  Note thbt we do not pbss in the
+     * Composite dbtb becbuse we only register these loops for
+     * SrcNoEb composite operbtions.
      */
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
-        nativeBlit(src, dst, clip, sx, sy, dx, dy, w, h,
-                   rmask, gmask, bmask, indexed);
+        nbtiveBlit(src, dst, clip, sx, sy, dx, dy, w, h,
+                   rmbsk, gmbsk, bmbsk, indexed);
     }
 
 

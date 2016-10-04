@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Transparency;
-import java.awt.AWTException;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageObserver;
-import sun.awt.image.ByteComponentRaster;
-import sun.awt.image.IntegerComponentRaster;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferInt;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import sun.awt.image.ImageWatched;
-import java.util.Hashtable;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.ImbgeConsumer;
+import jbvb.bwt.imbge.ImbgeObserver;
+import sun.bwt.imbge.ByteComponentRbster;
+import sun.bwt.imbge.IntegerComponentRbster;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import sun.bwt.imbge.ImbgeWbtched;
+import jbvb.util.Hbshtbble;
 
-public class ImageRepresentation extends ImageWatched implements ImageConsumer
+public clbss ImbgeRepresentbtion extends ImbgeWbtched implements ImbgeConsumer
 {
-    InputStreamImageSource src;
-    ToolkitImage image;
-    int tag;
+    InputStrebmImbgeSource src;
+    ToolkitImbge imbge;
+    int tbg;
 
-    long pData; // used by windows native code only -- internal state REMIND ATTN @@
+    long pDbtb; // used by windows nbtive code only -- internbl stbte REMIND ATTN @@
 
     int width = -1;
     int height = -1;
     int hints;
 
-    int availinfo;
+    int bvbilinfo;
 
-    Rectangle newbits;
+    Rectbngle newbits;
 
-    BufferedImage bimage;
-    WritableRaster biRaster;
+    BufferedImbge bimbge;
+    WritbbleRbster biRbster;
     protected ColorModel cmodel;
     ColorModel srcModel = null;
     int[] srcLUT = null;
-    int srcLUTtransIndex = -1;
+    int srcLUTtrbnsIndex = -1;
     int numSrcLUT = 0;
-    boolean forceCMhint;
+    boolebn forceCMhint;
     int sstride;
-    boolean isDefaultBI = false;
-    boolean isSameCM = false;
+    boolebn isDefbultBI = fblse;
+    boolebn isSbmeCM = fblse;
 
-    private native static void initIDs();
+    privbte nbtive stbtic void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        NbtiveLibLobder.lobdLibrbries();
         initIDs();
     }
 
     /**
-     * Create an ImageRepresentation for the given Image.  The
-     * width and height are unknown at this point.  The color
-     * model is a hint as to the color model to use when creating
-     * the buffered image.  If null, the src color model will
+     * Crebte bn ImbgeRepresentbtion for the given Imbge.  The
+     * width bnd height bre unknown bt this point.  The color
+     * model is b hint bs to the color model to use when crebting
+     * the buffered imbge.  If null, the src color model will
      * be used.
      */
-    public ImageRepresentation(ToolkitImage im, ColorModel cmodel, boolean
+    public ImbgeRepresentbtion(ToolkitImbge im, ColorModel cmodel, boolebn
                                forceCMhint) {
-        image = im;
+        imbge = im;
 
-        if (image.getSource() instanceof InputStreamImageSource) {
-            src = (InputStreamImageSource) image.getSource();
+        if (imbge.getSource() instbnceof InputStrebmImbgeSource) {
+            src = (InputStrebmImbgeSource) imbge.getSource();
         }
 
         setColorModel(cmodel);
@@ -103,58 +103,58 @@ public class ImageRepresentation extends ImageWatched implements ImageConsumer
         this.forceCMhint = forceCMhint;
     }
 
-    /* REMIND: Only used for Frame.setIcon - should use ImageWatcher instead */
-    public synchronized void reconstruct(int flags) {
+    /* REMIND: Only used for Frbme.setIcon - should use ImbgeWbtcher instebd */
+    public synchronized void reconstruct(int flbgs) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        int missinginfo = flags & ~availinfo;
-        if ((availinfo & ImageObserver.ERROR) == 0 && missinginfo != 0) {
-            numWaiters++;
+        int missinginfo = flbgs & ~bvbilinfo;
+        if ((bvbilinfo & ImbgeObserver.ERROR) == 0 && missinginfo != 0) {
+            numWbiters++;
             try {
-                startProduction();
-                missinginfo = flags & ~availinfo;
-                while ((availinfo & ImageObserver.ERROR) == 0 &&
+                stbrtProduction();
+                missinginfo = flbgs & ~bvbilinfo;
+                while ((bvbilinfo & ImbgeObserver.ERROR) == 0 &&
                        missinginfo != 0)
                 {
                     try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+                        wbit();
+                    } cbtch (InterruptedException e) {
+                        Threbd.currentThrebd().interrupt();
                         return;
                     }
-                    missinginfo = flags & ~availinfo;
+                    missinginfo = flbgs & ~bvbilinfo;
                 }
-            } finally {
-                decrementWaiters();
+            } finblly {
+                decrementWbiters();
             }
         }
     }
 
     public void setDimensions(int w, int h) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
 
-        image.setDimensions(w, h);
+        imbge.setDimensions(w, h);
 
-        newInfo(image, (ImageObserver.WIDTH | ImageObserver.HEIGHT),
+        newInfo(imbge, (ImbgeObserver.WIDTH | ImbgeObserver.HEIGHT),
                 0, 0, w, h);
 
         if (w <= 0 || h <= 0) {
-            imageComplete(ImageConsumer.IMAGEERROR);
+            imbgeComplete(ImbgeConsumer.IMAGEERROR);
             return;
         }
 
         if (width != w || height != h) {
-            // dimension mismatch => trigger recreation of the buffer
-            bimage = null;
+            // dimension mismbtch => trigger recrebtion of the buffer
+            bimbge = null;
         }
 
         width = w;
         height = h;
 
-        availinfo |= ImageObserver.WIDTH | ImageObserver.HEIGHT;
+        bvbilinfo |= ImbgeObserver.WIDTH | ImbgeObserver.HEIGHT;
     }
 
     public int getWidth() {
@@ -169,58 +169,58 @@ public class ImageRepresentation extends ImageWatched implements ImageConsumer
         return cmodel;
     }
 
-    BufferedImage getBufferedImage() {
-        return bimage;
+    BufferedImbge getBufferedImbge() {
+        return bimbge;
     }
 
     /**
-     * Returns the BufferedImage that will be used as the representation of
-     * the pixel data.  Subclasses can override this method to return
-     * platform specific subclasses of BufferedImage that may or may not be
-     * accelerated.
+     * Returns the BufferedImbge thbt will be used bs the representbtion of
+     * the pixel dbtb.  Subclbsses cbn override this method to return
+     * plbtform specific subclbsses of BufferedImbge thbt mby or mby not be
+     * bccelerbted.
      *
-     * It is subclass' responsibility to propagate acceleration priority
-     * to the newly created image.
+     * It is subclbss' responsibility to propbgbte bccelerbtion priority
+     * to the newly crebted imbge.
      */
-    protected BufferedImage createImage(ColorModel cm,
-                                        WritableRaster raster,
-                                        boolean isRasterPremultiplied,
-                                        Hashtable<?,?> properties)
+    protected BufferedImbge crebteImbge(ColorModel cm,
+                                        WritbbleRbster rbster,
+                                        boolebn isRbsterPremultiplied,
+                                        Hbshtbble<?,?> properties)
     {
-        BufferedImage bi =
-            new BufferedImage(cm, raster, isRasterPremultiplied, null);
-        bi.setAccelerationPriority(image.getAccelerationPriority());
+        BufferedImbge bi =
+            new BufferedImbge(cm, rbster, isRbsterPremultiplied, null);
+        bi.setAccelerbtionPriority(imbge.getAccelerbtionPriority());
         return bi;
     }
 
-    public void setProperties(Hashtable<?,?> props) {
+    public void setProperties(Hbshtbble<?,?> props) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        image.setProperties(props);
-        newInfo(image, ImageObserver.PROPERTIES, 0, 0, 0, 0);
+        imbge.setProperties(props);
+        newInfo(imbge, ImbgeObserver.PROPERTIES, 0, 0, 0, 0);
     }
 
     public void setColorModel(ColorModel model) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
         srcModel = model;
 
         // Check to see if model is INT_RGB
-        if (model instanceof IndexColorModel) {
-            if (model.getTransparency() == Transparency.TRANSLUCENT) {
+        if (model instbnceof IndexColorModel) {
+            if (model.getTrbnspbrency() == Trbnspbrency.TRANSLUCENT) {
                 // REMIND:
-                // Probably need to composite anyway so force ARGB
-                cmodel = ColorModel.getRGBdefault();
+                // Probbbly need to composite bnywby so force ARGB
+                cmodel = ColorModel.getRGBdefbult();
                 srcLUT = null;
             }
             else {
                 IndexColorModel icm = (IndexColorModel) model;
-                numSrcLUT = icm.getMapSize();
-                srcLUT = new int[Math.max(numSrcLUT, 256)];
+                numSrcLUT = icm.getMbpSize();
+                srcLUT = new int[Mbth.mbx(numSrcLUT, 256)];
                 icm.getRGBs(srcLUT);
-                srcLUTtransIndex = icm.getTransparentPixel();
+                srcLUTtrbnsIndex = icm.getTrbnspbrentPixel();
                 cmodel = model;
             }
         }
@@ -229,71 +229,71 @@ public class ImageRepresentation extends ImageWatched implements ImageConsumer
                 cmodel = model;
                 srcLUT   = null;
             }
-            else if (model instanceof DirectColorModel) {
+            else if (model instbnceof DirectColorModel) {
                 // If it is INT_RGB or INT_ARGB, use the model
                 DirectColorModel dcm = (DirectColorModel) model;
-                if ((dcm.getRedMask() == 0xff0000) &&
-                    (dcm.getGreenMask() == 0xff00) &&
-                    (dcm.getBlueMask()  == 0x00ff)) {
+                if ((dcm.getRedMbsk() == 0xff0000) &&
+                    (dcm.getGreenMbsk() == 0xff00) &&
+                    (dcm.getBlueMbsk()  == 0x00ff)) {
                     cmodel   = model;
                     srcLUT   = null;
                 }
             }
         }
 
-        isSameCM = (cmodel == model);
+        isSbmeCM = (cmodel == model);
     }
 
-    void createBufferedImage() {
-        // REMIND:  Be careful!  Is this called everytime there is a
-        // startProduction?  We only want to call it if it is new or
-        // there is an error
-        isDefaultBI = false;
+    void crebteBufferedImbge() {
+        // REMIND:  Be cbreful!  Is this cblled everytime there is b
+        // stbrtProduction?  We only wbnt to cbll it if it is new or
+        // there is bn error
+        isDefbultBI = fblse;
         try {
-            biRaster = cmodel.createCompatibleWritableRaster(width, height);
-            bimage = createImage(cmodel, biRaster,
-                                 cmodel.isAlphaPremultiplied(), null);
-        } catch (Exception e) {
-            // Create a default image
-            cmodel = ColorModel.getRGBdefault();
-            biRaster = cmodel.createCompatibleWritableRaster(width, height);
-            bimage = createImage(cmodel, biRaster, false, null);
+            biRbster = cmodel.crebteCompbtibleWritbbleRbster(width, height);
+            bimbge = crebteImbge(cmodel, biRbster,
+                                 cmodel.isAlphbPremultiplied(), null);
+        } cbtch (Exception e) {
+            // Crebte b defbult imbge
+            cmodel = ColorModel.getRGBdefbult();
+            biRbster = cmodel.crebteCompbtibleWritbbleRbster(width, height);
+            bimbge = crebteImbge(cmodel, biRbster, fblse, null);
         }
-        int type = bimage.getType();
+        int type = bimbge.getType();
 
-        if ((cmodel == ColorModel.getRGBdefault()) ||
-               (type == BufferedImage.TYPE_INT_RGB) ||
-               (type == BufferedImage.TYPE_INT_ARGB_PRE)) {
-            isDefaultBI = true;
+        if ((cmodel == ColorModel.getRGBdefbult()) ||
+               (type == BufferedImbge.TYPE_INT_RGB) ||
+               (type == BufferedImbge.TYPE_INT_ARGB_PRE)) {
+            isDefbultBI = true;
         }
-        else if (cmodel instanceof DirectColorModel) {
+        else if (cmodel instbnceof DirectColorModel) {
             DirectColorModel dcm = (DirectColorModel) cmodel;
-            if (dcm.getRedMask() == 0xff0000 &&
-                dcm.getGreenMask() == 0xff00 &&
-                dcm.getBlueMask()  == 0xff) {
-                isDefaultBI = true;
+            if (dcm.getRedMbsk() == 0xff0000 &&
+                dcm.getGreenMbsk() == 0xff00 &&
+                dcm.getBlueMbsk()  == 0xff) {
+                isDefbultBI = true;
             }
         }
     }
 
-    private void convertToRGB() {
-        int w = bimage.getWidth();
-        int h = bimage.getHeight();
+    privbte void convertToRGB() {
+        int w = bimbge.getWidth();
+        int h = bimbge.getHeight();
         int size = w*h;
 
-        DataBufferInt dbi = new DataBufferInt(size);
-        // Note that stealData() requires a markDirty() afterwards
-        // since we modify the data in it.
-        int newpixels[] = SunWritableRaster.stealData(dbi, 0);
-        if (cmodel instanceof IndexColorModel &&
-            biRaster instanceof ByteComponentRaster &&
-            biRaster.getNumDataElements() == 1)
+        DbtbBufferInt dbi = new DbtbBufferInt(size);
+        // Note thbt steblDbtb() requires b mbrkDirty() bfterwbrds
+        // since we modify the dbtb in it.
+        int newpixels[] = SunWritbbleRbster.steblDbtb(dbi, 0);
+        if (cmodel instbnceof IndexColorModel &&
+            biRbster instbnceof ByteComponentRbster &&
+            biRbster.getNumDbtbElements() == 1)
         {
-            ByteComponentRaster bct = (ByteComponentRaster) biRaster;
-            byte[] data = bct.getDataStorage();
-            int coff = bct.getDataOffset(0);
+            ByteComponentRbster bct = (ByteComponentRbster) biRbster;
+            byte[] dbtb = bct.getDbtbStorbge();
+            int coff = bct.getDbtbOffset(0);
             for (int i=0; i < size; i++) {
-                newpixels[i] = srcLUT[data[coff+i]&0xff];
+                newpixels[i] = srcLUT[dbtb[coff+i]&0xff];
             }
         }
         else {
@@ -301,73 +301,73 @@ public class ImageRepresentation extends ImageWatched implements ImageConsumer
             int off=0;
             for (int y=0; y < h; y++) {
                 for (int x=0; x < w; x++) {
-                    srcpixels=biRaster.getDataElements(x, y, srcpixels);
+                    srcpixels=biRbster.getDbtbElements(x, y, srcpixels);
                     newpixels[off++] = cmodel.getRGB(srcpixels);
                 }
             }
         }
-        // We modified the data array directly above so mark it as dirty now...
-        SunWritableRaster.markDirty(dbi);
+        // We modified the dbtb brrby directly bbove so mbrk it bs dirty now...
+        SunWritbbleRbster.mbrkDirty(dbi);
 
-        isSameCM = false;
-        cmodel = ColorModel.getRGBdefault();
+        isSbmeCM = fblse;
+        cmodel = ColorModel.getRGBdefbult();
 
-        int bandMasks[] = {0x00ff0000,
+        int bbndMbsks[] = {0x00ff0000,
                            0x0000ff00,
                            0x000000ff,
                            0xff000000};
 
-        biRaster = Raster.createPackedRaster(dbi,w,h,w,
-                                             bandMasks,null);
+        biRbster = Rbster.crebtePbckedRbster(dbi,w,h,w,
+                                             bbndMbsks,null);
 
-        bimage = createImage(cmodel, biRaster,
-                             cmodel.isAlphaPremultiplied(), null);
+        bimbge = crebteImbge(cmodel, biRbster,
+                             cmodel.isAlphbPremultiplied(), null);
         srcLUT = null;
-        isDefaultBI = true;
+        isDefbultBI = true;
     }
 
     public void setHints(int h) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
         hints = h;
     }
 
-    private native boolean setICMpixels(int x, int y, int w, int h, int[] lut,
-                                    byte[] pix, int off, int scansize,
-                                    IntegerComponentRaster ict);
-    private native boolean setDiffICM(int x, int y, int w, int h, int[] lut,
-                                 int transPix, int numLut, IndexColorModel icm,
-                                 byte[] pix, int off, int scansize,
-                                 ByteComponentRaster bct, int chanOff);
-    static boolean s_useNative = true;
+    privbte nbtive boolebn setICMpixels(int x, int y, int w, int h, int[] lut,
+                                    byte[] pix, int off, int scbnsize,
+                                    IntegerComponentRbster ict);
+    privbte nbtive boolebn setDiffICM(int x, int y, int w, int h, int[] lut,
+                                 int trbnsPix, int numLut, IndexColorModel icm,
+                                 byte[] pix, int off, int scbnsize,
+                                 ByteComponentRbster bct, int chbnOff);
+    stbtic boolebn s_useNbtive = true;
 
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model,
-                          byte pix[], int off, int scansize) {
+                          byte pix[], int off, int scbnsize) {
         int lineOff=off;
         int poff;
         int[] newLUT=null;
 
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
 
-        // REMIND: What if the model doesn't fit in default color model?
+        // REMIND: Whbt if the model doesn't fit in defbult color model?
         synchronized (this) {
-            if (bimage == null) {
+            if (bimbge == null) {
                 if (cmodel == null) {
                     cmodel = model;
                 }
-                createBufferedImage();
+                crebteBufferedImbge();
             }
 
             if (w <= 0 || h <= 0) {
                 return;
             }
 
-            int biWidth = biRaster.getWidth();
-            int biHeight = biRaster.getHeight();
+            int biWidth = biRbster.getWidth();
+            int biHeight = biRbster.getHeight();
 
             int x1 = x+w;  // Overflow protection below
             int y1 = y+h;  // Overflow protection below
@@ -378,7 +378,7 @@ public class ImageRepresentation extends ImageWatched implements ImageConsumer
                 x1 = biWidth;  // Must be overflow
             }
             if (y < 0) {
-                off -= y*scansize;
+                off -= y*scbnsize;
                 y = 0;
             } else if (y1 < 0) {
                 y1 = biHeight;  // Must be overflow
@@ -392,268 +392,268 @@ public class ImageRepresentation extends ImageWatched implements ImageConsumer
             if (x >= x1 || y >= y1) {
                 return;
             }
-            // x,y,x1,y1 are all >= 0, so w,h must be >= 0
+            // x,y,x1,y1 bre bll >= 0, so w,h must be >= 0
             w = x1-x;
             h = y1-y;
-            // off is first pixel read so it must be in bounds
+            // off is first pixel rebd so it must be in bounds
             if (off < 0 || off >= pix.length) {
-                // They overflowed their own array
-                throw new ArrayIndexOutOfBoundsException("Data offset out of bounds.");
+                // They overflowed their own brrby
+                throw new ArrbyIndexOutOfBoundsException("Dbtb offset out of bounds.");
             }
-            // pix.length and off are >= 0 so remainder >= 0
-            int remainder = pix.length - off;
-            if (remainder < w) {
-                // They overflowed their own array
-                throw new ArrayIndexOutOfBoundsException("Data array is too short.");
+            // pix.length bnd off bre >= 0 so rembinder >= 0
+            int rembinder = pix.length - off;
+            if (rembinder < w) {
+                // They overflowed their own brrby
+                throw new ArrbyIndexOutOfBoundsException("Dbtb brrby is too short.");
             }
             int num;
-            if (scansize < 0) {
-                num = (off / -scansize) + 1;
-            } else if (scansize > 0) {
-                num = ((remainder-w) / scansize) + 1;
+            if (scbnsize < 0) {
+                num = (off / -scbnsize) + 1;
+            } else if (scbnsize > 0) {
+                num = ((rembinder-w) / scbnsize) + 1;
             } else {
                 num = h;
             }
             if (h > num) {
-                // They overflowed their own array.
-                throw new ArrayIndexOutOfBoundsException("Data array is too short.");
+                // They overflowed their own brrby.
+                throw new ArrbyIndexOutOfBoundsException("Dbtb brrby is too short.");
             }
 
-            if (isSameCM && (cmodel != model) && (srcLUT != null) &&
-                (model instanceof IndexColorModel) &&
-                (biRaster instanceof ByteComponentRaster))
+            if (isSbmeCM && (cmodel != model) && (srcLUT != null) &&
+                (model instbnceof IndexColorModel) &&
+                (biRbster instbnceof ByteComponentRbster))
             {
                 IndexColorModel icm = (IndexColorModel) model;
-                ByteComponentRaster bct = (ByteComponentRaster) biRaster;
+                ByteComponentRbster bct = (ByteComponentRbster) biRbster;
                 int numlut = numSrcLUT;
-                if (!setDiffICM(x, y, w, h, srcLUT, srcLUTtransIndex,
+                if (!setDiffICM(x, y, w, h, srcLUT, srcLUTtrbnsIndex,
                                numSrcLUT, icm,
-                               pix, off, scansize, bct,
-                               bct.getDataOffset(0))) {
+                               pix, off, scbnsize, bct,
+                               bct.getDbtbOffset(0))) {
                     convertToRGB();
                 }
                 else {
-                    // Note that setDiffICM modified the raster directly
-                    // so we must mark it as changed
-                    bct.markDirty();
+                    // Note thbt setDiffICM modified the rbster directly
+                    // so we must mbrk it bs chbnged
+                    bct.mbrkDirty();
                     if (numlut != numSrcLUT) {
-                        boolean hasAlpha = icm.hasAlpha();
-                        if (srcLUTtransIndex != -1) {
-                            hasAlpha = true;
+                        boolebn hbsAlphb = icm.hbsAlphb();
+                        if (srcLUTtrbnsIndex != -1) {
+                            hbsAlphb = true;
                         }
                         int nbits = icm.getPixelSize();
                         icm = new IndexColorModel(nbits,
                                                   numSrcLUT, srcLUT,
-                                                  0, hasAlpha,
-                                                  srcLUTtransIndex,
+                                                  0, hbsAlphb,
+                                                  srcLUTtrbnsIndex,
                                                   (nbits > 8
-                                                   ? DataBuffer.TYPE_USHORT
-                                                   : DataBuffer.TYPE_BYTE));
+                                                   ? DbtbBuffer.TYPE_USHORT
+                                                   : DbtbBuffer.TYPE_BYTE));
                         cmodel = icm;
-                        bimage = createImage(icm, bct, false, null);
+                        bimbge = crebteImbge(icm, bct, fblse, null);
                     }
                     return;
                 }
             }
 
-            if (isDefaultBI) {
+            if (isDefbultBI) {
                 int pixel;
-                IntegerComponentRaster iraster =
-                                          (IntegerComponentRaster) biRaster;
-                if (srcLUT != null && model instanceof IndexColorModel) {
+                IntegerComponentRbster irbster =
+                                          (IntegerComponentRbster) biRbster;
+                if (srcLUT != null && model instbnceof IndexColorModel) {
                     if (model != srcModel) {
                         // Fill in the new lut
                         ((IndexColorModel)model).getRGBs(srcLUT);
                         srcModel = model;
                     }
 
-                    if (s_useNative) {
-                        // Note that setICMpixels modifies the raster directly
-                        // so we must mark it as changed afterwards
-                        if (setICMpixels(x, y, w, h, srcLUT, pix, off, scansize,
-                                     iraster))
+                    if (s_useNbtive) {
+                        // Note thbt setICMpixels modifies the rbster directly
+                        // so we must mbrk it bs chbnged bfterwbrds
+                        if (setICMpixels(x, y, w, h, srcLUT, pix, off, scbnsize,
+                                     irbster))
                         {
-                            iraster.markDirty();
+                            irbster.mbrkDirty();
                         } else {
-                            abort();
+                            bbort();
                             return;
                         }
                     }
                     else {
-                        int[] storage = new int[w*h];
+                        int[] storbge = new int[w*h];
                         int soff = 0;
-                        // It is an IndexColorModel
+                        // It is bn IndexColorModel
                         for (int yoff=0; yoff < h; yoff++,
-                                 lineOff += scansize) {
+                                 lineOff += scbnsize) {
                             poff = lineOff;
                             for (int i=0; i < w; i++) {
-                                storage[soff++] = srcLUT[pix[poff++]&0xff];
+                                storbge[soff++] = srcLUT[pix[poff++]&0xff];
                             }
                         }
-                        iraster.setDataElements(x, y, w, h, storage);
+                        irbster.setDbtbElements(x, y, w, h, storbge);
                     }
                 }
                 else {
-                    int[] storage = new int[w];
-                    for (int yoff=y; yoff < y+h; yoff++, lineOff += scansize) {
+                    int[] storbge = new int[w];
+                    for (int yoff=y; yoff < y+h; yoff++, lineOff += scbnsize) {
                         poff = lineOff;
                         for (int i=0; i < w; i++) {
-                            storage[i] = model.getRGB(pix[poff++]&0xff);
+                            storbge[i] = model.getRGB(pix[poff++]&0xff);
                         }
-                        iraster.setDataElements(x, yoff, w, 1, storage);
+                        irbster.setDbtbElements(x, yoff, w, 1, storbge);
                     }
-                    availinfo |= ImageObserver.SOMEBITS;
+                    bvbilinfo |= ImbgeObserver.SOMEBITS;
                 }
             }
             else if ((cmodel == model) &&
-                     (biRaster instanceof ByteComponentRaster) &&
-                     (biRaster.getNumDataElements() == 1)){
-                ByteComponentRaster bt = (ByteComponentRaster) biRaster;
-                if (off == 0 && scansize == w) {
-                    bt.putByteData(x, y, w, h, pix);
+                     (biRbster instbnceof ByteComponentRbster) &&
+                     (biRbster.getNumDbtbElements() == 1)){
+                ByteComponentRbster bt = (ByteComponentRbster) biRbster;
+                if (off == 0 && scbnsize == w) {
+                    bt.putByteDbtb(x, y, w, h, pix);
                 }
                 else {
                     byte[] bpix = new byte[w];
                     poff = off;
                     for (int yoff=y; yoff < y+h; yoff++) {
-                        System.arraycopy(pix, poff, bpix, 0, w);
-                        bt.putByteData(x, yoff, w, 1, bpix);
-                        poff += scansize;
+                        System.brrbycopy(pix, poff, bpix, 0, w);
+                        bt.putByteDbtb(x, yoff, w, 1, bpix);
+                        poff += scbnsize;
                     }
                 }
             }
             else {
-                for (int yoff=y; yoff < y+h; yoff++, lineOff += scansize) {
+                for (int yoff=y; yoff < y+h; yoff++, lineOff += scbnsize) {
                     poff = lineOff;
                     for (int xoff=x; xoff < x+w; xoff++) {
-                        bimage.setRGB(xoff, yoff,
+                        bimbge.setRGB(xoff, yoff,
                                       model.getRGB(pix[poff++]&0xff));
                     }
                 }
-                availinfo |= ImageObserver.SOMEBITS;
+                bvbilinfo |= ImbgeObserver.SOMEBITS;
             }
         }
 
-        if ((availinfo & ImageObserver.FRAMEBITS) == 0) {
-            newInfo(image, ImageObserver.SOMEBITS, x, y, w, h);
+        if ((bvbilinfo & ImbgeObserver.FRAMEBITS) == 0) {
+            newInfo(imbge, ImbgeObserver.SOMEBITS, x, y, w, h);
         }
     }
 
 
     public void setPixels(int x, int y, int w, int h, ColorModel model,
-                          int pix[], int off, int scansize)
+                          int pix[], int off, int scbnsize)
     {
         int lineOff=off;
         int poff;
 
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
 
-        // REMIND: What if the model doesn't fit in default color model?
+        // REMIND: Whbt if the model doesn't fit in defbult color model?
         synchronized (this) {
-            if (bimage == null) {
+            if (bimbge == null) {
                 if (cmodel == null) {
                     cmodel = model;
                 }
-                createBufferedImage();
+                crebteBufferedImbge();
             }
 
-            int[] storage = new int[w];
+            int[] storbge = new int[w];
             int yoff;
             int pixel;
 
-            if (cmodel instanceof IndexColorModel) {
-                // REMIND: Right now we don't support writing back into ICM
-                // images.
+            if (cmodel instbnceof IndexColorModel) {
+                // REMIND: Right now we don't support writing bbck into ICM
+                // imbges.
                 convertToRGB();
             }
 
             if ((model == cmodel) &&
-                (biRaster instanceof IntegerComponentRaster)) {
-                IntegerComponentRaster iraster =
-                                         (IntegerComponentRaster) biRaster;
+                (biRbster instbnceof IntegerComponentRbster)) {
+                IntegerComponentRbster irbster =
+                                         (IntegerComponentRbster) biRbster;
 
-                if (off == 0 && scansize == w) {
-                    iraster.setDataElements(x, y, w, h, pix);
+                if (off == 0 && scbnsize == w) {
+                    irbster.setDbtbElements(x, y, w, h, pix);
                 }
                 else {
-                    // Need to pack the data
-                    for (yoff=y; yoff < y+h; yoff++, lineOff+=scansize) {
-                        System.arraycopy(pix, lineOff, storage, 0, w);
-                        iraster.setDataElements(x, yoff, w, 1, storage);
+                    // Need to pbck the dbtb
+                    for (yoff=y; yoff < y+h; yoff++, lineOff+=scbnsize) {
+                        System.brrbycopy(pix, lineOff, storbge, 0, w);
+                        irbster.setDbtbElements(x, yoff, w, 1, storbge);
                     }
                 }
             }
             else {
-                if (model.getTransparency() != Transparency.OPAQUE &&
-                    cmodel.getTransparency() == Transparency.OPAQUE) {
+                if (model.getTrbnspbrency() != Trbnspbrency.OPAQUE &&
+                    cmodel.getTrbnspbrency() == Trbnspbrency.OPAQUE) {
                     convertToRGB();
                 }
 
-                if (isDefaultBI) {
-                    IntegerComponentRaster iraster =
-                                        (IntegerComponentRaster) biRaster;
-                    int[] data = iraster.getDataStorage();
-                    if (cmodel.equals(model)) {
-                        int sstride = iraster.getScanlineStride();
+                if (isDefbultBI) {
+                    IntegerComponentRbster irbster =
+                                        (IntegerComponentRbster) biRbster;
+                    int[] dbtb = irbster.getDbtbStorbge();
+                    if (cmodel.equbls(model)) {
+                        int sstride = irbster.getScbnlineStride();
                         int doff = y*sstride + x;
-                        for (yoff=0; yoff < h; yoff++, lineOff += scansize) {
-                            System.arraycopy(pix, lineOff, data, doff, w);
+                        for (yoff=0; yoff < h; yoff++, lineOff += scbnsize) {
+                            System.brrbycopy(pix, lineOff, dbtb, doff, w);
                             doff += sstride;
                         }
-                        // Note: manual modification of pixels, mark the
-                        // raster as changed
-                        iraster.markDirty();
+                        // Note: mbnubl modificbtion of pixels, mbrk the
+                        // rbster bs chbnged
+                        irbster.mbrkDirty();
                     }
                     else {
-                        for (yoff=y; yoff < y+h; yoff++, lineOff += scansize) {
+                        for (yoff=y; yoff < y+h; yoff++, lineOff += scbnsize) {
                             poff = lineOff;
                             for (int i=0; i < w; i++) {
-                                storage[i]=model.getRGB(pix[poff++]);
+                                storbge[i]=model.getRGB(pix[poff++]);
                             }
-                            iraster.setDataElements(x, yoff, w, 1, storage);
+                            irbster.setDbtbElements(x, yoff, w, 1, storbge);
                         }
                     }
 
-                    availinfo |= ImageObserver.SOMEBITS;
+                    bvbilinfo |= ImbgeObserver.SOMEBITS;
                 }
                 else {
                     Object tmp = null;
 
-                    for (yoff=y; yoff < y+h; yoff++, lineOff += scansize) {
+                    for (yoff=y; yoff < y+h; yoff++, lineOff += scbnsize) {
                         poff = lineOff;
                         for (int xoff=x; xoff < x+w; xoff++) {
                             pixel = model.getRGB(pix[poff++]);
-                            tmp = cmodel.getDataElements(pixel,tmp);
-                            biRaster.setDataElements(xoff, yoff,tmp);
+                            tmp = cmodel.getDbtbElements(pixel,tmp);
+                            biRbster.setDbtbElements(xoff, yoff,tmp);
                         }
                     }
-                    availinfo |= ImageObserver.SOMEBITS;
+                    bvbilinfo |= ImbgeObserver.SOMEBITS;
                 }
             }
         }
 
-        // Can't do this here since we might need to transform/clip
+        // Cbn't do this here since we might need to trbnsform/clip
         // the region
-        if (((availinfo & ImageObserver.FRAMEBITS) == 0)) {
-            newInfo(image, ImageObserver.SOMEBITS, x, y, w, h);
+        if (((bvbilinfo & ImbgeObserver.FRAMEBITS) == 0)) {
+            newInfo(imbge, ImbgeObserver.SOMEBITS, x, y, w, h);
         }
     }
 
-    public BufferedImage getOpaqueRGBImage() {
-        if (bimage.getType() == BufferedImage.TYPE_INT_ARGB) {
-            int w = bimage.getWidth();
-            int h = bimage.getHeight();
+    public BufferedImbge getOpbqueRGBImbge() {
+        if (bimbge.getType() == BufferedImbge.TYPE_INT_ARGB) {
+            int w = bimbge.getWidth();
+            int h = bimbge.getHeight();
             int size = w * h;
 
-            // Note that we steal the data array here, but only for reading...
-            DataBufferInt db = (DataBufferInt)biRaster.getDataBuffer();
-            int[] pixels = SunWritableRaster.stealData(db, 0);
+            // Note thbt we stebl the dbtb brrby here, but only for rebding...
+            DbtbBufferInt db = (DbtbBufferInt)biRbster.getDbtbBuffer();
+            int[] pixels = SunWritbbleRbster.steblDbtb(db, 0);
 
             for (int i = 0; i < size; i++) {
                 if ((pixels[i] >>> 24) != 0xff) {
-                    return bimage;
+                    return bimbge;
                 }
             }
 
@@ -662,219 +662,219 @@ public class ImageRepresentation extends ImageWatched implements ImageConsumer
                                                       0x0000ff00,
                                                       0x000000ff);
 
-            int bandmasks[] = {0x00ff0000, 0x0000ff00, 0x000000ff};
-            WritableRaster opRaster = Raster.createPackedRaster(db, w, h, w,
-                                                                bandmasks,
+            int bbndmbsks[] = {0x00ff0000, 0x0000ff00, 0x000000ff};
+            WritbbleRbster opRbster = Rbster.crebtePbckedRbster(db, w, h, w,
+                                                                bbndmbsks,
                                                                 null);
 
             try {
-                BufferedImage opImage = createImage(opModel, opRaster,
-                                                    false, null);
-                return opImage;
-            } catch (Exception e) {
-                return bimage;
+                BufferedImbge opImbge = crebteImbge(opModel, opRbster,
+                                                    fblse, null);
+                return opImbge;
+            } cbtch (Exception e) {
+                return bimbge;
             }
         }
-        return bimage;
+        return bimbge;
     }
 
-    private boolean consuming = false;
+    privbte boolebn consuming = fblse;
 
-    public void imageComplete(int status) {
+    public void imbgeComplete(int stbtus) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        boolean done;
+        boolebn done;
         int info;
-        switch (status) {
-        default:
-        case ImageConsumer.IMAGEABORTED:
+        switch (stbtus) {
+        defbult:
+        cbse ImbgeConsumer.IMAGEABORTED:
             done = true;
-            info = ImageObserver.ABORT;
-            break;
-        case ImageConsumer.IMAGEERROR:
-            image.addInfo(ImageObserver.ERROR);
+            info = ImbgeObserver.ABORT;
+            brebk;
+        cbse ImbgeConsumer.IMAGEERROR:
+            imbge.bddInfo(ImbgeObserver.ERROR);
             done = true;
-            info = ImageObserver.ERROR;
+            info = ImbgeObserver.ERROR;
             dispose();
-            break;
-        case ImageConsumer.STATICIMAGEDONE:
+            brebk;
+        cbse ImbgeConsumer.STATICIMAGEDONE:
             done = true;
-            info = ImageObserver.ALLBITS;
-            break;
-        case ImageConsumer.SINGLEFRAMEDONE:
-            done = false;
-            info = ImageObserver.FRAMEBITS;
-            break;
+            info = ImbgeObserver.ALLBITS;
+            brebk;
+        cbse ImbgeConsumer.SINGLEFRAMEDONE:
+            done = fblse;
+            info = ImbgeObserver.FRAMEBITS;
+            brebk;
         }
         synchronized (this) {
             if (done) {
-                image.getSource().removeConsumer(this);
-                consuming = false;
+                imbge.getSource().removeConsumer(this);
+                consuming = fblse;
                 newbits = null;
 
-                if (bimage != null) {
-                    bimage = getOpaqueRGBImage();
+                if (bimbge != null) {
+                    bimbge = getOpbqueRGBImbge();
                 }
             }
-            availinfo |= info;
+            bvbilinfo |= info;
             notifyAll();
         }
 
-        newInfo(image, info, 0, 0, width, height);
+        newInfo(imbge, info, 0, 0, width, height);
 
-        image.infoDone(status);
+        imbge.infoDone(stbtus);
     }
 
-    /*synchronized*/ void startProduction() {
+    /*synchronized*/ void stbrtProduction() {
         if (!consuming) {
             consuming = true;
-            image.getSource().startProduction(this);
+            imbge.getSource().stbrtProduction(this);
         }
     }
 
-    private int numWaiters;
+    privbte int numWbiters;
 
-    private synchronized void checkConsumption() {
-        if (isWatcherListEmpty() && numWaiters == 0 &&
-            ((availinfo & ImageObserver.ALLBITS) == 0))
+    privbte synchronized void checkConsumption() {
+        if (isWbtcherListEmpty() && numWbiters == 0 &&
+            ((bvbilinfo & ImbgeObserver.ALLBITS) == 0))
         {
             dispose();
         }
     }
 
-    public synchronized void notifyWatcherListEmpty() {
+    public synchronized void notifyWbtcherListEmpty() {
         checkConsumption();
     }
 
-    private synchronized void decrementWaiters() {
-        --numWaiters;
+    privbte synchronized void decrementWbiters() {
+        --numWbiters;
         checkConsumption();
     }
 
-    public boolean prepare(ImageObserver iw) {
+    public boolebn prepbre(ImbgeObserver iw) {
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgeObserver.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgeUpdbte(imbge, ImbgeObserver.ERROR|ImbgeObserver.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            return fblse;
         }
-        boolean done = ((availinfo & ImageObserver.ALLBITS) != 0);
+        boolebn done = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
         if (!done) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
+            bddWbtcher(iw);
+            stbrtProduction();
+            // Some producers deliver imbge dbtb synchronously
+            done = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
         }
         return done;
     }
 
-    public int check(ImageObserver iw) {
+    public int check(ImbgeObserver iw) {
 
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & (ImageObserver.ERROR | ImageObserver.ALLBITS)) == 0) {
-            addWatcher(iw);
+        if ((bvbilinfo & (ImbgeObserver.ERROR | ImbgeObserver.ALLBITS)) == 0) {
+            bddWbtcher(iw);
         }
 
-        return availinfo;
+        return bvbilinfo;
     }
 
-    public boolean drawToBufImage(Graphics g, ToolkitImage img,
+    public boolebn drbwToBufImbge(Grbphics g, ToolkitImbge img,
                                   int x, int y, Color bg,
-                                  ImageObserver iw) {
+                                  ImbgeObserver iw) {
 
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgeObserver.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgeUpdbte(imbge, ImbgeObserver.ERROR|ImbgeObserver.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            return fblse;
         }
-        boolean done  = ((availinfo & ImageObserver.ALLBITS) != 0);
-        boolean abort = ((availinfo & ImageObserver.ABORT) != 0);
+        boolebn done  = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
+        boolebn bbort = ((bvbilinfo & ImbgeObserver.ABORT) != 0);
 
-        if (!done && !abort) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
+        if (!done && !bbort) {
+            bddWbtcher(iw);
+            stbrtProduction();
+            // Some producers deliver imbge dbtb synchronously
+            done = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
         }
 
-        if (done || (0 != (availinfo & ImageObserver.FRAMEBITS))) {
-            g.drawImage (bimage, x, y, bg, null);
+        if (done || (0 != (bvbilinfo & ImbgeObserver.FRAMEBITS))) {
+            g.drbwImbge (bimbge, x, y, bg, null);
         }
 
         return done;
     }
 
-    public boolean drawToBufImage(Graphics g, ToolkitImage img,
+    public boolebn drbwToBufImbge(Grbphics g, ToolkitImbge img,
                                   int x, int y, int w, int h,
-                                  Color bg, ImageObserver iw) {
+                                  Color bg, ImbgeObserver iw) {
 
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgeObserver.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgeUpdbte(imbge, ImbgeObserver.ERROR|ImbgeObserver.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            return fblse;
         }
 
-        boolean done  = ((availinfo & ImageObserver.ALLBITS) != 0);
-        boolean abort = ((availinfo & ImageObserver.ABORT) != 0);
+        boolebn done  = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
+        boolebn bbort = ((bvbilinfo & ImbgeObserver.ABORT) != 0);
 
-        if (!done && !abort) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
+        if (!done && !bbort) {
+            bddWbtcher(iw);
+            stbrtProduction();
+            // Some producers deliver imbge dbtb synchronously
+            done = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
         }
 
-        if (done || (0 != (availinfo & ImageObserver.FRAMEBITS))) {
-            g.drawImage (bimage, x, y, w, h, bg, null);
+        if (done || (0 != (bvbilinfo & ImbgeObserver.FRAMEBITS))) {
+            g.drbwImbge (bimbge, x, y, w, h, bg, null);
         }
 
         return done;
     }
 
-    public boolean drawToBufImage(Graphics g, ToolkitImage img,
+    public boolebn drbwToBufImbge(Grbphics g, ToolkitImbge img,
                                   int dx1, int dy1, int dx2, int dy2,
                                   int sx1, int sy1, int sx2, int sy2,
-                                  Color bg, ImageObserver iw) {
+                                  Color bg, ImbgeObserver iw) {
 
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgeObserver.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgeUpdbte(imbge, ImbgeObserver.ERROR|ImbgeObserver.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            return fblse;
         }
-        boolean done  = ((availinfo & ImageObserver.ALLBITS) != 0);
-        boolean abort = ((availinfo & ImageObserver.ABORT) != 0);
+        boolebn done  = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
+        boolebn bbort = ((bvbilinfo & ImbgeObserver.ABORT) != 0);
 
-        if (!done && !abort) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
+        if (!done && !bbort) {
+            bddWbtcher(iw);
+            stbrtProduction();
+            // Some producers deliver imbge dbtb synchronously
+            done = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
         }
 
-        if (done || (0 != (availinfo & ImageObserver.FRAMEBITS))) {
-            g.drawImage (bimage,
+        if (done || (0 != (bvbilinfo & ImbgeObserver.FRAMEBITS))) {
+            g.drbwImbge (bimbge,
                          dx1, dy1, dx2, dy2,
                          sx1, sy1, sx2, sy2,
                          bg, null);
@@ -883,69 +883,69 @@ public class ImageRepresentation extends ImageWatched implements ImageConsumer
         return done;
     }
 
-    public boolean drawToBufImage(Graphics g, ToolkitImage img,
-                                  AffineTransform xform,
-                                  ImageObserver iw)
+    public boolebn drbwToBufImbge(Grbphics g, ToolkitImbge img,
+                                  AffineTrbnsform xform,
+                                  ImbgeObserver iw)
     {
-        Graphics2D g2 = (Graphics2D) g;
+        Grbphics2D g2 = (Grbphics2D) g;
 
         if (src != null) {
-            src.checkSecurity(null, false);
+            src.checkSecurity(null, fblse);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgeObserver.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgeUpdbte(imbge, ImbgeObserver.ERROR|ImbgeObserver.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            return fblse;
         }
-        boolean done  = ((availinfo & ImageObserver.ALLBITS) != 0);
-        boolean abort = ((availinfo & ImageObserver.ABORT) != 0);
+        boolebn done  = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
+        boolebn bbort = ((bvbilinfo & ImbgeObserver.ABORT) != 0);
 
-        if (!done && !abort) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
+        if (!done && !bbort) {
+            bddWbtcher(iw);
+            stbrtProduction();
+            // Some producers deliver imbge dbtb synchronously
+            done = ((bvbilinfo & ImbgeObserver.ALLBITS) != 0);
         }
 
-        if (done || (0 != (availinfo & ImageObserver.FRAMEBITS))) {
-            g2.drawImage (bimage, xform, null);
+        if (done || (0 != (bvbilinfo & ImbgeObserver.FRAMEBITS))) {
+            g2.drbwImbge (bimbge, xform, null);
         }
 
         return done;
     }
 
-    synchronized void abort() {
-        image.getSource().removeConsumer(this);
-        consuming = false;
+    synchronized void bbort() {
+        imbge.getSource().removeConsumer(this);
+        consuming = fblse;
         newbits = null;
-        bimage = null;
-        biRaster = null;
+        bimbge = null;
+        biRbster = null;
         cmodel = null;
         srcLUT = null;
-        isDefaultBI = false;
-        isSameCM = false;
+        isDefbultBI = fblse;
+        isSbmeCM = fblse;
 
-        newInfo(image, ImageObserver.ABORT, -1, -1, -1, -1);
-        availinfo &= ~(ImageObserver.SOMEBITS
-                       | ImageObserver.FRAMEBITS
-                       | ImageObserver.ALLBITS
-                       | ImageObserver.ERROR);
+        newInfo(imbge, ImbgeObserver.ABORT, -1, -1, -1, -1);
+        bvbilinfo &= ~(ImbgeObserver.SOMEBITS
+                       | ImbgeObserver.FRAMEBITS
+                       | ImbgeObserver.ALLBITS
+                       | ImbgeObserver.ERROR);
     }
 
     synchronized void dispose() {
-        image.getSource().removeConsumer(this);
-        consuming = false;
+        imbge.getSource().removeConsumer(this);
+        consuming = fblse;
         newbits = null;
-        availinfo &= ~(ImageObserver.SOMEBITS
-                       | ImageObserver.FRAMEBITS
-                       | ImageObserver.ALLBITS);
+        bvbilinfo &= ~(ImbgeObserver.SOMEBITS
+                       | ImbgeObserver.FRAMEBITS
+                       | ImbgeObserver.ALLBITS);
     }
 
-    public void setAccelerationPriority(float priority) {
-        if (bimage != null) {
-            bimage.setAccelerationPriority(priority);
+    public void setAccelerbtionPriority(flobt priority) {
+        if (bimbge != null) {
+            bimbge.setAccelerbtionPriority(priority);
         }
     }
 }

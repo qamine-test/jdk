@@ -1,332 +1,332 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print;
+pbckbge jbvbx.print;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Window;
-import java.awt.KeyboardFocusManager;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.Fidelity;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Window;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.AttributeSet;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
+import jbvbx.print.bttribute.stbndbrd.Destinbtion;
+import jbvbx.print.bttribute.stbndbrd.Fidelity;
 
-import sun.print.ServiceDialog;
-import sun.print.SunAlternateMedia;
+import sun.print.ServiceDiblog;
+import sun.print.SunAlternbteMedib;
 
-/** This class is a collection of UI convenience methods which provide a
- * graphical user dialog for browsing print services looked up through the Java
+/** This clbss is b collection of UI convenience methods which provide b
+ * grbphicbl user diblog for browsing print services looked up through the Jbvb
  * Print Service API.
  * <p>
- * The dialogs follow a standard pattern of acting as a continue/cancel option
- *for a user as well as allowing the user to select the print service to use
- *and specify choices such as paper size and number of copies.
+ * The diblogs follow b stbndbrd pbttern of bcting bs b continue/cbncel option
+ *for b user bs well bs bllowing the user to select the print service to use
+ *bnd specify choices such bs pbper size bnd number of copies.
  * <p>
- * The dialogs are designed to work with pluggable print services though the
+ * The diblogs bre designed to work with pluggbble print services though the
  * public APIs of those print services.
  * <p>
- * If a print service provides any vendor extensions these may be made
- * accessible to the user through a vendor supplied tab panel Component.
- * Such a vendor extension is encouraged to use Swing! and to support its
- * accessibility APIs.
- * The vendor extensions should return the settings as part of the
+ * If b print service provides bny vendor extensions these mby be mbde
+ * bccessible to the user through b vendor supplied tbb pbnel Component.
+ * Such b vendor extension is encourbged to use Swing! bnd to support its
+ * bccessibility APIs.
+ * The vendor extensions should return the settings bs pbrt of the
  * AttributeSet.
- * Applications which want to preserve the user settings should use those
+ * Applicbtions which wbnt to preserve the user settings should use those
  * settings to specify the print job.
- * Note that this class is not referenced by any other part of the Java
- * Print Service and may not be included in profiles which cannot depend
- * on the presence of the AWT packages.
+ * Note thbt this clbss is not referenced by bny other pbrt of the Jbvb
+ * Print Service bnd mby not be included in profiles which cbnnot depend
+ * on the presence of the AWT pbckbges.
  */
 
-public class ServiceUI {
+public clbss ServiceUI {
 
 
     /**
-     * Presents a dialog to the user for selecting a print service (printer).
-     * It is displayed at the location specified by the application and
-     * is modal.
-     * If the specification is invalid or would make the dialog not visible it
-     * will be displayed at a location determined by the implementation.
-     * The dialog blocks its calling thread and is application modal.
+     * Presents b diblog to the user for selecting b print service (printer).
+     * It is displbyed bt the locbtion specified by the bpplicbtion bnd
+     * is modbl.
+     * If the specificbtion is invblid or would mbke the diblog not visible it
+     * will be displbyed bt b locbtion determined by the implementbtion.
+     * The diblog blocks its cblling threbd bnd is bpplicbtion modbl.
      * <p>
-     * The dialog may include a tab panel with custom UI lazily obtained from
-     * the PrintService's ServiceUIFactory when the PrintService is browsed.
-     * The dialog will attempt to locate a MAIN_UIROLE first as a JComponent,
-     * then as a Panel. If there is no ServiceUIFactory or no matching role
-     * the custom tab will be empty or not visible.
+     * The diblog mby include b tbb pbnel with custom UI lbzily obtbined from
+     * the PrintService's ServiceUIFbctory when the PrintService is browsed.
+     * The diblog will bttempt to locbte b MAIN_UIROLE first bs b JComponent,
+     * then bs b Pbnel. If there is no ServiceUIFbctory or no mbtching role
+     * the custom tbb will be empty or not visible.
      * <p>
-     * The dialog returns the print service selected by the user if the user
-     * OK's the dialog and null if the user cancels the dialog.
+     * The diblog returns the print service selected by the user if the user
+     * OK's the diblog bnd null if the user cbncels the diblog.
      * <p>
-     * An application must pass in an array of print services to browse.
-     * The array must be non-null and non-empty.
-     * Typically an application will pass in only PrintServices capable
-     * of printing a particular document flavor.
+     * An bpplicbtion must pbss in bn brrby of print services to browse.
+     * The brrby must be non-null bnd non-empty.
+     * Typicblly bn bpplicbtion will pbss in only PrintServices cbpbble
+     * of printing b pbrticulbr document flbvor.
      * <p>
-     * An application may pass in a PrintService to be initially displayed.
-     * A non-null parameter must be included in the array of browsable
+     * An bpplicbtion mby pbss in b PrintService to be initiblly displbyed.
+     * A non-null pbrbmeter must be included in the brrby of browsbble
      * services.
-     * If this parameter is null a service is chosen by the implementation.
+     * If this pbrbmeter is null b service is chosen by the implementbtion.
      * <p>
-     * An application may optionally pass in the flavor to be printed.
-     * If this is non-null choices presented to the user can be better
-     * validated against those supported by the services.
-     * An application must pass in a PrintRequestAttributeSet for returning
+     * An bpplicbtion mby optionblly pbss in the flbvor to be printed.
+     * If this is non-null choices presented to the user cbn be better
+     * vblidbted bgbinst those supported by the services.
+     * An bpplicbtion must pbss in b PrintRequestAttributeSet for returning
      * user choices.
-     * On calling the PrintRequestAttributeSet may be empty, or may contain
-     * application-specified values.
+     * On cblling the PrintRequestAttributeSet mby be empty, or mby contbin
+     * bpplicbtion-specified vblues.
      * <p>
-     * These are used to set the initial settings for the initially
-     * displayed print service. Values which are not supported by the print
-     * service are ignored. As the user browses print services, attributes
-     * and values are copied to the new display. If a user browses a
-     * print service which does not support a particular attribute-value, the
-     * default for that service is used as the new value to be copied.
+     * These bre used to set the initibl settings for the initiblly
+     * displbyed print service. Vblues which bre not supported by the print
+     * service bre ignored. As the user browses print services, bttributes
+     * bnd vblues bre copied to the new displby. If b user browses b
+     * print service which does not support b pbrticulbr bttribute-vblue, the
+     * defbult for thbt service is used bs the new vblue to be copied.
      * <p>
-     * If the user cancels the dialog, the returned attributes will not reflect
-     * any changes made by the user.
+     * If the user cbncels the diblog, the returned bttributes will not reflect
+     * bny chbnges mbde by the user.
      *
-     * A typical basic usage of this method may be :
+     * A typicbl bbsic usbge of this method mby be :
      * <pre>{@code
      * PrintService[] services = PrintServiceLookup.lookupPrintServices(
-     *                            DocFlavor.INPUT_STREAM.JPEG, null);
-     * PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+     *                            DocFlbvor.INPUT_STREAM.JPEG, null);
+     * PrintRequestAttributeSet bttributes = new HbshPrintRequestAttributeSet();
      * if (services.length > 0) {
-     *    PrintService service =  ServiceUI.printDialog(null, 50, 50,
+     *    PrintService service =  ServiceUI.printDiblog(null, 50, 50,
      *                                               services, services[0],
      *                                               null,
-     *                                               attributes);
+     *                                               bttributes);
      *    if (service != null) {
      *     ... print ...
      *    }
      * }
      * }</pre>
      *
-     * @param gc used to select screen. null means primary or default screen.
-     * @param x location of dialog including border in screen coordinates
-     * @param y location of dialog including border in screen coordinates
-     * @param services to be browsable, must be non-null.
-     * @param defaultService - initial PrintService to display.
-     * @param flavor - the flavor to be printed, or null.
-     * @param attributes on input is the initial application supplied
-     * preferences. This cannot be null but may be empty.
-     * On output the attributes reflect changes made by the user.
+     * @pbrbm gc used to select screen. null mebns primbry or defbult screen.
+     * @pbrbm x locbtion of diblog including border in screen coordinbtes
+     * @pbrbm y locbtion of diblog including border in screen coordinbtes
+     * @pbrbm services to be browsbble, must be non-null.
+     * @pbrbm defbultService - initibl PrintService to displby.
+     * @pbrbm flbvor - the flbvor to be printed, or null.
+     * @pbrbm bttributes on input is the initibl bpplicbtion supplied
+     * preferences. This cbnnot be null but mby be empty.
+     * On output the bttributes reflect chbnges mbde by the user.
      * @return print service selected by the user, or null if the user
-     * cancelled the dialog.
-     * @throws HeadlessException if GraphicsEnvironment.isHeadless()
+     * cbncelled the diblog.
+     * @throws HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @throws IllegalArgumentException if services is null or empty,
-     * or attributes is null, or the initial PrintService is not in the
-     * list of browsable services.
+     * @throws IllegblArgumentException if services is null or empty,
+     * or bttributes is null, or the initibl PrintService is not in the
+     * list of browsbble services.
      */
-    public static PrintService printDialog(GraphicsConfiguration gc,
+    public stbtic PrintService printDiblog(GrbphicsConfigurbtion gc,
                                            int x, int y,
                                            PrintService[] services,
-                                           PrintService defaultService,
-                                           DocFlavor flavor,
-                                           PrintRequestAttributeSet attributes)
-        throws HeadlessException
+                                           PrintService defbultService,
+                                           DocFlbvor flbvor,
+                                           PrintRequestAttributeSet bttributes)
+        throws HebdlessException
     {
-        int defaultIndex = -1;
+        int defbultIndex = -1;
 
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         } else if ((services == null) || (services.length == 0)) {
-            throw new IllegalArgumentException("services must be non-null " +
-                                               "and non-empty");
-        } else if (attributes == null) {
-            throw new IllegalArgumentException("attributes must be non-null");
+            throw new IllegblArgumentException("services must be non-null " +
+                                               "bnd non-empty");
+        } else if (bttributes == null) {
+            throw new IllegblArgumentException("bttributes must be non-null");
         }
 
-        if (defaultService != null) {
+        if (defbultService != null) {
             for (int i = 0; i < services.length; i++) {
-                if (services[i].equals(defaultService)) {
-                    defaultIndex = i;
-                    break;
+                if (services[i].equbls(defbultService)) {
+                    defbultIndex = i;
+                    brebk;
                 }
             }
 
-            if (defaultIndex < 0) {
-                throw new IllegalArgumentException("services must contain " +
-                                                   "defaultService");
+            if (defbultIndex < 0) {
+                throw new IllegblArgumentException("services must contbin " +
+                                                   "defbultService");
             }
         } else {
-            defaultIndex = 0;
+            defbultIndex = 0;
         }
 
-        // For now we set owner to null. In the future, it may be passed
-        // as an argument.
+        // For now we set owner to null. In the future, it mby be pbssed
+        // bs bn brgument.
         Window owner = null;
 
-        Rectangle gcBounds = (gc == null) ?  GraphicsEnvironment.
-            getLocalGraphicsEnvironment().getDefaultScreenDevice().
-            getDefaultConfiguration().getBounds() : gc.getBounds();
+        Rectbngle gcBounds = (gc == null) ?  GrbphicsEnvironment.
+            getLocblGrbphicsEnvironment().getDefbultScreenDevice().
+            getDefbultConfigurbtion().getBounds() : gc.getBounds();
 
-        ServiceDialog dialog;
-        if (owner instanceof Frame) {
-            dialog = new ServiceDialog(gc,
+        ServiceDiblog diblog;
+        if (owner instbnceof Frbme) {
+            diblog = new ServiceDiblog(gc,
                                        x + gcBounds.x,
                                        y + gcBounds.y,
-                                       services, defaultIndex,
-                                       flavor, attributes,
-                                       (Frame)owner);
+                                       services, defbultIndex,
+                                       flbvor, bttributes,
+                                       (Frbme)owner);
         } else {
-            dialog = new ServiceDialog(gc,
+            diblog = new ServiceDiblog(gc,
                                        x + gcBounds.x,
                                        y + gcBounds.y,
-                                       services, defaultIndex,
-                                       flavor, attributes,
-                                       (Dialog)owner);
+                                       services, defbultIndex,
+                                       flbvor, bttributes,
+                                       (Diblog)owner);
         }
-        Rectangle dlgBounds = dialog.getBounds();
+        Rectbngle dlgBounds = diblog.getBounds();
 
-        // get union of all GC bounds
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] gs = ge.getScreenDevices();
+        // get union of bll GC bounds
+        GrbphicsEnvironment ge = GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        GrbphicsDevice[] gs = ge.getScreenDevices();
         for (int j=0; j<gs.length; j++) {
             gcBounds =
-                gcBounds.union(gs[j].getDefaultConfiguration().getBounds());
+                gcBounds.union(gs[j].getDefbultConfigurbtion().getBounds());
         }
 
-        // if portion of dialog is not within the gc boundary
-        if (!gcBounds.contains(dlgBounds)) {
-            // put in the center relative to parent frame/dialog
-            dialog.setLocationRelativeTo(owner);
+        // if portion of diblog is not within the gc boundbry
+        if (!gcBounds.contbins(dlgBounds)) {
+            // put in the center relbtive to pbrent frbme/diblog
+            diblog.setLocbtionRelbtiveTo(owner);
         }
-        dialog.show();
+        diblog.show();
 
-        if (dialog.getStatus() == ServiceDialog.APPROVE) {
-            PrintRequestAttributeSet newas = dialog.getAttributes();
-            Class<?> dstCategory = Destination.class;
-            Class<?> amCategory = SunAlternateMedia.class;
-            Class<?> fdCategory = Fidelity.class;
+        if (diblog.getStbtus() == ServiceDiblog.APPROVE) {
+            PrintRequestAttributeSet newbs = diblog.getAttributes();
+            Clbss<?> dstCbtegory = Destinbtion.clbss;
+            Clbss<?> bmCbtegory = SunAlternbteMedib.clbss;
+            Clbss<?> fdCbtegory = Fidelity.clbss;
 
-            if (attributes.containsKey(dstCategory) &&
-                !newas.containsKey(dstCategory))
+            if (bttributes.contbinsKey(dstCbtegory) &&
+                !newbs.contbinsKey(dstCbtegory))
             {
-                attributes.remove(dstCategory);
+                bttributes.remove(dstCbtegory);
             }
 
-            if (attributes.containsKey(amCategory) &&
-                !newas.containsKey(amCategory))
+            if (bttributes.contbinsKey(bmCbtegory) &&
+                !newbs.contbinsKey(bmCbtegory))
             {
-                attributes.remove(amCategory);
+                bttributes.remove(bmCbtegory);
             }
 
-            attributes.addAll(newas);
+            bttributes.bddAll(newbs);
 
-            Fidelity fd = (Fidelity)attributes.get(fdCategory);
+            Fidelity fd = (Fidelity)bttributes.get(fdCbtegory);
             if (fd != null) {
                 if (fd == Fidelity.FIDELITY_TRUE) {
-                    removeUnsupportedAttributes(dialog.getPrintService(),
-                                                flavor, attributes);
+                    removeUnsupportedAttributes(diblog.getPrintService(),
+                                                flbvor, bttributes);
                 }
             }
         }
 
-        return dialog.getPrintService();
+        return diblog.getPrintService();
     }
 
     /**
-     * POSSIBLE FUTURE API: This method may be used down the road if we
-     * decide to allow developers to explicitly display a "page setup" dialog.
-     * Currently we use that functionality internally for the AWT print model.
+     * POSSIBLE FUTURE API: This method mby be used down the robd if we
+     * decide to bllow developers to explicitly displby b "pbge setup" diblog.
+     * Currently we use thbt functionblity internblly for the AWT print model.
      */
     /*
-    public static void pageDialog(GraphicsConfiguration gc,
+    public stbtic void pbgeDiblog(GrbphicsConfigurbtion gc,
                                   int x, int y,
                                   PrintService service,
-                                  DocFlavor flavor,
-                                  PrintRequestAttributeSet attributes)
-        throws HeadlessException
+                                  DocFlbvor flbvor,
+                                  PrintRequestAttributeSet bttributes)
+        throws HebdlessException
     {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         } else if (service == null) {
-            throw new IllegalArgumentException("service must be non-null");
-        } else if (attributes == null) {
-            throw new IllegalArgumentException("attributes must be non-null");
+            throw new IllegblArgumentException("service must be non-null");
+        } else if (bttributes == null) {
+            throw new IllegblArgumentException("bttributes must be non-null");
         }
 
-        ServiceDialog dialog = new ServiceDialog(gc, x, y, service,
-                                                 flavor, attributes);
-        dialog.show();
+        ServiceDiblog diblog = new ServiceDiblog(gc, x, y, service,
+                                                 flbvor, bttributes);
+        diblog.show();
 
-        if (dialog.getStatus() == ServiceDialog.APPROVE) {
-            PrintRequestAttributeSet newas = dialog.getAttributes();
-            Class amCategory = SunAlternateMedia.class;
+        if (diblog.getStbtus() == ServiceDiblog.APPROVE) {
+            PrintRequestAttributeSet newbs = diblog.getAttributes();
+            Clbss bmCbtegory = SunAlternbteMedib.clbss;
 
-            if (attributes.containsKey(amCategory) &&
-                !newas.containsKey(amCategory))
+            if (bttributes.contbinsKey(bmCbtegory) &&
+                !newbs.contbinsKey(bmCbtegory))
             {
-                attributes.remove(amCategory);
+                bttributes.remove(bmCbtegory);
             }
 
-            attributes.addAll(newas.values());
+            bttributes.bddAll(newbs.vblues());
         }
 
-        dialog.getOwner().dispose();
+        diblog.getOwner().dispose();
     }
     */
 
     /**
-     * Removes any attributes from the given AttributeSet that are
-     * unsupported by the given PrintService/DocFlavor combination.
+     * Removes bny bttributes from the given AttributeSet thbt bre
+     * unsupported by the given PrintService/DocFlbvor combinbtion.
      */
-    private static void removeUnsupportedAttributes(PrintService ps,
-                                                    DocFlavor flavor,
-                                                    AttributeSet aset)
+    privbte stbtic void removeUnsupportedAttributes(PrintService ps,
+                                                    DocFlbvor flbvor,
+                                                    AttributeSet bset)
     {
-        AttributeSet asUnsupported = ps.getUnsupportedAttributes(flavor,
-                                                                 aset);
+        AttributeSet bsUnsupported = ps.getUnsupportedAttributes(flbvor,
+                                                                 bset);
 
-        if (asUnsupported != null) {
-            Attribute[] usAttrs = asUnsupported.toArray();
+        if (bsUnsupported != null) {
+            Attribute[] usAttrs = bsUnsupported.toArrby();
 
             for (int i=0; i<usAttrs.length; i++) {
-                Class<? extends Attribute> category = usAttrs[i].getCategory();
+                Clbss<? extends Attribute> cbtegory = usAttrs[i].getCbtegory();
 
-                if (ps.isAttributeCategorySupported(category)) {
-                    Attribute attr =
-                        (Attribute)ps.getDefaultAttributeValue(category);
+                if (ps.isAttributeCbtegorySupported(cbtegory)) {
+                    Attribute bttr =
+                        (Attribute)ps.getDefbultAttributeVblue(cbtegory);
 
-                    if (attr != null) {
-                        aset.add(attr);
+                    if (bttr != null) {
+                        bset.bdd(bttr);
                     } else {
-                        aset.remove(category);
+                        bset.remove(cbtegory);
                     }
                 } else {
-                    aset.remove(category);
+                    bset.remove(cbtegory);
                 }
             }
         }

@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
 import com.sun.jdi.*;
 import com.sun.jdi.request.StepRequest;
 import com.sun.jdi.request.MethodEntryRequest;
 import com.sun.jdi.request.MethodExitRequest;
-import java.util.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
 
-class Env {
+clbss Env {
 
-    static EventRequestSpecList specList = new EventRequestSpecList();
+    stbtic EventRequestSpecList specList = new EventRequestSpecList();
 
-    private static VMConnection connection;
+    privbte stbtic VMConnection connection;
 
-    private static SourceMapper sourceMapper = new SourceMapper("");
-    private static List<String> excludes;
+    privbte stbtic SourceMbpper sourceMbpper = new SourceMbpper("");
+    privbte stbtic List<String> excludes;
 
-    private static final int SOURCE_CACHE_SIZE = 5;
-    private static List<SourceCode> sourceCache = new LinkedList<SourceCode>();
+    privbte stbtic finbl int SOURCE_CACHE_SIZE = 5;
+    privbte stbtic List<SourceCode> sourceCbche = new LinkedList<SourceCode>();
 
-    private static HashMap<String, Value> savedValues = new HashMap<String, Value>();
-    private static Method atExitMethod;
+    privbte stbtic HbshMbp<String, Vblue> sbvedVblues = new HbshMbp<String, Vblue>();
+    privbte stbtic Method btExitMethod;
 
-    static void init(String connectSpec, boolean openNow, int flags) {
-        connection = new VMConnection(connectSpec, flags);
-        if (!connection.isLaunch() || openNow) {
+    stbtic void init(String connectSpec, boolebn openNow, int flbgs) {
+        connection = new VMConnection(connectSpec, flbgs);
+        if (!connection.isLbunch() || openNow) {
             connection.open();
         }
     }
 
-    static VMConnection connection() {
+    stbtic VMConnection connection() {
         return connection;
     }
 
-    static VirtualMachine vm() {
+    stbtic VirtublMbchine vm() {
         return connection.vm();
     }
 
-    static void shutdown() {
+    stbtic void shutdown() {
         shutdown(null);
     }
 
-    static void shutdown(String message) {
+    stbtic void shutdown(String messbge) {
         if (connection != null) {
             try {
                 connection.disposeVM();
-            } catch (VMDisconnectedException e) {
-                // Shutting down after the VM has gone away. This is
-                // not an error, and we just ignore it.
+            } cbtch (VMDisconnectedException e) {
+                // Shutting down bfter the VM hbs gone bwby. This is
+                // not bn error, bnd we just ignore it.
             }
         }
-        if (message != null) {
-            MessageOutput.lnprint(message);
-            MessageOutput.println();
+        if (messbge != null) {
+            MessbgeOutput.lnprint(messbge);
+            MessbgeOutput.println();
         }
         System.exit(0);
     }
 
-    static void setSourcePath(String srcPath) {
-        sourceMapper = new SourceMapper(srcPath);
-        sourceCache.clear();
+    stbtic void setSourcePbth(String srcPbth) {
+        sourceMbpper = new SourceMbpper(srcPbth);
+        sourceCbche.clebr();
     }
 
-    static void setSourcePath(List<String> srcList) {
-        sourceMapper = new SourceMapper(srcList);
-        sourceCache.clear();
+    stbtic void setSourcePbth(List<String> srcList) {
+        sourceMbpper = new SourceMbpper(srcList);
+        sourceCbche.clebr();
     }
 
-    static String getSourcePath() {
-        return sourceMapper.getSourcePath();
+    stbtic String getSourcePbth() {
+        return sourceMbpper.getSourcePbth();
     }
 
-    static private List<String> excludes() {
+    stbtic privbte List<String> excludes() {
         if (excludes == null) {
-            setExcludes("java.*, javax.*, sun.*, com.sun.*");
+            setExcludes("jbvb.*, jbvbx.*, sun.*, com.sun.*");
         }
         return excludes;
     }
 
-    static String excludesString() {
+    stbtic String excludesString() {
         StringBuilder sb = new StringBuilder();
-        for (String pattern : excludes()) {
-            sb.append(pattern);
-            sb.append(",");
+        for (String pbttern : excludes()) {
+            sb.bppend(pbttern);
+            sb.bppend(",");
         }
         return sb.toString();
     }
 
-    static void addExcludes(StepRequest request) {
-        for (String pattern : excludes()) {
-            request.addClassExclusionFilter(pattern);
+    stbtic void bddExcludes(StepRequest request) {
+        for (String pbttern : excludes()) {
+            request.bddClbssExclusionFilter(pbttern);
         }
     }
 
-    static void addExcludes(MethodEntryRequest request) {
-        for (String pattern : excludes()) {
-            request.addClassExclusionFilter(pattern);
+    stbtic void bddExcludes(MethodEntryRequest request) {
+        for (String pbttern : excludes()) {
+            request.bddClbssExclusionFilter(pbttern);
         }
     }
 
-    static void addExcludes(MethodExitRequest request) {
-        for (String pattern : excludes()) {
-            request.addClassExclusionFilter(pattern);
+    stbtic void bddExcludes(MethodExitRequest request) {
+        for (String pbttern : excludes()) {
+            request.bddClbssExclusionFilter(pbttern);
         }
     }
 
-    static void setExcludes(String excludeString) {
+    stbtic void setExcludes(String excludeString) {
         StringTokenizer t = new StringTokenizer(excludeString, " ,;");
-        List<String> list = new ArrayList<String>();
-        while (t.hasMoreTokens()) {
-            list.add(t.nextToken());
+        List<String> list = new ArrbyList<String>();
+        while (t.hbsMoreTokens()) {
+            list.bdd(t.nextToken());
         }
         excludes = list;
     }
 
-    static Method atExitMethod() {
-        return atExitMethod;
+    stbtic Method btExitMethod() {
+        return btExitMethod;
     }
 
-    static void setAtExitMethod(Method mmm) {
-        atExitMethod = mmm;
+    stbtic void setAtExitMethod(Method mmm) {
+        btExitMethod = mmm;
     }
 
     /**
-     * Return a Reader cooresponding to the source of this location.
-     * Return null if not available.
-     * Note: returned reader must be closed.
+     * Return b Rebder cooresponding to the source of this locbtion.
+     * Return null if not bvbilbble.
+     * Note: returned rebder must be closed.
      */
-    static BufferedReader sourceReader(Location location) {
-        return sourceMapper.sourceReader(location);
+    stbtic BufferedRebder sourceRebder(Locbtion locbtion) {
+        return sourceMbpper.sourceRebder(locbtion);
     }
 
-    static synchronized String sourceLine(Location location, int lineNumber)
+    stbtic synchronized String sourceLine(Locbtion locbtion, int lineNumber)
                                           throws IOException {
         if (lineNumber == -1) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
         try {
-            String fileName = location.sourceName();
+            String fileNbme = locbtion.sourceNbme();
 
-            Iterator<SourceCode> iter = sourceCache.iterator();
+            Iterbtor<SourceCode> iter = sourceCbche.iterbtor();
             SourceCode code = null;
-            while (iter.hasNext()) {
-                SourceCode candidate = iter.next();
-                if (candidate.fileName().equals(fileName)) {
-                    code = candidate;
+            while (iter.hbsNext()) {
+                SourceCode cbndidbte = iter.next();
+                if (cbndidbte.fileNbme().equbls(fileNbme)) {
+                    code = cbndidbte;
                     iter.remove();
-                    break;
+                    brebk;
                 }
             }
             if (code == null) {
-                BufferedReader reader = sourceReader(location);
-                if (reader == null) {
-                    throw new FileNotFoundException(fileName);
+                BufferedRebder rebder = sourceRebder(locbtion);
+                if (rebder == null) {
+                    throw new FileNotFoundException(fileNbme);
                 }
-                code = new SourceCode(fileName, reader);
-                if (sourceCache.size() == SOURCE_CACHE_SIZE) {
-                    sourceCache.remove(sourceCache.size() - 1);
+                code = new SourceCode(fileNbme, rebder);
+                if (sourceCbche.size() == SOURCE_CACHE_SIZE) {
+                    sourceCbche.remove(sourceCbche.size() - 1);
                 }
             }
-            sourceCache.add(0, code);
+            sourceCbche.bdd(0, code);
             return code.sourceLine(lineNumber);
-        } catch (AbsentInformationException e) {
-            throw new IllegalArgumentException();
+        } cbtch (AbsentInformbtionException e) {
+            throw new IllegblArgumentException();
         }
     }
 
-    /** Return a description of an object. */
-    static String description(ObjectReference ref) {
-        ReferenceType clazz = ref.referenceType();
+    /** Return b description of bn object. */
+    stbtic String description(ObjectReference ref) {
+        ReferenceType clbzz = ref.referenceType();
         long id = ref.uniqueID();
-        if (clazz == null) {
+        if (clbzz == null) {
             return toHex(id);
         } else {
-            return MessageOutput.format("object description and hex id",
-                                        new Object [] {clazz.name(),
+            return MessbgeOutput.formbt("object description bnd hex id",
+                                        new Object [] {clbzz.nbme(),
                                                        toHex(id)});
         }
     }
 
-    /** Convert a long to a hexadecimal string. */
-    static String toHex(long n) {
-        char s1[] = new char[16];
-        char s2[] = new char[18];
+    /** Convert b long to b hexbdecimbl string. */
+    stbtic String toHex(long n) {
+        chbr s1[] = new chbr[16];
+        chbr s2[] = new chbr[18];
 
         /* Store digits in reverse order. */
         int i = 0;
         do {
             long d = n & 0xf;
-            s1[i++] = (char)((d < 10) ? ('0' + d) : ('a' + d - 10));
+            s1[i++] = (chbr)((d < 10) ? ('0' + d) : ('b' + d - 10));
         } while ((n >>>= 4) > 0);
 
-        /* Now reverse the array. */
+        /* Now reverse the brrby. */
         s2[0] = '0';
         s2[1] = 'x';
         int j = 2;
@@ -237,86 +237,86 @@ class Env {
         return new String(s2, 0, j);
     }
 
-    /** Convert hexadecimal strings to longs. */
-    static long fromHex(String hexStr) {
-        String str = hexStr.startsWith("0x") ?
-            hexStr.substring(2).toLowerCase() : hexStr.toLowerCase();
+    /** Convert hexbdecimbl strings to longs. */
+    stbtic long fromHex(String hexStr) {
+        String str = hexStr.stbrtsWith("0x") ?
+            hexStr.substring(2).toLowerCbse() : hexStr.toLowerCbse();
         if (hexStr.length() == 0) {
-            throw new NumberFormatException();
+            throw new NumberFormbtException();
         }
 
         long ret = 0;
         for (int i = 0; i < str.length(); i++) {
-            int c = str.charAt(i);
+            int c = str.chbrAt(i);
             if (c >= '0' && c <= '9') {
                 ret = (ret * 16) + (c - '0');
-            } else if (c >= 'a' && c <= 'f') {
-                ret = (ret * 16) + (c - 'a' + 10);
+            } else if (c >= 'b' && c <= 'f') {
+                ret = (ret * 16) + (c - 'b' + 10);
             } else {
-                throw new NumberFormatException();
+                throw new NumberFormbtException();
             }
         }
         return ret;
     }
 
-    static ReferenceType getReferenceTypeFromToken(String idToken) {
+    stbtic ReferenceType getReferenceTypeFromToken(String idToken) {
         ReferenceType cls = null;
-        if (Character.isDigit(idToken.charAt(0))) {
+        if (Chbrbcter.isDigit(idToken.chbrAt(0))) {
             cls = null;
-        } else if (idToken.startsWith("*.")) {
-        // This notation saves typing by letting the user omit leading
-        // package names. The first
-        // loaded class whose name matches this limited regular
+        } else if (idToken.stbrtsWith("*.")) {
+        // This notbtion sbves typing by letting the user omit lebding
+        // pbckbge nbmes. The first
+        // lobded clbss whose nbme mbtches this limited regulbr
         // expression is selected.
         idToken = idToken.substring(1);
-        for (ReferenceType type : Env.vm().allClasses()) {
-            if (type.name().endsWith(idToken)) {
+        for (ReferenceType type : Env.vm().bllClbsses()) {
+            if (type.nbme().endsWith(idToken)) {
                 cls = type;
-                break;
+                brebk;
             }
         }
     } else {
-            // It's a class name
-            List<ReferenceType> classes = Env.vm().classesByName(idToken);
-            if (classes.size() > 0) {
-                // TO DO: handle multiples
-                cls = classes.get(0);
+            // It's b clbss nbme
+            List<ReferenceType> clbsses = Env.vm().clbssesByNbme(idToken);
+            if (clbsses.size() > 0) {
+                // TO DO: hbndle multiples
+                cls = clbsses.get(0);
             }
         }
         return cls;
     }
 
-    static Set<String> getSaveKeys() {
-        return savedValues.keySet();
+    stbtic Set<String> getSbveKeys() {
+        return sbvedVblues.keySet();
     }
 
-    static Value getSavedValue(String key) {
-        return savedValues.get(key);
+    stbtic Vblue getSbvedVblue(String key) {
+        return sbvedVblues.get(key);
     }
 
-    static void setSavedValue(String key, Value value) {
-        savedValues.put(key, value);
+    stbtic void setSbvedVblue(String key, Vblue vblue) {
+        sbvedVblues.put(key, vblue);
     }
 
-    static class SourceCode {
-        private String fileName;
-        private List<String> sourceLines = new ArrayList<String>();
+    stbtic clbss SourceCode {
+        privbte String fileNbme;
+        privbte List<String> sourceLines = new ArrbyList<String>();
 
-        SourceCode(String fileName, BufferedReader reader)  throws IOException {
-            this.fileName = fileName;
+        SourceCode(String fileNbme, BufferedRebder rebder)  throws IOException {
+            this.fileNbme = fileNbme;
             try {
-                String line = reader.readLine();
+                String line = rebder.rebdLine();
                 while (line != null) {
-                    sourceLines.add(line);
-                    line = reader.readLine();
+                    sourceLines.bdd(line);
+                    line = rebder.rebdLine();
                 }
-            } finally {
-                reader.close();
+            } finblly {
+                rebder.close();
             }
         }
 
-        String fileName() {
-            return fileName;
+        String fileNbme() {
+            return fileNbme;
         }
 
         String sourceLine(int number) {

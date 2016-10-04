@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtic com.sun.jmx.mbebnserver.Util.*;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.management.NotCompliantMBeanException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.security.AccessController;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
 
 /**
- * <p>An analyzer for a given MBean interface.  The analyzer can
- * be for Standard MBeans or MXBeans, depending on the MBeanIntrospector
- * passed at construction.
+ * <p>An bnblyzer for b given MBebn interfbce.  The bnblyzer cbn
+ * be for Stbndbrd MBebns or MXBebns, depending on the MBebnIntrospector
+ * pbssed bt construction.
  *
- * <p>The analyzer can
- * visit the attributes and operations of the interface, calling
- * a caller-supplied visitor method for each one.</p>
+ * <p>The bnblyzer cbn
+ * visit the bttributes bnd operbtions of the interfbce, cblling
+ * b cbller-supplied visitor method for ebch one.</p>
  *
- * @param <M> Method or ConvertingMethod according as this is a
- * Standard MBean or an MXBean.
+ * @pbrbm <M> Method or ConvertingMethod bccording bs this is b
+ * Stbndbrd MBebn or bn MXBebn.
  *
  * @since 1.6
  */
-class MBeanAnalyzer<M> {
-    static interface MBeanVisitor<M> {
-        public void visitAttribute(String attributeName,
+clbss MBebnAnblyzer<M> {
+    stbtic interfbce MBebnVisitor<M> {
+        public void visitAttribute(String bttributeNbme,
                 M getter,
                 M setter);
-        public void visitOperation(String operationName,
-                M operation);
+        public void visitOperbtion(String operbtionNbme,
+                M operbtion);
     }
 
-    void visit(MBeanVisitor<M> visitor) {
-        // visit attributes
-        for (Map.Entry<String, AttrMethods<M>> entry : attrMap.entrySet()) {
-            String name = entry.getKey();
-            AttrMethods<M> am = entry.getValue();
-            visitor.visitAttribute(name, am.getter, am.setter);
+    void visit(MBebnVisitor<M> visitor) {
+        // visit bttributes
+        for (Mbp.Entry<String, AttrMethods<M>> entry : bttrMbp.entrySet()) {
+            String nbme = entry.getKey();
+            AttrMethods<M> bm = entry.getVblue();
+            visitor.visitAttribute(nbme, bm.getter, bm.setter);
         }
 
-        // visit operations
-        for (Map.Entry<String, List<M>> entry : opMap.entrySet()) {
-            for (M m : entry.getValue())
-                visitor.visitOperation(entry.getKey(), m);
+        // visit operbtions
+        for (Mbp.Entry<String, List<M>> entry : opMbp.entrySet()) {
+            for (M m : entry.getVblue())
+                visitor.visitOperbtion(entry.getKey(), m);
         }
     }
 
-    /* Map op name to method */
-    private Map<String, List<M>> opMap = newInsertionOrderMap();
-    /* Map attr name to getter and/or setter */
-    private Map<String, AttrMethods<M>> attrMap = newInsertionOrderMap();
+    /* Mbp op nbme to method */
+    privbte Mbp<String, List<M>> opMbp = newInsertionOrderMbp();
+    /* Mbp bttr nbme to getter bnd/or setter */
+    privbte Mbp<String, AttrMethods<M>> bttrMbp = newInsertionOrderMbp();
 
-    private static class AttrMethods<M> {
+    privbte stbtic clbss AttrMethods<M> {
         M getter;
         M setter;
     }
 
     /**
-     * <p>Return an MBeanAnalyzer for the given MBean interface and
-     * MBeanIntrospector.  Calling this method twice with the same
-     * parameters may return the same object or two different but
-     * equivalent objects.
+     * <p>Return bn MBebnAnblyzer for the given MBebn interfbce bnd
+     * MBebnIntrospector.  Cblling this method twice with the sbme
+     * pbrbmeters mby return the sbme object or two different but
+     * equivblent objects.
      */
-    // Currently it's two different but equivalent objects.  This only
-    // really impacts proxy generation.  For MBean creation, the
-    // cached PerInterface object for an MBean interface means that
-    // an analyzer will not be recreated for a second MBean using the
-    // same interface.
-    static <M> MBeanAnalyzer<M> analyzer(Class<?> mbeanType,
-            MBeanIntrospector<M> introspector)
-            throws NotCompliantMBeanException {
-        return new MBeanAnalyzer<M>(mbeanType, introspector);
+    // Currently it's two different but equivblent objects.  This only
+    // reblly impbcts proxy generbtion.  For MBebn crebtion, the
+    // cbched PerInterfbce object for bn MBebn interfbce mebns thbt
+    // bn bnblyzer will not be recrebted for b second MBebn using the
+    // sbme interfbce.
+    stbtic <M> MBebnAnblyzer<M> bnblyzer(Clbss<?> mbebnType,
+            MBebnIntrospector<M> introspector)
+            throws NotComplibntMBebnException {
+        return new MBebnAnblyzer<M>(mbebnType, introspector);
     }
 
-    private MBeanAnalyzer(Class<?> mbeanType,
-            MBeanIntrospector<M> introspector)
-            throws NotCompliantMBeanException {
-        if (!mbeanType.isInterface()) {
-            throw new NotCompliantMBeanException("Not an interface: " +
-                    mbeanType.getName());
-        } else if (!Modifier.isPublic(mbeanType.getModifiers()) &&
+    privbte MBebnAnblyzer(Clbss<?> mbebnType,
+            MBebnIntrospector<M> introspector)
+            throws NotComplibntMBebnException {
+        if (!mbebnType.isInterfbce()) {
+            throw new NotComplibntMBebnException("Not bn interfbce: " +
+                    mbebnType.getNbme());
+        } else if (!Modifier.isPublic(mbebnType.getModifiers()) &&
                    !Introspector.ALLOW_NONPUBLIC_MBEAN) {
-            throw new NotCompliantMBeanException("Interface is not public: " +
-                mbeanType.getName());
+            throw new NotComplibntMBebnException("Interfbce is not public: " +
+                mbebnType.getNbme());
         }
 
         try {
-            initMaps(mbeanType, introspector);
-        } catch (Exception x) {
-            throw Introspector.throwException(mbeanType,x);
+            initMbps(mbebnType, introspector);
+        } cbtch (Exception x) {
+            throw Introspector.throwException(mbebnType,x);
         }
     }
 
-    // Introspect the mbeanInterface and initialize this object's maps.
+    // Introspect the mbebnInterfbce bnd initiblize this object's mbps.
     //
-    private void initMaps(Class<?> mbeanType,
-            MBeanIntrospector<M> introspector) throws Exception {
-        final List<Method> methods1 = introspector.getMethods(mbeanType);
-        final List<Method> methods = eliminateCovariantMethods(methods1);
+    privbte void initMbps(Clbss<?> mbebnType,
+            MBebnIntrospector<M> introspector) throws Exception {
+        finbl List<Method> methods1 = introspector.getMethods(mbebnType);
+        finbl List<Method> methods = eliminbteCovbribntMethods(methods1);
 
-        /* Run through the methods to detect inconsistencies and to enable
-           us to give getter and setter together to visitAttribute. */
+        /* Run through the methods to detect inconsistencies bnd to enbble
+           us to give getter bnd setter together to visitAttribute. */
         for (Method m : methods) {
-            final String name = m.getName();
-            final int nParams = m.getParameterTypes().length;
+            finbl String nbme = m.getNbme();
+            finbl int nPbrbms = m.getPbrbmeterTypes().length;
 
-            final M cm = introspector.mFrom(m);
+            finbl M cm = introspector.mFrom(m);
 
-            String attrName = "";
-            if (name.startsWith("get"))
-                attrName = name.substring(3);
-            else if (name.startsWith("is")
-            && m.getReturnType() == boolean.class)
-                attrName = name.substring(2);
+            String bttrNbme = "";
+            if (nbme.stbrtsWith("get"))
+                bttrNbme = nbme.substring(3);
+            else if (nbme.stbrtsWith("is")
+            && m.getReturnType() == boolebn.clbss)
+                bttrNbme = nbme.substring(2);
 
-            if (attrName.length() != 0 && nParams == 0
-                    && m.getReturnType() != void.class) {
-                // It's a getter
-                // Check we don't have both isX and getX
-                AttrMethods<M> am = attrMap.get(attrName);
-                if (am == null)
-                    am = new AttrMethods<M>();
+            if (bttrNbme.length() != 0 && nPbrbms == 0
+                    && m.getReturnType() != void.clbss) {
+                // It's b getter
+                // Check we don't hbve both isX bnd getX
+                AttrMethods<M> bm = bttrMbp.get(bttrNbme);
+                if (bm == null)
+                    bm = new AttrMethods<M>();
                 else {
-                    if (am.getter != null) {
-                        final String msg = "Attribute " + attrName +
-                                " has more than one getter";
-                        throw new NotCompliantMBeanException(msg);
+                    if (bm.getter != null) {
+                        finbl String msg = "Attribute " + bttrNbme +
+                                " hbs more thbn one getter";
+                        throw new NotComplibntMBebnException(msg);
                     }
                 }
-                am.getter = cm;
-                attrMap.put(attrName, am);
-            } else if (name.startsWith("set") && name.length() > 3
-                    && nParams == 1 &&
-                    m.getReturnType() == void.class) {
-                // It's a setter
-                attrName = name.substring(3);
-                AttrMethods<M> am = attrMap.get(attrName);
-                if (am == null)
-                    am = new AttrMethods<M>();
-                else if (am.setter != null) {
-                    final String msg = "Attribute " + attrName +
-                            " has more than one setter";
-                    throw new NotCompliantMBeanException(msg);
+                bm.getter = cm;
+                bttrMbp.put(bttrNbme, bm);
+            } else if (nbme.stbrtsWith("set") && nbme.length() > 3
+                    && nPbrbms == 1 &&
+                    m.getReturnType() == void.clbss) {
+                // It's b setter
+                bttrNbme = nbme.substring(3);
+                AttrMethods<M> bm = bttrMbp.get(bttrNbme);
+                if (bm == null)
+                    bm = new AttrMethods<M>();
+                else if (bm.setter != null) {
+                    finbl String msg = "Attribute " + bttrNbme +
+                            " hbs more thbn one setter";
+                    throw new NotComplibntMBebnException(msg);
                 }
-                am.setter = cm;
-                attrMap.put(attrName, am);
+                bm.setter = cm;
+                bttrMbp.put(bttrNbme, bm);
             } else {
-                // It's an operation
-                List<M> cms = opMap.get(name);
+                // It's bn operbtion
+                List<M> cms = opMbp.get(nbme);
                 if (cms == null)
                     cms = newList();
-                cms.add(cm);
-                opMap.put(name, cms);
+                cms.bdd(cm);
+                opMbp.put(nbme, cms);
             }
         }
-        /* Check that getters and setters are consistent. */
-        for (Map.Entry<String, AttrMethods<M>> entry : attrMap.entrySet()) {
-            AttrMethods<M> am = entry.getValue();
-            if (!introspector.consistent(am.getter, am.setter)) {
-                final String msg = "Getter and setter for " + entry.getKey() +
-                        " have inconsistent types";
-                throw new NotCompliantMBeanException(msg);
+        /* Check thbt getters bnd setters bre consistent. */
+        for (Mbp.Entry<String, AttrMethods<M>> entry : bttrMbp.entrySet()) {
+            AttrMethods<M> bm = entry.getVblue();
+            if (!introspector.consistent(bm.getter, bm.setter)) {
+                finbl String msg = "Getter bnd setter for " + entry.getKey() +
+                        " hbve inconsistent types";
+                throw new NotComplibntMBebnException(msg);
             }
         }
     }
 
     /**
-     * A comparator that defines a total order so that methods have the
-     * same name and identical signatures appear next to each others.
-     * The methods are sorted in such a way that methods which
-     * override each other will sit next to each other, with the
-     * overridden method first - e.g. Object getFoo() is placed before
-     * Integer getFoo(). This makes it possible to determine whether
-     * a method overrides another one simply by looking at the method(s)
-     * that precedes it in the list. (see eliminateCovariantMethods).
+     * A compbrbtor thbt defines b totbl order so thbt methods hbve the
+     * sbme nbme bnd identicbl signbtures bppebr next to ebch others.
+     * The methods bre sorted in such b wby thbt methods which
+     * override ebch other will sit next to ebch other, with the
+     * overridden method first - e.g. Object getFoo() is plbced before
+     * Integer getFoo(). This mbkes it possible to determine whether
+     * b method overrides bnother one simply by looking bt the method(s)
+     * thbt precedes it in the list. (see eliminbteCovbribntMethods).
      **/
-    private static class MethodOrder implements Comparator<Method> {
-        public int compare(Method a, Method b) {
-            final int cmp = a.getName().compareTo(b.getName());
+    privbte stbtic clbss MethodOrder implements Compbrbtor<Method> {
+        public int compbre(Method b, Method b) {
+            finbl int cmp = b.getNbme().compbreTo(b.getNbme());
             if (cmp != 0) return cmp;
-            final Class<?>[] aparams = a.getParameterTypes();
-            final Class<?>[] bparams = b.getParameterTypes();
-            if (aparams.length != bparams.length)
-                return aparams.length - bparams.length;
-            if (!Arrays.equals(aparams, bparams)) {
-                return Arrays.toString(aparams).
-                        compareTo(Arrays.toString(bparams));
+            finbl Clbss<?>[] bpbrbms = b.getPbrbmeterTypes();
+            finbl Clbss<?>[] bpbrbms = b.getPbrbmeterTypes();
+            if (bpbrbms.length != bpbrbms.length)
+                return bpbrbms.length - bpbrbms.length;
+            if (!Arrbys.equbls(bpbrbms, bpbrbms)) {
+                return Arrbys.toString(bpbrbms).
+                        compbreTo(Arrbys.toString(bpbrbms));
             }
-            final Class<?> aret = a.getReturnType();
-            final Class<?> bret = b.getReturnType();
-            if (aret == bret) return 0;
+            finbl Clbss<?> bret = b.getReturnType();
+            finbl Clbss<?> bret = b.getReturnType();
+            if (bret == bret) return 0;
 
             // Super type comes first: Object, Number, Integer
-            if (aret.isAssignableFrom(bret))
+            if (bret.isAssignbbleFrom(bret))
                 return -1;
-            return +1;      // could assert bret.isAssignableFrom(aret)
+            return +1;      // could bssert bret.isAssignbbleFrom(bret)
         }
-        public final static MethodOrder instance = new MethodOrder();
+        public finbl stbtic MethodOrder instbnce = new MethodOrder();
     }
 
 
-    /* Eliminate methods that are overridden with a covariant return type.
-       Reflection will return both the original and the overriding method
+    /* Eliminbte methods thbt bre overridden with b covbribnt return type.
+       Reflection will return both the originbl bnd the overriding method
        but only the overriding one is of interest.  We return the methods
-       in the same order they arrived in.  This isn't required by the spec
-       but existing code may depend on it and users may be used to seeing
-       operations or attributes appear in a particular order.
+       in the sbme order they brrived in.  This isn't required by the spec
+       but existing code mby depend on it bnd users mby be used to seeing
+       operbtions or bttributes bppebr in b pbrticulbr order.
 
-       Because of the way this method works, if the same Method appears
-       more than once in the given List then it will be completely deleted!
-       So don't do that.  */
-    static List<Method>
-            eliminateCovariantMethods(List<Method> startMethods) {
-        // We are assuming that you never have very many methods with the
-        // same name, so it is OK to use algorithms that are quadratic
-        // in the number of methods with the same name.
+       Becbuse of the wby this method works, if the sbme Method bppebrs
+       more thbn once in the given List then it will be completely deleted!
+       So don't do thbt.  */
+    stbtic List<Method>
+            eliminbteCovbribntMethods(List<Method> stbrtMethods) {
+        // We bre bssuming thbt you never hbve very mbny methods with the
+        // sbme nbme, so it is OK to use blgorithms thbt bre qubdrbtic
+        // in the number of methods with the sbme nbme.
 
-        final int len = startMethods.size();
-        final Method[] sorted = startMethods.toArray(new Method[len]);
-        Arrays.sort(sorted,MethodOrder.instance);
-        final Set<Method> overridden = newSet();
+        finbl int len = stbrtMethods.size();
+        finbl Method[] sorted = stbrtMethods.toArrby(new Method[len]);
+        Arrbys.sort(sorted,MethodOrder.instbnce);
+        finbl Set<Method> overridden = newSet();
         for (int i=1;i<len;i++) {
-            final Method m0 = sorted[i-1];
-            final Method m1 = sorted[i];
+            finbl Method m0 = sorted[i-1];
+            finbl Method m1 = sorted[i];
 
-            // Methods that don't have the same name can't override each other
-            if (!m0.getName().equals(m1.getName())) continue;
+            // Methods thbt don't hbve the sbme nbme cbn't override ebch other
+            if (!m0.getNbme().equbls(m1.getNbme())) continue;
 
-            // Methods that have the same name and same signature override
-            // each other. In that case, the second method overrides the first,
-            // due to the way we have sorted them in MethodOrder.
-            if (Arrays.equals(m0.getParameterTypes(),
-                    m1.getParameterTypes())) {
-                if (!overridden.add(m0))
-                    throw new RuntimeException("Internal error: duplicate Method");
+            // Methods thbt hbve the sbme nbme bnd sbme signbture override
+            // ebch other. In thbt cbse, the second method overrides the first,
+            // due to the wby we hbve sorted them in MethodOrder.
+            if (Arrbys.equbls(m0.getPbrbmeterTypes(),
+                    m1.getPbrbmeterTypes())) {
+                if (!overridden.bdd(m0))
+                    throw new RuntimeException("Internbl error: duplicbte Method");
             }
         }
 
-        final List<Method> methods = newList(startMethods);
+        finbl List<Method> methods = newList(stbrtMethods);
         methods.removeAll(overridden);
         return methods;
     }

@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- *      Implementation of class Throwable
+ *      Implementbtion of clbss Throwbble
  *
- *      former classruntime.c, Wed Jun 26 18:43:20 1991
+ *      former clbssruntime.c, Wed Jun 26 18:43:20 1991
  */
 
 #include <stdio.h>
-#include <signal.h>
+#include <signbl.h>
 
 #include "jni.h"
 #include "jvm.h"
 
-#include "java_lang_Throwable.h"
+#include "jbvb_lbng_Throwbble.h"
 
 /*
- * Fill in the current stack trace in this exception.  This is
- * usually called automatically when the exception is created but it
- * may also be called explicitly by the user.  This routine returns
- * `this' so you can write 'throw e.fillInStackTrace();'
+ * Fill in the current stbck trbce in this exception.  This is
+ * usublly cblled butombticblly when the exception is crebted but it
+ * mby blso be cblled explicitly by the user.  This routine returns
+ * `this' so you cbn write 'throw e.fillInStbckTrbce();'
  */
 JNIEXPORT jobject JNICALL
-Java_java_lang_Throwable_fillInStackTrace(JNIEnv *env, jobject throwable, jint dummy)
+Jbvb_jbvb_lbng_Throwbble_fillInStbckTrbce(JNIEnv *env, jobject throwbble, jint dummy)
 {
-    JVM_FillInStackTrace(env, throwable);
-    return throwable;
+    JVM_FillInStbckTrbce(env, throwbble);
+    return throwbble;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_Throwable_getStackTraceDepth(JNIEnv *env, jobject throwable)
+Jbvb_jbvb_lbng_Throwbble_getStbckTrbceDepth(JNIEnv *env, jobject throwbble)
 {
-    return JVM_GetStackTraceDepth(env, throwable);
+    return JVM_GetStbckTrbceDepth(env, throwbble);
 }
 
 JNIEXPORT jobject JNICALL
-Java_java_lang_Throwable_getStackTraceElement(JNIEnv *env,
-                                              jobject throwable, jint index)
+Jbvb_jbvb_lbng_Throwbble_getStbckTrbceElement(JNIEnv *env,
+                                              jobject throwbble, jint index)
 {
-    return JVM_GetStackTraceElement(env, throwable, index);
+    return JVM_GetStbckTrbceElement(env, throwbble, index);
 }

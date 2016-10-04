@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect;
+pbckbge sun.reflect;
 
-/** Package-private implementation of the FieldAccessor interface
-    which has access to all classes and all fields, regardless of
-    language restrictions. See MagicAccessorImpl. */
+/** Pbckbge-privbte implementbtion of the FieldAccessor interfbce
+    which hbs bccess to bll clbsses bnd bll fields, regbrdless of
+    lbngubge restrictions. See MbgicAccessorImpl. */
 
-abstract class FieldAccessorImpl extends MagicAccessorImpl
+bbstrbct clbss FieldAccessorImpl extends MbgicAccessorImpl
     implements FieldAccessor {
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract Object get(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct Object get(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract boolean getBoolean(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct boolebn getBoolebn(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract byte getByte(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct byte getByte(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract char getChar(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct chbr getChbr(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract short getShort(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct short getShort(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract int getInt(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct int getInt(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract long getLong(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct long getLong(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract float getFloat(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct flobt getFlobt(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract double getDouble(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct double getDouble(Object obj)
+        throws IllegblArgumentException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void set(Object obj, Object value)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void set(Object obj, Object vblue)
+        throws IllegblArgumentException, IllegblAccessException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setBoolean(Object obj, boolean z)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void setBoolebn(Object obj, boolebn z)
+        throws IllegblArgumentException, IllegblAccessException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setByte(Object obj, byte b)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void setByte(Object obj, byte b)
+        throws IllegblArgumentException, IllegblAccessException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setChar(Object obj, char c)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void setChbr(Object obj, chbr c)
+        throws IllegblArgumentException, IllegblAccessException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setShort(Object obj, short s)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void setShort(Object obj, short s)
+        throws IllegblArgumentException, IllegblAccessException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setInt(Object obj, int i)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void setInt(Object obj, int i)
+        throws IllegblArgumentException, IllegblAccessException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setLong(Object obj, long l)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void setLong(Object obj, long l)
+        throws IllegblArgumentException, IllegblAccessException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setFloat(Object obj, float f)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void setFlobt(Object obj, flobt f)
+        throws IllegblArgumentException, IllegblAccessException;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setDouble(Object obj, double d)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtches specificbtion in {@link jbvb.lbng.reflect.Field} */
+    public bbstrbct void setDouble(Object obj, double d)
+        throws IllegblArgumentException, IllegblAccessException;
 }

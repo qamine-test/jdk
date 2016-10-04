@@ -1,30 +1,30 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* uncompr.c -- decompress a memory buffer
- * Copyright (C) 1995-2003, 2010 Jean-loup Gailly.
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* uncompr.c -- decompress b memory buffer
+ * Copyright (C) 1995-2003, 2010 Jebn-loup Gbilly.
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
 /* @(#) $Id$ */
@@ -33,17 +33,17 @@
 #include "zlib.h"
 
 /* ===========================================================================
-     Decompresses the source buffer into the destination buffer.  sourceLen is
-   the byte length of the source buffer. Upon entry, destLen is the total
-   size of the destination buffer, which must be large enough to hold the
-   entire uncompressed data. (The size of the uncompressed data must have
-   been saved previously by the compressor and transmitted to the decompressor
-   by some mechanism outside the scope of this compression library.)
-   Upon exit, destLen is the actual size of the compressed buffer.
+     Decompresses the source buffer into the destinbtion buffer.  sourceLen is
+   the byte length of the source buffer. Upon entry, destLen is the totbl
+   size of the destinbtion buffer, which must be lbrge enough to hold the
+   entire uncompressed dbtb. (The size of the uncompressed dbtb must hbve
+   been sbved previously by the compressor bnd trbnsmitted to the decompressor
+   by some mechbnism outside the scope of this compression librbry.)
+   Upon exit, destLen is the bctubl size of the compressed buffer.
 
-     uncompress returns Z_OK if success, Z_MEM_ERROR if there was not
-   enough memory, Z_BUF_ERROR if there was not enough room in the output
-   buffer, or Z_DATA_ERROR if the input data was corrupted.
+     uncompress returns Z_OK if success, Z_MEM_ERROR if there wbs not
+   enough memory, Z_BUF_ERROR if there wbs not enough room in the output
+   buffer, or Z_DATA_ERROR if the input dbtb wbs corrupted.
 */
 int ZEXPORT uncompress (dest, destLen, source, sourceLen)
     Bytef *dest;
@@ -51,33 +51,33 @@ int ZEXPORT uncompress (dest, destLen, source, sourceLen)
     const Bytef *source;
     uLong sourceLen;
 {
-    z_stream stream;
+    z_strebm strebm;
     int err;
 
-    stream.next_in = (z_const Bytef *)source;
-    stream.avail_in = (uInt)sourceLen;
-    /* Check for source > 64K on 16-bit machine: */
-    if ((uLong)stream.avail_in != sourceLen) return Z_BUF_ERROR;
+    strebm.next_in = (z_const Bytef *)source;
+    strebm.bvbil_in = (uInt)sourceLen;
+    /* Check for source > 64K on 16-bit mbchine: */
+    if ((uLong)strebm.bvbil_in != sourceLen) return Z_BUF_ERROR;
 
-    stream.next_out = dest;
-    stream.avail_out = (uInt)*destLen;
-    if ((uLong)stream.avail_out != *destLen) return Z_BUF_ERROR;
+    strebm.next_out = dest;
+    strebm.bvbil_out = (uInt)*destLen;
+    if ((uLong)strebm.bvbil_out != *destLen) return Z_BUF_ERROR;
 
-    stream.zalloc = (alloc_func)0;
-    stream.zfree = (free_func)0;
+    strebm.zblloc = (blloc_func)0;
+    strebm.zfree = (free_func)0;
 
-    err = inflateInit(&stream);
+    err = inflbteInit(&strebm);
     if (err != Z_OK) return err;
 
-    err = inflate(&stream, Z_FINISH);
+    err = inflbte(&strebm, Z_FINISH);
     if (err != Z_STREAM_END) {
-        inflateEnd(&stream);
-        if (err == Z_NEED_DICT || (err == Z_BUF_ERROR && stream.avail_in == 0))
+        inflbteEnd(&strebm);
+        if (err == Z_NEED_DICT || (err == Z_BUF_ERROR && strebm.bvbil_in == 0))
             return Z_DATA_ERROR;
         return err;
     }
-    *destLen = stream.total_out;
+    *destLen = strebm.totbl_out;
 
-    err = inflateEnd(&stream);
+    err = inflbteEnd(&strebm);
     return err;
 }

@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * The <code>Ellipse2D</code> class describes an ellipse that is defined
- * by a framing rectangle.
+ * The <code>Ellipse2D</code> clbss describes bn ellipse thbt is defined
+ * by b frbming rectbngle.
  * <p>
- * This class is only the abstract superclass for all objects which
- * store a 2D ellipse.
- * The actual storage representation of the coordinates is left to
- * the subclass.
+ * This clbss is only the bbstrbct superclbss for bll objects which
+ * store b 2D ellipse.
+ * The bctubl storbge representbtion of the coordinbtes is left to
+ * the subclbss.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  * @since 1.2
  */
-public abstract class Ellipse2D extends RectangularShape {
+public bbstrbct clbss Ellipse2D extends RectbngulbrShbpe {
 
     /**
-     * The <code>Float</code> class defines an ellipse specified
-     * in <code>float</code> precision.
+     * The <code>Flobt</code> clbss defines bn ellipse specified
+     * in <code>flobt</code> precision.
      * @since 1.2
      */
-    public static class Float extends Ellipse2D implements Serializable {
+    public stbtic clbss Flobt extends Ellipse2D implements Seriblizbble {
         /**
-         * The X coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
+         * The X coordinbte of the upper-left corner of the
+         * frbming rectbngle of this {@code Ellipse2D}.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float x;
+        public flobt x;
 
         /**
-         * The Y coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
+         * The Y coordinbte of the upper-left corner of the
+         * frbming rectbngle of this {@code Ellipse2D}.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float y;
+        public flobt y;
 
         /**
-         * The overall width of this <code>Ellipse2D</code>.
+         * The overbll width of this <code>Ellipse2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float width;
+        public flobt width;
 
         /**
-         * The overall height of this <code>Ellipse2D</code>.
+         * The overbll height of this <code>Ellipse2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float height;
+        public flobt height;
 
         /**
-         * Constructs a new <code>Ellipse2D</code>, initialized to
-         * location (0,&nbsp;0) and size (0,&nbsp;0).
+         * Constructs b new <code>Ellipse2D</code>, initiblized to
+         * locbtion (0,&nbsp;0) bnd size (0,&nbsp;0).
          * @since 1.2
          */
-        public Float() {
+        public Flobt() {
         }
 
         /**
-         * Constructs and initializes an <code>Ellipse2D</code> from the
-         * specified coordinates.
+         * Constructs bnd initiblizes bn <code>Ellipse2D</code> from the
+         * specified coordinbtes.
          *
-         * @param x the X coordinate of the upper-left corner
-         *          of the framing rectangle
-         * @param y the Y coordinate of the upper-left corner
-         *          of the framing rectangle
-         * @param w the width of the framing rectangle
-         * @param h the height of the framing rectangle
+         * @pbrbm x the X coordinbte of the upper-left corner
+         *          of the frbming rectbngle
+         * @pbrbm y the Y coordinbte of the upper-left corner
+         *          of the frbming rectbngle
+         * @pbrbm w the width of the frbming rectbngle
+         * @pbrbm h the height of the frbming rectbngle
          * @since 1.2
          */
-        public Float(float x, float y, float w, float h) {
-            setFrame(x, y, w, h);
+        public Flobt(flobt x, flobt y, flobt w, flobt h) {
+            setFrbme(x, y, w, h);
         }
 
         /**
@@ -137,23 +137,23 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
         /**
-         * Sets the location and size of the framing rectangle of this
-         * <code>Shape</code> to the specified rectangular values.
+         * Sets the locbtion bnd size of the frbming rectbngle of this
+         * <code>Shbpe</code> to the specified rectbngulbr vblues.
          *
-         * @param x the X coordinate of the upper-left corner of the
-         *              specified rectangular shape
-         * @param y the Y coordinate of the upper-left corner of the
-         *              specified rectangular shape
-         * @param w the width of the specified rectangular shape
-         * @param h the height of the specified rectangular shape
+         * @pbrbm x the X coordinbte of the upper-left corner of the
+         *              specified rectbngulbr shbpe
+         * @pbrbm y the Y coordinbte of the upper-left corner of the
+         *              specified rectbngulbr shbpe
+         * @pbrbm w the width of the specified rectbngulbr shbpe
+         * @pbrbm h the height of the specified rectbngulbr shbpe
          * @since 1.2
          */
-        public void setFrame(float x, float y, float w, float h) {
+        public void setFrbme(flobt x, flobt y, flobt w, flobt h) {
             this.x = x;
             this.y = y;
             this.width = w;
@@ -164,85 +164,85 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setFrame(double x, double y, double w, double h) {
-            this.x = (float) x;
-            this.y = (float) y;
-            this.width = (float) w;
-            this.height = (float) h;
+        public void setFrbme(double x, double y, double w, double h) {
+            this.x = (flobt) x;
+            this.y = (flobt) y;
+            this.width = (flobt) w;
+            this.height = (flobt) h;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
-            return new Rectangle2D.Float(x, y, width, height);
+        public Rectbngle2D getBounds2D() {
+            return new Rectbngle2D.Flobt(x, y, width, height);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = -6633761252372475977L;
+        privbte stbtic finbl long seriblVersionUID = -6633761252372475977L;
     }
 
     /**
-     * The <code>Double</code> class defines an ellipse specified
+     * The <code>Double</code> clbss defines bn ellipse specified
      * in <code>double</code> precision.
      * @since 1.2
      */
-    public static class Double extends Ellipse2D implements Serializable {
+    public stbtic clbss Double extends Ellipse2D implements Seriblizbble {
         /**
-         * The X coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
+         * The X coordinbte of the upper-left corner of the
+         * frbming rectbngle of this {@code Ellipse2D}.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double x;
 
         /**
-         * The Y coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
+         * The Y coordinbte of the upper-left corner of the
+         * frbming rectbngle of this {@code Ellipse2D}.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double y;
 
         /**
-         * The overall width of this <code>Ellipse2D</code>.
+         * The overbll width of this <code>Ellipse2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double width;
 
         /**
-         * The overall height of the <code>Ellipse2D</code>.
+         * The overbll height of the <code>Ellipse2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double height;
 
         /**
-         * Constructs a new <code>Ellipse2D</code>, initialized to
-         * location (0,&nbsp;0) and size (0,&nbsp;0).
+         * Constructs b new <code>Ellipse2D</code>, initiblized to
+         * locbtion (0,&nbsp;0) bnd size (0,&nbsp;0).
          * @since 1.2
          */
         public Double() {
         }
 
         /**
-         * Constructs and initializes an <code>Ellipse2D</code> from the
-         * specified coordinates.
+         * Constructs bnd initiblizes bn <code>Ellipse2D</code> from the
+         * specified coordinbtes.
          *
-         * @param x the X coordinate of the upper-left corner
-         *        of the framing rectangle
-         * @param y the Y coordinate of the upper-left corner
-         *        of the framing rectangle
-         * @param w the width of the framing rectangle
-         * @param h the height of the framing rectangle
+         * @pbrbm x the X coordinbte of the upper-left corner
+         *        of the frbming rectbngle
+         * @pbrbm y the Y coordinbte of the upper-left corner
+         *        of the frbming rectbngle
+         * @pbrbm w the width of the frbming rectbngle
+         * @pbrbm h the height of the frbming rectbngle
          * @since 1.2
          */
         public Double(double x, double y, double w, double h) {
-            setFrame(x, y, w, h);
+            setFrbme(x, y, w, h);
         }
 
         /**
@@ -281,7 +281,7 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
@@ -289,7 +289,7 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setFrame(double x, double y, double w, double h) {
+        public void setFrbme(double x, double y, double w, double h) {
             this.x = x;
             this.y = y;
             this.width = w;
@@ -300,25 +300,25 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
-            return new Rectangle2D.Double(x, y, width, height);
+        public Rectbngle2D getBounds2D() {
+            return new Rectbngle2D.Double(x, y, width, height);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 5555464816372320683L;
+        privbte stbtic finbl long seriblVersionUID = 5555464816372320683L;
     }
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
+     * Type-specific implementbtion subclbsses bre bvbilbble for
+     * instbntibtion bnd provide b number of formbts for storing
+     * the informbtion necessbry to sbtisfy the vbrious bccessor
      * methods below.
      *
-     * @see java.awt.geom.Ellipse2D.Float
-     * @see java.awt.geom.Ellipse2D.Double
+     * @see jbvb.bwt.geom.Ellipse2D.Flobt
+     * @see jbvb.bwt.geom.Ellipse2D.Double
      * @since 1.2
      */
     protected Ellipse2D() {
@@ -328,17 +328,17 @@ public abstract class Ellipse2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
-        // Normalize the coordinates compared to the ellipse
-        // having a center at 0,0 and a radius of 0.5.
+    public boolebn contbins(double x, double y) {
+        // Normblize the coordinbtes compbred to the ellipse
+        // hbving b center bt 0,0 bnd b rbdius of 0.5.
         double ellw = getWidth();
         if (ellw <= 0.0) {
-            return false;
+            return fblse;
         }
         double normx = (x - getX()) / ellw - 0.5;
         double ellh = getHeight();
         if (ellh <= 0.0) {
-            return false;
+            return fblse;
         }
         double normy = (y - getY()) / ellh - 0.5;
         return (normx * normx + normy * normy) < 0.25;
@@ -348,117 +348,117 @@ public abstract class Ellipse2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    public boolebn intersects(double x, double y, double w, double h) {
         if (w <= 0.0 || h <= 0.0) {
-            return false;
+            return fblse;
         }
-        // Normalize the rectangular coordinates compared to the ellipse
-        // having a center at 0,0 and a radius of 0.5.
+        // Normblize the rectbngulbr coordinbtes compbred to the ellipse
+        // hbving b center bt 0,0 bnd b rbdius of 0.5.
         double ellw = getWidth();
         if (ellw <= 0.0) {
-            return false;
+            return fblse;
         }
         double normx0 = (x - getX()) / ellw - 0.5;
         double normx1 = normx0 + w / ellw;
         double ellh = getHeight();
         if (ellh <= 0.0) {
-            return false;
+            return fblse;
         }
         double normy0 = (y - getY()) / ellh - 0.5;
         double normy1 = normy0 + h / ellh;
-        // find nearest x (left edge, right edge, 0.0)
-        // find nearest y (top edge, bottom edge, 0.0)
-        // if nearest x,y is inside circle of radius 0.5, then intersects
-        double nearx, neary;
+        // find nebrest x (left edge, right edge, 0.0)
+        // find nebrest y (top edge, bottom edge, 0.0)
+        // if nebrest x,y is inside circle of rbdius 0.5, then intersects
+        double nebrx, nebry;
         if (normx0 > 0.0) {
             // center to left of X extents
-            nearx = normx0;
+            nebrx = normx0;
         } else if (normx1 < 0.0) {
             // center to right of X extents
-            nearx = normx1;
+            nebrx = normx1;
         } else {
-            nearx = 0.0;
+            nebrx = 0.0;
         }
         if (normy0 > 0.0) {
-            // center above Y extents
-            neary = normy0;
+            // center bbove Y extents
+            nebry = normy0;
         } else if (normy1 < 0.0) {
             // center below Y extents
-            neary = normy1;
+            nebry = normy1;
         } else {
-            neary = 0.0;
+            nebry = 0.0;
         }
-        return (nearx * nearx + neary * neary) < 0.25;
+        return (nebrx * nebrx + nebry * nebry) < 0.25;
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
-        return (contains(x, y) &&
-                contains(x + w, y) &&
-                contains(x, y + h) &&
-                contains(x + w, y + h));
+    public boolebn contbins(double x, double y, double w, double h) {
+        return (contbins(x, y) &&
+                contbins(x + w, y) &&
+                contbins(x, y + h) &&
+                contbins(x + w, y + h));
     }
 
     /**
-     * Returns an iteration object that defines the boundary of this
+     * Returns bn iterbtion object thbt defines the boundbry of this
      * <code>Ellipse2D</code>.
-     * The iterator for this class is multi-threaded safe, which means
-     * that this <code>Ellipse2D</code> class guarantees that
-     * modifications to the geometry of this <code>Ellipse2D</code>
-     * object do not affect any iterations of that geometry that
-     * are already in process.
-     * @param at an optional <code>AffineTransform</code> to be applied to
-     * the coordinates as they are returned in the iteration, or
-     * <code>null</code> if untransformed coordinates are desired
-     * @return    the <code>PathIterator</code> object that returns the
+     * The iterbtor for this clbss is multi-threbded sbfe, which mebns
+     * thbt this <code>Ellipse2D</code> clbss gubrbntees thbt
+     * modificbtions to the geometry of this <code>Ellipse2D</code>
+     * object do not bffect bny iterbtions of thbt geometry thbt
+     * bre blrebdy in process.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to be bpplied to
+     * the coordinbtes bs they bre returned in the iterbtion, or
+     * <code>null</code> if untrbnsformed coordinbtes bre desired
+     * @return    the <code>PbthIterbtor</code> object thbt returns the
      *          geometry of the outline of this <code>Ellipse2D</code>,
-     *          one segment at a time.
+     *          one segment bt b time.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at) {
-        return new EllipseIterator(this, at);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt) {
+        return new EllipseIterbtor(this, bt);
     }
 
     /**
-     * Returns the hashcode for this <code>Ellipse2D</code>.
-     * @return the hashcode for this <code>Ellipse2D</code>.
+     * Returns the hbshcode for this <code>Ellipse2D</code>.
+     * @return the hbshcode for this <code>Ellipse2D</code>.
      * @since 1.6
      */
-    public int hashCode() {
-        long bits = java.lang.Double.doubleToLongBits(getX());
-        bits += java.lang.Double.doubleToLongBits(getY()) * 37;
-        bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
-        bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
+    public int hbshCode() {
+        long bits = jbvb.lbng.Double.doubleToLongBits(getX());
+        bits += jbvb.lbng.Double.doubleToLongBits(getY()) * 37;
+        bits += jbvb.lbng.Double.doubleToLongBits(getWidth()) * 43;
+        bits += jbvb.lbng.Double.doubleToLongBits(getHeight()) * 47;
         return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
      * Determines whether or not the specified <code>Object</code> is
-     * equal to this <code>Ellipse2D</code>.  The specified
-     * <code>Object</code> is equal to this <code>Ellipse2D</code>
-     * if it is an instance of <code>Ellipse2D</code> and if its
-     * location and size are the same as this <code>Ellipse2D</code>.
-     * @param obj  an <code>Object</code> to be compared with this
+     * equbl to this <code>Ellipse2D</code>.  The specified
+     * <code>Object</code> is equbl to this <code>Ellipse2D</code>
+     * if it is bn instbnce of <code>Ellipse2D</code> bnd if its
+     * locbtion bnd size bre the sbme bs this <code>Ellipse2D</code>.
+     * @pbrbm obj  bn <code>Object</code> to be compbred with this
      *             <code>Ellipse2D</code>.
-     * @return  <code>true</code> if <code>obj</code> is an instance
-     *          of <code>Ellipse2D</code> and has the same values;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if <code>obj</code> is bn instbnce
+     *          of <code>Ellipse2D</code> bnd hbs the sbme vblues;
+     *          <code>fblse</code> otherwise.
      * @since 1.6
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Ellipse2D) {
+        if (obj instbnceof Ellipse2D) {
             Ellipse2D e2d = (Ellipse2D) obj;
             return ((getX() == e2d.getX()) &&
                     (getY() == e2d.getY()) &&
                     (getWidth() == e2d.getWidth()) &&
                     (getHeight() == e2d.getHeight()));
         }
-        return false;
+        return fblse;
     }
 }

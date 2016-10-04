@@ -1,434 +1,434 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.DefaultFocusTraversalPolicy;
-import java.awt.FocusTraversalPolicy;
-import java.awt.Window;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.beans.PropertyVetoException;
-import java.util.Set;
-import java.util.TreeSet;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.DefbultFocusTrbversblPolicy;
+import jbvb.bwt.FocusTrbversblPolicy;
+import jbvb.bwt.Window;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.bebns.PropertyVetoException;
+import jbvb.util.Set;
+import jbvb.util.TreeSet;
 /**
- * A container used to create a multiple-document interface or a virtual desktop.
- * You create <code>JInternalFrame</code> objects and add them to the
- * <code>JDesktopPane</code>. <code>JDesktopPane</code> extends
- * <code>JLayeredPane</code> to manage the potentially overlapping internal
- * frames. It also maintains a reference to an instance of
- * <code>DesktopManager</code> that is set by the UI
- * class for the current look and feel (L&amp;F).  Note that <code>JDesktopPane</code>
+ * A contbiner used to crebte b multiple-document interfbce or b virtubl desktop.
+ * You crebte <code>JInternblFrbme</code> objects bnd bdd them to the
+ * <code>JDesktopPbne</code>. <code>JDesktopPbne</code> extends
+ * <code>JLbyeredPbne</code> to mbnbge the potentiblly overlbpping internbl
+ * frbmes. It blso mbintbins b reference to bn instbnce of
+ * <code>DesktopMbnbger</code> thbt is set by the UI
+ * clbss for the current look bnd feel (L&bmp;F).  Note thbt <code>JDesktopPbne</code>
  * does not support borders.
  * <p>
- * This class is normally used as the parent of <code>JInternalFrames</code>
- * to provide a pluggable <code>DesktopManager</code> object to the
- * <code>JInternalFrames</code>. The <code>installUI</code> of the
- * L&amp;F specific implementation is responsible for setting the
- * <code>desktopManager</code> variable appropriately.
- * When the parent of a <code>JInternalFrame</code> is a <code>JDesktopPane</code>,
- * it should delegate most of its behavior to the <code>desktopManager</code>
+ * This clbss is normblly used bs the pbrent of <code>JInternblFrbmes</code>
+ * to provide b pluggbble <code>DesktopMbnbger</code> object to the
+ * <code>JInternblFrbmes</code>. The <code>instbllUI</code> of the
+ * L&bmp;F specific implementbtion is responsible for setting the
+ * <code>desktopMbnbger</code> vbribble bppropribtely.
+ * When the pbrent of b <code>JInternblFrbme</code> is b <code>JDesktopPbne</code>,
+ * it should delegbte most of its behbvior to the <code>desktopMbnbger</code>
  * (closing, resizing, etc).
  * <p>
- * For further documentation and examples see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/internalframe.html">How to Use Internal Frames</a>,
- * a section in <em>The Java Tutorial</em>.
+ * For further documentbtion bnd exbmples see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/internblfrbme.html">How to Use Internbl Frbmes</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JInternalFrame
- * @see JInternalFrame.JDesktopIcon
- * @see DesktopManager
+ * @see JInternblFrbme
+ * @see JInternblFrbme.JDesktopIcon
+ * @see DesktopMbnbger
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JDesktopPane extends JLayeredPane implements Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JDesktopPbne extends JLbyeredPbne implements Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "DesktopPaneUI";
+    privbte stbtic finbl String uiClbssID = "DesktopPbneUI";
 
-    transient DesktopManager desktopManager;
+    trbnsient DesktopMbnbger desktopMbnbger;
 
-    private transient JInternalFrame selectedFrame = null;
+    privbte trbnsient JInternblFrbme selectedFrbme = null;
 
     /**
-      * Indicates that the entire contents of the item being dragged
-      * should appear inside the desktop pane.
+      * Indicbtes thbt the entire contents of the item being drbgged
+      * should bppebr inside the desktop pbne.
       *
       * @see #OUTLINE_DRAG_MODE
-      * @see #setDragMode
+      * @see #setDrbgMode
       */
-    public static final int LIVE_DRAG_MODE = 0;
+    public stbtic finbl int LIVE_DRAG_MODE = 0;
 
     /**
-      * Indicates that an outline only of the item being dragged
-      * should appear inside the desktop pane.
+      * Indicbtes thbt bn outline only of the item being drbgged
+      * should bppebr inside the desktop pbne.
       *
       * @see #LIVE_DRAG_MODE
-      * @see #setDragMode
+      * @see #setDrbgMode
       */
-    public static final int OUTLINE_DRAG_MODE = 1;
+    public stbtic finbl int OUTLINE_DRAG_MODE = 1;
 
-    private int dragMode = LIVE_DRAG_MODE;
-    private boolean dragModeSet = false;
-    private transient List<JInternalFrame> framesCache;
-    private boolean componentOrderCheckingEnabled = true;
-    private boolean componentOrderChanged = false;
+    privbte int drbgMode = LIVE_DRAG_MODE;
+    privbte boolebn drbgModeSet = fblse;
+    privbte trbnsient List<JInternblFrbme> frbmesCbche;
+    privbte boolebn componentOrderCheckingEnbbled = true;
+    privbte boolebn componentOrderChbnged = fblse;
 
     /**
-     * Creates a new <code>JDesktopPane</code>.
+     * Crebtes b new <code>JDesktopPbne</code>.
      */
-    public JDesktopPane() {
-        setUIProperty("opaque", Boolean.TRUE);
+    public JDesktopPbne() {
+        setUIProperty("opbque", Boolebn.TRUE);
         setFocusCycleRoot(true);
 
-        setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
-            public Component getDefaultComponent(Container c) {
-                JInternalFrame jifArray[] = getAllFrames();
+        setFocusTrbversblPolicy(new LbyoutFocusTrbversblPolicy() {
+            public Component getDefbultComponent(Contbiner c) {
+                JInternblFrbme jifArrby[] = getAllFrbmes();
                 Component comp = null;
-                for (JInternalFrame jif : jifArray) {
-                    comp = jif.getFocusTraversalPolicy().getDefaultComponent(jif);
+                for (JInternblFrbme jif : jifArrby) {
+                    comp = jif.getFocusTrbversblPolicy().getDefbultComponent(jif);
                     if (comp != null) {
-                        break;
+                        brebk;
                     }
                 }
                 return comp;
             }
         });
-        updateUI();
+        updbteUI();
     }
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return the <code>DesktopPaneUI</code> object that
+     * @return the <code>DesktopPbneUI</code> object thbt
      *   renders this component
      */
-    public DesktopPaneUI getUI() {
-        return (DesktopPaneUI)ui;
+    public DesktopPbneUI getUI() {
+        return (DesktopPbneUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the DesktopPaneUI L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the DesktopPbneUI L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(DesktopPaneUI ui) {
+    public void setUI(DesktopPbneUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Sets the "dragging style" used by the desktop pane.
-     * You may want to change to one mode or another for
-     * performance or aesthetic reasons.
+     * Sets the "drbgging style" used by the desktop pbne.
+     * You mby wbnt to chbnge to one mode or bnother for
+     * performbnce or besthetic rebsons.
      *
-     * @param dragMode the style of drag to use for items in the Desktop
+     * @pbrbm drbgMode the style of drbg to use for items in the Desktop
      *
      * @see #LIVE_DRAG_MODE
      * @see #OUTLINE_DRAG_MODE
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Dragging style for internal frame children.
-     *         enum: LIVE_DRAG_MODE JDesktopPane.LIVE_DRAG_MODE
-     *               OUTLINE_DRAG_MODE JDesktopPane.OUTLINE_DRAG_MODE
+     *  description: Drbgging style for internbl frbme children.
+     *         enum: LIVE_DRAG_MODE JDesktopPbne.LIVE_DRAG_MODE
+     *               OUTLINE_DRAG_MODE JDesktopPbne.OUTLINE_DRAG_MODE
      * @since 1.3
      */
-    public void setDragMode(int dragMode) {
-        int oldDragMode = this.dragMode;
-        this.dragMode = dragMode;
-        firePropertyChange("dragMode", oldDragMode, this.dragMode);
-        dragModeSet = true;
+    public void setDrbgMode(int drbgMode) {
+        int oldDrbgMode = this.drbgMode;
+        this.drbgMode = drbgMode;
+        firePropertyChbnge("drbgMode", oldDrbgMode, this.drbgMode);
+        drbgModeSet = true;
      }
 
     /**
-     * Gets the current "dragging style" used by the desktop pane.
+     * Gets the current "drbgging style" used by the desktop pbne.
      * @return either <code>Live_DRAG_MODE</code> or
      *   <code>OUTLINE_DRAG_MODE</code>
-     * @see #setDragMode
+     * @see #setDrbgMode
      * @since 1.3
      */
-     public int getDragMode() {
-         return dragMode;
+     public int getDrbgMode() {
+         return drbgMode;
      }
 
     /**
-     * Returns the {@code DesktopManger} that handles
-     * desktop-specific UI actions.
+     * Returns the {@code DesktopMbnger} thbt hbndles
+     * desktop-specific UI bctions.
      *
-     * @return the {@code DesktopManger} that handles desktop-specific
-     *         UI actions
+     * @return the {@code DesktopMbnger} thbt hbndles desktop-specific
+     *         UI bctions
      */
-    public DesktopManager getDesktopManager() {
-        return desktopManager;
+    public DesktopMbnbger getDesktopMbnbger() {
+        return desktopMbnbger;
     }
 
     /**
-     * Sets the <code>DesktopManger</code> that will handle
-     * desktop-specific UI actions. This may be overridden by
+     * Sets the <code>DesktopMbnger</code> thbt will hbndle
+     * desktop-specific UI bctions. This mby be overridden by
      * {@code LookAndFeel}.
      *
-     * @param d the <code>DesktopManager</code> to use
+     * @pbrbm d the <code>DesktopMbnbger</code> to use
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *  description: Desktop manager to handle the internal frames in the
-     *               desktop pane.
+     *  description: Desktop mbnbger to hbndle the internbl frbmes in the
+     *               desktop pbne.
      */
-    public void setDesktopManager(DesktopManager d) {
-        DesktopManager oldValue = desktopManager;
-        desktopManager = d;
-        firePropertyChange("desktopManager", oldValue, desktopManager);
+    public void setDesktopMbnbger(DesktopMbnbger d) {
+        DesktopMbnbger oldVblue = desktopMbnbger;
+        desktopMbnbger = d;
+        firePropertyChbnge("desktopMbnbger", oldVblue, desktopMbnbger);
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the L&amp;F has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the L&bmp;F hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((DesktopPaneUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((DesktopPbneUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
-     * @return the string "DesktopPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "DesktopPbneUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-     * Returns all <code>JInternalFrames</code> currently displayed in the
-     * desktop. Returns iconified frames as well as expanded frames.
+     * Returns bll <code>JInternblFrbmes</code> currently displbyed in the
+     * desktop. Returns iconified frbmes bs well bs expbnded frbmes.
      *
-     * @return an array of <code>JInternalFrame</code> objects
+     * @return bn brrby of <code>JInternblFrbme</code> objects
      */
-    public JInternalFrame[] getAllFrames() {
-        return getAllFrames(this).toArray(new JInternalFrame[0]);
+    public JInternblFrbme[] getAllFrbmes() {
+        return getAllFrbmes(this).toArrby(new JInternblFrbme[0]);
     }
 
-    private static Collection<JInternalFrame> getAllFrames(Container parent) {
+    privbte stbtic Collection<JInternblFrbme> getAllFrbmes(Contbiner pbrent) {
         int i, count;
-        Collection<JInternalFrame> results = new ArrayList<JInternalFrame>();
-        count = parent.getComponentCount();
+        Collection<JInternblFrbme> results = new ArrbyList<JInternblFrbme>();
+        count = pbrent.getComponentCount();
         for (i = 0; i < count; i++) {
-            Component next = parent.getComponent(i);
-            if (next instanceof JInternalFrame) {
-                results.add((JInternalFrame) next);
-            } else if (next instanceof JInternalFrame.JDesktopIcon) {
-                JInternalFrame tmp = ((JInternalFrame.JDesktopIcon) next).getInternalFrame();
+            Component next = pbrent.getComponent(i);
+            if (next instbnceof JInternblFrbme) {
+                results.bdd((JInternblFrbme) next);
+            } else if (next instbnceof JInternblFrbme.JDesktopIcon) {
+                JInternblFrbme tmp = ((JInternblFrbme.JDesktopIcon) next).getInternblFrbme();
                 if (tmp != null) {
-                    results.add(tmp);
+                    results.bdd(tmp);
                 }
-            } else if (next instanceof Container) {
-                results.addAll(getAllFrames((Container) next));
+            } else if (next instbnceof Contbiner) {
+                results.bddAll(getAllFrbmes((Contbiner) next));
             }
         }
         return results;
     }
 
-    /** Returns the currently active <code>JInternalFrame</code>
-      * in this <code>JDesktopPane</code>, or <code>null</code>
-      * if no <code>JInternalFrame</code> is currently active.
+    /** Returns the currently bctive <code>JInternblFrbme</code>
+      * in this <code>JDesktopPbne</code>, or <code>null</code>
+      * if no <code>JInternblFrbme</code> is currently bctive.
       *
-      * @return the currently active <code>JInternalFrame</code> or
+      * @return the currently bctive <code>JInternblFrbme</code> or
       *   <code>null</code>
       * @since 1.3
       */
 
-    public JInternalFrame getSelectedFrame() {
-      return selectedFrame;
+    public JInternblFrbme getSelectedFrbme() {
+      return selectedFrbme;
     }
 
-    /** Sets the currently active <code>JInternalFrame</code>
-     *  in this <code>JDesktopPane</code>. This method is used to bridge
-     *  the package gap between JDesktopPane and the platform implementation
-     *  code and should not be called directly. To visually select the frame
-     *  the client must call JInternalFrame.setSelected(true) to activate
-     *  the frame.
-     *  @see JInternalFrame#setSelected(boolean)
+    /** Sets the currently bctive <code>JInternblFrbme</code>
+     *  in this <code>JDesktopPbne</code>. This method is used to bridge
+     *  the pbckbge gbp between JDesktopPbne bnd the plbtform implementbtion
+     *  code bnd should not be cblled directly. To visublly select the frbme
+     *  the client must cbll JInternblFrbme.setSelected(true) to bctivbte
+     *  the frbme.
+     *  @see JInternblFrbme#setSelected(boolebn)
      *
-     * @param f the internal frame that's currently selected
+     * @pbrbm f the internbl frbme thbt's currently selected
      * @since 1.3
      */
 
-    public void setSelectedFrame(JInternalFrame f) {
-      selectedFrame = f;
+    public void setSelectedFrbme(JInternblFrbme f) {
+      selectedFrbme = f;
     }
 
     /**
-     * Returns all <code>JInternalFrames</code> currently displayed in the
-     * specified layer of the desktop. Returns iconified frames as well
-     * expanded frames.
+     * Returns bll <code>JInternblFrbmes</code> currently displbyed in the
+     * specified lbyer of the desktop. Returns iconified frbmes bs well
+     * expbnded frbmes.
      *
-     * @param layer  an int specifying the desktop layer
-     * @return an array of <code>JInternalFrame</code> objects
-     * @see JLayeredPane
+     * @pbrbm lbyer  bn int specifying the desktop lbyer
+     * @return bn brrby of <code>JInternblFrbme</code> objects
+     * @see JLbyeredPbne
      */
-    public JInternalFrame[] getAllFramesInLayer(int layer) {
-        Collection<JInternalFrame> allFrames = getAllFrames(this);
-        Iterator<JInternalFrame> iterator = allFrames.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getLayer() != layer) {
-                iterator.remove();
+    public JInternblFrbme[] getAllFrbmesInLbyer(int lbyer) {
+        Collection<JInternblFrbme> bllFrbmes = getAllFrbmes(this);
+        Iterbtor<JInternblFrbme> iterbtor = bllFrbmes.iterbtor();
+        while (iterbtor.hbsNext()) {
+            if (iterbtor.next().getLbyer() != lbyer) {
+                iterbtor.remove();
             }
         }
-        return allFrames.toArray(new JInternalFrame[0]);
+        return bllFrbmes.toArrby(new JInternblFrbme[0]);
     }
 
-    private List<JInternalFrame> getFrames() {
+    privbte List<JInternblFrbme> getFrbmes() {
         Component c;
         Set<ComponentPosition> set = new TreeSet<ComponentPosition>();
         for (int i = 0; i < getComponentCount(); i++) {
             c = getComponent(i);
-            if (c instanceof JInternalFrame) {
-                set.add(new ComponentPosition((JInternalFrame)c, getLayer(c),
+            if (c instbnceof JInternblFrbme) {
+                set.bdd(new ComponentPosition((JInternblFrbme)c, getLbyer(c),
                     i));
             }
-            else if (c instanceof JInternalFrame.JDesktopIcon)  {
-                c = ((JInternalFrame.JDesktopIcon)c).getInternalFrame();
-                set.add(new ComponentPosition((JInternalFrame)c, getLayer(c),
+            else if (c instbnceof JInternblFrbme.JDesktopIcon)  {
+                c = ((JInternblFrbme.JDesktopIcon)c).getInternblFrbme();
+                set.bdd(new ComponentPosition((JInternblFrbme)c, getLbyer(c),
                     i));
             }
         }
-        List<JInternalFrame> frames = new ArrayList<JInternalFrame>(
+        List<JInternblFrbme> frbmes = new ArrbyList<JInternblFrbme>(
                 set.size());
         for (ComponentPosition position : set) {
-            frames.add(position.component);
+            frbmes.bdd(position.component);
         }
-        return frames;
+        return frbmes;
    }
 
-    private static class ComponentPosition implements
-        Comparable<ComponentPosition> {
-        private final JInternalFrame component;
-        private final int layer;
-        private final int zOrder;
+    privbte stbtic clbss ComponentPosition implements
+        Compbrbble<ComponentPosition> {
+        privbte finbl JInternblFrbme component;
+        privbte finbl int lbyer;
+        privbte finbl int zOrder;
 
-        ComponentPosition(JInternalFrame component, int layer, int zOrder) {
+        ComponentPosition(JInternblFrbme component, int lbyer, int zOrder) {
             this.component = component;
-            this.layer = layer;
+            this.lbyer = lbyer;
             this.zOrder = zOrder;
         }
 
-        public int compareTo(ComponentPosition o) {
-            int delta = o.layer - layer;
-            if (delta == 0) {
+        public int compbreTo(ComponentPosition o) {
+            int deltb = o.lbyer - lbyer;
+            if (deltb == 0) {
                 return zOrder - o.zOrder;
             }
-            return delta;
+            return deltb;
         }
     }
 
-    private JInternalFrame getNextFrame(JInternalFrame f, boolean forward) {
-        verifyFramesCache();
+    privbte JInternblFrbme getNextFrbme(JInternblFrbme f, boolebn forwbrd) {
+        verifyFrbmesCbche();
         if (f == null) {
-            return getTopInternalFrame();
+            return getTopInternblFrbme();
         }
-        int i = framesCache.indexOf(f);
-        if (i == -1 || framesCache.size() == 1) {
+        int i = frbmesCbche.indexOf(f);
+        if (i == -1 || frbmesCbche.size() == 1) {
             /* error */
             return null;
         }
-        if (forward) {
-            // navigate to the next frame
-            if (++i == framesCache.size()) {
-                /* wrap */
+        if (forwbrd) {
+            // nbvigbte to the next frbme
+            if (++i == frbmesCbche.size()) {
+                /* wrbp */
                 i = 0;
             }
         }
         else {
-            // navigate to the previous frame
+            // nbvigbte to the previous frbme
             if (--i == -1) {
-                /* wrap */
-                i = framesCache.size() - 1;
+                /* wrbp */
+                i = frbmesCbche.size() - 1;
             }
         }
-        return framesCache.get(i);
+        return frbmesCbche.get(i);
     }
 
-    JInternalFrame getNextFrame(JInternalFrame f) {
-        return getNextFrame(f, true);
+    JInternblFrbme getNextFrbme(JInternblFrbme f) {
+        return getNextFrbme(f, true);
     }
 
-    private JInternalFrame getTopInternalFrame() {
-        if (framesCache.size() == 0) {
+    privbte JInternblFrbme getTopInternblFrbme() {
+        if (frbmesCbche.size() == 0) {
             return null;
         }
-        return framesCache.get(0);
+        return frbmesCbche.get(0);
     }
 
-    private void updateFramesCache() {
-        framesCache = getFrames();
+    privbte void updbteFrbmesCbche() {
+        frbmesCbche = getFrbmes();
     }
 
-    private void verifyFramesCache() {
-        // If framesCache is dirty, then recreate it.
-        if (componentOrderChanged) {
-            componentOrderChanged = false;
-            updateFramesCache();
+    privbte void verifyFrbmesCbche() {
+        // If frbmesCbche is dirty, then recrebte it.
+        if (componentOrderChbnged) {
+            componentOrderChbnged = fblse;
+            updbteFrbmesCbche();
         }
     }
 
@@ -438,58 +438,58 @@ public class JDesktopPane extends JLayeredPane implements Accessible
     @Override
     public void remove(Component comp) {
         super.remove(comp);
-        updateFramesCache();
+        updbteFrbmesCbche();
     }
 
     /**
-     * Selects the next <code>JInternalFrame</code> in this desktop pane.
+     * Selects the next <code>JInternblFrbme</code> in this desktop pbne.
      *
-     * @param forward a boolean indicating which direction to select in;
-     *        <code>true</code> for forward, <code>false</code> for
-     *        backward
-     * @return the JInternalFrame that was selected or <code>null</code>
-     *         if nothing was selected
+     * @pbrbm forwbrd b boolebn indicbting which direction to select in;
+     *        <code>true</code> for forwbrd, <code>fblse</code> for
+     *        bbckwbrd
+     * @return the JInternblFrbme thbt wbs selected or <code>null</code>
+     *         if nothing wbs selected
      * @since 1.6
      */
-    public JInternalFrame selectFrame(boolean forward) {
-        JInternalFrame selectedFrame = getSelectedFrame();
-        JInternalFrame frameToSelect = getNextFrame(selectedFrame, forward);
-        if (frameToSelect == null) {
+    public JInternblFrbme selectFrbme(boolebn forwbrd) {
+        JInternblFrbme selectedFrbme = getSelectedFrbme();
+        JInternblFrbme frbmeToSelect = getNextFrbme(selectedFrbme, forwbrd);
+        if (frbmeToSelect == null) {
             return null;
         }
-        // Maintain navigation traversal order until an
-        // external stack change, such as a click on a frame.
-        setComponentOrderCheckingEnabled(false);
-        if (forward && selectedFrame != null) {
-            selectedFrame.moveToBack();  // For Windows MDI fidelity.
+        // Mbintbin nbvigbtion trbversbl order until bn
+        // externbl stbck chbnge, such bs b click on b frbme.
+        setComponentOrderCheckingEnbbled(fblse);
+        if (forwbrd && selectedFrbme != null) {
+            selectedFrbme.moveToBbck();  // For Windows MDI fidelity.
         }
-        try { frameToSelect.setSelected(true);
-        } catch (PropertyVetoException pve) {}
-        setComponentOrderCheckingEnabled(true);
-        return frameToSelect;
+        try { frbmeToSelect.setSelected(true);
+        } cbtch (PropertyVetoException pve) {}
+        setComponentOrderCheckingEnbbled(true);
+        return frbmeToSelect;
     }
 
     /*
-     * Sets whether component order checking is enabled.
-     * @param enable a boolean value, where <code>true</code> means
-     * a change in component order will cause a change in the keyboard
-     * navigation order.
+     * Sets whether component order checking is enbbled.
+     * @pbrbm enbble b boolebn vblue, where <code>true</code> mebns
+     * b chbnge in component order will cbuse b chbnge in the keybobrd
+     * nbvigbtion order.
      * @since 1.6
      */
-    void setComponentOrderCheckingEnabled(boolean enable) {
-        componentOrderCheckingEnabled = enable;
+    void setComponentOrderCheckingEnbbled(boolebn enbble) {
+        componentOrderCheckingEnbbled = enbble;
     }
 
     /**
      * {@inheritDoc}
      * @since 1.6
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        super.addImpl(comp, constraints, index);
-        if (componentOrderCheckingEnabled) {
-            if (comp instanceof JInternalFrame ||
-                comp instanceof JInternalFrame.JDesktopIcon) {
-                componentOrderChanged = true;
+    protected void bddImpl(Component comp, Object constrbints, int index) {
+        super.bddImpl(comp, constrbints, index);
+        if (componentOrderCheckingEnbbled) {
+            if (comp instbnceof JInternblFrbme ||
+                comp instbnceof JInternblFrbme.JDesktopIcon) {
+                componentOrderChbnged = true;
             }
         }
     }
@@ -499,11 +499,11 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      * @since 1.6
      */
     public void remove(int index) {
-        if (componentOrderCheckingEnabled) {
+        if (componentOrderCheckingEnbbled) {
             Component comp = getComponent(index);
-            if (comp instanceof JInternalFrame ||
-                comp instanceof JInternalFrame.JDesktopIcon) {
-                componentOrderChanged = true;
+            if (comp instbnceof JInternblFrbme ||
+                comp instbnceof JInternblFrbme.JDesktopIcon) {
+                componentOrderChbnged = true;
             }
         }
         super.remove(index);
@@ -514,14 +514,14 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      * @since 1.6
      */
     public void removeAll() {
-        if (componentOrderCheckingEnabled) {
+        if (componentOrderCheckingEnbbled) {
             int count = getComponentCount();
             for (int i = 0; i < count; i++) {
                 Component comp = getComponent(i);
-                if (comp instanceof JInternalFrame ||
-                    comp instanceof JInternalFrame.JDesktopIcon) {
-                    componentOrderChanged = true;
-                    break;
+                if (comp instbnceof JInternblFrbme ||
+                    comp instbnceof JInternblFrbme.JDesktopIcon) {
+                    componentOrderChbnged = true;
+                    brebk;
                 }
             }
         }
@@ -534,55 +534,55 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      */
     public void setComponentZOrder(Component comp, int index) {
         super.setComponentZOrder(comp, index);
-        if (componentOrderCheckingEnabled) {
-            if (comp instanceof JInternalFrame ||
-                comp instanceof JInternalFrame.JDesktopIcon) {
-                componentOrderChanged = true;
+        if (componentOrderCheckingEnbbled) {
+            if (comp instbnceof JInternblFrbme ||
+                comp instbnceof JInternblFrbme.JDesktopIcon) {
+                componentOrderChbnged = true;
             }
         }
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * See rebdObject() bnd writeObject() in JComponent for more
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
-    void setUIProperty(String propertyName, Object value) {
-        if (propertyName == "dragMode") {
-            if (!dragModeSet) {
-                setDragMode(((Integer)value).intValue());
-                dragModeSet = false;
+    void setUIProperty(String propertyNbme, Object vblue) {
+        if (propertyNbme == "drbgMode") {
+            if (!drbgModeSet) {
+                setDrbgMode(((Integer)vblue).intVblue());
+                drbgModeSet = fblse;
             }
         } else {
-            super.setUIProperty(propertyName, value);
+            super.setUIProperty(propertyNbme, vblue);
         }
     }
 
     /**
-     * Returns a string representation of this <code>JDesktopPane</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this <code>JDesktopPbne</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JDesktopPane</code>
+     * @return  b string representbtion of this <code>JDesktopPbne</code>
      */
-    protected String paramString() {
-        String desktopManagerString = (desktopManager != null ?
-                                       desktopManager.toString() : "");
+    protected String pbrbmString() {
+        String desktopMbnbgerString = (desktopMbnbger != null ?
+                                       desktopMbnbger.toString() : "");
 
-        return super.paramString() +
-        ",desktopManager=" + desktopManagerString;
+        return super.pbrbmString() +
+        ",desktopMbnbger=" + desktopMbnbgerString;
     }
 
 /////////////////
@@ -590,44 +590,44 @@ public class JDesktopPane extends JLayeredPane implements Accessible
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>JDesktopPane</code>. For desktop panes, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleJDesktopPane</code>.
-     * A new <code>AccessibleJDesktopPane</code> instance is created if necessary.
+     * Gets the <code>AccessibleContext</code> bssocibted with this
+     * <code>JDesktopPbne</code>. For desktop pbnes, the
+     * <code>AccessibleContext</code> tbkes the form of bn
+     * <code>AccessibleJDesktopPbne</code>.
+     * A new <code>AccessibleJDesktopPbne</code> instbnce is crebted if necessbry.
      *
-     * @return an <code>AccessibleJDesktopPane</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>JDesktopPane</code>
+     * @return bn <code>AccessibleJDesktopPbne</code> thbt serves bs the
+     *         <code>AccessibleContext</code> of this <code>JDesktopPbne</code>
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJDesktopPane();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJDesktopPbne();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JDesktopPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to desktop pane user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JDesktopPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to desktop pbne user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJDesktopPane extends AccessibleJComponent {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJDesktopPbne extends AccessibleJComponent {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */

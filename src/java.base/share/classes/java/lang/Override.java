@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.lang.annotation.*;
+import jbvb.lbng.bnnotbtion.*;
 
 /**
- * Indicates that a method declaration is intended to override a
- * method declaration in a supertype. If a method is annotated with
- * this annotation type compilers are required to generate an error
- * message unless at least one of the following conditions hold:
+ * Indicbtes thbt b method declbrbtion is intended to override b
+ * method declbrbtion in b supertype. If b method is bnnotbted with
+ * this bnnotbtion type compilers bre required to generbte bn error
+ * messbge unless bt lebst one of the following conditions hold:
  *
  * <ul><li>
- * The method does override or implement a method declared in a
+ * The method does override or implement b method declbred in b
  * supertype.
  * </li><li>
- * The method has a signature that is override-equivalent to that of
- * any public method declared in {@linkplain Object}.
+ * The method hbs b signbture thbt is override-equivblent to thbt of
+ * bny public method declbred in {@linkplbin Object}.
  * </li></ul>
  *
- * @author  Peter von der Ah&eacute;
- * @author  Joshua Bloch
+ * @buthor  Peter von der Ah&ebcute;
+ * @buthor  Joshub Bloch
  * @jls 9.6.1.4 @Override
  * @since 1.5
  */
-@Target(ElementType.METHOD)
+@Tbrget(ElementType.METHOD)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Override {
+public @interfbce Override {
 }

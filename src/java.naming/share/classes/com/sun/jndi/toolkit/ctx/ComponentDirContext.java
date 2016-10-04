@@ -1,470 +1,470 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.toolkit.ctx;
+pbckbge com.sun.jndi.toolkit.ctx;
 
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
 
-/* Direct subclasses of ComponentDirContext must provide implementations for
- * the abstract c_ DirContext methods, and override the c_ Context methods
- * (which are no longer abstract because they have been overriden by
- * AtomicContext, the direct superclass of PartialDSCompositeContext).
+/* Direct subclbsses of ComponentDirContext must provide implementbtions for
+ * the bbstrbct c_ DirContext methods, bnd override the c_ Context methods
+ * (which bre no longer bbstrbct becbuse they hbve been overriden by
+ * AtomicContext, the direct superclbss of PbrtiblDSCompositeContext).
  *
- * If the subclass is supports implicit nns, it must override all the
- * c_*_nns methods corresponding to those in DirContext and Context.
- * See ComponentContext for details.
+ * If the subclbss is supports implicit nns, it must override bll the
+ * c_*_nns methods corresponding to those in DirContext bnd Context.
+ * See ComponentContext for detbils.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
 
-public abstract class ComponentDirContext extends PartialCompositeDirContext {
+public bbstrbct clbss ComponentDirContext extends PbrtiblCompositeDirContext {
 
     protected ComponentDirContext () {
         _contextType = _COMPONENT;
     }
 
-// ------ Abstract methods whose implementations are provided by subclass
+// ------ Abstrbct methods whose implementbtions bre provided by subclbss
 
-    /* Equivalent to methods in DirContext */
-    protected abstract Attributes c_getAttributes(Name name,
-                                                 String[] attrIds,
-                                                 Continuation cont)
-        throws NamingException;
+    /* Equivblent to methods in DirContext */
+    protected bbstrbct Attributes c_getAttributes(Nbme nbme,
+                                                 String[] bttrIds,
+                                                 Continubtion cont)
+        throws NbmingException;
 
-    protected abstract void c_modifyAttributes(Name name, int mod_op,
-                                            Attributes attrs,
-                                            Continuation cont)
-            throws NamingException;
+    protected bbstrbct void c_modifyAttributes(Nbme nbme, int mod_op,
+                                            Attributes bttrs,
+                                            Continubtion cont)
+            throws NbmingException;
 
-    protected abstract void c_modifyAttributes(Name name,
-                                            ModificationItem[] mods,
-                                            Continuation cont)
-        throws NamingException;
+    protected bbstrbct void c_modifyAttributes(Nbme nbme,
+                                            ModificbtionItem[] mods,
+                                            Continubtion cont)
+        throws NbmingException;
 
-    protected abstract void c_bind(Name name, Object obj,
-                                   Attributes attrs,
-                                   Continuation cont)
-        throws NamingException;
+    protected bbstrbct void c_bind(Nbme nbme, Object obj,
+                                   Attributes bttrs,
+                                   Continubtion cont)
+        throws NbmingException;
 
-    protected abstract void c_rebind(Name name, Object obj,
-                                     Attributes attrs,
-                                     Continuation cont)
-        throws NamingException;
+    protected bbstrbct void c_rebind(Nbme nbme, Object obj,
+                                     Attributes bttrs,
+                                     Continubtion cont)
+        throws NbmingException;
 
-    protected abstract DirContext c_createSubcontext(Name name,
-                                                    Attributes attrs,
-                                                    Continuation cont)
-        throws NamingException;
+    protected bbstrbct DirContext c_crebteSubcontext(Nbme nbme,
+                                                    Attributes bttrs,
+                                                    Continubtion cont)
+        throws NbmingException;
 
-    protected abstract NamingEnumeration<SearchResult> c_search(
-                            Name name,
-                            Attributes matchingAttributes,
-                            String[] attributesToReturn,
-                            Continuation cont)
-        throws NamingException;
+    protected bbstrbct NbmingEnumerbtion<SebrchResult> c_sebrch(
+                            Nbme nbme,
+                            Attributes mbtchingAttributes,
+                            String[] bttributesToReturn,
+                            Continubtion cont)
+        throws NbmingException;
 
-    protected abstract NamingEnumeration<SearchResult> c_search(
-                            Name name,
+    protected bbstrbct NbmingEnumerbtion<SebrchResult> c_sebrch(
+                            Nbme nbme,
                             String filter,
-                            SearchControls cons,
-                            Continuation cont)
-        throws NamingException;
+                            SebrchControls cons,
+                            Continubtion cont)
+        throws NbmingException;
 
-    protected abstract NamingEnumeration<SearchResult> c_search(
-                            Name name,
+    protected bbstrbct NbmingEnumerbtion<SebrchResult> c_sebrch(
+                            Nbme nbme,
                             String filterExpr,
                             Object[] filterArgs,
-                            SearchControls cons,
-                            Continuation cont)
-        throws NamingException;
+                            SebrchControls cons,
+                            Continubtion cont)
+        throws NbmingException;
 
-    protected abstract DirContext c_getSchema(Name name, Continuation cont)
-        throws NamingException;
+    protected bbstrbct DirContext c_getSchemb(Nbme nbme, Continubtion cont)
+        throws NbmingException;
 
-    protected abstract DirContext c_getSchemaClassDefinition(Name name,
-                                                            Continuation cont)
-        throws NamingException;
+    protected bbstrbct DirContext c_getSchembClbssDefinition(Nbme nbme,
+                                                            Continubtion cont)
+        throws NbmingException;
 
-// ------- default implementations of c_*_nns methods from DirContext
+// ------- defbult implementbtions of c_*_nns methods from DirContext
 
-    // The following methods are called when the DirContext methods
-    // are invoked with a name that has a trailing slash.
-    // For naming systems that support implicit nns,
-    // the trailing slash signifies the implicit nns.
-    // For such naming systems, override these c_*_nns methods.
+    // The following methods bre cblled when the DirContext methods
+    // bre invoked with b nbme thbt hbs b trbiling slbsh.
+    // For nbming systems thbt support implicit nns,
+    // the trbiling slbsh signifies the implicit nns.
+    // For such nbming systems, override these c_*_nns methods.
     //
-    // For naming systems that support junctions (explicit nns),
-    // the trailing slash is meaningless because a junction does not
-    // have an implicit nns.  The default implementation here
-    // throws a NameNotFoundException for such names.
-    // If a context wants to accept a trailing slash as having
-    // the same meaning as the same name without a trailing slash,
+    // For nbming systems thbt support junctions (explicit nns),
+    // the trbiling slbsh is mebningless becbuse b junction does not
+    // hbve bn implicit nns.  The defbult implementbtion here
+    // throws b NbmeNotFoundException for such nbmes.
+    // If b context wbnts to bccept b trbiling slbsh bs hbving
+    // the sbme mebning bs the sbme nbme without b trbiling slbsh,
     // then it should override these c_*_nns methods.
 
-    // See ComponentContext for details.
+    // See ComponentContext for detbils.
 
-    protected Attributes c_getAttributes_nns(Name name,
-                                            String[] attrIds,
-                                            Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected Attributes c_getAttributes_nns(Nbme nbme,
+                                            String[] bttrIds,
+                                            Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected void c_modifyAttributes_nns(Name name,
+    protected void c_modifyAttributes_nns(Nbme nbme,
                                        int mod_op,
-                                       Attributes attrs,
-                                       Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+                                       Attributes bttrs,
+                                       Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
         }
 
-    protected void c_modifyAttributes_nns(Name name,
-                                       ModificationItem[] mods,
-                                       Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected void c_modifyAttributes_nns(Nbme nbme,
+                                       ModificbtionItem[] mods,
+                                       Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
         }
 
-    protected void c_bind_nns(Name name,
+    protected void c_bind_nns(Nbme nbme,
                               Object obj,
-                              Attributes attrs,
-                              Continuation cont)
-        throws NamingException  {
-            c_processJunction_nns(name, cont);
+                              Attributes bttrs,
+                              Continubtion cont)
+        throws NbmingException  {
+            c_processJunction_nns(nbme, cont);
         }
 
-    protected void c_rebind_nns(Name name,
+    protected void c_rebind_nns(Nbme nbme,
                                 Object obj,
-                                Attributes attrs,
-                                Continuation cont)
-        throws NamingException  {
-            c_processJunction_nns(name, cont);
+                                Attributes bttrs,
+                                Continubtion cont)
+        throws NbmingException  {
+            c_processJunction_nns(nbme, cont);
         }
 
-    protected DirContext c_createSubcontext_nns(Name name,
-                                               Attributes attrs,
-                                               Continuation cont)
-        throws NamingException  {
-            c_processJunction_nns(name, cont);
+    protected DirContext c_crebteSubcontext_nns(Nbme nbme,
+                                               Attributes bttrs,
+                                               Continubtion cont)
+        throws NbmingException  {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search_nns(
-                        Name name,
-                        Attributes matchingAttributes,
-                        String[] attributesToReturn,
-                        Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected NbmingEnumerbtion<SebrchResult> c_sebrch_nns(
+                        Nbme nbme,
+                        Attributes mbtchingAttributes,
+                        String[] bttributesToReturn,
+                        Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search_nns(
-                        Name name,
+    protected NbmingEnumerbtion<SebrchResult> c_sebrch_nns(
+                        Nbme nbme,
                         String filter,
-                        SearchControls cons,
-                        Continuation cont)
-        throws NamingException  {
-            c_processJunction_nns(name, cont);
+                        SebrchControls cons,
+                        Continubtion cont)
+        throws NbmingException  {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected NamingEnumeration<SearchResult> c_search_nns(
-                        Name name,
+    protected NbmingEnumerbtion<SebrchResult> c_sebrch_nns(
+                        Nbme nbme,
                         String filterExpr,
                         Object[] filterArgs,
-                        SearchControls cons,
-                        Continuation cont)
-        throws NamingException  {
-            c_processJunction_nns(name, cont);
+                        SebrchControls cons,
+                        Continubtion cont)
+        throws NbmingException  {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected DirContext c_getSchema_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected DirContext c_getSchemb_nns(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-    protected DirContext c_getSchemaClassDefinition_nns(Name name, Continuation cont)
-        throws NamingException {
-            c_processJunction_nns(name, cont);
+    protected DirContext c_getSchembClbssDefinition_nns(Nbme nbme, Continubtion cont)
+        throws NbmingException {
+            c_processJunction_nns(nbme, cont);
             return null;
         }
 
-// ------- implementations of p_ DirContext methods using corresponding
-// ------- DirContext c_ and c_*_nns methods
+// ------- implementbtions of p_ DirContext methods using corresponding
+// ------- DirContext c_ bnd c_*_nns methods
 
-    /* Implements for abstract methods declared in PartialCompositeDirContext */
-    protected Attributes p_getAttributes(Name name,
-                                        String[] attrIds,
-                                        Continuation cont)
-        throws NamingException  {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        Attributes answer = null;
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                answer = c_getAttributes_nns(res.getHead(), attrIds, cont);
-                break;
+    /* Implements for bbstrbct methods declbred in PbrtiblCompositeDirContext */
+    protected Attributes p_getAttributes(Nbme nbme,
+                                        String[] bttrIds,
+                                        Continubtion cont)
+        throws NbmingException  {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        Attributes bnswer = null;
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                bnswer = c_getAttributes_nns(res.getHebd(), bttrIds, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                answer = c_getAttributes(res.getHead(), attrIds, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                bnswer = c_getAttributes(res.getHebd(), bttrIds, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
-        return answer;
+        return bnswer;
     }
 
-    protected void p_modifyAttributes(Name name, int mod_op,
-                                   Attributes attrs,
-                                   Continuation cont)
-        throws NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_modifyAttributes_nns(res.getHead(), mod_op, attrs, cont);
-                break;
+    protected void p_modifyAttributes(Nbme nbme, int mod_op,
+                                   Attributes bttrs,
+                                   Continubtion cont)
+        throws NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_modifyAttributes_nns(res.getHebd(), mod_op, bttrs, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_modifyAttributes(res.getHead(), mod_op, attrs, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_modifyAttributes(res.getHebd(), mod_op, bttrs, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
     }
-    protected void p_modifyAttributes(Name name,
-                                   ModificationItem[] mods,
-                                   Continuation cont)
-        throws NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_modifyAttributes_nns(res.getHead(), mods, cont);
-                break;
+    protected void p_modifyAttributes(Nbme nbme,
+                                   ModificbtionItem[] mods,
+                                   Continubtion cont)
+        throws NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_modifyAttributes_nns(res.getHebd(), mods, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_modifyAttributes(res.getHead(), mods, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_modifyAttributes(res.getHebd(), mods, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
     }
 
-    protected void p_bind(Name name,
+    protected void p_bind(Nbme nbme,
                           Object obj,
-                          Attributes attrs,
-                          Continuation cont)
-        throws NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_bind_nns(res.getHead(), obj, attrs, cont);
-                break;
+                          Attributes bttrs,
+                          Continubtion cont)
+        throws NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_bind_nns(res.getHebd(), obj, bttrs, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_bind(res.getHead(), obj, attrs, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_bind(res.getHebd(), obj, bttrs, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
     }
 
-    protected void p_rebind(Name name, Object obj,
-                            Attributes attrs, Continuation cont)
-        throws NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                c_rebind_nns(res.getHead(), obj, attrs, cont);
-                break;
+    protected void p_rebind(Nbme nbme, Object obj,
+                            Attributes bttrs, Continubtion cont)
+        throws NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                c_rebind_nns(res.getHebd(), obj, bttrs, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                c_rebind(res.getHead(), obj, attrs, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                c_rebind(res.getHebd(), obj, bttrs, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
     }
 
-    protected DirContext p_createSubcontext(Name name,
-                                           Attributes attrs,
-                                           Continuation cont)
-        throws NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        DirContext answer = null;
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                answer = c_createSubcontext_nns(res.getHead(), attrs, cont);
-                break;
+    protected DirContext p_crebteSubcontext(Nbme nbme,
+                                           Attributes bttrs,
+                                           Continubtion cont)
+        throws NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        DirContext bnswer = null;
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                bnswer = c_crebteSubcontext_nns(res.getHebd(), bttrs, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                answer = c_createSubcontext(res.getHead(), attrs, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                bnswer = c_crebteSubcontext(res.getHebd(), bttrs, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
-        return answer;
+        return bnswer;
     }
 
-    protected NamingEnumeration<SearchResult> p_search(
-                    Name name,
-                    Attributes matchingAttributes,
-                    String[] attributesToReturn,
-                    Continuation cont)
-        throws NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        NamingEnumeration<SearchResult> answer = null;
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                answer = c_search_nns(res.getHead(), matchingAttributes,
-                                      attributesToReturn, cont);
-                break;
+    protected NbmingEnumerbtion<SebrchResult> p_sebrch(
+                    Nbme nbme,
+                    Attributes mbtchingAttributes,
+                    String[] bttributesToReturn,
+                    Continubtion cont)
+        throws NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        NbmingEnumerbtion<SebrchResult> bnswer = null;
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                bnswer = c_sebrch_nns(res.getHebd(), mbtchingAttributes,
+                                      bttributesToReturn, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                answer = c_search(res.getHead(), matchingAttributes,
-                                  attributesToReturn, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                bnswer = c_sebrch(res.getHebd(), mbtchingAttributes,
+                                  bttributesToReturn, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
-        return answer;
+        return bnswer;
     }
 
-    protected NamingEnumeration<SearchResult> p_search(Name name,
+    protected NbmingEnumerbtion<SebrchResult> p_sebrch(Nbme nbme,
                                                        String filter,
-                                                       SearchControls cons,
-                                                       Continuation cont)
-        throws NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        NamingEnumeration<SearchResult> answer = null;
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                answer = c_search_nns(res.getHead(), filter, cons, cont);
-                break;
+                                                       SebrchControls cons,
+                                                       Continubtion cont)
+        throws NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        NbmingEnumerbtion<SebrchResult> bnswer = null;
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                bnswer = c_sebrch_nns(res.getHebd(), filter, cons, cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                answer = c_search(res.getHead(), filter, cons, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                bnswer = c_sebrch(res.getHebd(), filter, cons, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
-        return answer;
+        return bnswer;
     }
 
-    protected NamingEnumeration<SearchResult> p_search(Name name,
+    protected NbmingEnumerbtion<SebrchResult> p_sebrch(Nbme nbme,
                                                        String filterExpr,
                                                        Object[] filterArgs,
-                                                       SearchControls cons,
-                                                       Continuation cont)
-            throws NamingException {
-        HeadTail res = p_resolveIntermediate(name, cont);
-        NamingEnumeration<SearchResult> answer = null;
-        switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                answer = c_search_nns(res.getHead(),
+                                                       SebrchControls cons,
+                                                       Continubtion cont)
+            throws NbmingException {
+        HebdTbil res = p_resolveIntermedibte(nbme, cont);
+        NbmingEnumerbtion<SebrchResult> bnswer = null;
+        switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                bnswer = c_sebrch_nns(res.getHebd(),
                                       filterExpr, filterArgs, cons, cont);
-                break;
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                answer = c_search(res.getHead(), filterExpr, filterArgs, cons, cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                bnswer = c_sebrch(res.getHebd(), filterExpr, filterArgs, cons, cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
-        return answer;
+        return bnswer;
     }
 
-    protected DirContext p_getSchema(Name name, Continuation cont)
-        throws NamingException  {
-            DirContext answer = null;
-            HeadTail res = p_resolveIntermediate(name, cont);
-            switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                answer = c_getSchema_nns(res.getHead(), cont);
-                break;
+    protected DirContext p_getSchemb(Nbme nbme, Continubtion cont)
+        throws NbmingException  {
+            DirContext bnswer = null;
+            HebdTbil res = p_resolveIntermedibte(nbme, cont);
+            switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                bnswer = c_getSchemb_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                answer = c_getSchema(res.getHead(), cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                bnswer = c_getSchemb(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
-            return answer;
+            return bnswer;
         }
 
-    protected DirContext p_getSchemaClassDefinition(Name name, Continuation cont)
-        throws NamingException  {
-            DirContext answer = null;
-            HeadTail res = p_resolveIntermediate(name, cont);
-            switch (res.getStatus()) {
-            case TERMINAL_NNS_COMPONENT:
-                answer = c_getSchemaClassDefinition_nns(res.getHead(), cont);
-                break;
+    protected DirContext p_getSchembClbssDefinition(Nbme nbme, Continubtion cont)
+        throws NbmingException  {
+            DirContext bnswer = null;
+            HebdTbil res = p_resolveIntermedibte(nbme, cont);
+            switch (res.getStbtus()) {
+            cbse TERMINAL_NNS_COMPONENT:
+                bnswer = c_getSchembClbssDefinition_nns(res.getHebd(), cont);
+                brebk;
 
-            case TERMINAL_COMPONENT:
-                answer = c_getSchemaClassDefinition(res.getHead(), cont);
-                break;
+            cbse TERMINAL_COMPONENT:
+                bnswer = c_getSchembClbssDefinition(res.getHebd(), cont);
+                brebk;
 
-            default:
+            defbult:
                 /* USE_CONTINUATION */
-                /* cont already set or exception thrown */
-                break;
+                /* cont blrebdy set or exception thrown */
+                brebk;
             }
-            return answer;
+            return bnswer;
         }
 }

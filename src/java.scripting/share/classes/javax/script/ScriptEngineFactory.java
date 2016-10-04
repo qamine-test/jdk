@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.script;
+pbckbge jbvbx.script;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * <code>ScriptEngineFactory</code> is used to describe and instantiate
+ * <code>ScriptEngineFbctory</code> is used to describe bnd instbntibte
  * <code>ScriptEngines</code>.
  * <br><br>
- * Each class implementing <code>ScriptEngine</code> has a corresponding factory
- * that exposes metadata describing the engine class.
- * <br><br>The <code>ScriptEngineManager</code>
- * uses the service provider mechanism described in the <i>Jar File Specification</i> to obtain
- * instances of all <code>ScriptEngineFactories</code> available in
- * the current ClassLoader.
+ * Ebch clbss implementing <code>ScriptEngine</code> hbs b corresponding fbctory
+ * thbt exposes metbdbtb describing the engine clbss.
+ * <br><br>The <code>ScriptEngineMbnbger</code>
+ * uses the service provider mechbnism described in the <i>Jbr File Specificbtion</i> to obtbin
+ * instbnces of bll <code>ScriptEngineFbctories</code> bvbilbble in
+ * the current ClbssLobder.
  *
  * @since 1.6
  */
-public interface ScriptEngineFactory {
+public interfbce ScriptEngineFbctory {
     /**
-     * Returns the full  name of the <code>ScriptEngine</code>.  For
-     * instance an implementation based on the Mozilla Rhino Javascript engine
-     * might return <i>Rhino Mozilla Javascript Engine</i>.
-     * @return The name of the engine implementation.
+     * Returns the full  nbme of the <code>ScriptEngine</code>.  For
+     * instbnce bn implementbtion bbsed on the Mozillb Rhino Jbvbscript engine
+     * might return <i>Rhino Mozillb Jbvbscript Engine</i>.
+     * @return The nbme of the engine implementbtion.
      */
-    public String getEngineName();
+    public String getEngineNbme();
 
     /**
      * Returns the version of the <code>ScriptEngine</code>.
-     * @return The <code>ScriptEngine</code> implementation version.
+     * @return The <code>ScriptEngine</code> implementbtion version.
      */
     public String getEngineVersion();
 
 
     /**
-     * Returns an immutable list of filename extensions, which generally identify scripts
-     * written in the language supported by this <code>ScriptEngine</code>.
-     * The array is used by the <code>ScriptEngineManager</code> to implement its
+     * Returns bn immutbble list of filenbme extensions, which generblly identify scripts
+     * written in the lbngubge supported by this <code>ScriptEngine</code>.
+     * The brrby is used by the <code>ScriptEngineMbnbger</code> to implement its
      * <code>getEngineByExtension</code> method.
      * @return The list of extensions.
      */
@@ -67,40 +67,40 @@ public interface ScriptEngineFactory {
 
 
     /**
-     * Returns an immutable list of mimetypes, associated with scripts that
-     * can be executed by the engine.  The list is used by the
-     * <code>ScriptEngineManager</code> class to implement its
+     * Returns bn immutbble list of mimetypes, bssocibted with scripts thbt
+     * cbn be executed by the engine.  The list is used by the
+     * <code>ScriptEngineMbnbger</code> clbss to implement its
      * <code>getEngineByMimetype</code> method.
      * @return The list of mime types.
      */
     public List<String> getMimeTypes();
 
     /**
-     * Returns an immutable list of  short names for the <code>ScriptEngine</code>, which may be used to
-     * identify the <code>ScriptEngine</code> by the <code>ScriptEngineManager</code>.
-     * For instance, an implementation based on the Mozilla Rhino Javascript engine might
-     * return list containing {&quot;javascript&quot;, &quot;rhino&quot;}.
-     * @return an immutable list of short names
+     * Returns bn immutbble list of  short nbmes for the <code>ScriptEngine</code>, which mby be used to
+     * identify the <code>ScriptEngine</code> by the <code>ScriptEngineMbnbger</code>.
+     * For instbnce, bn implementbtion bbsed on the Mozillb Rhino Jbvbscript engine might
+     * return list contbining {&quot;jbvbscript&quot;, &quot;rhino&quot;}.
+     * @return bn immutbble list of short nbmes
      */
-    public List<String> getNames();
+    public List<String> getNbmes();
 
     /**
-     * Returns the name of the scripting langauge supported by this
+     * Returns the nbme of the scripting lbngbuge supported by this
      * <code>ScriptEngine</code>.
-     * @return The name of the supported language.
+     * @return The nbme of the supported lbngubge.
      */
-    public String getLanguageName();
+    public String getLbngubgeNbme();
 
     /**
-     * Returns the version of the scripting language supported by this
+     * Returns the version of the scripting lbngubge supported by this
      * <code>ScriptEngine</code>.
-     * @return The version of the supported language.
+     * @return The version of the supported lbngubge.
      */
-    public String getLanguageVersion();
+    public String getLbngubgeVersion();
 
     /**
-     * Returns the value of an attribute whose meaning may be implementation-specific.
-     * Keys for which the value is defined in all implementations are:
+     * Returns the vblue of bn bttribute whose mebning mby be implementbtion-specific.
+     * Keys for which the vblue is defined in bll implementbtions bre:
      * <ul>
      * <li>ScriptEngine.ENGINE</li>
      * <li>ScriptEngine.ENGINE_VERSION</li>
@@ -109,50 +109,50 @@ public interface ScriptEngineFactory {
      * <li>ScriptEngine.LANGUAGE_VERSION</li>
      * </ul>
      * <p>
-     * The values for these keys are the Strings returned by <code>getEngineName</code>,
-     * <code>getEngineVersion</code>, <code>getName</code>, <code>getLanguageName</code> and
-     * <code>getLanguageVersion</code> respectively.<br><br>
-     * A reserved key, <code><b>THREADING</b></code>, whose value describes the behavior of the engine
-     * with respect to concurrent execution of scripts and maintenance of state is also defined.
-     * These values for the <code><b>THREADING</b></code> key are:<br><br>
+     * The vblues for these keys bre the Strings returned by <code>getEngineNbme</code>,
+     * <code>getEngineVersion</code>, <code>getNbme</code>, <code>getLbngubgeNbme</code> bnd
+     * <code>getLbngubgeVersion</code> respectively.<br><br>
+     * A reserved key, <code><b>THREADING</b></code>, whose vblue describes the behbvior of the engine
+     * with respect to concurrent execution of scripts bnd mbintenbnce of stbte is blso defined.
+     * These vblues for the <code><b>THREADING</b></code> key bre:<br><br>
      * <ul>
-     * <li><code>null</code> - The engine implementation is not thread safe, and cannot
-     * be used to execute scripts concurrently on multiple threads.
-     * <li><code>&quot;MULTITHREADED&quot;</code> - The engine implementation is internally
-     * thread-safe and scripts may execute concurrently although effects of script execution
-     * on one thread may be visible to scripts on other threads.
-     * <li><code>&quot;THREAD-ISOLATED&quot;</code> - The implementation satisfies the requirements
-     * of &quot;MULTITHREADED&quot;, and also, the engine maintains independent values
-     * for symbols in scripts executing on different threads.
-     * <li><code>&quot;STATELESS&quot;</code> - The implementation satisfies the requirements of
-     * <li><code>&quot;THREAD-ISOLATED&quot;</code>.  In addition, script executions do not alter the
-     * mappings in the <code>Bindings</code> which is the engine scope of the
-     * <code>ScriptEngine</code>.  In particular, the keys in the <code>Bindings</code>
-     * and their associated values are the same before and after the execution of the script.
+     * <li><code>null</code> - The engine implementbtion is not threbd sbfe, bnd cbnnot
+     * be used to execute scripts concurrently on multiple threbds.
+     * <li><code>&quot;MULTITHREADED&quot;</code> - The engine implementbtion is internblly
+     * threbd-sbfe bnd scripts mby execute concurrently blthough effects of script execution
+     * on one threbd mby be visible to scripts on other threbds.
+     * <li><code>&quot;THREAD-ISOLATED&quot;</code> - The implementbtion sbtisfies the requirements
+     * of &quot;MULTITHREADED&quot;, bnd blso, the engine mbintbins independent vblues
+     * for symbols in scripts executing on different threbds.
+     * <li><code>&quot;STATELESS&quot;</code> - The implementbtion sbtisfies the requirements of
+     * <li><code>&quot;THREAD-ISOLATED&quot;</code>.  In bddition, script executions do not blter the
+     * mbppings in the <code>Bindings</code> which is the engine scope of the
+     * <code>ScriptEngine</code>.  In pbrticulbr, the keys in the <code>Bindings</code>
+     * bnd their bssocibted vblues bre the sbme before bnd bfter the execution of the script.
      * </ul>
      * <br><br>
-     * Implementations may define implementation-specific keys.
+     * Implementbtions mby define implementbtion-specific keys.
      *
-     * @param key The name of the parameter
-     * @return The value for the given parameter. Returns <code>null</code> if no
-     * value is assigned to the key.
+     * @pbrbm key The nbme of the pbrbmeter
+     * @return The vblue for the given pbrbmeter. Returns <code>null</code> if no
+     * vblue is bssigned to the key.
      *
      */
-    public Object getParameter(String key);
+    public Object getPbrbmeter(String key);
 
     /**
-     * Returns a String which can be used to invoke a method of a  Java object using the syntax
-     * of the supported scripting language.  For instance, an implementation for a Javascript
+     * Returns b String which cbn be used to invoke b method of b  Jbvb object using the syntbx
+     * of the supported scripting lbngubge.  For instbnce, bn implementbtion for b Jbvbscript
      * engine might be;
      *
      * <pre>{@code
-     * public String getMethodCallSyntax(String obj,
-     *                                   String m, String... args) {
+     * public String getMethodCbllSyntbx(String obj,
+     *                                   String m, String... brgs) {
      *      String ret = obj;
      *      ret += "." + m + "(";
-     *      for (int i = 0; i < args.length; i++) {
-     *          ret += args[i];
-     *          if (i < args.length - 1) {
+     *      for (int i = 0; i < brgs.length; i++) {
+     *          ret += brgs[i];
+     *          if (i < brgs.length - 1) {
      *              ret += ",";
      *          }
      *      }
@@ -161,67 +161,67 @@ public interface ScriptEngineFactory {
      * }
      * } </pre>
      *
-     * @param obj The name representing the object whose method is to be invoked. The
-     * name is the one used to create bindings using the <code>put</code> method of
-     * <code>ScriptEngine</code>, the <code>put</code> method of an <code>ENGINE_SCOPE</code>
+     * @pbrbm obj The nbme representing the object whose method is to be invoked. The
+     * nbme is the one used to crebte bindings using the <code>put</code> method of
+     * <code>ScriptEngine</code>, the <code>put</code> method of bn <code>ENGINE_SCOPE</code>
      * <code>Bindings</code>,or the <code>setAttribute</code> method
-     * of <code>ScriptContext</code>.  The identifier used in scripts may be a decorated form of the
+     * of <code>ScriptContext</code>.  The identifier used in scripts mby be b decorbted form of the
      * specified one.
      *
-     * @param m The name of the method to invoke.
-     * @param args names of the arguments in the method call.
+     * @pbrbm m The nbme of the method to invoke.
+     * @pbrbm brgs nbmes of the brguments in the method cbll.
      *
-     * @return The String used to invoke the method in the syntax of the scripting language.
+     * @return The String used to invoke the method in the syntbx of the scripting lbngubge.
      */
-    public String getMethodCallSyntax(String obj, String m, String... args);
+    public String getMethodCbllSyntbx(String obj, String m, String... brgs);
 
     /**
-     * Returns a String that can be used as a statement to display the specified String  using
-     * the syntax of the supported scripting language.  For instance, the implementation for a Perl
+     * Returns b String thbt cbn be used bs b stbtement to displby the specified String  using
+     * the syntbx of the supported scripting lbngubge.  For instbnce, the implementbtion for b Perl
      * engine might be;
      *
      * <pre><code>
-     * public String getOutputStatement(String toDisplay) {
-     *      return "print(" + toDisplay + ")";
+     * public String getOutputStbtement(String toDisplby) {
+     *      return "print(" + toDisplby + ")";
      * }
      * </code></pre>
      *
-     * @param toDisplay The String to be displayed by the returned statement.
-     * @return The string used to display the String in the syntax of the scripting language.
+     * @pbrbm toDisplby The String to be displbyed by the returned stbtement.
+     * @return The string used to displby the String in the syntbx of the scripting lbngubge.
      *
      *
      */
-    public String getOutputStatement(String toDisplay);
+    public String getOutputStbtement(String toDisplby);
 
 
     /**
-     * Returns a valid scripting language executable program with given statements.
-     * For instance an implementation for a PHP engine might be:
+     * Returns b vblid scripting lbngubge executbble progrbm with given stbtements.
+     * For instbnce bn implementbtion for b PHP engine might be:
      *
      * <pre>{@code
-     * public String getProgram(String... statements) {
-     *      String retval = "<?\n";
-     *      int len = statements.length;
+     * public String getProgrbm(String... stbtements) {
+     *      String retvbl = "<?\n";
+     *      int len = stbtements.length;
      *      for (int i = 0; i < len; i++) {
-     *          retval += statements[i] + ";\n";
+     *          retvbl += stbtements[i] + ";\n";
      *      }
-     *      return retval += "?>";
+     *      return retvbl += "?>";
      * }
      * }</pre>
      *
-     *  @param statements The statements to be executed.  May be return values of
-     *  calls to the <code>getMethodCallSyntax</code> and <code>getOutputStatement</code> methods.
-     *  @return The Program
+     *  @pbrbm stbtements The stbtements to be executed.  Mby be return vblues of
+     *  cblls to the <code>getMethodCbllSyntbx</code> bnd <code>getOutputStbtement</code> methods.
+     *  @return The Progrbm
      */
 
-    public String getProgram(String... statements);
+    public String getProgrbm(String... stbtements);
 
     /**
-     * Returns an instance of the <code>ScriptEngine</code> associated with this
-     * <code>ScriptEngineFactory</code>. A new ScriptEngine is generally
-     * returned, but implementations may pool, share or reuse engines.
+     * Returns bn instbnce of the <code>ScriptEngine</code> bssocibted with this
+     * <code>ScriptEngineFbctory</code>. A new ScriptEngine is generblly
+     * returned, but implementbtions mby pool, shbre or reuse engines.
      *
-     * @return A new <code>ScriptEngine</code> instance.
+     * @return A new <code>ScriptEngine</code> instbnce.
      */
     public  ScriptEngine getScriptEngine();
 }

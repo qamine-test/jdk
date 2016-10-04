@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.event.ActionEvent;
-import java.awt.KeyboardFocusManager;
-import java.awt.Component;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import javax.swing.Action;
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.KeybobrdFocusMbnbger;
+import jbvb.bwt.Component;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvbx.swing.Action;
+import jbvbx.swing.AbstrbctAction;
+import jbvbx.swing.KeyStroke;
 
 /**
- * An Action implementation useful for key bindings that are
- * shared across a number of different text components.  Because
- * the action is shared, it must have a way of getting it's
- * target to act upon.  This class provides support to try and
- * find a text component to operate on.  The preferred way of
- * getting the component to act upon is through the ActionEvent
- * that is received.  If the Object returned by getSource can
- * be narrowed to a text component, it will be used.  If the
- * action event is null or can't be narrowed, the last focused
+ * An Action implementbtion useful for key bindings thbt bre
+ * shbred bcross b number of different text components.  Becbuse
+ * the bction is shbred, it must hbve b wby of getting it's
+ * tbrget to bct upon.  This clbss provides support to try bnd
+ * find b text component to operbte on.  The preferred wby of
+ * getting the component to bct upon is through the ActionEvent
+ * thbt is received.  If the Object returned by getSource cbn
+ * be nbrrowed to b text component, it will be used.  If the
+ * bction event is null or cbn't be nbrrowed, the lbst focused
  * text component is tried.  This is determined by being
- * used in conjunction with a JTextController which
- * arranges to share that information with a TextAction.
+ * used in conjunction with b JTextController which
+ * brrbnges to shbre thbt informbtion with b TextAction.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class TextAction extends AbstractAction {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss TextAction extends AbstrbctAction {
 
     /**
-     * Creates a new JTextAction object.
+     * Crebtes b new JTextAction object.
      *
-     * @param name the name of the action
+     * @pbrbm nbme the nbme of the bction
      */
-    public TextAction(String name) {
-        super(name);
+    public TextAction(String nbme) {
+        super(nbme);
     }
 
     /**
-     * Determines the component to use for the action.
+     * Determines the component to use for the bction.
      * This if fetched from the source of the ActionEvent
-     * if it's not null and can be narrowed.  Otherwise,
-     * the last focused component is used.
+     * if it's not null bnd cbn be nbrrowed.  Otherwise,
+     * the lbst focused component is used.
      *
-     * @param e the ActionEvent
+     * @pbrbm e the ActionEvent
      * @return the component
      */
-    protected final JTextComponent getTextComponent(ActionEvent e) {
+    protected finbl JTextComponent getTextComponent(ActionEvent e) {
         if (e != null) {
             Object o = e.getSource();
-            if (o instanceof JTextComponent) {
+            if (o instbnceof JTextComponent) {
                 return (JTextComponent) o;
             }
         }
@@ -90,47 +90,47 @@ public abstract class TextAction extends AbstractAction {
     }
 
     /**
-     * Takes one list of
-     * commands and augments it with another list
-     * of commands.  The second list takes precedence
-     * over the first list; that is, when both lists
-     * contain a command with the same name, the command
+     * Tbkes one list of
+     * commbnds bnd bugments it with bnother list
+     * of commbnds.  The second list tbkes precedence
+     * over the first list; thbt is, when both lists
+     * contbin b commbnd with the sbme nbme, the commbnd
      * from the second list is used.
      *
-     * @param list1 the first list, may be empty but not
+     * @pbrbm list1 the first list, mby be empty but not
      *              <code>null</code>
-     * @param list2 the second list, may be empty but not
+     * @pbrbm list2 the second list, mby be empty but not
      *              <code>null</code>
-     * @return the augmented list
+     * @return the bugmented list
      */
-    public static final Action[] augmentList(Action[] list1, Action[] list2) {
-        Hashtable<String, Action> h = new Hashtable<String, Action>();
-        for (Action a : list1) {
-            String value = (String)a.getValue(Action.NAME);
-            h.put((value!=null ? value:""), a);
+    public stbtic finbl Action[] bugmentList(Action[] list1, Action[] list2) {
+        Hbshtbble<String, Action> h = new Hbshtbble<String, Action>();
+        for (Action b : list1) {
+            String vblue = (String)b.getVblue(Action.NAME);
+            h.put((vblue!=null ? vblue:""), b);
         }
-        for (Action a : list2) {
-            String value = (String)a.getValue(Action.NAME);
-            h.put((value!=null ? value:""), a);
+        for (Action b : list2) {
+            String vblue = (String)b.getVblue(Action.NAME);
+            h.put((vblue!=null ? vblue:""), b);
         }
-        Action[] actions = new Action[h.size()];
+        Action[] bctions = new Action[h.size()];
         int index = 0;
-        for (Enumeration<Action> e = h.elements() ; e.hasMoreElements() ;) {
-            actions[index++] = e.nextElement();
+        for (Enumerbtion<Action> e = h.elements() ; e.hbsMoreElements() ;) {
+            bctions[index++] = e.nextElement();
         }
-        return actions;
+        return bctions;
     }
 
     /**
-     * Fetches the text component that currently has focus.
-     * This allows actions to be shared across text components
-     * which is useful for key-bindings where a large set of
-     * actions are defined, but generally used the same way
-     * across many different components.
+     * Fetches the text component thbt currently hbs focus.
+     * This bllows bctions to be shbred bcross text components
+     * which is useful for key-bindings where b lbrge set of
+     * bctions bre defined, but generblly used the sbme wby
+     * bcross mbny different components.
      *
      * @return the component
      */
-    protected final JTextComponent getFocusedComponent() {
+    protected finbl JTextComponent getFocusedComponent() {
         return JTextComponent.getFocusedComponent();
     }
 }

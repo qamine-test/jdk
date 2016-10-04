@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,138 +28,138 @@
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.im.InputMethodHighlight;
-import java.awt.image.BufferedImage;
-import java.text.Annotation;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.text.Bidi;
-import java.text.CharacterIterator;
-import java.util.Hashtable;
-import java.util.Map;
-import sun.font.AttributeValues;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.im.InputMethodHighlight;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.text.Annotbtion;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
+import jbvb.text.Bidi;
+import jbvb.text.ChbrbcterIterbtor;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Mbp;
+import sun.font.AttributeVblues;
 import sun.font.BidiUtils;
-import sun.font.CodePointIterator;
+import sun.font.CodePointIterbtor;
 import sun.font.CoreMetrics;
-import sun.font.Decoration;
+import sun.font.Decorbtion;
 import sun.font.FontLineMetrics;
 import sun.font.FontResolver;
-import sun.font.GraphicComponent;
-import sun.font.LayoutPathImpl;
-import sun.font.LayoutPathImpl.EmptyPath;
-import sun.font.LayoutPathImpl.SegmentPathBuilder;
-import sun.font.TextLabelFactory;
+import sun.font.GrbphicComponent;
+import sun.font.LbyoutPbthImpl;
+import sun.font.LbyoutPbthImpl.EmptyPbth;
+import sun.font.LbyoutPbthImpl.SegmentPbthBuilder;
+import sun.font.TextLbbelFbctory;
 import sun.font.TextLineComponent;
 
-import java.awt.geom.Line2D;
+import jbvb.bwt.geom.Line2D;
 
-final class TextLine {
+finbl clbss TextLine {
 
-    static final class TextLineMetrics {
-        public final float ascent;
-        public final float descent;
-        public final float leading;
-        public final float advance;
+    stbtic finbl clbss TextLineMetrics {
+        public finbl flobt bscent;
+        public finbl flobt descent;
+        public finbl flobt lebding;
+        public finbl flobt bdvbnce;
 
-        public TextLineMetrics(float ascent,
-                           float descent,
-                           float leading,
-                           float advance) {
-            this.ascent = ascent;
+        public TextLineMetrics(flobt bscent,
+                           flobt descent,
+                           flobt lebding,
+                           flobt bdvbnce) {
+            this.bscent = bscent;
             this.descent = descent;
-            this.leading = leading;
-            this.advance = advance;
+            this.lebding = lebding;
+            this.bdvbnce = bdvbnce;
         }
     }
 
-    private TextLineComponent[] fComponents;
-    private float[] fBaselineOffsets;
-    private int[] fComponentVisualOrder; // if null, ltr
-    private float[] locs; // x,y pairs for components in visual order
-    private char[] fChars;
-    private int fCharsStart;
-    private int fCharsLimit;
-    private int[] fCharVisualOrder;  // if null, ltr
-    private int[] fCharLogicalOrder; // if null, ltr
-    private byte[] fCharLevels;     // if null, 0
-    private boolean fIsDirectionLTR;
-    private LayoutPathImpl lp;
-    private boolean isSimple;
-    private Rectangle pixelBounds;
-    private FontRenderContext frc;
+    privbte TextLineComponent[] fComponents;
+    privbte flobt[] fBbselineOffsets;
+    privbte int[] fComponentVisublOrder; // if null, ltr
+    privbte flobt[] locs; // x,y pbirs for components in visubl order
+    privbte chbr[] fChbrs;
+    privbte int fChbrsStbrt;
+    privbte int fChbrsLimit;
+    privbte int[] fChbrVisublOrder;  // if null, ltr
+    privbte int[] fChbrLogicblOrder; // if null, ltr
+    privbte byte[] fChbrLevels;     // if null, 0
+    privbte boolebn fIsDirectionLTR;
+    privbte LbyoutPbthImpl lp;
+    privbte boolebn isSimple;
+    privbte Rectbngle pixelBounds;
+    privbte FontRenderContext frc;
 
-    private TextLineMetrics fMetrics = null; // built on demand in getMetrics
+    privbte TextLineMetrics fMetrics = null; // built on dembnd in getMetrics
 
     public TextLine(FontRenderContext frc,
                     TextLineComponent[] components,
-                    float[] baselineOffsets,
-                    char[] chars,
-                    int charsStart,
-                    int charsLimit,
-                    int[] charLogicalOrder,
-                    byte[] charLevels,
-                    boolean isDirectionLTR) {
+                    flobt[] bbselineOffsets,
+                    chbr[] chbrs,
+                    int chbrsStbrt,
+                    int chbrsLimit,
+                    int[] chbrLogicblOrder,
+                    byte[] chbrLevels,
+                    boolebn isDirectionLTR) {
 
-        int[] componentVisualOrder = computeComponentOrder(components,
-                                                           charLogicalOrder);
+        int[] componentVisublOrder = computeComponentOrder(components,
+                                                           chbrLogicblOrder);
 
         this.frc = frc;
         fComponents = components;
-        fBaselineOffsets = baselineOffsets;
-        fComponentVisualOrder = componentVisualOrder;
-        fChars = chars;
-        fCharsStart = charsStart;
-        fCharsLimit = charsLimit;
-        fCharLogicalOrder = charLogicalOrder;
-        fCharLevels = charLevels;
+        fBbselineOffsets = bbselineOffsets;
+        fComponentVisublOrder = componentVisublOrder;
+        fChbrs = chbrs;
+        fChbrsStbrt = chbrsStbrt;
+        fChbrsLimit = chbrsLimit;
+        fChbrLogicblOrder = chbrLogicblOrder;
+        fChbrLevels = chbrLevels;
         fIsDirectionLTR = isDirectionLTR;
         checkCtorArgs();
 
         init();
     }
 
-    private void checkCtorArgs() {
+    privbte void checkCtorArgs() {
 
-        int checkCharCount = 0;
+        int checkChbrCount = 0;
         for (int i=0; i < fComponents.length; i++) {
-            checkCharCount += fComponents[i].getNumCharacters();
+            checkChbrCount += fComponents[i].getNumChbrbcters();
         }
 
-        if (checkCharCount != this.characterCount()) {
-            throw new IllegalArgumentException("Invalid TextLine!  " +
-                                "char count is different from " +
-                                "sum of char counts of components.");
+        if (checkChbrCount != this.chbrbcterCount()) {
+            throw new IllegblArgumentException("Invblid TextLine!  " +
+                                "chbr count is different from " +
+                                "sum of chbr counts of components.");
         }
     }
 
-    private void init() {
+    privbte void init() {
 
-        // first, we need to check for graphic components on the TOP or BOTTOM baselines.  So
-        // we perform the work that used to be in getMetrics here.
+        // first, we need to check for grbphic components on the TOP or BOTTOM bbselines.  So
+        // we perform the work thbt used to be in getMetrics here.
 
-        float ascent = 0;
-        float descent = 0;
-        float leading = 0;
-        float advance = 0;
+        flobt bscent = 0;
+        flobt descent = 0;
+        flobt lebding = 0;
+        flobt bdvbnce = 0;
 
-        // ascent + descent must not be less than this value
-        float maxGraphicHeight = 0;
-        float maxGraphicHeightWithLeading = 0;
+        // bscent + descent must not be less thbn this vblue
+        flobt mbxGrbphicHeight = 0;
+        flobt mbxGrbphicHeightWithLebding = 0;
 
-        // walk through EGA's
+        // wblk through EGA's
         TextLineComponent tlc;
-        boolean fitTopAndBottomGraphics = false;
+        boolebn fitTopAndBottomGrbphics = fblse;
 
         isSimple = true;
 
@@ -170,245 +170,245 @@ final class TextLine {
 
             CoreMetrics cm = tlc.getCoreMetrics();
 
-            byte baseline = (byte)cm.baselineIndex;
+            byte bbseline = (byte)cm.bbselineIndex;
 
-            if (baseline >= 0) {
-                float baselineOffset = fBaselineOffsets[baseline];
+            if (bbseline >= 0) {
+                flobt bbselineOffset = fBbselineOffsets[bbseline];
 
-                ascent = Math.max(ascent, -baselineOffset + cm.ascent);
+                bscent = Mbth.mbx(bscent, -bbselineOffset + cm.bscent);
 
-                float gd = baselineOffset + cm.descent;
-                descent = Math.max(descent, gd);
+                flobt gd = bbselineOffset + cm.descent;
+                descent = Mbth.mbx(descent, gd);
 
-                leading = Math.max(leading, gd + cm.leading);
+                lebding = Mbth.mbx(lebding, gd + cm.lebding);
             }
             else {
-                fitTopAndBottomGraphics = true;
-                float graphicHeight = cm.ascent + cm.descent;
-                float graphicHeightWithLeading = graphicHeight + cm.leading;
-                maxGraphicHeight = Math.max(maxGraphicHeight, graphicHeight);
-                maxGraphicHeightWithLeading = Math.max(maxGraphicHeightWithLeading,
-                                                       graphicHeightWithLeading);
+                fitTopAndBottomGrbphics = true;
+                flobt grbphicHeight = cm.bscent + cm.descent;
+                flobt grbphicHeightWithLebding = grbphicHeight + cm.lebding;
+                mbxGrbphicHeight = Mbth.mbx(mbxGrbphicHeight, grbphicHeight);
+                mbxGrbphicHeightWithLebding = Mbth.mbx(mbxGrbphicHeightWithLebding,
+                                                       grbphicHeightWithLebding);
             }
         }
 
-        if (fitTopAndBottomGraphics) {
-            if (maxGraphicHeight > ascent + descent) {
-                descent = maxGraphicHeight - ascent;
+        if (fitTopAndBottomGrbphics) {
+            if (mbxGrbphicHeight > bscent + descent) {
+                descent = mbxGrbphicHeight - bscent;
             }
-            if (maxGraphicHeightWithLeading > ascent + leading) {
-                leading = maxGraphicHeightWithLeading - ascent;
+            if (mbxGrbphicHeightWithLebding > bscent + lebding) {
+                lebding = mbxGrbphicHeightWithLebding - bscent;
             }
         }
 
-        leading -= descent;
+        lebding -= descent;
 
-        // we now know enough to compute the locs, but we need the final loc
-        // for the advance before we can create the metrics object
+        // we now know enough to compute the locs, but we need the finbl loc
+        // for the bdvbnce before we cbn crebte the metrics object
 
-        if (fitTopAndBottomGraphics) {
-            // we have top or bottom baselines, so expand the baselines array
-            // full offsets are needed by CoreMetrics.effectiveBaselineOffset
-            fBaselineOffsets = new float[] {
-                fBaselineOffsets[0],
-                fBaselineOffsets[1],
-                fBaselineOffsets[2],
+        if (fitTopAndBottomGrbphics) {
+            // we hbve top or bottom bbselines, so expbnd the bbselines brrby
+            // full offsets bre needed by CoreMetrics.effectiveBbselineOffset
+            fBbselineOffsets = new flobt[] {
+                fBbselineOffsets[0],
+                fBbselineOffsets[1],
+                fBbselineOffsets[2],
                 descent,
-                -ascent
+                -bscent
             };
         }
 
-        float x = 0;
-        float y = 0;
+        flobt x = 0;
+        flobt y = 0;
         CoreMetrics pcm = null;
 
-        boolean needPath = false;
-        locs = new float[fComponents.length * 2 + 2];
+        boolebn needPbth = fblse;
+        locs = new flobt[fComponents.length * 2 + 2];
 
         for (int i = 0, n = 0; i < fComponents.length; ++i, n += 2) {
-            tlc = fComponents[getComponentLogicalIndex(i)];
+            tlc = fComponents[getComponentLogicblIndex(i)];
             CoreMetrics cm = tlc.getCoreMetrics();
 
             if ((pcm != null) &&
-                (pcm.italicAngle != 0 || cm.italicAngle != 0) &&  // adjust because of italics
-                (pcm.italicAngle != cm.italicAngle ||
-                 pcm.baselineIndex != cm.baselineIndex ||
+                (pcm.itblicAngle != 0 || cm.itblicAngle != 0) &&  // bdjust becbuse of itblics
+                (pcm.itblicAngle != cm.itblicAngle ||
+                 pcm.bbselineIndex != cm.bbselineIndex ||
                  pcm.ssOffset != cm.ssOffset)) {
 
-                // 1) compute the area of overlap - min effective ascent and min effective descent
-                // 2) compute the x positions along italic angle of ascent and descent for left and right
-                // 3) compute maximum left - right, adjust right position by this value
-                // this is a crude form of kerning between textcomponents
+                // 1) compute the breb of overlbp - min effective bscent bnd min effective descent
+                // 2) compute the x positions blong itblic bngle of bscent bnd descent for left bnd right
+                // 3) compute mbximum left - right, bdjust right position by this vblue
+                // this is b crude form of kerning between textcomponents
 
-                // note glyphvectors preposition glyphs based on offset,
-                // so tl doesn't need to adjust glyphvector position
+                // note glyphvectors preposition glyphs bbsed on offset,
+                // so tl doesn't need to bdjust glyphvector position
                 // 1)
-                float pb = pcm.effectiveBaselineOffset(fBaselineOffsets);
-                float pa = pb - pcm.ascent;
-                float pd = pb + pcm.descent;
+                flobt pb = pcm.effectiveBbselineOffset(fBbselineOffsets);
+                flobt pb = pb - pcm.bscent;
+                flobt pd = pb + pcm.descent;
                 // pb += pcm.ssOffset;
 
-                float cb = cm.effectiveBaselineOffset(fBaselineOffsets);
-                float ca = cb - cm.ascent;
-                float cd = cb + cm.descent;
+                flobt cb = cm.effectiveBbselineOffset(fBbselineOffsets);
+                flobt cb = cb - cm.bscent;
+                flobt cd = cb + cm.descent;
                 // cb += cm.ssOffset;
 
-                float a = Math.max(pa, ca);
-                float d = Math.min(pd, cd);
+                flobt b = Mbth.mbx(pb, cb);
+                flobt d = Mbth.min(pd, cd);
 
                 // 2)
-                float pax = pcm.italicAngle * (pb - a);
-                float pdx = pcm.italicAngle * (pb - d);
+                flobt pbx = pcm.itblicAngle * (pb - b);
+                flobt pdx = pcm.itblicAngle * (pb - d);
 
-                float cax = cm.italicAngle * (cb - a);
-                float cdx = cm.italicAngle * (cb - d);
+                flobt cbx = cm.itblicAngle * (cb - b);
+                flobt cdx = cm.itblicAngle * (cb - d);
 
                 // 3)
-                float dax = pax - cax;
-                float ddx = pdx - cdx;
-                float dx = Math.max(dax, ddx);
+                flobt dbx = pbx - cbx;
+                flobt ddx = pdx - cdx;
+                flobt dx = Mbth.mbx(dbx, ddx);
 
                 x += dx;
                 y = cb;
             } else {
-                // no italic adjustment for x, but still need to compute y
-                y = cm.effectiveBaselineOffset(fBaselineOffsets); // + cm.ssOffset;
+                // no itblic bdjustment for x, but still need to compute y
+                y = cm.effectiveBbselineOffset(fBbselineOffsets); // + cm.ssOffset;
             }
 
             locs[n] = x;
             locs[n+1] = y;
 
-            x += tlc.getAdvance();
+            x += tlc.getAdvbnce();
             pcm = cm;
 
-            needPath |= tlc.getBaselineTransform() != null;
+            needPbth |= tlc.getBbselineTrbnsform() != null;
         }
 
-        // do we want italic padding at the right of the line?
-        if (pcm.italicAngle != 0) {
-            float pb = pcm.effectiveBaselineOffset(fBaselineOffsets);
-            float pa = pb - pcm.ascent;
-            float pd = pb + pcm.descent;
+        // do we wbnt itblic pbdding bt the right of the line?
+        if (pcm.itblicAngle != 0) {
+            flobt pb = pcm.effectiveBbselineOffset(fBbselineOffsets);
+            flobt pb = pb - pcm.bscent;
+            flobt pd = pb + pcm.descent;
             pb += pcm.ssOffset;
 
-            float d;
-            if (pcm.italicAngle > 0) {
-                d = pb + pcm.ascent;
+            flobt d;
+            if (pcm.itblicAngle > 0) {
+                d = pb + pcm.bscent;
             } else {
                 d = pb - pcm.descent;
             }
-            d *= pcm.italicAngle;
+            d *= pcm.itblicAngle;
 
             x += d;
         }
         locs[locs.length - 2] = x;
-        // locs[locs.length - 1] = 0; // final offset is always back on baseline
+        // locs[locs.length - 1] = 0; // finbl offset is blwbys bbck on bbseline
 
-        // ok, build fMetrics since we have the final advance
-        advance = x;
-        fMetrics = new TextLineMetrics(ascent, descent, leading, advance);
+        // ok, build fMetrics since we hbve the finbl bdvbnce
+        bdvbnce = x;
+        fMetrics = new TextLineMetrics(bscent, descent, lebding, bdvbnce);
 
-        // build path if we need it
-        if (needPath) {
-            isSimple = false;
+        // build pbth if we need it
+        if (needPbth) {
+            isSimple = fblse;
 
             Point2D.Double pt = new Point2D.Double();
             double tx = 0, ty = 0;
-            SegmentPathBuilder builder = new SegmentPathBuilder();
+            SegmentPbthBuilder builder = new SegmentPbthBuilder();
             builder.moveTo(locs[0], 0);
             for (int i = 0, n = 0; i < fComponents.length; ++i, n += 2) {
-                tlc = fComponents[getComponentLogicalIndex(i)];
-                AffineTransform at = tlc.getBaselineTransform();
-                if (at != null &&
-                    ((at.getType() & AffineTransform.TYPE_TRANSLATION) != 0)) {
-                    double dx = at.getTranslateX();
-                    double dy = at.getTranslateY();
+                tlc = fComponents[getComponentLogicblIndex(i)];
+                AffineTrbnsform bt = tlc.getBbselineTrbnsform();
+                if (bt != null &&
+                    ((bt.getType() & AffineTrbnsform.TYPE_TRANSLATION) != 0)) {
+                    double dx = bt.getTrbnslbteX();
+                    double dy = bt.getTrbnslbteY();
                     builder.moveTo(tx += dx, ty += dy);
                 }
                 pt.x = locs[n+2] - locs[n];
                 pt.y = 0;
-                if (at != null) {
-                    at.deltaTransform(pt, pt);
+                if (bt != null) {
+                    bt.deltbTrbnsform(pt, pt);
                 }
                 builder.lineTo(tx += pt.x, ty += pt.y);
             }
             lp = builder.complete();
 
-            if (lp == null) { // empty path
-                tlc = fComponents[getComponentLogicalIndex(0)];
-                AffineTransform at = tlc.getBaselineTransform();
-                if (at != null) {
-                    lp = new EmptyPath(at);
+            if (lp == null) { // empty pbth
+                tlc = fComponents[getComponentLogicblIndex(0)];
+                AffineTrbnsform bt = tlc.getBbselineTrbnsform();
+                if (bt != null) {
+                    lp = new EmptyPbth(bt);
                 }
             }
         }
     }
 
-    public Rectangle getPixelBounds(FontRenderContext frc, float x, float y) {
-        Rectangle result = null;
+    public Rectbngle getPixelBounds(FontRenderContext frc, flobt x, flobt y) {
+        Rectbngle result = null;
 
-        // if we have a matching frc, set it to null so we don't have to test it
-        // for each component
-        if (frc != null && frc.equals(this.frc)) {
+        // if we hbve b mbtching frc, set it to null so we don't hbve to test it
+        // for ebch component
+        if (frc != null && frc.equbls(this.frc)) {
             frc = null;
         }
 
-        // only cache integral locations with the default frc, this is a bit strict
-        int ix = (int)Math.floor(x);
-        int iy = (int)Math.floor(y);
-        float rx = x - ix;
-        float ry = y - iy;
-        boolean canCache = frc == null && rx == 0 && ry == 0;
+        // only cbche integrbl locbtions with the defbult frc, this is b bit strict
+        int ix = (int)Mbth.floor(x);
+        int iy = (int)Mbth.floor(y);
+        flobt rx = x - ix;
+        flobt ry = y - iy;
+        boolebn cbnCbche = frc == null && rx == 0 && ry == 0;
 
-        if (canCache && pixelBounds != null) {
-            result = new Rectangle(pixelBounds);
+        if (cbnCbche && pixelBounds != null) {
+            result = new Rectbngle(pixelBounds);
             result.x += ix;
             result.y += iy;
             return result;
         }
 
-        // couldn't use cache, or didn't have it, so compute
+        // couldn't use cbche, or didn't hbve it, so compute
 
-        if (isSimple) { // all glyphvectors with no decorations, no layout path
+        if (isSimple) { // bll glyphvectors with no decorbtions, no lbyout pbth
             for (int i = 0, n = 0; i < fComponents.length; i++, n += 2) {
-                TextLineComponent tlc = fComponents[getComponentLogicalIndex(i)];
-                Rectangle pb = tlc.getPixelBounds(frc, locs[n] + rx, locs[n+1] + ry);
+                TextLineComponent tlc = fComponents[getComponentLogicblIndex(i)];
+                Rectbngle pb = tlc.getPixelBounds(frc, locs[n] + rx, locs[n+1] + ry);
                 if (!pb.isEmpty()) {
                     if (result == null) {
                         result = pb;
                     } else {
-                        result.add(pb);
+                        result.bdd(pb);
                     }
                 }
             }
             if (result == null) {
-                result = new Rectangle(0, 0, 0, 0);
+                result = new Rectbngle(0, 0, 0, 0);
             }
-        } else { // draw and test
-            final int MARGIN = 3;
-            Rectangle2D r2d = getVisualBounds();
+        } else { // drbw bnd test
+            finbl int MARGIN = 3;
+            Rectbngle2D r2d = getVisublBounds();
             if (lp != null) {
-                r2d = lp.mapShape(r2d).getBounds();
+                r2d = lp.mbpShbpe(r2d).getBounds();
             }
-            Rectangle bounds = r2d.getBounds();
-            BufferedImage im = new BufferedImage(bounds.width + MARGIN * 2,
+            Rectbngle bounds = r2d.getBounds();
+            BufferedImbge im = new BufferedImbge(bounds.width + MARGIN * 2,
                                                  bounds.height + MARGIN * 2,
-                                                 BufferedImage.TYPE_INT_ARGB);
+                                                 BufferedImbge.TYPE_INT_ARGB);
 
-            Graphics2D g2d = im.createGraphics();
+            Grbphics2D g2d = im.crebteGrbphics();
             g2d.setColor(Color.WHITE);
             g2d.fillRect(0, 0, im.getWidth(), im.getHeight());
 
             g2d.setColor(Color.BLACK);
-            draw(g2d, rx + MARGIN - bounds.x, ry + MARGIN - bounds.y);
+            drbw(g2d, rx + MARGIN - bounds.x, ry + MARGIN - bounds.y);
 
             result = computePixelBounds(im);
             result.x -= MARGIN - bounds.x;
             result.y -= MARGIN - bounds.y;
         }
 
-        if (canCache) {
-            pixelBounds = new Rectangle(result);
+        if (cbnCbche) {
+            pixelBounds = new Rectbngle(result);
         }
 
         result.x += ix;
@@ -416,7 +416,7 @@ final class TextLine {
         return result;
     }
 
-    static Rectangle computePixelBounds(BufferedImage im) {
+    stbtic Rectbngle computePixelBounds(BufferedImbge im) {
         int w = im.getWidth();
         int h = im.getHeight();
 
@@ -429,7 +429,7 @@ final class TextLine {
                 im.getRGB(0, t, buf.length, 1, buf, 0, w); // w ignored
                 for (int i = 0; i < buf.length; i++) {
                     if (buf[i] != -1) {
-                        break loop;
+                        brebk loop;
                     }
                 }
             }
@@ -442,7 +442,7 @@ final class TextLine {
                 im.getRGB(0, b, buf.length, 1, buf, 0, w); // w ignored
                 for (int i = 0; i < buf.length; ++i) {
                     if (buf[i] != -1) {
-                        break loop;
+                        brebk loop;
                     }
                 }
             }
@@ -455,7 +455,7 @@ final class TextLine {
                 for (int i = t; i < b; ++i) {
                     int v = im.getRGB(l, i);
                     if (v != -1) {
-                        break loop;
+                        brebk loop;
                     }
                 }
             }
@@ -467,79 +467,79 @@ final class TextLine {
                 for (int i = t; i < b; ++i) {
                     int v = im.getRGB(r, i);
                     if (v != -1) {
-                        break loop;
+                        brebk loop;
                     }
                 }
             }
             ++r;
         }
 
-        return new Rectangle(l, t, r-l, b-t);
+        return new Rectbngle(l, t, r-l, b-t);
     }
 
-    private abstract static class Function {
+    privbte bbstrbct stbtic clbss Function {
 
-        abstract float computeFunction(TextLine line,
+        bbstrbct flobt computeFunction(TextLine line,
                                        int componentIndex,
-                                       int indexInArray);
+                                       int indexInArrby);
     }
 
-    private static Function fgPosAdvF = new Function() {
-        float computeFunction(TextLine line,
+    privbte stbtic Function fgPosAdvF = new Function() {
+        flobt computeFunction(TextLine line,
                               int componentIndex,
-                              int indexInArray) {
+                              int indexInArrby) {
 
             TextLineComponent tlc = line.fComponents[componentIndex];
-                int vi = line.getComponentVisualIndex(componentIndex);
-            return line.locs[vi * 2] + tlc.getCharX(indexInArray) + tlc.getCharAdvance(indexInArray);
+                int vi = line.getComponentVisublIndex(componentIndex);
+            return line.locs[vi * 2] + tlc.getChbrX(indexInArrby) + tlc.getChbrAdvbnce(indexInArrby);
         }
     };
 
-    private static Function fgAdvanceF = new Function() {
+    privbte stbtic Function fgAdvbnceF = new Function() {
 
-        float computeFunction(TextLine line,
+        flobt computeFunction(TextLine line,
                               int componentIndex,
-                              int indexInArray) {
+                              int indexInArrby) {
 
             TextLineComponent tlc = line.fComponents[componentIndex];
-            return tlc.getCharAdvance(indexInArray);
+            return tlc.getChbrAdvbnce(indexInArrby);
         }
     };
 
-    private static Function fgXPositionF = new Function() {
+    privbte stbtic Function fgXPositionF = new Function() {
 
-        float computeFunction(TextLine line,
+        flobt computeFunction(TextLine line,
                               int componentIndex,
-                              int indexInArray) {
+                              int indexInArrby) {
 
-                int vi = line.getComponentVisualIndex(componentIndex);
+                int vi = line.getComponentVisublIndex(componentIndex);
             TextLineComponent tlc = line.fComponents[componentIndex];
-            return line.locs[vi * 2] + tlc.getCharX(indexInArray);
+            return line.locs[vi * 2] + tlc.getChbrX(indexInArrby);
         }
     };
 
-    private static Function fgYPositionF = new Function() {
+    privbte stbtic Function fgYPositionF = new Function() {
 
-        float computeFunction(TextLine line,
+        flobt computeFunction(TextLine line,
                               int componentIndex,
-                              int indexInArray) {
+                              int indexInArrby) {
 
             TextLineComponent tlc = line.fComponents[componentIndex];
-            float charPos = tlc.getCharY(indexInArray);
+            flobt chbrPos = tlc.getChbrY(indexInArrby);
 
-            // charPos is relative to the component - adjust for
-            // baseline
+            // chbrPos is relbtive to the component - bdjust for
+            // bbseline
 
-            return charPos + line.getComponentShift(componentIndex);
+            return chbrPos + line.getComponentShift(componentIndex);
         }
     };
 
-    public int characterCount() {
+    public int chbrbcterCount() {
 
-        return fCharsLimit - fCharsStart;
+        return fChbrsLimit - fChbrsStbrt;
     }
 
-    public boolean isDirectionLTR() {
+    public boolebn isDirectionLTR() {
 
         return fIsDirectionLTR;
     }
@@ -548,208 +548,208 @@ final class TextLine {
         return fMetrics;
     }
 
-    public int visualToLogical(int visualIndex) {
+    public int visublToLogicbl(int visublIndex) {
 
-        if (fCharLogicalOrder == null) {
-            return visualIndex;
+        if (fChbrLogicblOrder == null) {
+            return visublIndex;
         }
 
-        if (fCharVisualOrder == null) {
-            fCharVisualOrder = BidiUtils.createInverseMap(fCharLogicalOrder);
+        if (fChbrVisublOrder == null) {
+            fChbrVisublOrder = BidiUtils.crebteInverseMbp(fChbrLogicblOrder);
         }
 
-        return fCharVisualOrder[visualIndex];
+        return fChbrVisublOrder[visublIndex];
     }
 
-    public int logicalToVisual(int logicalIndex) {
+    public int logicblToVisubl(int logicblIndex) {
 
-        return (fCharLogicalOrder == null)?
-            logicalIndex : fCharLogicalOrder[logicalIndex];
+        return (fChbrLogicblOrder == null)?
+            logicblIndex : fChbrLogicblOrder[logicblIndex];
     }
 
-    public byte getCharLevel(int logicalIndex) {
+    public byte getChbrLevel(int logicblIndex) {
 
-        return fCharLevels==null? 0 : fCharLevels[logicalIndex];
+        return fChbrLevels==null? 0 : fChbrLevels[logicblIndex];
     }
 
-    public boolean isCharLTR(int logicalIndex) {
+    public boolebn isChbrLTR(int logicblIndex) {
 
-        return (getCharLevel(logicalIndex) & 0x1) == 0;
+        return (getChbrLevel(logicblIndex) & 0x1) == 0;
     }
 
-    public int getCharType(int logicalIndex) {
+    public int getChbrType(int logicblIndex) {
 
-        return Character.getType(fChars[logicalIndex + fCharsStart]);
+        return Chbrbcter.getType(fChbrs[logicblIndex + fChbrsStbrt]);
     }
 
-    public boolean isCharSpace(int logicalIndex) {
+    public boolebn isChbrSpbce(int logicblIndex) {
 
-        return Character.isSpaceChar(fChars[logicalIndex + fCharsStart]);
+        return Chbrbcter.isSpbceChbr(fChbrs[logicblIndex + fChbrsStbrt]);
     }
 
-    public boolean isCharWhitespace(int logicalIndex) {
+    public boolebn isChbrWhitespbce(int logicblIndex) {
 
-        return Character.isWhitespace(fChars[logicalIndex + fCharsStart]);
+        return Chbrbcter.isWhitespbce(fChbrs[logicblIndex + fChbrsStbrt]);
     }
 
-    public float getCharAngle(int logicalIndex) {
+    public flobt getChbrAngle(int logicblIndex) {
 
-        return getCoreMetricsAt(logicalIndex).italicAngle;
+        return getCoreMetricsAt(logicblIndex).itblicAngle;
     }
 
-    public CoreMetrics getCoreMetricsAt(int logicalIndex) {
+    public CoreMetrics getCoreMetricsAt(int logicblIndex) {
 
-        if (logicalIndex < 0) {
-            throw new IllegalArgumentException("Negative logicalIndex.");
+        if (logicblIndex < 0) {
+            throw new IllegblArgumentException("Negbtive logicblIndex.");
         }
 
-        if (logicalIndex > fCharsLimit - fCharsStart) {
-            throw new IllegalArgumentException("logicalIndex too large.");
+        if (logicblIndex > fChbrsLimit - fChbrsStbrt) {
+            throw new IllegblArgumentException("logicblIndex too lbrge.");
         }
 
         int currentTlc = 0;
-        int tlcStart = 0;
+        int tlcStbrt = 0;
         int tlcLimit = 0;
 
         do {
-            tlcLimit += fComponents[currentTlc].getNumCharacters();
-            if (tlcLimit > logicalIndex) {
-                break;
+            tlcLimit += fComponents[currentTlc].getNumChbrbcters();
+            if (tlcLimit > logicblIndex) {
+                brebk;
             }
             ++currentTlc;
-            tlcStart = tlcLimit;
+            tlcStbrt = tlcLimit;
         } while(currentTlc < fComponents.length);
 
         return fComponents[currentTlc].getCoreMetrics();
     }
 
-    public float getCharAscent(int logicalIndex) {
+    public flobt getChbrAscent(int logicblIndex) {
 
-        return getCoreMetricsAt(logicalIndex).ascent;
+        return getCoreMetricsAt(logicblIndex).bscent;
     }
 
-    public float getCharDescent(int logicalIndex) {
+    public flobt getChbrDescent(int logicblIndex) {
 
-        return getCoreMetricsAt(logicalIndex).descent;
+        return getCoreMetricsAt(logicblIndex).descent;
     }
 
-    public float getCharShift(int logicalIndex) {
+    public flobt getChbrShift(int logicblIndex) {
 
-        return getCoreMetricsAt(logicalIndex).ssOffset;
+        return getCoreMetricsAt(logicblIndex).ssOffset;
     }
 
-    private float applyFunctionAtIndex(int logicalIndex, Function f) {
+    privbte flobt bpplyFunctionAtIndex(int logicblIndex, Function f) {
 
-        if (logicalIndex < 0) {
-            throw new IllegalArgumentException("Negative logicalIndex.");
+        if (logicblIndex < 0) {
+            throw new IllegblArgumentException("Negbtive logicblIndex.");
         }
 
-        int tlcStart = 0;
+        int tlcStbrt = 0;
 
         for(int i=0; i < fComponents.length; i++) {
 
-            int tlcLimit = tlcStart + fComponents[i].getNumCharacters();
-            if (tlcLimit > logicalIndex) {
-                return f.computeFunction(this, i, logicalIndex - tlcStart);
+            int tlcLimit = tlcStbrt + fComponents[i].getNumChbrbcters();
+            if (tlcLimit > logicblIndex) {
+                return f.computeFunction(this, i, logicblIndex - tlcStbrt);
             }
             else {
-                tlcStart = tlcLimit;
+                tlcStbrt = tlcLimit;
             }
         }
 
-        throw new IllegalArgumentException("logicalIndex too large.");
+        throw new IllegblArgumentException("logicblIndex too lbrge.");
     }
 
-    public float getCharAdvance(int logicalIndex) {
+    public flobt getChbrAdvbnce(int logicblIndex) {
 
-        return applyFunctionAtIndex(logicalIndex, fgAdvanceF);
+        return bpplyFunctionAtIndex(logicblIndex, fgAdvbnceF);
     }
 
-    public float getCharXPosition(int logicalIndex) {
+    public flobt getChbrXPosition(int logicblIndex) {
 
-        return applyFunctionAtIndex(logicalIndex, fgXPositionF);
+        return bpplyFunctionAtIndex(logicblIndex, fgXPositionF);
     }
 
-    public float getCharYPosition(int logicalIndex) {
+    public flobt getChbrYPosition(int logicblIndex) {
 
-        return applyFunctionAtIndex(logicalIndex, fgYPositionF);
+        return bpplyFunctionAtIndex(logicblIndex, fgYPositionF);
     }
 
-    public float getCharLinePosition(int logicalIndex) {
+    public flobt getChbrLinePosition(int logicblIndex) {
 
-        return getCharXPosition(logicalIndex);
+        return getChbrXPosition(logicblIndex);
     }
 
-    public float getCharLinePosition(int logicalIndex, boolean leading) {
-        Function f = isCharLTR(logicalIndex) == leading ? fgXPositionF : fgPosAdvF;
-        return applyFunctionAtIndex(logicalIndex, f);
+    public flobt getChbrLinePosition(int logicblIndex, boolebn lebding) {
+        Function f = isChbrLTR(logicblIndex) == lebding ? fgXPositionF : fgPosAdvF;
+        return bpplyFunctionAtIndex(logicblIndex, f);
     }
 
-    public boolean caretAtOffsetIsValid(int offset) {
+    public boolebn cbretAtOffsetIsVblid(int offset) {
 
         if (offset < 0) {
-            throw new IllegalArgumentException("Negative offset.");
+            throw new IllegblArgumentException("Negbtive offset.");
         }
 
-        int tlcStart = 0;
+        int tlcStbrt = 0;
 
         for(int i=0; i < fComponents.length; i++) {
 
-            int tlcLimit = tlcStart + fComponents[i].getNumCharacters();
+            int tlcLimit = tlcStbrt + fComponents[i].getNumChbrbcters();
             if (tlcLimit > offset) {
-                return fComponents[i].caretAtOffsetIsValid(offset-tlcStart);
+                return fComponents[i].cbretAtOffsetIsVblid(offset-tlcStbrt);
             }
             else {
-                tlcStart = tlcLimit;
+                tlcStbrt = tlcLimit;
             }
         }
 
-        throw new IllegalArgumentException("logicalIndex too large.");
+        throw new IllegblArgumentException("logicblIndex too lbrge.");
     }
 
     /**
-     * map a component visual index to the logical index.
+     * mbp b component visubl index to the logicbl index.
      */
-    private int getComponentLogicalIndex(int vi) {
-        if (fComponentVisualOrder == null) {
+    privbte int getComponentLogicblIndex(int vi) {
+        if (fComponentVisublOrder == null) {
             return vi;
         }
-        return fComponentVisualOrder[vi];
+        return fComponentVisublOrder[vi];
     }
 
     /**
-     * map a component logical index to the visual index.
+     * mbp b component logicbl index to the visubl index.
      */
-    private int getComponentVisualIndex(int li) {
-        if (fComponentVisualOrder == null) {
+    privbte int getComponentVisublIndex(int li) {
+        if (fComponentVisublOrder == null) {
                 return li;
         }
-        for (int i = 0; i < fComponentVisualOrder.length; ++i) {
-                if (fComponentVisualOrder[i] == li) {
+        for (int i = 0; i < fComponentVisublOrder.length; ++i) {
+                if (fComponentVisublOrder[i] == li) {
                     return i;
                 }
         }
-        throw new IndexOutOfBoundsException("bad component index: " + li);
+        throw new IndexOutOfBoundsException("bbd component index: " + li);
     }
 
-    public Rectangle2D getCharBounds(int logicalIndex) {
+    public Rectbngle2D getChbrBounds(int logicblIndex) {
 
-        if (logicalIndex < 0) {
-            throw new IllegalArgumentException("Negative logicalIndex.");
+        if (logicblIndex < 0) {
+            throw new IllegblArgumentException("Negbtive logicblIndex.");
         }
 
-        int tlcStart = 0;
+        int tlcStbrt = 0;
 
         for (int i=0; i < fComponents.length; i++) {
 
-            int tlcLimit = tlcStart + fComponents[i].getNumCharacters();
-            if (tlcLimit > logicalIndex) {
+            int tlcLimit = tlcStbrt + fComponents[i].getNumChbrbcters();
+            if (tlcLimit > logicblIndex) {
 
                 TextLineComponent tlc = fComponents[i];
-                int indexInTlc = logicalIndex - tlcStart;
-                Rectangle2D chBounds = tlc.getCharVisualBounds(indexInTlc);
+                int indexInTlc = logicblIndex - tlcStbrt;
+                Rectbngle2D chBounds = tlc.getChbrVisublBounds(indexInTlc);
 
-                        int vi = getComponentVisualIndex(i);
+                        int vi = getComponentVisublIndex(i);
                 chBounds.setRect(chBounds.getX() + locs[vi * 2],
                                  chBounds.getY() + locs[vi * 2 + 1],
                                  chBounds.getWidth(),
@@ -757,71 +757,71 @@ final class TextLine {
                 return chBounds;
             }
             else {
-                tlcStart = tlcLimit;
+                tlcStbrt = tlcLimit;
             }
         }
 
-        throw new IllegalArgumentException("logicalIndex too large.");
+        throw new IllegblArgumentException("logicblIndex too lbrge.");
     }
 
-    private float getComponentShift(int index) {
+    privbte flobt getComponentShift(int index) {
         CoreMetrics cm = fComponents[index].getCoreMetrics();
-        return cm.effectiveBaselineOffset(fBaselineOffsets);
+        return cm.effectiveBbselineOffset(fBbselineOffsets);
     }
 
-    public void draw(Graphics2D g2, float x, float y) {
+    public void drbw(Grbphics2D g2, flobt x, flobt y) {
         if (lp == null) {
             for (int i = 0, n = 0; i < fComponents.length; i++, n += 2) {
-                TextLineComponent tlc = fComponents[getComponentLogicalIndex(i)];
-                tlc.draw(g2, locs[n] + x, locs[n+1] + y);
+                TextLineComponent tlc = fComponents[getComponentLogicblIndex(i)];
+                tlc.drbw(g2, locs[n] + x, locs[n+1] + y);
             }
         } else {
-            AffineTransform oldTx = g2.getTransform();
-            Point2D.Float pt = new Point2D.Float();
+            AffineTrbnsform oldTx = g2.getTrbnsform();
+            Point2D.Flobt pt = new Point2D.Flobt();
             for (int i = 0, n = 0; i < fComponents.length; i++, n += 2) {
-                TextLineComponent tlc = fComponents[getComponentLogicalIndex(i)];
-                lp.pathToPoint(locs[n], locs[n+1], false, pt);
+                TextLineComponent tlc = fComponents[getComponentLogicblIndex(i)];
+                lp.pbthToPoint(locs[n], locs[n+1], fblse, pt);
                 pt.x += x;
                 pt.y += y;
-                AffineTransform at = tlc.getBaselineTransform();
+                AffineTrbnsform bt = tlc.getBbselineTrbnsform();
 
-                if (at != null) {
-                    g2.translate(pt.x - at.getTranslateX(), pt.y - at.getTranslateY());
-                    g2.transform(at);
-                    tlc.draw(g2, 0, 0);
-                    g2.setTransform(oldTx);
+                if (bt != null) {
+                    g2.trbnslbte(pt.x - bt.getTrbnslbteX(), pt.y - bt.getTrbnslbteY());
+                    g2.trbnsform(bt);
+                    tlc.drbw(g2, 0, 0);
+                    g2.setTrbnsform(oldTx);
                 } else {
-                    tlc.draw(g2, pt.x, pt.y);
+                    tlc.drbw(g2, pt.x, pt.y);
                 }
             }
         }
     }
 
     /**
-     * Return the union of the visual bounds of all the components.
-     * This incorporates the path.  It does not include logical
-     * bounds (used by carets).
+     * Return the union of the visubl bounds of bll the components.
+     * This incorporbtes the pbth.  It does not include logicbl
+     * bounds (used by cbrets).
      */
-    public Rectangle2D getVisualBounds() {
-        Rectangle2D result = null;
+    public Rectbngle2D getVisublBounds() {
+        Rectbngle2D result = null;
 
         for (int i = 0, n = 0; i < fComponents.length; i++, n += 2) {
-            TextLineComponent tlc = fComponents[getComponentLogicalIndex(i)];
-            Rectangle2D r = tlc.getVisualBounds();
+            TextLineComponent tlc = fComponents[getComponentLogicblIndex(i)];
+            Rectbngle2D r = tlc.getVisublBounds();
 
-            Point2D.Float pt = new Point2D.Float(locs[n], locs[n+1]);
+            Point2D.Flobt pt = new Point2D.Flobt(locs[n], locs[n+1]);
             if (lp == null) {
                 r.setRect(r.getMinX() + pt.x, r.getMinY() + pt.y,
                           r.getWidth(), r.getHeight());
             } else {
-                lp.pathToPoint(pt, false, pt);
+                lp.pbthToPoint(pt, fblse, pt);
 
-                AffineTransform at = tlc.getBaselineTransform();
-                if (at != null) {
-                    AffineTransform tx = AffineTransform.getTranslateInstance
-                        (pt.x - at.getTranslateX(), pt.y - at.getTranslateY());
-                    tx.concatenate(at);
-                    r = tx.createTransformedShape(r).getBounds2D();
+                AffineTrbnsform bt = tlc.getBbselineTrbnsform();
+                if (bt != null) {
+                    AffineTrbnsform tx = AffineTrbnsform.getTrbnslbteInstbnce
+                        (pt.x - bt.getTrbnslbteX(), pt.y - bt.getTrbnslbteY());
+                    tx.concbtenbte(bt);
+                    r = tx.crebteTrbnsformedShbpe(r).getBounds2D();
                 } else {
                     r.setRect(r.getMinX() + pt.x, r.getMinY() + pt.y,
                               r.getWidth(), r.getHeight());
@@ -831,141 +831,141 @@ final class TextLine {
             if (result == null) {
                 result = r;
             } else {
-                result.add(r);
+                result.bdd(r);
             }
         }
 
         if (result == null) {
-            result = new Rectangle2D.Float(Float.MAX_VALUE, Float.MAX_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
+            result = new Rectbngle2D.Flobt(Flobt.MAX_VALUE, Flobt.MAX_VALUE, Flobt.MIN_VALUE, Flobt.MIN_VALUE);
         }
 
         return result;
     }
 
-    public Rectangle2D getItalicBounds() {
+    public Rectbngle2D getItblicBounds() {
 
-        float left = Float.MAX_VALUE, right = -Float.MAX_VALUE;
-        float top = Float.MAX_VALUE, bottom = -Float.MAX_VALUE;
+        flobt left = Flobt.MAX_VALUE, right = -Flobt.MAX_VALUE;
+        flobt top = Flobt.MAX_VALUE, bottom = -Flobt.MAX_VALUE;
 
         for (int i=0, n = 0; i < fComponents.length; i++, n += 2) {
-            TextLineComponent tlc = fComponents[getComponentLogicalIndex(i)];
+            TextLineComponent tlc = fComponents[getComponentLogicblIndex(i)];
 
-            Rectangle2D tlcBounds = tlc.getItalicBounds();
-            float x = locs[n];
-            float y = locs[n+1];
+            Rectbngle2D tlcBounds = tlc.getItblicBounds();
+            flobt x = locs[n];
+            flobt y = locs[n+1];
 
-            left = Math.min(left, x + (float)tlcBounds.getX());
-            right = Math.max(right, x + (float)tlcBounds.getMaxX());
+            left = Mbth.min(left, x + (flobt)tlcBounds.getX());
+            right = Mbth.mbx(right, x + (flobt)tlcBounds.getMbxX());
 
-            top = Math.min(top, y + (float)tlcBounds.getY());
-            bottom = Math.max(bottom, y + (float)tlcBounds.getMaxY());
+            top = Mbth.min(top, y + (flobt)tlcBounds.getY());
+            bottom = Mbth.mbx(bottom, y + (flobt)tlcBounds.getMbxY());
         }
 
-        return new Rectangle2D.Float(left, top, right-left, bottom-top);
+        return new Rectbngle2D.Flobt(left, top, right-left, bottom-top);
     }
 
-    public Shape getOutline(AffineTransform tx) {
+    public Shbpe getOutline(AffineTrbnsform tx) {
 
-        GeneralPath dstShape = new GeneralPath(GeneralPath.WIND_NON_ZERO);
+        GenerblPbth dstShbpe = new GenerblPbth(GenerblPbth.WIND_NON_ZERO);
 
         for (int i=0, n = 0; i < fComponents.length; i++, n += 2) {
-            TextLineComponent tlc = fComponents[getComponentLogicalIndex(i)];
+            TextLineComponent tlc = fComponents[getComponentLogicblIndex(i)];
 
-            dstShape.append(tlc.getOutline(locs[n], locs[n+1]), false);
+            dstShbpe.bppend(tlc.getOutline(locs[n], locs[n+1]), fblse);
         }
 
         if (tx != null) {
-            dstShape.transform(tx);
+            dstShbpe.trbnsform(tx);
         }
-        return dstShape;
+        return dstShbpe;
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         return (fComponents.length << 16) ^
-                    (fComponents[0].hashCode() << 3) ^ (fCharsLimit-fCharsStart);
+                    (fComponents[0].hbshCode() << 3) ^ (fChbrsLimit-fChbrsStbrt);
     }
 
     public String toString() {
         StringBuilder buf = new StringBuilder();
 
         for (int i = 0; i < fComponents.length; i++) {
-            buf.append(fComponents[i]);
+            buf.bppend(fComponents[i]);
         }
 
         return buf.toString();
     }
 
     /**
-     * Create a TextLine from the text.  The Font must be able to
-     * display all of the text.
-     * attributes==null is equivalent to using an empty Map for
-     * attributes
+     * Crebte b TextLine from the text.  The Font must be bble to
+     * displby bll of the text.
+     * bttributes==null is equivblent to using bn empty Mbp for
+     * bttributes
      */
-    public static TextLine fastCreateTextLine(FontRenderContext frc,
-                                              char[] chars,
+    public stbtic TextLine fbstCrebteTextLine(FontRenderContext frc,
+                                              chbr[] chbrs,
                                               Font font,
                                               CoreMetrics lm,
-                                              Map<? extends Attribute, ?> attributes) {
+                                              Mbp<? extends Attribute, ?> bttributes) {
 
-        boolean isDirectionLTR = true;
+        boolebn isDirectionLTR = true;
         byte[] levels = null;
-        int[] charsLtoV = null;
+        int[] chbrsLtoV = null;
         Bidi bidi = null;
-        int characterCount = chars.length;
+        int chbrbcterCount = chbrs.length;
 
-        boolean requiresBidi = false;
+        boolebn requiresBidi = fblse;
         byte[] embs = null;
 
-        AttributeValues values = null;
-        if (attributes != null) {
-            values = AttributeValues.fromMap(attributes);
-            if (values.getRunDirection() >= 0) {
-                isDirectionLTR = values.getRunDirection() == 0;
+        AttributeVblues vblues = null;
+        if (bttributes != null) {
+            vblues = AttributeVblues.fromMbp(bttributes);
+            if (vblues.getRunDirection() >= 0) {
+                isDirectionLTR = vblues.getRunDirection() == 0;
                 requiresBidi = !isDirectionLTR;
             }
-            if (values.getBidiEmbedding() != 0) {
+            if (vblues.getBidiEmbedding() != 0) {
                 requiresBidi = true;
-                byte level = (byte)values.getBidiEmbedding();
-                embs = new byte[characterCount];
+                byte level = (byte)vblues.getBidiEmbedding();
+                embs = new byte[chbrbcterCount];
                 for (int i = 0; i < embs.length; ++i) {
                     embs[i] = level;
                 }
             }
         }
 
-        // dlf: get baseRot from font for now???
+        // dlf: get bbseRot from font for now???
 
         if (!requiresBidi) {
-            requiresBidi = Bidi.requiresBidi(chars, 0, chars.length);
+            requiresBidi = Bidi.requiresBidi(chbrs, 0, chbrs.length);
         }
 
         if (requiresBidi) {
-          int bidiflags = values == null
+          int bidiflbgs = vblues == null
               ? Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT
-              : values.getRunDirection();
+              : vblues.getRunDirection();
 
-          bidi = new Bidi(chars, 0, embs, 0, chars.length, bidiflags);
+          bidi = new Bidi(chbrs, 0, embs, 0, chbrs.length, bidiflbgs);
           if (!bidi.isLeftToRight()) {
               levels = BidiUtils.getLevels(bidi);
-              int[] charsVtoL = BidiUtils.createVisualToLogicalMap(levels);
-              charsLtoV = BidiUtils.createInverseMap(charsVtoL);
-              isDirectionLTR = bidi.baseIsLeftToRight();
+              int[] chbrsVtoL = BidiUtils.crebteVisublToLogicblMbp(levels);
+              chbrsLtoV = BidiUtils.crebteInverseMbp(chbrsVtoL);
+              isDirectionLTR = bidi.bbseIsLeftToRight();
           }
         }
 
-        Decoration decorator = Decoration.getDecoration(values);
+        Decorbtion decorbtor = Decorbtion.getDecorbtion(vblues);
 
-        int layoutFlags = 0; // no extra info yet, bidi determines run and line direction
-        TextLabelFactory factory = new TextLabelFactory(frc, chars, bidi, layoutFlags);
+        int lbyoutFlbgs = 0; // no extrb info yet, bidi determines run bnd line direction
+        TextLbbelFbctory fbctory = new TextLbbelFbctory(frc, chbrs, bidi, lbyoutFlbgs);
 
         TextLineComponent[] components = new TextLineComponent[1];
 
-        components = createComponentsOnRun(0, chars.length,
-                                           chars,
-                                           charsLtoV, levels,
-                                           factory, font, lm,
+        components = crebteComponentsOnRun(0, chbrs.length,
+                                           chbrs,
+                                           chbrsLtoV, levels,
+                                           fbctory, font, lm,
                                            frc,
-                                           decorator,
+                                           decorbtor,
                                            components,
                                            0);
 
@@ -976,62 +976,62 @@ final class TextLine {
 
         if (numComponents != components.length) {
             TextLineComponent[] temp = new TextLineComponent[numComponents];
-            System.arraycopy(components, 0, temp, 0, numComponents);
+            System.brrbycopy(components, 0, temp, 0, numComponents);
             components = temp;
         }
 
-        return new TextLine(frc, components, lm.baselineOffsets,
-                            chars, 0, chars.length, charsLtoV, levels, isDirectionLTR);
+        return new TextLine(frc, components, lm.bbselineOffsets,
+                            chbrs, 0, chbrs.length, chbrsLtoV, levels, isDirectionLTR);
     }
 
-    private static TextLineComponent[] expandArray(TextLineComponent[] orig) {
+    privbte stbtic TextLineComponent[] expbndArrby(TextLineComponent[] orig) {
 
         TextLineComponent[] newComponents = new TextLineComponent[orig.length + 8];
-        System.arraycopy(orig, 0, newComponents, 0, orig.length);
+        System.brrbycopy(orig, 0, newComponents, 0, orig.length);
 
         return newComponents;
     }
 
     /**
-     * Returns an array in logical order of the TextLineComponents on
-     * the text in the given range, with the given attributes.
+     * Returns bn brrby in logicbl order of the TextLineComponents on
+     * the text in the given rbnge, with the given bttributes.
      */
-    public static TextLineComponent[] createComponentsOnRun(int runStart,
+    public stbtic TextLineComponent[] crebteComponentsOnRun(int runStbrt,
                                                             int runLimit,
-                                                            char[] chars,
-                                                            int[] charsLtoV,
+                                                            chbr[] chbrs,
+                                                            int[] chbrsLtoV,
                                                             byte[] levels,
-                                                            TextLabelFactory factory,
+                                                            TextLbbelFbctory fbctory,
                                                             Font font,
                                                             CoreMetrics cm,
                                                             FontRenderContext frc,
-                                                            Decoration decorator,
+                                                            Decorbtion decorbtor,
                                                             TextLineComponent[] components,
                                                             int numComponents) {
 
-        int pos = runStart;
+        int pos = runStbrt;
         do {
-            int chunkLimit = firstVisualChunk(charsLtoV, levels, pos, runLimit); // <= displayLimit
+            int chunkLimit = firstVisublChunk(chbrsLtoV, levels, pos, runLimit); // <= displbyLimit
 
             do {
-                int startPos = pos;
+                int stbrtPos = pos;
                 int lmCount;
 
                 if (cm == null) {
-                    LineMetrics lineMetrics = font.getLineMetrics(chars, startPos, chunkLimit, frc);
+                    LineMetrics lineMetrics = font.getLineMetrics(chbrs, stbrtPos, chunkLimit, frc);
                     cm = CoreMetrics.get(lineMetrics);
-                    lmCount = lineMetrics.getNumChars();
+                    lmCount = lineMetrics.getNumChbrs();
                 }
                 else {
-                    lmCount = (chunkLimit-startPos);
+                    lmCount = (chunkLimit-stbrtPos);
                 }
 
                 TextLineComponent nextComponent =
-                    factory.createExtended(font, cm, decorator, startPos, startPos + lmCount);
+                    fbctory.crebteExtended(font, cm, decorbtor, stbrtPos, stbrtPos + lmCount);
 
                 ++numComponents;
                 if (numComponents >= components.length) {
-                    components = expandArray(components);
+                    components = expbndArrby(components);
                 }
 
                 components[numComponents-1] = nextComponent;
@@ -1045,63 +1045,63 @@ final class TextLine {
     }
 
     /**
-     * Returns an array (in logical order) of the TextLineComponents representing
-     * the text.  The components are both logically and visually contiguous.
+     * Returns bn brrby (in logicbl order) of the TextLineComponents representing
+     * the text.  The components bre both logicblly bnd visublly contiguous.
      */
-    public static TextLineComponent[] getComponents(StyledParagraph styledParagraph,
-                                                    char[] chars,
-                                                    int textStart,
+    public stbtic TextLineComponent[] getComponents(StyledPbrbgrbph styledPbrbgrbph,
+                                                    chbr[] chbrs,
+                                                    int textStbrt,
                                                     int textLimit,
-                                                    int[] charsLtoV,
+                                                    int[] chbrsLtoV,
                                                     byte[] levels,
-                                                    TextLabelFactory factory) {
+                                                    TextLbbelFbctory fbctory) {
 
-        FontRenderContext frc = factory.getFontRenderContext();
+        FontRenderContext frc = fbctory.getFontRenderContext();
 
         int numComponents = 0;
         TextLineComponent[] tempComponents = new TextLineComponent[1];
 
-        int pos = textStart;
+        int pos = textStbrt;
         do {
-            int runLimit = Math.min(styledParagraph.getRunLimit(pos), textLimit);
+            int runLimit = Mbth.min(styledPbrbgrbph.getRunLimit(pos), textLimit);
 
-            Decoration decorator = styledParagraph.getDecorationAt(pos);
+            Decorbtion decorbtor = styledPbrbgrbph.getDecorbtionAt(pos);
 
-            Object graphicOrFont = styledParagraph.getFontOrGraphicAt(pos);
+            Object grbphicOrFont = styledPbrbgrbph.getFontOrGrbphicAt(pos);
 
-            if (graphicOrFont instanceof GraphicAttribute) {
-                // AffineTransform baseRot = styledParagraph.getBaselineRotationAt(pos);
-                // !!! For now, let's assign runs of text with both fonts and graphic attributes
-                // a null rotation (e.g. the baseline rotation goes away when a graphic
-                // is applied.
-                AffineTransform baseRot = null;
-                GraphicAttribute graphicAttribute = (GraphicAttribute) graphicOrFont;
+            if (grbphicOrFont instbnceof GrbphicAttribute) {
+                // AffineTrbnsform bbseRot = styledPbrbgrbph.getBbselineRotbtionAt(pos);
+                // !!! For now, let's bssign runs of text with both fonts bnd grbphic bttributes
+                // b null rotbtion (e.g. the bbseline rotbtion goes bwby when b grbphic
+                // is bpplied.
+                AffineTrbnsform bbseRot = null;
+                GrbphicAttribute grbphicAttribute = (GrbphicAttribute) grbphicOrFont;
                 do {
-                    int chunkLimit = firstVisualChunk(charsLtoV, levels,
+                    int chunkLimit = firstVisublChunk(chbrsLtoV, levels,
                                     pos, runLimit);
 
-                    GraphicComponent nextGraphic =
-                        new GraphicComponent(graphicAttribute, decorator, charsLtoV, levels, pos, chunkLimit, baseRot);
+                    GrbphicComponent nextGrbphic =
+                        new GrbphicComponent(grbphicAttribute, decorbtor, chbrsLtoV, levels, pos, chunkLimit, bbseRot);
                     pos = chunkLimit;
 
                     ++numComponents;
                     if (numComponents >= tempComponents.length) {
-                        tempComponents = expandArray(tempComponents);
+                        tempComponents = expbndArrby(tempComponents);
                     }
 
-                    tempComponents[numComponents-1] = nextGraphic;
+                    tempComponents[numComponents-1] = nextGrbphic;
 
                 } while(pos < runLimit);
             }
             else {
-                Font font = (Font) graphicOrFont;
+                Font font = (Font) grbphicOrFont;
 
-                tempComponents = createComponentsOnRun(pos, runLimit,
-                                                        chars,
-                                                        charsLtoV, levels,
-                                                        factory, font, null,
+                tempComponents = crebteComponentsOnRun(pos, runLimit,
+                                                        chbrs,
+                                                        chbrsLtoV, levels,
+                                                        fbctory, font, null,
                                                         frc,
-                                                        decorator,
+                                                        decorbtor,
                                                         tempComponents,
                                                         numComponents);
                 pos = runLimit;
@@ -1119,120 +1119,120 @@ final class TextLine {
         }
         else {
             components = new TextLineComponent[numComponents];
-            System.arraycopy(tempComponents, 0, components, 0, numComponents);
+            System.brrbycopy(tempComponents, 0, components, 0, numComponents);
         }
 
         return components;
     }
 
     /**
-     * Create a TextLine from the Font and character data over the
-     * range.  The range is relative to both the StyledParagraph and the
-     * character array.
+     * Crebte b TextLine from the Font bnd chbrbcter dbtb over the
+     * rbnge.  The rbnge is relbtive to both the StyledPbrbgrbph bnd the
+     * chbrbcter brrby.
      */
-    public static TextLine createLineFromText(char[] chars,
-                                              StyledParagraph styledParagraph,
-                                              TextLabelFactory factory,
-                                              boolean isDirectionLTR,
-                                              float[] baselineOffsets) {
+    public stbtic TextLine crebteLineFromText(chbr[] chbrs,
+                                              StyledPbrbgrbph styledPbrbgrbph,
+                                              TextLbbelFbctory fbctory,
+                                              boolebn isDirectionLTR,
+                                              flobt[] bbselineOffsets) {
 
-        factory.setLineContext(0, chars.length);
+        fbctory.setLineContext(0, chbrs.length);
 
-        Bidi lineBidi = factory.getLineBidi();
-        int[] charsLtoV = null;
+        Bidi lineBidi = fbctory.getLineBidi();
+        int[] chbrsLtoV = null;
         byte[] levels = null;
 
         if (lineBidi != null) {
             levels = BidiUtils.getLevels(lineBidi);
-            int[] charsVtoL = BidiUtils.createVisualToLogicalMap(levels);
-            charsLtoV = BidiUtils.createInverseMap(charsVtoL);
+            int[] chbrsVtoL = BidiUtils.crebteVisublToLogicblMbp(levels);
+            chbrsLtoV = BidiUtils.crebteInverseMbp(chbrsVtoL);
         }
 
         TextLineComponent[] components =
-            getComponents(styledParagraph, chars, 0, chars.length, charsLtoV, levels, factory);
+            getComponents(styledPbrbgrbph, chbrs, 0, chbrs.length, chbrsLtoV, levels, fbctory);
 
-        return new TextLine(factory.getFontRenderContext(), components, baselineOffsets,
-                            chars, 0, chars.length, charsLtoV, levels, isDirectionLTR);
+        return new TextLine(fbctory.getFontRenderContext(), components, bbselineOffsets,
+                            chbrs, 0, chbrs.length, chbrsLtoV, levels, isDirectionLTR);
     }
 
     /**
-     * Compute the components order from the given components array and
-     * logical-to-visual character mapping.  May return null if canonical.
+     * Compute the components order from the given components brrby bnd
+     * logicbl-to-visubl chbrbcter mbpping.  Mby return null if cbnonicbl.
      */
-    private static int[] computeComponentOrder(TextLineComponent[] components,
-                                               int[] charsLtoV) {
+    privbte stbtic int[] computeComponentOrder(TextLineComponent[] components,
+                                               int[] chbrsLtoV) {
 
         /*
-         * Create a visual ordering for the glyph sets.  The important thing
-         * here is that the values have the proper rank with respect to
-         * each other, not the exact values.  For example, the first glyph
-         * set that appears visually should have the lowest value.  The last
-         * should have the highest value.  The values are then normalized
-         * to map 1-1 with positions in glyphs.
+         * Crebte b visubl ordering for the glyph sets.  The importbnt thing
+         * here is thbt the vblues hbve the proper rbnk with respect to
+         * ebch other, not the exbct vblues.  For exbmple, the first glyph
+         * set thbt bppebrs visublly should hbve the lowest vblue.  The lbst
+         * should hbve the highest vblue.  The vblues bre then normblized
+         * to mbp 1-1 with positions in glyphs.
          *
          */
         int[] componentOrder = null;
-        if (charsLtoV != null && components.length > 1) {
+        if (chbrsLtoV != null && components.length > 1) {
             componentOrder = new int[components.length];
-            int gStart = 0;
+            int gStbrt = 0;
             for (int i = 0; i < components.length; i++) {
-                componentOrder[i] = charsLtoV[gStart];
-                gStart += components[i].getNumCharacters();
+                componentOrder[i] = chbrsLtoV[gStbrt];
+                gStbrt += components[i].getNumChbrbcters();
             }
 
-            componentOrder = BidiUtils.createContiguousOrder(componentOrder);
-            componentOrder = BidiUtils.createInverseMap(componentOrder);
+            componentOrder = BidiUtils.crebteContiguousOrder(componentOrder);
+            componentOrder = BidiUtils.crebteInverseMbp(componentOrder);
         }
         return componentOrder;
     }
 
 
     /**
-     * Create a TextLine from the text.  chars is just the text in the iterator.
+     * Crebte b TextLine from the text.  chbrs is just the text in the iterbtor.
      */
-    public static TextLine standardCreateTextLine(FontRenderContext frc,
-                                                  AttributedCharacterIterator text,
-                                                  char[] chars,
-                                                  float[] baselineOffsets) {
+    public stbtic TextLine stbndbrdCrebteTextLine(FontRenderContext frc,
+                                                  AttributedChbrbcterIterbtor text,
+                                                  chbr[] chbrs,
+                                                  flobt[] bbselineOffsets) {
 
-        StyledParagraph styledParagraph = new StyledParagraph(text, chars);
+        StyledPbrbgrbph styledPbrbgrbph = new StyledPbrbgrbph(text, chbrs);
         Bidi bidi = new Bidi(text);
         if (bidi.isLeftToRight()) {
             bidi = null;
         }
-        int layoutFlags = 0; // no extra info yet, bidi determines run and line direction
-        TextLabelFactory factory = new TextLabelFactory(frc, chars, bidi, layoutFlags);
+        int lbyoutFlbgs = 0; // no extrb info yet, bidi determines run bnd line direction
+        TextLbbelFbctory fbctory = new TextLbbelFbctory(frc, chbrs, bidi, lbyoutFlbgs);
 
-        boolean isDirectionLTR = true;
+        boolebn isDirectionLTR = true;
         if (bidi != null) {
-            isDirectionLTR = bidi.baseIsLeftToRight();
+            isDirectionLTR = bidi.bbseIsLeftToRight();
         }
-        return createLineFromText(chars, styledParagraph, factory, isDirectionLTR, baselineOffsets);
+        return crebteLineFromText(chbrs, styledPbrbgrbph, fbctory, isDirectionLTR, bbselineOffsets);
     }
 
 
 
     /*
-     * A utility to get a range of text that is both logically and visually
+     * A utility to get b rbnge of text thbt is both logicblly bnd visublly
      * contiguous.
-     * If the entire range is ok, return limit, otherwise return the first
-     * directional change after start.  We could do better than this, but
-     * it doesn't seem worth it at the moment.
-    private static int firstVisualChunk(int order[], byte direction[],
-                                        int start, int limit)
+     * If the entire rbnge is ok, return limit, otherwise return the first
+     * directionbl chbnge bfter stbrt.  We could do better thbn this, but
+     * it doesn't seem worth it bt the moment.
+    privbte stbtic int firstVisublChunk(int order[], byte direction[],
+                                        int stbrt, int limit)
     {
         if (order != null) {
-            int min = order[start];
-            int max = order[start];
-            int count = limit - start;
-            for (int i = start + 1; i < limit; i++) {
-                min = Math.min(min, order[i]);
-                max = Math.max(max, order[i]);
-                if (max - min >= count) {
+            int min = order[stbrt];
+            int mbx = order[stbrt];
+            int count = limit - stbrt;
+            for (int i = stbrt + 1; i < limit; i++) {
+                min = Mbth.min(min, order[i]);
+                mbx = Mbth.mbx(mbx, order[i]);
+                if (mbx - min >= count) {
                     if (direction != null) {
-                        byte baseLevel = direction[start];
-                        for (int j = start + 1; j < i; j++) {
-                            if (direction[j] != baseLevel) {
+                        byte bbseLevel = direction[stbrt];
+                        for (int j = stbrt + 1; j < i; j++) {
+                            if (direction[j] != bbseLevel) {
                                 return j;
                             }
                         }
@@ -1246,197 +1246,197 @@ final class TextLine {
      */
 
     /**
-     * When this returns, the ACI's current position will be at the start of the
-     * first run which does NOT contain a GraphicAttribute.  If no such run exists
-     * the ACI's position will be at the end, and this method will return false.
+     * When this returns, the ACI's current position will be bt the stbrt of the
+     * first run which does NOT contbin b GrbphicAttribute.  If no such run exists
+     * the ACI's position will be bt the end, bnd this method will return fblse.
      */
-    static boolean advanceToFirstFont(AttributedCharacterIterator aci) {
+    stbtic boolebn bdvbnceToFirstFont(AttributedChbrbcterIterbtor bci) {
 
-        for (char ch = aci.first();
-             ch != CharacterIterator.DONE;
-             ch = aci.setIndex(aci.getRunLimit()))
+        for (chbr ch = bci.first();
+             ch != ChbrbcterIterbtor.DONE;
+             ch = bci.setIndex(bci.getRunLimit()))
         {
 
-            if (aci.getAttribute(TextAttribute.CHAR_REPLACEMENT) == null) {
+            if (bci.getAttribute(TextAttribute.CHAR_REPLACEMENT) == null) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
-    static float[] getNormalizedOffsets(float[] baselineOffsets, byte baseline) {
+    stbtic flobt[] getNormblizedOffsets(flobt[] bbselineOffsets, byte bbseline) {
 
-        if (baselineOffsets[baseline] != 0) {
-            float base = baselineOffsets[baseline];
-            float[] temp = new float[baselineOffsets.length];
+        if (bbselineOffsets[bbseline] != 0) {
+            flobt bbse = bbselineOffsets[bbseline];
+            flobt[] temp = new flobt[bbselineOffsets.length];
             for (int i = 0; i < temp.length; i++)
-                temp[i] = baselineOffsets[i] - base;
-            baselineOffsets = temp;
+                temp[i] = bbselineOffsets[i] - bbse;
+            bbselineOffsets = temp;
         }
-        return baselineOffsets;
+        return bbselineOffsets;
     }
 
-    static Font getFontAtCurrentPos(AttributedCharacterIterator aci) {
+    stbtic Font getFontAtCurrentPos(AttributedChbrbcterIterbtor bci) {
 
-        Object value = aci.getAttribute(TextAttribute.FONT);
-        if (value != null) {
-            return (Font) value;
+        Object vblue = bci.getAttribute(TextAttribute.FONT);
+        if (vblue != null) {
+            return (Font) vblue;
         }
-        if (aci.getAttribute(TextAttribute.FAMILY) != null) {
-            return Font.getFont(aci.getAttributes());
+        if (bci.getAttribute(TextAttribute.FAMILY) != null) {
+            return Font.getFont(bci.getAttributes());
         }
 
-        int ch = CodePointIterator.create(aci).next();
-        if (ch != CodePointIterator.DONE) {
-            FontResolver resolver = FontResolver.getInstance();
-            return resolver.getFont(resolver.getFontIndex(ch), aci.getAttributes());
+        int ch = CodePointIterbtor.crebte(bci).next();
+        if (ch != CodePointIterbtor.DONE) {
+            FontResolver resolver = FontResolver.getInstbnce();
+            return resolver.getFont(resolver.getFontIndex(ch), bci.getAttributes());
         }
         return null;
     }
 
   /*
-   * The new version requires that chunks be at the same level.
+   * The new version requires thbt chunks be bt the sbme level.
    */
-    private static int firstVisualChunk(int order[], byte direction[],
-                                        int start, int limit)
+    privbte stbtic int firstVisublChunk(int order[], byte direction[],
+                                        int stbrt, int limit)
     {
         if (order != null && direction != null) {
-          byte dir = direction[start];
-          while (++start < limit && direction[start] == dir) {}
-          return start;
+          byte dir = direction[stbrt];
+          while (++stbrt < limit && direction[stbrt] == dir) {}
+          return stbrt;
         }
         return limit;
     }
 
   /*
-   * create a new line with characters between charStart and charLimit
-   * justified using the provided width and ratio.
+   * crebte b new line with chbrbcters between chbrStbrt bnd chbrLimit
+   * justified using the provided width bnd rbtio.
    */
-    public TextLine getJustifiedLine(float justificationWidth, float justifyRatio, int justStart, int justLimit) {
+    public TextLine getJustifiedLine(flobt justificbtionWidth, flobt justifyRbtio, int justStbrt, int justLimit) {
 
         TextLineComponent[] newComponents = new TextLineComponent[fComponents.length];
-        System.arraycopy(fComponents, 0, newComponents, 0, fComponents.length);
+        System.brrbycopy(fComponents, 0, newComponents, 0, fComponents.length);
 
-        float leftHang = 0;
-        float adv = 0;
-        float justifyDelta = 0;
-        boolean rejustify = false;
+        flobt leftHbng = 0;
+        flobt bdv = 0;
+        flobt justifyDeltb = 0;
+        boolebn rejustify = fblse;
         do {
-            adv = getAdvanceBetween(newComponents, 0, characterCount());
+            bdv = getAdvbnceBetween(newComponents, 0, chbrbcterCount());
 
-            // all characters outside the justification range must be in the base direction
-            // of the layout, otherwise justification makes no sense.
+            // bll chbrbcters outside the justificbtion rbnge must be in the bbse direction
+            // of the lbyout, otherwise justificbtion mbkes no sense.
 
-            float justifyAdvance = getAdvanceBetween(newComponents, justStart, justLimit);
+            flobt justifyAdvbnce = getAdvbnceBetween(newComponents, justStbrt, justLimit);
 
-            // get the actual justification delta
-            justifyDelta = (justificationWidth - justifyAdvance) * justifyRatio;
+            // get the bctubl justificbtion deltb
+            justifyDeltb = (justificbtionWidth - justifyAdvbnce) * justifyRbtio;
 
-            // generate an array of GlyphJustificationInfo records to pass to
-            // the justifier.  Array is visually ordered.
+            // generbte bn brrby of GlyphJustificbtionInfo records to pbss to
+            // the justifier.  Arrby is visublly ordered.
 
-            // get positions that each component will be using
+            // get positions thbt ebch component will be using
             int[] infoPositions = new int[newComponents.length];
             int infoCount = 0;
             for (int visIndex = 0; visIndex < newComponents.length; visIndex++) {
-                    int logIndex = getComponentLogicalIndex(visIndex);
+                    int logIndex = getComponentLogicblIndex(visIndex);
                 infoPositions[logIndex] = infoCount;
-                infoCount += newComponents[logIndex].getNumJustificationInfos();
+                infoCount += newComponents[logIndex].getNumJustificbtionInfos();
             }
-            GlyphJustificationInfo[] infos = new GlyphJustificationInfo[infoCount];
+            GlyphJustificbtionInfo[] infos = new GlyphJustificbtionInfo[infoCount];
 
-            // get justification infos
-            int compStart = 0;
+            // get justificbtion infos
+            int compStbrt = 0;
             for (int i = 0; i < newComponents.length; i++) {
                 TextLineComponent comp = newComponents[i];
-                int compLength = comp.getNumCharacters();
-                int compLimit = compStart + compLength;
-                if (compLimit > justStart) {
-                    int rangeMin = Math.max(0, justStart - compStart);
-                    int rangeMax = Math.min(compLength, justLimit - compStart);
-                    comp.getJustificationInfos(infos, infoPositions[i], rangeMin, rangeMax);
+                int compLength = comp.getNumChbrbcters();
+                int compLimit = compStbrt + compLength;
+                if (compLimit > justStbrt) {
+                    int rbngeMin = Mbth.mbx(0, justStbrt - compStbrt);
+                    int rbngeMbx = Mbth.min(compLength, justLimit - compStbrt);
+                    comp.getJustificbtionInfos(infos, infoPositions[i], rbngeMin, rbngeMbx);
 
                     if (compLimit >= justLimit) {
-                        break;
+                        brebk;
                     }
                 }
             }
 
-            // records are visually ordered, and contiguous, so start and end are
-            // simply the places where we didn't fetch records
-            int infoStart = 0;
+            // records bre visublly ordered, bnd contiguous, so stbrt bnd end bre
+            // simply the plbces where we didn't fetch records
+            int infoStbrt = 0;
             int infoLimit = infoCount;
-            while (infoStart < infoLimit && infos[infoStart] == null) {
-                ++infoStart;
+            while (infoStbrt < infoLimit && infos[infoStbrt] == null) {
+                ++infoStbrt;
             }
 
-            while (infoLimit > infoStart && infos[infoLimit - 1] == null) {
+            while (infoLimit > infoStbrt && infos[infoLimit - 1] == null) {
                 --infoLimit;
             }
 
             // invoke justifier on the records
-            TextJustifier justifier = new TextJustifier(infos, infoStart, infoLimit);
+            TextJustifier justifier = new TextJustifier(infos, infoStbrt, infoLimit);
 
-            float[] deltas = justifier.justify(justifyDelta);
+            flobt[] deltbs = justifier.justify(justifyDeltb);
 
-            boolean canRejustify = rejustify == false;
-            boolean wantRejustify = false;
-            boolean[] flags = new boolean[1];
+            boolebn cbnRejustify = rejustify == fblse;
+            boolebn wbntRejustify = fblse;
+            boolebn[] flbgs = new boolebn[1];
 
-            // apply justification deltas
-            compStart = 0;
+            // bpply justificbtion deltbs
+            compStbrt = 0;
             for (int i = 0; i < newComponents.length; i++) {
                 TextLineComponent comp = newComponents[i];
-                int compLength = comp.getNumCharacters();
-                int compLimit = compStart + compLength;
-                if (compLimit > justStart) {
-                    int rangeMin = Math.max(0, justStart - compStart);
-                    int rangeMax = Math.min(compLength, justLimit - compStart);
-                    newComponents[i] = comp.applyJustificationDeltas(deltas, infoPositions[i] * 2, flags);
+                int compLength = comp.getNumChbrbcters();
+                int compLimit = compStbrt + compLength;
+                if (compLimit > justStbrt) {
+                    int rbngeMin = Mbth.mbx(0, justStbrt - compStbrt);
+                    int rbngeMbx = Mbth.min(compLength, justLimit - compStbrt);
+                    newComponents[i] = comp.bpplyJustificbtionDeltbs(deltbs, infoPositions[i] * 2, flbgs);
 
-                    wantRejustify |= flags[0];
+                    wbntRejustify |= flbgs[0];
 
                     if (compLimit >= justLimit) {
-                        break;
+                        brebk;
                     }
                 }
             }
 
-            rejustify = wantRejustify && !rejustify; // only make two passes
+            rejustify = wbntRejustify && !rejustify; // only mbke two pbsses
         } while (rejustify);
 
-        return new TextLine(frc, newComponents, fBaselineOffsets, fChars, fCharsStart,
-                            fCharsLimit, fCharLogicalOrder, fCharLevels,
+        return new TextLine(frc, newComponents, fBbselineOffsets, fChbrs, fChbrsStbrt,
+                            fChbrsLimit, fChbrLogicblOrder, fChbrLevels,
                             fIsDirectionLTR);
     }
 
-    // return the sum of the advances of text between the logical start and limit
-    public static float getAdvanceBetween(TextLineComponent[] components, int start, int limit) {
-        float advance = 0;
+    // return the sum of the bdvbnces of text between the logicbl stbrt bnd limit
+    public stbtic flobt getAdvbnceBetween(TextLineComponent[] components, int stbrt, int limit) {
+        flobt bdvbnce = 0;
 
-        int tlcStart = 0;
+        int tlcStbrt = 0;
         for(int i = 0; i < components.length; i++) {
             TextLineComponent comp = components[i];
 
-            int tlcLength = comp.getNumCharacters();
-            int tlcLimit = tlcStart + tlcLength;
-            if (tlcLimit > start) {
-                int measureStart = Math.max(0, start - tlcStart);
-                int measureLimit = Math.min(tlcLength, limit - tlcStart);
-                advance += comp.getAdvanceBetween(measureStart, measureLimit);
+            int tlcLength = comp.getNumChbrbcters();
+            int tlcLimit = tlcStbrt + tlcLength;
+            if (tlcLimit > stbrt) {
+                int mebsureStbrt = Mbth.mbx(0, stbrt - tlcStbrt);
+                int mebsureLimit = Mbth.min(tlcLength, limit - tlcStbrt);
+                bdvbnce += comp.getAdvbnceBetween(mebsureStbrt, mebsureLimit);
                 if (tlcLimit >= limit) {
-                    break;
+                    brebk;
                 }
             }
 
-            tlcStart = tlcLimit;
+            tlcStbrt = tlcLimit;
         }
 
-        return advance;
+        return bdvbnce;
     }
 
-    LayoutPathImpl getLayoutPath() {
+    LbyoutPbthImpl getLbyoutPbth() {
         return lp;
     }
 }

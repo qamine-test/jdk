@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.spi;
+pbckbge jbvbx.nbming.spi;
 
-import java.util.Hashtable;
-import javax.naming.NamingException;
+import jbvb.util.Hbshtbble;
+import jbvbx.nbming.NbmingException;
 
  /**
-  * This interface represents a builder that creates object factories.
+  * This interfbce represents b builder thbt crebtes object fbctories.
   *<p>
-  * The JNDI framework allows for object implementations to
-  * be loaded in dynamically via <em>object factories</em>.
-  * For example, when looking up a printer bound in the name space,
-  * if the print service binds printer names to References, the printer
-  * Reference could be used to create a printer object, so that
-  * the caller of lookup can directly operate on the printer object
-  * after the lookup.  An ObjectFactory is responsible for creating
-  * objects of a specific type.  JNDI uses a default policy for using
-  * and loading object factories.  You can override this default policy
-  * by calling <tt>NamingManager.setObjectFactoryBuilder()</tt> with an ObjectFactoryBuilder,
-  * which contains the program-defined way of creating/loading
-  * object factories.
-  * Any <tt>ObjectFactoryBuilder</tt> implementation must implement this
-  * interface that for creating object factories.
+  * The JNDI frbmework bllows for object implementbtions to
+  * be lobded in dynbmicblly vib <em>object fbctories</em>.
+  * For exbmple, when looking up b printer bound in the nbme spbce,
+  * if the print service binds printer nbmes to References, the printer
+  * Reference could be used to crebte b printer object, so thbt
+  * the cbller of lookup cbn directly operbte on the printer object
+  * bfter the lookup.  An ObjectFbctory is responsible for crebting
+  * objects of b specific type.  JNDI uses b defbult policy for using
+  * bnd lobding object fbctories.  You cbn override this defbult policy
+  * by cblling <tt>NbmingMbnbger.setObjectFbctoryBuilder()</tt> with bn ObjectFbctoryBuilder,
+  * which contbins the progrbm-defined wby of crebting/lobding
+  * object fbctories.
+  * Any <tt>ObjectFbctoryBuilder</tt> implementbtion must implement this
+  * interfbce thbt for crebting object fbctories.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
-  * @see ObjectFactory
-  * @see NamingManager#getObjectInstance
-  * @see NamingManager#setObjectFactoryBuilder
+  * @see ObjectFbctory
+  * @see NbmingMbnbger#getObjectInstbnce
+  * @see NbmingMbnbger#setObjectFbctoryBuilder
   * @since 1.3
   */
-public interface ObjectFactoryBuilder {
+public interfbce ObjectFbctoryBuilder {
     /**
-      * Creates a new object factory using the environment supplied.
+      * Crebtes b new object fbctory using the environment supplied.
       *<p>
-      * The environment parameter is owned by the caller.
-      * The implementation will not modify the object or keep a reference
-      * to it, although it may keep a reference to a clone or copy.
+      * The environment pbrbmeter is owned by the cbller.
+      * The implementbtion will not modify the object or keep b reference
+      * to it, blthough it mby keep b reference to b clone or copy.
       *
-      * @param obj The possibly null object for which to create a factory.
-      * @param environment Environment to use when creating the factory.
-      *                 Can be null.
-      * @return A non-null new instance of an ObjectFactory.
-      * @exception NamingException If an object factory cannot be created.
+      * @pbrbm obj The possibly null object for which to crebte b fbctory.
+      * @pbrbm environment Environment to use when crebting the fbctory.
+      *                 Cbn be null.
+      * @return A non-null new instbnce of bn ObjectFbctory.
+      * @exception NbmingException If bn object fbctory cbnnot be crebted.
       *
       */
-    public ObjectFactory createObjectFactory(Object obj,
-                                             Hashtable<?,?> environment)
-        throws NamingException;
+    public ObjectFbctory crebteObjectFbctory(Object obj,
+                                             Hbshtbble<?,?> environment)
+        throws NbmingException;
 }

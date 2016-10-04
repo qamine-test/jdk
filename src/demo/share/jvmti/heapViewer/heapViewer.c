@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -46,243 +46,243 @@
 #include "jni.h"
 #include "jvmti.h"
 
-#include "agent_util.h"
+#include "bgent_util.h"
 
-/* Global static data */
+/* Globbl stbtic dbtb */
 typedef struct {
-    jboolean      vmDeathCalled;
-    jboolean      dumpInProgress;
-    jrawMonitorID lock;
-} GlobalData;
-static GlobalData globalData, *gdata = &globalData;
+    jboolebn      vmDebthCblled;
+    jboolebn      dumpInProgress;
+    jrbwMonitorID lock;
+} GlobblDbtb;
+stbtic GlobblDbtb globblDbtb, *gdbtb = &globblDbtb;
 
-/* Typedef to hold class details */
+/* Typedef to hold clbss detbils */
 typedef struct {
-    char *signature;
+    chbr *signbture;
     int   count;
-    int   space;
-} ClassDetails;
+    int   spbce;
+} ClbssDetbils;
 
-/* Enter agent monitor protected section */
-static void
+/* Enter bgent monitor protected section */
+stbtic void
 enterAgentMonitor(jvmtiEnv *jvmti)
 {
     jvmtiError err;
 
-    err = (*jvmti)->RawMonitorEnter(jvmti, gdata->lock);
-    check_jvmti_error(jvmti, err, "raw monitor enter");
+    err = (*jvmti)->RbwMonitorEnter(jvmti, gdbtb->lock);
+    check_jvmti_error(jvmti, err, "rbw monitor enter");
 }
 
-/* Exit agent monitor protected section */
-static void
+/* Exit bgent monitor protected section */
+stbtic void
 exitAgentMonitor(jvmtiEnv *jvmti)
 {
     jvmtiError err;
 
-    err = (*jvmti)->RawMonitorExit(jvmti, gdata->lock);
-    check_jvmti_error(jvmti, err, "raw monitor exit");
+    err = (*jvmti)->RbwMonitorExit(jvmti, gdbtb->lock);
+    check_jvmti_error(jvmti, err, "rbw monitor exit");
 }
 
-/* Heap object callback */
-static jint JNICALL
-cbHeapObject(jlong class_tag, jlong size, jlong* tag_ptr, jint length,
-           void* user_data)
+/* Hebp object cbllbbck */
+stbtic jint JNICALL
+cbHebpObject(jlong clbss_tbg, jlong size, jlong* tbg_ptr, jint length,
+           void* user_dbtb)
 {
-    if ( class_tag != (jlong)0 ) {
-        ClassDetails *d;
+    if ( clbss_tbg != (jlong)0 ) {
+        ClbssDetbils *d;
 
-        d = (ClassDetails*)(void*)(ptrdiff_t)class_tag;
-        (*((jint*)(user_data)))++;
+        d = (ClbssDetbils*)(void*)(ptrdiff_t)clbss_tbg;
+        (*((jint*)(user_dbtb)))++;
         d->count++;
-        d->space += (int)size;
+        d->spbce += (int)size;
     }
     return JVMTI_VISIT_OBJECTS;
 }
 
-/* Compare two ClassDetails */
-static int
-compareDetails(const void *p1, const void *p2)
+/* Compbre two ClbssDetbils */
+stbtic int
+compbreDetbils(const void *p1, const void *p2)
 {
-    return ((ClassDetails*)p2)->space - ((ClassDetails*)p1)->space;
+    return ((ClbssDetbils*)p2)->spbce - ((ClbssDetbils*)p1)->spbce;
 }
 
-/* Callback for JVMTI_EVENT_DATA_DUMP_REQUEST (Ctrl-\ or at exit) */
-static void JNICALL
-dataDumpRequest(jvmtiEnv *jvmti)
+/* Cbllbbck for JVMTI_EVENT_DATA_DUMP_REQUEST (Ctrl-\ or bt exit) */
+stbtic void JNICALL
+dbtbDumpRequest(jvmtiEnv *jvmti)
 {
     enterAgentMonitor(jvmti); {
-        if ( !gdata->vmDeathCalled && !gdata->dumpInProgress ) {
-            jvmtiHeapCallbacks heapCallbacks;
-            ClassDetails      *details;
+        if ( !gdbtb->vmDebthCblled && !gdbtb->dumpInProgress ) {
+            jvmtiHebpCbllbbcks hebpCbllbbcks;
+            ClbssDetbils      *detbils;
             jvmtiError         err;
-            jclass            *classes;
-            jint               totalCount;
+            jclbss            *clbsses;
+            jint               totblCount;
             jint               count;
             jint               i;
 
-            gdata->dumpInProgress = JNI_TRUE;
+            gdbtb->dumpInProgress = JNI_TRUE;
 
-            /* Get all the loaded classes */
-            err = (*jvmti)->GetLoadedClasses(jvmti, &count, &classes);
-            check_jvmti_error(jvmti, err, "get loaded classes");
+            /* Get bll the lobded clbsses */
+            err = (*jvmti)->GetLobdedClbsses(jvmti, &count, &clbsses);
+            check_jvmti_error(jvmti, err, "get lobded clbsses");
 
-            /* Setup an area to hold details about these classes */
-            details = (ClassDetails*)calloc(sizeof(ClassDetails), count);
-            if ( details == NULL ) {
-                fatal_error("ERROR: Ran out of malloc space\n");
+            /* Setup bn breb to hold detbils bbout these clbsses */
+            detbils = (ClbssDetbils*)cblloc(sizeof(ClbssDetbils), count);
+            if ( detbils == NULL ) {
+                fbtbl_error("ERROR: Rbn out of mblloc spbce\n");
             }
             for ( i = 0 ; i < count ; i++ ) {
-                char *sig;
+                chbr *sig;
 
-                /* Get and save the class signature */
-                err = (*jvmti)->GetClassSignature(jvmti, classes[i], &sig, NULL);
-                check_jvmti_error(jvmti, err, "get class signature");
+                /* Get bnd sbve the clbss signbture */
+                err = (*jvmti)->GetClbssSignbture(jvmti, clbsses[i], &sig, NULL);
+                check_jvmti_error(jvmti, err, "get clbss signbture");
                 if ( sig == NULL ) {
-                    fatal_error("ERROR: No class signature found\n");
+                    fbtbl_error("ERROR: No clbss signbture found\n");
                 }
-                details[i].signature = strdup(sig);
-                deallocate(jvmti, sig);
+                detbils[i].signbture = strdup(sig);
+                debllocbte(jvmti, sig);
 
-                /* Tag this jclass */
-                err = (*jvmti)->SetTag(jvmti, classes[i],
-                                    (jlong)(ptrdiff_t)(void*)(&details[i]));
-                check_jvmti_error(jvmti, err, "set object tag");
+                /* Tbg this jclbss */
+                err = (*jvmti)->SetTbg(jvmti, clbsses[i],
+                                    (jlong)(ptrdiff_t)(void*)(&detbils[i]));
+                check_jvmti_error(jvmti, err, "set object tbg");
             }
 
-            /* Iterate through the heap and count up uses of jclass */
-            (void)memset(&heapCallbacks, 0, sizeof(heapCallbacks));
-            heapCallbacks.heap_iteration_callback = &cbHeapObject;
-            totalCount = 0;
-            err = (*jvmti)->IterateThroughHeap(jvmti,
+            /* Iterbte through the hebp bnd count up uses of jclbss */
+            (void)memset(&hebpCbllbbcks, 0, sizeof(hebpCbllbbcks));
+            hebpCbllbbcks.hebp_iterbtion_cbllbbck = &cbHebpObject;
+            totblCount = 0;
+            err = (*jvmti)->IterbteThroughHebp(jvmti,
                        JVMTI_HEAP_FILTER_CLASS_UNTAGGED, NULL,
-                       &heapCallbacks, (const void *)&totalCount);
-            check_jvmti_error(jvmti, err, "iterate through heap");
+                       &hebpCbllbbcks, (const void *)&totblCount);
+            check_jvmti_error(jvmti, err, "iterbte through hebp");
 
-            /* Remove tags */
+            /* Remove tbgs */
             for ( i = 0 ; i < count ; i++ ) {
-                /* Un-Tag this jclass */
-                err = (*jvmti)->SetTag(jvmti, classes[i], (jlong)0);
-                check_jvmti_error(jvmti, err, "set object tag");
+                /* Un-Tbg this jclbss */
+                err = (*jvmti)->SetTbg(jvmti, clbsses[i], (jlong)0);
+                check_jvmti_error(jvmti, err, "set object tbg");
             }
 
-            /* Sort details by space used */
-            qsort(details, count, sizeof(ClassDetails), &compareDetails);
+            /* Sort detbils by spbce used */
+            qsort(detbils, count, sizeof(ClbssDetbils), &compbreDetbils);
 
-            /* Print out sorted table */
-            stdout_message("Heap View, Total of %d objects found.\n\n",
-                         totalCount);
+            /* Print out sorted tbble */
+            stdout_messbge("Hebp View, Totbl of %d objects found.\n\n",
+                         totblCount);
 
-            stdout_message("Space      Count      Class Signature\n");
-            stdout_message("---------- ---------- ----------------------\n");
+            stdout_messbge("Spbce      Count      Clbss Signbture\n");
+            stdout_messbge("---------- ---------- ----------------------\n");
 
             for ( i = 0 ; i < count ; i++ ) {
-                if ( details[i].space == 0 || i > 20 ) {
-                    break;
+                if ( detbils[i].spbce == 0 || i > 20 ) {
+                    brebk;
                 }
-                stdout_message("%10d %10d %s\n",
-                    details[i].space, details[i].count, details[i].signature);
+                stdout_messbge("%10d %10d %s\n",
+                    detbils[i].spbce, detbils[i].count, detbils[i].signbture);
             }
-            stdout_message("---------- ---------- ----------------------\n\n");
+            stdout_messbge("---------- ---------- ----------------------\n\n");
 
-            /* Free up all allocated space */
-            deallocate(jvmti, classes);
+            /* Free up bll bllocbted spbce */
+            debllocbte(jvmti, clbsses);
             for ( i = 0 ; i < count ; i++ ) {
-                if ( details[i].signature != NULL ) {
-                    free(details[i].signature);
+                if ( detbils[i].signbture != NULL ) {
+                    free(detbils[i].signbture);
                 }
             }
-            free(details);
+            free(detbils);
 
-            gdata->dumpInProgress = JNI_FALSE;
+            gdbtb->dumpInProgress = JNI_FALSE;
         }
     } exitAgentMonitor(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_INIT */
-static void JNICALL
-vmInit(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbck for JVMTI_EVENT_VM_INIT */
+stbtic void JNICALL
+vmInit(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
     enterAgentMonitor(jvmti); {
         jvmtiError          err;
 
-        err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+        err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
                             JVMTI_EVENT_DATA_DUMP_REQUEST, NULL);
-        check_jvmti_error(jvmti, err, "set event notification");
+        check_jvmti_error(jvmti, err, "set event notificbtion");
     } exitAgentMonitor(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_DEATH */
-static void JNICALL
-vmDeath(jvmtiEnv *jvmti, JNIEnv *env)
+/* Cbllbbck for JVMTI_EVENT_VM_DEATH */
+stbtic void JNICALL
+vmDebth(jvmtiEnv *jvmti, JNIEnv *env)
 {
     jvmtiError          err;
 
-    /* Make sure everything has been garbage collected */
-    err = (*jvmti)->ForceGarbageCollection(jvmti);
-    check_jvmti_error(jvmti, err, "force garbage collection");
+    /* Mbke sure everything hbs been gbrbbge collected */
+    err = (*jvmti)->ForceGbrbbgeCollection(jvmti);
+    check_jvmti_error(jvmti, err, "force gbrbbge collection");
 
-    /* Disable events and dump the heap information */
+    /* Disbble events bnd dump the hebp informbtion */
     enterAgentMonitor(jvmti); {
-        err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_DISABLE,
+        err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_DISABLE,
                             JVMTI_EVENT_DATA_DUMP_REQUEST, NULL);
-        check_jvmti_error(jvmti, err, "set event notification");
+        check_jvmti_error(jvmti, err, "set event notificbtion");
 
-        dataDumpRequest(jvmti);
+        dbtbDumpRequest(jvmti);
 
-        gdata->vmDeathCalled = JNI_TRUE;
+        gdbtb->vmDebthCblled = JNI_TRUE;
     } exitAgentMonitor(jvmti);
 }
 
-/* Agent_OnLoad() is called first, we prepare for a VM_INIT event here. */
+/* Agent_OnLobd() is cblled first, we prepbre for b VM_INIT event here. */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agent_OnLobd(JbvbVM *vm, chbr *options, void *reserved)
 {
     jint                rc;
     jvmtiError          err;
-    jvmtiCapabilities   capabilities;
-    jvmtiEventCallbacks callbacks;
+    jvmtiCbpbbilities   cbpbbilities;
+    jvmtiEventCbllbbcks cbllbbcks;
     jvmtiEnv           *jvmti;
 
     /* Get JVMTI environment */
     jvmti = NULL;
     rc = (*vm)->GetEnv(vm, (void **)&jvmti, JVMTI_VERSION);
     if (rc != JNI_OK) {
-        fatal_error("ERROR: Unable to create jvmtiEnv, error=%d\n", rc);
+        fbtbl_error("ERROR: Unbble to crebte jvmtiEnv, error=%d\n", rc);
         return -1;
     }
     if ( jvmti == NULL ) {
-        fatal_error("ERROR: No jvmtiEnv* returned from GetEnv\n");
+        fbtbl_error("ERROR: No jvmtiEnv* returned from GetEnv\n");
     }
 
-    /* Get/Add JVMTI capabilities */
-    (void)memset(&capabilities, 0, sizeof(capabilities));
-    capabilities.can_tag_objects = 1;
-    capabilities.can_generate_garbage_collection_events = 1;
-    err = (*jvmti)->AddCapabilities(jvmti, &capabilities);
-    check_jvmti_error(jvmti, err, "add capabilities");
+    /* Get/Add JVMTI cbpbbilities */
+    (void)memset(&cbpbbilities, 0, sizeof(cbpbbilities));
+    cbpbbilities.cbn_tbg_objects = 1;
+    cbpbbilities.cbn_generbte_gbrbbge_collection_events = 1;
+    err = (*jvmti)->AddCbpbbilities(jvmti, &cbpbbilities);
+    check_jvmti_error(jvmti, err, "bdd cbpbbilities");
 
-    /* Create the raw monitor */
-    err = (*jvmti)->CreateRawMonitor(jvmti, "agent lock", &(gdata->lock));
-    check_jvmti_error(jvmti, err, "create raw monitor");
+    /* Crebte the rbw monitor */
+    err = (*jvmti)->CrebteRbwMonitor(jvmti, "bgent lock", &(gdbtb->lock));
+    check_jvmti_error(jvmti, err, "crebte rbw monitor");
 
-    /* Set callbacks and enable event notifications */
-    memset(&callbacks, 0, sizeof(callbacks));
-    callbacks.VMInit                  = &vmInit;
-    callbacks.VMDeath                 = &vmDeath;
-    callbacks.DataDumpRequest         = &dataDumpRequest;
-    err = (*jvmti)->SetEventCallbacks(jvmti, &callbacks, sizeof(callbacks));
-    check_jvmti_error(jvmti, err, "set event callbacks");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    /* Set cbllbbcks bnd enbble event notificbtions */
+    memset(&cbllbbcks, 0, sizeof(cbllbbcks));
+    cbllbbcks.VMInit                  = &vmInit;
+    cbllbbcks.VMDebth                 = &vmDebth;
+    cbllbbcks.DbtbDumpRequest         = &dbtbDumpRequest;
+    err = (*jvmti)->SetEventCbllbbcks(jvmti, &cbllbbcks, sizeof(cbllbbcks));
+    check_jvmti_error(jvmti, err, "set event cbllbbcks");
+    err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_VM_INIT, NULL);
-    check_jvmti_error(jvmti, err, "set event notifications");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    check_jvmti_error(jvmti, err, "set event notificbtions");
+    err = (*jvmti)->SetEventNotificbtionMode(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_VM_DEATH, NULL);
-    check_jvmti_error(jvmti, err, "set event notifications");
+    check_jvmti_error(jvmti, err, "set event notificbtions");
     return 0;
 }
 
-/* Agent_OnUnload() is called last */
+/* Agent_OnUnlobd() is cblled lbst */
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agent_OnUnlobd(JbvbVM *vm)
 {
 }

@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.SetOfIntegerSyntax;
-import javax.print.attribute.SupportedValuesAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.SetOfIntegerSyntbx;
+import jbvbx.print.bttribute.SupportedVbluesAttribute;
 
 /**
- * Class NumberUpSupported is a printing attribute class, a set of integers,
- * that gives the supported values for a {@link NumberUp NumberUp} attribute.
+ * Clbss NumberUpSupported is b printing bttribute clbss, b set of integers,
+ * thbt gives the supported vblues for b {@link NumberUp NumberUp} bttribute.
  * <P>
- * <B>IPP Compatibility:</B> The NumberUpSupported attribute's canonical array
- * form gives the lower and upper bound for each range of number-up to be
- * included in an IPP "number-up-supported" attribute. See class {@link
- * javax.print.attribute.SetOfIntegerSyntax SetOfIntegerSyntax} for an
- * explanation of canonical array form. The category name returned by
- * <CODE>getName()</CODE> gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> The NumberUpSupported bttribute's cbnonicbl brrby
+ * form gives the lower bnd upper bound for ebch rbnge of number-up to be
+ * included in bn IPP "number-up-supported" bttribute. See clbss {@link
+ * jbvbx.print.bttribute.SetOfIntegerSyntbx SetOfIntegerSyntbx} for bn
+ * explbnbtion of cbnonicbl brrby form. The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> gives the IPP bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class NumberUpSupported    extends SetOfIntegerSyntax
-        implements SupportedValuesAttribute {
+public finbl clbss NumberUpSupported    extends SetOfIntegerSyntbx
+        implements SupportedVbluesAttribute {
 
-     private static final long serialVersionUID = -1041573395759141805L;
+     privbte stbtic finbl long seriblVersionUID = -1041573395759141805L;
 
 
     /**
-     * Construct a new number up supported attribute with the given members.
-     * The supported values for NumberUp are specified in "array form;" see
-     * class
-     * {@link javax.print.attribute.SetOfIntegerSyntax SetOfIntegerSyntax}
-     * for an explanation of array form.
+     * Construct b new number up supported bttribute with the given members.
+     * The supported vblues for NumberUp bre specified in "brrby form;" see
+     * clbss
+     * {@link jbvbx.print.bttribute.SetOfIntegerSyntbx SetOfIntegerSyntbx}
+     * for bn explbnbtion of brrby form.
      *
-     * @param  members  Set members in array form.
+     * @pbrbm  members  Set members in brrby form.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>members</CODE> is null or
-     *     any element of <CODE>members</CODE> is null.
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if any element of
-     *   <CODE>members</CODE> is not a length-one or length-two array. Also
-     *    thrown if <CODE>members</CODE> is a zero-length array or if any
-     *    member of the set is less than 1.
+     *     bny element of <CODE>members</CODE> is null.
+     * @exception  IllegblArgumentException
+     *     (unchecked exception) Thrown if bny element of
+     *   <CODE>members</CODE> is not b length-one or length-two brrby. Also
+     *    thrown if <CODE>members</CODE> is b zero-length brrby or if bny
+     *    member of the set is less thbn 1.
      */
     public NumberUpSupported(int[][] members) {
         super (members);
@@ -73,105 +73,105 @@ public final class NumberUpSupported    extends SetOfIntegerSyntax
         int[][] myMembers = getMembers();
         int n = myMembers.length;
         if (n == 0) {
-            throw new IllegalArgumentException("members is zero-length");
+            throw new IllegblArgumentException("members is zero-length");
         }
         int i;
         for (i = 0; i < n; ++ i) {
             if (myMembers[i][0] < 1) {
-                throw new IllegalArgumentException
-                    ("Number up value must be > 0");
+                throw new IllegblArgumentException
+                    ("Number up vblue must be > 0");
             }
         }
     }
 
     /**
-     * Construct a new number up supported attribute containing a single
-     * integer. That is, only the one value of NumberUp is supported.
+     * Construct b new number up supported bttribute contbining b single
+     * integer. Thbt is, only the one vblue of NumberUp is supported.
      *
-     * @param  member  Set member.
+     * @pbrbm  member  Set member.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if <CODE>member</CODE> is less than
+     * @exception  IllegblArgumentException
+     *     (Unchecked exception) Thrown if <CODE>member</CODE> is less thbn
      *     1.
      */
     public NumberUpSupported(int member) {
         super (member);
         if (member < 1) {
-            throw new IllegalArgumentException("Number up value must be > 0");
+            throw new IllegblArgumentException("Number up vblue must be > 0");
         }
     }
 
     /**
-     * Construct a new number up supported attribute containing a single range
-     * of integers. That is, only those values of NumberUp in the one range are
+     * Construct b new number up supported bttribute contbining b single rbnge
+     * of integers. Thbt is, only those vblues of NumberUp in the one rbnge bre
      * supported.
      *
-     * @param  lowerBound  Lower bound of the range.
-     * @param  upperBound  Upper bound of the range.
+     * @pbrbm  lowerBound  Lower bound of the rbnge.
+     * @pbrbm  upperBound  Upper bound of the rbnge.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if a null range is specified or if a
-     *     non-null range is specified with <CODE>lowerBound</CODE> less than
+     * @exception  IllegblArgumentException
+     *     (Unchecked exception) Thrown if b null rbnge is specified or if b
+     *     non-null rbnge is specified with <CODE>lowerBound</CODE> less thbn
      *     1.
      */
     public NumberUpSupported(int lowerBound, int upperBound) {
         super (lowerBound, upperBound);
         if (lowerBound > upperBound) {
-            throw new IllegalArgumentException("Null range specified");
+            throw new IllegblArgumentException("Null rbnge specified");
         } else if (lowerBound < 1) {
-            throw new IllegalArgumentException
-                ("Number up value must be > 0");
+            throw new IllegblArgumentException
+                ("Number up vblue must be > 0");
         }
     }
 
     /**
-     * Returns whether this number up supported attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions
+     * Returns whether this number up supported bttribute is equivblent to the
+     * pbssed in object. To be equivblent, bll of the following conditions
      * must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class NumberUpSupported.
+     * <CODE>object</CODE> is bn instbnce of clbss NumberUpSupported.
      * <LI>
-     * This number up supported attribute's members and <CODE>object</CODE>'s
-     * members are the same.
+     * This number up supported bttribute's members bnd <CODE>object</CODE>'s
+     * members bre the sbme.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this number up
-     *          supported attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this number up
+     *          supported bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        return (super.equals (object) &&
-                object instanceof NumberUpSupported);
+    public boolebn equbls(Object object) {
+        return (super.equbls (object) &&
+                object instbnceof NumberUpSupported);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class NumberUpSupported, the
-     * category is class NumberUpSupported itself.
+     * For clbss NumberUpSupported, the
+     * cbtegory is clbss NumberUpSupported itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return NumberUpSupported.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return NumberUpSupported.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class NumberUpSupported, the
-     * category name is <CODE>"number-up-supported"</CODE>.
+     * For clbss NumberUpSupported, the
+     * cbtegory nbme is <CODE>"number-up-supported"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "number-up-supported";
     }
 

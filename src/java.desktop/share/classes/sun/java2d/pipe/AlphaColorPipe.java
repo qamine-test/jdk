@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- * This class implements a CompositePipe that renders path alpha tiles
- * into a destination that supports direct alpha compositing of a solid
- * color, according to one of the rules in the AlphaComposite class.
+ * This clbss implements b CompositePipe thbt renders pbth blphb tiles
+ * into b destinbtion thbt supports direct blphb compositing of b solid
+ * color, bccording to one of the rules in the AlphbComposite clbss.
  */
-public class AlphaColorPipe implements CompositePipe, ParallelogramPipe {
-    public AlphaColorPipe() {
+public clbss AlphbColorPipe implements CompositePipe, PbrbllelogrbmPipe {
+    public AlphbColorPipe() {
     }
 
-    public Object startSequence(SunGraphics2D sg, Shape s, Rectangle dev,
-                                int[] abox) {
+    public Object stbrtSequence(SunGrbphics2D sg, Shbpe s, Rectbngle dev,
+                                int[] bbox) {
         return sg;
     }
 
-    public boolean needTile(Object context, int x, int y, int w, int h) {
+    public boolebn needTile(Object context, int x, int y, int w, int h) {
         return true;
     }
 
-    public void renderPathTile(Object context,
-                               byte[] atile, int offset, int tilesize,
+    public void renderPbthTile(Object context,
+                               byte[] btile, int offset, int tilesize,
                                int x, int y, int w, int h) {
-        SunGraphics2D sg = (SunGraphics2D) context;
+        SunGrbphics2D sg = (SunGrbphics2D) context;
 
-        sg.alphafill.MaskFill(sg, sg.getSurfaceData(), sg.composite,
+        sg.blphbfill.MbskFill(sg, sg.getSurfbceDbtb(), sg.composite,
                               x, y, w, h,
-                              atile, offset, tilesize);
+                              btile, offset, tilesize);
     }
 
     public void skipTile(Object context, int x, int y) {
@@ -65,18 +65,18 @@ public class AlphaColorPipe implements CompositePipe, ParallelogramPipe {
         return;
     }
 
-    public void fillParallelogram(SunGraphics2D sg,
+    public void fillPbrbllelogrbm(SunGrbphics2D sg,
                                   double ux1, double uy1,
                                   double ux2, double uy2,
                                   double x, double y,
                                   double dx1, double dy1,
                                   double dx2, double dy2)
     {
-        sg.alphafill.FillAAPgram(sg, sg.getSurfaceData(), sg.composite,
+        sg.blphbfill.FillAAPgrbm(sg, sg.getSurfbceDbtb(), sg.composite,
                                  x, y, dx1, dy1, dx2, dy2);
     }
 
-    public void drawParallelogram(SunGraphics2D sg,
+    public void drbwPbrbllelogrbm(SunGrbphics2D sg,
                                   double ux1, double uy1,
                                   double ux2, double uy2,
                                   double x, double y,
@@ -84,7 +84,7 @@ public class AlphaColorPipe implements CompositePipe, ParallelogramPipe {
                                   double dx2, double dy2,
                                   double lw1, double lw2)
     {
-        sg.alphafill.DrawAAPgram(sg, sg.getSurfaceData(), sg.composite,
+        sg.blphbfill.DrbwAAPgrbm(sg, sg.getSurfbceDbtb(), sg.composite,
                                  x, y, dx1, dy1, dx2, dy2, lw1, lw2);
     }
 }

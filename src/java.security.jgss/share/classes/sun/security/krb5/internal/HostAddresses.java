@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
-import sun.security.krb5.PrincipalName;
+import sun.security.krb5.PrincipblNbme;
 import sun.security.krb5.KrbException;
 import sun.security.krb5.Asn1Exception;
 import sun.security.util.*;
-import java.util.Vector;
-import java.util.ArrayList;
-import java.net.InetAddress;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.UnknownHostException;
-import java.io.IOException;
-import sun.security.krb5.internal.ccache.CCacheOutputStream;
+import jbvb.util.Vector;
+import jbvb.util.ArrbyList;
+import jbvb.net.InetAddress;
+import jbvb.net.Inet4Address;
+import jbvb.net.Inet6Address;
+import jbvb.net.UnknownHostException;
+import jbvb.io.IOException;
+import sun.security.krb5.internbl.ccbche.CCbcheOutputStrebm;
 
 /**
  * Implements the ASN.1 HostAddresses type.
  *
  * <xmp>
  * HostAddresses   -- NOTE: subtly different from rfc1510,
- *                 -- but has a value mapping and encodes the same
+ *                 -- but hbs b vblue mbpping bnd encodes the sbme
  *         ::= SEQUENCE OF HostAddress
  *
  * HostAddress     ::= SEQUENCE  {
- *         addr-type       [0] Int32,
- *         address         [1] OCTET STRING
+ *         bddr-type       [0] Int32,
+ *         bddress         [1] OCTET STRING
  * }
  * </xmp>
  *
  * <p>
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
 
-public class HostAddresses implements Cloneable {
-    private static boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
-    private HostAddress[] addresses = null;
-    private volatile int hashCode = 0;
+public clbss HostAddresses implements Clonebble {
+    privbte stbtic boolebn DEBUG = sun.security.krb5.internbl.Krb5.DEBUG;
+    privbte HostAddress[] bddresses = null;
+    privbte volbtile int hbshCode = 0;
 
-    public HostAddresses(HostAddress[] new_addresses) throws IOException {
-        if (new_addresses != null) {
-           addresses = new HostAddress[new_addresses.length];
-           for (int i = 0; i < new_addresses.length; i++) {
-                if (new_addresses[i] == null) {
-                   throw new IOException("Cannot create a HostAddress");
+    public HostAddresses(HostAddress[] new_bddresses) throws IOException {
+        if (new_bddresses != null) {
+           bddresses = new HostAddress[new_bddresses.length];
+           for (int i = 0; i < new_bddresses.length; i++) {
+                if (new_bddresses[i] == null) {
+                   throw new IOException("Cbnnot crebte b HostAddress");
                 } else {
-                   addresses[i] = (HostAddress)new_addresses[i].clone();
+                   bddresses[i] = (HostAddress)new_bddresses[i].clone();
                 }
            }
         }
     }
 
     public HostAddresses() throws UnknownHostException {
-        addresses = new HostAddress[1];
-        addresses[0] = new HostAddress();
+        bddresses = new HostAddress[1];
+        bddresses[0] = new HostAddress();
     }
 
-    private HostAddresses(int dummy) {}
+    privbte HostAddresses(int dummy) {}
 
-    public HostAddresses(PrincipalName serverPrincipal)
+    public HostAddresses(PrincipblNbme serverPrincipbl)
         throws UnknownHostException, KrbException {
 
-        String[] components = serverPrincipal.getNameStrings();
+        String[] components = serverPrincipbl.getNbmeStrings();
 
-        if (serverPrincipal.getNameType() != PrincipalName.KRB_NT_SRV_HST ||
+        if (serverPrincipbl.getNbmeType() != PrincipblNbme.KRB_NT_SRV_HST ||
             components.length < 2)
-            throw new KrbException(Krb5.KRB_ERR_GENERIC, "Bad name");
+            throw new KrbException(Krb5.KRB_ERR_GENERIC, "Bbd nbme");
 
         String host = components[1];
-        InetAddress addr[] = InetAddress.getAllByName(host);
-        HostAddress hAddrs[] = new HostAddress[addr.length];
+        InetAddress bddr[] = InetAddress.getAllByNbme(host);
+        HostAddress hAddrs[] = new HostAddress[bddr.length];
 
-        for (int i = 0; i < addr.length; i++) {
-            hAddrs[i] = new HostAddress(addr[i]);
+        for (int i = 0; i < bddr.length; i++) {
+            hAddrs[i] = new HostAddress(bddr[i]);
         }
 
-        addresses = hAddrs;
+        bddresses = hAddrs;
     }
 
     public Object clone() {
         HostAddresses new_hostAddresses = new HostAddresses(0);
-        if (addresses != null) {
-            new_hostAddresses.addresses = new HostAddress[addresses.length];
-            for (int i = 0; i < addresses.length; i++) {
-                new_hostAddresses.addresses[i] =
-                        (HostAddress)addresses[i].clone();
+        if (bddresses != null) {
+            new_hostAddresses.bddresses = new HostAddress[bddresses.length];
+            for (int i = 0; i < bddresses.length; i++) {
+                new_hostAddresses.bddresses[i] =
+                        (HostAddress)bddresses[i].clone();
             }
         }
         return new_hostAddresses;
     }
 
-    public boolean inList(HostAddress addr) {
-        if (addresses != null) {
-            for (int i = 0; i < addresses.length; i++)
-                if (addresses[i].equals(addr))
+    public boolebn inList(HostAddress bddr) {
+        if (bddresses != null) {
+            for (int i = 0; i < bddresses.length; i++)
+                if (bddresses[i].equbls(bddr))
                     return true;
         }
-        return false;
+        return fblse;
     }
 
-    public int hashCode() {
-        if (hashCode == 0) {
+    public int hbshCode() {
+        if (hbshCode == 0) {
             int result = 17;
-            if (addresses != null) {
-                for (int i=0; i < addresses.length; i++)  {
-                    result = 37*result + addresses[i].hashCode();
+            if (bddresses != null) {
+                for (int i=0; i < bddresses.length; i++)  {
+                    result = 37*result + bddresses[i].hbshCode();
                 }
             }
-            hashCode = result;
+            hbshCode = result;
         }
-        return hashCode;
+        return hbshCode;
 
     }
 
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof HostAddresses)) {
-            return false;
+        if (!(obj instbnceof HostAddresses)) {
+            return fblse;
         }
 
-        HostAddresses addrs = (HostAddresses)obj;
-        if ((addresses == null && addrs.addresses != null) ||
-            (addresses != null && addrs.addresses == null))
-            return false;
-        if (addresses != null && addrs.addresses != null) {
-            if (addresses.length != addrs.addresses.length)
-                return false;
-            for (int i = 0; i < addresses.length; i++)
-                if (!addresses[i].equals(addrs.addresses[i]))
-                    return false;
+        HostAddresses bddrs = (HostAddresses)obj;
+        if ((bddresses == null && bddrs.bddresses != null) ||
+            (bddresses != null && bddrs.bddresses == null))
+            return fblse;
+        if (bddresses != null && bddrs.bddresses != null) {
+            if (bddresses.length != bddrs.bddresses.length)
+                return fblse;
+            for (int i = 0; i < bddresses.length; i++)
+                if (!bddresses[i].equbls(bddrs.bddresses[i]))
+                    return fblse;
         }
         return true;
     }
 
    /**
-    * Constructs a new <code>HostAddresses</code> object.
-    * @param encoding a single DER-encoded value.
-    * @exception Asn1Exception if an error occurs while decoding an
-    * ASN1 encoded data.
-    * @exception IOException if an I/O error occurs while reading
-    * encoded data.
+    * Constructs b new <code>HostAddresses</code> object.
+    * @pbrbm encoding b single DER-encoded vblue.
+    * @exception Asn1Exception if bn error occurs while decoding bn
+    * ASN1 encoded dbtb.
+    * @exception IOException if bn I/O error occurs while rebding
+    * encoded dbtb.
     */
-    public HostAddresses(DerValue encoding)
+    public HostAddresses(DerVblue encoding)
         throws  Asn1Exception, IOException {
         Vector<HostAddress> tempAddresses = new Vector<>();
-        DerValue der = null;
-        while (encoding.getData().available() > 0) {
-            der = encoding.getData().getDerValue();
-            tempAddresses.addElement(new HostAddress(der));
+        DerVblue der = null;
+        while (encoding.getDbtb().bvbilbble() > 0) {
+            der = encoding.getDbtb().getDerVblue();
+            tempAddresses.bddElement(new HostAddress(der));
         }
         if (tempAddresses.size() > 0) {
-            addresses = new HostAddress[tempAddresses.size()];
-            tempAddresses.copyInto(addresses);
+            bddresses = new HostAddress[tempAddresses.size()];
+            tempAddresses.copyInto(bddresses);
         }
     }
 
 
    /**
-    * Encodes a <code>HostAddresses</code> object.
-    * @return byte array of encoded <code>HostAddresses</code> object.
-    * @exception Asn1Exception if an error occurs while decoding an
-    * ASN1 encoded data.
-    * @exception IOException if an I/O error occurs while reading
-    * encoded data.
+    * Encodes b <code>HostAddresses</code> object.
+    * @return byte brrby of encoded <code>HostAddresses</code> object.
+    * @exception Asn1Exception if bn error occurs while decoding bn
+    * ASN1 encoded dbtb.
+    * @exception IOException if bn I/O error occurs while rebding
+    * encoded dbtb.
     */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
 
-        if (addresses != null && addresses.length > 0) {
-            for (int i = 0; i < addresses.length; i++)
-                bytes.write(addresses[i].asn1Encode());
+        if (bddresses != null && bddresses.length > 0) {
+            for (int i = 0; i < bddresses.length; i++)
+                bytes.write(bddresses[i].bsn1Encode());
         }
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        return temp.toByteArrby();
     }
 
     /**
-     * Parse (unmarshal) a <code>HostAddresses</code> from a DER input stream.
+     * Pbrse (unmbrshbl) b <code>HostAddresses</code> from b DER input strebm.
      * This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * pbrsing might be used when expbnding b vblue which is pbrt of
+     * b constructed sequence bnd uses explicitly tbgged type.
      *
-     * @exception Asn1Exception if an Asn1Exception occurs.
-     * @param data the Der input stream value, which contains one or more
-     * marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicates if this data field is optional.
-     * @return an instance of <code>HostAddresses</code>.
+     * @exception Asn1Exception if bn Asn1Exception occurs.
+     * @pbrbm dbtb the Der input strebm vblue, which contbins one or more
+     * mbrshbled vblue.
+     * @pbrbm explicitTbg tbg number.
+     * @pbrbm optionbl indicbtes if this dbtb field is optionbl.
+     * @return bn instbnce of <code>HostAddresses</code>.
      */
-    public static HostAddresses parse(DerInputStream data,
-                                      byte explicitTag, boolean optional)
+    public stbtic HostAddresses pbrse(DerInputStrebm dbtb,
+                                      byte explicitTbg, boolebn optionbl)
         throws Asn1Exception, IOException {
-        if ((optional) &&
-            (((byte)data.peekByte() & (byte)0x1F) != explicitTag))
+        if ((optionbl) &&
+            (((byte)dbtb.peekByte() & (byte)0x1F) != explicitTbg))
             return null;
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
+        DerVblue der = dbtb.getDerVblue();
+        if (explicitTbg != (der.getTbg() & (byte)0x1F))  {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         } else {
-            DerValue subDer = der.getData().getDerValue();
+            DerVblue subDer = der.getDbtb().getDerVblue();
             return new HostAddresses(subDer);
         }
     }
 
     /**
-         * Writes data field values in <code>HostAddresses</code> in FCC
-         * format to a <code>CCacheOutputStream</code>.
+         * Writes dbtb field vblues in <code>HostAddresses</code> in FCC
+         * formbt to b <code>CCbcheOutputStrebm</code>.
          *
-         * @param cos a <code>CCacheOutputStream</code> to be written to.
-         * @exception IOException if an I/O exception occurs.
-         * @see sun.security.krb5.internal.ccache.CCacheOutputStream
+         * @pbrbm cos b <code>CCbcheOutputStrebm</code> to be written to.
+         * @exception IOException if bn I/O exception occurs.
+         * @see sun.security.krb5.internbl.ccbche.CCbcheOutputStrebm
          */
 
-    public void writeAddrs(CCacheOutputStream cos) throws IOException {
-        cos.write32(addresses.length);
-        for (int i = 0; i < addresses.length; i++) {
-            cos.write16(addresses[i].addrType);
-            cos.write32(addresses[i].address.length);
-            cos.write(addresses[i].address, 0,
-                      addresses[i].address.length);
+    public void writeAddrs(CCbcheOutputStrebm cos) throws IOException {
+        cos.write32(bddresses.length);
+        for (int i = 0; i < bddresses.length; i++) {
+            cos.write16(bddresses[i].bddrType);
+            cos.write32(bddresses[i].bddress.length);
+            cos.write(bddresses[i].bddress, 0,
+                      bddresses[i].bddress.length);
         }
     }
 
 
     public InetAddress[] getInetAddresses() {
 
-        if (addresses == null || addresses.length == 0)
+        if (bddresses == null || bddresses.length == 0)
             return null;
 
-        ArrayList<InetAddress> ipAddrs = new ArrayList<>(addresses.length);
+        ArrbyList<InetAddress> ipAddrs = new ArrbyList<>(bddresses.length);
 
-        for (int i = 0; i < addresses.length; i++) {
+        for (int i = 0; i < bddresses.length; i++) {
             try {
-                if ((addresses[i].addrType == Krb5.ADDRTYPE_INET) ||
-                    (addresses[i].addrType == Krb5.ADDRTYPE_INET6)) {
-                    ipAddrs.add(addresses[i].getInetAddress());
+                if ((bddresses[i].bddrType == Krb5.ADDRTYPE_INET) ||
+                    (bddresses[i].bddrType == Krb5.ADDRTYPE_INET6)) {
+                    ipAddrs.bdd(bddresses[i].getInetAddress());
                 }
-            } catch (java.net.UnknownHostException e) {
-                // Should not happen since IP address given
+            } cbtch (jbvb.net.UnknownHostException e) {
+                // Should not hbppen since IP bddress given
                 return null;
             }
         }
 
-        InetAddress[] retVal = new InetAddress[ipAddrs.size()];
-        return ipAddrs.toArray(retVal);
+        InetAddress[] retVbl = new InetAddress[ipAddrs.size()];
+        return ipAddrs.toArrby(retVbl);
 
     }
 
     /**
-     * Returns all the IP addresses of the local host.
+     * Returns bll the IP bddresses of the locbl host.
      */
-    public static HostAddresses getLocalAddresses() throws IOException
+    public stbtic HostAddresses getLocblAddresses() throws IOException
     {
-        String hostname = null;
+        String hostnbme = null;
         InetAddress[] inetAddresses = null;
         try {
-            InetAddress localHost = InetAddress.getLocalHost();
-            hostname = localHost.getHostName();
-            inetAddresses = InetAddress.getAllByName(hostname);
+            InetAddress locblHost = InetAddress.getLocblHost();
+            hostnbme = locblHost.getHostNbme();
+            inetAddresses = InetAddress.getAllByNbme(hostnbme);
             HostAddress[] hAddresses = new HostAddress[inetAddresses.length];
             for (int i = 0; i < inetAddresses.length; i++)
                 {
                     hAddresses[i] = new HostAddress(inetAddresses[i]);
                 }
             if (DEBUG) {
-                System.out.println(">>> KrbKdcReq local addresses for "
-                                   + hostname + " are: ");
+                System.out.println(">>> KrbKdcReq locbl bddresses for "
+                                   + hostnbme + " bre: ");
 
                 for (int i = 0; i < inetAddresses.length; i++) {
                     System.out.println("\n\t" + inetAddresses[i]);
-                    if (inetAddresses[i] instanceof Inet4Address)
-                        System.out.println("IPv4 address");
-                    if (inetAddresses[i] instanceof Inet6Address)
-                        System.out.println("IPv6 address");
+                    if (inetAddresses[i] instbnceof Inet4Address)
+                        System.out.println("IPv4 bddress");
+                    if (inetAddresses[i] instbnceof Inet6Address)
+                        System.out.println("IPv6 bddress");
                 }
             }
             return (new HostAddresses(hAddresses));
-        } catch (Exception exc) {
+        } cbtch (Exception exc) {
             throw new IOException(exc.toString());
         }
 
     }
 
     /**
-     * Creates a new HostAddresses instance from the supplied list
+     * Crebtes b new HostAddresses instbnce from the supplied list
      * of InetAddresses.
      */
     public HostAddresses(InetAddress[] inetAddresses)
     {
         if (inetAddresses == null)
             {
-                addresses = null;
+                bddresses = null;
                 return;
             }
 
-        addresses = new HostAddress[inetAddresses.length];
+        bddresses = new HostAddress[inetAddresses.length];
         for (int i = 0; i < inetAddresses.length; i++)
-            addresses[i] = new HostAddress(inetAddresses[i]);
+            bddresses[i] = new HostAddress(inetAddresses[i]);
     }
 }

@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.util.EventObject;
-import javax.swing.*;
+import jbvb.util.EventObject;
+import jbvbx.swing.*;
 
 
 /**
- * An event that characterizes a change in selection. The change is limited to a
- * a single inclusive interval. The selection of at least one index within the
- * range will have changed. A decent {@code ListSelectionModel} implementation
- * will keep the range as small as possible. {@code ListSelectionListeners} will
- * generally query the source of the event for the new selected status of each
- * potentially changed row.
+ * An event thbt chbrbcterizes b chbnge in selection. The chbnge is limited to b
+ * b single inclusive intervbl. The selection of bt lebst one index within the
+ * rbnge will hbve chbnged. A decent {@code ListSelectionModel} implementbtion
+ * will keep the rbnge bs smbll bs possible. {@code ListSelectionListeners} will
+ * generblly query the source of the event for the new selected stbtus of ebch
+ * potentiblly chbnged row.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Hans Muller
- * @author Ray Ryan
+ * @buthor Hbns Muller
+ * @buthor Rby Rybn
  * @see ListSelectionModel
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class ListSelectionEvent extends EventObject
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss ListSelectionEvent extends EventObject
 {
-    private int firstIndex;
-    private int lastIndex;
-    private boolean isAdjusting;
+    privbte int firstIndex;
+    privbte int lbstIndex;
+    privbte boolebn isAdjusting;
 
     /**
-     * Represents a change in selection status between {@code firstIndex} and
-     * {@code lastIndex}, inclusive. {@code firstIndex} is less than or equal to
-     * {@code lastIndex}. The selection of at least one index within the range will
-     * have changed.
+     * Represents b chbnge in selection stbtus between {@code firstIndex} bnd
+     * {@code lbstIndex}, inclusive. {@code firstIndex} is less thbn or equbl to
+     * {@code lbstIndex}. The selection of bt lebst one index within the rbnge will
+     * hbve chbnged.
      *
-     * @param source the {@code Object} on which the event initially occurred
-     * @param firstIndex the first index in the range, &lt;= lastIndex
-     * @param lastIndex the last index in the range, &gt;= firstIndex
-     * @param isAdjusting whether or not this is one in a series of
-     *        multiple events, where changes are still being made
+     * @pbrbm source the {@code Object} on which the event initiblly occurred
+     * @pbrbm firstIndex the first index in the rbnge, &lt;= lbstIndex
+     * @pbrbm lbstIndex the lbst index in the rbnge, &gt;= firstIndex
+     * @pbrbm isAdjusting whether or not this is one in b series of
+     *        multiple events, where chbnges bre still being mbde
      */
-    public ListSelectionEvent(Object source, int firstIndex, int lastIndex,
-                              boolean isAdjusting)
+    public ListSelectionEvent(Object source, int firstIndex, int lbstIndex,
+                              boolebn isAdjusting)
     {
         super(source);
         this.firstIndex = firstIndex;
-        this.lastIndex = lastIndex;
+        this.lbstIndex = lbstIndex;
         this.isAdjusting = isAdjusting;
     }
 
     /**
-     * Returns the index of the first row whose selection may have changed.
-     * {@code getFirstIndex() &lt;= getLastIndex()}
+     * Returns the index of the first row whose selection mby hbve chbnged.
+     * {@code getFirstIndex() &lt;= getLbstIndex()}
      *
-     * @return the first row whose selection value may have changed,
+     * @return the first row whose selection vblue mby hbve chbnged,
      *         where zero is the first row
      */
     public int getFirstIndex() { return firstIndex; }
 
     /**
-     * Returns the index of the last row whose selection may have changed.
-     * {@code getLastIndex() &gt;= getFirstIndex()}
+     * Returns the index of the lbst row whose selection mby hbve chbnged.
+     * {@code getLbstIndex() &gt;= getFirstIndex()}
      *
-     * @return the last row whose selection value may have changed,
+     * @return the lbst row whose selection vblue mby hbve chbnged,
      *         where zero is the first row
      */
-    public int getLastIndex() { return lastIndex; }
+    public int getLbstIndex() { return lbstIndex; }
 
     /**
-     * Returns whether or not this is one in a series of multiple events,
-     * where changes are still being made. See the documentation for
-     * {@link javax.swing.ListSelectionModel#setValueIsAdjusting} for
-     * more details on how this is used.
+     * Returns whether or not this is one in b series of multiple events,
+     * where chbnges bre still being mbde. See the documentbtion for
+     * {@link jbvbx.swing.ListSelectionModel#setVblueIsAdjusting} for
+     * more detbils on how this is used.
      *
-     * @return {@code true} if this is one in a series of multiple events,
-     *         where changes are still being made
+     * @return {@code true} if this is one in b series of multiple events,
+     *         where chbnges bre still being mbde
      */
-    public boolean getValueIsAdjusting() { return isAdjusting; }
+    public boolebn getVblueIsAdjusting() { return isAdjusting; }
 
     /**
-     * Returns a {@code String} that displays and identifies this
+     * Returns b {@code String} thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
     public String toString() {
         String properties =
             " source=" + getSource() +
             " firstIndex= " + firstIndex +
-            " lastIndex= " + lastIndex +
+            " lbstIndex= " + lbstIndex +
             " isAdjusting= " + isAdjusting +
             " ";
-        return getClass().getName() + "[" + properties + "]";
+        return getClbss().getNbme() + "[" + properties + "]";
     }
 }

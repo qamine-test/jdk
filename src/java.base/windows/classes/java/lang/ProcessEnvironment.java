@@ -1,215 +1,215 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* We use APIs that access a so-called Windows "Environment Block",
- * which looks like an array of jchars like this:
+/* We use APIs thbt bccess b so-cblled Windows "Environment Block",
+ * which looks like bn brrby of jchbrs like this:
  *
  * FOO=BAR\u0000 ... GORP=QUUX\u0000\u0000
  *
- * This data structure has a number of peculiarities we must contend with:
- * (see: http://windowssdk.msdn.microsoft.com/en-us/library/ms682009.aspx)
- * - The NUL jchar separators, and a double NUL jchar terminator.
- *   It appears that the Windows implementation requires double NUL
- *   termination even if the environment is empty.  We should always
- *   generate environments with double NUL termination, while accepting
- *   empty environments consisting of a single NUL.
- * - on Windows9x, this is actually an array of 8-bit chars, not jchars,
- *   encoded in the system default encoding.
- * - The block must be sorted by Unicode value, case-insensitively,
- *   as if folded to upper case.
- * - There are magic environment variables maintained by Windows
- *   that start with a `=' (!) character.  These are used for
+ * This dbtb structure hbs b number of peculibrities we must contend with:
+ * (see: http://windowssdk.msdn.microsoft.com/en-us/librbry/ms682009.bspx)
+ * - The NUL jchbr sepbrbtors, bnd b double NUL jchbr terminbtor.
+ *   It bppebrs thbt the Windows implementbtion requires double NUL
+ *   terminbtion even if the environment is empty.  We should blwbys
+ *   generbte environments with double NUL terminbtion, while bccepting
+ *   empty environments consisting of b single NUL.
+ * - on Windows9x, this is bctublly bn brrby of 8-bit chbrs, not jchbrs,
+ *   encoded in the system defbult encoding.
+ * - The block must be sorted by Unicode vblue, cbse-insensitively,
+ *   bs if folded to upper cbse.
+ * - There bre mbgic environment vbribbles mbintbined by Windows
+ *   thbt stbrt with b `=' (!) chbrbcter.  These bre used for
  *   Windows drive current directory (e.g. "=C:=C:\WINNT") or the
- *   exit code of the last command (e.g. "=ExitCode=0000001").
+ *   exit code of the lbst commbnd (e.g. "=ExitCode=0000001").
  *
- * Since Java and non-9x Windows speak the same character set, and
- * even the same encoding, we don't have to deal with unreliable
- * conversion to byte streams.  Just add a few NUL terminators.
+ * Since Jbvb bnd non-9x Windows spebk the sbme chbrbcter set, bnd
+ * even the sbme encoding, we don't hbve to debl with unrelibble
+ * conversion to byte strebms.  Just bdd b few NUL terminbtors.
  *
- * System.getenv(String) is case-insensitive, while System.getenv()
- * returns a map that is case-sensitive, which is consistent with
- * native Windows APIs.
+ * System.getenv(String) is cbse-insensitive, while System.getenv()
+ * returns b mbp thbt is cbse-sensitive, which is consistent with
+ * nbtive Windows APIs.
  *
- * The non-private methods in this class are not for general use even
- * within this package.  Instead, they are the system-dependent parts
- * of the system-independent method of the same name.  Don't even
- * think of using this class unless your method's name appears below.
+ * The non-privbte methods in this clbss bre not for generbl use even
+ * within this pbckbge.  Instebd, they bre the system-dependent pbrts
+ * of the system-independent method of the sbme nbme.  Don't even
+ * think of using this clbss unless your method's nbme bppebrs below.
  *
- * @author Martin Buchholz
+ * @buthor Mbrtin Buchholz
  * @since 1.5
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-final class ProcessEnvironment extends HashMap<String,String>
+finbl clbss ProcessEnvironment extends HbshMbp<String,String>
 {
 
-    private static final long serialVersionUID = -8017839552603542824L;
+    privbte stbtic finbl long seriblVersionUID = -8017839552603542824L;
 
-    private static String validateName(String name) {
-        // An initial `=' indicates a magic Windows variable name -- OK
-        if (name.indexOf('=', 1)   != -1 ||
-            name.indexOf('\u0000') != -1)
-            throw new IllegalArgumentException
-                ("Invalid environment variable name: \"" + name + "\"");
-        return name;
+    privbte stbtic String vblidbteNbme(String nbme) {
+        // An initibl `=' indicbtes b mbgic Windows vbribble nbme -- OK
+        if (nbme.indexOf('=', 1)   != -1 ||
+            nbme.indexOf('\u0000') != -1)
+            throw new IllegblArgumentException
+                ("Invblid environment vbribble nbme: \"" + nbme + "\"");
+        return nbme;
     }
 
-    private static String validateValue(String value) {
-        if (value.indexOf('\u0000') != -1)
-            throw new IllegalArgumentException
-                ("Invalid environment variable value: \"" + value + "\"");
-        return value;
+    privbte stbtic String vblidbteVblue(String vblue) {
+        if (vblue.indexOf('\u0000') != -1)
+            throw new IllegblArgumentException
+                ("Invblid environment vbribble vblue: \"" + vblue + "\"");
+        return vblue;
     }
 
-    private static String nonNullString(Object o) {
+    privbte stbtic String nonNullString(Object o) {
         if (o == null)
             throw new NullPointerException();
         return (String) o;
     }
 
-    public String put(String key, String value) {
-        return super.put(validateName(key), validateValue(value));
+    public String put(String key, String vblue) {
+        return super.put(vblidbteNbme(key), vblidbteVblue(vblue));
     }
 
     public String get(Object key) {
         return super.get(nonNullString(key));
     }
 
-    public boolean containsKey(Object key) {
-        return super.containsKey(nonNullString(key));
+    public boolebn contbinsKey(Object key) {
+        return super.contbinsKey(nonNullString(key));
     }
 
-    public boolean containsValue(Object value) {
-        return super.containsValue(nonNullString(value));
+    public boolebn contbinsVblue(Object vblue) {
+        return super.contbinsVblue(nonNullString(vblue));
     }
 
     public String remove(Object key) {
         return super.remove(nonNullString(key));
     }
 
-    private static class CheckedEntry
-        implements Map.Entry<String,String>
+    privbte stbtic clbss CheckedEntry
+        implements Mbp.Entry<String,String>
     {
-        private final Map.Entry<String,String> e;
-        public CheckedEntry(Map.Entry<String,String> e) {this.e = e;}
+        privbte finbl Mbp.Entry<String,String> e;
+        public CheckedEntry(Mbp.Entry<String,String> e) {this.e = e;}
         public String getKey()   { return e.getKey();}
-        public String getValue() { return e.getValue();}
-        public String setValue(String value) {
-            return e.setValue(validateValue(value));
+        public String getVblue() { return e.getVblue();}
+        public String setVblue(String vblue) {
+            return e.setVblue(vblidbteVblue(vblue));
         }
-        public String toString() { return getKey() + "=" + getValue();}
-        public boolean equals(Object o) {return e.equals(o);}
-        public int hashCode()    {return e.hashCode();}
+        public String toString() { return getKey() + "=" + getVblue();}
+        public boolebn equbls(Object o) {return e.equbls(o);}
+        public int hbshCode()    {return e.hbshCode();}
     }
 
-    private static class CheckedEntrySet
-        extends AbstractSet<Map.Entry<String,String>>
+    privbte stbtic clbss CheckedEntrySet
+        extends AbstrbctSet<Mbp.Entry<String,String>>
     {
-        private final Set<Map.Entry<String,String>> s;
-        public CheckedEntrySet(Set<Map.Entry<String,String>> s) {this.s = s;}
+        privbte finbl Set<Mbp.Entry<String,String>> s;
+        public CheckedEntrySet(Set<Mbp.Entry<String,String>> s) {this.s = s;}
         public int size()        {return s.size();}
-        public boolean isEmpty() {return s.isEmpty();}
-        public void clear()      {       s.clear();}
-        public Iterator<Map.Entry<String,String>> iterator() {
-            return new Iterator<Map.Entry<String,String>>() {
-                Iterator<Map.Entry<String,String>> i = s.iterator();
-                public boolean hasNext() { return i.hasNext();}
-                public Map.Entry<String,String> next() {
+        public boolebn isEmpty() {return s.isEmpty();}
+        public void clebr()      {       s.clebr();}
+        public Iterbtor<Mbp.Entry<String,String>> iterbtor() {
+            return new Iterbtor<Mbp.Entry<String,String>>() {
+                Iterbtor<Mbp.Entry<String,String>> i = s.iterbtor();
+                public boolebn hbsNext() { return i.hbsNext();}
+                public Mbp.Entry<String,String> next() {
                     return new CheckedEntry(i.next());
                 }
                 public void remove() { i.remove();}
             };
         }
-        private static Map.Entry<String,String> checkedEntry(Object o) {
-            @SuppressWarnings("unchecked")
-            Map.Entry<String,String> e = (Map.Entry<String,String>) o;
+        privbte stbtic Mbp.Entry<String,String> checkedEntry(Object o) {
+            @SuppressWbrnings("unchecked")
+            Mbp.Entry<String,String> e = (Mbp.Entry<String,String>) o;
             nonNullString(e.getKey());
-            nonNullString(e.getValue());
+            nonNullString(e.getVblue());
             return e;
         }
-        public boolean contains(Object o) {return s.contains(checkedEntry(o));}
-        public boolean remove(Object o)   {return s.remove(checkedEntry(o));}
+        public boolebn contbins(Object o) {return s.contbins(checkedEntry(o));}
+        public boolebn remove(Object o)   {return s.remove(checkedEntry(o));}
     }
 
-    private static class CheckedValues extends AbstractCollection<String> {
-        private final Collection<String> c;
-        public CheckedValues(Collection<String> c) {this.c = c;}
+    privbte stbtic clbss CheckedVblues extends AbstrbctCollection<String> {
+        privbte finbl Collection<String> c;
+        public CheckedVblues(Collection<String> c) {this.c = c;}
         public int size()                  {return c.size();}
-        public boolean isEmpty()           {return c.isEmpty();}
-        public void clear()                {       c.clear();}
-        public Iterator<String> iterator() {return c.iterator();}
-        public boolean contains(Object o)  {return c.contains(nonNullString(o));}
-        public boolean remove(Object o)    {return c.remove(nonNullString(o));}
+        public boolebn isEmpty()           {return c.isEmpty();}
+        public void clebr()                {       c.clebr();}
+        public Iterbtor<String> iterbtor() {return c.iterbtor();}
+        public boolebn contbins(Object o)  {return c.contbins(nonNullString(o));}
+        public boolebn remove(Object o)    {return c.remove(nonNullString(o));}
     }
 
-    private static class CheckedKeySet extends AbstractSet<String> {
-        private final Set<String> s;
+    privbte stbtic clbss CheckedKeySet extends AbstrbctSet<String> {
+        privbte finbl Set<String> s;
         public CheckedKeySet(Set<String> s) {this.s = s;}
         public int size()                  {return s.size();}
-        public boolean isEmpty()           {return s.isEmpty();}
-        public void clear()                {       s.clear();}
-        public Iterator<String> iterator() {return s.iterator();}
-        public boolean contains(Object o)  {return s.contains(nonNullString(o));}
-        public boolean remove(Object o)    {return s.remove(nonNullString(o));}
+        public boolebn isEmpty()           {return s.isEmpty();}
+        public void clebr()                {       s.clebr();}
+        public Iterbtor<String> iterbtor() {return s.iterbtor();}
+        public boolebn contbins(Object o)  {return s.contbins(nonNullString(o));}
+        public boolebn remove(Object o)    {return s.remove(nonNullString(o));}
     }
 
     public Set<String> keySet() {
         return new CheckedKeySet(super.keySet());
     }
 
-    public Collection<String> values() {
-        return new CheckedValues(super.values());
+    public Collection<String> vblues() {
+        return new CheckedVblues(super.vblues());
     }
 
-    public Set<Map.Entry<String,String>> entrySet() {
+    public Set<Mbp.Entry<String,String>> entrySet() {
         return new CheckedEntrySet(super.entrySet());
     }
 
 
-    private static final class NameComparator
-        implements Comparator<String> {
-        public int compare(String s1, String s2) {
-            // We can't use String.compareToIgnoreCase since it
-            // canonicalizes to lower case, while Windows
-            // canonicalizes to upper case!  For example, "_" should
-            // sort *after* "Z", not before.
+    privbte stbtic finbl clbss NbmeCompbrbtor
+        implements Compbrbtor<String> {
+        public int compbre(String s1, String s2) {
+            // We cbn't use String.compbreToIgnoreCbse since it
+            // cbnonicblizes to lower cbse, while Windows
+            // cbnonicblizes to upper cbse!  For exbmple, "_" should
+            // sort *bfter* "Z", not before.
             int n1 = s1.length();
             int n2 = s2.length();
-            int min = Math.min(n1, n2);
+            int min = Mbth.min(n1, n2);
             for (int i = 0; i < min; i++) {
-                char c1 = s1.charAt(i);
-                char c2 = s2.charAt(i);
+                chbr c1 = s1.chbrAt(i);
+                chbr c2 = s2.chbrAt(i);
                 if (c1 != c2) {
-                    c1 = Character.toUpperCase(c1);
-                    c2 = Character.toUpperCase(c2);
+                    c1 = Chbrbcter.toUpperCbse(c1);
+                    c2 = Chbrbcter.toUpperCbse(c2);
                     if (c1 != c2)
-                        // No overflow because of numeric promotion
+                        // No overflow becbuse of numeric promotion
                         return c1 - c2;
                 }
             }
@@ -217,35 +217,35 @@ final class ProcessEnvironment extends HashMap<String,String>
         }
     }
 
-    private static final class EntryComparator
-        implements Comparator<Map.Entry<String,String>> {
-        public int compare(Map.Entry<String,String> e1,
-                           Map.Entry<String,String> e2) {
-            return nameComparator.compare(e1.getKey(), e2.getKey());
+    privbte stbtic finbl clbss EntryCompbrbtor
+        implements Compbrbtor<Mbp.Entry<String,String>> {
+        public int compbre(Mbp.Entry<String,String> e1,
+                           Mbp.Entry<String,String> e2) {
+            return nbmeCompbrbtor.compbre(e1.getKey(), e2.getKey());
         }
     }
 
-    // Allow `=' as first char in name, e.g. =C:=C:\DIR
-    static final int MIN_NAME_LENGTH = 1;
+    // Allow `=' bs first chbr in nbme, e.g. =C:=C:\DIR
+    stbtic finbl int MIN_NAME_LENGTH = 1;
 
-    private static final NameComparator nameComparator;
-    private static final EntryComparator entryComparator;
-    private static final ProcessEnvironment theEnvironment;
-    private static final Map<String,String> theUnmodifiableEnvironment;
-    private static final Map<String,String> theCaseInsensitiveEnvironment;
+    privbte stbtic finbl NbmeCompbrbtor nbmeCompbrbtor;
+    privbte stbtic finbl EntryCompbrbtor entryCompbrbtor;
+    privbte stbtic finbl ProcessEnvironment theEnvironment;
+    privbte stbtic finbl Mbp<String,String> theUnmodifibbleEnvironment;
+    privbte stbtic finbl Mbp<String,String> theCbseInsensitiveEnvironment;
 
-    static {
-        nameComparator  = new NameComparator();
-        entryComparator = new EntryComparator();
+    stbtic {
+        nbmeCompbrbtor  = new NbmeCompbrbtor();
+        entryCompbrbtor = new EntryCompbrbtor();
         theEnvironment  = new ProcessEnvironment();
-        theUnmodifiableEnvironment
-            = Collections.unmodifiableMap(theEnvironment);
+        theUnmodifibbleEnvironment
+            = Collections.unmodifibbleMbp(theEnvironment);
 
         String envblock = environmentBlock();
         int beg, end, eql;
         for (beg = 0;
              ((end = envblock.indexOf('\u0000', beg  )) != -1 &&
-              // An initial `=' indicates a magic Windows variable name -- OK
+              // An initibl `=' indicbtes b mbgic Windows vbribble nbme -- OK
               (eql = envblock.indexOf('='     , beg+1)) != -1);
              beg = end + 1) {
             // Ignore corrupted environment strings.
@@ -254,98 +254,98 @@ final class ProcessEnvironment extends HashMap<String,String>
                                    envblock.substring(eql+1,end));
         }
 
-        theCaseInsensitiveEnvironment = new TreeMap<>(nameComparator);
-        theCaseInsensitiveEnvironment.putAll(theEnvironment);
+        theCbseInsensitiveEnvironment = new TreeMbp<>(nbmeCompbrbtor);
+        theCbseInsensitiveEnvironment.putAll(theEnvironment);
     }
 
-    private ProcessEnvironment() {
+    privbte ProcessEnvironment() {
         super();
     }
 
-    private ProcessEnvironment(int capacity) {
-        super(capacity);
+    privbte ProcessEnvironment(int cbpbcity) {
+        super(cbpbcity);
     }
 
     // Only for use by System.getenv(String)
-    static String getenv(String name) {
-        // The original implementation used a native call to _wgetenv,
-        // but it turns out that _wgetenv is only consistent with
-        // GetEnvironmentStringsW (for non-ASCII) if `wmain' is used
-        // instead of `main', even in a process created using
-        // CREATE_UNICODE_ENVIRONMENT.  Instead we perform the
-        // case-insensitive comparison ourselves.  At least this
-        // guarantees that System.getenv().get(String) will be
+    stbtic String getenv(String nbme) {
+        // The originbl implementbtion used b nbtive cbll to _wgetenv,
+        // but it turns out thbt _wgetenv is only consistent with
+        // GetEnvironmentStringsW (for non-ASCII) if `wmbin' is used
+        // instebd of `mbin', even in b process crebted using
+        // CREATE_UNICODE_ENVIRONMENT.  Instebd we perform the
+        // cbse-insensitive compbrison ourselves.  At lebst this
+        // gubrbntees thbt System.getenv().get(String) will be
         // consistent with System.getenv(String).
-        return theCaseInsensitiveEnvironment.get(name);
+        return theCbseInsensitiveEnvironment.get(nbme);
     }
 
     // Only for use by System.getenv()
-    static Map<String,String> getenv() {
-        return theUnmodifiableEnvironment;
+    stbtic Mbp<String,String> getenv() {
+        return theUnmodifibbleEnvironment;
     }
 
     // Only for use by ProcessBuilder.environment()
-    @SuppressWarnings("unchecked")
-    static Map<String,String> environment() {
-        return (Map<String,String>) theEnvironment.clone();
+    @SuppressWbrnings("unchecked")
+    stbtic Mbp<String,String> environment() {
+        return (Mbp<String,String>) theEnvironment.clone();
     }
 
     // Only for use by ProcessBuilder.environment(String[] envp)
-    static Map<String,String> emptyEnvironment(int capacity) {
-        return new ProcessEnvironment(capacity);
+    stbtic Mbp<String,String> emptyEnvironment(int cbpbcity) {
+        return new ProcessEnvironment(cbpbcity);
     }
 
-    private static native String environmentBlock();
+    privbte stbtic nbtive String environmentBlock();
 
-    // Only for use by ProcessImpl.start()
+    // Only for use by ProcessImpl.stbrt()
     String toEnvironmentBlock() {
-        // Sort Unicode-case-insensitively by name
-        List<Map.Entry<String,String>> list = new ArrayList<>(entrySet());
-        Collections.sort(list, entryComparator);
+        // Sort Unicode-cbse-insensitively by nbme
+        List<Mbp.Entry<String,String>> list = new ArrbyList<>(entrySet());
+        Collections.sort(list, entryCompbrbtor);
 
         StringBuilder sb = new StringBuilder(size()*30);
         int cmp = -1;
 
         // Some versions of MSVCRT.DLL require SystemRoot to be set.
-        // So, we make sure that it is always set, even if not provided
-        // by the caller.
-        final String SYSTEMROOT = "SystemRoot";
+        // So, we mbke sure thbt it is blwbys set, even if not provided
+        // by the cbller.
+        finbl String SYSTEMROOT = "SystemRoot";
 
-        for (Map.Entry<String,String> e : list) {
+        for (Mbp.Entry<String,String> e : list) {
             String key = e.getKey();
-            String value = e.getValue();
-            if (cmp < 0 && (cmp = nameComparator.compare(key, SYSTEMROOT)) > 0) {
-                // Not set, so add it here
-                addToEnvIfSet(sb, SYSTEMROOT);
+            String vblue = e.getVblue();
+            if (cmp < 0 && (cmp = nbmeCompbrbtor.compbre(key, SYSTEMROOT)) > 0) {
+                // Not set, so bdd it here
+                bddToEnvIfSet(sb, SYSTEMROOT);
             }
-            addToEnv(sb, key, value);
+            bddToEnv(sb, key, vblue);
         }
         if (cmp < 0) {
-            // Got to end of list and still not found
-            addToEnvIfSet(sb, SYSTEMROOT);
+            // Got to end of list bnd still not found
+            bddToEnvIfSet(sb, SYSTEMROOT);
         }
         if (sb.length() == 0) {
-            // Environment was empty and SystemRoot not set in parent
-            sb.append('\u0000');
+            // Environment wbs empty bnd SystemRoot not set in pbrent
+            sb.bppend('\u0000');
         }
-        // Block is double NUL terminated
-        sb.append('\u0000');
+        // Block is double NUL terminbted
+        sb.bppend('\u0000');
         return sb.toString();
     }
 
-    // add the environment variable to the child, if it exists in parent
-    private static void addToEnvIfSet(StringBuilder sb, String name) {
-        String s = getenv(name);
+    // bdd the environment vbribble to the child, if it exists in pbrent
+    privbte stbtic void bddToEnvIfSet(StringBuilder sb, String nbme) {
+        String s = getenv(nbme);
         if (s != null)
-            addToEnv(sb, name, s);
+            bddToEnv(sb, nbme, s);
     }
 
-    private static void addToEnv(StringBuilder sb, String name, String val) {
-        sb.append(name).append('=').append(val).append('\u0000');
+    privbte stbtic void bddToEnv(StringBuilder sb, String nbme, String vbl) {
+        sb.bppend(nbme).bppend('=').bppend(vbl).bppend('\u0000');
     }
 
-    static String toEnvironmentBlock(Map<String,String> map) {
-        return map == null ? null :
-            ((ProcessEnvironment)map).toEnvironmentBlock();
+    stbtic String toEnvironmentBlock(Mbp<String,String> mbp) {
+        return mbp == null ? null :
+            ((ProcessEnvironment)mbp).toEnvironmentBlock();
     }
 }

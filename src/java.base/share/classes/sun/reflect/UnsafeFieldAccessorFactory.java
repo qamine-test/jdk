@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect;
+pbckbge sun.reflect;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Modifier;
 
-class UnsafeFieldAccessorFactory {
-    static FieldAccessor newFieldAccessor(Field field, boolean override) {
-        Class<?> type = field.getType();
-        boolean isStatic = Modifier.isStatic(field.getModifiers());
-        boolean isFinal = Modifier.isFinal(field.getModifiers());
-        boolean isVolatile = Modifier.isVolatile(field.getModifiers());
-        boolean isQualified = isFinal || isVolatile;
-        boolean isReadOnly = isFinal && (isStatic || !override);
-        if (isStatic) {
-            // This code path does not guarantee that the field's
-            // declaring class has been initialized, but it must be
-            // before performing reflective operations.
-            UnsafeFieldAccessorImpl.unsafe.ensureClassInitialized(field.getDeclaringClass());
+clbss UnsbfeFieldAccessorFbctory {
+    stbtic FieldAccessor newFieldAccessor(Field field, boolebn override) {
+        Clbss<?> type = field.getType();
+        boolebn isStbtic = Modifier.isStbtic(field.getModifiers());
+        boolebn isFinbl = Modifier.isFinbl(field.getModifiers());
+        boolebn isVolbtile = Modifier.isVolbtile(field.getModifiers());
+        boolebn isQublified = isFinbl || isVolbtile;
+        boolebn isRebdOnly = isFinbl && (isStbtic || !override);
+        if (isStbtic) {
+            // This code pbth does not gubrbntee thbt the field's
+            // declbring clbss hbs been initiblized, but it must be
+            // before performing reflective operbtions.
+            UnsbfeFieldAccessorImpl.unsbfe.ensureClbssInitiblized(field.getDeclbringClbss());
 
-            if (!isQualified) {
-                if (type == Boolean.TYPE) {
-                    return new UnsafeStaticBooleanFieldAccessorImpl(field);
+            if (!isQublified) {
+                if (type == Boolebn.TYPE) {
+                    return new UnsbfeStbticBoolebnFieldAccessorImpl(field);
                 } else if (type == Byte.TYPE) {
-                    return new UnsafeStaticByteFieldAccessorImpl(field);
+                    return new UnsbfeStbticByteFieldAccessorImpl(field);
                 } else if (type == Short.TYPE) {
-                    return new UnsafeStaticShortFieldAccessorImpl(field);
-                } else if (type == Character.TYPE) {
-                    return new UnsafeStaticCharacterFieldAccessorImpl(field);
+                    return new UnsbfeStbticShortFieldAccessorImpl(field);
+                } else if (type == Chbrbcter.TYPE) {
+                    return new UnsbfeStbticChbrbcterFieldAccessorImpl(field);
                 } else if (type == Integer.TYPE) {
-                    return new UnsafeStaticIntegerFieldAccessorImpl(field);
+                    return new UnsbfeStbticIntegerFieldAccessorImpl(field);
                 } else if (type == Long.TYPE) {
-                    return new UnsafeStaticLongFieldAccessorImpl(field);
-                } else if (type == Float.TYPE) {
-                    return new UnsafeStaticFloatFieldAccessorImpl(field);
+                    return new UnsbfeStbticLongFieldAccessorImpl(field);
+                } else if (type == Flobt.TYPE) {
+                    return new UnsbfeStbticFlobtFieldAccessorImpl(field);
                 } else if (type == Double.TYPE) {
-                    return new UnsafeStaticDoubleFieldAccessorImpl(field);
+                    return new UnsbfeStbticDoubleFieldAccessorImpl(field);
                 } else {
-                    return new UnsafeStaticObjectFieldAccessorImpl(field);
+                    return new UnsbfeStbticObjectFieldAccessorImpl(field);
                 }
             } else {
-                if (type == Boolean.TYPE) {
-                    return new UnsafeQualifiedStaticBooleanFieldAccessorImpl(field, isReadOnly);
+                if (type == Boolebn.TYPE) {
+                    return new UnsbfeQublifiedStbticBoolebnFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Byte.TYPE) {
-                    return new UnsafeQualifiedStaticByteFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedStbticByteFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Short.TYPE) {
-                    return new UnsafeQualifiedStaticShortFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Character.TYPE) {
-                    return new UnsafeQualifiedStaticCharacterFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedStbticShortFieldAccessorImpl(field, isRebdOnly);
+                } else if (type == Chbrbcter.TYPE) {
+                    return new UnsbfeQublifiedStbticChbrbcterFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Integer.TYPE) {
-                    return new UnsafeQualifiedStaticIntegerFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedStbticIntegerFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Long.TYPE) {
-                    return new UnsafeQualifiedStaticLongFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Float.TYPE) {
-                    return new UnsafeQualifiedStaticFloatFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedStbticLongFieldAccessorImpl(field, isRebdOnly);
+                } else if (type == Flobt.TYPE) {
+                    return new UnsbfeQublifiedStbticFlobtFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Double.TYPE) {
-                    return new UnsafeQualifiedStaticDoubleFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedStbticDoubleFieldAccessorImpl(field, isRebdOnly);
                 } else {
-                    return new UnsafeQualifiedStaticObjectFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedStbticObjectFieldAccessorImpl(field, isRebdOnly);
                 }
             }
         } else {
-            if (!isQualified) {
-                if (type == Boolean.TYPE) {
-                    return new UnsafeBooleanFieldAccessorImpl(field);
+            if (!isQublified) {
+                if (type == Boolebn.TYPE) {
+                    return new UnsbfeBoolebnFieldAccessorImpl(field);
                 } else if (type == Byte.TYPE) {
-                    return new UnsafeByteFieldAccessorImpl(field);
+                    return new UnsbfeByteFieldAccessorImpl(field);
                 } else if (type == Short.TYPE) {
-                    return new UnsafeShortFieldAccessorImpl(field);
-                } else if (type == Character.TYPE) {
-                    return new UnsafeCharacterFieldAccessorImpl(field);
+                    return new UnsbfeShortFieldAccessorImpl(field);
+                } else if (type == Chbrbcter.TYPE) {
+                    return new UnsbfeChbrbcterFieldAccessorImpl(field);
                 } else if (type == Integer.TYPE) {
-                    return new UnsafeIntegerFieldAccessorImpl(field);
+                    return new UnsbfeIntegerFieldAccessorImpl(field);
                 } else if (type == Long.TYPE) {
-                    return new UnsafeLongFieldAccessorImpl(field);
-                } else if (type == Float.TYPE) {
-                    return new UnsafeFloatFieldAccessorImpl(field);
+                    return new UnsbfeLongFieldAccessorImpl(field);
+                } else if (type == Flobt.TYPE) {
+                    return new UnsbfeFlobtFieldAccessorImpl(field);
                 } else if (type == Double.TYPE) {
-                    return new UnsafeDoubleFieldAccessorImpl(field);
+                    return new UnsbfeDoubleFieldAccessorImpl(field);
                 } else {
-                    return new UnsafeObjectFieldAccessorImpl(field);
+                    return new UnsbfeObjectFieldAccessorImpl(field);
                 }
             } else {
-                if (type == Boolean.TYPE) {
-                    return new UnsafeQualifiedBooleanFieldAccessorImpl(field, isReadOnly);
+                if (type == Boolebn.TYPE) {
+                    return new UnsbfeQublifiedBoolebnFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Byte.TYPE) {
-                    return new UnsafeQualifiedByteFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedByteFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Short.TYPE) {
-                    return new UnsafeQualifiedShortFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Character.TYPE) {
-                    return new UnsafeQualifiedCharacterFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedShortFieldAccessorImpl(field, isRebdOnly);
+                } else if (type == Chbrbcter.TYPE) {
+                    return new UnsbfeQublifiedChbrbcterFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Integer.TYPE) {
-                    return new UnsafeQualifiedIntegerFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedIntegerFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Long.TYPE) {
-                    return new UnsafeQualifiedLongFieldAccessorImpl(field, isReadOnly);
-                } else if (type == Float.TYPE) {
-                    return new UnsafeQualifiedFloatFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedLongFieldAccessorImpl(field, isRebdOnly);
+                } else if (type == Flobt.TYPE) {
+                    return new UnsbfeQublifiedFlobtFieldAccessorImpl(field, isRebdOnly);
                 } else if (type == Double.TYPE) {
-                    return new UnsafeQualifiedDoubleFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedDoubleFieldAccessorImpl(field, isRebdOnly);
                 } else {
-                    return new UnsafeQualifiedObjectFieldAccessorImpl(field, isReadOnly);
+                    return new UnsbfeQublifiedObjectFieldAccessorImpl(field, isRebdOnly);
                 }
             }
         }

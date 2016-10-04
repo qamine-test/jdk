@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,98 +34,98 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "ClassDefinitionTables.h"
+#include "OpenTypeTbbles.h"
+#include "ClbssDefinitionTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-typedef ClassDefinitionTable GlyphClassDefinitionTable;
+typedef ClbssDefinitionTbble GlyphClbssDefinitionTbble;
 
-enum GlyphClassDefinitions
+enum GlyphClbssDefinitions
 {
-    gcdNoGlyphClass     = 0,
+    gcdNoGlyphClbss     = 0,
     gcdSimpleGlyph      = 1,
-    gcdLigatureGlyph    = 2,
-    gcdMarkGlyph        = 3,
+    gcdLigbtureGlyph    = 2,
+    gcdMbrkGlyph        = 3,
     gcdComponentGlyph   = 4
 };
 
-struct AttachmentListTable
+struct AttbchmentListTbble
 {
-    Offset  coverageTableOffset;
+    Offset  coverbgeTbbleOffset;
     le_uint16  glyphCount;
-    Offset  attachPointTableOffsetArray[ANY_NUMBER];
+    Offset  bttbchPointTbbleOffsetArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(AttachmentListTable, attachPointTableOffsetArray)
+LE_VAR_ARRAY(AttbchmentListTbble, bttbchPointTbbleOffsetArrby)
 
-struct AttachPointTable
+struct AttbchPointTbble
 {
     le_uint16  pointCount;
-    le_uint16  pointIndexArray[ANY_NUMBER];
+    le_uint16  pointIndexArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(AttachPointTable, pointIndexArray)
+LE_VAR_ARRAY(AttbchPointTbble, pointIndexArrby)
 
-struct LigatureCaretListTable
+struct LigbtureCbretListTbble
 {
-    Offset  coverageTableOffset;
+    Offset  coverbgeTbbleOffset;
     le_uint16  ligGlyphCount;
-    Offset  ligGlyphTableOffsetArray[ANY_NUMBER];
+    Offset  ligGlyphTbbleOffsetArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(LigatureCaretListTable, ligGlyphTableOffsetArray)
+LE_VAR_ARRAY(LigbtureCbretListTbble, ligGlyphTbbleOffsetArrby)
 
-struct LigatureGlyphTable
+struct LigbtureGlyphTbble
 {
-    le_uint16  caretCount;
-    Offset  caretValueTableOffsetArray[ANY_NUMBER];
+    le_uint16  cbretCount;
+    Offset  cbretVblueTbbleOffsetArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(LigatureGlyphTable, caretValueTableOffsetArray)
+LE_VAR_ARRAY(LigbtureGlyphTbble, cbretVblueTbbleOffsetArrby)
 
-struct CaretValueTable
+struct CbretVblueTbble
 {
-    le_uint16  caretValueFormat;
+    le_uint16  cbretVblueFormbt;
 };
 
-struct CaretValueFormat1Table : CaretValueTable
+struct CbretVblueFormbt1Tbble : CbretVblueTbble
 {
-    le_int16   coordinate;
+    le_int16   coordinbte;
 };
 
-struct CaretValueFormat2Table : CaretValueTable
+struct CbretVblueFormbt2Tbble : CbretVblueTbble
 {
-    le_uint16  caretValuePoint;
+    le_uint16  cbretVbluePoint;
 };
 
-struct CaretValueFormat3Table : CaretValueTable
+struct CbretVblueFormbt3Tbble : CbretVblueTbble
 {
-    le_int16   coordinate;
-    Offset  deviceTableOffset;
+    le_int16   coordinbte;
+    Offset  deviceTbbleOffset;
 };
 
-typedef ClassDefinitionTable MarkAttachClassDefinitionTable;
+typedef ClbssDefinitionTbble MbrkAttbchClbssDefinitionTbble;
 
-struct GlyphDefinitionTableHeader
+struct GlyphDefinitionTbbleHebder
 {
     fixed32 version;
-    Offset  glyphClassDefOffset;
-    Offset  attachListOffset;
-    Offset  ligCaretListOffset;
-    Offset  MarkAttachClassDefOffset;
+    Offset  glyphClbssDefOffset;
+    Offset  bttbchListOffset;
+    Offset  ligCbretListOffset;
+    Offset  MbrkAttbchClbssDefOffset;
 
-    const LEReferenceTo<GlyphClassDefinitionTable>
-    getGlyphClassDefinitionTable(const LEReferenceTo<GlyphDefinitionTableHeader>& base,
+    const LEReferenceTo<GlyphClbssDefinitionTbble>
+    getGlyphClbssDefinitionTbble(const LEReferenceTo<GlyphDefinitionTbbleHebder>& bbse,
                                  LEErrorCode &success) const;
-    const LEReferenceTo<AttachmentListTable>
-    getAttachmentListTable(const LEReferenceTo<GlyphDefinitionTableHeader>& base,
+    const LEReferenceTo<AttbchmentListTbble>
+    getAttbchmentListTbble(const LEReferenceTo<GlyphDefinitionTbbleHebder>& bbse,
                            LEErrorCode &success)const ;
-    const LEReferenceTo<LigatureCaretListTable>
-    getLigatureCaretListTable(const LEReferenceTo<GlyphDefinitionTableHeader>& base,
+    const LEReferenceTo<LigbtureCbretListTbble>
+    getLigbtureCbretListTbble(const LEReferenceTo<GlyphDefinitionTbbleHebder>& bbse,
                               LEErrorCode &success) const;
-    const LEReferenceTo<MarkAttachClassDefinitionTable>
-    getMarkAttachClassDefinitionTable(const LEReferenceTo<GlyphDefinitionTableHeader>& base,
+    const LEReferenceTo<MbrkAttbchClbssDefinitionTbble>
+    getMbrkAttbchClbssDefinitionTbble(const LEReferenceTo<GlyphDefinitionTbbleHebder>& bbse,
                                       LEErrorCode &success) const;
 };
 

@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http;
+pbckbge sun.net.www.protocol.http;
 
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.HashMap;
+import jbvb.util.LinkedList;
+import jbvb.util.ListIterbtor;
+import jbvb.util.HbshMbp;
 
 /**
- * @author Michael McMahon
+ * @buthor Michbel McMbhon
  */
 
-public class AuthCacheImpl implements AuthCache {
-    HashMap<String,LinkedList<AuthCacheValue>> hashtable;
+public clbss AuthCbcheImpl implements AuthCbche {
+    HbshMbp<String,LinkedList<AuthCbcheVblue>> hbshtbble;
 
-    public AuthCacheImpl () {
-        hashtable = new HashMap<String,LinkedList<AuthCacheValue>>();
+    public AuthCbcheImpl () {
+        hbshtbble = new HbshMbp<String,LinkedList<AuthCbcheVblue>>();
     }
 
-    public void setMap (HashMap<String,LinkedList<AuthCacheValue>> map) {
-        hashtable = map;
+    public void setMbp (HbshMbp<String,LinkedList<AuthCbcheVblue>> mbp) {
+        hbshtbble = mbp;
     }
 
-    // put a value in map according to primary key + secondary key which
-    // is the path field of AuthenticationInfo
+    // put b vblue in mbp bccording to primbry key + secondbry key which
+    // is the pbth field of AuthenticbtionInfo
 
-    public synchronized void put (String pkey, AuthCacheValue value) {
-        LinkedList<AuthCacheValue> list = hashtable.get (pkey);
-        String skey = value.getPath();
+    public synchronized void put (String pkey, AuthCbcheVblue vblue) {
+        LinkedList<AuthCbcheVblue> list = hbshtbble.get (pkey);
+        String skey = vblue.getPbth();
         if (list == null) {
-            list = new LinkedList<AuthCacheValue>();
-            hashtable.put(pkey, list);
+            list = new LinkedList<AuthCbcheVblue>();
+            hbshtbble.put(pkey, list);
         }
-        // Check if the path already exists or a super-set of it exists
-        ListIterator<AuthCacheValue> iter = list.listIterator();
-        while (iter.hasNext()) {
-            AuthenticationInfo inf = (AuthenticationInfo)iter.next();
-            if (inf.path == null || inf.path.startsWith (skey)) {
+        // Check if the pbth blrebdy exists or b super-set of it exists
+        ListIterbtor<AuthCbcheVblue> iter = list.listIterbtor();
+        while (iter.hbsNext()) {
+            AuthenticbtionInfo inf = (AuthenticbtionInfo)iter.next();
+            if (inf.pbth == null || inf.pbth.stbrtsWith (skey)) {
                 iter.remove ();
             }
         }
-        iter.add(value);
+        iter.bdd(vblue);
     }
 
-    // get a value from map checking both primary
-    // and secondary (urlpath) key
+    // get b vblue from mbp checking both primbry
+    // bnd secondbry (urlpbth) key
 
-    public synchronized AuthCacheValue get (String pkey, String skey) {
-        AuthenticationInfo result = null;
-        LinkedList<AuthCacheValue> list = hashtable.get (pkey);
+    public synchronized AuthCbcheVblue get (String pkey, String skey) {
+        AuthenticbtionInfo result = null;
+        LinkedList<AuthCbcheVblue> list = hbshtbble.get (pkey);
         if (list == null || list.size() == 0) {
             return null;
         }
         if (skey == null) {
-            // list should contain only one element
-            return (AuthenticationInfo)list.get (0);
+            // list should contbin only one element
+            return (AuthenticbtionInfo)list.get (0);
         }
-        ListIterator<AuthCacheValue> iter = list.listIterator();
-        while (iter.hasNext()) {
-            AuthenticationInfo inf = (AuthenticationInfo)iter.next();
-            if (skey.startsWith (inf.path)) {
+        ListIterbtor<AuthCbcheVblue> iter = list.listIterbtor();
+        while (iter.hbsNext()) {
+            AuthenticbtionInfo inf = (AuthenticbtionInfo)iter.next();
+            if (skey.stbrtsWith (inf.pbth)) {
                 return inf;
             }
         }
         return null;
     }
 
-    public synchronized void remove (String pkey, AuthCacheValue entry) {
-        LinkedList<AuthCacheValue> list = hashtable.get (pkey);
+    public synchronized void remove (String pkey, AuthCbcheVblue entry) {
+        LinkedList<AuthCbcheVblue> list = hbshtbble.get (pkey);
         if (list == null) {
             return;
         }
         if (entry == null) {
-            list.clear();
+            list.clebr();
             return;
         }
-        ListIterator<AuthCacheValue> iter = list.listIterator ();
-        while (iter.hasNext()) {
-            AuthenticationInfo inf = (AuthenticationInfo)iter.next();
-            if (entry.equals(inf)) {
+        ListIterbtor<AuthCbcheVblue> iter = list.listIterbtor ();
+        while (iter.hbsNext()) {
+            AuthenticbtionInfo inf = (AuthenticbtionInfo)iter.next();
+            if (entry.equbls(inf)) {
                 iter.remove ();
             }
         }

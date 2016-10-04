@@ -1,482 +1,482 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
 
 
 /**
- * An audio input stream is an input stream with a specified audio format and
- * length. The length is expressed in sample frames, not bytes. Several methods
- * are provided for reading a certain number of bytes from the stream, or an
- * unspecified number of bytes. The audio input stream keeps track of the last
- * byte that was read. You can skip over an arbitrary number of bytes to get to
- * a later position for reading. An audio input stream may support marks. When
- * you set a mark, the current position is remembered so that you can return to
- * it later.
+ * An budio input strebm is bn input strebm with b specified budio formbt bnd
+ * length. The length is expressed in sbmple frbmes, not bytes. Severbl methods
+ * bre provided for rebding b certbin number of bytes from the strebm, or bn
+ * unspecified number of bytes. The budio input strebm keeps trbck of the lbst
+ * byte thbt wbs rebd. You cbn skip over bn brbitrbry number of bytes to get to
+ * b lbter position for rebding. An budio input strebm mby support mbrks. When
+ * you set b mbrk, the current position is remembered so thbt you cbn return to
+ * it lbter.
  * <p>
- * The {@code AudioSystem} class includes many methods that manipulate
- * {@code AudioInputStream} objects. For example, the methods let you:
+ * The {@code AudioSystem} clbss includes mbny methods thbt mbnipulbte
+ * {@code AudioInputStrebm} objects. For exbmple, the methods let you:
  * <ul>
- * <li> obtain an audio input stream from an external audio file, stream, or URL
- * <li> write an external file from an audio input stream
- * <li> convert an audio input stream to a different audio format
+ * <li> obtbin bn budio input strebm from bn externbl budio file, strebm, or URL
+ * <li> write bn externbl file from bn budio input strebm
+ * <li> convert bn budio input strebm to b different budio formbt
  * </ul>
  *
- * @author David Rivas
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  * @see AudioSystem
- * @see Clip#open(AudioInputStream)
+ * @see Clip#open(AudioInputStrebm)
  * @since 1.3
  */
-public class AudioInputStream extends InputStream {
+public clbss AudioInputStrebm extends InputStrebm {
 
     /**
-     * The {@code InputStream} from which this {@code AudioInputStream} object
-     * was constructed.
+     * The {@code InputStrebm} from which this {@code AudioInputStrebm} object
+     * wbs constructed.
      */
-    private InputStream stream;
+    privbte InputStrebm strebm;
 
     /**
-     * The format of the audio data contained in the stream.
+     * The formbt of the budio dbtb contbined in the strebm.
      */
-    protected AudioFormat format;
+    protected AudioFormbt formbt;
 
     /**
-     * This stream's length, in sample frames.
+     * This strebm's length, in sbmple frbmes.
      */
-    protected long frameLength;
+    protected long frbmeLength;
 
     /**
-     * The size of each frame, in bytes.
+     * The size of ebch frbme, in bytes.
      */
-    protected int frameSize;
+    protected int frbmeSize;
 
     /**
-     * The current position in this stream, in sample frames (zero-based).
+     * The current position in this strebm, in sbmple frbmes (zero-bbsed).
      */
-    protected long framePos;
+    protected long frbmePos;
 
     /**
-     * The position where a mark was set.
+     * The position where b mbrk wbs set.
      */
-    private long markpos;
+    privbte long mbrkpos;
 
     /**
-     * When the underlying stream could only return a non-integral number of
-     * frames, store the remainder in a temporary buffer.
+     * When the underlying strebm could only return b non-integrbl number of
+     * frbmes, store the rembinder in b temporbry buffer.
      */
-    private byte[] pushBackBuffer = null;
+    privbte byte[] pushBbckBuffer = null;
 
     /**
-     * number of valid bytes in the pushBackBuffer.
+     * number of vblid bytes in the pushBbckBuffer.
      */
-    private int pushBackLen = 0;
+    privbte int pushBbckLen = 0;
 
     /**
-     * MarkBuffer at mark position.
+     * MbrkBuffer bt mbrk position.
      */
-    private byte[] markPushBackBuffer = null;
+    privbte byte[] mbrkPushBbckBuffer = null;
 
     /**
-     * number of valid bytes in the markPushBackBuffer.
+     * number of vblid bytes in the mbrkPushBbckBuffer.
      */
-    private int markPushBackLen = 0;
+    privbte int mbrkPushBbckLen = 0;
 
     /**
-     * Constructs an audio input stream that has the requested format and length
-     * in sample frames, using audio data from the specified input stream.
+     * Constructs bn budio input strebm thbt hbs the requested formbt bnd length
+     * in sbmple frbmes, using budio dbtb from the specified input strebm.
      *
-     * @param  stream the stream on which this {@code AudioInputStream} object
-     *         is based
-     * @param  format the format of this stream's audio data
-     * @param  length the length in sample frames of the data in this stream
+     * @pbrbm  strebm the strebm on which this {@code AudioInputStrebm} object
+     *         is bbsed
+     * @pbrbm  formbt the formbt of this strebm's budio dbtb
+     * @pbrbm  length the length in sbmple frbmes of the dbtb in this strebm
      */
-    public AudioInputStream(InputStream stream, AudioFormat format, long length) {
+    public AudioInputStrebm(InputStrebm strebm, AudioFormbt formbt, long length) {
 
         super();
 
-        this.format = format;
-        this.frameLength = length;
-        this.frameSize = format.getFrameSize();
+        this.formbt = formbt;
+        this.frbmeLength = length;
+        this.frbmeSize = formbt.getFrbmeSize();
 
-        // any frameSize that is not well-defined will
-        // cause that this stream will be read in bytes
-        if( this.frameSize == AudioSystem.NOT_SPECIFIED || frameSize <= 0) {
-            this.frameSize = 1;
+        // bny frbmeSize thbt is not well-defined will
+        // cbuse thbt this strebm will be rebd in bytes
+        if( this.frbmeSize == AudioSystem.NOT_SPECIFIED || frbmeSize <= 0) {
+            this.frbmeSize = 1;
         }
 
-        this.stream = stream;
-        framePos = 0;
-        markpos = 0;
+        this.strebm = strebm;
+        frbmePos = 0;
+        mbrkpos = 0;
     }
 
     /**
-     * Constructs an audio input stream that reads its data from the target data
-     * line indicated. The format of the stream is the same as that of the
-     * target data line, and the length is AudioSystem#NOT_SPECIFIED.
+     * Constructs bn budio input strebm thbt rebds its dbtb from the tbrget dbtb
+     * line indicbted. The formbt of the strebm is the sbme bs thbt of the
+     * tbrget dbtb line, bnd the length is AudioSystem#NOT_SPECIFIED.
      *
-     * @param  line the target data line from which this stream obtains its data
+     * @pbrbm  line the tbrget dbtb line from which this strebm obtbins its dbtb
      * @see AudioSystem#NOT_SPECIFIED
      */
-    public AudioInputStream(TargetDataLine line) {
+    public AudioInputStrebm(TbrgetDbtbLine line) {
 
-        TargetDataLineInputStream tstream = new TargetDataLineInputStream(line);
-        format = line.getFormat();
-        frameLength = AudioSystem.NOT_SPECIFIED;
-        frameSize = format.getFrameSize();
+        TbrgetDbtbLineInputStrebm tstrebm = new TbrgetDbtbLineInputStrebm(line);
+        formbt = line.getFormbt();
+        frbmeLength = AudioSystem.NOT_SPECIFIED;
+        frbmeSize = formbt.getFrbmeSize();
 
-        if( frameSize == AudioSystem.NOT_SPECIFIED || frameSize <= 0) {
-            frameSize = 1;
+        if( frbmeSize == AudioSystem.NOT_SPECIFIED || frbmeSize <= 0) {
+            frbmeSize = 1;
         }
-        this.stream = tstream;
-        framePos = 0;
-        markpos = 0;
+        this.strebm = tstrebm;
+        frbmePos = 0;
+        mbrkpos = 0;
     }
 
     /**
-     * Obtains the audio format of the sound data in this audio input stream.
+     * Obtbins the budio formbt of the sound dbtb in this budio input strebm.
      *
-     * @return an audio format object describing this stream's format
+     * @return bn budio formbt object describing this strebm's formbt
      */
-    public AudioFormat getFormat() {
-        return format;
+    public AudioFormbt getFormbt() {
+        return formbt;
     }
 
     /**
-     * Obtains the length of the stream, expressed in sample frames rather than
+     * Obtbins the length of the strebm, expressed in sbmple frbmes rbther thbn
      * bytes.
      *
-     * @return the length in sample frames
+     * @return the length in sbmple frbmes
      */
-    public long getFrameLength() {
-        return frameLength;
+    public long getFrbmeLength() {
+        return frbmeLength;
     }
 
     /**
-     * Reads the next byte of data from the audio input stream. The audio input
-     * stream's frame size must be one byte, or an {@code IOException} will be
+     * Rebds the next byte of dbtb from the budio input strebm. The budio input
+     * strebm's frbme size must be one byte, or bn {@code IOException} will be
      * thrown.
      *
-     * @return the next byte of data, or -1 if the end of the stream is reached
-     * @throws IOException if an input or output error occurs
-     * @see #read(byte[], int, int)
-     * @see #read(byte[])
-     * @see #available
+     * @return the next byte of dbtb, or -1 if the end of the strebm is rebched
+     * @throws IOException if bn input or output error occurs
+     * @see #rebd(byte[], int, int)
+     * @see #rebd(byte[])
+     * @see #bvbilbble
      */
     @Override
-    public int read() throws IOException {
-        if( frameSize != 1 ) {
-            throw new IOException("cannot read a single byte if frame size > 1");
+    public int rebd() throws IOException {
+        if( frbmeSize != 1 ) {
+            throw new IOException("cbnnot rebd b single byte if frbme size > 1");
         }
 
-        byte[] data = new byte[1];
-        int temp = read(data);
+        byte[] dbtb = new byte[1];
+        int temp = rebd(dbtb);
         if (temp <= 0) {
-            // we have a weird situation if read(byte[]) returns 0!
+            // we hbve b weird situbtion if rebd(byte[]) returns 0!
             return -1;
         }
-        return data[0] & 0xFF;
+        return dbtb[0] & 0xFF;
     }
 
     /**
-     * Reads some number of bytes from the audio input stream and stores them
-     * into the buffer array {@code b}. The number of bytes actually read is
-     * returned as an integer. This method blocks until input data is available,
-     * the end of the stream is detected, or an exception is thrown.
+     * Rebds some number of bytes from the budio input strebm bnd stores them
+     * into the buffer brrby {@code b}. The number of bytes bctublly rebd is
+     * returned bs bn integer. This method blocks until input dbtb is bvbilbble,
+     * the end of the strebm is detected, or bn exception is thrown.
      * <p>
-     * This method will always read an integral number of frames. If the length
-     * of the array is not an integral number of frames, a maximum of
-     * {@code b.length - (b.length % frameSize)} bytes will be read.
+     * This method will blwbys rebd bn integrbl number of frbmes. If the length
+     * of the brrby is not bn integrbl number of frbmes, b mbximum of
+     * {@code b.length - (b.length % frbmeSize)} bytes will be rebd.
      *
-     * @param  b the buffer into which the data is read
-     * @return the total number of bytes read into the buffer, or -1 if there is
-     *         no more data because the end of the stream has been reached
-     * @throws IOException if an input or output error occurs
-     * @see #read(byte[], int, int)
-     * @see #read()
-     * @see #available
+     * @pbrbm  b the buffer into which the dbtb is rebd
+     * @return the totbl number of bytes rebd into the buffer, or -1 if there is
+     *         no more dbtb becbuse the end of the strebm hbs been rebched
+     * @throws IOException if bn input or output error occurs
+     * @see #rebd(byte[], int, int)
+     * @see #rebd()
+     * @see #bvbilbble
      */
     @Override
-    public int read(byte[] b) throws IOException {
-        return read(b,0,b.length);
+    public int rebd(byte[] b) throws IOException {
+        return rebd(b,0,b.length);
     }
 
     /**
-     * Reads up to a specified maximum number of bytes of data from the audio
-     * stream, putting them into the given byte array.
+     * Rebds up to b specified mbximum number of bytes of dbtb from the budio
+     * strebm, putting them into the given byte brrby.
      * <p>
-     * This method will always read an integral number of frames. If {@code len}
-     * does not specify an integral number of frames, a maximum of
-     * {@code len - (len % frameSize)} bytes will be read.
+     * This method will blwbys rebd bn integrbl number of frbmes. If {@code len}
+     * does not specify bn integrbl number of frbmes, b mbximum of
+     * {@code len - (len % frbmeSize)} bytes will be rebd.
      *
-     * @param  b the buffer into which the data is read
-     * @param  off the offset, from the beginning of array {@code b}, at which
-     *         the data will be written
-     * @param  len the maximum number of bytes to read
-     * @return the total number of bytes read into the buffer, or -1 if there is
-     *         no more data because the end of the stream has been reached
-     * @throws IOException if an input or output error occurs
-     * @see #read(byte[])
-     * @see #read()
+     * @pbrbm  b the buffer into which the dbtb is rebd
+     * @pbrbm  off the offset, from the beginning of brrby {@code b}, bt which
+     *         the dbtb will be written
+     * @pbrbm  len the mbximum number of bytes to rebd
+     * @return the totbl number of bytes rebd into the buffer, or -1 if there is
+     *         no more dbtb becbuse the end of the strebm hbs been rebched
+     * @throws IOException if bn input or output error occurs
+     * @see #rebd(byte[])
+     * @see #rebd()
      * @see #skip
-     * @see #available
+     * @see #bvbilbble
      */
     @Override
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
 
-        // make sure we don't read fractions of a frame.
-        if( (len%frameSize) != 0 ) {
-            len -= (len%frameSize);
+        // mbke sure we don't rebd frbctions of b frbme.
+        if( (len%frbmeSize) != 0 ) {
+            len -= (len%frbmeSize);
             if (len == 0) {
                 return 0;
             }
         }
 
-        if( frameLength != AudioSystem.NOT_SPECIFIED ) {
-            if( framePos >= frameLength ) {
+        if( frbmeLength != AudioSystem.NOT_SPECIFIED ) {
+            if( frbmePos >= frbmeLength ) {
                 return -1;
             } else {
 
-                // don't try to read beyond our own set length in frames
-                if( (len/frameSize) > (frameLength-framePos) ) {
-                    len = (int) (frameLength-framePos) * frameSize;
+                // don't try to rebd beyond our own set length in frbmes
+                if( (len/frbmeSize) > (frbmeLength-frbmePos) ) {
+                    len = (int) (frbmeLength-frbmePos) * frbmeSize;
                 }
             }
         }
 
-        int bytesRead = 0;
+        int bytesRebd = 0;
         int thisOff = off;
 
-        // if we've bytes left from last call to read(),
+        // if we've bytes left from lbst cbll to rebd(),
         // use them first
-        if (pushBackLen > 0 && len >= pushBackLen) {
-            System.arraycopy(pushBackBuffer, 0,
-                             b, off, pushBackLen);
-            thisOff += pushBackLen;
-            len -= pushBackLen;
-            bytesRead += pushBackLen;
-            pushBackLen = 0;
+        if (pushBbckLen > 0 && len >= pushBbckLen) {
+            System.brrbycopy(pushBbckBuffer, 0,
+                             b, off, pushBbckLen);
+            thisOff += pushBbckLen;
+            len -= pushBbckLen;
+            bytesRebd += pushBbckLen;
+            pushBbckLen = 0;
         }
 
-        int thisBytesRead = stream.read(b, thisOff, len);
-        if (thisBytesRead == -1) {
+        int thisBytesRebd = strebm.rebd(b, thisOff, len);
+        if (thisBytesRebd == -1) {
             return -1;
         }
-        if (thisBytesRead > 0) {
-            bytesRead += thisBytesRead;
+        if (thisBytesRebd > 0) {
+            bytesRebd += thisBytesRebd;
         }
-        if (bytesRead > 0) {
-            pushBackLen = bytesRead % frameSize;
-            if (pushBackLen > 0) {
-                // copy everything we got from the beginning of the frame
-                // to our pushback buffer
-                if (pushBackBuffer == null) {
-                    pushBackBuffer = new byte[frameSize];
+        if (bytesRebd > 0) {
+            pushBbckLen = bytesRebd % frbmeSize;
+            if (pushBbckLen > 0) {
+                // copy everything we got from the beginning of the frbme
+                // to our pushbbck buffer
+                if (pushBbckBuffer == null) {
+                    pushBbckBuffer = new byte[frbmeSize];
                 }
-                System.arraycopy(b, off + bytesRead - pushBackLen,
-                                 pushBackBuffer, 0, pushBackLen);
-                bytesRead -= pushBackLen;
+                System.brrbycopy(b, off + bytesRebd - pushBbckLen,
+                                 pushBbckBuffer, 0, pushBbckLen);
+                bytesRebd -= pushBbckLen;
             }
-            // make sure to update our framePos
-            framePos += bytesRead/frameSize;
+            // mbke sure to updbte our frbmePos
+            frbmePos += bytesRebd/frbmeSize;
         }
-        return bytesRead;
+        return bytesRebd;
     }
 
     /**
-     * Skips over and discards a specified number of bytes from this audio input
-     * stream.
+     * Skips over bnd discbrds b specified number of bytes from this budio input
+     * strebm.
      *
-     * @param  n the requested number of bytes to be skipped
-     * @return the actual number of bytes skipped
-     * @throws IOException if an input or output error occurs
-     * @see #read
-     * @see #available
+     * @pbrbm  n the requested number of bytes to be skipped
+     * @return the bctubl number of bytes skipped
+     * @throws IOException if bn input or output error occurs
+     * @see #rebd
+     * @see #bvbilbble
      */
     @Override
     public long skip(long n) throws IOException {
 
-        // make sure not to skip fractional frames
-        if( (n%frameSize) != 0 ) {
-            n -= (n%frameSize);
+        // mbke sure not to skip frbctionbl frbmes
+        if( (n%frbmeSize) != 0 ) {
+            n -= (n%frbmeSize);
         }
 
-        if( frameLength != AudioSystem.NOT_SPECIFIED ) {
-            // don't skip more than our set length in frames.
-            if( (n/frameSize) > (frameLength-framePos) ) {
-                n = (frameLength-framePos) * frameSize;
+        if( frbmeLength != AudioSystem.NOT_SPECIFIED ) {
+            // don't skip more thbn our set length in frbmes.
+            if( (n/frbmeSize) > (frbmeLength-frbmePos) ) {
+                n = (frbmeLength-frbmePos) * frbmeSize;
             }
         }
-        long temp = stream.skip(n);
+        long temp = strebm.skip(n);
 
-        // if no error, update our position.
-        if( temp%frameSize != 0 ) {
+        // if no error, updbte our position.
+        if( temp%frbmeSize != 0 ) {
 
-            // Throw an IOException if we've skipped a fractional number of frames
-            throw new IOException("Could not skip an integer number of frames.");
+            // Throw bn IOException if we've skipped b frbctionbl number of frbmes
+            throw new IOException("Could not skip bn integer number of frbmes.");
         }
         if( temp >= 0 ) {
-            framePos += temp/frameSize;
+            frbmePos += temp/frbmeSize;
         }
         return temp;
 
     }
 
     /**
-     * Returns the maximum number of bytes that can be read (or skipped over)
-     * from this audio input stream without blocking. This limit applies only
-     * to the next invocation of a {@code read} or {@code skip} method for this
-     * audio input stream; the limit can vary each time these methods are
-     * invoked. Depending on the underlying stream, an IOException may be thrown
-     * if this stream is closed.
+     * Returns the mbximum number of bytes thbt cbn be rebd (or skipped over)
+     * from this budio input strebm without blocking. This limit bpplies only
+     * to the next invocbtion of b {@code rebd} or {@code skip} method for this
+     * budio input strebm; the limit cbn vbry ebch time these methods bre
+     * invoked. Depending on the underlying strebm, bn IOException mby be thrown
+     * if this strebm is closed.
      *
-     * @return the number of bytes that can be read from this audio input stream
+     * @return the number of bytes thbt cbn be rebd from this budio input strebm
      *         without blocking
-     * @throws IOException if an input or output error occurs
-     * @see #read(byte[], int, int)
-     * @see #read(byte[])
-     * @see #read()
+     * @throws IOException if bn input or output error occurs
+     * @see #rebd(byte[], int, int)
+     * @see #rebd(byte[])
+     * @see #rebd()
      * @see #skip
      */
     @Override
-    public int available() throws IOException {
+    public int bvbilbble() throws IOException {
 
-        int temp = stream.available();
+        int temp = strebm.bvbilbble();
 
-        // don't return greater than our set length in frames
-        if( (frameLength != AudioSystem.NOT_SPECIFIED) && ( (temp/frameSize) > (frameLength-framePos)) ) {
-            return (int) (frameLength-framePos) * frameSize;
+        // don't return grebter thbn our set length in frbmes
+        if( (frbmeLength != AudioSystem.NOT_SPECIFIED) && ( (temp/frbmeSize) > (frbmeLength-frbmePos)) ) {
+            return (int) (frbmeLength-frbmePos) * frbmeSize;
         } else {
             return temp;
         }
     }
 
     /**
-     * Closes this audio input stream and releases any system resources
-     * associated with the stream.
+     * Closes this budio input strebm bnd relebses bny system resources
+     * bssocibted with the strebm.
      *
-     * @throws IOException if an input or output error occurs
+     * @throws IOException if bn input or output error occurs
      */
     @Override
     public void close() throws IOException {
-        stream.close();
+        strebm.close();
     }
 
     /**
-     * Marks the current position in this audio input stream.
+     * Mbrks the current position in this budio input strebm.
      *
-     * @param  readlimit the maximum number of bytes that can be read before the
-     *         mark position becomes invalid.
+     * @pbrbm  rebdlimit the mbximum number of bytes thbt cbn be rebd before the
+     *         mbrk position becomes invblid.
      * @see #reset
-     * @see #markSupported
+     * @see #mbrkSupported
      */
     @Override
-    public void mark(int readlimit) {
+    public void mbrk(int rebdlimit) {
 
-        stream.mark(readlimit);
-        if (markSupported()) {
-            markpos = framePos;
-            // remember the pushback buffer
-            markPushBackLen = pushBackLen;
-            if (markPushBackLen > 0) {
-                if (markPushBackBuffer == null) {
-                    markPushBackBuffer = new byte[frameSize];
+        strebm.mbrk(rebdlimit);
+        if (mbrkSupported()) {
+            mbrkpos = frbmePos;
+            // remember the pushbbck buffer
+            mbrkPushBbckLen = pushBbckLen;
+            if (mbrkPushBbckLen > 0) {
+                if (mbrkPushBbckBuffer == null) {
+                    mbrkPushBbckBuffer = new byte[frbmeSize];
                 }
-                System.arraycopy(pushBackBuffer, 0, markPushBackBuffer, 0, markPushBackLen);
+                System.brrbycopy(pushBbckBuffer, 0, mbrkPushBbckBuffer, 0, mbrkPushBbckLen);
             }
         }
     }
 
     /**
-     * Repositions this audio input stream to the position it had at the time
-     * its {@code mark} method was last invoked.
+     * Repositions this budio input strebm to the position it hbd bt the time
+     * its {@code mbrk} method wbs lbst invoked.
      *
-     * @throws IOException if an input or output error occurs
-     * @see #mark
-     * @see #markSupported
+     * @throws IOException if bn input or output error occurs
+     * @see #mbrk
+     * @see #mbrkSupported
      */
     @Override
     public void reset() throws IOException {
 
-        stream.reset();
-        framePos = markpos;
-        // re-create the pushback buffer
-        pushBackLen = markPushBackLen;
-        if (pushBackLen > 0) {
-            if (pushBackBuffer == null) {
-                pushBackBuffer = new byte[frameSize - 1];
+        strebm.reset();
+        frbmePos = mbrkpos;
+        // re-crebte the pushbbck buffer
+        pushBbckLen = mbrkPushBbckLen;
+        if (pushBbckLen > 0) {
+            if (pushBbckBuffer == null) {
+                pushBbckBuffer = new byte[frbmeSize - 1];
             }
-            System.arraycopy(markPushBackBuffer, 0, pushBackBuffer, 0, pushBackLen);
+            System.brrbycopy(mbrkPushBbckBuffer, 0, pushBbckBuffer, 0, pushBbckLen);
         }
     }
 
     /**
-     * Tests whether this audio input stream supports the {@code mark} and
+     * Tests whether this budio input strebm supports the {@code mbrk} bnd
      * {@code reset} methods.
      *
-     * @return {@code true} if this stream supports the {@code mark} and
-     *         {@code reset} methods; {@code false} otherwise
-     * @see #mark
+     * @return {@code true} if this strebm supports the {@code mbrk} bnd
+     *         {@code reset} methods; {@code fblse} otherwise
+     * @see #mbrk
      * @see #reset
      */
     @Override
-    public boolean markSupported() {
+    public boolebn mbrkSupported() {
 
-        return stream.markSupported();
+        return strebm.mbrkSupported();
     }
 
     /**
-     * Private inner class that makes a TargetDataLine look like an InputStream.
+     * Privbte inner clbss thbt mbkes b TbrgetDbtbLine look like bn InputStrebm.
      */
-    private class TargetDataLineInputStream extends InputStream {
+    privbte clbss TbrgetDbtbLineInputStrebm extends InputStrebm {
 
         /**
-         * The TargetDataLine on which this TargetDataLineInputStream is based.
+         * The TbrgetDbtbLine on which this TbrgetDbtbLineInputStrebm is bbsed.
          */
-        TargetDataLine line;
+        TbrgetDbtbLine line;
 
-        TargetDataLineInputStream(TargetDataLine line) {
+        TbrgetDbtbLineInputStrebm(TbrgetDbtbLine line) {
             super();
             this.line = line;
         }
 
         @Override
-        public int available() throws IOException {
-            return line.available();
+        public int bvbilbble() throws IOException {
+            return line.bvbilbble();
         }
 
-        //$$fb 2001-07-16: added this method to correctly close the underlying TargetDataLine.
+        //$$fb 2001-07-16: bdded this method to correctly close the underlying TbrgetDbtbLine.
         // fixes bug 4479984
         @Override
         public void close() throws IOException {
-            // the line needs to be flushed and stopped to avoid a dead lock...
-            // Probably related to bugs 4417527, 4334868, 4383457
+            // the line needs to be flushed bnd stopped to bvoid b debd lock...
+            // Probbbly relbted to bugs 4417527, 4334868, 4383457
             if (line.isActive()) {
                 line.flush();
                 line.stop();
@@ -485,31 +485,31 @@ public class AudioInputStream extends InputStream {
         }
 
         @Override
-        public int read() throws IOException {
+        public int rebd() throws IOException {
 
             byte[] b = new byte[1];
 
-            int value = read(b, 0, 1);
+            int vblue = rebd(b, 0, 1);
 
-            if (value == -1) {
+            if (vblue == -1) {
                 return -1;
             }
 
-            value = (int)b[0];
+            vblue = (int)b[0];
 
-            if (line.getFormat().getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)) {
-                value += 128;
+            if (line.getFormbt().getEncoding().equbls(AudioFormbt.Encoding.PCM_SIGNED)) {
+                vblue += 128;
             }
 
-            return value;
+            return vblue;
         }
 
         @Override
-        public int read(byte[] b, int off, int len) throws IOException {
+        public int rebd(byte[] b, int off, int len) throws IOException {
             try {
-                return line.read(b, off, len);
-            } catch (IllegalArgumentException e) {
-                throw new IOException(e.getMessage());
+                return line.rebd(b, off, len);
+            } cbtch (IllegblArgumentException e) {
+                throw new IOException(e.getMessbge());
             }
         }
     }

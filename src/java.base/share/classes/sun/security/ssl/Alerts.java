@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 
 /*
- * A simple class to congregate alerts, their definitions, and common
+ * A simple clbss to congregbte blerts, their definitions, bnd common
  * support methods.
  */
 
-final class Alerts {
+finbl clbss Alerts {
 
     /*
-     * Alerts are always a fixed two byte format (level/description).
+     * Alerts bre blwbys b fixed two byte formbt (level/description).
      */
 
-    // warnings and fatal errors are package private facilities/constants
+    // wbrnings bnd fbtbl errors bre pbckbge privbte fbcilities/constbnts
 
     // Alert levels (enum AlertLevel)
-    static final byte           alert_warning = 1;
-    static final byte           alert_fatal = 2;
+    stbtic finbl byte           blert_wbrning = 1;
+    stbtic finbl byte           blert_fbtbl = 2;
 
     /*
      * Alert descriptions (enum AlertDescription)
      *
-     * We may not use them all in our processing, but if someone
-     * sends us one, we can at least convert it to a string for the
+     * We mby not use them bll in our processing, but if someone
+     * sends us one, we cbn bt lebst convert it to b string for the
      * user.
      */
-    static final byte           alert_close_notify = 0;
-    static final byte           alert_unexpected_message = 10;
-    static final byte           alert_bad_record_mac = 20;
-    static final byte           alert_decryption_failed = 21;
-    static final byte           alert_record_overflow = 22;
-    static final byte           alert_decompression_failure = 30;
-    static final byte           alert_handshake_failure = 40;
-    static final byte           alert_no_certificate = 41;
-    static final byte           alert_bad_certificate = 42;
-    static final byte           alert_unsupported_certificate = 43;
-    static final byte           alert_certificate_revoked = 44;
-    static final byte           alert_certificate_expired = 45;
-    static final byte           alert_certificate_unknown = 46;
-    static final byte           alert_illegal_parameter = 47;
-    static final byte           alert_unknown_ca = 48;
-    static final byte           alert_access_denied = 49;
-    static final byte           alert_decode_error = 50;
-    static final byte           alert_decrypt_error = 51;
-    static final byte           alert_export_restriction = 60;
-    static final byte           alert_protocol_version = 70;
-    static final byte           alert_insufficient_security = 71;
-    static final byte           alert_internal_error = 80;
-    static final byte           alert_user_canceled = 90;
-    static final byte           alert_no_renegotiation = 100;
+    stbtic finbl byte           blert_close_notify = 0;
+    stbtic finbl byte           blert_unexpected_messbge = 10;
+    stbtic finbl byte           blert_bbd_record_mbc = 20;
+    stbtic finbl byte           blert_decryption_fbiled = 21;
+    stbtic finbl byte           blert_record_overflow = 22;
+    stbtic finbl byte           blert_decompression_fbilure = 30;
+    stbtic finbl byte           blert_hbndshbke_fbilure = 40;
+    stbtic finbl byte           blert_no_certificbte = 41;
+    stbtic finbl byte           blert_bbd_certificbte = 42;
+    stbtic finbl byte           blert_unsupported_certificbte = 43;
+    stbtic finbl byte           blert_certificbte_revoked = 44;
+    stbtic finbl byte           blert_certificbte_expired = 45;
+    stbtic finbl byte           blert_certificbte_unknown = 46;
+    stbtic finbl byte           blert_illegbl_pbrbmeter = 47;
+    stbtic finbl byte           blert_unknown_cb = 48;
+    stbtic finbl byte           blert_bccess_denied = 49;
+    stbtic finbl byte           blert_decode_error = 50;
+    stbtic finbl byte           blert_decrypt_error = 51;
+    stbtic finbl byte           blert_export_restriction = 60;
+    stbtic finbl byte           blert_protocol_version = 70;
+    stbtic finbl byte           blert_insufficient_security = 71;
+    stbtic finbl byte           blert_internbl_error = 80;
+    stbtic finbl byte           blert_user_cbnceled = 90;
+    stbtic finbl byte           blert_no_renegotibtion = 100;
 
     // from RFC 3546 (TLS Extensions)
-    static final byte           alert_unsupported_extension = 110;
-    static final byte           alert_certificate_unobtainable = 111;
-    static final byte           alert_unrecognized_name = 112;
-    static final byte           alert_bad_certificate_status_response = 113;
-    static final byte           alert_bad_certificate_hash_value = 114;
+    stbtic finbl byte           blert_unsupported_extension = 110;
+    stbtic finbl byte           blert_certificbte_unobtbinbble = 111;
+    stbtic finbl byte           blert_unrecognized_nbme = 112;
+    stbtic finbl byte           blert_bbd_certificbte_stbtus_response = 113;
+    stbtic finbl byte           blert_bbd_certificbte_hbsh_vblue = 114;
 
-    static String alertDescription(byte code) {
+    stbtic String blertDescription(byte code) {
         switch (code) {
 
-        case alert_close_notify:
+        cbse blert_close_notify:
             return "close_notify";
-        case alert_unexpected_message:
-            return "unexpected_message";
-        case alert_bad_record_mac:
-            return "bad_record_mac";
-        case alert_decryption_failed:
-            return "decryption_failed";
-        case alert_record_overflow:
+        cbse blert_unexpected_messbge:
+            return "unexpected_messbge";
+        cbse blert_bbd_record_mbc:
+            return "bbd_record_mbc";
+        cbse blert_decryption_fbiled:
+            return "decryption_fbiled";
+        cbse blert_record_overflow:
             return "record_overflow";
-        case alert_decompression_failure:
-            return "decompression_failure";
-        case alert_handshake_failure:
-            return "handshake_failure";
-        case alert_no_certificate:
-            return "no_certificate";
-        case alert_bad_certificate:
-            return "bad_certificate";
-        case alert_unsupported_certificate:
-            return "unsupported_certificate";
-        case alert_certificate_revoked:
-            return "certificate_revoked";
-        case alert_certificate_expired:
-            return "certificate_expired";
-        case alert_certificate_unknown:
-            return "certificate_unknown";
-        case alert_illegal_parameter:
-            return "illegal_parameter";
-        case alert_unknown_ca:
-            return "unknown_ca";
-        case alert_access_denied:
-            return "access_denied";
-        case alert_decode_error:
+        cbse blert_decompression_fbilure:
+            return "decompression_fbilure";
+        cbse blert_hbndshbke_fbilure:
+            return "hbndshbke_fbilure";
+        cbse blert_no_certificbte:
+            return "no_certificbte";
+        cbse blert_bbd_certificbte:
+            return "bbd_certificbte";
+        cbse blert_unsupported_certificbte:
+            return "unsupported_certificbte";
+        cbse blert_certificbte_revoked:
+            return "certificbte_revoked";
+        cbse blert_certificbte_expired:
+            return "certificbte_expired";
+        cbse blert_certificbte_unknown:
+            return "certificbte_unknown";
+        cbse blert_illegbl_pbrbmeter:
+            return "illegbl_pbrbmeter";
+        cbse blert_unknown_cb:
+            return "unknown_cb";
+        cbse blert_bccess_denied:
+            return "bccess_denied";
+        cbse blert_decode_error:
             return "decode_error";
-        case alert_decrypt_error:
+        cbse blert_decrypt_error:
             return "decrypt_error";
-        case alert_export_restriction:
+        cbse blert_export_restriction:
             return "export_restriction";
-        case alert_protocol_version:
+        cbse blert_protocol_version:
             return "protocol_version";
-        case alert_insufficient_security:
+        cbse blert_insufficient_security:
             return "insufficient_security";
-        case alert_internal_error:
-            return "internal_error";
-        case alert_user_canceled:
-            return "user_canceled";
-        case alert_no_renegotiation:
-            return "no_renegotiation";
-        case alert_unsupported_extension:
+        cbse blert_internbl_error:
+            return "internbl_error";
+        cbse blert_user_cbnceled:
+            return "user_cbnceled";
+        cbse blert_no_renegotibtion:
+            return "no_renegotibtion";
+        cbse blert_unsupported_extension:
             return "unsupported_extension";
-        case alert_certificate_unobtainable:
-            return "certificate_unobtainable";
-        case alert_unrecognized_name:
-            return "unrecognized_name";
-        case alert_bad_certificate_status_response:
-            return "bad_certificate_status_response";
-        case alert_bad_certificate_hash_value:
-            return "bad_certificate_hash_value";
+        cbse blert_certificbte_unobtbinbble:
+            return "certificbte_unobtbinbble";
+        cbse blert_unrecognized_nbme:
+            return "unrecognized_nbme";
+        cbse blert_bbd_certificbte_stbtus_response:
+            return "bbd_certificbte_stbtus_response";
+        cbse blert_bbd_certificbte_hbsh_vblue:
+            return "bbd_certificbte_hbsh_vblue";
 
-        default:
+        defbult:
             return "<UNKNOWN ALERT: " + (code & 0x0ff) + ">";
         }
     }
 
-    static SSLException getSSLException(byte description, String reason) {
-        return getSSLException(description, null, reason);
+    stbtic SSLException getSSLException(byte description, String rebson) {
+        return getSSLException(description, null, rebson);
     }
 
     /*
-     * Try to be a little more specific in our choice of
+     * Try to be b little more specific in our choice of
      * exceptions to throw.
      */
-    static SSLException getSSLException(byte description, Throwable cause,
-            String reason) {
+    stbtic SSLException getSSLException(byte description, Throwbble cbuse,
+            String rebson) {
 
         SSLException e;
-        // the SSLException classes do not have a no-args constructor
-        // make up a message if there is none
-        if (reason == null) {
-            if (cause != null) {
-                reason = cause.toString();
+        // the SSLException clbsses do not hbve b no-brgs constructor
+        // mbke up b messbge if there is none
+        if (rebson == null) {
+            if (cbuse != null) {
+                rebson = cbuse.toString();
             } else {
-                reason = "";
+                rebson = "";
             }
         }
         switch (description) {
-        case alert_handshake_failure:
-        case alert_no_certificate:
-        case alert_bad_certificate:
-        case alert_unsupported_certificate:
-        case alert_certificate_revoked:
-        case alert_certificate_expired:
-        case alert_certificate_unknown:
-        case alert_unknown_ca:
-        case alert_access_denied:
-        case alert_decrypt_error:
-        case alert_export_restriction:
-        case alert_insufficient_security:
-        case alert_unsupported_extension:
-        case alert_certificate_unobtainable:
-        case alert_unrecognized_name:
-        case alert_bad_certificate_status_response:
-        case alert_bad_certificate_hash_value:
-            e = new SSLHandshakeException(reason);
-            break;
+        cbse blert_hbndshbke_fbilure:
+        cbse blert_no_certificbte:
+        cbse blert_bbd_certificbte:
+        cbse blert_unsupported_certificbte:
+        cbse blert_certificbte_revoked:
+        cbse blert_certificbte_expired:
+        cbse blert_certificbte_unknown:
+        cbse blert_unknown_cb:
+        cbse blert_bccess_denied:
+        cbse blert_decrypt_error:
+        cbse blert_export_restriction:
+        cbse blert_insufficient_security:
+        cbse blert_unsupported_extension:
+        cbse blert_certificbte_unobtbinbble:
+        cbse blert_unrecognized_nbme:
+        cbse blert_bbd_certificbte_stbtus_response:
+        cbse blert_bbd_certificbte_hbsh_vblue:
+            e = new SSLHbndshbkeException(rebson);
+            brebk;
 
-        case alert_close_notify:
-        case alert_unexpected_message:
-        case alert_bad_record_mac:
-        case alert_decryption_failed:
-        case alert_record_overflow:
-        case alert_decompression_failure:
-        case alert_illegal_parameter:
-        case alert_decode_error:
-        case alert_protocol_version:
-        case alert_internal_error:
-        case alert_user_canceled:
-        case alert_no_renegotiation:
-        default:
-            e = new SSLException(reason);
-            break;
+        cbse blert_close_notify:
+        cbse blert_unexpected_messbge:
+        cbse blert_bbd_record_mbc:
+        cbse blert_decryption_fbiled:
+        cbse blert_record_overflow:
+        cbse blert_decompression_fbilure:
+        cbse blert_illegbl_pbrbmeter:
+        cbse blert_decode_error:
+        cbse blert_protocol_version:
+        cbse blert_internbl_error:
+        cbse blert_user_cbnceled:
+        cbse blert_no_renegotibtion:
+        defbult:
+            e = new SSLException(rebson);
+            brebk;
         }
 
-        if (cause != null) {
-            e.initCause(cause);
+        if (cbuse != null) {
+            e.initCbuse(cbuse);
         }
         return e;
     }

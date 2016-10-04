@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,146 +27,146 @@
 #include "jni_util.h"
 #include "jlong.h"
 #include "jvm.h"
-#include "management.h"
-#include "sun_management_OperatingSystemImpl.h"
+#include "mbnbgement.h"
+#include "sun_mbnbgement_OperbtingSystemImpl.h"
 
-#include <psapi.h>
+#include <psbpi.h>
 #include <errno.h>
 #include <stdlib.h>
 
-#include <malloc.h>
-#pragma warning (push,0)
+#include <mblloc.h>
+#prbgmb wbrning (push,0)
 #include <windows.h>
-#pragma warning (pop)
+#prbgmb wbrning (pop)
 #include <stdio.h>
 #include <time.h>
 #include <stdint.h>
-#include <assert.h>
+#include <bssert.h>
 
-/* Disable warnings due to broken header files from Microsoft... */
-#pragma warning(push, 3)
+/* Disbble wbrnings due to broken hebder files from Microsoft... */
+#prbgmb wbrning(push, 3)
 #include <pdh.h>
 #include <pdhmsg.h>
 #include <process.h>
-#pragma warning(pop)
+#prbgmb wbrning(pop)
 
 typedef unsigned __int32 juint;
 typedef unsigned __int64 julong;
 
-typedef enum boolean_values { false=0, true=1};
+typedef enum boolebn_vblues { fblse=0, true=1};
 
-static void set_low(jlong* value, jint low) {
-    *value &= (jlong)0xffffffff << 32;
-    *value |= (jlong)(julong)(juint)low;
+stbtic void set_low(jlong* vblue, jint low) {
+    *vblue &= (jlong)0xffffffff << 32;
+    *vblue |= (jlong)(julong)(juint)low;
 }
 
-static void set_high(jlong* value, jint high) {
-    *value &= (jlong)(julong)(juint)0xffffffff;
-    *value |= (jlong)high       << 32;
+stbtic void set_high(jlong* vblue, jint high) {
+    *vblue &= (jlong)(julong)(juint)0xffffffff;
+    *vblue |= (jlong)high       << 32;
 }
 
-static jlong jlong_from(jint h, jint l) {
-  jlong result = 0; // initialization to avoid warning
+stbtic jlong jlong_from(jint h, jint l) {
+  jlong result = 0; // initiblizbtion to bvoid wbrning
   set_high(&result, h);
   set_low(&result,  l);
   return result;
 }
 
-static HANDLE main_process;
+stbtic HANDLE mbin_process;
 
 int perfiInit(void);
 
 JNIEXPORT void JNICALL
-Java_sun_management_OperatingSystemImpl_initialize0
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_initiblize0
+  (JNIEnv *env, jclbss cls)
 {
-    main_process = GetCurrentProcess();
+    mbin_process = GetCurrentProcess();
      perfiInit();
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getCommittedVirtualMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getCommittedVirtublMemorySize0
+  (JNIEnv *env, jobject mbebn)
 {
     PROCESS_MEMORY_COUNTERS pmc;
-    if (GetProcessMemoryInfo(main_process, &pmc, sizeof(PROCESS_MEMORY_COUNTERS)) == 0) {
+    if (GetProcessMemoryInfo(mbin_process, &pmc, sizeof(PROCESS_MEMORY_COUNTERS)) == 0) {
         return (jlong)-1L;
     } else {
-        return (jlong) pmc.PagefileUsage;
+        return (jlong) pmc.PbgefileUsbge;
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getTotalSwapSpaceSize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getTotblSwbpSpbceSize0
+  (JNIEnv *env, jobject mbebn)
 {
     MEMORYSTATUSEX ms;
     ms.dwLength = sizeof(ms);
-    GlobalMemoryStatusEx(&ms);
-    return (jlong) ms.ullTotalPageFile;
+    GlobblMemoryStbtusEx(&ms);
+    return (jlong) ms.ullTotblPbgeFile;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getFreeSwapSpaceSize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getFreeSwbpSpbceSize0
+  (JNIEnv *env, jobject mbebn)
 {
     MEMORYSTATUSEX ms;
     ms.dwLength = sizeof(ms);
-    GlobalMemoryStatusEx(&ms);
-    return (jlong) ms.ullAvailPageFile;
+    GlobblMemoryStbtusEx(&ms);
+    return (jlong) ms.ullAvbilPbgeFile;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getProcessCpuTime0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getProcessCpuTime0
+  (JNIEnv *env, jobject mbebn)
 {
 
-    FILETIME process_creation_time, process_exit_time,
+    FILETIME process_crebtion_time, process_exit_time,
              process_user_time, process_kernel_time;
 
-    // Using static variables declared above
-    // Units are 100-ns intervals.  Convert to ns.
-    GetProcessTimes(main_process, &process_creation_time,
+    // Using stbtic vbribbles declbred bbove
+    // Units bre 100-ns intervbls.  Convert to ns.
+    GetProcessTimes(mbin_process, &process_crebtion_time,
                     &process_exit_time,
                     &process_kernel_time, &process_user_time);
-    return (jlong_from(process_user_time.dwHighDateTime,
-                        process_user_time.dwLowDateTime) +
-            jlong_from(process_kernel_time.dwHighDateTime,
-                        process_kernel_time.dwLowDateTime)) * 100;
+    return (jlong_from(process_user_time.dwHighDbteTime,
+                        process_user_time.dwLowDbteTime) +
+            jlong_from(process_kernel_time.dwHighDbteTime,
+                        process_kernel_time.dwLowDbteTime)) * 100;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getFreePhysicalMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getFreePhysicblMemorySize0
+  (JNIEnv *env, jobject mbebn)
 {
     MEMORYSTATUSEX ms;
     ms.dwLength = sizeof(ms);
-    GlobalMemoryStatusEx(&ms);
-    return (jlong) ms.ullAvailPhys;
+    GlobblMemoryStbtusEx(&ms);
+    return (jlong) ms.ullAvbilPhys;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getTotalPhysicalMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getTotblPhysicblMemorySize0
+  (JNIEnv *env, jobject mbebn)
 {
     MEMORYSTATUSEX ms;
     ms.dwLength = sizeof(ms);
-    GlobalMemoryStatusEx(&ms);
-    return (jlong) ms.ullTotalPhys;
+    GlobblMemoryStbtusEx(&ms);
+    return (jlong) ms.ullTotblPhys;
 }
 
-// Seems WinXP PDH returns PDH_MORE_DATA whenever we send in a NULL buffer.
-// Let's just ignore it, since we make sure we have enough buffer anyway.
-static int
-pdh_fail(PDH_STATUS pdhStat) {
-    return pdhStat != ERROR_SUCCESS && pdhStat != PDH_MORE_DATA;
+// Seems WinXP PDH returns PDH_MORE_DATA whenever we send in b NULL buffer.
+// Let's just ignore it, since we mbke sure we hbve enough buffer bnywby.
+stbtic int
+pdh_fbil(PDH_STATUS pdhStbt) {
+    return pdhStbt != ERROR_SUCCESS && pdhStbt != PDH_MORE_DATA;
 }
 
-// INFO: Using PDH APIs Correctly in a Localized Language (Q287159)
-//       http://support.microsoft.com/default.aspx?scid=kb;EN-US;q287159
-// The index value for the base system counters and objects like processor,
-// process, thread, memory, and so forth are always the same irrespective
-// of the localized version of the operating system or service pack installed.
+// INFO: Using PDH APIs Correctly in b Locblized Lbngubge (Q287159)
+//       http://support.microsoft.com/defbult.bspx?scid=kb;EN-US;q287159
+// The index vblue for the bbse system counters bnd objects like processor,
+// process, threbd, memory, bnd so forth bre blwbys the sbme irrespective
+// of the locblized version of the operbting system or service pbck instblled.
 #define PDH_PROCESSOR_IDX        ((DWORD) 238)
 #define PDH_PROCESSOR_TIME_IDX        ((DWORD)   6)
 #define PDH_PRIV_PROCESSOR_TIME_IDX ((DWORD) 144)
@@ -178,71 +178,71 @@ pdh_fail(PDH_STATUS pdhStat) {
 
 typedef PDH_STATUS (WINAPI *PdhAddCounterFunc)(
                            HQUERY      hQuery,
-                           LPCSTR      szFullCounterPath,
-                           DWORD       dwUserData,
+                           LPCSTR      szFullCounterPbth,
+                           DWORD       dwUserDbtb,
                            HCOUNTER    *phCounter
                            );
 typedef PDH_STATUS (WINAPI *PdhOpenQueryFunc)(
-                          LPCWSTR     szDataSource,
-                          DWORD       dwUserData,
+                          LPCWSTR     szDbtbSource,
+                          DWORD       dwUserDbtb,
                           HQUERY      *phQuery
                           );
 typedef DWORD (WINAPI *PdhCloseQueryFunc)(
                       HQUERY      hQuery
                       );
-typedef PDH_STATUS (WINAPI *PdhCollectQueryDataFunc)(
+typedef PDH_STATUS (WINAPI *PdhCollectQueryDbtbFunc)(
                              HQUERY      hQuery
                              );
-typedef DWORD (WINAPI *PdhGetFormattedCounterValueFunc)(
+typedef DWORD (WINAPI *PdhGetFormbttedCounterVblueFunc)(
                             HCOUNTER                hCounter,
-                            DWORD                   dwFormat,
+                            DWORD                   dwFormbt,
                             LPDWORD                 lpdwType,
-                            PPDH_FMT_COUNTERVALUE   pValue
+                            PPDH_FMT_COUNTERVALUE   pVblue
                             );
 typedef PDH_STATUS (WINAPI *PdhEnumObjectItemsFunc)(
-                            LPCTSTR    szDataSource,
-                            LPCTSTR    szMachineName,
-                            LPCTSTR    szObjectName,
+                            LPCTSTR    szDbtbSource,
+                            LPCTSTR    szMbchineNbme,
+                            LPCTSTR    szObjectNbme,
                             LPTSTR     mszCounterList,
                             LPDWORD    pcchCounterListLength,
-                            LPTSTR     mszInstanceList,
-                            LPDWORD    pcchInstanceListLength,
-                            DWORD      dwDetailLevel,
-                            DWORD      dwFlags
+                            LPTSTR     mszInstbnceList,
+                            LPDWORD    pcchInstbnceListLength,
+                            DWORD      dwDetbilLevel,
+                            DWORD      dwFlbgs
                             );
 typedef PDH_STATUS (WINAPI *PdhRemoveCounterFunc)(
                           HCOUNTER  hCounter
                           );
-typedef PDH_STATUS (WINAPI *PdhLookupPerfNameByIndexFunc)(
-                              LPCSTR  szMachineName,
-                              DWORD   dwNameIndex,
-                              LPSTR   szNameBuffer,
-                              LPDWORD pcchNameBufferSize
+typedef PDH_STATUS (WINAPI *PdhLookupPerfNbmeByIndexFunc)(
+                              LPCSTR  szMbchineNbme,
+                              DWORD   dwNbmeIndex,
+                              LPSTR   szNbmeBuffer,
+                              LPDWORD pcchNbmeBufferSize
                               );
-typedef PDH_STATUS (WINAPI *PdhMakeCounterPathFunc)(
-                            PDH_COUNTER_PATH_ELEMENTS *pCounterPathElements,
-                            LPTSTR szFullPathBuffer,
+typedef PDH_STATUS (WINAPI *PdhMbkeCounterPbthFunc)(
+                            PDH_COUNTER_PATH_ELEMENTS *pCounterPbthElements,
+                            LPTSTR szFullPbthBuffer,
                             LPDWORD pcchBufferSize,
-                            DWORD dwFlags
+                            DWORD dwFlbgs
                             );
 
-static PdhAddCounterFunc PdhAddCounter_i;
-static PdhOpenQueryFunc PdhOpenQuery_i;
-static PdhCloseQueryFunc PdhCloseQuery_i;
-static PdhCollectQueryDataFunc PdhCollectQueryData_i;
-static PdhGetFormattedCounterValueFunc PdhGetFormattedCounterValue_i;
-static PdhEnumObjectItemsFunc PdhEnumObjectItems_i;
-static PdhRemoveCounterFunc PdhRemoveCounter_i;
-static PdhLookupPerfNameByIndexFunc PdhLookupPerfNameByIndex_i;
-static PdhMakeCounterPathFunc PdhMakeCounterPath_i;
+stbtic PdhAddCounterFunc PdhAddCounter_i;
+stbtic PdhOpenQueryFunc PdhOpenQuery_i;
+stbtic PdhCloseQueryFunc PdhCloseQuery_i;
+stbtic PdhCollectQueryDbtbFunc PdhCollectQueryDbtb_i;
+stbtic PdhGetFormbttedCounterVblueFunc PdhGetFormbttedCounterVblue_i;
+stbtic PdhEnumObjectItemsFunc PdhEnumObjectItems_i;
+stbtic PdhRemoveCounterFunc PdhRemoveCounter_i;
+stbtic PdhLookupPerfNbmeByIndexFunc PdhLookupPerfNbmeByIndex_i;
+stbtic PdhMbkeCounterPbthFunc PdhMbkeCounterPbth_i;
 
-static HANDLE thisProcess;
-static double cpuFactor;
-static DWORD  num_cpus;
+stbtic HANDLE thisProcess;
+stbtic double cpuFbctor;
+stbtic DWORD  num_cpus;
 
-#define FT2JLONG(X)  ((((jlong)X.dwHighDateTime) << 32) | ((jlong)X.dwLowDateTime))
+#define FT2JLONG(X)  ((((jlong)X.dwHighDbteTime) << 32) | ((jlong)X.dwLowDbteTime))
 #define COUNTER_BUF_SIZE 256
-// Min time between query updates.
+// Min time between query updbtes.
 #define MIN_UPDATE_INTERVAL 500
 #define CONFIG_SUCCESSFUL 0
 
@@ -251,73 +251,73 @@ static DWORD  num_cpus;
  */
 typedef struct {
     HQUERY      query;
-    uint64_t      lastUpdate; // Last time query was updated (current millis).
-} UpdateQueryS, *UpdateQueryP;
+    uint64_t      lbstUpdbte; // Lbst time query wbs updbted (current millis).
+} UpdbteQueryS, *UpdbteQueryP;
 
 /**
- * Struct for the processor load counters.
+ * Struct for the processor lobd counters.
  */
 typedef struct {
-    UpdateQueryS      query;
+    UpdbteQueryS      query;
     HCOUNTER*      counters;
     int          noOfCounters;
 } MultipleCounterQueryS, *MultipleCounterQueryP;
 
 /**
- * Struct for the jvm process load counter.
+ * Struct for the jvm process lobd counter.
  */
 typedef struct {
-    UpdateQueryS      query;
+    UpdbteQueryS      query;
     HCOUNTER      counter;
 } SingleCounterQueryS, *SingleCounterQueryP;
 
-static char* getProcessPDHHeader(void);
+stbtic chbr* getProcessPDHHebder(void);
 
 /**
- * Currently available counters.
+ * Currently bvbilbble counters.
  */
-static SingleCounterQueryS cntCtxtSwitchRate;
-static SingleCounterQueryS cntVirtualSize;
-static SingleCounterQueryS cntProcLoad;
-static SingleCounterQueryS cntProcSystemLoad;
-static MultipleCounterQueryS multiCounterCPULoad;
+stbtic SingleCounterQueryS cntCtxtSwitchRbte;
+stbtic SingleCounterQueryS cntVirtublSize;
+stbtic SingleCounterQueryS cntProcLobd;
+stbtic SingleCounterQueryS cntProcSystemLobd;
+stbtic MultipleCounterQueryS multiCounterCPULobd;
 
-static CRITICAL_SECTION processHeaderLock;
-static CRITICAL_SECTION initializationLock;
+stbtic CRITICAL_SECTION processHebderLock;
+stbtic CRITICAL_SECTION initiblizbtionLock;
 
 /**
- * Initialize the perf module at startup.
+ * Initiblize the perf module bt stbrtup.
  */
 int
 perfiInit(void)
 {
-    InitializeCriticalSection(&processHeaderLock);
-    InitializeCriticalSection(&initializationLock);
+    InitiblizeCriticblSection(&processHebderLock);
+    InitiblizeCriticblSection(&initiblizbtionLock);
     return 0;
 }
 
 /**
- * Dynamically sets up function pointers to the PDH library.
+ * Dynbmicblly sets up function pointers to the PDH librbry.
  *
- * @return CONFIG_SUCCESSFUL on success, negative on failure.
+ * @return CONFIG_SUCCESSFUL on success, negbtive on fbilure.
  */
-static int
-get_functions(HMODULE h, char *ebuf, size_t elen) {
-    // The 'A' at the end means the ANSI (not the UNICODE) vesions of the methods
+stbtic int
+get_functions(HMODULE h, chbr *ebuf, size_t elen) {
+    // The 'A' bt the end mebns the ANSI (not the UNICODE) vesions of the methods
     PdhAddCounter_i         = (PdhAddCounterFunc)GetProcAddress(h, "PdhAddCounterA");
     PdhOpenQuery_i         = (PdhOpenQueryFunc)GetProcAddress(h, "PdhOpenQueryA");
     PdhCloseQuery_i         = (PdhCloseQueryFunc)GetProcAddress(h, "PdhCloseQuery");
-    PdhCollectQueryData_i     = (PdhCollectQueryDataFunc)GetProcAddress(h, "PdhCollectQueryData");
-    PdhGetFormattedCounterValue_i = (PdhGetFormattedCounterValueFunc)GetProcAddress(h, "PdhGetFormattedCounterValue");
+    PdhCollectQueryDbtb_i     = (PdhCollectQueryDbtbFunc)GetProcAddress(h, "PdhCollectQueryDbtb");
+    PdhGetFormbttedCounterVblue_i = (PdhGetFormbttedCounterVblueFunc)GetProcAddress(h, "PdhGetFormbttedCounterVblue");
     PdhEnumObjectItems_i         = (PdhEnumObjectItemsFunc)GetProcAddress(h, "PdhEnumObjectItemsA");
     PdhRemoveCounter_i         = (PdhRemoveCounterFunc)GetProcAddress(h, "PdhRemoveCounter");
-    PdhLookupPerfNameByIndex_i     = (PdhLookupPerfNameByIndexFunc)GetProcAddress(h, "PdhLookupPerfNameByIndexA");
-    PdhMakeCounterPath_i         = (PdhMakeCounterPathFunc)GetProcAddress(h, "PdhMakeCounterPathA");
+    PdhLookupPerfNbmeByIndex_i     = (PdhLookupPerfNbmeByIndexFunc)GetProcAddress(h, "PdhLookupPerfNbmeByIndexA");
+    PdhMbkeCounterPbth_i         = (PdhMbkeCounterPbthFunc)GetProcAddress(h, "PdhMbkeCounterPbthA");
 
     if (PdhAddCounter_i == NULL || PdhOpenQuery_i == NULL ||
-    PdhCloseQuery_i == NULL || PdhCollectQueryData_i == NULL ||
-    PdhGetFormattedCounterValue_i == NULL || PdhEnumObjectItems_i == NULL ||
-    PdhRemoveCounter_i == NULL || PdhLookupPerfNameByIndex_i == NULL || PdhMakeCounterPath_i == NULL)
+    PdhCloseQuery_i == NULL || PdhCollectQueryDbtb_i == NULL ||
+    PdhGetFormbttedCounterVblue_i == NULL || PdhEnumObjectItems_i == NULL ||
+    PdhRemoveCounter_i == NULL || PdhLookupPerfNbmeByIndex_i == NULL || PdhMbkeCounterPbth_i == NULL)
     {
         _snprintf(ebuf, elen, "Required method could not be found.");
         return -1;
@@ -326,96 +326,96 @@ get_functions(HMODULE h, char *ebuf, size_t elen) {
 }
 
 /**
- * Returns the counter value as a double for the specified query.
- * Will collect the query data and update the counter values as necessary.
+ * Returns the counter vblue bs b double for the specified query.
+ * Will collect the query dbtb bnd updbte the counter vblues bs necessbry.
  *
- * @param query       the query to update (if needed).
- * @param c          the counter to read.
- * @param value       where to store the formatted value.
- * @param format      the format to use (i.e. PDH_FMT_DOUBLE, PDH_FMT_LONG etc)
+ * @pbrbm query       the query to updbte (if needed).
+ * @pbrbm c          the counter to rebd.
+ * @pbrbm vblue       where to store the formbtted vblue.
+ * @pbrbm formbt      the formbt to use (i.e. PDH_FMT_DOUBLE, PDH_FMT_LONG etc)
  * @return            CONFIG_SUCCESSFUL if no error
- *                    -1 if PdhCollectQueryData fails
- *                    -2 if PdhGetFormattedCounterValue fails
+ *                    -1 if PdhCollectQueryDbtb fbils
+ *                    -2 if PdhGetFormbttedCounterVblue fbils
  */
-static int
-getPerformanceData(UpdateQueryP query, HCOUNTER c, PDH_FMT_COUNTERVALUE* value, DWORD format) {
+stbtic int
+getPerformbnceDbtb(UpdbteQueryP query, HCOUNTER c, PDH_FMT_COUNTERVALUE* vblue, DWORD formbt) {
     clock_t now;
     now = clock();
 
-    // Need to limit how often we update the query
+    // Need to limit how often we updbte the query
     // to mimise the heisenberg effect.
-    // (PDH behaves erratically if the counters are
-    // queried too often, especially counters that
-    // store and use values from two consecutive updates,
-    // like cpu load.)
-    if (now - query->lastUpdate > MIN_UPDATE_INTERVAL) {
-        if (PdhCollectQueryData_i(query->query) != ERROR_SUCCESS) {
+    // (PDH behbves errbticblly if the counters bre
+    // queried too often, especiblly counters thbt
+    // store bnd use vblues from two consecutive updbtes,
+    // like cpu lobd.)
+    if (now - query->lbstUpdbte > MIN_UPDATE_INTERVAL) {
+        if (PdhCollectQueryDbtb_i(query->query) != ERROR_SUCCESS) {
             return -1;
         }
-        query->lastUpdate = now;
+        query->lbstUpdbte = now;
     }
 
-    if (PdhGetFormattedCounterValue_i(c, format, NULL, value) != ERROR_SUCCESS) {
+    if (PdhGetFormbttedCounterVblue_i(c, formbt, NULL, vblue) != ERROR_SUCCESS) {
         return -2;
     }
     return CONFIG_SUCCESSFUL;
 }
 
 /**
- * Places the resolved counter name of the counter at the specified index in the
- * supplied buffer. There must be enough space in the buffer to hold the counter name.
+ * Plbces the resolved counter nbme of the counter bt the specified index in the
+ * supplied buffer. There must be enough spbce in the buffer to hold the counter nbme.
  *
- * @param index   the counter index as specified in the registry.
- * @param buf     the buffer in which to place the counter name.
- * @param size      the size of the counter name buffer.
- * @param ebuf    the error message buffer.
- * @param elen    the length of the error buffer.
- * @return        CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @pbrbm index   the counter index bs specified in the registry.
+ * @pbrbm buf     the buffer in which to plbce the counter nbme.
+ * @pbrbm size      the size of the counter nbme buffer.
+ * @pbrbm ebuf    the error messbge buffer.
+ * @pbrbm elen    the length of the error buffer.
+ * @return        CONFIG_SUCCESSFUL if successful, negbtive on fbilure.
  */
-static int
-find_name(DWORD index, char *buf, DWORD size) {
+stbtic int
+find_nbme(DWORD index, chbr *buf, DWORD size) {
     PDH_STATUS res;
 
-    if ((res = PdhLookupPerfNameByIndex_i(NULL, index, buf, &size)) != ERROR_SUCCESS) {
+    if ((res = PdhLookupPerfNbmeByIndex_i(NULL, index, buf, &size)) != ERROR_SUCCESS) {
 
         /* printf("Could not open counter %d: error=0x%08x", index, res); */
         /* if (res == PDH_CSTATUS_NO_MACHINE) { */
-        /*      printf("User probably does not have sufficient privileges to use"); */
-        /*      printf("performance counters. If you are running on Windows 2003"); */
-        /*      printf("or Windows Vista, make sure the user is in the"); */
-        /*      printf("Performance Logs user group."); */
+        /*      printf("User probbbly does not hbve sufficient privileges to use"); */
+        /*      printf("performbnce counters. If you bre running on Windows 2003"); */
+        /*      printf("or Windows Vistb, mbke sure the user is in the"); */
+        /*      printf("Performbnce Logs user group."); */
         /* } */
         return -1;
     }
 
     if (size == 0) {
-        /* printf("Failed to get counter name for %d: empty string", index); */
+        /* printf("Fbiled to get counter nbme for %d: empty string", index); */
         return -1;
     }
 
-    // windows vista does not null-terminate the string (allthough the docs says it will)
+    // windows vistb does not null-terminbte the string (bllthough the docs sbys it will)
     buf[size - 1] = '\0';
     return CONFIG_SUCCESSFUL;
 }
 
 /**
  * Sets up the supplied SingleCounterQuery to listen for the specified counter.
- * initPDH() must have been run prior to calling this function!
+ * initPDH() must hbve been run prior to cblling this function!
  *
- * @param counterQuery   the counter query to set up.
- * @param counterString  the string specifying the path to the counter.
- * @param ebuf           the error buffer.
- * @param elen           the length of the error buffer.
- * @returns              CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @pbrbm counterQuery   the counter query to set up.
+ * @pbrbm counterString  the string specifying the pbth to the counter.
+ * @pbrbm ebuf           the error buffer.
+ * @pbrbm elen           the length of the error buffer.
+ * @returns              CONFIG_SUCCESSFUL if successful, negbtive on fbilure.
  */
-static int
-initSingleCounterQuery(SingleCounterQueryP counterQuery, char *counterString) {
+stbtic int
+initSingleCounterQuery(SingleCounterQueryP counterQuery, chbr *counterString) {
     if (PdhOpenQuery_i(NULL, 0, &counterQuery->query.query) != ERROR_SUCCESS) {
         /* printf("Could not open query for %s", counterString); */
         return -1;
     }
     if (PdhAddCounter_i(counterQuery->query.query, counterString, 0, &counterQuery->counter) != ERROR_SUCCESS) {
-        /* printf("Could not add counter %s for query", counterString); */
+        /* printf("Could not bdd counter %s for query", counterString); */
         if (counterQuery->counter != NULL) {
             PdhRemoveCounter_i(counterQuery->counter);
         }
@@ -432,164 +432,164 @@ initSingleCounterQuery(SingleCounterQueryP counterQuery, char *counterString) {
  * Sets up the supplied SingleCounterQuery to listen for the time spent
  * by the HotSpot process.
  *
- * @param counterQuery   the counter query to set up as a process counter.
- * @param ebuf           the error buffer.
- * @param elen           the length of the error buffer.
- * @returns              CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @pbrbm counterQuery   the counter query to set up bs b process counter.
+ * @pbrbm ebuf           the error buffer.
+ * @pbrbm elen           the length of the error buffer.
+ * @returns              CONFIG_SUCCESSFUL if successful, negbtive on fbilure.
  */
-static int
-initProcLoadCounter(void) {
-    char time[COUNTER_BUF_SIZE];
-    char counter[COUNTER_BUF_SIZE*2];
+stbtic int
+initProcLobdCounter(void) {
+    chbr time[COUNTER_BUF_SIZE];
+    chbr counter[COUNTER_BUF_SIZE*2];
 
-    if (find_name(PDH_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
+    if (find_nbme(PDH_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
         return -1;
     }
-    _snprintf(counter, sizeof(counter)-1, "%s\\%s", getProcessPDHHeader(), time);
-    return initSingleCounterQuery(&cntProcLoad, counter);
+    _snprintf(counter, sizeof(counter)-1, "%s\\%s", getProcessPDHHebder(), time);
+    return initSingleCounterQuery(&cntProcLobd, counter);
 }
 
-static int
-initProcSystemLoadCounter(void) {
-    char time[COUNTER_BUF_SIZE];
-    char counter[COUNTER_BUF_SIZE*2];
+stbtic int
+initProcSystemLobdCounter(void) {
+    chbr time[COUNTER_BUF_SIZE];
+    chbr counter[COUNTER_BUF_SIZE*2];
 
-    if (find_name(PDH_PRIV_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
+    if (find_nbme(PDH_PRIV_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
         return -1;
     }
-    _snprintf(counter, sizeof(counter)-1, "%s\\%s", getProcessPDHHeader(), time);
-    return initSingleCounterQuery(&cntProcSystemLoad, counter);
+    _snprintf(counter, sizeof(counter)-1, "%s\\%s", getProcessPDHHebder(), time);
+    return initSingleCounterQuery(&cntProcSystemLobd, counter);
 }
 
 /**
  * Sets up the supplied MultipleCounterQuery to check on the processors.
- * (Comment: Refactor and prettify as with the the SingleCounter queries
- * if more MultipleCounterQueries are discovered.)
+ * (Comment: Refbctor bnd prettify bs with the the SingleCounter queries
+ * if more MultipleCounterQueries bre discovered.)
  *
- * initPDH() must have been run prior to calling this function.
+ * initPDH() must hbve been run prior to cblling this function.
  *
- * @param multiQuery  a pointer to a MultipleCounterQueryS, will be filled in with
- *                    the necessary info to check the PDH processor counters.
- * @return            CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @pbrbm multiQuery  b pointer to b MultipleCounterQueryS, will be filled in with
+ *                    the necessbry info to check the PDH processor counters.
+ * @return            CONFIG_SUCCESSFUL if successful, negbtive on fbilure.
  */
-static int
+stbtic int
 initProcessorCounters(void) {
-    char          processor[COUNTER_BUF_SIZE]; //'Processor' == #238
-    char          time[COUNTER_BUF_SIZE];      //'Time' == 6
+    chbr          processor[COUNTER_BUF_SIZE]; //'Processor' == #238
+    chbr          time[COUNTER_BUF_SIZE];      //'Time' == 6
     DWORD      c_size, i_size;
     HQUERY     tmpQuery;
     DWORD      i, p_count;
     BOOL          error;
-    char         *instances, *tmp;
-    PDH_STATUS pdhStat;
+    chbr         *instbnces, *tmp;
+    PDH_STATUS pdhStbt;
 
     c_size   = i_size = 0;
     tmpQuery = NULL;
-    error    = false;
+    error    = fblse;
 
-    // This __try / __except stuff is there since Windows 2000 beta (or so) sometimes triggered
-    // an access violation when the user had insufficient privileges to use the performance
-    // counters. This was previously guarded by a very ugly piece of code which disabled the
-    // global trap handling in JRockit. Don't know if this really is needed anymore, but otoh,
-    // if we keep it we don't crash on Win2k beta. /Ihse, 2005-05-30
+    // This __try / __except stuff is there since Windows 2000 betb (or so) sometimes triggered
+    // bn bccess violbtion when the user hbd insufficient privileges to use the performbnce
+    // counters. This wbs previously gubrded by b very ugly piece of code which disbbled the
+    // globbl trbp hbndling in JRockit. Don't know if this reblly is needed bnymore, but otoh,
+    // if we keep it we don't crbsh on Win2k betb. /Ihse, 2005-05-30
     __try {
-        if (find_name(PDH_PROCESSOR_IDX, processor, sizeof(processor)-1) < 0) {
+        if (find_nbme(PDH_PROCESSOR_IDX, processor, sizeof(processor)-1) < 0) {
             return -1;
         }
-    } __except (EXCEPTION_EXECUTE_HANDLER) { // We'll catch all exceptions here.
-        /* printf("User does not have sufficient privileges to use performance counters"); */
+    } __except (EXCEPTION_EXECUTE_HANDLER) { // We'll cbtch bll exceptions here.
+        /* printf("User does not hbve sufficient privileges to use performbnce counters"); */
         return -1;
     }
 
-    if (find_name(PDH_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
+    if (find_nbme(PDH_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
         return -1;
     }
-    //ok, now we have enough to enumerate all processors.
-    pdhStat = PdhEnumObjectItems_i (
+    //ok, now we hbve enough to enumerbte bll processors.
+    pdhStbt = PdhEnumObjectItems_i (
                     NULL,                   // reserved
-                    NULL,                   // local machine
-                    processor,          // object to enumerate
-                    NULL,              // pass in NULL buffers
-                    &c_size,              // and 0 length to get
+                    NULL,                   // locbl mbchine
+                    processor,          // object to enumerbte
+                    NULL,              // pbss in NULL buffers
+                    &c_size,              // bnd 0 length to get
                     NULL,              // required size
-                    &i_size,              // of the buffers in chars
-                    PERF_DETAIL_WIZARD,     // counter detail level
+                    &i_size,              // of the buffers in chbrs
+                    PERF_DETAIL_WIZARD,     // counter detbil level
                     0);
-    if (pdh_fail(pdhStat)) {
-        /* printf("could not enumerate processors (1) error=%d", pdhStat); */
+    if (pdh_fbil(pdhStbt)) {
+        /* printf("could not enumerbte processors (1) error=%d", pdhStbt); */
         return -1;
     }
 
-    // use calloc because windows vista does not null terminate the instance names (allthough the docs says it will)
-    instances = calloc(i_size, 1);
-    if (instances == NULL) {
-        /* printf("could not allocate memory (1) %d bytes", i_size); */
+    // use cblloc becbuse windows vistb does not null terminbte the instbnce nbmes (bllthough the docs sbys it will)
+    instbnces = cblloc(i_size, 1);
+    if (instbnces == NULL) {
+        /* printf("could not bllocbte memory (1) %d bytes", i_size); */
         error = true;
         goto end;
     }
 
     c_size  = 0;
-    pdhStat = PdhEnumObjectItems_i (
+    pdhStbt = PdhEnumObjectItems_i (
                     NULL,                   // reserved
-                    NULL,                   // local machine
-                    processor,              // object to enumerate
-                    NULL,              // pass in NULL buffers
-                    &c_size,              // and 0 length to get
-                    instances,          // required size
-                    &i_size,              // of the buffers in chars
-                    PERF_DETAIL_WIZARD,     // counter detail level
+                    NULL,                   // locbl mbchine
+                    processor,              // object to enumerbte
+                    NULL,              // pbss in NULL buffers
+                    &c_size,              // bnd 0 length to get
+                    instbnces,          // required size
+                    &i_size,              // of the buffers in chbrs
+                    PERF_DETAIL_WIZARD,     // counter detbil level
                     0);
 
-    if (pdh_fail(pdhStat)) {
-        /* printf("could not enumerate processors (2) error=%d", pdhStat); */
+    if (pdh_fbil(pdhStbt)) {
+        /* printf("could not enumerbte processors (2) error=%d", pdhStbt); */
         error = true;
         goto end;
     }
-    //count perf count instances.
-    for (p_count = 0, tmp = instances; *tmp != 0; tmp = &tmp[lstrlen(tmp)+1], p_count++);
+    //count perf count instbnces.
+    for (p_count = 0, tmp = instbnces; *tmp != 0; tmp = &tmp[lstrlen(tmp)+1], p_count++);
 
     //is this correct for HT?
-    assert(p_count == num_cpus+1);
+    bssert(p_count == num_cpus+1);
 
-    //ok, have number of perf counters.
-    multiCounterCPULoad.counters = calloc(p_count, sizeof(HCOUNTER));
-    if (multiCounterCPULoad.counters == NULL) {
-        /* printf("could not allocate memory (2) count=%d", p_count); */
+    //ok, hbve number of perf counters.
+    multiCounterCPULobd.counters = cblloc(p_count, sizeof(HCOUNTER));
+    if (multiCounterCPULobd.counters == NULL) {
+        /* printf("could not bllocbte memory (2) count=%d", p_count); */
         error = true;
         goto end;
     }
 
-    multiCounterCPULoad.noOfCounters = p_count;
+    multiCounterCPULobd.noOfCounters = p_count;
 
-    if (PdhOpenQuery_i(NULL, 0, &multiCounterCPULoad.query.query) != ERROR_SUCCESS) {
-        /* printf("could not create query"); */
+    if (PdhOpenQuery_i(NULL, 0, &multiCounterCPULobd.query.query) != ERROR_SUCCESS) {
+        /* printf("could not crebte query"); */
         error = true;
         goto end;
     }
     //now, fetch the counters.
-    for (i = 0, tmp = instances; *tmp != '\0'; tmp = &tmp[lstrlen(tmp)+1], i++) {
-    char counter[2*COUNTER_BUF_SIZE];
+    for (i = 0, tmp = instbnces; *tmp != '\0'; tmp = &tmp[lstrlen(tmp)+1], i++) {
+    chbr counter[2*COUNTER_BUF_SIZE];
 
     _snprintf(counter, sizeof(counter)-1, "\\%s(%s)\\%s", processor, tmp, time);
 
-    if (PdhAddCounter_i(multiCounterCPULoad.query.query, counter, 0, &multiCounterCPULoad.counters[i]) != ERROR_SUCCESS) {
-            /* printf("error adding processor counter %s", counter); */
+    if (PdhAddCounter_i(multiCounterCPULobd.query.query, counter, 0, &multiCounterCPULobd.counters[i]) != ERROR_SUCCESS) {
+            /* printf("error bdding processor counter %s", counter); */
             error = true;
             goto end;
         }
     }
 
-    free(instances);
-    instances = NULL;
+    free(instbnces);
+    instbnces = NULL;
 
-    // Query once to initialize the counters needing at least two queries
-    // (like the % CPU usage) to calculate correctly.
-    if (PdhCollectQueryData_i(multiCounterCPULoad.query.query) != ERROR_SUCCESS)
+    // Query once to initiblize the counters needing bt lebst two queries
+    // (like the % CPU usbge) to cblculbte correctly.
+    if (PdhCollectQueryDbtb_i(multiCounterCPULobd.query.query) != ERROR_SUCCESS)
         error = true;
 
  end:
-    if (instances != NULL) {
-        free(instances);
+    if (instbnces != NULL) {
+        free(instbnces);
     }
     if (tmpQuery != NULL) {
         PdhCloseQuery_i(tmpQuery);
@@ -597,151 +597,151 @@ initProcessorCounters(void) {
     if (error) {
         int i;
 
-        if (multiCounterCPULoad.counters != NULL) {
-            for (i = 0; i < multiCounterCPULoad.noOfCounters; i++) {
-                if (multiCounterCPULoad.counters[i] != NULL) {
-                    PdhRemoveCounter_i(multiCounterCPULoad.counters[i]);
+        if (multiCounterCPULobd.counters != NULL) {
+            for (i = 0; i < multiCounterCPULobd.noOfCounters; i++) {
+                if (multiCounterCPULobd.counters[i] != NULL) {
+                    PdhRemoveCounter_i(multiCounterCPULobd.counters[i]);
                 }
             }
-            free(multiCounterCPULoad.counters[i]);
+            free(multiCounterCPULobd.counters[i]);
         }
-        if (multiCounterCPULoad.query.query != NULL) {
-            PdhCloseQuery_i(multiCounterCPULoad.query.query);
+        if (multiCounterCPULobd.query.query != NULL) {
+            PdhCloseQuery_i(multiCounterCPULobd.query.query);
         }
-        memset(&multiCounterCPULoad, 0, sizeof(MultipleCounterQueryS));
+        memset(&multiCounterCPULobd, 0, sizeof(MultipleCounterQueryS));
         return -1;
     }
     return CONFIG_SUCCESSFUL;
 }
 
 /**
- * Help function that initializes the PDH process header for the JRockit process.
- * (You should probably use getProcessPDHHeader() instead!)
+ * Help function thbt initiblizes the PDH process hebder for the JRockit process.
+ * (You should probbbly use getProcessPDHHebder() instebd!)
  *
- * initPDH() must have been run prior to calling this function.
+ * initPDH() must hbve been run prior to cblling this function.
  *
- * @param ebuf the error buffer.
- * @param elen the length of the error buffer.
+ * @pbrbm ebuf the error buffer.
+ * @pbrbm elen the length of the error buffer.
  *
- * @return the PDH instance description corresponding to the JVM process.
+ * @return the PDH instbnce description corresponding to the JVM process.
  */
-static char*
-initProcessPDHHeader(void) {
-    static char hotspotheader[2*COUNTER_BUF_SIZE];
+stbtic chbr*
+initProcessPDHHebder(void) {
+    stbtic chbr hotspothebder[2*COUNTER_BUF_SIZE];
 
-    char           counter[2*COUNTER_BUF_SIZE];
-    char           processes[COUNTER_BUF_SIZE];   //'Process' == #230
-    char           pid[COUNTER_BUF_SIZE];           //'ID Process' == 784
-    char           module_name[MAX_PATH];
-    PDH_STATUS  pdhStat;
+    chbr           counter[2*COUNTER_BUF_SIZE];
+    chbr           processes[COUNTER_BUF_SIZE];   //'Process' == #230
+    chbr           pid[COUNTER_BUF_SIZE];           //'ID Process' == 784
+    chbr           module_nbme[MAX_PATH];
+    PDH_STATUS  pdhStbt;
     DWORD       c_size = 0, i_size = 0;
     HQUERY      tmpQuery = NULL;
     int           i, myPid = _getpid();
-    BOOL           error = false;
-    char          *instances, *tmp, *instance_name, *dot_pos;
+    BOOL           error = fblse;
+    chbr          *instbnces, *tmp, *instbnce_nbme, *dot_pos;
 
     tmpQuery = NULL;
     myPid    = _getpid();
-    error    = false;
+    error    = fblse;
 
-    if (find_name(PDH_PROCESS_IDX, processes, sizeof(processes) - 1) < 0) {
+    if (find_nbme(PDH_PROCESS_IDX, processes, sizeof(processes) - 1) < 0) {
         return NULL;
     }
 
-    if (find_name(PDH_ID_PROCESS_IDX, pid, sizeof(pid) - 1) < 0) {
+    if (find_nbme(PDH_ID_PROCESS_IDX, pid, sizeof(pid) - 1) < 0) {
         return NULL;
     }
-    //time is same.
+    //time is sbme.
 
     c_size = 0;
     i_size = 0;
 
-    pdhStat = PdhEnumObjectItems_i (
+    pdhStbt = PdhEnumObjectItems_i (
                     NULL,                   // reserved
-                    NULL,                   // local machine
-                    processes,              // object to enumerate
-                    NULL,                   // pass in NULL buffers
-                    &c_size,              // and 0 length to get
+                    NULL,                   // locbl mbchine
+                    processes,              // object to enumerbte
+                    NULL,                   // pbss in NULL buffers
+                    &c_size,              // bnd 0 length to get
                     NULL,              // required size
-                    &i_size,              // of the buffers in chars
-                    PERF_DETAIL_WIZARD,     // counter detail level
+                    &i_size,              // of the buffers in chbrs
+                    PERF_DETAIL_WIZARD,     // counter detbil level
                     0);
 
-    //ok, now we have enough to enumerate all processes
-    if (pdh_fail(pdhStat)) {
-        /* printf("Could not enumerate processes (1) error=%d", pdhStat); */
+    //ok, now we hbve enough to enumerbte bll processes
+    if (pdh_fbil(pdhStbt)) {
+        /* printf("Could not enumerbte processes (1) error=%d", pdhStbt); */
         return NULL;
     }
 
-    // use calloc because windows vista does not null terminate the instance names (allthough the docs says it will)
-    if ((instances = calloc(i_size, 1)) == NULL) {
-        /* printf("Could not allocate memory %d bytes", i_size); */
+    // use cblloc becbuse windows vistb does not null terminbte the instbnce nbmes (bllthough the docs sbys it will)
+    if ((instbnces = cblloc(i_size, 1)) == NULL) {
+        /* printf("Could not bllocbte memory %d bytes", i_size); */
         error = true;
         goto end;
     }
 
     c_size = 0;
 
-    pdhStat = PdhEnumObjectItems_i (
+    pdhStbt = PdhEnumObjectItems_i (
                     NULL,                   // reserved
-                    NULL,                   // local machine
-                    processes,              // object to enumerate
-                    NULL,              // pass in NULL buffers
-                    &c_size,              // and 0 length to get
-                    instances,          // required size
-                    &i_size,              // of the buffers in chars
-                    PERF_DETAIL_WIZARD,     // counter detail level
+                    NULL,                   // locbl mbchine
+                    processes,              // object to enumerbte
+                    NULL,              // pbss in NULL buffers
+                    &c_size,              // bnd 0 length to get
+                    instbnces,          // required size
+                    &i_size,              // of the buffers in chbrs
+                    PERF_DETAIL_WIZARD,     // counter detbil level
                     0);
 
-    // ok, now we have enough to enumerate all processes
-    if (pdh_fail(pdhStat)) {
-        /* printf("Could not enumerate processes (2) error=%d", pdhStat); */
+    // ok, now we hbve enough to enumerbte bll processes
+    if (pdh_fbil(pdhStbt)) {
+        /* printf("Could not enumerbte processes (2) error=%d", pdhStbt); */
         error = true;
         goto end;
     }
 
     if (PdhOpenQuery_i(NULL, 0, &tmpQuery) != ERROR_SUCCESS) {
-        /* printf("Could not create temporary query"); */
+        /* printf("Could not crebte temporbry query"); */
         error = true;
         goto end;
     }
 
-    // Find our module name and use it to extract the instance name used by PDH
-    if (GetModuleFileName(NULL, module_name, MAX_PATH) >= MAX_PATH-1) {
-        /* printf("Module name truncated"); */
+    // Find our module nbme bnd use it to extrbct the instbnce nbme used by PDH
+    if (GetModuleFileNbme(NULL, module_nbme, MAX_PATH) >= MAX_PATH-1) {
+        /* printf("Module nbme truncbted"); */
         error = true;
         goto end;
     }
-    instance_name = strrchr(module_name, '\\'); //drop path
-    instance_name++;                            //skip slash
-    dot_pos = strchr(instance_name, '.');       //drop .exe
+    instbnce_nbme = strrchr(module_nbme, '\\'); //drop pbth
+    instbnce_nbme++;                            //skip slbsh
+    dot_pos = strchr(instbnce_nbme, '.');       //drop .exe
     dot_pos[0] = '\0';
 
     //now, fetch the counters.
-    for (tmp = instances; *tmp != 0 && !error; tmp = &tmp[lstrlen(tmp)+1]) {
+    for (tmp = instbnces; *tmp != 0 && !error; tmp = &tmp[lstrlen(tmp)+1]) {
         HCOUNTER  hc = NULL;
-        BOOL done = false;
+        BOOL done = fblse;
 
-        // Skip until we find our own process name
-        if (strcmp(tmp, instance_name) != 0) {
+        // Skip until we find our own process nbme
+        if (strcmp(tmp, instbnce_nbme) != 0) {
             continue;
         }
 
-        // iterate over all instance indexes and try to find our own pid
+        // iterbte over bll instbnce indexes bnd try to find our own pid
         for (i = 0; !done && !error; i++){
             PDH_STATUS res;
             _snprintf(counter, sizeof(counter)-1, "\\%s(%s#%d)\\%s", processes, tmp, i, pid);
 
             if (PdhAddCounter_i(tmpQuery, counter, 0, &hc) != ERROR_SUCCESS) {
-                /* printf("Failed to create process id query"); */
+                /* printf("Fbiled to crebte process id query"); */
                 error = true;
                 goto end;
             }
 
-            res = PdhCollectQueryData_i(tmpQuery);
+            res = PdhCollectQueryDbtb_i(tmpQuery);
 
             if (res == PDH_INVALID_HANDLE) {
-                /* printf("Failed to query process id"); */
+                /* printf("Fbiled to query process id"); */
                 res = -1;
                 done = true;
             } else if (res == PDH_NO_DATA) {
@@ -749,16 +749,16 @@ initProcessPDHHeader(void) {
             } else {
                 PDH_FMT_COUNTERVALUE cv;
 
-                PdhGetFormattedCounterValue_i(hc, PDH_FMT_LONG, NULL, &cv);
+                PdhGetFormbttedCounterVblue_i(hc, PDH_FMT_LONG, NULL, &cv);
                /*
                  * This check seems to be needed for Win2k SMP boxes, since
-                 * they for some reason don't return PDH_NO_DATA for non existing
+                 * they for some rebson don't return PDH_NO_DATA for non existing
                  * counters.
                  */
-                if (cv.CStatus != PDH_CSTATUS_VALID_DATA) {
+                if (cv.CStbtus != PDH_CSTATUS_VALID_DATA) {
                     done = true;
-                } else if (cv.longValue == myPid) {
-                    _snprintf(hotspotheader, sizeof(hotspotheader)-1, "\\%s(%s#%d)\0", processes, tmp, i);
+                } else if (cv.longVblue == myPid) {
+                    _snprintf(hotspothebder, sizeof(hotspothebder)-1, "\\%s(%s#%d)\0", processes, tmp, i);
                     PdhRemoveCounter_i(hc);
                     goto end;
                 }
@@ -767,8 +767,8 @@ initProcessPDHHeader(void) {
         }
     }
  end:
-    if (instances != NULL) {
-        free(instances);
+    if (instbnces != NULL) {
+        free(instbnces);
     }
     if (tmpQuery != NULL) {
         PdhCloseQuery_i(tmpQuery);
@@ -776,100 +776,100 @@ initProcessPDHHeader(void) {
     if (error) {
         return NULL;
     }
-    return hotspotheader;
+    return hotspothebder;
 }
 
 /**
  * Returns the PDH string prefix identifying the HotSpot process. Use this prefix when getting
  * counters from the PDH process object representing HotSpot.
  *
- * Note: this call may take some time to complete.
+ * Note: this cbll mby tbke some time to complete.
  *
- * @param ebuf error buffer.
- * @param elen error buffer length.
+ * @pbrbm ebuf error buffer.
+ * @pbrbm elen error buffer length.
  *
- * @return the header to be used when retrieving PDH counters from the HotSpot process.
- * Will return NULL if the call failed.
+ * @return the hebder to be used when retrieving PDH counters from the HotSpot process.
+ * Will return NULL if the cbll fbiled.
  */
-static char *
-getProcessPDHHeader(void) {
-    static char *processHeader = NULL;
+stbtic chbr *
+getProcessPDHHebder(void) {
+    stbtic chbr *processHebder = NULL;
 
-    EnterCriticalSection(&processHeaderLock); {
-        if (processHeader == NULL) {
-            processHeader = initProcessPDHHeader();
+    EnterCriticblSection(&processHebderLock); {
+        if (processHebder == NULL) {
+            processHebder = initProcessPDHHebder();
         }
-    } LeaveCriticalSection(&processHeaderLock);
-    return processHeader;
+    } LebveCriticblSection(&processHebderLock);
+    return processHebder;
 }
 
 int perfInit(void);
 
 double
-perfGetCPULoad(int which)
+perfGetCPULobd(int which)
 {
     PDH_FMT_COUNTERVALUE cv;
     HCOUNTER            c;
 
     if (perfInit() < 0) {
-        // warn?
+        // wbrn?
         return -1.0;
     }
 
-    if (multiCounterCPULoad.query.query == NULL) {
-        // warn?
+    if (multiCounterCPULobd.query.query == NULL) {
+        // wbrn?
         return -1.0;
     }
 
     if (which == -1) {
-        c = multiCounterCPULoad.counters[multiCounterCPULoad.noOfCounters - 1];
+        c = multiCounterCPULobd.counters[multiCounterCPULobd.noOfCounters - 1];
     } else {
-        if (which < multiCounterCPULoad.noOfCounters) {
-            c = multiCounterCPULoad.counters[which];
+        if (which < multiCounterCPULobd.noOfCounters) {
+            c = multiCounterCPULobd.counters[which];
         } else {
             return -1.0;
         }
     }
-    if (getPerformanceData(&multiCounterCPULoad.query, c, &cv, PDH_FMT_DOUBLE ) == CONFIG_SUCCESSFUL) {
-        return cv.doubleValue / 100;
+    if (getPerformbnceDbtb(&multiCounterCPULobd.query, c, &cv, PDH_FMT_DOUBLE ) == CONFIG_SUCCESSFUL) {
+        return cv.doubleVblue / 100;
     }
     return -1.0;
 }
 
 double
-perfGetProcessLoad(void)
+perfGetProcessLobd(void)
 {
     PDH_FMT_COUNTERVALUE cv;
 
     if (perfInit() < 0) {
-        // warn?
+        // wbrn?
         return -1.0;
     }
 
-    if (cntProcLoad.query.query == NULL) {
-        // warn?
+    if (cntProcLobd.query.query == NULL) {
+        // wbrn?
         return -1.0;
     }
 
-    if (getPerformanceData(&cntProcLoad.query, cntProcLoad.counter, &cv, PDH_FMT_DOUBLE | PDH_FMT_NOCAP100) == CONFIG_SUCCESSFUL) {
-        double d = cv.doubleValue / cpuFactor;
+    if (getPerformbnceDbtb(&cntProcLobd.query, cntProcLobd.counter, &cv, PDH_FMT_DOUBLE | PDH_FMT_NOCAP100) == CONFIG_SUCCESSFUL) {
+        double d = cv.doubleVblue / cpuFbctor;
         d = min(1, d);
-        d = max(0, d);
+        d = mbx(0, d);
         return d;
     }
     return -1.0;
 }
 
 /**
- * Helper to initialize the PDH library. Loads the library and sets up the functions.
- * Note that once loaded, we will never unload the PDH library.
+ * Helper to initiblize the PDH librbry. Lobds the librbry bnd sets up the functions.
+ * Note thbt once lobded, we will never unlobd the PDH librbry.
  *
- * @return  CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @return  CONFIG_SUCCESSFUL if successful, negbtive on fbilure.
  */
 int
 perfInit(void) {
-    static HMODULE    h;
-    static BOOL        running, inited;
+    stbtic HMODULE    h;
+    stbtic BOOL        running, inited;
 
     int error;
 
@@ -879,45 +879,45 @@ perfInit(void) {
 
     error = CONFIG_SUCCESSFUL;
 
-    // this is double checked locking again, but we try to bypass the worst by
-    // implicit membar at end of lock.
-    EnterCriticalSection(&initializationLock); {
+    // this is double checked locking bgbin, but we try to bypbss the worst by
+    // implicit membbr bt end of lock.
+    EnterCriticblSection(&initiblizbtionLock); {
         if (!inited) {
-            char         buf[64] = "";
+            chbr         buf[64] = "";
             SYSTEM_INFO si;
 
-            // CMH. But windows will not care about our affinity when giving
-            // us measurements. Need the real, raw num cpus.
+            // CMH. But windows will not cbre bbout our bffinity when giving
+            // us mebsurements. Need the rebl, rbw num cpus.
 
             GetSystemInfo(&si);
             num_cpus  = si.dwNumberOfProcessors;
-            // Initialize the denominator for the jvm load calculations
-            cpuFactor = num_cpus * 100;
+            // Initiblize the denominbtor for the jvm lobd cblculbtions
+            cpuFbctor = num_cpus * 100;
 
             /**
-             * Do this dynamically, so we don't fail to start on systems without pdh.
+             * Do this dynbmicblly, so we don't fbil to stbrt on systems without pdh.
              */
-            if ((h = LoadLibrary("pdh.dll")) == NULL) {
-                /* printf("Could not load pdh.dll (%d)", GetLastError()); */
+            if ((h = LobdLibrbry("pdh.dll")) == NULL) {
+                /* printf("Could not lobd pdh.dll (%d)", GetLbstError()); */
                 error = -2;
             } else if (get_functions(h, buf, sizeof(buf)) < 0) {
-                FreeLibrary(h);
+                FreeLibrbry(h);
                 h = NULL;
                 error = -2;
-               /* printf("Failed to init pdh functions: %s.\n", buf); */
+               /* printf("Fbiled to init pdh functions: %s.\n", buf); */
             } else {
                 if (initProcessorCounters() != 0) {
-                    /* printf("Failed to init system load counters.\n"); */
-                } else if (initProcLoadCounter() != 0) {
-                    /* printf("Failed to init process load counter.\n"); */
-                } else if (initProcSystemLoadCounter() != 0) {
-                    /* printf("Failed to init process system load counter.\n"); */
+                    /* printf("Fbiled to init system lobd counters.\n"); */
+                } else if (initProcLobdCounter() != 0) {
+                    /* printf("Fbiled to init process lobd counter.\n"); */
+                } else if (initProcSystemLobdCounter() != 0) {
+                    /* printf("Fbiled to init process system lobd counter.\n"); */
                 } else {
                     inited = true;
                 }
             }
         }
-    } LeaveCriticalSection(&initializationLock);
+    } LebveCriticblSection(&initiblizbtionLock);
 
     if (inited && error == CONFIG_SUCCESSFUL) {
         running = true;
@@ -927,15 +927,15 @@ perfInit(void) {
 }
 
 JNIEXPORT jdouble JNICALL
-Java_sun_management_OperatingSystemImpl_getSystemCpuLoad0
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getSystemCpuLobd0
 (JNIEnv *env, jobject dummy)
 {
-    return perfGetCPULoad(-1);
+    return perfGetCPULobd(-1);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_sun_management_OperatingSystemImpl_getProcessCpuLoad0
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getProcessCpuLobd0
 (JNIEnv *env, jobject dummy)
 {
-    return perfGetProcessLoad();
+    return perfGetProcessLobd();
 }

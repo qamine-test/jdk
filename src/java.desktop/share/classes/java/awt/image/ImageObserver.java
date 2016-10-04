@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.Image;
+import jbvb.bwt.Imbge;
 
 
 /**
- * An asynchronous update interface for receiving notifications about
- * Image information as the Image is constructed.
+ * An bsynchronous updbte interfbce for receiving notificbtions bbout
+ * Imbge informbtion bs the Imbge is constructed.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  */
-public interface ImageObserver {
+public interfbce ImbgeObserver {
     /**
-     * This method is called when information about an image which was
-     * previously requested using an asynchronous interface becomes
-     * available.  Asynchronous interfaces are method calls such as
-     * getWidth(ImageObserver) and drawImage(img, x, y, ImageObserver)
-     * which take an ImageObserver object as an argument.  Those methods
-     * register the caller as interested either in information about
-     * the overall image itself (in the case of getWidth(ImageObserver))
-     * or about an output version of an image (in the case of the
-     * drawImage(img, x, y, [w, h,] ImageObserver) call).
+     * This method is cblled when informbtion bbout bn imbge which wbs
+     * previously requested using bn bsynchronous interfbce becomes
+     * bvbilbble.  Asynchronous interfbces bre method cblls such bs
+     * getWidth(ImbgeObserver) bnd drbwImbge(img, x, y, ImbgeObserver)
+     * which tbke bn ImbgeObserver object bs bn brgument.  Those methods
+     * register the cbller bs interested either in informbtion bbout
+     * the overbll imbge itself (in the cbse of getWidth(ImbgeObserver))
+     * or bbout bn output version of bn imbge (in the cbse of the
+     * drbwImbge(img, x, y, [w, h,] ImbgeObserver) cbll).
      *
      * <p>This method
-     * should return true if further updates are needed or false if the
-     * required information has been acquired.  The image which was being
-     * tracked is passed in using the img argument.  Various constants
-     * are combined to form the infoflags argument which indicates what
-     * information about the image is now available.  The interpretation
-     * of the x, y, width, and height arguments depends on the contents
-     * of the infoflags argument.
+     * should return true if further updbtes bre needed or fblse if the
+     * required informbtion hbs been bcquired.  The imbge which wbs being
+     * trbcked is pbssed in using the img brgument.  Vbrious constbnts
+     * bre combined to form the infoflbgs brgument which indicbtes whbt
+     * informbtion bbout the imbge is now bvbilbble.  The interpretbtion
+     * of the x, y, width, bnd height brguments depends on the contents
+     * of the infoflbgs brgument.
      * <p>
-     * The <code>infoflags</code> argument should be the bitwise inclusive
-     * <b>OR</b> of the following flags: <code>WIDTH</code>,
+     * The <code>infoflbgs</code> brgument should be the bitwise inclusive
+     * <b>OR</b> of the following flbgs: <code>WIDTH</code>,
      * <code>HEIGHT</code>, <code>PROPERTIES</code>, <code>SOMEBITS</code>,
      * <code>FRAMEBITS</code>, <code>ALLBITS</code>, <code>ERROR</code>,
      * <code>ABORT</code>.
      *
-     * @param     img   the image being observed.
-     * @param     infoflags   the bitwise inclusive OR of the following
-     *               flags:  <code>WIDTH</code>, <code>HEIGHT</code>,
+     * @pbrbm     img   the imbge being observed.
+     * @pbrbm     infoflbgs   the bitwise inclusive OR of the following
+     *               flbgs:  <code>WIDTH</code>, <code>HEIGHT</code>,
      *               <code>PROPERTIES</code>, <code>SOMEBITS</code>,
      *               <code>FRAMEBITS</code>, <code>ALLBITS</code>,
      *               <code>ERROR</code>, <code>ABORT</code>.
-     * @param     x   the <i>x</i> coordinate.
-     * @param     y   the <i>y</i> coordinate.
-     * @param     width    the width.
-     * @param     height   the height.
-     * @return    <code>false</code> if the infoflags indicate that the
-     *            image is completely loaded; <code>true</code> otherwise.
+     * @pbrbm     x   the <i>x</i> coordinbte.
+     * @pbrbm     y   the <i>y</i> coordinbte.
+     * @pbrbm     width    the width.
+     * @pbrbm     height   the height.
+     * @return    <code>fblse</code> if the infoflbgs indicbte thbt the
+     *            imbge is completely lobded; <code>true</code> otherwise.
      *
      * @see #WIDTH
      * @see #HEIGHT
@@ -82,90 +82,90 @@ public interface ImageObserver {
      * @see #ALLBITS
      * @see #ERROR
      * @see #ABORT
-     * @see Image#getWidth
-     * @see Image#getHeight
-     * @see java.awt.Graphics#drawImage
+     * @see Imbge#getWidth
+     * @see Imbge#getHeight
+     * @see jbvb.bwt.Grbphics#drbwImbge
      */
-    public boolean imageUpdate(Image img, int infoflags,
+    public boolebn imbgeUpdbte(Imbge img, int infoflbgs,
                                int x, int y, int width, int height);
 
     /**
-     * This flag in the infoflags argument to imageUpdate indicates that
-     * the width of the base image is now available and can be taken
-     * from the width argument to the imageUpdate callback method.
-     * @see Image#getWidth
-     * @see #imageUpdate
+     * This flbg in the infoflbgs brgument to imbgeUpdbte indicbtes thbt
+     * the width of the bbse imbge is now bvbilbble bnd cbn be tbken
+     * from the width brgument to the imbgeUpdbte cbllbbck method.
+     * @see Imbge#getWidth
+     * @see #imbgeUpdbte
      */
-    public static final int WIDTH = 1;
+    public stbtic finbl int WIDTH = 1;
 
     /**
-     * This flag in the infoflags argument to imageUpdate indicates that
-     * the height of the base image is now available and can be taken
-     * from the height argument to the imageUpdate callback method.
-     * @see Image#getHeight
-     * @see #imageUpdate
+     * This flbg in the infoflbgs brgument to imbgeUpdbte indicbtes thbt
+     * the height of the bbse imbge is now bvbilbble bnd cbn be tbken
+     * from the height brgument to the imbgeUpdbte cbllbbck method.
+     * @see Imbge#getHeight
+     * @see #imbgeUpdbte
      */
-    public static final int HEIGHT = 2;
+    public stbtic finbl int HEIGHT = 2;
 
     /**
-     * This flag in the infoflags argument to imageUpdate indicates that
-     * the properties of the image are now available.
-     * @see Image#getProperty
-     * @see #imageUpdate
+     * This flbg in the infoflbgs brgument to imbgeUpdbte indicbtes thbt
+     * the properties of the imbge bre now bvbilbble.
+     * @see Imbge#getProperty
+     * @see #imbgeUpdbte
      */
-    public static final int PROPERTIES = 4;
+    public stbtic finbl int PROPERTIES = 4;
 
     /**
-     * This flag in the infoflags argument to imageUpdate indicates that
-     * more pixels needed for drawing a scaled variation of the image
-     * are available.  The bounding box of the new pixels can be taken
-     * from the x, y, width, and height arguments to the imageUpdate
-     * callback method.
-     * @see java.awt.Graphics#drawImage
-     * @see #imageUpdate
+     * This flbg in the infoflbgs brgument to imbgeUpdbte indicbtes thbt
+     * more pixels needed for drbwing b scbled vbribtion of the imbge
+     * bre bvbilbble.  The bounding box of the new pixels cbn be tbken
+     * from the x, y, width, bnd height brguments to the imbgeUpdbte
+     * cbllbbck method.
+     * @see jbvb.bwt.Grbphics#drbwImbge
+     * @see #imbgeUpdbte
      */
-    public static final int SOMEBITS = 8;
+    public stbtic finbl int SOMEBITS = 8;
 
     /**
-     * This flag in the infoflags argument to imageUpdate indicates that
-     * another complete frame of a multi-frame image which was previously
-     * drawn is now available to be drawn again.  The x, y, width, and height
-     * arguments to the imageUpdate callback method should be ignored.
-     * @see java.awt.Graphics#drawImage
-     * @see #imageUpdate
+     * This flbg in the infoflbgs brgument to imbgeUpdbte indicbtes thbt
+     * bnother complete frbme of b multi-frbme imbge which wbs previously
+     * drbwn is now bvbilbble to be drbwn bgbin.  The x, y, width, bnd height
+     * brguments to the imbgeUpdbte cbllbbck method should be ignored.
+     * @see jbvb.bwt.Grbphics#drbwImbge
+     * @see #imbgeUpdbte
      */
-    public static final int FRAMEBITS = 16;
+    public stbtic finbl int FRAMEBITS = 16;
 
     /**
-     * This flag in the infoflags argument to imageUpdate indicates that
-     * a static image which was previously drawn is now complete and can
-     * be drawn again in its final form.  The x, y, width, and height
-     * arguments to the imageUpdate callback method should be ignored.
-     * @see java.awt.Graphics#drawImage
-     * @see #imageUpdate
+     * This flbg in the infoflbgs brgument to imbgeUpdbte indicbtes thbt
+     * b stbtic imbge which wbs previously drbwn is now complete bnd cbn
+     * be drbwn bgbin in its finbl form.  The x, y, width, bnd height
+     * brguments to the imbgeUpdbte cbllbbck method should be ignored.
+     * @see jbvb.bwt.Grbphics#drbwImbge
+     * @see #imbgeUpdbte
      */
-    public static final int ALLBITS = 32;
+    public stbtic finbl int ALLBITS = 32;
 
     /**
-     * This flag in the infoflags argument to imageUpdate indicates that
-     * an image which was being tracked asynchronously has encountered
-     * an error.  No further information will become available and
-     * drawing the image will fail.
-     * As a convenience, the ABORT flag will be indicated at the same
-     * time to indicate that the image production was aborted.
-     * @see #imageUpdate
+     * This flbg in the infoflbgs brgument to imbgeUpdbte indicbtes thbt
+     * bn imbge which wbs being trbcked bsynchronously hbs encountered
+     * bn error.  No further informbtion will become bvbilbble bnd
+     * drbwing the imbge will fbil.
+     * As b convenience, the ABORT flbg will be indicbted bt the sbme
+     * time to indicbte thbt the imbge production wbs bborted.
+     * @see #imbgeUpdbte
      */
-    public static final int ERROR = 64;
+    public stbtic finbl int ERROR = 64;
 
     /**
-     * This flag in the infoflags argument to imageUpdate indicates that
-     * an image which was being tracked asynchronously was aborted before
-     * production was complete.  No more information will become available
-     * without further action to trigger another image production sequence.
-     * If the ERROR flag was not also set in this image update, then
-     * accessing any of the data in the image will restart the production
-     * again, probably from the beginning.
-     * @see #imageUpdate
+     * This flbg in the infoflbgs brgument to imbgeUpdbte indicbtes thbt
+     * bn imbge which wbs being trbcked bsynchronously wbs bborted before
+     * production wbs complete.  No more informbtion will become bvbilbble
+     * without further bction to trigger bnother imbge production sequence.
+     * If the ERROR flbg wbs not blso set in this imbge updbte, then
+     * bccessing bny of the dbtb in the imbge will restbrt the production
+     * bgbin, probbbly from the beginning.
+     * @see #imbgeUpdbte
      */
-    public static final int ABORT = 128;
+    public stbtic finbl int ABORT = 128;
 }

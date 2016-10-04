@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import java.awt.image.BufferedImage;
-import java.lang.ref.SoftReference;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.lbng.ref.SoftReference;
 
 /**
  * Effect
  *
- * @author Created by Jasper Potts (Jun 18, 2007)
+ * @buthor Crebted by Jbsper Potts (Jun 18, 2007)
  */
-abstract class Effect {
+bbstrbct clbss Effect {
     enum EffectType {
         UNDER, BLENDED, OVER
     }
 
     // =================================================================================================================
-    // Abstract Methods
+    // Abstrbct Methods
 
     /**
-     * Get the type of this effect, one of UNDER,BLENDED,OVER. UNDER means the result of apply effect should be painted
-     * under the src image. BLENDED means the result of apply sffect contains a modified src image so just it should be
-     * painted. OVER means the result of apply effect should be painted over the src image.
+     * Get the type of this effect, one of UNDER,BLENDED,OVER. UNDER mebns the result of bpply effect should be pbinted
+     * under the src imbge. BLENDED mebns the result of bpply sffect contbins b modified src imbge so just it should be
+     * pbinted. OVER mebns the result of bpply effect should be pbinted over the src imbge.
      *
      * @return The effect type
      */
-    abstract EffectType getEffectType();
+    bbstrbct EffectType getEffectType();
 
     /**
-     * Get the opacity to use to paint the result effected image if the EffectType is UNDER or OVER.
+     * Get the opbcity to use to pbint the result effected imbge if the EffectType is UNDER or OVER.
      *
-     * @return The opactity for the effect, 0.0f -> 1.0f
+     * @return The opbctity for the effect, 0.0f -> 1.0f
      */
-    abstract float getOpacity();
+    bbstrbct flobt getOpbcity();
 
     /**
-     * Apply the effect to the src image generating the result . The result image may or may not contain the source
-     * image depending on what the effect type is.
+     * Apply the effect to the src imbge generbting the result . The result imbge mby or mby not contbin the source
+     * imbge depending on whbt the effect type is.
      *
-     * @param src The source image for applying the effect to
-     * @param dst The dstination image to paint effect result into. If this is null then a new image will be created
-     * @param w   The width of the src image to apply effect to, this allow the src and dst buffers to be bigger than
-     *            the area the need effect applied to it
-     * @param h   The height of the src image to apply effect to, this allow the src and dst buffers to be bigger than
-     *            the area the need effect applied to it
-     * @return The result of appl
+     * @pbrbm src The source imbge for bpplying the effect to
+     * @pbrbm dst The dstinbtion imbge to pbint effect result into. If this is null then b new imbge will be crebted
+     * @pbrbm w   The width of the src imbge to bpply effect to, this bllow the src bnd dst buffers to be bigger thbn
+     *            the breb the need effect bpplied to it
+     * @pbrbm h   The height of the src imbge to bpply effect to, this bllow the src bnd dst buffers to be bigger thbn
+     *            the breb the need effect bpplied to it
+     * @return The result of bppl
      */
-    abstract BufferedImage applyEffect(BufferedImage src, BufferedImage dst, int w, int h);
+    bbstrbct BufferedImbge bpplyEffect(BufferedImbge src, BufferedImbge dst, int w, int h);
 
     // =================================================================================================================
-    // Static data cache
+    // Stbtic dbtb cbche
 
-    protected static ArrayCache getArrayCache() {
-        ArrayCache cache = (ArrayCache)AppContext.getAppContext().get(ArrayCache.class);
-        if (cache == null){
-            cache = new ArrayCache();
-            AppContext.getAppContext().put(ArrayCache.class,cache);
+    protected stbtic ArrbyCbche getArrbyCbche() {
+        ArrbyCbche cbche = (ArrbyCbche)AppContext.getAppContext().get(ArrbyCbche.clbss);
+        if (cbche == null){
+            cbche = new ArrbyCbche();
+            AppContext.getAppContext().put(ArrbyCbche.clbss,cbche);
         }
-        return cache;
+        return cbche;
     }
 
-    protected static class ArrayCache {
-        private SoftReference<int[]> tmpIntArray = null;
-        private SoftReference<byte[]> tmpByteArray1 = null;
-        private SoftReference<byte[]> tmpByteArray2 = null;
-        private SoftReference<byte[]> tmpByteArray3 = null;
+    protected stbtic clbss ArrbyCbche {
+        privbte SoftReference<int[]> tmpIntArrby = null;
+        privbte SoftReference<byte[]> tmpByteArrby1 = null;
+        privbte SoftReference<byte[]> tmpByteArrby2 = null;
+        privbte SoftReference<byte[]> tmpByteArrby3 = null;
 
-        protected int[] getTmpIntArray(int size) {
+        protected int[] getTmpIntArrby(int size) {
             int[] tmp;
-            if (tmpIntArray == null || (tmp = tmpIntArray.get()) == null || tmp.length < size) {
-                // create new array
+            if (tmpIntArrby == null || (tmp = tmpIntArrby.get()) == null || tmp.length < size) {
+                // crebte new brrby
                 tmp = new int[size];
-                tmpIntArray = new SoftReference<int[]>(tmp);
+                tmpIntArrby = new SoftReference<int[]>(tmp);
             }
             return tmp;
         }
 
-        protected byte[] getTmpByteArray1(int size) {
+        protected byte[] getTmpByteArrby1(int size) {
             byte[] tmp;
-            if (tmpByteArray1 == null || (tmp = tmpByteArray1.get()) == null || tmp.length < size) {
-                // create new array
+            if (tmpByteArrby1 == null || (tmp = tmpByteArrby1.get()) == null || tmp.length < size) {
+                // crebte new brrby
                 tmp = new byte[size];
-                tmpByteArray1 = new SoftReference<byte[]>(tmp);
+                tmpByteArrby1 = new SoftReference<byte[]>(tmp);
             }
             return tmp;
         }
 
-        protected byte[] getTmpByteArray2(int size) {
+        protected byte[] getTmpByteArrby2(int size) {
             byte[] tmp;
-            if (tmpByteArray2 == null || (tmp = tmpByteArray2.get()) == null || tmp.length < size) {
-                // create new array
+            if (tmpByteArrby2 == null || (tmp = tmpByteArrby2.get()) == null || tmp.length < size) {
+                // crebte new brrby
                 tmp = new byte[size];
-                tmpByteArray2 = new SoftReference<byte[]>(tmp);
+                tmpByteArrby2 = new SoftReference<byte[]>(tmp);
             }
             return tmp;
         }
 
-        protected byte[] getTmpByteArray3(int size) {
+        protected byte[] getTmpByteArrby3(int size) {
             byte[] tmp;
-            if (tmpByteArray3 == null || (tmp = tmpByteArray3.get()) == null || tmp.length < size) {
-                // create new array
+            if (tmpByteArrby3 == null || (tmp = tmpByteArrby3.get()) == null || tmp.length < size) {
+                // crebte new brrby
                 tmp = new byte[size];
-                tmpByteArray3 = new SoftReference<byte[]>(tmp);
+                tmpByteArrby3 = new SoftReference<byte[]>(tmp);
             }
             return tmp;
         }

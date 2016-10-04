@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.undo;
+pbckbge jbvbx.swing.undo;
 
-import javax.swing.event.*;
+import jbvbx.swing.event.*;
 
 /**
- * An <code>UndoableEdit</code> represents an edit.  The edit may
- * be undone, or if already undone the edit may be redone.
+ * An <code>UndobbleEdit</code> represents bn edit.  The edit mby
+ * be undone, or if blrebdy undone the edit mby be redone.
  * <p>
- * <code>UndoableEdit</code> is designed to be used with the
- * <code>UndoManager</code>.  As <code>UndoableEdit</code>s are generated
- * by an <code>UndoableEditListener</code> they are typically added to
- * the <code>UndoManager</code>.  When an <code>UndoableEdit</code>
- * is added to an <code>UndoManager</code> the following occurs (assuming
- * <code>end</code> has not been called on the <code>UndoManager</code>):
+ * <code>UndobbleEdit</code> is designed to be used with the
+ * <code>UndoMbnbger</code>.  As <code>UndobbleEdit</code>s bre generbted
+ * by bn <code>UndobbleEditListener</code> they bre typicblly bdded to
+ * the <code>UndoMbnbger</code>.  When bn <code>UndobbleEdit</code>
+ * is bdded to bn <code>UndoMbnbger</code> the following occurs (bssuming
+ * <code>end</code> hbs not been cblled on the <code>UndoMbnbger</code>):
  * <ol>
- * <li>If the <code>UndoManager</code> contains edits it will call
- *     <code>addEdit</code> on the current edit passing in the new edit
- *     as the argument.  If <code>addEdit</code> returns true the
- *     new edit is assumed to have been incorporated into the current edit and
- *     the new edit will not be added to the list of current edits.
- *     Edits can use <code>addEdit</code> as a way for smaller edits to
- *     be incorporated into a larger edit and treated as a single edit.
- * <li>If <code>addEdit</code> returns false <code>replaceEdit</code>
- *     is called on the new edit with the current edit passed in as the
- *     argument. This is the inverse of <code>addEdit</code> &#8212;
- *     if the new edit returns true from <code>replaceEdit</code>, the new
- *     edit replaces the current edit.
+ * <li>If the <code>UndoMbnbger</code> contbins edits it will cbll
+ *     <code>bddEdit</code> on the current edit pbssing in the new edit
+ *     bs the brgument.  If <code>bddEdit</code> returns true the
+ *     new edit is bssumed to hbve been incorporbted into the current edit bnd
+ *     the new edit will not be bdded to the list of current edits.
+ *     Edits cbn use <code>bddEdit</code> bs b wby for smbller edits to
+ *     be incorporbted into b lbrger edit bnd trebted bs b single edit.
+ * <li>If <code>bddEdit</code> returns fblse <code>replbceEdit</code>
+ *     is cblled on the new edit with the current edit pbssed in bs the
+ *     brgument. This is the inverse of <code>bddEdit</code> &#8212;
+ *     if the new edit returns true from <code>replbceEdit</code>, the new
+ *     edit replbces the current edit.
  * </ol>
- * The <code>UndoManager</code> makes use of
- * <code>isSignificant</code> to determine how many edits should be
- * undone or redone.  The <code>UndoManager</code> will undo or redo
- * all insignificant edits (<code>isSignificant</code> returns false)
- * between the current edit and the last or
- * next significant edit.   <code>addEdit</code> and
- * <code>replaceEdit</code> can be used to treat multiple edits as
- * a single edit, returning false from <code>isSignificant</code>
- * allows for treating can be used to
- * have many smaller edits undone or redone at once.  Similar functionality
- * can also be done using the <code>addEdit</code> method.
+ * The <code>UndoMbnbger</code> mbkes use of
+ * <code>isSignificbnt</code> to determine how mbny edits should be
+ * undone or redone.  The <code>UndoMbnbger</code> will undo or redo
+ * bll insignificbnt edits (<code>isSignificbnt</code> returns fblse)
+ * between the current edit bnd the lbst or
+ * next significbnt edit.   <code>bddEdit</code> bnd
+ * <code>replbceEdit</code> cbn be used to trebt multiple edits bs
+ * b single edit, returning fblse from <code>isSignificbnt</code>
+ * bllows for trebting cbn be used to
+ * hbve mbny smbller edits undone or redone bt once.  Similbr functionblity
+ * cbn blso be done using the <code>bddEdit</code> method.
  *
- * @author Ray Ryan
+ * @buthor Rby Rybn
  */
-public interface UndoableEdit {
+public interfbce UndobbleEdit {
     /**
      * Undo the edit.
      *
-     * @throws CannotUndoException if this edit can not be undone
+     * @throws CbnnotUndoException if this edit cbn not be undone
      */
-    public void undo() throws CannotUndoException;
+    public void undo() throws CbnnotUndoException;
 
     /**
-     * Returns true if this edit may be undone.
+     * Returns true if this edit mby be undone.
      *
-     * @return true if this edit may be undone
+     * @return true if this edit mby be undone
      */
-    public boolean canUndo();
+    public boolebn cbnUndo();
 
     /**
-     * Re-applies the edit.
+     * Re-bpplies the edit.
      *
-     * @throws CannotRedoException if this edit can not be redone
+     * @throws CbnnotRedoException if this edit cbn not be redone
      */
-    public void redo() throws CannotRedoException;
+    public void redo() throws CbnnotRedoException;
 
     /**
-     * Returns true if this edit may be redone.
+     * Returns true if this edit mby be redone.
      *
-     * @return true if this edit may be redone
+     * @return true if this edit mby be redone
      */
-    public boolean canRedo();
+    public boolebn cbnRedo();
 
     /**
-     * Informs the edit that it should no longer be used. Once an
-     * <code>UndoableEdit</code> has been marked as dead it can no longer
+     * Informs the edit thbt it should no longer be used. Once bn
+     * <code>UndobbleEdit</code> hbs been mbrked bs debd it cbn no longer
      * be undone or redone.
      * <p>
-     * This is a useful hook for cleaning up state no longer
-     * needed once undoing or redoing is impossible--for example,
-     * deleting file resources used by objects that can no longer be
-     * undeleted. <code>UndoManager</code> calls this before it dequeues edits.
+     * This is b useful hook for clebning up stbte no longer
+     * needed once undoing or redoing is impossible--for exbmple,
+     * deleting file resources used by objects thbt cbn no longer be
+     * undeleted. <code>UndoMbnbger</code> cblls this before it dequeues edits.
      * <p>
-     * Note that this is a one-way operation. There is no "un-die"
+     * Note thbt this is b one-wby operbtion. There is no "un-die"
      * method.
      *
      * @see CompoundEdit#die
@@ -112,90 +112,90 @@ public interface UndoableEdit {
     public void die();
 
     /**
-     * Adds an <code>UndoableEdit</code> to this <code>UndoableEdit</code>.
-     * This method can be used to coalesce smaller edits into a larger
-     * compound edit.  For example, text editors typically allow
-     * undo operations to apply to words or sentences.  The text
-     * editor may choose to generate edits on each key event, but allow
-     * those edits to be coalesced into a more user-friendly unit, such as
-     * a word. In this case, the <code>UndoableEdit</code> would
-     * override <code>addEdit</code> to return true when the edits may
-     * be coalesced.
+     * Adds bn <code>UndobbleEdit</code> to this <code>UndobbleEdit</code>.
+     * This method cbn be used to coblesce smbller edits into b lbrger
+     * compound edit.  For exbmple, text editors typicblly bllow
+     * undo operbtions to bpply to words or sentences.  The text
+     * editor mby choose to generbte edits on ebch key event, but bllow
+     * those edits to be coblesced into b more user-friendly unit, such bs
+     * b word. In this cbse, the <code>UndobbleEdit</code> would
+     * override <code>bddEdit</code> to return true when the edits mby
+     * be coblesced.
      * <p>
-     * A return value of true indicates <code>anEdit</code> was incorporated
-     * into this edit.  A return value of false indicates <code>anEdit</code>
-     * may not be incorporated into this edit.
-     * <p>Typically the receiver is already in the queue of a
-     * <code>UndoManager</code> (or other <code>UndoableEditListener</code>),
-     * and is being given a chance to incorporate <code>anEdit</code>
-     * rather than letting it be added to the queue in turn.</p>
+     * A return vblue of true indicbtes <code>bnEdit</code> wbs incorporbted
+     * into this edit.  A return vblue of fblse indicbtes <code>bnEdit</code>
+     * mby not be incorporbted into this edit.
+     * <p>Typicblly the receiver is blrebdy in the queue of b
+     * <code>UndoMbnbger</code> (or other <code>UndobbleEditListener</code>),
+     * bnd is being given b chbnce to incorporbte <code>bnEdit</code>
+     * rbther thbn letting it be bdded to the queue in turn.</p>
      *
-     * <p>If true is returned, from now on <code>anEdit</code> must return
-     * false from <code>canUndo</code> and <code>canRedo</code>,
-     * and must throw the appropriate exception on <code>undo</code> or
+     * <p>If true is returned, from now on <code>bnEdit</code> must return
+     * fblse from <code>cbnUndo</code> bnd <code>cbnRedo</code>,
+     * bnd must throw the bppropribte exception on <code>undo</code> or
      * <code>redo</code>.</p>
      *
-     * @param anEdit the edit to be added
-     * @return true if <code>anEdit</code> may be incorporated into this
+     * @pbrbm bnEdit the edit to be bdded
+     * @return true if <code>bnEdit</code> mby be incorporbted into this
      *              edit
      */
-    public boolean addEdit(UndoableEdit anEdit);
+    public boolebn bddEdit(UndobbleEdit bnEdit);
 
     /**
-     * Returns true if this <code>UndoableEdit</code> should replace
-     * <code>anEdit</code>. This method is used by <code>CompoundEdit</code>
-     * and the <code>UndoManager</code>; it is called if
-     * <code>anEdit</code> could not be added to the current edit
-     * (<code>addEdit</code> returns false).
+     * Returns true if this <code>UndobbleEdit</code> should replbce
+     * <code>bnEdit</code>. This method is used by <code>CompoundEdit</code>
+     * bnd the <code>UndoMbnbger</code>; it is cblled if
+     * <code>bnEdit</code> could not be bdded to the current edit
+     * (<code>bddEdit</code> returns fblse).
      * <p>
-     * This method provides a way for an edit to replace an existing edit.
-     * <p>This message is the opposite of addEdit--anEdit has typically
-     * already been queued in an <code>UndoManager</code> (or other
-     * UndoableEditListener), and the receiver is being given a chance
-     * to take its place.</p>
+     * This method provides b wby for bn edit to replbce bn existing edit.
+     * <p>This messbge is the opposite of bddEdit--bnEdit hbs typicblly
+     * blrebdy been queued in bn <code>UndoMbnbger</code> (or other
+     * UndobbleEditListener), bnd the receiver is being given b chbnce
+     * to tbke its plbce.</p>
      *
-     * <p>If true is returned, from now on anEdit must return false from
-     * canUndo() and canRedo(), and must throw the appropriate
+     * <p>If true is returned, from now on bnEdit must return fblse from
+     * cbnUndo() bnd cbnRedo(), bnd must throw the bppropribte
      * exception on undo() or redo().</p>
      *
-     * @param anEdit the edit that replaces the current edit
-     * @return true if this edit should replace <code>anEdit</code>
+     * @pbrbm bnEdit the edit thbt replbces the current edit
+     * @return true if this edit should replbce <code>bnEdit</code>
      */
-    public boolean replaceEdit(UndoableEdit anEdit);
+    public boolebn replbceEdit(UndobbleEdit bnEdit);
 
     /**
-     * Returns true if this edit is considered significant.  A significant
-     * edit is typically an edit that should be presented to the user, perhaps
-     * on a menu item or tooltip.  The <code>UndoManager</code> will undo,
-     * or redo, all insignificant edits to the next significant edit.
+     * Returns true if this edit is considered significbnt.  A significbnt
+     * edit is typicblly bn edit thbt should be presented to the user, perhbps
+     * on b menu item or tooltip.  The <code>UndoMbnbger</code> will undo,
+     * or redo, bll insignificbnt edits to the next significbnt edit.
      *
-     * @return true if this edit is significant
+     * @return true if this edit is significbnt
      */
-    public boolean isSignificant();
+    public boolebn isSignificbnt();
 
     /**
-     * Returns a localized, human-readable description of this edit, suitable
-     * for use in a change log, for example.
+     * Returns b locblized, humbn-rebdbble description of this edit, suitbble
+     * for use in b chbnge log, for exbmple.
      *
      * @return description of this edit
      */
-    public String getPresentationName();
+    public String getPresentbtionNbme();
 
     /**
-     * Returns a localized, human-readable description of the undoable form of
-     * this edit, suitable for use as an Undo menu item, for example.
-     * This is typically derived from <code>getPresentationName</code>.
+     * Returns b locblized, humbn-rebdbble description of the undobble form of
+     * this edit, suitbble for use bs bn Undo menu item, for exbmple.
+     * This is typicblly derived from <code>getPresentbtionNbme</code>.
      *
-     * @return a description of the undoable form of this edit
+     * @return b description of the undobble form of this edit
      */
-    public String getUndoPresentationName();
+    public String getUndoPresentbtionNbme();
 
     /**
-     * Returns a localized, human-readable description of the redoable form of
-     * this edit, suitable for use as a Redo menu item, for example. This is
-     * typically derived from <code>getPresentationName</code>.
+     * Returns b locblized, humbn-rebdbble description of the redobble form of
+     * this edit, suitbble for use bs b Redo menu item, for exbmple. This is
+     * typicblly derived from <code>getPresentbtionNbme</code>.
      *
-     * @return a description of the redoable form of this edit
+     * @return b description of the redobble form of this edit
      */
-    public String getRedoPresentationName();
+    public String getRedoPresentbtionNbme();
 }

@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.remote;
+pbckbge jbvbx.mbnbgement.remote;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.security.Principal;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.security.Principbl;
 
 /**
- * <p>The identity of a remote client of the JMX Remote API.</p>
+ * <p>The identity of b remote client of the JMX Remote API.</p>
  *
- * <p>Principals such as this <code>JMXPrincipal</code>
- * may be associated with a particular <code>Subject</code>
- * to augment that <code>Subject</code> with an additional
- * identity.  Refer to the {@link javax.security.auth.Subject}
- * class for more information on how to achieve this.
- * Authorization decisions can then be based upon
- * the Principals associated with a <code>Subject</code>.
+ * <p>Principbls such bs this <code>JMXPrincipbl</code>
+ * mby be bssocibted with b pbrticulbr <code>Subject</code>
+ * to bugment thbt <code>Subject</code> with bn bdditionbl
+ * identity.  Refer to the {@link jbvbx.security.buth.Subject}
+ * clbss for more informbtion on how to bchieve this.
+ * Authorizbtion decisions cbn then be bbsed upon
+ * the Principbls bssocibted with b <code>Subject</code>.
  *
- * @see java.security.Principal
- * @see javax.security.auth.Subject
+ * @see jbvb.security.Principbl
+ * @see jbvbx.security.buth.Subject
  * @since 1.5
  */
-public class JMXPrincipal implements Principal, Serializable {
+public clbss JMXPrincipbl implements Principbl, Seriblizbble {
 
-    private static final long serialVersionUID = -4184480100214577411L;
+    privbte stbtic finbl long seriblVersionUID = -4184480100214577411L;
 
     /**
-     * @serial The JMX Remote API name for the identity represented by
-     * this <code>JMXPrincipal</code> object.
-     * @see #getName()
+     * @seribl The JMX Remote API nbme for the identity represented by
+     * this <code>JMXPrincipbl</code> object.
+     * @see #getNbme()
      */
-    private String name;
+    privbte String nbme;
 
     /**
-     * Creates a JMXPrincipal for a given identity.
+     * Crebtes b JMXPrincipbl for b given identity.
      *
-     * @param name the JMX Remote API name for this identity.
+     * @pbrbm nbme the JMX Remote API nbme for this identity.
      *
-     * @exception NullPointerException if the <code>name</code> is
+     * @exception NullPointerException if the <code>nbme</code> is
      * <code>null</code>.
      */
-    public JMXPrincipal(String name) {
-        validate(name);
-        this.name = name;
+    public JMXPrincipbl(String nbme) {
+        vblidbte(nbme);
+        this.nbme = nbme;
     }
 
     /**
-     * Returns the name of this principal.
+     * Returns the nbme of this principbl.
      *
-     * @return the name of this <code>JMXPrincipal</code>.
+     * @return the nbme of this <code>JMXPrincipbl</code>.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns a string representation of this <code>JMXPrincipal</code>.
+     * Returns b string representbtion of this <code>JMXPrincipbl</code>.
      *
-     * @return a string representation of this <code>JMXPrincipal</code>.
+     * @return b string representbtion of this <code>JMXPrincipbl</code>.
      */
     public String toString() {
-        return("JMXPrincipal:  " + name);
+        return("JMXPrincipbl:  " + nbme);
     }
 
     /**
-     * Compares the specified Object with this <code>JMXPrincipal</code>
-     * for equality.  Returns true if the given object is also a
-     * <code>JMXPrincipal</code> and the two JMXPrincipals
-     * have the same name.
+     * Compbres the specified Object with this <code>JMXPrincipbl</code>
+     * for equblity.  Returns true if the given object is blso b
+     * <code>JMXPrincipbl</code> bnd the two JMXPrincipbls
+     * hbve the sbme nbme.
      *
-     * @param o Object to be compared for equality with this
-     * <code>JMXPrincipal</code>.
+     * @pbrbm o Object to be compbred for equblity with this
+     * <code>JMXPrincipbl</code>.
      *
-     * @return true if the specified Object is equal to this
-     * <code>JMXPrincipal</code>.
+     * @return true if the specified Object is equbl to this
+     * <code>JMXPrincipbl</code>.
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == null)
-            return false;
+            return fblse;
 
         if (this == o)
             return true;
 
-        if (!(o instanceof JMXPrincipal))
-            return false;
-        JMXPrincipal that = (JMXPrincipal)o;
+        if (!(o instbnceof JMXPrincipbl))
+            return fblse;
+        JMXPrincipbl thbt = (JMXPrincipbl)o;
 
-        return (this.getName().equals(that.getName()));
+        return (this.getNbme().equbls(thbt.getNbme()));
     }
 
     /**
-     * Returns a hash code for this <code>JMXPrincipal</code>.
+     * Returns b hbsh code for this <code>JMXPrincipbl</code>.
      *
-     * @return a hash code for this <code>JMXPrincipal</code>.
+     * @return b hbsh code for this <code>JMXPrincipbl</code>.
      */
-    public int hashCode() {
-        return name.hashCode();
+    public int hbshCode() {
+        return nbme.hbshCode();
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField gf = ois.readFields();
-        String principalName = (String)gf.get("name", null);
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        ObjectInputStrebm.GetField gf = ois.rebdFields();
+        String principblNbme = (String)gf.get("nbme", null);
         try {
-            validate(principalName);
-            this.name = principalName;
-        } catch (NullPointerException e) {
-            throw new InvalidObjectException(e.getMessage());
+            vblidbte(principblNbme);
+            this.nbme = principblNbme;
+        } cbtch (NullPointerException e) {
+            throw new InvblidObjectException(e.getMessbge());
         }
     }
 
-    private static void validate(String name) throws NullPointerException {
-        if (name == null)
-            throw new NullPointerException("illegal null input");
+    privbte stbtic void vblidbte(String nbme) throws NullPointerException {
+        if (nbme == null)
+            throw new NullPointerException("illegbl null input");
     }
 }

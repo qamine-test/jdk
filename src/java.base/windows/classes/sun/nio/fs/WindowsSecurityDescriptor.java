@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.ProviderMismatchException;
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
-import sun.misc.Unsafe;
+import jbvb.nio.file.ProviderMismbtchException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.util.*;
+import jbvb.io.IOException;
+import sun.misc.Unsbfe;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * A SecurityDescriptor for use when setting a file's ACL or creating a file
- * with an initial ACL.
+ * A SecurityDescriptor for use when setting b file's ACL or crebting b file
+ * with bn initibl ACL.
  */
 
-class WindowsSecurityDescriptor {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+clbss WindowsSecurityDescriptor {
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
     /**
      * typedef struct _ACL {
@@ -53,20 +53,20 @@ class WindowsSecurityDescriptor {
      *
      * typedef struct _ACE_HEADER {
      *     BYTE AceType;
-     *     BYTE AceFlags;
+     *     BYTE AceFlbgs;
      *     WORD AceSize;
      * } ACE_HEADER;
      *
      * typedef struct _ACCESS_ALLOWED_ACE {
-     *     ACE_HEADER Header;
-     *     ACCESS_MASK Mask;
-     *     DWORD SidStart;
+     *     ACE_HEADER Hebder;
+     *     ACCESS_MASK Mbsk;
+     *     DWORD SidStbrt;
      * } ACCESS_ALLOWED_ACE;
      *
      * typedef struct _ACCESS_DENIED_ACE {
-     *     ACE_HEADER Header;
-     *     ACCESS_MASK Mask;
-     *     DWORD SidStart;
+     *     ACE_HEADER Hebder;
+     *     ACCESS_MASK Mbsk;
+     *     DWORD SidStbrt;
      * } ACCESS_DENIED_ACE;
      *
      * typedef struct _SECURITY_DESCRIPTOR {
@@ -75,317 +75,317 @@ class WindowsSecurityDescriptor {
      *     SECURITY_DESCRIPTOR_CONTROL Control;
      *     PSID Owner;
      *     PSID Group;
-     *     PACL Sacl;
-     *     PACL Dacl;
+     *     PACL Sbcl;
+     *     PACL Dbcl;
      * } SECURITY_DESCRIPTOR;
      */
-    private static final short SIZEOF_ACL                   = 8;
-    private static final short SIZEOF_ACCESS_ALLOWED_ACE    = 12;
-    private static final short SIZEOF_ACCESS_DENIED_ACE     = 12;
-    private static final short SIZEOF_SECURITY_DESCRIPTOR   = 20;
+    privbte stbtic finbl short SIZEOF_ACL                   = 8;
+    privbte stbtic finbl short SIZEOF_ACCESS_ALLOWED_ACE    = 12;
+    privbte stbtic finbl short SIZEOF_ACCESS_DENIED_ACE     = 12;
+    privbte stbtic finbl short SIZEOF_SECURITY_DESCRIPTOR   = 20;
 
-    private static final short OFFSETOF_TYPE                = 0;
-    private static final short OFFSETOF_FLAGS               = 1;
-    private static final short OFFSETOF_ACCESS_MASK         = 4;
-    private static final short OFFSETOF_SID                 = 8;
+    privbte stbtic finbl short OFFSETOF_TYPE                = 0;
+    privbte stbtic finbl short OFFSETOF_FLAGS               = 1;
+    privbte stbtic finbl short OFFSETOF_ACCESS_MASK         = 4;
+    privbte stbtic finbl short OFFSETOF_SID                 = 8;
 
     // null security descriptor
-    private static final WindowsSecurityDescriptor NULL_DESCRIPTOR =
+    privbte stbtic finbl WindowsSecurityDescriptor NULL_DESCRIPTOR =
         new WindowsSecurityDescriptor();
 
-    // native resources
-    private final List<Long> sidList;
-    private final NativeBuffer aclBuffer, sdBuffer;
+    // nbtive resources
+    privbte finbl List<Long> sidList;
+    privbte finbl NbtiveBuffer bclBuffer, sdBuffer;
 
     /**
-     * Creates the "null" SecurityDescriptor
+     * Crebtes the "null" SecurityDescriptor
      */
-    private WindowsSecurityDescriptor() {
+    privbte WindowsSecurityDescriptor() {
         this.sidList = null;
-        this.aclBuffer = null;
+        this.bclBuffer = null;
         this.sdBuffer = null;
     }
 
     /**
-     * Creates a SecurityDescriptor from the given ACL
+     * Crebtes b SecurityDescriptor from the given ACL
      */
-    private WindowsSecurityDescriptor(List<AclEntry> acl) throws IOException {
-        boolean initialized = false;
+    privbte WindowsSecurityDescriptor(List<AclEntry> bcl) throws IOException {
+        boolebn initiblized = fblse;
 
-        // SECURITY: need to copy list in case size changes during processing
-        acl = new ArrayList<AclEntry>(acl);
+        // SECURITY: need to copy list in cbse size chbnges during processing
+        bcl = new ArrbyList<AclEntry>(bcl);
 
         // list of SIDs
-        sidList = new ArrayList<Long>(acl.size());
+        sidList = new ArrbyList<Long>(bcl.size());
         try {
-            // initial size of ACL
+            // initibl size of ACL
             int size = SIZEOF_ACL;
 
-            // get the SID for each entry
-            for (AclEntry entry: acl) {
-                UserPrincipal user = entry.principal();
-                if (!(user instanceof WindowsUserPrincipals.User))
-                    throw new ProviderMismatchException();
-                String sidString = ((WindowsUserPrincipals.User)user).sidString();
+            // get the SID for ebch entry
+            for (AclEntry entry: bcl) {
+                UserPrincipbl user = entry.principbl();
+                if (!(user instbnceof WindowsUserPrincipbls.User))
+                    throw new ProviderMismbtchException();
+                String sidString = ((WindowsUserPrincipbls.User)user).sidString();
                 try {
                     long pSid = ConvertStringSidToSid(sidString);
-                    sidList.add(pSid);
+                    sidList.bdd(pSid);
 
-                    // increase size to allow for entry
+                    // increbse size to bllow for entry
                     size += GetLengthSid(pSid) +
-                        Math.max(SIZEOF_ACCESS_ALLOWED_ACE, SIZEOF_ACCESS_DENIED_ACE);
+                        Mbth.mbx(SIZEOF_ACCESS_ALLOWED_ACE, SIZEOF_ACCESS_DENIED_ACE);
 
-                } catch (WindowsException x) {
-                    throw new IOException("Failed to get SID for " + user.getName()
+                } cbtch (WindowsException x) {
+                    throw new IOException("Fbiled to get SID for " + user.getNbme()
                         + ": " + x.errorString());
                 }
             }
 
-            // allocate memory for the ACL
-            aclBuffer = NativeBuffers.getNativeBuffer(size);
-            sdBuffer = NativeBuffers.getNativeBuffer(SIZEOF_SECURITY_DESCRIPTOR);
+            // bllocbte memory for the ACL
+            bclBuffer = NbtiveBuffers.getNbtiveBuffer(size);
+            sdBuffer = NbtiveBuffers.getNbtiveBuffer(SIZEOF_SECURITY_DESCRIPTOR);
 
-            InitializeAcl(aclBuffer.address(), size);
+            InitiblizeAcl(bclBuffer.bddress(), size);
 
             // Add entry ACE to the ACL
             int i = 0;
-            while (i < acl.size()) {
-                AclEntry entry = acl.get(i);
+            while (i < bcl.size()) {
+                AclEntry entry = bcl.get(i);
                 long pSid = sidList.get(i);
                 try {
-                    encode(entry, pSid, aclBuffer.address());
-                } catch (WindowsException x) {
-                    throw new IOException("Failed to encode ACE: " +
+                    encode(entry, pSid, bclBuffer.bddress());
+                } cbtch (WindowsException x) {
+                    throw new IOException("Fbiled to encode ACE: " +
                         x.errorString());
                 }
                 i++;
             }
 
-            // initialize security descriptor and set DACL
-            InitializeSecurityDescriptor(sdBuffer.address());
-            SetSecurityDescriptorDacl(sdBuffer.address(), aclBuffer.address());
-            initialized = true;
-        } catch (WindowsException x) {
-            throw new IOException(x.getMessage());
-        } finally {
-            // release resources if not completely initialized
-            if (!initialized)
-                release();
+            // initiblize security descriptor bnd set DACL
+            InitiblizeSecurityDescriptor(sdBuffer.bddress());
+            SetSecurityDescriptorDbcl(sdBuffer.bddress(), bclBuffer.bddress());
+            initiblized = true;
+        } cbtch (WindowsException x) {
+            throw new IOException(x.getMessbge());
+        } finblly {
+            // relebse resources if not completely initiblized
+            if (!initiblized)
+                relebse();
         }
     }
 
     /**
-     * Releases memory associated with SecurityDescriptor
+     * Relebses memory bssocibted with SecurityDescriptor
      */
-    void release() {
+    void relebse() {
         if (sdBuffer != null)
-            sdBuffer.release();
-        if (aclBuffer != null)
-            aclBuffer.release();
+            sdBuffer.relebse();
+        if (bclBuffer != null)
+            bclBuffer.relebse();
         if (sidList != null) {
-            // release memory for SIDs
+            // relebse memory for SIDs
             for (Long sid: sidList) {
-                LocalFree(sid);
+                LocblFree(sid);
             }
         }
     }
 
     /**
-     * Returns address of SecurityDescriptor
+     * Returns bddress of SecurityDescriptor
      */
-    long address() {
-        return (sdBuffer == null) ? 0L : sdBuffer.address();
+    long bddress() {
+        return (sdBuffer == null) ? 0L : sdBuffer.bddress();
     }
 
     // decode Windows ACE to NFSv4 AclEntry
-    private static AclEntry decode(long aceAddress)
+    privbte stbtic AclEntry decode(long bceAddress)
         throws IOException
     {
-        // map type
-        byte aceType = unsafe.getByte(aceAddress + OFFSETOF_TYPE);
-        if (aceType != ACCESS_ALLOWED_ACE_TYPE && aceType != ACCESS_DENIED_ACE_TYPE)
+        // mbp type
+        byte bceType = unsbfe.getByte(bceAddress + OFFSETOF_TYPE);
+        if (bceType != ACCESS_ALLOWED_ACE_TYPE && bceType != ACCESS_DENIED_ACE_TYPE)
             return null;
         AclEntryType type;
-        if (aceType == ACCESS_ALLOWED_ACE_TYPE) {
+        if (bceType == ACCESS_ALLOWED_ACE_TYPE) {
             type = AclEntryType.ALLOW;
         } else {
             type = AclEntryType.DENY;
         }
 
-        // map flags
-        byte aceFlags = unsafe.getByte(aceAddress + OFFSETOF_FLAGS);
-        Set<AclEntryFlag> flags = EnumSet.noneOf(AclEntryFlag.class);
-        if ((aceFlags & OBJECT_INHERIT_ACE) != 0)
-            flags.add(AclEntryFlag.FILE_INHERIT);
-        if ((aceFlags & CONTAINER_INHERIT_ACE) != 0)
-            flags.add(AclEntryFlag.DIRECTORY_INHERIT);
-        if ((aceFlags & NO_PROPAGATE_INHERIT_ACE) != 0)
-            flags.add(AclEntryFlag.NO_PROPAGATE_INHERIT);
-        if ((aceFlags & INHERIT_ONLY_ACE) != 0)
-            flags.add(AclEntryFlag.INHERIT_ONLY);
+        // mbp flbgs
+        byte bceFlbgs = unsbfe.getByte(bceAddress + OFFSETOF_FLAGS);
+        Set<AclEntryFlbg> flbgs = EnumSet.noneOf(AclEntryFlbg.clbss);
+        if ((bceFlbgs & OBJECT_INHERIT_ACE) != 0)
+            flbgs.bdd(AclEntryFlbg.FILE_INHERIT);
+        if ((bceFlbgs & CONTAINER_INHERIT_ACE) != 0)
+            flbgs.bdd(AclEntryFlbg.DIRECTORY_INHERIT);
+        if ((bceFlbgs & NO_PROPAGATE_INHERIT_ACE) != 0)
+            flbgs.bdd(AclEntryFlbg.NO_PROPAGATE_INHERIT);
+        if ((bceFlbgs & INHERIT_ONLY_ACE) != 0)
+            flbgs.bdd(AclEntryFlbg.INHERIT_ONLY);
 
-        // map access mask
-        int mask = unsafe.getInt(aceAddress + OFFSETOF_ACCESS_MASK);
-        Set<AclEntryPermission> perms = EnumSet.noneOf(AclEntryPermission.class);
-        if ((mask & FILE_READ_DATA) > 0)
-            perms.add(AclEntryPermission.READ_DATA);
-        if ((mask & FILE_WRITE_DATA) > 0)
-            perms.add(AclEntryPermission.WRITE_DATA);
-        if ((mask & FILE_APPEND_DATA ) > 0)
-            perms.add(AclEntryPermission.APPEND_DATA);
-        if ((mask & FILE_READ_EA) > 0)
-            perms.add(AclEntryPermission.READ_NAMED_ATTRS);
-        if ((mask & FILE_WRITE_EA) > 0)
-            perms.add(AclEntryPermission.WRITE_NAMED_ATTRS);
-        if ((mask & FILE_EXECUTE) > 0)
-            perms.add(AclEntryPermission.EXECUTE);
-        if ((mask & FILE_DELETE_CHILD ) > 0)
-            perms.add(AclEntryPermission.DELETE_CHILD);
-        if ((mask & FILE_READ_ATTRIBUTES) > 0)
-            perms.add(AclEntryPermission.READ_ATTRIBUTES);
-        if ((mask & FILE_WRITE_ATTRIBUTES) > 0)
-            perms.add(AclEntryPermission.WRITE_ATTRIBUTES);
-        if ((mask & DELETE) > 0)
-            perms.add(AclEntryPermission.DELETE);
-        if ((mask & READ_CONTROL) > 0)
-            perms.add(AclEntryPermission.READ_ACL);
-        if ((mask & WRITE_DAC) > 0)
-            perms.add(AclEntryPermission.WRITE_ACL);
-        if ((mask & WRITE_OWNER) > 0)
-            perms.add(AclEntryPermission.WRITE_OWNER);
-        if ((mask & SYNCHRONIZE) > 0)
-            perms.add(AclEntryPermission.SYNCHRONIZE);
+        // mbp bccess mbsk
+        int mbsk = unsbfe.getInt(bceAddress + OFFSETOF_ACCESS_MASK);
+        Set<AclEntryPermission> perms = EnumSet.noneOf(AclEntryPermission.clbss);
+        if ((mbsk & FILE_READ_DATA) > 0)
+            perms.bdd(AclEntryPermission.READ_DATA);
+        if ((mbsk & FILE_WRITE_DATA) > 0)
+            perms.bdd(AclEntryPermission.WRITE_DATA);
+        if ((mbsk & FILE_APPEND_DATA ) > 0)
+            perms.bdd(AclEntryPermission.APPEND_DATA);
+        if ((mbsk & FILE_READ_EA) > 0)
+            perms.bdd(AclEntryPermission.READ_NAMED_ATTRS);
+        if ((mbsk & FILE_WRITE_EA) > 0)
+            perms.bdd(AclEntryPermission.WRITE_NAMED_ATTRS);
+        if ((mbsk & FILE_EXECUTE) > 0)
+            perms.bdd(AclEntryPermission.EXECUTE);
+        if ((mbsk & FILE_DELETE_CHILD ) > 0)
+            perms.bdd(AclEntryPermission.DELETE_CHILD);
+        if ((mbsk & FILE_READ_ATTRIBUTES) > 0)
+            perms.bdd(AclEntryPermission.READ_ATTRIBUTES);
+        if ((mbsk & FILE_WRITE_ATTRIBUTES) > 0)
+            perms.bdd(AclEntryPermission.WRITE_ATTRIBUTES);
+        if ((mbsk & DELETE) > 0)
+            perms.bdd(AclEntryPermission.DELETE);
+        if ((mbsk & READ_CONTROL) > 0)
+            perms.bdd(AclEntryPermission.READ_ACL);
+        if ((mbsk & WRITE_DAC) > 0)
+            perms.bdd(AclEntryPermission.WRITE_ACL);
+        if ((mbsk & WRITE_OWNER) > 0)
+            perms.bdd(AclEntryPermission.WRITE_OWNER);
+        if ((mbsk & SYNCHRONIZE) > 0)
+            perms.bdd(AclEntryPermission.SYNCHRONIZE);
 
-        // lookup SID to create UserPrincipal
-        long sidAddress = aceAddress + OFFSETOF_SID;
-        UserPrincipal user = WindowsUserPrincipals.fromSid(sidAddress);
+        // lookup SID to crebte UserPrincipbl
+        long sidAddress = bceAddress + OFFSETOF_SID;
+        UserPrincipbl user = WindowsUserPrincipbls.fromSid(sidAddress);
 
         return AclEntry.newBuilder()
             .setType(type)
-            .setPrincipal(user)
-            .setFlags(flags).setPermissions(perms).build();
+            .setPrincipbl(user)
+            .setFlbgs(flbgs).setPermissions(perms).build();
     }
 
-    // encode NFSv4 AclEntry as Windows ACE to given ACL
-    private static void encode(AclEntry ace, long sidAddress, long aclAddress)
+    // encode NFSv4 AclEntry bs Windows ACE to given ACL
+    privbte stbtic void encode(AclEntry bce, long sidAddress, long bclAddress)
         throws WindowsException
     {
-        // ignore non-allow/deny entries for now
-        if (ace.type() != AclEntryType.ALLOW && ace.type() != AclEntryType.DENY)
+        // ignore non-bllow/deny entries for now
+        if (bce.type() != AclEntryType.ALLOW && bce.type() != AclEntryType.DENY)
             return;
-        boolean allow = (ace.type() == AclEntryType.ALLOW);
+        boolebn bllow = (bce.type() == AclEntryType.ALLOW);
 
-        // map access mask
-        Set<AclEntryPermission> aceMask = ace.permissions();
-        int mask = 0;
-        if (aceMask.contains(AclEntryPermission.READ_DATA))
-            mask |= FILE_READ_DATA;
-        if (aceMask.contains(AclEntryPermission.WRITE_DATA))
-            mask |= FILE_WRITE_DATA;
-        if (aceMask.contains(AclEntryPermission.APPEND_DATA))
-            mask |= FILE_APPEND_DATA;
-        if (aceMask.contains(AclEntryPermission.READ_NAMED_ATTRS))
-            mask |= FILE_READ_EA;
-        if (aceMask.contains(AclEntryPermission.WRITE_NAMED_ATTRS))
-            mask |= FILE_WRITE_EA;
-        if (aceMask.contains(AclEntryPermission.EXECUTE))
-            mask |= FILE_EXECUTE;
-        if (aceMask.contains(AclEntryPermission.DELETE_CHILD))
-            mask |= FILE_DELETE_CHILD;
-        if (aceMask.contains(AclEntryPermission.READ_ATTRIBUTES))
-            mask |= FILE_READ_ATTRIBUTES;
-        if (aceMask.contains(AclEntryPermission.WRITE_ATTRIBUTES))
-            mask |= FILE_WRITE_ATTRIBUTES;
-        if (aceMask.contains(AclEntryPermission.DELETE))
-            mask |= DELETE;
-        if (aceMask.contains(AclEntryPermission.READ_ACL))
-            mask |= READ_CONTROL;
-        if (aceMask.contains(AclEntryPermission.WRITE_ACL))
-            mask |= WRITE_DAC;
-        if (aceMask.contains(AclEntryPermission.WRITE_OWNER))
-            mask |= WRITE_OWNER;
-        if (aceMask.contains(AclEntryPermission.SYNCHRONIZE))
-            mask |= SYNCHRONIZE;
+        // mbp bccess mbsk
+        Set<AclEntryPermission> bceMbsk = bce.permissions();
+        int mbsk = 0;
+        if (bceMbsk.contbins(AclEntryPermission.READ_DATA))
+            mbsk |= FILE_READ_DATA;
+        if (bceMbsk.contbins(AclEntryPermission.WRITE_DATA))
+            mbsk |= FILE_WRITE_DATA;
+        if (bceMbsk.contbins(AclEntryPermission.APPEND_DATA))
+            mbsk |= FILE_APPEND_DATA;
+        if (bceMbsk.contbins(AclEntryPermission.READ_NAMED_ATTRS))
+            mbsk |= FILE_READ_EA;
+        if (bceMbsk.contbins(AclEntryPermission.WRITE_NAMED_ATTRS))
+            mbsk |= FILE_WRITE_EA;
+        if (bceMbsk.contbins(AclEntryPermission.EXECUTE))
+            mbsk |= FILE_EXECUTE;
+        if (bceMbsk.contbins(AclEntryPermission.DELETE_CHILD))
+            mbsk |= FILE_DELETE_CHILD;
+        if (bceMbsk.contbins(AclEntryPermission.READ_ATTRIBUTES))
+            mbsk |= FILE_READ_ATTRIBUTES;
+        if (bceMbsk.contbins(AclEntryPermission.WRITE_ATTRIBUTES))
+            mbsk |= FILE_WRITE_ATTRIBUTES;
+        if (bceMbsk.contbins(AclEntryPermission.DELETE))
+            mbsk |= DELETE;
+        if (bceMbsk.contbins(AclEntryPermission.READ_ACL))
+            mbsk |= READ_CONTROL;
+        if (bceMbsk.contbins(AclEntryPermission.WRITE_ACL))
+            mbsk |= WRITE_DAC;
+        if (bceMbsk.contbins(AclEntryPermission.WRITE_OWNER))
+            mbsk |= WRITE_OWNER;
+        if (bceMbsk.contbins(AclEntryPermission.SYNCHRONIZE))
+            mbsk |= SYNCHRONIZE;
 
-        // map flags
-        Set<AclEntryFlag> aceFlags = ace.flags();
-        byte flags = 0;
-        if (aceFlags.contains(AclEntryFlag.FILE_INHERIT))
-            flags |= OBJECT_INHERIT_ACE;
-        if (aceFlags.contains(AclEntryFlag.DIRECTORY_INHERIT))
-            flags |= CONTAINER_INHERIT_ACE;
-        if (aceFlags.contains(AclEntryFlag.NO_PROPAGATE_INHERIT))
-            flags |= NO_PROPAGATE_INHERIT_ACE;
-        if (aceFlags.contains(AclEntryFlag.INHERIT_ONLY))
-            flags |= INHERIT_ONLY_ACE;
+        // mbp flbgs
+        Set<AclEntryFlbg> bceFlbgs = bce.flbgs();
+        byte flbgs = 0;
+        if (bceFlbgs.contbins(AclEntryFlbg.FILE_INHERIT))
+            flbgs |= OBJECT_INHERIT_ACE;
+        if (bceFlbgs.contbins(AclEntryFlbg.DIRECTORY_INHERIT))
+            flbgs |= CONTAINER_INHERIT_ACE;
+        if (bceFlbgs.contbins(AclEntryFlbg.NO_PROPAGATE_INHERIT))
+            flbgs |= NO_PROPAGATE_INHERIT_ACE;
+        if (bceFlbgs.contbins(AclEntryFlbg.INHERIT_ONLY))
+            flbgs |= INHERIT_ONLY_ACE;
 
-        if (allow) {
-            AddAccessAllowedAceEx(aclAddress, flags, mask, sidAddress);
+        if (bllow) {
+            AddAccessAllowedAceEx(bclAddress, flbgs, mbsk, sidAddress);
         } else {
-            AddAccessDeniedAceEx(aclAddress, flags, mask, sidAddress);
+            AddAccessDeniedAceEx(bclAddress, flbgs, mbsk, sidAddress);
         }
     }
 
     /**
-     * Creates a security descriptor with a DACL representing the given ACL.
+     * Crebtes b security descriptor with b DACL representing the given ACL.
      */
-    static WindowsSecurityDescriptor create(List<AclEntry> acl)
+    stbtic WindowsSecurityDescriptor crebte(List<AclEntry> bcl)
         throws IOException
     {
-        return new WindowsSecurityDescriptor(acl);
+        return new WindowsSecurityDescriptor(bcl);
     }
 
     /**
-     * Processes the array of attributes looking for the attribute "acl:acl".
+     * Processes the brrby of bttributes looking for the bttribute "bcl:bcl".
      * Returns security descriptor representing the ACL or the "null" security
-     * descriptor if the attribute is not in the array.
+     * descriptor if the bttribute is not in the brrby.
      */
-    @SuppressWarnings("unchecked")
-    static WindowsSecurityDescriptor fromAttribute(FileAttribute<?>... attrs)
+    @SuppressWbrnings("unchecked")
+    stbtic WindowsSecurityDescriptor fromAttribute(FileAttribute<?>... bttrs)
         throws IOException
     {
         WindowsSecurityDescriptor sd = NULL_DESCRIPTOR;
-        for (FileAttribute<?> attr: attrs) {
-            // if more than one ACL specified then last one wins
+        for (FileAttribute<?> bttr: bttrs) {
+            // if more thbn one ACL specified then lbst one wins
             if (sd != NULL_DESCRIPTOR)
-                sd.release();
-            if (attr == null)
+                sd.relebse();
+            if (bttr == null)
                 throw new NullPointerException();
-            if (attr.name().equals("acl:acl")) {
-                List<AclEntry> acl = (List<AclEntry>)attr.value();
-                sd = new WindowsSecurityDescriptor(acl);
+            if (bttr.nbme().equbls("bcl:bcl")) {
+                List<AclEntry> bcl = (List<AclEntry>)bttr.vblue();
+                sd = new WindowsSecurityDescriptor(bcl);
             } else {
-                throw new UnsupportedOperationException("'" + attr.name() +
-                   "' not supported as initial attribute");
+                throw new UnsupportedOperbtionException("'" + bttr.nbme() +
+                   "' not supported bs initibl bttribute");
             }
         }
         return sd;
     }
 
     /**
-     * Extracts DACL from security descriptor.
+     * Extrbcts DACL from security descriptor.
      */
-    static List<AclEntry> getAcl(long pSecurityDescriptor) throws IOException {
-        // get address of DACL
-        long aclAddress = GetSecurityDescriptorDacl(pSecurityDescriptor);
+    stbtic List<AclEntry> getAcl(long pSecurityDescriptor) throws IOException {
+        // get bddress of DACL
+        long bclAddress = GetSecurityDescriptorDbcl(pSecurityDescriptor);
 
         // get ACE count
-        int aceCount = 0;
-        if (aclAddress == 0L) {
+        int bceCount = 0;
+        if (bclAddress == 0L) {
             // no ACEs
-            aceCount = 0;
+            bceCount = 0;
         } else {
-            AclInformation aclInfo = GetAclInformation(aclAddress);
-            aceCount = aclInfo.aceCount();
+            AclInformbtion bclInfo = GetAclInformbtion(bclAddress);
+            bceCount = bclInfo.bceCount();
         }
-        ArrayList<AclEntry> result = new ArrayList<>(aceCount);
+        ArrbyList<AclEntry> result = new ArrbyList<>(bceCount);
 
-        // decode each of the ACEs to AclEntry objects
-        for (int i=0; i<aceCount; i++) {
-            long aceAddress = GetAce(aclAddress, i);
-            AclEntry entry = decode(aceAddress);
+        // decode ebch of the ACEs to AclEntry objects
+        for (int i=0; i<bceCount; i++) {
+            long bceAddress = GetAce(bclAddress, i);
+            AclEntry entry = decode(bceAddress);
             if (entry != null)
-                result.add(entry);
+                result.bdd(entry);
         }
         return result;
     }

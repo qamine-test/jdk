@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,98 +27,98 @@
  *
  * (C) Copyright IBM Corp. 1999-2003 - All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by IBM. These materials are provided
- * under terms of a License Agreement between IBM and Sun.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by IBM. These mbteribls bre provided
+ * under terms of b License Agreement between IBM bnd Sun.
+ * This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to IBM mby not be removed.
  */
 
 /*
- * GlyphLayout is used to process a run of text into a run of run of
- * glyphs, optionally with position and char mapping info.
+ * GlyphLbyout is used to process b run of text into b run of run of
+ * glyphs, optionblly with position bnd chbr mbpping info.
  *
- * The text has already been processed for numeric shaping and bidi.
- * The run of text that layout works on has a single bidi level.  It
- * also has a single font/style.  Some operations need context to work
- * on (shaping, script resolution) so context for the text run text is
- * provided.  It is assumed that the text array contains sufficient
- * context, and the offset and count delimit the portion of the text
- * that needs to actually be processed.
+ * The text hbs blrebdy been processed for numeric shbping bnd bidi.
+ * The run of text thbt lbyout works on hbs b single bidi level.  It
+ * blso hbs b single font/style.  Some operbtions need context to work
+ * on (shbping, script resolution) so context for the text run text is
+ * provided.  It is bssumed thbt the text brrby contbins sufficient
+ * context, bnd the offset bnd count delimit the portion of the text
+ * thbt needs to bctublly be processed.
  *
- * The font might be a composite font.  Layout generally requires
- * tables from a single physical font to operate, and so it must
- * resolve the 'single' font run into runs of physical fonts.
+ * The font might be b composite font.  Lbyout generblly requires
+ * tbbles from b single physicbl font to operbte, bnd so it must
+ * resolve the 'single' font run into runs of physicbl fonts.
  *
- * Some characters are supported by several fonts of a composite, and
- * in order to properly emulate the glyph substitution behavior of a
- * single physical font, these characters might need to be mapped to
- * different physical fonts.  The script code that is assigned
- * characters normally considered 'common script' can be used to
- * resolve which physical font to use for these characters. The input
- * to the char to glyph mapper (which assigns physical fonts as it
- * processes the glyphs) should include the script code, and the
- * mapper should operate on runs of a single script.
+ * Some chbrbcters bre supported by severbl fonts of b composite, bnd
+ * in order to properly emulbte the glyph substitution behbvior of b
+ * single physicbl font, these chbrbcters might need to be mbpped to
+ * different physicbl fonts.  The script code thbt is bssigned
+ * chbrbcters normblly considered 'common script' cbn be used to
+ * resolve which physicbl font to use for these chbrbcters. The input
+ * to the chbr to glyph mbpper (which bssigns physicbl fonts bs it
+ * processes the glyphs) should include the script code, bnd the
+ * mbpper should operbte on runs of b single script.
  *
- * To perform layout, call get() to get a new (or reuse an old)
- * GlyphLayout, call layout on it, then call done(GlyphLayout) when
- * finished.  There's no particular problem if you don't call done,
- * but it assists in reuse of the GlyphLayout.
+ * To perform lbyout, cbll get() to get b new (or reuse bn old)
+ * GlyphLbyout, cbll lbyout on it, then cbll done(GlyphLbyout) when
+ * finished.  There's no pbrticulbr problem if you don't cbll done,
+ * but it bssists in reuse of the GlyphLbyout.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.lang.ref.SoftReference;
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.bwt.geom.Point2D;
+import jbvb.util.ArrbyList;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
 
-import static java.lang.Character.*;
+import stbtic jbvb.lbng.Chbrbcter.*;
 
-public final class GlyphLayout {
-    // data for glyph vector
-    private GVData _gvdata;
+public finbl clbss GlyphLbyout {
+    // dbtb for glyph vector
+    privbte GVDbtb _gvdbtb;
 
-    // cached glyph layout data for reuse
-    private static volatile GlyphLayout cache;  // reusable
+    // cbched glyph lbyout dbtb for reuse
+    privbte stbtic volbtile GlyphLbyout cbche;  // reusbble
 
-    private LayoutEngineFactory _lef;  // set when get is called, unset when done is called
-    private TextRecord _textRecord;    // the text we're working on, used by iterators
-    private ScriptRun _scriptRuns;     // iterator over script runs
-    private FontRunIterator _fontRuns; // iterator over physical fonts in a composite
-    private int _ercount;
-    private ArrayList<EngineRecord> _erecords;
-    private Point2D.Float _pt;
-    private FontStrikeDesc _sd;
-    private float[] _mat;
-    private int _typo_flags;
-    private int _offset;
+    privbte LbyoutEngineFbctory _lef;  // set when get is cblled, unset when done is cblled
+    privbte TextRecord _textRecord;    // the text we're working on, used by iterbtors
+    privbte ScriptRun _scriptRuns;     // iterbtor over script runs
+    privbte FontRunIterbtor _fontRuns; // iterbtor over physicbl fonts in b composite
+    privbte int _ercount;
+    privbte ArrbyList<EngineRecord> _erecords;
+    privbte Point2D.Flobt _pt;
+    privbte FontStrikeDesc _sd;
+    privbte flobt[] _mbt;
+    privbte int _typo_flbgs;
+    privbte int _offset;
 
-    public static final class LayoutEngineKey {
-        private Font2D font;
-        private int script;
-        private int lang;
+    public stbtic finbl clbss LbyoutEngineKey {
+        privbte Font2D font;
+        privbte int script;
+        privbte int lbng;
 
-        LayoutEngineKey() {
+        LbyoutEngineKey() {
         }
 
-        LayoutEngineKey(Font2D font, int script, int lang) {
-            init(font, script, lang);
+        LbyoutEngineKey(Font2D font, int script, int lbng) {
+            init(font, script, lbng);
         }
 
-        void init(Font2D font, int script, int lang) {
+        void init(Font2D font, int script, int lbng) {
             this.font = font;
             this.script = script;
-            this.lang = lang;
+            this.lbng = lbng;
         }
 
-        LayoutEngineKey copy() {
-            return new LayoutEngineKey(font, script, lang);
+        LbyoutEngineKey copy() {
+            return new LbyoutEngineKey(font, script, lbng);
         }
 
         Font2D font() {
@@ -129,318 +129,318 @@ public final class GlyphLayout {
             return script;
         }
 
-        int lang() {
-            return lang;
+        int lbng() {
+            return lbng;
         }
 
-        public boolean equals(Object rhs) {
+        public boolebn equbls(Object rhs) {
             if (this == rhs) return true;
-            if (rhs == null) return false;
+            if (rhs == null) return fblse;
             try {
-                LayoutEngineKey that = (LayoutEngineKey)rhs;
-                return this.script == that.script &&
-                       this.lang == that.lang &&
-                       this.font.equals(that.font);
+                LbyoutEngineKey thbt = (LbyoutEngineKey)rhs;
+                return this.script == thbt.script &&
+                       this.lbng == thbt.lbng &&
+                       this.font.equbls(thbt.font);
             }
-            catch (ClassCastException e) {
-                return false;
+            cbtch (ClbssCbstException e) {
+                return fblse;
             }
         }
 
-        public int hashCode() {
-            return script ^ lang ^ font.hashCode();
+        public int hbshCode() {
+            return script ^ lbng ^ font.hbshCode();
         }
     }
 
-    public static interface LayoutEngineFactory {
+    public stbtic interfbce LbyoutEngineFbctory {
         /**
-         * Given a font, script, and language, determine a layout engine to use.
+         * Given b font, script, bnd lbngubge, determine b lbyout engine to use.
          */
-        public LayoutEngine getEngine(Font2D font, int script, int lang);
+        public LbyoutEngine getEngine(Font2D font, int script, int lbng);
 
         /**
-         * Given a key, determine a layout engine to use.
+         * Given b key, determine b lbyout engine to use.
          */
-        public LayoutEngine getEngine(LayoutEngineKey key);
+        public LbyoutEngine getEngine(LbyoutEngineKey key);
     }
 
-    public static interface LayoutEngine {
+    public stbtic interfbce LbyoutEngine {
         /**
-         * Given a strike descriptor, text, rtl flag, and starting point, append information about
-         * glyphs, positions, and character indices to the glyphvector data, and advance the point.
+         * Given b strike descriptor, text, rtl flbg, bnd stbrting point, bppend informbtion bbout
+         * glyphs, positions, bnd chbrbcter indices to the glyphvector dbtb, bnd bdvbnce the point.
          *
-         * If the GVData does not have room for the glyphs, throws an IndexOutOfBoundsException and
-         * leave pt and the gvdata unchanged.
+         * If the GVDbtb does not hbve room for the glyphs, throws bn IndexOutOfBoundsException bnd
+         * lebve pt bnd the gvdbtb unchbnged.
          */
-        public void layout(FontStrikeDesc sd, float[] mat, int gmask,
-                           int baseIndex, TextRecord text, int typo_flags, Point2D.Float pt, GVData data);
+        public void lbyout(FontStrikeDesc sd, flobt[] mbt, int gmbsk,
+                           int bbseIndex, TextRecord text, int typo_flbgs, Point2D.Flobt pt, GVDbtb dbtb);
     }
 
     /**
-     * Return a new instance of GlyphLayout, using the provided layout engine factory.
-     * If null, the system layout engine factory will be used.
+     * Return b new instbnce of GlyphLbyout, using the provided lbyout engine fbctory.
+     * If null, the system lbyout engine fbctory will be used.
      */
-    public static GlyphLayout get(LayoutEngineFactory lef) {
+    public stbtic GlyphLbyout get(LbyoutEngineFbctory lef) {
         if (lef == null) {
-            lef = SunLayoutEngine.instance();
+            lef = SunLbyoutEngine.instbnce();
         }
-        GlyphLayout result = null;
-        synchronized(GlyphLayout.class) {
-            if (cache != null) {
-                result = cache;
-                cache = null;
+        GlyphLbyout result = null;
+        synchronized(GlyphLbyout.clbss) {
+            if (cbche != null) {
+                result = cbche;
+                cbche = null;
             }
         }
         if (result == null) {
-            result = new GlyphLayout();
+            result = new GlyphLbyout();
         }
         result._lef = lef;
         return result;
     }
 
     /**
-     * Return the old instance of GlyphLayout when you are done.  This enables reuse
-     * of GlyphLayout objects.
+     * Return the old instbnce of GlyphLbyout when you bre done.  This enbbles reuse
+     * of GlyphLbyout objects.
      */
-    public static void done(GlyphLayout gl) {
+    public stbtic void done(GlyphLbyout gl) {
         gl._lef = null;
-        cache = gl; // object reference assignment is thread safe, it says here...
+        cbche = gl; // object reference bssignment is threbd sbfe, it sbys here...
     }
 
-    private static final class SDCache {
+    privbte stbtic finbl clbss SDCbche {
         public Font key_font;
         public FontRenderContext key_frc;
 
-        public AffineTransform dtx;
-        public AffineTransform invdtx;
-        public AffineTransform gtx;
-        public Point2D.Float delta;
+        public AffineTrbnsform dtx;
+        public AffineTrbnsform invdtx;
+        public AffineTrbnsform gtx;
+        public Point2D.Flobt deltb;
         public FontStrikeDesc sd;
 
-        private SDCache(Font font, FontRenderContext frc) {
+        privbte SDCbche(Font font, FontRenderContext frc) {
             key_font = font;
             key_frc = frc;
 
-            // !!! add getVectorTransform and hasVectorTransform to frc?  then
+            // !!! bdd getVectorTrbnsform bnd hbsVectorTrbnsform to frc?  then
             // we could just skip this work...
 
-            dtx = frc.getTransform();
-            dtx.setTransform(dtx.getScaleX(), dtx.getShearY(),
-                             dtx.getShearX(), dtx.getScaleY(),
+            dtx = frc.getTrbnsform();
+            dtx.setTrbnsform(dtx.getScbleX(), dtx.getShebrY(),
+                             dtx.getShebrX(), dtx.getScbleY(),
                              0, 0);
             if (!dtx.isIdentity()) {
                 try {
-                    invdtx = dtx.createInverse();
+                    invdtx = dtx.crebteInverse();
                 }
-                catch (NoninvertibleTransformException e) {
-                    throw new InternalError(e);
+                cbtch (NoninvertibleTrbnsformException e) {
+                    throw new InternblError(e);
                 }
             }
 
-            float ptSize = font.getSize2D();
-            if (font.isTransformed()) {
-                gtx = font.getTransform();
-                gtx.scale(ptSize, ptSize);
-                delta = new Point2D.Float((float)gtx.getTranslateX(),
-                                          (float)gtx.getTranslateY());
-                gtx.setTransform(gtx.getScaleX(), gtx.getShearY(),
-                                 gtx.getShearX(), gtx.getScaleY(),
+            flobt ptSize = font.getSize2D();
+            if (font.isTrbnsformed()) {
+                gtx = font.getTrbnsform();
+                gtx.scble(ptSize, ptSize);
+                deltb = new Point2D.Flobt((flobt)gtx.getTrbnslbteX(),
+                                          (flobt)gtx.getTrbnslbteY());
+                gtx.setTrbnsform(gtx.getScbleX(), gtx.getShebrY(),
+                                 gtx.getShebrX(), gtx.getScbleY(),
                                  0, 0);
-                gtx.preConcatenate(dtx);
+                gtx.preConcbtenbte(dtx);
             } else {
-                delta = ZERO_DELTA;
-                gtx = new AffineTransform(dtx);
-                gtx.scale(ptSize, ptSize);
+                deltb = ZERO_DELTA;
+                gtx = new AffineTrbnsform(dtx);
+                gtx.scble(ptSize, ptSize);
             }
 
-            /* Similar logic to that used in SunGraphics2D.checkFontInfo().
-             * Whether a grey (AA) strike is needed is size dependent if
-             * AA mode is 'gasp'.
+            /* Similbr logic to thbt used in SunGrbphics2D.checkFontInfo().
+             * Whether b grey (AA) strike is needed is size dependent if
+             * AA mode is 'gbsp'.
              */
-            int aa =
-                FontStrikeDesc.getAAHintIntVal(frc.getAntiAliasingHint(),
+            int bb =
+                FontStrikeDesc.getAAHintIntVbl(frc.getAntiAlibsingHint(),
                                                FontUtilities.getFont2D(font),
-                                               (int)Math.abs(ptSize));
-            int fm = FontStrikeDesc.getFMHintIntVal
-                (frc.getFractionalMetricsHint());
-            sd = new FontStrikeDesc(dtx, gtx, font.getStyle(), aa, fm);
+                                               (int)Mbth.bbs(ptSize));
+            int fm = FontStrikeDesc.getFMHintIntVbl
+                (frc.getFrbctionblMetricsHint());
+            sd = new FontStrikeDesc(dtx, gtx, font.getStyle(), bb, fm);
         }
 
-        private static final Point2D.Float ZERO_DELTA = new Point2D.Float();
+        privbte stbtic finbl Point2D.Flobt ZERO_DELTA = new Point2D.Flobt();
 
-        private static
-            SoftReference<ConcurrentHashMap<SDKey, SDCache>> cacheRef;
+        privbte stbtic
+            SoftReference<ConcurrentHbshMbp<SDKey, SDCbche>> cbcheRef;
 
-        private static final class SDKey {
-            private final Font font;
-            private final FontRenderContext frc;
-            private final int hash;
+        privbte stbtic finbl clbss SDKey {
+            privbte finbl Font font;
+            privbte finbl FontRenderContext frc;
+            privbte finbl int hbsh;
 
             SDKey(Font font, FontRenderContext frc) {
                 this.font = font;
                 this.frc = frc;
-                this.hash = font.hashCode() ^ frc.hashCode();
+                this.hbsh = font.hbshCode() ^ frc.hbshCode();
             }
 
-            public int hashCode() {
-                return hash;
+            public int hbshCode() {
+                return hbsh;
             }
 
-            public boolean equals(Object o) {
+            public boolebn equbls(Object o) {
                 try {
                     SDKey rhs = (SDKey)o;
                     return
-                        hash == rhs.hash &&
-                        font.equals(rhs.font) &&
-                        frc.equals(rhs.frc);
+                        hbsh == rhs.hbsh &&
+                        font.equbls(rhs.font) &&
+                        frc.equbls(rhs.frc);
                 }
-                catch (ClassCastException e) {
+                cbtch (ClbssCbstException e) {
                 }
-                return false;
+                return fblse;
             }
         }
 
-        public static SDCache get(Font font, FontRenderContext frc) {
+        public stbtic SDCbche get(Font font, FontRenderContext frc) {
 
-            // It is possible a translation component will be in the FRC.
-            // It doesn't affect us except adversely as we would consider
-            // FRC's which are really the same to be different. If we
-            // detect a translation component, then we need to exclude it
-            // by creating a new transform which excludes the translation.
-            if (frc.isTransformed()) {
-                AffineTransform transform = frc.getTransform();
-                if (transform.getTranslateX() != 0 ||
-                    transform.getTranslateY() != 0) {
-                    transform = new AffineTransform(transform.getScaleX(),
-                                                    transform.getShearY(),
-                                                    transform.getShearX(),
-                                                    transform.getScaleY(),
+            // It is possible b trbnslbtion component will be in the FRC.
+            // It doesn't bffect us except bdversely bs we would consider
+            // FRC's which bre reblly the sbme to be different. If we
+            // detect b trbnslbtion component, then we need to exclude it
+            // by crebting b new trbnsform which excludes the trbnslbtion.
+            if (frc.isTrbnsformed()) {
+                AffineTrbnsform trbnsform = frc.getTrbnsform();
+                if (trbnsform.getTrbnslbteX() != 0 ||
+                    trbnsform.getTrbnslbteY() != 0) {
+                    trbnsform = new AffineTrbnsform(trbnsform.getScbleX(),
+                                                    trbnsform.getShebrY(),
+                                                    trbnsform.getShebrX(),
+                                                    trbnsform.getScbleY(),
                                                     0, 0);
-                    frc = new FontRenderContext(transform,
-                                                frc.getAntiAliasingHint(),
-                                                frc.getFractionalMetricsHint()
+                    frc = new FontRenderContext(trbnsform,
+                                                frc.getAntiAlibsingHint(),
+                                                frc.getFrbctionblMetricsHint()
                                                 );
                 }
             }
 
-            SDKey key = new SDKey(font, frc); // garbage, yuck...
-            ConcurrentHashMap<SDKey, SDCache> cache = null;
-            SDCache res = null;
-            if (cacheRef != null) {
-                cache = cacheRef.get();
-                if (cache != null) {
-                    res = cache.get(key);
+            SDKey key = new SDKey(font, frc); // gbrbbge, yuck...
+            ConcurrentHbshMbp<SDKey, SDCbche> cbche = null;
+            SDCbche res = null;
+            if (cbcheRef != null) {
+                cbche = cbcheRef.get();
+                if (cbche != null) {
+                    res = cbche.get(key);
                 }
             }
             if (res == null) {
-                res = new SDCache(font, frc);
-                if (cache == null) {
-                    cache = new ConcurrentHashMap<SDKey, SDCache>(10);
-                    cacheRef = new
-                       SoftReference<ConcurrentHashMap<SDKey, SDCache>>(cache);
-                } else if (cache.size() >= 512) {
-                    cache.clear();
+                res = new SDCbche(font, frc);
+                if (cbche == null) {
+                    cbche = new ConcurrentHbshMbp<SDKey, SDCbche>(10);
+                    cbcheRef = new
+                       SoftReference<ConcurrentHbshMbp<SDKey, SDCbche>>(cbche);
+                } else if (cbche.size() >= 512) {
+                    cbche.clebr();
                 }
-                cache.put(key, res);
+                cbche.put(key, res);
             }
             return res;
         }
     }
 
     /**
-     * Create a glyph vector.
-     * @param font the font to use
-     * @param frc the font render context
-     * @param text the text, including optional context before start and after start + count
-     * @param offset the start of the text to lay out
-     * @param count the length of the text to lay out
-     * @param flags bidi and context flags {@see #java.awt.Font}
-     * @param result a StandardGlyphVector to modify, can be null
-     * @return the layed out glyphvector, if result was passed in, it is returned
+     * Crebte b glyph vector.
+     * @pbrbm font the font to use
+     * @pbrbm frc the font render context
+     * @pbrbm text the text, including optionbl context before stbrt bnd bfter stbrt + count
+     * @pbrbm offset the stbrt of the text to lby out
+     * @pbrbm count the length of the text to lby out
+     * @pbrbm flbgs bidi bnd context flbgs {@see #jbvb.bwt.Font}
+     * @pbrbm result b StbndbrdGlyphVector to modify, cbn be null
+     * @return the lbyed out glyphvector, if result wbs pbssed in, it is returned
      */
-    public StandardGlyphVector layout(Font font, FontRenderContext frc,
-                                      char[] text, int offset, int count,
-                                      int flags, StandardGlyphVector result)
+    public StbndbrdGlyphVector lbyout(Font font, FontRenderContext frc,
+                                      chbr[] text, int offset, int count,
+                                      int flbgs, StbndbrdGlyphVector result)
     {
         if (text == null || offset < 0 || count < 0 || (count > text.length - offset)) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
         init(count);
 
-        // need to set after init
-        // go through the back door for this
-        if (font.hasLayoutAttributes()) {
-            AttributeValues values = ((AttributeMap)font.getAttributes()).getValues();
-            if (values.getKerning() != 0) _typo_flags |= 0x1;
-            if (values.getLigatures() != 0) _typo_flags |= 0x2;
+        // need to set bfter init
+        // go through the bbck door for this
+        if (font.hbsLbyoutAttributes()) {
+            AttributeVblues vblues = ((AttributeMbp)font.getAttributes()).getVblues();
+            if (vblues.getKerning() != 0) _typo_flbgs |= 0x1;
+            if (vblues.getLigbtures() != 0) _typo_flbgs |= 0x2;
         }
 
         _offset = offset;
 
-        // use cache now - can we use the strike cache for this?
+        // use cbche now - cbn we use the strike cbche for this?
 
-        SDCache txinfo = SDCache.get(font, frc);
-        _mat[0] = (float)txinfo.gtx.getScaleX();
-        _mat[1] = (float)txinfo.gtx.getShearY();
-        _mat[2] = (float)txinfo.gtx.getShearX();
-        _mat[3] = (float)txinfo.gtx.getScaleY();
-        _pt.setLocation(txinfo.delta);
+        SDCbche txinfo = SDCbche.get(font, frc);
+        _mbt[0] = (flobt)txinfo.gtx.getScbleX();
+        _mbt[1] = (flobt)txinfo.gtx.getShebrY();
+        _mbt[2] = (flobt)txinfo.gtx.getShebrX();
+        _mbt[3] = (flobt)txinfo.gtx.getScbleY();
+        _pt.setLocbtion(txinfo.deltb);
 
         int lim = offset + count;
 
         int min = 0;
-        int max = text.length;
-        if (flags != 0) {
-            if ((flags & Font.LAYOUT_RIGHT_TO_LEFT) != 0) {
-              _typo_flags |= 0x80000000; // RTL
+        int mbx = text.length;
+        if (flbgs != 0) {
+            if ((flbgs & Font.LAYOUT_RIGHT_TO_LEFT) != 0) {
+              _typo_flbgs |= 0x80000000; // RTL
             }
 
-            if ((flags & Font.LAYOUT_NO_START_CONTEXT) != 0) {
+            if ((flbgs & Font.LAYOUT_NO_START_CONTEXT) != 0) {
                 min = offset;
             }
 
-            if ((flags & Font.LAYOUT_NO_LIMIT_CONTEXT) != 0) {
-                max = lim;
+            if ((flbgs & Font.LAYOUT_NO_LIMIT_CONTEXT) != 0) {
+                mbx = lim;
             }
         }
 
-        int lang = -1; // default for now
+        int lbng = -1; // defbult for now
 
         Font2D font2D = FontUtilities.getFont2D(font);
 
-        _textRecord.init(text, offset, lim, min, max);
-        int start = offset;
-        if (font2D instanceof CompositeFont) {
-            _scriptRuns.init(text, offset, count); // ??? how to handle 'common' chars
+        _textRecord.init(text, offset, lim, min, mbx);
+        int stbrt = offset;
+        if (font2D instbnceof CompositeFont) {
+            _scriptRuns.init(text, offset, count); // ??? how to hbndle 'common' chbrs
             _fontRuns.init((CompositeFont)font2D, text, offset, lim);
             while (_scriptRuns.next()) {
                 int limit = _scriptRuns.getScriptLimit();
                 int script = _scriptRuns.getScriptCode();
                 while (_fontRuns.next(script, limit)) {
                     Font2D pfont = _fontRuns.getFont();
-                    /* layout can't deal with NativeFont instances. The
-                     * native font is assumed to know of a suitable non-native
-                     * substitute font. This currently works because
-                     * its consistent with the way NativeFonts delegate
-                     * in other cases too.
+                    /* lbyout cbn't debl with NbtiveFont instbnces. The
+                     * nbtive font is bssumed to know of b suitbble non-nbtive
+                     * substitute font. This currently works becbuse
+                     * its consistent with the wby NbtiveFonts delegbte
+                     * in other cbses too.
                      */
-                    if (pfont instanceof NativeFont) {
-                        pfont = ((NativeFont)pfont).getDelegateFont();
+                    if (pfont instbnceof NbtiveFont) {
+                        pfont = ((NbtiveFont)pfont).getDelegbteFont();
                     }
-                    int gmask = _fontRuns.getGlyphMask();
+                    int gmbsk = _fontRuns.getGlyphMbsk();
                     int pos = _fontRuns.getPos();
-                    nextEngineRecord(start, pos, script, lang, pfont, gmask);
-                    start = pos;
+                    nextEngineRecord(stbrt, pos, script, lbng, pfont, gmbsk);
+                    stbrt = pos;
                 }
             }
         } else {
-            _scriptRuns.init(text, offset, count); // ??? don't worry about 'common' chars
+            _scriptRuns.init(text, offset, count); // ??? don't worry bbout 'common' chbrs
             while (_scriptRuns.next()) {
                 int limit = _scriptRuns.getScriptLimit();
                 int script = _scriptRuns.getScriptCode();
-                nextEngineRecord(start, limit, script, lang, font2D, 0);
-                start = limit;
+                nextEngineRecord(stbrt, limit, script, lbng, font2D, 0);
+                stbrt = limit;
             }
         }
 
@@ -448,145 +448,145 @@ public final class GlyphLayout {
         int stop = _ercount;
         int dir = 1;
 
-        if (_typo_flags < 0) { // RTL
+        if (_typo_flbgs < 0) { // RTL
             ix = stop - 1;
             stop = -1;
             dir = -1;
         }
 
-        //        _sd.init(dtx, gtx, font.getStyle(), frc.isAntiAliased(), frc.usesFractionalMetrics());
+        //        _sd.init(dtx, gtx, font.getStyle(), frc.isAntiAlibsed(), frc.usesFrbctionblMetrics());
         _sd = txinfo.sd;
         for (;ix != stop; ix += dir) {
             EngineRecord er = _erecords.get(ix);
             for (;;) {
                 try {
-                    er.layout();
-                    break;
+                    er.lbyout();
+                    brebk;
                 }
-                catch (IndexOutOfBoundsException e) {
-                    if (_gvdata._count >=0) {
-                        _gvdata.grow();
+                cbtch (IndexOutOfBoundsException e) {
+                    if (_gvdbtb._count >=0) {
+                        _gvdbtb.grow();
                     }
                 }
             }
-            // Break out of the outer for loop if layout fails.
-            if (_gvdata._count < 0) {
-                break;
+            // Brebk out of the outer for loop if lbyout fbils.
+            if (_gvdbtb._count < 0) {
+                brebk;
             }
         }
 
         //        if (txinfo.invdtx != null) {
-        //            _gvdata.adjustPositions(txinfo.invdtx);
+        //            _gvdbtb.bdjustPositions(txinfo.invdtx);
         //        }
 
-        // If layout fails (negative glyph count) create an un-laid out GV instead.
-        // ie default positions. This will be a lot better than the alternative of
-        // a complete blank layout.
-        StandardGlyphVector gv;
-        if (_gvdata._count < 0) {
-            gv = new StandardGlyphVector(font, text, offset, count, frc);
+        // If lbyout fbils (negbtive glyph count) crebte bn un-lbid out GV instebd.
+        // ie defbult positions. This will be b lot better thbn the blternbtive of
+        // b complete blbnk lbyout.
+        StbndbrdGlyphVector gv;
+        if (_gvdbtb._count < 0) {
+            gv = new StbndbrdGlyphVector(font, text, offset, count, frc);
             if (FontUtilities.debugFonts()) {
-               FontUtilities.getLogger().warning("OpenType layout failed on font: " +
+               FontUtilities.getLogger().wbrning("OpenType lbyout fbiled on font: " +
                                                  font);
             }
         } else {
-            gv = _gvdata.createGlyphVector(font, frc, result);
+            gv = _gvdbtb.crebteGlyphVector(font, frc, result);
         }
-        //        System.err.println("Layout returns: " + gv);
+        //        System.err.println("Lbyout returns: " + gv);
         return gv;
     }
 
     //
-    // private methods
+    // privbte methods
     //
 
-    private GlyphLayout() {
-        this._gvdata = new GVData();
+    privbte GlyphLbyout() {
+        this._gvdbtb = new GVDbtb();
         this._textRecord = new TextRecord();
         this._scriptRuns = new ScriptRun();
-        this._fontRuns = new FontRunIterator();
-        this._erecords = new ArrayList<>(10);
-        this._pt = new Point2D.Float();
+        this._fontRuns = new FontRunIterbtor();
+        this._erecords = new ArrbyList<>(10);
+        this._pt = new Point2D.Flobt();
         this._sd = new FontStrikeDesc();
-        this._mat = new float[4];
+        this._mbt = new flobt[4];
     }
 
-    private void init(int capacity) {
-        this._typo_flags = 0;
+    privbte void init(int cbpbcity) {
+        this._typo_flbgs = 0;
         this._ercount = 0;
-        this._gvdata.init(capacity);
+        this._gvdbtb.init(cbpbcity);
     }
 
-    private void nextEngineRecord(int start, int limit, int script, int lang, Font2D font, int gmask) {
+    privbte void nextEngineRecord(int stbrt, int limit, int script, int lbng, Font2D font, int gmbsk) {
         EngineRecord er = null;
         if (_ercount == _erecords.size()) {
             er = new EngineRecord();
-            _erecords.add(er);
+            _erecords.bdd(er);
         } else {
             er = _erecords.get(_ercount);
         }
-        er.init(start, limit, font, script, lang, gmask);
+        er.init(stbrt, limit, font, script, lbng, gmbsk);
         ++_ercount;
     }
 
     /**
-     * Storage for layout to build glyph vector data, then generate a real GlyphVector
+     * Storbge for lbyout to build glyph vector dbtb, then generbte b rebl GlyphVector
      */
-    public static final class GVData {
-        public int _count; // number of glyphs, >= number of chars
-        public int _flags;
+    public stbtic finbl clbss GVDbtb {
+        public int _count; // number of glyphs, >= number of chbrs
+        public int _flbgs;
         public int[] _glyphs;
-        public float[] _positions;
+        public flobt[] _positions;
         public int[] _indices;
 
-        private static final int UNINITIALIZED_FLAGS = -1;
+        privbte stbtic finbl int UNINITIALIZED_FLAGS = -1;
 
         public void init(int size) {
             _count = 0;
-            _flags = UNINITIALIZED_FLAGS;
+            _flbgs = UNINITIALIZED_FLAGS;
 
             if (_glyphs == null || _glyphs.length < size) {
                 if (size < 20) {
                     size = 20;
                 }
                 _glyphs = new int[size];
-                _positions = new float[size * 2 + 2];
+                _positions = new flobt[size * 2 + 2];
                 _indices = new int[size];
             }
         }
 
         public void grow() {
-            grow(_glyphs.length / 4); // always grows because min length is 20
+            grow(_glyphs.length / 4); // blwbys grows becbuse min length is 20
         }
 
-        public void grow(int delta) {
-            int size = _glyphs.length + delta;
+        public void grow(int deltb) {
+            int size = _glyphs.length + deltb;
             int[] nglyphs = new int[size];
-            System.arraycopy(_glyphs, 0, nglyphs, 0, _count);
+            System.brrbycopy(_glyphs, 0, nglyphs, 0, _count);
             _glyphs = nglyphs;
 
-            float[] npositions = new float[size * 2 + 2];
-            System.arraycopy(_positions, 0, npositions, 0, _count * 2 + 2);
+            flobt[] npositions = new flobt[size * 2 + 2];
+            System.brrbycopy(_positions, 0, npositions, 0, _count * 2 + 2);
             _positions = npositions;
 
             int[] nindices = new int[size];
-            System.arraycopy(_indices, 0, nindices, 0, _count);
+            System.brrbycopy(_indices, 0, nindices, 0, _count);
             _indices = nindices;
         }
 
-        public void adjustPositions(AffineTransform invdtx) {
-            invdtx.transform(_positions, 0, _positions, 0, _count);
+        public void bdjustPositions(AffineTrbnsform invdtx) {
+            invdtx.trbnsform(_positions, 0, _positions, 0, _count);
         }
 
-        public StandardGlyphVector createGlyphVector(Font font, FontRenderContext frc, StandardGlyphVector result) {
+        public StbndbrdGlyphVector crebteGlyphVector(Font font, FontRenderContext frc, StbndbrdGlyphVector result) {
 
-            // !!! default initialization until we let layout engines do it
-            if (_flags == UNINITIALIZED_FLAGS) {
-                _flags = 0;
+            // !!! defbult initiblizbtion until we let lbyout engines do it
+            if (_flbgs == UNINITIALIZED_FLAGS) {
+                _flbgs = 0;
 
-                if (_count > 1) { // if only 1 glyph assume LTR
-                    boolean ltr = true;
-                    boolean rtl = true;
+                if (_count > 1) { // if only 1 glyph bssume LTR
+                    boolebn ltr = true;
+                    boolebn rtl = true;
 
                     int rtlix = _count; // rtl index
                     for (int i = 0; i < _count && (ltr || rtl); ++i) {
@@ -596,35 +596,35 @@ public final class GlyphLayout {
                         rtl = rtl && (cx == --rtlix);
                     }
 
-                    if (rtl) _flags |= GlyphVector.FLAG_RUN_RTL;
-                    if (!rtl && !ltr) _flags |= GlyphVector.FLAG_COMPLEX_GLYPHS;
+                    if (rtl) _flbgs |= GlyphVector.FLAG_RUN_RTL;
+                    if (!rtl && !ltr) _flbgs |= GlyphVector.FLAG_COMPLEX_GLYPHS;
                 }
 
-                // !!! layout engines need to tell us whether they performed
-                // position adjustments. currently they don't tell us, so
-                // we must assume they did
-                _flags |= GlyphVector.FLAG_HAS_POSITION_ADJUSTMENTS;
+                // !!! lbyout engines need to tell us whether they performed
+                // position bdjustments. currently they don't tell us, so
+                // we must bssume they did
+                _flbgs |= GlyphVector.FLAG_HAS_POSITION_ADJUSTMENTS;
             }
 
             int[] glyphs = new int[_count];
-            System.arraycopy(_glyphs, 0, glyphs, 0, _count);
+            System.brrbycopy(_glyphs, 0, glyphs, 0, _count);
 
-            float[] positions = null;
-            if ((_flags & GlyphVector.FLAG_HAS_POSITION_ADJUSTMENTS) != 0) {
-                positions = new float[_count * 2 + 2];
-                System.arraycopy(_positions, 0, positions, 0, positions.length);
+            flobt[] positions = null;
+            if ((_flbgs & GlyphVector.FLAG_HAS_POSITION_ADJUSTMENTS) != 0) {
+                positions = new flobt[_count * 2 + 2];
+                System.brrbycopy(_positions, 0, positions, 0, positions.length);
             }
 
             int[] indices = null;
-            if ((_flags & GlyphVector.FLAG_COMPLEX_GLYPHS) != 0) {
+            if ((_flbgs & GlyphVector.FLAG_COMPLEX_GLYPHS) != 0) {
                 indices = new int[_count];
-                System.arraycopy(_indices, 0, indices, 0, _count);
+                System.brrbycopy(_indices, 0, indices, 0, _count);
             }
 
             if (result == null) {
-                result = new StandardGlyphVector(font, frc, glyphs, positions, indices, _flags);
+                result = new StbndbrdGlyphVector(font, frc, glyphs, positions, indices, _flbgs);
             } else {
-                result.initGlyphVector(font, frc, glyphs, positions, indices, _flags);
+                result.initGlyphVector(font, frc, glyphs, positions, indices, _flbgs);
             }
 
             return result;
@@ -632,55 +632,55 @@ public final class GlyphLayout {
     }
 
     /**
-     * Utility class to keep track of script runs, which may have to be reordered rtl when we're
+     * Utility clbss to keep trbck of script runs, which mby hbve to be reordered rtl when we're
      * finished.
      */
-    private final class EngineRecord {
-        private int start;
-        private int limit;
-        private int gmask;
-        private int eflags;
-        private LayoutEngineKey key;
-        private LayoutEngine engine;
+    privbte finbl clbss EngineRecord {
+        privbte int stbrt;
+        privbte int limit;
+        privbte int gmbsk;
+        privbte int eflbgs;
+        privbte LbyoutEngineKey key;
+        privbte LbyoutEngine engine;
 
         EngineRecord() {
-            key = new LayoutEngineKey();
+            key = new LbyoutEngineKey();
         }
 
-        void init(int start, int limit, Font2D font, int script, int lang, int gmask) {
-            this.start = start;
+        void init(int stbrt, int limit, Font2D font, int script, int lbng, int gmbsk) {
+            this.stbrt = stbrt;
             this.limit = limit;
-            this.gmask = gmask;
-            this.key.init(font, script, lang);
-            this.eflags = 0;
+            this.gmbsk = gmbsk;
+            this.key.init(font, script, lbng);
+            this.eflbgs = 0;
 
-            // only request canonical substitution if we have combining marks
-            for (int i = start; i < limit; ++i) {
+            // only request cbnonicbl substitution if we hbve combining mbrks
+            for (int i = stbrt; i < limit; ++i) {
                 int ch = _textRecord.text[i];
-                if (isHighSurrogate((char)ch) &&
+                if (isHighSurrogbte((chbr)ch) &&
                     i < limit - 1 &&
-                    isLowSurrogate(_textRecord.text[i+1])) {
-                    // rare case
-                    ch = toCodePoint((char)ch,_textRecord.text[++i]); // inc
+                    isLowSurrogbte(_textRecord.text[i+1])) {
+                    // rbre cbse
+                    ch = toCodePoint((chbr)ch,_textRecord.text[++i]); // inc
                 }
                 int gc = getType(ch);
                 if (gc == NON_SPACING_MARK ||
                     gc == ENCLOSING_MARK ||
-                    gc == COMBINING_SPACING_MARK) { // could do range test also
+                    gc == COMBINING_SPACING_MARK) { // could do rbnge test blso
 
-                    this.eflags = 0x4;
-                    break;
+                    this.eflbgs = 0x4;
+                    brebk;
                 }
             }
 
-            this.engine = _lef.getEngine(key); // flags?
+            this.engine = _lef.getEngine(key); // flbgs?
         }
 
-        void layout() {
-            _textRecord.start = start;
+        void lbyout() {
+            _textRecord.stbrt = stbrt;
             _textRecord.limit = limit;
-            engine.layout(_sd, _mat, gmask, start - _offset, _textRecord,
-                          _typo_flags | eflags, _pt, _gvdata);
+            engine.lbyout(_sd, _mbt, gmbsk, stbrt - _offset, _textRecord,
+                          _typo_flbgs | eflbgs, _pt, _gvdbtb);
         }
     }
 }

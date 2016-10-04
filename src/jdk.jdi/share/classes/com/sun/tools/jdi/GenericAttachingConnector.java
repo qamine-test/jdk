@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
-import java.io.IOException;
-import java.util.Map;
+import jbvb.io.IOException;
+import jbvb.util.Mbp;
 
-import com.sun.jdi.Bootstrap;
-import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.Bootstrbp;
+import com.sun.jdi.VirtublMbchine;
 import com.sun.jdi.connect.*;
 import com.sun.jdi.connect.spi.*;
 
 /*
- * An AttachingConnector to attach to a running VM using any
- * TransportService.
+ * An AttbchingConnector to bttbch to b running VM using bny
+ * TrbnsportService.
  */
 
-public class GenericAttachingConnector
-        extends ConnectorImpl implements AttachingConnector
+public clbss GenericAttbchingConnector
+        extends ConnectorImpl implements AttbchingConnector
 {
     /*
-     * The arguments that this connector supports
+     * The brguments thbt this connector supports
      */
-    static final String ARG_ADDRESS = "address";
-    static final String ARG_TIMEOUT = "timeout";
+    stbtic finbl String ARG_ADDRESS = "bddress";
+    stbtic finbl String ARG_TIMEOUT = "timeout";
 
-    TransportService transportService;
-    Transport transport;
+    TrbnsportService trbnsportService;
+    Trbnsport trbnsport;
 
     /*
-     * Initialize a new instance of this connector. The connector
-     * encapsulates a transport service and optionally has an
-     * "address" connector argument.
+     * Initiblize b new instbnce of this connector. The connector
+     * encbpsulbtes b trbnsport service bnd optionblly hbs bn
+     * "bddress" connector brgument.
      */
-    private GenericAttachingConnector(TransportService ts,
-                                      boolean addAddressArgument)
+    privbte GenericAttbchingConnector(TrbnsportService ts,
+                                      boolebn bddAddressArgument)
     {
-        transportService = ts;
-        transport = new Transport() {
-                public String name() {
-                    // delegate name to the transport service
-                    return transportService.name();
+        trbnsportService = ts;
+        trbnsport = new Trbnsport() {
+                public String nbme() {
+                    // delegbte nbme to the trbnsport service
+                    return trbnsportService.nbme();
                 }
             };
 
-        if (addAddressArgument) {
-            addStringArgument(
+        if (bddAddressArgument) {
+            bddStringArgument(
                 ARG_ADDRESS,
-                getString("generic_attaching.address.label"),
-                getString("generic_attaching.address"),
+                getString("generic_bttbching.bddress.lbbel"),
+                getString("generic_bttbching.bddress"),
                 "",
                 true);
         }
 
 
-        addIntegerArgument(
+        bddIntegerArgument(
                 ARG_TIMEOUT,
-                getString("generic_attaching.timeout.label"),
-                getString("generic_attaching.timeout"),
+                getString("generic_bttbching.timeout.lbbel"),
+                getString("generic_bttbching.timeout"),
                 "",
-                false,
+                fblse,
                 0, Integer.MAX_VALUE);
     }
 
     /**
-     * Initializes a new instance of this connector. This constructor
-     * is used when sub-classing - the resulting connector will have
-     * a "timeout" connector argument.
+     * Initiblizes b new instbnce of this connector. This constructor
+     * is used when sub-clbssing - the resulting connector will hbve
+     * b "timeout" connector brgument.
      */
-    protected GenericAttachingConnector(TransportService ts) {
-        this(ts, false);
+    protected GenericAttbchingConnector(TrbnsportService ts) {
+        this(ts, fblse);
     }
 
     /*
-     * Create an instance of this connector. The resulting AttachingConnector
-     * will have address and timeout connector arguments.
+     * Crebte bn instbnce of this connector. The resulting AttbchingConnector
+     * will hbve bddress bnd timeout connector brguments.
      */
-    public static GenericAttachingConnector create(TransportService ts) {
-        return new GenericAttachingConnector(ts, true);
+    public stbtic GenericAttbchingConnector crebte(TrbnsportService ts) {
+        return new GenericAttbchingConnector(ts, true);
     }
 
     /**
-     * Attach to a target VM using the specified address and Connector arguments.
+     * Attbch to b tbrget VM using the specified bddress bnd Connector brguments.
      */
-    public VirtualMachine attach(String address, Map<String, ? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    public VirtublMbchine bttbch(String bddress, Mbp<String, ? extends Connector.Argument> brgs)
+        throws IOException, IllegblConnectorArgumentsException
     {
-        String ts  = argument(ARG_TIMEOUT, args).value();
+        String ts  = brgument(ARG_TIMEOUT, brgs).vblue();
         int timeout = 0;
         if (ts.length() > 0) {
-            timeout = Integer.decode(ts).intValue();
+            timeout = Integer.decode(ts).intVblue();
         }
-        Connection connection = transportService.attach(address, timeout, 0);
-        return Bootstrap.virtualMachineManager().createVirtualMachine(connection);
+        Connection connection = trbnsportService.bttbch(bddress, timeout, 0);
+        return Bootstrbp.virtublMbchineMbnbger().crebteVirtublMbchine(connection);
     }
 
     /**
-     * Attach to a target VM using the specified arguments - the address
-     * of the target VM is specified by the <code>address</code> connector
-     * argument.
+     * Attbch to b tbrget VM using the specified brguments - the bddress
+     * of the tbrget VM is specified by the <code>bddress</code> connector
+     * brgument.
      */
-    public VirtualMachine
-        attach(Map<String,? extends Connector.Argument> args)
-        throws IOException, IllegalConnectorArgumentsException
+    public VirtublMbchine
+        bttbch(Mbp<String,? extends Connector.Argument> brgs)
+        throws IOException, IllegblConnectorArgumentsException
     {
-        String address = argument(ARG_ADDRESS, args).value();
-        return attach(address, args);
+        String bddress = brgument(ARG_ADDRESS, brgs).vblue();
+        return bttbch(bddress, brgs);
     }
 
-    public String name() {
-        return transport.name() + "Attach";
+    public String nbme() {
+        return trbnsport.nbme() + "Attbch";
     }
 
     public String description() {
-        return transportService.description();
+        return trbnsportService.description();
     }
 
-    public Transport transport() {
-        return transport;
+    public Trbnsport trbnsport() {
+        return trbnsport;
     }
 
 }

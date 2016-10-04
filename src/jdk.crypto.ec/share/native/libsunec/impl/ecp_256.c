@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for prime field curves.
+ * The Originbl Code is the elliptic curve mbth librbry for prime field curves.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>
+ *   Douglbs Stebilb <douglbs@stebilb.cb>
  *
  *********************************************************************** */
 
@@ -43,180 +43,180 @@
 #include <stdlib.h>
 #endif
 
-/* Fast modular reduction for p256 = 2^256 - 2^224 + 2^192+ 2^96 - 1.  a can be r.
- * Uses algorithm 2.29 from Hankerson, Menezes, Vanstone. Guide to
- * Elliptic Curve Cryptography. */
+/* Fbst modulbr reduction for p256 = 2^256 - 2^224 + 2^192+ 2^96 - 1.  b cbn be r.
+ * Uses blgorithm 2.29 from Hbnkerson, Menezes, Vbnstone. Guide to
+ * Elliptic Curve Cryptogrbphy. */
 mp_err
-ec_GFp_nistp256_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GFp_nistp256_mod(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
-        mp_size a_used = MP_USED(a);
-        int a_bits = mpl_significant_bits(a);
-        mp_digit carry;
+        mp_size b_used = MP_USED(b);
+        int b_bits = mpl_significbnt_bits(b);
+        mp_digit cbrry;
 
 #ifdef ECL_THIRTY_TWO_BIT
-        mp_digit a8=0, a9=0, a10=0, a11=0, a12=0, a13=0, a14=0, a15=0;
+        mp_digit b8=0, b9=0, b10=0, b11=0, b12=0, b13=0, b14=0, b15=0;
         mp_digit r0, r1, r2, r3, r4, r5, r6, r7;
-        int r8; /* must be a signed value ! */
+        int r8; /* must be b signed vblue ! */
 #else
-        mp_digit a4=0, a5=0, a6=0, a7=0;
-        mp_digit a4h, a4l, a5h, a5l, a6h, a6l, a7h, a7l;
+        mp_digit b4=0, b5=0, b6=0, b7=0;
+        mp_digit b4h, b4l, b5h, b5l, b6h, b6l, b7h, b7l;
         mp_digit r0, r1, r2, r3;
-        int r4; /* must be a signed value ! */
+        int r4; /* must be b signed vblue ! */
 #endif
-        /* for polynomials larger than twice the field size
-         * use regular reduction */
-        if (a_bits < 256) {
-                if (a == r) return MP_OKAY;
-                return mp_copy(a,r);
+        /* for polynomibls lbrger thbn twice the field size
+         * use regulbr reduction */
+        if (b_bits < 256) {
+                if (b == r) return MP_OKAY;
+                return mp_copy(b,r);
         }
-        if (a_bits > 512)  {
-                MP_CHECKOK(mp_mod(a, &meth->irr, r));
+        if (b_bits > 512)  {
+                MP_CHECKOK(mp_mod(b, &meth->irr, r));
         } else {
 
 #ifdef ECL_THIRTY_TWO_BIT
-                switch (a_used) {
-                case 16:
-                        a15 = MP_DIGIT(a,15);
-                case 15:
-                        a14 = MP_DIGIT(a,14);
-                case 14:
-                        a13 = MP_DIGIT(a,13);
-                case 13:
-                        a12 = MP_DIGIT(a,12);
-                case 12:
-                        a11 = MP_DIGIT(a,11);
-                case 11:
-                        a10 = MP_DIGIT(a,10);
-                case 10:
-                        a9 = MP_DIGIT(a,9);
-                case 9:
-                        a8 = MP_DIGIT(a,8);
+                switch (b_used) {
+                cbse 16:
+                        b15 = MP_DIGIT(b,15);
+                cbse 15:
+                        b14 = MP_DIGIT(b,14);
+                cbse 14:
+                        b13 = MP_DIGIT(b,13);
+                cbse 13:
+                        b12 = MP_DIGIT(b,12);
+                cbse 12:
+                        b11 = MP_DIGIT(b,11);
+                cbse 11:
+                        b10 = MP_DIGIT(b,10);
+                cbse 10:
+                        b9 = MP_DIGIT(b,9);
+                cbse 9:
+                        b8 = MP_DIGIT(b,8);
                 }
 
-                r0 = MP_DIGIT(a,0);
-                r1 = MP_DIGIT(a,1);
-                r2 = MP_DIGIT(a,2);
-                r3 = MP_DIGIT(a,3);
-                r4 = MP_DIGIT(a,4);
-                r5 = MP_DIGIT(a,5);
-                r6 = MP_DIGIT(a,6);
-                r7 = MP_DIGIT(a,7);
+                r0 = MP_DIGIT(b,0);
+                r1 = MP_DIGIT(b,1);
+                r2 = MP_DIGIT(b,2);
+                r3 = MP_DIGIT(b,3);
+                r4 = MP_DIGIT(b,4);
+                r5 = MP_DIGIT(b,5);
+                r6 = MP_DIGIT(b,6);
+                r7 = MP_DIGIT(b,7);
 
                 /* sum 1 */
-                MP_ADD_CARRY(r3, a11, r3, 0,     carry);
-                MP_ADD_CARRY(r4, a12, r4, carry, carry);
-                MP_ADD_CARRY(r5, a13, r5, carry, carry);
-                MP_ADD_CARRY(r6, a14, r6, carry, carry);
-                MP_ADD_CARRY(r7, a15, r7, carry, carry);
-                r8 = carry;
-                MP_ADD_CARRY(r3, a11, r3, 0,     carry);
-                MP_ADD_CARRY(r4, a12, r4, carry, carry);
-                MP_ADD_CARRY(r5, a13, r5, carry, carry);
-                MP_ADD_CARRY(r6, a14, r6, carry, carry);
-                MP_ADD_CARRY(r7, a15, r7, carry, carry);
-                r8 += carry;
+                MP_ADD_CARRY(r3, b11, r3, 0,     cbrry);
+                MP_ADD_CARRY(r4, b12, r4, cbrry, cbrry);
+                MP_ADD_CARRY(r5, b13, r5, cbrry, cbrry);
+                MP_ADD_CARRY(r6, b14, r6, cbrry, cbrry);
+                MP_ADD_CARRY(r7, b15, r7, cbrry, cbrry);
+                r8 = cbrry;
+                MP_ADD_CARRY(r3, b11, r3, 0,     cbrry);
+                MP_ADD_CARRY(r4, b12, r4, cbrry, cbrry);
+                MP_ADD_CARRY(r5, b13, r5, cbrry, cbrry);
+                MP_ADD_CARRY(r6, b14, r6, cbrry, cbrry);
+                MP_ADD_CARRY(r7, b15, r7, cbrry, cbrry);
+                r8 += cbrry;
                 /* sum 2 */
-                MP_ADD_CARRY(r3, a12, r3, 0,     carry);
-                MP_ADD_CARRY(r4, a13, r4, carry, carry);
-                MP_ADD_CARRY(r5, a14, r5, carry, carry);
-                MP_ADD_CARRY(r6, a15, r6, carry, carry);
-                MP_ADD_CARRY(r7,   0, r7, carry, carry);
-                r8 += carry;
-                /* combine last bottom of sum 3 with second sum 2 */
-                MP_ADD_CARRY(r0, a8,  r0, 0,     carry);
-                MP_ADD_CARRY(r1, a9,  r1, carry, carry);
-                MP_ADD_CARRY(r2, a10, r2, carry, carry);
-                MP_ADD_CARRY(r3, a12, r3, carry, carry);
-                MP_ADD_CARRY(r4, a13, r4, carry, carry);
-                MP_ADD_CARRY(r5, a14, r5, carry, carry);
-                MP_ADD_CARRY(r6, a15, r6, carry, carry);
-                MP_ADD_CARRY(r7, a15, r7, carry, carry); /* from sum 3 */
-                r8 += carry;
+                MP_ADD_CARRY(r3, b12, r3, 0,     cbrry);
+                MP_ADD_CARRY(r4, b13, r4, cbrry, cbrry);
+                MP_ADD_CARRY(r5, b14, r5, cbrry, cbrry);
+                MP_ADD_CARRY(r6, b15, r6, cbrry, cbrry);
+                MP_ADD_CARRY(r7,   0, r7, cbrry, cbrry);
+                r8 += cbrry;
+                /* combine lbst bottom of sum 3 with second sum 2 */
+                MP_ADD_CARRY(r0, b8,  r0, 0,     cbrry);
+                MP_ADD_CARRY(r1, b9,  r1, cbrry, cbrry);
+                MP_ADD_CARRY(r2, b10, r2, cbrry, cbrry);
+                MP_ADD_CARRY(r3, b12, r3, cbrry, cbrry);
+                MP_ADD_CARRY(r4, b13, r4, cbrry, cbrry);
+                MP_ADD_CARRY(r5, b14, r5, cbrry, cbrry);
+                MP_ADD_CARRY(r6, b15, r6, cbrry, cbrry);
+                MP_ADD_CARRY(r7, b15, r7, cbrry, cbrry); /* from sum 3 */
+                r8 += cbrry;
                 /* sum 3 (rest of it)*/
-                MP_ADD_CARRY(r6, a14, r6, 0,     carry);
-                MP_ADD_CARRY(r7,   0, r7, carry, carry);
-                r8 += carry;
+                MP_ADD_CARRY(r6, b14, r6, 0,     cbrry);
+                MP_ADD_CARRY(r7,   0, r7, cbrry, cbrry);
+                r8 += cbrry;
                 /* sum 4 (rest of it)*/
-                MP_ADD_CARRY(r0, a9,  r0, 0,     carry);
-                MP_ADD_CARRY(r1, a10, r1, carry, carry);
-                MP_ADD_CARRY(r2, a11, r2, carry, carry);
-                MP_ADD_CARRY(r3, a13, r3, carry, carry);
-                MP_ADD_CARRY(r4, a14, r4, carry, carry);
-                MP_ADD_CARRY(r5, a15, r5, carry, carry);
-                MP_ADD_CARRY(r6, a13, r6, carry, carry);
-                MP_ADD_CARRY(r7, a8,  r7, carry, carry);
-                r8 += carry;
+                MP_ADD_CARRY(r0, b9,  r0, 0,     cbrry);
+                MP_ADD_CARRY(r1, b10, r1, cbrry, cbrry);
+                MP_ADD_CARRY(r2, b11, r2, cbrry, cbrry);
+                MP_ADD_CARRY(r3, b13, r3, cbrry, cbrry);
+                MP_ADD_CARRY(r4, b14, r4, cbrry, cbrry);
+                MP_ADD_CARRY(r5, b15, r5, cbrry, cbrry);
+                MP_ADD_CARRY(r6, b13, r6, cbrry, cbrry);
+                MP_ADD_CARRY(r7, b8,  r7, cbrry, cbrry);
+                r8 += cbrry;
                 /* diff 5 */
-                MP_SUB_BORROW(r0, a11, r0, 0,     carry);
-                MP_SUB_BORROW(r1, a12, r1, carry, carry);
-                MP_SUB_BORROW(r2, a13, r2, carry, carry);
-                MP_SUB_BORROW(r3,   0, r3, carry, carry);
-                MP_SUB_BORROW(r4,   0, r4, carry, carry);
-                MP_SUB_BORROW(r5,   0, r5, carry, carry);
-                MP_SUB_BORROW(r6, a8,  r6, carry, carry);
-                MP_SUB_BORROW(r7, a10, r7, carry, carry);
-                r8 -= carry;
+                MP_SUB_BORROW(r0, b11, r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b12, r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b13, r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3,   0, r3, cbrry, cbrry);
+                MP_SUB_BORROW(r4,   0, r4, cbrry, cbrry);
+                MP_SUB_BORROW(r5,   0, r5, cbrry, cbrry);
+                MP_SUB_BORROW(r6, b8,  r6, cbrry, cbrry);
+                MP_SUB_BORROW(r7, b10, r7, cbrry, cbrry);
+                r8 -= cbrry;
                 /* diff 6 */
-                MP_SUB_BORROW(r0, a12, r0, 0,     carry);
-                MP_SUB_BORROW(r1, a13, r1, carry, carry);
-                MP_SUB_BORROW(r2, a14, r2, carry, carry);
-                MP_SUB_BORROW(r3, a15, r3, carry, carry);
-                MP_SUB_BORROW(r4,   0, r4, carry, carry);
-                MP_SUB_BORROW(r5,   0, r5, carry, carry);
-                MP_SUB_BORROW(r6, a9,  r6, carry, carry);
-                MP_SUB_BORROW(r7, a11, r7, carry, carry);
-                r8 -= carry;
+                MP_SUB_BORROW(r0, b12, r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b13, r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b14, r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b15, r3, cbrry, cbrry);
+                MP_SUB_BORROW(r4,   0, r4, cbrry, cbrry);
+                MP_SUB_BORROW(r5,   0, r5, cbrry, cbrry);
+                MP_SUB_BORROW(r6, b9,  r6, cbrry, cbrry);
+                MP_SUB_BORROW(r7, b11, r7, cbrry, cbrry);
+                r8 -= cbrry;
                 /* diff 7 */
-                MP_SUB_BORROW(r0, a13, r0, 0,     carry);
-                MP_SUB_BORROW(r1, a14, r1, carry, carry);
-                MP_SUB_BORROW(r2, a15, r2, carry, carry);
-                MP_SUB_BORROW(r3, a8,  r3, carry, carry);
-                MP_SUB_BORROW(r4, a9,  r4, carry, carry);
-                MP_SUB_BORROW(r5, a10, r5, carry, carry);
-                MP_SUB_BORROW(r6, 0,   r6, carry, carry);
-                MP_SUB_BORROW(r7, a12, r7, carry, carry);
-                r8 -= carry;
+                MP_SUB_BORROW(r0, b13, r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b14, r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b15, r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b8,  r3, cbrry, cbrry);
+                MP_SUB_BORROW(r4, b9,  r4, cbrry, cbrry);
+                MP_SUB_BORROW(r5, b10, r5, cbrry, cbrry);
+                MP_SUB_BORROW(r6, 0,   r6, cbrry, cbrry);
+                MP_SUB_BORROW(r7, b12, r7, cbrry, cbrry);
+                r8 -= cbrry;
                 /* diff 8 */
-                MP_SUB_BORROW(r0, a14, r0, 0,     carry);
-                MP_SUB_BORROW(r1, a15, r1, carry, carry);
-                MP_SUB_BORROW(r2, 0,   r2, carry, carry);
-                MP_SUB_BORROW(r3, a9,  r3, carry, carry);
-                MP_SUB_BORROW(r4, a10, r4, carry, carry);
-                MP_SUB_BORROW(r5, a11, r5, carry, carry);
-                MP_SUB_BORROW(r6, 0,   r6, carry, carry);
-                MP_SUB_BORROW(r7, a13, r7, carry, carry);
-                r8 -= carry;
+                MP_SUB_BORROW(r0, b14, r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b15, r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, 0,   r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b9,  r3, cbrry, cbrry);
+                MP_SUB_BORROW(r4, b10, r4, cbrry, cbrry);
+                MP_SUB_BORROW(r5, b11, r5, cbrry, cbrry);
+                MP_SUB_BORROW(r6, 0,   r6, cbrry, cbrry);
+                MP_SUB_BORROW(r7, b13, r7, cbrry, cbrry);
+                r8 -= cbrry;
 
                 /* reduce the overflows */
                 while (r8 > 0) {
                         mp_digit r8_d = r8;
-                        MP_ADD_CARRY(r0, r8_d,         r0, 0,     carry);
-                        MP_ADD_CARRY(r1, 0,            r1, carry, carry);
-                        MP_ADD_CARRY(r2, 0,            r2, carry, carry);
-                        MP_ADD_CARRY(r3, -r8_d,        r3, carry, carry);
-                        MP_ADD_CARRY(r4, MP_DIGIT_MAX, r4, carry, carry);
-                        MP_ADD_CARRY(r5, MP_DIGIT_MAX, r5, carry, carry);
-                        MP_ADD_CARRY(r6, -(r8_d+1),    r6, carry, carry);
-                        MP_ADD_CARRY(r7, (r8_d-1),     r7, carry, carry);
-                        r8 = carry;
+                        MP_ADD_CARRY(r0, r8_d,         r0, 0,     cbrry);
+                        MP_ADD_CARRY(r1, 0,            r1, cbrry, cbrry);
+                        MP_ADD_CARRY(r2, 0,            r2, cbrry, cbrry);
+                        MP_ADD_CARRY(r3, -r8_d,        r3, cbrry, cbrry);
+                        MP_ADD_CARRY(r4, MP_DIGIT_MAX, r4, cbrry, cbrry);
+                        MP_ADD_CARRY(r5, MP_DIGIT_MAX, r5, cbrry, cbrry);
+                        MP_ADD_CARRY(r6, -(r8_d+1),    r6, cbrry, cbrry);
+                        MP_ADD_CARRY(r7, (r8_d-1),     r7, cbrry, cbrry);
+                        r8 = cbrry;
                 }
 
                 /* reduce the underflows */
                 while (r8 < 0) {
                         mp_digit r8_d = -r8;
-                        MP_SUB_BORROW(r0, r8_d,         r0, 0,     carry);
-                        MP_SUB_BORROW(r1, 0,            r1, carry, carry);
-                        MP_SUB_BORROW(r2, 0,            r2, carry, carry);
-                        MP_SUB_BORROW(r3, -r8_d,        r3, carry, carry);
-                        MP_SUB_BORROW(r4, MP_DIGIT_MAX, r4, carry, carry);
-                        MP_SUB_BORROW(r5, MP_DIGIT_MAX, r5, carry, carry);
-                        MP_SUB_BORROW(r6, -(r8_d+1),    r6, carry, carry);
-                        MP_SUB_BORROW(r7, (r8_d-1),     r7, carry, carry);
-                        r8 = -carry;
+                        MP_SUB_BORROW(r0, r8_d,         r0, 0,     cbrry);
+                        MP_SUB_BORROW(r1, 0,            r1, cbrry, cbrry);
+                        MP_SUB_BORROW(r2, 0,            r2, cbrry, cbrry);
+                        MP_SUB_BORROW(r3, -r8_d,        r3, cbrry, cbrry);
+                        MP_SUB_BORROW(r4, MP_DIGIT_MAX, r4, cbrry, cbrry);
+                        MP_SUB_BORROW(r5, MP_DIGIT_MAX, r5, cbrry, cbrry);
+                        MP_SUB_BORROW(r6, -(r8_d+1),    r6, cbrry, cbrry);
+                        MP_SUB_BORROW(r7, (r8_d-1),     r7, cbrry, cbrry);
+                        r8 = -cbrry;
                 }
-                if (a != r) {
-                        MP_CHECKOK(s_mp_pad(r,8));
+                if (b != r) {
+                        MP_CHECKOK(s_mp_pbd(r,8));
                 }
                 MP_SIGN(r) = MP_ZPOS;
                 MP_USED(r) = 8;
@@ -230,7 +230,7 @@ ec_GFp_nistp256_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
                 MP_DIGIT(r,1) = r1;
                 MP_DIGIT(r,0) = r0;
 
-                /* final reduction if necessary */
+                /* finbl reduction if necessbry */
                 if ((r7 == MP_DIGIT_MAX) &&
                         ((r6 > 1) || ((r6 == 1) &&
                         (r5 || r4 || r3 ||
@@ -241,126 +241,126 @@ ec_GFp_nistp256_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
 #ifdef notdef
 
 
-                /* smooth the negatives */
+                /* smooth the negbtives */
                 while (MP_SIGN(r) != MP_ZPOS) {
-                        MP_CHECKOK(mp_add(r, &meth->irr, r));
+                        MP_CHECKOK(mp_bdd(r, &meth->irr, r));
                 }
                 while (MP_USED(r) > 8) {
                         MP_CHECKOK(mp_sub(r, &meth->irr, r));
                 }
 
-                /* final reduction if necessary */
+                /* finbl reduction if necessbry */
                 if (MP_DIGIT(r,7) >= MP_DIGIT(&meth->irr,7)) {
                     if (mp_cmp(r,&meth->irr) != MP_LT) {
                         MP_CHECKOK(mp_sub(r, &meth->irr, r));
                     }
                 }
 #endif
-                s_mp_clamp(r);
+                s_mp_clbmp(r);
 #else
-                switch (a_used) {
-                case 8:
-                        a7 = MP_DIGIT(a,7);
-                case 7:
-                        a6 = MP_DIGIT(a,6);
-                case 6:
-                        a5 = MP_DIGIT(a,5);
-                case 5:
-                        a4 = MP_DIGIT(a,4);
+                switch (b_used) {
+                cbse 8:
+                        b7 = MP_DIGIT(b,7);
+                cbse 7:
+                        b6 = MP_DIGIT(b,6);
+                cbse 6:
+                        b5 = MP_DIGIT(b,5);
+                cbse 5:
+                        b4 = MP_DIGIT(b,4);
                 }
-                a7l = a7 << 32;
-                a7h = a7 >> 32;
-                a6l = a6 << 32;
-                a6h = a6 >> 32;
-                a5l = a5 << 32;
-                a5h = a5 >> 32;
-                a4l = a4 << 32;
-                a4h = a4 >> 32;
-                r3 = MP_DIGIT(a,3);
-                r2 = MP_DIGIT(a,2);
-                r1 = MP_DIGIT(a,1);
-                r0 = MP_DIGIT(a,0);
+                b7l = b7 << 32;
+                b7h = b7 >> 32;
+                b6l = b6 << 32;
+                b6h = b6 >> 32;
+                b5l = b5 << 32;
+                b5h = b5 >> 32;
+                b4l = b4 << 32;
+                b4h = b4 >> 32;
+                r3 = MP_DIGIT(b,3);
+                r2 = MP_DIGIT(b,2);
+                r1 = MP_DIGIT(b,1);
+                r0 = MP_DIGIT(b,0);
 
                 /* sum 1 */
-                MP_ADD_CARRY_ZERO(r1, a5h << 32, r1, carry);
-                MP_ADD_CARRY(r2, a6,        r2, carry, carry);
-                MP_ADD_CARRY(r3, a7,        r3, carry, carry);
-                r4 = carry;
-                MP_ADD_CARRY_ZERO(r1, a5h << 32, r1, carry);
-                MP_ADD_CARRY(r2, a6,        r2, carry, carry);
-                MP_ADD_CARRY(r3, a7,        r3, carry, carry);
-                r4 += carry;
+                MP_ADD_CARRY_ZERO(r1, b5h << 32, r1, cbrry);
+                MP_ADD_CARRY(r2, b6,        r2, cbrry, cbrry);
+                MP_ADD_CARRY(r3, b7,        r3, cbrry, cbrry);
+                r4 = cbrry;
+                MP_ADD_CARRY_ZERO(r1, b5h << 32, r1, cbrry);
+                MP_ADD_CARRY(r2, b6,        r2, cbrry, cbrry);
+                MP_ADD_CARRY(r3, b7,        r3, cbrry, cbrry);
+                r4 += cbrry;
                 /* sum 2 */
-                MP_ADD_CARRY_ZERO(r1, a6l,       r1, carry);
-                MP_ADD_CARRY(r2, a6h | a7l, r2, carry, carry);
-                MP_ADD_CARRY(r3, a7h,       r3, carry, carry);
-                r4 += carry;
-                MP_ADD_CARRY_ZERO(r1, a6l,       r1, carry);
-                MP_ADD_CARRY(r2, a6h | a7l, r2, carry, carry);
-                MP_ADD_CARRY(r3, a7h,       r3, carry, carry);
-                r4 += carry;
+                MP_ADD_CARRY_ZERO(r1, b6l,       r1, cbrry);
+                MP_ADD_CARRY(r2, b6h | b7l, r2, cbrry, cbrry);
+                MP_ADD_CARRY(r3, b7h,       r3, cbrry, cbrry);
+                r4 += cbrry;
+                MP_ADD_CARRY_ZERO(r1, b6l,       r1, cbrry);
+                MP_ADD_CARRY(r2, b6h | b7l, r2, cbrry, cbrry);
+                MP_ADD_CARRY(r3, b7h,       r3, cbrry, cbrry);
+                r4 += cbrry;
 
                 /* sum 3 */
-                MP_ADD_CARRY_ZERO(r0, a4,        r0, carry);
-                MP_ADD_CARRY(r1, a5l >> 32, r1, carry, carry);
-                MP_ADD_CARRY(r2, 0,         r2, carry, carry);
-                MP_ADD_CARRY(r3, a7,        r3, carry, carry);
-                r4 += carry;
+                MP_ADD_CARRY_ZERO(r0, b4,        r0, cbrry);
+                MP_ADD_CARRY(r1, b5l >> 32, r1, cbrry, cbrry);
+                MP_ADD_CARRY(r2, 0,         r2, cbrry, cbrry);
+                MP_ADD_CARRY(r3, b7,        r3, cbrry, cbrry);
+                r4 += cbrry;
                 /* sum 4 */
-                MP_ADD_CARRY_ZERO(r0, a4h | a5l,     r0, carry);
-                MP_ADD_CARRY(r1, a5h|(a6h<<32), r1, carry, carry);
-                MP_ADD_CARRY(r2, a7,            r2, carry, carry);
-                MP_ADD_CARRY(r3, a6h | a4l,     r3, carry, carry);
-                r4 += carry;
+                MP_ADD_CARRY_ZERO(r0, b4h | b5l,     r0, cbrry);
+                MP_ADD_CARRY(r1, b5h|(b6h<<32), r1, cbrry, cbrry);
+                MP_ADD_CARRY(r2, b7,            r2, cbrry, cbrry);
+                MP_ADD_CARRY(r3, b6h | b4l,     r3, cbrry, cbrry);
+                r4 += cbrry;
                 /* diff 5 */
-                MP_SUB_BORROW(r0, a5h | a6l,    r0, 0,     carry);
-                MP_SUB_BORROW(r1, a6h,          r1, carry, carry);
-                MP_SUB_BORROW(r2, 0,            r2, carry, carry);
-                MP_SUB_BORROW(r3, (a4l>>32)|a5l,r3, carry, carry);
-                r4 -= carry;
+                MP_SUB_BORROW(r0, b5h | b6l,    r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b6h,          r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, 0,            r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, (b4l>>32)|b5l,r3, cbrry, cbrry);
+                r4 -= cbrry;
                 /* diff 6 */
-                MP_SUB_BORROW(r0, a6,           r0, 0,     carry);
-                MP_SUB_BORROW(r1, a7,           r1, carry, carry);
-                MP_SUB_BORROW(r2, 0,            r2, carry, carry);
-                MP_SUB_BORROW(r3, a4h|(a5h<<32),r3, carry, carry);
-                r4 -= carry;
+                MP_SUB_BORROW(r0, b6,           r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b7,           r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, 0,            r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b4h|(b5h<<32),r3, cbrry, cbrry);
+                r4 -= cbrry;
                 /* diff 7 */
-                MP_SUB_BORROW(r0, a6h|a7l,      r0, 0,     carry);
-                MP_SUB_BORROW(r1, a7h|a4l,      r1, carry, carry);
-                MP_SUB_BORROW(r2, a4h|a5l,      r2, carry, carry);
-                MP_SUB_BORROW(r3, a6l,          r3, carry, carry);
-                r4 -= carry;
+                MP_SUB_BORROW(r0, b6h|b7l,      r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b7h|b4l,      r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b4h|b5l,      r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b6l,          r3, cbrry, cbrry);
+                r4 -= cbrry;
                 /* diff 8 */
-                MP_SUB_BORROW(r0, a7,           r0, 0,     carry);
-                MP_SUB_BORROW(r1, a4h<<32,      r1, carry, carry);
-                MP_SUB_BORROW(r2, a5,           r2, carry, carry);
-                MP_SUB_BORROW(r3, a6h<<32,      r3, carry, carry);
-                r4 -= carry;
+                MP_SUB_BORROW(r0, b7,           r0, 0,     cbrry);
+                MP_SUB_BORROW(r1, b4h<<32,      r1, cbrry, cbrry);
+                MP_SUB_BORROW(r2, b5,           r2, cbrry, cbrry);
+                MP_SUB_BORROW(r3, b6h<<32,      r3, cbrry, cbrry);
+                r4 -= cbrry;
 
                 /* reduce the overflows */
                 while (r4 > 0) {
                         mp_digit r4_long = r4;
                         mp_digit r4l = (r4_long << 32);
-                        MP_ADD_CARRY_ZERO(r0, r4_long,      r0, carry);
-                        MP_ADD_CARRY(r1, -r4l,         r1, carry, carry);
-                        MP_ADD_CARRY(r2, MP_DIGIT_MAX, r2, carry, carry);
-                        MP_ADD_CARRY(r3, r4l-r4_long-1,r3, carry, carry);
-                        r4 = carry;
+                        MP_ADD_CARRY_ZERO(r0, r4_long,      r0, cbrry);
+                        MP_ADD_CARRY(r1, -r4l,         r1, cbrry, cbrry);
+                        MP_ADD_CARRY(r2, MP_DIGIT_MAX, r2, cbrry, cbrry);
+                        MP_ADD_CARRY(r3, r4l-r4_long-1,r3, cbrry, cbrry);
+                        r4 = cbrry;
                 }
 
                 /* reduce the underflows */
                 while (r4 < 0) {
                         mp_digit r4_long = -r4;
                         mp_digit r4l = (r4_long << 32);
-                        MP_SUB_BORROW(r0, r4_long,      r0, 0,     carry);
-                        MP_SUB_BORROW(r1, -r4l,         r1, carry, carry);
-                        MP_SUB_BORROW(r2, MP_DIGIT_MAX, r2, carry, carry);
-                        MP_SUB_BORROW(r3, r4l-r4_long-1,r3, carry, carry);
-                        r4 = -carry;
+                        MP_SUB_BORROW(r0, r4_long,      r0, 0,     cbrry);
+                        MP_SUB_BORROW(r1, -r4l,         r1, cbrry, cbrry);
+                        MP_SUB_BORROW(r2, MP_DIGIT_MAX, r2, cbrry, cbrry);
+                        MP_SUB_BORROW(r3, r4l-r4_long-1,r3, cbrry, cbrry);
+                        r4 = -cbrry;
                 }
 
-                if (a != r) {
-                        MP_CHECKOK(s_mp_pad(r,4));
+                if (b != r) {
+                        MP_CHECKOK(s_mp_pbd(r,4));
                 }
                 MP_SIGN(r) = MP_ZPOS;
                 MP_USED(r) = 4;
@@ -370,16 +370,16 @@ ec_GFp_nistp256_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
                 MP_DIGIT(r,1) = r1;
                 MP_DIGIT(r,0) = r0;
 
-                /* final reduction if necessary */
+                /* finbl reduction if necessbry */
                 if ((r3 > 0xFFFFFFFF00000001ULL) ||
                         ((r3 == 0xFFFFFFFF00000001ULL) &&
                         (r2 || (r1 >> 32)||
                                (r1 == 0xFFFFFFFFULL && r0 == MP_DIGIT_MAX)))) {
-                        /* very rare, just use mp_sub */
+                        /* very rbre, just use mp_sub */
                         MP_CHECKOK(mp_sub(r, &meth->irr, r));
                 }
 
-                s_mp_clamp(r);
+                s_mp_clbmp(r);
 #endif
         }
 
@@ -387,41 +387,41 @@ ec_GFp_nistp256_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
         return res;
 }
 
-/* Compute the square of polynomial a, reduce modulo p256. Store the
- * result in r.  r could be a.  Uses optimized modular reduction for p256.
+/* Compute the squbre of polynomibl b, reduce modulo p256. Store the
+ * result in r.  r could be b.  Uses optimized modulbr reduction for p256.
  */
 mp_err
-ec_GFp_nistp256_sqr(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GFp_nistp256_sqr(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
 
-        MP_CHECKOK(mp_sqr(a, r));
+        MP_CHECKOK(mp_sqr(b, r));
         MP_CHECKOK(ec_GFp_nistp256_mod(r, r, meth));
   CLEANUP:
         return res;
 }
 
-/* Compute the product of two polynomials a and b, reduce modulo p256.
- * Store the result in r.  r could be a or b; a could be b.  Uses
- * optimized modular reduction for p256. */
+/* Compute the product of two polynomibls b bnd b, reduce modulo p256.
+ * Store the result in r.  r could be b or b; b could be b.  Uses
+ * optimized modulbr reduction for p256. */
 mp_err
-ec_GFp_nistp256_mul(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GFp_nistp256_mul(const mp_int *b, const mp_int *b, mp_int *r,
                                         const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
 
-        MP_CHECKOK(mp_mul(a, b, r));
+        MP_CHECKOK(mp_mul(b, b, r));
         MP_CHECKOK(ec_GFp_nistp256_mod(r, r, meth));
   CLEANUP:
         return res;
 }
 
-/* Wire in fast field arithmetic and precomputation of base point for
- * named curves. */
+/* Wire in fbst field brithmetic bnd precomputbtion of bbse point for
+ * nbmed curves. */
 mp_err
-ec_group_set_gfp256(ECGroup *group, ECCurveName name)
+ec_group_set_gfp256(ECGroup *group, ECCurveNbme nbme)
 {
-        if (name == ECCurve_NIST_P256) {
+        if (nbme == ECCurve_NIST_P256) {
                 group->meth->field_mod = &ec_GFp_nistp256_mod;
                 group->meth->field_mul = &ec_GFp_nistp256_mul;
                 group->meth->field_sqr = &ec_GFp_nistp256_sqr;

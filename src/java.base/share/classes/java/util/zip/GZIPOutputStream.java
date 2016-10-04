@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
 
 /**
- * This class implements a stream filter for writing compressed data in
- * the GZIP file format.
- * @author      David Connelly
+ * This clbss implements b strebm filter for writing compressed dbtb in
+ * the GZIP file formbt.
+ * @buthor      Dbvid Connelly
  *
  */
 public
-class GZIPOutputStream extends DeflaterOutputStream {
+clbss GZIPOutputStrebm extends DeflbterOutputStrebm {
     /**
-     * CRC-32 of uncompressed data.
+     * CRC-32 of uncompressed dbtb.
      */
     protected CRC32 crc = new CRC32();
 
     /*
-     * GZIP header magic number.
+     * GZIP hebder mbgic number.
      */
-    private final static int GZIP_MAGIC = 0x8b1f;
+    privbte finbl stbtic int GZIP_MAGIC = 0x8b1f;
 
     /*
-     * Trailer size in bytes.
+     * Trbiler size in bytes.
      *
      */
-    private final static int TRAILER_SIZE = 8;
+    privbte finbl stbtic int TRAILER_SIZE = 8;
 
     /**
-     * Creates a new output stream with the specified buffer size.
+     * Crebtes b new output strebm with the specified buffer size.
      *
-     * <p>The new output stream instance is created as if by invoking
-     * the 3-argument constructor GZIPOutputStream(out, size, false).
+     * <p>The new output strebm instbnce is crebted bs if by invoking
+     * the 3-brgument constructor GZIPOutputStrebm(out, size, fblse).
      *
-     * @param out the output stream
-     * @param size the output buffer size
-     * @exception IOException If an I/O error has occurred.
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @pbrbm out the output strebm
+     * @pbrbm size the output buffer size
+     * @exception IOException If bn I/O error hbs occurred.
+     * @exception IllegblArgumentException if {@code size <= 0}
      */
-    public GZIPOutputStream(OutputStream out, int size) throws IOException {
-        this(out, size, false);
+    public GZIPOutputStrebm(OutputStrebm out, int size) throws IOException {
+        this(out, size, fblse);
     }
 
     /**
-     * Creates a new output stream with the specified buffer size and
+     * Crebtes b new output strebm with the specified buffer size bnd
      * flush mode.
      *
-     * @param out the output stream
-     * @param size the output buffer size
-     * @param syncFlush
-     *        if {@code true} invocation of the inherited
-     *        {@link DeflaterOutputStream#flush() flush()} method of
-     *        this instance flushes the compressor with flush mode
-     *        {@link Deflater#SYNC_FLUSH} before flushing the output
-     *        stream, otherwise only flushes the output stream
-     * @exception IOException If an I/O error has occurred.
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @pbrbm out the output strebm
+     * @pbrbm size the output buffer size
+     * @pbrbm syncFlush
+     *        if {@code true} invocbtion of the inherited
+     *        {@link DeflbterOutputStrebm#flush() flush()} method of
+     *        this instbnce flushes the compressor with flush mode
+     *        {@link Deflbter#SYNC_FLUSH} before flushing the output
+     *        strebm, otherwise only flushes the output strebm
+     * @exception IOException If bn I/O error hbs occurred.
+     * @exception IllegblArgumentException if {@code size <= 0}
      *
      * @since 1.7
      */
-    public GZIPOutputStream(OutputStream out, int size, boolean syncFlush)
+    public GZIPOutputStrebm(OutputStrebm out, int size, boolebn syncFlush)
         throws IOException
     {
-        super(out, new Deflater(Deflater.DEFAULT_COMPRESSION, true),
+        super(out, new Deflbter(Deflbter.DEFAULT_COMPRESSION, true),
               size,
               syncFlush);
-        usesDefaultDeflater = true;
-        writeHeader();
+        usesDefbultDeflbter = true;
+        writeHebder();
         crc.reset();
     }
 
 
     /**
-     * Creates a new output stream with a default buffer size.
+     * Crebtes b new output strebm with b defbult buffer size.
      *
-     * <p>The new output stream instance is created as if by invoking
-     * the 2-argument constructor GZIPOutputStream(out, false).
+     * <p>The new output strebm instbnce is crebted bs if by invoking
+     * the 2-brgument constructor GZIPOutputStrebm(out, fblse).
      *
-     * @param out the output stream
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm out the output strebm
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public GZIPOutputStream(OutputStream out) throws IOException {
-        this(out, 512, false);
+    public GZIPOutputStrebm(OutputStrebm out) throws IOException {
+        this(out, 512, fblse);
     }
 
     /**
-     * Creates a new output stream with a default buffer size and
+     * Crebtes b new output strebm with b defbult buffer size bnd
      * the specified flush mode.
      *
-     * @param out the output stream
-     * @param syncFlush
-     *        if {@code true} invocation of the inherited
-     *        {@link DeflaterOutputStream#flush() flush()} method of
-     *        this instance flushes the compressor with flush mode
-     *        {@link Deflater#SYNC_FLUSH} before flushing the output
-     *        stream, otherwise only flushes the output stream
+     * @pbrbm out the output strebm
+     * @pbrbm syncFlush
+     *        if {@code true} invocbtion of the inherited
+     *        {@link DeflbterOutputStrebm#flush() flush()} method of
+     *        this instbnce flushes the compressor with flush mode
+     *        {@link Deflbter#SYNC_FLUSH} before flushing the output
+     *        strebm, otherwise only flushes the output strebm
      *
-     * @exception IOException If an I/O error has occurred.
+     * @exception IOException If bn I/O error hbs occurred.
      *
      * @since 1.7
      */
-    public GZIPOutputStream(OutputStream out, boolean syncFlush)
+    public GZIPOutputStrebm(OutputStrebm out, boolebn syncFlush)
         throws IOException
     {
         this(out, 512, syncFlush);
     }
 
     /**
-     * Writes array of bytes to the compressed output stream. This method
-     * will block until all the bytes are written.
-     * @param buf the data to be written
-     * @param off the start offset of the data
-     * @param len the length of the data
-     * @exception IOException If an I/O error has occurred.
+     * Writes brrby of bytes to the compressed output strebm. This method
+     * will block until bll the bytes bre written.
+     * @pbrbm buf the dbtb to be written
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm len the length of the dbtb
+     * @exception IOException If bn I/O error hbs occurred.
      */
     public synchronized void write(byte[] buf, int off, int len)
         throws IOException
     {
         super.write(buf, off, len);
-        crc.update(buf, off, len);
+        crc.updbte(buf, off, len);
     }
 
     /**
-     * Finishes writing compressed data to the output stream without closing
-     * the underlying stream. Use this method when applying multiple filters
-     * in succession to the same output stream.
-     * @exception IOException if an I/O error has occurred
+     * Finishes writing compressed dbtb to the output strebm without closing
+     * the underlying strebm. Use this method when bpplying multiple filters
+     * in succession to the sbme output strebm.
+     * @exception IOException if bn I/O error hbs occurred
      */
     public void finish() throws IOException {
         if (!def.finished()) {
             def.finish();
             while (!def.finished()) {
-                int len = def.deflate(buf, 0, buf.length);
+                int len = def.deflbte(buf, 0, buf.length);
                 if (def.finished() && len <= buf.length - TRAILER_SIZE) {
-                    // last deflater buffer. Fit trailer at the end
-                    writeTrailer(buf, len);
+                    // lbst deflbter buffer. Fit trbiler bt the end
+                    writeTrbiler(buf, len);
                     len = len + TRAILER_SIZE;
                     out.write(buf, 0, len);
                     return;
@@ -167,55 +167,55 @@ class GZIPOutputStream extends DeflaterOutputStream {
                 if (len > 0)
                     out.write(buf, 0, len);
             }
-            // if we can't fit the trailer at the end of the last
-            // deflater buffer, we write it separately
-            byte[] trailer = new byte[TRAILER_SIZE];
-            writeTrailer(trailer, 0);
-            out.write(trailer);
+            // if we cbn't fit the trbiler bt the end of the lbst
+            // deflbter buffer, we write it sepbrbtely
+            byte[] trbiler = new byte[TRAILER_SIZE];
+            writeTrbiler(trbiler, 0);
+            out.write(trbiler);
         }
     }
 
     /*
-     * Writes GZIP member header.
+     * Writes GZIP member hebder.
      */
-    private void writeHeader() throws IOException {
+    privbte void writeHebder() throws IOException {
         out.write(new byte[] {
-                      (byte) GZIP_MAGIC,        // Magic number (short)
-                      (byte)(GZIP_MAGIC >> 8),  // Magic number (short)
-                      Deflater.DEFLATED,        // Compression method (CM)
-                      0,                        // Flags (FLG)
-                      0,                        // Modification time MTIME (int)
-                      0,                        // Modification time MTIME (int)
-                      0,                        // Modification time MTIME (int)
-                      0,                        // Modification time MTIME (int)
-                      0,                        // Extra flags (XFLG)
-                      0                         // Operating system (OS)
+                      (byte) GZIP_MAGIC,        // Mbgic number (short)
+                      (byte)(GZIP_MAGIC >> 8),  // Mbgic number (short)
+                      Deflbter.DEFLATED,        // Compression method (CM)
+                      0,                        // Flbgs (FLG)
+                      0,                        // Modificbtion time MTIME (int)
+                      0,                        // Modificbtion time MTIME (int)
+                      0,                        // Modificbtion time MTIME (int)
+                      0,                        // Modificbtion time MTIME (int)
+                      0,                        // Extrb flbgs (XFLG)
+                      0                         // Operbting system (OS)
                   });
     }
 
     /*
-     * Writes GZIP member trailer to a byte array, starting at a given
+     * Writes GZIP member trbiler to b byte brrby, stbrting bt b given
      * offset.
      */
-    private void writeTrailer(byte[] buf, int offset) throws IOException {
-        writeInt((int)crc.getValue(), buf, offset); // CRC-32 of uncompr. data
-        writeInt(def.getTotalIn(), buf, offset + 4); // Number of uncompr. bytes
+    privbte void writeTrbiler(byte[] buf, int offset) throws IOException {
+        writeInt((int)crc.getVblue(), buf, offset); // CRC-32 of uncompr. dbtb
+        writeInt(def.getTotblIn(), buf, offset + 4); // Number of uncompr. bytes
     }
 
     /*
-     * Writes integer in Intel byte order to a byte array, starting at a
+     * Writes integer in Intel byte order to b byte brrby, stbrting bt b
      * given offset.
      */
-    private void writeInt(int i, byte[] buf, int offset) throws IOException {
+    privbte void writeInt(int i, byte[] buf, int offset) throws IOException {
         writeShort(i & 0xffff, buf, offset);
         writeShort((i >> 16) & 0xffff, buf, offset + 2);
     }
 
     /*
-     * Writes short integer in Intel byte order to a byte array, starting
-     * at a given offset
+     * Writes short integer in Intel byte order to b byte brrby, stbrting
+     * bt b given offset
      */
-    private void writeShort(int s, byte[] buf, int offset) throws IOException {
+    privbte void writeShort(int s, byte[] buf, int offset) throws IOException {
         buf[offset] = (byte)(s & 0xff);
         buf[offset + 1] = (byte)((s >> 8) & 0xff);
     }

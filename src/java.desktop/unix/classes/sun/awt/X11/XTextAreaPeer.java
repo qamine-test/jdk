@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.TextAreaPeer;
-import java.awt.event.*;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.JTextArea;
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
-import javax.swing.plaf.ComponentUI;
-import com.sun.java.swing.plaf.motif.MotifTextAreaUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.UIDefaults;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.AbstractBorder;
-import javax.swing.JButton;
-import javax.swing.JViewport;
-import javax.swing.InputMap;
-import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
-import javax.swing.plaf.basic.BasicArrowButton;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-import javax.swing.plaf.basic.BasicScrollPaneUI;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.text.Caret;
-import javax.swing.text.DefaultCaret;
-import javax.swing.text.JTextComponent;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.bwt.peer.TextArebPeer;
+import jbvb.bwt.event.*;
+import jbvbx.swing.event.DocumentListener;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.JTextAreb;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JScrollPbne;
+import jbvbx.swing.JScrollBbr;
+import jbvbx.swing.plbf.ComponentUI;
+import com.sun.jbvb.swing.plbf.motif.MotifTextArebUI;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.border.EmptyBorder;
+import jbvbx.swing.border.CompoundBorder;
+import jbvbx.swing.border.AbstrbctBorder;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JViewport;
+import jbvbx.swing.InputMbp;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.TrbnsferHbndler;
+import jbvbx.swing.plbf.bbsic.BbsicArrowButton;
+import jbvbx.swing.plbf.bbsic.BbsicScrollBbrUI;
+import jbvbx.swing.plbf.bbsic.BbsicScrollPbneUI;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvbx.swing.text.Cbret;
+import jbvbx.swing.text.DefbultCbret;
+import jbvbx.swing.text.JTextComponent;
 
-import javax.swing.plaf.BorderUIResource;
-import java.awt.im.InputMethodRequests;
-import sun.awt.CausedFocusEvent;
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import jbvbx.swing.plbf.BorderUIResource;
+import jbvb.bwt.im.InputMethodRequests;
+import sun.bwt.CbusedFocusEvent;
+import sun.bwt.AWTAccessor;
+import sun.bwt.SunToolkit;
 
-final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
+finbl clbss XTextArebPeer extends XComponentPeer implements TextArebPeer {
 
-    private final AWTTextPane textPane;
-    private final AWTTextArea jtext;
-    private final boolean firstChangeSkipped;
+    privbte finbl AWTTextPbne textPbne;
+    privbte finbl AWTTextAreb jtext;
+    privbte finbl boolebn firstChbngeSkipped;
 
-    private final JavaMouseEventHandler javaMouseEventHandler =
-            new JavaMouseEventHandler(this);
+    privbte finbl JbvbMouseEventHbndler jbvbMouseEventHbndler =
+            new JbvbMouseEventHbndler(this);
 
     /**
-     * Create a Text area.
+     * Crebte b Text breb.
      */
-    XTextAreaPeer(TextArea target) {
-        super(target);
+    XTextArebPeer(TextAreb tbrget) {
+        super(tbrget);
 
-        // some initializations require that target be set even
-        // though init(target) has not been called
-        this.target = target;
+        // some initiblizbtions require thbt tbrget be set even
+        // though init(tbrget) hbs not been cblled
+        this.tbrget = tbrget;
 
-        //ComponentAccessor.enableEvents(target,AWTEvent.MOUSE_WHEEL_EVENT_MASK);
+        //ComponentAccessor.enbbleEvents(tbrget,AWTEvent.MOUSE_WHEEL_EVENT_MASK);
 
-        String text = target.getText();
-        jtext = new AWTTextArea(text, this);
-        jtext.setWrapStyleWord(true);
-        jtext.getDocument().addDocumentListener(jtext);
-        XToolkit.specialPeerMap.put(jtext,this);
-        textPane = new AWTTextPane(jtext,this, target.getParent());
+        String text = tbrget.getText();
+        jtext = new AWTTextAreb(text, this);
+        jtext.setWrbpStyleWord(true);
+        jtext.getDocument().bddDocumentListener(jtext);
+        XToolkit.speciblPeerMbp.put(jtext,this);
+        textPbne = new AWTTextPbne(jtext,this, tbrget.getPbrent());
 
         setBounds(x, y, width, height, SET_BOUNDS);
-        textPane.setVisible(true);
-        textPane.validate();
+        textPbne.setVisible(true);
+        textPbne.vblidbte();
 
         AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-        foreground = compAccessor.getForeground(target);
+        foreground = compAccessor.getForeground(tbrget);
         if (foreground == null)  {
             foreground = SystemColor.textText;
         }
         setForeground(foreground);
 
-        background = compAccessor.getBackground(target);
-        if (background == null) {
-            if (target.isEditable()) background = SystemColor.text;
-            else background = SystemColor.control;
+        bbckground = compAccessor.getBbckground(tbrget);
+        if (bbckground == null) {
+            if (tbrget.isEditbble()) bbckground = SystemColor.text;
+            else bbckground = SystemColor.control;
         }
-        setBackground(background);
+        setBbckground(bbckground);
 
-        if (!target.isBackgroundSet()) {
-            // This is a way to set the background color of the TextArea
-            // without calling setBackground - go through accessor
-            compAccessor.setBackground(target, background);
+        if (!tbrget.isBbckgroundSet()) {
+            // This is b wby to set the bbckground color of the TextAreb
+            // without cblling setBbckground - go through bccessor
+            compAccessor.setBbckground(tbrget, bbckground);
         }
-        if (!target.isForegroundSet()) {
-            target.setForeground(SystemColor.textText);
+        if (!tbrget.isForegroundSet()) {
+            tbrget.setForeground(SystemColor.textText);
         }
 
         setFont(font);
 
-        // set the text of this object to the text of its target
-        setTextImpl(target.getText());  //?? should this be setText
+        // set the text of this object to the text of its tbrget
+        setTextImpl(tbrget.getText());  //?? should this be setText
 
-        int start = target.getSelectionStart();
-        int end = target.getSelectionEnd();
+        int stbrt = tbrget.getSelectionStbrt();
+        int end = tbrget.getSelectionEnd();
         // Fix for 5100200
-        // Restoring Motif behaviour
-        // Since the end position of the selected text can be greater then the length of the text,
-        // so we should set caret to max position of the text
-        setCaretPosition(Math.min(end, text.length()));
-        if (end > start) {
-            // Should be called after setText() and setCaretPosition()
-            select(start, end);
+        // Restoring Motif behbviour
+        // Since the end position of the selected text cbn be grebter then the length of the text,
+        // so we should set cbret to mbx position of the text
+        setCbretPosition(Mbth.min(end, text.length()));
+        if (end > stbrt) {
+            // Should be cblled bfter setText() bnd setCbretPosition()
+            select(stbrt, end);
         }
-        setEditable(target.isEditable());
-        setScrollBarVisibility();
-        // After this line we should not change the component's text
-        firstChangeSkipped = true;
+        setEditbble(tbrget.isEditbble());
+        setScrollBbrVisibility();
+        // After this line we should not chbnge the component's text
+        firstChbngeSkipped = true;
     }
 
     @Override
     public void dispose() {
-        XToolkit.specialPeerMap.remove(jtext);
-        // visible caret has a timer thread which must be stopped
-        jtext.getCaret().setVisible(false);
+        XToolkit.speciblPeerMbp.remove(jtext);
+        // visible cbret hbs b timer threbd which must be stopped
+        jtext.getCbret().setVisible(fblse);
         jtext.removeNotify();
-        textPane.removeNotify();
+        textPbne.removeNotify();
         super.dispose();
     }
 
     /*
      * The method overrides one from XComponentPeer
-     * If ignoreSubComponents=={@code true} it calls super.
-     * If ignoreSubComponents=={@code false} it uses the XTextArea machinery
-     * to change cursor appropriately. In particular it changes the cursor to
-     * default if over scrollbars.
+     * If ignoreSubComponents=={@code true} it cblls super.
+     * If ignoreSubComponents=={@code fblse} it uses the XTextAreb mbchinery
+     * to chbnge cursor bppropribtely. In pbrticulbr it chbnges the cursor to
+     * defbult if over scrollbbrs.
      */
     @Override
-    public void pSetCursor(Cursor cursor, boolean ignoreSubComponents) {
+    public void pSetCursor(Cursor cursor, boolebn ignoreSubComponents) {
         if (ignoreSubComponents ||
-            javaMouseEventHandler == null) {
+            jbvbMouseEventHbndler == null) {
             super.pSetCursor(cursor, true);
             return;
         }
 
         Point cursorPos = new Point();
-        ((XGlobalCursorManager)XGlobalCursorManager.getCursorManager()).getCursorPos(cursorPos);
+        ((XGlobblCursorMbnbger)XGlobblCursorMbnbger.getCursorMbnbger()).getCursorPos(cursorPos);
 
-        final Point onScreen = getLocationOnScreen();
-        Point localPoint = new Point(cursorPos.x - onScreen.x, cursorPos.y - onScreen.y );
+        finbl Point onScreen = getLocbtionOnScreen();
+        Point locblPoint = new Point(cursorPos.x - onScreen.x, cursorPos.y - onScreen.y );
 
-        javaMouseEventHandler.setPointerToUnderPoint(localPoint);
-        javaMouseEventHandler.setCursor();
+        jbvbMouseEventHbndler.setPointerToUnderPoint(locblPoint);
+        jbvbMouseEventHbndler.setCursor();
     }
 
-    private void setScrollBarVisibility() {
-        int visibility = ((TextArea)target).getScrollbarVisibility();
-        jtext.setLineWrap(false);
+    privbte void setScrollBbrVisibility() {
+        int visibility = ((TextAreb)tbrget).getScrollbbrVisibility();
+        jtext.setLineWrbp(fblse);
 
-        if (visibility == TextArea.SCROLLBARS_NONE) {
-            textPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            textPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-            jtext.setLineWrap(true);
+        if (visibility == TextAreb.SCROLLBARS_NONE) {
+            textPbne.setHorizontblScrollBbrPolicy(JScrollPbne.HORIZONTAL_SCROLLBAR_NEVER);
+            textPbne.setVerticblScrollBbrPolicy(JScrollPbne.VERTICAL_SCROLLBAR_NEVER);
+            jtext.setLineWrbp(true);
         }
-        else if (visibility == TextArea.SCROLLBARS_BOTH) {
+        else if (visibility == TextAreb.SCROLLBARS_BOTH) {
 
-            textPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            textPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            textPbne.setHorizontblScrollBbrPolicy(JScrollPbne.HORIZONTAL_SCROLLBAR_ALWAYS);
+            textPbne.setVerticblScrollBbrPolicy(JScrollPbne.VERTICAL_SCROLLBAR_ALWAYS);
         }
-        else if (visibility == TextArea.SCROLLBARS_VERTICAL_ONLY) {
-            textPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            textPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            jtext.setLineWrap(true);
+        else if (visibility == TextAreb.SCROLLBARS_VERTICAL_ONLY) {
+            textPbne.setHorizontblScrollBbrPolicy(JScrollPbne.HORIZONTAL_SCROLLBAR_NEVER);
+            textPbne.setVerticblScrollBbrPolicy(JScrollPbne.VERTICAL_SCROLLBAR_ALWAYS);
+            jtext.setLineWrbp(true);
         }
-        else if (visibility == TextArea.SCROLLBARS_HORIZONTAL_ONLY) {
-            textPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-            textPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        else if (visibility == TextAreb.SCROLLBARS_HORIZONTAL_ONLY) {
+            textPbne.setVerticblScrollBbrPolicy(JScrollPbne.VERTICAL_SCROLLBAR_NEVER);
+            textPbne.setHorizontblScrollBbrPolicy(JScrollPbne.HORIZONTAL_SCROLLBAR_ALWAYS);
         }
     }
 
@@ -214,7 +214,7 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
     }
 
     /**
-     * @see java.awt.peer.TextAreaPeer
+     * @see jbvb.bwt.peer.TextArebPeer
      */
     @Override
     public Dimension getMinimumSize(int rows, int cols) {
@@ -228,12 +228,12 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
         int vsbwidth=0;
         int hsbheight=0;
 
-        JScrollBar vsb = textPane.getVerticalScrollBar();
+        JScrollBbr vsb = textPbne.getVerticblScrollBbr();
         if (vsb != null) {
             vsbwidth = vsb.getMinimumSize().width;
         }
 
-        JScrollBar hsb = textPane.getHorizontalScrollBar();
+        JScrollBbr hsb = textPbne.getHorizontblScrollBbr();
         if (hsb != null) {
             hsbheight = hsb.getMinimumSize().height;
         }
@@ -241,182 +241,182 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
         Font f = jtext.getFont();
         FontMetrics fm = jtext.getFontMetrics(f);
 
-        return new Dimension(fm.charWidth('0') * cols + /*2*XMARGIN +*/ vsbwidth,
+        return new Dimension(fm.chbrWidth('0') * cols + /*2*XMARGIN +*/ vsbwidth,
                              fm.getHeight() * rows + /*2*YMARGIN +*/ hsbheight);
     }
 
     @Override
-    public boolean isFocusable() {
+    public boolebn isFocusbble() {
         return true;
     }
 
     @Override
-    public void setVisible(boolean b) {
+    public void setVisible(boolebn b) {
         super.setVisible(b);
-        if (textPane != null)
-            textPane.setVisible(b);
+        if (textPbne != null)
+            textPbne.setVisible(b);
     }
 
-    void repaintText() {
-        jtext.repaintNow();
+    void repbintText() {
+        jtext.repbintNow();
     }
 
     @Override
-    public void focusGained(FocusEvent e) {
-        super.focusGained(e);
-        jtext.forwardFocusGained(e);
+    public void focusGbined(FocusEvent e) {
+        super.focusGbined(e);
+        jtext.forwbrdFocusGbined(e);
     }
 
     @Override
     public void focusLost(FocusEvent e) {
         super.focusLost(e);
-        jtext.forwardFocusLost(e);
+        jtext.forwbrdFocusLost(e);
     }
 
     /**
-     * Paint the component
-     * this method is called when the repaint instruction has been used
+     * Pbint the component
+     * this method is cblled when the repbint instruction hbs been used
      */
     @Override
-    public void repaint() {
-        if (textPane  != null)  {
-            //textPane.validate();
-            textPane.repaint();
+    public void repbint() {
+        if (textPbne  != null)  {
+            //textPbne.vblidbte();
+            textPbne.repbint();
         }
     }
 
     @Override
-    void paintPeer(final Graphics g) {
-        if (textPane  != null)  {
-            textPane.paint(g);
+    void pbintPeer(finbl Grbphics g) {
+        if (textPbne  != null)  {
+            textPbne.pbint(g);
         }
     }
 
     @Override
     public void setBounds(int x, int y, int width, int height, int op) {
         super.setBounds(x, y, width, height, op);
-        if (textPane != null) {
+        if (textPbne != null) {
             /*
              * Fixed 6277332, 6198290:
-             * the coordinates is coming (to peer): relatively to closest HW parent
-             * the coordinates is setting (to textPane): relatively to closest ANY parent
-             * the parent of peer is target.getParent()
-             * the parent of textPane is the same
-             * see 6277332, 6198290 for more information
+             * the coordinbtes is coming (to peer): relbtively to closest HW pbrent
+             * the coordinbtes is setting (to textPbne): relbtively to closest ANY pbrent
+             * the pbrent of peer is tbrget.getPbrent()
+             * the pbrent of textPbne is the sbme
+             * see 6277332, 6198290 for more informbtion
              */
             int childX = x;
             int childY = y;
-            Component parent = target.getParent();
-            // we up to heavyweight parent in order to be sure
-            // that the coordinates of the text pane is relatively to closest parent
-            while (parent.isLightweight()){
-                childX -= parent.getX();
-                childY -= parent.getY();
-                parent = parent.getParent();
+            Component pbrent = tbrget.getPbrent();
+            // we up to hebvyweight pbrent in order to be sure
+            // thbt the coordinbtes of the text pbne is relbtively to closest pbrent
+            while (pbrent.isLightweight()){
+                childX -= pbrent.getX();
+                childY -= pbrent.getY();
+                pbrent = pbrent.getPbrent();
             }
-            textPane.setBounds(childX,childY,width,height);
-            textPane.validate();
+            textPbne.setBounds(childX,childY,width,height);
+            textPbne.vblidbte();
         }
     }
 
     @Override
-    void handleJavaKeyEvent(KeyEvent e) {
+    void hbndleJbvbKeyEvent(KeyEvent e) {
         AWTAccessor.getComponentAccessor().processEvent(jtext,e);
     }
 
     @Override
-    public boolean handlesWheelScrolling() { return true; }
+    public boolebn hbndlesWheelScrolling() { return true; }
 
     @Override
-    void handleJavaMouseWheelEvent(MouseWheelEvent e) {
-        AWTAccessor.getComponentAccessor().processEvent(textPane, e);
+    void hbndleJbvbMouseWheelEvent(MouseWheelEvent e) {
+        AWTAccessor.getComponentAccessor().processEvent(textPbne, e);
     }
 
     @Override
-    public void handleJavaMouseEvent( MouseEvent e ) {
-        super.handleJavaMouseEvent( e );
-        javaMouseEventHandler.handle( e );
+    public void hbndleJbvbMouseEvent( MouseEvent e ) {
+        super.hbndleJbvbMouseEvent( e );
+        jbvbMouseEventHbndler.hbndle( e );
     }
 
     @Override
-    void handleJavaInputMethodEvent(InputMethodEvent e) {
+    void hbndleJbvbInputMethodEvent(InputMethodEvent e) {
         if (jtext != null)
             jtext.processInputMethodEventPublic(e);
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public void select(int s, int e) {
         jtext.select(s, e);
         // Fixed 5100806
-        // We must take care that Swing components repainted correctly
-        jtext.repaint();
+        // We must tbke cbre thbt Swing components repbinted correctly
+        jtext.repbint();
     }
 
     @Override
-    public void setBackground(Color c) {
-        super.setBackground(c);
-//          synchronized (getStateLock()) {
-//              background = c;
+    public void setBbckground(Color c) {
+        super.setBbckground(c);
+//          synchronized (getStbteLock()) {
+//              bbckground = c;
 //          }
         if (jtext != null) {
-            jtext.setBackground(c);
+            jtext.setBbckground(c);
             jtext.setSelectedTextColor(c);
         }
-//          repaintText();
+//          repbintText();
     }
 
     @Override
     public void setForeground(Color c) {
         super.setForeground(c);
-//          synchronized (getStateLock()) {
+//          synchronized (getStbteLock()) {
 //              foreground = c;
 //          }
         if (jtext != null) {
             jtext.setForeground(foreground);
             jtext.setSelectionColor(foreground);
-            jtext.setCaretColor(foreground);
+            jtext.setCbretColor(foreground);
         }
-//          repaintText();
+//          repbintText();
     }
 
     @Override
     public void setFont(Font f) {
         super.setFont(f);
-//          synchronized (getStateLock()) {
+//          synchronized (getStbteLock()) {
 //              font = f;
 //          }
         if (jtext != null) {
             jtext.setFont(font);
         }
-        textPane.validate();
+        textPbne.vblidbte();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
-    public void setEditable(boolean editable) {
-        if (jtext != null) jtext.setEditable(editable);
-        repaintText();
+    public void setEditbble(boolebn editbble) {
+        if (jtext != null) jtext.setEditbble(editbble);
+        repbintText();
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer
+     * @see jbvb.bwt.peer.ComponentPeer
      */
     @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
+    public void setEnbbled(boolebn enbbled) {
+        super.setEnbbled(enbbled);
         if (jtext != null) {
-            jtext.setEnabled(enabled);
-            jtext.repaint();
+            jtext.setEnbbled(enbbled);
+            jtext.repbint();
         }
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public InputMethodRequests getInputMethodRequests() {
@@ -425,15 +425,15 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
-    public int getSelectionStart() {
-        return jtext.getSelectionStart();
+    public int getSelectionStbrt() {
+        return jtext.getSelectionStbrt();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public int getSelectionEnd() {
@@ -441,7 +441,7 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public String getText() {
@@ -449,194 +449,194 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
     public void setText(String text) {
         setTextImpl(text);
-        repaintText();
+        repbintText();
     }
 
-    private void setTextImpl(String txt) {
+    privbte void setTextImpl(String txt) {
         if (jtext != null) {
-            // JTextArea.setText() posts two different events (remove & insert).
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextArea.setText() is called.
+            // JTextAreb.setText() posts two different events (remove & insert).
+            // Since we mbke no differences between text events,
+            // the document listener hbs to be disbbled while
+            // JTextAreb.setText() is cblled.
             jtext.getDocument().removeDocumentListener(jtext);
             jtext.setText(txt);
-            if (firstChangeSkipped) {
-                postEvent(new TextEvent(target, TextEvent.TEXT_VALUE_CHANGED));
+            if (firstChbngeSkipped) {
+                postEvent(new TextEvent(tbrget, TextEvent.TEXT_VALUE_CHANGED));
             }
-            jtext.getDocument().addDocumentListener(jtext);
+            jtext.getDocument().bddDocumentListener(jtext);
         }
     }
 
     /**
-     * insert the text "txt on position "pos" in the array lines
-     * @see java.awt.peer.TextAreaPeer
+     * insert the text "txt on position "pos" in the brrby lines
+     * @see jbvb.bwt.peer.TextArebPeer
      */
     @Override
     public void insert(String txt, int p) {
         if (jtext != null) {
-            boolean doScroll = (p >= jtext.getDocument().getLength() && jtext.getDocument().getLength() != 0);
+            boolebn doScroll = (p >= jtext.getDocument().getLength() && jtext.getDocument().getLength() != 0);
             jtext.insert(txt,p);
-            textPane.validate();
+            textPbne.vblidbte();
             if (doScroll) {
-                JScrollBar bar = textPane.getVerticalScrollBar();
-                if (bar != null) {
-                    bar.setValue(bar.getMaximum()-bar.getVisibleAmount());
+                JScrollBbr bbr = textPbne.getVerticblScrollBbr();
+                if (bbr != null) {
+                    bbr.setVblue(bbr.getMbximum()-bbr.getVisibleAmount());
                 }
             }
         }
     }
 
     /**
-     * replace the text between the position "s" and "e" with "txt"
-     * @see java.awt.peer.TextAreaPeer
+     * replbce the text between the position "s" bnd "e" with "txt"
+     * @see jbvb.bwt.peer.TextArebPeer
      */
     @Override
-    public void replaceRange(String txt, int s, int e) {
+    public void replbceRbnge(String txt, int s, int e) {
         if (jtext != null) {
-            // JTextArea.replaceRange() posts two different events.
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextArea.replaceRange() is called.
+            // JTextAreb.replbceRbnge() posts two different events.
+            // Since we mbke no differences between text events,
+            // the document listener hbs to be disbbled while
+            // JTextAreb.replbceRbnge() is cblled.
             jtext.getDocument().removeDocumentListener(jtext);
-            jtext.replaceRange(txt, s, e);
-            postEvent(new TextEvent(target, TextEvent.TEXT_VALUE_CHANGED));
-            jtext.getDocument().addDocumentListener(jtext);
+            jtext.replbceRbnge(txt, s, e);
+            postEvent(new TextEvent(tbrget, TextEvent.TEXT_VALUE_CHANGED));
+            jtext.getDocument().bddDocumentListener(jtext);
         }
     }
 
     /**
      * to be implemented.
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
-    public void setCaretPosition(int position) {
-        jtext.setCaretPosition(position);
+    public void setCbretPosition(int position) {
+        jtext.setCbretPosition(position);
     }
 
     /**
      * to be implemented.
-     * @see java.awt.peer.TextComponentPeer
+     * @see jbvb.bwt.peer.TextComponentPeer
      */
     @Override
-    public int getCaretPosition() {
-        return jtext.getCaretPosition();
+    public int getCbretPosition() {
+        return jtext.getCbretPosition();
     }
 
-    final class AWTTextAreaUI extends MotifTextAreaUI {
+    finbl clbss AWTTextArebUI extends MotifTextArebUI {
 
-        private JTextArea jta;
-
-        @Override
-        protected String getPropertyPrefix() { return "TextArea"; }
+        privbte JTextAreb jtb;
 
         @Override
-        public void installUI(JComponent c) {
-            super.installUI(c);
+        protected String getPropertyPrefix() { return "TextAreb"; }
 
-            jta = (JTextArea) c;
+        @Override
+        public void instbllUI(JComponent c) {
+            super.instbllUI(c);
 
-            JTextArea editor = jta;
+            jtb = (JTextAreb) c;
 
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
+            JTextAreb editor = jtb;
+
+            UIDefbults uidefbults = XToolkit.getUIDefbults();
 
             String prefix = getPropertyPrefix();
             Font f = editor.getFont();
-            if ((f == null) || (f instanceof UIResource)) {
-                editor.setFont(uidefaults.getFont(prefix + ".font"));
+            if ((f == null) || (f instbnceof UIResource)) {
+                editor.setFont(uidefbults.getFont(prefix + ".font"));
             }
 
-            Color bg = editor.getBackground();
-            if ((bg == null) || (bg instanceof UIResource)) {
-                editor.setBackground(uidefaults.getColor(prefix + ".background"));
+            Color bg = editor.getBbckground();
+            if ((bg == null) || (bg instbnceof UIResource)) {
+                editor.setBbckground(uidefbults.getColor(prefix + ".bbckground"));
             }
 
             Color fg = editor.getForeground();
-            if ((fg == null) || (fg instanceof UIResource)) {
-                editor.setForeground(uidefaults.getColor(prefix + ".foreground"));
+            if ((fg == null) || (fg instbnceof UIResource)) {
+                editor.setForeground(uidefbults.getColor(prefix + ".foreground"));
             }
 
-            Color color = editor.getCaretColor();
-            if ((color == null) || (color instanceof UIResource)) {
-                editor.setCaretColor(uidefaults.getColor(prefix + ".caretForeground"));
+            Color color = editor.getCbretColor();
+            if ((color == null) || (color instbnceof UIResource)) {
+                editor.setCbretColor(uidefbults.getColor(prefix + ".cbretForeground"));
             }
 
             Color s = editor.getSelectionColor();
-            if ((s == null) || (s instanceof UIResource)) {
-                editor.setSelectionColor(uidefaults.getColor(prefix + ".selectionBackground"));
+            if ((s == null) || (s instbnceof UIResource)) {
+                editor.setSelectionColor(uidefbults.getColor(prefix + ".selectionBbckground"));
             }
 
             Color sfg = editor.getSelectedTextColor();
-            if ((sfg == null) || (sfg instanceof UIResource)) {
-                editor.setSelectedTextColor(uidefaults.getColor(prefix + ".selectionForeground"));
+            if ((sfg == null) || (sfg instbnceof UIResource)) {
+                editor.setSelectedTextColor(uidefbults.getColor(prefix + ".selectionForeground"));
             }
 
-            Color dfg = editor.getDisabledTextColor();
-            if ((dfg == null) || (dfg instanceof UIResource)) {
-                editor.setDisabledTextColor(uidefaults.getColor(prefix + ".inactiveForeground"));
+            Color dfg = editor.getDisbbledTextColor();
+            if ((dfg == null) || (dfg instbnceof UIResource)) {
+                editor.setDisbbledTextColor(uidefbults.getColor(prefix + ".inbctiveForeground"));
             }
 
-            Border b = new BevelBorder(false,SystemColor.controlDkShadow,SystemColor.controlLtHighlight);
+            Border b = new BevelBorder(fblse,SystemColor.controlDkShbdow,SystemColor.controlLtHighlight);
             editor.setBorder(new BorderUIResource.CompoundBorderUIResource(
                 b,new EmptyBorder(2, 2, 2, 2)));
 
-            Insets margin = editor.getMargin();
-            if (margin == null || margin instanceof UIResource) {
-                editor.setMargin(uidefaults.getInsets(prefix + ".margin"));
+            Insets mbrgin = editor.getMbrgin();
+            if (mbrgin == null || mbrgin instbnceof UIResource) {
+                editor.setMbrgin(uidefbults.getInsets(prefix + ".mbrgin"));
             }
         }
 
         @Override
-        protected void installKeyboardActions() {
-            super.installKeyboardActions();
+        protected void instbllKeybobrdActions() {
+            super.instbllKeybobrdActions();
 
             JTextComponent comp = getComponent();
 
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
+            UIDefbults uidefbults = XToolkit.getUIDefbults();
 
             String prefix = getPropertyPrefix();
 
-            InputMap map = (InputMap)uidefaults.get(prefix + ".focusInputMap");
+            InputMbp mbp = (InputMbp)uidefbults.get(prefix + ".focusInputMbp");
 
-            if (map != null) {
-                SwingUtilities.replaceUIInputMap(comp, JComponent.WHEN_FOCUSED,
-                                                 map);
+            if (mbp != null) {
+                SwingUtilities.replbceUIInputMbp(comp, JComponent.WHEN_FOCUSED,
+                                                 mbp);
             }
         }
 
         @Override
-        protected Caret createCaret() {
-            return new XAWTCaret();
+        protected Cbret crebteCbret() {
+            return new XAWTCbret();
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static final class XAWTCaret extends DefaultCaret {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    stbtic finbl clbss XAWTCbret extends DefbultCbret {
         @Override
-        public void focusGained(FocusEvent e) {
-            super.focusGained(e);
-            if (getComponent().isEnabled()){
-                // Make sure the cursor is visible in case of non-editable TextArea
+        public void focusGbined(FocusEvent e) {
+            super.focusGbined(e);
+            if (getComponent().isEnbbled()){
+                // Mbke sure the cursor is visible in cbse of non-editbble TextAreb
                 super.setVisible(true);
             }
-            getComponent().repaint();
+            getComponent().repbint();
         }
 
         @Override
         public void focusLost(FocusEvent e) {
             super.focusLost(e);
-            getComponent().repaint();
+            getComponent().repbint();
         }
 
-        // Fix for 5100950: textarea.getSelectedText() returns the de-selected text, on XToolkit
-        // Restoring Motif behaviour
-        // If the text is unhighlighted then we should sets the selection range to zero
+        // Fix for 5100950: textbreb.getSelectedText() returns the de-selected text, on XToolkit
+        // Restoring Motif behbviour
+        // If the text is unhighlighted then we should sets the selection rbnge to zero
         @Override
-        public void setSelectionVisible(boolean vis) {
+        public void setSelectionVisible(boolebn vis) {
             if (vis){
                 super.setSelectionVisible(vis);
             }else{
@@ -646,43 +646,43 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    final class XAWTScrollBarButton extends BasicArrowButton {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    finbl clbss XAWTScrollBbrButton extends BbsicArrowButton {
 
-        private UIDefaults uidefaults = XToolkit.getUIDefaults();
-        private Color darkShadow = SystemColor.controlShadow;
-        private Color lightShadow = SystemColor.controlLtHighlight;
-        private Color buttonBack = uidefaults.getColor("ScrollBar.track");
+        privbte UIDefbults uidefbults = XToolkit.getUIDefbults();
+        privbte Color dbrkShbdow = SystemColor.controlShbdow;
+        privbte Color lightShbdow = SystemColor.controlLtHighlight;
+        privbte Color buttonBbck = uidefbults.getColor("ScrollBbr.trbck");
 
-        XAWTScrollBarButton(int direction) {
+        XAWTScrollBbrButton(int direction) {
             super(direction);
 
             switch (direction) {
-            case NORTH:
-            case SOUTH:
-            case EAST:
-            case WEST:
+            cbse NORTH:
+            cbse SOUTH:
+            cbse EAST:
+            cbse WEST:
                 this.direction = direction;
-                break;
-            default:
-                throw new IllegalArgumentException("invalid direction");
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("invblid direction");
             }
 
-            setRequestFocusEnabled(false);
-            setOpaque(true);
-            setBackground(uidefaults.getColor("ScrollBar.thumb"));
-            setForeground(uidefaults.getColor("ScrollBar.foreground"));
+            setRequestFocusEnbbled(fblse);
+            setOpbque(true);
+            setBbckground(uidefbults.getColor("ScrollBbr.thumb"));
+            setForeground(uidefbults.getColor("ScrollBbr.foreground"));
         }
 
         @Override
         public Dimension getPreferredSize() {
             switch (direction) {
-            case NORTH:
-            case SOUTH:
+            cbse NORTH:
+            cbse SOUTH:
                 return new Dimension(11, 12);
-            case EAST:
-            case WEST:
-            default:
+            cbse EAST:
+            cbse WEST:
+            defbult:
                 return new Dimension(12, 11);
             }
         }
@@ -693,276 +693,276 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
         }
 
         @Override
-        public Dimension getMaximumSize() {
+        public Dimension getMbximumSize() {
             return getPreferredSize();
         }
 
         @Override
-        public boolean isFocusTraversable() {
-            return false;
+        public boolebn isFocusTrbversbble() {
+            return fblse;
         }
 
         @Override
-        public void paint(Graphics g)
+        public void pbint(Grbphics g)
         {
             int w = getWidth();
             int h = getHeight();
 
-            if (isOpaque()) {
-                g.setColor(buttonBack);
+            if (isOpbque()) {
+                g.setColor(buttonBbck);
                 g.fillRect(0, 0, w, h);
             }
 
-            boolean isPressed = getModel().isPressed();
-            Color lead = (isPressed) ? darkShadow : lightShadow;
-            Color trail = (isPressed) ? lightShadow : darkShadow;
-            Color fill = getBackground();
+            boolebn isPressed = getModel().isPressed();
+            Color lebd = (isPressed) ? dbrkShbdow : lightShbdow;
+            Color trbil = (isPressed) ? lightShbdow : dbrkShbdow;
+            Color fill = getBbckground();
 
             int cx = w / 2;
             int cy = h / 2;
-            int s = Math.min(w, h);
+            int s = Mbth.min(w, h);
 
             switch (direction) {
-            case NORTH:
-                g.setColor(lead);
-                g.drawLine(cx, 0, cx, 0);
+            cbse NORTH:
+                g.setColor(lebd);
+                g.drbwLine(cx, 0, cx, 0);
                 for (int x = cx - 1, y = 1, dx = 1; y <= s - 2; y += 2) {
-                    g.setColor(lead);
-                    g.drawLine(x, y, x, y);
+                    g.setColor(lebd);
+                    g.drbwLine(x, y, x, y);
                     if (y >= (s - 2)) {
-                        g.drawLine(x, y + 1, x, y + 1);
+                        g.drbwLine(x, y + 1, x, y + 1);
                     }
                     g.setColor(fill);
-                    g.drawLine(x + 1, y, x + dx, y);
+                    g.drbwLine(x + 1, y, x + dx, y);
                     if (y < (s - 2)) {
-                        g.drawLine(x, y + 1, x + dx + 1, y + 1);
+                        g.drbwLine(x, y + 1, x + dx + 1, y + 1);
                     }
-                    g.setColor(trail);
-                    g.drawLine(x + dx + 1, y, x + dx + 1, y);
+                    g.setColor(trbil);
+                    g.drbwLine(x + dx + 1, y, x + dx + 1, y);
                     if (y >= (s - 2)) {
-                        g.drawLine(x + 1, y + 1, x + dx + 1, y + 1);
+                        g.drbwLine(x + 1, y + 1, x + dx + 1, y + 1);
                     }
                     dx += 2;
                     x -= 1;
                 }
-                break;
+                brebk;
 
-            case SOUTH:
-                g.setColor(trail);
-                g.drawLine(cx, s, cx, s);
+            cbse SOUTH:
+                g.setColor(trbil);
+                g.drbwLine(cx, s, cx, s);
                 for (int x = cx - 1, y = s - 1, dx = 1; y >= 1; y -= 2) {
-                    g.setColor(lead);
-                    g.drawLine(x, y, x, y);
+                    g.setColor(lebd);
+                    g.drbwLine(x, y, x, y);
                     if (y <= 2) {
-                        g.drawLine(x, y - 1, x + dx + 1, y - 1);
+                        g.drbwLine(x, y - 1, x + dx + 1, y - 1);
                     }
                     g.setColor(fill);
-                    g.drawLine(x + 1, y, x + dx, y);
+                    g.drbwLine(x + 1, y, x + dx, y);
                     if (y > 2) {
-                        g.drawLine(x, y - 1, x + dx + 1, y - 1);
+                        g.drbwLine(x, y - 1, x + dx + 1, y - 1);
                     }
-                    g.setColor(trail);
-                    g.drawLine(x + dx + 1, y, x + dx + 1, y);
+                    g.setColor(trbil);
+                    g.drbwLine(x + dx + 1, y, x + dx + 1, y);
 
                     dx += 2;
                     x -= 1;
                 }
-                break;
+                brebk;
 
-            case EAST:
-                g.setColor(lead);
-                g.drawLine(s, cy, s, cy);
+            cbse EAST:
+                g.setColor(lebd);
+                g.drbwLine(s, cy, s, cy);
                 for (int y = cy - 1, x = s - 1, dy = 1; x >= 1; x -= 2) {
-                    g.setColor(lead);
-                    g.drawLine(x, y, x, y);
+                    g.setColor(lebd);
+                    g.drbwLine(x, y, x, y);
                     if (x <= 2) {
-                        g.drawLine(x - 1, y, x - 1, y + dy + 1);
+                        g.drbwLine(x - 1, y, x - 1, y + dy + 1);
                     }
                     g.setColor(fill);
-                    g.drawLine(x, y + 1, x, y + dy);
+                    g.drbwLine(x, y + 1, x, y + dy);
                     if (x > 2) {
-                        g.drawLine(x - 1, y, x - 1, y + dy + 1);
+                        g.drbwLine(x - 1, y, x - 1, y + dy + 1);
                     }
-                    g.setColor(trail);
-                    g.drawLine(x, y + dy + 1, x, y + dy + 1);
+                    g.setColor(trbil);
+                    g.drbwLine(x, y + dy + 1, x, y + dy + 1);
 
                     dy += 2;
                     y -= 1;
                 }
-                break;
+                brebk;
 
-            case WEST:
-                g.setColor(trail);
-                g.drawLine(0, cy, 0, cy);
+            cbse WEST:
+                g.setColor(trbil);
+                g.drbwLine(0, cy, 0, cy);
                 for (int y = cy - 1, x = 1, dy = 1; x <= s - 2; x += 2) {
-                    g.setColor(lead);
-                    g.drawLine(x, y, x, y);
+                    g.setColor(lebd);
+                    g.drbwLine(x, y, x, y);
                     if (x >= (s - 2)) {
-                        g.drawLine(x + 1, y, x + 1, y);
+                        g.drbwLine(x + 1, y, x + 1, y);
                     }
                     g.setColor(fill);
-                    g.drawLine(x, y + 1, x, y + dy);
+                    g.drbwLine(x, y + 1, x, y + dy);
                     if (x < (s - 2)) {
-                        g.drawLine(x + 1, y, x + 1, y + dy + 1);
+                        g.drbwLine(x + 1, y, x + 1, y + dy + 1);
                     }
-                    g.setColor(trail);
-                    g.drawLine(x, y + dy + 1, x, y + dy + 1);
+                    g.setColor(trbil);
+                    g.drbwLine(x, y + dy + 1, x, y + dy + 1);
                     if (x >= (s - 2)) {
-                        g.drawLine(x + 1, y + 1, x + 1, y + dy + 1);
+                        g.drbwLine(x + 1, y + 1, x + 1, y + dy + 1);
                     }
                     dy += 2;
                     y -= 1;
                 }
-                break;
+                brebk;
             }
         }
     }
 
-    final class XAWTScrollBarUI extends BasicScrollBarUI {
+    finbl clbss XAWTScrollBbrUI extends BbsicScrollBbrUI {
 
         @Override
-        protected void installDefaults()
+        protected void instbllDefbults()
         {
-            super.installDefaults();
-            scrollbar.setBorder(new BevelBorder(false,SystemColor.controlDkShadow,SystemColor.controlLtHighlight) );
+            super.instbllDefbults();
+            scrollbbr.setBorder(new BevelBorder(fblse,SystemColor.controlDkShbdow,SystemColor.controlLtHighlight) );
         }
 
         @Override
-        protected void configureScrollBarColors() {
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
-            Color bg = scrollbar.getBackground();
-            if (bg == null || bg instanceof UIResource) {
-                scrollbar.setBackground(uidefaults.getColor("ScrollBar.background"));
+        protected void configureScrollBbrColors() {
+            UIDefbults uidefbults = XToolkit.getUIDefbults();
+            Color bg = scrollbbr.getBbckground();
+            if (bg == null || bg instbnceof UIResource) {
+                scrollbbr.setBbckground(uidefbults.getColor("ScrollBbr.bbckground"));
             }
 
-            Color fg = scrollbar.getForeground();
-            if (fg == null || fg instanceof UIResource) {
-                scrollbar.setForeground(uidefaults.getColor("ScrollBar.foreground"));
+            Color fg = scrollbbr.getForeground();
+            if (fg == null || fg instbnceof UIResource) {
+                scrollbbr.setForeground(uidefbults.getColor("ScrollBbr.foreground"));
             }
 
-            thumbHighlightColor = uidefaults.getColor("ScrollBar.thumbHighlight");
-            thumbLightShadowColor = uidefaults.getColor("ScrollBar.thumbShadow");
-            thumbDarkShadowColor = uidefaults.getColor("ScrollBar.thumbDarkShadow");
-            thumbColor = uidefaults.getColor("ScrollBar.thumb");
-            trackColor = uidefaults.getColor("ScrollBar.track");
+            thumbHighlightColor = uidefbults.getColor("ScrollBbr.thumbHighlight");
+            thumbLightShbdowColor = uidefbults.getColor("ScrollBbr.thumbShbdow");
+            thumbDbrkShbdowColor = uidefbults.getColor("ScrollBbr.thumbDbrkShbdow");
+            thumbColor = uidefbults.getColor("ScrollBbr.thumb");
+            trbckColor = uidefbults.getColor("ScrollBbr.trbck");
 
-            trackHighlightColor = uidefaults.getColor("ScrollBar.trackHighlight");
+            trbckHighlightColor = uidefbults.getColor("ScrollBbr.trbckHighlight");
 
         }
 
         @Override
-        protected JButton createDecreaseButton(int orientation) {
-            JButton b = new XAWTScrollBarButton(orientation);
+        protected JButton crebteDecrebseButton(int orientbtion) {
+            JButton b = new XAWTScrollBbrButton(orientbtion);
             return b;
 
         }
 
         @Override
-        protected JButton createIncreaseButton(int orientation) {
-            JButton b = new XAWTScrollBarButton(orientation);
+        protected JButton crebteIncrebseButton(int orientbtion) {
+            JButton b = new XAWTScrollBbrButton(orientbtion);
             return b;
         }
 
-        public JButton getDecreaseButton(){
+        public JButton getDecrebseButton(){
             return decrButton;
         }
 
-        public JButton getIncreaseButton(){
+        public JButton getIncrebseButton(){
             return incrButton;
         }
 
         @Override
-        public void paint(Graphics g, JComponent c) {
-            paintTrack(g, c, getTrackBounds());
-            Rectangle thumbBounds = getThumbBounds();
-            paintThumb(g, c, thumbBounds);
+        public void pbint(Grbphics g, JComponent c) {
+            pbintTrbck(g, c, getTrbckBounds());
+            Rectbngle thumbBounds = getThumbBounds();
+            pbintThumb(g, c, thumbBounds);
         }
 
         @Override
-        public void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds)
+        public void pbintThumb(Grbphics g, JComponent c, Rectbngle thumbBounds)
         {
-            if(!scrollbar.isEnabled()) {
+            if(!scrollbbr.isEnbbled()) {
                 return;
             }
 
             if (thumbBounds.isEmpty())
-                thumbBounds = getTrackBounds();
+                thumbBounds = getTrbckBounds();
 
             int w = thumbBounds.width;
             int h = thumbBounds.height;
 
-            g.translate(thumbBounds.x, thumbBounds.y);
+            g.trbnslbte(thumbBounds.x, thumbBounds.y);
             g.setColor(thumbColor);
             g.fillRect(0, 0, w-1, h-1);
 
             g.setColor(thumbHighlightColor);
-            g.drawLine(0, 0, 0, h-1);
-            g.drawLine(1, 0, w-1, 0);
+            g.drbwLine(0, 0, 0, h-1);
+            g.drbwLine(1, 0, w-1, 0);
 
-            g.setColor(thumbLightShadowColor);
-            g.drawLine(1, h-1, w-1, h-1);
-            g.drawLine(w-1, 1, w-1, h-2);
+            g.setColor(thumbLightShbdowColor);
+            g.drbwLine(1, h-1, w-1, h-1);
+            g.drbwLine(w-1, 1, w-1, h-2);
 
-            g.translate(-thumbBounds.x, -thumbBounds.y);
+            g.trbnslbte(-thumbBounds.x, -thumbBounds.y);
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    final class AWTTextArea extends JTextArea implements DocumentListener {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    finbl clbss AWTTextAreb extends JTextAreb implements DocumentListener {
 
-        private boolean isFocused = false;
-        private final XTextAreaPeer peer;
+        privbte boolebn isFocused = fblse;
+        privbte finbl XTextArebPeer peer;
 
-        AWTTextArea(String text, XTextAreaPeer peer) {
+        AWTTextAreb(String text, XTextArebPeer peer) {
             super(text);
-            setFocusable(false);
+            setFocusbble(fblse);
             this.peer = peer;
         }
 
         @Override
-        public void insertUpdate(DocumentEvent e) {
+        public void insertUpdbte(DocumentEvent e) {
             if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
+                peer.postEvent(new TextEvent(peer.tbrget,
                                              TextEvent.TEXT_VALUE_CHANGED));
             }
         }
 
         @Override
-        public void removeUpdate(DocumentEvent e) {
+        public void removeUpdbte(DocumentEvent e) {
             if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
+                peer.postEvent(new TextEvent(peer.tbrget,
                                              TextEvent.TEXT_VALUE_CHANGED));
             }
         }
 
         @Override
-        public void changedUpdate(DocumentEvent e) {
+        public void chbngedUpdbte(DocumentEvent e) {
             if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
+                peer.postEvent(new TextEvent(peer.tbrget,
                                              TextEvent.TEXT_VALUE_CHANGED));
             }
         }
 
-        void forwardFocusGained( FocusEvent e) {
+        void forwbrdFocusGbined( FocusEvent e) {
             isFocused = true;
-            FocusEvent fe = CausedFocusEvent.retarget(e, this);
+            FocusEvent fe = CbusedFocusEvent.retbrget(e, this);
             super.processFocusEvent(fe);
         }
 
 
-        void forwardFocusLost( FocusEvent e) {
-            isFocused = false;
-            FocusEvent fe = CausedFocusEvent.retarget(e, this);
+        void forwbrdFocusLost( FocusEvent e) {
+            isFocused = fblse;
+            FocusEvent fe = CbusedFocusEvent.retbrget(e, this);
             super.processFocusEvent(fe);
         }
 
         @Override
-        public boolean hasFocus() {
+        public boolebn hbsFocus() {
             return isFocused;
         }
 
-        public void repaintNow() {
-            paintImmediately(getBounds());
+        public void repbintNow() {
+            pbintImmedibtely(getBounds());
         }
 
         public void processMouseEventPublic(MouseEvent e) {
@@ -978,69 +978,69 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
         }
 
         @Override
-        public void updateUI() {
-            ComponentUI ui = new AWTTextAreaUI();
+        public void updbteUI() {
+            ComponentUI ui = new AWTTextArebUI();
             setUI(ui);
         }
 
-        // Fix for 4915454 - override the default implementation to avoid
-        // loading SystemFlavorMap and associated classes.
+        // Fix for 4915454 - override the defbult implementbtion to bvoid
+        // lobding SystemFlbvorMbp bnd bssocibted clbsses.
         @Override
-        public void setTransferHandler(TransferHandler newHandler) {
-            TransferHandler oldHandler = (TransferHandler)
+        public void setTrbnsferHbndler(TrbnsferHbndler newHbndler) {
+            TrbnsferHbndler oldHbndler = (TrbnsferHbndler)
                 getClientProperty(AWTAccessor.getClientPropertyKeyAccessor()
                                       .getJComponent_TRANSFER_HANDLER());
             putClientProperty(AWTAccessor.getClientPropertyKeyAccessor()
                                   .getJComponent_TRANSFER_HANDLER(),
-                              newHandler);
+                              newHbndler);
 
-            firePropertyChange("transferHandler", oldHandler, newHandler);
+            firePropertyChbnge("trbnsferHbndler", oldHbndler, newHbndler);
         }
     }
 
-    final class XAWTScrollPaneUI extends BasicScrollPaneUI {
+    finbl clbss XAWTScrollPbneUI extends BbsicScrollPbneUI {
 
-        private final Border vsbMarginBorderR = new EmptyBorder(0, 2, 0, 0);
-        private final Border vsbMarginBorderL = new EmptyBorder(0, 0, 0, 2);
-        private final Border hsbMarginBorder = new EmptyBorder(2, 0, 0, 0);
+        privbte finbl Border vsbMbrginBorderR = new EmptyBorder(0, 2, 0, 0);
+        privbte finbl Border vsbMbrginBorderL = new EmptyBorder(0, 0, 0, 2);
+        privbte finbl Border hsbMbrginBorder = new EmptyBorder(2, 0, 0, 0);
 
-        private Border vsbBorder;
-        private Border hsbBorder;
+        privbte Border vsbBorder;
+        privbte Border hsbBorder;
 
-        private PropertyChangeListener propertyChangeHandler;
+        privbte PropertyChbngeListener propertyChbngeHbndler;
 
         @Override
-        protected void installListeners(JScrollPane scrollPane) {
-            super.installListeners(scrollPane);
-            propertyChangeHandler = createPropertyChangeHandler();
-            scrollPane.addPropertyChangeListener(propertyChangeHandler);
+        protected void instbllListeners(JScrollPbne scrollPbne) {
+            super.instbllListeners(scrollPbne);
+            propertyChbngeHbndler = crebtePropertyChbngeHbndler();
+            scrollPbne.bddPropertyChbngeListener(propertyChbngeHbndler);
         }
 
         @Override
-        public void paint(Graphics g, JComponent c) {
-            Border vpBorder = scrollpane.getViewportBorder();
+        public void pbint(Grbphics g, JComponent c) {
+            Border vpBorder = scrollpbne.getViewportBorder();
             if (vpBorder != null) {
-                Rectangle r = scrollpane.getViewportBorderBounds();
-                vpBorder.paintBorder(scrollpane, g, r.x, r.y, r.width, r.height);
+                Rectbngle r = scrollpbne.getViewportBorderBounds();
+                vpBorder.pbintBorder(scrollpbne, g, r.x, r.y, r.width, r.height);
             }
         }
 
-        protected void uninstallListeners(JScrollPane scrollPane) {
-            super.uninstallListeners(scrollPane);
-            scrollPane.removePropertyChangeListener(propertyChangeHandler);
+        protected void uninstbllListeners(JScrollPbne scrollPbne) {
+            super.uninstbllListeners(scrollPbne);
+            scrollPbne.removePropertyChbngeListener(propertyChbngeHbndler);
         }
 
-        private PropertyChangeListener createPropertyChangeHandler() {
-            return new PropertyChangeListener() {
+        privbte PropertyChbngeListener crebtePropertyChbngeHbndler() {
+            return new PropertyChbngeListener() {
                     @Override
-                    public void propertyChange(PropertyChangeEvent e) {
-                        String propertyName = e.getPropertyName();
+                    public void propertyChbnge(PropertyChbngeEvent e) {
+                        String propertyNbme = e.getPropertyNbme();
 
-                        if (propertyName.equals("componentOrientation")) {
-                            JScrollPane pane = (JScrollPane)e.getSource();
-                            JScrollBar vsb = pane.getVerticalScrollBar();
+                        if (propertyNbme.equbls("componentOrientbtion")) {
+                            JScrollPbne pbne = (JScrollPbne)e.getSource();
+                            JScrollBbr vsb = pbne.getVerticblScrollBbr();
                             if (vsb != null) {
-                                if (isLeftToRight(pane)) {
+                                if (isLeftToRight(pbne)) {
                                     vsbBorder = new CompoundBorder(new EmptyBorder(0, 4, 0, -4),
                                                                    vsb.getBorder());
                                 } else {
@@ -1053,42 +1053,42 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
                     }};
         }
 
-        boolean isLeftToRight( Component c ) {
-            return c.getComponentOrientation().isLeftToRight();
+        boolebn isLeftToRight( Component c ) {
+            return c.getComponentOrientbtion().isLeftToRight();
         }
 
         @Override
-        protected void installDefaults(JScrollPane scrollpane) {
-            Border b = scrollpane.getBorder();
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
-            scrollpane.setBorder(uidefaults.getBorder("ScrollPane.border"));
-            scrollpane.setBackground(uidefaults.getColor("ScrollPane.background"));
-            scrollpane.setViewportBorder(uidefaults.getBorder("TextField.border"));
-            JScrollBar vsb = scrollpane.getVerticalScrollBar();
+        protected void instbllDefbults(JScrollPbne scrollpbne) {
+            Border b = scrollpbne.getBorder();
+            UIDefbults uidefbults = XToolkit.getUIDefbults();
+            scrollpbne.setBorder(uidefbults.getBorder("ScrollPbne.border"));
+            scrollpbne.setBbckground(uidefbults.getColor("ScrollPbne.bbckground"));
+            scrollpbne.setViewportBorder(uidefbults.getBorder("TextField.border"));
+            JScrollBbr vsb = scrollpbne.getVerticblScrollBbr();
             if (vsb != null) {
-                if (isLeftToRight(scrollpane)) {
-                    vsbBorder = new CompoundBorder(vsbMarginBorderR,
+                if (isLeftToRight(scrollpbne)) {
+                    vsbBorder = new CompoundBorder(vsbMbrginBorderR,
                                                    vsb.getBorder());
                 }
                 else {
-                    vsbBorder = new CompoundBorder(vsbMarginBorderL,
+                    vsbBorder = new CompoundBorder(vsbMbrginBorderL,
                                                    vsb.getBorder());
                 }
                 vsb.setBorder(vsbBorder);
             }
 
-            JScrollBar hsb = scrollpane.getHorizontalScrollBar();
+            JScrollBbr hsb = scrollpbne.getHorizontblScrollBbr();
             if (hsb != null) {
-                hsbBorder = new CompoundBorder(hsbMarginBorder, hsb.getBorder());
+                hsbBorder = new CompoundBorder(hsbMbrginBorder, hsb.getBorder());
                 hsb.setBorder(hsbBorder);
             }
         }
 
         @Override
-        protected void uninstallDefaults(JScrollPane c) {
-            super.uninstallDefaults(c);
+        protected void uninstbllDefbults(JScrollPbne c) {
+            super.uninstbllDefbults(c);
 
-            JScrollBar vsb = scrollpane.getVerticalScrollBar();
+            JScrollBbr vsb = scrollpbne.getVerticblScrollBbr();
             if (vsb != null) {
                 if (vsb.getBorder() == vsbBorder) {
                     vsb.setBorder(null);
@@ -1096,7 +1096,7 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
                 vsbBorder = null;
             }
 
-            JScrollBar hsb = scrollpane.getHorizontalScrollBar();
+            JScrollBbr hsb = scrollpbne.getHorizontblScrollBbr();
             if (hsb != null) {
                 if (hsb.getBorder() == hsbBorder) {
                     hsb.setBorder(null);
@@ -1106,60 +1106,60 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class AWTTextPane extends JScrollPane implements FocusListener {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    privbte clbss AWTTextPbne extends JScrollPbne implements FocusListener {
 
-        private final JTextArea jtext;
-        private final XWindow xwin;
+        privbte finbl JTextAreb jtext;
+        privbte finbl XWindow xwin;
 
-        private final Color control = SystemColor.control;
-        private final Color focus = SystemColor.activeCaptionBorder;
+        privbte finbl Color control = SystemColor.control;
+        privbte finbl Color focus = SystemColor.bctiveCbptionBorder;
 
-        AWTTextPane(JTextArea jt, XWindow xwin, Container parent) {
+        AWTTextPbne(JTextAreb jt, XWindow xwin, Contbiner pbrent) {
             super(jt);
             this.xwin = xwin;
             setDoubleBuffered(true);
-            jt.addFocusListener(this);
-            AWTAccessor.getComponentAccessor().setParent(this,parent);
-            setViewportBorder(new BevelBorder(false,SystemColor.controlDkShadow,SystemColor.controlLtHighlight) );
+            jt.bddFocusListener(this);
+            AWTAccessor.getComponentAccessor().setPbrent(this,pbrent);
+            setViewportBorder(new BevelBorder(fblse,SystemColor.controlDkShbdow,SystemColor.controlLtHighlight) );
             this.jtext = jt;
-            setFocusable(false);
-            addNotify();
+            setFocusbble(fblse);
+            bddNotify();
         }
 
         @Override
-        public void invalidate() {
+        public void invblidbte() {
             synchronized (getTreeLock()) {
-                final Container parent = getParent();
-                AWTAccessor.getComponentAccessor().setParent(this, null);
+                finbl Contbiner pbrent = getPbrent();
+                AWTAccessor.getComponentAccessor().setPbrent(this, null);
                 try {
-                    super.invalidate();
-                } finally {
-                    AWTAccessor.getComponentAccessor().setParent(this, parent);
+                    super.invblidbte();
+                } finblly {
+                    AWTAccessor.getComponentAccessor().setPbrent(this, pbrent);
                 }
             }
         }
 
         @Override
-        public void focusGained(FocusEvent e) {
-            Graphics g = getGraphics();
-            Rectangle r = getViewportBorderBounds();
+        public void focusGbined(FocusEvent e) {
+            Grbphics g = getGrbphics();
+            Rectbngle r = getViewportBorderBounds();
             g.setColor(focus);
-            g.drawRect(r.x,r.y,r.width,r.height);
+            g.drbwRect(r.x,r.y,r.width,r.height);
             g.dispose();
         }
 
         @Override
         public void focusLost(FocusEvent e) {
-            Graphics g = getGraphics();
-            Rectangle r = getViewportBorderBounds();
+            Grbphics g = getGrbphics();
+            Rectbngle r = getViewportBorderBounds();
             g.setColor(control);
-            g.drawRect(r.x,r.y,r.width,r.height);
+            g.drbwRect(r.x,r.y,r.width,r.height);
             g.dispose();
         }
 
-        public Window getRealParent() {
-            return (Window) xwin.target;
+        public Window getReblPbrent() {
+            return (Window) xwin.tbrget;
         }
 
         @Override
@@ -1168,76 +1168,76 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
         }
 
         @Override
-        public void updateUI() {
-            ComponentUI ui = new XAWTScrollPaneUI();
+        public void updbteUI() {
+            ComponentUI ui = new XAWTScrollPbneUI();
             setUI(ui);
         }
 
         @Override
-        public JScrollBar createVerticalScrollBar() {
-            return new XAWTScrollBar(JScrollBar.VERTICAL);
+        public JScrollBbr crebteVerticblScrollBbr() {
+            return new XAWTScrollBbr(JScrollBbr.VERTICAL);
         }
 
         @Override
-        public JScrollBar createHorizontalScrollBar() {
-            return new XAWTScrollBar(JScrollBar.HORIZONTAL);
+        public JScrollBbr crebteHorizontblScrollBbr() {
+            return new XAWTScrollBbr(JScrollBbr.HORIZONTAL);
         }
 
-        public JTextArea getTextArea () {
+        public JTextAreb getTextAreb () {
             return this.jtext;
         }
 
         @Override
-        public Graphics getGraphics() {
-            return xwin.getGraphics();
+        public Grbphics getGrbphics() {
+            return xwin.getGrbphics();
         }
 
-        @SuppressWarnings("serial") // JDK-implementation class
-        final class XAWTScrollBar extends ScrollBar {
+        @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+        finbl clbss XAWTScrollBbr extends ScrollBbr {
 
-            XAWTScrollBar(int i) {
+            XAWTScrollBbr(int i) {
                 super(i);
-                setFocusable(false);
+                setFocusbble(fblse);
             }
 
             @Override
-            public void updateUI() {
-                ComponentUI ui = new XAWTScrollBarUI();
+            public void updbteUI() {
+                ComponentUI ui = new XAWTScrollBbrUI();
                 setUI(ui);
             }
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class BevelBorder extends AbstractBorder implements UIResource {
-        private Color darkShadow = SystemColor.controlDkShadow;
-        private Color lightShadow = SystemColor.controlLtHighlight;
-        private Color control = SystemColor.controlShadow;
-        private boolean isRaised;
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    stbtic clbss BevelBorder extends AbstrbctBorder implements UIResource {
+        privbte Color dbrkShbdow = SystemColor.controlDkShbdow;
+        privbte Color lightShbdow = SystemColor.controlLtHighlight;
+        privbte Color control = SystemColor.controlShbdow;
+        privbte boolebn isRbised;
 
-        BevelBorder(boolean isRaised, Color darkShadow, Color lightShadow) {
-            this.isRaised = isRaised;
-            this.darkShadow = darkShadow;
-            this.lightShadow = lightShadow;
+        BevelBorder(boolebn isRbised, Color dbrkShbdow, Color lightShbdow) {
+            this.isRbised = isRbised;
+            this.dbrkShbdow = dbrkShbdow;
+            this.lightShbdow = lightShbdow;
         }
 
         @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            g.setColor((isRaised) ? lightShadow : darkShadow);
-            g.drawLine(x, y, x+w-1, y);           // top
-            g.drawLine(x, y+h-1, x, y+1);         // left
+        public void pbintBorder(Component c, Grbphics g, int x, int y, int w, int h) {
+            g.setColor((isRbised) ? lightShbdow : dbrkShbdow);
+            g.drbwLine(x, y, x+w-1, y);           // top
+            g.drbwLine(x, y+h-1, x, y+1);         // left
 
             g.setColor(control);
-            g.drawLine(x+1, y+1, x+w-2, y+1);           // top
-            g.drawLine(x+1, y+h-1, x+1, y+1);         // left
+            g.drbwLine(x+1, y+1, x+w-2, y+1);           // top
+            g.drbwLine(x+1, y+h-1, x+1, y+1);         // left
 
-            g.setColor((isRaised) ? darkShadow : lightShadow);
-            g.drawLine(x+1, y+h-1, x+w-1, y+h-1); // bottom
-            g.drawLine(x+w-1, y+h-1, x+w-1, y+1); // right
+            g.setColor((isRbised) ? dbrkShbdow : lightShbdow);
+            g.drbwLine(x+1, y+h-1, x+w-1, y+h-1); // bottom
+            g.drbwLine(x+w-1, y+h-1, x+w-1, y+1); // right
 
             g.setColor(control);
-            g.drawLine(x+1, y+h-2, x+w-2, y+h-2); // bottom
-            g.drawLine(x+w-2, y+h-2, x+w-2, y+1); // right
+            g.drbwLine(x+1, y+h-2, x+w-2, y+h-2); // bottom
+            g.drbwLine(x+w-2, y+h-2, x+w-2, y+1); // right
         }
 
         @Override
@@ -1251,73 +1251,73 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
             return insets;
         }
 
-        public boolean isOpaque(Component c) {
+        public boolebn isOpbque(Component c) {
             return true;
         }
     }
 
 
-    // This class dispatches 'MouseEvent's to 'XTextAreaPeer''s (hidden)
-    // subcomponents, and overrides mouse cursor, e.g. for scrollbars.
+    // This clbss dispbtches 'MouseEvent's to 'XTextArebPeer''s (hidden)
+    // subcomponents, bnd overrides mouse cursor, e.g. for scrollbbrs.
     //
-    // However, current dispatching is a kind of fake, and is tuned to do only
-    // what is necessary/possible. E.g. no additional mouse-exited/entered
-    // events are generated, when mouse exits scrollbar and enters viewport
-    // with JTextArea inside. Actually, no events are ever generated here (for
-    // now). They are only dispatched as correctly as possible/neccessary.
+    // However, current dispbtching is b kind of fbke, bnd is tuned to do only
+    // whbt is necessbry/possible. E.g. no bdditionbl mouse-exited/entered
+    // events bre generbted, when mouse exits scrollbbr bnd enters viewport
+    // with JTextAreb inside. Actublly, no events bre ever generbted here (for
+    // now). They bre only dispbtched bs correctly bs possible/neccessbry.
     //
-    // In future, it would be better to replace fake-emulation of grab-detection
-    // and event-dispatching here, by reusing some common implementation of this
-    // functionality. Mouse-cursor setting should also be freed of hacked
-    // overloading here.
+    // In future, it would be better to replbce fbke-emulbtion of grbb-detection
+    // bnd event-dispbtching here, by reusing some common implementbtion of this
+    // functionblity. Mouse-cursor setting should blso be freed of hbcked
+    // overlobding here.
 
-    private static final class JavaMouseEventHandler {
-        private final XTextAreaPeer outer;
-        private final Pointer current = new Pointer();
-        private boolean grabbed = false;
+    privbte stbtic finbl clbss JbvbMouseEventHbndler {
+        privbte finbl XTextArebPeer outer;
+        privbte finbl Pointer current = new Pointer();
+        privbte boolebn grbbbed = fblse;
 
-        JavaMouseEventHandler( XTextAreaPeer outer ) {
+        JbvbMouseEventHbndler( XTextArebPeer outer ) {
             this.outer = outer;
         }
 
 
-        // 1. We can make grab-tracking emulation here more robust to variations in
-        //    in mouse-events order and consistence. E.g. by using such code:
-        //    if( grabbed && event.getID()==MouseEvent.MOUSE_MOVED ) grabbed = false;
-        //    Or we can also use 'assert'ions.
-        // 2. WARNING: Currently, while grab-detection mechanism _here_ says, that
-        //    grab is in progress, we do not update 'current'.  In case 'current'
-        //    is set to a scrollbar or to a scroll-button, then references to their
-        //    'Component'-instances are "remembered". And events are dispatched to
-        //    these remembered components, without checking, if XTextAreaPeer has
-        //    replaced these instances with another ones. This also aplies to
-        //    mouse-drags-from-outside (see comment in 'grabbed_update' method).
+        // 1. We cbn mbke grbb-trbcking emulbtion here more robust to vbribtions in
+        //    in mouse-events order bnd consistence. E.g. by using such code:
+        //    if( grbbbed && event.getID()==MouseEvent.MOUSE_MOVED ) grbbbed = fblse;
+        //    Or we cbn blso use 'bssert'ions.
+        // 2. WARNING: Currently, while grbb-detection mechbnism _here_ sbys, thbt
+        //    grbb is in progress, we do not updbte 'current'.  In cbse 'current'
+        //    is set to b scrollbbr or to b scroll-button, then references to their
+        //    'Component'-instbnces bre "remembered". And events bre dispbtched to
+        //    these remembered components, without checking, if XTextArebPeer hbs
+        //    replbced these instbnces with bnother ones. This blso bplies to
+        //    mouse-drbgs-from-outside (see comment in 'grbbbed_updbte' method).
 
-        void handle( MouseEvent event ) {
-            if ( ! grabbed ) {
-                // dispatch() needs up-to-date pointer in ungrabbed case.
+        void hbndle( MouseEvent event ) {
+            if ( ! grbbbed ) {
+                // dispbtch() needs up-to-dbte pointer in ungrbbbed cbse.
                 setPointerToUnderPoint( event.getPoint() );
             }
-            dispatch( event );
-            boolean wasGrabbed = grabbed;
-            grabbed_update( event );
-            if ( wasGrabbed && ! grabbed ) {
+            dispbtch( event );
+            boolebn wbsGrbbbed = grbbbed;
+            grbbbed_updbte( event );
+            if ( wbsGrbbbed && ! grbbbed ) {
                 setPointerToUnderPoint( event.getPoint() );
             }
             setCursor();
         }
 
-        // Following is internally private:
+        // Following is internblly privbte:
 
-        // Here dispatching is performed, of 'MouseEvent's to (some)
-        // 'XTextAreaPeer''s (hidden) subcomponents.
-        private void dispatch( MouseEvent event ) {
+        // Here dispbtching is performed, of 'MouseEvent's to (some)
+        // 'XTextArebPeer''s (hidden) subcomponents.
+        privbte void dispbtch( MouseEvent event ) {
             switch( current.getType() )
             {
-                case TEXT:
-                    Point point = toViewportChildLocalSpace(
-                        outer.textPane.getViewport(), event.getPoint() );
-                    XTextAreaPeer.AWTTextArea jtext = outer.jtext;
+                cbse TEXT:
+                    Point point = toViewportChildLocblSpbce(
+                        outer.textPbne.getViewport(), event.getPoint() );
+                    XTextArebPeer.AWTTextAreb jtext = outer.jtext;
                     MouseEvent newEvent = newMouseEvent( jtext, point, event );
                     int id = newEvent.getID();
                     if ( id==MouseEvent.MOUSE_MOVED || id==MouseEvent.MOUSE_DRAGGED ) {
@@ -1325,32 +1325,32 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
                     } else {
                         jtext.processMouseEventPublic( newEvent );
                     }
-                    break;
+                    brebk;
 
-                // We perform (additional) dispatching of events to buttons of
-                // scrollbar, instead of leaving it to JScrollbar. This is
-                // required, because of different listeners in Swing and AWT,
-                // which trigger scrolling (ArrowButtonListener vs. TrackListener,
-                // accordingly). So we dispatch events to scroll-buttons, to
-                // invoke a correct Swing button listener.
-                // See CR 6175401 for more information.
-                case BAR:
-                case BUTTON:
-                    Component c = current.getBar();
-                    Point p = toLocalSpace( c, event.getPoint() );
+                // We perform (bdditionbl) dispbtching of events to buttons of
+                // scrollbbr, instebd of lebving it to JScrollbbr. This is
+                // required, becbuse of different listeners in Swing bnd AWT,
+                // which trigger scrolling (ArrowButtonListener vs. TrbckListener,
+                // bccordingly). So we dispbtch events to scroll-buttons, to
+                // invoke b correct Swing button listener.
+                // See CR 6175401 for more informbtion.
+                cbse BAR:
+                cbse BUTTON:
+                    Component c = current.getBbr();
+                    Point p = toLocblSpbce( c, event.getPoint() );
                     if ( current.getType()==Pointer.Type.BUTTON ) {
                         c = current.getButton();
-                        p = toLocalSpace( c, p );
+                        p = toLocblSpbce( c, p );
                     }
                     AWTAccessor.getComponentAccessor().processEvent( c, newMouseEvent( c, p, event ) );
-                    break;
+                    brebk;
             }
         }
 
-        private static MouseEvent newMouseEvent(
-            Component source, Point point, MouseEvent template )
+        privbte stbtic MouseEvent newMouseEvent(
+            Component source, Point point, MouseEvent templbte )
         {
-            MouseEvent e = template;
+            MouseEvent e = templbte;
             MouseEvent nme = new MouseEvent(
                 source,
                 e.getID(), e.getWhen(),
@@ -1358,129 +1358,129 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
                 point.x, point.y,
                 e.getXOnScreen(), e.getYOnScreen(),
                 e.getClickCount(), e.isPopupTrigger(), e.getButton() );
-            // Because these MouseEvents are dispatched directly to
-            // their target, we need to mark them as being
-            // system-generated here
-            SunToolkit.setSystemGenerated(nme);
+            // Becbuse these MouseEvents bre dispbtched directly to
+            // their tbrget, we need to mbrk them bs being
+            // system-generbted here
+            SunToolkit.setSystemGenerbted(nme);
             return nme;
         }
 
-        private void setCursor() {
+        privbte void setCursor() {
             if ( current.getType()==Pointer.Type.TEXT ) {
-                // 'target.getCursor()' is also applied from elsewhere
-                // (at least now), but only when mouse "entered", and
-                // before 'XTextAreaPeer.handleJavaMouseEvent' is invoked.
-                outer.pSetCursor( outer.target.getCursor(), true );
+                // 'tbrget.getCursor()' is blso bpplied from elsewhere
+                // (bt lebst now), but only when mouse "entered", bnd
+                // before 'XTextArebPeer.hbndleJbvbMouseEvent' is invoked.
+                outer.pSetCursor( outer.tbrget.getCursor(), true );
             }
             else {
-                // We can write here a more intelligent cursor selection
-                // mechanism, like getting cursor from 'current' component.
+                // We cbn write here b more intelligent cursor selection
+                // mechbnism, like getting cursor from 'current' component.
                 // However, I see no point in doing so now. But if you feel
-                // like implementing it, you'll probably need to introduce
+                // like implementing it, you'll probbbly need to introduce
                 // 'Pointer.Type.PANEL'.
-                outer.pSetCursor( outer.textPane.getCursor(), true );
+                outer.pSetCursor( outer.textPbne.getCursor(), true );
             }
         }
 
 
-        // Current way of grab-detection causes interesting (but harmless)
-        // side-effect. If mouse is draged from outside to inside of TextArea,
-        // we will then (in some cases) be asked to dispatch mouse-entered/exited
-        // events. But, as at least one mouse-button is down, we will detect
-        // grab-mode is on (though the grab isn't ours).
+        // Current wby of grbb-detection cbuses interesting (but hbrmless)
+        // side-effect. If mouse is drbged from outside to inside of TextAreb,
+        // we will then (in some cbses) be bsked to dispbtch mouse-entered/exited
+        // events. But, bs bt lebst one mouse-button is down, we will detect
+        // grbb-mode is on (though the grbb isn't ours).
         //
-        // Thus, we will not update 'current' (see 'handle' method), and will
-        // dispatch events to the last subcomponent, the 'current' was set to.
-        // As always, we set cursor in this case also. But, all this seems
-        // harmless, because mouse entered/exited events seem to have no effect
-        // here, and cursor setting is ignored in case of drags from outside.
+        // Thus, we will not updbte 'current' (see 'hbndle' method), bnd will
+        // dispbtch events to the lbst subcomponent, the 'current' wbs set to.
+        // As blwbys, we set cursor in this cbse blso. But, bll this seems
+        // hbrmless, becbuse mouse entered/exited events seem to hbve no effect
+        // here, bnd cursor setting is ignored in cbse of drbgs from outside.
         //
-        // Grab-detection can be further improved, e.g. by taking into account
+        // Grbb-detection cbn be further improved, e.g. by tbking into bccount
         // current event-ID, but I see not point in doing it now.
 
-        private void grabbed_update( MouseEvent event ) {
-            final int allButtonsMask
+        privbte void grbbbed_updbte( MouseEvent event ) {
+            finbl int bllButtonsMbsk
                 = MouseEvent.BUTTON1_DOWN_MASK
                 | MouseEvent.BUTTON2_DOWN_MASK
                 | MouseEvent.BUTTON3_DOWN_MASK;
-            grabbed = ( (event.getModifiersEx() & allButtonsMask) != 0 );
+            grbbbed = ( (event.getModifiersEx() & bllButtonsMbsk) != 0 );
         }
 
-        // 'toLocalSpace' and 'toViewportChildLocalSpace' can be "optimized" to
-        // 'return' 'void' and use 'Point' input-argument also as output.
-        private static Point toLocalSpace( Component local, Point inParentSpace )
+        // 'toLocblSpbce' bnd 'toViewportChildLocblSpbce' cbn be "optimized" to
+        // 'return' 'void' bnd use 'Point' input-brgument blso bs output.
+        privbte stbtic Point toLocblSpbce( Component locbl, Point inPbrentSpbce )
         {
-            Point p = inParentSpace;
-            Point l = local.getLocation();
+            Point p = inPbrentSpbce;
+            Point l = locbl.getLocbtion();
             return new Point( p.x - l.x, p.y - l.y );
         }
-        private static Point toViewportChildLocalSpace( JViewport v, Point inViewportParentSpace )
+        privbte stbtic Point toViewportChildLocblSpbce( JViewport v, Point inViewportPbrentSpbce )
         {
-            Point l = toLocalSpace(v, inViewportParentSpace);
+            Point l = toLocblSpbce(v, inViewportPbrentSpbce);
             Point p = v.getViewPosition();
             l.x += p.x;
             l.y += p.y;
             return l;
         }
 
-        private void setPointerToUnderPoint( Point point ) {
-            if ( outer.textPane.getViewport().getBounds().contains( point ) ) {
+        privbte void setPointerToUnderPoint( Point point ) {
+            if ( outer.textPbne.getViewport().getBounds().contbins( point ) ) {
                 current.setText();
             }
-            else if ( ! setPointerIfPointOverScrollbar(
-                outer.textPane.getVerticalScrollBar(), point ) )
+            else if ( ! setPointerIfPointOverScrollbbr(
+                outer.textPbne.getVerticblScrollBbr(), point ) )
             {
-                if ( ! setPointerIfPointOverScrollbar(
-                    outer.textPane.getHorizontalScrollBar(), point ) )
+                if ( ! setPointerIfPointOverScrollbbr(
+                    outer.textPbne.getHorizontblScrollBbr(), point ) )
                 {
                     current.setNone();
                 }
             }
         }
 
-        private boolean setPointerIfPointOverScrollbar( JScrollBar bar, Point point ) {
-            if ( ! bar.getBounds().contains( point ) ) {
-                return false;
+        privbte boolebn setPointerIfPointOverScrollbbr( JScrollBbr bbr, Point point ) {
+            if ( ! bbr.getBounds().contbins( point ) ) {
+                return fblse;
             }
-            current.setBar( bar );
-            Point local = toLocalSpace( bar, point );
+            current.setBbr( bbr );
+            Point locbl = toLocblSpbce( bbr, point );
 
-            XTextAreaPeer.XAWTScrollBarUI ui =
-                (XTextAreaPeer.XAWTScrollBarUI) bar.getUI();
+            XTextArebPeer.XAWTScrollBbrUI ui =
+                (XTextArebPeer.XAWTScrollBbrUI) bbr.getUI();
 
-            if ( ! setPointerIfPointOverButton( ui.getIncreaseButton(), local ) ) {
-                setPointerIfPointOverButton( ui.getDecreaseButton(), local );
+            if ( ! setPointerIfPointOverButton( ui.getIncrebseButton(), locbl ) ) {
+                setPointerIfPointOverButton( ui.getDecrebseButton(), locbl );
             }
 
             return true;
         }
 
-        private boolean setPointerIfPointOverButton( JButton button, Point point ) {
-            if ( ! button.getBounds().contains( point ) ) {
-                return false;
+        privbte boolebn setPointerIfPointOverButton( JButton button, Point point ) {
+            if ( ! button.getBounds().contbins( point ) ) {
+                return fblse;
             }
             current.setButton( button );
             return true;
         }
 
-        private static final class Pointer {
-            static enum Type {
+        privbte stbtic finbl clbss Pointer {
+            stbtic enum Type {
                 NONE, TEXT, BAR, BUTTON  // , PANEL
             }
             Type getType() {
                 return type;
             }
-            boolean isNone() {
+            boolebn isNone() {
                 return type==Type.NONE;
             }
-            JScrollBar getBar() {
-                boolean ok = type==Type.BAR || type==Type.BUTTON;
-                assert ok;
-                return ok ? bar : null;
+            JScrollBbr getBbr() {
+                boolebn ok = type==Type.BAR || type==Type.BUTTON;
+                bssert ok;
+                return ok ? bbr : null;
             }
             JButton getButton() {
-                boolean ok = type==Type.BUTTON;
-                assert ok;
+                boolebn ok = type==Type.BUTTON;
+                bssert ok;
                 return ok ? button : null;
             }
             void setNone() {
@@ -1489,8 +1489,8 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
             void setText() {
                 type = Type.TEXT;
             }
-            void setBar( JScrollBar bar ) {
-                this.bar=bar;
+            void setBbr( JScrollBbr bbr ) {
+                this.bbr=bbr;
                 type=Type.BAR;
             }
             void setButton( JButton button ) {
@@ -1498,9 +1498,9 @@ final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
                 type=Type.BUTTON;
             }
 
-            private Type type;
-            private JScrollBar bar;
-            private JButton button;
+            privbte Type type;
+            privbte JScrollBbr bbr;
+            privbte JButton button;
         }
     }
 }

@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing;
+pbckbge com.sun.jbvb.swing;
 
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.applet.Applet;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Window;
-import javax.swing.JComponent;
-import javax.swing.RepaintManager;
+import jbvb.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Window;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.RepbintMbnbger;
 
 /**
  * A collection of utility methods for Swing.
  * <p>
- * <b>WARNING:</b> While this class is public, it should not be treated as
- * public API and its API may change in incompatable ways between dot dot
- * releases and even patch releases. You should not rely on this class even
+ * <b>WARNING:</b> While this clbss is public, it should not be trebted bs
+ * public API bnd its API mby chbnge in incompbtbble wbys between dot dot
+ * relebses bnd even pbtch relebses. You should not rely on this clbss even
  * existing.
  *
- * This is a second part of sun.swing.SwingUtilities2. It is required
- * to provide services for JavaFX applets.
+ * This is b second pbrt of sun.swing.SwingUtilities2. It is required
+ * to provide services for JbvbFX bpplets.
  *
  */
-public class SwingUtilities3 {
+public clbss SwingUtilities3 {
     /**
-     * The {@code clientProperty} key for delegate {@code RepaintManager}
+     * The {@code clientProperty} key for delegbte {@code RepbintMbnbger}
      */
-    private static final Object DELEGATE_REPAINT_MANAGER_KEY =
-        new StringBuilder("DelegateRepaintManagerKey");
+    privbte stbtic finbl Object DELEGATE_REPAINT_MANAGER_KEY =
+        new StringBuilder("DelegbteRepbintMbnbgerKey");
 
     /**
-      * Registers delegate RepaintManager for {@code JComponent}.
+      * Registers delegbte RepbintMbnbger for {@code JComponent}.
       */
-    public static void setDelegateRepaintManager(JComponent component,
-                                                RepaintManager repaintManager) {
-        /* setting up flag in AppContext to speed up lookups in case
-         * there are no delegate RepaintManagers used.
+    public stbtic void setDelegbteRepbintMbnbger(JComponent component,
+                                                RepbintMbnbger repbintMbnbger) {
+        /* setting up flbg in AppContext to speed up lookups in cbse
+         * there bre no delegbte RepbintMbnbgers used.
          */
         AppContext.getAppContext().put(DELEGATE_REPAINT_MANAGER_KEY,
-                                       Boolean.TRUE);
+                                       Boolebn.TRUE);
 
         component.putClientProperty(DELEGATE_REPAINT_MANAGER_KEY,
-                                    repaintManager);
+                                    repbintMbnbger);
     }
 
-    private static final Map<Container, Boolean> vsyncedMap =
-        Collections.synchronizedMap(new WeakHashMap<Container, Boolean>());
+    privbte stbtic finbl Mbp<Contbiner, Boolebn> vsyncedMbp =
+        Collections.synchronizedMbp(new WebkHbshMbp<Contbiner, Boolebn>());
 
     /**
-     * Sets vsyncRequested state for the {@code rootContainer}.  If
+     * Sets vsyncRequested stbte for the {@code rootContbiner}.  If
      * {@code isRequested} is {@code true} then vsynced
-     * {@code BufferStrategy} is enabled for this {@code rootContainer}.
+     * {@code BufferStrbtegy} is enbbled for this {@code rootContbiner}.
      *
-     * Note: requesting vsynced painting does not guarantee one. The outcome
-     * depends on current RepaintManager's RepaintManager.PaintManager
-     * and on the capabilities of the graphics hardware/software and what not.
+     * Note: requesting vsynced pbinting does not gubrbntee one. The outcome
+     * depends on current RepbintMbnbger's RepbintMbnbger.PbintMbnbger
+     * bnd on the cbpbbilities of the grbphics hbrdwbre/softwbre bnd whbt not.
      *
-     * @param rootContainer topmost container. Should be either {@code Window}
+     * @pbrbm rootContbiner topmost contbiner. Should be either {@code Window}
      *  or {@code Applet}
-     * @param isRequested the value to set vsyncRequested state to
+     * @pbrbm isRequested the vblue to set vsyncRequested stbte to
      */
-    public static void setVsyncRequested(Container rootContainer,
-                                         boolean isRequested) {
-        assert (rootContainer instanceof Applet) || (rootContainer instanceof Window);
+    public stbtic void setVsyncRequested(Contbiner rootContbiner,
+                                         boolebn isRequested) {
+        bssert (rootContbiner instbnceof Applet) || (rootContbiner instbnceof Window);
         if (isRequested) {
-            vsyncedMap.put(rootContainer, Boolean.TRUE);
+            vsyncedMbp.put(rootContbiner, Boolebn.TRUE);
         } else {
-            vsyncedMap.remove(rootContainer);
+            vsyncedMbp.remove(rootContbiner);
         }
     }
 
     /**
-     * Checks if vsync painting is requested for {@code rootContainer}
+     * Checks if vsync pbinting is requested for {@code rootContbiner}
      *
-     * @param rootContainer topmost container. Should be either Window or Applet
-     * @return {@code true} if vsync painting is requested for {@code rootContainer}
+     * @pbrbm rootContbiner topmost contbiner. Should be either Window or Applet
+     * @return {@code true} if vsync pbinting is requested for {@code rootContbiner}
      */
-    public static boolean isVsyncRequested(Container rootContainer) {
-        assert (rootContainer instanceof Applet) || (rootContainer instanceof Window);
-        return Boolean.TRUE == vsyncedMap.get(rootContainer);
+    public stbtic boolebn isVsyncRequested(Contbiner rootContbiner) {
+        bssert (rootContbiner instbnceof Applet) || (rootContbiner instbnceof Window);
+        return Boolebn.TRUE == vsyncedMbp.get(rootContbiner);
     }
 
     /**
-     * Returns delegate {@code RepaintManager} for {@code component} hierarchy.
+     * Returns delegbte {@code RepbintMbnbger} for {@code component} hierbrchy.
      */
-    public static RepaintManager getDelegateRepaintManager(Component
+    public stbtic RepbintMbnbger getDelegbteRepbintMbnbger(Component
                                                             component) {
-        RepaintManager delegate = null;
-        if (Boolean.TRUE == SunToolkit.targetToAppContext(component)
+        RepbintMbnbger delegbte = null;
+        if (Boolebn.TRUE == SunToolkit.tbrgetToAppContext(component)
                                       .get(DELEGATE_REPAINT_MANAGER_KEY)) {
-            while (delegate == null && component != null) {
+            while (delegbte == null && component != null) {
                 while (component != null
-                         && ! (component instanceof JComponent)) {
-                    component = component.getParent();
+                         && ! (component instbnceof JComponent)) {
+                    component = component.getPbrent();
                 }
                 if (component != null) {
-                    delegate = (RepaintManager)
+                    delegbte = (RepbintMbnbger)
                         ((JComponent) component)
                           .getClientProperty(DELEGATE_REPAINT_MANAGER_KEY);
-                    component = component.getParent();
+                    component = component.getPbrent();
                 }
 
             }
         }
-        return delegate;
+        return delegbte;
     }
 }

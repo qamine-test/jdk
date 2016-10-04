@@ -1,645 +1,645 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.*;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.BiFunction;
+import jbvb.io.*;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.Function;
+import jbvb.util.function.BiFunction;
 
 /**
- * This class implements a hash table, which maps keys to values. Any
- * non-<code>null</code> object can be used as a key or as a value. <p>
+ * This clbss implements b hbsh tbble, which mbps keys to vblues. Any
+ * non-<code>null</code> object cbn be used bs b key or bs b vblue. <p>
  *
- * To successfully store and retrieve objects from a hashtable, the
- * objects used as keys must implement the <code>hashCode</code>
- * method and the <code>equals</code> method. <p>
+ * To successfully store bnd retrieve objects from b hbshtbble, the
+ * objects used bs keys must implement the <code>hbshCode</code>
+ * method bnd the <code>equbls</code> method. <p>
  *
- * An instance of <code>Hashtable</code> has two parameters that affect its
- * performance: <i>initial capacity</i> and <i>load factor</i>.  The
- * <i>capacity</i> is the number of <i>buckets</i> in the hash table, and the
- * <i>initial capacity</i> is simply the capacity at the time the hash table
- * is created.  Note that the hash table is <i>open</i>: in the case of a "hash
- * collision", a single bucket stores multiple entries, which must be searched
- * sequentially.  The <i>load factor</i> is a measure of how full the hash
- * table is allowed to get before its capacity is automatically increased.
- * The initial capacity and load factor parameters are merely hints to
- * the implementation.  The exact details as to when and whether the rehash
- * method is invoked are implementation-dependent.<p>
+ * An instbnce of <code>Hbshtbble</code> hbs two pbrbmeters thbt bffect its
+ * performbnce: <i>initibl cbpbcity</i> bnd <i>lobd fbctor</i>.  The
+ * <i>cbpbcity</i> is the number of <i>buckets</i> in the hbsh tbble, bnd the
+ * <i>initibl cbpbcity</i> is simply the cbpbcity bt the time the hbsh tbble
+ * is crebted.  Note thbt the hbsh tbble is <i>open</i>: in the cbse of b "hbsh
+ * collision", b single bucket stores multiple entries, which must be sebrched
+ * sequentiblly.  The <i>lobd fbctor</i> is b mebsure of how full the hbsh
+ * tbble is bllowed to get before its cbpbcity is butombticblly increbsed.
+ * The initibl cbpbcity bnd lobd fbctor pbrbmeters bre merely hints to
+ * the implementbtion.  The exbct detbils bs to when bnd whether the rehbsh
+ * method is invoked bre implementbtion-dependent.<p>
  *
- * Generally, the default load factor (.75) offers a good tradeoff between
- * time and space costs.  Higher values decrease the space overhead but
- * increase the time cost to look up an entry (which is reflected in most
- * <tt>Hashtable</tt> operations, including <tt>get</tt> and <tt>put</tt>).<p>
+ * Generblly, the defbult lobd fbctor (.75) offers b good trbdeoff between
+ * time bnd spbce costs.  Higher vblues decrebse the spbce overhebd but
+ * increbse the time cost to look up bn entry (which is reflected in most
+ * <tt>Hbshtbble</tt> operbtions, including <tt>get</tt> bnd <tt>put</tt>).<p>
  *
- * The initial capacity controls a tradeoff between wasted space and the
- * need for <code>rehash</code> operations, which are time-consuming.
- * No <code>rehash</code> operations will <i>ever</i> occur if the initial
- * capacity is greater than the maximum number of entries the
- * <tt>Hashtable</tt> will contain divided by its load factor.  However,
- * setting the initial capacity too high can waste space.<p>
+ * The initibl cbpbcity controls b trbdeoff between wbsted spbce bnd the
+ * need for <code>rehbsh</code> operbtions, which bre time-consuming.
+ * No <code>rehbsh</code> operbtions will <i>ever</i> occur if the initibl
+ * cbpbcity is grebter thbn the mbximum number of entries the
+ * <tt>Hbshtbble</tt> will contbin divided by its lobd fbctor.  However,
+ * setting the initibl cbpbcity too high cbn wbste spbce.<p>
  *
- * If many entries are to be made into a <code>Hashtable</code>,
- * creating it with a sufficiently large capacity may allow the
- * entries to be inserted more efficiently than letting it perform
- * automatic rehashing as needed to grow the table. <p>
+ * If mbny entries bre to be mbde into b <code>Hbshtbble</code>,
+ * crebting it with b sufficiently lbrge cbpbcity mby bllow the
+ * entries to be inserted more efficiently thbn letting it perform
+ * butombtic rehbshing bs needed to grow the tbble. <p>
  *
- * This example creates a hashtable of numbers. It uses the names of
- * the numbers as keys:
+ * This exbmple crebtes b hbshtbble of numbers. It uses the nbmes of
+ * the numbers bs keys:
  * <pre>   {@code
- *   Hashtable<String, Integer> numbers
- *     = new Hashtable<String, Integer>();
+ *   Hbshtbble<String, Integer> numbers
+ *     = new Hbshtbble<String, Integer>();
  *   numbers.put("one", 1);
  *   numbers.put("two", 2);
  *   numbers.put("three", 3);}</pre>
  *
- * <p>To retrieve a number, use the following code:
+ * <p>To retrieve b number, use the following code:
  * <pre>   {@code
  *   Integer n = numbers.get("two");
  *   if (n != null) {
  *     System.out.println("two = " + n);
  *   }}</pre>
  *
- * <p>The iterators returned by the <tt>iterator</tt> method of the collections
- * returned by all of this class's "collection view methods" are
- * <em>fail-fast</em>: if the Hashtable is structurally modified at any time
- * after the iterator is created, in any way except through the iterator's own
- * <tt>remove</tt> method, the iterator will throw a {@link
- * ConcurrentModificationException}.  Thus, in the face of concurrent
- * modification, the iterator fails quickly and cleanly, rather than risking
- * arbitrary, non-deterministic behavior at an undetermined time in the future.
- * The Enumerations returned by Hashtable's {@link #keys keys} and
- * {@link #elements elements} methods are <em>not</em> fail-fast; if the
- * Hashtable is structurally modified at any time after the enumeration is
- * created then the results of enumerating are undefined.
+ * <p>The iterbtors returned by the <tt>iterbtor</tt> method of the collections
+ * returned by bll of this clbss's "collection view methods" bre
+ * <em>fbil-fbst</em>: if the Hbshtbble is structurblly modified bt bny time
+ * bfter the iterbtor is crebted, in bny wby except through the iterbtor's own
+ * <tt>remove</tt> method, the iterbtor will throw b {@link
+ * ConcurrentModificbtionException}.  Thus, in the fbce of concurrent
+ * modificbtion, the iterbtor fbils quickly bnd clebnly, rbther thbn risking
+ * brbitrbry, non-deterministic behbvior bt bn undetermined time in the future.
+ * The Enumerbtions returned by Hbshtbble's {@link #keys keys} bnd
+ * {@link #elements elements} methods bre <em>not</em> fbil-fbst; if the
+ * Hbshtbble is structurblly modified bt bny time bfter the enumerbtion is
+ * crebted then the results of enumerbting bre undefined.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness: <i>the fail-fast behavior of iterators
+ * <p>Note thbt the fbil-fbst behbvior of bn iterbtor cbnnot be gubrbnteed
+ * bs it is, generblly spebking, impossible to mbke bny hbrd gubrbntees in the
+ * presence of unsynchronized concurrent modificbtion.  Fbil-fbst iterbtors
+ * throw <tt>ConcurrentModificbtionException</tt> on b best-effort bbsis.
+ * Therefore, it would be wrong to write b progrbm thbt depended on this
+ * exception for its correctness: <i>the fbil-fbst behbvior of iterbtors
  * should be used only to detect bugs.</i>
  *
- * <p>As of the Java 2 platform v1.2, this class was retrofitted to
- * implement the {@link Map} interface, making it a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
+ * <p>As of the Jbvb 2 plbtform v1.2, this clbss wbs retrofitted to
+ * implement the {@link Mbp} interfbce, mbking it b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
  *
- * Java Collections Framework</a>.  Unlike the new collection
- * implementations, {@code Hashtable} is synchronized.  If a
- * thread-safe implementation is not needed, it is recommended to use
- * {@link HashMap} in place of {@code Hashtable}.  If a thread-safe
- * highly-concurrent implementation is desired, then it is recommended
- * to use {@link java.util.concurrent.ConcurrentHashMap} in place of
- * {@code Hashtable}.
+ * Jbvb Collections Frbmework</b>.  Unlike the new collection
+ * implementbtions, {@code Hbshtbble} is synchronized.  If b
+ * threbd-sbfe implementbtion is not needed, it is recommended to use
+ * {@link HbshMbp} in plbce of {@code Hbshtbble}.  If b threbd-sbfe
+ * highly-concurrent implementbtion is desired, then it is recommended
+ * to use {@link jbvb.util.concurrent.ConcurrentHbshMbp} in plbce of
+ * {@code Hbshtbble}.
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @pbrbm <K> the type of keys mbintbined by this mbp
+ * @pbrbm <V> the type of mbpped vblues
  *
- * @author  Arthur van Hoff
- * @author  Josh Bloch
- * @author  Neal Gafter
- * @see     Object#equals(java.lang.Object)
- * @see     Object#hashCode()
- * @see     Hashtable#rehash()
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
+ * @see     Object#equbls(jbvb.lbng.Object)
+ * @see     Object#hbshCode()
+ * @see     Hbshtbble#rehbsh()
  * @see     Collection
- * @see     Map
- * @see     HashMap
- * @see     TreeMap
+ * @see     Mbp
+ * @see     HbshMbp
+ * @see     TreeMbp
  * @since 1.0
  */
-public class Hashtable<K,V>
-    extends Dictionary<K,V>
-    implements Map<K,V>, Cloneable, java.io.Serializable {
+public clbss Hbshtbble<K,V>
+    extends Dictionbry<K,V>
+    implements Mbp<K,V>, Clonebble, jbvb.io.Seriblizbble {
 
     /**
-     * The hash table data.
+     * The hbsh tbble dbtb.
      */
-    private transient Entry<?,?>[] table;
+    privbte trbnsient Entry<?,?>[] tbble;
 
     /**
-     * The total number of entries in the hash table.
+     * The totbl number of entries in the hbsh tbble.
      */
-    private transient int count;
+    privbte trbnsient int count;
 
     /**
-     * The table is rehashed when its size exceeds this threshold.  (The
-     * value of this field is (int)(capacity * loadFactor).)
+     * The tbble is rehbshed when its size exceeds this threshold.  (The
+     * vblue of this field is (int)(cbpbcity * lobdFbctor).)
      *
-     * @serial
+     * @seribl
      */
-    private int threshold;
+    privbte int threshold;
 
     /**
-     * The load factor for the hashtable.
+     * The lobd fbctor for the hbshtbble.
      *
-     * @serial
+     * @seribl
      */
-    private float loadFactor;
+    privbte flobt lobdFbctor;
 
     /**
-     * The number of times this Hashtable has been structurally modified
-     * Structural modifications are those that change the number of entries in
-     * the Hashtable or otherwise modify its internal structure (e.g.,
-     * rehash).  This field is used to make iterators on Collection-views of
-     * the Hashtable fail-fast.  (See ConcurrentModificationException).
+     * The number of times this Hbshtbble hbs been structurblly modified
+     * Structurbl modificbtions bre those thbt chbnge the number of entries in
+     * the Hbshtbble or otherwise modify its internbl structure (e.g.,
+     * rehbsh).  This field is used to mbke iterbtors on Collection-views of
+     * the Hbshtbble fbil-fbst.  (See ConcurrentModificbtionException).
      */
-    private transient int modCount = 0;
+    privbte trbnsient int modCount = 0;
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = 1421746759512286392L;
+    /** use seriblVersionUID from JDK 1.0.2 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = 1421746759512286392L;
 
     /**
-     * Constructs a new, empty hashtable with the specified initial
-     * capacity and the specified load factor.
+     * Constructs b new, empty hbshtbble with the specified initibl
+     * cbpbcity bnd the specified lobd fbctor.
      *
-     * @param      initialCapacity   the initial capacity of the hashtable.
-     * @param      loadFactor        the load factor of the hashtable.
-     * @exception  IllegalArgumentException  if the initial capacity is less
-     *             than zero, or if the load factor is nonpositive.
+     * @pbrbm      initiblCbpbcity   the initibl cbpbcity of the hbshtbble.
+     * @pbrbm      lobdFbctor        the lobd fbctor of the hbshtbble.
+     * @exception  IllegblArgumentException  if the initibl cbpbcity is less
+     *             thbn zero, or if the lobd fbctor is nonpositive.
      */
-    public Hashtable(int initialCapacity, float loadFactor) {
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal Capacity: "+
-                                               initialCapacity);
-        if (loadFactor <= 0 || Float.isNaN(loadFactor))
-            throw new IllegalArgumentException("Illegal Load: "+loadFactor);
+    public Hbshtbble(int initiblCbpbcity, flobt lobdFbctor) {
+        if (initiblCbpbcity < 0)
+            throw new IllegblArgumentException("Illegbl Cbpbcity: "+
+                                               initiblCbpbcity);
+        if (lobdFbctor <= 0 || Flobt.isNbN(lobdFbctor))
+            throw new IllegblArgumentException("Illegbl Lobd: "+lobdFbctor);
 
-        if (initialCapacity==0)
-            initialCapacity = 1;
-        this.loadFactor = loadFactor;
-        table = new Entry<?,?>[initialCapacity];
-        threshold = (int)Math.min(initialCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+        if (initiblCbpbcity==0)
+            initiblCbpbcity = 1;
+        this.lobdFbctor = lobdFbctor;
+        tbble = new Entry<?,?>[initiblCbpbcity];
+        threshold = (int)Mbth.min(initiblCbpbcity * lobdFbctor, MAX_ARRAY_SIZE + 1);
     }
 
     /**
-     * Constructs a new, empty hashtable with the specified initial capacity
-     * and default load factor (0.75).
+     * Constructs b new, empty hbshtbble with the specified initibl cbpbcity
+     * bnd defbult lobd fbctor (0.75).
      *
-     * @param     initialCapacity   the initial capacity of the hashtable.
-     * @exception IllegalArgumentException if the initial capacity is less
-     *              than zero.
+     * @pbrbm     initiblCbpbcity   the initibl cbpbcity of the hbshtbble.
+     * @exception IllegblArgumentException if the initibl cbpbcity is less
+     *              thbn zero.
      */
-    public Hashtable(int initialCapacity) {
-        this(initialCapacity, 0.75f);
+    public Hbshtbble(int initiblCbpbcity) {
+        this(initiblCbpbcity, 0.75f);
     }
 
     /**
-     * Constructs a new, empty hashtable with a default initial capacity (11)
-     * and load factor (0.75).
+     * Constructs b new, empty hbshtbble with b defbult initibl cbpbcity (11)
+     * bnd lobd fbctor (0.75).
      */
-    public Hashtable() {
+    public Hbshtbble() {
         this(11, 0.75f);
     }
 
     /**
-     * Constructs a new hashtable with the same mappings as the given
-     * Map.  The hashtable is created with an initial capacity sufficient to
-     * hold the mappings in the given Map and a default load factor (0.75).
+     * Constructs b new hbshtbble with the sbme mbppings bs the given
+     * Mbp.  The hbshtbble is crebted with bn initibl cbpbcity sufficient to
+     * hold the mbppings in the given Mbp bnd b defbult lobd fbctor (0.75).
      *
-     * @param t the map whose mappings are to be placed in this map.
-     * @throws NullPointerException if the specified map is null.
+     * @pbrbm t the mbp whose mbppings bre to be plbced in this mbp.
+     * @throws NullPointerException if the specified mbp is null.
      * @since   1.2
      */
-    public Hashtable(Map<? extends K, ? extends V> t) {
-        this(Math.max(2*t.size(), 11), 0.75f);
+    public Hbshtbble(Mbp<? extends K, ? extends V> t) {
+        this(Mbth.mbx(2*t.size(), 11), 0.75f);
         putAll(t);
     }
 
     /**
-     * Returns the number of keys in this hashtable.
+     * Returns the number of keys in this hbshtbble.
      *
-     * @return  the number of keys in this hashtable.
+     * @return  the number of keys in this hbshtbble.
      */
     public synchronized int size() {
         return count;
     }
 
     /**
-     * Tests if this hashtable maps no keys to values.
+     * Tests if this hbshtbble mbps no keys to vblues.
      *
-     * @return  <code>true</code> if this hashtable maps no keys to values;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if this hbshtbble mbps no keys to vblues;
+     *          <code>fblse</code> otherwise.
      */
-    public synchronized boolean isEmpty() {
+    public synchronized boolebn isEmpty() {
         return count == 0;
     }
 
     /**
-     * Returns an enumeration of the keys in this hashtable.
-     * Use the Enumeration methods on the returned object to fetch the keys
-     * sequentially. If the hashtable is structurally modified while enumerating
-     * over the keys then the results of enumerating are undefined.
+     * Returns bn enumerbtion of the keys in this hbshtbble.
+     * Use the Enumerbtion methods on the returned object to fetch the keys
+     * sequentiblly. If the hbshtbble is structurblly modified while enumerbting
+     * over the keys then the results of enumerbting bre undefined.
      *
-     * @return  an enumeration of the keys in this hashtable.
-     * @see     Enumeration
+     * @return  bn enumerbtion of the keys in this hbshtbble.
+     * @see     Enumerbtion
      * @see     #elements()
      * @see     #keySet()
-     * @see     Map
+     * @see     Mbp
      */
-    public synchronized Enumeration<K> keys() {
-        return this.<K>getEnumeration(KEYS);
+    public synchronized Enumerbtion<K> keys() {
+        return this.<K>getEnumerbtion(KEYS);
     }
 
     /**
-     * Returns an enumeration of the values in this hashtable.
-     * Use the Enumeration methods on the returned object to fetch the elements
-     * sequentially. If the hashtable is structurally modified while enumerating
-     * over the values then the results of enumerating are undefined.
+     * Returns bn enumerbtion of the vblues in this hbshtbble.
+     * Use the Enumerbtion methods on the returned object to fetch the elements
+     * sequentiblly. If the hbshtbble is structurblly modified while enumerbting
+     * over the vblues then the results of enumerbting bre undefined.
      *
-     * @return  an enumeration of the values in this hashtable.
-     * @see     java.util.Enumeration
+     * @return  bn enumerbtion of the vblues in this hbshtbble.
+     * @see     jbvb.util.Enumerbtion
      * @see     #keys()
-     * @see     #values()
-     * @see     Map
+     * @see     #vblues()
+     * @see     Mbp
      */
-    public synchronized Enumeration<V> elements() {
-        return this.<V>getEnumeration(VALUES);
+    public synchronized Enumerbtion<V> elements() {
+        return this.<V>getEnumerbtion(VALUES);
     }
 
     /**
-     * Tests if some key maps into the specified value in this hashtable.
-     * This operation is more expensive than the {@link #containsKey
-     * containsKey} method.
+     * Tests if some key mbps into the specified vblue in this hbshtbble.
+     * This operbtion is more expensive thbn the {@link #contbinsKey
+     * contbinsKey} method.
      *
-     * <p>Note that this method is identical in functionality to
-     * {@link #containsValue containsValue}, (which is part of the
-     * {@link Map} interface in the collections framework).
+     * <p>Note thbt this method is identicbl in functionblity to
+     * {@link #contbinsVblue contbinsVblue}, (which is pbrt of the
+     * {@link Mbp} interfbce in the collections frbmework).
      *
-     * @param      value   a value to search for
-     * @return     <code>true</code> if and only if some key maps to the
-     *             <code>value</code> argument in this hashtable as
-     *             determined by the <tt>equals</tt> method;
-     *             <code>false</code> otherwise.
-     * @exception  NullPointerException  if the value is <code>null</code>
+     * @pbrbm      vblue   b vblue to sebrch for
+     * @return     <code>true</code> if bnd only if some key mbps to the
+     *             <code>vblue</code> brgument in this hbshtbble bs
+     *             determined by the <tt>equbls</tt> method;
+     *             <code>fblse</code> otherwise.
+     * @exception  NullPointerException  if the vblue is <code>null</code>
      */
-    public synchronized boolean contains(Object value) {
-        if (value == null) {
+    public synchronized boolebn contbins(Object vblue) {
+        if (vblue == null) {
             throw new NullPointerException();
         }
 
-        Entry<?,?> tab[] = table;
-        for (int i = tab.length ; i-- > 0 ;) {
-            for (Entry<?,?> e = tab[i] ; e != null ; e = e.next) {
-                if (e.value.equals(value)) {
+        Entry<?,?> tbb[] = tbble;
+        for (int i = tbb.length ; i-- > 0 ;) {
+            for (Entry<?,?> e = tbb[i] ; e != null ; e = e.next) {
+                if (e.vblue.equbls(vblue)) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if this hashtable maps one or more keys to this value.
+     * Returns true if this hbshtbble mbps one or more keys to this vblue.
      *
-     * <p>Note that this method is identical in functionality to {@link
-     * #contains contains} (which predates the {@link Map} interface).
+     * <p>Note thbt this method is identicbl in functionblity to {@link
+     * #contbins contbins} (which predbtes the {@link Mbp} interfbce).
      *
-     * @param value value whose presence in this hashtable is to be tested
-     * @return <tt>true</tt> if this map maps one or more keys to the
-     *         specified value
-     * @throws NullPointerException  if the value is <code>null</code>
+     * @pbrbm vblue vblue whose presence in this hbshtbble is to be tested
+     * @return <tt>true</tt> if this mbp mbps one or more keys to the
+     *         specified vblue
+     * @throws NullPointerException  if the vblue is <code>null</code>
      * @since 1.2
      */
-    public boolean containsValue(Object value) {
-        return contains(value);
+    public boolebn contbinsVblue(Object vblue) {
+        return contbins(vblue);
     }
 
     /**
-     * Tests if the specified object is a key in this hashtable.
+     * Tests if the specified object is b key in this hbshtbble.
      *
-     * @param   key   possible key
-     * @return  <code>true</code> if and only if the specified object
-     *          is a key in this hashtable, as determined by the
-     *          <tt>equals</tt> method; <code>false</code> otherwise.
+     * @pbrbm   key   possible key
+     * @return  <code>true</code> if bnd only if the specified object
+     *          is b key in this hbshtbble, bs determined by the
+     *          <tt>equbls</tt> method; <code>fblse</code> otherwise.
      * @throws  NullPointerException  if the key is <code>null</code>
-     * @see     #contains(Object)
+     * @see     #contbins(Object)
      */
-    public synchronized boolean containsKey(Object key) {
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+    public synchronized boolebn contbinsKey(Object key) {
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        for (Entry<?,?> e = tbb[index] ; e != null ; e = e.next) {
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or {@code null} if this mbp contbins no mbpping for the key.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key.equals(k))},
+     * <p>More formblly, if this mbp contbins b mbpping from b key
+     * {@code k} to b vblue {@code v} such thbt {@code (key.equbls(k))},
      * then this method returns {@code v}; otherwise it returns
-     * {@code null}.  (There can be at most one such mapping.)
+     * {@code null}.  (There cbn be bt most one such mbpping.)
      *
-     * @param key the key whose associated value is to be returned
-     * @return the value to which the specified key is mapped, or
-     *         {@code null} if this map contains no mapping for the key
+     * @pbrbm key the key whose bssocibted vblue is to be returned
+     * @return the vblue to which the specified key is mbpped, or
+     *         {@code null} if this mbp contbins no mbpping for the key
      * @throws NullPointerException if the specified key is null
      * @see     #put(Object, Object)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public synchronized V get(Object key) {
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                return (V)e.value;
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        for (Entry<?,?> e = tbb[index] ; e != null ; e = e.next) {
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
+                return (V)e.vblue;
             }
         }
         return null;
     }
 
     /**
-     * The maximum size of array to allocate.
-     * Some VMs reserve some header words in an array.
-     * Attempts to allocate larger arrays may result in
-     * OutOfMemoryError: Requested array size exceeds VM limit
+     * The mbximum size of brrby to bllocbte.
+     * Some VMs reserve some hebder words in bn brrby.
+     * Attempts to bllocbte lbrger brrbys mby result in
+     * OutOfMemoryError: Requested brrby size exceeds VM limit
      */
-    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+    privbte stbtic finbl int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
     /**
-     * Increases the capacity of and internally reorganizes this
-     * hashtable, in order to accommodate and access its entries more
-     * efficiently.  This method is called automatically when the
-     * number of keys in the hashtable exceeds this hashtable's capacity
-     * and load factor.
+     * Increbses the cbpbcity of bnd internblly reorgbnizes this
+     * hbshtbble, in order to bccommodbte bnd bccess its entries more
+     * efficiently.  This method is cblled butombticblly when the
+     * number of keys in the hbshtbble exceeds this hbshtbble's cbpbcity
+     * bnd lobd fbctor.
      */
-    @SuppressWarnings("unchecked")
-    protected void rehash() {
-        int oldCapacity = table.length;
-        Entry<?,?>[] oldMap = table;
+    @SuppressWbrnings("unchecked")
+    protected void rehbsh() {
+        int oldCbpbcity = tbble.length;
+        Entry<?,?>[] oldMbp = tbble;
 
         // overflow-conscious code
-        int newCapacity = (oldCapacity << 1) + 1;
-        if (newCapacity - MAX_ARRAY_SIZE > 0) {
-            if (oldCapacity == MAX_ARRAY_SIZE)
+        int newCbpbcity = (oldCbpbcity << 1) + 1;
+        if (newCbpbcity - MAX_ARRAY_SIZE > 0) {
+            if (oldCbpbcity == MAX_ARRAY_SIZE)
                 // Keep running with MAX_ARRAY_SIZE buckets
                 return;
-            newCapacity = MAX_ARRAY_SIZE;
+            newCbpbcity = MAX_ARRAY_SIZE;
         }
-        Entry<?,?>[] newMap = new Entry<?,?>[newCapacity];
+        Entry<?,?>[] newMbp = new Entry<?,?>[newCbpbcity];
 
         modCount++;
-        threshold = (int)Math.min(newCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
-        table = newMap;
+        threshold = (int)Mbth.min(newCbpbcity * lobdFbctor, MAX_ARRAY_SIZE + 1);
+        tbble = newMbp;
 
-        for (int i = oldCapacity ; i-- > 0 ;) {
-            for (Entry<K,V> old = (Entry<K,V>)oldMap[i] ; old != null ; ) {
+        for (int i = oldCbpbcity ; i-- > 0 ;) {
+            for (Entry<K,V> old = (Entry<K,V>)oldMbp[i] ; old != null ; ) {
                 Entry<K,V> e = old;
                 old = old.next;
 
-                int index = (e.hash & 0x7FFFFFFF) % newCapacity;
-                e.next = (Entry<K,V>)newMap[index];
-                newMap[index] = e;
+                int index = (e.hbsh & 0x7FFFFFFF) % newCbpbcity;
+                e.next = (Entry<K,V>)newMbp[index];
+                newMbp[index] = e;
             }
         }
     }
 
-    private void addEntry(int hash, K key, V value, int index) {
-        Entry<?,?> tab[] = table;
+    privbte void bddEntry(int hbsh, K key, V vblue, int index) {
+        Entry<?,?> tbb[] = tbble;
         if (count >= threshold) {
-            // Rehash the table if the threshold is exceeded
-            rehash();
+            // Rehbsh the tbble if the threshold is exceeded
+            rehbsh();
 
-            tab = table;
-            hash = key.hashCode();
-            index = (hash & 0x7FFFFFFF) % tab.length;
+            tbb = tbble;
+            hbsh = key.hbshCode();
+            index = (hbsh & 0x7FFFFFFF) % tbb.length;
         }
 
-        // Creates the new entry.
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>) tab[index];
-        tab[index] = new Entry<>(hash, key, value, e);
+        // Crebtes the new entry.
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>) tbb[index];
+        tbb[index] = new Entry<>(hbsh, key, vblue, e);
         count++;
         modCount++;
     }
 
     /**
-     * Maps the specified <code>key</code> to the specified
-     * <code>value</code> in this hashtable. Neither the key nor the
-     * value can be <code>null</code>. <p>
+     * Mbps the specified <code>key</code> to the specified
+     * <code>vblue</code> in this hbshtbble. Neither the key nor the
+     * vblue cbn be <code>null</code>. <p>
      *
-     * The value can be retrieved by calling the <code>get</code> method
-     * with a key that is equal to the original key.
+     * The vblue cbn be retrieved by cblling the <code>get</code> method
+     * with b key thbt is equbl to the originbl key.
      *
-     * @param      key     the hashtable key
-     * @param      value   the value
-     * @return     the previous value of the specified key in this hashtable,
-     *             or <code>null</code> if it did not have one
-     * @exception  NullPointerException  if the key or value is
+     * @pbrbm      key     the hbshtbble key
+     * @pbrbm      vblue   the vblue
+     * @return     the previous vblue of the specified key in this hbshtbble,
+     *             or <code>null</code> if it did not hbve one
+     * @exception  NullPointerException  if the key or vblue is
      *               <code>null</code>
-     * @see     Object#equals(Object)
+     * @see     Object#equbls(Object)
      * @see     #get(Object)
      */
-    public synchronized V put(K key, V value) {
-        // Make sure the value is not null
-        if (value == null) {
+    public synchronized V put(K key, V vblue) {
+        // Mbke sure the vblue is not null
+        if (vblue == null) {
             throw new NullPointerException();
         }
 
-        // Makes sure the key is not already in the hashtable.
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> entry = (Entry<K,V>)tab[index];
+        // Mbkes sure the key is not blrebdy in the hbshtbble.
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> entry = (Entry<K,V>)tbb[index];
         for(; entry != null ; entry = entry.next) {
-            if ((entry.hash == hash) && entry.key.equals(key)) {
-                V old = entry.value;
-                entry.value = value;
+            if ((entry.hbsh == hbsh) && entry.key.equbls(key)) {
+                V old = entry.vblue;
+                entry.vblue = vblue;
                 return old;
             }
         }
 
-        addEntry(hash, key, value, index);
+        bddEntry(hbsh, key, vblue, index);
         return null;
     }
 
     /**
-     * Removes the key (and its corresponding value) from this
-     * hashtable. This method does nothing if the key is not in the hashtable.
+     * Removes the key (bnd its corresponding vblue) from this
+     * hbshtbble. This method does nothing if the key is not in the hbshtbble.
      *
-     * @param   key   the key that needs to be removed
-     * @return  the value to which the key had been mapped in this hashtable,
-     *          or <code>null</code> if the key did not have a mapping
+     * @pbrbm   key   the key thbt needs to be removed
+     * @return  the vblue to which the key hbd been mbpped in this hbshtbble,
+     *          or <code>null</code> if the key did not hbve b mbpping
      * @throws  NullPointerException  if the key is <code>null</code>
      */
     public synchronized V remove(Object key) {
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>)tbb[index];
         for(Entry<K,V> prev = null ; e != null ; prev = e, e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
                 if (prev != null) {
                     prev.next = e.next;
                 } else {
-                    tab[index] = e.next;
+                    tbb[index] = e.next;
                 }
                 modCount++;
                 count--;
-                V oldValue = e.value;
-                e.value = null;
-                return oldValue;
+                V oldVblue = e.vblue;
+                e.vblue = null;
+                return oldVblue;
             }
         }
         return null;
     }
 
     /**
-     * Copies all of the mappings from the specified map to this hashtable.
-     * These mappings will replace any mappings that this hashtable had for any
-     * of the keys currently in the specified map.
+     * Copies bll of the mbppings from the specified mbp to this hbshtbble.
+     * These mbppings will replbce bny mbppings thbt this hbshtbble hbd for bny
+     * of the keys currently in the specified mbp.
      *
-     * @param t mappings to be stored in this map
-     * @throws NullPointerException if the specified map is null
+     * @pbrbm t mbppings to be stored in this mbp
+     * @throws NullPointerException if the specified mbp is null
      * @since 1.2
      */
-    public synchronized void putAll(Map<? extends K, ? extends V> t) {
-        for (Map.Entry<? extends K, ? extends V> e : t.entrySet())
-            put(e.getKey(), e.getValue());
+    public synchronized void putAll(Mbp<? extends K, ? extends V> t) {
+        for (Mbp.Entry<? extends K, ? extends V> e : t.entrySet())
+            put(e.getKey(), e.getVblue());
     }
 
     /**
-     * Clears this hashtable so that it contains no keys.
+     * Clebrs this hbshtbble so thbt it contbins no keys.
      */
-    public synchronized void clear() {
-        Entry<?,?> tab[] = table;
-        for (int index = tab.length; --index >= 0; )
-            tab[index] = null;
+    public synchronized void clebr() {
+        Entry<?,?> tbb[] = tbble;
+        for (int index = tbb.length; --index >= 0; )
+            tbb[index] = null;
         modCount++;
         count = 0;
     }
 
     /**
-     * Creates a shallow copy of this hashtable. All the structure of the
-     * hashtable itself is copied, but the keys and values are not cloned.
-     * This is a relatively expensive operation.
+     * Crebtes b shbllow copy of this hbshtbble. All the structure of the
+     * hbshtbble itself is copied, but the keys bnd vblues bre not cloned.
+     * This is b relbtively expensive operbtion.
      *
-     * @return  a clone of the hashtable
+     * @return  b clone of the hbshtbble
      */
     public synchronized Object clone() {
         try {
-            Hashtable<?,?> t = (Hashtable<?,?>)super.clone();
-            t.table = new Entry<?,?>[table.length];
-            for (int i = table.length ; i-- > 0 ; ) {
-                t.table[i] = (table[i] != null)
-                    ? (Entry<?,?>) table[i].clone() : null;
+            Hbshtbble<?,?> t = (Hbshtbble<?,?>)super.clone();
+            t.tbble = new Entry<?,?>[tbble.length];
+            for (int i = tbble.length ; i-- > 0 ; ) {
+                t.tbble[i] = (tbble[i] != null)
+                    ? (Entry<?,?>) tbble[i].clone() : null;
             }
             t.keySet = null;
             t.entrySet = null;
-            t.values = null;
+            t.vblues = null;
             t.modCount = 0;
             return t;
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Returns a string representation of this <tt>Hashtable</tt> object
-     * in the form of a set of entries, enclosed in braces and separated
-     * by the ASCII characters "<tt>,&nbsp;</tt>" (comma and space). Each
-     * entry is rendered as the key, an equals sign <tt>=</tt>, and the
-     * associated element, where the <tt>toString</tt> method is used to
-     * convert the key and element to strings.
+     * Returns b string representbtion of this <tt>Hbshtbble</tt> object
+     * in the form of b set of entries, enclosed in brbces bnd sepbrbted
+     * by the ASCII chbrbcters "<tt>,&nbsp;</tt>" (commb bnd spbce). Ebch
+     * entry is rendered bs the key, bn equbls sign <tt>=</tt>, bnd the
+     * bssocibted element, where the <tt>toString</tt> method is used to
+     * convert the key bnd element to strings.
      *
-     * @return  a string representation of this hashtable
+     * @return  b string representbtion of this hbshtbble
      */
     public synchronized String toString() {
-        int max = size() - 1;
-        if (max == -1)
+        int mbx = size() - 1;
+        if (mbx == -1)
             return "{}";
 
         StringBuilder sb = new StringBuilder();
-        Iterator<Map.Entry<K,V>> it = entrySet().iterator();
+        Iterbtor<Mbp.Entry<K,V>> it = entrySet().iterbtor();
 
-        sb.append('{');
+        sb.bppend('{');
         for (int i = 0; ; i++) {
-            Map.Entry<K,V> e = it.next();
+            Mbp.Entry<K,V> e = it.next();
             K key = e.getKey();
-            V value = e.getValue();
-            sb.append(key   == this ? "(this Map)" : key.toString());
-            sb.append('=');
-            sb.append(value == this ? "(this Map)" : value.toString());
+            V vblue = e.getVblue();
+            sb.bppend(key   == this ? "(this Mbp)" : key.toString());
+            sb.bppend('=');
+            sb.bppend(vblue == this ? "(this Mbp)" : vblue.toString());
 
-            if (i == max)
-                return sb.append('}').toString();
-            sb.append(", ");
+            if (i == mbx)
+                return sb.bppend('}').toString();
+            sb.bppend(", ");
         }
     }
 
 
-    private <T> Enumeration<T> getEnumeration(int type) {
+    privbte <T> Enumerbtion<T> getEnumerbtion(int type) {
         if (count == 0) {
-            return Collections.emptyEnumeration();
+            return Collections.emptyEnumerbtion();
         } else {
-            return new Enumerator<>(type, false);
+            return new Enumerbtor<>(type, fblse);
         }
     }
 
-    private <T> Iterator<T> getIterator(int type) {
+    privbte <T> Iterbtor<T> getIterbtor(int type) {
         if (count == 0) {
-            return Collections.emptyIterator();
+            return Collections.emptyIterbtor();
         } else {
-            return new Enumerator<>(type, true);
+            return new Enumerbtor<>(type, true);
         }
     }
 
     // Views
 
     /**
-     * Each of these fields are initialized to contain an instance of the
-     * appropriate view the first time this view is requested.  The views are
-     * stateless, so there's no reason to create more than one of each.
+     * Ebch of these fields bre initiblized to contbin bn instbnce of the
+     * bppropribte view the first time this view is requested.  The views bre
+     * stbteless, so there's no rebson to crebte more thbn one of ebch.
      */
-    private transient volatile Set<K> keySet;
-    private transient volatile Set<Map.Entry<K,V>> entrySet;
-    private transient volatile Collection<V> values;
+    privbte trbnsient volbtile Set<K> keySet;
+    privbte trbnsient volbtile Set<Mbp.Entry<K,V>> entrySet;
+    privbte trbnsient volbtile Collection<V> vblues;
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation), the results of
-     * the iteration are undefined.  The set supports element removal,
-     * which removes the corresponding mapping from the map, via the
-     * <tt>Iterator.remove</tt>, <tt>Set.remove</tt>,
-     * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt>
-     * operations.  It does not support the <tt>add</tt> or <tt>addAll</tt>
-     * operations.
+     * Returns b {@link Set} view of the keys contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  If the mbp is modified
+     * while bn iterbtion over the set is in progress (except through
+     * the iterbtor's own <tt>remove</tt> operbtion), the results of
+     * the iterbtion bre undefined.  The set supports element removbl,
+     * which removes the corresponding mbpping from the mbp, vib the
+     * <tt>Iterbtor.remove</tt>, <tt>Set.remove</tt>,
+     * <tt>removeAll</tt>, <tt>retbinAll</tt>, bnd <tt>clebr</tt>
+     * operbtions.  It does not support the <tt>bdd</tt> or <tt>bddAll</tt>
+     * operbtions.
      *
      * @since 1.2
      */
@@ -649,691 +649,691 @@ public class Hashtable<K,V>
         return keySet;
     }
 
-    private class KeySet extends AbstractSet<K> {
-        public Iterator<K> iterator() {
-            return getIterator(KEYS);
+    privbte clbss KeySet extends AbstrbctSet<K> {
+        public Iterbtor<K> iterbtor() {
+            return getIterbtor(KEYS);
         }
         public int size() {
             return count;
         }
-        public boolean contains(Object o) {
-            return containsKey(o);
+        public boolebn contbins(Object o) {
+            return contbinsKey(o);
         }
-        public boolean remove(Object o) {
-            return Hashtable.this.remove(o) != null;
+        public boolebn remove(Object o) {
+            return Hbshtbble.this.remove(o) != null;
         }
-        public void clear() {
-            Hashtable.this.clear();
+        public void clebr() {
+            Hbshtbble.this.clebr();
         }
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation, or through the
-     * <tt>setValue</tt> operation on a map entry returned by the
-     * iterator) the results of the iteration are undefined.  The set
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
-     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt> and
-     * <tt>clear</tt> operations.  It does not support the
-     * <tt>add</tt> or <tt>addAll</tt> operations.
+     * Returns b {@link Set} view of the mbppings contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  If the mbp is modified
+     * while bn iterbtion over the set is in progress (except through
+     * the iterbtor's own <tt>remove</tt> operbtion, or through the
+     * <tt>setVblue</tt> operbtion on b mbp entry returned by the
+     * iterbtor) the results of the iterbtion bre undefined.  The set
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the <tt>Iterbtor.remove</tt>,
+     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retbinAll</tt> bnd
+     * <tt>clebr</tt> operbtions.  It does not support the
+     * <tt>bdd</tt> or <tt>bddAll</tt> operbtions.
      *
      * @since 1.2
      */
-    public Set<Map.Entry<K,V>> entrySet() {
+    public Set<Mbp.Entry<K,V>> entrySet() {
         if (entrySet==null)
             entrySet = Collections.synchronizedSet(new EntrySet(), this);
         return entrySet;
     }
 
-    private class EntrySet extends AbstractSet<Map.Entry<K,V>> {
-        public Iterator<Map.Entry<K,V>> iterator() {
-            return getIterator(ENTRIES);
+    privbte clbss EntrySet extends AbstrbctSet<Mbp.Entry<K,V>> {
+        public Iterbtor<Mbp.Entry<K,V>> iterbtor() {
+            return getIterbtor(ENTRIES);
         }
 
-        public boolean add(Map.Entry<K,V> o) {
-            return super.add(o);
+        public boolebn bdd(Mbp.Entry<K,V> o) {
+            return super.bdd(o);
         }
 
-        public boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
+        public boolebn contbins(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> entry = (Mbp.Entry<?,?>)o;
             Object key = entry.getKey();
-            Entry<?,?>[] tab = table;
-            int hash = key.hashCode();
-            int index = (hash & 0x7FFFFFFF) % tab.length;
+            Entry<?,?>[] tbb = tbble;
+            int hbsh = key.hbshCode();
+            int index = (hbsh & 0x7FFFFFFF) % tbb.length;
 
-            for (Entry<?,?> e = tab[index]; e != null; e = e.next)
-                if (e.hash==hash && e.equals(entry))
+            for (Entry<?,?> e = tbb[index]; e != null; e = e.next)
+                if (e.hbsh==hbsh && e.equbls(entry))
                     return true;
-            return false;
+            return fblse;
         }
 
-        public boolean remove(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> entry = (Map.Entry<?,?>) o;
+        public boolebn remove(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> entry = (Mbp.Entry<?,?>) o;
             Object key = entry.getKey();
-            Entry<?,?>[] tab = table;
-            int hash = key.hashCode();
-            int index = (hash & 0x7FFFFFFF) % tab.length;
+            Entry<?,?>[] tbb = tbble;
+            int hbsh = key.hbshCode();
+            int index = (hbsh & 0x7FFFFFFF) % tbb.length;
 
-            @SuppressWarnings("unchecked")
-            Entry<K,V> e = (Entry<K,V>)tab[index];
+            @SuppressWbrnings("unchecked")
+            Entry<K,V> e = (Entry<K,V>)tbb[index];
             for(Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-                if (e.hash==hash && e.equals(entry)) {
+                if (e.hbsh==hbsh && e.equbls(entry)) {
                     if (prev != null)
                         prev.next = e.next;
                     else
-                        tab[index] = e.next;
+                        tbb[index] = e.next;
 
-                    e.value = null; // clear for gc.
+                    e.vblue = null; // clebr for gc.
                     modCount++;
                     count--;
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         public int size() {
             return count;
         }
 
-        public void clear() {
-            Hashtable.this.clear();
+        public void clebr() {
+            Hbshtbble.this.clebr();
         }
     }
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  If the map is
-     * modified while an iteration over the collection is in progress
-     * (except through the iterator's own <tt>remove</tt> operation),
-     * the results of the iteration are undefined.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
+     * Returns b {@link Collection} view of the vblues contbined in this mbp.
+     * The collection is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the collection, bnd vice-versb.  If the mbp is
+     * modified while bn iterbtion over the collection is in progress
+     * (except through the iterbtor's own <tt>remove</tt> operbtion),
+     * the results of the iterbtion bre undefined.  The collection
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the <tt>Iterbtor.remove</tt>,
      * <tt>Collection.remove</tt>, <tt>removeAll</tt>,
-     * <tt>retainAll</tt> and <tt>clear</tt> operations.  It does not
-     * support the <tt>add</tt> or <tt>addAll</tt> operations.
+     * <tt>retbinAll</tt> bnd <tt>clebr</tt> operbtions.  It does not
+     * support the <tt>bdd</tt> or <tt>bddAll</tt> operbtions.
      *
      * @since 1.2
      */
-    public Collection<V> values() {
-        if (values==null)
-            values = Collections.synchronizedCollection(new ValueCollection(),
+    public Collection<V> vblues() {
+        if (vblues==null)
+            vblues = Collections.synchronizedCollection(new VblueCollection(),
                                                         this);
-        return values;
+        return vblues;
     }
 
-    private class ValueCollection extends AbstractCollection<V> {
-        public Iterator<V> iterator() {
-            return getIterator(VALUES);
+    privbte clbss VblueCollection extends AbstrbctCollection<V> {
+        public Iterbtor<V> iterbtor() {
+            return getIterbtor(VALUES);
         }
         public int size() {
             return count;
         }
-        public boolean contains(Object o) {
-            return containsValue(o);
+        public boolebn contbins(Object o) {
+            return contbinsVblue(o);
         }
-        public void clear() {
-            Hashtable.this.clear();
+        public void clebr() {
+            Hbshtbble.this.clebr();
         }
     }
 
-    // Comparison and hashing
+    // Compbrison bnd hbshing
 
     /**
-     * Compares the specified Object with this Map for equality,
-     * as per the definition in the Map interface.
+     * Compbres the specified Object with this Mbp for equblity,
+     * bs per the definition in the Mbp interfbce.
      *
-     * @param  o object to be compared for equality with this hashtable
-     * @return true if the specified Object is equal to this Map
-     * @see Map#equals(Object)
+     * @pbrbm  o object to be compbred for equblity with this hbshtbble
+     * @return true if the specified Object is equbl to this Mbp
+     * @see Mbp#equbls(Object)
      * @since 1.2
      */
-    public synchronized boolean equals(Object o) {
+    public synchronized boolebn equbls(Object o) {
         if (o == this)
             return true;
 
-        if (!(o instanceof Map))
-            return false;
-        Map<?,?> t = (Map<?,?>) o;
+        if (!(o instbnceof Mbp))
+            return fblse;
+        Mbp<?,?> t = (Mbp<?,?>) o;
         if (t.size() != size())
-            return false;
+            return fblse;
 
         try {
-            for (Map.Entry<K, V> e : entrySet()) {
+            for (Mbp.Entry<K, V> e : entrySet()) {
                 K key = e.getKey();
-                V value = e.getValue();
-                if (value == null) {
-                    if (!(t.get(key) == null && t.containsKey(key)))
-                        return false;
+                V vblue = e.getVblue();
+                if (vblue == null) {
+                    if (!(t.get(key) == null && t.contbinsKey(key)))
+                        return fblse;
                 } else {
-                    if (!value.equals(t.get(key)))
-                        return false;
+                    if (!vblue.equbls(t.get(key)))
+                        return fblse;
                 }
             }
-        } catch (ClassCastException unused)   {
-            return false;
-        } catch (NullPointerException unused) {
-            return false;
+        } cbtch (ClbssCbstException unused)   {
+            return fblse;
+        } cbtch (NullPointerException unused) {
+            return fblse;
         }
 
         return true;
     }
 
     /**
-     * Returns the hash code value for this Map as per the definition in the
-     * Map interface.
+     * Returns the hbsh code vblue for this Mbp bs per the definition in the
+     * Mbp interfbce.
      *
-     * @see Map#hashCode()
+     * @see Mbp#hbshCode()
      * @since 1.2
      */
-    public synchronized int hashCode() {
+    public synchronized int hbshCode() {
         /*
-         * This code detects the recursion caused by computing the hash code
-         * of a self-referential hash table and prevents the stack overflow
-         * that would otherwise result.  This allows certain 1.1-era
-         * applets with self-referential hash tables to work.  This code
-         * abuses the loadFactor field to do double-duty as a hashCode
-         * in progress flag, so as not to worsen the space performance.
-         * A negative load factor indicates that hash code computation is
+         * This code detects the recursion cbused by computing the hbsh code
+         * of b self-referentibl hbsh tbble bnd prevents the stbck overflow
+         * thbt would otherwise result.  This bllows certbin 1.1-erb
+         * bpplets with self-referentibl hbsh tbbles to work.  This code
+         * bbuses the lobdFbctor field to do double-duty bs b hbshCode
+         * in progress flbg, so bs not to worsen the spbce performbnce.
+         * A negbtive lobd fbctor indicbtes thbt hbsh code computbtion is
          * in progress.
          */
         int h = 0;
-        if (count == 0 || loadFactor < 0)
+        if (count == 0 || lobdFbctor < 0)
             return h;  // Returns zero
 
-        loadFactor = -loadFactor;  // Mark hashCode computation in progress
-        Entry<?,?>[] tab = table;
-        for (Entry<?,?> entry : tab) {
+        lobdFbctor = -lobdFbctor;  // Mbrk hbshCode computbtion in progress
+        Entry<?,?>[] tbb = tbble;
+        for (Entry<?,?> entry : tbb) {
             while (entry != null) {
-                h += entry.hashCode();
+                h += entry.hbshCode();
                 entry = entry.next;
             }
         }
 
-        loadFactor = -loadFactor;  // Mark hashCode computation complete
+        lobdFbctor = -lobdFbctor;  // Mbrk hbshCode computbtion complete
 
         return h;
     }
 
     @Override
-    public synchronized V getOrDefault(Object key, V defaultValue) {
+    public synchronized V getOrDefbult(Object key, V defbultVblue) {
         V result = get(key);
-        return (null == result) ? defaultValue : result;
+        return (null == result) ? defbultVblue : result;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public synchronized void forEach(BiConsumer<? super K, ? super V> action) {
-        Objects.requireNonNull(action);     // explicit check required in case
-                                            // table is empty.
-        final int expectedModCount = modCount;
+    public synchronized void forEbch(BiConsumer<? super K, ? super V> bction) {
+        Objects.requireNonNull(bction);     // explicit check required in cbse
+                                            // tbble is empty.
+        finbl int expectedModCount = modCount;
 
-        Entry<?, ?>[] tab = table;
-        for (Entry<?, ?> entry : tab) {
+        Entry<?, ?>[] tbb = tbble;
+        for (Entry<?, ?> entry : tbb) {
             while (entry != null) {
-                action.accept((K)entry.key, (V)entry.value);
+                bction.bccept((K)entry.key, (V)entry.vblue);
                 entry = entry.next;
 
                 if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
                 }
             }
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public synchronized void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-        Objects.requireNonNull(function);     // explicit check required in case
-                                              // table is empty.
-        final int expectedModCount = modCount;
+    public synchronized void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+        Objects.requireNonNull(function);     // explicit check required in cbse
+                                              // tbble is empty.
+        finbl int expectedModCount = modCount;
 
-        Entry<K, V>[] tab = (Entry<K, V>[])table;
-        for (Entry<K, V> entry : tab) {
+        Entry<K, V>[] tbb = (Entry<K, V>[])tbble;
+        for (Entry<K, V> entry : tbb) {
             while (entry != null) {
-                entry.value = Objects.requireNonNull(
-                    function.apply(entry.key, entry.value));
+                entry.vblue = Objects.requireNonNull(
+                    function.bpply(entry.key, entry.vblue));
                 entry = entry.next;
 
                 if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
                 }
             }
         }
     }
 
     @Override
-    public synchronized V putIfAbsent(K key, V value) {
-        Objects.requireNonNull(value);
+    public synchronized V putIfAbsent(K key, V vblue) {
+        Objects.requireNonNull(vblue);
 
-        // Makes sure the key is not already in the hashtable.
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> entry = (Entry<K,V>)tab[index];
+        // Mbkes sure the key is not blrebdy in the hbshtbble.
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> entry = (Entry<K,V>)tbb[index];
         for (; entry != null; entry = entry.next) {
-            if ((entry.hash == hash) && entry.key.equals(key)) {
-                V old = entry.value;
+            if ((entry.hbsh == hbsh) && entry.key.equbls(key)) {
+                V old = entry.vblue;
                 if (old == null) {
-                    entry.value = value;
+                    entry.vblue = vblue;
                 }
                 return old;
             }
         }
 
-        addEntry(hash, key, value, index);
+        bddEntry(hbsh, key, vblue, index);
         return null;
     }
 
     @Override
-    public synchronized boolean remove(Object key, Object value) {
-        Objects.requireNonNull(value);
+    public synchronized boolebn remove(Object key, Object vblue) {
+        Objects.requireNonNull(vblue);
 
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>)tbb[index];
         for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key) && e.value.equals(value)) {
+            if ((e.hbsh == hbsh) && e.key.equbls(key) && e.vblue.equbls(vblue)) {
                 if (prev != null) {
                     prev.next = e.next;
                 } else {
-                    tab[index] = e.next;
+                    tbb[index] = e.next;
                 }
-                e.value = null; // clear for gc
+                e.vblue = null; // clebr for gc
                 modCount++;
                 count--;
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public synchronized boolean replace(K key, V oldValue, V newValue) {
-        Objects.requireNonNull(oldValue);
-        Objects.requireNonNull(newValue);
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
+    public synchronized boolebn replbce(K key, V oldVblue, V newVblue) {
+        Objects.requireNonNull(oldVblue);
+        Objects.requireNonNull(newVblue);
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>)tbb[index];
         for (; e != null; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                if (e.value.equals(oldValue)) {
-                    e.value = newValue;
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
+                if (e.vblue.equbls(oldVblue)) {
+                    e.vblue = newVblue;
                     return true;
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public synchronized V replace(K key, V value) {
-        Objects.requireNonNull(value);
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
+    public synchronized V replbce(K key, V vblue) {
+        Objects.requireNonNull(vblue);
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>)tbb[index];
         for (; e != null; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                V oldValue = e.value;
-                e.value = value;
-                return oldValue;
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
+                V oldVblue = e.vblue;
+                e.vblue = vblue;
+                return oldVblue;
             }
         }
         return null;
     }
 
     @Override
-    public synchronized V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
-        Objects.requireNonNull(mappingFunction);
+    public synchronized V computeIfAbsent(K key, Function<? super K, ? extends V> mbppingFunction) {
+        Objects.requireNonNull(mbppingFunction);
 
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>)tbb[index];
         for (; e != null; e = e.next) {
-            if (e.hash == hash && e.key.equals(key)) {
-                // Hashtable not accept null value
-                return e.value;
+            if (e.hbsh == hbsh && e.key.equbls(key)) {
+                // Hbshtbble not bccept null vblue
+                return e.vblue;
             }
         }
 
-        V newValue = mappingFunction.apply(key);
-        if (newValue != null) {
-            addEntry(hash, key, newValue, index);
+        V newVblue = mbppingFunction.bpply(key);
+        if (newVblue != null) {
+            bddEntry(hbsh, key, newVblue, index);
         }
 
-        return newValue;
+        return newVblue;
     }
 
     @Override
-    public synchronized V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-        Objects.requireNonNull(remappingFunction);
+    public synchronized V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+        Objects.requireNonNull(rembppingFunction);
 
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>)tbb[index];
         for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-            if (e.hash == hash && e.key.equals(key)) {
-                V newValue = remappingFunction.apply(key, e.value);
-                if (newValue == null) {
+            if (e.hbsh == hbsh && e.key.equbls(key)) {
+                V newVblue = rembppingFunction.bpply(key, e.vblue);
+                if (newVblue == null) {
                     if (prev != null) {
                         prev.next = e.next;
                     } else {
-                        tab[index] = e.next;
+                        tbb[index] = e.next;
                     }
                     modCount++;
                     count--;
                 } else {
-                    e.value = newValue;
+                    e.vblue = newVblue;
                 }
-                return newValue;
+                return newVblue;
             }
         }
         return null;
     }
 
     @Override
-    public synchronized V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-        Objects.requireNonNull(remappingFunction);
+    public synchronized V compute(K key, BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+        Objects.requireNonNull(rembppingFunction);
 
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>)tbb[index];
         for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-            if (e.hash == hash && Objects.equals(e.key, key)) {
-                V newValue = remappingFunction.apply(key, e.value);
-                if (newValue == null) {
+            if (e.hbsh == hbsh && Objects.equbls(e.key, key)) {
+                V newVblue = rembppingFunction.bpply(key, e.vblue);
+                if (newVblue == null) {
                     if (prev != null) {
                         prev.next = e.next;
                     } else {
-                        tab[index] = e.next;
+                        tbb[index] = e.next;
                     }
                     modCount++;
                     count--;
                 } else {
-                    e.value = newValue;
+                    e.vblue = newVblue;
                 }
-                return newValue;
+                return newVblue;
             }
         }
 
-        V newValue = remappingFunction.apply(key, null);
-        if (newValue != null) {
-            addEntry(hash, key, newValue, index);
+        V newVblue = rembppingFunction.bpply(key, null);
+        if (newVblue != null) {
+            bddEntry(hbsh, key, newVblue, index);
         }
 
-        return newValue;
+        return newVblue;
     }
 
     @Override
-    public synchronized V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-        Objects.requireNonNull(remappingFunction);
+    public synchronized V merge(K key, V vblue, BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+        Objects.requireNonNull(rembppingFunction);
 
-        Entry<?,?> tab[] = table;
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        @SuppressWarnings("unchecked")
-        Entry<K,V> e = (Entry<K,V>)tab[index];
+        Entry<?,?> tbb[] = tbble;
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        @SuppressWbrnings("unchecked")
+        Entry<K,V> e = (Entry<K,V>)tbb[index];
         for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-            if (e.hash == hash && e.key.equals(key)) {
-                V newValue = remappingFunction.apply(e.value, value);
-                if (newValue == null) {
+            if (e.hbsh == hbsh && e.key.equbls(key)) {
+                V newVblue = rembppingFunction.bpply(e.vblue, vblue);
+                if (newVblue == null) {
                     if (prev != null) {
                         prev.next = e.next;
                     } else {
-                        tab[index] = e.next;
+                        tbb[index] = e.next;
                     }
                     modCount++;
                     count--;
                 } else {
-                    e.value = newValue;
+                    e.vblue = newVblue;
                 }
-                return newValue;
+                return newVblue;
             }
         }
 
-        if (value != null) {
-            addEntry(hash, key, value, index);
+        if (vblue != null) {
+            bddEntry(hbsh, key, vblue, index);
         }
 
-        return value;
+        return vblue;
     }
 
     /**
-     * Save the state of the Hashtable to a stream (i.e., serialize it).
+     * Sbve the stbte of the Hbshtbble to b strebm (i.e., seriblize it).
      *
-     * @serialData The <i>capacity</i> of the Hashtable (the length of the
-     *             bucket array) is emitted (int), followed by the
-     *             <i>size</i> of the Hashtable (the number of key-value
-     *             mappings), followed by the key (Object) and value (Object)
-     *             for each key-value mapping represented by the Hashtable
-     *             The key-value mappings are emitted in no particular order.
+     * @seriblDbtb The <i>cbpbcity</i> of the Hbshtbble (the length of the
+     *             bucket brrby) is emitted (int), followed by the
+     *             <i>size</i> of the Hbshtbble (the number of key-vblue
+     *             mbppings), followed by the key (Object) bnd vblue (Object)
+     *             for ebch key-vblue mbpping represented by the Hbshtbble
+     *             The key-vblue mbppings bre emitted in no pbrticulbr order.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
             throws IOException {
-        Entry<Object, Object> entryStack = null;
+        Entry<Object, Object> entryStbck = null;
 
         synchronized (this) {
-            // Write out the length, threshold, loadfactor
-            s.defaultWriteObject();
+            // Write out the length, threshold, lobdfbctor
+            s.defbultWriteObject();
 
             // Write out length, count of elements
-            s.writeInt(table.length);
+            s.writeInt(tbble.length);
             s.writeInt(count);
 
-            // Stack copies of the entries in the table
-            for (Entry<?, ?> entry : table) {
+            // Stbck copies of the entries in the tbble
+            for (Entry<?, ?> entry : tbble) {
 
                 while (entry != null) {
-                    entryStack =
-                        new Entry<>(0, entry.key, entry.value, entryStack);
+                    entryStbck =
+                        new Entry<>(0, entry.key, entry.vblue, entryStbck);
                     entry = entry.next;
                 }
             }
         }
 
-        // Write out the key/value objects from the stacked entries
-        while (entryStack != null) {
-            s.writeObject(entryStack.key);
-            s.writeObject(entryStack.value);
-            entryStack = entryStack.next;
+        // Write out the key/vblue objects from the stbcked entries
+        while (entryStbck != null) {
+            s.writeObject(entryStbck.key);
+            s.writeObject(entryStbck.vblue);
+            entryStbck = entryStbck.next;
         }
     }
 
     /**
-     * Reconstitute the Hashtable from a stream (i.e., deserialize it).
+     * Reconstitute the Hbshtbble from b strebm (i.e., deseriblize it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        // Read in the length, threshold, and loadfactor
-        s.defaultReadObject();
+        // Rebd in the length, threshold, bnd lobdfbctor
+        s.defbultRebdObject();
 
-        // Read the original length of the array and number of elements
-        int origlength = s.readInt();
-        int elements = s.readInt();
+        // Rebd the originbl length of the brrby bnd number of elements
+        int origlength = s.rebdInt();
+        int elements = s.rebdInt();
 
-        // Compute new size with a bit of room 5% to grow but
-        // no larger than the original size.  Make the length
-        // odd if it's large enough, this helps distribute the entries.
-        // Guard against the length ending up zero, that's not valid.
-        int length = (int)(elements * loadFactor) + (elements / 20) + 3;
+        // Compute new size with b bit of room 5% to grow but
+        // no lbrger thbn the originbl size.  Mbke the length
+        // odd if it's lbrge enough, this helps distribute the entries.
+        // Gubrd bgbinst the length ending up zero, thbt's not vblid.
+        int length = (int)(elements * lobdFbctor) + (elements / 20) + 3;
         if (length > elements && (length & 1) == 0)
             length--;
         if (origlength > 0 && length > origlength)
             length = origlength;
-        table = new Entry<?,?>[length];
-        threshold = (int)Math.min(length * loadFactor, MAX_ARRAY_SIZE + 1);
+        tbble = new Entry<?,?>[length];
+        threshold = (int)Mbth.min(length * lobdFbctor, MAX_ARRAY_SIZE + 1);
         count = 0;
 
-        // Read the number of elements and then all the key/value objects
+        // Rebd the number of elements bnd then bll the key/vblue objects
         for (; elements > 0; elements--) {
-            @SuppressWarnings("unchecked")
-                K key = (K)s.readObject();
-            @SuppressWarnings("unchecked")
-                V value = (V)s.readObject();
-            // synch could be eliminated for performance
-            reconstitutionPut(table, key, value);
+            @SuppressWbrnings("unchecked")
+                K key = (K)s.rebdObject();
+            @SuppressWbrnings("unchecked")
+                V vblue = (V)s.rebdObject();
+            // synch could be eliminbted for performbnce
+            reconstitutionPut(tbble, key, vblue);
         }
     }
 
     /**
-     * The put method used by readObject. This is provided because put
-     * is overridable and should not be called in readObject since the
-     * subclass will not yet be initialized.
+     * The put method used by rebdObject. This is provided becbuse put
+     * is overridbble bnd should not be cblled in rebdObject since the
+     * subclbss will not yet be initiblized.
      *
-     * <p>This differs from the regular put method in several ways. No
-     * checking for rehashing is necessary since the number of elements
-     * initially in the table is known. The modCount is not incremented
-     * because we are creating a new instance. Also, no return value
+     * <p>This differs from the regulbr put method in severbl wbys. No
+     * checking for rehbshing is necessbry since the number of elements
+     * initiblly in the tbble is known. The modCount is not incremented
+     * becbuse we bre crebting b new instbnce. Also, no return vblue
      * is needed.
      */
-    private void reconstitutionPut(Entry<?,?>[] tab, K key, V value)
-        throws StreamCorruptedException
+    privbte void reconstitutionPut(Entry<?,?>[] tbb, K key, V vblue)
+        throws StrebmCorruptedException
     {
-        if (value == null) {
-            throw new java.io.StreamCorruptedException();
+        if (vblue == null) {
+            throw new jbvb.io.StrebmCorruptedException();
         }
-        // Makes sure the key is not already in the hashtable.
-        // This should not happen in deserialized version.
-        int hash = key.hashCode();
-        int index = (hash & 0x7FFFFFFF) % tab.length;
-        for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                throw new java.io.StreamCorruptedException();
+        // Mbkes sure the key is not blrebdy in the hbshtbble.
+        // This should not hbppen in deseriblized version.
+        int hbsh = key.hbshCode();
+        int index = (hbsh & 0x7FFFFFFF) % tbb.length;
+        for (Entry<?,?> e = tbb[index] ; e != null ; e = e.next) {
+            if ((e.hbsh == hbsh) && e.key.equbls(key)) {
+                throw new jbvb.io.StrebmCorruptedException();
             }
         }
-        // Creates the new entry.
-        @SuppressWarnings("unchecked")
-            Entry<K,V> e = (Entry<K,V>)tab[index];
-        tab[index] = new Entry<>(hash, key, value, e);
+        // Crebtes the new entry.
+        @SuppressWbrnings("unchecked")
+            Entry<K,V> e = (Entry<K,V>)tbb[index];
+        tbb[index] = new Entry<>(hbsh, key, vblue, e);
         count++;
     }
 
     /**
-     * Hashtable bucket collision list entry
+     * Hbshtbble bucket collision list entry
      */
-    private static class Entry<K,V> implements Map.Entry<K,V> {
-        final int hash;
-        final K key;
-        V value;
+    privbte stbtic clbss Entry<K,V> implements Mbp.Entry<K,V> {
+        finbl int hbsh;
+        finbl K key;
+        V vblue;
         Entry<K,V> next;
 
-        protected Entry(int hash, K key, V value, Entry<K,V> next) {
-            this.hash = hash;
+        protected Entry(int hbsh, K key, V vblue, Entry<K,V> next) {
+            this.hbsh = hbsh;
             this.key =  key;
-            this.value = value;
+            this.vblue = vblue;
             this.next = next;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         protected Object clone() {
-            return new Entry<>(hash, key, value,
+            return new Entry<>(hbsh, key, vblue,
                                   (next==null ? null : (Entry<K,V>) next.clone()));
         }
 
-        // Map.Entry Ops
+        // Mbp.Entry Ops
 
         public K getKey() {
             return key;
         }
 
-        public V getValue() {
-            return value;
+        public V getVblue() {
+            return vblue;
         }
 
-        public V setValue(V value) {
-            if (value == null)
+        public V setVblue(V vblue) {
+            if (vblue == null)
                 throw new NullPointerException();
 
-            V oldValue = this.value;
-            this.value = value;
-            return oldValue;
+            V oldVblue = this.vblue;
+            this.vblue = vblue;
+            return oldVblue;
         }
 
-        public boolean equals(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> e = (Map.Entry<?,?>)o;
+        public boolebn equbls(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> e = (Mbp.Entry<?,?>)o;
 
-            return (key==null ? e.getKey()==null : key.equals(e.getKey())) &&
-               (value==null ? e.getValue()==null : value.equals(e.getValue()));
+            return (key==null ? e.getKey()==null : key.equbls(e.getKey())) &&
+               (vblue==null ? e.getVblue()==null : vblue.equbls(e.getVblue()));
         }
 
-        public int hashCode() {
-            return hash ^ Objects.hashCode(value);
+        public int hbshCode() {
+            return hbsh ^ Objects.hbshCode(vblue);
         }
 
         public String toString() {
-            return key.toString()+"="+value.toString();
+            return key.toString()+"="+vblue.toString();
         }
     }
 
-    // Types of Enumerations/Iterations
-    private static final int KEYS = 0;
-    private static final int VALUES = 1;
-    private static final int ENTRIES = 2;
+    // Types of Enumerbtions/Iterbtions
+    privbte stbtic finbl int KEYS = 0;
+    privbte stbtic finbl int VALUES = 1;
+    privbte stbtic finbl int ENTRIES = 2;
 
     /**
-     * A hashtable enumerator class.  This class implements both the
-     * Enumeration and Iterator interfaces, but individual instances
-     * can be created with the Iterator methods disabled.  This is necessary
-     * to avoid unintentionally increasing the capabilities granted a user
-     * by passing an Enumeration.
+     * A hbshtbble enumerbtor clbss.  This clbss implements both the
+     * Enumerbtion bnd Iterbtor interfbces, but individubl instbnces
+     * cbn be crebted with the Iterbtor methods disbbled.  This is necessbry
+     * to bvoid unintentionblly increbsing the cbpbbilities grbnted b user
+     * by pbssing bn Enumerbtion.
      */
-    private class Enumerator<T> implements Enumeration<T>, Iterator<T> {
-        final Entry<?,?>[] table = Hashtable.this.table;
-        int index = table.length;
+    privbte clbss Enumerbtor<T> implements Enumerbtion<T>, Iterbtor<T> {
+        finbl Entry<?,?>[] tbble = Hbshtbble.this.tbble;
+        int index = tbble.length;
         Entry<?,?> entry;
-        Entry<?,?> lastReturned;
-        final int type;
+        Entry<?,?> lbstReturned;
+        finbl int type;
 
         /**
-         * Indicates whether this Enumerator is serving as an Iterator
-         * or an Enumeration.  (true -> Iterator).
+         * Indicbtes whether this Enumerbtor is serving bs bn Iterbtor
+         * or bn Enumerbtion.  (true -> Iterbtor).
          */
-        final boolean iterator;
+        finbl boolebn iterbtor;
 
         /**
-         * The modCount value that the iterator believes that the backing
-         * Hashtable should have.  If this expectation is violated, the iterator
-         * has detected concurrent modification.
+         * The modCount vblue thbt the iterbtor believes thbt the bbcking
+         * Hbshtbble should hbve.  If this expectbtion is violbted, the iterbtor
+         * hbs detected concurrent modificbtion.
          */
-        protected int expectedModCount = Hashtable.this.modCount;
+        protected int expectedModCount = Hbshtbble.this.modCount;
 
-        Enumerator(int type, boolean iterator) {
+        Enumerbtor(int type, boolebn iterbtor) {
             this.type = type;
-            this.iterator = iterator;
+            this.iterbtor = iterbtor;
         }
 
-        public boolean hasMoreElements() {
+        public boolebn hbsMoreElements() {
             Entry<?,?> e = entry;
             int i = index;
-            Entry<?,?>[] t = table;
-            /* Use locals for faster loop iteration */
+            Entry<?,?>[] t = tbble;
+            /* Use locbls for fbster loop iterbtion */
             while (e == null && i > 0) {
                 e = t[--i];
             }
@@ -1342,64 +1342,64 @@ public class Hashtable<K,V>
             return e != null;
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public T nextElement() {
             Entry<?,?> et = entry;
             int i = index;
-            Entry<?,?>[] t = table;
-            /* Use locals for faster loop iteration */
+            Entry<?,?>[] t = tbble;
+            /* Use locbls for fbster loop iterbtion */
             while (et == null && i > 0) {
                 et = t[--i];
             }
             entry = et;
             index = i;
             if (et != null) {
-                Entry<?,?> e = lastReturned = entry;
+                Entry<?,?> e = lbstReturned = entry;
                 entry = e.next;
-                return type == KEYS ? (T)e.key : (type == VALUES ? (T)e.value : (T)e);
+                return type == KEYS ? (T)e.key : (type == VALUES ? (T)e.vblue : (T)e);
             }
-            throw new NoSuchElementException("Hashtable Enumerator");
+            throw new NoSuchElementException("Hbshtbble Enumerbtor");
         }
 
-        // Iterator methods
-        public boolean hasNext() {
-            return hasMoreElements();
+        // Iterbtor methods
+        public boolebn hbsNext() {
+            return hbsMoreElements();
         }
 
         public T next() {
-            if (Hashtable.this.modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+            if (Hbshtbble.this.modCount != expectedModCount)
+                throw new ConcurrentModificbtionException();
             return nextElement();
         }
 
         public void remove() {
-            if (!iterator)
-                throw new UnsupportedOperationException();
-            if (lastReturned == null)
-                throw new IllegalStateException("Hashtable Enumerator");
+            if (!iterbtor)
+                throw new UnsupportedOperbtionException();
+            if (lbstReturned == null)
+                throw new IllegblStbteException("Hbshtbble Enumerbtor");
             if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
 
-            synchronized(Hashtable.this) {
-                Entry<?,?>[] tab = Hashtable.this.table;
-                int index = (lastReturned.hash & 0x7FFFFFFF) % tab.length;
+            synchronized(Hbshtbble.this) {
+                Entry<?,?>[] tbb = Hbshtbble.this.tbble;
+                int index = (lbstReturned.hbsh & 0x7FFFFFFF) % tbb.length;
 
-                @SuppressWarnings("unchecked")
-                Entry<K,V> e = (Entry<K,V>)tab[index];
+                @SuppressWbrnings("unchecked")
+                Entry<K,V> e = (Entry<K,V>)tbb[index];
                 for(Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-                    if (e == lastReturned) {
+                    if (e == lbstReturned) {
                         if (prev == null)
-                            tab[index] = e.next;
+                            tbb[index] = e.next;
                         else
                             prev.next = e.next;
                         expectedModCount++;
-                        lastReturned = null;
-                        Hashtable.this.modCount++;
-                        Hashtable.this.count--;
+                        lbstReturned = null;
+                        Hbshtbble.this.modCount++;
+                        Hbshtbble.this.count--;
                         return;
                     }
                 }
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             }
         }
     }

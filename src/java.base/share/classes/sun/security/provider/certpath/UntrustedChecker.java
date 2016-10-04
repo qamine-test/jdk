@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXCertPathChecker;
-import java.util.Set;
-import java.util.Collection;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.util.Set;
+import jbvb.util.Collection;
 import sun.security.util.Debug;
-import sun.security.util.UntrustedCertificates;
+import sun.security.util.UntrustedCertificbtes;
 
 /**
- * A <code>PKIXCertPathChecker</code> implementation to check whether a
- * specified certificate is distrusted.
+ * A <code>PKIXCertPbthChecker</code> implementbtion to check whether b
+ * specified certificbte is distrusted.
  *
- * @see PKIXCertPathChecker
- * @see PKIXParameters
+ * @see PKIXCertPbthChecker
+ * @see PKIXPbrbmeters
  */
-final public class UntrustedChecker extends PKIXCertPathChecker {
+finbl public clbss UntrustedChecker extends PKIXCertPbthChecker {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
     /**
-     * Default Constructor
+     * Defbult Constructor
      */
     public UntrustedChecker() {
-        // blank
+        // blbnk
     }
 
     @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        // Note that this class supports both forward and reverse modes.
+    public void init(boolebn forwbrd) throws CertPbthVblidbtorException {
+        // Note thbt this clbss supports both forwbrd bnd reverse modes.
     }
 
     @Override
-    public boolean isForwardCheckingSupported() {
-        // Note that this class supports both forward and reverse modes.
+    public boolebn isForwbrdCheckingSupported() {
+        // Note thbt this clbss supports both forwbrd bnd reverse modes.
         return true;
     }
 
@@ -69,20 +69,20 @@ final public class UntrustedChecker extends PKIXCertPathChecker {
     }
 
     @Override
-    public void check(Certificate cert,
+    public void check(Certificbte cert,
             Collection<String> unresolvedCritExts)
-            throws CertPathValidatorException {
+            throws CertPbthVblidbtorException {
 
-        X509Certificate currCert = (X509Certificate)cert;
+        X509Certificbte currCert = (X509Certificbte)cert;
 
-        if (UntrustedCertificates.isUntrusted(currCert)) {
+        if (UntrustedCertificbtes.isUntrusted(currCert)) {
             if (debug != null) {
-                debug.println("UntrustedChecker: untrusted certificate " +
-                        currCert.getSubjectX500Principal());
+                debug.println("UntrustedChecker: untrusted certificbte " +
+                        currCert.getSubjectX500Principbl());
             }
 
-            throw new CertPathValidatorException(
-                "Untrusted certificate: " + currCert.getSubjectX500Principal());
+            throw new CertPbthVblidbtorException(
+                "Untrusted certificbte: " + currCert.getSubjectX500Principbl());
         }
     }
 }

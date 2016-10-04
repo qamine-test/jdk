@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.lang.ref.*;
+import jbvb.lbng.ref.*;
 import sun.rmi.runtime.Log;
 
 /**
- * WeakRef objects are used by the RMI runtime to hold potentially weak
- * references to exported remote objects in the local object table.
+ * WebkRef objects bre used by the RMI runtime to hold potentiblly webk
+ * references to exported remote objects in the locbl object tbble.
  *
- * This class extends the functionality of java.lang.ref.WeakReference in
- * several ways.  The methods pin() and unpin() can be used to set
- * whether the contained reference is strong or weak (it is weak upon
- * construction).  The hashCode() and equals() methods are overridden so
- * that WeakRef objects hash and compare to each other according to the
+ * This clbss extends the functionblity of jbvb.lbng.ref.WebkReference in
+ * severbl wbys.  The methods pin() bnd unpin() cbn be used to set
+ * whether the contbined reference is strong or webk (it is webk upon
+ * construction).  The hbshCode() bnd equbls() methods bre overridden so
+ * thbt WebkRef objects hbsh bnd compbre to ebch other bccording to the
  * object identity of their referents.
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
+ * @buthor  Ann Wollrbth
+ * @buthor  Peter Jones
  */
-class WeakRef extends WeakReference<Object> {
+clbss WebkRef extends WebkReference<Object> {
 
-    /** value of the referent's "identity" hash code */
-    private int hashValue;
+    /** vblue of the referent's "identity" hbsh code */
+    privbte int hbshVblue;
 
-    /** strong reference to the referent, for when this WeakRef is "pinned" */
-    private Object strongRef = null;
+    /** strong reference to the referent, for when this WebkRef is "pinned" */
+    privbte Object strongRef = null;
 
     /**
-     * Create a new WeakRef to the given object.
+     * Crebte b new WebkRef to the given object.
      */
-    public WeakRef(Object obj) {
+    public WebkRef(Object obj) {
         super(obj);
-        setHashValue(obj);      // cache object's "identity" hash code
+        setHbshVblue(obj);      // cbche object's "identity" hbsh code
     }
 
     /**
-     * Create a new WeakRef to the given object, registered with a queue.
+     * Crebte b new WebkRef to the given object, registered with b queue.
      */
-    public WeakRef(Object obj, ReferenceQueue<Object> q) {
+    public WebkRef(Object obj, ReferenceQueue<Object> q) {
         super(obj, q);
-        setHashValue(obj);      // cache object's "identity" hash code
+        setHbshVblue(obj);      // cbche object's "identity" hbsh code
     }
 
     /**
-     * Pin the contained reference (make this a strong reference).
+     * Pin the contbined reference (mbke this b strong reference).
      */
     public synchronized void pin() {
         if (strongRef == null) {
             strongRef = get();
 
-            if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
+            if (DGCImpl.dgcLog.isLoggbble(Log.VERBOSE)) {
                 DGCImpl.dgcLog.log(Log.VERBOSE,
                                    "strongRef = " + strongRef);
             }
@@ -80,11 +80,11 @@ class WeakRef extends WeakReference<Object> {
     }
 
     /**
-     * Unpin the contained reference (make this a weak reference).
+     * Unpin the contbined reference (mbke this b webk reference).
      */
     public synchronized void unpin() {
         if (strongRef != null) {
-            if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
+            if (DGCImpl.dgcLog.isLoggbble(Log.VERBOSE)) {
                 DGCImpl.dgcLog.log(Log.VERBOSE,
                                    "strongRef = " + strongRef);
             }
@@ -94,46 +94,46 @@ class WeakRef extends WeakReference<Object> {
     }
 
     /*
-     * Cache referent's "identity" hash code (so that we still have the
-     * value after the referent gets cleared).
+     * Cbche referent's "identity" hbsh code (so thbt we still hbve the
+     * vblue bfter the referent gets clebred).
      *
-     * We cannot use the value from the object's hashCode() method, since
-     * if the object is of a remote class not extended from RemoteObject
-     * and it is trying to implement hashCode() and equals() so that it
-     * can be compared to stub objects, its own hash code could not have
-     * been initialized yet (see bugid 4102938).  Also, object table keys
-     * based on server objects are indeed matched on object identity, so
-     * this is the correct hash technique regardless.
+     * We cbnnot use the vblue from the object's hbshCode() method, since
+     * if the object is of b remote clbss not extended from RemoteObject
+     * bnd it is trying to implement hbshCode() bnd equbls() so thbt it
+     * cbn be compbred to stub objects, its own hbsh code could not hbve
+     * been initiblized yet (see bugid 4102938).  Also, object tbble keys
+     * bbsed on server objects bre indeed mbtched on object identity, so
+     * this is the correct hbsh technique regbrdless.
      */
-    private void setHashValue(Object obj) {
+    privbte void setHbshVblue(Object obj) {
         if (obj != null) {
-            hashValue = System.identityHashCode(obj);
+            hbshVblue = System.identityHbshCode(obj);
         } else {
-            hashValue = 0;
+            hbshVblue = 0;
         }
     }
 
     /**
-     * Always return the "identity" hash code of the original referent.
+     * Alwbys return the "identity" hbsh code of the originbl referent.
      */
-    public int hashCode() {
-        return hashValue;
+    public int hbshCode() {
+        return hbshVblue;
     }
 
     /**
-     * Return true if "obj" is this identical WeakRef object, or, if the
-     * contained reference has not been cleared, if "obj" is another WeakRef
-     * object with the identical non-null referent.  Otherwise, return false.
+     * Return true if "obj" is this identicbl WebkRef object, or, if the
+     * contbined reference hbs not been clebred, if "obj" is bnother WebkRef
+     * object with the identicbl non-null referent.  Otherwise, return fblse.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof WeakRef) {
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof WebkRef) {
             if (obj == this)
                 return true;
 
             Object referent = get();
-            return (referent != null) && (referent == ((WeakRef) obj).get());
+            return (referent != null) && (referent == ((WebkRef) obj).get());
         } else {
-            return false;
+            return fblse;
         }
     }
 }

@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.httpserver;
+pbckbge com.sun.net.httpserver;
 
-import java.util.Base64;
+import jbvb.util.Bbse64;
 
 /**
- * BasicAuthenticator provides an implementation of HTTP Basic
- * authentication. It is an abstract class and must be extended
- * to provide an implementation of {@link #checkCredentials(String,String)}
- * which is called to verify each incoming request.
+ * BbsicAuthenticbtor provides bn implementbtion of HTTP Bbsic
+ * buthenticbtion. It is bn bbstrbct clbss bnd must be extended
+ * to provide bn implementbtion of {@link #checkCredentibls(String,String)}
+ * which is cblled to verify ebch incoming request.
  */
 @jdk.Exported
-public abstract class BasicAuthenticator extends Authenticator {
+public bbstrbct clbss BbsicAuthenticbtor extends Authenticbtor {
 
-    protected String realm;
+    protected String reblm;
 
     /**
-     * Creates a BasicAuthenticator for the given HTTP realm
-     * @param realm The HTTP Basic authentication realm
-     * @throws NullPointerException if the realm is an empty string
+     * Crebtes b BbsicAuthenticbtor for the given HTTP reblm
+     * @pbrbm reblm The HTTP Bbsic buthenticbtion reblm
+     * @throws NullPointerException if the reblm is bn empty string
      */
-    public BasicAuthenticator (String realm) {
-        this.realm = realm;
+    public BbsicAuthenticbtor (String reblm) {
+        this.reblm = reblm;
     }
 
     /**
-     * returns the realm this BasicAuthenticator was created with
-     * @return the authenticator's realm string.
+     * returns the reblm this BbsicAuthenticbtor wbs crebted with
+     * @return the buthenticbtor's reblm string.
      */
-    public String getRealm () {
-        return realm;
+    public String getReblm () {
+        return reblm;
     }
 
-    public Result authenticate (HttpExchange t)
+    public Result buthenticbte (HttpExchbnge t)
     {
-        Headers rmap = t.getRequestHeaders();
+        Hebders rmbp = t.getRequestHebders();
         /*
-         * look for auth token
+         * look for buth token
          */
-        String auth = rmap.getFirst ("Authorization");
-        if (auth == null) {
-            Headers map = t.getResponseHeaders();
-            map.set ("WWW-Authenticate", "Basic realm=" + "\""+realm+"\"");
-            return new Authenticator.Retry (401);
+        String buth = rmbp.getFirst ("Authorizbtion");
+        if (buth == null) {
+            Hebders mbp = t.getResponseHebders();
+            mbp.set ("WWW-Authenticbte", "Bbsic reblm=" + "\""+reblm+"\"");
+            return new Authenticbtor.Retry (401);
         }
-        int sp = auth.indexOf (' ');
-        if (sp == -1 || !auth.substring(0, sp).equals ("Basic")) {
-            return new Authenticator.Failure (401);
+        int sp = buth.indexOf (' ');
+        if (sp == -1 || !buth.substring(0, sp).equbls ("Bbsic")) {
+            return new Authenticbtor.Fbilure (401);
         }
-        byte[] b = Base64.getDecoder().decode(auth.substring(sp+1));
-        String userpass = new String (b);
-        int colon = userpass.indexOf (':');
-        String uname = userpass.substring (0, colon);
-        String pass = userpass.substring (colon+1);
+        byte[] b = Bbse64.getDecoder().decode(buth.substring(sp+1));
+        String userpbss = new String (b);
+        int colon = userpbss.indexOf (':');
+        String unbme = userpbss.substring (0, colon);
+        String pbss = userpbss.substring (colon+1);
 
-        if (checkCredentials (uname, pass)) {
-            return new Authenticator.Success (
-                new HttpPrincipal (
-                    uname, realm
+        if (checkCredentibls (unbme, pbss)) {
+            return new Authenticbtor.Success (
+                new HttpPrincipbl (
+                    unbme, reblm
                 )
             );
         } else {
-            /* reject the request again with 401 */
+            /* reject the request bgbin with 401 */
 
-            Headers map = t.getResponseHeaders();
-            map.set ("WWW-Authenticate", "Basic realm=" + "\""+realm+"\"");
-            return new Authenticator.Failure(401);
+            Hebders mbp = t.getResponseHebders();
+            mbp.set ("WWW-Authenticbte", "Bbsic reblm=" + "\""+reblm+"\"");
+            return new Authenticbtor.Fbilure(401);
         }
     }
 
     /**
-     * called for each incoming request to verify the
-     * given name and password in the context of this
-     * Authenticator's realm. Any caching of credentials
-     * must be done by the implementation of this method
-     * @param username the username from the request
-     * @param password the password from the request
-     * @return <code>true</code> if the credentials are valid,
-     *    <code>false</code> otherwise.
+     * cblled for ebch incoming request to verify the
+     * given nbme bnd pbssword in the context of this
+     * Authenticbtor's reblm. Any cbching of credentibls
+     * must be done by the implementbtion of this method
+     * @pbrbm usernbme the usernbme from the request
+     * @pbrbm pbssword the pbssword from the request
+     * @return <code>true</code> if the credentibls bre vblid,
+     *    <code>fblse</code> otherwise.
      */
-    public abstract boolean checkCredentials (String username, String password);
+    public bbstrbct boolebn checkCredentibls (String usernbme, String pbssword);
 }
 

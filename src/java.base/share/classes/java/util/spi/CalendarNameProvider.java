@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.spi;
+pbckbge jbvb.util.spi;
 
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Map;
+import jbvb.util.Cblendbr;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
 
 /**
- * An abstract class for service providers that provide localized string
- * representations (display names) of {@code Calendar} field values.
+ * An bbstrbct clbss for service providers thbt provide locblized string
+ * representbtions (displby nbmes) of {@code Cblendbr} field vblues.
  *
- * <p><a name="calendartypes"><b>Calendar Types</b></a>
+ * <p><b nbme="cblendbrtypes"><b>Cblendbr Types</b></b>
  *
- * <p>Calendar types are used to specify calendar systems for which the {@link
- * #getDisplayName(String, int, int, int, Locale) getDisplayName} and {@link
- * #getDisplayNames(String, int, int, Locale) getDisplayNames} methods provide
- * calendar field value names. See {@link Calendar#getCalendarType()} for details.
+ * <p>Cblendbr types bre used to specify cblendbr systems for which the {@link
+ * #getDisplbyNbme(String, int, int, int, Locble) getDisplbyNbme} bnd {@link
+ * #getDisplbyNbmes(String, int, int, Locble) getDisplbyNbmes} methods provide
+ * cblendbr field vblue nbmes. See {@link Cblendbr#getCblendbrType()} for detbils.
  *
- * <p><b>Calendar Fields</b>
+ * <p><b>Cblendbr Fields</b>
  *
- * <p>Calendar fields are specified with the constants defined in {@link
- * Calendar}. The following are calendar-common fields and their values to be
- * supported for each calendar system.
+ * <p>Cblendbr fields bre specified with the constbnts defined in {@link
+ * Cblendbr}. The following bre cblendbr-common fields bnd their vblues to be
+ * supported for ebch cblendbr system.
  *
- * <table style="border-bottom:1px solid" border="1" cellpadding="3" cellspacing="0" summary="Field values">
+ * <tbble style="border-bottom:1px solid" border="1" cellpbdding="3" cellspbcing="0" summbry="Field vblues">
  *   <tr>
  *     <th>Field</th>
- *     <th>Value</th>
+ *     <th>Vblue</th>
  *     <th>Description</th>
  *   </tr>
  *   <tr>
- *     <td valign="top">{@link Calendar#MONTH}</td>
- *     <td valign="top">{@link Calendar#JANUARY} to {@link Calendar#UNDECIMBER}</td>
- *     <td>Month numbering is 0-based (e.g., 0 - January, ..., 11 -
- *         December). Some calendar systems have 13 months. Month
- *         names need to be supported in both the formatting and
- *         stand-alone forms if required by the supported locales. If there's
- *         no distinction in the two forms, the same names should be returned
+ *     <td vblign="top">{@link Cblendbr#MONTH}</td>
+ *     <td vblign="top">{@link Cblendbr#JANUARY} to {@link Cblendbr#UNDECIMBER}</td>
+ *     <td>Month numbering is 0-bbsed (e.g., 0 - Jbnubry, ..., 11 -
+ *         December). Some cblendbr systems hbve 13 months. Month
+ *         nbmes need to be supported in both the formbtting bnd
+ *         stbnd-blone forms if required by the supported locbles. If there's
+ *         no distinction in the two forms, the sbme nbmes should be returned
  *         in both of the forms.</td>
  *   </tr>
  *   <tr>
- *     <td valign="top">{@link Calendar#DAY_OF_WEEK}</td>
- *     <td valign="top">{@link Calendar#SUNDAY} to {@link Calendar#SATURDAY}</td>
- *     <td>Day-of-week numbering is 1-based starting from Sunday (i.e., 1 - Sunday,
- *         ..., 7 - Saturday).</td>
+ *     <td vblign="top">{@link Cblendbr#DAY_OF_WEEK}</td>
+ *     <td vblign="top">{@link Cblendbr#SUNDAY} to {@link Cblendbr#SATURDAY}</td>
+ *     <td>Dby-of-week numbering is 1-bbsed stbrting from Sundby (i.e., 1 - Sundby,
+ *         ..., 7 - Sbturdby).</td>
  *   </tr>
  *   <tr>
- *     <td valign="top">{@link Calendar#AM_PM}</td>
- *     <td valign="top">{@link Calendar#AM} to {@link Calendar#PM}</td>
+ *     <td vblign="top">{@link Cblendbr#AM_PM}</td>
+ *     <td vblign="top">{@link Cblendbr#AM} to {@link Cblendbr#PM}</td>
  *     <td>0 - AM, 1 - PM</td>
  *   </tr>
- * </table>
+ * </tbble>
  *
- * <p style="margin-top:20px">The following are calendar-specific fields and their values to be supported.
+ * <p style="mbrgin-top:20px">The following bre cblendbr-specific fields bnd their vblues to be supported.
  *
- * <table style="border-bottom:1px solid" border="1" cellpadding="3" cellspacing="0" summary="Calendar type and field values">
+ * <tbble style="border-bottom:1px solid" border="1" cellpbdding="3" cellspbcing="0" summbry="Cblendbr type bnd field vblues">
  *   <tr>
- *     <th>Calendar Type</th>
+ *     <th>Cblendbr Type</th>
  *     <th>Field</th>
- *     <th>Value</th>
+ *     <th>Vblue</th>
  *     <th>Description</th>
  *   </tr>
  *   <tr>
- *     <td rowspan="2" valign="top">{@code "gregory"}</td>
- *     <td rowspan="2" valign="top">{@link Calendar#ERA}</td>
+ *     <td rowspbn="2" vblign="top">{@code "gregory"}</td>
+ *     <td rowspbn="2" vblign="top">{@link Cblendbr#ERA}</td>
  *     <td>0</td>
- *     <td>{@link java.util.GregorianCalendar#BC} (BCE)</td>
+ *     <td>{@link jbvb.util.GregoribnCblendbr#BC} (BCE)</td>
  *   </tr>
  *   <tr>
  *     <td>1</td>
- *     <td>{@link java.util.GregorianCalendar#AD} (CE)</td>
+ *     <td>{@link jbvb.util.GregoribnCblendbr#AD} (CE)</td>
  *   </tr>
  *   <tr>
- *     <td rowspan="2" valign="top">{@code "buddhist"}</td>
- *     <td rowspan="2" valign="top">{@link Calendar#ERA}</td>
+ *     <td rowspbn="2" vblign="top">{@code "buddhist"}</td>
+ *     <td rowspbn="2" vblign="top">{@link Cblendbr#ERA}</td>
  *     <td>0</td>
  *     <td>BC (BCE)</td>
  *   </tr>
  *   <tr>
  *     <td>1</td>
- *     <td>B.E. (Buddhist Era)</td>
+ *     <td>B.E. (Buddhist Erb)</td>
  *   </tr>
  *   <tr>
- *     <td rowspan="6" valign="top">{@code "japanese"}</td>
- *     <td rowspan="5" valign="top">{@link Calendar#ERA}</td>
+ *     <td rowspbn="6" vblign="top">{@code "jbpbnese"}</td>
+ *     <td rowspbn="5" vblign="top">{@link Cblendbr#ERA}</td>
  *     <td>0</td>
  *     <td>Seireki (Before Meiji)</td>
  *   </tr>
@@ -116,27 +116,27 @@ import java.util.Map;
  *   </tr>
  *   <tr>
  *     <td>2</td>
- *     <td>Taisho</td>
+ *     <td>Tbisho</td>
  *   </tr>
  *   <tr>
  *     <td>3</td>
- *     <td>Showa</td>
+ *     <td>Showb</td>
  *   </tr>
  *   <tr>
  *     <td>4</td>
  *     <td >Heisei</td>
  *   </tr>
  *   <tr>
- *     <td>{@link Calendar#YEAR}</td>
+ *     <td>{@link Cblendbr#YEAR}</td>
  *     <td>1</td>
- *     <td>the first year in each era. It should be returned when a long
- *     style ({@link Calendar#LONG_FORMAT} or {@link Calendar#LONG_STANDALONE}) is
- *     specified. See also the <a href="../../text/SimpleDateFormat.html#year">
- *     Year representation in {@code SimpleDateFormat}</a>.</td>
+ *     <td>the first yebr in ebch erb. It should be returned when b long
+ *     style ({@link Cblendbr#LONG_FORMAT} or {@link Cblendbr#LONG_STANDALONE}) is
+ *     specified. See blso the <b href="../../text/SimpleDbteFormbt.html#yebr">
+ *     Yebr representbtion in {@code SimpleDbteFormbt}</b>.</td>
  *   </tr>
  *   <tr>
- *     <td rowspan="2" valign="top">{@code "roc"}</td>
- *     <td rowspan="2" valign="top">{@link Calendar#ERA}</td>
+ *     <td rowspbn="2" vblign="top">{@code "roc"}</td>
+ *     <td rowspbn="2" vblign="top">{@link Cblendbr#ERA}</td>
  *     <td>0</td>
  *     <td>Before R.O.C.</td>
  *   </tr>
@@ -145,147 +145,147 @@ import java.util.Map;
  *     <td>R.O.C.</td>
  *   </tr>
  *   <tr>
- *     <td rowspan="2" valign="top">{@code "islamic"}</td>
- *     <td rowspan="2" valign="top">{@link Calendar#ERA}</td>
+ *     <td rowspbn="2" vblign="top">{@code "islbmic"}</td>
+ *     <td rowspbn="2" vblign="top">{@link Cblendbr#ERA}</td>
  *     <td>0</td>
  *     <td>Before AH</td>
  *   </tr>
  *   <tr>
  *     <td>1</td>
- *     <td>Anno Hijrah (AH)</td>
+ *     <td>Anno Hijrbh (AH)</td>
  *   </tr>
- * </table>
+ * </tbble>
  *
- * <p>Calendar field value names for {@code "gregory"} must be consistent with
- * the date-time symbols provided by {@link java.text.spi.DateFormatSymbolsProvider}.
+ * <p>Cblendbr field vblue nbmes for {@code "gregory"} must be consistent with
+ * the dbte-time symbols provided by {@link jbvb.text.spi.DbteFormbtSymbolsProvider}.
  *
- * <p>Time zone names are supported by {@link TimeZoneNameProvider}.
+ * <p>Time zone nbmes bre supported by {@link TimeZoneNbmeProvider}.
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.8
- * @see CalendarDataProvider
- * @see Locale#getUnicodeLocaleType(String)
+ * @see CblendbrDbtbProvider
+ * @see Locble#getUnicodeLocbleType(String)
  */
-public abstract class CalendarNameProvider extends LocaleServiceProvider {
+public bbstrbct clbss CblendbrNbmeProvider extends LocbleServiceProvider {
     /**
-     * Sole constructor. (For invocation by subclass constructors, typically
+     * Sole constructor. (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected CalendarNameProvider() {
+    protected CblendbrNbmeProvider() {
     }
 
     /**
-     * Returns the string representation (display name) of the calendar
-     * <code>field value</code> in the given <code>style</code> and
-     * <code>locale</code>.  If no string representation is
-     * applicable, <code>null</code> is returned.
+     * Returns the string representbtion (displby nbme) of the cblendbr
+     * <code>field vblue</code> in the given <code>style</code> bnd
+     * <code>locble</code>.  If no string representbtion is
+     * bpplicbble, <code>null</code> is returned.
      *
-     * <p>{@code field} is a {@code Calendar} field index, such as {@link
-     * Calendar#MONTH}. The time zone fields, {@link Calendar#ZONE_OFFSET} and
-     * {@link Calendar#DST_OFFSET}, are <em>not</em> supported by this
-     * method. {@code null} must be returned if any time zone fields are
+     * <p>{@code field} is b {@code Cblendbr} field index, such bs {@link
+     * Cblendbr#MONTH}. The time zone fields, {@link Cblendbr#ZONE_OFFSET} bnd
+     * {@link Cblendbr#DST_OFFSET}, bre <em>not</em> supported by this
+     * method. {@code null} must be returned if bny time zone fields bre
      * specified.
      *
-     * <p>{@code value} is the numeric representation of the {@code field} value.
-     * For example, if {@code field} is {@link Calendar#DAY_OF_WEEK}, the valid
-     * values are {@link Calendar#SUNDAY} to {@link Calendar#SATURDAY}
+     * <p>{@code vblue} is the numeric representbtion of the {@code field} vblue.
+     * For exbmple, if {@code field} is {@link Cblendbr#DAY_OF_WEEK}, the vblid
+     * vblues bre {@link Cblendbr#SUNDAY} to {@link Cblendbr#SATURDAY}
      * (inclusive).
      *
-     * <p>{@code style} gives the style of the string representation. It is one
-     * of {@link Calendar#SHORT_FORMAT} ({@link Calendar#SHORT SHORT}),
-     * {@link Calendar#SHORT_STANDALONE}, {@link Calendar#LONG_FORMAT}
-     * ({@link Calendar#LONG LONG}), {@link Calendar#LONG_STANDALONE},
-     * {@link Calendar#NARROW_FORMAT}, or {@link Calendar#NARROW_STANDALONE}.
+     * <p>{@code style} gives the style of the string representbtion. It is one
+     * of {@link Cblendbr#SHORT_FORMAT} ({@link Cblendbr#SHORT SHORT}),
+     * {@link Cblendbr#SHORT_STANDALONE}, {@link Cblendbr#LONG_FORMAT}
+     * ({@link Cblendbr#LONG LONG}), {@link Cblendbr#LONG_STANDALONE},
+     * {@link Cblendbr#NARROW_FORMAT}, or {@link Cblendbr#NARROW_STANDALONE}.
      *
-     * <p>For example, the following call will return {@code "Sunday"}.
+     * <p>For exbmple, the following cbll will return {@code "Sundby"}.
      * <pre>
-     * getDisplayName("gregory", Calendar.DAY_OF_WEEK, Calendar.SUNDAY,
-     *                Calendar.LONG_STANDALONE, Locale.ENGLISH);
+     * getDisplbyNbme("gregory", Cblendbr.DAY_OF_WEEK, Cblendbr.SUNDAY,
+     *                Cblendbr.LONG_STANDALONE, Locble.ENGLISH);
      * </pre>
      *
-     * @param calendarType
-     *              the calendar type. (Any calendar type given by {@code locale}
+     * @pbrbm cblendbrType
+     *              the cblendbr type. (Any cblendbr type given by {@code locble}
      *              is ignored.)
-     * @param field
-     *              the {@code Calendar} field index,
-     *              such as {@link Calendar#DAY_OF_WEEK}
-     * @param value
-     *              the value of the {@code Calendar field},
-     *              such as {@link Calendar#MONDAY}
-     * @param style
-     *              the string representation style: one of {@link
-     *              Calendar#SHORT_FORMAT} ({@link Calendar#SHORT SHORT}),
-     *              {@link Calendar#SHORT_STANDALONE}, {@link
-     *              Calendar#LONG_FORMAT} ({@link Calendar#LONG LONG}),
-     *              {@link Calendar#LONG_STANDALONE},
-     *              {@link Calendar#NARROW_FORMAT},
-     *              or {@link Calendar#NARROW_STANDALONE}
-     * @param locale
-     *              the desired locale
-     * @return the string representation of the {@code field value}, or {@code
-     *         null} if the string representation is not applicable or
-     *         the given calendar type is unknown
-     * @throws IllegalArgumentException
-     *         if {@code field} or {@code style} is invalid
-     * @throws NullPointerException if {@code locale} is {@code null}
-     * @see TimeZoneNameProvider
-     * @see java.util.Calendar#get(int)
-     * @see java.util.Calendar#getDisplayName(int, int, Locale)
+     * @pbrbm field
+     *              the {@code Cblendbr} field index,
+     *              such bs {@link Cblendbr#DAY_OF_WEEK}
+     * @pbrbm vblue
+     *              the vblue of the {@code Cblendbr field},
+     *              such bs {@link Cblendbr#MONDAY}
+     * @pbrbm style
+     *              the string representbtion style: one of {@link
+     *              Cblendbr#SHORT_FORMAT} ({@link Cblendbr#SHORT SHORT}),
+     *              {@link Cblendbr#SHORT_STANDALONE}, {@link
+     *              Cblendbr#LONG_FORMAT} ({@link Cblendbr#LONG LONG}),
+     *              {@link Cblendbr#LONG_STANDALONE},
+     *              {@link Cblendbr#NARROW_FORMAT},
+     *              or {@link Cblendbr#NARROW_STANDALONE}
+     * @pbrbm locble
+     *              the desired locble
+     * @return the string representbtion of the {@code field vblue}, or {@code
+     *         null} if the string representbtion is not bpplicbble or
+     *         the given cblendbr type is unknown
+     * @throws IllegblArgumentException
+     *         if {@code field} or {@code style} is invblid
+     * @throws NullPointerException if {@code locble} is {@code null}
+     * @see TimeZoneNbmeProvider
+     * @see jbvb.util.Cblendbr#get(int)
+     * @see jbvb.util.Cblendbr#getDisplbyNbme(int, int, Locble)
      */
-    public abstract String getDisplayName(String calendarType,
-                                          int field, int value,
-                                          int style, Locale locale);
+    public bbstrbct String getDisplbyNbme(String cblendbrType,
+                                          int field, int vblue,
+                                          int style, Locble locble);
 
     /**
-     * Returns a {@code Map} containing all string representations (display
-     * names) of the {@code Calendar} {@code field} in the given {@code style}
-     * and {@code locale} and their corresponding field values.
+     * Returns b {@code Mbp} contbining bll string representbtions (displby
+     * nbmes) of the {@code Cblendbr} {@code field} in the given {@code style}
+     * bnd {@code locble} bnd their corresponding field vblues.
      *
-     * <p>{@code field} is a {@code Calendar} field index, such as {@link
-     * Calendar#MONTH}. The time zone fields, {@link Calendar#ZONE_OFFSET} and
-     * {@link Calendar#DST_OFFSET}, are <em>not</em> supported by this
-     * method. {@code null} must be returned if any time zone fields are specified.
+     * <p>{@code field} is b {@code Cblendbr} field index, such bs {@link
+     * Cblendbr#MONTH}. The time zone fields, {@link Cblendbr#ZONE_OFFSET} bnd
+     * {@link Cblendbr#DST_OFFSET}, bre <em>not</em> supported by this
+     * method. {@code null} must be returned if bny time zone fields bre specified.
      *
-     * <p>{@code style} gives the style of the string representation. It must be
-     * one of {@link Calendar#ALL_STYLES}, {@link Calendar#SHORT_FORMAT} ({@link
-     * Calendar#SHORT SHORT}), {@link Calendar#SHORT_STANDALONE}, {@link
-     * Calendar#LONG_FORMAT} ({@link Calendar#LONG LONG}), {@link
-     * Calendar#LONG_STANDALONE}, {@link Calendar#NARROW_FORMAT}, or
-     * {@link Calendar#NARROW_STANDALONE}. Note that narrow names may
-     * not be unique due to use of single characters, such as "S" for Sunday
-     * and Saturday, and that no narrow names are included in that case.
+     * <p>{@code style} gives the style of the string representbtion. It must be
+     * one of {@link Cblendbr#ALL_STYLES}, {@link Cblendbr#SHORT_FORMAT} ({@link
+     * Cblendbr#SHORT SHORT}), {@link Cblendbr#SHORT_STANDALONE}, {@link
+     * Cblendbr#LONG_FORMAT} ({@link Cblendbr#LONG LONG}), {@link
+     * Cblendbr#LONG_STANDALONE}, {@link Cblendbr#NARROW_FORMAT}, or
+     * {@link Cblendbr#NARROW_STANDALONE}. Note thbt nbrrow nbmes mby
+     * not be unique due to use of single chbrbcters, such bs "S" for Sundby
+     * bnd Sbturdby, bnd thbt no nbrrow nbmes bre included in thbt cbse.
      *
-     * <p>For example, the following call will return a {@code Map} containing
-     * {@code "January"} to {@link Calendar#JANUARY}, {@code "Jan"} to {@link
-     * Calendar#JANUARY}, {@code "February"} to {@link Calendar#FEBRUARY},
-     * {@code "Feb"} to {@link Calendar#FEBRUARY}, and so on.
+     * <p>For exbmple, the following cbll will return b {@code Mbp} contbining
+     * {@code "Jbnubry"} to {@link Cblendbr#JANUARY}, {@code "Jbn"} to {@link
+     * Cblendbr#JANUARY}, {@code "Februbry"} to {@link Cblendbr#FEBRUARY},
+     * {@code "Feb"} to {@link Cblendbr#FEBRUARY}, bnd so on.
      * <pre>
-     * getDisplayNames("gregory", Calendar.MONTH, Calendar.ALL_STYLES, Locale.ENGLISH);
+     * getDisplbyNbmes("gregory", Cblendbr.MONTH, Cblendbr.ALL_STYLES, Locble.ENGLISH);
      * </pre>
      *
-     * @param calendarType
-     *              the calendar type. (Any calendar type given by {@code locale}
+     * @pbrbm cblendbrType
+     *              the cblendbr type. (Any cblendbr type given by {@code locble}
      *              is ignored.)
-     * @param field
-     *              the calendar field for which the display names are returned
-     * @param style
-     *              the style applied to the display names; one of
-     *              {@link Calendar#ALL_STYLES}, {@link Calendar#SHORT_FORMAT}
-     *              ({@link Calendar#SHORT SHORT}), {@link
-     *              Calendar#SHORT_STANDALONE}, {@link Calendar#LONG_FORMAT}
-     *              ({@link Calendar#LONG LONG}), {@link Calendar#LONG_STANDALONE},
-     *              {@link Calendar#NARROW_FORMAT},
-     *              or {@link Calendar#NARROW_STANDALONE}
-     * @param locale
-     *              the desired locale
-     * @return a {@code Map} containing all display names of {@code field} in
-     *         {@code style} and {@code locale} and their {@code field} values,
-     *         or {@code null} if no display names are defined for {@code field}
+     * @pbrbm field
+     *              the cblendbr field for which the displby nbmes bre returned
+     * @pbrbm style
+     *              the style bpplied to the displby nbmes; one of
+     *              {@link Cblendbr#ALL_STYLES}, {@link Cblendbr#SHORT_FORMAT}
+     *              ({@link Cblendbr#SHORT SHORT}), {@link
+     *              Cblendbr#SHORT_STANDALONE}, {@link Cblendbr#LONG_FORMAT}
+     *              ({@link Cblendbr#LONG LONG}), {@link Cblendbr#LONG_STANDALONE},
+     *              {@link Cblendbr#NARROW_FORMAT},
+     *              or {@link Cblendbr#NARROW_STANDALONE}
+     * @pbrbm locble
+     *              the desired locble
+     * @return b {@code Mbp} contbining bll displby nbmes of {@code field} in
+     *         {@code style} bnd {@code locble} bnd their {@code field} vblues,
+     *         or {@code null} if no displby nbmes bre defined for {@code field}
      * @throws NullPointerException
-     *         if {@code locale} is {@code null}
-     * @see Calendar#getDisplayNames(int, int, Locale)
+     *         if {@code locble} is {@code null}
+     * @see Cblendbr#getDisplbyNbmes(int, int, Locble)
      */
-    public abstract Map<String, Integer> getDisplayNames(String calendarType,
+    public bbstrbct Mbp<String, Integer> getDisplbyNbmes(String cblendbrType,
                                                          int field, int style,
-                                                         Locale locale);
+                                                         Locble locble);
 }

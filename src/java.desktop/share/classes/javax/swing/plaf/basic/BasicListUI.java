@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.text.Position;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.Position;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.Transferable;
-import java.awt.geom.Point2D;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.geom.Point2D;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
 
 import sun.swing.SwingUtilities2;
-import javax.swing.plaf.basic.DragRecognitionSupport.BeforeDrag;
+import jbvbx.swing.plbf.bbsic.DrbgRecognitionSupport.BeforeDrbg;
 
 /**
- * An extensible implementation of {@code ListUI}.
+ * An extensible implementbtion of {@code ListUI}.
  * <p>
- * {@code BasicListUI} instances cannot be shared between multiple
+ * {@code BbsicListUI} instbnces cbnnot be shbred between multiple
  * lists.
  *
- * @author Hans Muller
- * @author Philip Milne
- * @author Shannon Hickey (drag and drop)
+ * @buthor Hbns Muller
+ * @buthor Philip Milne
+ * @buthor Shbnnon Hickey (drbg bnd drop)
  */
-public class BasicListUI extends ListUI
+public clbss BbsicListUI extends ListUI
 {
-    private static final StringBuilder BASELINE_COMPONENT_KEY =
-        new StringBuilder("List.baselineComponent");
+    privbte stbtic finbl StringBuilder BASELINE_COMPONENT_KEY =
+        new StringBuilder("List.bbselineComponent");
 
     /**
-     * The instance of {@code JList}.
+     * The instbnce of {@code JList}.
      */
     protected JList<Object> list = null;
     /**
-     * The instance of {@code CellRendererPane}.
+     * The instbnce of {@code CellRendererPbne}.
      */
-    protected CellRendererPane rendererPane;
+    protected CellRendererPbne rendererPbne;
 
-    // Listeners that this UI attaches to the JList
+    // Listeners thbt this UI bttbches to the JList
     /**
-     * {@code FocusListener} that attached to {@code JList}.
+     * {@code FocusListener} thbt bttbched to {@code JList}.
      */
     protected FocusListener focusListener;
     /**
-     * {@code MouseInputListener} that attached to {@code JList}.
+     * {@code MouseInputListener} thbt bttbched to {@code JList}.
      */
     protected MouseInputListener mouseInputListener;
     /**
-     * {@code ListSelectionListener} that attached to {@code JList}.
+     * {@code ListSelectionListener} thbt bttbched to {@code JList}.
      */
     protected ListSelectionListener listSelectionListener;
     /**
-     * {@code ListDataListener} that attached to {@code JList}.
+     * {@code ListDbtbListener} thbt bttbched to {@code JList}.
      */
-    protected ListDataListener listDataListener;
+    protected ListDbtbListener listDbtbListener;
     /**
-     * {@code PropertyChangeListener} that attached to {@code JList}.
+     * {@code PropertyChbngeListener} thbt bttbched to {@code JList}.
      */
-    protected PropertyChangeListener propertyChangeListener;
-    private Handler handler;
+    protected PropertyChbngeListener propertyChbngeListener;
+    privbte Hbndler hbndler;
 
     /**
-     * The array of cells' height
+     * The brrby of cells' height
      */
     protected int[] cellHeights = null;
     /**
@@ -104,170 +104,170 @@ public class BasicListUI extends ListUI
      */
     protected int cellWidth = -1;
     /**
-     * The value represents changes to {@code JList} model.
+     * The vblue represents chbnges to {@code JList} model.
      */
-    protected int updateLayoutStateNeeded = modelChanged;
+    protected int updbteLbyoutStbteNeeded = modelChbnged;
     /**
-     * Height of the list. When asked to paint, if the current size of
-     * the list differs, this will update the layout state.
+     * Height of the list. When bsked to pbint, if the current size of
+     * the list differs, this will updbte the lbyout stbte.
      */
-    private int listHeight;
+    privbte int listHeight;
 
     /**
-     * Width of the list. When asked to paint, if the current size of
-     * the list differs, this will update the layout state.
+     * Width of the list. When bsked to pbint, if the current size of
+     * the list differs, this will updbte the lbyout stbte.
      */
-    private int listWidth;
+    privbte int listWidth;
 
     /**
-     * The layout orientation of the list.
+     * The lbyout orientbtion of the list.
      */
-    private int layoutOrientation;
+    privbte int lbyoutOrientbtion;
 
-    // Following ivars are used if the list is laying out horizontally
+    // Following ivbrs bre used if the list is lbying out horizontblly
 
     /**
-     * Number of columns to create.
+     * Number of columns to crebte.
      */
-    private int columnCount;
+    privbte int columnCount;
     /**
-     * Preferred height to make the list, this is only used if the
-     * the list is layed out horizontally.
+     * Preferred height to mbke the list, this is only used if the
+     * the list is lbyed out horizontblly.
      */
-    private int preferredHeight;
+    privbte int preferredHeight;
     /**
      * Number of rows per column. This is only used if the row height is
      * fixed.
      */
-    private int rowsPerColumn;
+    privbte int rowsPerColumn;
 
     /**
-     * The time factor to treate the series of typed alphanumeric key
-     * as prefix for first letter navigation.
+     * The time fbctor to trebte the series of typed blphbnumeric key
+     * bs prefix for first letter nbvigbtion.
      */
-    private long timeFactor = 1000L;
+    privbte long timeFbctor = 1000L;
 
     /**
-     * Local cache of JList's client property "List.isFileList"
+     * Locbl cbche of JList's client property "List.isFileList"
      */
-    private boolean isFileList = false;
+    privbte boolebn isFileList = fblse;
 
     /**
-     * Local cache of JList's component orientation property
+     * Locbl cbche of JList's component orientbtion property
      */
-    private boolean isLeftToRight = true;
+    privbte boolebn isLeftToRight = true;
 
-    /* The bits below define JList property changes that affect layout.
-     * When one of these properties changes we set a bit in
-     * updateLayoutStateNeeded.  The change is dealt with lazily, see
-     * maybeUpdateLayoutState.  Changes to the JLists model, e.g. the
-     * models length changed, are handled similarly, see DataListener.
+    /* The bits below define JList property chbnges thbt bffect lbyout.
+     * When one of these properties chbnges we set b bit in
+     * updbteLbyoutStbteNeeded.  The chbnge is deblt with lbzily, see
+     * mbybeUpdbteLbyoutStbte.  Chbnges to the JLists model, e.g. the
+     * models length chbnged, bre hbndled similbrly, see DbtbListener.
      */
 
     /**
-     * The bit relates to model changed property.
+     * The bit relbtes to model chbnged property.
      */
-    protected final static int modelChanged = 1 << 0;
+    protected finbl stbtic int modelChbnged = 1 << 0;
     /**
-     * The bit relates to selection model changed property.
+     * The bit relbtes to selection model chbnged property.
      */
-    protected final static int selectionModelChanged = 1 << 1;
+    protected finbl stbtic int selectionModelChbnged = 1 << 1;
     /**
-     * The bit relates to font changed property.
+     * The bit relbtes to font chbnged property.
      */
-    protected final static int fontChanged = 1 << 2;
+    protected finbl stbtic int fontChbnged = 1 << 2;
     /**
-     * The bit relates to fixed cell width changed property.
+     * The bit relbtes to fixed cell width chbnged property.
      */
-    protected final static int fixedCellWidthChanged = 1 << 3;
+    protected finbl stbtic int fixedCellWidthChbnged = 1 << 3;
     /**
-     * The bit relates to fixed cell height changed property.
+     * The bit relbtes to fixed cell height chbnged property.
      */
-    protected final static int fixedCellHeightChanged = 1 << 4;
+    protected finbl stbtic int fixedCellHeightChbnged = 1 << 4;
     /**
-     * The bit relates to prototype cell value changed property.
+     * The bit relbtes to prototype cell vblue chbnged property.
      */
-    protected final static int prototypeCellValueChanged = 1 << 5;
+    protected finbl stbtic int prototypeCellVblueChbnged = 1 << 5;
     /**
-     * The bit relates to cell renderer changed property.
+     * The bit relbtes to cell renderer chbnged property.
      */
-    protected final static int cellRendererChanged = 1 << 6;
-    private final static int layoutOrientationChanged = 1 << 7;
-    private final static int heightChanged = 1 << 8;
-    private final static int widthChanged = 1 << 9;
-    private final static int componentOrientationChanged = 1 << 10;
+    protected finbl stbtic int cellRendererChbnged = 1 << 6;
+    privbte finbl stbtic int lbyoutOrientbtionChbnged = 1 << 7;
+    privbte finbl stbtic int heightChbnged = 1 << 8;
+    privbte finbl stbtic int widthChbnged = 1 << 9;
+    privbte finbl stbtic int componentOrientbtionChbnged = 1 << 10;
 
-    private static final int DROP_LINE_THICKNESS = 2;
+    privbte stbtic finbl int DROP_LINE_THICKNESS = 2;
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.SELECT_PREVIOUS_COLUMN));
-        map.put(new Actions(Actions.SELECT_PREVIOUS_COLUMN_EXTEND));
-        map.put(new Actions(Actions.SELECT_PREVIOUS_COLUMN_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_NEXT_COLUMN));
-        map.put(new Actions(Actions.SELECT_NEXT_COLUMN_EXTEND));
-        map.put(new Actions(Actions.SELECT_NEXT_COLUMN_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_PREVIOUS_ROW));
-        map.put(new Actions(Actions.SELECT_PREVIOUS_ROW_EXTEND));
-        map.put(new Actions(Actions.SELECT_PREVIOUS_ROW_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_NEXT_ROW));
-        map.put(new Actions(Actions.SELECT_NEXT_ROW_EXTEND));
-        map.put(new Actions(Actions.SELECT_NEXT_ROW_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_FIRST_ROW));
-        map.put(new Actions(Actions.SELECT_FIRST_ROW_EXTEND));
-        map.put(new Actions(Actions.SELECT_FIRST_ROW_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_LAST_ROW));
-        map.put(new Actions(Actions.SELECT_LAST_ROW_EXTEND));
-        map.put(new Actions(Actions.SELECT_LAST_ROW_CHANGE_LEAD));
-        map.put(new Actions(Actions.SCROLL_UP));
-        map.put(new Actions(Actions.SCROLL_UP_EXTEND));
-        map.put(new Actions(Actions.SCROLL_UP_CHANGE_LEAD));
-        map.put(new Actions(Actions.SCROLL_DOWN));
-        map.put(new Actions(Actions.SCROLL_DOWN_EXTEND));
-        map.put(new Actions(Actions.SCROLL_DOWN_CHANGE_LEAD));
-        map.put(new Actions(Actions.SELECT_ALL));
-        map.put(new Actions(Actions.CLEAR_SELECTION));
-        map.put(new Actions(Actions.ADD_TO_SELECTION));
-        map.put(new Actions(Actions.TOGGLE_AND_ANCHOR));
-        map.put(new Actions(Actions.EXTEND_TO));
-        map.put(new Actions(Actions.MOVE_SELECTION_TO));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS_COLUMN));
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS_COLUMN_EXTEND));
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS_COLUMN_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_NEXT_COLUMN));
+        mbp.put(new Actions(Actions.SELECT_NEXT_COLUMN_EXTEND));
+        mbp.put(new Actions(Actions.SELECT_NEXT_COLUMN_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS_ROW));
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS_ROW_EXTEND));
+        mbp.put(new Actions(Actions.SELECT_PREVIOUS_ROW_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_NEXT_ROW));
+        mbp.put(new Actions(Actions.SELECT_NEXT_ROW_EXTEND));
+        mbp.put(new Actions(Actions.SELECT_NEXT_ROW_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_FIRST_ROW));
+        mbp.put(new Actions(Actions.SELECT_FIRST_ROW_EXTEND));
+        mbp.put(new Actions(Actions.SELECT_FIRST_ROW_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_LAST_ROW));
+        mbp.put(new Actions(Actions.SELECT_LAST_ROW_EXTEND));
+        mbp.put(new Actions(Actions.SELECT_LAST_ROW_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SCROLL_UP));
+        mbp.put(new Actions(Actions.SCROLL_UP_EXTEND));
+        mbp.put(new Actions(Actions.SCROLL_UP_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SCROLL_DOWN));
+        mbp.put(new Actions(Actions.SCROLL_DOWN_EXTEND));
+        mbp.put(new Actions(Actions.SCROLL_DOWN_CHANGE_LEAD));
+        mbp.put(new Actions(Actions.SELECT_ALL));
+        mbp.put(new Actions(Actions.CLEAR_SELECTION));
+        mbp.put(new Actions(Actions.ADD_TO_SELECTION));
+        mbp.put(new Actions(Actions.TOGGLE_AND_ANCHOR));
+        mbp.put(new Actions(Actions.EXTEND_TO));
+        mbp.put(new Actions(Actions.MOVE_SELECTION_TO));
 
-        map.put(TransferHandler.getCutAction().getValue(Action.NAME),
-                TransferHandler.getCutAction());
-        map.put(TransferHandler.getCopyAction().getValue(Action.NAME),
-                TransferHandler.getCopyAction());
-        map.put(TransferHandler.getPasteAction().getValue(Action.NAME),
-                TransferHandler.getPasteAction());
+        mbp.put(TrbnsferHbndler.getCutAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getCutAction());
+        mbp.put(TrbnsferHbndler.getCopyAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getCopyAction());
+        mbp.put(TrbnsferHbndler.getPbsteAction().getVblue(Action.NAME),
+                TrbnsferHbndler.getPbsteAction());
     }
 
     /**
-     * Paint one List cell: compute the relevant state, get the "rubber stamp"
-     * cell renderer component, and then use the {@code CellRendererPane} to paint it.
-     * Subclasses may want to override this method rather than {@code paint()}.
+     * Pbint one List cell: compute the relevbnt stbte, get the "rubber stbmp"
+     * cell renderer component, bnd then use the {@code CellRendererPbne} to pbint it.
+     * Subclbsses mby wbnt to override this method rbther thbn {@code pbint()}.
      *
-     * @param g an instance of {@code Graphics}
-     * @param row a row
-     * @param rowBounds a bounding rectangle to render to
-     * @param cellRenderer a list of {@code ListCellRenderer}
-     * @param dataModel a list model
-     * @param selModel a selection model
-     * @param leadIndex a lead index
-     * @see #paint
+     * @pbrbm g bn instbnce of {@code Grbphics}
+     * @pbrbm row b row
+     * @pbrbm rowBounds b bounding rectbngle to render to
+     * @pbrbm cellRenderer b list of {@code ListCellRenderer}
+     * @pbrbm dbtbModel b list model
+     * @pbrbm selModel b selection model
+     * @pbrbm lebdIndex b lebd index
+     * @see #pbint
      */
-    protected void paintCell(
-        Graphics g,
+    protected void pbintCell(
+        Grbphics g,
         int row,
-        Rectangle rowBounds,
+        Rectbngle rowBounds,
         ListCellRenderer<Object> cellRenderer,
-        ListModel<Object> dataModel,
+        ListModel<Object> dbtbModel,
         ListSelectionModel selModel,
-        int leadIndex)
+        int lebdIndex)
     {
-        Object value = dataModel.getElementAt(row);
-        boolean cellHasFocus = list.hasFocus() && (row == leadIndex);
-        boolean isSelected = selModel.isSelectedIndex(row);
+        Object vblue = dbtbModel.getElementAt(row);
+        boolebn cellHbsFocus = list.hbsFocus() && (row == lebdIndex);
+        boolebn isSelected = selModel.isSelectedIndex(row);
 
         Component rendererComponent =
-            cellRenderer.getListCellRendererComponent(list, value, row, isSelected, cellHasFocus);
+            cellRenderer.getListCellRendererComponent(list, vblue, row, isSelected, cellHbsFocus);
 
         int cx = rowBounds.x;
         int cy = rowBounds.y;
@@ -276,175 +276,175 @@ public class BasicListUI extends ListUI
 
         if (isFileList) {
             // Shrink renderer to preferred size. This is mostly used on Windows
-            // where selection is only shown around the file name, instead of
-            // across the whole list cell.
-            int w = Math.min(cw, rendererComponent.getPreferredSize().width + 4);
+            // where selection is only shown bround the file nbme, instebd of
+            // bcross the whole list cell.
+            int w = Mbth.min(cw, rendererComponent.getPreferredSize().width + 4);
             if (!isLeftToRight) {
                 cx += (cw - w);
             }
             cw = w;
         }
 
-        rendererPane.paintComponent(g, rendererComponent, list, cx, cy, cw, ch, true);
+        rendererPbne.pbintComponent(g, rendererComponent, list, cx, cy, cw, ch, true);
     }
 
 
     /**
-     * Paint the rows that intersect the Graphics objects clipRect.  This
-     * method calls paintCell as necessary.  Subclasses
-     * may want to override these methods.
+     * Pbint the rows thbt intersect the Grbphics objects clipRect.  This
+     * method cblls pbintCell bs necessbry.  Subclbsses
+     * mby wbnt to override these methods.
      *
-     * @see #paintCell
+     * @see #pbintCell
      */
-    public void paint(Graphics g, JComponent c) {
-        Shape clip = g.getClip();
-        paintImpl(g, c);
+    public void pbint(Grbphics g, JComponent c) {
+        Shbpe clip = g.getClip();
+        pbintImpl(g, c);
         g.setClip(clip);
 
-        paintDropLine(g);
+        pbintDropLine(g);
     }
 
-    private void paintImpl(Graphics g, JComponent c)
+    privbte void pbintImpl(Grbphics g, JComponent c)
     {
-        switch (layoutOrientation) {
-        case JList.VERTICAL_WRAP:
+        switch (lbyoutOrientbtion) {
+        cbse JList.VERTICAL_WRAP:
             if (list.getHeight() != listHeight) {
-                updateLayoutStateNeeded |= heightChanged;
-                redrawList();
+                updbteLbyoutStbteNeeded |= heightChbnged;
+                redrbwList();
             }
-            break;
-        case JList.HORIZONTAL_WRAP:
+            brebk;
+        cbse JList.HORIZONTAL_WRAP:
             if (list.getWidth() != listWidth) {
-                updateLayoutStateNeeded |= widthChanged;
-                redrawList();
+                updbteLbyoutStbteNeeded |= widthChbnged;
+                redrbwList();
             }
-            break;
-        default:
-            break;
+            brebk;
+        defbult:
+            brebk;
         }
-        maybeUpdateLayoutState();
+        mbybeUpdbteLbyoutStbte();
 
         ListCellRenderer<Object> renderer = list.getCellRenderer();
-        ListModel<Object> dataModel = list.getModel();
+        ListModel<Object> dbtbModel = list.getModel();
         ListSelectionModel selModel = list.getSelectionModel();
         int size;
 
-        if ((renderer == null) || (size = dataModel.getSize()) == 0) {
+        if ((renderer == null) || (size = dbtbModel.getSize()) == 0) {
             return;
         }
 
-        // Determine how many columns we need to paint
-        Rectangle paintBounds = g.getClipBounds();
+        // Determine how mbny columns we need to pbint
+        Rectbngle pbintBounds = g.getClipBounds();
 
-        int startColumn, endColumn;
-        if (c.getComponentOrientation().isLeftToRight()) {
-            startColumn = convertLocationToColumn(paintBounds.x,
-                                                  paintBounds.y);
-            endColumn = convertLocationToColumn(paintBounds.x +
-                                                paintBounds.width,
-                                                paintBounds.y);
+        int stbrtColumn, endColumn;
+        if (c.getComponentOrientbtion().isLeftToRight()) {
+            stbrtColumn = convertLocbtionToColumn(pbintBounds.x,
+                                                  pbintBounds.y);
+            endColumn = convertLocbtionToColumn(pbintBounds.x +
+                                                pbintBounds.width,
+                                                pbintBounds.y);
         } else {
-            startColumn = convertLocationToColumn(paintBounds.x +
-                                                paintBounds.width,
-                                                paintBounds.y);
-            endColumn = convertLocationToColumn(paintBounds.x,
-                                                  paintBounds.y);
+            stbrtColumn = convertLocbtionToColumn(pbintBounds.x +
+                                                pbintBounds.width,
+                                                pbintBounds.y);
+            endColumn = convertLocbtionToColumn(pbintBounds.x,
+                                                  pbintBounds.y);
         }
-        int maxY = paintBounds.y + paintBounds.height;
-        int leadIndex = adjustIndex(list.getLeadSelectionIndex(), list);
-        int rowIncrement = (layoutOrientation == JList.HORIZONTAL_WRAP) ?
+        int mbxY = pbintBounds.y + pbintBounds.height;
+        int lebdIndex = bdjustIndex(list.getLebdSelectionIndex(), list);
+        int rowIncrement = (lbyoutOrientbtion == JList.HORIZONTAL_WRAP) ?
                            columnCount : 1;
 
 
-        for (int colCounter = startColumn; colCounter <= endColumn;
+        for (int colCounter = stbrtColumn; colCounter <= endColumn;
              colCounter++) {
-            // And then how many rows in this columnn
-            int row = convertLocationToRowInColumn(paintBounds.y, colCounter);
+            // And then how mbny rows in this columnn
+            int row = convertLocbtionToRowInColumn(pbintBounds.y, colCounter);
             int rowCount = getRowCount(colCounter);
             int index = getModelIndex(colCounter, row);
-            Rectangle rowBounds = getCellBounds(list, index, index);
+            Rectbngle rowBounds = getCellBounds(list, index, index);
 
             if (rowBounds == null) {
-                // Not valid, bail!
+                // Not vblid, bbil!
                 return;
             }
-            while (row < rowCount && rowBounds.y < maxY &&
+            while (row < rowCount && rowBounds.y < mbxY &&
                    index < size) {
                 rowBounds.height = getHeight(colCounter, row);
                 g.setClip(rowBounds.x, rowBounds.y, rowBounds.width,
                           rowBounds.height);
-                g.clipRect(paintBounds.x, paintBounds.y, paintBounds.width,
-                           paintBounds.height);
-                paintCell(g, index, rowBounds, renderer, dataModel, selModel,
-                          leadIndex);
+                g.clipRect(pbintBounds.x, pbintBounds.y, pbintBounds.width,
+                           pbintBounds.height);
+                pbintCell(g, index, rowBounds, renderer, dbtbModel, selModel,
+                          lebdIndex);
                 rowBounds.y += rowBounds.height;
                 index += rowIncrement;
                 row++;
             }
         }
-        // Empty out the renderer pane, allowing renderers to be gc'ed.
-        rendererPane.removeAll();
+        // Empty out the renderer pbne, bllowing renderers to be gc'ed.
+        rendererPbne.removeAll();
     }
 
-    private void paintDropLine(Graphics g) {
-        JList.DropLocation loc = list.getDropLocation();
+    privbte void pbintDropLine(Grbphics g) {
+        JList.DropLocbtion loc = list.getDropLocbtion();
         if (loc == null || !loc.isInsert()) {
             return;
         }
 
-        Color c = DefaultLookup.getColor(list, this, "List.dropLineColor", null);
+        Color c = DefbultLookup.getColor(list, this, "List.dropLineColor", null);
         if (c != null) {
             g.setColor(c);
-            Rectangle rect = getDropLineRect(loc);
+            Rectbngle rect = getDropLineRect(loc);
             g.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
     }
 
-    private Rectangle getDropLineRect(JList.DropLocation loc) {
+    privbte Rectbngle getDropLineRect(JList.DropLocbtion loc) {
         int size = list.getModel().getSize();
 
         if (size == 0) {
             Insets insets = list.getInsets();
-            if (layoutOrientation == JList.HORIZONTAL_WRAP) {
+            if (lbyoutOrientbtion == JList.HORIZONTAL_WRAP) {
                 if (isLeftToRight) {
-                    return new Rectangle(insets.left, insets.top, DROP_LINE_THICKNESS, 20);
+                    return new Rectbngle(insets.left, insets.top, DROP_LINE_THICKNESS, 20);
                 } else {
-                    return new Rectangle(list.getWidth() - DROP_LINE_THICKNESS - insets.right,
+                    return new Rectbngle(list.getWidth() - DROP_LINE_THICKNESS - insets.right,
                                          insets.top, DROP_LINE_THICKNESS, 20);
                 }
             } else {
-                return new Rectangle(insets.left, insets.top,
+                return new Rectbngle(insets.left, insets.top,
                                      list.getWidth() - insets.left - insets.right,
                                      DROP_LINE_THICKNESS);
             }
         }
 
-        Rectangle rect = null;
+        Rectbngle rect = null;
         int index = loc.getIndex();
-        boolean decr = false;
+        boolebn decr = fblse;
 
-        if (layoutOrientation == JList.HORIZONTAL_WRAP) {
+        if (lbyoutOrientbtion == JList.HORIZONTAL_WRAP) {
             if (index == size) {
                 decr = true;
             } else if (index != 0 && convertModelToRow(index)
                                          != convertModelToRow(index - 1)) {
 
-                Rectangle prev = getCellBounds(list, index - 1);
-                Rectangle me = getCellBounds(list, index);
+                Rectbngle prev = getCellBounds(list, index - 1);
+                Rectbngle me = getCellBounds(list, index);
                 Point p = loc.getDropPoint();
 
                 if (isLeftToRight) {
-                    decr = Point2D.distance(prev.x + prev.width,
+                    decr = Point2D.distbnce(prev.x + prev.width,
                                             prev.y + (int)(prev.height / 2.0),
                                             p.x, p.y)
-                           < Point2D.distance(me.x,
+                           < Point2D.distbnce(me.x,
                                               me.y + (int)(me.height / 2.0),
                                               p.x, p.y);
                 } else {
-                    decr = Point2D.distance(prev.x,
+                    decr = Point2D.distbnce(prev.x,
                                             prev.y + (int)(prev.height / 2.0),
                                             p.x, p.y)
-                           < Point2D.distance(me.x + me.width,
+                           < Point2D.distbnce(me.x + me.width,
                                               me.y + (int)(prev.height / 2.0),
                                               p.x, p.y);
                 }
@@ -472,7 +472,7 @@ public class BasicListUI extends ListUI
             }
 
             rect.width = DROP_LINE_THICKNESS;
-        } else if (layoutOrientation == JList.VERTICAL_WRAP) {
+        } else if (lbyoutOrientbtion == JList.VERTICAL_WRAP) {
             if (index == size) {
                 index--;
                 rect = getCellBounds(list, index);
@@ -480,13 +480,13 @@ public class BasicListUI extends ListUI
             } else if (index != 0 && convertModelToColumn(index)
                                          != convertModelToColumn(index - 1)) {
 
-                Rectangle prev = getCellBounds(list, index - 1);
-                Rectangle me = getCellBounds(list, index);
+                Rectbngle prev = getCellBounds(list, index - 1);
+                Rectbngle me = getCellBounds(list, index);
                 Point p = loc.getDropPoint();
-                if (Point2D.distance(prev.x + (int)(prev.width / 2.0),
+                if (Point2D.distbnce(prev.x + (int)(prev.width / 2.0),
                                      prev.y + prev.height,
                                      p.x, p.y)
-                        < Point2D.distance(me.x + (int)(me.width / 2.0),
+                        < Point2D.distbnce(me.x + (int)(me.width / 2.0),
                                            me.y,
                                            p.x, p.y)) {
 
@@ -525,122 +525,122 @@ public class BasicListUI extends ListUI
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
         int rowHeight = list.getFixedCellHeight();
-        UIDefaults lafDefaults = UIManager.getLookAndFeelDefaults();
-        Component renderer = (Component)lafDefaults.get(
+        UIDefbults lbfDefbults = UIMbnbger.getLookAndFeelDefbults();
+        Component renderer = (Component)lbfDefbults.get(
                 BASELINE_COMPONENT_KEY);
         if (renderer == null) {
-            @SuppressWarnings("unchecked")
-            ListCellRenderer<Object> lcr = (ListCellRenderer)UIManager.get(
+            @SuppressWbrnings("unchecked")
+            ListCellRenderer<Object> lcr = (ListCellRenderer)UIMbnbger.get(
                     "List.cellRenderer");
 
             // fix for 6711072 some LAFs like Nimbus do not provide this
-            // UIManager key and we should not through a NPE here because of it
+            // UIMbnbger key bnd we should not through b NPE here becbuse of it
             if (lcr == null) {
-                lcr = new DefaultListCellRenderer();
+                lcr = new DefbultListCellRenderer();
             }
             renderer = lcr.getListCellRendererComponent(
-                    list, "a", -1, false, false);
-            lafDefaults.put(BASELINE_COMPONENT_KEY, renderer);
+                    list, "b", -1, fblse, fblse);
+            lbfDefbults.put(BASELINE_COMPONENT_KEY, renderer);
         }
         renderer.setFont(list.getFont());
-        // JList actually has much more complex behavior here.
-        // If rowHeight != -1 the rowHeight is either the max of all cell
-        // heights (layout orientation != VERTICAL), or is variable depending
-        // upon the cell.  We assume a default size.
-        // We could theoretically query the real renderer, but that would
-        // not work for an empty model and the results may vary with
+        // JList bctublly hbs much more complex behbvior here.
+        // If rowHeight != -1 the rowHeight is either the mbx of bll cell
+        // heights (lbyout orientbtion != VERTICAL), or is vbribble depending
+        // upon the cell.  We bssume b defbult size.
+        // We could theoreticblly query the rebl renderer, but thbt would
+        // not work for bn empty model bnd the results mby vbry with
         // the content.
         if (rowHeight == -1) {
             rowHeight = renderer.getPreferredSize().height;
         }
-        return renderer.getBaseline(Integer.MAX_VALUE, rowHeight) +
+        return renderer.getBbseline(Integer.MAX_VALUE, rowHeight) +
                 list.getInsets().top;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+        super.getBbselineResizeBehbvior(c);
+        return Component.BbselineResizeBehbvior.CONSTANT_ASCENT;
     }
 
     /**
-     * The preferredSize of the list depends upon the layout orientation.
-     * <table summary="Describes the preferred size for each layout orientation">
-     * <tr><th>Layout Orientation</th><th>Preferred Size</th></tr>
+     * The preferredSize of the list depends upon the lbyout orientbtion.
+     * <tbble summbry="Describes the preferred size for ebch lbyout orientbtion">
+     * <tr><th>Lbyout Orientbtion</th><th>Preferred Size</th></tr>
      * <tr>
      *   <td>JList.VERTICAL
-     *   <td>The preferredSize of the list is total height of the rows
-     *       and the maximum width of the cells.  If JList.fixedCellHeight
-     *       is specified then the total height of the rows is just
-     *       (cellVerticalMargins + fixedCellHeight) * model.getSize() where
-     *       rowVerticalMargins is the space we allocate for drawing
-     *       the yellow focus outline.  Similarly if fixedCellWidth is
-     *       specified then we just use that.
+     *   <td>The preferredSize of the list is totbl height of the rows
+     *       bnd the mbximum width of the cells.  If JList.fixedCellHeight
+     *       is specified then the totbl height of the rows is just
+     *       (cellVerticblMbrgins + fixedCellHeight) * model.getSize() where
+     *       rowVerticblMbrgins is the spbce we bllocbte for drbwing
+     *       the yellow focus outline.  Similbrly if fixedCellWidth is
+     *       specified then we just use thbt.
      *   </td>
      * <tr>
      *   <td>JList.VERTICAL_WRAP
-     *   <td>If the visible row count is greater than zero, the preferredHeight
-     *       is the maximum cell height * visibleRowCount. If the visible row
+     *   <td>If the visible row count is grebter thbn zero, the preferredHeight
+     *       is the mbximum cell height * visibleRowCount. If the visible row
      *       count is &lt;= 0, the preferred height is either the current height
-     *       of the list, or the maximum cell height, whichever is
-     *       bigger. The preferred width is than the maximum cell width *
+     *       of the list, or the mbximum cell height, whichever is
+     *       bigger. The preferred width is thbn the mbximum cell width *
      *       number of columns needed. Where the number of columns needs is
-     *       list.height / max cell height. Max cell height is either the fixed
-     *       cell height, or is determined by iterating through all the cells
-     *       to find the maximum height from the ListCellRenderer.
+     *       list.height / mbx cell height. Mbx cell height is either the fixed
+     *       cell height, or is determined by iterbting through bll the cells
+     *       to find the mbximum height from the ListCellRenderer.
      * <tr>
      *   <td>JList.HORIZONTAL_WRAP
-     *   <td>If the visible row count is greater than zero, the preferredHeight
-     *       is the maximum cell height * adjustedRowCount.  Where
+     *   <td>If the visible row count is grebter thbn zero, the preferredHeight
+     *       is the mbximum cell height * bdjustedRowCount.  Where
      *       visibleRowCount is used to determine the number of columns.
-     *       Because this lays out horizontally the number of rows is
-     *       then determined from the column count.  For example, lets say
-     *       you have a model with 10 items and the visible row count is 8.
-     *       The number of columns needed to display this is 2, but you no
-     *       longer need 8 rows to display this, you only need 5, thus
-     *       the adjustedRowCount is 5.
+     *       Becbuse this lbys out horizontblly the number of rows is
+     *       then determined from the column count.  For exbmple, lets sby
+     *       you hbve b model with 10 items bnd the visible row count is 8.
+     *       The number of columns needed to displby this is 2, but you no
+     *       longer need 8 rows to displby this, you only need 5, thus
+     *       the bdjustedRowCount is 5.
      *       <p>If the visible row
-     *       count is &lt;= 0, the preferred height is dictated by the
-     *       number of columns, which will be as many as can fit in the width
-     *       of the <code>JList</code> (width / max cell width), with at
-     *       least one column.  The preferred height then becomes the
-     *       model size / number of columns * maximum cell height.
-     *       Max cell height is either the fixed
-     *       cell height, or is determined by iterating through all the cells
-     *       to find the maximum height from the ListCellRenderer.
-     * </table>
-     * The above specifies the raw preferred width and height. The resulting
-     * preferred width is the above width + insets.left + insets.right and
-     * the resulting preferred height is the above height + insets.top +
-     * insets.bottom. Where the <code>Insets</code> are determined from
+     *       count is &lt;= 0, the preferred height is dictbted by the
+     *       number of columns, which will be bs mbny bs cbn fit in the width
+     *       of the <code>JList</code> (width / mbx cell width), with bt
+     *       lebst one column.  The preferred height then becomes the
+     *       model size / number of columns * mbximum cell height.
+     *       Mbx cell height is either the fixed
+     *       cell height, or is determined by iterbting through bll the cells
+     *       to find the mbximum height from the ListCellRenderer.
+     * </tbble>
+     * The bbove specifies the rbw preferred width bnd height. The resulting
+     * preferred width is the bbove width + insets.left + insets.right bnd
+     * the resulting preferred height is the bbove height + insets.top +
+     * insets.bottom. Where the <code>Insets</code> bre determined from
      * <code>list.getInsets()</code>.
      *
-     * @param c The JList component.
-     * @return The total size of the list.
+     * @pbrbm c The JList component.
+     * @return The totbl size of the list.
      */
     public Dimension getPreferredSize(JComponent c) {
-        maybeUpdateLayoutState();
+        mbybeUpdbteLbyoutStbte();
 
-        int lastRow = list.getModel().getSize() - 1;
-        if (lastRow < 0) {
+        int lbstRow = list.getModel().getSize() - 1;
+        if (lbstRow < 0) {
             return new Dimension(0, 0);
         }
 
@@ -648,11 +648,11 @@ public class BasicListUI extends ListUI
         int width = cellWidth * columnCount + insets.left + insets.right;
         int height;
 
-        if (layoutOrientation != JList.VERTICAL) {
+        if (lbyoutOrientbtion != JList.VERTICAL) {
             height = preferredHeight;
         }
         else {
-            Rectangle bounds = getCellBounds(list, lastRow);
+            Rectbngle bounds = getCellBounds(list, lbstRow);
 
             if (bounds != null) {
                 height = bounds.y + bounds.height + insets.bottom;
@@ -666,7 +666,7 @@ public class BasicListUI extends ListUI
 
 
     /**
-     * Selected the previous row and force it to be visible.
+     * Selected the previous row bnd force it to be visible.
      *
      * @see JList#ensureIndexIsVisible
      */
@@ -681,7 +681,7 @@ public class BasicListUI extends ListUI
 
 
     /**
-     * Selected the previous row and force it to be visible.
+     * Selected the previous row bnd force it to be visible.
      *
      * @see JList#ensureIndexIsVisible
      */
@@ -697,118 +697,118 @@ public class BasicListUI extends ListUI
 
 
     /**
-     * Registers the keyboard bindings on the <code>JList</code> that the
-     * <code>BasicListUI</code> is associated with. This method is called at
-     * installUI() time.
+     * Registers the keybobrd bindings on the <code>JList</code> thbt the
+     * <code>BbsicListUI</code> is bssocibted with. This method is cblled bt
+     * instbllUI() time.
      *
-     * @see #installUI
+     * @see #instbllUI
      */
-    protected void installKeyboardActions() {
-        InputMap inputMap = getInputMap(JComponent.WHEN_FOCUSED);
+    protected void instbllKeybobrdActions() {
+        InputMbp inputMbp = getInputMbp(JComponent.WHEN_FOCUSED);
 
-        SwingUtilities.replaceUIInputMap(list, JComponent.WHEN_FOCUSED,
-                                           inputMap);
+        SwingUtilities.replbceUIInputMbp(list, JComponent.WHEN_FOCUSED,
+                                           inputMbp);
 
-        LazyActionMap.installLazyActionMap(list, BasicListUI.class,
-                                           "List.actionMap");
+        LbzyActionMbp.instbllLbzyActionMbp(list, BbsicListUI.clbss,
+                                           "List.bctionMbp");
     }
 
-    InputMap getInputMap(int condition) {
+    InputMbp getInputMbp(int condition) {
         if (condition == JComponent.WHEN_FOCUSED) {
-            InputMap keyMap = (InputMap)DefaultLookup.get(
-                             list, this, "List.focusInputMap");
-            InputMap rtlKeyMap;
+            InputMbp keyMbp = (InputMbp)DefbultLookup.get(
+                             list, this, "List.focusInputMbp");
+            InputMbp rtlKeyMbp;
 
             if (isLeftToRight ||
-                ((rtlKeyMap = (InputMap)DefaultLookup.get(list, this,
-                              "List.focusInputMap.RightToLeft")) == null)) {
-                    return keyMap;
+                ((rtlKeyMbp = (InputMbp)DefbultLookup.get(list, this,
+                              "List.focusInputMbp.RightToLeft")) == null)) {
+                    return keyMbp;
             } else {
-                rtlKeyMap.setParent(keyMap);
-                return rtlKeyMap;
+                rtlKeyMbp.setPbrent(keyMbp);
+                return rtlKeyMbp;
             }
         }
         return null;
     }
 
     /**
-     * Unregisters keyboard actions installed from
-     * <code>installKeyboardActions</code>.
-     * This method is called at uninstallUI() time - subclassess should
-     * ensure that all of the keyboard actions registered at installUI
-     * time are removed here.
+     * Unregisters keybobrd bctions instblled from
+     * <code>instbllKeybobrdActions</code>.
+     * This method is cblled bt uninstbllUI() time - subclbssess should
+     * ensure thbt bll of the keybobrd bctions registered bt instbllUI
+     * time bre removed here.
      *
-     * @see #installUI
+     * @see #instbllUI
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIActionMap(list, null);
-        SwingUtilities.replaceUIInputMap(list, JComponent.WHEN_FOCUSED, null);
+    protected void uninstbllKeybobrdActions() {
+        SwingUtilities.replbceUIActionMbp(list, null);
+        SwingUtilities.replbceUIInputMbp(list, JComponent.WHEN_FOCUSED, null);
     }
 
 
     /**
-     * Creates and installs the listeners for the JList, its model, and its
-     * selectionModel.  This method is called at installUI() time.
+     * Crebtes bnd instblls the listeners for the JList, its model, bnd its
+     * selectionModel.  This method is cblled bt instbllUI() time.
      *
-     * @see #installUI
-     * @see #uninstallListeners
+     * @see #instbllUI
+     * @see #uninstbllListeners
      */
-    protected void installListeners()
+    protected void instbllListeners()
     {
-        TransferHandler th = list.getTransferHandler();
-        if (th == null || th instanceof UIResource) {
-            list.setTransferHandler(defaultTransferHandler);
-            // default TransferHandler doesn't support drop
-            // so we don't want drop handling
-            if (list.getDropTarget() instanceof UIResource) {
-                list.setDropTarget(null);
+        TrbnsferHbndler th = list.getTrbnsferHbndler();
+        if (th == null || th instbnceof UIResource) {
+            list.setTrbnsferHbndler(defbultTrbnsferHbndler);
+            // defbult TrbnsferHbndler doesn't support drop
+            // so we don't wbnt drop hbndling
+            if (list.getDropTbrget() instbnceof UIResource) {
+                list.setDropTbrget(null);
             }
         }
 
-        focusListener = createFocusListener();
-        mouseInputListener = createMouseInputListener();
-        propertyChangeListener = createPropertyChangeListener();
-        listSelectionListener = createListSelectionListener();
-        listDataListener = createListDataListener();
+        focusListener = crebteFocusListener();
+        mouseInputListener = crebteMouseInputListener();
+        propertyChbngeListener = crebtePropertyChbngeListener();
+        listSelectionListener = crebteListSelectionListener();
+        listDbtbListener = crebteListDbtbListener();
 
-        list.addFocusListener(focusListener);
-        list.addMouseListener(mouseInputListener);
-        list.addMouseMotionListener(mouseInputListener);
-        list.addPropertyChangeListener(propertyChangeListener);
-        list.addKeyListener(getHandler());
+        list.bddFocusListener(focusListener);
+        list.bddMouseListener(mouseInputListener);
+        list.bddMouseMotionListener(mouseInputListener);
+        list.bddPropertyChbngeListener(propertyChbngeListener);
+        list.bddKeyListener(getHbndler());
 
         ListModel<Object> model = list.getModel();
         if (model != null) {
-            model.addListDataListener(listDataListener);
+            model.bddListDbtbListener(listDbtbListener);
         }
 
         ListSelectionModel selectionModel = list.getSelectionModel();
         if (selectionModel != null) {
-            selectionModel.addListSelectionListener(listSelectionListener);
+            selectionModel.bddListSelectionListener(listSelectionListener);
         }
     }
 
 
     /**
-     * Removes the listeners from the JList, its model, and its
-     * selectionModel.  All of the listener fields, are reset to
-     * null here.  This method is called at uninstallUI() time,
-     * it should be kept in sync with installListeners.
+     * Removes the listeners from the JList, its model, bnd its
+     * selectionModel.  All of the listener fields, bre reset to
+     * null here.  This method is cblled bt uninstbllUI() time,
+     * it should be kept in sync with instbllListeners.
      *
-     * @see #uninstallUI
-     * @see #installListeners
+     * @see #uninstbllUI
+     * @see #instbllListeners
      */
-    protected void uninstallListeners()
+    protected void uninstbllListeners()
     {
         list.removeFocusListener(focusListener);
         list.removeMouseListener(mouseInputListener);
         list.removeMouseMotionListener(mouseInputListener);
-        list.removePropertyChangeListener(propertyChangeListener);
-        list.removeKeyListener(getHandler());
+        list.removePropertyChbngeListener(propertyChbngeListener);
+        list.removeKeyListener(getHbndler());
 
         ListModel<Object> model = list.getModel();
         if (model != null) {
-            model.removeListDataListener(listDataListener);
+            model.removeListDbtbListener(listDbtbListener);
         }
 
         ListSelectionModel selectionModel = list.getSelectionModel();
@@ -819,62 +819,62 @@ public class BasicListUI extends ListUI
         focusListener = null;
         mouseInputListener  = null;
         listSelectionListener = null;
-        listDataListener = null;
-        propertyChangeListener = null;
-        handler = null;
+        listDbtbListener = null;
+        propertyChbngeListener = null;
+        hbndler = null;
     }
 
 
     /**
-     * Initializes list properties such as font, foreground, and background,
-     * and adds the CellRendererPane. The font, foreground, and background
-     * properties are only set if their current value is either null
-     * or a UIResource, other properties are set if the current
-     * value is null.
+     * Initiblizes list properties such bs font, foreground, bnd bbckground,
+     * bnd bdds the CellRendererPbne. The font, foreground, bnd bbckground
+     * properties bre only set if their current vblue is either null
+     * or b UIResource, other properties bre set if the current
+     * vblue is null.
      *
-     * @see #uninstallDefaults
-     * @see #installUI
-     * @see CellRendererPane
+     * @see #uninstbllDefbults
+     * @see #instbllUI
+     * @see CellRendererPbne
      */
-    protected void installDefaults()
+    protected void instbllDefbults()
     {
-        list.setLayout(null);
+        list.setLbyout(null);
 
-        LookAndFeel.installBorder(list, "List.border");
+        LookAndFeel.instbllBorder(list, "List.border");
 
-        LookAndFeel.installColorsAndFont(list, "List.background", "List.foreground", "List.font");
+        LookAndFeel.instbllColorsAndFont(list, "List.bbckground", "List.foreground", "List.font");
 
-        LookAndFeel.installProperty(list, "opaque", Boolean.TRUE);
+        LookAndFeel.instbllProperty(list, "opbque", Boolebn.TRUE);
 
         if (list.getCellRenderer() == null) {
-            @SuppressWarnings("unchecked")
-            ListCellRenderer<Object> tmp = (ListCellRenderer)(UIManager.get("List.cellRenderer"));
+            @SuppressWbrnings("unchecked")
+            ListCellRenderer<Object> tmp = (ListCellRenderer)(UIMbnbger.get("List.cellRenderer"));
             list.setCellRenderer(tmp);
         }
 
-        Color sbg = list.getSelectionBackground();
-        if (sbg == null || sbg instanceof UIResource) {
-            list.setSelectionBackground(UIManager.getColor("List.selectionBackground"));
+        Color sbg = list.getSelectionBbckground();
+        if (sbg == null || sbg instbnceof UIResource) {
+            list.setSelectionBbckground(UIMbnbger.getColor("List.selectionBbckground"));
         }
 
         Color sfg = list.getSelectionForeground();
-        if (sfg == null || sfg instanceof UIResource) {
-            list.setSelectionForeground(UIManager.getColor("List.selectionForeground"));
+        if (sfg == null || sfg instbnceof UIResource) {
+            list.setSelectionForeground(UIMbnbger.getColor("List.selectionForeground"));
         }
 
-        Long l = (Long)UIManager.get("List.timeFactor");
-        timeFactor = (l!=null) ? l.longValue() : 1000L;
+        Long l = (Long)UIMbnbger.get("List.timeFbctor");
+        timeFbctor = (l!=null) ? l.longVblue() : 1000L;
 
-        updateIsFileList();
+        updbteIsFileList();
     }
 
-    private void updateIsFileList() {
-        boolean b = Boolean.TRUE.equals(list.getClientProperty("List.isFileList"));
+    privbte void updbteIsFileList() {
+        boolebn b = Boolebn.TRUE.equbls(list.getClientProperty("List.isFileList"));
         if (b != isFileList) {
             isFileList = b;
             Font oldFont = list.getFont();
-            if (oldFont == null || oldFont instanceof UIResource) {
-                Font newFont = UIManager.getFont(b ? "FileChooser.listFont" : "List.font");
+            if (oldFont == null || oldFont instbnceof UIResource) {
+                Font newFont = UIMbnbger.getFont(b ? "FileChooser.listFont" : "List.font");
                 if (newFont != null && newFont != oldFont) {
                     list.setFont(newFont);
                 }
@@ -884,107 +884,107 @@ public class BasicListUI extends ListUI
 
 
     /**
-     * Sets the list properties that have not been explicitly overridden to
-     * {@code null}. A property is considered overridden if its current value
-     * is not a {@code UIResource}.
+     * Sets the list properties thbt hbve not been explicitly overridden to
+     * {@code null}. A property is considered overridden if its current vblue
+     * is not b {@code UIResource}.
      *
-     * @see #installDefaults
-     * @see #uninstallUI
-     * @see CellRendererPane
+     * @see #instbllDefbults
+     * @see #uninstbllUI
+     * @see CellRendererPbne
      */
-    protected void uninstallDefaults()
+    protected void uninstbllDefbults()
     {
-        LookAndFeel.uninstallBorder(list);
-        if (list.getFont() instanceof UIResource) {
+        LookAndFeel.uninstbllBorder(list);
+        if (list.getFont() instbnceof UIResource) {
             list.setFont(null);
         }
-        if (list.getForeground() instanceof UIResource) {
+        if (list.getForeground() instbnceof UIResource) {
             list.setForeground(null);
         }
-        if (list.getBackground() instanceof UIResource) {
-            list.setBackground(null);
+        if (list.getBbckground() instbnceof UIResource) {
+            list.setBbckground(null);
         }
-        if (list.getSelectionBackground() instanceof UIResource) {
-            list.setSelectionBackground(null);
+        if (list.getSelectionBbckground() instbnceof UIResource) {
+            list.setSelectionBbckground(null);
         }
-        if (list.getSelectionForeground() instanceof UIResource) {
+        if (list.getSelectionForeground() instbnceof UIResource) {
             list.setSelectionForeground(null);
         }
-        if (list.getCellRenderer() instanceof UIResource) {
+        if (list.getCellRenderer() instbnceof UIResource) {
             list.setCellRenderer(null);
         }
-        if (list.getTransferHandler() instanceof UIResource) {
-            list.setTransferHandler(null);
+        if (list.getTrbnsferHbndler() instbnceof UIResource) {
+            list.setTrbnsferHbndler(null);
         }
     }
 
 
     /**
-     * Initializes <code>this.list</code> by calling <code>installDefaults()</code>,
-     * <code>installListeners()</code>, and <code>installKeyboardActions()</code>
+     * Initiblizes <code>this.list</code> by cblling <code>instbllDefbults()</code>,
+     * <code>instbllListeners()</code>, bnd <code>instbllKeybobrdActions()</code>
      * in order.
      *
-     * @see #installDefaults
-     * @see #installListeners
-     * @see #installKeyboardActions
+     * @see #instbllDefbults
+     * @see #instbllListeners
+     * @see #instbllKeybobrdActions
      */
-    public void installUI(JComponent c)
+    public void instbllUI(JComponent c)
     {
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         JList<Object> tmp = (JList)c;
         list = tmp;
 
-        layoutOrientation = list.getLayoutOrientation();
+        lbyoutOrientbtion = list.getLbyoutOrientbtion();
 
-        rendererPane = new CellRendererPane();
-        list.add(rendererPane);
+        rendererPbne = new CellRendererPbne();
+        list.bdd(rendererPbne);
 
         columnCount = 1;
 
-        updateLayoutStateNeeded = modelChanged;
-        isLeftToRight = list.getComponentOrientation().isLeftToRight();
+        updbteLbyoutStbteNeeded = modelChbnged;
+        isLeftToRight = list.getComponentOrientbtion().isLeftToRight();
 
-        installDefaults();
-        installListeners();
-        installKeyboardActions();
+        instbllDefbults();
+        instbllListeners();
+        instbllKeybobrdActions();
     }
 
 
     /**
-     * Uninitializes <code>this.list</code> by calling <code>uninstallListeners()</code>,
-     * <code>uninstallKeyboardActions()</code>, and <code>uninstallDefaults()</code>
+     * Uninitiblizes <code>this.list</code> by cblling <code>uninstbllListeners()</code>,
+     * <code>uninstbllKeybobrdActions()</code>, bnd <code>uninstbllDefbults()</code>
      * in order.  Sets this.list to null.
      *
-     * @see #uninstallListeners
-     * @see #uninstallKeyboardActions
-     * @see #uninstallDefaults
+     * @see #uninstbllListeners
+     * @see #uninstbllKeybobrdActions
+     * @see #uninstbllDefbults
      */
-    public void uninstallUI(JComponent c)
+    public void uninstbllUI(JComponent c)
     {
-        uninstallListeners();
-        uninstallDefaults();
-        uninstallKeyboardActions();
+        uninstbllListeners();
+        uninstbllDefbults();
+        uninstbllKeybobrdActions();
 
         cellWidth = cellHeight = -1;
         cellHeights = null;
 
         listWidth = listHeight = -1;
 
-        list.remove(rendererPane);
-        rendererPane = null;
+        list.remove(rendererPbne);
+        rendererPbne = null;
         list = null;
     }
 
 
     /**
-     * Returns a new instance of {@code BasicListUI}.
-     * {@code BasicListUI} delegates are allocated one per {@code JList}.
+     * Returns b new instbnce of {@code BbsicListUI}.
+     * {@code BbsicListUI} delegbtes bre bllocbted one per {@code JList}.
      *
-     * @param list a component
-     * @return a new {@code ListUI} implementation for the Windows look and feel.
+     * @pbrbm list b component
+     * @return b new {@code ListUI} implementbtion for the Windows look bnd feel.
      */
-    public static ComponentUI createUI(JComponent list) {
-        return new BasicListUI();
+    public stbtic ComponentUI crebteUI(JComponent list) {
+        return new BbsicListUI();
     }
 
 
@@ -992,18 +992,18 @@ public class BasicListUI extends ListUI
      * {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
-    public int locationToIndex(JList<?> list, Point location) {
-        maybeUpdateLayoutState();
-        return convertLocationToModel(location.x, location.y);
+    public int locbtionToIndex(JList<?> list, Point locbtion) {
+        mbybeUpdbteLbyoutStbte();
+        return convertLocbtionToModel(locbtion.x, locbtion.y);
     }
 
 
     /**
      * {@inheritDoc}
      */
-    public Point indexToLocation(JList<?> list, int index) {
-        maybeUpdateLayoutState();
-        Rectangle rect = getCellBounds(list, index, index);
+    public Point indexToLocbtion(JList<?> list, int index) {
+        mbybeUpdbteLbyoutStbte();
+        Rectbngle rect = getCellBounds(list, index, index);
 
         if (rect != null) {
             return new Point(rect.x, rect.y);
@@ -1015,52 +1015,52 @@ public class BasicListUI extends ListUI
     /**
      * {@inheritDoc}
      */
-    public Rectangle getCellBounds(JList<?> list, int index1, int index2) {
-        maybeUpdateLayoutState();
+    public Rectbngle getCellBounds(JList<?> list, int index1, int index2) {
+        mbybeUpdbteLbyoutStbte();
 
-        int minIndex = Math.min(index1, index2);
-        int maxIndex = Math.max(index1, index2);
+        int minIndex = Mbth.min(index1, index2);
+        int mbxIndex = Mbth.mbx(index1, index2);
 
         if (minIndex >= list.getModel().getSize()) {
             return null;
         }
 
-        Rectangle minBounds = getCellBounds(list, minIndex);
+        Rectbngle minBounds = getCellBounds(list, minIndex);
 
         if (minBounds == null) {
             return null;
         }
-        if (minIndex == maxIndex) {
+        if (minIndex == mbxIndex) {
             return minBounds;
         }
-        Rectangle maxBounds = getCellBounds(list, maxIndex);
+        Rectbngle mbxBounds = getCellBounds(list, mbxIndex);
 
-        if (maxBounds != null) {
-            if (layoutOrientation == JList.HORIZONTAL_WRAP) {
+        if (mbxBounds != null) {
+            if (lbyoutOrientbtion == JList.HORIZONTAL_WRAP) {
                 int minRow = convertModelToRow(minIndex);
-                int maxRow = convertModelToRow(maxIndex);
+                int mbxRow = convertModelToRow(mbxIndex);
 
-                if (minRow != maxRow) {
+                if (minRow != mbxRow) {
                     minBounds.x = 0;
                     minBounds.width = list.getWidth();
                 }
             }
-            else if (minBounds.x != maxBounds.x) {
+            else if (minBounds.x != mbxBounds.x) {
                 // Different columns
                 minBounds.y = 0;
                 minBounds.height = list.getHeight();
             }
-            minBounds.add(maxBounds);
+            minBounds.bdd(mbxBounds);
         }
         return minBounds;
     }
 
     /**
      * Gets the bounds of the specified model index, returning the resulting
-     * bounds, or null if <code>index</code> is not valid.
+     * bounds, or null if <code>index</code> is not vblid.
      */
-    private Rectangle getCellBounds(JList<?> list, int index) {
-        maybeUpdateLayoutState();
+    privbte Rectbngle getCellBounds(JList<?> list, int index) {
+        mbybeUpdbteLbyoutStbte();
 
         int row = convertModelToRow(index);
         int column = convertModelToColumn(index);
@@ -1074,9 +1074,9 @@ public class BasicListUI extends ListUI
         int w = cellWidth;
         int y = insets.top;
         int h;
-        switch (layoutOrientation) {
-        case JList.VERTICAL_WRAP:
-        case JList.HORIZONTAL_WRAP:
+        switch (lbyoutOrientbtion) {
+        cbse JList.VERTICAL_WRAP:
+        cbse JList.HORIZONTAL_WRAP:
             if (isLeftToRight) {
                 x = insets.left + column * cellWidth;
             } else {
@@ -1084,8 +1084,8 @@ public class BasicListUI extends ListUI
             }
             y += cellHeight * row;
             h = cellHeight;
-            break;
-        default:
+            brebk;
+        defbult:
             x = insets.left;
             if (cellHeights == null) {
                 y += (cellHeight * row);
@@ -1100,19 +1100,19 @@ public class BasicListUI extends ListUI
             }
             w = list.getWidth() - (insets.left + insets.right);
             h = getRowHeight(index);
-            break;
+            brebk;
         }
-        return new Rectangle(x, y, w, h);
+        return new Rectbngle(x, y, w, h);
     }
 
     /**
-     * Returns the height of the specified row based on the current layout.
+     * Returns the height of the specified row bbsed on the current lbyout.
      *
-     * @param row a row
-     * @return the specified row height or -1 if row isn't valid
+     * @pbrbm row b row
+     * @return the specified row height or -1 if row isn't vblid
      * @see #convertYToRow
      * @see #convertRowToY
-     * @see #updateLayoutState
+     * @see #updbteLbyoutStbte
      */
     protected int getRowHeight(int row)
     {
@@ -1121,47 +1121,47 @@ public class BasicListUI extends ListUI
 
 
     /**
-     * Convert the {@code JList} relative coordinate to the row that contains it,
-     * based on the current layout. If {@code y0} doesn't fall within any row,
+     * Convert the {@code JList} relbtive coordinbte to the row thbt contbins it,
+     * bbsed on the current lbyout. If {@code y0} doesn't fbll within bny row,
      * return -1.
      *
-     * @param y0 a relative Y coordinate
-     * @return the row that contains y0, or -1
+     * @pbrbm y0 b relbtive Y coordinbte
+     * @return the row thbt contbins y0, or -1
      * @see #getRowHeight
-     * @see #updateLayoutState
+     * @see #updbteLbyoutStbte
      */
     protected int convertYToRow(int y0)
     {
-        return convertLocationToRow(0, y0, false);
+        return convertLocbtionToRow(0, y0, fblse);
     }
 
 
     /**
-     * Return the {@code JList} relative Y coordinate of the origin of the specified
-     * row or -1 if row isn't valid.
+     * Return the {@code JList} relbtive Y coordinbte of the origin of the specified
+     * row or -1 if row isn't vblid.
      *
-     * @param row a row
-     * @return the Y coordinate of the origin of row, or -1
+     * @pbrbm row b row
+     * @return the Y coordinbte of the origin of row, or -1
      * @see #getRowHeight
-     * @see #updateLayoutState
+     * @see #updbteLbyoutStbte
      */
     protected int convertRowToY(int row)
     {
         if (row >= getRowCount(0) || row < 0) {
             return -1;
         }
-        Rectangle bounds = getCellBounds(list, row, row);
+        Rectbngle bounds = getCellBounds(list, row, row);
         return bounds.y;
     }
 
     /**
-     * Returns the height of the cell at the passed in location.
+     * Returns the height of the cell bt the pbssed in locbtion.
      */
-    private int getHeight(int column, int row) {
+    privbte int getHeight(int column, int row) {
         if (column < 0 || column > columnCount || row < 0) {
             return -1;
         }
-        if (layoutOrientation != JList.VERTICAL) {
+        if (lbyoutOrientbtion != JList.VERTICAL) {
             return cellHeight;
         }
         if (row >= list.getModel().getSize()) {
@@ -1172,12 +1172,12 @@ public class BasicListUI extends ListUI
     }
 
     /**
-     * Returns the row at location x/y.
+     * Returns the row bt locbtion x/y.
      *
-     * @param closest If true and the location doesn't exactly match a
-     *                particular location, this will return the closest row.
+     * @pbrbm closest If true bnd the locbtion doesn't exbctly mbtch b
+     *                pbrticulbr locbtion, this will return the closest row.
      */
-    private int convertLocationToRow(int x, int y0, boolean closest) {
+    privbte int convertLocbtionToRow(int x, int y0, boolebn closest) {
         int size = list.getModel().getSize();
 
         if (size <= 0) {
@@ -1220,29 +1220,29 @@ public class BasicListUI extends ListUI
     }
 
     /**
-     * Returns the closest row that starts at the specified y-location
-     * in the passed in column.
+     * Returns the closest row thbt stbrts bt the specified y-locbtion
+     * in the pbssed in column.
      */
-    private int convertLocationToRowInColumn(int y, int column) {
+    privbte int convertLocbtionToRowInColumn(int y, int column) {
         int x = 0;
 
-        if (layoutOrientation != JList.VERTICAL) {
+        if (lbyoutOrientbtion != JList.VERTICAL) {
             if (isLeftToRight) {
                 x = column * cellWidth;
             } else {
                 x = list.getWidth() - (column+1)*cellWidth - list.getInsets().right;
             }
         }
-        return convertLocationToRow(x, y, true);
+        return convertLocbtionToRow(x, y, true);
     }
 
     /**
-     * Returns the closest location to the model index of the passed in
-     * location.
+     * Returns the closest locbtion to the model index of the pbssed in
+     * locbtion.
      */
-    private int convertLocationToModel(int x, int y) {
-        int row = convertLocationToRow(x, y, true);
-        int column = convertLocationToColumn(x, y);
+    privbte int convertLocbtionToModel(int x, int y) {
+        int row = convertLocbtionToRow(x, y, true);
+        int column = convertLocbtionToColumn(x, y);
 
         if (row >= 0 && column >= 0) {
             return getModelIndex(column, row);
@@ -1253,18 +1253,18 @@ public class BasicListUI extends ListUI
     /**
      * Returns the number of rows in the given column.
      */
-    private int getRowCount(int column) {
+    privbte int getRowCount(int column) {
         if (column < 0 || column >= columnCount) {
             return -1;
         }
-        if (layoutOrientation == JList.VERTICAL ||
+        if (lbyoutOrientbtion == JList.VERTICAL ||
                   (column == 0 && columnCount == 1)) {
             return list.getModel().getSize();
         }
         if (column >= columnCount) {
             return -1;
         }
-        if (layoutOrientation == JList.VERTICAL_WRAP) {
+        if (lbyoutOrientbtion == JList.VERTICAL_WRAP) {
             if (column < (columnCount - 1)) {
                 return rowsPerColumn;
             }
@@ -1276,35 +1276,35 @@ public class BasicListUI extends ListUI
                                   list.getModel().getSize());
 
         if (column >= diff) {
-            return Math.max(0, rowsPerColumn - 1);
+            return Mbth.mbx(0, rowsPerColumn - 1);
         }
         return rowsPerColumn;
     }
 
     /**
-     * Returns the model index for the specified display location.
+     * Returns the model index for the specified displby locbtion.
      * If <code>column</code>x<code>row</code> is beyond the length of the
      * model, this will return the model size - 1.
      */
-    private int getModelIndex(int column, int row) {
-        switch (layoutOrientation) {
-        case JList.VERTICAL_WRAP:
-            return Math.min(list.getModel().getSize() - 1, rowsPerColumn *
-                            column + Math.min(row, rowsPerColumn-1));
-        case JList.HORIZONTAL_WRAP:
-            return Math.min(list.getModel().getSize() - 1, row * columnCount +
+    privbte int getModelIndex(int column, int row) {
+        switch (lbyoutOrientbtion) {
+        cbse JList.VERTICAL_WRAP:
+            return Mbth.min(list.getModel().getSize() - 1, rowsPerColumn *
+                            column + Mbth.min(row, rowsPerColumn-1));
+        cbse JList.HORIZONTAL_WRAP:
+            return Mbth.min(list.getModel().getSize() - 1, row * columnCount +
                             column);
-        default:
+        defbult:
             return row;
         }
     }
 
     /**
-     * Returns the closest column to the passed in location.
+     * Returns the closest column to the pbssed in locbtion.
      */
-    private int convertLocationToColumn(int x, int y) {
+    privbte int convertLocbtionToColumn(int x, int y) {
         if (cellWidth > 0) {
-            if (layoutOrientation == JList.VERTICAL) {
+            if (lbyoutOrientbtion == JList.VERTICAL) {
                 return 0;
             }
             Insets insets = list.getInsets();
@@ -1326,19 +1326,19 @@ public class BasicListUI extends ListUI
     }
 
     /**
-     * Returns the row that the model index <code>index</code> will be
-     * displayed in..
+     * Returns the row thbt the model index <code>index</code> will be
+     * displbyed in..
      */
-    private int convertModelToRow(int index) {
+    privbte int convertModelToRow(int index) {
         int size = list.getModel().getSize();
 
         if ((index < 0) || (index >= size)) {
             return -1;
         }
 
-        if (layoutOrientation != JList.VERTICAL && columnCount > 1 &&
+        if (lbyoutOrientbtion != JList.VERTICAL && columnCount > 1 &&
                                                    rowsPerColumn > 0) {
-            if (layoutOrientation == JList.VERTICAL_WRAP) {
+            if (lbyoutOrientbtion == JList.VERTICAL_WRAP) {
                 return index % rowsPerColumn;
             }
             return index / columnCount;
@@ -1347,19 +1347,19 @@ public class BasicListUI extends ListUI
     }
 
     /**
-     * Returns the column that the model index <code>index</code> will be
-     * displayed in.
+     * Returns the column thbt the model index <code>index</code> will be
+     * displbyed in.
      */
-    private int convertModelToColumn(int index) {
+    privbte int convertModelToColumn(int index) {
         int size = list.getModel().getSize();
 
         if ((index < 0) || (index >= size)) {
             return -1;
         }
 
-        if (layoutOrientation != JList.VERTICAL && rowsPerColumn > 0 &&
+        if (lbyoutOrientbtion != JList.VERTICAL && rowsPerColumn > 0 &&
                                                    columnCount > 1) {
-            if (layoutOrientation == JList.VERTICAL_WRAP) {
+            if (lbyoutOrientbtion == JList.VERTICAL_WRAP) {
                 return index / rowsPerColumn;
             }
             return index % columnCount;
@@ -1368,33 +1368,33 @@ public class BasicListUI extends ListUI
     }
 
     /**
-     * If updateLayoutStateNeeded is non zero, call updateLayoutState() and reset
-     * updateLayoutStateNeeded.  This method should be called by methods
-     * before doing any computation based on the geometry of the list.
-     * For example it's the first call in paint() and getPreferredSize().
+     * If updbteLbyoutStbteNeeded is non zero, cbll updbteLbyoutStbte() bnd reset
+     * updbteLbyoutStbteNeeded.  This method should be cblled by methods
+     * before doing bny computbtion bbsed on the geometry of the list.
+     * For exbmple it's the first cbll in pbint() bnd getPreferredSize().
      *
-     * @see #updateLayoutState
+     * @see #updbteLbyoutStbte
      */
-    protected void maybeUpdateLayoutState()
+    protected void mbybeUpdbteLbyoutStbte()
     {
-        if (updateLayoutStateNeeded != 0) {
-            updateLayoutState();
-            updateLayoutStateNeeded = 0;
+        if (updbteLbyoutStbteNeeded != 0) {
+            updbteLbyoutStbte();
+            updbteLbyoutStbteNeeded = 0;
         }
     }
 
 
     /**
-     * Recompute the value of cellHeight or cellHeights based
-     * and cellWidth, based on the current font and the current
-     * values of fixedCellWidth, fixedCellHeight, and prototypeCellValue.
+     * Recompute the vblue of cellHeight or cellHeights bbsed
+     * bnd cellWidth, bbsed on the current font bnd the current
+     * vblues of fixedCellWidth, fixedCellHeight, bnd prototypeCellVblue.
      *
-     * @see #maybeUpdateLayoutState
+     * @see #mbybeUpdbteLbyoutStbte
      */
-    protected void updateLayoutState()
+    protected void updbteLbyoutStbte()
     {
-        /* If both JList fixedCellWidth and fixedCellHeight have been
-         * set, then initialize cellWidth and cellHeight, and set
+        /* If both JList fixedCellWidth bnd fixedCellHeight hbve been
+         * set, then initiblize cellWidth bnd cellHeight, bnd set
          * cellHeights to null.
          */
 
@@ -1412,27 +1412,27 @@ public class BasicListUI extends ListUI
             cellHeights = new int[list.getModel().getSize()];
         }
 
-        /* If either of  JList fixedCellWidth and fixedCellHeight haven't
-         * been set, then initialize cellWidth and cellHeights by
-         * scanning through the entire model.  Note: if the renderer is
-         * null, we just set cellWidth and cellHeights[*] to zero,
-         * if they're not set already.
+        /* If either of  JList fixedCellWidth bnd fixedCellHeight hbven't
+         * been set, then initiblize cellWidth bnd cellHeights by
+         * scbnning through the entire model.  Note: if the renderer is
+         * null, we just set cellWidth bnd cellHeights[*] to zero,
+         * if they're not set blrebdy.
          */
 
         if ((fixedCellWidth == -1) || (fixedCellHeight == -1)) {
 
-            ListModel<Object> dataModel = list.getModel();
-            int dataModelSize = dataModel.getSize();
+            ListModel<Object> dbtbModel = list.getModel();
+            int dbtbModelSize = dbtbModel.getSize();
             ListCellRenderer<Object> renderer = list.getCellRenderer();
 
             if (renderer != null) {
-                for(int index = 0; index < dataModelSize; index++) {
-                    Object value = dataModel.getElementAt(index);
-                    Component c = renderer.getListCellRendererComponent(list, value, index, false, false);
-                    rendererPane.add(c);
+                for(int index = 0; index < dbtbModelSize; index++) {
+                    Object vblue = dbtbModel.getElementAt(index);
+                    Component c = renderer.getListCellRendererComponent(list, vblue, index, fblse, fblse);
+                    rendererPbne.bdd(c);
                     Dimension cellSize = c.getPreferredSize();
                     if (fixedCellWidth == -1) {
-                        cellWidth = Math.max(cellSize.width, cellWidth);
+                        cellWidth = Mbth.mbx(cellSize.width, cellWidth);
                     }
                     if (fixedCellHeight == -1) {
                         cellHeights[index] = cellSize.height;
@@ -1444,38 +1444,38 @@ public class BasicListUI extends ListUI
                     cellWidth = 0;
                 }
                 if (cellHeights == null) {
-                    cellHeights = new int[dataModelSize];
+                    cellHeights = new int[dbtbModelSize];
                 }
-                for(int index = 0; index < dataModelSize; index++) {
+                for(int index = 0; index < dbtbModelSize; index++) {
                     cellHeights[index] = 0;
                 }
             }
         }
 
         columnCount = 1;
-        if (layoutOrientation != JList.VERTICAL) {
-            updateHorizontalLayoutState(fixedCellWidth, fixedCellHeight);
+        if (lbyoutOrientbtion != JList.VERTICAL) {
+            updbteHorizontblLbyoutStbte(fixedCellWidth, fixedCellHeight);
         }
     }
 
     /**
-     * Invoked when the list is layed out horizontally to determine how
-     * many columns to create.
+     * Invoked when the list is lbyed out horizontblly to determine how
+     * mbny columns to crebte.
      * <p>
-     * This updates the <code>rowsPerColumn, </code><code>columnCount</code>,
-     * <code>preferredHeight</code> and potentially <code>cellHeight</code>
-     * instance variables.
+     * This updbtes the <code>rowsPerColumn, </code><code>columnCount</code>,
+     * <code>preferredHeight</code> bnd potentiblly <code>cellHeight</code>
+     * instbnce vbribbles.
      */
-    private void updateHorizontalLayoutState(int fixedCellWidth,
+    privbte void updbteHorizontblLbyoutStbte(int fixedCellWidth,
                                              int fixedCellHeight) {
         int visRows = list.getVisibleRowCount();
-        int dataModelSize = list.getModel().getSize();
+        int dbtbModelSize = list.getModel().getSize();
         Insets insets = list.getInsets();
 
         listHeight = list.getHeight();
         listWidth = list.getWidth();
 
-        if (dataModelSize == 0) {
+        if (dbtbModelSize == 0) {
             rowsPerColumn = columnCount = 0;
             preferredHeight = insets.top + insets.bottom;
             return;
@@ -1487,52 +1487,52 @@ public class BasicListUI extends ListUI
             height = fixedCellHeight;
         }
         else {
-            // Determine the max of the renderer heights.
-            int maxHeight = 0;
+            // Determine the mbx of the renderer heights.
+            int mbxHeight = 0;
             if (cellHeights.length > 0) {
-                maxHeight = cellHeights[cellHeights.length - 1];
+                mbxHeight = cellHeights[cellHeights.length - 1];
                 for (int counter = cellHeights.length - 2;
                      counter >= 0; counter--) {
-                    maxHeight = Math.max(maxHeight, cellHeights[counter]);
+                    mbxHeight = Mbth.mbx(mbxHeight, cellHeights[counter]);
                 }
             }
-            height = cellHeight = maxHeight;
+            height = cellHeight = mbxHeight;
             cellHeights = null;
         }
         // The number of rows is either determined by the visible row
         // count, or by the height of the list.
-        rowsPerColumn = dataModelSize;
+        rowsPerColumn = dbtbModelSize;
         if (visRows > 0) {
             rowsPerColumn = visRows;
-            columnCount = Math.max(1, dataModelSize / rowsPerColumn);
-            if (dataModelSize > 0 && dataModelSize > rowsPerColumn &&
-                dataModelSize % rowsPerColumn != 0) {
+            columnCount = Mbth.mbx(1, dbtbModelSize / rowsPerColumn);
+            if (dbtbModelSize > 0 && dbtbModelSize > rowsPerColumn &&
+                dbtbModelSize % rowsPerColumn != 0) {
                 columnCount++;
             }
-            if (layoutOrientation == JList.HORIZONTAL_WRAP) {
-                // Because HORIZONTAL_WRAP flows differently, the
-                // rowsPerColumn needs to be adjusted.
-                rowsPerColumn = (dataModelSize / columnCount);
-                if (dataModelSize % columnCount > 0) {
+            if (lbyoutOrientbtion == JList.HORIZONTAL_WRAP) {
+                // Becbuse HORIZONTAL_WRAP flows differently, the
+                // rowsPerColumn needs to be bdjusted.
+                rowsPerColumn = (dbtbModelSize / columnCount);
+                if (dbtbModelSize % columnCount > 0) {
                     rowsPerColumn++;
                 }
             }
         }
-        else if (layoutOrientation == JList.VERTICAL_WRAP && height != 0) {
-            rowsPerColumn = Math.max(1, (listHeight - insets.top -
+        else if (lbyoutOrientbtion == JList.VERTICAL_WRAP && height != 0) {
+            rowsPerColumn = Mbth.mbx(1, (listHeight - insets.top -
                                          insets.bottom) / height);
-            columnCount = Math.max(1, dataModelSize / rowsPerColumn);
-            if (dataModelSize > 0 && dataModelSize > rowsPerColumn &&
-                dataModelSize % rowsPerColumn != 0) {
+            columnCount = Mbth.mbx(1, dbtbModelSize / rowsPerColumn);
+            if (dbtbModelSize > 0 && dbtbModelSize > rowsPerColumn &&
+                dbtbModelSize % rowsPerColumn != 0) {
                 columnCount++;
             }
         }
-        else if (layoutOrientation == JList.HORIZONTAL_WRAP && cellWidth > 0 &&
+        else if (lbyoutOrientbtion == JList.HORIZONTAL_WRAP && cellWidth > 0 &&
                  listWidth > 0) {
-            columnCount = Math.max(1, (listWidth - insets.left -
+            columnCount = Mbth.mbx(1, (listWidth - insets.left -
                                        insets.right) / cellWidth);
-            rowsPerColumn = dataModelSize / columnCount;
-            if (dataModelSize % columnCount > 0) {
+            rowsPerColumn = dbtbModelSize / columnCount;
+            if (dbtbModelSize % columnCount > 0) {
                 rowsPerColumn++;
             }
         }
@@ -1540,629 +1540,629 @@ public class BasicListUI extends ListUI
                               insets.bottom;
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
     /**
-     * Mouse input, and focus handling for JList.  An instance of this
-     * class is added to the appropriate java.awt.Component lists
-     * at installUI() time.  Note keyboard input is handled with JComponent
-     * KeyboardActions, see installKeyboardActions().
+     * Mouse input, bnd focus hbndling for JList.  An instbnce of this
+     * clbss is bdded to the bppropribte jbvb.bwt.Component lists
+     * bt instbllUI() time.  Note keybobrd input is hbndled with JComponent
+     * KeybobrdActions, see instbllKeybobrdActions().
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      *
-     * @see #createMouseInputListener
-     * @see #installKeyboardActions
-     * @see #installUI
+     * @see #crebteMouseInputListener
+     * @see #instbllKeybobrdActions
+     * @see #instbllUI
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class MouseInputHandler implements MouseInputListener
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss MouseInputHbndler implements MouseInputListener
     {
         public void mouseClicked(MouseEvent e) {
-            getHandler().mouseClicked(e);
+            getHbndler().mouseClicked(e);
         }
 
         public void mouseEntered(MouseEvent e) {
-            getHandler().mouseEntered(e);
+            getHbndler().mouseEntered(e);
         }
 
         public void mouseExited(MouseEvent e) {
-            getHandler().mouseExited(e);
+            getHbndler().mouseExited(e);
         }
 
         public void mousePressed(MouseEvent e) {
-            getHandler().mousePressed(e);
+            getHbndler().mousePressed(e);
         }
 
-        public void mouseDragged(MouseEvent e) {
-            getHandler().mouseDragged(e);
+        public void mouseDrbgged(MouseEvent e) {
+            getHbndler().mouseDrbgged(e);
         }
 
         public void mouseMoved(MouseEvent e) {
-            getHandler().mouseMoved(e);
+            getHbndler().mouseMoved(e);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            getHandler().mouseReleased(e);
+        public void mouseRelebsed(MouseEvent e) {
+            getHbndler().mouseRelebsed(e);
         }
     }
 
 
     /**
-     * Creates a delegate that implements {@code MouseInputListener}.
-     * The delegate is added to the corresponding {@code java.awt.Component} listener
-     * lists at {@code installUI()} time. Subclasses can override this method to return
-     * a custom {@code MouseInputListener}, e.g.
+     * Crebtes b delegbte thbt implements {@code MouseInputListener}.
+     * The delegbte is bdded to the corresponding {@code jbvb.bwt.Component} listener
+     * lists bt {@code instbllUI()} time. Subclbsses cbn override this method to return
+     * b custom {@code MouseInputListener}, e.g.
      * <pre>
-     * class MyListUI extends BasicListUI {
-     *    protected MouseInputListener <b>createMouseInputListener</b>() {
-     *        return new MyMouseInputHandler();
+     * clbss MyListUI extends BbsicListUI {
+     *    protected MouseInputListener <b>crebteMouseInputListener</b>() {
+     *        return new MyMouseInputHbndler();
      *    }
-     *    public class MyMouseInputHandler extends MouseInputHandler {
+     *    public clbss MyMouseInputHbndler extends MouseInputHbndler {
      *        public void mouseMoved(MouseEvent e) {
-     *            // do some extra work when the mouse moves
+     *            // do some extrb work when the mouse moves
      *            super.mouseMoved(e);
      *        }
      *    }
      * }
      * </pre>
      *
-     * @return an instance of {@code MouseInputListener}
-     * @see MouseInputHandler
-     * @see #installUI
+     * @return bn instbnce of {@code MouseInputListener}
+     * @see MouseInputHbndler
+     * @see #instbllUI
      */
-    protected MouseInputListener createMouseInputListener() {
-        return getHandler();
+    protected MouseInputListener crebteMouseInputListener() {
+        return getHbndler();
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicListUI}.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of {@code BbsicListUI}.
      */
-    public class FocusHandler implements FocusListener
+    public clbss FocusHbndler implements FocusListener
     {
         /**
-         * Repaints focused cells.
+         * Repbints focused cells.
          */
-        protected void repaintCellFocus()
+        protected void repbintCellFocus()
         {
-            getHandler().repaintCellFocus();
+            getHbndler().repbintCellFocus();
         }
 
-        /* The focusGained() focusLost() methods run when the JList
-         * focus changes.
+        /* The focusGbined() focusLost() methods run when the JList
+         * focus chbnges.
          */
 
-        public void focusGained(FocusEvent e) {
-            getHandler().focusGained(e);
+        public void focusGbined(FocusEvent e) {
+            getHbndler().focusGbined(e);
         }
 
         public void focusLost(FocusEvent e) {
-            getHandler().focusLost(e);
+            getHbndler().focusLost(e);
         }
     }
 
     /**
-     * Returns an instance of {@code FocusListener}.
+     * Returns bn instbnce of {@code FocusListener}.
      *
-     * @return an instance of {@code FocusListener}
+     * @return bn instbnce of {@code FocusListener}
      */
-    protected FocusListener createFocusListener() {
-        return getHandler();
+    protected FocusListener crebteFocusListener() {
+        return getHbndler();
     }
 
     /**
-     * The ListSelectionListener that's added to the JLists selection
-     * model at installUI time, and whenever the JList.selectionModel property
-     * changes.  When the selection changes we repaint the affected rows.
+     * The ListSelectionListener thbt's bdded to the JLists selection
+     * model bt instbllUI time, bnd whenever the JList.selectionModel property
+     * chbnges.  When the selection chbnges we repbint the bffected rows.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      *
-     * @see #createListSelectionListener
+     * @see #crebteListSelectionListener
      * @see #getCellBounds
-     * @see #installUI
+     * @see #instbllUI
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class ListSelectionHandler implements ListSelectionListener
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss ListSelectionHbndler implements ListSelectionListener
     {
-        public void valueChanged(ListSelectionEvent e)
+        public void vblueChbnged(ListSelectionEvent e)
         {
-            getHandler().valueChanged(e);
+            getHbndler().vblueChbnged(e);
         }
     }
 
 
     /**
-     * Creates an instance of {@code ListSelectionHandler} that's added to
-     * the {@code JLists} by selectionModel as needed.  Subclasses can override
-     * this method to return a custom {@code ListSelectionListener}, e.g.
+     * Crebtes bn instbnce of {@code ListSelectionHbndler} thbt's bdded to
+     * the {@code JLists} by selectionModel bs needed.  Subclbsses cbn override
+     * this method to return b custom {@code ListSelectionListener}, e.g.
      * <pre>
-     * class MyListUI extends BasicListUI {
-     *    protected ListSelectionListener <b>createListSelectionListener</b>() {
+     * clbss MyListUI extends BbsicListUI {
+     *    protected ListSelectionListener <b>crebteListSelectionListener</b>() {
      *        return new MySelectionListener();
      *    }
-     *    public class MySelectionListener extends ListSelectionHandler {
-     *        public void valueChanged(ListSelectionEvent e) {
-     *            // do some extra work when the selection changes
-     *            super.valueChange(e);
+     *    public clbss MySelectionListener extends ListSelectionHbndler {
+     *        public void vblueChbnged(ListSelectionEvent e) {
+     *            // do some extrb work when the selection chbnges
+     *            super.vblueChbnge(e);
      *        }
      *    }
      * }
      * </pre>
      *
-     * @return an instance of {@code ListSelectionHandler}
-     * @see ListSelectionHandler
-     * @see #installUI
+     * @return bn instbnce of {@code ListSelectionHbndler}
+     * @see ListSelectionHbndler
+     * @see #instbllUI
      */
-    protected ListSelectionListener createListSelectionListener() {
-        return getHandler();
+    protected ListSelectionListener crebteListSelectionListener() {
+        return getHbndler();
     }
 
 
-    private void redrawList() {
-        list.revalidate();
-        list.repaint();
+    privbte void redrbwList() {
+        list.revblidbte();
+        list.repbint();
     }
 
 
     /**
-     * The {@code ListDataListener} that's added to the {@code JLists} model at
-     * {@code installUI time}, and whenever the JList.model property changes.
+     * The {@code ListDbtbListener} thbt's bdded to the {@code JLists} model bt
+     * {@code instbllUI time}, bnd whenever the JList.model property chbnges.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      *
      * @see JList#getModel
-     * @see #maybeUpdateLayoutState
-     * @see #createListDataListener
-     * @see #installUI
+     * @see #mbybeUpdbteLbyoutStbte
+     * @see #crebteListDbtbListener
+     * @see #instbllUI
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class ListDataHandler implements ListDataListener
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss ListDbtbHbndler implements ListDbtbListener
     {
-        public void intervalAdded(ListDataEvent e) {
-            getHandler().intervalAdded(e);
+        public void intervblAdded(ListDbtbEvent e) {
+            getHbndler().intervblAdded(e);
         }
 
 
-        public void intervalRemoved(ListDataEvent e)
+        public void intervblRemoved(ListDbtbEvent e)
         {
-            getHandler().intervalRemoved(e);
+            getHbndler().intervblRemoved(e);
         }
 
 
-        public void contentsChanged(ListDataEvent e) {
-            getHandler().contentsChanged(e);
+        public void contentsChbnged(ListDbtbEvent e) {
+            getHbndler().contentsChbnged(e);
         }
     }
 
 
     /**
-     * Creates an instance of {@code ListDataListener} that's added to
-     * the {@code JLists} by model as needed. Subclasses can override
-     * this method to return a custom {@code ListDataListener}, e.g.
+     * Crebtes bn instbnce of {@code ListDbtbListener} thbt's bdded to
+     * the {@code JLists} by model bs needed. Subclbsses cbn override
+     * this method to return b custom {@code ListDbtbListener}, e.g.
      * <pre>
-     * class MyListUI extends BasicListUI {
-     *    protected ListDataListener <b>createListDataListener</b>() {
-     *        return new MyListDataListener();
+     * clbss MyListUI extends BbsicListUI {
+     *    protected ListDbtbListener <b>crebteListDbtbListener</b>() {
+     *        return new MyListDbtbListener();
      *    }
-     *    public class MyListDataListener extends ListDataHandler {
-     *        public void contentsChanged(ListDataEvent e) {
-     *            // do some extra work when the models contents change
-     *            super.contentsChange(e);
+     *    public clbss MyListDbtbListener extends ListDbtbHbndler {
+     *        public void contentsChbnged(ListDbtbEvent e) {
+     *            // do some extrb work when the models contents chbnge
+     *            super.contentsChbnge(e);
      *        }
      *    }
      * }
      * </pre>
      *
-     * @return an instance of {@code ListDataListener}
-     * @see ListDataListener
+     * @return bn instbnce of {@code ListDbtbListener}
+     * @see ListDbtbListener
      * @see JList#getModel
-     * @see #installUI
+     * @see #instbllUI
      */
-    protected ListDataListener createListDataListener() {
-        return getHandler();
+    protected ListDbtbListener crebteListDbtbListener() {
+        return getHbndler();
     }
 
 
     /**
-     * The PropertyChangeListener that's added to the JList at
-     * installUI time.  When the value of a JList property that
-     * affects layout changes, we set a bit in updateLayoutStateNeeded.
-     * If the JLists model changes we additionally remove our listeners
+     * The PropertyChbngeListener thbt's bdded to the JList bt
+     * instbllUI time.  When the vblue of b JList property thbt
+     * bffects lbyout chbnges, we set b bit in updbteLbyoutStbteNeeded.
+     * If the JLists model chbnges we bdditionblly remove our listeners
      * from the old model.  Likewise for the JList selectionModel.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      *
-     * @see #maybeUpdateLayoutState
-     * @see #createPropertyChangeListener
-     * @see #installUI
+     * @see #mbybeUpdbteLbyoutStbte
+     * @see #crebtePropertyChbngeListener
+     * @see #instbllUI
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class PropertyChangeHandler implements PropertyChangeListener
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss PropertyChbngeHbndler implements PropertyChbngeListener
     {
-        public void propertyChange(PropertyChangeEvent e)
+        public void propertyChbnge(PropertyChbngeEvent e)
         {
-            getHandler().propertyChange(e);
+            getHbndler().propertyChbnge(e);
         }
     }
 
 
     /**
-     * Creates an instance of {@code PropertyChangeHandler} that's added to
-     * the {@code JList} by {@code installUI()}. Subclasses can override this method
-     * to return a custom {@code PropertyChangeListener}, e.g.
+     * Crebtes bn instbnce of {@code PropertyChbngeHbndler} thbt's bdded to
+     * the {@code JList} by {@code instbllUI()}. Subclbsses cbn override this method
+     * to return b custom {@code PropertyChbngeListener}, e.g.
      * <pre>
-     * class MyListUI extends BasicListUI {
-     *    protected PropertyChangeListener <b>createPropertyChangeListener</b>() {
-     *        return new MyPropertyChangeListener();
+     * clbss MyListUI extends BbsicListUI {
+     *    protected PropertyChbngeListener <b>crebtePropertyChbngeListener</b>() {
+     *        return new MyPropertyChbngeListener();
      *    }
-     *    public class MyPropertyChangeListener extends PropertyChangeHandler {
-     *        public void propertyChange(PropertyChangeEvent e) {
-     *            if (e.getPropertyName().equals("model")) {
-     *                // do some extra work when the model changes
+     *    public clbss MyPropertyChbngeListener extends PropertyChbngeHbndler {
+     *        public void propertyChbnge(PropertyChbngeEvent e) {
+     *            if (e.getPropertyNbme().equbls("model")) {
+     *                // do some extrb work when the model chbnges
      *            }
-     *            super.propertyChange(e);
+     *            super.propertyChbnge(e);
      *        }
      *    }
      * }
      * </pre>
      *
-     * @return an instance of {@code PropertyChangeHandler}
-     * @see PropertyChangeListener
-     * @see #installUI
+     * @return bn instbnce of {@code PropertyChbngeHbndler}
+     * @see PropertyChbngeListener
+     * @see #instbllUI
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return getHbndler();
     }
 
-    /** Used by IncrementLeadSelectionAction. Indicates the action should
-     * change the lead, and not select it. */
-    private static final int CHANGE_LEAD = 0;
-    /** Used by IncrementLeadSelectionAction. Indicates the action should
-     * change the selection and lead. */
-    private static final int CHANGE_SELECTION = 1;
-    /** Used by IncrementLeadSelectionAction. Indicates the action should
-     * extend the selection from the anchor to the next index. */
-    private static final int EXTEND_SELECTION = 2;
+    /** Used by IncrementLebdSelectionAction. Indicbtes the bction should
+     * chbnge the lebd, bnd not select it. */
+    privbte stbtic finbl int CHANGE_LEAD = 0;
+    /** Used by IncrementLebdSelectionAction. Indicbtes the bction should
+     * chbnge the selection bnd lebd. */
+    privbte stbtic finbl int CHANGE_SELECTION = 1;
+    /** Used by IncrementLebdSelectionAction. Indicbtes the bction should
+     * extend the selection from the bnchor to the next index. */
+    privbte stbtic finbl int EXTEND_SELECTION = 2;
 
 
-    private static class Actions extends UIAction {
-        private static final String SELECT_PREVIOUS_COLUMN =
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String SELECT_PREVIOUS_COLUMN =
                                     "selectPreviousColumn";
-        private static final String SELECT_PREVIOUS_COLUMN_EXTEND =
+        privbte stbtic finbl String SELECT_PREVIOUS_COLUMN_EXTEND =
                                     "selectPreviousColumnExtendSelection";
-        private static final String SELECT_PREVIOUS_COLUMN_CHANGE_LEAD =
-                                    "selectPreviousColumnChangeLead";
-        private static final String SELECT_NEXT_COLUMN = "selectNextColumn";
-        private static final String SELECT_NEXT_COLUMN_EXTEND =
+        privbte stbtic finbl String SELECT_PREVIOUS_COLUMN_CHANGE_LEAD =
+                                    "selectPreviousColumnChbngeLebd";
+        privbte stbtic finbl String SELECT_NEXT_COLUMN = "selectNextColumn";
+        privbte stbtic finbl String SELECT_NEXT_COLUMN_EXTEND =
                                     "selectNextColumnExtendSelection";
-        private static final String SELECT_NEXT_COLUMN_CHANGE_LEAD =
-                                    "selectNextColumnChangeLead";
-        private static final String SELECT_PREVIOUS_ROW = "selectPreviousRow";
-        private static final String SELECT_PREVIOUS_ROW_EXTEND =
+        privbte stbtic finbl String SELECT_NEXT_COLUMN_CHANGE_LEAD =
+                                    "selectNextColumnChbngeLebd";
+        privbte stbtic finbl String SELECT_PREVIOUS_ROW = "selectPreviousRow";
+        privbte stbtic finbl String SELECT_PREVIOUS_ROW_EXTEND =
                                      "selectPreviousRowExtendSelection";
-        private static final String SELECT_PREVIOUS_ROW_CHANGE_LEAD =
-                                     "selectPreviousRowChangeLead";
-        private static final String SELECT_NEXT_ROW = "selectNextRow";
-        private static final String SELECT_NEXT_ROW_EXTEND =
+        privbte stbtic finbl String SELECT_PREVIOUS_ROW_CHANGE_LEAD =
+                                     "selectPreviousRowChbngeLebd";
+        privbte stbtic finbl String SELECT_NEXT_ROW = "selectNextRow";
+        privbte stbtic finbl String SELECT_NEXT_ROW_EXTEND =
                                      "selectNextRowExtendSelection";
-        private static final String SELECT_NEXT_ROW_CHANGE_LEAD =
-                                     "selectNextRowChangeLead";
-        private static final String SELECT_FIRST_ROW = "selectFirstRow";
-        private static final String SELECT_FIRST_ROW_EXTEND =
+        privbte stbtic finbl String SELECT_NEXT_ROW_CHANGE_LEAD =
+                                     "selectNextRowChbngeLebd";
+        privbte stbtic finbl String SELECT_FIRST_ROW = "selectFirstRow";
+        privbte stbtic finbl String SELECT_FIRST_ROW_EXTEND =
                                      "selectFirstRowExtendSelection";
-        private static final String SELECT_FIRST_ROW_CHANGE_LEAD =
-                                     "selectFirstRowChangeLead";
-        private static final String SELECT_LAST_ROW = "selectLastRow";
-        private static final String SELECT_LAST_ROW_EXTEND =
-                                     "selectLastRowExtendSelection";
-        private static final String SELECT_LAST_ROW_CHANGE_LEAD =
-                                     "selectLastRowChangeLead";
-        private static final String SCROLL_UP = "scrollUp";
-        private static final String SCROLL_UP_EXTEND =
+        privbte stbtic finbl String SELECT_FIRST_ROW_CHANGE_LEAD =
+                                     "selectFirstRowChbngeLebd";
+        privbte stbtic finbl String SELECT_LAST_ROW = "selectLbstRow";
+        privbte stbtic finbl String SELECT_LAST_ROW_EXTEND =
+                                     "selectLbstRowExtendSelection";
+        privbte stbtic finbl String SELECT_LAST_ROW_CHANGE_LEAD =
+                                     "selectLbstRowChbngeLebd";
+        privbte stbtic finbl String SCROLL_UP = "scrollUp";
+        privbte stbtic finbl String SCROLL_UP_EXTEND =
                                      "scrollUpExtendSelection";
-        private static final String SCROLL_UP_CHANGE_LEAD =
-                                     "scrollUpChangeLead";
-        private static final String SCROLL_DOWN = "scrollDown";
-        private static final String SCROLL_DOWN_EXTEND =
+        privbte stbtic finbl String SCROLL_UP_CHANGE_LEAD =
+                                     "scrollUpChbngeLebd";
+        privbte stbtic finbl String SCROLL_DOWN = "scrollDown";
+        privbte stbtic finbl String SCROLL_DOWN_EXTEND =
                                      "scrollDownExtendSelection";
-        private static final String SCROLL_DOWN_CHANGE_LEAD =
-                                     "scrollDownChangeLead";
-        private static final String SELECT_ALL = "selectAll";
-        private static final String CLEAR_SELECTION = "clearSelection";
+        privbte stbtic finbl String SCROLL_DOWN_CHANGE_LEAD =
+                                     "scrollDownChbngeLebd";
+        privbte stbtic finbl String SELECT_ALL = "selectAll";
+        privbte stbtic finbl String CLEAR_SELECTION = "clebrSelection";
 
-        // add the lead item to the selection without changing lead or anchor
-        private static final String ADD_TO_SELECTION = "addToSelection";
+        // bdd the lebd item to the selection without chbnging lebd or bnchor
+        privbte stbtic finbl String ADD_TO_SELECTION = "bddToSelection";
 
-        // toggle the selected state of the lead item and move the anchor to it
-        private static final String TOGGLE_AND_ANCHOR = "toggleAndAnchor";
+        // toggle the selected stbte of the lebd item bnd move the bnchor to it
+        privbte stbtic finbl String TOGGLE_AND_ANCHOR = "toggleAndAnchor";
 
-        // extend the selection to the lead item
-        private static final String EXTEND_TO = "extendTo";
+        // extend the selection to the lebd item
+        privbte stbtic finbl String EXTEND_TO = "extendTo";
 
-        // move the anchor to the lead and ensure only that item is selected
-        private static final String MOVE_SELECTION_TO = "moveSelectionTo";
+        // move the bnchor to the lebd bnd ensure only thbt item is selected
+        privbte stbtic finbl String MOVE_SELECTION_TO = "moveSelectionTo";
 
-        Actions(String name) {
-            super(name);
+        Actions(String nbme) {
+            super(nbme);
         }
-        public void actionPerformed(ActionEvent e) {
-            String name = getName();
-            @SuppressWarnings("unchecked")
+        public void bctionPerformed(ActionEvent e) {
+            String nbme = getNbme();
+            @SuppressWbrnings("unchecked")
             JList<Object> list = (JList)e.getSource();
-            BasicListUI ui = (BasicListUI)BasicLookAndFeel.getUIOfType(
-                     list.getUI(), BasicListUI.class);
+            BbsicListUI ui = (BbsicListUI)BbsicLookAndFeel.getUIOfType(
+                     list.getUI(), BbsicListUI.clbss);
 
-            if (name == SELECT_PREVIOUS_COLUMN) {
-                changeSelection(list, CHANGE_SELECTION,
+            if (nbme == SELECT_PREVIOUS_COLUMN) {
+                chbngeSelection(list, CHANGE_SELECTION,
                                 getNextColumnIndex(list, ui, -1), -1);
             }
-            else if (name == SELECT_PREVIOUS_COLUMN_EXTEND) {
-                changeSelection(list, EXTEND_SELECTION,
+            else if (nbme == SELECT_PREVIOUS_COLUMN_EXTEND) {
+                chbngeSelection(list, EXTEND_SELECTION,
                                 getNextColumnIndex(list, ui, -1), -1);
             }
-            else if (name == SELECT_PREVIOUS_COLUMN_CHANGE_LEAD) {
-                changeSelection(list, CHANGE_LEAD,
+            else if (nbme == SELECT_PREVIOUS_COLUMN_CHANGE_LEAD) {
+                chbngeSelection(list, CHANGE_LEAD,
                                 getNextColumnIndex(list, ui, -1), -1);
             }
-            else if (name == SELECT_NEXT_COLUMN) {
-                changeSelection(list, CHANGE_SELECTION,
+            else if (nbme == SELECT_NEXT_COLUMN) {
+                chbngeSelection(list, CHANGE_SELECTION,
                                 getNextColumnIndex(list, ui, 1), 1);
             }
-            else if (name == SELECT_NEXT_COLUMN_EXTEND) {
-                changeSelection(list, EXTEND_SELECTION,
+            else if (nbme == SELECT_NEXT_COLUMN_EXTEND) {
+                chbngeSelection(list, EXTEND_SELECTION,
                                 getNextColumnIndex(list, ui, 1), 1);
             }
-            else if (name == SELECT_NEXT_COLUMN_CHANGE_LEAD) {
-                changeSelection(list, CHANGE_LEAD,
+            else if (nbme == SELECT_NEXT_COLUMN_CHANGE_LEAD) {
+                chbngeSelection(list, CHANGE_LEAD,
                                 getNextColumnIndex(list, ui, 1), 1);
             }
-            else if (name == SELECT_PREVIOUS_ROW) {
-                changeSelection(list, CHANGE_SELECTION,
+            else if (nbme == SELECT_PREVIOUS_ROW) {
+                chbngeSelection(list, CHANGE_SELECTION,
                                 getNextIndex(list, ui, -1), -1);
             }
-            else if (name == SELECT_PREVIOUS_ROW_EXTEND) {
-                changeSelection(list, EXTEND_SELECTION,
+            else if (nbme == SELECT_PREVIOUS_ROW_EXTEND) {
+                chbngeSelection(list, EXTEND_SELECTION,
                                 getNextIndex(list, ui, -1), -1);
             }
-            else if (name == SELECT_PREVIOUS_ROW_CHANGE_LEAD) {
-                changeSelection(list, CHANGE_LEAD,
+            else if (nbme == SELECT_PREVIOUS_ROW_CHANGE_LEAD) {
+                chbngeSelection(list, CHANGE_LEAD,
                                 getNextIndex(list, ui, -1), -1);
             }
-            else if (name == SELECT_NEXT_ROW) {
-                changeSelection(list, CHANGE_SELECTION,
+            else if (nbme == SELECT_NEXT_ROW) {
+                chbngeSelection(list, CHANGE_SELECTION,
                                 getNextIndex(list, ui, 1), 1);
             }
-            else if (name == SELECT_NEXT_ROW_EXTEND) {
-                changeSelection(list, EXTEND_SELECTION,
+            else if (nbme == SELECT_NEXT_ROW_EXTEND) {
+                chbngeSelection(list, EXTEND_SELECTION,
                                 getNextIndex(list, ui, 1), 1);
             }
-            else if (name == SELECT_NEXT_ROW_CHANGE_LEAD) {
-                changeSelection(list, CHANGE_LEAD,
+            else if (nbme == SELECT_NEXT_ROW_CHANGE_LEAD) {
+                chbngeSelection(list, CHANGE_LEAD,
                                 getNextIndex(list, ui, 1), 1);
             }
-            else if (name == SELECT_FIRST_ROW) {
-                changeSelection(list, CHANGE_SELECTION, 0, -1);
+            else if (nbme == SELECT_FIRST_ROW) {
+                chbngeSelection(list, CHANGE_SELECTION, 0, -1);
             }
-            else if (name == SELECT_FIRST_ROW_EXTEND) {
-                changeSelection(list, EXTEND_SELECTION, 0, -1);
+            else if (nbme == SELECT_FIRST_ROW_EXTEND) {
+                chbngeSelection(list, EXTEND_SELECTION, 0, -1);
             }
-            else if (name == SELECT_FIRST_ROW_CHANGE_LEAD) {
-                changeSelection(list, CHANGE_LEAD, 0, -1);
+            else if (nbme == SELECT_FIRST_ROW_CHANGE_LEAD) {
+                chbngeSelection(list, CHANGE_LEAD, 0, -1);
             }
-            else if (name == SELECT_LAST_ROW) {
-                changeSelection(list, CHANGE_SELECTION,
+            else if (nbme == SELECT_LAST_ROW) {
+                chbngeSelection(list, CHANGE_SELECTION,
                                 list.getModel().getSize() - 1, 1);
             }
-            else if (name == SELECT_LAST_ROW_EXTEND) {
-                changeSelection(list, EXTEND_SELECTION,
+            else if (nbme == SELECT_LAST_ROW_EXTEND) {
+                chbngeSelection(list, EXTEND_SELECTION,
                                 list.getModel().getSize() - 1, 1);
             }
-            else if (name == SELECT_LAST_ROW_CHANGE_LEAD) {
-                changeSelection(list, CHANGE_LEAD,
+            else if (nbme == SELECT_LAST_ROW_CHANGE_LEAD) {
+                chbngeSelection(list, CHANGE_LEAD,
                                 list.getModel().getSize() - 1, 1);
             }
-            else if (name == SCROLL_UP) {
-                changeSelection(list, CHANGE_SELECTION,
-                                getNextPageIndex(list, -1), -1);
+            else if (nbme == SCROLL_UP) {
+                chbngeSelection(list, CHANGE_SELECTION,
+                                getNextPbgeIndex(list, -1), -1);
             }
-            else if (name == SCROLL_UP_EXTEND) {
-                changeSelection(list, EXTEND_SELECTION,
-                                getNextPageIndex(list, -1), -1);
+            else if (nbme == SCROLL_UP_EXTEND) {
+                chbngeSelection(list, EXTEND_SELECTION,
+                                getNextPbgeIndex(list, -1), -1);
             }
-            else if (name == SCROLL_UP_CHANGE_LEAD) {
-                changeSelection(list, CHANGE_LEAD,
-                                getNextPageIndex(list, -1), -1);
+            else if (nbme == SCROLL_UP_CHANGE_LEAD) {
+                chbngeSelection(list, CHANGE_LEAD,
+                                getNextPbgeIndex(list, -1), -1);
             }
-            else if (name == SCROLL_DOWN) {
-                changeSelection(list, CHANGE_SELECTION,
-                                getNextPageIndex(list, 1), 1);
+            else if (nbme == SCROLL_DOWN) {
+                chbngeSelection(list, CHANGE_SELECTION,
+                                getNextPbgeIndex(list, 1), 1);
             }
-            else if (name == SCROLL_DOWN_EXTEND) {
-                changeSelection(list, EXTEND_SELECTION,
-                                getNextPageIndex(list, 1), 1);
+            else if (nbme == SCROLL_DOWN_EXTEND) {
+                chbngeSelection(list, EXTEND_SELECTION,
+                                getNextPbgeIndex(list, 1), 1);
             }
-            else if (name == SCROLL_DOWN_CHANGE_LEAD) {
-                changeSelection(list, CHANGE_LEAD,
-                                getNextPageIndex(list, 1), 1);
+            else if (nbme == SCROLL_DOWN_CHANGE_LEAD) {
+                chbngeSelection(list, CHANGE_LEAD,
+                                getNextPbgeIndex(list, 1), 1);
             }
-            else if (name == SELECT_ALL) {
+            else if (nbme == SELECT_ALL) {
                 selectAll(list);
             }
-            else if (name == CLEAR_SELECTION) {
-                clearSelection(list);
+            else if (nbme == CLEAR_SELECTION) {
+                clebrSelection(list);
             }
-            else if (name == ADD_TO_SELECTION) {
-                int index = adjustIndex(
-                    list.getSelectionModel().getLeadSelectionIndex(), list);
+            else if (nbme == ADD_TO_SELECTION) {
+                int index = bdjustIndex(
+                    list.getSelectionModel().getLebdSelectionIndex(), list);
 
                 if (!list.isSelectedIndex(index)) {
                     int oldAnchor = list.getSelectionModel().getAnchorSelectionIndex();
-                    list.setValueIsAdjusting(true);
-                    list.addSelectionInterval(index, index);
+                    list.setVblueIsAdjusting(true);
+                    list.bddSelectionIntervbl(index, index);
                     list.getSelectionModel().setAnchorSelectionIndex(oldAnchor);
-                    list.setValueIsAdjusting(false);
+                    list.setVblueIsAdjusting(fblse);
                 }
             }
-            else if (name == TOGGLE_AND_ANCHOR) {
-                int index = adjustIndex(
-                    list.getSelectionModel().getLeadSelectionIndex(), list);
+            else if (nbme == TOGGLE_AND_ANCHOR) {
+                int index = bdjustIndex(
+                    list.getSelectionModel().getLebdSelectionIndex(), list);
 
                 if (list.isSelectedIndex(index)) {
-                    list.removeSelectionInterval(index, index);
+                    list.removeSelectionIntervbl(index, index);
                 } else {
-                    list.addSelectionInterval(index, index);
+                    list.bddSelectionIntervbl(index, index);
                 }
             }
-            else if (name == EXTEND_TO) {
-                changeSelection(
+            else if (nbme == EXTEND_TO) {
+                chbngeSelection(
                     list, EXTEND_SELECTION,
-                    adjustIndex(list.getSelectionModel().getLeadSelectionIndex(), list),
+                    bdjustIndex(list.getSelectionModel().getLebdSelectionIndex(), list),
                     0);
             }
-            else if (name == MOVE_SELECTION_TO) {
-                changeSelection(
+            else if (nbme == MOVE_SELECTION_TO) {
+                chbngeSelection(
                     list, CHANGE_SELECTION,
-                    adjustIndex(list.getSelectionModel().getLeadSelectionIndex(), list),
+                    bdjustIndex(list.getSelectionModel().getLebdSelectionIndex(), list),
                     0);
             }
         }
 
-        public boolean isEnabled(Object c) {
-            Object name = getName();
-            if (name == SELECT_PREVIOUS_COLUMN_CHANGE_LEAD ||
-                    name == SELECT_NEXT_COLUMN_CHANGE_LEAD ||
-                    name == SELECT_PREVIOUS_ROW_CHANGE_LEAD ||
-                    name == SELECT_NEXT_ROW_CHANGE_LEAD ||
-                    name == SELECT_FIRST_ROW_CHANGE_LEAD ||
-                    name == SELECT_LAST_ROW_CHANGE_LEAD ||
-                    name == SCROLL_UP_CHANGE_LEAD ||
-                    name == SCROLL_DOWN_CHANGE_LEAD) {
+        public boolebn isEnbbled(Object c) {
+            Object nbme = getNbme();
+            if (nbme == SELECT_PREVIOUS_COLUMN_CHANGE_LEAD ||
+                    nbme == SELECT_NEXT_COLUMN_CHANGE_LEAD ||
+                    nbme == SELECT_PREVIOUS_ROW_CHANGE_LEAD ||
+                    nbme == SELECT_NEXT_ROW_CHANGE_LEAD ||
+                    nbme == SELECT_FIRST_ROW_CHANGE_LEAD ||
+                    nbme == SELECT_LAST_ROW_CHANGE_LEAD ||
+                    nbme == SCROLL_UP_CHANGE_LEAD ||
+                    nbme == SCROLL_DOWN_CHANGE_LEAD) {
 
-                // discontinuous selection actions are only enabled for
-                // DefaultListSelectionModel
+                // discontinuous selection bctions bre only enbbled for
+                // DefbultListSelectionModel
                 return c != null && ((JList)c).getSelectionModel()
-                                        instanceof DefaultListSelectionModel;
+                                        instbnceof DefbultListSelectionModel;
             }
 
             return true;
         }
 
-        private void clearSelection(JList<?> list) {
-            list.clearSelection();
+        privbte void clebrSelection(JList<?> list) {
+            list.clebrSelection();
         }
 
-        private void selectAll(JList<?> list) {
+        privbte void selectAll(JList<?> list) {
             int size = list.getModel().getSize();
             if (size > 0) {
                 ListSelectionModel lsm = list.getSelectionModel();
-                int lead = adjustIndex(lsm.getLeadSelectionIndex(), list);
+                int lebd = bdjustIndex(lsm.getLebdSelectionIndex(), list);
 
                 if (lsm.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
-                    if (lead == -1) {
-                        int min = adjustIndex(list.getMinSelectionIndex(), list);
-                        lead = (min == -1 ? 0 : min);
+                    if (lebd == -1) {
+                        int min = bdjustIndex(list.getMinSelectionIndex(), list);
+                        lebd = (min == -1 ? 0 : min);
                     }
 
-                    list.setSelectionInterval(lead, lead);
-                    list.ensureIndexIsVisible(lead);
+                    list.setSelectionIntervbl(lebd, lebd);
+                    list.ensureIndexIsVisible(lebd);
                 } else {
-                    list.setValueIsAdjusting(true);
+                    list.setVblueIsAdjusting(true);
 
-                    int anchor = adjustIndex(lsm.getAnchorSelectionIndex(), list);
+                    int bnchor = bdjustIndex(lsm.getAnchorSelectionIndex(), list);
 
-                    list.setSelectionInterval(0, size - 1);
+                    list.setSelectionIntervbl(0, size - 1);
 
-                    // this is done to restore the anchor and lead
-                    SwingUtilities2.setLeadAnchorWithoutSelection(lsm, anchor, lead);
+                    // this is done to restore the bnchor bnd lebd
+                    SwingUtilities2.setLebdAnchorWithoutSelection(lsm, bnchor, lebd);
 
-                    list.setValueIsAdjusting(false);
+                    list.setVblueIsAdjusting(fblse);
                 }
             }
         }
 
-        private int getNextPageIndex(JList<?> list, int direction) {
+        privbte int getNextPbgeIndex(JList<?> list, int direction) {
             if (list.getModel().getSize() == 0) {
                 return -1;
             }
 
             int index = -1;
-            Rectangle visRect = list.getVisibleRect();
+            Rectbngle visRect = list.getVisibleRect();
             ListSelectionModel lsm = list.getSelectionModel();
-            int lead = adjustIndex(lsm.getLeadSelectionIndex(), list);
-            Rectangle leadRect =
-                (lead==-1) ? new Rectangle() : list.getCellBounds(lead, lead);
+            int lebd = bdjustIndex(lsm.getLebdSelectionIndex(), list);
+            Rectbngle lebdRect =
+                (lebd==-1) ? new Rectbngle() : list.getCellBounds(lebd, lebd);
 
-            if (list.getLayoutOrientation() == JList.VERTICAL_WRAP &&
+            if (list.getLbyoutOrientbtion() == JList.VERTICAL_WRAP &&
                 list.getVisibleRowCount() <= 0) {
-                if (!list.getComponentOrientation().isLeftToRight()) {
+                if (!list.getComponentOrientbtion().isLeftToRight()) {
                     direction = -direction;
                 }
-                // apply for horizontal scrolling: the step for next
-                // page index is number of visible columns
+                // bpply for horizontbl scrolling: the step for next
+                // pbge index is number of visible columns
                 if (direction < 0) {
                     // left
-                    visRect.x = leadRect.x + leadRect.width - visRect.width;
-                    Point p = new Point(visRect.x - 1, leadRect.y);
-                    index = list.locationToIndex(p);
-                    Rectangle cellBounds = list.getCellBounds(index, index);
+                    visRect.x = lebdRect.x + lebdRect.width - visRect.width;
+                    Point p = new Point(visRect.x - 1, lebdRect.y);
+                    index = list.locbtionToIndex(p);
+                    Rectbngle cellBounds = list.getCellBounds(index, index);
                     if (visRect.intersects(cellBounds)) {
                         p.x = cellBounds.x - 1;
-                        index = list.locationToIndex(p);
+                        index = list.locbtionToIndex(p);
                         cellBounds = list.getCellBounds(index, index);
                     }
-                    // this is necessary for right-to-left orientation only
-                    if (cellBounds.y != leadRect.y) {
+                    // this is necessbry for right-to-left orientbtion only
+                    if (cellBounds.y != lebdRect.y) {
                         p.x = cellBounds.x + cellBounds.width;
-                        index = list.locationToIndex(p);
+                        index = list.locbtionToIndex(p);
                     }
                 }
                 else {
                     // right
-                    visRect.x = leadRect.x;
-                    Point p = new Point(visRect.x + visRect.width, leadRect.y);
-                    index = list.locationToIndex(p);
-                    Rectangle cellBounds = list.getCellBounds(index, index);
+                    visRect.x = lebdRect.x;
+                    Point p = new Point(visRect.x + visRect.width, lebdRect.y);
+                    index = list.locbtionToIndex(p);
+                    Rectbngle cellBounds = list.getCellBounds(index, index);
                     if (visRect.intersects(cellBounds)) {
                         p.x = cellBounds.x + cellBounds.width;
-                        index = list.locationToIndex(p);
+                        index = list.locbtionToIndex(p);
                         cellBounds = list.getCellBounds(index, index);
                     }
-                    if (cellBounds.y != leadRect.y) {
+                    if (cellBounds.y != lebdRect.y) {
                         p.x = cellBounds.x - 1;
-                        index = list.locationToIndex(p);
+                        index = list.locbtionToIndex(p);
                     }
                 }
             }
@@ -2170,67 +2170,67 @@ public class BasicListUI extends ListUI
                 if (direction < 0) {
                     // up
                     // go to the first visible cell
-                    Point p = new Point(leadRect.x, visRect.y);
-                    index = list.locationToIndex(p);
-                    if (lead <= index) {
-                        // if lead is the first visible cell (or above it)
-                        // adjust the visible rect up
-                        visRect.y = leadRect.y + leadRect.height - visRect.height;
+                    Point p = new Point(lebdRect.x, visRect.y);
+                    index = list.locbtionToIndex(p);
+                    if (lebd <= index) {
+                        // if lebd is the first visible cell (or bbove it)
+                        // bdjust the visible rect up
+                        visRect.y = lebdRect.y + lebdRect.height - visRect.height;
                         p.y = visRect.y;
-                        index = list.locationToIndex(p);
-                        Rectangle cellBounds = list.getCellBounds(index, index);
+                        index = list.locbtionToIndex(p);
+                        Rectbngle cellBounds = list.getCellBounds(index, index);
                         // go one cell down if first visible cell doesn't fit
-                        // into adjasted visible rectangle
+                        // into bdjbsted visible rectbngle
                         if (cellBounds.y < visRect.y) {
                             p.y = cellBounds.y + cellBounds.height;
-                            index = list.locationToIndex(p);
+                            index = list.locbtionToIndex(p);
                             cellBounds = list.getCellBounds(index, index);
                         }
-                        // if index isn't less then lead
-                        // try to go to cell previous to lead
-                        if (cellBounds.y >= leadRect.y) {
-                            p.y = leadRect.y - 1;
-                            index = list.locationToIndex(p);
+                        // if index isn't less then lebd
+                        // try to go to cell previous to lebd
+                        if (cellBounds.y >= lebdRect.y) {
+                            p.y = lebdRect.y - 1;
+                            index = list.locbtionToIndex(p);
                         }
                     }
                 }
                 else {
                     // down
-                    // go to the last completely visible cell
-                    Point p = new Point(leadRect.x,
+                    // go to the lbst completely visible cell
+                    Point p = new Point(lebdRect.x,
                                         visRect.y + visRect.height - 1);
-                    index = list.locationToIndex(p);
-                    Rectangle cellBounds = list.getCellBounds(index, index);
-                    // go up one cell if last visible cell doesn't fit
-                    // into visible rectangle
+                    index = list.locbtionToIndex(p);
+                    Rectbngle cellBounds = list.getCellBounds(index, index);
+                    // go up one cell if lbst visible cell doesn't fit
+                    // into visible rectbngle
                     if (cellBounds.y + cellBounds.height >
                         visRect.y + visRect.height) {
                         p.y = cellBounds.y - 1;
-                        index = list.locationToIndex(p);
+                        index = list.locbtionToIndex(p);
                         cellBounds = list.getCellBounds(index, index);
-                        index = Math.max(index, lead);
+                        index = Mbth.mbx(index, lebd);
                     }
 
-                    if (lead >= index) {
-                        // if lead is the last completely visible index
-                        // (or below it) adjust the visible rect down
-                        visRect.y = leadRect.y;
+                    if (lebd >= index) {
+                        // if lebd is the lbst completely visible index
+                        // (or below it) bdjust the visible rect down
+                        visRect.y = lebdRect.y;
                         p.y = visRect.y + visRect.height - 1;
-                        index = list.locationToIndex(p);
+                        index = list.locbtionToIndex(p);
                         cellBounds = list.getCellBounds(index, index);
-                        // go one cell up if last visible cell doesn't fit
-                        // into adjasted visible rectangle
+                        // go one cell up if lbst visible cell doesn't fit
+                        // into bdjbsted visible rectbngle
                         if (cellBounds.y + cellBounds.height >
                             visRect.y + visRect.height) {
                             p.y = cellBounds.y - 1;
-                            index = list.locationToIndex(p);
+                            index = list.locbtionToIndex(p);
                             cellBounds = list.getCellBounds(index, index);
                         }
-                        // if index isn't greater then lead
-                        // try to go to cell next after lead
-                        if (cellBounds.y <= leadRect.y) {
-                            p.y = leadRect.y + leadRect.height;
-                            index = list.locationToIndex(p);
+                        // if index isn't grebter then lebd
+                        // try to go to cell next bfter lebd
+                        if (cellBounds.y <= lebdRect.y) {
+                            p.y = lebdRect.y + lebdRect.height;
+                            index = list.locbtionToIndex(p);
                         }
                     }
                 }
@@ -2238,12 +2238,12 @@ public class BasicListUI extends ListUI
             return index;
         }
 
-        private void changeSelection(JList<?> list, int type,
+        privbte void chbngeSelection(JList<?> list, int type,
                                      int index, int direction) {
             if (index >= 0 && index < list.getModel().getSize()) {
                 ListSelectionModel lsm = list.getSelectionModel();
 
-                // CHANGE_LEAD is only valid with multiple interval selection
+                // CHANGE_LEAD is only vblid with multiple intervbl selection
                 if (type == CHANGE_LEAD &&
                         list.getSelectionMode()
                             != ListSelectionModel.MULTIPLE_INTERVAL_SELECTION) {
@@ -2251,64 +2251,64 @@ public class BasicListUI extends ListUI
                     type = CHANGE_SELECTION;
                 }
 
-                // IMPORTANT - This needs to happen before the index is changed.
-                // This is because JFileChooser, which uses JList, also scrolls
-                // the selected item into view. If that happens first, then
-                // this method becomes a no-op.
-                adjustScrollPositionIfNecessary(list, index, direction);
+                // IMPORTANT - This needs to hbppen before the index is chbnged.
+                // This is becbuse JFileChooser, which uses JList, blso scrolls
+                // the selected item into view. If thbt hbppens first, then
+                // this method becomes b no-op.
+                bdjustScrollPositionIfNecessbry(list, index, direction);
 
                 if (type == EXTEND_SELECTION) {
-                    int anchor = adjustIndex(lsm.getAnchorSelectionIndex(), list);
-                    if (anchor == -1) {
-                        anchor = 0;
+                    int bnchor = bdjustIndex(lsm.getAnchorSelectionIndex(), list);
+                    if (bnchor == -1) {
+                        bnchor = 0;
                     }
 
-                    list.setSelectionInterval(anchor, index);
+                    list.setSelectionIntervbl(bnchor, index);
                 }
                 else if (type == CHANGE_SELECTION) {
                     list.setSelectedIndex(index);
                 }
                 else {
-                    // casting should be safe since the action is only enabled
-                    // for DefaultListSelectionModel
-                    ((DefaultListSelectionModel)lsm).moveLeadSelectionIndex(index);
+                    // cbsting should be sbfe since the bction is only enbbled
+                    // for DefbultListSelectionModel
+                    ((DefbultListSelectionModel)lsm).moveLebdSelectionIndex(index);
                 }
             }
         }
 
         /**
-         * When scroll down makes selected index the last completely visible
-         * index. When scroll up makes selected index the first visible index.
-         * Adjust visible rectangle respect to list's component orientation.
+         * When scroll down mbkes selected index the lbst completely visible
+         * index. When scroll up mbkes selected index the first visible index.
+         * Adjust visible rectbngle respect to list's component orientbtion.
          */
-        private void adjustScrollPositionIfNecessary(JList<?> list, int index,
+        privbte void bdjustScrollPositionIfNecessbry(JList<?> list, int index,
                                                      int direction) {
             if (direction == 0) {
                 return;
             }
-            Rectangle cellBounds = list.getCellBounds(index, index);
-            Rectangle visRect = list.getVisibleRect();
-            if (cellBounds != null && !visRect.contains(cellBounds)) {
-                if (list.getLayoutOrientation() == JList.VERTICAL_WRAP &&
+            Rectbngle cellBounds = list.getCellBounds(index, index);
+            Rectbngle visRect = list.getVisibleRect();
+            if (cellBounds != null && !visRect.contbins(cellBounds)) {
+                if (list.getLbyoutOrientbtion() == JList.VERTICAL_WRAP &&
                     list.getVisibleRowCount() <= 0) {
-                    // horizontal
-                    if (list.getComponentOrientation().isLeftToRight()) {
+                    // horizontbl
+                    if (list.getComponentOrientbtion().isLeftToRight()) {
                         if (direction > 0) {
                             // right for left-to-right
-                            int x =Math.max(0,
+                            int x =Mbth.mbx(0,
                                 cellBounds.x + cellBounds.width - visRect.width);
-                            int startIndex =
-                                list.locationToIndex(new Point(x, cellBounds.y));
-                            Rectangle startRect = list.getCellBounds(startIndex,
-                                                                     startIndex);
-                            if (startRect.x < x && startRect.x < cellBounds.x) {
-                                startRect.x += startRect.width;
-                                startIndex =
-                                    list.locationToIndex(startRect.getLocation());
-                                startRect = list.getCellBounds(startIndex,
-                                                               startIndex);
+                            int stbrtIndex =
+                                list.locbtionToIndex(new Point(x, cellBounds.y));
+                            Rectbngle stbrtRect = list.getCellBounds(stbrtIndex,
+                                                                     stbrtIndex);
+                            if (stbrtRect.x < x && stbrtRect.x < cellBounds.x) {
+                                stbrtRect.x += stbrtRect.width;
+                                stbrtIndex =
+                                    list.locbtionToIndex(stbrtRect.getLocbtion());
+                                stbrtRect = list.getCellBounds(stbrtIndex,
+                                                               stbrtIndex);
                             }
-                            cellBounds = startRect;
+                            cellBounds = stbrtRect;
                         }
                         cellBounds.width = visRect.width;
                     }
@@ -2317,62 +2317,62 @@ public class BasicListUI extends ListUI
                             // left for right-to-left
                             int x = cellBounds.x + visRect.width;
                             int rightIndex =
-                                list.locationToIndex(new Point(x, cellBounds.y));
-                            Rectangle rightRect = list.getCellBounds(rightIndex,
+                                list.locbtionToIndex(new Point(x, cellBounds.y));
+                            Rectbngle rightRect = list.getCellBounds(rightIndex,
                                                                      rightIndex);
                             if (rightRect.x + rightRect.width > x &&
                                 rightRect.x > cellBounds.x) {
                                 rightRect.width = 0;
                             }
-                            cellBounds.x = Math.max(0,
+                            cellBounds.x = Mbth.mbx(0,
                                 rightRect.x + rightRect.width - visRect.width);
                             cellBounds.width = visRect.width;
                         }
                         else {
-                            cellBounds.x += Math.max(0,
+                            cellBounds.x += Mbth.mbx(0,
                                 cellBounds.width - visRect.width);
-                            // adjust width to fit into visible rectangle
-                            cellBounds.width = Math.min(cellBounds.width,
+                            // bdjust width to fit into visible rectbngle
+                            cellBounds.width = Mbth.min(cellBounds.width,
                                                         visRect.width);
                         }
                     }
                 }
                 else {
-                    // vertical
+                    // verticbl
                     if (direction > 0 &&
                             (cellBounds.y < visRect.y ||
                                     cellBounds.y + cellBounds.height
                                             > visRect.y + visRect.height)) {
                         //down
-                        int y = Math.max(0,
+                        int y = Mbth.mbx(0,
                             cellBounds.y + cellBounds.height - visRect.height);
-                        int startIndex =
-                            list.locationToIndex(new Point(cellBounds.x, y));
-                        Rectangle startRect = list.getCellBounds(startIndex,
-                                                                 startIndex);
-                        if (startRect.y < y && startRect.y < cellBounds.y) {
-                            startRect.y += startRect.height;
-                            startIndex =
-                                list.locationToIndex(startRect.getLocation());
-                            startRect =
-                                list.getCellBounds(startIndex, startIndex);
+                        int stbrtIndex =
+                            list.locbtionToIndex(new Point(cellBounds.x, y));
+                        Rectbngle stbrtRect = list.getCellBounds(stbrtIndex,
+                                                                 stbrtIndex);
+                        if (stbrtRect.y < y && stbrtRect.y < cellBounds.y) {
+                            stbrtRect.y += stbrtRect.height;
+                            stbrtIndex =
+                                list.locbtionToIndex(stbrtRect.getLocbtion());
+                            stbrtRect =
+                                list.getCellBounds(stbrtIndex, stbrtIndex);
                         }
-                        cellBounds = startRect;
+                        cellBounds = stbrtRect;
                         cellBounds.height = visRect.height;
                     }
                     else {
-                        // adjust height to fit into visible rectangle
-                        cellBounds.height = Math.min(cellBounds.height, visRect.height);
+                        // bdjust height to fit into visible rectbngle
+                        cellBounds.height = Mbth.min(cellBounds.height, visRect.height);
                     }
                 }
                 list.scrollRectToVisible(cellBounds);
             }
         }
 
-        private int getNextColumnIndex(JList<?> list, BasicListUI ui,
-                                       int amount) {
-            if (list.getLayoutOrientation() != JList.VERTICAL) {
-                int index = adjustIndex(list.getLeadSelectionIndex(), list);
+        privbte int getNextColumnIndex(JList<?> list, BbsicListUI ui,
+                                       int bmount) {
+            if (list.getLbyoutOrientbtion() != JList.VERTICAL) {
+                int index = bdjustIndex(list.getLebdSelectionIndex(), list);
                 int size = list.getModel().getSize();
 
                 if (index == -1) {
@@ -2387,28 +2387,28 @@ public class BasicListUI extends ListUI
                 int column = ui.convertModelToColumn(index);
                 int row = ui.convertModelToRow(index);
 
-                column += amount;
+                column += bmount;
                 if (column >= ui.columnCount || column < 0) {
-                    // No wrapping.
+                    // No wrbpping.
                     return -1;
                 }
-                int maxRowCount = ui.getRowCount(column);
-                if (row >= maxRowCount) {
+                int mbxRowCount = ui.getRowCount(column);
+                if (row >= mbxRowCount) {
                     return -1;
                 }
                 return ui.getModelIndex(column, row);
             }
-            // Won't change the selection.
+            // Won't chbnge the selection.
             return -1;
         }
 
-        private int getNextIndex(JList<?> list, BasicListUI ui, int amount) {
-            int index = adjustIndex(list.getLeadSelectionIndex(), list);
+        privbte int getNextIndex(JList<?> list, BbsicListUI ui, int bmount) {
+            int index = bdjustIndex(list.getLebdSelectionIndex(), list);
             int size = list.getModel().getSize();
 
             if (index == -1) {
                 if (size > 0) {
-                    if (amount > 0) {
+                    if (bmount > 0) {
                         index = 0;
                     }
                     else {
@@ -2418,12 +2418,12 @@ public class BasicListUI extends ListUI
             } else if (size == 1) {
                 // there's only one item so we should select it
                 index = 0;
-            } else if (list.getLayoutOrientation() == JList.HORIZONTAL_WRAP) {
+            } else if (list.getLbyoutOrientbtion() == JList.HORIZONTAL_WRAP) {
                 if (ui != null) {
-                    index += ui.columnCount * amount;
+                    index += ui.columnCount * bmount;
                 }
             } else {
-                index += amount;
+                index += bmount;
             }
 
             return index;
@@ -2431,72 +2431,72 @@ public class BasicListUI extends ListUI
     }
 
 
-    private class Handler implements FocusListener, KeyListener,
-                          ListDataListener, ListSelectionListener,
-                          MouseInputListener, PropertyChangeListener,
-                          BeforeDrag {
+    privbte clbss Hbndler implements FocusListener, KeyListener,
+                          ListDbtbListener, ListSelectionListener,
+                          MouseInputListener, PropertyChbngeListener,
+                          BeforeDrbg {
         //
         // KeyListener
         //
-        private String prefix = "";
-        private String typedString = "";
-        private long lastTime = 0L;
+        privbte String prefix = "";
+        privbte String typedString = "";
+        privbte long lbstTime = 0L;
 
         /**
-         * Invoked when a key has been typed.
+         * Invoked when b key hbs been typed.
          *
-         * Moves the keyboard focus to the first element whose prefix matches the
-         * sequence of alphanumeric keys pressed by the user with delay less
-         * than value of <code>timeFactor</code> property (or 1000 milliseconds
-         * if it is not defined). Subsequent same key presses move the keyboard
-         * focus to the next object that starts with the same letter until another
-         * key is pressed, then it is treated as the prefix with appropriate number
-         * of the same letters followed by first typed another letter.
+         * Moves the keybobrd focus to the first element whose prefix mbtches the
+         * sequence of blphbnumeric keys pressed by the user with delby less
+         * thbn vblue of <code>timeFbctor</code> property (or 1000 milliseconds
+         * if it is not defined). Subsequent sbme key presses move the keybobrd
+         * focus to the next object thbt stbrts with the sbme letter until bnother
+         * key is pressed, then it is trebted bs the prefix with bppropribte number
+         * of the sbme letters followed by first typed bnother letter.
          */
         public void keyTyped(KeyEvent e) {
             JList<?> src = (JList)e.getSource();
             ListModel<?> model = src.getModel();
 
             if (model.getSize() == 0 || e.isAltDown() ||
-                    BasicGraphicsUtils.isMenuShortcutKeyDown(e) ||
-                    isNavigationKey(e)) {
+                    BbsicGrbphicsUtils.isMenuShortcutKeyDown(e) ||
+                    isNbvigbtionKey(e)) {
                 // Nothing to select
                 return;
             }
-            boolean startingFromSelection = true;
+            boolebn stbrtingFromSelection = true;
 
-            char c = e.getKeyChar();
+            chbr c = e.getKeyChbr();
 
             long time = e.getWhen();
-            int startIndex = adjustIndex(src.getLeadSelectionIndex(), list);
-            if (time - lastTime < timeFactor) {
+            int stbrtIndex = bdjustIndex(src.getLebdSelectionIndex(), list);
+            if (time - lbstTime < timeFbctor) {
                 typedString += c;
-                if((prefix.length() == 1) && (c == prefix.charAt(0))) {
-                    // Subsequent same key presses move the keyboard focus to the next
-                    // object that starts with the same letter.
-                    startIndex++;
+                if((prefix.length() == 1) && (c == prefix.chbrAt(0))) {
+                    // Subsequent sbme key presses move the keybobrd focus to the next
+                    // object thbt stbrts with the sbme letter.
+                    stbrtIndex++;
                 } else {
                     prefix = typedString;
                 }
             } else {
-                startIndex++;
+                stbrtIndex++;
                 typedString = "" + c;
                 prefix = typedString;
             }
-            lastTime = time;
+            lbstTime = time;
 
-            if (startIndex < 0 || startIndex >= model.getSize()) {
-                startingFromSelection = false;
-                startIndex = 0;
+            if (stbrtIndex < 0 || stbrtIndex >= model.getSize()) {
+                stbrtingFromSelection = fblse;
+                stbrtIndex = 0;
             }
-            int index = src.getNextMatch(prefix, startIndex,
-                                         Position.Bias.Forward);
+            int index = src.getNextMbtch(prefix, stbrtIndex,
+                                         Position.Bibs.Forwbrd);
             if (index >= 0) {
                 src.setSelectedIndex(index);
                 src.ensureIndexIsVisible(index);
-            } else if (startingFromSelection) { // wrap
-                index = src.getNextMatch(prefix, 0,
-                                         Position.Bias.Forward);
+            } else if (stbrtingFromSelection) { // wrbp
+                index = src.getNextMbtch(prefix, 0,
+                                         Position.Bibs.Forwbrd);
                 if (index >= 0) {
                     src.setSelectedIndex(index);
                     src.ensureIndexIsVisible(index);
@@ -2505,142 +2505,142 @@ public class BasicListUI extends ListUI
         }
 
         /**
-         * Invoked when a key has been pressed.
+         * Invoked when b key hbs been pressed.
          *
-         * Checks to see if the key event is a navigation key to prevent
-         * dispatching these keys for the first letter navigation.
+         * Checks to see if the key event is b nbvigbtion key to prevent
+         * dispbtching these keys for the first letter nbvigbtion.
          */
         public void keyPressed(KeyEvent e) {
-            if ( isNavigationKey(e) ) {
+            if ( isNbvigbtionKey(e) ) {
                 prefix = "";
                 typedString = "";
-                lastTime = 0L;
+                lbstTime = 0L;
             }
         }
 
         /**
-         * Invoked when a key has been released.
-         * See the class description for {@link KeyEvent} for a definition of
-         * a key released event.
+         * Invoked when b key hbs been relebsed.
+         * See the clbss description for {@link KeyEvent} for b definition of
+         * b key relebsed event.
          */
-        public void keyReleased(KeyEvent e) {
+        public void keyRelebsed(KeyEvent e) {
         }
 
         /**
-         * Returns whether or not the supplied key event maps to a key that is used for
-         * navigation.  This is used for optimizing key input by only passing non-
-         * navigation keys to the first letter navigation mechanism.
+         * Returns whether or not the supplied key event mbps to b key thbt is used for
+         * nbvigbtion.  This is used for optimizing key input by only pbssing non-
+         * nbvigbtion keys to the first letter nbvigbtion mechbnism.
          */
-        private boolean isNavigationKey(KeyEvent event) {
-            InputMap inputMap = list.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        privbte boolebn isNbvigbtionKey(KeyEvent event) {
+            InputMbp inputMbp = list.getInputMbp(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
             KeyStroke key = KeyStroke.getKeyStrokeForEvent(event);
 
-            if (inputMap != null && inputMap.get(key) != null) {
+            if (inputMbp != null && inputMbp.get(key) != null) {
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent e) {
-            String propertyName = e.getPropertyName();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String propertyNbme = e.getPropertyNbme();
 
-            /* If the JList.model property changes, remove our listener,
-             * listDataListener from the old model and add it to the new one.
+            /* If the JList.model property chbnges, remove our listener,
+             * listDbtbListener from the old model bnd bdd it to the new one.
              */
-            if (propertyName == "model") {
-                @SuppressWarnings("unchecked")
-                ListModel<?> oldModel = (ListModel)e.getOldValue();
-                @SuppressWarnings("unchecked")
-                ListModel<?> newModel = (ListModel)e.getNewValue();
+            if (propertyNbme == "model") {
+                @SuppressWbrnings("unchecked")
+                ListModel<?> oldModel = (ListModel)e.getOldVblue();
+                @SuppressWbrnings("unchecked")
+                ListModel<?> newModel = (ListModel)e.getNewVblue();
                 if (oldModel != null) {
-                    oldModel.removeListDataListener(listDataListener);
+                    oldModel.removeListDbtbListener(listDbtbListener);
                 }
                 if (newModel != null) {
-                    newModel.addListDataListener(listDataListener);
+                    newModel.bddListDbtbListener(listDbtbListener);
                 }
-                updateLayoutStateNeeded |= modelChanged;
-                redrawList();
+                updbteLbyoutStbteNeeded |= modelChbnged;
+                redrbwList();
             }
 
-            /* If the JList.selectionModel property changes, remove our listener,
-             * listSelectionListener from the old selectionModel and add it to the new one.
+            /* If the JList.selectionModel property chbnges, remove our listener,
+             * listSelectionListener from the old selectionModel bnd bdd it to the new one.
              */
-            else if (propertyName == "selectionModel") {
-                ListSelectionModel oldModel = (ListSelectionModel)e.getOldValue();
-                ListSelectionModel newModel = (ListSelectionModel)e.getNewValue();
+            else if (propertyNbme == "selectionModel") {
+                ListSelectionModel oldModel = (ListSelectionModel)e.getOldVblue();
+                ListSelectionModel newModel = (ListSelectionModel)e.getNewVblue();
                 if (oldModel != null) {
                     oldModel.removeListSelectionListener(listSelectionListener);
                 }
                 if (newModel != null) {
-                    newModel.addListSelectionListener(listSelectionListener);
+                    newModel.bddListSelectionListener(listSelectionListener);
                 }
-                updateLayoutStateNeeded |= modelChanged;
-                redrawList();
+                updbteLbyoutStbteNeeded |= modelChbnged;
+                redrbwList();
             }
-            else if (propertyName == "cellRenderer") {
-                updateLayoutStateNeeded |= cellRendererChanged;
-                redrawList();
+            else if (propertyNbme == "cellRenderer") {
+                updbteLbyoutStbteNeeded |= cellRendererChbnged;
+                redrbwList();
             }
-            else if (propertyName == "font") {
-                updateLayoutStateNeeded |= fontChanged;
-                redrawList();
+            else if (propertyNbme == "font") {
+                updbteLbyoutStbteNeeded |= fontChbnged;
+                redrbwList();
             }
-            else if (propertyName == "prototypeCellValue") {
-                updateLayoutStateNeeded |= prototypeCellValueChanged;
-                redrawList();
+            else if (propertyNbme == "prototypeCellVblue") {
+                updbteLbyoutStbteNeeded |= prototypeCellVblueChbnged;
+                redrbwList();
             }
-            else if (propertyName == "fixedCellHeight") {
-                updateLayoutStateNeeded |= fixedCellHeightChanged;
-                redrawList();
+            else if (propertyNbme == "fixedCellHeight") {
+                updbteLbyoutStbteNeeded |= fixedCellHeightChbnged;
+                redrbwList();
             }
-            else if (propertyName == "fixedCellWidth") {
-                updateLayoutStateNeeded |= fixedCellWidthChanged;
-                redrawList();
+            else if (propertyNbme == "fixedCellWidth") {
+                updbteLbyoutStbteNeeded |= fixedCellWidthChbnged;
+                redrbwList();
             }
-            else if (propertyName == "selectionForeground") {
-                list.repaint();
+            else if (propertyNbme == "selectionForeground") {
+                list.repbint();
             }
-            else if (propertyName == "selectionBackground") {
-                list.repaint();
+            else if (propertyNbme == "selectionBbckground") {
+                list.repbint();
             }
-            else if ("layoutOrientation" == propertyName) {
-                updateLayoutStateNeeded |= layoutOrientationChanged;
-                layoutOrientation = list.getLayoutOrientation();
-                redrawList();
+            else if ("lbyoutOrientbtion" == propertyNbme) {
+                updbteLbyoutStbteNeeded |= lbyoutOrientbtionChbnged;
+                lbyoutOrientbtion = list.getLbyoutOrientbtion();
+                redrbwList();
             }
-            else if ("visibleRowCount" == propertyName) {
-                if (layoutOrientation != JList.VERTICAL) {
-                    updateLayoutStateNeeded |= layoutOrientationChanged;
-                    redrawList();
+            else if ("visibleRowCount" == propertyNbme) {
+                if (lbyoutOrientbtion != JList.VERTICAL) {
+                    updbteLbyoutStbteNeeded |= lbyoutOrientbtionChbnged;
+                    redrbwList();
                 }
             }
-            else if ("componentOrientation" == propertyName) {
-                isLeftToRight = list.getComponentOrientation().isLeftToRight();
-                updateLayoutStateNeeded |= componentOrientationChanged;
-                redrawList();
+            else if ("componentOrientbtion" == propertyNbme) {
+                isLeftToRight = list.getComponentOrientbtion().isLeftToRight();
+                updbteLbyoutStbteNeeded |= componentOrientbtionChbnged;
+                redrbwList();
 
-                InputMap inputMap = getInputMap(JComponent.WHEN_FOCUSED);
-                SwingUtilities.replaceUIInputMap(list, JComponent.WHEN_FOCUSED,
-                                                 inputMap);
-            } else if ("List.isFileList" == propertyName) {
-                updateIsFileList();
-                redrawList();
-            } else if ("dropLocation" == propertyName) {
-                JList.DropLocation oldValue = (JList.DropLocation)e.getOldValue();
-                repaintDropLocation(oldValue);
-                repaintDropLocation(list.getDropLocation());
+                InputMbp inputMbp = getInputMbp(JComponent.WHEN_FOCUSED);
+                SwingUtilities.replbceUIInputMbp(list, JComponent.WHEN_FOCUSED,
+                                                 inputMbp);
+            } else if ("List.isFileList" == propertyNbme) {
+                updbteIsFileList();
+                redrbwList();
+            } else if ("dropLocbtion" == propertyNbme) {
+                JList.DropLocbtion oldVblue = (JList.DropLocbtion)e.getOldVblue();
+                repbintDropLocbtion(oldVblue);
+                repbintDropLocbtion(list.getDropLocbtion());
             }
         }
 
-        private void repaintDropLocation(JList.DropLocation loc) {
+        privbte void repbintDropLocbtion(JList.DropLocbtion loc) {
             if (loc == null) {
                 return;
             }
 
-            Rectangle r;
+            Rectbngle r;
 
             if (loc.isInsert()) {
                 r = getDropLineRect(loc);
@@ -2649,76 +2649,76 @@ public class BasicListUI extends ListUI
             }
 
             if (r != null) {
-                list.repaint(r);
+                list.repbint(r);
             }
         }
 
         //
-        // ListDataListener
+        // ListDbtbListener
         //
-        public void intervalAdded(ListDataEvent e) {
-            updateLayoutStateNeeded = modelChanged;
+        public void intervblAdded(ListDbtbEvent e) {
+            updbteLbyoutStbteNeeded = modelChbnged;
 
-            int minIndex = Math.min(e.getIndex0(), e.getIndex1());
-            int maxIndex = Math.max(e.getIndex0(), e.getIndex1());
+            int minIndex = Mbth.min(e.getIndex0(), e.getIndex1());
+            int mbxIndex = Mbth.mbx(e.getIndex0(), e.getIndex1());
 
-            /* Sync the SelectionModel with the DataModel.
+            /* Sync the SelectionModel with the DbtbModel.
              */
 
             ListSelectionModel sm = list.getSelectionModel();
             if (sm != null) {
-                sm.insertIndexInterval(minIndex, maxIndex - minIndex+1, true);
+                sm.insertIndexIntervbl(minIndex, mbxIndex - minIndex+1, true);
             }
 
-            /* Repaint the entire list, from the origin of
-             * the first added cell, to the bottom of the
+            /* Repbint the entire list, from the origin of
+             * the first bdded cell, to the bottom of the
              * component.
              */
-            redrawList();
+            redrbwList();
         }
 
 
-        public void intervalRemoved(ListDataEvent e)
+        public void intervblRemoved(ListDbtbEvent e)
         {
-            updateLayoutStateNeeded = modelChanged;
+            updbteLbyoutStbteNeeded = modelChbnged;
 
-            /* Sync the SelectionModel with the DataModel.
+            /* Sync the SelectionModel with the DbtbModel.
              */
 
             ListSelectionModel sm = list.getSelectionModel();
             if (sm != null) {
-                sm.removeIndexInterval(e.getIndex0(), e.getIndex1());
+                sm.removeIndexIntervbl(e.getIndex0(), e.getIndex1());
             }
 
-            /* Repaint the entire list, from the origin of
+            /* Repbint the entire list, from the origin of
              * the first removed cell, to the bottom of the
              * component.
              */
 
-            redrawList();
+            redrbwList();
         }
 
 
-        public void contentsChanged(ListDataEvent e) {
-            updateLayoutStateNeeded = modelChanged;
-            redrawList();
+        public void contentsChbnged(ListDbtbEvent e) {
+            updbteLbyoutStbteNeeded = modelChbnged;
+            redrbwList();
         }
 
 
         //
         // ListSelectionListener
         //
-        public void valueChanged(ListSelectionEvent e) {
-            maybeUpdateLayoutState();
+        public void vblueChbnged(ListSelectionEvent e) {
+            mbybeUpdbteLbyoutStbte();
 
             int size = list.getModel().getSize();
-            int firstIndex = Math.min(size - 1, Math.max(e.getFirstIndex(), 0));
-            int lastIndex = Math.min(size - 1, Math.max(e.getLastIndex(), 0));
+            int firstIndex = Mbth.min(size - 1, Mbth.mbx(e.getFirstIndex(), 0));
+            int lbstIndex = Mbth.min(size - 1, Mbth.mbx(e.getLbstIndex(), 0));
 
-            Rectangle bounds = getCellBounds(list, firstIndex, lastIndex);
+            Rectbngle bounds = getCellBounds(list, firstIndex, lbstIndex);
 
             if (bounds != null) {
-                list.repaint(bounds.x, bounds.y, bounds.width, bounds.height);
+                list.repbint(bounds.x, bounds.y, bounds.width, bounds.height);
             }
         }
 
@@ -2734,133 +2734,133 @@ public class BasicListUI extends ListUI
         public void mouseExited(MouseEvent e) {
         }
 
-        // Whether or not the mouse press (which is being considered as part
-        // of a drag sequence) also caused the selection change to be fully
+        // Whether or not the mouse press (which is being considered bs pbrt
+        // of b drbg sequence) blso cbused the selection chbnge to be fully
         // processed.
-        private boolean dragPressDidSelection;
+        privbte boolebn drbgPressDidSelection;
 
         public void mousePressed(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, list)) {
                 return;
             }
 
-            boolean dragEnabled = list.getDragEnabled();
-            boolean grabFocus = true;
+            boolebn drbgEnbbled = list.getDrbgEnbbled();
+            boolebn grbbFocus = true;
 
-            // different behavior if drag is enabled
-            if (dragEnabled) {
+            // different behbvior if drbg is enbbled
+            if (drbgEnbbled) {
                 int row = SwingUtilities2.loc2IndexFileList(list, e.getPoint());
-                // if we have a valid row and this is a drag initiating event
-                if (row != -1 && DragRecognitionSupport.mousePressed(e)) {
-                    dragPressDidSelection = false;
+                // if we hbve b vblid row bnd this is b drbg initibting event
+                if (row != -1 && DrbgRecognitionSupport.mousePressed(e)) {
+                    drbgPressDidSelection = fblse;
 
-                    if (BasicGraphicsUtils.isMenuShortcutKeyDown(e)) {
-                        // do nothing for control - will be handled on release
-                        // or when drag starts
+                    if (BbsicGrbphicsUtils.isMenuShortcutKeyDown(e)) {
+                        // do nothing for control - will be hbndled on relebse
+                        // or when drbg stbrts
                         return;
                     } else if (!e.isShiftDown() && list.isSelectedIndex(row)) {
-                        // clicking on something that's already selected
-                        // and need to make it the lead now
-                        list.addSelectionInterval(row, row);
+                        // clicking on something thbt's blrebdy selected
+                        // bnd need to mbke it the lebd now
+                        list.bddSelectionIntervbl(row, row);
                         return;
                     }
 
-                    // could be a drag initiating event - don't grab focus
-                    grabFocus = false;
+                    // could be b drbg initibting event - don't grbb focus
+                    grbbFocus = fblse;
 
-                    dragPressDidSelection = true;
+                    drbgPressDidSelection = true;
                 }
             } else {
-                // When drag is enabled mouse drags won't change the selection
-                // in the list, so we only set the isAdjusting flag when it's
-                // not enabled
-                list.setValueIsAdjusting(true);
+                // When drbg is enbbled mouse drbgs won't chbnge the selection
+                // in the list, so we only set the isAdjusting flbg when it's
+                // not enbbled
+                list.setVblueIsAdjusting(true);
             }
 
-            if (grabFocus) {
-                SwingUtilities2.adjustFocus(list);
+            if (grbbFocus) {
+                SwingUtilities2.bdjustFocus(list);
             }
 
-            adjustSelection(e);
+            bdjustSelection(e);
         }
 
-        private void adjustSelection(MouseEvent e) {
+        privbte void bdjustSelection(MouseEvent e) {
             int row = SwingUtilities2.loc2IndexFileList(list, e.getPoint());
             if (row < 0) {
                 // If shift is down in multi-select, we should do nothing.
-                // For single select or non-shift-click, clear the selection
+                // For single select or non-shift-click, clebr the selection
                 if (isFileList &&
                     e.getID() == MouseEvent.MOUSE_PRESSED &&
                     (!e.isShiftDown() ||
                      list.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION)) {
-                    list.clearSelection();
+                    list.clebrSelection();
                 }
             }
             else {
-                int anchorIndex = adjustIndex(list.getAnchorSelectionIndex(), list);
-                boolean anchorSelected;
-                if (anchorIndex == -1) {
-                    anchorIndex = 0;
-                    anchorSelected = false;
+                int bnchorIndex = bdjustIndex(list.getAnchorSelectionIndex(), list);
+                boolebn bnchorSelected;
+                if (bnchorIndex == -1) {
+                    bnchorIndex = 0;
+                    bnchorSelected = fblse;
                 } else {
-                    anchorSelected = list.isSelectedIndex(anchorIndex);
+                    bnchorSelected = list.isSelectedIndex(bnchorIndex);
                 }
 
-                if (BasicGraphicsUtils.isMenuShortcutKeyDown(e)) {
+                if (BbsicGrbphicsUtils.isMenuShortcutKeyDown(e)) {
                     if (e.isShiftDown()) {
-                        if (anchorSelected) {
-                            list.addSelectionInterval(anchorIndex, row);
+                        if (bnchorSelected) {
+                            list.bddSelectionIntervbl(bnchorIndex, row);
                         } else {
-                            list.removeSelectionInterval(anchorIndex, row);
+                            list.removeSelectionIntervbl(bnchorIndex, row);
                             if (isFileList) {
-                                list.addSelectionInterval(row, row);
-                                list.getSelectionModel().setAnchorSelectionIndex(anchorIndex);
+                                list.bddSelectionIntervbl(row, row);
+                                list.getSelectionModel().setAnchorSelectionIndex(bnchorIndex);
                             }
                         }
                     } else if (list.isSelectedIndex(row)) {
-                        list.removeSelectionInterval(row, row);
+                        list.removeSelectionIntervbl(row, row);
                     } else {
-                        list.addSelectionInterval(row, row);
+                        list.bddSelectionIntervbl(row, row);
                     }
                 } else if (e.isShiftDown()) {
-                    list.setSelectionInterval(anchorIndex, row);
+                    list.setSelectionIntervbl(bnchorIndex, row);
                 } else {
-                    list.setSelectionInterval(row, row);
+                    list.setSelectionIntervbl(row, row);
                 }
             }
         }
 
-        public void dragStarting(MouseEvent me) {
-            if (BasicGraphicsUtils.isMenuShortcutKeyDown(me)) {
+        public void drbgStbrting(MouseEvent me) {
+            if (BbsicGrbphicsUtils.isMenuShortcutKeyDown(me)) {
                 int row = SwingUtilities2.loc2IndexFileList(list, me.getPoint());
-                list.addSelectionInterval(row, row);
+                list.bddSelectionIntervbl(row, row);
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, list)) {
                 return;
             }
 
-            if (list.getDragEnabled()) {
-                DragRecognitionSupport.mouseDragged(e, this);
+            if (list.getDrbgEnbbled()) {
+                DrbgRecognitionSupport.mouseDrbgged(e, this);
                 return;
             }
 
-            if (e.isShiftDown() || BasicGraphicsUtils.isMenuShortcutKeyDown(e)) {
+            if (e.isShiftDown() || BbsicGrbphicsUtils.isMenuShortcutKeyDown(e)) {
                 return;
             }
 
-            int row = locationToIndex(list, e.getPoint());
+            int row = locbtionToIndex(list, e.getPoint());
             if (row != -1) {
-                // 4835633.  Dragging onto a File should not select it.
+                // 4835633.  Drbgging onto b File should not select it.
                 if (isFileList) {
                     return;
                 }
-                Rectangle cellBounds = getCellBounds(list, row, row);
+                Rectbngle cellBounds = getCellBounds(list, row, row);
                 if (cellBounds != null) {
                     list.scrollRectToVisible(cellBounds);
-                    list.setSelectionInterval(row, row);
+                    list.setSelectionIntervbl(row, row);
                 }
             }
         }
@@ -2868,95 +2868,95 @@ public class BasicListUI extends ListUI
         public void mouseMoved(MouseEvent e) {
         }
 
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, list)) {
                 return;
             }
 
-            if (list.getDragEnabled()) {
-                MouseEvent me = DragRecognitionSupport.mouseReleased(e);
+            if (list.getDrbgEnbbled()) {
+                MouseEvent me = DrbgRecognitionSupport.mouseRelebsed(e);
                 if (me != null) {
-                    SwingUtilities2.adjustFocus(list);
-                    if (!dragPressDidSelection) {
-                        adjustSelection(me);
+                    SwingUtilities2.bdjustFocus(list);
+                    if (!drbgPressDidSelection) {
+                        bdjustSelection(me);
                     }
                 }
             } else {
-                list.setValueIsAdjusting(false);
+                list.setVblueIsAdjusting(fblse);
             }
         }
 
         //
         // FocusListener
         //
-        protected void repaintCellFocus()
+        protected void repbintCellFocus()
         {
-            int leadIndex = adjustIndex(list.getLeadSelectionIndex(), list);
-            if (leadIndex != -1) {
-                Rectangle r = getCellBounds(list, leadIndex, leadIndex);
+            int lebdIndex = bdjustIndex(list.getLebdSelectionIndex(), list);
+            if (lebdIndex != -1) {
+                Rectbngle r = getCellBounds(list, lebdIndex, lebdIndex);
                 if (r != null) {
-                    list.repaint(r.x, r.y, r.width, r.height);
+                    list.repbint(r.x, r.y, r.width, r.height);
                 }
             }
         }
 
-        /* The focusGained() focusLost() methods run when the JList
-         * focus changes.
+        /* The focusGbined() focusLost() methods run when the JList
+         * focus chbnges.
          */
 
-        public void focusGained(FocusEvent e) {
-            repaintCellFocus();
+        public void focusGbined(FocusEvent e) {
+            repbintCellFocus();
         }
 
         public void focusLost(FocusEvent e) {
-            repaintCellFocus();
+            repbintCellFocus();
         }
     }
 
-    private static int adjustIndex(int index, JList<?> list) {
+    privbte stbtic int bdjustIndex(int index, JList<?> list) {
         return index < list.getModel().getSize() ? index : -1;
     }
 
-    private static final TransferHandler defaultTransferHandler = new ListTransferHandler();
+    privbte stbtic finbl TrbnsferHbndler defbultTrbnsferHbndler = new ListTrbnsferHbndler();
 
-    @SuppressWarnings("serial") // Superclass is a JDK-implementation class
-    static class ListTransferHandler extends TransferHandler implements UIResource {
+    @SuppressWbrnings("seribl") // Superclbss is b JDK-implementbtion clbss
+    stbtic clbss ListTrbnsferHbndler extends TrbnsferHbndler implements UIResource {
 
         /**
-         * Create a Transferable to use as the source for a data transfer.
+         * Crebte b Trbnsferbble to use bs the source for b dbtb trbnsfer.
          *
-         * @param c  The component holding the data to be transfered.  This
-         *  argument is provided to enable sharing of TransferHandlers by
+         * @pbrbm c  The component holding the dbtb to be trbnsfered.  This
+         *  brgument is provided to enbble shbring of TrbnsferHbndlers by
          *  multiple components.
-         * @return  The representation of the data to be transfered.
+         * @return  The representbtion of the dbtb to be trbnsfered.
          *
          */
-        protected Transferable createTransferable(JComponent c) {
-            if (c instanceof JList) {
+        protected Trbnsferbble crebteTrbnsferbble(JComponent c) {
+            if (c instbnceof JList) {
                 JList<?> list = (JList) c;
-                Object[] values = list.getSelectedValues();
+                Object[] vblues = list.getSelectedVblues();
 
-                if (values == null || values.length == 0) {
+                if (vblues == null || vblues.length == 0) {
                     return null;
                 }
 
-                StringBuilder plainStr = new StringBuilder();
+                StringBuilder plbinStr = new StringBuilder();
                 StringBuilder htmlStr = new StringBuilder();
 
-                htmlStr.append("<html>\n<body>\n<ul>\n");
+                htmlStr.bppend("<html>\n<body>\n<ul>\n");
 
-                for (int i = 0; i < values.length; i++) {
-                    Object obj = values[i];
-                    String val = ((obj == null) ? "" : obj.toString());
-                    plainStr.append(val + "\n");
-                    htmlStr.append("  <li>" + val + "\n");
+                for (int i = 0; i < vblues.length; i++) {
+                    Object obj = vblues[i];
+                    String vbl = ((obj == null) ? "" : obj.toString());
+                    plbinStr.bppend(vbl + "\n");
+                    htmlStr.bppend("  <li>" + vbl + "\n");
                 }
 
-                // remove the last newline
-                plainStr.deleteCharAt(plainStr.length() - 1);
-                htmlStr.append("</ul>\n</body>\n</html>");
+                // remove the lbst newline
+                plbinStr.deleteChbrAt(plbinStr.length() - 1);
+                htmlStr.bppend("</ul>\n</body>\n</html>");
 
-                return new BasicTransferable(plainStr.toString(), htmlStr.toString());
+                return new BbsicTrbnsferbble(plbinStr.toString(), htmlStr.toString());
             }
 
             return null;

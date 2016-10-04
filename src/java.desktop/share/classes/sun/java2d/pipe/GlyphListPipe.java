@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
+import jbvb.bwt.Font;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.TextLbyout;
 
-import sun.awt.SunHints;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.bwt.SunHints;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
 import sun.font.GlyphList;
-import sun.java2d.loops.FontInfo;
+import sun.jbvb2d.loops.FontInfo;
 
 /**
- * A delegate pipe of SG2D for drawing text.
+ * A delegbte pipe of SG2D for drbwing text.
  */
 
-public abstract class GlyphListPipe implements TextPipe {
+public bbstrbct clbss GlyphListPipe implements TextPipe {
 
-    public void drawString(SunGraphics2D sg2d, String s,
+    public void drbwString(SunGrbphics2D sg2d, String s,
                            double x, double y)
     {
         FontInfo info = sg2d.getFontInfo();
         if (info.pixelHeight > OutlineTextRenderer.THRESHHOLD) {
-            SurfaceData.outlineTextRenderer.drawString(sg2d, s, x, y);
+            SurfbceDbtb.outlineTextRenderer.drbwString(sg2d, s, x, y);
             return;
         }
 
-        float devx, devy;
-        if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
+        flobt devx, devy;
+        if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
             double origin[] = {x + info.originX, y + info.originY};
-            sg2d.transform.transform(origin, 0, origin, 0, 1);
-            devx = (float)origin[0];
-            devy = (float)origin[1];
+            sg2d.trbnsform.trbnsform(origin, 0, origin, 0, 1);
+            devx = (flobt)origin[0];
+            devy = (flobt)origin[1];
         } else {
-            devx = (float)(x + info.originX + sg2d.transX);
-            devy = (float)(y + info.originY + sg2d.transY);
+            devx = (flobt)(x + info.originX + sg2d.trbnsX);
+            devy = (flobt)(y + info.originY + sg2d.trbnsY);
         }
-        /* setFromString returns false if shaping is needed, and we then back
-         * off to a TextLayout. Such text may benefit slightly from a lower
-         * overhead in this approach over the approach in previous releases.
+        /* setFromString returns fblse if shbping is needed, bnd we then bbck
+         * off to b TextLbyout. Such text mby benefit slightly from b lower
+         * overhebd in this bpprobch over the bpprobch in previous relebses.
          */
-        GlyphList gl = GlyphList.getInstance();
+        GlyphList gl = GlyphList.getInstbnce();
         if (gl.setFromString(info, s, devx, devy)) {
-            drawGlyphList(sg2d, gl);
+            drbwGlyphList(sg2d, gl);
             gl.dispose();
         } else {
-            gl.dispose(); // release this asap.
-            TextLayout tl = new TextLayout(s, sg2d.getFont(),
+            gl.dispose(); // relebse this bsbp.
+            TextLbyout tl = new TextLbyout(s, sg2d.getFont(),
                                            sg2d.getFontRenderContext());
-            tl.draw(sg2d, (float)x, (float)y);
+            tl.drbw(sg2d, (flobt)x, (flobt)y);
         }
     }
 
-    public void drawChars(SunGraphics2D sg2d,
-                          char data[], int offset, int length,
+    public void drbwChbrs(SunGrbphics2D sg2d,
+                          chbr dbtb[], int offset, int length,
                           int ix, int iy)
     {
         FontInfo info = sg2d.getFontInfo();
-        float x, y;
+        flobt x, y;
         if (info.pixelHeight > OutlineTextRenderer.THRESHHOLD) {
-            SurfaceData.outlineTextRenderer.drawChars(
-                                        sg2d, data, offset, length, ix, iy);
+            SurfbceDbtb.outlineTextRenderer.drbwChbrs(
+                                        sg2d, dbtb, offset, length, ix, iy);
             return;
         }
-        if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
+        if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
             double origin[] = {ix + info.originX, iy + info.originY};
-            sg2d.transform.transform(origin, 0, origin, 0, 1);
-            x = (float) origin[0];
-            y = (float) origin[1];
+            sg2d.trbnsform.trbnsform(origin, 0, origin, 0, 1);
+            x = (flobt) origin[0];
+            y = (flobt) origin[1];
         } else {
-            x = ix + info.originX + sg2d.transX;
-            y = iy + info.originY + sg2d.transY;
+            x = ix + info.originX + sg2d.trbnsX;
+            y = iy + info.originY + sg2d.trbnsY;
         }
-        GlyphList gl = GlyphList.getInstance();
-        if (gl.setFromChars(info, data, offset, length, x, y)) {
-            drawGlyphList(sg2d, gl);
+        GlyphList gl = GlyphList.getInstbnce();
+        if (gl.setFromChbrs(info, dbtb, offset, length, x, y)) {
+            drbwGlyphList(sg2d, gl);
             gl.dispose();
         } else {
-            gl.dispose(); // release this asap.
-            TextLayout tl = new TextLayout(new String(data, offset, length),
+            gl.dispose(); // relebse this bsbp.
+            TextLbyout tl = new TextLbyout(new String(dbtb, offset, length),
                                            sg2d.getFont(),
                                            sg2d.getFontRenderContext());
-            tl.draw(sg2d, ix, iy);
+            tl.drbw(sg2d, ix, iy);
 
         }
     }
 
-    public void drawGlyphVector(SunGraphics2D sg2d, GlyphVector gv,
-                                float x, float y)
+    public void drbwGlyphVector(SunGrbphics2D sg2d, GlyphVector gv,
+                                flobt x, flobt y)
     {
         FontRenderContext frc = gv.getFontRenderContext();
         FontInfo info = sg2d.getGVFontInfo(gv.getFont(), frc);
         if (info.pixelHeight > OutlineTextRenderer.THRESHHOLD) {
-            SurfaceData.outlineTextRenderer.drawGlyphVector(sg2d, gv, x, y);
+            SurfbceDbtb.outlineTextRenderer.drbwGlyphVector(sg2d, gv, x, y);
             return;
         }
-        if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
+        if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
             double origin[] = {x, y};
-            sg2d.transform.transform(origin, 0, origin, 0, 1);
-            x = (float) origin[0];
-            y = (float) origin[1];
+            sg2d.trbnsform.trbnsform(origin, 0, origin, 0, 1);
+            x = (flobt) origin[0];
+            y = (flobt) origin[1];
         } else {
-            x += sg2d.transX; // don't use the glyph info origin, already in gv.
-            y += sg2d.transY;
+            x += sg2d.trbnsX; // don't use the glyph info origin, blrebdy in gv.
+            y += sg2d.trbnsY;
         }
 
-        GlyphList gl = GlyphList.getInstance();
+        GlyphList gl = GlyphList.getInstbnce();
         gl.setFromGlyphVector(info, gv, x, y);
-        drawGlyphList(sg2d, gl, info.aaHint);
+        drbwGlyphList(sg2d, gl, info.bbHint);
         gl.dispose();
     }
 
-    protected abstract void drawGlyphList(SunGraphics2D sg2d, GlyphList gl);
+    protected bbstrbct void drbwGlyphList(SunGrbphics2D sg2d, GlyphList gl);
 
-    protected void drawGlyphList(SunGraphics2D sg2d, GlyphList gl,
-                                 int aaHint) {
-        drawGlyphList(sg2d, gl);
+    protected void drbwGlyphList(SunGrbphics2D sg2d, GlyphList gl,
+                                 int bbHint) {
+        drbwGlyphList(sg2d, gl);
     }
 }

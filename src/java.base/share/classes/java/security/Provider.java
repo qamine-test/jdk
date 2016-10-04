@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.*;
-import java.util.*;
-import static java.util.Locale.ENGLISH;
-import java.lang.ref.*;
-import java.lang.reflect.*;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import jbvb.io.*;
+import jbvb.util.*;
+import stbtic jbvb.util.Locble.ENGLISH;
+import jbvb.lbng.ref.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.Function;
 
 /**
- * This class represents a "provider" for the
- * Java Security API, where a provider implements some or all parts of
- * Java Security. Services that a provider may implement include:
+ * This clbss represents b "provider" for the
+ * Jbvb Security API, where b provider implements some or bll pbrts of
+ * Jbvb Security. Services thbt b provider mby implement include:
  *
  * <ul>
  *
- * <li>Algorithms (such as DSA, RSA, MD5 or SHA-1).
+ * <li>Algorithms (such bs DSA, RSA, MD5 or SHA-1).
  *
- * <li>Key generation, conversion, and management facilities (such as for
- * algorithm-specific keys).
+ * <li>Key generbtion, conversion, bnd mbnbgement fbcilities (such bs for
+ * blgorithm-specific keys).
  *
  *</ul>
  *
- * <p>Each provider has a name and a version number, and is configured
- * in each runtime it is installed in.
+ * <p>Ebch provider hbs b nbme bnd b version number, bnd is configured
+ * in ebch runtime it is instblled in.
  *
- * <p>See <a href =
- * "../../../technotes/guides/security/crypto/CryptoSpec.html#Provider">The Provider Class</a>
- * in the "Java Cryptography Architecture API Specification &amp; Reference"
- * for information about how a particular type of provider, the
- * cryptographic service provider, works and is installed. However,
- * please note that a provider can be used to implement any security
- * service in Java that uses a pluggable architecture with a choice
- * of implementations that fit underneath.
+ * <p>See <b href =
+ * "../../../technotes/guides/security/crypto/CryptoSpec.html#Provider">The Provider Clbss</b>
+ * in the "Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference"
+ * for informbtion bbout how b pbrticulbr type of provider, the
+ * cryptogrbphic service provider, works bnd is instblled. However,
+ * plebse note thbt b provider cbn be used to implement bny security
+ * service in Jbvb thbt uses b pluggbble brchitecture with b choice
+ * of implementbtions thbt fit undernebth.
  *
- * <p>Some provider implementations may encounter unrecoverable internal
- * errors during their operation, for example a failure to communicate with a
- * security token. A {@link ProviderException} should be used to indicate
+ * <p>Some provider implementbtions mby encounter unrecoverbble internbl
+ * errors during their operbtion, for exbmple b fbilure to communicbte with b
+ * security token. A {@link ProviderException} should be used to indicbte
  * such errors.
  *
  * <p>The service type {@code Provider} is reserved for use by the
- * security framework. Services of this type cannot be added, removed,
- * or modified by applications.
- * The following attributes are automatically placed in each Provider object:
- * <table cellspacing=4>
- * <caption><b>Attributes Automatically Placed in a Provider Object</b></caption>
- * <tr><th>Name</th><th>Value</th>
- * <tr><td>{@code Provider.id name}</td>
-  *    <td>{@code String.valueOf(provider.getName())}</td>
+ * security frbmework. Services of this type cbnnot be bdded, removed,
+ * or modified by bpplicbtions.
+ * The following bttributes bre butombticblly plbced in ebch Provider object:
+ * <tbble cellspbcing=4>
+ * <cbption><b>Attributes Autombticblly Plbced in b Provider Object</b></cbption>
+ * <tr><th>Nbme</th><th>Vblue</th>
+ * <tr><td>{@code Provider.id nbme}</td>
+  *    <td>{@code String.vblueOf(provider.getNbme())}</td>
  * <tr><td>{@code Provider.id version}</td>
- *     <td>{@code String.valueOf(provider.getVersion())}</td>
+ *     <td>{@code String.vblueOf(provider.getVersion())}</td>
  * <tr><td>{@code Provider.id info}</td>
-       <td>{@code String.valueOf(provider.getInfo())}</td>
- * <tr><td>{@code Provider.id className}</td>
- *     <td>{@code provider.getClass().getName()}</td>
- * </table>
+       <td>{@code String.vblueOf(provider.getInfo())}</td>
+ * <tr><td>{@code Provider.id clbssNbme}</td>
+ *     <td>{@code provider.getClbss().getNbme()}</td>
+ * </tbble>
  *
- * @author Benjamin Renaud
- * @author Andreas Sterbenz
+ * @buthor Benjbmin Renbud
+ * @buthor Andrebs Sterbenz
  */
-public abstract class Provider extends Properties {
+public bbstrbct clbss Provider extends Properties {
 
-    // Declare serialVersionUID to be compatible with JDK1.1
-    static final long serialVersionUID = -4298000515446427739L;
+    // Declbre seriblVersionUID to be compbtible with JDK1.1
+    stbtic finbl long seriblVersionUID = -4298000515446427739L;
 
-    private static final sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance
+    privbte stbtic finbl sun.security.util.Debug debug =
+        sun.security.util.Debug.getInstbnce
         ("provider", "Provider");
 
     /**
-     * The provider name.
+     * The provider nbme.
      *
-     * @serial
+     * @seribl
      */
-    private String name;
+    privbte String nbme;
 
     /**
-     * A description of the provider and its services.
+     * A description of the provider bnd its services.
      *
-     * @serial
+     * @seribl
      */
-    private String info;
+    privbte String info;
 
     /**
      * The provider version number.
      *
-     * @serial
+     * @seribl
      */
-    private double version;
+    privbte double version;
 
 
-    private transient Set<Map.Entry<Object,Object>> entrySet = null;
-    private transient int entrySetCallCount = 0;
+    privbte trbnsient Set<Mbp.Entry<Object,Object>> entrySet = null;
+    privbte trbnsient int entrySetCbllCount = 0;
 
-    private transient boolean initialized;
+    privbte trbnsient boolebn initiblized;
 
     /**
-     * Constructs a provider with the specified name, version number,
-     * and information.
+     * Constructs b provider with the specified nbme, version number,
+     * bnd informbtion.
      *
-     * @param name the provider name.
+     * @pbrbm nbme the provider nbme.
      *
-     * @param version the provider version number.
+     * @pbrbm version the provider version number.
      *
-     * @param info a description of the provider and its services.
+     * @pbrbm info b description of the provider bnd its services.
      */
-    protected Provider(String name, double version, String info) {
-        this.name = name;
+    protected Provider(String nbme, double version, String info) {
+        this.nbme = nbme;
         this.version = version;
         this.info = info;
         putId();
-        initialized = true;
+        initiblized = true;
     }
 
     /**
-     * Returns the name of this provider.
+     * Returns the nbme of this provider.
      *
-     * @return the name of this provider.
+     * @return the nbme of this provider.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
@@ -158,1064 +158,1064 @@ public abstract class Provider extends Properties {
     }
 
     /**
-     * Returns a human-readable description of the provider and its
-     * services.  This may return an HTML page, with relevant links.
+     * Returns b humbn-rebdbble description of the provider bnd its
+     * services.  This mby return bn HTML pbge, with relevbnt links.
      *
-     * @return a description of the provider and its services.
+     * @return b description of the provider bnd its services.
      */
     public String getInfo() {
         return info;
     }
 
     /**
-     * Returns a string with the name and the version number
+     * Returns b string with the nbme bnd the version number
      * of this provider.
      *
-     * @return the string with the name and the version number
+     * @return the string with the nbme bnd the version number
      * for this provider.
      */
     public String toString() {
-        return name + " version " + version;
+        return nbme + " version " + version;
     }
 
     /*
-     * override the following methods to ensure that provider
-     * information can only be changed if the caller has the appropriate
+     * override the following methods to ensure thbt provider
+     * informbtion cbn only be chbnged if the cbller hbs the bppropribte
      * permissions.
      */
 
     /**
-     * Clears this provider so that it no longer contains the properties
-     * used to look up facilities implemented by the provider.
+     * Clebrs this provider so thbt it no longer contbins the properties
+     * used to look up fbcilities implemented by the provider.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the string {@code "clearProviderProperties."+name}
-     * (where {@code name} is the provider name) to see if it's ok to clear
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the string {@code "clebrProviderProperties."+nbme}
+     * (where {@code nbme} is the provider nbme) to see if it's ok to clebr
      * this provider.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to clear this provider
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to clebr this provider
      *
      * @since 1.2
      */
     @Override
-    public synchronized void clear() {
-        check("clearProviderProperties."+name);
+    public synchronized void clebr() {
+        check("clebrProviderProperties."+nbme);
         if (debug != null) {
-            debug.println("Remove " + name + " provider properties");
+            debug.println("Remove " + nbme + " provider properties");
         }
-        implClear();
+        implClebr();
     }
 
     /**
-     * Reads a property list (key and element pairs) from the input stream.
+     * Rebds b property list (key bnd element pbirs) from the input strebm.
      *
-     * @param inStream   the input stream.
-     * @exception  IOException  if an error occurred when reading from the
-     *               input stream.
-     * @see java.util.Properties#load
+     * @pbrbm inStrebm   the input strebm.
+     * @exception  IOException  if bn error occurred when rebding from the
+     *               input strebm.
+     * @see jbvb.util.Properties#lobd
      */
     @Override
-    public synchronized void load(InputStream inStream) throws IOException {
-        check("putProviderProperty."+name);
+    public synchronized void lobd(InputStrebm inStrebm) throws IOException {
+        check("putProviderProperty."+nbme);
         if (debug != null) {
-            debug.println("Load " + name + " provider properties");
+            debug.println("Lobd " + nbme + " provider properties");
         }
         Properties tempProperties = new Properties();
-        tempProperties.load(inStream);
+        tempProperties.lobd(inStrebm);
         implPutAll(tempProperties);
     }
 
     /**
-     * Copies all of the mappings from the specified Map to this provider.
-     * These mappings will replace any properties that this provider had
-     * for any of the keys currently in the specified Map.
+     * Copies bll of the mbppings from the specified Mbp to this provider.
+     * These mbppings will replbce bny properties thbt this provider hbd
+     * for bny of the keys currently in the specified Mbp.
      *
      * @since 1.2
      */
     @Override
-    public synchronized void putAll(Map<?,?> t) {
-        check("putProviderProperty."+name);
+    public synchronized void putAll(Mbp<?,?> t) {
+        check("putProviderProperty."+nbme);
         if (debug != null) {
-            debug.println("Put all " + name + " provider properties");
+            debug.println("Put bll " + nbme + " provider properties");
         }
         implPutAll(t);
     }
 
     /**
-     * Returns an unmodifiable Set view of the property entries contained
+     * Returns bn unmodifibble Set view of the property entries contbined
      * in this Provider.
      *
-     * @see   java.util.Map.Entry
+     * @see   jbvb.util.Mbp.Entry
      * @since 1.2
      */
     @Override
-    public synchronized Set<Map.Entry<Object,Object>> entrySet() {
-        checkInitialized();
+    public synchronized Set<Mbp.Entry<Object,Object>> entrySet() {
+        checkInitiblized();
         if (entrySet == null) {
-            if (entrySetCallCount++ == 0)  // Initial call
-                entrySet = Collections.unmodifiableMap(this).entrySet();
+            if (entrySetCbllCount++ == 0)  // Initibl cbll
+                entrySet = Collections.unmodifibbleMbp(this).entrySet();
             else
-                return super.entrySet();   // Recursive call
+                return super.entrySet();   // Recursive cbll
         }
 
-        // This exception will be thrown if the implementation of
-        // Collections.unmodifiableMap.entrySet() is changed such that it
-        // no longer calls entrySet() on the backing Map.  (Provider's
-        // entrySet implementation depends on this "implementation detail",
-        // which is unlikely to change.
-        if (entrySetCallCount != 2)
-            throw new RuntimeException("Internal error.");
+        // This exception will be thrown if the implementbtion of
+        // Collections.unmodifibbleMbp.entrySet() is chbnged such thbt it
+        // no longer cblls entrySet() on the bbcking Mbp.  (Provider's
+        // entrySet implementbtion depends on this "implementbtion detbil",
+        // which is unlikely to chbnge.
+        if (entrySetCbllCount != 2)
+            throw new RuntimeException("Internbl error.");
 
         return entrySet;
     }
 
     /**
-     * Returns an unmodifiable Set view of the property keys contained in
+     * Returns bn unmodifibble Set view of the property keys contbined in
      * this provider.
      *
      * @since 1.2
      */
     @Override
     public Set<Object> keySet() {
-        checkInitialized();
-        return Collections.unmodifiableSet(super.keySet());
+        checkInitiblized();
+        return Collections.unmodifibbleSet(super.keySet());
     }
 
     /**
-     * Returns an unmodifiable Collection view of the property values
-     * contained in this provider.
+     * Returns bn unmodifibble Collection view of the property vblues
+     * contbined in this provider.
      *
      * @since 1.2
      */
     @Override
-    public Collection<Object> values() {
-        checkInitialized();
-        return Collections.unmodifiableCollection(super.values());
+    public Collection<Object> vblues() {
+        checkInitiblized();
+        return Collections.unmodifibbleCollection(super.vblues());
     }
 
     /**
-     * Sets the {@code key} property to have the specified
-     * {@code value}.
+     * Sets the {@code key} property to hbve the specified
+     * {@code vblue}.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the string {@code "putProviderProperty."+name},
-     * where {@code name} is the provider name, to see if it's ok to set this
-     * provider's property values.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the string {@code "putProviderProperty."+nbme},
+     * where {@code nbme} is the provider nbme, to see if it's ok to set this
+     * provider's property vblues.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues.
      *
      * @since 1.2
      */
     @Override
-    public synchronized Object put(Object key, Object value) {
-        check("putProviderProperty."+name);
+    public synchronized Object put(Object key, Object vblue) {
+        check("putProviderProperty."+nbme);
         if (debug != null) {
-            debug.println("Set " + name + " provider property [" +
-                          key + "/" + value +"]");
+            debug.println("Set " + nbme + " provider property [" +
+                          key + "/" + vblue +"]");
         }
-        return implPut(key, value);
+        return implPut(key, vblue);
     }
 
     /**
-     * If the specified key is not already associated with a value (or is mapped
-     * to {@code null}) associates it with the given value and returns
-     * {@code null}, else returns the current value.
+     * If the specified key is not blrebdy bssocibted with b vblue (or is mbpped
+     * to {@code null}) bssocibtes it with the given vblue bnd returns
+     * {@code null}, else returns the current vblue.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the string {@code "putProviderProperty."+name},
-     * where {@code name} is the provider name, to see if it's ok to set this
-     * provider's property values.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the string {@code "putProviderProperty."+nbme},
+     * where {@code nbme} is the provider nbme, to see if it's ok to set this
+     * provider's property vblues.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues.
      *
      * @since 1.8
      */
     @Override
-    public synchronized Object putIfAbsent(Object key, Object value) {
-        check("putProviderProperty."+name);
+    public synchronized Object putIfAbsent(Object key, Object vblue) {
+        check("putProviderProperty."+nbme);
         if (debug != null) {
-            debug.println("Set " + name + " provider property [" +
-                          key + "/" + value +"]");
+            debug.println("Set " + nbme + " provider property [" +
+                          key + "/" + vblue +"]");
         }
-        return implPutIfAbsent(key, value);
+        return implPutIfAbsent(key, vblue);
     }
 
     /**
-     * Removes the {@code key} property (and its corresponding
-     * {@code value}).
+     * Removes the {@code key} property (bnd its corresponding
+     * {@code vblue}).
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the string {@code "removeProviderProperty."+name},
-     * where {@code name} is the provider name, to see if it's ok to remove this
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the string {@code "removeProviderProperty."+nbme},
+     * where {@code nbme} is the provider nbme, to see if it's ok to remove this
      * provider's properties.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to remove this provider's properties.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to remove this provider's properties.
      *
      * @since 1.2
      */
     @Override
     public synchronized Object remove(Object key) {
-        check("removeProviderProperty."+name);
+        check("removeProviderProperty."+nbme);
         if (debug != null) {
-            debug.println("Remove " + name + " provider property " + key);
+            debug.println("Remove " + nbme + " provider property " + key);
         }
         return implRemove(key);
     }
 
     /**
      * Removes the entry for the specified key only if it is currently
-     * mapped to the specified value.
+     * mbpped to the specified vblue.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the string {@code "removeProviderProperty."+name},
-     * where {@code name} is the provider name, to see if it's ok to remove this
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the string {@code "removeProviderProperty."+nbme},
+     * where {@code nbme} is the provider nbme, to see if it's ok to remove this
      * provider's properties.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to remove this provider's properties.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to remove this provider's properties.
      *
      * @since 1.8
      */
     @Override
-    public synchronized boolean remove(Object key, Object value) {
-        check("removeProviderProperty."+name);
+    public synchronized boolebn remove(Object key, Object vblue) {
+        check("removeProviderProperty."+nbme);
         if (debug != null) {
-            debug.println("Remove " + name + " provider property " + key);
+            debug.println("Remove " + nbme + " provider property " + key);
         }
-        return implRemove(key, value);
+        return implRemove(key, vblue);
     }
 
     /**
-     * Replaces the entry for the specified key only if currently
-     * mapped to the specified value.
+     * Replbces the entry for the specified key only if currently
+     * mbpped to the specified vblue.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the string {@code "putProviderProperty."+name},
-     * where {@code name} is the provider name, to see if it's ok to set this
-     * provider's property values.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the string {@code "putProviderProperty."+nbme},
+     * where {@code nbme} is the provider nbme, to see if it's ok to set this
+     * provider's property vblues.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues.
      *
      * @since 1.8
      */
     @Override
-    public synchronized boolean replace(Object key, Object oldValue,
-            Object newValue) {
-        check("putProviderProperty." + name);
+    public synchronized boolebn replbce(Object key, Object oldVblue,
+            Object newVblue) {
+        check("putProviderProperty." + nbme);
 
         if (debug != null) {
-            debug.println("Replace " + name + " provider property " + key);
+            debug.println("Replbce " + nbme + " provider property " + key);
         }
-        return implReplace(key, oldValue, newValue);
+        return implReplbce(key, oldVblue, newVblue);
     }
 
     /**
-     * Replaces the entry for the specified key only if it is
-     * currently mapped to some value.
+     * Replbces the entry for the specified key only if it is
+     * currently mbpped to some vblue.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the string {@code "putProviderProperty."+name},
-     * where {@code name} is the provider name, to see if it's ok to set this
-     * provider's property values.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the string {@code "putProviderProperty."+nbme},
+     * where {@code nbme} is the provider nbme, to see if it's ok to set this
+     * provider's property vblues.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues.
      *
      * @since 1.8
      */
     @Override
-    public synchronized Object replace(Object key, Object value) {
-        check("putProviderProperty." + name);
+    public synchronized Object replbce(Object key, Object vblue) {
+        check("putProviderProperty." + nbme);
 
         if (debug != null) {
-            debug.println("Replace " + name + " provider property " + key);
+            debug.println("Replbce " + nbme + " provider property " + key);
         }
-        return implReplace(key, value);
+        return implReplbce(key, vblue);
     }
 
     /**
-     * Replaces each entry's value with the result of invoking the given
-     * function on that entry, in the order entries are returned by an entry
-     * set iterator, until all entries have been processed or the function
-     * throws an exception.
+     * Replbces ebch entry's vblue with the result of invoking the given
+     * function on thbt entry, in the order entries bre returned by bn entry
+     * set iterbtor, until bll entries hbve been processed or the function
+     * throws bn exception.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the string {@code "putProviderProperty."+name},
-     * where {@code name} is the provider name, to see if it's ok to set this
-     * provider's property values.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the string {@code "putProviderProperty."+nbme},
+     * where {@code nbme} is the provider nbme, to see if it's ok to set this
+     * provider's property vblues.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues.
      *
      * @since 1.8
      */
     @Override
-    public synchronized void replaceAll(BiFunction<? super Object, ? super Object, ? extends Object> function) {
-        check("putProviderProperty." + name);
+    public synchronized void replbceAll(BiFunction<? super Object, ? super Object, ? extends Object> function) {
+        check("putProviderProperty." + nbme);
 
         if (debug != null) {
-            debug.println("ReplaceAll " + name + " provider property ");
+            debug.println("ReplbceAll " + nbme + " provider property ");
         }
-        implReplaceAll(function);
+        implReplbceAll(function);
     }
 
     /**
-     * Attempts to compute a mapping for the specified key and its
-     * current mapped value (or {@code null} if there is no current
-     * mapping).
+     * Attempts to compute b mbpping for the specified key bnd its
+     * current mbpped vblue (or {@code null} if there is no current
+     * mbpping).
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the strings {@code "putProviderProperty."+name}
-     * and {@code "removeProviderProperty."+name}, where {@code name} is the
-     * provider name, to see if it's ok to set this provider's property values
-     * and remove this provider's properties.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the strings {@code "putProviderProperty."+nbme}
+     * bnd {@code "removeProviderProperty."+nbme}, where {@code nbme} is the
+     * provider nbme, to see if it's ok to set this provider's property vblues
+     * bnd remove this provider's properties.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values or remove properties.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues or remove properties.
      *
      * @since 1.8
      */
     @Override
     public synchronized Object compute(Object key,
-        BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
-        check("putProviderProperty." + name);
-        check("removeProviderProperty" + name);
+        BiFunction<? super Object, ? super Object, ? extends Object> rembppingFunction) {
+        check("putProviderProperty." + nbme);
+        check("removeProviderProperty" + nbme);
 
         if (debug != null) {
-            debug.println("Compute " + name + " provider property " + key);
+            debug.println("Compute " + nbme + " provider property " + key);
         }
-        return implCompute(key, remappingFunction);
+        return implCompute(key, rembppingFunction);
     }
 
     /**
-     * If the specified key is not already associated with a value (or
-     * is mapped to {@code null}), attempts to compute its value using
-     * the given mapping function and enters it into this map unless
+     * If the specified key is not blrebdy bssocibted with b vblue (or
+     * is mbpped to {@code null}), bttempts to compute its vblue using
+     * the given mbpping function bnd enters it into this mbp unless
      * {@code null}.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the strings {@code "putProviderProperty."+name}
-     * and {@code "removeProviderProperty."+name}, where {@code name} is the
-     * provider name, to see if it's ok to set this provider's property values
-     * and remove this provider's properties.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the strings {@code "putProviderProperty."+nbme}
+     * bnd {@code "removeProviderProperty."+nbme}, where {@code nbme} is the
+     * provider nbme, to see if it's ok to set this provider's property vblues
+     * bnd remove this provider's properties.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values and remove properties.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues bnd remove properties.
      *
      * @since 1.8
      */
     @Override
-    public synchronized Object computeIfAbsent(Object key, Function<? super Object, ? extends Object> mappingFunction) {
-        check("putProviderProperty." + name);
-        check("removeProviderProperty" + name);
+    public synchronized Object computeIfAbsent(Object key, Function<? super Object, ? extends Object> mbppingFunction) {
+        check("putProviderProperty." + nbme);
+        check("removeProviderProperty" + nbme);
 
         if (debug != null) {
-            debug.println("ComputeIfAbsent " + name + " provider property " +
+            debug.println("ComputeIfAbsent " + nbme + " provider property " +
                     key);
         }
-        return implComputeIfAbsent(key, mappingFunction);
+        return implComputeIfAbsent(key, mbppingFunction);
     }
 
     /**
-     * If the value for the specified key is present and non-null, attempts to
-     * compute a new mapping given the key and its current mapped value.
+     * If the vblue for the specified key is present bnd non-null, bttempts to
+     * compute b new mbpping given the key bnd its current mbpped vblue.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the strings {@code "putProviderProperty."+name}
-     * and {@code "removeProviderProperty."+name}, where {@code name} is the
-     * provider name, to see if it's ok to set this provider's property values
-     * and remove this provider's properties.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the strings {@code "putProviderProperty."+nbme}
+     * bnd {@code "removeProviderProperty."+nbme}, where {@code nbme} is the
+     * provider nbme, to see if it's ok to set this provider's property vblues
+     * bnd remove this provider's properties.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values or remove properties.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues or remove properties.
      *
      * @since 1.8
      */
     @Override
-    public synchronized Object computeIfPresent(Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
-        check("putProviderProperty." + name);
-        check("removeProviderProperty" + name);
+    public synchronized Object computeIfPresent(Object key, BiFunction<? super Object, ? super Object, ? extends Object> rembppingFunction) {
+        check("putProviderProperty." + nbme);
+        check("removeProviderProperty" + nbme);
 
         if (debug != null) {
-            debug.println("ComputeIfPresent " + name + " provider property " +
+            debug.println("ComputeIfPresent " + nbme + " provider property " +
                     key);
         }
-        return implComputeIfPresent(key, remappingFunction);
+        return implComputeIfPresent(key, rembppingFunction);
     }
 
     /**
-     * If the specified key is not already associated with a value or is
-     * associated with null, associates it with the given value. Otherwise,
-     * replaces the value with the results of the given remapping function,
-     * or removes if the result is null. This method may be of use when
-     * combining multiple mapped values for a key.
+     * If the specified key is not blrebdy bssocibted with b vblue or is
+     * bssocibted with null, bssocibtes it with the given vblue. Otherwise,
+     * replbces the vblue with the results of the given rembpping function,
+     * or removes if the result is null. This method mby be of use when
+     * combining multiple mbpped vblues for b key.
      *
-     * <p>If a security manager is enabled, its {@code checkSecurityAccess}
-     * method is called with the strings {@code "putProviderProperty."+name}
-     * and {@code "removeProviderProperty."+name}, where {@code name} is the
-     * provider name, to see if it's ok to set this provider's property values
-     * and remove this provider's properties.
+     * <p>If b security mbnbger is enbbled, its {@code checkSecurityAccess}
+     * method is cblled with the strings {@code "putProviderProperty."+nbme}
+     * bnd {@code "removeProviderProperty."+nbme}, where {@code nbme} is the
+     * provider nbme, to see if it's ok to set this provider's property vblues
+     * bnd remove this provider's properties.
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method
-     *          denies access to set property values or remove properties.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method
+     *          denies bccess to set property vblues or remove properties.
      *
      * @since 1.8
      */
     @Override
-    public synchronized Object merge(Object key, Object value,  BiFunction<? super Object, ? super Object, ? extends Object>  remappingFunction) {
-        check("putProviderProperty." + name);
-        check("removeProviderProperty" + name);
+    public synchronized Object merge(Object key, Object vblue,  BiFunction<? super Object, ? super Object, ? extends Object>  rembppingFunction) {
+        check("putProviderProperty." + nbme);
+        check("removeProviderProperty" + nbme);
 
         if (debug != null) {
-            debug.println("Merge " + name + " provider property " + key);
+            debug.println("Merge " + nbme + " provider property " + key);
         }
-        return implMerge(key, value, remappingFunction);
+        return implMerge(key, vblue, rembppingFunction);
     }
 
-    // let javadoc show doc from superclass
+    // let jbvbdoc show doc from superclbss
     @Override
     public Object get(Object key) {
-        checkInitialized();
+        checkInitiblized();
         return super.get(key);
     }
     /**
      * @since 1.8
      */
     @Override
-    public synchronized Object getOrDefault(Object key, Object defaultValue) {
-        checkInitialized();
-        return super.getOrDefault(key, defaultValue);
+    public synchronized Object getOrDefbult(Object key, Object defbultVblue) {
+        checkInitiblized();
+        return super.getOrDefbult(key, defbultVblue);
     }
 
     /**
      * @since 1.8
      */
     @Override
-    public synchronized void forEach(BiConsumer<? super Object, ? super Object> action) {
-        checkInitialized();
-        super.forEach(action);
+    public synchronized void forEbch(BiConsumer<? super Object, ? super Object> bction) {
+        checkInitiblized();
+        super.forEbch(bction);
     }
 
-    // let javadoc show doc from superclass
+    // let jbvbdoc show doc from superclbss
     @Override
-    public Enumeration<Object> keys() {
-        checkInitialized();
+    public Enumerbtion<Object> keys() {
+        checkInitiblized();
         return super.keys();
     }
 
-    // let javadoc show doc from superclass
+    // let jbvbdoc show doc from superclbss
     @Override
-    public Enumeration<Object> elements() {
-        checkInitialized();
+    public Enumerbtion<Object> elements() {
+        checkInitiblized();
         return super.elements();
     }
 
-    // let javadoc show doc from superclass
+    // let jbvbdoc show doc from superclbss
     public String getProperty(String key) {
-        checkInitialized();
+        checkInitiblized();
         return super.getProperty(key);
     }
 
-    private void checkInitialized() {
-        if (!initialized) {
-            throw new IllegalStateException();
+    privbte void checkInitiblized() {
+        if (!initiblized) {
+            throw new IllegblStbteException();
         }
     }
 
-    private void check(String directive) {
-        checkInitialized();
-        SecurityManager security = System.getSecurityManager();
+    privbte void check(String directive) {
+        checkInitiblized();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkSecurityAccess(directive);
         }
     }
 
-    // legacy properties changed since last call to any services method?
-    private transient boolean legacyChanged;
-    // serviceMap changed since last call to getServices()
-    private transient boolean servicesChanged;
+    // legbcy properties chbnged since lbst cbll to bny services method?
+    privbte trbnsient boolebn legbcyChbnged;
+    // serviceMbp chbnged since lbst cbll to getServices()
+    privbte trbnsient boolebn servicesChbnged;
 
-    // Map<String,String>
-    private transient Map<String,String> legacyStrings;
+    // Mbp<String,String>
+    privbte trbnsient Mbp<String,String> legbcyStrings;
 
-    // Map<ServiceKey,Service>
-    // used for services added via putService(), initialized on demand
-    private transient Map<ServiceKey,Service> serviceMap;
+    // Mbp<ServiceKey,Service>
+    // used for services bdded vib putService(), initiblized on dembnd
+    privbte trbnsient Mbp<ServiceKey,Service> serviceMbp;
 
-    // Map<ServiceKey,Service>
-    // used for services added via legacy methods, init on demand
-    private transient Map<ServiceKey,Service> legacyMap;
+    // Mbp<ServiceKey,Service>
+    // used for services bdded vib legbcy methods, init on dembnd
+    privbte trbnsient Mbp<ServiceKey,Service> legbcyMbp;
 
     // Set<Service>
-    // Unmodifiable set of all services. Initialized on demand.
-    private transient Set<Service> serviceSet;
+    // Unmodifibble set of bll services. Initiblized on dembnd.
+    privbte trbnsient Set<Service> serviceSet;
 
-    // register the id attributes for this provider
-    // this is to ensure that equals() and hashCode() do not incorrectly
-    // report to different provider objects as the same
-    private void putId() {
-        // note: name and info may be null
-        super.put("Provider.id name", String.valueOf(name));
-        super.put("Provider.id version", String.valueOf(version));
-        super.put("Provider.id info", String.valueOf(info));
-        super.put("Provider.id className", this.getClass().getName());
+    // register the id bttributes for this provider
+    // this is to ensure thbt equbls() bnd hbshCode() do not incorrectly
+    // report to different provider objects bs the sbme
+    privbte void putId() {
+        // note: nbme bnd info mby be null
+        super.put("Provider.id nbme", String.vblueOf(nbme));
+        super.put("Provider.id version", String.vblueOf(version));
+        super.put("Provider.id info", String.vblueOf(info));
+        super.put("Provider.id clbssNbme", this.getClbss().getNbme());
     }
 
-    private void readObject(ObjectInputStream in)
-                throws IOException, ClassNotFoundException {
-        Map<Object,Object> copy = new HashMap<>();
-        for (Map.Entry<Object,Object> entry : super.entrySet()) {
-            copy.put(entry.getKey(), entry.getValue());
+    privbte void rebdObject(ObjectInputStrebm in)
+                throws IOException, ClbssNotFoundException {
+        Mbp<Object,Object> copy = new HbshMbp<>();
+        for (Mbp.Entry<Object,Object> entry : super.entrySet()) {
+            copy.put(entry.getKey(), entry.getVblue());
         }
-        defaults = null;
-        in.defaultReadObject();
-        implClear();
-        initialized = true;
+        defbults = null;
+        in.defbultRebdObject();
+        implClebr();
+        initiblized = true;
         putAll(copy);
     }
 
-    private boolean checkLegacy(Object key) {
+    privbte boolebn checkLegbcy(Object key) {
         String keyString = (String)key;
-        if (keyString.startsWith("Provider.")) {
-            return false;
+        if (keyString.stbrtsWith("Provider.")) {
+            return fblse;
         }
 
-        legacyChanged = true;
-        if (legacyStrings == null) {
-            legacyStrings = new LinkedHashMap<String,String>();
+        legbcyChbnged = true;
+        if (legbcyStrings == null) {
+            legbcyStrings = new LinkedHbshMbp<String,String>();
         }
         return true;
     }
 
     /**
-     * Copies all of the mappings from the specified Map to this provider.
-     * Internal method to be called AFTER the security check has been
+     * Copies bll of the mbppings from the specified Mbp to this provider.
+     * Internbl method to be cblled AFTER the security check hbs been
      * performed.
      */
-    private void implPutAll(Map<?,?> t) {
-        for (Map.Entry<?,?> e : t.entrySet()) {
-            implPut(e.getKey(), e.getValue());
+    privbte void implPutAll(Mbp<?,?> t) {
+        for (Mbp.Entry<?,?> e : t.entrySet()) {
+            implPut(e.getKey(), e.getVblue());
         }
     }
 
-    private Object implRemove(Object key) {
-        if (key instanceof String) {
-            if (!checkLegacy(key)) {
+    privbte Object implRemove(Object key) {
+        if (key instbnceof String) {
+            if (!checkLegbcy(key)) {
                 return null;
             }
-            legacyStrings.remove((String)key);
+            legbcyStrings.remove((String)key);
         }
         return super.remove(key);
     }
 
-    private boolean implRemove(Object key, Object value) {
-        if (key instanceof String && value instanceof String) {
-            if (!checkLegacy(key)) {
-                return false;
+    privbte boolebn implRemove(Object key, Object vblue) {
+        if (key instbnceof String && vblue instbnceof String) {
+            if (!checkLegbcy(key)) {
+                return fblse;
             }
-            legacyStrings.remove((String)key, value);
+            legbcyStrings.remove((String)key, vblue);
         }
-        return super.remove(key, value);
+        return super.remove(key, vblue);
     }
 
-    private boolean implReplace(Object key, Object oldValue, Object newValue) {
-        if ((key instanceof String) && (oldValue instanceof String) &&
-                (newValue instanceof String)) {
-            if (!checkLegacy(key)) {
-                return false;
+    privbte boolebn implReplbce(Object key, Object oldVblue, Object newVblue) {
+        if ((key instbnceof String) && (oldVblue instbnceof String) &&
+                (newVblue instbnceof String)) {
+            if (!checkLegbcy(key)) {
+                return fblse;
             }
-            legacyStrings.replace((String)key, (String)oldValue,
-                    (String)newValue);
+            legbcyStrings.replbce((String)key, (String)oldVblue,
+                    (String)newVblue);
         }
-        return super.replace(key, oldValue, newValue);
+        return super.replbce(key, oldVblue, newVblue);
     }
 
-    private Object implReplace(Object key, Object value) {
-        if ((key instanceof String) && (value instanceof String)) {
-            if (!checkLegacy(key)) {
+    privbte Object implReplbce(Object key, Object vblue) {
+        if ((key instbnceof String) && (vblue instbnceof String)) {
+            if (!checkLegbcy(key)) {
                 return null;
             }
-            legacyStrings.replace((String)key, (String)value);
+            legbcyStrings.replbce((String)key, (String)vblue);
         }
-        return super.replace(key, value);
+        return super.replbce(key, vblue);
     }
 
-    @SuppressWarnings("unchecked") // Function must actually operate over strings
-    private void implReplaceAll(BiFunction<? super Object, ? super Object, ? extends Object> function) {
-        legacyChanged = true;
-        if (legacyStrings == null) {
-            legacyStrings = new LinkedHashMap<String,String>();
+    @SuppressWbrnings("unchecked") // Function must bctublly operbte over strings
+    privbte void implReplbceAll(BiFunction<? super Object, ? super Object, ? extends Object> function) {
+        legbcyChbnged = true;
+        if (legbcyStrings == null) {
+            legbcyStrings = new LinkedHbshMbp<String,String>();
         } else {
-            legacyStrings.replaceAll((BiFunction<? super String, ? super String, ? extends String>) function);
+            legbcyStrings.replbceAll((BiFunction<? super String, ? super String, ? extends String>) function);
         }
-        super.replaceAll(function);
+        super.replbceAll(function);
     }
 
-    @SuppressWarnings("unchecked") // Function must actually operate over strings
-    private Object implMerge(Object key, Object value, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
-        if ((key instanceof String) && (value instanceof String)) {
-            if (!checkLegacy(key)) {
+    @SuppressWbrnings("unchecked") // Function must bctublly operbte over strings
+    privbte Object implMerge(Object key, Object vblue, BiFunction<? super Object, ? super Object, ? extends Object> rembppingFunction) {
+        if ((key instbnceof String) && (vblue instbnceof String)) {
+            if (!checkLegbcy(key)) {
                 return null;
             }
-            legacyStrings.merge((String)key, (String)value,
-                    (BiFunction<? super String, ? super String, ? extends String>) remappingFunction);
+            legbcyStrings.merge((String)key, (String)vblue,
+                    (BiFunction<? super String, ? super String, ? extends String>) rembppingFunction);
         }
-        return super.merge(key, value, remappingFunction);
+        return super.merge(key, vblue, rembppingFunction);
     }
 
-    @SuppressWarnings("unchecked") // Function must actually operate over strings
-    private Object implCompute(Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
-        if (key instanceof String) {
-            if (!checkLegacy(key)) {
+    @SuppressWbrnings("unchecked") // Function must bctublly operbte over strings
+    privbte Object implCompute(Object key, BiFunction<? super Object, ? super Object, ? extends Object> rembppingFunction) {
+        if (key instbnceof String) {
+            if (!checkLegbcy(key)) {
                 return null;
             }
-            legacyStrings.computeIfAbsent((String) key,
-                    (Function<? super String, ? extends String>) remappingFunction);
+            legbcyStrings.computeIfAbsent((String) key,
+                    (Function<? super String, ? extends String>) rembppingFunction);
         }
-        return super.compute(key, remappingFunction);
+        return super.compute(key, rembppingFunction);
     }
 
-    @SuppressWarnings("unchecked") // Function must actually operate over strings
-    private Object implComputeIfAbsent(Object key, Function<? super Object, ? extends Object> mappingFunction) {
-        if (key instanceof String) {
-            if (!checkLegacy(key)) {
+    @SuppressWbrnings("unchecked") // Function must bctublly operbte over strings
+    privbte Object implComputeIfAbsent(Object key, Function<? super Object, ? extends Object> mbppingFunction) {
+        if (key instbnceof String) {
+            if (!checkLegbcy(key)) {
                 return null;
             }
-            legacyStrings.computeIfAbsent((String) key,
-                    (Function<? super String, ? extends String>) mappingFunction);
+            legbcyStrings.computeIfAbsent((String) key,
+                    (Function<? super String, ? extends String>) mbppingFunction);
         }
-        return super.computeIfAbsent(key, mappingFunction);
+        return super.computeIfAbsent(key, mbppingFunction);
     }
 
-    @SuppressWarnings("unchecked") // Function must actually operate over strings
-    private Object implComputeIfPresent(Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
-        if (key instanceof String) {
-            if (!checkLegacy(key)) {
+    @SuppressWbrnings("unchecked") // Function must bctublly operbte over strings
+    privbte Object implComputeIfPresent(Object key, BiFunction<? super Object, ? super Object, ? extends Object> rembppingFunction) {
+        if (key instbnceof String) {
+            if (!checkLegbcy(key)) {
                 return null;
             }
-            legacyStrings.computeIfPresent((String) key,
-                    (BiFunction<? super String, ? super String, ? extends String>) remappingFunction);
+            legbcyStrings.computeIfPresent((String) key,
+                    (BiFunction<? super String, ? super String, ? extends String>) rembppingFunction);
         }
-        return super.computeIfPresent(key, remappingFunction);
+        return super.computeIfPresent(key, rembppingFunction);
     }
 
-    private Object implPut(Object key, Object value) {
-        if ((key instanceof String) && (value instanceof String)) {
-            if (!checkLegacy(key)) {
+    privbte Object implPut(Object key, Object vblue) {
+        if ((key instbnceof String) && (vblue instbnceof String)) {
+            if (!checkLegbcy(key)) {
                 return null;
             }
-            legacyStrings.put((String)key, (String)value);
+            legbcyStrings.put((String)key, (String)vblue);
         }
-        return super.put(key, value);
+        return super.put(key, vblue);
     }
 
-    private Object implPutIfAbsent(Object key, Object value) {
-        if ((key instanceof String) && (value instanceof String)) {
-            if (!checkLegacy(key)) {
+    privbte Object implPutIfAbsent(Object key, Object vblue) {
+        if ((key instbnceof String) && (vblue instbnceof String)) {
+            if (!checkLegbcy(key)) {
                 return null;
             }
-            legacyStrings.putIfAbsent((String)key, (String)value);
+            legbcyStrings.putIfAbsent((String)key, (String)vblue);
         }
-        return super.putIfAbsent(key, value);
+        return super.putIfAbsent(key, vblue);
     }
 
-    private void implClear() {
-        if (legacyStrings != null) {
-            legacyStrings.clear();
+    privbte void implClebr() {
+        if (legbcyStrings != null) {
+            legbcyStrings.clebr();
         }
-        if (legacyMap != null) {
-            legacyMap.clear();
+        if (legbcyMbp != null) {
+            legbcyMbp.clebr();
         }
-        if (serviceMap != null) {
-            serviceMap.clear();
+        if (serviceMbp != null) {
+            serviceMbp.clebr();
         }
-        legacyChanged = false;
-        servicesChanged = false;
+        legbcyChbnged = fblse;
+        servicesChbnged = fblse;
         serviceSet = null;
-        super.clear();
+        super.clebr();
         putId();
     }
 
-    // used as key in the serviceMap and legacyMap HashMaps
-    private static class ServiceKey {
-        private final String type;
-        private final String algorithm;
-        private final String originalAlgorithm;
-        private ServiceKey(String type, String algorithm, boolean intern) {
+    // used bs key in the serviceMbp bnd legbcyMbp HbshMbps
+    privbte stbtic clbss ServiceKey {
+        privbte finbl String type;
+        privbte finbl String blgorithm;
+        privbte finbl String originblAlgorithm;
+        privbte ServiceKey(String type, String blgorithm, boolebn intern) {
             this.type = type;
-            this.originalAlgorithm = algorithm;
-            algorithm = algorithm.toUpperCase(ENGLISH);
-            this.algorithm = intern ? algorithm.intern() : algorithm;
+            this.originblAlgorithm = blgorithm;
+            blgorithm = blgorithm.toUpperCbse(ENGLISH);
+            this.blgorithm = intern ? blgorithm.intern() : blgorithm;
         }
-        public int hashCode() {
-            return type.hashCode() + algorithm.hashCode();
+        public int hbshCode() {
+            return type.hbshCode() + blgorithm.hbshCode();
         }
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof ServiceKey == false) {
-                return false;
+            if (obj instbnceof ServiceKey == fblse) {
+                return fblse;
             }
             ServiceKey other = (ServiceKey)obj;
-            return this.type.equals(other.type)
-                && this.algorithm.equals(other.algorithm);
+            return this.type.equbls(other.type)
+                && this.blgorithm.equbls(other.blgorithm);
         }
-        boolean matches(String type, String algorithm) {
-            return (this.type == type) && (this.originalAlgorithm == algorithm);
+        boolebn mbtches(String type, String blgorithm) {
+            return (this.type == type) && (this.originblAlgorithm == blgorithm);
         }
     }
 
     /**
-     * Ensure all the legacy String properties are fully parsed into
+     * Ensure bll the legbcy String properties bre fully pbrsed into
      * service objects.
      */
-    private void ensureLegacyParsed() {
-        if ((legacyChanged == false) || (legacyStrings == null)) {
+    privbte void ensureLegbcyPbrsed() {
+        if ((legbcyChbnged == fblse) || (legbcyStrings == null)) {
             return;
         }
         serviceSet = null;
-        if (legacyMap == null) {
-            legacyMap = new LinkedHashMap<ServiceKey,Service>();
+        if (legbcyMbp == null) {
+            legbcyMbp = new LinkedHbshMbp<ServiceKey,Service>();
         } else {
-            legacyMap.clear();
+            legbcyMbp.clebr();
         }
-        for (Map.Entry<String,String> entry : legacyStrings.entrySet()) {
-            parseLegacyPut(entry.getKey(), entry.getValue());
+        for (Mbp.Entry<String,String> entry : legbcyStrings.entrySet()) {
+            pbrseLegbcyPut(entry.getKey(), entry.getVblue());
         }
-        removeInvalidServices(legacyMap);
-        legacyChanged = false;
+        removeInvblidServices(legbcyMbp);
+        legbcyChbnged = fblse;
     }
 
     /**
-     * Remove all invalid services from the Map. Invalid services can only
-     * occur if the legacy properties are inconsistent or incomplete.
+     * Remove bll invblid services from the Mbp. Invblid services cbn only
+     * occur if the legbcy properties bre inconsistent or incomplete.
      */
-    private void removeInvalidServices(Map<ServiceKey,Service> map) {
-        for (Iterator<Map.Entry<ServiceKey, Service>> t =
-                map.entrySet().iterator(); t.hasNext(); ) {
-            Service s = t.next().getValue();
-            if (s.isValid() == false) {
+    privbte void removeInvblidServices(Mbp<ServiceKey,Service> mbp) {
+        for (Iterbtor<Mbp.Entry<ServiceKey, Service>> t =
+                mbp.entrySet().iterbtor(); t.hbsNext(); ) {
+            Service s = t.next().getVblue();
+            if (s.isVblid() == fblse) {
                 t.remove();
             }
         }
     }
 
-    private String[] getTypeAndAlgorithm(String key) {
+    privbte String[] getTypeAndAlgorithm(String key) {
         int i = key.indexOf('.');
         if (i < 1) {
             if (debug != null) {
-                debug.println("Ignoring invalid entry in provider "
-                        + name + ":" + key);
+                debug.println("Ignoring invblid entry in provider "
+                        + nbme + ":" + key);
             }
             return null;
         }
         String type = key.substring(0, i);
-        String alg = key.substring(i + 1);
-        return new String[] {type, alg};
+        String blg = key.substring(i + 1);
+        return new String[] {type, blg};
     }
 
-    private final static String ALIAS_PREFIX = "Alg.Alias.";
-    private final static String ALIAS_PREFIX_LOWER = "alg.alias.";
-    private final static int ALIAS_LENGTH = ALIAS_PREFIX.length();
+    privbte finbl stbtic String ALIAS_PREFIX = "Alg.Alibs.";
+    privbte finbl stbtic String ALIAS_PREFIX_LOWER = "blg.blibs.";
+    privbte finbl stbtic int ALIAS_LENGTH = ALIAS_PREFIX.length();
 
-    private void parseLegacyPut(String name, String value) {
-        if (name.toLowerCase(ENGLISH).startsWith(ALIAS_PREFIX_LOWER)) {
-            // e.g. put("Alg.Alias.MessageDigest.SHA", "SHA-1");
-            // aliasKey ~ MessageDigest.SHA
-            String stdAlg = value;
-            String aliasKey = name.substring(ALIAS_LENGTH);
-            String[] typeAndAlg = getTypeAndAlgorithm(aliasKey);
+    privbte void pbrseLegbcyPut(String nbme, String vblue) {
+        if (nbme.toLowerCbse(ENGLISH).stbrtsWith(ALIAS_PREFIX_LOWER)) {
+            // e.g. put("Alg.Alibs.MessbgeDigest.SHA", "SHA-1");
+            // blibsKey ~ MessbgeDigest.SHA
+            String stdAlg = vblue;
+            String blibsKey = nbme.substring(ALIAS_LENGTH);
+            String[] typeAndAlg = getTypeAndAlgorithm(blibsKey);
             if (typeAndAlg == null) {
                 return;
             }
-            String type = getEngineName(typeAndAlg[0]);
-            String aliasAlg = typeAndAlg[1].intern();
+            String type = getEngineNbme(typeAndAlg[0]);
+            String blibsAlg = typeAndAlg[1].intern();
             ServiceKey key = new ServiceKey(type, stdAlg, true);
-            Service s = legacyMap.get(key);
+            Service s = legbcyMbp.get(key);
             if (s == null) {
                 s = new Service(this);
                 s.type = type;
-                s.algorithm = stdAlg;
-                legacyMap.put(key, s);
+                s.blgorithm = stdAlg;
+                legbcyMbp.put(key, s);
             }
-            legacyMap.put(new ServiceKey(type, aliasAlg, true), s);
-            s.addAlias(aliasAlg);
+            legbcyMbp.put(new ServiceKey(type, blibsAlg, true), s);
+            s.bddAlibs(blibsAlg);
         } else {
-            String[] typeAndAlg = getTypeAndAlgorithm(name);
+            String[] typeAndAlg = getTypeAndAlgorithm(nbme);
             if (typeAndAlg == null) {
                 return;
             }
             int i = typeAndAlg[1].indexOf(' ');
             if (i == -1) {
-                // e.g. put("MessageDigest.SHA-1", "sun.security.provider.SHA");
-                String type = getEngineName(typeAndAlg[0]);
+                // e.g. put("MessbgeDigest.SHA-1", "sun.security.provider.SHA");
+                String type = getEngineNbme(typeAndAlg[0]);
                 String stdAlg = typeAndAlg[1].intern();
-                String className = value;
+                String clbssNbme = vblue;
                 ServiceKey key = new ServiceKey(type, stdAlg, true);
-                Service s = legacyMap.get(key);
+                Service s = legbcyMbp.get(key);
                 if (s == null) {
                     s = new Service(this);
                     s.type = type;
-                    s.algorithm = stdAlg;
-                    legacyMap.put(key, s);
+                    s.blgorithm = stdAlg;
+                    legbcyMbp.put(key, s);
                 }
-                s.className = className;
-            } else { // attribute
-                // e.g. put("MessageDigest.SHA-1 ImplementedIn", "Software");
-                String attributeValue = value;
-                String type = getEngineName(typeAndAlg[0]);
-                String attributeString = typeAndAlg[1];
-                String stdAlg = attributeString.substring(0, i).intern();
-                String attributeName = attributeString.substring(i + 1);
-                // kill additional spaces
-                while (attributeName.startsWith(" ")) {
-                    attributeName = attributeName.substring(1);
+                s.clbssNbme = clbssNbme;
+            } else { // bttribute
+                // e.g. put("MessbgeDigest.SHA-1 ImplementedIn", "Softwbre");
+                String bttributeVblue = vblue;
+                String type = getEngineNbme(typeAndAlg[0]);
+                String bttributeString = typeAndAlg[1];
+                String stdAlg = bttributeString.substring(0, i).intern();
+                String bttributeNbme = bttributeString.substring(i + 1);
+                // kill bdditionbl spbces
+                while (bttributeNbme.stbrtsWith(" ")) {
+                    bttributeNbme = bttributeNbme.substring(1);
                 }
-                attributeName = attributeName.intern();
+                bttributeNbme = bttributeNbme.intern();
                 ServiceKey key = new ServiceKey(type, stdAlg, true);
-                Service s = legacyMap.get(key);
+                Service s = legbcyMbp.get(key);
                 if (s == null) {
                     s = new Service(this);
                     s.type = type;
-                    s.algorithm = stdAlg;
-                    legacyMap.put(key, s);
+                    s.blgorithm = stdAlg;
+                    legbcyMbp.put(key, s);
                 }
-                s.addAttribute(attributeName, attributeValue);
+                s.bddAttribute(bttributeNbme, bttributeVblue);
             }
         }
     }
 
     /**
-     * Get the service describing this Provider's implementation of the
-     * specified type of this algorithm or alias. If no such
-     * implementation exists, this method returns null. If there are two
-     * matching services, one added to this provider using
-     * {@link #putService putService()} and one added via {@link #put put()},
-     * the service added via {@link #putService putService()} is returned.
+     * Get the service describing this Provider's implementbtion of the
+     * specified type of this blgorithm or blibs. If no such
+     * implementbtion exists, this method returns null. If there bre two
+     * mbtching services, one bdded to this provider using
+     * {@link #putService putService()} bnd one bdded vib {@link #put put()},
+     * the service bdded vib {@link #putService putService()} is returned.
      *
-     * @param type the type of {@link Service service} requested
-     * (for example, {@code MessageDigest})
-     * @param algorithm the case insensitive algorithm name (or alternate
-     * alias) of the service requested (for example, {@code SHA-1})
+     * @pbrbm type the type of {@link Service service} requested
+     * (for exbmple, {@code MessbgeDigest})
+     * @pbrbm blgorithm the cbse insensitive blgorithm nbme (or blternbte
+     * blibs) of the service requested (for exbmple, {@code SHA-1})
      *
-     * @return the service describing this Provider's matching service
+     * @return the service describing this Provider's mbtching service
      * or null if no such service exists
      *
-     * @throws NullPointerException if type or algorithm is null
+     * @throws NullPointerException if type or blgorithm is null
      *
      * @since 1.5
      */
-    public synchronized Service getService(String type, String algorithm) {
-        checkInitialized();
-        // avoid allocating a new key object if possible
+    public synchronized Service getService(String type, String blgorithm) {
+        checkInitiblized();
+        // bvoid bllocbting b new key object if possible
         ServiceKey key = previousKey;
-        if (key.matches(type, algorithm) == false) {
-            key = new ServiceKey(type, algorithm, false);
+        if (key.mbtches(type, blgorithm) == fblse) {
+            key = new ServiceKey(type, blgorithm, fblse);
             previousKey = key;
         }
-        if (serviceMap != null) {
-            Service service = serviceMap.get(key);
+        if (serviceMbp != null) {
+            Service service = serviceMbp.get(key);
             if (service != null) {
                 return service;
             }
         }
-        ensureLegacyParsed();
-        return (legacyMap != null) ? legacyMap.get(key) : null;
+        ensureLegbcyPbrsed();
+        return (legbcyMbp != null) ? legbcyMbp.get(key) : null;
     }
 
-    // ServiceKey from previous getService() call
-    // by re-using it if possible we avoid allocating a new object
-    // and the toUpperCase() call.
-    // re-use will occur e.g. as the framework traverses the provider
-    // list and queries each provider with the same values until it finds
-    // a matching service
-    private static volatile ServiceKey previousKey =
-                                            new ServiceKey("", "", false);
+    // ServiceKey from previous getService() cbll
+    // by re-using it if possible we bvoid bllocbting b new object
+    // bnd the toUpperCbse() cbll.
+    // re-use will occur e.g. bs the frbmework trbverses the provider
+    // list bnd queries ebch provider with the sbme vblues until it finds
+    // b mbtching service
+    privbte stbtic volbtile ServiceKey previousKey =
+                                            new ServiceKey("", "", fblse);
 
     /**
-     * Get an unmodifiable Set of all services supported by
+     * Get bn unmodifibble Set of bll services supported by
      * this Provider.
      *
-     * @return an unmodifiable Set of all services supported by
+     * @return bn unmodifibble Set of bll services supported by
      * this Provider
      *
      * @since 1.5
      */
     public synchronized Set<Service> getServices() {
-        checkInitialized();
-        if (legacyChanged || servicesChanged) {
+        checkInitiblized();
+        if (legbcyChbnged || servicesChbnged) {
             serviceSet = null;
         }
         if (serviceSet == null) {
-            ensureLegacyParsed();
-            Set<Service> set = new LinkedHashSet<>();
-            if (serviceMap != null) {
-                set.addAll(serviceMap.values());
+            ensureLegbcyPbrsed();
+            Set<Service> set = new LinkedHbshSet<>();
+            if (serviceMbp != null) {
+                set.bddAll(serviceMbp.vblues());
             }
-            if (legacyMap != null) {
-                set.addAll(legacyMap.values());
+            if (legbcyMbp != null) {
+                set.bddAll(legbcyMbp.vblues());
             }
-            serviceSet = Collections.unmodifiableSet(set);
-            servicesChanged = false;
+            serviceSet = Collections.unmodifibbleSet(set);
+            servicesChbnged = fblse;
         }
         return serviceSet;
     }
 
     /**
-     * Add a service. If a service of the same type with the same algorithm
-     * name exists and it was added using {@link #putService putService()},
-     * it is replaced by the new service.
-     * This method also places information about this service
-     * in the provider's Hashtable values in the format described in the
-     * <a href="../../../technotes/guides/security/crypto/CryptoSpec.html">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>.
+     * Add b service. If b service of the sbme type with the sbme blgorithm
+     * nbme exists bnd it wbs bdded using {@link #putService putService()},
+     * it is replbced by the new service.
+     * This method blso plbces informbtion bbout this service
+     * in the provider's Hbshtbble vblues in the formbt described in the
+     * <b href="../../../technotes/guides/security/crypto/CryptoSpec.html">
+     * Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference </b>.
      *
-     * <p>Also, if there is a security manager, its
-     * {@code checkSecurityAccess} method is called with the string
-     * {@code "putProviderProperty."+name}, where {@code name} is
-     * the provider name, to see if it's ok to set this provider's property
-     * values. If the default implementation of {@code checkSecurityAccess}
-     * is used (that is, that method is not overriden), then this results in
-     * a call to the security manager's {@code checkPermission} method with
-     * a {@code SecurityPermission("putProviderProperty."+name)}
+     * <p>Also, if there is b security mbnbger, its
+     * {@code checkSecurityAccess} method is cblled with the string
+     * {@code "putProviderProperty."+nbme}, where {@code nbme} is
+     * the provider nbme, to see if it's ok to set this provider's property
+     * vblues. If the defbult implementbtion of {@code checkSecurityAccess}
+     * is used (thbt is, thbt method is not overriden), then this results in
+     * b cbll to the security mbnbger's {@code checkPermission} method with
+     * b {@code SecurityPermission("putProviderProperty."+nbme)}
      * permission.
      *
-     * @param s the Service to add
+     * @pbrbm s the Service to bdd
      *
      * @throws SecurityException
-     *      if a security manager exists and its {@link
-     *      java.lang.SecurityManager#checkSecurityAccess} method denies
-     *      access to set property values.
+     *      if b security mbnbger exists bnd its {@link
+     *      jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method denies
+     *      bccess to set property vblues.
      * @throws NullPointerException if s is null
      *
      * @since 1.5
      */
     protected synchronized void putService(Service s) {
-        check("putProviderProperty." + name);
+        check("putProviderProperty." + nbme);
         if (debug != null) {
-            debug.println(name + ".putService(): " + s);
+            debug.println(nbme + ".putService(): " + s);
         }
         if (s == null) {
             throw new NullPointerException();
         }
         if (s.getProvider() != this) {
-            throw new IllegalArgumentException
-                    ("service.getProvider() must match this Provider object");
+            throw new IllegblArgumentException
+                    ("service.getProvider() must mbtch this Provider object");
         }
-        if (serviceMap == null) {
-            serviceMap = new LinkedHashMap<ServiceKey,Service>();
+        if (serviceMbp == null) {
+            serviceMbp = new LinkedHbshMbp<ServiceKey,Service>();
         }
-        servicesChanged = true;
+        servicesChbnged = true;
         String type = s.getType();
-        String algorithm = s.getAlgorithm();
-        ServiceKey key = new ServiceKey(type, algorithm, true);
+        String blgorithm = s.getAlgorithm();
+        ServiceKey key = new ServiceKey(type, blgorithm, true);
         // remove existing service
-        implRemoveService(serviceMap.get(key));
-        serviceMap.put(key, s);
-        for (String alias : s.getAliases()) {
-            serviceMap.put(new ServiceKey(type, alias, true), s);
+        implRemoveService(serviceMbp.get(key));
+        serviceMbp.put(key, s);
+        for (String blibs : s.getAlibses()) {
+            serviceMbp.put(new ServiceKey(type, blibs, true), s);
         }
         putPropertyStrings(s);
     }
 
     /**
      * Put the string properties for this Service in this Provider's
-     * Hashtable.
+     * Hbshtbble.
      */
-    private void putPropertyStrings(Service s) {
+    privbte void putPropertyStrings(Service s) {
         String type = s.getType();
-        String algorithm = s.getAlgorithm();
-        // use super() to avoid permission check and other processing
-        super.put(type + "." + algorithm, s.getClassName());
-        for (String alias : s.getAliases()) {
-            super.put(ALIAS_PREFIX + type + "." + alias, algorithm);
+        String blgorithm = s.getAlgorithm();
+        // use super() to bvoid permission check bnd other processing
+        super.put(type + "." + blgorithm, s.getClbssNbme());
+        for (String blibs : s.getAlibses()) {
+            super.put(ALIAS_PREFIX + type + "." + blibs, blgorithm);
         }
-        for (Map.Entry<UString,String> entry : s.attributes.entrySet()) {
-            String key = type + "." + algorithm + " " + entry.getKey();
-            super.put(key, entry.getValue());
+        for (Mbp.Entry<UString,String> entry : s.bttributes.entrySet()) {
+            String key = type + "." + blgorithm + " " + entry.getKey();
+            super.put(key, entry.getVblue());
         }
     }
 
     /**
      * Remove the string properties for this Service from this Provider's
-     * Hashtable.
+     * Hbshtbble.
      */
-    private void removePropertyStrings(Service s) {
+    privbte void removePropertyStrings(Service s) {
         String type = s.getType();
-        String algorithm = s.getAlgorithm();
-        // use super() to avoid permission check and other processing
-        super.remove(type + "." + algorithm);
-        for (String alias : s.getAliases()) {
-            super.remove(ALIAS_PREFIX + type + "." + alias);
+        String blgorithm = s.getAlgorithm();
+        // use super() to bvoid permission check bnd other processing
+        super.remove(type + "." + blgorithm);
+        for (String blibs : s.getAlibses()) {
+            super.remove(ALIAS_PREFIX + type + "." + blibs);
         }
-        for (Map.Entry<UString,String> entry : s.attributes.entrySet()) {
-            String key = type + "." + algorithm + " " + entry.getKey();
+        for (Mbp.Entry<UString,String> entry : s.bttributes.entrySet()) {
+            String key = type + "." + blgorithm + " " + entry.getKey();
             super.remove(key);
         }
     }
 
     /**
-     * Remove a service previously added using
+     * Remove b service previously bdded using
      * {@link #putService putService()}. The specified service is removed from
      * this provider. It will no longer be returned by
-     * {@link #getService getService()} and its information will be removed
-     * from this provider's Hashtable.
+     * {@link #getService getService()} bnd its informbtion will be removed
+     * from this provider's Hbshtbble.
      *
-     * <p>Also, if there is a security manager, its
-     * {@code checkSecurityAccess} method is called with the string
-     * {@code "removeProviderProperty."+name}, where {@code name} is
-     * the provider name, to see if it's ok to remove this provider's
-     * properties. If the default implementation of
-     * {@code checkSecurityAccess} is used (that is, that method is not
-     * overriden), then this results in a call to the security manager's
-     * {@code checkPermission} method with a
-     * {@code SecurityPermission("removeProviderProperty."+name)}
+     * <p>Also, if there is b security mbnbger, its
+     * {@code checkSecurityAccess} method is cblled with the string
+     * {@code "removeProviderProperty."+nbme}, where {@code nbme} is
+     * the provider nbme, to see if it's ok to remove this provider's
+     * properties. If the defbult implementbtion of
+     * {@code checkSecurityAccess} is used (thbt is, thbt method is not
+     * overriden), then this results in b cbll to the security mbnbger's
+     * {@code checkPermission} method with b
+     * {@code SecurityPermission("removeProviderProperty."+nbme)}
      * permission.
      *
-     * @param s the Service to be removed
+     * @pbrbm s the Service to be removed
      *
      * @throws  SecurityException
-     *          if a security manager exists and its {@link
-     *          java.lang.SecurityManager#checkSecurityAccess} method denies
-     *          access to remove this provider's properties.
+     *          if b security mbnbger exists bnd its {@link
+     *          jbvb.lbng.SecurityMbnbger#checkSecurityAccess} method denies
+     *          bccess to remove this provider's properties.
      * @throws NullPointerException if s is null
      *
      * @since 1.5
      */
     protected synchronized void removeService(Service s) {
-        check("removeProviderProperty." + name);
+        check("removeProviderProperty." + nbme);
         if (debug != null) {
-            debug.println(name + ".removeService(): " + s);
+            debug.println(nbme + ".removeService(): " + s);
         }
         if (s == null) {
             throw new NullPointerException();
@@ -1223,48 +1223,48 @@ public abstract class Provider extends Properties {
         implRemoveService(s);
     }
 
-    private void implRemoveService(Service s) {
-        if ((s == null) || (serviceMap == null)) {
+    privbte void implRemoveService(Service s) {
+        if ((s == null) || (serviceMbp == null)) {
             return;
         }
         String type = s.getType();
-        String algorithm = s.getAlgorithm();
-        ServiceKey key = new ServiceKey(type, algorithm, false);
-        Service oldService = serviceMap.get(key);
+        String blgorithm = s.getAlgorithm();
+        ServiceKey key = new ServiceKey(type, blgorithm, fblse);
+        Service oldService = serviceMbp.get(key);
         if (s != oldService) {
             return;
         }
-        servicesChanged = true;
-        serviceMap.remove(key);
-        for (String alias : s.getAliases()) {
-            serviceMap.remove(new ServiceKey(type, alias, false));
+        servicesChbnged = true;
+        serviceMbp.remove(key);
+        for (String blibs : s.getAlibses()) {
+            serviceMbp.remove(new ServiceKey(type, blibs, fblse));
         }
         removePropertyStrings(s);
     }
 
-    // Wrapped String that behaves in a case insensitive way for equals/hashCode
-    private static class UString {
-        final String string;
-        final String lowerString;
+    // Wrbpped String thbt behbves in b cbse insensitive wby for equbls/hbshCode
+    privbte stbtic clbss UString {
+        finbl String string;
+        finbl String lowerString;
 
         UString(String s) {
             this.string = s;
-            this.lowerString = s.toLowerCase(ENGLISH);
+            this.lowerString = s.toLowerCbse(ENGLISH);
         }
 
-        public int hashCode() {
-            return lowerString.hashCode();
+        public int hbshCode() {
+            return lowerString.hbshCode();
         }
 
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof UString == false) {
-                return false;
+            if (obj instbnceof UString == fblse) {
+                return fblse;
             }
             UString other = (UString)obj;
-            return lowerString.equals(other.lowerString);
+            return lowerString.equbls(other.lowerString);
         }
 
         public String toString() {
@@ -1272,234 +1272,234 @@ public abstract class Provider extends Properties {
         }
     }
 
-    // describe relevant properties of a type of engine
-    private static class EngineDescription {
-        final String name;
-        final boolean supportsParameter;
-        final String constructorParameterClassName;
-        private volatile Class<?> constructorParameterClass;
+    // describe relevbnt properties of b type of engine
+    privbte stbtic clbss EngineDescription {
+        finbl String nbme;
+        finbl boolebn supportsPbrbmeter;
+        finbl String constructorPbrbmeterClbssNbme;
+        privbte volbtile Clbss<?> constructorPbrbmeterClbss;
 
-        EngineDescription(String name, boolean sp, String paramName) {
-            this.name = name;
-            this.supportsParameter = sp;
-            this.constructorParameterClassName = paramName;
+        EngineDescription(String nbme, boolebn sp, String pbrbmNbme) {
+            this.nbme = nbme;
+            this.supportsPbrbmeter = sp;
+            this.constructorPbrbmeterClbssNbme = pbrbmNbme;
         }
-        Class<?> getConstructorParameterClass() throws ClassNotFoundException {
-            Class<?> clazz = constructorParameterClass;
-            if (clazz == null) {
-                clazz = Class.forName(constructorParameterClassName);
-                constructorParameterClass = clazz;
+        Clbss<?> getConstructorPbrbmeterClbss() throws ClbssNotFoundException {
+            Clbss<?> clbzz = constructorPbrbmeterClbss;
+            if (clbzz == null) {
+                clbzz = Clbss.forNbme(constructorPbrbmeterClbssNbme);
+                constructorPbrbmeterClbss = clbzz;
             }
-            return clazz;
+            return clbzz;
         }
     }
 
-    // built in knowledge of the engine types shipped as part of the JDK
-    private static final Map<String,EngineDescription> knownEngines;
+    // built in knowledge of the engine types shipped bs pbrt of the JDK
+    privbte stbtic finbl Mbp<String,EngineDescription> knownEngines;
 
-    private static void addEngine(String name, boolean sp, String paramName) {
-        EngineDescription ed = new EngineDescription(name, sp, paramName);
-        // also index by canonical name to avoid toLowerCase() for some lookups
-        knownEngines.put(name.toLowerCase(ENGLISH), ed);
-        knownEngines.put(name, ed);
+    privbte stbtic void bddEngine(String nbme, boolebn sp, String pbrbmNbme) {
+        EngineDescription ed = new EngineDescription(nbme, sp, pbrbmNbme);
+        // blso index by cbnonicbl nbme to bvoid toLowerCbse() for some lookups
+        knownEngines.put(nbme.toLowerCbse(ENGLISH), ed);
+        knownEngines.put(nbme, ed);
     }
 
-    static {
-        knownEngines = new HashMap<String,EngineDescription>();
+    stbtic {
+        knownEngines = new HbshMbp<String,EngineDescription>();
         // JCA
-        addEngine("AlgorithmParameterGenerator",        false, null);
-        addEngine("AlgorithmParameters",                false, null);
-        addEngine("KeyFactory",                         false, null);
-        addEngine("KeyPairGenerator",                   false, null);
-        addEngine("KeyStore",                           false, null);
-        addEngine("MessageDigest",                      false, null);
-        addEngine("SecureRandom",                       false, null);
-        addEngine("Signature",                          true,  null);
-        addEngine("CertificateFactory",                 false, null);
-        addEngine("CertPathBuilder",                    false, null);
-        addEngine("CertPathValidator",                  false, null);
-        addEngine("CertStore",                          false,
-                            "java.security.cert.CertStoreParameters");
+        bddEngine("AlgorithmPbrbmeterGenerbtor",        fblse, null);
+        bddEngine("AlgorithmPbrbmeters",                fblse, null);
+        bddEngine("KeyFbctory",                         fblse, null);
+        bddEngine("KeyPbirGenerbtor",                   fblse, null);
+        bddEngine("KeyStore",                           fblse, null);
+        bddEngine("MessbgeDigest",                      fblse, null);
+        bddEngine("SecureRbndom",                       fblse, null);
+        bddEngine("Signbture",                          true,  null);
+        bddEngine("CertificbteFbctory",                 fblse, null);
+        bddEngine("CertPbthBuilder",                    fblse, null);
+        bddEngine("CertPbthVblidbtor",                  fblse, null);
+        bddEngine("CertStore",                          fblse,
+                            "jbvb.security.cert.CertStorePbrbmeters");
         // JCE
-        addEngine("Cipher",                             true,  null);
-        addEngine("ExemptionMechanism",                 false, null);
-        addEngine("Mac",                                true,  null);
-        addEngine("KeyAgreement",                       true,  null);
-        addEngine("KeyGenerator",                       false, null);
-        addEngine("SecretKeyFactory",                   false, null);
+        bddEngine("Cipher",                             true,  null);
+        bddEngine("ExemptionMechbnism",                 fblse, null);
+        bddEngine("Mbc",                                true,  null);
+        bddEngine("KeyAgreement",                       true,  null);
+        bddEngine("KeyGenerbtor",                       fblse, null);
+        bddEngine("SecretKeyFbctory",                   fblse, null);
         // JSSE
-        addEngine("KeyManagerFactory",                  false, null);
-        addEngine("SSLContext",                         false, null);
-        addEngine("TrustManagerFactory",                false, null);
+        bddEngine("KeyMbnbgerFbctory",                  fblse, null);
+        bddEngine("SSLContext",                         fblse, null);
+        bddEngine("TrustMbnbgerFbctory",                fblse, null);
         // JGSS
-        addEngine("GssApiMechanism",                    false, null);
+        bddEngine("GssApiMechbnism",                    fblse, null);
         // SASL
-        addEngine("SaslClientFactory",                  false, null);
-        addEngine("SaslServerFactory",                  false, null);
+        bddEngine("SbslClientFbctory",                  fblse, null);
+        bddEngine("SbslServerFbctory",                  fblse, null);
         // POLICY
-        addEngine("Policy",                             false,
-                            "java.security.Policy$Parameters");
+        bddEngine("Policy",                             fblse,
+                            "jbvb.security.Policy$Pbrbmeters");
         // CONFIGURATION
-        addEngine("Configuration",                      false,
-                            "javax.security.auth.login.Configuration$Parameters");
+        bddEngine("Configurbtion",                      fblse,
+                            "jbvbx.security.buth.login.Configurbtion$Pbrbmeters");
         // XML DSig
-        addEngine("XMLSignatureFactory",                false, null);
-        addEngine("KeyInfoFactory",                     false, null);
-        addEngine("TransformService",                   false, null);
-        // Smart Card I/O
-        addEngine("TerminalFactory",                    false,
-                            "java.lang.Object");
+        bddEngine("XMLSignbtureFbctory",                fblse, null);
+        bddEngine("KeyInfoFbctory",                     fblse, null);
+        bddEngine("TrbnsformService",                   fblse, null);
+        // Smbrt Cbrd I/O
+        bddEngine("TerminblFbctory",                    fblse,
+                            "jbvb.lbng.Object");
     }
 
-    // get the "standard" (mixed-case) engine name for arbitary case engine name
-    // if there is no known engine by that name, return s
-    private static String getEngineName(String s) {
-        // try original case first, usually correct
+    // get the "stbndbrd" (mixed-cbse) engine nbme for brbitbry cbse engine nbme
+    // if there is no known engine by thbt nbme, return s
+    privbte stbtic String getEngineNbme(String s) {
+        // try originbl cbse first, usublly correct
         EngineDescription e = knownEngines.get(s);
         if (e == null) {
-            e = knownEngines.get(s.toLowerCase(ENGLISH));
+            e = knownEngines.get(s.toLowerCbse(ENGLISH));
         }
-        return (e == null) ? s : e.name;
+        return (e == null) ? s : e.nbme;
     }
 
     /**
-     * The description of a security service. It encapsulates the properties
-     * of a service and contains a factory method to obtain new implementation
-     * instances of this service.
+     * The description of b security service. It encbpsulbtes the properties
+     * of b service bnd contbins b fbctory method to obtbin new implementbtion
+     * instbnces of this service.
      *
-     * <p>Each service has a provider that offers the service, a type,
-     * an algorithm name, and the name of the class that implements the
-     * service. Optionally, it also includes a list of alternate algorithm
-     * names for this service (aliases) and attributes, which are a map of
-     * (name, value) String pairs.
+     * <p>Ebch service hbs b provider thbt offers the service, b type,
+     * bn blgorithm nbme, bnd the nbme of the clbss thbt implements the
+     * service. Optionblly, it blso includes b list of blternbte blgorithm
+     * nbmes for this service (blibses) bnd bttributes, which bre b mbp of
+     * (nbme, vblue) String pbirs.
      *
-     * <p>This class defines the methods {@link #supportsParameter
-     * supportsParameter()} and {@link #newInstance newInstance()}
-     * which are used by the Java security framework when it searches for
-     * suitable services and instantiates them. The valid arguments to those
+     * <p>This clbss defines the methods {@link #supportsPbrbmeter
+     * supportsPbrbmeter()} bnd {@link #newInstbnce newInstbnce()}
+     * which bre used by the Jbvb security frbmework when it sebrches for
+     * suitbble services bnd instbntibtes them. The vblid brguments to those
      * methods depend on the type of service. For the service types defined
-     * within Java SE, see the
-     * <a href="../../../technotes/guides/security/crypto/CryptoSpec.html">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for the valid values.
-     * Note that components outside of Java SE can define additional types of
-     * services and their behavior.
+     * within Jbvb SE, see the
+     * <b href="../../../technotes/guides/security/crypto/CryptoSpec.html">
+     * Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference </b>
+     * for the vblid vblues.
+     * Note thbt components outside of Jbvb SE cbn define bdditionbl types of
+     * services bnd their behbvior.
      *
-     * <p>Instances of this class are immutable.
+     * <p>Instbnces of this clbss bre immutbble.
      *
      * @since 1.5
      */
-    public static class Service {
+    public stbtic clbss Service {
 
-        private String type, algorithm, className;
-        private final Provider provider;
-        private List<String> aliases;
-        private Map<UString,String> attributes;
+        privbte String type, blgorithm, clbssNbme;
+        privbte finbl Provider provider;
+        privbte List<String> blibses;
+        privbte Mbp<UString,String> bttributes;
 
-        // Reference to the cached implementation Class object
-        private volatile Reference<Class<?>> classRef;
+        // Reference to the cbched implementbtion Clbss object
+        privbte volbtile Reference<Clbss<?>> clbssRef;
 
-        // flag indicating whether this service has its attributes for
-        // supportedKeyFormats or supportedKeyClasses set
-        // if null, the values have not been initialized
-        // if TRUE, at least one of supportedFormats/Classes is non null
-        private volatile Boolean hasKeyAttributes;
+        // flbg indicbting whether this service hbs its bttributes for
+        // supportedKeyFormbts or supportedKeyClbsses set
+        // if null, the vblues hbve not been initiblized
+        // if TRUE, bt lebst one of supportedFormbts/Clbsses is non null
+        privbte volbtile Boolebn hbsKeyAttributes;
 
-        // supported encoding formats
-        private String[] supportedFormats;
+        // supported encoding formbts
+        privbte String[] supportedFormbts;
 
-        // names of the supported key (super) classes
-        private Class<?>[] supportedClasses;
+        // nbmes of the supported key (super) clbsses
+        privbte Clbss<?>[] supportedClbsses;
 
-        // whether this service has been registered with the Provider
-        private boolean registered;
+        // whether this service hbs been registered with the Provider
+        privbte boolebn registered;
 
-        private static final Class<?>[] CLASS0 = new Class<?>[0];
+        privbte stbtic finbl Clbss<?>[] CLASS0 = new Clbss<?>[0];
 
-        // this constructor and these methods are used for parsing
-        // the legacy string properties.
+        // this constructor bnd these methods bre used for pbrsing
+        // the legbcy string properties.
 
-        private Service(Provider provider) {
+        privbte Service(Provider provider) {
             this.provider = provider;
-            aliases = Collections.<String>emptyList();
-            attributes = Collections.<UString,String>emptyMap();
+            blibses = Collections.<String>emptyList();
+            bttributes = Collections.<UString,String>emptyMbp();
         }
 
-        private boolean isValid() {
-            return (type != null) && (algorithm != null) && (className != null);
+        privbte boolebn isVblid() {
+            return (type != null) && (blgorithm != null) && (clbssNbme != null);
         }
 
-        private void addAlias(String alias) {
-            if (aliases.isEmpty()) {
-                aliases = new ArrayList<String>(2);
+        privbte void bddAlibs(String blibs) {
+            if (blibses.isEmpty()) {
+                blibses = new ArrbyList<String>(2);
             }
-            aliases.add(alias);
+            blibses.bdd(blibs);
         }
 
-        void addAttribute(String type, String value) {
-            if (attributes.isEmpty()) {
-                attributes = new HashMap<UString,String>(8);
+        void bddAttribute(String type, String vblue) {
+            if (bttributes.isEmpty()) {
+                bttributes = new HbshMbp<UString,String>(8);
             }
-            attributes.put(new UString(type), value);
+            bttributes.put(new UString(type), vblue);
         }
 
         /**
-         * Construct a new service.
+         * Construct b new service.
          *
-         * @param provider the provider that offers this service
-         * @param type the type of this service
-         * @param algorithm the algorithm name
-         * @param className the name of the class implementing this service
-         * @param aliases List of aliases or null if algorithm has no aliases
-         * @param attributes Map of attributes or null if this implementation
-         *                   has no attributes
+         * @pbrbm provider the provider thbt offers this service
+         * @pbrbm type the type of this service
+         * @pbrbm blgorithm the blgorithm nbme
+         * @pbrbm clbssNbme the nbme of the clbss implementing this service
+         * @pbrbm blibses List of blibses or null if blgorithm hbs no blibses
+         * @pbrbm bttributes Mbp of bttributes or null if this implementbtion
+         *                   hbs no bttributes
          *
-         * @throws NullPointerException if provider, type, algorithm, or
-         * className is null
+         * @throws NullPointerException if provider, type, blgorithm, or
+         * clbssNbme is null
          */
-        public Service(Provider provider, String type, String algorithm,
-                String className, List<String> aliases,
-                Map<String,String> attributes) {
+        public Service(Provider provider, String type, String blgorithm,
+                String clbssNbme, List<String> blibses,
+                Mbp<String,String> bttributes) {
             if ((provider == null) || (type == null) ||
-                    (algorithm == null) || (className == null)) {
+                    (blgorithm == null) || (clbssNbme == null)) {
                 throw new NullPointerException();
             }
             this.provider = provider;
-            this.type = getEngineName(type);
-            this.algorithm = algorithm;
-            this.className = className;
-            if (aliases == null) {
-                this.aliases = Collections.<String>emptyList();
+            this.type = getEngineNbme(type);
+            this.blgorithm = blgorithm;
+            this.clbssNbme = clbssNbme;
+            if (blibses == null) {
+                this.blibses = Collections.<String>emptyList();
             } else {
-                this.aliases = new ArrayList<String>(aliases);
+                this.blibses = new ArrbyList<String>(blibses);
             }
-            if (attributes == null) {
-                this.attributes = Collections.<UString,String>emptyMap();
+            if (bttributes == null) {
+                this.bttributes = Collections.<UString,String>emptyMbp();
             } else {
-                this.attributes = new HashMap<UString,String>();
-                for (Map.Entry<String,String> entry : attributes.entrySet()) {
-                    this.attributes.put(new UString(entry.getKey()), entry.getValue());
+                this.bttributes = new HbshMbp<UString,String>();
+                for (Mbp.Entry<String,String> entry : bttributes.entrySet()) {
+                    this.bttributes.put(new UString(entry.getKey()), entry.getVblue());
                 }
             }
         }
 
         /**
-         * Get the type of this service. For example, {@code MessageDigest}.
+         * Get the type of this service. For exbmple, {@code MessbgeDigest}.
          *
          * @return the type of this service
          */
-        public final String getType() {
+        public finbl String getType() {
             return type;
         }
 
         /**
-         * Return the name of the algorithm of this service. For example,
+         * Return the nbme of the blgorithm of this service. For exbmple,
          * {@code SHA-1}.
          *
-         * @return the algorithm of this service
+         * @return the blgorithm of this service
          */
-        public final String getAlgorithm() {
-            return algorithm;
+        public finbl String getAlgorithm() {
+            return blgorithm;
         }
 
         /**
@@ -1507,342 +1507,342 @@ public abstract class Provider extends Properties {
          *
          * @return the Provider of this service
          */
-        public final Provider getProvider() {
+        public finbl Provider getProvider() {
             return provider;
         }
 
         /**
-         * Return the name of the class implementing this service.
+         * Return the nbme of the clbss implementing this service.
          *
-         * @return the name of the class implementing this service
+         * @return the nbme of the clbss implementing this service
          */
-        public final String getClassName() {
-            return className;
+        public finbl String getClbssNbme() {
+            return clbssNbme;
         }
 
-        // internal only
-        private final List<String> getAliases() {
-            return aliases;
+        // internbl only
+        privbte finbl List<String> getAlibses() {
+            return blibses;
         }
 
         /**
-         * Return the value of the specified attribute or null if this
-         * attribute is not set for this Service.
+         * Return the vblue of the specified bttribute or null if this
+         * bttribute is not set for this Service.
          *
-         * @param name the name of the requested attribute
+         * @pbrbm nbme the nbme of the requested bttribute
          *
-         * @return the value of the specified attribute or null if the
-         *         attribute is not present
+         * @return the vblue of the specified bttribute or null if the
+         *         bttribute is not present
          *
-         * @throws NullPointerException if name is null
+         * @throws NullPointerException if nbme is null
          */
-        public final String getAttribute(String name) {
-            if (name == null) {
+        public finbl String getAttribute(String nbme) {
+            if (nbme == null) {
                 throw new NullPointerException();
             }
-            return attributes.get(new UString(name));
+            return bttributes.get(new UString(nbme));
         }
 
         /**
-         * Return a new instance of the implementation described by this
-         * service. The security provider framework uses this method to
-         * construct implementations. Applications will typically not need
-         * to call it.
+         * Return b new instbnce of the implementbtion described by this
+         * service. The security provider frbmework uses this method to
+         * construct implementbtions. Applicbtions will typicblly not need
+         * to cbll it.
          *
-         * <p>The default implementation uses reflection to invoke the
-         * standard constructor for this type of service.
-         * Security providers can override this method to implement
-         * instantiation in a different way.
-         * For details and the values of constructorParameter that are
-         * valid for the various types of services see the
-         * <a href="../../../technotes/guides/security/crypto/CryptoSpec.html">
-         * Java Cryptography Architecture API Specification &amp;
-         * Reference</a>.
+         * <p>The defbult implementbtion uses reflection to invoke the
+         * stbndbrd constructor for this type of service.
+         * Security providers cbn override this method to implement
+         * instbntibtion in b different wby.
+         * For detbils bnd the vblues of constructorPbrbmeter thbt bre
+         * vblid for the vbrious types of services see the
+         * <b href="../../../technotes/guides/security/crypto/CryptoSpec.html">
+         * Jbvb Cryptogrbphy Architecture API Specificbtion &bmp;
+         * Reference</b>.
          *
-         * @param constructorParameter the value to pass to the constructor,
-         * or null if this type of service does not use a constructorParameter.
+         * @pbrbm constructorPbrbmeter the vblue to pbss to the constructor,
+         * or null if this type of service does not use b constructorPbrbmeter.
          *
-         * @return a new implementation of this service
+         * @return b new implementbtion of this service
          *
-         * @throws InvalidParameterException if the value of
-         * constructorParameter is invalid for this type of service.
-         * @throws NoSuchAlgorithmException if instantiation failed for
-         * any other reason.
+         * @throws InvblidPbrbmeterException if the vblue of
+         * constructorPbrbmeter is invblid for this type of service.
+         * @throws NoSuchAlgorithmException if instbntibtion fbiled for
+         * bny other rebson.
          */
-        public Object newInstance(Object constructorParameter)
+        public Object newInstbnce(Object constructorPbrbmeter)
                 throws NoSuchAlgorithmException {
-            if (registered == false) {
-                if (provider.getService(type, algorithm) != this) {
+            if (registered == fblse) {
+                if (provider.getService(type, blgorithm) != this) {
                     throw new NoSuchAlgorithmException
                         ("Service not registered with Provider "
-                        + provider.getName() + ": " + this);
+                        + provider.getNbme() + ": " + this);
                 }
                 registered = true;
             }
             try {
-                EngineDescription cap = knownEngines.get(type);
-                if (cap == null) {
+                EngineDescription cbp = knownEngines.get(type);
+                if (cbp == null) {
                     // unknown engine type, use generic code
-                    // this is the code path future for non-core
-                    // optional packages
-                    return newInstanceGeneric(constructorParameter);
+                    // this is the code pbth future for non-core
+                    // optionbl pbckbges
+                    return newInstbnceGeneric(constructorPbrbmeter);
                 }
-                if (cap.constructorParameterClassName == null) {
-                    if (constructorParameter != null) {
-                        throw new InvalidParameterException
-                            ("constructorParameter not used with " + type
+                if (cbp.constructorPbrbmeterClbssNbme == null) {
+                    if (constructorPbrbmeter != null) {
+                        throw new InvblidPbrbmeterException
+                            ("constructorPbrbmeter not used with " + type
                             + " engines");
                     }
-                    Class<?> clazz = getImplClass();
-                    Class<?>[] empty = {};
-                    Constructor<?> con = clazz.getConstructor(empty);
-                    return con.newInstance();
+                    Clbss<?> clbzz = getImplClbss();
+                    Clbss<?>[] empty = {};
+                    Constructor<?> con = clbzz.getConstructor(empty);
+                    return con.newInstbnce();
                 } else {
-                    Class<?> paramClass = cap.getConstructorParameterClass();
-                    if (constructorParameter != null) {
-                        Class<?> argClass = constructorParameter.getClass();
-                        if (paramClass.isAssignableFrom(argClass) == false) {
-                            throw new InvalidParameterException
-                            ("constructorParameter must be instanceof "
-                            + cap.constructorParameterClassName.replace('$', '.')
+                    Clbss<?> pbrbmClbss = cbp.getConstructorPbrbmeterClbss();
+                    if (constructorPbrbmeter != null) {
+                        Clbss<?> brgClbss = constructorPbrbmeter.getClbss();
+                        if (pbrbmClbss.isAssignbbleFrom(brgClbss) == fblse) {
+                            throw new InvblidPbrbmeterException
+                            ("constructorPbrbmeter must be instbnceof "
+                            + cbp.constructorPbrbmeterClbssNbme.replbce('$', '.')
                             + " for engine type " + type);
                         }
                     }
-                    Class<?> clazz = getImplClass();
-                    Constructor<?> cons = clazz.getConstructor(paramClass);
-                    return cons.newInstance(constructorParameter);
+                    Clbss<?> clbzz = getImplClbss();
+                    Constructor<?> cons = clbzz.getConstructor(pbrbmClbss);
+                    return cons.newInstbnce(constructorPbrbmeter);
                 }
-            } catch (NoSuchAlgorithmException e) {
+            } cbtch (NoSuchAlgorithmException e) {
                 throw e;
-            } catch (InvocationTargetException e) {
+            } cbtch (InvocbtionTbrgetException e) {
                 throw new NoSuchAlgorithmException
-                    ("Error constructing implementation (algorithm: "
-                    + algorithm + ", provider: " + provider.getName()
-                    + ", class: " + className + ")", e.getCause());
-            } catch (Exception e) {
+                    ("Error constructing implementbtion (blgorithm: "
+                    + blgorithm + ", provider: " + provider.getNbme()
+                    + ", clbss: " + clbssNbme + ")", e.getCbuse());
+            } cbtch (Exception e) {
                 throw new NoSuchAlgorithmException
-                    ("Error constructing implementation (algorithm: "
-                    + algorithm + ", provider: " + provider.getName()
-                    + ", class: " + className + ")", e);
+                    ("Error constructing implementbtion (blgorithm: "
+                    + blgorithm + ", provider: " + provider.getNbme()
+                    + ", clbss: " + clbssNbme + ")", e);
             }
         }
 
-        // return the implementation Class object for this service
-        private Class<?> getImplClass() throws NoSuchAlgorithmException {
+        // return the implementbtion Clbss object for this service
+        privbte Clbss<?> getImplClbss() throws NoSuchAlgorithmException {
             try {
-                Reference<Class<?>> ref = classRef;
-                Class<?> clazz = (ref == null) ? null : ref.get();
-                if (clazz == null) {
-                    ClassLoader cl = provider.getClass().getClassLoader();
+                Reference<Clbss<?>> ref = clbssRef;
+                Clbss<?> clbzz = (ref == null) ? null : ref.get();
+                if (clbzz == null) {
+                    ClbssLobder cl = provider.getClbss().getClbssLobder();
                     if (cl == null) {
-                        clazz = Class.forName(className);
+                        clbzz = Clbss.forNbme(clbssNbme);
                     } else {
-                        clazz = cl.loadClass(className);
+                        clbzz = cl.lobdClbss(clbssNbme);
                     }
-                    if (!Modifier.isPublic(clazz.getModifiers())) {
+                    if (!Modifier.isPublic(clbzz.getModifiers())) {
                         throw new NoSuchAlgorithmException
-                            ("class configured for " + type + " (provider: " +
-                            provider.getName() + ") is not public.");
+                            ("clbss configured for " + type + " (provider: " +
+                            provider.getNbme() + ") is not public.");
                     }
-                    classRef = new WeakReference<Class<?>>(clazz);
+                    clbssRef = new WebkReference<Clbss<?>>(clbzz);
                 }
-                return clazz;
-            } catch (ClassNotFoundException e) {
+                return clbzz;
+            } cbtch (ClbssNotFoundException e) {
                 throw new NoSuchAlgorithmException
-                    ("class configured for " + type + " (provider: " +
-                    provider.getName() + ") cannot be found.", e);
+                    ("clbss configured for " + type + " (provider: " +
+                    provider.getNbme() + ") cbnnot be found.", e);
             }
         }
 
         /**
-         * Generic code path for unknown engine types. Call the
-         * no-args constructor if constructorParameter is null, otherwise
-         * use the first matching constructor.
+         * Generic code pbth for unknown engine types. Cbll the
+         * no-brgs constructor if constructorPbrbmeter is null, otherwise
+         * use the first mbtching constructor.
          */
-        private Object newInstanceGeneric(Object constructorParameter)
+        privbte Object newInstbnceGeneric(Object constructorPbrbmeter)
                 throws Exception {
-            Class<?> clazz = getImplClass();
-            if (constructorParameter == null) {
-                // create instance with public no-arg constructor if it exists
+            Clbss<?> clbzz = getImplClbss();
+            if (constructorPbrbmeter == null) {
+                // crebte instbnce with public no-brg constructor if it exists
                 try {
-                    Class<?>[] empty = {};
-                    Constructor<?> con = clazz.getConstructor(empty);
-                    return con.newInstance();
-                } catch (NoSuchMethodException e) {
-                    throw new NoSuchAlgorithmException("No public no-arg "
-                        + "constructor found in class " + className);
+                    Clbss<?>[] empty = {};
+                    Constructor<?> con = clbzz.getConstructor(empty);
+                    return con.newInstbnce();
+                } cbtch (NoSuchMethodException e) {
+                    throw new NoSuchAlgorithmException("No public no-brg "
+                        + "constructor found in clbss " + clbssNbme);
                 }
             }
-            Class<?> argClass = constructorParameter.getClass();
-            Constructor<?>[] cons = clazz.getConstructors();
-            // find first public constructor that can take the
-            // argument as parameter
+            Clbss<?> brgClbss = constructorPbrbmeter.getClbss();
+            Constructor<?>[] cons = clbzz.getConstructors();
+            // find first public constructor thbt cbn tbke the
+            // brgument bs pbrbmeter
             for (Constructor<?> con : cons) {
-                Class<?>[] paramTypes = con.getParameterTypes();
-                if (paramTypes.length != 1) {
+                Clbss<?>[] pbrbmTypes = con.getPbrbmeterTypes();
+                if (pbrbmTypes.length != 1) {
                     continue;
                 }
-                if (paramTypes[0].isAssignableFrom(argClass) == false) {
+                if (pbrbmTypes[0].isAssignbbleFrom(brgClbss) == fblse) {
                     continue;
                 }
-                return con.newInstance(constructorParameter);
+                return con.newInstbnce(constructorPbrbmeter);
             }
-            throw new NoSuchAlgorithmException("No public constructor matching "
-                + argClass.getName() + " found in class " + className);
+            throw new NoSuchAlgorithmException("No public constructor mbtching "
+                + brgClbss.getNbme() + " found in clbss " + clbssNbme);
         }
 
         /**
-         * Test whether this Service can use the specified parameter.
-         * Returns false if this service cannot use the parameter. Returns
-         * true if this service can use the parameter, if a fast test is
-         * infeasible, or if the status is unknown.
+         * Test whether this Service cbn use the specified pbrbmeter.
+         * Returns fblse if this service cbnnot use the pbrbmeter. Returns
+         * true if this service cbn use the pbrbmeter, if b fbst test is
+         * infebsible, or if the stbtus is unknown.
          *
-         * <p>The security provider framework uses this method with
-         * some types of services to quickly exclude non-matching
-         * implementations for consideration.
-         * Applications will typically not need to call it.
+         * <p>The security provider frbmework uses this method with
+         * some types of services to quickly exclude non-mbtching
+         * implementbtions for considerbtion.
+         * Applicbtions will typicblly not need to cbll it.
          *
-         * <p>For details and the values of parameter that are valid for the
-         * various types of services see the top of this class and the
-         * <a href="../../../technotes/guides/security/crypto/CryptoSpec.html">
-         * Java Cryptography Architecture API Specification &amp;
-         * Reference</a>.
-         * Security providers can override it to implement their own test.
+         * <p>For detbils bnd the vblues of pbrbmeter thbt bre vblid for the
+         * vbrious types of services see the top of this clbss bnd the
+         * <b href="../../../technotes/guides/security/crypto/CryptoSpec.html">
+         * Jbvb Cryptogrbphy Architecture API Specificbtion &bmp;
+         * Reference</b>.
+         * Security providers cbn override it to implement their own test.
          *
-         * @param parameter the parameter to test
+         * @pbrbm pbrbmeter the pbrbmeter to test
          *
-         * @return false if this this service cannot use the specified
-         * parameter; true if it can possibly use the parameter
+         * @return fblse if this this service cbnnot use the specified
+         * pbrbmeter; true if it cbn possibly use the pbrbmeter
          *
-         * @throws InvalidParameterException if the value of parameter is
-         * invalid for this type of service or if this method cannot be
+         * @throws InvblidPbrbmeterException if the vblue of pbrbmeter is
+         * invblid for this type of service or if this method cbnnot be
          * used with this type of service
          */
-        public boolean supportsParameter(Object parameter) {
-            EngineDescription cap = knownEngines.get(type);
-            if (cap == null) {
-                // unknown engine type, return true by default
+        public boolebn supportsPbrbmeter(Object pbrbmeter) {
+            EngineDescription cbp = knownEngines.get(type);
+            if (cbp == null) {
+                // unknown engine type, return true by defbult
                 return true;
             }
-            if (cap.supportsParameter == false) {
-                throw new InvalidParameterException("supportsParameter() not "
+            if (cbp.supportsPbrbmeter == fblse) {
+                throw new InvblidPbrbmeterException("supportsPbrbmeter() not "
                     + "used with " + type + " engines");
             }
-            // allow null for keys without attributes for compatibility
-            if ((parameter != null) && (parameter instanceof Key == false)) {
-                throw new InvalidParameterException
-                    ("Parameter must be instanceof Key for engine " + type);
+            // bllow null for keys without bttributes for compbtibility
+            if ((pbrbmeter != null) && (pbrbmeter instbnceof Key == fblse)) {
+                throw new InvblidPbrbmeterException
+                    ("Pbrbmeter must be instbnceof Key for engine " + type);
             }
-            if (hasKeyAttributes() == false) {
+            if (hbsKeyAttributes() == fblse) {
                 return true;
             }
-            if (parameter == null) {
-                return false;
+            if (pbrbmeter == null) {
+                return fblse;
             }
-            Key key = (Key)parameter;
-            if (supportsKeyFormat(key)) {
+            Key key = (Key)pbrbmeter;
+            if (supportsKeyFormbt(key)) {
                 return true;
             }
-            if (supportsKeyClass(key)) {
+            if (supportsKeyClbss(key)) {
                 return true;
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Return whether this service has its Supported* properties for
-         * keys defined. Parses the attributes if not yet initialized.
+         * Return whether this service hbs its Supported* properties for
+         * keys defined. Pbrses the bttributes if not yet initiblized.
          */
-        private boolean hasKeyAttributes() {
-            Boolean b = hasKeyAttributes;
+        privbte boolebn hbsKeyAttributes() {
+            Boolebn b = hbsKeyAttributes;
             if (b == null) {
                 synchronized (this) {
                     String s;
-                    s = getAttribute("SupportedKeyFormats");
+                    s = getAttribute("SupportedKeyFormbts");
                     if (s != null) {
-                        supportedFormats = s.split("\\|");
+                        supportedFormbts = s.split("\\|");
                     }
-                    s = getAttribute("SupportedKeyClasses");
+                    s = getAttribute("SupportedKeyClbsses");
                     if (s != null) {
-                        String[] classNames = s.split("\\|");
-                        List<Class<?>> classList =
-                            new ArrayList<>(classNames.length);
-                        for (String className : classNames) {
-                            Class<?> clazz = getKeyClass(className);
-                            if (clazz != null) {
-                                classList.add(clazz);
+                        String[] clbssNbmes = s.split("\\|");
+                        List<Clbss<?>> clbssList =
+                            new ArrbyList<>(clbssNbmes.length);
+                        for (String clbssNbme : clbssNbmes) {
+                            Clbss<?> clbzz = getKeyClbss(clbssNbme);
+                            if (clbzz != null) {
+                                clbssList.bdd(clbzz);
                             }
                         }
-                        supportedClasses = classList.toArray(CLASS0);
+                        supportedClbsses = clbssList.toArrby(CLASS0);
                     }
-                    boolean bool = (supportedFormats != null)
-                        || (supportedClasses != null);
-                    b = Boolean.valueOf(bool);
-                    hasKeyAttributes = b;
+                    boolebn bool = (supportedFormbts != null)
+                        || (supportedClbsses != null);
+                    b = Boolebn.vblueOf(bool);
+                    hbsKeyAttributes = b;
                 }
             }
-            return b.booleanValue();
+            return b.boolebnVblue();
         }
 
-        // get the key class object of the specified name
-        private Class<?> getKeyClass(String name) {
+        // get the key clbss object of the specified nbme
+        privbte Clbss<?> getKeyClbss(String nbme) {
             try {
-                return Class.forName(name);
-            } catch (ClassNotFoundException e) {
+                return Clbss.forNbme(nbme);
+            } cbtch (ClbssNotFoundException e) {
                 // ignore
             }
             try {
-                ClassLoader cl = provider.getClass().getClassLoader();
+                ClbssLobder cl = provider.getClbss().getClbssLobder();
                 if (cl != null) {
-                    return cl.loadClass(name);
+                    return cl.lobdClbss(nbme);
                 }
-            } catch (ClassNotFoundException e) {
+            } cbtch (ClbssNotFoundException e) {
                 // ignore
             }
             return null;
         }
 
-        private boolean supportsKeyFormat(Key key) {
-            if (supportedFormats == null) {
-                return false;
+        privbte boolebn supportsKeyFormbt(Key key) {
+            if (supportedFormbts == null) {
+                return fblse;
             }
-            String format = key.getFormat();
-            if (format == null) {
-                return false;
+            String formbt = key.getFormbt();
+            if (formbt == null) {
+                return fblse;
             }
-            for (String supportedFormat : supportedFormats) {
-                if (supportedFormat.equals(format)) {
+            for (String supportedFormbt : supportedFormbts) {
+                if (supportedFormbt.equbls(formbt)) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        private boolean supportsKeyClass(Key key) {
-            if (supportedClasses == null) {
-                return false;
+        privbte boolebn supportsKeyClbss(Key key) {
+            if (supportedClbsses == null) {
+                return fblse;
             }
-            Class<?> keyClass = key.getClass();
-            for (Class<?> clazz : supportedClasses) {
-                if (clazz.isAssignableFrom(keyClass)) {
+            Clbss<?> keyClbss = key.getClbss();
+            for (Clbss<?> clbzz : supportedClbsses) {
+                if (clbzz.isAssignbbleFrom(keyClbss)) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Return a String representation of this service.
+         * Return b String representbtion of this service.
          *
-         * @return a String representation of this service.
+         * @return b String representbtion of this service.
          */
         public String toString() {
-            String aString = aliases.isEmpty()
-                ? "" : "\r\n  aliases: " + aliases.toString();
-            String attrs = attributes.isEmpty()
-                ? "" : "\r\n  attributes: " + attributes.toString();
-            return provider.getName() + ": " + type + "." + algorithm
-                + " -> " + className + aString + attrs + "\r\n";
+            String bString = blibses.isEmpty()
+                ? "" : "\r\n  blibses: " + blibses.toString();
+            String bttrs = bttributes.isEmpty()
+                ? "" : "\r\n  bttributes: " + bttributes.toString();
+            return provider.getNbme() + ": " + type + "." + blgorithm
+                + " -> " + clbssNbme + bString + bttrs + "\r\n";
         }
 
     }

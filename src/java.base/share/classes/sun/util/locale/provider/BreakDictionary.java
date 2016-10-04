@@ -1,302 +1,302 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 2002 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  */
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.MissingResourceException;
-import sun.text.CompactByteArray;
-import sun.text.SupplementaryCharacterData;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.MissingResourceException;
+import sun.text.CompbctByteArrby;
+import sun.text.SupplementbryChbrbcterDbtb;
 
 /**
- * This is the class that represents the list of known words used by
- * DictionaryBasedBreakIterator.  The conceptual data structure used
- * here is a trie: there is a node hanging off the root node for every
- * letter that can start a word.  Each of these nodes has a node hanging
- * off of it for every letter that can be the second letter of a word
- * if this node is the first letter, and so on.  The trie is represented
- * as a two-dimensional array that can be treated as a table of state
- * transitions.  Indexes are used to compress this array, taking
- * advantage of the fact that this array will always be very sparse.
+ * This is the clbss thbt represents the list of known words used by
+ * DictionbryBbsedBrebkIterbtor.  The conceptubl dbtb structure used
+ * here is b trie: there is b node hbnging off the root node for every
+ * letter thbt cbn stbrt b word.  Ebch of these nodes hbs b node hbnging
+ * off of it for every letter thbt cbn be the second letter of b word
+ * if this node is the first letter, bnd so on.  The trie is represented
+ * bs b two-dimensionbl brrby thbt cbn be trebted bs b tbble of stbte
+ * trbnsitions.  Indexes bre used to compress this brrby, tbking
+ * bdvbntbge of the fbct thbt this brrby will blwbys be very spbrse.
  */
-class BreakDictionary {
+clbss BrebkDictionbry {
 
     //=========================================================================
-    // data members
+    // dbtb members
     //=========================================================================
 
     /**
-      * The version of the dictionary that was read in.
+      * The version of the dictionbry thbt wbs rebd in.
       */
-    private static int supportedVersion = 1;
+    privbte stbtic int supportedVersion = 1;
 
     /**
-     * Maps from characters to column numbers.  The main use of this is to
-     * avoid making room in the array for empty columns.
+     * Mbps from chbrbcters to column numbers.  The mbin use of this is to
+     * bvoid mbking room in the brrby for empty columns.
      */
-    private CompactByteArray columnMap = null;
-    private SupplementaryCharacterData supplementaryCharColumnMap = null;
+    privbte CompbctByteArrby columnMbp = null;
+    privbte SupplementbryChbrbcterDbtb supplementbryChbrColumnMbp = null;
 
     /**
-     * The number of actual columns in the table
+     * The number of bctubl columns in the tbble
      */
-    private int numCols;
+    privbte int numCols;
 
     /**
-     * Columns are organized into groups of 32.  This says how many
-     * column groups.  (We could calculate this, but we store the
-     * value to avoid having to repeatedly calculate it.)
+     * Columns bre orgbnized into groups of 32.  This sbys how mbny
+     * column groups.  (We could cblculbte this, but we store the
+     * vblue to bvoid hbving to repebtedly cblculbte it.)
      */
-    private int numColGroups;
+    privbte int numColGroups;
 
     /**
-     * The actual compressed state table.  Each conceptual row represents
-     * a state, and the cells in it contain the row numbers of the states
-     * to transition to for each possible letter.  0 is used to indicate
-     * an illegal combination of letters (i.e., the error state).  The
-     * table is compressed by eliminating all the unpopulated (i.e., zero)
-     * cells.  Multiple conceptual rows can then be doubled up in a single
-     * physical row by sliding them up and possibly shifting them to one
-     * side or the other so the populated cells don't collide.  Indexes
-     * are used to identify unpopulated cells and to locate populated cells.
+     * The bctubl compressed stbte tbble.  Ebch conceptubl row represents
+     * b stbte, bnd the cells in it contbin the row numbers of the stbtes
+     * to trbnsition to for ebch possible letter.  0 is used to indicbte
+     * bn illegbl combinbtion of letters (i.e., the error stbte).  The
+     * tbble is compressed by eliminbting bll the unpopulbted (i.e., zero)
+     * cells.  Multiple conceptubl rows cbn then be doubled up in b single
+     * physicbl row by sliding them up bnd possibly shifting them to one
+     * side or the other so the populbted cells don't collide.  Indexes
+     * bre used to identify unpopulbted cells bnd to locbte populbted cells.
      */
-    private short[] table = null;
+    privbte short[] tbble = null;
 
     /**
-     * This index maps logical row numbers to physical row numbers
+     * This index mbps logicbl row numbers to physicbl row numbers
      */
-    private short[] rowIndex = null;
+    privbte short[] rowIndex = null;
 
     /**
-     * A bitmap is used to tell which cells in the comceptual table are
-     * populated.  This array contains all the unique bit combinations
-     * in that bitmap.  If the table is more than 32 columns wide,
-     * successive entries in this array are used for a single row.
+     * A bitmbp is used to tell which cells in the comceptubl tbble bre
+     * populbted.  This brrby contbins bll the unique bit combinbtions
+     * in thbt bitmbp.  If the tbble is more thbn 32 columns wide,
+     * successive entries in this brrby bre used for b single row.
      */
-    private int[] rowIndexFlags = null;
+    privbte int[] rowIndexFlbgs = null;
 
     /**
-     * This index maps from a logical row number into the bitmap table above.
-     * (This keeps us from storing duplicate bitmap combinations.)  Since there
-     * are a lot of rows with only one populated cell, instead of wasting space
-     * in the bitmap table, we just store a negative number in this index for
-     * rows with one populated cell.  The absolute value of that number is
-     * the column number of the populated cell.
+     * This index mbps from b logicbl row number into the bitmbp tbble bbove.
+     * (This keeps us from storing duplicbte bitmbp combinbtions.)  Since there
+     * bre b lot of rows with only one populbted cell, instebd of wbsting spbce
+     * in the bitmbp tbble, we just store b negbtive number in this index for
+     * rows with one populbted cell.  The bbsolute vblue of thbt number is
+     * the column number of the populbted cell.
      */
-    private short[] rowIndexFlagsIndex = null;
+    privbte short[] rowIndexFlbgsIndex = null;
 
     /**
-     * For each logical row, this index contains a constant that is added to
-     * the logical column number to get the physical column number
+     * For ebch logicbl row, this index contbins b constbnt thbt is bdded to
+     * the logicbl column number to get the physicbl column number
      */
-    private byte[] rowIndexShifts = null;
+    privbte byte[] rowIndexShifts = null;
 
     //=========================================================================
-    // deserialization
+    // deseriblizbtion
     //=========================================================================
 
-    BreakDictionary(String dictionaryName)
+    BrebkDictionbry(String dictionbryNbme)
         throws IOException, MissingResourceException {
 
-        readDictionaryFile(dictionaryName);
+        rebdDictionbryFile(dictionbryNbme);
     }
 
-    private void readDictionaryFile(final String dictionaryName)
+    privbte void rebdDictionbryFile(finbl String dictionbryNbme)
         throws IOException, MissingResourceException {
 
-        BufferedInputStream in;
+        BufferedInputStrebm in;
         try {
             in = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<BufferedInputStream>() {
+                new PrivilegedExceptionAction<BufferedInputStrebm>() {
                     @Override
-                    public BufferedInputStream run() throws Exception {
-                        return new BufferedInputStream(getClass().getResourceAsStream("/sun/text/resources/" + dictionaryName));
+                    public BufferedInputStrebm run() throws Exception {
+                        return new BufferedInputStrebm(getClbss().getResourceAsStrebm("/sun/text/resources/" + dictionbryNbme));
                     }
                 }
             );
         }
-        catch (PrivilegedActionException e) {
-            throw new InternalError(e.toString(), e);
+        cbtch (PrivilegedActionException e) {
+            throw new InternblError(e.toString(), e);
         }
 
         byte[] buf = new byte[8];
-        if (in.read(buf) != 8) {
-            throw new MissingResourceException("Wrong data length",
-                                               dictionaryName, "");
+        if (in.rebd(buf) != 8) {
+            throw new MissingResourceException("Wrong dbtb length",
+                                               dictionbryNbme, "");
         }
 
         // check version
-        int version = RuleBasedBreakIterator.getInt(buf, 0);
+        int version = RuleBbsedBrebkIterbtor.getInt(buf, 0);
         if (version != supportedVersion) {
-            throw new MissingResourceException("Dictionary version(" + version + ") is unsupported",
-                                                           dictionaryName, "");
+            throw new MissingResourceException("Dictionbry version(" + version + ") is unsupported",
+                                                           dictionbryNbme, "");
         }
 
-        // get data size
-        int len = RuleBasedBreakIterator.getInt(buf, 4);
+        // get dbtb size
+        int len = RuleBbsedBrebkIterbtor.getInt(buf, 4);
         buf = new byte[len];
-        if (in.read(buf) != len) {
-            throw new MissingResourceException("Wrong data length",
-                                               dictionaryName, "");
+        if (in.rebd(buf) != len) {
+            throw new MissingResourceException("Wrong dbtb length",
+                                               dictionbryNbme, "");
         }
 
-        // close the stream
+        // close the strebm
         in.close();
 
         int l;
         int offset = 0;
 
-        // read in the column map for BMP characteres (this is serialized in
-        // its internal form: an index array followed by a data array)
-        l = RuleBasedBreakIterator.getInt(buf, offset);
+        // rebd in the column mbp for BMP chbrbcteres (this is seriblized in
+        // its internbl form: bn index brrby followed by b dbtb brrby)
+        l = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
         short[] temp = new short[l];
         for (int i = 0; i < l; i++, offset+=2) {
-            temp[i] = RuleBasedBreakIterator.getShort(buf, offset);
+            temp[i] = RuleBbsedBrebkIterbtor.getShort(buf, offset);
         }
-        l = RuleBasedBreakIterator.getInt(buf, offset);
+        l = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
         byte[] temp2 = new byte[l];
         for (int i = 0; i < l; i++, offset++) {
             temp2[i] = buf[offset];
         }
-        columnMap = new CompactByteArray(temp, temp2);
+        columnMbp = new CompbctByteArrby(temp, temp2);
 
-        // read in numCols and numColGroups
-        numCols = RuleBasedBreakIterator.getInt(buf, offset);
+        // rebd in numCols bnd numColGroups
+        numCols = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
-        numColGroups = RuleBasedBreakIterator.getInt(buf, offset);
+        numColGroups = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
 
-        // read in the row-number index
-        l = RuleBasedBreakIterator.getInt(buf, offset);
+        // rebd in the row-number index
+        l = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
         rowIndex = new short[l];
         for (int i = 0; i < l; i++, offset+=2) {
-            rowIndex[i] = RuleBasedBreakIterator.getShort(buf, offset);
+            rowIndex[i] = RuleBbsedBrebkIterbtor.getShort(buf, offset);
         }
 
-        // load in the populated-cells bitmap: index first, then bitmap list
-        l = RuleBasedBreakIterator.getInt(buf, offset);
+        // lobd in the populbted-cells bitmbp: index first, then bitmbp list
+        l = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
-        rowIndexFlagsIndex = new short[l];
+        rowIndexFlbgsIndex = new short[l];
         for (int i = 0; i < l; i++, offset+=2) {
-            rowIndexFlagsIndex[i] = RuleBasedBreakIterator.getShort(buf, offset);
+            rowIndexFlbgsIndex[i] = RuleBbsedBrebkIterbtor.getShort(buf, offset);
         }
-        l = RuleBasedBreakIterator.getInt(buf, offset);
+        l = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
-        rowIndexFlags = new int[l];
+        rowIndexFlbgs = new int[l];
         for (int i = 0; i < l; i++, offset+=4) {
-            rowIndexFlags[i] = RuleBasedBreakIterator.getInt(buf, offset);
+            rowIndexFlbgs[i] = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         }
 
-        // load in the row-shift index
-        l = RuleBasedBreakIterator.getInt(buf, offset);
+        // lobd in the row-shift index
+        l = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
         rowIndexShifts = new byte[l];
         for (int i = 0; i < l; i++, offset++) {
             rowIndexShifts[i] = buf[offset];
         }
 
-        // load in the actual state table
-        l = RuleBasedBreakIterator.getInt(buf, offset);
+        // lobd in the bctubl stbte tbble
+        l = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
-        table = new short[l];
+        tbble = new short[l];
         for (int i = 0; i < l; i++, offset+=2) {
-            table[i] = RuleBasedBreakIterator.getShort(buf, offset);
+            tbble[i] = RuleBbsedBrebkIterbtor.getShort(buf, offset);
         }
 
-        // finally, prepare the column map for supplementary characters
-        l = RuleBasedBreakIterator.getInt(buf, offset);
+        // finblly, prepbre the column mbp for supplementbry chbrbcters
+        l = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         offset += 4;
         int[] temp3 = new int[l];
         for (int i = 0; i < l; i++, offset+=4) {
-            temp3[i] = RuleBasedBreakIterator.getInt(buf, offset);
+            temp3[i] = RuleBbsedBrebkIterbtor.getInt(buf, offset);
         }
-        supplementaryCharColumnMap = new SupplementaryCharacterData(temp3);
+        supplementbryChbrColumnMbp = new SupplementbryChbrbcterDbtb(temp3);
     }
 
     //=========================================================================
-    // access to the words
+    // bccess to the words
     //=========================================================================
 
     /**
-     * Uses the column map to map the character to a column number, then
-     * passes the row and column number to getNextState()
-     * @param row The current state
-     * @param ch The character whose column we're interested in
-     * @return The new state to transition to
+     * Uses the column mbp to mbp the chbrbcter to b column number, then
+     * pbsses the row bnd column number to getNextStbte()
+     * @pbrbm row The current stbte
+     * @pbrbm ch The chbrbcter whose column we're interested in
+     * @return The new stbte to trbnsition to
      */
-    public final short getNextStateFromCharacter(int row, int ch) {
+    public finbl short getNextStbteFromChbrbcter(int row, int ch) {
         int col;
-        if (ch < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
-            col = columnMap.elementAt((char)ch);
+        if (ch < Chbrbcter.MIN_SUPPLEMENTARY_CODE_POINT) {
+            col = columnMbp.elementAt((chbr)ch);
         } else {
-            col = supplementaryCharColumnMap.getValue(ch);
+            col = supplementbryChbrColumnMbp.getVblue(ch);
         }
-        return getNextState(row, col);
+        return getNextStbte(row, col);
     }
 
     /**
-     * Returns the value in the cell with the specified (logical) row and
-     * column numbers.  In DictionaryBasedBreakIterator, the row number is
-     * a state number, the column number is an input, and the return value
-     * is the row number of the new state to transition to.  (0 is the
-     * "error" state, and -1 is the "end of word" state in a dictionary)
-     * @param row The row number of the current state
-     * @param col The column number of the input character (0 means "not a
-     * dictionary character")
-     * @return The row number of the new state to transition to
+     * Returns the vblue in the cell with the specified (logicbl) row bnd
+     * column numbers.  In DictionbryBbsedBrebkIterbtor, the row number is
+     * b stbte number, the column number is bn input, bnd the return vblue
+     * is the row number of the new stbte to trbnsition to.  (0 is the
+     * "error" stbte, bnd -1 is the "end of word" stbte in b dictionbry)
+     * @pbrbm row The row number of the current stbte
+     * @pbrbm col The column number of the input chbrbcter (0 mebns "not b
+     * dictionbry chbrbcter")
+     * @return The row number of the new stbte to trbnsition to
      */
-    public final short getNextState(int row, int col) {
-        if (cellIsPopulated(row, col)) {
-            // we map from logical to physical row number by looking up the
-            // mapping in rowIndex; we map from logical column number to
-            // physical column number by looking up a shift value for this
-            // logical row and offsetting the logical column number by
-            // the shift amount.  Then we can use internalAt() to actually
-            // get the value out of the table.
-            return internalAt(rowIndex[row], col + rowIndexShifts[row]);
+    public finbl short getNextStbte(int row, int col) {
+        if (cellIsPopulbted(row, col)) {
+            // we mbp from logicbl to physicbl row number by looking up the
+            // mbpping in rowIndex; we mbp from logicbl column number to
+            // physicbl column number by looking up b shift vblue for this
+            // logicbl row bnd offsetting the logicbl column number by
+            // the shift bmount.  Then we cbn use internblAt() to bctublly
+            // get the vblue out of the tbble.
+            return internblAt(rowIndex[row], col + rowIndexShifts[row]);
         }
         else {
             return 0;
@@ -304,40 +304,40 @@ class BreakDictionary {
     }
 
     /**
-     * Given (logical) row and column numbers, returns true if the
-     * cell in that position is populated
+     * Given (logicbl) row bnd column numbers, returns true if the
+     * cell in thbt position is populbted
      */
-    private boolean cellIsPopulated(int row, int col) {
-        // look up the entry in the bitmap index for the specified row.
-        // If it's a negative number, it's the column number of the only
-        // populated cell in the row
-        if (rowIndexFlagsIndex[row] < 0) {
-            return col == -rowIndexFlagsIndex[row];
+    privbte boolebn cellIsPopulbted(int row, int col) {
+        // look up the entry in the bitmbp index for the specified row.
+        // If it's b negbtive number, it's the column number of the only
+        // populbted cell in the row
+        if (rowIndexFlbgsIndex[row] < 0) {
+            return col == -rowIndexFlbgsIndex[row];
         }
 
-        // if it's a positive number, it's the offset of an entry in the bitmap
-        // list.  If the table is more than 32 columns wide, the bitmap is stored
-        // successive entries in the bitmap list, so we have to divide the column
-        // number by 32 and offset the number we got out of the index by the result.
-        // Once we have the appropriate piece of the bitmap, test the appropriate
-        // bit and return the result.
+        // if it's b positive number, it's the offset of bn entry in the bitmbp
+        // list.  If the tbble is more thbn 32 columns wide, the bitmbp is stored
+        // successive entries in the bitmbp list, so we hbve to divide the column
+        // number by 32 bnd offset the number we got out of the index by the result.
+        // Once we hbve the bppropribte piece of the bitmbp, test the bppropribte
+        // bit bnd return the result.
         else {
-            int flags = rowIndexFlags[rowIndexFlagsIndex[row] + (col >> 5)];
-            return (flags & (1 << (col & 0x1f))) != 0;
+            int flbgs = rowIndexFlbgs[rowIndexFlbgsIndex[row] + (col >> 5)];
+            return (flbgs & (1 << (col & 0x1f))) != 0;
         }
     }
 
     /**
-     * Implementation of getNextState() when we know the specified cell is
-     * populated.
-     * @param row The PHYSICAL row number of the cell
-     * @param col The PHYSICAL column number of the cell
-     * @return The value stored in the cell
+     * Implementbtion of getNextStbte() when we know the specified cell is
+     * populbted.
+     * @pbrbm row The PHYSICAL row number of the cell
+     * @pbrbm col The PHYSICAL column number of the cell
+     * @return The vblue stored in the cell
      */
-    private short internalAt(int row, int col) {
-        // the table is a one-dimensional array, so this just does the math necessary
-        // to treat it as a two-dimensional array (we don't just use a two-dimensional
-        // array because two-dimensional arrays are inefficient in Java)
-        return table[row * numCols + col];
+    privbte short internblAt(int row, int col) {
+        // the tbble is b one-dimensionbl brrby, so this just does the mbth necessbry
+        // to trebt it bs b two-dimensionbl brrby (we don't just use b two-dimensionbl
+        // brrby becbuse two-dimensionbl brrbys bre inefficient in Jbvb)
+        return tbble[row * numCols + col];
     }
 }

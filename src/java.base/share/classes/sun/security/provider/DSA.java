@@ -1,353 +1,353 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.io.*;
-import java.util.*;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.mbth.BigInteger;
+import jbvb.nio.ByteBuffer;
 
-import java.security.*;
-import java.security.SecureRandom;
-import java.security.interfaces.*;
-import java.security.spec.DSAParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
+import jbvb.security.*;
+import jbvb.security.SecureRbndom;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.DSAPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
 
 import sun.security.util.Debug;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
 import sun.security.x509.AlgIdDSA;
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 
 /**
- * The Digital Signature Standard (using the Digital Signature
- * Algorithm), as described in fips186-3 of the National Instute of
- * Standards and Technology (NIST), using SHA digest algorithms
+ * The Digitbl Signbture Stbndbrd (using the Digitbl Signbture
+ * Algorithm), bs described in fips186-3 of the Nbtionbl Instute of
+ * Stbndbrds bnd Technology (NIST), using SHA digest blgorithms
  * from FIPS180-3.
  *
- * This file contains both the signature implementation for the
+ * This file contbins both the signbture implementbtion for the
  * commonly used SHA1withDSA (DSS), SHA224withDSA, SHA256withDSA,
- * as well as RawDSA, used by TLS among others. RawDSA expects
- * the 20 byte SHA-1 digest as input via update rather than the
- * original data like other signature implementations.
+ * bs well bs RbwDSA, used by TLS bmong others. RbwDSA expects
+ * the 20 byte SHA-1 digest bs input vib updbte rbther thbn the
+ * originbl dbtb like other signbture implementbtions.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  *
  * @since   1.1
  *
  * @see DSAPublicKey
- * @see DSAPrivateKey
+ * @see DSAPrivbteKey
  */
-abstract class DSA extends SignatureSpi {
+bbstrbct clbss DSA extends SignbtureSpi {
 
     /* Are we debugging? */
-    private static final boolean debug = false;
+    privbte stbtic finbl boolebn debug = fblse;
 
-    /* The parameter object */
-    private DSAParams params;
+    /* The pbrbmeter object */
+    privbte DSAPbrbms pbrbms;
 
-    /* algorithm parameters */
-    private BigInteger presetP, presetQ, presetG;
+    /* blgorithm pbrbmeters */
+    privbte BigInteger presetP, presetQ, presetG;
 
-    /* The public key, if any */
-    private BigInteger presetY;
+    /* The public key, if bny */
+    privbte BigInteger presetY;
 
-    /* The private key, if any */
-    private BigInteger presetX;
+    /* The privbte key, if bny */
+    privbte BigInteger presetX;
 
-    /* The RNG used to output a seed for generating k */
-    private SecureRandom signingRandom;
+    /* The RNG used to output b seed for generbting k */
+    privbte SecureRbndom signingRbndom;
 
-    /* The message digest object used */
-    private final MessageDigest md;
+    /* The messbge digest object used */
+    privbte finbl MessbgeDigest md;
 
     /**
-     * Construct a blank DSA object. It must be
-     * initialized before being usable for signing or verifying.
+     * Construct b blbnk DSA object. It must be
+     * initiblized before being usbble for signing or verifying.
      */
-    DSA(MessageDigest md) {
+    DSA(MessbgeDigest md) {
         super();
         this.md = md;
     }
 
     /**
-     * Initialize the DSA object with a DSA private key.
+     * Initiblize the DSA object with b DSA privbte key.
      *
-     * @param privateKey the DSA private key
+     * @pbrbm privbteKey the DSA privbte key
      *
-     * @exception InvalidKeyException if the key is not a valid DSA private
+     * @exception InvblidKeyException if the key is not b vblid DSA privbte
      * key.
      */
-    protected void engineInitSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        if (!(privateKey instanceof java.security.interfaces.DSAPrivateKey)) {
-            throw new InvalidKeyException("not a DSA private key: " +
-                                          privateKey);
+    protected void engineInitSign(PrivbteKey privbteKey)
+            throws InvblidKeyException {
+        if (!(privbteKey instbnceof jbvb.security.interfbces.DSAPrivbteKey)) {
+            throw new InvblidKeyException("not b DSA privbte key: " +
+                                          privbteKey);
         }
 
-        java.security.interfaces.DSAPrivateKey priv =
-            (java.security.interfaces.DSAPrivateKey)privateKey;
+        jbvb.security.interfbces.DSAPrivbteKey priv =
+            (jbvb.security.interfbces.DSAPrivbteKey)privbteKey;
 
-        // check for algorithm specific constraints before doing initialization
-        DSAParams params = priv.getParams();
-        if (params == null) {
-            throw new InvalidKeyException("DSA private key lacks parameters");
+        // check for blgorithm specific constrbints before doing initiblizbtion
+        DSAPbrbms pbrbms = priv.getPbrbms();
+        if (pbrbms == null) {
+            throw new InvblidKeyException("DSA privbte key lbcks pbrbmeters");
         }
-        checkKey(params);
+        checkKey(pbrbms);
 
-        this.params = params;
+        this.pbrbms = pbrbms;
         this.presetX = priv.getX();
         this.presetY = null;
-        this.presetP = params.getP();
-        this.presetQ = params.getQ();
-        this.presetG = params.getG();
+        this.presetP = pbrbms.getP();
+        this.presetQ = pbrbms.getQ();
+        this.presetG = pbrbms.getG();
         this.md.reset();
     }
     /**
-     * Initialize the DSA object with a DSA public key.
+     * Initiblize the DSA object with b DSA public key.
      *
-     * @param publicKey the DSA public key.
+     * @pbrbm publicKey the DSA public key.
      *
-     * @exception InvalidKeyException if the key is not a valid DSA public
+     * @exception InvblidKeyException if the key is not b vblid DSA public
      * key.
      */
     protected void engineInitVerify(PublicKey publicKey)
-            throws InvalidKeyException {
-        if (!(publicKey instanceof java.security.interfaces.DSAPublicKey)) {
-            throw new InvalidKeyException("not a DSA public key: " +
+            throws InvblidKeyException {
+        if (!(publicKey instbnceof jbvb.security.interfbces.DSAPublicKey)) {
+            throw new InvblidKeyException("not b DSA public key: " +
                                           publicKey);
         }
-        java.security.interfaces.DSAPublicKey pub =
-            (java.security.interfaces.DSAPublicKey)publicKey;
+        jbvb.security.interfbces.DSAPublicKey pub =
+            (jbvb.security.interfbces.DSAPublicKey)publicKey;
 
-        // check for algorithm specific constraints before doing initialization
-        DSAParams params = pub.getParams();
-        if (params == null) {
-            throw new InvalidKeyException("DSA public key lacks parameters");
+        // check for blgorithm specific constrbints before doing initiblizbtion
+        DSAPbrbms pbrbms = pub.getPbrbms();
+        if (pbrbms == null) {
+            throw new InvblidKeyException("DSA public key lbcks pbrbmeters");
         }
-        checkKey(params);
+        checkKey(pbrbms);
 
-        this.params = params;
+        this.pbrbms = pbrbms;
         this.presetY = pub.getY();
         this.presetX = null;
-        this.presetP = params.getP();
-        this.presetQ = params.getQ();
-        this.presetG = params.getG();
+        this.presetP = pbrbms.getP();
+        this.presetQ = pbrbms.getQ();
+        this.presetG = pbrbms.getG();
         this.md.reset();
     }
 
     /**
-     * Update a byte to be signed or verified.
+     * Updbte b byte to be signed or verified.
      */
-    protected void engineUpdate(byte b) {
-        md.update(b);
+    protected void engineUpdbte(byte b) {
+        md.updbte(b);
     }
 
     /**
-     * Update an array of bytes to be signed or verified.
+     * Updbte bn brrby of bytes to be signed or verified.
      */
-    protected void engineUpdate(byte[] data, int off, int len) {
-        md.update(data, off, len);
+    protected void engineUpdbte(byte[] dbtb, int off, int len) {
+        md.updbte(dbtb, off, len);
     }
 
-    protected void engineUpdate(ByteBuffer b) {
-        md.update(b);
+    protected void engineUpdbte(ByteBuffer b) {
+        md.updbte(b);
     }
 
 
     /**
-     * Sign all the data thus far updated. The signature is formatted
-     * according to the Canonical Encoding Rules, returned as a DER
-     * sequence of Integer, r and s.
+     * Sign bll the dbtb thus fbr updbted. The signbture is formbtted
+     * bccording to the Cbnonicbl Encoding Rules, returned bs b DER
+     * sequence of Integer, r bnd s.
      *
-     * @return a signature block formatted according to the Canonical
+     * @return b signbture block formbtted bccording to the Cbnonicbl
      * Encoding Rules.
      *
-     * @exception SignatureException if the signature object was not
-     * properly initialized, or if another exception occurs.
+     * @exception SignbtureException if the signbture object wbs not
+     * properly initiblized, or if bnother exception occurs.
      *
-     * @see sun.security.DSA#engineUpdate
+     * @see sun.security.DSA#engineUpdbte
      * @see sun.security.DSA#engineVerify
      */
-    protected byte[] engineSign() throws SignatureException {
-        BigInteger k = generateK(presetQ);
-        BigInteger r = generateR(presetP, presetQ, presetG, k);
-        BigInteger s = generateS(presetX, presetQ, r, k);
+    protected byte[] engineSign() throws SignbtureException {
+        BigInteger k = generbteK(presetQ);
+        BigInteger r = generbteR(presetP, presetQ, presetG, k);
+        BigInteger s = generbteS(presetX, presetQ, r, k);
 
         try {
-            DerOutputStream outseq = new DerOutputStream(100);
+            DerOutputStrebm outseq = new DerOutputStrebm(100);
             outseq.putInteger(r);
             outseq.putInteger(s);
-            DerValue result = new DerValue(DerValue.tag_Sequence,
-                                           outseq.toByteArray());
+            DerVblue result = new DerVblue(DerVblue.tbg_Sequence,
+                                           outseq.toByteArrby());
 
-            return result.toByteArray();
+            return result.toByteArrby();
 
-        } catch (IOException e) {
-            throw new SignatureException("error encoding signature");
+        } cbtch (IOException e) {
+            throw new SignbtureException("error encoding signbture");
         }
     }
 
     /**
-     * Verify all the data thus far updated.
+     * Verify bll the dbtb thus fbr updbted.
      *
-     * @param signature the alledged signature, encoded using the
-     * Canonical Encoding Rules, as a sequence of integers, r and s.
+     * @pbrbm signbture the blledged signbture, encoded using the
+     * Cbnonicbl Encoding Rules, bs b sequence of integers, r bnd s.
      *
-     * @exception SignatureException if the signature object was not
-     * properly initialized, or if another exception occurs.
+     * @exception SignbtureException if the signbture object wbs not
+     * properly initiblized, or if bnother exception occurs.
      *
-     * @see sun.security.DSA#engineUpdate
+     * @see sun.security.DSA#engineUpdbte
      * @see sun.security.DSA#engineSign
      */
-    protected boolean engineVerify(byte[] signature)
-            throws SignatureException {
-        return engineVerify(signature, 0, signature.length);
+    protected boolebn engineVerify(byte[] signbture)
+            throws SignbtureException {
+        return engineVerify(signbture, 0, signbture.length);
     }
 
     /**
-     * Verify all the data thus far updated.
+     * Verify bll the dbtb thus fbr updbted.
      *
-     * @param signature the alledged signature, encoded using the
-     * Canonical Encoding Rules, as a sequence of integers, r and s.
+     * @pbrbm signbture the blledged signbture, encoded using the
+     * Cbnonicbl Encoding Rules, bs b sequence of integers, r bnd s.
      *
-     * @param offset the offset to start from in the array of bytes.
+     * @pbrbm offset the offset to stbrt from in the brrby of bytes.
      *
-     * @param length the number of bytes to use, starting at offset.
+     * @pbrbm length the number of bytes to use, stbrting bt offset.
      *
-     * @exception SignatureException if the signature object was not
-     * properly initialized, or if another exception occurs.
+     * @exception SignbtureException if the signbture object wbs not
+     * properly initiblized, or if bnother exception occurs.
      *
-     * @see sun.security.DSA#engineUpdate
+     * @see sun.security.DSA#engineUpdbte
      * @see sun.security.DSA#engineSign
      */
-    protected boolean engineVerify(byte[] signature, int offset, int length)
-            throws SignatureException {
+    protected boolebn engineVerify(byte[] signbture, int offset, int length)
+            throws SignbtureException {
 
         BigInteger r = null;
         BigInteger s = null;
-        // first decode the signature.
+        // first decode the signbture.
         try {
-            DerInputStream in = new DerInputStream(signature, offset, length);
-            DerValue[] values = in.getSequence(2);
+            DerInputStrebm in = new DerInputStrebm(signbture, offset, length);
+            DerVblue[] vblues = in.getSequence(2);
 
-            r = values[0].getBigInteger();
-            s = values[1].getBigInteger();
+            r = vblues[0].getBigInteger();
+            s = vblues[1].getBigInteger();
 
-        } catch (IOException e) {
-            throw new SignatureException("invalid encoding for signature");
+        } cbtch (IOException e) {
+            throw new SignbtureException("invblid encoding for signbture");
         }
 
-        // some implementations do not correctly encode values in the ASN.1
-        // 2's complement format. force r and s to be positive in order to
-        // to validate those signatures
+        // some implementbtions do not correctly encode vblues in the ASN.1
+        // 2's complement formbt. force r bnd s to be positive in order to
+        // to vblidbte those signbtures
         if (r.signum() < 0) {
-            r = new BigInteger(1, r.toByteArray());
+            r = new BigInteger(1, r.toByteArrby());
         }
         if (s.signum() < 0) {
-            s = new BigInteger(1, s.toByteArray());
+            s = new BigInteger(1, s.toByteArrby());
         }
 
-        if ((r.compareTo(presetQ) == -1) && (s.compareTo(presetQ) == -1)) {
-            BigInteger w = generateW(presetP, presetQ, presetG, s);
-            BigInteger v = generateV(presetY, presetP, presetQ, presetG, w, r);
-            return v.equals(r);
+        if ((r.compbreTo(presetQ) == -1) && (s.compbreTo(presetQ) == -1)) {
+            BigInteger w = generbteW(presetP, presetQ, presetG, s);
+            BigInteger v = generbteV(presetY, presetP, presetQ, presetG, w, r);
+            return v.equbls(r);
         } else {
-            throw new SignatureException("invalid signature: out of range values");
+            throw new SignbtureException("invblid signbture: out of rbnge vblues");
         }
     }
 
-    @Deprecated
-    protected void engineSetParameter(String key, Object param) {
-        throw new InvalidParameterException("No parameter accepted");
+    @Deprecbted
+    protected void engineSetPbrbmeter(String key, Object pbrbm) {
+        throw new InvblidPbrbmeterException("No pbrbmeter bccepted");
     }
 
-    @Deprecated
-    protected Object engineGetParameter(String key) {
+    @Deprecbted
+    protected Object engineGetPbrbmeter(String key) {
         return null;
     }
 
-    protected void checkKey(DSAParams params) throws InvalidKeyException {
-        // FIPS186-3 states in sec4.2 that a hash function which provides
-        // a lower security strength than the (L, N) pair ordinarily should
+    protected void checkKey(DSAPbrbms pbrbms) throws InvblidKeyException {
+        // FIPS186-3 stbtes in sec4.2 thbt b hbsh function which provides
+        // b lower security strength thbn the (L, N) pbir ordinbrily should
         // not be used.
-        int valueN = params.getQ().bitLength();
-        if (valueN > md.getDigestLength()*8) {
-            throw new InvalidKeyException("Key is too strong for this signature algorithm");
+        int vblueN = pbrbms.getQ().bitLength();
+        if (vblueN > md.getDigestLength()*8) {
+            throw new InvblidKeyException("Key is too strong for this signbture blgorithm");
         }
     }
 
-    private BigInteger generateR(BigInteger p, BigInteger q, BigInteger g,
+    privbte BigInteger generbteR(BigInteger p, BigInteger q, BigInteger g,
                          BigInteger k) {
         BigInteger temp = g.modPow(k, p);
         return temp.mod(q);
     }
 
-    private BigInteger generateS(BigInteger x, BigInteger q,
-            BigInteger r, BigInteger k) throws SignatureException {
+    privbte BigInteger generbteS(BigInteger x, BigInteger q,
+            BigInteger r, BigInteger k) throws SignbtureException {
 
         byte[] s2;
         try {
             s2 = md.digest();
-        } catch (RuntimeException re) {
-            // Only for RawDSA due to its 20-byte length restriction
-            throw new SignatureException(re.getMessage());
+        } cbtch (RuntimeException re) {
+            // Only for RbwDSA due to its 20-byte length restriction
+            throw new SignbtureException(re.getMessbge());
         }
-        // get the leftmost min(N, outLen) bits of the digest value
+        // get the leftmost min(N, outLen) bits of the digest vblue
         int nBytes = q.bitLength()/8;
         if (nBytes < s2.length) {
-            s2 = Arrays.copyOfRange(s2, 0, nBytes);
+            s2 = Arrbys.copyOfRbnge(s2, 0, nBytes);
         }
         BigInteger z = new BigInteger(1, s2);
         BigInteger k1 = k.modInverse(q);
 
-        return x.multiply(r).add(z).multiply(k1).mod(q);
+        return x.multiply(r).bdd(z).multiply(k1).mod(q);
     }
 
-    private BigInteger generateW(BigInteger p, BigInteger q,
+    privbte BigInteger generbteW(BigInteger p, BigInteger q,
                          BigInteger g, BigInteger s) {
         return s.modInverse(q);
     }
 
-    private BigInteger generateV(BigInteger y, BigInteger p,
+    privbte BigInteger generbteV(BigInteger y, BigInteger p,
              BigInteger q, BigInteger g, BigInteger w, BigInteger r)
-             throws SignatureException {
+             throws SignbtureException {
 
         byte[] s2;
         try {
             s2 = md.digest();
-        } catch (RuntimeException re) {
-            // Only for RawDSA due to its 20-byte length restriction
-            throw new SignatureException(re.getMessage());
+        } cbtch (RuntimeException re) {
+            // Only for RbwDSA due to its 20-byte length restriction
+            throw new SignbtureException(re.getMessbge());
         }
-        // get the leftmost min(N, outLen) bits of the digest value
+        // get the leftmost min(N, outLen) bits of the digest vblue
         int nBytes = q.bitLength()/8;
         if (nBytes < s2.length) {
-            s2 = Arrays.copyOfRange(s2, 0, nBytes);
+            s2 = Arrbys.copyOfRbnge(s2, 0, nBytes);
         }
         BigInteger z = new BigInteger(1, s2);
 
@@ -362,179 +362,179 @@ abstract class DSA extends SignatureSpi {
     }
 
     // NOTE: This following impl is defined in FIPS 186-3 AppendixB.2.2.
-    // Original DSS algos such as SHA1withDSA and RawDSA uses a different
-    // algorithm defined in FIPS 186-1 Sec3.2, and thus need to override this.
-    protected BigInteger generateK(BigInteger q) {
-        SecureRandom random = getSigningRandom();
-        byte[] kValue = new byte[q.bitLength()/8];
+    // Originbl DSS blgos such bs SHA1withDSA bnd RbwDSA uses b different
+    // blgorithm defined in FIPS 186-1 Sec3.2, bnd thus need to override this.
+    protected BigInteger generbteK(BigInteger q) {
+        SecureRbndom rbndom = getSigningRbndom();
+        byte[] kVblue = new byte[q.bitLength()/8];
 
         while (true) {
-            random.nextBytes(kValue);
-            BigInteger k = new BigInteger(1, kValue).mod(q);
-            if (k.signum() > 0 && k.compareTo(q) < 0) {
+            rbndom.nextBytes(kVblue);
+            BigInteger k = new BigInteger(1, kVblue).mod(q);
+            if (k.signum() > 0 && k.compbreTo(q) < 0) {
                 return k;
             }
         }
     }
 
-    // Use the application-specified SecureRandom Object if provided.
-    // Otherwise, use our default SecureRandom Object.
-    protected SecureRandom getSigningRandom() {
-        if (signingRandom == null) {
-            if (appRandom != null) {
-                signingRandom = appRandom;
+    // Use the bpplicbtion-specified SecureRbndom Object if provided.
+    // Otherwise, use our defbult SecureRbndom Object.
+    protected SecureRbndom getSigningRbndom() {
+        if (signingRbndom == null) {
+            if (bppRbndom != null) {
+                signingRbndom = bppRbndom;
             } else {
-                signingRandom = JCAUtil.getSecureRandom();
+                signingRbndom = JCAUtil.getSecureRbndom();
             }
         }
-        return signingRandom;
+        return signingRbndom;
     }
 
     /**
-     * Return a human readable rendition of the engine.
+     * Return b humbn rebdbble rendition of the engine.
      */
     public String toString() {
-        String printable = "DSA Signature";
+        String printbble = "DSA Signbture";
         if (presetP != null && presetQ != null && presetG != null) {
-            printable += "\n\tp: " + Debug.toHexString(presetP);
-            printable += "\n\tq: " + Debug.toHexString(presetQ);
-            printable += "\n\tg: " + Debug.toHexString(presetG);
+            printbble += "\n\tp: " + Debug.toHexString(presetP);
+            printbble += "\n\tq: " + Debug.toHexString(presetQ);
+            printbble += "\n\tg: " + Debug.toHexString(presetG);
         } else {
-            printable += "\n\t P, Q or G not initialized.";
+            printbble += "\n\t P, Q or G not initiblized.";
         }
         if (presetY != null) {
-            printable += "\n\ty: " + Debug.toHexString(presetY);
+            printbble += "\n\ty: " + Debug.toHexString(presetY);
         }
         if (presetY == null && presetX == null) {
-            printable += "\n\tUNINIIALIZED";
+            printbble += "\n\tUNINIIALIZED";
         }
-        return printable;
+        return printbble;
     }
 
-    private static void debug(Exception e) {
+    privbte stbtic void debug(Exception e) {
         if (debug) {
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
     }
 
-    private static void debug(String s) {
+    privbte stbtic void debug(String s) {
         if (debug) {
             System.err.println(s);
         }
     }
 
     /**
-     * Standard SHA224withDSA implementation as defined in FIPS186-3.
+     * Stbndbrd SHA224withDSA implementbtion bs defined in FIPS186-3.
      */
-    public static final class SHA224withDSA extends DSA {
+    public stbtic finbl clbss SHA224withDSA extends DSA {
         public SHA224withDSA() throws NoSuchAlgorithmException {
-            super(MessageDigest.getInstance("SHA-224"));
+            super(MessbgeDigest.getInstbnce("SHA-224"));
         }
     }
 
     /**
-     * Standard SHA256withDSA implementation as defined in FIPS186-3.
+     * Stbndbrd SHA256withDSA implementbtion bs defined in FIPS186-3.
      */
-    public static final class SHA256withDSA extends DSA {
+    public stbtic finbl clbss SHA256withDSA extends DSA {
         public SHA256withDSA() throws NoSuchAlgorithmException {
-            super(MessageDigest.getInstance("SHA-256"));
+            super(MessbgeDigest.getInstbnce("SHA-256"));
         }
     }
 
-    static class LegacyDSA extends DSA {
-        /* The random seed used to generate k */
-        private int[] kSeed;
-        /* The random seed used to generate k (specified by application) */
-        private byte[] kSeedAsByteArray;
+    stbtic clbss LegbcyDSA extends DSA {
+        /* The rbndom seed used to generbte k */
+        privbte int[] kSeed;
+        /* The rbndom seed used to generbte k (specified by bpplicbtion) */
+        privbte byte[] kSeedAsByteArrby;
         /*
-         * The random seed used to generate k
-         * (prevent the same Kseed from being used twice in a row
+         * The rbndom seed used to generbte k
+         * (prevent the sbme Kseed from being used twice in b row
          */
-        private int[] kSeedLast;
+        privbte int[] kSeedLbst;
 
-        public LegacyDSA(MessageDigest md) throws NoSuchAlgorithmException {
+        public LegbcyDSA(MessbgeDigest md) throws NoSuchAlgorithmException {
             super(md);
         }
 
-        @Deprecated
-        protected void engineSetParameter(String key, Object param) {
-            if (key.equals("KSEED")) {
-                if (param instanceof byte[]) {
-                    kSeed = byteArray2IntArray((byte[])param);
-                    kSeedAsByteArray = (byte[])param;
+        @Deprecbted
+        protected void engineSetPbrbmeter(String key, Object pbrbm) {
+            if (key.equbls("KSEED")) {
+                if (pbrbm instbnceof byte[]) {
+                    kSeed = byteArrby2IntArrby((byte[])pbrbm);
+                    kSeedAsByteArrby = (byte[])pbrbm;
                 } else {
-                    debug("unrecognized param: " + key);
-                    throw new InvalidParameterException("kSeed not a byte array");
+                    debug("unrecognized pbrbm: " + key);
+                    throw new InvblidPbrbmeterException("kSeed not b byte brrby");
                 }
             } else {
-                throw new InvalidParameterException("Unsupported parameter");
+                throw new InvblidPbrbmeterException("Unsupported pbrbmeter");
             }
         }
 
-        @Deprecated
-        protected Object engineGetParameter(String key) {
-           if (key.equals("KSEED")) {
-               return kSeedAsByteArray;
+        @Deprecbted
+        protected Object engineGetPbrbmeter(String key) {
+           if (key.equbls("KSEED")) {
+               return kSeedAsByteArrby;
            } else {
                return null;
            }
         }
 
         @Override
-        protected void checkKey(DSAParams params) throws InvalidKeyException {
-            int valueL = params.getP().bitLength();
-            if (valueL > 1024) {
-                throw new InvalidKeyException("Key is too long for this algorithm");
+        protected void checkKey(DSAPbrbms pbrbms) throws InvblidKeyException {
+            int vblueL = pbrbms.getP().bitLength();
+            if (vblueL > 1024) {
+                throw new InvblidKeyException("Key is too long for this blgorithm");
             }
         }
 
         /*
-         * Please read bug report 4044247 for an alternative, faster,
-         * NON-FIPS approved method to generate K
+         * Plebse rebd bug report 4044247 for bn blternbtive, fbster,
+         * NON-FIPS bpproved method to generbte K
          */
         @Override
-        protected BigInteger generateK(BigInteger q) {
+        protected BigInteger generbteK(BigInteger q) {
             BigInteger k = null;
 
-            // The application specified a kSeed for us to use.
-            // Note: we dis-allow usage of the same Kseed twice in a row
-            if (kSeed != null && !Arrays.equals(kSeed, kSeedLast)) {
-                k = generateKUsingKSeed(kSeed, q);
-                if (k.signum() > 0 && k.compareTo(q) < 0) {
-                    kSeedLast = kSeed.clone();
+            // The bpplicbtion specified b kSeed for us to use.
+            // Note: we dis-bllow usbge of the sbme Kseed twice in b row
+            if (kSeed != null && !Arrbys.equbls(kSeed, kSeedLbst)) {
+                k = generbteKUsingKSeed(kSeed, q);
+                if (k.signum() > 0 && k.compbreTo(q) < 0) {
+                    kSeedLbst = kSeed.clone();
                     return k;
                 }
             }
 
-            // The application did not specify a Kseed for us to use.
-            // We'll generate a new Kseed by getting random bytes from
-            // a SecureRandom object.
-            SecureRandom random = getSigningRandom();
+            // The bpplicbtion did not specify b Kseed for us to use.
+            // We'll generbte b new Kseed by getting rbndom bytes from
+            // b SecureRbndom object.
+            SecureRbndom rbndom = getSigningRbndom();
 
             while (true) {
                 int[] seed = new int[5];
 
-                for (int i = 0; i < 5; i++) seed[i] = random.nextInt();
+                for (int i = 0; i < 5; i++) seed[i] = rbndom.nextInt();
 
-                k = generateKUsingKSeed(seed, q);
-                if (k.signum() > 0 && k.compareTo(q) < 0) {
-                    kSeedLast = seed;
+                k = generbteKUsingKSeed(seed, q);
+                if (k.signum() > 0 && k.compbreTo(q) < 0) {
+                    kSeedLbst = seed;
                     return k;
                 }
             }
         }
 
         /**
-         * Compute k for the DSA signature as defined in the original DSS,
+         * Compute k for the DSA signbture bs defined in the originbl DSS,
          * i.e. FIPS186.
          *
-         * @param seed the seed for generating k. This seed should be
-         * secure. This is what is referred to as the KSEED in the DSA
-         * specification.
+         * @pbrbm seed the seed for generbting k. This seed should be
+         * secure. This is whbt is referred to bs the KSEED in the DSA
+         * specificbtion.
          *
-         * @param g the g parameter from the DSA key pair.
+         * @pbrbm g the g pbrbmeter from the DSA key pbir.
          */
-        private BigInteger generateKUsingKSeed(int[] seed, BigInteger q) {
+        privbte BigInteger generbteKUsingKSeed(int[] seed, BigInteger q) {
 
             // check out t in the spec.
             int[] t = { 0xEFCDAB89, 0x98BADCFE, 0x10325476,
@@ -552,18 +552,18 @@ abstract class DSA extends SignatureSpi {
             return k;
         }
 
-        // Constants for each round
-        private static final int round1_kt = 0x5a827999;
-        private static final int round2_kt = 0x6ed9eba1;
-        private static final int round3_kt = 0x8f1bbcdc;
-        private static final int round4_kt = 0xca62c1d6;
+        // Constbnts for ebch round
+        privbte stbtic finbl int round1_kt = 0x5b827999;
+        privbte stbtic finbl int round2_kt = 0x6ed9ebb1;
+        privbte stbtic finbl int round3_kt = 0x8f1bbcdc;
+        privbte stbtic finbl int round4_kt = 0xcb62c1d6;
 
         /**
          * Computes set 1 thru 7 of SHA-1 on m1. */
-        static int[] SHA_7(int[] m1, int[] h) {
+        stbtic int[] SHA_7(int[] m1, int[] h) {
 
             int[] W = new int[80];
-            System.arraycopy(m1,0,W,0,m1.length);
+            System.brrbycopy(m1,0,W,0,m1.length);
             int temp = 0;
 
             for (int t = 16; t <= 79; t++){
@@ -571,51 +571,51 @@ abstract class DSA extends SignatureSpi {
                 W[t] = ((temp << 1) | (temp >>>(32 - 1)));
             }
 
-            int a = h[0],b = h[1],c = h[2], d = h[3], e = h[4];
+            int b = h[0],b = h[1],c = h[2], d = h[3], e = h[4];
             for (int i = 0; i < 20; i++) {
-                temp = ((a<<5) | (a>>>(32-5))) +
+                temp = ((b<<5) | (b>>>(32-5))) +
                     ((b&c)|((~b)&d))+ e + W[i] + round1_kt;
                 e = d;
                 d = c;
                 c = ((b<<30) | (b>>>(32-30)));
-                b = a;
-                a = temp;
+                b = b;
+                b = temp;
             }
 
             // Round 2
             for (int i = 20; i < 40; i++) {
-                temp = ((a<<5) | (a>>>(32-5))) +
+                temp = ((b<<5) | (b>>>(32-5))) +
                     (b ^ c ^ d) + e + W[i] + round2_kt;
                 e = d;
                 d = c;
                 c = ((b<<30) | (b>>>(32-30)));
-                b = a;
-                a = temp;
+                b = b;
+                b = temp;
             }
 
             // Round 3
             for (int i = 40; i < 60; i++) {
-                temp = ((a<<5) | (a>>>(32-5))) +
+                temp = ((b<<5) | (b>>>(32-5))) +
                     ((b&c)|(b&d)|(c&d)) + e + W[i] + round3_kt;
                 e = d;
                 d = c;
                 c = ((b<<30) | (b>>>(32-30)));
-                b = a;
-                a = temp;
+                b = b;
+                b = temp;
             }
 
             // Round 4
             for (int i = 60; i < 80; i++) {
-                temp = ((a<<5) | (a>>>(32-5))) +
+                temp = ((b<<5) | (b>>>(32-5))) +
                     (b ^ c ^ d) + e + W[i] + round4_kt;
                 e = d;
                 d = c;
                 c = ((b<<30) | (b>>>(32-30)));
-                b = a;
-                a = temp;
+                b = b;
+                b = temp;
             }
             int[] md = new int[5];
-            md[0] = h[0] + a;
+            md[0] = h[0] + b;
             md[1] = h[1] + b;
             md[2] = h[2] + c;
             md[3] = h[3] + d;
@@ -624,25 +624,25 @@ abstract class DSA extends SignatureSpi {
         }
 
         /*
-         * Utility routine for converting a byte array into an int array
+         * Utility routine for converting b byte brrby into bn int brrby
          */
-        private int[] byteArray2IntArray(byte[] byteArray) {
+        privbte int[] byteArrby2IntArrby(byte[] byteArrby) {
 
             int j = 0;
             byte[] newBA;
-            int mod = byteArray.length % 4;
+            int mod = byteArrby.length % 4;
 
-            // guarantee that the incoming byteArray is a multiple of 4
-            // (pad with 0's)
+            // gubrbntee thbt the incoming byteArrby is b multiple of 4
+            // (pbd with 0's)
             switch (mod) {
-            case 3:     newBA = new byte[byteArray.length + 1]; break;
-            case 2:     newBA = new byte[byteArray.length + 2]; break;
-            case 1:     newBA = new byte[byteArray.length + 3]; break;
-            default:    newBA = new byte[byteArray.length + 0]; break;
+            cbse 3:     newBA = new byte[byteArrby.length + 1]; brebk;
+            cbse 2:     newBA = new byte[byteArrby.length + 2]; brebk;
+            cbse 1:     newBA = new byte[byteArrby.length + 3]; brebk;
+            defbult:    newBA = new byte[byteArrby.length + 0]; brebk;
             }
-            System.arraycopy(byteArray, 0, newBA, 0, byteArray.length);
+            System.brrbycopy(byteArrby, 0, newBA, 0, byteArrby.length);
 
-            // copy each set of 4 bytes in the byte array into an integer
+            // copy ebch set of 4 bytes in the byte brrby into bn integer
             int[] newSeed = new int[newBA.length / 4];
             for (int i = 0; i < newBA.length; i += 4) {
                 newSeed[j] = newBA[i + 3] & 0xFF;
@@ -656,51 +656,51 @@ abstract class DSA extends SignatureSpi {
         }
     }
 
-    public static final class SHA1withDSA extends LegacyDSA {
+    public stbtic finbl clbss SHA1withDSA extends LegbcyDSA {
         public SHA1withDSA() throws NoSuchAlgorithmException {
-            super(MessageDigest.getInstance("SHA-1"));
+            super(MessbgeDigest.getInstbnce("SHA-1"));
         }
     }
 
     /**
-     * RawDSA implementation.
+     * RbwDSA implementbtion.
      *
-     * RawDSA requires the data to be exactly 20 bytes long. If it is
-     * not, a SignatureException is thrown when sign()/verify() is called
+     * RbwDSA requires the dbtb to be exbctly 20 bytes long. If it is
+     * not, b SignbtureException is thrown when sign()/verify() is cblled
      * per JCA spec.
      */
-    public static final class RawDSA extends LegacyDSA {
-        // Internal special-purpose MessageDigest impl for RawDSA
-        // Only override whatever methods used
+    public stbtic finbl clbss RbwDSA extends LegbcyDSA {
+        // Internbl specibl-purpose MessbgeDigest impl for RbwDSA
+        // Only override whbtever methods used
         // NOTE: no clone support
-        public static final class NullDigest20 extends MessageDigest {
+        public stbtic finbl clbss NullDigest20 extends MessbgeDigest {
             // 20 byte digest buffer
-            private final byte[] digestBuffer = new byte[20];
+            privbte finbl byte[] digestBuffer = new byte[20];
 
-            // offset into the buffer; use Integer.MAX_VALUE to indicate
+            // offset into the buffer; use Integer.MAX_VALUE to indicbte
             // out-of-bound condition
-            private int ofs = 0;
+            privbte int ofs = 0;
 
             protected NullDigest20() {
                 super("NullDigest20");
             }
-            protected void engineUpdate(byte input) {
+            protected void engineUpdbte(byte input) {
                 if (ofs == digestBuffer.length) {
                     ofs = Integer.MAX_VALUE;
                 } else {
                     digestBuffer[ofs++] = input;
                 }
             }
-            protected void engineUpdate(byte[] input, int offset, int len) {
+            protected void engineUpdbte(byte[] input, int offset, int len) {
                 if (ofs + len > digestBuffer.length) {
                     ofs = Integer.MAX_VALUE;
                 } else {
-                    System.arraycopy(input, offset, digestBuffer, ofs, len);
+                    System.brrbycopy(input, offset, digestBuffer, ofs, len);
                     ofs += len;
                 }
             }
-            protected final void engineUpdate(ByteBuffer input) {
-                int inputLen = input.remaining();
+            protected finbl void engineUpdbte(ByteBuffer input) {
+                int inputLen = input.rembining();
                 if (ofs + inputLen > digestBuffer.length) {
                     ofs = Integer.MAX_VALUE;
                 } else {
@@ -711,7 +711,7 @@ abstract class DSA extends SignatureSpi {
             protected byte[] engineDigest() throws RuntimeException {
                 if (ofs != digestBuffer.length) {
                     throw new RuntimeException
-                        ("Data for RawDSA must be exactly 20 bytes long");
+                        ("Dbtb for RbwDSA must be exbctly 20 bytes long");
                 }
                 reset();
                 return digestBuffer;
@@ -720,13 +720,13 @@ abstract class DSA extends SignatureSpi {
                 throws DigestException {
                 if (ofs != digestBuffer.length) {
                     throw new DigestException
-                        ("Data for RawDSA must be exactly 20 bytes long");
+                        ("Dbtb for RbwDSA must be exbctly 20 bytes long");
                 }
                 if (len < digestBuffer.length) {
                     throw new DigestException
-                        ("Output buffer too small; must be at least 20 bytes");
+                        ("Output buffer too smbll; must be bt lebst 20 bytes");
                 }
-                System.arraycopy(digestBuffer, 0, buf, offset, digestBuffer.length);
+                System.brrbycopy(digestBuffer, 0, buf, offset, digestBuffer.length);
                 reset();
                 return digestBuffer.length;
             }
@@ -734,12 +734,12 @@ abstract class DSA extends SignatureSpi {
             protected void engineReset() {
                 ofs = 0;
             }
-            protected final int engineGetDigestLength() {
+            protected finbl int engineGetDigestLength() {
                 return digestBuffer.length;
             }
         }
 
-        public RawDSA() throws NoSuchAlgorithmException {
+        public RbwDSA() throws NoSuchAlgorithmException {
             super(new NullDigest20());
         }
     }

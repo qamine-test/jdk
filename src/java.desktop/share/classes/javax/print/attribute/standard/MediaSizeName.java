@@ -1,409 +1,409 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import java.util.Locale;
+import jbvb.util.Locble;
 
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.Attribute;
 
 /**
- * Class MediaSizeName is a subclass of Media.
+ * Clbss MedibSizeNbme is b subclbss of Medib.
  * <P>
- * This attribute can be used instead of specifying MediaName or MediaTray.
+ * This bttribute cbn be used instebd of specifying MedibNbme or MedibTrby.
  * <p>
- * Class MediaSizeName currently declares a few standard media
- * name values.
+ * Clbss MedibSizeNbme currently declbres b few stbndbrd medib
+ * nbme vblues.
  * <P>
- * <B>IPP Compatibility:</B> MediaSizeName is a representation class for
- * values of the IPP "media" attribute which names media sizes.
- * The names of the media sizes correspond to those in the IPP 1.1 RFC
- * <a HREF="http://www.ietf.org/rfc/rfc2911.txt">RFC 2911</a>
+ * <B>IPP Compbtibility:</B> MedibSizeNbme is b representbtion clbss for
+ * vblues of the IPP "medib" bttribute which nbmes medib sizes.
+ * The nbmes of the medib sizes correspond to those in the IPP 1.1 RFC
+ * <b HREF="http://www.ietf.org/rfc/rfc2911.txt">RFC 2911</b>
  *
  */
-public class MediaSizeName extends Media {
+public clbss MedibSizeNbme extends Medib {
 
-    private static final long serialVersionUID = 2778798329756942747L;
+    privbte stbtic finbl long seriblVersionUID = 2778798329756942747L;
 
     /**
      * A0 size.
      */
-    public static final MediaSizeName ISO_A0 = new MediaSizeName(0);
+    public stbtic finbl MedibSizeNbme ISO_A0 = new MedibSizeNbme(0);
     /**
      * A1 size.
      */
-    public static final MediaSizeName ISO_A1 = new MediaSizeName(1);
+    public stbtic finbl MedibSizeNbme ISO_A1 = new MedibSizeNbme(1);
     /**
      * A2 size.
      */
-    public static final MediaSizeName ISO_A2 = new MediaSizeName(2);
+    public stbtic finbl MedibSizeNbme ISO_A2 = new MedibSizeNbme(2);
     /**
      * A3 size.
      */
-    public static final MediaSizeName ISO_A3 = new MediaSizeName(3);
+    public stbtic finbl MedibSizeNbme ISO_A3 = new MedibSizeNbme(3);
     /**
      * A4 size.
      */
-    public static final MediaSizeName ISO_A4 = new MediaSizeName(4);
+    public stbtic finbl MedibSizeNbme ISO_A4 = new MedibSizeNbme(4);
     /**
      * A5 size.
      */
-    public static final MediaSizeName ISO_A5 = new MediaSizeName(5);
+    public stbtic finbl MedibSizeNbme ISO_A5 = new MedibSizeNbme(5);
     /**
      * A6 size.
      */
-    public static final MediaSizeName ISO_A6 = new MediaSizeName(6);
+    public stbtic finbl MedibSizeNbme ISO_A6 = new MedibSizeNbme(6);
     /**
      * A7 size.
      */
-    public static final MediaSizeName ISO_A7 = new MediaSizeName(7);
+    public stbtic finbl MedibSizeNbme ISO_A7 = new MedibSizeNbme(7);
     /**
      * A8 size.
      */
-    public static final MediaSizeName ISO_A8 = new MediaSizeName(8);
+    public stbtic finbl MedibSizeNbme ISO_A8 = new MedibSizeNbme(8);
     /**
      * A9 size.
      */
-    public static final MediaSizeName ISO_A9 = new MediaSizeName(9);
+    public stbtic finbl MedibSizeNbme ISO_A9 = new MedibSizeNbme(9);
     /**
      * A10 size.
      */
-    public static final MediaSizeName ISO_A10 = new MediaSizeName(10);
+    public stbtic finbl MedibSizeNbme ISO_A10 = new MedibSizeNbme(10);
 
    /**
      * ISO B0 size.
      */
-    public static final MediaSizeName ISO_B0 = new MediaSizeName(11);
+    public stbtic finbl MedibSizeNbme ISO_B0 = new MedibSizeNbme(11);
     /**
      * ISO B1 size.
      */
-    public static final MediaSizeName ISO_B1 = new MediaSizeName(12);
+    public stbtic finbl MedibSizeNbme ISO_B1 = new MedibSizeNbme(12);
     /**
      * ISO B2 size.
      */
-    public static final MediaSizeName ISO_B2 = new MediaSizeName(13);
+    public stbtic finbl MedibSizeNbme ISO_B2 = new MedibSizeNbme(13);
     /**
      * ISO B3 size.
      */
-    public static final MediaSizeName ISO_B3 = new MediaSizeName(14);
+    public stbtic finbl MedibSizeNbme ISO_B3 = new MedibSizeNbme(14);
     /**
      * ISO B4 size.
      */
-    public static final MediaSizeName ISO_B4 = new MediaSizeName(15);
+    public stbtic finbl MedibSizeNbme ISO_B4 = new MedibSizeNbme(15);
     /**
      * ISO B5 size.
      */
-    public static final MediaSizeName ISO_B5 = new MediaSizeName(16);
+    public stbtic finbl MedibSizeNbme ISO_B5 = new MedibSizeNbme(16);
     /**
      * ISO B6 size.
      */
-    public static final MediaSizeName ISO_B6 = new MediaSizeName(17);
+    public stbtic finbl MedibSizeNbme ISO_B6 = new MedibSizeNbme(17);
     /**
      * ISO B7 size.
      */
-    public static final MediaSizeName ISO_B7 = new MediaSizeName(18);
+    public stbtic finbl MedibSizeNbme ISO_B7 = new MedibSizeNbme(18);
     /**
      * ISO B8 size.
      */
-    public static final MediaSizeName ISO_B8 = new MediaSizeName(19);
+    public stbtic finbl MedibSizeNbme ISO_B8 = new MedibSizeNbme(19);
     /**
      * ISO B9 size.
      */
-    public static final MediaSizeName ISO_B9 = new MediaSizeName(20);
+    public stbtic finbl MedibSizeNbme ISO_B9 = new MedibSizeNbme(20);
     /**
      * ISO B10 size.
      */
-    public static final MediaSizeName ISO_B10 = new MediaSizeName(21);
+    public stbtic finbl MedibSizeNbme ISO_B10 = new MedibSizeNbme(21);
 
    /**
      * JIS B0 size.
      */
-    public static final MediaSizeName JIS_B0 = new MediaSizeName(22);
+    public stbtic finbl MedibSizeNbme JIS_B0 = new MedibSizeNbme(22);
     /**
      * JIS B1 size.
      */
-    public static final MediaSizeName JIS_B1 = new MediaSizeName(23);
+    public stbtic finbl MedibSizeNbme JIS_B1 = new MedibSizeNbme(23);
     /**
      * JIS B2 size.
      */
-    public static final MediaSizeName JIS_B2 = new MediaSizeName(24);
+    public stbtic finbl MedibSizeNbme JIS_B2 = new MedibSizeNbme(24);
     /**
      * JIS B3 size.
      */
-    public static final MediaSizeName JIS_B3 = new MediaSizeName(25);
+    public stbtic finbl MedibSizeNbme JIS_B3 = new MedibSizeNbme(25);
     /**
      * JIS B4 size.
      */
-    public static final MediaSizeName JIS_B4 = new MediaSizeName(26);
+    public stbtic finbl MedibSizeNbme JIS_B4 = new MedibSizeNbme(26);
     /**
      * JIS B5 size.
      */
-    public static final MediaSizeName JIS_B5 = new MediaSizeName(27);
+    public stbtic finbl MedibSizeNbme JIS_B5 = new MedibSizeNbme(27);
     /**
      * JIS B6 size.
      */
-    public static final MediaSizeName JIS_B6 = new MediaSizeName(28);
+    public stbtic finbl MedibSizeNbme JIS_B6 = new MedibSizeNbme(28);
     /**
      * JIS B7 size.
      */
-    public static final MediaSizeName JIS_B7 = new MediaSizeName(29);
+    public stbtic finbl MedibSizeNbme JIS_B7 = new MedibSizeNbme(29);
     /**
      * JIS B8 size.
      */
-    public static final MediaSizeName JIS_B8 = new MediaSizeName(30);
+    public stbtic finbl MedibSizeNbme JIS_B8 = new MedibSizeNbme(30);
     /**
      * JIS B9 size.
      */
-    public static final MediaSizeName JIS_B9 = new MediaSizeName(31);
+    public stbtic finbl MedibSizeNbme JIS_B9 = new MedibSizeNbme(31);
     /**
      * JIS B10 size.
      */
-    public static final MediaSizeName JIS_B10 = new MediaSizeName(32);
+    public stbtic finbl MedibSizeNbme JIS_B10 = new MedibSizeNbme(32);
 
     /**
      * ISO C0 size.
      */
-    public static final MediaSizeName ISO_C0 = new MediaSizeName(33);
+    public stbtic finbl MedibSizeNbme ISO_C0 = new MedibSizeNbme(33);
     /**
      * ISO C1 size.
      */
-    public static final MediaSizeName ISO_C1 = new MediaSizeName(34);
+    public stbtic finbl MedibSizeNbme ISO_C1 = new MedibSizeNbme(34);
     /**
      * ISO C2 size.
      */
-    public static final MediaSizeName ISO_C2 = new MediaSizeName(35);
+    public stbtic finbl MedibSizeNbme ISO_C2 = new MedibSizeNbme(35);
     /**
      * ISO C3 size.
      */
-    public static final MediaSizeName ISO_C3 = new MediaSizeName(36);
+    public stbtic finbl MedibSizeNbme ISO_C3 = new MedibSizeNbme(36);
     /**
      * ISO C4 size.
      */
-    public static final MediaSizeName ISO_C4 = new MediaSizeName(37);
+    public stbtic finbl MedibSizeNbme ISO_C4 = new MedibSizeNbme(37);
     /**
      * ISO C5 size.
      */
-    public static final MediaSizeName ISO_C5 = new MediaSizeName(38);
+    public stbtic finbl MedibSizeNbme ISO_C5 = new MedibSizeNbme(38);
     /**
      *   letter size.
      */
-    public static final MediaSizeName ISO_C6 = new MediaSizeName(39);
+    public stbtic finbl MedibSizeNbme ISO_C6 = new MedibSizeNbme(39);
     /**
      *   letter size.
      */
-    public static final MediaSizeName NA_LETTER = new MediaSizeName(40);
+    public stbtic finbl MedibSizeNbme NA_LETTER = new MedibSizeNbme(40);
 
     /**
-     *  legal size .
+     *  legbl size .
      */
-    public static final MediaSizeName NA_LEGAL = new MediaSizeName(41);
+    public stbtic finbl MedibSizeNbme NA_LEGAL = new MedibSizeNbme(41);
 
     /**
      *  executive size .
      */
-    public static final MediaSizeName EXECUTIVE = new MediaSizeName(42);
+    public stbtic finbl MedibSizeNbme EXECUTIVE = new MedibSizeNbme(42);
 
     /**
      *  ledger size .
      */
-    public static final MediaSizeName LEDGER = new MediaSizeName(43);
+    public stbtic finbl MedibSizeNbme LEDGER = new MedibSizeNbme(43);
 
     /**
-     *  tabloid size .
+     *  tbbloid size .
      */
-    public static final MediaSizeName TABLOID = new MediaSizeName(44);
+    public stbtic finbl MedibSizeNbme TABLOID = new MedibSizeNbme(44);
 
     /**
      *  invoice size .
      */
-    public static final MediaSizeName INVOICE = new MediaSizeName(45);
+    public stbtic finbl MedibSizeNbme INVOICE = new MedibSizeNbme(45);
 
     /**
      *  folio size .
      */
-    public static final MediaSizeName FOLIO = new MediaSizeName(46);
+    public stbtic finbl MedibSizeNbme FOLIO = new MedibSizeNbme(46);
 
     /**
-     *  quarto size .
+     *  qubrto size .
      */
-    public static final MediaSizeName QUARTO = new MediaSizeName(47);
+    public stbtic finbl MedibSizeNbme QUARTO = new MedibSizeNbme(47);
 
     /**
-     *  Japanese Postcard size.
+     *  Jbpbnese Postcbrd size.
      */
-    public static final MediaSizeName
-        JAPANESE_POSTCARD = new MediaSizeName(48);
+    public stbtic finbl MedibSizeNbme
+        JAPANESE_POSTCARD = new MedibSizeNbme(48);
    /**
-     *  Japanese Double Postcard size.
+     *  Jbpbnese Double Postcbrd size.
      */
-    public static final MediaSizeName
-        JAPANESE_DOUBLE_POSTCARD = new MediaSizeName(49);
+    public stbtic finbl MedibSizeNbme
+        JAPANESE_DOUBLE_POSTCARD = new MedibSizeNbme(49);
 
     /**
      *  A size .
      */
-    public static final MediaSizeName A = new MediaSizeName(50);
+    public stbtic finbl MedibSizeNbme A = new MedibSizeNbme(50);
 
     /**
      *  B size .
      */
-    public static final MediaSizeName B = new MediaSizeName(51);
+    public stbtic finbl MedibSizeNbme B = new MedibSizeNbme(51);
 
     /**
      *  C size .
      */
-    public static final MediaSizeName C = new MediaSizeName(52);
+    public stbtic finbl MedibSizeNbme C = new MedibSizeNbme(52);
 
     /**
      *  D size .
      */
-    public static final MediaSizeName D = new MediaSizeName(53);
+    public stbtic finbl MedibSizeNbme D = new MedibSizeNbme(53);
 
     /**
      *  E size .
      */
-    public static final MediaSizeName E = new MediaSizeName(54);
+    public stbtic finbl MedibSizeNbme E = new MedibSizeNbme(54);
 
     /**
-     *  ISO designated long size .
+     *  ISO designbted long size .
      */
-    public static final MediaSizeName
-        ISO_DESIGNATED_LONG = new MediaSizeName(55);
+    public stbtic finbl MedibSizeNbme
+        ISO_DESIGNATED_LONG = new MedibSizeNbme(55);
 
     /**
-     *  Italy envelope size .
+     *  Itbly envelope size .
      */
-    public static final MediaSizeName
-        ITALY_ENVELOPE = new MediaSizeName(56);  // DESIGNATED_LONG?
+    public stbtic finbl MedibSizeNbme
+        ITALY_ENVELOPE = new MedibSizeNbme(56);  // DESIGNATED_LONG?
 
     /**
-     *  monarch envelope size .
+     *  monbrch envelope size .
      */
-    public static final MediaSizeName
-        MONARCH_ENVELOPE = new MediaSizeName(57);
+    public stbtic finbl MedibSizeNbme
+        MONARCH_ENVELOPE = new MedibSizeNbme(57);
     /**
-     * personal envelope size .
+     * personbl envelope size .
      */
-    public static final MediaSizeName
-        PERSONAL_ENVELOPE = new MediaSizeName(58);
+    public stbtic finbl MedibSizeNbme
+        PERSONAL_ENVELOPE = new MedibSizeNbme(58);
     /**
      *  number 9 envelope size .
      */
-    public static final MediaSizeName
-        NA_NUMBER_9_ENVELOPE = new MediaSizeName(59);
+    public stbtic finbl MedibSizeNbme
+        NA_NUMBER_9_ENVELOPE = new MedibSizeNbme(59);
     /**
      *  number 10 envelope size .
      */
-    public static final MediaSizeName
-        NA_NUMBER_10_ENVELOPE = new MediaSizeName(60);
+    public stbtic finbl MedibSizeNbme
+        NA_NUMBER_10_ENVELOPE = new MedibSizeNbme(60);
     /**
      *  number 11 envelope size .
      */
-    public static final MediaSizeName
-        NA_NUMBER_11_ENVELOPE = new MediaSizeName(61);
+    public stbtic finbl MedibSizeNbme
+        NA_NUMBER_11_ENVELOPE = new MedibSizeNbme(61);
     /**
      *  number 12 envelope size .
      */
-    public static final MediaSizeName
-        NA_NUMBER_12_ENVELOPE = new MediaSizeName(62);
+    public stbtic finbl MedibSizeNbme
+        NA_NUMBER_12_ENVELOPE = new MedibSizeNbme(62);
     /**
      *  number 14 envelope size .
      */
-    public static final MediaSizeName
-        NA_NUMBER_14_ENVELOPE = new MediaSizeName(63);
+    public stbtic finbl MedibSizeNbme
+        NA_NUMBER_14_ENVELOPE = new MedibSizeNbme(63);
    /**
-     *  6x9 North American envelope size.
+     *  6x9 North Americbn envelope size.
      */
-    public static final MediaSizeName
-        NA_6X9_ENVELOPE = new MediaSizeName(64);
+    public stbtic finbl MedibSizeNbme
+        NA_6X9_ENVELOPE = new MedibSizeNbme(64);
    /**
-     *  7x9 North American envelope size.
+     *  7x9 North Americbn envelope size.
      */
-    public static final MediaSizeName
-        NA_7X9_ENVELOPE = new MediaSizeName(65);
+    public stbtic finbl MedibSizeNbme
+        NA_7X9_ENVELOPE = new MedibSizeNbme(65);
    /**
-     *  9x11 North American envelope size.
+     *  9x11 North Americbn envelope size.
      */
-    public static final MediaSizeName
-        NA_9X11_ENVELOPE = new MediaSizeName(66);
+    public stbtic finbl MedibSizeNbme
+        NA_9X11_ENVELOPE = new MedibSizeNbme(66);
     /**
-     *  9x12 North American envelope size.
+     *  9x12 North Americbn envelope size.
      */
-    public static final MediaSizeName
-        NA_9X12_ENVELOPE = new MediaSizeName(67);
+    public stbtic finbl MedibSizeNbme
+        NA_9X12_ENVELOPE = new MedibSizeNbme(67);
 
     /**
-     *  10x13 North American envelope size .
+     *  10x13 North Americbn envelope size .
      */
-    public static final MediaSizeName
-        NA_10X13_ENVELOPE = new MediaSizeName(68);
+    public stbtic finbl MedibSizeNbme
+        NA_10X13_ENVELOPE = new MedibSizeNbme(68);
     /**
-     *  10x14North American  envelope size .
+     *  10x14North Americbn  envelope size .
      */
-    public static final MediaSizeName
-        NA_10X14_ENVELOPE = new MediaSizeName(69);
+    public stbtic finbl MedibSizeNbme
+        NA_10X14_ENVELOPE = new MedibSizeNbme(69);
     /**
-     *  10x15 North American envelope size.
+     *  10x15 North Americbn envelope size.
      */
-    public static final MediaSizeName
-        NA_10X15_ENVELOPE = new MediaSizeName(70);
+    public stbtic finbl MedibSizeNbme
+        NA_10X15_ENVELOPE = new MedibSizeNbme(70);
 
     /**
-     *  5x7 North American paper.
+     *  5x7 North Americbn pbper.
      */
-    public static final MediaSizeName
-        NA_5X7 = new MediaSizeName(71);
+    public stbtic finbl MedibSizeNbme
+        NA_5X7 = new MedibSizeNbme(71);
 
     /**
-     *  8x10 North American paper.
+     *  8x10 North Americbn pbper.
      */
-    public static final MediaSizeName
-        NA_8X10 = new MediaSizeName(72);
+    public stbtic finbl MedibSizeNbme
+        NA_8X10 = new MedibSizeNbme(72);
 
     /**
-     * Construct a new media size enumeration value with the given integer
-     * value.
+     * Construct b new medib size enumerbtion vblue with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected MediaSizeName(int value) {
-        super (value);
+    protected MedibSizeNbme(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
-                "iso-a0",
-                "iso-a1",
-                "iso-a2",
-                "iso-a3",
-                "iso-a4",
-                "iso-a5",
-                "iso-a6",
-                "iso-a7",
-                "iso-a8",
-                "iso-a9",
-                "iso-a10",
+    privbte stbtic finbl String[] myStringTbble = {
+                "iso-b0",
+                "iso-b1",
+                "iso-b2",
+                "iso-b3",
+                "iso-b4",
+                "iso-b5",
+                "iso-b6",
+                "iso-b7",
+                "iso-b8",
+                "iso-b9",
+                "iso-b10",
                 "iso-b0",
                 "iso-b1",
                 "iso-b2",
@@ -433,42 +433,42 @@ public class MediaSizeName extends Media {
                 "iso-c4",
                 "iso-c5",
                 "iso-c6",
-                "na-letter",
-                "na-legal",
+                "nb-letter",
+                "nb-legbl",
                 "executive",
                 "ledger",
-                "tabloid",
+                "tbbloid",
                 "invoice",
                 "folio",
-                "quarto",
-                "japanese-postcard",
-                "oufuko-postcard",
-                "a",
+                "qubrto",
+                "jbpbnese-postcbrd",
+                "oufuko-postcbrd",
+                "b",
                 "b",
                 "c",
                 "d",
                 "e",
-                "iso-designated-long",
-                "italian-envelope",
-                "monarch-envelope",
-                "personal-envelope",
-                "na-number-9-envelope",
-                "na-number-10-envelope",
-                "na-number-11-envelope",
-                "na-number-12-envelope",
-                "na-number-14-envelope",
-                "na-6x9-envelope",
-                "na-7x9-envelope",
-                "na-9x11-envelope",
-                "na-9x12-envelope",
-                "na-10x13-envelope",
-                "na-10x14-envelope",
-                "na-10x15-envelope",
-                "na-5x7",
-                "na-8x10",
+                "iso-designbted-long",
+                "itblibn-envelope",
+                "monbrch-envelope",
+                "personbl-envelope",
+                "nb-number-9-envelope",
+                "nb-number-10-envelope",
+                "nb-number-11-envelope",
+                "nb-number-12-envelope",
+                "nb-number-14-envelope",
+                "nb-6x9-envelope",
+                "nb-7x9-envelope",
+                "nb-9x11-envelope",
+                "nb-9x12-envelope",
+                "nb-10x13-envelope",
+                "nb-10x14-envelope",
+                "nb-10x15-envelope",
+                "nb-5x7",
+                "nb-8x10",
         };
 
-    private static final MediaSizeName[] myEnumValueTable = {
+    privbte stbtic finbl MedibSizeNbme[] myEnumVblueTbble = {
                 ISO_A0,
                 ISO_A1,
                 ISO_A2,
@@ -546,18 +546,18 @@ public class MediaSizeName extends Media {
 
 
     /**
-     * Returns the string table for class MediaSizeName.
+     * Returns the string tbble for clbss MedibSizeNbme.
      */
-    protected String[] getStringTable()
+    protected String[] getStringTbble()
     {
-        return myStringTable.clone();
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class MediaSizeName.
+     * Returns the enumerbtion vblue tbble for clbss MedibSizeNbme.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
 

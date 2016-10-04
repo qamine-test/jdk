@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicTextFieldUI;
-import javax.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.BbsicTextFieldUI;
+import jbvbx.swing.text.*;
 
-import com.apple.laf.AquaUtils.JComponentPainter;
+import com.bpple.lbf.AqubUtils.JComponentPbinter;
 
-public class AquaTextFieldUI extends BasicTextFieldUI {
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaTextFieldUI();
+public clbss AqubTextFieldUI extends BbsicTextFieldUI {
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubTextFieldUI();
     }
 
-    protected JComponentPainter delegate;
-    protected AquaFocusHandler handler;
+    protected JComponentPbinter delegbte;
+    protected AqubFocusHbndler hbndler;
 
-    protected void installListeners() {
-        super.installListeners();
+    protected void instbllListeners() {
+        super.instbllListeners();
 
-        handler = new AquaFocusHandler();
-        final JTextComponent c = getComponent();
-        c.addFocusListener(handler);
-        c.addPropertyChangeListener(handler);
+        hbndler = new AqubFocusHbndler();
+        finbl JTextComponent c = getComponent();
+        c.bddFocusListener(hbndler);
+        c.bddPropertyChbngeListener(hbndler);
 
-        LookAndFeel.installProperty(c, "opaque", UIManager.getBoolean(getPropertyPrefix() + "opaque"));
-        AquaUtilControlSize.addSizePropertyListener(c);
-        AquaTextFieldSearch.installSearchFieldListener(c);
+        LookAndFeel.instbllProperty(c, "opbque", UIMbnbger.getBoolebn(getPropertyPrefix() + "opbque"));
+        AqubUtilControlSize.bddSizePropertyListener(c);
+        AqubTextFieldSebrch.instbllSebrchFieldListener(c);
     }
 
-    protected void uninstallListeners() {
-        final JTextComponent c = getComponent();
-        AquaTextFieldSearch.uninstallSearchFieldListener(c);
-        AquaUtilControlSize.removeSizePropertyListener(c);
-        c.removeFocusListener(handler);
-        c.removePropertyChangeListener(handler);
-        handler = null;
+    protected void uninstbllListeners() {
+        finbl JTextComponent c = getComponent();
+        AqubTextFieldSebrch.uninstbllSebrchFieldListener(c);
+        AqubUtilControlSize.removeSizePropertyListener(c);
+        c.removeFocusListener(hbndler);
+        c.removePropertyChbngeListener(hbndler);
+        hbndler = null;
 
-        super.uninstallListeners();
+        super.uninstbllListeners();
     }
 
-    boolean oldDragState = false;
-    protected void installDefaults() {
-        if (!GraphicsEnvironment.isHeadless()) {
-            oldDragState = getComponent().getDragEnabled();
-            getComponent().setDragEnabled(true);
+    boolebn oldDrbgStbte = fblse;
+    protected void instbllDefbults() {
+        if (!GrbphicsEnvironment.isHebdless()) {
+            oldDrbgStbte = getComponent().getDrbgEnbbled();
+            getComponent().setDrbgEnbbled(true);
         }
 
-        super.installDefaults();
+        super.instbllDefbults();
     }
 
-    protected void uninstallDefaults() {
-        super.uninstallDefaults();
+    protected void uninstbllDefbults() {
+        super.uninstbllDefbults();
 
-        if (!GraphicsEnvironment.isHeadless()) {
-            getComponent().setDragEnabled(oldDragState);
+        if (!GrbphicsEnvironment.isHebdless()) {
+            getComponent().setDrbgEnbbled(oldDrbgStbte);
         }
     }
 
-    // Install a default keypress action which handles Cmd and Option keys properly
-    protected void installKeyboardActions() {
-        super.installKeyboardActions();
-        AquaKeyBindings.instance().setDefaultAction(getKeymapName());
+    // Instbll b defbult keypress bction which hbndles Cmd bnd Option keys properly
+    protected void instbllKeybobrdActions() {
+        super.instbllKeybobrdActions();
+        AqubKeyBindings.instbnce().setDefbultAction(getKeymbpNbme());
     }
 
-    protected Rectangle getVisibleEditorRect() {
-        final Rectangle rect = super.getVisibleEditorRect();
+    protected Rectbngle getVisibleEditorRect() {
+        finbl Rectbngle rect = super.getVisibleEditorRect();
         if (rect == null) return null;
 
-        if (!getComponent().isOpaque()) {
+        if (!getComponent().isOpbque()) {
             rect.y -= 3;
             rect.height += 6;
         }
@@ -102,72 +102,72 @@ public class AquaTextFieldUI extends BasicTextFieldUI {
         return rect;
     }
 
-    protected void paintSafely(final Graphics g) {
-        paintBackgroundSafely(g);
-        super.paintSafely(g);
+    protected void pbintSbfely(finbl Grbphics g) {
+        pbintBbckgroundSbfely(g);
+        super.pbintSbfely(g);
     }
 
-    protected void paintBackgroundSafely(final Graphics g) {
-        final JTextComponent c = getComponent();
-        final int width = c.getWidth();
-        final int height = c.getHeight();
+    protected void pbintBbckgroundSbfely(finbl Grbphics g) {
+        finbl JTextComponent c = getComponent();
+        finbl int width = c.getWidth();
+        finbl int height = c.getHeight();
 
-        // a delegate takes precedence
-        if (delegate != null) {
-            delegate.paint(c, g, 0, 0, width, height);
+        // b delegbte tbkes precedence
+        if (delegbte != null) {
+            delegbte.pbint(c, g, 0, 0, width, height);
             return;
         }
 
-        final boolean isOpaque = c.isOpaque();
-        if (!(c.getBorder() instanceof AquaTextFieldBorder)) {
-            // developer must have set a custom border
-            if (!isOpaque && AquaUtils.hasOpaqueBeenExplicitlySet(c)) return;
+        finbl boolebn isOpbque = c.isOpbque();
+        if (!(c.getBorder() instbnceof AqubTextFieldBorder)) {
+            // developer must hbve set b custom border
+            if (!isOpbque && AqubUtils.hbsOpbqueBeenExplicitlySet(c)) return;
 
-            // must fill whole region with background color if opaque
-            g.setColor(c.getBackground());
+            // must fill whole region with bbckground color if opbque
+            g.setColor(c.getBbckground());
             g.fillRect(0, 0, width, height);
             return;
         }
 
         // using our own border
-        g.setColor(c.getBackground());
-        if (isOpaque) {
+        g.setColor(c.getBbckground());
+        if (isOpbque) {
             g.fillRect(0, 0, width, height);
             return;
         }
 
-        final Insets margin = c.getMargin();
+        finbl Insets mbrgin = c.getMbrgin();
         Insets insets = c.getInsets();
 
         if (insets == null) insets = new Insets(0, 0, 0, 0);
-        if (margin != null) {
-            insets.top -= margin.top;
-            insets.left -= margin.left;
-            insets.bottom -= margin.bottom;
-            insets.right -= margin.right;
+        if (mbrgin != null) {
+            insets.top -= mbrgin.top;
+            insets.left -= mbrgin.left;
+            insets.bottom -= mbrgin.bottom;
+            insets.right -= mbrgin.right;
         }
 
-        // the common case
-        final int shrinkage = AquaTextFieldBorder.getShrinkageFor(c, height);
-        g.fillRect(insets.left - 2, insets.top - shrinkage - 1, width - insets.right - insets.left + 4, height - insets.bottom - insets.top + shrinkage * 2 + 2);
+        // the common cbse
+        finbl int shrinkbge = AqubTextFieldBorder.getShrinkbgeFor(c, height);
+        g.fillRect(insets.left - 2, insets.top - shrinkbge - 1, width - insets.right - insets.left + 4, height - insets.bottom - insets.top + shrinkbge * 2 + 2);
     }
 
-    protected void paintBackground(final Graphics g) {
-        // we have already ensured that the background is painted to our liking
-        // by paintBackgroundSafely(), called from paintSafely().
+    protected void pbintBbckground(finbl Grbphics g) {
+        // we hbve blrebdy ensured thbt the bbckground is pbinted to our liking
+        // by pbintBbckgroundSbfely(), cblled from pbintSbfely().
     }
 
-    protected Caret createCaret() {
-        final JTextComponent c = getComponent();
-        final Window owningWindow = SwingUtilities.getWindowAncestor(c);
-        return new AquaCaret(owningWindow, c);
+    protected Cbret crebteCbret() {
+        finbl JTextComponent c = getComponent();
+        finbl Window owningWindow = SwingUtilities.getWindowAncestor(c);
+        return new AqubCbret(owningWindow, c);
     }
 
-    protected Highlighter createHighlighter() {
-        return new AquaHighlighter();
+    protected Highlighter crebteHighlighter() {
+        return new AqubHighlighter();
     }
 
-    protected void setPaintingDelegate(final JComponentPainter delegate) {
-        this.delegate = delegate;
+    protected void setPbintingDelegbte(finbl JComponentPbinter delegbte) {
+        this.delegbte = delegbte;
     }
 }

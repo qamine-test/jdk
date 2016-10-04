@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.naming.directory;
+pbckbge jbvbx.nbming.directory;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
 
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.NbmingEnumerbtion;
 
 /**
-  * This interface represents a collection of attributes.
+  * This interfbce represents b collection of bttributes.
   *<p>
-  * In a directory, named objects can have associated with them
-  * attributes.  The Attributes interface represents a collection of attributes.
-  * For example, you can request from the directory the attributes
-  * associated with an object.  Those attributes are returned in
-  * an object that implements the Attributes interface.
+  * In b directory, nbmed objects cbn hbve bssocibted with them
+  * bttributes.  The Attributes interfbce represents b collection of bttributes.
+  * For exbmple, you cbn request from the directory the bttributes
+  * bssocibted with bn object.  Those bttributes bre returned in
+  * bn object thbt implements the Attributes interfbce.
   *<p>
-  * Attributes in an object that implements the  Attributes interface are
-  * unordered. The object can have zero or more attributes.
-  * Attributes is either case-sensitive or case-insensitive (case-ignore).
-  * This property is determined at the time the Attributes object is
-  * created. (see BasicAttributes constructor for example).
-  * In a case-insensitive Attributes, the case of its attribute identifiers
-  * is ignored when searching for an attribute, or adding attributes.
-  * In a case-sensitive Attributes, the case is significant.
+  * Attributes in bn object thbt implements the  Attributes interfbce bre
+  * unordered. The object cbn hbve zero or more bttributes.
+  * Attributes is either cbse-sensitive or cbse-insensitive (cbse-ignore).
+  * This property is determined bt the time the Attributes object is
+  * crebted. (see BbsicAttributes constructor for exbmple).
+  * In b cbse-insensitive Attributes, the cbse of its bttribute identifiers
+  * is ignored when sebrching for bn bttribute, or bdding bttributes.
+  * In b cbse-sensitive Attributes, the cbse is significbnt.
   *<p>
-  * Note that updates to Attributes (such as adding or removing an attribute)
-  * do not affect the corresponding representation in the directory.
-  * Updates to the directory can only be effected
-  * using operations in the DirContext interface.
+  * Note thbt updbtes to Attributes (such bs bdding or removing bn bttribute)
+  * do not bffect the corresponding representbtion in the directory.
+  * Updbtes to the directory cbn only be effected
+  * using operbtions in the DirContext interfbce.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
   * @see DirContext#getAttributes
   * @see DirContext#modifyAttributes
   * @see DirContext#bind
   * @see DirContext#rebind
-  * @see DirContext#createSubcontext
-  * @see DirContext#search
-  * @see BasicAttributes
+  * @see DirContext#crebteSubcontext
+  * @see DirContext#sebrch
+  * @see BbsicAttributes
   * @since 1.3
   */
 
-public interface Attributes extends Cloneable, java.io.Serializable {
+public interfbce Attributes extends Clonebble, jbvb.io.Seriblizbble {
     /**
-      * Determines whether the attribute set ignores the case of
-      * attribute identifiers when retrieving or adding attributes.
-      * @return true if case is ignored; false otherwise.
+      * Determines whether the bttribute set ignores the cbse of
+      * bttribute identifiers when retrieving or bdding bttributes.
+      * @return true if cbse is ignored; fblse otherwise.
       */
-    boolean isCaseIgnored();
+    boolebn isCbseIgnored();
 
     /**
-      * Retrieves the number of attributes in the attribute set.
+      * Retrieves the number of bttributes in the bttribute set.
       *
-      * @return The nonnegative number of attributes in this attribute set.
+      * @return The nonnegbtive number of bttributes in this bttribute set.
       */
     int size();
 
     /**
-      * Retrieves the attribute with the given attribute id from the
-      * attribute set.
+      * Retrieves the bttribute with the given bttribute id from the
+      * bttribute set.
       *
-      * @param attrID The non-null id of the attribute to retrieve.
-      *           If this attribute set ignores the character
-      *           case of its attribute ids, the case of attrID
+      * @pbrbm bttrID The non-null id of the bttribute to retrieve.
+      *           If this bttribute set ignores the chbrbcter
+      *           cbse of its bttribute ids, the cbse of bttrID
       *           is ignored.
-      * @return The attribute identified by attrID; null if not found.
+      * @return The bttribute identified by bttrID; null if not found.
       * @see #put
       * @see #remove
       */
-    Attribute get(String attrID);
+    Attribute get(String bttrID);
 
     /**
-      * Retrieves an enumeration of the attributes in the attribute set.
-      * The effects of updates to this attribute set on this enumeration
-      * are undefined.
+      * Retrieves bn enumerbtion of the bttributes in the bttribute set.
+      * The effects of updbtes to this bttribute set on this enumerbtion
+      * bre undefined.
       *
-      * @return A non-null enumeration of the attributes in this attribute set.
-      *         Each element of the enumeration is of class <tt>Attribute</tt>.
-      *         If attribute set has zero attributes, an empty enumeration
+      * @return A non-null enumerbtion of the bttributes in this bttribute set.
+      *         Ebch element of the enumerbtion is of clbss <tt>Attribute</tt>.
+      *         If bttribute set hbs zero bttributes, bn empty enumerbtion
       *         is returned.
       */
-    NamingEnumeration<? extends Attribute> getAll();
+    NbmingEnumerbtion<? extends Attribute> getAll();
 
     /**
-      * Retrieves an enumeration of the ids of the attributes in the
-      * attribute set.
-      * The effects of updates to this attribute set on this enumeration
-      * are undefined.
+      * Retrieves bn enumerbtion of the ids of the bttributes in the
+      * bttribute set.
+      * The effects of updbtes to this bttribute set on this enumerbtion
+      * bre undefined.
       *
-      * @return A non-null enumeration of the attributes' ids in
-      *         this attribute set. Each element of the enumeration is
-      *         of class String.
-      *         If attribute set has zero attributes, an empty enumeration
+      * @return A non-null enumerbtion of the bttributes' ids in
+      *         this bttribute set. Ebch element of the enumerbtion is
+      *         of clbss String.
+      *         If bttribute set hbs zero bttributes, bn empty enumerbtion
       *         is returned.
       */
-    NamingEnumeration<String> getIDs();
+    NbmingEnumerbtion<String> getIDs();
 
     /**
-      * Adds a new attribute to the attribute set.
+      * Adds b new bttribute to the bttribute set.
       *
-      * @param attrID   non-null The id of the attribute to add.
-      *           If the attribute set ignores the character
-      *           case of its attribute ids, the case of attrID
+      * @pbrbm bttrID   non-null The id of the bttribute to bdd.
+      *           If the bttribute set ignores the chbrbcter
+      *           cbse of its bttribute ids, the cbse of bttrID
       *           is ignored.
-      * @param val      The possibly null value of the attribute to add.
-      *                 If null, the attribute does not have any values.
-      * @return The Attribute with attrID that was previous in this attribute set;
-      *         null if no such attribute existed.
+      * @pbrbm vbl      The possibly null vblue of the bttribute to bdd.
+      *                 If null, the bttribute does not hbve bny vblues.
+      * @return The Attribute with bttrID thbt wbs previous in this bttribute set;
+      *         null if no such bttribute existed.
       * @see #remove
       */
-    Attribute put(String attrID, Object val);
+    Attribute put(String bttrID, Object vbl);
 
     /**
-      * Adds a new attribute to the attribute set.
+      * Adds b new bttribute to the bttribute set.
       *
-      * @param attr     The non-null attribute to add.
-      *                 If the attribute set ignores the character
-      *                 case of its attribute ids, the case of
-      *                 attr's identifier is ignored.
-      * @return The Attribute with the same ID as attr that was previous
-      *         in this attribute set;
-      *         null if no such attribute existed.
+      * @pbrbm bttr     The non-null bttribute to bdd.
+      *                 If the bttribute set ignores the chbrbcter
+      *                 cbse of its bttribute ids, the cbse of
+      *                 bttr's identifier is ignored.
+      * @return The Attribute with the sbme ID bs bttr thbt wbs previous
+      *         in this bttribute set;
+      *         null if no such bttribute existed.
       * @see #remove
       */
-    Attribute put(Attribute attr);
+    Attribute put(Attribute bttr);
 
     /**
-      * Removes the attribute with the attribute id 'attrID' from
-      * the attribute set. If the attribute does not exist, ignore.
+      * Removes the bttribute with the bttribute id 'bttrID' from
+      * the bttribute set. If the bttribute does not exist, ignore.
       *
-      * @param attrID   The non-null id of the attribute to remove.
-      *                 If the attribute set ignores the character
-      *                 case of its attribute ids, the case of
-      *                 attrID is ignored.
-      * @return The Attribute with the same ID as attrID that was previous
-      *         in the attribute set;
-      *         null if no such attribute existed.
+      * @pbrbm bttrID   The non-null id of the bttribute to remove.
+      *                 If the bttribute set ignores the chbrbcter
+      *                 cbse of its bttribute ids, the cbse of
+      *                 bttrID is ignored.
+      * @return The Attribute with the sbme ID bs bttrID thbt wbs previous
+      *         in the bttribute set;
+      *         null if no such bttribute existed.
       */
-    Attribute remove(String attrID);
+    Attribute remove(String bttrID);
 
     /**
-      * Makes a copy of the attribute set.
-      * The new set contains the same attributes as the original set:
-      * the attributes are not themselves cloned.
-      * Changes to the copy will not affect the original and vice versa.
+      * Mbkes b copy of the bttribute set.
+      * The new set contbins the sbme bttributes bs the originbl set:
+      * the bttributes bre not themselves cloned.
+      * Chbnges to the copy will not bffect the originbl bnd vice versb.
       *
-      * @return A non-null copy of this attribute set.
+      * @return A non-null copy of this bttribute set.
       */
     Object clone();
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    // static final long serialVersionUID = -7247874645443605347L;
+    // stbtic finbl long seriblVersionUID = -7247874645443605347L;
 }

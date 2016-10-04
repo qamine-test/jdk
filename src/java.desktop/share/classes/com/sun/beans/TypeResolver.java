@@ -1,378 +1,378 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans;
+pbckbge com.sun.bebns;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.GenericArrbyType;
+import jbvb.lbng.reflect.PbrbmeterizedType;
+import jbvb.lbng.reflect.Type;
+import jbvb.lbng.reflect.TypeVbribble;
+import jbvb.lbng.reflect.WildcbrdType;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+import sun.reflect.generics.reflectiveObjects.GenericArrbyTypeImpl;
+import sun.reflect.generics.reflectiveObjects.PbrbmeterizedTypeImpl;
 
 /**
- * This is utility class to resolve types.
+ * This is utility clbss to resolve types.
  *
  * @since 1.7
  *
- * @author Eamonn McManus
- * @author Sergey Malenkov
+ * @buthor Ebmonn McMbnus
+ * @buthor Sergey Mblenkov
  */
-public final class TypeResolver {
+public finbl clbss TypeResolver {
 
-    private static final WeakCache<Type, Map<Type, Type>> CACHE = new WeakCache<>();
+    privbte stbtic finbl WebkCbche<Type, Mbp<Type, Type>> CACHE = new WebkCbche<>();
 
     /**
-     * Replaces the given {@code type} in an inherited method
-     * with the actual type it has in the given {@code inClass}.
+     * Replbces the given {@code type} in bn inherited method
+     * with the bctubl type it hbs in the given {@code inClbss}.
      *
-     * <p>Although type parameters are not inherited by subclasses in the Java
-     * language, they <em>are</em> effectively inherited when using reflection.
-     * For example, if you declare an interface like this...</p>
+     * <p>Although type pbrbmeters bre not inherited by subclbsses in the Jbvb
+     * lbngubge, they <em>bre</em> effectively inherited when using reflection.
+     * For exbmple, if you declbre bn interfbce like this...</p>
      *
      * <pre>
-     * public interface StringToIntMap extends Map&lt;String,Integer> {}
+     * public interfbce StringToIntMbp extends Mbp&lt;String,Integer> {}
      * </pre>
      *
-     * <p>...then StringToIntMap.class.getMethods() will show that it has methods
-     * like put(K,V) even though StringToIntMap has no type parameters.  The K
-     * and V variables are the ones declared by Map, so
-     * {@link TypeVariable#getGenericDeclaration()} will return Map.class.</p>
+     * <p>...then StringToIntMbp.clbss.getMethods() will show thbt it hbs methods
+     * like put(K,V) even though StringToIntMbp hbs no type pbrbmeters.  The K
+     * bnd V vbribbles bre the ones declbred by Mbp, so
+     * {@link TypeVbribble#getGenericDeclbrbtion()} will return Mbp.clbss.</p>
      *
-     * <p>The purpose of this method is to take a Type from a possibly-inherited
-     * method and replace it with the correct Type for the inheriting class.
-     * So given parameters of K and StringToIntMap.class in the above example,
+     * <p>The purpose of this method is to tbke b Type from b possibly-inherited
+     * method bnd replbce it with the correct Type for the inheriting clbss.
+     * So given pbrbmeters of K bnd StringToIntMbp.clbss in the bbove exbmple,
      * this method will return String.</p>
      *
-     * @param inClass  the base class used to resolve
-     * @param type     the type to resolve
-     * @return a resolved type
+     * @pbrbm inClbss  the bbse clbss used to resolve
+     * @pbrbm type     the type to resolve
+     * @return b resolved type
      *
-     * @see #getActualType(Class)
+     * @see #getActublType(Clbss)
      * @see #resolve(Type,Type)
      */
-    public static Type resolveInClass(Class<?> inClass, Type type) {
-        return resolve(getActualType(inClass), type);
+    public stbtic Type resolveInClbss(Clbss<?> inClbss, Type type) {
+        return resolve(getActublType(inClbss), type);
     }
 
     /**
-     * Replaces all {@code types} in the given array
-     * with the actual types they have in the given {@code inClass}.
+     * Replbces bll {@code types} in the given brrby
+     * with the bctubl types they hbve in the given {@code inClbss}.
      *
-     * @param inClass  the base class used to resolve
-     * @param types    the array of types to resolve
-     * @return an array of resolved types
+     * @pbrbm inClbss  the bbse clbss used to resolve
+     * @pbrbm types    the brrby of types to resolve
+     * @return bn brrby of resolved types
      *
-     * @see #getActualType(Class)
+     * @see #getActublType(Clbss)
      * @see #resolve(Type,Type[])
      */
-    public static Type[] resolveInClass(Class<?> inClass, Type[] types) {
-        return resolve(getActualType(inClass), types);
+    public stbtic Type[] resolveInClbss(Clbss<?> inClbss, Type[] types) {
+        return resolve(getActublType(inClbss), types);
     }
 
     /**
-     * Replaces type variables of the given {@code formal} type
-     * with the types they stand for in the given {@code actual} type.
+     * Replbces type vbribbles of the given {@code formbl} type
+     * with the types they stbnd for in the given {@code bctubl} type.
      *
-     * <p>A ParameterizedType is a class with type parameters, and the values
-     * of those parameters.  For example, Map&lt;K,V> is a generic class, and
-     * a corresponding ParameterizedType might look like
-     * Map&lt;K=String,V=Integer>.  Given such a ParameterizedType, this method
-     * will replace K with String, or List&lt;K> with List&ltString;, or
+     * <p>A PbrbmeterizedType is b clbss with type pbrbmeters, bnd the vblues
+     * of those pbrbmeters.  For exbmple, Mbp&lt;K,V> is b generic clbss, bnd
+     * b corresponding PbrbmeterizedType might look like
+     * Mbp&lt;K=String,V=Integer>.  Given such b PbrbmeterizedType, this method
+     * will replbce K with String, or List&lt;K> with List&ltString;, or
      * List&lt;? super K> with List&lt;? super String>.</p>
      *
-     * <p>The {@code actual} argument to this method can also be a Class.
-     * In this case, either it is equivalent to a ParameterizedType with
-     * no parameters (for example, Integer.class), or it is equivalent to
-     * a "raw" ParameterizedType (for example, Map.class).  In the latter
-     * case, every type parameter declared or inherited by the class is replaced
-     * by its "erasure".  For a type parameter declared as &lt;T>, the erasure
-     * is Object.  For a type parameter declared as &lt;T extends Number>,
-     * the erasure is Number.</p>
+     * <p>The {@code bctubl} brgument to this method cbn blso be b Clbss.
+     * In this cbse, either it is equivblent to b PbrbmeterizedType with
+     * no pbrbmeters (for exbmple, Integer.clbss), or it is equivblent to
+     * b "rbw" PbrbmeterizedType (for exbmple, Mbp.clbss).  In the lbtter
+     * cbse, every type pbrbmeter declbred or inherited by the clbss is replbced
+     * by its "erbsure".  For b type pbrbmeter declbred bs &lt;T>, the erbsure
+     * is Object.  For b type pbrbmeter declbred bs &lt;T extends Number>,
+     * the erbsure is Number.</p>
      *
-     * <p>Although type parameters are not inherited by subclasses in the Java
-     * language, they <em>are</em> effectively inherited when using reflection.
-     * For example, if you declare an interface like this...</p>
-     *
-     * <pre>
-     * public interface StringToIntMap extends Map&lt;String,Integer> {}
-     * </pre>
-     *
-     * <p>...then StringToIntMap.class.getMethods() will show that it has methods
-     * like put(K,V) even though StringToIntMap has no type parameters.  The K
-     * and V variables are the ones declared by Map, so
-     * {@link TypeVariable#getGenericDeclaration()} will return {@link Map Map.class}.</p>
-     *
-     * <p>For this reason, this method replaces inherited type parameters too.
-     * Therefore if this method is called with {@code actual} being
-     * StringToIntMap.class and {@code formal} being the K from Map,
-     * it will return {@link String String.class}.</p>
-     *
-     * <p>In the case where {@code actual} is a "raw" ParameterizedType, the
-     * inherited type parameters will also be replaced by their erasures.
-     * The erasure of a Class is the Class itself, so a "raw" subinterface of
-     * StringToIntMap will still show the K from Map as String.class.  But
-     * in a case like this...
+     * <p>Although type pbrbmeters bre not inherited by subclbsses in the Jbvb
+     * lbngubge, they <em>bre</em> effectively inherited when using reflection.
+     * For exbmple, if you declbre bn interfbce like this...</p>
      *
      * <pre>
-     * public interface StringToIntListMap extends Map&lt;String,List&lt;Integer>> {}
-     * public interface RawStringToIntListMap extends StringToIntListMap {}
+     * public interfbce StringToIntMbp extends Mbp&lt;String,Integer> {}
      * </pre>
      *
-     * <p>...the V inherited from Map will show up as List&lt;Integer> in
-     * StringToIntListMap, but as plain List in RawStringToIntListMap.</p>
+     * <p>...then StringToIntMbp.clbss.getMethods() will show thbt it hbs methods
+     * like put(K,V) even though StringToIntMbp hbs no type pbrbmeters.  The K
+     * bnd V vbribbles bre the ones declbred by Mbp, so
+     * {@link TypeVbribble#getGenericDeclbrbtion()} will return {@link Mbp Mbp.clbss}.</p>
      *
-     * @param actual  the type that supplies bindings for type variables
-     * @param formal  the type where occurrences of the variables
-     *                in {@code actual} will be replaced by the corresponding bound values
-     * @return a resolved type
+     * <p>For this rebson, this method replbces inherited type pbrbmeters too.
+     * Therefore if this method is cblled with {@code bctubl} being
+     * StringToIntMbp.clbss bnd {@code formbl} being the K from Mbp,
+     * it will return {@link String String.clbss}.</p>
+     *
+     * <p>In the cbse where {@code bctubl} is b "rbw" PbrbmeterizedType, the
+     * inherited type pbrbmeters will blso be replbced by their erbsures.
+     * The erbsure of b Clbss is the Clbss itself, so b "rbw" subinterfbce of
+     * StringToIntMbp will still show the K from Mbp bs String.clbss.  But
+     * in b cbse like this...
+     *
+     * <pre>
+     * public interfbce StringToIntListMbp extends Mbp&lt;String,List&lt;Integer>> {}
+     * public interfbce RbwStringToIntListMbp extends StringToIntListMbp {}
+     * </pre>
+     *
+     * <p>...the V inherited from Mbp will show up bs List&lt;Integer> in
+     * StringToIntListMbp, but bs plbin List in RbwStringToIntListMbp.</p>
+     *
+     * @pbrbm bctubl  the type thbt supplies bindings for type vbribbles
+     * @pbrbm formbl  the type where occurrences of the vbribbles
+     *                in {@code bctubl} will be replbced by the corresponding bound vblues
+     * @return b resolved type
      */
-    public static Type resolve(Type actual, Type formal) {
-        if (formal instanceof Class) {
-            return formal;
+    public stbtic Type resolve(Type bctubl, Type formbl) {
+        if (formbl instbnceof Clbss) {
+            return formbl;
         }
-        if (formal instanceof GenericArrayType) {
-            Type comp = ((GenericArrayType) formal).getGenericComponentType();
-            comp = resolve(actual, comp);
-            return (comp instanceof Class)
-                    ? Array.newInstance((Class<?>) comp, 0).getClass()
-                    : GenericArrayTypeImpl.make(comp);
+        if (formbl instbnceof GenericArrbyType) {
+            Type comp = ((GenericArrbyType) formbl).getGenericComponentType();
+            comp = resolve(bctubl, comp);
+            return (comp instbnceof Clbss)
+                    ? Arrby.newInstbnce((Clbss<?>) comp, 0).getClbss()
+                    : GenericArrbyTypeImpl.mbke(comp);
         }
-        if (formal instanceof ParameterizedType) {
-            ParameterizedType fpt = (ParameterizedType) formal;
-            Type[] actuals = resolve(actual, fpt.getActualTypeArguments());
-            return ParameterizedTypeImpl.make(
-                    (Class<?>) fpt.getRawType(), actuals, fpt.getOwnerType());
+        if (formbl instbnceof PbrbmeterizedType) {
+            PbrbmeterizedType fpt = (PbrbmeterizedType) formbl;
+            Type[] bctubls = resolve(bctubl, fpt.getActublTypeArguments());
+            return PbrbmeterizedTypeImpl.mbke(
+                    (Clbss<?>) fpt.getRbwType(), bctubls, fpt.getOwnerType());
         }
-        if (formal instanceof WildcardType) {
-            WildcardType fwt = (WildcardType) formal;
-            Type[] upper = resolve(actual, fwt.getUpperBounds());
-            Type[] lower = resolve(actual, fwt.getLowerBounds());
-            return new WildcardTypeImpl(upper, lower);
+        if (formbl instbnceof WildcbrdType) {
+            WildcbrdType fwt = (WildcbrdType) formbl;
+            Type[] upper = resolve(bctubl, fwt.getUpperBounds());
+            Type[] lower = resolve(bctubl, fwt.getLowerBounds());
+            return new WildcbrdTypeImpl(upper, lower);
         }
-        if (formal instanceof TypeVariable) {
-            Map<Type, Type> map;
+        if (formbl instbnceof TypeVbribble) {
+            Mbp<Type, Type> mbp;
             synchronized (CACHE) {
-                map = CACHE.get(actual);
-                if (map == null) {
-                    map = new HashMap<>();
-                    prepare(map, actual);
-                    CACHE.put(actual, map);
+                mbp = CACHE.get(bctubl);
+                if (mbp == null) {
+                    mbp = new HbshMbp<>();
+                    prepbre(mbp, bctubl);
+                    CACHE.put(bctubl, mbp);
                 }
             }
-            Type result = map.get(formal);
-            if (result == null || result.equals(formal)) {
-                return formal;
+            Type result = mbp.get(formbl);
+            if (result == null || result.equbls(formbl)) {
+                return formbl;
             }
-            result = fixGenericArray(result);
-            // A variable can be bound to another variable that is itself bound
-            // to something.  For example, given:
-            // class Super<T> {...}
-            // class Mid<X> extends Super<T> {...}
-            // class Sub extends Mid<String>
-            // the variable T is bound to X, which is in turn bound to String.
-            // So if we have to resolve T, we need the tail recursion here.
-            return resolve(actual, result);
+            result = fixGenericArrby(result);
+            // A vbribble cbn be bound to bnother vbribble thbt is itself bound
+            // to something.  For exbmple, given:
+            // clbss Super<T> {...}
+            // clbss Mid<X> extends Super<T> {...}
+            // clbss Sub extends Mid<String>
+            // the vbribble T is bound to X, which is in turn bound to String.
+            // So if we hbve to resolve T, we need the tbil recursion here.
+            return resolve(bctubl, result);
         }
-        throw new IllegalArgumentException("Bad Type kind: " + formal.getClass());
+        throw new IllegblArgumentException("Bbd Type kind: " + formbl.getClbss());
     }
 
     /**
-     * Replaces type variables of all formal types in the given array
-     * with the types they stand for in the given {@code actual} type.
+     * Replbces type vbribbles of bll formbl types in the given brrby
+     * with the types they stbnd for in the given {@code bctubl} type.
      *
-     * @param actual   the type that supplies bindings for type variables
-     * @param formals  the array of types to resolve
-     * @return an array of resolved types
+     * @pbrbm bctubl   the type thbt supplies bindings for type vbribbles
+     * @pbrbm formbls  the brrby of types to resolve
+     * @return bn brrby of resolved types
      */
-    public static Type[] resolve(Type actual, Type[] formals) {
-        int length = formals.length;
-        Type[] actuals = new Type[length];
+    public stbtic Type[] resolve(Type bctubl, Type[] formbls) {
+        int length = formbls.length;
+        Type[] bctubls = new Type[length];
         for (int i = 0; i < length; i++) {
-            actuals[i] = resolve(actual, formals[i]);
+            bctubls[i] = resolve(bctubl, formbls[i]);
         }
-        return actuals;
+        return bctubls;
     }
 
     /**
-     * Converts the given {@code type} to the corresponding class.
-     * This method implements the concept of type erasure,
-     * that is described in section 4.6 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Converts the given {@code type} to the corresponding clbss.
+     * This method implements the concept of type erbsure,
+     * thbt is described in section 4.6 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * @param type  the array of types to convert
-     * @return a corresponding class
+     * @pbrbm type  the brrby of types to convert
+     * @return b corresponding clbss
      */
-    public static Class<?> erase(Type type) {
-        if (type instanceof Class) {
-            return (Class<?>) type;
+    public stbtic Clbss<?> erbse(Type type) {
+        if (type instbnceof Clbss) {
+            return (Clbss<?>) type;
         }
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) type;
-            return (Class<?>) pt.getRawType();
+        if (type instbnceof PbrbmeterizedType) {
+            PbrbmeterizedType pt = (PbrbmeterizedType) type;
+            return (Clbss<?>) pt.getRbwType();
         }
-        if (type instanceof TypeVariable) {
-            TypeVariable<?> tv = (TypeVariable<?>)type;
+        if (type instbnceof TypeVbribble) {
+            TypeVbribble<?> tv = (TypeVbribble<?>)type;
             Type[] bounds = tv.getBounds();
             return (0 < bounds.length)
-                    ? erase(bounds[0])
-                    : Object.class;
+                    ? erbse(bounds[0])
+                    : Object.clbss;
         }
-        if (type instanceof WildcardType) {
-            WildcardType wt = (WildcardType)type;
+        if (type instbnceof WildcbrdType) {
+            WildcbrdType wt = (WildcbrdType)type;
             Type[] bounds = wt.getUpperBounds();
             return (0 < bounds.length)
-                    ? erase(bounds[0])
-                    : Object.class;
+                    ? erbse(bounds[0])
+                    : Object.clbss;
         }
-        if (type instanceof GenericArrayType) {
-            GenericArrayType gat = (GenericArrayType)type;
-            return Array.newInstance(erase(gat.getGenericComponentType()), 0).getClass();
+        if (type instbnceof GenericArrbyType) {
+            GenericArrbyType gbt = (GenericArrbyType)type;
+            return Arrby.newInstbnce(erbse(gbt.getGenericComponentType()), 0).getClbss();
         }
-        throw new IllegalArgumentException("Unknown Type kind: " + type.getClass());
+        throw new IllegblArgumentException("Unknown Type kind: " + type.getClbss());
     }
 
     /**
-     * Converts all {@code types} in the given array
-     * to the corresponding classes.
+     * Converts bll {@code types} in the given brrby
+     * to the corresponding clbsses.
      *
-     * @param types  the array of types to convert
-     * @return an array of corresponding classes
+     * @pbrbm types  the brrby of types to convert
+     * @return bn brrby of corresponding clbsses
      *
-     * @see #erase(Type)
+     * @see #erbse(Type)
      */
-    public static Class<?>[] erase(Type[] types) {
+    public stbtic Clbss<?>[] erbse(Type[] types) {
         int length = types.length;
-        Class<?>[] classes = new Class<?>[length];
+        Clbss<?>[] clbsses = new Clbss<?>[length];
         for (int i = 0; i < length; i++) {
-            classes[i] = TypeResolver.erase(types[i]);
+            clbsses[i] = TypeResolver.erbse(types[i]);
         }
-        return classes;
+        return clbsses;
     }
 
     /**
-     * Fills the map from type parameters
-     * to types as seen by the given {@code type}.
-     * The method is recursive because the {@code type}
-     * inherits mappings from its parent classes and interfaces.
-     * The {@code type} can be either a {@link Class Class}
-     * or a {@link ParameterizedType ParameterizedType}.
-     * If it is a {@link Class Class}, it is either equivalent
-     * to a {@link ParameterizedType ParameterizedType} with no parameters,
-     * or it represents the erasure of a {@link ParameterizedType ParameterizedType}.
+     * Fills the mbp from type pbrbmeters
+     * to types bs seen by the given {@code type}.
+     * The method is recursive becbuse the {@code type}
+     * inherits mbppings from its pbrent clbsses bnd interfbces.
+     * The {@code type} cbn be either b {@link Clbss Clbss}
+     * or b {@link PbrbmeterizedType PbrbmeterizedType}.
+     * If it is b {@link Clbss Clbss}, it is either equivblent
+     * to b {@link PbrbmeterizedType PbrbmeterizedType} with no pbrbmeters,
+     * or it represents the erbsure of b {@link PbrbmeterizedType PbrbmeterizedType}.
      *
-     * @param map   the mappings of all type variables
-     * @param type  the next type in the hierarchy
+     * @pbrbm mbp   the mbppings of bll type vbribbles
+     * @pbrbm type  the next type in the hierbrchy
      */
-    private static void prepare(Map<Type, Type> map, Type type) {
-        Class<?> raw = (Class<?>)((type instanceof Class<?>)
+    privbte stbtic void prepbre(Mbp<Type, Type> mbp, Type type) {
+        Clbss<?> rbw = (Clbss<?>)((type instbnceof Clbss<?>)
                 ? type
-                : ((ParameterizedType)type).getRawType());
+                : ((PbrbmeterizedType)type).getRbwType());
 
-        TypeVariable<?>[] formals = raw.getTypeParameters();
+        TypeVbribble<?>[] formbls = rbw.getTypePbrbmeters();
 
-        Type[] actuals = (type instanceof Class<?>)
-                ? formals
-                : ((ParameterizedType)type).getActualTypeArguments();
+        Type[] bctubls = (type instbnceof Clbss<?>)
+                ? formbls
+                : ((PbrbmeterizedType)type).getActublTypeArguments();
 
-        assert formals.length == actuals.length;
-        for (int i = 0; i < formals.length; i++) {
-            map.put(formals[i], actuals[i]);
+        bssert formbls.length == bctubls.length;
+        for (int i = 0; i < formbls.length; i++) {
+            mbp.put(formbls[i], bctubls[i]);
         }
-        Type gSuperclass = raw.getGenericSuperclass();
-        if (gSuperclass != null) {
-            prepare(map, gSuperclass);
+        Type gSuperclbss = rbw.getGenericSuperclbss();
+        if (gSuperclbss != null) {
+            prepbre(mbp, gSuperclbss);
         }
-        for (Type gInterface : raw.getGenericInterfaces()) {
-            prepare(map, gInterface);
+        for (Type gInterfbce : rbw.getGenericInterfbces()) {
+            prepbre(mbp, gInterfbce);
         }
-        // If type is the raw version of a parameterized class, we type-erase
-        // all of its type variables, including inherited ones.
-        if (type instanceof Class<?> && formals.length > 0) {
-            for (Map.Entry<Type, Type> entry : map.entrySet()) {
-                entry.setValue(erase(entry.getValue()));
+        // If type is the rbw version of b pbrbmeterized clbss, we type-erbse
+        // bll of its type vbribbles, including inherited ones.
+        if (type instbnceof Clbss<?> && formbls.length > 0) {
+            for (Mbp.Entry<Type, Type> entry : mbp.entrySet()) {
+                entry.setVblue(erbse(entry.getVblue()));
             }
         }
     }
 
     /**
-     * Replaces a {@link GenericArrayType GenericArrayType}
-     * with plain array class where it is possible.
-     * Bug <a href="http://bugs.sun.com/view_bug.do?bug_id=5041784">5041784</a>
-     * is that arrays of non-generic type sometimes show up
-     * as {@link GenericArrayType GenericArrayType} when using reflection.
-     * For example, a {@code String[]} might show up
-     * as a {@link GenericArrayType GenericArrayType}
-     * where {@link GenericArrayType#getGenericComponentType getGenericComponentType}
-     * is {@code String.class}.  This violates the specification,
-     * which says that {@link GenericArrayType GenericArrayType}
-     * is used when the component type is a type variable or parameterized type.
-     * We fit the specification here.
+     * Replbces b {@link GenericArrbyType GenericArrbyType}
+     * with plbin brrby clbss where it is possible.
+     * Bug <b href="http://bugs.sun.com/view_bug.do?bug_id=5041784">5041784</b>
+     * is thbt brrbys of non-generic type sometimes show up
+     * bs {@link GenericArrbyType GenericArrbyType} when using reflection.
+     * For exbmple, b {@code String[]} might show up
+     * bs b {@link GenericArrbyType GenericArrbyType}
+     * where {@link GenericArrbyType#getGenericComponentType getGenericComponentType}
+     * is {@code String.clbss}.  This violbtes the specificbtion,
+     * which sbys thbt {@link GenericArrbyType GenericArrbyType}
+     * is used when the component type is b type vbribble or pbrbmeterized type.
+     * We fit the specificbtion here.
      *
-     * @param type  the type to fix
-     * @return a corresponding type for the generic array type,
-     *         or the same type as {@code type}
+     * @pbrbm type  the type to fix
+     * @return b corresponding type for the generic brrby type,
+     *         or the sbme type bs {@code type}
      */
-    private static Type fixGenericArray(Type type) {
-        if (type instanceof GenericArrayType) {
-            Type comp = ((GenericArrayType)type).getGenericComponentType();
-            comp = fixGenericArray(comp);
-            if (comp instanceof Class) {
-                return Array.newInstance((Class<?>)comp, 0).getClass();
+    privbte stbtic Type fixGenericArrby(Type type) {
+        if (type instbnceof GenericArrbyType) {
+            Type comp = ((GenericArrbyType)type).getGenericComponentType();
+            comp = fixGenericArrby(comp);
+            if (comp instbnceof Clbss) {
+                return Arrby.newInstbnce((Clbss<?>)comp, 0).getClbss();
             }
         }
         return type;
     }
 
     /**
-     * Replaces a {@link Class Class} with type parameters
-     * with a {@link ParameterizedType ParameterizedType}
-     * where every parameter is bound to itself.
-     * When calling {@link #resolveInClass} in the context of {@code inClass},
-     * we can't just pass {@code inClass} as the {@code actual} parameter,
-     * because if {@code inClass} has type parameters
-     * that would be interpreted as accessing the raw type,
-     * so we would get unwanted erasure.
-     * This is why we bind each parameter to itself.
-     * If {@code inClass} does have type parameters and has methods
-     * where those parameters appear in the return type or argument types,
-     * we will correctly leave those types alone.
+     * Replbces b {@link Clbss Clbss} with type pbrbmeters
+     * with b {@link PbrbmeterizedType PbrbmeterizedType}
+     * where every pbrbmeter is bound to itself.
+     * When cblling {@link #resolveInClbss} in the context of {@code inClbss},
+     * we cbn't just pbss {@code inClbss} bs the {@code bctubl} pbrbmeter,
+     * becbuse if {@code inClbss} hbs type pbrbmeters
+     * thbt would be interpreted bs bccessing the rbw type,
+     * so we would get unwbnted erbsure.
+     * This is why we bind ebch pbrbmeter to itself.
+     * If {@code inClbss} does hbve type pbrbmeters bnd hbs methods
+     * where those pbrbmeters bppebr in the return type or brgument types,
+     * we will correctly lebve those types blone.
      *
-     * @param inClass  the base class used to resolve
-     * @return a parameterized type for the class,
-     *         or the same class as {@code inClass}
+     * @pbrbm inClbss  the bbse clbss used to resolve
+     * @return b pbrbmeterized type for the clbss,
+     *         or the sbme clbss bs {@code inClbss}
      */
-    private static Type getActualType(Class<?> inClass) {
-        Type[] params = inClass.getTypeParameters();
-        return (params.length == 0)
-                ? inClass
-                : ParameterizedTypeImpl.make(
-                        inClass, params, inClass.getEnclosingClass());
+    privbte stbtic Type getActublType(Clbss<?> inClbss) {
+        Type[] pbrbms = inClbss.getTypePbrbmeters();
+        return (pbrbms.length == 0)
+                ? inClbss
+                : PbrbmeterizedTypeImpl.mbke(
+                        inClbss, pbrbms, inClbss.getEnclosingClbss());
     }
 }

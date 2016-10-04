@@ -1,22 +1,22 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbce -Zs
 
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -35,101 +35,101 @@
 */
 
 /*
- * Usage:
- *    1. CriticalSection.d -c "java ..."
- *    2. CriticalSection.d -p JAVA_PID
+ * Usbge:
+ *    1. CriticblSection.d -c "jbvb ..."
+ *    2. CriticblSection.d -p JAVA_PID
  *
- * The script inspect a JNI application for Critical Section violations.
+ * The script inspect b JNI bpplicbtion for Criticbl Section violbtions.
  *
- * Critical section is the space between calls to JNI methods:
- *   - GetPrimitiveArrayCritical and ReleasePrimitiveArrayCritical; or
- *   - GetStringCritical and ReleaseStringCritical.
+ * Criticbl section is the spbce between cblls to JNI methods:
+ *   - GetPrimitiveArrbyCriticbl bnd RelebsePrimitiveArrbyCriticbl; or
+ *   - GetStringCriticbl bnd RelebseStringCriticbl.
  *
- * Inside a critical section, native code must not call other JNI functions,
- * or any system call that may cause the current thread to block and wait
- * for another Java thread. (For example, the current thread must not call
- * read on a stream being written by another Java thread.)
+ * Inside b criticbl section, nbtive code must not cbll other JNI functions,
+ * or bny system cbll thbt mby cbuse the current threbd to block bnd wbit
+ * for bnother Jbvb threbd. (For exbmple, the current threbd must not cbll
+ * rebd on b strebm being written by bnother Jbvb threbd.)
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option bufsize=16m
-#pragma D option aggrate=100ms
+#prbgmb D option quiet
+#prbgmb D option destructive
+#prbgmb D option defbultbrgs
+#prbgmb D option bufsize=16m
+#prbgmb D option bggrbte=100ms
 
 
-self int in_critical_section;
-self string critical_section_name;
+self int in_criticbl_section;
+self string criticbl_section_nbme;
 
 int CRITICAL_SECTION_VIOLATION_CNT;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "critical section violation checks";
+    SAMPLE_NAME = "criticbl section violbtion checks";
 
     printf("BEGIN %s\n", SAMPLE_NAME);
 }
 
 /*
- *   Multiple pairs of GetPrimitiveArrayCritical/ReleasePrimitiveArrayCritical,
- *   GetStringCritical/ReleaseStringCritical may be nested
+ *   Multiple pbirs of GetPrimitiveArrbyCriticbl/RelebsePrimitiveArrbyCriticbl,
+ *   GetStringCriticbl/RelebseStringCriticbl mby be nested
  */
-hotspot_jni$target:::*_entry
-/self->in_critical_section > 0 &&
-  probename != "GetPrimitiveArrayCritical_entry" &&
-  probename != "GetStringCritical_entry" &&
-  probename != "ReleasePrimitiveArrayCritical_entry" &&
-  probename != "ReleaseStringCritical_entry" &&
-  probename != "GetPrimitiveArrayCritical_return" &&
-  probename != "GetStringCritical_return" &&
-  probename != "ReleasePrimitiveArrayCritical_return" &&
-  probename != "ReleaseStringCritical_return"/
+hotspot_jni$tbrget:::*_entry
+/self->in_criticbl_section > 0 &&
+  probenbme != "GetPrimitiveArrbyCriticbl_entry" &&
+  probenbme != "GetStringCriticbl_entry" &&
+  probenbme != "RelebsePrimitiveArrbyCriticbl_entry" &&
+  probenbme != "RelebseStringCriticbl_entry" &&
+  probenbme != "GetPrimitiveArrbyCriticbl_return" &&
+  probenbme != "GetStringCriticbl_return" &&
+  probenbme != "RelebsePrimitiveArrbyCriticbl_return" &&
+  probenbme != "RelebseStringCriticbl_return"/
 {
-    printf("\nJNI call %s made from JNI critical region '%s'\n",
-        probename, self->critical_section_name);
+    printf("\nJNI cbll %s mbde from JNI criticbl region '%s'\n",
+        probenbme, self->criticbl_section_nbme);
 
-    printf("Jstack:\n");
-    jstack(50, 500);
+    printf("Jstbck:\n");
+    jstbck(50, 500);
 
     CRITICAL_SECTION_VIOLATION_CNT ++;
 }
 
-syscall:::entry
-/pid == $target && self->in_critical_section > 0/
+syscbll:::entry
+/pid == $tbrget && self->in_criticbl_section > 0/
 {
-    printf("\nSystem call %s made in JNI critical region '%s'\n",
-        probefunc, self->critical_section_name);
+    printf("\nSystem cbll %s mbde in JNI criticbl region '%s'\n",
+        probefunc, self->criticbl_section_nbme);
 
-    printf("Jstack:\n");
-    jstack(50, 500);
+    printf("Jstbck:\n");
+    jstbck(50, 500);
 
     CRITICAL_SECTION_VIOLATION_CNT ++;
 }
 
-hotspot_jni$target:::ReleasePrimitiveArrayCritical_entry,
-hotspot_jni$target:::ReleaseStringCritical_entry
-/self->in_critical_section > 0/
+hotspot_jni$tbrget:::RelebsePrimitiveArrbyCriticbl_entry,
+hotspot_jni$tbrget:::RelebseStringCriticbl_entry
+/self->in_criticbl_section > 0/
 {
-    self->in_critical_section --;
+    self->in_criticbl_section --;
 }
 
-hotspot_jni$target:::GetPrimitiveArrayCritical_return
+hotspot_jni$tbrget:::GetPrimitiveArrbyCriticbl_return
 {
-    self->in_critical_section ++;
-    self->critical_section_name = "GetPrimitiveArrayCritical";
+    self->in_criticbl_section ++;
+    self->criticbl_section_nbme = "GetPrimitiveArrbyCriticbl";
 }
 
-hotspot_jni$target:::GetStringCritical_return
+hotspot_jni$tbrget:::GetStringCriticbl_return
 {
-    self->in_critical_section ++;
-    self->critical_section_name = "GetStringCritical";
+    self->in_criticbl_section ++;
+    self->criticbl_section_nbme = "GetStringCriticbl";
 }
 
 
 :::END
 {
-    printf("%d critical section violations have been discovered\n",
+    printf("%d criticbl section violbtions hbve been discovered\n",
         CRITICAL_SECTION_VIOLATION_CNT);
 
     printf("\nEND of %s\n", SAMPLE_NAME);

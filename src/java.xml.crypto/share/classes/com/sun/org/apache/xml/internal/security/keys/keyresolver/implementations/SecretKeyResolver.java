@@ -2,79 +2,79 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions;
 
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import javax.crypto.SecretKey;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import jbvb.security.Key;
+import jbvb.security.KeyStore;
+import jbvb.security.PrivbteKey;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.X509Certificbte;
+import jbvbx.crypto.SecretKey;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Element;
 
 /**
- * Resolves a SecretKey within a KeyStore based on the KeyName.
- * The KeyName is the key entry alias within the KeyStore.
+ * Resolves b SecretKey within b KeyStore bbsed on the KeyNbme.
+ * The KeyNbme is the key entry blibs within the KeyStore.
  */
-public class SecretKeyResolver extends KeyResolverSpi
+public clbss SecretKeyResolver extends KeyResolverSpi
 {
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(SecretKeyResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(SecretKeyResolver.clbss.getNbme());
 
-    private KeyStore keyStore;
-    private char[] password;
+    privbte KeyStore keyStore;
+    privbte chbr[] pbssword;
 
     /**
      * Constructor.
      */
-    public SecretKeyResolver(KeyStore keyStore, char[] password) {
+    public SecretKeyResolver(KeyStore keyStore, chbr[] pbssword) {
         this.keyStore = keyStore;
-        this.password = password;
+        this.pbssword = pbssword;
     }
 
     /**
-     * This method returns whether the KeyResolverSpi is able to perform the requested action.
+     * This method returns whether the KeyResolverSpi is bble to perform the requested bction.
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return whether the KeyResolverSpi is able to perform the requested action.
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return whether the KeyResolverSpi is bble to perform the requested bction.
      */
-    public boolean engineCanResolve(Element element, String baseURI, StorageResolver storage) {
-        return XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_KEYNAME);
+    public boolebn engineCbnResolve(Element element, String bbseURI, StorbgeResolver storbge) {
+        return XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_KEYNAME);
     }
 
     /**
      * Method engineLookupAndResolvePublicKey
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return null if no {@link PublicKey} could be obtained
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return null if no {@link PublicKey} could be obtbined
      * @throws KeyResolverException
      */
     public PublicKey engineLookupAndResolvePublicKey(
-        Element element, String baseURI, StorageResolver storage
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
         return null;
     }
 
     /**
-     * Method engineResolveX509Certificate
+     * Method engineResolveX509Certificbte
      * @inheritDoc
-     * @param element
-     * @param baseURI
-     * @param storage
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      * @throws KeyResolverException
      */
-    public X509Certificate engineLookupResolveX509Certificate(
-        Element element, String baseURI, StorageResolver storage
+    public X509Certificbte engineLookupResolveX509Certificbte(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
         return null;
     }
@@ -82,47 +82,47 @@ public class SecretKeyResolver extends KeyResolverSpi
     /**
      * Method engineResolveSecretKey
      *
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved SecretKey key or null if no {@link SecretKey} could be obtained
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return resolved SecretKey key or null if no {@link SecretKey} could be obtbined
      *
      * @throws KeyResolverException
      */
     public SecretKey engineResolveSecretKey(
-        Element element, String baseURI, StorageResolver storage
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Can I resolve " + element.getTagName() + "?");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Cbn I resolve " + element.getTbgNbme() + "?");
         }
 
-        if (XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_KEYNAME)) {
-            String keyName = element.getFirstChild().getNodeValue();
+        if (XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_KEYNAME)) {
+            String keyNbme = element.getFirstChild().getNodeVblue();
             try {
-                Key key = keyStore.getKey(keyName, password);
-                if (key instanceof SecretKey) {
+                Key key = keyStore.getKey(keyNbme, pbssword);
+                if (key instbnceof SecretKey) {
                     return (SecretKey) key;
                 }
-            } catch (Exception e) {
-                log.log(java.util.logging.Level.FINE, "Cannot recover the key", e);
+            } cbtch (Exception e) {
+                log.log(jbvb.util.logging.Level.FINE, "Cbnnot recover the key", e);
             }
         }
 
-        log.log(java.util.logging.Level.FINE, "I can't");
+        log.log(jbvb.util.logging.Level.FINE, "I cbn't");
         return null;
     }
 
     /**
-     * Method engineResolvePrivateKey
+     * Method engineResolvePrivbteKey
      * @inheritDoc
-     * @param element
-     * @param baseURI
-     * @param storage
-     * @return resolved PrivateKey key or null if no {@link PrivateKey} could be obtained
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
+     * @return resolved PrivbteKey key or null if no {@link PrivbteKey} could be obtbined
      * @throws KeyResolverException
      */
-    public PrivateKey engineLookupAndResolvePrivateKey(
-        Element element, String baseURI, StorageResolver storage
+    public PrivbteKey engineLookupAndResolvePrivbteKey(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
         return null;
     }

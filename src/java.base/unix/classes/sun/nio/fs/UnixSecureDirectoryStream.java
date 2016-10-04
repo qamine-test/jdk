@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.channels.SeekableByteChannel;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.io.IOException;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.chbnnels.SeekbbleByteChbnnel;
+import jbvb.util.*;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.io.IOException;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
 
 /**
- * Unix implementation of SecureDirectoryStream.
+ * Unix implementbtion of SecureDirectoryStrebm.
  */
 
-class UnixSecureDirectoryStream
-    implements SecureDirectoryStream<Path>
+clbss UnixSecureDirectoryStrebm
+    implements SecureDirectoryStrebm<Pbth>
 {
-    private final UnixDirectoryStream ds;
-    private final int dfd;
+    privbte finbl UnixDirectoryStrebm ds;
+    privbte finbl int dfd;
 
-    UnixSecureDirectoryStream(UnixPath dir,
+    UnixSecureDirectoryStrebm(UnixPbth dir,
                               long dp,
                               int dfd,
-                              DirectoryStream.Filter<? super Path> filter)
+                              DirectoryStrebm.Filter<? super Pbth> filter)
     {
-        this.ds = new UnixDirectoryStream(dir, dp, filter);
+        this.ds = new UnixDirectoryStrebm(dir, dp, filter);
         this.dfd = dfd;
     }
 
@@ -61,72 +61,72 @@ class UnixSecureDirectoryStream
         ds.writeLock().lock();
         try {
             if (ds.closeImpl()) {
-                UnixNativeDispatcher.close(dfd);
+                UnixNbtiveDispbtcher.close(dfd);
             }
-        } finally {
+        } finblly {
             ds.writeLock().unlock();
         }
     }
 
     @Override
-    public Iterator<Path> iterator() {
-        return ds.iterator(this);
+    public Iterbtor<Pbth> iterbtor() {
+        return ds.iterbtor(this);
     }
 
-    private UnixPath getName(Path obj) {
+    privbte UnixPbth getNbme(Pbth obj) {
         if (obj == null)
             throw new NullPointerException();
-        if (!(obj instanceof UnixPath))
-            throw new ProviderMismatchException();
-        return (UnixPath)obj;
+        if (!(obj instbnceof UnixPbth))
+            throw new ProviderMismbtchException();
+        return (UnixPbth)obj;
     }
 
     /**
      * Opens sub-directory in this directory
      */
     @Override
-    public SecureDirectoryStream<Path> newDirectoryStream(Path obj,
+    public SecureDirectoryStrebm<Pbth> newDirectoryStrebm(Pbth obj,
                                                           LinkOption... options)
         throws IOException
     {
-        UnixPath file = getName(obj);
-        UnixPath child = ds.directory().resolve(file);
-        boolean followLinks = Util.followLinks(options);
+        UnixPbth file = getNbme(obj);
+        UnixPbth child = ds.directory().resolve(file);
+        boolebn followLinks = Util.followLinks(options);
 
-        // permission check using name resolved against original path of directory
-        SecurityManager sm = System.getSecurityManager();
+        // permission check using nbme resolved bgbinst originbl pbth of directory
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            child.checkRead();
+            child.checkRebd();
         }
 
-        ds.readLock().lock();
+        ds.rebdLock().lock();
         try {
             if (!ds.isOpen())
-                throw new ClosedDirectoryStreamException();
+                throw new ClosedDirectoryStrebmException();
 
-            // open directory and create new secure directory stream
+            // open directory bnd crebte new secure directory strebm
             int newdfd1 = -1;
             int newdfd2 = -1;
             long ptr = 0L;
             try {
-                int flags = O_RDONLY;
+                int flbgs = O_RDONLY;
                 if (!followLinks)
-                    flags |= O_NOFOLLOW;
-                newdfd1 = openat(dfd, file.asByteArray(), flags , 0);
+                    flbgs |= O_NOFOLLOW;
+                newdfd1 = openbt(dfd, file.bsByteArrby(), flbgs , 0);
                 newdfd2 = dup(newdfd1);
                 ptr = fdopendir(newdfd1);
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 if (newdfd1 != -1)
-                    UnixNativeDispatcher.close(newdfd1);
+                    UnixNbtiveDispbtcher.close(newdfd1);
                 if (newdfd2 != -1)
-                    UnixNativeDispatcher.close(newdfd2);
-                if (x.errno() == UnixConstants.ENOTDIR)
+                    UnixNbtiveDispbtcher.close(newdfd2);
+                if (x.errno() == UnixConstbnts.ENOTDIR)
                     throw new NotDirectoryException(file.toString());
                 x.rethrowAsIOException(file);
             }
-            return new UnixSecureDirectoryStream(child, ptr, newdfd2, null);
-        } finally {
-            ds.readLock().unlock();
+            return new UnixSecureDirectoryStrebm(child, ptr, newdfd2, null);
+        } finblly {
+            ds.rebdLock().unlock();
         }
     }
 
@@ -134,207 +134,207 @@ class UnixSecureDirectoryStream
      * Opens file in this directory
      */
     @Override
-    public SeekableByteChannel newByteChannel(Path obj,
+    public SeekbbleByteChbnnel newByteChbnnel(Pbth obj,
                                               Set<? extends OpenOption> options,
-                                              FileAttribute<?>... attrs)
+                                              FileAttribute<?>... bttrs)
         throws IOException
     {
-        UnixPath file = getName(obj);
+        UnixPbth file = getNbme(obj);
 
         int mode = UnixFileModeAttribute
-            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, attrs);
+            .toUnixMode(UnixFileModeAttribute.ALL_READWRITE, bttrs);
 
-        // path for permission check
-        String pathToCheck = ds.directory().resolve(file).getPathForPermissionCheck();
+        // pbth for permission check
+        String pbthToCheck = ds.directory().resolve(file).getPbthForPermissionCheck();
 
-        ds.readLock().lock();
+        ds.rebdLock().lock();
         try {
             if (!ds.isOpen())
-                throw new ClosedDirectoryStreamException();
+                throw new ClosedDirectoryStrebmException();
             try {
-                return UnixChannelFactory.newFileChannel(dfd, file, pathToCheck, options, mode);
-            } catch (UnixException x) {
+                return UnixChbnnelFbctory.newFileChbnnel(dfd, file, pbthToCheck, options, mode);
+            } cbtch (UnixException x) {
                 x.rethrowAsIOException(file);
-                return null; // keep compiler happy
+                return null; // keep compiler hbppy
             }
-        } finally {
-            ds.readLock().unlock();
+        } finblly {
+            ds.rebdLock().unlock();
         }
     }
 
     /**
-     * Deletes file/directory in this directory. Works in a race-free manner
-     * when invoked with flags.
+     * Deletes file/directory in this directory. Works in b rbce-free mbnner
+     * when invoked with flbgs.
      */
-    private void implDelete(Path obj, boolean haveFlags, int flags)
+    privbte void implDelete(Pbth obj, boolebn hbveFlbgs, int flbgs)
         throws IOException
     {
-        UnixPath file = getName(obj);
+        UnixPbth file = getNbme(obj);
 
-        // permission check using name resolved against original path of directory
-        SecurityManager sm = System.getSecurityManager();
+        // permission check using nbme resolved bgbinst originbl pbth of directory
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             ds.directory().resolve(file).checkDelete();
         }
 
-        ds.readLock().lock();
+        ds.rebdLock().lock();
         try {
             if (!ds.isOpen())
-                throw new ClosedDirectoryStreamException();
+                throw new ClosedDirectoryStrebmException();
 
-            if (!haveFlags) {
-                // need file attribute to know if file is directory. This creates
-                // a race in that the file may be replaced by a directory or a
-                // directory replaced by a file between the time we query the
-                // file type and unlink it.
-                UnixFileAttributes attrs = null;
+            if (!hbveFlbgs) {
+                // need file bttribute to know if file is directory. This crebtes
+                // b rbce in thbt the file mby be replbced by b directory or b
+                // directory replbced by b file between the time we query the
+                // file type bnd unlink it.
+                UnixFileAttributes bttrs = null;
                 try {
-                    attrs = UnixFileAttributes.get(dfd, file, false);
-                } catch (UnixException x) {
+                    bttrs = UnixFileAttributes.get(dfd, file, fblse);
+                } cbtch (UnixException x) {
                     x.rethrowAsIOException(file);
                 }
-                flags = (attrs.isDirectory()) ? AT_REMOVEDIR : 0;
+                flbgs = (bttrs.isDirectory()) ? AT_REMOVEDIR : 0;
             }
 
             try {
-                unlinkat(dfd, file.asByteArray(), flags);
-            } catch (UnixException x) {
-                if ((flags & AT_REMOVEDIR) != 0) {
+                unlinkbt(dfd, file.bsByteArrby(), flbgs);
+            } cbtch (UnixException x) {
+                if ((flbgs & AT_REMOVEDIR) != 0) {
                     if (x.errno() == EEXIST || x.errno() == ENOTEMPTY) {
                         throw new DirectoryNotEmptyException(null);
                     }
                 }
                 x.rethrowAsIOException(file);
             }
-        } finally {
-            ds.readLock().unlock();
+        } finblly {
+            ds.rebdLock().unlock();
         }
     }
 
     @Override
-    public void deleteFile(Path file) throws IOException {
+    public void deleteFile(Pbth file) throws IOException {
         implDelete(file, true, 0);
     }
 
     @Override
-    public void deleteDirectory(Path dir) throws IOException {
+    public void deleteDirectory(Pbth dir) throws IOException {
         implDelete(dir, true, AT_REMOVEDIR);
     }
 
     /**
-     * Rename/move file in this directory to another (open) directory
+     * Renbme/move file in this directory to bnother (open) directory
      */
     @Override
-    public void move(Path fromObj, SecureDirectoryStream<Path> dir, Path toObj)
+    public void move(Pbth fromObj, SecureDirectoryStrebm<Pbth> dir, Pbth toObj)
         throws IOException
     {
-        UnixPath from = getName(fromObj);
-        UnixPath to = getName(toObj);
+        UnixPbth from = getNbme(fromObj);
+        UnixPbth to = getNbme(toObj);
         if (dir == null)
             throw new NullPointerException();
-        if (!(dir instanceof UnixSecureDirectoryStream))
-            throw new ProviderMismatchException();
-        UnixSecureDirectoryStream that = (UnixSecureDirectoryStream)dir;
+        if (!(dir instbnceof UnixSecureDirectoryStrebm))
+            throw new ProviderMismbtchException();
+        UnixSecureDirectoryStrebm thbt = (UnixSecureDirectoryStrebm)dir;
 
         // permission check
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             this.ds.directory().resolve(from).checkWrite();
-            that.ds.directory().resolve(to).checkWrite();
+            thbt.ds.directory().resolve(to).checkWrite();
         }
 
-        // lock ordering doesn't matter
-        this.ds.readLock().lock();
+        // lock ordering doesn't mbtter
+        this.ds.rebdLock().lock();
         try {
-            that.ds.readLock().lock();
+            thbt.ds.rebdLock().lock();
             try {
-                if (!this.ds.isOpen() || !that.ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                if (!this.ds.isOpen() || !thbt.ds.isOpen())
+                    throw new ClosedDirectoryStrebmException();
                 try {
-                    renameat(this.dfd, from.asByteArray(), that.dfd, to.asByteArray());
-                } catch (UnixException x) {
+                    renbmebt(this.dfd, from.bsByteArrby(), thbt.dfd, to.bsByteArrby());
+                } cbtch (UnixException x) {
                     if (x.errno() == EXDEV) {
                         throw new AtomicMoveNotSupportedException(
                             from.toString(), to.toString(), x.errorString());
                     }
                     x.rethrowAsIOException(from, to);
                 }
-            } finally {
-                that.ds.readLock().unlock();
+            } finblly {
+                thbt.ds.rebdLock().unlock();
             }
-        } finally {
-            this.ds.readLock().unlock();
+        } finblly {
+            this.ds.rebdLock().unlock();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private <V extends FileAttributeView> V getFileAttributeViewImpl(UnixPath file,
-                                                                     Class<V> type,
-                                                                     boolean followLinks)
+    @SuppressWbrnings("unchecked")
+    privbte <V extends FileAttributeView> V getFileAttributeViewImpl(UnixPbth file,
+                                                                     Clbss<V> type,
+                                                                     boolebn followLinks)
     {
         if (type == null)
             throw new NullPointerException();
-        Class<?> c = type;
-        if (c == BasicFileAttributeView.class) {
-            return (V) new BasicFileAttributeViewImpl(file, followLinks);
+        Clbss<?> c = type;
+        if (c == BbsicFileAttributeView.clbss) {
+            return (V) new BbsicFileAttributeViewImpl(file, followLinks);
         }
-        if (c == PosixFileAttributeView.class || c == FileOwnerAttributeView.class) {
+        if (c == PosixFileAttributeView.clbss || c == FileOwnerAttributeView.clbss) {
             return (V) new PosixFileAttributeViewImpl(file, followLinks);
         }
-        // TBD - should also support AclFileAttributeView
+        // TBD - should blso support AclFileAttributeView
         return (V) null;
     }
 
     /**
-     * Returns file attribute view bound to this directory
+     * Returns file bttribute view bound to this directory
      */
     @Override
-    public <V extends FileAttributeView> V getFileAttributeView(Class<V> type) {
-        return getFileAttributeViewImpl(null, type, false);
+    public <V extends FileAttributeView> V getFileAttributeView(Clbss<V> type) {
+        return getFileAttributeViewImpl(null, type, fblse);
     }
 
     /**
-     * Returns file attribute view bound to dfd/filename.
+     * Returns file bttribute view bound to dfd/filenbme.
      */
     @Override
-    public <V extends FileAttributeView> V getFileAttributeView(Path obj,
-                                                                Class<V> type,
+    public <V extends FileAttributeView> V getFileAttributeView(Pbth obj,
+                                                                Clbss<V> type,
                                                                 LinkOption... options)
     {
-        UnixPath file = getName(obj);
-        boolean followLinks = Util.followLinks(options);
+        UnixPbth file = getNbme(obj);
+        boolebn followLinks = Util.followLinks(options);
         return getFileAttributeViewImpl(file, type, followLinks);
     }
 
     /**
-     * A BasicFileAttributeView implementation that using a dfd/name pair.
+     * A BbsicFileAttributeView implementbtion thbt using b dfd/nbme pbir.
      */
-    private class BasicFileAttributeViewImpl
-        implements BasicFileAttributeView
+    privbte clbss BbsicFileAttributeViewImpl
+        implements BbsicFileAttributeView
     {
-        final UnixPath file;
-        final boolean followLinks;
+        finbl UnixPbth file;
+        finbl boolebn followLinks;
 
-        BasicFileAttributeViewImpl(UnixPath file, boolean followLinks)
+        BbsicFileAttributeViewImpl(UnixPbth file, boolebn followLinks)
         {
             this.file = file;
             this.followLinks = followLinks;
         }
 
         int open() throws IOException {
-            int oflags = O_RDONLY;
+            int oflbgs = O_RDONLY;
             if (!followLinks)
-                oflags |= O_NOFOLLOW;
+                oflbgs |= O_NOFOLLOW;
             try {
-                return openat(dfd, file.asByteArray(), oflags, 0);
-            } catch (UnixException x) {
+                return openbt(dfd, file.bsByteArrby(), oflbgs, 0);
+            } cbtch (UnixException x) {
                 x.rethrowAsIOException(file);
-                return -1; // keep compiler happy
+                return -1; // keep compiler hbppy
             }
         }
 
-        private void checkWriteAccess() {
-            SecurityManager sm = System.getSecurityManager();
+        privbte void checkWriteAccess() {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 if (file == null) {
                     ds.directory().checkWrite();
@@ -345,136 +345,136 @@ class UnixSecureDirectoryStream
         }
 
         @Override
-        public String name() {
-            return "basic";
+        public String nbme() {
+            return "bbsic";
         }
 
         @Override
-        public BasicFileAttributes readAttributes() throws IOException {
-            ds.readLock().lock();
+        public BbsicFileAttributes rebdAttributes() throws IOException {
+            ds.rebdLock().lock();
             try {
                 if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                    throw new ClosedDirectoryStrebmException();
 
-                SecurityManager sm = System.getSecurityManager();
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null) {
                     if (file == null) {
-                        ds.directory().checkRead();
+                        ds.directory().checkRebd();
                     } else {
-                        ds.directory().resolve(file).checkRead();
+                        ds.directory().resolve(file).checkRebd();
                     }
                 }
                 try {
-                     UnixFileAttributes attrs = (file == null) ?
+                     UnixFileAttributes bttrs = (file == null) ?
                          UnixFileAttributes.get(dfd) :
                          UnixFileAttributes.get(dfd, file, followLinks);
 
-                     // SECURITY: must return as BasicFileAttribute
-                     return attrs.asBasicFileAttributes();
-                } catch (UnixException x) {
+                     // SECURITY: must return bs BbsicFileAttribute
+                     return bttrs.bsBbsicFileAttributes();
+                } cbtch (UnixException x) {
                     x.rethrowAsIOException(file);
-                    return null;    // keep compiler happy
+                    return null;    // keep compiler hbppy
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rebdLock().unlock();
             }
         }
 
         @Override
-        public void setTimes(FileTime lastModifiedTime,
-                             FileTime lastAccessTime,
-                             FileTime createTime) // ignore
+        public void setTimes(FileTime lbstModifiedTime,
+                             FileTime lbstAccessTime,
+                             FileTime crebteTime) // ignore
             throws IOException
         {
             checkWriteAccess();
 
-            ds.readLock().lock();
+            ds.rebdLock().lock();
             try {
                 if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                    throw new ClosedDirectoryStrebmException();
 
                 int fd = (file == null) ? dfd : open();
                 try {
-                    // if not changing both attributes then need existing attributes
-                    if (lastModifiedTime == null || lastAccessTime == null) {
+                    // if not chbnging both bttributes then need existing bttributes
+                    if (lbstModifiedTime == null || lbstAccessTime == null) {
                         try {
-                            UnixFileAttributes attrs = UnixFileAttributes.get(fd);
-                            if (lastModifiedTime == null)
-                                lastModifiedTime = attrs.lastModifiedTime();
-                            if (lastAccessTime == null)
-                                lastAccessTime = attrs.lastAccessTime();
-                        } catch (UnixException x) {
+                            UnixFileAttributes bttrs = UnixFileAttributes.get(fd);
+                            if (lbstModifiedTime == null)
+                                lbstModifiedTime = bttrs.lbstModifiedTime();
+                            if (lbstAccessTime == null)
+                                lbstAccessTime = bttrs.lbstAccessTime();
+                        } cbtch (UnixException x) {
                             x.rethrowAsIOException(file);
                         }
                     }
-                    // update times
+                    // updbte times
                     try {
                         futimes(fd,
-                                lastAccessTime.to(TimeUnit.MICROSECONDS),
-                                lastModifiedTime.to(TimeUnit.MICROSECONDS));
-                    } catch (UnixException x) {
+                                lbstAccessTime.to(TimeUnit.MICROSECONDS),
+                                lbstModifiedTime.to(TimeUnit.MICROSECONDS));
+                    } cbtch (UnixException x) {
                         x.rethrowAsIOException(file);
                     }
-                } finally {
+                } finblly {
                     if (file != null)
-                        UnixNativeDispatcher.close(fd);
+                        UnixNbtiveDispbtcher.close(fd);
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rebdLock().unlock();
             }
         }
     }
 
     /**
-     * A PosixFileAttributeView implementation that using a dfd/name pair.
+     * A PosixFileAttributeView implementbtion thbt using b dfd/nbme pbir.
      */
-    private class PosixFileAttributeViewImpl
-        extends BasicFileAttributeViewImpl implements PosixFileAttributeView
+    privbte clbss PosixFileAttributeViewImpl
+        extends BbsicFileAttributeViewImpl implements PosixFileAttributeView
     {
-        PosixFileAttributeViewImpl(UnixPath file, boolean followLinks) {
+        PosixFileAttributeViewImpl(UnixPbth file, boolebn followLinks) {
             super(file, followLinks);
         }
 
-        private void checkWriteAndUserAccess() {
-            SecurityManager sm = System.getSecurityManager();
+        privbte void checkWriteAndUserAccess() {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 super.checkWriteAccess();
-                sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                sm.checkPermission(new RuntimePermission("bccessUserInformbtion"));
             }
         }
 
         @Override
-        public String name() {
+        public String nbme() {
             return "posix";
         }
 
         @Override
-        public PosixFileAttributes readAttributes() throws IOException {
-            SecurityManager sm = System.getSecurityManager();
+        public PosixFileAttributes rebdAttributes() throws IOException {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 if (file == null)
-                    ds.directory().checkRead();
+                    ds.directory().checkRebd();
                 else
-                    ds.directory().resolve(file).checkRead();
-                sm.checkPermission(new RuntimePermission("accessUserInformation"));
+                    ds.directory().resolve(file).checkRebd();
+                sm.checkPermission(new RuntimePermission("bccessUserInformbtion"));
             }
 
-            ds.readLock().lock();
+            ds.rebdLock().lock();
             try {
                 if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                    throw new ClosedDirectoryStrebmException();
 
                 try {
-                     UnixFileAttributes attrs = (file == null) ?
+                     UnixFileAttributes bttrs = (file == null) ?
                          UnixFileAttributes.get(dfd) :
                          UnixFileAttributes.get(dfd, file, followLinks);
-                     return attrs;
-                } catch (UnixException x) {
+                     return bttrs;
+                } cbtch (UnixException x) {
                     x.rethrowAsIOException(file);
-                    return null;    // keep compiler happy
+                    return null;    // keep compiler hbppy
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rebdLock().unlock();
             }
         }
 
@@ -485,72 +485,72 @@ class UnixSecureDirectoryStream
             // permission check
             checkWriteAndUserAccess();
 
-            ds.readLock().lock();
+            ds.rebdLock().lock();
             try {
                 if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                    throw new ClosedDirectoryStrebmException();
 
                 int fd = (file == null) ? dfd : open();
                 try {
                     fchmod(fd, UnixFileModeAttribute.toUnixMode(perms));
-                } catch (UnixException x) {
+                } cbtch (UnixException x) {
                     x.rethrowAsIOException(file);
-                } finally {
+                } finblly {
                     if (file != null && fd >= 0)
-                        UnixNativeDispatcher.close(fd);
+                        UnixNbtiveDispbtcher.close(fd);
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rebdLock().unlock();
             }
         }
 
-        private void setOwners(int uid, int gid) throws IOException {
+        privbte void setOwners(int uid, int gid) throws IOException {
             // permission check
             checkWriteAndUserAccess();
 
-            ds.readLock().lock();
+            ds.rebdLock().lock();
             try {
                 if (!ds.isOpen())
-                    throw new ClosedDirectoryStreamException();
+                    throw new ClosedDirectoryStrebmException();
 
                 int fd = (file == null) ? dfd : open();
                 try {
                     fchown(fd, uid, gid);
-                } catch (UnixException x) {
+                } cbtch (UnixException x) {
                     x.rethrowAsIOException(file);
-                } finally {
+                } finblly {
                     if (file != null && fd >= 0)
-                        UnixNativeDispatcher.close(fd);
+                        UnixNbtiveDispbtcher.close(fd);
                 }
-            } finally {
-                ds.readLock().unlock();
+            } finblly {
+                ds.rebdLock().unlock();
             }
         }
 
         @Override
-        public UserPrincipal getOwner() throws IOException {
-            return readAttributes().owner();
+        public UserPrincipbl getOwner() throws IOException {
+            return rebdAttributes().owner();
         }
 
         @Override
-        public void setOwner(UserPrincipal owner)
+        public void setOwner(UserPrincipbl owner)
             throws IOException
         {
-            if (!(owner instanceof UnixUserPrincipals.User))
-                throw new ProviderMismatchException();
-            if (owner instanceof UnixUserPrincipals.Group)
-                throw new IOException("'owner' parameter can't be a group");
-            int uid = ((UnixUserPrincipals.User)owner).uid();
+            if (!(owner instbnceof UnixUserPrincipbls.User))
+                throw new ProviderMismbtchException();
+            if (owner instbnceof UnixUserPrincipbls.Group)
+                throw new IOException("'owner' pbrbmeter cbn't be b group");
+            int uid = ((UnixUserPrincipbls.User)owner).uid();
             setOwners(uid, -1);
         }
 
         @Override
-        public void setGroup(GroupPrincipal group)
+        public void setGroup(GroupPrincipbl group)
             throws IOException
         {
-            if (!(group instanceof UnixUserPrincipals.Group))
-                throw new ProviderMismatchException();
-            int gid = ((UnixUserPrincipals.Group)group).gid();
+            if (!(group instbnceof UnixUserPrincipbls.Group))
+                throw new ProviderMismbtchException();
+            int gid = ((UnixUserPrincipbls.Group)group).gid();
             setOwners(-1, gid);
         }
     }

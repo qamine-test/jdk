@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
-import com.sun.jdi.Location;
-import com.sun.jdi.AbsentInformationException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.io.*;
+import com.sun.jdi.Locbtion;
+import com.sun.jdi.AbsentInformbtionException;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.StringTokenizer;
+import jbvb.io.*;
 
-class SourceMapper {
+clbss SourceMbpper {
 
-    private final String[] dirs;
+    privbte finbl String[] dirs;
 
-    SourceMapper(List<String> sourcepath) {
+    SourceMbpper(List<String> sourcepbth) {
         /*
-         * sourcepath can arrive from the debugee as a List.
-         * (via PathSearchingVirtualMachine.classPath())
+         * sourcepbth cbn brrive from the debugee bs b List.
+         * (vib PbthSebrchingVirtublMbchine.clbssPbth())
          */
-        List<String> dirList = new ArrayList<String>();
-        for (String element : sourcepath) {
-            //XXX remove .jar and .zip files; we want only directories on
-            //the source path. (Bug ID 4186582)
-            if ( ! (element.endsWith(".jar") ||
+        List<String> dirList = new ArrbyList<String>();
+        for (String element : sourcepbth) {
+            //XXX remove .jbr bnd .zip files; we wbnt only directories on
+            //the source pbth. (Bug ID 4186582)
+            if ( ! (element.endsWith(".jbr") ||
                     element.endsWith(".zip"))) {
-                dirList.add(element);
+                dirList.bdd(element);
             }
         }
-        dirs = dirList.toArray(new String[0]);
+        dirs = dirList.toArrby(new String[0]);
     }
 
-    SourceMapper(String sourcepath) {
+    SourceMbpper(String sourcepbth) {
         /*
-         * sourcepath can also arrive from the command line
-         * as a String.  (via "-sourcepath")
+         * sourcepbth cbn blso brrive from the commbnd line
+         * bs b String.  (vib "-sourcepbth")
          *
-         * Using File.pathSeparator as delimiter below is OK
-         * because we are on the same machine as the command
-         * line originiated.
+         * Using File.pbthSepbrbtor bs delimiter below is OK
+         * becbuse we bre on the sbme mbchine bs the commbnd
+         * line originibted.
          */
-        StringTokenizer st = new StringTokenizer(sourcepath,
-                                                 File.pathSeparator);
-        List<String> dirList = new ArrayList<String>();
-        while (st.hasMoreTokens()) {
+        StringTokenizer st = new StringTokenizer(sourcepbth,
+                                                 File.pbthSepbrbtor);
+        List<String> dirList = new ArrbyList<String>();
+        while (st.hbsMoreTokens()) {
             String s = st.nextToken();
-            //XXX remove .jar and .zip files; we want only directories on
-            //the source path. (Bug ID 4186582)
-            if ( ! (s.endsWith(".jar") ||
+            //XXX remove .jbr bnd .zip files; we wbnt only directories on
+            //the source pbth. (Bug ID 4186582)
+            if ( ! (s.endsWith(".jbr") ||
                     s.endsWith(".zip"))) {
-                dirList.add(s);
+                dirList.bdd(s);
             }
         }
-        dirs = dirList.toArray(new String[0]);
+        dirs = dirList.toArrby(new String[0]);
     }
 
     /*
-     * Return the current sourcePath as a String.
+     * Return the current sourcePbth bs b String.
      */
-    String getSourcePath() {
+    String getSourcePbth() {
         int i = 0;
         StringBuffer sp;
         if (dirs.length < 1) {
-            return "";          //The source path is empty.
+            return "";          //The source pbth is empty.
         } else {
             sp = new StringBuffer(dirs[i++]);
         }
         for (; i < dirs.length; i++) {
-            sp.append(File.pathSeparator);
-            sp.append(dirs[i]);
+            sp.bppend(File.pbthSepbrbtor);
+            sp.bppend(dirs[i]);
         }
         return sp.toString();
     }
 
     /**
-     * Return a File cooresponding to the source of this location.
-     * Return null if not available.
+     * Return b File cooresponding to the source of this locbtion.
+     * Return null if not bvbilbble.
      */
-    File sourceFile(Location loc) {
+    File sourceFile(Locbtion loc) {
         try {
-            String filename = loc.sourceName();
-            String refName = loc.declaringType().name();
-            int iDot = refName.lastIndexOf('.');
-            String pkgName = (iDot >= 0)? refName.substring(0, iDot+1) : "";
-            String full = pkgName.replace('.', File.separatorChar) + filename;
+            String filenbme = loc.sourceNbme();
+            String refNbme = loc.declbringType().nbme();
+            int iDot = refNbme.lbstIndexOf('.');
+            String pkgNbme = (iDot >= 0)? refNbme.substring(0, iDot+1) : "";
+            String full = pkgNbme.replbce('.', File.sepbrbtorChbr) + filenbme;
             for (int i= 0; i < dirs.length; ++i) {
-                File path = new File(dirs[i], full);
-                if (path.exists()) {
-                    return path;
+                File pbth = new File(dirs[i], full);
+                if (pbth.exists()) {
+                    return pbth;
                 }
             }
             return null;
-        } catch (AbsentInformationException e) {
+        } cbtch (AbsentInformbtionException e) {
             return null;
         }
     }
 
     /**
-     * Return a BufferedReader cooresponding to the source
-     * of this location.
-     * Return null if not available.
-     * Note: returned reader must be closed.
+     * Return b BufferedRebder cooresponding to the source
+     * of this locbtion.
+     * Return null if not bvbilbble.
+     * Note: returned rebder must be closed.
      */
-    BufferedReader sourceReader(Location loc) {
+    BufferedRebder sourceRebder(Locbtion loc) {
         File sourceFile = sourceFile(loc);
         if (sourceFile == null) {
             return null;
         }
         try {
-            return new BufferedReader(new FileReader(sourceFile));
-        } catch(IOException exc) {
+            return new BufferedRebder(new FileRebder(sourceFile));
+        } cbtch(IOException exc) {
         }
         return null;
     }

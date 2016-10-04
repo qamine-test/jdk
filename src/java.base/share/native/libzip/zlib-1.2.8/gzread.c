@@ -1,404 +1,404 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* gzread.c -- zlib functions for reading gzip files
- * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* gzrebd.c -- zlib functions for rebding gzip files
+ * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013 Mbrk Adler
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
 #include "gzguts.h"
 
-/* Local functions */
-local int gz_load OF((gz_statep, unsigned char *, unsigned, unsigned *));
-local int gz_avail OF((gz_statep));
-local int gz_look OF((gz_statep));
-local int gz_decomp OF((gz_statep));
-local int gz_fetch OF((gz_statep));
-local int gz_skip OF((gz_statep, z_off64_t));
+/* Locbl functions */
+locbl int gz_lobd OF((gz_stbtep, unsigned chbr *, unsigned, unsigned *));
+locbl int gz_bvbil OF((gz_stbtep));
+locbl int gz_look OF((gz_stbtep));
+locbl int gz_decomp OF((gz_stbtep));
+locbl int gz_fetch OF((gz_stbtep));
+locbl int gz_skip OF((gz_stbtep, z_off64_t));
 
-/* Use read() to load a buffer -- return -1 on error, otherwise 0.  Read from
-   state->fd, and update state->eof, state->err, and state->msg as appropriate.
-   This function needs to loop on read(), since read() is not guaranteed to
-   read the number of bytes requested, depending on the type of descriptor. */
-local int gz_load(state, buf, len, have)
-    gz_statep state;
-    unsigned char *buf;
+/* Use rebd() to lobd b buffer -- return -1 on error, otherwise 0.  Rebd from
+   stbte->fd, bnd updbte stbte->eof, stbte->err, bnd stbte->msg bs bppropribte.
+   This function needs to loop on rebd(), since rebd() is not gubrbnteed to
+   rebd the number of bytes requested, depending on the type of descriptor. */
+locbl int gz_lobd(stbte, buf, len, hbve)
+    gz_stbtep stbte;
+    unsigned chbr *buf;
     unsigned len;
-    unsigned *have;
+    unsigned *hbve;
 {
     int ret;
 
-    *have = 0;
+    *hbve = 0;
     do {
-        ret = read(state->fd, buf + *have, len - *have);
+        ret = rebd(stbte->fd, buf + *hbve, len - *hbve);
         if (ret <= 0)
-            break;
-        *have += ret;
-    } while (*have < len);
+            brebk;
+        *hbve += ret;
+    } while (*hbve < len);
     if (ret < 0) {
-        gz_error(state, Z_ERRNO, zstrerror());
+        gz_error(stbte, Z_ERRNO, zstrerror());
         return -1;
     }
     if (ret == 0)
-        state->eof = 1;
+        stbte->eof = 1;
     return 0;
 }
 
-/* Load up input buffer and set eof flag if last data loaded -- return -1 on
-   error, 0 otherwise.  Note that the eof flag is set when the end of the input
-   file is reached, even though there may be unused data in the buffer.  Once
-   that data has been used, no more attempts will be made to read the file.
-   If strm->avail_in != 0, then the current data is moved to the beginning of
-   the input buffer, and then the remainder of the buffer is loaded with the
-   available data from the input file. */
-local int gz_avail(state)
-    gz_statep state;
+/* Lobd up input buffer bnd set eof flbg if lbst dbtb lobded -- return -1 on
+   error, 0 otherwise.  Note thbt the eof flbg is set when the end of the input
+   file is rebched, even though there mby be unused dbtb in the buffer.  Once
+   thbt dbtb hbs been used, no more bttempts will be mbde to rebd the file.
+   If strm->bvbil_in != 0, then the current dbtb is moved to the beginning of
+   the input buffer, bnd then the rembinder of the buffer is lobded with the
+   bvbilbble dbtb from the input file. */
+locbl int gz_bvbil(stbte)
+    gz_stbtep stbte;
 {
     unsigned got;
-    z_streamp strm = &(state->strm);
+    z_strebmp strm = &(stbte->strm);
 
-    if (state->err != Z_OK && state->err != Z_BUF_ERROR)
+    if (stbte->err != Z_OK && stbte->err != Z_BUF_ERROR)
         return -1;
-    if (state->eof == 0) {
-        if (strm->avail_in) {       /* copy what's there to the start */
-            unsigned char *p = state->in;
-            unsigned const char *q = strm->next_in;
-            unsigned n = strm->avail_in;
+    if (stbte->eof == 0) {
+        if (strm->bvbil_in) {       /* copy whbt's there to the stbrt */
+            unsigned chbr *p = stbte->in;
+            unsigned const chbr *q = strm->next_in;
+            unsigned n = strm->bvbil_in;
             do {
                 *p++ = *q++;
             } while (--n);
         }
-        if (gz_load(state, state->in + strm->avail_in,
-                    state->size - strm->avail_in, &got) == -1)
+        if (gz_lobd(stbte, stbte->in + strm->bvbil_in,
+                    stbte->size - strm->bvbil_in, &got) == -1)
             return -1;
-        strm->avail_in += got;
-        strm->next_in = state->in;
+        strm->bvbil_in += got;
+        strm->next_in = stbte->in;
     }
     return 0;
 }
 
-/* Look for gzip header, set up for inflate or copy.  state->x.have must be 0.
-   If this is the first time in, allocate required memory.  state->how will be
-   left unchanged if there is no more input data available, will be set to COPY
-   if there is no gzip header and direct copying will be performed, or it will
+/* Look for gzip hebder, set up for inflbte or copy.  stbte->x.hbve must be 0.
+   If this is the first time in, bllocbte required memory.  stbte->how will be
+   left unchbnged if there is no more input dbtb bvbilbble, will be set to COPY
+   if there is no gzip hebder bnd direct copying will be performed, or it will
    be set to GZIP for decompression.  If direct copying, then leftover input
-   data from the input buffer will be copied to the output buffer.  In that
-   case, all further file reads will be directly to either the output buffer or
-   a user buffer.  If decompressing, the inflate state will be initialized.
-   gz_look() will return 0 on success or -1 on failure. */
-local int gz_look(state)
-    gz_statep state;
+   dbtb from the input buffer will be copied to the output buffer.  In thbt
+   cbse, bll further file rebds will be directly to either the output buffer or
+   b user buffer.  If decompressing, the inflbte stbte will be initiblized.
+   gz_look() will return 0 on success or -1 on fbilure. */
+locbl int gz_look(stbte)
+    gz_stbtep stbte;
 {
-    z_streamp strm = &(state->strm);
+    z_strebmp strm = &(stbte->strm);
 
-    /* allocate read buffers and inflate memory */
-    if (state->size == 0) {
-        /* allocate buffers */
-        state->in = (unsigned char *)malloc(state->want);
-        state->out = (unsigned char *)malloc(state->want << 1);
-        if (state->in == NULL || state->out == NULL) {
-            if (state->out != NULL)
-                free(state->out);
-            if (state->in != NULL)
-                free(state->in);
-            gz_error(state, Z_MEM_ERROR, "out of memory");
+    /* bllocbte rebd buffers bnd inflbte memory */
+    if (stbte->size == 0) {
+        /* bllocbte buffers */
+        stbte->in = (unsigned chbr *)mblloc(stbte->wbnt);
+        stbte->out = (unsigned chbr *)mblloc(stbte->wbnt << 1);
+        if (stbte->in == NULL || stbte->out == NULL) {
+            if (stbte->out != NULL)
+                free(stbte->out);
+            if (stbte->in != NULL)
+                free(stbte->in);
+            gz_error(stbte, Z_MEM_ERROR, "out of memory");
             return -1;
         }
-        state->size = state->want;
+        stbte->size = stbte->wbnt;
 
-        /* allocate inflate memory */
-        state->strm.zalloc = Z_NULL;
-        state->strm.zfree = Z_NULL;
-        state->strm.opaque = Z_NULL;
-        state->strm.avail_in = 0;
-        state->strm.next_in = Z_NULL;
-        if (inflateInit2(&(state->strm), 15 + 16) != Z_OK) {    /* gunzip */
-            free(state->out);
-            free(state->in);
-            state->size = 0;
-            gz_error(state, Z_MEM_ERROR, "out of memory");
+        /* bllocbte inflbte memory */
+        stbte->strm.zblloc = Z_NULL;
+        stbte->strm.zfree = Z_NULL;
+        stbte->strm.opbque = Z_NULL;
+        stbte->strm.bvbil_in = 0;
+        stbte->strm.next_in = Z_NULL;
+        if (inflbteInit2(&(stbte->strm), 15 + 16) != Z_OK) {    /* gunzip */
+            free(stbte->out);
+            free(stbte->in);
+            stbte->size = 0;
+            gz_error(stbte, Z_MEM_ERROR, "out of memory");
             return -1;
         }
     }
 
-    /* get at least the magic bytes in the input buffer */
-    if (strm->avail_in < 2) {
-        if (gz_avail(state) == -1)
+    /* get bt lebst the mbgic bytes in the input buffer */
+    if (strm->bvbil_in < 2) {
+        if (gz_bvbil(stbte) == -1)
             return -1;
-        if (strm->avail_in == 0)
+        if (strm->bvbil_in == 0)
             return 0;
     }
 
-    /* look for gzip magic bytes -- if there, do gzip decoding (note: there is
-       a logical dilemma here when considering the case of a partially written
-       gzip file, to wit, if a single 31 byte is written, then we cannot tell
-       whether this is a single-byte file, or just a partially written gzip
-       file -- for here we assume that if a gzip file is being written, then
-       the header will be written in a single operation, so that reading a
-       single byte is sufficient indication that it is not a gzip file) */
-    if (strm->avail_in > 1 &&
+    /* look for gzip mbgic bytes -- if there, do gzip decoding (note: there is
+       b logicbl dilemmb here when considering the cbse of b pbrtiblly written
+       gzip file, to wit, if b single 31 byte is written, then we cbnnot tell
+       whether this is b single-byte file, or just b pbrtiblly written gzip
+       file -- for here we bssume thbt if b gzip file is being written, then
+       the hebder will be written in b single operbtion, so thbt rebding b
+       single byte is sufficient indicbtion thbt it is not b gzip file) */
+    if (strm->bvbil_in > 1 &&
             strm->next_in[0] == 31 && strm->next_in[1] == 139) {
-        inflateReset(strm);
-        state->how = GZIP;
-        state->direct = 0;
+        inflbteReset(strm);
+        stbte->how = GZIP;
+        stbte->direct = 0;
         return 0;
     }
 
-    /* no gzip header -- if we were decoding gzip before, then this is trailing
-       garbage.  Ignore the trailing garbage and finish. */
-    if (state->direct == 0) {
-        strm->avail_in = 0;
-        state->eof = 1;
-        state->x.have = 0;
+    /* no gzip hebder -- if we were decoding gzip before, then this is trbiling
+       gbrbbge.  Ignore the trbiling gbrbbge bnd finish. */
+    if (stbte->direct == 0) {
+        strm->bvbil_in = 0;
+        stbte->eof = 1;
+        stbte->x.hbve = 0;
         return 0;
     }
 
-    /* doing raw i/o, copy any leftover input to output -- this assumes that
-       the output buffer is larger than the input buffer, which also assures
-       space for gzungetc() */
-    state->x.next = state->out;
-    if (strm->avail_in) {
-        memcpy(state->x.next, strm->next_in, strm->avail_in);
-        state->x.have = strm->avail_in;
-        strm->avail_in = 0;
+    /* doing rbw i/o, copy bny leftover input to output -- this bssumes thbt
+       the output buffer is lbrger thbn the input buffer, which blso bssures
+       spbce for gzungetc() */
+    stbte->x.next = stbte->out;
+    if (strm->bvbil_in) {
+        memcpy(stbte->x.next, strm->next_in, strm->bvbil_in);
+        stbte->x.hbve = strm->bvbil_in;
+        strm->bvbil_in = 0;
     }
-    state->how = COPY;
-    state->direct = 1;
+    stbte->how = COPY;
+    stbte->direct = 1;
     return 0;
 }
 
-/* Decompress from input to the provided next_out and avail_out in the state.
-   On return, state->x.have and state->x.next point to the just decompressed
-   data.  If the gzip stream completes, state->how is reset to LOOK to look for
-   the next gzip stream or raw data, once state->x.have is depleted.  Returns 0
-   on success, -1 on failure. */
-local int gz_decomp(state)
-    gz_statep state;
+/* Decompress from input to the provided next_out bnd bvbil_out in the stbte.
+   On return, stbte->x.hbve bnd stbte->x.next point to the just decompressed
+   dbtb.  If the gzip strebm completes, stbte->how is reset to LOOK to look for
+   the next gzip strebm or rbw dbtb, once stbte->x.hbve is depleted.  Returns 0
+   on success, -1 on fbilure. */
+locbl int gz_decomp(stbte)
+    gz_stbtep stbte;
 {
     int ret = Z_OK;
-    unsigned had;
-    z_streamp strm = &(state->strm);
+    unsigned hbd;
+    z_strebmp strm = &(stbte->strm);
 
-    /* fill output buffer up to end of deflate stream */
-    had = strm->avail_out;
+    /* fill output buffer up to end of deflbte strebm */
+    hbd = strm->bvbil_out;
     do {
-        /* get more input for inflate() */
-        if (strm->avail_in == 0 && gz_avail(state) == -1)
+        /* get more input for inflbte() */
+        if (strm->bvbil_in == 0 && gz_bvbil(stbte) == -1)
             return -1;
-        if (strm->avail_in == 0) {
-            gz_error(state, Z_BUF_ERROR, "unexpected end of file");
-            break;
+        if (strm->bvbil_in == 0) {
+            gz_error(stbte, Z_BUF_ERROR, "unexpected end of file");
+            brebk;
         }
 
-        /* decompress and handle errors */
-        ret = inflate(strm, Z_NO_FLUSH);
+        /* decompress bnd hbndle errors */
+        ret = inflbte(strm, Z_NO_FLUSH);
         if (ret == Z_STREAM_ERROR || ret == Z_NEED_DICT) {
-            gz_error(state, Z_STREAM_ERROR,
-                     "internal error: inflate stream corrupt");
+            gz_error(stbte, Z_STREAM_ERROR,
+                     "internbl error: inflbte strebm corrupt");
             return -1;
         }
         if (ret == Z_MEM_ERROR) {
-            gz_error(state, Z_MEM_ERROR, "out of memory");
+            gz_error(stbte, Z_MEM_ERROR, "out of memory");
             return -1;
         }
-        if (ret == Z_DATA_ERROR) {              /* deflate stream invalid */
-            gz_error(state, Z_DATA_ERROR,
-                     strm->msg == NULL ? "compressed data error" : strm->msg);
+        if (ret == Z_DATA_ERROR) {              /* deflbte strebm invblid */
+            gz_error(stbte, Z_DATA_ERROR,
+                     strm->msg == NULL ? "compressed dbtb error" : strm->msg);
             return -1;
         }
-    } while (strm->avail_out && ret != Z_STREAM_END);
+    } while (strm->bvbil_out && ret != Z_STREAM_END);
 
-    /* update available output */
-    state->x.have = had - strm->avail_out;
-    state->x.next = strm->next_out - state->x.have;
+    /* updbte bvbilbble output */
+    stbte->x.hbve = hbd - strm->bvbil_out;
+    stbte->x.next = strm->next_out - stbte->x.hbve;
 
-    /* if the gzip stream completed successfully, look for another */
+    /* if the gzip strebm completed successfully, look for bnother */
     if (ret == Z_STREAM_END)
-        state->how = LOOK;
+        stbte->how = LOOK;
 
     /* good decompression */
     return 0;
 }
 
-/* Fetch data and put it in the output buffer.  Assumes state->x.have is 0.
-   Data is either copied from the input file or decompressed from the input
-   file depending on state->how.  If state->how is LOOK, then a gzip header is
+/* Fetch dbtb bnd put it in the output buffer.  Assumes stbte->x.hbve is 0.
+   Dbtb is either copied from the input file or decompressed from the input
+   file depending on stbte->how.  If stbte->how is LOOK, then b gzip hebder is
    looked for to determine whether to copy or decompress.  Returns -1 on error,
-   otherwise 0.  gz_fetch() will leave state->how as COPY or GZIP unless the
-   end of the input file has been reached and all data has been processed.  */
-local int gz_fetch(state)
-    gz_statep state;
+   otherwise 0.  gz_fetch() will lebve stbte->how bs COPY or GZIP unless the
+   end of the input file hbs been rebched bnd bll dbtb hbs been processed.  */
+locbl int gz_fetch(stbte)
+    gz_stbtep stbte;
 {
-    z_streamp strm = &(state->strm);
+    z_strebmp strm = &(stbte->strm);
 
     do {
-        switch(state->how) {
-        case LOOK:      /* -> LOOK, COPY (only if never GZIP), or GZIP */
-            if (gz_look(state) == -1)
+        switch(stbte->how) {
+        cbse LOOK:      /* -> LOOK, COPY (only if never GZIP), or GZIP */
+            if (gz_look(stbte) == -1)
                 return -1;
-            if (state->how == LOOK)
+            if (stbte->how == LOOK)
                 return 0;
-            break;
-        case COPY:      /* -> COPY */
-            if (gz_load(state, state->out, state->size << 1, &(state->x.have))
+            brebk;
+        cbse COPY:      /* -> COPY */
+            if (gz_lobd(stbte, stbte->out, stbte->size << 1, &(stbte->x.hbve))
                     == -1)
                 return -1;
-            state->x.next = state->out;
+            stbte->x.next = stbte->out;
             return 0;
-        case GZIP:      /* -> GZIP or LOOK (if end of gzip stream) */
-            strm->avail_out = state->size << 1;
-            strm->next_out = state->out;
-            if (gz_decomp(state) == -1)
+        cbse GZIP:      /* -> GZIP or LOOK (if end of gzip strebm) */
+            strm->bvbil_out = stbte->size << 1;
+            strm->next_out = stbte->out;
+            if (gz_decomp(stbte) == -1)
                 return -1;
         }
-    } while (state->x.have == 0 && (!state->eof || strm->avail_in));
+    } while (stbte->x.hbve == 0 && (!stbte->eof || strm->bvbil_in));
     return 0;
 }
 
 /* Skip len uncompressed bytes of output.  Return -1 on error, 0 on success. */
-local int gz_skip(state, len)
-    gz_statep state;
+locbl int gz_skip(stbte, len)
+    gz_stbtep stbte;
     z_off64_t len;
 {
     unsigned n;
 
-    /* skip over len bytes or reach end-of-file, whichever comes first */
+    /* skip over len bytes or rebch end-of-file, whichever comes first */
     while (len)
-        /* skip over whatever is in output buffer */
-        if (state->x.have) {
-            n = GT_OFF(state->x.have) || (z_off64_t)state->x.have > len ?
-                (unsigned)len : state->x.have;
-            state->x.have -= n;
-            state->x.next += n;
-            state->x.pos += n;
+        /* skip over whbtever is in output buffer */
+        if (stbte->x.hbve) {
+            n = GT_OFF(stbte->x.hbve) || (z_off64_t)stbte->x.hbve > len ?
+                (unsigned)len : stbte->x.hbve;
+            stbte->x.hbve -= n;
+            stbte->x.next += n;
+            stbte->x.pos += n;
             len -= n;
         }
 
-        /* output buffer empty -- return if we're at the end of the input */
-        else if (state->eof && state->strm.avail_in == 0)
-            break;
+        /* output buffer empty -- return if we're bt the end of the input */
+        else if (stbte->eof && stbte->strm.bvbil_in == 0)
+            brebk;
 
-        /* need more data to skip -- load up output buffer */
+        /* need more dbtb to skip -- lobd up output buffer */
         else {
-            /* get more output, looking for header if required */
-            if (gz_fetch(state) == -1)
+            /* get more output, looking for hebder if required */
+            if (gz_fetch(stbte) == -1)
                 return -1;
         }
     return 0;
 }
 
 /* -- see zlib.h -- */
-int ZEXPORT gzread(file, buf, len)
+int ZEXPORT gzrebd(file, buf, len)
     gzFile file;
     voidp buf;
     unsigned len;
 {
     unsigned got, n;
-    gz_statep state;
-    z_streamp strm;
+    gz_stbtep stbte;
+    z_strebmp strm;
 
-    /* get internal structure */
+    /* get internbl structure */
     if (file == NULL)
         return -1;
-    state = (gz_statep)file;
-    strm = &(state->strm);
+    stbte = (gz_stbtep)file;
+    strm = &(stbte->strm);
 
-    /* check that we're reading and that there's no (serious) error */
-    if (state->mode != GZ_READ ||
-            (state->err != Z_OK && state->err != Z_BUF_ERROR))
+    /* check thbt we're rebding bnd thbt there's no (serious) error */
+    if (stbte->mode != GZ_READ ||
+            (stbte->err != Z_OK && stbte->err != Z_BUF_ERROR))
         return -1;
 
-    /* since an int is returned, make sure len fits in one, otherwise return
-       with an error (this avoids the flaw in the interface) */
+    /* since bn int is returned, mbke sure len fits in one, otherwise return
+       with bn error (this bvoids the flbw in the interfbce) */
     if ((int)len < 0) {
-        gz_error(state, Z_DATA_ERROR, "requested length does not fit in int");
+        gz_error(stbte, Z_DATA_ERROR, "requested length does not fit in int");
         return -1;
     }
 
-    /* if len is zero, avoid unnecessary operations */
+    /* if len is zero, bvoid unnecessbry operbtions */
     if (len == 0)
         return 0;
 
-    /* process a skip request */
-    if (state->seek) {
-        state->seek = 0;
-        if (gz_skip(state, state->skip) == -1)
+    /* process b skip request */
+    if (stbte->seek) {
+        stbte->seek = 0;
+        if (gz_skip(stbte, stbte->skip) == -1)
             return -1;
     }
 
-    /* get len bytes to buf, or less than len if at the end */
+    /* get len bytes to buf, or less thbn len if bt the end */
     got = 0;
     do {
-        /* first just try copying data from the output buffer */
-        if (state->x.have) {
-            n = state->x.have > len ? len : state->x.have;
-            memcpy(buf, state->x.next, n);
-            state->x.next += n;
-            state->x.have -= n;
+        /* first just try copying dbtb from the output buffer */
+        if (stbte->x.hbve) {
+            n = stbte->x.hbve > len ? len : stbte->x.hbve;
+            memcpy(buf, stbte->x.next, n);
+            stbte->x.next += n;
+            stbte->x.hbve -= n;
         }
 
-        /* output buffer empty -- return if we're at the end of the input */
-        else if (state->eof && strm->avail_in == 0) {
-            state->past = 1;        /* tried to read past end */
-            break;
+        /* output buffer empty -- return if we're bt the end of the input */
+        else if (stbte->eof && strm->bvbil_in == 0) {
+            stbte->pbst = 1;        /* tried to rebd pbst end */
+            brebk;
         }
 
-        /* need output data -- for small len or new stream load up our output
+        /* need output dbtb -- for smbll len or new strebm lobd up our output
            buffer */
-        else if (state->how == LOOK || len < (state->size << 1)) {
-            /* get more output, looking for header if required */
-            if (gz_fetch(state) == -1)
+        else if (stbte->how == LOOK || len < (stbte->size << 1)) {
+            /* get more output, looking for hebder if required */
+            if (gz_fetch(stbte) == -1)
                 return -1;
-            continue;       /* no progress yet -- go back to copy above */
-            /* the copy above assures that we will leave with space in the
-               output buffer, allowing at least one gzungetc() to succeed */
+            continue;       /* no progress yet -- go bbck to copy bbove */
+            /* the copy bbove bssures thbt we will lebve with spbce in the
+               output buffer, bllowing bt lebst one gzungetc() to succeed */
         }
 
-        /* large len -- read directly into user buffer */
-        else if (state->how == COPY) {      /* read directly */
-            if (gz_load(state, (unsigned char *)buf, len, &n) == -1)
+        /* lbrge len -- rebd directly into user buffer */
+        else if (stbte->how == COPY) {      /* rebd directly */
+            if (gz_lobd(stbte, (unsigned chbr *)buf, len, &n) == -1)
                 return -1;
         }
 
-        /* large len -- decompress directly into user buffer */
-        else {  /* state->how == GZIP */
-            strm->avail_out = len;
-            strm->next_out = (unsigned char *)buf;
-            if (gz_decomp(state) == -1)
+        /* lbrge len -- decompress directly into user buffer */
+        else {  /* stbte->how == GZIP */
+            strm->bvbil_out = len;
+            strm->next_out = (unsigned chbr *)buf;
+            if (gz_decomp(stbte) == -1)
                 return -1;
-            n = state->x.have;
-            state->x.have = 0;
+            n = stbte->x.hbve;
+            stbte->x.hbve = 0;
         }
 
-        /* update progress */
+        /* updbte progress */
         len -= n;
-        buf = (char *)buf + n;
+        buf = (chbr *)buf + n;
         got += n;
-        state->x.pos += n;
+        stbte->x.pos += n;
     } while (len);
 
-    /* return number of bytes read into user buffer (will fit in int) */
+    /* return number of bytes rebd into user buffer (will fit in int) */
     return (int)got;
 }
 
@@ -412,28 +412,28 @@ int ZEXPORT gzgetc(file)
     gzFile file;
 {
     int ret;
-    unsigned char buf[1];
-    gz_statep state;
+    unsigned chbr buf[1];
+    gz_stbtep stbte;
 
-    /* get internal structure */
+    /* get internbl structure */
     if (file == NULL)
         return -1;
-    state = (gz_statep)file;
+    stbte = (gz_stbtep)file;
 
-    /* check that we're reading and that there's no (serious) error */
-    if (state->mode != GZ_READ ||
-        (state->err != Z_OK && state->err != Z_BUF_ERROR))
+    /* check thbt we're rebding bnd thbt there's no (serious) error */
+    if (stbte->mode != GZ_READ ||
+        (stbte->err != Z_OK && stbte->err != Z_BUF_ERROR))
         return -1;
 
     /* try output buffer (no need to check for skip request) */
-    if (state->x.have) {
-        state->x.have--;
-        state->x.pos++;
-        return *(state->x.next)++;
+    if (stbte->x.hbve) {
+        stbte->x.hbve--;
+        stbte->x.pos++;
+        return *(stbte->x.next)++;
     }
 
-    /* nothing there -- try gzread() */
-    ret = gzread(file, buf, 1);
+    /* nothing there -- try gzrebd() */
+    ret = gzrebd(file, buf, 1);
     return ret < 1 ? -1 : buf[0];
 }
 
@@ -448,119 +448,119 @@ int ZEXPORT gzungetc(c, file)
     int c;
     gzFile file;
 {
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure */
+    /* get internbl structure */
     if (file == NULL)
         return -1;
-    state = (gz_statep)file;
+    stbte = (gz_stbtep)file;
 
-    /* check that we're reading and that there's no (serious) error */
-    if (state->mode != GZ_READ ||
-        (state->err != Z_OK && state->err != Z_BUF_ERROR))
+    /* check thbt we're rebding bnd thbt there's no (serious) error */
+    if (stbte->mode != GZ_READ ||
+        (stbte->err != Z_OK && stbte->err != Z_BUF_ERROR))
         return -1;
 
-    /* process a skip request */
-    if (state->seek) {
-        state->seek = 0;
-        if (gz_skip(state, state->skip) == -1)
+    /* process b skip request */
+    if (stbte->seek) {
+        stbte->seek = 0;
+        if (gz_skip(stbte, stbte->skip) == -1)
             return -1;
     }
 
-    /* can't push EOF */
+    /* cbn't push EOF */
     if (c < 0)
         return -1;
 
-    /* if output buffer empty, put byte at end (allows more pushing) */
-    if (state->x.have == 0) {
-        state->x.have = 1;
-        state->x.next = state->out + (state->size << 1) - 1;
-        state->x.next[0] = c;
-        state->x.pos--;
-        state->past = 0;
+    /* if output buffer empty, put byte bt end (bllows more pushing) */
+    if (stbte->x.hbve == 0) {
+        stbte->x.hbve = 1;
+        stbte->x.next = stbte->out + (stbte->size << 1) - 1;
+        stbte->x.next[0] = c;
+        stbte->x.pos--;
+        stbte->pbst = 0;
         return c;
     }
 
-    /* if no room, give up (must have already done a gzungetc()) */
-    if (state->x.have == (state->size << 1)) {
-        gz_error(state, Z_DATA_ERROR, "out of room to push characters");
+    /* if no room, give up (must hbve blrebdy done b gzungetc()) */
+    if (stbte->x.hbve == (stbte->size << 1)) {
+        gz_error(stbte, Z_DATA_ERROR, "out of room to push chbrbcters");
         return -1;
     }
 
-    /* slide output data if needed and insert byte before existing data */
-    if (state->x.next == state->out) {
-        unsigned char *src = state->out + state->x.have;
-        unsigned char *dest = state->out + (state->size << 1);
-        while (src > state->out)
+    /* slide output dbtb if needed bnd insert byte before existing dbtb */
+    if (stbte->x.next == stbte->out) {
+        unsigned chbr *src = stbte->out + stbte->x.hbve;
+        unsigned chbr *dest = stbte->out + (stbte->size << 1);
+        while (src > stbte->out)
             *--dest = *--src;
-        state->x.next = dest;
+        stbte->x.next = dest;
     }
-    state->x.have++;
-    state->x.next--;
-    state->x.next[0] = c;
-    state->x.pos--;
-    state->past = 0;
+    stbte->x.hbve++;
+    stbte->x.next--;
+    stbte->x.next[0] = c;
+    stbte->x.pos--;
+    stbte->pbst = 0;
     return c;
 }
 
 /* -- see zlib.h -- */
-char * ZEXPORT gzgets(file, buf, len)
+chbr * ZEXPORT gzgets(file, buf, len)
     gzFile file;
-    char *buf;
+    chbr *buf;
     int len;
 {
     unsigned left, n;
-    char *str;
-    unsigned char *eol;
-    gz_statep state;
+    chbr *str;
+    unsigned chbr *eol;
+    gz_stbtep stbte;
 
-    /* check parameters and get internal structure */
+    /* check pbrbmeters bnd get internbl structure */
     if (file == NULL || buf == NULL || len < 1)
         return NULL;
-    state = (gz_statep)file;
+    stbte = (gz_stbtep)file;
 
-    /* check that we're reading and that there's no (serious) error */
-    if (state->mode != GZ_READ ||
-        (state->err != Z_OK && state->err != Z_BUF_ERROR))
+    /* check thbt we're rebding bnd thbt there's no (serious) error */
+    if (stbte->mode != GZ_READ ||
+        (stbte->err != Z_OK && stbte->err != Z_BUF_ERROR))
         return NULL;
 
-    /* process a skip request */
-    if (state->seek) {
-        state->seek = 0;
-        if (gz_skip(state, state->skip) == -1)
+    /* process b skip request */
+    if (stbte->seek) {
+        stbte->seek = 0;
+        if (gz_skip(stbte, stbte->skip) == -1)
             return NULL;
     }
 
     /* copy output bytes up to new line or len - 1, whichever comes first --
-       append a terminating zero to the string (we don't check for a zero in
-       the contents, let the user worry about that) */
+       bppend b terminbting zero to the string (we don't check for b zero in
+       the contents, let the user worry bbout thbt) */
     str = buf;
     left = (unsigned)len - 1;
     if (left) do {
-        /* assure that something is in the output buffer */
-        if (state->x.have == 0 && gz_fetch(state) == -1)
+        /* bssure thbt something is in the output buffer */
+        if (stbte->x.hbve == 0 && gz_fetch(stbte) == -1)
             return NULL;                /* error */
-        if (state->x.have == 0) {       /* end of file */
-            state->past = 1;            /* read past end */
-            break;                      /* return what we have */
+        if (stbte->x.hbve == 0) {       /* end of file */
+            stbte->pbst = 1;            /* rebd pbst end */
+            brebk;                      /* return whbt we hbve */
         }
 
         /* look for end-of-line in current output buffer */
-        n = state->x.have > left ? left : state->x.have;
-        eol = (unsigned char *)memchr(state->x.next, '\n', n);
+        n = stbte->x.hbve > left ? left : stbte->x.hbve;
+        eol = (unsigned chbr *)memchr(stbte->x.next, '\n', n);
         if (eol != NULL)
-            n = (unsigned)(eol - state->x.next) + 1;
+            n = (unsigned)(eol - stbte->x.next) + 1;
 
-        /* copy through end-of-line, or remainder if not found */
-        memcpy(buf, state->x.next, n);
-        state->x.have -= n;
-        state->x.next += n;
-        state->x.pos += n;
+        /* copy through end-of-line, or rembinder if not found */
+        memcpy(buf, stbte->x.next, n);
+        stbte->x.hbve -= n;
+        stbte->x.next += n;
+        stbte->x.pos += n;
         left -= n;
         buf += n;
     } while (left && eol == NULL);
 
-    /* return terminated string, or if nothing, end of file */
+    /* return terminbted string, or if nothing, end of file */
     if (buf == str)
         return NULL;
     buf[0] = 0;
@@ -571,20 +571,20 @@ char * ZEXPORT gzgets(file, buf, len)
 int ZEXPORT gzdirect(file)
     gzFile file;
 {
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure */
+    /* get internbl structure */
     if (file == NULL)
         return 0;
-    state = (gz_statep)file;
+    stbte = (gz_stbtep)file;
 
-    /* if the state is not known, but we can find out, then do so (this is
-       mainly for right after a gzopen() or gzdopen()) */
-    if (state->mode == GZ_READ && state->how == LOOK && state->x.have == 0)
-        (void)gz_look(state);
+    /* if the stbte is not known, but we cbn find out, then do so (this is
+       mbinly for right bfter b gzopen() or gzdopen()) */
+    if (stbte->mode == GZ_READ && stbte->how == LOOK && stbte->x.hbve == 0)
+        (void)gz_look(stbte);
 
-    /* return 1 if transparent, 0 if processing a gzip stream */
-    return state->direct;
+    /* return 1 if trbnspbrent, 0 if processing b gzip strebm */
+    return stbte->direct;
 }
 
 /* -- see zlib.h -- */
@@ -592,27 +592,27 @@ int ZEXPORT gzclose_r(file)
     gzFile file;
 {
     int ret, err;
-    gz_statep state;
+    gz_stbtep stbte;
 
-    /* get internal structure */
+    /* get internbl structure */
     if (file == NULL)
         return Z_STREAM_ERROR;
-    state = (gz_statep)file;
+    stbte = (gz_stbtep)file;
 
-    /* check that we're reading */
-    if (state->mode != GZ_READ)
+    /* check thbt we're rebding */
+    if (stbte->mode != GZ_READ)
         return Z_STREAM_ERROR;
 
-    /* free memory and close file */
-    if (state->size) {
-        inflateEnd(&(state->strm));
-        free(state->out);
-        free(state->in);
+    /* free memory bnd close file */
+    if (stbte->size) {
+        inflbteEnd(&(stbte->strm));
+        free(stbte->out);
+        free(stbte->in);
     }
-    err = state->err == Z_BUF_ERROR ? Z_BUF_ERROR : Z_OK;
-    gz_error(state, Z_OK, NULL);
-    free(state->path);
-    ret = close(state->fd);
-    free(state);
+    err = stbte->err == Z_BUF_ERROR ? Z_BUF_ERROR : Z_OK;
+    gz_error(stbte, Z_OK, NULL);
+    free(stbte->pbth);
+    ret = close(stbte->fd);
+    free(stbte);
     return ret ? Z_ERRNO : err;
 }

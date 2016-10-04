@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
  * <p>
- * The root class from which all event state objects shall be derived.
+ * The root clbss from which bll event stbte objects shbll be derived.
  * <p>
- * All Events are constructed with a reference to the object, the "source",
- * that is logically deemed to be the object upon which the Event in question
- * initially occurred upon.
+ * All Events bre constructed with b reference to the object, the "source",
+ * thbt is logicblly deemed to be the object upon which the Event in question
+ * initiblly occurred upon.
  *
  * @since 1.1
  */
 
-public class EventObject implements java.io.Serializable {
+public clbss EventObject implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 5516075349620653480L;
+    privbte stbtic finbl long seriblVersionUID = 5516075349620653480L;
 
     /**
-     * The object on which the Event initially occurred.
+     * The object on which the Event initiblly occurred.
      */
-    protected transient Object  source;
+    protected trbnsient Object  source;
 
     /**
-     * Constructs a prototypical Event.
+     * Constructs b prototypicbl Event.
      *
-     * @param    source    The object on which the Event initially occurred.
-     * @exception  IllegalArgumentException  if source is null.
+     * @pbrbm    source    The object on which the Event initiblly occurred.
+     * @exception  IllegblArgumentException  if source is null.
      */
     public EventObject(Object source) {
         if (source == null)
-            throw new IllegalArgumentException("null source");
+            throw new IllegblArgumentException("null source");
 
         this.source = source;
     }
 
     /**
-     * The object on which the Event initially occurred.
+     * The object on which the Event initiblly occurred.
      *
-     * @return   The object on which the Event initially occurred.
+     * @return   The object on which the Event initiblly occurred.
      */
     public Object getSource() {
         return source;
     }
 
     /**
-     * Returns a String representation of this EventObject.
+     * Returns b String representbtion of this EventObject.
      *
-     * @return  A a String representation of this EventObject.
+     * @return  A b String representbtion of this EventObject.
      */
     public String toString() {
-        return getClass().getName() + "[source=" + source + "]";
+        return getClbss().getNbme() + "[source=" + source + "]";
     }
 }

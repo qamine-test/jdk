@@ -1,468 +1,468 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.CodeSource;
-import java.security.Policy;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.ProtectionDomain;
-import java.security.cert.Certificate;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Map;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.WeakHashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import sun.misc.CompoundEnumeration;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.File;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.CodeSource;
+import jbvb.security.Policy;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.ProtectionDombin;
+import jbvb.security.cert.Certificbte;
+import jbvb.util.Collections;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
+import jbvb.util.Stbck;
+import jbvb.util.Mbp;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import sun.misc.CompoundEnumerbtion;
 import sun.misc.Resource;
-import sun.misc.URLClassPath;
+import sun.misc.URLClbssPbth;
 import sun.misc.VM;
-import sun.reflect.CallerSensitive;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 import sun.reflect.misc.ReflectUtil;
-import sun.security.util.SecurityConstants;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * A class loader is an object that is responsible for loading classes. The
- * class <tt>ClassLoader</tt> is an abstract class.  Given the <a
- * href="#name">binary name</a> of a class, a class loader should attempt to
- * locate or generate data that constitutes a definition for the class.  A
- * typical strategy is to transform the name into a file name and then read a
- * "class file" of that name from a file system.
+ * A clbss lobder is bn object thbt is responsible for lobding clbsses. The
+ * clbss <tt>ClbssLobder</tt> is bn bbstrbct clbss.  Given the <b
+ * href="#nbme">binbry nbme</b> of b clbss, b clbss lobder should bttempt to
+ * locbte or generbte dbtb thbt constitutes b definition for the clbss.  A
+ * typicbl strbtegy is to trbnsform the nbme into b file nbme bnd then rebd b
+ * "clbss file" of thbt nbme from b file system.
  *
- * <p> Every {@link Class <tt>Class</tt>} object contains a {@link
- * Class#getClassLoader() reference} to the <tt>ClassLoader</tt> that defined
+ * <p> Every {@link Clbss <tt>Clbss</tt>} object contbins b {@link
+ * Clbss#getClbssLobder() reference} to the <tt>ClbssLobder</tt> thbt defined
  * it.
  *
- * <p> <tt>Class</tt> objects for array classes are not created by class
- * loaders, but are created automatically as required by the Java runtime.
- * The class loader for an array class, as returned by {@link
- * Class#getClassLoader()} is the same as the class loader for its element
- * type; if the element type is a primitive type, then the array class has no
- * class loader.
+ * <p> <tt>Clbss</tt> objects for brrby clbsses bre not crebted by clbss
+ * lobders, but bre crebted butombticblly bs required by the Jbvb runtime.
+ * The clbss lobder for bn brrby clbss, bs returned by {@link
+ * Clbss#getClbssLobder()} is the sbme bs the clbss lobder for its element
+ * type; if the element type is b primitive type, then the brrby clbss hbs no
+ * clbss lobder.
  *
- * <p> Applications implement subclasses of <tt>ClassLoader</tt> in order to
- * extend the manner in which the Java virtual machine dynamically loads
- * classes.
+ * <p> Applicbtions implement subclbsses of <tt>ClbssLobder</tt> in order to
+ * extend the mbnner in which the Jbvb virtubl mbchine dynbmicblly lobds
+ * clbsses.
  *
- * <p> Class loaders may typically be used by security managers to indicate
- * security domains.
+ * <p> Clbss lobders mby typicblly be used by security mbnbgers to indicbte
+ * security dombins.
  *
- * <p> The <tt>ClassLoader</tt> class uses a delegation model to search for
- * classes and resources.  Each instance of <tt>ClassLoader</tt> has an
- * associated parent class loader.  When requested to find a class or
- * resource, a <tt>ClassLoader</tt> instance will delegate the search for the
- * class or resource to its parent class loader before attempting to find the
- * class or resource itself.  The virtual machine's built-in class loader,
- * called the "bootstrap class loader", does not itself have a parent but may
- * serve as the parent of a <tt>ClassLoader</tt> instance.
+ * <p> The <tt>ClbssLobder</tt> clbss uses b delegbtion model to sebrch for
+ * clbsses bnd resources.  Ebch instbnce of <tt>ClbssLobder</tt> hbs bn
+ * bssocibted pbrent clbss lobder.  When requested to find b clbss or
+ * resource, b <tt>ClbssLobder</tt> instbnce will delegbte the sebrch for the
+ * clbss or resource to its pbrent clbss lobder before bttempting to find the
+ * clbss or resource itself.  The virtubl mbchine's built-in clbss lobder,
+ * cblled the "bootstrbp clbss lobder", does not itself hbve b pbrent but mby
+ * serve bs the pbrent of b <tt>ClbssLobder</tt> instbnce.
  *
- * <p> Class loaders that support concurrent loading of classes are known as
- * <em>parallel capable</em> class loaders and are required to register
- * themselves at their class initialization time by invoking the
+ * <p> Clbss lobders thbt support concurrent lobding of clbsses bre known bs
+ * <em>pbrbllel cbpbble</em> clbss lobders bnd bre required to register
+ * themselves bt their clbss initiblizbtion time by invoking the
  * {@link
- * #registerAsParallelCapable <tt>ClassLoader.registerAsParallelCapable</tt>}
- * method. Note that the <tt>ClassLoader</tt> class is registered as parallel
- * capable by default. However, its subclasses still need to register themselves
- * if they are parallel capable. <br>
- * In environments in which the delegation model is not strictly
- * hierarchical, class loaders need to be parallel capable, otherwise class
- * loading can lead to deadlocks because the loader lock is held for the
- * duration of the class loading process (see {@link #loadClass
- * <tt>loadClass</tt>} methods).
+ * #registerAsPbrbllelCbpbble <tt>ClbssLobder.registerAsPbrbllelCbpbble</tt>}
+ * method. Note thbt the <tt>ClbssLobder</tt> clbss is registered bs pbrbllel
+ * cbpbble by defbult. However, its subclbsses still need to register themselves
+ * if they bre pbrbllel cbpbble. <br>
+ * In environments in which the delegbtion model is not strictly
+ * hierbrchicbl, clbss lobders need to be pbrbllel cbpbble, otherwise clbss
+ * lobding cbn lebd to debdlocks becbuse the lobder lock is held for the
+ * durbtion of the clbss lobding process (see {@link #lobdClbss
+ * <tt>lobdClbss</tt>} methods).
  *
- * <p> Normally, the Java virtual machine loads classes from the local file
- * system in a platform-dependent manner.  For example, on UNIX systems, the
- * virtual machine loads classes from the directory defined by the
- * <tt>CLASSPATH</tt> environment variable.
+ * <p> Normblly, the Jbvb virtubl mbchine lobds clbsses from the locbl file
+ * system in b plbtform-dependent mbnner.  For exbmple, on UNIX systems, the
+ * virtubl mbchine lobds clbsses from the directory defined by the
+ * <tt>CLASSPATH</tt> environment vbribble.
  *
- * <p> However, some classes may not originate from a file; they may originate
- * from other sources, such as the network, or they could be constructed by an
- * application.  The method {@link #defineClass(String, byte[], int, int)
- * <tt>defineClass</tt>} converts an array of bytes into an instance of class
- * <tt>Class</tt>. Instances of this newly defined class can be created using
- * {@link Class#newInstance <tt>Class.newInstance</tt>}.
+ * <p> However, some clbsses mby not originbte from b file; they mby originbte
+ * from other sources, such bs the network, or they could be constructed by bn
+ * bpplicbtion.  The method {@link #defineClbss(String, byte[], int, int)
+ * <tt>defineClbss</tt>} converts bn brrby of bytes into bn instbnce of clbss
+ * <tt>Clbss</tt>. Instbnces of this newly defined clbss cbn be crebted using
+ * {@link Clbss#newInstbnce <tt>Clbss.newInstbnce</tt>}.
  *
- * <p> The methods and constructors of objects created by a class loader may
- * reference other classes.  To determine the class(es) referred to, the Java
- * virtual machine invokes the {@link #loadClass <tt>loadClass</tt>} method of
- * the class loader that originally created the class.
+ * <p> The methods bnd constructors of objects crebted by b clbss lobder mby
+ * reference other clbsses.  To determine the clbss(es) referred to, the Jbvb
+ * virtubl mbchine invokes the {@link #lobdClbss <tt>lobdClbss</tt>} method of
+ * the clbss lobder thbt originblly crebted the clbss.
  *
- * <p> For example, an application could create a network class loader to
- * download class files from a server.  Sample code might look like:
+ * <p> For exbmple, bn bpplicbtion could crebte b network clbss lobder to
+ * downlobd clbss files from b server.  Sbmple code might look like:
  *
  * <blockquote><pre>
- *   ClassLoader loader&nbsp;= new NetworkClassLoader(host,&nbsp;port);
- *   Object main&nbsp;= loader.loadClass("Main", true).newInstance();
+ *   ClbssLobder lobder&nbsp;= new NetworkClbssLobder(host,&nbsp;port);
+ *   Object mbin&nbsp;= lobder.lobdClbss("Mbin", true).newInstbnce();
  *       &nbsp;.&nbsp;.&nbsp;.
  * </pre></blockquote>
  *
- * <p> The network class loader subclass must define the methods {@link
- * #findClass <tt>findClass</tt>} and <tt>loadClassData</tt> to load a class
- * from the network.  Once it has downloaded the bytes that make up the class,
- * it should use the method {@link #defineClass <tt>defineClass</tt>} to
- * create a class instance.  A sample implementation is:
+ * <p> The network clbss lobder subclbss must define the methods {@link
+ * #findClbss <tt>findClbss</tt>} bnd <tt>lobdClbssDbtb</tt> to lobd b clbss
+ * from the network.  Once it hbs downlobded the bytes thbt mbke up the clbss,
+ * it should use the method {@link #defineClbss <tt>defineClbss</tt>} to
+ * crebte b clbss instbnce.  A sbmple implementbtion is:
  *
  * <blockquote><pre>
- *     class NetworkClassLoader extends ClassLoader {
+ *     clbss NetworkClbssLobder extends ClbssLobder {
  *         String host;
  *         int port;
  *
- *         public Class findClass(String name) {
- *             byte[] b = loadClassData(name);
- *             return defineClass(name, b, 0, b.length);
+ *         public Clbss findClbss(String nbme) {
+ *             byte[] b = lobdClbssDbtb(nbme);
+ *             return defineClbss(nbme, b, 0, b.length);
  *         }
  *
- *         private byte[] loadClassData(String name) {
- *             // load the class data from the connection
+ *         privbte byte[] lobdClbssDbtb(String nbme) {
+ *             // lobd the clbss dbtb from the connection
  *             &nbsp;.&nbsp;.&nbsp;.
  *         }
  *     }
  * </pre></blockquote>
  *
- * <h3> <a name="name">Binary names</a> </h3>
+ * <h3> <b nbme="nbme">Binbry nbmes</b> </h3>
  *
- * <p> Any class name provided as a {@link String} parameter to methods in
- * <tt>ClassLoader</tt> must be a binary name as defined by
- * <cite>The Java&trade; Language Specification</cite>.
+ * <p> Any clbss nbme provided bs b {@link String} pbrbmeter to methods in
+ * <tt>ClbssLobder</tt> must be b binbry nbme bs defined by
+ * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
  *
- * <p> Examples of valid class names include:
+ * <p> Exbmples of vblid clbss nbmes include:
  * <blockquote><pre>
- *   "java.lang.String"
- *   "javax.swing.JSpinner$DefaultEditor"
- *   "java.security.KeyStore$Builder$FileBuilder$1"
- *   "java.net.URLClassLoader$3$1"
+ *   "jbvb.lbng.String"
+ *   "jbvbx.swing.JSpinner$DefbultEditor"
+ *   "jbvb.security.KeyStore$Builder$FileBuilder$1"
+ *   "jbvb.net.URLClbssLobder$3$1"
  * </pre></blockquote>
  *
- * {@code Class} objects for array classes are not created by {@code ClassLoader};
- * use the {@link Class#forName} method instead.
+ * {@code Clbss} objects for brrby clbsses bre not crebted by {@code ClbssLobder};
+ * use the {@link Clbss#forNbme} method instebd.
  *
- * @jls 13.1 The Form of a Binary
- * @see      #resolveClass(Class)
+ * @jls 13.1 The Form of b Binbry
+ * @see      #resolveClbss(Clbss)
  * @since 1.0
  */
-public abstract class ClassLoader {
+public bbstrbct clbss ClbssLobder {
 
-    private static native void registerNatives();
-    static {
-        registerNatives();
+    privbte stbtic nbtive void registerNbtives();
+    stbtic {
+        registerNbtives();
     }
 
-    // The parent class loader for delegation
-    // Note: VM hardcoded the offset of this field, thus all new fields
-    // must be added *after* it.
-    private final ClassLoader parent;
+    // The pbrent clbss lobder for delegbtion
+    // Note: VM hbrdcoded the offset of this field, thus bll new fields
+    // must be bdded *bfter* it.
+    privbte finbl ClbssLobder pbrent;
 
     /**
-     * Encapsulates the set of parallel capable loader types.
+     * Encbpsulbtes the set of pbrbllel cbpbble lobder types.
      */
-    private static class ParallelLoaders {
-        private ParallelLoaders() {}
+    privbte stbtic clbss PbrbllelLobders {
+        privbte PbrbllelLobders() {}
 
-        // the set of parallel capable loader types
-        private static final Set<Class<? extends ClassLoader>> loaderTypes =
-            Collections.newSetFromMap(new WeakHashMap<>());
-        static {
-            synchronized (loaderTypes) { loaderTypes.add(ClassLoader.class); }
+        // the set of pbrbllel cbpbble lobder types
+        privbte stbtic finbl Set<Clbss<? extends ClbssLobder>> lobderTypes =
+            Collections.newSetFromMbp(new WebkHbshMbp<>());
+        stbtic {
+            synchronized (lobderTypes) { lobderTypes.bdd(ClbssLobder.clbss); }
         }
 
         /**
-         * Registers the given class loader type as parallel capabale.
-         * Returns {@code true} is successfully registered; {@code false} if
-         * loader's super class is not registered.
+         * Registers the given clbss lobder type bs pbrbllel cbpbbble.
+         * Returns {@code true} is successfully registered; {@code fblse} if
+         * lobder's super clbss is not registered.
          */
-        static boolean register(Class<? extends ClassLoader> c) {
-            synchronized (loaderTypes) {
-                if (loaderTypes.contains(c.getSuperclass())) {
-                    // register the class loader as parallel capable
-                    // if and only if all of its super classes are.
-                    // Note: given current classloading sequence, if
-                    // the immediate super class is parallel capable,
-                    // all the super classes higher up must be too.
-                    loaderTypes.add(c);
+        stbtic boolebn register(Clbss<? extends ClbssLobder> c) {
+            synchronized (lobderTypes) {
+                if (lobderTypes.contbins(c.getSuperclbss())) {
+                    // register the clbss lobder bs pbrbllel cbpbble
+                    // if bnd only if bll of its super clbsses bre.
+                    // Note: given current clbsslobding sequence, if
+                    // the immedibte super clbss is pbrbllel cbpbble,
+                    // bll the super clbsses higher up must be too.
+                    lobderTypes.bdd(c);
                     return true;
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
         }
 
         /**
-         * Returns {@code true} if the given class loader type is
-         * registered as parallel capable.
+         * Returns {@code true} if the given clbss lobder type is
+         * registered bs pbrbllel cbpbble.
          */
-        static boolean isRegistered(Class<? extends ClassLoader> c) {
-            synchronized (loaderTypes) {
-                return loaderTypes.contains(c);
+        stbtic boolebn isRegistered(Clbss<? extends ClbssLobder> c) {
+            synchronized (lobderTypes) {
+                return lobderTypes.contbins(c);
             }
         }
     }
 
-    // Maps class name to the corresponding lock object when the current
-    // class loader is parallel capable.
-    // Note: VM also uses this field to decide if the current class loader
-    // is parallel capable and the appropriate lock object for class loading.
-    private final ConcurrentHashMap<String, Object> parallelLockMap;
+    // Mbps clbss nbme to the corresponding lock object when the current
+    // clbss lobder is pbrbllel cbpbble.
+    // Note: VM blso uses this field to decide if the current clbss lobder
+    // is pbrbllel cbpbble bnd the bppropribte lock object for clbss lobding.
+    privbte finbl ConcurrentHbshMbp<String, Object> pbrbllelLockMbp;
 
-    // Hashtable that maps packages to certs
-    private final Map <String, Certificate[]> package2certs;
+    // Hbshtbble thbt mbps pbckbges to certs
+    privbte finbl Mbp <String, Certificbte[]> pbckbge2certs;
 
-    // Shared among all packages with unsigned classes
-    private static final Certificate[] nocerts = new Certificate[0];
+    // Shbred bmong bll pbckbges with unsigned clbsses
+    privbte stbtic finbl Certificbte[] nocerts = new Certificbte[0];
 
-    // The classes loaded by this class loader. The only purpose of this table
-    // is to keep the classes from being GC'ed until the loader is GC'ed.
-    private final Vector<Class<?>> classes = new Vector<>();
+    // The clbsses lobded by this clbss lobder. The only purpose of this tbble
+    // is to keep the clbsses from being GC'ed until the lobder is GC'ed.
+    privbte finbl Vector<Clbss<?>> clbsses = new Vector<>();
 
-    // The "default" domain. Set as the default ProtectionDomain on newly
-    // created classes.
-    private final ProtectionDomain defaultDomain =
-        new ProtectionDomain(new CodeSource(null, (Certificate[]) null),
+    // The "defbult" dombin. Set bs the defbult ProtectionDombin on newly
+    // crebted clbsses.
+    privbte finbl ProtectionDombin defbultDombin =
+        new ProtectionDombin(new CodeSource(null, (Certificbte[]) null),
                              null, this, null);
 
-    // The initiating protection domains for all classes loaded by this loader
-    private final Set<ProtectionDomain> domains;
+    // The initibting protection dombins for bll clbsses lobded by this lobder
+    privbte finbl Set<ProtectionDombin> dombins;
 
-    // Invoked by the VM to record every loaded class with this loader.
-    void addClass(Class<?> c) {
-        classes.addElement(c);
+    // Invoked by the VM to record every lobded clbss with this lobder.
+    void bddClbss(Clbss<?> c) {
+        clbsses.bddElement(c);
     }
 
-    // The packages defined in this class loader.  Each package name is mapped
-    // to its corresponding Package object.
-    // @GuardedBy("itself")
-    private final HashMap<String, Package> packages = new HashMap<>();
+    // The pbckbges defined in this clbss lobder.  Ebch pbckbge nbme is mbpped
+    // to its corresponding Pbckbge object.
+    // @GubrdedBy("itself")
+    privbte finbl HbshMbp<String, Pbckbge> pbckbges = new HbshMbp<>();
 
-    private static Void checkCreateClassLoader() {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic Void checkCrebteClbssLobder() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkCreateClassLoader();
+            security.checkCrebteClbssLobder();
         }
         return null;
     }
 
-    private ClassLoader(Void unused, ClassLoader parent) {
-        this.parent = parent;
-        if (ParallelLoaders.isRegistered(this.getClass())) {
-            parallelLockMap = new ConcurrentHashMap<>();
-            package2certs = new ConcurrentHashMap<>();
-            domains = Collections.synchronizedSet(new HashSet<>());
-            assertionLock = new Object();
+    privbte ClbssLobder(Void unused, ClbssLobder pbrent) {
+        this.pbrent = pbrent;
+        if (PbrbllelLobders.isRegistered(this.getClbss())) {
+            pbrbllelLockMbp = new ConcurrentHbshMbp<>();
+            pbckbge2certs = new ConcurrentHbshMbp<>();
+            dombins = Collections.synchronizedSet(new HbshSet<>());
+            bssertionLock = new Object();
         } else {
-            // no finer-grained lock; lock on the classloader instance
-            parallelLockMap = null;
-            package2certs = new Hashtable<>();
-            domains = new HashSet<>();
-            assertionLock = this;
+            // no finer-grbined lock; lock on the clbsslobder instbnce
+            pbrbllelLockMbp = null;
+            pbckbge2certs = new Hbshtbble<>();
+            dombins = new HbshSet<>();
+            bssertionLock = this;
         }
     }
 
     /**
-     * Creates a new class loader using the specified parent class loader for
-     * delegation.
+     * Crebtes b new clbss lobder using the specified pbrent clbss lobder for
+     * delegbtion.
      *
-     * <p> If there is a security manager, its {@link
-     * SecurityManager#checkCreateClassLoader()
-     * <tt>checkCreateClassLoader</tt>} method is invoked.  This may result in
-     * a security exception.  </p>
+     * <p> If there is b security mbnbger, its {@link
+     * SecurityMbnbger#checkCrebteClbssLobder()
+     * <tt>checkCrebteClbssLobder</tt>} method is invoked.  This mby result in
+     * b security exception.  </p>
      *
-     * @param  parent
-     *         The parent class loader
+     * @pbrbm  pbrent
+     *         The pbrent clbss lobder
      *
      * @throws  SecurityException
-     *          If a security manager exists and its
-     *          <tt>checkCreateClassLoader</tt> method doesn't allow creation
-     *          of a new class loader.
+     *          If b security mbnbger exists bnd its
+     *          <tt>checkCrebteClbssLobder</tt> method doesn't bllow crebtion
+     *          of b new clbss lobder.
      *
      * @since  1.2
      */
-    protected ClassLoader(ClassLoader parent) {
-        this(checkCreateClassLoader(), parent);
+    protected ClbssLobder(ClbssLobder pbrent) {
+        this(checkCrebteClbssLobder(), pbrent);
     }
 
     /**
-     * Creates a new class loader using the <tt>ClassLoader</tt> returned by
-     * the method {@link #getSystemClassLoader()
-     * <tt>getSystemClassLoader()</tt>} as the parent class loader.
+     * Crebtes b new clbss lobder using the <tt>ClbssLobder</tt> returned by
+     * the method {@link #getSystemClbssLobder()
+     * <tt>getSystemClbssLobder()</tt>} bs the pbrent clbss lobder.
      *
-     * <p> If there is a security manager, its {@link
-     * SecurityManager#checkCreateClassLoader()
-     * <tt>checkCreateClassLoader</tt>} method is invoked.  This may result in
-     * a security exception.  </p>
+     * <p> If there is b security mbnbger, its {@link
+     * SecurityMbnbger#checkCrebteClbssLobder()
+     * <tt>checkCrebteClbssLobder</tt>} method is invoked.  This mby result in
+     * b security exception.  </p>
      *
      * @throws  SecurityException
-     *          If a security manager exists and its
-     *          <tt>checkCreateClassLoader</tt> method doesn't allow creation
-     *          of a new class loader.
+     *          If b security mbnbger exists bnd its
+     *          <tt>checkCrebteClbssLobder</tt> method doesn't bllow crebtion
+     *          of b new clbss lobder.
      */
-    protected ClassLoader() {
-        this(checkCreateClassLoader(), getSystemClassLoader());
+    protected ClbssLobder() {
+        this(checkCrebteClbssLobder(), getSystemClbssLobder());
     }
 
-    // -- Class --
+    // -- Clbss --
 
     /**
-     * Loads the class with the specified <a href="#name">binary name</a>.
-     * This method searches for classes in the same manner as the {@link
-     * #loadClass(String, boolean)} method.  It is invoked by the Java virtual
-     * machine to resolve class references.  Invoking this method is equivalent
-     * to invoking {@link #loadClass(String, boolean) <tt>loadClass(name,
-     * false)</tt>}.
+     * Lobds the clbss with the specified <b href="#nbme">binbry nbme</b>.
+     * This method sebrches for clbsses in the sbme mbnner bs the {@link
+     * #lobdClbss(String, boolebn)} method.  It is invoked by the Jbvb virtubl
+     * mbchine to resolve clbss references.  Invoking this method is equivblent
+     * to invoking {@link #lobdClbss(String, boolebn) <tt>lobdClbss(nbme,
+     * fblse)</tt>}.
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbme
+     *         The <b href="#nbme">binbry nbme</b> of the clbss
      *
-     * @return  The resulting <tt>Class</tt> object
+     * @return  The resulting <tt>Clbss</tt> object
      *
-     * @throws  ClassNotFoundException
-     *          If the class was not found
+     * @throws  ClbssNotFoundException
+     *          If the clbss wbs not found
      */
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
-        return loadClass(name, false);
+    public Clbss<?> lobdClbss(String nbme) throws ClbssNotFoundException {
+        return lobdClbss(nbme, fblse);
     }
 
     /**
-     * Loads the class with the specified <a href="#name">binary name</a>.  The
-     * default implementation of this method searches for classes in the
+     * Lobds the clbss with the specified <b href="#nbme">binbry nbme</b>.  The
+     * defbult implementbtion of this method sebrches for clbsses in the
      * following order:
      *
      * <ol>
      *
-     *   <li><p> Invoke {@link #findLoadedClass(String)} to check if the class
-     *   has already been loaded.  </p></li>
+     *   <li><p> Invoke {@link #findLobdedClbss(String)} to check if the clbss
+     *   hbs blrebdy been lobded.  </p></li>
      *
-     *   <li><p> Invoke the {@link #loadClass(String) <tt>loadClass</tt>} method
-     *   on the parent class loader.  If the parent is <tt>null</tt> the class
-     *   loader built-in to the virtual machine is used, instead.  </p></li>
+     *   <li><p> Invoke the {@link #lobdClbss(String) <tt>lobdClbss</tt>} method
+     *   on the pbrent clbss lobder.  If the pbrent is <tt>null</tt> the clbss
+     *   lobder built-in to the virtubl mbchine is used, instebd.  </p></li>
      *
-     *   <li><p> Invoke the {@link #findClass(String)} method to find the
-     *   class.  </p></li>
+     *   <li><p> Invoke the {@link #findClbss(String)} method to find the
+     *   clbss.  </p></li>
      *
      * </ol>
      *
-     * <p> If the class was found using the above steps, and the
-     * <tt>resolve</tt> flag is true, this method will then invoke the {@link
-     * #resolveClass(Class)} method on the resulting <tt>Class</tt> object.
+     * <p> If the clbss wbs found using the bbove steps, bnd the
+     * <tt>resolve</tt> flbg is true, this method will then invoke the {@link
+     * #resolveClbss(Clbss)} method on the resulting <tt>Clbss</tt> object.
      *
-     * <p> Subclasses of <tt>ClassLoader</tt> are encouraged to override {@link
-     * #findClass(String)}, rather than this method.  </p>
+     * <p> Subclbsses of <tt>ClbssLobder</tt> bre encourbged to override {@link
+     * #findClbss(String)}, rbther thbn this method.  </p>
      *
      * <p> Unless overridden, this method synchronizes on the result of
-     * {@link #getClassLoadingLock <tt>getClassLoadingLock</tt>} method
-     * during the entire class loading process.
+     * {@link #getClbssLobdingLock <tt>getClbssLobdingLock</tt>} method
+     * during the entire clbss lobding process.
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbme
+     *         The <b href="#nbme">binbry nbme</b> of the clbss
      *
-     * @param  resolve
-     *         If <tt>true</tt> then resolve the class
+     * @pbrbm  resolve
+     *         If <tt>true</tt> then resolve the clbss
      *
-     * @return  The resulting <tt>Class</tt> object
+     * @return  The resulting <tt>Clbss</tt> object
      *
-     * @throws  ClassNotFoundException
-     *          If the class could not be found
+     * @throws  ClbssNotFoundException
+     *          If the clbss could not be found
      */
-    protected Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
+    protected Clbss<?> lobdClbss(String nbme, boolebn resolve)
+        throws ClbssNotFoundException
     {
-        synchronized (getClassLoadingLock(name)) {
-            // First, check if the class has already been loaded
-            Class<?> c = findLoadedClass(name);
+        synchronized (getClbssLobdingLock(nbme)) {
+            // First, check if the clbss hbs blrebdy been lobded
+            Clbss<?> c = findLobdedClbss(nbme);
             if (c == null) {
-                long t0 = System.nanoTime();
+                long t0 = System.nbnoTime();
                 try {
-                    if (parent != null) {
-                        c = parent.loadClass(name, false);
+                    if (pbrent != null) {
+                        c = pbrent.lobdClbss(nbme, fblse);
                     } else {
-                        c = findBootstrapClassOrNull(name);
+                        c = findBootstrbpClbssOrNull(nbme);
                     }
-                } catch (ClassNotFoundException e) {
-                    // ClassNotFoundException thrown if class not found
-                    // from the non-null parent class loader
+                } cbtch (ClbssNotFoundException e) {
+                    // ClbssNotFoundException thrown if clbss not found
+                    // from the non-null pbrent clbss lobder
                 }
 
                 if (c == null) {
-                    // If still not found, then invoke findClass in order
-                    // to find the class.
-                    long t1 = System.nanoTime();
-                    c = findClass(name);
+                    // If still not found, then invoke findClbss in order
+                    // to find the clbss.
+                    long t1 = System.nbnoTime();
+                    c = findClbss(nbme);
 
-                    // this is the defining class loader; record the stats
-                    sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);
-                    sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
-                    sun.misc.PerfCounter.getFindClasses().increment();
+                    // this is the defining clbss lobder; record the stbts
+                    sun.misc.PerfCounter.getPbrentDelegbtionTime().bddTime(t1 - t0);
+                    sun.misc.PerfCounter.getFindClbssTime().bddElbpsedTimeFrom(t1);
+                    sun.misc.PerfCounter.getFindClbsses().increment();
                 }
             }
             if (resolve) {
-                resolveClass(c);
+                resolveClbss(c);
             }
             return c;
         }
     }
 
     /**
-     * Returns the lock object for class loading operations.
-     * For backward compatibility, the default implementation of this method
-     * behaves as follows. If this ClassLoader object is registered as
-     * parallel capable, the method returns a dedicated object associated
-     * with the specified class name. Otherwise, the method returns this
-     * ClassLoader object.
+     * Returns the lock object for clbss lobding operbtions.
+     * For bbckwbrd compbtibility, the defbult implementbtion of this method
+     * behbves bs follows. If this ClbssLobder object is registered bs
+     * pbrbllel cbpbble, the method returns b dedicbted object bssocibted
+     * with the specified clbss nbme. Otherwise, the method returns this
+     * ClbssLobder object.
      *
-     * @param  className
-     *         The name of the to-be-loaded class
+     * @pbrbm  clbssNbme
+     *         The nbme of the to-be-lobded clbss
      *
-     * @return the lock for class loading operations
+     * @return the lock for clbss lobding operbtions
      *
      * @throws NullPointerException
-     *         If registered as parallel capable and <tt>className</tt> is null
+     *         If registered bs pbrbllel cbpbble bnd <tt>clbssNbme</tt> is null
      *
-     * @see #loadClass(String, boolean)
+     * @see #lobdClbss(String, boolebn)
      *
      * @since  1.7
      */
-    protected Object getClassLoadingLock(String className) {
+    protected Object getClbssLobdingLock(String clbssNbme) {
         Object lock = this;
-        if (parallelLockMap != null) {
+        if (pbrbllelLockMbp != null) {
             Object newLock = new Object();
-            lock = parallelLockMap.putIfAbsent(className, newLock);
+            lock = pbrbllelLockMbp.putIfAbsent(clbssNbme, newLock);
             if (lock == null) {
                 lock = newLock;
             }
@@ -470,584 +470,584 @@ public abstract class ClassLoader {
         return lock;
     }
 
-    // This method is invoked by the virtual machine to load a class.
-    private Class<?> loadClassInternal(String name)
-        throws ClassNotFoundException
+    // This method is invoked by the virtubl mbchine to lobd b clbss.
+    privbte Clbss<?> lobdClbssInternbl(String nbme)
+        throws ClbssNotFoundException
     {
-        // For backward compatibility, explicitly lock on 'this' when
-        // the current class loader is not parallel capable.
-        if (parallelLockMap == null) {
+        // For bbckwbrd compbtibility, explicitly lock on 'this' when
+        // the current clbss lobder is not pbrbllel cbpbble.
+        if (pbrbllelLockMbp == null) {
             synchronized (this) {
-                 return loadClass(name);
+                 return lobdClbss(nbme);
             }
         } else {
-            return loadClass(name);
+            return lobdClbss(nbme);
         }
     }
 
-    // Invoked by the VM after loading class with this loader.
-    private void checkPackageAccess(Class<?> cls, ProtectionDomain pd) {
-        final SecurityManager sm = System.getSecurityManager();
+    // Invoked by the VM bfter lobding clbss with this lobder.
+    privbte void checkPbckbgeAccess(Clbss<?> cls, ProtectionDombin pd) {
+        finbl SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            if (ReflectUtil.isNonPublicProxyClass(cls)) {
-                for (Class<?> intf: cls.getInterfaces()) {
-                    checkPackageAccess(intf, pd);
+            if (ReflectUtil.isNonPublicProxyClbss(cls)) {
+                for (Clbss<?> intf: cls.getInterfbces()) {
+                    checkPbckbgeAccess(intf, pd);
                 }
                 return;
             }
 
-            final String name = cls.getName();
-            final int i = name.lastIndexOf('.');
+            finbl String nbme = cls.getNbme();
+            finbl int i = nbme.lbstIndexOf('.');
             if (i != -1) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     public Void run() {
-                        sm.checkPackageAccess(name.substring(0, i));
+                        sm.checkPbckbgeAccess(nbme.substring(0, i));
                         return null;
                     }
-                }, new AccessControlContext(new ProtectionDomain[] {pd}));
+                }, new AccessControlContext(new ProtectionDombin[] {pd}));
             }
         }
-        domains.add(pd);
+        dombins.bdd(pd);
     }
 
     /**
-     * Finds the class with the specified <a href="#name">binary name</a>.
-     * This method should be overridden by class loader implementations that
-     * follow the delegation model for loading classes, and will be invoked by
-     * the {@link #loadClass <tt>loadClass</tt>} method after checking the
-     * parent class loader for the requested class.  The default implementation
-     * throws a <tt>ClassNotFoundException</tt>.
+     * Finds the clbss with the specified <b href="#nbme">binbry nbme</b>.
+     * This method should be overridden by clbss lobder implementbtions thbt
+     * follow the delegbtion model for lobding clbsses, bnd will be invoked by
+     * the {@link #lobdClbss <tt>lobdClbss</tt>} method bfter checking the
+     * pbrent clbss lobder for the requested clbss.  The defbult implementbtion
+     * throws b <tt>ClbssNotFoundException</tt>.
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbme
+     *         The <b href="#nbme">binbry nbme</b> of the clbss
      *
-     * @return  The resulting <tt>Class</tt> object
+     * @return  The resulting <tt>Clbss</tt> object
      *
-     * @throws  ClassNotFoundException
-     *          If the class could not be found
+     * @throws  ClbssNotFoundException
+     *          If the clbss could not be found
      *
      * @since  1.2
      */
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-        throw new ClassNotFoundException(name);
+    protected Clbss<?> findClbss(String nbme) throws ClbssNotFoundException {
+        throw new ClbssNotFoundException(nbme);
     }
 
     /**
-     * Converts an array of bytes into an instance of class <tt>Class</tt>.
-     * Before the <tt>Class</tt> can be used it must be resolved.  This method
-     * is deprecated in favor of the version that takes a <a
-     * href="#name">binary name</a> as its first argument, and is more secure.
+     * Converts bn brrby of bytes into bn instbnce of clbss <tt>Clbss</tt>.
+     * Before the <tt>Clbss</tt> cbn be used it must be resolved.  This method
+     * is deprecbted in fbvor of the version thbt tbkes b <b
+     * href="#nbme">binbry nbme</b> bs its first brgument, bnd is more secure.
      *
-     * @param  b
-     *         The bytes that make up the class data.  The bytes in positions
-     *         <tt>off</tt> through <tt>off+len-1</tt> should have the format
-     *         of a valid class file as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  b
+     *         The bytes thbt mbke up the clbss dbtb.  The bytes in positions
+     *         <tt>off</tt> through <tt>off+len-1</tt> should hbve the formbt
+     *         of b vblid clbss file bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @param  off
-     *         The start offset in <tt>b</tt> of the class data
+     * @pbrbm  off
+     *         The stbrt offset in <tt>b</tt> of the clbss dbtb
      *
-     * @param  len
-     *         The length of the class data
+     * @pbrbm  len
+     *         The length of the clbss dbtb
      *
-     * @return  The <tt>Class</tt> object that was created from the specified
-     *          class data
+     * @return  The <tt>Clbss</tt> object thbt wbs crebted from the specified
+     *          clbss dbtb
      *
-     * @throws  ClassFormatError
-     *          If the data did not contain a valid class
+     * @throws  ClbssFormbtError
+     *          If the dbtb did not contbin b vblid clbss
      *
      * @throws  IndexOutOfBoundsException
-     *          If either <tt>off</tt> or <tt>len</tt> is negative, or if
-     *          <tt>off+len</tt> is greater than <tt>b.length</tt>.
+     *          If either <tt>off</tt> or <tt>len</tt> is negbtive, or if
+     *          <tt>off+len</tt> is grebter thbn <tt>b.length</tt>.
      *
      * @throws  SecurityException
-     *          If an attempt is made to add this class to a package that
-     *          contains classes that were signed by a different set of
-     *          certificates than this class, or if an attempt is made
-     *          to define a class in a package with a fully-qualified name
-     *          that starts with "{@code java.}".
+     *          If bn bttempt is mbde to bdd this clbss to b pbckbge thbt
+     *          contbins clbsses thbt were signed by b different set of
+     *          certificbtes thbn this clbss, or if bn bttempt is mbde
+     *          to define b clbss in b pbckbge with b fully-qublified nbme
+     *          thbt stbrts with "{@code jbvb.}".
      *
-     * @see  #loadClass(String, boolean)
-     * @see  #resolveClass(Class)
+     * @see  #lobdClbss(String, boolebn)
+     * @see  #resolveClbss(Clbss)
      *
-     * @deprecated  Replaced by {@link #defineClass(String, byte[], int, int)
-     * defineClass(String, byte[], int, int)}
+     * @deprecbted  Replbced by {@link #defineClbss(String, byte[], int, int)
+     * defineClbss(String, byte[], int, int)}
      */
-    @Deprecated
-    protected final Class<?> defineClass(byte[] b, int off, int len)
-        throws ClassFormatError
+    @Deprecbted
+    protected finbl Clbss<?> defineClbss(byte[] b, int off, int len)
+        throws ClbssFormbtError
     {
-        return defineClass(null, b, off, len, null);
+        return defineClbss(null, b, off, len, null);
     }
 
     /**
-     * Converts an array of bytes into an instance of class <tt>Class</tt>.
-     * Before the <tt>Class</tt> can be used it must be resolved.
+     * Converts bn brrby of bytes into bn instbnce of clbss <tt>Clbss</tt>.
+     * Before the <tt>Clbss</tt> cbn be used it must be resolved.
      *
-     * <p> This method assigns a default {@link java.security.ProtectionDomain
-     * <tt>ProtectionDomain</tt>} to the newly defined class.  The
-     * <tt>ProtectionDomain</tt> is effectively granted the same set of
+     * <p> This method bssigns b defbult {@link jbvb.security.ProtectionDombin
+     * <tt>ProtectionDombin</tt>} to the newly defined clbss.  The
+     * <tt>ProtectionDombin</tt> is effectively grbnted the sbme set of
      * permissions returned when {@link
-     * java.security.Policy#getPermissions(java.security.CodeSource)
+     * jbvb.security.Policy#getPermissions(jbvb.security.CodeSource)
      * <tt>Policy.getPolicy().getPermissions(new CodeSource(null, null))</tt>}
-     * is invoked.  The default domain is created on the first invocation of
-     * {@link #defineClass(String, byte[], int, int) <tt>defineClass</tt>},
-     * and re-used on subsequent invocations.
+     * is invoked.  The defbult dombin is crebted on the first invocbtion of
+     * {@link #defineClbss(String, byte[], int, int) <tt>defineClbss</tt>},
+     * bnd re-used on subsequent invocbtions.
      *
-     * <p> To assign a specific <tt>ProtectionDomain</tt> to the class, use
-     * the {@link #defineClass(String, byte[], int, int,
-     * java.security.ProtectionDomain) <tt>defineClass</tt>} method that takes a
-     * <tt>ProtectionDomain</tt> as one of its arguments.  </p>
+     * <p> To bssign b specific <tt>ProtectionDombin</tt> to the clbss, use
+     * the {@link #defineClbss(String, byte[], int, int,
+     * jbvb.security.ProtectionDombin) <tt>defineClbss</tt>} method thbt tbkes b
+     * <tt>ProtectionDombin</tt> bs one of its brguments.  </p>
      *
-     * @param  name
-     *         The expected <a href="#name">binary name</a> of the class, or
+     * @pbrbm  nbme
+     *         The expected <b href="#nbme">binbry nbme</b> of the clbss, or
      *         <tt>null</tt> if not known
      *
-     * @param  b
-     *         The bytes that make up the class data.  The bytes in positions
-     *         <tt>off</tt> through <tt>off+len-1</tt> should have the format
-     *         of a valid class file as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  b
+     *         The bytes thbt mbke up the clbss dbtb.  The bytes in positions
+     *         <tt>off</tt> through <tt>off+len-1</tt> should hbve the formbt
+     *         of b vblid clbss file bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @param  off
-     *         The start offset in <tt>b</tt> of the class data
+     * @pbrbm  off
+     *         The stbrt offset in <tt>b</tt> of the clbss dbtb
      *
-     * @param  len
-     *         The length of the class data
+     * @pbrbm  len
+     *         The length of the clbss dbtb
      *
-     * @return  The <tt>Class</tt> object that was created from the specified
-     *          class data.
+     * @return  The <tt>Clbss</tt> object thbt wbs crebted from the specified
+     *          clbss dbtb.
      *
-     * @throws  ClassFormatError
-     *          If the data did not contain a valid class
+     * @throws  ClbssFormbtError
+     *          If the dbtb did not contbin b vblid clbss
      *
      * @throws  IndexOutOfBoundsException
-     *          If either <tt>off</tt> or <tt>len</tt> is negative, or if
-     *          <tt>off+len</tt> is greater than <tt>b.length</tt>.
+     *          If either <tt>off</tt> or <tt>len</tt> is negbtive, or if
+     *          <tt>off+len</tt> is grebter thbn <tt>b.length</tt>.
      *
      * @throws  SecurityException
-     *          If an attempt is made to add this class to a package that
-     *          contains classes that were signed by a different set of
-     *          certificates than this class (which is unsigned), or if
-     *          <tt>name</tt> begins with "<tt>java.</tt>".
+     *          If bn bttempt is mbde to bdd this clbss to b pbckbge thbt
+     *          contbins clbsses thbt were signed by b different set of
+     *          certificbtes thbn this clbss (which is unsigned), or if
+     *          <tt>nbme</tt> begins with "<tt>jbvb.</tt>".
      *
-     * @see  #loadClass(String, boolean)
-     * @see  #resolveClass(Class)
-     * @see  java.security.CodeSource
-     * @see  java.security.SecureClassLoader
+     * @see  #lobdClbss(String, boolebn)
+     * @see  #resolveClbss(Clbss)
+     * @see  jbvb.security.CodeSource
+     * @see  jbvb.security.SecureClbssLobder
      *
      * @since  1.1
      */
-    protected final Class<?> defineClass(String name, byte[] b, int off, int len)
-        throws ClassFormatError
+    protected finbl Clbss<?> defineClbss(String nbme, byte[] b, int off, int len)
+        throws ClbssFormbtError
     {
-        return defineClass(name, b, off, len, null);
+        return defineClbss(nbme, b, off, len, null);
     }
 
-    /* Determine protection domain, and check that:
-        - not define java.* class,
-        - signer of this class matches signers for the rest of the classes in
-          package.
+    /* Determine protection dombin, bnd check thbt:
+        - not define jbvb.* clbss,
+        - signer of this clbss mbtches signers for the rest of the clbsses in
+          pbckbge.
     */
-    private ProtectionDomain preDefineClass(String name,
-                                            ProtectionDomain pd)
+    privbte ProtectionDombin preDefineClbss(String nbme,
+                                            ProtectionDombin pd)
     {
-        if (!checkName(name))
-            throw new NoClassDefFoundError("IllegalName: " + name);
+        if (!checkNbme(nbme))
+            throw new NoClbssDefFoundError("IllegblNbme: " + nbme);
 
-        if ((name != null) && name.startsWith("java.")) {
+        if ((nbme != null) && nbme.stbrtsWith("jbvb.")) {
             throw new SecurityException
-                ("Prohibited package name: " +
-                 name.substring(0, name.lastIndexOf('.')));
+                ("Prohibited pbckbge nbme: " +
+                 nbme.substring(0, nbme.lbstIndexOf('.')));
         }
         if (pd == null) {
-            pd = defaultDomain;
+            pd = defbultDombin;
         }
 
-        if (name != null) checkCerts(name, pd.getCodeSource());
+        if (nbme != null) checkCerts(nbme, pd.getCodeSource());
 
         return pd;
     }
 
-    private String defineClassSourceLocation(ProtectionDomain pd)
+    privbte String defineClbssSourceLocbtion(ProtectionDombin pd)
     {
         CodeSource cs = pd.getCodeSource();
         String source = null;
-        if (cs != null && cs.getLocation() != null) {
-            source = cs.getLocation().toString();
+        if (cs != null && cs.getLocbtion() != null) {
+            source = cs.getLocbtion().toString();
         }
         return source;
     }
 
-    private void postDefineClass(Class<?> c, ProtectionDomain pd)
+    privbte void postDefineClbss(Clbss<?> c, ProtectionDombin pd)
     {
         if (pd.getCodeSource() != null) {
-            Certificate certs[] = pd.getCodeSource().getCertificates();
+            Certificbte certs[] = pd.getCodeSource().getCertificbtes();
             if (certs != null)
                 setSigners(c, certs);
         }
     }
 
     /**
-     * Converts an array of bytes into an instance of class <tt>Class</tt>,
-     * with an optional <tt>ProtectionDomain</tt>.  If the domain is
-     * <tt>null</tt>, then a default domain will be assigned to the class as
-     * specified in the documentation for {@link #defineClass(String, byte[],
-     * int, int)}.  Before the class can be used it must be resolved.
+     * Converts bn brrby of bytes into bn instbnce of clbss <tt>Clbss</tt>,
+     * with bn optionbl <tt>ProtectionDombin</tt>.  If the dombin is
+     * <tt>null</tt>, then b defbult dombin will be bssigned to the clbss bs
+     * specified in the documentbtion for {@link #defineClbss(String, byte[],
+     * int, int)}.  Before the clbss cbn be used it must be resolved.
      *
-     * <p> The first class defined in a package determines the exact set of
-     * certificates that all subsequent classes defined in that package must
-     * contain.  The set of certificates for a class is obtained from the
-     * {@link java.security.CodeSource <tt>CodeSource</tt>} within the
-     * <tt>ProtectionDomain</tt> of the class.  Any classes added to that
-     * package must contain the same set of certificates or a
-     * <tt>SecurityException</tt> will be thrown.  Note that if
-     * <tt>name</tt> is <tt>null</tt>, this check is not performed.
-     * You should always pass in the <a href="#name">binary name</a> of the
-     * class you are defining as well as the bytes.  This ensures that the
-     * class you are defining is indeed the class you think it is.
+     * <p> The first clbss defined in b pbckbge determines the exbct set of
+     * certificbtes thbt bll subsequent clbsses defined in thbt pbckbge must
+     * contbin.  The set of certificbtes for b clbss is obtbined from the
+     * {@link jbvb.security.CodeSource <tt>CodeSource</tt>} within the
+     * <tt>ProtectionDombin</tt> of the clbss.  Any clbsses bdded to thbt
+     * pbckbge must contbin the sbme set of certificbtes or b
+     * <tt>SecurityException</tt> will be thrown.  Note thbt if
+     * <tt>nbme</tt> is <tt>null</tt>, this check is not performed.
+     * You should blwbys pbss in the <b href="#nbme">binbry nbme</b> of the
+     * clbss you bre defining bs well bs the bytes.  This ensures thbt the
+     * clbss you bre defining is indeed the clbss you think it is.
      *
-     * <p> The specified <tt>name</tt> cannot begin with "<tt>java.</tt>", since
-     * all classes in the "<tt>java.*</tt> packages can only be defined by the
-     * bootstrap class loader.  If <tt>name</tt> is not <tt>null</tt>, it
-     * must be equal to the <a href="#name">binary name</a> of the class
-     * specified by the byte array "<tt>b</tt>", otherwise a {@link
-     * NoClassDefFoundError <tt>NoClassDefFoundError</tt>} will be thrown. </p>
+     * <p> The specified <tt>nbme</tt> cbnnot begin with "<tt>jbvb.</tt>", since
+     * bll clbsses in the "<tt>jbvb.*</tt> pbckbges cbn only be defined by the
+     * bootstrbp clbss lobder.  If <tt>nbme</tt> is not <tt>null</tt>, it
+     * must be equbl to the <b href="#nbme">binbry nbme</b> of the clbss
+     * specified by the byte brrby "<tt>b</tt>", otherwise b {@link
+     * NoClbssDefFoundError <tt>NoClbssDefFoundError</tt>} will be thrown. </p>
      *
-     * @param  name
-     *         The expected <a href="#name">binary name</a> of the class, or
+     * @pbrbm  nbme
+     *         The expected <b href="#nbme">binbry nbme</b> of the clbss, or
      *         <tt>null</tt> if not known
      *
-     * @param  b
-     *         The bytes that make up the class data. The bytes in positions
-     *         <tt>off</tt> through <tt>off+len-1</tt> should have the format
-     *         of a valid class file as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @pbrbm  b
+     *         The bytes thbt mbke up the clbss dbtb. The bytes in positions
+     *         <tt>off</tt> through <tt>off+len-1</tt> should hbve the formbt
+     *         of b vblid clbss file bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @param  off
-     *         The start offset in <tt>b</tt> of the class data
+     * @pbrbm  off
+     *         The stbrt offset in <tt>b</tt> of the clbss dbtb
      *
-     * @param  len
-     *         The length of the class data
+     * @pbrbm  len
+     *         The length of the clbss dbtb
      *
-     * @param  protectionDomain
-     *         The ProtectionDomain of the class
+     * @pbrbm  protectionDombin
+     *         The ProtectionDombin of the clbss
      *
-     * @return  The <tt>Class</tt> object created from the data,
-     *          and optional <tt>ProtectionDomain</tt>.
+     * @return  The <tt>Clbss</tt> object crebted from the dbtb,
+     *          bnd optionbl <tt>ProtectionDombin</tt>.
      *
-     * @throws  ClassFormatError
-     *          If the data did not contain a valid class
+     * @throws  ClbssFormbtError
+     *          If the dbtb did not contbin b vblid clbss
      *
-     * @throws  NoClassDefFoundError
-     *          If <tt>name</tt> is not equal to the <a href="#name">binary
-     *          name</a> of the class specified by <tt>b</tt>
+     * @throws  NoClbssDefFoundError
+     *          If <tt>nbme</tt> is not equbl to the <b href="#nbme">binbry
+     *          nbme</b> of the clbss specified by <tt>b</tt>
      *
      * @throws  IndexOutOfBoundsException
-     *          If either <tt>off</tt> or <tt>len</tt> is negative, or if
-     *          <tt>off+len</tt> is greater than <tt>b.length</tt>.
+     *          If either <tt>off</tt> or <tt>len</tt> is negbtive, or if
+     *          <tt>off+len</tt> is grebter thbn <tt>b.length</tt>.
      *
      * @throws  SecurityException
-     *          If an attempt is made to add this class to a package that
-     *          contains classes that were signed by a different set of
-     *          certificates than this class, or if <tt>name</tt> begins with
-     *          "<tt>java.</tt>".
+     *          If bn bttempt is mbde to bdd this clbss to b pbckbge thbt
+     *          contbins clbsses thbt were signed by b different set of
+     *          certificbtes thbn this clbss, or if <tt>nbme</tt> begins with
+     *          "<tt>jbvb.</tt>".
      */
-    protected final Class<?> defineClass(String name, byte[] b, int off, int len,
-                                         ProtectionDomain protectionDomain)
-        throws ClassFormatError
+    protected finbl Clbss<?> defineClbss(String nbme, byte[] b, int off, int len,
+                                         ProtectionDombin protectionDombin)
+        throws ClbssFormbtError
     {
-        protectionDomain = preDefineClass(name, protectionDomain);
-        String source = defineClassSourceLocation(protectionDomain);
-        Class<?> c = defineClass1(name, b, off, len, protectionDomain, source);
-        postDefineClass(c, protectionDomain);
+        protectionDombin = preDefineClbss(nbme, protectionDombin);
+        String source = defineClbssSourceLocbtion(protectionDombin);
+        Clbss<?> c = defineClbss1(nbme, b, off, len, protectionDombin, source);
+        postDefineClbss(c, protectionDombin);
         return c;
     }
 
     /**
-     * Converts a {@link java.nio.ByteBuffer <tt>ByteBuffer</tt>}
-     * into an instance of class <tt>Class</tt>,
-     * with an optional <tt>ProtectionDomain</tt>.  If the domain is
-     * <tt>null</tt>, then a default domain will be assigned to the class as
-     * specified in the documentation for {@link #defineClass(String, byte[],
-     * int, int)}.  Before the class can be used it must be resolved.
+     * Converts b {@link jbvb.nio.ByteBuffer <tt>ByteBuffer</tt>}
+     * into bn instbnce of clbss <tt>Clbss</tt>,
+     * with bn optionbl <tt>ProtectionDombin</tt>.  If the dombin is
+     * <tt>null</tt>, then b defbult dombin will be bssigned to the clbss bs
+     * specified in the documentbtion for {@link #defineClbss(String, byte[],
+     * int, int)}.  Before the clbss cbn be used it must be resolved.
      *
-     * <p>The rules about the first class defined in a package determining the
-     * set of certificates for the package, and the restrictions on class names
-     * are identical to those specified in the documentation for {@link
-     * #defineClass(String, byte[], int, int, ProtectionDomain)}.
+     * <p>The rules bbout the first clbss defined in b pbckbge determining the
+     * set of certificbtes for the pbckbge, bnd the restrictions on clbss nbmes
+     * bre identicbl to those specified in the documentbtion for {@link
+     * #defineClbss(String, byte[], int, int, ProtectionDombin)}.
      *
-     * <p> An invocation of this method of the form
-     * <i>cl</i><tt>.defineClass(</tt><i>name</i><tt>,</tt>
-     * <i>bBuffer</i><tt>,</tt> <i>pd</i><tt>)</tt> yields exactly the same
-     * result as the statements
+     * <p> An invocbtion of this method of the form
+     * <i>cl</i><tt>.defineClbss(</tt><i>nbme</i><tt>,</tt>
+     * <i>bBuffer</i><tt>,</tt> <i>pd</i><tt>)</tt> yields exbctly the sbme
+     * result bs the stbtements
      *
      *<p> <tt>
      * ...<br>
      * byte[] temp = new byte[bBuffer.{@link
-     * java.nio.ByteBuffer#remaining remaining}()];<br>
-     *     bBuffer.{@link java.nio.ByteBuffer#get(byte[])
+     * jbvb.nio.ByteBuffer#rembining rembining}()];<br>
+     *     bBuffer.{@link jbvb.nio.ByteBuffer#get(byte[])
      * get}(temp);<br>
-     *     return {@link #defineClass(String, byte[], int, int, ProtectionDomain)
-     * cl.defineClass}(name, temp, 0,
+     *     return {@link #defineClbss(String, byte[], int, int, ProtectionDombin)
+     * cl.defineClbss}(nbme, temp, 0,
      * temp.length, pd);<br>
      * </tt></p>
      *
-     * @param  name
-     *         The expected <a href="#name">binary name</a>. of the class, or
+     * @pbrbm  nbme
+     *         The expected <b href="#nbme">binbry nbme</b>. of the clbss, or
      *         <tt>null</tt> if not known
      *
-     * @param  b
-     *         The bytes that make up the class data. The bytes from positions
+     * @pbrbm  b
+     *         The bytes thbt mbke up the clbss dbtb. The bytes from positions
      *         <tt>b.position()</tt> through <tt>b.position() + b.limit() -1
-     *         </tt> should have the format of a valid class file as defined by
-     *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+     *         </tt> should hbve the formbt of b vblid clbss file bs defined by
+     *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
      *
-     * @param  protectionDomain
-     *         The ProtectionDomain of the class, or <tt>null</tt>.
+     * @pbrbm  protectionDombin
+     *         The ProtectionDombin of the clbss, or <tt>null</tt>.
      *
-     * @return  The <tt>Class</tt> object created from the data,
-     *          and optional <tt>ProtectionDomain</tt>.
+     * @return  The <tt>Clbss</tt> object crebted from the dbtb,
+     *          bnd optionbl <tt>ProtectionDombin</tt>.
      *
-     * @throws  ClassFormatError
-     *          If the data did not contain a valid class.
+     * @throws  ClbssFormbtError
+     *          If the dbtb did not contbin b vblid clbss.
      *
-     * @throws  NoClassDefFoundError
-     *          If <tt>name</tt> is not equal to the <a href="#name">binary
-     *          name</a> of the class specified by <tt>b</tt>
+     * @throws  NoClbssDefFoundError
+     *          If <tt>nbme</tt> is not equbl to the <b href="#nbme">binbry
+     *          nbme</b> of the clbss specified by <tt>b</tt>
      *
      * @throws  SecurityException
-     *          If an attempt is made to add this class to a package that
-     *          contains classes that were signed by a different set of
-     *          certificates than this class, or if <tt>name</tt> begins with
-     *          "<tt>java.</tt>".
+     *          If bn bttempt is mbde to bdd this clbss to b pbckbge thbt
+     *          contbins clbsses thbt were signed by b different set of
+     *          certificbtes thbn this clbss, or if <tt>nbme</tt> begins with
+     *          "<tt>jbvb.</tt>".
      *
-     * @see      #defineClass(String, byte[], int, int, ProtectionDomain)
+     * @see      #defineClbss(String, byte[], int, int, ProtectionDombin)
      *
      * @since  1.5
      */
-    protected final Class<?> defineClass(String name, java.nio.ByteBuffer b,
-                                         ProtectionDomain protectionDomain)
-        throws ClassFormatError
+    protected finbl Clbss<?> defineClbss(String nbme, jbvb.nio.ByteBuffer b,
+                                         ProtectionDombin protectionDombin)
+        throws ClbssFormbtError
     {
-        int len = b.remaining();
+        int len = b.rembining();
 
-        // Use byte[] if not a direct ByteBufer:
+        // Use byte[] if not b direct ByteBufer:
         if (!b.isDirect()) {
-            if (b.hasArray()) {
-                return defineClass(name, b.array(),
-                                   b.position() + b.arrayOffset(), len,
-                                   protectionDomain);
+            if (b.hbsArrby()) {
+                return defineClbss(nbme, b.brrby(),
+                                   b.position() + b.brrbyOffset(), len,
+                                   protectionDombin);
             } else {
-                // no array, or read-only array
+                // no brrby, or rebd-only brrby
                 byte[] tb = new byte[len];
                 b.get(tb);  // get bytes out of byte buffer.
-                return defineClass(name, tb, 0, len, protectionDomain);
+                return defineClbss(nbme, tb, 0, len, protectionDombin);
             }
         }
 
-        protectionDomain = preDefineClass(name, protectionDomain);
-        String source = defineClassSourceLocation(protectionDomain);
-        Class<?> c = defineClass2(name, b, b.position(), len, protectionDomain, source);
-        postDefineClass(c, protectionDomain);
+        protectionDombin = preDefineClbss(nbme, protectionDombin);
+        String source = defineClbssSourceLocbtion(protectionDombin);
+        Clbss<?> c = defineClbss2(nbme, b, b.position(), len, protectionDombin, source);
+        postDefineClbss(c, protectionDombin);
         return c;
     }
 
-    private native Class<?> defineClass1(String name, byte[] b, int off, int len,
-                                         ProtectionDomain pd, String source);
+    privbte nbtive Clbss<?> defineClbss1(String nbme, byte[] b, int off, int len,
+                                         ProtectionDombin pd, String source);
 
-    private native Class<?> defineClass2(String name, java.nio.ByteBuffer b,
-                                         int off, int len, ProtectionDomain pd,
+    privbte nbtive Clbss<?> defineClbss2(String nbme, jbvb.nio.ByteBuffer b,
+                                         int off, int len, ProtectionDombin pd,
                                          String source);
 
-    // true if the name is null or has the potential to be a valid binary name
-    private boolean checkName(String name) {
-        if ((name == null) || (name.length() == 0))
+    // true if the nbme is null or hbs the potentibl to be b vblid binbry nbme
+    privbte boolebn checkNbme(String nbme) {
+        if ((nbme == null) || (nbme.length() == 0))
             return true;
-        if ((name.indexOf('/') != -1) || (name.charAt(0) == '['))
-            return false;
+        if ((nbme.indexOf('/') != -1) || (nbme.chbrAt(0) == '['))
+            return fblse;
         return true;
     }
 
-    private void checkCerts(String name, CodeSource cs) {
-        int i = name.lastIndexOf('.');
-        String pname = (i == -1) ? "" : name.substring(0, i);
+    privbte void checkCerts(String nbme, CodeSource cs) {
+        int i = nbme.lbstIndexOf('.');
+        String pnbme = (i == -1) ? "" : nbme.substring(0, i);
 
-        Certificate[] certs = null;
+        Certificbte[] certs = null;
         if (cs != null) {
-            certs = cs.getCertificates();
+            certs = cs.getCertificbtes();
         }
-        Certificate[] pcerts = null;
-        if (parallelLockMap == null) {
+        Certificbte[] pcerts = null;
+        if (pbrbllelLockMbp == null) {
             synchronized (this) {
-                pcerts = package2certs.get(pname);
+                pcerts = pbckbge2certs.get(pnbme);
                 if (pcerts == null) {
-                    package2certs.put(pname, (certs == null? nocerts:certs));
+                    pbckbge2certs.put(pnbme, (certs == null? nocerts:certs));
                 }
             }
         } else {
-            pcerts = ((ConcurrentHashMap<String, Certificate[]>)package2certs).
-                putIfAbsent(pname, (certs == null? nocerts:certs));
+            pcerts = ((ConcurrentHbshMbp<String, Certificbte[]>)pbckbge2certs).
+                putIfAbsent(pnbme, (certs == null? nocerts:certs));
         }
-        if (pcerts != null && !compareCerts(pcerts, certs)) {
-            throw new SecurityException("class \""+ name +
-                 "\"'s signer information does not match signer information of other classes in the same package");
+        if (pcerts != null && !compbreCerts(pcerts, certs)) {
+            throw new SecurityException("clbss \""+ nbme +
+                 "\"'s signer informbtion does not mbtch signer informbtion of other clbsses in the sbme pbckbge");
         }
     }
 
     /**
-     * check to make sure the certs for the new class (certs) are the same as
-     * the certs for the first class inserted in the package (pcerts)
+     * check to mbke sure the certs for the new clbss (certs) bre the sbme bs
+     * the certs for the first clbss inserted in the pbckbge (pcerts)
      */
-    private boolean compareCerts(Certificate[] pcerts,
-                                 Certificate[] certs)
+    privbte boolebn compbreCerts(Certificbte[] pcerts,
+                                 Certificbte[] certs)
     {
-        // certs can be null, indicating no certs.
+        // certs cbn be null, indicbting no certs.
         if ((certs == null) || (certs.length == 0)) {
             return pcerts.length == 0;
         }
 
-        // the length must be the same at this point
+        // the length must be the sbme bt this point
         if (certs.length != pcerts.length)
-            return false;
+            return fblse;
 
-        // go through and make sure all the certs in one array
-        // are in the other and vice-versa.
-        boolean match;
-        for (Certificate cert : certs) {
-            match = false;
-            for (Certificate pcert : pcerts) {
-                if (cert.equals(pcert)) {
-                    match = true;
-                    break;
+        // go through bnd mbke sure bll the certs in one brrby
+        // bre in the other bnd vice-versb.
+        boolebn mbtch;
+        for (Certificbte cert : certs) {
+            mbtch = fblse;
+            for (Certificbte pcert : pcerts) {
+                if (cert.equbls(pcert)) {
+                    mbtch = true;
+                    brebk;
                 }
             }
-            if (!match) return false;
+            if (!mbtch) return fblse;
         }
 
-        // now do the same for pcerts
-        for (Certificate pcert : pcerts) {
-            match = false;
-            for (Certificate cert : certs) {
-                if (pcert.equals(cert)) {
-                    match = true;
-                    break;
+        // now do the sbme for pcerts
+        for (Certificbte pcert : pcerts) {
+            mbtch = fblse;
+            for (Certificbte cert : certs) {
+                if (pcert.equbls(cert)) {
+                    mbtch = true;
+                    brebk;
                 }
             }
-            if (!match) return false;
+            if (!mbtch) return fblse;
         }
 
         return true;
     }
 
     /**
-     * Links the specified class.  This (misleadingly named) method may be
-     * used by a class loader to link a class.  If the class <tt>c</tt> has
-     * already been linked, then this method simply returns. Otherwise, the
-     * class is linked as described in the "Execution" chapter of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Links the specified clbss.  This (mislebdingly nbmed) method mby be
+     * used by b clbss lobder to link b clbss.  If the clbss <tt>c</tt> hbs
+     * blrebdy been linked, then this method simply returns. Otherwise, the
+     * clbss is linked bs described in the "Execution" chbpter of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      *
-     * @param  c
-     *         The class to link
+     * @pbrbm  c
+     *         The clbss to link
      *
      * @throws  NullPointerException
      *          If <tt>c</tt> is <tt>null</tt>.
      *
-     * @see  #defineClass(String, byte[], int, int)
+     * @see  #defineClbss(String, byte[], int, int)
      */
-    protected final void resolveClass(Class<?> c) {
-        resolveClass0(c);
+    protected finbl void resolveClbss(Clbss<?> c) {
+        resolveClbss0(c);
     }
 
-    private native void resolveClass0(Class<?> c);
+    privbte nbtive void resolveClbss0(Clbss<?> c);
 
     /**
-     * Finds a class with the specified <a href="#name">binary name</a>,
-     * loading it if necessary.
+     * Finds b clbss with the specified <b href="#nbme">binbry nbme</b>,
+     * lobding it if necessbry.
      *
-     * <p> This method loads the class through the system class loader (see
-     * {@link #getSystemClassLoader()}).  The <tt>Class</tt> object returned
-     * might have more than one <tt>ClassLoader</tt> associated with it.
-     * Subclasses of <tt>ClassLoader</tt> need not usually invoke this method,
-     * because most class loaders need to override just {@link
-     * #findClass(String)}.  </p>
+     * <p> This method lobds the clbss through the system clbss lobder (see
+     * {@link #getSystemClbssLobder()}).  The <tt>Clbss</tt> object returned
+     * might hbve more thbn one <tt>ClbssLobder</tt> bssocibted with it.
+     * Subclbsses of <tt>ClbssLobder</tt> need not usublly invoke this method,
+     * becbuse most clbss lobders need to override just {@link
+     * #findClbss(String)}.  </p>
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbme
+     *         The <b href="#nbme">binbry nbme</b> of the clbss
      *
-     * @return  The <tt>Class</tt> object for the specified <tt>name</tt>
+     * @return  The <tt>Clbss</tt> object for the specified <tt>nbme</tt>
      *
-     * @throws  ClassNotFoundException
-     *          If the class could not be found
+     * @throws  ClbssNotFoundException
+     *          If the clbss could not be found
      *
-     * @see  #ClassLoader(ClassLoader)
-     * @see  #getParent()
+     * @see  #ClbssLobder(ClbssLobder)
+     * @see  #getPbrent()
      */
-    protected final Class<?> findSystemClass(String name)
-        throws ClassNotFoundException
+    protected finbl Clbss<?> findSystemClbss(String nbme)
+        throws ClbssNotFoundException
     {
-        ClassLoader system = getSystemClassLoader();
+        ClbssLobder system = getSystemClbssLobder();
         if (system == null) {
-            if (!checkName(name))
-                throw new ClassNotFoundException(name);
-            Class<?> cls = findBootstrapClass(name);
+            if (!checkNbme(nbme))
+                throw new ClbssNotFoundException(nbme);
+            Clbss<?> cls = findBootstrbpClbss(nbme);
             if (cls == null) {
-                throw new ClassNotFoundException(name);
+                throw new ClbssNotFoundException(nbme);
             }
             return cls;
         }
-        return system.loadClass(name);
+        return system.lobdClbss(nbme);
     }
 
     /**
-     * Returns a class loaded by the bootstrap class loader;
+     * Returns b clbss lobded by the bootstrbp clbss lobder;
      * or return null if not found.
      */
-    private Class<?> findBootstrapClassOrNull(String name)
+    privbte Clbss<?> findBootstrbpClbssOrNull(String nbme)
     {
-        if (!checkName(name)) return null;
+        if (!checkNbme(nbme)) return null;
 
-        return findBootstrapClass(name);
+        return findBootstrbpClbss(nbme);
     }
 
     // return null if not found
-    private native Class<?> findBootstrapClass(String name);
+    privbte nbtive Clbss<?> findBootstrbpClbss(String nbme);
 
     /**
-     * Returns the class with the given <a href="#name">binary name</a> if this
-     * loader has been recorded by the Java virtual machine as an initiating
-     * loader of a class with that <a href="#name">binary name</a>.  Otherwise
+     * Returns the clbss with the given <b href="#nbme">binbry nbme</b> if this
+     * lobder hbs been recorded by the Jbvb virtubl mbchine bs bn initibting
+     * lobder of b clbss with thbt <b href="#nbme">binbry nbme</b>.  Otherwise
      * <tt>null</tt> is returned.
      *
-     * @param  name
-     *         The <a href="#name">binary name</a> of the class
+     * @pbrbm  nbme
+     *         The <b href="#nbme">binbry nbme</b> of the clbss
      *
-     * @return  The <tt>Class</tt> object, or <tt>null</tt> if the class has
-     *          not been loaded
+     * @return  The <tt>Clbss</tt> object, or <tt>null</tt> if the clbss hbs
+     *          not been lobded
      *
      * @since  1.1
      */
-    protected final Class<?> findLoadedClass(String name) {
-        if (!checkName(name))
+    protected finbl Clbss<?> findLobdedClbss(String nbme) {
+        if (!checkNbme(nbme))
             return null;
-        return findLoadedClass0(name);
+        return findLobdedClbss0(nbme);
     }
 
-    private native final Class<?> findLoadedClass0(String name);
+    privbte nbtive finbl Clbss<?> findLobdedClbss0(String nbme);
 
     /**
-     * Sets the signers of a class.  This should be invoked after defining a
-     * class.
+     * Sets the signers of b clbss.  This should be invoked bfter defining b
+     * clbss.
      *
-     * @param  c
-     *         The <tt>Class</tt> object
+     * @pbrbm  c
+     *         The <tt>Clbss</tt> object
      *
-     * @param  signers
-     *         The signers for the class
+     * @pbrbm  signers
+     *         The signers for the clbss
      *
      * @since  1.1
      */
-    protected final void setSigners(Class<?> c, Object[] signers) {
+    protected finbl void setSigners(Clbss<?> c, Object[] signers) {
         c.setSigners(signers);
     }
 
@@ -1055,69 +1055,69 @@ public abstract class ClassLoader {
     // -- Resource --
 
     /**
-     * Finds the resource with the given name.  A resource is some data
-     * (images, audio, text, etc) that can be accessed by class code in a way
-     * that is independent of the location of the code.
+     * Finds the resource with the given nbme.  A resource is some dbtb
+     * (imbges, budio, text, etc) thbt cbn be bccessed by clbss code in b wby
+     * thbt is independent of the locbtion of the code.
      *
-     * <p> The name of a resource is a '<tt>/</tt>'-separated path name that
+     * <p> The nbme of b resource is b '<tt>/</tt>'-sepbrbted pbth nbme thbt
      * identifies the resource.
      *
-     * <p> This method will first search the parent class loader for the
-     * resource; if the parent is <tt>null</tt> the path of the class loader
-     * built-in to the virtual machine is searched.  That failing, this method
+     * <p> This method will first sebrch the pbrent clbss lobder for the
+     * resource; if the pbrent is <tt>null</tt> the pbth of the clbss lobder
+     * built-in to the virtubl mbchine is sebrched.  Thbt fbiling, this method
      * will invoke {@link #findResource(String)} to find the resource.  </p>
      *
-     * @apiNote When overriding this method it is recommended that an
-     * implementation ensures that any delegation is consistent with the {@link
-     * #getResources(java.lang.String) getResources(String)} method.
+     * @bpiNote When overriding this method it is recommended thbt bn
+     * implementbtion ensures thbt bny delegbtion is consistent with the {@link
+     * #getResources(jbvb.lbng.String) getResources(String)} method.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  A <tt>URL</tt> object for reading the resource, or
+     * @return  A <tt>URL</tt> object for rebding the resource, or
      *          <tt>null</tt> if the resource could not be found or the invoker
-     *          doesn't have adequate  privileges to get the resource.
+     *          doesn't hbve bdequbte  privileges to get the resource.
      *
      * @since  1.1
      */
-    public URL getResource(String name) {
+    public URL getResource(String nbme) {
         URL url;
-        if (parent != null) {
-            url = parent.getResource(name);
+        if (pbrent != null) {
+            url = pbrent.getResource(nbme);
         } else {
-            url = getBootstrapResource(name);
+            url = getBootstrbpResource(nbme);
         }
         if (url == null) {
-            url = findResource(name);
+            url = findResource(nbme);
         }
         return url;
     }
 
     /**
-     * Finds all the resources with the given name. A resource is some data
-     * (images, audio, text, etc) that can be accessed by class code in a way
-     * that is independent of the location of the code.
+     * Finds bll the resources with the given nbme. A resource is some dbtb
+     * (imbges, budio, text, etc) thbt cbn be bccessed by clbss code in b wby
+     * thbt is independent of the locbtion of the code.
      *
-     * <p>The name of a resource is a <tt>/</tt>-separated path name that
+     * <p>The nbme of b resource is b <tt>/</tt>-sepbrbted pbth nbme thbt
      * identifies the resource.
      *
-     * <p> The search order is described in the documentation for {@link
+     * <p> The sebrch order is described in the documentbtion for {@link
      * #getResource(String)}.  </p>
      *
-     * @apiNote When overriding this method it is recommended that an
-     * implementation ensures that any delegation is consistent with the {@link
-     * #getResource(java.lang.String) getResource(String)} method. This should
-     * ensure that the first element returned by the Enumeration's
-     * {@code nextElement} method is the same resource that the
+     * @bpiNote When overriding this method it is recommended thbt bn
+     * implementbtion ensures thbt bny delegbtion is consistent with the {@link
+     * #getResource(jbvb.lbng.String) getResource(String)} method. This should
+     * ensure thbt the first element returned by the Enumerbtion's
+     * {@code nextElement} method is the sbme resource thbt the
      * {@code getResource(String)} method would return.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  An enumeration of {@link java.net.URL <tt>URL</tt>} objects for
-     *          the resource.  If no resources could  be found, the enumeration
-     *          will be empty.  Resources that the class loader doesn't have
-     *          access to will not be in the enumeration.
+     * @return  An enumerbtion of {@link jbvb.net.URL <tt>URL</tt>} objects for
+     *          the resource.  If no resources could  be found, the enumerbtion
+     *          will be empty.  Resources thbt the clbss lobder doesn't hbve
+     *          bccess to will not be in the enumerbtion.
      *
      * @throws  IOException
      *          If I/O errors occur
@@ -1126,45 +1126,45 @@ public abstract class ClassLoader {
      *
      * @since  1.2
      */
-    public Enumeration<URL> getResources(String name) throws IOException {
-        @SuppressWarnings("unchecked")
-        Enumeration<URL>[] tmp = (Enumeration<URL>[]) new Enumeration<?>[2];
-        if (parent != null) {
-            tmp[0] = parent.getResources(name);
+    public Enumerbtion<URL> getResources(String nbme) throws IOException {
+        @SuppressWbrnings("unchecked")
+        Enumerbtion<URL>[] tmp = (Enumerbtion<URL>[]) new Enumerbtion<?>[2];
+        if (pbrent != null) {
+            tmp[0] = pbrent.getResources(nbme);
         } else {
-            tmp[0] = getBootstrapResources(name);
+            tmp[0] = getBootstrbpResources(nbme);
         }
-        tmp[1] = findResources(name);
+        tmp[1] = findResources(nbme);
 
-        return new CompoundEnumeration<>(tmp);
+        return new CompoundEnumerbtion<>(tmp);
     }
 
     /**
-     * Finds the resource with the given name. Class loader implementations
+     * Finds the resource with the given nbme. Clbss lobder implementbtions
      * should override this method to specify where to find resources.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  A <tt>URL</tt> object for reading the resource, or
+     * @return  A <tt>URL</tt> object for rebding the resource, or
      *          <tt>null</tt> if the resource could not be found
      *
      * @since  1.2
      */
-    protected URL findResource(String name) {
+    protected URL findResource(String nbme) {
         return null;
     }
 
     /**
-     * Returns an enumeration of {@link java.net.URL <tt>URL</tt>} objects
-     * representing all the resources with the given name. Class loader
-     * implementations should override this method to specify where to load
+     * Returns bn enumerbtion of {@link jbvb.net.URL <tt>URL</tt>} objects
+     * representing bll the resources with the given nbme. Clbss lobder
+     * implementbtions should override this method to specify where to lobd
      * resources from.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  An enumeration of {@link java.net.URL <tt>URL</tt>} objects for
+     * @return  An enumerbtion of {@link jbvb.net.URL <tt>URL</tt>} objects for
      *          the resources
      *
      * @throws  IOException
@@ -1172,68 +1172,68 @@ public abstract class ClassLoader {
      *
      * @since  1.2
      */
-    protected Enumeration<URL> findResources(String name) throws IOException {
-        return java.util.Collections.emptyEnumeration();
+    protected Enumerbtion<URL> findResources(String nbme) throws IOException {
+        return jbvb.util.Collections.emptyEnumerbtion();
     }
 
     /**
-     * Registers the caller as parallel capable.
-     * The registration succeeds if and only if all of the following
-     * conditions are met:
+     * Registers the cbller bs pbrbllel cbpbble.
+     * The registrbtion succeeds if bnd only if bll of the following
+     * conditions bre met:
      * <ol>
-     * <li> no instance of the caller has been created</li>
-     * <li> all of the super classes (except class Object) of the caller are
-     * registered as parallel capable</li>
+     * <li> no instbnce of the cbller hbs been crebted</li>
+     * <li> bll of the super clbsses (except clbss Object) of the cbller bre
+     * registered bs pbrbllel cbpbble</li>
      * </ol>
-     * <p>Note that once a class loader is registered as parallel capable, there
-     * is no way to change it back.</p>
+     * <p>Note thbt once b clbss lobder is registered bs pbrbllel cbpbble, there
+     * is no wby to chbnge it bbck.</p>
      *
-     * @return  true if the caller is successfully registered as
-     *          parallel capable and false if otherwise.
+     * @return  true if the cbller is successfully registered bs
+     *          pbrbllel cbpbble bnd fblse if otherwise.
      *
      * @since   1.7
      */
-    @CallerSensitive
-    protected static boolean registerAsParallelCapable() {
-        Class<? extends ClassLoader> callerClass =
-            Reflection.getCallerClass().asSubclass(ClassLoader.class);
-        return ParallelLoaders.register(callerClass);
+    @CbllerSensitive
+    protected stbtic boolebn registerAsPbrbllelCbpbble() {
+        Clbss<? extends ClbssLobder> cbllerClbss =
+            Reflection.getCbllerClbss().bsSubclbss(ClbssLobder.clbss);
+        return PbrbllelLobders.register(cbllerClbss);
     }
 
     /**
-     * Find a resource of the specified name from the search path used to load
-     * classes.  This method locates the resource through the system class
-     * loader (see {@link #getSystemClassLoader()}).
+     * Find b resource of the specified nbme from the sebrch pbth used to lobd
+     * clbsses.  This method locbtes the resource through the system clbss
+     * lobder (see {@link #getSystemClbssLobder()}).
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  A {@link java.net.URL <tt>URL</tt>} object for reading the
+     * @return  A {@link jbvb.net.URL <tt>URL</tt>} object for rebding the
      *          resource, or <tt>null</tt> if the resource could not be found
      *
      * @since  1.1
      */
-    public static URL getSystemResource(String name) {
-        ClassLoader system = getSystemClassLoader();
+    public stbtic URL getSystemResource(String nbme) {
+        ClbssLobder system = getSystemClbssLobder();
         if (system == null) {
-            return getBootstrapResource(name);
+            return getBootstrbpResource(nbme);
         }
-        return system.getResource(name);
+        return system.getResource(nbme);
     }
 
     /**
-     * Finds all resources of the specified name from the search path used to
-     * load classes.  The resources thus found are returned as an
-     * {@link java.util.Enumeration <tt>Enumeration</tt>} of {@link
-     * java.net.URL <tt>URL</tt>} objects.
+     * Finds bll resources of the specified nbme from the sebrch pbth used to
+     * lobd clbsses.  The resources thus found bre returned bs bn
+     * {@link jbvb.util.Enumerbtion <tt>Enumerbtion</tt>} of {@link
+     * jbvb.net.URL <tt>URL</tt>} objects.
      *
-     * <p> The search order is described in the documentation for {@link
+     * <p> The sebrch order is described in the documentbtion for {@link
      * #getSystemResource(String)}.  </p>
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  An enumeration of resource {@link java.net.URL <tt>URL</tt>}
+     * @return  An enumerbtion of resource {@link jbvb.net.URL <tt>URL</tt>}
      *          objects
      *
      * @throws  IOException
@@ -1241,223 +1241,223 @@ public abstract class ClassLoader {
 
      * @since  1.2
      */
-    public static Enumeration<URL> getSystemResources(String name)
+    public stbtic Enumerbtion<URL> getSystemResources(String nbme)
         throws IOException
     {
-        ClassLoader system = getSystemClassLoader();
+        ClbssLobder system = getSystemClbssLobder();
         if (system == null) {
-            return getBootstrapResources(name);
+            return getBootstrbpResources(nbme);
         }
-        return system.getResources(name);
+        return system.getResources(nbme);
     }
 
     /**
-     * Find resources from the VM's built-in classloader.
+     * Find resources from the VM's built-in clbsslobder.
      */
-    private static URL getBootstrapResource(String name) {
-        URLClassPath ucp = getBootstrapClassPath();
-        Resource res = ucp.getResource(name);
+    privbte stbtic URL getBootstrbpResource(String nbme) {
+        URLClbssPbth ucp = getBootstrbpClbssPbth();
+        Resource res = ucp.getResource(nbme);
         return res != null ? res.getURL() : null;
     }
 
     /**
-     * Find resources from the VM's built-in classloader.
+     * Find resources from the VM's built-in clbsslobder.
      */
-    private static Enumeration<URL> getBootstrapResources(String name)
+    privbte stbtic Enumerbtion<URL> getBootstrbpResources(String nbme)
         throws IOException
     {
-        final Enumeration<Resource> e =
-            getBootstrapClassPath().getResources(name);
-        return new Enumeration<URL> () {
+        finbl Enumerbtion<Resource> e =
+            getBootstrbpClbssPbth().getResources(nbme);
+        return new Enumerbtion<URL> () {
             public URL nextElement() {
                 return e.nextElement().getURL();
             }
-            public boolean hasMoreElements() {
-                return e.hasMoreElements();
+            public boolebn hbsMoreElements() {
+                return e.hbsMoreElements();
             }
         };
     }
 
-    // Returns the URLClassPath that is used for finding system resources.
-    static URLClassPath getBootstrapClassPath() {
-        return sun.misc.Launcher.getBootstrapClassPath();
+    // Returns the URLClbssPbth thbt is used for finding system resources.
+    stbtic URLClbssPbth getBootstrbpClbssPbth() {
+        return sun.misc.Lbuncher.getBootstrbpClbssPbth();
     }
 
 
     /**
-     * Returns an input stream for reading the specified resource.
+     * Returns bn input strebm for rebding the specified resource.
      *
-     * <p> The search order is described in the documentation for {@link
+     * <p> The sebrch order is described in the documentbtion for {@link
      * #getResource(String)}.  </p>
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  An input stream for reading the resource, or <tt>null</tt>
+     * @return  An input strebm for rebding the resource, or <tt>null</tt>
      *          if the resource could not be found
      *
      * @since  1.1
      */
-    public InputStream getResourceAsStream(String name) {
-        URL url = getResource(name);
+    public InputStrebm getResourceAsStrebm(String nbme) {
+        URL url = getResource(nbme);
         try {
-            return url != null ? url.openStream() : null;
-        } catch (IOException e) {
+            return url != null ? url.openStrebm() : null;
+        } cbtch (IOException e) {
             return null;
         }
     }
 
     /**
-     * Open for reading, a resource of the specified name from the search path
-     * used to load classes.  This method locates the resource through the
-     * system class loader (see {@link #getSystemClassLoader()}).
+     * Open for rebding, b resource of the specified nbme from the sebrch pbth
+     * used to lobd clbsses.  This method locbtes the resource through the
+     * system clbss lobder (see {@link #getSystemClbssLobder()}).
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  An input stream for reading the resource, or <tt>null</tt>
+     * @return  An input strebm for rebding the resource, or <tt>null</tt>
      *          if the resource could not be found
      *
      * @since  1.1
      */
-    public static InputStream getSystemResourceAsStream(String name) {
-        URL url = getSystemResource(name);
+    public stbtic InputStrebm getSystemResourceAsStrebm(String nbme) {
+        URL url = getSystemResource(nbme);
         try {
-            return url != null ? url.openStream() : null;
-        } catch (IOException e) {
+            return url != null ? url.openStrebm() : null;
+        } cbtch (IOException e) {
             return null;
         }
     }
 
 
-    // -- Hierarchy --
+    // -- Hierbrchy --
 
     /**
-     * Returns the parent class loader for delegation. Some implementations may
-     * use <tt>null</tt> to represent the bootstrap class loader. This method
-     * will return <tt>null</tt> in such implementations if this class loader's
-     * parent is the bootstrap class loader.
+     * Returns the pbrent clbss lobder for delegbtion. Some implementbtions mby
+     * use <tt>null</tt> to represent the bootstrbp clbss lobder. This method
+     * will return <tt>null</tt> in such implementbtions if this clbss lobder's
+     * pbrent is the bootstrbp clbss lobder.
      *
-     * <p> If a security manager is present, and the invoker's class loader is
-     * not <tt>null</tt> and is not an ancestor of this class loader, then this
-     * method invokes the security manager's {@link
-     * SecurityManager#checkPermission(java.security.Permission)
-     * <tt>checkPermission</tt>} method with a {@link
+     * <p> If b security mbnbger is present, bnd the invoker's clbss lobder is
+     * not <tt>null</tt> bnd is not bn bncestor of this clbss lobder, then this
+     * method invokes the security mbnbger's {@link
+     * SecurityMbnbger#checkPermission(jbvb.security.Permission)
+     * <tt>checkPermission</tt>} method with b {@link
      * RuntimePermission#RuntimePermission(String)
-     * <tt>RuntimePermission("getClassLoader")</tt>} permission to verify
-     * access to the parent class loader is permitted.  If not, a
+     * <tt>RuntimePermission("getClbssLobder")</tt>} permission to verify
+     * bccess to the pbrent clbss lobder is permitted.  If not, b
      * <tt>SecurityException</tt> will be thrown.  </p>
      *
-     * @return  The parent <tt>ClassLoader</tt>
+     * @return  The pbrent <tt>ClbssLobder</tt>
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <tt>checkPermission</tt>
-     *          method doesn't allow access to this class loader's parent class
-     *          loader.
+     *          If b security mbnbger exists bnd its <tt>checkPermission</tt>
+     *          method doesn't bllow bccess to this clbss lobder's pbrent clbss
+     *          lobder.
      *
      * @since  1.2
      */
-    @CallerSensitive
-    public final ClassLoader getParent() {
-        if (parent == null)
+    @CbllerSensitive
+    public finbl ClbssLobder getPbrent() {
+        if (pbrent == null)
             return null;
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            checkClassLoaderPermission(this, Reflection.getCallerClass());
+            checkClbssLobderPermission(this, Reflection.getCbllerClbss());
         }
-        return parent;
+        return pbrent;
     }
 
     /**
-     * Returns the system class loader for delegation.  This is the default
-     * delegation parent for new <tt>ClassLoader</tt> instances, and is
-     * typically the class loader used to start the application.
+     * Returns the system clbss lobder for delegbtion.  This is the defbult
+     * delegbtion pbrent for new <tt>ClbssLobder</tt> instbnces, bnd is
+     * typicblly the clbss lobder used to stbrt the bpplicbtion.
      *
-     * <p> This method is first invoked early in the runtime's startup
-     * sequence, at which point it creates the system class loader and sets it
-     * as the context class loader of the invoking <tt>Thread</tt>.
+     * <p> This method is first invoked ebrly in the runtime's stbrtup
+     * sequence, bt which point it crebtes the system clbss lobder bnd sets it
+     * bs the context clbss lobder of the invoking <tt>Threbd</tt>.
      *
-     * <p> The default system class loader is an implementation-dependent
-     * instance of this class.
+     * <p> The defbult system clbss lobder is bn implementbtion-dependent
+     * instbnce of this clbss.
      *
-     * <p> If the system property "<tt>java.system.class.loader</tt>" is defined
-     * when this method is first invoked then the value of that property is
-     * taken to be the name of a class that will be returned as the system
-     * class loader.  The class is loaded using the default system class loader
-     * and must define a public constructor that takes a single parameter of
-     * type <tt>ClassLoader</tt> which is used as the delegation parent.  An
-     * instance is then created using this constructor with the default system
-     * class loader as the parameter.  The resulting class loader is defined
-     * to be the system class loader.
+     * <p> If the system property "<tt>jbvb.system.clbss.lobder</tt>" is defined
+     * when this method is first invoked then the vblue of thbt property is
+     * tbken to be the nbme of b clbss thbt will be returned bs the system
+     * clbss lobder.  The clbss is lobded using the defbult system clbss lobder
+     * bnd must define b public constructor thbt tbkes b single pbrbmeter of
+     * type <tt>ClbssLobder</tt> which is used bs the delegbtion pbrent.  An
+     * instbnce is then crebted using this constructor with the defbult system
+     * clbss lobder bs the pbrbmeter.  The resulting clbss lobder is defined
+     * to be the system clbss lobder.
      *
-     * <p> If a security manager is present, and the invoker's class loader is
-     * not <tt>null</tt> and the invoker's class loader is not the same as or
-     * an ancestor of the system class loader, then this method invokes the
-     * security manager's {@link
-     * SecurityManager#checkPermission(java.security.Permission)
-     * <tt>checkPermission</tt>} method with a {@link
+     * <p> If b security mbnbger is present, bnd the invoker's clbss lobder is
+     * not <tt>null</tt> bnd the invoker's clbss lobder is not the sbme bs or
+     * bn bncestor of the system clbss lobder, then this method invokes the
+     * security mbnbger's {@link
+     * SecurityMbnbger#checkPermission(jbvb.security.Permission)
+     * <tt>checkPermission</tt>} method with b {@link
      * RuntimePermission#RuntimePermission(String)
-     * <tt>RuntimePermission("getClassLoader")</tt>} permission to verify
-     * access to the system class loader.  If not, a
+     * <tt>RuntimePermission("getClbssLobder")</tt>} permission to verify
+     * bccess to the system clbss lobder.  If not, b
      * <tt>SecurityException</tt> will be thrown.  </p>
      *
-     * @return  The system <tt>ClassLoader</tt> for delegation, or
+     * @return  The system <tt>ClbssLobder</tt> for delegbtion, or
      *          <tt>null</tt> if none
      *
      * @throws  SecurityException
-     *          If a security manager exists and its <tt>checkPermission</tt>
-     *          method doesn't allow access to the system class loader.
+     *          If b security mbnbger exists bnd its <tt>checkPermission</tt>
+     *          method doesn't bllow bccess to the system clbss lobder.
      *
-     * @throws  IllegalStateException
-     *          If invoked recursively during the construction of the class
-     *          loader specified by the "<tt>java.system.class.loader</tt>"
+     * @throws  IllegblStbteException
+     *          If invoked recursively during the construction of the clbss
+     *          lobder specified by the "<tt>jbvb.system.clbss.lobder</tt>"
      *          property.
      *
      * @throws  Error
-     *          If the system property "<tt>java.system.class.loader</tt>"
-     *          is defined but the named class could not be loaded, the
-     *          provider class does not define the required constructor, or an
-     *          exception is thrown by that constructor when it is invoked. The
-     *          underlying cause of the error can be retrieved via the
-     *          {@link Throwable#getCause()} method.
+     *          If the system property "<tt>jbvb.system.clbss.lobder</tt>"
+     *          is defined but the nbmed clbss could not be lobded, the
+     *          provider clbss does not define the required constructor, or bn
+     *          exception is thrown by thbt constructor when it is invoked. The
+     *          underlying cbuse of the error cbn be retrieved vib the
+     *          {@link Throwbble#getCbuse()} method.
      *
      * @revised  1.4
      */
-    @CallerSensitive
-    public static ClassLoader getSystemClassLoader() {
-        initSystemClassLoader();
+    @CbllerSensitive
+    public stbtic ClbssLobder getSystemClbssLobder() {
+        initSystemClbssLobder();
         if (scl == null) {
             return null;
         }
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            checkClassLoaderPermission(scl, Reflection.getCallerClass());
+            checkClbssLobderPermission(scl, Reflection.getCbllerClbss());
         }
         return scl;
     }
 
-    private static synchronized void initSystemClassLoader() {
+    privbte stbtic synchronized void initSystemClbssLobder() {
         if (!sclSet) {
             if (scl != null)
-                throw new IllegalStateException("recursive invocation");
-            sun.misc.Launcher l = sun.misc.Launcher.getLauncher();
+                throw new IllegblStbteException("recursive invocbtion");
+            sun.misc.Lbuncher l = sun.misc.Lbuncher.getLbuncher();
             if (l != null) {
-                Throwable oops = null;
-                scl = l.getClassLoader();
+                Throwbble oops = null;
+                scl = l.getClbssLobder();
                 try {
                     scl = AccessController.doPrivileged(
-                        new SystemClassLoaderAction(scl));
-                } catch (PrivilegedActionException pae) {
-                    oops = pae.getCause();
-                    if (oops instanceof InvocationTargetException) {
-                        oops = oops.getCause();
+                        new SystemClbssLobderAction(scl));
+                } cbtch (PrivilegedActionException pbe) {
+                    oops = pbe.getCbuse();
+                    if (oops instbnceof InvocbtionTbrgetException) {
+                        oops = oops.getCbuse();
                     }
                 }
                 if (oops != null) {
-                    if (oops instanceof Error) {
+                    if (oops instbnceof Error) {
                         throw (Error) oops;
                     } else {
-                        // wrap the exception
+                        // wrbp the exception
                         throw new Error(oops);
                     }
                 }
@@ -1466,156 +1466,156 @@ public abstract class ClassLoader {
         }
     }
 
-    // Returns true if the specified class loader can be found in this class
-    // loader's delegation chain.
-    boolean isAncestor(ClassLoader cl) {
-        ClassLoader acl = this;
+    // Returns true if the specified clbss lobder cbn be found in this clbss
+    // lobder's delegbtion chbin.
+    boolebn isAncestor(ClbssLobder cl) {
+        ClbssLobder bcl = this;
         do {
-            acl = acl.parent;
-            if (cl == acl) {
+            bcl = bcl.pbrent;
+            if (cl == bcl) {
                 return true;
             }
-        } while (acl != null);
-        return false;
+        } while (bcl != null);
+        return fblse;
     }
 
-    // Tests if class loader access requires "getClassLoader" permission
-    // check.  A class loader 'from' can access class loader 'to' if
-    // class loader 'from' is same as class loader 'to' or an ancestor
-    // of 'to'.  The class loader in a system domain can access
-    // any class loader.
-    private static boolean needsClassLoaderPermissionCheck(ClassLoader from,
-                                                           ClassLoader to)
+    // Tests if clbss lobder bccess requires "getClbssLobder" permission
+    // check.  A clbss lobder 'from' cbn bccess clbss lobder 'to' if
+    // clbss lobder 'from' is sbme bs clbss lobder 'to' or bn bncestor
+    // of 'to'.  The clbss lobder in b system dombin cbn bccess
+    // bny clbss lobder.
+    privbte stbtic boolebn needsClbssLobderPermissionCheck(ClbssLobder from,
+                                                           ClbssLobder to)
     {
         if (from == to)
-            return false;
+            return fblse;
 
         if (from == null)
-            return false;
+            return fblse;
 
         return !to.isAncestor(from);
     }
 
-    // Returns the class's class loader, or null if none.
-    static ClassLoader getClassLoader(Class<?> caller) {
-        // This can be null if the VM is requesting it
-        if (caller == null) {
+    // Returns the clbss's clbss lobder, or null if none.
+    stbtic ClbssLobder getClbssLobder(Clbss<?> cbller) {
+        // This cbn be null if the VM is requesting it
+        if (cbller == null) {
             return null;
         }
-        // Circumvent security check since this is package-private
-        return caller.getClassLoader0();
+        // Circumvent security check since this is pbckbge-privbte
+        return cbller.getClbssLobder0();
     }
 
-    static void checkClassLoaderPermission(ClassLoader cl, Class<?> caller) {
-        SecurityManager sm = System.getSecurityManager();
+    stbtic void checkClbssLobderPermission(ClbssLobder cl, Clbss<?> cbller) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            // caller can be null if the VM is requesting it
-            ClassLoader ccl = getClassLoader(caller);
-            if (needsClassLoaderPermissionCheck(ccl, cl)) {
-                sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
+            // cbller cbn be null if the VM is requesting it
+            ClbssLobder ccl = getClbssLobder(cbller);
+            if (needsClbssLobderPermissionCheck(ccl, cl)) {
+                sm.checkPermission(SecurityConstbnts.GET_CLASSLOADER_PERMISSION);
             }
         }
     }
 
-    // The class loader for the system
-    // @GuardedBy("ClassLoader.class")
-    private static ClassLoader scl;
+    // The clbss lobder for the system
+    // @GubrdedBy("ClbssLobder.clbss")
+    privbte stbtic ClbssLobder scl;
 
-    // Set to true once the system class loader has been set
-    // @GuardedBy("ClassLoader.class")
-    private static boolean sclSet;
+    // Set to true once the system clbss lobder hbs been set
+    // @GubrdedBy("ClbssLobder.clbss")
+    privbte stbtic boolebn sclSet;
 
 
-    // -- Package --
+    // -- Pbckbge --
 
     /**
-     * Defines a package by name in this <tt>ClassLoader</tt>.  This allows
-     * class loaders to define the packages for their classes. Packages must
-     * be created before the class is defined, and package names must be
-     * unique within a class loader and cannot be redefined or changed once
-     * created.
+     * Defines b pbckbge by nbme in this <tt>ClbssLobder</tt>.  This bllows
+     * clbss lobders to define the pbckbges for their clbsses. Pbckbges must
+     * be crebted before the clbss is defined, bnd pbckbge nbmes must be
+     * unique within b clbss lobder bnd cbnnot be redefined or chbnged once
+     * crebted.
      *
-     * @param  name
-     *         The package name
+     * @pbrbm  nbme
+     *         The pbckbge nbme
      *
-     * @param  specTitle
-     *         The specification title
+     * @pbrbm  specTitle
+     *         The specificbtion title
      *
-     * @param  specVersion
-     *         The specification version
+     * @pbrbm  specVersion
+     *         The specificbtion version
      *
-     * @param  specVendor
-     *         The specification vendor
+     * @pbrbm  specVendor
+     *         The specificbtion vendor
      *
-     * @param  implTitle
-     *         The implementation title
+     * @pbrbm  implTitle
+     *         The implementbtion title
      *
-     * @param  implVersion
-     *         The implementation version
+     * @pbrbm  implVersion
+     *         The implementbtion version
      *
-     * @param  implVendor
-     *         The implementation vendor
+     * @pbrbm  implVendor
+     *         The implementbtion vendor
      *
-     * @param  sealBase
-     *         If not <tt>null</tt>, then this package is sealed with
-     *         respect to the given code source {@link java.net.URL
-     *         <tt>URL</tt>}  object.  Otherwise, the package is not sealed.
+     * @pbrbm  seblBbse
+     *         If not <tt>null</tt>, then this pbckbge is sebled with
+     *         respect to the given code source {@link jbvb.net.URL
+     *         <tt>URL</tt>}  object.  Otherwise, the pbckbge is not sebled.
      *
-     * @return  The newly defined <tt>Package</tt> object
+     * @return  The newly defined <tt>Pbckbge</tt> object
      *
-     * @throws  IllegalArgumentException
-     *          If package name duplicates an existing package either in this
-     *          class loader or one of its ancestors
+     * @throws  IllegblArgumentException
+     *          If pbckbge nbme duplicbtes bn existing pbckbge either in this
+     *          clbss lobder or one of its bncestors
      *
      * @since  1.2
      */
-    protected Package definePackage(String name, String specTitle,
+    protected Pbckbge definePbckbge(String nbme, String specTitle,
                                     String specVersion, String specVendor,
                                     String implTitle, String implVersion,
-                                    String implVendor, URL sealBase)
-        throws IllegalArgumentException
+                                    String implVendor, URL seblBbse)
+        throws IllegblArgumentException
     {
-        synchronized (packages) {
-            Package pkg = getPackage(name);
+        synchronized (pbckbges) {
+            Pbckbge pkg = getPbckbge(nbme);
             if (pkg != null) {
-                throw new IllegalArgumentException(name);
+                throw new IllegblArgumentException(nbme);
             }
-            pkg = new Package(name, specTitle, specVersion, specVendor,
+            pkg = new Pbckbge(nbme, specTitle, specVersion, specVendor,
                               implTitle, implVersion, implVendor,
-                              sealBase, this);
-            packages.put(name, pkg);
+                              seblBbse, this);
+            pbckbges.put(nbme, pkg);
             return pkg;
         }
     }
 
     /**
-     * Returns a <tt>Package</tt> that has been defined by this class loader
-     * or any of its ancestors.
+     * Returns b <tt>Pbckbge</tt> thbt hbs been defined by this clbss lobder
+     * or bny of its bncestors.
      *
-     * @param  name
-     *         The package name
+     * @pbrbm  nbme
+     *         The pbckbge nbme
      *
-     * @return  The <tt>Package</tt> corresponding to the given name, or
+     * @return  The <tt>Pbckbge</tt> corresponding to the given nbme, or
      *          <tt>null</tt> if not found
      *
      * @since  1.2
      */
-    protected Package getPackage(String name) {
-        Package pkg;
-        synchronized (packages) {
-            pkg = packages.get(name);
+    protected Pbckbge getPbckbge(String nbme) {
+        Pbckbge pkg;
+        synchronized (pbckbges) {
+            pkg = pbckbges.get(nbme);
         }
         if (pkg == null) {
-            if (parent != null) {
-                pkg = parent.getPackage(name);
+            if (pbrent != null) {
+                pkg = pbrent.getPbckbge(nbme);
             } else {
-                pkg = Package.getSystemPackage(name);
+                pkg = Pbckbge.getSystemPbckbge(nbme);
             }
             if (pkg != null) {
-                synchronized (packages) {
-                    Package pkg2 = packages.get(name);
+                synchronized (pbckbges) {
+                    Pbckbge pkg2 = pbckbges.get(nbme);
                     if (pkg2 == null) {
-                        packages.put(name, pkg);
+                        pbckbges.put(nbme, pkg);
                     } else {
                         pkg = pkg2;
                     }
@@ -1626,325 +1626,325 @@ public abstract class ClassLoader {
     }
 
     /**
-     * Returns all of the <tt>Packages</tt> defined by this class loader and
-     * its ancestors.
+     * Returns bll of the <tt>Pbckbges</tt> defined by this clbss lobder bnd
+     * its bncestors.
      *
-     * @return  The array of <tt>Package</tt> objects defined by this
-     *          <tt>ClassLoader</tt>
+     * @return  The brrby of <tt>Pbckbge</tt> objects defined by this
+     *          <tt>ClbssLobder</tt>
      *
      * @since  1.2
      */
-    protected Package[] getPackages() {
-        Map<String, Package> map;
-        synchronized (packages) {
-            map = new HashMap<>(packages);
+    protected Pbckbge[] getPbckbges() {
+        Mbp<String, Pbckbge> mbp;
+        synchronized (pbckbges) {
+            mbp = new HbshMbp<>(pbckbges);
         }
-        Package[] pkgs;
-        if (parent != null) {
-            pkgs = parent.getPackages();
+        Pbckbge[] pkgs;
+        if (pbrent != null) {
+            pkgs = pbrent.getPbckbges();
         } else {
-            pkgs = Package.getSystemPackages();
+            pkgs = Pbckbge.getSystemPbckbges();
         }
         if (pkgs != null) {
-            for (Package pkg : pkgs) {
-                String pkgName = pkg.getName();
-                if (map.get(pkgName) == null) {
-                    map.put(pkgName, pkg);
+            for (Pbckbge pkg : pkgs) {
+                String pkgNbme = pkg.getNbme();
+                if (mbp.get(pkgNbme) == null) {
+                    mbp.put(pkgNbme, pkg);
                 }
             }
         }
-        return map.values().toArray(new Package[map.size()]);
+        return mbp.vblues().toArrby(new Pbckbge[mbp.size()]);
     }
 
 
-    // -- Native library access --
+    // -- Nbtive librbry bccess --
 
     /**
-     * Returns the absolute path name of a native library.  The VM invokes this
-     * method to locate the native libraries that belong to classes loaded with
-     * this class loader. If this method returns <tt>null</tt>, the VM
-     * searches the library along the path specified as the
-     * "<tt>java.library.path</tt>" property.
+     * Returns the bbsolute pbth nbme of b nbtive librbry.  The VM invokes this
+     * method to locbte the nbtive librbries thbt belong to clbsses lobded with
+     * this clbss lobder. If this method returns <tt>null</tt>, the VM
+     * sebrches the librbry blong the pbth specified bs the
+     * "<tt>jbvb.librbry.pbth</tt>" property.
      *
-     * @param  libname
-     *         The library name
+     * @pbrbm  libnbme
+     *         The librbry nbme
      *
-     * @return  The absolute path of the native library
+     * @return  The bbsolute pbth of the nbtive librbry
      *
-     * @see  System#loadLibrary(String)
-     * @see  System#mapLibraryName(String)
+     * @see  System#lobdLibrbry(String)
+     * @see  System#mbpLibrbryNbme(String)
      *
      * @since  1.2
      */
-    protected String findLibrary(String libname) {
+    protected String findLibrbry(String libnbme) {
         return null;
     }
 
     /**
-     * The inner class NativeLibrary denotes a loaded native library instance.
-     * Every classloader contains a vector of loaded native libraries in the
-     * private field <tt>nativeLibraries</tt>.  The native libraries loaded
-     * into the system are entered into the <tt>systemNativeLibraries</tt>
+     * The inner clbss NbtiveLibrbry denotes b lobded nbtive librbry instbnce.
+     * Every clbsslobder contbins b vector of lobded nbtive librbries in the
+     * privbte field <tt>nbtiveLibrbries</tt>.  The nbtive librbries lobded
+     * into the system bre entered into the <tt>systemNbtiveLibrbries</tt>
      * vector.
      *
-     * <p> Every native library requires a particular version of JNI. This is
-     * denoted by the private <tt>jniVersion</tt> field.  This field is set by
-     * the VM when it loads the library, and used by the VM to pass the correct
-     * version of JNI to the native methods.  </p>
+     * <p> Every nbtive librbry requires b pbrticulbr version of JNI. This is
+     * denoted by the privbte <tt>jniVersion</tt> field.  This field is set by
+     * the VM when it lobds the librbry, bnd used by the VM to pbss the correct
+     * version of JNI to the nbtive methods.  </p>
      *
-     * @see      ClassLoader
+     * @see      ClbssLobder
      * @since    1.2
      */
-    static class NativeLibrary {
-        // opaque handle to native library, used in native code.
-        long handle;
-        // the version of JNI environment the native library requires.
-        private int jniVersion;
-        // the class from which the library is loaded, also indicates
-        // the loader this native library belongs.
-        private final Class<?> fromClass;
-        // the canonicalized name of the native library.
-        // or static library name
-        String name;
-        // Indicates if the native library is linked into the VM
-        boolean isBuiltin;
-        // Indicates if the native library is loaded
-        boolean loaded;
-        native void load(String name, boolean isBuiltin);
+    stbtic clbss NbtiveLibrbry {
+        // opbque hbndle to nbtive librbry, used in nbtive code.
+        long hbndle;
+        // the version of JNI environment the nbtive librbry requires.
+        privbte int jniVersion;
+        // the clbss from which the librbry is lobded, blso indicbtes
+        // the lobder this nbtive librbry belongs.
+        privbte finbl Clbss<?> fromClbss;
+        // the cbnonicblized nbme of the nbtive librbry.
+        // or stbtic librbry nbme
+        String nbme;
+        // Indicbtes if the nbtive librbry is linked into the VM
+        boolebn isBuiltin;
+        // Indicbtes if the nbtive librbry is lobded
+        boolebn lobded;
+        nbtive void lobd(String nbme, boolebn isBuiltin);
 
-        native long find(String name);
-        native void unload(String name, boolean isBuiltin);
-        static native String findBuiltinLib(String name);
+        nbtive long find(String nbme);
+        nbtive void unlobd(String nbme, boolebn isBuiltin);
+        stbtic nbtive String findBuiltinLib(String nbme);
 
-        public NativeLibrary(Class<?> fromClass, String name, boolean isBuiltin) {
-            this.name = name;
-            this.fromClass = fromClass;
+        public NbtiveLibrbry(Clbss<?> fromClbss, String nbme, boolebn isBuiltin) {
+            this.nbme = nbme;
+            this.fromClbss = fromClbss;
             this.isBuiltin = isBuiltin;
         }
 
-        protected void finalize() {
-            synchronized (loadedLibraryNames) {
-                if (fromClass.getClassLoader() != null && loaded) {
-                    /* remove the native library name */
-                    int size = loadedLibraryNames.size();
+        protected void finblize() {
+            synchronized (lobdedLibrbryNbmes) {
+                if (fromClbss.getClbssLobder() != null && lobded) {
+                    /* remove the nbtive librbry nbme */
+                    int size = lobdedLibrbryNbmes.size();
                     for (int i = 0; i < size; i++) {
-                        if (name.equals(loadedLibraryNames.elementAt(i))) {
-                            loadedLibraryNames.removeElementAt(i);
-                            break;
+                        if (nbme.equbls(lobdedLibrbryNbmes.elementAt(i))) {
+                            lobdedLibrbryNbmes.removeElementAt(i);
+                            brebk;
                         }
                     }
-                    /* unload the library. */
-                    ClassLoader.nativeLibraryContext.push(this);
+                    /* unlobd the librbry. */
+                    ClbssLobder.nbtiveLibrbryContext.push(this);
                     try {
-                        unload(name, isBuiltin);
-                    } finally {
-                        ClassLoader.nativeLibraryContext.pop();
+                        unlobd(nbme, isBuiltin);
+                    } finblly {
+                        ClbssLobder.nbtiveLibrbryContext.pop();
                     }
                 }
             }
         }
-        // Invoked in the VM to determine the context class in
-        // JNI_Load/JNI_Unload
-        static Class<?> getFromClass() {
-            return ClassLoader.nativeLibraryContext.peek().fromClass;
+        // Invoked in the VM to determine the context clbss in
+        // JNI_Lobd/JNI_Unlobd
+        stbtic Clbss<?> getFromClbss() {
+            return ClbssLobder.nbtiveLibrbryContext.peek().fromClbss;
         }
     }
 
-    // All native library names we've loaded.
-    private static Vector<String> loadedLibraryNames = new Vector<>();
+    // All nbtive librbry nbmes we've lobded.
+    privbte stbtic Vector<String> lobdedLibrbryNbmes = new Vector<>();
 
-    // Native libraries belonging to system classes.
-    private static Vector<NativeLibrary> systemNativeLibraries
+    // Nbtive librbries belonging to system clbsses.
+    privbte stbtic Vector<NbtiveLibrbry> systemNbtiveLibrbries
         = new Vector<>();
 
-    // Native libraries associated with the class loader.
-    private Vector<NativeLibrary> nativeLibraries = new Vector<>();
+    // Nbtive librbries bssocibted with the clbss lobder.
+    privbte Vector<NbtiveLibrbry> nbtiveLibrbries = new Vector<>();
 
-    // native libraries being loaded/unloaded.
-    private static Stack<NativeLibrary> nativeLibraryContext = new Stack<>();
+    // nbtive librbries being lobded/unlobded.
+    privbte stbtic Stbck<NbtiveLibrbry> nbtiveLibrbryContext = new Stbck<>();
 
-    // The paths searched for libraries
-    private static String usr_paths[];
-    private static String sys_paths[];
+    // The pbths sebrched for librbries
+    privbte stbtic String usr_pbths[];
+    privbte stbtic String sys_pbths[];
 
-    private static String[] initializePath(String propname) {
-        String ldpath = System.getProperty(propname, "");
-        String ps = File.pathSeparator;
-        int ldlen = ldpath.length();
+    privbte stbtic String[] initiblizePbth(String propnbme) {
+        String ldpbth = System.getProperty(propnbme, "");
+        String ps = File.pbthSepbrbtor;
+        int ldlen = ldpbth.length();
         int i, j, n;
-        // Count the separators in the path
-        i = ldpath.indexOf(ps);
+        // Count the sepbrbtors in the pbth
+        i = ldpbth.indexOf(ps);
         n = 0;
         while (i >= 0) {
             n++;
-            i = ldpath.indexOf(ps, i + 1);
+            i = ldpbth.indexOf(ps, i + 1);
         }
 
-        // allocate the array of paths - n :'s = n + 1 path elements
-        String[] paths = new String[n + 1];
+        // bllocbte the brrby of pbths - n :'s = n + 1 pbth elements
+        String[] pbths = new String[n + 1];
 
-        // Fill the array with paths from the ldpath
+        // Fill the brrby with pbths from the ldpbth
         n = i = 0;
-        j = ldpath.indexOf(ps);
+        j = ldpbth.indexOf(ps);
         while (j >= 0) {
             if (j - i > 0) {
-                paths[n++] = ldpath.substring(i, j);
+                pbths[n++] = ldpbth.substring(i, j);
             } else if (j - i == 0) {
-                paths[n++] = ".";
+                pbths[n++] = ".";
             }
             i = j + 1;
-            j = ldpath.indexOf(ps, i);
+            j = ldpbth.indexOf(ps, i);
         }
-        paths[n] = ldpath.substring(i, ldlen);
-        return paths;
+        pbths[n] = ldpbth.substring(i, ldlen);
+        return pbths;
     }
 
-    // Invoked in the java.lang.Runtime class to implement load and loadLibrary.
-    static void loadLibrary(Class<?> fromClass, String name,
-                            boolean isAbsolute) {
-        ClassLoader loader =
-            (fromClass == null) ? null : fromClass.getClassLoader();
-        if (sys_paths == null) {
-            usr_paths = initializePath("java.library.path");
-            sys_paths = initializePath("sun.boot.library.path");
+    // Invoked in the jbvb.lbng.Runtime clbss to implement lobd bnd lobdLibrbry.
+    stbtic void lobdLibrbry(Clbss<?> fromClbss, String nbme,
+                            boolebn isAbsolute) {
+        ClbssLobder lobder =
+            (fromClbss == null) ? null : fromClbss.getClbssLobder();
+        if (sys_pbths == null) {
+            usr_pbths = initiblizePbth("jbvb.librbry.pbth");
+            sys_pbths = initiblizePbth("sun.boot.librbry.pbth");
         }
         if (isAbsolute) {
-            if (loadLibrary0(fromClass, new File(name))) {
+            if (lobdLibrbry0(fromClbss, new File(nbme))) {
                 return;
             }
-            throw new UnsatisfiedLinkError("Can't load library: " + name);
+            throw new UnsbtisfiedLinkError("Cbn't lobd librbry: " + nbme);
         }
-        if (loader != null) {
-            String libfilename = loader.findLibrary(name);
-            if (libfilename != null) {
-                File libfile = new File(libfilename);
+        if (lobder != null) {
+            String libfilenbme = lobder.findLibrbry(nbme);
+            if (libfilenbme != null) {
+                File libfile = new File(libfilenbme);
                 if (!libfile.isAbsolute()) {
-                    throw new UnsatisfiedLinkError(
-    "ClassLoader.findLibrary failed to return an absolute path: " + libfilename);
+                    throw new UnsbtisfiedLinkError(
+    "ClbssLobder.findLibrbry fbiled to return bn bbsolute pbth: " + libfilenbme);
                 }
-                if (loadLibrary0(fromClass, libfile)) {
+                if (lobdLibrbry0(fromClbss, libfile)) {
                     return;
                 }
-                throw new UnsatisfiedLinkError("Can't load " + libfilename);
+                throw new UnsbtisfiedLinkError("Cbn't lobd " + libfilenbme);
             }
         }
-        for (String sys_path : sys_paths) {
-            File libfile = new File(sys_path, System.mapLibraryName(name));
-            if (loadLibrary0(fromClass, libfile)) {
+        for (String sys_pbth : sys_pbths) {
+            File libfile = new File(sys_pbth, System.mbpLibrbryNbme(nbme));
+            if (lobdLibrbry0(fromClbss, libfile)) {
                 return;
             }
-            libfile = ClassLoaderHelper.mapAlternativeName(libfile);
-            if (libfile != null && loadLibrary0(fromClass, libfile)) {
+            libfile = ClbssLobderHelper.mbpAlternbtiveNbme(libfile);
+            if (libfile != null && lobdLibrbry0(fromClbss, libfile)) {
                 return;
             }
         }
-        if (loader != null) {
-            for (String usr_path : usr_paths) {
-                File libfile = new File(usr_path, System.mapLibraryName(name));
-                if (loadLibrary0(fromClass, libfile)) {
+        if (lobder != null) {
+            for (String usr_pbth : usr_pbths) {
+                File libfile = new File(usr_pbth, System.mbpLibrbryNbme(nbme));
+                if (lobdLibrbry0(fromClbss, libfile)) {
                     return;
                 }
-                libfile = ClassLoaderHelper.mapAlternativeName(libfile);
-                if (libfile != null && loadLibrary0(fromClass, libfile)) {
+                libfile = ClbssLobderHelper.mbpAlternbtiveNbme(libfile);
+                if (libfile != null && lobdLibrbry0(fromClbss, libfile)) {
                     return;
                 }
             }
         }
-        // Oops, it failed
-        throw new UnsatisfiedLinkError("no " + name + " in java.library.path");
+        // Oops, it fbiled
+        throw new UnsbtisfiedLinkError("no " + nbme + " in jbvb.librbry.pbth");
     }
 
-    private static boolean loadLibrary0(Class<?> fromClass, final File file) {
-        // Check to see if we're attempting to access a static library
-        String name = NativeLibrary.findBuiltinLib(file.getName());
-        boolean isBuiltin = (name != null);
+    privbte stbtic boolebn lobdLibrbry0(Clbss<?> fromClbss, finbl File file) {
+        // Check to see if we're bttempting to bccess b stbtic librbry
+        String nbme = NbtiveLibrbry.findBuiltinLib(file.getNbme());
+        boolebn isBuiltin = (nbme != null);
         if (!isBuiltin) {
-            name = AccessController.doPrivileged(
+            nbme = AccessController.doPrivileged(
                 new PrivilegedAction<String>() {
                     public String run() {
                         try {
-                            return file.exists() ? file.getCanonicalPath() : null;
-                        } catch (IOException e) {
+                            return file.exists() ? file.getCbnonicblPbth() : null;
+                        } cbtch (IOException e) {
                             return null;
                         }
                     }
                 });
-            if (name == null) {
-                return false;
+            if (nbme == null) {
+                return fblse;
             }
         }
-        ClassLoader loader =
-            (fromClass == null) ? null : fromClass.getClassLoader();
-        Vector<NativeLibrary> libs =
-            loader != null ? loader.nativeLibraries : systemNativeLibraries;
+        ClbssLobder lobder =
+            (fromClbss == null) ? null : fromClbss.getClbssLobder();
+        Vector<NbtiveLibrbry> libs =
+            lobder != null ? lobder.nbtiveLibrbries : systemNbtiveLibrbries;
         synchronized (libs) {
             int size = libs.size();
             for (int i = 0; i < size; i++) {
-                NativeLibrary lib = libs.elementAt(i);
-                if (name.equals(lib.name)) {
+                NbtiveLibrbry lib = libs.elementAt(i);
+                if (nbme.equbls(lib.nbme)) {
                     return true;
                 }
             }
 
-            synchronized (loadedLibraryNames) {
-                if (loadedLibraryNames.contains(name)) {
-                    throw new UnsatisfiedLinkError
-                        ("Native Library " +
-                         name +
-                         " already loaded in another classloader");
+            synchronized (lobdedLibrbryNbmes) {
+                if (lobdedLibrbryNbmes.contbins(nbme)) {
+                    throw new UnsbtisfiedLinkError
+                        ("Nbtive Librbry " +
+                         nbme +
+                         " blrebdy lobded in bnother clbsslobder");
                 }
-                /* If the library is being loaded (must be by the same thread,
-                 * because Runtime.load and Runtime.loadLibrary are
-                 * synchronous). The reason is can occur is that the JNI_OnLoad
-                 * function can cause another loadLibrary invocation.
+                /* If the librbry is being lobded (must be by the sbme threbd,
+                 * becbuse Runtime.lobd bnd Runtime.lobdLibrbry bre
+                 * synchronous). The rebson is cbn occur is thbt the JNI_OnLobd
+                 * function cbn cbuse bnother lobdLibrbry invocbtion.
                  *
-                 * Thus we can use a static stack to hold the list of libraries
-                 * we are loading.
+                 * Thus we cbn use b stbtic stbck to hold the list of librbries
+                 * we bre lobding.
                  *
-                 * If there is a pending load operation for the library, we
-                 * immediately return success; otherwise, we raise
-                 * UnsatisfiedLinkError.
+                 * If there is b pending lobd operbtion for the librbry, we
+                 * immedibtely return success; otherwise, we rbise
+                 * UnsbtisfiedLinkError.
                  */
-                int n = nativeLibraryContext.size();
+                int n = nbtiveLibrbryContext.size();
                 for (int i = 0; i < n; i++) {
-                    NativeLibrary lib = nativeLibraryContext.elementAt(i);
-                    if (name.equals(lib.name)) {
-                        if (loader == lib.fromClass.getClassLoader()) {
+                    NbtiveLibrbry lib = nbtiveLibrbryContext.elementAt(i);
+                    if (nbme.equbls(lib.nbme)) {
+                        if (lobder == lib.fromClbss.getClbssLobder()) {
                             return true;
                         } else {
-                            throw new UnsatisfiedLinkError
-                                ("Native Library " +
-                                 name +
-                                 " is being loaded in another classloader");
+                            throw new UnsbtisfiedLinkError
+                                ("Nbtive Librbry " +
+                                 nbme +
+                                 " is being lobded in bnother clbsslobder");
                         }
                     }
                 }
-                NativeLibrary lib = new NativeLibrary(fromClass, name, isBuiltin);
-                nativeLibraryContext.push(lib);
+                NbtiveLibrbry lib = new NbtiveLibrbry(fromClbss, nbme, isBuiltin);
+                nbtiveLibrbryContext.push(lib);
                 try {
-                    lib.load(name, isBuiltin);
-                } finally {
-                    nativeLibraryContext.pop();
+                    lib.lobd(nbme, isBuiltin);
+                } finblly {
+                    nbtiveLibrbryContext.pop();
                 }
-                if (lib.loaded) {
-                    loadedLibraryNames.addElement(name);
-                    libs.addElement(lib);
+                if (lib.lobded) {
+                    lobdedLibrbryNbmes.bddElement(nbme);
+                    libs.bddElement(lib);
                     return true;
                 }
-                return false;
+                return fblse;
             }
         }
     }
 
-    // Invoked in the VM class linking code.
-    static long findNative(ClassLoader loader, String name) {
-        Vector<NativeLibrary> libs =
-            loader != null ? loader.nativeLibraries : systemNativeLibraries;
+    // Invoked in the VM clbss linking code.
+    stbtic long findNbtive(ClbssLobder lobder, String nbme) {
+        Vector<NbtiveLibrbry> libs =
+            lobder != null ? lobder.nbtiveLibrbries : systemNbtiveLibrbries;
         synchronized (libs) {
             int size = libs.size();
             for (int i = 0; i < size; i++) {
-                NativeLibrary lib = libs.elementAt(i);
-                long entry = lib.find(name);
+                NbtiveLibrbry lib = libs.elementAt(i);
+                long entry = lib.find(nbme);
                 if (entry != 0)
                     return entry;
             }
@@ -1953,248 +1953,248 @@ public abstract class ClassLoader {
     }
 
 
-    // -- Assertion management --
+    // -- Assertion mbnbgement --
 
-    final Object assertionLock;
+    finbl Object bssertionLock;
 
-    // The default toggle for assertion checking.
-    // @GuardedBy("assertionLock")
-    private boolean defaultAssertionStatus = false;
+    // The defbult toggle for bssertion checking.
+    // @GubrdedBy("bssertionLock")
+    privbte boolebn defbultAssertionStbtus = fblse;
 
-    // Maps String packageName to Boolean package default assertion status Note
-    // that the default package is placed under a null map key.  If this field
-    // is null then we are delegating assertion status queries to the VM, i.e.,
-    // none of this ClassLoader's assertion status modification methods have
+    // Mbps String pbckbgeNbme to Boolebn pbckbge defbult bssertion stbtus Note
+    // thbt the defbult pbckbge is plbced under b null mbp key.  If this field
+    // is null then we bre delegbting bssertion stbtus queries to the VM, i.e.,
+    // none of this ClbssLobder's bssertion stbtus modificbtion methods hbve
     // been invoked.
-    // @GuardedBy("assertionLock")
-    private Map<String, Boolean> packageAssertionStatus = null;
+    // @GubrdedBy("bssertionLock")
+    privbte Mbp<String, Boolebn> pbckbgeAssertionStbtus = null;
 
-    // Maps String fullyQualifiedClassName to Boolean assertionStatus If this
-    // field is null then we are delegating assertion status queries to the VM,
-    // i.e., none of this ClassLoader's assertion status modification methods
-    // have been invoked.
-    // @GuardedBy("assertionLock")
-    Map<String, Boolean> classAssertionStatus = null;
+    // Mbps String fullyQublifiedClbssNbme to Boolebn bssertionStbtus If this
+    // field is null then we bre delegbting bssertion stbtus queries to the VM,
+    // i.e., none of this ClbssLobder's bssertion stbtus modificbtion methods
+    // hbve been invoked.
+    // @GubrdedBy("bssertionLock")
+    Mbp<String, Boolebn> clbssAssertionStbtus = null;
 
     /**
-     * Sets the default assertion status for this class loader.  This setting
-     * determines whether classes loaded by this class loader and initialized
-     * in the future will have assertions enabled or disabled by default.
-     * This setting may be overridden on a per-package or per-class basis by
-     * invoking {@link #setPackageAssertionStatus(String, boolean)} or {@link
-     * #setClassAssertionStatus(String, boolean)}.
+     * Sets the defbult bssertion stbtus for this clbss lobder.  This setting
+     * determines whether clbsses lobded by this clbss lobder bnd initiblized
+     * in the future will hbve bssertions enbbled or disbbled by defbult.
+     * This setting mby be overridden on b per-pbckbge or per-clbss bbsis by
+     * invoking {@link #setPbckbgeAssertionStbtus(String, boolebn)} or {@link
+     * #setClbssAssertionStbtus(String, boolebn)}.
      *
-     * @param  enabled
-     *         <tt>true</tt> if classes loaded by this class loader will
-     *         henceforth have assertions enabled by default, <tt>false</tt>
-     *         if they will have assertions disabled by default.
+     * @pbrbm  enbbled
+     *         <tt>true</tt> if clbsses lobded by this clbss lobder will
+     *         henceforth hbve bssertions enbbled by defbult, <tt>fblse</tt>
+     *         if they will hbve bssertions disbbled by defbult.
      *
      * @since  1.4
      */
-    public void setDefaultAssertionStatus(boolean enabled) {
-        synchronized (assertionLock) {
-            if (classAssertionStatus == null)
-                initializeJavaAssertionMaps();
+    public void setDefbultAssertionStbtus(boolebn enbbled) {
+        synchronized (bssertionLock) {
+            if (clbssAssertionStbtus == null)
+                initiblizeJbvbAssertionMbps();
 
-            defaultAssertionStatus = enabled;
+            defbultAssertionStbtus = enbbled;
         }
     }
 
     /**
-     * Sets the package default assertion status for the named package.  The
-     * package default assertion status determines the assertion status for
-     * classes initialized in the future that belong to the named package or
-     * any of its "subpackages".
+     * Sets the pbckbge defbult bssertion stbtus for the nbmed pbckbge.  The
+     * pbckbge defbult bssertion stbtus determines the bssertion stbtus for
+     * clbsses initiblized in the future thbt belong to the nbmed pbckbge or
+     * bny of its "subpbckbges".
      *
-     * <p> A subpackage of a package named p is any package whose name begins
-     * with "<tt>p.</tt>".  For example, <tt>javax.swing.text</tt> is a
-     * subpackage of <tt>javax.swing</tt>, and both <tt>java.util</tt> and
-     * <tt>java.lang.reflect</tt> are subpackages of <tt>java</tt>.
+     * <p> A subpbckbge of b pbckbge nbmed p is bny pbckbge whose nbme begins
+     * with "<tt>p.</tt>".  For exbmple, <tt>jbvbx.swing.text</tt> is b
+     * subpbckbge of <tt>jbvbx.swing</tt>, bnd both <tt>jbvb.util</tt> bnd
+     * <tt>jbvb.lbng.reflect</tt> bre subpbckbges of <tt>jbvb</tt>.
      *
-     * <p> In the event that multiple package defaults apply to a given class,
-     * the package default pertaining to the most specific package takes
-     * precedence over the others.  For example, if <tt>javax.lang</tt> and
-     * <tt>javax.lang.reflect</tt> both have package defaults associated with
-     * them, the latter package default applies to classes in
-     * <tt>javax.lang.reflect</tt>.
+     * <p> In the event thbt multiple pbckbge defbults bpply to b given clbss,
+     * the pbckbge defbult pertbining to the most specific pbckbge tbkes
+     * precedence over the others.  For exbmple, if <tt>jbvbx.lbng</tt> bnd
+     * <tt>jbvbx.lbng.reflect</tt> both hbve pbckbge defbults bssocibted with
+     * them, the lbtter pbckbge defbult bpplies to clbsses in
+     * <tt>jbvbx.lbng.reflect</tt>.
      *
-     * <p> Package defaults take precedence over the class loader's default
-     * assertion status, and may be overridden on a per-class basis by invoking
-     * {@link #setClassAssertionStatus(String, boolean)}.  </p>
+     * <p> Pbckbge defbults tbke precedence over the clbss lobder's defbult
+     * bssertion stbtus, bnd mby be overridden on b per-clbss bbsis by invoking
+     * {@link #setClbssAssertionStbtus(String, boolebn)}.  </p>
      *
-     * @param  packageName
-     *         The name of the package whose package default assertion status
-     *         is to be set. A <tt>null</tt> value indicates the unnamed
-     *         package that is "current"
+     * @pbrbm  pbckbgeNbme
+     *         The nbme of the pbckbge whose pbckbge defbult bssertion stbtus
+     *         is to be set. A <tt>null</tt> vblue indicbtes the unnbmed
+     *         pbckbge thbt is "current"
      *         (see section 7.4.2 of
-     *         <cite>The Java&trade; Language Specification</cite>.)
+     *         <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.)
      *
-     * @param  enabled
-     *         <tt>true</tt> if classes loaded by this classloader and
-     *         belonging to the named package or any of its subpackages will
-     *         have assertions enabled by default, <tt>false</tt> if they will
-     *         have assertions disabled by default.
+     * @pbrbm  enbbled
+     *         <tt>true</tt> if clbsses lobded by this clbsslobder bnd
+     *         belonging to the nbmed pbckbge or bny of its subpbckbges will
+     *         hbve bssertions enbbled by defbult, <tt>fblse</tt> if they will
+     *         hbve bssertions disbbled by defbult.
      *
      * @since  1.4
      */
-    public void setPackageAssertionStatus(String packageName,
-                                          boolean enabled) {
-        synchronized (assertionLock) {
-            if (packageAssertionStatus == null)
-                initializeJavaAssertionMaps();
+    public void setPbckbgeAssertionStbtus(String pbckbgeNbme,
+                                          boolebn enbbled) {
+        synchronized (bssertionLock) {
+            if (pbckbgeAssertionStbtus == null)
+                initiblizeJbvbAssertionMbps();
 
-            packageAssertionStatus.put(packageName, enabled);
+            pbckbgeAssertionStbtus.put(pbckbgeNbme, enbbled);
         }
     }
 
     /**
-     * Sets the desired assertion status for the named top-level class in this
-     * class loader and any nested classes contained therein.  This setting
-     * takes precedence over the class loader's default assertion status, and
-     * over any applicable per-package default.  This method has no effect if
-     * the named class has already been initialized.  (Once a class is
-     * initialized, its assertion status cannot change.)
+     * Sets the desired bssertion stbtus for the nbmed top-level clbss in this
+     * clbss lobder bnd bny nested clbsses contbined therein.  This setting
+     * tbkes precedence over the clbss lobder's defbult bssertion stbtus, bnd
+     * over bny bpplicbble per-pbckbge defbult.  This method hbs no effect if
+     * the nbmed clbss hbs blrebdy been initiblized.  (Once b clbss is
+     * initiblized, its bssertion stbtus cbnnot chbnge.)
      *
-     * <p> If the named class is not a top-level class, this invocation will
-     * have no effect on the actual assertion status of any class. </p>
+     * <p> If the nbmed clbss is not b top-level clbss, this invocbtion will
+     * hbve no effect on the bctubl bssertion stbtus of bny clbss. </p>
      *
-     * @param  className
-     *         The fully qualified class name of the top-level class whose
-     *         assertion status is to be set.
+     * @pbrbm  clbssNbme
+     *         The fully qublified clbss nbme of the top-level clbss whose
+     *         bssertion stbtus is to be set.
      *
-     * @param  enabled
-     *         <tt>true</tt> if the named class is to have assertions
-     *         enabled when (and if) it is initialized, <tt>false</tt> if the
-     *         class is to have assertions disabled.
+     * @pbrbm  enbbled
+     *         <tt>true</tt> if the nbmed clbss is to hbve bssertions
+     *         enbbled when (bnd if) it is initiblized, <tt>fblse</tt> if the
+     *         clbss is to hbve bssertions disbbled.
      *
      * @since  1.4
      */
-    public void setClassAssertionStatus(String className, boolean enabled) {
-        synchronized (assertionLock) {
-            if (classAssertionStatus == null)
-                initializeJavaAssertionMaps();
+    public void setClbssAssertionStbtus(String clbssNbme, boolebn enbbled) {
+        synchronized (bssertionLock) {
+            if (clbssAssertionStbtus == null)
+                initiblizeJbvbAssertionMbps();
 
-            classAssertionStatus.put(className, enabled);
+            clbssAssertionStbtus.put(clbssNbme, enbbled);
         }
     }
 
     /**
-     * Sets the default assertion status for this class loader to
-     * <tt>false</tt> and discards any package defaults or class assertion
-     * status settings associated with the class loader.  This method is
-     * provided so that class loaders can be made to ignore any command line or
-     * persistent assertion status settings and "start with a clean slate."
+     * Sets the defbult bssertion stbtus for this clbss lobder to
+     * <tt>fblse</tt> bnd discbrds bny pbckbge defbults or clbss bssertion
+     * stbtus settings bssocibted with the clbss lobder.  This method is
+     * provided so thbt clbss lobders cbn be mbde to ignore bny commbnd line or
+     * persistent bssertion stbtus settings bnd "stbrt with b clebn slbte."
      *
      * @since  1.4
      */
-    public void clearAssertionStatus() {
+    public void clebrAssertionStbtus() {
         /*
-         * Whether or not "Java assertion maps" are initialized, set
-         * them to empty maps, effectively ignoring any present settings.
+         * Whether or not "Jbvb bssertion mbps" bre initiblized, set
+         * them to empty mbps, effectively ignoring bny present settings.
          */
-        synchronized (assertionLock) {
-            classAssertionStatus = new HashMap<>();
-            packageAssertionStatus = new HashMap<>();
-            defaultAssertionStatus = false;
+        synchronized (bssertionLock) {
+            clbssAssertionStbtus = new HbshMbp<>();
+            pbckbgeAssertionStbtus = new HbshMbp<>();
+            defbultAssertionStbtus = fblse;
         }
     }
 
     /**
-     * Returns the assertion status that would be assigned to the specified
-     * class if it were to be initialized at the time this method is invoked.
-     * If the named class has had its assertion status set, the most recent
-     * setting will be returned; otherwise, if any package default assertion
-     * status pertains to this class, the most recent setting for the most
-     * specific pertinent package default assertion status is returned;
-     * otherwise, this class loader's default assertion status is returned.
+     * Returns the bssertion stbtus thbt would be bssigned to the specified
+     * clbss if it were to be initiblized bt the time this method is invoked.
+     * If the nbmed clbss hbs hbd its bssertion stbtus set, the most recent
+     * setting will be returned; otherwise, if bny pbckbge defbult bssertion
+     * stbtus pertbins to this clbss, the most recent setting for the most
+     * specific pertinent pbckbge defbult bssertion stbtus is returned;
+     * otherwise, this clbss lobder's defbult bssertion stbtus is returned.
      * </p>
      *
-     * @param  className
-     *         The fully qualified class name of the class whose desired
-     *         assertion status is being queried.
+     * @pbrbm  clbssNbme
+     *         The fully qublified clbss nbme of the clbss whose desired
+     *         bssertion stbtus is being queried.
      *
-     * @return  The desired assertion status of the specified class.
+     * @return  The desired bssertion stbtus of the specified clbss.
      *
-     * @see  #setClassAssertionStatus(String, boolean)
-     * @see  #setPackageAssertionStatus(String, boolean)
-     * @see  #setDefaultAssertionStatus(boolean)
+     * @see  #setClbssAssertionStbtus(String, boolebn)
+     * @see  #setPbckbgeAssertionStbtus(String, boolebn)
+     * @see  #setDefbultAssertionStbtus(boolebn)
      *
      * @since  1.4
      */
-    boolean desiredAssertionStatus(String className) {
-        synchronized (assertionLock) {
-            // assert classAssertionStatus   != null;
-            // assert packageAssertionStatus != null;
+    boolebn desiredAssertionStbtus(String clbssNbme) {
+        synchronized (bssertionLock) {
+            // bssert clbssAssertionStbtus   != null;
+            // bssert pbckbgeAssertionStbtus != null;
 
-            // Check for a class entry
-            Boolean result = classAssertionStatus.get(className);
+            // Check for b clbss entry
+            Boolebn result = clbssAssertionStbtus.get(clbssNbme);
             if (result != null)
-                return result.booleanValue();
+                return result.boolebnVblue();
 
-            // Check for most specific package entry
-            int dotIndex = className.lastIndexOf('.');
-            if (dotIndex < 0) { // default package
-                result = packageAssertionStatus.get(null);
+            // Check for most specific pbckbge entry
+            int dotIndex = clbssNbme.lbstIndexOf('.');
+            if (dotIndex < 0) { // defbult pbckbge
+                result = pbckbgeAssertionStbtus.get(null);
                 if (result != null)
-                    return result.booleanValue();
+                    return result.boolebnVblue();
             }
             while(dotIndex > 0) {
-                className = className.substring(0, dotIndex);
-                result = packageAssertionStatus.get(className);
+                clbssNbme = clbssNbme.substring(0, dotIndex);
+                result = pbckbgeAssertionStbtus.get(clbssNbme);
                 if (result != null)
-                    return result.booleanValue();
-                dotIndex = className.lastIndexOf('.', dotIndex-1);
+                    return result.boolebnVblue();
+                dotIndex = clbssNbme.lbstIndexOf('.', dotIndex-1);
             }
 
-            // Return the classloader default
-            return defaultAssertionStatus;
+            // Return the clbsslobder defbult
+            return defbultAssertionStbtus;
         }
     }
 
-    // Set up the assertions with information provided by the VM.
-    // Note: Should only be called inside a synchronized block
-    private void initializeJavaAssertionMaps() {
-        // assert Thread.holdsLock(assertionLock);
+    // Set up the bssertions with informbtion provided by the VM.
+    // Note: Should only be cblled inside b synchronized block
+    privbte void initiblizeJbvbAssertionMbps() {
+        // bssert Threbd.holdsLock(bssertionLock);
 
-        classAssertionStatus = new HashMap<>();
-        packageAssertionStatus = new HashMap<>();
-        AssertionStatusDirectives directives = retrieveDirectives();
+        clbssAssertionStbtus = new HbshMbp<>();
+        pbckbgeAssertionStbtus = new HbshMbp<>();
+        AssertionStbtusDirectives directives = retrieveDirectives();
 
-        for(int i = 0; i < directives.classes.length; i++)
-            classAssertionStatus.put(directives.classes[i],
-                                     directives.classEnabled[i]);
+        for(int i = 0; i < directives.clbsses.length; i++)
+            clbssAssertionStbtus.put(directives.clbsses[i],
+                                     directives.clbssEnbbled[i]);
 
-        for(int i = 0; i < directives.packages.length; i++)
-            packageAssertionStatus.put(directives.packages[i],
-                                       directives.packageEnabled[i]);
+        for(int i = 0; i < directives.pbckbges.length; i++)
+            pbckbgeAssertionStbtus.put(directives.pbckbges[i],
+                                       directives.pbckbgeEnbbled[i]);
 
-        defaultAssertionStatus = directives.deflt;
+        defbultAssertionStbtus = directives.deflt;
     }
 
-    // Retrieves the assertion directives from the VM.
-    private static native AssertionStatusDirectives retrieveDirectives();
+    // Retrieves the bssertion directives from the VM.
+    privbte stbtic nbtive AssertionStbtusDirectives retrieveDirectives();
 }
 
 
-class SystemClassLoaderAction
-    implements PrivilegedExceptionAction<ClassLoader> {
-    private ClassLoader parent;
+clbss SystemClbssLobderAction
+    implements PrivilegedExceptionAction<ClbssLobder> {
+    privbte ClbssLobder pbrent;
 
-    SystemClassLoaderAction(ClassLoader parent) {
-        this.parent = parent;
+    SystemClbssLobderAction(ClbssLobder pbrent) {
+        this.pbrent = pbrent;
     }
 
-    public ClassLoader run() throws Exception {
-        String cls = System.getProperty("java.system.class.loader");
+    public ClbssLobder run() throws Exception {
+        String cls = System.getProperty("jbvb.system.clbss.lobder");
         if (cls == null) {
-            return parent;
+            return pbrent;
         }
 
-        Constructor<?> ctor = Class.forName(cls, true, parent)
-            .getDeclaredConstructor(new Class<?>[] { ClassLoader.class });
-        ClassLoader sys = (ClassLoader) ctor.newInstance(
-            new Object[] { parent });
-        Thread.currentThread().setContextClassLoader(sys);
+        Constructor<?> ctor = Clbss.forNbme(cls, true, pbrent)
+            .getDeclbredConstructor(new Clbss<?>[] { ClbssLobder.clbss });
+        ClbssLobder sys = (ClbssLobder) ctor.newInstbnce(
+            new Object[] { pbrent });
+        Threbd.currentThrebd().setContextClbssLobder(sys);
         return sys;
     }
 }

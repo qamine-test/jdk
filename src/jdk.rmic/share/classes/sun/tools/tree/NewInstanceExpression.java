@@ -1,44 +1,44 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class NewInstanceExpression extends NaryExpression {
+clbss NewInstbnceExpression extends NbryExpression {
     MemberDefinition field;
     Expression outerArg;
-    ClassDefinition body;
+    ClbssDefinition body;
 
     // Access method for constructor, if needed.
     MemberDefinition implMethod = null;
@@ -46,19 +46,19 @@ class NewInstanceExpression extends NaryExpression {
     /**
      * Constructor
      */
-    public NewInstanceExpression(long where, Expression right, Expression args[]) {
-        super(NEWINSTANCE, where, Type.tError, right, args);
+    public NewInstbnceExpression(long where, Expression right, Expression brgs[]) {
+        super(NEWINSTANCE, where, Type.tError, right, brgs);
     }
-    public NewInstanceExpression(long where, Expression right,
-                                 Expression args[],
-                                 Expression outerArg, ClassDefinition body) {
-        this(where, right, args);
+    public NewInstbnceExpression(long where, Expression right,
+                                 Expression brgs[],
+                                 Expression outerArg, ClbssDefinition body) {
+        this(where, right, brgs);
         this.outerArg = outerArg;
         this.body = body;
     }
 
     /**
-     * From the "new" in an expression of the form outer.new InnerCls(...),
+     * From the "new" in bn expression of the form outer.new InnerCls(...),
      * return the "outer" expression, or null if there is none.
      */
     public Expression getOuterArg() {
@@ -70,9 +70,9 @@ class NewInstanceExpression extends NaryExpression {
     }
 
     public Expression order() {
-        // act like a method or field reference expression:
+        // bct like b method or field reference expression:
         if (outerArg != null && opPrecedence[FIELD] > outerArg.precedence()) {
-            UnaryExpression e = (UnaryExpression)outerArg;
+            UnbryExpression e = (UnbryExpression)outerArg;
             outerArg = e.right;
             e.right = order();
             return e;
@@ -83,248 +83,248 @@ class NewInstanceExpression extends NaryExpression {
     /**
      * Check expression type
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        // What type?
-        ClassDefinition def = null;
+    public Vset checkVblue(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        // Whbt type?
+        ClbssDefinition def = null;
 
-        Expression alreadyChecked = null;
+        Expression blrebdyChecked = null;
 
         try {
             if (outerArg != null) {
-                vset = outerArg.checkValue(env, ctx, vset, exp);
+                vset = outerArg.checkVblue(env, ctx, vset, exp);
 
-                // Remember the expression that we already checked
-                // so that we don't attempt to check it again when
-                // it appears as an argument to the constructor.
+                // Remember the expression thbt we blrebdy checked
+                // so thbt we don't bttempt to check it bgbin when
+                // it bppebrs bs bn brgument to the constructor.
                 // Fix for 4030426.
-                alreadyChecked = outerArg;
+                blrebdyChecked = outerArg;
 
-                // Check outerArg and the type name together.
-                Identifier typeName = FieldExpression.toIdentifier(right);
+                // Check outerArg bnd the type nbme together.
+                Identifier typeNbme = FieldExpression.toIdentifier(right);
 
-                // According to the inner classes spec, the type name in a
-                // qualified 'new' expression must be a single identifier.
-                if (typeName != null && typeName.isQualified()) {
-                    env.error(where, "unqualified.name.required", typeName);
+                // According to the inner clbsses spec, the type nbme in b
+                // qublified 'new' expression must be b single identifier.
+                if (typeNbme != null && typeNbme.isQublified()) {
+                    env.error(where, "unqublified.nbme.required", typeNbme);
                 }
 
-                if (typeName == null || !outerArg.type.isType(TC_CLASS)) {
+                if (typeNbme == null || !outerArg.type.isType(TC_CLASS)) {
                     if (!outerArg.type.isType(TC_ERROR)) {
-                        env.error(where, "invalid.field.reference",
+                        env.error(where, "invblid.field.reference",
                                   idNew, outerArg.type);
                     }
                     outerArg = null;
                 } else {
-                    // Don't perform checks on components of qualified name
-                    // ('getQualifiedClassDefinition'), because a qualified
-                    // name is illegal in this context, and will have previously
-                    // been reported as an error.
-                    ClassDefinition oc = env.getClassDefinition(outerArg.type);
-                    Identifier nm = oc.resolveInnerClass(env, typeName);
-                    right = new TypeExpression(right.where, Type.tClass(nm));
-                    // Check access directly, since we're not calling toType().
-                    env.resolve(right.where, ctx.field.getClassDefinition(),
+                    // Don't perform checks on components of qublified nbme
+                    // ('getQublifiedClbssDefinition'), becbuse b qublified
+                    // nbme is illegbl in this context, bnd will hbve previously
+                    // been reported bs bn error.
+                    ClbssDefinition oc = env.getClbssDefinition(outerArg.type);
+                    Identifier nm = oc.resolveInnerClbss(env, typeNbme);
+                    right = new TypeExpression(right.where, Type.tClbss(nm));
+                    // Check bccess directly, since we're not cblling toType().
+                    env.resolve(right.where, ctx.field.getClbssDefinition(),
                                 right.type);
-                    // and fall through to env.getClassDefinition() below
+                    // bnd fbll through to env.getClbssDefinition() below
                 }
             }
 
-            if (!(right instanceof TypeExpression)) {
-                // The call to 'toType' should perform component access checks.
+            if (!(right instbnceof TypeExpression)) {
+                // The cbll to 'toType' should perform component bccess checks.
                 right = new TypeExpression(right.where, right.toType(env, ctx));
             }
 
             if (right.type.isType(TC_CLASS))
-                def = env.getClassDefinition(right.type);
-        } catch (AmbiguousClass ee) {
-            env.error(where, "ambig.class", ee.name1, ee.name2);
-        } catch (ClassNotFound ee) {
-            env.error(where, "class.not.found", ee.name, ctx.field);
+                def = env.getClbssDefinition(right.type);
+        } cbtch (AmbiguousClbss ee) {
+            env.error(where, "bmbig.clbss", ee.nbme1, ee.nbme2);
+        } cbtch (ClbssNotFound ee) {
+            env.error(where, "clbss.not.found", ee.nbme, ctx.field);
         }
 
         Type t = right.type;
-        boolean hasErrors = t.isType(TC_ERROR);
+        boolebn hbsErrors = t.isType(TC_ERROR);
 
         if (!t.isType(TC_CLASS)) {
-            if (!hasErrors) {
-                env.error(where, "invalid.arg.type", t, opNames[op]);
-                hasErrors = true;
+            if (!hbsErrors) {
+                env.error(where, "invblid.brg.type", t, opNbmes[op]);
+                hbsErrors = true;
             }
         }
 
-        // If we failed to find a class or a class was ambiguous, def
-        // may be null.  Bail out.  This allows us to report multiple
-        // unfound or ambiguous classes rather than tripping over an
-        // internal compiler error.
+        // If we fbiled to find b clbss or b clbss wbs bmbiguous, def
+        // mby be null.  Bbil out.  This bllows us to report multiple
+        // unfound or bmbiguous clbsses rbther thbn tripping over bn
+        // internbl compiler error.
         if (def == null) {
             type = Type.tError;
             return vset;
         }
 
-        // Add an extra argument, maybe.
-        Expression args[] = this.args;
-        args = NewInstanceExpression.
-                insertOuterLink(env, ctx, where, def, outerArg, args);
-        if (args.length > this.args.length)
-            outerArg = args[0]; // recopy the checked arg
+        // Add bn extrb brgument, mbybe.
+        Expression brgs[] = this.brgs;
+        brgs = NewInstbnceExpression.
+                insertOuterLink(env, ctx, where, def, outerArg, brgs);
+        if (brgs.length > this.brgs.length)
+            outerArg = brgs[0]; // recopy the checked brg
         else if (outerArg != null)
-            // else set it to void (maybe it has a side-effect)
-            outerArg = new CommaExpression(outerArg.where, outerArg, null);
+            // else set it to void (mbybe it hbs b side-effect)
+            outerArg = new CommbExpression(outerArg.where, outerArg, null);
 
-        // Compose a list of argument types
-        Type argTypes[] = new Type[args.length];
+        // Compose b list of brgument types
+        Type brgTypes[] = new Type[brgs.length];
 
-        for (int i = 0 ; i < args.length ; i++) {
-            // Don't check 'outerArg' again. Fix for 4030426.
-            if (args[i] != alreadyChecked) {
-                vset = args[i].checkValue(env, ctx, vset, exp);
+        for (int i = 0 ; i < brgs.length ; i++) {
+            // Don't check 'outerArg' bgbin. Fix for 4030426.
+            if (brgs[i] != blrebdyChecked) {
+                vset = brgs[i].checkVblue(env, ctx, vset, exp);
             }
-            argTypes[i] = args[i].type;
-            hasErrors = hasErrors || argTypes[i].isType(TC_ERROR);
+            brgTypes[i] = brgs[i].type;
+            hbsErrors = hbsErrors || brgTypes[i].isType(TC_ERROR);
         }
 
         try {
-            // Check if there are any type errors in the arguments
-            if (hasErrors) {
+            // Check if there bre bny type errors in the brguments
+            if (hbsErrors) {
                 type = Type.tError;
                 return vset;
             }
 
 
-            // Get the source class that this declaration appears in.
-            ClassDefinition sourceClass = ctx.field.getClassDefinition();
+            // Get the source clbss thbt this declbrbtion bppebrs in.
+            ClbssDefinition sourceClbss = ctx.field.getClbssDefinition();
 
-            ClassDeclaration c = env.getClassDeclaration(t);
+            ClbssDeclbrbtion c = env.getClbssDeclbrbtion(t);
 
-            // If this is an anonymous class, handle it specially now.
+            // If this is bn bnonymous clbss, hbndle it speciblly now.
             if (body != null) {
-                // The current package.
-                Identifier packageName = sourceClass.getName().getQualifier();
+                // The current pbckbge.
+                Identifier pbckbgeNbme = sourceClbss.getNbme().getQublifier();
 
-                // This is an anonymous class.
-                ClassDefinition superDef = null;
-                if (def.isInterface()) {
-                    // For interfaces, our superclass is java.lang.Object.
-                    // We could just assume that java.lang.Object has
-                    // one constructor with no arguments in the code
-                    // that follows, but we don't.  This way, if Object
-                    // grows a new constructor (unlikely) then the
-                    // compiler should handle it.
-                    superDef = env.getClassDefinition(idJavaLangObject);
+                // This is bn bnonymous clbss.
+                ClbssDefinition superDef = null;
+                if (def.isInterfbce()) {
+                    // For interfbces, our superclbss is jbvb.lbng.Object.
+                    // We could just bssume thbt jbvb.lbng.Object hbs
+                    // one constructor with no brguments in the code
+                    // thbt follows, but we don't.  This wby, if Object
+                    // grows b new constructor (unlikely) then the
+                    // compiler should hbndle it.
+                    superDef = env.getClbssDefinition(idJbvbLbngObject);
                 } else {
-                    // Otherwise, def is actually our superclass.
+                    // Otherwise, def is bctublly our superclbss.
                     superDef = def;
                 }
-                // Try to find a matching constructor in our superclass.
+                // Try to find b mbtching constructor in our superclbss.
                 MemberDefinition constructor =
-                    superDef.matchAnonConstructor(env, packageName, argTypes);
+                    superDef.mbtchAnonConstructor(env, pbckbgeNbme, brgTypes);
                 if (constructor != null) {
                     // We've found one.  Process the body.
                     //
-                    // Note that we are passing in the constructors' argument
-                    // types, rather than the argument types of the actual
-                    // expressions, to checkLocalClass().  Previously,
-                    // the expression types were passed in.  This could
-                    // lead to trouble when one of the argument types was
-                    // the special internal type tNull.  (bug 4054689).
-                    if (tracing)
+                    // Note thbt we bre pbssing in the constructors' brgument
+                    // types, rbther thbn the brgument types of the bctubl
+                    // expressions, to checkLocblClbss().  Previously,
+                    // the expression types were pbssed in.  This could
+                    // lebd to trouble when one of the brgument types wbs
+                    // the specibl internbl type tNull.  (bug 4054689).
+                    if (trbcing)
                         env.dtEvent(
-                              "NewInstanceExpression.checkValue: ANON CLASS " +
+                              "NewInstbnceExpression.checkVblue: ANON CLASS " +
                               body + " SUPER " + def);
-                    vset = body.checkLocalClass(env, ctx, vset,
-                                                def, args,
+                    vset = body.checkLocblClbss(env, ctx, vset,
+                                                def, brgs,
                                                 constructor.getType()
                                                 .getArgumentTypes());
 
                     // Set t to be the true type of this expression.
                     // (bug 4102056).
-                    t = body.getClassDeclaration().getType();
+                    t = body.getClbssDeclbrbtion().getType();
 
                     def = body;
                 }
             } else {
-                // Check if it is an interface
-                if (def.isInterface()) {
+                // Check if it is bn interfbce
+                if (def.isInterfbce()) {
                     env.error(where, "new.intf", c);
                     return vset;
                 }
 
-                // Check for abstract class
-                if (def.mustBeAbstract(env)) {
-                    env.error(where, "new.abstract", c);
+                // Check for bbstrbct clbss
+                if (def.mustBeAbstrbct(env)) {
+                    env.error(where, "new.bbstrbct", c);
                     return vset;
                 }
             }
 
-            // Get the constructor that the "new" expression should call.
-            field = def.matchMethod(env, sourceClass, idInit, argTypes);
+            // Get the constructor thbt the "new" expression should cbll.
+            field = def.mbtchMethod(env, sourceClbss, idInit, brgTypes);
 
-            // Report an error if there is no matching constructor.
+            // Report bn error if there is no mbtching constructor.
             if (field == null) {
-                MemberDefinition anyInit = def.findAnyMethod(env, idInit);
-                if (anyInit != null &&
-                    new MethodExpression(where, right, anyInit, args)
-                        .diagnoseMismatch(env, args, argTypes))
+                MemberDefinition bnyInit = def.findAnyMethod(env, idInit);
+                if (bnyInit != null &&
+                    new MethodExpression(where, right, bnyInit, brgs)
+                        .dibgnoseMismbtch(env, brgs, brgTypes))
                     return vset;
-                String sig = c.getName().getName().toString();
-                sig = Type.tMethod(Type.tError, argTypes).typeString(sig, false, false);
-                env.error(where, "unmatched.constr", sig, c);
+                String sig = c.getNbme().getNbme().toString();
+                sig = Type.tMethod(Type.tError, brgTypes).typeString(sig, fblse, fblse);
+                env.error(where, "unmbtched.constr", sig, c);
                 return vset;
             }
 
-            if (field.isPrivate()) {
-                ClassDefinition cdef = field.getClassDefinition();
-                if (cdef != sourceClass) {
-                    // Use access method.
-                    implMethod = cdef.getAccessMember(env, ctx, field, false);
+            if (field.isPrivbte()) {
+                ClbssDefinition cdef = field.getClbssDefinition();
+                if (cdef != sourceClbss) {
+                    // Use bccess method.
+                    implMethod = cdef.getAccessMember(env, ctx, field, fblse);
                 }
             }
 
-            // Check for abstract anonymous class
-            if (def.mustBeAbstract(env)) {
-                env.error(where, "new.abstract", c);
+            // Check for bbstrbct bnonymous clbss
+            if (def.mustBeAbstrbct(env)) {
+                env.error(where, "new.bbstrbct", c);
                 return vset;
             }
 
-            if (field.reportDeprecated(env)) {
-                env.error(where, "warn.constr.is.deprecated",
-                          field, field.getClassDefinition());
+            if (field.reportDeprecbted(env)) {
+                env.error(where, "wbrn.constr.is.deprecbted",
+                          field, field.getClbssDefinition());
             }
 
-            // According to JLS 6.6.2, a protected constructor may be accessed
-            // by a class instance creation expression only from within the
-            // package in which it is defined.
+            // According to JLS 6.6.2, b protected constructor mby be bccessed
+            // by b clbss instbnce crebtion expression only from within the
+            // pbckbge in which it is defined.
             if (field.isProtected() &&
-                !(sourceClass.getName().getQualifier().equals(
-                   field.getClassDeclaration().getName().getQualifier()))) {
-                env.error(where, "invalid.protected.constructor.use",
-                          sourceClass);
+                !(sourceClbss.getNbme().getQublifier().equbls(
+                   field.getClbssDeclbrbtion().getNbme().getQublifier()))) {
+                env.error(where, "invblid.protected.constructor.use",
+                          sourceClbss);
             }
 
-        } catch (ClassNotFound ee) {
-            env.error(where, "class.not.found", ee.name, opNames[op]);
+        } cbtch (ClbssNotFound ee) {
+            env.error(where, "clbss.not.found", ee.nbme, opNbmes[op]);
             return vset;
 
-        } catch (AmbiguousMember ee) {
-            env.error(where, "ambig.constr", ee.field1, ee.field2);
+        } cbtch (AmbiguousMember ee) {
+            env.error(where, "bmbig.constr", ee.field1, ee.field2);
             return vset;
         }
 
-        // Cast arguments
-        argTypes = field.getType().getArgumentTypes();
-        for (int i = 0 ; i < args.length ; i++) {
-            args[i] = convert(env, ctx, argTypes[i], args[i]);
+        // Cbst brguments
+        brgTypes = field.getType().getArgumentTypes();
+        for (int i = 0 ; i < brgs.length ; i++) {
+            brgs[i] = convert(env, ctx, brgTypes[i], brgs[i]);
         }
-        if (args.length > this.args.length) {
-            outerArg = args[0]; // recopy the checked arg
-            // maintain an accurate tree
-            for (int i = 1 ; i < args.length ; i++) {
-                this.args[i-1] = args[i];
+        if (brgs.length > this.brgs.length) {
+            outerArg = brgs[0]; // recopy the checked brg
+            // mbintbin bn bccurbte tree
+            for (int i = 1 ; i < brgs.length ; i++) {
+                this.brgs[i-1] = brgs[i];
             }
         }
 
-        // Throw the declared exceptions.
-        ClassDeclaration exceptions[] = field.getExceptions(env);
+        // Throw the declbred exceptions.
+        ClbssDeclbrbtion exceptions[] = field.getExceptions(env);
         for (int i = 0 ; i < exceptions.length ; i++) {
             if (exp.get(exceptions[i]) == null) {
                 exp.put(exceptions[i], this);
@@ -337,142 +337,142 @@ class NewInstanceExpression extends NaryExpression {
     }
 
     /**
-     * Given a list of arguments for a constructor,
-     * return a possibly modified list which includes the hidden
-     * argument which initializes the uplevel self pointer.
-     * @arg def the class which perhaps contains an outer link.
-     * @arg outerArg if non-null, an explicit location in which to construct.
+     * Given b list of brguments for b constructor,
+     * return b possibly modified list which includes the hidden
+     * brgument which initiblizes the uplevel self pointer.
+     * @brg def the clbss which perhbps contbins bn outer link.
+     * @brg outerArg if non-null, bn explicit locbtion in which to construct.
      */
-    public static Expression[] insertOuterLink(Environment env, Context ctx,
-                                               long where, ClassDefinition def,
+    public stbtic Expression[] insertOuterLink(Environment env, Context ctx,
+                                               long where, ClbssDefinition def,
                                                Expression outerArg,
-                                               Expression args[]) {
-        if (!def.isTopLevel() && !def.isLocal()) {
-            Expression args2[] = new Expression[1+args.length];
-            System.arraycopy(args, 0, args2, 1, args.length);
+                                               Expression brgs[]) {
+        if (!def.isTopLevel() && !def.isLocbl()) {
+            Expression brgs2[] = new Expression[1+brgs.length];
+            System.brrbycopy(brgs, 0, brgs2, 1, brgs.length);
             try {
                 if (outerArg == null)
                     outerArg = ctx.findOuterLink(env, where,
                                                  def.findAnyMethod(env, idInit));
-            } catch (ClassNotFound e) {
+            } cbtch (ClbssNotFound e) {
                 // die somewhere else
             }
-            args2[0] = outerArg;
-            args = args2;
+            brgs2[0] = outerArg;
+            brgs = brgs2;
         }
-        return args;
+        return brgs;
     }
 
     /**
      * Check void expression
      */
-    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        return checkValue(env, ctx, vset, exp);
+    public Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        return checkVblue(env, ctx, vset, exp);
     }
 
     /**
      * Inline
      */
-    final int MAXINLINECOST = Statement.MAXINLINECOST;
+    finbl int MAXINLINECOST = Stbtement.MAXINLINECOST;
 
     public Expression copyInline(Context ctx) {
-        NewInstanceExpression e = (NewInstanceExpression)super.copyInline(ctx);
+        NewInstbnceExpression e = (NewInstbnceExpression)super.copyInline(ctx);
         if (outerArg != null) {
             e.outerArg = outerArg.copyInline(ctx);
         }
         return e;
     }
 
-    Expression inlineNewInstance(Environment env, Context ctx, Statement s) {
+    Expression inlineNewInstbnce(Environment env, Context ctx, Stbtement s) {
         if (env.dump()) {
             System.out.println("INLINE NEW INSTANCE " + field + " in " + ctx.field);
         }
-        LocalMember v[] = LocalMember.copyArguments(ctx, field);
-        Statement body[] = new Statement[v.length + 2];
+        LocblMember v[] = LocblMember.copyArguments(ctx, field);
+        Stbtement body[] = new Stbtement[v.length + 2];
 
         int o = 1;
         if (outerArg != null && !outerArg.type.isType(TC_VOID)) {
             o = 2;
-            body[1] = new VarDeclarationStatement(where, v[1], outerArg);
+            body[1] = new VbrDeclbrbtionStbtement(where, v[1], outerArg);
         } else if (outerArg != null) {
-            body[0] = new ExpressionStatement(where, outerArg);
+            body[0] = new ExpressionStbtement(where, outerArg);
         }
-        for (int i = 0 ; i < args.length ; i++) {
-            body[i+o] = new VarDeclarationStatement(where, v[i+o], args[i]);
+        for (int i = 0 ; i < brgs.length ; i++) {
+            body[i+o] = new VbrDeclbrbtionStbtement(where, v[i+o], brgs[i]);
         }
         //System.out.print("BEFORE:"); s.print(System.out); System.out.println();
-        body[body.length - 1] = (s != null) ? s.copyInline(ctx, false) : null;
+        body[body.length - 1] = (s != null) ? s.copyInline(ctx, fblse) : null;
         //System.out.print("COPY:"); body[body.length - 1].print(System.out); System.out.println();
         //System.out.print("AFTER:"); s.print(System.out); System.out.println();
-        LocalMember.doneWithArguments(ctx, v);
+        LocblMember.doneWithArguments(ctx, v);
 
-        return new InlineNewInstanceExpression(where, type, field, new CompoundStatement(where, body)).inline(env, ctx);
+        return new InlineNewInstbnceExpression(where, type, field, new CompoundStbtement(where, body)).inline(env, ctx);
     }
 
     public Expression inline(Environment env, Context ctx) {
-        return inlineValue(env, ctx);
+        return inlineVblue(env, ctx);
     }
-    public Expression inlineValue(Environment env, Context ctx) {
+    public Expression inlineVblue(Environment env, Context ctx) {
         if (body != null) {
-            body.inlineLocalClass(env);
+            body.inlineLocblClbss(env);
         }
-        ClassDefinition refc = field.getClassDefinition();
+        ClbssDefinition refc = field.getClbssDefinition();
         UplevelReference r = refc.getReferencesFrozen();
         if (r != null) {
             r.willCodeArguments(env, ctx);
         }
-        //right = right.inlineValue(env, ctx);
+        //right = right.inlineVblue(env, ctx);
 
         try {
             if (outerArg != null) {
                 if (outerArg.type.isType(TC_VOID))
                     outerArg = outerArg.inline(env, ctx);
                 else
-                    outerArg = outerArg.inlineValue(env, ctx);
+                    outerArg = outerArg.inlineVblue(env, ctx);
             }
-            for (int i = 0 ; i < args.length ; i++) {
-                args[i] = args[i].inlineValue(env, ctx);
+            for (int i = 0 ; i < brgs.length ; i++) {
+                brgs[i] = brgs[i].inlineVblue(env, ctx);
             }
-            // This 'false' that fy put in is inexplicable to me
-            // the decision to not inline new instance expressions
+            // This 'fblse' thbt fy put in is inexplicbble to me
+            // the decision to not inline new instbnce expressions
             // should be revisited.  - dps
-            if (false && env.opt() && field.isInlineable(env, false) &&
-                (!ctx.field.isInitializer()) && ctx.field.isMethod() &&
+            if (fblse && env.opt() && field.isInlinebble(env, fblse) &&
+                (!ctx.field.isInitiblizer()) && ctx.field.isMethod() &&
                 (ctx.getInlineMemberContext(field) == null)) {
-                Statement s = (Statement)field.getValue(env);
+                Stbtement s = (Stbtement)field.getVblue(env);
                 if ((s == null)
                     || (s.costInline(MAXINLINECOST, env, ctx) < MAXINLINECOST))  {
-                    return inlineNewInstance(env, ctx, s);
+                    return inlineNewInstbnce(env, ctx, s);
                 }
             }
-        } catch (ClassNotFound e) {
+        } cbtch (ClbssNotFound e) {
             throw new CompilerError(e);
         }
         if (outerArg != null && outerArg.type.isType(TC_VOID)) {
             Expression e = outerArg;
             outerArg = null;
-            return new CommaExpression(where, e, this);
+            return new CommbExpression(where, e, this);
         }
         return this;
     }
 
     public int costInline(int thresh, Environment env, Context ctx) {
         if (body != null) {
-            return thresh;      // don't copy classes...
+            return thresh;      // don't copy clbsses...
         }
         if (ctx == null) {
             return 2 + super.costInline(thresh, env, ctx);
         }
-        // sourceClass is the current class trying to inline this method
-        ClassDefinition sourceClass = ctx.field.getClassDefinition();
+        // sourceClbss is the current clbss trying to inline this method
+        ClbssDefinition sourceClbss = ctx.field.getClbssDefinition();
         try {
-            // We only allow the inlining if the current class can access
-            // the field and the field's class;
-            if (    sourceClass.permitInlinedAccess(env, field.getClassDeclaration())
-                 && sourceClass.permitInlinedAccess(env, field)) {
+            // We only bllow the inlining if the current clbss cbn bccess
+            // the field bnd the field's clbss;
+            if (    sourceClbss.permitInlinedAccess(env, field.getClbssDeclbrbtion())
+                 && sourceClbss.permitInlinedAccess(env, field)) {
                 return 2 + super.costInline(thresh, env, ctx);
             }
-        } catch (ClassNotFound e) {
+        } cbtch (ClbssNotFound e) {
         }
         return thresh;
     }
@@ -481,66 +481,66 @@ class NewInstanceExpression extends NaryExpression {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        codeCommon(env, ctx, asm, false);
+    public void code(Environment env, Context ctx, Assembler bsm) {
+        codeCommon(env, ctx, bsm, fblse);
     }
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        codeCommon(env, ctx, asm, true);
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
+        codeCommon(env, ctx, bsm, true);
     }
-    @SuppressWarnings("fallthrough")
-    private void codeCommon(Environment env, Context ctx, Assembler asm,
-                            boolean forValue) {
-        asm.add(where, opc_new, field.getClassDeclaration());
-        if (forValue) {
-            asm.add(where, opc_dup);
+    @SuppressWbrnings("fbllthrough")
+    privbte void codeCommon(Environment env, Context ctx, Assembler bsm,
+                            boolebn forVblue) {
+        bsm.bdd(where, opc_new, field.getClbssDeclbrbtion());
+        if (forVblue) {
+            bsm.bdd(where, opc_dup);
         }
 
-        ClassDefinition refc = field.getClassDefinition();
+        ClbssDefinition refc = field.getClbssDefinition();
         UplevelReference r = refc.getReferencesFrozen();
 
         if (r != null) {
-            r.codeArguments(env, ctx, asm, where, field);
+            r.codeArguments(env, ctx, bsm, where, field);
         }
 
         if (outerArg != null) {
-            outerArg.codeValue(env, ctx, asm);
+            outerArg.codeVblue(env, ctx, bsm);
             switch (outerArg.op) {
-            case THIS:
-            case SUPER:
-            case NEW:
-                // guaranteed non-null
-                break;
-            case FIELD: {
+            cbse THIS:
+            cbse SUPER:
+            cbse NEW:
+                // gubrbnteed non-null
+                brebk;
+            cbse FIELD: {
                 MemberDefinition f = ((FieldExpression)outerArg).field;
                 if (f != null && f.isNeverNull()) {
-                    break;
+                    brebk;
                 }
-                // else fall through:
+                // else fbll through:
             }
-            default:
-                // Test for nullity by invoking some trivial operation
-                // that can throw a NullPointerException.
+            defbult:
+                // Test for nullity by invoking some trivibl operbtion
+                // thbt cbn throw b NullPointerException.
                 try {
-                    ClassDefinition c = env.getClassDefinition(idJavaLangObject);
-                    MemberDefinition getc = c.getFirstMatch(idGetClass);
-                    asm.add(where, opc_dup);
-                    asm.add(where, opc_invokevirtual, getc);
-                    asm.add(where, opc_pop);
-                } catch (ClassNotFound e) {
+                    ClbssDefinition c = env.getClbssDefinition(idJbvbLbngObject);
+                    MemberDefinition getc = c.getFirstMbtch(idGetClbss);
+                    bsm.bdd(where, opc_dup);
+                    bsm.bdd(where, opc_invokevirtubl, getc);
+                    bsm.bdd(where, opc_pop);
+                } cbtch (ClbssNotFound e) {
                 }
             }
         }
 
         if (implMethod != null) {
-            // Constructor call will be via an access method.
-            // Pass 'null' as the value of the dummy argument.
-            asm.add(where, opc_aconst_null);
+            // Constructor cbll will be vib bn bccess method.
+            // Pbss 'null' bs the vblue of the dummy brgument.
+            bsm.bdd(where, opc_bconst_null);
         }
 
-        for (int i = 0 ; i < args.length ; i++) {
-            args[i].codeValue(env, ctx, asm);
+        for (int i = 0 ; i < brgs.length ; i++) {
+            brgs[i].codeVblue(env, ctx, bsm);
         }
-        asm.add(where, opc_invokespecial,
+        bsm.bdd(where, opc_invokespecibl,
                 ((implMethod != null) ? implMethod : field));
     }
 }

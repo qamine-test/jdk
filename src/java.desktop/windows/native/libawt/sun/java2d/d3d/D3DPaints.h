@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef D3DPaints_h_Included
-#define D3DPaints_h_Included
+#ifndef D3DPbints_h_Included
+#define D3DPbints_h_Included
 
-#include "sun_java2d_SunGraphics2D.h"
+#include "sun_jbvb2d_SunGrbphics2D.h"
 
 #include "D3DContext.h"
-#include "D3DSurfaceData.h"
+#include "D3DSurfbceDbtb.h"
 
-HRESULT D3DPaints_ResetPaint(D3DContext *d3dc);
-HRESULT D3DPaints_SetColor(D3DContext *d3dc, jint pixel);
+HRESULT D3DPbints_ResetPbint(D3DContext *d3dc);
+HRESULT D3DPbints_SetColor(D3DContext *d3dc, jint pixel);
 
-/************************* GradientPaint support ****************************/
+/************************* GrbdientPbint support ****************************/
 
 /**
- * Flags that can be bitwise-or'ed together to control how the shader
- * source code is generated.
+ * Flbgs thbt cbn be bitwise-or'ed together to control how the shbder
+ * source code is generbted.
  */
 #define BASIC_GRAD_IS_CYCLIC (1 << 0)
 #define BASIC_GRAD_USE_MASK  (1 << 1)
 
-HRESULT D3DPaints_SetGradientPaint(D3DContext *d3dc,
-                                jboolean useMask, jboolean cyclic,
+HRESULT D3DPbints_SetGrbdientPbint(D3DContext *d3dc,
+                                jboolebn useMbsk, jboolebn cyclic,
                                 jdouble p0, jdouble p1, jdouble p3,
                                 jint pixel1, jint pixel2);
 
-/************************** TexturePaint support ****************************/
+/************************** TexturePbint support ****************************/
 
-HRESULT D3DPaints_SetTexturePaint(D3DContext *d3dc,
-                               jboolean useMask,
-                               jlong pSrcOps, jboolean filter,
+HRESULT D3DPbints_SetTexturePbint(D3DContext *d3dc,
+                               jboolebn useMbsk,
+                               jlong pSrcOps, jboolebn filter,
                                jdouble xp0, jdouble xp1, jdouble xp3,
                                jdouble yp0, jdouble yp1, jdouble yp3);
 
-/****************** Shared MultipleGradientPaint support ********************/
+/****************** Shbred MultipleGrbdientPbint support ********************/
 
 /**
- * These constants are identical to those defined in the
- * MultipleGradientPaint.CycleMethod enum; they are copied here for
- * convenience (ideally we would pull them directly from the Java level,
- * but that entails more hassle than it is worth).
+ * These constbnts bre identicbl to those defined in the
+ * MultipleGrbdientPbint.CycleMethod enum; they bre copied here for
+ * convenience (ideblly we would pull them directly from the Jbvb level,
+ * but thbt entbils more hbssle thbn it is worth).
  */
 #define CYCLE_NONE    0
 #define CYCLE_REFLECT 1
 #define CYCLE_REPEAT  2
 
 /**
- * The following constants are flags that can be bitwise-or'ed together
- * to control how the MultipleGradientPaint shader source code is generated:
+ * The following constbnts bre flbgs thbt cbn be bitwise-or'ed together
+ * to control how the MultipleGrbdientPbint shbder source code is generbted:
  *
  *   MULTI_GRAD_CYCLE_METHOD
- *     Placeholder for the CycleMethod enum constant.
+ *     Plbceholder for the CycleMethod enum constbnt.
  *
  *   MULTI_GRAD_LARGE
- *     If set, use the (slower) shader that supports a larger number of
- *     gradient colors; otherwise, use the optimized codepath.  See
- *     the MAX_FRACTIONS_SMALL/LARGE constants below for more details.
+ *     If set, use the (slower) shbder thbt supports b lbrger number of
+ *     grbdient colors; otherwise, use the optimized codepbth.  See
+ *     the MAX_FRACTIONS_SMALL/LARGE constbnts below for more detbils.
  *
  *   MULTI_GRAD_USE_MASK
- *     If set, apply the alpha mask value from texture unit 1 to the
- *     final color result (only used in the MaskFill case).
+ *     If set, bpply the blphb mbsk vblue from texture unit 1 to the
+ *     finbl color result (only used in the MbskFill cbse).
  *
  *   MULTI_GRAD_LINEAR_RGB
- *     If set, convert the linear RGB result back into the sRGB color space.
+ *     If set, convert the linebr RGB result bbck into the sRGB color spbce.
  */
 #define MULTI_GRAD_CYCLE_METHOD (3 << 0)
 #define MULTI_GRAD_LARGE        (1 << 2)
@@ -93,40 +93,40 @@ HRESULT D3DPaints_SetTexturePaint(D3DContext *d3dc,
 #define MULTI_GRAD_LINEAR_RGB   (1 << 4)
 
 /**
- * The maximum number of gradient colors supported by all of the gradient
- * fragment shaders.  Note that this value must be a power of two, as it
- * determines the size of the 1D texture created below.  It also must be
- * greater than or equal to MAX_FRACTIONS (there is no strict requirement
- * that the two values be equal).
+ * The mbximum number of grbdient colors supported by bll of the grbdient
+ * frbgment shbders.  Note thbt this vblue must be b power of two, bs it
+ * determines the size of the 1D texture crebted below.  It blso must be
+ * grebter thbn or equbl to MAX_FRACTIONS (there is no strict requirement
+ * thbt the two vblues be equbl).
  */
 #define MAX_MULTI_GRADIENT_COLORS 16
 
-/********************** LinearGradientPaint support *************************/
+/********************** LinebrGrbdientPbint support *************************/
 
-HRESULT D3DPaints_SetLinearGradientPaint(D3DContext *d3dc, D3DSDOps *dstOps,
-                                         jboolean useMask, jboolean linear,
+HRESULT D3DPbints_SetLinebrGrbdientPbint(D3DContext *d3dc, D3DSDOps *dstOps,
+                                         jboolebn useMbsk, jboolebn linebr,
                                          jint cycleMethod, jint numStops,
-                                         jfloat p0, jfloat p1, jfloat p3,
-                                         void *fractions, void *pixels);
+                                         jflobt p0, jflobt p1, jflobt p3,
+                                         void *frbctions, void *pixels);
 
-/********************** RadialGradientPaint support *************************/
+/********************** RbdiblGrbdientPbint support *************************/
 
-HRESULT D3DPaints_SetRadialGradientPaint(D3DContext *d3dc, D3DSDOps *dstOps,
-                                         jboolean useMask, jboolean linear,
+HRESULT D3DPbints_SetRbdiblGrbdientPbint(D3DContext *d3dc, D3DSDOps *dstOps,
+                                         jboolebn useMbsk, jboolebn linebr,
                                          jint cycleMethod, jint numStops,
-                                         jfloat m00, jfloat m01, jfloat m02,
-                                         jfloat m10, jfloat m11, jfloat m12,
-                                         jfloat focusX,
-                                         void *fractions, void *pixels);
+                                         jflobt m00, jflobt m01, jflobt m02,
+                                         jflobt m10, jflobt m11, jflobt m12,
+                                         jflobt focusX,
+                                         void *frbctions, void *pixels);
 
-/************************ SunGraphics2D constants ***************************/
+/************************ SunGrbphics2D constbnts ***************************/
 
-#define PAINT_CUSTOM       sun_java2d_SunGraphics2D_PAINT_CUSTOM
-#define PAINT_TEXTURE      sun_java2d_SunGraphics2D_PAINT_TEXTURE
-#define PAINT_RAD_GRADIENT sun_java2d_SunGraphics2D_PAINT_RAD_GRADIENT
-#define PAINT_LIN_GRADIENT sun_java2d_SunGraphics2D_PAINT_LIN_GRADIENT
-#define PAINT_GRADIENT     sun_java2d_SunGraphics2D_PAINT_GRADIENT
-#define PAINT_ALPHACOLOR   sun_java2d_SunGraphics2D_PAINT_ALPHACOLOR
-#define PAINT_OPAQUECOLOR  sun_java2d_SunGraphics2D_PAINT_OPAQUECOLOR
+#define PAINT_CUSTOM       sun_jbvb2d_SunGrbphics2D_PAINT_CUSTOM
+#define PAINT_TEXTURE      sun_jbvb2d_SunGrbphics2D_PAINT_TEXTURE
+#define PAINT_RAD_GRADIENT sun_jbvb2d_SunGrbphics2D_PAINT_RAD_GRADIENT
+#define PAINT_LIN_GRADIENT sun_jbvb2d_SunGrbphics2D_PAINT_LIN_GRADIENT
+#define PAINT_GRADIENT     sun_jbvb2d_SunGrbphics2D_PAINT_GRADIENT
+#define PAINT_ALPHACOLOR   sun_jbvb2d_SunGrbphics2D_PAINT_ALPHACOLOR
+#define PAINT_OPAQUECOLOR  sun_jbvb2d_SunGrbphics2D_PAINT_OPAQUECOLOR
 
-#endif /* D3DPaints_h_Included */
+#endif /* D3DPbints_h_Included */

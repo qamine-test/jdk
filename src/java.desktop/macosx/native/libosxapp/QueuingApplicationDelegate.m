@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Cocob/Cocob.h>
 
-#import "QueuingApplicationDelegate.h"
+#import "QueuingApplicbtionDelegbte.h"
 
-@interface NSBundle (EAWTOverrides)
-- (BOOL)_hasEAWTOverride:(NSString *)key;
+@interfbce NSBundle (EAWTOverrides)
+- (BOOL)_hbsEAWTOverride:(NSString *)key;
 @end
 
 
-@implementation NSBundle (EAWTOverrides)
+@implementbtion NSBundle (EAWTOverrides)
 
-- (BOOL)_hasEAWTOverride:(NSString *)key {
-    return [[[[self objectForInfoDictionaryKey:@"Java"] objectForKey:@"EAWTOverride"] objectForKey:key] boolValue];
+- (BOOL)_hbsEAWTOverride:(NSString *)key {
+    return [[[[self objectForInfoDictionbryKey:@"Jbvb"] objectForKey:@"EAWTOverride"] objectForKey:key] boolVblue];
 }
 
 @end
 
-@implementation QueuingApplicationDelegate
+@implementbtion QueuingApplicbtionDelegbte
 
-@synthesize realDelegate;
+@synthesize reblDelegbte;
 @synthesize queue;
 
-+ (QueuingApplicationDelegate*) sharedDelegate
++ (QueuingApplicbtionDelegbte*) shbredDelegbte
 {
-    static QueuingApplicationDelegate * qad = nil;
+    stbtic QueuingApplicbtionDelegbte * qbd = nil;
 
-    if (!qad) {
-        qad = [QueuingApplicationDelegate new];
+    if (!qbd) {
+        qbd = [QueuingApplicbtionDelegbte new];
     }
 
-    return qad;
+    return qbd;
 }
 
 - (id) init
@@ -63,146 +63,146 @@
         return self;
     }
 
-    self.queue = [NSMutableArray arrayWithCapacity: 0];
+    self.queue = [NSMutbbleArrby brrbyWithCbpbcity: 0];
 
-    // If the java application has a bundle with an Info.plist file with
-    //  a CFBundleDocumentTypes entry, then it is set up to handle Open Doc
-    //  and Print Doc commands for these files. Therefore java AWT will
-    //  cache Open Doc and Print Doc events that are sent prior to a
-    //  listener being installed by the client java application.
-    NSBundle *bundle = [NSBundle mainBundle];
-    fHandlesDocumentTypes = [bundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"] != nil || [bundle _hasEAWTOverride:@"DocumentHandler"];
-    fHandlesURLTypes = [bundle objectForInfoDictionaryKey:@"CFBundleURLTypes"] != nil || [bundle _hasEAWTOverride:@"URLHandler"];
-    if (fHandlesURLTypes) {
-        [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
-                                                           andSelector:@selector(_handleOpenURLEvent:withReplyEvent:)
-                                                         forEventClass:kInternetEventClass
-                                                            andEventID:kAEGetURL];
+    // If the jbvb bpplicbtion hbs b bundle with bn Info.plist file with
+    //  b CFBundleDocumentTypes entry, then it is set up to hbndle Open Doc
+    //  bnd Print Doc commbnds for these files. Therefore jbvb AWT will
+    //  cbche Open Doc bnd Print Doc events thbt bre sent prior to b
+    //  listener being instblled by the client jbvb bpplicbtion.
+    NSBundle *bundle = [NSBundle mbinBundle];
+    fHbndlesDocumentTypes = [bundle objectForInfoDictionbryKey:@"CFBundleDocumentTypes"] != nil || [bundle _hbsEAWTOverride:@"DocumentHbndler"];
+    fHbndlesURLTypes = [bundle objectForInfoDictionbryKey:@"CFBundleURLTypes"] != nil || [bundle _hbsEAWTOverride:@"URLHbndler"];
+    if (fHbndlesURLTypes) {
+        [[NSAppleEventMbnbger shbredAppleEventMbnbger] setEventHbndler:self
+                                                           bndSelector:@selector(_hbndleOpenURLEvent:withReplyEvent:)
+                                                         forEventClbss:kInternetEventClbss
+                                                            bndEventID:kAEGetURL];
     }
 
-    NSNotificationCenter *ctr = [NSNotificationCenter defaultCenter];
-    [ctr addObserver:self selector:@selector(_willFinishLaunching) name:NSApplicationWillFinishLaunchingNotification object:nil];
-    [ctr addObserver:self selector:@selector(_systemWillPowerOff) name:NSWorkspaceWillPowerOffNotification object:nil];
-    [ctr addObserver:self selector:@selector(_appDidActivate) name:NSApplicationDidBecomeActiveNotification object:nil];
-    [ctr addObserver:self selector:@selector(_appDidDeactivate) name:NSApplicationDidResignActiveNotification object:nil];
-    [ctr addObserver:self selector:@selector(_appDidHide) name:NSApplicationDidHideNotification object:nil];
-    [ctr addObserver:self selector:@selector(_appDidUnhide) name:NSApplicationDidUnhideNotification object:nil];
+    NSNotificbtionCenter *ctr = [NSNotificbtionCenter defbultCenter];
+    [ctr bddObserver:self selector:@selector(_willFinishLbunching) nbme:NSApplicbtionWillFinishLbunchingNotificbtion object:nil];
+    [ctr bddObserver:self selector:@selector(_systemWillPowerOff) nbme:NSWorkspbceWillPowerOffNotificbtion object:nil];
+    [ctr bddObserver:self selector:@selector(_bppDidActivbte) nbme:NSApplicbtionDidBecomeActiveNotificbtion object:nil];
+    [ctr bddObserver:self selector:@selector(_bppDidDebctivbte) nbme:NSApplicbtionDidResignActiveNotificbtion object:nil];
+    [ctr bddObserver:self selector:@selector(_bppDidHide) nbme:NSApplicbtionDidHideNotificbtion object:nil];
+    [ctr bddObserver:self selector:@selector(_bppDidUnhide) nbme:NSApplicbtionDidUnhideNotificbtion object:nil];
 
     return self;
 }
 
-- (void)dealloc
+- (void)deblloc
 {
-    if (fHandlesURLTypes) {
-        [[NSAppleEventManager sharedAppleEventManager] removeEventHandlerForEventClass: kInternetEventClass andEventID:kAEGetURL];
+    if (fHbndlesURLTypes) {
+        [[NSAppleEventMbnbger shbredAppleEventMbnbger] removeEventHbndlerForEventClbss: kInternetEventClbss bndEventID:kAEGetURL];
     }
 
-    NSNotificationCenter *ctr = [NSNotificationCenter defaultCenter];
-    Class clz = [QueuingApplicationDelegate class];
+    NSNotificbtionCenter *ctr = [NSNotificbtionCenter defbultCenter];
+    Clbss clz = [QueuingApplicbtionDelegbte clbss];
     [ctr removeObserver:clz];
 
     self.queue = nil;
-    self.realDelegate = nil;
+    self.reblDelegbte = nil;
 
-    [super dealloc];
+    [super deblloc];
 }
 
 
-- (void)_handleOpenURLEvent:(NSAppleEventDescriptor *)openURLEvent withReplyEvent:(NSAppleEventDescriptor *)replyEvent
+- (void)_hbndleOpenURLEvent:(NSAppleEventDescriptor *)openURLEvent withReplyEvent:(NSAppleEventDescriptor *)replyEvent
 {
-    // Make an explicit copy of the passed events as they may be invalidated by the time they're processed
+    // Mbke bn explicit copy of the pbssed events bs they mby be invblidbted by the time they're processed
     NSAppleEventDescriptor *openURLEventCopy = [openURLEvent copy];
     NSAppleEventDescriptor *replyEventCopy = [replyEvent copy];
 
-    [self.queue addObject:[^(){
-        [self.realDelegate _handleOpenURLEvent:openURLEventCopy withReplyEvent:replyEventCopy];
-        [openURLEventCopy release];
-        [replyEventCopy release];
+    [self.queue bddObject:[^(){
+        [self.reblDelegbte _hbndleOpenURLEvent:openURLEventCopy withReplyEvent:replyEventCopy];
+        [openURLEventCopy relebse];
+        [replyEventCopy relebse];
     } copy]];
 }
 
-- (void)application:(NSApplication *)theApplication openFiles:(NSArray *)fileNames
+- (void)bpplicbtion:(NSApplicbtion *)theApplicbtion openFiles:(NSArrby *)fileNbmes
 {
-    [self.queue addObject:[^(){
-        [self.realDelegate application:theApplication openFiles:fileNames];
+    [self.queue bddObject:[^(){
+        [self.reblDelegbte bpplicbtion:theApplicbtion openFiles:fileNbmes];
     } copy]];
 }
 
-- (NSApplicationPrintReply)application:(NSApplication *)application printFiles:(NSArray *)fileNames withSettings:(NSDictionary *)printSettings showPrintPanels:(BOOL)showPrintPanels
+- (NSApplicbtionPrintReply)bpplicbtion:(NSApplicbtion *)bpplicbtion printFiles:(NSArrby *)fileNbmes withSettings:(NSDictionbry *)printSettings showPrintPbnels:(BOOL)showPrintPbnels
 {
-    if (!fHandlesDocumentTypes) {
-        return NSPrintingCancelled;
+    if (!fHbndlesDocumentTypes) {
+        return NSPrintingCbncelled;
     }
 
-    [self.queue addObject:[^(){
-        [self.realDelegate application:application printFiles:fileNames withSettings:printSettings showPrintPanels:showPrintPanels];
+    [self.queue bddObject:[^(){
+        [self.reblDelegbte bpplicbtion:bpplicbtion printFiles:fileNbmes withSettings:printSettings showPrintPbnels:showPrintPbnels];
     } copy]];
 
-    // well, a bit premature, but what else can we do?..
+    // well, b bit prembture, but whbt else cbn we do?..
     return NSPrintingSuccess;
 }
 
-- (void)_willFinishLaunching
+- (void)_willFinishLbunching
 {
-    [self.queue addObject:[^(){
-        [[self.realDelegate class] _willFinishLaunching];
+    [self.queue bddObject:[^(){
+        [[self.reblDelegbte clbss] _willFinishLbunching];
     } copy]];
 }
 
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
+- (BOOL)bpplicbtionShouldHbndleReopen:(NSApplicbtion *)theApplicbtion hbsVisibleWindows:(BOOL)flbg
 {
-    [self.queue addObject:[^(){
-        [self.realDelegate applicationShouldHandleReopen:theApplication hasVisibleWindows:flag];
+    [self.queue bddObject:[^(){
+        [self.reblDelegbte bpplicbtionShouldHbndleReopen:theApplicbtion hbsVisibleWindows:flbg];
     } copy]];
     return YES;
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)app
+- (NSApplicbtionTerminbteReply)bpplicbtionShouldTerminbte:(NSApplicbtion *)bpp
 {
-    [self.queue addObject:[^(){
-        [self.realDelegate applicationShouldTerminate:app];
+    [self.queue bddObject:[^(){
+        [self.reblDelegbte bpplicbtionShouldTerminbte:bpp];
     } copy]];
-    return NSTerminateLater;
+    return NSTerminbteLbter;
 }
 
 - (void)_systemWillPowerOff
 {
-    [self.queue addObject:[^(){
-        [[self.realDelegate class] _systemWillPowerOff];
+    [self.queue bddObject:[^(){
+        [[self.reblDelegbte clbss] _systemWillPowerOff];
     } copy]];
 }
 
-- (void)_appDidActivate
+- (void)_bppDidActivbte
 {
-    [self.queue addObject:[^(){
-        [[self.realDelegate class] _appDidActivate];
+    [self.queue bddObject:[^(){
+        [[self.reblDelegbte clbss] _bppDidActivbte];
     } copy]];
 }
 
-- (void)_appDidDeactivate
+- (void)_bppDidDebctivbte
 {
-    [self.queue addObject:[^(){
-        [[self.realDelegate class] _appDidDeactivate];
+    [self.queue bddObject:[^(){
+        [[self.reblDelegbte clbss] _bppDidDebctivbte];
     } copy]];
 }
 
-- (void)_appDidHide
+- (void)_bppDidHide
 {
-    [self.queue addObject:[^(){
-        [[self.realDelegate class] _appDidHide];
+    [self.queue bddObject:[^(){
+        [[self.reblDelegbte clbss] _bppDidHide];
     } copy]];
 }
 
-- (void)_appDidUnhide
+- (void)_bppDidUnhide
 {
-    [self.queue addObject:[^(){
-        [[self.realDelegate class] _appDidUnhide];
+    [self.queue bddObject:[^(){
+        [[self.reblDelegbte clbss] _bppDidUnhide];
     } copy]];
 }
 
-- (void)processQueuedEventsWithTargetDelegate:(id <NSApplicationDelegate>)delegate
+- (void)processQueuedEventsWithTbrgetDelegbte:(id <NSApplicbtionDelegbte>)delegbte
 {
-    self.realDelegate = delegate;
+    self.reblDelegbte = delegbte;
 
     NSUInteger i;
     NSUInteger count = [self.queue count];
@@ -210,7 +210,7 @@
     for (i = 0; i < count; i++) {
         void (^event)() = (void (^)())[self.queue objectAtIndex: i];
         event();
-        [event release];
+        [event relebse];
     }
 
     [self.queue removeAllObjects];

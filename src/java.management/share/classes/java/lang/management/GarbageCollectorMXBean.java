@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
 /**
- * The management interface for the garbage collection of
- * the Java virtual machine.  Garbage collection is the process
- * that the Java virtual machine uses to find and reclaim unreachable
- * objects to free up memory space.  A garbage collector is one type of
- * {@link MemoryManagerMXBean memory manager}.
+ * The mbnbgement interfbce for the gbrbbge collection of
+ * the Jbvb virtubl mbchine.  Gbrbbge collection is the process
+ * thbt the Jbvb virtubl mbchine uses to find bnd reclbim unrebchbble
+ * objects to free up memory spbce.  A gbrbbge collector is one type of
+ * {@link MemoryMbnbgerMXBebn memory mbnbger}.
  *
- * <p> A Java virtual machine may have one or more instances of
- * the implementation class of this interface.
- * An instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getGarbageCollectorMXBeans} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbchine mby hbve one or more instbnces of
+ * the implementbtion clbss of this interfbce.
+ * An instbnce implementing this interfbce is
+ * bn <b href="MbnbgementFbctory.html#MXBebn">MXBebn</b>
+ * thbt cbn be obtbined by cblling
+ * the {@link MbnbgementFbctory#getGbrbbgeCollectorMXBebns} method or
+ * from the {@link MbnbgementFbctory#getPlbtformMBebnServer
+ * plbtform <tt>MBebnServer</tt>} method.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * a garbage collector within an MBeanServer is:
+ * <p>The <tt>ObjectNbme</tt> for uniquely identifying the MXBebn for
+ * b gbrbbge collector within bn MBebnServer is:
  * <blockquote>
- *   {@link ManagementFactory#GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE
- *    <tt>java.lang:type=GarbageCollector</tt>}<tt>,name=</tt><i>collector's name</i>
+ *   {@link MbnbgementFbctory#GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE
+ *    <tt>jbvb.lbng:type=GbrbbgeCollector</tt>}<tt>,nbme=</tt><i>collector's nbme</i>
  * </blockquote>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It cbn be obtbined by cblling the
+ * {@link PlbtformMbnbgedObject#getObjectNbme} method.
  *
- * A platform usually includes additional platform-dependent information
- * specific to a garbage collection algorithm for monitoring.
+ * A plbtform usublly includes bdditionbl plbtform-dependent informbtion
+ * specific to b gbrbbge collection blgorithm for monitoring.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see MemoryMXBean
+ * @see MbnbgementFbctory#getPlbtformMXBebns(Clbss)
+ * @see MemoryMXBebn
  *
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @see <b href="../../../jbvbx/mbnbgement/pbckbge-summbry.html">
+ *      JMX Specificbtion.</b>
+ * @see <b href="pbckbge-summbry.html#exbmples">
+ *      Wbys to Access MXBebns</b>
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
-public interface GarbageCollectorMXBean extends MemoryManagerMXBean {
+public interfbce GbrbbgeCollectorMXBebn extends MemoryMbnbgerMXBebn {
     /**
-     * Returns the total number of collections that have occurred.
+     * Returns the totbl number of collections thbt hbve occurred.
      * This method returns <tt>-1</tt> if the collection count is undefined for
      * this collector.
      *
-     * @return the total number of collections that have occurred.
+     * @return the totbl number of collections thbt hbve occurred.
      */
     public long getCollectionCount();
 
     /**
-     * Returns the approximate accumulated collection elapsed time
+     * Returns the bpproximbte bccumulbted collection elbpsed time
      * in milliseconds.  This method returns <tt>-1</tt> if the collection
-     * elapsed time is undefined for this collector.
+     * elbpsed time is undefined for this collector.
      * <p>
-     * The Java virtual machine implementation may use a high resolution
-     * timer to measure the elapsed time.  This method may return the
-     * same value even if the collection count has been incremented
-     * if the collection elapsed time is very short.
+     * The Jbvb virtubl mbchine implementbtion mby use b high resolution
+     * timer to mebsure the elbpsed time.  This method mby return the
+     * sbme vblue even if the collection count hbs been incremented
+     * if the collection elbpsed time is very short.
      *
-     * @return the approximate accumulated collection elapsed time
+     * @return the bpproximbte bccumulbted collection elbpsed time
      * in milliseconds.
      */
     public long getCollectionTime();

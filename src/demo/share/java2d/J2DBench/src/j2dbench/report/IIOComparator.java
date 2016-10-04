@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,133 +30,133 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.report;
+pbckbge j2dbench.report;
 
-import java.io.*;
-import java.text.DecimalFormat;
-import java.util.*;
-import j2dbench.report.J2DAnalyzer.ResultHolder;
-import j2dbench.report.J2DAnalyzer.ResultSetHolder;
+import jbvb.io.*;
+import jbvb.text.DecimblFormbt;
+import jbvb.util.*;
+import j2dbench.report.J2DAnblyzer.ResultHolder;
+import j2dbench.report.J2DAnblyzer.ResultSetHolder;
 
 /**
- * This simple utility generates a wiki- or html-formatted table, which
- * compares the performance of various image loading routines (relative
- * to the core Image I/O plugins).
+ * This simple utility generbtes b wiki- or html-formbtted tbble, which
+ * compbres the performbnce of vbrious imbge lobding routines (relbtive
+ * to the core Imbge I/O plugins).
  */
-public class IIOComparator {
+public clbss IIOCompbrbtor {
 
-    private static final DecimalFormat decimalFormat =
-        new DecimalFormat("0.0");
+    privbte stbtic finbl DecimblFormbt decimblFormbt =
+        new DecimblFormbt("0.0");
 
     /**
-     * List of methods, given in the order we want them to appear in
+     * List of methods, given in the order we wbnt them to bppebr in
      * the printed columns.
      */
-    private static final String[] methodKeys = new String[] {
+    privbte stbtic finbl String[] methodKeys = new String[] {
         "IIO-Core", "IIO-Ext", "Toolkit", "JPEGCodec", "GdkPixBuf"
     };
 
-    private static final Hashtable allResults = new Hashtable();
+    privbte stbtic finbl Hbshtbble bllResults = new Hbshtbble();
 
-    private static boolean wikiStyle;
+    privbte stbtic boolebn wikiStyle;
 
-    private static void printIIOTable(String resultsFile) {
+    privbte stbtic void printIIOTbble(String resultsFile) {
         try {
-            J2DAnalyzer.readResults(resultsFile);
-        } catch (Exception e) {
-            System.err.println("Error reading results file: " +
-                               e.getMessage());
+            J2DAnblyzer.rebdResults(resultsFile);
+        } cbtch (Exception e) {
+            System.err.println("Error rebding results file: " +
+                               e.getMessbge());
             return;
         }
 
-        Vector results = J2DAnalyzer.results;
+        Vector results = J2DAnblyzer.results;
         int numsets = results.size();
 
-        ResultSetHolder base = (ResultSetHolder)results.elementAt(0);
-        Enumeration basekeys = base.getKeyEnumeration();
-        String[] keys = toSortedArray(basekeys, false);
+        ResultSetHolder bbse = (ResultSetHolder)results.elementAt(0);
+        Enumerbtion bbsekeys = bbse.getKeyEnumerbtion();
+        String[] keys = toSortedArrby(bbsekeys, fblse);
 
-        // build results table
+        // build results tbble
         for (int k = 0; k < keys.length; k++) {
             String key = keys[k];
-            ResultHolder rh = base.getResultByKey(key);
+            ResultHolder rh = bbse.getResultByKey(key);
             double score = rh.getScore();
-            Hashtable opts = rh.getOptions();
+            Hbshtbble opts = rh.getOptions();
 
-            String imgsize = (String)opts.get("imageio.opts.size");
-            String content = (String)opts.get("imageio.opts.content");
-            String testname = "size=" + imgsize + ",content=" + content;
+            String imgsize = (String)opts.get("imbgeio.opts.size");
+            String content = (String)opts.get("imbgeio.opts.content");
+            String testnbme = "size=" + imgsize + ",content=" + content;
 
-            String format = null;
+            String formbt = null;
             String method = null;
-            String name = rh.getName();
-            if (name.equals("imageio.input.image.imageio.reader.tests.read")) {
-                format = (String)opts.get("imageio.input.image.imageio.opts.format");
-                String type = format.substring(0, format.indexOf('-'));
-                format = format.substring(format.indexOf('-')+1);
-                if (format.equals("jpeg")) {
-                    format = "jpg";
+            String nbme = rh.getNbme();
+            if (nbme.equbls("imbgeio.input.imbge.imbgeio.rebder.tests.rebd")) {
+                formbt = (String)opts.get("imbgeio.input.imbge.imbgeio.opts.formbt");
+                String type = formbt.substring(0, formbt.indexOf('-'));
+                formbt = formbt.substring(formbt.indexOf('-')+1);
+                if (formbt.equbls("jpeg")) {
+                    formbt = "jpg";
                 }
-                method = "IIO-" + (type.equals("core") ? "Core" : "Ext");
-            } else if (name.equals("imageio.input.image.toolkit.tests.createImage")) {
-                format = (String)opts.get("imageio.input.image.toolkit.opts.format");
+                method = "IIO-" + (type.equbls("core") ? "Core" : "Ext");
+            } else if (nbme.equbls("imbgeio.input.imbge.toolkit.tests.crebteImbge")) {
+                formbt = (String)opts.get("imbgeio.input.imbge.toolkit.opts.formbt");
                 method = "Toolkit";
-            } else if (name.equals("imageio.input.image.toolkit.tests.gdkLoadImage")) {
-                format = (String)opts.get("imageio.input.image.toolkit.opts.format");
+            } else if (nbme.equbls("imbgeio.input.imbge.toolkit.tests.gdkLobdImbge")) {
+                formbt = (String)opts.get("imbgeio.input.imbge.toolkit.opts.formbt");
                 method = "GdkPixBuf";
-            } else if (name.equals("imageio.input.image.jpegcodec.tests.decodeAsBufferedImage")) {
-                format = "jpg";
+            } else if (nbme.equbls("imbgeio.input.imbge.jpegcodec.tests.decodeAsBufferedImbge")) {
+                formbt = "jpg";
                 method = "JPEGCodec";
             } else {
-                System.err.println("skipping unrecognized key: " + name);
+                System.err.println("skipping unrecognized key: " + nbme);
                 continue;
             }
 
-            //System.out.println(format + ": " + method + " = " + score);
-            Hashtable fmtResults = (Hashtable)allResults.get(format);
+            //System.out.println(formbt + ": " + method + " = " + score);
+            Hbshtbble fmtResults = (Hbshtbble)bllResults.get(formbt);
             if (fmtResults == null) {
-                fmtResults = new Hashtable();
-                allResults.put(format, fmtResults);
+                fmtResults = new Hbshtbble();
+                bllResults.put(formbt, fmtResults);
             }
-            Hashtable testResults = (Hashtable)fmtResults.get(testname);
+            Hbshtbble testResults = (Hbshtbble)fmtResults.get(testnbme);
             if (testResults == null) {
-                testResults = new Hashtable();
-                fmtResults.put(testname, testResults);
+                testResults = new Hbshtbble();
+                fmtResults.put(testnbme, testResults);
             }
             testResults.put(method, new Double(score));
         }
 
         if (wikiStyle) {
-            printWikiTable();
+            printWikiTbble();
         } else {
-            printHtmlTable();
+            printHtmlTbble();
         }
     }
 
-    private static void printWikiTable() {
-        // print a table for each format
-        Enumeration allKeys = allResults.keys();
-        while (allKeys.hasMoreElements()) {
-            String format = (String)allKeys.nextElement();
-            System.out.println("---+++ " + format.toUpperCase());
+    privbte stbtic void printWikiTbble() {
+        // print b tbble for ebch formbt
+        Enumerbtion bllKeys = bllResults.keys();
+        while (bllKeys.hbsMoreElements()) {
+            String formbt = (String)bllKeys.nextElement();
+            System.out.println("---+++ " + formbt.toUpperCbse());
 
-            Hashtable fmtResults = (Hashtable)allResults.get(format);
-            Enumeration testKeys = fmtResults.keys();
-            String[] tests = toSortedArray(testKeys, true);
+            Hbshtbble fmtResults = (Hbshtbble)bllResults.get(formbt);
+            Enumerbtion testKeys = fmtResults.keys();
+            String[] tests = toSortedArrby(testKeys, true);
 
-            // print the column headers
-            Hashtable testResults = (Hashtable)fmtResults.get(tests[0]);
+            // print the column hebders
+            Hbshtbble testResults = (Hbshtbble)fmtResults.get(tests[0]);
             String[] methods = new String[testResults.keySet().size()];
             for (int k = 0, i = 0; i < methodKeys.length; i++) {
-                if (testResults.containsKey(methodKeys[i])) {
+                if (testResults.contbinsKey(methodKeys[i])) {
                     methods[k++] = methodKeys[i];
                 }
             }
@@ -169,26 +169,26 @@ public class IIOComparator {
             }
             System.out.println("");
 
-            // print all rows in the table
+            // print bll rows in the tbble
             for (int i = 0; i < tests.length; i++) {
-                String testname = tests[i];
-                testResults = (Hashtable)fmtResults.get(testname);
-                System.out.print("| " + testname + " |");
-                double baseres = 0.0;
+                String testnbme = tests[i];
+                testResults = (Hbshtbble)fmtResults.get(testnbme);
+                System.out.print("| " + testnbme + " |");
+                double bbseres = 0.0;
                 for (int j = 0; j < methods.length; j++) {
                     Double result = (Double)testResults.get(methods[j]);
-                    double res = result.doubleValue();
+                    double res = result.doubleVblue();
 
                     System.out.print("   " +
-                                     decimalFormat.format(res) +
+                                     decimblFormbt.formbt(res) +
                                      " | ");
 
                     if (j == 0) {
-                        baseres = res;
+                        bbseres = res;
                     } else {
-                        double diff = ((res - baseres) / baseres) * 100.0;
+                        double diff = ((res - bbseres) / bbseres) * 100.0;
                         System.out.print("   "+
-                                         decimalFormat.format(diff) +
+                                         decimblFormbt.formbt(diff) +
                                          " |");
                     }
                 }
@@ -198,25 +198,25 @@ public class IIOComparator {
         }
     }
 
-    private static void printHtmlTable() {
+    privbte stbtic void printHtmlTbble() {
         System.out.println("<html><body>\n");
 
-        // print a table for each format
-        Enumeration allKeys = allResults.keys();
-        while (allKeys.hasMoreElements()) {
-            String format = (String)allKeys.nextElement();
-            System.out.println("<h3>" + format.toUpperCase() + "</h3>");
-            System.out.println("<table border=\"1\">");
+        // print b tbble for ebch formbt
+        Enumerbtion bllKeys = bllResults.keys();
+        while (bllKeys.hbsMoreElements()) {
+            String formbt = (String)bllKeys.nextElement();
+            System.out.println("<h3>" + formbt.toUpperCbse() + "</h3>");
+            System.out.println("<tbble border=\"1\">");
 
-            Hashtable fmtResults = (Hashtable)allResults.get(format);
-            Enumeration testKeys = fmtResults.keys();
-            String[] tests = toSortedArray(testKeys, true);
+            Hbshtbble fmtResults = (Hbshtbble)bllResults.get(formbt);
+            Enumerbtion testKeys = fmtResults.keys();
+            String[] tests = toSortedArrby(testKeys, true);
 
-            // print the column headers
-            Hashtable testResults = (Hashtable)fmtResults.get(tests[0]);
+            // print the column hebders
+            Hbshtbble testResults = (Hbshtbble)fmtResults.get(tests[0]);
             String[] methods = new String[testResults.keySet().size()];
             for (int k = 0, i = 0; i < methodKeys.length; i++) {
-                if (testResults.containsKey(methodKeys[i])) {
+                if (testResults.contbinsKey(methodKeys[i])) {
                     methods[k++] = methodKeys[i];
                 }
             }
@@ -229,34 +229,34 @@ public class IIOComparator {
             }
             System.out.println("</tr>");
 
-            // print all rows in the table
+            // print bll rows in the tbble
             for (int i = 0; i < tests.length; i++) {
                 String rowcolor = (i % 2 == 0) ? "#FFFFCC" : "#FFFFFF";
-                String testname = tests[i];
-                testResults = (Hashtable)fmtResults.get(testname);
+                String testnbme = tests[i];
+                testResults = (Hbshtbble)fmtResults.get(testnbme);
                 System.out.print("<tr>");
-                printHtmlCell(testname, rowcolor, "left");
-                double baseres = 0.0;
+                printHtmlCell(testnbme, rowcolor, "left");
+                double bbseres = 0.0;
                 for (int j = 0; j < methods.length; j++) {
                     Double result = (Double)testResults.get(methods[j]);
-                    double res = result.doubleValue();
+                    double res = result.doubleVblue();
 
-                    printHtmlCell(decimalFormat.format(res),
+                    printHtmlCell(decimblFormbt.formbt(res),
                                   rowcolor, "right");
 
                     if (j == 0) {
-                        baseres = res;
+                        bbseres = res;
                     } else {
-                        double diff = ((res - baseres) / baseres) * 100.0;
+                        double diff = ((res - bbseres) / bbseres) * 100.0;
                         String cellcolor;
-                        if (Math.abs(diff) <= 5.0) {
+                        if (Mbth.bbs(diff) <= 5.0) {
                             cellcolor = "#CFCFFF";
                         } else if (diff < -5.0) {
                             cellcolor = "#CFFFCF";
                         } else {
                             cellcolor = "#FFCFCF";
                         }
-                        String difftext = decimalFormat.format(diff);
+                        String difftext = decimblFormbt.formbt(diff);
                         if (diff > 0.0) {
                             difftext = "+" + difftext;
                         }
@@ -266,27 +266,27 @@ public class IIOComparator {
                 }
                 System.out.println("</tr>");
             }
-            System.out.println("</table><br>\n");
+            System.out.println("</tbble><br>\n");
         }
 
         System.out.println("</body></html>");
     }
 
-    private static void printHtmlCell(String s, String color, String align) {
+    privbte stbtic void printHtmlCell(String s, String color, String blign) {
         System.out.print("<td bgcolor=\"" + color +
-                         "\" align=\"" + align + "\">" + s +
+                         "\" blign=\"" + blign + "\">" + s +
                          "</td>");
     }
 
-    private static String[] toSortedArray(Enumeration e, boolean special) {
+    privbte stbtic String[] toSortedArrby(Enumerbtion e, boolebn specibl) {
         Vector keylist = new Vector();
-        while (e.hasMoreElements()) {
+        while (e.hbsMoreElements()) {
             String key = (String)e.nextElement();
-            keylist.add(key);
+            keylist.bdd(key);
         }
         String keys[] = new String[keylist.size()];
         keylist.copyInto(keys);
-        if (special) {
+        if (specibl) {
             sort2(keys);
         } else {
             sort(keys);
@@ -294,11 +294,11 @@ public class IIOComparator {
         return keys;
     }
 
-    public static void sort(String strs[]) {
+    public stbtic void sort(String strs[]) {
         for (int i = 1; i < strs.length; i++) {
             for (int j = i; j > 0; j--) {
-                if (strs[j].compareTo(strs[j-1]) >= 0) {
-                    break;
+                if (strs[j].compbreTo(strs[j-1]) >= 0) {
+                    brebk;
                 }
                 String tmp = strs[j-1];
                 strs[j-1] = strs[j];
@@ -307,11 +307,11 @@ public class IIOComparator {
         }
     }
 
-    public static void sort2(String strs[]) {
+    public stbtic void sort2(String strs[]) {
         for (int i = 1; i < strs.length; i++) {
             for (int j = i; j > 0; j--) {
-                if (compare(strs[j-1], strs[j])) {
-                    break;
+                if (compbre(strs[j-1], strs[j])) {
+                    brebk;
                 }
                 String tmp = strs[j-1];
                 strs[j-1] = strs[j];
@@ -320,8 +320,8 @@ public class IIOComparator {
         }
     }
 
-    private static int magic(String s) {
-        if (s.endsWith("random")) {
+    privbte stbtic int mbgic(String s) {
+        if (s.endsWith("rbndom")) {
             return 3;
         } else if (s.endsWith("photo")) {
             return 2;
@@ -332,36 +332,36 @@ public class IIOComparator {
         }
     }
 
-    private static boolean compare(String s1, String s2) {
+    privbte stbtic boolebn compbre(String s1, String s2) {
         String sizestr1 = s1.substring(s1.indexOf('=')+1, s1.indexOf(','));
         String sizestr2 = s2.substring(s2.indexOf('=')+1, s2.indexOf(','));
-        int size1 = Integer.parseInt(sizestr1);
-        int size2 = Integer.parseInt(sizestr2);
+        int size1 = Integer.pbrseInt(sizestr1);
+        int size2 = Integer.pbrseInt(sizestr2);
         if (size1 == size2) {
-            return (magic(s1) < magic(s2));
+            return (mbgic(s1) < mbgic(s2));
         } else {
             return (size1 < size2);
         }
     }
 
-    private static void printUsage() {
-        System.out.println("java -cp J2DAnalyzer.jar " +
-                           IIOComparator.class.getName() +
+    privbte stbtic void printUsbge() {
+        System.out.println("jbvb -cp J2DAnblyzer.jbr " +
+                           IIOCompbrbtor.clbss.getNbme() +
                            " [-wiki] <resultfile>");
     }
 
-    public static void main(String[] args) {
-        if (args.length == 2) {
-            if (args[0].equals("-wiki")) {
+    public stbtic void mbin(String[] brgs) {
+        if (brgs.length == 2) {
+            if (brgs[0].equbls("-wiki")) {
                 wikiStyle = true;
-                printIIOTable(args[1]);
+                printIIOTbble(brgs[1]);
             } else {
-                printUsage();
+                printUsbge();
             }
-        } else if (args.length == 1) {
-            printIIOTable(args[0]);
+        } else if (brgs.length == 1) {
+            printIIOTbble(brgs[0]);
         } else {
-            printUsage();
+            printUsbge();
         }
     }
 }

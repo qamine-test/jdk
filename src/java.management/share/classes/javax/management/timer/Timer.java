@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.timer;
+pbckbge jbvbx.mbnbgement.timer;
 
-import static com.sun.jmx.defaults.JmxProperties.TIMER_LOGGER;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Vector;
-import java.util.logging.Level;
+import stbtic com.sun.jmx.defbults.JmxProperties.TIMER_LOGGER;
+import jbvb.util.ArrbyList;
+import jbvb.util.Dbte;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.TreeSet;
+import jbvb.util.Vector;
+import jbvb.util.logging.Level;
 
 // jmx imports
 //
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
  *
- * Provides the implementation of the timer MBean.
- * The timer MBean sends out an alarm at a specified time
- * that wakes up all the listeners registered to receive timer notifications.
+ * Provides the implementbtion of the timer MBebn.
+ * The timer MBebn sends out bn blbrm bt b specified time
+ * thbt wbkes up bll the listeners registered to receive timer notificbtions.
  * <P>
  *
- * This class manages a list of dated timer notifications.
- * A method allows users to add/remove as many notifications as required.
- * When a timer notification is emitted by the timer and becomes obsolete,
- * it is automatically removed from the list of timer notifications.
- * <BR>Additional timer notifications can be added into regularly repeating notifications.
+ * This clbss mbnbges b list of dbted timer notificbtions.
+ * A method bllows users to bdd/remove bs mbny notificbtions bs required.
+ * When b timer notificbtion is emitted by the timer bnd becomes obsolete,
+ * it is butombticblly removed from the list of timer notificbtions.
+ * <BR>Additionbl timer notificbtions cbn be bdded into regulbrly repebting notificbtions.
  * <P>
  *
  * Note:
  * <OL>
- * <LI>When sending timer notifications, the timer updates the notification sequence number
- * irrespective of the notification type.
- * <LI>The timer service relies on the system date of the host where the <CODE>Timer</CODE> class is loaded.
- * Listeners may receive untimely notifications
- * if their host has a different system date.
- * To avoid such problems, synchronize the system date of all host machines where timing is needed.
- * <LI>The default behavior for periodic notifications is <i>fixed-delay execution</i>, as
- *     specified in {@link java.util.Timer}. In order to use <i>fixed-rate execution</i>, use the
- *     overloaded {@link #addNotification(String, String, Object, Date, long, long, boolean)} method.
- * <LI>Notification listeners are potentially all executed in the same
- * thread.  Therefore, they should execute rapidly to avoid holding up
- * other listeners or perturbing the regularity of fixed-delay
- * executions.  See {@link NotificationBroadcasterSupport}.
+ * <LI>When sending timer notificbtions, the timer updbtes the notificbtion sequence number
+ * irrespective of the notificbtion type.
+ * <LI>The timer service relies on the system dbte of the host where the <CODE>Timer</CODE> clbss is lobded.
+ * Listeners mby receive untimely notificbtions
+ * if their host hbs b different system dbte.
+ * To bvoid such problems, synchronize the system dbte of bll host mbchines where timing is needed.
+ * <LI>The defbult behbvior for periodic notificbtions is <i>fixed-delby execution</i>, bs
+ *     specified in {@link jbvb.util.Timer}. In order to use <i>fixed-rbte execution</i>, use the
+ *     overlobded {@link #bddNotificbtion(String, String, Object, Dbte, long, long, boolebn)} method.
+ * <LI>Notificbtion listeners bre potentiblly bll executed in the sbme
+ * threbd.  Therefore, they should execute rbpidly to bvoid holding up
+ * other listeners or perturbing the regulbrity of fixed-delby
+ * executions.  See {@link NotificbtionBrobdcbsterSupport}.
  * </OL>
  *
  * @since 1.5
  */
-public class Timer extends NotificationBroadcasterSupport
-        implements TimerMBean, MBeanRegistration {
+public clbss Timer extends NotificbtionBrobdcbsterSupport
+        implements TimerMBebn, MBebnRegistrbtion {
 
 
     /*
@@ -89,33 +89,33 @@ public class Timer extends NotificationBroadcasterSupport
 
     /**
      * Number of milliseconds in one second.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Useful constbnt for the <CODE>bddNotificbtion</CODE> method.
      */
-    public static final long ONE_SECOND = 1000;
+    public stbtic finbl long ONE_SECOND = 1000;
 
     /**
      * Number of milliseconds in one minute.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Useful constbnt for the <CODE>bddNotificbtion</CODE> method.
      */
-    public static final long ONE_MINUTE = 60*ONE_SECOND;
+    public stbtic finbl long ONE_MINUTE = 60*ONE_SECOND;
 
     /**
      * Number of milliseconds in one hour.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Useful constbnt for the <CODE>bddNotificbtion</CODE> method.
      */
-    public static final long ONE_HOUR   = 60*ONE_MINUTE;
+    public stbtic finbl long ONE_HOUR   = 60*ONE_MINUTE;
 
     /**
-     * Number of milliseconds in one day.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Number of milliseconds in one dby.
+     * Useful constbnt for the <CODE>bddNotificbtion</CODE> method.
      */
-    public static final long ONE_DAY    = 24*ONE_HOUR;
+    public stbtic finbl long ONE_DAY    = 24*ONE_HOUR;
 
     /**
      * Number of milliseconds in one week.
-     * Useful constant for the <CODE>addNotification</CODE> method.
+     * Useful constbnt for the <CODE>bddNotificbtion</CODE> method.
      */
-    public static final long ONE_WEEK   = 7*ONE_DAY;
+    public stbtic finbl long ONE_WEEK   = 7*ONE_DAY;
 
     /*
      * ------------------------------------------
@@ -124,47 +124,47 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Table containing all the timer notifications of this timer,
-     * with the associated date, period and number of occurrences.
+     * Tbble contbining bll the timer notificbtions of this timer,
+     * with the bssocibted dbte, period bnd number of occurrences.
      */
-    final private Map<Integer,Object[]> timerTable =
-        new HashMap<>();
+    finbl privbte Mbp<Integer,Object[]> timerTbble =
+        new HbshMbp<>();
 
     /**
-     * Past notifications sending on/off flag value.
-     * This attribute is used to specify if the timer has to send past notifications after start.
-     * <BR>The default value is set to <CODE>false</CODE>.
+     * Pbst notificbtions sending on/off flbg vblue.
+     * This bttribute is used to specify if the timer hbs to send pbst notificbtions bfter stbrt.
+     * <BR>The defbult vblue is set to <CODE>fblse</CODE>.
      */
-    private boolean sendPastNotifications = false;
+    privbte boolebn sendPbstNotificbtions = fblse;
 
     /**
-     * Timer state.
-     * The default value is set to <CODE>false</CODE>.
+     * Timer stbte.
+     * The defbult vblue is set to <CODE>fblse</CODE>.
      */
-    private transient boolean isActive = false;
+    privbte trbnsient boolebn isActive = fblse;
 
     /**
      * Timer sequence number.
-     * The default value is set to 0.
+     * The defbult vblue is set to 0.
      */
-    private transient long sequenceNumber = 0;
+    privbte trbnsient long sequenceNumber = 0;
 
-    // Flags needed to keep the indexes of the objects in the array.
+    // Flbgs needed to keep the indexes of the objects in the brrby.
     //
-    private static final int TIMER_NOTIF_INDEX     = 0;
-    private static final int TIMER_DATE_INDEX      = 1;
-    private static final int TIMER_PERIOD_INDEX    = 2;
-    private static final int TIMER_NB_OCCUR_INDEX  = 3;
-    private static final int ALARM_CLOCK_INDEX     = 4;
-    private static final int FIXED_RATE_INDEX      = 5;
+    privbte stbtic finbl int TIMER_NOTIF_INDEX     = 0;
+    privbte stbtic finbl int TIMER_DATE_INDEX      = 1;
+    privbte stbtic finbl int TIMER_PERIOD_INDEX    = 2;
+    privbte stbtic finbl int TIMER_NB_OCCUR_INDEX  = 3;
+    privbte stbtic finbl int ALARM_CLOCK_INDEX     = 4;
+    privbte stbtic finbl int FIXED_RATE_INDEX      = 5;
 
     /**
-     * The notification counter ID.
-     * Used to keep the max key value inserted into the timer table.
+     * The notificbtion counter ID.
+     * Used to keep the mbx key vblue inserted into the timer tbble.
      */
-    volatile private int counterID = 0;
+    volbtile privbte int counterID = 0;
 
-    private java.util.Timer timer;
+    privbte jbvb.util.Timer timer;
 
     /*
      * ------------------------------------------
@@ -173,7 +173,7 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
     public Timer() {
     }
@@ -185,43 +185,43 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Allows the timer MBean to perform any operations it needs before being registered
-     * in the MBean server.
+     * Allows the timer MBebn to perform bny operbtions it needs before being registered
+     * in the MBebn server.
      * <P>
      * Not used in this context.
      *
-     * @param server The MBean server in which the timer MBean will be registered.
-     * @param name The object name of the timer MBean.
+     * @pbrbm server The MBebn server in which the timer MBebn will be registered.
+     * @pbrbm nbme The object nbme of the timer MBebn.
      *
-     * @return The name of the timer MBean registered.
+     * @return The nbme of the timer MBebn registered.
      *
-     * @exception java.lang.Exception
+     * @exception jbvb.lbng.Exception
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-        throws java.lang.Exception {
-        return name;
+    public ObjectNbme preRegister(MBebnServer server, ObjectNbme nbme)
+        throws jbvb.lbng.Exception {
+        return nbme;
     }
 
     /**
-     * Allows the timer MBean to perform any operations needed after having been
-     * registered in the MBean server or after the registration has failed.
+     * Allows the timer MBebn to perform bny operbtions needed bfter hbving been
+     * registered in the MBebn server or bfter the registrbtion hbs fbiled.
      * <P>
      * Not used in this context.
      */
-    public void postRegister (Boolean registrationDone) {
+    public void postRegister (Boolebn registrbtionDone) {
     }
 
     /**
-     * Allows the timer MBean to perform any operations it needs before being unregistered
-     * by the MBean server.
+     * Allows the timer MBebn to perform bny operbtions it needs before being unregistered
+     * by the MBebn server.
      * <P>
      * Stops the timer.
      *
-     * @exception java.lang.Exception
+     * @exception jbvb.lbng.Exception
      */
-    public void preDeregister() throws java.lang.Exception {
+    public void preDeregister() throws jbvb.lbng.Exception {
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
                 "preDeregister", "stop the timer");
 
         // Stop the timer.
@@ -230,8 +230,8 @@ public class Timer extends NotificationBroadcasterSupport
     }
 
     /**
-     * Allows the timer MBean to perform any operations needed after having been
-     * unregistered by the MBean server.
+     * Allows the timer MBebn to perform bny operbtions needed bfter hbving been
+     * unregistered by the MBebn server.
      * <P>
      * Not used in this context.
      */
@@ -239,95 +239,95 @@ public class Timer extends NotificationBroadcasterSupport
     }
 
     /*
-     * This overrides the method in NotificationBroadcasterSupport.
-     * Return the MBeanNotificationInfo[] array for this MBean.
-     * The returned array has one element to indicate that the MBean
-     * can emit TimerNotification.  The array of type strings
-     * associated with this entry is a snapshot of the current types
-     * that were given to addNotification.
+     * This overrides the method in NotificbtionBrobdcbsterSupport.
+     * Return the MBebnNotificbtionInfo[] brrby for this MBebn.
+     * The returned brrby hbs one element to indicbte thbt the MBebn
+     * cbn emit TimerNotificbtion.  The brrby of type strings
+     * bssocibted with this entry is b snbpshot of the current types
+     * thbt were given to bddNotificbtion.
      */
-    public synchronized MBeanNotificationInfo[] getNotificationInfo() {
+    public synchronized MBebnNotificbtionInfo[] getNotificbtionInfo() {
         Set<String> notifTypes = new TreeSet<String>();
-        for (Object[] entry : timerTable.values()) {
-            TimerNotification notif = (TimerNotification)
+        for (Object[] entry : timerTbble.vblues()) {
+            TimerNotificbtion notif = (TimerNotificbtion)
                 entry[TIMER_NOTIF_INDEX];
-            notifTypes.add(notif.getType());
+            notifTypes.bdd(notif.getType());
         }
-        String[] notifTypesArray =
-            notifTypes.toArray(new String[0]);
-        return new MBeanNotificationInfo[] {
-            new MBeanNotificationInfo(notifTypesArray,
-                                      TimerNotification.class.getName(),
-                                      "Notification sent by Timer MBean")
+        String[] notifTypesArrby =
+            notifTypes.toArrby(new String[0]);
+        return new MBebnNotificbtionInfo[] {
+            new MBebnNotificbtionInfo(notifTypesArrby,
+                                      TimerNotificbtion.clbss.getNbme(),
+                                      "Notificbtion sent by Timer MBebn")
         };
     }
 
     /**
-     * Starts the timer.
+     * Stbrts the timer.
      * <P>
-     * If there is one or more timer notifications before the time in the list of notifications, the notification
-     * is sent according to the <CODE>sendPastNotifications</CODE> flag and then, updated
-     * according to its period and remaining number of occurrences.
-     * If the timer notification date remains earlier than the current date, this notification is just removed
-     * from the list of notifications.
+     * If there is one or more timer notificbtions before the time in the list of notificbtions, the notificbtion
+     * is sent bccording to the <CODE>sendPbstNotificbtions</CODE> flbg bnd then, updbted
+     * bccording to its period bnd rembining number of occurrences.
+     * If the timer notificbtion dbte rembins ebrlier thbn the current dbte, this notificbtion is just removed
+     * from the list of notificbtions.
      */
-    public synchronized void start() {
+    public synchronized void stbrt() {
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "start", "starting the timer");
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                "stbrt", "stbrting the timer");
 
-        // Start the TimerAlarmClock.
+        // Stbrt the TimerAlbrmClock.
         //
-        if (isActive == false) {
+        if (isActive == fblse) {
 
-            timer = new java.util.Timer();
+            timer = new jbvb.util.Timer();
 
-            TimerAlarmClock alarmClock;
-            Date date;
+            TimerAlbrmClock blbrmClock;
+            Dbte dbte;
 
-            Date currentDate = new Date();
+            Dbte currentDbte = new Dbte();
 
-            // Send or not past notifications depending on the flag.
-            // Update the date and the number of occurrences of past notifications
-            // to make them later than the current date.
+            // Send or not pbst notificbtions depending on the flbg.
+            // Updbte the dbte bnd the number of occurrences of pbst notificbtions
+            // to mbke them lbter thbn the current dbte.
             //
-            sendPastNotifications(currentDate, sendPastNotifications);
+            sendPbstNotificbtions(currentDbte, sendPbstNotificbtions);
 
-            // Update and start all the TimerAlarmClocks.
-            // Here, all the notifications in the timer table are later than the current date.
+            // Updbte bnd stbrt bll the TimerAlbrmClocks.
+            // Here, bll the notificbtions in the timer tbble bre lbter thbn the current dbte.
             //
-            for (Object[] obj : timerTable.values()) {
+            for (Object[] obj : timerTbble.vblues()) {
 
-                // Retrieve the date notification and the TimerAlarmClock.
+                // Retrieve the dbte notificbtion bnd the TimerAlbrmClock.
                 //
-                date = (Date)obj[TIMER_DATE_INDEX];
+                dbte = (Dbte)obj[TIMER_DATE_INDEX];
 
-                // Update all the TimerAlarmClock timeouts and start them.
+                // Updbte bll the TimerAlbrmClock timeouts bnd stbrt them.
                 //
-                boolean fixedRate = ((Boolean)obj[FIXED_RATE_INDEX]).booleanValue();
-                if (fixedRate)
+                boolebn fixedRbte = ((Boolebn)obj[FIXED_RATE_INDEX]).boolebnVblue();
+                if (fixedRbte)
                 {
-                  alarmClock = new TimerAlarmClock(this, date);
-                  obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-                  timer.schedule(alarmClock, alarmClock.next);
+                  blbrmClock = new TimerAlbrmClock(this, dbte);
+                  obj[ALARM_CLOCK_INDEX] = (Object)blbrmClock;
+                  timer.schedule(blbrmClock, blbrmClock.next);
                 }
                 else
                 {
-                  alarmClock = new TimerAlarmClock(this, (date.getTime() - currentDate.getTime()));
-                  obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-                  timer.schedule(alarmClock, alarmClock.timeout);
+                  blbrmClock = new TimerAlbrmClock(this, (dbte.getTime() - currentDbte.getTime()));
+                  obj[ALARM_CLOCK_INDEX] = (Object)blbrmClock;
+                  timer.schedule(blbrmClock, blbrmClock.timeout);
                 }
             }
 
-            // Set the state to ON.
+            // Set the stbte to ON.
             //
             isActive = true;
 
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "start", "timer started");
+            TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                    "stbrt", "timer stbrted");
         } else {
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "start", "the timer is already activated");
+            TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                    "stbrt", "the timer is blrebdy bctivbted");
         }
     }
 
@@ -336,568 +336,568 @@ public class Timer extends NotificationBroadcasterSupport
      */
     public synchronized void stop() {
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
                 "stop", "stopping the timer");
 
-        // Stop the TimerAlarmClock.
+        // Stop the TimerAlbrmClock.
         //
         if (isActive == true) {
 
-            for (Object[] obj : timerTable.values()) {
+            for (Object[] obj : timerTbble.vblues()) {
 
-                // Stop all the TimerAlarmClock.
+                // Stop bll the TimerAlbrmClock.
                 //
-                TimerAlarmClock alarmClock = (TimerAlarmClock)obj[ALARM_CLOCK_INDEX];
-                if (alarmClock != null) {
-//                     alarmClock.interrupt();
+                TimerAlbrmClock blbrmClock = (TimerAlbrmClock)obj[ALARM_CLOCK_INDEX];
+                if (blbrmClock != null) {
+//                     blbrmClock.interrupt();
 //                     try {
-//                         // Wait until the thread die.
+//                         // Wbit until the threbd die.
 //                         //
-//                         alarmClock.join();
-//                     } catch (InterruptedException ex) {
+//                         blbrmClock.join();
+//                     } cbtch (InterruptedException ex) {
 //                         // Ignore...
 //                     }
-//                     // Remove the reference on the TimerAlarmClock.
+//                     // Remove the reference on the TimerAlbrmClock.
 //                     //
 
-                    alarmClock.cancel();
+                    blbrmClock.cbncel();
                 }
             }
 
-            timer.cancel();
+            timer.cbncel();
 
-            // Set the state to OFF.
+            // Set the stbte to OFF.
             //
-            isActive = false;
+            isActive = fblse;
 
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
+            TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
                     "stop", "timer stopped");
         } else {
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "stop", "the timer is already deactivated");
+            TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                    "stop", "the timer is blrebdy debctivbted");
         }
     }
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date,
-     * period and number of occurrences.
+     * Crebtes b new timer notificbtion with the specified <CODE>type</CODE>, <CODE>messbge</CODE>
+     * bnd <CODE>userDbtb</CODE> bnd inserts it into the list of notificbtions with b given dbte,
+     * period bnd number of occurrences.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. <BR>
-     * For once-off notifications, the notification is delivered immediately. <BR>
-     * For periodic notifications, the first notification is delivered immediately and the
-     * subsequent ones are spaced as specified by the period parameter.
+     * If the timer notificbtion to be inserted hbs b dbte thbt is before the current dbte,
+     * the method behbves bs if the specified dbte were the current dbte. <BR>
+     * For once-off notificbtions, the notificbtion is delivered immedibtely. <BR>
+     * For periodic notificbtions, the first notificbtion is delivered immedibtely bnd the
+     * subsequent ones bre spbced bs specified by the period pbrbmeter.
      * <P>
-     * Note that once the timer notification has been added into the list of notifications,
-     * its associated date, period and number of occurrences cannot be updated.
+     * Note thbt once the timer notificbtion hbs been bdded into the list of notificbtions,
+     * its bssocibted dbte, period bnd number of occurrences cbnnot be updbted.
      * <P>
-     * In the case of a periodic notification, the value of parameter <i>fixedRate</i> is used to
-     * specify the execution scheme, as specified in {@link java.util.Timer}.
+     * In the cbse of b periodic notificbtion, the vblue of pbrbmeter <i>fixedRbte</i> is used to
+     * specify the execution scheme, bs specified in {@link jbvb.util.Timer}.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
-     * @param nbOccurences The total number the timer notification will be emitted.
-     * @param fixedRate If <code>true</code> and if the notification is periodic, the notification
-     *                  is scheduled with a <i>fixed-rate</i> execution scheme. If
-     *                  <code>false</code> and if the notification is periodic, the notification
-     *                  is scheduled with a <i>fixed-delay</i> execution scheme. Ignored if the
-     *                  notification is not periodic.
+     * @pbrbm type The timer notificbtion type.
+     * @pbrbm messbge The timer notificbtion detbiled messbge.
+     * @pbrbm userDbtb The timer notificbtion user dbtb object.
+     * @pbrbm dbte The dbte when the notificbtion occurs.
+     * @pbrbm period The period of the timer notificbtion (in milliseconds).
+     * @pbrbm nbOccurences The totbl number the timer notificbtion will be emitted.
+     * @pbrbm fixedRbte If <code>true</code> bnd if the notificbtion is periodic, the notificbtion
+     *                  is scheduled with b <i>fixed-rbte</i> execution scheme. If
+     *                  <code>fblse</code> bnd if the notificbtion is periodic, the notificbtion
+     *                  is scheduled with b <i>fixed-delby</i> execution scheme. Ignored if the
+     *                  notificbtion is not periodic.
      *
-     * @return The identifier of the new created timer notification.
+     * @return The identifier of the new crebted timer notificbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period or the number of occurrences is negative.
+     * @exception jbvb.lbng.IllegblArgumentException The dbte is {@code null} or
+     * the period or the number of occurrences is negbtive.
      *
-     * @see #addNotification(String, String, Object, Date, long, long)
+     * @see #bddNotificbtion(String, String, Object, Dbte, long, long)
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR, to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                                Date date, long period, long nbOccurences)
+// NPCTE fix for bugId 4464388, esc 0,  MR, to be bdded bfter modificbtion of jmx spec
+//  public synchronized Integer bddNotificbtion(String type, String messbge, Seriblizbble userDbtb,
+//                                                Dbte dbte, long period, long nbOccurences)
 // end of NPCTE fix for bugId 4464388
 
-    public synchronized Integer addNotification(String type, String message, Object userData,
-                                                Date date, long period, long nbOccurences, boolean fixedRate)
-        throws java.lang.IllegalArgumentException {
+    public synchronized Integer bddNotificbtion(String type, String messbge, Object userDbtb,
+                                                Dbte dbte, long period, long nbOccurences, boolebn fixedRbte)
+        throws jbvb.lbng.IllegblArgumentException {
 
-        if (date == null) {
-            throw new java.lang.IllegalArgumentException("Timer notification date cannot be null.");
+        if (dbte == null) {
+            throw new jbvb.lbng.IllegblArgumentException("Timer notificbtion dbte cbnnot be null.");
         }
 
-        // Check that all the timer notification attributes are valid.
+        // Check thbt bll the timer notificbtion bttributes bre vblid.
         //
 
-        // Invalid timer period value exception:
-        // Check that the period and the nbOccurences are POSITIVE VALUES.
+        // Invblid timer period vblue exception:
+        // Check thbt the period bnd the nbOccurences bre POSITIVE VALUES.
         //
         if ((period < 0) || (nbOccurences < 0)) {
-            throw new java.lang.IllegalArgumentException("Negative values for the periodicity");
+            throw new jbvb.lbng.IllegblArgumentException("Negbtive vblues for the periodicity");
         }
 
-        Date currentDate = new Date();
+        Dbte currentDbte = new Dbte();
 
-        // Update the date if it is before the current date.
+        // Updbte the dbte if it is before the current dbte.
         //
-        if (currentDate.after(date)) {
+        if (currentDbte.bfter(dbte)) {
 
-            date.setTime(currentDate.getTime());
-            if (TIMER_LOGGER.isLoggable(Level.FINER)) {
-                TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                        "addNotification",
-                        "update timer notification to add with:" +
-                        "\n\tNotification date = " + date);
+            dbte.setTime(currentDbte.getTime());
+            if (TIMER_LOGGER.isLoggbble(Level.FINER)) {
+                TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                        "bddNotificbtion",
+                        "updbte timer notificbtion to bdd with:" +
+                        "\n\tNotificbtion dbte = " + dbte);
             }
         }
 
-        // Create and add the timer notification into the timer table.
+        // Crebte bnd bdd the timer notificbtion into the timer tbble.
         //
-        Integer notifID = Integer.valueOf(++counterID);
+        Integer notifID = Integer.vblueOf(++counterID);
 
-        // The sequenceNumber and the timeStamp attributes are updated
-        // when the notification is emitted by the timer.
+        // The sequenceNumber bnd the timeStbmp bttributes bre updbted
+        // when the notificbtion is emitted by the timer.
         //
-        TimerNotification notif = new TimerNotification(type, this, 0, 0, message, notifID);
-        notif.setUserData(userData);
+        TimerNotificbtion notif = new TimerNotificbtion(type, this, 0, 0, messbge, notifID);
+        notif.setUserDbtb(userDbtb);
 
         Object[] obj = new Object[6];
 
-        TimerAlarmClock alarmClock;
-        if (fixedRate)
+        TimerAlbrmClock blbrmClock;
+        if (fixedRbte)
         {
-          alarmClock = new TimerAlarmClock(this, date);
+          blbrmClock = new TimerAlbrmClock(this, dbte);
         }
         else
         {
-          alarmClock = new TimerAlarmClock(this, (date.getTime() - currentDate.getTime()));
+          blbrmClock = new TimerAlbrmClock(this, (dbte.getTime() - currentDbte.getTime()));
         }
 
         // Fix bug 00417.B
-        // The date registered into the timer is a clone from the date parameter.
+        // The dbte registered into the timer is b clone from the dbte pbrbmeter.
         //
-        Date d = new Date(date.getTime());
+        Dbte d = new Dbte(dbte.getTime());
 
         obj[TIMER_NOTIF_INDEX] = (Object)notif;
         obj[TIMER_DATE_INDEX] = (Object)d;
         obj[TIMER_PERIOD_INDEX] = (Object) period;
         obj[TIMER_NB_OCCUR_INDEX] = (Object) nbOccurences;
-        obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-        obj[FIXED_RATE_INDEX] = Boolean.valueOf(fixedRate);
+        obj[ALARM_CLOCK_INDEX] = (Object)blbrmClock;
+        obj[FIXED_RATE_INDEX] = Boolebn.vblueOf(fixedRbte);
 
-        if (TIMER_LOGGER.isLoggable(Level.FINER)) {
+        if (TIMER_LOGGER.isLoggbble(Level.FINER)) {
             StringBuilder strb = new StringBuilder()
-            .append("adding timer notification:\n\t")
-            .append("Notification source = ")
-            .append(notif.getSource())
-            .append("\n\tNotification type = ")
-            .append(notif.getType())
-            .append("\n\tNotification ID = ")
-            .append(notifID)
-            .append("\n\tNotification date = ")
-            .append(d)
-            .append("\n\tNotification period = ")
-            .append(period)
-            .append("\n\tNotification nb of occurrences = ")
-            .append(nbOccurences)
-            .append("\n\tNotification executes at fixed rate = ")
-            .append(fixedRate);
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "addNotification", strb.toString());
+            .bppend("bdding timer notificbtion:\n\t")
+            .bppend("Notificbtion source = ")
+            .bppend(notif.getSource())
+            .bppend("\n\tNotificbtion type = ")
+            .bppend(notif.getType())
+            .bppend("\n\tNotificbtion ID = ")
+            .bppend(notifID)
+            .bppend("\n\tNotificbtion dbte = ")
+            .bppend(d)
+            .bppend("\n\tNotificbtion period = ")
+            .bppend(period)
+            .bppend("\n\tNotificbtion nb of occurrences = ")
+            .bppend(nbOccurences)
+            .bppend("\n\tNotificbtion executes bt fixed rbte = ")
+            .bppend(fixedRbte);
+            TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                    "bddNotificbtion", strb.toString());
         }
 
-        timerTable.put(notifID, obj);
+        timerTbble.put(notifID, obj);
 
-        // Update and start the TimerAlarmClock.
+        // Updbte bnd stbrt the TimerAlbrmClock.
         //
         if (isActive == true) {
-          if (fixedRate)
+          if (fixedRbte)
           {
-            timer.schedule(alarmClock, alarmClock.next);
+            timer.schedule(blbrmClock, blbrmClock.next);
           }
           else
           {
-            timer.schedule(alarmClock, alarmClock.timeout);
+            timer.schedule(blbrmClock, blbrmClock.timeout);
           }
         }
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "addNotification", "timer notification added");
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                "bddNotificbtion", "timer notificbtion bdded");
         return notifID;
     }
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date,
-     * period and number of occurrences.
+     * Crebtes b new timer notificbtion with the specified <CODE>type</CODE>, <CODE>messbge</CODE>
+     * bnd <CODE>userDbtb</CODE> bnd inserts it into the list of notificbtions with b given dbte,
+     * period bnd number of occurrences.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. <BR>
-     * For once-off notifications, the notification is delivered immediately. <BR>
-     * For periodic notifications, the first notification is delivered immediately and the
-     * subsequent ones are spaced as specified by the period parameter.
+     * If the timer notificbtion to be inserted hbs b dbte thbt is before the current dbte,
+     * the method behbves bs if the specified dbte were the current dbte. <BR>
+     * For once-off notificbtions, the notificbtion is delivered immedibtely. <BR>
+     * For periodic notificbtions, the first notificbtion is delivered immedibtely bnd the
+     * subsequent ones bre spbced bs specified by the period pbrbmeter.
      * <P>
-     * Note that once the timer notification has been added into the list of notifications,
-     * its associated date, period and number of occurrences cannot be updated.
+     * Note thbt once the timer notificbtion hbs been bdded into the list of notificbtions,
+     * its bssocibted dbte, period bnd number of occurrences cbnnot be updbted.
      * <P>
-     * In the case of a periodic notification, uses a <i>fixed-delay</i> execution scheme, as specified in
-     * {@link java.util.Timer}. In order to use a <i>fixed-rate</i> execution scheme, use
-     * {@link #addNotification(String, String, Object, Date, long, long, boolean)} instead.
+     * In the cbse of b periodic notificbtion, uses b <i>fixed-delby</i> execution scheme, bs specified in
+     * {@link jbvb.util.Timer}. In order to use b <i>fixed-rbte</i> execution scheme, use
+     * {@link #bddNotificbtion(String, String, Object, Dbte, long, long, boolebn)} instebd.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
-     * @param nbOccurences The total number the timer notification will be emitted.
+     * @pbrbm type The timer notificbtion type.
+     * @pbrbm messbge The timer notificbtion detbiled messbge.
+     * @pbrbm userDbtb The timer notificbtion user dbtb object.
+     * @pbrbm dbte The dbte when the notificbtion occurs.
+     * @pbrbm period The period of the timer notificbtion (in milliseconds).
+     * @pbrbm nbOccurences The totbl number the timer notificbtion will be emitted.
      *
-     * @return The identifier of the new created timer notification.
+     * @return The identifier of the new crebted timer notificbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period or the number of occurrences is negative.
+     * @exception jbvb.lbng.IllegblArgumentException The dbte is {@code null} or
+     * the period or the number of occurrences is negbtive.
      *
-     * @see #addNotification(String, String, Object, Date, long, long, boolean)
+     * @see #bddNotificbtion(String, String, Object, Dbte, long, long, boolebn)
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                              Date date, long period)
+// NPCTE fix for bugId 4464388, esc 0,  MR , to be bdded bfter modificbtion of jmx spec
+//  public synchronized Integer bddNotificbtion(String type, String messbge, Seriblizbble userDbtb,
+//                                              Dbte dbte, long period)
 // end of NPCTE fix for bugId 4464388 */
 
-    public synchronized Integer addNotification(String type, String message, Object userData,
-                                                Date date, long period, long nbOccurences)
-        throws java.lang.IllegalArgumentException {
+    public synchronized Integer bddNotificbtion(String type, String messbge, Object userDbtb,
+                                                Dbte dbte, long period, long nbOccurences)
+        throws jbvb.lbng.IllegblArgumentException {
 
-      return addNotification(type, message, userData, date, period, nbOccurences, false);
+      return bddNotificbtion(type, messbge, userDbtb, dbte, period, nbOccurences, fblse);
     }
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date
-     * and period and a null number of occurrences.
+     * Crebtes b new timer notificbtion with the specified <CODE>type</CODE>, <CODE>messbge</CODE>
+     * bnd <CODE>userDbtb</CODE> bnd inserts it into the list of notificbtions with b given dbte
+     * bnd period bnd b null number of occurrences.
      * <P>
-     * The timer notification will repeat continuously using the timer period using a <i>fixed-delay</i>
-     * execution scheme, as specified in {@link java.util.Timer}. In order to use a <i>fixed-rate</i>
-     * execution scheme, use {@link #addNotification(String, String, Object, Date, long, long,
-     * boolean)} instead.
+     * The timer notificbtion will repebt continuously using the timer period using b <i>fixed-delby</i>
+     * execution scheme, bs specified in {@link jbvb.util.Timer}. In order to use b <i>fixed-rbte</i>
+     * execution scheme, use {@link #bddNotificbtion(String, String, Object, Dbte, long, long,
+     * boolebn)} instebd.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date. The
-     * first notification is delivered immediately and the subsequent ones are
-     * spaced as specified by the period parameter.
+     * If the timer notificbtion to be inserted hbs b dbte thbt is before the current dbte,
+     * the method behbves bs if the specified dbte were the current dbte. The
+     * first notificbtion is delivered immedibtely bnd the subsequent ones bre
+     * spbced bs specified by the period pbrbmeter.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
-     * @param period The period of the timer notification (in milliseconds).
+     * @pbrbm type The timer notificbtion type.
+     * @pbrbm messbge The timer notificbtion detbiled messbge.
+     * @pbrbm userDbtb The timer notificbtion user dbtb object.
+     * @pbrbm dbte The dbte when the notificbtion occurs.
+     * @pbrbm period The period of the timer notificbtion (in milliseconds).
      *
-     * @return The identifier of the new created timer notification.
+     * @return The identifier of the new crebted timer notificbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null} or
-     * the period is negative.
+     * @exception jbvb.lbng.IllegblArgumentException The dbte is {@code null} or
+     * the period is negbtive.
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR , to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData,
-//                                              Date date, long period)
+// NPCTE fix for bugId 4464388, esc 0,  MR , to be bdded bfter modificbtion of jmx spec
+//  public synchronized Integer bddNotificbtion(String type, String messbge, Seriblizbble userDbtb,
+//                                              Dbte dbte, long period)
 // end of NPCTE fix for bugId 4464388 */
 
-    public synchronized Integer addNotification(String type, String message, Object userData,
-                                                Date date, long period)
-        throws java.lang.IllegalArgumentException {
+    public synchronized Integer bddNotificbtion(String type, String messbge, Object userDbtb,
+                                                Dbte dbte, long period)
+        throws jbvb.lbng.IllegblArgumentException {
 
-        return (addNotification(type, message, userData, date, period, 0));
+        return (bddNotificbtion(type, messbge, userDbtb, dbte, period, 0));
     }
 
     /**
-     * Creates a new timer notification with the specified <CODE>type</CODE>, <CODE>message</CODE>
-     * and <CODE>userData</CODE> and inserts it into the list of notifications with a given date
-     * and a null period and number of occurrences.
+     * Crebtes b new timer notificbtion with the specified <CODE>type</CODE>, <CODE>messbge</CODE>
+     * bnd <CODE>userDbtb</CODE> bnd inserts it into the list of notificbtions with b given dbte
+     * bnd b null period bnd number of occurrences.
      * <P>
-     * The timer notification will be handled once at the specified date.
+     * The timer notificbtion will be hbndled once bt the specified dbte.
      * <P>
-     * If the timer notification to be inserted has a date that is before the current date,
-     * the method behaves as if the specified date were the current date and the
-     * notification is delivered immediately.
+     * If the timer notificbtion to be inserted hbs b dbte thbt is before the current dbte,
+     * the method behbves bs if the specified dbte were the current dbte bnd the
+     * notificbtion is delivered immedibtely.
      *
-     * @param type The timer notification type.
-     * @param message The timer notification detailed message.
-     * @param userData The timer notification user data object.
-     * @param date The date when the notification occurs.
+     * @pbrbm type The timer notificbtion type.
+     * @pbrbm messbge The timer notificbtion detbiled messbge.
+     * @pbrbm userDbtb The timer notificbtion user dbtb object.
+     * @pbrbm dbte The dbte when the notificbtion occurs.
      *
-     * @return The identifier of the new created timer notification.
+     * @return The identifier of the new crebted timer notificbtion.
      *
-     * @exception java.lang.IllegalArgumentException The date is {@code null}.
+     * @exception jbvb.lbng.IllegblArgumentException The dbte is {@code null}.
      */
-// NPCTE fix for bugId 4464388, esc 0,  MR, to be added after modification of jmx spec
-//  public synchronized Integer addNotification(String type, String message, Serializable userData, Date date)
-//      throws java.lang.IllegalArgumentException {
+// NPCTE fix for bugId 4464388, esc 0,  MR, to be bdded bfter modificbtion of jmx spec
+//  public synchronized Integer bddNotificbtion(String type, String messbge, Seriblizbble userDbtb, Dbte dbte)
+//      throws jbvb.lbng.IllegblArgumentException {
 // end of NPCTE fix for bugId 4464388
 
-    public synchronized Integer addNotification(String type, String message, Object userData, Date date)
-        throws java.lang.IllegalArgumentException {
+    public synchronized Integer bddNotificbtion(String type, String messbge, Object userDbtb, Dbte dbte)
+        throws jbvb.lbng.IllegblArgumentException {
 
 
-        return (addNotification(type, message, userData, date, 0, 0));
+        return (bddNotificbtion(type, messbge, userDbtb, dbte, 0, 0));
     }
 
     /**
-     * Removes the timer notification corresponding to the specified identifier from the list of notifications.
+     * Removes the timer notificbtion corresponding to the specified identifier from the list of notificbtions.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @exception InstanceNotFoundException The specified identifier does not correspond to any timer notification
-     * in the list of notifications of this timer MBean.
+     * @exception InstbnceNotFoundException The specified identifier does not correspond to bny timer notificbtion
+     * in the list of notificbtions of this timer MBebn.
      */
-    public synchronized void removeNotification(Integer id) throws InstanceNotFoundException {
+    public synchronized void removeNotificbtion(Integer id) throws InstbnceNotFoundException {
 
-        // Check that the notification to remove is effectively in the timer table.
+        // Check thbt the notificbtion to remove is effectively in the timer tbble.
         //
-        if (timerTable.containsKey(id) == false) {
-            throw new InstanceNotFoundException("Timer notification to remove not in the list of notifications");
+        if (timerTbble.contbinsKey(id) == fblse) {
+            throw new InstbnceNotFoundException("Timer notificbtion to remove not in the list of notificbtions");
         }
 
-        // Stop the TimerAlarmClock.
+        // Stop the TimerAlbrmClock.
         //
-        Object[] obj = timerTable.get(id);
-        TimerAlarmClock alarmClock = (TimerAlarmClock)obj[ALARM_CLOCK_INDEX];
-        if (alarmClock != null) {
-//             alarmClock.interrupt();
+        Object[] obj = timerTbble.get(id);
+        TimerAlbrmClock blbrmClock = (TimerAlbrmClock)obj[ALARM_CLOCK_INDEX];
+        if (blbrmClock != null) {
+//             blbrmClock.interrupt();
 //             try {
-//                 // Wait until the thread die.
+//                 // Wbit until the threbd die.
 //                 //
-//                 alarmClock.join();
-//             } catch (InterruptedException e) {
+//                 blbrmClock.join();
+//             } cbtch (InterruptedException e) {
 //                 // Ignore...
 //             }
-//             // Remove the reference on the TimerAlarmClock.
+//             // Remove the reference on the TimerAlbrmClock.
 //             //
-            alarmClock.cancel();
+            blbrmClock.cbncel();
         }
 
-        // Remove the timer notification from the timer table.
+        // Remove the timer notificbtion from the timer tbble.
         //
-        if (TIMER_LOGGER.isLoggable(Level.FINER)) {
+        if (TIMER_LOGGER.isLoggbble(Level.FINER)) {
             StringBuilder strb = new StringBuilder()
-            .append("removing timer notification:")
-            .append("\n\tNotification source = ")
-            .append(((TimerNotification)obj[TIMER_NOTIF_INDEX]).getSource())
-            .append("\n\tNotification type = ")
-            .append(((TimerNotification)obj[TIMER_NOTIF_INDEX]).getType())
-            .append("\n\tNotification ID = ")
-            .append(((TimerNotification)obj[TIMER_NOTIF_INDEX]).getNotificationID())
-            .append("\n\tNotification date = ")
-            .append(obj[TIMER_DATE_INDEX])
-            .append("\n\tNotification period = ")
-            .append(obj[TIMER_PERIOD_INDEX])
-            .append("\n\tNotification nb of occurrences = ")
-            .append(obj[TIMER_NB_OCCUR_INDEX])
-            .append("\n\tNotification executes at fixed rate = ")
-            .append(obj[FIXED_RATE_INDEX]);
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "removeNotification", strb.toString());
+            .bppend("removing timer notificbtion:")
+            .bppend("\n\tNotificbtion source = ")
+            .bppend(((TimerNotificbtion)obj[TIMER_NOTIF_INDEX]).getSource())
+            .bppend("\n\tNotificbtion type = ")
+            .bppend(((TimerNotificbtion)obj[TIMER_NOTIF_INDEX]).getType())
+            .bppend("\n\tNotificbtion ID = ")
+            .bppend(((TimerNotificbtion)obj[TIMER_NOTIF_INDEX]).getNotificbtionID())
+            .bppend("\n\tNotificbtion dbte = ")
+            .bppend(obj[TIMER_DATE_INDEX])
+            .bppend("\n\tNotificbtion period = ")
+            .bppend(obj[TIMER_PERIOD_INDEX])
+            .bppend("\n\tNotificbtion nb of occurrences = ")
+            .bppend(obj[TIMER_NB_OCCUR_INDEX])
+            .bppend("\n\tNotificbtion executes bt fixed rbte = ")
+            .bppend(obj[FIXED_RATE_INDEX]);
+            TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                    "removeNotificbtion", strb.toString());
         }
 
-        timerTable.remove(id);
+        timerTbble.remove(id);
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "removeNotification", "timer notification removed");
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                "removeNotificbtion", "timer notificbtion removed");
     }
 
     /**
-     * Removes all the timer notifications corresponding to the specified type from the list of notifications.
+     * Removes bll the timer notificbtions corresponding to the specified type from the list of notificbtions.
      *
-     * @param type The timer notification type.
+     * @pbrbm type The timer notificbtion type.
      *
-     * @exception InstanceNotFoundException The specified type does not correspond to any timer notification
-     * in the list of notifications of this timer MBean.
+     * @exception InstbnceNotFoundException The specified type does not correspond to bny timer notificbtion
+     * in the list of notificbtions of this timer MBebn.
      */
-    public synchronized void removeNotifications(String type) throws InstanceNotFoundException {
+    public synchronized void removeNotificbtions(String type) throws InstbnceNotFoundException {
 
-        Vector<Integer> v = getNotificationIDs(type);
+        Vector<Integer> v = getNotificbtionIDs(type);
 
         if (v.isEmpty())
-            throw new InstanceNotFoundException("Timer notifications to remove not in the list of notifications");
+            throw new InstbnceNotFoundException("Timer notificbtions to remove not in the list of notificbtions");
 
         for (Integer i : v)
-            removeNotification(i);
+            removeNotificbtion(i);
     }
 
     /**
-     * Removes all the timer notifications from the list of notifications
-     * and resets the counter used to update the timer notification identifiers.
+     * Removes bll the timer notificbtions from the list of notificbtions
+     * bnd resets the counter used to updbte the timer notificbtion identifiers.
      */
-    public synchronized void removeAllNotifications() {
+    public synchronized void removeAllNotificbtions() {
 
-        TimerAlarmClock alarmClock;
+        TimerAlbrmClock blbrmClock;
 
-        for (Object[] obj : timerTable.values()) {
+        for (Object[] obj : timerTbble.vblues()) {
 
-            // Stop the TimerAlarmClock.
+            // Stop the TimerAlbrmClock.
             //
-            alarmClock = (TimerAlarmClock)obj[ALARM_CLOCK_INDEX];
-//             if (alarmClock != null) {
-//                 alarmClock.interrupt();
+            blbrmClock = (TimerAlbrmClock)obj[ALARM_CLOCK_INDEX];
+//             if (blbrmClock != null) {
+//                 blbrmClock.interrupt();
 //                 try {
-//                     // Wait until the thread die.
+//                     // Wbit until the threbd die.
 //                     //
-//                     alarmClock.join();
-//                 } catch (InterruptedException ex) {
+//                     blbrmClock.join();
+//                 } cbtch (InterruptedException ex) {
 //                     // Ignore...
 //                 }
-                  // Remove the reference on the TimerAlarmClock.
+                  // Remove the reference on the TimerAlbrmClock.
                   //
 //             }
-            alarmClock.cancel();
+            blbrmClock.cbncel();
         }
 
-        // Remove all the timer notifications from the timer table.
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "removeAllNotifications", "removing all timer notifications");
+        // Remove bll the timer notificbtions from the timer tbble.
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                "removeAllNotificbtions", "removing bll timer notificbtions");
 
-        timerTable.clear();
+        timerTbble.clebr();
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "removeAllNotifications", "all timer notifications removed");
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                "removeAllNotificbtions", "bll timer notificbtions removed");
         // Reset the counterID.
         //
         counterID = 0;
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "removeAllNotifications", "timer notification counter ID reset");
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                "removeAllNotificbtions", "timer notificbtion counter ID reset");
     }
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Gets the number of timer notifications registered into the list of notifications.
+     * Gets the number of timer notificbtions registered into the list of notificbtions.
      *
-     * @return The number of timer notifications.
+     * @return The number of timer notificbtions.
      */
-    public synchronized int getNbNotifications() {
-        return timerTable.size();
+    public synchronized int getNbNotificbtions() {
+        return timerTbble.size();
     }
 
     /**
-     * Gets all timer notification identifiers registered into the list of notifications.
+     * Gets bll timer notificbtion identifiers registered into the list of notificbtions.
      *
-     * @return A vector of <CODE>Integer</CODE> objects containing all the timer notification identifiers.
-     * <BR>The vector is empty if there is no timer notification registered for this timer MBean.
+     * @return A vector of <CODE>Integer</CODE> objects contbining bll the timer notificbtion identifiers.
+     * <BR>The vector is empty if there is no timer notificbtion registered for this timer MBebn.
      */
-    public synchronized Vector<Integer> getAllNotificationIDs() {
-        return new Vector<Integer>(timerTable.keySet());
+    public synchronized Vector<Integer> getAllNotificbtionIDs() {
+        return new Vector<Integer>(timerTbble.keySet());
     }
 
     /**
-     * Gets all the identifiers of timer notifications corresponding to the specified type.
+     * Gets bll the identifiers of timer notificbtions corresponding to the specified type.
      *
-     * @param type The timer notification type.
+     * @pbrbm type The timer notificbtion type.
      *
-     * @return A vector of <CODE>Integer</CODE> objects containing all the identifiers of
-     * timer notifications with the specified <CODE>type</CODE>.
-     * <BR>The vector is empty if there is no timer notifications registered for this timer MBean
+     * @return A vector of <CODE>Integer</CODE> objects contbining bll the identifiers of
+     * timer notificbtions with the specified <CODE>type</CODE>.
+     * <BR>The vector is empty if there is no timer notificbtions registered for this timer MBebn
      * with the specified <CODE>type</CODE>.
      */
-    public synchronized Vector<Integer> getNotificationIDs(String type) {
+    public synchronized Vector<Integer> getNotificbtionIDs(String type) {
 
         String s;
 
         Vector<Integer> v = new Vector<Integer>();
 
-        for (Map.Entry<Integer,Object[]> entry : timerTable.entrySet()) {
-            Object[] obj = entry.getValue();
-            s = ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getType();
-            if ((type == null) ? s == null : type.equals(s))
-                v.addElement(entry.getKey());
+        for (Mbp.Entry<Integer,Object[]> entry : timerTbble.entrySet()) {
+            Object[] obj = entry.getVblue();
+            s = ((TimerNotificbtion)obj[TIMER_NOTIF_INDEX]).getType();
+            if ((type == null) ? s == null : type.equbls(s))
+                v.bddElement(entry.getKey());
         }
         return v;
     }
-    // 5089997: return is Vector<Integer> not Vector<TimerNotification>
+    // 5089997: return is Vector<Integer> not Vector<TimerNotificbtion>
 
     /**
-     * Gets the timer notification type corresponding to the specified identifier.
+     * Gets the timer notificbtion type corresponding to the specified identifier.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return The timer notification type or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return The timer notificbtion type or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
-    public synchronized String getNotificationType(Integer id) {
+    public synchronized String getNotificbtionType(Integer id) {
 
-        Object[] obj = timerTable.get(id);
+        Object[] obj = timerTbble.get(id);
         if (obj != null) {
-            return ( ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getType() );
+            return ( ((TimerNotificbtion)obj[TIMER_NOTIF_INDEX]).getType() );
         }
         return null;
     }
 
     /**
-     * Gets the timer notification detailed message corresponding to the specified identifier.
+     * Gets the timer notificbtion detbiled messbge corresponding to the specified identifier.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return The timer notification detailed message or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return The timer notificbtion detbiled messbge or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
-    public synchronized String getNotificationMessage(Integer id) {
+    public synchronized String getNotificbtionMessbge(Integer id) {
 
-        Object[] obj = timerTable.get(id);
+        Object[] obj = timerTbble.get(id);
         if (obj != null) {
-            return ( ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getMessage() );
+            return ( ((TimerNotificbtion)obj[TIMER_NOTIF_INDEX]).getMessbge() );
         }
         return null;
     }
 
     /**
-     * Gets the timer notification user data object corresponding to the specified identifier.
+     * Gets the timer notificbtion user dbtb object corresponding to the specified identifier.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return The timer notification user data object or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return The timer notificbtion user dbtb object or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
-    // NPCTE fix for bugId 4464388, esc 0, MR, 03 sept 2001, to be added after modification of jmx spec
-    //public Serializable getNotificationUserData(Integer id) {
+    // NPCTE fix for bugId 4464388, esc 0, MR, 03 sept 2001, to be bdded bfter modificbtion of jmx spec
+    //public Seriblizbble getNotificbtionUserDbtb(Integer id) {
     // end of NPCTE fix for bugId 4464388
 
-    public synchronized Object getNotificationUserData(Integer id) {
-        Object[] obj = timerTable.get(id);
+    public synchronized Object getNotificbtionUserDbtb(Integer id) {
+        Object[] obj = timerTbble.get(id);
         if (obj != null) {
-            return ( ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getUserData() );
+            return ( ((TimerNotificbtion)obj[TIMER_NOTIF_INDEX]).getUserDbtb() );
         }
         return null;
     }
 
     /**
-     * Gets a copy of the date associated to a timer notification.
+     * Gets b copy of the dbte bssocibted to b timer notificbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return A copy of the date or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return A copy of the dbte or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
-    public synchronized Date getDate(Integer id) {
+    public synchronized Dbte getDbte(Integer id) {
 
-        Object[] obj = timerTable.get(id);
+        Object[] obj = timerTbble.get(id);
         if (obj != null) {
-            Date date = (Date)obj[TIMER_DATE_INDEX];
-            return (new Date(date.getTime()));
+            Dbte dbte = (Dbte)obj[TIMER_DATE_INDEX];
+            return (new Dbte(dbte.getTime()));
         }
         return null;
     }
 
     /**
-     * Gets a copy of the period (in milliseconds) associated to a timer notification.
+     * Gets b copy of the period (in milliseconds) bssocibted to b timer notificbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return A copy of the period or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return A copy of the period or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
     public synchronized Long getPeriod(Integer id) {
 
-        Object[] obj = timerTable.get(id);
+        Object[] obj = timerTbble.get(id);
         if (obj != null) {
             return (Long)obj[TIMER_PERIOD_INDEX];
         }
@@ -905,16 +905,16 @@ public class Timer extends NotificationBroadcasterSupport
     }
 
     /**
-     * Gets a copy of the remaining number of occurrences associated to a timer notification.
+     * Gets b copy of the rembining number of occurrences bssocibted to b timer notificbtion.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return A copy of the remaining number of occurrences or null if the identifier is not mapped to any
-     * timer notification registered for this timer MBean.
+     * @return A copy of the rembining number of occurrences or null if the identifier is not mbpped to bny
+     * timer notificbtion registered for this timer MBebn.
      */
     public synchronized Long getNbOccurences(Integer id) {
 
-        Object[] obj = timerTable.get(id);
+        Object[] obj = timerTbble.get(id);
         if (obj != null) {
             return (Long)obj[TIMER_NB_OCCUR_INDEX];
         }
@@ -922,67 +922,67 @@ public class Timer extends NotificationBroadcasterSupport
     }
 
     /**
-     * Gets a copy of the flag indicating whether a periodic notification is
-     * executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
+     * Gets b copy of the flbg indicbting whether b periodic notificbtion is
+     * executed bt <i>fixed-delby</i> or bt <i>fixed-rbte</i>.
      *
-     * @param id The timer notification identifier.
+     * @pbrbm id The timer notificbtion identifier.
      *
-     * @return A copy of the flag indicating whether a periodic notification is
-     *         executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
+     * @return A copy of the flbg indicbting whether b periodic notificbtion is
+     *         executed bt <i>fixed-delby</i> or bt <i>fixed-rbte</i>.
      */
-    public synchronized Boolean getFixedRate(Integer id) {
+    public synchronized Boolebn getFixedRbte(Integer id) {
 
-      Object[] obj = timerTable.get(id);
+      Object[] obj = timerTbble.get(id);
       if (obj != null) {
-        Boolean fixedRate = (Boolean)obj[FIXED_RATE_INDEX];
-        return (Boolean.valueOf(fixedRate.booleanValue()));
+        Boolebn fixedRbte = (Boolebn)obj[FIXED_RATE_INDEX];
+        return (Boolebn.vblueOf(fixedRbte.boolebnVblue()));
       }
       return null;
     }
 
     /**
-     * Gets the flag indicating whether or not the timer sends past notifications.
-     * <BR>The default value of the past notifications sending on/off flag is <CODE>false</CODE>.
+     * Gets the flbg indicbting whether or not the timer sends pbst notificbtions.
+     * <BR>The defbult vblue of the pbst notificbtions sending on/off flbg is <CODE>fblse</CODE>.
      *
-     * @return The past notifications sending on/off flag value.
+     * @return The pbst notificbtions sending on/off flbg vblue.
      *
-     * @see #setSendPastNotifications
+     * @see #setSendPbstNotificbtions
      */
-    public boolean getSendPastNotifications() {
-        return sendPastNotifications;
+    public boolebn getSendPbstNotificbtions() {
+        return sendPbstNotificbtions;
     }
 
     /**
-     * Sets the flag indicating whether the timer sends past notifications or not.
-     * <BR>The default value of the past notifications sending on/off flag is <CODE>false</CODE>.
+     * Sets the flbg indicbting whether the timer sends pbst notificbtions or not.
+     * <BR>The defbult vblue of the pbst notificbtions sending on/off flbg is <CODE>fblse</CODE>.
      *
-     * @param value The past notifications sending on/off flag value.
+     * @pbrbm vblue The pbst notificbtions sending on/off flbg vblue.
      *
-     * @see #getSendPastNotifications
+     * @see #getSendPbstNotificbtions
      */
-    public void setSendPastNotifications(boolean value) {
-        sendPastNotifications = value;
+    public void setSendPbstNotificbtions(boolebn vblue) {
+        sendPbstNotificbtions = vblue;
     }
 
     /**
-     * Tests whether the timer MBean is active.
-     * A timer MBean is marked active when the {@link #start start} method is called.
-     * It becomes inactive when the {@link #stop stop} method is called.
-     * <BR>The default value of the active on/off flag is <CODE>false</CODE>.
+     * Tests whether the timer MBebn is bctive.
+     * A timer MBebn is mbrked bctive when the {@link #stbrt stbrt} method is cblled.
+     * It becomes inbctive when the {@link #stop stop} method is cblled.
+     * <BR>The defbult vblue of the bctive on/off flbg is <CODE>fblse</CODE>.
      *
-     * @return <CODE>true</CODE> if the timer MBean is active, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the timer MBebn is bctive, <CODE>fblse</CODE> otherwise.
      */
-    public boolean isActive() {
+    public boolebn isActive() {
         return isActive;
     }
 
     /**
-     * Tests whether the list of timer notifications is empty.
+     * Tests whether the list of timer notificbtions is empty.
      *
-     * @return <CODE>true</CODE> if the list of timer notifications is empty, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the list of timer notificbtions is empty, <CODE>fblse</CODE> otherwise.
      */
-    public synchronized boolean isEmpty() {
-        return (timerTable.isEmpty());
+    public synchronized boolebn isEmpty() {
+        return (timerTbble.isEmpty());
     }
 
     /*
@@ -992,172 +992,172 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * Sends or not past notifications depending on the specified flag.
+     * Sends or not pbst notificbtions depending on the specified flbg.
      *
-     * @param currentDate The current date.
-     * @param currentFlag The flag indicating if past notifications must be sent or not.
+     * @pbrbm currentDbte The current dbte.
+     * @pbrbm currentFlbg The flbg indicbting if pbst notificbtions must be sent or not.
      */
-    private synchronized void sendPastNotifications(Date currentDate, boolean currentFlag) {
+    privbte synchronized void sendPbstNotificbtions(Dbte currentDbte, boolebn currentFlbg) {
 
-        TimerNotification notif;
+        TimerNotificbtion notif;
         Integer notifID;
-        Date date;
+        Dbte dbte;
 
-        ArrayList<Object[]> values =
-            new ArrayList<Object[]>(timerTable.values());
+        ArrbyList<Object[]> vblues =
+            new ArrbyList<Object[]>(timerTbble.vblues());
 
-        for (Object[] obj : values) {
+        for (Object[] obj : vblues) {
 
-            // Retrieve the timer notification and the date notification.
+            // Retrieve the timer notificbtion bnd the dbte notificbtion.
             //
-            notif = (TimerNotification)obj[TIMER_NOTIF_INDEX];
-            notifID = notif.getNotificationID();
-            date = (Date)obj[TIMER_DATE_INDEX];
+            notif = (TimerNotificbtion)obj[TIMER_NOTIF_INDEX];
+            notifID = notif.getNotificbtionID();
+            dbte = (Dbte)obj[TIMER_DATE_INDEX];
 
-            // Update the timer notification while:
-            //  - the timer notification date is earlier than the current date
-            //  - the timer notification has not been removed from the timer table.
+            // Updbte the timer notificbtion while:
+            //  - the timer notificbtion dbte is ebrlier thbn the current dbte
+            //  - the timer notificbtion hbs not been removed from the timer tbble.
             //
-            while ( (currentDate.after(date)) && (timerTable.containsKey(notifID)) ) {
+            while ( (currentDbte.bfter(dbte)) && (timerTbble.contbinsKey(notifID)) ) {
 
-                if (currentFlag == true) {
-                    if (TIMER_LOGGER.isLoggable(Level.FINER)) {
+                if (currentFlbg == true) {
+                    if (TIMER_LOGGER.isLoggbble(Level.FINER)) {
                         StringBuilder strb = new StringBuilder()
-                        .append("sending past timer notification:")
-                        .append("\n\tNotification source = ")
-                        .append(notif.getSource())
-                        .append("\n\tNotification type = ")
-                        .append(notif.getType())
-                        .append("\n\tNotification ID = ")
-                        .append(notif.getNotificationID())
-                        .append("\n\tNotification date = ")
-                        .append(date)
-                        .append("\n\tNotification period = ")
-                        .append(obj[TIMER_PERIOD_INDEX])
-                        .append("\n\tNotification nb of occurrences = ")
-                        .append(obj[TIMER_NB_OCCUR_INDEX])
-                        .append("\n\tNotification executes at fixed rate = ")
-                        .append(obj[FIXED_RATE_INDEX]);
-                        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                                "sendPastNotifications", strb.toString());
+                        .bppend("sending pbst timer notificbtion:")
+                        .bppend("\n\tNotificbtion source = ")
+                        .bppend(notif.getSource())
+                        .bppend("\n\tNotificbtion type = ")
+                        .bppend(notif.getType())
+                        .bppend("\n\tNotificbtion ID = ")
+                        .bppend(notif.getNotificbtionID())
+                        .bppend("\n\tNotificbtion dbte = ")
+                        .bppend(dbte)
+                        .bppend("\n\tNotificbtion period = ")
+                        .bppend(obj[TIMER_PERIOD_INDEX])
+                        .bppend("\n\tNotificbtion nb of occurrences = ")
+                        .bppend(obj[TIMER_NB_OCCUR_INDEX])
+                        .bppend("\n\tNotificbtion executes bt fixed rbte = ")
+                        .bppend(obj[FIXED_RATE_INDEX]);
+                        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                                "sendPbstNotificbtions", strb.toString());
                     }
-                    sendNotification(date, notif);
+                    sendNotificbtion(dbte, notif);
 
-                    TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                            "sendPastNotifications", "past timer notification sent");
+                    TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                            "sendPbstNotificbtions", "pbst timer notificbtion sent");
                 }
 
-                // Update the date and the number of occurrences of the timer notification.
+                // Updbte the dbte bnd the number of occurrences of the timer notificbtion.
                 //
-                updateTimerTable(notif.getNotificationID());
+                updbteTimerTbble(notif.getNotificbtionID());
             }
         }
     }
 
     /**
-     * If the timer notification is not periodic, it is removed from the list of notifications.
+     * If the timer notificbtion is not periodic, it is removed from the list of notificbtions.
      * <P>
-     * If the timer period of the timer notification has a non null periodicity,
-     * the date of the timer notification is updated by adding the periodicity.
-     * The associated TimerAlarmClock is updated by setting its timeout to the period value.
+     * If the timer period of the timer notificbtion hbs b non null periodicity,
+     * the dbte of the timer notificbtion is updbted by bdding the periodicity.
+     * The bssocibted TimerAlbrmClock is updbted by setting its timeout to the period vblue.
      * <P>
-     * If the timer period has a defined number of occurrences, the timer
-     * notification is updated if the number of occurrences has not yet been reached.
-     * Otherwise it is removed from the list of notifications.
+     * If the timer period hbs b defined number of occurrences, the timer
+     * notificbtion is updbted if the number of occurrences hbs not yet been rebched.
+     * Otherwise it is removed from the list of notificbtions.
      *
-     * @param notifID The timer notification identifier to update.
+     * @pbrbm notifID The timer notificbtion identifier to updbte.
      */
-    private synchronized void updateTimerTable(Integer notifID) {
+    privbte synchronized void updbteTimerTbble(Integer notifID) {
 
-        // Retrieve the timer notification and the TimerAlarmClock.
+        // Retrieve the timer notificbtion bnd the TimerAlbrmClock.
         //
-        Object[] obj = timerTable.get(notifID);
-        Date date = (Date)obj[TIMER_DATE_INDEX];
+        Object[] obj = timerTbble.get(notifID);
+        Dbte dbte = (Dbte)obj[TIMER_DATE_INDEX];
         Long period = (Long)obj[TIMER_PERIOD_INDEX];
         Long nbOccurences = (Long)obj[TIMER_NB_OCCUR_INDEX];
-        Boolean fixedRate = (Boolean)obj[FIXED_RATE_INDEX];
-        TimerAlarmClock alarmClock = (TimerAlarmClock)obj[ALARM_CLOCK_INDEX];
+        Boolebn fixedRbte = (Boolebn)obj[FIXED_RATE_INDEX];
+        TimerAlbrmClock blbrmClock = (TimerAlbrmClock)obj[ALARM_CLOCK_INDEX];
 
-        if (period.longValue() != 0) {
+        if (period.longVblue() != 0) {
 
-            // Update the date and the number of occurrences of the timer notification
-            // and the TimerAlarmClock time out.
+            // Updbte the dbte bnd the number of occurrences of the timer notificbtion
+            // bnd the TimerAlbrmClock time out.
             // NOTES :
-            //   nbOccurences = 0 notifies an infinite periodicity.
-            //   nbOccurences = 1 notifies a finite periodicity that has reached its end.
-            //   nbOccurences > 1 notifies a finite periodicity that has not yet reached its end.
+            //   nbOccurences = 0 notifies bn infinite periodicity.
+            //   nbOccurences = 1 notifies b finite periodicity thbt hbs rebched its end.
+            //   nbOccurences > 1 notifies b finite periodicity thbt hbs not yet rebched its end.
             //
-            if ((nbOccurences.longValue() == 0) || (nbOccurences.longValue() > 1)) {
+            if ((nbOccurences.longVblue() == 0) || (nbOccurences.longVblue() > 1)) {
 
-                date.setTime(date.getTime() + period.longValue());
-                obj[TIMER_NB_OCCUR_INDEX] = Long.valueOf(java.lang.Math.max(0L, (nbOccurences.longValue() - 1)));
+                dbte.setTime(dbte.getTime() + period.longVblue());
+                obj[TIMER_NB_OCCUR_INDEX] = Long.vblueOf(jbvb.lbng.Mbth.mbx(0L, (nbOccurences.longVblue() - 1)));
                 nbOccurences = (Long)obj[TIMER_NB_OCCUR_INDEX];
 
                 if (isActive == true) {
-                  if (fixedRate.booleanValue())
+                  if (fixedRbte.boolebnVblue())
                   {
-                    alarmClock = new TimerAlarmClock(this, date);
-                    obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-                    timer.schedule(alarmClock, alarmClock.next);
+                    blbrmClock = new TimerAlbrmClock(this, dbte);
+                    obj[ALARM_CLOCK_INDEX] = (Object)blbrmClock;
+                    timer.schedule(blbrmClock, blbrmClock.next);
                   }
                   else
                   {
-                    alarmClock = new TimerAlarmClock(this, period.longValue());
-                    obj[ALARM_CLOCK_INDEX] = (Object)alarmClock;
-                    timer.schedule(alarmClock, alarmClock.timeout);
+                    blbrmClock = new TimerAlbrmClock(this, period.longVblue());
+                    obj[ALARM_CLOCK_INDEX] = (Object)blbrmClock;
+                    timer.schedule(blbrmClock, blbrmClock.timeout);
                   }
                 }
-                if (TIMER_LOGGER.isLoggable(Level.FINER)) {
-                    TimerNotification notif = (TimerNotification)obj[TIMER_NOTIF_INDEX];
+                if (TIMER_LOGGER.isLoggbble(Level.FINER)) {
+                    TimerNotificbtion notif = (TimerNotificbtion)obj[TIMER_NOTIF_INDEX];
                     StringBuilder strb = new StringBuilder()
-                    .append("update timer notification with:")
-                    .append("\n\tNotification source = ")
-                    .append(notif.getSource())
-                    .append("\n\tNotification type = ")
-                    .append(notif.getType())
-                    .append("\n\tNotification ID = ")
-                    .append(notifID)
-                    .append("\n\tNotification date = ")
-                    .append(date)
-                    .append("\n\tNotification period = ")
-                    .append(period)
-                    .append("\n\tNotification nb of occurrences = ")
-                    .append(nbOccurences)
-                    .append("\n\tNotification executes at fixed rate = ")
-                    .append(fixedRate);
-                    TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                            "updateTimerTable", strb.toString());
+                    .bppend("updbte timer notificbtion with:")
+                    .bppend("\n\tNotificbtion source = ")
+                    .bppend(notif.getSource())
+                    .bppend("\n\tNotificbtion type = ")
+                    .bppend(notif.getType())
+                    .bppend("\n\tNotificbtion ID = ")
+                    .bppend(notifID)
+                    .bppend("\n\tNotificbtion dbte = ")
+                    .bppend(dbte)
+                    .bppend("\n\tNotificbtion period = ")
+                    .bppend(period)
+                    .bppend("\n\tNotificbtion nb of occurrences = ")
+                    .bppend(nbOccurences)
+                    .bppend("\n\tNotificbtion executes bt fixed rbte = ")
+                    .bppend(fixedRbte);
+                    TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                            "updbteTimerTbble", strb.toString());
                 }
             }
             else {
-                if (alarmClock != null) {
-//                     alarmClock.interrupt();
+                if (blbrmClock != null) {
+//                     blbrmClock.interrupt();
 //                     try {
-//                         // Wait until the thread die.
+//                         // Wbit until the threbd die.
 //                         //
-//                         alarmClock.join();
-//                     } catch (InterruptedException e) {
+//                         blbrmClock.join();
+//                     } cbtch (InterruptedException e) {
 //                         // Ignore...
 //                     }
-                    alarmClock.cancel();
+                    blbrmClock.cbncel();
                 }
-                timerTable.remove(notifID);
+                timerTbble.remove(notifID);
             }
         }
         else {
-            if (alarmClock != null) {
-//                 alarmClock.interrupt();
+            if (blbrmClock != null) {
+//                 blbrmClock.interrupt();
 //                 try {
-//                     // Wait until the thread die.
+//                     // Wbit until the threbd die.
 //                     //
-//                     alarmClock.join();
-//                 } catch (InterruptedException e) {
+//                     blbrmClock.join();
+//                 } cbtch (InterruptedException e) {
 //                     // Ignore...
 //                 }
 
-                   alarmClock.cancel();
+                   blbrmClock.cbncel();
             }
-            timerTable.remove(notifID);
+            timerTbble.remove(notifID);
         }
     }
 
@@ -1168,75 +1168,75 @@ public class Timer extends NotificationBroadcasterSupport
      */
 
     /**
-     * This method is called by the timer each time
-     * the TimerAlarmClock has exceeded its timeout.
+     * This method is cblled by the timer ebch time
+     * the TimerAlbrmClock hbs exceeded its timeout.
      *
-     * @param notification The TimerAlarmClock notification.
+     * @pbrbm notificbtion The TimerAlbrmClock notificbtion.
      */
-    @SuppressWarnings("deprecation")
-    void notifyAlarmClock(TimerAlarmClockNotification notification) {
+    @SuppressWbrnings("deprecbtion")
+    void notifyAlbrmClock(TimerAlbrmClockNotificbtion notificbtion) {
 
-        TimerNotification timerNotification = null;
-        Date timerDate = null;
+        TimerNotificbtion timerNotificbtion = null;
+        Dbte timerDbte = null;
 
-        // Retrieve the timer notification associated to the alarm-clock.
+        // Retrieve the timer notificbtion bssocibted to the blbrm-clock.
         //
-        TimerAlarmClock alarmClock = (TimerAlarmClock)notification.getSource();
+        TimerAlbrmClock blbrmClock = (TimerAlbrmClock)notificbtion.getSource();
 
         synchronized(Timer.this) {
-            for (Object[] obj : timerTable.values()) {
-                if (obj[ALARM_CLOCK_INDEX] == alarmClock) {
-                    timerNotification = (TimerNotification)obj[TIMER_NOTIF_INDEX];
-                    timerDate = (Date)obj[TIMER_DATE_INDEX];
-                    break;
+            for (Object[] obj : timerTbble.vblues()) {
+                if (obj[ALARM_CLOCK_INDEX] == blbrmClock) {
+                    timerNotificbtion = (TimerNotificbtion)obj[TIMER_NOTIF_INDEX];
+                    timerDbte = (Dbte)obj[TIMER_DATE_INDEX];
+                    brebk;
                 }
             }
         }
 
         // Notify the timer.
         //
-        sendNotification(timerDate, timerNotification);
+        sendNotificbtion(timerDbte, timerNotificbtion);
 
-        // Update the notification and the TimerAlarmClock timeout.
+        // Updbte the notificbtion bnd the TimerAlbrmClock timeout.
         //
-        updateTimerTable(timerNotification.getNotificationID());
+        updbteTimerTbble(timerNotificbtion.getNotificbtionID());
     }
 
     /**
-     * This method is used by the timer MBean to update and send a timer
-     * notification to all the listeners registered for this kind of notification.
+     * This method is used by the timer MBebn to updbte bnd send b timer
+     * notificbtion to bll the listeners registered for this kind of notificbtion.
      *
-     * @param timeStamp The notification emission date.
-     * @param notification The timer notification to send.
+     * @pbrbm timeStbmp The notificbtion emission dbte.
+     * @pbrbm notificbtion The timer notificbtion to send.
      */
-    void sendNotification(Date timeStamp, TimerNotification notification) {
+    void sendNotificbtion(Dbte timeStbmp, TimerNotificbtion notificbtion) {
 
-        if (TIMER_LOGGER.isLoggable(Level.FINER)) {
+        if (TIMER_LOGGER.isLoggbble(Level.FINER)) {
             StringBuilder strb = new StringBuilder()
-            .append("sending timer notification:")
-            .append("\n\tNotification source = ")
-            .append(notification.getSource())
-            .append("\n\tNotification type = ")
-            .append(notification.getType())
-            .append("\n\tNotification ID = ")
-            .append(notification.getNotificationID())
-            .append("\n\tNotification date = ")
-            .append(timeStamp);
-            TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                    "sendNotification", strb.toString());
+            .bppend("sending timer notificbtion:")
+            .bppend("\n\tNotificbtion source = ")
+            .bppend(notificbtion.getSource())
+            .bppend("\n\tNotificbtion type = ")
+            .bppend(notificbtion.getType())
+            .bppend("\n\tNotificbtion ID = ")
+            .bppend(notificbtion.getNotificbtionID())
+            .bppend("\n\tNotificbtion dbte = ")
+            .bppend(timeStbmp);
+            TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                    "sendNotificbtion", strb.toString());
         }
         long curSeqNumber;
         synchronized(this) {
             sequenceNumber = sequenceNumber + 1;
             curSeqNumber = sequenceNumber;
         }
-        synchronized (notification) {
-            notification.setTimeStamp(timeStamp.getTime());
-            notification.setSequenceNumber(curSeqNumber);
-            this.sendNotification((TimerNotification)notification.cloneTimerNotification());
+        synchronized (notificbtion) {
+            notificbtion.setTimeStbmp(timeStbmp.getTime());
+            notificbtion.setSequenceNumber(curSeqNumber);
+            this.sendNotificbtion((TimerNotificbtion)notificbtion.cloneTimerNotificbtion());
         }
 
-        TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
-                "sendNotification", "timer notification sent");
+        TIMER_LOGGER.logp(Level.FINER, Timer.clbss.getNbme(),
+                "sendNotificbtion", "timer notificbtion sent");
     }
 }

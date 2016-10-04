@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,22 +27,22 @@
 #include "jni_util.h"
 #include "jlong.h"
 #include "jvm.h"
-#include "management.h"
-#include "sun_management_OperatingSystemImpl.h"
+#include "mbnbgement.h"
+#include "sun_mbnbgement_OperbtingSystemImpl.h"
 
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #if defined(_ALLBSD_SOURCE)
 #include <sys/sysctl.h>
 #ifdef __APPLE__
-#include <sys/param.h>
+#include <sys/pbrbm.h>
 #include <sys/mount.h>
-#include <mach/mach.h>
+#include <mbch/mbch.h>
 #include <sys/proc_info.h>
 #include <libproc.h>
 #endif
 #elif !defined(_AIX)
-#include <sys/swap.h>
+#include <sys/swbp.h>
 #endif
 #include <sys/resource.h>
 #include <sys/times.h>
@@ -58,29 +58,29 @@
 #include <unistd.h>
 
 #if defined(_AIX)
-#include <libperfstat.h>
+#include <libperfstbt.h>
 #endif
 
-static jlong page_size = 0;
+stbtic jlong pbge_size = 0;
 
 #if defined(_ALLBSD_SOURCE) || defined(_AIX)
 #define MB      (1024UL * 1024UL)
 #else
 
-/* This gets us the new structured proc interfaces of 5.6 & later */
+/* This gets us the new structured proc interfbces of 5.6 & lbter */
 /* - see comment in <sys/procfs.h> */
 #define _STRUCTURED_PROC 1
 #include <sys/procfs.h>
 
 #endif /* _ALLBSD_SOURCE */
 
-static struct dirent* read_dir(DIR* dirp, struct dirent* entry) {
-#ifdef __solaris__
-    struct dirent* dbuf = readdir(dirp);
+stbtic struct dirent* rebd_dir(DIR* dirp, struct dirent* entry) {
+#ifdef __solbris__
+    struct dirent* dbuf = rebddir(dirp);
     return dbuf;
 #else /* __linux__ || _ALLBSD_SOURCE */
     struct dirent* p;
-    if (readdir_r(dirp, entry, &p) == 0) {
+    if (rebddir_r(dirp, entry, &p) == 0) {
         return p;
     } else {
         return NULL;
@@ -88,132 +88,132 @@ static struct dirent* read_dir(DIR* dirp, struct dirent* entry) {
 #endif
 }
 
-// true = get available swap in bytes
-// false = get total swap in bytes
-static jlong get_total_or_available_swap_space_size(JNIEnv* env, jboolean available) {
-#ifdef __solaris__
-    long total, avail;
-    int nswap, i, count;
-    swaptbl_t *stbl;
-    char *strtab;
+// true = get bvbilbble swbp in bytes
+// fblse = get totbl swbp in bytes
+stbtic jlong get_totbl_or_bvbilbble_swbp_spbce_size(JNIEnv* env, jboolebn bvbilbble) {
+#ifdef __solbris__
+    long totbl, bvbil;
+    int nswbp, i, count;
+    swbptbl_t *stbl;
+    chbr *strtbb;
 
-    // First get the number of swap resource entries
-    if ((nswap = swapctl(SC_GETNSWP, NULL)) == -1) {
-        throw_internal_error(env, "swapctl failed to get nswap");
+    // First get the number of swbp resource entries
+    if ((nswbp = swbpctl(SC_GETNSWP, NULL)) == -1) {
+        throw_internbl_error(env, "swbpctl fbiled to get nswbp");
         return -1;
     }
-    if (nswap == 0) {
+    if (nswbp == 0) {
         return 0;
     }
 
-    // Allocate storage for resource entries
-    stbl = (swaptbl_t*) malloc(nswap * sizeof(swapent_t) +
-                               sizeof(struct swaptable));
+    // Allocbte storbge for resource entries
+    stbl = (swbptbl_t*) mblloc(nswbp * sizeof(swbpent_t) +
+                               sizeof(struct swbptbble));
     if (stbl == NULL) {
         JNU_ThrowOutOfMemoryError(env, 0);
         return -1;
     }
 
-    // Allocate storage for the table
-    strtab = (char*) malloc((nswap + 1) * MAXPATHLEN);
-    if (strtab == NULL) {
+    // Allocbte storbge for the tbble
+    strtbb = (chbr*) mblloc((nswbp + 1) * MAXPATHLEN);
+    if (strtbb == NULL) {
         free(stbl);
         JNU_ThrowOutOfMemoryError(env, 0);
         return -1;
     }
 
-    for (i = 0; i < (nswap + 1); i++) {
-      stbl->swt_ent[i].ste_path = strtab + (i * MAXPATHLEN);
+    for (i = 0; i < (nswbp + 1); i++) {
+      stbl->swt_ent[i].ste_pbth = strtbb + (i * MAXPATHLEN);
     }
-    stbl->swt_n = nswap + 1;
+    stbl->swt_n = nswbp + 1;
 
     // Get the entries
-    if ((count = swapctl(SC_LIST, stbl)) < 0) {
+    if ((count = swbpctl(SC_LIST, stbl)) < 0) {
         free(stbl);
-        free(strtab);
-        throw_internal_error(env, "swapctl failed to get swap list");
+        free(strtbb);
+        throw_internbl_error(env, "swbpctl fbiled to get swbp list");
         return -1;
     }
 
-    // Sum the entries to get total and free swap
-    total = 0;
-    avail = 0;
+    // Sum the entries to get totbl bnd free swbp
+    totbl = 0;
+    bvbil = 0;
     for (i = 0; i < count; i++) {
-      total += stbl->swt_ent[i].ste_pages;
-      avail += stbl->swt_ent[i].ste_free;
+      totbl += stbl->swt_ent[i].ste_pbges;
+      bvbil += stbl->swt_ent[i].ste_free;
     }
 
     free(stbl);
-    free(strtab);
-    return available ? ((jlong)avail * page_size) :
-                       ((jlong)total * page_size);
+    free(strtbb);
+    return bvbilbble ? ((jlong)bvbil * pbge_size) :
+                       ((jlong)totbl * pbge_size);
 #elif defined(__linux__)
     int ret;
     FILE *fp;
-    jlong total = 0, avail = 0;
+    jlong totbl = 0, bvbil = 0;
 
     struct sysinfo si;
     ret = sysinfo(&si);
     if (ret != 0) {
-        throw_internal_error(env, "sysinfo failed to get swap size");
+        throw_internbl_error(env, "sysinfo fbiled to get swbp size");
     }
-    total = (jlong)si.totalswap * si.mem_unit;
-    avail = (jlong)si.freeswap * si.mem_unit;
+    totbl = (jlong)si.totblswbp * si.mem_unit;
+    bvbil = (jlong)si.freeswbp * si.mem_unit;
 
-    return available ? avail : total;
+    return bvbilbble ? bvbil : totbl;
 #elif defined(__APPLE__)
-    struct xsw_usage vmusage;
-    size_t size = sizeof(vmusage);
-    if (sysctlbyname("vm.swapusage", &vmusage, &size, NULL, 0) != 0) {
-        throw_internal_error(env, "sysctlbyname failed");
+    struct xsw_usbge vmusbge;
+    size_t size = sizeof(vmusbge);
+    if (sysctlbynbme("vm.swbpusbge", &vmusbge, &size, NULL, 0) != 0) {
+        throw_internbl_error(env, "sysctlbynbme fbiled");
     }
-    return available ? (jlong)vmusage.xsu_avail : (jlong)vmusage.xsu_total;
+    return bvbilbble ? (jlong)vmusbge.xsu_bvbil : (jlong)vmusbge.xsu_totbl;
 #else /* _ALLBSD_SOURCE */
     /*
-     * XXXBSD: there's no way available to get swap info in
-     *         FreeBSD.  Usage of libkvm is not an option here
+     * XXXBSD: there's no wby bvbilbble to get swbp info in
+     *         FreeBSD.  Usbge of libkvm is not bn option here
      */
-    // throw_internal_error(env, "Unimplemented in FreeBSD");
+    // throw_internbl_error(env, "Unimplemented in FreeBSD");
     return (0);
 #endif
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_OperatingSystemImpl_initialize0
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_initiblize0
+  (JNIEnv *env, jclbss cls)
 {
-    page_size = sysconf(_SC_PAGESIZE);
+    pbge_size = sysconf(_SC_PAGESIZE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getCommittedVirtualMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getCommittedVirtublMemorySize0
+  (JNIEnv *env, jobject mbebn)
 {
-#ifdef __solaris__
+#ifdef __solbris__
     psinfo_t psinfo;
     ssize_t result;
-    size_t remaining;
-    char* addr;
+    size_t rembining;
+    chbr* bddr;
     int fd;
 
     fd = open64("/proc/self/psinfo", O_RDONLY, 0);
     if (fd < 0) {
-        throw_internal_error(env, "Unable to open /proc/self/psinfo");
+        throw_internbl_error(env, "Unbble to open /proc/self/psinfo");
         return -1;
     }
 
-    addr = (char *)&psinfo;
-    for (remaining = sizeof(psinfo_t); remaining > 0;) {
-        result = read(fd, addr, remaining);
+    bddr = (chbr *)&psinfo;
+    for (rembining = sizeof(psinfo_t); rembining > 0;) {
+        result = rebd(fd, bddr, rembining);
         if (result < 0) {
             if (errno != EINTR) {
                 close(fd);
-                throw_internal_error(env, "Unable to read /proc/self/psinfo");
+                throw_internbl_error(env, "Unbble to rebd /proc/self/psinfo");
                 return -1;
             }
         } else {
-            remaining -= result;
-            addr += result;
+            rembining -= result;
+            bddr += result;
         }
     }
 
@@ -223,14 +223,14 @@ Java_sun_management_OperatingSystemImpl_getCommittedVirtualMemorySize0
     FILE *fp;
     unsigned long vsize = 0;
 
-    if ((fp = fopen("/proc/self/stat", "r")) == NULL) {
-        throw_internal_error(env, "Unable to open /proc/self/stat");
+    if ((fp = fopen("/proc/self/stbt", "r")) == NULL) {
+        throw_internbl_error(env, "Unbble to open /proc/self/stbt");
         return -1;
     }
 
     // Ignore everything except the vsize entry
-    if (fscanf(fp, "%*d %*s %*c %*d %*d %*d %*d %*d %*u %*u %*u %*u %*u %*d %*d %*d %*d %*d %*d %*u %*u %*d %lu %*[^\n]\n", &vsize) == EOF) {
-        throw_internal_error(env, "Unable to get virtual memory usage");
+    if (fscbnf(fp, "%*d %*s %*c %*d %*d %*d %*d %*d %*u %*u %*u %*u %*u %*d %*d %*d %*d %*d %*d %*u %*u %*d %lu %*[^\n]\n", &vsize) == EOF) {
+        throw_internbl_error(env, "Unbble to get virtubl memory usbge");
         fclose(fp);
         return -1;
     }
@@ -238,50 +238,50 @@ Java_sun_management_OperatingSystemImpl_getCommittedVirtualMemorySize0
     fclose(fp);
     return (jlong)vsize;
 #elif defined(__APPLE__)
-    struct task_basic_info t_info;
-    mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
+    struct tbsk_bbsic_info t_info;
+    mbch_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
 
-    kern_return_t res = task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&t_info, &t_info_count);
+    kern_return_t res = tbsk_info(mbch_tbsk_self(), TASK_BASIC_INFO, (tbsk_info_t)&t_info, &t_info_count);
     if (res != KERN_SUCCESS) {
-        throw_internal_error(env, "task_info failed");
+        throw_internbl_error(env, "tbsk_info fbiled");
     }
-    return t_info.virtual_size;
+    return t_info.virtubl_size;
 #else /* _ALLBSD_SOURCE */
     /*
-     * XXXBSD: there's no way available to do it in FreeBSD, AFAIK.
+     * XXXBSD: there's no wby bvbilbble to do it in FreeBSD, AFAIK.
      */
-    // throw_internal_error(env, "Unimplemented in FreeBSD");
+    // throw_internbl_error(env, "Unimplemented in FreeBSD");
     return (64 * MB);
 #endif
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getTotalSwapSpaceSize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getTotblSwbpSpbceSize0
+  (JNIEnv *env, jobject mbebn)
 {
-    return get_total_or_available_swap_space_size(env, JNI_FALSE);
+    return get_totbl_or_bvbilbble_swbp_spbce_size(env, JNI_FALSE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getFreeSwapSpaceSize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getFreeSwbpSpbceSize0
+  (JNIEnv *env, jobject mbebn)
 {
-    return get_total_or_available_swap_space_size(env, JNI_TRUE);
+    return get_totbl_or_bvbilbble_swbp_spbce_size(env, JNI_TRUE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getProcessCpuTime0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getProcessCpuTime0
+  (JNIEnv *env, jobject mbebn)
 {
 #ifdef __APPLE__
-    struct rusage usage;
-    if (getrusage(RUSAGE_SELF, &usage) != 0) {
-        throw_internal_error(env, "getrusage failed");
+    struct rusbge usbge;
+    if (getrusbge(RUSAGE_SELF, &usbge) != 0) {
+        throw_internbl_error(env, "getrusbge fbiled");
         return -1;
     }
     jlong microsecs =
-        usage.ru_utime.tv_sec * 1000 * 1000 + usage.ru_utime.tv_usec +
-        usage.ru_stime.tv_sec * 1000 * 1000 + usage.ru_stime.tv_usec;
+        usbge.ru_utime.tv_sec * 1000 * 1000 + usbge.ru_utime.tv_usec +
+        usbge.ru_stime.tv_sec * 1000 * 1000 + usbge.ru_stime.tv_usec;
     return microsecs * 1000;
 #else
     jlong clk_tck, ns_per_clock_tick;
@@ -290,16 +290,16 @@ Java_sun_management_OperatingSystemImpl_getProcessCpuTime0
 
     /*
      * BSDNOTE: FreeBSD implements _SC_CLK_TCK since FreeBSD 5, so
-     *          add a magic to handle it
+     *          bdd b mbgic to hbndle it
      */
-#if defined(__solaris__) || defined(_SC_CLK_TCK)
+#if defined(__solbris__) || defined(_SC_CLK_TCK)
     clk_tck = (jlong) sysconf(_SC_CLK_TCK);
 #elif defined(__linux__) || defined(_ALLBSD_SOURCE)
     clk_tck = 100;
 #endif
     if (clk_tck == -1) {
-        throw_internal_error(env,
-                             "sysconf failed - not able to get clock tick");
+        throw_internbl_error(env,
+                             "sysconf fbiled - not bble to get clock tick");
         return -1;
     }
 
@@ -312,42 +312,42 @@ Java_sun_management_OperatingSystemImpl_getProcessCpuTime0
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getFreePhysicalMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getFreePhysicblMemorySize0
+  (JNIEnv *env, jobject mbebn)
 {
 #ifdef __APPLE__
-    mach_msg_type_number_t count;
-    vm_statistics_data_t vm_stats;
+    mbch_msg_type_number_t count;
+    vm_stbtistics_dbtb_t vm_stbts;
     kern_return_t res;
 
     count = HOST_VM_INFO_COUNT;
-    res = host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&vm_stats, &count);
+    res = host_stbtistics(mbch_host_self(), HOST_VM_INFO, (host_info_t)&vm_stbts, &count);
     if (res != KERN_SUCCESS) {
-        throw_internal_error(env, "host_statistics failed");
+        throw_internbl_error(env, "host_stbtistics fbiled");
         return -1;
     }
-    return (jlong)vm_stats.free_count * page_size;
+    return (jlong)vm_stbts.free_count * pbge_size;
 #elif defined(_ALLBSD_SOURCE)
     /*
-     * XXBSDL no way to do it in FreeBSD
+     * XXBSDL no wby to do it in FreeBSD
      */
-    // throw_internal_error(env, "unimplemented in FreeBSD")
+    // throw_internbl_error(env, "unimplemented in FreeBSD")
     return (128 * MB);
 #elif defined(_AIX)
-    perfstat_memory_total_t memory_info;
-    if (-1 != perfstat_memory_total(NULL, &memory_info, sizeof(perfstat_memory_total_t), 1)) {
-        return (jlong)(memory_info.real_free * 4L * 1024L);
+    perfstbt_memory_totbl_t memory_info;
+    if (-1 != perfstbt_memory_totbl(NULL, &memory_info, sizeof(perfstbt_memory_totbl_t), 1)) {
+        return (jlong)(memory_info.rebl_free * 4L * 1024L);
     }
     return -1;
-#else // solaris / linux
-    jlong num_avail_physical_pages = sysconf(_SC_AVPHYS_PAGES);
-    return (num_avail_physical_pages * page_size);
+#else // solbris / linux
+    jlong num_bvbil_physicbl_pbges = sysconf(_SC_AVPHYS_PAGES);
+    return (num_bvbil_physicbl_pbges * pbge_size);
 #endif
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getTotalPhysicalMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getTotblPhysicblMemorySize0
+  (JNIEnv *env, jobject mbebn)
 {
 #ifdef _ALLBSD_SOURCE
     jlong result = 0;
@@ -358,30 +358,30 @@ Java_sun_management_OperatingSystemImpl_getTotalPhysicalMemorySize0
     mib[1] = HW_MEMSIZE;
     rlen = sizeof(result);
     if (sysctl(mib, 2, &result, &rlen, NULL, 0) != 0) {
-        throw_internal_error(env, "sysctl failed");
+        throw_internbl_error(env, "sysctl fbiled");
         return -1;
     }
     return result;
 #elif defined(_AIX)
-    perfstat_memory_total_t memory_info;
-    if (-1 != perfstat_memory_total(NULL, &memory_info, sizeof(perfstat_memory_total_t), 1)) {
-        return (jlong)(memory_info.real_total * 4L * 1024L);
+    perfstbt_memory_totbl_t memory_info;
+    if (-1 != perfstbt_memory_totbl(NULL, &memory_info, sizeof(perfstbt_memory_totbl_t), 1)) {
+        return (jlong)(memory_info.rebl_totbl * 4L * 1024L);
     }
     return -1;
-#else // solaris / linux
-    jlong num_physical_pages = sysconf(_SC_PHYS_PAGES);
-    return (num_physical_pages * page_size);
+#else // solbris / linux
+    jlong num_physicbl_pbges = sysconf(_SC_PHYS_PAGES);
+    return (num_physicbl_pbges * pbge_size);
 #endif
 }
 
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getOpenFileDescriptorCount0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getOpenFileDescriptorCount0
+  (JNIEnv *env, jobject mbebn)
 {
 #ifdef __APPLE__
-    // This code is influenced by the darwin lsof source
+    // This code is influenced by the dbrwin lsof source
     pid_t my_pid;
     struct proc_bsdinfo bsdinfo;
     struct proc_fdinfo *fds;
@@ -390,34 +390,34 @@ Java_sun_management_OperatingSystemImpl_getOpenFileDescriptorCount0
     int res;
     size_t fds_size;
 
-    kres = pid_for_task(mach_task_self(), &my_pid);
+    kres = pid_for_tbsk(mbch_tbsk_self(), &my_pid);
     if (kres != KERN_SUCCESS) {
-        throw_internal_error(env, "pid_for_task failed");
+        throw_internbl_error(env, "pid_for_tbsk fbiled");
         return -1;
     }
 
-    // get the maximum number of file descriptors
+    // get the mbximum number of file descriptors
     res = proc_pidinfo(my_pid, PROC_PIDTBSDINFO, 0, &bsdinfo, PROC_PIDTBSDINFO_SIZE);
     if (res <= 0) {
-        throw_internal_error(env, "proc_pidinfo with PROC_PIDTBSDINFO failed");
+        throw_internbl_error(env, "proc_pidinfo with PROC_PIDTBSDINFO fbiled");
         return -1;
     }
 
-    // allocate memory to hold the fd information (we don't acutally use this information
+    // bllocbte memory to hold the fd informbtion (we don't bcutblly use this informbtion
     // but need it to get the number of open files)
     fds_size = bsdinfo.pbi_nfiles * sizeof(struct proc_fdinfo);
-    fds = malloc(fds_size);
+    fds = mblloc(fds_size);
     if (fds == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "could not allocate space for file descriptors");
+        JNU_ThrowOutOfMemoryError(env, "could not bllocbte spbce for file descriptors");
         return -1;
     }
 
-    // get the list of open files - the return value is the number of bytes
+    // get the list of open files - the return vblue is the number of bytes
     // proc_pidinfo filled in
     res = proc_pidinfo(my_pid, PROC_PIDLISTFDS, 0, fds, fds_size);
     if (res <= 0) {
         free(fds);
-        throw_internal_error(env, "proc_pidinfo failed for PROC_PIDLISTFDS");
+        throw_internbl_error(env, "proc_pidinfo fbiled for PROC_PIDLISTFDS");
         return -1;
     }
     nfiles = res / sizeof(struct proc_fdinfo);
@@ -426,53 +426,53 @@ Java_sun_management_OperatingSystemImpl_getOpenFileDescriptorCount0
     return nfiles;
 #elif defined(_ALLBSD_SOURCE)
     /*
-     * XXXBSD: there's no way available to do it in FreeBSD, AFAIK.
+     * XXXBSD: there's no wby bvbilbble to do it in FreeBSD, AFAIK.
      */
-    // throw_internal_error(env, "Unimplemented in FreeBSD");
+    // throw_internbl_error(env, "Unimplemented in FreeBSD");
     return (100);
-#else /* solaris/linux */
+#else /* solbris/linux */
     DIR *dirp;
     struct dirent dbuf;
     struct dirent* dentp;
     jlong fds = 0;
 
 #if defined(_AIX)
-/* AIX does not understand '/proc/self' - it requires the real process ID */
-#define FD_DIR aix_fd_dir
-    char aix_fd_dir[32];     /* the pid has at most 19 digits */
-    snprintf(aix_fd_dir, 32, "/proc/%d/fd", getpid());
+/* AIX does not understbnd '/proc/self' - it requires the rebl process ID */
+#define FD_DIR bix_fd_dir
+    chbr bix_fd_dir[32];     /* the pid hbs bt most 19 digits */
+    snprintf(bix_fd_dir, 32, "/proc/%d/fd", getpid());
 #else
 #define FD_DIR "/proc/self/fd"
 #endif
 
     dirp = opendir(FD_DIR);
     if (dirp == NULL) {
-        throw_internal_error(env, "Unable to open directory /proc/self/fd");
+        throw_internbl_error(env, "Unbble to open directory /proc/self/fd");
         return -1;
     }
 
-    // iterate through directory entries, skipping '.' and '..'
-    // each entry represents an open file descriptor.
-    while ((dentp = read_dir(dirp, &dbuf)) != NULL) {
-        if (isdigit(dentp->d_name[0])) {
+    // iterbte through directory entries, skipping '.' bnd '..'
+    // ebch entry represents bn open file descriptor.
+    while ((dentp = rebd_dir(dirp, &dbuf)) != NULL) {
+        if (isdigit(dentp->d_nbme[0])) {
             fds++;
         }
     }
 
     closedir(dirp);
-    // subtract by 1 which was the fd open for this implementation
+    // subtrbct by 1 which wbs the fd open for this implementbtion
     return (fds - 1);
 #endif
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getMaxFileDescriptorCount0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getMbxFileDescriptorCount0
+  (JNIEnv *env, jobject mbebn)
 {
     struct rlimit rlp;
 
     if (getrlimit(RLIMIT_NOFILE, &rlp) == -1) {
-        throw_internal_error(env, "getrlimit failed");
+        throw_internbl_error(env, "getrlimit fbiled");
         return -1;
     }
     return (jlong) rlp.rlim_cur;

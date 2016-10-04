@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,46 +30,46 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-/* Java class to hold static methods which will be called in byte code
- *    injections of all class files.
+/* Jbvb clbss to hold stbtic methods which will be cblled in byte code
+ *    injections of bll clbss files.
  */
 
-public class Minst {
+public clbss Minst {
 
-    /* Master switch that activates methods. */
+    /* Mbster switch thbt bctivbtes methods. */
 
-    private static int engaged = 0;
+    privbte stbtic int engbged = 0;
 
-    /* At the very beginning of every method, a call to method_entry()
+    /* At the very beginning of every method, b cbll to method_entry()
      *     is injected.
      */
 
-    public static void method_entry(int cnum, int mnum) {
-        Class<Minst> x = Minst.class;
+    public stbtic void method_entry(int cnum, int mnum) {
+        Clbss<Minst> x = Minst.clbss;
         synchronized ( x ) {
-            if ( engaged > 0 ) {
-                engaged = 0;
-                String className = "Unknown";
-                String methodName = "Unknown";
+            if ( engbged > 0 ) {
+                engbged = 0;
+                String clbssNbme = "Unknown";
+                String methodNbme = "Unknown";
                 Exception exp = new Exception();
-                StackTraceElement[] stack = exp.getStackTrace();
-                if (stack.length > 1) {
-                    StackTraceElement location = stack[1];
-                    className = location.getClassName();
-                    methodName = location.getMethodName();
+                StbckTrbceElement[] stbck = exp.getStbckTrbce();
+                if (stbck.length > 1) {
+                    StbckTrbceElement locbtion = stbck[1];
+                    clbssNbme = locbtion.getClbssNbme();
+                    methodNbme = locbtion.getMethodNbme();
                 }
-                System.out.println("Reached method entry: " +
-                     className + "." + methodName + "()");
-                engaged++;
+                System.out.println("Rebched method entry: " +
+                     clbssNbme + "." + methodNbme + "()");
+                engbged++;
             }
         }
     }

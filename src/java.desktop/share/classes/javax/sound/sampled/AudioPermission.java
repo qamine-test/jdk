@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.sampled;
+pbckbge jbvbx.sound.sbmpled;
 
-import java.security.BasicPermission;
+import jbvb.security.BbsicPermission;
 
 /**
- * The {@code AudioPermission} class represents access rights to the audio
- * system resources. An {@code AudioPermission} contains a target name but no
- * actions list; you either have the named permission or you don't.
+ * The {@code AudioPermission} clbss represents bccess rights to the budio
+ * system resources. An {@code AudioPermission} contbins b tbrget nbme but no
+ * bctions list; you either hbve the nbmed permission or you don't.
  * <p>
- * The target name is the name of the audio permission (see the table below).
- * The names follow the hierarchical property-naming convention. Also, an
- * asterisk can be used to represent all the audio permissions.
+ * The tbrget nbme is the nbme of the budio permission (see the tbble below).
+ * The nbmes follow the hierbrchicbl property-nbming convention. Also, bn
+ * bsterisk cbn be used to represent bll the budio permissions.
  * <p>
- * The following table lists the possible {@code AudioPermission} target names.
- * For each name, the table provides a description of exactly what that
- * permission allows, as well as a discussion of the risks of granting code the
+ * The following tbble lists the possible {@code AudioPermission} tbrget nbmes.
+ * For ebch nbme, the tbble provides b description of exbctly whbt thbt
+ * permission bllows, bs well bs b discussion of the risks of grbnting code the
  * permission.
  *
- * <table border=1 cellpadding=5 summary="permission target name, what the permission allows, and associated risks">
+ * <tbble border=1 cellpbdding=5 summbry="permission tbrget nbme, whbt the permission bllows, bnd bssocibted risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
+ * <th>Permission Tbrget Nbme</th>
+ * <th>Whbt the Permission Allows</th>
  * <th>Risks of Allowing this Permission</th>
  * </tr>
  *
  * <tr>
- * <td>play</td>
- * <td>Audio playback through the audio device or devices on the system.
- * Allows the application to obtain and manipulate lines and mixers for
- * audio playback (rendering).</td>
- * <td>In some cases use of this permission may affect other
- * applications because the audio from one line may be mixed with other audio
- * being played on the system, or because manipulation of a mixer affects the
- * audio for all lines using that mixer.</td>
+ * <td>plby</td>
+ * <td>Audio plbybbck through the budio device or devices on the system.
+ * Allows the bpplicbtion to obtbin bnd mbnipulbte lines bnd mixers for
+ * budio plbybbck (rendering).</td>
+ * <td>In some cbses use of this permission mby bffect other
+ * bpplicbtions becbuse the budio from one line mby be mixed with other budio
+ * being plbyed on the system, or becbuse mbnipulbtion of b mixer bffects the
+ * budio for bll lines using thbt mixer.</td>
  * </tr>
  *
  * <tr>
  * <td>record</td>
- * <td>Audio recording through the audio device or devices on the system.
- * Allows the application to obtain and manipulate lines and mixers for
- * audio recording (capture).</td>
- * <td>In some cases use of this permission may affect other
- * applications because manipulation of a mixer affects the audio for all lines
- * using that mixer.
- * This permission can enable an applet or application to eavesdrop on a user.</td>
+ * <td>Audio recording through the budio device or devices on the system.
+ * Allows the bpplicbtion to obtbin bnd mbnipulbte lines bnd mixers for
+ * budio recording (cbpture).</td>
+ * <td>In some cbses use of this permission mby bffect other
+ * bpplicbtions becbuse mbnipulbtion of b mixer bffects the budio for bll lines
+ * using thbt mixer.
+ * This permission cbn enbble bn bpplet or bpplicbtion to ebvesdrop on b user.</td>
  * </tr>
- * </table>
+ * </tbble>
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  * @since 1.3
  */
-public class AudioPermission extends BasicPermission {
+public clbss AudioPermission extends BbsicPermission {
 
-    private static final long serialVersionUID = -5518053473477801126L;
+    privbte stbtic finbl long seriblVersionUID = -5518053473477801126L;
 
     /**
-     * Creates a new {@code AudioPermission} object that has the specified
-     * symbolic name, such as "play" or "record". An asterisk can be used to
-     * indicate all audio permissions.
+     * Crebtes b new {@code AudioPermission} object thbt hbs the specified
+     * symbolic nbme, such bs "plby" or "record". An bsterisk cbn be used to
+     * indicbte bll budio permissions.
      *
-     * @param  name the name of the new {@code AudioPermission}
-     * @throws NullPointerException if {@code name} is {@code null}
-     * @throws IllegalArgumentException if {@code name} is empty
+     * @pbrbm  nbme the nbme of the new {@code AudioPermission}
+     * @throws NullPointerException if {@code nbme} is {@code null}
+     * @throws IllegblArgumentException if {@code nbme} is empty
      */
-    public AudioPermission(final String name) {
-        super(name);
+    public AudioPermission(finbl String nbme) {
+        super(nbme);
     }
 
     /**
-     * Creates a new {@code AudioPermission} object that has the specified
-     * symbolic name, such as "play" or "record". The {@code actions} parameter
-     * is currently unused and should be {@code null}.
+     * Crebtes b new {@code AudioPermission} object thbt hbs the specified
+     * symbolic nbme, such bs "plby" or "record". The {@code bctions} pbrbmeter
+     * is currently unused bnd should be {@code null}.
      *
-     * @param  name the name of the new {@code AudioPermission}
-     * @param  actions (unused; should be {@code null})
-     * @throws NullPointerException if {@code name} is {@code null}
-     * @throws IllegalArgumentException if {@code name} is empty
+     * @pbrbm  nbme the nbme of the new {@code AudioPermission}
+     * @pbrbm  bctions (unused; should be {@code null})
+     * @throws NullPointerException if {@code nbme} is {@code null}
+     * @throws IllegblArgumentException if {@code nbme} is empty
      */
-    public AudioPermission(final String name, final String actions) {
-        super(name, actions);
+    public AudioPermission(finbl String nbme, finbl String bctions) {
+        super(nbme, bctions);
     }
 }

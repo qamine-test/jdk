@@ -1,288 +1,288 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
-import java.util.concurrent.CountedCompleter;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import jbvb.util.Optionbl;
+import jbvb.util.OptionblDouble;
+import jbvb.util.OptionblInt;
+import jbvb.util.OptionblLong;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.CountedCompleter;
+import jbvb.util.function.Predicbte;
+import jbvb.util.function.Supplier;
 
 /**
- * Factory for instances of a short-circuiting {@code TerminalOp} that searches
- * for an element in a stream pipeline, and terminates when it finds one.
- * Supported variants include find-first (find the first element in the
- * encounter order) and find-any (find any element, may not be the first in
+ * Fbctory for instbnces of b short-circuiting {@code TerminblOp} thbt sebrches
+ * for bn element in b strebm pipeline, bnd terminbtes when it finds one.
+ * Supported vbribnts include find-first (find the first element in the
+ * encounter order) bnd find-bny (find bny element, mby not be the first in
  * encounter order.)
  *
  * @since 1.8
  */
-final class FindOps {
+finbl clbss FindOps {
 
-    private FindOps() { }
+    privbte FindOps() { }
 
     /**
-     * Constructs a {@code TerminalOp} for streams of objects.
+     * Constructs b {@code TerminblOp} for strebms of objects.
      *
-     * @param <T> the type of elements of the stream
-     * @param mustFindFirst whether the {@code TerminalOp} must produce the
+     * @pbrbm <T> the type of elements of the strebm
+     * @pbrbm mustFindFirst whether the {@code TerminblOp} must produce the
      *        first element in the encounter order
-     * @return a {@code TerminalOp} implementing the find operation
+     * @return b {@code TerminblOp} implementing the find operbtion
      */
-    public static <T> TerminalOp<T, Optional<T>> makeRef(boolean mustFindFirst) {
-        return new FindOp<>(mustFindFirst, StreamShape.REFERENCE, Optional.empty(),
-                            Optional::isPresent, FindSink.OfRef::new);
+    public stbtic <T> TerminblOp<T, Optionbl<T>> mbkeRef(boolebn mustFindFirst) {
+        return new FindOp<>(mustFindFirst, StrebmShbpe.REFERENCE, Optionbl.empty(),
+                            Optionbl::isPresent, FindSink.OfRef::new);
     }
 
     /**
-     * Constructs a {@code TerminalOp} for streams of ints.
+     * Constructs b {@code TerminblOp} for strebms of ints.
      *
-     * @param mustFindFirst whether the {@code TerminalOp} must produce the
+     * @pbrbm mustFindFirst whether the {@code TerminblOp} must produce the
      *        first element in the encounter order
-     * @return a {@code TerminalOp} implementing the find operation
+     * @return b {@code TerminblOp} implementing the find operbtion
      */
-    public static TerminalOp<Integer, OptionalInt> makeInt(boolean mustFindFirst) {
-        return new FindOp<>(mustFindFirst, StreamShape.INT_VALUE, OptionalInt.empty(),
-                            OptionalInt::isPresent, FindSink.OfInt::new);
+    public stbtic TerminblOp<Integer, OptionblInt> mbkeInt(boolebn mustFindFirst) {
+        return new FindOp<>(mustFindFirst, StrebmShbpe.INT_VALUE, OptionblInt.empty(),
+                            OptionblInt::isPresent, FindSink.OfInt::new);
     }
 
     /**
-     * Constructs a {@code TerminalOp} for streams of longs.
+     * Constructs b {@code TerminblOp} for strebms of longs.
      *
-     * @param mustFindFirst whether the {@code TerminalOp} must produce the
+     * @pbrbm mustFindFirst whether the {@code TerminblOp} must produce the
      *        first element in the encounter order
-     * @return a {@code TerminalOp} implementing the find operation
+     * @return b {@code TerminblOp} implementing the find operbtion
      */
-    public static TerminalOp<Long, OptionalLong> makeLong(boolean mustFindFirst) {
-        return new FindOp<>(mustFindFirst, StreamShape.LONG_VALUE, OptionalLong.empty(),
-                            OptionalLong::isPresent, FindSink.OfLong::new);
+    public stbtic TerminblOp<Long, OptionblLong> mbkeLong(boolebn mustFindFirst) {
+        return new FindOp<>(mustFindFirst, StrebmShbpe.LONG_VALUE, OptionblLong.empty(),
+                            OptionblLong::isPresent, FindSink.OfLong::new);
     }
 
     /**
-     * Constructs a {@code FindOp} for streams of doubles.
+     * Constructs b {@code FindOp} for strebms of doubles.
      *
-     * @param mustFindFirst whether the {@code TerminalOp} must produce the
+     * @pbrbm mustFindFirst whether the {@code TerminblOp} must produce the
      *        first element in the encounter order
-     * @return a {@code TerminalOp} implementing the find operation
+     * @return b {@code TerminblOp} implementing the find operbtion
      */
-    public static TerminalOp<Double, OptionalDouble> makeDouble(boolean mustFindFirst) {
-        return new FindOp<>(mustFindFirst, StreamShape.DOUBLE_VALUE, OptionalDouble.empty(),
-                            OptionalDouble::isPresent, FindSink.OfDouble::new);
+    public stbtic TerminblOp<Double, OptionblDouble> mbkeDouble(boolebn mustFindFirst) {
+        return new FindOp<>(mustFindFirst, StrebmShbpe.DOUBLE_VALUE, OptionblDouble.empty(),
+                            OptionblDouble::isPresent, FindSink.OfDouble::new);
     }
 
     /**
-     * A short-circuiting {@code TerminalOp} that searches for an element in a
-     * stream pipeline, and terminates when it finds one.  Implements both
-     * find-first (find the first element in the encounter order) and find-any
-     * (find any element, may not be the first in encounter order.)
+     * A short-circuiting {@code TerminblOp} thbt sebrches for bn element in b
+     * strebm pipeline, bnd terminbtes when it finds one.  Implements both
+     * find-first (find the first element in the encounter order) bnd find-bny
+     * (find bny element, mby not be the first in encounter order.)
      *
-     * @param <T> the output type of the stream pipeline
-     * @param <O> the result type of the find operation, typically an optional
+     * @pbrbm <T> the output type of the strebm pipeline
+     * @pbrbm <O> the result type of the find operbtion, typicblly bn optionbl
      *        type
      */
-    private static final class FindOp<T, O> implements TerminalOp<T, O> {
-        private final StreamShape shape;
-        final boolean mustFindFirst;
-        final O emptyValue;
-        final Predicate<O> presentPredicate;
-        final Supplier<TerminalSink<T, O>> sinkSupplier;
+    privbte stbtic finbl clbss FindOp<T, O> implements TerminblOp<T, O> {
+        privbte finbl StrebmShbpe shbpe;
+        finbl boolebn mustFindFirst;
+        finbl O emptyVblue;
+        finbl Predicbte<O> presentPredicbte;
+        finbl Supplier<TerminblSink<T, O>> sinkSupplier;
 
         /**
-         * Constructs a {@code FindOp}.
+         * Constructs b {@code FindOp}.
          *
-         * @param mustFindFirst if true, must find the first element in
-         *        encounter order, otherwise can find any element
-         * @param shape stream shape of elements to search
-         * @param emptyValue result value corresponding to "found nothing"
-         * @param presentPredicate {@code Predicate} on result value
+         * @pbrbm mustFindFirst if true, must find the first element in
+         *        encounter order, otherwise cbn find bny element
+         * @pbrbm shbpe strebm shbpe of elements to sebrch
+         * @pbrbm emptyVblue result vblue corresponding to "found nothing"
+         * @pbrbm presentPredicbte {@code Predicbte} on result vblue
          *        corresponding to "found something"
-         * @param sinkSupplier supplier for a {@code TerminalSink} implementing
-         *        the matching functionality
+         * @pbrbm sinkSupplier supplier for b {@code TerminblSink} implementing
+         *        the mbtching functionblity
          */
-        FindOp(boolean mustFindFirst,
-                       StreamShape shape,
-                       O emptyValue,
-                       Predicate<O> presentPredicate,
-                       Supplier<TerminalSink<T, O>> sinkSupplier) {
+        FindOp(boolebn mustFindFirst,
+                       StrebmShbpe shbpe,
+                       O emptyVblue,
+                       Predicbte<O> presentPredicbte,
+                       Supplier<TerminblSink<T, O>> sinkSupplier) {
             this.mustFindFirst = mustFindFirst;
-            this.shape = shape;
-            this.emptyValue = emptyValue;
-            this.presentPredicate = presentPredicate;
+            this.shbpe = shbpe;
+            this.emptyVblue = emptyVblue;
+            this.presentPredicbte = presentPredicbte;
             this.sinkSupplier = sinkSupplier;
         }
 
         @Override
-        public int getOpFlags() {
-            return StreamOpFlag.IS_SHORT_CIRCUIT | (mustFindFirst ? 0 : StreamOpFlag.NOT_ORDERED);
+        public int getOpFlbgs() {
+            return StrebmOpFlbg.IS_SHORT_CIRCUIT | (mustFindFirst ? 0 : StrebmOpFlbg.NOT_ORDERED);
         }
 
         @Override
-        public StreamShape inputShape() {
-            return shape;
+        public StrebmShbpe inputShbpe() {
+            return shbpe;
         }
 
         @Override
-        public <S> O evaluateSequential(PipelineHelper<T> helper,
-                                        Spliterator<S> spliterator) {
-            O result = helper.wrapAndCopyInto(sinkSupplier.get(), spliterator).get();
-            return result != null ? result : emptyValue;
+        public <S> O evblubteSequentibl(PipelineHelper<T> helper,
+                                        Spliterbtor<S> spliterbtor) {
+            O result = helper.wrbpAndCopyInto(sinkSupplier.get(), spliterbtor).get();
+            return result != null ? result : emptyVblue;
         }
 
         @Override
-        public <P_IN> O evaluateParallel(PipelineHelper<T> helper,
-                                         Spliterator<P_IN> spliterator) {
-            return new FindTask<>(this, helper, spliterator).invoke();
+        public <P_IN> O evblubtePbrbllel(PipelineHelper<T> helper,
+                                         Spliterbtor<P_IN> spliterbtor) {
+            return new FindTbsk<>(this, helper, spliterbtor).invoke();
         }
     }
 
     /**
-     * Implementation of @{code TerminalSink} that implements the find
-     * functionality, requesting cancellation when something has been found
+     * Implementbtion of @{code TerminblSink} thbt implements the find
+     * functionblity, requesting cbncellbtion when something hbs been found
      *
-     * @param <T> The type of input element
-     * @param <O> The result type, typically an optional type
+     * @pbrbm <T> The type of input element
+     * @pbrbm <O> The result type, typicblly bn optionbl type
      */
-    private static abstract class FindSink<T, O> implements TerminalSink<T, O> {
-        boolean hasValue;
-        T value;
+    privbte stbtic bbstrbct clbss FindSink<T, O> implements TerminblSink<T, O> {
+        boolebn hbsVblue;
+        T vblue;
 
-        FindSink() {} // Avoid creation of special accessor
+        FindSink() {} // Avoid crebtion of specibl bccessor
 
         @Override
-        public void accept(T value) {
-            if (!hasValue) {
-                hasValue = true;
-                this.value = value;
+        public void bccept(T vblue) {
+            if (!hbsVblue) {
+                hbsVblue = true;
+                this.vblue = vblue;
             }
         }
 
         @Override
-        public boolean cancellationRequested() {
-            return hasValue;
+        public boolebn cbncellbtionRequested() {
+            return hbsVblue;
         }
 
-        /** Specialization of {@code FindSink} for reference streams */
-        static final class OfRef<T> extends FindSink<T, Optional<T>> {
+        /** Speciblizbtion of {@code FindSink} for reference strebms */
+        stbtic finbl clbss OfRef<T> extends FindSink<T, Optionbl<T>> {
             @Override
-            public Optional<T> get() {
-                return hasValue ? Optional.of(value) : null;
+            public Optionbl<T> get() {
+                return hbsVblue ? Optionbl.of(vblue) : null;
             }
         }
 
-        /** Specialization of {@code FindSink} for int streams */
-        static final class OfInt extends FindSink<Integer, OptionalInt>
+        /** Speciblizbtion of {@code FindSink} for int strebms */
+        stbtic finbl clbss OfInt extends FindSink<Integer, OptionblInt>
                 implements Sink.OfInt {
             @Override
-            public void accept(int value) {
-                // Boxing is OK here, since few values will actually flow into the sink
-                accept((Integer) value);
+            public void bccept(int vblue) {
+                // Boxing is OK here, since few vblues will bctublly flow into the sink
+                bccept((Integer) vblue);
             }
 
             @Override
-            public OptionalInt get() {
-                return hasValue ? OptionalInt.of(value) : null;
+            public OptionblInt get() {
+                return hbsVblue ? OptionblInt.of(vblue) : null;
             }
         }
 
-        /** Specialization of {@code FindSink} for long streams */
-        static final class OfLong extends FindSink<Long, OptionalLong>
+        /** Speciblizbtion of {@code FindSink} for long strebms */
+        stbtic finbl clbss OfLong extends FindSink<Long, OptionblLong>
                 implements Sink.OfLong {
             @Override
-            public void accept(long value) {
-                // Boxing is OK here, since few values will actually flow into the sink
-                accept((Long) value);
+            public void bccept(long vblue) {
+                // Boxing is OK here, since few vblues will bctublly flow into the sink
+                bccept((Long) vblue);
             }
 
             @Override
-            public OptionalLong get() {
-                return hasValue ? OptionalLong.of(value) : null;
+            public OptionblLong get() {
+                return hbsVblue ? OptionblLong.of(vblue) : null;
             }
         }
 
-        /** Specialization of {@code FindSink} for double streams */
-        static final class OfDouble extends FindSink<Double, OptionalDouble>
+        /** Speciblizbtion of {@code FindSink} for double strebms */
+        stbtic finbl clbss OfDouble extends FindSink<Double, OptionblDouble>
                 implements Sink.OfDouble {
             @Override
-            public void accept(double value) {
-                // Boxing is OK here, since few values will actually flow into the sink
-                accept((Double) value);
+            public void bccept(double vblue) {
+                // Boxing is OK here, since few vblues will bctublly flow into the sink
+                bccept((Double) vblue);
             }
 
             @Override
-            public OptionalDouble get() {
-                return hasValue ? OptionalDouble.of(value) : null;
+            public OptionblDouble get() {
+                return hbsVblue ? OptionblDouble.of(vblue) : null;
             }
         }
     }
 
     /**
-     * {@code ForkJoinTask} implementing parallel short-circuiting search
-     * @param <P_IN> Input element type to the stream pipeline
-     * @param <P_OUT> Output element type from the stream pipeline
-     * @param <O> Result type from the find operation
+     * {@code ForkJoinTbsk} implementing pbrbllel short-circuiting sebrch
+     * @pbrbm <P_IN> Input element type to the strebm pipeline
+     * @pbrbm <P_OUT> Output element type from the strebm pipeline
+     * @pbrbm <O> Result type from the find operbtion
      */
-    @SuppressWarnings("serial")
-    private static final class FindTask<P_IN, P_OUT, O>
-            extends AbstractShortCircuitTask<P_IN, P_OUT, O, FindTask<P_IN, P_OUT, O>> {
-        private final FindOp<P_OUT, O> op;
+    @SuppressWbrnings("seribl")
+    privbte stbtic finbl clbss FindTbsk<P_IN, P_OUT, O>
+            extends AbstrbctShortCircuitTbsk<P_IN, P_OUT, O, FindTbsk<P_IN, P_OUT, O>> {
+        privbte finbl FindOp<P_OUT, O> op;
 
-        FindTask(FindOp<P_OUT, O> op,
+        FindTbsk(FindOp<P_OUT, O> op,
                  PipelineHelper<P_OUT> helper,
-                 Spliterator<P_IN> spliterator) {
-            super(helper, spliterator);
+                 Spliterbtor<P_IN> spliterbtor) {
+            super(helper, spliterbtor);
             this.op = op;
         }
 
-        FindTask(FindTask<P_IN, P_OUT, O> parent, Spliterator<P_IN> spliterator) {
-            super(parent, spliterator);
-            this.op = parent.op;
+        FindTbsk(FindTbsk<P_IN, P_OUT, O> pbrent, Spliterbtor<P_IN> spliterbtor) {
+            super(pbrent, spliterbtor);
+            this.op = pbrent.op;
         }
 
         @Override
-        protected FindTask<P_IN, P_OUT, O> makeChild(Spliterator<P_IN> spliterator) {
-            return new FindTask<>(this, spliterator);
+        protected FindTbsk<P_IN, P_OUT, O> mbkeChild(Spliterbtor<P_IN> spliterbtor) {
+            return new FindTbsk<>(this, spliterbtor);
         }
 
         @Override
         protected O getEmptyResult() {
-            return op.emptyValue;
+            return op.emptyVblue;
         }
 
-        private void foundResult(O answer) {
+        privbte void foundResult(O bnswer) {
             if (isLeftmostNode())
-                shortCircuit(answer);
+                shortCircuit(bnswer);
             else
-                cancelLaterNodes();
+                cbncelLbterNodes();
         }
 
         @Override
-        protected O doLeaf() {
-            O result = helper.wrapAndCopyInto(op.sinkSupplier.get(), spliterator).get();
+        protected O doLebf() {
+            O result = helper.wrbpAndCopyInto(op.sinkSupplier.get(), spliterbtor).get();
             if (!op.mustFindFirst) {
                 if (result != null)
                     shortCircuit(result);
@@ -299,19 +299,19 @@ final class FindOps {
         }
 
         @Override
-        public void onCompletion(CountedCompleter<?> caller) {
+        public void onCompletion(CountedCompleter<?> cbller) {
             if (op.mustFindFirst) {
-                    for (FindTask<P_IN, P_OUT, O> child = leftChild, p = null; child != p;
+                    for (FindTbsk<P_IN, P_OUT, O> child = leftChild, p = null; child != p;
                          p = child, child = rightChild) {
-                    O result = child.getLocalResult();
-                    if (result != null && op.presentPredicate.test(result)) {
-                        setLocalResult(result);
+                    O result = child.getLocblResult();
+                    if (result != null && op.presentPredicbte.test(result)) {
+                        setLocblResult(result);
                         foundResult(result);
-                        break;
+                        brebk;
                     }
                 }
             }
-            super.onCompletion(caller);
+            super.onCompletion(cbller);
         }
     }
 }

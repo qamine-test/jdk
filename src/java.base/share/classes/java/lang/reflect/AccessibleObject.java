@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 import sun.reflect.Reflection;
-import sun.reflect.ReflectionFactory;
-import java.lang.annotation.Annotation;
+import sun.reflect.ReflectionFbctory;
+import jbvb.lbng.bnnotbtion.Annotbtion;
 
 /**
- * The AccessibleObject class is the base class for Field, Method and
- * Constructor objects.  It provides the ability to flag a reflected
- * object as suppressing default Java language access control checks
- * when it is used.  The access checks--for public, default (package)
- * access, protected, and private members--are performed when Fields,
- * Methods or Constructors are used to set or get fields, to invoke
- * methods, or to create and initialize new instances of classes,
+ * The AccessibleObject clbss is the bbse clbss for Field, Method bnd
+ * Constructor objects.  It provides the bbility to flbg b reflected
+ * object bs suppressing defbult Jbvb lbngubge bccess control checks
+ * when it is used.  The bccess checks--for public, defbult (pbckbge)
+ * bccess, protected, bnd privbte members--bre performed when Fields,
+ * Methods or Constructors bre used to set or get fields, to invoke
+ * methods, or to crebte bnd initiblize new instbnces of clbsses,
  * respectively.
  *
- * <p>Setting the {@code accessible} flag in a reflected object
- * permits sophisticated applications with sufficient privilege, such
- * as Java Object Serialization or other persistence mechanisms, to
- * manipulate objects in a manner that would normally be prohibited.
+ * <p>Setting the {@code bccessible} flbg in b reflected object
+ * permits sophisticbted bpplicbtions with sufficient privilege, such
+ * bs Jbvb Object Seriblizbtion or other persistence mechbnisms, to
+ * mbnipulbte objects in b mbnner thbt would normblly be prohibited.
  *
- * <p>By default, a reflected object is <em>not</em> accessible.
+ * <p>By defbult, b reflected object is <em>not</em> bccessible.
  *
  * @see Field
  * @see Method
@@ -54,138 +54,138 @@ import java.lang.annotation.Annotation;
  *
  * @since 1.2
  */
-public class AccessibleObject implements AnnotatedElement {
+public clbss AccessibleObject implements AnnotbtedElement {
 
     /**
-     * The Permission object that is used to check whether a client
-     * has sufficient privilege to defeat Java language access
+     * The Permission object thbt is used to check whether b client
+     * hbs sufficient privilege to defebt Jbvb lbngubge bccess
      * control checks.
      */
-    static final private java.security.Permission ACCESS_PERMISSION =
+    stbtic finbl privbte jbvb.security.Permission ACCESS_PERMISSION =
         new ReflectPermission("suppressAccessChecks");
 
     /**
-     * Convenience method to set the {@code accessible} flag for an
-     * array of objects with a single security check (for efficiency).
+     * Convenience method to set the {@code bccessible} flbg for bn
+     * brrby of objects with b single security check (for efficiency).
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkPermission} method is called with a
+     * <p>First, if there is b security mbnbger, its
+     * {@code checkPermission} method is cblled with b
      * {@code ReflectPermission("suppressAccessChecks")} permission.
      *
-     * <p>A {@code SecurityException} is raised if {@code flag} is
-     * {@code true} but accessibility of any of the elements of the input
-     * {@code array} may not be changed (for example, if the element
-     * object is a {@link Constructor} object for the class {@link
-     * java.lang.Class}).  In the event of such a SecurityException, the
-     * accessibility of objects is set to {@code flag} for array elements
-     * upto (and excluding) the element for which the exception occurred; the
-     * accessibility of elements beyond (and including) the element for which
-     * the exception occurred is unchanged.
+     * <p>A {@code SecurityException} is rbised if {@code flbg} is
+     * {@code true} but bccessibility of bny of the elements of the input
+     * {@code brrby} mby not be chbnged (for exbmple, if the element
+     * object is b {@link Constructor} object for the clbss {@link
+     * jbvb.lbng.Clbss}).  In the event of such b SecurityException, the
+     * bccessibility of objects is set to {@code flbg} for brrby elements
+     * upto (bnd excluding) the element for which the exception occurred; the
+     * bccessibility of elements beyond (bnd including) the element for which
+     * the exception occurred is unchbnged.
      *
-     * @param array the array of AccessibleObjects
-     * @param flag  the new value for the {@code accessible} flag
-     *              in each object
+     * @pbrbm brrby the brrby of AccessibleObjects
+     * @pbrbm flbg  the new vblue for the {@code bccessible} flbg
+     *              in ebch object
      * @throws SecurityException if the request is denied.
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.lbng.RuntimePermission
      */
-    public static void setAccessible(AccessibleObject[] array, boolean flag)
+    public stbtic void setAccessible(AccessibleObject[] brrby, boolebn flbg)
         throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) sm.checkPermission(ACCESS_PERMISSION);
-        for (AccessibleObject ao : array) {
-            setAccessible0(ao, flag);
+        for (AccessibleObject bo : brrby) {
+            setAccessible0(bo, flbg);
         }
     }
 
     /**
-     * Set the {@code accessible} flag for this object to
-     * the indicated boolean value.  A value of {@code true} indicates that
-     * the reflected object should suppress Java language access
-     * checking when it is used.  A value of {@code false} indicates
-     * that the reflected object should enforce Java language access checks.
+     * Set the {@code bccessible} flbg for this object to
+     * the indicbted boolebn vblue.  A vblue of {@code true} indicbtes thbt
+     * the reflected object should suppress Jbvb lbngubge bccess
+     * checking when it is used.  A vblue of {@code fblse} indicbtes
+     * thbt the reflected object should enforce Jbvb lbngubge bccess checks.
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkPermission} method is called with a
+     * <p>First, if there is b security mbnbger, its
+     * {@code checkPermission} method is cblled with b
      * {@code ReflectPermission("suppressAccessChecks")} permission.
      *
-     * <p>A {@code SecurityException} is raised if {@code flag} is
-     * {@code true} but accessibility of this object may not be changed
-     * (for example, if this element object is a {@link Constructor} object for
-     * the class {@link java.lang.Class}).
+     * <p>A {@code SecurityException} is rbised if {@code flbg} is
+     * {@code true} but bccessibility of this object mby not be chbnged
+     * (for exbmple, if this element object is b {@link Constructor} object for
+     * the clbss {@link jbvb.lbng.Clbss}).
      *
-     * <p>A {@code SecurityException} is raised if this object is a {@link
-     * java.lang.reflect.Constructor} object for the class
-     * {@code java.lang.Class}, and {@code flag} is true.
+     * <p>A {@code SecurityException} is rbised if this object is b {@link
+     * jbvb.lbng.reflect.Constructor} object for the clbss
+     * {@code jbvb.lbng.Clbss}, bnd {@code flbg} is true.
      *
-     * @param flag the new value for the {@code accessible} flag
+     * @pbrbm flbg the new vblue for the {@code bccessible} flbg
      * @throws SecurityException if the request is denied.
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.lbng.RuntimePermission
      */
-    public void setAccessible(boolean flag) throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    public void setAccessible(boolebn flbg) throws SecurityException {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) sm.checkPermission(ACCESS_PERMISSION);
-        setAccessible0(this, flag);
+        setAccessible0(this, flbg);
     }
 
-    /* Check that you aren't exposing java.lang.Class.<init> or sensitive
-       fields in java.lang.Class. */
-    private static void setAccessible0(AccessibleObject obj, boolean flag)
+    /* Check thbt you bren't exposing jbvb.lbng.Clbss.<init> or sensitive
+       fields in jbvb.lbng.Clbss. */
+    privbte stbtic void setAccessible0(AccessibleObject obj, boolebn flbg)
         throws SecurityException
     {
-        if (obj instanceof Constructor && flag == true) {
+        if (obj instbnceof Constructor && flbg == true) {
             Constructor<?> c = (Constructor<?>)obj;
-            if (c.getDeclaringClass() == Class.class) {
-                throw new SecurityException("Cannot make a java.lang.Class" +
-                                            " constructor accessible");
+            if (c.getDeclbringClbss() == Clbss.clbss) {
+                throw new SecurityException("Cbnnot mbke b jbvb.lbng.Clbss" +
+                                            " constructor bccessible");
             }
-        } else if (obj instanceof Field && flag == true) {
+        } else if (obj instbnceof Field && flbg == true) {
             Field f = (Field)obj;
-            if (f.getDeclaringClass() == Class.class &&
-                f.getName().equals("classLoader")) {
-                throw new SecurityException("Cannot make java.lang.Class.classLoader" +
-                                            " accessible");
+            if (f.getDeclbringClbss() == Clbss.clbss &&
+                f.getNbme().equbls("clbssLobder")) {
+                throw new SecurityException("Cbnnot mbke jbvb.lbng.Clbss.clbssLobder" +
+                                            " bccessible");
             }
         }
-        obj.override = flag;
+        obj.override = flbg;
     }
 
     /**
-     * Get the value of the {@code accessible} flag for this object.
+     * Get the vblue of the {@code bccessible} flbg for this object.
      *
-     * @return the value of the object's {@code accessible} flag
+     * @return the vblue of the object's {@code bccessible} flbg
      */
-    public boolean isAccessible() {
+    public boolebn isAccessible() {
         return override;
     }
 
     /**
-     * Constructor: only used by the Java Virtual Machine.
+     * Constructor: only used by the Jbvb Virtubl Mbchine.
      */
     protected AccessibleObject() {}
 
-    // Indicates whether language-level access checks are overridden
-    // by this object. Initializes to "false". This field is used by
-    // Field, Method, and Constructor.
+    // Indicbtes whether lbngubge-level bccess checks bre overridden
+    // by this object. Initiblizes to "fblse". This field is used by
+    // Field, Method, bnd Constructor.
     //
     // NOTE: for security purposes, this field must not be visible
-    // outside this package.
-    boolean override;
+    // outside this pbckbge.
+    boolebn override;
 
-    // Reflection factory used by subclasses for creating field,
-    // method, and constructor accessors. Note that this is called
-    // very early in the bootstrapping process.
-    static final ReflectionFactory reflectionFactory =
+    // Reflection fbctory used by subclbsses for crebting field,
+    // method, bnd constructor bccessors. Note thbt this is cblled
+    // very ebrly in the bootstrbpping process.
+    stbtic finbl ReflectionFbctory reflectionFbctory =
         AccessController.doPrivileged(
-            new sun.reflect.ReflectionFactory.GetReflectionFactoryAction());
+            new sun.reflect.ReflectionFbctory.GetReflectionFbctoryAction());
 
     /**
      * @throws NullPointerException {@inheritDoc}
      * @since 1.5
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        throw new AssertionError("All subclasses should override this method");
+    public <T extends Annotbtion> T getAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        throw new AssertionError("All subclbsses should override this method");
     }
 
     /**
@@ -194,8 +194,8 @@ public class AccessibleObject implements AnnotatedElement {
      * @since 1.5
      */
     @Override
-    public boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
-        return AnnotatedElement.super.isAnnotationPresent(annotationClass);
+    public boolebn isAnnotbtionPresent(Clbss<? extends Annotbtion> bnnotbtionClbss) {
+        return AnnotbtedElement.super.isAnnotbtionPresent(bnnotbtionClbss);
     }
 
    /**
@@ -203,15 +203,15 @@ public class AccessibleObject implements AnnotatedElement {
      * @since 1.8
      */
     @Override
-    public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
-        throw new AssertionError("All subclasses should override this method");
+    public <T extends Annotbtion> T[] getAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
+        throw new AssertionError("All subclbsses should override this method");
     }
 
     /**
      * @since 1.5
      */
-    public Annotation[] getAnnotations() {
-        return getDeclaredAnnotations();
+    public Annotbtion[] getAnnotbtions() {
+        return getDeclbredAnnotbtions();
     }
 
     /**
@@ -219,11 +219,11 @@ public class AccessibleObject implements AnnotatedElement {
      * @since 1.8
      */
     @Override
-    public <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
-        // Only annotations on classes are inherited, for all other
-        // objects getDeclaredAnnotation is the same as
-        // getAnnotation.
-        return getAnnotation(annotationClass);
+    public <T extends Annotbtion> T getDeclbredAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on clbsses bre inherited, for bll other
+        // objects getDeclbredAnnotbtion is the sbme bs
+        // getAnnotbtion.
+        return getAnnotbtion(bnnotbtionClbss);
     }
 
     /**
@@ -231,86 +231,86 @@ public class AccessibleObject implements AnnotatedElement {
      * @since 1.8
      */
     @Override
-    public <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotationClass) {
-        // Only annotations on classes are inherited, for all other
-        // objects getDeclaredAnnotationsByType is the same as
-        // getAnnotationsByType.
-        return getAnnotationsByType(annotationClass);
+    public <T extends Annotbtion> T[] getDeclbredAnnotbtionsByType(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on clbsses bre inherited, for bll other
+        // objects getDeclbredAnnotbtionsByType is the sbme bs
+        // getAnnotbtionsByType.
+        return getAnnotbtionsByType(bnnotbtionClbss);
     }
 
     /**
      * @since 1.5
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        throw new AssertionError("All subclasses should override this method");
+    public Annotbtion[] getDeclbredAnnotbtions()  {
+        throw new AssertionError("All subclbsses should override this method");
     }
 
 
-    // Shared access checking logic.
+    // Shbred bccess checking logic.
 
-    // For non-public members or members in package-private classes,
-    // it is necessary to perform somewhat expensive security checks.
-    // If the security check succeeds for a given class, it will
-    // always succeed (it is not affected by the granting or revoking
-    // of permissions); we speed up the check in the common case by
-    // remembering the last Class for which the check succeeded.
+    // For non-public members or members in pbckbge-privbte clbsses,
+    // it is necessbry to perform somewhbt expensive security checks.
+    // If the security check succeeds for b given clbss, it will
+    // blwbys succeed (it is not bffected by the grbnting or revoking
+    // of permissions); we speed up the check in the common cbse by
+    // remembering the lbst Clbss for which the check succeeded.
     //
     // The simple security check for Constructor is to see if
-    // the caller has already been seen, verified, and cached.
-    // (See also Class.newInstance(), which uses a similar method.)
+    // the cbller hbs blrebdy been seen, verified, bnd cbched.
+    // (See blso Clbss.newInstbnce(), which uses b similbr method.)
     //
-    // A more complicated security check cache is needed for Method and Field
-    // The cache can be either null (empty cache), a 2-array of {caller,target},
-    // or a caller (with target implicitly equal to this.clazz).
-    // In the 2-array case, the target is always different from the clazz.
-    volatile Object securityCheckCache;
+    // A more complicbted security check cbche is needed for Method bnd Field
+    // The cbche cbn be either null (empty cbche), b 2-brrby of {cbller,tbrget},
+    // or b cbller (with tbrget implicitly equbl to this.clbzz).
+    // In the 2-brrby cbse, the tbrget is blwbys different from the clbzz.
+    volbtile Object securityCheckCbche;
 
-    void checkAccess(Class<?> caller, Class<?> clazz, Object obj, int modifiers)
-        throws IllegalAccessException
+    void checkAccess(Clbss<?> cbller, Clbss<?> clbzz, Object obj, int modifiers)
+        throws IllegblAccessException
     {
-        if (caller == clazz) {  // quick check
+        if (cbller == clbzz) {  // quick check
             return;             // ACCESS IS OK
         }
-        Object cache = securityCheckCache;  // read volatile
-        Class<?> targetClass = clazz;
+        Object cbche = securityCheckCbche;  // rebd volbtile
+        Clbss<?> tbrgetClbss = clbzz;
         if (obj != null
             && Modifier.isProtected(modifiers)
-            && ((targetClass = obj.getClass()) != clazz)) {
-            // Must match a 2-list of { caller, targetClass }.
-            if (cache instanceof Class[]) {
-                Class<?>[] cache2 = (Class<?>[]) cache;
-                if (cache2[1] == targetClass &&
-                    cache2[0] == caller) {
+            && ((tbrgetClbss = obj.getClbss()) != clbzz)) {
+            // Must mbtch b 2-list of { cbller, tbrgetClbss }.
+            if (cbche instbnceof Clbss[]) {
+                Clbss<?>[] cbche2 = (Clbss<?>[]) cbche;
+                if (cbche2[1] == tbrgetClbss &&
+                    cbche2[0] == cbller) {
                     return;     // ACCESS IS OK
                 }
-                // (Test cache[1] first since range check for [1]
-                // subsumes range check for [0].)
+                // (Test cbche[1] first since rbnge check for [1]
+                // subsumes rbnge check for [0].)
             }
-        } else if (cache == caller) {
-            // Non-protected case (or obj.class == this.clazz).
+        } else if (cbche == cbller) {
+            // Non-protected cbse (or obj.clbss == this.clbzz).
             return;             // ACCESS IS OK
         }
 
-        // If no return, fall through to the slow path.
-        slowCheckMemberAccess(caller, clazz, obj, modifiers, targetClass);
+        // If no return, fbll through to the slow pbth.
+        slowCheckMemberAccess(cbller, clbzz, obj, modifiers, tbrgetClbss);
     }
 
-    // Keep all this slow stuff out of line:
-    void slowCheckMemberAccess(Class<?> caller, Class<?> clazz, Object obj, int modifiers,
-                               Class<?> targetClass)
-        throws IllegalAccessException
+    // Keep bll this slow stuff out of line:
+    void slowCheckMemberAccess(Clbss<?> cbller, Clbss<?> clbzz, Object obj, int modifiers,
+                               Clbss<?> tbrgetClbss)
+        throws IllegblAccessException
     {
-        Reflection.ensureMemberAccess(caller, clazz, obj, modifiers);
+        Reflection.ensureMemberAccess(cbller, clbzz, obj, modifiers);
 
-        // Success: Update the cache.
-        Object cache = ((targetClass == clazz)
-                        ? caller
-                        : new Class<?>[] { caller, targetClass });
+        // Success: Updbte the cbche.
+        Object cbche = ((tbrgetClbss == clbzz)
+                        ? cbller
+                        : new Clbss<?>[] { cbller, tbrgetClbss });
 
-        // Note:  The two cache elements are not volatile,
-        // but they are effectively final.  The Java memory model
-        // guarantees that the initializing stores for the cache
-        // elements will occur before the volatile write.
-        securityCheckCache = cache;         // write volatile
+        // Note:  The two cbche elements bre not volbtile,
+        // but they bre effectively finbl.  The Jbvb memory model
+        // gubrbntees thbt the initiblizing stores for the cbche
+        // elements will occur before the volbtile write.
+        securityCheckCbche = cbche;         // write volbtile
     }
 }

@@ -1,659 +1,659 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.cosnaming;
+pbckbge com.sun.jndi.cosnbming;
 
-import javax.naming.*;
-import javax.naming.spi.NamingManager;
-import javax.naming.spi.ResolveResult;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.NbmingMbnbger;
+import jbvbx.nbming.spi.ResolveResult;
 
-import java.util.Hashtable;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+import jbvb.util.Hbshtbble;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.BufferedRebder;
+import jbvb.io.IOException;
 
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
+import org.omg.CosNbming.*;
+import org.omg.CosNbming.NbmingContextPbckbge.*;
 import org.omg.CORBA.*;
 
-import com.sun.jndi.toolkit.corba.CorbaUtils;
+import com.sun.jndi.toolkit.corbb.CorbbUtils;
 
-// Needed for creating default ORB
-import java.applet.Applet;
+// Needed for crebting defbult ORB
+import jbvb.bpplet.Applet;
 
 /**
-  * Provides a bridge to the CosNaming server provided by
-  * JavaIDL. This class provides the InitialContext from CosNaming.
+  * Provides b bridge to the CosNbming server provided by
+  * JbvbIDL. This clbss provides the InitiblContext from CosNbming.
   *
-  * @author Raj Krishnamurthy
-  * @author Rosanna Lee
+  * @buthor Rbj Krishnbmurthy
+  * @buthor Rosbnnb Lee
   */
 
-public class CNCtx implements javax.naming.Context {
+public clbss CNCtx implements jbvbx.nbming.Context {
 
-    private final static boolean debug = false;
+    privbte finbl stbtic boolebn debug = fblse;
 
     /*
-     * Implement one shared ORB among all CNCtx.  However, there is a public constructor
-     * accepting an ORB, so we need the option of using a given ORB.
+     * Implement one shbred ORB bmong bll CNCtx.  However, there is b public constructor
+     * bccepting bn ORB, so we need the option of using b given ORB.
      */
-    private static ORB _defaultOrb;
-    ORB _orb;                   // used by ExceptionMapper and RMI/IIOP factory
-    public NamingContext _nc;   // public for accessing underlying NamingContext
+    privbte stbtic ORB _defbultOrb;
+    ORB _orb;                   // used by ExceptionMbpper bnd RMI/IIOP fbctory
+    public NbmingContext _nc;   // public for bccessing underlying NbmingContext
 
-    private synchronized static ORB getDefaultOrb() {
-        if (_defaultOrb == null) {
-            _defaultOrb = CorbaUtils.getOrb(null, -1,
-               new Hashtable<String, java.lang.Object>());
+    privbte synchronized stbtic ORB getDefbultOrb() {
+        if (_defbultOrb == null) {
+            _defbultOrb = CorbbUtils.getOrb(null, -1,
+               new Hbshtbble<String, jbvb.lbng.Object>());
         }
-        return _defaultOrb;
+        return _defbultOrb;
     }
 
-    private NameComponent[] _name = null;
+    privbte NbmeComponent[] _nbme = null;
 
-    Hashtable<String, java.lang.Object> _env; // used by ExceptionMapper
-    static final CNNameParser parser = new CNNameParser();
+    Hbshtbble<String, jbvb.lbng.Object> _env; // used by ExceptionMbpper
+    stbtic finbl CNNbmePbrser pbrser = new CNNbmePbrser();
 
-    private static final String FED_PROP = "com.sun.jndi.cosnaming.federation";
-    boolean federation = false;
+    privbte stbtic finbl String FED_PROP = "com.sun.jndi.cosnbming.federbtion";
+    boolebn federbtion = fblse;
 
-    // Reference counter for tracking _orb references
-    OrbReuseTracker orbTracker = null;
+    // Reference counter for trbcking _orb references
+    OrbReuseTrbcker orbTrbcker = null;
     int enumCount;
-    boolean isCloseCalled = false;
+    boolebn isCloseCblled = fblse;
 
     /**
-      * Create a CNCtx object. Gets the initial naming
-      * reference for the COS Naming Service from the ORB.
-      * The ORB can be passed in via the java.naming.corba.orb property
-      * or be created using properties in the environment properties.
-      * @param env Environment properties for initializing name service.
-      * @exception NamingException Cannot initialize ORB or naming context.
+      * Crebte b CNCtx object. Gets the initibl nbming
+      * reference for the COS Nbming Service from the ORB.
+      * The ORB cbn be pbssed in vib the jbvb.nbming.corbb.orb property
+      * or be crebted using properties in the environment properties.
+      * @pbrbm env Environment properties for initiblizing nbme service.
+      * @exception NbmingException Cbnnot initiblize ORB or nbming context.
       */
-    @SuppressWarnings("unchecked")
-    CNCtx(Hashtable<?,?> env) throws NamingException {
+    @SuppressWbrnings("unchecked")
+    CNCtx(Hbshtbble<?,?> env) throws NbmingException {
         if (env != null) {
-            env = (Hashtable<?,?>)env.clone();
+            env = (Hbshtbble<?,?>)env.clone();
         }
-        _env = (Hashtable<String, java.lang.Object>)env;
-        federation = "true".equals(env != null ? env.get(FED_PROP) : null);
+        _env = (Hbshtbble<String, jbvb.lbng.Object>)env;
+        federbtion = "true".equbls(env != null ? env.get(FED_PROP) : null);
         initOrbAndRootContext(env);
     }
 
-    private CNCtx() {
+    privbte CNCtx() {
     }
 
     /**
-     * This method is used by the iiop and iiopname URL Context factories.
+     * This method is used by the iiop bnd iiopnbme URL Context fbctories.
      */
-    @SuppressWarnings("unchecked")
-    public static ResolveResult createUsingURL(String url, Hashtable<?,?> env)
-    throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public stbtic ResolveResult crebteUsingURL(String url, Hbshtbble<?,?> env)
+    throws NbmingException {
         CNCtx ctx = new CNCtx();
         if (env != null) {
-            env = (Hashtable<?,?>) env.clone();
+            env = (Hbshtbble<?,?>) env.clone();
         }
-        ctx._env = (Hashtable<String, java.lang.Object>)env;
+        ctx._env = (Hbshtbble<String, jbvb.lbng.Object>)env;
         String rest = ctx.initUsingUrl(
             env != null ?
-                (org.omg.CORBA.ORB) env.get("java.naming.corba.orb")
+                (org.omg.CORBA.ORB) env.get("jbvb.nbming.corbb.orb")
                 : null,
             url, env);
 
-        // rest is the INS name
-        // Return the parsed form to prevent subsequent lookup
-        // from parsing the string as a composite name
-        // The caller should be aware that a toString() of the name,
-        // which came from the environment will yield its INS syntax,
-        // rather than a composite syntax
-        return new ResolveResult(ctx, parser.parse(rest));
+        // rest is the INS nbme
+        // Return the pbrsed form to prevent subsequent lookup
+        // from pbrsing the string bs b composite nbme
+        // The cbller should be bwbre thbt b toString() of the nbme,
+        // which cbme from the environment will yield its INS syntbx,
+        // rbther thbn b composite syntbx
+        return new ResolveResult(ctx, pbrser.pbrse(rest));
     }
 
     /**
-      * Creates a CNCtx object which supports the javax.naming
-      * apis given a COS Naming Context object.
-      * @param orb The ORB used by this context
-      * @param tracker The ORB reuse tracker for tracking references to the
+      * Crebtes b CNCtx object which supports the jbvbx.nbming
+      * bpis given b COS Nbming Context object.
+      * @pbrbm orb The ORB used by this context
+      * @pbrbm trbcker The ORB reuse trbcker for trbcking references to the
       *  orb object
-      * @param nctx The COS NamingContext object associated with this context
-      * @param name The name of this context relative to the root
+      * @pbrbm nctx The COS NbmingContext object bssocibted with this context
+      * @pbrbm nbme The nbme of this context relbtive to the root
       */
 
-    CNCtx(ORB orb, OrbReuseTracker tracker, NamingContext nctx,
-          Hashtable<String, java.lang.Object> env, NameComponent[]name)
-        throws NamingException {
+    CNCtx(ORB orb, OrbReuseTrbcker trbcker, NbmingContext nctx,
+          Hbshtbble<String, jbvb.lbng.Object> env, NbmeComponent[]nbme)
+        throws NbmingException {
             if (orb == null || nctx == null)
-                throw new ConfigurationException(
-                    "Must supply ORB or NamingContext");
+                throw new ConfigurbtionException(
+                    "Must supply ORB or NbmingContext");
             if (orb != null) {
                 _orb = orb;
             } else {
-                _orb = getDefaultOrb();
+                _orb = getDefbultOrb();
             }
             _nc = nctx;
             _env = env;
-            _name = name;
-            federation = "true".equals(env != null ? env.get(FED_PROP) : null);
+            _nbme = nbme;
+            federbtion = "true".equbls(env != null ? env.get(FED_PROP) : null);
     }
 
-    NameComponent[] makeFullName(NameComponent[] child) {
-        if (_name == null || _name.length == 0) {
+    NbmeComponent[] mbkeFullNbme(NbmeComponent[] child) {
+        if (_nbme == null || _nbme.length == 0) {
             return child;
         }
-        NameComponent[] answer = new NameComponent[_name.length+child.length];
+        NbmeComponent[] bnswer = new NbmeComponent[_nbme.length+child.length];
 
-        // parent
-        System.arraycopy(_name, 0, answer, 0, _name.length);
+        // pbrent
+        System.brrbycopy(_nbme, 0, bnswer, 0, _nbme.length);
 
         // child
-        System.arraycopy(child, 0, answer, _name.length, child.length);
-        return answer;
+        System.brrbycopy(child, 0, bnswer, _nbme.length, child.length);
+        return bnswer;
     }
 
 
-    public String getNameInNamespace() throws NamingException {
-        if (_name == null || _name.length == 0) {
+    public String getNbmeInNbmespbce() throws NbmingException {
+        if (_nbme == null || _nbme.length == 0) {
             return "";
         }
-        return CNNameParser.cosNameToInsString(_name);
+        return CNNbmePbrser.cosNbmeToInsString(_nbme);
     }
 
     /**
-     * These are the URL schemes that need to be processed.
-     * IOR and corbaloc URLs can be passed directly to ORB.string_to_object()
+     * These bre the URL schemes thbt need to be processed.
+     * IOR bnd corbbloc URLs cbn be pbssed directly to ORB.string_to_object()
      */
-    private static boolean isCorbaUrl(String url) {
-        return url.startsWith("iiop://")
-            || url.startsWith("iiopname://")
-            || url.startsWith("corbaname:")
+    privbte stbtic boolebn isCorbbUrl(String url) {
+        return url.stbrtsWith("iiop://")
+            || url.stbrtsWith("iiopnbme://")
+            || url.stbrtsWith("corbbnbme:")
             ;
     }
 
     /**
-      * Initializes the COS Naming Service.
-      * This method initializes the three instance fields:
-      * _nc : The root naming context.
-      * _orb: The ORB to use for connecting RMI/IIOP stubs and for
-      *       getting the naming context (_nc) if one was not specified
-      *       explicitly via PROVIDER_URL.
-      * _name: The name of the root naming context.
+      * Initiblizes the COS Nbming Service.
+      * This method initiblizes the three instbnce fields:
+      * _nc : The root nbming context.
+      * _orb: The ORB to use for connecting RMI/IIOP stubs bnd for
+      *       getting the nbming context (_nc) if one wbs not specified
+      *       explicitly vib PROVIDER_URL.
+      * _nbme: The nbme of the root nbming context.
       *<p>
-      * _orb is obtained from java.naming.corba.orb if it has been set.
-      * Otherwise, _orb is created using the host/port from PROVIDER_URL
-      * (if it contains an "iiop" or "iiopname" URL), or from initialization
+      * _orb is obtbined from jbvb.nbming.corbb.orb if it hbs been set.
+      * Otherwise, _orb is crebted using the host/port from PROVIDER_URL
+      * (if it contbins bn "iiop" or "iiopnbme" URL), or from initiblizbtion
       * properties specified in env.
       *<p>
-      * _nc is obtained from the IOR stored in PROVIDER_URL if it has been
-      * set and does not contain an "iiop" or "iiopname" URL. It can be
-      * a stringified IOR, "corbaloc" URL, "corbaname" URL,
-      * or a URL (such as file/http/ftp) to a location
-      * containing a stringified IOR. If PROVIDER_URL has not been
-      * set in this way, it is obtained from the result of
-      *     ORB.resolve_initial_reference("NameService");
+      * _nc is obtbined from the IOR stored in PROVIDER_URL if it hbs been
+      * set bnd does not contbin bn "iiop" or "iiopnbme" URL. It cbn be
+      * b stringified IOR, "corbbloc" URL, "corbbnbme" URL,
+      * or b URL (such bs file/http/ftp) to b locbtion
+      * contbining b stringified IOR. If PROVIDER_URL hbs not been
+      * set in this wby, it is obtbined from the result of
+      *     ORB.resolve_initibl_reference("NbmeService");
       *<p>
-      * _name is obtained from the "iiop", "iiopname", or "corbaname" URL.
-      * It is the empty name by default.
+      * _nbme is obtbined from the "iiop", "iiopnbme", or "corbbnbme" URL.
+      * It is the empty nbme by defbult.
       *
-      * @param env Environment The possibly null environment.
-      * @exception NamingException When an error occurs while initializing the
-      * ORB or the naming context.
+      * @pbrbm env Environment The possibly null environment.
+      * @exception NbmingException When bn error occurs while initiblizing the
+      * ORB or the nbming context.
       */
-    private void initOrbAndRootContext(Hashtable<?,?> env) throws NamingException {
+    privbte void initOrbAndRootContext(Hbshtbble<?,?> env) throws NbmingException {
         org.omg.CORBA.ORB inOrb = null;
         String ncIor = null;
 
         if (inOrb == null && env != null) {
-            inOrb = (org.omg.CORBA.ORB) env.get("java.naming.corba.orb");
+            inOrb = (org.omg.CORBA.ORB) env.get("jbvb.nbming.corbb.orb");
         }
 
         if (inOrb == null)
-            inOrb = getDefaultOrb(); // will create a default ORB if none exists
+            inOrb = getDefbultOrb(); // will crebte b defbult ORB if none exists
 
-        // Extract PROVIDER_URL from environment
+        // Extrbct PROVIDER_URL from environment
         String provUrl = null;
         if (env != null) {
-            provUrl = (String)env.get(javax.naming.Context.PROVIDER_URL);
+            provUrl = (String)env.get(jbvbx.nbming.Context.PROVIDER_URL);
         }
 
-        if (provUrl != null && !isCorbaUrl(provUrl)) {
-            // Initialize the root naming context by using the IOR supplied
+        if (provUrl != null && !isCorbbUrl(provUrl)) {
+            // Initiblize the root nbming context by using the IOR supplied
             // in the PROVIDER_URL
             ncIor = getStringifiedIor(provUrl);
             setOrbAndRootContext(inOrb, ncIor);
         } else if (provUrl != null) {
-            // Initialize the root naming context by using the URL supplied
+            // Initiblize the root nbming context by using the URL supplied
             // in the PROVIDER_URL
-            String insName = initUsingUrl(inOrb, provUrl, env);
+            String insNbme = initUsingUrl(inOrb, provUrl, env);
 
-            // If name supplied in URL, resolve it to a NamingContext
-            if (insName.length() > 0) {
-                _name = CNNameParser.nameToCosName(parser.parse(insName));
+            // If nbme supplied in URL, resolve it to b NbmingContext
+            if (insNbme.length() > 0) {
+                _nbme = CNNbmePbrser.nbmeToCosNbme(pbrser.pbrse(insNbme));
                 try {
-                    org.omg.CORBA.Object obj = _nc.resolve(_name);
-                    _nc = NamingContextHelper.narrow(obj);
+                    org.omg.CORBA.Object obj = _nc.resolve(_nbme);
+                    _nc = NbmingContextHelper.nbrrow(obj);
                     if (_nc == null) {
-                        throw new ConfigurationException(insName +
-                            " does not name a NamingContext");
+                        throw new ConfigurbtionException(insNbme +
+                            " does not nbme b NbmingContext");
                     }
-                } catch (org.omg.CORBA.BAD_PARAM e) {
-                    throw new ConfigurationException(insName +
-                        " does not name a NamingContext");
-                } catch (Exception e) {
-                    throw ExceptionMapper.mapException(e, this, _name);
+                } cbtch (org.omg.CORBA.BAD_PARAM e) {
+                    throw new ConfigurbtionException(insNbme +
+                        " does not nbme b NbmingContext");
+                } cbtch (Exception e) {
+                    throw ExceptionMbpper.mbpException(e, this, _nbme);
                 }
             }
         } else {
-            // No PROVIDER_URL supplied; initialize using defaults
+            // No PROVIDER_URL supplied; initiblize using defbults
             if (debug) {
-                System.err.println("Getting default ORB: " + inOrb + env);
+                System.err.println("Getting defbult ORB: " + inOrb + env);
             }
             setOrbAndRootContext(inOrb, (String)null);
         }
     }
 
 
-    private String initUsingUrl(ORB orb, String url, Hashtable<?,?> env)
-        throws NamingException {
-        if (url.startsWith("iiop://") || url.startsWith("iiopname://")) {
+    privbte String initUsingUrl(ORB orb, String url, Hbshtbble<?,?> env)
+        throws NbmingException {
+        if (url.stbrtsWith("iiop://") || url.stbrtsWith("iiopnbme://")) {
             return initUsingIiopUrl(orb, url, env);
         } else {
-            return initUsingCorbanameUrl(orb, url, env);
+            return initUsingCorbbnbmeUrl(orb, url, env);
         }
     }
 
     /**
-     * Handles "iiop" and "iiopname" URLs (INS 98-10-11)
+     * Hbndles "iiop" bnd "iiopnbme" URLs (INS 98-10-11)
      */
-    private String initUsingIiopUrl(ORB defOrb, String url, Hashtable<?,?> env)
-        throws NamingException {
+    privbte String initUsingIiopUrl(ORB defOrb, String url, Hbshtbble<?,?> env)
+        throws NbmingException {
 
         if (defOrb == null)
-            defOrb = getDefaultOrb();
+            defOrb = getDefbultOrb();
 
         try {
-            IiopUrl parsedUrl = new IiopUrl(url);
+            IiopUrl pbrsedUrl = new IiopUrl(url);
 
-            NamingException savedException = null;
+            NbmingException sbvedException = null;
 
-            for (IiopUrl.Address addr : parsedUrl.getAddresses()) {
+            for (IiopUrl.Address bddr : pbrsedUrl.getAddresses()) {
 
                 try {
                     try {
-                        String tmpUrl = "corbaloc:iiop:" + addr.host
-                            + ":" + addr.port + "/NameService";
+                        String tmpUrl = "corbbloc:iiop:" + bddr.host
+                            + ":" + bddr.port + "/NbmeService";
                         if (debug) {
                             System.err.println("Using url: " + tmpUrl);
                         }
                         org.omg.CORBA.Object rootCtx =
                             defOrb.string_to_object(tmpUrl);
                         setOrbAndRootContext(defOrb, rootCtx);
-                        return parsedUrl.getStringName();
-                    } catch (Exception e) {} // keep going
+                        return pbrsedUrl.getStringNbme();
+                    } cbtch (Exception e) {} // keep going
 
                     // Get ORB
                     if (debug) {
-                        System.err.println("Getting ORB for " + addr.host
-                            + " and port " + addr.port);
+                        System.err.println("Getting ORB for " + bddr.host
+                            + " bnd port " + bddr.port);
                     }
 
                     // Assign to fields
                     setOrbAndRootContext(defOrb, (String)null);
-                    return parsedUrl.getStringName();
+                    return pbrsedUrl.getStringNbme();
 
-                } catch (NamingException ne) {
-                    savedException = ne;
+                } cbtch (NbmingException ne) {
+                    sbvedException = ne;
                 }
             }
-            if (savedException != null) {
-                throw savedException;
+            if (sbvedException != null) {
+                throw sbvedException;
             } else {
-                throw new ConfigurationException("Problem with URL: " + url);
+                throw new ConfigurbtionException("Problem with URL: " + url);
             }
-        } catch (MalformedURLException e) {
-            throw new ConfigurationException(e.getMessage());
+        } cbtch (MblformedURLException e) {
+            throw new ConfigurbtionException(e.getMessbge());
         }
     }
 
     /**
-     * Initializes using "corbaname" URL (INS 99-12-03)
+     * Initiblizes using "corbbnbme" URL (INS 99-12-03)
      */
-    private String initUsingCorbanameUrl(ORB orb, String url, Hashtable<?,?> env)
-        throws NamingException {
+    privbte String initUsingCorbbnbmeUrl(ORB orb, String url, Hbshtbble<?,?> env)
+        throws NbmingException {
 
         if (orb == null)
-                orb = getDefaultOrb();
+                orb = getDefbultOrb();
 
         try {
-            CorbanameUrl parsedUrl = new CorbanameUrl(url);
+            CorbbnbmeUrl pbrsedUrl = new CorbbnbmeUrl(url);
 
-            String corbaloc = parsedUrl.getLocation();
-            String cosName = parsedUrl.getStringName();
+            String corbbloc = pbrsedUrl.getLocbtion();
+            String cosNbme = pbrsedUrl.getStringNbme();
 
-            setOrbAndRootContext(orb, corbaloc);
+            setOrbAndRootContext(orb, corbbloc);
 
-            return parsedUrl.getStringName();
-        } catch (MalformedURLException e) {
-            throw new ConfigurationException(e.getMessage());
+            return pbrsedUrl.getStringNbme();
+        } cbtch (MblformedURLException e) {
+            throw new ConfigurbtionException(e.getMessbge());
         }
     }
 
-    private void setOrbAndRootContext(ORB orb, String ncIor)
-        throws NamingException {
+    privbte void setOrbAndRootContext(ORB orb, String ncIor)
+        throws NbmingException {
         _orb = orb;
         try {
             org.omg.CORBA.Object ncRef;
             if (ncIor != null) {
                 if (debug) {
-                    System.err.println("Passing to string_to_object: " + ncIor);
+                    System.err.println("Pbssing to string_to_object: " + ncIor);
                 }
                 ncRef = _orb.string_to_object(ncIor);
             } else {
-                ncRef = _orb.resolve_initial_references("NameService");
+                ncRef = _orb.resolve_initibl_references("NbmeService");
             }
             if (debug) {
-                System.err.println("Naming Context Ref: " + ncRef);
+                System.err.println("Nbming Context Ref: " + ncRef);
             }
-            _nc = NamingContextHelper.narrow(ncRef);
+            _nc = NbmingContextHelper.nbrrow(ncRef);
             if (_nc == null) {
                 if (ncIor != null) {
-                    throw new ConfigurationException(
-                        "Cannot convert IOR to a NamingContext: " + ncIor);
+                    throw new ConfigurbtionException(
+                        "Cbnnot convert IOR to b NbmingContext: " + ncIor);
                 } else {
-                    throw new ConfigurationException(
-"ORB.resolve_initial_references(\"NameService\") does not return a NamingContext");
+                    throw new ConfigurbtionException(
+"ORB.resolve_initibl_references(\"NbmeService\") does not return b NbmingContext");
                 }
             }
-        } catch (org.omg.CORBA.ORBPackage.InvalidName in) {
-            NamingException ne =
-                new ConfigurationException(
-"COS Name Service not registered with ORB under the name 'NameService'");
-            ne.setRootCause(in);
+        } cbtch (org.omg.CORBA.ORBPbckbge.InvblidNbme in) {
+            NbmingException ne =
+                new ConfigurbtionException(
+"COS Nbme Service not registered with ORB under the nbme 'NbmeService'");
+            ne.setRootCbuse(in);
             throw ne;
-        } catch (org.omg.CORBA.COMM_FAILURE e) {
-            NamingException ne =
-                new CommunicationException("Cannot connect to ORB");
-            ne.setRootCause(e);
+        } cbtch (org.omg.CORBA.COMM_FAILURE e) {
+            NbmingException ne =
+                new CommunicbtionException("Cbnnot connect to ORB");
+            ne.setRootCbuse(e);
             throw ne;
-        } catch (org.omg.CORBA.BAD_PARAM e) {
-            NamingException ne = new ConfigurationException(
-                "Invalid URL or IOR: " + ncIor);
-            ne.setRootCause(e);
+        } cbtch (org.omg.CORBA.BAD_PARAM e) {
+            NbmingException ne = new ConfigurbtionException(
+                "Invblid URL or IOR: " + ncIor);
+            ne.setRootCbuse(e);
             throw ne;
-        } catch (org.omg.CORBA.INV_OBJREF e) {
-            NamingException ne = new ConfigurationException(
-                "Invalid object reference: " + ncIor);
-            ne.setRootCause(e);
+        } cbtch (org.omg.CORBA.INV_OBJREF e) {
+            NbmingException ne = new ConfigurbtionException(
+                "Invblid object reference: " + ncIor);
+            ne.setRootCbuse(e);
             throw ne;
         }
     }
 
-    private void setOrbAndRootContext(ORB orb, org.omg.CORBA.Object ncRef)
-        throws NamingException {
+    privbte void setOrbAndRootContext(ORB orb, org.omg.CORBA.Object ncRef)
+        throws NbmingException {
         _orb = orb;
         try {
-            _nc = NamingContextHelper.narrow(ncRef);
+            _nc = NbmingContextHelper.nbrrow(ncRef);
             if (_nc == null) {
-                throw new ConfigurationException(
-                    "Cannot convert object reference to NamingContext: " + ncRef);
+                throw new ConfigurbtionException(
+                    "Cbnnot convert object reference to NbmingContext: " + ncRef);
             }
-        } catch (org.omg.CORBA.COMM_FAILURE e) {
-            NamingException ne =
-                new CommunicationException("Cannot connect to ORB");
-            ne.setRootCause(e);
+        } cbtch (org.omg.CORBA.COMM_FAILURE e) {
+            NbmingException ne =
+                new CommunicbtionException("Cbnnot connect to ORB");
+            ne.setRootCbuse(e);
             throw ne;
         }
     }
 
-    private String getStringifiedIor(String url) throws NamingException {
-        if (url.startsWith("IOR:") || url.startsWith("corbaloc:")) {
+    privbte String getStringifiedIor(String url) throws NbmingException {
+        if (url.stbrtsWith("IOR:") || url.stbrtsWith("corbbloc:")) {
             return url;
         } else {
-            InputStream in = null;
+            InputStrebm in = null;
             try {
                 URL u = new URL(url);
-                in = u.openStream();
+                in = u.openStrebm();
                 if (in != null) {
-                    BufferedReader bufin =
-                        new BufferedReader(new InputStreamReader(in, "8859_1"));
+                    BufferedRebder bufin =
+                        new BufferedRebder(new InputStrebmRebder(in, "8859_1"));
                     String str;
-                    while ((str = bufin.readLine()) != null) {
-                        if (str.startsWith("IOR:")) {
+                    while ((str = bufin.rebdLine()) != null) {
+                        if (str.stbrtsWith("IOR:")) {
                             return str;
                         }
                     }
                 }
-            } catch (IOException e) {
-                NamingException ne =
-                    new ConfigurationException("Invalid URL: " + url);
-                ne.setRootCause(e);
+            } cbtch (IOException e) {
+                NbmingException ne =
+                    new ConfigurbtionException("Invblid URL: " + url);
+                ne.setRootCbuse(e);
                 throw ne;
-            } finally {
+            } finblly {
                 try {
                     if (in != null) {
                         in.close();
                     }
-                } catch (IOException e) {
-                    NamingException ne =
-                        new ConfigurationException("Invalid URL: " + url);
-                    ne.setRootCause(e);
+                } cbtch (IOException e) {
+                    NbmingException ne =
+                        new ConfigurbtionException("Invblid URL: " + url);
+                    ne.setRootCbuse(e);
                     throw ne;
                 }
             }
-            throw new ConfigurationException(url + " does not contain an IOR");
+            throw new ConfigurbtionException(url + " does not contbin bn IOR");
         }
     }
 
 
     /**
-      * Does the job of calling the COS Naming API,
-      * resolve, and performs the exception mapping. If the resolved
-      * object is a COS Naming Context (sub-context), then this function
-      * returns a new JNDI naming context object.
-      * @param path the NameComponent[] object.
-      * @exception NotFound No objects under the name.
-      * @exception CannotProceed Unable to obtain a continuation context
-      * @exception InvalidName Name not understood.
-      * @return Resolved object returned by the COS Name Server.
+      * Does the job of cblling the COS Nbming API,
+      * resolve, bnd performs the exception mbpping. If the resolved
+      * object is b COS Nbming Context (sub-context), then this function
+      * returns b new JNDI nbming context object.
+      * @pbrbm pbth the NbmeComponent[] object.
+      * @exception NotFound No objects under the nbme.
+      * @exception CbnnotProceed Unbble to obtbin b continubtion context
+      * @exception InvblidNbme Nbme not understood.
+      * @return Resolved object returned by the COS Nbme Server.
       */
-    java.lang.Object callResolve(NameComponent[] path)
-        throws NamingException {
+    jbvb.lbng.Object cbllResolve(NbmeComponent[] pbth)
+        throws NbmingException {
             try {
-                org.omg.CORBA.Object obj = _nc.resolve(path);
+                org.omg.CORBA.Object obj = _nc.resolve(pbth);
                 try {
-                    NamingContext nc =
-                        NamingContextHelper.narrow(obj);
+                    NbmingContext nc =
+                        NbmingContextHelper.nbrrow(obj);
                     if (nc != null) {
-                        return new CNCtx(_orb, orbTracker, nc, _env,
-                                        makeFullName(path));
+                        return new CNCtx(_orb, orbTrbcker, nc, _env,
+                                        mbkeFullNbme(pbth));
                     } else {
                         return obj;
                     }
-                } catch (org.omg.CORBA.SystemException e) {
+                } cbtch (org.omg.CORBA.SystemException e) {
                     return obj;
                 }
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, path);
+            } cbtch (Exception e) {
+                throw ExceptionMbpper.mbpException(e, this, pbth);
             }
     }
 
     /**
-      * Converts the "String" name into a CompositeName
-      * returns the object resolved by the COS Naming api,
-      * resolve. Returns the current context if the name is empty.
-      * Returns either an org.omg.CORBA.Object or javax.naming.Context object.
-      * @param name string used to resolve the object.
-      * @exception NamingException See callResolve.
+      * Converts the "String" nbme into b CompositeNbme
+      * returns the object resolved by the COS Nbming bpi,
+      * resolve. Returns the current context if the nbme is empty.
+      * Returns either bn org.omg.CORBA.Object or jbvbx.nbming.Context object.
+      * @pbrbm nbme string used to resolve the object.
+      * @exception NbmingException See cbllResolve.
       * @return the resolved object
       */
-    public java.lang.Object lookup(String name) throws NamingException {
+    public jbvb.lbng.Object lookup(String nbme) throws NbmingException {
         if (debug) {
-            System.out.println("Looking up: " + name);
+            System.out.println("Looking up: " + nbme);
         }
-        return lookup(new CompositeName(name));
+        return lookup(new CompositeNbme(nbme));
     }
 
     /**
-      * Converts the "Name" name into a NameComponent[] object and
-      * returns the object resolved by the COS Naming api,
-      * resolve. Returns the current context if the name is empty.
-      * Returns either an org.omg.CORBA.Object or javax.naming.Context object.
-      * @param name JNDI Name used to resolve the object.
-      * @exception NamingException See callResolve.
+      * Converts the "Nbme" nbme into b NbmeComponent[] object bnd
+      * returns the object resolved by the COS Nbming bpi,
+      * resolve. Returns the current context if the nbme is empty.
+      * Returns either bn org.omg.CORBA.Object or jbvbx.nbming.Context object.
+      * @pbrbm nbme JNDI Nbme used to resolve the object.
+      * @exception NbmingException See cbllResolve.
       * @return the resolved object
       */
-    public java.lang.Object lookup(Name name)
-        throws NamingException {
+    public jbvb.lbng.Object lookup(Nbme nbme)
+        throws NbmingException {
             if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
-            if (name.size() == 0 )
-                return this; // %%% should clone() so that env can be changed
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+                throw new ConfigurbtionException(
+                    "Context does not hbve b corresponding NbmingContext");
+            if (nbme.size() == 0 )
+                return this; // %%% should clone() so thbt env cbn be chbnged
+            NbmeComponent[] pbth = CNNbmePbrser.nbmeToCosNbme(nbme);
 
             try {
-                java.lang.Object answer = callResolve(path);
+                jbvb.lbng.Object bnswer = cbllResolve(pbth);
 
                 try {
-                    return NamingManager.getObjectInstance(answer, name, this, _env);
-                } catch (NamingException e) {
+                    return NbmingMbnbger.getObjectInstbnce(bnswer, nbme, this, _env);
+                } cbtch (NbmingException e) {
                     throw e;
-                } catch (Exception e) {
-                    NamingException ne = new NamingException(
-                        "problem generating object using object factory");
-                    ne.setRootCause(e);
+                } cbtch (Exception e) {
+                    NbmingException ne = new NbmingException(
+                        "problem generbting object using object fbctory");
+                    ne.setRootCbuse(e);
                     throw ne;
                 }
-            } catch (CannotProceedException cpe) {
-                javax.naming.Context cctx = getContinuationContext(cpe);
-                return cctx.lookup(cpe.getRemainingName());
+            } cbtch (CbnnotProceedException cpe) {
+                jbvbx.nbming.Context cctx = getContinubtionContext(cpe);
+                return cctx.lookup(cpe.getRembiningNbme());
             }
     }
 
     /**
       * Performs bind or rebind in the context depending on whether the
-      * flag rebind is set. The only objects allowed to be bound are of
-      * types org.omg.CORBA.Object, org.omg.CosNaming.NamingContext.
-      * You can use a state factory to turn other objects (such as
-      * Remote) into these acceptable forms.
+      * flbg rebind is set. The only objects bllowed to be bound bre of
+      * types org.omg.CORBA.Object, org.omg.CosNbming.NbmingContext.
+      * You cbn use b stbte fbctory to turn other objects (such bs
+      * Remote) into these bcceptbble forms.
       *
-      * Uses the COS Naming apis bind/rebind or
+      * Uses the COS Nbming bpis bind/rebind or
       * bind_context/rebind_context.
-      * @param pth NameComponent[] object
-      * @param obj Object to be bound.
-      * @param rebind perform rebind ? if true performs a rebind.
-      * @exception NotFound No objects under the name.
-      * @exception CannotProceed Unable to obtain a continuation context
-      * @exception AlreadyBound An object is already bound to this name.
+      * @pbrbm pth NbmeComponent[] object
+      * @pbrbm obj Object to be bound.
+      * @pbrbm rebind perform rebind ? if true performs b rebind.
+      * @exception NotFound No objects under the nbme.
+      * @exception CbnnotProceed Unbble to obtbin b continubtion context
+      * @exception AlrebdyBound An object is blrebdy bound to this nbme.
       */
-    private void callBindOrRebind(NameComponent[] pth, Name name,
-        java.lang.Object obj, boolean rebind) throws NamingException {
+    privbte void cbllBindOrRebind(NbmeComponent[] pth, Nbme nbme,
+        jbvb.lbng.Object obj, boolebn rebind) throws NbmingException {
             if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
+                throw new ConfigurbtionException(
+                    "Context does not hbve b corresponding NbmingContext");
             try {
-                // Call state factories to convert
-                obj = NamingManager.getStateToBind(obj, name, this, _env);
+                // Cbll stbte fbctories to convert
+                obj = NbmingMbnbger.getStbteToBind(obj, nbme, this, _env);
 
-                if (obj instanceof CNCtx) {
-                    // Use naming context object reference
+                if (obj instbnceof CNCtx) {
+                    // Use nbming context object reference
                     obj = ((CNCtx)obj)._nc;
                 }
 
-                if ( obj instanceof org.omg.CosNaming.NamingContext) {
-                    NamingContext nobj =
-                        NamingContextHelper.narrow((org.omg.CORBA.Object)obj);
+                if ( obj instbnceof org.omg.CosNbming.NbmingContext) {
+                    NbmingContext nobj =
+                        NbmingContextHelper.nbrrow((org.omg.CORBA.Object)obj);
                     if (rebind)
                         _nc.rebind_context(pth,nobj);
                     else
                         _nc.bind_context(pth,nobj);
 
-                } else if (obj instanceof org.omg.CORBA.Object) {
+                } else if (obj instbnceof org.omg.CORBA.Object) {
                     if (rebind)
                         _nc.rebind(pth,(org.omg.CORBA.Object)obj);
                     else
                         _nc.bind(pth,(org.omg.CORBA.Object)obj);
                 }
                 else
-                    throw new IllegalArgumentException(
-                "Only instances of org.omg.CORBA.Object can be bound");
-            } catch (BAD_PARAM e) {
-                // probably narrow() failed?
-                NamingException ne = new NotContextException(name.toString());
-                ne.setRootCause(e);
+                    throw new IllegblArgumentException(
+                "Only instbnces of org.omg.CORBA.Object cbn be bound");
+            } cbtch (BAD_PARAM e) {
+                // probbbly nbrrow() fbiled?
+                NbmingException ne = new NotContextException(nbme.toString());
+                ne.setRootCbuse(e);
                 throw ne;
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, pth);
+            } cbtch (Exception e) {
+                throw ExceptionMbpper.mbpException(e, this, pth);
             }
     }
 
     /**
-      * Converts the "Name" name into a NameComponent[] object and
-      * performs the bind operation. Uses callBindOrRebind. Throws an
-      * invalid name exception if the name is empty. We need a name to
+      * Converts the "Nbme" nbme into b NbmeComponent[] object bnd
+      * performs the bind operbtion. Uses cbllBindOrRebind. Throws bn
+      * invblid nbme exception if the nbme is empty. We need b nbme to
       * bind the object even when we work within the current context.
-      * @param name JNDI Name object
-      * @param obj Object to be bound.
-      * @exception NamingException See callBindOrRebind
+      * @pbrbm nbme JNDI Nbme object
+      * @pbrbm obj Object to be bound.
+      * @exception NbmingException See cbllBindOrRebind
       */
-    public  void bind(Name name, java.lang.Object obj)
-        throws NamingException {
-            if (name.size() == 0 ) {
-                throw new InvalidNameException("Name is empty");
+    public  void bind(Nbme nbme, jbvb.lbng.Object obj)
+        throws NbmingException {
+            if (nbme.size() == 0 ) {
+                throw new InvblidNbmeException("Nbme is empty");
             }
 
             if (debug) {
-                System.out.println("Bind: " + name);
+                System.out.println("Bind: " + nbme);
             }
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+            NbmeComponent[] pbth = CNNbmePbrser.nbmeToCosNbme(nbme);
 
             try {
-                callBindOrRebind(path, name, obj, false);
-            } catch (CannotProceedException e) {
-                javax.naming.Context cctx = getContinuationContext(e);
-                cctx.bind(e.getRemainingName(), obj);
+                cbllBindOrRebind(pbth, nbme, obj, fblse);
+            } cbtch (CbnnotProceedException e) {
+                jbvbx.nbming.Context cctx = getContinubtionContext(e);
+                cctx.bind(e.getRembiningNbme(), obj);
             }
     }
 
-    static private javax.naming.Context
-        getContinuationContext(CannotProceedException cpe)
-        throws NamingException {
+    stbtic privbte jbvbx.nbming.Context
+        getContinubtionContext(CbnnotProceedException cpe)
+        throws NbmingException {
         try {
-            return NamingManager.getContinuationContext(cpe);
-        } catch (CannotProceedException e) {
-            java.lang.Object resObj = e.getResolvedObj();
-            if (resObj instanceof Reference) {
+            return NbmingMbnbger.getContinubtionContext(cpe);
+        } cbtch (CbnnotProceedException e) {
+            jbvb.lbng.Object resObj = e.getResolvedObj();
+            if (resObj instbnceof Reference) {
                 Reference ref = (Reference)resObj;
-                RefAddr addr = ref.get("nns");
-                if (addr.getContent() instanceof javax.naming.Context) {
-                    NamingException ne = new NameNotFoundException(
-                        "No object reference bound for specified name");
-                    ne.setRootCause(cpe.getRootCause());
-                    ne.setRemainingName(cpe.getRemainingName());
+                RefAddr bddr = ref.get("nns");
+                if (bddr.getContent() instbnceof jbvbx.nbming.Context) {
+                    NbmingException ne = new NbmeNotFoundException(
+                        "No object reference bound for specified nbme");
+                    ne.setRootCbuse(cpe.getRootCbuse());
+                    ne.setRembiningNbme(cpe.getRembiningNbme());
                     throw ne;
                 }
             }
@@ -662,457 +662,457 @@ public class CNCtx implements javax.naming.Context {
     }
 
     /**
-      * Converts the "String" name into a CompositeName object and
-      * performs the bind operation. Uses callBindOrRebind. Throws an
-      * invalid name exception if the name is empty.
-      * @param name string
-      * @param obj Object to be bound.
-      * @exception NamingException See callBindOrRebind
+      * Converts the "String" nbme into b CompositeNbme object bnd
+      * performs the bind operbtion. Uses cbllBindOrRebind. Throws bn
+      * invblid nbme exception if the nbme is empty.
+      * @pbrbm nbme string
+      * @pbrbm obj Object to be bound.
+      * @exception NbmingException See cbllBindOrRebind
       */
-    public void bind(String name, java.lang.Object obj) throws NamingException {
-        bind(new CompositeName(name), obj);
+    public void bind(String nbme, jbvb.lbng.Object obj) throws NbmingException {
+        bind(new CompositeNbme(nbme), obj);
     }
 
     /**
-      * Converts the "Name" name into a NameComponent[] object and
-      * performs the rebind operation. Uses callBindOrRebind. Throws an
-      * invalid name exception if the name is empty. We must have a name
-      * to rebind the object to even if we are working within the current
+      * Converts the "Nbme" nbme into b NbmeComponent[] object bnd
+      * performs the rebind operbtion. Uses cbllBindOrRebind. Throws bn
+      * invblid nbme exception if the nbme is empty. We must hbve b nbme
+      * to rebind the object to even if we bre working within the current
       * context.
-      * @param name string
-      * @param obj Object to be bound.
-      * @exception NamingException See callBindOrRebind
+      * @pbrbm nbme string
+      * @pbrbm obj Object to be bound.
+      * @exception NbmingException See cbllBindOrRebind
       */
-    public  void rebind(Name name, java.lang.Object obj)
-        throws NamingException {
-            if (name.size() == 0 ) {
-                throw new InvalidNameException("Name is empty");
+    public  void rebind(Nbme nbme, jbvb.lbng.Object obj)
+        throws NbmingException {
+            if (nbme.size() == 0 ) {
+                throw new InvblidNbmeException("Nbme is empty");
             }
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+            NbmeComponent[] pbth = CNNbmePbrser.nbmeToCosNbme(nbme);
             try {
-                callBindOrRebind(path, name, obj, true);
-            } catch (CannotProceedException e) {
-                javax.naming.Context cctx = getContinuationContext(e);
-                cctx.rebind(e.getRemainingName(), obj);
+                cbllBindOrRebind(pbth, nbme, obj, true);
+            } cbtch (CbnnotProceedException e) {
+                jbvbx.nbming.Context cctx = getContinubtionContext(e);
+                cctx.rebind(e.getRembiningNbme(), obj);
             }
     }
 
     /**
-      * Converts the "String" name into a CompositeName object and
-      * performs the rebind operation. Uses callBindOrRebind. Throws an
-      * invalid name exception if the name is an empty string.
-      * @param name string
-      * @param obj Object to be bound.
-      * @exception NamingException See callBindOrRebind
+      * Converts the "String" nbme into b CompositeNbme object bnd
+      * performs the rebind operbtion. Uses cbllBindOrRebind. Throws bn
+      * invblid nbme exception if the nbme is bn empty string.
+      * @pbrbm nbme string
+      * @pbrbm obj Object to be bound.
+      * @exception NbmingException See cbllBindOrRebind
       */
-    public  void rebind(String name, java.lang.Object obj)
-        throws NamingException {
-            rebind(new CompositeName(name), obj);
+    public  void rebind(String nbme, jbvb.lbng.Object obj)
+        throws NbmingException {
+            rebind(new CompositeNbme(nbme), obj);
     }
 
     /**
-      * Calls the unbind api of COS Naming and uses the exception mapper
-      * class  to map the exceptions
-      * @param path NameComponent[] object
-      * @exception NotFound No objects under the name. If leaf
-      * is not found, that's OK according to the JNDI spec
-      * @exception CannotProceed Unable to obtain a continuation context
-      * @exception InvalidName Name not understood.
+      * Cblls the unbind bpi of COS Nbming bnd uses the exception mbpper
+      * clbss  to mbp the exceptions
+      * @pbrbm pbth NbmeComponent[] object
+      * @exception NotFound No objects under the nbme. If lebf
+      * is not found, thbt's OK bccording to the JNDI spec
+      * @exception CbnnotProceed Unbble to obtbin b continubtion context
+      * @exception InvblidNbme Nbme not understood.
       */
-    private void callUnbind(NameComponent[] path) throws NamingException {
+    privbte void cbllUnbind(NbmeComponent[] pbth) throws NbmingException {
             if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
+                throw new ConfigurbtionException(
+                    "Context does not hbve b corresponding NbmingContext");
             try {
-                _nc.unbind(path);
-            } catch (NotFound e) {
-                // If leaf is the one missing, return success
-                // as per JNDI spec
+                _nc.unbind(pbth);
+            } cbtch (NotFound e) {
+                // If lebf is the one missing, return success
+                // bs per JNDI spec
 
-                if (leafNotFound(e, path[path.length-1])) {
+                if (lebfNotFound(e, pbth[pbth.length-1])) {
                     // do nothing
                 } else {
-                    throw ExceptionMapper.mapException(e, this, path);
+                    throw ExceptionMbpper.mbpException(e, this, pbth);
                 }
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, path);
+            } cbtch (Exception e) {
+                throw ExceptionMbpper.mbpException(e, this, pbth);
             }
     }
 
-    private boolean leafNotFound(NotFound e, NameComponent leaf) {
+    privbte boolebn lebfNotFound(NotFound e, NbmeComponent lebf) {
 
-        // This test is not foolproof because some name servers
-        // always just return one component in rest_of_name
-        // so you might not be able to tell whether that is
-        // the leaf (e.g. aa/aa/aa, which one is missing?)
+        // This test is not foolproof becbuse some nbme servers
+        // blwbys just return one component in rest_of_nbme
+        // so you might not be bble to tell whether thbt is
+        // the lebf (e.g. bb/bb/bb, which one is missing?)
 
-        NameComponent rest;
-        return e.why.value() == NotFoundReason._missing_node &&
-            e.rest_of_name.length == 1 &&
-            (rest=e.rest_of_name[0]).id.equals(leaf.id) &&
-            (rest.kind == leaf.kind ||
-             (rest.kind != null && rest.kind.equals(leaf.kind)));
+        NbmeComponent rest;
+        return e.why.vblue() == NotFoundRebson._missing_node &&
+            e.rest_of_nbme.length == 1 &&
+            (rest=e.rest_of_nbme[0]).id.equbls(lebf.id) &&
+            (rest.kind == lebf.kind ||
+             (rest.kind != null && rest.kind.equbls(lebf.kind)));
     }
 
     /**
-      * Converts the "String" name into a CompositeName object and
-      * performs the unbind operation. Uses callUnbind. If the name is
-      * empty, throws an invalid name exception. Do we unbind the
-      * current context (JNDI spec says work with the current context if
-      * the name is empty) ?
-      * @param name string
-      * @exception NamingException See callUnbind
+      * Converts the "String" nbme into b CompositeNbme object bnd
+      * performs the unbind operbtion. Uses cbllUnbind. If the nbme is
+      * empty, throws bn invblid nbme exception. Do we unbind the
+      * current context (JNDI spec sbys work with the current context if
+      * the nbme is empty) ?
+      * @pbrbm nbme string
+      * @exception NbmingException See cbllUnbind
       */
-    public  void unbind(String name) throws NamingException {
-        unbind(new CompositeName(name));
+    public  void unbind(String nbme) throws NbmingException {
+        unbind(new CompositeNbme(nbme));
     }
 
     /**
-      * Converts the "Name" name into a NameComponent[] object and
-      * performs the unbind operation. Uses callUnbind. Throws an
-      * invalid name exception if the name is empty.
-      * @param name string
-      * @exception NamingException See callUnbind
+      * Converts the "Nbme" nbme into b NbmeComponent[] object bnd
+      * performs the unbind operbtion. Uses cbllUnbind. Throws bn
+      * invblid nbme exception if the nbme is empty.
+      * @pbrbm nbme string
+      * @exception NbmingException See cbllUnbind
       */
-    public  void unbind(Name name)
-        throws NamingException {
-            if (name.size() == 0 )
-                throw new InvalidNameException("Name is empty");
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+    public  void unbind(Nbme nbme)
+        throws NbmingException {
+            if (nbme.size() == 0 )
+                throw new InvblidNbmeException("Nbme is empty");
+            NbmeComponent[] pbth = CNNbmePbrser.nbmeToCosNbme(nbme);
             try {
-                callUnbind(path);
-            } catch (CannotProceedException e) {
-                javax.naming.Context cctx = getContinuationContext(e);
-                cctx.unbind(e.getRemainingName());
+                cbllUnbind(pbth);
+            } cbtch (CbnnotProceedException e) {
+                jbvbx.nbming.Context cctx = getContinubtionContext(e);
+                cctx.unbind(e.getRembiningNbme());
             }
     }
 
     /**
-      * Renames an object. Since COS Naming does not support a rename
-      * api, this method unbinds the object with the "oldName" and
-      * creates a new binding.
-      * @param oldName string, existing name for the binding.
-      * @param newName string, name used to replace.
-      * @exception NamingException See bind
+      * Renbmes bn object. Since COS Nbming does not support b renbme
+      * bpi, this method unbinds the object with the "oldNbme" bnd
+      * crebtes b new binding.
+      * @pbrbm oldNbme string, existing nbme for the binding.
+      * @pbrbm newNbme string, nbme used to replbce.
+      * @exception NbmingException See bind
       */
-    public  void rename(String oldName,String newName)
-        throws NamingException {
-            rename(new CompositeName(oldName), new CompositeName(newName));
+    public  void renbme(String oldNbme,String newNbme)
+        throws NbmingException {
+            renbme(new CompositeNbme(oldNbme), new CompositeNbme(newNbme));
     }
 
     /**
-      * Renames an object. Since COS Naming does not support a rename
-      * api, this method unbinds the object with the "oldName" and
-      * creates a new binding.
-      * @param oldName JNDI Name, existing name for the binding.
-      * @param newName JNDI Name, name used to replace.
-      * @exception NamingException See bind
+      * Renbmes bn object. Since COS Nbming does not support b renbme
+      * bpi, this method unbinds the object with the "oldNbme" bnd
+      * crebtes b new binding.
+      * @pbrbm oldNbme JNDI Nbme, existing nbme for the binding.
+      * @pbrbm newNbme JNDI Nbme, nbme used to replbce.
+      * @exception NbmingException See bind
       */
-    public  void rename(Name oldName,Name newName)
-        throws NamingException {
+    public  void renbme(Nbme oldNbme,Nbme newNbme)
+        throws NbmingException {
             if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
-            if (oldName.size() == 0 || newName.size() == 0)
-                throw new InvalidNameException("One or both names empty");
-            java.lang.Object obj = lookup(oldName);
-            bind(newName,obj);
-            unbind(oldName);
+                throw new ConfigurbtionException(
+                    "Context does not hbve b corresponding NbmingContext");
+            if (oldNbme.size() == 0 || newNbme.size() == 0)
+                throw new InvblidNbmeException("One or both nbmes empty");
+            jbvb.lbng.Object obj = lookup(oldNbme);
+            bind(newNbme,obj);
+            unbind(oldNbme);
     }
 
     /**
-      * Returns a NameClassEnumeration object which has a list of name
-      * class pairs. Lists the current context if the name is empty.
-      * @param name string
-      * @exception NamingException All exceptions thrown by lookup
-      * with a non-null argument
-      * @return a list of name-class objects as a NameClassEnumeration.
+      * Returns b NbmeClbssEnumerbtion object which hbs b list of nbme
+      * clbss pbirs. Lists the current context if the nbme is empty.
+      * @pbrbm nbme string
+      * @exception NbmingException All exceptions thrown by lookup
+      * with b non-null brgument
+      * @return b list of nbme-clbss objects bs b NbmeClbssEnumerbtion.
       */
-    public  NamingEnumeration<NameClassPair> list(String name) throws NamingException {
-            return list(new CompositeName(name));
+    public  NbmingEnumerbtion<NbmeClbssPbir> list(String nbme) throws NbmingException {
+            return list(new CompositeNbme(nbme));
     }
 
     /**
-      * Returns a NameClassEnumeration object which has a list of name
-      * class pairs. Lists the current context if the name is empty.
-      * @param name JNDI Name
-      * @exception NamingException All exceptions thrown by lookup
-      * @return a list of name-class objects as a NameClassEnumeration.
+      * Returns b NbmeClbssEnumerbtion object which hbs b list of nbme
+      * clbss pbirs. Lists the current context if the nbme is empty.
+      * @pbrbm nbme JNDI Nbme
+      * @exception NbmingException All exceptions thrown by lookup
+      * @return b list of nbme-clbss objects bs b NbmeClbssEnumerbtion.
       */
-    @SuppressWarnings("unchecked")
-    public  NamingEnumeration<NameClassPair> list(Name name)
-        throws NamingException {
-            return (NamingEnumeration)listBindings(name);
+    @SuppressWbrnings("unchecked")
+    public  NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme)
+        throws NbmingException {
+            return (NbmingEnumerbtion)listBindings(nbme);
     }
 
     /**
-      * Returns a BindingEnumeration object which has a list of name
-      * object pairs. Lists the current context if the name is empty.
-      * @param name string
-      * @exception NamingException all exceptions returned by lookup
-      * @return a list of bindings as a BindingEnumeration.
+      * Returns b BindingEnumerbtion object which hbs b list of nbme
+      * object pbirs. Lists the current context if the nbme is empty.
+      * @pbrbm nbme string
+      * @exception NbmingException bll exceptions returned by lookup
+      * @return b list of bindings bs b BindingEnumerbtion.
       */
-    public  NamingEnumeration<javax.naming.Binding> listBindings(String name)
-        throws NamingException {
-            return listBindings(new CompositeName(name));
+    public  NbmingEnumerbtion<jbvbx.nbming.Binding> listBindings(String nbme)
+        throws NbmingException {
+            return listBindings(new CompositeNbme(nbme));
     }
 
     /**
-      * Returns a BindingEnumeration object which has a list of name
-      * class pairs. Lists the current context if the name is empty.
-      * @param name JNDI Name
-      * @exception NamingException all exceptions returned by lookup.
-      * @return a list of bindings as a BindingEnumeration.
+      * Returns b BindingEnumerbtion object which hbs b list of nbme
+      * clbss pbirs. Lists the current context if the nbme is empty.
+      * @pbrbm nbme JNDI Nbme
+      * @exception NbmingException bll exceptions returned by lookup.
+      * @return b list of bindings bs b BindingEnumerbtion.
       */
-    public  NamingEnumeration<javax.naming.Binding> listBindings(Name name)
-        throws NamingException {
+    public  NbmingEnumerbtion<jbvbx.nbming.Binding> listBindings(Nbme nbme)
+        throws NbmingException {
             if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
-            if (name.size() > 0) {
+                throw new ConfigurbtionException(
+                    "Context does not hbve b corresponding NbmingContext");
+            if (nbme.size() > 0) {
                 try {
-                    java.lang.Object obj = lookup(name);
-                    if (obj instanceof CNCtx) {
-                        return new CNBindingEnumeration(
+                    jbvb.lbng.Object obj = lookup(nbme);
+                    if (obj instbnceof CNCtx) {
+                        return new CNBindingEnumerbtion(
                                         (CNCtx) obj, true, _env);
                     } else {
-                        throw new NotContextException(name.toString());
+                        throw new NotContextException(nbme.toString());
                     }
-                } catch (NamingException ne) {
+                } cbtch (NbmingException ne) {
                     throw ne;
-                } catch (BAD_PARAM e) {
-                    NamingException ne =
-                        new NotContextException(name.toString());
-                    ne.setRootCause(e);
+                } cbtch (BAD_PARAM e) {
+                    NbmingException ne =
+                        new NotContextException(nbme.toString());
+                    ne.setRootCbuse(e);
                     throw ne;
                 }
             }
-            return new CNBindingEnumeration(this, false, _env);
+            return new CNBindingEnumerbtion(this, fblse, _env);
     }
 
     /**
-      * Calls the destroy on the COS Naming Server
-      * @param nc The NamingContext object to use.
-      * @exception NotEmpty when the context is not empty and cannot be destroyed.
+      * Cblls the destroy on the COS Nbming Server
+      * @pbrbm nc The NbmingContext object to use.
+      * @exception NotEmpty when the context is not empty bnd cbnnot be destroyed.
       */
-    private void callDestroy(NamingContext nc)
-        throws NamingException {
+    privbte void cbllDestroy(NbmingContext nc)
+        throws NbmingException {
             if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
+                throw new ConfigurbtionException(
+                    "Context does not hbve b corresponding NbmingContext");
             try {
                 nc.destroy();
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, null);
+            } cbtch (Exception e) {
+                throw ExceptionMbpper.mbpException(e, this, null);
             }
     }
 
     /**
-      * Uses the callDestroy function to destroy the context. If name is
+      * Uses the cbllDestroy function to destroy the context. If nbme is
       * empty destroys the current context.
-      * @param name string
-      * @exception OperationNotSupportedException when list is invoked
-      * with a non-null argument
+      * @pbrbm nbme string
+      * @exception OperbtionNotSupportedException when list is invoked
+      * with b non-null brgument
       */
-    public  void destroySubcontext(String name) throws NamingException {
-        destroySubcontext(new CompositeName(name));
+    public  void destroySubcontext(String nbme) throws NbmingException {
+        destroySubcontext(new CompositeNbme(nbme));
     }
 
     /**
-      * Uses the callDestroy function to destroy the context. Destroys
-      * the current context if name is empty.
-      * @param name JNDI Name
-      * @exception OperationNotSupportedException when list is invoked
-      * with a non-null argument
+      * Uses the cbllDestroy function to destroy the context. Destroys
+      * the current context if nbme is empty.
+      * @pbrbm nbme JNDI Nbme
+      * @exception OperbtionNotSupportedException when list is invoked
+      * with b non-null brgument
       */
-    public  void destroySubcontext(Name name)
-        throws NamingException {
+    public  void destroySubcontext(Nbme nbme)
+        throws NbmingException {
             if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
-            NamingContext the_nc = _nc;
-            NameComponent[] path = CNNameParser.nameToCosName(name);
-            if ( name.size() > 0) {
+                throw new ConfigurbtionException(
+                    "Context does not hbve b corresponding NbmingContext");
+            NbmingContext the_nc = _nc;
+            NbmeComponent[] pbth = CNNbmePbrser.nbmeToCosNbme(nbme);
+            if ( nbme.size() > 0) {
                 try {
-                    javax.naming.Context ctx =
-                        (javax.naming.Context) callResolve(path);
+                    jbvbx.nbming.Context ctx =
+                        (jbvbx.nbming.Context) cbllResolve(pbth);
                     CNCtx cnc = (CNCtx)ctx;
                     the_nc = cnc._nc;
                     cnc.close(); //remove the reference to the context
-                } catch (ClassCastException e) {
-                    throw new NotContextException(name.toString());
-                } catch (CannotProceedException e) {
-                    javax.naming.Context cctx = getContinuationContext(e);
-                    cctx.destroySubcontext(e.getRemainingName());
+                } cbtch (ClbssCbstException e) {
+                    throw new NotContextException(nbme.toString());
+                } cbtch (CbnnotProceedException e) {
+                    jbvbx.nbming.Context cctx = getContinubtionContext(e);
+                    cctx.destroySubcontext(e.getRembiningNbme());
                     return;
-                } catch (NameNotFoundException e) {
-                    // If leaf is the one missing, return success
-                    // as per JNDI spec
+                } cbtch (NbmeNotFoundException e) {
+                    // If lebf is the one missing, return success
+                    // bs per JNDI spec
 
-                    if (e.getRootCause() instanceof NotFound &&
-                        leafNotFound((NotFound)e.getRootCause(),
-                            path[path.length-1])) {
-                        return; // leaf missing OK
+                    if (e.getRootCbuse() instbnceof NotFound &&
+                        lebfNotFound((NotFound)e.getRootCbuse(),
+                            pbth[pbth.length-1])) {
+                        return; // lebf missing OK
                     }
                     throw e;
-                } catch (NamingException e) {
+                } cbtch (NbmingException e) {
                     throw e;
                 }
             }
-            callDestroy(the_nc);
-            callUnbind(path);
+            cbllDestroy(the_nc);
+            cbllUnbind(pbth);
     }
 
     /**
-      * Calls the bind_new_context COS naming api to create a new subcontext.
-      * @param path NameComponent[] object
-      * @exception NotFound No objects under the name.
-      * @exception CannotProceed Unable to obtain a continuation context
-      * @exception InvalidName Name not understood.
-      * @exception AlreadyBound An object is already bound to this name.
+      * Cblls the bind_new_context COS nbming bpi to crebte b new subcontext.
+      * @pbrbm pbth NbmeComponent[] object
+      * @exception NotFound No objects under the nbme.
+      * @exception CbnnotProceed Unbble to obtbin b continubtion context
+      * @exception InvblidNbme Nbme not understood.
+      * @exception AlrebdyBound An object is blrebdy bound to this nbme.
       * @return the new context object.
       */
-    private javax.naming.Context callBindNewContext(NameComponent[] path)
-        throws NamingException {
+    privbte jbvbx.nbming.Context cbllBindNewContext(NbmeComponent[] pbth)
+        throws NbmingException {
             if (_nc == null)
-                throw new ConfigurationException(
-                    "Context does not have a corresponding NamingContext");
+                throw new ConfigurbtionException(
+                    "Context does not hbve b corresponding NbmingContext");
             try {
-                NamingContext nctx = _nc.bind_new_context(path);
-                return new CNCtx(_orb, orbTracker, nctx, _env,
-                                        makeFullName(path));
-            } catch (Exception e) {
-                throw ExceptionMapper.mapException(e, this, path);
+                NbmingContext nctx = _nc.bind_new_context(pbth);
+                return new CNCtx(_orb, orbTrbcker, nctx, _env,
+                                        mbkeFullNbme(pbth));
+            } cbtch (Exception e) {
+                throw ExceptionMbpper.mbpException(e, this, pbth);
             }
     }
 
     /**
-      * Uses the callBindNewContext convenience function to create a new
-      * context. Throws an invalid name exception if the name is empty.
-      * @param name string
-      * @exception NamingException See callBindNewContext
+      * Uses the cbllBindNewContext convenience function to crebte b new
+      * context. Throws bn invblid nbme exception if the nbme is empty.
+      * @pbrbm nbme string
+      * @exception NbmingException See cbllBindNewContext
       * @return the new context object.
       */
-    public  javax.naming.Context createSubcontext(String name)
-        throws NamingException {
-            return createSubcontext(new CompositeName(name));
+    public  jbvbx.nbming.Context crebteSubcontext(String nbme)
+        throws NbmingException {
+            return crebteSubcontext(new CompositeNbme(nbme));
     }
 
     /**
-      * Uses the callBindNewContext convenience function to create a new
-      * context. Throws an invalid name exception if the name is empty.
-      * @param name string
-      * @exception NamingException See callBindNewContext
+      * Uses the cbllBindNewContext convenience function to crebte b new
+      * context. Throws bn invblid nbme exception if the nbme is empty.
+      * @pbrbm nbme string
+      * @exception NbmingException See cbllBindNewContext
       * @return the new context object.
       */
-    public  javax.naming.Context createSubcontext(Name name)
-        throws NamingException {
-            if (name.size() == 0 )
-                throw new InvalidNameException("Name is empty");
-            NameComponent[] path = CNNameParser.nameToCosName(name);
+    public  jbvbx.nbming.Context crebteSubcontext(Nbme nbme)
+        throws NbmingException {
+            if (nbme.size() == 0 )
+                throw new InvblidNbmeException("Nbme is empty");
+            NbmeComponent[] pbth = CNNbmePbrser.nbmeToCosNbme(nbme);
             try {
-                return callBindNewContext(path);
-            } catch (CannotProceedException e) {
-                javax.naming.Context cctx = getContinuationContext(e);
-                return cctx.createSubcontext(e.getRemainingName());
+                return cbllBindNewContext(pbth);
+            } cbtch (CbnnotProceedException e) {
+                jbvbx.nbming.Context cctx = getContinubtionContext(e);
+                return cctx.crebteSubcontext(e.getRembiningNbme());
             }
     }
 
     /**
-      * Is mapped to resolve in the COS Naming api.
-      * @param name string
-      * @exception NamingException See lookup.
+      * Is mbpped to resolve in the COS Nbming bpi.
+      * @pbrbm nbme string
+      * @exception NbmingException See lookup.
       * @return the resolved object.
       */
-    public  java.lang.Object lookupLink(String name) throws NamingException {
-            return lookupLink(new CompositeName(name));
+    public  jbvb.lbng.Object lookupLink(String nbme) throws NbmingException {
+            return lookupLink(new CompositeNbme(nbme));
     }
 
     /**
-      * Is mapped to resolve in the COS Naming api.
-      * @param name string
-      * @exception NamingException See lookup.
+      * Is mbpped to resolve in the COS Nbming bpi.
+      * @pbrbm nbme string
+      * @exception NbmingException See lookup.
       * @return the resolved object.
       */
-    public  java.lang.Object lookupLink(Name name) throws NamingException {
-            return lookup(name);
+    public  jbvb.lbng.Object lookupLink(Nbme nbme) throws NbmingException {
+            return lookup(nbme);
     }
 
     /**
-      * Allow access to the name parser object.
-      * @param String JNDI name, is ignored since there is only one Name
-      * Parser object.
-      * @exception NamingException --
-      * @return NameParser object
+      * Allow bccess to the nbme pbrser object.
+      * @pbrbm String JNDI nbme, is ignored since there is only one Nbme
+      * Pbrser object.
+      * @exception NbmingException --
+      * @return NbmePbrser object
       */
-    public  NameParser getNameParser(String name) throws NamingException {
-        return parser;
+    public  NbmePbrser getNbmePbrser(String nbme) throws NbmingException {
+        return pbrser;
     }
 
     /**
-      * Allow access to the name parser object.
-      * @param Name JNDI name, is ignored since there is only one Name
-      * Parser object.
-      * @exception NamingException --
-      * @return NameParser object
+      * Allow bccess to the nbme pbrser object.
+      * @pbrbm Nbme JNDI nbme, is ignored since there is only one Nbme
+      * Pbrser object.
+      * @exception NbmingException --
+      * @return NbmePbrser object
       */
-    public  NameParser getNameParser(Name name) throws NamingException {
-        return parser;
+    public  NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException {
+        return pbrser;
     }
 
     /**
       * Returns the current environment.
       * @return Environment.
       */
-    @SuppressWarnings("unchecked")
-    public  Hashtable<String, java.lang.Object> getEnvironment() throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public  Hbshtbble<String, jbvb.lbng.Object> getEnvironment() throws NbmingException {
         if (_env == null) {
-            return new Hashtable<>(5, 0.75f);
+            return new Hbshtbble<>(5, 0.75f);
         } else {
-            return (Hashtable<String, java.lang.Object>)_env.clone();
+            return (Hbshtbble<String, jbvb.lbng.Object>)_env.clone();
         }
     }
 
-    public String composeName(String name, String prefix) throws NamingException {
-        return composeName(new CompositeName(name),
-            new CompositeName(prefix)).toString();
+    public String composeNbme(String nbme, String prefix) throws NbmingException {
+        return composeNbme(new CompositeNbme(nbme),
+            new CompositeNbme(prefix)).toString();
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        Name result = (Name)prefix.clone();
-        return result.addAll(name);
+    public Nbme composeNbme(Nbme nbme, Nbme prefix) throws NbmingException {
+        Nbme result = (Nbme)prefix.clone();
+        return result.bddAll(nbme);
     }
 
     /**
       * Adds to the environment for the current context.
-      * Record change but do not reinitialize ORB.
+      * Record chbnge but do not reinitiblize ORB.
       *
-      * @param propName The property name.
-      * @param propVal  The ORB.
-      * @return the previous value of this property if any.
+      * @pbrbm propNbme The property nbme.
+      * @pbrbm propVbl  The ORB.
+      * @return the previous vblue of this property if bny.
       */
-    @SuppressWarnings("unchecked")
-    public java.lang.Object addToEnvironment(String propName,
-        java.lang.Object propValue)
-        throws NamingException {
+    @SuppressWbrnings("unchecked")
+    public jbvb.lbng.Object bddToEnvironment(String propNbme,
+        jbvb.lbng.Object propVblue)
+        throws NbmingException {
             if (_env == null) {
-                _env = new Hashtable<>(7, 0.75f);
+                _env = new Hbshtbble<>(7, 0.75f);
             } else {
                 // copy-on-write
-                _env = (Hashtable<String, java.lang.Object>)_env.clone();
+                _env = (Hbshtbble<String, jbvb.lbng.Object>)_env.clone();
             }
 
-            return _env.put(propName, propValue);
+            return _env.put(propNbme, propVblue);
     }
 
-    // Record change but do not reinitialize ORB
-    @SuppressWarnings("unchecked")
-    public java.lang.Object removeFromEnvironment(String propName)
-        throws NamingException {
-            if (_env != null  && _env.get(propName) != null) {
+    // Record chbnge but do not reinitiblize ORB
+    @SuppressWbrnings("unchecked")
+    public jbvb.lbng.Object removeFromEnvironment(String propNbme)
+        throws NbmingException {
+            if (_env != null  && _env.get(propNbme) != null) {
                 // copy-on-write
-                _env = (Hashtable<String, java.lang.Object>)_env.clone();
-                return _env.remove(propName);
+                _env = (Hbshtbble<String, jbvb.lbng.Object>)_env.clone();
+                return _env.remove(propNbme);
             }
             return null;
     }
@@ -1125,34 +1125,34 @@ public class CNCtx implements javax.naming.Context {
     }
 
     synchronized public void decEnumCount()
-            throws NamingException {
+            throws NbmingException {
         enumCount--;
         if (debug) {
             System.out.println("decEnumCount, new count:" + enumCount +
-                        "    isCloseCalled:" + isCloseCalled);
+                        "    isCloseCblled:" + isCloseCblled);
         }
-        if ((enumCount == 0) && isCloseCalled) {
+        if ((enumCount == 0) && isCloseCblled) {
             close();
         }
     }
 
-    synchronized public void close() throws NamingException {
+    synchronized public void close() throws NbmingException {
 
         if (enumCount > 0) {
-            isCloseCalled = true;
+            isCloseCblled = true;
             return;
         }
 
-        // Never destroy an orb in CNCtx.
-        // The orb we have is either the shared/default orb, or one passed in to a constructor
-        // from elsewhere, so that orb is somebody else's responsibility.
+        // Never destroy bn orb in CNCtx.
+        // The orb we hbve is either the shbred/defbult orb, or one pbssed in to b constructor
+        // from elsewhere, so thbt orb is somebody else's responsibility.
     }
 
-    protected void finalize() {
+    protected void finblize() {
         try {
             close();
-        } catch (NamingException e) {
-            // ignore failures
+        } cbtch (NbmingException e) {
+            // ignore fbilures
         }
     }
 }

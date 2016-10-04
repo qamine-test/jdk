@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
 
-import java.util.*;
-import java.awt.*;
-import javax.swing.text.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.text.*;
 
 
 /**
- * <P>The AccessibleText interface should be implemented by all
- * classes that present textual information on the display.  This interface
- * provides the standard mechanism for an assistive technology to access
- * that text via its content, attributes, and spatial location.
- * Applications can determine if an object supports the AccessibleText
- * interface by first obtaining its AccessibleContext (see {@link Accessible})
- * and then calling the {@link AccessibleContext#getAccessibleText} method of
- * AccessibleContext.  If the return value is not null, the object supports this
- * interface.
+ * <P>The AccessibleText interfbce should be implemented by bll
+ * clbsses thbt present textubl informbtion on the displby.  This interfbce
+ * provides the stbndbrd mechbnism for bn bssistive technology to bccess
+ * thbt text vib its content, bttributes, bnd spbtibl locbtion.
+ * Applicbtions cbn determine if bn object supports the AccessibleText
+ * interfbce by first obtbining its AccessibleContext (see {@link Accessible})
+ * bnd then cblling the {@link AccessibleContext#getAccessibleText} method of
+ * AccessibleContext.  If the return vblue is not null, the object supports this
+ * interfbce.
  *
  * @see Accessible
  * @see Accessible#getAccessibleContext
  * @see AccessibleContext
  * @see AccessibleContext#getAccessibleText
  *
- * @author      Peter Korn
+ * @buthor      Peter Korn
  */
-public interface AccessibleText {
+public interfbce AccessibleText {
 
     /**
-     * Constant used to indicate that the part of the text that should be
-     * retrieved is a character.
+     * Constbnt used to indicbte thbt the pbrt of the text thbt should be
+     * retrieved is b chbrbcter.
      *
      * @see #getAtIndex
      * @see #getAfterIndex
      * @see #getBeforeIndex
      */
-    public static final int CHARACTER = 1;
+    public stbtic finbl int CHARACTER = 1;
 
     /**
-     * Constant used to indicate that the part of the text that should be
-     * retrieved is a word.
+     * Constbnt used to indicbte thbt the pbrt of the text thbt should be
+     * retrieved is b word.
      *
      * @see #getAtIndex
      * @see #getAfterIndex
      * @see #getBeforeIndex
      */
-    public static final int WORD = 2;
+    public stbtic finbl int WORD = 2;
 
     /**
-     * Constant used to indicate that the part of the text that should be
-     * retrieved is a sentence.
+     * Constbnt used to indicbte thbt the pbrt of the text thbt should be
+     * retrieved is b sentence.
      *
-     * A sentence is a string of words which expresses an assertion,
-     * a question, a command, a wish, an exclamation, or the performance
-     * of an action. In English locales, the string usually begins with
-     * a capital letter and concludes with appropriate end punctuation;
-     * such as a period, question or exclamation mark. Other locales may
-     * use different capitalization and/or punctuation.
+     * A sentence is b string of words which expresses bn bssertion,
+     * b question, b commbnd, b wish, bn exclbmbtion, or the performbnce
+     * of bn bction. In English locbles, the string usublly begins with
+     * b cbpitbl letter bnd concludes with bppropribte end punctubtion;
+     * such bs b period, question or exclbmbtion mbrk. Other locbles mby
+     * use different cbpitblizbtion bnd/or punctubtion.
      *
      * @see #getAtIndex
      * @see #getAfterIndex
      * @see #getBeforeIndex
      */
-    public static final int SENTENCE = 3;
+    public stbtic finbl int SENTENCE = 3;
 
     /**
-     * Given a point in local coordinates, return the zero-based index
-     * of the character under that Point.  If the point is invalid,
+     * Given b point in locbl coordinbtes, return the zero-bbsed index
+     * of the chbrbcter under thbt Point.  If the point is invblid,
      * this method returns -1.
      *
-     * @param p the Point in local coordinates
-     * @return the zero-based index of the character under Point p; if
-     * Point is invalid return -1.
+     * @pbrbm p the Point in locbl coordinbtes
+     * @return the zero-bbsed index of the chbrbcter under Point p; if
+     * Point is invblid return -1.
      */
     public int getIndexAtPoint(Point p);
 
     /**
-     * Determines the bounding box of the character at the given
-     * index into the string.  The bounds are returned in local
-     * coordinates.  If the index is invalid an empty rectangle is returned.
+     * Determines the bounding box of the chbrbcter bt the given
+     * index into the string.  The bounds bre returned in locbl
+     * coordinbtes.  If the index is invblid bn empty rectbngle is returned.
      *
-     * @param i the index into the String
-     * @return the screen coordinates of the character's bounding box,
-     * if index is invalid return an empty rectangle.
+     * @pbrbm i the index into the String
+     * @return the screen coordinbtes of the chbrbcter's bounding box,
+     * if index is invblid return bn empty rectbngle.
      */
-    public Rectangle getCharacterBounds(int i);
+    public Rectbngle getChbrbcterBounds(int i);
 
     /**
-     * Returns the number of characters (valid indicies)
+     * Returns the number of chbrbcters (vblid indicies)
      *
-     * @return the number of characters
+     * @return the number of chbrbcters
      */
-    public int getCharCount();
+    public int getChbrCount();
 
     /**
-     * Returns the zero-based offset of the caret.
+     * Returns the zero-bbsed offset of the cbret.
      *
-     * Note: That to the right of the caret will have the same index
-     * value as the offset (the caret is between two characters).
-     * @return the zero-based offset of the caret.
+     * Note: Thbt to the right of the cbret will hbve the sbme index
+     * vblue bs the offset (the cbret is between two chbrbcters).
+     * @return the zero-bbsed offset of the cbret.
      */
-    public int getCaretPosition();
+    public int getCbretPosition();
 
     /**
-     * Returns the String at a given index.
+     * Returns the String bt b given index.
      *
-     * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-     * @param index an index within the text
+     * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+     * @pbrbm index bn index within the text
      * @return the letter, word, or sentence
      */
-    public String getAtIndex(int part, int index);
+    public String getAtIndex(int pbrt, int index);
 
     /**
-     * Returns the String after a given index.
+     * Returns the String bfter b given index.
      *
-     * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-     * @param index an index within the text
+     * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+     * @pbrbm index bn index within the text
      * @return the letter, word, or sentence
      */
-    public String getAfterIndex(int part, int index);
+    public String getAfterIndex(int pbrt, int index);
 
     /**
-     * Returns the String before a given index.
+     * Returns the String before b given index.
      *
-     * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-     * @param index an index within the text
+     * @pbrbm pbrt the CHARACTER, WORD, or SENTENCE to retrieve
+     * @pbrbm index bn index within the text
      * @return the letter, word, or sentence
      */
-    public String getBeforeIndex(int part, int index);
+    public String getBeforeIndex(int pbrt, int index);
 
     /**
-     * Returns the AttributeSet for a given character at a given index
+     * Returns the AttributeSet for b given chbrbcter bt b given index
      *
-     * @param i the zero-based index into the text
-     * @return the AttributeSet of the character
+     * @pbrbm i the zero-bbsed index into the text
+     * @return the AttributeSet of the chbrbcter
      */
-    public AttributeSet getCharacterAttribute(int i);
+    public AttributeSet getChbrbcterAttribute(int i);
 
     /**
-     * Returns the start offset within the selected text.
+     * Returns the stbrt offset within the selected text.
      * If there is no selection, but there is
-     * a caret, the start and end offsets will be the same.
+     * b cbret, the stbrt bnd end offsets will be the sbme.
      *
-     * @return the index into the text of the start of the selection
+     * @return the index into the text of the stbrt of the selection
      */
-    public int getSelectionStart();
+    public int getSelectionStbrt();
 
     /**
      * Returns the end offset within the selected text.
      * If there is no selection, but there is
-     * a caret, the start and end offsets will be the same.
+     * b cbret, the stbrt bnd end offsets will be the sbme.
      *
      * @return the index into the text of the end of the selection
      */
     public int getSelectionEnd();
 
     /**
-     * Returns the portion of the text that is selected.
+     * Returns the portion of the text thbt is selected.
      *
-     * @return the String portion of the text that is selected
+     * @return the String portion of the text thbt is selected
      */
     public String getSelectedText();
 }

@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "splashscreen_impl.h"
+#include "splbshscreen_impl.h"
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <X11/extensions/shape.h>
+#include <X11/extensions/shbpe.h>
 #include <X11/Xmd.h>
-#include <X11/Xatom.h>
+#include <X11/Xbtom.h>
 #include <X11/cursorfont.h>
 #include <sys/types.h>
-#include <pthread.h>
-#include <signal.h>
+#include <pthrebd.h>
+#include <signbl.h>
 #include <unistd.h>
 #include <sys/time.h>
 #include <errno.h>
 #include <iconv.h>
-#include <langinfo.h>
-#include <locale.h>
+#include <lbnginfo.h>
+#include <locble.h>
 #include <fcntl.h>
 #include <poll.h>
-#include <sizecalc.h>
+#include <sizecblc.h>
 
-static Bool shapeSupported;
-static int shapeEventBase, shapeErrorBase;
+stbtic Bool shbpeSupported;
+stbtic int shbpeEventBbse, shbpeErrorBbse;
 
-void SplashRemoveDecoration(Splash * splash);
+void SplbshRemoveDecorbtion(Splbsh * splbsh);
 
 
 /* Could use npt but decided to cut down on linked code size */
-char* SplashConvertStringAlloc(const char* in, int* size) {
-    const char     *codeset;
-    const char     *codeset_out;
+chbr* SplbshConvertStringAlloc(const chbr* in, int* size) {
+    const chbr     *codeset;
+    const chbr     *codeset_out;
     iconv_t         cd;
     size_t          rc;
-    char           *buf = NULL, *out;
+    chbr           *buf = NULL, *out;
     size_t          bufSize, inSize, outSize;
-    const char* old_locale;
+    const chbr* old_locble;
 
     if (!in) {
         return NULL;
     }
-    old_locale = setlocale(LC_ALL, "");
+    old_locble = setlocble(LC_ALL, "");
 
-    codeset = nl_langinfo(CODESET);
+    codeset = nl_lbnginfo(CODESET);
     if ( codeset == NULL || codeset[0] == 0 ) {
         goto done;
     }
-    /* we don't need BOM in output so we choose native BE or LE encoding here */
-    codeset_out = (platformByteOrder()==BYTE_ORDER_MSBFIRST) ?
+    /* we don't need BOM in output so we choose nbtive BE or LE encoding here */
+    codeset_out = (plbtformByteOrder()==BYTE_ORDER_MSBFIRST) ?
         "UCS-2BE" : "UCS-2LE";
 
     cd = iconv_open(codeset_out, codeset);
@@ -77,15 +77,15 @@ char* SplashConvertStringAlloc(const char* in, int* size) {
         goto done;
     }
     inSize = strlen(in);
-    buf = SAFE_SIZE_ARRAY_ALLOC(malloc, inSize, 2);
+    buf = SAFE_SIZE_ARRAY_ALLOC(mblloc, inSize, 2);
     if (!buf) {
         return NULL;
     }
-    bufSize = inSize*2; // need 2 bytes per char for UCS-2, this is
-                        // 2 bytes per source byte max
+    bufSize = inSize*2; // need 2 bytes per chbr for UCS-2, this is
+                        // 2 bytes per source byte mbx
     out = buf; outSize = bufSize;
-    /* linux iconv wants char** source and solaris wants const char**...
-       cast to void* */
+    /* linux iconv wbnts chbr** source bnd solbris wbnts const chbr**...
+       cbst to void* */
     rc = iconv(cd, (void*)&in, &inSize, &out, &outSize);
     iconv_close(cd);
 
@@ -94,54 +94,54 @@ char* SplashConvertStringAlloc(const char* in, int* size) {
         buf = NULL;
     } else {
         if (size) {
-            *size = (bufSize-outSize)/2; /* bytes to wchars */
+            *size = (bufSize-outSize)/2; /* bytes to wchbrs */
         }
     }
 done:
-    setlocale(LC_ALL, old_locale);
+    setlocble(LC_ALL, old_locble);
     return buf;
 }
 
 void
-SplashInitFrameShape(Splash * splash, int imageIndex) {
-    ImageRect maskRect;
-    XRectangle *rects;
-    SplashImage *frame = splash->frames + imageIndex;
+SplbshInitFrbmeShbpe(Splbsh * splbsh, int imbgeIndex) {
+    ImbgeRect mbskRect;
+    XRectbngle *rects;
+    SplbshImbge *frbme = splbsh->frbmes + imbgeIndex;
 
-    frame->rects = NULL;
-    frame->numRects = 0;
+    frbme->rects = NULL;
+    frbme->numRects = 0;
 
-    if (!splash->maskRequired)
+    if (!splbsh->mbskRequired)
         return;
-    if (!shapeSupported)
+    if (!shbpeSupported)
         return;
-    initRect(&maskRect, 0, 0, splash->width, splash->height, 1,
-            splash->width * splash->imageFormat.depthBytes,
-            splash->frames[imageIndex].bitmapBits, &splash->imageFormat);
-    if (!IS_SAFE_SIZE_MUL(splash->width / 2 + 1, splash->height)) {
+    initRect(&mbskRect, 0, 0, splbsh->width, splbsh->height, 1,
+            splbsh->width * splbsh->imbgeFormbt.depthBytes,
+            splbsh->frbmes[imbgeIndex].bitmbpBits, &splbsh->imbgeFormbt);
+    if (!IS_SAFE_SIZE_MUL(splbsh->width / 2 + 1, splbsh->height)) {
         return;
     }
-    rects = SAFE_SIZE_ARRAY_ALLOC(malloc,
-            sizeof(XRectangle), (splash->width / 2 + 1) * splash->height);
+    rects = SAFE_SIZE_ARRAY_ALLOC(mblloc,
+            sizeof(XRectbngle), (splbsh->width / 2 + 1) * splbsh->height);
     if (!rects) {
         return;
     }
 
-    frame->numRects = BitmapToYXBandedRectangles(&maskRect, rects);
-    frame->rects = SAFE_SIZE_ARRAY_ALLOC(malloc, frame->numRects, sizeof(XRectangle));
-    if (frame->rects) { // handle the error after the if(){}
-        memcpy(frame->rects, rects, frame->numRects * sizeof(XRectangle));
+    frbme->numRects = BitmbpToYXBbndedRectbngles(&mbskRect, rects);
+    frbme->rects = SAFE_SIZE_ARRAY_ALLOC(mblloc, frbme->numRects, sizeof(XRectbngle));
+    if (frbme->rects) { // hbndle the error bfter the if(){}
+        memcpy(frbme->rects, rects, frbme->numRects * sizeof(XRectbngle));
     }
     free(rects);
 }
 
 unsigned
-SplashTime(void) {
-    struct timeval tv;
+SplbshTime(void) {
+    struct timevbl tv;
     struct timezone tz;
     unsigned long long msec;
 
-    gettimeofday(&tv, &tz);
+    gettimeofdby(&tv, &tz);
     msec = (unsigned long long) tv.tv_sec * 1000 +
         (unsigned long long) tv.tv_usec / 1000;
 
@@ -149,81 +149,81 @@ SplashTime(void) {
 }
 
 void
-msec2timeval(unsigned time, struct timeval *tv) {
+msec2timevbl(unsigned time, struct timevbl *tv) {
     tv->tv_sec = time / 1000;
     tv->tv_usec = (time % 1000) * 1000;
 }
 
 int
-GetNumAvailableColors(Display * display, Screen * screen, unsigned map_entries) {
+GetNumAvbilbbleColors(Displby * displby, Screen * screen, unsigned mbp_entries) {
     unsigned long pmr[1];
     unsigned long pr[SPLASH_COLOR_MAP_SIZE];
-    unsigned nFailed, nAllocated, done = 0, nPlanes = 0;
-    Colormap cmap;
-    unsigned numColors = SPLASH_COLOR_MAP_SIZE; // never try allocating more than that
+    unsigned nFbiled, nAllocbted, done = 0, nPlbnes = 0;
+    Colormbp cmbp;
+    unsigned numColors = SPLASH_COLOR_MAP_SIZE; // never try bllocbting more thbn thbt
 
-    if (numColors > map_entries) {
-        numColors = map_entries;
+    if (numColors > mbp_entries) {
+        numColors = mbp_entries;
     }
-    cmap = XDefaultColormapOfScreen(screen);
-    nAllocated = 0;             /* lower bound */
-    nFailed = numColors + 1;    /* upper bound */
+    cmbp = XDefbultColormbpOfScreen(screen);
+    nAllocbted = 0;             /* lower bound */
+    nFbiled = numColors + 1;    /* upper bound */
 
-    /* Binary search to determine the number of available cells */
+    /* Binbry sebrch to determine the number of bvbilbble cells */
     for (done = 0; !done;) {
-        if (XAllocColorCells(display, cmap, 0, pmr, nPlanes, pr, numColors)) {
-            nAllocated = numColors;
-            XFreeColors(display, cmap, pr, numColors, 0);
-            if (nAllocated < (nFailed - 1)) {
-                numColors = (nAllocated + nFailed) / 2;
+        if (XAllocColorCells(displby, cmbp, 0, pmr, nPlbnes, pr, numColors)) {
+            nAllocbted = numColors;
+            XFreeColors(displby, cmbp, pr, numColors, 0);
+            if (nAllocbted < (nFbiled - 1)) {
+                numColors = (nAllocbted + nFbiled) / 2;
             } else
                 done = 1;
         } else {
-            nFailed = numColors;
-            if (nFailed > (nAllocated + 1))
-                numColors = (nAllocated + nFailed) / 2;
+            nFbiled = numColors;
+            if (nFbiled > (nAllocbted + 1))
+                numColors = (nAllocbted + nFbiled) / 2;
             else
                 done = 1;
         }
     }
-    return nAllocated;
+    return nAllocbted;
 }
 
-Colormap
-AllocColors(Display * display, Screen * screen, int numColors,
+Colormbp
+AllocColors(Displby * displby, Screen * screen, int numColors,
         unsigned long *pr) {
     unsigned long pmr[1];
-    Colormap cmap = XDefaultColormapOfScreen(screen);
+    Colormbp cmbp = XDefbultColormbpOfScreen(screen);
 
-    XAllocColorCells(display, cmap, 0, pmr, 0, pr, numColors);
-    return cmap;
+    XAllocColorCells(displby, cmbp, 0, pmr, 0, pr, numColors);
+    return cmbp;
 }
 
 void
-FreeColors(Display * display, Screen * screen, int numColors,
+FreeColors(Displby * displby, Screen * screen, int numColors,
         unsigned long *pr) {
-    Colormap cmap = XDefaultColormapOfScreen(screen);
+    Colormbp cmbp = XDefbultColormbpOfScreen(screen);
 
-    XFreeColors(display, cmap, pr, numColors, 0);
+    XFreeColors(displby, cmbp, pr, numColors, 0);
 }
 
-static void SplashCenter(Splash * splash) {
-    Atom type, atom, actual_type;
-    int status, actual_format;
-    unsigned long nitems, bytes_after;
+stbtic void SplbshCenter(Splbsh * splbsh) {
+    Atom type, btom, bctubl_type;
+    int stbtus, bctubl_formbt;
+    unsigned long nitems, bytes_bfter;
     CARD16 *prop = NULL;
 
-    /*  try centering using Xinerama hint
+    /*  try centering using Xinerbmb hint
         if there's no hint, use the center of the screen */
-    atom = XInternAtom(splash->display, "XINERAMA_CENTER_HINT", True);
-    if (atom != None) {
-        status = XGetWindowProperty(splash->display,
-            XRootWindowOfScreen(splash->screen), atom, 0, 1, False, XA_INTEGER,
-            &actual_type, &actual_format, &nitems,
-            &bytes_after, (unsigned char**)(&prop));
-        if (status == Success && actual_type != None && prop != NULL) {
-            splash->x = prop[0] - splash->width/2;
-            splash->y = prop[1] - splash->height/2;
+    btom = XInternAtom(splbsh->displby, "XINERAMA_CENTER_HINT", True);
+    if (btom != None) {
+        stbtus = XGetWindowProperty(splbsh->displby,
+            XRootWindowOfScreen(splbsh->screen), btom, 0, 1, Fblse, XA_INTEGER,
+            &bctubl_type, &bctubl_formbt, &nitems,
+            &bytes_bfter, (unsigned chbr**)(&prop));
+        if (stbtus == Success && bctubl_type != None && prop != NULL) {
+            splbsh->x = prop[0] - splbsh->width/2;
+            splbsh->y = prop[1] - splbsh->height/2;
             XFree(prop);
             return;
         }
@@ -231,162 +231,162 @@ static void SplashCenter(Splash * splash) {
             XFree(prop);
         }
     }
-    splash->x = (XWidthOfScreen(splash->screen) - splash->width) / 2;
-    splash->y = (XHeightOfScreen(splash->screen) - splash->height) / 2;
+    splbsh->x = (XWidthOfScreen(splbsh->screen) - splbsh->width) / 2;
+    splbsh->y = (XHeightOfScreen(splbsh->screen) - splbsh->height) / 2;
 }
 
-static void SplashUpdateSizeHints(Splash * splash) {
-    if (splash->window) {
+stbtic void SplbshUpdbteSizeHints(Splbsh * splbsh) {
+    if (splbsh->window) {
         XSizeHints sizeHints;
 
-        sizeHints.flags = USPosition | PPosition | USSize | PSize | PMinSize | PMaxSize | PWinGravity;
-        sizeHints.width = sizeHints.base_width = sizeHints.min_width = sizeHints.max_width = splash->width;
-        sizeHints.height = sizeHints.base_height = sizeHints.min_height = sizeHints.max_height = splash->height;
-        sizeHints.win_gravity = NorthWestGravity;
+        sizeHints.flbgs = USPosition | PPosition | USSize | PSize | PMinSize | PMbxSize | PWinGrbvity;
+        sizeHints.width = sizeHints.bbse_width = sizeHints.min_width = sizeHints.mbx_width = splbsh->width;
+        sizeHints.height = sizeHints.bbse_height = sizeHints.min_height = sizeHints.mbx_height = splbsh->height;
+        sizeHints.win_grbvity = NorthWestGrbvity;
 
-        XSetWMNormalHints(splash->display, splash->window, &sizeHints);
+        XSetWMNormblHints(splbsh->displby, splbsh->window, &sizeHints);
     }
 }
 
 void
-SplashCreateWindow(Splash * splash) {
+SplbshCrebteWindow(Splbsh * splbsh) {
     XSizeHints sizeHints;
 
-    XSetWindowAttributes attr;
+    XSetWindowAttributes bttr;
 
-    attr.backing_store = NotUseful;
-    attr.colormap = XDefaultColormapOfScreen(splash->screen);
-    attr.save_under = True;
-    attr.cursor = splash->cursor = XCreateFontCursor(splash->display, XC_watch);
-    attr.event_mask = ExposureMask;
+    bttr.bbcking_store = NotUseful;
+    bttr.colormbp = XDefbultColormbpOfScreen(splbsh->screen);
+    bttr.sbve_under = True;
+    bttr.cursor = splbsh->cursor = XCrebteFontCursor(splbsh->displby, XC_wbtch);
+    bttr.event_mbsk = ExposureMbsk;
 
-    SplashCenter(splash);
+    SplbshCenter(splbsh);
 
-    splash->window = XCreateWindow(splash->display, XRootWindowOfScreen(splash->screen),
-        splash->x, splash->y, splash->width, splash->height, 0, CopyFromParent,
-        InputOutput, CopyFromParent, CWColormap | CWBackingStore | CWSaveUnder | CWCursor | CWEventMask,
-        &attr);
-    SplashUpdateSizeHints(splash);
+    splbsh->window = XCrebteWindow(splbsh->displby, XRootWindowOfScreen(splbsh->screen),
+        splbsh->x, splbsh->y, splbsh->width, splbsh->height, 0, CopyFromPbrent,
+        InputOutput, CopyFromPbrent, CWColormbp | CWBbckingStore | CWSbveUnder | CWCursor | CWEventMbsk,
+        &bttr);
+    SplbshUpdbteSizeHints(splbsh);
 
 
-    splash->wmHints = XAllocWMHints();
-    if (splash->wmHints) {
-        splash->wmHints->flags = InputHint | StateHint;
-        splash->wmHints->input = False;
-        splash->wmHints->initial_state = NormalState;
-        XSetWMHints(splash->display, splash->window, splash->wmHints);
+    splbsh->wmHints = XAllocWMHints();
+    if (splbsh->wmHints) {
+        splbsh->wmHints->flbgs = InputHint | StbteHint;
+        splbsh->wmHints->input = Fblse;
+        splbsh->wmHints->initibl_stbte = NormblStbte;
+        XSetWMHints(splbsh->displby, splbsh->window, splbsh->wmHints);
     }
 }
 
-/* for changing the visible shape of a window to an nonrectangular form */
+/* for chbnging the visible shbpe of b window to bn nonrectbngulbr form */
 void
-SplashUpdateShape(Splash * splash) {
-    if (!shapeSupported)
+SplbshUpdbteShbpe(Splbsh * splbsh) {
+    if (!shbpeSupported)
         return;
-    if (!splash->maskRequired) {
+    if (!splbsh->mbskRequired) {
         return;
     }
-    XShapeCombineRectangles(splash->display, splash->window, ShapeClip, 0, 0,
-            splash->frames[splash->currentFrame].rects,
-            splash->frames[splash->currentFrame].numRects, ShapeSet, YXBanded);
-    XShapeCombineRectangles(splash->display, splash->window, ShapeBounding,
-            0, 0, splash->frames[splash->currentFrame].rects,
-            splash->frames[splash->currentFrame].numRects, ShapeSet, YXBanded);
+    XShbpeCombineRectbngles(splbsh->displby, splbsh->window, ShbpeClip, 0, 0,
+            splbsh->frbmes[splbsh->currentFrbme].rects,
+            splbsh->frbmes[splbsh->currentFrbme].numRects, ShbpeSet, YXBbnded);
+    XShbpeCombineRectbngles(splbsh->displby, splbsh->window, ShbpeBounding,
+            0, 0, splbsh->frbmes[splbsh->currentFrbme].rects,
+            splbsh->frbmes[splbsh->currentFrbme].numRects, ShbpeSet, YXBbnded);
 }
 
-/* for reverting the visible shape of a window to an rectangular form */
+/* for reverting the visible shbpe of b window to bn rectbngulbr form */
 void
-SplashRevertShape(Splash * splash) {
-    if (!shapeSupported)
+SplbshRevertShbpe(Splbsh * splbsh) {
+    if (!shbpeSupported)
         return;
-    if (splash->maskRequired)
+    if (splbsh->mbskRequired)
         return;
 
-    XShapeCombineMask (splash->display, splash->window, ShapeClip,
-                       0, 0, None, ShapeSet);
-    XShapeCombineMask (splash->display, splash->window , ShapeBounding,
-                       0, 0, None, ShapeSet);
+    XShbpeCombineMbsk (splbsh->displby, splbsh->window, ShbpeClip,
+                       0, 0, None, ShbpeSet);
+    XShbpeCombineMbsk (splbsh->displby, splbsh->window , ShbpeBounding,
+                       0, 0, None, ShbpeSet);
 }
 
 int
 ByteOrderToX(int byteOrder) {
     if (byteOrder == BYTE_ORDER_NATIVE)
-        byteOrder = platformByteOrder();
+        byteOrder = plbtformByteOrder();
     switch (byteOrder) {
-    case BYTE_ORDER_LSBFIRST:
+    cbse BYTE_ORDER_LSBFIRST:
         return LSBFirst;
-    case BYTE_ORDER_MSBFIRST:
+    cbse BYTE_ORDER_MSBFIRST:
         return MSBFirst;
-    default:
+    defbult:
         return -1;
     }
 }
 
 void
-SplashRedrawWindow(Splash * splash) {
-    XImage *ximage;
+SplbshRedrbwWindow(Splbsh * splbsh) {
+    XImbge *ximbge;
 
-    // making this method redraw a part of the image does not make
-    // much sense as SplashUpdateScreenData always re-generates
-    // the image completely, so whole window is always redrawn
+    // mbking this method redrbw b pbrt of the imbge does not mbke
+    // much sense bs SplbshUpdbteScreenDbtb blwbys re-generbtes
+    // the imbge completely, so whole window is blwbys redrbwn
 
-    SplashUpdateScreenData(splash);
-    ximage = XCreateImage(splash->display, splash->visual,
-            splash->screenFormat.depthBytes * 8, ZPixmap, 0, (char *) NULL,
-            splash->width, splash->height, 8, 0);
-    ximage->data = (char *) splash->screenData;
-    ximage->bits_per_pixel = ximage->depth;
-    ximage->bytes_per_line = ximage->depth * ximage->width / 8;
-    ximage->byte_order = ByteOrderToX(splash->screenFormat.byteOrder);
-    ximage->bitmap_unit = 8;
-    XPutImage(splash->display, splash->window,
-            XDefaultGCOfScreen(splash->screen), ximage, 0, 0, 0, 0,
-            splash->width, splash->height);
-    ximage->data = NULL;
-    XDestroyImage(ximage);
-    SplashRemoveDecoration(splash);
-    XMapWindow(splash->display, splash->window);
-    XFlush(splash->display);
+    SplbshUpdbteScreenDbtb(splbsh);
+    ximbge = XCrebteImbge(splbsh->displby, splbsh->visubl,
+            splbsh->screenFormbt.depthBytes * 8, ZPixmbp, 0, (chbr *) NULL,
+            splbsh->width, splbsh->height, 8, 0);
+    ximbge->dbtb = (chbr *) splbsh->screenDbtb;
+    ximbge->bits_per_pixel = ximbge->depth;
+    ximbge->bytes_per_line = ximbge->depth * ximbge->width / 8;
+    ximbge->byte_order = ByteOrderToX(splbsh->screenFormbt.byteOrder);
+    ximbge->bitmbp_unit = 8;
+    XPutImbge(splbsh->displby, splbsh->window,
+            XDefbultGCOfScreen(splbsh->screen), ximbge, 0, 0, 0, 0,
+            splbsh->width, splbsh->height);
+    ximbge->dbtb = NULL;
+    XDestroyImbge(ximbge);
+    SplbshRemoveDecorbtion(splbsh);
+    XMbpWindow(splbsh->displby, splbsh->window);
+    XFlush(splbsh->displby);
 }
 
-void SplashReconfigureNow(Splash * splash) {
-    SplashCenter(splash);
-    if (splash->window) {
-        XUnmapWindow(splash->display, splash->window);
-        XMoveResizeWindow(splash->display, splash->window,
-            splash->x, splash->y,
-            splash->width, splash->height);
-        SplashUpdateSizeHints(splash);
+void SplbshReconfigureNow(Splbsh * splbsh) {
+    SplbshCenter(splbsh);
+    if (splbsh->window) {
+        XUnmbpWindow(splbsh->displby, splbsh->window);
+        XMoveResizeWindow(splbsh->displby, splbsh->window,
+            splbsh->x, splbsh->y,
+            splbsh->width, splbsh->height);
+        SplbshUpdbteSizeHints(splbsh);
     }
-    if (splash->maskRequired) {
-        SplashUpdateShape(splash);
+    if (splbsh->mbskRequired) {
+        SplbshUpdbteShbpe(splbsh);
     } else {
-        SplashRevertShape(splash);
+        SplbshRevertShbpe(splbsh);
     }
-    SplashRedrawWindow(splash);
+    SplbshRedrbwWindow(splbsh);
 }
 
 
 void
-sendctl(Splash * splash, char code) {
-//    if (splash->isVisible>0) {
-    if (splash && splash->controlpipe[1]) {
-        write(splash->controlpipe[1], &code, 1);
+sendctl(Splbsh * splbsh, chbr code) {
+//    if (splbsh->isVisible>0) {
+    if (splbsh && splbsh->controlpipe[1]) {
+        write(splbsh->controlpipe[1], &code, 1);
     }
 }
 
 int
-HandleError(Display * disp, XErrorEvent * err) {
-    // silently ignore non-fatal errors
+HbndleError(Displby * disp, XErrorEvent * err) {
+    // silently ignore non-fbtbl errors
     /*
-    char msg[0x1000];
-    char buf[0x1000];
+    chbr msg[0x1000];
+    chbr buf[0x1000];
     XGetErrorText(disp, err->error_code, msg, sizeof(msg));
     fprintf(stderr, "Xerror %s, XID %x, ser# %d\n", msg, err->resourceid,
-        err->serial);
+        err->seribl);
     sprintf(buf, "%d", err->request_code);
-    XGetErrorDatabaseText(disp, "XRequest", buf, "Unknown", msg, sizeof(msg));
-    fprintf(stderr, "Major opcode %d (%s)\n", err->request_code, msg);
+    XGetErrorDbtbbbseText(disp, "XRequest", buf, "Unknown", msg, sizeof(msg));
+    fprintf(stderr, "Mbjor opcode %d (%s)\n", err->request_code, msg);
     if (err->request_code > 128) {
         fprintf(stderr, "Minor opcode %d\n", err->minor_code);
     }
@@ -395,168 +395,168 @@ HandleError(Display * disp, XErrorEvent * err) {
 }
 
 int
-HandleIOError(Display * display) {
-    // for really bad errors, we should exit the thread we're on
-    SplashCleanup(SplashGetInstance());
-    pthread_exit(NULL);
+HbndleIOError(Displby * displby) {
+    // for reblly bbd errors, we should exit the threbd we're on
+    SplbshClebnup(SplbshGetInstbnce());
+    pthrebd_exit(NULL);
     return 0;
 }
 
 void
-SplashInitPlatform(Splash * splash) {
-    int shapeVersionMajor, shapeVersionMinor;
+SplbshInitPlbtform(Splbsh * splbsh) {
+    int shbpeVersionMbjor, shbpeVersionMinor;
 
-    // This setting enables the synchronous Xlib mode!
+    // This setting enbbles the synchronous Xlib mode!
     // Don't use it == 1 in production builds!
 #if (defined DEBUG)
     _Xdebug = 1;
 #endif
 
-    pthread_mutex_init(&splash->lock, NULL);
+    pthrebd_mutex_init(&splbsh->lock, NULL);
 
-    // We should not ignore any errors.
-    //XSetErrorHandler(HandleError);
-//    XSetIOErrorHandler(HandleIOError);
-    XSetIOErrorHandler(NULL);
-    splash->display = XOpenDisplay(NULL);
-    if (!splash->display) {
-        splash->isVisible = -1;
+    // We should not ignore bny errors.
+    //XSetErrorHbndler(HbndleError);
+//    XSetIOErrorHbndler(HbndleIOError);
+    XSetIOErrorHbndler(NULL);
+    splbsh->displby = XOpenDisplby(NULL);
+    if (!splbsh->displby) {
+        splbsh->isVisible = -1;
         return;
     }
 
-    shapeSupported = XShapeQueryExtension(splash->display, &shapeEventBase,
-            &shapeErrorBase);
-    if (shapeSupported) {
-        XShapeQueryVersion(splash->display, &shapeVersionMajor,
-                &shapeVersionMinor);
+    shbpeSupported = XShbpeQueryExtension(splbsh->displby, &shbpeEventBbse,
+            &shbpeErrorBbse);
+    if (shbpeSupported) {
+        XShbpeQueryVersion(splbsh->displby, &shbpeVersionMbjor,
+                &shbpeVersionMinor);
     }
 
-    splash->screen = XDefaultScreenOfDisplay(splash->display);
-    splash->visual = XDefaultVisualOfScreen(splash->screen);
-    switch (splash->visual->class) {
-    case TrueColor: {
-            int depth = XDefaultDepthOfScreen(splash->screen);
+    splbsh->screen = XDefbultScreenOfDisplby(splbsh->displby);
+    splbsh->visubl = XDefbultVisublOfScreen(splbsh->screen);
+    switch (splbsh->visubl->clbss) {
+    cbse TrueColor: {
+            int depth = XDefbultDepthOfScreen(splbsh->screen);
 
-            splash->byteAlignment = 1;
-            splash->maskRequired = shapeSupported;
-            initFormat(&splash->screenFormat, splash->visual->red_mask,
-                    splash->visual->green_mask, splash->visual->blue_mask, 0);
-            splash->screenFormat.byteOrder =
-                (XImageByteOrder(splash->display) == LSBFirst ?
+            splbsh->byteAlignment = 1;
+            splbsh->mbskRequired = shbpeSupported;
+            initFormbt(&splbsh->screenFormbt, splbsh->visubl->red_mbsk,
+                    splbsh->visubl->green_mbsk, splbsh->visubl->blue_mbsk, 0);
+            splbsh->screenFormbt.byteOrder =
+                (XImbgeByteOrder(splbsh->displby) == LSBFirst ?
                  BYTE_ORDER_LSBFIRST : BYTE_ORDER_MSBFIRST);
-            splash->screenFormat.depthBytes = (depth + 7) / 8;
-            // TrueColor depth probably can't be less
-            // than 8 bits, and it's always byte padded
-            break;
+            splbsh->screenFormbt.depthBytes = (depth + 7) / 8;
+            // TrueColor depth probbbly cbn't be less
+            // thbn 8 bits, bnd it's blwbys byte pbdded
+            brebk;
         }
-    case PseudoColor: {
-            int availableColors;
+    cbse PseudoColor: {
+            int bvbilbbleColors;
             int numColors;
             int numComponents[3];
             unsigned long colorIndex[SPLASH_COLOR_MAP_SIZE];
             XColor xColors[SPLASH_COLOR_MAP_SIZE];
             int i;
-            int depth = XDefaultDepthOfScreen(splash->screen);
-            int scale = 65535 / MAX_COLOR_VALUE;
+            int depth = XDefbultDepthOfScreen(splbsh->screen);
+            int scble = 65535 / MAX_COLOR_VALUE;
 
-            availableColors = GetNumAvailableColors(splash->display, splash->screen,
-                    splash->visual->map_entries);
-            numColors = quantizeColors(availableColors, numComponents);
-            if (numColors > availableColors) {
-                // Could not allocate the color cells. Most probably
-                // the pool got exhausted. Disable the splash screen.
-                XCloseDisplay(splash->display);
-                splash->isVisible = -1;
-                splash->display = NULL;
-                splash->screen = NULL;
-                splash->visual = NULL;
-                fprintf(stderr, "Warning: unable to initialize the splashscreen. Not enough available color cells.\n");
+            bvbilbbleColors = GetNumAvbilbbleColors(splbsh->displby, splbsh->screen,
+                    splbsh->visubl->mbp_entries);
+            numColors = qubntizeColors(bvbilbbleColors, numComponents);
+            if (numColors > bvbilbbleColors) {
+                // Could not bllocbte the color cells. Most probbbly
+                // the pool got exhbusted. Disbble the splbsh screen.
+                XCloseDisplby(splbsh->displby);
+                splbsh->isVisible = -1;
+                splbsh->displby = NULL;
+                splbsh->screen = NULL;
+                splbsh->visubl = NULL;
+                fprintf(stderr, "Wbrning: unbble to initiblize the splbshscreen. Not enough bvbilbble color cells.\n");
                 return;
             }
-            splash->cmap = AllocColors(splash->display, splash->screen,
+            splbsh->cmbp = AllocColors(splbsh->displby, splbsh->screen,
                     numColors, colorIndex);
             for (i = 0; i < numColors; i++) {
-                splash->colorIndex[i] = colorIndex[i];
+                splbsh->colorIndex[i] = colorIndex[i];
             }
-            initColorCube(numComponents, splash->colorMap, splash->dithers,
-                    splash->colorIndex);
+            initColorCube(numComponents, splbsh->colorMbp, splbsh->dithers,
+                    splbsh->colorIndex);
             for (i = 0; i < numColors; i++) {
                 xColors[i].pixel = colorIndex[i];
                 xColors[i].red = (unsigned short)
-                    QUAD_RED(splash->colorMap[colorIndex[i]]) * scale;
+                    QUAD_RED(splbsh->colorMbp[colorIndex[i]]) * scble;
                 xColors[i].green = (unsigned short)
-                    QUAD_GREEN(splash->colorMap[colorIndex[i]]) * scale;
+                    QUAD_GREEN(splbsh->colorMbp[colorIndex[i]]) * scble;
                 xColors[i].blue = (unsigned short)
-                    QUAD_BLUE(splash->colorMap[colorIndex[i]]) * scale;
-                xColors[i].flags = DoRed | DoGreen | DoBlue;
+                    QUAD_BLUE(splbsh->colorMbp[colorIndex[i]]) * scble;
+                xColors[i].flbgs = DoRed | DoGreen | DoBlue;
             }
-            XStoreColors(splash->display, splash->cmap, xColors, numColors);
-            initFormat(&splash->screenFormat, 0, 0, 0, 0);
-            splash->screenFormat.colorIndex = splash->colorIndex;
-            splash->screenFormat.depthBytes = (depth + 7) / 8;  // or always 8?
-            splash->screenFormat.colorMap = splash->colorMap;
-            splash->screenFormat.dithers = splash->dithers;
-            splash->screenFormat.numColors = numColors;
-            splash->screenFormat.byteOrder = BYTE_ORDER_NATIVE;
-            break;
+            XStoreColors(splbsh->displby, splbsh->cmbp, xColors, numColors);
+            initFormbt(&splbsh->screenFormbt, 0, 0, 0, 0);
+            splbsh->screenFormbt.colorIndex = splbsh->colorIndex;
+            splbsh->screenFormbt.depthBytes = (depth + 7) / 8;  // or blwbys 8?
+            splbsh->screenFormbt.colorMbp = splbsh->colorMbp;
+            splbsh->screenFormbt.dithers = splbsh->dithers;
+            splbsh->screenFormbt.numColors = numColors;
+            splbsh->screenFormbt.byteOrder = BYTE_ORDER_NATIVE;
+            brebk;
         }
-    default:
-        ; /* FIXME: should probably be fixed, but javaws splash screen doesn't support other visuals either */
+    defbult:
+        ; /* FIXME: should probbbly be fixed, but jbvbws splbsh screen doesn't support other visubls either */
     }
 }
 
 
 void
-SplashCleanupPlatform(Splash * splash) {
+SplbshClebnupPlbtform(Splbsh * splbsh) {
     int i;
 
-    if (splash->frames) {
-        for (i = 0; i < splash->frameCount; i++) {
-            if (splash->frames[i].rects) {
-                free(splash->frames[i].rects);
-                splash->frames[i].rects = NULL;
+    if (splbsh->frbmes) {
+        for (i = 0; i < splbsh->frbmeCount; i++) {
+            if (splbsh->frbmes[i].rects) {
+                free(splbsh->frbmes[i].rects);
+                splbsh->frbmes[i].rects = NULL;
             }
         }
     }
-    splash->maskRequired = shapeSupported;
+    splbsh->mbskRequired = shbpeSupported;
 }
 
 void
-SplashDonePlatform(Splash * splash) {
-    pthread_mutex_destroy(&splash->lock);
-    if (splash->cmap) {
+SplbshDonePlbtform(Splbsh * splbsh) {
+    pthrebd_mutex_destroy(&splbsh->lock);
+    if (splbsh->cmbp) {
         unsigned long colorIndex[SPLASH_COLOR_MAP_SIZE];
         int i;
 
-        for (i = 0; i < splash->screenFormat.numColors; i++) {
-            colorIndex[i] = splash->colorIndex[i];
+        for (i = 0; i < splbsh->screenFormbt.numColors; i++) {
+            colorIndex[i] = splbsh->colorIndex[i];
         }
-        FreeColors(splash->display, splash->screen,
-                splash->screenFormat.numColors, colorIndex);
+        FreeColors(splbsh->displby, splbsh->screen,
+                splbsh->screenFormbt.numColors, colorIndex);
     }
-    if (splash->window)
-        XDestroyWindow(splash->display, splash->window);
-    if (splash->wmHints)
-        XFree(splash->wmHints);
-    if (splash->cursor)
-        XFreeCursor(splash->display, splash->cursor);
-    if (splash->display)
-        XCloseDisplay(splash->display);
+    if (splbsh->window)
+        XDestroyWindow(splbsh->displby, splbsh->window);
+    if (splbsh->wmHints)
+        XFree(splbsh->wmHints);
+    if (splbsh->cursor)
+        XFreeCursor(splbsh->displby, splbsh->cursor);
+    if (splbsh->displby)
+        XCloseDisplby(splbsh->displby);
 }
 
 void
-SplashEventLoop(Splash * splash) {
+SplbshEventLoop(Splbsh * splbsh) {
 
-    /*      Different from win32 implementation - this loop
-       uses poll timeouts instead of a timer */
-    /* we should have splash _locked_ on entry!!! */
+    /*      Different from win32 implementbtion - this loop
+       uses poll timeouts instebd of b timer */
+    /* we should hbve splbsh _locked_ on entry!!! */
 
-    int xconn = XConnectionNumber(splash->display);
+    int xconn = XConnectionNumber(splbsh->displby);
 
     while (1) {
         struct pollfd pfd[2];
         int timeout = -1;
-        int ctl = splash->controlpipe[0];
+        int ctl = splbsh->controlpipe[0];
         int rc;
         int pipes_empty;
 
@@ -567,21 +567,21 @@ SplashEventLoop(Splash * splash) {
         pfd[1].events = POLLIN | POLLPRI;
 
         errno = 0;
-        if (splash->isVisible>0 && SplashIsStillLooping(splash)) {
-            timeout = splash->time + splash->frames[splash->currentFrame].delay
-                - SplashTime();
+        if (splbsh->isVisible>0 && SplbshIsStillLooping(splbsh)) {
+            timeout = splbsh->time + splbsh->frbmes[splbsh->currentFrbme].delby
+                - SplbshTime();
             if (timeout < 0) {
                 timeout = 0;
             }
         }
-        SplashUnlock(splash);
+        SplbshUnlock(splbsh);
         rc = poll(pfd, 2, timeout);
-        SplashLock(splash);
-        if (splash->isVisible > 0 && splash->currentFrame >= 0 &&
-                SplashTime() >= splash->time + splash->frames[splash->currentFrame].delay) {
-            SplashNextFrame(splash);
-            SplashUpdateShape(splash);
-            SplashRedrawWindow(splash);
+        SplbshLock(splbsh);
+        if (splbsh->isVisible > 0 && splbsh->currentFrbme >= 0 &&
+                SplbshTime() >= splbsh->time + splbsh->frbmes[splbsh->currentFrbme].delby) {
+            SplbshNextFrbme(splbsh);
+            SplbshUpdbteShbpe(splbsh);
+            SplbshRedrbwWindow(splbsh);
         }
         if (rc <= 0) {
             errno = 0;
@@ -589,43 +589,43 @@ SplashEventLoop(Splash * splash) {
         }
         pipes_empty = 0;
         while(!pipes_empty) {
-            char buf;
+            chbr buf;
 
             pipes_empty = 1;
-            if (read(ctl, &buf, sizeof(buf)) > 0) {
+            if (rebd(ctl, &buf, sizeof(buf)) > 0) {
                 pipes_empty = 0;
                 switch (buf) {
-                case SPLASHCTL_UPDATE:
-                    if (splash->isVisible>0) {
-                        SplashRedrawWindow(splash);
+                cbse SPLASHCTL_UPDATE:
+                    if (splbsh->isVisible>0) {
+                        SplbshRedrbwWindow(splbsh);
                     }
-                    break;
-                case SPLASHCTL_RECONFIGURE:
-                    if (splash->isVisible>0) {
-                        SplashReconfigureNow(splash);
+                    brebk;
+                cbse SPLASHCTL_RECONFIGURE:
+                    if (splbsh->isVisible>0) {
+                        SplbshReconfigureNow(splbsh);
                     }
-                    break;
-                case SPLASHCTL_QUIT:
+                    brebk;
+                cbse SPLASHCTL_QUIT:
                     return;
                 }
             }
             // we're not using "while(XPending)", processing one event
-            // at a time to avoid control pipe starvation
-            if (XPending(splash->display)) {
+            // bt b time to bvoid control pipe stbrvbtion
+            if (XPending(splbsh->displby)) {
                 XEvent evt;
 
                 pipes_empty = 0;
-                XNextEvent(splash->display, &evt);
+                XNextEvent(splbsh->displby, &evt);
                 switch (evt.type) {
-                    case Expose:
-                        if (splash->isVisible>0) {
-                            // we're doing full redraw so we just
-                            // skip the remaining painting events in the queue
-                            while(XCheckTypedEvent(splash->display, Expose,
+                    cbse Expose:
+                        if (splbsh->isVisible>0) {
+                            // we're doing full redrbw so we just
+                            // skip the rembining pbinting events in the queue
+                            while(XCheckTypedEvent(splbsh->displby, Expose,
                                 &evt));
-                            SplashRedrawWindow(splash);
+                            SplbshRedrbwWindow(splbsh);
                         }
-                        break;
+                        brebk;
                     /* ... */
                 }
             }
@@ -633,172 +633,172 @@ SplashEventLoop(Splash * splash) {
     }
 }
 
-/*  we can't use OverrideRedirect for the window as the window should not be
-    always-on-top, so we must set appropriate wm hints
+/*  we cbn't use OverrideRedirect for the window bs the window should not be
+    blwbys-on-top, so we must set bppropribte wm hints
 
-    this functions sets olwm, mwm and EWMH hints for undecorated window at once
+    this functions sets olwm, mwm bnd EWMH hints for undecorbted window bt once
 
-    It works for: mwm, openbox, wmaker, metacity, KWin (FIXME: test more wm's)
-    Should work for: fvwm2.5.x, blackbox, olwm
-    Maybe works for: enlightenment, icewm
+    It works for: mwm, openbox, wmbker, metbcity, KWin (FIXME: test more wm's)
+    Should work for: fvwm2.5.x, blbckbox, olwm
+    Mbybe works for: enlightenment, icewm
     Does not work for: twm, fvwm2.4.7
 
 */
 
 void
-SplashRemoveDecoration(Splash * splash) {
-    Atom atom_set;
-    Atom atom_list[4];
+SplbshRemoveDecorbtion(Splbsh * splbsh) {
+    Atom btom_set;
+    Atom btom_list[4];
 
-    /* the struct below was copied from MwmUtil.h */
+    /* the struct below wbs copied from MwmUtil.h */
 
     struct PROPMOTIFWMHINTS {
-    /* 32-bit property items are stored as long on the client (whether
-     * that means 32 bits or 64).  XChangeProperty handles the conversion
-     * to the actual 32-bit quantities sent to the server.
+    /* 32-bit property items bre stored bs long on the client (whether
+     * thbt mebns 32 bits or 64).  XChbngeProperty hbndles the conversion
+     * to the bctubl 32-bit qubntities sent to the server.
      */
-        unsigned long   flags;
+        unsigned long   flbgs;
         unsigned long   functions;
-        unsigned long   decorations;
+        unsigned long   decorbtions;
         long            inputMode;
-        unsigned long   status;
+        unsigned long   stbtus;
     }
     mwm_hints;
 
-    /* WM_TAKE_FOCUS hint to avoid wm's transfer of focus to this window */
-    /* WM_DELETE_WINDOW hint to avoid closing this window with Alt-F4. See bug 6474035 */
-    atom_set = XInternAtom(splash->display, "WM_PROTOCOLS", True);
-    if (atom_set != None) {
-        atom_list[0] = XInternAtom(splash->display, "WM_TAKE_FOCUS", True);
-        atom_list[1] = XInternAtom(splash->display, "WM_DELETE_WINDOW", True);
+    /* WM_TAKE_FOCUS hint to bvoid wm's trbnsfer of focus to this window */
+    /* WM_DELETE_WINDOW hint to bvoid closing this window with Alt-F4. See bug 6474035 */
+    btom_set = XInternAtom(splbsh->displby, "WM_PROTOCOLS", True);
+    if (btom_set != None) {
+        btom_list[0] = XInternAtom(splbsh->displby, "WM_TAKE_FOCUS", True);
+        btom_list[1] = XInternAtom(splbsh->displby, "WM_DELETE_WINDOW", True);
 
-        XChangeProperty(splash->display, splash->window, atom_set, XA_ATOM, 32,
-                PropModeReplace, (unsigned char *) atom_list, 2);
+        XChbngeProperty(splbsh->displby, splbsh->window, btom_set, XA_ATOM, 32,
+                PropModeReplbce, (unsigned chbr *) btom_list, 2);
     }
 
     /* mwm hints */
-    atom_set = XInternAtom(splash->display, "_MOTIF_WM_HINTS", True);
-    if (atom_set != None) {
-        /* flags for decoration and functions */
-        mwm_hints.flags = (1L << 1) | (1L << 0);
-        mwm_hints.decorations = 0;
+    btom_set = XInternAtom(splbsh->displby, "_MOTIF_WM_HINTS", True);
+    if (btom_set != None) {
+        /* flbgs for decorbtion bnd functions */
+        mwm_hints.flbgs = (1L << 1) | (1L << 0);
+        mwm_hints.decorbtions = 0;
         mwm_hints.functions = 0;
-        XChangeProperty(splash->display, splash->window, atom_set, atom_set,
-                32, PropModeReplace, (unsigned char *) &mwm_hints, 5);
+        XChbngeProperty(splbsh->displby, splbsh->window, btom_set, btom_set,
+                32, PropModeReplbce, (unsigned chbr *) &mwm_hints, 5);
     }
 
     /* olwm hints */
-    atom_set = XInternAtom(splash->display, "_OL_DECOR_DEL", True);
-    if (atom_set != None) {
-        atom_list[0] = XInternAtom(splash->display, "_OL_DECOR_RESIZE", True);
-        atom_list[1] = XInternAtom(splash->display, "_OL_DECOR_HEADER", True);
-        atom_list[2] = XInternAtom(splash->display, "_OL_DECOR_PIN", True);
-        atom_list[3] = XInternAtom(splash->display, "_OL_DECOR_CLOSE", True);
-        XChangeProperty(splash->display, splash->window, atom_set, XA_ATOM, 32,
-                PropModeReplace, (unsigned char *) atom_list, 4);
+    btom_set = XInternAtom(splbsh->displby, "_OL_DECOR_DEL", True);
+    if (btom_set != None) {
+        btom_list[0] = XInternAtom(splbsh->displby, "_OL_DECOR_RESIZE", True);
+        btom_list[1] = XInternAtom(splbsh->displby, "_OL_DECOR_HEADER", True);
+        btom_list[2] = XInternAtom(splbsh->displby, "_OL_DECOR_PIN", True);
+        btom_list[3] = XInternAtom(splbsh->displby, "_OL_DECOR_CLOSE", True);
+        XChbngeProperty(splbsh->displby, splbsh->window, btom_set, XA_ATOM, 32,
+                PropModeReplbce, (unsigned chbr *) btom_list, 4);
     }
 
     /* generic EMWH hints
        we do not set _NET_WM_WINDOW_TYPE to _NET_WM_WINDOW_TYPE_SPLASH
-       hint support due to gnome making this window always-on-top
-       so we have to set _NET_WM_STATE and _NET_WM_ALLOWED_ACTIONS correctly
-       _NET_WM_STATE: SKIP_TASKBAR and SKIP_PAGER
-       _NET_WM_ALLOWED_ACTIONS: disable all actions */
-    atom_set = XInternAtom(splash->display, "_NET_WM_STATE", True);
-    if (atom_set != None) {
-        atom_list[0] = XInternAtom(splash->display,
+       hint support due to gnome mbking this window blwbys-on-top
+       so we hbve to set _NET_WM_STATE bnd _NET_WM_ALLOWED_ACTIONS correctly
+       _NET_WM_STATE: SKIP_TASKBAR bnd SKIP_PAGER
+       _NET_WM_ALLOWED_ACTIONS: disbble bll bctions */
+    btom_set = XInternAtom(splbsh->displby, "_NET_WM_STATE", True);
+    if (btom_set != None) {
+        btom_list[0] = XInternAtom(splbsh->displby,
                 "_NET_WM_STATE_SKIP_TASKBAR", True);
-        atom_list[1] = XInternAtom(splash->display,
+        btom_list[1] = XInternAtom(splbsh->displby,
                 "_NET_WM_STATE_SKIP_PAGER", True);
-        XChangeProperty(splash->display, splash->window, atom_set, XA_ATOM, 32,
-                PropModeReplace, (unsigned char *) atom_list, 2);
+        XChbngeProperty(splbsh->displby, splbsh->window, btom_set, XA_ATOM, 32,
+                PropModeReplbce, (unsigned chbr *) btom_list, 2);
     }
-    atom_set = XInternAtom(splash->display, "_NET_WM_ALLOWED_ACTIONS", True);
-    if (atom_set != None) {
-        XChangeProperty(splash->display, splash->window, atom_set, XA_ATOM, 32,
-                PropModeReplace, (unsigned char *) atom_list, 0);
+    btom_set = XInternAtom(splbsh->displby, "_NET_WM_ALLOWED_ACTIONS", True);
+    if (btom_set != None) {
+        XChbngeProperty(splbsh->displby, splbsh->window, btom_set, XA_ATOM, 32,
+                PropModeReplbce, (unsigned chbr *) btom_list, 0);
     }
 }
 
 void
-SplashPThreadDestructor(void *arg) {
-    /* this will be used in case of emergency thread exit on xlib error */
-    Splash *splash = (Splash *) arg;
+SplbshPThrebdDestructor(void *brg) {
+    /* this will be used in cbse of emergency threbd exit on xlib error */
+    Splbsh *splbsh = (Splbsh *) brg;
 
-    if (splash) {
-        SplashCleanup(splash);
+    if (splbsh) {
+        SplbshClebnup(splbsh);
     }
 }
 
 void *
-SplashScreenThread(void *param) {
-    Splash *splash = (Splash *) param;
-//    pthread_key_t key;
+SplbshScreenThrebd(void *pbrbm) {
+    Splbsh *splbsh = (Splbsh *) pbrbm;
+//    pthrebd_key_t key;
 
-//    pthread_key_create(&key, SplashPThreadDestructor);
-//    pthread_setspecific(key, splash);
+//    pthrebd_key_crebte(&key, SplbshPThrebdDestructor);
+//    pthrebd_setspecific(key, splbsh);
 
-    SplashLock(splash);
-    pipe(splash->controlpipe);
-    fcntl(splash->controlpipe[0], F_SETFL,
-        fcntl(splash->controlpipe[0], F_GETFL, 0) | O_NONBLOCK);
-    splash->time = SplashTime();
-    SplashCreateWindow(splash);
+    SplbshLock(splbsh);
+    pipe(splbsh->controlpipe);
+    fcntl(splbsh->controlpipe[0], F_SETFL,
+        fcntl(splbsh->controlpipe[0], F_GETFL, 0) | O_NONBLOCK);
+    splbsh->time = SplbshTime();
+    SplbshCrebteWindow(splbsh);
     fflush(stdout);
-    if (splash->window) {
-        SplashRemoveDecoration(splash);
-        XStoreName(splash->display, splash->window, "Java");
-        XMapRaised(splash->display, splash->window);
-        SplashUpdateShape(splash);
-        SplashRedrawWindow(splash);
-        SplashEventLoop(splash);
+    if (splbsh->window) {
+        SplbshRemoveDecorbtion(splbsh);
+        XStoreNbme(splbsh->displby, splbsh->window, "Jbvb");
+        XMbpRbised(splbsh->displby, splbsh->window);
+        SplbshUpdbteShbpe(splbsh);
+        SplbshRedrbwWindow(splbsh);
+        SplbshEventLoop(splbsh);
     }
-    SplashUnlock(splash);
-    SplashDone(splash);
+    SplbshUnlock(splbsh);
+    SplbshDone(splbsh);
 
-    splash->isVisible=-1;
+    splbsh->isVisible=-1;
     return 0;
 }
 
 void
-SplashCreateThread(Splash * splash) {
-    pthread_t thr;
-    pthread_attr_t attr;
+SplbshCrebteThrebd(Splbsh * splbsh) {
+    pthrebd_t thr;
+    pthrebd_bttr_t bttr;
     int rc;
 
-    pthread_attr_init(&attr);
-    rc = pthread_create(&thr, &attr, SplashScreenThread, (void *) splash);
+    pthrebd_bttr_init(&bttr);
+    rc = pthrebd_crebte(&thr, &bttr, SplbshScreenThrebd, (void *) splbsh);
 }
 
 void
-SplashLock(Splash * splash) {
-    pthread_mutex_lock(&splash->lock);
+SplbshLock(Splbsh * splbsh) {
+    pthrebd_mutex_lock(&splbsh->lock);
 }
 
 void
-SplashUnlock(Splash * splash) {
-    pthread_mutex_unlock(&splash->lock);
+SplbshUnlock(Splbsh * splbsh) {
+    pthrebd_mutex_unlock(&splbsh->lock);
 }
 
 void
-SplashClosePlatform(Splash * splash) {
-    sendctl(splash, SPLASHCTL_QUIT);
+SplbshClosePlbtform(Splbsh * splbsh) {
+    sendctl(splbsh, SPLASHCTL_QUIT);
 }
 
 void
-SplashUpdate(Splash * splash) {
-    sendctl(splash, SPLASHCTL_UPDATE);
+SplbshUpdbte(Splbsh * splbsh) {
+    sendctl(splbsh, SPLASHCTL_UPDATE);
 }
 
 void
-SplashReconfigure(Splash * splash) {
-    sendctl(splash, SPLASHCTL_RECONFIGURE);
+SplbshReconfigure(Splbsh * splbsh) {
+    sendctl(splbsh, SPLASHCTL_RECONFIGURE);
 }
 
-SPLASHEXPORT char*
-SplashGetScaledImageName(const char* jarName, const char* fileName,
-                           float *scaleFactor)
+SPLASHEXPORT chbr*
+SplbshGetScbledImbgeNbme(const chbr* jbrNbme, const chbr* fileNbme,
+                           flobt *scbleFbctor)
 {
-    *scaleFactor = 1;
+    *scbleFbctor = 1;
     return NULL;
 }

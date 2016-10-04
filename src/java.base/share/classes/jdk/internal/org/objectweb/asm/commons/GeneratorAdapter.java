@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,774 +56,774 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.internbl.org.objectweb.bsm.ClbssVisitor;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
 
 /**
- * A {@link jdk.internal.org.objectweb.asm.MethodVisitor} with convenient methods to generate
- * code. For example, using this adapter, the class below
+ * A {@link jdk.internbl.org.objectweb.bsm.MethodVisitor} with convenient methods to generbte
+ * code. For exbmple, using this bdbpter, the clbss below
  *
  * <pre>
- * public class Example {
- *     public static void main(String[] args) {
+ * public clbss Exbmple {
+ *     public stbtic void mbin(String[] brgs) {
  *         System.out.println(&quot;Hello world!&quot;);
  *     }
  * }
  * </pre>
  *
- * can be generated as follows:
+ * cbn be generbted bs follows:
  *
  * <pre>
- * ClassWriter cw = new ClassWriter(true);
- * cw.visit(V1_1, ACC_PUBLIC, &quot;Example&quot;, null, &quot;java/lang/Object&quot;, null);
+ * ClbssWriter cw = new ClbssWriter(true);
+ * cw.visit(V1_1, ACC_PUBLIC, &quot;Exbmple&quot;, null, &quot;jbvb/lbng/Object&quot;, null);
  *
  * Method m = Method.getMethod(&quot;void &lt;init&gt; ()&quot;);
- * GeneratorAdapter mg = new GeneratorAdapter(ACC_PUBLIC, m, null, null, cw);
- * mg.loadThis();
- * mg.invokeConstructor(Type.getType(Object.class), m);
- * mg.returnValue();
+ * GenerbtorAdbpter mg = new GenerbtorAdbpter(ACC_PUBLIC, m, null, null, cw);
+ * mg.lobdThis();
+ * mg.invokeConstructor(Type.getType(Object.clbss), m);
+ * mg.returnVblue();
  * mg.endMethod();
  *
- * m = Method.getMethod(&quot;void main (String[])&quot;);
- * mg = new GeneratorAdapter(ACC_PUBLIC + ACC_STATIC, m, null, null, cw);
- * mg.getStatic(Type.getType(System.class), &quot;out&quot;, Type.getType(PrintStream.class));
+ * m = Method.getMethod(&quot;void mbin (String[])&quot;);
+ * mg = new GenerbtorAdbpter(ACC_PUBLIC + ACC_STATIC, m, null, null, cw);
+ * mg.getStbtic(Type.getType(System.clbss), &quot;out&quot;, Type.getType(PrintStrebm.clbss));
  * mg.push(&quot;Hello world!&quot;);
- * mg.invokeVirtual(Type.getType(PrintStream.class),
+ * mg.invokeVirtubl(Type.getType(PrintStrebm.clbss),
  *         Method.getMethod(&quot;void println (String)&quot;));
- * mg.returnValue();
+ * mg.returnVblue();
  * mg.endMethod();
  *
  * cw.visitEnd();
  * </pre>
  *
- * @author Juozas Baliuka
- * @author Chris Nokleberg
- * @author Eric Bruneton
- * @author Prashant Deva
+ * @buthor Juozbs Bbliukb
+ * @buthor Chris Nokleberg
+ * @buthor Eric Bruneton
+ * @buthor Prbshbnt Devb
  */
-public class GeneratorAdapter extends LocalVariablesSorter {
+public clbss GenerbtorAdbpter extends LocblVbribblesSorter {
 
-    private static final String CLDESC = "Ljava/lang/Class;";
+    privbte stbtic finbl String CLDESC = "Ljbvb/lbng/Clbss;";
 
-    private static final Type BYTE_TYPE = Type.getObjectType("java/lang/Byte");
+    privbte stbtic finbl Type BYTE_TYPE = Type.getObjectType("jbvb/lbng/Byte");
 
-    private static final Type BOOLEAN_TYPE = Type
-            .getObjectType("java/lang/Boolean");
+    privbte stbtic finbl Type BOOLEAN_TYPE = Type
+            .getObjectType("jbvb/lbng/Boolebn");
 
-    private static final Type SHORT_TYPE = Type
-            .getObjectType("java/lang/Short");
+    privbte stbtic finbl Type SHORT_TYPE = Type
+            .getObjectType("jbvb/lbng/Short");
 
-    private static final Type CHARACTER_TYPE = Type
-            .getObjectType("java/lang/Character");
+    privbte stbtic finbl Type CHARACTER_TYPE = Type
+            .getObjectType("jbvb/lbng/Chbrbcter");
 
-    private static final Type INTEGER_TYPE = Type
-            .getObjectType("java/lang/Integer");
+    privbte stbtic finbl Type INTEGER_TYPE = Type
+            .getObjectType("jbvb/lbng/Integer");
 
-    private static final Type FLOAT_TYPE = Type
-            .getObjectType("java/lang/Float");
+    privbte stbtic finbl Type FLOAT_TYPE = Type
+            .getObjectType("jbvb/lbng/Flobt");
 
-    private static final Type LONG_TYPE = Type.getObjectType("java/lang/Long");
+    privbte stbtic finbl Type LONG_TYPE = Type.getObjectType("jbvb/lbng/Long");
 
-    private static final Type DOUBLE_TYPE = Type
-            .getObjectType("java/lang/Double");
+    privbte stbtic finbl Type DOUBLE_TYPE = Type
+            .getObjectType("jbvb/lbng/Double");
 
-    private static final Type NUMBER_TYPE = Type
-            .getObjectType("java/lang/Number");
+    privbte stbtic finbl Type NUMBER_TYPE = Type
+            .getObjectType("jbvb/lbng/Number");
 
-    private static final Type OBJECT_TYPE = Type
-            .getObjectType("java/lang/Object");
+    privbte stbtic finbl Type OBJECT_TYPE = Type
+            .getObjectType("jbvb/lbng/Object");
 
-    private static final Method BOOLEAN_VALUE = Method
-            .getMethod("boolean booleanValue()");
+    privbte stbtic finbl Method BOOLEAN_VALUE = Method
+            .getMethod("boolebn boolebnVblue()");
 
-    private static final Method CHAR_VALUE = Method
-            .getMethod("char charValue()");
+    privbte stbtic finbl Method CHAR_VALUE = Method
+            .getMethod("chbr chbrVblue()");
 
-    private static final Method INT_VALUE = Method.getMethod("int intValue()");
+    privbte stbtic finbl Method INT_VALUE = Method.getMethod("int intVblue()");
 
-    private static final Method FLOAT_VALUE = Method
-            .getMethod("float floatValue()");
+    privbte stbtic finbl Method FLOAT_VALUE = Method
+            .getMethod("flobt flobtVblue()");
 
-    private static final Method LONG_VALUE = Method
-            .getMethod("long longValue()");
+    privbte stbtic finbl Method LONG_VALUE = Method
+            .getMethod("long longVblue()");
 
-    private static final Method DOUBLE_VALUE = Method
-            .getMethod("double doubleValue()");
+    privbte stbtic finbl Method DOUBLE_VALUE = Method
+            .getMethod("double doubleVblue()");
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int ADD = Opcodes.IADD;
+    public stbtic finbl int ADD = Opcodes.IADD;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int SUB = Opcodes.ISUB;
+    public stbtic finbl int SUB = Opcodes.ISUB;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int MUL = Opcodes.IMUL;
+    public stbtic finbl int MUL = Opcodes.IMUL;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int DIV = Opcodes.IDIV;
+    public stbtic finbl int DIV = Opcodes.IDIV;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int REM = Opcodes.IREM;
+    public stbtic finbl int REM = Opcodes.IREM;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int NEG = Opcodes.INEG;
+    public stbtic finbl int NEG = Opcodes.INEG;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int SHL = Opcodes.ISHL;
+    public stbtic finbl int SHL = Opcodes.ISHL;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int SHR = Opcodes.ISHR;
+    public stbtic finbl int SHR = Opcodes.ISHR;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int USHR = Opcodes.IUSHR;
+    public stbtic finbl int USHR = Opcodes.IUSHR;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int AND = Opcodes.IAND;
+    public stbtic finbl int AND = Opcodes.IAND;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int OR = Opcodes.IOR;
+    public stbtic finbl int OR = Opcodes.IOR;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for the {@link #mbth mbth} method.
      */
-    public static final int XOR = Opcodes.IXOR;
+    public stbtic finbl int XOR = Opcodes.IXOR;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for the {@link #ifCmp ifCmp} method.
      */
-    public static final int EQ = Opcodes.IFEQ;
+    public stbtic finbl int EQ = Opcodes.IFEQ;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for the {@link #ifCmp ifCmp} method.
      */
-    public static final int NE = Opcodes.IFNE;
+    public stbtic finbl int NE = Opcodes.IFNE;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for the {@link #ifCmp ifCmp} method.
      */
-    public static final int LT = Opcodes.IFLT;
+    public stbtic finbl int LT = Opcodes.IFLT;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for the {@link #ifCmp ifCmp} method.
      */
-    public static final int GE = Opcodes.IFGE;
+    public stbtic finbl int GE = Opcodes.IFGE;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for the {@link #ifCmp ifCmp} method.
      */
-    public static final int GT = Opcodes.IFGT;
+    public stbtic finbl int GT = Opcodes.IFGT;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for the {@link #ifCmp ifCmp} method.
      */
-    public static final int LE = Opcodes.IFLE;
+    public stbtic finbl int LE = Opcodes.IFLE;
 
     /**
-     * Access flags of the method visited by this adapter.
+     * Access flbgs of the method visited by this bdbpter.
      */
-    private final int access;
+    privbte finbl int bccess;
 
     /**
-     * Return type of the method visited by this adapter.
+     * Return type of the method visited by this bdbpter.
      */
-    private final Type returnType;
+    privbte finbl Type returnType;
 
     /**
-     * Argument types of the method visited by this adapter.
+     * Argument types of the method visited by this bdbpter.
      */
-    private final Type[] argumentTypes;
+    privbte finbl Type[] brgumentTypes;
 
     /**
-     * Types of the local variables of the method visited by this adapter.
+     * Types of the locbl vbribbles of the method visited by this bdbpter.
      */
-    private final List<Type> localTypes = new ArrayList<Type>();
+    privbte finbl List<Type> locblTypes = new ArrbyList<Type>();
 
     /**
-     * Creates a new {@link GeneratorAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #GeneratorAdapter(int, MethodVisitor, int, String, String)}
+     * Crebtes b new {@link GenerbtorAdbpter}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
+     * {@link #GenerbtorAdbpter(int, MethodVisitor, int, String, String)}
      * version.
      *
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls.
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}).
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public GeneratorAdapter(final MethodVisitor mv, final int access,
-            final String name, final String desc) {
-        this(Opcodes.ASM5, mv, access, name, desc);
-        if (getClass() != GeneratorAdapter.class) {
-            throw new IllegalStateException();
+    public GenerbtorAdbpter(finbl MethodVisitor mv, finbl int bccess,
+            finbl String nbme, finbl String desc) {
+        this(Opcodes.ASM5, mv, bccess, nbme, desc);
+        if (getClbss() != GenerbtorAdbpter.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Creates a new {@link GeneratorAdapter}.
+     * Crebtes b new {@link GenerbtorAdbpter}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls.
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}).
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
      */
-    protected GeneratorAdapter(final int api, final MethodVisitor mv,
-            final int access, final String name, final String desc) {
-        super(api, access, desc, mv);
-        this.access = access;
+    protected GenerbtorAdbpter(finbl int bpi, finbl MethodVisitor mv,
+            finbl int bccess, finbl String nbme, finbl String desc) {
+        super(bpi, bccess, desc, mv);
+        this.bccess = bccess;
         this.returnType = Type.getReturnType(desc);
-        this.argumentTypes = Type.getArgumentTypes(desc);
+        this.brgumentTypes = Type.getArgumentTypes(desc);
     }
 
     /**
-     * Creates a new {@link GeneratorAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #GeneratorAdapter(int, MethodVisitor, int, String, String)}
+     * Crebtes b new {@link GenerbtorAdbpter}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
+     * {@link #GenerbtorAdbpter(int, MethodVisitor, int, String, String)}
      * version.
      *
-     * @param access
-     *            access flags of the adapted method.
-     * @param method
-     *            the adapted method.
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
+     * @pbrbm bccess
+     *            bccess flbgs of the bdbpted method.
+     * @pbrbm method
+     *            the bdbpted method.
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls.
      */
-    public GeneratorAdapter(final int access, final Method method,
-            final MethodVisitor mv) {
-        this(mv, access, null, method.getDescriptor());
+    public GenerbtorAdbpter(finbl int bccess, finbl Method method,
+            finbl MethodVisitor mv) {
+        this(mv, bccess, null, method.getDescriptor());
     }
 
     /**
-     * Creates a new {@link GeneratorAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #GeneratorAdapter(int, MethodVisitor, int, String, String)}
+     * Crebtes b new {@link GenerbtorAdbpter}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
+     * {@link #GenerbtorAdbpter(int, MethodVisitor, int, String, String)}
      * version.
      *
-     * @param access
-     *            access flags of the adapted method.
-     * @param method
-     *            the adapted method.
-     * @param signature
-     *            the signature of the adapted method (may be <tt>null</tt>).
-     * @param exceptions
-     *            the exceptions thrown by the adapted method (may be
+     * @pbrbm bccess
+     *            bccess flbgs of the bdbpted method.
+     * @pbrbm method
+     *            the bdbpted method.
+     * @pbrbm signbture
+     *            the signbture of the bdbpted method (mby be <tt>null</tt>).
+     * @pbrbm exceptions
+     *            the exceptions thrown by the bdbpted method (mby be
      *            <tt>null</tt>).
-     * @param cv
-     *            the class visitor to which this adapter delegates calls.
+     * @pbrbm cv
+     *            the clbss visitor to which this bdbpter delegbtes cblls.
      */
-    public GeneratorAdapter(final int access, final Method method,
-            final String signature, final Type[] exceptions,
-            final ClassVisitor cv) {
-        this(access, method, cv
-                .visitMethod(access, method.getName(), method.getDescriptor(),
-                        signature, getInternalNames(exceptions)));
+    public GenerbtorAdbpter(finbl int bccess, finbl Method method,
+            finbl String signbture, finbl Type[] exceptions,
+            finbl ClbssVisitor cv) {
+        this(bccess, method, cv
+                .visitMethod(bccess, method.getNbme(), method.getDescriptor(),
+                        signbture, getInternblNbmes(exceptions)));
     }
 
     /**
-     * Returns the internal names of the given types.
+     * Returns the internbl nbmes of the given types.
      *
-     * @param types
-     *            a set of types.
-     * @return the internal names of the given types.
+     * @pbrbm types
+     *            b set of types.
+     * @return the internbl nbmes of the given types.
      */
-    private static String[] getInternalNames(final Type[] types) {
+    privbte stbtic String[] getInternblNbmes(finbl Type[] types) {
         if (types == null) {
             return null;
         }
-        String[] names = new String[types.length];
-        for (int i = 0; i < names.length; ++i) {
-            names[i] = types[i].getInternalName();
+        String[] nbmes = new String[types.length];
+        for (int i = 0; i < nbmes.length; ++i) {
+            nbmes[i] = types[i].getInternblNbme();
         }
-        return names;
+        return nbmes;
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to push constants on the stack
+    // Instructions to push constbnts on the stbck
     // ------------------------------------------------------------------------
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Generbtes the instruction to push the given vblue on the stbck.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vblue
+     *            the vblue to be pushed on the stbck.
      */
-    public void push(final boolean value) {
-        push(value ? 1 : 0);
+    public void push(finbl boolebn vblue) {
+        push(vblue ? 1 : 0);
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Generbtes the instruction to push the given vblue on the stbck.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vblue
+     *            the vblue to be pushed on the stbck.
      */
-    public void push(final int value) {
-        if (value >= -1 && value <= 5) {
-            mv.visitInsn(Opcodes.ICONST_0 + value);
-        } else if (value >= Byte.MIN_VALUE && value <= Byte.MAX_VALUE) {
-            mv.visitIntInsn(Opcodes.BIPUSH, value);
-        } else if (value >= Short.MIN_VALUE && value <= Short.MAX_VALUE) {
-            mv.visitIntInsn(Opcodes.SIPUSH, value);
+    public void push(finbl int vblue) {
+        if (vblue >= -1 && vblue <= 5) {
+            mv.visitInsn(Opcodes.ICONST_0 + vblue);
+        } else if (vblue >= Byte.MIN_VALUE && vblue <= Byte.MAX_VALUE) {
+            mv.visitIntInsn(Opcodes.BIPUSH, vblue);
+        } else if (vblue >= Short.MIN_VALUE && vblue <= Short.MAX_VALUE) {
+            mv.visitIntInsn(Opcodes.SIPUSH, vblue);
         } else {
-            mv.visitLdcInsn(new Integer(value));
+            mv.visitLdcInsn(new Integer(vblue));
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Generbtes the instruction to push the given vblue on the stbck.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vblue
+     *            the vblue to be pushed on the stbck.
      */
-    public void push(final long value) {
-        if (value == 0L || value == 1L) {
-            mv.visitInsn(Opcodes.LCONST_0 + (int) value);
+    public void push(finbl long vblue) {
+        if (vblue == 0L || vblue == 1L) {
+            mv.visitInsn(Opcodes.LCONST_0 + (int) vblue);
         } else {
-            mv.visitLdcInsn(new Long(value));
+            mv.visitLdcInsn(new Long(vblue));
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Generbtes the instruction to push the given vblue on the stbck.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vblue
+     *            the vblue to be pushed on the stbck.
      */
-    public void push(final float value) {
-        int bits = Float.floatToIntBits(value);
+    public void push(finbl flobt vblue) {
+        int bits = Flobt.flobtToIntBits(vblue);
         if (bits == 0L || bits == 0x3f800000 || bits == 0x40000000) { // 0..2
-            mv.visitInsn(Opcodes.FCONST_0 + (int) value);
+            mv.visitInsn(Opcodes.FCONST_0 + (int) vblue);
         } else {
-            mv.visitLdcInsn(new Float(value));
+            mv.visitLdcInsn(new Flobt(vblue));
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Generbtes the instruction to push the given vblue on the stbck.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vblue
+     *            the vblue to be pushed on the stbck.
      */
-    public void push(final double value) {
-        long bits = Double.doubleToLongBits(value);
-        if (bits == 0L || bits == 0x3ff0000000000000L) { // +0.0d and 1.0d
-            mv.visitInsn(Opcodes.DCONST_0 + (int) value);
+    public void push(finbl double vblue) {
+        long bits = Double.doubleToLongBits(vblue);
+        if (bits == 0L || bits == 0x3ff0000000000000L) { // +0.0d bnd 1.0d
+            mv.visitInsn(Opcodes.DCONST_0 + (int) vblue);
         } else {
-            mv.visitLdcInsn(new Double(value));
+            mv.visitLdcInsn(new Double(vblue));
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Generbtes the instruction to push the given vblue on the stbck.
      *
-     * @param value
-     *            the value to be pushed on the stack. May be <tt>null</tt>.
+     * @pbrbm vblue
+     *            the vblue to be pushed on the stbck. Mby be <tt>null</tt>.
      */
-    public void push(final String value) {
-        if (value == null) {
+    public void push(finbl String vblue) {
+        if (vblue == null) {
             mv.visitInsn(Opcodes.ACONST_NULL);
         } else {
-            mv.visitLdcInsn(value);
+            mv.visitLdcInsn(vblue);
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Generbtes the instruction to push the given vblue on the stbck.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vblue
+     *            the vblue to be pushed on the stbck.
      */
-    public void push(final Type value) {
-        if (value == null) {
+    public void push(finbl Type vblue) {
+        if (vblue == null) {
             mv.visitInsn(Opcodes.ACONST_NULL);
         } else {
-            switch (value.getSort()) {
-            case Type.BOOLEAN:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Boolean",
+            switch (vblue.getSort()) {
+            cbse Type.BOOLEAN:
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "jbvb/lbng/Boolebn",
                         "TYPE", CLDESC);
-                break;
-            case Type.CHAR:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Character",
+                brebk;
+            cbse Type.CHAR:
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "jbvb/lbng/Chbrbcter",
                         "TYPE", CLDESC);
-                break;
-            case Type.BYTE:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Byte", "TYPE",
+                brebk;
+            cbse Type.BYTE:
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "jbvb/lbng/Byte", "TYPE",
                         CLDESC);
-                break;
-            case Type.SHORT:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Short", "TYPE",
+                brebk;
+            cbse Type.SHORT:
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "jbvb/lbng/Short", "TYPE",
                         CLDESC);
-                break;
-            case Type.INT:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Integer",
+                brebk;
+            cbse Type.INT:
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "jbvb/lbng/Integer",
                         "TYPE", CLDESC);
-                break;
-            case Type.FLOAT:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Float", "TYPE",
+                brebk;
+            cbse Type.FLOAT:
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "jbvb/lbng/Flobt", "TYPE",
                         CLDESC);
-                break;
-            case Type.LONG:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Long", "TYPE",
+                brebk;
+            cbse Type.LONG:
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "jbvb/lbng/Long", "TYPE",
                         CLDESC);
-                break;
-            case Type.DOUBLE:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Double",
+                brebk;
+            cbse Type.DOUBLE:
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "jbvb/lbng/Double",
                         "TYPE", CLDESC);
-                break;
-            default:
-                mv.visitLdcInsn(value);
+                brebk;
+            defbult:
+                mv.visitLdcInsn(vblue);
             }
         }
     }
 
     /**
-     * Generates the instruction to push a handle on the stack.
+     * Generbtes the instruction to push b hbndle on the stbck.
      *
-     * @param handle
-     *            the handle to be pushed on the stack.
+     * @pbrbm hbndle
+     *            the hbndle to be pushed on the stbck.
      */
-    public void push(final Handle handle) {
-        mv.visitLdcInsn(handle);
+    public void push(finbl Hbndle hbndle) {
+        mv.visitLdcInsn(hbndle);
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to load and store method arguments
+    // Instructions to lobd bnd store method brguments
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the index of the given method argument in the frame's local
-     * variables array.
+     * Returns the index of the given method brgument in the frbme's locbl
+     * vbribbles brrby.
      *
-     * @param arg
-     *            the index of a method argument.
-     * @return the index of the given method argument in the frame's local
-     *         variables array.
+     * @pbrbm brg
+     *            the index of b method brgument.
+     * @return the index of the given method brgument in the frbme's locbl
+     *         vbribbles brrby.
      */
-    private int getArgIndex(final int arg) {
-        int index = (access & Opcodes.ACC_STATIC) == 0 ? 1 : 0;
-        for (int i = 0; i < arg; i++) {
-            index += argumentTypes[i].getSize();
+    privbte int getArgIndex(finbl int brg) {
+        int index = (bccess & Opcodes.ACC_STATIC) == 0 ? 1 : 0;
+        for (int i = 0; i < brg; i++) {
+            index += brgumentTypes[i].getSize();
         }
         return index;
     }
 
     /**
-     * Generates the instruction to push a local variable on the stack.
+     * Generbtes the instruction to push b locbl vbribble on the stbck.
      *
-     * @param type
-     *            the type of the local variable to be loaded.
-     * @param index
-     *            an index in the frame's local variables array.
+     * @pbrbm type
+     *            the type of the locbl vbribble to be lobded.
+     * @pbrbm index
+     *            bn index in the frbme's locbl vbribbles brrby.
      */
-    private void loadInsn(final Type type, final int index) {
-        mv.visitVarInsn(type.getOpcode(Opcodes.ILOAD), index);
+    privbte void lobdInsn(finbl Type type, finbl int index) {
+        mv.visitVbrInsn(type.getOpcode(Opcodes.ILOAD), index);
     }
 
     /**
-     * Generates the instruction to store the top stack value in a local
-     * variable.
+     * Generbtes the instruction to store the top stbck vblue in b locbl
+     * vbribble.
      *
-     * @param type
-     *            the type of the local variable to be stored.
-     * @param index
-     *            an index in the frame's local variables array.
+     * @pbrbm type
+     *            the type of the locbl vbribble to be stored.
+     * @pbrbm index
+     *            bn index in the frbme's locbl vbribbles brrby.
      */
-    private void storeInsn(final Type type, final int index) {
-        mv.visitVarInsn(type.getOpcode(Opcodes.ISTORE), index);
+    privbte void storeInsn(finbl Type type, finbl int index) {
+        mv.visitVbrInsn(type.getOpcode(Opcodes.ISTORE), index);
     }
 
     /**
-     * Generates the instruction to load 'this' on the stack.
+     * Generbtes the instruction to lobd 'this' on the stbck.
      */
-    public void loadThis() {
-        if ((access & Opcodes.ACC_STATIC) != 0) {
-            throw new IllegalStateException(
-                    "no 'this' pointer within static method");
+    public void lobdThis() {
+        if ((bccess & Opcodes.ACC_STATIC) != 0) {
+            throw new IllegblStbteException(
+                    "no 'this' pointer within stbtic method");
         }
-        mv.visitVarInsn(Opcodes.ALOAD, 0);
+        mv.visitVbrInsn(Opcodes.ALOAD, 0);
     }
 
     /**
-     * Generates the instruction to load the given method argument on the stack.
+     * Generbtes the instruction to lobd the given method brgument on the stbck.
      *
-     * @param arg
-     *            the index of a method argument.
+     * @pbrbm brg
+     *            the index of b method brgument.
      */
-    public void loadArg(final int arg) {
-        loadInsn(argumentTypes[arg], getArgIndex(arg));
+    public void lobdArg(finbl int brg) {
+        lobdInsn(brgumentTypes[brg], getArgIndex(brg));
     }
 
     /**
-     * Generates the instructions to load the given method arguments on the
-     * stack.
+     * Generbtes the instructions to lobd the given method brguments on the
+     * stbck.
      *
-     * @param arg
-     *            the index of the first method argument to be loaded.
-     * @param count
-     *            the number of method arguments to be loaded.
+     * @pbrbm brg
+     *            the index of the first method brgument to be lobded.
+     * @pbrbm count
+     *            the number of method brguments to be lobded.
      */
-    public void loadArgs(final int arg, final int count) {
-        int index = getArgIndex(arg);
+    public void lobdArgs(finbl int brg, finbl int count) {
+        int index = getArgIndex(brg);
         for (int i = 0; i < count; ++i) {
-            Type t = argumentTypes[arg + i];
-            loadInsn(t, index);
+            Type t = brgumentTypes[brg + i];
+            lobdInsn(t, index);
             index += t.getSize();
         }
     }
 
     /**
-     * Generates the instructions to load all the method arguments on the stack.
+     * Generbtes the instructions to lobd bll the method brguments on the stbck.
      */
-    public void loadArgs() {
-        loadArgs(0, argumentTypes.length);
+    public void lobdArgs() {
+        lobdArgs(0, brgumentTypes.length);
     }
 
     /**
-     * Generates the instructions to load all the method arguments on the stack,
-     * as a single object array.
+     * Generbtes the instructions to lobd bll the method brguments on the stbck,
+     * bs b single object brrby.
      */
-    public void loadArgArray() {
-        push(argumentTypes.length);
-        newArray(OBJECT_TYPE);
-        for (int i = 0; i < argumentTypes.length; i++) {
+    public void lobdArgArrby() {
+        push(brgumentTypes.length);
+        newArrby(OBJECT_TYPE);
+        for (int i = 0; i < brgumentTypes.length; i++) {
             dup();
             push(i);
-            loadArg(i);
-            box(argumentTypes[i]);
-            arrayStore(OBJECT_TYPE);
+            lobdArg(i);
+            box(brgumentTypes[i]);
+            brrbyStore(OBJECT_TYPE);
         }
     }
 
     /**
-     * Generates the instruction to store the top stack value in the given
-     * method argument.
+     * Generbtes the instruction to store the top stbck vblue in the given
+     * method brgument.
      *
-     * @param arg
-     *            the index of a method argument.
+     * @pbrbm brg
+     *            the index of b method brgument.
      */
-    public void storeArg(final int arg) {
-        storeInsn(argumentTypes[arg], getArgIndex(arg));
+    public void storeArg(finbl int brg) {
+        storeInsn(brgumentTypes[brg], getArgIndex(brg));
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to load and store local variables
+    // Instructions to lobd bnd store locbl vbribbles
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the type of the given local variable.
+     * Returns the type of the given locbl vbribble.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
-     * @return the type of the given local variable.
+     * @pbrbm locbl
+     *            b locbl vbribble identifier, bs returned by
+     *            {@link LocblVbribblesSorter#newLocbl(Type) newLocbl()}.
+     * @return the type of the given locbl vbribble.
      */
-    public Type getLocalType(final int local) {
-        return localTypes.get(local - firstLocal);
+    public Type getLocblType(finbl int locbl) {
+        return locblTypes.get(locbl - firstLocbl);
     }
 
     @Override
-    protected void setLocalType(final int local, final Type type) {
-        int index = local - firstLocal;
-        while (localTypes.size() < index + 1) {
-            localTypes.add(null);
+    protected void setLocblType(finbl int locbl, finbl Type type) {
+        int index = locbl - firstLocbl;
+        while (locblTypes.size() < index + 1) {
+            locblTypes.bdd(null);
         }
-        localTypes.set(index, type);
+        locblTypes.set(index, type);
     }
 
     /**
-     * Generates the instruction to load the given local variable on the stack.
+     * Generbtes the instruction to lobd the given locbl vbribble on the stbck.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
+     * @pbrbm locbl
+     *            b locbl vbribble identifier, bs returned by
+     *            {@link LocblVbribblesSorter#newLocbl(Type) newLocbl()}.
      */
-    public void loadLocal(final int local) {
-        loadInsn(getLocalType(local), local);
+    public void lobdLocbl(finbl int locbl) {
+        lobdInsn(getLocblType(locbl), locbl);
     }
 
     /**
-     * Generates the instruction to load the given local variable on the stack.
+     * Generbtes the instruction to lobd the given locbl vbribble on the stbck.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
-     * @param type
-     *            the type of this local variable.
+     * @pbrbm locbl
+     *            b locbl vbribble identifier, bs returned by
+     *            {@link LocblVbribblesSorter#newLocbl(Type) newLocbl()}.
+     * @pbrbm type
+     *            the type of this locbl vbribble.
      */
-    public void loadLocal(final int local, final Type type) {
-        setLocalType(local, type);
-        loadInsn(type, local);
+    public void lobdLocbl(finbl int locbl, finbl Type type) {
+        setLocblType(locbl, type);
+        lobdInsn(type, locbl);
     }
 
     /**
-     * Generates the instruction to store the top stack value in the given local
-     * variable.
+     * Generbtes the instruction to store the top stbck vblue in the given locbl
+     * vbribble.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
+     * @pbrbm locbl
+     *            b locbl vbribble identifier, bs returned by
+     *            {@link LocblVbribblesSorter#newLocbl(Type) newLocbl()}.
      */
-    public void storeLocal(final int local) {
-        storeInsn(getLocalType(local), local);
+    public void storeLocbl(finbl int locbl) {
+        storeInsn(getLocblType(locbl), locbl);
     }
 
     /**
-     * Generates the instruction to store the top stack value in the given local
-     * variable.
+     * Generbtes the instruction to store the top stbck vblue in the given locbl
+     * vbribble.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
-     * @param type
-     *            the type of this local variable.
+     * @pbrbm locbl
+     *            b locbl vbribble identifier, bs returned by
+     *            {@link LocblVbribblesSorter#newLocbl(Type) newLocbl()}.
+     * @pbrbm type
+     *            the type of this locbl vbribble.
      */
-    public void storeLocal(final int local, final Type type) {
-        setLocalType(local, type);
-        storeInsn(type, local);
+    public void storeLocbl(finbl int locbl, finbl Type type) {
+        setLocblType(locbl, type);
+        storeInsn(type, locbl);
     }
 
     /**
-     * Generates the instruction to load an element from an array.
+     * Generbtes the instruction to lobd bn element from bn brrby.
      *
-     * @param type
-     *            the type of the array element to be loaded.
+     * @pbrbm type
+     *            the type of the brrby element to be lobded.
      */
-    public void arrayLoad(final Type type) {
+    public void brrbyLobd(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IALOAD));
     }
 
     /**
-     * Generates the instruction to store an element in an array.
+     * Generbtes the instruction to store bn element in bn brrby.
      *
-     * @param type
-     *            the type of the array element to be stored.
+     * @pbrbm type
+     *            the type of the brrby element to be stored.
      */
-    public void arrayStore(final Type type) {
+    public void brrbyStore(finbl Type type) {
         mv.visitInsn(type.getOpcode(Opcodes.IASTORE));
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to manage the stack
+    // Instructions to mbnbge the stbck
     // ------------------------------------------------------------------------
 
     /**
-     * Generates a POP instruction.
+     * Generbtes b POP instruction.
      */
     public void pop() {
         mv.visitInsn(Opcodes.POP);
     }
 
     /**
-     * Generates a POP2 instruction.
+     * Generbtes b POP2 instruction.
      */
     public void pop2() {
         mv.visitInsn(Opcodes.POP2);
     }
 
     /**
-     * Generates a DUP instruction.
+     * Generbtes b DUP instruction.
      */
     public void dup() {
         mv.visitInsn(Opcodes.DUP);
     }
 
     /**
-     * Generates a DUP2 instruction.
+     * Generbtes b DUP2 instruction.
      */
     public void dup2() {
         mv.visitInsn(Opcodes.DUP2);
     }
 
     /**
-     * Generates a DUP_X1 instruction.
+     * Generbtes b DUP_X1 instruction.
      */
     public void dupX1() {
         mv.visitInsn(Opcodes.DUP_X1);
     }
 
     /**
-     * Generates a DUP_X2 instruction.
+     * Generbtes b DUP_X2 instruction.
      */
     public void dupX2() {
         mv.visitInsn(Opcodes.DUP_X2);
     }
 
     /**
-     * Generates a DUP2_X1 instruction.
+     * Generbtes b DUP2_X1 instruction.
      */
     public void dup2X1() {
         mv.visitInsn(Opcodes.DUP2_X1);
     }
 
     /**
-     * Generates a DUP2_X2 instruction.
+     * Generbtes b DUP2_X2 instruction.
      */
     public void dup2X2() {
         mv.visitInsn(Opcodes.DUP2_X2);
     }
 
     /**
-     * Generates a SWAP instruction.
+     * Generbtes b SWAP instruction.
      */
-    public void swap() {
+    public void swbp() {
         mv.visitInsn(Opcodes.SWAP);
     }
 
     /**
-     * Generates the instructions to swap the top two stack values.
+     * Generbtes the instructions to swbp the top two stbck vblues.
      *
-     * @param prev
-     *            type of the top - 1 stack value.
-     * @param type
-     *            type of the top stack value.
+     * @pbrbm prev
+     *            type of the top - 1 stbck vblue.
+     * @pbrbm type
+     *            type of the top stbck vblue.
      */
-    public void swap(final Type prev, final Type type) {
+    public void swbp(finbl Type prev, finbl Type type) {
         if (type.getSize() == 1) {
             if (prev.getSize() == 1) {
-                swap(); // same as dupX1(), pop();
+                swbp(); // sbme bs dupX1(), pop();
             } else {
                 dupX2();
                 pop();
@@ -840,26 +840,26 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to do mathematical and logical operations
+    // Instructions to do mbthembticbl bnd logicbl operbtions
     // ------------------------------------------------------------------------
 
     /**
-     * Generates the instruction to do the specified mathematical or logical
-     * operation.
+     * Generbtes the instruction to do the specified mbthembticbl or logicbl
+     * operbtion.
      *
-     * @param op
-     *            a mathematical or logical operation. Must be one of ADD, SUB,
+     * @pbrbm op
+     *            b mbthembticbl or logicbl operbtion. Must be one of ADD, SUB,
      *            MUL, DIV, REM, NEG, SHL, SHR, USHR, AND, OR, XOR.
-     * @param type
-     *            the type of the operand(s) for this operation.
+     * @pbrbm type
+     *            the type of the operbnd(s) for this operbtion.
      */
-    public void math(final int op, final Type type) {
+    public void mbth(finbl int op, finbl Type type) {
         mv.visitInsn(type.getOpcode(op));
     }
 
     /**
-     * Generates the instructions to compute the bitwise negation of the top
-     * stack value.
+     * Generbtes the instructions to compute the bitwise negbtion of the top
+     * stbck vblue.
      */
     public void not() {
         mv.visitInsn(Opcodes.ICONST_1);
@@ -867,27 +867,27 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     }
 
     /**
-     * Generates the instruction to increment the given local variable.
+     * Generbtes the instruction to increment the given locbl vbribble.
      *
-     * @param local
-     *            the local variable to be incremented.
-     * @param amount
-     *            the amount by which the local variable must be incremented.
+     * @pbrbm locbl
+     *            the locbl vbribble to be incremented.
+     * @pbrbm bmount
+     *            the bmount by which the locbl vbribble must be incremented.
      */
-    public void iinc(final int local, final int amount) {
-        mv.visitIincInsn(local, amount);
+    public void iinc(finbl int locbl, finbl int bmount) {
+        mv.visitIincInsn(locbl, bmount);
     }
 
     /**
-     * Generates the instructions to cast a numerical value from one type to
-     * another.
+     * Generbtes the instructions to cbst b numericbl vblue from one type to
+     * bnother.
      *
-     * @param from
-     *            the type of the top stack value
-     * @param to
-     *            the type into which this value must be cast.
+     * @pbrbm from
+     *            the type of the top stbck vblue
+     * @pbrbm to
+     *            the type into which this vblue must be cbst.
      */
-    public void cast(final Type from, final Type to) {
+    public void cbst(finbl Type from, finbl Type to) {
         if (from != to) {
             if (from == Type.DOUBLE_TYPE) {
                 if (to == Type.FLOAT_TYPE) {
@@ -896,7 +896,7 @@ public class GeneratorAdapter extends LocalVariablesSorter {
                     mv.visitInsn(Opcodes.D2L);
                 } else {
                     mv.visitInsn(Opcodes.D2I);
-                    cast(Type.INT_TYPE, to);
+                    cbst(Type.INT_TYPE, to);
                 }
             } else if (from == Type.FLOAT_TYPE) {
                 if (to == Type.DOUBLE_TYPE) {
@@ -905,7 +905,7 @@ public class GeneratorAdapter extends LocalVariablesSorter {
                     mv.visitInsn(Opcodes.F2L);
                 } else {
                     mv.visitInsn(Opcodes.F2I);
-                    cast(Type.INT_TYPE, to);
+                    cbst(Type.INT_TYPE, to);
                 }
             } else if (from == Type.LONG_TYPE) {
                 if (to == Type.DOUBLE_TYPE) {
@@ -914,7 +914,7 @@ public class GeneratorAdapter extends LocalVariablesSorter {
                     mv.visitInsn(Opcodes.L2F);
                 } else {
                     mv.visitInsn(Opcodes.L2I);
-                    cast(Type.INT_TYPE, to);
+                    cbst(Type.INT_TYPE, to);
                 }
             } else {
                 if (to == Type.BYTE_TYPE) {
@@ -935,39 +935,39 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to do boxing and unboxing operations
+    // Instructions to do boxing bnd unboxing operbtions
     // ------------------------------------------------------------------------
 
-    private static Type getBoxedType(final Type type) {
+    privbte stbtic Type getBoxedType(finbl Type type) {
         switch (type.getSort()) {
-        case Type.BYTE:
+        cbse Type.BYTE:
             return BYTE_TYPE;
-        case Type.BOOLEAN:
+        cbse Type.BOOLEAN:
             return BOOLEAN_TYPE;
-        case Type.SHORT:
+        cbse Type.SHORT:
             return SHORT_TYPE;
-        case Type.CHAR:
+        cbse Type.CHAR:
             return CHARACTER_TYPE;
-        case Type.INT:
+        cbse Type.INT:
             return INTEGER_TYPE;
-        case Type.FLOAT:
+        cbse Type.FLOAT:
             return FLOAT_TYPE;
-        case Type.LONG:
+        cbse Type.LONG:
             return LONG_TYPE;
-        case Type.DOUBLE:
+        cbse Type.DOUBLE:
             return DOUBLE_TYPE;
         }
         return type;
     }
 
     /**
-     * Generates the instructions to box the top stack value. This value is
-     * replaced by its boxed equivalent on top of the stack.
+     * Generbtes the instructions to box the top stbck vblue. This vblue is
+     * replbced by its boxed equivblent on top of the stbck.
      *
-     * @param type
-     *            the type of the top stack value.
+     * @pbrbm type
+     *            the type of the top stbck vblue.
      */
-    public void box(final Type type) {
+    public void box(finbl Type type) {
         if (type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY) {
             return;
         }
@@ -975,7 +975,7 @@ public class GeneratorAdapter extends LocalVariablesSorter {
             push((String) null);
         } else {
             Type boxed = getBoxedType(type);
-            newInstance(boxed);
+            newInstbnce(boxed);
             if (type.getSize() == 2) {
                 // Pp -> Ppo -> oPpo -> ooPpo -> ooPp -> o
                 dupX2();
@@ -984,7 +984,7 @@ public class GeneratorAdapter extends LocalVariablesSorter {
             } else {
                 // p -> po -> opo -> oop -> o
                 dupX1();
-                swap();
+                swbp();
             }
             invokeConstructor(boxed, new Method("<init>", Type.VOID_TYPE,
                     new Type[] { type }));
@@ -992,14 +992,14 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     }
 
     /**
-     * Generates the instructions to box the top stack value using Java 5's
-     * valueOf() method. This value is replaced by its boxed equivalent on top
-     * of the stack.
+     * Generbtes the instructions to box the top stbck vblue using Jbvb 5's
+     * vblueOf() method. This vblue is replbced by its boxed equivblent on top
+     * of the stbck.
      *
-     * @param type
-     *            the type of the top stack value.
+     * @pbrbm type
+     *            the type of the top stbck vblue.
      */
-    public void valueOf(final Type type) {
+    public void vblueOf(finbl Type type) {
         if (type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY) {
             return;
         }
@@ -1007,51 +1007,51 @@ public class GeneratorAdapter extends LocalVariablesSorter {
             push((String) null);
         } else {
             Type boxed = getBoxedType(type);
-            invokeStatic(boxed, new Method("valueOf", boxed,
+            invokeStbtic(boxed, new Method("vblueOf", boxed,
                     new Type[] { type }));
         }
     }
 
     /**
-     * Generates the instructions to unbox the top stack value. This value is
-     * replaced by its unboxed equivalent on top of the stack.
+     * Generbtes the instructions to unbox the top stbck vblue. This vblue is
+     * replbced by its unboxed equivblent on top of the stbck.
      *
-     * @param type
-     *            the type of the top stack value.
+     * @pbrbm type
+     *            the type of the top stbck vblue.
      */
-    public void unbox(final Type type) {
+    public void unbox(finbl Type type) {
         Type t = NUMBER_TYPE;
         Method sig = null;
         switch (type.getSort()) {
-        case Type.VOID:
+        cbse Type.VOID:
             return;
-        case Type.CHAR:
+        cbse Type.CHAR:
             t = CHARACTER_TYPE;
             sig = CHAR_VALUE;
-            break;
-        case Type.BOOLEAN:
+            brebk;
+        cbse Type.BOOLEAN:
             t = BOOLEAN_TYPE;
             sig = BOOLEAN_VALUE;
-            break;
-        case Type.DOUBLE:
+            brebk;
+        cbse Type.DOUBLE:
             sig = DOUBLE_VALUE;
-            break;
-        case Type.FLOAT:
+            brebk;
+        cbse Type.FLOAT:
             sig = FLOAT_VALUE;
-            break;
-        case Type.LONG:
+            brebk;
+        cbse Type.LONG:
             sig = LONG_VALUE;
-            break;
-        case Type.INT:
-        case Type.SHORT:
-        case Type.BYTE:
+            brebk;
+        cbse Type.INT:
+        cbse Type.SHORT:
+        cbse Type.BYTE:
             sig = INT_VALUE;
         }
         if (sig == null) {
-            checkCast(type);
+            checkCbst(type);
         } else {
-            checkCast(t);
-            invokeVirtual(t, sig);
+            checkCbst(t);
+            invokeVirtubl(t, sig);
         }
     }
 
@@ -1060,334 +1060,334 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     // ------------------------------------------------------------------------
 
     /**
-     * Creates a new {@link Label}.
+     * Crebtes b new {@link Lbbel}.
      *
-     * @return a new {@link Label}.
+     * @return b new {@link Lbbel}.
      */
-    public Label newLabel() {
-        return new Label();
+    public Lbbel newLbbel() {
+        return new Lbbel();
     }
 
     /**
-     * Marks the current code position with the given label.
+     * Mbrks the current code position with the given lbbel.
      *
-     * @param label
-     *            a label.
+     * @pbrbm lbbel
+     *            b lbbel.
      */
-    public void mark(final Label label) {
-        mv.visitLabel(label);
+    public void mbrk(finbl Lbbel lbbel) {
+        mv.visitLbbel(lbbel);
     }
 
     /**
-     * Marks the current code position with a new label.
+     * Mbrks the current code position with b new lbbel.
      *
-     * @return the label that was created to mark the current code position.
+     * @return the lbbel thbt wbs crebted to mbrk the current code position.
      */
-    public Label mark() {
-        Label label = new Label();
-        mv.visitLabel(label);
-        return label;
+    public Lbbel mbrk() {
+        Lbbel lbbel = new Lbbel();
+        mv.visitLbbel(lbbel);
+        return lbbel;
     }
 
     /**
-     * Generates the instructions to jump to a label based on the comparison of
-     * the top two stack values.
+     * Generbtes the instructions to jump to b lbbel bbsed on the compbrison of
+     * the top two stbck vblues.
      *
-     * @param type
-     *            the type of the top two stack values.
-     * @param mode
-     *            how these values must be compared. One of EQ, NE, LT, GE, GT,
+     * @pbrbm type
+     *            the type of the top two stbck vblues.
+     * @pbrbm mode
+     *            how these vblues must be compbred. One of EQ, NE, LT, GE, GT,
      *            LE.
-     * @param label
-     *            where to jump if the comparison result is <tt>true</tt>.
+     * @pbrbm lbbel
+     *            where to jump if the compbrison result is <tt>true</tt>.
      */
-    public void ifCmp(final Type type, final int mode, final Label label) {
+    public void ifCmp(finbl Type type, finbl int mode, finbl Lbbel lbbel) {
         switch (type.getSort()) {
-        case Type.LONG:
+        cbse Type.LONG:
             mv.visitInsn(Opcodes.LCMP);
-            break;
-        case Type.DOUBLE:
+            brebk;
+        cbse Type.DOUBLE:
             mv.visitInsn(mode == GE || mode == GT ? Opcodes.DCMPL
                     : Opcodes.DCMPG);
-            break;
-        case Type.FLOAT:
+            brebk;
+        cbse Type.FLOAT:
             mv.visitInsn(mode == GE || mode == GT ? Opcodes.FCMPL
                     : Opcodes.FCMPG);
-            break;
-        case Type.ARRAY:
-        case Type.OBJECT:
+            brebk;
+        cbse Type.ARRAY:
+        cbse Type.OBJECT:
             switch (mode) {
-            case EQ:
-                mv.visitJumpInsn(Opcodes.IF_ACMPEQ, label);
+            cbse EQ:
+                mv.visitJumpInsn(Opcodes.IF_ACMPEQ, lbbel);
                 return;
-            case NE:
-                mv.visitJumpInsn(Opcodes.IF_ACMPNE, label);
+            cbse NE:
+                mv.visitJumpInsn(Opcodes.IF_ACMPNE, lbbel);
                 return;
             }
-            throw new IllegalArgumentException("Bad comparison for type "
+            throw new IllegblArgumentException("Bbd compbrison for type "
                     + type);
-        default:
+        defbult:
             int intOp = -1;
             switch (mode) {
-            case EQ:
+            cbse EQ:
                 intOp = Opcodes.IF_ICMPEQ;
-                break;
-            case NE:
+                brebk;
+            cbse NE:
                 intOp = Opcodes.IF_ICMPNE;
-                break;
-            case GE:
+                brebk;
+            cbse GE:
                 intOp = Opcodes.IF_ICMPGE;
-                break;
-            case LT:
+                brebk;
+            cbse LT:
                 intOp = Opcodes.IF_ICMPLT;
-                break;
-            case LE:
+                brebk;
+            cbse LE:
                 intOp = Opcodes.IF_ICMPLE;
-                break;
-            case GT:
+                brebk;
+            cbse GT:
                 intOp = Opcodes.IF_ICMPGT;
-                break;
+                brebk;
             }
-            mv.visitJumpInsn(intOp, label);
+            mv.visitJumpInsn(intOp, lbbel);
             return;
         }
-        mv.visitJumpInsn(mode, label);
+        mv.visitJumpInsn(mode, lbbel);
     }
 
     /**
-     * Generates the instructions to jump to a label based on the comparison of
-     * the top two integer stack values.
+     * Generbtes the instructions to jump to b lbbel bbsed on the compbrison of
+     * the top two integer stbck vblues.
      *
-     * @param mode
-     *            how these values must be compared. One of EQ, NE, LT, GE, GT,
+     * @pbrbm mode
+     *            how these vblues must be compbred. One of EQ, NE, LT, GE, GT,
      *            LE.
-     * @param label
-     *            where to jump if the comparison result is <tt>true</tt>.
+     * @pbrbm lbbel
+     *            where to jump if the compbrison result is <tt>true</tt>.
      */
-    public void ifICmp(final int mode, final Label label) {
-        ifCmp(Type.INT_TYPE, mode, label);
+    public void ifICmp(finbl int mode, finbl Lbbel lbbel) {
+        ifCmp(Type.INT_TYPE, mode, lbbel);
     }
 
     /**
-     * Generates the instructions to jump to a label based on the comparison of
-     * the top integer stack value with zero.
+     * Generbtes the instructions to jump to b lbbel bbsed on the compbrison of
+     * the top integer stbck vblue with zero.
      *
-     * @param mode
-     *            how these values must be compared. One of EQ, NE, LT, GE, GT,
+     * @pbrbm mode
+     *            how these vblues must be compbred. One of EQ, NE, LT, GE, GT,
      *            LE.
-     * @param label
-     *            where to jump if the comparison result is <tt>true</tt>.
+     * @pbrbm lbbel
+     *            where to jump if the compbrison result is <tt>true</tt>.
      */
-    public void ifZCmp(final int mode, final Label label) {
-        mv.visitJumpInsn(mode, label);
+    public void ifZCmp(finbl int mode, finbl Lbbel lbbel) {
+        mv.visitJumpInsn(mode, lbbel);
     }
 
     /**
-     * Generates the instruction to jump to the given label if the top stack
-     * value is null.
+     * Generbtes the instruction to jump to the given lbbel if the top stbck
+     * vblue is null.
      *
-     * @param label
+     * @pbrbm lbbel
      *            where to jump if the condition is <tt>true</tt>.
      */
-    public void ifNull(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFNULL, label);
+    public void ifNull(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFNULL, lbbel);
     }
 
     /**
-     * Generates the instruction to jump to the given label if the top stack
-     * value is not null.
+     * Generbtes the instruction to jump to the given lbbel if the top stbck
+     * vblue is not null.
      *
-     * @param label
+     * @pbrbm lbbel
      *            where to jump if the condition is <tt>true</tt>.
      */
-    public void ifNonNull(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFNONNULL, label);
+    public void ifNonNull(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.IFNONNULL, lbbel);
     }
 
     /**
-     * Generates the instruction to jump to the given label.
+     * Generbtes the instruction to jump to the given lbbel.
      *
-     * @param label
+     * @pbrbm lbbel
      *            where to jump if the condition is <tt>true</tt>.
      */
-    public void goTo(final Label label) {
-        mv.visitJumpInsn(Opcodes.GOTO, label);
+    public void goTo(finbl Lbbel lbbel) {
+        mv.visitJumpInsn(Opcodes.GOTO, lbbel);
     }
 
     /**
-     * Generates a RET instruction.
+     * Generbtes b RET instruction.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
+     * @pbrbm locbl
+     *            b locbl vbribble identifier, bs returned by
+     *            {@link LocblVbribblesSorter#newLocbl(Type) newLocbl()}.
      */
-    public void ret(final int local) {
-        mv.visitVarInsn(Opcodes.RET, local);
+    public void ret(finbl int locbl) {
+        mv.visitVbrInsn(Opcodes.RET, locbl);
     }
 
     /**
-     * Generates the instructions for a switch statement.
+     * Generbtes the instructions for b switch stbtement.
      *
-     * @param keys
-     *            the switch case keys.
-     * @param generator
-     *            a generator to generate the code for the switch cases.
+     * @pbrbm keys
+     *            the switch cbse keys.
+     * @pbrbm generbtor
+     *            b generbtor to generbte the code for the switch cbses.
      */
-    public void tableSwitch(final int[] keys,
-            final TableSwitchGenerator generator) {
-        float density;
+    public void tbbleSwitch(finbl int[] keys,
+            finbl TbbleSwitchGenerbtor generbtor) {
+        flobt density;
         if (keys.length == 0) {
             density = 0;
         } else {
-            density = (float) keys.length
+            density = (flobt) keys.length
                     / (keys[keys.length - 1] - keys[0] + 1);
         }
-        tableSwitch(keys, generator, density >= 0.5f);
+        tbbleSwitch(keys, generbtor, density >= 0.5f);
     }
 
     /**
-     * Generates the instructions for a switch statement.
+     * Generbtes the instructions for b switch stbtement.
      *
-     * @param keys
-     *            the switch case keys.
-     * @param generator
-     *            a generator to generate the code for the switch cases.
-     * @param useTable
-     *            <tt>true</tt> to use a TABLESWITCH instruction, or
-     *            <tt>false</tt> to use a LOOKUPSWITCH instruction.
+     * @pbrbm keys
+     *            the switch cbse keys.
+     * @pbrbm generbtor
+     *            b generbtor to generbte the code for the switch cbses.
+     * @pbrbm useTbble
+     *            <tt>true</tt> to use b TABLESWITCH instruction, or
+     *            <tt>fblse</tt> to use b LOOKUPSWITCH instruction.
      */
-    public void tableSwitch(final int[] keys,
-            final TableSwitchGenerator generator, final boolean useTable) {
+    public void tbbleSwitch(finbl int[] keys,
+            finbl TbbleSwitchGenerbtor generbtor, finbl boolebn useTbble) {
         for (int i = 1; i < keys.length; ++i) {
             if (keys[i] < keys[i - 1]) {
-                throw new IllegalArgumentException(
-                        "keys must be sorted ascending");
+                throw new IllegblArgumentException(
+                        "keys must be sorted bscending");
             }
         }
-        Label def = newLabel();
-        Label end = newLabel();
+        Lbbel def = newLbbel();
+        Lbbel end = newLbbel();
         if (keys.length > 0) {
             int len = keys.length;
             int min = keys[0];
-            int max = keys[len - 1];
-            int range = max - min + 1;
-            if (useTable) {
-                Label[] labels = new Label[range];
-                Arrays.fill(labels, def);
+            int mbx = keys[len - 1];
+            int rbnge = mbx - min + 1;
+            if (useTbble) {
+                Lbbel[] lbbels = new Lbbel[rbnge];
+                Arrbys.fill(lbbels, def);
                 for (int i = 0; i < len; ++i) {
-                    labels[keys[i] - min] = newLabel();
+                    lbbels[keys[i] - min] = newLbbel();
                 }
-                mv.visitTableSwitchInsn(min, max, def, labels);
-                for (int i = 0; i < range; ++i) {
-                    Label label = labels[i];
-                    if (label != def) {
-                        mark(label);
-                        generator.generateCase(i + min, end);
+                mv.visitTbbleSwitchInsn(min, mbx, def, lbbels);
+                for (int i = 0; i < rbnge; ++i) {
+                    Lbbel lbbel = lbbels[i];
+                    if (lbbel != def) {
+                        mbrk(lbbel);
+                        generbtor.generbteCbse(i + min, end);
                     }
                 }
             } else {
-                Label[] labels = new Label[len];
+                Lbbel[] lbbels = new Lbbel[len];
                 for (int i = 0; i < len; ++i) {
-                    labels[i] = newLabel();
+                    lbbels[i] = newLbbel();
                 }
-                mv.visitLookupSwitchInsn(def, keys, labels);
+                mv.visitLookupSwitchInsn(def, keys, lbbels);
                 for (int i = 0; i < len; ++i) {
-                    mark(labels[i]);
-                    generator.generateCase(keys[i], end);
+                    mbrk(lbbels[i]);
+                    generbtor.generbteCbse(keys[i], end);
                 }
             }
         }
-        mark(def);
-        generator.generateDefault();
-        mark(end);
+        mbrk(def);
+        generbtor.generbteDefbult();
+        mbrk(end);
     }
 
     /**
-     * Generates the instruction to return the top stack value to the caller.
+     * Generbtes the instruction to return the top stbck vblue to the cbller.
      */
-    public void returnValue() {
+    public void returnVblue() {
         mv.visitInsn(returnType.getOpcode(Opcodes.IRETURN));
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to load and store fields
+    // Instructions to lobd bnd store fields
     // ------------------------------------------------------------------------
 
     /**
-     * Generates a get field or set field instruction.
+     * Generbtes b get field or set field instruction.
      *
-     * @param opcode
+     * @pbrbm opcode
      *            the instruction's opcode.
-     * @param ownerType
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param fieldType
+     * @pbrbm ownerType
+     *            the clbss in which the field is defined.
+     * @pbrbm nbme
+     *            the nbme of the field.
+     * @pbrbm fieldType
      *            the type of the field.
      */
-    private void fieldInsn(final int opcode, final Type ownerType,
-            final String name, final Type fieldType) {
-        mv.visitFieldInsn(opcode, ownerType.getInternalName(), name,
+    privbte void fieldInsn(finbl int opcode, finbl Type ownerType,
+            finbl String nbme, finbl Type fieldType) {
+        mv.visitFieldInsn(opcode, ownerType.getInternblNbme(), nbme,
                 fieldType.getDescriptor());
     }
 
     /**
-     * Generates the instruction to push the value of a static field on the
-     * stack.
+     * Generbtes the instruction to push the vblue of b stbtic field on the
+     * stbck.
      *
-     * @param owner
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param type
+     * @pbrbm owner
+     *            the clbss in which the field is defined.
+     * @pbrbm nbme
+     *            the nbme of the field.
+     * @pbrbm type
      *            the type of the field.
      */
-    public void getStatic(final Type owner, final String name, final Type type) {
-        fieldInsn(Opcodes.GETSTATIC, owner, name, type);
+    public void getStbtic(finbl Type owner, finbl String nbme, finbl Type type) {
+        fieldInsn(Opcodes.GETSTATIC, owner, nbme, type);
     }
 
     /**
-     * Generates the instruction to store the top stack value in a static field.
+     * Generbtes the instruction to store the top stbck vblue in b stbtic field.
      *
-     * @param owner
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param type
+     * @pbrbm owner
+     *            the clbss in which the field is defined.
+     * @pbrbm nbme
+     *            the nbme of the field.
+     * @pbrbm type
      *            the type of the field.
      */
-    public void putStatic(final Type owner, final String name, final Type type) {
-        fieldInsn(Opcodes.PUTSTATIC, owner, name, type);
+    public void putStbtic(finbl Type owner, finbl String nbme, finbl Type type) {
+        fieldInsn(Opcodes.PUTSTATIC, owner, nbme, type);
     }
 
     /**
-     * Generates the instruction to push the value of a non static field on the
-     * stack.
+     * Generbtes the instruction to push the vblue of b non stbtic field on the
+     * stbck.
      *
-     * @param owner
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param type
+     * @pbrbm owner
+     *            the clbss in which the field is defined.
+     * @pbrbm nbme
+     *            the nbme of the field.
+     * @pbrbm type
      *            the type of the field.
      */
-    public void getField(final Type owner, final String name, final Type type) {
-        fieldInsn(Opcodes.GETFIELD, owner, name, type);
+    public void getField(finbl Type owner, finbl String nbme, finbl Type type) {
+        fieldInsn(Opcodes.GETFIELD, owner, nbme, type);
     }
 
     /**
-     * Generates the instruction to store the top stack value in a non static
+     * Generbtes the instruction to store the top stbck vblue in b non stbtic
      * field.
      *
-     * @param owner
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param type
+     * @pbrbm owner
+     *            the clbss in which the field is defined.
+     * @pbrbm nbme
+     *            the nbme of the field.
+     * @pbrbm type
      *            the type of the field.
      */
-    public void putField(final Type owner, final String name, final Type type) {
-        fieldInsn(Opcodes.PUTFIELD, owner, name, type);
+    public void putField(finbl Type owner, finbl String nbme, finbl Type type) {
+        fieldInsn(Opcodes.PUTFIELD, owner, nbme, type);
     }
 
     // ------------------------------------------------------------------------
@@ -1395,152 +1395,152 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     // ------------------------------------------------------------------------
 
     /**
-     * Generates an invoke method instruction.
+     * Generbtes bn invoke method instruction.
      *
-     * @param opcode
+     * @pbrbm opcode
      *            the instruction's opcode.
-     * @param type
-     *            the class in which the method is defined.
-     * @param method
+     * @pbrbm type
+     *            the clbss in which the method is defined.
+     * @pbrbm method
      *            the method to be invoked.
      */
-    private void invokeInsn(final int opcode, final Type type,
-            final Method method, final boolean itf) {
+    privbte void invokeInsn(finbl int opcode, finbl Type type,
+            finbl Method method, finbl boolebn itf) {
         String owner = type.getSort() == Type.ARRAY ? type.getDescriptor()
-                : type.getInternalName();
-        mv.visitMethodInsn(opcode, owner, method.getName(),
+                : type.getInternblNbme();
+        mv.visitMethodInsn(opcode, owner, method.getNbme(),
                 method.getDescriptor(), itf);
     }
 
     /**
-     * Generates the instruction to invoke a normal method.
+     * Generbtes the instruction to invoke b normbl method.
      *
-     * @param owner
-     *            the class in which the method is defined.
-     * @param method
+     * @pbrbm owner
+     *            the clbss in which the method is defined.
+     * @pbrbm method
      *            the method to be invoked.
      */
-    public void invokeVirtual(final Type owner, final Method method) {
-        invokeInsn(Opcodes.INVOKEVIRTUAL, owner, method, false);
+    public void invokeVirtubl(finbl Type owner, finbl Method method) {
+        invokeInsn(Opcodes.INVOKEVIRTUAL, owner, method, fblse);
     }
 
     /**
-     * Generates the instruction to invoke a constructor.
+     * Generbtes the instruction to invoke b constructor.
      *
-     * @param type
-     *            the class in which the constructor is defined.
-     * @param method
+     * @pbrbm type
+     *            the clbss in which the constructor is defined.
+     * @pbrbm method
      *            the constructor to be invoked.
      */
-    public void invokeConstructor(final Type type, final Method method) {
-        invokeInsn(Opcodes.INVOKESPECIAL, type, method, false);
+    public void invokeConstructor(finbl Type type, finbl Method method) {
+        invokeInsn(Opcodes.INVOKESPECIAL, type, method, fblse);
     }
 
     /**
-     * Generates the instruction to invoke a static method.
+     * Generbtes the instruction to invoke b stbtic method.
      *
-     * @param owner
-     *            the class in which the method is defined.
-     * @param method
+     * @pbrbm owner
+     *            the clbss in which the method is defined.
+     * @pbrbm method
      *            the method to be invoked.
      */
-    public void invokeStatic(final Type owner, final Method method) {
-        invokeInsn(Opcodes.INVOKESTATIC, owner, method, false);
+    public void invokeStbtic(finbl Type owner, finbl Method method) {
+        invokeInsn(Opcodes.INVOKESTATIC, owner, method, fblse);
     }
 
     /**
-     * Generates the instruction to invoke an interface method.
+     * Generbtes the instruction to invoke bn interfbce method.
      *
-     * @param owner
-     *            the class in which the method is defined.
-     * @param method
+     * @pbrbm owner
+     *            the clbss in which the method is defined.
+     * @pbrbm method
      *            the method to be invoked.
      */
-    public void invokeInterface(final Type owner, final Method method) {
+    public void invokeInterfbce(finbl Type owner, finbl Method method) {
         invokeInsn(Opcodes.INVOKEINTERFACE, owner, method, true);
     }
 
     /**
-     * Generates an invokedynamic instruction.
+     * Generbtes bn invokedynbmic instruction.
      *
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
-     * @param bsm
-     *            the bootstrap method.
-     * @param bsmArgs
-     *            the bootstrap method constant arguments. Each argument must be
-     *            an {@link Integer}, {@link Float}, {@link Long},
-     *            {@link Double}, {@link String}, {@link Type} or {@link Handle}
-     *            value. This method is allowed to modify the content of the
-     *            array so a caller should expect that this array may change.
+     * @pbrbm bsm
+     *            the bootstrbp method.
+     * @pbrbm bsmArgs
+     *            the bootstrbp method constbnt brguments. Ebch brgument must be
+     *            bn {@link Integer}, {@link Flobt}, {@link Long},
+     *            {@link Double}, {@link String}, {@link Type} or {@link Hbndle}
+     *            vblue. This method is bllowed to modify the content of the
+     *            brrby so b cbller should expect thbt this brrby mby chbnge.
      */
-    public void invokeDynamic(String name, String desc, Handle bsm,
+    public void invokeDynbmic(String nbme, String desc, Hbndle bsm,
             Object... bsmArgs) {
-        mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+        mv.visitInvokeDynbmicInsn(nbme, desc, bsm, bsmArgs);
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to create objects and arrays
+    // Instructions to crebte objects bnd brrbys
     // ------------------------------------------------------------------------
 
     /**
-     * Generates a type dependent instruction.
+     * Generbtes b type dependent instruction.
      *
-     * @param opcode
+     * @pbrbm opcode
      *            the instruction's opcode.
-     * @param type
-     *            the instruction's operand.
+     * @pbrbm type
+     *            the instruction's operbnd.
      */
-    private void typeInsn(final int opcode, final Type type) {
-        mv.visitTypeInsn(opcode, type.getInternalName());
+    privbte void typeInsn(finbl int opcode, finbl Type type) {
+        mv.visitTypeInsn(opcode, type.getInternblNbme());
     }
 
     /**
-     * Generates the instruction to create a new object.
+     * Generbtes the instruction to crebte b new object.
      *
-     * @param type
-     *            the class of the object to be created.
+     * @pbrbm type
+     *            the clbss of the object to be crebted.
      */
-    public void newInstance(final Type type) {
+    public void newInstbnce(finbl Type type) {
         typeInsn(Opcodes.NEW, type);
     }
 
     /**
-     * Generates the instruction to create a new array.
+     * Generbtes the instruction to crebte b new brrby.
      *
-     * @param type
-     *            the type of the array elements.
+     * @pbrbm type
+     *            the type of the brrby elements.
      */
-    public void newArray(final Type type) {
+    public void newArrby(finbl Type type) {
         int typ;
         switch (type.getSort()) {
-        case Type.BOOLEAN:
+        cbse Type.BOOLEAN:
             typ = Opcodes.T_BOOLEAN;
-            break;
-        case Type.CHAR:
+            brebk;
+        cbse Type.CHAR:
             typ = Opcodes.T_CHAR;
-            break;
-        case Type.BYTE:
+            brebk;
+        cbse Type.BYTE:
             typ = Opcodes.T_BYTE;
-            break;
-        case Type.SHORT:
+            brebk;
+        cbse Type.SHORT:
             typ = Opcodes.T_SHORT;
-            break;
-        case Type.INT:
+            brebk;
+        cbse Type.INT:
             typ = Opcodes.T_INT;
-            break;
-        case Type.FLOAT:
+            brebk;
+        cbse Type.FLOAT:
             typ = Opcodes.T_FLOAT;
-            break;
-        case Type.LONG:
+            brebk;
+        cbse Type.LONG:
             typ = Opcodes.T_LONG;
-            break;
-        case Type.DOUBLE:
+            brebk;
+        cbse Type.DOUBLE:
             typ = Opcodes.T_DOUBLE;
-            break;
-        default:
+            brebk;
+        defbult:
             typeInsn(Opcodes.ANEWARRAY, type);
             return;
         }
@@ -1548,34 +1548,34 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     }
 
     // ------------------------------------------------------------------------
-    // Miscelaneous instructions
+    // Miscelbneous instructions
     // ------------------------------------------------------------------------
 
     /**
-     * Generates the instruction to compute the length of an array.
+     * Generbtes the instruction to compute the length of bn brrby.
      */
-    public void arrayLength() {
+    public void brrbyLength() {
         mv.visitInsn(Opcodes.ARRAYLENGTH);
     }
 
     /**
-     * Generates the instruction to throw an exception.
+     * Generbtes the instruction to throw bn exception.
      */
     public void throwException() {
         mv.visitInsn(Opcodes.ATHROW);
     }
 
     /**
-     * Generates the instructions to create and throw an exception. The
-     * exception class must have a constructor with a single String argument.
+     * Generbtes the instructions to crebte bnd throw bn exception. The
+     * exception clbss must hbve b constructor with b single String brgument.
      *
-     * @param type
-     *            the class of the exception to be thrown.
-     * @param msg
-     *            the detailed message of the exception.
+     * @pbrbm type
+     *            the clbss of the exception to be thrown.
+     * @pbrbm msg
+     *            the detbiled messbge of the exception.
      */
-    public void throwException(final Type type, final String msg) {
-        newInstance(type);
+    public void throwException(finbl Type type, finbl String msg) {
+        newInstbnce(type);
         dup();
         push(msg);
         invokeConstructor(type, Method.getMethod("void <init> (String)"));
@@ -1583,38 +1583,38 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     }
 
     /**
-     * Generates the instruction to check that the top stack value is of the
+     * Generbtes the instruction to check thbt the top stbck vblue is of the
      * given type.
      *
-     * @param type
-     *            a class or interface type.
+     * @pbrbm type
+     *            b clbss or interfbce type.
      */
-    public void checkCast(final Type type) {
-        if (!type.equals(OBJECT_TYPE)) {
+    public void checkCbst(finbl Type type) {
+        if (!type.equbls(OBJECT_TYPE)) {
             typeInsn(Opcodes.CHECKCAST, type);
         }
     }
 
     /**
-     * Generates the instruction to test if the top stack value is of the given
+     * Generbtes the instruction to test if the top stbck vblue is of the given
      * type.
      *
-     * @param type
-     *            a class or interface type.
+     * @pbrbm type
+     *            b clbss or interfbce type.
      */
-    public void instanceOf(final Type type) {
+    public void instbnceOf(finbl Type type) {
         typeInsn(Opcodes.INSTANCEOF, type);
     }
 
     /**
-     * Generates the instruction to get the monitor of the top stack value.
+     * Generbtes the instruction to get the monitor of the top stbck vblue.
      */
     public void monitorEnter() {
         mv.visitInsn(Opcodes.MONITORENTER);
     }
 
     /**
-     * Generates the instruction to release the monitor of the top stack value.
+     * Generbtes the instruction to relebse the monitor of the top stbck vblue.
      */
     public void monitorExit() {
         mv.visitInsn(Opcodes.MONITOREXIT);
@@ -1625,33 +1625,33 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     // ------------------------------------------------------------------------
 
     /**
-     * Marks the end of the visited method.
+     * Mbrks the end of the visited method.
      */
     public void endMethod() {
-        if ((access & Opcodes.ACC_ABSTRACT) == 0) {
-            mv.visitMaxs(0, 0);
+        if ((bccess & Opcodes.ACC_ABSTRACT) == 0) {
+            mv.visitMbxs(0, 0);
         }
         mv.visitEnd();
     }
 
     /**
-     * Marks the start of an exception handler.
+     * Mbrks the stbrt of bn exception hbndler.
      *
-     * @param start
-     *            beginning of the exception handler's scope (inclusive).
-     * @param end
-     *            end of the exception handler's scope (exclusive).
-     * @param exception
-     *            internal name of the type of exceptions handled by the
-     *            handler.
+     * @pbrbm stbrt
+     *            beginning of the exception hbndler's scope (inclusive).
+     * @pbrbm end
+     *            end of the exception hbndler's scope (exclusive).
+     * @pbrbm exception
+     *            internbl nbme of the type of exceptions hbndled by the
+     *            hbndler.
      */
-    public void catchException(final Label start, final Label end,
-            final Type exception) {
+    public void cbtchException(finbl Lbbel stbrt, finbl Lbbel end,
+            finbl Type exception) {
         if (exception == null) {
-            mv.visitTryCatchBlock(start, end, mark(), null);
+            mv.visitTryCbtchBlock(stbrt, end, mbrk(), null);
         } else {
-            mv.visitTryCatchBlock(start, end, mark(),
-                    exception.getInternalName());
+            mv.visitTryCbtchBlock(stbrt, end, mbrk(),
+                    exception.getInternblNbme());
         }
     }
 }

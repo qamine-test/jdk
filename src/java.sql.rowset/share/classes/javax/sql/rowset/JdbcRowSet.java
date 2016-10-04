@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset;
+pbckbge jbvbx.sql.rowset;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.math.*;
-import java.io.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.io.*;
 
 /**
- * The standard interface that all standard implementations of
+ * The stbndbrd interfbce thbt bll stbndbrd implementbtions of
  * <code>JdbcRowSet</code> must implement.
  *
  * <h3>1.0 Overview</h3>
- * A wrapper around a <code>ResultSet</code> object that makes it possible
- * to use the result set as a JavaBeans&trade;
- * component.  Thus, a <code>JdbcRowSet</code> object can be one of the Beans that
- * a tool makes available for composing an application.  Because
- * a <code>JdbcRowSet</code> is a connected rowset, that is, it continually
- * maintains its connection to a database using a JDBC technology-enabled
- * driver, it also effectively makes the driver a JavaBeans component.
+ * A wrbpper bround b <code>ResultSet</code> object thbt mbkes it possible
+ * to use the result set bs b JbvbBebns&trbde;
+ * component.  Thus, b <code>JdbcRowSet</code> object cbn be one of the Bebns thbt
+ * b tool mbkes bvbilbble for composing bn bpplicbtion.  Becbuse
+ * b <code>JdbcRowSet</code> is b connected rowset, thbt is, it continublly
+ * mbintbins its connection to b dbtbbbse using b JDBC technology-enbbled
+ * driver, it blso effectively mbkes the driver b JbvbBebns component.
  * <P>
- * Because it is always connected to its database, an instance of
+ * Becbuse it is blwbys connected to its dbtbbbse, bn instbnce of
  * <code>JdbcRowSet</code>
- * can simply take calls invoked on it and in turn call them on its
- * <code>ResultSet</code> object. As a consequence, a result set can, for
- * example, be a component in a Swing application.
+ * cbn simply tbke cblls invoked on it bnd in turn cbll them on its
+ * <code>ResultSet</code> object. As b consequence, b result set cbn, for
+ * exbmple, be b component in b Swing bpplicbtion.
  * <P>
- * Another advantage of a <code>JdbcRowSet</code> object is that it can be
- * used to make a <code>ResultSet</code> object scrollable and updatable.  All
- * <code>RowSet</code> objects are by default scrollable and updatable. If
- * the driver and database being used do not support scrolling and/or updating
- * of result sets, an application can populate a <code>JdbcRowSet</code> object
- * with the data of a <code>ResultSet</code> object and then operate on the
- * <code>JdbcRowSet</code> object as if it were the <code>ResultSet</code>
+ * Another bdvbntbge of b <code>JdbcRowSet</code> object is thbt it cbn be
+ * used to mbke b <code>ResultSet</code> object scrollbble bnd updbtbble.  All
+ * <code>RowSet</code> objects bre by defbult scrollbble bnd updbtbble. If
+ * the driver bnd dbtbbbse being used do not support scrolling bnd/or updbting
+ * of result sets, bn bpplicbtion cbn populbte b <code>JdbcRowSet</code> object
+ * with the dbtb of b <code>ResultSet</code> object bnd then operbte on the
+ * <code>JdbcRowSet</code> object bs if it were the <code>ResultSet</code>
  * object.
  *
- * <h3>2.0 Creating a <code>JdbcRowSet</code> Object</h3>
- * The reference implementation of the <code>JdbcRowSet</code> interface,
- * <code>JdbcRowSetImpl</code>, provides an implementation of
- * the default constructor.  A new instance is initialized with
- * default values, which can be set with new values as needed. A
- * new instance is not really functional until its <code>execute</code>
- * method is called. In general, this method does the following:
+ * <h3>2.0 Crebting b <code>JdbcRowSet</code> Object</h3>
+ * The reference implementbtion of the <code>JdbcRowSet</code> interfbce,
+ * <code>JdbcRowSetImpl</code>, provides bn implementbtion of
+ * the defbult constructor.  A new instbnce is initiblized with
+ * defbult vblues, which cbn be set with new vblues bs needed. A
+ * new instbnce is not reblly functionbl until its <code>execute</code>
+ * method is cblled. In generbl, this method does the following:
  * <UL>
- *   <LI> establishes a connection with a database
- *   <LI> creates a <code>PreparedStatement</code> object and sets any of its
- *        placeholder parameters
- *   <LI> executes the statement to create a <code>ResultSet</code> object
+ *   <LI> estbblishes b connection with b dbtbbbse
+ *   <LI> crebtes b <code>PrepbredStbtement</code> object bnd sets bny of its
+ *        plbceholder pbrbmeters
+ *   <LI> executes the stbtement to crebte b <code>ResultSet</code> object
  * </UL>
  * If the <code>execute</code> method is successful, it will set the
- * appropriate private <code>JdbcRowSet</code> fields with the following:
+ * bppropribte privbte <code>JdbcRowSet</code> fields with the following:
  * <UL>
- *  <LI> a <code>Connection</code> object -- the connection between the rowset
- *       and the database
- *  <LI> a <code>PreparedStatement</code> object -- the query that produces
+ *  <LI> b <code>Connection</code> object -- the connection between the rowset
+ *       bnd the dbtbbbse
+ *  <LI> b <code>PrepbredStbtement</code> object -- the query thbt produces
  *       the result set
- *  <LI> a <code>ResultSet</code> object -- the result set that the rowset's
- *       command produced and that is being made, in effect, a JavaBeans
+ *  <LI> b <code>ResultSet</code> object -- the result set thbt the rowset's
+ *       commbnd produced bnd thbt is being mbde, in effect, b JbvbBebns
  *       component
  * </UL>
- * If these fields have not been set, meaning that the <code>execute</code>
- * method has not executed successfully, no methods other than
- * <code>execute</code> and <code>close</code> may be called on the
- * rowset.  All other public methods will throw an exception.
+ * If these fields hbve not been set, mebning thbt the <code>execute</code>
+ * method hbs not executed successfully, no methods other thbn
+ * <code>execute</code> bnd <code>close</code> mby be cblled on the
+ * rowset.  All other public methods will throw bn exception.
  * <P>
- * Before calling the <code>execute</code> method, however, the command
- * and properties needed for establishing a connection must be set.
- * The following code fragment creates a <code>JdbcRowSetImpl</code> object,
- * sets the command and connection properties, sets the placeholder parameter,
- * and then invokes the method <code>execute</code>.
+ * Before cblling the <code>execute</code> method, however, the commbnd
+ * bnd properties needed for estbblishing b connection must be set.
+ * The following code frbgment crebtes b <code>JdbcRowSetImpl</code> object,
+ * sets the commbnd bnd connection properties, sets the plbceholder pbrbmeter,
+ * bnd then invokes the method <code>execute</code>.
  * <PRE>
  *     JdbcRowSetImpl jrs = new JdbcRowSetImpl();
- *     jrs.setCommand("SELECT * FROM TITLES WHERE TYPE = ?");
+ *     jrs.setCommbnd("SELECT * FROM TITLES WHERE TYPE = ?");
  *     jrs.setURL("jdbc:myDriver:myAttribute");
- *     jrs.setUsername("cervantes");
- *     jrs.setPassword("sancho");
+ *     jrs.setUsernbme("cervbntes");
+ *     jrs.setPbssword("sbncho");
  *     jrs.setString(1, "BIOGRAPHY");
  *     jrs.execute();
  * </PRE>
- * The variable <code>jrs</code> now represents an instance of
- * <code>JdbcRowSetImpl</code> that is a thin wrapper around the
- * <code>ResultSet</code> object containing all the rows in the
- * table <code>TITLES</code> where the type of book is biography.
- * At this point, operations called on <code>jrs</code> will
- * affect the rows in the result set, which is effectively a JavaBeans
+ * The vbribble <code>jrs</code> now represents bn instbnce of
+ * <code>JdbcRowSetImpl</code> thbt is b thin wrbpper bround the
+ * <code>ResultSet</code> object contbining bll the rows in the
+ * tbble <code>TITLES</code> where the type of book is biogrbphy.
+ * At this point, operbtions cblled on <code>jrs</code> will
+ * bffect the rows in the result set, which is effectively b JbvbBebns
  * component.
  * <P>
- * The implementation of the <code>RowSet</code> method <code>execute</code> in the
- * <code>JdbcRowSet</code> reference implementation differs from that in the
- * <code>CachedRowSet</code>&trade;
- * reference implementation to account for the different
- * requirements of connected and disconnected <code>RowSet</code> objects.
+ * The implementbtion of the <code>RowSet</code> method <code>execute</code> in the
+ * <code>JdbcRowSet</code> reference implementbtion differs from thbt in the
+ * <code>CbchedRowSet</code>&trbde;
+ * reference implementbtion to bccount for the different
+ * requirements of connected bnd disconnected <code>RowSet</code> objects.
  *
- * @author Jonathan Bruce
+ * @buthor Jonbthbn Bruce
  * @since 1.5
  */
 
-public interface JdbcRowSet extends RowSet, Joinable {
+public interfbce JdbcRowSet extends RowSet, Joinbble {
 
     /**
-     * Retrieves a <code>boolean</code> indicating whether rows marked
-     * for deletion appear in the set of current rows. If <code>true</code> is
-     * returned, deleted rows are visible with the current rows. If
-     * <code>false</code> is returned, rows are not visible with the set of
-     * current rows. The default value is <code>false</code>.
+     * Retrieves b <code>boolebn</code> indicbting whether rows mbrked
+     * for deletion bppebr in the set of current rows. If <code>true</code> is
+     * returned, deleted rows bre visible with the current rows. If
+     * <code>fblse</code> is returned, rows bre not visible with the set of
+     * current rows. The defbult vblue is <code>fblse</code>.
      * <P>
-     * Standard rowset implementations may choose to restrict this behavior
-     * for security considerations or for certain deployment
-     * scenarios. The visibility of deleted rows is implementation-defined
-     * and does not represent standard behavior.
+     * Stbndbrd rowset implementbtions mby choose to restrict this behbvior
+     * for security considerbtions or for certbin deployment
+     * scenbrios. The visibility of deleted rows is implementbtion-defined
+     * bnd does not represent stbndbrd behbvior.
      * <P>
-     * Note: Allowing deleted rows to remain visible complicates the behavior
-     * of some standard JDBC <code>RowSet</code> implementations methods.
-     * However, most rowset users can simply ignore this extra detail because
-     * only very specialized applications will likely want to take advantage of
-     * this feature.
+     * Note: Allowing deleted rows to rembin visible complicbtes the behbvior
+     * of some stbndbrd JDBC <code>RowSet</code> implementbtions methods.
+     * However, most rowset users cbn simply ignore this extrb detbil becbuse
+     * only very speciblized bpplicbtions will likely wbnt to tbke bdvbntbge of
+     * this febture.
      *
-     * @return <code>true</code> if deleted rows are visible;
-     *         <code>false</code> otherwise
-     * @exception SQLException if a rowset implementation is unable to
-     *          to determine whether rows marked for deletion remain visible
+     * @return <code>true</code> if deleted rows bre visible;
+     *         <code>fblse</code> otherwise
+     * @exception SQLException if b rowset implementbtion is unbble to
+     *          to determine whether rows mbrked for deletion rembin visible
      * @see #setShowDeleted
      */
-    public boolean getShowDeleted() throws SQLException;
+    public boolebn getShowDeleted() throws SQLException;
 
     /**
      * Sets the property <code>showDeleted</code> to the given
-     * <code>boolean</code> value. This property determines whether
-     * rows marked for deletion continue to appear in the set of current rows.
-     * If the value is set to <code>true</code>, deleted rows are immediately
-     * visible with the set of current rows. If the value is set to
-     * <code>false</code>, the deleted rows are set as invisible with the
+     * <code>boolebn</code> vblue. This property determines whether
+     * rows mbrked for deletion continue to bppebr in the set of current rows.
+     * If the vblue is set to <code>true</code>, deleted rows bre immedibtely
+     * visible with the set of current rows. If the vblue is set to
+     * <code>fblse</code>, the deleted rows bre set bs invisible with the
      * current set of rows.
      * <P>
-     * Standard rowset implementations may choose to restrict this behavior
-     * for security considerations or for certain deployment
-     * scenarios. This is left as implementation-defined and does not
-     * represent standard behavior.
+     * Stbndbrd rowset implementbtions mby choose to restrict this behbvior
+     * for security considerbtions or for certbin deployment
+     * scenbrios. This is left bs implementbtion-defined bnd does not
+     * represent stbndbrd behbvior.
      *
-     * @param b <code>true</code> if deleted rows should be shown;
-     *              <code>false</code> otherwise
-     * @exception SQLException if a rowset implementation is unable to
+     * @pbrbm b <code>true</code> if deleted rows should be shown;
+     *              <code>fblse</code> otherwise
+     * @exception SQLException if b rowset implementbtion is unbble to
      *          to reset whether deleted rows should be visible
      * @see #getShowDeleted
      */
-    public void setShowDeleted(boolean b) throws SQLException;
+    public void setShowDeleted(boolebn b) throws SQLException;
 
     /**
-     * Retrieves the first warning reported by calls on this <code>JdbcRowSet</code>
+     * Retrieves the first wbrning reported by cblls on this <code>JdbcRowSet</code>
      * object.
-     * If a second warning was reported on this <code>JdbcRowSet</code> object,
-     * it will be chained to the first warning and can be retrieved by
-     * calling the method <code>RowSetWarning.getNextWarning</code> on the
-     * first warning. Subsequent warnings on this <code>JdbcRowSet</code>
-     * object will be chained to the <code>RowSetWarning</code> objects
-     * returned by the method <code>RowSetWarning.getNextWarning</code>.
+     * If b second wbrning wbs reported on this <code>JdbcRowSet</code> object,
+     * it will be chbined to the first wbrning bnd cbn be retrieved by
+     * cblling the method <code>RowSetWbrning.getNextWbrning</code> on the
+     * first wbrning. Subsequent wbrnings on this <code>JdbcRowSet</code>
+     * object will be chbined to the <code>RowSetWbrning</code> objects
+     * returned by the method <code>RowSetWbrning.getNextWbrning</code>.
      *
-     * The warning chain is automatically cleared each time a new row is read.
-     * This method may not be called on a <code>RowSet</code> object
-     * that has been closed;
-     * doing so will cause an <code>SQLException</code> to be thrown.
+     * The wbrning chbin is butombticblly clebred ebch time b new row is rebd.
+     * This method mby not be cblled on b <code>RowSet</code> object
+     * thbt hbs been closed;
+     * doing so will cbuse bn <code>SQLException</code> to be thrown.
      * <P>
-     * Because it is always connected to its data source, a <code>JdbcRowSet</code>
-     * object can rely on the presence of active
-     * <code>Statement</code>, <code>Connection</code>, and <code>ResultSet</code>
-     * instances. This means that  applications can obtain additional
-     * <code>SQLWarning</code>
-     * notifications by calling the <code>getNextWarning</code> methods that
+     * Becbuse it is blwbys connected to its dbtb source, b <code>JdbcRowSet</code>
+     * object cbn rely on the presence of bctive
+     * <code>Stbtement</code>, <code>Connection</code>, bnd <code>ResultSet</code>
+     * instbnces. This mebns thbt  bpplicbtions cbn obtbin bdditionbl
+     * <code>SQLWbrning</code>
+     * notificbtions by cblling the <code>getNextWbrning</code> methods thbt
      * they provide.
-     * Disconnected <code>Rowset</code> objects, such as a
-     * <code>CachedRowSet</code> object, do not have access to
-     * these <code>getNextWarning</code> methods.
+     * Disconnected <code>Rowset</code> objects, such bs b
+     * <code>CbchedRowSet</code> object, do not hbve bccess to
+     * these <code>getNextWbrning</code> methods.
      *
-     * @return the first <code>RowSetWarning</code>
+     * @return the first <code>RowSetWbrning</code>
      * object reported on this <code>JdbcRowSet</code> object
-     * or <code>null</code> if there are none
-     * @throws SQLException if this method is called on a closed
+     * or <code>null</code> if there bre none
+     * @throws SQLException if this method is cblled on b closed
      * <code>JdbcRowSet</code> object
-     * @see RowSetWarning
+     * @see RowSetWbrning
      */
-    public RowSetWarning getRowSetWarnings() throws SQLException;
+    public RowSetWbrning getRowSetWbrnings() throws SQLException;
 
    /**
-    * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-    * the <code>ResultSet</code> or JDBC properties passed to it's constructors.
-    * This method wraps the <code>Connection</code> commit method to allow flexible
-    * auto commit or non auto commit transactional control support.
+    * Ebch <code>JdbcRowSet</code> contbins b <code>Connection</code> object from
+    * the <code>ResultSet</code> or JDBC properties pbssed to it's constructors.
+    * This method wrbps the <code>Connection</code> commit method to bllow flexible
+    * buto commit or non buto commit trbnsbctionbl control support.
     * <p>
-    * Makes all changes made since the previous commit/rollback permanent
-    * and releases any database locks currently held by this Connection
-    * object. This method should be used only when auto-commit mode has
-    * been disabled.
+    * Mbkes bll chbnges mbde since the previous commit/rollbbck permbnent
+    * bnd relebses bny dbtbbbse locks currently held by this Connection
+    * object. This method should be used only when buto-commit mode hbs
+    * been disbbled.
     *
-    * @throws SQLException if a database access error occurs or this
-    * Connection object within this <code>JdbcRowSet</code> is in auto-commit mode
-    * @see java.sql.Connection#setAutoCommit
+    * @throws SQLException if b dbtbbbse bccess error occurs or this
+    * Connection object within this <code>JdbcRowSet</code> is in buto-commit mode
+    * @see jbvb.sql.Connection#setAutoCommit
     */
     public void commit() throws SQLException;
 
 
    /**
-    * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-    * the original <code>ResultSet</code> or JDBC properties passed to it. This
-    * method wraps the <code>Connection</code>'s <code>getAutoCommit</code> method
-    * to allow an application to determine the <code>JdbcRowSet</code> transaction
-    * behavior.
+    * Ebch <code>JdbcRowSet</code> contbins b <code>Connection</code> object from
+    * the originbl <code>ResultSet</code> or JDBC properties pbssed to it. This
+    * method wrbps the <code>Connection</code>'s <code>getAutoCommit</code> method
+    * to bllow bn bpplicbtion to determine the <code>JdbcRowSet</code> trbnsbction
+    * behbvior.
     * <p>
-    * Sets this connection's auto-commit mode to the given state. If a
-    * connection is in auto-commit mode, then all its SQL statements will
-    * be executed and committed as individual transactions. Otherwise, its
-    * SQL statements are grouped into transactions that are terminated by a
-    * call to either the method commit or the method rollback. By default,
-    * new connections are in auto-commit mode.
+    * Sets this connection's buto-commit mode to the given stbte. If b
+    * connection is in buto-commit mode, then bll its SQL stbtements will
+    * be executed bnd committed bs individubl trbnsbctions. Otherwise, its
+    * SQL stbtements bre grouped into trbnsbctions thbt bre terminbted by b
+    * cbll to either the method commit or the method rollbbck. By defbult,
+    * new connections bre in buto-commit mode.
     *
-    * @return {@code true} if auto-commit is enabled; {@code false} otherwise
-    * @throws SQLException if a database access error occurs
-    * @see java.sql.Connection#getAutoCommit()
+    * @return {@code true} if buto-commit is enbbled; {@code fblse} otherwise
+    * @throws SQLException if b dbtbbbse bccess error occurs
+    * @see jbvb.sql.Connection#getAutoCommit()
     */
-    public boolean getAutoCommit() throws SQLException;
+    public boolebn getAutoCommit() throws SQLException;
 
 
    /**
-    * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-    * the original <code>ResultSet</code> or JDBC properties passed to it. This
-    * method wraps the <code>Connection</code>'s <code>getAutoCommit</code> method
-    * to allow an application to set the <code>JdbcRowSet</code> transaction behavior.
+    * Ebch <code>JdbcRowSet</code> contbins b <code>Connection</code> object from
+    * the originbl <code>ResultSet</code> or JDBC properties pbssed to it. This
+    * method wrbps the <code>Connection</code>'s <code>getAutoCommit</code> method
+    * to bllow bn bpplicbtion to set the <code>JdbcRowSet</code> trbnsbction behbvior.
     * <p>
-    * Sets the current auto-commit mode for this <code>Connection</code> object.
-    * @param autoCommit {@code true} to enable auto-commit; {@code false} to
-    * disable auto-commit
-    * @throws SQLException if a database access error occurs
-    * @see java.sql.Connection#setAutoCommit(boolean)
+    * Sets the current buto-commit mode for this <code>Connection</code> object.
+    * @pbrbm butoCommit {@code true} to enbble buto-commit; {@code fblse} to
+    * disbble buto-commit
+    * @throws SQLException if b dbtbbbse bccess error occurs
+    * @see jbvb.sql.Connection#setAutoCommit(boolebn)
     */
-    public void setAutoCommit(boolean autoCommit) throws SQLException;
+    public void setAutoCommit(boolebn butoCommit) throws SQLException;
 
     /**
-     * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-     * the original <code>ResultSet</code> or JDBC properties passed to it.
-     * Undoes all changes made in the current transaction and releases any
-     * database locks currently held by this <code>Connection</code> object. This method
-     * should be used only when auto-commit mode has been disabled.
+     * Ebch <code>JdbcRowSet</code> contbins b <code>Connection</code> object from
+     * the originbl <code>ResultSet</code> or JDBC properties pbssed to it.
+     * Undoes bll chbnges mbde in the current trbnsbction bnd relebses bny
+     * dbtbbbse locks currently held by this <code>Connection</code> object. This method
+     * should be used only when buto-commit mode hbs been disbbled.
      *
-     * @throws SQLException if a database access error occurs or this <code>Connection</code>
-     * object within this <code>JdbcRowSet</code> is in auto-commit mode.
-     * @see #rollback(Savepoint)
+     * @throws SQLException if b dbtbbbse bccess error occurs or this <code>Connection</code>
+     * object within this <code>JdbcRowSet</code> is in buto-commit mode.
+     * @see #rollbbck(Sbvepoint)
      */
-     public void rollback() throws SQLException;
+     public void rollbbck() throws SQLException;
 
 
     /**
-     * Each <code>JdbcRowSet</code> contains a <code>Connection</code> object from
-     * the original <code>ResultSet</code> or JDBC properties passed to it.
-     * Undoes all changes made in the current transaction to the last set savepoint
-     * and releases any database locks currently held by this <code>Connection</code>
-     * object. This method should be used only when auto-commit mode has been disabled.
-     * @param s The {@code Savepoint} to rollback to
-     * @throws SQLException if a database access error occurs or this <code>Connection</code>
-     * object within this <code>JdbcRowSet</code> is in auto-commit mode.
-     * @see #rollback
+     * Ebch <code>JdbcRowSet</code> contbins b <code>Connection</code> object from
+     * the originbl <code>ResultSet</code> or JDBC properties pbssed to it.
+     * Undoes bll chbnges mbde in the current trbnsbction to the lbst set sbvepoint
+     * bnd relebses bny dbtbbbse locks currently held by this <code>Connection</code>
+     * object. This method should be used only when buto-commit mode hbs been disbbled.
+     * @pbrbm s The {@code Sbvepoint} to rollbbck to
+     * @throws SQLException if b dbtbbbse bccess error occurs or this <code>Connection</code>
+     * object within this <code>JdbcRowSet</code> is in buto-commit mode.
+     * @see #rollbbck
      */
-    public void rollback(Savepoint s) throws SQLException;
+    public void rollbbck(Sbvepoint s) throws SQLException;
 
 }

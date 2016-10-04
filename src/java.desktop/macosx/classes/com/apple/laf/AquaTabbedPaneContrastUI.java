@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import javax.swing.JComponent;
-import javax.swing.UIManager;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.View;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.text.View;
 
 import sun.swing.SwingUtilities2;
 
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.JRSUIConstbnts.*;
 
-public class AquaTabbedPaneContrastUI extends AquaTabbedPaneUI {
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaTabbedPaneContrastUI();
+public clbss AqubTbbbedPbneContrbstUI extends AqubTbbbedPbneUI {
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubTbbbedPbneContrbstUI();
     }
 
-    public AquaTabbedPaneContrastUI() { }
+    public AqubTbbbedPbneContrbstUI() { }
 
-    protected void paintTitle(final Graphics2D g2d, final Font font, final FontMetrics metrics, final Rectangle textRect, final int tabIndex, final String title) {
-        final View v = getTextViewForTab(tabIndex);
+    protected void pbintTitle(finbl Grbphics2D g2d, finbl Font font, finbl FontMetrics metrics, finbl Rectbngle textRect, finbl int tbbIndex, finbl String title) {
+        finbl View v = getTextViewForTbb(tbbIndex);
         if (v != null) {
-            v.paint(g2d, textRect);
+            v.pbint(g2d, textRect);
             return;
         }
 
         if (title == null) return;
 
-        final Color color = tabPane.getForegroundAt(tabIndex);
-        if (color instanceof UIResource) {
-            g2d.setColor(getNonSelectedTabTitleColor());
-            if (tabPane.getSelectedIndex() == tabIndex) {
-                boolean pressed = isPressedAt(tabIndex);
-                boolean enabled = tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex);
-                Color textColor = getSelectedTabTitleColor(enabled, pressed);
-                Color shadowColor = getSelectedTabTitleShadowColor(enabled);
-                AquaUtils.paintDropShadowText(g2d, tabPane, font, metrics, textRect.x, textRect.y, 0, 1, textColor, shadowColor, title);
+        finbl Color color = tbbPbne.getForegroundAt(tbbIndex);
+        if (color instbnceof UIResource) {
+            g2d.setColor(getNonSelectedTbbTitleColor());
+            if (tbbPbne.getSelectedIndex() == tbbIndex) {
+                boolebn pressed = isPressedAt(tbbIndex);
+                boolebn enbbled = tbbPbne.isEnbbled() && tbbPbne.isEnbbledAt(tbbIndex);
+                Color textColor = getSelectedTbbTitleColor(enbbled, pressed);
+                Color shbdowColor = getSelectedTbbTitleShbdowColor(enbbled);
+                AqubUtils.pbintDropShbdowText(g2d, tbbPbne, font, metrics, textRect.x, textRect.y, 0, 1, textColor, shbdowColor, title);
                 return;
             }
         } else {
             g2d.setColor(color);
         }
         g2d.setFont(font);
-        SwingUtilities2.drawString(tabPane, g2d, title, textRect.x, textRect.y + metrics.getAscent());
+        SwingUtilities2.drbwString(tbbPbne, g2d, title, textRect.x, textRect.y + metrics.getAscent());
     }
 
-    protected static Color getSelectedTabTitleColor(boolean enabled, boolean pressed) {
-        if (enabled && pressed) {
-            return UIManager.getColor("TabbedPane.selectedTabTitlePressedColor");
-        } else if (!enabled) {
-            return UIManager.getColor("TabbedPane.selectedTabTitleDisabledColor");
+    protected stbtic Color getSelectedTbbTitleColor(boolebn enbbled, boolebn pressed) {
+        if (enbbled && pressed) {
+            return UIMbnbger.getColor("TbbbedPbne.selectedTbbTitlePressedColor");
+        } else if (!enbbled) {
+            return UIMbnbger.getColor("TbbbedPbne.selectedTbbTitleDisbbledColor");
         } else {
-            return UIManager.getColor("TabbedPane.selectedTabTitleNormalColor");
+            return UIMbnbger.getColor("TbbbedPbne.selectedTbbTitleNormblColor");
         }
     }
 
-    protected static Color getSelectedTabTitleShadowColor(boolean enabled) {
-        return enabled ? UIManager.getColor("TabbedPane.selectedTabTitleShadowNormalColor") : UIManager.getColor("TabbedPane.selectedTabTitleShadowDisabledColor");
+    protected stbtic Color getSelectedTbbTitleShbdowColor(boolebn enbbled) {
+        return enbbled ? UIMbnbger.getColor("TbbbedPbne.selectedTbbTitleShbdowNormblColor") : UIMbnbger.getColor("TbbbedPbne.selectedTbbTitleShbdowDisbbledColor");
     }
 
-    protected static Color getNonSelectedTabTitleColor() {
-        return UIManager.getColor("TabbedPane.nonSelectedTabTitleNormalColor");
+    protected stbtic Color getNonSelectedTbbTitleColor() {
+        return UIMbnbger.getColor("TbbbedPbne.nonSelectedTbbTitleNormblColor");
     }
 
-    protected boolean isPressedAt(int index) {
-        return ((MouseHandler)mouseListener).trackingTab == index;
+    protected boolebn isPressedAt(int index) {
+        return ((MouseHbndler)mouseListener).trbckingTbb == index;
     }
 
-    protected boolean shouldRepaintSelectedTabOnMouseDown() {
+    protected boolebn shouldRepbintSelectedTbbOnMouseDown() {
         return true;
     }
 
-    protected State getState(final int index, final boolean frameActive, final boolean isSelected) {
-        if (!frameActive) return State.INACTIVE;
-        if (!tabPane.isEnabled()) return State.DISABLED;
-        if (pressedTab == index) return State.PRESSED;
-        return State.ACTIVE;
+    protected Stbte getStbte(finbl int index, finbl boolebn frbmeActive, finbl boolebn isSelected) {
+        if (!frbmeActive) return Stbte.INACTIVE;
+        if (!tbbPbne.isEnbbled()) return Stbte.DISABLED;
+        if (pressedTbb == index) return Stbte.PRESSED;
+        return Stbte.ACTIVE;
     }
 
-    protected SegmentTrailingSeparator getSegmentTrailingSeparator(final int index, final int selectedIndex, final boolean isLeftToRight) {
-        if (isTabBeforeSelectedTab(index, selectedIndex, isLeftToRight)) return SegmentTrailingSeparator.NO;
-        return SegmentTrailingSeparator.YES;
+    protected SegmentTrbilingSepbrbtor getSegmentTrbilingSepbrbtor(finbl int index, finbl int selectedIndex, finbl boolebn isLeftToRight) {
+        if (isTbbBeforeSelectedTbb(index, selectedIndex, isLeftToRight)) return SegmentTrbilingSepbrbtor.NO;
+        return SegmentTrbilingSepbrbtor.YES;
     }
 
-    protected SegmentLeadingSeparator getSegmentLeadingSeparator(final int index, final int selectedIndex, final boolean isLeftToRight) {
-        if (index == selectedIndex) return SegmentLeadingSeparator.YES;
-        return SegmentLeadingSeparator.NO;
+    protected SegmentLebdingSepbrbtor getSegmentLebdingSepbrbtor(finbl int index, finbl int selectedIndex, finbl boolebn isLeftToRight) {
+        if (index == selectedIndex) return SegmentLebdingSepbrbtor.YES;
+        return SegmentLebdingSepbrbtor.NO;
     }
 }

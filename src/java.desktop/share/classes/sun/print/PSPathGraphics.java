@@ -1,245 +1,245 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.Transparency;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Trbnspbrency;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.TextLbyout;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Areb;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.Line2D;
 
-import java.awt.image.BufferedImage;
-import sun.awt.image.ByteComponentRaster;
+import jbvb.bwt.imbge.BufferedImbge;
+import sun.bwt.imbge.ByteComponentRbster;
 
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
+import jbvb.bwt.print.PbgeFormbt;
+import jbvb.bwt.print.Printbble;
+import jbvb.bwt.print.PrinterException;
+import jbvb.bwt.print.PrinterJob;
 
 /**
- * This class converts paths into PostScript
- * by breaking all graphics into fills and
- * clips of paths.
+ * This clbss converts pbths into PostScript
+ * by brebking bll grbphics into fills bnd
+ * clips of pbths.
  */
 
-class PSPathGraphics extends PathGraphics {
+clbss PSPbthGrbphics extends PbthGrbphics {
 
     /**
-     * For a drawing application the initial user space
+     * For b drbwing bpplicbtion the initibl user spbce
      * resolution is 72dpi.
      */
-    private static final int DEFAULT_USER_RES = 72;
+    privbte stbtic finbl int DEFAULT_USER_RES = 72;
 
-    PSPathGraphics(Graphics2D graphics, PrinterJob printerJob,
-                   Printable painter, PageFormat pageFormat, int pageIndex,
-                   boolean canRedraw) {
-        super(graphics, printerJob, painter, pageFormat, pageIndex, canRedraw);
+    PSPbthGrbphics(Grbphics2D grbphics, PrinterJob printerJob,
+                   Printbble pbinter, PbgeFormbt pbgeFormbt, int pbgeIndex,
+                   boolebn cbnRedrbw) {
+        super(grbphics, printerJob, pbinter, pbgeFormbt, pbgeIndex, cbnRedrbw);
     }
 
     /**
-     * Creates a new <code>Graphics</code> object that is
-     * a copy of this <code>Graphics</code> object.
-     * @return     a new graphics context that is a copy of
-     *                       this graphics context.
+     * Crebtes b new <code>Grbphics</code> object thbt is
+     * b copy of this <code>Grbphics</code> object.
+     * @return     b new grbphics context thbt is b copy of
+     *                       this grbphics context.
      * @since      1.0
      */
-    public Graphics create() {
+    public Grbphics crebte() {
 
-        return new PSPathGraphics((Graphics2D) getDelegate().create(),
+        return new PSPbthGrbphics((Grbphics2D) getDelegbte().crebte(),
                                   getPrinterJob(),
-                                  getPrintable(),
-                                  getPageFormat(),
-                                  getPageIndex(),
-                                  canDoRedraws());
+                                  getPrintbble(),
+                                  getPbgeFormbt(),
+                                  getPbgeIndex(),
+                                  cbnDoRedrbws());
     }
 
 
     /**
-     * Override the inherited implementation of fill
-     * so that we can generate PostScript in user space
-     * rather than device space.
+     * Override the inherited implementbtion of fill
+     * so thbt we cbn generbte PostScript in user spbce
+     * rbther thbn device spbce.
      */
-    public void fill(Shape s, Color color) {
-        deviceFill(s.getPathIterator(new AffineTransform()), color);
+    public void fill(Shbpe s, Color color) {
+        deviceFill(s.getPbthIterbtor(new AffineTrbnsform()), color);
     }
 
     /**
-     * Draws the text given by the specified string, using this
-     * graphics context's current font and color. The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in this
-     * graphics context's coordinate system.
-     * @param       str      the string to be drawn.
-     * @param       x        the <i>x</i> coordinate.
-     * @param       y        the <i>y</i> coordinate.
-     * @see         java.awt.Graphics#drawBytes
-     * @see         java.awt.Graphics#drawChars
+     * Drbws the text given by the specified string, using this
+     * grbphics context's current font bnd color. The bbseline of the
+     * first chbrbcter is bt position (<i>x</i>,&nbsp;<i>y</i>) in this
+     * grbphics context's coordinbte system.
+     * @pbrbm       str      the string to be drbwn.
+     * @pbrbm       x        the <i>x</i> coordinbte.
+     * @pbrbm       y        the <i>y</i> coordinbte.
+     * @see         jbvb.bwt.Grbphics#drbwBytes
+     * @see         jbvb.bwt.Grbphics#drbwChbrs
      * @since       1.0
      */
-    public void drawString(String str, int x, int y) {
-        drawString(str, (float) x, (float) y);
+    public void drbwString(String str, int x, int y) {
+        drbwString(str, (flobt) x, (flobt) y);
     }
 
     /**
      * Renders the text specified by the specified <code>String</code>,
-     * using the current <code>Font</code> and <code>Paint</code> attributes
-     * in the <code>Graphics2D</code> context.
-     * The baseline of the first character is at position
-     * (<i>x</i>,&nbsp;<i>y</i>) in the User Space.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>, <code>Paint</code>, <code>Font</code> and
-     * <code>Composite</code> attributes. For characters in script systems
-     * such as Hebrew and Arabic, the glyphs can be rendered from right to
-     * left, in which case the coordinate supplied is the location of the
-     * leftmost character on the baseline.
-     * @param s the <code>String</code> to be rendered
-     * @param x,&nbsp;y the coordinates where the <code>String</code>
+     * using the current <code>Font</code> bnd <code>Pbint</code> bttributes
+     * in the <code>Grbphics2D</code> context.
+     * The bbseline of the first chbrbcter is bt position
+     * (<i>x</i>,&nbsp;<i>y</i>) in the User Spbce.
+     * The rendering bttributes bpplied include the <code>Clip</code>,
+     * <code>Trbnsform</code>, <code>Pbint</code>, <code>Font</code> bnd
+     * <code>Composite</code> bttributes. For chbrbcters in script systems
+     * such bs Hebrew bnd Arbbic, the glyphs cbn be rendered from right to
+     * left, in which cbse the coordinbte supplied is the locbtion of the
+     * leftmost chbrbcter on the bbseline.
+     * @pbrbm s the <code>String</code> to be rendered
+     * @pbrbm x,&nbsp;y the coordinbtes where the <code>String</code>
      * should be rendered
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see java.awt.Graphics#setFont
-     * @see #setTransform
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see jbvb.bwt.Grbphics#setFont
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #setClip
      */
-     public void drawString(String str, float x, float y) {
-         drawString(str, x, y, getFont(), getFontRenderContext(), 0f);
+     public void drbwString(String str, flobt x, flobt y) {
+         drbwString(str, x, y, getFont(), getFontRenderContext(), 0f);
      }
 
 
-    protected boolean canDrawStringToWidth() {
+    protected boolebn cbnDrbwStringToWidth() {
         return true;
     }
 
-    protected int platformFontCount(Font font, String str) {
+    protected int plbtformFontCount(Font font, String str) {
         PSPrinterJob psPrinterJob = (PSPrinterJob) getPrinterJob();
-        return psPrinterJob.platformFontCount(font,  str);
+        return psPrinterJob.plbtformFontCount(font,  str);
     }
 
-    protected void drawString(String str, float x, float y,
-                              Font font, FontRenderContext frc, float w) {
+    protected void drbwString(String str, flobt x, flobt y,
+                              Font font, FontRenderContext frc, flobt w) {
         if (str.length() == 0) {
             return;
         }
 
-        /* If the Font has layout attributes we need to delegate to TextLayout.
-         * TextLayout renders text as GlyphVectors. We try to print those
-         * using printer fonts - ie using Postscript text operators so
-         * we may be reinvoked. In that case the "!printingGlyphVector" test
-         * prevents us recursing and instead sends us into the body of the
-         * method where we can safely ignore layout attributes as those
-         * are already handled by TextLayout.
+        /* If the Font hbs lbyout bttributes we need to delegbte to TextLbyout.
+         * TextLbyout renders text bs GlyphVectors. We try to print those
+         * using printer fonts - ie using Postscript text operbtors so
+         * we mby be reinvoked. In thbt cbse the "!printingGlyphVector" test
+         * prevents us recursing bnd instebd sends us into the body of the
+         * method where we cbn sbfely ignore lbyout bttributes bs those
+         * bre blrebdy hbndled by TextLbyout.
          */
-        if (font.hasLayoutAttributes() && !printingGlyphVector) {
-            TextLayout layout = new TextLayout(str, font, frc);
-            layout.draw(this, x, y);
+        if (font.hbsLbyoutAttributes() && !printingGlyphVector) {
+            TextLbyout lbyout = new TextLbyout(str, font, frc);
+            lbyout.drbw(this, x, y);
             return;
         }
 
         Font oldFont = getFont();
-        if (!oldFont.equals(font)) {
+        if (!oldFont.equbls(font)) {
             setFont(font);
         } else {
             oldFont = null;
         }
 
-        boolean drawnWithPS = false;
+        boolebn drbwnWithPS = fblse;
 
-        float translateX = 0f, translateY = 0f;
-        boolean fontisTransformed = getFont().isTransformed();
+        flobt trbnslbteX = 0f, trbnslbteY = 0f;
+        boolebn fontisTrbnsformed = getFont().isTrbnsformed();
 
-        if (fontisTransformed) {
-            AffineTransform fontTx = getFont().getTransform();
-            int transformType = fontTx.getType();
-            /* TYPE_TRANSLATION is a flag bit but we can do "==" here
-             * because we want to detect when its just that bit set and
+        if (fontisTrbnsformed) {
+            AffineTrbnsform fontTx = getFont().getTrbnsform();
+            int trbnsformType = fontTx.getType();
+            /* TYPE_TRANSLATION is b flbg bit but we cbn do "==" here
+             * becbuse we wbnt to detect when its just thbt bit set bnd
              *
              */
-            if (transformType == AffineTransform.TYPE_TRANSLATION) {
-                translateX = (float)(fontTx.getTranslateX());
-                translateY = (float)(fontTx.getTranslateY());
-                if (Math.abs(translateX) < 0.00001) translateX = 0f;
-                if (Math.abs(translateY) < 0.00001) translateY = 0f;
-                fontisTransformed = false;
+            if (trbnsformType == AffineTrbnsform.TYPE_TRANSLATION) {
+                trbnslbteX = (flobt)(fontTx.getTrbnslbteX());
+                trbnslbteY = (flobt)(fontTx.getTrbnslbteY());
+                if (Mbth.bbs(trbnslbteX) < 0.00001) trbnslbteX = 0f;
+                if (Mbth.bbs(trbnslbteY) < 0.00001) trbnslbteY = 0f;
+                fontisTrbnsformed = fblse;
             }
         }
 
-        boolean directToPS = !fontisTransformed;
+        boolebn directToPS = !fontisTrbnsformed;
 
-        if (!PSPrinterJob.shapeTextProp && directToPS) {
+        if (!PSPrinterJob.shbpeTextProp && directToPS) {
 
             PSPrinterJob psPrinterJob = (PSPrinterJob) getPrinterJob();
             if (psPrinterJob.setFont(getFont())) {
 
                 /* Set the text color.
-                 * We should not be in this shape printing path
-                 * if the application is drawing with non-solid
-                 * colors. We should be in the raster path. Because
-                 * we are here in the shape path, the cast of the
-                 * paint to a Color should be fine.
+                 * We should not be in this shbpe printing pbth
+                 * if the bpplicbtion is drbwing with non-solid
+                 * colors. We should be in the rbster pbth. Becbuse
+                 * we bre here in the shbpe pbth, the cbst of the
+                 * pbint to b Color should be fine.
                  */
                 try {
-                    psPrinterJob.setColor((Color)getPaint());
-                } catch (ClassCastException e) {
+                    psPrinterJob.setColor((Color)getPbint());
+                } cbtch (ClbssCbstException e) {
                     if (oldFont != null) {
                         setFont(oldFont);
                     }
-                    throw new IllegalArgumentException(
-                                                "Expected a Color instance");
+                    throw new IllegblArgumentException(
+                                                "Expected b Color instbnce");
                 }
 
-                psPrinterJob.setTransform(getTransform());
+                psPrinterJob.setTrbnsform(getTrbnsform());
                 psPrinterJob.setClip(getClip());
 
-                drawnWithPS = psPrinterJob.textOut(this, str,
-                                                   x+translateX, y+translateY,
+                drbwnWithPS = psPrinterJob.textOut(this, str,
+                                                   x+trbnslbteX, y+trbnslbteY,
                                                    font, frc, w);
             }
         }
 
         /* The text could not be converted directly to PS text
-         * calls so decompose the text into a shape.
+         * cblls so decompose the text into b shbpe.
          */
-        if (drawnWithPS == false) {
+        if (drbwnWithPS == fblse) {
             if (oldFont != null) {
                 setFont(oldFont);
                 oldFont = null;
             }
-            super.drawString(str, x, y, font, frc, w);
+            super.drbwString(str, x, y, font, frc, w);
         }
 
         if (oldFont != null) {
@@ -248,156 +248,156 @@ class PSPathGraphics extends PathGraphics {
     }
 
     /**
-     * The various <code>drawImage()</code> methods for
-     * <code>WPathGraphics</code> are all decomposed
-     * into an invocation of <code>drawImageToPlatform</code>.
-     * The portion of the passed in image defined by
-     * <code>srcX, srcY, srcWidth, and srcHeight</code>
-     * is transformed by the supplied AffineTransform and
-     * drawn using PS to the printer context.
+     * The vbrious <code>drbwImbge()</code> methods for
+     * <code>WPbthGrbphics</code> bre bll decomposed
+     * into bn invocbtion of <code>drbwImbgeToPlbtform</code>.
+     * The portion of the pbssed in imbge defined by
+     * <code>srcX, srcY, srcWidth, bnd srcHeight</code>
+     * is trbnsformed by the supplied AffineTrbnsform bnd
+     * drbwn using PS to the printer context.
      *
-     * @param   img     The image to be drawn.
+     * @pbrbm   img     The imbge to be drbwn.
      *                  This method does nothing if <code>img</code> is null.
-     * @param   xform   Used to transform the image before drawing.
-     *                  This can be null.
-     * @param   bgcolor This color is drawn where the image has transparent
-     *                  pixels. If this parameter is null then the
-     *                  pixels already in the destination should show
+     * @pbrbm   xform   Used to trbnsform the imbge before drbwing.
+     *                  This cbn be null.
+     * @pbrbm   bgcolor This color is drbwn where the imbge hbs trbnspbrent
+     *                  pixels. If this pbrbmeter is null then the
+     *                  pixels blrebdy in the destinbtion should show
      *                  through.
-     * @param   srcX    With srcY this defines the upper-left corner
-     *                  of the portion of the image to be drawn.
+     * @pbrbm   srcX    With srcY this defines the upper-left corner
+     *                  of the portion of the imbge to be drbwn.
      *
-     * @param   srcY    With srcX this defines the upper-left corner
-     *                  of the portion of the image to be drawn.
-     * @param   srcWidth    The width of the portion of the image to
-     *                      be drawn.
-     * @param   srcHeight   The height of the portion of the image to
-     *                      be drawn.
-     * @param   handlingTransparency if being recursively called to
-     *                    print opaque region of transparent image
+     * @pbrbm   srcY    With srcX this defines the upper-left corner
+     *                  of the portion of the imbge to be drbwn.
+     * @pbrbm   srcWidth    The width of the portion of the imbge to
+     *                      be drbwn.
+     * @pbrbm   srcHeight   The height of the portion of the imbge to
+     *                      be drbwn.
+     * @pbrbm   hbndlingTrbnspbrency if being recursively cblled to
+     *                    print opbque region of trbnspbrent imbge
      */
-    protected boolean drawImageToPlatform(Image image, AffineTransform xform,
+    protected boolebn drbwImbgeToPlbtform(Imbge imbge, AffineTrbnsform xform,
                                           Color bgcolor,
                                           int srcX, int srcY,
                                           int srcWidth, int srcHeight,
-                                          boolean handlingTransparency) {
+                                          boolebn hbndlingTrbnspbrency) {
 
-        BufferedImage img = getBufferedImage(image);
+        BufferedImbge img = getBufferedImbge(imbge);
         if (img == null) {
             return true;
         }
 
         PSPrinterJob psPrinterJob = (PSPrinterJob) getPrinterJob();
 
-        /* The full transform to be applied to the image is the
-         * caller's transform concatenated on to the transform
-         * from user space to device space. If the caller didn't
-         * supply a transform then we just act as if they passed
-         * in the identify transform.
+        /* The full trbnsform to be bpplied to the imbge is the
+         * cbller's trbnsform concbtenbted on to the trbnsform
+         * from user spbce to device spbce. If the cbller didn't
+         * supply b trbnsform then we just bct bs if they pbssed
+         * in the identify trbnsform.
          */
-        AffineTransform fullTransform = getTransform();
+        AffineTrbnsform fullTrbnsform = getTrbnsform();
         if (xform == null) {
-            xform = new AffineTransform();
+            xform = new AffineTrbnsform();
         }
-        fullTransform.concatenate(xform);
+        fullTrbnsform.concbtenbte(xform);
 
-        /* Split the full transform into a pair of
-         * transforms. The first transform holds effects
-         * such as rotation and shearing. The second transform
-         * is setup to hold only the scaling effects.
-         * These transforms are created such that a point,
-         * p, in user space, when transformed by 'fullTransform'
-         * lands in the same place as when it is transformed
-         * by 'rotTransform' and then 'scaleTransform'.
+        /* Split the full trbnsform into b pbir of
+         * trbnsforms. The first trbnsform holds effects
+         * such bs rotbtion bnd shebring. The second trbnsform
+         * is setup to hold only the scbling effects.
+         * These trbnsforms bre crebted such thbt b point,
+         * p, in user spbce, when trbnsformed by 'fullTrbnsform'
+         * lbnds in the sbme plbce bs when it is trbnsformed
+         * by 'rotTrbnsform' bnd then 'scbleTrbnsform'.
          *
-         * The entire image transformation is not in Java in order
-         * to minimize the amount of memory needed in the VM. By
-         * dividing the transform in two, we rotate and shear
-         * the source image in its own space and only go to
-         * the, usually, larger, device space when we ask
-         * PostScript to perform the final scaling.
+         * The entire imbge trbnsformbtion is not in Jbvb in order
+         * to minimize the bmount of memory needed in the VM. By
+         * dividing the trbnsform in two, we rotbte bnd shebr
+         * the source imbge in its own spbce bnd only go to
+         * the, usublly, lbrger, device spbce when we bsk
+         * PostScript to perform the finbl scbling.
          */
-        double[] fullMatrix = new double[6];
-        fullTransform.getMatrix(fullMatrix);
+        double[] fullMbtrix = new double[6];
+        fullTrbnsform.getMbtrix(fullMbtrix);
 
-        /* Calculate the amount of scaling in the x
-         * and y directions. This scaling is computed by
-         * transforming a unit vector along each axis
-         * and computing the resulting magnitude.
-         * The computed values 'scaleX' and 'scaleY'
-         * represent the amount of scaling PS will be asked
+        /* Cblculbte the bmount of scbling in the x
+         * bnd y directions. This scbling is computed by
+         * trbnsforming b unit vector blong ebch bxis
+         * bnd computing the resulting mbgnitude.
+         * The computed vblues 'scbleX' bnd 'scbleY'
+         * represent the bmount of scbling PS will be bsked
          * to perform.
-         * Clamp this to the device scale for better quality printing.
+         * Clbmp this to the device scble for better qublity printing.
          */
-        Point2D.Float unitVectorX = new Point2D.Float(1, 0);
-        Point2D.Float unitVectorY = new Point2D.Float(0, 1);
-        fullTransform.deltaTransform(unitVectorX, unitVectorX);
-        fullTransform.deltaTransform(unitVectorY, unitVectorY);
+        Point2D.Flobt unitVectorX = new Point2D.Flobt(1, 0);
+        Point2D.Flobt unitVectorY = new Point2D.Flobt(0, 1);
+        fullTrbnsform.deltbTrbnsform(unitVectorX, unitVectorX);
+        fullTrbnsform.deltbTrbnsform(unitVectorY, unitVectorY);
 
-        Point2D.Float origin = new Point2D.Float(0, 0);
-        double scaleX = unitVectorX.distance(origin);
-        double scaleY = unitVectorY.distance(origin);
+        Point2D.Flobt origin = new Point2D.Flobt(0, 0);
+        double scbleX = unitVectorX.distbnce(origin);
+        double scbleY = unitVectorY.distbnce(origin);
 
         double devResX = psPrinterJob.getXRes();
         double devResY = psPrinterJob.getYRes();
-        double devScaleX = devResX / DEFAULT_USER_RES;
-        double devScaleY = devResY / DEFAULT_USER_RES;
+        double devScbleX = devResX / DEFAULT_USER_RES;
+        double devScbleY = devResY / DEFAULT_USER_RES;
 
-        /* check if rotated or sheared */
-        int transformType = fullTransform.getType();
-        boolean clampScale = ((transformType &
-                               (AffineTransform.TYPE_GENERAL_ROTATION |
-                                AffineTransform.TYPE_GENERAL_TRANSFORM)) != 0);
-        if (clampScale) {
-            if (scaleX > devScaleX) scaleX = devScaleX;
-            if (scaleY > devScaleY) scaleY = devScaleY;
+        /* check if rotbted or shebred */
+        int trbnsformType = fullTrbnsform.getType();
+        boolebn clbmpScble = ((trbnsformType &
+                               (AffineTrbnsform.TYPE_GENERAL_ROTATION |
+                                AffineTrbnsform.TYPE_GENERAL_TRANSFORM)) != 0);
+        if (clbmpScble) {
+            if (scbleX > devScbleX) scbleX = devScbleX;
+            if (scbleY > devScbleY) scbleY = devScbleY;
         }
 
-        /* We do not need to draw anything if either scaling
-         * factor is zero.
+        /* We do not need to drbw bnything if either scbling
+         * fbctor is zero.
          */
-        if (scaleX != 0 && scaleY != 0) {
+        if (scbleX != 0 && scbleY != 0) {
 
-            /* Here's the transformation we will do with Java2D,
+            /* Here's the trbnsformbtion we will do with Jbvb2D,
             */
-            AffineTransform rotTransform = new AffineTransform(
-                                        fullMatrix[0] / scaleX,  //m00
-                                        fullMatrix[1] / scaleY,  //m10
-                                        fullMatrix[2] / scaleX,  //m01
-                                        fullMatrix[3] / scaleY,  //m11
-                                        fullMatrix[4] / scaleX,  //m02
-                                        fullMatrix[5] / scaleY); //m12
+            AffineTrbnsform rotTrbnsform = new AffineTrbnsform(
+                                        fullMbtrix[0] / scbleX,  //m00
+                                        fullMbtrix[1] / scbleY,  //m10
+                                        fullMbtrix[2] / scbleX,  //m01
+                                        fullMbtrix[3] / scbleY,  //m11
+                                        fullMbtrix[4] / scbleX,  //m02
+                                        fullMbtrix[5] / scbleY); //m12
 
-            /* The scale transform is not used directly: we instead
-             * directly multiply by scaleX and scaleY.
+            /* The scble trbnsform is not used directly: we instebd
+             * directly multiply by scbleX bnd scbleY.
              *
-             * Conceptually here is what the scaleTransform is:
+             * Conceptublly here is whbt the scbleTrbnsform is:
              *
-             * AffineTransform scaleTransform = new AffineTransform(
-             *                      scaleX,                     //m00
+             * AffineTrbnsform scbleTrbnsform = new AffineTrbnsform(
+             *                      scbleX,                     //m00
              *                      0,                          //m10
              *                      0,                          //m01
-             *                      scaleY,                     //m11
+             *                      scbleY,                     //m11
              *                      0,                          //m02
              *                      0);                         //m12
              */
 
-            /* Convert the image source's rectangle into the rotated
-             * and sheared space. Once there, we calculate a rectangle
-             * that encloses the resulting shape. It is this rectangle
-             * which defines the size of the BufferedImage we need to
-             * create to hold the transformed image.
+            /* Convert the imbge source's rectbngle into the rotbted
+             * bnd shebred spbce. Once there, we cblculbte b rectbngle
+             * thbt encloses the resulting shbpe. It is this rectbngle
+             * which defines the size of the BufferedImbge we need to
+             * crebte to hold the trbnsformed imbge.
              */
-            Rectangle2D.Float srcRect = new Rectangle2D.Float(srcX, srcY,
+            Rectbngle2D.Flobt srcRect = new Rectbngle2D.Flobt(srcX, srcY,
                                                               srcWidth,
                                                               srcHeight);
 
-            Shape rotShape = rotTransform.createTransformedShape(srcRect);
-            Rectangle2D rotBounds = rotShape.getBounds2D();
+            Shbpe rotShbpe = rotTrbnsform.crebteTrbnsformedShbpe(srcRect);
+            Rectbngle2D rotBounds = rotShbpe.getBounds2D();
 
-            /* add a fudge factor as some fp precision problems have
-             * been observed which caused pixels to be rounded down and
-             * out of the image.
+            /* bdd b fudge fbctor bs some fp precision problems hbve
+             * been observed which cbused pixels to be rounded down bnd
+             * out of the imbge.
              */
             rotBounds.setRect(rotBounds.getX(), rotBounds.getY(),
                               rotBounds.getWidth()+0.001,
@@ -409,217 +409,217 @@ class PSPathGraphics extends PathGraphics {
             if (boundsWidth > 0 && boundsHeight > 0) {
 
 
-                /* If the image has transparent or semi-transparent
-                 * pixels then we'll have the application re-render
-                 * the portion of the page covered by the image.
-                 * This will be done in a later call to print using the
-                 * saved graphics state.
-                 * However several special cases can be handled otherwise:
-                 * - bitmask transparency with a solid background colour
-                 * - images which have transparency color models but no
-                 * transparent pixels
-                 * - images with bitmask transparency and an IndexColorModel
-                 * (the common transparent GIF case) can be handled by
-                 * rendering just the opaque pixels.
+                /* If the imbge hbs trbnspbrent or semi-trbnspbrent
+                 * pixels then we'll hbve the bpplicbtion re-render
+                 * the portion of the pbge covered by the imbge.
+                 * This will be done in b lbter cbll to print using the
+                 * sbved grbphics stbte.
+                 * However severbl specibl cbses cbn be hbndled otherwise:
+                 * - bitmbsk trbnspbrency with b solid bbckground colour
+                 * - imbges which hbve trbnspbrency color models but no
+                 * trbnspbrent pixels
+                 * - imbges with bitmbsk trbnspbrency bnd bn IndexColorModel
+                 * (the common trbnspbrent GIF cbse) cbn be hbndled by
+                 * rendering just the opbque pixels.
                  */
-                boolean drawOpaque = true;
-                if (!handlingTransparency && hasTransparentPixels(img)) {
-                    drawOpaque = false;
-                    if (isBitmaskTransparency(img)) {
+                boolebn drbwOpbque = true;
+                if (!hbndlingTrbnspbrency && hbsTrbnspbrentPixels(img)) {
+                    drbwOpbque = fblse;
+                    if (isBitmbskTrbnspbrency(img)) {
                         if (bgcolor == null) {
-                            if (drawBitmaskImage(img, xform, bgcolor,
+                            if (drbwBitmbskImbge(img, xform, bgcolor,
                                                 srcX, srcY,
                                                  srcWidth, srcHeight)) {
-                                // image drawn, just return.
+                                // imbge drbwn, just return.
                                 return true;
                             }
-                        } else if (bgcolor.getTransparency()
-                                   == Transparency.OPAQUE) {
-                            drawOpaque = true;
+                        } else if (bgcolor.getTrbnspbrency()
+                                   == Trbnspbrency.OPAQUE) {
+                            drbwOpbque = true;
                         }
                     }
-                    if (!canDoRedraws()) {
-                        drawOpaque = true;
+                    if (!cbnDoRedrbws()) {
+                        drbwOpbque = true;
                     }
                 } else {
-                    // if there's no transparent pixels there's no need
-                    // for a background colour. This can avoid edge artifacts
-                    // in rotation cases.
+                    // if there's no trbnspbrent pixels there's no need
+                    // for b bbckground colour. This cbn bvoid edge brtifbcts
+                    // in rotbtion cbses.
                     bgcolor = null;
                 }
-                // if src region extends beyond the image, the "opaque" path
-                // may blit b/g colour (including white) where it shoudn't.
+                // if src region extends beyond the imbge, the "opbque" pbth
+                // mby blit b/g colour (including white) where it shoudn't.
                 if ((srcX+srcWidth > img.getWidth(null) ||
                      srcY+srcHeight > img.getHeight(null))
-                    && canDoRedraws()) {
-                    drawOpaque = false;
+                    && cbnDoRedrbws()) {
+                    drbwOpbque = fblse;
                 }
-                if (drawOpaque == false) {
+                if (drbwOpbque == fblse) {
 
-                    fullTransform.getMatrix(fullMatrix);
-                    AffineTransform tx =
-                        new AffineTransform(
-                                            fullMatrix[0] / devScaleX,  //m00
-                                            fullMatrix[1] / devScaleY,  //m10
-                                            fullMatrix[2] / devScaleX,  //m01
-                                            fullMatrix[3] / devScaleY,  //m11
-                                            fullMatrix[4] / devScaleX,  //m02
-                                            fullMatrix[5] / devScaleY); //m12
+                    fullTrbnsform.getMbtrix(fullMbtrix);
+                    AffineTrbnsform tx =
+                        new AffineTrbnsform(
+                                            fullMbtrix[0] / devScbleX,  //m00
+                                            fullMbtrix[1] / devScbleY,  //m10
+                                            fullMbtrix[2] / devScbleX,  //m01
+                                            fullMbtrix[3] / devScbleY,  //m11
+                                            fullMbtrix[4] / devScbleX,  //m02
+                                            fullMbtrix[5] / devScbleY); //m12
 
-                    Rectangle2D.Float rect =
-                        new Rectangle2D.Float(srcX, srcY, srcWidth, srcHeight);
+                    Rectbngle2D.Flobt rect =
+                        new Rectbngle2D.Flobt(srcX, srcY, srcWidth, srcHeight);
 
-                    Shape shape = fullTransform.createTransformedShape(rect);
-                    // Region isn't user space because its potentially
-                    // been rotated for landscape.
-                    Rectangle2D region = shape.getBounds2D();
+                    Shbpe shbpe = fullTrbnsform.crebteTrbnsformedShbpe(rect);
+                    // Region isn't user spbce becbuse its potentiblly
+                    // been rotbted for lbndscbpe.
+                    Rectbngle2D region = shbpe.getBounds2D();
 
                     region.setRect(region.getX(), region.getY(),
                                    region.getWidth()+0.001,
                                    region.getHeight()+0.001);
 
-                    // Try to limit the amount of memory used to 8Mb, so
-                    // if at device resolution this exceeds a certain
-                    // image size then scale down the region to fit in
-                    // that memory, but never to less than 72 dpi.
+                    // Try to limit the bmount of memory used to 8Mb, so
+                    // if bt device resolution this exceeds b certbin
+                    // imbge size then scble down the region to fit in
+                    // thbt memory, but never to less thbn 72 dpi.
 
                     int w = (int)region.getWidth();
                     int h = (int)region.getHeight();
                     int nbytes = w * h * 3;
-                    int maxBytes = 8 * 1024 * 1024;
+                    int mbxBytes = 8 * 1024 * 1024;
                     double origDpi = (devResX < devResY) ? devResX : devResY;
                     int dpi = (int)origDpi;
-                    double scaleFactor = 1;
+                    double scbleFbctor = 1;
 
-                    double maxSFX = w/(double)boundsWidth;
-                    double maxSFY = h/(double)boundsHeight;
-                    double maxSF = (maxSFX > maxSFY) ? maxSFY : maxSFX;
-                    int minDpi = (int)(dpi/maxSF);
+                    double mbxSFX = w/(double)boundsWidth;
+                    double mbxSFY = h/(double)boundsHeight;
+                    double mbxSF = (mbxSFX > mbxSFY) ? mbxSFY : mbxSFX;
+                    int minDpi = (int)(dpi/mbxSF);
                     if (minDpi < DEFAULT_USER_RES) minDpi = DEFAULT_USER_RES;
 
-                    while (nbytes > maxBytes && dpi > minDpi) {
-                        scaleFactor *= 2;
+                    while (nbytes > mbxBytes && dpi > minDpi) {
+                        scbleFbctor *= 2;
                         dpi /= 2;
                         nbytes /= 4;
                     }
                     if (dpi < minDpi) {
-                        scaleFactor = (origDpi / minDpi);
+                        scbleFbctor = (origDpi / minDpi);
                     }
 
-                    region.setRect(region.getX()/scaleFactor,
-                                   region.getY()/scaleFactor,
-                                   region.getWidth()/scaleFactor,
-                                   region.getHeight()/scaleFactor);
+                    region.setRect(region.getX()/scbleFbctor,
+                                   region.getY()/scbleFbctor,
+                                   region.getWidth()/scbleFbctor,
+                                   region.getHeight()/scbleFbctor);
 
                     /*
-                     * We need to have the clip as part of the saved state,
-                     * either directly, or all the components that are
-                     * needed to reconstitute it (image source area,
-                     * image transform and current graphics transform).
-                     * The clip is described in user space, so we need to
-                     * save the current graphics transform anyway so just
-                     * save these two.
+                     * We need to hbve the clip bs pbrt of the sbved stbte,
+                     * either directly, or bll the components thbt bre
+                     * needed to reconstitute it (imbge source breb,
+                     * imbge trbnsform bnd current grbphics trbnsform).
+                     * The clip is described in user spbce, so we need to
+                     * sbve the current grbphics trbnsform bnywby so just
+                     * sbve these two.
                      */
-                    psPrinterJob.saveState(getTransform(), getClip(),
-                                           region, scaleFactor, scaleFactor);
+                    psPrinterJob.sbveStbte(getTrbnsform(), getClip(),
+                                           region, scbleFbctor, scbleFbctor);
                     return true;
 
-                /* The image can be rendered directly by PS so we
-                 * copy it into a BufferedImage (this takes care of
-                 * ColorSpace and BufferedImageOp issues) and then
-                 * send that to PS.
+                /* The imbge cbn be rendered directly by PS so we
+                 * copy it into b BufferedImbge (this tbkes cbre of
+                 * ColorSpbce bnd BufferedImbgeOp issues) bnd then
+                 * send thbt to PS.
                  */
                 } else {
 
-                    /* Create a buffered image big enough to hold the portion
-                     * of the source image being printed.
+                    /* Crebte b buffered imbge big enough to hold the portion
+                     * of the source imbge being printed.
                      */
-                    BufferedImage deepImage = new BufferedImage(
+                    BufferedImbge deepImbge = new BufferedImbge(
                                                     (int) rotBounds.getWidth(),
                                                     (int) rotBounds.getHeight(),
-                                                    BufferedImage.TYPE_3BYTE_BGR);
+                                                    BufferedImbge.TYPE_3BYTE_BGR);
 
-                    /* Setup a Graphics2D on to the BufferedImage so that the
-                     * source image when copied, lands within the image buffer.
+                    /* Setup b Grbphics2D on to the BufferedImbge so thbt the
+                     * source imbge when copied, lbnds within the imbge buffer.
                      */
-                    Graphics2D imageGraphics = deepImage.createGraphics();
-                    imageGraphics.clipRect(0, 0,
-                                           deepImage.getWidth(),
-                                           deepImage.getHeight());
+                    Grbphics2D imbgeGrbphics = deepImbge.crebteGrbphics();
+                    imbgeGrbphics.clipRect(0, 0,
+                                           deepImbge.getWidth(),
+                                           deepImbge.getHeight());
 
-                    imageGraphics.translate(-rotBounds.getX(),
+                    imbgeGrbphics.trbnslbte(-rotBounds.getX(),
                                             -rotBounds.getY());
-                    imageGraphics.transform(rotTransform);
+                    imbgeGrbphics.trbnsform(rotTrbnsform);
 
-                    /* Fill the BufferedImage either with the caller supplied
+                    /* Fill the BufferedImbge either with the cbller supplied
                      * color, 'bgColor' or, if null, with white.
                      */
                     if (bgcolor == null) {
                         bgcolor = Color.white;
                     }
 
-                    /* REMIND: no need to use scaling here. */
-                    imageGraphics.drawImage(img,
+                    /* REMIND: no need to use scbling here. */
+                    imbgeGrbphics.drbwImbge(img,
                                             srcX, srcY,
                                             srcX + srcWidth, srcY + srcHeight,
                                             srcX, srcY,
                                             srcX + srcWidth, srcY + srcHeight,
                                             bgcolor, null);
 
-                    /* In PSPrinterJob images are printed in device space
-                     * and therefore we need to set a device space clip.
-                     * FIX: this is an overly tight coupling of these
-                     * two classes.
-                     * The temporary clip set needs to be an intersection
+                    /* In PSPrinterJob imbges bre printed in device spbce
+                     * bnd therefore we need to set b device spbce clip.
+                     * FIX: this is bn overly tight coupling of these
+                     * two clbsses.
+                     * The temporbry clip set needs to be bn intersection
                      * with the previous user clip.
-                     * REMIND: two xfms may lose accuracy in clip path.
+                     * REMIND: two xfms mby lose bccurbcy in clip pbth.
                      */
-                    Shape holdClip = getClip();
-                    Shape oldClip =
-                        getTransform().createTransformedShape(holdClip);
-                    AffineTransform sat = AffineTransform.getScaleInstance(
-                                                             scaleX, scaleY);
-                    Shape imgClip = sat.createTransformedShape(rotShape);
-                    Area imgArea = new Area(imgClip);
-                    Area oldArea = new Area(oldClip);
-                    imgArea.intersect(oldArea);
-                    psPrinterJob.setClip(imgArea);
+                    Shbpe holdClip = getClip();
+                    Shbpe oldClip =
+                        getTrbnsform().crebteTrbnsformedShbpe(holdClip);
+                    AffineTrbnsform sbt = AffineTrbnsform.getScbleInstbnce(
+                                                             scbleX, scbleY);
+                    Shbpe imgClip = sbt.crebteTrbnsformedShbpe(rotShbpe);
+                    Areb imgAreb = new Areb(imgClip);
+                    Areb oldAreb = new Areb(oldClip);
+                    imgAreb.intersect(oldAreb);
+                    psPrinterJob.setClip(imgAreb);
 
-                    /* Scale the bounding rectangle by the scale transform.
-                     * Because the scaling transform has only x and y
-                     * scaling components it is equivalent to multiply
-                     * the x components of the bounding rectangle by
-                     * the x scaling factor and to multiply the y components
-                     * by the y scaling factor.
+                    /* Scble the bounding rectbngle by the scble trbnsform.
+                     * Becbuse the scbling trbnsform hbs only x bnd y
+                     * scbling components it is equivblent to multiply
+                     * the x components of the bounding rectbngle by
+                     * the x scbling fbctor bnd to multiply the y components
+                     * by the y scbling fbctor.
                      */
-                    Rectangle2D.Float scaledBounds
-                            = new Rectangle2D.Float(
-                                    (float) (rotBounds.getX() * scaleX),
-                                    (float) (rotBounds.getY() * scaleY),
-                                    (float) (rotBounds.getWidth() * scaleX),
-                                    (float) (rotBounds.getHeight() * scaleY));
+                    Rectbngle2D.Flobt scbledBounds
+                            = new Rectbngle2D.Flobt(
+                                    (flobt) (rotBounds.getX() * scbleX),
+                                    (flobt) (rotBounds.getY() * scbleY),
+                                    (flobt) (rotBounds.getWidth() * scbleX),
+                                    (flobt) (rotBounds.getHeight() * scbleY));
 
 
-                    /* Pull the raster data from the buffered image
-                     * and pass it along to PS.
+                    /* Pull the rbster dbtb from the buffered imbge
+                     * bnd pbss it blong to PS.
                      */
-                    ByteComponentRaster tile =
-                                   (ByteComponentRaster)deepImage.getRaster();
+                    ByteComponentRbster tile =
+                                   (ByteComponentRbster)deepImbge.getRbster();
 
-                    psPrinterJob.drawImageBGR(tile.getDataStorage(),
-                                scaledBounds.x, scaledBounds.y,
-                                (float)Math.rint(scaledBounds.width+0.5),
-                                (float)Math.rint(scaledBounds.height+0.5),
+                    psPrinterJob.drbwImbgeBGR(tile.getDbtbStorbge(),
+                                scbledBounds.x, scbledBounds.y,
+                                (flobt)Mbth.rint(scbledBounds.width+0.5),
+                                (flobt)Mbth.rint(scbledBounds.height+0.5),
                                 0f, 0f,
-                                deepImage.getWidth(), deepImage.getHeight(),
-                                deepImage.getWidth(), deepImage.getHeight());
+                                deepImbge.getWidth(), deepImbge.getHeight(),
+                                deepImbge.getWidth(), deepImbge.getHeight());
 
-                    /* Reset the device clip to match user clip */
+                    /* Reset the device clip to mbtch user clip */
                     psPrinterJob.setClip(
-                               getTransform().createTransformedShape(holdClip));
+                               getTrbnsform().crebteTrbnsformedShbpe(holdClip));
 
 
-                    imageGraphics.dispose();
+                    imbgeGrbphics.dispose();
                 }
 
             }
@@ -628,153 +628,153 @@ class PSPathGraphics extends PathGraphics {
         return true;
     }
 
-    /** Redraw a rectanglular area using a proxy graphics
-      * To do this we need to know the rectangular area to redraw and
-      * the transform & clip in effect at the time of the original drawImage
+    /** Redrbw b rectbnglulbr breb using b proxy grbphics
+      * To do this we need to know the rectbngulbr breb to redrbw bnd
+      * the trbnsform & clip in effect bt the time of the originbl drbwImbge
       *
       */
 
-    public void redrawRegion(Rectangle2D region, double scaleX, double scaleY,
-                             Shape savedClip, AffineTransform savedTransform)
+    public void redrbwRegion(Rectbngle2D region, double scbleX, double scbleY,
+                             Shbpe sbvedClip, AffineTrbnsform sbvedTrbnsform)
 
             throws PrinterException {
 
         PSPrinterJob psPrinterJob = (PSPrinterJob)getPrinterJob();
-        Printable painter = getPrintable();
-        PageFormat pageFormat = getPageFormat();
-        int pageIndex = getPageIndex();
+        Printbble pbinter = getPrintbble();
+        PbgeFormbt pbgeFormbt = getPbgeFormbt();
+        int pbgeIndex = getPbgeIndex();
 
-        /* Create a buffered image big enough to hold the portion
-         * of the source image being printed.
+        /* Crebte b buffered imbge big enough to hold the portion
+         * of the source imbge being printed.
          */
-        BufferedImage deepImage = new BufferedImage(
+        BufferedImbge deepImbge = new BufferedImbge(
                                         (int) region.getWidth(),
                                         (int) region.getHeight(),
-                                        BufferedImage.TYPE_3BYTE_BGR);
+                                        BufferedImbge.TYPE_3BYTE_BGR);
 
-        /* Get a graphics for the application to render into.
-         * We initialize the buffer to white in order to
-         * match the paper and then we shift the BufferedImage
-         * so that it covers the area on the page where the
-         * caller's Image will be drawn.
+        /* Get b grbphics for the bpplicbtion to render into.
+         * We initiblize the buffer to white in order to
+         * mbtch the pbper bnd then we shift the BufferedImbge
+         * so thbt it covers the breb on the pbge where the
+         * cbller's Imbge will be drbwn.
          */
-        Graphics2D g = deepImage.createGraphics();
-        ProxyGraphics2D proxy = new ProxyGraphics2D(g, psPrinterJob);
+        Grbphics2D g = deepImbge.crebteGrbphics();
+        ProxyGrbphics2D proxy = new ProxyGrbphics2D(g, psPrinterJob);
         proxy.setColor(Color.white);
-        proxy.fillRect(0, 0, deepImage.getWidth(), deepImage.getHeight());
-        proxy.clipRect(0, 0, deepImage.getWidth(), deepImage.getHeight());
+        proxy.fillRect(0, 0, deepImbge.getWidth(), deepImbge.getHeight());
+        proxy.clipRect(0, 0, deepImbge.getWidth(), deepImbge.getHeight());
 
-        proxy.translate(-region.getX(), -region.getY());
+        proxy.trbnslbte(-region.getX(), -region.getY());
 
-        /* Calculate the resolution of the source image.
+        /* Cblculbte the resolution of the source imbge.
          */
-        float sourceResX = (float)(psPrinterJob.getXRes() / scaleX);
-        float sourceResY = (float)(psPrinterJob.getYRes() / scaleY);
+        flobt sourceResX = (flobt)(psPrinterJob.getXRes() / scbleX);
+        flobt sourceResY = (flobt)(psPrinterJob.getYRes() / scbleY);
 
-        /* The application expects to see user space at 72 dpi.
-         * so change user space from image source resolution to
+        /* The bpplicbtion expects to see user spbce bt 72 dpi.
+         * so chbnge user spbce from imbge source resolution to
          *  72 dpi.
          */
-        proxy.scale(sourceResX / DEFAULT_USER_RES,
+        proxy.scble(sourceResX / DEFAULT_USER_RES,
                     sourceResY / DEFAULT_USER_RES);
-       proxy.translate(
-            -psPrinterJob.getPhysicalPrintableX(pageFormat.getPaper())
+       proxy.trbnslbte(
+            -psPrinterJob.getPhysicblPrintbbleX(pbgeFormbt.getPbper())
                / psPrinterJob.getXRes() * DEFAULT_USER_RES,
-            -psPrinterJob.getPhysicalPrintableY(pageFormat.getPaper())
+            -psPrinterJob.getPhysicblPrintbbleY(pbgeFormbt.getPbper())
                / psPrinterJob.getYRes() * DEFAULT_USER_RES);
-       /* NB User space now has to be at 72 dpi for this calc to be correct */
-        proxy.transform(new AffineTransform(getPageFormat().getMatrix()));
+       /* NB User spbce now hbs to be bt 72 dpi for this cblc to be correct */
+        proxy.trbnsform(new AffineTrbnsform(getPbgeFormbt().getMbtrix()));
 
-        proxy.setPaint(Color.black);
+        proxy.setPbint(Color.blbck);
 
-        painter.print(proxy, pageFormat, pageIndex);
+        pbinter.print(proxy, pbgeFormbt, pbgeIndex);
 
         g.dispose();
 
-        /* In PSPrinterJob images are printed in device space
-         * and therefore we need to set a device space clip.
+        /* In PSPrinterJob imbges bre printed in device spbce
+         * bnd therefore we need to set b device spbce clip.
          */
-        psPrinterJob.setClip(savedTransform.createTransformedShape(savedClip));
+        psPrinterJob.setClip(sbvedTrbnsform.crebteTrbnsformedShbpe(sbvedClip));
 
 
-        /* Scale the bounding rectangle by the scale transform.
-         * Because the scaling transform has only x and y
-         * scaling components it is equivalent to multiply
-         * the x components of the bounding rectangle by
-         * the x scaling factor and to multiply the y components
-         * by the y scaling factor.
+        /* Scble the bounding rectbngle by the scble trbnsform.
+         * Becbuse the scbling trbnsform hbs only x bnd y
+         * scbling components it is equivblent to multiply
+         * the x components of the bounding rectbngle by
+         * the x scbling fbctor bnd to multiply the y components
+         * by the y scbling fbctor.
          */
-        Rectangle2D.Float scaledBounds
-                = new Rectangle2D.Float(
-                        (float) (region.getX() * scaleX),
-                        (float) (region.getY() * scaleY),
-                        (float) (region.getWidth() * scaleX),
-                        (float) (region.getHeight() * scaleY));
+        Rectbngle2D.Flobt scbledBounds
+                = new Rectbngle2D.Flobt(
+                        (flobt) (region.getX() * scbleX),
+                        (flobt) (region.getY() * scbleY),
+                        (flobt) (region.getWidth() * scbleX),
+                        (flobt) (region.getHeight() * scbleY));
 
 
-        /* Pull the raster data from the buffered image
-         * and pass it along to PS.
+        /* Pull the rbster dbtb from the buffered imbge
+         * bnd pbss it blong to PS.
          */
-        ByteComponentRaster tile = (ByteComponentRaster)deepImage.getRaster();
+        ByteComponentRbster tile = (ByteComponentRbster)deepImbge.getRbster();
 
-        psPrinterJob.drawImageBGR(tile.getDataStorage(),
-                            scaledBounds.x, scaledBounds.y,
-                            scaledBounds.width,
-                            scaledBounds.height,
+        psPrinterJob.drbwImbgeBGR(tile.getDbtbStorbge(),
+                            scbledBounds.x, scbledBounds.y,
+                            scbledBounds.width,
+                            scbledBounds.height,
                             0f, 0f,
-                            deepImage.getWidth(), deepImage.getHeight(),
-                            deepImage.getWidth(), deepImage.getHeight());
+                            deepImbge.getWidth(), deepImbge.getHeight(),
+                            deepImbge.getWidth(), deepImbge.getHeight());
 
 
     }
 
 
     /*
-     * Fill the path defined by <code>pathIter</code>
+     * Fill the pbth defined by <code>pbthIter</code>
      * with the specified color.
-     * The path is provided in current user space.
+     * The pbth is provided in current user spbce.
      */
-    protected void deviceFill(PathIterator pathIter, Color color) {
+    protected void deviceFill(PbthIterbtor pbthIter, Color color) {
 
         PSPrinterJob psPrinterJob = (PSPrinterJob) getPrinterJob();
-        psPrinterJob.deviceFill(pathIter, color, getTransform(), getClip());
+        psPrinterJob.deviceFill(pbthIter, color, getTrbnsform(), getClip());
     }
 
     /*
-     * Draw the bounding rectangle using path by calling draw()
-     * function and passing a rectangle shape.
+     * Drbw the bounding rectbngle using pbth by cblling drbw()
+     * function bnd pbssing b rectbngle shbpe.
      */
-    protected void deviceFrameRect(int x, int y, int width, int height,
+    protected void deviceFrbmeRect(int x, int y, int width, int height,
                                    Color color) {
 
-        draw(new Rectangle2D.Float(x, y, width, height));
+        drbw(new Rectbngle2D.Flobt(x, y, width, height));
     }
 
     /*
-     * Draw a line using path by calling draw() function and passing
-     * a line shape.
+     * Drbw b line using pbth by cblling drbw() function bnd pbssing
+     * b line shbpe.
      */
-    protected void deviceDrawLine(int xBegin, int yBegin,
+    protected void deviceDrbwLine(int xBegin, int yBegin,
                                   int xEnd, int yEnd, Color color) {
 
-        draw(new Line2D.Float(xBegin, yBegin, xEnd, yEnd));
+        drbw(new Line2D.Flobt(xBegin, yBegin, xEnd, yEnd));
     }
 
     /*
-     * Fill the rectangle with the specified color by calling fill().
+     * Fill the rectbngle with the specified color by cblling fill().
      */
     protected void deviceFillRect(int x, int y, int width, int height,
                                   Color color) {
-        fill(new Rectangle2D.Float(x, y, width, height));
+        fill(new Rectbngle2D.Flobt(x, y, width, height));
     }
 
 
     /*
-     * This method should not be invoked by PSPathGraphics.
-     * FIX: Rework PathGraphics so that this method is
-     * not an abstract method there.
+     * This method should not be invoked by PSPbthGrbphics.
+     * FIX: Rework PbthGrbphics so thbt this method is
+     * not bn bbstrbct method there.
      */
-    protected void deviceClip(PathIterator pathIter) {
+    protected void deviceClip(PbthIterbtor pbthIter) {
     }
 
 }

@@ -3,285 +3,285 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMX509Data.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMX509Dbtb.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.io.ByteArrayInputStream;
-import java.security.cert.*;
-import java.util.*;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.keyinfo.X509IssuerSerial;
-import javax.xml.crypto.dsig.keyinfo.X509Data;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.security.cert.*;
+import jbvb.util.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.keyinfo.X509IssuerSeribl;
+import jbvbx.xml.crypto.dsig.keyinfo.X509Dbtb;
+import jbvbx.security.buth.x500.X500Principbl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
 
 /**
- * DOM-based implementation of X509Data.
+ * DOM-bbsed implementbtion of X509Dbtb.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-//@@@ check for illegal combinations of data violating MUSTs in W3c spec
-public final class DOMX509Data extends DOMStructure implements X509Data {
+//@@@ check for illegbl combinbtions of dbtb violbting MUSTs in W3c spec
+public finbl clbss DOMX509Dbtb extends DOMStructure implements X509Dbtb {
 
-    private final List<Object> content;
-    private CertificateFactory cf;
+    privbte finbl List<Object> content;
+    privbte CertificbteFbctory cf;
 
     /**
-     * Creates a DOMX509Data.
+     * Crebtes b DOMX509Dbtb.
      *
-     * @param content a list of one or more X.509 data types. Valid types are
-     *    {@link String} (subject names), <code>byte[]</code> (subject key ids),
-     *    {@link java.security.cert.X509Certificate}, {@link X509CRL},
-     *    or {@link javax.xml.dsig.XMLStructure} ({@link X509IssuerSerial}
-     *    objects or elements from an external namespace). The list is
-     *    defensively copied to protect against subsequent modification.
-     * @return a <code>X509Data</code>
+     * @pbrbm content b list of one or more X.509 dbtb types. Vblid types bre
+     *    {@link String} (subject nbmes), <code>byte[]</code> (subject key ids),
+     *    {@link jbvb.security.cert.X509Certificbte}, {@link X509CRL},
+     *    or {@link jbvbx.xml.dsig.XMLStructure} ({@link X509IssuerSeribl}
+     *    objects or elements from bn externbl nbmespbce). The list is
+     *    defensively copied to protect bgbinst subsequent modificbtion.
+     * @return b <code>X509Dbtb</code>
      * @throws NullPointerException if <code>content</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>content</code> is empty
-     * @throws ClassCastException if <code>content</code> contains any entries
-     *    that are not of one of the valid types mentioned above
+     * @throws IllegblArgumentException if <code>content</code> is empty
+     * @throws ClbssCbstException if <code>content</code> contbins bny entries
+     *    thbt bre not of one of the vblid types mentioned bbove
      */
-    public DOMX509Data(List<?> content) {
+    public DOMX509Dbtb(List<?> content) {
         if (content == null) {
-            throw new NullPointerException("content cannot be null");
+            throw new NullPointerException("content cbnnot be null");
         }
-        List<Object> contentCopy = new ArrayList<Object>(content);
+        List<Object> contentCopy = new ArrbyList<Object>(content);
         if (contentCopy.isEmpty()) {
-            throw new IllegalArgumentException("content cannot be empty");
+            throw new IllegblArgumentException("content cbnnot be empty");
         }
         for (int i = 0, size = contentCopy.size(); i < size; i++) {
             Object x509Type = contentCopy.get(i);
-            if (x509Type instanceof String) {
-                new X500Principal((String)x509Type);
-            } else if (!(x509Type instanceof byte[]) &&
-                !(x509Type instanceof X509Certificate) &&
-                !(x509Type instanceof X509CRL) &&
-                !(x509Type instanceof XMLStructure)) {
-                throw new ClassCastException
-                    ("content["+i+"] is not a valid X509Data type");
+            if (x509Type instbnceof String) {
+                new X500Principbl((String)x509Type);
+            } else if (!(x509Type instbnceof byte[]) &&
+                !(x509Type instbnceof X509Certificbte) &&
+                !(x509Type instbnceof X509CRL) &&
+                !(x509Type instbnceof XMLStructure)) {
+                throw new ClbssCbstException
+                    ("content["+i+"] is not b vblid X509Dbtb type");
             }
         }
-        this.content = Collections.unmodifiableList(contentCopy);
+        this.content = Collections.unmodifibbleList(contentCopy);
     }
 
     /**
-     * Creates a <code>DOMX509Data</code> from an element.
+     * Crebtes b <code>DOMX509Dbtb</code> from bn element.
      *
-     * @param xdElem an X509Data element
-     * @throws MarshalException if there is an error while unmarshalling
+     * @pbrbm xdElem bn X509Dbtb element
+     * @throws MbrshblException if there is bn error while unmbrshblling
      */
-    public DOMX509Data(Element xdElem) throws MarshalException {
-        // get all children nodes
+    public DOMX509Dbtb(Element xdElem) throws MbrshblException {
+        // get bll children nodes
         NodeList nl = xdElem.getChildNodes();
         int length = nl.getLength();
-        List<Object> content = new ArrayList<Object>(length);
+        List<Object> content = new ArrbyList<Object>(length);
         for (int i = 0; i < length; i++) {
             Node child = nl.item(i);
-            // ignore all non-Element nodes
+            // ignore bll non-Element nodes
             if (child.getNodeType() != Node.ELEMENT_NODE) {
                 continue;
             }
 
             Element childElem = (Element)child;
-            String localName = childElem.getLocalName();
-            if (localName.equals("X509Certificate")) {
-                content.add(unmarshalX509Certificate(childElem));
-            } else if (localName.equals("X509IssuerSerial")) {
-                content.add(new DOMX509IssuerSerial(childElem));
-            } else if (localName.equals("X509SubjectName")) {
-                content.add(childElem.getFirstChild().getNodeValue());
-            } else if (localName.equals("X509SKI")) {
+            String locblNbme = childElem.getLocblNbme();
+            if (locblNbme.equbls("X509Certificbte")) {
+                content.bdd(unmbrshblX509Certificbte(childElem));
+            } else if (locblNbme.equbls("X509IssuerSeribl")) {
+                content.bdd(new DOMX509IssuerSeribl(childElem));
+            } else if (locblNbme.equbls("X509SubjectNbme")) {
+                content.bdd(childElem.getFirstChild().getNodeVblue());
+            } else if (locblNbme.equbls("X509SKI")) {
                 try {
-                    content.add(Base64.decode(childElem));
-                } catch (Base64DecodingException bde) {
-                    throw new MarshalException("cannot decode X509SKI", bde);
+                    content.bdd(Bbse64.decode(childElem));
+                } cbtch (Bbse64DecodingException bde) {
+                    throw new MbrshblException("cbnnot decode X509SKI", bde);
                 }
-            } else if (localName.equals("X509CRL")) {
-                content.add(unmarshalX509CRL(childElem));
+            } else if (locblNbme.equbls("X509CRL")) {
+                content.bdd(unmbrshblX509CRL(childElem));
             } else {
-                content.add(new javax.xml.crypto.dom.DOMStructure(childElem));
+                content.bdd(new jbvbx.xml.crypto.dom.DOMStructure(childElem));
             }
         }
-        this.content = Collections.unmodifiableList(content);
+        this.content = Collections.unmodifibbleList(content);
     }
 
     public List<Object> getContent() {
         return content;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
-        Element xdElem = DOMUtils.createElement(ownerDoc, "X509Data",
-                                                XMLSignature.XMLNS, dsPrefix);
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
+        Element xdElem = DOMUtils.crebteElement(ownerDoc, "X509Dbtb",
+                                                XMLSignbture.XMLNS, dsPrefix);
 
-        // append children and preserve order
+        // bppend children bnd preserve order
         for (int i = 0, size = content.size(); i < size; i++) {
             Object object = content.get(i);
-            if (object instanceof X509Certificate) {
-                marshalCert((X509Certificate)object,xdElem,ownerDoc,dsPrefix);
-            } else if (object instanceof XMLStructure) {
-                if (object instanceof X509IssuerSerial) {
-                    ((DOMX509IssuerSerial)object).marshal
+            if (object instbnceof X509Certificbte) {
+                mbrshblCert((X509Certificbte)object,xdElem,ownerDoc,dsPrefix);
+            } else if (object instbnceof XMLStructure) {
+                if (object instbnceof X509IssuerSeribl) {
+                    ((DOMX509IssuerSeribl)object).mbrshbl
                         (xdElem, dsPrefix, context);
                 } else {
-                    javax.xml.crypto.dom.DOMStructure domContent =
-                        (javax.xml.crypto.dom.DOMStructure)object;
-                    DOMUtils.appendChild(xdElem, domContent.getNode());
+                    jbvbx.xml.crypto.dom.DOMStructure domContent =
+                        (jbvbx.xml.crypto.dom.DOMStructure)object;
+                    DOMUtils.bppendChild(xdElem, domContent.getNode());
                 }
-            } else if (object instanceof byte[]) {
-                marshalSKI((byte[])object, xdElem, ownerDoc, dsPrefix);
-            } else if (object instanceof String) {
-                marshalSubjectName((String)object, xdElem, ownerDoc,dsPrefix);
-            } else if (object instanceof X509CRL) {
-                marshalCRL((X509CRL)object, xdElem, ownerDoc, dsPrefix);
+            } else if (object instbnceof byte[]) {
+                mbrshblSKI((byte[])object, xdElem, ownerDoc, dsPrefix);
+            } else if (object instbnceof String) {
+                mbrshblSubjectNbme((String)object, xdElem, ownerDoc,dsPrefix);
+            } else if (object instbnceof X509CRL) {
+                mbrshblCRL((X509CRL)object, xdElem, ownerDoc, dsPrefix);
             }
         }
 
-        parent.appendChild(xdElem);
+        pbrent.bppendChild(xdElem);
     }
 
-    private void marshalSKI(byte[] skid, Node parent, Document doc,
+    privbte void mbrshblSKI(byte[] skid, Node pbrent, Document doc,
                             String dsPrefix)
     {
-        Element skidElem = DOMUtils.createElement(doc, "X509SKI",
-                                                  XMLSignature.XMLNS, dsPrefix);
-        skidElem.appendChild(doc.createTextNode(Base64.encode(skid)));
-        parent.appendChild(skidElem);
+        Element skidElem = DOMUtils.crebteElement(doc, "X509SKI",
+                                                  XMLSignbture.XMLNS, dsPrefix);
+        skidElem.bppendChild(doc.crebteTextNode(Bbse64.encode(skid)));
+        pbrent.bppendChild(skidElem);
     }
 
-    private void marshalSubjectName(String name, Node parent, Document doc,
+    privbte void mbrshblSubjectNbme(String nbme, Node pbrent, Document doc,
                                     String dsPrefix)
     {
-        Element snElem = DOMUtils.createElement(doc, "X509SubjectName",
-                                                XMLSignature.XMLNS, dsPrefix);
-        snElem.appendChild(doc.createTextNode(name));
-        parent.appendChild(snElem);
+        Element snElem = DOMUtils.crebteElement(doc, "X509SubjectNbme",
+                                                XMLSignbture.XMLNS, dsPrefix);
+        snElem.bppendChild(doc.crebteTextNode(nbme));
+        pbrent.bppendChild(snElem);
     }
 
-    private void marshalCert(X509Certificate cert, Node parent, Document doc,
+    privbte void mbrshblCert(X509Certificbte cert, Node pbrent, Document doc,
                              String dsPrefix)
-        throws MarshalException
+        throws MbrshblException
     {
-        Element certElem = DOMUtils.createElement(doc, "X509Certificate",
-                                                  XMLSignature.XMLNS, dsPrefix);
+        Element certElem = DOMUtils.crebteElement(doc, "X509Certificbte",
+                                                  XMLSignbture.XMLNS, dsPrefix);
         try {
-            certElem.appendChild(doc.createTextNode
-                                 (Base64.encode(cert.getEncoded())));
-        } catch (CertificateEncodingException e) {
-            throw new MarshalException("Error encoding X509Certificate", e);
+            certElem.bppendChild(doc.crebteTextNode
+                                 (Bbse64.encode(cert.getEncoded())));
+        } cbtch (CertificbteEncodingException e) {
+            throw new MbrshblException("Error encoding X509Certificbte", e);
         }
-        parent.appendChild(certElem);
+        pbrent.bppendChild(certElem);
     }
 
-    private void marshalCRL(X509CRL crl, Node parent, Document doc,
+    privbte void mbrshblCRL(X509CRL crl, Node pbrent, Document doc,
                             String dsPrefix)
-        throws MarshalException
+        throws MbrshblException
     {
-        Element crlElem = DOMUtils.createElement(doc, "X509CRL",
-                                                 XMLSignature.XMLNS, dsPrefix);
+        Element crlElem = DOMUtils.crebteElement(doc, "X509CRL",
+                                                 XMLSignbture.XMLNS, dsPrefix);
         try {
-            crlElem.appendChild(doc.createTextNode
-                                (Base64.encode(crl.getEncoded())));
-        } catch (CRLException e) {
-            throw new MarshalException("Error encoding X509CRL", e);
+            crlElem.bppendChild(doc.crebteTextNode
+                                (Bbse64.encode(crl.getEncoded())));
+        } cbtch (CRLException e) {
+            throw new MbrshblException("Error encoding X509CRL", e);
         }
-        parent.appendChild(crlElem);
+        pbrent.bppendChild(crlElem);
     }
 
-    private X509Certificate unmarshalX509Certificate(Element elem)
-        throws MarshalException
+    privbte X509Certificbte unmbrshblX509Certificbte(Element elem)
+        throws MbrshblException
     {
         try {
-            ByteArrayInputStream bs = unmarshalBase64Binary(elem);
-            return (X509Certificate)cf.generateCertificate(bs);
-        } catch (CertificateException e) {
-            throw new MarshalException("Cannot create X509Certificate", e);
+            ByteArrbyInputStrebm bs = unmbrshblBbse64Binbry(elem);
+            return (X509Certificbte)cf.generbteCertificbte(bs);
+        } cbtch (CertificbteException e) {
+            throw new MbrshblException("Cbnnot crebte X509Certificbte", e);
         }
     }
 
-    private X509CRL unmarshalX509CRL(Element elem) throws MarshalException {
+    privbte X509CRL unmbrshblX509CRL(Element elem) throws MbrshblException {
         try {
-            ByteArrayInputStream bs = unmarshalBase64Binary(elem);
-            return (X509CRL)cf.generateCRL(bs);
-        } catch (CRLException e) {
-            throw new MarshalException("Cannot create X509CRL", e);
+            ByteArrbyInputStrebm bs = unmbrshblBbse64Binbry(elem);
+            return (X509CRL)cf.generbteCRL(bs);
+        } cbtch (CRLException e) {
+            throw new MbrshblException("Cbnnot crebte X509CRL", e);
         }
     }
 
-    private ByteArrayInputStream unmarshalBase64Binary(Element elem)
-        throws MarshalException {
+    privbte ByteArrbyInputStrebm unmbrshblBbse64Binbry(Element elem)
+        throws MbrshblException {
         try {
             if (cf == null) {
-                cf = CertificateFactory.getInstance("X.509");
+                cf = CertificbteFbctory.getInstbnce("X.509");
             }
-            return new ByteArrayInputStream(Base64.decode(elem));
-        } catch (CertificateException e) {
-            throw new MarshalException("Cannot create CertificateFactory", e);
-        } catch (Base64DecodingException bde) {
-            throw new MarshalException("Cannot decode Base64-encoded val", bde);
+            return new ByteArrbyInputStrebm(Bbse64.decode(elem));
+        } cbtch (CertificbteException e) {
+            throw new MbrshblException("Cbnnot crebte CertificbteFbctory", e);
+        } cbtch (Bbse64DecodingException bde) {
+            throw new MbrshblException("Cbnnot decode Bbse64-encoded vbl", bde);
         }
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
 
-        if (!(o instanceof X509Data)) {
-            return false;
+        if (!(o instbnceof X509Dbtb)) {
+            return fblse;
         }
-        X509Data oxd = (X509Data)o;
+        X509Dbtb oxd = (X509Dbtb)o;
 
-        @SuppressWarnings("unchecked") List<Object> ocontent = oxd.getContent();
+        @SuppressWbrnings("unchecked") List<Object> ocontent = oxd.getContent();
         int size = content.size();
         if (size != ocontent.size()) {
-            return false;
+            return fblse;
         }
 
         for (int i = 0; i < size; i++) {
             Object x = content.get(i);
             Object ox = ocontent.get(i);
-            if (x instanceof byte[]) {
-                if (!(ox instanceof byte[]) ||
-                    !Arrays.equals((byte[])x, (byte[])ox)) {
-                    return false;
+            if (x instbnceof byte[]) {
+                if (!(ox instbnceof byte[]) ||
+                    !Arrbys.equbls((byte[])x, (byte[])ox)) {
+                    return fblse;
                 }
             } else {
-                if (!(x.equals(ox))) {
-                    return false;
+                if (!(x.equbls(ox))) {
+                    return fblse;
                 }
             }
         }
@@ -290,9 +290,9 @@ public final class DOMX509Data extends DOMStructure implements X509Data {
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
-        result = 31 * result + content.hashCode();
+        result = 31 * result + content.hbshCode();
 
         return result;
     }

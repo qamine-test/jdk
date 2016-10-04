@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
 
 /**
- * <P>The AccessibleTextSequence provides information about
- * a contiguous sequence of text.
+ * <P>The AccessibleTextSequence provides informbtion bbout
+ * b contiguous sequence of text.
  *
  * @see Accessible
  * @see Accessible#getAccessibleContext
@@ -35,22 +35,22 @@ package javax.accessibility;
  * @see AccessibleContext#getAccessibleText
  * @see AccessibleAttributeSequence
  *
- * @author       Lynn Monsanto
+ * @buthor       Lynn Monsbnto
  */
 
 /**
- * This class collects together key details of a span of text.  It
- * is used by implementors of the class <code>AccessibleExtendedText</code> in
- * order to return the requested triplet of a <code>String</code>, and the
- * start and end indicies/offsets into a larger body of text that the
+ * This clbss collects together key detbils of b spbn of text.  It
+ * is used by implementors of the clbss <code>AccessibleExtendedText</code> in
+ * order to return the requested triplet of b <code>String</code>, bnd the
+ * stbrt bnd end indicies/offsets into b lbrger body of text thbt the
  * <code>String</code> comes from.
  *
- * @see javax.accessibility.AccessibleExtendedText
+ * @see jbvbx.bccessibility.AccessibleExtendedText
  */
-public class AccessibleTextSequence {
+public clbss AccessibleTextSequence {
 
-    /** The start index of the text sequence */
-    public int startIndex;
+    /** The stbrt index of the text sequence */
+    public int stbrtIndex;
 
     /** The end index of the text sequence */
     public int endIndex;
@@ -59,17 +59,17 @@ public class AccessibleTextSequence {
     public String text;
 
     /**
-     * Constructs an <code>AccessibleTextSequence</code> with the given
-     * parameters.
+     * Constructs bn <code>AccessibleTextSequence</code> with the given
+     * pbrbmeters.
      *
-     * @param start the beginning index of the span of text
-     * @param end the ending index of the span of text
-     * @param txt the <code>String</code> shared by this text span
+     * @pbrbm stbrt the beginning index of the spbn of text
+     * @pbrbm end the ending index of the spbn of text
+     * @pbrbm txt the <code>String</code> shbred by this text spbn
      *
      * @since 1.6
      */
-    public AccessibleTextSequence(int start, int end, String txt) {
-        startIndex = start;
+    public AccessibleTextSequence(int stbrt, int end, String txt) {
+        stbrtIndex = stbrt;
         endIndex = end;
         text = txt;
     }

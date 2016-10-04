@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi;
+pbckbge jbvb.rmi;
 
 /**
- * An <code>UnmarshalException</code> can be thrown while unmarshalling the
- * parameters or results of a remote method call if any of the following
+ * An <code>UnmbrshblException</code> cbn be thrown while unmbrshblling the
+ * pbrbmeters or results of b remote method cbll if bny of the following
  * conditions occur:
  * <ul>
- * <li> if an exception occurs while unmarshalling the call header
- * <li> if the protocol for the return value is invalid
- * <li> if a <code>java.io.IOException</code> occurs unmarshalling
- * parameters (on the server side) or the return value (on the client side).
- * <li> if a <code>java.lang.ClassNotFoundException</code> occurs during
- * unmarshalling parameters or return values
- * <li> if no skeleton can be loaded on the server-side; note that skeletons
- * are required in the 1.1 stub protocol, but not in the 1.2 stub protocol.
- * <li> if the method hash is invalid (i.e., missing method).
- * <li> if there is a failure to create a remote reference object for
- * a remote object's stub when it is unmarshalled.
+ * <li> if bn exception occurs while unmbrshblling the cbll hebder
+ * <li> if the protocol for the return vblue is invblid
+ * <li> if b <code>jbvb.io.IOException</code> occurs unmbrshblling
+ * pbrbmeters (on the server side) or the return vblue (on the client side).
+ * <li> if b <code>jbvb.lbng.ClbssNotFoundException</code> occurs during
+ * unmbrshblling pbrbmeters or return vblues
+ * <li> if no skeleton cbn be lobded on the server-side; note thbt skeletons
+ * bre required in the 1.1 stub protocol, but not in the 1.2 stub protocol.
+ * <li> if the method hbsh is invblid (i.e., missing method).
+ * <li> if there is b fbilure to crebte b remote reference object for
+ * b remote object's stub when it is unmbrshblled.
  * </ul>
  *
- * @author  Ann Wollrath
+ * @buthor  Ann Wollrbth
  * @since   1.1
  */
-public class UnmarshalException extends RemoteException {
+public clbss UnmbrshblException extends RemoteException {
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = 594380845140740218L;
+    /* indicbte compbtibility with JDK 1.1.x version of clbss */
+    privbte stbtic finbl long seriblVersionUID = 594380845140740218L;
 
     /**
-     * Constructs an <code>UnmarshalException</code> with the specified
-     * detail message.
+     * Constructs bn <code>UnmbrshblException</code> with the specified
+     * detbil messbge.
      *
-     * @param s the detail message
+     * @pbrbm s the detbil messbge
      * @since 1.1
      */
-    public UnmarshalException(String s) {
+    public UnmbrshblException(String s) {
         super(s);
     }
 
     /**
-     * Constructs an <code>UnmarshalException</code> with the specified
-     * detail message and nested exception.
+     * Constructs bn <code>UnmbrshblException</code> with the specified
+     * detbil messbge bnd nested exception.
      *
-     * @param s the detail message
-     * @param ex the nested exception
+     * @pbrbm s the detbil messbge
+     * @pbrbm ex the nested exception
      * @since 1.1
      */
-    public UnmarshalException(String s, Exception ex) {
+    public UnmbrshblException(String s, Exception ex) {
         super(s, ex);
     }
 }

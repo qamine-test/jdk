@@ -3,28 +3,28 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.Signature11ElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.Signbture11ElementProxy;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,40 +32,40 @@ import org.w3c.dom.Element;
 /**
  * Provides content model support for the <code>dsig11:KeyInfoReference</code> element.
  *
- * @author Brent Putman (putmanb@georgetown.edu)
+ * @buthor Brent Putmbn (putmbnb@georgetown.edu)
  */
-public class KeyInfoReference extends Signature11ElementProxy implements KeyInfoContent {
+public clbss KeyInfoReference extends Signbture11ElementProxy implements KeyInfoContent {
 
     /**
-     * Constructor RetrievalMethod
+     * Constructor RetrievblMethod
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public KeyInfoReference(Element element, String baseURI) throws XMLSecurityException {
-        super(element, baseURI);
+    public KeyInfoReference(Element element, String bbseURI) throws XMLSecurityException {
+        super(element, bbseURI);
     }
 
     /**
-     * Constructor RetrievalMethod
+     * Constructor RetrievblMethod
      *
-     * @param doc
-     * @param URI
+     * @pbrbm doc
+     * @pbrbm URI
      */
     public KeyInfoReference(Document doc, String URI) {
         super(doc);
 
-        this.constructionElement.setAttributeNS(null, Constants._ATT_URI, URI);
+        this.constructionElement.setAttributeNS(null, Constbnts._ATT_URI, URI);
     }
 
     /**
      * Method getURIAttr
      *
-     * @return the URI attribute
+     * @return the URI bttribute
      */
     public Attr getURIAttr() {
-        return this.constructionElement.getAttributeNodeNS(null, Constants._ATT_URI);
+        return this.constructionElement.getAttributeNodeNS(null, Constbnts._ATT_URI);
     }
 
     /**
@@ -74,34 +74,34 @@ public class KeyInfoReference extends Signature11ElementProxy implements KeyInfo
      * @return URI string
      */
     public String getURI() {
-        return this.getURIAttr().getNodeValue();
+        return this.getURIAttr().getNodeVblue();
     }
 
     /**
-     * Sets the <code>Id</code> attribute
+     * Sets the <code>Id</code> bttribute
      *
-     * @param Id ID
+     * @pbrbm Id ID
      */
     public void setId(String id) {
         if (id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_ID, id);
+            this.constructionElement.setIdAttributeNS(null, Constbnts._ATT_ID, true);
         } else {
-            this.constructionElement.removeAttributeNS(null, Constants._ATT_ID);
+            this.constructionElement.removeAttributeNS(null, Constbnts._ATT_ID);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute
+     * Returns the <code>Id</code> bttribute
      *
-     * @return the <code>Id</code> attribute
+     * @return the <code>Id</code> bttribute
      */
     public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_ID);
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_KEYINFOREFERENCE;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_KEYINFOREFERENCE;
     }
 }

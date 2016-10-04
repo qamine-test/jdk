@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.regex;
+pbckbge jbvb.util.regex;
 
 
 /**
- * Utility class that implements the standard C ctype functionality.
+ * Utility clbss thbt implements the stbndbrd C ctype functionblity.
  *
- * @author Hong Zhang
+ * @buthor Hong Zhbng
  */
 
-final class ASCII {
+finbl clbss ASCII {
 
-    static final int UPPER   = 0x00000100;
+    stbtic finbl int UPPER   = 0x00000100;
 
-    static final int LOWER   = 0x00000200;
+    stbtic finbl int LOWER   = 0x00000200;
 
-    static final int DIGIT   = 0x00000400;
+    stbtic finbl int DIGIT   = 0x00000400;
 
-    static final int SPACE   = 0x00000800;
+    stbtic finbl int SPACE   = 0x00000800;
 
-    static final int PUNCT   = 0x00001000;
+    stbtic finbl int PUNCT   = 0x00001000;
 
-    static final int CNTRL   = 0x00002000;
+    stbtic finbl int CNTRL   = 0x00002000;
 
-    static final int BLANK   = 0x00004000;
+    stbtic finbl int BLANK   = 0x00004000;
 
-    static final int HEX     = 0x00008000;
+    stbtic finbl int HEX     = 0x00008000;
 
-    static final int UNDER   = 0x00010000;
+    stbtic finbl int UNDER   = 0x00010000;
 
-    static final int ASCII   = 0x0000FF00;
+    stbtic finbl int ASCII   = 0x0000FF00;
 
-    static final int ALPHA   = (UPPER|LOWER);
+    stbtic finbl int ALPHA   = (UPPER|LOWER);
 
-    static final int ALNUM   = (UPPER|LOWER|DIGIT);
+    stbtic finbl int ALNUM   = (UPPER|LOWER|DIGIT);
 
-    static final int GRAPH   = (PUNCT|UPPER|LOWER|DIGIT);
+    stbtic finbl int GRAPH   = (PUNCT|UPPER|LOWER|DIGIT);
 
-    static final int WORD    = (UPPER|LOWER|UNDER|DIGIT);
+    stbtic finbl int WORD    = (UPPER|LOWER|UNDER|DIGIT);
 
-    static final int XDIGIT  = (HEX);
+    stbtic finbl int XDIGIT  = (HEX);
 
-    private static final int[] ctype = new int[] {
+    privbte stbtic finbl int[] ctype = new int[] {
         CNTRL,                  /* 00 (NUL) */
         CNTRL,                  /* 01 (SOH) */
         CNTRL,                  /* 02 (STX) */
@@ -162,7 +162,7 @@ final class ASCII {
         PUNCT,                  /* 5E ^     */
         PUNCT|UNDER,            /* 5F _     */
         PUNCT,                  /* 60 `     */
-        LOWER+HEX+10,           /* 61 a     */
+        LOWER+HEX+10,           /* 61 b     */
         LOWER+HEX+11,           /* 62 b     */
         LOWER+HEX+12,           /* 63 c     */
         LOWER+HEX+13,           /* 64 d     */
@@ -195,79 +195,79 @@ final class ASCII {
         CNTRL,                  /* 7F (DEL) */
     };
 
-    static int getType(int ch) {
+    stbtic int getType(int ch) {
         return ((ch & 0xFFFFFF80) == 0 ? ctype[ch] : 0);
     }
 
-    static boolean isType(int ch, int type) {
+    stbtic boolebn isType(int ch, int type) {
         return (getType(ch) & type) != 0;
     }
 
-    static boolean isAscii(int ch) {
+    stbtic boolebn isAscii(int ch) {
         return ((ch & 0xFFFFFF80) == 0);
     }
 
-    static boolean isAlpha(int ch) {
+    stbtic boolebn isAlphb(int ch) {
         return isType(ch, ALPHA);
     }
 
-    static boolean isDigit(int ch) {
+    stbtic boolebn isDigit(int ch) {
         return ((ch-'0')|('9'-ch)) >= 0;
     }
 
-    static boolean isAlnum(int ch) {
+    stbtic boolebn isAlnum(int ch) {
         return isType(ch, ALNUM);
     }
 
-    static boolean isGraph(int ch) {
+    stbtic boolebn isGrbph(int ch) {
         return isType(ch, GRAPH);
     }
 
-    static boolean isPrint(int ch) {
+    stbtic boolebn isPrint(int ch) {
         return ((ch-0x20)|(0x7E-ch)) >= 0;
     }
 
-    static boolean isPunct(int ch) {
+    stbtic boolebn isPunct(int ch) {
         return isType(ch, PUNCT);
     }
 
-    static boolean isSpace(int ch) {
+    stbtic boolebn isSpbce(int ch) {
         return isType(ch, SPACE);
     }
 
-    static boolean isHexDigit(int ch) {
+    stbtic boolebn isHexDigit(int ch) {
         return isType(ch, HEX);
     }
 
-    static boolean isOctDigit(int ch) {
+    stbtic boolebn isOctDigit(int ch) {
         return ((ch-'0')|('7'-ch)) >= 0;
     }
 
-    static boolean isCntrl(int ch) {
+    stbtic boolebn isCntrl(int ch) {
         return isType(ch, CNTRL);
     }
 
-    static boolean isLower(int ch) {
-        return ((ch-'a')|('z'-ch)) >= 0;
+    stbtic boolebn isLower(int ch) {
+        return ((ch-'b')|('z'-ch)) >= 0;
     }
 
-    static boolean isUpper(int ch) {
+    stbtic boolebn isUpper(int ch) {
         return ((ch-'A')|('Z'-ch)) >= 0;
     }
 
-    static boolean isWord(int ch) {
+    stbtic boolebn isWord(int ch) {
         return isType(ch, WORD);
     }
 
-    static int toDigit(int ch) {
+    stbtic int toDigit(int ch) {
         return (ctype[ch & 0x7F] & 0x3F);
     }
 
-    static int toLower(int ch) {
+    stbtic int toLower(int ch) {
         return isUpper(ch) ? (ch + 0x20) : ch;
     }
 
-    static int toUpper(int ch) {
+    stbtic int toUpper(int ch) {
         return isLower(ch) ? (ch - 0x20) : ch;
     }
 

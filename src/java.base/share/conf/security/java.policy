@@ -1,102 +1,102 @@
-// permissions required by each component
-grant codeBase "file:${java.home}/lib/ext/zipfs.jar" {
-        permission java.io.FilePermission "<<ALL FILES>>", "read,write,delete";
-        permission java.lang.RuntimePermission "fileSystemProvider";
-        permission java.util.PropertyPermission "*", "read";
+// permissions required by ebch component
+grbnt codeBbse "file:${jbvb.home}/lib/ext/zipfs.jbr" {
+        permission jbvb.io.FilePermission "<<ALL FILES>>", "rebd,write,delete";
+        permission jbvb.lbng.RuntimePermission "fileSystemProvider";
+        permission jbvb.util.PropertyPermission "*", "rebd";
 };
 
-grant codeBase "file:${java.home}/lib/ext/cldrdata.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.text.*";
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.util.*";
-        permission java.util.PropertyPermission "*", "read";
+grbnt codeBbse "file:${jbvb.home}/lib/ext/cldrdbtb.jbr" {
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.text.*";
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.util.*";
+        permission jbvb.util.PropertyPermission "*", "rebd";
 };
 
-grant codeBase "file:${java.home}/lib/ext/localedata.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.text.*";
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.util.*";
-        permission java.util.PropertyPermission "*", "read";
+grbnt codeBbse "file:${jbvb.home}/lib/ext/locbledbtb.jbr" {
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.text.*";
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.util.*";
+        permission jbvb.util.PropertyPermission "*", "rebd";
 };
 
-grant codeBase "file:${java.home}/lib/ext/dnsns.jar" {
-        permission java.security.AllPermission;
+grbnt codeBbse "file:${jbvb.home}/lib/ext/dnsns.jbr" {
+        permission jbvb.security.AllPermission;
 };
 
-grant codeBase "file:${java.home}/lib/ext/nashorn.jar" {
-        permission java.security.AllPermission;
+grbnt codeBbse "file:${jbvb.home}/lib/ext/nbshorn.jbr" {
+        permission jbvb.security.AllPermission;
 };
 
-grant codeBase "file:${java.home}/lib/ext/sunec.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.security.*";
-        permission java.lang.RuntimePermission "loadLibrary.sunec";
-        permission java.util.PropertyPermission "*", "read";
-        permission java.security.SecurityPermission "putProviderProperty.SunEC";
-        permission java.security.SecurityPermission "clearProviderProperties.SunEC";
-        permission java.security.SecurityPermission "removeProviderProperty.SunEC";
+grbnt codeBbse "file:${jbvb.home}/lib/ext/sunec.jbr" {
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.security.*";
+        permission jbvb.lbng.RuntimePermission "lobdLibrbry.sunec";
+        permission jbvb.util.PropertyPermission "*", "rebd";
+        permission jbvb.security.SecurityPermission "putProviderProperty.SunEC";
+        permission jbvb.security.SecurityPermission "clebrProviderProperties.SunEC";
+        permission jbvb.security.SecurityPermission "removeProviderProperty.SunEC";
 };
 
-grant codeBase "file:${java.home}/lib/ext/sunjce_provider.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.misc";
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.security.*";
-        permission java.util.PropertyPermission "*", "read";
-        permission java.security.SecurityPermission "putProviderProperty.SunJCE";
-        permission java.security.SecurityPermission "clearProviderProperties.SunJCE";
-        permission java.security.SecurityPermission "removeProviderProperty.SunJCE";
+grbnt codeBbse "file:${jbvb.home}/lib/ext/sunjce_provider.jbr" {
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.misc";
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.security.*";
+        permission jbvb.util.PropertyPermission "*", "rebd";
+        permission jbvb.security.SecurityPermission "putProviderProperty.SunJCE";
+        permission jbvb.security.SecurityPermission "clebrProviderProperties.SunJCE";
+        permission jbvb.security.SecurityPermission "removeProviderProperty.SunJCE";
 };
 
-grant codeBase "file:${java.home}/lib/ext/sunpkcs11.jar" {
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.security.*";
-        permission java.lang.RuntimePermission "accessClassInPackage.sun.nio.ch";
-        permission java.lang.RuntimePermission "loadLibrary.j2pkcs11";
-        // needs "security.pkcs11.allowSingleThreadedModules"
-        permission java.util.PropertyPermission "*", "read";
-        permission java.security.SecurityPermission "putProviderProperty.*";
-        permission java.security.SecurityPermission "clearProviderProperties.*";
-        permission java.security.SecurityPermission "removeProviderProperty.*";
-        permission java.security.SecurityPermission "getProperty.auth.login.defaultCallbackHandler";
-        permission java.security.SecurityPermission "authProvider.*";
-        // Needed for reading PKCS11 config file and NSS library check
-        permission java.io.FilePermission "<<ALL FILES>>", "read";
+grbnt codeBbse "file:${jbvb.home}/lib/ext/sunpkcs11.jbr" {
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.security.*";
+        permission jbvb.lbng.RuntimePermission "bccessClbssInPbckbge.sun.nio.ch";
+        permission jbvb.lbng.RuntimePermission "lobdLibrbry.j2pkcs11";
+        // needs "security.pkcs11.bllowSingleThrebdedModules"
+        permission jbvb.util.PropertyPermission "*", "rebd";
+        permission jbvb.security.SecurityPermission "putProviderProperty.*";
+        permission jbvb.security.SecurityPermission "clebrProviderProperties.*";
+        permission jbvb.security.SecurityPermission "removeProviderProperty.*";
+        permission jbvb.security.SecurityPermission "getProperty.buth.login.defbultCbllbbckHbndler";
+        permission jbvb.security.SecurityPermission "buthProvider.*";
+        // Needed for rebding PKCS11 config file bnd NSS librbry check
+        permission jbvb.io.FilePermission "<<ALL FILES>>", "rebd";
 };
 
-// default permissions granted to all domains
+// defbult permissions grbnted to bll dombins
 
-grant {
-        // Allows any thread to stop itself using the java.lang.Thread.stop()
-        // method that takes no argument.
-        // Note that this permission is granted by default only to remain
-        // backwards compatible.
-        // It is strongly recommended that you either remove this permission
+grbnt {
+        // Allows bny threbd to stop itself using the jbvb.lbng.Threbd.stop()
+        // method thbt tbkes no brgument.
+        // Note thbt this permission is grbnted by defbult only to rembin
+        // bbckwbrds compbtible.
+        // It is strongly recommended thbt you either remove this permission
         // from this policy file or further restrict it to code sources
-        // that you specify, because Thread.stop() is potentially unsafe.
-        // See the API specification of java.lang.Thread.stop() for more
-        // information.
-        permission java.lang.RuntimePermission "stopThread";
+        // thbt you specify, becbuse Threbd.stop() is potentiblly unsbfe.
+        // See the API specificbtion of jbvb.lbng.Threbd.stop() for more
+        // informbtion.
+        permission jbvb.lbng.RuntimePermission "stopThrebd";
 
-        // allows anyone to listen on dynamic ports
-        permission java.net.SocketPermission "localhost:0", "listen";
+        // bllows bnyone to listen on dynbmic ports
+        permission jbvb.net.SocketPermission "locblhost:0", "listen";
 
-        // "standard" properies that can be read by anyone
+        // "stbndbrd" properies thbt cbn be rebd by bnyone
 
-        permission java.util.PropertyPermission "java.version", "read";
-        permission java.util.PropertyPermission "java.vendor", "read";
-        permission java.util.PropertyPermission "java.vendor.url", "read";
-        permission java.util.PropertyPermission "java.class.version", "read";
-        permission java.util.PropertyPermission "os.name", "read";
-        permission java.util.PropertyPermission "os.version", "read";
-        permission java.util.PropertyPermission "os.arch", "read";
-        permission java.util.PropertyPermission "file.separator", "read";
-        permission java.util.PropertyPermission "path.separator", "read";
-        permission java.util.PropertyPermission "line.separator", "read";
+        permission jbvb.util.PropertyPermission "jbvb.version", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.vendor", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.vendor.url", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.clbss.version", "rebd";
+        permission jbvb.util.PropertyPermission "os.nbme", "rebd";
+        permission jbvb.util.PropertyPermission "os.version", "rebd";
+        permission jbvb.util.PropertyPermission "os.brch", "rebd";
+        permission jbvb.util.PropertyPermission "file.sepbrbtor", "rebd";
+        permission jbvb.util.PropertyPermission "pbth.sepbrbtor", "rebd";
+        permission jbvb.util.PropertyPermission "line.sepbrbtor", "rebd";
 
-        permission java.util.PropertyPermission "java.specification.version", "read";
-        permission java.util.PropertyPermission "java.specification.vendor", "read";
-        permission java.util.PropertyPermission "java.specification.name", "read";
+        permission jbvb.util.PropertyPermission "jbvb.specificbtion.version", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.specificbtion.vendor", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.specificbtion.nbme", "rebd";
 
-        permission java.util.PropertyPermission "java.vm.specification.version", "read";
-        permission java.util.PropertyPermission "java.vm.specification.vendor", "read";
-        permission java.util.PropertyPermission "java.vm.specification.name", "read";
-        permission java.util.PropertyPermission "java.vm.version", "read";
-        permission java.util.PropertyPermission "java.vm.vendor", "read";
-        permission java.util.PropertyPermission "java.vm.name", "read";
+        permission jbvb.util.PropertyPermission "jbvb.vm.specificbtion.version", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.vm.specificbtion.vendor", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.vm.specificbtion.nbme", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.vm.version", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.vm.vendor", "rebd";
+        permission jbvb.util.PropertyPermission "jbvb.vm.nbme", "rebd";
 };
 

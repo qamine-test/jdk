@@ -1,96 +1,96 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * A recursive result-bearing {@link ForkJoinTask}.
+ * A recursive result-bebring {@link ForkJoinTbsk}.
  *
- * <p>For a classic example, here is a task computing Fibonacci numbers:
+ * <p>For b clbssic exbmple, here is b tbsk computing Fibonbcci numbers:
  *
  *  <pre> {@code
- * class Fibonacci extends RecursiveTask<Integer> {
- *   final int n;
- *   Fibonacci(int n) { this.n = n; }
+ * clbss Fibonbcci extends RecursiveTbsk<Integer> {
+ *   finbl int n;
+ *   Fibonbcci(int n) { this.n = n; }
  *   Integer compute() {
  *     if (n <= 1)
  *       return n;
- *     Fibonacci f1 = new Fibonacci(n - 1);
+ *     Fibonbcci f1 = new Fibonbcci(n - 1);
  *     f1.fork();
- *     Fibonacci f2 = new Fibonacci(n - 2);
+ *     Fibonbcci f2 = new Fibonbcci(n - 2);
  *     return f2.compute() + f1.join();
  *   }
  * }}</pre>
  *
- * However, besides being a dumb way to compute Fibonacci functions
- * (there is a simple fast linear algorithm that you'd use in
- * practice), this is likely to perform poorly because the smallest
- * subtasks are too small to be worthwhile splitting up. Instead, as
- * is the case for nearly all fork/join applications, you'd pick some
- * minimum granularity size (for example 10 here) for which you always
- * sequentially solve rather than subdividing.
+ * However, besides being b dumb wby to compute Fibonbcci functions
+ * (there is b simple fbst linebr blgorithm thbt you'd use in
+ * prbctice), this is likely to perform poorly becbuse the smbllest
+ * subtbsks bre too smbll to be worthwhile splitting up. Instebd, bs
+ * is the cbse for nebrly bll fork/join bpplicbtions, you'd pick some
+ * minimum grbnulbrity size (for exbmple 10 here) for which you blwbys
+ * sequentiblly solve rbther thbn subdividing.
  *
  * @since 1.7
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public abstract class RecursiveTask<V> extends ForkJoinTask<V> {
-    private static final long serialVersionUID = 5232453952276485270L;
+public bbstrbct clbss RecursiveTbsk<V> extends ForkJoinTbsk<V> {
+    privbte stbtic finbl long seriblVersionUID = 5232453952276485270L;
 
     /**
-     * The result of the computation.
+     * The result of the computbtion.
      */
     V result;
 
     /**
-     * The main computation performed by this task.
-     * @return the result of the computation
+     * The mbin computbtion performed by this tbsk.
+     * @return the result of the computbtion
      */
-    protected abstract V compute();
+    protected bbstrbct V compute();
 
-    public final V getRawResult() {
+    public finbl V getRbwResult() {
         return result;
     }
 
-    protected final void setRawResult(V value) {
-        result = value;
+    protected finbl void setRbwResult(V vblue) {
+        result = vblue;
     }
 
     /**
-     * Implements execution conventions for RecursiveTask.
+     * Implements execution conventions for RecursiveTbsk.
      */
-    protected final boolean exec() {
+    protected finbl boolebn exec() {
         result = compute();
         return true;
     }

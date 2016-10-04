@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,154 +56,154 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.AbstrbctMbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.BitSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.InsnList;
-import jdk.internal.org.objectweb.asm.tree.InsnNode;
-import jdk.internal.org.objectweb.asm.tree.JumpInsnNode;
-import jdk.internal.org.objectweb.asm.tree.LabelNode;
-import jdk.internal.org.objectweb.asm.tree.LocalVariableNode;
-import jdk.internal.org.objectweb.asm.tree.LookupSwitchInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
-import jdk.internal.org.objectweb.asm.tree.TableSwitchInsnNode;
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.tree.AbstrbctInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.InsnList;
+import jdk.internbl.org.objectweb.bsm.tree.InsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.JumpInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.LbbelNode;
+import jdk.internbl.org.objectweb.bsm.tree.LocblVbribbleNode;
+import jdk.internbl.org.objectweb.bsm.tree.LookupSwitchInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.MethodNode;
+import jdk.internbl.org.objectweb.bsm.tree.TbbleSwitchInsnNode;
+import jdk.internbl.org.objectweb.bsm.tree.TryCbtchBlockNode;
 
 /**
- * A {@link jdk.internal.org.objectweb.asm.MethodVisitor} that removes JSR instructions and
+ * A {@link jdk.internbl.org.objectweb.bsm.MethodVisitor} thbt removes JSR instructions bnd
  * inlines the referenced subroutines.
  *
- * <b>Explanation of how it works</b> TODO
+ * <b>Explbnbtion of how it works</b> TODO
  *
- * @author Niko Matsakis
+ * @buthor Niko Mbtsbkis
  */
-public class JSRInlinerAdapter extends MethodNode implements Opcodes {
+public clbss JSRInlinerAdbpter extends MethodNode implements Opcodes {
 
-    private static final boolean LOGGING = false;
+    privbte stbtic finbl boolebn LOGGING = fblse;
 
     /**
-     * For each label that is jumped to by a JSR, we create a BitSet instance.
+     * For ebch lbbel thbt is jumped to by b JSR, we crebte b BitSet instbnce.
      */
-    private final Map<LabelNode, BitSet> subroutineHeads = new HashMap<LabelNode, BitSet>();
+    privbte finbl Mbp<LbbelNode, BitSet> subroutineHebds = new HbshMbp<LbbelNode, BitSet>();
 
     /**
-     * This subroutine instance denotes the line of execution that is not
-     * contained within any subroutine; i.e., the "subroutine" that is executing
-     * when a method first begins.
+     * This subroutine instbnce denotes the line of execution thbt is not
+     * contbined within bny subroutine; i.e., the "subroutine" thbt is executing
+     * when b method first begins.
      */
-    private final BitSet mainSubroutine = new BitSet();
+    privbte finbl BitSet mbinSubroutine = new BitSet();
 
     /**
-     * This BitSet contains the index of every instruction that belongs to more
-     * than one subroutine. This should not happen often.
+     * This BitSet contbins the index of every instruction thbt belongs to more
+     * thbn one subroutine. This should not hbppen often.
      */
-    final BitSet dualCitizens = new BitSet();
+    finbl BitSet dublCitizens = new BitSet();
 
     /**
-     * Creates a new JSRInliner. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #JSRInlinerAdapter(int, MethodVisitor, int, String, String, String, String[])}
+     * Crebtes b new JSRInliner. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
+     * {@link #JSRInlinerAdbpter(int, MethodVisitor, int, String, String, String, String[])}
      * version.
      *
-     * @param mv
+     * @pbrbm mv
      *            the <code>MethodVisitor</code> to send the resulting inlined
      *            method code to (use <code>null</code> for none).
-     * @param access
-     *            the method's access flags (see {@link Opcodes}). This
-     *            parameter also indicates if the method is synthetic and/or
-     *            deprecated.
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}). This
+     *            pbrbmeter blso indicbtes if the method is synthetic bnd/or
+     *            deprecbted.
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exception classes (see
-     *            {@link Type#getInternalName() getInternalName}). May be
+     * @pbrbm signbture
+     *            the method's signbture. Mby be <tt>null</tt>.
+     * @pbrbm exceptions
+     *            the internbl nbmes of the method's exception clbsses (see
+     *            {@link Type#getInternblNbme() getInternblNbme}). Mby be
      *            <tt>null</tt>.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public JSRInlinerAdapter(final MethodVisitor mv, final int access,
-            final String name, final String desc, final String signature,
-            final String[] exceptions) {
-        this(Opcodes.ASM5, mv, access, name, desc, signature, exceptions);
-        if (getClass() != JSRInlinerAdapter.class) {
-            throw new IllegalStateException();
+    public JSRInlinerAdbpter(finbl MethodVisitor mv, finbl int bccess,
+            finbl String nbme, finbl String desc, finbl String signbture,
+            finbl String[] exceptions) {
+        this(Opcodes.ASM5, mv, bccess, nbme, desc, signbture, exceptions);
+        if (getClbss() != JSRInlinerAdbpter.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Creates a new JSRInliner.
+     * Crebtes b new JSRInliner.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param mv
+     * @pbrbm mv
      *            the <code>MethodVisitor</code> to send the resulting inlined
      *            method code to (use <code>null</code> for none).
-     * @param access
-     *            the method's access flags (see {@link Opcodes}). This
-     *            parameter also indicates if the method is synthetic and/or
-     *            deprecated.
-     * @param name
-     *            the method's name.
-     * @param desc
+     * @pbrbm bccess
+     *            the method's bccess flbgs (see {@link Opcodes}). This
+     *            pbrbmeter blso indicbtes if the method is synthetic bnd/or
+     *            deprecbted.
+     * @pbrbm nbme
+     *            the method's nbme.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exception classes (see
-     *            {@link Type#getInternalName() getInternalName}). May be
+     * @pbrbm signbture
+     *            the method's signbture. Mby be <tt>null</tt>.
+     * @pbrbm exceptions
+     *            the internbl nbmes of the method's exception clbsses (see
+     *            {@link Type#getInternblNbme() getInternblNbme}). Mby be
      *            <tt>null</tt>.
      */
-    protected JSRInlinerAdapter(final int api, final MethodVisitor mv,
-            final int access, final String name, final String desc,
-            final String signature, final String[] exceptions) {
-        super(api, access, name, desc, signature, exceptions);
+    protected JSRInlinerAdbpter(finbl int bpi, finbl MethodVisitor mv,
+            finbl int bccess, finbl String nbme, finbl String desc,
+            finbl String signbture, finbl String[] exceptions) {
+        super(bpi, bccess, nbme, desc, signbture, exceptions);
         this.mv = mv;
     }
 
     /**
-     * Detects a JSR instruction and sets a flag to indicate we will need to do
+     * Detects b JSR instruction bnd sets b flbg to indicbte we will need to do
      * inlining.
      */
     @Override
-    public void visitJumpInsn(final int opcode, final Label lbl) {
+    public void visitJumpInsn(finbl int opcode, finbl Lbbel lbl) {
         super.visitJumpInsn(opcode, lbl);
-        LabelNode ln = ((JumpInsnNode) instructions.getLast()).label;
-        if (opcode == JSR && !subroutineHeads.containsKey(ln)) {
-            subroutineHeads.put(ln, new BitSet());
+        LbbelNode ln = ((JumpInsnNode) instructions.getLbst()).lbbel;
+        if (opcode == JSR && !subroutineHebds.contbinsKey(ln)) {
+            subroutineHebds.put(ln, new BitSet());
         }
     }
 
     /**
-     * If any JSRs were seen, triggers the inlining process. Otherwise, forwards
+     * If bny JSRs were seen, triggers the inlining process. Otherwise, forwbrds
      * the byte codes untouched.
      */
     @Override
     public void visitEnd() {
-        if (!subroutineHeads.isEmpty()) {
-            markSubroutines();
+        if (!subroutineHebds.isEmpty()) {
+            mbrkSubroutines();
             if (LOGGING) {
-                log(mainSubroutine.toString());
-                Iterator<BitSet> it = subroutineHeads.values().iterator();
-                while (it.hasNext()) {
+                log(mbinSubroutine.toString());
+                Iterbtor<BitSet> it = subroutineHebds.vblues().iterbtor();
+                while (it.hbsNext()) {
                     BitSet sub = it.next();
                     log(sub.toString());
                 }
@@ -211,89 +211,89 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
             emitCode();
         }
 
-        // Forward the translate opcodes on if appropriate:
+        // Forwbrd the trbnslbte opcodes on if bppropribte:
         if (mv != null) {
-            accept(mv);
+            bccept(mv);
         }
     }
 
     /**
-     * Walks the method and determines which internal subroutine(s), if any,
-     * each instruction is a method of.
+     * Wblks the method bnd determines which internbl subroutine(s), if bny,
+     * ebch instruction is b method of.
      */
-    private void markSubroutines() {
-        BitSet anyvisited = new BitSet();
+    privbte void mbrkSubroutines() {
+        BitSet bnyvisited = new BitSet();
 
-        // First walk the main subroutine and find all those instructions which
-        // can be reached without invoking any JSR at all
-        markSubroutineWalk(mainSubroutine, 0, anyvisited);
+        // First wblk the mbin subroutine bnd find bll those instructions which
+        // cbn be rebched without invoking bny JSR bt bll
+        mbrkSubroutineWblk(mbinSubroutine, 0, bnyvisited);
 
-        // Go through the head of each subroutine and find any nodes reachable
-        // to that subroutine without following any JSR links.
-        for (Iterator<Map.Entry<LabelNode, BitSet>> it = subroutineHeads
-                .entrySet().iterator(); it.hasNext();) {
-            Map.Entry<LabelNode, BitSet> entry = it.next();
-            LabelNode lab = entry.getKey();
-            BitSet sub = entry.getValue();
-            int index = instructions.indexOf(lab);
-            markSubroutineWalk(sub, index, anyvisited);
+        // Go through the hebd of ebch subroutine bnd find bny nodes rebchbble
+        // to thbt subroutine without following bny JSR links.
+        for (Iterbtor<Mbp.Entry<LbbelNode, BitSet>> it = subroutineHebds
+                .entrySet().iterbtor(); it.hbsNext();) {
+            Mbp.Entry<LbbelNode, BitSet> entry = it.next();
+            LbbelNode lbb = entry.getKey();
+            BitSet sub = entry.getVblue();
+            int index = instructions.indexOf(lbb);
+            mbrkSubroutineWblk(sub, index, bnyvisited);
         }
     }
 
     /**
-     * Performs a depth first search walking the normal byte code path starting
-     * at <code>index</code>, and adding each instruction encountered into the
-     * subroutine <code>sub</code>. After this walk is complete, iterates over
-     * the exception handlers to ensure that we also include those byte codes
-     * which are reachable through an exception that may be thrown during the
-     * execution of the subroutine. Invoked from <code>markSubroutines()</code>.
+     * Performs b depth first sebrch wblking the normbl byte code pbth stbrting
+     * bt <code>index</code>, bnd bdding ebch instruction encountered into the
+     * subroutine <code>sub</code>. After this wblk is complete, iterbtes over
+     * the exception hbndlers to ensure thbt we blso include those byte codes
+     * which bre rebchbble through bn exception thbt mby be thrown during the
+     * execution of the subroutine. Invoked from <code>mbrkSubroutines()</code>.
      *
-     * @param sub
+     * @pbrbm sub
      *            the subroutine whose instructions must be computed.
-     * @param index
-     *            an instruction of this subroutine.
-     * @param anyvisited
-     *            indexes of the already visited instructions, i.e. marked as
-     *            part of this subroutine or any previously computed subroutine.
+     * @pbrbm index
+     *            bn instruction of this subroutine.
+     * @pbrbm bnyvisited
+     *            indexes of the blrebdy visited instructions, i.e. mbrked bs
+     *            pbrt of this subroutine or bny previously computed subroutine.
      */
-    private void markSubroutineWalk(final BitSet sub, final int index,
-            final BitSet anyvisited) {
+    privbte void mbrkSubroutineWblk(finbl BitSet sub, finbl int index,
+            finbl BitSet bnyvisited) {
         if (LOGGING) {
-            log("markSubroutineWalk: sub=" + sub + " index=" + index);
+            log("mbrkSubroutineWblk: sub=" + sub + " index=" + index);
         }
 
-        // First find those instructions reachable via normal execution
-        markSubroutineWalkDFS(sub, index, anyvisited);
+        // First find those instructions rebchbble vib normbl execution
+        mbrkSubroutineWblkDFS(sub, index, bnyvisited);
 
-        // Now, make sure we also include any applicable exception handlers
-        boolean loop = true;
+        // Now, mbke sure we blso include bny bpplicbble exception hbndlers
+        boolebn loop = true;
         while (loop) {
-            loop = false;
-            for (Iterator<TryCatchBlockNode> it = tryCatchBlocks.iterator(); it
-                    .hasNext();) {
-                TryCatchBlockNode trycatch = it.next();
+            loop = fblse;
+            for (Iterbtor<TryCbtchBlockNode> it = tryCbtchBlocks.iterbtor(); it
+                    .hbsNext();) {
+                TryCbtchBlockNode trycbtch = it.next();
 
                 if (LOGGING) {
-                    // TODO use of default toString().
-                    log("Scanning try/catch " + trycatch);
+                    // TODO use of defbult toString().
+                    log("Scbnning try/cbtch " + trycbtch);
                 }
 
-                // If the handler has already been processed, skip it.
-                int handlerindex = instructions.indexOf(trycatch.handler);
-                if (sub.get(handlerindex)) {
+                // If the hbndler hbs blrebdy been processed, skip it.
+                int hbndlerindex = instructions.indexOf(trycbtch.hbndler);
+                if (sub.get(hbndlerindex)) {
                     continue;
                 }
 
-                int startindex = instructions.indexOf(trycatch.start);
-                int endindex = instructions.indexOf(trycatch.end);
-                int nextbit = sub.nextSetBit(startindex);
+                int stbrtindex = instructions.indexOf(trycbtch.stbrt);
+                int endindex = instructions.indexOf(trycbtch.end);
+                int nextbit = sub.nextSetBit(stbrtindex);
                 if (nextbit != -1 && nextbit < endindex) {
                     if (LOGGING) {
-                        log("Adding exception handler: " + startindex + '-'
-                                + endindex + " due to " + nextbit + " handler "
-                                + handlerindex);
+                        log("Adding exception hbndler: " + stbrtindex + '-'
+                                + endindex + " due to " + nextbit + " hbndler "
+                                + hbndlerindex);
                     }
-                    markSubroutineWalkDFS(sub, handlerindex, anyvisited);
+                    mbrkSubroutineWblkDFS(sub, hbndlerindex, bnyvisited);
                     loop = true;
                 }
             }
@@ -301,99 +301,99 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
     }
 
     /**
-     * Performs a simple DFS of the instructions, assigning each to the
-     * subroutine <code>sub</code>. Starts from <code>index</code>. Invoked only
-     * by <code>markSubroutineWalk()</code>.
+     * Performs b simple DFS of the instructions, bssigning ebch to the
+     * subroutine <code>sub</code>. Stbrts from <code>index</code>. Invoked only
+     * by <code>mbrkSubroutineWblk()</code>.
      *
-     * @param sub
+     * @pbrbm sub
      *            the subroutine whose instructions must be computed.
-     * @param index
-     *            an instruction of this subroutine.
-     * @param anyvisited
-     *            indexes of the already visited instructions, i.e. marked as
-     *            part of this subroutine or any previously computed subroutine.
+     * @pbrbm index
+     *            bn instruction of this subroutine.
+     * @pbrbm bnyvisited
+     *            indexes of the blrebdy visited instructions, i.e. mbrked bs
+     *            pbrt of this subroutine or bny previously computed subroutine.
      */
-    private void markSubroutineWalkDFS(final BitSet sub, int index,
-            final BitSet anyvisited) {
+    privbte void mbrkSubroutineWblkDFS(finbl BitSet sub, int index,
+            finbl BitSet bnyvisited) {
         while (true) {
-            AbstractInsnNode node = instructions.get(index);
+            AbstrbctInsnNode node = instructions.get(index);
 
-            // don't visit a node twice
+            // don't visit b node twice
             if (sub.get(index)) {
                 return;
             }
             sub.set(index);
 
-            // check for those nodes already visited by another subroutine
-            if (anyvisited.get(index)) {
-                dualCitizens.set(index);
+            // check for those nodes blrebdy visited by bnother subroutine
+            if (bnyvisited.get(index)) {
+                dublCitizens.set(index);
                 if (LOGGING) {
-                    log("Instruction #" + index + " is dual citizen.");
+                    log("Instruction #" + index + " is dubl citizen.");
                 }
             }
-            anyvisited.set(index);
+            bnyvisited.set(index);
 
-            if (node.getType() == AbstractInsnNode.JUMP_INSN
+            if (node.getType() == AbstrbctInsnNode.JUMP_INSN
                     && node.getOpcode() != JSR) {
-                // we do not follow recursively called subroutines here; but any
-                // other sort of branch we do follow
+                // we do not follow recursively cblled subroutines here; but bny
+                // other sort of brbnch we do follow
                 JumpInsnNode jnode = (JumpInsnNode) node;
-                int destidx = instructions.indexOf(jnode.label);
-                markSubroutineWalkDFS(sub, destidx, anyvisited);
+                int destidx = instructions.indexOf(jnode.lbbel);
+                mbrkSubroutineWblkDFS(sub, destidx, bnyvisited);
             }
-            if (node.getType() == AbstractInsnNode.TABLESWITCH_INSN) {
-                TableSwitchInsnNode tsnode = (TableSwitchInsnNode) node;
+            if (node.getType() == AbstrbctInsnNode.TABLESWITCH_INSN) {
+                TbbleSwitchInsnNode tsnode = (TbbleSwitchInsnNode) node;
                 int destidx = instructions.indexOf(tsnode.dflt);
-                markSubroutineWalkDFS(sub, destidx, anyvisited);
-                for (int i = tsnode.labels.size() - 1; i >= 0; --i) {
-                    LabelNode l = tsnode.labels.get(i);
+                mbrkSubroutineWblkDFS(sub, destidx, bnyvisited);
+                for (int i = tsnode.lbbels.size() - 1; i >= 0; --i) {
+                    LbbelNode l = tsnode.lbbels.get(i);
                     destidx = instructions.indexOf(l);
-                    markSubroutineWalkDFS(sub, destidx, anyvisited);
+                    mbrkSubroutineWblkDFS(sub, destidx, bnyvisited);
                 }
             }
-            if (node.getType() == AbstractInsnNode.LOOKUPSWITCH_INSN) {
+            if (node.getType() == AbstrbctInsnNode.LOOKUPSWITCH_INSN) {
                 LookupSwitchInsnNode lsnode = (LookupSwitchInsnNode) node;
                 int destidx = instructions.indexOf(lsnode.dflt);
-                markSubroutineWalkDFS(sub, destidx, anyvisited);
-                for (int i = lsnode.labels.size() - 1; i >= 0; --i) {
-                    LabelNode l = lsnode.labels.get(i);
+                mbrkSubroutineWblkDFS(sub, destidx, bnyvisited);
+                for (int i = lsnode.lbbels.size() - 1; i >= 0; --i) {
+                    LbbelNode l = lsnode.lbbels.get(i);
                     destidx = instructions.indexOf(l);
-                    markSubroutineWalkDFS(sub, destidx, anyvisited);
+                    mbrkSubroutineWblkDFS(sub, destidx, bnyvisited);
                 }
             }
 
-            // check to see if this opcode falls through to the next instruction
+            // check to see if this opcode fblls through to the next instruction
             // or not; if not, return.
             switch (instructions.get(index).getOpcode()) {
-            case GOTO:
-            case RET:
-            case TABLESWITCH:
-            case LOOKUPSWITCH:
-            case IRETURN:
-            case LRETURN:
-            case FRETURN:
-            case DRETURN:
-            case ARETURN:
-            case RETURN:
-            case ATHROW:
+            cbse GOTO:
+            cbse RET:
+            cbse TABLESWITCH:
+            cbse LOOKUPSWITCH:
+            cbse IRETURN:
+            cbse LRETURN:
+            cbse FRETURN:
+            cbse DRETURN:
+            cbse ARETURN:
+            cbse RETURN:
+            cbse ATHROW:
                 /*
-                 * note: this either returns from this subroutine, or a parent
+                 * note: this either returns from this subroutine, or b pbrent
                  * subroutine which invoked it
                  */
                 return;
             }
 
-            // Use tail recursion here in the form of an outer while loop to
-            // avoid our stack growing needlessly:
+            // Use tbil recursion here in the form of bn outer while loop to
+            // bvoid our stbck growing needlessly:
             index++;
 
-            // We implicitly assumed above that execution can always fall
-            // through to the next instruction after a JSR. But a subroutine may
-            // never return, in which case the code after the JSR is unreachable
-            // and can be anything. In particular, it can seem to fall off the
-            // end of the method, so we must handle this case here (we could
-            // instead detect whether execution can return or not from a JSR,
-            // but this is more complicated).
+            // We implicitly bssumed bbove thbt execution cbn blwbys fbll
+            // through to the next instruction bfter b JSR. But b subroutine mby
+            // never return, in which cbse the code bfter the JSR is unrebchbble
+            // bnd cbn be bnything. In pbrticulbr, it cbn seem to fbll off the
+            // end of the method, so we must hbndle this cbse here (we could
+            // instebd detect whether execution cbn return or not from b JSR,
+            // but this is more complicbted).
             if (index >= instructions.size()) {
                 return;
             }
@@ -401,89 +401,89 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
     }
 
     /**
-     * Creates the new instructions, inlining each instantiation of each
-     * subroutine until the code is fully elaborated.
+     * Crebtes the new instructions, inlining ebch instbntibtion of ebch
+     * subroutine until the code is fully elbborbted.
      */
-    private void emitCode() {
-        LinkedList<Instantiation> worklist = new LinkedList<Instantiation>();
-        // Create an instantiation of the "root" subroutine, which is just the
-        // main routine
-        worklist.add(new Instantiation(null, mainSubroutine));
+    privbte void emitCode() {
+        LinkedList<Instbntibtion> worklist = new LinkedList<Instbntibtion>();
+        // Crebte bn instbntibtion of the "root" subroutine, which is just the
+        // mbin routine
+        worklist.bdd(new Instbntibtion(null, mbinSubroutine));
 
-        // Emit instantiations of each subroutine we encounter, including the
-        // main subroutine
+        // Emit instbntibtions of ebch subroutine we encounter, including the
+        // mbin subroutine
         InsnList newInstructions = new InsnList();
-        List<TryCatchBlockNode> newTryCatchBlocks = new ArrayList<TryCatchBlockNode>();
-        List<LocalVariableNode> newLocalVariables = new ArrayList<LocalVariableNode>();
+        List<TryCbtchBlockNode> newTryCbtchBlocks = new ArrbyList<TryCbtchBlockNode>();
+        List<LocblVbribbleNode> newLocblVbribbles = new ArrbyList<LocblVbribbleNode>();
         while (!worklist.isEmpty()) {
-            Instantiation inst = worklist.removeFirst();
-            emitSubroutine(inst, worklist, newInstructions, newTryCatchBlocks,
-                    newLocalVariables);
+            Instbntibtion inst = worklist.removeFirst();
+            emitSubroutine(inst, worklist, newInstructions, newTryCbtchBlocks,
+                    newLocblVbribbles);
         }
         instructions = newInstructions;
-        tryCatchBlocks = newTryCatchBlocks;
-        localVariables = newLocalVariables;
+        tryCbtchBlocks = newTryCbtchBlocks;
+        locblVbribbles = newLocblVbribbles;
     }
 
     /**
-     * Emits one instantiation of one subroutine, specified by
-     * <code>instant</code>. May add new instantiations that are invoked by this
-     * one to the <code>worklist</code> parameter, and new try/catch blocks to
-     * <code>newTryCatchBlocks</code>.
+     * Emits one instbntibtion of one subroutine, specified by
+     * <code>instbnt</code>. Mby bdd new instbntibtions thbt bre invoked by this
+     * one to the <code>worklist</code> pbrbmeter, bnd new try/cbtch blocks to
+     * <code>newTryCbtchBlocks</code>.
      *
-     * @param instant
-     *            the instantiation that must be performed.
-     * @param worklist
-     *            list of the instantiations that remain to be done.
-     * @param newInstructions
-     *            the instruction list to which the instantiated code must be
-     *            appended.
-     * @param newTryCatchBlocks
-     *            the exception handler list to which the instantiated handlers
-     *            must be appended.
+     * @pbrbm instbnt
+     *            the instbntibtion thbt must be performed.
+     * @pbrbm worklist
+     *            list of the instbntibtions thbt rembin to be done.
+     * @pbrbm newInstructions
+     *            the instruction list to which the instbntibted code must be
+     *            bppended.
+     * @pbrbm newTryCbtchBlocks
+     *            the exception hbndler list to which the instbntibted hbndlers
+     *            must be bppended.
      */
-    private void emitSubroutine(final Instantiation instant,
-            final List<Instantiation> worklist, final InsnList newInstructions,
-            final List<TryCatchBlockNode> newTryCatchBlocks,
-            final List<LocalVariableNode> newLocalVariables) {
-        LabelNode duplbl = null;
+    privbte void emitSubroutine(finbl Instbntibtion instbnt,
+            finbl List<Instbntibtion> worklist, finbl InsnList newInstructions,
+            finbl List<TryCbtchBlockNode> newTryCbtchBlocks,
+            finbl List<LocblVbribbleNode> newLocblVbribbles) {
+        LbbelNode duplbl = null;
 
         if (LOGGING) {
             log("--------------------------------------------------------");
-            log("Emitting instantiation of subroutine " + instant.subroutine);
+            log("Emitting instbntibtion of subroutine " + instbnt.subroutine);
         }
 
-        // Emit the relevant instructions for this instantiation, translating
-        // labels and jump targets as we go:
+        // Emit the relevbnt instructions for this instbntibtion, trbnslbting
+        // lbbels bnd jump tbrgets bs we go:
         for (int i = 0, c = instructions.size(); i < c; i++) {
-            AbstractInsnNode insn = instructions.get(i);
-            Instantiation owner = instant.findOwner(i);
+            AbstrbctInsnNode insn = instructions.get(i);
+            Instbntibtion owner = instbnt.findOwner(i);
 
-            // Always remap labels:
-            if (insn.getType() == AbstractInsnNode.LABEL) {
-                // Translate labels into their renamed equivalents.
-                // Avoid adding the same label more than once. Note
-                // that because we own this instruction the gotoTable
-                // and the rangeTable will always agree.
-                LabelNode ilbl = (LabelNode) insn;
-                LabelNode remap = instant.rangeLabel(ilbl);
+            // Alwbys rembp lbbels:
+            if (insn.getType() == AbstrbctInsnNode.LABEL) {
+                // Trbnslbte lbbels into their renbmed equivblents.
+                // Avoid bdding the sbme lbbel more thbn once. Note
+                // thbt becbuse we own this instruction the gotoTbble
+                // bnd the rbngeTbble will blwbys bgree.
+                LbbelNode ilbl = (LbbelNode) insn;
+                LbbelNode rembp = instbnt.rbngeLbbel(ilbl);
                 if (LOGGING) {
-                    // TODO use of default toString().
-                    log("Translating lbl #" + i + ':' + ilbl + " to " + remap);
+                    // TODO use of defbult toString().
+                    log("Trbnslbting lbl #" + i + ':' + ilbl + " to " + rembp);
                 }
-                if (remap != duplbl) {
-                    newInstructions.add(remap);
-                    duplbl = remap;
+                if (rembp != duplbl) {
+                    newInstructions.bdd(rembp);
+                    duplbl = rembp;
                 }
                 continue;
             }
 
-            // We don't want to emit instructions that were already
-            // emitted by a subroutine higher on the stack. Note that
-            // it is still possible for a given instruction to be
-            // emitted twice because it may belong to two subroutines
-            // that do not invoke each other.
-            if (owner != instant) {
+            // We don't wbnt to emit instructions thbt were blrebdy
+            // emitted by b subroutine higher on the stbck. Note thbt
+            // it is still possible for b given instruction to be
+            // emitted twice becbuse it mby belong to two subroutines
+            // thbt do not invoke ebch other.
+            if (owner != instbnt) {
                 continue;
             }
 
@@ -492,201 +492,201 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
             }
 
             if (insn.getOpcode() == RET) {
-                // Translate RET instruction(s) to a jump to the return label
-                // for the appropriate instantiation. The problem is that the
-                // subroutine may "fall through" to the ret of a parent
-                // subroutine; therefore, to find the appropriate ret label we
-                // find the lowest subroutine on the stack that claims to own
-                // this instruction. See the class javadoc comment for an
-                // explanation on why this technique is safe (note: it is only
-                // safe if the input is verifiable).
-                LabelNode retlabel = null;
-                for (Instantiation p = instant; p != null; p = p.previous) {
+                // Trbnslbte RET instruction(s) to b jump to the return lbbel
+                // for the bppropribte instbntibtion. The problem is thbt the
+                // subroutine mby "fbll through" to the ret of b pbrent
+                // subroutine; therefore, to find the bppropribte ret lbbel we
+                // find the lowest subroutine on the stbck thbt clbims to own
+                // this instruction. See the clbss jbvbdoc comment for bn
+                // explbnbtion on why this technique is sbfe (note: it is only
+                // sbfe if the input is verifibble).
+                LbbelNode retlbbel = null;
+                for (Instbntibtion p = instbnt; p != null; p = p.previous) {
                     if (p.subroutine.get(i)) {
-                        retlabel = p.returnLabel;
+                        retlbbel = p.returnLbbel;
                     }
                 }
-                if (retlabel == null) {
-                    // This is only possible if the mainSubroutine owns a RET
-                    // instruction, which should never happen for verifiable
+                if (retlbbel == null) {
+                    // This is only possible if the mbinSubroutine owns b RET
+                    // instruction, which should never hbppen for verifibble
                     // code.
                     throw new RuntimeException("Instruction #" + i
-                            + " is a RET not owned by any subroutine");
+                            + " is b RET not owned by bny subroutine");
                 }
-                newInstructions.add(new JumpInsnNode(GOTO, retlabel));
+                newInstructions.bdd(new JumpInsnNode(GOTO, retlbbel));
             } else if (insn.getOpcode() == JSR) {
-                LabelNode lbl = ((JumpInsnNode) insn).label;
-                BitSet sub = subroutineHeads.get(lbl);
-                Instantiation newinst = new Instantiation(instant, sub);
-                LabelNode startlbl = newinst.gotoLabel(lbl);
+                LbbelNode lbl = ((JumpInsnNode) insn).lbbel;
+                BitSet sub = subroutineHebds.get(lbl);
+                Instbntibtion newinst = new Instbntibtion(instbnt, sub);
+                LbbelNode stbrtlbl = newinst.gotoLbbel(lbl);
 
                 if (LOGGING) {
-                    log(" Creating instantiation of subr " + sub);
+                    log(" Crebting instbntibtion of subr " + sub);
                 }
 
-                // Rather than JSRing, we will jump to the inline version and
-                // push NULL for what was once the return value. This hack
-                // allows us to avoid doing any sort of data flow analysis to
-                // figure out which instructions manipulate the old return value
+                // Rbther thbn JSRing, we will jump to the inline version bnd
+                // push NULL for whbt wbs once the return vblue. This hbck
+                // bllows us to bvoid doing bny sort of dbtb flow bnblysis to
+                // figure out which instructions mbnipulbte the old return vblue
                 // pointer which is now known to be unneeded.
-                newInstructions.add(new InsnNode(ACONST_NULL));
-                newInstructions.add(new JumpInsnNode(GOTO, startlbl));
-                newInstructions.add(newinst.returnLabel);
+                newInstructions.bdd(new InsnNode(ACONST_NULL));
+                newInstructions.bdd(new JumpInsnNode(GOTO, stbrtlbl));
+                newInstructions.bdd(newinst.returnLbbel);
 
-                // Insert this new instantiation into the queue to be emitted
-                // later.
-                worklist.add(newinst);
+                // Insert this new instbntibtion into the queue to be emitted
+                // lbter.
+                worklist.bdd(newinst);
             } else {
-                newInstructions.add(insn.clone(instant));
+                newInstructions.bdd(insn.clone(instbnt));
             }
         }
 
-        // Emit try/catch blocks that are relevant to this method.
-        for (Iterator<TryCatchBlockNode> it = tryCatchBlocks.iterator(); it
-                .hasNext();) {
-            TryCatchBlockNode trycatch = it.next();
+        // Emit try/cbtch blocks thbt bre relevbnt to this method.
+        for (Iterbtor<TryCbtchBlockNode> it = tryCbtchBlocks.iterbtor(); it
+                .hbsNext();) {
+            TryCbtchBlockNode trycbtch = it.next();
 
             if (LOGGING) {
-                // TODO use of default toString().
-                log("try catch block original labels=" + trycatch.start + '-'
-                        + trycatch.end + "->" + trycatch.handler);
+                // TODO use of defbult toString().
+                log("try cbtch block originbl lbbels=" + trycbtch.stbrt + '-'
+                        + trycbtch.end + "->" + trycbtch.hbndler);
             }
 
-            final LabelNode start = instant.rangeLabel(trycatch.start);
-            final LabelNode end = instant.rangeLabel(trycatch.end);
+            finbl LbbelNode stbrt = instbnt.rbngeLbbel(trycbtch.stbrt);
+            finbl LbbelNode end = instbnt.rbngeLbbel(trycbtch.end);
 
-            // Ignore empty try/catch regions
-            if (start == end) {
+            // Ignore empty try/cbtch regions
+            if (stbrt == end) {
                 if (LOGGING) {
-                    log(" try catch block empty in this subroutine");
+                    log(" try cbtch block empty in this subroutine");
                 }
                 continue;
             }
 
-            final LabelNode handler = instant.gotoLabel(trycatch.handler);
+            finbl LbbelNode hbndler = instbnt.gotoLbbel(trycbtch.hbndler);
 
             if (LOGGING) {
-                // TODO use of default toString().
-                log(" try catch block new labels=" + start + '-' + end + "->"
-                        + handler);
+                // TODO use of defbult toString().
+                log(" try cbtch block new lbbels=" + stbrt + '-' + end + "->"
+                        + hbndler);
             }
 
-            if (start == null || end == null || handler == null) {
-                throw new RuntimeException("Internal error!");
+            if (stbrt == null || end == null || hbndler == null) {
+                throw new RuntimeException("Internbl error!");
             }
 
-            newTryCatchBlocks.add(new TryCatchBlockNode(start, end, handler,
-                    trycatch.type));
+            newTryCbtchBlocks.bdd(new TryCbtchBlockNode(stbrt, end, hbndler,
+                    trycbtch.type));
         }
 
-        for (Iterator<LocalVariableNode> it = localVariables.iterator(); it
-                .hasNext();) {
-            LocalVariableNode lvnode = it.next();
+        for (Iterbtor<LocblVbribbleNode> it = locblVbribbles.iterbtor(); it
+                .hbsNext();) {
+            LocblVbribbleNode lvnode = it.next();
             if (LOGGING) {
-                log("local var " + lvnode.name);
+                log("locbl vbr " + lvnode.nbme);
             }
-            final LabelNode start = instant.rangeLabel(lvnode.start);
-            final LabelNode end = instant.rangeLabel(lvnode.end);
-            if (start == end) {
+            finbl LbbelNode stbrt = instbnt.rbngeLbbel(lvnode.stbrt);
+            finbl LbbelNode end = instbnt.rbngeLbbel(lvnode.end);
+            if (stbrt == end) {
                 if (LOGGING) {
-                    log("  local variable empty in this sub");
+                    log("  locbl vbribble empty in this sub");
                 }
                 continue;
             }
-            newLocalVariables.add(new LocalVariableNode(lvnode.name,
-                    lvnode.desc, lvnode.signature, start, end, lvnode.index));
+            newLocblVbribbles.bdd(new LocblVbribbleNode(lvnode.nbme,
+                    lvnode.desc, lvnode.signbture, stbrt, end, lvnode.index));
         }
     }
 
-    private static void log(final String str) {
+    privbte stbtic void log(finbl String str) {
         System.err.println(str);
     }
 
     /**
-     * A class that represents an instantiation of a subroutine. Each
-     * instantiation has an associate "stack" --- which is a listing of those
-     * instantiations that were active when this particular instance of this
-     * subroutine was invoked. Each instantiation also has a map from the
-     * original labels of the program to the labels appropriate for this
-     * instantiation, and finally a label to return to.
+     * A clbss thbt represents bn instbntibtion of b subroutine. Ebch
+     * instbntibtion hbs bn bssocibte "stbck" --- which is b listing of those
+     * instbntibtions thbt were bctive when this pbrticulbr instbnce of this
+     * subroutine wbs invoked. Ebch instbntibtion blso hbs b mbp from the
+     * originbl lbbels of the progrbm to the lbbels bppropribte for this
+     * instbntibtion, bnd finblly b lbbel to return to.
      */
-    private class Instantiation extends AbstractMap<LabelNode, LabelNode> {
+    privbte clbss Instbntibtion extends AbstrbctMbp<LbbelNode, LbbelNode> {
 
         /**
-         * Previous instantiations; the stack must be statically predictable to
-         * be inlinable.
+         * Previous instbntibtions; the stbck must be stbticblly predictbble to
+         * be inlinbble.
          */
-        final Instantiation previous;
+        finbl Instbntibtion previous;
 
         /**
-         * The subroutine this is an instantiation of.
+         * The subroutine this is bn instbntibtion of.
          */
-        public final BitSet subroutine;
+        public finbl BitSet subroutine;
 
         /**
-         * This table maps Labels from the original source to Labels pointing at
-         * code specific to this instantiation, for use in remapping try/catch
-         * blocks,as well as gotos.
+         * This tbble mbps Lbbels from the originbl source to Lbbels pointing bt
+         * code specific to this instbntibtion, for use in rembpping try/cbtch
+         * blocks,bs well bs gotos.
          *
-         * Note that in the presence of dual citizens instructions, that is,
-         * instructions which belong to more than one subroutine due to the
-         * merging of control flow without a RET instruction, we will map the
-         * target label of a GOTO to the label used by the instantiation lowest
-         * on the stack. This avoids code duplication during inlining in most
-         * cases.
+         * Note thbt in the presence of dubl citizens instructions, thbt is,
+         * instructions which belong to more thbn one subroutine due to the
+         * merging of control flow without b RET instruction, we will mbp the
+         * tbrget lbbel of b GOTO to the lbbel used by the instbntibtion lowest
+         * on the stbck. This bvoids code duplicbtion during inlining in most
+         * cbses.
          *
          * @see #findOwner(int)
          */
-        public final Map<LabelNode, LabelNode> rangeTable = new HashMap<LabelNode, LabelNode>();
+        public finbl Mbp<LbbelNode, LbbelNode> rbngeTbble = new HbshMbp<LbbelNode, LbbelNode>();
 
         /**
-         * All returns for this instantiation will be mapped to this label
+         * All returns for this instbntibtion will be mbpped to this lbbel
          */
-        public final LabelNode returnLabel;
+        public finbl LbbelNode returnLbbel;
 
-        Instantiation(final Instantiation prev, final BitSet sub) {
+        Instbntibtion(finbl Instbntibtion prev, finbl BitSet sub) {
             previous = prev;
             subroutine = sub;
-            for (Instantiation p = prev; p != null; p = p.previous) {
+            for (Instbntibtion p = prev; p != null; p = p.previous) {
                 if (p.subroutine == sub) {
-                    throw new RuntimeException("Recursive invocation of " + sub);
+                    throw new RuntimeException("Recursive invocbtion of " + sub);
                 }
             }
 
-            // Determine the label to return to when this subroutine terminates
-            // via RET: note that the main subroutine never terminates via RET.
+            // Determine the lbbel to return to when this subroutine terminbtes
+            // vib RET: note thbt the mbin subroutine never terminbtes vib RET.
             if (prev != null) {
-                returnLabel = new LabelNode();
+                returnLbbel = new LbbelNode();
             } else {
-                returnLabel = null;
+                returnLbbel = null;
             }
 
-            // Each instantiation will remap the labels from the code above to
-            // refer to its particular copy of its own instructions. Note that
-            // we collapse labels which point at the same instruction into one:
-            // this is fairly common as we are often ignoring large chunks of
-            // instructions, so what were previously distinct labels become
-            // duplicates.
-            LabelNode duplbl = null;
+            // Ebch instbntibtion will rembp the lbbels from the code bbove to
+            // refer to its pbrticulbr copy of its own instructions. Note thbt
+            // we collbpse lbbels which point bt the sbme instruction into one:
+            // this is fbirly common bs we bre often ignoring lbrge chunks of
+            // instructions, so whbt were previously distinct lbbels become
+            // duplicbtes.
+            LbbelNode duplbl = null;
             for (int i = 0, c = instructions.size(); i < c; i++) {
-                AbstractInsnNode insn = instructions.get(i);
+                AbstrbctInsnNode insn = instructions.get(i);
 
-                if (insn.getType() == AbstractInsnNode.LABEL) {
-                    LabelNode ilbl = (LabelNode) insn;
+                if (insn.getType() == AbstrbctInsnNode.LABEL) {
+                    LbbelNode ilbl = (LbbelNode) insn;
 
                     if (duplbl == null) {
-                        // if we already have a label pointing at this spot,
-                        // don't recreate it.
-                        duplbl = new LabelNode();
+                        // if we blrebdy hbve b lbbel pointing bt this spot,
+                        // don't recrebte it.
+                        duplbl = new LbbelNode();
                     }
 
-                    // Add an entry in the rangeTable for every label
-                    // in the original code which points at the next
+                    // Add bn entry in the rbngeTbble for every lbbel
+                    // in the originbl code which points bt the next
                     // instruction of our own to be emitted.
-                    rangeTable.put(ilbl, duplbl);
+                    rbngeTbble.put(ilbl, duplbl);
                 } else if (findOwner(i) == this) {
-                    // We will emit this instruction, so clear the 'duplbl' flag
-                    // since the next Label will refer to a distinct
+                    // We will emit this instruction, so clebr the 'duplbl' flbg
+                    // since the next Lbbel will refer to b distinct
                     // instruction.
                     duplbl = null;
                 }
@@ -694,37 +694,37 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
         }
 
         /**
-         * Returns the "owner" of a particular instruction relative to this
-         * instantiation: the owner referes to the Instantiation which will emit
-         * the version of this instruction that we will execute.
+         * Returns the "owner" of b pbrticulbr instruction relbtive to this
+         * instbntibtion: the owner referes to the Instbntibtion which will emit
+         * the version of this instruction thbt we will execute.
          *
-         * Typically, the return value is either <code>this</code> or
-         * <code>null</code>. <code>this</code> indicates that this
-         * instantiation will generate the version of this instruction that we
-         * will execute, and <code>null</code> indicates that this instantiation
+         * Typicblly, the return vblue is either <code>this</code> or
+         * <code>null</code>. <code>this</code> indicbtes thbt this
+         * instbntibtion will generbte the version of this instruction thbt we
+         * will execute, bnd <code>null</code> indicbtes thbt this instbntibtion
          * never executes the given instruction.
          *
-         * Sometimes, however, an instruction can belong to multiple
-         * subroutines; this is called a "dual citizen" instruction (though it
-         * may belong to more than 2 subroutines), and occurs when multiple
-         * subroutines branch to common points of control. In this case, the
-         * owner is the subroutine that appears lowest on the stack, and which
-         * also owns the instruction in question.
+         * Sometimes, however, bn instruction cbn belong to multiple
+         * subroutines; this is cblled b "dubl citizen" instruction (though it
+         * mby belong to more thbn 2 subroutines), bnd occurs when multiple
+         * subroutines brbnch to common points of control. In this cbse, the
+         * owner is the subroutine thbt bppebrs lowest on the stbck, bnd which
+         * blso owns the instruction in question.
          *
-         * @param i
-         *            the index of the instruction in the original code
-         * @return the "owner" of a particular instruction relative to this
-         *         instantiation.
+         * @pbrbm i
+         *            the index of the instruction in the originbl code
+         * @return the "owner" of b pbrticulbr instruction relbtive to this
+         *         instbntibtion.
          */
-        public Instantiation findOwner(final int i) {
+        public Instbntibtion findOwner(finbl int i) {
             if (!subroutine.get(i)) {
                 return null;
             }
-            if (!dualCitizens.get(i)) {
+            if (!dublCitizens.get(i)) {
                 return this;
             }
-            Instantiation own = this;
-            for (Instantiation p = previous; p != null; p = p.previous) {
+            Instbntibtion own = this;
+            for (Instbntibtion p = previous; p != null; p = p.previous) {
                 if (p.subroutine.get(i)) {
                     own = p;
                 }
@@ -733,49 +733,49 @@ public class JSRInlinerAdapter extends MethodNode implements Opcodes {
         }
 
         /**
-         * Looks up the label <code>l</code> in the <code>gotoTable</code>, thus
-         * translating it from a Label in the original code, to a Label in the
-         * inlined code that is appropriate for use by an instruction that
-         * branched to the original label.
+         * Looks up the lbbel <code>l</code> in the <code>gotoTbble</code>, thus
+         * trbnslbting it from b Lbbel in the originbl code, to b Lbbel in the
+         * inlined code thbt is bppropribte for use by bn instruction thbt
+         * brbnched to the originbl lbbel.
          *
-         * @param l
-         *            The label we will be translating
-         * @return a label for use by a branch instruction in the inlined code
-         * @see #rangeLabel
+         * @pbrbm l
+         *            The lbbel we will be trbnslbting
+         * @return b lbbel for use by b brbnch instruction in the inlined code
+         * @see #rbngeLbbel
          */
-        public LabelNode gotoLabel(final LabelNode l) {
-            // owner should never be null, because owner is only null
-            // if an instruction cannot be reached from this subroutine
-            Instantiation owner = findOwner(instructions.indexOf(l));
-            return owner.rangeTable.get(l);
+        public LbbelNode gotoLbbel(finbl LbbelNode l) {
+            // owner should never be null, becbuse owner is only null
+            // if bn instruction cbnnot be rebched from this subroutine
+            Instbntibtion owner = findOwner(instructions.indexOf(l));
+            return owner.rbngeTbble.get(l);
         }
 
         /**
-         * Looks up the label <code>l</code> in the <code>rangeTable</code>,
-         * thus translating it from a Label in the original code, to a Label in
-         * the inlined code that is appropriate for use by an try/catch or
-         * variable use annotation.
+         * Looks up the lbbel <code>l</code> in the <code>rbngeTbble</code>,
+         * thus trbnslbting it from b Lbbel in the originbl code, to b Lbbel in
+         * the inlined code thbt is bppropribte for use by bn try/cbtch or
+         * vbribble use bnnotbtion.
          *
-         * @param l
-         *            The label we will be translating
-         * @return a label for use by a try/catch or variable annotation in the
-         *         original code
-         * @see #rangeTable
+         * @pbrbm l
+         *            The lbbel we will be trbnslbting
+         * @return b lbbel for use by b try/cbtch or vbribble bnnotbtion in the
+         *         originbl code
+         * @see #rbngeTbble
          */
-        public LabelNode rangeLabel(final LabelNode l) {
-            return rangeTable.get(l);
+        public LbbelNode rbngeLbbel(finbl LbbelNode l) {
+            return rbngeTbble.get(l);
         }
 
-        // AbstractMap implementation
+        // AbstrbctMbp implementbtion
 
         @Override
-        public Set<Map.Entry<LabelNode, LabelNode>> entrySet() {
+        public Set<Mbp.Entry<LbbelNode, LbbelNode>> entrySet() {
             return null;
         }
 
         @Override
-        public LabelNode get(final Object o) {
-            return gotoLabel((LabelNode) o);
+        public LbbelNode get(finbl Object o) {
+            return gotoLbbel((LbbelNode) o);
         }
     }
 }

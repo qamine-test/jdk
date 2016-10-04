@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.activation;
+pbckbge jbvb.rmi.bctivbtion;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.UnknownGroupException;
-import java.rmi.activation.UnknownObjectException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.bctivbtion.UnknownGroupException;
+import jbvb.rmi.bctivbtion.UnknownObjectException;
 
 /**
- * The <code>ActivationSystem</code> provides a means for registering
- * groups and "activatable" objects to be activated within those groups.
- * The <code>ActivationSystem</code> works closely with the
- * <code>Activator</code>, which activates objects registered via the
- * <code>ActivationSystem</code>, and the <code>ActivationMonitor</code>,
- * which obtains information about active and inactive objects,
- * and inactive groups.
+ * The <code>ActivbtionSystem</code> provides b mebns for registering
+ * groups bnd "bctivbtbble" objects to be bctivbted within those groups.
+ * The <code>ActivbtionSystem</code> works closely with the
+ * <code>Activbtor</code>, which bctivbtes objects registered vib the
+ * <code>ActivbtionSystem</code>, bnd the <code>ActivbtionMonitor</code>,
+ * which obtbins informbtion bbout bctive bnd inbctive objects,
+ * bnd inbctive groups.
  *
- * @author      Ann Wollrath
- * @see         Activator
- * @see         ActivationMonitor
+ * @buthor      Ann Wollrbth
+ * @see         Activbtor
+ * @see         ActivbtionMonitor
  * @since       1.2
  */
-public interface ActivationSystem extends Remote {
+public interfbce ActivbtionSystem extends Remote {
 
-    /** The port to lookup the activation system. */
-    public static final int SYSTEM_PORT = 1098;
+    /** The port to lookup the bctivbtion system. */
+    public stbtic finbl int SYSTEM_PORT = 1098;
 
     /**
-     * The <code>registerObject</code> method is used to register an
-     * activation descriptor, <code>desc</code>, and obtain an
-     * activation identifier for a activatable remote object. The
-     * <code>ActivationSystem</code> creates an
-     * <code>ActivationID</code> (a activation identifier) for the
-     * object specified by the descriptor, <code>desc</code>, and
-     * records, in stable storage, the activation descriptor and its
-     * associated identifier for later use. When the <code>Activator</code>
-     * receives an <code>activate</code> request for a specific identifier, it
-     * looks up the activation descriptor (registered previously) for
-     * the specified identifier and uses that information to activate
+     * The <code>registerObject</code> method is used to register bn
+     * bctivbtion descriptor, <code>desc</code>, bnd obtbin bn
+     * bctivbtion identifier for b bctivbtbble remote object. The
+     * <code>ActivbtionSystem</code> crebtes bn
+     * <code>ActivbtionID</code> (b bctivbtion identifier) for the
+     * object specified by the descriptor, <code>desc</code>, bnd
+     * records, in stbble storbge, the bctivbtion descriptor bnd its
+     * bssocibted identifier for lbter use. When the <code>Activbtor</code>
+     * receives bn <code>bctivbte</code> request for b specific identifier, it
+     * looks up the bctivbtion descriptor (registered previously) for
+     * the specified identifier bnd uses thbt informbtion to bctivbte
      * the object.
      *
-     * @param desc the object's activation descriptor
-     * @return the activation id that can be used to activate the object
-     * @exception ActivationException if registration fails (e.g., database
-     * update failure, etc).
+     * @pbrbm desc the object's bctivbtion descriptor
+     * @return the bctivbtion id thbt cbn be used to bctivbte the object
+     * @exception ActivbtionException if registrbtion fbils (e.g., dbtbbbse
+     * updbte fbilure, etc).
      * @exception UnknownGroupException if group referred to in
      * <code>desc</code> is not registered with this system
-     * @exception RemoteException if remote call fails
+     * @exception RemoteException if remote cbll fbils
      * @since 1.2
      */
-    public ActivationID registerObject(ActivationDesc desc)
-        throws ActivationException, UnknownGroupException, RemoteException;
+    public ActivbtionID registerObject(ActivbtionDesc desc)
+        throws ActivbtionException, UnknownGroupException, RemoteException;
 
     /**
-     * Remove the activation id and associated descriptor previously
-     * registered with the <code>ActivationSystem</code>; the object
-     * can no longer be activated via the object's activation id.
+     * Remove the bctivbtion id bnd bssocibted descriptor previously
+     * registered with the <code>ActivbtionSystem</code>; the object
+     * cbn no longer be bctivbted vib the object's bctivbtion id.
      *
-     * @param id the object's activation id (from previous registration)
-     * @exception ActivationException if unregister fails (e.g., database
-     * update failure, etc).
+     * @pbrbm id the object's bctivbtion id (from previous registrbtion)
+     * @exception ActivbtionException if unregister fbils (e.g., dbtbbbse
+     * updbte fbilure, etc).
      * @exception UnknownObjectException if object is unknown (not registered)
-     * @exception RemoteException if remote call fails
+     * @exception RemoteException if remote cbll fbils
      * @since 1.2
      */
-    public void unregisterObject(ActivationID id)
-        throws ActivationException, UnknownObjectException, RemoteException;
+    public void unregisterObject(ActivbtionID id)
+        throws ActivbtionException, UnknownObjectException, RemoteException;
 
     /**
-     * Register the activation group. An activation group must be
-     * registered with the <code>ActivationSystem</code> before objects
-     * can be registered within that group.
+     * Register the bctivbtion group. An bctivbtion group must be
+     * registered with the <code>ActivbtionSystem</code> before objects
+     * cbn be registered within thbt group.
      *
-     * @param desc the group's descriptor
-     * @return an identifier for the group
-     * @exception ActivationException if group registration fails
-     * @exception RemoteException if remote call fails
+     * @pbrbm desc the group's descriptor
+     * @return bn identifier for the group
+     * @exception ActivbtionException if group registrbtion fbils
+     * @exception RemoteException if remote cbll fbils
      * @since 1.2
      */
-    public ActivationGroupID registerGroup(ActivationGroupDesc desc)
-        throws ActivationException, RemoteException;
+    public ActivbtionGroupID registerGroup(ActivbtionGroupDesc desc)
+        throws ActivbtionException, RemoteException;
 
     /**
-     * Callback to inform activation system that group is now
-     * active. This call is made internally by the
-     * <code>ActivationGroup.createGroup</code> method to inform
-     * the <code>ActivationSystem</code> that the group is now
-     * active.
+     * Cbllbbck to inform bctivbtion system thbt group is now
+     * bctive. This cbll is mbde internblly by the
+     * <code>ActivbtionGroup.crebteGroup</code> method to inform
+     * the <code>ActivbtionSystem</code> thbt the group is now
+     * bctive.
      *
-     * @param id the activation group's identifier
-     * @param group the group's instantiator
-     * @param incarnation the group's incarnation number
-     * @return monitor for activation group
+     * @pbrbm id the bctivbtion group's identifier
+     * @pbrbm group the group's instbntibtor
+     * @pbrbm incbrnbtion the group's incbrnbtion number
+     * @return monitor for bctivbtion group
      * @exception UnknownGroupException if group is not registered
-     * @exception ActivationException if a group for the specified
-     * <code>id</code> is already active and that group is not equal
-     * to the specified <code>group</code> or that group has a different
-     * <code>incarnation</code> than the specified <code>group</code>
-     * @exception RemoteException if remote call fails
+     * @exception ActivbtionException if b group for the specified
+     * <code>id</code> is blrebdy bctive bnd thbt group is not equbl
+     * to the specified <code>group</code> or thbt group hbs b different
+     * <code>incbrnbtion</code> thbn the specified <code>group</code>
+     * @exception RemoteException if remote cbll fbils
      * @since 1.2
      */
-    public ActivationMonitor activeGroup(ActivationGroupID id,
-                                         ActivationInstantiator group,
-                                         long incarnation)
-        throws UnknownGroupException, ActivationException, RemoteException;
+    public ActivbtionMonitor bctiveGroup(ActivbtionGroupID id,
+                                         ActivbtionInstbntibtor group,
+                                         long incbrnbtion)
+        throws UnknownGroupException, ActivbtionException, RemoteException;
 
     /**
-     * Remove the activation group. An activation group makes this call back
-     * to inform the activator that the group should be removed (destroyed).
-     * If this call completes successfully, objects can no longer be
-     * registered or activated within the group. All information of the
-     * group and its associated objects is removed from the system.
+     * Remove the bctivbtion group. An bctivbtion group mbkes this cbll bbck
+     * to inform the bctivbtor thbt the group should be removed (destroyed).
+     * If this cbll completes successfully, objects cbn no longer be
+     * registered or bctivbted within the group. All informbtion of the
+     * group bnd its bssocibted objects is removed from the system.
      *
-     * @param id the activation group's identifier
-     * @exception ActivationException if unregister fails (e.g., database
-     * update failure, etc).
+     * @pbrbm id the bctivbtion group's identifier
+     * @exception ActivbtionException if unregister fbils (e.g., dbtbbbse
+     * updbte fbilure, etc).
      * @exception UnknownGroupException if group is not registered
-     * @exception RemoteException if remote call fails
+     * @exception RemoteException if remote cbll fbils
      * @since 1.2
      */
-    public void unregisterGroup(ActivationGroupID id)
-        throws ActivationException, UnknownGroupException, RemoteException;
+    public void unregisterGroup(ActivbtionGroupID id)
+        throws ActivbtionException, UnknownGroupException, RemoteException;
 
     /**
-     * Shutdown the activation system. Destroys all groups spawned by
-     * the activation daemon and exits the activation daemon.
-     * @exception RemoteException if failed to contact/shutdown the activation
-     * daemon
+     * Shutdown the bctivbtion system. Destroys bll groups spbwned by
+     * the bctivbtion dbemon bnd exits the bctivbtion dbemon.
+     * @exception RemoteException if fbiled to contbct/shutdown the bctivbtion
+     * dbemon
      * @since 1.2
      */
     public void shutdown() throws RemoteException;
 
     /**
-     * Set the activation descriptor, <code>desc</code> for the object with
-     * the activation identifier, <code>id</code>. The change will take
-     * effect upon subsequent activation of the object.
+     * Set the bctivbtion descriptor, <code>desc</code> for the object with
+     * the bctivbtion identifier, <code>id</code>. The chbnge will tbke
+     * effect upon subsequent bctivbtion of the object.
      *
-     * @param id the activation identifier for the activatable object
-     * @param desc the activation descriptor for the activatable object
-     * @exception UnknownGroupException the group associated with
-     * <code>desc</code> is not a registered group
-     * @exception UnknownObjectException the activation <code>id</code>
+     * @pbrbm id the bctivbtion identifier for the bctivbtbble object
+     * @pbrbm desc the bctivbtion descriptor for the bctivbtbble object
+     * @exception UnknownGroupException the group bssocibted with
+     * <code>desc</code> is not b registered group
+     * @exception UnknownObjectException the bctivbtion <code>id</code>
      * is not registered
-     * @exception ActivationException for general failure (e.g., unable
-     * to update log)
-     * @exception RemoteException if remote call fails
-     * @return the previous value of the activation descriptor
-     * @see #getActivationDesc
+     * @exception ActivbtionException for generbl fbilure (e.g., unbble
+     * to updbte log)
+     * @exception RemoteException if remote cbll fbils
+     * @return the previous vblue of the bctivbtion descriptor
+     * @see #getActivbtionDesc
      * @since 1.2
      */
-    public ActivationDesc setActivationDesc(ActivationID id,
-                                            ActivationDesc desc)
-        throws ActivationException, UnknownObjectException,
+    public ActivbtionDesc setActivbtionDesc(ActivbtionID id,
+                                            ActivbtionDesc desc)
+        throws ActivbtionException, UnknownObjectException,
             UnknownGroupException, RemoteException;
 
     /**
-     * Set the activation group descriptor, <code>desc</code> for the object
-     * with the activation group identifier, <code>id</code>. The change will
-     * take effect upon subsequent activation of the group.
+     * Set the bctivbtion group descriptor, <code>desc</code> for the object
+     * with the bctivbtion group identifier, <code>id</code>. The chbnge will
+     * tbke effect upon subsequent bctivbtion of the group.
      *
-     * @param id the activation group identifier for the activation group
-     * @param desc the activation group descriptor for the activation group
-     * @exception UnknownGroupException the group associated with
-     * <code>id</code> is not a registered group
-     * @exception ActivationException for general failure (e.g., unable
-     * to update log)
-     * @exception RemoteException if remote call fails
-     * @return the previous value of the activation group descriptor
-     * @see #getActivationGroupDesc
+     * @pbrbm id the bctivbtion group identifier for the bctivbtion group
+     * @pbrbm desc the bctivbtion group descriptor for the bctivbtion group
+     * @exception UnknownGroupException the group bssocibted with
+     * <code>id</code> is not b registered group
+     * @exception ActivbtionException for generbl fbilure (e.g., unbble
+     * to updbte log)
+     * @exception RemoteException if remote cbll fbils
+     * @return the previous vblue of the bctivbtion group descriptor
+     * @see #getActivbtionGroupDesc
      * @since 1.2
      */
-    public ActivationGroupDesc setActivationGroupDesc(ActivationGroupID id,
-                                                      ActivationGroupDesc desc)
-       throws ActivationException, UnknownGroupException, RemoteException;
+    public ActivbtionGroupDesc setActivbtionGroupDesc(ActivbtionGroupID id,
+                                                      ActivbtionGroupDesc desc)
+       throws ActivbtionException, UnknownGroupException, RemoteException;
 
     /**
-     * Returns the activation descriptor, for the object with the activation
+     * Returns the bctivbtion descriptor, for the object with the bctivbtion
      * identifier, <code>id</code>.
      *
-     * @param id the activation identifier for the activatable object
+     * @pbrbm id the bctivbtion identifier for the bctivbtbble object
      * @exception UnknownObjectException if <code>id</code> is not registered
-     * @exception ActivationException for general failure
-     * @exception RemoteException if remote call fails
-     * @return the activation descriptor
-     * @see #setActivationDesc
+     * @exception ActivbtionException for generbl fbilure
+     * @exception RemoteException if remote cbll fbils
+     * @return the bctivbtion descriptor
+     * @see #setActivbtionDesc
      * @since 1.2
      */
-    public ActivationDesc getActivationDesc(ActivationID id)
-       throws ActivationException, UnknownObjectException, RemoteException;
+    public ActivbtionDesc getActivbtionDesc(ActivbtionID id)
+       throws ActivbtionException, UnknownObjectException, RemoteException;
 
     /**
-     * Returns the activation group descriptor, for the group
-     * with the activation group identifier, <code>id</code>.
+     * Returns the bctivbtion group descriptor, for the group
+     * with the bctivbtion group identifier, <code>id</code>.
      *
-     * @param id the activation group identifier for the group
+     * @pbrbm id the bctivbtion group identifier for the group
      * @exception UnknownGroupException if <code>id</code> is not registered
-     * @exception ActivationException for general failure
-     * @exception RemoteException if remote call fails
-     * @return the activation group descriptor
-     * @see #setActivationGroupDesc
+     * @exception ActivbtionException for generbl fbilure
+     * @exception RemoteException if remote cbll fbils
+     * @return the bctivbtion group descriptor
+     * @see #setActivbtionGroupDesc
      * @since 1.2
      */
-    public ActivationGroupDesc getActivationGroupDesc(ActivationGroupID id)
-       throws ActivationException, UnknownGroupException, RemoteException;
+    public ActivbtionGroupDesc getActivbtionGroupDesc(ActivbtionGroupID id)
+       throws ActivbtionException, UnknownGroupException, RemoteException;
 }

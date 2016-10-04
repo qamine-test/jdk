@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text.html.parser;
+pbckbge jbvbx.swing.text.html.pbrser;
 
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.HTML;
-import javax.swing.text.ChangedCharSetException;
+import jbvbx.swing.text.SimpleAttributeSet;
+import jbvbx.swing.text.html.HTMLEditorKit;
+import jbvbx.swing.text.html.HTML;
+import jbvbx.swing.text.ChbngedChbrSetException;
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.net.*;
 
 /**
- * A Parser for HTML Documents (actually, you can specify a DTD, but
- * you should really only use this class with the html dtd in swing).
- * Reads an InputStream of HTML and
- * invokes the appropriate methods in the ParserCallback class. This
- * is the default parser used by HTMLEditorKit to parse HTML url's.
- * <p>This will message the callback for all valid tags, as well as
- * tags that are implied but not explicitly specified. For example, the
- * html string (&lt;p&gt;blah) only has a p tag defined. The callback
+ * A Pbrser for HTML Documents (bctublly, you cbn specify b DTD, but
+ * you should reblly only use this clbss with the html dtd in swing).
+ * Rebds bn InputStrebm of HTML bnd
+ * invokes the bppropribte methods in the PbrserCbllbbck clbss. This
+ * is the defbult pbrser used by HTMLEditorKit to pbrse HTML url's.
+ * <p>This will messbge the cbllbbck for bll vblid tbgs, bs well bs
+ * tbgs thbt bre implied but not explicitly specified. For exbmple, the
+ * html string (&lt;p&gt;blbh) only hbs b p tbg defined. The cbllbbck
  * will see the following methods:
- * <ol><li><i>handleStartTag(html, ...)</i></li>
- *     <li><i>handleStartTag(head, ...)</i></li>
- *     <li><i>handleEndTag(head)</i></li>
- *     <li><i>handleStartTag(body, ...)</i></li>
- *     <li><i>handleStartTag(p, ...)</i></li>
- *     <li><i>handleText(...)</i></li>
- *     <li><i>handleEndTag(p)</i></li>
- *     <li><i>handleEndTag(body)</i></li>
- *     <li><i>handleEndTag(html)</i></li>
+ * <ol><li><i>hbndleStbrtTbg(html, ...)</i></li>
+ *     <li><i>hbndleStbrtTbg(hebd, ...)</i></li>
+ *     <li><i>hbndleEndTbg(hebd)</i></li>
+ *     <li><i>hbndleStbrtTbg(body, ...)</i></li>
+ *     <li><i>hbndleStbrtTbg(p, ...)</i></li>
+ *     <li><i>hbndleText(...)</i></li>
+ *     <li><i>hbndleEndTbg(p)</i></li>
+ *     <li><i>hbndleEndTbg(body)</i></li>
+ *     <li><i>hbndleEndTbg(html)</i></li>
  * </ol>
- * The items in <i>italic</i> are implied, that is, although they were not
- * explicitly specified, to be correct html they should have been present
- * (head isn't necessary, but it is still generated). For tags that
- * are implied, the AttributeSet argument will have a value of
- * <code>Boolean.TRUE</code> for the key
- * <code>HTMLEditorKit.ParserCallback.IMPLIED</code>.
- * <p>HTML.Attributes defines a type safe enumeration of html attributes.
- * If an attribute key of a tag is defined in HTML.Attribute, the
- * HTML.Attribute will be used as the key, otherwise a String will be used.
- * For example &lt;p foo=bar class=neat&gt; has two attributes. foo is
- * not defined in HTML.Attribute, where as class is, therefore the
- * AttributeSet will have two values in it, HTML.Attribute.CLASS with
- * a String value of 'neat' and the String key 'foo' with a String value of
- * 'bar'.
- * <p>The position argument will indicate the start of the tag, comment
- * or text. Similar to arrays, the first character in the stream has a
- * position of 0. For tags that are
- * implied the position will indicate
- * the location of the next encountered tag. In the first example,
- * the implied start body and html tags will have the same position as the
- * p tag, and the implied end p, html and body tags will all have the same
+ * The items in <i>itblic</i> bre implied, thbt is, blthough they were not
+ * explicitly specified, to be correct html they should hbve been present
+ * (hebd isn't necessbry, but it is still generbted). For tbgs thbt
+ * bre implied, the AttributeSet brgument will hbve b vblue of
+ * <code>Boolebn.TRUE</code> for the key
+ * <code>HTMLEditorKit.PbrserCbllbbck.IMPLIED</code>.
+ * <p>HTML.Attributes defines b type sbfe enumerbtion of html bttributes.
+ * If bn bttribute key of b tbg is defined in HTML.Attribute, the
+ * HTML.Attribute will be used bs the key, otherwise b String will be used.
+ * For exbmple &lt;p foo=bbr clbss=nebt&gt; hbs two bttributes. foo is
+ * not defined in HTML.Attribute, where bs clbss is, therefore the
+ * AttributeSet will hbve two vblues in it, HTML.Attribute.CLASS with
+ * b String vblue of 'nebt' bnd the String key 'foo' with b String vblue of
+ * 'bbr'.
+ * <p>The position brgument will indicbte the stbrt of the tbg, comment
+ * or text. Similbr to brrbys, the first chbrbcter in the strebm hbs b
+ * position of 0. For tbgs thbt bre
+ * implied the position will indicbte
+ * the locbtion of the next encountered tbg. In the first exbmple,
+ * the implied stbrt body bnd html tbgs will hbve the sbme position bs the
+ * p tbg, bnd the implied end p, html bnd body tbgs will bll hbve the sbme
  * position.
- * <p>As html skips whitespace the position for text will be the position
- * of the first valid character, eg in the string '\n\n\nblah'
- * the text 'blah' will have a position of 3, the newlines are skipped.
+ * <p>As html skips whitespbce the position for text will be the position
+ * of the first vblid chbrbcter, eg in the string '\n\n\nblbh'
+ * the text 'blbh' will hbve b position of 3, the newlines bre skipped.
  * <p>
- * For attributes that do not have a value, eg in the html
- * string <code>&lt;foo blah&gt;</code> the attribute <code>blah</code>
- * does not have a value, there are two possible values that will be
- * placed in the AttributeSet's value:
+ * For bttributes thbt do not hbve b vblue, eg in the html
+ * string <code>&lt;foo blbh&gt;</code> the bttribute <code>blbh</code>
+ * does not hbve b vblue, there bre two possible vblues thbt will be
+ * plbced in the AttributeSet's vblue:
  * <ul>
- * <li>If the DTD does not contain an definition for the element, or the
- *     definition does not have an explicit value then the value in the
+ * <li>If the DTD does not contbin bn definition for the element, or the
+ *     definition does not hbve bn explicit vblue then the vblue in the
  *     AttributeSet will be <code>HTML.NULL_ATTRIBUTE_VALUE</code>.
- * <li>If the DTD contains an explicit value, as in:
+ * <li>If the DTD contbins bn explicit vblue, bs in:
  *     <code>&lt;!ATTLIST OPTION selected (selected) #IMPLIED&gt;</code>
- *     this value from the dtd (in this case selected) will be used.
+ *     this vblue from the dtd (in this cbse selected) will be used.
  * </ul>
  * <p>
- * Once the stream has been parsed, the callback is notified of the most
+ * Once the strebm hbs been pbrsed, the cbllbbck is notified of the most
  * likely end of line string. The end of line string will be one of
- * \n, \r or \r\n, which ever is encountered the most in parsing the
- * stream.
+ * \n, \r or \r\n, which ever is encountered the most in pbrsing the
+ * strebm.
  *
- * @author      Sunita Mani
+ * @buthor      Sunitb Mbni
  */
-public class DocumentParser extends javax.swing.text.html.parser.Parser {
+public clbss DocumentPbrser extends jbvbx.swing.text.html.pbrser.Pbrser {
 
-    private int inbody;
-    private int intitle;
-    private int inhead;
-    private int instyle;
-    private int inscript;
-    private boolean seentitle;
-    private HTMLEditorKit.ParserCallback callback = null;
-    private boolean ignoreCharSet = false;
-    private static final boolean debugFlag = false;
+    privbte int inbody;
+    privbte int intitle;
+    privbte int inhebd;
+    privbte int instyle;
+    privbte int inscript;
+    privbte boolebn seentitle;
+    privbte HTMLEditorKit.PbrserCbllbbck cbllbbck = null;
+    privbte boolebn ignoreChbrSet = fblse;
+    privbte stbtic finbl boolebn debugFlbg = fblse;
 
     /**
-     * Creates document parser with the specified {@code dtd}.
+     * Crebtes document pbrser with the specified {@code dtd}.
      *
-     * @param dtd the dtd.
+     * @pbrbm dtd the dtd.
      */
-    public DocumentParser(DTD dtd) {
+    public DocumentPbrser(DTD dtd) {
         super(dtd);
     }
 
     /**
-     * Parse an HTML stream, given a DTD.
+     * Pbrse bn HTML strebm, given b DTD.
      *
-     * @param in the reader to read the source from
-     * @param callback the callback
-     * @param ignoreCharSet if {@code true} the charset is ignored
-     * @throws IOException if an I/O error occurs
+     * @pbrbm in the rebder to rebd the source from
+     * @pbrbm cbllbbck the cbllbbck
+     * @pbrbm ignoreChbrSet if {@code true} the chbrset is ignored
+     * @throws IOException if bn I/O error occurs
      */
-    public void parse(Reader in, HTMLEditorKit.ParserCallback callback, boolean ignoreCharSet) throws IOException {
-        this.ignoreCharSet = ignoreCharSet;
-        this.callback = callback;
-        parse(in);
+    public void pbrse(Rebder in, HTMLEditorKit.PbrserCbllbbck cbllbbck, boolebn ignoreChbrSet) throws IOException {
+        this.ignoreChbrSet = ignoreChbrSet;
+        this.cbllbbck = cbllbbck;
+        pbrse(in);
         // end of line
-        callback.handleEndOfLineString(getEndOfLineString());
+        cbllbbck.hbndleEndOfLineString(getEndOfLineString());
     }
 
     /**
-     * Handle Start Tag.
+     * Hbndle Stbrt Tbg.
      */
-    protected void handleStartTag(TagElement tag) {
+    protected void hbndleStbrtTbg(TbgElement tbg) {
 
-        Element elem = tag.getElement();
+        Element elem = tbg.getElement();
         if (elem == dtd.body) {
             inbody++;
         } else if (elem == dtd.html) {
-        } else if (elem == dtd.head) {
-            inhead++;
+        } else if (elem == dtd.hebd) {
+            inhebd++;
         } else if (elem == dtd.title) {
             intitle++;
         } else if (elem == dtd.style) {
@@ -155,140 +155,140 @@ public class DocumentParser extends javax.swing.text.html.parser.Parser {
         } else if (elem == dtd.script) {
             inscript++;
         }
-        if (debugFlag) {
-            if (tag.fictional()) {
-                debug("Start Tag: " + tag.getHTMLTag() + " pos: " + getCurrentPos());
+        if (debugFlbg) {
+            if (tbg.fictionbl()) {
+                debug("Stbrt Tbg: " + tbg.getHTMLTbg() + " pos: " + getCurrentPos());
             } else {
-                debug("Start Tag: " + tag.getHTMLTag() + " attributes: " +
+                debug("Stbrt Tbg: " + tbg.getHTMLTbg() + " bttributes: " +
                       getAttributes() + " pos: " + getCurrentPos());
             }
         }
-        if (tag.fictional()) {
-            SimpleAttributeSet attrs = new SimpleAttributeSet();
-            attrs.addAttribute(HTMLEditorKit.ParserCallback.IMPLIED,
-                               Boolean.TRUE);
-            callback.handleStartTag(tag.getHTMLTag(), attrs,
-                                    getBlockStartPosition());
+        if (tbg.fictionbl()) {
+            SimpleAttributeSet bttrs = new SimpleAttributeSet();
+            bttrs.bddAttribute(HTMLEditorKit.PbrserCbllbbck.IMPLIED,
+                               Boolebn.TRUE);
+            cbllbbck.hbndleStbrtTbg(tbg.getHTMLTbg(), bttrs,
+                                    getBlockStbrtPosition());
         } else {
-            callback.handleStartTag(tag.getHTMLTag(), getAttributes(),
-                                    getBlockStartPosition());
+            cbllbbck.hbndleStbrtTbg(tbg.getHTMLTbg(), getAttributes(),
+                                    getBlockStbrtPosition());
             flushAttributes();
         }
     }
 
 
-    protected void handleComment(char text[]) {
-        if (debugFlag) {
+    protected void hbndleComment(chbr text[]) {
+        if (debugFlbg) {
             debug("comment: ->" + new String(text) + "<-"
                   + " pos: " + getCurrentPos());
         }
-        callback.handleComment(text, getBlockStartPosition());
+        cbllbbck.hbndleComment(text, getBlockStbrtPosition());
     }
 
     /**
-     * Handle Empty Tag.
+     * Hbndle Empty Tbg.
      */
-    protected void handleEmptyTag(TagElement tag) throws ChangedCharSetException {
+    protected void hbndleEmptyTbg(TbgElement tbg) throws ChbngedChbrSetException {
 
-        Element elem = tag.getElement();
-        if (elem == dtd.meta && !ignoreCharSet) {
-            SimpleAttributeSet atts = getAttributes();
-            if (atts != null) {
-                String content = (String)atts.getAttribute(HTML.Attribute.CONTENT);
+        Element elem = tbg.getElement();
+        if (elem == dtd.metb && !ignoreChbrSet) {
+            SimpleAttributeSet btts = getAttributes();
+            if (btts != null) {
+                String content = (String)btts.getAttribute(HTML.Attribute.CONTENT);
                 if (content != null) {
-                    if ("content-type".equalsIgnoreCase((String)atts.getAttribute(HTML.Attribute.HTTPEQUIV))) {
-                        if (!content.equalsIgnoreCase("text/html") &&
-                                !content.equalsIgnoreCase("text/plain")) {
-                            throw new ChangedCharSetException(content, false);
+                    if ("content-type".equblsIgnoreCbse((String)btts.getAttribute(HTML.Attribute.HTTPEQUIV))) {
+                        if (!content.equblsIgnoreCbse("text/html") &&
+                                !content.equblsIgnoreCbse("text/plbin")) {
+                            throw new ChbngedChbrSetException(content, fblse);
                         }
-                    } else if ("charset" .equalsIgnoreCase((String)atts.getAttribute(HTML.Attribute.HTTPEQUIV))) {
-                        throw new ChangedCharSetException(content, true);
+                    } else if ("chbrset" .equblsIgnoreCbse((String)btts.getAttribute(HTML.Attribute.HTTPEQUIV))) {
+                        throw new ChbngedChbrSetException(content, true);
                     }
                 }
             }
         }
-        if (inbody != 0 || elem == dtd.meta || elem == dtd.base || elem == dtd.isindex || elem == dtd.style || elem == dtd.link) {
-            if (debugFlag) {
-                if (tag.fictional()) {
-                    debug("Empty Tag: " + tag.getHTMLTag() + " pos: " + getCurrentPos());
+        if (inbody != 0 || elem == dtd.metb || elem == dtd.bbse || elem == dtd.isindex || elem == dtd.style || elem == dtd.link) {
+            if (debugFlbg) {
+                if (tbg.fictionbl()) {
+                    debug("Empty Tbg: " + tbg.getHTMLTbg() + " pos: " + getCurrentPos());
                 } else {
-                    debug("Empty Tag: " + tag.getHTMLTag() + " attributes: "
+                    debug("Empty Tbg: " + tbg.getHTMLTbg() + " bttributes: "
                           + getAttributes() + " pos: " + getCurrentPos());
                 }
             }
-            if (tag.fictional()) {
-                SimpleAttributeSet attrs = new SimpleAttributeSet();
-                attrs.addAttribute(HTMLEditorKit.ParserCallback.IMPLIED,
-                                   Boolean.TRUE);
-                callback.handleSimpleTag(tag.getHTMLTag(), attrs,
-                                         getBlockStartPosition());
+            if (tbg.fictionbl()) {
+                SimpleAttributeSet bttrs = new SimpleAttributeSet();
+                bttrs.bddAttribute(HTMLEditorKit.PbrserCbllbbck.IMPLIED,
+                                   Boolebn.TRUE);
+                cbllbbck.hbndleSimpleTbg(tbg.getHTMLTbg(), bttrs,
+                                         getBlockStbrtPosition());
             } else {
-                callback.handleSimpleTag(tag.getHTMLTag(), getAttributes(),
-                                         getBlockStartPosition());
+                cbllbbck.hbndleSimpleTbg(tbg.getHTMLTbg(), getAttributes(),
+                                         getBlockStbrtPosition());
                 flushAttributes();
             }
         }
     }
 
     /**
-     * Handle End Tag.
+     * Hbndle End Tbg.
      */
-    protected void handleEndTag(TagElement tag) {
-        Element elem = tag.getElement();
+    protected void hbndleEndTbg(TbgElement tbg) {
+        Element elem = tbg.getElement();
         if (elem == dtd.body) {
             inbody--;
         } else if (elem == dtd.title) {
             intitle--;
             seentitle = true;
-        } else if (elem == dtd.head) {
-            inhead--;
+        } else if (elem == dtd.hebd) {
+            inhebd--;
         } else if (elem == dtd.style) {
             instyle--;
         } else if (elem == dtd.script) {
             inscript--;
         }
-        if (debugFlag) {
-            debug("End Tag: " + tag.getHTMLTag() + " pos: " + getCurrentPos());
+        if (debugFlbg) {
+            debug("End Tbg: " + tbg.getHTMLTbg() + " pos: " + getCurrentPos());
         }
-        callback.handleEndTag(tag.getHTMLTag(), getBlockStartPosition());
+        cbllbbck.hbndleEndTbg(tbg.getHTMLTbg(), getBlockStbrtPosition());
 
     }
 
     /**
-     * Handle Text.
+     * Hbndle Text.
      */
-    protected void handleText(char data[]) {
-        if (data != null) {
+    protected void hbndleText(chbr dbtb[]) {
+        if (dbtb != null) {
             if (inscript != 0) {
-                callback.handleComment(data, getBlockStartPosition());
+                cbllbbck.hbndleComment(dbtb, getBlockStbrtPosition());
                 return;
             }
             if (inbody != 0 || ((instyle != 0) ||
                                 ((intitle != 0) && !seentitle))) {
-                if (debugFlag) {
-                    debug("text:  ->" + new String(data) + "<-" + " pos: " + getCurrentPos());
+                if (debugFlbg) {
+                    debug("text:  ->" + new String(dbtb) + "<-" + " pos: " + getCurrentPos());
                 }
-                callback.handleText(data, getBlockStartPosition());
+                cbllbbck.hbndleText(dbtb, getBlockStbrtPosition());
             }
         }
     }
 
     /*
-     * Error handling.
+     * Error hbndling.
      */
-    protected void handleError(int ln, String errorMsg) {
-        if (debugFlag) {
+    protected void hbndleError(int ln, String errorMsg) {
+        if (debugFlbg) {
             debug("Error: ->" + errorMsg + "<-" + " pos: " + getCurrentPos());
         }
         /* PENDING: need to improve the error string. */
-        callback.handleError(errorMsg, getCurrentPos());
+        cbllbbck.hbndleError(errorMsg, getCurrentPos());
     }
 
 
     /*
-     * debug messages
+     * debug messbges
      */
-    private void debug(String msg) {
+    privbte void debug(String msg) {
         System.out.println(msg);
     }
 }

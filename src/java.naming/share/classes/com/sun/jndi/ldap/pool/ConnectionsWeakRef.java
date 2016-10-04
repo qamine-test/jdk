@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap.pool;
+pbckbge com.sun.jndi.ldbp.pool;
 
-import java.lang.ref.WeakReference;
-import java.lang.ref.ReferenceQueue;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.ref.ReferenceQueue;
 
 /*
- * This class defines a WeakReference to the ConnectionRef (the referent).
+ * This clbss defines b WebkReference to the ConnectionRef (the referent).
  *
- * The ConnectionRef enables to break the reference
- * cycle between Connection, LdapClient, Connections and ConnectionDesc,
+ * The ConnectionRef enbbles to brebk the reference
+ * cycle between Connection, LdbpClient, Connections bnd ConnectionDesc,
  * shown in the figure below.
  *
  *        -------> Connections -----> ConnectionDesc
  *        |              ^                  |
  *        |              |                  |
  *        |              |                  |
- * ConnectionsRef    LdapClient <------------
+ * ConnectionsRef    LdbpClient <------------
  *        ^              |   ^
  *        :              |   |
  *        :              v   |
- * ConnectionsWeakRef  Connection
+ * ConnectionsWebkRef  Connection
  *
- * The ConnectionsRef is for cleaning up the resources held by the
- * Connection thread by making them available to the GC. The pool
+ * The ConnectionsRef is for clebning up the resources held by the
+ * Connection threbd by mbking them bvbilbble to the GC. The pool
  * uses ConnectionRef to hold the pooled resources.
  *
- * This class in turn holds a WeakReference with a ReferenceQueue to the
- * ConnectionRef to track when the ConnectionRef becomes ready
- * for getting GC'ed. It extends from WeakReference in order to hold a
- * reference to Connections used for closing (which in turn terminates
- * the Connection thread) it by monitoring the ReferenceQueue.
+ * This clbss in turn holds b WebkReference with b ReferenceQueue to the
+ * ConnectionRef to trbck when the ConnectionRef becomes rebdy
+ * for getting GC'ed. It extends from WebkReference in order to hold b
+ * reference to Connections used for closing (which in turn terminbtes
+ * the Connection threbd) it by monitoring the ReferenceQueue.
  */
-class ConnectionsWeakRef extends WeakReference<ConnectionsRef> {
+clbss ConnectionsWebkRef extends WebkReference<ConnectionsRef> {
 
-    private final Connections conns;
+    privbte finbl Connections conns;
 
-    ConnectionsWeakRef (ConnectionsRef connsRef,
+    ConnectionsWebkRef (ConnectionsRef connsRef,
                         ReferenceQueue<? super ConnectionsRef> queue) {
         super(connsRef, queue);
         this.conns = connsRef.getConnections();

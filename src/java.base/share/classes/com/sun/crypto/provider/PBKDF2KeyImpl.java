@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.io.ObjectStreamException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Locale;
-import java.security.KeyRep;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.PBEKeySpec;
+import jbvb.io.ObjectStrebmException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.util.Arrbys;
+import jbvb.util.Locble;
+import jbvb.security.KeyRep;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvbx.crypto.Mbc;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.PBEKeySpec;
 
 /**
- * This class represents a PBE key derived using PBKDF2 defined
- * in PKCS#5 v2.0. meaning that
- * 1) the password must consist of characters which will be converted
- *    to bytes using UTF-8 character encoding.
- * 2) salt, iteration count, and to be derived key length are supplied
+ * This clbss represents b PBE key derived using PBKDF2 defined
+ * in PKCS#5 v2.0. mebning thbt
+ * 1) the pbssword must consist of chbrbcters which will be converted
+ *    to bytes using UTF-8 chbrbcter encoding.
+ * 2) sblt, iterbtion count, bnd to be derived key length bre supplied
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  */
-final class PBKDF2KeyImpl implements javax.crypto.interfaces.PBEKey {
+finbl clbss PBKDF2KeyImpl implements jbvbx.crypto.interfbces.PBEKey {
 
-    static final long serialVersionUID = -2234868909660948157L;
+    stbtic finbl long seriblVersionUID = -2234868909660948157L;
 
-    private char[] passwd;
-    private byte[] salt;
-    private int iterCount;
-    private byte[] key;
+    privbte chbr[] pbsswd;
+    privbte byte[] sblt;
+    privbte int iterCount;
+    privbte byte[] key;
 
-    private Mac prf;
+    privbte Mbc prf;
 
-    private static byte[] getPasswordBytes(char[] passwd) {
-        Charset utf8 = Charset.forName("UTF-8");
-        CharBuffer cb = CharBuffer.wrap(passwd);
+    privbte stbtic byte[] getPbsswordBytes(chbr[] pbsswd) {
+        Chbrset utf8 = Chbrset.forNbme("UTF-8");
+        ChbrBuffer cb = ChbrBuffer.wrbp(pbsswd);
         ByteBuffer bb = utf8.encode(cb);
 
         int len = bb.limit();
-        byte[] passwdBytes = new byte[len];
-        bb.get(passwdBytes, 0, len);
+        byte[] pbsswdBytes = new byte[len];
+        bb.get(pbsswdBytes, 0, len);
 
-        return passwdBytes;
+        return pbsswdBytes;
     }
 
     /**
-     * Creates a PBE key from a given PBE key specification.
+     * Crebtes b PBE key from b given PBE key specificbtion.
      *
-     * @param key the given PBE key specification
+     * @pbrbm key the given PBE key specificbtion
      */
     PBKDF2KeyImpl(PBEKeySpec keySpec, String prfAlgo)
-        throws InvalidKeySpecException {
-        char[] passwd = keySpec.getPassword();
-        if (passwd == null) {
-            // Should allow an empty password.
-            this.passwd = new char[0];
+        throws InvblidKeySpecException {
+        chbr[] pbsswd = keySpec.getPbssword();
+        if (pbsswd == null) {
+            // Should bllow bn empty pbssword.
+            this.pbsswd = new chbr[0];
         } else {
-            this.passwd = passwd.clone();
+            this.pbsswd = pbsswd.clone();
         }
-        // Convert the password from char[] to byte[]
-        byte[] passwdBytes = getPasswordBytes(this.passwd);
+        // Convert the pbssword from chbr[] to byte[]
+        byte[] pbsswdBytes = getPbsswordBytes(this.pbsswd);
 
-        this.salt = keySpec.getSalt();
-        if (salt == null) {
-            throw new InvalidKeySpecException("Salt not found");
+        this.sblt = keySpec.getSblt();
+        if (sblt == null) {
+            throw new InvblidKeySpecException("Sblt not found");
         }
-        this.iterCount = keySpec.getIterationCount();
+        this.iterCount = keySpec.getIterbtionCount();
         if (iterCount == 0) {
-            throw new InvalidKeySpecException("Iteration count not found");
+            throw new InvblidKeySpecException("Iterbtion count not found");
         } else if (iterCount < 0) {
-            throw new InvalidKeySpecException("Iteration count is negative");
+            throw new InvblidKeySpecException("Iterbtion count is negbtive");
         }
         int keyLength = keySpec.getKeyLength();
         if (keyLength == 0) {
-            throw new InvalidKeySpecException("Key length not found");
+            throw new InvblidKeySpecException("Key length not found");
         } else if (keyLength < 0) {
-            throw new InvalidKeySpecException("Key length is negative");
+            throw new InvblidKeySpecException("Key length is negbtive");
         }
         try {
-            this.prf = Mac.getInstance(prfAlgo, SunJCE.getInstance());
-        } catch (NoSuchAlgorithmException nsae) {
-            // not gonna happen; re-throw just in case
-            InvalidKeySpecException ike = new InvalidKeySpecException();
-            ike.initCause(nsae);
+            this.prf = Mbc.getInstbnce(prfAlgo, SunJCE.getInstbnce());
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            // not gonnb hbppen; re-throw just in cbse
+            InvblidKeySpecException ike = new InvblidKeySpecException();
+            ike.initCbuse(nsbe);
             throw ike;
         }
-        this.key = deriveKey(prf, passwdBytes, salt, iterCount, keyLength);
+        this.key = deriveKey(prf, pbsswdBytes, sblt, iterCount, keyLength);
     }
 
-    private static byte[] deriveKey(final Mac prf, final byte[] password,
-            byte[] salt, int iterCount, int keyLengthInBit) {
+    privbte stbtic byte[] deriveKey(finbl Mbc prf, finbl byte[] pbssword,
+            byte[] sblt, int iterCount, int keyLengthInBit) {
         int keyLength = keyLengthInBit/8;
         byte[] key = new byte[keyLength];
         try {
-            int hlen = prf.getMacLength();
+            int hlen = prf.getMbcLength();
             int intL = (keyLength + hlen - 1)/hlen; // ceiling
             int intR = keyLength - (intL - 1)*hlen; // residue
             byte[] ui = new byte[hlen];
             byte[] ti = new byte[hlen];
-            // SecretKeySpec cannot be used, since password can be empty here.
-            SecretKey macKey = new SecretKey() {
-                private static final long serialVersionUID = 7874493593505141603L;
+            // SecretKeySpec cbnnot be used, since pbssword cbn be empty here.
+            SecretKey mbcKey = new SecretKey() {
+                privbte stbtic finbl long seriblVersionUID = 7874493593505141603L;
                 @Override
                 public String getAlgorithm() {
                     return prf.getAlgorithm();
                 }
                 @Override
-                public String getFormat() {
+                public String getFormbt() {
                     return "RAW";
                 }
                 @Override
                 public byte[] getEncoded() {
-                    return password;
+                    return pbssword;
                 }
                 @Override
-                public int hashCode() {
-                    return Arrays.hashCode(password) * 41 +
-                      prf.getAlgorithm().toLowerCase(Locale.ENGLISH).hashCode();
+                public int hbshCode() {
+                    return Arrbys.hbshCode(pbssword) * 41 +
+                      prf.getAlgorithm().toLowerCbse(Locble.ENGLISH).hbshCode();
                 }
                 @Override
-                public boolean equals(Object obj) {
+                public boolebn equbls(Object obj) {
                     if (this == obj) return true;
-                    if (this.getClass() != obj.getClass()) return false;
+                    if (this.getClbss() != obj.getClbss()) return fblse;
                     SecretKey sk = (SecretKey)obj;
-                    return prf.getAlgorithm().equalsIgnoreCase(
+                    return prf.getAlgorithm().equblsIgnoreCbse(
                         sk.getAlgorithm()) &&
-                        Arrays.equals(password, sk.getEncoded());
+                        Arrbys.equbls(pbssword, sk.getEncoded());
                 }
             };
-            prf.init(macKey);
+            prf.init(mbcKey);
 
             byte[] ibytes = new byte[4];
             for (int i = 1; i <= intL; i++) {
-                prf.update(salt);
+                prf.updbte(sblt);
                 ibytes[3] = (byte) i;
                 ibytes[2] = (byte) ((i >> 8) & 0xff);
                 ibytes[1] = (byte) ((i >> 16) & 0xff);
                 ibytes[0] = (byte) ((i >> 24) & 0xff);
-                prf.update(ibytes);
-                prf.doFinal(ui, 0);
-                System.arraycopy(ui, 0, ti, 0, ui.length);
+                prf.updbte(ibytes);
+                prf.doFinbl(ui, 0);
+                System.brrbycopy(ui, 0, ti, 0, ui.length);
 
                 for (int j = 2; j <= iterCount; j++) {
-                    prf.update(ui);
-                    prf.doFinal(ui, 0);
-                    // XOR the intermediate Ui's together.
+                    prf.updbte(ui);
+                    prf.doFinbl(ui, 0);
+                    // XOR the intermedibte Ui's together.
                     for (int k = 0; k < ui.length; k++) {
                         ti[k] ^= ui[k];
                     }
                 }
                 if (i == intL) {
-                    System.arraycopy(ti, 0, key, (i-1)*hlen, intR);
+                    System.brrbycopy(ti, 0, key, (i-1)*hlen, intR);
                 } else {
-                    System.arraycopy(ti, 0, key, (i-1)*hlen, hlen);
+                    System.brrbycopy(ti, 0, key, (i-1)*hlen, hlen);
                 }
             }
-        } catch (GeneralSecurityException gse) {
+        } cbtch (GenerblSecurityException gse) {
             throw new RuntimeException("Error deriving PBKDF2 keys");
         }
         return key;
@@ -197,82 +197,82 @@ final class PBKDF2KeyImpl implements javax.crypto.interfaces.PBEKey {
         return "PBKDF2With" + prf.getAlgorithm();
     }
 
-    public int getIterationCount() {
+    public int getIterbtionCount() {
         return iterCount;
     }
 
-    public char[] getPassword() {
-        return passwd.clone();
+    public chbr[] getPbssword() {
+        return pbsswd.clone();
     }
 
-    public byte[] getSalt() {
-        return salt.clone();
+    public byte[] getSblt() {
+        return sblt.clone();
     }
 
-    public String getFormat() {
+    public String getFormbt() {
         return "RAW";
     }
 
     /**
-     * Calculates a hash code value for the object.
-     * Objects that are equal will also have the same hashcode.
+     * Cblculbtes b hbsh code vblue for the object.
+     * Objects thbt bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
         for (int i = 1; i < this.key.length; i++) {
-            retval += this.key[i] * i;
+            retvbl += this.key[i] * i;
         }
-        return(retval ^= getAlgorithm().toLowerCase(Locale.ENGLISH).hashCode());
+        return(retvbl ^= getAlgorithm().toLowerCbse(Locble.ENGLISH).hbshCode());
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (!(obj instanceof SecretKey))
-            return false;
+        if (!(obj instbnceof SecretKey))
+            return fblse;
 
-        SecretKey that = (SecretKey) obj;
+        SecretKey thbt = (SecretKey) obj;
 
-        if (!(that.getAlgorithm().equalsIgnoreCase(getAlgorithm())))
-            return false;
-        if (!(that.getFormat().equalsIgnoreCase("RAW")))
-            return false;
-        byte[] thatEncoded = that.getEncoded();
-        boolean ret = Arrays.equals(key, that.getEncoded());
-        java.util.Arrays.fill(thatEncoded, (byte)0x00);
+        if (!(thbt.getAlgorithm().equblsIgnoreCbse(getAlgorithm())))
+            return fblse;
+        if (!(thbt.getFormbt().equblsIgnoreCbse("RAW")))
+            return fblse;
+        byte[] thbtEncoded = thbt.getEncoded();
+        boolebn ret = Arrbys.equbls(key, thbt.getEncoded());
+        jbvb.util.Arrbys.fill(thbtEncoded, (byte)0x00);
         return ret;
     }
 
     /**
-     * Replace the PBE key to be serialized.
+     * Replbce the PBE key to be seriblized.
      *
-     * @return the standard KeyRep object to be serialized
+     * @return the stbndbrd KeyRep object to be seriblized
      *
-     * @throws ObjectStreamException if a new object representing
-     * this PBE key could not be created
+     * @throws ObjectStrebmException if b new object representing
+     * this PBE key could not be crebted
      */
-    private Object writeReplace() throws ObjectStreamException {
+    privbte Object writeReplbce() throws ObjectStrebmException {
             return new KeyRep(KeyRep.Type.SECRET, getAlgorithm(),
-                              getFormat(), getEncoded());
+                              getFormbt(), getEncoded());
     }
 
     /**
-     * Ensures that the password bytes of this key are
-     * erased when there are no more references to it.
+     * Ensures thbt the pbssword bytes of this key bre
+     * erbsed when there bre no more references to it.
      */
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         try {
-            if (this.passwd != null) {
-                java.util.Arrays.fill(this.passwd, '0');
-                this.passwd = null;
+            if (this.pbsswd != null) {
+                jbvb.util.Arrbys.fill(this.pbsswd, '0');
+                this.pbsswd = null;
             }
             if (this.key != null) {
-                java.util.Arrays.fill(this.key, (byte)0x00);
+                jbvb.util.Arrbys.fill(this.key, (byte)0x00);
                 this.key = null;
             }
-        } finally {
-            super.finalize();
+        } finblly {
+            super.finblize();
         }
     }
 }

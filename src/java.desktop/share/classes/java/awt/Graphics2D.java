@@ -1,1234 +1,1234 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.RenderingHints.Key;
-import java.awt.geom.AffineTransform;
-import java.awt.image.ImageObserver;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
-import java.awt.font.GlyphVector;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextAttribute;
-import java.text.AttributedCharacterIterator;
-import java.util.Map;
+import jbvb.bwt.RenderingHints.Key;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.renderbble.RenderbbleImbge;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.util.Mbp;
 
 /**
- * This <code>Graphics2D</code> class extends the
- * {@link Graphics} class to provide more sophisticated
- * control over geometry, coordinate transformations, color management,
- * and text layout.  This is the fundamental class for rendering
- * 2-dimensional shapes, text and images on the  Java(tm) platform.
+ * This <code>Grbphics2D</code> clbss extends the
+ * {@link Grbphics} clbss to provide more sophisticbted
+ * control over geometry, coordinbte trbnsformbtions, color mbnbgement,
+ * bnd text lbyout.  This is the fundbmentbl clbss for rendering
+ * 2-dimensionbl shbpes, text bnd imbges on the  Jbvb(tm) plbtform.
  *
- * <h2>Coordinate Spaces</h2>
- * All coordinates passed to a <code>Graphics2D</code> object are specified
- * in a device-independent coordinate system called User Space, which is
- * used by applications.  The <code>Graphics2D</code> object contains
- * an {@link AffineTransform} object as part of its rendering state
- * that defines how to convert coordinates from user space to
- * device-dependent coordinates in Device Space.
+ * <h2>Coordinbte Spbces</h2>
+ * All coordinbtes pbssed to b <code>Grbphics2D</code> object bre specified
+ * in b device-independent coordinbte system cblled User Spbce, which is
+ * used by bpplicbtions.  The <code>Grbphics2D</code> object contbins
+ * bn {@link AffineTrbnsform} object bs pbrt of its rendering stbte
+ * thbt defines how to convert coordinbtes from user spbce to
+ * device-dependent coordinbtes in Device Spbce.
  * <p>
- * Coordinates in device space usually refer to individual device pixels
- * and are aligned on the infinitely thin gaps between these pixels.
- * Some <code>Graphics2D</code> objects can be used to capture rendering
- * operations for storage into a graphics metafile for playback on a
- * concrete device of unknown physical resolution at a later time.  Since
- * the resolution might not be known when the rendering operations are
- * captured, the <code>Graphics2D</code> <code>Transform</code> is set up
- * to transform user coordinates to a virtual device space that
- * approximates the expected resolution of the target device. Further
- * transformations might need to be applied at playback time if the
- * estimate is incorrect.
+ * Coordinbtes in device spbce usublly refer to individubl device pixels
+ * bnd bre bligned on the infinitely thin gbps between these pixels.
+ * Some <code>Grbphics2D</code> objects cbn be used to cbpture rendering
+ * operbtions for storbge into b grbphics metbfile for plbybbck on b
+ * concrete device of unknown physicbl resolution bt b lbter time.  Since
+ * the resolution might not be known when the rendering operbtions bre
+ * cbptured, the <code>Grbphics2D</code> <code>Trbnsform</code> is set up
+ * to trbnsform user coordinbtes to b virtubl device spbce thbt
+ * bpproximbtes the expected resolution of the tbrget device. Further
+ * trbnsformbtions might need to be bpplied bt plbybbck time if the
+ * estimbte is incorrect.
  * <p>
- * Some of the operations performed by the rendering attribute objects
- * occur in the device space, but all <code>Graphics2D</code> methods take
- * user space coordinates.
+ * Some of the operbtions performed by the rendering bttribute objects
+ * occur in the device spbce, but bll <code>Grbphics2D</code> methods tbke
+ * user spbce coordinbtes.
  * <p>
- * Every <code>Graphics2D</code> object is associated with a target that
- * defines where rendering takes place. A
- * {@link GraphicsConfiguration} object defines the characteristics
- * of the rendering target, such as pixel format and resolution.
- * The same rendering target is used throughout the life of a
- * <code>Graphics2D</code> object.
+ * Every <code>Grbphics2D</code> object is bssocibted with b tbrget thbt
+ * defines where rendering tbkes plbce. A
+ * {@link GrbphicsConfigurbtion} object defines the chbrbcteristics
+ * of the rendering tbrget, such bs pixel formbt bnd resolution.
+ * The sbme rendering tbrget is used throughout the life of b
+ * <code>Grbphics2D</code> object.
  * <p>
- * When creating a <code>Graphics2D</code> object,  the
- * <code>GraphicsConfiguration</code>
- * specifies the <a name="deftransform">default transform</a> for
- * the target of the <code>Graphics2D</code> (a
- * {@link Component} or {@link Image}).  This default transform maps the
- * user space coordinate system to screen and printer device coordinates
- * such that the origin maps to the upper left hand corner of the
- * target region of the device with increasing X coordinates extending
- * to the right and increasing Y coordinates extending downward.
- * The scaling of the default transform is set to identity for those devices
- * that are close to 72 dpi, such as screen devices.
- * The scaling of the default transform is set to approximately 72 user
- * space coordinates per square inch for high resolution devices, such as
- * printers.  For image buffers, the default transform is the
- * <code>Identity</code> transform.
+ * When crebting b <code>Grbphics2D</code> object,  the
+ * <code>GrbphicsConfigurbtion</code>
+ * specifies the <b nbme="deftrbnsform">defbult trbnsform</b> for
+ * the tbrget of the <code>Grbphics2D</code> (b
+ * {@link Component} or {@link Imbge}).  This defbult trbnsform mbps the
+ * user spbce coordinbte system to screen bnd printer device coordinbtes
+ * such thbt the origin mbps to the upper left hbnd corner of the
+ * tbrget region of the device with increbsing X coordinbtes extending
+ * to the right bnd increbsing Y coordinbtes extending downwbrd.
+ * The scbling of the defbult trbnsform is set to identity for those devices
+ * thbt bre close to 72 dpi, such bs screen devices.
+ * The scbling of the defbult trbnsform is set to bpproximbtely 72 user
+ * spbce coordinbtes per squbre inch for high resolution devices, such bs
+ * printers.  For imbge buffers, the defbult trbnsform is the
+ * <code>Identity</code> trbnsform.
  *
  * <h2>Rendering Process</h2>
- * The Rendering Process can be broken down into four phases that are
- * controlled by the <code>Graphics2D</code> rendering attributes.
- * The renderer can optimize many of these steps, either by caching the
- * results for future calls, by collapsing multiple virtual steps into
- * a single operation, or by recognizing various attributes as common
- * simple cases that can be eliminated by modifying other parts of the
- * operation.
+ * The Rendering Process cbn be broken down into four phbses thbt bre
+ * controlled by the <code>Grbphics2D</code> rendering bttributes.
+ * The renderer cbn optimize mbny of these steps, either by cbching the
+ * results for future cblls, by collbpsing multiple virtubl steps into
+ * b single operbtion, or by recognizing vbrious bttributes bs common
+ * simple cbses thbt cbn be eliminbted by modifying other pbrts of the
+ * operbtion.
  * <p>
- * The steps in the rendering process are:
+ * The steps in the rendering process bre:
  * <ol>
  * <li>
- * Determine what to render.
+ * Determine whbt to render.
  * <li>
- * Constrain the rendering operation to the current <code>Clip</code>.
- * The <code>Clip</code> is specified by a {@link Shape} in user
- * space and is controlled by the program using the various clip
- * manipulation methods of <code>Graphics</code> and
- * <code>Graphics2D</code>.  This <i>user clip</i>
- * is transformed into device space by the current
- * <code>Transform</code> and combined with the
- * <i>device clip</i>, which is defined by the visibility of windows and
- * device extents.  The combination of the user clip and device clip
- * defines the <i>composite clip</i>, which determines the final clipping
+ * Constrbin the rendering operbtion to the current <code>Clip</code>.
+ * The <code>Clip</code> is specified by b {@link Shbpe} in user
+ * spbce bnd is controlled by the progrbm using the vbrious clip
+ * mbnipulbtion methods of <code>Grbphics</code> bnd
+ * <code>Grbphics2D</code>.  This <i>user clip</i>
+ * is trbnsformed into device spbce by the current
+ * <code>Trbnsform</code> bnd combined with the
+ * <i>device clip</i>, which is defined by the visibility of windows bnd
+ * device extents.  The combinbtion of the user clip bnd device clip
+ * defines the <i>composite clip</i>, which determines the finbl clipping
  * region.  The user clip is not modified by the rendering
  * system to reflect the resulting composite clip.
  * <li>
- * Determine what colors to render.
+ * Determine whbt colors to render.
  * <li>
- * Apply the colors to the destination drawing surface using the current
- * {@link Composite} attribute in the <code>Graphics2D</code> context.
+ * Apply the colors to the destinbtion drbwing surfbce using the current
+ * {@link Composite} bttribute in the <code>Grbphics2D</code> context.
  * </ol>
  * <br>
- * The three types of rendering operations, along with details of each
- * of their particular rendering processes are:
+ * The three types of rendering operbtions, blong with detbils of ebch
+ * of their pbrticulbr rendering processes bre:
  * <ol>
  * <li>
- * <b><a name="rendershape"><code>Shape</code> operations</a></b>
+ * <b><b nbme="rendershbpe"><code>Shbpe</code> operbtions</b></b>
  * <ol>
  * <li>
- * If the operation is a <code>draw(Shape)</code> operation, then
- * the  {@link Stroke#createStrokedShape(Shape) createStrokedShape}
- * method on the current {@link Stroke} attribute in the
- * <code>Graphics2D</code> context is used to construct a new
- * <code>Shape</code> object that contains the outline of the specified
- * <code>Shape</code>.
+ * If the operbtion is b <code>drbw(Shbpe)</code> operbtion, then
+ * the  {@link Stroke#crebteStrokedShbpe(Shbpe) crebteStrokedShbpe}
+ * method on the current {@link Stroke} bttribute in the
+ * <code>Grbphics2D</code> context is used to construct b new
+ * <code>Shbpe</code> object thbt contbins the outline of the specified
+ * <code>Shbpe</code>.
  * <li>
- * The <code>Shape</code> is transformed from user space to device space
- * using the current <code>Transform</code>
- * in the <code>Graphics2D</code> context.
+ * The <code>Shbpe</code> is trbnsformed from user spbce to device spbce
+ * using the current <code>Trbnsform</code>
+ * in the <code>Grbphics2D</code> context.
  * <li>
- * The outline of the <code>Shape</code> is extracted using the
- * {@link Shape#getPathIterator(AffineTransform) getPathIterator} method of
- * <code>Shape</code>, which returns a
- * {@link java.awt.geom.PathIterator PathIterator}
- * object that iterates along the boundary of the <code>Shape</code>.
+ * The outline of the <code>Shbpe</code> is extrbcted using the
+ * {@link Shbpe#getPbthIterbtor(AffineTrbnsform) getPbthIterbtor} method of
+ * <code>Shbpe</code>, which returns b
+ * {@link jbvb.bwt.geom.PbthIterbtor PbthIterbtor}
+ * object thbt iterbtes blong the boundbry of the <code>Shbpe</code>.
  * <li>
- * If the <code>Graphics2D</code> object cannot handle the curved segments
- * that the <code>PathIterator</code> object returns then it can call the
- * alternate
- * {@link Shape#getPathIterator(AffineTransform, double) getPathIterator}
- * method of <code>Shape</code>, which flattens the <code>Shape</code>.
+ * If the <code>Grbphics2D</code> object cbnnot hbndle the curved segments
+ * thbt the <code>PbthIterbtor</code> object returns then it cbn cbll the
+ * blternbte
+ * {@link Shbpe#getPbthIterbtor(AffineTrbnsform, double) getPbthIterbtor}
+ * method of <code>Shbpe</code>, which flbttens the <code>Shbpe</code>.
  * <li>
- * The current {@link Paint} in the <code>Graphics2D</code> context
- * is queried for a {@link PaintContext}, which specifies the
- * colors to render in device space.
+ * The current {@link Pbint} in the <code>Grbphics2D</code> context
+ * is queried for b {@link PbintContext}, which specifies the
+ * colors to render in device spbce.
  * </ol>
  * <li>
- * <b><a name=rendertext>Text operations</a></b>
+ * <b><b nbme=rendertext>Text operbtions</b></b>
  * <ol>
  * <li>
- * The following steps are used to determine the set of glyphs required
- * to render the indicated <code>String</code>:
+ * The following steps bre used to determine the set of glyphs required
+ * to render the indicbted <code>String</code>:
  * <ol>
  * <li>
- * If the argument is a <code>String</code>, then the current
- * <code>Font</code> in the <code>Graphics2D</code> context is asked to
- * convert the Unicode characters in the <code>String</code> into a set of
- * glyphs for presentation with whatever basic layout and shaping
- * algorithms the font implements.
+ * If the brgument is b <code>String</code>, then the current
+ * <code>Font</code> in the <code>Grbphics2D</code> context is bsked to
+ * convert the Unicode chbrbcters in the <code>String</code> into b set of
+ * glyphs for presentbtion with whbtever bbsic lbyout bnd shbping
+ * blgorithms the font implements.
  * <li>
- * If the argument is an
- * {@link AttributedCharacterIterator},
- * the iterator is asked to convert itself to a
- * {@link java.awt.font.TextLayout TextLayout}
- * using its embedded font attributes. The <code>TextLayout</code>
- * implements more sophisticated glyph layout algorithms that
- * perform Unicode bi-directional layout adjustments automatically
+ * If the brgument is bn
+ * {@link AttributedChbrbcterIterbtor},
+ * the iterbtor is bsked to convert itself to b
+ * {@link jbvb.bwt.font.TextLbyout TextLbyout}
+ * using its embedded font bttributes. The <code>TextLbyout</code>
+ * implements more sophisticbted glyph lbyout blgorithms thbt
+ * perform Unicode bi-directionbl lbyout bdjustments butombticblly
  * for multiple fonts of differing writing directions.
   * <li>
- * If the argument is a
+ * If the brgument is b
  * {@link GlyphVector}, then the
- * <code>GlyphVector</code> object already contains the appropriate
- * font-specific glyph codes with explicit coordinates for the position of
- * each glyph.
+ * <code>GlyphVector</code> object blrebdy contbins the bppropribte
+ * font-specific glyph codes with explicit coordinbtes for the position of
+ * ebch glyph.
  * </ol>
  * <li>
- * The current <code>Font</code> is queried to obtain outlines for the
- * indicated glyphs.  These outlines are treated as shapes in user space
- * relative to the position of each glyph that was determined in step 1.
+ * The current <code>Font</code> is queried to obtbin outlines for the
+ * indicbted glyphs.  These outlines bre trebted bs shbpes in user spbce
+ * relbtive to the position of ebch glyph thbt wbs determined in step 1.
  * <li>
- * The character outlines are filled as indicated above
- * under <a href="#rendershape"><code>Shape</code> operations</a>.
+ * The chbrbcter outlines bre filled bs indicbted bbove
+ * under <b href="#rendershbpe"><code>Shbpe</code> operbtions</b>.
  * <li>
- * The current <code>Paint</code> is queried for a
- * <code>PaintContext</code>, which specifies
- * the colors to render in device space.
+ * The current <code>Pbint</code> is queried for b
+ * <code>PbintContext</code>, which specifies
+ * the colors to render in device spbce.
  * </ol>
  * <li>
- * <b><a name= renderingimage><code>Image</code> Operations</a></b>
+ * <b><b nbme= renderingimbge><code>Imbge</code> Operbtions</b></b>
  * <ol>
  * <li>
  * The region of interest is defined by the bounding box of the source
- * <code>Image</code>.
- * This bounding box is specified in Image Space, which is the
- * <code>Image</code> object's local coordinate system.
+ * <code>Imbge</code>.
+ * This bounding box is specified in Imbge Spbce, which is the
+ * <code>Imbge</code> object's locbl coordinbte system.
  * <li>
- * If an <code>AffineTransform</code> is passed to
- * {@link #drawImage(java.awt.Image, java.awt.geom.AffineTransform, java.awt.image.ImageObserver) drawImage(Image, AffineTransform, ImageObserver)},
- * the <code>AffineTransform</code> is used to transform the bounding
- * box from image space to user space. If no <code>AffineTransform</code>
- * is supplied, the bounding box is treated as if it is already in user space.
+ * If bn <code>AffineTrbnsform</code> is pbssed to
+ * {@link #drbwImbge(jbvb.bwt.Imbge, jbvb.bwt.geom.AffineTrbnsform, jbvb.bwt.imbge.ImbgeObserver) drbwImbge(Imbge, AffineTrbnsform, ImbgeObserver)},
+ * the <code>AffineTrbnsform</code> is used to trbnsform the bounding
+ * box from imbge spbce to user spbce. If no <code>AffineTrbnsform</code>
+ * is supplied, the bounding box is trebted bs if it is blrebdy in user spbce.
  * <li>
- * The bounding box of the source <code>Image</code> is transformed from user
- * space into device space using the current <code>Transform</code>.
- * Note that the result of transforming the bounding box does not
- * necessarily result in a rectangular region in device space.
+ * The bounding box of the source <code>Imbge</code> is trbnsformed from user
+ * spbce into device spbce using the current <code>Trbnsform</code>.
+ * Note thbt the result of trbnsforming the bounding box does not
+ * necessbrily result in b rectbngulbr region in device spbce.
  * <li>
- * The <code>Image</code> object determines what colors to render,
- * sampled according to the source to destination
- * coordinate mapping specified by the current <code>Transform</code> and the
- * optional image transform.
+ * The <code>Imbge</code> object determines whbt colors to render,
+ * sbmpled bccording to the source to destinbtion
+ * coordinbte mbpping specified by the current <code>Trbnsform</code> bnd the
+ * optionbl imbge trbnsform.
  * </ol>
  * </ol>
  *
- * <h2>Default Rendering Attributes</h2>
- * The default values for the <code>Graphics2D</code> rendering attributes are:
+ * <h2>Defbult Rendering Attributes</h2>
+ * The defbult vblues for the <code>Grbphics2D</code> rendering bttributes bre:
  * <dl>
- * <dt><i><code>Paint</code></i>
+ * <dt><i><code>Pbint</code></i>
  * <dd>The color of the <code>Component</code>.
  * <dt><i><code>Font</code></i>
  * <dd>The <code>Font</code> of the <code>Component</code>.
  * <dt><i><code>Stroke</code></i>
- * <dd>A square pen with a linewidth of 1, no dashing, miter segment joins
- * and square end caps.
- * <dt><i><code>Transform</code></i>
+ * <dd>A squbre pen with b linewidth of 1, no dbshing, miter segment joins
+ * bnd squbre end cbps.
+ * <dt><i><code>Trbnsform</code></i>
  * <dd>The
- * {@link GraphicsConfiguration#getDefaultTransform() getDefaultTransform}
- * for the <code>GraphicsConfiguration</code> of the <code>Component</code>.
+ * {@link GrbphicsConfigurbtion#getDefbultTrbnsform() getDefbultTrbnsform}
+ * for the <code>GrbphicsConfigurbtion</code> of the <code>Component</code>.
  * <dt><i><code>Composite</code></i>
- * <dd>The {@link AlphaComposite#SRC_OVER} rule.
+ * <dd>The {@link AlphbComposite#SRC_OVER} rule.
  * <dt><i><code>Clip</code></i>
  * <dd>No rendering <code>Clip</code>, the output is clipped to the
  * <code>Component</code>.
  * </dl>
  *
- * <h2>Rendering Compatibility Issues</h2>
- * The JDK(tm) 1.1 rendering model is based on a pixelization model
- * that specifies that coordinates
- * are infinitely thin, lying between the pixels.  Drawing operations are
- * performed using a one-pixel wide pen that fills the
- * pixel below and to the right of the anchor point on the path.
+ * <h2>Rendering Compbtibility Issues</h2>
+ * The JDK(tm) 1.1 rendering model is bbsed on b pixelizbtion model
+ * thbt specifies thbt coordinbtes
+ * bre infinitely thin, lying between the pixels.  Drbwing operbtions bre
+ * performed using b one-pixel wide pen thbt fills the
+ * pixel below bnd to the right of the bnchor point on the pbth.
  * The JDK 1.1 rendering model is consistent with the
- * capabilities of most of the existing class of platform
- * renderers that need  to resolve integer coordinates to a
- * discrete pen that must fall completely on a specified number of pixels.
+ * cbpbbilities of most of the existing clbss of plbtform
+ * renderers thbt need  to resolve integer coordinbtes to b
+ * discrete pen thbt must fbll completely on b specified number of pixels.
  * <p>
- * The Java 2D(tm) (Java(tm) 2 platform) API supports antialiasing renderers.
- * A pen with a width of one pixel does not need to fall
- * completely on pixel N as opposed to pixel N+1.  The pen can fall
- * partially on both pixels. It is not necessary to choose a bias
- * direction for a wide pen since the blending that occurs along the
- * pen traversal edges makes the sub-pixel position of the pen
- * visible to the user.  On the other hand, when antialiasing is
+ * The Jbvb 2D(tm) (Jbvb(tm) 2 plbtform) API supports bntiblibsing renderers.
+ * A pen with b width of one pixel does not need to fbll
+ * completely on pixel N bs opposed to pixel N+1.  The pen cbn fbll
+ * pbrtiblly on both pixels. It is not necessbry to choose b bibs
+ * direction for b wide pen since the blending thbt occurs blong the
+ * pen trbversbl edges mbkes the sub-pixel position of the pen
+ * visible to the user.  On the other hbnd, when bntiblibsing is
  * turned off by setting the
  * {@link RenderingHints#KEY_ANTIALIASING KEY_ANTIALIASING} hint key
  * to the
  * {@link RenderingHints#VALUE_ANTIALIAS_OFF VALUE_ANTIALIAS_OFF}
- * hint value, the renderer might need
- * to apply a bias to determine which pixel to modify when the pen
- * is straddling a pixel boundary, such as when it is drawn
- * along an integer coordinate in device space.  While the capabilities
- * of an antialiasing renderer make it no longer necessary for the
- * rendering model to specify a bias for the pen, it is desirable for the
- * antialiasing and non-antialiasing renderers to perform similarly for
- * the common cases of drawing one-pixel wide horizontal and vertical
- * lines on the screen.  To ensure that turning on antialiasing by
+ * hint vblue, the renderer might need
+ * to bpply b bibs to determine which pixel to modify when the pen
+ * is strbddling b pixel boundbry, such bs when it is drbwn
+ * blong bn integer coordinbte in device spbce.  While the cbpbbilities
+ * of bn bntiblibsing renderer mbke it no longer necessbry for the
+ * rendering model to specify b bibs for the pen, it is desirbble for the
+ * bntiblibsing bnd non-bntiblibsing renderers to perform similbrly for
+ * the common cbses of drbwing one-pixel wide horizontbl bnd verticbl
+ * lines on the screen.  To ensure thbt turning on bntiblibsing by
  * setting the
  * {@link RenderingHints#KEY_ANTIALIASING KEY_ANTIALIASING} hint
  * key to
  * {@link RenderingHints#VALUE_ANTIALIAS_ON VALUE_ANTIALIAS_ON}
- * does not cause such lines to suddenly become twice as wide and half
- * as opaque, it is desirable to have the model specify a path for such
- * lines so that they completely cover a particular set of pixels to help
- * increase their crispness.
+ * does not cbuse such lines to suddenly become twice bs wide bnd hblf
+ * bs opbque, it is desirbble to hbve the model specify b pbth for such
+ * lines so thbt they completely cover b pbrticulbr set of pixels to help
+ * increbse their crispness.
  * <p>
- * Java 2D API maintains compatibility with JDK 1.1 rendering
- * behavior, such that legacy operations and existing renderer
- * behavior is unchanged under Java 2D API.  Legacy
- * methods that map onto general <code>draw</code> and
- * <code>fill</code> methods are defined, which clearly indicates
- * how <code>Graphics2D</code> extends <code>Graphics</code> based
- * on settings of <code>Stroke</code> and <code>Transform</code>
- * attributes and rendering hints.  The definition
- * performs identically under default attribute settings.
- * For example, the default <code>Stroke</code> is a
- * <code>BasicStroke</code> with a width of 1 and no dashing and the
- * default Transform for screen drawing is an Identity transform.
+ * Jbvb 2D API mbintbins compbtibility with JDK 1.1 rendering
+ * behbvior, such thbt legbcy operbtions bnd existing renderer
+ * behbvior is unchbnged under Jbvb 2D API.  Legbcy
+ * methods thbt mbp onto generbl <code>drbw</code> bnd
+ * <code>fill</code> methods bre defined, which clebrly indicbtes
+ * how <code>Grbphics2D</code> extends <code>Grbphics</code> bbsed
+ * on settings of <code>Stroke</code> bnd <code>Trbnsform</code>
+ * bttributes bnd rendering hints.  The definition
+ * performs identicblly under defbult bttribute settings.
+ * For exbmple, the defbult <code>Stroke</code> is b
+ * <code>BbsicStroke</code> with b width of 1 bnd no dbshing bnd the
+ * defbult Trbnsform for screen drbwing is bn Identity trbnsform.
  * <p>
- * The following two rules provide predictable rendering behavior whether
- * aliasing or antialiasing is being used.
+ * The following two rules provide predictbble rendering behbvior whether
+ * blibsing or bntiblibsing is being used.
  * <ul>
- * <li> Device coordinates are defined to be between device pixels which
- * avoids any inconsistent results between aliased and antialiased
- * rendering.  If coordinates were defined to be at a pixel's center, some
- * of the pixels covered by a shape, such as a rectangle, would only be
- * half covered.
- * With aliased rendering, the half covered pixels would either be
- * rendered inside the shape or outside the shape.  With anti-aliased
- * rendering, the pixels on the entire edge of the shape would be half
- * covered.  On the other hand, since coordinates are defined to be
- * between pixels, a shape like a rectangle would have no half covered
- * pixels, whether or not it is rendered using antialiasing.
- * <li> Lines and paths stroked using the <code>BasicStroke</code>
- * object may be "normalized" to provide consistent rendering of the
- * outlines when positioned at various points on the drawable and
- * whether drawn with aliased or antialiased rendering.  This
- * normalization process is controlled by the
+ * <li> Device coordinbtes bre defined to be between device pixels which
+ * bvoids bny inconsistent results between blibsed bnd bntiblibsed
+ * rendering.  If coordinbtes were defined to be bt b pixel's center, some
+ * of the pixels covered by b shbpe, such bs b rectbngle, would only be
+ * hblf covered.
+ * With blibsed rendering, the hblf covered pixels would either be
+ * rendered inside the shbpe or outside the shbpe.  With bnti-blibsed
+ * rendering, the pixels on the entire edge of the shbpe would be hblf
+ * covered.  On the other hbnd, since coordinbtes bre defined to be
+ * between pixels, b shbpe like b rectbngle would hbve no hblf covered
+ * pixels, whether or not it is rendered using bntiblibsing.
+ * <li> Lines bnd pbths stroked using the <code>BbsicStroke</code>
+ * object mby be "normblized" to provide consistent rendering of the
+ * outlines when positioned bt vbrious points on the drbwbble bnd
+ * whether drbwn with blibsed or bntiblibsed rendering.  This
+ * normblizbtion process is controlled by the
  * {@link RenderingHints#KEY_STROKE_CONTROL KEY_STROKE_CONTROL} hint.
- * The exact normalization algorithm is not specified, but the goals
- * of this normalization are to ensure that lines are rendered with
- * consistent visual appearance regardless of how they fall on the
- * pixel grid and to promote more solid horizontal and vertical
- * lines in antialiased mode so that they resemble their non-antialiased
- * counterparts more closely.  A typical normalization step might
- * promote antialiased line endpoints to pixel centers to reduce the
- * amount of blending or adjust the subpixel positioning of
- * non-antialiased lines so that the floating point line widths
- * round to even or odd pixel counts with equal likelihood.  This
- * process can move endpoints by up to half a pixel (usually towards
- * positive infinity along both axes) to promote these consistent
+ * The exbct normblizbtion blgorithm is not specified, but the gobls
+ * of this normblizbtion bre to ensure thbt lines bre rendered with
+ * consistent visubl bppebrbnce regbrdless of how they fbll on the
+ * pixel grid bnd to promote more solid horizontbl bnd verticbl
+ * lines in bntiblibsed mode so thbt they resemble their non-bntiblibsed
+ * counterpbrts more closely.  A typicbl normblizbtion step might
+ * promote bntiblibsed line endpoints to pixel centers to reduce the
+ * bmount of blending or bdjust the subpixel positioning of
+ * non-bntiblibsed lines so thbt the flobting point line widths
+ * round to even or odd pixel counts with equbl likelihood.  This
+ * process cbn move endpoints by up to hblf b pixel (usublly towbrds
+ * positive infinity blong both bxes) to promote these consistent
  * results.
  * </ul>
  * <p>
- * The following definitions of general legacy methods
- * perform identically to previously specified behavior under default
- * attribute settings:
+ * The following definitions of generbl legbcy methods
+ * perform identicblly to previously specified behbvior under defbult
+ * bttribute settings:
  * <ul>
  * <li>
- * For <code>fill</code> operations, including <code>fillRect</code>,
- * <code>fillRoundRect</code>, <code>fillOval</code>,
- * <code>fillArc</code>, <code>fillPolygon</code>, and
- * <code>clearRect</code>, {@link #fill(Shape) fill} can now be called
- * with the desired <code>Shape</code>.  For example, when filling a
- * rectangle:
+ * For <code>fill</code> operbtions, including <code>fillRect</code>,
+ * <code>fillRoundRect</code>, <code>fillOvbl</code>,
+ * <code>fillArc</code>, <code>fillPolygon</code>, bnd
+ * <code>clebrRect</code>, {@link #fill(Shbpe) fill} cbn now be cblled
+ * with the desired <code>Shbpe</code>.  For exbmple, when filling b
+ * rectbngle:
  * <pre>
- * fill(new Rectangle(x, y, w, h));
+ * fill(new Rectbngle(x, y, w, h));
  * </pre>
- * is called.
+ * is cblled.
  *
  * <li>
- * Similarly, for draw operations, including <code>drawLine</code>,
- * <code>drawRect</code>, <code>drawRoundRect</code>,
- * <code>drawOval</code>, <code>drawArc</code>, <code>drawPolyline</code>,
- * and <code>drawPolygon</code>, {@link #draw(Shape) draw} can now be
- * called with the desired <code>Shape</code>.  For example, when drawing a
- * rectangle:
+ * Similbrly, for drbw operbtions, including <code>drbwLine</code>,
+ * <code>drbwRect</code>, <code>drbwRoundRect</code>,
+ * <code>drbwOvbl</code>, <code>drbwArc</code>, <code>drbwPolyline</code>,
+ * bnd <code>drbwPolygon</code>, {@link #drbw(Shbpe) drbw} cbn now be
+ * cblled with the desired <code>Shbpe</code>.  For exbmple, when drbwing b
+ * rectbngle:
  * <pre>
- * draw(new Rectangle(x, y, w, h));
+ * drbw(new Rectbngle(x, y, w, h));
  * </pre>
- * is called.
+ * is cblled.
  *
  * <li>
- * The <code>draw3DRect</code> and <code>fill3DRect</code> methods were
- * implemented in terms of the <code>drawLine</code> and
- * <code>fillRect</code> methods in the <code>Graphics</code> class which
- * would predicate their behavior upon the current <code>Stroke</code>
- * and <code>Paint</code> objects in a <code>Graphics2D</code> context.
- * This class overrides those implementations with versions that use
+ * The <code>drbw3DRect</code> bnd <code>fill3DRect</code> methods were
+ * implemented in terms of the <code>drbwLine</code> bnd
+ * <code>fillRect</code> methods in the <code>Grbphics</code> clbss which
+ * would predicbte their behbvior upon the current <code>Stroke</code>
+ * bnd <code>Pbint</code> objects in b <code>Grbphics2D</code> context.
+ * This clbss overrides those implementbtions with versions thbt use
  * the current <code>Color</code> exclusively, overriding the current
- * <code>Paint</code> and which uses <code>fillRect</code> to describe
- * the exact same behavior as the preexisting methods regardless of the
+ * <code>Pbint</code> bnd which uses <code>fillRect</code> to describe
+ * the exbct sbme behbvior bs the preexisting methods regbrdless of the
  * setting of the current <code>Stroke</code>.
  * </ul>
- * The <code>Graphics</code> class defines only the <code>setColor</code>
- * method to control the color to be painted.  Since the Java 2D API extends
- * the <code>Color</code> object to implement the new <code>Paint</code>
- * interface, the existing
- * <code>setColor</code> method is now a convenience method for setting the
- * current <code>Paint</code> attribute to a <code>Color</code> object.
- * <code>setColor(c)</code> is equivalent to <code>setPaint(c)</code>.
+ * The <code>Grbphics</code> clbss defines only the <code>setColor</code>
+ * method to control the color to be pbinted.  Since the Jbvb 2D API extends
+ * the <code>Color</code> object to implement the new <code>Pbint</code>
+ * interfbce, the existing
+ * <code>setColor</code> method is now b convenience method for setting the
+ * current <code>Pbint</code> bttribute to b <code>Color</code> object.
+ * <code>setColor(c)</code> is equivblent to <code>setPbint(c)</code>.
  * <p>
- * The <code>Graphics</code> class defines two methods for controlling
- * how colors are applied to the destination.
+ * The <code>Grbphics</code> clbss defines two methods for controlling
+ * how colors bre bpplied to the destinbtion.
  * <ol>
  * <li>
- * The <code>setPaintMode</code> method is implemented as a convenience
- * method to set the default <code>Composite</code>, equivalent to
- * <code>setComposite(new AlphaComposite.SrcOver)</code>.
+ * The <code>setPbintMode</code> method is implemented bs b convenience
+ * method to set the defbult <code>Composite</code>, equivblent to
+ * <code>setComposite(new AlphbComposite.SrcOver)</code>.
  * <li>
  * The <code>setXORMode(Color xorcolor)</code> method is implemented
- * as a convenience method to set a special <code>Composite</code> object that
- * ignores the <code>Alpha</code> components of source colors and sets the
- * destination color to the value:
+ * bs b convenience method to set b specibl <code>Composite</code> object thbt
+ * ignores the <code>Alphb</code> components of source colors bnd sets the
+ * destinbtion color to the vblue:
  * <pre>
  * dstpixel = (PixelOf(srccolor) ^ PixelOf(xorcolor) ^ dstpixel);
  * </pre>
  * </ol>
  *
- * @author Jim Graham
- * @see java.awt.RenderingHints
+ * @buthor Jim Grbhbm
+ * @see jbvb.bwt.RenderingHints
  */
-public abstract class Graphics2D extends Graphics {
+public bbstrbct clbss Grbphics2D extends Grbphics {
 
     /**
-     * Constructs a new <code>Graphics2D</code> object.  Since
-     * <code>Graphics2D</code> is an abstract class, and since it must be
-     * customized by subclasses for different output devices,
-     * <code>Graphics2D</code> objects cannot be created directly.
-     * Instead, <code>Graphics2D</code> objects must be obtained from another
-     * <code>Graphics2D</code> object, created by a
-     * <code>Component</code>, or obtained from images such as
-     * {@link BufferedImage} objects.
-     * @see java.awt.Component#getGraphics
-     * @see java.awt.Graphics#create
+     * Constructs b new <code>Grbphics2D</code> object.  Since
+     * <code>Grbphics2D</code> is bn bbstrbct clbss, bnd since it must be
+     * customized by subclbsses for different output devices,
+     * <code>Grbphics2D</code> objects cbnnot be crebted directly.
+     * Instebd, <code>Grbphics2D</code> objects must be obtbined from bnother
+     * <code>Grbphics2D</code> object, crebted by b
+     * <code>Component</code>, or obtbined from imbges such bs
+     * {@link BufferedImbge} objects.
+     * @see jbvb.bwt.Component#getGrbphics
+     * @see jbvb.bwt.Grbphics#crebte
      */
-    protected Graphics2D() {
+    protected Grbphics2D() {
     }
 
     /**
-     * Draws a 3-D highlighted outline of the specified rectangle.
-     * The edges of the rectangle are highlighted so that they
-     * appear to be beveled and lit from the upper left corner.
+     * Drbws b 3-D highlighted outline of the specified rectbngle.
+     * The edges of the rectbngle bre highlighted so thbt they
+     * bppebr to be beveled bnd lit from the upper left corner.
      * <p>
-     * The colors used for the highlighting effect are determined
-     * based on the current color.
-     * The resulting rectangle covers an area that is
+     * The colors used for the highlighting effect bre determined
+     * bbsed on the current color.
+     * The resulting rectbngle covers bn breb thbt is
      * <code>width&nbsp;+&nbsp;1</code> pixels wide
-     * by <code>height&nbsp;+&nbsp;1</code> pixels tall.  This method
-     * uses the current <code>Color</code> exclusively and ignores
-     * the current <code>Paint</code>.
-     * @param x the x coordinate of the rectangle to be drawn.
-     * @param y the y coordinate of the rectangle to be drawn.
-     * @param width the width of the rectangle to be drawn.
-     * @param height the height of the rectangle to be drawn.
-     * @param raised a boolean that determines whether the rectangle
-     *                      appears to be raised above the surface
-     *                      or sunk into the surface.
-     * @see         java.awt.Graphics#fill3DRect
+     * by <code>height&nbsp;+&nbsp;1</code> pixels tbll.  This method
+     * uses the current <code>Color</code> exclusively bnd ignores
+     * the current <code>Pbint</code>.
+     * @pbrbm x the x coordinbte of the rectbngle to be drbwn.
+     * @pbrbm y the y coordinbte of the rectbngle to be drbwn.
+     * @pbrbm width the width of the rectbngle to be drbwn.
+     * @pbrbm height the height of the rectbngle to be drbwn.
+     * @pbrbm rbised b boolebn thbt determines whether the rectbngle
+     *                      bppebrs to be rbised bbove the surfbce
+     *                      or sunk into the surfbce.
+     * @see         jbvb.bwt.Grbphics#fill3DRect
      */
-    public void draw3DRect(int x, int y, int width, int height,
-                           boolean raised) {
-        Paint p = getPaint();
+    public void drbw3DRect(int x, int y, int width, int height,
+                           boolebn rbised) {
+        Pbint p = getPbint();
         Color c = getColor();
         Color brighter = c.brighter();
-        Color darker = c.darker();
+        Color dbrker = c.dbrker();
 
-        setColor(raised ? brighter : darker);
-        //drawLine(x, y, x, y + height);
+        setColor(rbised ? brighter : dbrker);
+        //drbwLine(x, y, x, y + height);
         fillRect(x, y, 1, height + 1);
-        //drawLine(x + 1, y, x + width - 1, y);
+        //drbwLine(x + 1, y, x + width - 1, y);
         fillRect(x + 1, y, width - 1, 1);
-        setColor(raised ? darker : brighter);
-        //drawLine(x + 1, y + height, x + width, y + height);
+        setColor(rbised ? dbrker : brighter);
+        //drbwLine(x + 1, y + height, x + width, y + height);
         fillRect(x + 1, y + height, width, 1);
-        //drawLine(x + width, y, x + width, y + height - 1);
+        //drbwLine(x + width, y, x + width, y + height - 1);
         fillRect(x + width, y, 1, height);
-        setPaint(p);
+        setPbint(p);
     }
 
     /**
-     * Paints a 3-D highlighted rectangle filled with the current color.
-     * The edges of the rectangle are highlighted so that it appears
-     * as if the edges were beveled and lit from the upper left corner.
-     * The colors used for the highlighting effect and for filling are
+     * Pbints b 3-D highlighted rectbngle filled with the current color.
+     * The edges of the rectbngle bre highlighted so thbt it bppebrs
+     * bs if the edges were beveled bnd lit from the upper left corner.
+     * The colors used for the highlighting effect bnd for filling bre
      * determined from the current <code>Color</code>.  This method uses
-     * the current <code>Color</code> exclusively and ignores the current
-     * <code>Paint</code>.
-     * @param x the x coordinate of the rectangle to be filled.
-     * @param y the y coordinate of the rectangle to be filled.
-     * @param       width the width of the rectangle to be filled.
-     * @param       height the height of the rectangle to be filled.
-     * @param       raised a boolean value that determines whether the
-     *                      rectangle appears to be raised above the surface
-     *                      or etched into the surface.
-     * @see         java.awt.Graphics#draw3DRect
+     * the current <code>Color</code> exclusively bnd ignores the current
+     * <code>Pbint</code>.
+     * @pbrbm x the x coordinbte of the rectbngle to be filled.
+     * @pbrbm y the y coordinbte of the rectbngle to be filled.
+     * @pbrbm       width the width of the rectbngle to be filled.
+     * @pbrbm       height the height of the rectbngle to be filled.
+     * @pbrbm       rbised b boolebn vblue thbt determines whether the
+     *                      rectbngle bppebrs to be rbised bbove the surfbce
+     *                      or etched into the surfbce.
+     * @see         jbvb.bwt.Grbphics#drbw3DRect
      */
     public void fill3DRect(int x, int y, int width, int height,
-                           boolean raised) {
-        Paint p = getPaint();
+                           boolebn rbised) {
+        Pbint p = getPbint();
         Color c = getColor();
         Color brighter = c.brighter();
-        Color darker = c.darker();
+        Color dbrker = c.dbrker();
 
-        if (!raised) {
-            setColor(darker);
+        if (!rbised) {
+            setColor(dbrker);
         } else if (p != c) {
             setColor(c);
         }
         fillRect(x+1, y+1, width-2, height-2);
-        setColor(raised ? brighter : darker);
-        //drawLine(x, y, x, y + height - 1);
+        setColor(rbised ? brighter : dbrker);
+        //drbwLine(x, y, x, y + height - 1);
         fillRect(x, y, 1, height);
-        //drawLine(x + 1, y, x + width - 2, y);
+        //drbwLine(x + 1, y, x + width - 2, y);
         fillRect(x + 1, y, width - 2, 1);
-        setColor(raised ? darker : brighter);
-        //drawLine(x + 1, y + height - 1, x + width - 1, y + height - 1);
+        setColor(rbised ? dbrker : brighter);
+        //drbwLine(x + 1, y + height - 1, x + width - 1, y + height - 1);
         fillRect(x + 1, y + height - 1, width - 1, 1);
-        //drawLine(x + width - 1, y, x + width - 1, y + height - 2);
+        //drbwLine(x + width - 1, y, x + width - 1, y + height - 2);
         fillRect(x + width - 1, y, 1, height - 1);
-        setPaint(p);
+        setPbint(p);
     }
 
     /**
-     * Strokes the outline of a <code>Shape</code> using the settings of the
-     * current <code>Graphics2D</code> context.  The rendering attributes
-     * applied include the <code>Clip</code>, <code>Transform</code>,
-     * <code>Paint</code>, <code>Composite</code> and
-     * <code>Stroke</code> attributes.
-     * @param s the <code>Shape</code> to be rendered
+     * Strokes the outline of b <code>Shbpe</code> using the settings of the
+     * current <code>Grbphics2D</code> context.  The rendering bttributes
+     * bpplied include the <code>Clip</code>, <code>Trbnsform</code>,
+     * <code>Pbint</code>, <code>Composite</code> bnd
+     * <code>Stroke</code> bttributes.
+     * @pbrbm s the <code>Shbpe</code> to be rendered
      * @see #setStroke
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #clip
      * @see #setClip
      * @see #setComposite
      */
-    public abstract void draw(Shape s);
+    public bbstrbct void drbw(Shbpe s);
 
     /**
-     * Renders an image, applying a transform from image space into user space
-     * before drawing.
-     * The transformation from user space into device space is done with
-     * the current <code>Transform</code> in the <code>Graphics2D</code>.
-     * The specified transformation is applied to the image before the
-     * transform attribute in the <code>Graphics2D</code> context is applied.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>, and <code>Composite</code> attributes.
-     * Note that no rendering is done if the specified transform is
+     * Renders bn imbge, bpplying b trbnsform from imbge spbce into user spbce
+     * before drbwing.
+     * The trbnsformbtion from user spbce into device spbce is done with
+     * the current <code>Trbnsform</code> in the <code>Grbphics2D</code>.
+     * The specified trbnsformbtion is bpplied to the imbge before the
+     * trbnsform bttribute in the <code>Grbphics2D</code> context is bpplied.
+     * The rendering bttributes bpplied include the <code>Clip</code>,
+     * <code>Trbnsform</code>, bnd <code>Composite</code> bttributes.
+     * Note thbt no rendering is done if the specified trbnsform is
      * noninvertible.
-     * @param img the specified image to be rendered.
+     * @pbrbm img the specified imbge to be rendered.
      *            This method does nothing if <code>img</code> is null.
-     * @param xform the transformation from image space into user space
-     * @param obs the {@link ImageObserver}
-     * to be notified as more of the <code>Image</code>
+     * @pbrbm xform the trbnsformbtion from imbge spbce into user spbce
+     * @pbrbm obs the {@link ImbgeObserver}
+     * to be notified bs more of the <code>Imbge</code>
      * is converted
-     * @return <code>true</code> if the <code>Image</code> is
-     * fully loaded and completely rendered, or if it's null;
-     * <code>false</code> if the <code>Image</code> is still being loaded.
-     * @see #transform
-     * @see #setTransform
+     * @return <code>true</code> if the <code>Imbge</code> is
+     * fully lobded bnd completely rendered, or if it's null;
+     * <code>fblse</code> if the <code>Imbge</code> is still being lobded.
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public abstract boolean drawImage(Image img,
-                                      AffineTransform xform,
-                                      ImageObserver obs);
+    public bbstrbct boolebn drbwImbge(Imbge img,
+                                      AffineTrbnsform xform,
+                                      ImbgeObserver obs);
 
     /**
-     * Renders a <code>BufferedImage</code> that is
-     * filtered with a
-     * {@link BufferedImageOp}.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>
-     * and <code>Composite</code> attributes.  This is equivalent to:
+     * Renders b <code>BufferedImbge</code> thbt is
+     * filtered with b
+     * {@link BufferedImbgeOp}.
+     * The rendering bttributes bpplied include the <code>Clip</code>,
+     * <code>Trbnsform</code>
+     * bnd <code>Composite</code> bttributes.  This is equivblent to:
      * <pre>
      * img1 = op.filter(img, null);
-     * drawImage(img1, new AffineTransform(1f,0f,0f,1f,x,y), null);
+     * drbwImbge(img1, new AffineTrbnsform(1f,0f,0f,1f,x,y), null);
      * </pre>
-     * @param op the filter to be applied to the image before rendering
-     * @param img the specified <code>BufferedImage</code> to be rendered.
+     * @pbrbm op the filter to be bpplied to the imbge before rendering
+     * @pbrbm img the specified <code>BufferedImbge</code> to be rendered.
      *            This method does nothing if <code>img</code> is null.
-     * @param x the x coordinate of the location in user space where
-     * the upper left corner of the image is rendered
-     * @param y the y coordinate of the location in user space where
-     * the upper left corner of the image is rendered
+     * @pbrbm x the x coordinbte of the locbtion in user spbce where
+     * the upper left corner of the imbge is rendered
+     * @pbrbm y the y coordinbte of the locbtion in user spbce where
+     * the upper left corner of the imbge is rendered
      *
-     * @see #transform
-     * @see #setTransform
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public abstract void drawImage(BufferedImage img,
-                                   BufferedImageOp op,
+    public bbstrbct void drbwImbge(BufferedImbge img,
+                                   BufferedImbgeOp op,
                                    int x,
                                    int y);
 
     /**
-     * Renders a {@link RenderedImage},
-     * applying a transform from image
-     * space into user space before drawing.
-     * The transformation from user space into device space is done with
-     * the current <code>Transform</code> in the <code>Graphics2D</code>.
-     * The specified transformation is applied to the image before the
-     * transform attribute in the <code>Graphics2D</code> context is applied.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>, and <code>Composite</code> attributes. Note
-     * that no rendering is done if the specified transform is
+     * Renders b {@link RenderedImbge},
+     * bpplying b trbnsform from imbge
+     * spbce into user spbce before drbwing.
+     * The trbnsformbtion from user spbce into device spbce is done with
+     * the current <code>Trbnsform</code> in the <code>Grbphics2D</code>.
+     * The specified trbnsformbtion is bpplied to the imbge before the
+     * trbnsform bttribute in the <code>Grbphics2D</code> context is bpplied.
+     * The rendering bttributes bpplied include the <code>Clip</code>,
+     * <code>Trbnsform</code>, bnd <code>Composite</code> bttributes. Note
+     * thbt no rendering is done if the specified trbnsform is
      * noninvertible.
-     * @param img the image to be rendered. This method does
+     * @pbrbm img the imbge to be rendered. This method does
      *            nothing if <code>img</code> is null.
-     * @param xform the transformation from image space into user space
-     * @see #transform
-     * @see #setTransform
+     * @pbrbm xform the trbnsformbtion from imbge spbce into user spbce
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public abstract void drawRenderedImage(RenderedImage img,
-                                           AffineTransform xform);
+    public bbstrbct void drbwRenderedImbge(RenderedImbge img,
+                                           AffineTrbnsform xform);
 
     /**
-     * Renders a
-     * {@link RenderableImage},
-     * applying a transform from image space into user space before drawing.
-     * The transformation from user space into device space is done with
-     * the current <code>Transform</code> in the <code>Graphics2D</code>.
-     * The specified transformation is applied to the image before the
-     * transform attribute in the <code>Graphics2D</code> context is applied.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>, and <code>Composite</code> attributes. Note
-     * that no rendering is done if the specified transform is
+     * Renders b
+     * {@link RenderbbleImbge},
+     * bpplying b trbnsform from imbge spbce into user spbce before drbwing.
+     * The trbnsformbtion from user spbce into device spbce is done with
+     * the current <code>Trbnsform</code> in the <code>Grbphics2D</code>.
+     * The specified trbnsformbtion is bpplied to the imbge before the
+     * trbnsform bttribute in the <code>Grbphics2D</code> context is bpplied.
+     * The rendering bttributes bpplied include the <code>Clip</code>,
+     * <code>Trbnsform</code>, bnd <code>Composite</code> bttributes. Note
+     * thbt no rendering is done if the specified trbnsform is
      * noninvertible.
      *<p>
-     * Rendering hints set on the <code>Graphics2D</code> object might
-     * be used in rendering the <code>RenderableImage</code>.
-     * If explicit control is required over specific hints recognized by a
-     * specific <code>RenderableImage</code>, or if knowledge of which hints
-     * are used is required, then a <code>RenderedImage</code> should be
-     * obtained directly from the <code>RenderableImage</code>
-     * and rendered using
-     *{@link #drawRenderedImage(RenderedImage, AffineTransform) drawRenderedImage}.
-     * @param img the image to be rendered. This method does
+     * Rendering hints set on the <code>Grbphics2D</code> object might
+     * be used in rendering the <code>RenderbbleImbge</code>.
+     * If explicit control is required over specific hints recognized by b
+     * specific <code>RenderbbleImbge</code>, or if knowledge of which hints
+     * bre used is required, then b <code>RenderedImbge</code> should be
+     * obtbined directly from the <code>RenderbbleImbge</code>
+     * bnd rendered using
+     *{@link #drbwRenderedImbge(RenderedImbge, AffineTrbnsform) drbwRenderedImbge}.
+     * @pbrbm img the imbge to be rendered. This method does
      *            nothing if <code>img</code> is null.
-     * @param xform the transformation from image space into user space
-     * @see #transform
-     * @see #setTransform
+     * @pbrbm xform the trbnsformbtion from imbge spbce into user spbce
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
-     * @see #drawRenderedImage
+     * @see #drbwRenderedImbge
      */
-    public abstract void drawRenderableImage(RenderableImage img,
-                                             AffineTransform xform);
+    public bbstrbct void drbwRenderbbleImbge(RenderbbleImbge img,
+                                             AffineTrbnsform xform);
 
     /**
      * Renders the text of the specified <code>String</code>, using the
-     * current text attribute state in the <code>Graphics2D</code> context.
-     * The baseline of the
-     * first character is at position (<i>x</i>,&nbsp;<i>y</i>) in
-     * the User Space.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>, <code>Paint</code>, <code>Font</code> and
-     * <code>Composite</code> attributes.  For characters in script
-     * systems such as Hebrew and Arabic, the glyphs can be rendered from
-     * right to left, in which case the coordinate supplied is the
-     * location of the leftmost character on the baseline.
-     * @param str the string to be rendered
-     * @param x the x coordinate of the location where the
+     * current text bttribute stbte in the <code>Grbphics2D</code> context.
+     * The bbseline of the
+     * first chbrbcter is bt position (<i>x</i>,&nbsp;<i>y</i>) in
+     * the User Spbce.
+     * The rendering bttributes bpplied include the <code>Clip</code>,
+     * <code>Trbnsform</code>, <code>Pbint</code>, <code>Font</code> bnd
+     * <code>Composite</code> bttributes.  For chbrbcters in script
+     * systems such bs Hebrew bnd Arbbic, the glyphs cbn be rendered from
+     * right to left, in which cbse the coordinbte supplied is the
+     * locbtion of the leftmost chbrbcter on the bbseline.
+     * @pbrbm str the string to be rendered
+     * @pbrbm x the x coordinbte of the locbtion where the
      * <code>String</code> should be rendered
-     * @param y the y coordinate of the location where the
+     * @pbrbm y the y coordinbte of the locbtion where the
      * <code>String</code> should be rendered
      * @throws NullPointerException if <code>str</code> is
      *         <code>null</code>
-     * @see         java.awt.Graphics#drawBytes
-     * @see         java.awt.Graphics#drawChars
+     * @see         jbvb.bwt.Grbphics#drbwBytes
+     * @see         jbvb.bwt.Grbphics#drbwChbrs
      * @since       1.0
      */
-    public abstract void drawString(String str, int x, int y);
+    public bbstrbct void drbwString(String str, int x, int y);
 
     /**
      * Renders the text specified by the specified <code>String</code>,
-     * using the current text attribute state in the <code>Graphics2D</code> context.
-     * The baseline of the first character is at position
-     * (<i>x</i>,&nbsp;<i>y</i>) in the User Space.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>, <code>Paint</code>, <code>Font</code> and
-     * <code>Composite</code> attributes. For characters in script systems
-     * such as Hebrew and Arabic, the glyphs can be rendered from right to
-     * left, in which case the coordinate supplied is the location of the
-     * leftmost character on the baseline.
-     * @param str the <code>String</code> to be rendered
-     * @param x the x coordinate of the location where the
+     * using the current text bttribute stbte in the <code>Grbphics2D</code> context.
+     * The bbseline of the first chbrbcter is bt position
+     * (<i>x</i>,&nbsp;<i>y</i>) in the User Spbce.
+     * The rendering bttributes bpplied include the <code>Clip</code>,
+     * <code>Trbnsform</code>, <code>Pbint</code>, <code>Font</code> bnd
+     * <code>Composite</code> bttributes. For chbrbcters in script systems
+     * such bs Hebrew bnd Arbbic, the glyphs cbn be rendered from right to
+     * left, in which cbse the coordinbte supplied is the locbtion of the
+     * leftmost chbrbcter on the bbseline.
+     * @pbrbm str the <code>String</code> to be rendered
+     * @pbrbm x the x coordinbte of the locbtion where the
      * <code>String</code> should be rendered
-     * @param y the y coordinate of the location where the
+     * @pbrbm y the y coordinbte of the locbtion where the
      * <code>String</code> should be rendered
      * @throws NullPointerException if <code>str</code> is
      *         <code>null</code>
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see java.awt.Graphics#setFont
-     * @see #setTransform
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see jbvb.bwt.Grbphics#setFont
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #setClip
      */
-    public abstract void drawString(String str, float x, float y);
+    public bbstrbct void drbwString(String str, flobt x, flobt y);
 
     /**
-     * Renders the text of the specified iterator applying its attributes
-     * in accordance with the specification of the {@link TextAttribute} class.
+     * Renders the text of the specified iterbtor bpplying its bttributes
+     * in bccordbnce with the specificbtion of the {@link TextAttribute} clbss.
      * <p>
-     * The baseline of the first character is at position
-     * (<i>x</i>,&nbsp;<i>y</i>) in User Space.
-     * For characters in script systems such as Hebrew and Arabic,
-     * the glyphs can be rendered from right to left, in which case the
-     * coordinate supplied is the location of the leftmost character
-     * on the baseline.
-     * @param iterator the iterator whose text is to be rendered
-     * @param x the x coordinate where the iterator's text is to be
+     * The bbseline of the first chbrbcter is bt position
+     * (<i>x</i>,&nbsp;<i>y</i>) in User Spbce.
+     * For chbrbcters in script systems such bs Hebrew bnd Arbbic,
+     * the glyphs cbn be rendered from right to left, in which cbse the
+     * coordinbte supplied is the locbtion of the leftmost chbrbcter
+     * on the bbseline.
+     * @pbrbm iterbtor the iterbtor whose text is to be rendered
+     * @pbrbm x the x coordinbte where the iterbtor's text is to be
      * rendered
-     * @param y the y coordinate where the iterator's text is to be
+     * @pbrbm y the y coordinbte where the iterbtor's text is to be
      * rendered
-     * @throws NullPointerException if <code>iterator</code> is
+     * @throws NullPointerException if <code>iterbtor</code> is
      *         <code>null</code>
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #setTransform
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #setClip
      */
-    public abstract void drawString(AttributedCharacterIterator iterator,
+    public bbstrbct void drbwString(AttributedChbrbcterIterbtor iterbtor,
                                     int x, int y);
 
     /**
-     * Renders the text of the specified iterator applying its attributes
-     * in accordance with the specification of the {@link TextAttribute} class.
+     * Renders the text of the specified iterbtor bpplying its bttributes
+     * in bccordbnce with the specificbtion of the {@link TextAttribute} clbss.
      * <p>
-     * The baseline of the first character is at position
-     * (<i>x</i>,&nbsp;<i>y</i>) in User Space.
-     * For characters in script systems such as Hebrew and Arabic,
-     * the glyphs can be rendered from right to left, in which case the
-     * coordinate supplied is the location of the leftmost character
-     * on the baseline.
-     * @param iterator the iterator whose text is to be rendered
-     * @param x the x coordinate where the iterator's text is to be
+     * The bbseline of the first chbrbcter is bt position
+     * (<i>x</i>,&nbsp;<i>y</i>) in User Spbce.
+     * For chbrbcters in script systems such bs Hebrew bnd Arbbic,
+     * the glyphs cbn be rendered from right to left, in which cbse the
+     * coordinbte supplied is the locbtion of the leftmost chbrbcter
+     * on the bbseline.
+     * @pbrbm iterbtor the iterbtor whose text is to be rendered
+     * @pbrbm x the x coordinbte where the iterbtor's text is to be
      * rendered
-     * @param y the y coordinate where the iterator's text is to be
+     * @pbrbm y the y coordinbte where the iterbtor's text is to be
      * rendered
-     * @throws NullPointerException if <code>iterator</code> is
+     * @throws NullPointerException if <code>iterbtor</code> is
      *         <code>null</code>
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #setTransform
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #setClip
      */
-    public abstract void drawString(AttributedCharacterIterator iterator,
-                                    float x, float y);
+    public bbstrbct void drbwString(AttributedChbrbcterIterbtor iterbtor,
+                                    flobt x, flobt y);
 
     /**
      * Renders the text of the specified
      * {@link GlyphVector} using
-     * the <code>Graphics2D</code> context's rendering attributes.
-     * The rendering attributes applied include the <code>Clip</code>,
-     * <code>Transform</code>, <code>Paint</code>, and
-     * <code>Composite</code> attributes.  The <code>GlyphVector</code>
-     * specifies individual glyphs from a {@link Font}.
-     * The <code>GlyphVector</code> can also contain the glyph positions.
-     * This is the fastest way to render a set of characters to the
+     * the <code>Grbphics2D</code> context's rendering bttributes.
+     * The rendering bttributes bpplied include the <code>Clip</code>,
+     * <code>Trbnsform</code>, <code>Pbint</code>, bnd
+     * <code>Composite</code> bttributes.  The <code>GlyphVector</code>
+     * specifies individubl glyphs from b {@link Font}.
+     * The <code>GlyphVector</code> cbn blso contbin the glyph positions.
+     * This is the fbstest wby to render b set of chbrbcters to the
      * screen.
-     * @param g the <code>GlyphVector</code> to be rendered
-     * @param x the x position in User Space where the glyphs should
+     * @pbrbm g the <code>GlyphVector</code> to be rendered
+     * @pbrbm x the x position in User Spbce where the glyphs should
      * be rendered
-     * @param y the y position in User Space where the glyphs should
+     * @pbrbm y the y position in User Spbce where the glyphs should
      * be rendered
      * @throws NullPointerException if <code>g</code> is <code>null</code>.
      *
-     * @see java.awt.Font#createGlyphVector
-     * @see java.awt.font.GlyphVector
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #setTransform
+     * @see jbvb.bwt.Font#crebteGlyphVector
+     * @see jbvb.bwt.font.GlyphVector
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #setClip
      */
-    public abstract void drawGlyphVector(GlyphVector g, float x, float y);
+    public bbstrbct void drbwGlyphVector(GlyphVector g, flobt x, flobt y);
 
     /**
-     * Fills the interior of a <code>Shape</code> using the settings of the
-     * <code>Graphics2D</code> context. The rendering attributes applied
-     * include the <code>Clip</code>, <code>Transform</code>,
-     * <code>Paint</code>, and <code>Composite</code>.
-     * @param s the <code>Shape</code> to be filled
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
-     * @see #transform
-     * @see #setTransform
+     * Fills the interior of b <code>Shbpe</code> using the settings of the
+     * <code>Grbphics2D</code> context. The rendering bttributes bpplied
+     * include the <code>Clip</code>, <code>Trbnsform</code>,
+     * <code>Pbint</code>, bnd <code>Composite</code>.
+     * @pbrbm s the <code>Shbpe</code> to be filled
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #setComposite
      * @see #clip
      * @see #setClip
      */
-    public abstract void fill(Shape s);
+    public bbstrbct void fill(Shbpe s);
 
     /**
-     * Checks whether or not the specified <code>Shape</code> intersects
-     * the specified {@link Rectangle}, which is in device
-     * space. If <code>onStroke</code> is false, this method checks
-     * whether or not the interior of the specified <code>Shape</code>
-     * intersects the specified <code>Rectangle</code>.  If
+     * Checks whether or not the specified <code>Shbpe</code> intersects
+     * the specified {@link Rectbngle}, which is in device
+     * spbce. If <code>onStroke</code> is fblse, this method checks
+     * whether or not the interior of the specified <code>Shbpe</code>
+     * intersects the specified <code>Rectbngle</code>.  If
      * <code>onStroke</code> is <code>true</code>, this method checks
      * whether or not the <code>Stroke</code> of the specified
-     * <code>Shape</code> outline intersects the specified
-     * <code>Rectangle</code>.
-     * The rendering attributes taken into account include the
-     * <code>Clip</code>, <code>Transform</code>, and <code>Stroke</code>
-     * attributes.
-     * @param rect the area in device space to check for a hit
-     * @param s the <code>Shape</code> to check for a hit
-     * @param onStroke flag used to choose between testing the
-     * stroked or the filled shape.  If the flag is <code>true</code>, the
-     * <code>Stroke</code> outline is tested.  If the flag is
-     * <code>false</code>, the filled <code>Shape</code> is tested.
-     * @return <code>true</code> if there is a hit; <code>false</code>
+     * <code>Shbpe</code> outline intersects the specified
+     * <code>Rectbngle</code>.
+     * The rendering bttributes tbken into bccount include the
+     * <code>Clip</code>, <code>Trbnsform</code>, bnd <code>Stroke</code>
+     * bttributes.
+     * @pbrbm rect the breb in device spbce to check for b hit
+     * @pbrbm s the <code>Shbpe</code> to check for b hit
+     * @pbrbm onStroke flbg used to choose between testing the
+     * stroked or the filled shbpe.  If the flbg is <code>true</code>, the
+     * <code>Stroke</code> outline is tested.  If the flbg is
+     * <code>fblse</code>, the filled <code>Shbpe</code> is tested.
+     * @return <code>true</code> if there is b hit; <code>fblse</code>
      * otherwise.
      * @see #setStroke
      * @see #fill
-     * @see #draw
-     * @see #transform
-     * @see #setTransform
+     * @see #drbw
+     * @see #trbnsform
+     * @see #setTrbnsform
      * @see #clip
      * @see #setClip
      */
-    public abstract boolean hit(Rectangle rect,
-                                Shape s,
-                                boolean onStroke);
+    public bbstrbct boolebn hit(Rectbngle rect,
+                                Shbpe s,
+                                boolebn onStroke);
 
     /**
-     * Returns the device configuration associated with this
-     * <code>Graphics2D</code>.
-     * @return the device configuration of this <code>Graphics2D</code>.
+     * Returns the device configurbtion bssocibted with this
+     * <code>Grbphics2D</code>.
+     * @return the device configurbtion of this <code>Grbphics2D</code>.
      */
-    public abstract GraphicsConfiguration getDeviceConfiguration();
+    public bbstrbct GrbphicsConfigurbtion getDeviceConfigurbtion();
 
     /**
-     * Sets the <code>Composite</code> for the <code>Graphics2D</code> context.
-     * The <code>Composite</code> is used in all drawing methods such as
-     * <code>drawImage</code>, <code>drawString</code>, <code>draw</code>,
-     * and <code>fill</code>.  It specifies how new pixels are to be combined
-     * with the existing pixels on the graphics device during the rendering
+     * Sets the <code>Composite</code> for the <code>Grbphics2D</code> context.
+     * The <code>Composite</code> is used in bll drbwing methods such bs
+     * <code>drbwImbge</code>, <code>drbwString</code>, <code>drbw</code>,
+     * bnd <code>fill</code>.  It specifies how new pixels bre to be combined
+     * with the existing pixels on the grbphics device during the rendering
      * process.
-     * <p>If this <code>Graphics2D</code> context is drawing to a
-     * <code>Component</code> on the display screen and the
-     * <code>Composite</code> is a custom object rather than an
-     * instance of the <code>AlphaComposite</code> class, and if
-     * there is a security manager, its <code>checkPermission</code>
-     * method is called with an <code>AWTPermission("readDisplayPixels")</code>
+     * <p>If this <code>Grbphics2D</code> context is drbwing to b
+     * <code>Component</code> on the displby screen bnd the
+     * <code>Composite</code> is b custom object rbther thbn bn
+     * instbnce of the <code>AlphbComposite</code> clbss, bnd if
+     * there is b security mbnbger, its <code>checkPermission</code>
+     * method is cblled with bn <code>AWTPermission("rebdDisplbyPixels")</code>
      * permission.
      * @throws SecurityException
-     *         if a custom <code>Composite</code> object is being
-     *         used to render to the screen and a security manager
-     *         is set and its <code>checkPermission</code> method
-     *         does not allow the operation.
-     * @param comp the <code>Composite</code> object to be used for rendering
-     * @see java.awt.Graphics#setXORMode
-     * @see java.awt.Graphics#setPaintMode
+     *         if b custom <code>Composite</code> object is being
+     *         used to render to the screen bnd b security mbnbger
+     *         is set bnd its <code>checkPermission</code> method
+     *         does not bllow the operbtion.
+     * @pbrbm comp the <code>Composite</code> object to be used for rendering
+     * @see jbvb.bwt.Grbphics#setXORMode
+     * @see jbvb.bwt.Grbphics#setPbintMode
      * @see #getComposite
-     * @see AlphaComposite
-     * @see SecurityManager#checkPermission
-     * @see java.awt.AWTPermission
+     * @see AlphbComposite
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.bwt.AWTPermission
      */
-    public abstract void setComposite(Composite comp);
+    public bbstrbct void setComposite(Composite comp);
 
     /**
-     * Sets the <code>Paint</code> attribute for the
-     * <code>Graphics2D</code> context.  Calling this method
-     * with a <code>null</code> <code>Paint</code> object does
-     * not have any effect on the current <code>Paint</code> attribute
-     * of this <code>Graphics2D</code>.
-     * @param paint the <code>Paint</code> object to be used to generate
+     * Sets the <code>Pbint</code> bttribute for the
+     * <code>Grbphics2D</code> context.  Cblling this method
+     * with b <code>null</code> <code>Pbint</code> object does
+     * not hbve bny effect on the current <code>Pbint</code> bttribute
+     * of this <code>Grbphics2D</code>.
+     * @pbrbm pbint the <code>Pbint</code> object to be used to generbte
      * color during the rendering process, or <code>null</code>
-     * @see java.awt.Graphics#setColor
-     * @see #getPaint
-     * @see GradientPaint
-     * @see TexturePaint
+     * @see jbvb.bwt.Grbphics#setColor
+     * @see #getPbint
+     * @see GrbdientPbint
+     * @see TexturePbint
      */
-    public abstract void setPaint( Paint paint );
+    public bbstrbct void setPbint( Pbint pbint );
 
     /**
-     * Sets the <code>Stroke</code> for the <code>Graphics2D</code> context.
-     * @param s the <code>Stroke</code> object to be used to stroke a
-     * <code>Shape</code> during the rendering process
-     * @see BasicStroke
+     * Sets the <code>Stroke</code> for the <code>Grbphics2D</code> context.
+     * @pbrbm s the <code>Stroke</code> object to be used to stroke b
+     * <code>Shbpe</code> during the rendering process
+     * @see BbsicStroke
      * @see #getStroke
      */
-    public abstract void setStroke(Stroke s);
+    public bbstrbct void setStroke(Stroke s);
 
     /**
-     * Sets the value of a single preference for the rendering algorithms.
-     * Hint categories include controls for rendering quality and overall
-     * time/quality trade-off in the rendering process.  Refer to the
-     * <code>RenderingHints</code> class for definitions of some common
-     * keys and values.
-     * @param hintKey the key of the hint to be set.
-     * @param hintValue the value indicating preferences for the specified
-     * hint category.
+     * Sets the vblue of b single preference for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd overbll
+     * time/qublity trbde-off in the rendering process.  Refer to the
+     * <code>RenderingHints</code> clbss for definitions of some common
+     * keys bnd vblues.
+     * @pbrbm hintKey the key of the hint to be set.
+     * @pbrbm hintVblue the vblue indicbting preferences for the specified
+     * hint cbtegory.
      * @see #getRenderingHint(RenderingHints.Key)
      * @see RenderingHints
      */
-    public abstract void setRenderingHint(Key hintKey, Object hintValue);
+    public bbstrbct void setRenderingHint(Key hintKey, Object hintVblue);
 
     /**
-     * Returns the value of a single preference for the rendering algorithms.
-     * Hint categories include controls for rendering quality and overall
-     * time/quality trade-off in the rendering process.  Refer to the
-     * <code>RenderingHints</code> class for definitions of some common
-     * keys and values.
-     * @param hintKey the key corresponding to the hint to get.
-     * @return an object representing the value for the specified hint key.
-     * Some of the keys and their associated values are defined in the
-     * <code>RenderingHints</code> class.
+     * Returns the vblue of b single preference for the rendering blgorithms.
+     * Hint cbtegories include controls for rendering qublity bnd overbll
+     * time/qublity trbde-off in the rendering process.  Refer to the
+     * <code>RenderingHints</code> clbss for definitions of some common
+     * keys bnd vblues.
+     * @pbrbm hintKey the key corresponding to the hint to get.
+     * @return bn object representing the vblue for the specified hint key.
+     * Some of the keys bnd their bssocibted vblues bre defined in the
+     * <code>RenderingHints</code> clbss.
      * @see RenderingHints
      * @see #setRenderingHint(RenderingHints.Key, Object)
      */
-    public abstract Object getRenderingHint(Key hintKey);
+    public bbstrbct Object getRenderingHint(Key hintKey);
 
     /**
-     * Replaces the values of all preferences for the rendering
-     * algorithms with the specified <code>hints</code>.
-     * The existing values for all rendering hints are discarded and
-     * the new set of known hints and values are initialized from the
-     * specified {@link Map} object.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * Refer to the <code>RenderingHints</code> class for definitions of
-     * some common keys and values.
-     * @param hints the rendering hints to be set
+     * Replbces the vblues of bll preferences for the rendering
+     * blgorithms with the specified <code>hints</code>.
+     * The existing vblues for bll rendering hints bre discbrded bnd
+     * the new set of known hints bnd vblues bre initiblized from the
+     * specified {@link Mbp} object.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
+     * Refer to the <code>RenderingHints</code> clbss for definitions of
+     * some common keys bnd vblues.
+     * @pbrbm hints the rendering hints to be set
      * @see #getRenderingHints
      * @see RenderingHints
      */
-    public abstract void setRenderingHints(Map<?,?> hints);
+    public bbstrbct void setRenderingHints(Mbp<?,?> hints);
 
     /**
-     * Sets the values of an arbitrary number of preferences for the
-     * rendering algorithms.
-     * Only values for the rendering hints that are present in the
-     * specified <code>Map</code> object are modified.
+     * Sets the vblues of bn brbitrbry number of preferences for the
+     * rendering blgorithms.
+     * Only vblues for the rendering hints thbt bre present in the
+     * specified <code>Mbp</code> object bre modified.
      * All other preferences not present in the specified
-     * object are left unmodified.
-     * Hint categories include controls for rendering quality and
-     * overall time/quality trade-off in the rendering process.
-     * Refer to the <code>RenderingHints</code> class for definitions of
-     * some common keys and values.
-     * @param hints the rendering hints to be set
+     * object bre left unmodified.
+     * Hint cbtegories include controls for rendering qublity bnd
+     * overbll time/qublity trbde-off in the rendering process.
+     * Refer to the <code>RenderingHints</code> clbss for definitions of
+     * some common keys bnd vblues.
+     * @pbrbm hints the rendering hints to be set
      * @see RenderingHints
      */
-    public abstract void addRenderingHints(Map<?,?> hints);
+    public bbstrbct void bddRenderingHints(Mbp<?,?> hints);
 
     /**
-     * Gets the preferences for the rendering algorithms.  Hint categories
-     * include controls for rendering quality and overall time/quality
-     * trade-off in the rendering process.
-     * Returns all of the hint key/value pairs that were ever specified in
-     * one operation.  Refer to the
-     * <code>RenderingHints</code> class for definitions of some common
-     * keys and values.
-     * @return a reference to an instance of <code>RenderingHints</code>
-     * that contains the current preferences.
+     * Gets the preferences for the rendering blgorithms.  Hint cbtegories
+     * include controls for rendering qublity bnd overbll time/qublity
+     * trbde-off in the rendering process.
+     * Returns bll of the hint key/vblue pbirs thbt were ever specified in
+     * one operbtion.  Refer to the
+     * <code>RenderingHints</code> clbss for definitions of some common
+     * keys bnd vblues.
+     * @return b reference to bn instbnce of <code>RenderingHints</code>
+     * thbt contbins the current preferences.
      * @see RenderingHints
-     * @see #setRenderingHints(Map)
+     * @see #setRenderingHints(Mbp)
      */
-    public abstract RenderingHints getRenderingHints();
+    public bbstrbct RenderingHints getRenderingHints();
 
     /**
-     * Translates the origin of the <code>Graphics2D</code> context to the
-     * point (<i>x</i>,&nbsp;<i>y</i>) in the current coordinate system.
-     * Modifies the <code>Graphics2D</code> context so that its new origin
+     * Trbnslbtes the origin of the <code>Grbphics2D</code> context to the
+     * point (<i>x</i>,&nbsp;<i>y</i>) in the current coordinbte system.
+     * Modifies the <code>Grbphics2D</code> context so thbt its new origin
      * corresponds to the point (<i>x</i>,&nbsp;<i>y</i>) in the
-     * <code>Graphics2D</code> context's former coordinate system.  All
-     * coordinates used in subsequent rendering operations on this graphics
-     * context are relative to this new origin.
-     * @param  x the specified x coordinate
-     * @param  y the specified y coordinate
+     * <code>Grbphics2D</code> context's former coordinbte system.  All
+     * coordinbtes used in subsequent rendering operbtions on this grbphics
+     * context bre relbtive to this new origin.
+     * @pbrbm  x the specified x coordinbte
+     * @pbrbm  y the specified y coordinbte
      * @since   1.0
      */
-    public abstract void translate(int x, int y);
+    public bbstrbct void trbnslbte(int x, int y);
 
     /**
-     * Concatenates the current
-     * <code>Graphics2D</code> <code>Transform</code>
-     * with a translation transform.
-     * Subsequent rendering is translated by the specified
-     * distance relative to the previous position.
-     * This is equivalent to calling transform(T), where T is an
-     * <code>AffineTransform</code> represented by the following matrix:
+     * Concbtenbtes the current
+     * <code>Grbphics2D</code> <code>Trbnsform</code>
+     * with b trbnslbtion trbnsform.
+     * Subsequent rendering is trbnslbted by the specified
+     * distbnce relbtive to the previous position.
+     * This is equivblent to cblling trbnsform(T), where T is bn
+     * <code>AffineTrbnsform</code> represented by the following mbtrix:
      * <pre>
      *          [   1    0    tx  ]
      *          [   0    1    ty  ]
      *          [   0    0    1   ]
      * </pre>
-     * @param tx the distance to translate along the x-axis
-     * @param ty the distance to translate along the y-axis
+     * @pbrbm tx the distbnce to trbnslbte blong the x-bxis
+     * @pbrbm ty the distbnce to trbnslbte blong the y-bxis
      */
-    public abstract void translate(double tx, double ty);
+    public bbstrbct void trbnslbte(double tx, double ty);
 
     /**
-     * Concatenates the current <code>Graphics2D</code>
-     * <code>Transform</code> with a rotation transform.
-     * Subsequent rendering is rotated by the specified radians relative
+     * Concbtenbtes the current <code>Grbphics2D</code>
+     * <code>Trbnsform</code> with b rotbtion trbnsform.
+     * Subsequent rendering is rotbted by the specified rbdibns relbtive
      * to the previous origin.
-     * This is equivalent to calling <code>transform(R)</code>, where R is an
-     * <code>AffineTransform</code> represented by the following matrix:
+     * This is equivblent to cblling <code>trbnsform(R)</code>, where R is bn
+     * <code>AffineTrbnsform</code> represented by the following mbtrix:
      * <pre>
-     *          [   cos(theta)    -sin(theta)    0   ]
-     *          [   sin(theta)     cos(theta)    0   ]
+     *          [   cos(thetb)    -sin(thetb)    0   ]
+     *          [   sin(thetb)     cos(thetb)    0   ]
      *          [       0              0         1   ]
      * </pre>
-     * Rotating with a positive angle theta rotates points on the positive
-     * x axis toward the positive y axis.
-     * @param theta the angle of rotation in radians
+     * Rotbting with b positive bngle thetb rotbtes points on the positive
+     * x bxis towbrd the positive y bxis.
+     * @pbrbm thetb the bngle of rotbtion in rbdibns
      */
-    public abstract void rotate(double theta);
+    public bbstrbct void rotbte(double thetb);
 
     /**
-     * Concatenates the current <code>Graphics2D</code>
-     * <code>Transform</code> with a translated rotation
-     * transform.  Subsequent rendering is transformed by a transform
-     * which is constructed by translating to the specified location,
-     * rotating by the specified radians, and translating back by the same
-     * amount as the original translation.  This is equivalent to the
-     * following sequence of calls:
+     * Concbtenbtes the current <code>Grbphics2D</code>
+     * <code>Trbnsform</code> with b trbnslbted rotbtion
+     * trbnsform.  Subsequent rendering is trbnsformed by b trbnsform
+     * which is constructed by trbnslbting to the specified locbtion,
+     * rotbting by the specified rbdibns, bnd trbnslbting bbck by the sbme
+     * bmount bs the originbl trbnslbtion.  This is equivblent to the
+     * following sequence of cblls:
      * <pre>
-     *          translate(x, y);
-     *          rotate(theta);
-     *          translate(-x, -y);
+     *          trbnslbte(x, y);
+     *          rotbte(thetb);
+     *          trbnslbte(-x, -y);
      * </pre>
-     * Rotating with a positive angle theta rotates points on the positive
-     * x axis toward the positive y axis.
-     * @param theta the angle of rotation in radians
-     * @param x the x coordinate of the origin of the rotation
-     * @param y the y coordinate of the origin of the rotation
+     * Rotbting with b positive bngle thetb rotbtes points on the positive
+     * x bxis towbrd the positive y bxis.
+     * @pbrbm thetb the bngle of rotbtion in rbdibns
+     * @pbrbm x the x coordinbte of the origin of the rotbtion
+     * @pbrbm y the y coordinbte of the origin of the rotbtion
      */
-    public abstract void rotate(double theta, double x, double y);
+    public bbstrbct void rotbte(double thetb, double x, double y);
 
     /**
-     * Concatenates the current <code>Graphics2D</code>
-     * <code>Transform</code> with a scaling transformation
-     * Subsequent rendering is resized according to the specified scaling
-     * factors relative to the previous scaling.
-     * This is equivalent to calling <code>transform(S)</code>, where S is an
-     * <code>AffineTransform</code> represented by the following matrix:
+     * Concbtenbtes the current <code>Grbphics2D</code>
+     * <code>Trbnsform</code> with b scbling trbnsformbtion
+     * Subsequent rendering is resized bccording to the specified scbling
+     * fbctors relbtive to the previous scbling.
+     * This is equivblent to cblling <code>trbnsform(S)</code>, where S is bn
+     * <code>AffineTrbnsform</code> represented by the following mbtrix:
      * <pre>
      *          [   sx   0    0   ]
      *          [   0    sy   0   ]
      *          [   0    0    1   ]
      * </pre>
-     * @param sx the amount by which X coordinates in subsequent
-     * rendering operations are multiplied relative to previous
-     * rendering operations.
-     * @param sy the amount by which Y coordinates in subsequent
-     * rendering operations are multiplied relative to previous
-     * rendering operations.
+     * @pbrbm sx the bmount by which X coordinbtes in subsequent
+     * rendering operbtions bre multiplied relbtive to previous
+     * rendering operbtions.
+     * @pbrbm sy the bmount by which Y coordinbtes in subsequent
+     * rendering operbtions bre multiplied relbtive to previous
+     * rendering operbtions.
      */
-    public abstract void scale(double sx, double sy);
+    public bbstrbct void scble(double sx, double sy);
 
     /**
-     * Concatenates the current <code>Graphics2D</code>
-     * <code>Transform</code> with a shearing transform.
-     * Subsequent renderings are sheared by the specified
-     * multiplier relative to the previous position.
-     * This is equivalent to calling <code>transform(SH)</code>, where SH
-     * is an <code>AffineTransform</code> represented by the following
-     * matrix:
+     * Concbtenbtes the current <code>Grbphics2D</code>
+     * <code>Trbnsform</code> with b shebring trbnsform.
+     * Subsequent renderings bre shebred by the specified
+     * multiplier relbtive to the previous position.
+     * This is equivblent to cblling <code>trbnsform(SH)</code>, where SH
+     * is bn <code>AffineTrbnsform</code> represented by the following
+     * mbtrix:
      * <pre>
      *          [   1   shx   0   ]
      *          [  shy   1    0   ]
      *          [   0    0    1   ]
      * </pre>
-     * @param shx the multiplier by which coordinates are shifted in
-     * the positive X axis direction as a function of their Y coordinate
-     * @param shy the multiplier by which coordinates are shifted in
-     * the positive Y axis direction as a function of their X coordinate
+     * @pbrbm shx the multiplier by which coordinbtes bre shifted in
+     * the positive X bxis direction bs b function of their Y coordinbte
+     * @pbrbm shy the multiplier by which coordinbtes bre shifted in
+     * the positive Y bxis direction bs b function of their X coordinbte
      */
-    public abstract void shear(double shx, double shy);
+    public bbstrbct void shebr(double shx, double shy);
 
     /**
-     * Composes an <code>AffineTransform</code> object with the
-     * <code>Transform</code> in this <code>Graphics2D</code> according
-     * to the rule last-specified-first-applied.  If the current
-     * <code>Transform</code> is Cx, the result of composition
-     * with Tx is a new <code>Transform</code> Cx'.  Cx' becomes the
-     * current <code>Transform</code> for this <code>Graphics2D</code>.
-     * Transforming a point p by the updated <code>Transform</code> Cx' is
-     * equivalent to first transforming p by Tx and then transforming
-     * the result by the original <code>Transform</code> Cx.  In other
-     * words, Cx'(p) = Cx(Tx(p)).  A copy of the Tx is made, if necessary,
-     * so further modifications to Tx do not affect rendering.
-     * @param Tx the <code>AffineTransform</code> object to be composed with
-     * the current <code>Transform</code>
-     * @see #setTransform
-     * @see AffineTransform
+     * Composes bn <code>AffineTrbnsform</code> object with the
+     * <code>Trbnsform</code> in this <code>Grbphics2D</code> bccording
+     * to the rule lbst-specified-first-bpplied.  If the current
+     * <code>Trbnsform</code> is Cx, the result of composition
+     * with Tx is b new <code>Trbnsform</code> Cx'.  Cx' becomes the
+     * current <code>Trbnsform</code> for this <code>Grbphics2D</code>.
+     * Trbnsforming b point p by the updbted <code>Trbnsform</code> Cx' is
+     * equivblent to first trbnsforming p by Tx bnd then trbnsforming
+     * the result by the originbl <code>Trbnsform</code> Cx.  In other
+     * words, Cx'(p) = Cx(Tx(p)).  A copy of the Tx is mbde, if necessbry,
+     * so further modificbtions to Tx do not bffect rendering.
+     * @pbrbm Tx the <code>AffineTrbnsform</code> object to be composed with
+     * the current <code>Trbnsform</code>
+     * @see #setTrbnsform
+     * @see AffineTrbnsform
      */
-    public abstract void transform(AffineTransform Tx);
+    public bbstrbct void trbnsform(AffineTrbnsform Tx);
 
     /**
-     * Overwrites the Transform in the <code>Graphics2D</code> context.
-     * WARNING: This method should <b>never</b> be used to apply a new
-     * coordinate transform on top of an existing transform because the
-     * <code>Graphics2D</code> might already have a transform that is
-     * needed for other purposes, such as rendering Swing
-     * components or applying a scaling transformation to adjust for the
-     * resolution of a printer.
-     * <p>To add a coordinate transform, use the
-     * <code>transform</code>, <code>rotate</code>, <code>scale</code>,
-     * or <code>shear</code> methods.  The <code>setTransform</code>
-     * method is intended only for restoring the original
-     * <code>Graphics2D</code> transform after rendering, as shown in this
-     * example:
+     * Overwrites the Trbnsform in the <code>Grbphics2D</code> context.
+     * WARNING: This method should <b>never</b> be used to bpply b new
+     * coordinbte trbnsform on top of bn existing trbnsform becbuse the
+     * <code>Grbphics2D</code> might blrebdy hbve b trbnsform thbt is
+     * needed for other purposes, such bs rendering Swing
+     * components or bpplying b scbling trbnsformbtion to bdjust for the
+     * resolution of b printer.
+     * <p>To bdd b coordinbte trbnsform, use the
+     * <code>trbnsform</code>, <code>rotbte</code>, <code>scble</code>,
+     * or <code>shebr</code> methods.  The <code>setTrbnsform</code>
+     * method is intended only for restoring the originbl
+     * <code>Grbphics2D</code> trbnsform bfter rendering, bs shown in this
+     * exbmple:
      * <pre>
-     * // Get the current transform
-     * AffineTransform saveAT = g2.getTransform();
-     * // Perform transformation
-     * g2d.transform(...);
+     * // Get the current trbnsform
+     * AffineTrbnsform sbveAT = g2.getTrbnsform();
+     * // Perform trbnsformbtion
+     * g2d.trbnsform(...);
      * // Render
-     * g2d.draw(...);
-     * // Restore original transform
-     * g2d.setTransform(saveAT);
+     * g2d.drbw(...);
+     * // Restore originbl trbnsform
+     * g2d.setTrbnsform(sbveAT);
      * </pre>
      *
-     * @param Tx the <code>AffineTransform</code> that was retrieved
-     *           from the <code>getTransform</code> method
-     * @see #transform
-     * @see #getTransform
-     * @see AffineTransform
+     * @pbrbm Tx the <code>AffineTrbnsform</code> thbt wbs retrieved
+     *           from the <code>getTrbnsform</code> method
+     * @see #trbnsform
+     * @see #getTrbnsform
+     * @see AffineTrbnsform
      */
-    public abstract void setTransform(AffineTransform Tx);
+    public bbstrbct void setTrbnsform(AffineTrbnsform Tx);
 
     /**
-     * Returns a copy of the current <code>Transform</code> in the
-     * <code>Graphics2D</code> context.
-     * @return the current <code>AffineTransform</code> in the
-     *             <code>Graphics2D</code> context.
-     * @see #transform
-     * @see #setTransform
+     * Returns b copy of the current <code>Trbnsform</code> in the
+     * <code>Grbphics2D</code> context.
+     * @return the current <code>AffineTrbnsform</code> in the
+     *             <code>Grbphics2D</code> context.
+     * @see #trbnsform
+     * @see #setTrbnsform
      */
-    public abstract AffineTransform getTransform();
+    public bbstrbct AffineTrbnsform getTrbnsform();
 
     /**
-     * Returns the current <code>Paint</code> of the
-     * <code>Graphics2D</code> context.
-     * @return the current <code>Graphics2D</code> <code>Paint</code>,
-     * which defines a color or pattern.
-     * @see #setPaint
-     * @see java.awt.Graphics#setColor
+     * Returns the current <code>Pbint</code> of the
+     * <code>Grbphics2D</code> context.
+     * @return the current <code>Grbphics2D</code> <code>Pbint</code>,
+     * which defines b color or pbttern.
+     * @see #setPbint
+     * @see jbvb.bwt.Grbphics#setColor
      */
-    public abstract Paint getPaint();
+    public bbstrbct Pbint getPbint();
 
     /**
      * Returns the current <code>Composite</code> in the
-     * <code>Graphics2D</code> context.
-     * @return the current <code>Graphics2D</code> <code>Composite</code>,
-     *              which defines a compositing style.
+     * <code>Grbphics2D</code> context.
+     * @return the current <code>Grbphics2D</code> <code>Composite</code>,
+     *              which defines b compositing style.
      * @see #setComposite
      */
-    public abstract Composite getComposite();
+    public bbstrbct Composite getComposite();
 
     /**
-     * Sets the background color for the <code>Graphics2D</code> context.
-     * The background color is used for clearing a region.
-     * When a <code>Graphics2D</code> is constructed for a
-     * <code>Component</code>, the background color is
-     * inherited from the <code>Component</code>. Setting the background color
-     * in the <code>Graphics2D</code> context only affects the subsequent
-     * <code>clearRect</code> calls and not the background color of the
-     * <code>Component</code>.  To change the background
-     * of the <code>Component</code>, use appropriate methods of
+     * Sets the bbckground color for the <code>Grbphics2D</code> context.
+     * The bbckground color is used for clebring b region.
+     * When b <code>Grbphics2D</code> is constructed for b
+     * <code>Component</code>, the bbckground color is
+     * inherited from the <code>Component</code>. Setting the bbckground color
+     * in the <code>Grbphics2D</code> context only bffects the subsequent
+     * <code>clebrRect</code> cblls bnd not the bbckground color of the
+     * <code>Component</code>.  To chbnge the bbckground
+     * of the <code>Component</code>, use bppropribte methods of
      * the <code>Component</code>.
-     * @param color the background color that is used in
-     * subsequent calls to <code>clearRect</code>
-     * @see #getBackground
-     * @see java.awt.Graphics#clearRect
+     * @pbrbm color the bbckground color thbt is used in
+     * subsequent cblls to <code>clebrRect</code>
+     * @see #getBbckground
+     * @see jbvb.bwt.Grbphics#clebrRect
      */
-    public abstract void setBackground(Color color);
+    public bbstrbct void setBbckground(Color color);
 
     /**
-     * Returns the background color used for clearing a region.
-     * @return the current <code>Graphics2D</code> <code>Color</code>,
-     * which defines the background color.
-     * @see #setBackground
+     * Returns the bbckground color used for clebring b region.
+     * @return the current <code>Grbphics2D</code> <code>Color</code>,
+     * which defines the bbckground color.
+     * @see #setBbckground
      */
-    public abstract Color getBackground();
+    public bbstrbct Color getBbckground();
 
     /**
      * Returns the current <code>Stroke</code> in the
-     * <code>Graphics2D</code> context.
-     * @return the current <code>Graphics2D</code> <code>Stroke</code>,
+     * <code>Grbphics2D</code> context.
+     * @return the current <code>Grbphics2D</code> <code>Stroke</code>,
      *                 which defines the line style.
      * @see #setStroke
      */
-    public abstract Stroke getStroke();
+    public bbstrbct Stroke getStroke();
 
     /**
      * Intersects the current <code>Clip</code> with the interior of the
-     * specified <code>Shape</code> and sets the <code>Clip</code> to the
-     * resulting intersection.  The specified <code>Shape</code> is
-     * transformed with the current <code>Graphics2D</code>
-     * <code>Transform</code> before being intersected with the current
-     * <code>Clip</code>.  This method is used to make the current
-     * <code>Clip</code> smaller.
-     * To make the <code>Clip</code> larger, use <code>setClip</code>.
+     * specified <code>Shbpe</code> bnd sets the <code>Clip</code> to the
+     * resulting intersection.  The specified <code>Shbpe</code> is
+     * trbnsformed with the current <code>Grbphics2D</code>
+     * <code>Trbnsform</code> before being intersected with the current
+     * <code>Clip</code>.  This method is used to mbke the current
+     * <code>Clip</code> smbller.
+     * To mbke the <code>Clip</code> lbrger, use <code>setClip</code>.
      * The <i>user clip</i> modified by this method is independent of the
-     * clipping associated with device bounds and visibility.  If no clip has
-     * previously been set, or if the clip has been cleared using
-     * {@link Graphics#setClip(Shape) setClip} with a <code>null</code>
-     * argument, the specified <code>Shape</code> becomes the new
+     * clipping bssocibted with device bounds bnd visibility.  If no clip hbs
+     * previously been set, or if the clip hbs been clebred using
+     * {@link Grbphics#setClip(Shbpe) setClip} with b <code>null</code>
+     * brgument, the specified <code>Shbpe</code> becomes the new
      * user clip.
-     * @param s the <code>Shape</code> to be intersected with the current
+     * @pbrbm s the <code>Shbpe</code> to be intersected with the current
      *          <code>Clip</code>.  If <code>s</code> is <code>null</code>,
-     *          this method clears the current <code>Clip</code>.
+     *          this method clebrs the current <code>Clip</code>.
      */
-     public abstract void clip(Shape s);
+     public bbstrbct void clip(Shbpe s);
 
      /**
      * Get the rendering context of the <code>Font</code> within this
-     * <code>Graphics2D</code> context.
+     * <code>Grbphics2D</code> context.
      * The {@link FontRenderContext}
-     * encapsulates application hints such as anti-aliasing and
-     * fractional metrics, as well as target device specific information
-     * such as dots-per-inch.  This information should be provided by the
-     * application when using objects that perform typographical
-     * formatting, such as <code>Font</code> and
-     * <code>TextLayout</code>.  This information should also be provided
-     * by applications that perform their own layout and need accurate
-     * measurements of various characteristics of glyphs such as advance
-     * and line height when various rendering hints have been applied to
+     * encbpsulbtes bpplicbtion hints such bs bnti-blibsing bnd
+     * frbctionbl metrics, bs well bs tbrget device specific informbtion
+     * such bs dots-per-inch.  This informbtion should be provided by the
+     * bpplicbtion when using objects thbt perform typogrbphicbl
+     * formbtting, such bs <code>Font</code> bnd
+     * <code>TextLbyout</code>.  This informbtion should blso be provided
+     * by bpplicbtions thbt perform their own lbyout bnd need bccurbte
+     * mebsurements of vbrious chbrbcteristics of glyphs such bs bdvbnce
+     * bnd line height when vbrious rendering hints hbve been bpplied to
      * the text rendering.
      *
-     * @return a reference to an instance of FontRenderContext.
-     * @see java.awt.font.FontRenderContext
-     * @see java.awt.Font#createGlyphVector
-     * @see java.awt.font.TextLayout
+     * @return b reference to bn instbnce of FontRenderContext.
+     * @see jbvb.bwt.font.FontRenderContext
+     * @see jbvb.bwt.Font#crebteGlyphVector
+     * @see jbvb.bwt.font.TextLbyout
      * @since     1.2
      */
 
-    public abstract FontRenderContext getFontRenderContext();
+    public bbstrbct FontRenderContext getFontRenderContext();
 
 }

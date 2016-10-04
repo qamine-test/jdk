@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.*;
+import jbvbx.sound.midi.*;
 
 /**
- * optimized FastSysexMessage that doesn't copy the array upon instantiation
+ * optimized FbstSysexMessbge thbt doesn't copy the brrby upon instbntibtion
  *
- * @author Florian Bomers
+ * @buthor Floribn Bomers
  */
-final class FastSysexMessage extends SysexMessage {
+finbl clbss FbstSysexMessbge extends SysexMessbge {
 
-    FastSysexMessage(byte[] data) throws InvalidMidiDataException {
-        super(data);
-        if (data.length==0 || (((data[0] & 0xFF) != 0xF0) && ((data[0] & 0xFF) != 0xF7))) {
-            super.setMessage(data, data.length); // will throw Exception
+    FbstSysexMessbge(byte[] dbtb) throws InvblidMidiDbtbException {
+        super(dbtb);
+        if (dbtb.length==0 || (((dbtb[0] & 0xFF) != 0xF0) && ((dbtb[0] & 0xFF) != 0xF7))) {
+            super.setMessbge(dbtb, dbtb.length); // will throw Exception
         }
     }
 
     /**
-     * The returned array may be larger than this message is.
-     * Use getLength() to get the real length of the message.
+     * The returned brrby mby be lbrger thbn this messbge is.
+     * Use getLength() to get the rebl length of the messbge.
      */
-    byte[] getReadOnlyMessage() {
-        return data;
+    byte[] getRebdOnlyMessbge() {
+        return dbtb;
     }
 
-    // overwrite this method so that the original data array,
-    // which is shared among all transmitters, cannot be modified
-    public void setMessage(byte[] data, int length) throws InvalidMidiDataException {
-        if ((data.length == 0) || (((data[0] & 0xFF) != 0xF0) && ((data[0] & 0xFF) != 0xF7))) {
-            super.setMessage(data, data.length); // will throw Exception
+    // overwrite this method so thbt the originbl dbtb brrby,
+    // which is shbred bmong bll trbnsmitters, cbnnot be modified
+    public void setMessbge(byte[] dbtb, int length) throws InvblidMidiDbtbException {
+        if ((dbtb.length == 0) || (((dbtb[0] & 0xFF) != 0xF0) && ((dbtb[0] & 0xFF) != 0xF7))) {
+            super.setMessbge(dbtb, dbtb.length); // will throw Exception
         }
         this.length = length;
-        this.data = new byte[this.length];
-        System.arraycopy(data, 0, this.data, 0, length);
+        this.dbtb = new byte[this.length];
+        System.brrbycopy(dbtb, 0, this.dbtb, 0, length);
     }
 
-} // class FastSysexMessage
+} // clbss FbstSysexMessbge

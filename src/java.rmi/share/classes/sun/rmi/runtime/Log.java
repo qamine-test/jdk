@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.runtime;
+pbckbge sun.rmi.runtime;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.io.OutputStream;
-import java.rmi.server.LogStream;
-import java.security.PrivilegedAction;
-import java.util.logging.Handler;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.LogRecord;
-import java.util.logging.StreamHandler;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.rmi.server.LogStrebm;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.logging.Hbndler;
+import jbvb.util.logging.SimpleFormbtter;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvb.util.logging.LogRecord;
+import jbvb.util.logging.StrebmHbndler;
 
 /**
- * Utility which provides an abstract "logger" like RMI internal API
- * which can be directed to use one of two types of logging
- * infrastructure: the java.util.logging API or the
- * java.rmi.server.LogStream API.  The default behavior is to use the
- * java.util.logging API.  The LogStream API may be used instead by
+ * Utility which provides bn bbstrbct "logger" like RMI internbl API
+ * which cbn be directed to use one of two types of logging
+ * infrbstructure: the jbvb.util.logging API or the
+ * jbvb.rmi.server.LogStrebm API.  The defbult behbvior is to use the
+ * jbvb.util.logging API.  The LogStrebm API mby be used instebd by
  * setting the system property sun.rmi.log.useOld to true.
  *
- * For backwards compatibility, supports the RMI system logging
- * properties which pre-1.4 comprised the only way to configure RMI
- * logging.  If the java.util.logging API is used and RMI system log
- * properties are set, the system properties override initial RMI
- * logger values as appropriate. If the java.util.logging API is
- * turned off, pre-1.4 logging behavior is used.
+ * For bbckwbrds compbtibility, supports the RMI system logging
+ * properties which pre-1.4 comprised the only wby to configure RMI
+ * logging.  If the jbvb.util.logging API is used bnd RMI system log
+ * properties bre set, the system properties override initibl RMI
+ * logger vblues bs bppropribte. If the jbvb.util.logging API is
+ * turned off, pre-1.4 logging behbvior is used.
  *
- * @author Laird Dornin
+ * @buthor Lbird Dornin
  * @since 1.4
  */
-@SuppressWarnings("deprecation")
-public abstract class Log {
+@SuppressWbrnings("deprecbtion")
+public bbstrbct clbss Log {
 
-    /** Logger re-definition of old RMI log values */
-    public static final Level BRIEF = Level.FINE;
-    public static final Level VERBOSE = Level.FINER;
+    /** Logger re-definition of old RMI log vblues */
+    public stbtic finbl Level BRIEF = Level.FINE;
+    public stbtic finbl Level VERBOSE = Level.FINER;
 
-    /* selects log implementation */
-    private static final LogFactory logFactory;
-    static {
-        boolean useOld = java.security.AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("sun.rmi.log.useOld"));
+    /* selects log implementbtion */
+    privbte stbtic finbl LogFbctory logFbctory;
+    stbtic {
+        boolebn useOld = jbvb.security.AccessController.doPrivileged(
+            (PrivilegedAction<Boolebn>) () -> Boolebn.getBoolebn("sun.rmi.log.useOld"));
 
-        /* set factory to select the logging facility to use */
-        logFactory = (useOld ? (LogFactory) new LogStreamLogFactory() :
-                      (LogFactory) new LoggerLogFactory());
+        /* set fbctory to select the logging fbcility to use */
+        logFbctory = (useOld ? (LogFbctory) new LogStrebmLogFbctory() :
+                      (LogFbctory) new LoggerLogFbctory());
     }
 
-    /** "logger like" API to be used by RMI implementation */
-    public abstract boolean isLoggable(Level level);
-    public abstract void log(Level level, String message);
-    public abstract void log(Level level, String message, Throwable thrown);
+    /** "logger like" API to be used by RMI implementbtion */
+    public bbstrbct boolebn isLoggbble(Level level);
+    public bbstrbct void log(Level level, String messbge);
+    public bbstrbct void log(Level level, String messbge, Throwbble thrown);
 
-    /** get and set the RMI server call output stream */
-    public abstract void setOutputStream(OutputStream stream);
-    public abstract PrintStream getPrintStream();
+    /** get bnd set the RMI server cbll output strebm */
+    public bbstrbct void setOutputStrebm(OutputStrebm strebm);
+    public bbstrbct PrintStrebm getPrintStrebm();
 
-    /** factory interface enables Logger and LogStream implementations */
-    private static interface LogFactory {
-        Log createLog(String loggerName, String oldLogName, Level level);
+    /** fbctory interfbce enbbles Logger bnd LogStrebm implementbtions */
+    privbte stbtic interfbce LogFbctory {
+        Log crebteLog(String loggerNbme, String oldLogNbme, Level level);
     }
 
-    /* access log objects */
+    /* bccess log objects */
 
     /**
-     * Access log for a tri-state system property.
+     * Access log for b tri-stbte system property.
      *
-     * Need to first convert override value to a log level, taking
-     * care to interpret a range of values between BRIEF, VERBOSE and
+     * Need to first convert override vblue to b log level, tbking
+     * cbre to interpret b rbnge of vblues between BRIEF, VERBOSE bnd
      * SILENT.
      *
-     * An override < 0 is interpreted to mean that the logging
-     * configuration should not be overridden. The level passed to the
-     * factories createLog method will be null in this case.
+     * An override < 0 is interpreted to mebn thbt the logging
+     * configurbtion should not be overridden. The level pbssed to the
+     * fbctories crebteLog method will be null in this cbse.
      *
-     * Note that if oldLogName is null and old logging is on, the
-     * returned LogStreamLog will ignore the override parameter - the
-     * log will never log messages.  This permits new logs that only
-     * write to Loggers to do nothing when old logging is active.
+     * Note thbt if oldLogNbme is null bnd old logging is on, the
+     * returned LogStrebmLog will ignore the override pbrbmeter - the
+     * log will never log messbges.  This permits new logs thbt only
+     * write to Loggers to do nothing when old logging is bctive.
      *
-     * Do not call getLog multiple times on the same logger name.
-     * Since this is an internal API, no checks are made to ensure
-     * that multiple logs do not exist for the same logger.
+     * Do not cbll getLog multiple times on the sbme logger nbme.
+     * Since this is bn internbl API, no checks bre mbde to ensure
+     * thbt multiple logs do not exist for the sbme logger.
      */
-    public static Log getLog(String loggerName, String oldLogName,
+    public stbtic Log getLog(String loggerNbme, String oldLogNbme,
                              int override)
     {
         Level level;
 
         if (override < 0) {
             level = null;
-        } else if (override == LogStream.SILENT) {
+        } else if (override == LogStrebm.SILENT) {
             level = Level.OFF;
-        } else if ((override > LogStream.SILENT) &&
-                   (override <= LogStream.BRIEF)) {
+        } else if ((override > LogStrebm.SILENT) &&
+                   (override <= LogStrebm.BRIEF)) {
             level = BRIEF;
-        } else if ((override > LogStream.BRIEF) &&
-                   (override <= LogStream.VERBOSE))
+        } else if ((override > LogStrebm.BRIEF) &&
+                   (override <= LogStrebm.VERBOSE))
         {
             level = VERBOSE;
         } else {
             level = Level.FINEST;
         }
-        return logFactory.createLog(loggerName, oldLogName, level);
+        return logFbctory.crebteLog(loggerNbme, oldLogNbme, level);
     }
 
     /**
-     * Access logs associated with boolean properties
+     * Access logs bssocibted with boolebn properties
      *
-     * Do not call getLog multiple times on the same logger name.
-     * Since this is an internal API, no checks are made to ensure
-     * that multiple logs do not exist for the same logger.
+     * Do not cbll getLog multiple times on the sbme logger nbme.
+     * Since this is bn internbl API, no checks bre mbde to ensure
+     * thbt multiple logs do not exist for the sbme logger.
      */
-    public static Log getLog(String loggerName, String oldLogName,
-                             boolean override)
+    public stbtic Log getLog(String loggerNbme, String oldLogNbme,
+                             boolebn override)
     {
         Level level = (override ? VERBOSE : null);
-        return logFactory.createLog(loggerName, oldLogName, level);
+        return logFbctory.crebteLog(loggerNbme, oldLogNbme, level);
     }
 
     /**
-     * Factory to create Log objects which deliver log messages to the
-     * java.util.logging API.
+     * Fbctory to crebte Log objects which deliver log messbges to the
+     * jbvb.util.logging API.
      */
-    private static class LoggerLogFactory implements LogFactory {
-        LoggerLogFactory() {}
+    privbte stbtic clbss LoggerLogFbctory implements LogFbctory {
+        LoggerLogFbctory() {}
 
         /*
-         * Accessor to obtain an arbitrary RMI logger with name
-         * loggerName.  If the level of the logger is greater than the
-         * level for the system property with name, the logger level
-         * will be set to the value of system property.
+         * Accessor to obtbin bn brbitrbry RMI logger with nbme
+         * loggerNbme.  If the level of the logger is grebter thbn the
+         * level for the system property with nbme, the logger level
+         * will be set to the vblue of system property.
          */
-        public Log createLog(final String loggerName, String oldLogName,
-                             final Level level)
+        public Log crebteLog(finbl String loggerNbme, String oldLogNbme,
+                             finbl Level level)
         {
-            Logger logger = Logger.getLogger(loggerName);
+            Logger logger = Logger.getLogger(loggerNbme);
             return new LoggerLog(logger, level);
         }
     }
 
     /**
-     * Class specialized to log messages to the java.util.logging API
+     * Clbss speciblized to log messbges to the jbvb.util.logging API
      */
-    private static class LoggerLog extends Log {
+    privbte stbtic clbss LoggerLog extends Log {
 
-        /* alternate console handler for RMI loggers */
-        private static final Handler alternateConsole =
-                java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Handler>() {
-                    public Handler run() {
-                            InternalStreamHandler alternate =
-                                new InternalStreamHandler(System.err);
-                            alternate.setLevel(Level.ALL);
-                            return alternate;
+        /* blternbte console hbndler for RMI loggers */
+        privbte stbtic finbl Hbndler blternbteConsole =
+                jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Hbndler>() {
+                    public Hbndler run() {
+                            InternblStrebmHbndler blternbte =
+                                new InternblStrebmHbndler(System.err);
+                            blternbte.setLevel(Level.ALL);
+                            return blternbte;
                         }
                 });
 
-        /** handler to which messages are copied */
-        private InternalStreamHandler copyHandler = null;
+        /** hbndler to which messbges bre copied */
+        privbte InternblStrebmHbndler copyHbndler = null;
 
-        /* logger to which log messages are written */
-        private final Logger logger;
+        /* logger to which log messbges bre written */
+        privbte finbl Logger logger;
 
-        /* used as return value of RemoteServer.getLog */
-        private LoggerPrintStream loggerSandwich;
+        /* used bs return vblue of RemoteServer.getLog */
+        privbte LoggerPrintStrebm loggerSbndwich;
 
-        /** creates a Log which will delegate to the given logger */
-        private LoggerLog(final Logger logger, final Level level) {
+        /** crebtes b Log which will delegbte to the given logger */
+        privbte LoggerLog(finbl Logger logger, finbl Level level) {
             this.logger = logger;
 
             if (level != null){
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Void>() {
                         public Void run() {
-                            if (!logger.isLoggable(level)) {
+                            if (!logger.isLoggbble(level)) {
                                 logger.setLevel(level);
                             }
-                            logger.addHandler(alternateConsole);
+                            logger.bddHbndler(blternbteConsole);
                             return null;
                         }
                     }
@@ -211,65 +211,65 @@ public abstract class Log {
             }
         }
 
-        public boolean isLoggable(Level level) {
-            return logger.isLoggable(level);
+        public boolebn isLoggbble(Level level) {
+            return logger.isLoggbble(level);
         }
 
-        public void log(Level level, String message) {
-            if (isLoggable(level)) {
+        public void log(Level level, String messbge) {
+            if (isLoggbble(level)) {
                 String[] source = getSource();
                 logger.logp(level, source[0], source[1],
-                           Thread.currentThread().getName() + ": " + message);
+                           Threbd.currentThrebd().getNbme() + ": " + messbge);
             }
         }
 
-        public void log(Level level, String message, Throwable thrown) {
-            if (isLoggable(level)) {
+        public void log(Level level, String messbge, Throwbble thrown) {
+            if (isLoggbble(level)) {
                 String[] source = getSource();
                 logger.logp(level, source[0], source[1],
-                    Thread.currentThread().getName() + ": " +
-                           message, thrown);
+                    Threbd.currentThrebd().getNbme() + ": " +
+                           messbge, thrown);
             }
         }
 
         /**
-         * Set the output stream associated with the RMI server call
+         * Set the output strebm bssocibted with the RMI server cbll
          * logger.
          *
-         * Calling code needs LoggingPermission "control".
+         * Cblling code needs LoggingPermission "control".
          */
-        public synchronized void setOutputStream(OutputStream out) {
+        public synchronized void setOutputStrebm(OutputStrebm out) {
             if (out != null) {
-                if (!logger.isLoggable(VERBOSE)) {
+                if (!logger.isLoggbble(VERBOSE)) {
                     logger.setLevel(VERBOSE);
                 }
-                copyHandler = new InternalStreamHandler(out);
-                copyHandler.setLevel(Log.VERBOSE);
-                logger.addHandler(copyHandler);
+                copyHbndler = new InternblStrebmHbndler(out);
+                copyHbndler.setLevel(Log.VERBOSE);
+                logger.bddHbndler(copyHbndler);
             } else {
-                /* ensure that messages are not logged */
-                if (copyHandler != null) {
-                    logger.removeHandler(copyHandler);
+                /* ensure thbt messbges bre not logged */
+                if (copyHbndler != null) {
+                    logger.removeHbndler(copyHbndler);
                 }
-                copyHandler = null;
+                copyHbndler = null;
             }
         }
 
-        public synchronized PrintStream getPrintStream() {
-            if (loggerSandwich == null) {
-                loggerSandwich = new LoggerPrintStream(logger);
+        public synchronized PrintStrebm getPrintStrebm() {
+            if (loggerSbndwich == null) {
+                loggerSbndwich = new LoggerPrintStrebm(logger);
             }
-            return loggerSandwich;
+            return loggerSbndwich;
         }
     }
 
     /**
-     * Subclass of StreamHandler for redirecting log output.  flush
-     * must be called in the publish and close methods.
+     * Subclbss of StrebmHbndler for redirecting log output.  flush
+     * must be cblled in the publish bnd close methods.
      */
-    private static class InternalStreamHandler extends StreamHandler {
-        InternalStreamHandler(OutputStream out) {
-            super(out, new SimpleFormatter());
+    privbte stbtic clbss InternblStrebmHbndler extends StrebmHbndler {
+        InternblStrebmHbndler(OutputStrebm out) {
+            super(out, new SimpleFormbtter());
         }
 
         public void publish(LogRecord record) {
@@ -283,51 +283,51 @@ public abstract class Log {
     }
 
     /**
-     * PrintStream which forwards log messages to the logger.  Class
-     * is needed to maintain backwards compatibility with
+     * PrintStrebm which forwbrds log messbges to the logger.  Clbss
+     * is needed to mbintbin bbckwbrds compbtibility with
      * RemoteServer.{set|get}Log().
      */
-    private static class LoggerPrintStream extends PrintStream {
+    privbte stbtic clbss LoggerPrintStrebm extends PrintStrebm {
 
         /** logger where output of this log is sent */
-        private final Logger logger;
+        privbte finbl Logger logger;
 
-        /** record the last character written to this stream */
-        private int last = -1;
+        /** record the lbst chbrbcter written to this strebm */
+        privbte int lbst = -1;
 
-        /** stream used for buffering lines */
-        private final ByteArrayOutputStream bufOut;
+        /** strebm used for buffering lines */
+        privbte finbl ByteArrbyOutputStrebm bufOut;
 
-        private LoggerPrintStream(Logger logger)
+        privbte LoggerPrintStrebm(Logger logger)
         {
-            super(new ByteArrayOutputStream());
-            bufOut = (ByteArrayOutputStream) super.out;
+            super(new ByteArrbyOutputStrebm());
+            bufOut = (ByteArrbyOutputStrebm) super.out;
             this.logger = logger;
         }
 
         public void write(int b) {
-            if ((last == '\r') && (b == '\n')) {
-                last = -1;
+            if ((lbst == '\r') && (b == '\n')) {
+                lbst = -1;
                 return;
             } else if ((b == '\n') || (b == '\r')) {
                 try {
-                    /* write the converted bytes of the log message */
-                    String message =
-                        Thread.currentThread().getName() + ": " +
+                    /* write the converted bytes of the log messbge */
+                    String messbge =
+                        Threbd.currentThrebd().getNbme() + ": " +
                         bufOut.toString();
-                    logger.logp(Level.INFO, "LogStream", "print", message);
-                } finally {
+                    logger.logp(Level.INFO, "LogStrebm", "print", messbge);
+                } finblly {
                     bufOut.reset();
                 }
             } else {
                 super.write(b);
             }
-            last = b;
+            lbst = b;
         }
 
         public void write(byte b[], int off, int len) {
             if (len < 0) {
-                throw new ArrayIndexOutOfBoundsException(len);
+                throw new ArrbyIndexOutOfBoundsException(len);
             }
             for (int i = 0; i < len; i++) {
                 write(b[off + i]);
@@ -340,109 +340,109 @@ public abstract class Log {
     }
 
     /**
-     * Factory to create Log objects which deliver log messages to the
-     * java.rmi.server.LogStream API
+     * Fbctory to crebte Log objects which deliver log messbges to the
+     * jbvb.rmi.server.LogStrebm API
      */
-    private static class LogStreamLogFactory implements LogFactory {
-        LogStreamLogFactory() {}
+    privbte stbtic clbss LogStrebmLogFbctory implements LogFbctory {
+        LogStrebmLogFbctory() {}
 
-        /* create a new LogStreamLog for the specified log */
-        public Log createLog(String loggerName, String oldLogName,
+        /* crebte b new LogStrebmLog for the specified log */
+        public Log crebteLog(String loggerNbme, String oldLogNbme,
                              Level level)
         {
-            LogStream stream = null;
-            if (oldLogName != null) {
-                stream = LogStream.log(oldLogName);
+            LogStrebm strebm = null;
+            if (oldLogNbme != null) {
+                strebm = LogStrebm.log(oldLogNbme);
             }
-            return new LogStreamLog(stream, level);
+            return new LogStrebmLog(strebm, level);
         }
     }
 
     /**
-     * Class specialized to log messages to the
-     * java.rmi.server.LogStream API
+     * Clbss speciblized to log messbges to the
+     * jbvb.rmi.server.LogStrebm API
      */
-    private static class LogStreamLog extends Log {
-        /** Log stream to which log messages are written */
-        private final LogStream stream;
+    privbte stbtic clbss LogStrebmLog extends Log {
+        /** Log strebm to which log messbges bre written */
+        privbte finbl LogStrebm strebm;
 
-        /** the level of the log as set by associated property */
-        private int levelValue = Level.OFF.intValue();
+        /** the level of the log bs set by bssocibted property */
+        privbte int levelVblue = Level.OFF.intVblue();
 
-        private LogStreamLog(LogStream stream, Level level) {
-            if ((stream != null) && (level != null)) {
-                /* if the stream or level is null, don't log any
-                 * messages
+        privbte LogStrebmLog(LogStrebm strebm, Level level) {
+            if ((strebm != null) && (level != null)) {
+                /* if the strebm or level is null, don't log bny
+                 * messbges
                  */
-                levelValue = level.intValue();
+                levelVblue = level.intVblue();
             }
-            this.stream = stream;
+            this.strebm = strebm;
         }
 
-        public synchronized boolean isLoggable(Level level) {
-            return (level.intValue() >= levelValue);
+        public synchronized boolebn isLoggbble(Level level) {
+            return (level.intVblue() >= levelVblue);
         }
 
-        public void log(Level messageLevel, String message) {
-            if (isLoggable(messageLevel)) {
+        public void log(Level messbgeLevel, String messbge) {
+            if (isLoggbble(messbgeLevel)) {
                 String[] source = getSource();
-                stream.println(unqualifiedName(source[0]) +
-                               "." + source[1] + ": " + message);
+                strebm.println(unqublifiedNbme(source[0]) +
+                               "." + source[1] + ": " + messbge);
             }
         }
 
-        public void log(Level level, String message, Throwable thrown) {
-            if (isLoggable(level)) {
+        public void log(Level level, String messbge, Throwbble thrown) {
+            if (isLoggbble(level)) {
                 /*
-                 * keep output contiguous and maintain the contract of
+                 * keep output contiguous bnd mbintbin the contrbct of
                  * RemoteServer.getLog
                  */
-                synchronized (stream) {
+                synchronized (strebm) {
                     String[] source = getSource();
-                    stream.println(unqualifiedName(source[0]) + "." +
-                                   source[1] + ": " + message);
-                    thrown.printStackTrace(stream);
+                    strebm.println(unqublifiedNbme(source[0]) + "." +
+                                   source[1] + ": " + messbge);
+                    thrown.printStbckTrbce(strebm);
                 }
             }
         }
 
-        public PrintStream getPrintStream() {
-            return stream;
+        public PrintStrebm getPrintStrebm() {
+            return strebm;
         }
 
-        public synchronized void setOutputStream(OutputStream out) {
+        public synchronized void setOutputStrebm(OutputStrebm out) {
             if (out != null) {
-                if (VERBOSE.intValue() < levelValue) {
-                    levelValue = VERBOSE.intValue();
+                if (VERBOSE.intVblue() < levelVblue) {
+                    levelVblue = VERBOSE.intVblue();
                 }
-                stream.setOutputStream(out);
+                strebm.setOutputStrebm(out);
             } else {
-                /* ensure that messages are not logged */
-                levelValue = Level.OFF.intValue();
+                /* ensure thbt messbges bre not logged */
+                levelVblue = Level.OFF.intVblue();
             }
         }
 
         /*
-         * Mimic old log messages that only contain unqualified names.
+         * Mimic old log messbges thbt only contbin unqublified nbmes.
          */
-        private static String unqualifiedName(String name) {
-            int lastDot = name.lastIndexOf('.');
-            if (lastDot >= 0) {
-                name = name.substring(lastDot + 1);
+        privbte stbtic String unqublifiedNbme(String nbme) {
+            int lbstDot = nbme.lbstIndexOf('.');
+            if (lbstDot >= 0) {
+                nbme = nbme.substring(lbstDot + 1);
             }
-            name = name.replace('$', '.');
-            return name;
+            nbme = nbme.replbce('$', '.');
+            return nbme;
         }
     }
 
     /**
-     * Obtain class and method names of code calling a log method.
+     * Obtbin clbss bnd method nbmes of code cblling b log method.
      */
-    private static String[] getSource() {
-        StackTraceElement[] trace = (new Exception()).getStackTrace();
+    privbte stbtic String[] getSource() {
+        StbckTrbceElement[] trbce = (new Exception()).getStbckTrbce();
         return new String[] {
-            trace[3].getClassName(),
-            trace[3].getMethodName()
+            trbce[3].getClbssNbme(),
+            trbce[3].getMethodNbme()
         };
     }
 }

@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.dnd.DnDConstants;
+import jbvb.bwt.dnd.DnDConstbnts;
 
 /**
- * XDnD protocol global constants.
+ * XDnD protocol globbl constbnts.
  *
  * @since 1.5
  */
-class XDnDConstants {
-    static final XAtom XA_XdndActionCopy = XAtom.get("XdndActionCopy");
-    static final XAtom XA_XdndActionMove = XAtom.get("XdndActionMove");
-    static final XAtom XA_XdndActionLink = XAtom.get("XdndActionLink");
-    static final XAtom XA_XdndActionList = XAtom.get("XdndActionList");
-    static final XAtom XA_XdndTypeList   = XAtom.get("XdndTypeList");
-    static final XAtom XA_XdndAware      = XAtom.get("XdndAware");
-    static final XAtom XA_XdndProxy      = XAtom.get("XdndProxy");
-    static final XAtom XA_XdndSelection  = XAtom.get("XdndSelection");
-    static final XAtom XA_XdndEnter      = XAtom.get("XdndEnter");
-    static final XAtom XA_XdndPosition   = XAtom.get("XdndPosition");
-    static final XAtom XA_XdndLeave      = XAtom.get("XdndLeave");
-    static final XAtom XA_XdndDrop       = XAtom.get("XdndDrop");
-    static final XAtom XA_XdndStatus     = XAtom.get("XdndStatus");
-    static final XAtom XA_XdndFinished   = XAtom.get("XdndFinished");
+clbss XDnDConstbnts {
+    stbtic finbl XAtom XA_XdndActionCopy = XAtom.get("XdndActionCopy");
+    stbtic finbl XAtom XA_XdndActionMove = XAtom.get("XdndActionMove");
+    stbtic finbl XAtom XA_XdndActionLink = XAtom.get("XdndActionLink");
+    stbtic finbl XAtom XA_XdndActionList = XAtom.get("XdndActionList");
+    stbtic finbl XAtom XA_XdndTypeList   = XAtom.get("XdndTypeList");
+    stbtic finbl XAtom XA_XdndAwbre      = XAtom.get("XdndAwbre");
+    stbtic finbl XAtom XA_XdndProxy      = XAtom.get("XdndProxy");
+    stbtic finbl XAtom XA_XdndSelection  = XAtom.get("XdndSelection");
+    stbtic finbl XAtom XA_XdndEnter      = XAtom.get("XdndEnter");
+    stbtic finbl XAtom XA_XdndPosition   = XAtom.get("XdndPosition");
+    stbtic finbl XAtom XA_XdndLebve      = XAtom.get("XdndLebve");
+    stbtic finbl XAtom XA_XdndDrop       = XAtom.get("XdndDrop");
+    stbtic finbl XAtom XA_XdndStbtus     = XAtom.get("XdndStbtus");
+    stbtic finbl XAtom XA_XdndFinished   = XAtom.get("XdndFinished");
 
-    static final XSelection XDnDSelection = new XSelection(XA_XdndSelection);
+    stbtic finbl XSelection XDnDSelection = new XSelection(XA_XdndSelection);
 
-    public static final int XDND_MIN_PROTOCOL_VERSION = 3;
-    public static final int XDND_PROTOCOL_VERSION     = 5;
+    public stbtic finbl int XDND_MIN_PROTOCOL_VERSION = 3;
+    public stbtic finbl int XDND_PROTOCOL_VERSION     = 5;
 
-    public static final int XDND_PROTOCOL_MASK        = 0xFF000000;
-    public static final int XDND_PROTOCOL_SHIFT       = 24;
-    public static final int XDND_DATA_TYPES_BIT       = 0x1;
-    public static final int XDND_ACCEPT_DROP_FLAG     = 0x1;
+    public stbtic finbl int XDND_PROTOCOL_MASK        = 0xFF000000;
+    public stbtic finbl int XDND_PROTOCOL_SHIFT       = 24;
+    public stbtic finbl int XDND_DATA_TYPES_BIT       = 0x1;
+    public stbtic finbl int XDND_ACCEPT_DROP_FLAG     = 0x1;
 
-    private XDnDConstants() {}
+    privbte XDnDConstbnts() {}
 
-    static long getXDnDActionForJavaAction(int javaAction) {
-        switch (javaAction) {
-        case DnDConstants.ACTION_COPY : return XA_XdndActionCopy.getAtom();
-        case DnDConstants.ACTION_MOVE : return XA_XdndActionMove.getAtom();
-        case DnDConstants.ACTION_LINK : return XA_XdndActionLink.getAtom();
-        default                       : return 0;
+    stbtic long getXDnDActionForJbvbAction(int jbvbAction) {
+        switch (jbvbAction) {
+        cbse DnDConstbnts.ACTION_COPY : return XA_XdndActionCopy.getAtom();
+        cbse DnDConstbnts.ACTION_MOVE : return XA_XdndActionMove.getAtom();
+        cbse DnDConstbnts.ACTION_LINK : return XA_XdndActionLink.getAtom();
+        defbult                       : return 0;
         }
     }
 
-    static int getJavaActionForXDnDAction(long xdndAction) {
+    stbtic int getJbvbActionForXDnDAction(long xdndAction) {
         if (xdndAction == XA_XdndActionCopy.getAtom()) {
-            return DnDConstants.ACTION_COPY;
+            return DnDConstbnts.ACTION_COPY;
         } else if (xdndAction == XA_XdndActionMove.getAtom()) {
-            return DnDConstants.ACTION_MOVE;
+            return DnDConstbnts.ACTION_MOVE;
         } else if (xdndAction == XA_XdndActionLink.getAtom()) {
-            return DnDConstants.ACTION_LINK;
+            return DnDConstbnts.ACTION_LINK;
         } else {
-            return DnDConstants.ACTION_NONE;
+            return DnDConstbnts.ACTION_NONE;
         }
     }
 }

@@ -1,494 +1,494 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
-import java.security.AccessController;
-import java.util.StringJoiner;
-import sun.reflect.LangReflectAccess;
-import sun.reflect.ReflectionFactory;
+import jbvb.security.AccessController;
+import jbvb.util.StringJoiner;
+import sun.reflect.LbngReflectAccess;
+import sun.reflect.ReflectionFbctory;
 
 /**
- * The Modifier class provides {@code static} methods and
- * constants to decode class and member access modifiers.  The sets of
- * modifiers are represented as integers with distinct bit positions
- * representing different modifiers.  The values for the constants
- * representing the modifiers are taken from the tables in sections 4.1, 4.4, 4.5, and 4.7 of
- * <cite>The Java&trade; Virtual Machine Specification</cite>.
+ * The Modifier clbss provides {@code stbtic} methods bnd
+ * constbnts to decode clbss bnd member bccess modifiers.  The sets of
+ * modifiers bre represented bs integers with distinct bit positions
+ * representing different modifiers.  The vblues for the constbnts
+ * representing the modifiers bre tbken from the tbbles in sections 4.1, 4.4, 4.5, bnd 4.7 of
+ * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
  *
- * @see Class#getModifiers()
+ * @see Clbss#getModifiers()
  * @see Member#getModifiers()
  *
- * @author Nakul Saraiya
- * @author Kenneth Russell
+ * @buthor Nbkul Sbrbiyb
+ * @buthor Kenneth Russell
  */
-public class Modifier {
+public clbss Modifier {
 
     /*
-     * Bootstrapping protocol between java.lang and java.lang.reflect
-     *  packages
+     * Bootstrbpping protocol between jbvb.lbng bnd jbvb.lbng.reflect
+     *  pbckbges
      */
-    static {
-        sun.reflect.ReflectionFactory factory =
+    stbtic {
+        sun.reflect.ReflectionFbctory fbctory =
             AccessController.doPrivileged(
-                new ReflectionFactory.GetReflectionFactoryAction());
-        factory.setLangReflectAccess(new java.lang.reflect.ReflectAccess());
+                new ReflectionFbctory.GetReflectionFbctoryAction());
+        fbctory.setLbngReflectAccess(new jbvb.lbng.reflect.ReflectAccess());
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code public} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code public} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code public} modifier; {@code false} otherwise.
+     * {@code public} modifier; {@code fblse} otherwise.
      */
-    public static boolean isPublic(int mod) {
+    public stbtic boolebn isPublic(int mod) {
         return (mod & PUBLIC) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code private} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code privbte} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code private} modifier; {@code false} otherwise.
+     * {@code privbte} modifier; {@code fblse} otherwise.
      */
-    public static boolean isPrivate(int mod) {
+    public stbtic boolebn isPrivbte(int mod) {
         return (mod & PRIVATE) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code protected} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code protected} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code protected} modifier; {@code false} otherwise.
+     * {@code protected} modifier; {@code fblse} otherwise.
      */
-    public static boolean isProtected(int mod) {
+    public stbtic boolebn isProtected(int mod) {
         return (mod & PROTECTED) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code static} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code stbtic} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code static} modifier; {@code false} otherwise.
+     * {@code stbtic} modifier; {@code fblse} otherwise.
      */
-    public static boolean isStatic(int mod) {
+    public stbtic boolebn isStbtic(int mod) {
         return (mod & STATIC) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code final} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code finbl} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code final} modifier; {@code false} otherwise.
+     * {@code finbl} modifier; {@code fblse} otherwise.
      */
-    public static boolean isFinal(int mod) {
+    public stbtic boolebn isFinbl(int mod) {
         return (mod & FINAL) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code synchronized} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code synchronized} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code synchronized} modifier; {@code false} otherwise.
+     * {@code synchronized} modifier; {@code fblse} otherwise.
      */
-    public static boolean isSynchronized(int mod) {
+    public stbtic boolebn isSynchronized(int mod) {
         return (mod & SYNCHRONIZED) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code volatile} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code volbtile} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code volatile} modifier; {@code false} otherwise.
+     * {@code volbtile} modifier; {@code fblse} otherwise.
      */
-    public static boolean isVolatile(int mod) {
+    public stbtic boolebn isVolbtile(int mod) {
         return (mod & VOLATILE) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code transient} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code trbnsient} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code transient} modifier; {@code false} otherwise.
+     * {@code trbnsient} modifier; {@code fblse} otherwise.
      */
-    public static boolean isTransient(int mod) {
+    public stbtic boolebn isTrbnsient(int mod) {
         return (mod & TRANSIENT) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code native} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code nbtive} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code native} modifier; {@code false} otherwise.
+     * {@code nbtive} modifier; {@code fblse} otherwise.
      */
-    public static boolean isNative(int mod) {
+    public stbtic boolebn isNbtive(int mod) {
         return (mod & NATIVE) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code interface} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code interfbce} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code interface} modifier; {@code false} otherwise.
+     * {@code interfbce} modifier; {@code fblse} otherwise.
      */
-    public static boolean isInterface(int mod) {
+    public stbtic boolebn isInterfbce(int mod) {
         return (mod & INTERFACE) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code abstract} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code bbstrbct} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code abstract} modifier; {@code false} otherwise.
+     * {@code bbstrbct} modifier; {@code fblse} otherwise.
      */
-    public static boolean isAbstract(int mod) {
+    public stbtic boolebn isAbstrbct(int mod) {
         return (mod & ABSTRACT) != 0;
     }
 
     /**
-     * Return {@code true} if the integer argument includes the
-     * {@code strictfp} modifier, {@code false} otherwise.
+     * Return {@code true} if the integer brgument includes the
+     * {@code strictfp} modifier, {@code fblse} otherwise.
      *
-     * @param   mod a set of modifiers
+     * @pbrbm   mod b set of modifiers
      * @return {@code true} if {@code mod} includes the
-     * {@code strictfp} modifier; {@code false} otherwise.
+     * {@code strictfp} modifier; {@code fblse} otherwise.
      */
-    public static boolean isStrict(int mod) {
+    public stbtic boolebn isStrict(int mod) {
         return (mod & STRICT) != 0;
     }
 
     /**
-     * Return a string describing the access modifier flags in
-     * the specified modifier. For example:
+     * Return b string describing the bccess modifier flbgs in
+     * the specified modifier. For exbmple:
      * <blockquote><pre>
-     *    public final synchronized strictfp
+     *    public finbl synchronized strictfp
      * </pre></blockquote>
-     * The modifier names are returned in an order consistent with the
-     * suggested modifier orderings given in sections 8.1.1, 8.3.1, 8.4.3, 8.8.3, and 9.1.1 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * The modifier nbmes bre returned in bn order consistent with the
+     * suggested modifier orderings given in sections 8.1.1, 8.3.1, 8.4.3, 8.8.3, bnd 9.1.1 of
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>.
      * The full modifier ordering used by this method is:
      * <blockquote> {@code
-     * public protected private abstract static final transient
-     * volatile synchronized native strictfp
-     * interface } </blockquote>
-     * The {@code interface} modifier discussed in this class is
-     * not a true modifier in the Java language and it appears after
-     * all other modifiers listed by this method.  This method may
-     * return a string of modifiers that are not valid modifiers of a
-     * Java entity; in other words, no checking is done on the
-     * possible validity of the combination of modifiers represented
+     * public protected privbte bbstrbct stbtic finbl trbnsient
+     * volbtile synchronized nbtive strictfp
+     * interfbce } </blockquote>
+     * The {@code interfbce} modifier discussed in this clbss is
+     * not b true modifier in the Jbvb lbngubge bnd it bppebrs bfter
+     * bll other modifiers listed by this method.  This method mby
+     * return b string of modifiers thbt bre not vblid modifiers of b
+     * Jbvb entity; in other words, no checking is done on the
+     * possible vblidity of the combinbtion of modifiers represented
      * by the input.
      *
-     * Note that to perform such checking for a known kind of entity,
-     * such as a constructor or method, first AND the argument of
-     * {@code toString} with the appropriate mask from a method like
+     * Note thbt to perform such checking for b known kind of entity,
+     * such bs b constructor or method, first AND the brgument of
+     * {@code toString} with the bppropribte mbsk from b method like
      * {@link #constructorModifiers} or {@link #methodModifiers}.
      *
-     * @param   mod a set of modifiers
-     * @return  a string representation of the set of modifiers
+     * @pbrbm   mod b set of modifiers
+     * @return  b string representbtion of the set of modifiers
      * represented by {@code mod}
      */
-    public static String toString(int mod) {
+    public stbtic String toString(int mod) {
         StringJoiner sj = new StringJoiner(" ");
 
-        if ((mod & PUBLIC) != 0)        sj.add("public");
-        if ((mod & PROTECTED) != 0)     sj.add("protected");
-        if ((mod & PRIVATE) != 0)       sj.add("private");
+        if ((mod & PUBLIC) != 0)        sj.bdd("public");
+        if ((mod & PROTECTED) != 0)     sj.bdd("protected");
+        if ((mod & PRIVATE) != 0)       sj.bdd("privbte");
 
-        /* Canonical order */
-        if ((mod & ABSTRACT) != 0)      sj.add("abstract");
-        if ((mod & STATIC) != 0)        sj.add("static");
-        if ((mod & FINAL) != 0)         sj.add("final");
-        if ((mod & TRANSIENT) != 0)     sj.add("transient");
-        if ((mod & VOLATILE) != 0)      sj.add("volatile");
-        if ((mod & SYNCHRONIZED) != 0)  sj.add("synchronized");
-        if ((mod & NATIVE) != 0)        sj.add("native");
-        if ((mod & STRICT) != 0)        sj.add("strictfp");
-        if ((mod & INTERFACE) != 0)     sj.add("interface");
+        /* Cbnonicbl order */
+        if ((mod & ABSTRACT) != 0)      sj.bdd("bbstrbct");
+        if ((mod & STATIC) != 0)        sj.bdd("stbtic");
+        if ((mod & FINAL) != 0)         sj.bdd("finbl");
+        if ((mod & TRANSIENT) != 0)     sj.bdd("trbnsient");
+        if ((mod & VOLATILE) != 0)      sj.bdd("volbtile");
+        if ((mod & SYNCHRONIZED) != 0)  sj.bdd("synchronized");
+        if ((mod & NATIVE) != 0)        sj.bdd("nbtive");
+        if ((mod & STRICT) != 0)        sj.bdd("strictfp");
+        if ((mod & INTERFACE) != 0)     sj.bdd("interfbce");
 
         return sj.toString();
     }
 
     /*
-     * Access modifier flag constants from tables 4.1, 4.4, 4.5, and 4.7 of
-     * <cite>The Java&trade; Virtual Machine Specification</cite>
+     * Access modifier flbg constbnts from tbbles 4.1, 4.4, 4.5, bnd 4.7 of
+     * <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>
      */
 
     /**
-     * The {@code int} value representing the {@code public}
+     * The {@code int} vblue representing the {@code public}
      * modifier.
      */
-    public static final int PUBLIC           = 0x00000001;
+    public stbtic finbl int PUBLIC           = 0x00000001;
 
     /**
-     * The {@code int} value representing the {@code private}
+     * The {@code int} vblue representing the {@code privbte}
      * modifier.
      */
-    public static final int PRIVATE          = 0x00000002;
+    public stbtic finbl int PRIVATE          = 0x00000002;
 
     /**
-     * The {@code int} value representing the {@code protected}
+     * The {@code int} vblue representing the {@code protected}
      * modifier.
      */
-    public static final int PROTECTED        = 0x00000004;
+    public stbtic finbl int PROTECTED        = 0x00000004;
 
     /**
-     * The {@code int} value representing the {@code static}
+     * The {@code int} vblue representing the {@code stbtic}
      * modifier.
      */
-    public static final int STATIC           = 0x00000008;
+    public stbtic finbl int STATIC           = 0x00000008;
 
     /**
-     * The {@code int} value representing the {@code final}
+     * The {@code int} vblue representing the {@code finbl}
      * modifier.
      */
-    public static final int FINAL            = 0x00000010;
+    public stbtic finbl int FINAL            = 0x00000010;
 
     /**
-     * The {@code int} value representing the {@code synchronized}
+     * The {@code int} vblue representing the {@code synchronized}
      * modifier.
      */
-    public static final int SYNCHRONIZED     = 0x00000020;
+    public stbtic finbl int SYNCHRONIZED     = 0x00000020;
 
     /**
-     * The {@code int} value representing the {@code volatile}
+     * The {@code int} vblue representing the {@code volbtile}
      * modifier.
      */
-    public static final int VOLATILE         = 0x00000040;
+    public stbtic finbl int VOLATILE         = 0x00000040;
 
     /**
-     * The {@code int} value representing the {@code transient}
+     * The {@code int} vblue representing the {@code trbnsient}
      * modifier.
      */
-    public static final int TRANSIENT        = 0x00000080;
+    public stbtic finbl int TRANSIENT        = 0x00000080;
 
     /**
-     * The {@code int} value representing the {@code native}
+     * The {@code int} vblue representing the {@code nbtive}
      * modifier.
      */
-    public static final int NATIVE           = 0x00000100;
+    public stbtic finbl int NATIVE           = 0x00000100;
 
     /**
-     * The {@code int} value representing the {@code interface}
+     * The {@code int} vblue representing the {@code interfbce}
      * modifier.
      */
-    public static final int INTERFACE        = 0x00000200;
+    public stbtic finbl int INTERFACE        = 0x00000200;
 
     /**
-     * The {@code int} value representing the {@code abstract}
+     * The {@code int} vblue representing the {@code bbstrbct}
      * modifier.
      */
-    public static final int ABSTRACT         = 0x00000400;
+    public stbtic finbl int ABSTRACT         = 0x00000400;
 
     /**
-     * The {@code int} value representing the {@code strictfp}
+     * The {@code int} vblue representing the {@code strictfp}
      * modifier.
      */
-    public static final int STRICT           = 0x00000800;
+    public stbtic finbl int STRICT           = 0x00000800;
 
-    // Bits not (yet) exposed in the public API either because they
-    // have different meanings for fields and methods and there is no
-    // way to distinguish between the two in this class, or because
-    // they are not Java programming language keywords
-    static final int BRIDGE    = 0x00000040;
-    static final int VARARGS   = 0x00000080;
-    static final int SYNTHETIC = 0x00001000;
-    static final int ANNOTATION  = 0x00002000;
-    static final int ENUM      = 0x00004000;
-    static final int MANDATED  = 0x00008000;
-    static boolean isSynthetic(int mod) {
+    // Bits not (yet) exposed in the public API either becbuse they
+    // hbve different mebnings for fields bnd methods bnd there is no
+    // wby to distinguish between the two in this clbss, or becbuse
+    // they bre not Jbvb progrbmming lbngubge keywords
+    stbtic finbl int BRIDGE    = 0x00000040;
+    stbtic finbl int VARARGS   = 0x00000080;
+    stbtic finbl int SYNTHETIC = 0x00001000;
+    stbtic finbl int ANNOTATION  = 0x00002000;
+    stbtic finbl int ENUM      = 0x00004000;
+    stbtic finbl int MANDATED  = 0x00008000;
+    stbtic boolebn isSynthetic(int mod) {
       return (mod & SYNTHETIC) != 0;
     }
 
-    static boolean isMandated(int mod) {
+    stbtic boolebn isMbndbted(int mod) {
       return (mod & MANDATED) != 0;
     }
 
-    // Note on the FOO_MODIFIERS fields and fooModifiers() methods:
-    // the sets of modifiers are not guaranteed to be constants
-    // across time and Java SE releases. Therefore, it would not be
-    // appropriate to expose an external interface to this information
-    // that would allow the values to be treated as Java-level
-    // constants since the values could be constant folded and updates
+    // Note on the FOO_MODIFIERS fields bnd fooModifiers() methods:
+    // the sets of modifiers bre not gubrbnteed to be constbnts
+    // bcross time bnd Jbvb SE relebses. Therefore, it would not be
+    // bppropribte to expose bn externbl interfbce to this informbtion
+    // thbt would bllow the vblues to be trebted bs Jbvb-level
+    // constbnts since the vblues could be constbnt folded bnd updbtes
     // to the sets of modifiers missed. Thus, the fooModifiers()
-    // methods return an unchanging values for a given release, but a
-    // value that can potentially change over time.
+    // methods return bn unchbnging vblues for b given relebse, but b
+    // vblue thbt cbn potentiblly chbnge over time.
 
     /**
-     * The Java source modifiers that can be applied to a class.
-     * @jls 8.1.1 Class Modifiers
+     * The Jbvb source modifiers thbt cbn be bpplied to b clbss.
+     * @jls 8.1.1 Clbss Modifiers
      */
-    private static final int CLASS_MODIFIERS =
+    privbte stbtic finbl int CLASS_MODIFIERS =
         Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE |
         Modifier.ABSTRACT       | Modifier.STATIC       | Modifier.FINAL   |
         Modifier.STRICT;
 
     /**
-     * The Java source modifiers that can be applied to an interface.
-     * @jls 9.1.1 Interface Modifiers
+     * The Jbvb source modifiers thbt cbn be bpplied to bn interfbce.
+     * @jls 9.1.1 Interfbce Modifiers
      */
-    private static final int INTERFACE_MODIFIERS =
+    privbte stbtic finbl int INTERFACE_MODIFIERS =
         Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE |
         Modifier.ABSTRACT       | Modifier.STATIC       | Modifier.STRICT;
 
 
     /**
-     * The Java source modifiers that can be applied to a constructor.
+     * The Jbvb source modifiers thbt cbn be bpplied to b constructor.
      * @jls 8.8.3 Constructor Modifiers
      */
-    private static final int CONSTRUCTOR_MODIFIERS =
+    privbte stbtic finbl int CONSTRUCTOR_MODIFIERS =
         Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE;
 
     /**
-     * The Java source modifiers that can be applied to a method.
+     * The Jbvb source modifiers thbt cbn be bpplied to b method.
      * @jls8.4.3  Method Modifiers
      */
-    private static final int METHOD_MODIFIERS =
+    privbte stbtic finbl int METHOD_MODIFIERS =
         Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE |
         Modifier.ABSTRACT       | Modifier.STATIC       | Modifier.FINAL   |
         Modifier.SYNCHRONIZED   | Modifier.NATIVE       | Modifier.STRICT;
 
     /**
-     * The Java source modifiers that can be applied to a field.
+     * The Jbvb source modifiers thbt cbn be bpplied to b field.
      * @jls 8.3.1  Field Modifiers
      */
-    private static final int FIELD_MODIFIERS =
+    privbte stbtic finbl int FIELD_MODIFIERS =
         Modifier.PUBLIC         | Modifier.PROTECTED    | Modifier.PRIVATE |
         Modifier.STATIC         | Modifier.FINAL        | Modifier.TRANSIENT |
         Modifier.VOLATILE;
 
     /**
-     * The Java source modifiers that can be applied to a method or constructor parameter.
-     * @jls 8.4.1 Formal Parameters
+     * The Jbvb source modifiers thbt cbn be bpplied to b method or constructor pbrbmeter.
+     * @jls 8.4.1 Formbl Pbrbmeters
      */
-    private static final int PARAMETER_MODIFIERS =
+    privbte stbtic finbl int PARAMETER_MODIFIERS =
         Modifier.FINAL;
 
     /**
      *
      */
-    static final int ACCESS_MODIFIERS =
+    stbtic finbl int ACCESS_MODIFIERS =
         Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a class.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a class.
+     * Return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b clbss.
+     * @return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b clbss.
      *
-     * @jls 8.1.1 Class Modifiers
+     * @jls 8.1.1 Clbss Modifiers
      * @since 1.7
      */
-    public static int classModifiers() {
+    public stbtic int clbssModifiers() {
         return CLASS_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to an interface.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to an interface.
+     * Return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to bn interfbce.
+     * @return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to bn interfbce.
      *
-     * @jls 9.1.1 Interface Modifiers
+     * @jls 9.1.1 Interfbce Modifiers
      * @since 1.7
      */
-    public static int interfaceModifiers() {
+    public stbtic int interfbceModifiers() {
         return INTERFACE_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a constructor.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a constructor.
+     * Return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b constructor.
+     * @return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b constructor.
      *
      * @jls 8.8.3 Constructor Modifiers
      * @since 1.7
      */
-    public static int constructorModifiers() {
+    public stbtic int constructorModifiers() {
         return CONSTRUCTOR_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a method.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a method.
+     * Return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b method.
+     * @return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b method.
      *
      * @jls 8.4.3 Method Modifiers
      * @since 1.7
      */
-    public static int methodModifiers() {
+    public stbtic int methodModifiers() {
         return METHOD_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a field.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a field.
+     * Return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b field.
+     * @return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b field.
      *
      * @jls 8.3.1 Field Modifiers
      * @since 1.7
      */
-    public static int fieldModifiers() {
+    public stbtic int fieldModifiers() {
         return FIELD_MODIFIERS;
     }
 
     /**
-     * Return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a parameter.
-     * @return an {@code int} value OR-ing together the source language
-     * modifiers that can be applied to a parameter.
+     * Return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b pbrbmeter.
+     * @return bn {@code int} vblue OR-ing together the source lbngubge
+     * modifiers thbt cbn be bpplied to b pbrbmeter.
      *
-     * @jls 8.4.1 Formal Parameters
+     * @jls 8.4.1 Formbl Pbrbmeters
      * @since 1.8
      */
-    public static int parameterModifiers() {
+    public stbtic int pbrbmeterModifiers() {
         return PARAMETER_MODIFIERS;
     }
 }

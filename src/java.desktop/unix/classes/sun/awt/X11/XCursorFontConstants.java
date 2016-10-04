@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-final public class XCursorFontConstants {
+finbl public clbss XCursorFontConstbnts {
 
-    private XCursorFontConstants(){}
+    privbte XCursorFontConstbnts(){}
 
     /* cursorfont defines */
-    static final int XC_num_glyphs=154;
-    static final int XC_X_cursor=0;
-    static final int XC_arrow=2;
-    static final int XC_based_arrow_down=4;
-    static final int XC_based_arrow_up=6;
-    static final int XC_boat=8;
-    static final int XC_bogosity=10;
-    static final int XC_bottom_left_corner=12;
-    static final int XC_bottom_right_corner=14;
-    static final int XC_bottom_side=16;
-    static final int XC_bottom_tee=18;
-    static final int XC_box_spiral=20;
-    static final int XC_center_ptr=22;
-    static final int XC_circle=24;
-    static final int XC_clock=26;
-    static final int XC_coffee_mug=28;
-    static final int XC_cross=30;
-    static final int XC_cross_reverse=32;
-    static final int XC_crosshair=34;
-    static final int XC_diamond_cross=36;
-    static final int XC_dot=38;
-    static final int XC_dotbox=40;
-    static final int XC_double_arrow=42;
-    static final int XC_draft_large=44;
-    static final int XC_draft_small=46;
-    static final int XC_draped_box=48;
-    static final int XC_exchange=50;
-    static final int XC_fleur=52;
-    static final int XC_gobbler=54;
-    static final int XC_gumby=56;
-    static final int XC_hand1=58;
-    static final int XC_hand2=60;
-    static final int XC_heart=62;
-    static final int XC_icon=64;
-    static final int XC_iron_cross=66;
-    static final int XC_left_ptr=68;
-    static final int XC_left_side=70;
-    static final int XC_left_tee=72;
-    static final int XC_leftbutton=74;
-    static final int XC_ll_angle=76;
-    static final int XC_lr_angle=78;
-    static final int XC_man=80;
-    static final int XC_middlebutton=82;
-    static final int XC_mouse=84;
-    static final int XC_pencil=86;
-    static final int XC_pirate=88;
-    static final int XC_plus=90;
-    static final int XC_question_arrow=92;
-    static final int XC_right_ptr=94;
-    static final int XC_right_side=96;
-    static final int XC_right_tee=98;
-    static final int XC_rightbutton=100;
-    static final int XC_rtl_logo=102;
-    static final int XC_sailboat=104;
-    static final int XC_sb_down_arrow=106;
-    static final int XC_sb_h_double_arrow=108;
-    static final int XC_sb_left_arrow=110;
-    static final int XC_sb_right_arrow=112;
-    static final int XC_sb_up_arrow=114;
-    static final int XC_sb_v_double_arrow=116;
-    static final int XC_shuttle=118;
-    static final int XC_sizing=120;
-    static final int XC_spider=122;
-    static final int XC_spraycan=124;
-    static final int XC_star=126;
-    static final int XC_target=128;
-    static final int XC_tcross=130;
-    static final int XC_top_left_arrow=132;
-    static final int XC_top_left_corner=134;
-    static final int XC_top_right_corner=136;
-    static final int XC_top_side=138;
-    static final int XC_top_tee=140;
-    static final int XC_trek=142;
-    static final int XC_ul_angle=144;
-    static final int XC_umbrella=146;
-    static final int XC_ur_angle=148;
-    static final int XC_watch=150;
-    static final int XC_xterm=152;
+    stbtic finbl int XC_num_glyphs=154;
+    stbtic finbl int XC_X_cursor=0;
+    stbtic finbl int XC_brrow=2;
+    stbtic finbl int XC_bbsed_brrow_down=4;
+    stbtic finbl int XC_bbsed_brrow_up=6;
+    stbtic finbl int XC_bobt=8;
+    stbtic finbl int XC_bogosity=10;
+    stbtic finbl int XC_bottom_left_corner=12;
+    stbtic finbl int XC_bottom_right_corner=14;
+    stbtic finbl int XC_bottom_side=16;
+    stbtic finbl int XC_bottom_tee=18;
+    stbtic finbl int XC_box_spirbl=20;
+    stbtic finbl int XC_center_ptr=22;
+    stbtic finbl int XC_circle=24;
+    stbtic finbl int XC_clock=26;
+    stbtic finbl int XC_coffee_mug=28;
+    stbtic finbl int XC_cross=30;
+    stbtic finbl int XC_cross_reverse=32;
+    stbtic finbl int XC_crosshbir=34;
+    stbtic finbl int XC_dibmond_cross=36;
+    stbtic finbl int XC_dot=38;
+    stbtic finbl int XC_dotbox=40;
+    stbtic finbl int XC_double_brrow=42;
+    stbtic finbl int XC_drbft_lbrge=44;
+    stbtic finbl int XC_drbft_smbll=46;
+    stbtic finbl int XC_drbped_box=48;
+    stbtic finbl int XC_exchbnge=50;
+    stbtic finbl int XC_fleur=52;
+    stbtic finbl int XC_gobbler=54;
+    stbtic finbl int XC_gumby=56;
+    stbtic finbl int XC_hbnd1=58;
+    stbtic finbl int XC_hbnd2=60;
+    stbtic finbl int XC_hebrt=62;
+    stbtic finbl int XC_icon=64;
+    stbtic finbl int XC_iron_cross=66;
+    stbtic finbl int XC_left_ptr=68;
+    stbtic finbl int XC_left_side=70;
+    stbtic finbl int XC_left_tee=72;
+    stbtic finbl int XC_leftbutton=74;
+    stbtic finbl int XC_ll_bngle=76;
+    stbtic finbl int XC_lr_bngle=78;
+    stbtic finbl int XC_mbn=80;
+    stbtic finbl int XC_middlebutton=82;
+    stbtic finbl int XC_mouse=84;
+    stbtic finbl int XC_pencil=86;
+    stbtic finbl int XC_pirbte=88;
+    stbtic finbl int XC_plus=90;
+    stbtic finbl int XC_question_brrow=92;
+    stbtic finbl int XC_right_ptr=94;
+    stbtic finbl int XC_right_side=96;
+    stbtic finbl int XC_right_tee=98;
+    stbtic finbl int XC_rightbutton=100;
+    stbtic finbl int XC_rtl_logo=102;
+    stbtic finbl int XC_sbilbobt=104;
+    stbtic finbl int XC_sb_down_brrow=106;
+    stbtic finbl int XC_sb_h_double_brrow=108;
+    stbtic finbl int XC_sb_left_brrow=110;
+    stbtic finbl int XC_sb_right_brrow=112;
+    stbtic finbl int XC_sb_up_brrow=114;
+    stbtic finbl int XC_sb_v_double_brrow=116;
+    stbtic finbl int XC_shuttle=118;
+    stbtic finbl int XC_sizing=120;
+    stbtic finbl int XC_spider=122;
+    stbtic finbl int XC_sprbycbn=124;
+    stbtic finbl int XC_stbr=126;
+    stbtic finbl int XC_tbrget=128;
+    stbtic finbl int XC_tcross=130;
+    stbtic finbl int XC_top_left_brrow=132;
+    stbtic finbl int XC_top_left_corner=134;
+    stbtic finbl int XC_top_right_corner=136;
+    stbtic finbl int XC_top_side=138;
+    stbtic finbl int XC_top_tee=140;
+    stbtic finbl int XC_trek=142;
+    stbtic finbl int XC_ul_bngle=144;
+    stbtic finbl int XC_umbrellb=146;
+    stbtic finbl int XC_ur_bngle=148;
+    stbtic finbl int XC_wbtch=150;
+    stbtic finbl int XC_xterm=152;
 }

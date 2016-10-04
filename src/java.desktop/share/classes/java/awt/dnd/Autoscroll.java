@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.awt.Insets;
-import java.awt.Point;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
 
 /**
- * During DnD operations it is possible that a user may wish to drop the
- * subject of the operation on a region of a scrollable GUI control that is
+ * During DnD operbtions it is possible thbt b user mby wish to drop the
+ * subject of the operbtion on b region of b scrollbble GUI control thbt is
  * not currently visible to the user.
  * <p>
- * In such situations it is desirable that the GUI control detect this
- * and institute a scroll operation in order to make obscured region(s)
- * visible to the user. This feature is known as autoscrolling.
+ * In such situbtions it is desirbble thbt the GUI control detect this
+ * bnd institute b scroll operbtion in order to mbke obscured region(s)
+ * visible to the user. This febture is known bs butoscrolling.
  * <p>
- * If a GUI control is both an active <code>DropTarget</code>
- * and is also scrollable, it
- * can receive notifications of autoscrolling gestures by the user from
- * the DnD system by implementing this interface.
+ * If b GUI control is both bn bctive <code>DropTbrget</code>
+ * bnd is blso scrollbble, it
+ * cbn receive notificbtions of butoscrolling gestures by the user from
+ * the DnD system by implementing this interfbce.
  * <p>
- * An autoscrolling gesture is initiated by the user by keeping the drag
- * cursor motionless with a border region of the <code>Component</code>,
- * referred to as
- * the "autoscrolling region", for a predefined period of time, this will
- * result in repeated scroll requests to the <code>Component</code>
- * until the drag <code>Cursor</code> resumes its motion.
+ * An butoscrolling gesture is initibted by the user by keeping the drbg
+ * cursor motionless with b border region of the <code>Component</code>,
+ * referred to bs
+ * the "butoscrolling region", for b predefined period of time, this will
+ * result in repebted scroll requests to the <code>Component</code>
+ * until the drbg <code>Cursor</code> resumes its motion.
  *
  * @since 1.2
  */
 
-public interface Autoscroll {
+public interfbce Autoscroll {
 
     /**
      * This method returns the <code>Insets</code> describing
-     * the autoscrolling region or border relative
+     * the butoscrolling region or border relbtive
      * to the geometry of the implementing Component.
      * <P>
-     * This value is read once by the <code>DropTarget</code>
-     * upon entry of the drag <code>Cursor</code>
-     * into the associated <code>Component</code>.
+     * This vblue is rebd once by the <code>DropTbrget</code>
+     * upon entry of the drbg <code>Cursor</code>
+     * into the bssocibted <code>Component</code>.
      *
      * @return the Insets
      */
@@ -69,12 +69,12 @@ public interface Autoscroll {
     public Insets getAutoscrollInsets();
 
     /**
-     * notify the <code>Component</code> to autoscroll
+     * notify the <code>Component</code> to butoscroll
      *
-     * @param cursorLocn A <code>Point</code> indicating the
-     * location of the cursor that triggered this operation.
+     * @pbrbm cursorLocn A <code>Point</code> indicbting the
+     * locbtion of the cursor thbt triggered this operbtion.
      */
 
-    public void autoscroll(Point cursorLocn);
+    public void butoscroll(Point cursorLocn);
 
 }

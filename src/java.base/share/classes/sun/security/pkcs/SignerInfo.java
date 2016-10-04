@@ -1,411 +1,411 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs;
+pbckbge sun.security.pkcs;
 
-import java.io.OutputStream;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertPath;
-import java.security.cert.X509Certificate;
-import java.security.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.CertPbth;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
 
-import sun.security.timestamp.TimestampToken;
+import sun.security.timestbmp.TimestbmpToken;
 import sun.security.util.*;
 import sun.security.x509.AlgorithmId;
-import sun.security.x509.X500Name;
-import sun.security.x509.KeyUsageExtension;
+import sun.security.x509.X500Nbme;
+import sun.security.x509.KeyUsbgeExtension;
 import sun.misc.HexDumpEncoder;
 
 /**
- * A SignerInfo, as defined in PKCS#7's signedData type.
+ * A SignerInfo, bs defined in PKCS#7's signedDbtb type.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  */
-public class SignerInfo implements DerEncoder {
+public clbss SignerInfo implements DerEncoder {
 
     BigInteger version;
-    X500Name issuerName;
-    BigInteger certificateSerialNumber;
+    X500Nbme issuerNbme;
+    BigInteger certificbteSeriblNumber;
     AlgorithmId digestAlgorithmId;
     AlgorithmId digestEncryptionAlgorithmId;
     byte[] encryptedDigest;
-    Timestamp timestamp;
-    private boolean hasTimestamp = true;
-    private static final Debug debug = Debug.getInstance("jar");
+    Timestbmp timestbmp;
+    privbte boolebn hbsTimestbmp = true;
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("jbr");
 
-    PKCS9Attributes authenticatedAttributes;
-    PKCS9Attributes unauthenticatedAttributes;
+    PKCS9Attributes buthenticbtedAttributes;
+    PKCS9Attributes unbuthenticbtedAttributes;
 
-    public SignerInfo(X500Name  issuerName,
-                      BigInteger serial,
+    public SignerInfo(X500Nbme  issuerNbme,
+                      BigInteger seribl,
                       AlgorithmId digestAlgorithmId,
                       AlgorithmId digestEncryptionAlgorithmId,
                       byte[] encryptedDigest) {
         this.version = BigInteger.ONE;
-        this.issuerName = issuerName;
-        this.certificateSerialNumber = serial;
+        this.issuerNbme = issuerNbme;
+        this.certificbteSeriblNumber = seribl;
         this.digestAlgorithmId = digestAlgorithmId;
         this.digestEncryptionAlgorithmId = digestEncryptionAlgorithmId;
         this.encryptedDigest = encryptedDigest;
     }
 
-    public SignerInfo(X500Name  issuerName,
-                      BigInteger serial,
+    public SignerInfo(X500Nbme  issuerNbme,
+                      BigInteger seribl,
                       AlgorithmId digestAlgorithmId,
-                      PKCS9Attributes authenticatedAttributes,
+                      PKCS9Attributes buthenticbtedAttributes,
                       AlgorithmId digestEncryptionAlgorithmId,
                       byte[] encryptedDigest,
-                      PKCS9Attributes unauthenticatedAttributes) {
+                      PKCS9Attributes unbuthenticbtedAttributes) {
         this.version = BigInteger.ONE;
-        this.issuerName = issuerName;
-        this.certificateSerialNumber = serial;
+        this.issuerNbme = issuerNbme;
+        this.certificbteSeriblNumber = seribl;
         this.digestAlgorithmId = digestAlgorithmId;
-        this.authenticatedAttributes = authenticatedAttributes;
+        this.buthenticbtedAttributes = buthenticbtedAttributes;
         this.digestEncryptionAlgorithmId = digestEncryptionAlgorithmId;
         this.encryptedDigest = encryptedDigest;
-        this.unauthenticatedAttributes = unauthenticatedAttributes;
+        this.unbuthenticbtedAttributes = unbuthenticbtedAttributes;
     }
 
     /**
-     * Parses a PKCS#7 signer info.
+     * Pbrses b PKCS#7 signer info.
      */
-    public SignerInfo(DerInputStream derin)
-        throws IOException, ParsingException
+    public SignerInfo(DerInputStrebm derin)
+        throws IOException, PbrsingException
     {
-        this(derin, false);
+        this(derin, fblse);
     }
 
     /**
-     * Parses a PKCS#7 signer info.
+     * Pbrses b PKCS#7 signer info.
      *
-     * <p>This constructor is used only for backwards compatibility with
-     * PKCS#7 blocks that were generated using JDK1.1.x.
+     * <p>This constructor is used only for bbckwbrds compbtibility with
+     * PKCS#7 blocks thbt were generbted using JDK1.1.x.
      *
-     * @param derin the ASN.1 encoding of the signer info.
-     * @param oldStyle flag indicating whether or not the given signer info
-     * is encoded according to JDK1.1.x.
+     * @pbrbm derin the ASN.1 encoding of the signer info.
+     * @pbrbm oldStyle flbg indicbting whether or not the given signer info
+     * is encoded bccording to JDK1.1.x.
      */
-    public SignerInfo(DerInputStream derin, boolean oldStyle)
-        throws IOException, ParsingException
+    public SignerInfo(DerInputStrebm derin, boolebn oldStyle)
+        throws IOException, PbrsingException
     {
         // version
         version = derin.getBigInteger();
 
-        // issuerAndSerialNumber
-        DerValue[] issuerAndSerialNumber = derin.getSequence(2);
-        byte[] issuerBytes = issuerAndSerialNumber[0].toByteArray();
-        issuerName = new X500Name(new DerValue(DerValue.tag_Sequence,
+        // issuerAndSeriblNumber
+        DerVblue[] issuerAndSeriblNumber = derin.getSequence(2);
+        byte[] issuerBytes = issuerAndSeriblNumber[0].toByteArrby();
+        issuerNbme = new X500Nbme(new DerVblue(DerVblue.tbg_Sequence,
                                                issuerBytes));
-        certificateSerialNumber = issuerAndSerialNumber[1].getBigInteger();
+        certificbteSeriblNumber = issuerAndSeriblNumber[1].getBigInteger();
 
         // digestAlgorithmId
-        DerValue tmp = derin.getDerValue();
+        DerVblue tmp = derin.getDerVblue();
 
-        digestAlgorithmId = AlgorithmId.parse(tmp);
+        digestAlgorithmId = AlgorithmId.pbrse(tmp);
 
-        // authenticatedAttributes
+        // buthenticbtedAttributes
         if (oldStyle) {
-            // In JDK1.1.x, the authenticatedAttributes are always present,
-            // encoded as an empty Set (Set of length zero)
+            // In JDK1.1.x, the buthenticbtedAttributes bre blwbys present,
+            // encoded bs bn empty Set (Set of length zero)
             derin.getSet(0);
         } else {
-            // check if set of auth attributes (implicit tag) is provided
-            // (auth attributes are OPTIONAL)
+            // check if set of buth bttributes (implicit tbg) is provided
+            // (buth bttributes bre OPTIONAL)
             if ((byte)(derin.peekByte()) == (byte)0xA0) {
-                authenticatedAttributes = new PKCS9Attributes(derin);
+                buthenticbtedAttributes = new PKCS9Attributes(derin);
             }
         }
 
-        // digestEncryptionAlgorithmId - little RSA naming scheme -
-        // signature == encryption...
-        tmp = derin.getDerValue();
+        // digestEncryptionAlgorithmId - little RSA nbming scheme -
+        // signbture == encryption...
+        tmp = derin.getDerVblue();
 
-        digestEncryptionAlgorithmId = AlgorithmId.parse(tmp);
+        digestEncryptionAlgorithmId = AlgorithmId.pbrse(tmp);
 
         // encryptedDigest
         encryptedDigest = derin.getOctetString();
 
-        // unauthenticatedAttributes
+        // unbuthenticbtedAttributes
         if (oldStyle) {
-            // In JDK1.1.x, the unauthenticatedAttributes are always present,
-            // encoded as an empty Set (Set of length zero)
+            // In JDK1.1.x, the unbuthenticbtedAttributes bre blwbys present,
+            // encoded bs bn empty Set (Set of length zero)
             derin.getSet(0);
         } else {
-            // check if set of unauth attributes (implicit tag) is provided
-            // (unauth attributes are OPTIONAL)
-            if (derin.available() != 0
+            // check if set of unbuth bttributes (implicit tbg) is provided
+            // (unbuth bttributes bre OPTIONAL)
+            if (derin.bvbilbble() != 0
                 && (byte)(derin.peekByte()) == (byte)0xA1) {
-                unauthenticatedAttributes =
-                    new PKCS9Attributes(derin, true);// ignore unsupported attrs
+                unbuthenticbtedAttributes =
+                    new PKCS9Attributes(derin, true);// ignore unsupported bttrs
             }
         }
 
-        // all done
-        if (derin.available() != 0) {
-            throw new ParsingException("extra data at the end");
+        // bll done
+        if (derin.bvbilbble() != 0) {
+            throw new PbrsingException("extrb dbtb bt the end");
         }
     }
 
-    public void encode(DerOutputStream out) throws IOException {
+    public void encode(DerOutputStrebm out) throws IOException {
 
         derEncode(out);
     }
 
     /**
-     * DER encode this object onto an output stream.
-     * Implements the <code>DerEncoder</code> interface.
+     * DER encode this object onto bn output strebm.
+     * Implements the <code>DerEncoder</code> interfbce.
      *
-     * @param out
-     * the output stream on which to write the DER encoding.
+     * @pbrbm out
+     * the output strebm on which to write the DER encoding.
      *
      * @exception IOException on encoding error.
      */
-    public void derEncode(OutputStream out) throws IOException {
-        DerOutputStream seq = new DerOutputStream();
+    public void derEncode(OutputStrebm out) throws IOException {
+        DerOutputStrebm seq = new DerOutputStrebm();
         seq.putInteger(version);
-        DerOutputStream issuerAndSerialNumber = new DerOutputStream();
-        issuerName.encode(issuerAndSerialNumber);
-        issuerAndSerialNumber.putInteger(certificateSerialNumber);
-        seq.write(DerValue.tag_Sequence, issuerAndSerialNumber);
+        DerOutputStrebm issuerAndSeriblNumber = new DerOutputStrebm();
+        issuerNbme.encode(issuerAndSeriblNumber);
+        issuerAndSeriblNumber.putInteger(certificbteSeriblNumber);
+        seq.write(DerVblue.tbg_Sequence, issuerAndSeriblNumber);
 
         digestAlgorithmId.encode(seq);
 
-        // encode authenticated attributes if there are any
-        if (authenticatedAttributes != null)
-            authenticatedAttributes.encode((byte)0xA0, seq);
+        // encode buthenticbted bttributes if there bre bny
+        if (buthenticbtedAttributes != null)
+            buthenticbtedAttributes.encode((byte)0xA0, seq);
 
         digestEncryptionAlgorithmId.encode(seq);
 
         seq.putOctetString(encryptedDigest);
 
-        // encode unauthenticated attributes if there are any
-        if (unauthenticatedAttributes != null)
-            unauthenticatedAttributes.encode((byte)0xA1, seq);
+        // encode unbuthenticbted bttributes if there bre bny
+        if (unbuthenticbtedAttributes != null)
+            unbuthenticbtedAttributes.encode((byte)0xA1, seq);
 
-        DerOutputStream tmp = new DerOutputStream();
-        tmp.write(DerValue.tag_Sequence, seq);
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        tmp.write(DerVblue.tbg_Sequence, seq);
 
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
 
 
     /*
-     * Returns the (user) certificate pertaining to this SignerInfo.
+     * Returns the (user) certificbte pertbining to this SignerInfo.
      */
-    public X509Certificate getCertificate(PKCS7 block)
+    public X509Certificbte getCertificbte(PKCS7 block)
         throws IOException
     {
-        return block.getCertificate(certificateSerialNumber, issuerName);
+        return block.getCertificbte(certificbteSeriblNumber, issuerNbme);
     }
 
     /*
-     * Returns the certificate chain pertaining to this SignerInfo.
+     * Returns the certificbte chbin pertbining to this SignerInfo.
      */
-    public ArrayList<X509Certificate> getCertificateChain(PKCS7 block)
+    public ArrbyList<X509Certificbte> getCertificbteChbin(PKCS7 block)
         throws IOException
     {
-        X509Certificate userCert;
-        userCert = block.getCertificate(certificateSerialNumber, issuerName);
+        X509Certificbte userCert;
+        userCert = block.getCertificbte(certificbteSeriblNumber, issuerNbme);
         if (userCert == null)
             return null;
 
-        ArrayList<X509Certificate> certList = new ArrayList<X509Certificate>();
-        certList.add(userCert);
+        ArrbyList<X509Certificbte> certList = new ArrbyList<X509Certificbte>();
+        certList.bdd(userCert);
 
-        X509Certificate[] pkcsCerts = block.getCertificates();
+        X509Certificbte[] pkcsCerts = block.getCertificbtes();
         if (pkcsCerts == null
-            || userCert.getSubjectDN().equals(userCert.getIssuerDN())) {
+            || userCert.getSubjectDN().equbls(userCert.getIssuerDN())) {
             return certList;
         }
 
-        Principal issuer = userCert.getIssuerDN();
-        int start = 0;
+        Principbl issuer = userCert.getIssuerDN();
+        int stbrt = 0;
         while (true) {
-            boolean match = false;
-            int i = start;
+            boolebn mbtch = fblse;
+            int i = stbrt;
             while (i < pkcsCerts.length) {
-                if (issuer.equals(pkcsCerts[i].getSubjectDN())) {
-                    // next cert in chain found
-                    certList.add(pkcsCerts[i]);
+                if (issuer.equbls(pkcsCerts[i].getSubjectDN())) {
+                    // next cert in chbin found
+                    certList.bdd(pkcsCerts[i]);
                     // if selected cert is self-signed, we're done
-                    // constructing the chain
-                    if (pkcsCerts[i].getSubjectDN().equals(
+                    // constructing the chbin
+                    if (pkcsCerts[i].getSubjectDN().equbls(
                                             pkcsCerts[i].getIssuerDN())) {
-                        start = pkcsCerts.length;
+                        stbrt = pkcsCerts.length;
                     } else {
                         issuer = pkcsCerts[i].getIssuerDN();
-                        X509Certificate tmpCert = pkcsCerts[start];
-                        pkcsCerts[start] = pkcsCerts[i];
+                        X509Certificbte tmpCert = pkcsCerts[stbrt];
+                        pkcsCerts[stbrt] = pkcsCerts[i];
                         pkcsCerts[i] = tmpCert;
-                        start++;
+                        stbrt++;
                     }
-                    match = true;
-                    break;
+                    mbtch = true;
+                    brebk;
                 } else {
                     i++;
                 }
             }
-            if (!match)
-                break;
+            if (!mbtch)
+                brebk;
         }
 
         return certList;
     }
 
-    /* Returns null if verify fails, this signerInfo if
+    /* Returns null if verify fbils, this signerInfo if
        verify succeeds. */
-    SignerInfo verify(PKCS7 block, byte[] data)
-    throws NoSuchAlgorithmException, SignatureException {
+    SignerInfo verify(PKCS7 block, byte[] dbtb)
+    throws NoSuchAlgorithmException, SignbtureException {
 
         try {
 
             ContentInfo content = block.getContentInfo();
-            if (data == null) {
-                data = content.getContentBytes();
+            if (dbtb == null) {
+                dbtb = content.getContentBytes();
             }
 
-            String digestAlgname = getDigestAlgorithmId().getName();
+            String digestAlgnbme = getDigestAlgorithmId().getNbme();
 
-            byte[] dataSigned;
+            byte[] dbtbSigned;
 
-            // if there are authenticate attributes, get the message
-            // digest and compare it with the digest of data
-            if (authenticatedAttributes == null) {
-                dataSigned = data;
+            // if there bre buthenticbte bttributes, get the messbge
+            // digest bnd compbre it with the digest of dbtb
+            if (buthenticbtedAttributes == null) {
+                dbtbSigned = dbtb;
             } else {
 
                 // first, check content type
                 ObjectIdentifier contentType = (ObjectIdentifier)
-                       authenticatedAttributes.getAttributeValue(
+                       buthenticbtedAttributes.getAttributeVblue(
                          PKCS9Attribute.CONTENT_TYPE_OID);
                 if (contentType == null ||
-                    !contentType.equals((Object)content.contentType))
-                    return null;  // contentType does not match, bad SignerInfo
+                    !contentType.equbls((Object)content.contentType))
+                    return null;  // contentType does not mbtch, bbd SignerInfo
 
-                // now, check message digest
-                byte[] messageDigest = (byte[])
-                    authenticatedAttributes.getAttributeValue(
+                // now, check messbge digest
+                byte[] messbgeDigest = (byte[])
+                    buthenticbtedAttributes.getAttributeVblue(
                          PKCS9Attribute.MESSAGE_DIGEST_OID);
 
-                if (messageDigest == null) // fail if there is no message digest
+                if (messbgeDigest == null) // fbil if there is no messbge digest
                     return null;
 
-                MessageDigest md = MessageDigest.getInstance(digestAlgname);
-                byte[] computedMessageDigest = md.digest(data);
+                MessbgeDigest md = MessbgeDigest.getInstbnce(digestAlgnbme);
+                byte[] computedMessbgeDigest = md.digest(dbtb);
 
-                if (messageDigest.length != computedMessageDigest.length)
+                if (messbgeDigest.length != computedMessbgeDigest.length)
                     return null;
-                for (int i = 0; i < messageDigest.length; i++) {
-                    if (messageDigest[i] != computedMessageDigest[i])
+                for (int i = 0; i < messbgeDigest.length; i++) {
+                    if (messbgeDigest[i] != computedMessbgeDigest[i])
                         return null;
                 }
 
-                // message digest attribute matched
-                // digest of original data
+                // messbge digest bttribute mbtched
+                // digest of originbl dbtb
 
-                // the data actually signed is the DER encoding of
-                // the authenticated attributes (tagged with
-                // the "SET OF" tag, not 0xA0).
-                dataSigned = authenticatedAttributes.getDerEncoding();
+                // the dbtb bctublly signed is the DER encoding of
+                // the buthenticbted bttributes (tbgged with
+                // the "SET OF" tbg, not 0xA0).
+                dbtbSigned = buthenticbtedAttributes.getDerEncoding();
             }
 
-            // put together digest algorithm and encryption algorithm
-            // to form signing algorithm
-            String encryptionAlgname =
-                getDigestEncryptionAlgorithmId().getName();
+            // put together digest blgorithm bnd encryption blgorithm
+            // to form signing blgorithm
+            String encryptionAlgnbme =
+                getDigestEncryptionAlgorithmId().getNbme();
 
-            // Workaround: sometimes the encryptionAlgname is actually
-            // a signature name
-            String tmp = AlgorithmId.getEncAlgFromSigAlg(encryptionAlgname);
-            if (tmp != null) encryptionAlgname = tmp;
-            String algname = AlgorithmId.makeSigAlg(
-                    digestAlgname, encryptionAlgname);
+            // Workbround: sometimes the encryptionAlgnbme is bctublly
+            // b signbture nbme
+            String tmp = AlgorithmId.getEncAlgFromSigAlg(encryptionAlgnbme);
+            if (tmp != null) encryptionAlgnbme = tmp;
+            String blgnbme = AlgorithmId.mbkeSigAlg(
+                    digestAlgnbme, encryptionAlgnbme);
 
-            Signature sig = Signature.getInstance(algname);
-            X509Certificate cert = getCertificate(block);
+            Signbture sig = Signbture.getInstbnce(blgnbme);
+            X509Certificbte cert = getCertificbte(block);
 
             if (cert == null) {
                 return null;
             }
-            if (cert.hasUnsupportedCriticalExtension()) {
-                throw new SignatureException("Certificate has unsupported "
-                                             + "critical extension(s)");
+            if (cert.hbsUnsupportedCriticblExtension()) {
+                throw new SignbtureException("Certificbte hbs unsupported "
+                                             + "criticbl extension(s)");
             }
 
-            // Make sure that if the usage of the key in the certificate is
-            // restricted, it can be used for digital signatures.
-            // XXX We may want to check for additional extensions in the
+            // Mbke sure thbt if the usbge of the key in the certificbte is
+            // restricted, it cbn be used for digitbl signbtures.
+            // XXX We mby wbnt to check for bdditionbl extensions in the
             // future.
-            boolean[] keyUsageBits = cert.getKeyUsage();
-            if (keyUsageBits != null) {
-                KeyUsageExtension keyUsage;
+            boolebn[] keyUsbgeBits = cert.getKeyUsbge();
+            if (keyUsbgeBits != null) {
+                KeyUsbgeExtension keyUsbge;
                 try {
-                    // We don't care whether or not this extension was marked
-                    // critical in the certificate.
-                    // We're interested only in its value (i.e., the bits set)
-                    // and treat the extension as critical.
-                    keyUsage = new KeyUsageExtension(keyUsageBits);
-                } catch (IOException ioe) {
-                    throw new SignatureException("Failed to parse keyUsage "
+                    // We don't cbre whether or not this extension wbs mbrked
+                    // criticbl in the certificbte.
+                    // We're interested only in its vblue (i.e., the bits set)
+                    // bnd trebt the extension bs criticbl.
+                    keyUsbge = new KeyUsbgeExtension(keyUsbgeBits);
+                } cbtch (IOException ioe) {
+                    throw new SignbtureException("Fbiled to pbrse keyUsbge "
                                                  + "extension");
                 }
 
-                boolean digSigAllowed = keyUsage.get(
-                        KeyUsageExtension.DIGITAL_SIGNATURE).booleanValue();
+                boolebn digSigAllowed = keyUsbge.get(
+                        KeyUsbgeExtension.DIGITAL_SIGNATURE).boolebnVblue();
 
-                boolean nonRepuAllowed = keyUsage.get(
-                        KeyUsageExtension.NON_REPUDIATION).booleanValue();
+                boolebn nonRepuAllowed = keyUsbge.get(
+                        KeyUsbgeExtension.NON_REPUDIATION).boolebnVblue();
 
                 if (!digSigAllowed && !nonRepuAllowed) {
-                    throw new SignatureException("Key usage restricted: "
-                                                 + "cannot be used for "
-                                                 + "digital signatures");
+                    throw new SignbtureException("Key usbge restricted: "
+                                                 + "cbnnot be used for "
+                                                 + "digitbl signbtures");
                 }
             }
 
             PublicKey key = cert.getPublicKey();
             sig.initVerify(key);
 
-            sig.update(dataSigned);
+            sig.updbte(dbtbSigned);
 
             if (sig.verify(encryptedDigest)) {
                 return this;
             }
 
-        } catch (IOException e) {
-            throw new SignatureException("IO error verifying signature:\n" +
-                                         e.getMessage());
+        } cbtch (IOException e) {
+            throw new SignbtureException("IO error verifying signbture:\n" +
+                                         e.getMessbge());
 
-        } catch (InvalidKeyException e) {
-            throw new SignatureException("InvalidKey: " + e.getMessage());
+        } cbtch (InvblidKeyException e) {
+            throw new SignbtureException("InvblidKey: " + e.getMessbge());
 
         }
         return null;
@@ -413,7 +413,7 @@ public class SignerInfo implements DerEncoder {
 
     /* Verify the content of the pkcs7 block. */
     SignerInfo verify(PKCS7 block)
-    throws NoSuchAlgorithmException, SignatureException {
+    throws NoSuchAlgorithmException, SignbtureException {
         return verify(block, null);
     }
 
@@ -422,20 +422,20 @@ public class SignerInfo implements DerEncoder {
             return version;
     }
 
-    public X500Name getIssuerName() {
-        return issuerName;
+    public X500Nbme getIssuerNbme() {
+        return issuerNbme;
     }
 
-    public BigInteger getCertificateSerialNumber() {
-        return certificateSerialNumber;
+    public BigInteger getCertificbteSeriblNumber() {
+        return certificbteSeriblNumber;
     }
 
     public AlgorithmId getDigestAlgorithmId() {
         return digestAlgorithmId;
     }
 
-    public PKCS9Attributes getAuthenticatedAttributes() {
-        return authenticatedAttributes;
+    public PKCS9Attributes getAuthenticbtedAttributes() {
+        return buthenticbtedAttributes;
     }
 
     public AlgorithmId getDigestEncryptionAlgorithmId() {
@@ -446,91 +446,91 @@ public class SignerInfo implements DerEncoder {
         return encryptedDigest;
     }
 
-    public PKCS9Attributes getUnauthenticatedAttributes() {
-        return unauthenticatedAttributes;
+    public PKCS9Attributes getUnbuthenticbtedAttributes() {
+        return unbuthenticbtedAttributes;
     }
 
     /*
-     * Extracts a timestamp from a PKCS7 SignerInfo.
+     * Extrbcts b timestbmp from b PKCS7 SignerInfo.
      *
-     * Examines the signer's unsigned attributes for a
-     * <tt>signatureTimestampToken</tt> attribute. If present,
-     * then it is parsed to extract the date and time at which the
-     * timestamp was generated.
+     * Exbmines the signer's unsigned bttributes for b
+     * <tt>signbtureTimestbmpToken</tt> bttribute. If present,
+     * then it is pbrsed to extrbct the dbte bnd time bt which the
+     * timestbmp wbs generbted.
      *
-     * @param info A signer information element of a PKCS 7 block.
+     * @pbrbm info A signer informbtion element of b PKCS 7 block.
      *
-     * @return A timestamp token or null if none is present.
-     * @throws IOException if an error is encountered while parsing the
-     *         PKCS7 data.
-     * @throws NoSuchAlgorithmException if an error is encountered while
+     * @return A timestbmp token or null if none is present.
+     * @throws IOException if bn error is encountered while pbrsing the
+     *         PKCS7 dbtb.
+     * @throws NoSuchAlgorithmException if bn error is encountered while
      *         verifying the PKCS7 object.
-     * @throws SignatureException if an error is encountered while
+     * @throws SignbtureException if bn error is encountered while
      *         verifying the PKCS7 object.
-     * @throws CertificateException if an error is encountered while generating
-     *         the TSA's certpath.
+     * @throws CertificbteException if bn error is encountered while generbting
+     *         the TSA's certpbth.
      */
-    public Timestamp getTimestamp()
-        throws IOException, NoSuchAlgorithmException, SignatureException,
-               CertificateException
+    public Timestbmp getTimestbmp()
+        throws IOException, NoSuchAlgorithmException, SignbtureException,
+               CertificbteException
     {
-        if (timestamp != null || !hasTimestamp)
-            return timestamp;
+        if (timestbmp != null || !hbsTimestbmp)
+            return timestbmp;
 
-        if (unauthenticatedAttributes == null) {
-            hasTimestamp = false;
+        if (unbuthenticbtedAttributes == null) {
+            hbsTimestbmp = fblse;
             return null;
         }
         PKCS9Attribute tsTokenAttr =
-            unauthenticatedAttributes.getAttribute(
+            unbuthenticbtedAttributes.getAttribute(
                 PKCS9Attribute.SIGNATURE_TIMESTAMP_TOKEN_OID);
         if (tsTokenAttr == null) {
-            hasTimestamp = false;
+            hbsTimestbmp = fblse;
             return null;
         }
 
-        PKCS7 tsToken = new PKCS7((byte[])tsTokenAttr.getValue());
-        // Extract the content (an encoded timestamp token info)
-        byte[] encTsTokenInfo = tsToken.getContentInfo().getData();
-        // Extract the signer (the Timestamping Authority)
+        PKCS7 tsToken = new PKCS7((byte[])tsTokenAttr.getVblue());
+        // Extrbct the content (bn encoded timestbmp token info)
+        byte[] encTsTokenInfo = tsToken.getContentInfo().getDbtb();
+        // Extrbct the signer (the Timestbmping Authority)
         // while verifying the content
-        SignerInfo[] tsa = tsToken.verify(encTsTokenInfo);
+        SignerInfo[] tsb = tsToken.verify(encTsTokenInfo);
         // Expect only one signer
-        ArrayList<X509Certificate> chain = tsa[0].getCertificateChain(tsToken);
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        CertPath tsaChain = cf.generateCertPath(chain);
-        // Create a timestamp token info object
-        TimestampToken tsTokenInfo = new TimestampToken(encTsTokenInfo);
-        // Check that the signature timestamp applies to this signature
-        verifyTimestamp(tsTokenInfo);
-        // Create a timestamp object
-        timestamp = new Timestamp(tsTokenInfo.getDate(), tsaChain);
-        return timestamp;
+        ArrbyList<X509Certificbte> chbin = tsb[0].getCertificbteChbin(tsToken);
+        CertificbteFbctory cf = CertificbteFbctory.getInstbnce("X.509");
+        CertPbth tsbChbin = cf.generbteCertPbth(chbin);
+        // Crebte b timestbmp token info object
+        TimestbmpToken tsTokenInfo = new TimestbmpToken(encTsTokenInfo);
+        // Check thbt the signbture timestbmp bpplies to this signbture
+        verifyTimestbmp(tsTokenInfo);
+        // Crebte b timestbmp object
+        timestbmp = new Timestbmp(tsTokenInfo.getDbte(), tsbChbin);
+        return timestbmp;
     }
 
     /*
-     * Check that the signature timestamp applies to this signature.
-     * Match the hash present in the signature timestamp token against the hash
-     * of this signature.
+     * Check thbt the signbture timestbmp bpplies to this signbture.
+     * Mbtch the hbsh present in the signbture timestbmp token bgbinst the hbsh
+     * of this signbture.
      */
-    private void verifyTimestamp(TimestampToken token)
-        throws NoSuchAlgorithmException, SignatureException {
+    privbte void verifyTimestbmp(TimestbmpToken token)
+        throws NoSuchAlgorithmException, SignbtureException {
 
-        MessageDigest md =
-            MessageDigest.getInstance(token.getHashAlgorithm().getName());
+        MessbgeDigest md =
+            MessbgeDigest.getInstbnce(token.getHbshAlgorithm().getNbme());
 
-        if (!Arrays.equals(token.getHashedMessage(),
+        if (!Arrbys.equbls(token.getHbshedMessbge(),
             md.digest(encryptedDigest))) {
 
-            throw new SignatureException("Signature timestamp (#" +
-                token.getSerialNumber() + ") generated on " + token.getDate() +
-                " is inapplicable");
+            throw new SignbtureException("Signbture timestbmp (#" +
+                token.getSeriblNumber() + ") generbted on " + token.getDbte() +
+                " is inbpplicbble");
         }
 
         if (debug != null) {
             debug.println();
-            debug.println("Detected signature timestamp (#" +
-                token.getSerialNumber() + ") generated on " + token.getDate());
+            debug.println("Detected signbture timestbmp (#" +
+                token.getSeriblNumber() + ") generbted on " + token.getDbte());
             debug.println();
         }
     }
@@ -540,13 +540,13 @@ public class SignerInfo implements DerEncoder {
 
         String out = "";
 
-        out += "Signer Info for (issuer): " + issuerName + "\n";
+        out += "Signer Info for (issuer): " + issuerNbme + "\n";
         out += "\tversion: " + Debug.toHexString(version) + "\n";
-        out += "\tcertificateSerialNumber: " +
-               Debug.toHexString(certificateSerialNumber) + "\n";
+        out += "\tcertificbteSeriblNumber: " +
+               Debug.toHexString(certificbteSeriblNumber) + "\n";
         out += "\tdigestAlgorithmId: " + digestAlgorithmId + "\n";
-        if (authenticatedAttributes != null) {
-            out += "\tauthenticatedAttributes: " + authenticatedAttributes +
+        if (buthenticbtedAttributes != null) {
+            out += "\tbuthenticbtedAttributes: " + buthenticbtedAttributes +
                    "\n";
         }
         out += "\tdigestEncryptionAlgorithmId: " + digestEncryptionAlgorithmId +
@@ -554,9 +554,9 @@ public class SignerInfo implements DerEncoder {
 
         out += "\tencryptedDigest: " + "\n" +
             hexDump.encodeBuffer(encryptedDigest) + "\n";
-        if (unauthenticatedAttributes != null) {
-            out += "\tunauthenticatedAttributes: " +
-                   unauthenticatedAttributes + "\n";
+        if (unbuthenticbtedAttributes != null) {
+            out += "\tunbuthenticbtedAttributes: " +
+                   unbuthenticbtedAttributes + "\n";
         }
         return out;
     }

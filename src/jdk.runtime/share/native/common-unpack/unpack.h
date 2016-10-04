@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-// Global Structures
-struct jar;
+// Globbl Structures
+struct jbr;
 struct gunzip;
-struct band;
+struct bbnd;
 struct cpool;
 struct entry;
 struct cpindex;
-struct inner_class;
-struct value_stream;
+struct inner_clbss;
+struct vblue_strebm;
 
 struct cpindex {
   uint    len;
-  entry*  base1;   // base of primary index
-  entry** base2;   // base of secondary index
-  byte    ixTag;   // type of entries (!= CONSTANT_None), plus 64 if sub-index
+  entry*  bbse1;   // bbse of primbry index
+  entry** bbse2;   // bbse of secondbry index
+  byte    ixTbg;   // type of entries (!= CONSTANT_None), plus 64 if sub-index
   enum { SUB_TAG = 64 };
 
   entry* get(uint i);
 
-  void init(int len_, entry* base1_, int ixTag_) {
+  void init(int len_, entry* bbse1_, int ixTbg_) {
     len = len_;
-    base1 = base1_;
-    base2 = null;
-    ixTag = ixTag_;
+    bbse1 = bbse1_;
+    bbse2 = null;
+    ixTbg = ixTbg_;
   }
-  void init(int len_, entry** base2_, int ixTag_) {
+  void init(int len_, entry** bbse2_, int ixTbg_) {
     len = len_;
-    base1 = null;
-    base2 = base2_;
-    ixTag = ixTag_;
+    bbse1 = null;
+    bbse2 = bbse2_;
+    ixTbg = ixTbg_;
   }
 };
 
 struct cpool {
   uint  nentries;
   entry* entries;
-  entry* first_extra_entry;
-  uint maxentries;      // total allocated size of entries
+  entry* first_extrb_entry;
+  uint mbxentries;      // totbl bllocbted size of entries
 
-  // Position and size of each homogeneous subrange:
-  int     tag_count[CONSTANT_Limit];
-  int     tag_base[CONSTANT_Limit];
-  cpindex tag_index[CONSTANT_Limit];
-  ptrlist tag_extras[CONSTANT_Limit];
+  // Position bnd size of ebch homogeneous subrbnge:
+  int     tbg_count[CONSTANT_Limit];
+  int     tbg_bbse[CONSTANT_Limit];
+  cpindex tbg_index[CONSTANT_Limit];
+  ptrlist tbg_extrbs[CONSTANT_Limit];
 
-  int     tag_group_count[CONSTANT_GroupLimit - CONSTANT_GroupFirst];
-  cpindex tag_group_index[CONSTANT_GroupLimit - CONSTANT_GroupFirst];
+  int     tbg_group_count[CONSTANT_GroupLimit - CONSTANT_GroupFirst];
+  cpindex tbg_group_index[CONSTANT_GroupLimit - CONSTANT_GroupFirst];
 
-  cpindex* member_indexes;   // indexed by 2*CONSTANT_Class.inord
-  cpindex* getFieldIndex(entry* classRef);
-  cpindex* getMethodIndex(entry* classRef);
+  cpindex* member_indexes;   // indexed by 2*CONSTANT_Clbss.inord
+  cpindex* getFieldIndex(entry* clbssRef);
+  cpindex* getMethodIndex(entry* clbssRef);
 
-  inner_class** ic_index;
-  inner_class** ic_child_index;
-  inner_class* getIC(entry* inner);
-  inner_class* getFirstChildIC(entry* outer);
-  inner_class* getNextChildIC(inner_class* child);
+  inner_clbss** ic_index;
+  inner_clbss** ic_child_index;
+  inner_clbss* getIC(entry* inner);
+  inner_clbss* getFirstChildIC(entry* outer);
+  inner_clbss* getNextChildIC(inner_clbss* child);
 
-  int outputIndexLimit;  // index limit after renumbering
-  ptrlist outputEntries; // list of entry* needing output idx assigned
+  int outputIndexLimit;  // index limit bfter renumbering
+  ptrlist outputEntries; // list of entry* needing output idx bssigned
   ptrlist requested_bsms; // which bsms need output?
 
-  entry** hashTab;
-  uint    hashTabLength;
-  entry*& hashTabRef(byte tag, bytes& b);
+  entry** hbshTbb;
+  uint    hbshTbbLength;
+  entry*& hbshTbbRef(byte tbg, bytes& b);
   entry*  ensureUtf8(bytes& b);
-  entry*  ensureClass(bytes& b);
+  entry*  ensureClbss(bytes& b);
 
   // Well-known Utf8 symbols.
   enum {
@@ -100,411 +100,411 @@ struct cpool {
   };
   entry* sym[s_LIMIT];
 
-  // read counts from hdr, allocate main arrays
-  void init(unpacker* u, int counts[CONSTANT_Limit]);
+  // rebd counts from hdr, bllocbte mbin brrbys
+  void init(unpbcker* u, int counts[CONSTANT_Limit]);
 
-  // pointer to outer unpacker, for error checks etc.
-  unpacker* u;
+  // pointer to outer unpbcker, for error checks etc.
+  unpbcker* u;
 
-  int getCount(byte tag) {
-    if ((uint)tag >= CONSTANT_GroupFirst) {
-      assert((uint)tag < CONSTANT_GroupLimit);
-      return tag_group_count[(uint)tag - CONSTANT_GroupFirst];
+  int getCount(byte tbg) {
+    if ((uint)tbg >= CONSTANT_GroupFirst) {
+      bssert((uint)tbg < CONSTANT_GroupLimit);
+      return tbg_group_count[(uint)tbg - CONSTANT_GroupFirst];
     } else {
-      assert((uint)tag < CONSTANT_Limit);
-      return tag_count[(uint)tag];
+      bssert((uint)tbg < CONSTANT_Limit);
+      return tbg_count[(uint)tbg];
     }
   }
-  cpindex* getIndex(byte tag) {
-    if ((uint)tag >= CONSTANT_GroupFirst) {
-      assert((uint)tag < CONSTANT_GroupLimit);
-      return &tag_group_index[(uint)tag - CONSTANT_GroupFirst];
+  cpindex* getIndex(byte tbg) {
+    if ((uint)tbg >= CONSTANT_GroupFirst) {
+      bssert((uint)tbg < CONSTANT_GroupLimit);
+      return &tbg_group_index[(uint)tbg - CONSTANT_GroupFirst];
     } else {
-      assert((uint)tag < CONSTANT_Limit);
-      return &tag_index[(uint)tag];
+      bssert((uint)tbg < CONSTANT_Limit);
+      return &tbg_index[(uint)tbg];
     }
   }
 
   cpindex* getKQIndex();  // uses cur_descr
 
-  void expandSignatures();
+  void expbndSignbtures();
   void initGroupIndexes();
   void initMemberIndexes();
-  int  initLoadableValues(entry** loadable_entries);
+  int  initLobdbbleVblues(entry** lobdbble_entries);
 
   void computeOutputOrder();
   void computeOutputIndexes();
   void resetOutputIndexes();
 
-  // error handling
-  inline void abort(const char* msg);
-  inline bool aborting();
+  // error hbndling
+  inline void bbort(const chbr* msg);
+  inline bool bborting();
 };
 
 /*
- * The unpacker provides the entry points to the unpack engine,
- * as well as maintains the state of the engine.
+ * The unpbcker provides the entry points to the unpbck engine,
+ * bs well bs mbintbins the stbte of the engine.
  */
-struct unpacker {
+struct unpbcker {
   // One element of the resulting JAR.
   struct file {
-    const char* name;
+    const chbr* nbme;
     julong      size;
     int         modtime;
     int         options;
-    bytes       data[2];
-    // Note:  If Sum(data[*].len) < size,
-    // remaining bytes must be read directly from the input stream.
-    bool deflate_hint() { return ((options & FO_DEFLATE_HINT) != 0); }
+    bytes       dbtb[2];
+    // Note:  If Sum(dbtb[*].len) < size,
+    // rembining bytes must be rebd directly from the input strebm.
+    bool deflbte_hint() { return ((options & FO_DEFLATE_HINT) != 0); }
   };
 
-  // back pointer to NativeUnpacker obj and Java environment
+  // bbck pointer to NbtiveUnpbcker obj bnd Jbvb environment
   void* jniobj;
   void* jnienv;
 
-  // global pointer to self, if not running under JNI (not multi-thread safe)
-  static unpacker* non_mt_current;
+  // globbl pointer to self, if not running under JNI (not multi-threbd sbfe)
+  stbtic unpbcker* non_mt_current;
 
-  // if running Unix-style, here are the inputs and outputs
+  // if running Unix-style, here bre the inputs bnd outputs
   FILE* infileptr;  // buffered
   int   infileno;   // unbuffered
   bytes inbytes;    // direct
-  gunzip* gzin;     // gunzip filter, if any
-  jar*  jarout;     // output JAR file
-  uint  gzcrc;      // CRC gathered from gzip content
+  gunzip* gzin;     // gunzip filter, if bny
+  jbr*  jbrout;     // output JAR file
+  uint  gzcrc;      // CRC gbthered from gzip content
 
 #ifndef PRODUCT
   int   nowrite;
   int   skipfiles;
-  int   verbose_bands;
+  int   verbose_bbnds;
 #endif
 
-  // pointer to self, for U_NEW macro
-  unpacker* u;
+  // pointer to self, for U_NEW mbcro
+  unpbcker* u;
 
-  // private abort message string, allocated to PATH_MAX*2
-  const char* abort_message;
-  ptrlist mallocs;      // list of guys to free when we are all done
-  ptrlist tmallocs;     // list of guys to free on next client request
-  fillbytes smallbuf;   // supplies small alloc requests
-  fillbytes tsmallbuf;  // supplies temporary small alloc requests
+  // privbte bbort messbge string, bllocbted to PATH_MAX*2
+  const chbr* bbort_messbge;
+  ptrlist mbllocs;      // list of guys to free when we bre bll done
+  ptrlist tmbllocs;     // list of guys to free on next client request
+  fillbytes smbllbuf;   // supplies smbll blloc requests
+  fillbytes tsmbllbuf;  // supplies temporbry smbll blloc requests
 
-  // option management members
-  int   verbose;  // verbose level, 0 means no output
+  // option mbnbgement members
+  int   verbose;  // verbose level, 0 mebns no output
   bool  strip_compile;
   bool  strip_debug;
   bool  strip_jcov;
-  bool  remove_packfile;
-  int   deflate_hint_or_zero;  // ==0 means not set, otherwise -1 or 1
-  int   modification_time_or_zero;
+  bool  remove_pbckfile;
+  int   deflbte_hint_or_zero;  // ==0 mebns not set, otherwise -1 or 1
+  int   modificbtion_time_or_zero;
 
   FILE*       errstrm;
-  const char* errstrm_name;
+  const chbr* errstrm_nbme;
 
-  const char* log_file;
+  const chbr* log_file;
 
-  // input stream
-  fillbytes input;       // the whole block (size is predicted, has slop too)
-  bool      live_input;  // is the data in this block live?
+  // input strebm
+  fillbytes input;       // the whole block (size is predicted, hbs slop too)
+  bool      live_input;  // is the dbtb in this block live?
   bool      free_input;  // must the input buffer be freed?
-  byte*     rp;          // read pointer (< rplimit <= input.limit())
-  byte*     rplimit;     // how much of the input block has been read?
-  julong    bytes_read;
-  int       unsized_bytes_read;
+  byte*     rp;          // rebd pointer (< rplimit <= input.limit())
+  byte*     rplimit;     // how much of the input block hbs been rebd?
+  julong    bytes_rebd;
+  int       unsized_bytes_rebd;
 
-  // callback to read at least one byte, up to available input
-  typedef jlong (*read_input_fn_t)(unpacker* self, void* buf, jlong minlen, jlong maxlen);
-  read_input_fn_t read_input_fn;
+  // cbllbbck to rebd bt lebst one byte, up to bvbilbble input
+  typedef jlong (*rebd_input_fn_t)(unpbcker* self, void* buf, jlong minlen, jlong mbxlen);
+  rebd_input_fn_t rebd_input_fn;
 
-  // archive header fields
-  int      magic, minver, majver;
-  size_t   archive_size;
-  int      archive_next_count, archive_options, archive_modtime;
-  int      band_headers_size;
-  int      file_count, attr_definition_count, ic_count, class_count;
-  int      default_class_minver, default_class_majver;
-  int      default_file_options, suppress_file_options;  // not header fields
-  int      default_archive_modtime, default_file_modtime;  // not header fields
-  int      code_count;  // not a header field
-  int      files_remaining;  // not a header field
+  // brchive hebder fields
+  int      mbgic, minver, mbjver;
+  size_t   brchive_size;
+  int      brchive_next_count, brchive_options, brchive_modtime;
+  int      bbnd_hebders_size;
+  int      file_count, bttr_definition_count, ic_count, clbss_count;
+  int      defbult_clbss_minver, defbult_clbss_mbjver;
+  int      defbult_file_options, suppress_file_options;  // not hebder fields
+  int      defbult_brchive_modtime, defbult_file_modtime;  // not hebder fields
+  int      code_count;  // not b hebder field
+  int      files_rembining;  // not b hebder field
 
-  // engine state
-  band*        all_bands;   // indexed by band_number
-  byte*        meta_rp;     // read-pointer into (copy of) band_headers
-  cpool        cp;          // all constant pool information
-  inner_class* ics;         // InnerClasses
+  // engine stbte
+  bbnd*        bll_bbnds;   // indexed by bbnd_number
+  byte*        metb_rp;     // rebd-pointer into (copy of) bbnd_hebders
+  cpool        cp;          // bll constbnt pool informbtion
+  inner_clbss* ics;         // InnerClbsses
 
-  // output stream
-  bytes    output;      // output block (either classfile head or tail)
+  // output strebm
+  bytes    output;      // output block (either clbssfile hebd or tbil)
   byte*    wp;          // write pointer (< wplimit == output.limit())
-  byte*    wpbase;      // write pointer starting address (<= wp)
-  byte*    wplimit;     // how much of the output block has been written?
+  byte*    wpbbse;      // write pointer stbrting bddress (<= wp)
+  byte*    wplimit;     // how much of the output block hbs been written?
 
-  // output state
+  // output stbte
   file      cur_file;
-  entry*    cur_class;  // CONSTANT_Class entry
-  entry*    cur_super;  // CONSTANT_Class entry or null
-  entry*    cur_descr;  // CONSTANT_NameandType entry
-  int       cur_descr_flags;  // flags corresponding to cur_descr
-  int       cur_class_minver, cur_class_majver;
-  bool      cur_class_has_local_ics;
-  int       cur_class_local_bsm_count;
-  fillbytes cur_classfile_head;
-  fillbytes cur_classfile_tail;
-  int       files_written;   // also tells which file we're working on
-  int       classes_written; // also tells which class we're working on
+  entry*    cur_clbss;  // CONSTANT_Clbss entry
+  entry*    cur_super;  // CONSTANT_Clbss entry or null
+  entry*    cur_descr;  // CONSTANT_NbmebndType entry
+  int       cur_descr_flbgs;  // flbgs corresponding to cur_descr
+  int       cur_clbss_minver, cur_clbss_mbjver;
+  bool      cur_clbss_hbs_locbl_ics;
+  int       cur_clbss_locbl_bsm_count;
+  fillbytes cur_clbssfile_hebd;
+  fillbytes cur_clbssfile_tbil;
+  int       files_written;   // blso tells which file we're working on
+  int       clbsses_written; // blso tells which clbss we're working on
   julong    bytes_written;
-  intlist   bcimap;
-  fillbytes class_fixup_type;
-  intlist   class_fixup_offset;
-  ptrlist   class_fixup_ref;
-  fillbytes code_fixup_type;    // which format of branch operand?
-  intlist   code_fixup_offset;  // location of operand needing fixup
-  intlist   code_fixup_source;  // encoded ID of branch insn
+  intlist   bcimbp;
+  fillbytes clbss_fixup_type;
+  intlist   clbss_fixup_offset;
+  ptrlist   clbss_fixup_ref;
+  fillbytes code_fixup_type;    // which formbt of brbnch operbnd?
+  intlist   code_fixup_offset;  // locbtion of operbnd needing fixup
+  intlist   code_fixup_source;  // encoded ID of brbnch insn
   ptrlist   requested_ics;      // which ics need output?
 
-  // stats pertaining to multiple segments (updated on reset)
-  julong    bytes_read_before_reset;
+  // stbts pertbining to multiple segments (updbted on reset)
+  julong    bytes_rebd_before_reset;
   julong    bytes_written_before_reset;
   int       files_written_before_reset;
-  int       classes_written_before_reset;
-  int       segments_read_before_reset;
+  int       clbsses_written_before_reset;
+  int       segments_rebd_before_reset;
 
-  // attribute state
-  struct layout_definition {
-    uint          idx;        // index (0..31...) which identifies this layout
-    const char*   name;       // name of layout
-    entry*        nameEntry;
-    const char*   layout;     // string of layout (not yet parsed)
-    band**        elems;      // array of top-level layout elems (or callables)
+  // bttribute stbte
+  struct lbyout_definition {
+    uint          idx;        // index (0..31...) which identifies this lbyout
+    const chbr*   nbme;       // nbme of lbyout
+    entry*        nbmeEntry;
+    const chbr*   lbyout;     // string of lbyout (not yet pbrsed)
+    bbnd**        elems;      // brrby of top-level lbyout elems (or cbllbbles)
 
-    bool hasCallables()   { return layout[0] == '['; }
-    band** bands()        { assert(elems != null); return elems; }
+    bool hbsCbllbbles()   { return lbyout[0] == '['; }
+    bbnd** bbnds()        { bssert(elems != null); return elems; }
   };
-  struct attr_definitions {
-    unpacker* u;  // pointer to self, for U_NEW macro
-    int     xxx_flags_hi_bn;// locator for flags, count, indexes, calls bands
-    int     attrc;          // ATTR_CONTEXT_CLASS, etc.
-    uint    flag_limit;     // 32 or 63, depending on archive_options bit
-    julong  predef;         // mask of built-in definitions
-    julong  redef;          // mask of local flag definitions or redefinitions
-    ptrlist layouts;        // local (compressor-defined) defs, in index order
-    int     flag_count[X_ATTR_LIMIT_FLAGS_HI];
+  struct bttr_definitions {
+    unpbcker* u;  // pointer to self, for U_NEW mbcro
+    int     xxx_flbgs_hi_bn;// locbtor for flbgs, count, indexes, cblls bbnds
+    int     bttrc;          // ATTR_CONTEXT_CLASS, etc.
+    uint    flbg_limit;     // 32 or 63, depending on brchive_options bit
+    julong  predef;         // mbsk of built-in definitions
+    julong  redef;          // mbsk of locbl flbg definitions or redefinitions
+    ptrlist lbyouts;        // locbl (compressor-defined) defs, in index order
+    int     flbg_count[X_ATTR_LIMIT_FLAGS_HI];
     intlist overflow_count;
-    ptrlist strip_names;    // what attribute names are being stripped?
-    ptrlist band_stack;     // Temp., used during layout parsing.
-    ptrlist calls_to_link;  //  (ditto)
-    int     bands_made;     //  (ditto)
+    ptrlist strip_nbmes;    // whbt bttribute nbmes bre being stripped?
+    ptrlist bbnd_stbck;     // Temp., used during lbyout pbrsing.
+    ptrlist cblls_to_link;  //  (ditto)
+    int     bbnds_mbde;     //  (ditto)
 
     void free() {
-      layouts.free();
+      lbyouts.free();
       overflow_count.free();
-      strip_names.free();
-      band_stack.free();
-      calls_to_link.free();
+      strip_nbmes.free();
+      bbnd_stbck.free();
+      cblls_to_link.free();
     }
 
-    // Locate the five fixed bands.
-    band& xxx_flags_hi();
-    band& xxx_flags_lo();
-    band& xxx_attr_count();
-    band& xxx_attr_indexes();
-    band& xxx_attr_calls();
-    band& fixed_band(int e_class_xxx);
+    // Locbte the five fixed bbnds.
+    bbnd& xxx_flbgs_hi();
+    bbnd& xxx_flbgs_lo();
+    bbnd& xxx_bttr_count();
+    bbnd& xxx_bttr_indexes();
+    bbnd& xxx_bttr_cblls();
+    bbnd& fixed_bbnd(int e_clbss_xxx);
 
-    // Register a new layout, and make bands for it.
-    layout_definition* defineLayout(int idx, const char* name, const char* layout);
-    layout_definition* defineLayout(int idx, entry* nameEntry, const char* layout);
-    band** buildBands(layout_definition* lo);
+    // Register b new lbyout, bnd mbke bbnds for it.
+    lbyout_definition* defineLbyout(int idx, const chbr* nbme, const chbr* lbyout);
+    lbyout_definition* defineLbyout(int idx, entry* nbmeEntry, const chbr* lbyout);
+    bbnd** buildBbnds(lbyout_definition* lo);
 
-    // Parse a layout string or part of one, recursively if necessary.
-    const char* parseLayout(const char* lp,    band** &res, int curCble);
-    const char* parseNumeral(const char* lp,   int    &res);
-    const char* parseIntLayout(const char* lp, band*  &res, byte le_kind,
-                               bool can_be_signed = false);
-    band** popBody(int band_stack_base);  // pops a body off band_stack
+    // Pbrse b lbyout string or pbrt of one, recursively if necessbry.
+    const chbr* pbrseLbyout(const chbr* lp,    bbnd** &res, int curCble);
+    const chbr* pbrseNumerbl(const chbr* lp,   int    &res);
+    const chbr* pbrseIntLbyout(const chbr* lp, bbnd*  &res, byte le_kind,
+                               bool cbn_be_signed = fblse);
+    bbnd** popBody(int bbnd_stbck_bbse);  // pops b body off bbnd_stbck
 
-    // Read data into the bands of the idx-th layout.
-    void readBandData(int idx);  // parse layout, make bands, read data
-    void readBandData(band** body, uint count);  // recursive helper
+    // Rebd dbtb into the bbnds of the idx-th lbyout.
+    void rebdBbndDbtb(int idx);  // pbrse lbyout, mbke bbnds, rebd dbtb
+    void rebdBbndDbtb(bbnd** body, uint count);  // recursive helper
 
-    layout_definition* getLayout(uint idx) {
-      if (idx >= (uint)layouts.length())  return null;
-      return (layout_definition*) layouts.get(idx);
+    lbyout_definition* getLbyout(uint idx) {
+      if (idx >= (uint)lbyouts.length())  return null;
+      return (lbyout_definition*) lbyouts.get(idx);
     }
 
-    void setHaveLongFlags(bool z) {
-      assert(flag_limit == 0);  // not set up yet
-      flag_limit = (z? X_ATTR_LIMIT_FLAGS_HI: X_ATTR_LIMIT_NO_FLAGS_HI);
+    void setHbveLongFlbgs(bool z) {
+      bssert(flbg_limit == 0);  // not set up yet
+      flbg_limit = (z? X_ATTR_LIMIT_FLAGS_HI: X_ATTR_LIMIT_NO_FLAGS_HI);
     }
-    bool haveLongFlags() {
-     assert(flag_limit == X_ATTR_LIMIT_NO_FLAGS_HI ||
-            flag_limit == X_ATTR_LIMIT_FLAGS_HI);
-      return flag_limit == X_ATTR_LIMIT_FLAGS_HI;
+    bool hbveLongFlbgs() {
+     bssert(flbg_limit == X_ATTR_LIMIT_NO_FLAGS_HI ||
+            flbg_limit == X_ATTR_LIMIT_FLAGS_HI);
+      return flbg_limit == X_ATTR_LIMIT_FLAGS_HI;
     }
 
-    // Return flag_count if idx is predef and not redef, else zero.
+    // Return flbg_count if idx is predef bnd not redef, else zero.
     int predefCount(uint idx);
 
     bool isRedefined(uint idx) {
-      if (idx >= flag_limit) return false;
+      if (idx >= flbg_limit) return fblse;
       return (bool)((redef >> idx) & 1);
     }
     bool isPredefined(uint idx) {
-      if (idx >= flag_limit) return false;
+      if (idx >= flbg_limit) return fblse;
       return (bool)(((predef & ~redef) >> idx) & 1);
     }
-    julong flagIndexMask() {
+    julong flbgIndexMbsk() {
       return (predef | redef);
     }
     bool isIndex(uint idx) {
-      assert(flag_limit != 0);  // must be set up already
-      if (idx < flag_limit)
+      bssert(flbg_limit != 0);  // must be set up blrebdy
+      if (idx < flbg_limit)
         return (bool)(((predef | redef) >> idx) & 1);
       else
-        return (idx - flag_limit < (uint)overflow_count.length());
+        return (idx - flbg_limit < (uint)overflow_count.length());
     }
     int& getCount(uint idx) {
-      assert(isIndex(idx));
-      if (idx < flag_limit)
-        return flag_count[idx];
+      bssert(isIndex(idx));
+      if (idx < flbg_limit)
+        return flbg_count[idx];
       else
-        return overflow_count.get(idx - flag_limit);
+        return overflow_count.get(idx - flbg_limit);
     }
-    bool aborting()             { return u->aborting(); }
-    void abort(const char* msg) { u->abort(msg); }
+    bool bborting()             { return u->bborting(); }
+    void bbort(const chbr* msg) { u->bbort(msg); }
   };
 
-  attr_definitions attr_defs[ATTR_CONTEXT_LIMIT];
+  bttr_definitions bttr_defs[ATTR_CONTEXT_LIMIT];
 
-  // Initialization
-  void         init(read_input_fn_t input_fn = null);
-  // Resets to a known sane state
+  // Initiblizbtion
+  void         init(rebd_input_fn_t input_fn = null);
+  // Resets to b known sbne stbte
   void         reset();
-  // Deallocates all storage.
+  // Debllocbtes bll storbge.
   void         free();
-  // Deallocates temporary storage (volatile after next client call).
-  void         free_temps() { tsmallbuf.init(); tmallocs.freeAll(); }
+  // Debllocbtes temporbry storbge (volbtile bfter next client cbll).
+  void         free_temps() { tsmbllbuf.init(); tmbllocs.freeAll(); }
 
-  // Option management methods
-  bool         set_option(const char* option, const char* value);
-  const char*  get_option(const char* option);
+  // Option mbnbgement methods
+  bool         set_option(const chbr* option, const chbr* vblue);
+  const chbr*  get_option(const chbr* option);
 
   void         dump_options();
 
   // Fetching input.
   bool   ensure_input(jlong more);
-  byte*  input_scan()               { return rp; }
-  size_t input_remaining()          { return rplimit - rp; }
-  size_t input_consumed()           { return rp - input.base(); }
+  byte*  input_scbn()               { return rp; }
+  size_t input_rembining()          { return rplimit - rp; }
+  size_t input_consumed()           { return rp - input.bbse(); }
 
-  // Entry points to the unpack engine
-  static int   run(int argc, char **argv);   // Unix-style entry point.
+  // Entry points to the unpbck engine
+  stbtic int   run(int brgc, chbr **brgv);   // Unix-style entry point.
   void         check_options();
-  void         start(void* packptr = null, size_t len = 0);
+  void         stbrt(void* pbckptr = null, size_t len = 0);
   void         redirect_stdio();
-  void         write_file_to_jar(file* f);
+  void         write_file_to_jbr(file* f);
   void         finish();
 
-  // Public post unpack methods
-  int          get_files_remaining()    { return files_remaining; }
-  int          get_segments_remaining() { return archive_next_count; }
-  file*        get_next_file();  // returns null on last file
+  // Public post unpbck methods
+  int          get_files_rembining()    { return files_rembining; }
+  int          get_segments_rembining() { return brchive_next_count; }
+  file*        get_next_file();  // returns null on lbst file
 
-  // General purpose methods
-  void*        alloc(size_t size) { return alloc_heap(size, true); }
-  void*        temp_alloc(size_t size) { return alloc_heap(size, true, true); }
-  void*        alloc_heap(size_t size, bool smallOK = false, bool temp = false);
-  void         saveTo(bytes& b, const char* str) { saveTo(b, (byte*)str, strlen(str)); }
-  void         saveTo(bytes& b, bytes& data) { saveTo(b, data.ptr, data.len); }
-  void         saveTo(bytes& b, byte* ptr, size_t len); //{ b.ptr = U_NEW...}
-  const char*  saveStr(const char* str) { bytes buf; saveTo(buf, str); return buf.strval(); }
-  const char*  saveIntStr(int num) { char buf[30]; sprintf(buf, "%d", num); return saveStr(buf); }
+  // Generbl purpose methods
+  void*        blloc(size_t size) { return blloc_hebp(size, true); }
+  void*        temp_blloc(size_t size) { return blloc_hebp(size, true, true); }
+  void*        blloc_hebp(size_t size, bool smbllOK = fblse, bool temp = fblse);
+  void         sbveTo(bytes& b, const chbr* str) { sbveTo(b, (byte*)str, strlen(str)); }
+  void         sbveTo(bytes& b, bytes& dbtb) { sbveTo(b, dbtb.ptr, dbtb.len); }
+  void         sbveTo(bytes& b, byte* ptr, size_t len); //{ b.ptr = U_NEW...}
+  const chbr*  sbveStr(const chbr* str) { bytes buf; sbveTo(buf, str); return buf.strvbl(); }
+  const chbr*  sbveIntStr(int num) { chbr buf[30]; sprintf(buf, "%d", num); return sbveStr(buf); }
 #ifndef PRODUCT
-  int printcr_if_verbose(int level, const char* fmt,...);
+  int printcr_if_verbose(int level, const chbr* fmt,...);
 #endif
-  const char*  get_abort_message();
-  void         abort(const char* s = null);
-  bool         aborting() { return abort_message != null; }
-  static unpacker* current();  // find current instance
-  void checkLegacy(const char* name);
-  // Output management
+  const chbr*  get_bbort_messbge();
+  void         bbort(const chbr* s = null);
+  bool         bborting() { return bbort_messbge != null; }
+  stbtic unpbcker* current();  // find current instbnce
+  void checkLegbcy(const chbr* nbme);
+  // Output mbnbgement
   void set_output(fillbytes* which) {
-    assert(wp == null);
-    which->ensureSize(1 << 12);  // covers the average classfile
-    wpbase  = which->base();
+    bssert(wp == null);
+    which->ensureSize(1 << 12);  // covers the bverbge clbssfile
+    wpbbse  = which->bbse();
     wp      = which->limit();
     wplimit = which->end();
   }
   fillbytes* close_output(fillbytes* which = null);  // inverse of set_output
 
-  // These take an implicit parameter of wp/wplimit, and resize as necessary:
-  byte*  put_space(size_t len);  // allocates space at wp, returns pointer
-  size_t put_empty(size_t s)    { byte* p = put_space(s); return p - wpbase; }
-  void   ensure_put_space(size_t len);
-  void   put_bytes(bytes& b)    { b.writeTo(put_space(b.len)); }
-  void   putu1(int n)           { putu1_at(put_space(1), n); }
-  void   putu1_fast(int n)      { putu1_at(wp++,         n); }
-  void   putu2(int n);       // { putu2_at(put_space(2), n); }
-  void   putu4(int n);       // { putu4_at(put_space(4), n); }
-  void   putu8(jlong n);     // { putu8_at(put_space(8), n); }
-  void   putref(entry* e);   // { putu2_at(put_space(2), putref_index(e, 2)); }
-  void   putu1ref(entry* e); // { putu1_at(put_space(1), putref_index(e, 1)); }
+  // These tbke bn implicit pbrbmeter of wp/wplimit, bnd resize bs necessbry:
+  byte*  put_spbce(size_t len);  // bllocbtes spbce bt wp, returns pointer
+  size_t put_empty(size_t s)    { byte* p = put_spbce(s); return p - wpbbse; }
+  void   ensure_put_spbce(size_t len);
+  void   put_bytes(bytes& b)    { b.writeTo(put_spbce(b.len)); }
+  void   putu1(int n)           { putu1_bt(put_spbce(1), n); }
+  void   putu1_fbst(int n)      { putu1_bt(wp++,         n); }
+  void   putu2(int n);       // { putu2_bt(put_spbce(2), n); }
+  void   putu4(int n);       // { putu4_bt(put_spbce(4), n); }
+  void   putu8(jlong n);     // { putu8_bt(put_spbce(8), n); }
+  void   putref(entry* e);   // { putu2_bt(put_spbce(2), putref_index(e, 2)); }
+  void   putu1ref(entry* e); // { putu1_bt(put_spbce(1), putref_index(e, 1)); }
   int    putref_index(entry* e, int size);  // size in [1..2]
-  void   put_label(int curIP, int size);    // size in {2,4}
-  void   putlayout(band** body);
-  void   put_stackmap_type();
+  void   put_lbbel(int curIP, int size);    // size in {2,4}
+  void   putlbyout(bbnd** body);
+  void   put_stbckmbp_type();
 
-  size_t wpoffset() { return (size_t)(wp - wpbase); }  // (unvariant across overflow)
-  byte*  wp_at(size_t offset) { return wpbase + offset; }
+  size_t wpoffset() { return (size_t)(wp - wpbbse); }  // (unvbribnt bcross overflow)
+  byte*  wp_bt(size_t offset) { return wpbbse + offset; }
   uint to_bci(uint bii);
-  void get_code_header(int& max_stack,
-                       int& max_na_locals,
-                       int& handler_count,
-                       int& cflags);
-  band* ref_band_for_self_op(int bc, bool& isAloadVar, int& origBCVar);
-  band* ref_band_for_op(int bc);
+  void get_code_hebder(int& mbx_stbck,
+                       int& mbx_nb_locbls,
+                       int& hbndler_count,
+                       int& cflbgs);
+  bbnd* ref_bbnd_for_self_op(int bc, bool& isAlobdVbr, int& origBCVbr);
+  bbnd* ref_bbnd_for_op(int bc);
 
-  // Definitions of standard classfile int formats:
-  static void putu1_at(byte* wp, int n) { assert(n == (n & 0xFF)); wp[0] = n; }
-  static void putu2_at(byte* wp, int n);
-  static void putu4_at(byte* wp, int n);
-  static void putu8_at(byte* wp, jlong n);
+  // Definitions of stbndbrd clbssfile int formbts:
+  stbtic void putu1_bt(byte* wp, int n) { bssert(n == (n & 0xFF)); wp[0] = n; }
+  stbtic void putu2_bt(byte* wp, int n);
+  stbtic void putu4_bt(byte* wp, int n);
+  stbtic void putu8_bt(byte* wp, jlong n);
 
-  // Private stuff
-  void reset_cur_classfile();
-  void write_classfile_tail();
-  void write_classfile_head();
+  // Privbte stuff
+  void reset_cur_clbssfile();
+  void write_clbssfile_tbil();
+  void write_clbssfile_hebd();
   void write_code();
   void write_bc_ops();
-  void write_members(int num, int attrc);  // attrc=ATTR_CONTEXT_FIELD/METHOD
-  int  write_attrs(int attrc, julong indexBits);
-  int  write_ics(int naOffset, int na);
-  int  write_bsms(int naOffset, int na);
+  void write_members(int num, int bttrc);  // bttrc=ATTR_CONTEXT_FIELD/METHOD
+  int  write_bttrs(int bttrc, julong indexBits);
+  int  write_ics(int nbOffset, int nb);
+  int  write_bsms(int nbOffset, int nb);
 
-  // The readers
-  void read_bands();
-  void read_file_header();
-  void read_cp();
-  void read_cp_counts(value_stream& hdr);
-  void read_attr_defs();
-  void read_ics();
-  void read_attrs(int attrc, int obj_count);
-  void read_classes();
-  void read_code_headers();
-  void read_bcs();
-  void read_bc_ops();
-  void read_files();
-  void read_Utf8_values(entry* cpMap, int len);
-  void read_single_words(band& cp_band, entry* cpMap, int len);
-  void read_double_words(band& cp_bands, entry* cpMap, int len);
-  void read_single_refs(band& cp_band, byte refTag, entry* cpMap, int len);
-  void read_double_refs(band& cp_band, byte ref1Tag, byte ref2Tag, entry* cpMap, int len);
-  void read_signature_values(entry* cpMap, int len);
-  void read_method_handle(entry* cpMap, int len);
-  void read_method_type(entry* cpMap, int len);
-  void read_bootstrap_methods(entry* cpMap, int len);
+  // The rebders
+  void rebd_bbnds();
+  void rebd_file_hebder();
+  void rebd_cp();
+  void rebd_cp_counts(vblue_strebm& hdr);
+  void rebd_bttr_defs();
+  void rebd_ics();
+  void rebd_bttrs(int bttrc, int obj_count);
+  void rebd_clbsses();
+  void rebd_code_hebders();
+  void rebd_bcs();
+  void rebd_bc_ops();
+  void rebd_files();
+  void rebd_Utf8_vblues(entry* cpMbp, int len);
+  void rebd_single_words(bbnd& cp_bbnd, entry* cpMbp, int len);
+  void rebd_double_words(bbnd& cp_bbnds, entry* cpMbp, int len);
+  void rebd_single_refs(bbnd& cp_bbnd, byte refTbg, entry* cpMbp, int len);
+  void rebd_double_refs(bbnd& cp_bbnd, byte ref1Tbg, byte ref2Tbg, entry* cpMbp, int len);
+  void rebd_signbture_vblues(entry* cpMbp, int len);
+  void rebd_method_hbndle(entry* cpMbp, int len);
+  void rebd_method_type(entry* cpMbp, int len);
+  void rebd_bootstrbp_methods(entry* cpMbp, int len);
 };
 
-inline void cpool::abort(const char* msg) { u->abort(msg); }
-inline bool cpool::aborting()             { return u->aborting(); }
+inline void cpool::bbort(const chbr* msg) { u->bbort(msg); }
+inline bool cpool::bborting()             { return u->bborting(); }

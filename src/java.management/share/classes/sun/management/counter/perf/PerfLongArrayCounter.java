@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.counter.perf;
+pbckbge sun.mbnbgement.counter.perf;
 
-import sun.management.counter.*;
+import sun.mbnbgement.counter.*;
 
-import java.nio.LongBuffer;
-import java.nio.ReadOnlyBufferException;
+import jbvb.nio.LongBuffer;
+import jbvb.nio.RebdOnlyBufferException;
 
-public class PerfLongArrayCounter extends AbstractCounter
-       implements LongArrayCounter {
+public clbss PerfLongArrbyCounter extends AbstrbctCounter
+       implements LongArrbyCounter {
 
     LongBuffer lb;
 
-    PerfLongArrayCounter(String name, Units u, Variability v,
-                         int flags, int vectorLength,
+    PerfLongArrbyCounter(String nbme, Units u, Vbribbility v,
+                         int flbgs, int vectorLength,
                          LongBuffer lb) {
 
-        super(name, u, v, flags, vectorLength);
+        super(nbme, u, v, flbgs, vectorLength);
         this.lb = lb;
     }
 
-    public Object getValue() {
-        return longArrayValue();
+    public Object getVblue() {
+        return longArrbyVblue();
     }
 
     /**
-     * Get a copy of the elements of the LongArrayCounter.
+     * Get b copy of the elements of the LongArrbyCounter.
      */
-    public long[] longArrayValue() {
+    public long[] longArrbyVblue() {
 
         lb.position(0);
         long[] l = new long[lb.limit()];
@@ -62,7 +62,7 @@ public class PerfLongArrayCounter extends AbstractCounter
     }
 
     /**
-     * Get the value of an element of the LongArrayCounter object.
+     * Get the vblue of bn element of the LongArrbyCounter object.
      */
     public long longAt(int index) {
         lb.position(index);
@@ -70,16 +70,16 @@ public class PerfLongArrayCounter extends AbstractCounter
     }
 
     /**
-     * Serialize as a snapshot object.
+     * Seriblize bs b snbpshot object.
      */
-    protected Object writeReplace() throws java.io.ObjectStreamException {
-        return new LongArrayCounterSnapshot(getName(),
+    protected Object writeReplbce() throws jbvb.io.ObjectStrebmException {
+        return new LongArrbyCounterSnbpshot(getNbme(),
                                             getUnits(),
-                                            getVariability(),
-                                            getFlags(),
+                                            getVbribbility(),
+                                            getFlbgs(),
                                             getVectorLength(),
-                                            longArrayValue());
+                                            longArrbyVblue());
     }
 
-    private static final long serialVersionUID = -2733617913045487126L;
+    privbte stbtic finbl long seriblVersionUID = -2733617913045487126L;
 }

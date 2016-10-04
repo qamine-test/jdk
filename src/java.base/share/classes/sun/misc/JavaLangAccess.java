@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Executable;
-import java.security.AccessControlContext;
-import java.util.Map;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.reflect.Executbble;
+import jbvb.security.AccessControlContext;
+import jbvb.util.Mbp;
 
-import sun.reflect.ConstantPool;
-import sun.reflect.annotation.AnnotationType;
+import sun.reflect.ConstbntPool;
+import sun.reflect.bnnotbtion.AnnotbtionType;
 import sun.nio.ch.Interruptible;
 
-public interface JavaLangAccess {
-    /** Return the constant pool for a class. */
-    ConstantPool getConstantPool(Class<?> klass);
+public interfbce JbvbLbngAccess {
+    /** Return the constbnt pool for b clbss. */
+    ConstbntPool getConstbntPool(Clbss<?> klbss);
 
     /**
-     * Compare-And-Swap the AnnotationType instance corresponding to this class.
-     * (This method only applies to annotation types.)
+     * Compbre-And-Swbp the AnnotbtionType instbnce corresponding to this clbss.
+     * (This method only bpplies to bnnotbtion types.)
      */
-    boolean casAnnotationType(Class<?> klass, AnnotationType oldType, AnnotationType newType);
+    boolebn cbsAnnotbtionType(Clbss<?> klbss, AnnotbtionType oldType, AnnotbtionType newType);
 
     /**
-     * Get the AnnotationType instance corresponding to this class.
-     * (This method only applies to annotation types.)
+     * Get the AnnotbtionType instbnce corresponding to this clbss.
+     * (This method only bpplies to bnnotbtion types.)
      */
-    AnnotationType getAnnotationType(Class<?> klass);
+    AnnotbtionType getAnnotbtionType(Clbss<?> klbss);
 
     /**
-     * Get the declared annotations for a given class, indexed by their types.
+     * Get the declbred bnnotbtions for b given clbss, indexed by their types.
      */
-    Map<Class<? extends Annotation>, Annotation> getDeclaredAnnotationMap(Class<?> klass);
+    Mbp<Clbss<? extends Annotbtion>, Annotbtion> getDeclbredAnnotbtionMbp(Clbss<?> klbss);
 
     /**
-     * Get the array of bytes that is the class-file representation
-     * of this Class' annotations.
+     * Get the brrby of bytes thbt is the clbss-file representbtion
+     * of this Clbss' bnnotbtions.
      */
-    byte[] getRawClassAnnotations(Class<?> klass);
+    byte[] getRbwClbssAnnotbtions(Clbss<?> klbss);
 
     /**
-     * Get the array of bytes that is the class-file representation
-     * of this Class' type annotations.
+     * Get the brrby of bytes thbt is the clbss-file representbtion
+     * of this Clbss' type bnnotbtions.
      */
-    byte[] getRawClassTypeAnnotations(Class<?> klass);
+    byte[] getRbwClbssTypeAnnotbtions(Clbss<?> klbss);
 
     /**
-     * Get the array of bytes that is the class-file representation
-     * of this Executable's type annotations.
+     * Get the brrby of bytes thbt is the clbss-file representbtion
+     * of this Executbble's type bnnotbtions.
      */
-    byte[] getRawExecutableTypeAnnotations(Executable executable);
+    byte[] getRbwExecutbbleTypeAnnotbtions(Executbble executbble);
 
     /**
-     * Returns the elements of an enum class or null if the
-     * Class object does not represent an enum type;
-     * the result is uncloned, cached, and shared by all callers.
+     * Returns the elements of bn enum clbss or null if the
+     * Clbss object does not represent bn enum type;
+     * the result is uncloned, cbched, bnd shbred by bll cbllers.
      */
-    <E extends Enum<E>> E[] getEnumConstantsShared(Class<E> klass);
+    <E extends Enum<E>> E[] getEnumConstbntsShbred(Clbss<E> klbss);
 
-    /** Set thread's blocker field. */
-    void blockedOn(Thread t, Interruptible b);
+    /** Set threbd's blocker field. */
+    void blockedOn(Threbd t, Interruptible b);
 
     /**
-     * Registers a shutdown hook.
+     * Registers b shutdown hook.
      *
-     * It is expected that this method with registerShutdownInProgress=true
+     * It is expected thbt this method with registerShutdownInProgress=true
      * is only used to register DeleteOnExitHook since the first file
-     * may be added to the delete on exit list by the application shutdown
+     * mby be bdded to the delete on exit list by the bpplicbtion shutdown
      * hooks.
      *
-     * @params slot  the slot in the shutdown hook array, whose element
+     * @pbrbms slot  the slot in the shutdown hook brrby, whose element
      *               will be invoked in order during shutdown
-     * @params registerShutdownInProgress true to allow the hook
+     * @pbrbms registerShutdownInProgress true to bllow the hook
      *               to be registered even if the shutdown is in progress.
-     * @params hook  the hook to be registered
+     * @pbrbms hook  the hook to be registered
      *
-     * @throw IllegalStateException if shutdown is in progress and
-     *          the slot is not valid to register.
+     * @throw IllegblStbteException if shutdown is in progress bnd
+     *          the slot is not vblid to register.
      */
-    void registerShutdownHook(int slot, boolean registerShutdownInProgress, Runnable hook);
+    void registerShutdownHook(int slot, boolebn registerShutdownInProgress, Runnbble hook);
 
     /**
-     * Returns the number of stack frames represented by the given throwable.
+     * Returns the number of stbck frbmes represented by the given throwbble.
      */
-    int getStackTraceDepth(Throwable t);
+    int getStbckTrbceDepth(Throwbble t);
 
     /**
-     * Returns the ith StackTraceElement for the given throwable.
+     * Returns the ith StbckTrbceElement for the given throwbble.
      */
-    StackTraceElement getStackTraceElement(Throwable t, int i);
+    StbckTrbceElement getStbckTrbceElement(Throwbble t, int i);
 
     /**
-     * Returns a new string backed by the provided character array. The
-     * character array is not copied and must never be modified after the
-     * String is created, in order to fulfill String's contract.
+     * Returns b new string bbcked by the provided chbrbcter brrby. The
+     * chbrbcter brrby is not copied bnd must never be modified bfter the
+     * String is crebted, in order to fulfill String's contrbct.
      *
-     * @param chars the character array to back the string
-     * @return a newly created string whose content is the character array
+     * @pbrbm chbrs the chbrbcter brrby to bbck the string
+     * @return b newly crebted string whose content is the chbrbcter brrby
      */
-    String newStringUnsafe(char[] chars);
+    String newStringUnsbfe(chbr[] chbrs);
 
     /**
-     * Returns a new Thread with the given Runnable and an
+     * Returns b new Threbd with the given Runnbble bnd bn
      * inherited AccessControlContext.
      */
-    Thread newThreadWithAcc(Runnable target, AccessControlContext acc);
+    Threbd newThrebdWithAcc(Runnbble tbrget, AccessControlContext bcc);
 
     /**
-     * Invokes the finalize method of the given object.
+     * Invokes the finblize method of the given object.
      */
-    void invokeFinalize(Object o) throws Throwable;
+    void invokeFinblize(Object o) throws Throwbble;
 
     /**
-     * Invokes Long.formatUnsignedLong(long val, int shift, char[] buf, int offset, int len)
+     * Invokes Long.formbtUnsignedLong(long vbl, int shift, chbr[] buf, int offset, int len)
      */
-    void formatUnsignedLong(long val, int shift, char[] buf, int offset, int len);
+    void formbtUnsignedLong(long vbl, int shift, chbr[] buf, int offset, int len);
 
     /**
-     * Invokes Integer.formatUnsignedInt(long val, int shift, char[] buf, int offset, int len)
+     * Invokes Integer.formbtUnsignedInt(long vbl, int shift, chbr[] buf, int offset, int len)
      */
-    void formatUnsignedInt(int val, int shift, char[] buf, int offset, int len);
+    void formbtUnsignedInt(int vbl, int shift, chbr[] buf, int offset, int len);
 }

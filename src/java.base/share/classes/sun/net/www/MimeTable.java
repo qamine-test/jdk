@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www;
-import java.io.*;
-import java.net.FileNameMap;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.StringTokenizer;
+pbckbge sun.net.www;
+import jbvb.io.*;
+import jbvb.net.FileNbmeMbp;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Properties;
+import jbvb.util.StringTokenizer;
 
-public class MimeTable implements FileNameMap {
+public clbss MimeTbble implements FileNbmeMbp {
     /** Keyed by content type, returns MimeEntries */
-    private Hashtable<String, MimeEntry> entries
-        = new Hashtable<String, MimeEntry>();
+    privbte Hbshtbble<String, MimeEntry> entries
+        = new Hbshtbble<String, MimeEntry>();
 
     /** Keyed by file extension (with the .), returns MimeEntries */
-    private Hashtable<String, MimeEntry> extensionMap
-        = new Hashtable<String, MimeEntry>();
+    privbte Hbshtbble<String, MimeEntry> extensionMbp
+        = new Hbshtbble<String, MimeEntry>();
 
-    // Will be reset if in the platform-specific data file
-    private static String tempFileTemplate;
+    // Will be reset if in the plbtform-specific dbtb file
+    privbte stbtic String tempFileTemplbte;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                tempFileTemplate =
-                    System.getProperty("content.types.temp.file.template",
+                tempFileTemplbte =
+                    System.getProperty("content.types.temp.file.templbte",
                                        "/tmp/%s");
 
-                mailcapLocations = new String[] {
-                    System.getProperty("user.mailcap"),
-                    System.getProperty("user.home") + "/.mailcap",
-                    "/etc/mailcap",
-                    "/usr/etc/mailcap",
-                    "/usr/local/etc/mailcap",
-                    System.getProperty("hotjava.home",
-                                           "/usr/local/hotjava")
-                        + "/lib/mailcap",
+                mbilcbpLocbtions = new String[] {
+                    System.getProperty("user.mbilcbp"),
+                    System.getProperty("user.home") + "/.mbilcbp",
+                    "/etc/mbilcbp",
+                    "/usr/etc/mbilcbp",
+                    "/usr/locbl/etc/mbilcbp",
+                    System.getProperty("hotjbvb.home",
+                                           "/usr/locbl/hotjbvb")
+                        + "/lib/mbilcbp",
                 };
                 return null;
             }
@@ -67,50 +67,50 @@ public class MimeTable implements FileNameMap {
     }
 
 
-    private static final String filePreamble = "sun.net.www MIME content-types table";
-    private static final String fileMagic = "#" + filePreamble;
+    privbte stbtic finbl String filePrebmble = "sun.net.www MIME content-types tbble";
+    privbte stbtic finbl String fileMbgic = "#" + filePrebmble;
 
-    MimeTable() {
-        load();
+    MimeTbble() {
+        lobd();
     }
 
-    private static class DefaultInstanceHolder {
-        static final MimeTable defaultInstance = getDefaultInstance();
+    privbte stbtic clbss DefbultInstbnceHolder {
+        stbtic finbl MimeTbble defbultInstbnce = getDefbultInstbnce();
 
-        static MimeTable getDefaultInstance() {
-            return java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<MimeTable>() {
-                public MimeTable run() {
-                    MimeTable instance = new MimeTable();
-                    URLConnection.setFileNameMap(instance);
-                    return instance;
+        stbtic MimeTbble getDefbultInstbnce() {
+            return jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<MimeTbble>() {
+                public MimeTbble run() {
+                    MimeTbble instbnce = new MimeTbble();
+                    URLConnection.setFileNbmeMbp(instbnce);
+                    return instbnce;
                 }
             });
         }
     }
 
     /**
-     * Get the single instance of this class.  First use will load the
-     * table from a data file.
+     * Get the single instbnce of this clbss.  First use will lobd the
+     * tbble from b dbtb file.
      */
-    public static MimeTable getDefaultTable() {
-        return DefaultInstanceHolder.defaultInstance;
+    public stbtic MimeTbble getDefbultTbble() {
+        return DefbultInstbnceHolder.defbultInstbnce;
     }
 
     /**
      *
      */
-    public static FileNameMap loadTable() {
-        MimeTable mt = getDefaultTable();
-        return (FileNameMap)mt;
+    public stbtic FileNbmeMbp lobdTbble() {
+        MimeTbble mt = getDefbultTbble();
+        return (FileNbmeMbp)mt;
     }
 
     public synchronized int getSize() {
         return entries.size();
     }
 
-    public synchronized String getContentTypeFor(String fileName) {
-        MimeEntry entry = findByFileName(fileName);
+    public synchronized String getContentTypeFor(String fileNbme) {
+        MimeEntry entry = findByFileNbme(fileNbme);
         if (entry != null) {
             return entry.getType();
         } else {
@@ -118,7 +118,7 @@ public class MimeTable implements FileNameMap {
         }
     }
 
-    public synchronized void add(MimeEntry m) {
+    public synchronized void bdd(MimeEntry m) {
         entries.put(m.getType(), m);
 
         String exts[] = m.getExtensions();
@@ -127,7 +127,7 @@ public class MimeTable implements FileNameMap {
         }
 
         for (int i = 0; i < exts.length; i++) {
-            extensionMap.put(exts[i], m);
+            extensionMbp.put(exts[i], m);
         }
     }
 
@@ -140,7 +140,7 @@ public class MimeTable implements FileNameMap {
         String[] extensionKeys = entry.getExtensions();
         if (extensionKeys != null) {
             for (int i = 0; i < extensionKeys.length; i++) {
-                extensionMap.remove(extensionKeys[i]);
+                extensionMbp.remove(extensionKeys[i]);
             }
         }
 
@@ -150,11 +150,11 @@ public class MimeTable implements FileNameMap {
     public synchronized MimeEntry find(String type) {
         MimeEntry entry = entries.get(type);
         if (entry == null) {
-            // try a wildcard lookup
-            Enumeration<MimeEntry> e = entries.elements();
-            while (e.hasMoreElements()) {
+            // try b wildcbrd lookup
+            Enumerbtion<MimeEntry> e = entries.elements();
+            while (e.hbsMoreElements()) {
                 MimeEntry wild = e.nextElement();
-                if (wild.matches(type)) {
+                if (wild.mbtches(type)) {
                     return wild;
                 }
             }
@@ -164,188 +164,188 @@ public class MimeTable implements FileNameMap {
     }
 
     /**
-     * Locate a MimeEntry by the file extension that has been associated
-     * with it. Parses general file names, and URLs.
+     * Locbte b MimeEntry by the file extension thbt hbs been bssocibted
+     * with it. Pbrses generbl file nbmes, bnd URLs.
      */
-    public MimeEntry findByFileName(String fname) {
+    public MimeEntry findByFileNbme(String fnbme) {
         String ext = "";
 
-        int i = fname.lastIndexOf('#');
+        int i = fnbme.lbstIndexOf('#');
 
         if (i > 0) {
-            fname = fname.substring(0, i - 1);
+            fnbme = fnbme.substring(0, i - 1);
         }
 
-        i = fname.lastIndexOf('.');
-        // REMIND: OS specific delimters appear here
-        i = Math.max(i, fname.lastIndexOf('/'));
-        i = Math.max(i, fname.lastIndexOf('?'));
+        i = fnbme.lbstIndexOf('.');
+        // REMIND: OS specific delimters bppebr here
+        i = Mbth.mbx(i, fnbme.lbstIndexOf('/'));
+        i = Mbth.mbx(i, fnbme.lbstIndexOf('?'));
 
-        if (i != -1 && fname.charAt(i) == '.') {
-            ext = fname.substring(i).toLowerCase();
+        if (i != -1 && fnbme.chbrAt(i) == '.') {
+            ext = fnbme.substring(i).toLowerCbse();
         }
 
         return findByExt(ext);
     }
 
     /**
-     * Locate a MimeEntry by the file extension that has been associated
+     * Locbte b MimeEntry by the file extension thbt hbs been bssocibted
      * with it.
      */
     public synchronized MimeEntry findByExt(String fileExtension) {
-        return extensionMap.get(fileExtension);
+        return extensionMbp.get(fileExtension);
     }
 
     public synchronized MimeEntry findByDescription(String description) {
-        Enumeration<MimeEntry> e = elements();
-        while (e.hasMoreElements()) {
+        Enumerbtion<MimeEntry> e = elements();
+        while (e.hbsMoreElements()) {
             MimeEntry entry = e.nextElement();
-            if (description.equals(entry.getDescription())) {
+            if (description.equbls(entry.getDescription())) {
                 return entry;
             }
         }
 
-        // We failed, now try treating description as type
+        // We fbiled, now try trebting description bs type
         return find(description);
     }
 
-    String getTempFileTemplate() {
-        return tempFileTemplate;
+    String getTempFileTemplbte() {
+        return tempFileTemplbte;
     }
 
-    public synchronized Enumeration<MimeEntry> elements() {
+    public synchronized Enumerbtion<MimeEntry> elements() {
         return entries.elements();
     }
 
-    // For backward compatibility -- mailcap format files
-    // This is not currently used, but may in the future when we add ability
-    // to read BOTH the properties format and the mailcap format.
-    protected static String[] mailcapLocations;
+    // For bbckwbrd compbtibility -- mbilcbp formbt files
+    // This is not currently used, but mby in the future when we bdd bbility
+    // to rebd BOTH the properties formbt bnd the mbilcbp formbt.
+    protected stbtic String[] mbilcbpLocbtions;
 
-    public synchronized void load() {
+    public synchronized void lobd() {
         Properties entries = new Properties();
         File file = null;
-        InputStream in;
+        InputStrebm in;
 
-        // First try to load the user-specific table, if it exists
-        String userTablePath = System.getProperty("content.types.user.table");
-        if (userTablePath != null && (file = new File(userTablePath)).exists()) {
+        // First try to lobd the user-specific tbble, if it exists
+        String userTbblePbth = System.getProperty("content.types.user.tbble");
+        if (userTbblePbth != null && (file = new File(userTbblePbth)).exists()) {
             try {
-                in = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                System.err.println("Warning: " + file.getPath()
-                                   + " mime table not found.");
+                in = new FileInputStrebm(file);
+            } cbtch (FileNotFoundException e) {
+                System.err.println("Wbrning: " + file.getPbth()
+                                   + " mime tbble not found.");
                 return;
             }
         } else {
-            in = MimeTable.class.getResourceAsStream("content-types.properties");
+            in = MimeTbble.clbss.getResourceAsStrebm("content-types.properties");
             if (in == null)
-                throw new InternalError("default mime table not found");
+                throw new InternblError("defbult mime tbble not found");
         }
 
-        try (BufferedInputStream bin = new BufferedInputStream(in)) {
-            entries.load(bin);
-        } catch (IOException e) {
-            System.err.println("Warning: " + e.getMessage());
+        try (BufferedInputStrebm bin = new BufferedInputStrebm(in)) {
+            entries.lobd(bin);
+        } cbtch (IOException e) {
+            System.err.println("Wbrning: " + e.getMessbge());
         }
-        parse(entries);
+        pbrse(entries);
     }
 
-    void parse(Properties entries) {
-        // first, strip out the platform-specific temp file template
-        String tempFileTemplate = (String)entries.get("temp.file.template");
-        if (tempFileTemplate != null) {
-            entries.remove("temp.file.template");
-            MimeTable.tempFileTemplate = tempFileTemplate;
+    void pbrse(Properties entries) {
+        // first, strip out the plbtform-specific temp file templbte
+        String tempFileTemplbte = (String)entries.get("temp.file.templbte");
+        if (tempFileTemplbte != null) {
+            entries.remove("temp.file.templbte");
+            MimeTbble.tempFileTemplbte = tempFileTemplbte;
         }
 
-        // now, parse the mime-type spec's
-        Enumeration<?> types = entries.propertyNames();
-        while (types.hasMoreElements()) {
+        // now, pbrse the mime-type spec's
+        Enumerbtion<?> types = entries.propertyNbmes();
+        while (types.hbsMoreElements()) {
             String type = (String)types.nextElement();
-            String attrs = entries.getProperty(type);
-            parse(type, attrs);
+            String bttrs = entries.getProperty(type);
+            pbrse(type, bttrs);
         }
     }
 
     //
-    // Table format:
+    // Tbble formbt:
     //
-    // <entry> ::= <table_tag> | <type_entry>
+    // <entry> ::= <tbble_tbg> | <type_entry>
     //
-    // <table_tag> ::= <table_format_version> | <temp_file_template>
+    // <tbble_tbg> ::= <tbble_formbt_version> | <temp_file_templbte>
     //
-    // <type_entry> ::= <type_subtype_pair> '=' <type_attrs_list>
+    // <type_entry> ::= <type_subtype_pbir> '=' <type_bttrs_list>
     //
-    // <type_subtype_pair> ::= <type> '/' <subtype>
+    // <type_subtype_pbir> ::= <type> '/' <subtype>
     //
-    // <type_attrs_list> ::= <attr_value_pair> [ ';' <attr_value_pair> ]*
-    //                       | [ <attr_value_pair> ]+
+    // <type_bttrs_list> ::= <bttr_vblue_pbir> [ ';' <bttr_vblue_pbir> ]*
+    //                       | [ <bttr_vblue_pbir> ]+
     //
-    // <attr_value_pair> ::= <attr_name> '=' <attr_value>
+    // <bttr_vblue_pbir> ::= <bttr_nbme> '=' <bttr_vblue>
     //
-    // <attr_name> ::= 'description' | 'action' | 'application'
+    // <bttr_nbme> ::= 'description' | 'bction' | 'bpplicbtion'
     //                 | 'file_extensions' | 'icon'
     //
-    // <attr_value> ::= <legal_char>*
+    // <bttr_vblue> ::= <legbl_chbr>*
     //
-    // Embedded ';' in an <attr_value> are quoted with leading '\' .
+    // Embedded ';' in bn <bttr_vblue> bre quoted with lebding '\' .
     //
-    // Interpretation of <attr_value> depends on the <attr_name> it is
-    // associated with.
+    // Interpretbtion of <bttr_vblue> depends on the <bttr_nbme> it is
+    // bssocibted with.
     //
 
-    void parse(String type, String attrs) {
+    void pbrse(String type, String bttrs) {
         MimeEntry newEntry = new MimeEntry(type);
 
-        // REMIND handle embedded ';' and '|' and literal '"'
-        StringTokenizer tokenizer = new StringTokenizer(attrs, ";");
-        while (tokenizer.hasMoreTokens()) {
-            String pair = tokenizer.nextToken();
-            parse(pair, newEntry);
+        // REMIND hbndle embedded ';' bnd '|' bnd literbl '"'
+        StringTokenizer tokenizer = new StringTokenizer(bttrs, ";");
+        while (tokenizer.hbsMoreTokens()) {
+            String pbir = tokenizer.nextToken();
+            pbrse(pbir, newEntry);
         }
 
-        add(newEntry);
+        bdd(newEntry);
     }
 
-    void parse(String pair, MimeEntry entry) {
-        // REMIND add exception handling...
-        String name = null;
-        String value = null;
+    void pbrse(String pbir, MimeEntry entry) {
+        // REMIND bdd exception hbndling...
+        String nbme = null;
+        String vblue = null;
 
-        boolean gotName = false;
-        StringTokenizer tokenizer = new StringTokenizer(pair, "=");
-        while (tokenizer.hasMoreTokens()) {
-            if (gotName) {
-                value = tokenizer.nextToken().trim();
+        boolebn gotNbme = fblse;
+        StringTokenizer tokenizer = new StringTokenizer(pbir, "=");
+        while (tokenizer.hbsMoreTokens()) {
+            if (gotNbme) {
+                vblue = tokenizer.nextToken().trim();
             }
             else {
-                name = tokenizer.nextToken().trim();
-                gotName = true;
+                nbme = tokenizer.nextToken().trim();
+                gotNbme = true;
             }
         }
 
-        fill(entry, name, value);
+        fill(entry, nbme, vblue);
     }
 
-    void fill(MimeEntry entry, String name, String value) {
-        if ("description".equalsIgnoreCase(name)) {
-            entry.setDescription(value);
+    void fill(MimeEntry entry, String nbme, String vblue) {
+        if ("description".equblsIgnoreCbse(nbme)) {
+            entry.setDescription(vblue);
         }
-        else if ("action".equalsIgnoreCase(name)) {
-            entry.setAction(getActionCode(value));
+        else if ("bction".equblsIgnoreCbse(nbme)) {
+            entry.setAction(getActionCode(vblue));
         }
-        else if ("application".equalsIgnoreCase(name)) {
-            entry.setCommand(value);
+        else if ("bpplicbtion".equblsIgnoreCbse(nbme)) {
+            entry.setCommbnd(vblue);
         }
-        else if ("icon".equalsIgnoreCase(name)) {
-            entry.setImageFileName(value);
+        else if ("icon".equblsIgnoreCbse(nbme)) {
+            entry.setImbgeFileNbme(vblue);
         }
-        else if ("file_extensions".equalsIgnoreCase(name)) {
-            entry.setExtensions(value);
+        else if ("file_extensions".equblsIgnoreCbse(nbme)) {
+            entry.setExtensions(vblue);
         }
 
-        // else illegal name exception
+        // else illegbl nbme exception
     }
 
     String[] getExtensions(String list) {
@@ -359,9 +359,9 @@ public class MimeTable implements FileNameMap {
         return extensions;
     }
 
-    int getActionCode(String action) {
-        for (int i = 0; i < MimeEntry.actionKeywords.length; i++) {
-            if (action.equalsIgnoreCase(MimeEntry.actionKeywords[i])) {
+    int getActionCode(String bction) {
+        for (int i = 0; i < MimeEntry.bctionKeywords.length; i++) {
+            if (bction.equblsIgnoreCbse(MimeEntry.bctionKeywords[i])) {
                 return i;
             }
         }
@@ -371,8 +371,8 @@ public class MimeTable implements FileNameMap {
 
     public Properties getAsProperties() {
         Properties properties = new Properties();
-        Enumeration<MimeEntry> e = elements();
-        while (e.hasMoreElements()) {
+        Enumerbtion<MimeEntry> e = elements();
+        while (e.hbsMoreElements()) {
             MimeEntry entry = e.nextElement();
             properties.put(entry.getType(), entry.toProperty());
         }
@@ -380,29 +380,29 @@ public class MimeTable implements FileNameMap {
         return properties;
     }
 
-    protected boolean saveAsProperties(File file) {
-        FileOutputStream os = null;
+    protected boolebn sbveAsProperties(File file) {
+        FileOutputStrebm os = null;
         try {
-            os = new FileOutputStream(file);
+            os = new FileOutputStrebm(file);
             Properties properties = getAsProperties();
-            properties.put("temp.file.template", tempFileTemplate);
-            String tag;
-            String user = System.getProperty("user.name");
+            properties.put("temp.file.templbte", tempFileTemplbte);
+            String tbg;
+            String user = System.getProperty("user.nbme");
             if (user != null) {
-                tag = "; customized for " + user;
-                properties.store(os, filePreamble + tag);
+                tbg = "; customized for " + user;
+                properties.store(os, filePrebmble + tbg);
             }
             else {
-                properties.store(os, filePreamble);
+                properties.store(os, filePrebmble);
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        cbtch (IOException e) {
+            e.printStbckTrbce();
+            return fblse;
         }
-        finally {
+        finblly {
             if (os != null) {
-                try { os.close(); } catch (IOException e) {}
+                try { os.close(); } cbtch (IOException e) {}
             }
         }
 
@@ -411,26 +411,26 @@ public class MimeTable implements FileNameMap {
     /*
      * Debugging utilities
      *
-    public void list(PrintStream out) {
-        Enumeration keys = entries.keys();
-        while (keys.hasMoreElements()) {
+    public void list(PrintStrebm out) {
+        Enumerbtion keys = entries.keys();
+        while (keys.hbsMoreElements()) {
             String key = (String)keys.nextElement();
             MimeEntry entry = (MimeEntry)entries.get(key);
             out.println(key + ": " + entry);
         }
     }
 
-    public static void main(String[] args) {
-        MimeTable testTable = MimeTable.getDefaultTable();
+    public stbtic void mbin(String[] brgs) {
+        MimeTbble testTbble = MimeTbble.getDefbultTbble();
 
-        Enumeration e = testTable.elements();
-        while (e.hasMoreElements()) {
+        Enumerbtion e = testTbble.elements();
+        while (e.hbsMoreElements()) {
             MimeEntry entry = (MimeEntry)e.nextElement();
             System.out.println(entry);
         }
 
-        testTable.save(File.separator + "tmp" +
-                       File.separator + "mime_table.save");
+        testTbble.sbve(File.sepbrbtor + "tmp" +
+                       File.sepbrbtor + "mime_tbble.sbve");
     }
     */
 }

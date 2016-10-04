@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import com.sun.management.DiagnosticCommandMBean;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.security.Permission;
-import java.util.*;
-import javax.management.*;
+import com.sun.mbnbgement.DibgnosticCommbndMBebn;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.security.Permission;
+import jbvb.util.*;
+import jbvbx.mbnbgement.*;
 
 /**
- * Implementation class for the diagnostic commands subsystem.
+ * Implementbtion clbss for the dibgnostic commbnds subsystem.
  *
  * @since 1.8
  */
-class DiagnosticCommandImpl extends NotificationEmitterSupport
-    implements DiagnosticCommandMBean {
+clbss DibgnosticCommbndImpl extends NotificbtionEmitterSupport
+    implements DibgnosticCommbndMBebn {
 
-    private final VMManagement jvm;
-    private volatile Map<String, Wrapper> wrappers = null;
-    private static final String strClassName = "".getClass().getName();
-    private static final String strArrayClassName = String[].class.getName();
-    private final boolean isSupported;
+    privbte finbl VMMbnbgement jvm;
+    privbte volbtile Mbp<String, Wrbpper> wrbppers = null;
+    privbte stbtic finbl String strClbssNbme = "".getClbss().getNbme();
+    privbte stbtic finbl String strArrbyClbssNbme = String[].clbss.getNbme();
+    privbte finbl boolebn isSupported;
 
     @Override
-    public Object getAttribute(String attribute) throws AttributeNotFoundException,
-        MBeanException, ReflectionException {
-        throw new AttributeNotFoundException(attribute);
+    public Object getAttribute(String bttribute) throws AttributeNotFoundException,
+        MBebnException, ReflectionException {
+        throw new AttributeNotFoundException(bttribute);
     }
 
     @Override
-    public void setAttribute(Attribute attribute) throws AttributeNotFoundException,
-        InvalidAttributeValueException, MBeanException, ReflectionException {
-        throw new AttributeNotFoundException(attribute.getName());
+    public void setAttribute(Attribute bttribute) throws AttributeNotFoundException,
+        InvblidAttributeVblueException, MBebnException, ReflectionException {
+        throw new AttributeNotFoundException(bttribute.getNbme());
     }
 
     @Override
-    public AttributeList getAttributes(String[] attributes) {
+    public AttributeList getAttributes(String[] bttributes) {
         return new AttributeList();
     }
 
     @Override
-    public AttributeList setAttributes(AttributeList attributes) {
+    public AttributeList setAttributes(AttributeList bttributes) {
         return new AttributeList();
     }
 
-    private class Wrapper {
+    privbte clbss Wrbpper {
 
-        String name;
+        String nbme;
         String cmd;
-        DiagnosticCommandInfo info;
+        DibgnosticCommbndInfo info;
         Permission permission;
 
-        Wrapper(String name, String cmd, DiagnosticCommandInfo info)
-                throws InstantiationException {
-            this.name = name;
+        Wrbpper(String nbme, String cmd, DibgnosticCommbndInfo info)
+                throws InstbntibtionException {
+            this.nbme = nbme;
             this.cmd = cmd;
             this.info = info;
             this.permission = null;
-            Exception cause = null;
-            if (info.getPermissionClass() != null) {
+            Exception cbuse = null;
+            if (info.getPermissionClbss() != null) {
                 try {
-                    Class<?> c = Class.forName(info.getPermissionClass());
+                    Clbss<?> c = Clbss.forNbme(info.getPermissionClbss());
                     if (info.getPermissionAction() == null) {
                         try {
-                            Constructor<?> constructor = c.getConstructor(String.class);
-                            permission = (Permission) constructor.newInstance(info.getPermissionName());
+                            Constructor<?> constructor = c.getConstructor(String.clbss);
+                            permission = (Permission) constructor.newInstbnce(info.getPermissionNbme());
 
-                        } catch (InstantiationException | IllegalAccessException
-                                | IllegalArgumentException | InvocationTargetException
+                        } cbtch (InstbntibtionException | IllegblAccessException
+                                | IllegblArgumentException | InvocbtionTbrgetException
                                 | NoSuchMethodException | SecurityException ex) {
-                            cause = ex;
+                            cbuse = ex;
                         }
                     }
                     if (permission == null) {
                         try {
-                            Constructor<?> constructor = c.getConstructor(String.class, String.class);
-                            permission = (Permission) constructor.newInstance(
-                                    info.getPermissionName(),
+                            Constructor<?> constructor = c.getConstructor(String.clbss, String.clbss);
+                            permission = (Permission) constructor.newInstbnce(
+                                    info.getPermissionNbme(),
                                     info.getPermissionAction());
-                        } catch (InstantiationException | IllegalAccessException
-                                | IllegalArgumentException | InvocationTargetException
+                        } cbtch (InstbntibtionException | IllegblAccessException
+                                | IllegblArgumentException | InvocbtionTbrgetException
                                 | NoSuchMethodException | SecurityException ex) {
-                            cause = ex;
+                            cbuse = ex;
                         }
                     }
-                } catch (ClassNotFoundException ex) { }
+                } cbtch (ClbssNotFoundException ex) { }
                 if (permission == null) {
-                    InstantiationException iex =
-                            new InstantiationException("Unable to instantiate required permission");
-                    iex.initCause(cause);
+                    InstbntibtionException iex =
+                            new InstbntibtionException("Unbble to instbntibte required permission");
+                    iex.initCbuse(cbuse);
                 }
             }
         }
 
-        public String execute(String[] args) {
+        public String execute(String[] brgs) {
             if (permission != null) {
-                SecurityManager sm = System.getSecurityManager();
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null) {
                     sm.checkPermission(permission);
                 }
             }
-            if(args == null) {
-                return executeDiagnosticCommand(cmd);
+            if(brgs == null) {
+                return executeDibgnosticCommbnd(cmd);
             } else {
                 StringBuilder sb = new StringBuilder();
-                sb.append(cmd);
-                for(int i=0; i<args.length; i++) {
-                    if(args[i] == null) {
-                        throw new IllegalArgumentException("Invalid null argument");
+                sb.bppend(cmd);
+                for(int i=0; i<brgs.length; i++) {
+                    if(brgs[i] == null) {
+                        throw new IllegblArgumentException("Invblid null brgument");
                     }
-                    sb.append(" ");
-                    sb.append(args[i]);
+                    sb.bppend(" ");
+                    sb.bppend(brgs[i]);
                 }
-                return executeDiagnosticCommand(sb.toString());
+                return executeDibgnosticCommbnd(sb.toString());
             }
         }
     }
 
-    DiagnosticCommandImpl(VMManagement jvm) {
+    DibgnosticCommbndImpl(VMMbnbgement jvm) {
         this.jvm = jvm;
-        isSupported = jvm.isRemoteDiagnosticCommandsSupported();
+        isSupported = jvm.isRemoteDibgnosticCommbndsSupported();
     }
 
-    private static class OperationInfoComparator implements Comparator<MBeanOperationInfo> {
+    privbte stbtic clbss OperbtionInfoCompbrbtor implements Compbrbtor<MBebnOperbtionInfo> {
         @Override
-        public int compare(MBeanOperationInfo o1, MBeanOperationInfo o2) {
-            return o1.getName().compareTo(o2.getName());
+        public int compbre(MBebnOperbtionInfo o1, MBebnOperbtionInfo o2) {
+            return o1.getNbme().compbreTo(o2.getNbme());
         }
     }
 
     @Override
-    public MBeanInfo getMBeanInfo() {
-        SortedSet<MBeanOperationInfo> operations = new TreeSet<>(new OperationInfoComparator());
-        Map<String, Wrapper> wrappersmap;
+    public MBebnInfo getMBebnInfo() {
+        SortedSet<MBebnOperbtionInfo> operbtions = new TreeSet<>(new OperbtionInfoCompbrbtor());
+        Mbp<String, Wrbpper> wrbppersmbp;
         if (!isSupported) {
-            wrappersmap = Collections.emptyMap();
+            wrbppersmbp = Collections.emptyMbp();
         } else {
             try {
-                String[] command = getDiagnosticCommands();
-                DiagnosticCommandInfo[] info = getDiagnosticCommandInfo(command);
-                MBeanParameterInfo stringArgInfo[] = new MBeanParameterInfo[]{
-                    new MBeanParameterInfo("arguments", strArrayClassName,
-                    "Array of Diagnostic Commands Arguments and Options")
+                String[] commbnd = getDibgnosticCommbnds();
+                DibgnosticCommbndInfo[] info = getDibgnosticCommbndInfo(commbnd);
+                MBebnPbrbmeterInfo stringArgInfo[] = new MBebnPbrbmeterInfo[]{
+                    new MBebnPbrbmeterInfo("brguments", strArrbyClbssNbme,
+                    "Arrby of Dibgnostic Commbnds Arguments bnd Options")
                 };
-                wrappersmap = new HashMap<>();
-                for (int i = 0; i < command.length; i++) {
-                    String name = transform(command[i]);
+                wrbppersmbp = new HbshMbp<>();
+                for (int i = 0; i < commbnd.length; i++) {
+                    String nbme = trbnsform(commbnd[i]);
                     try {
-                        Wrapper w = new Wrapper(name, command[i], info[i]);
-                        wrappersmap.put(name, w);
-                        operations.add(new MBeanOperationInfo(
-                                w.name,
+                        Wrbpper w = new Wrbpper(nbme, commbnd[i], info[i]);
+                        wrbppersmbp.put(nbme, w);
+                        operbtions.bdd(new MBebnOperbtionInfo(
+                                w.nbme,
                                 w.info.getDescription(),
                                 (w.info.getArgumentsInfo() == null
                                     || w.info.getArgumentsInfo().isEmpty())
                                     ? null : stringArgInfo,
-                                strClassName,
-                                MBeanOperationInfo.ACTION_INFO,
-                                commandDescriptor(w)));
-                    } catch (InstantiationException ex) {
-                        // If for some reasons the creation of a diagnostic command
-                        // wrappers fails, the diagnostic command is just ignored
-                        // and won't appear in the DynamicMBean
+                                strClbssNbme,
+                                MBebnOperbtionInfo.ACTION_INFO,
+                                commbndDescriptor(w)));
+                    } cbtch (InstbntibtionException ex) {
+                        // If for some rebsons the crebtion of b dibgnostic commbnd
+                        // wrbppers fbils, the dibgnostic commbnd is just ignored
+                        // bnd won't bppebr in the DynbmicMBebn
                     }
                 }
-            } catch (IllegalArgumentException | UnsupportedOperationException e) {
-                wrappersmap = Collections.emptyMap();
+            } cbtch (IllegblArgumentException | UnsupportedOperbtionException e) {
+                wrbppersmbp = Collections.emptyMbp();
             }
         }
-        wrappers =  Collections.unmodifiableMap(wrappersmap);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("immutableInfo", "false");
-        map.put("interfaceClassName","com.sun.management.DiagnosticCommandMBean");
-        map.put("mxbean", "false");
-        Descriptor desc = new ImmutableDescriptor(map);
-        return new MBeanInfo(
-                this.getClass().getName(),
-                "Diagnostic Commands",
-                null, // attributes
+        wrbppers =  Collections.unmodifibbleMbp(wrbppersmbp);
+        HbshMbp<String, Object> mbp = new HbshMbp<>();
+        mbp.put("immutbbleInfo", "fblse");
+        mbp.put("interfbceClbssNbme","com.sun.mbnbgement.DibgnosticCommbndMBebn");
+        mbp.put("mxbebn", "fblse");
+        Descriptor desc = new ImmutbbleDescriptor(mbp);
+        return new MBebnInfo(
+                this.getClbss().getNbme(),
+                "Dibgnostic Commbnds",
+                null, // bttributes
                 null, // constructors
-                operations.toArray(new MBeanOperationInfo[operations.size()]), // operations
-                getNotificationInfo(), // notifications
+                operbtions.toArrby(new MBebnOperbtionInfo[operbtions.size()]), // operbtions
+                getNotificbtionInfo(), // notificbtions
                 desc);
     }
 
     @Override
-    public Object invoke(String actionName, Object[] params, String[] signature)
-            throws MBeanException, ReflectionException {
+    public Object invoke(String bctionNbme, Object[] pbrbms, String[] signbture)
+            throws MBebnException, ReflectionException {
         if (!isSupported) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
-        if (wrappers == null) {
-            getMBeanInfo();
+        if (wrbppers == null) {
+            getMBebnInfo();
         }
-        Wrapper w = wrappers.get(actionName);
+        Wrbpper w = wrbppers.get(bctionNbme);
         if (w != null) {
             if (w.info.getArgumentsInfo().isEmpty()
-                    && (params == null || params.length == 0)
-                    && (signature == null || signature.length == 0)) {
+                    && (pbrbms == null || pbrbms.length == 0)
+                    && (signbture == null || signbture.length == 0)) {
                 return w.execute(null);
-            } else if((params != null && params.length == 1)
-                    && (signature != null && signature.length == 1
-                    && signature[0] != null
-                    && signature[0].compareTo(strArrayClassName) == 0)) {
-                return w.execute((String[]) params[0]);
+            } else if((pbrbms != null && pbrbms.length == 1)
+                    && (signbture != null && signbture.length == 1
+                    && signbture[0] != null
+                    && signbture[0].compbreTo(strArrbyClbssNbme) == 0)) {
+                return w.execute((String[]) pbrbms[0]);
             }
         }
-        throw new ReflectionException(new NoSuchMethodException(actionName));
+        throw new ReflectionException(new NoSuchMethodException(bctionNbme));
     }
 
-    private static String transform(String name) {
+    privbte stbtic String trbnsform(String nbme) {
         StringBuilder sb = new StringBuilder();
-        boolean toLower = true;
-        boolean toUpper = false;
-        for (int i = 0; i < name.length(); i++) {
-            char c = name.charAt(i);
+        boolebn toLower = true;
+        boolebn toUpper = fblse;
+        for (int i = 0; i < nbme.length(); i++) {
+            chbr c = nbme.chbrAt(i);
             if (c == '.' || c == '_') {
-                toLower = false;
+                toLower = fblse;
                 toUpper = true;
             } else {
                 if (toUpper) {
-                    toUpper = false;
-                    sb.append(Character.toUpperCase(c));
+                    toUpper = fblse;
+                    sb.bppend(Chbrbcter.toUpperCbse(c));
                 } else if(toLower) {
-                    sb.append(Character.toLowerCase(c));
+                    sb.bppend(Chbrbcter.toLowerCbse(c));
                 } else {
-                    sb.append(c);
+                    sb.bppend(c);
                 }
             }
         }
         return sb.toString();
     }
 
-    private Descriptor commandDescriptor(Wrapper w) throws IllegalArgumentException {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("dcmd.name", w.info.getName());
-        map.put("dcmd.description", w.info.getDescription());
-        map.put("dcmd.vmImpact", w.info.getImpact());
-        map.put("dcmd.permissionClass", w.info.getPermissionClass());
-        map.put("dcmd.permissionName", w.info.getPermissionName());
-        map.put("dcmd.permissionAction", w.info.getPermissionAction());
-        map.put("dcmd.enabled", w.info.isEnabled());
+    privbte Descriptor commbndDescriptor(Wrbpper w) throws IllegblArgumentException {
+        HbshMbp<String, Object> mbp = new HbshMbp<>();
+        mbp.put("dcmd.nbme", w.info.getNbme());
+        mbp.put("dcmd.description", w.info.getDescription());
+        mbp.put("dcmd.vmImpbct", w.info.getImpbct());
+        mbp.put("dcmd.permissionClbss", w.info.getPermissionClbss());
+        mbp.put("dcmd.permissionNbme", w.info.getPermissionNbme());
+        mbp.put("dcmd.permissionAction", w.info.getPermissionAction());
+        mbp.put("dcmd.enbbled", w.info.isEnbbled());
         StringBuilder sb = new StringBuilder();
-        sb.append("help ");
-        sb.append(w.info.getName());
-        map.put("dcmd.help", executeDiagnosticCommand(sb.toString()));
+        sb.bppend("help ");
+        sb.bppend(w.info.getNbme());
+        mbp.put("dcmd.help", executeDibgnosticCommbnd(sb.toString()));
         if (w.info.getArgumentsInfo() != null && !w.info.getArgumentsInfo().isEmpty()) {
-            HashMap<String, Object> allargmap = new HashMap<>();
-            for (DiagnosticCommandArgumentInfo arginfo : w.info.getArgumentsInfo()) {
-                HashMap<String, Object> argmap = new HashMap<>();
-                argmap.put("dcmd.arg.name", arginfo.getName());
-                argmap.put("dcmd.arg.type", arginfo.getType());
-                argmap.put("dcmd.arg.description", arginfo.getDescription());
-                argmap.put("dcmd.arg.isMandatory", arginfo.isMandatory());
-                argmap.put("dcmd.arg.isMultiple", arginfo.isMultiple());
-                boolean isOption = arginfo.isOption();
-                argmap.put("dcmd.arg.isOption", isOption);
+            HbshMbp<String, Object> bllbrgmbp = new HbshMbp<>();
+            for (DibgnosticCommbndArgumentInfo brginfo : w.info.getArgumentsInfo()) {
+                HbshMbp<String, Object> brgmbp = new HbshMbp<>();
+                brgmbp.put("dcmd.brg.nbme", brginfo.getNbme());
+                brgmbp.put("dcmd.brg.type", brginfo.getType());
+                brgmbp.put("dcmd.brg.description", brginfo.getDescription());
+                brgmbp.put("dcmd.brg.isMbndbtory", brginfo.isMbndbtory());
+                brgmbp.put("dcmd.brg.isMultiple", brginfo.isMultiple());
+                boolebn isOption = brginfo.isOption();
+                brgmbp.put("dcmd.brg.isOption", isOption);
                 if(!isOption) {
-                    argmap.put("dcmd.arg.position", arginfo.getPosition());
+                    brgmbp.put("dcmd.brg.position", brginfo.getPosition());
                 } else {
-                    argmap.put("dcmd.arg.position", -1);
+                    brgmbp.put("dcmd.brg.position", -1);
                 }
-                allargmap.put(arginfo.getName(), new ImmutableDescriptor(argmap));
+                bllbrgmbp.put(brginfo.getNbme(), new ImmutbbleDescriptor(brgmbp));
             }
-            map.put("dcmd.arguments", new ImmutableDescriptor(allargmap));
+            mbp.put("dcmd.brguments", new ImmutbbleDescriptor(bllbrgmbp));
         }
-        return new ImmutableDescriptor(map);
+        return new ImmutbbleDescriptor(mbp);
     }
 
-    private final static String notifName =
-        "javax.management.Notification";
+    privbte finbl stbtic String notifNbme =
+        "jbvbx.mbnbgement.Notificbtion";
 
-    private final static String[] diagFramNotifTypes = {
-        "jmx.mbean.info.changed"
+    privbte finbl stbtic String[] dibgFrbmNotifTypes = {
+        "jmx.mbebn.info.chbnged"
     };
 
-    private MBeanNotificationInfo[] notifInfo = null;
+    privbte MBebnNotificbtionInfo[] notifInfo = null;
 
     @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
         synchronized (this) {
             if (notifInfo == null) {
-                 notifInfo = new MBeanNotificationInfo[1];
+                 notifInfo = new MBebnNotificbtionInfo[1];
                  notifInfo[0] =
-                         new MBeanNotificationInfo(diagFramNotifTypes,
-                                                   notifName,
-                                                   "Diagnostic Framework Notification");
+                         new MBebnNotificbtionInfo(dibgFrbmNotifTypes,
+                                                   notifNbme,
+                                                   "Dibgnostic Frbmework Notificbtion");
             }
         }
         return notifInfo;
     }
 
-    private static long seqNumber = 0;
-    private static long getNextSeqNumber() {
+    privbte stbtic long seqNumber = 0;
+    privbte stbtic long getNextSeqNumber() {
         return ++seqNumber;
     }
 
-    private void createDiagnosticFrameworkNotification() {
+    privbte void crebteDibgnosticFrbmeworkNotificbtion() {
 
-        if (!hasListeners()) {
+        if (!hbsListeners()) {
             return;
         }
-        ObjectName on = null;
+        ObjectNbme on = null;
         try {
-            on = ObjectName.getInstance(ManagementFactoryHelper.HOTSPOT_DIAGNOSTIC_COMMAND_MBEAN_NAME);
-        } catch (MalformedObjectNameException e) { }
-        Notification notif = new Notification("jmx.mbean.info.changed",
+            on = ObjectNbme.getInstbnce(MbnbgementFbctoryHelper.HOTSPOT_DIAGNOSTIC_COMMAND_MBEAN_NAME);
+        } cbtch (MblformedObjectNbmeException e) { }
+        Notificbtion notif = new Notificbtion("jmx.mbebn.info.chbnged",
                                               on,
                                               getNextSeqNumber());
-        notif.setUserData(getMBeanInfo());
-        sendNotification(notif);
+        notif.setUserDbtb(getMBebnInfo());
+        sendNotificbtion(notif);
     }
 
     @Override
-    public synchronized void addNotificationListener(NotificationListener listener,
-            NotificationFilter filter,
-            Object handback) {
-        boolean before = hasListeners();
-        super.addNotificationListener(listener, filter, handback);
-        boolean after = hasListeners();
-        if (!before && after) {
-            setNotificationEnabled(true);
+    public synchronized void bddNotificbtionListener(NotificbtionListener listener,
+            NotificbtionFilter filter,
+            Object hbndbbck) {
+        boolebn before = hbsListeners();
+        super.bddNotificbtionListener(listener, filter, hbndbbck);
+        boolebn bfter = hbsListeners();
+        if (!before && bfter) {
+            setNotificbtionEnbbled(true);
         }
     }
 
     @Override
-    public synchronized void removeNotificationListener(NotificationListener listener)
+    public synchronized void removeNotificbtionListener(NotificbtionListener listener)
             throws ListenerNotFoundException {
-        boolean before = hasListeners();
-        super.removeNotificationListener(listener);
-        boolean after = hasListeners();
-        if (before && !after) {
-            setNotificationEnabled(false);
+        boolebn before = hbsListeners();
+        super.removeNotificbtionListener(listener);
+        boolebn bfter = hbsListeners();
+        if (before && !bfter) {
+            setNotificbtionEnbbled(fblse);
         }
     }
 
     @Override
-    public synchronized void removeNotificationListener(NotificationListener listener,
-            NotificationFilter filter,
-            Object handback)
+    public synchronized void removeNotificbtionListener(NotificbtionListener listener,
+            NotificbtionFilter filter,
+            Object hbndbbck)
             throws ListenerNotFoundException {
-        boolean before = hasListeners();
-        super.removeNotificationListener(listener, filter, handback);
-        boolean after = hasListeners();
-        if (before && !after) {
-            setNotificationEnabled(false);
+        boolebn before = hbsListeners();
+        super.removeNotificbtionListener(listener, filter, hbndbbck);
+        boolebn bfter = hbsListeners();
+        if (before && !bfter) {
+            setNotificbtionEnbbled(fblse);
         }
     }
 
-    private native void setNotificationEnabled(boolean enabled);
-    private native String[] getDiagnosticCommands();
-    private native DiagnosticCommandInfo[] getDiagnosticCommandInfo(String[] commands);
-    private native String executeDiagnosticCommand(String command);
+    privbte nbtive void setNotificbtionEnbbled(boolebn enbbled);
+    privbte nbtive String[] getDibgnosticCommbnds();
+    privbte nbtive DibgnosticCommbndInfo[] getDibgnosticCommbndInfo(String[] commbnds);
+    privbte nbtive String executeDibgnosticCommbnd(String commbnd);
 
 }

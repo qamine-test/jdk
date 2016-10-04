@@ -1,250 +1,250 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 
 /**
- * <code>JSeparator</code> provides a general purpose component for
- * implementing divider lines - most commonly used as a divider
- * between menu items that breaks them up into logical groupings.
- * Instead of using <code>JSeparator</code> directly,
- * you can use the <code>JMenu</code> or <code>JPopupMenu</code>
- * <code>addSeparator</code> method to create and add a separator.
- * <code>JSeparator</code>s may also be used elsewhere in a GUI
- * wherever a visual divider is useful.
+ * <code>JSepbrbtor</code> provides b generbl purpose component for
+ * implementing divider lines - most commonly used bs b divider
+ * between menu items thbt brebks them up into logicbl groupings.
+ * Instebd of using <code>JSepbrbtor</code> directly,
+ * you cbn use the <code>JMenu</code> or <code>JPopupMenu</code>
+ * <code>bddSepbrbtor</code> method to crebte bnd bdd b sepbrbtor.
+ * <code>JSepbrbtor</code>s mby blso be used elsewhere in b GUI
+ * wherever b visubl divider is useful.
  *
  * <p>
  *
- * For more information and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/menu.html">How to Use Menus</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For more informbtion bnd exbmples see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/menu.html">How to Use Menus</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *      attribute: isContainer false
+ * @bebninfo
+ *      bttribute: isContbiner fblse
  *    description: A divider between menu items.
  *
- * @author Georges Saab
- * @author Jeff Shapiro
+ * @buthor Georges Sbbb
+ * @buthor Jeff Shbpiro
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class JSeparator extends JComponent implements SwingConstants, Accessible
+@SuppressWbrnings("seribl")
+public clbss JSepbrbtor extends JComponent implements SwingConstbnts, Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "SeparatorUI";
+    privbte stbtic finbl String uiClbssID = "SepbrbtorUI";
 
-    private int orientation = HORIZONTAL;
+    privbte int orientbtion = HORIZONTAL;
 
-    /** Creates a new horizontal separator. */
-    public JSeparator()
+    /** Crebtes b new horizontbl sepbrbtor. */
+    public JSepbrbtor()
     {
         this( HORIZONTAL );
     }
 
     /**
-     * Creates a new separator with the specified horizontal or
-     * vertical orientation.
+     * Crebtes b new sepbrbtor with the specified horizontbl or
+     * verticbl orientbtion.
      *
-     * @param orientation an integer specifying
-     *          <code>SwingConstants.HORIZONTAL</code> or
-     *          <code>SwingConstants.VERTICAL</code>
-     * @exception IllegalArgumentException if <code>orientation</code>
-     *          is neither <code>SwingConstants.HORIZONTAL</code> nor
-     *          <code>SwingConstants.VERTICAL</code>
+     * @pbrbm orientbtion bn integer specifying
+     *          <code>SwingConstbnts.HORIZONTAL</code> or
+     *          <code>SwingConstbnts.VERTICAL</code>
+     * @exception IllegblArgumentException if <code>orientbtion</code>
+     *          is neither <code>SwingConstbnts.HORIZONTAL</code> nor
+     *          <code>SwingConstbnts.VERTICAL</code>
      */
-    public JSeparator( int orientation )
+    public JSepbrbtor( int orientbtion )
     {
-        checkOrientation( orientation );
-        this.orientation = orientation;
-        setFocusable(false);
-        updateUI();
+        checkOrientbtion( orientbtion );
+        this.orientbtion = orientbtion;
+        setFocusbble(fblse);
+        updbteUI();
     }
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return the SeparatorUI object that renders this component
+     * @return the SepbrbtorUI object thbt renders this component
      */
-    public SeparatorUI getUI() {
-        return (SeparatorUI)ui;
+    public SepbrbtorUI getUI() {
+        return (SepbrbtorUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the SeparatorUI L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the SepbrbtorUI L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(SeparatorUI ui) {
+    public void setUI(SepbrbtorUI ui) {
         super.setUI(ui);
     }
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((SeparatorUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((SepbrbtorUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Returns the nbme of the L&bmp;F clbss thbt renders this component.
      *
-     * @return the string "SeparatorUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "SepbrbtorUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
     /**
-     * Returns the orientation of this separator.
+     * Returns the orientbtion of this sepbrbtor.
      *
-     * @return   The value of the orientation property, one of the
-     *           following constants defined in <code>SwingConstants</code>:
+     * @return   The vblue of the orientbtion property, one of the
+     *           following constbnts defined in <code>SwingConstbnts</code>:
      *           <code>VERTICAL</code>, or
      *           <code>HORIZONTAL</code>.
      *
-     * @see SwingConstants
-     * @see #setOrientation
+     * @see SwingConstbnts
+     * @see #setOrientbtion
      */
-    public int getOrientation() {
-        return this.orientation;
+    public int getOrientbtion() {
+        return this.orientbtion;
     }
 
     /**
-     * Sets the orientation of the separator.
-     * The default value of this property is HORIZONTAL.
-     * @param orientation  either <code>SwingConstants.HORIZONTAL</code>
-     *                  or <code>SwingConstants.VERTICAL</code>
-     * @exception IllegalArgumentException  if <code>orientation</code>
-     *          is neither <code>SwingConstants.HORIZONTAL</code>
-     *          nor <code>SwingConstants.VERTICAL</code>
+     * Sets the orientbtion of the sepbrbtor.
+     * The defbult vblue of this property is HORIZONTAL.
+     * @pbrbm orientbtion  either <code>SwingConstbnts.HORIZONTAL</code>
+     *                  or <code>SwingConstbnts.VERTICAL</code>
+     * @exception IllegblArgumentException  if <code>orientbtion</code>
+     *          is neither <code>SwingConstbnts.HORIZONTAL</code>
+     *          nor <code>SwingConstbnts.VERTICAL</code>
      *
-     * @see SwingConstants
-     * @see #getOrientation
-     * @beaninfo
+     * @see SwingConstbnts
+     * @see #getOrientbtion
+     * @bebninfo
      *        bound: true
      *    preferred: true
-     *         enum: HORIZONTAL SwingConstants.HORIZONTAL
-     *               VERTICAL   SwingConstants.VERTICAL
-     *    attribute: visualUpdate true
-     *  description: The orientation of the separator.
+     *         enum: HORIZONTAL SwingConstbnts.HORIZONTAL
+     *               VERTICAL   SwingConstbnts.VERTICAL
+     *    bttribute: visublUpdbte true
+     *  description: The orientbtion of the sepbrbtor.
      */
-    public void setOrientation( int orientation ) {
-        if (this.orientation == orientation) {
+    public void setOrientbtion( int orientbtion ) {
+        if (this.orientbtion == orientbtion) {
             return;
         }
-        int oldValue = this.orientation;
-        checkOrientation( orientation );
-        this.orientation = orientation;
-        firePropertyChange("orientation", oldValue, orientation);
-        revalidate();
-        repaint();
+        int oldVblue = this.orientbtion;
+        checkOrientbtion( orientbtion );
+        this.orientbtion = orientbtion;
+        firePropertyChbnge("orientbtion", oldVblue, orientbtion);
+        revblidbte();
+        repbint();
     }
 
-    private void checkOrientation( int orientation )
+    privbte void checkOrientbtion( int orientbtion )
     {
-        switch ( orientation )
+        switch ( orientbtion )
         {
-            case VERTICAL:
-            case HORIZONTAL:
-                break;
-            default:
-                throw new IllegalArgumentException( "orientation must be one of: VERTICAL, HORIZONTAL" );
+            cbse VERTICAL:
+            cbse HORIZONTAL:
+                brebk;
+            defbult:
+                throw new IllegblArgumentException( "orientbtion must be one of: VERTICAL, HORIZONTAL" );
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JSeparator</code>.
+     * Returns b string representbtion of this <code>JSepbrbtor</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JSeparator</code>
+     * @return  b string representbtion of this <code>JSepbrbtor</code>
      */
-    protected String paramString() {
-        String orientationString = (orientation == HORIZONTAL ?
+    protected String pbrbmString() {
+        String orientbtionString = (orientbtion == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
 
-        return super.paramString() +
-        ",orientation=" + orientationString;
+        return super.pbrbmString() +
+        ",orientbtion=" + orientbtionString;
     }
 
 /////////////////
@@ -252,42 +252,42 @@ public class JSeparator extends JComponent implements SwingConstants, Accessible
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JSeparator.
-     * For separators, the AccessibleContext takes the form of an
-     * AccessibleJSeparator.
-     * A new AccessibleJSeparator instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JSepbrbtor.
+     * For sepbrbtors, the AccessibleContext tbkes the form of bn
+     * AccessibleJSepbrbtor.
+     * A new AccessibleJSepbrbtor instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJSeparator that serves as the
-     *         AccessibleContext of this JSeparator
+     * @return bn AccessibleJSepbrbtor thbt serves bs the
+     *         AccessibleContext of this JSepbrbtor
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJSeparator();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJSepbrbtor();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JSeparator</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to separator user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JSepbrbtor</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to sepbrbtor user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJSeparator extends AccessibleJComponent {
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJSepbrbtor extends AccessibleJComponent {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          */
         public AccessibleRole getAccessibleRole() {

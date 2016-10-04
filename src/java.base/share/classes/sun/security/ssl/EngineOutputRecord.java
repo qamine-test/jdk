@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.nio.*;
+import jbvb.io.*;
+import jbvb.nio.*;
 
 /**
- * A OutputRecord class extension which uses external ByteBuffers
- * or the internal ByteArrayOutputStream for data manipulations.
+ * A OutputRecord clbss extension which uses externbl ByteBuffers
+ * or the internbl ByteArrbyOutputStrebm for dbtb mbnipulbtions.
  * <P>
- * Instead of rewriting this entire class
- * to use ByteBuffers, we leave things intact, so handshake, CCS,
- * and alerts will continue to use the internal buffers, but application
- * data will use external buffers.
+ * Instebd of rewriting this entire clbss
+ * to use ByteBuffers, we lebve things intbct, so hbndshbke, CCS,
+ * bnd blerts will continue to use the internbl buffers, but bpplicbtion
+ * dbtb will use externbl buffers.
  *
- * @author Brad Wetmore
+ * @buthor Brbd Wetmore
  */
-final class EngineOutputRecord extends OutputRecord {
+finbl clbss EngineOutputRecord extends OutputRecord {
 
-    private SSLEngineImpl engine;
-    private EngineWriter writer;
+    privbte SSLEngineImpl engine;
+    privbte EngineWriter writer;
 
-    private boolean finishedMsg = false;
+    privbte boolebn finishedMsg = fblse;
 
     /*
-     * All handshake hashing is done by the superclass
+     * All hbndshbke hbshing is done by the superclbss
      */
 
     /*
-     * Default constructor makes a record supporting the maximum
-     * SSL record size.  It allocates the header bytes directly.
+     * Defbult constructor mbkes b record supporting the mbximum
+     * SSL record size.  It bllocbtes the hebder bytes directly.
      *
-     * @param type the content type for the record
+     * @pbrbm type the content type for the record
      */
     EngineOutputRecord(byte type, SSLEngineImpl engine) {
         super(type, recordSize(type));
@@ -67,20 +67,20 @@ final class EngineOutputRecord extends OutputRecord {
      * Get the size of the buffer we need for records of the specified
      * type.
      * <P>
-     * Application data buffers will provide their own byte buffers,
-     * and will not use the internal byte caching.
+     * Applicbtion dbtb buffers will provide their own byte buffers,
+     * bnd will not use the internbl byte cbching.
      */
-    private static int recordSize(byte type) {
+    privbte stbtic int recordSize(byte type) {
         switch (type) {
 
-        case ct_change_cipher_spec:
-        case ct_alert:
-            return maxAlertRecordSize;
+        cbse ct_chbnge_cipher_spec:
+        cbse ct_blert:
+            return mbxAlertRecordSize;
 
-        case ct_handshake:
-            return maxRecordSize;
+        cbse ct_hbndshbke:
+            return mbxRecordSize;
 
-        case ct_application_data:
+        cbse ct_bpplicbtion_dbtb:
             return 0;
         }
 
@@ -93,238 +93,238 @@ final class EngineOutputRecord extends OutputRecord {
 
     @Override
     public void flush() throws IOException {
-        finishedMsg = false;
+        finishedMsg = fblse;
     }
 
-    boolean isFinishedMsg() {
+    boolebn isFinishedMsg() {
         return finishedMsg;
     }
 
     /*
-     * Override the actual write below.  We do things this way to be
-     * consistent with InputRecord.  InputRecord may try to write out
-     * data to the peer, and *then* throw an Exception.  This forces
-     * data to be generated/output before the exception is ever
-     * generated.
+     * Override the bctubl write below.  We do things this wby to be
+     * consistent with InputRecord.  InputRecord mby try to write out
+     * dbtb to the peer, bnd *then* throw bn Exception.  This forces
+     * dbtb to be generbted/output before the exception is ever
+     * generbted.
      */
     @Override
-    void writeBuffer(OutputStream s, byte [] buf, int off, int len,
+    void writeBuffer(OutputStrebm s, byte [] buf, int off, int len,
             int debugOffset) throws IOException {
         /*
-         * Copy data out of buffer, it's ready to go.
+         * Copy dbtb out of buffer, it's rebdy to go.
          */
         ByteBuffer netBB = (ByteBuffer)
-            ByteBuffer.allocate(len).put(buf, off, len).flip();
+            ByteBuffer.bllocbte(len).put(buf, off, len).flip();
 
-        writer.putOutboundData(netBB);
+        writer.putOutboundDbtb(netBB);
     }
 
     /*
-     * Main method for writing non-application data.
+     * Mbin method for writing non-bpplicbtion dbtb.
      * We MAC/encrypt, then send down for processing.
      */
-    void write(Authenticator authenticator, CipherBox writeCipher)
+    void write(Authenticbtor buthenticbtor, CipherBox writeCipher)
             throws IOException {
 
         /*
-         * Sanity check.
+         * Sbnity check.
          */
         switch (contentType()) {
-            case ct_change_cipher_spec:
-            case ct_alert:
-            case ct_handshake:
-                break;
-            default:
+            cbse ct_chbnge_cipher_spec:
+            cbse ct_blert:
+            cbse ct_hbndshbke:
+                brebk;
+            defbult:
                 throw new RuntimeException("unexpected byte buffers");
         }
 
         /*
-         * Don't bother to really write empty records.  We went this
-         * far to drive the handshake machinery, for correctness; not
-         * writing empty records improves performance by cutting CPU
-         * time and network resource usage.  Also, some protocol
-         * implementations are fragile and don't like to see empty
-         * records, so this increases robustness.
+         * Don't bother to reblly write empty records.  We went this
+         * fbr to drive the hbndshbke mbchinery, for correctness; not
+         * writing empty records improves performbnce by cutting CPU
+         * time bnd network resource usbge.  Also, some protocol
+         * implementbtions bre frbgile bnd don't like to see empty
+         * records, so this increbses robustness.
          *
-         * (Even change cipher spec messages have a byte of data!)
+         * (Even chbnge cipher spec messbges hbve b byte of dbtb!)
          */
         if (!isEmpty()) {
-            // compress();              // eventually
-            encrypt(authenticator, writeCipher);
+            // compress();              // eventublly
+            encrypt(buthenticbtor, writeCipher);
 
             // send down for processing
-            write((OutputStream)null, false, (ByteArrayOutputStream)null);
+            write((OutputStrebm)null, fblse, (ByteArrbyOutputStrebm)null);
         }
         return;
     }
 
     /**
-     * Main wrap/write driver.
+     * Mbin wrbp/write driver.
      */
-    void write(EngineArgs ea, Authenticator authenticator,
+    void write(EngineArgs eb, Authenticbtor buthenticbtor,
             CipherBox writeCipher) throws IOException {
         /*
-         * sanity check to make sure someone didn't inadvertantly
-         * send us an impossible combination we don't know how
+         * sbnity check to mbke sure someone didn't inbdvertbntly
+         * send us bn impossible combinbtion we don't know how
          * to process.
          */
-        assert(contentType() == ct_application_data);
+        bssert(contentType() == ct_bpplicbtion_dbtb);
 
         /*
-         * Have we set the MAC's yet?  If not, we're not ready
-         * to process application data yet.
+         * Hbve we set the MAC's yet?  If not, we're not rebdy
+         * to process bpplicbtion dbtb yet.
          */
-        if (authenticator == MAC.NULL) {
+        if (buthenticbtor == MAC.NULL) {
             return;
         }
 
         /*
-         * Don't bother to really write empty records.  We went this
-         * far to drive the handshake machinery, for correctness; not
-         * writing empty records improves performance by cutting CPU
-         * time and network resource usage.  Also, some protocol
-         * implementations are fragile and don't like to see empty
-         * records, so this increases robustness.
+         * Don't bother to reblly write empty records.  We went this
+         * fbr to drive the hbndshbke mbchinery, for correctness; not
+         * writing empty records improves performbnce by cutting CPU
+         * time bnd network resource usbge.  Also, some protocol
+         * implementbtions bre frbgile bnd don't like to see empty
+         * records, so this increbses robustness.
          */
-        if (ea.getAppRemaining() == 0) {
+        if (eb.getAppRembining() == 0) {
             return;
         }
 
         /*
-         * By default, we counter chosen plaintext issues on CBC mode
-         * ciphersuites in SSLv3/TLS1.0 by sending one byte of application
-         * data in the first record of every payload, and the rest in
-         * subsequent record(s). Note that the issues have been solved in
-         * TLS 1.1 or later.
+         * By defbult, we counter chosen plbintext issues on CBC mode
+         * ciphersuites in SSLv3/TLS1.0 by sending one byte of bpplicbtion
+         * dbtb in the first record of every pbylobd, bnd the rest in
+         * subsequent record(s). Note thbt the issues hbve been solved in
+         * TLS 1.1 or lbter.
          *
-         * It is not necessary to split the very first application record of
-         * a freshly negotiated TLS session, as there is no previous
-         * application data to guess.  To improve compatibility, we will not
+         * It is not necessbry to split the very first bpplicbtion record of
+         * b freshly negotibted TLS session, bs there is no previous
+         * bpplicbtion dbtb to guess.  To improve compbtibility, we will not
          * split such records.
          *
-         * Because of the compatibility, we'd better produce no more than
-         * SSLSession.getPacketBufferSize() net data for each wrap. As we
-         * need a one-byte record at first, the 2nd record size should be
-         * equal to or less than Record.maxDataSizeMinusOneByteRecord.
+         * Becbuse of the compbtibility, we'd better produce no more thbn
+         * SSLSession.getPbcketBufferSize() net dbtb for ebch wrbp. As we
+         * need b one-byte record bt first, the 2nd record size should be
+         * equbl to or less thbn Record.mbxDbtbSizeMinusOneByteRecord.
          *
-         * This avoids issues in the outbound direction.  For a full fix,
-         * the peer must have similar protections.
+         * This bvoids issues in the outbound direction.  For b full fix,
+         * the peer must hbve similbr protections.
          */
         int length;
-        if (engine.needToSplitPayload(writeCipher, protocolVersion)) {
-            write(ea, authenticator, writeCipher, 0x01);
-            ea.resetLim();      // reset application data buffer limit
-            length = Math.min(ea.getAppRemaining(),
-                        maxDataSizeMinusOneByteRecord);
+        if (engine.needToSplitPbylobd(writeCipher, protocolVersion)) {
+            write(eb, buthenticbtor, writeCipher, 0x01);
+            eb.resetLim();      // reset bpplicbtion dbtb buffer limit
+            length = Mbth.min(eb.getAppRembining(),
+                        mbxDbtbSizeMinusOneByteRecord);
         } else {
-            length = Math.min(ea.getAppRemaining(), maxDataSize);
+            length = Mbth.min(eb.getAppRembining(), mbxDbtbSize);
         }
 
-        // Don't bother to really write empty records.
+        // Don't bother to reblly write empty records.
         if (length > 0) {
-            write(ea, authenticator, writeCipher, length);
+            write(eb, buthenticbtor, writeCipher, length);
         }
 
         return;
     }
 
-    void write(EngineArgs ea, Authenticator authenticator,
+    void write(EngineArgs eb, Authenticbtor buthenticbtor,
             CipherBox writeCipher, int length) throws IOException {
         /*
-         * Copy out existing buffer values.
+         * Copy out existing buffer vblues.
          */
-        ByteBuffer dstBB = ea.netData;
+        ByteBuffer dstBB = eb.netDbtb;
         int dstPos = dstBB.position();
         int dstLim = dstBB.limit();
 
         /*
-         * Where to put the data.  Jump over the header.
+         * Where to put the dbtb.  Jump over the hebder.
          *
-         * Don't need to worry about SSLv2 rewrites, if we're here,
-         * that's long since done.
+         * Don't need to worry bbout SSLv2 rewrites, if we're here,
+         * thbt's long since done.
          */
-        int dstData = dstPos + headerSize + writeCipher.getExplicitNonceSize();
-        dstBB.position(dstData);
+        int dstDbtb = dstPos + hebderSize + writeCipher.getExplicitNonceSize();
+        dstBB.position(dstDbtb);
 
         /*
-         * transfer application data into the network data buffer
+         * trbnsfer bpplicbtion dbtb into the network dbtb buffer
          */
-        ea.gather(length);
+        eb.gbther(length);
         dstBB.limit(dstBB.position());
-        dstBB.position(dstData);
+        dstBB.position(dstDbtb);
 
         /*
-         * "flip" but skip over header again, add MAC & encrypt
+         * "flip" but skip over hebder bgbin, bdd MAC & encrypt
          */
-        if (authenticator instanceof MAC) {
-            MAC signer = (MAC)authenticator;
+        if (buthenticbtor instbnceof MAC) {
+            MAC signer = (MAC)buthenticbtor;
             if (signer.MAClen() != 0) {
-                byte[] hash = signer.compute(contentType(), dstBB, false);
+                byte[] hbsh = signer.compute(contentType(), dstBB, fblse);
 
                 /*
-                 * position was advanced to limit in compute above.
+                 * position wbs bdvbnced to limit in compute bbove.
                  *
-                 * Mark next area as writable (above layers should have
-                 * established that we have plenty of room), then write
-                 * out the hash.
+                 * Mbrk next breb bs writbble (bbove lbyers should hbve
+                 * estbblished thbt we hbve plenty of room), then write
+                 * out the hbsh.
                  */
-                dstBB.limit(dstBB.limit() + hash.length);
-                dstBB.put(hash);
+                dstBB.limit(dstBB.limit() + hbsh.length);
+                dstBB.put(hbsh);
 
-                // reset the position and limit
+                // reset the position bnd limit
                 dstBB.limit(dstBB.position());
-                dstBB.position(dstData);
+                dstBB.position(dstDbtb);
             }
         }
 
         if (!writeCipher.isNullCipher()) {
             /*
              * Requires explicit IV/nonce for CBC/AEAD cipher suites for TLS 1.1
-             * or later.
+             * or lbter.
              */
             if (protocolVersion.v >= ProtocolVersion.TLS11.v &&
                     (writeCipher.isCBCMode() || writeCipher.isAEADMode())) {
-                byte[] nonce = writeCipher.createExplicitNonce(
-                        authenticator, contentType(), dstBB.remaining());
-                dstBB.position(dstPos + headerSize);
+                byte[] nonce = writeCipher.crebteExplicitNonce(
+                        buthenticbtor, contentType(), dstBB.rembining());
+                dstBB.position(dstPos + hebderSize);
                 dstBB.put(nonce);
                 if (!writeCipher.isAEADMode()) {
-                    // The explicit IV in TLS 1.1 and later can be encrypted.
-                    dstBB.position(dstPos + headerSize);
+                    // The explicit IV in TLS 1.1 bnd lbter cbn be encrypted.
+                    dstBB.position(dstPos + hebderSize);
                 }   // Otherwise, DON'T encrypt the nonce_explicit for AEAD mode
             }
 
             /*
-             * Encrypt may pad, so again the limit may have changed.
+             * Encrypt mby pbd, so bgbin the limit mby hbve chbnged.
              */
             writeCipher.encrypt(dstBB, dstLim);
 
             if ((debug != null) && (Debug.isOn("record") ||
-                    (Debug.isOn("handshake") &&
-                        (contentType() == ct_change_cipher_spec)))) {
-                System.out.println(Thread.currentThread().getName()
+                    (Debug.isOn("hbndshbke") &&
+                        (contentType() == ct_chbnge_cipher_spec)))) {
+                System.out.println(Threbd.currentThrebd().getNbme()
                     // v3.0/v3.1 ...
                     + ", WRITE: " + protocolVersion
-                    + " " + InputRecord.contentName(contentType())
+                    + " " + InputRecord.contentNbme(contentType())
                     + ", length = " + length);
             }
         } else {
             dstBB.position(dstBB.limit());
         }
 
-        int packetLength = dstBB.limit() - dstPos - headerSize;
+        int pbcketLength = dstBB.limit() - dstPos - hebderSize;
 
         /*
-         * Finish out the record header.
+         * Finish out the record hebder.
          */
         dstBB.put(dstPos, contentType());
-        dstBB.put(dstPos + 1, protocolVersion.major);
+        dstBB.put(dstPos + 1, protocolVersion.mbjor);
         dstBB.put(dstPos + 2, protocolVersion.minor);
-        dstBB.put(dstPos + 3, (byte)(packetLength >> 8));
-        dstBB.put(dstPos + 4, (byte)packetLength);
+        dstBB.put(dstPos + 3, (byte)(pbcketLength >> 8));
+        dstBB.put(dstPos + 4, (byte)pbcketLength);
 
         /*
-         * Position was already set by encrypt() above.
+         * Position wbs blrebdy set by encrypt() bbove.
          */
         dstBB.limit(dstLim);
     }

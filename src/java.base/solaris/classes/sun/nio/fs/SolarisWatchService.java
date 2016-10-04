@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.io.IOException;
-import sun.misc.Unsafe;
+import jbvb.nio.file.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
+import jbvb.io.IOException;
+import sun.misc.Unsbfe;
 
-import static sun.nio.fs.UnixConstants.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
 
 /**
- * Solaris implementation of WatchService based on file events notification
- * facility.
+ * Solbris implementbtion of WbtchService bbsed on file events notificbtion
+ * fbcility.
  */
 
-class SolarisWatchService
-    extends AbstractWatchService
+clbss SolbrisWbtchService
+    extends AbstrbctWbtchService
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static int addressSize = unsafe.addressSize();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic int bddressSize = unsbfe.bddressSize();
 
-    private static int dependsArch(int value32, int value64) {
-        return (addressSize == 4) ? value32 : value64;
+    privbte stbtic int dependsArch(int vblue32, int vblue64) {
+        return (bddressSize == 4) ? vblue32 : vblue64;
     }
 
     /*
      * typedef struct port_event {
      *     int             portev_events;
      *     ushort_t        portev_source;
-     *     ushort_t        portev_pad;
+     *     ushort_t        portev_pbd;
      *     uintptr_t       portev_object;
      *     void            *portev_user;
      * } port_event_t;
      */
-    private static final int SIZEOF_PORT_EVENT  = dependsArch(16, 24);
-    private static final int OFFSETOF_EVENTS    = 0;
-    private static final int OFFSETOF_SOURCE    = 4;
-    private static final int OFFSETOF_OBJECT    = 8;
+    privbte stbtic finbl int SIZEOF_PORT_EVENT  = dependsArch(16, 24);
+    privbte stbtic finbl int OFFSETOF_EVENTS    = 0;
+    privbte stbtic finbl int OFFSETOF_SOURCE    = 4;
+    privbte stbtic finbl int OFFSETOF_OBJECT    = 8;
 
     /*
      * typedef struct file_obj {
-     *     timestruc_t     fo_atime;
+     *     timestruc_t     fo_btime;
      *     timestruc_t     fo_mtime;
      *     timestruc_t     fo_ctime;
-     *     uintptr_t       fo_pad[3];
-     *     char            *fo_name;
+     *     uintptr_t       fo_pbd[3];
+     *     chbr            *fo_nbme;
      * } file_obj_t;
      */
-    private static final int SIZEOF_FILEOBJ    = dependsArch(40, 80);
-    private static final int OFFSET_FO_NAME    = dependsArch(36, 72);
+    privbte stbtic finbl int SIZEOF_FILEOBJ    = dependsArch(40, 80);
+    privbte stbtic finbl int OFFSET_FO_NAME    = dependsArch(36, 72);
 
     // port sources
-    private static final short PORT_SOURCE_USER     = 3;
-    private static final short PORT_SOURCE_FILE     = 7;
+    privbte stbtic finbl short PORT_SOURCE_USER     = 3;
+    privbte stbtic finbl short PORT_SOURCE_FILE     = 7;
 
-    // user-watchable events
-    private static final int FILE_MODIFIED      = 0x00000002;
-    private static final int FILE_ATTRIB        = 0x00000004;
-    private static final int FILE_NOFOLLOW      = 0x10000000;
+    // user-wbtchbble events
+    privbte stbtic finbl int FILE_MODIFIED      = 0x00000002;
+    privbte stbtic finbl int FILE_ATTRIB        = 0x00000004;
+    privbte stbtic finbl int FILE_NOFOLLOW      = 0x10000000;
 
     // exception events
-    private static final int FILE_DELETE        = 0x00000010;
-    private static final int FILE_RENAME_TO     = 0x00000020;
-    private static final int FILE_RENAME_FROM   = 0x00000040;
-    private static final int UNMOUNTED          = 0x20000000;
-    private static final int MOUNTEDOVER        = 0x40000000;
+    privbte stbtic finbl int FILE_DELETE        = 0x00000010;
+    privbte stbtic finbl int FILE_RENAME_TO     = 0x00000020;
+    privbte stbtic finbl int FILE_RENAME_FROM   = 0x00000040;
+    privbte stbtic finbl int UNMOUNTED          = 0x20000000;
+    privbte stbtic finbl int MOUNTEDOVER        = 0x40000000;
 
-    // background thread to read change events
-    private final Poller poller;
+    // bbckground threbd to rebd chbnge events
+    privbte finbl Poller poller;
 
-    SolarisWatchService(UnixFileSystem fs) throws IOException {
+    SolbrisWbtchService(UnixFileSystem fs) throws IOException {
         int port = -1;
         try {
-            port = portCreate();
-        } catch (UnixException x) {
+            port = portCrebte();
+        } cbtch (UnixException x) {
             throw new IOException(x.errorString());
         }
 
         this.poller = new Poller(fs, this, port);
-        this.poller.start();
+        this.poller.stbrt();
     }
 
     @Override
-    WatchKey register(Path dir,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
+    WbtchKey register(Pbth dir,
+                      WbtchEvent.Kind<?>[] events,
+                      WbtchEvent.Modifier... modifiers)
          throws IOException
     {
-        // delegate to poller
+        // delegbte to poller
         return poller.register(dir, events, modifiers);
     }
 
     @Override
     void implClose() throws IOException {
-        // delegate to poller
+        // delegbte to poller
         poller.close();
     }
 
     /**
-     * WatchKey implementation
+     * WbtchKey implementbtion
      */
-    private class SolarisWatchKey extends AbstractWatchKey
+    privbte clbss SolbrisWbtchKey extends AbstrbctWbtchKey
         implements DirectoryNode
     {
-        private final UnixFileKey fileKey;
+        privbte finbl UnixFileKey fileKey;
 
-        // pointer to native file_obj object
-        private final long object;
+        // pointer to nbtive file_obj object
+        privbte finbl long object;
 
-        // events (may be changed). set to null when watch key is invalid
-        private volatile Set<? extends WatchEvent.Kind<?>> events;
+        // events (mby be chbnged). set to null when wbtch key is invblid
+        privbte volbtile Set<? extends WbtchEvent.Kind<?>> events;
 
-        // map of entries in directory; created lazily; accessed only by
-        // poller thread.
-        private Map<Path,EntryNode> children = new HashMap<>();
+        // mbp of entries in directory; crebted lbzily; bccessed only by
+        // poller threbd.
+        privbte Mbp<Pbth,EntryNode> children = new HbshMbp<>();
 
-        SolarisWatchKey(SolarisWatchService watcher,
-                        UnixPath dir,
+        SolbrisWbtchKey(SolbrisWbtchService wbtcher,
+                        UnixPbth dir,
                         UnixFileKey fileKey,
                         long object,
-                        Set<? extends WatchEvent.Kind<?>> events)
+                        Set<? extends WbtchEvent.Kind<?>> events)
         {
-            super(dir, watcher);
+            super(dir, wbtcher);
             this.fileKey = fileKey;
             this.object = object;
             this.events = events;
         }
 
-        UnixPath getDirectory() {
-            return (UnixPath)watchable();
+        UnixPbth getDirectory() {
+            return (UnixPbth)wbtchbble();
         }
 
         UnixFileKey getFileKey() {
@@ -165,224 +165,224 @@ class SolarisWatchService
             return object;
         }
 
-        void invalidate() {
+        void invblidbte() {
             events = null;
         }
 
-        Set<? extends WatchEvent.Kind<?>> events() {
+        Set<? extends WbtchEvent.Kind<?>> events() {
             return events;
         }
 
-        void setEvents(Set<? extends WatchEvent.Kind<?>> events) {
+        void setEvents(Set<? extends WbtchEvent.Kind<?>> events) {
             this.events = events;
         }
 
-        Map<Path,EntryNode> children() {
+        Mbp<Pbth,EntryNode> children() {
             return children;
         }
 
         @Override
-        public boolean isValid() {
+        public boolebn isVblid() {
             return events != null;
         }
 
         @Override
-        public void cancel() {
-            if (isValid()) {
-                // delegate to poller
-                poller.cancel(this);
+        public void cbncel() {
+            if (isVblid()) {
+                // delegbte to poller
+                poller.cbncel(this);
             }
         }
 
         @Override
-        public void addChild(Path name, EntryNode node) {
-            children.put(name, node);
+        public void bddChild(Pbth nbme, EntryNode node) {
+            children.put(nbme, node);
         }
 
         @Override
-        public void removeChild(Path name) {
-            children.remove(name);
+        public void removeChild(Pbth nbme) {
+            children.remove(nbme);
         }
 
         @Override
-        public EntryNode getChild(Path name) {
-            return children.get(name);
+        public EntryNode getChild(Pbth nbme) {
+            return children.get(nbme);
         }
     }
 
     /**
-     * Background thread to read from port
+     * Bbckground threbd to rebd from port
      */
-    private class Poller extends AbstractPoller {
+    privbte clbss Poller extends AbstrbctPoller {
 
-        // maximum number of events to read per call to port_getn
-        private static final int MAX_EVENT_COUNT            = 128;
+        // mbximum number of events to rebd per cbll to port_getn
+        privbte stbtic finbl int MAX_EVENT_COUNT            = 128;
 
-        // events that map to ENTRY_DELETE
-        private static final int FILE_REMOVED =
+        // events thbt mbp to ENTRY_DELETE
+        privbte stbtic finbl int FILE_REMOVED =
             (FILE_DELETE|FILE_RENAME_TO|FILE_RENAME_FROM);
 
-        // events that tell us not to re-associate the object
-        private static final int FILE_EXCEPTION =
+        // events thbt tell us not to re-bssocibte the object
+        privbte stbtic finbl int FILE_EXCEPTION =
             (FILE_REMOVED|UNMOUNTED|MOUNTEDOVER);
 
-        // address of event buffers (used to receive events with port_getn)
-        private final long bufferAddress;
+        // bddress of event buffers (used to receive events with port_getn)
+        privbte finbl long bufferAddress;
 
-        private final SolarisWatchService watcher;
+        privbte finbl SolbrisWbtchService wbtcher;
 
         // the I/O port
-        private final int port;
+        privbte finbl int port;
 
-        // maps file key (dev/inode) to WatchKey
-        private final Map<UnixFileKey,SolarisWatchKey> fileKey2WatchKey;
+        // mbps file key (dev/inode) to WbtchKey
+        privbte finbl Mbp<UnixFileKey,SolbrisWbtchKey> fileKey2WbtchKey;
 
-        // maps file_obj object to Node
-        private final Map<Long,Node> object2Node;
+        // mbps file_obj object to Node
+        privbte finbl Mbp<Long,Node> object2Node;
 
         /**
-         * Create a new instance
+         * Crebte b new instbnce
          */
-        Poller(UnixFileSystem fs, SolarisWatchService watcher, int port) {
-            this.watcher = watcher;
+        Poller(UnixFileSystem fs, SolbrisWbtchService wbtcher, int port) {
+            this.wbtcher = wbtcher;
             this.port = port;
             this.bufferAddress =
-                unsafe.allocateMemory(SIZEOF_PORT_EVENT * MAX_EVENT_COUNT);
-            this.fileKey2WatchKey = new HashMap<UnixFileKey,SolarisWatchKey>();
-            this.object2Node = new HashMap<Long,Node>();
+                unsbfe.bllocbteMemory(SIZEOF_PORT_EVENT * MAX_EVENT_COUNT);
+            this.fileKey2WbtchKey = new HbshMbp<UnixFileKey,SolbrisWbtchKey>();
+            this.object2Node = new HbshMbp<Long,Node>();
         }
 
         @Override
-        void wakeup() throws IOException {
-            // write to port to wakeup polling thread
+        void wbkeup() throws IOException {
+            // write to port to wbkeup polling threbd
             try {
                 portSend(port, 0);
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 throw new IOException(x.errorString());
             }
         }
 
         @Override
-        Object implRegister(Path obj,
-                            Set<? extends WatchEvent.Kind<?>> events,
-                            WatchEvent.Modifier... modifiers)
+        Object implRegister(Pbth obj,
+                            Set<? extends WbtchEvent.Kind<?>> events,
+                            WbtchEvent.Modifier... modifiers)
         {
-            // no modifiers supported at this time
+            // no modifiers supported bt this time
             if (modifiers.length > 0) {
-                for (WatchEvent.Modifier modifier: modifiers) {
+                for (WbtchEvent.Modifier modifier: modifiers) {
                     if (modifier == null)
                         return new NullPointerException();
-                    if (modifier instanceof com.sun.nio.file.SensitivityWatchEventModifier)
+                    if (modifier instbnceof com.sun.nio.file.SensitivityWbtchEventModifier)
                         continue; // ignore
-                    return new UnsupportedOperationException("Modifier not supported");
+                    return new UnsupportedOperbtionException("Modifier not supported");
                 }
             }
 
-            UnixPath dir = (UnixPath)obj;
+            UnixPbth dir = (UnixPbth)obj;
 
             // check file is directory
-            UnixFileAttributes attrs = null;
+            UnixFileAttributes bttrs = null;
             try {
-                attrs = UnixFileAttributes.get(dir, true);
-            } catch (UnixException x) {
-                return x.asIOException(dir);
+                bttrs = UnixFileAttributes.get(dir, true);
+            } cbtch (UnixException x) {
+                return x.bsIOException(dir);
             }
-            if (!attrs.isDirectory()) {
-                return new NotDirectoryException(dir.getPathForExceptionMessage());
+            if (!bttrs.isDirectory()) {
+                return new NotDirectoryException(dir.getPbthForExceptionMessbge());
             }
 
-            // if already registered then update the events and return existing key
-            UnixFileKey fileKey = attrs.fileKey();
-            SolarisWatchKey watchKey = fileKey2WatchKey.get(fileKey);
-            if (watchKey != null) {
+            // if blrebdy registered then updbte the events bnd return existing key
+            UnixFileKey fileKey = bttrs.fileKey();
+            SolbrisWbtchKey wbtchKey = fileKey2WbtchKey.get(fileKey);
+            if (wbtchKey != null) {
                 try {
-                    updateEvents(watchKey, events);
-                } catch (UnixException x) {
-                    return x.asIOException(dir);
+                    updbteEvents(wbtchKey, events);
+                } cbtch (UnixException x) {
+                    return x.bsIOException(dir);
                 }
-                return watchKey;
+                return wbtchKey;
             }
 
             // register directory
             long object = 0L;
             try {
                 object = registerImpl(dir, (FILE_MODIFIED | FILE_ATTRIB));
-            } catch (UnixException x) {
-                return x.asIOException(dir);
+            } cbtch (UnixException x) {
+                return x.bsIOException(dir);
             }
 
-            // create watch key and insert it into maps
-            watchKey = new SolarisWatchKey(watcher, dir, fileKey, object, events);
-            object2Node.put(object, watchKey);
-            fileKey2WatchKey.put(fileKey, watchKey);
+            // crebte wbtch key bnd insert it into mbps
+            wbtchKey = new SolbrisWbtchKey(wbtcher, dir, fileKey, object, events);
+            object2Node.put(object, wbtchKey);
+            fileKey2WbtchKey.put(fileKey, wbtchKey);
 
-            // register all entries in directory
-            registerChildren(dir, watchKey, false, false);
+            // register bll entries in directory
+            registerChildren(dir, wbtchKey, fblse, fblse);
 
-            return watchKey;
+            return wbtchKey;
         }
 
-        // release resources for single entry
-        void releaseChild(EntryNode node) {
+        // relebse resources for single entry
+        void relebseChild(EntryNode node) {
             long object = node.object();
             if (object != 0L) {
                object2Node.remove(object);
-               releaseObject(object, true);
+               relebseObject(object, true);
                node.setObject(0L);
            }
         }
 
-        // release resources for entries in directory
-        void releaseChildren(SolarisWatchKey key) {
-           for (EntryNode node: key.children().values()) {
-               releaseChild(node);
+        // relebse resources for entries in directory
+        void relebseChildren(SolbrisWbtchKey key) {
+           for (EntryNode node: key.children().vblues()) {
+               relebseChild(node);
            }
         }
 
-        // cancel single key
+        // cbncel single key
         @Override
-        void implCancelKey(WatchKey obj) {
-           SolarisWatchKey key = (SolarisWatchKey)obj;
-           if (key.isValid()) {
-               fileKey2WatchKey.remove(key.getFileKey());
+        void implCbncelKey(WbtchKey obj) {
+           SolbrisWbtchKey key = (SolbrisWbtchKey)obj;
+           if (key.isVblid()) {
+               fileKey2WbtchKey.remove(key.getFileKey());
 
-               // release resources for entries
-               releaseChildren(key);
+               // relebse resources for entries
+               relebseChildren(key);
 
-               // release resources for directory
+               // relebse resources for directory
                long object = key.object();
                object2Node.remove(object);
-               releaseObject(object, true);
+               relebseObject(object, true);
 
-               // and finally invalidate the key
-               key.invalidate();
+               // bnd finblly invblidbte the key
+               key.invblidbte();
            }
         }
 
-        // close watch service
+        // close wbtch service
         @Override
         void implCloseAll() {
-            // release all native resources
+            // relebse bll nbtive resources
             for (Long object: object2Node.keySet()) {
-                releaseObject(object, true);
+                relebseObject(object, true);
             }
 
-            // invalidate all keys
-            for (Map.Entry<UnixFileKey,SolarisWatchKey> entry: fileKey2WatchKey.entrySet()) {
-                entry.getValue().invalidate();
+            // invblidbte bll keys
+            for (Mbp.Entry<UnixFileKey,SolbrisWbtchKey> entry: fileKey2WbtchKey.entrySet()) {
+                entry.getVblue().invblidbte();
             }
 
-            // clean-up
-            object2Node.clear();
-            fileKey2WatchKey.clear();
+            // clebn-up
+            object2Node.clebr();
+            fileKey2WbtchKey.clebr();
 
-            // free global resources
-            unsafe.freeMemory(bufferAddress);
-            UnixNativeDispatcher.close(port);
+            // free globbl resources
+            unsbfe.freeMemory(bufferAddress);
+            UnixNbtiveDispbtcher.close(port);
         }
 
         /**
-         * Poller main loop. Blocks on port_getn waiting for events and then
+         * Poller mbin loop. Blocks on port_getn wbiting for events bnd then
          * processes them.
          */
         @Override
@@ -390,171 +390,171 @@ class SolarisWatchService
             try {
                 for (;;) {
                     int n = portGetn(port, bufferAddress, MAX_EVENT_COUNT);
-                    assert n > 0;
+                    bssert n > 0;
 
-                    long address = bufferAddress;
+                    long bddress = bufferAddress;
                     for (int i=0; i<n; i++) {
-                        boolean shutdown = processEvent(address);
+                        boolebn shutdown = processEvent(bddress);
                         if (shutdown)
                             return;
-                        address += SIZEOF_PORT_EVENT;
+                        bddress += SIZEOF_PORT_EVENT;
                     }
                 }
-            } catch (UnixException x) {
-                x.printStackTrace();
+            } cbtch (UnixException x) {
+                x.printStbckTrbce();
             }
         }
 
         /**
-         * Process a single port_event
+         * Process b single port_event
          *
-         * Returns true if poller thread is requested to shutdown.
+         * Returns true if poller threbd is requested to shutdown.
          */
-        boolean processEvent(long address) {
+        boolebn processEvent(long bddress) {
             // pe->portev_source
-            short source = unsafe.getShort(address + OFFSETOF_SOURCE);
+            short source = unsbfe.getShort(bddress + OFFSETOF_SOURCE);
             // pe->portev_object
-            long object = unsafe.getAddress(address + OFFSETOF_OBJECT);
+            long object = unsbfe.getAddress(bddress + OFFSETOF_OBJECT);
             // pe->portev_events
-            int events = unsafe.getInt(address + OFFSETOF_EVENTS);
+            int events = unsbfe.getInt(bddress + OFFSETOF_EVENTS);
 
             // user event is trigger to process pending requests
             if (source != PORT_SOURCE_FILE) {
                 if (source == PORT_SOURCE_USER) {
-                    // process any pending requests
-                    boolean shutdown = processRequests();
+                    // process bny pending requests
+                    boolebn shutdown = processRequests();
                     if (shutdown)
                         return true;
                 }
-                return false;
+                return fblse;
             }
 
             // lookup object to get Node
             Node node = object2Node.get(object);
             if (node == null) {
-                // should not happen
-                return false;
+                // should not hbppen
+                return fblse;
             }
 
-            // As a workaround for 6642290 and 6636438/6636412 we don't use
+            // As b workbround for 6642290 bnd 6636438/6636412 we don't use
             // FILE_EXCEPTION events to tell use not to register the file.
-            // boolean reregister = (events & FILE_EXCEPTION) == 0;
-            boolean reregister = true;
+            // boolebn reregister = (events & FILE_EXCEPTION) == 0;
+            boolebn reregister = true;
 
-            // If node is EntryNode then event relates to entry in directory
-            // If node is a SolarisWatchKey (DirectoryNode) then event relates
-            // to a watched directory.
-            boolean isDirectory = (node instanceof SolarisWatchKey);
+            // If node is EntryNode then event relbtes to entry in directory
+            // If node is b SolbrisWbtchKey (DirectoryNode) then event relbtes
+            // to b wbtched directory.
+            boolebn isDirectory = (node instbnceof SolbrisWbtchKey);
             if (isDirectory) {
-                processDirectoryEvents((SolarisWatchKey)node, events);
+                processDirectoryEvents((SolbrisWbtchKey)node, events);
             } else {
-                boolean ignore = processEntryEvents((EntryNode)node, events);
+                boolebn ignore = processEntryEvents((EntryNode)node, events);
                 if (ignore)
-                    reregister = false;
+                    reregister = fblse;
             }
 
-            // need to re-associate to get further events
+            // need to re-bssocibte to get further events
             if (reregister) {
                 try {
                     events = FILE_MODIFIED | FILE_ATTRIB;
                     if (!isDirectory) events |= FILE_NOFOLLOW;
-                    portAssociate(port,
+                    portAssocibte(port,
                                   PORT_SOURCE_FILE,
                                   object,
                                   events);
-                } catch (UnixException x) {
-                    // unable to re-register
-                    reregister = false;
+                } cbtch (UnixException x) {
+                    // unbble to re-register
+                    reregister = fblse;
                 }
             }
 
-            // object is not re-registered so release resources. If
-            // object is a watched directory then signal key
+            // object is not re-registered so relebse resources. If
+            // object is b wbtched directory then signbl key
             if (!reregister) {
-                // release resources
+                // relebse resources
                 object2Node.remove(object);
-                releaseObject(object, false);
+                relebseObject(object, fblse);
 
-                // if watch key then signal it
+                // if wbtch key then signbl it
                 if (isDirectory) {
-                    SolarisWatchKey key = (SolarisWatchKey)node;
-                    fileKey2WatchKey.remove( key.getFileKey() );
-                    key.invalidate();
-                    key.signal();
+                    SolbrisWbtchKey key = (SolbrisWbtchKey)node;
+                    fileKey2WbtchKey.remove( key.getFileKey() );
+                    key.invblidbte();
+                    key.signbl();
                 } else {
-                    // if entry then remove it from parent
+                    // if entry then remove it from pbrent
                     EntryNode entry = (EntryNode)node;
-                    SolarisWatchKey key = (SolarisWatchKey)entry.parent();
-                    key.removeChild(entry.name());
+                    SolbrisWbtchKey key = (SolbrisWbtchKey)entry.pbrent();
+                    key.removeChild(entry.nbme());
                 }
             }
 
-            return false;
+            return fblse;
         }
 
         /**
-         * Process directory events. If directory is modified then re-scan
-         * directory to register any new entries
+         * Process directory events. If directory is modified then re-scbn
+         * directory to register bny new entries
          */
-        void processDirectoryEvents(SolarisWatchKey key, int mask) {
-            if ((mask & (FILE_MODIFIED | FILE_ATTRIB)) != 0) {
+        void processDirectoryEvents(SolbrisWbtchKey key, int mbsk) {
+            if ((mbsk & (FILE_MODIFIED | FILE_ATTRIB)) != 0) {
                 registerChildren(key.getDirectory(), key,
-                    key.events().contains(StandardWatchEventKinds.ENTRY_CREATE),
-                    key.events().contains(StandardWatchEventKinds.ENTRY_DELETE));
+                    key.events().contbins(StbndbrdWbtchEventKinds.ENTRY_CREATE),
+                    key.events().contbins(StbndbrdWbtchEventKinds.ENTRY_DELETE));
             }
         }
 
         /**
          * Process events for entries in registered directories. Returns {@code
-         * true} if events are ignored because the watch key has been cancelled.
+         * true} if events bre ignored becbuse the wbtch key hbs been cbncelled.
          */
-        boolean processEntryEvents(EntryNode node, int mask) {
-            SolarisWatchKey key = (SolarisWatchKey)node.parent();
-            Set<? extends WatchEvent.Kind<?>> events = key.events();
+        boolebn processEntryEvents(EntryNode node, int mbsk) {
+            SolbrisWbtchKey key = (SolbrisWbtchKey)node.pbrent();
+            Set<? extends WbtchEvent.Kind<?>> events = key.events();
             if (events == null) {
-                // key has been cancelled so ignore event
+                // key hbs been cbncelled so ignore event
                 return true;
             }
 
             // entry modified
-            if (((mask & (FILE_MODIFIED | FILE_ATTRIB)) != 0) &&
-                events.contains(StandardWatchEventKinds.ENTRY_MODIFY))
+            if (((mbsk & (FILE_MODIFIED | FILE_ATTRIB)) != 0) &&
+                events.contbins(StbndbrdWbtchEventKinds.ENTRY_MODIFY))
             {
-                key.signalEvent(StandardWatchEventKinds.ENTRY_MODIFY, node.name());
+                key.signblEvent(StbndbrdWbtchEventKinds.ENTRY_MODIFY, node.nbme());
             }
 
 
-            return false;
+            return fblse;
         }
 
         /**
-         * Registers all entries in the given directory
+         * Registers bll entries in the given directory
          *
-         * The {@code sendCreateEvents} and {@code sendDeleteEvents} parameters
-         * indicates if ENTRY_CREATE and ENTRY_DELETE events should be queued
-         * when new entries are found. When initially registering a directory
-         * they will always be false. When re-scanning a directory then it
-         * depends on if the events are enabled or not.
+         * The {@code sendCrebteEvents} bnd {@code sendDeleteEvents} pbrbmeters
+         * indicbtes if ENTRY_CREATE bnd ENTRY_DELETE events should be queued
+         * when new entries bre found. When initiblly registering b directory
+         * they will blwbys be fblse. When re-scbnning b directory then it
+         * depends on if the events bre enbbled or not.
          */
-        void registerChildren(UnixPath dir,
-                              SolarisWatchKey parent,
-                              boolean sendCreateEvents,
-                              boolean sendDeleteEvents)
+        void registerChildren(UnixPbth dir,
+                              SolbrisWbtchKey pbrent,
+                              boolebn sendCrebteEvents,
+                              boolebn sendDeleteEvents)
         {
-            boolean isModifyEnabled =
-                parent.events().contains(StandardWatchEventKinds.ENTRY_MODIFY) ;
+            boolebn isModifyEnbbled =
+                pbrent.events().contbins(StbndbrdWbtchEventKinds.ENTRY_MODIFY) ;
 
-            // reset visited flag on entries so that we can detect file deletes
-            for (EntryNode node: parent.children().values()) {
-                node.setVisited(false);
+            // reset visited flbg on entries so thbt we cbn detect file deletes
+            for (EntryNode node: pbrent.children().vblues()) {
+                node.setVisited(fblse);
             }
 
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
-                for (Path entry: stream) {
-                    Path name = entry.getFileName();
+            try (DirectoryStrebm<Pbth> strebm = Files.newDirectoryStrebm(dir)) {
+                for (Pbth entry: strebm) {
+                    Pbth nbme = entry.getFileNbme();
 
-                    // skip entry if already registered
-                    EntryNode node = parent.getChild(name);
+                    // skip entry if blrebdy registered
+                    EntryNode node = pbrent.getChild(nbme);
                     if (node != null) {
                         node.setVisited(true);
                         continue;
@@ -564,210 +564,210 @@ class SolarisWatchService
 
                     long object = 0L;
                     int errno = 0;
-                    boolean addNode = false;
+                    boolebn bddNode = fblse;
 
-                    // if ENTRY_MODIFY enabled then we register the entry for events
-                    if (isModifyEnabled) {
+                    // if ENTRY_MODIFY enbbled then we register the entry for events
+                    if (isModifyEnbbled) {
                         try {
-                            UnixPath path = (UnixPath)entry;
+                            UnixPbth pbth = (UnixPbth)entry;
                             int events = (FILE_NOFOLLOW | FILE_MODIFIED | FILE_ATTRIB);
-                            object = registerImpl(path, events);
-                            addNode = true;
-                        } catch (UnixException x) {
+                            object = registerImpl(pbth, events);
+                            bddNode = true;
+                        } cbtch (UnixException x) {
                             errno = x.errno();
                         }
                     } else {
-                        addNode = true;
+                        bddNode = true;
                     }
 
-                    if (addNode) {
-                        // create node
-                        node = new EntryNode(object, (UnixPath)entry.getFileName(), parent);
+                    if (bddNode) {
+                        // crebte node
+                        node = new EntryNode(object, (UnixPbth)entry.getFileNbme(), pbrent);
                         node.setVisited(true);
-                        // tell the parent about it
-                        parent.addChild(entry.getFileName(), node);
+                        // tell the pbrent bbout it
+                        pbrent.bddChild(entry.getFileNbme(), node);
                         if (object != 0L)
                             object2Node.put(object, node);
                     }
 
                     // send ENTRY_CREATE event for the new file
-                    // send ENTRY_DELETE event for files that were deleted immediately
-                    boolean deleted = (errno == ENOENT);
-                    if (sendCreateEvents && (addNode || deleted))
-                        parent.signalEvent(StandardWatchEventKinds.ENTRY_CREATE, name);
+                    // send ENTRY_DELETE event for files thbt were deleted immedibtely
+                    boolebn deleted = (errno == ENOENT);
+                    if (sendCrebteEvents && (bddNode || deleted))
+                        pbrent.signblEvent(StbndbrdWbtchEventKinds.ENTRY_CREATE, nbme);
                     if (sendDeleteEvents && deleted)
-                        parent.signalEvent(StandardWatchEventKinds.ENTRY_DELETE, name);
+                        pbrent.signblEvent(StbndbrdWbtchEventKinds.ENTRY_DELETE, nbme);
 
                 }
-            } catch (DirectoryIteratorException | IOException x) {
-                // queue OVERFLOW event so that user knows to re-scan directory
-                parent.signalEvent(StandardWatchEventKinds.OVERFLOW, null);
+            } cbtch (DirectoryIterbtorException | IOException x) {
+                // queue OVERFLOW event so thbt user knows to re-scbn directory
+                pbrent.signblEvent(StbndbrdWbtchEventKinds.OVERFLOW, null);
                 return;
             }
 
-            // clean-up and send ENTRY_DELETE events for any entries that were
+            // clebn-up bnd send ENTRY_DELETE events for bny entries thbt were
             // not found
-            Iterator<Map.Entry<Path,EntryNode>> iterator =
-                parent.children().entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<Path,EntryNode> entry = iterator.next();
-                EntryNode node = entry.getValue();
+            Iterbtor<Mbp.Entry<Pbth,EntryNode>> iterbtor =
+                pbrent.children().entrySet().iterbtor();
+            while (iterbtor.hbsNext()) {
+                Mbp.Entry<Pbth,EntryNode> entry = iterbtor.next();
+                EntryNode node = entry.getVblue();
                 if (!node.isVisited()) {
                     long object = node.object();
                     if (object != 0L) {
                         object2Node.remove(object);
-                        releaseObject(object, true);
+                        relebseObject(object, true);
                     }
                     if (sendDeleteEvents)
-                        parent.signalEvent(StandardWatchEventKinds.ENTRY_DELETE, node.name());
-                    iterator.remove();
+                        pbrent.signblEvent(StbndbrdWbtchEventKinds.ENTRY_DELETE, node.nbme());
+                    iterbtor.remove();
                 }
             }
         }
 
         /**
-         * Update watch key's events. If ENTRY_MODIFY changes to be enabled
-         * then register each file in the directory; If ENTRY_MODIFY changed to
-         * be disabled then unregister each file.
+         * Updbte wbtch key's events. If ENTRY_MODIFY chbnges to be enbbled
+         * then register ebch file in the directory; If ENTRY_MODIFY chbnged to
+         * be disbbled then unregister ebch file.
          */
-        void updateEvents(SolarisWatchKey key, Set<? extends WatchEvent.Kind<?>> events)
+        void updbteEvents(SolbrisWbtchKey key, Set<? extends WbtchEvent.Kind<?>> events)
             throws UnixException
         {
 
-            // update events, remembering if ENTRY_MODIFY was previously
-            // enabled or disabled.
-            boolean oldModifyEnabled = key.events()
-                .contains(StandardWatchEventKinds.ENTRY_MODIFY);
+            // updbte events, remembering if ENTRY_MODIFY wbs previously
+            // enbbled or disbbled.
+            boolebn oldModifyEnbbled = key.events()
+                .contbins(StbndbrdWbtchEventKinds.ENTRY_MODIFY);
             key.setEvents(events);
 
-            // check if ENTRY_MODIFY has changed
-            boolean newModifyEnabled = events
-                .contains(StandardWatchEventKinds.ENTRY_MODIFY);
-            if (newModifyEnabled != oldModifyEnabled) {
+            // check if ENTRY_MODIFY hbs chbnged
+            boolebn newModifyEnbbled = events
+                .contbins(StbndbrdWbtchEventKinds.ENTRY_MODIFY);
+            if (newModifyEnbbled != oldModifyEnbbled) {
                 UnixException ex = null;
-                for (EntryNode node: key.children().values()) {
-                    if (newModifyEnabled) {
+                for (EntryNode node: key.children().vblues()) {
+                    if (newModifyEnbbled) {
                         // register
-                        UnixPath path = key.getDirectory().resolve(node.name());
+                        UnixPbth pbth = key.getDirectory().resolve(node.nbme());
                         int ev = (FILE_NOFOLLOW | FILE_MODIFIED | FILE_ATTRIB);
                         try {
-                            long object = registerImpl(path, ev);
+                            long object = registerImpl(pbth, ev);
                             object2Node.put(object, node);
                             node.setObject(object);
-                        } catch (UnixException x) {
-                            // if file has been deleted then it will be detected
-                            // as a FILE_MODIFIED event on the directory
+                        } cbtch (UnixException x) {
+                            // if file hbs been deleted then it will be detected
+                            // bs b FILE_MODIFIED event on the directory
                             if (x.errno() != ENOENT) {
                                 ex = x;
-                                break;
+                                brebk;
                             }
                         }
                     } else {
                         // unregister
-                        releaseChild(node);
+                        relebseChild(node);
                     }
                 }
 
-                // an error occurred
+                // bn error occurred
                 if (ex != null) {
-                    releaseChildren(key);
+                    relebseChildren(key);
                     throw ex;
                 }
             }
         }
 
         /**
-         * Calls port_associate to register the given path.
-         * Returns pointer to fileobj structure that is allocated for
-         * the registration.
+         * Cblls port_bssocibte to register the given pbth.
+         * Returns pointer to fileobj structure thbt is bllocbted for
+         * the registrbtion.
          */
-        long registerImpl(UnixPath dir, int events)
+        long registerImpl(UnixPbth dir, int events)
             throws UnixException
         {
-            // allocate memory for the path (file_obj->fo_name field)
-            byte[] path = dir.getByteArrayForSysCalls();
-            int len = path.length;
-            long name = unsafe.allocateMemory(len+1);
-            unsafe.copyMemory(path, Unsafe.ARRAY_BYTE_BASE_OFFSET, null,
-                name, (long)len);
-            unsafe.putByte(name + len, (byte)0);
+            // bllocbte memory for the pbth (file_obj->fo_nbme field)
+            byte[] pbth = dir.getByteArrbyForSysCblls();
+            int len = pbth.length;
+            long nbme = unsbfe.bllocbteMemory(len+1);
+            unsbfe.copyMemory(pbth, Unsbfe.ARRAY_BYTE_BASE_OFFSET, null,
+                nbme, (long)len);
+            unsbfe.putByte(nbme + len, (byte)0);
 
-            // allocate memory for filedatanode structure - this is the object
-            // to port_associate
-            long object = unsafe.allocateMemory(SIZEOF_FILEOBJ);
-            unsafe.setMemory(null, object, SIZEOF_FILEOBJ, (byte)0);
-            unsafe.putAddress(object + OFFSET_FO_NAME, name);
+            // bllocbte memory for filedbtbnode structure - this is the object
+            // to port_bssocibte
+            long object = unsbfe.bllocbteMemory(SIZEOF_FILEOBJ);
+            unsbfe.setMemory(null, object, SIZEOF_FILEOBJ, (byte)0);
+            unsbfe.putAddress(object + OFFSET_FO_NAME, nbme);
 
-            // associate the object with the port
+            // bssocibte the object with the port
             try {
-                portAssociate(port,
+                portAssocibte(port,
                               PORT_SOURCE_FILE,
                               object,
                               events);
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 // debugging
                 if (x.errno() == EAGAIN) {
-                    System.err.println("The maximum number of objects associated "+
-                        "with the port has been reached");
+                    System.err.println("The mbximum number of objects bssocibted "+
+                        "with the port hbs been rebched");
                 }
 
-                unsafe.freeMemory(name);
-                unsafe.freeMemory(object);
+                unsbfe.freeMemory(nbme);
+                unsbfe.freeMemory(object);
                 throw x;
             }
             return object;
         }
 
         /**
-         * Frees all resources for an file_obj object; optionally remove
-         * association from port
+         * Frees bll resources for bn file_obj object; optionblly remove
+         * bssocibtion from port
          */
-        void releaseObject(long object, boolean dissociate) {
-            // remove association
-            if (dissociate) {
+        void relebseObject(long object, boolebn dissocibte) {
+            // remove bssocibtion
+            if (dissocibte) {
                 try {
-                    portDissociate(port, PORT_SOURCE_FILE, object);
-                } catch (UnixException x) {
+                    portDissocibte(port, PORT_SOURCE_FILE, object);
+                } cbtch (UnixException x) {
                     // ignore
                 }
             }
 
-            // free native memory
-            long name = unsafe.getAddress(object + OFFSET_FO_NAME);
-            unsafe.freeMemory(name);
-            unsafe.freeMemory(object);
+            // free nbtive memory
+            long nbme = unsbfe.getAddress(object + OFFSET_FO_NAME);
+            unsbfe.freeMemory(nbme);
+            unsbfe.freeMemory(object);
         }
     }
 
     /**
-     * A node with native (file_obj) resources
+     * A node with nbtive (file_obj) resources
      */
-    private static interface Node {
+    privbte stbtic interfbce Node {
         long object();
     }
 
     /**
-     * A directory node with a map of the entries in the directory
+     * A directory node with b mbp of the entries in the directory
      */
-    private static interface DirectoryNode extends Node {
-        void addChild(Path name, EntryNode node);
-        void removeChild(Path name);
-        EntryNode getChild(Path name);
+    privbte stbtic interfbce DirectoryNode extends Node {
+        void bddChild(Pbth nbme, EntryNode node);
+        void removeChild(Pbth nbme);
+        EntryNode getChild(Pbth nbme);
     }
 
     /**
-     * An implementation of a node that is an entry in a directory.
+     * An implementbtion of b node thbt is bn entry in b directory.
      */
-    private static class EntryNode implements Node {
-        private long object;
-        private final UnixPath name;
-        private final DirectoryNode parent;
-        private boolean visited;
+    privbte stbtic clbss EntryNode implements Node {
+        privbte long object;
+        privbte finbl UnixPbth nbme;
+        privbte finbl DirectoryNode pbrent;
+        privbte boolebn visited;
 
-        EntryNode(long object, UnixPath name, DirectoryNode parent) {
+        EntryNode(long object, UnixPbth nbme, DirectoryNode pbrent) {
             this.object = object;
-            this.name = name;
-            this.parent = parent;
+            this.nbme = nbme;
+            this.pbrent = pbrent;
         }
 
         @Override
@@ -779,45 +779,45 @@ class SolarisWatchService
             this.object = ptr;
         }
 
-        UnixPath name() {
-            return name;
+        UnixPbth nbme() {
+            return nbme;
         }
 
-        DirectoryNode parent() {
-            return parent;
+        DirectoryNode pbrent() {
+            return pbrent;
         }
 
-        boolean isVisited() {
+        boolebn isVisited() {
             return visited;
         }
 
-        void setVisited(boolean v) {
+        void setVisited(boolebn v) {
             this.visited = v;
         }
     }
 
-    // -- native methods --
+    // -- nbtive methods --
 
-    private static native void init();
+    privbte stbtic nbtive void init();
 
-    private static native int portCreate() throws UnixException;
+    privbte stbtic nbtive int portCrebte() throws UnixException;
 
-    private static native void portAssociate(int port, int source, long object, int events)
+    privbte stbtic nbtive void portAssocibte(int port, int source, long object, int events)
         throws UnixException;
 
-    private static native void portDissociate(int port, int source, long object)
+    privbte stbtic nbtive void portDissocibte(int port, int source, long object)
         throws UnixException;
 
-    private static native void portSend(int port, int events)
+    privbte stbtic nbtive void portSend(int port, int events)
         throws UnixException;
 
-    private static native int portGetn(int port, long address, int max)
+    privbte stbtic nbtive int portGetn(int port, long bddress, int mbx)
         throws UnixException;
 
-    static {
+    stbtic {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                System.loadLibrary("nio");
+                System.lobdLibrbry("nio");
                 return null;
         }});
         init();

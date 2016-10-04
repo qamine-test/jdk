@@ -3,191 +3,191 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="kk"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="kk"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ab" draft="unconfirmed">Абхаз</language>
-			<language type="af" draft="unconfirmed">Африкаан</language>
-			<language type="am" draft="unconfirmed">амхар</language>
-			<language type="ar" draft="unconfirmed">Араб</language>
-			<language type="as" draft="unconfirmed">ассам</language>
-			<language type="ay" draft="unconfirmed">Аймара</language>
-			<language type="az" draft="unconfirmed">Азербайжан</language>
-			<language type="be" draft="unconfirmed">беларус</language>
-			<language type="bg" draft="unconfirmed">болгар</language>
-			<language type="bh" draft="unconfirmed">бихари</language>
-			<language type="bn" draft="unconfirmed">бенгал</language>
-			<language type="bo" draft="unconfirmed">тибет тілі</language>
-			<language type="br" draft="unconfirmed">брит</language>
-			<language type="bs" draft="unconfirmed">босния</language>
-			<language type="ca" draft="unconfirmed">каталан</language>
-			<language type="cs" draft="unconfirmed">чех</language>
-			<language type="cy" draft="unconfirmed">валлий</language>
-			<language type="da" draft="unconfirmed">дат</language>
-			<language type="de">неміс тілі</language>
-			<language type="de_AT">австриялық неміс тілі</language>
-			<language type="de_CH">швейцариялық ұлы неміс тілі</language>
-			<language type="dv" draft="unconfirmed">Мальдив</language>
-			<language type="dz" draft="unconfirmed">дзонг-кэ</language>
-			<language type="efi" draft="unconfirmed">эфик</language>
-			<language type="el" draft="unconfirmed">грек</language>
-			<language type="en">ағылшын тілі</language>
-			<language type="en_AU">австралиялық ағылшын тілі</language>
-			<language type="en_CA">канадалық ағылшын тілі</language>
-			<language type="en_GB">британиялық ағылшын тілі</language>
-			<language type="en_US">АҚШ ағылшын тілі</language>
-			<language type="eo" draft="unconfirmed">эсперанто</language>
-			<language type="es">испан тілі</language>
-			<language type="es_419">Латин Америкалық испан тілі</language>
-			<language type="es_ES">ибериялық испан тілі</language>
-			<language type="et" draft="unconfirmed">эстон</language>
-			<language type="eu" draft="unconfirmed">баск</language>
-			<language type="fa" draft="unconfirmed">парсы</language>
-			<language type="fi" draft="unconfirmed">фин</language>
-			<language type="fil" draft="unconfirmed">филиппино</language>
-			<language type="fj" draft="unconfirmed">Фиджий</language>
-			<language type="fo" draft="unconfirmed">фарер</language>
-			<language type="fr">француз тілі</language>
-			<language type="fr_CA">канадалық француз тілі</language>
-			<language type="fr_CH">швейцариялық француз тілі</language>
-			<language type="fy" draft="unconfirmed">Фрис</language>
-			<language type="ga" draft="unconfirmed">Ирланд тілі</language>
-			<language type="gd" draft="unconfirmed">Солтүстік Шотландия</language>
-			<language type="gl" draft="unconfirmed">Гал</language>
-			<language type="gn" draft="unconfirmed">гуарани</language>
-			<language type="gu" draft="unconfirmed">гуджарати</language>
-			<language type="ha" draft="unconfirmed">Хауса</language>
-			<language type="haw" draft="unconfirmed">Гавай</language>
-			<language type="he" draft="unconfirmed">иврит</language>
-			<language type="hi" draft="unconfirmed">хинди</language>
-			<language type="hr" draft="unconfirmed">хорват</language>
-			<language type="ht" draft="unconfirmed">Гаит</language>
-			<language type="hu" draft="unconfirmed">мадьяр</language>
-			<language type="hy" draft="unconfirmed">армян</language>
-			<language type="ia" draft="unconfirmed">интерлингва</language>
-			<language type="id" draft="unconfirmed">индонезия</language>
-			<language type="ie" draft="unconfirmed">интерлингве</language>
-			<language type="ig" draft="unconfirmed">Игбо</language>
-			<language type="is" draft="unconfirmed">исланд</language>
-			<language type="it">итальян тілі</language>
-			<language type="ja">жапон тілі</language>
-			<language type="jv" draft="unconfirmed">ява</language>
-			<language type="ka" draft="unconfirmed">грузин</language>
-			<language type="kk">қазақ тілі</language>
-			<language type="km" draft="unconfirmed">камбоджия</language>
-			<language type="kn" draft="unconfirmed">каннада</language>
-			<language type="ko" draft="unconfirmed">кәріс</language>
-			<language type="ks" draft="unconfirmed">Кашмир</language>
-			<language type="ku" draft="unconfirmed">күрд</language>
-			<language type="ky" draft="unconfirmed">қырғыз</language>
-			<language type="la" draft="unconfirmed">латын</language>
-			<language type="lb" draft="unconfirmed">Люксембург</language>
-			<language type="ln" draft="unconfirmed">лингала</language>
-			<language type="lo" draft="unconfirmed">лаос</language>
-			<language type="lt" draft="unconfirmed">литва</language>
-			<language type="lv" draft="unconfirmed">латыш</language>
-			<language type="mg" draft="unconfirmed">малагаси</language>
-			<language type="mi" draft="unconfirmed">маори</language>
-			<language type="mk" draft="unconfirmed">македон</language>
-			<language type="ml" draft="unconfirmed">малайялам</language>
-			<language type="mn" draft="unconfirmed">моңғол</language>
-			<language type="mr" draft="unconfirmed">маратхи</language>
-			<language type="ms" draft="unconfirmed">малай</language>
-			<language type="mt" draft="unconfirmed">мальта</language>
-			<language type="my" draft="unconfirmed">Бирман</language>
-			<language type="nd" draft="unconfirmed">Солтүстік ндебел</language>
-			<language type="ne" draft="unconfirmed">непал</language>
-			<language type="nl" draft="unconfirmed">голланд</language>
-			<language type="nl_BE" draft="unconfirmed">флемиш</language>
-			<language type="nn" draft="unconfirmed">Норвегиялық нинорск</language>
-			<language type="no" draft="unconfirmed">норвег</language>
-			<language type="nso" draft="unconfirmed">Солтүстік сотхо</language>
-			<language type="ny" draft="unconfirmed">ньянджа</language>
-			<language type="oc" draft="unconfirmed">окситан</language>
-			<language type="or" draft="unconfirmed">ория</language>
-			<language type="os" draft="unconfirmed">осетин</language>
-			<language type="pa" draft="unconfirmed">панджаб</language>
-			<language type="pl" draft="unconfirmed">поляк</language>
-			<language type="ps" draft="unconfirmed">пашто</language>
-			<language type="pt">португал тілі</language>
-			<language type="pt_BR">бразилиялық португал тілі</language>
-			<language type="pt_PT">ибериялық португал тілі</language>
-			<language type="qu" draft="unconfirmed">кечуа</language>
-			<language type="rm" draft="unconfirmed">ретороман</language>
-			<language type="rn" draft="unconfirmed">рунди</language>
-			<language type="ro" draft="unconfirmed">румын</language>
-			<language type="ru">орыс тілі</language>
-			<language type="rw" draft="unconfirmed">киньяруанда</language>
-			<language type="sa" draft="unconfirmed">санскрит</language>
-			<language type="sah" draft="unconfirmed">якут</language>
-			<language type="sd" draft="unconfirmed">синдхи</language>
-			<language type="se" draft="unconfirmed">Солтүстік саам</language>
-			<language type="sg" draft="unconfirmed">санго</language>
-			<language type="sh" draft="unconfirmed">сербхорват</language>
-			<language type="si" draft="unconfirmed">сингал</language>
-			<language type="sk" draft="unconfirmed">словак</language>
-			<language type="sl" draft="unconfirmed">словен</language>
-			<language type="so" draft="unconfirmed">сомали</language>
-			<language type="sq" draft="unconfirmed">албан</language>
-			<language type="sr" draft="unconfirmed">серб</language>
-			<language type="st" draft="unconfirmed">сесото</language>
-			<language type="su" draft="unconfirmed">судан</language>
-			<language type="sv" draft="unconfirmed">швед</language>
-			<language type="sw" draft="unconfirmed">суахили</language>
-			<language type="ta" draft="unconfirmed">тамил</language>
-			<language type="te" draft="unconfirmed">телугу</language>
-			<language type="tg" draft="unconfirmed">Тәжік</language>
-			<language type="th" draft="unconfirmed">тай</language>
-			<language type="ti" draft="unconfirmed">тигринья</language>
-			<language type="tk" draft="unconfirmed">түркмен</language>
-			<language type="tlh" draft="unconfirmed">клингон</language>
-			<language type="tr" draft="unconfirmed">Түрік</language>
-			<language type="tw" draft="unconfirmed">тви</language>
-			<language type="ug" draft="unconfirmed">ұйғыр</language>
-			<language type="uk" draft="unconfirmed">украин</language>
-			<language type="und">белгісіз тіл</language>
-			<language type="ur" draft="unconfirmed">урду</language>
-			<language type="uz" draft="unconfirmed">өзбек</language>
-			<language type="vi" draft="unconfirmed">вьетнам</language>
-			<language type="xh" draft="unconfirmed">хоса</language>
-			<language type="yi" draft="unconfirmed">идиш</language>
-			<language type="yo" draft="unconfirmed">Иоруба</language>
-			<language type="zh">қытай тілі</language>
-			<language type="zh_Hans">қарапайым қытай тілі</language>
-			<language type="zh_Hant">дәстүрлік қытай тілі</language>
-			<language type="zu" draft="unconfirmed">зулус</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bb" drbft="unconfirmed">Абхаз</lbngubge>
+			<lbngubge type="bf" drbft="unconfirmed">Африкаан</lbngubge>
+			<lbngubge type="bm" drbft="unconfirmed">амхар</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">Араб</lbngubge>
+			<lbngubge type="bs" drbft="unconfirmed">ассам</lbngubge>
+			<lbngubge type="by" drbft="unconfirmed">Аймара</lbngubge>
+			<lbngubge type="bz" drbft="unconfirmed">Азербайжан</lbngubge>
+			<lbngubge type="be" drbft="unconfirmed">беларус</lbngubge>
+			<lbngubge type="bg" drbft="unconfirmed">болгар</lbngubge>
+			<lbngubge type="bh" drbft="unconfirmed">бихари</lbngubge>
+			<lbngubge type="bn" drbft="unconfirmed">бенгал</lbngubge>
+			<lbngubge type="bo" drbft="unconfirmed">тибет тілі</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">брит</lbngubge>
+			<lbngubge type="bs" drbft="unconfirmed">босния</lbngubge>
+			<lbngubge type="cb" drbft="unconfirmed">каталан</lbngubge>
+			<lbngubge type="cs" drbft="unconfirmed">чех</lbngubge>
+			<lbngubge type="cy" drbft="unconfirmed">валлий</lbngubge>
+			<lbngubge type="db" drbft="unconfirmed">дат</lbngubge>
+			<lbngubge type="de">неміс тілі</lbngubge>
+			<lbngubge type="de_AT">австриялық неміс тілі</lbngubge>
+			<lbngubge type="de_CH">швейцариялық ұлы неміс тілі</lbngubge>
+			<lbngubge type="dv" drbft="unconfirmed">Мальдив</lbngubge>
+			<lbngubge type="dz" drbft="unconfirmed">дзонг-кэ</lbngubge>
+			<lbngubge type="efi" drbft="unconfirmed">эфик</lbngubge>
+			<lbngubge type="el" drbft="unconfirmed">грек</lbngubge>
+			<lbngubge type="en">ағылшын тілі</lbngubge>
+			<lbngubge type="en_AU">австралиялық ағылшын тілі</lbngubge>
+			<lbngubge type="en_CA">канадалық ағылшын тілі</lbngubge>
+			<lbngubge type="en_GB">британиялық ағылшын тілі</lbngubge>
+			<lbngubge type="en_US">АҚШ ағылшын тілі</lbngubge>
+			<lbngubge type="eo" drbft="unconfirmed">эсперанто</lbngubge>
+			<lbngubge type="es">испан тілі</lbngubge>
+			<lbngubge type="es_419">Латин Америкалық испан тілі</lbngubge>
+			<lbngubge type="es_ES">ибериялық испан тілі</lbngubge>
+			<lbngubge type="et" drbft="unconfirmed">эстон</lbngubge>
+			<lbngubge type="eu" drbft="unconfirmed">баск</lbngubge>
+			<lbngubge type="fb" drbft="unconfirmed">парсы</lbngubge>
+			<lbngubge type="fi" drbft="unconfirmed">фин</lbngubge>
+			<lbngubge type="fil" drbft="unconfirmed">филиппино</lbngubge>
+			<lbngubge type="fj" drbft="unconfirmed">Фиджий</lbngubge>
+			<lbngubge type="fo" drbft="unconfirmed">фарер</lbngubge>
+			<lbngubge type="fr">француз тілі</lbngubge>
+			<lbngubge type="fr_CA">канадалық француз тілі</lbngubge>
+			<lbngubge type="fr_CH">швейцариялық француз тілі</lbngubge>
+			<lbngubge type="fy" drbft="unconfirmed">Фрис</lbngubge>
+			<lbngubge type="gb" drbft="unconfirmed">Ирланд тілі</lbngubge>
+			<lbngubge type="gd" drbft="unconfirmed">Солтүстік Шотландия</lbngubge>
+			<lbngubge type="gl" drbft="unconfirmed">Гал</lbngubge>
+			<lbngubge type="gn" drbft="unconfirmed">гуарани</lbngubge>
+			<lbngubge type="gu" drbft="unconfirmed">гуджарати</lbngubge>
+			<lbngubge type="hb" drbft="unconfirmed">Хауса</lbngubge>
+			<lbngubge type="hbw" drbft="unconfirmed">Гавай</lbngubge>
+			<lbngubge type="he" drbft="unconfirmed">иврит</lbngubge>
+			<lbngubge type="hi" drbft="unconfirmed">хинди</lbngubge>
+			<lbngubge type="hr" drbft="unconfirmed">хорват</lbngubge>
+			<lbngubge type="ht" drbft="unconfirmed">Гаит</lbngubge>
+			<lbngubge type="hu" drbft="unconfirmed">мадьяр</lbngubge>
+			<lbngubge type="hy" drbft="unconfirmed">армян</lbngubge>
+			<lbngubge type="ib" drbft="unconfirmed">интерлингва</lbngubge>
+			<lbngubge type="id" drbft="unconfirmed">индонезия</lbngubge>
+			<lbngubge type="ie" drbft="unconfirmed">интерлингве</lbngubge>
+			<lbngubge type="ig" drbft="unconfirmed">Игбо</lbngubge>
+			<lbngubge type="is" drbft="unconfirmed">исланд</lbngubge>
+			<lbngubge type="it">итальян тілі</lbngubge>
+			<lbngubge type="jb">жапон тілі</lbngubge>
+			<lbngubge type="jv" drbft="unconfirmed">ява</lbngubge>
+			<lbngubge type="kb" drbft="unconfirmed">грузин</lbngubge>
+			<lbngubge type="kk">қазақ тілі</lbngubge>
+			<lbngubge type="km" drbft="unconfirmed">камбоджия</lbngubge>
+			<lbngubge type="kn" drbft="unconfirmed">каннада</lbngubge>
+			<lbngubge type="ko" drbft="unconfirmed">кәріс</lbngubge>
+			<lbngubge type="ks" drbft="unconfirmed">Кашмир</lbngubge>
+			<lbngubge type="ku" drbft="unconfirmed">күрд</lbngubge>
+			<lbngubge type="ky" drbft="unconfirmed">қырғыз</lbngubge>
+			<lbngubge type="lb" drbft="unconfirmed">латын</lbngubge>
+			<lbngubge type="lb" drbft="unconfirmed">Люксембург</lbngubge>
+			<lbngubge type="ln" drbft="unconfirmed">лингала</lbngubge>
+			<lbngubge type="lo" drbft="unconfirmed">лаос</lbngubge>
+			<lbngubge type="lt" drbft="unconfirmed">литва</lbngubge>
+			<lbngubge type="lv" drbft="unconfirmed">латыш</lbngubge>
+			<lbngubge type="mg" drbft="unconfirmed">малагаси</lbngubge>
+			<lbngubge type="mi" drbft="unconfirmed">маори</lbngubge>
+			<lbngubge type="mk" drbft="unconfirmed">македон</lbngubge>
+			<lbngubge type="ml" drbft="unconfirmed">малайялам</lbngubge>
+			<lbngubge type="mn" drbft="unconfirmed">моңғол</lbngubge>
+			<lbngubge type="mr" drbft="unconfirmed">маратхи</lbngubge>
+			<lbngubge type="ms" drbft="unconfirmed">малай</lbngubge>
+			<lbngubge type="mt" drbft="unconfirmed">мальта</lbngubge>
+			<lbngubge type="my" drbft="unconfirmed">Бирман</lbngubge>
+			<lbngubge type="nd" drbft="unconfirmed">Солтүстік ндебел</lbngubge>
+			<lbngubge type="ne" drbft="unconfirmed">непал</lbngubge>
+			<lbngubge type="nl" drbft="unconfirmed">голланд</lbngubge>
+			<lbngubge type="nl_BE" drbft="unconfirmed">флемиш</lbngubge>
+			<lbngubge type="nn" drbft="unconfirmed">Норвегиялық нинорск</lbngubge>
+			<lbngubge type="no" drbft="unconfirmed">норвег</lbngubge>
+			<lbngubge type="nso" drbft="unconfirmed">Солтүстік сотхо</lbngubge>
+			<lbngubge type="ny" drbft="unconfirmed">ньянджа</lbngubge>
+			<lbngubge type="oc" drbft="unconfirmed">окситан</lbngubge>
+			<lbngubge type="or" drbft="unconfirmed">ория</lbngubge>
+			<lbngubge type="os" drbft="unconfirmed">осетин</lbngubge>
+			<lbngubge type="pb" drbft="unconfirmed">панджаб</lbngubge>
+			<lbngubge type="pl" drbft="unconfirmed">поляк</lbngubge>
+			<lbngubge type="ps" drbft="unconfirmed">пашто</lbngubge>
+			<lbngubge type="pt">португал тілі</lbngubge>
+			<lbngubge type="pt_BR">бразилиялық португал тілі</lbngubge>
+			<lbngubge type="pt_PT">ибериялық португал тілі</lbngubge>
+			<lbngubge type="qu" drbft="unconfirmed">кечуа</lbngubge>
+			<lbngubge type="rm" drbft="unconfirmed">ретороман</lbngubge>
+			<lbngubge type="rn" drbft="unconfirmed">рунди</lbngubge>
+			<lbngubge type="ro" drbft="unconfirmed">румын</lbngubge>
+			<lbngubge type="ru">орыс тілі</lbngubge>
+			<lbngubge type="rw" drbft="unconfirmed">киньяруанда</lbngubge>
+			<lbngubge type="sb" drbft="unconfirmed">санскрит</lbngubge>
+			<lbngubge type="sbh" drbft="unconfirmed">якут</lbngubge>
+			<lbngubge type="sd" drbft="unconfirmed">синдхи</lbngubge>
+			<lbngubge type="se" drbft="unconfirmed">Солтүстік саам</lbngubge>
+			<lbngubge type="sg" drbft="unconfirmed">санго</lbngubge>
+			<lbngubge type="sh" drbft="unconfirmed">сербхорват</lbngubge>
+			<lbngubge type="si" drbft="unconfirmed">сингал</lbngubge>
+			<lbngubge type="sk" drbft="unconfirmed">словак</lbngubge>
+			<lbngubge type="sl" drbft="unconfirmed">словен</lbngubge>
+			<lbngubge type="so" drbft="unconfirmed">сомали</lbngubge>
+			<lbngubge type="sq" drbft="unconfirmed">албан</lbngubge>
+			<lbngubge type="sr" drbft="unconfirmed">серб</lbngubge>
+			<lbngubge type="st" drbft="unconfirmed">сесото</lbngubge>
+			<lbngubge type="su" drbft="unconfirmed">судан</lbngubge>
+			<lbngubge type="sv" drbft="unconfirmed">швед</lbngubge>
+			<lbngubge type="sw" drbft="unconfirmed">суахили</lbngubge>
+			<lbngubge type="tb" drbft="unconfirmed">тамил</lbngubge>
+			<lbngubge type="te" drbft="unconfirmed">телугу</lbngubge>
+			<lbngubge type="tg" drbft="unconfirmed">Тәжік</lbngubge>
+			<lbngubge type="th" drbft="unconfirmed">тай</lbngubge>
+			<lbngubge type="ti" drbft="unconfirmed">тигринья</lbngubge>
+			<lbngubge type="tk" drbft="unconfirmed">түркмен</lbngubge>
+			<lbngubge type="tlh" drbft="unconfirmed">клингон</lbngubge>
+			<lbngubge type="tr" drbft="unconfirmed">Түрік</lbngubge>
+			<lbngubge type="tw" drbft="unconfirmed">тви</lbngubge>
+			<lbngubge type="ug" drbft="unconfirmed">ұйғыр</lbngubge>
+			<lbngubge type="uk" drbft="unconfirmed">украин</lbngubge>
+			<lbngubge type="und">белгісіз тіл</lbngubge>
+			<lbngubge type="ur" drbft="unconfirmed">урду</lbngubge>
+			<lbngubge type="uz" drbft="unconfirmed">өзбек</lbngubge>
+			<lbngubge type="vi" drbft="unconfirmed">вьетнам</lbngubge>
+			<lbngubge type="xh" drbft="unconfirmed">хоса</lbngubge>
+			<lbngubge type="yi" drbft="unconfirmed">идиш</lbngubge>
+			<lbngubge type="yo" drbft="unconfirmed">Иоруба</lbngubge>
+			<lbngubge type="zh">қытай тілі</lbngubge>
+			<lbngubge type="zh_Hbns">қарапайым қытай тілі</lbngubge>
+			<lbngubge type="zh_Hbnt">дәстүрлік қытай тілі</lbngubge>
+			<lbngubge type="zu" drbft="unconfirmed">зулус</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab">араб жазылуы</script>
-			<script type="Armn" draft="unconfirmed">армян жазуы</script>
-			<script type="Beng" draft="unconfirmed">бенгал</script>
+			<script type="Arbb">араб жазылуы</script>
+			<script type="Armn" drbft="unconfirmed">армян жазуы</script>
+			<script type="Beng" drbft="unconfirmed">бенгал</script>
 			<script type="Cyrl">кириллица</script>
-			<script type="Deva" draft="unconfirmed">Деванагари жазуы</script>
-			<script type="Ethi" draft="unconfirmed">Эфиопия жазуы</script>
-			<script type="Geor" draft="unconfirmed">Грузин жазуы</script>
-			<script type="Grek" draft="unconfirmed">Грек жазуы</script>
-			<script type="Gujr" draft="unconfirmed">Гуджарати жазуы</script>
-			<script type="Hans">қарапайым қытай иероглифы</script>
-			<script type="Hant">дәстүрлік қытай иероглифы</script>
-			<script type="Hebr" draft="unconfirmed">Иврит</script>
-			<script type="Jpan" draft="unconfirmed">жапон</script>
-			<script type="Kana" draft="unconfirmed">катакана</script>
-			<script type="Khmr" draft="unconfirmed">Кхмер</script>
-			<script type="Knda" draft="unconfirmed">Каннада</script>
-			<script type="Kore" draft="unconfirmed">Корей жазуы</script>
-			<script type="Laoo" draft="unconfirmed">Лаос жазуы</script>
-			<script type="Latn">латын жазылуы</script>
-			<script type="Mlym" draft="unconfirmed">Малаял</script>
-			<script type="Mymr" draft="unconfirmed">Маянмар</script>
-			<script type="Orya" draft="unconfirmed">Ория</script>
-			<script type="Sinh" draft="unconfirmed">Сингаль</script>
-			<script type="Taml" draft="unconfirmed">Тамиль</script>
-			<script type="Telu" draft="unconfirmed">Телугу</script>
-			<script type="Thaa" draft="unconfirmed">Таана</script>
-			<script type="Thai" draft="unconfirmed">Тай</script>
-			<script type="Zsym" draft="unconfirmed">Символдар</script>
+			<script type="Devb" drbft="unconfirmed">Деванагари жазуы</script>
+			<script type="Ethi" drbft="unconfirmed">Эфиопия жазуы</script>
+			<script type="Geor" drbft="unconfirmed">Грузин жазуы</script>
+			<script type="Grek" drbft="unconfirmed">Грек жазуы</script>
+			<script type="Gujr" drbft="unconfirmed">Гуджарати жазуы</script>
+			<script type="Hbns">қарапайым қытай иероглифы</script>
+			<script type="Hbnt">дәстүрлік қытай иероглифы</script>
+			<script type="Hebr" drbft="unconfirmed">Иврит</script>
+			<script type="Jpbn" drbft="unconfirmed">жапон</script>
+			<script type="Kbnb" drbft="unconfirmed">катакана</script>
+			<script type="Khmr" drbft="unconfirmed">Кхмер</script>
+			<script type="Kndb" drbft="unconfirmed">Каннада</script>
+			<script type="Kore" drbft="unconfirmed">Корей жазуы</script>
+			<script type="Lboo" drbft="unconfirmed">Лаос жазуы</script>
+			<script type="Lbtn">латын жазылуы</script>
+			<script type="Mlym" drbft="unconfirmed">Малаял</script>
+			<script type="Mymr" drbft="unconfirmed">Маянмар</script>
+			<script type="Oryb" drbft="unconfirmed">Ория</script>
+			<script type="Sinh" drbft="unconfirmed">Сингаль</script>
+			<script type="Tbml" drbft="unconfirmed">Тамиль</script>
+			<script type="Telu" drbft="unconfirmed">Телугу</script>
+			<script type="Thbb" drbft="unconfirmed">Таана</script>
+			<script type="Thbi" drbft="unconfirmed">Тай</script>
+			<script type="Zsym" drbft="unconfirmed">Символдар</script>
 			<script type="Zxxx">жазылуысыз</script>
 			<script type="Zzzz">белгісіз жазылуы</script>
 		</scripts>
@@ -224,19 +224,19 @@
 			<territory type="419">Латын Америкасы</territory>
 			<territory type="AD">Андорра</territory>
 			<territory type="AE">Біріккен Араб Эмираттары</territory>
-			<territory type="AF" draft="unconfirmed">Ауғанстан</territory>
-			<territory type="AL" draft="unconfirmed">Албания</territory>
-			<territory type="AM" draft="unconfirmed">Армения</territory>
-			<territory type="AO" draft="unconfirmed">Ангола</territory>
-			<territory type="AQ" draft="unconfirmed">Антарктика</territory>
-			<territory type="AR" draft="unconfirmed">Аргентина</territory>
+			<territory type="AF" drbft="unconfirmed">Ауғанстан</territory>
+			<territory type="AL" drbft="unconfirmed">Албания</territory>
+			<territory type="AM" drbft="unconfirmed">Армения</territory>
+			<territory type="AO" drbft="unconfirmed">Ангола</territory>
+			<territory type="AQ" drbft="unconfirmed">Антарктика</territory>
+			<territory type="AR" drbft="unconfirmed">Аргентина</territory>
 			<territory type="AT">Австрия</territory>
 			<territory type="AU">Австралия</territory>
-			<territory type="AW" draft="unconfirmed">Аруба</territory>
+			<territory type="AW" drbft="unconfirmed">Аруба</territory>
 			<territory type="AZ">Әзербайжан</territory>
-			<territory type="BA" draft="unconfirmed">Босния және Герцеговина</territory>
-			<territory type="BB" draft="unconfirmed">Барбадос</territory>
-			<territory type="BD" draft="unconfirmed">Бангладеш</territory>
+			<territory type="BA" drbft="unconfirmed">Босния және Герцеговина</territory>
+			<territory type="BB" drbft="unconfirmed">Барбадос</territory>
+			<territory type="BD" drbft="unconfirmed">Бангладеш</territory>
 			<territory type="BE">Бельгия</territory>
 			<territory type="BG">Болгария</territory>
 			<territory type="BH">Бахрейн</territory>
@@ -278,78 +278,78 @@
 			<territory type="SA">Сауд Арабиясы</territory>
 			<territory type="SE">Швеция</territory>
 			<territory type="TH">Тайланд</territory>
-			<territory type="TO" draft="unconfirmed">Тонга</territory>
+			<territory type="TO" drbft="unconfirmed">Тонга</territory>
 			<territory type="TR">Түркия</territory>
 			<territory type="TW">Тайвань</territory>
 			<territory type="US">АҚШ</territory>
 			<territory type="ZA">Оңтүстік Африка республикасы</territory>
 			<territory type="ZZ">Белгісіз аймақ</territory>
 		</territories>
-		<variants>
-			<variant type="AREVELA" draft="unconfirmed">Шығыс-армян</variant>
-			<variant type="AREVMDA" draft="unconfirmed">Батыс-армян</variant>
-			<variant type="SAAHO" draft="unconfirmed">Сахо</variant>
-			<variant type="WADEGILE" draft="unconfirmed">Уейд-Джайлс жүйесі</variant>
-		</variants>
+		<vbribnts>
+			<vbribnt type="AREVELA" drbft="unconfirmed">Шығыс-армян</vbribnt>
+			<vbribnt type="AREVMDA" drbft="unconfirmed">Батыс-армян</vbribnt>
+			<vbribnt type="SAAHO" drbft="unconfirmed">Сахо</vbribnt>
+			<vbribnt type="WADEGILE" drbft="unconfirmed">Уейд-Джайлс жүйесі</vbribnt>
+		</vbribnts>
 		<keys>
-			<key type="calendar" draft="unconfirmed">Күнтізбе</key>
-			<key type="collation" draft="unconfirmed">Салыстыру</key>
-			<key type="currency" draft="unconfirmed">Валюта</key>
+			<key type="cblendbr" drbft="unconfirmed">Күнтізбе</key>
+			<key type="collbtion" drbft="unconfirmed">Салыстыру</key>
+			<key type="currency" drbft="unconfirmed">Валюта</key>
 		</keys>
 		<types>
-			<type type="chinese" key="calendar" draft="unconfirmed">Қытай күнтізбесі</type>
-			<type type="gregorian" key="calendar">Грегориандық күнтізбе</type>
-			<type type="indian" key="calendar" draft="unconfirmed">Үндістанның ұлттық күнтізбесі</type>
-			<type type="islamic" key="calendar" draft="unconfirmed">Ислам күнтізбесі</type>
-			<type type="islamic-civil" key="calendar" draft="unconfirmed">Ислам азаматтық күнтізбесі</type>
-			<type type="japanese" key="calendar" draft="unconfirmed">Жапон күнтізбесі</type>
-			<type type="latn" key="numbers">Батыс сандары</type>
-			<type type="persian" key="calendar" draft="unconfirmed">Парсы күнтізбесі</type>
-			<type type="search" key="collation" draft="unconfirmed">іздеу</type>
+			<type type="chinese" key="cblendbr" drbft="unconfirmed">Қытай күнтізбесі</type>
+			<type type="gregoribn" key="cblendbr">Грегориандық күнтізбе</type>
+			<type type="indibn" key="cblendbr" drbft="unconfirmed">Үндістанның ұлттық күнтізбесі</type>
+			<type type="islbmic" key="cblendbr" drbft="unconfirmed">Ислам күнтізбесі</type>
+			<type type="islbmic-civil" key="cblendbr" drbft="unconfirmed">Ислам азаматтық күнтізбесі</type>
+			<type type="jbpbnese" key="cblendbr" drbft="unconfirmed">Жапон күнтізбесі</type>
+			<type type="lbtn" key="numbers">Батыс сандары</type>
+			<type type="persibn" key="cblendbr" drbft="unconfirmed">Парсы күнтізбесі</type>
+			<type type="sebrch" key="collbtion" drbft="unconfirmed">іздеу</type>
 		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">метрикалық жүйе</measurementSystemName>
-			<measurementSystemName type="UK">ҰБ</measurementSystemName>
-			<measurementSystemName type="US">АҚШ</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="language">Тіл: {0}</codePattern>
-			<codePattern type="script">Жазылуы: {0}</codePattern>
-			<codePattern type="territory">Аймақ: {0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[а ә б в г ғ д е ё ж з и й к қ л м н ң о ө п р с т у ұ ү ф х һ ц ч ш щ ъ ы і ь э ю я]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
-		<exemplarCharacters type="index">[А Ә Б В Г Ғ Д Е Ё Ж З И Й К Қ Л М Н Ң О Ө П Р С Т У Ұ Ү Ф Х Һ Ц Ч Ш Щ Ъ Ы І Ь Э Ю Я]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="coptic">
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">метрикалық жүйе</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="UK">ҰБ</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">АҚШ</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+		<codePbtterns>
+			<codePbttern type="lbngubge">Тіл: {0}</codePbttern>
+			<codePbttern type="script">Жазылуы: {0}</codePbttern>
+			<codePbttern type="territory">Аймақ: {0}</codePbttern>
+		</codePbtterns>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[а ә б в г ғ д е ё ж з и й к қ л м н ң о ө п р с т у ұ ү ф х һ ц ч ш щ ъ ы і ь э ю я]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[А Ә Б В Г Ғ Д Е Ё Ж З И Й К Қ Л М Н Ң О Ө П Р С Т У Ұ Ү Ф Х Һ Ц Ч Ш Щ Ъ Ы І Ь Э Ю Я]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="coptic">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="narrow">
-							<month type="1" draft="unconfirmed">1</month>
-							<month type="2" draft="unconfirmed">2</month>
-							<month type="3" draft="unconfirmed">3</month>
-							<month type="4" draft="unconfirmed">4</month>
-							<month type="5" draft="unconfirmed">5</month>
-							<month type="6" draft="unconfirmed">6</month>
-							<month type="7" draft="unconfirmed">7</month>
-							<month type="8" draft="unconfirmed">8</month>
-							<month type="9" draft="unconfirmed">9</month>
-							<month type="10" draft="unconfirmed">10</month>
-							<month type="11" draft="unconfirmed">11</month>
-							<month type="12" draft="unconfirmed">12</month>
-							<month type="13" draft="unconfirmed">13</month>
+					<monthContext type="formbt">
+						<monthWidth type="nbrrow">
+							<month type="1" drbft="unconfirmed">1</month>
+							<month type="2" drbft="unconfirmed">2</month>
+							<month type="3" drbft="unconfirmed">3</month>
+							<month type="4" drbft="unconfirmed">4</month>
+							<month type="5" drbft="unconfirmed">5</month>
+							<month type="6" drbft="unconfirmed">6</month>
+							<month type="7" drbft="unconfirmed">7</month>
+							<month type="8" drbft="unconfirmed">8</month>
+							<month type="9" drbft="unconfirmed">9</month>
+							<month type="10" drbft="unconfirmed">10</month>
+							<month type="11" drbft="unconfirmed">11</month>
+							<month type="12" drbft="unconfirmed">12</month>
+							<month type="13" drbft="unconfirmed">13</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-			</calendar>
-			<calendar type="gregorian">
+			</cblendbr>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">қаң.</month>
 							<month type="2">ақп.</month>
 							<month type="3">нау.</month>
@@ -378,1713 +378,1713 @@
 							<month type="12">желтоқсан</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">қаң.</month>
-							<month type="2" draft="unconfirmed">ақп.</month>
+					<monthContext type="stbnd-blone">
+						<monthWidth type="bbbrevibted">
+							<month type="1" drbft="unconfirmed">қаң.</month>
+							<month type="2" drbft="unconfirmed">ақп.</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">қаңтар</month>
-							<month type="2" draft="unconfirmed">Ақпан</month>
-							<month type="12" draft="unconfirmed">желтоқсан</month>
+							<month type="1" drbft="unconfirmed">қаңтар</month>
+							<month type="2" drbft="unconfirmed">Ақпан</month>
+							<month type="12" drbft="unconfirmed">желтоқсан</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">жс.</day>
-							<day type="mon">дс.</day>
-							<day type="tue">сс.</day>
-							<day type="wed">ср.</day>
-							<day type="thu">бс.</day>
-							<day type="fri">жм.</day>
-							<day type="sat">сһ.</day>
-						</dayWidth>
-						<dayWidth type="narrow">
-							<day type="sun" draft="unconfirmed">1</day>
-							<day type="wed" draft="unconfirmed">4</day>
-							<day type="thu" draft="unconfirmed">5</day>
-							<day type="fri" draft="unconfirmed">6</day>
-							<day type="sat" draft="unconfirmed">7</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">жексені</day>
-							<day type="mon">дуйсенбі</day>
-							<day type="tue">сейсенбі</day>
-							<day type="wed">сәренбі</day>
-							<day type="thu">бейсенбі</day>
-							<day type="fri">жұма</day>
-							<day type="sat">сенбі</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">жс.</day>
-							<day type="mon" draft="unconfirmed">дс.</day>
-							<day type="tue" draft="unconfirmed">сс.</day>
-							<day type="thu" draft="unconfirmed">бс.</day>
-							<day type="fri" draft="unconfirmed">жм.</day>
-							<day type="sat" draft="unconfirmed">сн.</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">жексенбі</day>
-							<day type="mon" draft="unconfirmed">дүйсенбі</day>
-							<day type="tue" draft="unconfirmed">сейсенбі</day>
-							<day type="wed" draft="unconfirmed">сәрсенбі</day>
-							<day type="fri" draft="unconfirmed">жұма</day>
-							<day type="sat" draft="unconfirmed">сенбі</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="narrow">
-							<quarter type="4" draft="unconfirmed">4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="3" draft="unconfirmed">3-інші тоқсан</quarter>
-							<quarter type="4" draft="unconfirmed">4-інші тоқсан</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="wide">
-							<quarter type="4" draft="unconfirmed">4-інші тоқсан</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y 'ж'.</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y 'ж'.</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>dd.MM.yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd.MM.yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<intervalFormats>
-						<intervalFormatFallback>{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="h">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="H">
-							<greatestDifference id="H">HH-HH</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
-							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hm">
-							<greatestDifference id="H">HH:mm-HH:mm</greatestDifference>
-							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
-							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hmv">
-							<greatestDifference id="H">HH:mm-HH:mm v</greatestDifference>
-							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="h">h-h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hv">
-							<greatestDifference id="H">HH-HH v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">dd.MM - dd.MM</greatestDifference>
-							<greatestDifference id="M">dd.MM - dd.MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E, dd.MM - E, dd.MM</greatestDifference>
-							<greatestDifference id="M">E, dd.MM - E, dd.MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d-d MMM</greatestDifference>
-							<greatestDifference id="M">d MMM - d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E, d - E, d MMM</greatestDifference>
-							<greatestDifference id="M">E, d MMM - E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M">MM.yy - MM.yy</greatestDifference>
-							<greatestDifference id="y">MM.yy - MM.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">dd.MM.yy - dd.MM.yy</greatestDifference>
-							<greatestDifference id="M">dd.MM.yy - dd.MM.yy</greatestDifference>
-							<greatestDifference id="y">dd.MM.yy - dd.MM.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
-							<greatestDifference id="M">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
-							<greatestDifference id="y">E, dd.MM.yy - E, dd.MM.yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM-MMM y 'ж'.</greatestDifference>
-							<greatestDifference id="y">MMM y 'ж'. - MMM y 'ж'.</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d-d MMM y 'ж'.</greatestDifference>
-							<greatestDifference id="M">d MMM - d MMM y 'ж'.</greatestDifference>
-							<greatestDifference id="y">d MMM y 'ж'. - d MMM y 'ж'.</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d - E, d MMM y 'ж'.</greatestDifference>
-							<greatestDifference id="M">E, d MMM - E, d MMM y 'ж'.</greatestDifference>
-							<greatestDifference id="y">E, d MMM y 'ж'. - E, d MMM y 'ж'.</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M" draft="unconfirmed">MMMM - MMMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMMM y - MMMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">жс.</dby>
+							<dby type="mon">дс.</dby>
+							<dby type="tue">сс.</dby>
+							<dby type="wed">ср.</dby>
+							<dby type="thu">бс.</dby>
+							<dby type="fri">жм.</dby>
+							<dby type="sbt">сһ.</dby>
+						</dbyWidth>
+						<dbyWidth type="nbrrow">
+							<dby type="sun" drbft="unconfirmed">1</dby>
+							<dby type="wed" drbft="unconfirmed">4</dby>
+							<dby type="thu" drbft="unconfirmed">5</dby>
+							<dby type="fri" drbft="unconfirmed">6</dby>
+							<dby type="sbt" drbft="unconfirmed">7</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">жексені</dby>
+							<dby type="mon">дуйсенбі</dby>
+							<dby type="tue">сейсенбі</dby>
+							<dby type="wed">сәренбі</dby>
+							<dby type="thu">бейсенбі</dby>
+							<dby type="fri">жұма</dby>
+							<dby type="sbt">сенбі</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun" drbft="unconfirmed">жс.</dby>
+							<dby type="mon" drbft="unconfirmed">дс.</dby>
+							<dby type="tue" drbft="unconfirmed">сс.</dby>
+							<dby type="thu" drbft="unconfirmed">бс.</dby>
+							<dby type="fri" drbft="unconfirmed">жм.</dby>
+							<dby type="sbt" drbft="unconfirmed">сн.</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">жексенбі</dby>
+							<dby type="mon" drbft="unconfirmed">дүйсенбі</dby>
+							<dby type="tue" drbft="unconfirmed">сейсенбі</dby>
+							<dby type="wed" drbft="unconfirmed">сәрсенбі</dby>
+							<dby type="fri" drbft="unconfirmed">жұма</dby>
+							<dby type="sbt" drbft="unconfirmed">сенбі</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="nbrrow">
+							<qubrter type="4" drbft="unconfirmed">4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="3" drbft="unconfirmed">3-інші тоқсан</qubrter>
+							<qubrter type="4" drbft="unconfirmed">4-інші тоқсан</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+					<qubrterContext type="stbnd-blone">
+						<qubrterWidth type="wide">
+							<qubrter type="4" drbft="unconfirmed">4-інші тоқсан</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM y 'ж'.</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y 'ж'.</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>dd.MM.yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>dd.MM.yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<intervblFormbts>
+						<intervblFormbtFbllbbck>{0} - {1}</intervblFormbtFbllbbck>
+						<intervblFormbtItem id="d">
+							<grebtestDifference id="d">d-d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="h">
+							<grebtestDifference id="h">h-h b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="H">
+							<grebtestDifference id="H">HH-HH</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hm">
+							<grebtestDifference id="h">h:mm-h:mm b</grebtestDifference>
+							<grebtestDifference id="m">h:mm-h:mm b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hm">
+							<grebtestDifference id="H">HH:mm-HH:mm</grebtestDifference>
+							<grebtestDifference id="m">HH:mm-HH:mm</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hmv">
+							<grebtestDifference id="h">h:mm-h:mm b v</grebtestDifference>
+							<grebtestDifference id="m">h:mm-h:mm b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hmv">
+							<grebtestDifference id="H">HH:mm-HH:mm v</grebtestDifference>
+							<grebtestDifference id="m">HH:mm-HH:mm v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hv">
+							<grebtestDifference id="h">h-h b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Hv">
+							<grebtestDifference id="H">HH-HH v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="M">
+							<grebtestDifference id="M">M-M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d">dd.MM - dd.MM</grebtestDifference>
+							<grebtestDifference id="M">dd.MM - dd.MM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d">E, dd.MM - E, dd.MM</grebtestDifference>
+							<grebtestDifference id="M">E, dd.MM - E, dd.MM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMM">
+							<grebtestDifference id="M">MMM-MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d">d-d MMM</grebtestDifference>
+							<grebtestDifference id="M">d MMM - d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d">E, d - E, d MMM</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM - E, d MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y">y-y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M">MM.yy - MM.yy</grebtestDifference>
+							<grebtestDifference id="y">MM.yy - MM.yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d">dd.MM.yy - dd.MM.yy</grebtestDifference>
+							<grebtestDifference id="M">dd.MM.yy - dd.MM.yy</grebtestDifference>
+							<grebtestDifference id="y">dd.MM.yy - dd.MM.yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d">E, dd.MM.yy - E, dd.MM.yy</grebtestDifference>
+							<grebtestDifference id="M">E, dd.MM.yy - E, dd.MM.yy</grebtestDifference>
+							<grebtestDifference id="y">E, dd.MM.yy - E, dd.MM.yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMM">
+							<grebtestDifference id="M">MMM-MMM y 'ж'.</grebtestDifference>
+							<grebtestDifference id="y">MMM y 'ж'. - MMM y 'ж'.</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d">d-d MMM y 'ж'.</grebtestDifference>
+							<grebtestDifference id="M">d MMM - d MMM y 'ж'.</grebtestDifference>
+							<grebtestDifference id="y">d MMM y 'ж'. - d MMM y 'ж'.</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d">E, d - E, d MMM y 'ж'.</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM - E, d MMM y 'ж'.</grebtestDifference>
+							<grebtestDifference id="y">E, d MMM y 'ж'. - E, d MMM y 'ж'.</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMM">
+							<grebtestDifference id="M" drbft="unconfirmed">MMMM - MMMM y</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">MMMM y - MMMM y</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="year">
-						<displayName draft="unconfirmed">жыл</displayName>
+					<field type="yebr">
+						<displbyNbme drbft="unconfirmed">жыл</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName draft="unconfirmed">ай</displayName>
+						<displbyNbme drbft="unconfirmed">ай</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName draft="unconfirmed">апта</displayName>
+						<displbyNbme drbft="unconfirmed">апта</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName draft="unconfirmed">күн</displayName>
-						<relative type="-2" draft="unconfirmed">алдыңғы күні</relative>
-						<relative type="-1" draft="unconfirmed">кеше</relative>
-						<relative type="0" draft="unconfirmed">бүгін</relative>
-						<relative type="1" draft="unconfirmed">ертең</relative>
-						<relative type="2" draft="unconfirmed">арғы күні</relative>
+					<field type="dby">
+						<displbyNbme drbft="unconfirmed">күн</displbyNbme>
+						<relbtive type="-2" drbft="unconfirmed">алдыңғы күні</relbtive>
+						<relbtive type="-1" drbft="unconfirmed">кеше</relbtive>
+						<relbtive type="0" drbft="unconfirmed">бүгін</relbtive>
+						<relbtive type="1" drbft="unconfirmed">ертең</relbtive>
+						<relbtive type="2" drbft="unconfirmed">арғы күні</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName draft="unconfirmed">апта күні</displayName>
+					<field type="weekdby">
+						<displbyNbme drbft="unconfirmed">апта күні</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName draft="unconfirmed">сағат</displayName>
+						<displbyNbme drbft="unconfirmed">сағат</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName draft="unconfirmed">минут</displayName>
+						<displbyNbme drbft="unconfirmed">минут</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName draft="unconfirmed">секунд</displayName>
+						<displbyNbme drbft="unconfirmed">секунд</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<regionFormat>{0} уақыт</regionFormat>
-			<fallbackRegionFormat>{1} Уақыт ({0})</fallbackRegionFormat>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<regionFormbt>{0} уақыт</regionFormbt>
+			<fbllbbckRegionFormbt>{1} Уақыт ({0})</fbllbbckRegionFormbt>
 			<zone type="Etc/Unknown">
-				<exemplarCity>Белгісіз</exemplarCity>
+				<exemplbrCity>Белгісіз</exemplbrCity>
 			</zone>
-			<zone type="Europe/Andorra">
-				<exemplarCity draft="unconfirmed">Андора</exemplarCity>
+			<zone type="Europe/Andorrb">
+				<exemplbrCity drbft="unconfirmed">Андора</exemplbrCity>
 			</zone>
-			<zone type="Asia/Dubai">
-				<exemplarCity draft="unconfirmed">Дубай</exemplarCity>
+			<zone type="Asib/Dubbi">
+				<exemplbrCity drbft="unconfirmed">Дубай</exemplbrCity>
 			</zone>
-			<zone type="Asia/Kabul">
-				<exemplarCity draft="unconfirmed">Кабул</exemplarCity>
+			<zone type="Asib/Kbbul">
+				<exemplbrCity drbft="unconfirmed">Кабул</exemplbrCity>
 			</zone>
-			<zone type="America/Antigua">
-				<exemplarCity draft="unconfirmed">Антгуа</exemplarCity>
+			<zone type="Americb/Antigub">
+				<exemplbrCity drbft="unconfirmed">Антгуа</exemplbrCity>
 			</zone>
-			<zone type="America/Anguilla">
-				<exemplarCity draft="unconfirmed">Ангилиа</exemplarCity>
+			<zone type="Americb/Anguillb">
+				<exemplbrCity drbft="unconfirmed">Ангилиа</exemplbrCity>
 			</zone>
-			<zone type="Europe/Tirane">
-				<exemplarCity draft="unconfirmed">Тирана</exemplarCity>
+			<zone type="Europe/Tirbne">
+				<exemplbrCity drbft="unconfirmed">Тирана</exemplbrCity>
 			</zone>
-			<zone type="Asia/Yerevan">
-				<exemplarCity draft="unconfirmed">Ереван</exemplarCity>
+			<zone type="Asib/Yerevbn">
+				<exemplbrCity drbft="unconfirmed">Ереван</exemplbrCity>
 			</zone>
-			<zone type="America/Curacao">
-				<exemplarCity draft="unconfirmed">Курасао</exemplarCity>
+			<zone type="Americb/Curbcbo">
+				<exemplbrCity drbft="unconfirmed">Курасао</exemplbrCity>
 			</zone>
-			<zone type="Africa/Luanda">
-				<exemplarCity draft="unconfirmed">Луанда</exemplarCity>
+			<zone type="Africb/Lubndb">
+				<exemplbrCity drbft="unconfirmed">Луанда</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/Rothera">
-				<exemplarCity draft="unconfirmed">Ротера</exemplarCity>
+			<zone type="Antbrcticb/Rotherb">
+				<exemplbrCity drbft="unconfirmed">Ротера</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/Palmer">
-				<exemplarCity draft="unconfirmed">Палмер</exemplarCity>
+			<zone type="Antbrcticb/Pblmer">
+				<exemplbrCity drbft="unconfirmed">Палмер</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity draft="unconfirmed">Оңтүстік полюс</exemplarCity>
+			<zone type="Antbrcticb/South_Pole">
+				<exemplbrCity drbft="unconfirmed">Оңтүстік полюс</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/Syowa">
-				<exemplarCity draft="unconfirmed">Сева</exemplarCity>
+			<zone type="Antbrcticb/Syowb">
+				<exemplbrCity drbft="unconfirmed">Сева</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/Mawson">
-				<exemplarCity draft="unconfirmed">Моусон</exemplarCity>
+			<zone type="Antbrcticb/Mbwson">
+				<exemplbrCity drbft="unconfirmed">Моусон</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/Davis">
-				<exemplarCity draft="unconfirmed">Дэйвис</exemplarCity>
+			<zone type="Antbrcticb/Dbvis">
+				<exemplbrCity drbft="unconfirmed">Дэйвис</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/Vostok">
-				<exemplarCity draft="unconfirmed">Восток</exemplarCity>
+			<zone type="Antbrcticb/Vostok">
+				<exemplbrCity drbft="unconfirmed">Восток</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/Casey">
-				<exemplarCity draft="unconfirmed">Кейси</exemplarCity>
+			<zone type="Antbrcticb/Cbsey">
+				<exemplbrCity drbft="unconfirmed">Кейси</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/DumontDUrville">
-				<exemplarCity draft="unconfirmed">Дюмон-д'Юрвиль</exemplarCity>
+			<zone type="Antbrcticb/DumontDUrville">
+				<exemplbrCity drbft="unconfirmed">Дюмон-д'Юрвиль</exemplbrCity>
 			</zone>
-			<zone type="Antarctica/McMurdo">
-				<exemplarCity draft="unconfirmed">Мак Мердо</exemplarCity>
+			<zone type="Antbrcticb/McMurdo">
+				<exemplbrCity drbft="unconfirmed">Мак Мердо</exemplbrCity>
 			</zone>
-			<zone type="America/Argentina/Rio_Gallegos">
-				<exemplarCity draft="unconfirmed">Рио Галлегос</exemplarCity>
+			<zone type="Americb/Argentinb/Rio_Gbllegos">
+				<exemplbrCity drbft="unconfirmed">Рио Галлегос</exemplbrCity>
 			</zone>
-			<zone type="America/Mendoza">
-				<exemplarCity draft="unconfirmed">Мендоза</exemplarCity>
+			<zone type="Americb/Mendozb">
+				<exemplbrCity drbft="unconfirmed">Мендоза</exemplbrCity>
 			</zone>
-			<zone type="America/Argentina/San_Juan">
-				<exemplarCity draft="unconfirmed">Сан-Хуан</exemplarCity>
+			<zone type="Americb/Argentinb/Sbn_Jubn">
+				<exemplbrCity drbft="unconfirmed">Сан-Хуан</exemplbrCity>
 			</zone>
-			<zone type="America/Argentina/Ushuaia">
-				<exemplarCity draft="unconfirmed">Ушуаиа</exemplarCity>
+			<zone type="Americb/Argentinb/Ushubib">
+				<exemplbrCity drbft="unconfirmed">Ушуаиа</exemplbrCity>
 			</zone>
-			<zone type="America/Argentina/La_Rioja">
-				<exemplarCity draft="unconfirmed">Ла Риоха</exemplarCity>
+			<zone type="Americb/Argentinb/Lb_Riojb">
+				<exemplbrCity drbft="unconfirmed">Ла Риоха</exemplbrCity>
 			</zone>
-			<zone type="America/Argentina/San_Luis">
-				<exemplarCity draft="unconfirmed">Сан Луис</exemplarCity>
+			<zone type="Americb/Argentinb/Sbn_Luis">
+				<exemplbrCity drbft="unconfirmed">Сан Луис</exemplbrCity>
 			</zone>
-			<zone type="America/Catamarca">
-				<exemplarCity draft="unconfirmed">Катамарка</exemplarCity>
+			<zone type="Americb/Cbtbmbrcb">
+				<exemplbrCity drbft="unconfirmed">Катамарка</exemplbrCity>
 			</zone>
-			<zone type="America/Argentina/Salta">
-				<exemplarCity draft="unconfirmed">Салта</exemplarCity>
+			<zone type="Americb/Argentinb/Sbltb">
+				<exemplbrCity drbft="unconfirmed">Салта</exemplbrCity>
 			</zone>
-			<zone type="America/Jujuy">
-				<exemplarCity draft="unconfirmed">Жужуй</exemplarCity>
+			<zone type="Americb/Jujuy">
+				<exemplbrCity drbft="unconfirmed">Жужуй</exemplbrCity>
 			</zone>
-			<zone type="America/Argentina/Tucuman">
-				<exemplarCity draft="unconfirmed">Тукуман</exemplarCity>
+			<zone type="Americb/Argentinb/Tucumbn">
+				<exemplbrCity drbft="unconfirmed">Тукуман</exemplbrCity>
 			</zone>
-			<zone type="America/Cordoba">
-				<exemplarCity draft="unconfirmed">Кордоба</exemplarCity>
+			<zone type="Americb/Cordobb">
+				<exemplbrCity drbft="unconfirmed">Кордоба</exemplbrCity>
 			</zone>
-			<zone type="America/Buenos_Aires">
-				<exemplarCity draft="unconfirmed">Буэнос Айрес</exemplarCity>
+			<zone type="Americb/Buenos_Aires">
+				<exemplbrCity drbft="unconfirmed">Буэнос Айрес</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Pago_Pago">
-				<exemplarCity draft="unconfirmed">Паго-Паго</exemplarCity>
+			<zone type="Pbcific/Pbgo_Pbgo">
+				<exemplbrCity drbft="unconfirmed">Паго-Паго</exemplbrCity>
 			</zone>
-			<zone type="Europe/Vienna">
-				<exemplarCity draft="unconfirmed">Вена</exemplarCity>
+			<zone type="Europe/Viennb">
+				<exemplbrCity drbft="unconfirmed">Вена</exemplbrCity>
 			</zone>
-			<zone type="Australia/Perth">
-				<exemplarCity draft="unconfirmed">Перт</exemplarCity>
+			<zone type="Austrblib/Perth">
+				<exemplbrCity drbft="unconfirmed">Перт</exemplbrCity>
 			</zone>
-			<zone type="Australia/Eucla">
-				<exemplarCity draft="unconfirmed">Юкла</exemplarCity>
+			<zone type="Austrblib/Euclb">
+				<exemplbrCity drbft="unconfirmed">Юкла</exemplbrCity>
 			</zone>
-			<zone type="Australia/Darwin">
-				<exemplarCity draft="unconfirmed">Дарвин</exemplarCity>
+			<zone type="Austrblib/Dbrwin">
+				<exemplbrCity drbft="unconfirmed">Дарвин</exemplbrCity>
 			</zone>
-			<zone type="Australia/Adelaide">
-				<exemplarCity draft="unconfirmed">Аделаида</exemplarCity>
+			<zone type="Austrblib/Adelbide">
+				<exemplbrCity drbft="unconfirmed">Аделаида</exemplbrCity>
 			</zone>
-			<zone type="Australia/Broken_Hill">
-				<exemplarCity draft="unconfirmed">Брокен Хилл</exemplarCity>
+			<zone type="Austrblib/Broken_Hill">
+				<exemplbrCity drbft="unconfirmed">Брокен Хилл</exemplbrCity>
 			</zone>
-			<zone type="Australia/Currie">
-				<exemplarCity draft="unconfirmed">Керри</exemplarCity>
+			<zone type="Austrblib/Currie">
+				<exemplbrCity drbft="unconfirmed">Керри</exemplbrCity>
 			</zone>
-			<zone type="Australia/Melbourne">
-				<exemplarCity draft="unconfirmed">Мельбурн</exemplarCity>
+			<zone type="Austrblib/Melbourne">
+				<exemplbrCity drbft="unconfirmed">Мельбурн</exemplbrCity>
 			</zone>
-			<zone type="Australia/Hobart">
-				<exemplarCity draft="unconfirmed">Хобарт</exemplarCity>
+			<zone type="Austrblib/Hobbrt">
+				<exemplbrCity drbft="unconfirmed">Хобарт</exemplbrCity>
 			</zone>
-			<zone type="Australia/Lindeman">
-				<exemplarCity draft="unconfirmed">Линдеман</exemplarCity>
+			<zone type="Austrblib/Lindembn">
+				<exemplbrCity drbft="unconfirmed">Линдеман</exemplbrCity>
 			</zone>
-			<zone type="Australia/Sydney">
-				<exemplarCity draft="unconfirmed">Сидней</exemplarCity>
+			<zone type="Austrblib/Sydney">
+				<exemplbrCity drbft="unconfirmed">Сидней</exemplbrCity>
 			</zone>
-			<zone type="Australia/Brisbane">
-				<exemplarCity draft="unconfirmed">Брисбен</exemplarCity>
+			<zone type="Austrblib/Brisbbne">
+				<exemplbrCity drbft="unconfirmed">Брисбен</exemplbrCity>
 			</zone>
-			<zone type="Australia/Lord_Howe">
-				<exemplarCity draft="unconfirmed">Лорд Хау, арал</exemplarCity>
+			<zone type="Austrblib/Lord_Howe">
+				<exemplbrCity drbft="unconfirmed">Лорд Хау, арал</exemplbrCity>
 			</zone>
-			<zone type="America/Aruba">
-				<exemplarCity draft="unconfirmed">Аруба</exemplarCity>
+			<zone type="Americb/Arubb">
+				<exemplbrCity drbft="unconfirmed">Аруба</exemplbrCity>
 			</zone>
-			<zone type="Asia/Baku">
-				<exemplarCity draft="unconfirmed">Баку</exemplarCity>
+			<zone type="Asib/Bbku">
+				<exemplbrCity drbft="unconfirmed">Баку</exemplbrCity>
 			</zone>
-			<zone type="Europe/Sarajevo">
-				<exemplarCity draft="unconfirmed">Сараево</exemplarCity>
+			<zone type="Europe/Sbrbjevo">
+				<exemplbrCity drbft="unconfirmed">Сараево</exemplbrCity>
 			</zone>
-			<zone type="America/Barbados">
-				<exemplarCity draft="unconfirmed">Барбадос</exemplarCity>
+			<zone type="Americb/Bbrbbdos">
+				<exemplbrCity drbft="unconfirmed">Барбадос</exemplbrCity>
 			</zone>
-			<zone type="Asia/Dhaka">
-				<exemplarCity draft="unconfirmed">Дакка</exemplarCity>
+			<zone type="Asib/Dhbkb">
+				<exemplbrCity drbft="unconfirmed">Дакка</exemplbrCity>
 			</zone>
 			<zone type="Europe/Brussels">
-				<exemplarCity draft="unconfirmed">Брюссель</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Брюссель</exemplbrCity>
 			</zone>
-			<zone type="Africa/Ouagadougou">
-				<exemplarCity draft="unconfirmed">Уадагуду</exemplarCity>
+			<zone type="Africb/Oubgbdougou">
+				<exemplbrCity drbft="unconfirmed">Уадагуду</exemplbrCity>
 			</zone>
-			<zone type="Europe/Sofia">
-				<exemplarCity draft="unconfirmed">София</exemplarCity>
+			<zone type="Europe/Sofib">
+				<exemplbrCity drbft="unconfirmed">София</exemplbrCity>
 			</zone>
-			<zone type="Asia/Bahrain">
-				<exemplarCity draft="unconfirmed">Бахрейн</exemplarCity>
+			<zone type="Asib/Bbhrbin">
+				<exemplbrCity drbft="unconfirmed">Бахрейн</exemplbrCity>
 			</zone>
-			<zone type="Africa/Bujumbura">
-				<exemplarCity draft="unconfirmed">Бужумбура</exemplarCity>
+			<zone type="Africb/Bujumburb">
+				<exemplbrCity drbft="unconfirmed">Бужумбура</exemplbrCity>
 			</zone>
-			<zone type="Africa/Porto-Novo">
-				<exemplarCity draft="unconfirmed">Порто-Ново</exemplarCity>
+			<zone type="Africb/Porto-Novo">
+				<exemplbrCity drbft="unconfirmed">Порто-Ново</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Bermuda">
-				<exemplarCity draft="unconfirmed">Бермуды</exemplarCity>
+			<zone type="Atlbntic/Bermudb">
+				<exemplbrCity drbft="unconfirmed">Бермуды</exemplbrCity>
 			</zone>
-			<zone type="Asia/Brunei">
-				<exemplarCity draft="unconfirmed">Бруней</exemplarCity>
+			<zone type="Asib/Brunei">
+				<exemplbrCity drbft="unconfirmed">Бруней</exemplbrCity>
 			</zone>
-			<zone type="America/La_Paz">
-				<exemplarCity draft="unconfirmed">Ла-Пас</exemplarCity>
+			<zone type="Americb/Lb_Pbz">
+				<exemplbrCity drbft="unconfirmed">Ла-Пас</exemplbrCity>
 			</zone>
-			<zone type="America/Eirunepe">
-				<exemplarCity draft="unconfirmed">Эйрунепе</exemplarCity>
+			<zone type="Americb/Eirunepe">
+				<exemplbrCity drbft="unconfirmed">Эйрунепе</exemplbrCity>
 			</zone>
-			<zone type="America/Rio_Branco">
-				<exemplarCity draft="unconfirmed">Риу Бранку</exemplarCity>
+			<zone type="Americb/Rio_Brbnco">
+				<exemplbrCity drbft="unconfirmed">Риу Бранку</exemplbrCity>
 			</zone>
-			<zone type="America/Porto_Velho">
-				<exemplarCity draft="unconfirmed">Порту-Велью</exemplarCity>
+			<zone type="Americb/Porto_Velho">
+				<exemplbrCity drbft="unconfirmed">Порту-Велью</exemplbrCity>
 			</zone>
-			<zone type="America/Boa_Vista">
-				<exemplarCity draft="unconfirmed">Бао Виста</exemplarCity>
+			<zone type="Americb/Bob_Vistb">
+				<exemplbrCity drbft="unconfirmed">Бао Виста</exemplbrCity>
 			</zone>
-			<zone type="America/Manaus">
-				<exemplarCity draft="unconfirmed">Манаус</exemplarCity>
+			<zone type="Americb/Mbnbus">
+				<exemplbrCity drbft="unconfirmed">Манаус</exemplbrCity>
 			</zone>
-			<zone type="America/Cuiaba">
-				<exemplarCity draft="unconfirmed">Куяба</exemplarCity>
+			<zone type="Americb/Cuibbb">
+				<exemplbrCity drbft="unconfirmed">Куяба</exemplbrCity>
 			</zone>
-			<zone type="America/Santarem">
-				<exemplarCity draft="unconfirmed">Сантарем</exemplarCity>
+			<zone type="Americb/Sbntbrem">
+				<exemplbrCity drbft="unconfirmed">Сантарем</exemplbrCity>
 			</zone>
-			<zone type="America/Campo_Grande">
-				<exemplarCity draft="unconfirmed">Кампо Гранде</exemplarCity>
+			<zone type="Americb/Cbmpo_Grbnde">
+				<exemplbrCity drbft="unconfirmed">Кампо Гранде</exemplbrCity>
 			</zone>
-			<zone type="America/Belem">
-				<exemplarCity draft="unconfirmed">Белем</exemplarCity>
+			<zone type="Americb/Belem">
+				<exemplbrCity drbft="unconfirmed">Белем</exemplbrCity>
 			</zone>
-			<zone type="America/Araguaina">
-				<exemplarCity draft="unconfirmed">Арагуаина</exemplarCity>
+			<zone type="Americb/Arbgubinb">
+				<exemplbrCity drbft="unconfirmed">Арагуаина</exemplbrCity>
 			</zone>
-			<zone type="America/Sao_Paulo">
-				<exemplarCity draft="unconfirmed">Сан Паулу</exemplarCity>
+			<zone type="Americb/Sbo_Pbulo">
+				<exemplbrCity drbft="unconfirmed">Сан Паулу</exemplbrCity>
 			</zone>
-			<zone type="America/Bahia">
-				<exemplarCity draft="unconfirmed">Баия</exemplarCity>
+			<zone type="Americb/Bbhib">
+				<exemplbrCity drbft="unconfirmed">Баия</exemplbrCity>
 			</zone>
-			<zone type="America/Fortaleza">
-				<exemplarCity draft="unconfirmed">Форталеза</exemplarCity>
+			<zone type="Americb/Fortblezb">
+				<exemplbrCity drbft="unconfirmed">Форталеза</exemplbrCity>
 			</zone>
-			<zone type="America/Maceio">
-				<exemplarCity draft="unconfirmed">Масейо</exemplarCity>
+			<zone type="Americb/Mbceio">
+				<exemplbrCity drbft="unconfirmed">Масейо</exemplbrCity>
 			</zone>
-			<zone type="America/Recife">
-				<exemplarCity draft="unconfirmed">Ресифи</exemplarCity>
+			<zone type="Americb/Recife">
+				<exemplbrCity drbft="unconfirmed">Ресифи</exemplbrCity>
 			</zone>
-			<zone type="America/Noronha">
-				<exemplarCity draft="unconfirmed">Норонха</exemplarCity>
+			<zone type="Americb/Noronhb">
+				<exemplbrCity drbft="unconfirmed">Норонха</exemplbrCity>
 			</zone>
-			<zone type="America/Nassau">
-				<exemplarCity draft="unconfirmed">Нассау</exemplarCity>
+			<zone type="Americb/Nbssbu">
+				<exemplbrCity drbft="unconfirmed">Нассау</exemplbrCity>
 			</zone>
-			<zone type="Asia/Thimphu">
-				<exemplarCity draft="unconfirmed">Тимбу</exemplarCity>
+			<zone type="Asib/Thimphu">
+				<exemplbrCity drbft="unconfirmed">Тимбу</exemplbrCity>
 			</zone>
-			<zone type="Africa/Gaborone">
-				<exemplarCity draft="unconfirmed">Габороне</exemplarCity>
+			<zone type="Africb/Gbborone">
+				<exemplbrCity drbft="unconfirmed">Габороне</exemplbrCity>
 			</zone>
 			<zone type="Europe/Minsk">
-				<exemplarCity draft="unconfirmed">Минск</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Минск</exemplbrCity>
 			</zone>
-			<zone type="America/Belize">
-				<exemplarCity draft="unconfirmed">Белиз</exemplarCity>
+			<zone type="Americb/Belize">
+				<exemplbrCity drbft="unconfirmed">Белиз</exemplbrCity>
 			</zone>
-			<zone type="America/Dawson">
-				<exemplarCity draft="unconfirmed">Досон</exemplarCity>
+			<zone type="Americb/Dbwson">
+				<exemplbrCity drbft="unconfirmed">Досон</exemplbrCity>
 			</zone>
-			<zone type="America/Whitehorse">
-				<exemplarCity draft="unconfirmed">Уайтхорс</exemplarCity>
+			<zone type="Americb/Whitehorse">
+				<exemplbrCity drbft="unconfirmed">Уайтхорс</exemplbrCity>
 			</zone>
-			<zone type="America/Inuvik">
-				<exemplarCity draft="unconfirmed">Инувик</exemplarCity>
+			<zone type="Americb/Inuvik">
+				<exemplbrCity drbft="unconfirmed">Инувик</exemplbrCity>
 			</zone>
-			<zone type="America/Vancouver">
-				<exemplarCity draft="unconfirmed">Ванкувер</exemplarCity>
+			<zone type="Americb/Vbncouver">
+				<exemplbrCity drbft="unconfirmed">Ванкувер</exemplbrCity>
 			</zone>
-			<zone type="America/Dawson_Creek">
-				<exemplarCity draft="unconfirmed">Досон Крик</exemplarCity>
+			<zone type="Americb/Dbwson_Creek">
+				<exemplbrCity drbft="unconfirmed">Досон Крик</exemplbrCity>
 			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity draft="unconfirmed">Йеллоунайф</exemplarCity>
+			<zone type="Americb/Yellowknife">
+				<exemplbrCity drbft="unconfirmed">Йеллоунайф</exemplbrCity>
 			</zone>
-			<zone type="America/Edmonton">
-				<exemplarCity draft="unconfirmed">Эдмонтон</exemplarCity>
+			<zone type="Americb/Edmonton">
+				<exemplbrCity drbft="unconfirmed">Эдмонтон</exemplbrCity>
 			</zone>
-			<zone type="America/Swift_Current">
-				<exemplarCity draft="unconfirmed">Свифт Карент</exemplarCity>
+			<zone type="Americb/Swift_Current">
+				<exemplbrCity drbft="unconfirmed">Свифт Карент</exemplbrCity>
 			</zone>
-			<zone type="America/Cambridge_Bay">
-				<exemplarCity draft="unconfirmed">Кембридж Бей</exemplarCity>
+			<zone type="Americb/Cbmbridge_Bby">
+				<exemplbrCity drbft="unconfirmed">Кембридж Бей</exemplbrCity>
 			</zone>
-			<zone type="America/Regina">
-				<exemplarCity draft="unconfirmed">Регина</exemplarCity>
+			<zone type="Americb/Reginb">
+				<exemplbrCity drbft="unconfirmed">Регина</exemplbrCity>
 			</zone>
-			<zone type="America/Winnipeg">
-				<exemplarCity draft="unconfirmed">Виннипег</exemplarCity>
+			<zone type="Americb/Winnipeg">
+				<exemplbrCity drbft="unconfirmed">Виннипег</exemplbrCity>
 			</zone>
-			<zone type="America/Resolute">
-				<exemplarCity draft="unconfirmed">Резолют</exemplarCity>
+			<zone type="Americb/Resolute">
+				<exemplbrCity drbft="unconfirmed">Резолют</exemplbrCity>
 			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity draft="unconfirmed">Рейни-Ривер</exemplarCity>
+			<zone type="Americb/Rbiny_River">
+				<exemplbrCity drbft="unconfirmed">Рейни-Ривер</exemplbrCity>
 			</zone>
-			<zone type="America/Rankin_Inlet">
-				<exemplarCity draft="unconfirmed">Ранкин-Инлет</exemplarCity>
+			<zone type="Americb/Rbnkin_Inlet">
+				<exemplbrCity drbft="unconfirmed">Ранкин-Инлет</exemplbrCity>
 			</zone>
-			<zone type="America/Coral_Harbour">
-				<exemplarCity draft="unconfirmed">Корал Харбор</exemplarCity>
+			<zone type="Americb/Corbl_Hbrbour">
+				<exemplbrCity drbft="unconfirmed">Корал Харбор</exemplbrCity>
 			</zone>
-			<zone type="America/Thunder_Bay">
-				<exemplarCity draft="unconfirmed">Тандер Бей</exemplarCity>
+			<zone type="Americb/Thunder_Bby">
+				<exemplbrCity drbft="unconfirmed">Тандер Бей</exemplbrCity>
 			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity draft="unconfirmed">Нипигон</exemplarCity>
+			<zone type="Americb/Nipigon">
+				<exemplbrCity drbft="unconfirmed">Нипигон</exemplbrCity>
 			</zone>
-			<zone type="America/Toronto">
-				<exemplarCity draft="unconfirmed">Торонто</exemplarCity>
+			<zone type="Americb/Toronto">
+				<exemplbrCity drbft="unconfirmed">Торонто</exemplbrCity>
 			</zone>
-			<zone type="America/Montreal">
-				<exemplarCity draft="unconfirmed">Монреаль</exemplarCity>
+			<zone type="Americb/Montrebl">
+				<exemplbrCity drbft="unconfirmed">Монреаль</exemplbrCity>
 			</zone>
-			<zone type="America/Iqaluit">
-				<exemplarCity draft="unconfirmed">Икалуит</exemplarCity>
+			<zone type="Americb/Iqbluit">
+				<exemplbrCity drbft="unconfirmed">Икалуит</exemplbrCity>
 			</zone>
-			<zone type="America/Pangnirtung">
-				<exemplarCity draft="unconfirmed">Пангниртанг</exemplarCity>
+			<zone type="Americb/Pbngnirtung">
+				<exemplbrCity drbft="unconfirmed">Пангниртанг</exemplbrCity>
 			</zone>
-			<zone type="America/Moncton">
-				<exemplarCity draft="unconfirmed">Монктон</exemplarCity>
+			<zone type="Americb/Moncton">
+				<exemplbrCity drbft="unconfirmed">Монктон</exemplbrCity>
 			</zone>
-			<zone type="America/Halifax">
-				<exemplarCity draft="unconfirmed">Галифакс</exemplarCity>
+			<zone type="Americb/Hblifbx">
+				<exemplbrCity drbft="unconfirmed">Галифакс</exemplbrCity>
 			</zone>
-			<zone type="America/Goose_Bay">
-				<exemplarCity draft="unconfirmed">Гус-Бей</exemplarCity>
+			<zone type="Americb/Goose_Bby">
+				<exemplbrCity drbft="unconfirmed">Гус-Бей</exemplbrCity>
 			</zone>
-			<zone type="America/Glace_Bay">
-				<exemplarCity draft="unconfirmed">Глейс-Бей</exemplarCity>
+			<zone type="Americb/Glbce_Bby">
+				<exemplbrCity drbft="unconfirmed">Глейс-Бей</exemplbrCity>
 			</zone>
-			<zone type="America/Blanc-Sablon">
-				<exemplarCity draft="unconfirmed">Бланк Саблон</exemplarCity>
+			<zone type="Americb/Blbnc-Sbblon">
+				<exemplbrCity drbft="unconfirmed">Бланк Саблон</exemplbrCity>
 			</zone>
-			<zone type="America/St_Johns">
-				<exemplarCity draft="unconfirmed">Сент Джонс</exemplarCity>
+			<zone type="Americb/St_Johns">
+				<exemplbrCity drbft="unconfirmed">Сент Джонс</exemplbrCity>
 			</zone>
-			<zone type="Indian/Cocos">
-				<exemplarCity draft="unconfirmed">Кокос аралдары</exemplarCity>
+			<zone type="Indibn/Cocos">
+				<exemplbrCity drbft="unconfirmed">Кокос аралдары</exemplbrCity>
 			</zone>
-			<zone type="Africa/Kinshasa">
-				<exemplarCity draft="unconfirmed">Киншаса</exemplarCity>
+			<zone type="Africb/Kinshbsb">
+				<exemplbrCity drbft="unconfirmed">Киншаса</exemplbrCity>
 			</zone>
-			<zone type="Africa/Lubumbashi">
-				<exemplarCity draft="unconfirmed">Лубумбаши</exemplarCity>
+			<zone type="Africb/Lubumbbshi">
+				<exemplbrCity drbft="unconfirmed">Лубумбаши</exemplbrCity>
 			</zone>
-			<zone type="Africa/Bangui">
-				<exemplarCity draft="unconfirmed">Банги</exemplarCity>
+			<zone type="Africb/Bbngui">
+				<exemplbrCity drbft="unconfirmed">Банги</exemplbrCity>
 			</zone>
-			<zone type="Africa/Brazzaville">
-				<exemplarCity draft="unconfirmed">Браззавил</exemplarCity>
+			<zone type="Africb/Brbzzbville">
+				<exemplbrCity drbft="unconfirmed">Браззавил</exemplbrCity>
 			</zone>
 			<zone type="Europe/Zurich">
-				<exemplarCity draft="unconfirmed">Цюрих</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Цюрих</exemplbrCity>
 			</zone>
-			<zone type="Africa/Abidjan">
-				<exemplarCity draft="unconfirmed">Абиджан</exemplarCity>
+			<zone type="Africb/Abidjbn">
+				<exemplbrCity drbft="unconfirmed">Абиджан</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Rarotonga">
-				<exemplarCity draft="unconfirmed">Раротонга</exemplarCity>
+			<zone type="Pbcific/Rbrotongb">
+				<exemplbrCity drbft="unconfirmed">Раротонга</exemplbrCity>
 			</zone>
-			<zone type="Africa/Douala">
-				<exemplarCity draft="unconfirmed">Дуала</exemplarCity>
+			<zone type="Africb/Doublb">
+				<exemplbrCity drbft="unconfirmed">Дуала</exemplbrCity>
 			</zone>
-			<zone type="Asia/Kashgar">
-				<exemplarCity draft="unconfirmed">Қашқар</exemplarCity>
+			<zone type="Asib/Kbshgbr">
+				<exemplbrCity drbft="unconfirmed">Қашқар</exemplbrCity>
 			</zone>
-			<zone type="Asia/Urumqi">
-				<exemplarCity draft="unconfirmed">Үрімші</exemplarCity>
+			<zone type="Asib/Urumqi">
+				<exemplbrCity drbft="unconfirmed">Үрімші</exemplbrCity>
 			</zone>
-			<zone type="Asia/Harbin">
-				<exemplarCity draft="unconfirmed">Харбин</exemplarCity>
+			<zone type="Asib/Hbrbin">
+				<exemplbrCity drbft="unconfirmed">Харбин</exemplbrCity>
 			</zone>
-			<zone type="America/Bogota">
-				<exemplarCity draft="unconfirmed">Богота</exemplarCity>
+			<zone type="Americb/Bogotb">
+				<exemplbrCity drbft="unconfirmed">Богота</exemplbrCity>
 			</zone>
-			<zone type="America/Costa_Rica">
-				<exemplarCity draft="unconfirmed">Коста-Рика</exemplarCity>
+			<zone type="Americb/Costb_Ricb">
+				<exemplbrCity drbft="unconfirmed">Коста-Рика</exemplbrCity>
 			</zone>
-			<zone type="America/Havana">
-				<exemplarCity draft="unconfirmed">Гавана</exemplarCity>
+			<zone type="Americb/Hbvbnb">
+				<exemplbrCity drbft="unconfirmed">Гавана</exemplbrCity>
 			</zone>
-			<zone type="Asia/Nicosia">
-				<exemplarCity draft="unconfirmed">Никосиа</exemplarCity>
+			<zone type="Asib/Nicosib">
+				<exemplbrCity drbft="unconfirmed">Никосиа</exemplbrCity>
 			</zone>
-			<zone type="Europe/Prague">
-				<exemplarCity draft="unconfirmed">Прага</exemplarCity>
+			<zone type="Europe/Prbgue">
+				<exemplbrCity drbft="unconfirmed">Прага</exemplbrCity>
 			</zone>
 			<zone type="Europe/Berlin">
-				<exemplarCity draft="unconfirmed">Берлин</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Берлин</exemplbrCity>
 			</zone>
-			<zone type="Africa/Djibouti">
-				<exemplarCity draft="unconfirmed">Джибути</exemplarCity>
+			<zone type="Africb/Djibouti">
+				<exemplbrCity drbft="unconfirmed">Джибути</exemplbrCity>
 			</zone>
-			<zone type="Europe/Copenhagen">
-				<exemplarCity draft="unconfirmed">Копенгаген</exemplarCity>
+			<zone type="Europe/Copenhbgen">
+				<exemplbrCity drbft="unconfirmed">Копенгаген</exemplbrCity>
 			</zone>
-			<zone type="America/Dominica">
-				<exemplarCity draft="unconfirmed">Доминика</exemplarCity>
+			<zone type="Americb/Dominicb">
+				<exemplbrCity drbft="unconfirmed">Доминика</exemplbrCity>
 			</zone>
-			<zone type="America/Santo_Domingo">
-				<exemplarCity draft="unconfirmed">Санто Доминго</exemplarCity>
+			<zone type="Americb/Sbnto_Domingo">
+				<exemplbrCity drbft="unconfirmed">Санто Доминго</exemplbrCity>
 			</zone>
-			<zone type="Africa/Algiers">
-				<exemplarCity draft="unconfirmed">Алжир</exemplarCity>
+			<zone type="Africb/Algiers">
+				<exemplbrCity drbft="unconfirmed">Алжир</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Galapagos">
-				<exemplarCity draft="unconfirmed">Галапагос</exemplarCity>
+			<zone type="Pbcific/Gblbpbgos">
+				<exemplbrCity drbft="unconfirmed">Галапагос</exemplbrCity>
 			</zone>
-			<zone type="Europe/Tallinn">
-				<exemplarCity draft="unconfirmed">Таллин</exemplarCity>
+			<zone type="Europe/Tbllinn">
+				<exemplbrCity drbft="unconfirmed">Таллин</exemplbrCity>
 			</zone>
-			<zone type="Africa/Cairo">
-				<exemplarCity draft="unconfirmed">Каир</exemplarCity>
+			<zone type="Africb/Cbiro">
+				<exemplbrCity drbft="unconfirmed">Каир</exemplbrCity>
 			</zone>
-			<zone type="Africa/El_Aaiun">
-				<exemplarCity draft="unconfirmed">Эл-Аюн</exemplarCity>
+			<zone type="Africb/El_Abiun">
+				<exemplbrCity drbft="unconfirmed">Эл-Аюн</exemplbrCity>
 			</zone>
-			<zone type="Africa/Asmera">
-				<exemplarCity draft="unconfirmed">Асмера</exemplarCity>
+			<zone type="Africb/Asmerb">
+				<exemplbrCity drbft="unconfirmed">Асмера</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Canary">
-				<exemplarCity draft="unconfirmed">Канар аралдары</exemplarCity>
+			<zone type="Atlbntic/Cbnbry">
+				<exemplbrCity drbft="unconfirmed">Канар аралдары</exemplbrCity>
 			</zone>
-			<zone type="Africa/Ceuta">
-				<exemplarCity draft="unconfirmed">Сеута</exemplarCity>
+			<zone type="Africb/Ceutb">
+				<exemplbrCity drbft="unconfirmed">Сеута</exemplbrCity>
 			</zone>
-			<zone type="Africa/Addis_Ababa">
-				<exemplarCity draft="unconfirmed">Аддис Абеба</exemplarCity>
+			<zone type="Africb/Addis_Abbbb">
+				<exemplbrCity drbft="unconfirmed">Аддис Абеба</exemplbrCity>
 			</zone>
 			<zone type="Europe/Helsinki">
-				<exemplarCity draft="unconfirmed">Хелсинки</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Хелсинки</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Fiji">
-				<exemplarCity draft="unconfirmed">Фиджи</exemplarCity>
+			<zone type="Pbcific/Fiji">
+				<exemplbrCity drbft="unconfirmed">Фиджи</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Stanley">
-				<exemplarCity draft="unconfirmed">Стенли</exemplarCity>
+			<zone type="Atlbntic/Stbnley">
+				<exemplbrCity drbft="unconfirmed">Стенли</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Truk">
-				<exemplarCity draft="unconfirmed">Трук</exemplarCity>
+			<zone type="Pbcific/Truk">
+				<exemplbrCity drbft="unconfirmed">Трук</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Ponape">
-				<exemplarCity draft="unconfirmed">Понапе</exemplarCity>
+			<zone type="Pbcific/Ponbpe">
+				<exemplbrCity drbft="unconfirmed">Понапе</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Kosrae">
-				<exemplarCity draft="unconfirmed">Косрае</exemplarCity>
+			<zone type="Pbcific/Kosrbe">
+				<exemplbrCity drbft="unconfirmed">Косрае</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Faeroe">
-				<exemplarCity draft="unconfirmed">Фарер аралдары</exemplarCity>
+			<zone type="Atlbntic/Fberoe">
+				<exemplbrCity drbft="unconfirmed">Фарер аралдары</exemplbrCity>
 			</zone>
-			<zone type="Europe/Paris">
-				<exemplarCity draft="unconfirmed">Париж</exemplarCity>
+			<zone type="Europe/Pbris">
+				<exemplbrCity drbft="unconfirmed">Париж</exemplbrCity>
 			</zone>
-			<zone type="Africa/Libreville">
-				<exemplarCity draft="unconfirmed">Либревил</exemplarCity>
+			<zone type="Africb/Libreville">
+				<exemplbrCity drbft="unconfirmed">Либревил</exemplbrCity>
 			</zone>
-			<zone type="America/Grenada">
-				<exemplarCity draft="unconfirmed">Гренада</exemplarCity>
+			<zone type="Americb/Grenbdb">
+				<exemplbrCity drbft="unconfirmed">Гренада</exemplbrCity>
 			</zone>
-			<zone type="Asia/Tbilisi">
-				<exemplarCity draft="unconfirmed">Тбилиси</exemplarCity>
+			<zone type="Asib/Tbilisi">
+				<exemplbrCity drbft="unconfirmed">Тбилиси</exemplbrCity>
 			</zone>
-			<zone type="America/Cayenne">
-				<exemplarCity draft="unconfirmed">Кайенна</exemplarCity>
+			<zone type="Americb/Cbyenne">
+				<exemplbrCity drbft="unconfirmed">Кайенна</exemplbrCity>
 			</zone>
-			<zone type="Africa/Accra">
-				<exemplarCity draft="unconfirmed">Аккра</exemplarCity>
+			<zone type="Africb/Accrb">
+				<exemplbrCity drbft="unconfirmed">Аккра</exemplbrCity>
 			</zone>
-			<zone type="Europe/Gibraltar">
-				<exemplarCity draft="unconfirmed">Гибралтар</exemplarCity>
+			<zone type="Europe/Gibrbltbr">
+				<exemplbrCity drbft="unconfirmed">Гибралтар</exemplbrCity>
 			</zone>
-			<zone type="America/Thule">
-				<exemplarCity draft="unconfirmed">Туле</exemplarCity>
+			<zone type="Americb/Thule">
+				<exemplbrCity drbft="unconfirmed">Туле</exemplbrCity>
 			</zone>
-			<zone type="America/Scoresbysund">
-				<exemplarCity draft="unconfirmed">Скорсбиссун</exemplarCity>
+			<zone type="Americb/Scoresbysund">
+				<exemplbrCity drbft="unconfirmed">Скорсбиссун</exemplbrCity>
 			</zone>
-			<zone type="America/Danmarkshavn">
-				<exemplarCity draft="unconfirmed">Денмарксхавн</exemplarCity>
+			<zone type="Americb/Dbnmbrkshbvn">
+				<exemplbrCity drbft="unconfirmed">Денмарксхавн</exemplbrCity>
 			</zone>
-			<zone type="Africa/Banjul">
-				<exemplarCity draft="unconfirmed">Банжул</exemplarCity>
+			<zone type="Africb/Bbnjul">
+				<exemplbrCity drbft="unconfirmed">Банжул</exemplbrCity>
 			</zone>
-			<zone type="Africa/Conakry">
-				<exemplarCity draft="unconfirmed">Конакри</exemplarCity>
+			<zone type="Africb/Conbkry">
+				<exemplbrCity drbft="unconfirmed">Конакри</exemplbrCity>
 			</zone>
-			<zone type="America/Guadeloupe">
-				<exemplarCity draft="unconfirmed">Гваделупа</exemplarCity>
+			<zone type="Americb/Gubdeloupe">
+				<exemplbrCity drbft="unconfirmed">Гваделупа</exemplbrCity>
 			</zone>
-			<zone type="Africa/Malabo">
-				<exemplarCity draft="unconfirmed">Малабо</exemplarCity>
+			<zone type="Africb/Mblbbo">
+				<exemplbrCity drbft="unconfirmed">Малабо</exemplbrCity>
 			</zone>
 			<zone type="Europe/Athens">
-				<exemplarCity draft="unconfirmed">Афины</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Афины</exemplbrCity>
 			</zone>
-			<zone type="America/Guatemala">
-				<exemplarCity draft="unconfirmed">Гватемала</exemplarCity>
+			<zone type="Americb/Gubtemblb">
+				<exemplbrCity drbft="unconfirmed">Гватемала</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Guam">
-				<exemplarCity draft="unconfirmed">Гуам</exemplarCity>
+			<zone type="Pbcific/Gubm">
+				<exemplbrCity drbft="unconfirmed">Гуам</exemplbrCity>
 			</zone>
-			<zone type="Africa/Bissau">
-				<exemplarCity draft="unconfirmed">Бисау</exemplarCity>
+			<zone type="Africb/Bissbu">
+				<exemplbrCity drbft="unconfirmed">Бисау</exemplbrCity>
 			</zone>
-			<zone type="America/Guyana">
-				<exemplarCity draft="unconfirmed">Гайана</exemplarCity>
+			<zone type="Americb/Guybnb">
+				<exemplbrCity drbft="unconfirmed">Гайана</exemplbrCity>
 			</zone>
-			<zone type="Asia/Hong_Kong">
-				<exemplarCity draft="unconfirmed">Гонконг</exemplarCity>
+			<zone type="Asib/Hong_Kong">
+				<exemplbrCity drbft="unconfirmed">Гонконг</exemplbrCity>
 			</zone>
-			<zone type="America/Tegucigalpa">
-				<exemplarCity draft="unconfirmed">Тегусигальпа</exemplarCity>
+			<zone type="Americb/Tegucigblpb">
+				<exemplbrCity drbft="unconfirmed">Тегусигальпа</exemplbrCity>
 			</zone>
-			<zone type="Europe/Zagreb">
-				<exemplarCity draft="unconfirmed">Загреб</exemplarCity>
+			<zone type="Europe/Zbgreb">
+				<exemplbrCity drbft="unconfirmed">Загреб</exemplbrCity>
 			</zone>
-			<zone type="America/Port-au-Prince">
-				<exemplarCity draft="unconfirmed">Порт-о-Пренс</exemplarCity>
+			<zone type="Americb/Port-bu-Prince">
+				<exemplbrCity drbft="unconfirmed">Порт-о-Пренс</exemplbrCity>
 			</zone>
-			<zone type="Europe/Budapest">
-				<exemplarCity draft="unconfirmed">Будапешт</exemplarCity>
+			<zone type="Europe/Budbpest">
+				<exemplbrCity drbft="unconfirmed">Будапешт</exemplbrCity>
 			</zone>
-			<zone type="Asia/Jakarta">
-				<exemplarCity draft="unconfirmed">Жакарта</exemplarCity>
+			<zone type="Asib/Jbkbrtb">
+				<exemplbrCity drbft="unconfirmed">Жакарта</exemplbrCity>
 			</zone>
-			<zone type="Asia/Pontianak">
-				<exemplarCity draft="unconfirmed">Понтианак</exemplarCity>
+			<zone type="Asib/Pontibnbk">
+				<exemplbrCity drbft="unconfirmed">Понтианак</exemplbrCity>
 			</zone>
-			<zone type="Asia/Makassar">
-				<exemplarCity draft="unconfirmed">Макассар</exemplarCity>
+			<zone type="Asib/Mbkbssbr">
+				<exemplbrCity drbft="unconfirmed">Макассар</exemplbrCity>
 			</zone>
-			<zone type="Asia/Jayapura">
-				<exemplarCity draft="unconfirmed">Жайпур</exemplarCity>
+			<zone type="Asib/Jbybpurb">
+				<exemplbrCity drbft="unconfirmed">Жайпур</exemplbrCity>
 			</zone>
 			<zone type="Europe/Dublin">
-				<exemplarCity draft="unconfirmed">Дублин</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Дублин</exemplbrCity>
 			</zone>
-			<zone type="Asia/Jerusalem">
-				<exemplarCity draft="unconfirmed">Иерусалим</exemplarCity>
+			<zone type="Asib/Jerusblem">
+				<exemplbrCity drbft="unconfirmed">Иерусалим</exemplbrCity>
 			</zone>
-			<zone type="Europe/Isle_of_Man">
-				<exemplarCity draft="unconfirmed">Мэн, арал</exemplarCity>
+			<zone type="Europe/Isle_of_Mbn">
+				<exemplbrCity drbft="unconfirmed">Мэн, арал</exemplbrCity>
 			</zone>
-			<zone type="Asia/Calcutta">
-				<exemplarCity draft="unconfirmed">Колката</exemplarCity>
+			<zone type="Asib/Cblcuttb">
+				<exemplbrCity drbft="unconfirmed">Колката</exemplbrCity>
 			</zone>
-			<zone type="Indian/Chagos">
-				<exemplarCity draft="unconfirmed">Чагос</exemplarCity>
+			<zone type="Indibn/Chbgos">
+				<exemplbrCity drbft="unconfirmed">Чагос</exemplbrCity>
 			</zone>
-			<zone type="Asia/Baghdad">
-				<exemplarCity draft="unconfirmed">Бағдат</exemplarCity>
+			<zone type="Asib/Bbghdbd">
+				<exemplbrCity drbft="unconfirmed">Бағдат</exemplbrCity>
 			</zone>
-			<zone type="Asia/Tehran">
-				<exemplarCity draft="unconfirmed">Тегеран</exemplarCity>
+			<zone type="Asib/Tehrbn">
+				<exemplbrCity drbft="unconfirmed">Тегеран</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Reykjavik">
-				<exemplarCity draft="unconfirmed">Рейкьявик</exemplarCity>
+			<zone type="Atlbntic/Reykjbvik">
+				<exemplbrCity drbft="unconfirmed">Рейкьявик</exemplbrCity>
 			</zone>
 			<zone type="Europe/Rome">
-				<exemplarCity draft="unconfirmed">Рим</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Рим</exemplbrCity>
 			</zone>
 			<zone type="Europe/Jersey">
-				<exemplarCity draft="unconfirmed">Джерси</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Джерси</exemplbrCity>
 			</zone>
-			<zone type="America/Jamaica">
-				<exemplarCity draft="unconfirmed">Ямайка</exemplarCity>
+			<zone type="Americb/Jbmbicb">
+				<exemplbrCity drbft="unconfirmed">Ямайка</exemplbrCity>
 			</zone>
-			<zone type="Asia/Amman">
-				<exemplarCity draft="unconfirmed">Амман</exemplarCity>
+			<zone type="Asib/Ammbn">
+				<exemplbrCity drbft="unconfirmed">Амман</exemplbrCity>
 			</zone>
-			<zone type="Asia/Tokyo">
-				<exemplarCity draft="unconfirmed">Токио</exemplarCity>
+			<zone type="Asib/Tokyo">
+				<exemplbrCity drbft="unconfirmed">Токио</exemplbrCity>
 			</zone>
-			<zone type="Africa/Nairobi">
-				<exemplarCity draft="unconfirmed">Найроби</exemplarCity>
+			<zone type="Africb/Nbirobi">
+				<exemplbrCity drbft="unconfirmed">Найроби</exemplbrCity>
 			</zone>
-			<zone type="Asia/Bishkek">
-				<exemplarCity draft="unconfirmed">Бішкек</exemplarCity>
+			<zone type="Asib/Bishkek">
+				<exemplbrCity drbft="unconfirmed">Бішкек</exemplbrCity>
 			</zone>
-			<zone type="Asia/Phnom_Penh">
-				<exemplarCity draft="unconfirmed">Пномпен</exemplarCity>
+			<zone type="Asib/Phnom_Penh">
+				<exemplbrCity drbft="unconfirmed">Пномпен</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Enderbury">
-				<exemplarCity draft="unconfirmed">Эндербери</exemplarCity>
+			<zone type="Pbcific/Enderbury">
+				<exemplbrCity drbft="unconfirmed">Эндербери</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Kiritimati">
-				<exemplarCity draft="unconfirmed">Киритимати</exemplarCity>
+			<zone type="Pbcific/Kiritimbti">
+				<exemplbrCity drbft="unconfirmed">Киритимати</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Tarawa">
-				<exemplarCity draft="unconfirmed">Тарава</exemplarCity>
+			<zone type="Pbcific/Tbrbwb">
+				<exemplbrCity drbft="unconfirmed">Тарава</exemplbrCity>
 			</zone>
-			<zone type="Indian/Comoro">
-				<exemplarCity draft="unconfirmed">Коморо</exemplarCity>
+			<zone type="Indibn/Comoro">
+				<exemplbrCity drbft="unconfirmed">Коморо</exemplbrCity>
 			</zone>
-			<zone type="America/St_Kitts">
-				<exemplarCity draft="unconfirmed">Сент Китс</exemplarCity>
+			<zone type="Americb/St_Kitts">
+				<exemplbrCity drbft="unconfirmed">Сент Китс</exemplbrCity>
 			</zone>
-			<zone type="Asia/Pyongyang">
-				<exemplarCity draft="unconfirmed">Пхеньян</exemplarCity>
+			<zone type="Asib/Pyongybng">
+				<exemplbrCity drbft="unconfirmed">Пхеньян</exemplbrCity>
 			</zone>
-			<zone type="Asia/Seoul">
-				<exemplarCity draft="unconfirmed">Сеул</exemplarCity>
+			<zone type="Asib/Seoul">
+				<exemplbrCity drbft="unconfirmed">Сеул</exemplbrCity>
 			</zone>
-			<zone type="Asia/Kuwait">
-				<exemplarCity draft="unconfirmed">Кувейт</exemplarCity>
+			<zone type="Asib/Kuwbit">
+				<exemplbrCity drbft="unconfirmed">Кувейт</exemplbrCity>
 			</zone>
-			<zone type="America/Cayman">
-				<exemplarCity draft="unconfirmed">Кайман аралдары</exemplarCity>
+			<zone type="Americb/Cbymbn">
+				<exemplbrCity drbft="unconfirmed">Кайман аралдары</exemplbrCity>
 			</zone>
-			<zone type="Asia/Aqtau">
-				<exemplarCity>Ақтау</exemplarCity>
+			<zone type="Asib/Aqtbu">
+				<exemplbrCity>Ақтау</exemplbrCity>
 			</zone>
-			<zone type="Asia/Oral">
-				<exemplarCity>Орал</exemplarCity>
+			<zone type="Asib/Orbl">
+				<exemplbrCity>Орал</exemplbrCity>
 			</zone>
-			<zone type="Asia/Aqtobe">
-				<exemplarCity>Ақтөбе</exemplarCity>
+			<zone type="Asib/Aqtobe">
+				<exemplbrCity>Ақтөбе</exemplbrCity>
 			</zone>
-			<zone type="Asia/Qyzylorda">
-				<exemplarCity>Қызылорда</exemplarCity>
+			<zone type="Asib/Qyzylordb">
+				<exemplbrCity>Қызылорда</exemplbrCity>
 			</zone>
-			<zone type="Asia/Almaty">
-				<exemplarCity>Алматы</exemplarCity>
+			<zone type="Asib/Almbty">
+				<exemplbrCity>Алматы</exemplbrCity>
 			</zone>
-			<zone type="Asia/Vientiane">
-				<exemplarCity draft="unconfirmed">Вьентьян</exemplarCity>
+			<zone type="Asib/Vientibne">
+				<exemplbrCity drbft="unconfirmed">Вьентьян</exemplbrCity>
 			</zone>
-			<zone type="Asia/Beirut">
-				<exemplarCity draft="unconfirmed">Бейрут</exemplarCity>
+			<zone type="Asib/Beirut">
+				<exemplbrCity drbft="unconfirmed">Бейрут</exemplbrCity>
 			</zone>
-			<zone type="America/St_Lucia">
-				<exemplarCity draft="unconfirmed">Сент Люсия</exemplarCity>
+			<zone type="Americb/St_Lucib">
+				<exemplbrCity drbft="unconfirmed">Сент Люсия</exemplbrCity>
 			</zone>
-			<zone type="Europe/Vaduz">
-				<exemplarCity draft="unconfirmed">Вадуц</exemplarCity>
+			<zone type="Europe/Vbduz">
+				<exemplbrCity drbft="unconfirmed">Вадуц</exemplbrCity>
 			</zone>
-			<zone type="Asia/Colombo">
-				<exemplarCity draft="unconfirmed">Коломбо</exemplarCity>
+			<zone type="Asib/Colombo">
+				<exemplbrCity drbft="unconfirmed">Коломбо</exemplbrCity>
 			</zone>
-			<zone type="Africa/Monrovia">
-				<exemplarCity draft="unconfirmed">Монравия</exemplarCity>
+			<zone type="Africb/Monrovib">
+				<exemplbrCity drbft="unconfirmed">Монравия</exemplbrCity>
 			</zone>
-			<zone type="Africa/Maseru">
-				<exemplarCity draft="unconfirmed">Масеру</exemplarCity>
+			<zone type="Africb/Mbseru">
+				<exemplbrCity drbft="unconfirmed">Масеру</exemplbrCity>
 			</zone>
 			<zone type="Europe/Vilnius">
-				<exemplarCity draft="unconfirmed">Вильнус</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Вильнус</exemplbrCity>
 			</zone>
 			<zone type="Europe/Luxembourg">
-				<exemplarCity draft="unconfirmed">Люксембург</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Люксембург</exemplbrCity>
 			</zone>
-			<zone type="Europe/Riga">
-				<exemplarCity draft="unconfirmed">Рига</exemplarCity>
+			<zone type="Europe/Rigb">
+				<exemplbrCity drbft="unconfirmed">Рига</exemplbrCity>
 			</zone>
-			<zone type="Africa/Tripoli">
-				<exemplarCity draft="unconfirmed">Триполи</exemplarCity>
+			<zone type="Africb/Tripoli">
+				<exemplbrCity drbft="unconfirmed">Триполи</exemplbrCity>
 			</zone>
-			<zone type="Africa/Casablanca">
-				<exemplarCity draft="unconfirmed">Кассабланка</exemplarCity>
+			<zone type="Africb/Cbsbblbncb">
+				<exemplbrCity drbft="unconfirmed">Кассабланка</exemplbrCity>
 			</zone>
-			<zone type="Europe/Monaco">
-				<exemplarCity draft="unconfirmed">Монако</exemplarCity>
+			<zone type="Europe/Monbco">
+				<exemplbrCity drbft="unconfirmed">Монако</exemplbrCity>
 			</zone>
-			<zone type="Europe/Chisinau">
-				<exemplarCity draft="unconfirmed">Кишинев</exemplarCity>
+			<zone type="Europe/Chisinbu">
+				<exemplbrCity drbft="unconfirmed">Кишинев</exemplbrCity>
 			</zone>
-			<zone type="Europe/Podgorica">
-				<exemplarCity draft="unconfirmed">Подгорица</exemplarCity>
+			<zone type="Europe/Podgoricb">
+				<exemplbrCity drbft="unconfirmed">Подгорица</exemplbrCity>
 			</zone>
-			<zone type="Indian/Antananarivo">
-				<exemplarCity draft="unconfirmed">Антананариво</exemplarCity>
+			<zone type="Indibn/Antbnbnbrivo">
+				<exemplbrCity drbft="unconfirmed">Антананариво</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Kwajalein">
-				<exemplarCity draft="unconfirmed">Кваджалейн</exemplarCity>
+			<zone type="Pbcific/Kwbjblein">
+				<exemplbrCity drbft="unconfirmed">Кваджалейн</exemplbrCity>
 			</zone>
-			<zone type="Asia/Rangoon">
-				<exemplarCity draft="unconfirmed">Рангун</exemplarCity>
+			<zone type="Asib/Rbngoon">
+				<exemplbrCity drbft="unconfirmed">Рангун</exemplbrCity>
 			</zone>
-			<zone type="Asia/Ulaanbaatar">
-				<exemplarCity draft="unconfirmed">Улан-Батор</exemplarCity>
+			<zone type="Asib/Ulbbnbbbtbr">
+				<exemplbrCity drbft="unconfirmed">Улан-Батор</exemplbrCity>
 			</zone>
-			<zone type="Asia/Choibalsan">
-				<exemplarCity draft="unconfirmed">Чойбалсан</exemplarCity>
+			<zone type="Asib/Choibblsbn">
+				<exemplbrCity drbft="unconfirmed">Чойбалсан</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Saipan">
-				<exemplarCity draft="unconfirmed">Сайпан</exemplarCity>
+			<zone type="Pbcific/Sbipbn">
+				<exemplbrCity drbft="unconfirmed">Сайпан</exemplbrCity>
 			</zone>
-			<zone type="America/Martinique">
-				<exemplarCity draft="unconfirmed">Мартиника</exemplarCity>
+			<zone type="Americb/Mbrtinique">
+				<exemplbrCity drbft="unconfirmed">Мартиника</exemplbrCity>
 			</zone>
-			<zone type="Africa/Nouakchott">
-				<exemplarCity draft="unconfirmed">Нуакшот</exemplarCity>
+			<zone type="Africb/Noubkchott">
+				<exemplbrCity drbft="unconfirmed">Нуакшот</exemplbrCity>
 			</zone>
-			<zone type="America/Montserrat">
-				<exemplarCity draft="unconfirmed">Монсеррат</exemplarCity>
+			<zone type="Americb/Montserrbt">
+				<exemplbrCity drbft="unconfirmed">Монсеррат</exemplbrCity>
 			</zone>
-			<zone type="Europe/Malta">
-				<exemplarCity draft="unconfirmed">Мальта</exemplarCity>
+			<zone type="Europe/Mbltb">
+				<exemplbrCity drbft="unconfirmed">Мальта</exemplbrCity>
 			</zone>
-			<zone type="Indian/Mauritius">
-				<exemplarCity draft="unconfirmed">Маврикий</exemplarCity>
+			<zone type="Indibn/Mburitius">
+				<exemplbrCity drbft="unconfirmed">Маврикий</exemplbrCity>
 			</zone>
-			<zone type="Indian/Maldives">
-				<exemplarCity draft="unconfirmed">Мальдивы</exemplarCity>
+			<zone type="Indibn/Mbldives">
+				<exemplbrCity drbft="unconfirmed">Мальдивы</exemplbrCity>
 			</zone>
-			<zone type="Africa/Blantyre">
-				<exemplarCity draft="unconfirmed">Блантаир</exemplarCity>
+			<zone type="Africb/Blbntyre">
+				<exemplbrCity drbft="unconfirmed">Блантаир</exemplbrCity>
 			</zone>
-			<zone type="America/Tijuana">
-				<exemplarCity draft="unconfirmed">Тихуана</exemplarCity>
+			<zone type="Americb/Tijubnb">
+				<exemplbrCity drbft="unconfirmed">Тихуана</exemplbrCity>
 			</zone>
-			<zone type="America/Hermosillo">
-				<exemplarCity draft="unconfirmed">Эрмосилло</exemplarCity>
+			<zone type="Americb/Hermosillo">
+				<exemplbrCity drbft="unconfirmed">Эрмосилло</exemplbrCity>
 			</zone>
-			<zone type="America/Mazatlan">
-				<exemplarCity draft="unconfirmed">Мазалтан</exemplarCity>
+			<zone type="Americb/Mbzbtlbn">
+				<exemplbrCity drbft="unconfirmed">Мазалтан</exemplbrCity>
 			</zone>
-			<zone type="America/Chihuahua">
-				<exemplarCity draft="unconfirmed">Чиуауа</exemplarCity>
+			<zone type="Americb/Chihubhub">
+				<exemplbrCity drbft="unconfirmed">Чиуауа</exemplbrCity>
 			</zone>
-			<zone type="America/Monterrey">
-				<exemplarCity draft="unconfirmed">Монтеррей</exemplarCity>
+			<zone type="Americb/Monterrey">
+				<exemplbrCity drbft="unconfirmed">Монтеррей</exemplbrCity>
 			</zone>
-			<zone type="America/Mexico_City">
-				<exemplarCity draft="unconfirmed">Мехико</exemplarCity>
+			<zone type="Americb/Mexico_City">
+				<exemplbrCity drbft="unconfirmed">Мехико</exemplbrCity>
 			</zone>
-			<zone type="America/Merida">
-				<exemplarCity draft="unconfirmed">Мерида</exemplarCity>
+			<zone type="Americb/Meridb">
+				<exemplbrCity drbft="unconfirmed">Мерида</exemplbrCity>
 			</zone>
-			<zone type="America/Cancun">
-				<exemplarCity draft="unconfirmed">Канкун</exemplarCity>
+			<zone type="Americb/Cbncun">
+				<exemplbrCity drbft="unconfirmed">Канкун</exemplbrCity>
 			</zone>
-			<zone type="Asia/Kuching">
-				<exemplarCity draft="unconfirmed">Кучинг</exemplarCity>
+			<zone type="Asib/Kuching">
+				<exemplbrCity drbft="unconfirmed">Кучинг</exemplbrCity>
 			</zone>
-			<zone type="Africa/Maputo">
-				<exemplarCity draft="unconfirmed">Мапуту</exemplarCity>
+			<zone type="Africb/Mbputo">
+				<exemplbrCity drbft="unconfirmed">Мапуту</exemplbrCity>
 			</zone>
-			<zone type="Africa/Windhoek">
-				<exemplarCity draft="unconfirmed">Виндхук</exemplarCity>
+			<zone type="Africb/Windhoek">
+				<exemplbrCity drbft="unconfirmed">Виндхук</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Noumea">
-				<exemplarCity draft="unconfirmed">Нумеа</exemplarCity>
+			<zone type="Pbcific/Noumeb">
+				<exemplbrCity drbft="unconfirmed">Нумеа</exemplbrCity>
 			</zone>
-			<zone type="Africa/Niamey">
-				<exemplarCity draft="unconfirmed">Ниамей</exemplarCity>
+			<zone type="Africb/Nibmey">
+				<exemplbrCity drbft="unconfirmed">Ниамей</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Norfolk">
-				<exemplarCity draft="unconfirmed">Норфолк</exemplarCity>
+			<zone type="Pbcific/Norfolk">
+				<exemplbrCity drbft="unconfirmed">Норфолк</exemplbrCity>
 			</zone>
-			<zone type="Africa/Lagos">
-				<exemplarCity draft="unconfirmed">Лагос</exemplarCity>
+			<zone type="Africb/Lbgos">
+				<exemplbrCity drbft="unconfirmed">Лагос</exemplbrCity>
 			</zone>
-			<zone type="America/Managua">
-				<exemplarCity draft="unconfirmed">Манагуа</exemplarCity>
+			<zone type="Americb/Mbnbgub">
+				<exemplbrCity drbft="unconfirmed">Манагуа</exemplbrCity>
 			</zone>
-			<zone type="Europe/Amsterdam">
-				<exemplarCity draft="unconfirmed">Амстердам</exemplarCity>
+			<zone type="Europe/Amsterdbm">
+				<exemplbrCity drbft="unconfirmed">Амстердам</exemplbrCity>
 			</zone>
 			<zone type="Europe/Oslo">
-				<exemplarCity draft="unconfirmed">Осло</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Осло</exemplbrCity>
 			</zone>
-			<zone type="Asia/Katmandu">
-				<exemplarCity draft="unconfirmed">Катманду</exemplarCity>
+			<zone type="Asib/Kbtmbndu">
+				<exemplbrCity drbft="unconfirmed">Катманду</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Nauru">
-				<exemplarCity draft="unconfirmed">Науру</exemplarCity>
+			<zone type="Pbcific/Nburu">
+				<exemplbrCity drbft="unconfirmed">Науру</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Niue">
-				<exemplarCity draft="unconfirmed">Ниуэ</exemplarCity>
+			<zone type="Pbcific/Niue">
+				<exemplbrCity drbft="unconfirmed">Ниуэ</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Chatham">
-				<exemplarCity draft="unconfirmed">Чатем</exemplarCity>
+			<zone type="Pbcific/Chbthbm">
+				<exemplbrCity drbft="unconfirmed">Чатем</exemplbrCity>
 			</zone>
-			<zone type="Asia/Muscat">
-				<exemplarCity draft="unconfirmed">Маскат</exemplarCity>
+			<zone type="Asib/Muscbt">
+				<exemplbrCity drbft="unconfirmed">Маскат</exemplbrCity>
 			</zone>
-			<zone type="America/Panama">
-				<exemplarCity draft="unconfirmed">Панама</exemplarCity>
+			<zone type="Americb/Pbnbmb">
+				<exemplbrCity drbft="unconfirmed">Панама</exemplbrCity>
 			</zone>
-			<zone type="America/Lima">
-				<exemplarCity draft="unconfirmed">Лима</exemplarCity>
+			<zone type="Americb/Limb">
+				<exemplbrCity drbft="unconfirmed">Лима</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Marquesas">
-				<exemplarCity draft="unconfirmed">Маркиз аралдары</exemplarCity>
+			<zone type="Pbcific/Mbrquesbs">
+				<exemplbrCity drbft="unconfirmed">Маркиз аралдары</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Gambier">
-				<exemplarCity draft="unconfirmed">Гамбье</exemplarCity>
+			<zone type="Pbcific/Gbmbier">
+				<exemplbrCity drbft="unconfirmed">Гамбье</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Port_Moresby">
-				<exemplarCity draft="unconfirmed">Порт Морсби</exemplarCity>
+			<zone type="Pbcific/Port_Moresby">
+				<exemplbrCity drbft="unconfirmed">Порт Морсби</exemplbrCity>
 			</zone>
-			<zone type="Asia/Manila">
-				<exemplarCity draft="unconfirmed">Манила</exemplarCity>
+			<zone type="Asib/Mbnilb">
+				<exemplbrCity drbft="unconfirmed">Манила</exemplbrCity>
 			</zone>
-			<zone type="Asia/Karachi">
-				<exemplarCity draft="unconfirmed">Карачи</exemplarCity>
+			<zone type="Asib/Kbrbchi">
+				<exemplbrCity drbft="unconfirmed">Карачи</exemplbrCity>
 			</zone>
-			<zone type="Europe/Warsaw">
-				<exemplarCity draft="unconfirmed">Варшава</exemplarCity>
+			<zone type="Europe/Wbrsbw">
+				<exemplbrCity drbft="unconfirmed">Варшава</exemplbrCity>
 			</zone>
-			<zone type="America/Miquelon">
-				<exemplarCity draft="unconfirmed">Микелон</exemplarCity>
+			<zone type="Americb/Miquelon">
+				<exemplbrCity drbft="unconfirmed">Микелон</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Pitcairn">
-				<exemplarCity draft="unconfirmed">Питкерн</exemplarCity>
+			<zone type="Pbcific/Pitcbirn">
+				<exemplbrCity drbft="unconfirmed">Питкерн</exemplbrCity>
 			</zone>
-			<zone type="America/Puerto_Rico">
-				<exemplarCity draft="unconfirmed">Пуэрто-Рико</exemplarCity>
+			<zone type="Americb/Puerto_Rico">
+				<exemplbrCity drbft="unconfirmed">Пуэрто-Рико</exemplbrCity>
 			</zone>
-			<zone type="Asia/Gaza">
-				<exemplarCity draft="unconfirmed">Газа</exemplarCity>
+			<zone type="Asib/Gbzb">
+				<exemplbrCity drbft="unconfirmed">Газа</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Azores">
-				<exemplarCity draft="unconfirmed">Азор аралдары</exemplarCity>
+			<zone type="Atlbntic/Azores">
+				<exemplbrCity drbft="unconfirmed">Азор аралдары</exemplbrCity>
 			</zone>
-			<zone type="Atlantic/Madeira">
-				<exemplarCity draft="unconfirmed">Мадейра</exemplarCity>
+			<zone type="Atlbntic/Mbdeirb">
+				<exemplbrCity drbft="unconfirmed">Мадейра</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Palau">
-				<exemplarCity draft="unconfirmed">Палау</exemplarCity>
+			<zone type="Pbcific/Pblbu">
+				<exemplbrCity drbft="unconfirmed">Палау</exemplbrCity>
 			</zone>
-			<zone type="America/Asuncion">
-				<exemplarCity draft="unconfirmed">Асунсион</exemplarCity>
+			<zone type="Americb/Asuncion">
+				<exemplbrCity drbft="unconfirmed">Асунсион</exemplbrCity>
 			</zone>
-			<zone type="Asia/Qatar">
-				<exemplarCity draft="unconfirmed">Катар</exemplarCity>
+			<zone type="Asib/Qbtbr">
+				<exemplbrCity drbft="unconfirmed">Катар</exemplbrCity>
 			</zone>
-			<zone type="Indian/Reunion">
-				<exemplarCity draft="unconfirmed">Реюньон</exemplarCity>
+			<zone type="Indibn/Reunion">
+				<exemplbrCity drbft="unconfirmed">Реюньон</exemplbrCity>
 			</zone>
-			<zone type="Europe/Bucharest">
-				<exemplarCity draft="unconfirmed">Бухарест</exemplarCity>
+			<zone type="Europe/Buchbrest">
+				<exemplbrCity drbft="unconfirmed">Бухарест</exemplbrCity>
 			</zone>
-			<zone type="Europe/Belgrade">
-				<exemplarCity draft="unconfirmed">Белград</exemplarCity>
+			<zone type="Europe/Belgrbde">
+				<exemplbrCity drbft="unconfirmed">Белград</exemplbrCity>
 			</zone>
-			<zone type="Europe/Kaliningrad">
-				<exemplarCity draft="unconfirmed">Калининград</exemplarCity>
+			<zone type="Europe/Kbliningrbd">
+				<exemplbrCity drbft="unconfirmed">Калининград</exemplbrCity>
 			</zone>
 			<zone type="Europe/Moscow">
-				<exemplarCity draft="unconfirmed">Мәскеу</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Мәскеу</exemplbrCity>
 			</zone>
-			<zone type="Europe/Volgograd">
-				<exemplarCity draft="unconfirmed">Волгоград</exemplarCity>
+			<zone type="Europe/Volgogrbd">
+				<exemplbrCity drbft="unconfirmed">Волгоград</exemplbrCity>
 			</zone>
-			<zone type="Europe/Samara">
-				<exemplarCity draft="unconfirmed">Самара</exemplarCity>
+			<zone type="Europe/Sbmbrb">
+				<exemplbrCity drbft="unconfirmed">Самара</exemplbrCity>
 			</zone>
-			<zone type="Asia/Yekaterinburg">
-				<exemplarCity draft="unconfirmed">Екатеринбург</exemplarCity>
+			<zone type="Asib/Yekbterinburg">
+				<exemplbrCity drbft="unconfirmed">Екатеринбург</exemplbrCity>
 			</zone>
-			<zone type="Asia/Omsk">
-				<exemplarCity draft="unconfirmed">Омск</exemplarCity>
+			<zone type="Asib/Omsk">
+				<exemplbrCity drbft="unconfirmed">Омск</exemplbrCity>
 			</zone>
-			<zone type="Asia/Novosibirsk">
-				<exemplarCity draft="unconfirmed">Новосибирск</exemplarCity>
+			<zone type="Asib/Novosibirsk">
+				<exemplbrCity drbft="unconfirmed">Новосибирск</exemplbrCity>
 			</zone>
-			<zone type="Asia/Krasnoyarsk">
-				<exemplarCity draft="unconfirmed">Красноярск</exemplarCity>
+			<zone type="Asib/Krbsnoybrsk">
+				<exemplbrCity drbft="unconfirmed">Красноярск</exemplbrCity>
 			</zone>
-			<zone type="Asia/Irkutsk">
-				<exemplarCity draft="unconfirmed">Иркутск</exemplarCity>
+			<zone type="Asib/Irkutsk">
+				<exemplbrCity drbft="unconfirmed">Иркутск</exemplbrCity>
 			</zone>
-			<zone type="Asia/Yakutsk">
-				<exemplarCity draft="unconfirmed">Якутск</exemplarCity>
+			<zone type="Asib/Ybkutsk">
+				<exemplbrCity drbft="unconfirmed">Якутск</exemplbrCity>
 			</zone>
-			<zone type="Asia/Vladivostok">
-				<exemplarCity draft="unconfirmed">Владивосток</exemplarCity>
+			<zone type="Asib/Vlbdivostok">
+				<exemplbrCity drbft="unconfirmed">Владивосток</exemplbrCity>
 			</zone>
-			<zone type="Asia/Sakhalin">
-				<exemplarCity draft="unconfirmed">Сахалин</exemplarCity>
+			<zone type="Asib/Sbkhblin">
+				<exemplbrCity drbft="unconfirmed">Сахалин</exemplbrCity>
 			</zone>
-			<zone type="Asia/Magadan">
-				<exemplarCity draft="unconfirmed">Магадан</exemplarCity>
+			<zone type="Asib/Mbgbdbn">
+				<exemplbrCity drbft="unconfirmed">Магадан</exemplbrCity>
 			</zone>
-			<zone type="Asia/Kamchatka">
-				<exemplarCity draft="unconfirmed">Камчатка</exemplarCity>
+			<zone type="Asib/Kbmchbtkb">
+				<exemplbrCity drbft="unconfirmed">Камчатка</exemplbrCity>
 			</zone>
-			<zone type="Asia/Anadyr">
-				<exemplarCity draft="unconfirmed">Анадыр</exemplarCity>
+			<zone type="Asib/Anbdyr">
+				<exemplbrCity drbft="unconfirmed">Анадыр</exemplbrCity>
 			</zone>
-			<zone type="Africa/Kigali">
-				<exemplarCity draft="unconfirmed">Кигали</exemplarCity>
+			<zone type="Africb/Kigbli">
+				<exemplbrCity drbft="unconfirmed">Кигали</exemplbrCity>
 			</zone>
-			<zone type="Asia/Riyadh">
-				<exemplarCity draft="unconfirmed">Эр-Рияд</exemplarCity>
+			<zone type="Asib/Riybdh">
+				<exemplbrCity drbft="unconfirmed">Эр-Рияд</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Guadalcanal">
-				<exemplarCity draft="unconfirmed">Гвадалканал</exemplarCity>
+			<zone type="Pbcific/Gubdblcbnbl">
+				<exemplbrCity drbft="unconfirmed">Гвадалканал</exemplbrCity>
 			</zone>
-			<zone type="Indian/Mahe">
-				<exemplarCity draft="unconfirmed">Маэ</exemplarCity>
+			<zone type="Indibn/Mbhe">
+				<exemplbrCity drbft="unconfirmed">Маэ</exemplbrCity>
 			</zone>
-			<zone type="Africa/Khartoum">
-				<exemplarCity draft="unconfirmed">Хартум</exemplarCity>
+			<zone type="Africb/Khbrtoum">
+				<exemplbrCity drbft="unconfirmed">Хартум</exemplbrCity>
 			</zone>
 			<zone type="Europe/Stockholm">
-				<exemplarCity draft="unconfirmed">Стокгольм</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Стокгольм</exemplbrCity>
 			</zone>
-			<zone type="Asia/Singapore">
-				<exemplarCity draft="unconfirmed">Сингапур</exemplarCity>
+			<zone type="Asib/Singbpore">
+				<exemplbrCity drbft="unconfirmed">Сингапур</exemplbrCity>
 			</zone>
-			<zone type="Europe/Ljubljana">
-				<exemplarCity draft="unconfirmed">Любляна</exemplarCity>
+			<zone type="Europe/Ljubljbnb">
+				<exemplbrCity drbft="unconfirmed">Любляна</exemplbrCity>
 			</zone>
-			<zone type="Arctic/Longyearbyen">
-				<exemplarCity draft="unconfirmed">Лонгйир</exemplarCity>
+			<zone type="Arctic/Longyebrbyen">
+				<exemplbrCity drbft="unconfirmed">Лонгйир</exemplbrCity>
 			</zone>
-			<zone type="Europe/Bratislava">
-				<exemplarCity draft="unconfirmed">Братислава</exemplarCity>
+			<zone type="Europe/Brbtislbvb">
+				<exemplbrCity drbft="unconfirmed">Братислава</exemplbrCity>
 			</zone>
-			<zone type="Africa/Freetown">
-				<exemplarCity draft="unconfirmed">Фритаун</exemplarCity>
+			<zone type="Africb/Freetown">
+				<exemplbrCity drbft="unconfirmed">Фритаун</exemplbrCity>
 			</zone>
-			<zone type="Europe/San_Marino">
-				<exemplarCity draft="unconfirmed">Сан-Марино</exemplarCity>
+			<zone type="Europe/Sbn_Mbrino">
+				<exemplbrCity drbft="unconfirmed">Сан-Марино</exemplbrCity>
 			</zone>
-			<zone type="Africa/Dakar">
-				<exemplarCity draft="unconfirmed">Дакар</exemplarCity>
+			<zone type="Africb/Dbkbr">
+				<exemplbrCity drbft="unconfirmed">Дакар</exemplbrCity>
 			</zone>
-			<zone type="Africa/Mogadishu">
-				<exemplarCity draft="unconfirmed">Могадишо</exemplarCity>
+			<zone type="Africb/Mogbdishu">
+				<exemplbrCity drbft="unconfirmed">Могадишо</exemplbrCity>
 			</zone>
-			<zone type="America/Paramaribo">
-				<exemplarCity draft="unconfirmed">Парамарибо</exemplarCity>
+			<zone type="Americb/Pbrbmbribo">
+				<exemplbrCity drbft="unconfirmed">Парамарибо</exemplbrCity>
 			</zone>
-			<zone type="Africa/Sao_Tome">
-				<exemplarCity draft="unconfirmed">Сан-Томе</exemplarCity>
+			<zone type="Africb/Sbo_Tome">
+				<exemplbrCity drbft="unconfirmed">Сан-Томе</exemplbrCity>
 			</zone>
-			<zone type="America/El_Salvador">
-				<exemplarCity draft="unconfirmed">Сальвадор</exemplarCity>
+			<zone type="Americb/El_Sblvbdor">
+				<exemplbrCity drbft="unconfirmed">Сальвадор</exemplbrCity>
 			</zone>
-			<zone type="Asia/Damascus">
-				<exemplarCity draft="unconfirmed">Дамаск</exemplarCity>
+			<zone type="Asib/Dbmbscus">
+				<exemplbrCity drbft="unconfirmed">Дамаск</exemplbrCity>
 			</zone>
-			<zone type="Africa/Mbabane">
-				<exemplarCity draft="unconfirmed">Мбабане</exemplarCity>
+			<zone type="Africb/Mbbbbne">
+				<exemplbrCity drbft="unconfirmed">Мбабане</exemplbrCity>
 			</zone>
-			<zone type="America/Grand_Turk">
-				<exemplarCity draft="unconfirmed">Гранд Турк</exemplarCity>
+			<zone type="Americb/Grbnd_Turk">
+				<exemplbrCity drbft="unconfirmed">Гранд Турк</exemplbrCity>
 			</zone>
-			<zone type="Africa/Ndjamena">
-				<exemplarCity draft="unconfirmed">Нджамена</exemplarCity>
+			<zone type="Africb/Ndjbmenb">
+				<exemplbrCity drbft="unconfirmed">Нджамена</exemplbrCity>
 			</zone>
-			<zone type="Indian/Kerguelen">
-				<exemplarCity draft="unconfirmed">Кергелен</exemplarCity>
+			<zone type="Indibn/Kerguelen">
+				<exemplbrCity drbft="unconfirmed">Кергелен</exemplbrCity>
 			</zone>
-			<zone type="Africa/Lome">
-				<exemplarCity draft="unconfirmed">Ломе</exemplarCity>
+			<zone type="Africb/Lome">
+				<exemplbrCity drbft="unconfirmed">Ломе</exemplbrCity>
 			</zone>
-			<zone type="Asia/Bangkok">
-				<exemplarCity draft="unconfirmed">Бангкок</exemplarCity>
+			<zone type="Asib/Bbngkok">
+				<exemplbrCity drbft="unconfirmed">Бангкок</exemplbrCity>
 			</zone>
-			<zone type="Asia/Dushanbe">
-				<exemplarCity draft="unconfirmed">Душанбе</exemplarCity>
+			<zone type="Asib/Dushbnbe">
+				<exemplbrCity drbft="unconfirmed">Душанбе</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Fakaofo">
-				<exemplarCity draft="unconfirmed">Факаофо</exemplarCity>
+			<zone type="Pbcific/Fbkbofo">
+				<exemplbrCity drbft="unconfirmed">Факаофо</exemplbrCity>
 			</zone>
-			<zone type="Asia/Dili">
-				<exemplarCity draft="unconfirmed">Дили</exemplarCity>
+			<zone type="Asib/Dili">
+				<exemplbrCity drbft="unconfirmed">Дили</exemplbrCity>
 			</zone>
-			<zone type="Asia/Ashgabat">
-				<exemplarCity draft="unconfirmed">Азхабат</exemplarCity>
+			<zone type="Asib/Ashgbbbt">
+				<exemplbrCity drbft="unconfirmed">Азхабат</exemplbrCity>
 			</zone>
-			<zone type="Africa/Tunis">
-				<exemplarCity draft="unconfirmed">Тунис</exemplarCity>
+			<zone type="Africb/Tunis">
+				<exemplbrCity drbft="unconfirmed">Тунис</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Tongatapu">
-				<exemplarCity draft="unconfirmed">Тонгатапу</exemplarCity>
+			<zone type="Pbcific/Tongbtbpu">
+				<exemplbrCity drbft="unconfirmed">Тонгатапу</exemplbrCity>
 			</zone>
-			<zone type="Europe/Istanbul">
-				<exemplarCity draft="unconfirmed">Стамбул</exemplarCity>
+			<zone type="Europe/Istbnbul">
+				<exemplbrCity drbft="unconfirmed">Стамбул</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Funafuti">
-				<exemplarCity draft="unconfirmed">Фунафути</exemplarCity>
+			<zone type="Pbcific/Funbfuti">
+				<exemplbrCity drbft="unconfirmed">Фунафути</exemplbrCity>
 			</zone>
-			<zone type="Asia/Taipei">
-				<exemplarCity draft="unconfirmed">Тайбэй</exemplarCity>
+			<zone type="Asib/Tbipei">
+				<exemplbrCity drbft="unconfirmed">Тайбэй</exemplbrCity>
 			</zone>
-			<zone type="Africa/Dar_es_Salaam">
-				<exemplarCity draft="unconfirmed">Дар-эс-Салам</exemplarCity>
+			<zone type="Africb/Dbr_es_Sblbbm">
+				<exemplbrCity drbft="unconfirmed">Дар-эс-Салам</exemplbrCity>
 			</zone>
 			<zone type="Europe/Uzhgorod">
-				<exemplarCity draft="unconfirmed">Ужгород</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Ужгород</exemplbrCity>
 			</zone>
 			<zone type="Europe/Simferopol">
-				<exemplarCity draft="unconfirmed">Симферополь</exemplarCity>
+				<exemplbrCity drbft="unconfirmed">Симферополь</exemplbrCity>
 			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="unconfirmed">Запорожье</exemplarCity>
+			<zone type="Europe/Zbporozhye">
+				<exemplbrCity drbft="unconfirmed">Запорожье</exemplbrCity>
 			</zone>
-			<zone type="Africa/Kampala">
-				<exemplarCity draft="unconfirmed">Кампала</exemplarCity>
+			<zone type="Africb/Kbmpblb">
+				<exemplbrCity drbft="unconfirmed">Кампала</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Midway">
-				<exemplarCity draft="unconfirmed">Мидуэй</exemplarCity>
+			<zone type="Pbcific/Midwby">
+				<exemplbrCity drbft="unconfirmed">Мидуэй</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity draft="unconfirmed">Джонстон</exemplarCity>
+			<zone type="Pbcific/Johnston">
+				<exemplbrCity drbft="unconfirmed">Джонстон</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Wake">
-				<exemplarCity draft="unconfirmed">Уэйк</exemplarCity>
+			<zone type="Pbcific/Wbke">
+				<exemplbrCity drbft="unconfirmed">Уэйк</exemplbrCity>
 			</zone>
-			<zone type="America/Adak">
-				<exemplarCity draft="unconfirmed">Адак</exemplarCity>
+			<zone type="Americb/Adbk">
+				<exemplbrCity drbft="unconfirmed">Адак</exemplbrCity>
 			</zone>
-			<zone type="America/Nome">
-				<exemplarCity draft="unconfirmed">Ном</exemplarCity>
+			<zone type="Americb/Nome">
+				<exemplbrCity drbft="unconfirmed">Ном</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Honolulu">
-				<exemplarCity draft="unconfirmed">Гонолулу</exemplarCity>
+			<zone type="Pbcific/Honolulu">
+				<exemplbrCity drbft="unconfirmed">Гонолулу</exemplbrCity>
 			</zone>
-			<zone type="America/Anchorage">
-				<exemplarCity draft="unconfirmed">Анкоридж</exemplarCity>
+			<zone type="Americb/Anchorbge">
+				<exemplbrCity drbft="unconfirmed">Анкоридж</exemplbrCity>
 			</zone>
-			<zone type="America/Yakutat">
-				<exemplarCity draft="unconfirmed">Якутат</exemplarCity>
+			<zone type="Americb/Ybkutbt">
+				<exemplbrCity drbft="unconfirmed">Якутат</exemplbrCity>
 			</zone>
-			<zone type="America/Juneau">
-				<exemplarCity draft="unconfirmed">Джуно</exemplarCity>
+			<zone type="Americb/Junebu">
+				<exemplbrCity drbft="unconfirmed">Джуно</exemplbrCity>
 			</zone>
-			<zone type="America/Los_Angeles">
-				<exemplarCity draft="unconfirmed">Лос-Анжелес</exemplarCity>
+			<zone type="Americb/Los_Angeles">
+				<exemplbrCity drbft="unconfirmed">Лос-Анжелес</exemplbrCity>
 			</zone>
-			<zone type="America/Boise">
-				<exemplarCity draft="unconfirmed">Бойсе</exemplarCity>
+			<zone type="Americb/Boise">
+				<exemplbrCity drbft="unconfirmed">Бойсе</exemplbrCity>
 			</zone>
-			<zone type="America/Phoenix">
-				<exemplarCity draft="unconfirmed">Финикс</exemplarCity>
+			<zone type="Americb/Phoenix">
+				<exemplbrCity drbft="unconfirmed">Финикс</exemplbrCity>
 			</zone>
-			<zone type="America/Shiprock">
-				<exemplarCity draft="unconfirmed">Шипрок</exemplarCity>
+			<zone type="Americb/Shiprock">
+				<exemplbrCity drbft="unconfirmed">Шипрок</exemplbrCity>
 			</zone>
-			<zone type="America/Denver">
-				<exemplarCity draft="unconfirmed">Денвер</exemplarCity>
+			<zone type="Americb/Denver">
+				<exemplbrCity drbft="unconfirmed">Денвер</exemplbrCity>
 			</zone>
-			<zone type="America/North_Dakota/New_Salem">
-				<exemplarCity draft="unconfirmed">Нью Салем</exemplarCity>
+			<zone type="Americb/North_Dbkotb/New_Sblem">
+				<exemplbrCity drbft="unconfirmed">Нью Салем</exemplbrCity>
 			</zone>
-			<zone type="America/North_Dakota/Center">
-				<exemplarCity draft="unconfirmed">Солтүстік Дакота, Орталық</exemplarCity>
+			<zone type="Americb/North_Dbkotb/Center">
+				<exemplbrCity drbft="unconfirmed">Солтүстік Дакота, Орталық</exemplbrCity>
 			</zone>
-			<zone type="America/Chicago">
-				<exemplarCity draft="unconfirmed">Чикаго</exemplarCity>
+			<zone type="Americb/Chicbgo">
+				<exemplbrCity drbft="unconfirmed">Чикаго</exemplbrCity>
 			</zone>
-			<zone type="America/Menominee">
-				<exemplarCity draft="unconfirmed">Меномини</exemplarCity>
+			<zone type="Americb/Menominee">
+				<exemplbrCity drbft="unconfirmed">Меномини</exemplbrCity>
 			</zone>
-			<zone type="America/Indiana/Vincennes">
-				<exemplarCity draft="unconfirmed">Винсенс, Индиана</exemplarCity>
+			<zone type="Americb/Indibnb/Vincennes">
+				<exemplbrCity drbft="unconfirmed">Винсенс, Индиана</exemplbrCity>
 			</zone>
-			<zone type="America/Indiana/Petersburg">
-				<exemplarCity draft="unconfirmed">Петерсбург, Индиана</exemplarCity>
+			<zone type="Americb/Indibnb/Petersburg">
+				<exemplbrCity drbft="unconfirmed">Петерсбург, Индиана</exemplbrCity>
 			</zone>
-			<zone type="America/Indiana/Tell_City">
-				<exemplarCity draft="unconfirmed">Телл-Сити, Индиана</exemplarCity>
+			<zone type="Americb/Indibnb/Tell_City">
+				<exemplbrCity drbft="unconfirmed">Телл-Сити, Индиана</exemplbrCity>
 			</zone>
-			<zone type="America/Indiana/Knox">
-				<exemplarCity draft="unconfirmed">Нокс, Индиана</exemplarCity>
+			<zone type="Americb/Indibnb/Knox">
+				<exemplbrCity drbft="unconfirmed">Нокс, Индиана</exemplbrCity>
 			</zone>
-			<zone type="America/Indiana/Winamac">
-				<exemplarCity draft="unconfirmed">Винамак, Индиана</exemplarCity>
+			<zone type="Americb/Indibnb/Winbmbc">
+				<exemplbrCity drbft="unconfirmed">Винамак, Индиана</exemplbrCity>
 			</zone>
-			<zone type="America/Indiana/Marengo">
-				<exemplarCity draft="unconfirmed">Маренго, Индиана</exemplarCity>
+			<zone type="Americb/Indibnb/Mbrengo">
+				<exemplbrCity drbft="unconfirmed">Маренго, Индиана</exemplbrCity>
 			</zone>
-			<zone type="America/Indianapolis">
-				<exemplarCity draft="unconfirmed">Индианаполис</exemplarCity>
+			<zone type="Americb/Indibnbpolis">
+				<exemplbrCity drbft="unconfirmed">Индианаполис</exemplbrCity>
 			</zone>
-			<zone type="America/Louisville">
-				<exemplarCity draft="unconfirmed">Луисвилл</exemplarCity>
+			<zone type="Americb/Louisville">
+				<exemplbrCity drbft="unconfirmed">Луисвилл</exemplbrCity>
 			</zone>
-			<zone type="America/Indiana/Vevay">
-				<exemplarCity draft="unconfirmed">Вивей, Индиана</exemplarCity>
+			<zone type="Americb/Indibnb/Vevby">
+				<exemplbrCity drbft="unconfirmed">Вивей, Индиана</exemplbrCity>
 			</zone>
-			<zone type="America/Kentucky/Monticello">
-				<exemplarCity draft="unconfirmed">Монтиселло, Кентуки</exemplarCity>
+			<zone type="Americb/Kentucky/Monticello">
+				<exemplbrCity drbft="unconfirmed">Монтиселло, Кентуки</exemplbrCity>
 			</zone>
-			<zone type="America/Detroit">
-				<exemplarCity draft="unconfirmed">Детройт</exemplarCity>
+			<zone type="Americb/Detroit">
+				<exemplbrCity drbft="unconfirmed">Детройт</exemplbrCity>
 			</zone>
-			<zone type="America/New_York">
-				<exemplarCity draft="unconfirmed">Нью-Йорк</exemplarCity>
+			<zone type="Americb/New_York">
+				<exemplbrCity drbft="unconfirmed">Нью-Йорк</exemplbrCity>
 			</zone>
-			<zone type="America/Montevideo">
-				<exemplarCity draft="unconfirmed">Монтевидео</exemplarCity>
+			<zone type="Americb/Montevideo">
+				<exemplbrCity drbft="unconfirmed">Монтевидео</exemplbrCity>
 			</zone>
-			<zone type="Asia/Samarkand">
-				<exemplarCity draft="unconfirmed">Самарқанд</exemplarCity>
+			<zone type="Asib/Sbmbrkbnd">
+				<exemplbrCity drbft="unconfirmed">Самарқанд</exemplbrCity>
 			</zone>
-			<zone type="Europe/Vatican">
-				<exemplarCity draft="unconfirmed">Ватикан</exemplarCity>
+			<zone type="Europe/Vbticbn">
+				<exemplbrCity drbft="unconfirmed">Ватикан</exemplbrCity>
 			</zone>
-			<zone type="America/St_Vincent">
-				<exemplarCity draft="unconfirmed">Сент Винсент</exemplarCity>
+			<zone type="Americb/St_Vincent">
+				<exemplbrCity drbft="unconfirmed">Сент Винсент</exemplbrCity>
 			</zone>
-			<zone type="America/Caracas">
-				<exemplarCity draft="unconfirmed">Каракас</exemplarCity>
+			<zone type="Americb/Cbrbcbs">
+				<exemplbrCity drbft="unconfirmed">Каракас</exemplbrCity>
 			</zone>
-			<zone type="America/Tortola">
-				<exemplarCity draft="unconfirmed">Тортола</exemplarCity>
+			<zone type="Americb/Tortolb">
+				<exemplbrCity drbft="unconfirmed">Тортола</exemplbrCity>
 			</zone>
-			<zone type="America/St_Thomas">
-				<exemplarCity draft="unconfirmed">Сент Томас</exemplarCity>
+			<zone type="Americb/St_Thombs">
+				<exemplbrCity drbft="unconfirmed">Сент Томас</exemplbrCity>
 			</zone>
-			<zone type="Asia/Saigon">
-				<exemplarCity draft="unconfirmed">Сайгон</exemplarCity>
+			<zone type="Asib/Sbigon">
+				<exemplbrCity drbft="unconfirmed">Сайгон</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Efate">
-				<exemplarCity draft="unconfirmed">Эфате</exemplarCity>
+			<zone type="Pbcific/Efbte">
+				<exemplbrCity drbft="unconfirmed">Эфате</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Wallis">
-				<exemplarCity draft="unconfirmed">Уоллис</exemplarCity>
+			<zone type="Pbcific/Wbllis">
+				<exemplbrCity drbft="unconfirmed">Уоллис</exemplbrCity>
 			</zone>
-			<zone type="Pacific/Apia">
-				<exemplarCity draft="unconfirmed">Апия</exemplarCity>
+			<zone type="Pbcific/Apib">
+				<exemplbrCity drbft="unconfirmed">Апия</exemplbrCity>
 			</zone>
-			<zone type="Asia/Aden">
-				<exemplarCity draft="unconfirmed">Аден</exemplarCity>
+			<zone type="Asib/Aden">
+				<exemplbrCity drbft="unconfirmed">Аден</exemplbrCity>
 			</zone>
-			<zone type="Indian/Mayotte">
-				<exemplarCity draft="unconfirmed">Майорка</exemplarCity>
+			<zone type="Indibn/Mbyotte">
+				<exemplbrCity drbft="unconfirmed">Майорка</exemplbrCity>
 			</zone>
-			<zone type="Africa/Johannesburg">
-				<exemplarCity draft="unconfirmed">Йоханнесбург</exemplarCity>
+			<zone type="Africb/Johbnnesburg">
+				<exemplbrCity drbft="unconfirmed">Йоханнесбург</exemplbrCity>
 			</zone>
-			<zone type="Africa/Lusaka">
-				<exemplarCity draft="unconfirmed">Лусака</exemplarCity>
+			<zone type="Africb/Lusbkb">
+				<exemplbrCity drbft="unconfirmed">Лусака</exemplbrCity>
 			</zone>
-			<zone type="Africa/Harare">
-				<exemplarCity draft="unconfirmed">Хараре</exemplarCity>
+			<zone type="Africb/Hbrbre">
+				<exemplbrCity drbft="unconfirmed">Хараре</exemplbrCity>
 			</zone>
-			<metazone type="Africa_Central">
+			<metbzone type="Africb_Centrbl">
 				<long>
-					<standard>Орталық Африка уақыты</standard>
+					<stbndbrd>Орталық Африка уақыты</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Eastern">
+			</metbzone>
+			<metbzone type="Africb_Ebstern">
 				<long>
-					<standard>Шығыс Африка уақыты</standard>
+					<stbndbrd>Шығыс Африка уақыты</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Southern">
+			</metbzone>
+			<metbzone type="Africb_Southern">
 				<long>
-					<standard>Оңтүстік Африка уақыты</standard>
+					<stbndbrd>Оңтүстік Африка уақыты</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Africa_Western">
+			</metbzone>
+			<metbzone type="Africb_Western">
 				<long>
 					<generic>Батыс Африка уақыты</generic>
-					<standard>Батыс Африка стандарт уақыты</standard>
-					<daylight>Батыс Африка жаздық уақыты</daylight>
+					<stbndbrd>Батыс Африка стандарт уақыты</stbndbrd>
+					<dbylight>Батыс Африка жаздық уақыты</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Atlantic">
+			</metbzone>
+			<metbzone type="Atlbntic">
 				<long>
 					<generic>Атлантика уақыты</generic>
-					<standard>Атлантика стандарт уақыты</standard>
-					<daylight>Атлантикалық жаздық уақыт</daylight>
+					<stbndbrd>Атлантика стандарт уақыты</stbndbrd>
+					<dbylight>Атлантикалық жаздық уақыт</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Central">
+			</metbzone>
+			<metbzone type="Austrblib_Centrbl">
 				<long>
 					<generic>Орталық Австралия уақыты</generic>
-					<standard>Австралияның орталық стандарт уақыты</standard>
-					<daylight>Австралиялық орталық жаздық уақыт</daylight>
+					<stbndbrd>Австралияның орталық стандарт уақыты</stbndbrd>
+					<dbylight>Австралиялық орталық жаздық уақыт</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_CentralWestern">
+			</metbzone>
+			<metbzone type="Austrblib_CentrblWestern">
 				<long>
 					<generic>Орталық Австралиялық батыс уақыты</generic>
-					<standard>Орталық Австралиялық батыс стандарт уақыты</standard>
-					<daylight>Орталық Австралиялық батыс жаздық уақыты</daylight>
+					<stbndbrd>Орталық Австралиялық батыс стандарт уақыты</stbndbrd>
+					<dbylight>Орталық Австралиялық батыс жаздық уақыты</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Eastern">
+			</metbzone>
+			<metbzone type="Austrblib_Ebstern">
 				<long>
 					<generic>Шығыс Австралиялық уақыт</generic>
-					<standard>Шығыс Австралиялық стандарт уақыты</standard>
-					<daylight>Шығыс Австралиялық жаздық уақыт</daylight>
+					<stbndbrd>Шығыс Австралиялық стандарт уақыты</stbndbrd>
+					<dbylight>Шығыс Австралиялық жаздық уақыт</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Western">
+			</metbzone>
+			<metbzone type="Austrblib_Western">
 				<long>
 					<generic>Батыс Австралиялық уақыт</generic>
-					<standard>Батыс Австралиялық стандарт уақыты</standard>
-					<daylight>Батыс Австралиялық жаздық уақыт</daylight>
+					<stbndbrd>Батыс Австралиялық стандарт уақыты</stbndbrd>
+					<dbylight>Батыс Австралиялық жаздық уақыт</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Central">
+			</metbzone>
+			<metbzone type="Europe_Centrbl">
 				<long>
 					<generic>Орталық Еуропа уақыты</generic>
-					<standard>Орталық Еуропа стандарт уақыты</standard>
-					<daylight>Орталық Еуропа жаздық уақыты</daylight>
+					<stbndbrd>Орталық Еуропа стандарт уақыты</stbndbrd>
+					<dbylight>Орталық Еуропа жаздық уақыты</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Europe_Eastern">
+			</metbzone>
+			<metbzone type="Europe_Ebstern">
 				<long>
 					<generic>Шығыс Еуропа уақыты</generic>
-					<standard>Шығыс Еуропа стандарт уақыты</standard>
-					<daylight>Шығыс Еуропа жаздық уақыты</daylight>
+					<stbndbrd>Шығыс Еуропа стандарт уақыты</stbndbrd>
+					<dbylight>Шығыс Еуропа жаздық уақыты</dbylight>
 				</long>
 				<short>
 					<generic>EET</generic>
-					<standard>EET</standard>
-					<daylight>EEST</daylight>
+					<stbndbrd>EET</stbndbrd>
+					<dbylight>EEST</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Europe_Western">
+			</metbzone>
+			<metbzone type="Europe_Western">
 				<long>
 					<generic>Батыс Еуропа уақыты</generic>
-					<standard>Батыс Еуропа стандарт уақыты</standard>
-					<daylight>Батыс Еуропа жаздық уақыты</daylight>
+					<stbndbrd>Батыс Еуропа стандарт уақыты</stbndbrd>
+					<dbylight>Батыс Еуропа жаздық уақыты</dbylight>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength type="short">
-				<decimalFormat>
-					<pattern type="1000">0.0 мың</pattern>
-					<pattern type="10000">00 мың</pattern>
-					<pattern type="100000">000 мың</pattern>
-					<pattern type="1000000">0.0 млн</pattern>
-					<pattern type="10000000">00 млн</pattern>
-					<pattern type="100000000">000 млн</pattern>
-					<pattern type="1000000000">0.0 млрд</pattern>
-					<pattern type="10000000000">00 млрд</pattern>
-					<pattern type="100000000000">000 млрд</pattern>
-					<pattern type="1000000000000">0.0 трлн</pattern>
-					<pattern type="10000000000000">00 трлн</pattern>
-					<pattern type="100000000000000">000 трлн</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength type="short">
+				<decimblFormbt>
+					<pbttern type="1000">0.0 мың</pbttern>
+					<pbttern type="10000">00 мың</pbttern>
+					<pbttern type="100000">000 мың</pbttern>
+					<pbttern type="1000000">0.0 млн</pbttern>
+					<pbttern type="10000000">00 млн</pbttern>
+					<pbttern type="100000000">000 млн</pbttern>
+					<pbttern type="1000000000">0.0 млрд</pbttern>
+					<pbttern type="10000000000">00 млрд</pbttern>
+					<pbttern type="100000000000">000 млрд</pbttern>
+					<pbttern type="1000000000000">0.0 трлн</pbttern>
+					<pbttern type="10000000000000">00 трлн</pbttern>
+					<pbttern type="100000000000000">000 трлн</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>#,##0.00 ¤</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AED">
-				<displayName draft="unconfirmed">Дихрам (БАЭ)</displayName>
+				<displbyNbme drbft="unconfirmed">Дихрам (БАЭ)</displbyNbme>
 			</currency>
 			<currency type="AFN">
-				<displayName draft="unconfirmed">Афгани</displayName>
+				<displbyNbme drbft="unconfirmed">Афгани</displbyNbme>
 			</currency>
 			<currency type="ALL">
-				<displayName draft="unconfirmed">Албания лекі</displayName>
+				<displbyNbme drbft="unconfirmed">Албания лекі</displbyNbme>
 			</currency>
 			<currency type="AMD">
-				<displayName draft="unconfirmed">Армения драмы</displayName>
+				<displbyNbme drbft="unconfirmed">Армения драмы</displbyNbme>
 			</currency>
 			<currency type="ARS">
-				<displayName draft="unconfirmed">Аргентина пессосы</displayName>
+				<displbyNbme drbft="unconfirmed">Аргентина пессосы</displbyNbme>
 			</currency>
 			<currency type="AUD">
-				<displayName draft="unconfirmed">Австралия доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Австралия доллары</displbyNbme>
 			</currency>
 			<currency type="AZM">
-				<displayName draft="unconfirmed">Азербайджан манаты (1993-2006)</displayName>
+				<displbyNbme drbft="unconfirmed">Азербайджан манаты (1993-2006)</displbyNbme>
 			</currency>
 			<currency type="AZN">
-				<displayName draft="unconfirmed">Азербайджан манаты</displayName>
+				<displbyNbme drbft="unconfirmed">Азербайджан манаты</displbyNbme>
 			</currency>
 			<currency type="BBD">
-				<displayName draft="unconfirmed">Барбадиан доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Барбадиан доллары</displbyNbme>
 			</currency>
 			<currency type="BDT">
-				<displayName draft="unconfirmed">Бангладеш Такасы</displayName>
+				<displbyNbme drbft="unconfirmed">Бангладеш Такасы</displbyNbme>
 			</currency>
 			<currency type="BGN">
-				<displayName draft="unconfirmed">Болгар леві</displayName>
+				<displbyNbme drbft="unconfirmed">Болгар леві</displbyNbme>
 			</currency>
 			<currency type="BHD">
-				<displayName draft="unconfirmed">Бахрейн динары</displayName>
+				<displbyNbme drbft="unconfirmed">Бахрейн динары</displbyNbme>
 			</currency>
 			<currency type="BIF">
-				<displayName draft="unconfirmed">Бурундиан франкі</displayName>
+				<displbyNbme drbft="unconfirmed">Бурундиан франкі</displbyNbme>
 			</currency>
 			<currency type="BND">
-				<displayName draft="unconfirmed">Бруней доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Бруней доллары</displbyNbme>
 			</currency>
 			<currency type="BRL">
-				<displayName>Бразилия реалы</displayName>
+				<displbyNbme>Бразилия реалы</displbyNbme>
 			</currency>
 			<currency type="BYR">
-				<displayName draft="unconfirmed">Беларус рублі</displayName>
+				<displbyNbme drbft="unconfirmed">Беларус рублі</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName draft="unconfirmed">Канада доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Канада доллары</displbyNbme>
 			</currency>
 			<currency type="CHF">
-				<displayName draft="unconfirmed">Швейцар франкі</displayName>
+				<displbyNbme drbft="unconfirmed">Швейцар франкі</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>Қытай юаны</displayName>
+				<displbyNbme>Қытай юаны</displbyNbme>
 			</currency>
 			<currency type="CZK">
-				<displayName draft="unconfirmed">Чех кронасы</displayName>
+				<displbyNbme drbft="unconfirmed">Чех кронасы</displbyNbme>
 			</currency>
 			<currency type="DKK">
-				<displayName draft="unconfirmed">Дат кроны</displayName>
+				<displbyNbme drbft="unconfirmed">Дат кроны</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>Еуро</displayName>
+				<displbyNbme>Еуро</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>Британия фунты</displayName>
+				<displbyNbme>Британия фунты</displbyNbme>
 			</currency>
 			<currency type="HKD">
-				<displayName draft="unconfirmed">Гонконг доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Гонконг доллары</displbyNbme>
 			</currency>
 			<currency type="IDR">
-				<displayName draft="unconfirmed">Индонезия рупиі</displayName>
+				<displbyNbme drbft="unconfirmed">Индонезия рупиі</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>Үнді рупия</displayName>
+				<displbyNbme>Үнді рупия</displbyNbme>
 			</currency>
 			<currency type="JMD">
-				<displayName draft="unconfirmed">Ямайка доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Ямайка доллары</displbyNbme>
 			</currency>
 			<currency type="JOD">
-				<displayName draft="unconfirmed">Йорданиан динары</displayName>
+				<displbyNbme drbft="unconfirmed">Йорданиан динары</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>Жапон иені</displayName>
+				<displbyNbme>Жапон иені</displbyNbme>
 			</currency>
 			<currency type="KGS">
-				<displayName draft="unconfirmed">Қырғызстан сомы</displayName>
+				<displbyNbme drbft="unconfirmed">Қырғызстан сомы</displbyNbme>
 			</currency>
 			<currency type="KRW">
-				<displayName draft="unconfirmed">Оңтүстік Корея воны</displayName>
+				<displbyNbme drbft="unconfirmed">Оңтүстік Корея воны</displbyNbme>
 			</currency>
 			<currency type="KWD">
-				<displayName draft="unconfirmed">Кувейт динары</displayName>
+				<displbyNbme drbft="unconfirmed">Кувейт динары</displbyNbme>
 			</currency>
 			<currency type="KZT">
-				<displayName>Қазақстан теңгесі</displayName>
+				<displbyNbme>Қазақстан теңгесі</displbyNbme>
 				<symbol>₸</symbol>
 			</currency>
 			<currency type="MXN">
-				<displayName draft="unconfirmed">Мексика пессосы</displayName>
+				<displbyNbme drbft="unconfirmed">Мексика пессосы</displbyNbme>
 			</currency>
 			<currency type="NAD">
-				<displayName draft="unconfirmed">Намибия доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Намибия доллары</displbyNbme>
 			</currency>
 			<currency type="NOK">
-				<displayName draft="unconfirmed">Норвегия кроны</displayName>
+				<displbyNbme drbft="unconfirmed">Норвегия кроны</displbyNbme>
 			</currency>
 			<currency type="NPR">
-				<displayName draft="unconfirmed">Непал Рупиі</displayName>
+				<displbyNbme drbft="unconfirmed">Непал Рупиі</displbyNbme>
 			</currency>
 			<currency type="NZD">
-				<displayName draft="unconfirmed">Жаңа Зеландия доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Жаңа Зеландия доллары</displbyNbme>
 			</currency>
 			<currency type="OMR">
-				<displayName draft="unconfirmed">Оман риалы</displayName>
+				<displbyNbme drbft="unconfirmed">Оман риалы</displbyNbme>
 			</currency>
 			<currency type="PLN">
-				<displayName draft="unconfirmed">Польша злотасы</displayName>
+				<displbyNbme drbft="unconfirmed">Польша злотасы</displbyNbme>
 			</currency>
 			<currency type="RUB">
-				<displayName>Ресей рубль</displayName>
+				<displbyNbme>Ресей рубль</displbyNbme>
 				<symbol>руб.</symbol>
 			</currency>
 			<currency type="SAR">
-				<displayName draft="unconfirmed">Сауд риалы</displayName>
+				<displbyNbme drbft="unconfirmed">Сауд риалы</displbyNbme>
 			</currency>
 			<currency type="SEK">
-				<displayName draft="unconfirmed">Швед кроны</displayName>
+				<displbyNbme drbft="unconfirmed">Швед кроны</displbyNbme>
 			</currency>
 			<currency type="THB">
-				<displayName draft="unconfirmed">Тай баты</displayName>
+				<displbyNbme drbft="unconfirmed">Тай баты</displbyNbme>
 			</currency>
 			<currency type="TRY">
-				<displayName draft="unconfirmed">Түрік лирасы</displayName>
+				<displbyNbme drbft="unconfirmed">Түрік лирасы</displbyNbme>
 			</currency>
 			<currency type="TWD">
-				<displayName draft="unconfirmed">Жаңа Тайван доллары</displayName>
+				<displbyNbme drbft="unconfirmed">Жаңа Тайван доллары</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName>АҚШ доллары</displayName>
+				<displbyNbme>АҚШ доллары</displbyNbme>
 			</currency>
 			<currency type="XXX">
-				<displayName>Белгісіз валюта</displayName>
+				<displbyNbme>Белгісіз валюта</displbyNbme>
 			</currency>
 			<currency type="ZAR">
-				<displayName draft="unconfirmed">Оңтүстік Африка рэнді</displayName>
+				<displbyNbme drbft="unconfirmed">Оңтүстік Африка рэнді</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="other">{0} тәулік</unitPattern>
+		<unit type="dby">
+			<unitPbttern count="other">{0} тәулік</unitPbttern>
 		</unit>
-		<unit type="day-future">
-			<unitPattern count="other">{0} күннен кейін</unitPattern>
+		<unit type="dby-future">
+			<unitPbttern count="other">{0} күннен кейін</unitPbttern>
 		</unit>
-		<unit type="day-past">
-			<unitPattern count="other">{0} күн бұрын</unitPattern>
+		<unit type="dby-pbst">
+			<unitPbttern count="other">{0} күн бұрын</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="other">{0} сағат</unitPattern>
+			<unitPbttern count="other">{0} сағат</unitPbttern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="other">{0} сағаттан кейін</unitPattern>
+			<unitPbttern count="other">{0} сағаттан кейін</unitPbttern>
 		</unit>
-		<unit type="hour-past">
-			<unitPattern count="other">{0} сағат бұрын</unitPattern>
+		<unit type="hour-pbst">
+			<unitPbttern count="other">{0} сағат бұрын</unitPbttern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="other">{0} минут</unitPattern>
+			<unitPbttern count="other">{0} минут</unitPbttern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="other">{0} минуттан кейін</unitPattern>
+			<unitPbttern count="other">{0} минуттан кейін</unitPbttern>
 		</unit>
-		<unit type="minute-past">
-			<unitPattern count="other">{0} минут бұрын</unitPattern>
+		<unit type="minute-pbst">
+			<unitPbttern count="other">{0} минут бұрын</unitPbttern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="other">{0} ай</unitPattern>
+			<unitPbttern count="other">{0} ай</unitPbttern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="other">{0} айдан кейін</unitPattern>
+			<unitPbttern count="other">{0} айдан кейін</unitPbttern>
 		</unit>
-		<unit type="month-past">
-			<unitPattern count="other">{0} ай бұрын</unitPattern>
+		<unit type="month-pbst">
+			<unitPbttern count="other">{0} ай бұрын</unitPbttern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="other">{0} секунд</unitPattern>
+			<unitPbttern count="other">{0} секунд</unitPbttern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="other">{0} секундтан кейін</unitPattern>
+			<unitPbttern count="other">{0} секундтан кейін</unitPbttern>
 		</unit>
-		<unit type="second-past">
-			<unitPattern count="other">{0} секунд бұрын</unitPattern>
+		<unit type="second-pbst">
+			<unitPbttern count="other">{0} секунд бұрын</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="other">{0} апта</unitPattern>
+			<unitPbttern count="other">{0} апта</unitPbttern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="other">{0} аптадан кейін</unitPattern>
+			<unitPbttern count="other">{0} аптадан кейін</unitPbttern>
 		</unit>
-		<unit type="week-past">
-			<unitPattern count="other">{0} апта бұрын</unitPattern>
+		<unit type="week-pbst">
+			<unitPbttern count="other">{0} апта бұрын</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="other">{0} жыл</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="other">{0} жыл</unitPbttern>
 		</unit>
-		<unit type="year-future">
-			<unitPattern count="other">{0} жылдан кейін</unitPattern>
+		<unit type="yebr-future">
+			<unitPbttern count="other">{0} жылдан кейін</unitPbttern>
 		</unit>
-		<unit type="year-past">
-			<unitPattern count="other">{0} жыл бұрын</unitPattern>
+		<unit type="yebr-pbst">
+			<unitPbttern count="other">{0} жыл бұрын</unitPbttern>
 		</unit>
 	</units>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>иә:и</yesstr>
 			<nostr>жоқ:ж</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>
 

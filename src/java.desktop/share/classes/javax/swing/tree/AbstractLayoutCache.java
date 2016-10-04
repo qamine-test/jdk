@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
-import javax.swing.event.TreeModelEvent;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.util.Enumeration;
+import jbvbx.swing.event.TreeModelEvent;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Rectbngle;
+import jbvb.util.Enumerbtion;
 
 /**
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class AbstractLayoutCache implements RowMapper {
-    /** Object responsible for getting the size of a node. */
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss AbstrbctLbyoutCbche implements RowMbpper {
+    /** Object responsible for getting the size of b node. */
     protected NodeDimensions     nodeDimensions;
 
-    /** Model providing information. */
+    /** Model providing informbtion. */
     protected TreeModel          treeModel;
 
     /** Selection model. */
     protected TreeSelectionModel treeSelectionModel;
 
     /**
-     * True if the root node is displayed, false if its children are
+     * True if the root node is displbyed, fblse if its children bre
      * the highest visible nodes.
      */
-    protected boolean            rootVisible;
+    protected boolebn            rootVisible;
 
     /**
-      * Height to use for each row.  If this is &lt;= 0 the renderer will be
-      * used to determine the height for each row.
+      * Height to use for ebch row.  If this is &lt;= 0 the renderer will be
+      * used to determine the height for ebch row.
       */
     protected int                rowHeight;
 
 
     /**
-     * Sets the renderer that is responsible for drawing nodes in the tree
-     * and which is therefore responsible for calculating the dimensions of
-     * individual nodes.
+     * Sets the renderer thbt is responsible for drbwing nodes in the tree
+     * bnd which is therefore responsible for cblculbting the dimensions of
+     * individubl nodes.
      *
-     * @param nd a <code>NodeDimensions</code> object
+     * @pbrbm nd b <code>NodeDimensions</code> object
      */
     public void setNodeDimensions(NodeDimensions nd) {
         this.nodeDimensions = nd;
     }
 
     /**
-     * Returns the object that renders nodes in the tree, and which is
-     * responsible for calculating the dimensions of individual nodes.
+     * Returns the object thbt renders nodes in the tree, bnd which is
+     * responsible for cblculbting the dimensions of individubl nodes.
      *
      * @return the <code>NodeDimensions</code> object
      */
@@ -88,19 +88,19 @@ public abstract class AbstractLayoutCache implements RowMapper {
     }
 
     /**
-     * Sets the <code>TreeModel</code> that will provide the data.
+     * Sets the <code>TreeModel</code> thbt will provide the dbtb.
      *
-     * @param newModel the <code>TreeModel</code> that is to
-     *          provide the data
+     * @pbrbm newModel the <code>TreeModel</code> thbt is to
+     *          provide the dbtb
      */
     public void setModel(TreeModel newModel) {
         treeModel = newModel;
     }
 
     /**
-     * Returns the <code>TreeModel</code> that is providing the data.
+     * Returns the <code>TreeModel</code> thbt is providing the dbtb.
      *
-     * @return the <code>TreeModel</code> that is providing the data
+     * @return the <code>TreeModel</code> thbt is providing the dbtb
      */
     public TreeModel getModel() {
         return treeModel;
@@ -110,68 +110,68 @@ public abstract class AbstractLayoutCache implements RowMapper {
      * Determines whether or not the root node from
      * the <code>TreeModel</code> is visible.
      *
-     * @param rootVisible true if the root node of the tree is to be displayed
+     * @pbrbm rootVisible true if the root node of the tree is to be displbyed
      * @see #rootVisible
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *  description: Whether or not the root node
      *               from the TreeModel is visible.
      */
-    public void setRootVisible(boolean rootVisible) {
+    public void setRootVisible(boolebn rootVisible) {
         this.rootVisible = rootVisible;
     }
 
     /**
-     * Returns true if the root node of the tree is displayed.
+     * Returns true if the root node of the tree is displbyed.
      *
-     * @return true if the root node of the tree is displayed
+     * @return true if the root node of the tree is displbyed
      * @see #rootVisible
      */
-    public boolean isRootVisible() {
+    public boolebn isRootVisible() {
         return rootVisible;
     }
 
     /**
-     * Sets the height of each cell.  If the specified value
-     * is less than or equal to zero the current cell renderer is
-     * queried for each row's height.
+     * Sets the height of ebch cell.  If the specified vblue
+     * is less thbn or equbl to zero the current cell renderer is
+     * queried for ebch row's height.
      *
-     * @param rowHeight the height of each cell, in pixels
-     * @beaninfo
+     * @pbrbm rowHeight the height of ebch cell, in pixels
+     * @bebninfo
      *        bound: true
-     *  description: The height of each cell.
+     *  description: The height of ebch cell.
      */
     public void setRowHeight(int rowHeight) {
         this.rowHeight = rowHeight;
     }
 
     /**
-     * Returns the height of each row.  If the returned value is less than
-     * or equal to 0 the height for each row is determined by the
+     * Returns the height of ebch row.  If the returned vblue is less thbn
+     * or equbl to 0 the height for ebch row is determined by the
      * renderer.
      *
-     * @return the height of each row
+     * @return the height of ebch row
      */
     public int getRowHeight() {
         return rowHeight;
     }
 
     /**
-     * Sets the <code>TreeSelectionModel</code> used to manage the
+     * Sets the <code>TreeSelectionModel</code> used to mbnbge the
      * selection to new LSM.
      *
-     * @param newLSM  the new <code>TreeSelectionModel</code>
+     * @pbrbm newLSM  the new <code>TreeSelectionModel</code>
      */
     public void setSelectionModel(TreeSelectionModel newLSM) {
         if(treeSelectionModel != null)
-            treeSelectionModel.setRowMapper(null);
+            treeSelectionModel.setRowMbpper(null);
         treeSelectionModel = newLSM;
         if(treeSelectionModel != null)
-            treeSelectionModel.setRowMapper(this);
+            treeSelectionModel.setRowMbpper(this);
     }
 
     /**
-     * Returns the model used to maintain the selection.
+     * Returns the model used to mbintbin the selection.
      *
      * @return the <code>treeSelectionModel</code>
      */
@@ -189,7 +189,7 @@ public abstract class AbstractLayoutCache implements RowMapper {
         int           rowCount = getRowCount();
 
         if(rowCount > 0) {
-            Rectangle     bounds = getBounds(getPathForRow(rowCount - 1),
+            Rectbngle     bounds = getBounds(getPbthForRow(rowCount - 1),
                                              null);
 
             if(bounds != null)
@@ -199,39 +199,39 @@ public abstract class AbstractLayoutCache implements RowMapper {
     }
 
     /**
-     * Returns the preferred width for the passed in region.
-     * The region is defined by the path closest to
-     * <code>(bounds.x, bounds.y)</code> and
-     * ends at <code>bounds.height + bounds.y</code>.
+     * Returns the preferred width for the pbssed in region.
+     * The region is defined by the pbth closest to
+     * <code>(bounds.x, bounds.y)</code> bnd
+     * ends bt <code>bounds.height + bounds.y</code>.
      * If <code>bounds</code> is <code>null</code>,
-     * the preferred width for all the nodes
-     * will be returned (and this may be a VERY expensive
-     * computation).
+     * the preferred width for bll the nodes
+     * will be returned (bnd this mby be b VERY expensive
+     * computbtion).
      *
-     * @param bounds the region being queried
-     * @return the preferred width for the passed in region
+     * @pbrbm bounds the region being queried
+     * @return the preferred width for the pbssed in region
      */
-    public int getPreferredWidth(Rectangle bounds) {
+    public int getPreferredWidth(Rectbngle bounds) {
         int           rowCount = getRowCount();
 
         if(rowCount > 0) {
             // Get the width
-            TreePath      firstPath;
+            TreePbth      firstPbth;
             int           endY;
 
             if(bounds == null) {
-                firstPath = getPathForRow(0);
+                firstPbth = getPbthForRow(0);
                 endY = Integer.MAX_VALUE;
             }
             else {
-                firstPath = getPathClosestTo(bounds.x, bounds.y);
+                firstPbth = getPbthClosestTo(bounds.x, bounds.y);
                 endY = bounds.height + bounds.y;
             }
 
-            Enumeration<TreePath> paths = getVisiblePathsFrom(firstPath);
+            Enumerbtion<TreePbth> pbths = getVisiblePbthsFrom(firstPbth);
 
-            if(paths != null && paths.hasMoreElements()) {
-                Rectangle   pBounds = getBounds(paths.nextElement(),
+            if(pbths != null && pbths.hbsMoreElements()) {
+                Rectbngle   pBounds = getBounds(pbths.nextElement(),
                                                 null);
                 int         width;
 
@@ -243,11 +243,11 @@ public abstract class AbstractLayoutCache implements RowMapper {
                 }
                 else
                     width = 0;
-                while (pBounds != null && paths.hasMoreElements()) {
-                    pBounds = getBounds(paths.nextElement(),
+                while (pBounds != null && pbths.hbsMoreElements()) {
+                    pBounds = getBounds(pbths.nextElement(),
                                         pBounds);
                     if (pBounds != null && pBounds.y < endY) {
-                        width = Math.max(width, pBounds.x + pBounds.width);
+                        width = Mbth.mbx(width, pBounds.x + pBounds.width);
                     }
                     else {
                         pBounds = null;
@@ -260,279 +260,279 @@ public abstract class AbstractLayoutCache implements RowMapper {
     }
 
     //
-    // Abstract methods that must be implemented to be concrete.
+    // Abstrbct methods thbt must be implemented to be concrete.
     //
 
     /**
-      * Returns true if the value identified by row is currently expanded.
+      * Returns true if the vblue identified by row is currently expbnded.
       *
-      * @param path TreePath to check
-      * @return whether TreePath is expanded
+      * @pbrbm pbth TreePbth to check
+      * @return whether TreePbth is expbnded
       */
-    public abstract boolean isExpanded(TreePath path);
+    public bbstrbct boolebn isExpbnded(TreePbth pbth);
 
     /**
-     * Returns a rectangle giving the bounds needed to draw path.
+     * Returns b rectbngle giving the bounds needed to drbw pbth.
      *
-     * @param path     a <code>TreePath</code> specifying a node
-     * @param placeIn  a <code>Rectangle</code> object giving the
-     *          available space
-     * @return a <code>Rectangle</code> object specifying the space to be used
+     * @pbrbm pbth     b <code>TreePbth</code> specifying b node
+     * @pbrbm plbceIn  b <code>Rectbngle</code> object giving the
+     *          bvbilbble spbce
+     * @return b <code>Rectbngle</code> object specifying the spbce to be used
      */
-    public abstract Rectangle getBounds(TreePath path, Rectangle placeIn);
+    public bbstrbct Rectbngle getBounds(TreePbth pbth, Rectbngle plbceIn);
 
     /**
-      * Returns the path for passed in row.  If row is not visible
+      * Returns the pbth for pbssed in row.  If row is not visible
       * <code>null</code> is returned.
       *
-      * @param row  the row being queried
-      * @return the <code>TreePath</code> for the given row
+      * @pbrbm row  the row being queried
+      * @return the <code>TreePbth</code> for the given row
       */
-    public abstract TreePath getPathForRow(int row);
+    public bbstrbct TreePbth getPbthForRow(int row);
 
     /**
-      * Returns the row that the last item identified in path is visible
-      * at.  Will return -1 if any of the elements in path are not
+      * Returns the row thbt the lbst item identified in pbth is visible
+      * bt.  Will return -1 if bny of the elements in pbth bre not
       * currently visible.
       *
-      * @param path the <code>TreePath</code> being queried
-      * @return the row where the last item in path is visible or -1
-      *         if any elements in path aren't currently visible
+      * @pbrbm pbth the <code>TreePbth</code> being queried
+      * @return the row where the lbst item in pbth is visible or -1
+      *         if bny elements in pbth bren't currently visible
       */
-    public abstract int getRowForPath(TreePath path);
+    public bbstrbct int getRowForPbth(TreePbth pbth);
 
     /**
-      * Returns the path to the node that is closest to x,y.  If
+      * Returns the pbth to the node thbt is closest to x,y.  If
       * there is nothing currently visible this will return <code>null</code>,
-      * otherwise it'll always return a valid path.
+      * otherwise it'll blwbys return b vblid pbth.
       * If you need to test if the
-      * returned object is exactly at x, y you should get the bounds for
-      * the returned path and test x, y against that.
+      * returned object is exbctly bt x, y you should get the bounds for
+      * the returned pbth bnd test x, y bgbinst thbt.
       *
-      * @param x the horizontal component of the desired location
-      * @param y the vertical component of the desired location
-      * @return the <code>TreePath</code> closest to the specified point
+      * @pbrbm x the horizontbl component of the desired locbtion
+      * @pbrbm y the verticbl component of the desired locbtion
+      * @return the <code>TreePbth</code> closest to the specified point
       */
-    public abstract TreePath getPathClosestTo(int x, int y);
+    public bbstrbct TreePbth getPbthClosestTo(int x, int y);
 
     /**
-     * Returns an <code>Enumerator</code> that increments over the visible
-     * paths starting at the passed in location. The ordering of the
-     * enumeration is based on how the paths are displayed.
-     * The first element of the returned enumeration will be path,
+     * Returns bn <code>Enumerbtor</code> thbt increments over the visible
+     * pbths stbrting bt the pbssed in locbtion. The ordering of the
+     * enumerbtion is bbsed on how the pbths bre displbyed.
+     * The first element of the returned enumerbtion will be pbth,
      * unless it isn't visible,
-     * in which case <code>null</code> will be returned.
+     * in which cbse <code>null</code> will be returned.
      *
-     * @param path the starting location for the enumeration
-     * @return the <code>Enumerator</code> starting at the desired location
+     * @pbrbm pbth the stbrting locbtion for the enumerbtion
+     * @return the <code>Enumerbtor</code> stbrting bt the desired locbtion
      */
-    public abstract Enumeration<TreePath> getVisiblePathsFrom(TreePath path);
+    public bbstrbct Enumerbtion<TreePbth> getVisiblePbthsFrom(TreePbth pbth);
 
     /**
      * Returns the number of visible children for row.
      *
-     * @param path  the path being queried
-     * @return the number of visible children for the specified path
+     * @pbrbm pbth  the pbth being queried
+     * @return the number of visible children for the specified pbth
      */
-    public abstract int getVisibleChildCount(TreePath path);
+    public bbstrbct int getVisibleChildCount(TreePbth pbth);
 
     /**
-     * Marks the path <code>path</code> expanded state to
-     * <code>isExpanded</code>.
+     * Mbrks the pbth <code>pbth</code> expbnded stbte to
+     * <code>isExpbnded</code>.
      *
-     * @param path  the path being expanded or collapsed
-     * @param isExpanded true if the path should be expanded, false otherwise
+     * @pbrbm pbth  the pbth being expbnded or collbpsed
+     * @pbrbm isExpbnded true if the pbth should be expbnded, fblse otherwise
      */
-    public abstract void setExpandedState(TreePath path, boolean isExpanded);
+    public bbstrbct void setExpbndedStbte(TreePbth pbth, boolebn isExpbnded);
 
     /**
-     * Returns true if the path is expanded, and visible.
+     * Returns true if the pbth is expbnded, bnd visible.
      *
-     * @param path  the path being queried
-     * @return true if the path is expanded and visible, false otherwise
+     * @pbrbm pbth  the pbth being queried
+     * @return true if the pbth is expbnded bnd visible, fblse otherwise
      */
-    public abstract boolean getExpandedState(TreePath path);
+    public bbstrbct boolebn getExpbndedStbte(TreePbth pbth);
 
     /**
-     * Number of rows being displayed.
+     * Number of rows being displbyed.
      *
-     * @return the number of rows being displayed
+     * @return the number of rows being displbyed
      */
-    public abstract int getRowCount();
+    public bbstrbct int getRowCount();
 
     /**
-     * Informs the <code>TreeState</code> that it needs to recalculate
-     * all the sizes it is referencing.
+     * Informs the <code>TreeStbte</code> thbt it needs to recblculbte
+     * bll the sizes it is referencing.
      */
-    public abstract void invalidateSizes();
+    public bbstrbct void invblidbteSizes();
 
     /**
-     * Instructs the <code>LayoutCache</code> that the bounds for
-     * <code>path</code> are invalid, and need to be updated.
+     * Instructs the <code>LbyoutCbche</code> thbt the bounds for
+     * <code>pbth</code> bre invblid, bnd need to be updbted.
      *
-     * @param path the path being updated
+     * @pbrbm pbth the pbth being updbted
      */
-    public abstract void invalidatePathBounds(TreePath path);
+    public bbstrbct void invblidbtePbthBounds(TreePbth pbth);
 
     //
     // TreeModelListener methods
-    // AbstractTreeState does not directly become a TreeModelListener on
-    // the model, it is up to some other object to forward these methods.
+    // AbstrbctTreeStbte does not directly become b TreeModelListener on
+    // the model, it is up to some other object to forwbrd these methods.
     //
 
     /**
      * <p>
-     * Invoked after a node (or a set of siblings) has changed in some
-     * way. The node(s) have not changed locations in the tree or
-     * altered their children arrays, but other attributes have
-     * changed and may affect presentation. Example: the name of a
-     * file has changed, but it is in the same location in the file
+     * Invoked bfter b node (or b set of siblings) hbs chbnged in some
+     * wby. The node(s) hbve not chbnged locbtions in the tree or
+     * bltered their children brrbys, but other bttributes hbve
+     * chbnged bnd mby bffect presentbtion. Exbmple: the nbme of b
+     * file hbs chbnged, but it is in the sbme locbtion in the file
      * system.</p>
      *
-     * <p>e.path() returns the path the parent of the changed node(s).</p>
+     * <p>e.pbth() returns the pbth the pbrent of the chbnged node(s).</p>
      *
-     * <p>e.childIndices() returns the index(es) of the changed node(s).</p>
+     * <p>e.childIndices() returns the index(es) of the chbnged node(s).</p>
      *
-     * @param e  the <code>TreeModelEvent</code>
+     * @pbrbm e  the <code>TreeModelEvent</code>
      */
-    public abstract void treeNodesChanged(TreeModelEvent e);
+    public bbstrbct void treeNodesChbnged(TreeModelEvent e);
 
     /**
-     * <p>Invoked after nodes have been inserted into the tree.</p>
+     * <p>Invoked bfter nodes hbve been inserted into the tree.</p>
      *
-     * <p>e.path() returns the parent of the new nodes</p>
+     * <p>e.pbth() returns the pbrent of the new nodes</p>
      * <p>e.childIndices() returns the indices of the new nodes in
-     * ascending order.</p>
+     * bscending order.</p>
      *
-     * @param e the <code>TreeModelEvent</code>
+     * @pbrbm e the <code>TreeModelEvent</code>
      */
-    public abstract void treeNodesInserted(TreeModelEvent e);
+    public bbstrbct void treeNodesInserted(TreeModelEvent e);
 
     /**
-     * <p>Invoked after nodes have been removed from the tree.  Note that
-     * if a subtree is removed from the tree, this method may only be
+     * <p>Invoked bfter nodes hbve been removed from the tree.  Note thbt
+     * if b subtree is removed from the tree, this method mby only be
      * invoked once for the root of the removed subtree, not once for
-     * each individual set of siblings removed.</p>
+     * ebch individubl set of siblings removed.</p>
      *
-     * <p>e.path() returns the former parent of the deleted nodes.</p>
+     * <p>e.pbth() returns the former pbrent of the deleted nodes.</p>
      *
-     * <p>e.childIndices() returns the indices the nodes had before they were deleted in ascending order.</p>
+     * <p>e.childIndices() returns the indices the nodes hbd before they were deleted in bscending order.</p>
      *
-     * @param e the <code>TreeModelEvent</code>
+     * @pbrbm e the <code>TreeModelEvent</code>
      */
-    public abstract void treeNodesRemoved(TreeModelEvent e);
+    public bbstrbct void treeNodesRemoved(TreeModelEvent e);
 
     /**
-     * <p>Invoked after the tree has drastically changed structure from a
-     * given node down.  If the path returned by <code>e.getPath()</code>
-     * is of length one and the first element does not identify the
+     * <p>Invoked bfter the tree hbs drbsticblly chbnged structure from b
+     * given node down.  If the pbth returned by <code>e.getPbth()</code>
+     * is of length one bnd the first element does not identify the
      * current root node the first element should become the new root
      * of the tree.</p>
      *
-     * <p>e.path() holds the path to the node.</p>
+     * <p>e.pbth() holds the pbth to the node.</p>
      * <p>e.childIndices() returns null.</p>
      *
-     * @param e the <code>TreeModelEvent</code>
+     * @pbrbm e the <code>TreeModelEvent</code>
      */
-    public abstract void treeStructureChanged(TreeModelEvent e);
+    public bbstrbct void treeStructureChbnged(TreeModelEvent e);
 
     //
-    // RowMapper
+    // RowMbpper
     //
 
     /**
-     * Returns the rows that the <code>TreePath</code> instances in
-     * <code>path</code> are being displayed at.
-     * This method should return an array of the same length as that passed
-     * in, and if one of the <code>TreePaths</code>
-     * in <code>path</code> is not valid its entry in the array should
+     * Returns the rows thbt the <code>TreePbth</code> instbnces in
+     * <code>pbth</code> bre being displbyed bt.
+     * This method should return bn brrby of the sbme length bs thbt pbssed
+     * in, bnd if one of the <code>TreePbths</code>
+     * in <code>pbth</code> is not vblid its entry in the brrby should
      * be set to -1.
      *
-     * @param paths the array of <code>TreePath</code>s being queried
-     * @return an array of the same length that is passed in containing
-     *          the rows that each corresponding where each
-     *          <code>TreePath</code> is displayed; if <code>paths</code>
+     * @pbrbm pbths the brrby of <code>TreePbth</code>s being queried
+     * @return bn brrby of the sbme length thbt is pbssed in contbining
+     *          the rows thbt ebch corresponding where ebch
+     *          <code>TreePbth</code> is displbyed; if <code>pbths</code>
      *          is <code>null</code>, <code>null</code> is returned
      */
-    public int[] getRowsForPaths(TreePath[] paths) {
-        if(paths == null)
+    public int[] getRowsForPbths(TreePbth[] pbths) {
+        if(pbths == null)
             return null;
 
-        int               numPaths = paths.length;
-        int[]             rows = new int[numPaths];
+        int               numPbths = pbths.length;
+        int[]             rows = new int[numPbths];
 
-        for(int counter = 0; counter < numPaths; counter++)
-            rows[counter] = getRowForPath(paths[counter]);
+        for(int counter = 0; counter < numPbths; counter++)
+            rows[counter] = getRowForPbth(pbths[counter]);
         return rows;
     }
 
     //
-    // Local methods that subclassers may wish to use that are primarly
+    // Locbl methods thbt subclbssers mby wish to use thbt bre primbrly
     // convenience methods.
     //
 
     /**
-     * Returns, by reference in <code>placeIn</code>,
-     * the size needed to represent <code>value</code>.
-     * If <code>inPlace</code> is <code>null</code>, a newly created
-     * <code>Rectangle</code> should be returned, otherwise the value
-     * should be placed in <code>inPlace</code> and returned. This will
+     * Returns, by reference in <code>plbceIn</code>,
+     * the size needed to represent <code>vblue</code>.
+     * If <code>inPlbce</code> is <code>null</code>, b newly crebted
+     * <code>Rectbngle</code> should be returned, otherwise the vblue
+     * should be plbced in <code>inPlbce</code> bnd returned. This will
      * return <code>null</code> if there is no renderer.
      *
-     * @param value the <code>value</code> to be represented
-     * @param row  row being queried
-     * @param depth the depth of the row
-     * @param expanded true if row is expanded, false otherwise
-     * @param placeIn  a <code>Rectangle</code> containing the size needed
-     *          to represent <code>value</code>
-     * @return a <code>Rectangle</code> containing the node dimensions,
-     *          or <code>null</code> if node has no dimension
+     * @pbrbm vblue the <code>vblue</code> to be represented
+     * @pbrbm row  row being queried
+     * @pbrbm depth the depth of the row
+     * @pbrbm expbnded true if row is expbnded, fblse otherwise
+     * @pbrbm plbceIn  b <code>Rectbngle</code> contbining the size needed
+     *          to represent <code>vblue</code>
+     * @return b <code>Rectbngle</code> contbining the node dimensions,
+     *          or <code>null</code> if node hbs no dimension
      */
-    protected Rectangle getNodeDimensions(Object value, int row, int depth,
-                                          boolean expanded,
-                                          Rectangle placeIn) {
+    protected Rectbngle getNodeDimensions(Object vblue, int row, int depth,
+                                          boolebn expbnded,
+                                          Rectbngle plbceIn) {
         NodeDimensions            nd = getNodeDimensions();
 
         if(nd != null) {
-            return nd.getNodeDimensions(value, row, depth, expanded, placeIn);
+            return nd.getNodeDimensions(vblue, row, depth, expbnded, plbceIn);
         }
         return null;
     }
 
     /**
-      * Returns true if the height of each row is a fixed size.
+      * Returns true if the height of ebch row is b fixed size.
       *
-      * @return whether the height of each row is a fixed size
+      * @return whether the height of ebch row is b fixed size
       */
-    protected boolean isFixedRowHeight() {
+    protected boolebn isFixedRowHeight() {
         return (rowHeight > 0);
     }
 
 
     /**
-     * Used by <code>AbstractLayoutCache</code> to determine the size
-     * and x origin of a particular node.
+     * Used by <code>AbstrbctLbyoutCbche</code> to determine the size
+     * bnd x origin of b pbrticulbr node.
      */
-    static public abstract class NodeDimensions {
+    stbtic public bbstrbct clbss NodeDimensions {
         /**
-         * Returns, by reference in bounds, the size and x origin to
-         * place value at. The calling method is responsible for determining
-         * the Y location. If bounds is <code>null</code>, a newly created
-         * <code>Rectangle</code> should be returned,
-         * otherwise the value should be placed in bounds and returned.
+         * Returns, by reference in bounds, the size bnd x origin to
+         * plbce vblue bt. The cblling method is responsible for determining
+         * the Y locbtion. If bounds is <code>null</code>, b newly crebted
+         * <code>Rectbngle</code> should be returned,
+         * otherwise the vblue should be plbced in bounds bnd returned.
          *
-         * @param value the <code>value</code> to be represented
-         * @param row row being queried
-         * @param depth the depth of the row
-         * @param expanded true if row is expanded, false otherwise
-         * @param bounds  a <code>Rectangle</code> containing the size needed
-         *              to represent <code>value</code>
-         * @return a <code>Rectangle</code> containing the node dimensions,
-         *              or <code>null</code> if node has no dimension
+         * @pbrbm vblue the <code>vblue</code> to be represented
+         * @pbrbm row row being queried
+         * @pbrbm depth the depth of the row
+         * @pbrbm expbnded true if row is expbnded, fblse otherwise
+         * @pbrbm bounds  b <code>Rectbngle</code> contbining the size needed
+         *              to represent <code>vblue</code>
+         * @return b <code>Rectbngle</code> contbining the node dimensions,
+         *              or <code>null</code> if node hbs no dimension
          */
-        public abstract Rectangle getNodeDimensions(Object value, int row,
+        public bbstrbct Rectbngle getNodeDimensions(Object vblue, int row,
                                                     int depth,
-                                                    boolean expanded,
-                                                    Rectangle bounds);
+                                                    boolebn expbnded,
+                                                    Rectbngle bounds);
     }
 }

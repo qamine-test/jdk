@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * This represents the Issuer Alternative Name Extension.
+ * This represents the Issuer Alternbtive Nbme Extension.
  *
- * This extension, if present, allows the issuer to specify multiple
- * alternative names.
+ * This extension, if present, bllows the issuer to specify multiple
+ * blternbtive nbmes.
  *
- * <p>Extensions are represented as a sequence of the extension identifier
- * (Object Identifier), a boolean flag stating whether the extension is to
- * be treated as being critical and the extension value itself (this is again
- * a DER encoding of the extension value).
+ * <p>Extensions bre represented bs b sequence of the extension identifier
+ * (Object Identifier), b boolebn flbg stbting whether the extension is to
+ * be trebted bs being criticbl bnd the extension vblue itself (this is bgbin
+ * b DER encoding of the extension vblue).
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see Extension
  * @see CertAttrSet
  */
-public class IssuerAlternativeNameExtension
+public clbss IssuerAlternbtiveNbmeExtension
 extends Extension implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT =
-                         "x509.info.extensions.IssuerAlternativeName";
+    public stbtic finbl String IDENT =
+                         "x509.info.extensions.IssuerAlternbtiveNbme";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "IssuerAlternativeName";
-    public static final String ISSUER_NAME = "issuer_name";
+    public stbtic finbl String NAME = "IssuerAlternbtiveNbme";
+    public stbtic finbl String ISSUER_NAME = "issuer_nbme";
 
-    // private data members
-    GeneralNames names = null;
+    // privbte dbtb members
+    GenerblNbmes nbmes = null;
 
     // Encode this extension
-    private void encodeThis() throws IOException {
-        if (names == null || names.isEmpty()) {
-            this.extensionValue = null;
+    privbte void encodeThis() throws IOException {
+        if (nbmes == null || nbmes.isEmpty()) {
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream os = new DerOutputStream();
-        names.encode(os);
-        this.extensionValue = os.toByteArray();
+        DerOutputStrebm os = new DerOutputStrebm();
+        nbmes.encode(os);
+        this.extensionVblue = os.toByteArrby();
     }
 
     /**
-     * Create a IssuerAlternativeNameExtension with the passed GeneralNames.
+     * Crebte b IssuerAlternbtiveNbmeExtension with the pbssed GenerblNbmes.
      *
-     * @param names the GeneralNames for the issuer.
+     * @pbrbm nbmes the GenerblNbmes for the issuer.
      * @exception IOException on error.
      */
-    public IssuerAlternativeNameExtension(GeneralNames names)
+    public IssuerAlternbtiveNbmeExtension(GenerblNbmes nbmes)
     throws IOException {
-        this.names = names;
-        this.extensionId = PKIXExtensions.IssuerAlternativeName_Id;
-        this.critical = false;
+        this.nbmes = nbmes;
+        this.extensionId = PKIXExtensions.IssuerAlternbtiveNbme_Id;
+        this.criticbl = fblse;
         encodeThis();
     }
 
     /**
-     * Create a IssuerAlternativeNameExtension with the passed criticality
-     * and GeneralNames.
+     * Crebte b IssuerAlternbtiveNbmeExtension with the pbssed criticblity
+     * bnd GenerblNbmes.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param names the GeneralNames for the issuer.
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm nbmes the GenerblNbmes for the issuer.
      * @exception IOException on error.
      */
-    public IssuerAlternativeNameExtension(Boolean critical, GeneralNames names)
+    public IssuerAlternbtiveNbmeExtension(Boolebn criticbl, GenerblNbmes nbmes)
     throws IOException {
-        this.names = names;
-        this.extensionId = PKIXExtensions.IssuerAlternativeName_Id;
-        this.critical = critical.booleanValue();
+        this.nbmes = nbmes;
+        this.extensionId = PKIXExtensions.IssuerAlternbtiveNbme_Id;
+        this.criticbl = criticbl.boolebnVblue();
         encodeThis();
     }
 
     /**
-     * Create a default IssuerAlternativeNameExtension.
+     * Crebte b defbult IssuerAlternbtiveNbmeExtension.
      */
-    public IssuerAlternativeNameExtension() {
-        extensionId = PKIXExtensions.IssuerAlternativeName_Id;
-        critical = false;
-        names = new GeneralNames();
+    public IssuerAlternbtiveNbmeExtension() {
+        extensionId = PKIXExtensions.IssuerAlternbtiveNbme_Id;
+        criticbl = fblse;
+        nbmes = new GenerblNbmes();
     }
 
     /**
-     * Create the extension from the passed DER encoded value.
+     * Crebte the extension from the pbssed DER encoded vblue.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-    public IssuerAlternativeNameExtension(Boolean critical, Object value)
+    public IssuerAlternbtiveNbmeExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        this.extensionId = PKIXExtensions.IssuerAlternativeName_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.data == null) {
-            names = new GeneralNames();
+        this.extensionId = PKIXExtensions.IssuerAlternbtiveNbme_Id;
+        this.criticbl = criticbl.boolebnVblue();
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        if (vbl.dbtb == null) {
+            nbmes = new GenerblNbmes();
             return;
         }
 
-        names = new GeneralNames(val);
+        nbmes = new GenerblNbmes(vbl);
     }
 
     /**
-     * Returns a printable representation of the IssuerAlternativeName.
+     * Returns b printbble representbtion of the IssuerAlternbtiveNbme.
      */
     public String toString() {
 
-        String result = super.toString() + "IssuerAlternativeName [\n";
-        if(names == null) {
+        String result = super.toString() + "IssuerAlternbtiveNbme [\n";
+        if(nbmes == null) {
             result += "  null\n";
         } else {
-            for(GeneralName name: names.names()) {
-                result += "  "+name+"\n";
+            for(GenerblNbme nbme: nbmes.nbmes()) {
+                result += "  "+nbme+"\n";
             }
         }
         result += "]\n";
@@ -154,79 +154,79 @@ extends Extension implements CertAttrSet<String> {
     }
 
     /**
-     * Write the extension to the OutputStream.
+     * Write the extension to the OutputStrebm.
      *
-     * @param out the OutputStream to write the extension to.
+     * @pbrbm out the OutputStrebm to write the extension to.
      * @exception IOException on encoding error.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-            extensionId = PKIXExtensions.IssuerAlternativeName_Id;
-            critical = false;
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        if (extensionVblue == null) {
+            extensionId = PKIXExtensions.IssuerAlternbtiveNbme_Id;
+            criticbl = fblse;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(ISSUER_NAME)) {
-            if (!(obj instanceof GeneralNames)) {
-              throw new IOException("Attribute value should be of" +
-                                    " type GeneralNames.");
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(ISSUER_NAME)) {
+            if (!(obj instbnceof GenerblNbmes)) {
+              throw new IOException("Attribute vblue should be of" +
+                                    " type GenerblNbmes.");
             }
-            names = (GeneralNames)obj;
+            nbmes = (GenerblNbmes)obj;
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:IssuerAlternativeName.");
+          throw new IOException("Attribute nbme not recognized by " +
+                        "CertAttrSet:IssuerAlternbtiveNbme.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public GeneralNames get(String name) throws IOException {
-        if (name.equalsIgnoreCase(ISSUER_NAME)) {
-            return (names);
+    public GenerblNbmes get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(ISSUER_NAME)) {
+            return (nbmes);
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:IssuerAlternativeName.");
+          throw new IOException("Attribute nbme not recognized by " +
+                        "CertAttrSet:IssuerAlternbtiveNbme.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(ISSUER_NAME)) {
-            names = null;
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(ISSUER_NAME)) {
+            nbmes = null;
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:IssuerAlternativeName.");
+          throw new IOException("Attribute nbme not recognized by " +
+                        "CertAttrSet:IssuerAlternbtiveNbme.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(ISSUER_NAME);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(ISSUER_NAME);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 }

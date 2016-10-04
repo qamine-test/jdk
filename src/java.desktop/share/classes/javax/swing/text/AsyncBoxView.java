@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.*;
-import java.util.List;
-import java.awt.*;
-import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
+import jbvb.util.*;
+import jbvb.util.List;
+import jbvb.bwt.*;
+import jbvbx.swing.SwingUtilities;
+import jbvbx.swing.event.DocumentEvent;
 
 /**
- * A box that does layout asynchronously.  This
- * is useful to keep the GUI event thread moving by
- * not doing any layout on it.  The layout is done
- * on a granularity of operations on the child views.
- * After each child view is accessed for some part
- * of layout (a potentially time consuming operation)
- * the remaining tasks can be abandoned or a new higher
- * priority task (i.e. to service a synchronous request
- * or a visible area) can be taken on.
+ * A box thbt does lbyout bsynchronously.  This
+ * is useful to keep the GUI event threbd moving by
+ * not doing bny lbyout on it.  The lbyout is done
+ * on b grbnulbrity of operbtions on the child views.
+ * After ebch child view is bccessed for some pbrt
+ * of lbyout (b potentiblly time consuming operbtion)
+ * the rembining tbsks cbn be bbbndoned or b new higher
+ * priority tbsk (i.e. to service b synchronous request
+ * or b visible breb) cbn be tbken on.
  * <p>
- * While the child view is being accessed
- * a read lock is acquired on the associated document
- * so that the model is stable while being accessed.
+ * While the child view is being bccessed
+ * b rebd lock is bcquired on the bssocibted document
+ * so thbt the model is stbble while being bccessed.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @since   1.3
  */
-public class AsyncBoxView extends View {
+public clbss AsyncBoxView extends View {
 
     /**
-     * Construct a box view that does asynchronous layout.
+     * Construct b box view thbt does bsynchronous lbyout.
      *
-     * @param elem the element of the model to represent
-     * @param axis the axis to tile along.  This can be
+     * @pbrbm elem the element of the model to represent
+     * @pbrbm bxis the bxis to tile blong.  This cbn be
      *  either X_AXIS or Y_AXIS.
      */
-    public AsyncBoxView(Element elem, int axis) {
+    public AsyncBoxView(Element elem, int bxis) {
         super(elem);
-        stats = new ArrayList<ChildState>();
-        this.axis = axis;
-        locator = new ChildLocator();
-        flushTask = new FlushTask();
-        minorSpan = Short.MAX_VALUE;
-        estimatedMajorSpan = false;
+        stbts = new ArrbyList<ChildStbte>();
+        this.bxis = bxis;
+        locbtor = new ChildLocbtor();
+        flushTbsk = new FlushTbsk();
+        minorSpbn = Short.MAX_VALUE;
+        estimbtedMbjorSpbn = fblse;
     }
 
     /**
-     * Fetch the major axis (the axis the children
-     * are tiled along).  This will have a value of
+     * Fetch the mbjor bxis (the bxis the children
+     * bre tiled blong).  This will hbve b vblue of
      * either X_AXIS or Y_AXIS.
      */
-    public int getMajorAxis() {
-        return axis;
+    public int getMbjorAxis() {
+        return bxis;
     }
 
     /**
-     * Fetch the minor axis (the axis orthogonal
-     * to the tiled axis).  This will have a value of
+     * Fetch the minor bxis (the bxis orthogonbl
+     * to the tiled bxis).  This will hbve b vblue of
      * either X_AXIS or Y_AXIS.
      */
     public int getMinorAxis() {
-        return (axis == X_AXIS) ? Y_AXIS : X_AXIS;
+        return (bxis == X_AXIS) ? Y_AXIS : X_AXIS;
     }
 
     /**
-     * Get the top part of the margin around the view.
+     * Get the top pbrt of the mbrgin bround the view.
      */
-    public float getTopInset() {
+    public flobt getTopInset() {
         return topInset;
     }
 
     /**
-     * Set the top part of the margin around the view.
+     * Set the top pbrt of the mbrgin bround the view.
      *
-     * @param i the value of the inset
+     * @pbrbm i the vblue of the inset
      */
-    public void setTopInset(float i) {
+    public void setTopInset(flobt i) {
         topInset = i;
     }
 
     /**
-     * Get the bottom part of the margin around the view.
+     * Get the bottom pbrt of the mbrgin bround the view.
      */
-    public float getBottomInset() {
+    public flobt getBottomInset() {
         return bottomInset;
     }
 
     /**
-     * Set the bottom part of the margin around the view.
+     * Set the bottom pbrt of the mbrgin bround the view.
      *
-     * @param i the value of the inset
+     * @pbrbm i the vblue of the inset
      */
-    public void setBottomInset(float i) {
+    public void setBottomInset(flobt i) {
         bottomInset = i;
     }
 
     /**
-     * Get the left part of the margin around the view.
+     * Get the left pbrt of the mbrgin bround the view.
      */
-    public float getLeftInset() {
+    public flobt getLeftInset() {
         return leftInset;
     }
 
     /**
-     * Set the left part of the margin around the view.
+     * Set the left pbrt of the mbrgin bround the view.
      *
-     * @param i the value of the inset
+     * @pbrbm i the vblue of the inset
      */
-    public void setLeftInset(float i) {
+    public void setLeftInset(flobt i) {
         leftInset = i;
     }
 
     /**
-     * Get the right part of the margin around the view.
+     * Get the right pbrt of the mbrgin bround the view.
      */
-    public float getRightInset() {
+    public flobt getRightInset() {
         return rightInset;
     }
 
     /**
-     * Set the right part of the margin around the view.
+     * Set the right pbrt of the mbrgin bround the view.
      *
-     * @param i the value of the inset
+     * @pbrbm i the vblue of the inset
      */
-    public void setRightInset(float i) {
+    public void setRightInset(flobt i) {
         rightInset = i;
     }
 
     /**
-     * Fetch the span along an axis that is taken up by the insets.
+     * Fetch the spbn blong bn bxis thbt is tbken up by the insets.
      *
-     * @param axis the axis to determine the total insets along,
+     * @pbrbm bxis the bxis to determine the totbl insets blong,
      *  either X_AXIS or Y_AXIS.
      * @since 1.4
      */
-    protected float getInsetSpan(int axis) {
-        float margin = (axis == X_AXIS) ?
+    protected flobt getInsetSpbn(int bxis) {
+        flobt mbrgin = (bxis == X_AXIS) ?
             getLeftInset() + getRightInset() : getTopInset() + getBottomInset();
-        return margin;
+        return mbrgin;
     }
 
     /**
-     * Set the estimatedMajorSpan property that determines if the
-     * major span should be treated as being estimated.  If this
-     * property is true, the value of setSize along the major axis
-     * will change the requirements along the major axis and incremental
-     * changes will be ignored until all of the children have been updated
-     * (which will cause the property to automatically be set to false).
-     * If the property is false the value of the majorSpan will be
-     * considered to be accurate and incremental changes will be
-     * added into the total as they are calculated.
+     * Set the estimbtedMbjorSpbn property thbt determines if the
+     * mbjor spbn should be trebted bs being estimbted.  If this
+     * property is true, the vblue of setSize blong the mbjor bxis
+     * will chbnge the requirements blong the mbjor bxis bnd incrementbl
+     * chbnges will be ignored until bll of the children hbve been updbted
+     * (which will cbuse the property to butombticblly be set to fblse).
+     * If the property is fblse the vblue of the mbjorSpbn will be
+     * considered to be bccurbte bnd incrementbl chbnges will be
+     * bdded into the totbl bs they bre cblculbted.
      *
      * @since 1.4
      */
-    protected void setEstimatedMajorSpan(boolean isEstimated) {
-        estimatedMajorSpan = isEstimated;
+    protected void setEstimbtedMbjorSpbn(boolebn isEstimbted) {
+        estimbtedMbjorSpbn = isEstimbted;
     }
 
     /**
-     * Is the major span currently estimated?
+     * Is the mbjor spbn currently estimbted?
      *
      * @since 1.4
      */
-    protected boolean getEstimatedMajorSpan() {
-        return estimatedMajorSpan;
+    protected boolebn getEstimbtedMbjorSpbn() {
+        return estimbtedMbjorSpbn;
     }
 
     /**
-     * Fetch the object representing the layout state of
-     * of the child at the given index.
+     * Fetch the object representing the lbyout stbte of
+     * of the child bt the given index.
      *
-     * @param index the child index.  This should be a
-     *   value &gt;= 0 and &lt; getViewCount().
+     * @pbrbm index the child index.  This should be b
+     *   vblue &gt;= 0 bnd &lt; getViewCount().
      */
-    protected ChildState getChildState(int index) {
-        synchronized(stats) {
-            if ((index >= 0) && (index < stats.size())) {
-                return stats.get(index);
+    protected ChildStbte getChildStbte(int index) {
+        synchronized(stbts) {
+            if ((index >= 0) && (index < stbts.size())) {
+                return stbts.get(index);
             }
             return null;
         }
     }
 
     /**
-     * Fetch the queue to use for layout.
+     * Fetch the queue to use for lbyout.
      */
-    protected LayoutQueue getLayoutQueue() {
-        return LayoutQueue.getDefaultQueue();
+    protected LbyoutQueue getLbyoutQueue() {
+        return LbyoutQueue.getDefbultQueue();
     }
 
     /**
-     * New ChildState records are created through
-     * this method to allow subclasses the extend
-     * the ChildState records to do/hold more
+     * New ChildStbte records bre crebted through
+     * this method to bllow subclbsses the extend
+     * the ChildStbte records to do/hold more
      */
-    protected ChildState createChildState(View v) {
-        return new ChildState(v);
+    protected ChildStbte crebteChildStbte(View v) {
+        return new ChildStbte(v);
     }
 
     /**
-     * Requirements changed along the major axis.
-     * This is called by the thread doing layout for
-     * the given ChildState object when it has completed
+     * Requirements chbnged blong the mbjor bxis.
+     * This is cblled by the threbd doing lbyout for
+     * the given ChildStbte object when it hbs completed
      * fetching the child views new preferences.
-     * Typically this would be the layout thread, but
-     * might be the event thread if it is trying to update
-     * something immediately (such as to perform a
-     * model/view translation).
+     * Typicblly this would be the lbyout threbd, but
+     * might be the event threbd if it is trying to updbte
+     * something immedibtely (such bs to perform b
+     * model/view trbnslbtion).
      * <p>
-     * This is implemented to mark the major axis as having
-     * changed so that a future check to see if the requirements
-     * need to be published to the parent view will consider
-     * the major axis.  If the span along the major axis is
-     * not estimated, it is updated by the given delta to reflect
-     * the incremental change.  The delta is ignored if the
-     * major span is estimated.
+     * This is implemented to mbrk the mbjor bxis bs hbving
+     * chbnged so thbt b future check to see if the requirements
+     * need to be published to the pbrent view will consider
+     * the mbjor bxis.  If the spbn blong the mbjor bxis is
+     * not estimbted, it is updbted by the given deltb to reflect
+     * the incrementbl chbnge.  The deltb is ignored if the
+     * mbjor spbn is estimbted.
      */
-    protected synchronized void majorRequirementChange(ChildState cs, float delta) {
-        if (estimatedMajorSpan == false) {
-            majorSpan += delta;
+    protected synchronized void mbjorRequirementChbnge(ChildStbte cs, flobt deltb) {
+        if (estimbtedMbjorSpbn == fblse) {
+            mbjorSpbn += deltb;
         }
-        majorChanged = true;
+        mbjorChbnged = true;
     }
 
     /**
-     * Requirements changed along the minor axis.
-     * This is called by the thread doing layout for
-     * the given ChildState object when it has completed
+     * Requirements chbnged blong the minor bxis.
+     * This is cblled by the threbd doing lbyout for
+     * the given ChildStbte object when it hbs completed
      * fetching the child views new preferences.
-     * Typically this would be the layout thread, but
-     * might be the GUI thread if it is trying to update
-     * something immediately (such as to perform a
-     * model/view translation).
+     * Typicblly this would be the lbyout threbd, but
+     * might be the GUI threbd if it is trying to updbte
+     * something immedibtely (such bs to perform b
+     * model/view trbnslbtion).
      */
-    protected synchronized void minorRequirementChange(ChildState cs) {
-        minorChanged = true;
+    protected synchronized void minorRequirementChbnge(ChildStbte cs) {
+        minorChbnged = true;
     }
 
     /**
-     * Publish the changes in preferences upward to the parent
-     * view.  This is normally called by the layout thread.
+     * Publish the chbnges in preferences upwbrd to the pbrent
+     * view.  This is normblly cblled by the lbyout threbd.
      */
-    protected void flushRequirementChanges() {
-        AbstractDocument doc = (AbstractDocument) getDocument();
+    protected void flushRequirementChbnges() {
+        AbstrbctDocument doc = (AbstrbctDocument) getDocument();
         try {
-            doc.readLock();
+            doc.rebdLock();
 
-            View parent = null;
-            boolean horizontal = false;
-            boolean vertical = false;
+            View pbrent = null;
+            boolebn horizontbl = fblse;
+            boolebn verticbl = fblse;
 
             synchronized(this) {
-                // perform tasks that iterate over the children while
-                // preventing the collection from changing.
-                synchronized(stats) {
+                // perform tbsks thbt iterbte over the children while
+                // preventing the collection from chbnging.
+                synchronized(stbts) {
                     int n = getViewCount();
-                    if ((n > 0) && (minorChanged || estimatedMajorSpan)) {
-                        LayoutQueue q = getLayoutQueue();
-                        ChildState min = getChildState(0);
-                        ChildState pref = getChildState(0);
-                        float span = 0f;
+                    if ((n > 0) && (minorChbnged || estimbtedMbjorSpbn)) {
+                        LbyoutQueue q = getLbyoutQueue();
+                        ChildStbte min = getChildStbte(0);
+                        ChildStbte pref = getChildStbte(0);
+                        flobt spbn = 0f;
                         for (int i = 1; i < n; i++) {
-                            ChildState cs = getChildState(i);
-                            if (minorChanged) {
+                            ChildStbte cs = getChildStbte(i);
+                            if (minorChbnged) {
                                 if (cs.min > min.min) {
                                     min = cs;
                                 }
@@ -292,374 +292,374 @@ public class AsyncBoxView extends View {
                                     pref = cs;
                                 }
                             }
-                            if (estimatedMajorSpan) {
-                                span += cs.getMajorSpan();
+                            if (estimbtedMbjorSpbn) {
+                                spbn += cs.getMbjorSpbn();
                             }
                         }
 
-                        if (minorChanged) {
+                        if (minorChbnged) {
                             minRequest = min;
                             prefRequest = pref;
                         }
-                        if (estimatedMajorSpan) {
-                            majorSpan = span;
-                            estimatedMajorSpan = false;
-                            majorChanged = true;
+                        if (estimbtedMbjorSpbn) {
+                            mbjorSpbn = spbn;
+                            estimbtedMbjorSpbn = fblse;
+                            mbjorChbnged = true;
                         }
                     }
                 }
 
-                // message preferenceChanged
-                if (majorChanged || minorChanged) {
-                    parent = getParent();
-                    if (parent != null) {
-                        if (axis == X_AXIS) {
-                            horizontal = majorChanged;
-                            vertical = minorChanged;
+                // messbge preferenceChbnged
+                if (mbjorChbnged || minorChbnged) {
+                    pbrent = getPbrent();
+                    if (pbrent != null) {
+                        if (bxis == X_AXIS) {
+                            horizontbl = mbjorChbnged;
+                            verticbl = minorChbnged;
                         } else {
-                            vertical = majorChanged;
-                            horizontal = minorChanged;
+                            verticbl = mbjorChbnged;
+                            horizontbl = minorChbnged;
                         }
                     }
-                    majorChanged = false;
-                    minorChanged = false;
+                    mbjorChbnged = fblse;
+                    minorChbnged = fblse;
                 }
             }
 
-            // propagate a preferenceChanged, using the
-            // layout thread.
-            if (parent != null) {
-                parent.preferenceChanged(this, horizontal, vertical);
+            // propbgbte b preferenceChbnged, using the
+            // lbyout threbd.
+            if (pbrent != null) {
+                pbrent.preferenceChbnged(this, horizontbl, verticbl);
 
-                // probably want to change this to be more exact.
-                Component c = getContainer();
+                // probbbly wbnt to chbnge this to be more exbct.
+                Component c = getContbiner();
                 if (c != null) {
-                    c.repaint();
+                    c.repbint();
                 }
             }
-        } finally {
-            doc.readUnlock();
+        } finblly {
+            doc.rebdUnlock();
         }
     }
 
     /**
-     * Calls the superclass to update the child views, and
-     * updates the status records for the children.  This
-     * is expected to be called while a write lock is held
-     * on the model so that interaction with the layout
-     * thread will not happen (i.e. the layout thread
-     * acquires a read lock before doing anything).
+     * Cblls the superclbss to updbte the child views, bnd
+     * updbtes the stbtus records for the children.  This
+     * is expected to be cblled while b write lock is held
+     * on the model so thbt interbction with the lbyout
+     * threbd will not hbppen (i.e. the lbyout threbd
+     * bcquires b rebd lock before doing bnything).
      *
-     * @param offset the starting offset into the child views &gt;= 0
-     * @param length the number of existing views to replace &gt;= 0
-     * @param views the child views to insert
+     * @pbrbm offset the stbrting offset into the child views &gt;= 0
+     * @pbrbm length the number of existing views to replbce &gt;= 0
+     * @pbrbm views the child views to insert
      */
-    public void replace(int offset, int length, View[] views) {
-        synchronized(stats) {
-            // remove the replaced state records
+    public void replbce(int offset, int length, View[] views) {
+        synchronized(stbts) {
+            // remove the replbced stbte records
             for (int i = 0; i < length; i++) {
-                ChildState cs = stats.remove(offset);
-                float csSpan = cs.getMajorSpan();
+                ChildStbte cs = stbts.remove(offset);
+                flobt csSpbn = cs.getMbjorSpbn();
 
-                cs.getChildView().setParent(null);
-                if (csSpan != 0) {
-                    majorRequirementChange(cs, -csSpan);
+                cs.getChildView().setPbrent(null);
+                if (csSpbn != 0) {
+                    mbjorRequirementChbnge(cs, -csSpbn);
                 }
             }
 
-            // insert the state records for the new children
-            LayoutQueue q = getLayoutQueue();
+            // insert the stbte records for the new children
+            LbyoutQueue q = getLbyoutQueue();
             if (views != null) {
                 for (int i = 0; i < views.length; i++) {
-                    ChildState s = createChildState(views[i]);
-                    stats.add(offset + i, s);
-                    q.addTask(s);
+                    ChildStbte s = crebteChildStbte(views[i]);
+                    stbts.bdd(offset + i, s);
+                    q.bddTbsk(s);
                 }
             }
 
-            // notify that the size changed
-            q.addTask(flushTask);
+            // notify thbt the size chbnged
+            q.bddTbsk(flushTbsk);
         }
     }
 
     /**
-     * Loads all of the children to initialize the view.
-     * This is called by the {@link #setParent setParent}
-     * method.  Subclasses can reimplement this to initialize
-     * their child views in a different manner.  The default
-     * implementation creates a child view for each
+     * Lobds bll of the children to initiblize the view.
+     * This is cblled by the {@link #setPbrent setPbrent}
+     * method.  Subclbsses cbn reimplement this to initiblize
+     * their child views in b different mbnner.  The defbult
+     * implementbtion crebtes b child view for ebch
      * child element.
      * <p>
-     * Normally a write-lock is held on the Document while
-     * the children are being changed, which keeps the rendering
-     * and layout threads safe.  The exception to this is when
-     * the view is initialized to represent an existing element
-     * (via this method), so it is synchronized to exclude
-     * preferenceChanged while we are initializing.
+     * Normblly b write-lock is held on the Document while
+     * the children bre being chbnged, which keeps the rendering
+     * bnd lbyout threbds sbfe.  The exception to this is when
+     * the view is initiblized to represent bn existing element
+     * (vib this method), so it is synchronized to exclude
+     * preferenceChbnged while we bre initiblizing.
      *
-     * @param f the view factory
-     * @see #setParent
+     * @pbrbm f the view fbctory
+     * @see #setPbrent
      */
-    protected void loadChildren(ViewFactory f) {
+    protected void lobdChildren(ViewFbctory f) {
         Element e = getElement();
         int n = e.getElementCount();
         if (n > 0) {
-            View[] added = new View[n];
+            View[] bdded = new View[n];
             for (int i = 0; i < n; i++) {
-                added[i] = f.create(e.getElement(i));
+                bdded[i] = f.crebte(e.getElement(i));
             }
-            replace(0, 0, added);
+            replbce(0, 0, bdded);
         }
     }
 
     /**
      * Fetches the child view index representing the given position in
-     * the model.  This is implemented to fetch the view in the case
-     * where there is a child view for each child element.
+     * the model.  This is implemented to fetch the view in the cbse
+     * where there is b child view for ebch child element.
      *
-     * @param pos the position &gt;= 0
+     * @pbrbm pos the position &gt;= 0
      * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     *   -1 if no view represents thbt position
      */
-    protected synchronized int getViewIndexAtPosition(int pos, Position.Bias b) {
-        boolean isBackward = (b == Position.Bias.Backward);
-        pos = (isBackward) ? Math.max(0, pos - 1) : pos;
+    protected synchronized int getViewIndexAtPosition(int pos, Position.Bibs b) {
+        boolebn isBbckwbrd = (b == Position.Bibs.Bbckwbrd);
+        pos = (isBbckwbrd) ? Mbth.mbx(0, pos - 1) : pos;
         Element elem = getElement();
         return elem.getElementIndex(pos);
     }
 
     /**
-     * Update the layout in response to receiving notification of
-     * change from the model.  This is implemented to note the
-     * change on the ChildLocator so that offsets of the children
+     * Updbte the lbyout in response to receiving notificbtion of
+     * chbnge from the model.  This is implemented to note the
+     * chbnge on the ChildLocbtor so thbt offsets of the children
      * will be correctly computed.
      *
-     * @param ec changes to the element this view is responsible
-     *  for (may be null if there were no changes).
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
+     * @pbrbm ec chbnges to the element this view is responsible
+     *  for (mby be null if there were no chbnges).
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @see #insertUpdbte
+     * @see #removeUpdbte
+     * @see #chbngedUpdbte
      */
-    protected void updateLayout(DocumentEvent.ElementChange ec,
-                                    DocumentEvent e, Shape a) {
+    protected void updbteLbyout(DocumentEvent.ElementChbnge ec,
+                                    DocumentEvent e, Shbpe b) {
         if (ec != null) {
-            // the newly inserted children don't have a valid
-            // offset so the child locator needs to be messaged
-            // that the child prior to the new children has
-            // changed size.
-            int index = Math.max(ec.getIndex() - 1, 0);
-            ChildState cs = getChildState(index);
-            locator.childChanged(cs);
+            // the newly inserted children don't hbve b vblid
+            // offset so the child locbtor needs to be messbged
+            // thbt the child prior to the new children hbs
+            // chbnged size.
+            int index = Mbth.mbx(ec.getIndex() - 1, 0);
+            ChildStbte cs = getChildStbte(index);
+            locbtor.childChbnged(cs);
         }
     }
 
     // --- View methods ------------------------------------
 
     /**
-     * Sets the parent of the view.
-     * This is reimplemented to provide the superclass
-     * behavior as well as calling the <code>loadChildren</code>
-     * method if this view does not already have children.
-     * The children should not be loaded in the
-     * constructor because the act of setting the parent
-     * may cause them to try to search up the hierarchy
-     * (to get the hosting Container for example).
-     * If this view has children (the view is being moved
-     * from one place in the view hierarchy to another),
-     * the <code>loadChildren</code> method will not be called.
+     * Sets the pbrent of the view.
+     * This is reimplemented to provide the superclbss
+     * behbvior bs well bs cblling the <code>lobdChildren</code>
+     * method if this view does not blrebdy hbve children.
+     * The children should not be lobded in the
+     * constructor becbuse the bct of setting the pbrent
+     * mby cbuse them to try to sebrch up the hierbrchy
+     * (to get the hosting Contbiner for exbmple).
+     * If this view hbs children (the view is being moved
+     * from one plbce in the view hierbrchy to bnother),
+     * the <code>lobdChildren</code> method will not be cblled.
      *
-     * @param parent the parent of the view, null if none
+     * @pbrbm pbrent the pbrent of the view, null if none
      */
-    public void setParent(View parent) {
-        super.setParent(parent);
-        if ((parent != null) && (getViewCount() == 0)) {
-            ViewFactory f = getViewFactory();
-            loadChildren(f);
+    public void setPbrent(View pbrent) {
+        super.setPbrent(pbrent);
+        if ((pbrent != null) && (getViewCount() == 0)) {
+            ViewFbctory f = getViewFbctory();
+            lobdChildren(f);
         }
     }
 
     /**
-     * Child views can call this on the parent to indicate that
-     * the preference has changed and should be reconsidered
-     * for layout.  This is reimplemented to queue new work
-     * on the layout thread.  This method gets messaged from
-     * multiple threads via the children.
+     * Child views cbn cbll this on the pbrent to indicbte thbt
+     * the preference hbs chbnged bnd should be reconsidered
+     * for lbyout.  This is reimplemented to queue new work
+     * on the lbyout threbd.  This method gets messbged from
+     * multiple threbds vib the children.
      *
-     * @param child the child view
-     * @param width true if the width preference has changed
-     * @param height true if the height preference has changed
-     * @see javax.swing.JComponent#revalidate
+     * @pbrbm child the child view
+     * @pbrbm width true if the width preference hbs chbnged
+     * @pbrbm height true if the height preference hbs chbnged
+     * @see jbvbx.swing.JComponent#revblidbte
      */
-    public synchronized void preferenceChanged(View child, boolean width, boolean height) {
+    public synchronized void preferenceChbnged(View child, boolebn width, boolebn height) {
         if (child == null) {
-            getParent().preferenceChanged(this, width, height);
+            getPbrent().preferenceChbnged(this, width, height);
         } else {
-            if (changing != null) {
-                View cv = changing.getChildView();
+            if (chbnging != null) {
+                View cv = chbnging.getChildView();
                 if (cv == child) {
-                    // size was being changed on the child, no need to
+                    // size wbs being chbnged on the child, no need to
                     // queue work for it.
-                    changing.preferenceChanged(width, height);
+                    chbnging.preferenceChbnged(width, height);
                     return;
                 }
             }
-            int index = getViewIndex(child.getStartOffset(),
-                                     Position.Bias.Forward);
-            ChildState cs = getChildState(index);
-            cs.preferenceChanged(width, height);
-            LayoutQueue q = getLayoutQueue();
-            q.addTask(cs);
-            q.addTask(flushTask);
+            int index = getViewIndex(child.getStbrtOffset(),
+                                     Position.Bibs.Forwbrd);
+            ChildStbte cs = getChildStbte(index);
+            cs.preferenceChbnged(width, height);
+            LbyoutQueue q = getLbyoutQueue();
+            q.bddTbsk(cs);
+            q.bddTbsk(flushTbsk);
         }
     }
 
     /**
-     * Sets the size of the view.  This should cause
-     * layout of the view if the view caches any layout
-     * information.
+     * Sets the size of the view.  This should cbuse
+     * lbyout of the view if the view cbches bny lbyout
+     * informbtion.
      * <p>
-     * Since the major axis is updated asynchronously and should be
-     * the sum of the tiled children the call is ignored for the major
-     * axis.  Since the minor axis is flexible, work is queued to resize
-     * the children if the minor span changes.
+     * Since the mbjor bxis is updbted bsynchronously bnd should be
+     * the sum of the tiled children the cbll is ignored for the mbjor
+     * bxis.  Since the minor bxis is flexible, work is queued to resize
+     * the children if the minor spbn chbnges.
      *
-     * @param width the width &gt;= 0
-     * @param height the height &gt;= 0
+     * @pbrbm width the width &gt;= 0
+     * @pbrbm height the height &gt;= 0
      */
-    public void setSize(float width, float height) {
-        setSpanOnAxis(X_AXIS, width);
-        setSpanOnAxis(Y_AXIS, height);
+    public void setSize(flobt width, flobt height) {
+        setSpbnOnAxis(X_AXIS, width);
+        setSpbnOnAxis(Y_AXIS, height);
     }
 
     /**
-     * Retrieves the size of the view along an axis.
+     * Retrieves the size of the view blong bn bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @return the current span of the view along the given axis, >= 0
+     * @return the current spbn of the view blong the given bxis, >= 0
      */
-    float getSpanOnAxis(int axis) {
-        if (axis == getMajorAxis()) {
-            return majorSpan;
+    flobt getSpbnOnAxis(int bxis) {
+        if (bxis == getMbjorAxis()) {
+            return mbjorSpbn;
         }
-        return minorSpan;
+        return minorSpbn;
     }
 
     /**
-     * Sets the size of the view along an axis.  Since the major
-     * axis is updated asynchronously and should be the sum of the
-     * tiled children the call is ignored for the major axis.  Since
-     * the minor axis is flexible, work is queued to resize the
-     * children if the minor span changes.
+     * Sets the size of the view blong bn bxis.  Since the mbjor
+     * bxis is updbted bsynchronously bnd should be the sum of the
+     * tiled children the cbll is ignored for the mbjor bxis.  Since
+     * the minor bxis is flexible, work is queued to resize the
+     * children if the minor spbn chbnges.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @param span the span to layout to >= 0
+     * @pbrbm spbn the spbn to lbyout to >= 0
      */
-    void setSpanOnAxis(int axis, float span) {
-        float margin = getInsetSpan(axis);
-        if (axis == getMinorAxis()) {
-            float targetSpan = span - margin;
-            if (targetSpan != minorSpan) {
-                minorSpan = targetSpan;
+    void setSpbnOnAxis(int bxis, flobt spbn) {
+        flobt mbrgin = getInsetSpbn(bxis);
+        if (bxis == getMinorAxis()) {
+            flobt tbrgetSpbn = spbn - mbrgin;
+            if (tbrgetSpbn != minorSpbn) {
+                minorSpbn = tbrgetSpbn;
 
-                // mark all of the ChildState instances as needing to
-                // resize the child, and queue up work to fix them.
+                // mbrk bll of the ChildStbte instbnces bs needing to
+                // resize the child, bnd queue up work to fix them.
                 int n = getViewCount();
                 if (n != 0) {
-                    LayoutQueue q = getLayoutQueue();
+                    LbyoutQueue q = getLbyoutQueue();
                     for (int i = 0; i < n; i++) {
-                        ChildState cs = getChildState(i);
-                        cs.childSizeValid = false;
-                        q.addTask(cs);
+                        ChildStbte cs = getChildStbte(i);
+                        cs.childSizeVblid = fblse;
+                        q.bddTbsk(cs);
                     }
-                    q.addTask(flushTask);
+                    q.bddTbsk(flushTbsk);
                 }
             }
         } else {
-            // along the major axis the value is ignored
-            // unless the estimatedMajorSpan property is
+            // blong the mbjor bxis the vblue is ignored
+            // unless the estimbtedMbjorSpbn property is
             // true.
-            if (estimatedMajorSpan) {
-                majorSpan = span - margin;
+            if (estimbtedMbjorSpbn) {
+                mbjorSpbn = spbn - mbrgin;
             }
         }
     }
 
     /**
-     * Render the view using the given allocation and
-     * rendering surface.
+     * Render the view using the given bllocbtion bnd
+     * rendering surfbce.
      * <p>
      * This is implemented to determine whether or not the
      * desired region to be rendered (i.e. the unclipped
-     * area) is up to date or not.  If up-to-date the children
-     * are rendered.  If not up-to-date, a task to build
-     * the desired area is placed on the layout queue as
-     * a high priority task.  This keeps by event thread
-     * moving by rendering if ready, and postponing until
-     * a later time if not ready (since paint requests
-     * can be rescheduled).
+     * breb) is up to dbte or not.  If up-to-dbte the children
+     * bre rendered.  If not up-to-dbte, b tbsk to build
+     * the desired breb is plbced on the lbyout queue bs
+     * b high priority tbsk.  This keeps by event threbd
+     * moving by rendering if rebdy, bnd postponing until
+     * b lbter time if not rebdy (since pbint requests
+     * cbn be rescheduled).
      *
-     * @param g the rendering surface to use
-     * @param alloc the allocated region to render into
-     * @see View#paint
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm blloc the bllocbted region to render into
+     * @see View#pbint
      */
-    public void paint(Graphics g, Shape alloc) {
-        synchronized (locator) {
-            locator.setAllocation(alloc);
-            locator.paintChildren(g);
+    public void pbint(Grbphics g, Shbpe blloc) {
+        synchronized (locbtor) {
+            locbtor.setAllocbtion(blloc);
+            locbtor.pbintChildren(g);
         }
     }
 
     /**
-     * Determines the preferred span for this view along an
-     * axis.
+     * Determines the preferred spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis type
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return   the spbn the view would like to be rendered into &gt;= 0.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view.
+     * @exception IllegblArgumentException for bn invblid bxis type
      */
-    public float getPreferredSpan(int axis) {
-        float margin = getInsetSpan(axis);
-        if (axis == this.axis) {
-            return majorSpan + margin;
+    public flobt getPreferredSpbn(int bxis) {
+        flobt mbrgin = getInsetSpbn(bxis);
+        if (bxis == this.bxis) {
+            return mbjorSpbn + mbrgin;
         }
         if (prefRequest != null) {
             View child = prefRequest.getChildView();
-            return child.getPreferredSpan(axis) + margin;
+            return child.getPreferredSpbn(bxis) + mbrgin;
         }
 
-        // nothing is known about the children yet
-        return margin + 30;
+        // nothing is known bbout the children yet
+        return mbrgin + 30;
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.
+     * Determines the minimum spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return  the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis type
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return  the spbn the view would like to be rendered into &gt;= 0.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view.
+     * @exception IllegblArgumentException for bn invblid bxis type
      */
-    public float getMinimumSpan(int axis) {
-        if (axis == this.axis) {
-            return getPreferredSpan(axis);
+    public flobt getMinimumSpbn(int bxis) {
+        if (bxis == this.bxis) {
+            return getPreferredSpbn(bxis);
         }
         if (minRequest != null) {
             View child = minRequest.getChildView();
-            return child.getMinimumSpan(axis);
+            return child.getMinimumSpbn(bxis);
         }
 
-        // nothing is known about the children yet
-        if (axis == X_AXIS) {
+        // nothing is known bbout the children yet
+        if (bxis == X_AXIS) {
             return getLeftInset() + getRightInset() + 5;
         } else {
             return getTopInset() + getBottomInset() + 5;
@@ -667,19 +667,19 @@ public class AsyncBoxView extends View {
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.
+     * Determines the mbximum spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis type
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return   the spbn the view would like to be rendered into &gt;= 0.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view.
+     * @exception IllegblArgumentException for bn invblid bxis type
      */
-    public float getMaximumSpan(int axis) {
-        if (axis == this.axis) {
-            return getPreferredSpan(axis);
+    public flobt getMbximumSpbn(int bxis) {
+        if (bxis == this.bxis) {
+            return getPreferredSpbn(bxis);
         }
         return Integer.MAX_VALUE;
     }
@@ -687,27 +687,27 @@ public class AsyncBoxView extends View {
 
     /**
      * Returns the number of views in this view.  Since
-     * the default is to not be a composite view this
+     * the defbult is to not be b composite view this
      * returns 0.
      *
      * @return the number of views &gt;= 0
      * @see View#getViewCount
      */
     public int getViewCount() {
-        synchronized(stats) {
-            return stats.size();
+        synchronized(stbts) {
+            return stbts.size();
         }
     }
 
     /**
-     * Gets the nth child view.  Since there are no
-     * children by default, this returns null.
+     * Gets the nth child view.  Since there bre no
+     * children by defbult, this returns null.
      *
-     * @param n the number of the view to get, &gt;= 0 &amp;&amp; &lt; getViewCount()
+     * @pbrbm n the number of the view to get, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
      * @return the view
      */
     public View getView(int n) {
-        ChildState cs = getChildState(n);
+        ChildStbte cs = getChildStbte(n);
         if (cs != null) {
             return cs.getChildView();
         }
@@ -715,338 +715,338 @@ public class AsyncBoxView extends View {
     }
 
     /**
-     * Fetches the allocation for the given child view.
-     * This enables finding out where various views
-     * are located, without assuming the views store
-     * their location.  This returns null since the
-     * default is to not have any child views.
+     * Fetches the bllocbtion for the given child view.
+     * This enbbles finding out where vbrious views
+     * bre locbted, without bssuming the views store
+     * their locbtion.  This returns null since the
+     * defbult is to not hbve bny child views.
      *
-     * @param index the index of the child, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @param a  the allocation to this view.
-     * @return the allocation to the child
+     * @pbrbm index the index of the child, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
+     * @pbrbm b  the bllocbtion to this view.
+     * @return the bllocbtion to the child
      */
-    public Shape getChildAllocation(int index, Shape a) {
-        Shape ca = locator.getChildAllocation(index, a);
-        return ca;
+    public Shbpe getChildAllocbtion(int index, Shbpe b) {
+        Shbpe cb = locbtor.getChildAllocbtion(index, b);
+        return cb;
     }
 
     /**
      * Returns the child view index representing the given position in
-     * the model.  By default a view has no children so this is implemented
-     * to return -1 to indicate there is no valid child index for any
+     * the model.  By defbult b view hbs no children so this is implemented
+     * to return -1 to indicbte there is no vblid child index for bny
      * position.
      *
-     * @param pos the position &gt;= 0
+     * @pbrbm pos the position &gt;= 0
      * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     *   -1 if no view represents thbt position
      * @since 1.3
      */
-    public int getViewIndex(int pos, Position.Bias b) {
+    public int getViewIndex(int pos, Position.Bibs b) {
         return getViewIndexAtPosition(pos, b);
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Provides b mbpping from the document model coordinbte spbce
+     * to the coordinbte spbce of the view mbpped to it.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @param b the bias toward the previous character or the
-     *  next character represented by the offset, in case the
-     *  position is a boundary of two views.
+     * @pbrbm pos the position to convert &gt;= 0
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm b the bibs towbrd the previous chbrbcter or the
+     *  next chbrbcter represented by the offset, in cbse the
+     *  position is b boundbry of two views.
      * @return the bounding box of the given position is returned
-     * @exception BadLocationException  if the given position does
-     *   not represent a valid location in the associated document
-     * @exception IllegalArgumentException for an invalid bias argument
+     * @exception BbdLocbtionException  if the given position does
+     *   not represent b vblid locbtion in the bssocibted document
+     * @exception IllegblArgumentException for bn invblid bibs brgument
      * @see View#viewToModel
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
+    public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException {
         int index = getViewIndex(pos, b);
-        Shape ca = locator.getChildAllocation(index, a);
+        Shbpe cb = locbtor.getChildAllocbtion(index, b);
 
-        // forward to the child view, and make sure we don't
-        // interact with the layout thread by synchronizing
-        // on the child state.
-        ChildState cs = getChildState(index);
+        // forwbrd to the child view, bnd mbke sure we don't
+        // interbct with the lbyout threbd by synchronizing
+        // on the child stbte.
+        ChildStbte cs = getChildStbte(index);
         synchronized (cs) {
             View cv = cs.getChildView();
-            Shape v = cv.modelToView(pos, ca, b);
+            Shbpe v = cv.modelToView(pos, cb, b);
             return v;
         }
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.  The biasReturn argument will be
-     * filled in to indicate that the point given is closer to the next
-     * character in the model or the previous character in the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.  The bibsReturn brgument will be
+     * filled in to indicbte thbt the point given is closer to the next
+     * chbrbcter in the model or the previous chbrbcter in the model.
      * <p>
-     * This is expected to be called by the GUI thread, holding a
-     * read-lock on the associated model.  It is implemented to
-     * locate the child view and determine it's allocation with a
-     * lock on the ChildLocator object, and to call viewToModel
-     * on the child view with a lock on the ChildState object
-     * to avoid interaction with the layout thread.
+     * This is expected to be cblled by the GUI threbd, holding b
+     * rebd-lock on the bssocibted model.  It is implemented to
+     * locbte the child view bnd determine it's bllocbtion with b
+     * lock on the ChildLocbtor object, bnd to cbll viewToModel
+     * on the child view with b lock on the ChildStbte object
+     * to bvoid interbction with the lbyout threbd.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param a the allocated region to render into
-     * @return the location within the model that best represents the
-     *  given point in the view &gt;= 0.  The biasReturn argument will be
-     * filled in to indicate that the point given is closer to the next
-     * character in the model or the previous character in the model.
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm b the bllocbted region to render into
+     * @return the locbtion within the model thbt best represents the
+     *  given point in the view &gt;= 0.  The bibsReturn brgument will be
+     * filled in to indicbte thbt the point given is closer to the next
+     * chbrbcter in the model or the previous chbrbcter in the model.
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] biasReturn) {
+    public int viewToModel(flobt x, flobt y, Shbpe b, Position.Bibs[] bibsReturn) {
         int pos;    // return position
-        int index;  // child index to forward to
-        Shape ca;   // child allocation
+        int index;  // child index to forwbrd to
+        Shbpe cb;   // child bllocbtion
 
-        // locate the child view and it's allocation so that
-        // we can forward to it.  Make sure the layout thread
-        // doesn't change anything by trying to flush changes
-        // to the parent while the GUI thread is trying to
-        // find the child and it's allocation.
-        synchronized (locator) {
-            index = locator.getViewIndexAtPoint(x, y, a);
-            ca = locator.getChildAllocation(index, a);
+        // locbte the child view bnd it's bllocbtion so thbt
+        // we cbn forwbrd to it.  Mbke sure the lbyout threbd
+        // doesn't chbnge bnything by trying to flush chbnges
+        // to the pbrent while the GUI threbd is trying to
+        // find the child bnd it's bllocbtion.
+        synchronized (locbtor) {
+            index = locbtor.getViewIndexAtPoint(x, y, b);
+            cb = locbtor.getChildAllocbtion(index, b);
         }
 
-        // forward to the child view, and make sure we don't
-        // interact with the layout thread by synchronizing
-        // on the child state.
-        ChildState cs = getChildState(index);
+        // forwbrd to the child view, bnd mbke sure we don't
+        // interbct with the lbyout threbd by synchronizing
+        // on the child stbte.
+        ChildStbte cs = getChildStbte(index);
         synchronized (cs) {
             View v = cs.getChildView();
-            pos = v.viewToModel(x, y, ca, biasReturn);
+            pos = v.viewToModel(x, y, cb, bibsReturn);
         }
         return pos;
     }
 
     /**
-     * Provides a way to determine the next visually represented model
-     * location that one might place a caret.  Some views may not be visible,
-     * they might not be in the same order found in the model, or they just
-     * might not allow access to some of the locations in the model.
-     * This method enables specifying a position to convert
-     * within the range of &gt;=0.  If the value is -1, a position
-     * will be calculated automatically.  If the value &lt; -1,
-     * the {@code BadLocationException} will be thrown.
+     * Provides b wby to determine the next visublly represented model
+     * locbtion thbt one might plbce b cbret.  Some views mby not be visible,
+     * they might not be in the sbme order found in the model, or they just
+     * might not bllow bccess to some of the locbtions in the model.
+     * This method enbbles specifying b position to convert
+     * within the rbnge of &gt;=0.  If the vblue is -1, b position
+     * will be cblculbted butombticblly.  If the vblue &lt; -1,
+     * the {@code BbdLocbtionException} will be thrown.
      *
-     * @param pos the position to convert
-     * @param a the allocated region to render into
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard;
-     *  this may be one of the following:
+     * @pbrbm pos the position to convert
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm direction the direction from the current position thbt cbn
+     *  be thought of bs the brrow keys typicblly found on b keybobrd;
+     *  this mby be one of the following:
      *  <ul style="list-style-type:none">
-     *  <li><code>SwingConstants.WEST</code></li>
-     *  <li><code>SwingConstants.EAST</code></li>
-     *  <li><code>SwingConstants.NORTH</code></li>
-     *  <li><code>SwingConstants.SOUTH</code></li>
+     *  <li><code>SwingConstbnts.WEST</code></li>
+     *  <li><code>SwingConstbnts.EAST</code></li>
+     *  <li><code>SwingConstbnts.NORTH</code></li>
+     *  <li><code>SwingConstbnts.SOUTH</code></li>
      *  </ul>
-     * @param biasRet an array contain the bias that was checked
-     * @return the location within the model that best represents the next
-     *  location visual position
-     * @exception BadLocationException the given position is not a valid
+     * @pbrbm bibsRet bn brrby contbin the bibs thbt wbs checked
+     * @return the locbtion within the model thbt best represents the next
+     *  locbtion visubl position
+     * @exception BbdLocbtionException the given position is not b vblid
      *                                 position within the document
-     * @exception IllegalArgumentException if <code>direction</code> is invalid
+     * @exception IllegblArgumentException if <code>direction</code> is invblid
      */
-    public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
+    public int getNextVisublPositionFrom(int pos, Position.Bibs b, Shbpe b,
                                          int direction,
-                                         Position.Bias[] biasRet)
-                                                  throws BadLocationException {
+                                         Position.Bibs[] bibsRet)
+                                                  throws BbdLocbtionException {
         if (pos < -1) {
-            throw new BadLocationException("invalid position", pos);
+            throw new BbdLocbtionException("invblid position", pos);
         }
-        return Utilities.getNextVisualPositionFrom(
-                            this, pos, b, a, direction, biasRet);
+        return Utilities.getNextVisublPositionFrom(
+                            this, pos, b, b, direction, bibsRet);
     }
 
-    // --- variables -----------------------------------------
+    // --- vbribbles -----------------------------------------
 
     /**
-     * The major axis against which the children are
+     * The mbjor bxis bgbinst which the children bre
      * tiled.
      */
-    int axis;
+    int bxis;
 
     /**
-     * The children and their layout statistics.
+     * The children bnd their lbyout stbtistics.
      */
-    List<ChildState> stats;
+    List<ChildStbte> stbts;
 
     /**
-     * Current span along the major axis.  This
-     * is also the value returned by getMinimumSize,
-     * getPreferredSize, and getMaximumSize along
-     * the major axis.
+     * Current spbn blong the mbjor bxis.  This
+     * is blso the vblue returned by getMinimumSize,
+     * getPreferredSize, bnd getMbximumSize blong
+     * the mbjor bxis.
      */
-    float majorSpan;
+    flobt mbjorSpbn;
 
     /**
-     * Is the span along the major axis estimated?
+     * Is the spbn blong the mbjor bxis estimbted?
      */
-    boolean estimatedMajorSpan;
+    boolebn estimbtedMbjorSpbn;
 
     /**
-     * Current span along the minor axis.  This
-     * is what layout was done against (i.e. things
-     * are flexible in this direction).
+     * Current spbn blong the minor bxis.  This
+     * is whbt lbyout wbs done bgbinst (i.e. things
+     * bre flexible in this direction).
      */
-    float minorSpan;
+    flobt minorSpbn;
 
     /**
-     * Object that manages the offsets of the
-     * children.  All locking for management of
-     * child locations is on this object.
+     * Object thbt mbnbges the offsets of the
+     * children.  All locking for mbnbgement of
+     * child locbtions is on this object.
      */
-    protected ChildLocator locator;
+    protected ChildLocbtor locbtor;
 
-    float topInset;
-    float bottomInset;
-    float leftInset;
-    float rightInset;
+    flobt topInset;
+    flobt bottomInset;
+    flobt leftInset;
+    flobt rightInset;
 
-    ChildState minRequest;
-    ChildState prefRequest;
-    boolean majorChanged;
-    boolean minorChanged;
-    Runnable flushTask;
+    ChildStbte minRequest;
+    ChildStbte prefRequest;
+    boolebn mbjorChbnged;
+    boolebn minorChbnged;
+    Runnbble flushTbsk;
 
     /**
-     * Child that is actively changing size.  This often
-     * causes a preferenceChanged, so this is a cache to
-     * possibly speed up the marking the state.  It also
-     * helps flag an opportunity to avoid adding to flush
-     * task to the layout queue.
+     * Child thbt is bctively chbnging size.  This often
+     * cbuses b preferenceChbnged, so this is b cbche to
+     * possibly speed up the mbrking the stbte.  It blso
+     * helps flbg bn opportunity to bvoid bdding to flush
+     * tbsk to the lbyout queue.
      */
-    ChildState changing;
+    ChildStbte chbnging;
 
     /**
-     * A class to manage the effective position of the
-     * child views in a localized area while changes are
-     * being made around the localized area.  The AsyncBoxView
-     * may be continuously changing, but the visible area
-     * needs to remain fairly stable until the layout thread
-     * decides to publish an update to the parent.
+     * A clbss to mbnbge the effective position of the
+     * child views in b locblized breb while chbnges bre
+     * being mbde bround the locblized breb.  The AsyncBoxView
+     * mby be continuously chbnging, but the visible breb
+     * needs to rembin fbirly stbble until the lbyout threbd
+     * decides to publish bn updbte to the pbrent.
      * @since 1.3
      */
-    public class ChildLocator {
+    public clbss ChildLocbtor {
 
         /**
-         * construct a child locator.
+         * construct b child locbtor.
          */
-        public ChildLocator() {
-            lastAlloc = new Rectangle();
-            childAlloc = new Rectangle();
+        public ChildLocbtor() {
+            lbstAlloc = new Rectbngle();
+            childAlloc = new Rectbngle();
         }
 
         /**
-         * Notification that a child changed.  This can effect
-         * whether or not new offset calculations are needed.
-         * This is called by a ChildState object that has
-         * changed it's major span.  This can therefore be
-         * called by multiple threads.
+         * Notificbtion thbt b child chbnged.  This cbn effect
+         * whether or not new offset cblculbtions bre needed.
+         * This is cblled by b ChildStbte object thbt hbs
+         * chbnged it's mbjor spbn.  This cbn therefore be
+         * cblled by multiple threbds.
          */
-        public synchronized void childChanged(ChildState cs) {
-            if (lastValidOffset == null) {
-                lastValidOffset = cs;
-            } else if (cs.getChildView().getStartOffset() <
-                       lastValidOffset.getChildView().getStartOffset()) {
-                lastValidOffset = cs;
+        public synchronized void childChbnged(ChildStbte cs) {
+            if (lbstVblidOffset == null) {
+                lbstVblidOffset = cs;
+            } else if (cs.getChildView().getStbrtOffset() <
+                       lbstVblidOffset.getChildView().getStbrtOffset()) {
+                lbstVblidOffset = cs;
             }
         }
 
         /**
-         * Paint the children that intersect the clip area.
+         * Pbint the children thbt intersect the clip breb.
          */
-        public synchronized void paintChildren(Graphics g) {
-            Rectangle clip = g.getClipBounds();
-            float targetOffset = (axis == X_AXIS) ?
-                clip.x - lastAlloc.x : clip.y - lastAlloc.y;
-            int index = getViewIndexAtVisualOffset(targetOffset);
+        public synchronized void pbintChildren(Grbphics g) {
+            Rectbngle clip = g.getClipBounds();
+            flobt tbrgetOffset = (bxis == X_AXIS) ?
+                clip.x - lbstAlloc.x : clip.y - lbstAlloc.y;
+            int index = getViewIndexAtVisublOffset(tbrgetOffset);
             int n = getViewCount();
-            float offs = getChildState(index).getMajorOffset();
+            flobt offs = getChildStbte(index).getMbjorOffset();
             for (int i = index; i < n; i++) {
-                ChildState cs = getChildState(i);
-                cs.setMajorOffset(offs);
-                Shape ca = getChildAllocation(i);
-                if (intersectsClip(ca, clip)) {
+                ChildStbte cs = getChildStbte(i);
+                cs.setMbjorOffset(offs);
+                Shbpe cb = getChildAllocbtion(i);
+                if (intersectsClip(cb, clip)) {
                     synchronized (cs) {
                         View v = cs.getChildView();
-                        v.paint(g, ca);
+                        v.pbint(g, cb);
                     }
                 } else {
-                    // done painting intersection
-                    break;
+                    // done pbinting intersection
+                    brebk;
                 }
-                offs += cs.getMajorSpan();
+                offs += cs.getMbjorSpbn();
             }
         }
 
         /**
-         * Fetch the allocation to use for a child view.
-         * This will update the offsets for all children
-         * not yet updated before the given index.
+         * Fetch the bllocbtion to use for b child view.
+         * This will updbte the offsets for bll children
+         * not yet updbted before the given index.
          */
-        public synchronized Shape getChildAllocation(int index, Shape a) {
-            if (a == null) {
+        public synchronized Shbpe getChildAllocbtion(int index, Shbpe b) {
+            if (b == null) {
                 return null;
             }
-            setAllocation(a);
-            ChildState cs = getChildState(index);
-            if (lastValidOffset == null) {
-                lastValidOffset = getChildState(0);
+            setAllocbtion(b);
+            ChildStbte cs = getChildStbte(index);
+            if (lbstVblidOffset == null) {
+                lbstVblidOffset = getChildStbte(0);
             }
-            if (cs.getChildView().getStartOffset() >
-                lastValidOffset.getChildView().getStartOffset()) {
-                // offsets need to be updated
-                updateChildOffsetsToIndex(index);
+            if (cs.getChildView().getStbrtOffset() >
+                lbstVblidOffset.getChildView().getStbrtOffset()) {
+                // offsets need to be updbted
+                updbteChildOffsetsToIndex(index);
             }
-            Shape ca = getChildAllocation(index);
-            return ca;
+            Shbpe cb = getChildAllocbtion(index);
+            return cb;
         }
 
         /**
-         * Fetches the child view index at the given point.
-         * This is called by the various View methods that
-         * need to calculate which child to forward a message
-         * to.  This should be called by a block synchronized
-         * on this object, and would typically be followed
-         * with one or more calls to getChildAllocation that
-         * should also be in the synchronized block.
+         * Fetches the child view index bt the given point.
+         * This is cblled by the vbrious View methods thbt
+         * need to cblculbte which child to forwbrd b messbge
+         * to.  This should be cblled by b block synchronized
+         * on this object, bnd would typicblly be followed
+         * with one or more cblls to getChildAllocbtion thbt
+         * should blso be in the synchronized block.
          *
-         * @param x the X coordinate &gt;= 0
-         * @param y the Y coordinate &gt;= 0
-         * @param a the allocation to the View
-         * @return the nearest child index
+         * @pbrbm x the X coordinbte &gt;= 0
+         * @pbrbm y the Y coordinbte &gt;= 0
+         * @pbrbm b the bllocbtion to the View
+         * @return the nebrest child index
          */
-        public int getViewIndexAtPoint(float x, float y, Shape a) {
-            setAllocation(a);
-            float targetOffset = (axis == X_AXIS) ? x - lastAlloc.x : y - lastAlloc.y;
-            int index = getViewIndexAtVisualOffset(targetOffset);
+        public int getViewIndexAtPoint(flobt x, flobt y, Shbpe b) {
+            setAllocbtion(b);
+            flobt tbrgetOffset = (bxis == X_AXIS) ? x - lbstAlloc.x : y - lbstAlloc.y;
+            int index = getViewIndexAtVisublOffset(tbrgetOffset);
             return index;
         }
 
         /**
-         * Fetch the allocation to use for a child view.
-         * <em>This does not update the offsets in the ChildState
+         * Fetch the bllocbtion to use for b child view.
+         * <em>This does not updbte the offsets in the ChildStbte
          * records.</em>
          */
-        protected Shape getChildAllocation(int index) {
-            ChildState cs = getChildState(index);
-            if (! cs.isLayoutValid()) {
+        protected Shbpe getChildAllocbtion(int index) {
+            ChildStbte cs = getChildStbte(index);
+            if (! cs.isLbyoutVblid()) {
                 cs.run();
             }
-            if (axis == X_AXIS) {
-                childAlloc.x = lastAlloc.x + (int) cs.getMajorOffset();
-                childAlloc.y = lastAlloc.y + (int) cs.getMinorOffset();
-                childAlloc.width = (int) cs.getMajorSpan();
-                childAlloc.height = (int) cs.getMinorSpan();
+            if (bxis == X_AXIS) {
+                childAlloc.x = lbstAlloc.x + (int) cs.getMbjorOffset();
+                childAlloc.y = lbstAlloc.y + (int) cs.getMinorOffset();
+                childAlloc.width = (int) cs.getMbjorSpbn();
+                childAlloc.height = (int) cs.getMinorSpbn();
             } else {
-                childAlloc.y = lastAlloc.y + (int) cs.getMajorOffset();
-                childAlloc.x = lastAlloc.x + (int) cs.getMinorOffset();
-                childAlloc.height = (int) cs.getMajorSpan();
-                childAlloc.width = (int) cs.getMinorSpan();
+                childAlloc.y = lbstAlloc.y + (int) cs.getMbjorOffset();
+                childAlloc.x = lbstAlloc.x + (int) cs.getMinorOffset();
+                childAlloc.height = (int) cs.getMbjorSpbn();
+                childAlloc.width = (int) cs.getMinorSpbn();
             }
             childAlloc.x += (int)getLeftInset();
             childAlloc.y += (int)getRightInset();
@@ -1054,56 +1054,56 @@ public class AsyncBoxView extends View {
         }
 
         /**
-         * Copy the currently allocated shape into the Rectangle
-         * used to store the current allocation.  This would be
-         * a floating point rectangle in a Java2D-specific implementation.
+         * Copy the currently bllocbted shbpe into the Rectbngle
+         * used to store the current bllocbtion.  This would be
+         * b flobting point rectbngle in b Jbvb2D-specific implementbtion.
          */
-        protected void setAllocation(Shape a) {
-            if (a instanceof Rectangle) {
-                lastAlloc.setBounds((Rectangle) a);
+        protected void setAllocbtion(Shbpe b) {
+            if (b instbnceof Rectbngle) {
+                lbstAlloc.setBounds((Rectbngle) b);
             } else {
-                lastAlloc.setBounds(a.getBounds());
+                lbstAlloc.setBounds(b.getBounds());
             }
-            setSize(lastAlloc.width, lastAlloc.height);
+            setSize(lbstAlloc.width, lbstAlloc.height);
         }
 
         /**
-         * Locate the view responsible for an offset into the box
-         * along the major axis.  Make sure that offsets are set
-         * on the ChildState objects up to the given target span
-         * past the desired offset.
+         * Locbte the view responsible for bn offset into the box
+         * blong the mbjor bxis.  Mbke sure thbt offsets bre set
+         * on the ChildStbte objects up to the given tbrget spbn
+         * pbst the desired offset.
          *
-         * @return   index of the view representing the given visual
-         *   location (targetOffset), or -1 if no view represents
-         *   that location
+         * @return   index of the view representing the given visubl
+         *   locbtion (tbrgetOffset), or -1 if no view represents
+         *   thbt locbtion
          */
-        protected int getViewIndexAtVisualOffset(float targetOffset) {
+        protected int getViewIndexAtVisublOffset(flobt tbrgetOffset) {
             int n = getViewCount();
             if (n > 0) {
-                boolean lastValid = (lastValidOffset != null);
+                boolebn lbstVblid = (lbstVblidOffset != null);
 
-                if (lastValidOffset == null) {
-                    lastValidOffset = getChildState(0);
+                if (lbstVblidOffset == null) {
+                    lbstVblidOffset = getChildStbte(0);
                 }
-                if (targetOffset > majorSpan) {
-                    // should only get here on the first time display.
-                    if (!lastValid) {
+                if (tbrgetOffset > mbjorSpbn) {
+                    // should only get here on the first time displby.
+                    if (!lbstVblid) {
                         return 0;
                     }
-                    int pos = lastValidOffset.getChildView().getStartOffset();
-                    int index = getViewIndex(pos, Position.Bias.Forward);
+                    int pos = lbstVblidOffset.getChildView().getStbrtOffset();
+                    int index = getViewIndex(pos, Position.Bibs.Forwbrd);
                     return index;
-                } else if (targetOffset > lastValidOffset.getMajorOffset()) {
-                    // roll offset calculations forward
-                    return updateChildOffsets(targetOffset);
+                } else if (tbrgetOffset > lbstVblidOffset.getMbjorOffset()) {
+                    // roll offset cblculbtions forwbrd
+                    return updbteChildOffsets(tbrgetOffset);
                 } else {
-                    // no changes prior to the needed offset
-                    // this should be a binary search
-                    float offs = 0f;
+                    // no chbnges prior to the needed offset
+                    // this should be b binbry sebrch
+                    flobt offs = 0f;
                     for (int i = 0; i < n; i++) {
-                        ChildState cs = getChildState(i);
-                        float nextOffs = offs + cs.getMajorSpan();
-                        if (targetOffset < nextOffs) {
+                        ChildStbte cs = getChildStbte(i);
+                        flobt nextOffs = offs + cs.getMbjorSpbn();
+                        if (tbrgetOffset < nextOffs) {
                             return i;
                         }
                         offs = nextOffs;
@@ -1114,101 +1114,101 @@ public class AsyncBoxView extends View {
         }
 
         /**
-         * Move the location of the last offset calculation forward
+         * Move the locbtion of the lbst offset cblculbtion forwbrd
          * to the desired offset.
          */
-        int updateChildOffsets(float targetOffset) {
+        int updbteChildOffsets(flobt tbrgetOffset) {
             int n = getViewCount();
-            int targetIndex = n - 1;
-            int pos = lastValidOffset.getChildView().getStartOffset();
-            int startIndex = getViewIndex(pos, Position.Bias.Forward);
-            float start = lastValidOffset.getMajorOffset();
-            float lastOffset = start;
-            for (int i = startIndex; i < n; i++) {
-                ChildState cs = getChildState(i);
-                cs.setMajorOffset(lastOffset);
-                lastOffset += cs.getMajorSpan();
-                if (targetOffset < lastOffset) {
-                    targetIndex = i;
-                    lastValidOffset = cs;
-                    break;
+            int tbrgetIndex = n - 1;
+            int pos = lbstVblidOffset.getChildView().getStbrtOffset();
+            int stbrtIndex = getViewIndex(pos, Position.Bibs.Forwbrd);
+            flobt stbrt = lbstVblidOffset.getMbjorOffset();
+            flobt lbstOffset = stbrt;
+            for (int i = stbrtIndex; i < n; i++) {
+                ChildStbte cs = getChildStbte(i);
+                cs.setMbjorOffset(lbstOffset);
+                lbstOffset += cs.getMbjorSpbn();
+                if (tbrgetOffset < lbstOffset) {
+                    tbrgetIndex = i;
+                    lbstVblidOffset = cs;
+                    brebk;
                 }
             }
 
-            return targetIndex;
+            return tbrgetIndex;
         }
 
         /**
-         * Move the location of the last offset calculation forward
+         * Move the locbtion of the lbst offset cblculbtion forwbrd
          * to the desired index.
          */
-        void updateChildOffsetsToIndex(int index) {
-            int pos = lastValidOffset.getChildView().getStartOffset();
-            int startIndex = getViewIndex(pos, Position.Bias.Forward);
-            float lastOffset = lastValidOffset.getMajorOffset();
-            for (int i = startIndex; i <= index; i++) {
-                ChildState cs = getChildState(i);
-                cs.setMajorOffset(lastOffset);
-                lastOffset += cs.getMajorSpan();
+        void updbteChildOffsetsToIndex(int index) {
+            int pos = lbstVblidOffset.getChildView().getStbrtOffset();
+            int stbrtIndex = getViewIndex(pos, Position.Bibs.Forwbrd);
+            flobt lbstOffset = lbstVblidOffset.getMbjorOffset();
+            for (int i = stbrtIndex; i <= index; i++) {
+                ChildStbte cs = getChildStbte(i);
+                cs.setMbjorOffset(lbstOffset);
+                lbstOffset += cs.getMbjorSpbn();
             }
         }
 
-        boolean intersectsClip(Shape childAlloc, Rectangle clip) {
-            Rectangle cs = (childAlloc instanceof Rectangle) ?
-                (Rectangle) childAlloc : childAlloc.getBounds();
+        boolebn intersectsClip(Shbpe childAlloc, Rectbngle clip) {
+            Rectbngle cs = (childAlloc instbnceof Rectbngle) ?
+                (Rectbngle) childAlloc : childAlloc.getBounds();
             if (cs.intersects(clip)) {
-                // Make sure that lastAlloc also contains childAlloc,
-                // this will be false if haven't yet flushed changes.
-                return lastAlloc.intersects(cs);
+                // Mbke sure thbt lbstAlloc blso contbins childAlloc,
+                // this will be fblse if hbven't yet flushed chbnges.
+                return lbstAlloc.intersects(cs);
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * The location of the last offset calculation
-         * that is valid.
+         * The locbtion of the lbst offset cblculbtion
+         * thbt is vblid.
          */
-        protected ChildState lastValidOffset;
+        protected ChildStbte lbstVblidOffset;
 
         /**
-         * The last seen allocation (for repainting when changes
-         * are flushed upward).
+         * The lbst seen bllocbtion (for repbinting when chbnges
+         * bre flushed upwbrd).
          */
-        protected Rectangle lastAlloc;
+        protected Rectbngle lbstAlloc;
 
         /**
-         * A shape to use for the child allocation to avoid
-         * creating a lot of garbage.
+         * A shbpe to use for the child bllocbtion to bvoid
+         * crebting b lot of gbrbbge.
          */
-        protected Rectangle childAlloc;
+        protected Rectbngle childAlloc;
     }
 
     /**
-     * A record representing the layout state of a
-     * child view.  It is runnable as a task on another
-     * thread.  All access to the child view that is
-     * based upon a read-lock on the model should synchronize
-     * on this object (i.e. The layout thread and the GUI
-     * thread can both have a read lock on the model at the
-     * same time and are not protected from each other).
-     * Access to a child view hierarchy is serialized via
-     * synchronization on the ChildState instance.
+     * A record representing the lbyout stbte of b
+     * child view.  It is runnbble bs b tbsk on bnother
+     * threbd.  All bccess to the child view thbt is
+     * bbsed upon b rebd-lock on the model should synchronize
+     * on this object (i.e. The lbyout threbd bnd the GUI
+     * threbd cbn both hbve b rebd lock on the model bt the
+     * sbme time bnd bre not protected from ebch other).
+     * Access to b child view hierbrchy is seriblized vib
+     * synchronizbtion on the ChildStbte instbnce.
      * @since 1.3
      */
-    public class ChildState implements Runnable {
+    public clbss ChildStbte implements Runnbble {
 
         /**
-         * Construct a child status.  This needs to start
-         * out as fairly large so we don't falsely begin with
-         * the idea that all of the children are visible.
+         * Construct b child stbtus.  This needs to stbrt
+         * out bs fbirly lbrge so we don't fblsely begin with
+         * the ideb thbt bll of the children bre visible.
          * @since 1.4
          */
-        public ChildState(View v) {
+        public ChildStbte(View v) {
             child = v;
-            minorValid = false;
-            majorValid = false;
-            childSizeValid = false;
-            child.setParent(AsyncBoxView.this);
+            minorVblid = fblse;
+            mbjorVblid = fblse;
+            childSizeVblid = fblse;
+            child.setPbrent(AsyncBoxView.this);
         }
 
         /**
@@ -1219,101 +1219,101 @@ public class AsyncBoxView extends View {
         }
 
         /**
-         * Update the child state.  This should be
-         * called by the thread that desires to spend
-         * time updating the child state (intended to
-         * be the layout thread).
+         * Updbte the child stbte.  This should be
+         * cblled by the threbd thbt desires to spend
+         * time updbting the child stbte (intended to
+         * be the lbyout threbd).
          * <p>
-         * This acquires a read lock on the associated
-         * document for the duration of the update to
-         * ensure the model is not changed while it is
-         * operating.  The first thing to do would be
-         * to see if any work actually needs to be done.
-         * The following could have conceivably happened
-         * while the state was waiting to be updated:
+         * This bcquires b rebd lock on the bssocibted
+         * document for the durbtion of the updbte to
+         * ensure the model is not chbnged while it is
+         * operbting.  The first thing to do would be
+         * to see if bny work bctublly needs to be done.
+         * The following could hbve conceivbbly hbppened
+         * while the stbte wbs wbiting to be updbted:
          * <ol>
-         * <li>The child may have been removed from the
-         * view hierarchy.
-         * <li>The child may have been updated by a
-         * higher priority operation (i.e. the child
-         * may have become visible).
+         * <li>The child mby hbve been removed from the
+         * view hierbrchy.
+         * <li>The child mby hbve been updbted by b
+         * higher priority operbtion (i.e. the child
+         * mby hbve become visible).
          * </ol>
          */
         public void run () {
-            AbstractDocument doc = (AbstractDocument) getDocument();
+            AbstrbctDocument doc = (AbstrbctDocument) getDocument();
             try {
-                doc.readLock();
-                if (minorValid && majorValid && childSizeValid) {
+                doc.rebdLock();
+                if (minorVblid && mbjorVblid && childSizeVblid) {
                     // nothing to do
                     return;
                 }
-                if (child.getParent() == AsyncBoxView.this) {
-                    // this may overwrite anothers threads cached
-                    // value for actively changing... but that just
-                    // means it won't use the cache if there is an
+                if (child.getPbrent() == AsyncBoxView.this) {
+                    // this mby overwrite bnothers threbds cbched
+                    // vblue for bctively chbnging... but thbt just
+                    // mebns it won't use the cbche if there is bn
                     // overwrite.
                     synchronized(AsyncBoxView.this) {
-                        changing = this;
+                        chbnging = this;
                     }
-                    updateChild();
+                    updbteChild();
                     synchronized(AsyncBoxView.this) {
-                        changing = null;
+                        chbnging = null;
                     }
 
-                    // setting the child size on the minor axis
-                    // may have caused it to change it's preference
-                    // along the major axis.
-                    updateChild();
+                    // setting the child size on the minor bxis
+                    // mby hbve cbused it to chbnge it's preference
+                    // blong the mbjor bxis.
+                    updbteChild();
                 }
-            } finally {
-                doc.readUnlock();
+            } finblly {
+                doc.rebdUnlock();
             }
         }
 
-        void updateChild() {
-            boolean minorUpdated = false;
+        void updbteChild() {
+            boolebn minorUpdbted = fblse;
             synchronized(this) {
-                if (! minorValid) {
+                if (! minorVblid) {
                     int minorAxis = getMinorAxis();
-                    min = child.getMinimumSpan(minorAxis);
-                    pref = child.getPreferredSpan(minorAxis);
-                    max = child.getMaximumSpan(minorAxis);
-                    minorValid = true;
-                    minorUpdated = true;
+                    min = child.getMinimumSpbn(minorAxis);
+                    pref = child.getPreferredSpbn(minorAxis);
+                    mbx = child.getMbximumSpbn(minorAxis);
+                    minorVblid = true;
+                    minorUpdbted = true;
                 }
             }
-            if (minorUpdated) {
-                minorRequirementChange(this);
+            if (minorUpdbted) {
+                minorRequirementChbnge(this);
             }
 
-            boolean majorUpdated = false;
-            float delta = 0.0f;
+            boolebn mbjorUpdbted = fblse;
+            flobt deltb = 0.0f;
             synchronized(this) {
-                if (! majorValid) {
-                    float old = span;
-                    span = child.getPreferredSpan(axis);
-                    delta = span - old;
-                    majorValid = true;
-                    majorUpdated = true;
+                if (! mbjorVblid) {
+                    flobt old = spbn;
+                    spbn = child.getPreferredSpbn(bxis);
+                    deltb = spbn - old;
+                    mbjorVblid = true;
+                    mbjorUpdbted = true;
                 }
             }
-            if (majorUpdated) {
-                majorRequirementChange(this, delta);
-                locator.childChanged(this);
+            if (mbjorUpdbted) {
+                mbjorRequirementChbnge(this, deltb);
+                locbtor.childChbnged(this);
             }
 
             synchronized(this) {
-                if (! childSizeValid) {
-                    float w;
-                    float h;
-                    if (axis == X_AXIS) {
-                        w = span;
-                        h = getMinorSpan();
+                if (! childSizeVblid) {
+                    flobt w;
+                    flobt h;
+                    if (bxis == X_AXIS) {
+                        w = spbn;
+                        h = getMinorSpbn();
                     } else {
-                        w = getMinorSpan();
-                        h = span;
+                        w = getMinorSpbn();
+                        h = spbn;
                     }
-                    childSizeValid = true;
+                    childSizeVblid = true;
                     child.setSize(w, h);
                 }
             }
@@ -1321,106 +1321,106 @@ public class AsyncBoxView extends View {
         }
 
         /**
-         * What is the span along the minor axis.
+         * Whbt is the spbn blong the minor bxis.
          */
-        public float getMinorSpan() {
-            if (max < minorSpan) {
-                return max;
+        public flobt getMinorSpbn() {
+            if (mbx < minorSpbn) {
+                return mbx;
             }
-            // make it the target width, or as small as it can get.
-            return Math.max(min, minorSpan);
+            // mbke it the tbrget width, or bs smbll bs it cbn get.
+            return Mbth.mbx(min, minorSpbn);
         }
 
         /**
-         * What is the offset along the minor axis
+         * Whbt is the offset blong the minor bxis
          */
-        public float getMinorOffset() {
-            if (max < minorSpan) {
-                // can't make the child this wide, align it
-                float align = child.getAlignment(getMinorAxis());
-                return ((minorSpan - max) * align);
+        public flobt getMinorOffset() {
+            if (mbx < minorSpbn) {
+                // cbn't mbke the child this wide, blign it
+                flobt blign = child.getAlignment(getMinorAxis());
+                return ((minorSpbn - mbx) * blign);
             }
             return 0f;
         }
 
         /**
-         * What is the span along the major axis.
+         * Whbt is the spbn blong the mbjor bxis.
          */
-        public float getMajorSpan() {
-            return span;
+        public flobt getMbjorSpbn() {
+            return spbn;
         }
 
         /**
-         * Get the offset along the major axis
+         * Get the offset blong the mbjor bxis
          */
-        public float getMajorOffset() {
+        public flobt getMbjorOffset() {
             return offset;
         }
 
         /**
-         * This method should only be called by the ChildLocator,
-         * it is simply a convenient place to hold the cached
-         * location.
+         * This method should only be cblled by the ChildLocbtor,
+         * it is simply b convenient plbce to hold the cbched
+         * locbtion.
          */
-        public void setMajorOffset(float offs) {
+        public void setMbjorOffset(flobt offs) {
             offset = offs;
         }
 
         /**
-         * Mark preferences changed for this child.
+         * Mbrk preferences chbnged for this child.
          *
-         * @param width true if the width preference has changed
-         * @param height true if the height preference has changed
-         * @see javax.swing.JComponent#revalidate
+         * @pbrbm width true if the width preference hbs chbnged
+         * @pbrbm height true if the height preference hbs chbnged
+         * @see jbvbx.swing.JComponent#revblidbte
          */
-        public void preferenceChanged(boolean width, boolean height) {
-            if (axis == X_AXIS) {
+        public void preferenceChbnged(boolebn width, boolebn height) {
+            if (bxis == X_AXIS) {
                 if (width) {
-                    majorValid = false;
+                    mbjorVblid = fblse;
                 }
                 if (height) {
-                    minorValid = false;
+                    minorVblid = fblse;
                 }
             } else {
                 if (width) {
-                    minorValid = false;
+                    minorVblid = fblse;
                 }
                 if (height) {
-                    majorValid = false;
+                    mbjorVblid = fblse;
                 }
             }
-            childSizeValid = false;
+            childSizeVblid = fblse;
         }
 
         /**
-         * Has the child view been laid out.
+         * Hbs the child view been lbid out.
          */
-        public boolean isLayoutValid() {
-            return (minorValid && majorValid && childSizeValid);
+        public boolebn isLbyoutVblid() {
+            return (minorVblid && mbjorVblid && childSizeVblid);
         }
 
-        // minor axis
-        private float min;
-        private float pref;
-        private float max;
-        private boolean minorValid;
+        // minor bxis
+        privbte flobt min;
+        privbte flobt pref;
+        privbte flobt mbx;
+        privbte boolebn minorVblid;
 
-        // major axis
-        private float span;
-        private float offset;
-        private boolean majorValid;
+        // mbjor bxis
+        privbte flobt spbn;
+        privbte flobt offset;
+        privbte boolebn mbjorVblid;
 
-        private View child;
-        private boolean childSizeValid;
+        privbte View child;
+        privbte boolebn childSizeVblid;
     }
 
     /**
-     * Task to flush requirement changes upward
+     * Tbsk to flush requirement chbnges upwbrd
      */
-    class FlushTask implements Runnable {
+    clbss FlushTbsk implements Runnbble {
 
         public void run() {
-            flushRequirementChanges();
+            flushRequirementChbnges();
         }
 
     }

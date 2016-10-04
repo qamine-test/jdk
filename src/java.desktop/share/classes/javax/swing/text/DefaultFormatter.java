@@ -1,268 +1,268 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
 import sun.reflect.misc.ReflectUtil;
 import sun.swing.SwingUtilities2;
 
-import java.io.Serializable;
-import java.lang.reflect.*;
-import java.text.ParseException;
-import javax.swing.*;
-import javax.swing.text.*;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.reflect.*;
+import jbvb.text.PbrseException;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
 
 /**
- * <code>DefaultFormatter</code> formats arbitrary objects. Formatting is done
+ * <code>DefbultFormbtter</code> formbts brbitrbry objects. Formbtting is done
  * by invoking the <code>toString</code> method. In order to convert the
- * value back to a String, your class must provide a constructor that
- * takes a String argument. If no single argument constructor that takes a
- * String is found, the returned value will be the String passed into
- * <code>stringToValue</code>.
+ * vblue bbck to b String, your clbss must provide b constructor thbt
+ * tbkes b String brgument. If no single brgument constructor thbt tbkes b
+ * String is found, the returned vblue will be the String pbssed into
+ * <code>stringToVblue</code>.
  * <p>
- * Instances of <code>DefaultFormatter</code> can not be used in multiple
- * instances of <code>JFormattedTextField</code>. To obtain a copy of
- * an already configured <code>DefaultFormatter</code>, use the
+ * Instbnces of <code>DefbultFormbtter</code> cbn not be used in multiple
+ * instbnces of <code>JFormbttedTextField</code>. To obtbin b copy of
+ * bn blrebdy configured <code>DefbultFormbtter</code>, use the
  * <code>clone</code> method.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see javax.swing.JFormattedTextField.AbstractFormatter
+ * @see jbvbx.swing.JFormbttedTextField.AbstrbctFormbtter
  *
  * @since 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultFormatter extends JFormattedTextField.AbstractFormatter
-                    implements Cloneable, Serializable {
-    /** Indicates if the value being edited must match the mask. */
-    private boolean allowsInvalid;
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultFormbtter extends JFormbttedTextField.AbstrbctFormbtter
+                    implements Clonebble, Seriblizbble {
+    /** Indicbtes if the vblue being edited must mbtch the mbsk. */
+    privbte boolebn bllowsInvblid;
 
     /** If true, editing mode is in overwrite (or strikethough). */
-    private boolean overwriteMode;
+    privbte boolebn overwriteMode;
 
-    /** If true, any time a valid edit happens commitEdit is invoked. */
-    private boolean commitOnEdit;
+    /** If true, bny time b vblid edit hbppens commitEdit is invoked. */
+    privbte boolebn commitOnEdit;
 
-    /** Class used to create new instances. */
-    private Class<?> valueClass;
+    /** Clbss used to crebte new instbnces. */
+    privbte Clbss<?> vblueClbss;
 
-    /** NavigationFilter that forwards calls back to DefaultFormatter. */
-    private NavigationFilter navigationFilter;
+    /** NbvigbtionFilter thbt forwbrds cblls bbck to DefbultFormbtter. */
+    privbte NbvigbtionFilter nbvigbtionFilter;
 
-    /** DocumentFilter that forwards calls back to DefaultFormatter. */
-    private DocumentFilter documentFilter;
+    /** DocumentFilter thbt forwbrds cblls bbck to DefbultFormbtter. */
+    privbte DocumentFilter documentFilter;
 
-    /** Used during replace to track the region to replace. */
-    transient ReplaceHolder replaceHolder;
+    /** Used during replbce to trbck the region to replbce. */
+    trbnsient ReplbceHolder replbceHolder;
 
 
     /**
-     * Creates a DefaultFormatter.
+     * Crebtes b DefbultFormbtter.
      */
-    public DefaultFormatter() {
+    public DefbultFormbtter() {
         overwriteMode = true;
-        allowsInvalid = true;
+        bllowsInvblid = true;
     }
 
     /**
-     * Installs the <code>DefaultFormatter</code> onto a particular
-     * <code>JFormattedTextField</code>.
-     * This will invoke <code>valueToString</code> to convert the
-     * current value from the <code>JFormattedTextField</code> to
-     * a String. This will then install the <code>Action</code>s from
+     * Instblls the <code>DefbultFormbtter</code> onto b pbrticulbr
+     * <code>JFormbttedTextField</code>.
+     * This will invoke <code>vblueToString</code> to convert the
+     * current vblue from the <code>JFormbttedTextField</code> to
+     * b String. This will then instbll the <code>Action</code>s from
      * <code>getActions</code>, the <code>DocumentFilter</code>
-     * returned from <code>getDocumentFilter</code> and the
-     * <code>NavigationFilter</code> returned from
-     * <code>getNavigationFilter</code> onto the
-     * <code>JFormattedTextField</code>.
+     * returned from <code>getDocumentFilter</code> bnd the
+     * <code>NbvigbtionFilter</code> returned from
+     * <code>getNbvigbtionFilter</code> onto the
+     * <code>JFormbttedTextField</code>.
      * <p>
-     * Subclasses will typically only need to override this if they
-     * wish to install additional listeners on the
-     * <code>JFormattedTextField</code>.
+     * Subclbsses will typicblly only need to override this if they
+     * wish to instbll bdditionbl listeners on the
+     * <code>JFormbttedTextField</code>.
      * <p>
-     * If there is a <code>ParseException</code> in converting the
-     * current value to a String, this will set the text to an empty
-     * String, and mark the <code>JFormattedTextField</code> as being
-     * in an invalid state.
+     * If there is b <code>PbrseException</code> in converting the
+     * current vblue to b String, this will set the text to bn empty
+     * String, bnd mbrk the <code>JFormbttedTextField</code> bs being
+     * in bn invblid stbte.
      * <p>
-     * While this is a public method, this is typically only useful
-     * for subclassers of <code>JFormattedTextField</code>.
-     * <code>JFormattedTextField</code> will invoke this method at
-     * the appropriate times when the value changes, or its internal
-     * state changes.
+     * While this is b public method, this is typicblly only useful
+     * for subclbssers of <code>JFormbttedTextField</code>.
+     * <code>JFormbttedTextField</code> will invoke this method bt
+     * the bppropribte times when the vblue chbnges, or its internbl
+     * stbte chbnges.
      *
-     * @param ftf JFormattedTextField to format for, may be null indicating
-     *            uninstall from current JFormattedTextField.
+     * @pbrbm ftf JFormbttedTextField to formbt for, mby be null indicbting
+     *            uninstbll from current JFormbttedTextField.
      */
-    public void install(JFormattedTextField ftf) {
-        super.install(ftf);
-        positionCursorAtInitialLocation();
+    public void instbll(JFormbttedTextField ftf) {
+        super.instbll(ftf);
+        positionCursorAtInitiblLocbtion();
     }
 
     /**
-     * Sets when edits are published back to the
-     * <code>JFormattedTextField</code>. If true, <code>commitEdit</code>
-     * is invoked after every valid edit (any time the text is edited). On
-     * the other hand, if this is false than the <code>DefaultFormatter</code>
-     * does not publish edits back to the <code>JFormattedTextField</code>.
-     * As such, the only time the value of the <code>JFormattedTextField</code>
-     * will change is when <code>commitEdit</code> is invoked on
-     * <code>JFormattedTextField</code>, typically when enter is pressed
-     * or focus leaves the <code>JFormattedTextField</code>.
+     * Sets when edits bre published bbck to the
+     * <code>JFormbttedTextField</code>. If true, <code>commitEdit</code>
+     * is invoked bfter every vblid edit (bny time the text is edited). On
+     * the other hbnd, if this is fblse thbn the <code>DefbultFormbtter</code>
+     * does not publish edits bbck to the <code>JFormbttedTextField</code>.
+     * As such, the only time the vblue of the <code>JFormbttedTextField</code>
+     * will chbnge is when <code>commitEdit</code> is invoked on
+     * <code>JFormbttedTextField</code>, typicblly when enter is pressed
+     * or focus lebves the <code>JFormbttedTextField</code>.
      *
-     * @param commit Used to indicate when edits are committed back to the
+     * @pbrbm commit Used to indicbte when edits bre committed bbck to the
      *               JTextComponent
      */
-    public void setCommitsOnValidEdit(boolean commit) {
+    public void setCommitsOnVblidEdit(boolebn commit) {
         commitOnEdit = commit;
     }
 
     /**
-     * Returns when edits are published back to the
-     * <code>JFormattedTextField</code>.
+     * Returns when edits bre published bbck to the
+     * <code>JFormbttedTextField</code>.
      *
-     * @return true if edits are committed after every valid edit
+     * @return true if edits bre committed bfter every vblid edit
      */
-    public boolean getCommitsOnValidEdit() {
+    public boolebn getCommitsOnVblidEdit() {
         return commitOnEdit;
     }
 
     /**
-     * Configures the behavior when inserting characters. If
-     * <code>overwriteMode</code> is true (the default), new characters
-     * overwrite existing characters in the model.
+     * Configures the behbvior when inserting chbrbcters. If
+     * <code>overwriteMode</code> is true (the defbult), new chbrbcters
+     * overwrite existing chbrbcters in the model.
      *
-     * @param overwriteMode Indicates if overwrite or overstrike mode is used
+     * @pbrbm overwriteMode Indicbtes if overwrite or overstrike mode is used
      */
-    public void setOverwriteMode(boolean overwriteMode) {
+    public void setOverwriteMode(boolebn overwriteMode) {
         this.overwriteMode = overwriteMode;
     }
 
     /**
-     * Returns the behavior when inserting characters.
+     * Returns the behbvior when inserting chbrbcters.
      *
-     * @return true if newly inserted characters overwrite existing characters
+     * @return true if newly inserted chbrbcters overwrite existing chbrbcters
      */
-    public boolean getOverwriteMode() {
+    public boolebn getOverwriteMode() {
         return overwriteMode;
     }
 
     /**
-     * Sets whether or not the value being edited is allowed to be invalid
-     * for a length of time (that is, <code>stringToValue</code> throws
-     * a <code>ParseException</code>).
-     * It is often convenient to allow the user to temporarily input an
-     * invalid value.
+     * Sets whether or not the vblue being edited is bllowed to be invblid
+     * for b length of time (thbt is, <code>stringToVblue</code> throws
+     * b <code>PbrseException</code>).
+     * It is often convenient to bllow the user to temporbrily input bn
+     * invblid vblue.
      *
-     * @param allowsInvalid Used to indicate if the edited value must always
-     *        be valid
+     * @pbrbm bllowsInvblid Used to indicbte if the edited vblue must blwbys
+     *        be vblid
      */
-    public void setAllowsInvalid(boolean allowsInvalid) {
-        this.allowsInvalid = allowsInvalid;
+    public void setAllowsInvblid(boolebn bllowsInvblid) {
+        this.bllowsInvblid = bllowsInvblid;
     }
 
     /**
-     * Returns whether or not the value being edited is allowed to be invalid
-     * for a length of time.
+     * Returns whether or not the vblue being edited is bllowed to be invblid
+     * for b length of time.
      *
-     * @return false if the edited value must always be valid
+     * @return fblse if the edited vblue must blwbys be vblid
      */
-    public boolean getAllowsInvalid() {
-        return allowsInvalid;
+    public boolebn getAllowsInvblid() {
+        return bllowsInvblid;
     }
 
     /**
-     * Sets that class that is used to create new Objects. If the
-     * passed in class does not have a single argument constructor that
-     * takes a String, String values will be used.
+     * Sets thbt clbss thbt is used to crebte new Objects. If the
+     * pbssed in clbss does not hbve b single brgument constructor thbt
+     * tbkes b String, String vblues will be used.
      *
-     * @param valueClass Class used to construct return value from
-     *        stringToValue
+     * @pbrbm vblueClbss Clbss used to construct return vblue from
+     *        stringToVblue
      */
-    public void setValueClass(Class<?> valueClass) {
-        this.valueClass = valueClass;
+    public void setVblueClbss(Clbss<?> vblueClbss) {
+        this.vblueClbss = vblueClbss;
     }
 
     /**
-     * Returns that class that is used to create new Objects.
+     * Returns thbt clbss thbt is used to crebte new Objects.
      *
-     * @return Class used to construct return value from stringToValue
+     * @return Clbss used to construct return vblue from stringToVblue
      */
-    public Class<?> getValueClass() {
-        return valueClass;
+    public Clbss<?> getVblueClbss() {
+        return vblueClbss;
     }
 
     /**
-     * Converts the passed in String into an instance of
-     * <code>getValueClass</code> by way of the constructor that
-     * takes a String argument. If <code>getValueClass</code>
-     * returns null, the Class of the current value in the
-     * <code>JFormattedTextField</code> will be used. If this is null, a
-     * String will be returned. If the constructor throws an exception, a
-     * <code>ParseException</code> will be thrown. If there is no single
-     * argument String constructor, <code>string</code> will be returned.
+     * Converts the pbssed in String into bn instbnce of
+     * <code>getVblueClbss</code> by wby of the constructor thbt
+     * tbkes b String brgument. If <code>getVblueClbss</code>
+     * returns null, the Clbss of the current vblue in the
+     * <code>JFormbttedTextField</code> will be used. If this is null, b
+     * String will be returned. If the constructor throws bn exception, b
+     * <code>PbrseException</code> will be thrown. If there is no single
+     * brgument String constructor, <code>string</code> will be returned.
      *
-     * @throws ParseException if there is an error in the conversion
-     * @param string String to convert
-     * @return Object representation of text
+     * @throws PbrseException if there is bn error in the conversion
+     * @pbrbm string String to convert
+     * @return Object representbtion of text
      */
-    public Object stringToValue(String string) throws ParseException {
-        Class<?> vc = getValueClass();
-        JFormattedTextField ftf = getFormattedTextField();
+    public Object stringToVblue(String string) throws PbrseException {
+        Clbss<?> vc = getVblueClbss();
+        JFormbttedTextField ftf = getFormbttedTextField();
 
         if (vc == null && ftf != null) {
-            Object value = ftf.getValue();
+            Object vblue = ftf.getVblue();
 
-            if (value != null) {
-                vc = value.getClass();
+            if (vblue != null) {
+                vc = vblue.getClbss();
             }
         }
         if (vc != null) {
             Constructor<?> cons;
 
             try {
-                ReflectUtil.checkPackageAccess(vc);
+                ReflectUtil.checkPbckbgeAccess(vc);
                 SwingUtilities2.checkAccess(vc.getModifiers());
-                cons = vc.getConstructor(new Class<?>[]{String.class});
+                cons = vc.getConstructor(new Clbss<?>[]{String.clbss});
 
-            } catch (NoSuchMethodException nsme) {
+            } cbtch (NoSuchMethodException nsme) {
                 cons = null;
             }
 
             if (cons != null) {
                 try {
                     SwingUtilities2.checkAccess(cons.getModifiers());
-                    return cons.newInstance(new Object[] { string });
-                } catch (Throwable ex) {
-                    throw new ParseException("Error creating instance", 0);
+                    return cons.newInstbnce(new Object[] { string });
+                } cbtch (Throwbble ex) {
+                    throw new PbrseException("Error crebting instbnce", 0);
                 }
             }
         }
@@ -270,107 +270,107 @@ public class DefaultFormatter extends JFormattedTextField.AbstractFormatter
     }
 
     /**
-     * Converts the passed in Object into a String by way of the
+     * Converts the pbssed in Object into b String by wby of the
      * <code>toString</code> method.
      *
-     * @throws ParseException if there is an error in the conversion
-     * @param value Value to convert
-     * @return String representation of value
+     * @throws PbrseException if there is bn error in the conversion
+     * @pbrbm vblue Vblue to convert
+     * @return String representbtion of vblue
      */
-    public String valueToString(Object value) throws ParseException {
-        if (value == null) {
+    public String vblueToString(Object vblue) throws PbrseException {
+        if (vblue == null) {
             return "";
         }
-        return value.toString();
+        return vblue.toString();
     }
 
     /**
-     * Returns the <code>DocumentFilter</code> used to restrict the characters
-     * that can be input into the <code>JFormattedTextField</code>.
+     * Returns the <code>DocumentFilter</code> used to restrict the chbrbcters
+     * thbt cbn be input into the <code>JFormbttedTextField</code>.
      *
      * @return DocumentFilter to restrict edits
      */
     protected DocumentFilter getDocumentFilter() {
         if (documentFilter == null) {
-            documentFilter = new DefaultDocumentFilter();
+            documentFilter = new DefbultDocumentFilter();
         }
         return documentFilter;
     }
 
     /**
-     * Returns the <code>NavigationFilter</code> used to restrict where the
-     * cursor can be placed.
+     * Returns the <code>NbvigbtionFilter</code> used to restrict where the
+     * cursor cbn be plbced.
      *
-     * @return NavigationFilter to restrict navigation
+     * @return NbvigbtionFilter to restrict nbvigbtion
      */
-    protected NavigationFilter getNavigationFilter() {
-        if (navigationFilter == null) {
-            navigationFilter = new DefaultNavigationFilter();
+    protected NbvigbtionFilter getNbvigbtionFilter() {
+        if (nbvigbtionFilter == null) {
+            nbvigbtionFilter = new DefbultNbvigbtionFilter();
         }
-        return navigationFilter;
+        return nbvigbtionFilter;
     }
 
     /**
-     * Creates a copy of the DefaultFormatter.
+     * Crebtes b copy of the DefbultFormbtter.
      *
-     * @return copy of the DefaultFormatter
+     * @return copy of the DefbultFormbtter
      */
     public Object clone() throws CloneNotSupportedException {
-        DefaultFormatter formatter = (DefaultFormatter)super.clone();
+        DefbultFormbtter formbtter = (DefbultFormbtter)super.clone();
 
-        formatter.navigationFilter = null;
-        formatter.documentFilter = null;
-        formatter.replaceHolder = null;
-        return formatter;
+        formbtter.nbvigbtionFilter = null;
+        formbtter.documentFilter = null;
+        formbtter.replbceHolder = null;
+        return formbtter;
     }
 
 
     /**
-     * Positions the cursor at the initial location.
+     * Positions the cursor bt the initibl locbtion.
      */
-    void positionCursorAtInitialLocation() {
-        JFormattedTextField ftf = getFormattedTextField();
+    void positionCursorAtInitiblLocbtion() {
+        JFormbttedTextField ftf = getFormbttedTextField();
         if (ftf != null) {
-            ftf.setCaretPosition(getInitialVisualPosition());
+            ftf.setCbretPosition(getInitiblVisublPosition());
         }
     }
 
     /**
-     * Returns the initial location to position the cursor at. This forwards
-     * the call to <code>getNextNavigatableChar</code>.
+     * Returns the initibl locbtion to position the cursor bt. This forwbrds
+     * the cbll to <code>getNextNbvigbtbbleChbr</code>.
      */
-    int getInitialVisualPosition() {
-        return getNextNavigatableChar(0, 1);
+    int getInitiblVisublPosition() {
+        return getNextNbvigbtbbleChbr(0, 1);
     }
 
     /**
-     * Subclasses should override this if they want cursor navigation
-     * to skip certain characters. A return value of false indicates
-     * the character at <code>offset</code> should be skipped when
-     * navigating throught the field.
+     * Subclbsses should override this if they wbnt cursor nbvigbtion
+     * to skip certbin chbrbcters. A return vblue of fblse indicbtes
+     * the chbrbcter bt <code>offset</code> should be skipped when
+     * nbvigbting throught the field.
      */
-    boolean isNavigatable(int offset) {
+    boolebn isNbvigbtbble(int offset) {
         return true;
     }
 
     /**
-     * Returns true if the text in <code>text</code> can be inserted.  This
-     * does not mean the text will ultimately be inserted, it is used if
-     * text can trivially reject certain characters.
+     * Returns true if the text in <code>text</code> cbn be inserted.  This
+     * does not mebn the text will ultimbtely be inserted, it is used if
+     * text cbn triviblly reject certbin chbrbcters.
      */
-    boolean isLegalInsertText(String text) {
+    boolebn isLegblInsertText(String text) {
         return true;
     }
 
     /**
-     * Returns the next editable character starting at offset incrementing
+     * Returns the next editbble chbrbcter stbrting bt offset incrementing
      * the offset by <code>direction</code>.
      */
-    private int getNextNavigatableChar(int offset, int direction) {
-        int max = getFormattedTextField().getDocument().getLength();
+    privbte int getNextNbvigbtbbleChbr(int offset, int direction) {
+        int mbx = getFormbttedTextField().getDocument().getLength();
 
-        while (offset >= 0 && offset < max) {
-            if (isNavigatable(offset)) {
+        while (offset >= 0 && offset < mbx) {
+            if (isNbvigbtbble(offset)) {
                 return offset;
             }
             offset += direction;
@@ -380,18 +380,18 @@ public class DefaultFormatter extends JFormattedTextField.AbstractFormatter
 
     /**
      * A convenience methods to return the result of deleting
-     * <code>deleteLength</code> characters at <code>offset</code>
-     * and inserting <code>replaceString</code> at <code>offset</code>
+     * <code>deleteLength</code> chbrbcters bt <code>offset</code>
+     * bnd inserting <code>replbceString</code> bt <code>offset</code>
      * in the current text field.
      */
-    String getReplaceString(int offset, int deleteLength,
-                            String replaceString) {
-        String string = getFormattedTextField().getText();
+    String getReplbceString(int offset, int deleteLength,
+                            String replbceString) {
+        String string = getFormbttedTextField().getText();
         String result;
 
         result = string.substring(0, offset);
-        if (replaceString != null) {
-            result += replaceString;
+        if (replbceString != null) {
+            result += replbceString;
         }
         if (offset + deleteLength < string.length()) {
             result += string.substring(offset + deleteLength);
@@ -400,30 +400,30 @@ public class DefaultFormatter extends JFormattedTextField.AbstractFormatter
     }
 
     /*
-     * Returns true if the operation described by <code>rh</code> will
-     * result in a legal edit.  This may set the <code>value</code>
+     * Returns true if the operbtion described by <code>rh</code> will
+     * result in b legbl edit.  This mby set the <code>vblue</code>
      * field of <code>rh</code>.
      */
-    boolean isValidEdit(ReplaceHolder rh) {
-        if (!getAllowsInvalid()) {
-            String newString = getReplaceString(rh.offset, rh.length, rh.text);
+    boolebn isVblidEdit(ReplbceHolder rh) {
+        if (!getAllowsInvblid()) {
+            String newString = getReplbceString(rh.offset, rh.length, rh.text);
 
             try {
-                rh.value = stringToValue(newString);
+                rh.vblue = stringToVblue(newString);
 
                 return true;
-            } catch (ParseException pe) {
-                return false;
+            } cbtch (PbrseException pe) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Invokes <code>commitEdit</code> on the JFormattedTextField.
+     * Invokes <code>commitEdit</code> on the JFormbttedTextField.
      */
-    void commitEdit() throws ParseException {
-        JFormattedTextField ftf = getFormattedTextField();
+    void commitEdit() throws PbrseException {
+        JFormbttedTextField ftf = getFormbttedTextField();
 
         if (ftf != null) {
             ftf.commitEdit();
@@ -431,59 +431,59 @@ public class DefaultFormatter extends JFormattedTextField.AbstractFormatter
     }
 
     /**
-     * Pushes the value to the JFormattedTextField if the current value
-     * is valid and invokes <code>setEditValid</code> based on the
-     * validity of the value.
+     * Pushes the vblue to the JFormbttedTextField if the current vblue
+     * is vblid bnd invokes <code>setEditVblid</code> bbsed on the
+     * vblidity of the vblue.
      */
-    void updateValue() {
-        updateValue(null);
+    void updbteVblue() {
+        updbteVblue(null);
     }
 
     /**
-     * Pushes the <code>value</code> to the editor if we are to
-     * commit on edits. If <code>value</code> is null, the current value
-     * will be obtained from the text component.
+     * Pushes the <code>vblue</code> to the editor if we bre to
+     * commit on edits. If <code>vblue</code> is null, the current vblue
+     * will be obtbined from the text component.
      */
-    void updateValue(Object value) {
+    void updbteVblue(Object vblue) {
         try {
-            if (value == null) {
-                String string = getFormattedTextField().getText();
+            if (vblue == null) {
+                String string = getFormbttedTextField().getText();
 
-                value = stringToValue(string);
+                vblue = stringToVblue(string);
             }
 
-            if (getCommitsOnValidEdit()) {
+            if (getCommitsOnVblidEdit()) {
                 commitEdit();
             }
-            setEditValid(true);
-        } catch (ParseException pe) {
-            setEditValid(false);
+            setEditVblid(true);
+        } cbtch (PbrseException pe) {
+            setEditVblid(fblse);
         }
     }
 
     /**
      * Returns the next cursor position from offset by incrementing
      * <code>direction</code>. This uses
-     * <code>getNextNavigatableChar</code>
-     * as well as constraining the location to the max position.
+     * <code>getNextNbvigbtbbleChbr</code>
+     * bs well bs constrbining the locbtion to the mbx position.
      */
     int getNextCursorPosition(int offset, int direction) {
-        int newOffset = getNextNavigatableChar(offset, direction);
-        int max = getFormattedTextField().getDocument().getLength();
+        int newOffset = getNextNbvigbtbbleChbr(offset, direction);
+        int mbx = getFormbttedTextField().getDocument().getLength();
 
-        if (!getAllowsInvalid()) {
+        if (!getAllowsInvblid()) {
             if (direction == -1 && offset == newOffset) {
-                // Case where hit backspace and only characters before
-                // offset are fixed.
-                newOffset = getNextNavigatableChar(newOffset, 1);
-                if (newOffset >= max) {
+                // Cbse where hit bbckspbce bnd only chbrbcters before
+                // offset bre fixed.
+                newOffset = getNextNbvigbtbbleChbr(newOffset, 1);
+                if (newOffset >= mbx) {
                     newOffset = offset;
                 }
             }
-            else if (direction == 1 && newOffset >= max) {
-                // Don't go beyond last editable character.
-                newOffset = getNextNavigatableChar(max - 1, -1);
-                if (newOffset < max) {
+            else if (direction == 1 && newOffset >= mbx) {
+                // Don't go beyond lbst editbble chbrbcter.
+                newOffset = getNextNbvigbtbbleChbr(mbx - 1, -1);
+                if (newOffset < mbx) {
                     newOffset++;
                 }
             }
@@ -495,272 +495,272 @@ public class DefaultFormatter extends JFormattedTextField.AbstractFormatter
      * Resets the cursor by using getNextCursorPosition.
      */
     void repositionCursor(int offset, int direction) {
-        getFormattedTextField().getCaret().setDot(getNextCursorPosition
+        getFormbttedTextField().getCbret().setDot(getNextCursorPosition
                                                   (offset, direction));
     }
 
 
     /**
-     * Finds the next navigable character.
+     * Finds the next nbvigbble chbrbcter.
      */
-    int getNextVisualPositionFrom(JTextComponent text, int pos,
-                                  Position.Bias bias, int direction,
-                                  Position.Bias[] biasRet)
-                                           throws BadLocationException {
-        int value = text.getUI().getNextVisualPositionFrom(text, pos, bias,
-                                                           direction, biasRet);
+    int getNextVisublPositionFrom(JTextComponent text, int pos,
+                                  Position.Bibs bibs, int direction,
+                                  Position.Bibs[] bibsRet)
+                                           throws BbdLocbtionException {
+        int vblue = text.getUI().getNextVisublPositionFrom(text, pos, bibs,
+                                                           direction, bibsRet);
 
-        if (value == -1) {
+        if (vblue == -1) {
             return -1;
         }
-        if (!getAllowsInvalid() && (direction == SwingConstants.EAST ||
-                                    direction == SwingConstants.WEST)) {
-            int last = -1;
+        if (!getAllowsInvblid() && (direction == SwingConstbnts.EAST ||
+                                    direction == SwingConstbnts.WEST)) {
+            int lbst = -1;
 
-            while (!isNavigatable(value) && value != last) {
-                last = value;
-                value = text.getUI().getNextVisualPositionFrom(
-                              text, value, bias, direction,biasRet);
+            while (!isNbvigbtbble(vblue) && vblue != lbst) {
+                lbst = vblue;
+                vblue = text.getUI().getNextVisublPositionFrom(
+                              text, vblue, bibs, direction,bibsRet);
             }
-            int max = getFormattedTextField().getDocument().getLength();
-            if (last == value || value == max) {
-                if (value == 0) {
-                    biasRet[0] = Position.Bias.Forward;
-                    value = getInitialVisualPosition();
+            int mbx = getFormbttedTextField().getDocument().getLength();
+            if (lbst == vblue || vblue == mbx) {
+                if (vblue == 0) {
+                    bibsRet[0] = Position.Bibs.Forwbrd;
+                    vblue = getInitiblVisublPosition();
                 }
-                if (value >= max && max > 0) {
-                    // Pending: should not assume forward!
-                    biasRet[0] = Position.Bias.Forward;
-                    value = getNextNavigatableChar(max - 1, -1) + 1;
+                if (vblue >= mbx && mbx > 0) {
+                    // Pending: should not bssume forwbrd!
+                    bibsRet[0] = Position.Bibs.Forwbrd;
+                    vblue = getNextNbvigbtbbleChbr(mbx - 1, -1) + 1;
                 }
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
      * Returns true if the edit described by <code>rh</code> will result
-     * in a legal value.
+     * in b legbl vblue.
      */
-    boolean canReplace(ReplaceHolder rh) {
-        return isValidEdit(rh);
+    boolebn cbnReplbce(ReplbceHolder rh) {
+        return isVblidEdit(rh);
     }
 
     /**
-     * DocumentFilter method, funnels into <code>replace</code>.
+     * DocumentFilter method, funnels into <code>replbce</code>.
      */
-    void replace(DocumentFilter.FilterBypass fb, int offset,
+    void replbce(DocumentFilter.FilterBypbss fb, int offset,
                      int length, String text,
-                     AttributeSet attrs) throws BadLocationException {
-        ReplaceHolder rh = getReplaceHolder(fb, offset, length, text, attrs);
+                     AttributeSet bttrs) throws BbdLocbtionException {
+        ReplbceHolder rh = getReplbceHolder(fb, offset, length, text, bttrs);
 
-        replace(rh);
+        replbce(rh);
     }
 
     /**
-     * If the edit described by <code>rh</code> is legal, this will
-     * return true, commit the edit (if necessary) and update the cursor
-     * position.  This forwards to <code>canReplace</code> and
-     * <code>isLegalInsertText</code> as necessary to determine if
-     * the edit is in fact legal.
+     * If the edit described by <code>rh</code> is legbl, this will
+     * return true, commit the edit (if necessbry) bnd updbte the cursor
+     * position.  This forwbrds to <code>cbnReplbce</code> bnd
+     * <code>isLegblInsertText</code> bs necessbry to determine if
+     * the edit is in fbct legbl.
      * <p>
      * All of the DocumentFilter methods funnel into here, you should
-     * generally only have to override this.
+     * generblly only hbve to override this.
      */
-    boolean replace(ReplaceHolder rh) throws BadLocationException {
-        boolean valid = true;
+    boolebn replbce(ReplbceHolder rh) throws BbdLocbtionException {
+        boolebn vblid = true;
         int direction = 1;
 
         if (rh.length > 0 && (rh.text == null || rh.text.length() == 0) &&
-               (getFormattedTextField().getSelectionStart() != rh.offset ||
+               (getFormbttedTextField().getSelectionStbrt() != rh.offset ||
                    rh.length > 1)) {
             direction = -1;
         }
 
         if (getOverwriteMode() && rh.text != null &&
-            getFormattedTextField().getSelectedText() == null)
+            getFormbttedTextField().getSelectedText() == null)
         {
-            rh.length = Math.min(Math.max(rh.length, rh.text.length()),
+            rh.length = Mbth.min(Mbth.mbx(rh.length, rh.text.length()),
                                  rh.fb.getDocument().getLength() - rh.offset);
         }
-        if ((rh.text != null && !isLegalInsertText(rh.text)) ||
-            !canReplace(rh) ||
+        if ((rh.text != null && !isLegblInsertText(rh.text)) ||
+            !cbnReplbce(rh) ||
             (rh.length == 0 && (rh.text == null || rh.text.length() == 0))) {
-            valid = false;
+            vblid = fblse;
         }
-        if (valid) {
+        if (vblid) {
             int cursor = rh.cursorPosition;
 
-            rh.fb.replace(rh.offset, rh.length, rh.text, rh.attrs);
+            rh.fb.replbce(rh.offset, rh.length, rh.text, rh.bttrs);
             if (cursor == -1) {
                 cursor = rh.offset;
                 if (direction == 1 && rh.text != null) {
                     cursor = rh.offset + rh.text.length();
                 }
             }
-            updateValue(rh.value);
+            updbteVblue(rh.vblue);
             repositionCursor(cursor, direction);
             return true;
         }
         else {
-            invalidEdit();
+            invblidEdit();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * NavigationFilter method, subclasses that wish finer control should
+     * NbvigbtionFilter method, subclbsses thbt wish finer control should
      * override this.
      */
-    void setDot(NavigationFilter.FilterBypass fb, int dot, Position.Bias bias){
-        fb.setDot(dot, bias);
+    void setDot(NbvigbtionFilter.FilterBypbss fb, int dot, Position.Bibs bibs){
+        fb.setDot(dot, bibs);
     }
 
     /**
-     * NavigationFilter method, subclasses that wish finer control should
+     * NbvigbtionFilter method, subclbsses thbt wish finer control should
      * override this.
      */
-    void moveDot(NavigationFilter.FilterBypass fb, int dot,
-                 Position.Bias bias) {
-        fb.moveDot(dot, bias);
+    void moveDot(NbvigbtionFilter.FilterBypbss fb, int dot,
+                 Position.Bibs bibs) {
+        fb.moveDot(dot, bibs);
     }
 
 
     /**
-     * Returns the ReplaceHolder to track the replace of the specified
+     * Returns the ReplbceHolder to trbck the replbce of the specified
      * text.
      */
-    ReplaceHolder getReplaceHolder(DocumentFilter.FilterBypass fb, int offset,
+    ReplbceHolder getReplbceHolder(DocumentFilter.FilterBypbss fb, int offset,
                                    int length, String text,
-                                   AttributeSet attrs) {
-        if (replaceHolder == null) {
-            replaceHolder = new ReplaceHolder();
+                                   AttributeSet bttrs) {
+        if (replbceHolder == null) {
+            replbceHolder = new ReplbceHolder();
         }
-        replaceHolder.reset(fb, offset, length, text, attrs);
-        return replaceHolder;
+        replbceHolder.reset(fb, offset, length, text, bttrs);
+        return replbceHolder;
     }
 
 
     /**
-     * ReplaceHolder is used to track where insert/remove/replace is
-     * going to happen.
+     * ReplbceHolder is used to trbck where insert/remove/replbce is
+     * going to hbppen.
      */
-    static class ReplaceHolder {
-        /** The FilterBypass that was passed to the DocumentFilter method. */
-        DocumentFilter.FilterBypass fb;
+    stbtic clbss ReplbceHolder {
+        /** The FilterBypbss thbt wbs pbssed to the DocumentFilter method. */
+        DocumentFilter.FilterBypbss fb;
         /** Offset where the remove/insert is going to occur. */
         int offset;
         /** Length of text to remove. */
         int length;
-        /** The text to insert, may be null. */
+        /** The text to insert, mby be null. */
         String text;
-        /** AttributeSet to attach to text, may be null. */
-        AttributeSet attrs;
-        /** The resulting value, this may never be set. */
-        Object value;
-        /** Position the cursor should be adjusted from.  If this is -1
-         * the cursor position will be adjusted based on the direction of
-         * the replace (-1: offset, 1: offset + text.length()), otherwise
-         * the cursor position is adusted from this position.
+        /** AttributeSet to bttbch to text, mby be null. */
+        AttributeSet bttrs;
+        /** The resulting vblue, this mby never be set. */
+        Object vblue;
+        /** Position the cursor should be bdjusted from.  If this is -1
+         * the cursor position will be bdjusted bbsed on the direction of
+         * the replbce (-1: offset, 1: offset + text.length()), otherwise
+         * the cursor position is bdusted from this position.
          */
         int cursorPosition;
 
-        void reset(DocumentFilter.FilterBypass fb, int offset, int length,
-                   String text, AttributeSet attrs) {
+        void reset(DocumentFilter.FilterBypbss fb, int offset, int length,
+                   String text, AttributeSet bttrs) {
             this.fb = fb;
             this.offset = offset;
             this.length = length;
             this.text = text;
-            this.attrs = attrs;
-            this.value = null;
+            this.bttrs = bttrs;
+            this.vblue = null;
             cursorPosition = -1;
         }
     }
 
 
     /**
-     * NavigationFilter implementation that calls back to methods with
-     * same name in DefaultFormatter.
+     * NbvigbtionFilter implementbtion thbt cblls bbck to methods with
+     * sbme nbme in DefbultFormbtter.
      */
-    private class DefaultNavigationFilter extends NavigationFilter
-                             implements Serializable {
-        public void setDot(FilterBypass fb, int dot, Position.Bias bias) {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
+    privbte clbss DefbultNbvigbtionFilter extends NbvigbtionFilter
+                             implements Seriblizbble {
+        public void setDot(FilterBypbss fb, int dot, Position.Bibs bibs) {
+            JTextComponent tc = DefbultFormbtter.this.getFormbttedTextField();
             if (tc.composedTextExists()) {
-                // bypass the filter
-                fb.setDot(dot, bias);
+                // bypbss the filter
+                fb.setDot(dot, bibs);
             } else {
-                DefaultFormatter.this.setDot(fb, dot, bias);
+                DefbultFormbtter.this.setDot(fb, dot, bibs);
             }
         }
 
-        public void moveDot(FilterBypass fb, int dot, Position.Bias bias) {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
+        public void moveDot(FilterBypbss fb, int dot, Position.Bibs bibs) {
+            JTextComponent tc = DefbultFormbtter.this.getFormbttedTextField();
             if (tc.composedTextExists()) {
-                // bypass the filter
-                fb.moveDot(dot, bias);
+                // bypbss the filter
+                fb.moveDot(dot, bibs);
             } else {
-                DefaultFormatter.this.moveDot(fb, dot, bias);
+                DefbultFormbtter.this.moveDot(fb, dot, bibs);
             }
         }
 
-        public int getNextVisualPositionFrom(JTextComponent text, int pos,
-                                             Position.Bias bias,
+        public int getNextVisublPositionFrom(JTextComponent text, int pos,
+                                             Position.Bibs bibs,
                                              int direction,
-                                             Position.Bias[] biasRet)
-                                           throws BadLocationException {
+                                             Position.Bibs[] bibsRet)
+                                           throws BbdLocbtionException {
             if (text.composedTextExists()) {
-                // forward the call to the UI directly
-                return text.getUI().getNextVisualPositionFrom(
-                        text, pos, bias, direction, biasRet);
+                // forwbrd the cbll to the UI directly
+                return text.getUI().getNextVisublPositionFrom(
+                        text, pos, bibs, direction, bibsRet);
             } else {
-                return DefaultFormatter.this.getNextVisualPositionFrom(
-                        text, pos, bias, direction, biasRet);
+                return DefbultFormbtter.this.getNextVisublPositionFrom(
+                        text, pos, bibs, direction, bibsRet);
             }
         }
     }
 
 
     /**
-     * DocumentFilter implementation that calls back to the replace
-     * method of DefaultFormatter.
+     * DocumentFilter implementbtion thbt cblls bbck to the replbce
+     * method of DefbultFormbtter.
      */
-    private class DefaultDocumentFilter extends DocumentFilter implements
-                             Serializable {
-        public void remove(FilterBypass fb, int offset, int length) throws
-                              BadLocationException {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
+    privbte clbss DefbultDocumentFilter extends DocumentFilter implements
+                             Seriblizbble {
+        public void remove(FilterBypbss fb, int offset, int length) throws
+                              BbdLocbtionException {
+            JTextComponent tc = DefbultFormbtter.this.getFormbttedTextField();
             if (tc.composedTextExists()) {
-                // bypass the filter
+                // bypbss the filter
                 fb.remove(offset, length);
             } else {
-                DefaultFormatter.this.replace(fb, offset, length, null, null);
+                DefbultFormbtter.this.replbce(fb, offset, length, null, null);
             }
         }
 
-        public void insertString(FilterBypass fb, int offset,
-                                 String string, AttributeSet attr) throws
-                              BadLocationException {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
+        public void insertString(FilterBypbss fb, int offset,
+                                 String string, AttributeSet bttr) throws
+                              BbdLocbtionException {
+            JTextComponent tc = DefbultFormbtter.this.getFormbttedTextField();
             if (tc.composedTextExists() ||
-                Utilities.isComposedTextAttributeDefined(attr)) {
-                // bypass the filter
-                fb.insertString(offset, string, attr);
+                Utilities.isComposedTextAttributeDefined(bttr)) {
+                // bypbss the filter
+                fb.insertString(offset, string, bttr);
             } else {
-                DefaultFormatter.this.replace(fb, offset, 0, string, attr);
+                DefbultFormbtter.this.replbce(fb, offset, 0, string, bttr);
             }
         }
 
-        public void replace(FilterBypass fb, int offset, int length,
-                                 String text, AttributeSet attr) throws
-                              BadLocationException {
-            JTextComponent tc = DefaultFormatter.this.getFormattedTextField();
+        public void replbce(FilterBypbss fb, int offset, int length,
+                                 String text, AttributeSet bttr) throws
+                              BbdLocbtionException {
+            JTextComponent tc = DefbultFormbtter.this.getFormbttedTextField();
             if (tc.composedTextExists() ||
-                Utilities.isComposedTextAttributeDefined(attr)) {
-                // bypass the filter
-                fb.replace(offset, length, text, attr);
+                Utilities.isComposedTextAttributeDefined(bttr)) {
+                // bypbss the filter
+                fb.replbce(offset, length, text, bttr);
             } else {
-                DefaultFormatter.this.replace(fb, offset, length, text, attr);
+                DefbultFormbtter.this.replbce(fb, offset, length, text, bttr);
             }
         }
     }

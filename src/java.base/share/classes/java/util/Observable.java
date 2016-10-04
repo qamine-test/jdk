@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1994, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * This class represents an observable object, or "data"
- * in the model-view paradigm. It can be subclassed to represent an
- * object that the application wants to have observed.
+ * This clbss represents bn observbble object, or "dbtb"
+ * in the model-view pbrbdigm. It cbn be subclbssed to represent bn
+ * object thbt the bpplicbtion wbnts to hbve observed.
  * <p>
- * An observable object can have one or more observers. An observer
- * may be any object that implements interface <tt>Observer</tt>. After an
- * observable instance changes, an application calling the
- * <code>Observable</code>'s <code>notifyObservers</code> method
- * causes all of its observers to be notified of the change by a call
- * to their <code>update</code> method.
+ * An observbble object cbn hbve one or more observers. An observer
+ * mby be bny object thbt implements interfbce <tt>Observer</tt>. After bn
+ * observbble instbnce chbnges, bn bpplicbtion cblling the
+ * <code>Observbble</code>'s <code>notifyObservers</code> method
+ * cbuses bll of its observers to be notified of the chbnge by b cbll
+ * to their <code>updbte</code> method.
  * <p>
- * The order in which notifications will be delivered is unspecified.
- * The default implementation provided in the Observable class will
+ * The order in which notificbtions will be delivered is unspecified.
+ * The defbult implementbtion provided in the Observbble clbss will
  * notify Observers in the order in which they registered interest, but
- * subclasses may change this order, use no guaranteed order, deliver
- * notifications on separate threads, or may guarantee that their
- * subclass follows this order, as they choose.
+ * subclbsses mby chbnge this order, use no gubrbnteed order, deliver
+ * notificbtions on sepbrbte threbds, or mby gubrbntee thbt their
+ * subclbss follows this order, bs they choose.
  * <p>
- * Note that this notification mechanism has nothing to do with threads
- * and is completely separate from the <tt>wait</tt> and <tt>notify</tt>
- * mechanism of class <tt>Object</tt>.
+ * Note thbt this notificbtion mechbnism hbs nothing to do with threbds
+ * bnd is completely sepbrbte from the <tt>wbit</tt> bnd <tt>notify</tt>
+ * mechbnism of clbss <tt>Object</tt>.
  * <p>
- * When an observable object is newly created, its set of observers is
- * empty. Two observers are considered the same if and only if the
- * <tt>equals</tt> method returns true for them.
+ * When bn observbble object is newly crebted, its set of observers is
+ * empty. Two observers bre considered the sbme if bnd only if the
+ * <tt>equbls</tt> method returns true for them.
  *
- * @author  Chris Warth
- * @see     java.util.Observable#notifyObservers()
- * @see     java.util.Observable#notifyObservers(java.lang.Object)
- * @see     java.util.Observer
- * @see     java.util.Observer#update(java.util.Observable, java.lang.Object)
+ * @buthor  Chris Wbrth
+ * @see     jbvb.util.Observbble#notifyObservers()
+ * @see     jbvb.util.Observbble#notifyObservers(jbvb.lbng.Object)
+ * @see     jbvb.util.Observer
+ * @see     jbvb.util.Observer#updbte(jbvb.util.Observbble, jbvb.lbng.Object)
  * @since   1.0
  */
-public class Observable {
-    private boolean changed = false;
-    private Vector<Observer> obs;
+public clbss Observbble {
+    privbte boolebn chbnged = fblse;
+    privbte Vector<Observer> obs;
 
-    /** Construct an Observable with zero Observers. */
+    /** Construct bn Observbble with zero Observers. */
 
-    public Observable() {
+    public Observbble() {
         obs = new Vector<>();
     }
 
     /**
-     * Adds an observer to the set of observers for this object, provided
-     * that it is not the same as some observer already in the set.
-     * The order in which notifications will be delivered to multiple
-     * observers is not specified. See the class comment.
+     * Adds bn observer to the set of observers for this object, provided
+     * thbt it is not the sbme bs some observer blrebdy in the set.
+     * The order in which notificbtions will be delivered to multiple
+     * observers is not specified. See the clbss comment.
      *
-     * @param   o   an observer to be added.
-     * @throws NullPointerException   if the parameter o is null.
+     * @pbrbm   o   bn observer to be bdded.
+     * @throws NullPointerException   if the pbrbmeter o is null.
      */
-    public synchronized void addObserver(Observer o) {
+    public synchronized void bddObserver(Observer o) {
         if (o == null)
             throw new NullPointerException();
-        if (!obs.contains(o)) {
-            obs.addElement(o);
+        if (!obs.contbins(o)) {
+            obs.bddElement(o);
         }
     }
 
     /**
-     * Deletes an observer from the set of observers of this object.
-     * Passing <CODE>null</CODE> to this method will have no effect.
-     * @param   o   the observer to be deleted.
+     * Deletes bn observer from the set of observers of this object.
+     * Pbssing <CODE>null</CODE> to this method will hbve no effect.
+     * @pbrbm   o   the observer to be deleted.
      */
     public synchronized void deleteObserver(Observer o) {
         obs.removeElement(o);
     }
 
     /**
-     * If this object has changed, as indicated by the
-     * <code>hasChanged</code> method, then notify all of its observers
-     * and then call the <code>clearChanged</code> method to
-     * indicate that this object has no longer changed.
+     * If this object hbs chbnged, bs indicbted by the
+     * <code>hbsChbnged</code> method, then notify bll of its observers
+     * bnd then cbll the <code>clebrChbnged</code> method to
+     * indicbte thbt this object hbs no longer chbnged.
      * <p>
-     * Each observer has its <code>update</code> method called with two
-     * arguments: this observable object and <code>null</code>. In other
-     * words, this method is equivalent to:
+     * Ebch observer hbs its <code>updbte</code> method cblled with two
+     * brguments: this observbble object bnd <code>null</code>. In other
+     * words, this method is equivblent to:
      * <blockquote><tt>
      * notifyObservers(null)</tt></blockquote>
      *
-     * @see     java.util.Observable#clearChanged()
-     * @see     java.util.Observable#hasChanged()
-     * @see     java.util.Observer#update(java.util.Observable, java.lang.Object)
+     * @see     jbvb.util.Observbble#clebrChbnged()
+     * @see     jbvb.util.Observbble#hbsChbnged()
+     * @see     jbvb.util.Observer#updbte(jbvb.util.Observbble, jbvb.lbng.Object)
      */
     public void notifyObservers() {
         notifyObservers(null);
     }
 
     /**
-     * If this object has changed, as indicated by the
-     * <code>hasChanged</code> method, then notify all of its observers
-     * and then call the <code>clearChanged</code> method to indicate
-     * that this object has no longer changed.
+     * If this object hbs chbnged, bs indicbted by the
+     * <code>hbsChbnged</code> method, then notify bll of its observers
+     * bnd then cbll the <code>clebrChbnged</code> method to indicbte
+     * thbt this object hbs no longer chbnged.
      * <p>
-     * Each observer has its <code>update</code> method called with two
-     * arguments: this observable object and the <code>arg</code> argument.
+     * Ebch observer hbs its <code>updbte</code> method cblled with two
+     * brguments: this observbble object bnd the <code>brg</code> brgument.
      *
-     * @param   arg   any object.
-     * @see     java.util.Observable#clearChanged()
-     * @see     java.util.Observable#hasChanged()
-     * @see     java.util.Observer#update(java.util.Observable, java.lang.Object)
+     * @pbrbm   brg   bny object.
+     * @see     jbvb.util.Observbble#clebrChbnged()
+     * @see     jbvb.util.Observbble#hbsChbnged()
+     * @see     jbvb.util.Observer#updbte(jbvb.util.Observbble, jbvb.lbng.Object)
      */
-    public void notifyObservers(Object arg) {
+    public void notifyObservers(Object brg) {
         /*
-         * a temporary array buffer, used as a snapshot of the state of
+         * b temporbry brrby buffer, used bs b snbpshot of the stbte of
          * current Observers.
          */
-        Object[] arrLocal;
+        Object[] brrLocbl;
 
         synchronized (this) {
-            /* We don't want the Observer doing callbacks into
-             * arbitrary code while holding its own Monitor.
-             * The code where we extract each Observable from
-             * the Vector and store the state of the Observer
-             * needs synchronization, but notifying observers
-             * does not (should not).  The worst result of any
-             * potential race-condition here is that:
-             * 1) a newly-added Observer will miss a
-             *   notification in progress
-             * 2) a recently unregistered Observer will be
-             *   wrongly notified when it doesn't care
+            /* We don't wbnt the Observer doing cbllbbcks into
+             * brbitrbry code while holding its own Monitor.
+             * The code where we extrbct ebch Observbble from
+             * the Vector bnd store the stbte of the Observer
+             * needs synchronizbtion, but notifying observers
+             * does not (should not).  The worst result of bny
+             * potentibl rbce-condition here is thbt:
+             * 1) b newly-bdded Observer will miss b
+             *   notificbtion in progress
+             * 2) b recently unregistered Observer will be
+             *   wrongly notified when it doesn't cbre
              */
-            if (!changed)
+            if (!chbnged)
                 return;
-            arrLocal = obs.toArray();
-            clearChanged();
+            brrLocbl = obs.toArrby();
+            clebrChbnged();
         }
 
-        for (int i = arrLocal.length-1; i>=0; i--)
-            ((Observer)arrLocal[i]).update(this, arg);
+        for (int i = brrLocbl.length-1; i>=0; i--)
+            ((Observer)brrLocbl[i]).updbte(this, brg);
     }
 
     /**
-     * Clears the observer list so that this object no longer has any observers.
+     * Clebrs the observer list so thbt this object no longer hbs bny observers.
      */
     public synchronized void deleteObservers() {
         obs.removeAllElements();
     }
 
     /**
-     * Marks this <tt>Observable</tt> object as having been changed; the
-     * <tt>hasChanged</tt> method will now return <tt>true</tt>.
+     * Mbrks this <tt>Observbble</tt> object bs hbving been chbnged; the
+     * <tt>hbsChbnged</tt> method will now return <tt>true</tt>.
      */
-    protected synchronized void setChanged() {
-        changed = true;
+    protected synchronized void setChbnged() {
+        chbnged = true;
     }
 
     /**
-     * Indicates that this object has no longer changed, or that it has
-     * already notified all of its observers of its most recent change,
-     * so that the <tt>hasChanged</tt> method will now return <tt>false</tt>.
-     * This method is called automatically by the
+     * Indicbtes thbt this object hbs no longer chbnged, or thbt it hbs
+     * blrebdy notified bll of its observers of its most recent chbnge,
+     * so thbt the <tt>hbsChbnged</tt> method will now return <tt>fblse</tt>.
+     * This method is cblled butombticblly by the
      * <code>notifyObservers</code> methods.
      *
-     * @see     java.util.Observable#notifyObservers()
-     * @see     java.util.Observable#notifyObservers(java.lang.Object)
+     * @see     jbvb.util.Observbble#notifyObservers()
+     * @see     jbvb.util.Observbble#notifyObservers(jbvb.lbng.Object)
      */
-    protected synchronized void clearChanged() {
-        changed = false;
+    protected synchronized void clebrChbnged() {
+        chbnged = fblse;
     }
 
     /**
-     * Tests if this object has changed.
+     * Tests if this object hbs chbnged.
      *
-     * @return  <code>true</code> if and only if the <code>setChanged</code>
-     *          method has been called more recently than the
-     *          <code>clearChanged</code> method on this object;
-     *          <code>false</code> otherwise.
-     * @see     java.util.Observable#clearChanged()
-     * @see     java.util.Observable#setChanged()
+     * @return  <code>true</code> if bnd only if the <code>setChbnged</code>
+     *          method hbs been cblled more recently thbn the
+     *          <code>clebrChbnged</code> method on this object;
+     *          <code>fblse</code> otherwise.
+     * @see     jbvb.util.Observbble#clebrChbnged()
+     * @see     jbvb.util.Observbble#setChbnged()
      */
-    public synchronized boolean hasChanged() {
-        return changed;
+    public synchronized boolebn hbsChbnged() {
+        return chbnged;
     }
 
     /**
-     * Returns the number of observers of this <tt>Observable</tt> object.
+     * Returns the number of observers of this <tt>Observbble</tt> object.
      *
      * @return  the number of observers of this object.
      */

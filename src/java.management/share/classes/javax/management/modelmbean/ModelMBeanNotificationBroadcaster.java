@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-import javax.management.Attribute;
-import javax.management.AttributeChangeNotification;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanException;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationListener;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.AttributeChbngeNotificbtion;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionBrobdcbster;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 
 /**
- * This interface must be implemented by the ModelMBeans. An implementation of this interface
+ * This interfbce must be implemented by the ModelMBebns. An implementbtion of this interfbce
  * must be shipped with every JMX Agent.
  * <P>
- * Java resources wishing to be manageable instantiate the ModelMBean using the MBeanServer's
- * createMBean method.  The resource then sets the ModelMBeanInfo (with Descriptors) for the ModelMBean
- * instance. The attributes and operations exposed via the ModelMBeanInfo for the ModelMBean are accessible
- * from MBeans, connectors/adaptors like other MBeans. Through the ModelMBeanInfo Descriptors, values and methods in
- * the managed application can be defined and mapped to attributes and operations of the ModelMBean.
- * This mapping can be defined during development in an XML formatted file or dynamically and
- * programmatically at runtime.
+ * Jbvb resources wishing to be mbnbgebble instbntibte the ModelMBebn using the MBebnServer's
+ * crebteMBebn method.  The resource then sets the ModelMBebnInfo (with Descriptors) for the ModelMBebn
+ * instbnce. The bttributes bnd operbtions exposed vib the ModelMBebnInfo for the ModelMBebn bre bccessible
+ * from MBebns, connectors/bdbptors like other MBebns. Through the ModelMBebnInfo Descriptors, vblues bnd methods in
+ * the mbnbged bpplicbtion cbn be defined bnd mbpped to bttributes bnd operbtions of the ModelMBebn.
+ * This mbpping cbn be defined during development in bn XML formbtted file or dynbmicblly bnd
+ * progrbmmbticblly bt runtime.
  * <P>
- * Every ModelMBean which is instantiated in the MBeanServer becomes manageable:
- * its attributes and operations
- * become remotely accessible through the connectors/adaptors connected to that MBeanServer.
- * A Java object cannot be registered in the MBeanServer unless it is a JMX compliant MBean.
- * By instantiating a ModelMBean, resources are guaranteed that the MBean is valid.
+ * Every ModelMBebn which is instbntibted in the MBebnServer becomes mbnbgebble:
+ * its bttributes bnd operbtions
+ * become remotely bccessible through the connectors/bdbptors connected to thbt MBebnServer.
+ * A Jbvb object cbnnot be registered in the MBebnServer unless it is b JMX complibnt MBebn.
+ * By instbntibting b ModelMBebn, resources bre gubrbnteed thbt the MBebn is vblid.
  * <P>
- * MBeanException and RuntimeOperationsException must be thrown on every public method.  This allows
- * for wrapping exceptions from distributed communications (RMI, EJB, etc.).  These exceptions do
- * not have to be thrown by the implementation except in the scenarios described in the specification
- * and javadoc.
+ * MBebnException bnd RuntimeOperbtionsException must be thrown on every public method.  This bllows
+ * for wrbpping exceptions from distributed communicbtions (RMI, EJB, etc.).  These exceptions do
+ * not hbve to be thrown by the implementbtion except in the scenbrios described in the specificbtion
+ * bnd jbvbdoc.
  *
  * @since 1.5
  */
 
-public interface ModelMBeanNotificationBroadcaster extends NotificationBroadcaster
+public interfbce ModelMBebnNotificbtionBrobdcbster extends NotificbtionBrobdcbster
 {
 
         /**
-         * Sends a Notification which is passed in to the registered
-         * Notification listeners on the ModelMBean as a
-         * jmx.modelmbean.generic notification.
+         * Sends b Notificbtion which is pbssed in to the registered
+         * Notificbtion listeners on the ModelMBebn bs b
+         * jmx.modelmbebn.generic notificbtion.
          *
-         * @param ntfyObj The notification which is to be passed to
-         * the 'handleNotification' method of the listener object.
+         * @pbrbm ntfyObj The notificbtion which is to be pbssed to
+         * the 'hbndleNotificbtion' method of the listener object.
          *
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException:
-         *       The Notification object passed in parameter is null.
+         * @exception MBebnException Wrbps b distributed communicbtion Exception.
+         * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException:
+         *       The Notificbtion object pbssed in pbrbmeter is null.
          *
          */
 
-        public void sendNotification(Notification ntfyObj)
-        throws MBeanException, RuntimeOperationsException;
+        public void sendNotificbtion(Notificbtion ntfyObj)
+        throws MBebnException, RuntimeOperbtionsException;
 
         /**
-         * Sends a Notification which contains the text string that is passed in
-         * to the registered Notification listeners on the ModelMBean.
+         * Sends b Notificbtion which contbins the text string thbt is pbssed in
+         * to the registered Notificbtion listeners on the ModelMBebn.
          *
-         * @param ntfyText The text which is to be passed in the Notification to the 'handleNotification'
+         * @pbrbm ntfyText The text which is to be pbssed in the Notificbtion to the 'hbndleNotificbtion'
          * method of the listener object.
-         * the constructed Notification will be:
-         *   type        "jmx.modelmbean.generic"
-         *   source      this ModelMBean instance
+         * the constructed Notificbtion will be:
+         *   type        "jmx.modelmbebn.generic"
+         *   source      this ModelMBebn instbnce
          *   sequence    1
          *
          *
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException:
-         *       The Notification text string passed in parameter is null.
+         * @exception MBebnException Wrbps b distributed communicbtion Exception.
+         * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException:
+         *       The Notificbtion text string pbssed in pbrbmeter is null.
          *
          */
-        public void sendNotification(String ntfyText)
-        throws MBeanException, RuntimeOperationsException;
+        public void sendNotificbtion(String ntfyText)
+        throws MBebnException, RuntimeOperbtionsException;
 
         /**
-         * Sends an attributeChangeNotification which is passed in to
-         * the registered attributeChangeNotification listeners on the
-         * ModelMBean.
+         * Sends bn bttributeChbngeNotificbtion which is pbssed in to
+         * the registered bttributeChbngeNotificbtion listeners on the
+         * ModelMBebn.
          *
-         * @param notification The notification which is to be passed
-         * to the 'handleNotification' method of the listener object.
+         * @pbrbm notificbtion The notificbtion which is to be pbssed
+         * to the 'hbndleNotificbtion' method of the listener object.
          *
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException: The AttributeChangeNotification object passed in parameter is null.
+         * @exception MBebnException Wrbps b distributed communicbtion Exception.
+         * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException: The AttributeChbngeNotificbtion object pbssed in pbrbmeter is null.
          *
          */
-        public void sendAttributeChangeNotification(AttributeChangeNotification notification)
-        throws MBeanException, RuntimeOperationsException;
+        public void sendAttributeChbngeNotificbtion(AttributeChbngeNotificbtion notificbtion)
+        throws MBebnException, RuntimeOperbtionsException;
 
 
         /**
-         * Sends an attributeChangeNotification which contains the old value and new value for the
-         * attribute to the registered AttributeChangeNotification listeners on the ModelMBean.
+         * Sends bn bttributeChbngeNotificbtion which contbins the old vblue bnd new vblue for the
+         * bttribute to the registered AttributeChbngeNotificbtion listeners on the ModelMBebn.
          *
-         * @param oldValue The original value for the Attribute
-         * @param newValue The current value for the Attribute
+         * @pbrbm oldVblue The originbl vblue for the Attribute
+         * @pbrbm newVblue The current vblue for the Attribute
          * <PRE>
-         * The constructed attributeChangeNotification will be:
-         *   type        "jmx.attribute.change"
-         *   source      this ModelMBean instance
+         * The constructed bttributeChbngeNotificbtion will be:
+         *   type        "jmx.bttribute.chbnge"
+         *   source      this ModelMBebn instbnce
          *   sequence    1
-         *   attributeName oldValue.getName()
-         *   attributeType oldValue's class
-         *   attributeOldValue oldValue.getValue()
-         *   attributeNewValue newValue.getValue()
+         *   bttributeNbme oldVblue.getNbme()
+         *   bttributeType oldVblue's clbss
+         *   bttributeOldVblue oldVblue.getVblue()
+         *   bttributeNewVblue newVblue.getVblue()
          * </PRE>
          *
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException: An Attribute object passed in parameter is null
-         * or the names of the two Attribute objects in parameter are not the same.
+         * @exception MBebnException Wrbps b distributed communicbtion Exception.
+         * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException: An Attribute object pbssed in pbrbmeter is null
+         * or the nbmes of the two Attribute objects in pbrbmeter bre not the sbme.
          */
-        public void sendAttributeChangeNotification(Attribute oldValue, Attribute newValue)
-        throws MBeanException, RuntimeOperationsException;
+        public void sendAttributeChbngeNotificbtion(Attribute oldVblue, Attribute newVblue)
+        throws MBebnException, RuntimeOperbtionsException;
 
 
         /**
-         * Registers an object which implements the NotificationListener interface as a listener.  This
-         * object's 'handleNotification()' method will be invoked when any attributeChangeNotification is issued through
-         * or by the ModelMBean.  This does not include other Notifications.  They must be registered
-         * for independently. An AttributeChangeNotification will be generated for this attributeName.
+         * Registers bn object which implements the NotificbtionListener interfbce bs b listener.  This
+         * object's 'hbndleNotificbtion()' method will be invoked when bny bttributeChbngeNotificbtion is issued through
+         * or by the ModelMBebn.  This does not include other Notificbtions.  They must be registered
+         * for independently. An AttributeChbngeNotificbtion will be generbted for this bttributeNbme.
          *
-         * @param listener The listener object which will handles notifications emitted by the registered MBean.
-         * @param attributeName The name of the ModelMBean attribute for which to receive change notifications.
-         *      If null, then all attribute changes will cause an attributeChangeNotification to be issued.
-         * @param handback The context to be sent to the listener with the notification when a notification is emitted.
+         * @pbrbm listener The listener object which will hbndles notificbtions emitted by the registered MBebn.
+         * @pbrbm bttributeNbme The nbme of the ModelMBebn bttribute for which to receive chbnge notificbtions.
+         *      If null, then bll bttribute chbnges will cbuse bn bttributeChbngeNotificbtion to be issued.
+         * @pbrbm hbndbbck The context to be sent to the listener with the notificbtion when b notificbtion is emitted.
          *
-         * @exception IllegalArgumentException The listener cannot be null.
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException The attribute name passed in parameter does not exist.
+         * @exception IllegblArgumentException The listener cbnnot be null.
+         * @exception MBebnException Wrbps b distributed communicbtion Exception.
+         * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException The bttribute nbme pbssed in pbrbmeter does not exist.
          *
-         * @see #removeAttributeChangeNotificationListener
+         * @see #removeAttributeChbngeNotificbtionListener
          */
-        public void addAttributeChangeNotificationListener(NotificationListener listener,
-                                                           String attributeName,
-                                                           Object handback)
-        throws MBeanException, RuntimeOperationsException, IllegalArgumentException;
+        public void bddAttributeChbngeNotificbtionListener(NotificbtionListener listener,
+                                                           String bttributeNbme,
+                                                           Object hbndbbck)
+        throws MBebnException, RuntimeOperbtionsException, IllegblArgumentException;
 
 
         /**
-         * Removes a listener for attributeChangeNotifications from the RequiredModelMBean.
+         * Removes b listener for bttributeChbngeNotificbtions from the RequiredModelMBebn.
          *
-         * @param listener The listener name which was handling notifications emitted by the registered MBean.
-         * This method will remove all information related to this listener.
-         * @param attributeName The attribute for which the listener no longer wants to receive attributeChangeNotifications.
-         * If null the listener will be removed for all attributeChangeNotifications.
+         * @pbrbm listener The listener nbme which wbs hbndling notificbtions emitted by the registered MBebn.
+         * This method will remove bll informbtion relbted to this listener.
+         * @pbrbm bttributeNbme The bttribute for which the listener no longer wbnts to receive bttributeChbngeNotificbtions.
+         * If null the listener will be removed for bll bttributeChbngeNotificbtions.
          *
-         * @exception ListenerNotFoundException The listener is not registered in the MBean or is null.
-         * @exception MBeanException Wraps a distributed communication Exception.
-         * @exception RuntimeOperationsException Wraps an IllegalArgumentException If the inAttributeName parameter does not
-         * correspond to an attribute name.
+         * @exception ListenerNotFoundException The listener is not registered in the MBebn or is null.
+         * @exception MBebnException Wrbps b distributed communicbtion Exception.
+         * @exception RuntimeOperbtionsException Wrbps bn IllegblArgumentException If the inAttributeNbme pbrbmeter does not
+         * correspond to bn bttribute nbme.
          *
-         * @see #addAttributeChangeNotificationListener
+         * @see #bddAttributeChbngeNotificbtionListener
          */
 
-        public void removeAttributeChangeNotificationListener(NotificationListener listener,
-                                                              String attributeName)
-        throws MBeanException, RuntimeOperationsException, ListenerNotFoundException;
+        public void removeAttributeChbngeNotificbtionListener(NotificbtionListener listener,
+                                                              String bttributeNbme)
+        throws MBebnException, RuntimeOperbtionsException, ListenerNotFoundException;
 
 }

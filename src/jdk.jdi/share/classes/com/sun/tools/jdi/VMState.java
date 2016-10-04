@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.lang.ref.WeakReference;
-import java.util.*;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.*;
 
-class VMState {
-    private final VirtualMachineImpl vm;
+clbss VMStbte {
+    privbte finbl VirtublMbchineImpl vm;
 
     // Listeners
-    private final List<WeakReference<VMListener>> listeners = new ArrayList<WeakReference<VMListener>>(); // synchronized (this)
-    private boolean notifyingListeners = false;  // synchronized (this)
+    privbte finbl List<WebkReference<VMListener>> listeners = new ArrbyList<WebkReference<VMListener>>(); // synchronized (this)
+    privbte boolebn notifyingListeners = fblse;  // synchronized (this)
 
     /*
-     * Certain information can be cached only when the entire VM is
-     * suspended and there are no pending resumes. The fields below
-     * are used to track whether there are pending resumes. (There
-     * is an assumption that JDWP command ids are increasing over time.)
+     * Certbin informbtion cbn be cbched only when the entire VM is
+     * suspended bnd there bre no pending resumes. The fields below
+     * bre used to trbck whether there bre pending resumes. (There
+     * is bn bssumption thbt JDWP commbnd ids bre increbsing over time.)
      */
-    private int lastCompletedCommandId = 0;   // synchronized (this)
-    private int lastResumeCommandId = 0;      // synchronized (this)
+    privbte int lbstCompletedCommbndId = 0;   // synchronized (this)
+    privbte int lbstResumeCommbndId = 0;      // synchronized (this)
 
-    // This is cached only while the VM is suspended
-    private static class Cache {
-        List<ThreadGroupReference> groups = null;  // cached Top Level ThreadGroups
-        List<ThreadReference> threads = null; // cached Threads
+    // This is cbched only while the VM is suspended
+    privbte stbtic clbss Cbche {
+        List<ThrebdGroupReference> groups = null;  // cbched Top Level ThrebdGroups
+        List<ThrebdReference> threbds = null; // cbched Threbds
     }
 
-    private Cache cache = null;               // synchronized (this)
-    private static final Cache markerCache = new Cache();
+    privbte Cbche cbche = null;               // synchronized (this)
+    privbte stbtic finbl Cbche mbrkerCbche = new Cbche();
 
-    private void disableCache() {
+    privbte void disbbleCbche() {
         synchronized (this) {
-            cache = null;
+            cbche = null;
         }
     }
 
-    private void enableCache() {
+    privbte void enbbleCbche() {
         synchronized (this) {
-            cache = markerCache;
+            cbche = mbrkerCbche;
         }
     }
 
-    private Cache getCache() {
+    privbte Cbche getCbche() {
         synchronized (this) {
-            if (cache == markerCache) {
-                cache = new Cache();
+            if (cbche == mbrkerCbche) {
+                cbche = new Cbche();
             }
-            return cache;
+            return cbche;
         }
     }
 
-    VMState(VirtualMachineImpl vm) {
+    VMStbte(VirtublMbchineImpl vm) {
         this.vm = vm;
     }
 
     /**
-     * Is the VM currently suspended, for the purpose of caching?
-     * Must be called synchronized on vm.state()
+     * Is the VM currently suspended, for the purpose of cbching?
+     * Must be cblled synchronized on vm.stbte()
      */
-    boolean isSuspended() {
-        return cache != null;
+    boolebn isSuspended() {
+        return cbche != null;
     }
 
     /*
-     * A JDWP command has been completed (reply has been received).
-     * Update data that tracks pending resume commands.
+     * A JDWP commbnd hbs been completed (reply hbs been received).
+     * Updbte dbtb thbt trbcks pending resume commbnds.
      */
-    synchronized void notifyCommandComplete(int id) {
-        lastCompletedCommandId = id;
+    synchronized void notifyCommbndComplete(int id) {
+        lbstCompletedCommbndId = id;
     }
 
     synchronized void freeze() {
-        if (cache == null && (lastCompletedCommandId >= lastResumeCommandId)) {
+        if (cbche == null && (lbstCompletedCommbndId >= lbstResumeCommbndId)) {
             /*
-             * No pending resumes to worry about. The VM is suspended
-             * and additional state can be cached. Notify all
+             * No pending resumes to worry bbout. The VM is suspended
+             * bnd bdditionbl stbte cbn be cbched. Notify bll
              * interested listeners.
              */
             processVMAction(new VMAction(vm, VMAction.VM_SUSPENDED));
-            enableCache();
+            enbbleCbche();
         }
     }
 
-    synchronized PacketStream thawCommand(CommandSender sender) {
-        PacketStream stream = sender.send();
-        lastResumeCommandId = stream.id();
-        thaw();
-        return stream;
+    synchronized PbcketStrebm thbwCommbnd(CommbndSender sender) {
+        PbcketStrebm strebm = sender.send();
+        lbstResumeCommbndId = strebm.id();
+        thbw();
+        return strebm;
     }
 
     /**
-     * All threads are resuming
+     * All threbds bre resuming
      */
-    void thaw() {
-        thaw(null);
+    void thbw() {
+        thbw(null);
     }
 
     /**
-     * Tell listeners to invalidate suspend-sensitive caches.
-     * If resumingThread != null, then only that thread is being
+     * Tell listeners to invblidbte suspend-sensitive cbches.
+     * If resumingThrebd != null, then only thbt threbd is being
      * resumed.
      */
-    synchronized void thaw(ThreadReference resumingThread) {
-        if (cache != null) {
-            if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                vm.printTrace("Clearing VM suspended cache");
+    synchronized void thbw(ThrebdReference resumingThrebd) {
+        if (cbche != null) {
+            if ((vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0) {
+                vm.printTrbce("Clebring VM suspended cbche");
             }
-            disableCache();
+            disbbleCbche();
         }
-        processVMAction(new VMAction(vm, resumingThread, VMAction.VM_NOT_SUSPENDED));
+        processVMAction(new VMAction(vm, resumingThrebd, VMAction.VM_NOT_SUSPENDED));
     }
 
-    private synchronized void processVMAction(VMAction action) {
+    privbte synchronized void processVMAction(VMAction bction) {
         if (!notifyingListeners) {
             // Prevent recursion
             notifyingListeners = true;
 
-            Iterator<WeakReference<VMListener>> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                WeakReference<VMListener> ref = iter.next();
+            Iterbtor<WebkReference<VMListener>> iter = listeners.iterbtor();
+            while (iter.hbsNext()) {
+                WebkReference<VMListener> ref = iter.next();
                 VMListener listener = ref.get();
                 if (listener != null) {
-                    boolean keep = true;
-                    switch (action.id()) {
-                        case VMAction.VM_SUSPENDED:
-                            keep = listener.vmSuspended(action);
-                            break;
-                        case VMAction.VM_NOT_SUSPENDED:
-                            keep = listener.vmNotSuspended(action);
-                            break;
+                    boolebn keep = true;
+                    switch (bction.id()) {
+                        cbse VMAction.VM_SUSPENDED:
+                            keep = listener.vmSuspended(bction);
+                            brebk;
+                        cbse VMAction.VM_NOT_SUSPENDED:
+                            keep = listener.vmNotSuspended(bction);
+                            brebk;
                     }
                     if (!keep) {
                         iter.remove();
                     }
                 } else {
-                    // Listener is unreachable; clean up
+                    // Listener is unrebchbble; clebn up
                     iter.remove();
                 }
             }
 
-            notifyingListeners = false;
+            notifyingListeners = fblse;
         }
     }
 
-    synchronized void addListener(VMListener listener) {
-        listeners.add(new WeakReference<VMListener>(listener));
+    synchronized void bddListener(VMListener listener) {
+        listeners.bdd(new WebkReference<VMListener>(listener));
     }
 
-    synchronized boolean hasListener(VMListener listener) {
-        return listeners.contains(listener);
+    synchronized boolebn hbsListener(VMListener listener) {
+        return listeners.contbins(listener);
     }
 
     synchronized void removeListener(VMListener listener) {
-        Iterator<WeakReference<VMListener>> iter = listeners.iterator();
-        while (iter.hasNext()) {
-            WeakReference<VMListener> ref = iter.next();
-            if (listener.equals(ref.get())) {
+        Iterbtor<WebkReference<VMListener>> iter = listeners.iterbtor();
+        while (iter.hbsNext()) {
+            WebkReference<VMListener> ref = iter.next();
+            if (listener.equbls(ref.get())) {
                 iter.remove();
-                break;
+                brebk;
             }
         }
     }
 
-    List<ThreadReference> allThreads() {
-        List<ThreadReference> threads = null;
+    List<ThrebdReference> bllThrebds() {
+        List<ThrebdReference> threbds = null;
         try {
-            Cache local = getCache();
+            Cbche locbl = getCbche();
 
-            if (local != null) {
-                // may be stale when returned, but not provably so
-                threads = local.threads;
+            if (locbl != null) {
+                // mby be stble when returned, but not provbbly so
+                threbds = locbl.threbds;
             }
-            if (threads == null) {
-                threads = Arrays.asList((ThreadReference[])JDWP.VirtualMachine.AllThreads.
-                                        process(vm).threads);
-                if (local != null) {
-                    local.threads = threads;
-                    if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                        vm.printTrace("Caching all threads (count = " +
-                                      threads.size() + ") while VM suspended");
+            if (threbds == null) {
+                threbds = Arrbys.bsList((ThrebdReference[])JDWP.VirtublMbchine.AllThrebds.
+                                        process(vm).threbds);
+                if (locbl != null) {
+                    locbl.threbds = threbds;
+                    if ((vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0) {
+                        vm.printTrbce("Cbching bll threbds (count = " +
+                                      threbds.size() + ") while VM suspended");
                     }
                 }
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
-        return threads;
+        return threbds;
     }
 
 
-    List<ThreadGroupReference> topLevelThreadGroups() {
-        List<ThreadGroupReference> groups = null;
+    List<ThrebdGroupReference> topLevelThrebdGroups() {
+        List<ThrebdGroupReference> groups = null;
         try {
-            Cache local = getCache();
+            Cbche locbl = getCbche();
 
-            if (local != null) {
-                groups = local.groups;
+            if (locbl != null) {
+                groups = locbl.groups;
             }
             if (groups == null) {
-                groups = Arrays.asList(
-                                (ThreadGroupReference[])JDWP.VirtualMachine.TopLevelThreadGroups.
+                groups = Arrbys.bsList(
+                                (ThrebdGroupReference[])JDWP.VirtublMbchine.TopLevelThrebdGroups.
                                        process(vm).groups);
-                if (local != null) {
-                    local.groups = groups;
-                    if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                        vm.printTrace(
-                          "Caching top level thread groups (count = " +
+                if (locbl != null) {
+                    locbl.groups = groups;
+                    if ((vm.trbceFlbgs & VirtublMbchine.TRACE_OBJREFS) != 0) {
+                        vm.printTrbce(
+                          "Cbching top level threbd groups (count = " +
                           groups.size() + ") while VM suspended");
                     }
                 }
             }
-        } catch (JDWPException exc) {
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
         return groups;

@@ -1,275 +1,275 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.net.*;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
+import jbvb.net.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.*;
+import jbvb.util.*;
 import sun.net.NetHooks;
 
 
 /**
- * An implementation of ServerSocketChannels
+ * An implementbtion of ServerSocketChbnnels
  */
 
-class ServerSocketChannelImpl
-    extends ServerSocketChannel
+clbss ServerSocketChbnnelImpl
+    extends ServerSocketChbnnel
     implements SelChImpl
 {
 
-    // Used to make native close and configure calls
-    private static NativeDispatcher nd;
+    // Used to mbke nbtive close bnd configure cblls
+    privbte stbtic NbtiveDispbtcher nd;
 
     // Our file descriptor
-    private final FileDescriptor fd;
+    privbte finbl FileDescriptor fd;
 
-    // fd value needed for dev/poll. This value will remain valid
-    // even after the value in the file descriptor object has been set to -1
-    private int fdVal;
+    // fd vblue needed for dev/poll. This vblue will rembin vblid
+    // even bfter the vblue in the file descriptor object hbs been set to -1
+    privbte int fdVbl;
 
-    // ID of native thread currently blocked in this channel, for signalling
-    private volatile long thread = 0;
+    // ID of nbtive threbd currently blocked in this chbnnel, for signblling
+    privbte volbtile long threbd = 0;
 
-    // Lock held by thread currently blocked in this channel
-    private final Object lock = new Object();
+    // Lock held by threbd currently blocked in this chbnnel
+    privbte finbl Object lock = new Object();
 
-    // Lock held by any thread that modifies the state fields declared below
-    // DO NOT invoke a blocking I/O operation while holding this lock!
-    private final Object stateLock = new Object();
+    // Lock held by bny threbd thbt modifies the stbte fields declbred below
+    // DO NOT invoke b blocking I/O operbtion while holding this lock!
+    privbte finbl Object stbteLock = new Object();
 
-    // -- The following fields are protected by stateLock
+    // -- The following fields bre protected by stbteLock
 
-    // Channel state, increases monotonically
-    private static final int ST_UNINITIALIZED = -1;
-    private static final int ST_INUSE = 0;
-    private static final int ST_KILLED = 1;
-    private int state = ST_UNINITIALIZED;
+    // Chbnnel stbte, increbses monotonicblly
+    privbte stbtic finbl int ST_UNINITIALIZED = -1;
+    privbte stbtic finbl int ST_INUSE = 0;
+    privbte stbtic finbl int ST_KILLED = 1;
+    privbte int stbte = ST_UNINITIALIZED;
 
     // Binding
-    private InetSocketAddress localAddress; // null => unbound
+    privbte InetSocketAddress locblAddress; // null => unbound
 
-    // set true when exclusive binding is on and SO_REUSEADDR is emulated
-    private boolean isReuseAddress;
+    // set true when exclusive binding is on bnd SO_REUSEADDR is emulbted
+    privbte boolebn isReuseAddress;
 
-    // Our socket adaptor, if any
+    // Our socket bdbptor, if bny
     ServerSocket socket;
 
-    // -- End of fields protected by stateLock
+    // -- End of fields protected by stbteLock
 
 
-    ServerSocketChannelImpl(SelectorProvider sp) throws IOException {
+    ServerSocketChbnnelImpl(SelectorProvider sp) throws IOException {
         super(sp);
         this.fd =  Net.serverSocket(true);
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_INUSE;
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ST_INUSE;
     }
 
-    ServerSocketChannelImpl(SelectorProvider sp,
+    ServerSocketChbnnelImpl(SelectorProvider sp,
                             FileDescriptor fd,
-                            boolean bound)
+                            boolebn bound)
         throws IOException
     {
         super(sp);
         this.fd =  fd;
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_INUSE;
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbte = ST_INUSE;
         if (bound)
-            localAddress = Net.localAddress(fd);
+            locblAddress = Net.locblAddress(fd);
     }
 
     public ServerSocket socket() {
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (socket == null)
-                socket = ServerSocketAdaptor.create(this);
+                socket = ServerSocketAdbptor.crebte(this);
             return socket;
         }
     }
 
     @Override
-    public SocketAddress getLocalAddress() throws IOException {
-        synchronized (stateLock) {
+    public SocketAddress getLocblAddress() throws IOException {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
-            return localAddress == null ? localAddress
-                    : Net.getRevealedLocalAddress(
-                          Net.asInetSocketAddress(localAddress));
+                throw new ClosedChbnnelException();
+            return locblAddress == null ? locblAddress
+                    : Net.getRevebledLocblAddress(
+                          Net.bsInetSocketAddress(locblAddress));
         }
     }
 
     @Override
-    public <T> ServerSocketChannel setOption(SocketOption<T> name, T value)
+    public <T> ServerSocketChbnnel setOption(SocketOption<T> nbme, T vblue)
         throws IOException
     {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
-        synchronized (stateLock) {
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
 
-            if (name == StandardSocketOptions.IP_TOS) {
-                ProtocolFamily family = Net.isIPv6Available() ?
-                    StandardProtocolFamily.INET6 : StandardProtocolFamily.INET;
-                Net.setSocketOption(fd, family, name, value);
+            if (nbme == StbndbrdSocketOptions.IP_TOS) {
+                ProtocolFbmily fbmily = Net.isIPv6Avbilbble() ?
+                    StbndbrdProtocolFbmily.INET6 : StbndbrdProtocolFbmily.INET;
+                Net.setSocketOption(fd, fbmily, nbme, vblue);
                 return this;
             }
 
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
                     Net.useExclusiveBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                isReuseAddress = (Boolean)value;
+                // SO_REUSEADDR emulbted when using exclusive bind
+                isReuseAddress = (Boolebn)vblue;
             } else {
-                // no options that require special handling
-                Net.setSocketOption(fd, Net.UNSPEC, name, value);
+                // no options thbt require specibl hbndling
+                Net.setSocketOption(fd, Net.UNSPEC, nbme, vblue);
             }
             return this;
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getOption(SocketOption<T> name)
+    @SuppressWbrnings("unchecked")
+    public <T> T getOption(SocketOption<T> nbme)
         throws IOException
     {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
-        synchronized (stateLock) {
+        synchronized (stbteLock) {
             if (!isOpen())
-                throw new ClosedChannelException();
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
+                throw new ClosedChbnnelException();
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
                     Net.useExclusiveBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                return (T)Boolean.valueOf(isReuseAddress);
+                // SO_REUSEADDR emulbted when using exclusive bind
+                return (T)Boolebn.vblueOf(isReuseAddress);
             }
-            // no options that require special handling
-            return (T) Net.getSocketOption(fd, Net.UNSPEC, name);
+            // no options thbt require specibl hbndling
+            return (T) Net.getSocketOption(fd, Net.UNSPEC, nbme);
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SocketOption<?>> defaultOptions = defaultOptions();
+    privbte stbtic clbss DefbultOptionsHolder {
+        stbtic finbl Set<SocketOption<?>> defbultOptions = defbultOptions();
 
-        private static Set<SocketOption<?>> defaultOptions() {
-            HashSet<SocketOption<?>> set = new HashSet<SocketOption<?>>(2);
-            set.add(StandardSocketOptions.SO_RCVBUF);
-            set.add(StandardSocketOptions.SO_REUSEADDR);
-            set.add(StandardSocketOptions.IP_TOS);
-            return Collections.unmodifiableSet(set);
-        }
-    }
-
-    @Override
-    public final Set<SocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
-    }
-
-    public boolean isBound() {
-        synchronized (stateLock) {
-            return localAddress != null;
-        }
-    }
-
-    public InetSocketAddress localAddress() {
-        synchronized (stateLock) {
-            return localAddress;
+        privbte stbtic Set<SocketOption<?>> defbultOptions() {
+            HbshSet<SocketOption<?>> set = new HbshSet<SocketOption<?>>(2);
+            set.bdd(StbndbrdSocketOptions.SO_RCVBUF);
+            set.bdd(StbndbrdSocketOptions.SO_REUSEADDR);
+            set.bdd(StbndbrdSocketOptions.IP_TOS);
+            return Collections.unmodifibbleSet(set);
         }
     }
 
     @Override
-    public ServerSocketChannel bind(SocketAddress local, int backlog) throws IOException {
+    public finbl Set<SocketOption<?>> supportedOptions() {
+        return DefbultOptionsHolder.defbultOptions;
+    }
+
+    public boolebn isBound() {
+        synchronized (stbteLock) {
+            return locblAddress != null;
+        }
+    }
+
+    public InetSocketAddress locblAddress() {
+        synchronized (stbteLock) {
+            return locblAddress;
+        }
+    }
+
+    @Override
+    public ServerSocketChbnnel bind(SocketAddress locbl, int bbcklog) throws IOException {
         synchronized (lock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (isBound())
-                throw new AlreadyBoundException();
-            InetSocketAddress isa = (local == null) ? new InetSocketAddress(0) :
-                Net.checkAddress(local);
-            SecurityManager sm = System.getSecurityManager();
+                throw new AlrebdyBoundException();
+            InetSocketAddress isb = (locbl == null) ? new InetSocketAddress(0) :
+                Net.checkAddress(locbl);
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null)
-                sm.checkListen(isa.getPort());
-            NetHooks.beforeTcpBind(fd, isa.getAddress(), isa.getPort());
-            Net.bind(fd, isa.getAddress(), isa.getPort());
-            Net.listen(fd, backlog < 1 ? 50 : backlog);
-            synchronized (stateLock) {
-                localAddress = Net.localAddress(fd);
+                sm.checkListen(isb.getPort());
+            NetHooks.beforeTcpBind(fd, isb.getAddress(), isb.getPort());
+            Net.bind(fd, isb.getAddress(), isb.getPort());
+            Net.listen(fd, bbcklog < 1 ? 50 : bbcklog);
+            synchronized (stbteLock) {
+                locblAddress = Net.locblAddress(fd);
             }
         }
         return this;
     }
 
-    public SocketChannel accept() throws IOException {
+    public SocketChbnnel bccept() throws IOException {
         synchronized (lock) {
             if (!isOpen())
-                throw new ClosedChannelException();
+                throw new ClosedChbnnelException();
             if (!isBound())
                 throw new NotYetBoundException();
-            SocketChannel sc = null;
+            SocketChbnnel sc = null;
 
             int n = 0;
             FileDescriptor newfd = new FileDescriptor();
-            InetSocketAddress[] isaa = new InetSocketAddress[1];
+            InetSocketAddress[] isbb = new InetSocketAddress[1];
 
             try {
                 begin();
                 if (!isOpen())
                     return null;
-                thread = NativeThread.current();
+                threbd = NbtiveThrebd.current();
                 for (;;) {
-                    n = accept0(this.fd, newfd, isaa);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
+                    n = bccept0(this.fd, newfd, isbb);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpen())
                         continue;
-                    break;
+                    brebk;
                 }
-            } finally {
-                thread = 0;
+            } finblly {
+                threbd = 0;
                 end(n > 0);
-                assert IOStatus.check(n);
+                bssert IOStbtus.check(n);
             }
 
             if (n < 1)
                 return null;
 
             IOUtil.configureBlocking(newfd, true);
-            InetSocketAddress isa = isaa[0];
-            sc = new SocketChannelImpl(provider(), newfd, isa);
-            SecurityManager sm = System.getSecurityManager();
+            InetSocketAddress isb = isbb[0];
+            sc = new SocketChbnnelImpl(provider(), newfd, isb);
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 try {
-                    sm.checkAccept(isa.getAddress().getHostAddress(),
-                                   isa.getPort());
-                } catch (SecurityException x) {
+                    sm.checkAccept(isb.getAddress().getHostAddress(),
+                                   isb.getPort());
+                } cbtch (SecurityException x) {
                     sc.close();
                     throw x;
                 }
@@ -279,55 +279,55 @@ class ServerSocketChannelImpl
         }
     }
 
-    protected void implConfigureBlocking(boolean block) throws IOException {
+    protected void implConfigureBlocking(boolebn block) throws IOException {
         IOUtil.configureBlocking(fd, block);
     }
 
-    protected void implCloseSelectableChannel() throws IOException {
-        synchronized (stateLock) {
-            if (state != ST_KILLED)
+    protected void implCloseSelectbbleChbnnel() throws IOException {
+        synchronized (stbteLock) {
+            if (stbte != ST_KILLED)
                 nd.preClose(fd);
-            long th = thread;
+            long th = threbd;
             if (th != 0)
-                NativeThread.signal(th);
+                NbtiveThrebd.signbl(th);
             if (!isRegistered())
                 kill();
         }
     }
 
     public void kill() throws IOException {
-        synchronized (stateLock) {
-            if (state == ST_KILLED)
+        synchronized (stbteLock) {
+            if (stbte == ST_KILLED)
                 return;
-            if (state == ST_UNINITIALIZED) {
-                state = ST_KILLED;
+            if (stbte == ST_UNINITIALIZED) {
+                stbte = ST_KILLED;
                 return;
             }
-            assert !isOpen() && !isRegistered();
+            bssert !isOpen() && !isRegistered();
             nd.close(fd);
-            state = ST_KILLED;
+            stbte = ST_KILLED;
         }
     }
 
     /**
-     * Translates native poll revent set into a ready operation set
+     * Trbnslbtes nbtive poll revent set into b rebdy operbtion set
      */
-    public boolean translateReadyOps(int ops, int initialOps,
+    public boolebn trbnslbteRebdyOps(int ops, int initiblOps,
                                      SelectionKeyImpl sk) {
         int intOps = sk.nioInterestOps(); // Do this just once, it synchronizes
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+        int oldOps = sk.nioRebdyOps();
+        int newOps = initiblOps;
 
         if ((ops & Net.POLLNVAL) != 0) {
-            // This should only happen if this channel is pre-closed while a
-            // selection operation is in progress
-            // ## Throw an error if this channel has not been pre-closed
-            return false;
+            // This should only hbppen if this chbnnel is pre-closed while b
+            // selection operbtion is in progress
+            // ## Throw bn error if this chbnnel hbs not been pre-closed
+            return fblse;
         }
 
         if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
             newOps = intOps;
-            sk.nioReadyOps(newOps);
+            sk.nioRebdyOps(newOps);
             return (newOps & ~oldOps) != 0;
         }
 
@@ -335,34 +335,34 @@ class ServerSocketChannelImpl
             ((intOps & SelectionKey.OP_ACCEPT) != 0))
                 newOps |= SelectionKey.OP_ACCEPT;
 
-        sk.nioReadyOps(newOps);
+        sk.nioRebdyOps(newOps);
         return (newOps & ~oldOps) != 0;
     }
 
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    public boolebn trbnslbteAndUpdbteRebdyOps(int ops, SelectionKeyImpl sk) {
+        return trbnslbteRebdyOps(ops, sk.nioRebdyOps(), sk);
     }
 
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    public boolebn trbnslbteAndSetRebdyOps(int ops, SelectionKeyImpl sk) {
+        return trbnslbteRebdyOps(ops, 0, sk);
     }
 
-    // package-private
+    // pbckbge-privbte
     int poll(int events, long timeout) throws IOException {
-        assert Thread.holdsLock(blockingLock()) && !isBlocking();
+        bssert Threbd.holdsLock(blockingLock()) && !isBlocking();
 
         synchronized (lock) {
             int n = 0;
             try {
                 begin();
-                synchronized (stateLock) {
+                synchronized (stbteLock) {
                     if (!isOpen())
                         return 0;
-                    thread = NativeThread.current();
+                    threbd = NbtiveThrebd.current();
                 }
                 n = Net.poll(fd, events, timeout);
-            } finally {
-                thread = 0;
+            } finblly {
+                threbd = 0;
                 end(n > 0);
             }
             return n;
@@ -370,15 +370,15 @@ class ServerSocketChannelImpl
     }
 
     /**
-     * Translates an interest operation set into a native poll event set
+     * Trbnslbtes bn interest operbtion set into b nbtive poll event set
      */
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
+    public void trbnslbteAndSetInterestOps(int ops, SelectionKeyImpl sk) {
         int newOps = 0;
 
-        // Translate ops
+        // Trbnslbte ops
         if ((ops & SelectionKey.OP_ACCEPT) != 0)
             newOps |= Net.POLLIN;
-        // Place ops into pollfd array
+        // Plbce ops into pollfd brrby
         sk.selector.putEventOps(sk, newOps);
     }
 
@@ -386,47 +386,47 @@ class ServerSocketChannelImpl
         return fd;
     }
 
-    public int getFDVal() {
-        return fdVal;
+    public int getFDVbl() {
+        return fdVbl;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getName());
-        sb.append('[');
+        sb.bppend(this.getClbss().getNbme());
+        sb.bppend('[');
         if (!isOpen()) {
-            sb.append("closed");
+            sb.bppend("closed");
         } else {
-            synchronized (stateLock) {
-                InetSocketAddress addr = localAddress();
-                if (addr == null) {
-                    sb.append("unbound");
+            synchronized (stbteLock) {
+                InetSocketAddress bddr = locblAddress();
+                if (bddr == null) {
+                    sb.bppend("unbound");
                 } else {
-                    sb.append(Net.getRevealedLocalAddressAsString(addr));
+                    sb.bppend(Net.getRevebledLocblAddressAsString(bddr));
                 }
             }
         }
-        sb.append(']');
+        sb.bppend(']');
         return sb.toString();
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    // Accepts a new connection, setting the given file descriptor to refer to
-    // the new socket and setting isaa[0] to the socket's remote address.
-    // Returns 1 on success, or IOStatus.UNAVAILABLE (if non-blocking and no
-    // connections are pending) or IOStatus.INTERRUPTED.
+    // Accepts b new connection, setting the given file descriptor to refer to
+    // the new socket bnd setting isbb[0] to the socket's remote bddress.
+    // Returns 1 on success, or IOStbtus.UNAVAILABLE (if non-blocking bnd no
+    // connections bre pending) or IOStbtus.INTERRUPTED.
     //
-    private native int accept0(FileDescriptor ssfd, FileDescriptor newfd,
-                               InetSocketAddress[] isaa)
+    privbte nbtive int bccept0(FileDescriptor ssfd, FileDescriptor newfd,
+                               InetSocketAddress[] isbb)
         throws IOException;
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         initIDs();
-        nd = new SocketDispatcher();
+        nd = new SocketDispbtcher();
     }
 
 }

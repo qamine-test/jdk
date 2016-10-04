@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <windows.h>
@@ -28,38 +28,38 @@
 #include "jni.h"
 #include "jni_util.h"
 
-#include "sun_tools_attach_WindowsVirtualMachine.h"
+#include "sun_tools_bttbch_WindowsVirtublMbchine.h"
 
 
 /* kernel32 */
-typedef HINSTANCE (WINAPI* GetModuleHandleFunc) (LPCTSTR);
+typedef HINSTANCE (WINAPI* GetModuleHbndleFunc) (LPCTSTR);
 typedef FARPROC (WINAPI* GetProcAddressFunc)(HMODULE, LPCSTR);
 
-/* only on Windows 64-bit or 32-bit application running under WOW64 */
+/* only on Windows 64-bit or 32-bit bpplicbtion running under WOW64 */
 typedef BOOL (WINAPI *IsWow64ProcessFunc) (HANDLE, PBOOL);
 
-static GetModuleHandleFunc _GetModuleHandle;
-static GetProcAddressFunc _GetProcAddress;
-static IsWow64ProcessFunc _IsWow64Process;
+stbtic GetModuleHbndleFunc _GetModuleHbndle;
+stbtic GetProcAddressFunc _GetProcAddress;
+stbtic IsWow64ProcessFunc _IsWow64Process;
 
-/* psapi */
+/* psbpi */
 typedef BOOL  (WINAPI *EnumProcessModulesFunc)  (HANDLE, HMODULE *, DWORD, LPDWORD );
-typedef DWORD (WINAPI *GetModuleFileNameExFunc) ( HANDLE, HMODULE, LPTSTR, DWORD );
+typedef DWORD (WINAPI *GetModuleFileNbmeExFunc) ( HANDLE, HMODULE, LPTSTR, DWORD );
 
-/* exported function in target VM */
-typedef jint (WINAPI* EnqueueOperationFunc)
-    (const char* cmd, const char* arg1, const char* arg2, const char* arg3, const char* pipename);
+/* exported function in tbrget VM */
+typedef jint (WINAPI* EnqueueOperbtionFunc)
+    (const chbr* cmd, const chbr* brg1, const chbr* brg2, const chbr* brg3, const chbr* pipenbme);
 
 /* OpenProcess with SE_DEBUG_NAME privilege */
-static HANDLE
-doPrivilegedOpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProcessId);
+stbtic HANDLE
+doPrivilegedOpenProcess(DWORD dwDesiredAccess, BOOL bInheritHbndle, DWORD dwProcessId);
 
 /* convert jstring to C string */
-static void jstring_to_cstring(JNIEnv* env, jstring jstr, char* cstr, int len);
+stbtic void jstring_to_cstring(JNIEnv* env, jstring jstr, chbr* cstr, int len);
 
 
 /*
- * Data copied to target process
+ * Dbtb copied to tbrget process
  */
 
 #define MAX_LIBNAME_LENGTH      16
@@ -70,115 +70,115 @@ static void jstring_to_cstring(JNIEnv* env, jstring jstr, char* cstr, int len);
 #define MAX_PIPE_NAME_LENGTH    256
 
 typedef struct {
-   GetModuleHandleFunc _GetModuleHandle;
+   GetModuleHbndleFunc _GetModuleHbndle;
    GetProcAddressFunc _GetProcAddress;
-   char jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
-   char func1[MAX_FUNC_LENGTH];
-   char func2[MAX_FUNC_LENGTH];
-   char cmd[MAX_CMD_LENGTH];                /* "load", "dump", ...      */
-   char arg[MAX_ARGS][MAX_ARG_LENGTH];      /* arguments to command     */
-   char pipename[MAX_PIPE_NAME_LENGTH];
-} DataBlock;
+   chbr jvmLib[MAX_LIBNAME_LENGTH];         /* "jvm.dll" */
+   chbr func1[MAX_FUNC_LENGTH];
+   chbr func2[MAX_FUNC_LENGTH];
+   chbr cmd[MAX_CMD_LENGTH];                /* "lobd", "dump", ...      */
+   chbr brg[MAX_ARGS][MAX_ARG_LENGTH];      /* brguments to commbnd     */
+   chbr pipenbme[MAX_PIPE_NAME_LENGTH];
+} DbtbBlock;
 
 /*
- * Return codes from enqueue function executed in target VM
+ * Return codes from enqueue function executed in tbrget VM
  */
 #define ERR_OPEN_JVM_FAIL           200
 #define ERR_GET_ENQUEUE_FUNC_FAIL   201
 
 
 /*
- * Code copied to target process
+ * Code copied to tbrget process
  */
-#pragma check_stack (off)
-DWORD WINAPI jvm_attach_thread_func(DataBlock *pData)
+#prbgmb check_stbck (off)
+DWORD WINAPI jvm_bttbch_threbd_func(DbtbBlock *pDbtb)
 {
     HINSTANCE h;
-    EnqueueOperationFunc addr;
+    EnqueueOperbtionFunc bddr;
 
-    h = pData->_GetModuleHandle(pData->jvmLib);
+    h = pDbtb->_GetModuleHbndle(pDbtb->jvmLib);
     if (h == NULL) {
         return ERR_OPEN_JVM_FAIL;
     }
 
-    addr = (EnqueueOperationFunc)(pData->_GetProcAddress(h, pData->func1));
-    if (addr == NULL) {
-        addr = (EnqueueOperationFunc)(pData->_GetProcAddress(h, pData->func2));
+    bddr = (EnqueueOperbtionFunc)(pDbtb->_GetProcAddress(h, pDbtb->func1));
+    if (bddr == NULL) {
+        bddr = (EnqueueOperbtionFunc)(pDbtb->_GetProcAddress(h, pDbtb->func2));
     }
-    if (addr == NULL) {
+    if (bddr == NULL) {
         return ERR_GET_ENQUEUE_FUNC_FAIL;
     }
 
-    /* "null" command - does nothing in the target VM */
-    if (pData->cmd[0] == '\0') {
+    /* "null" commbnd - does nothing in the tbrget VM */
+    if (pDbtb->cmd[0] == '\0') {
         return 0;
     } else {
-        return (*addr)(pData->cmd, pData->arg[0], pData->arg[1], pData->arg[2], pData->pipename);
+        return (*bddr)(pDbtb->cmd, pDbtb->brg[0], pDbtb->brg[1], pDbtb->brg[2], pDbtb->pipenbme);
     }
 }
 
-/* This function marks the end of jvm_attach_thread_func. */
-void jvm_attach_thread_func_end (void) {
+/* This function mbrks the end of jvm_bttbch_threbd_func. */
+void jvm_bttbch_threbd_func_end (void) {
 }
-#pragma check_stack
+#prbgmb check_stbck
 
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_WindowsVirtualMachine_init
-  (JNIEnv *env, jclass cls)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_init
+  (JNIEnv *env, jclbss cls)
 {
     // All following APIs exist on Windows XP with SP2/Windows Server 2008
-    _GetModuleHandle = (GetModuleHandleFunc)GetModuleHandle;
+    _GetModuleHbndle = (GetModuleHbndleFunc)GetModuleHbndle;
     _GetProcAddress = (GetProcAddressFunc)GetProcAddress;
     _IsWow64Process = (IsWow64ProcessFunc)IsWow64Process;
 }
 
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
- * Method:    generateStub
- * Signature: ()[B
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
+ * Method:    generbteStub
+ * Signbture: ()[B
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_tools_attach_WindowsVirtualMachine_generateStub
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jbyteArrby JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_generbteStub
+  (JNIEnv *env, jclbss cls)
 {
     /*
-     * We should replace this with a real stub generator at some point
+     * We should replbce this with b rebl stub generbtor bt some point
      */
     DWORD len;
-    jbyteArray array;
+    jbyteArrby brrby;
 
-    len = (DWORD)((LPBYTE) jvm_attach_thread_func_end - (LPBYTE) jvm_attach_thread_func);
-    array= (*env)->NewByteArray(env, (jsize)len);
-    if (array != NULL) {
-        (*env)->SetByteArrayRegion(env, array, 0, (jint)len, (jbyte*)&jvm_attach_thread_func);
+    len = (DWORD)((LPBYTE) jvm_bttbch_threbd_func_end - (LPBYTE) jvm_bttbch_threbd_func);
+    brrby= (*env)->NewByteArrby(env, (jsize)len);
+    if (brrby != NULL) {
+        (*env)->SetByteArrbyRegion(env, brrby, 0, (jint)len, (jbyte*)&jvm_bttbch_threbd_func);
     }
-    return array;
+    return brrby;
 }
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
  * Method:    openProcess
- * Signature: (I)J
+ * Signbture: (I)J
  */
-JNIEXPORT jlong JNICALL Java_sun_tools_attach_WindowsVirtualMachine_openProcess
-  (JNIEnv *env, jclass cls, jint pid)
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_openProcess
+  (JNIEnv *env, jclbss cls, jint pid)
 {
     HANDLE hProcess = NULL;
 
     if (pid == (jint) GetCurrentProcessId()) {
-        /* process is attaching to itself; get a pseudo handle instead */
+        /* process is bttbching to itself; get b pseudo hbndle instebd */
         hProcess = GetCurrentProcess();
-        /* duplicate the pseudo handle so it can be used in more contexts */
-        if (DuplicateHandle(hProcess, hProcess, hProcess, &hProcess,
+        /* duplicbte the pseudo hbndle so it cbn be used in more contexts */
+        if (DuplicbteHbndle(hProcess, hProcess, hProcess, &hProcess,
                 PROCESS_ALL_ACCESS, FALSE, 0) == 0) {
             /*
-             * Could not duplicate the handle which isn't a good sign,
-             * but we'll try again with OpenProcess() below.
+             * Could not duplicbte the hbndle which isn't b good sign,
+             * but we'll try bgbin with OpenProcess() below.
              */
             hProcess = NULL;
         }
@@ -186,47 +186,47 @@ JNIEXPORT jlong JNICALL Java_sun_tools_attach_WindowsVirtualMachine_openProcess
 
     if (hProcess == NULL) {
         /*
-         * Attempt to open process. If it fails then we try to enable the
-         * SE_DEBUG_NAME privilege and retry.
+         * Attempt to open process. If it fbils then we try to enbble the
+         * SE_DEBUG_NAME privilege bnd retry.
          */
         hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
-        if (hProcess == NULL && GetLastError() == ERROR_ACCESS_DENIED) {
+        if (hProcess == NULL && GetLbstError() == ERROR_ACCESS_DENIED) {
             hProcess = doPrivilegedOpenProcess(PROCESS_ALL_ACCESS, FALSE,
                            (DWORD)pid);
         }
 
         if (hProcess == NULL) {
-            if (GetLastError() == ERROR_INVALID_PARAMETER) {
+            if (GetLbstError() == ERROR_INVALID_PARAMETER) {
                 JNU_ThrowIOException(env, "no such process");
             } else {
-                char err_mesg[255];
-                /* include the last error in the default detail message */
-                sprintf(err_mesg, "OpenProcess(pid=%d) failed; LastError=0x%x",
-                    (int)pid, (int)GetLastError());
-                JNU_ThrowIOExceptionWithLastError(env, err_mesg);
+                chbr err_mesg[255];
+                /* include the lbst error in the defbult detbil messbge */
+                sprintf(err_mesg, "OpenProcess(pid=%d) fbiled; LbstError=0x%x",
+                    (int)pid, (int)GetLbstError());
+                JNU_ThrowIOExceptionWithLbstError(env, err_mesg);
             }
             return (jlong)0;
         }
     }
 
     /*
-     * On Windows 64-bit we need to handle 32-bit tools trying to attach to 64-bit
-     * processes (and visa versa). X-architecture attaching is currently not supported
-     * by this implementation.
+     * On Windows 64-bit we need to hbndle 32-bit tools trying to bttbch to 64-bit
+     * processes (bnd visb versb). X-brchitecture bttbching is currently not supported
+     * by this implementbtion.
      */
     if (_IsWow64Process != NULL) {
-        BOOL isCurrent32bit, isTarget32bit;
+        BOOL isCurrent32bit, isTbrget32bit;
         (*_IsWow64Process)(GetCurrentProcess(), &isCurrent32bit);
-        (*_IsWow64Process)(hProcess, &isTarget32bit);
+        (*_IsWow64Process)(hProcess, &isTbrget32bit);
 
-        if (isCurrent32bit != isTarget32bit) {
-            CloseHandle(hProcess);
+        if (isCurrent32bit != isTbrget32bit) {
+            CloseHbndle(hProcess);
             #ifdef _WIN64
-              JNU_ThrowByName(env, "com/sun/tools/attach/AttachNotSupportedException",
-                  "Unable to attach to 32-bit process running under WOW64");
+              JNU_ThrowByNbme(env, "com/sun/tools/bttbch/AttbchNotSupportedException",
+                  "Unbble to bttbch to 32-bit process running under WOW64");
             #else
-              JNU_ThrowByName(env, "com/sun/tools/attach/AttachNotSupportedException",
-                  "Unable to attach to 64-bit process");
+              JNU_ThrowByNbme(env, "com/sun/tools/bttbch/AttbchNotSupportedException",
+                  "Unbble to bttbch to 64-bit process");
             #endif
         }
     }
@@ -236,263 +236,263 @@ JNIEXPORT jlong JNICALL Java_sun_tools_attach_WindowsVirtualMachine_openProcess
 
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
  * Method:    closeProcess
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_WindowsVirtualMachine_closeProcess
-  (JNIEnv *env, jclass cls, jlong hProcess)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_closeProcess
+  (JNIEnv *env, jclbss cls, jlong hProcess)
 {
-    CloseHandle((HANDLE)hProcess);
+    CloseHbndle((HANDLE)hProcess);
 }
 
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
- * Method:    createPipe
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
+ * Method:    crebtePipe
+ * Signbture: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_tools_attach_WindowsVirtualMachine_createPipe
-  (JNIEnv *env, jclass cls, jstring pipename)
+JNIEXPORT jlong JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_crebtePipe
+  (JNIEnv *env, jclbss cls, jstring pipenbme)
 {
     HANDLE hPipe;
-    char name[MAX_PIPE_NAME_LENGTH];
+    chbr nbme[MAX_PIPE_NAME_LENGTH];
 
-    jstring_to_cstring(env, pipename, name, MAX_PIPE_NAME_LENGTH);
+    jstring_to_cstring(env, pipenbme, nbme, MAX_PIPE_NAME_LENGTH);
 
-    hPipe = CreateNamedPipe(
-          name,                         // pipe name
-          PIPE_ACCESS_INBOUND,          // read access
+    hPipe = CrebteNbmedPipe(
+          nbme,                         // pipe nbme
+          PIPE_ACCESS_INBOUND,          // rebd bccess
           PIPE_TYPE_BYTE |              // byte mode
             PIPE_READMODE_BYTE |
             PIPE_WAIT,                  // blocking mode
-          1,                            // max. instances
+          1,                            // mbx. instbnces
           128,                          // output buffer size
           8192,                         // input buffer size
           NMPWAIT_USE_DEFAULT_WAIT,     // client time-out
-          NULL);                        // default security attribute
+          NULL);                        // defbult security bttribute
 
     if (hPipe == INVALID_HANDLE_VALUE) {
-        char msg[256];
-        _snprintf(msg, sizeof(msg), "CreateNamedPipe failed: %d", GetLastError());
-        JNU_ThrowIOExceptionWithLastError(env, msg);
+        chbr msg[256];
+        _snprintf(msg, sizeof(msg), "CrebteNbmedPipe fbiled: %d", GetLbstError());
+        JNU_ThrowIOExceptionWithLbstError(env, msg);
     }
     return (jlong)hPipe;
 }
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
  * Method:    closePipe
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_WindowsVirtualMachine_closePipe
-  (JNIEnv *env, jclass cls, jlong hPipe)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_closePipe
+  (JNIEnv *env, jclbss cls, jlong hPipe)
 {
-    CloseHandle( (HANDLE)hPipe );
+    CloseHbndle( (HANDLE)hPipe );
 }
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
  * Method:    connectPipe
- * Signature: (J)V
+ * Signbture: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_WindowsVirtualMachine_connectPipe
-  (JNIEnv *env, jclass cls, jlong hPipe)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_connectPipe
+  (JNIEnv *env, jclbss cls, jlong hPipe)
 {
     BOOL fConnected;
 
-    fConnected = ConnectNamedPipe((HANDLE)hPipe, NULL) ?
-        TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
+    fConnected = ConnectNbmedPipe((HANDLE)hPipe, NULL) ?
+        TRUE : (GetLbstError() == ERROR_PIPE_CONNECTED);
     if (!fConnected) {
-        JNU_ThrowIOExceptionWithLastError(env, "ConnectNamedPipe failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "ConnectNbmedPipe fbiled");
     }
 }
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
- * Method:    readPipe
- * Signature: (J[BII)I
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
+ * Method:    rebdPipe
+ * Signbture: (J[BII)I
  */
-JNIEXPORT jint JNICALL Java_sun_tools_attach_WindowsVirtualMachine_readPipe
-  (JNIEnv *env, jclass cls, jlong hPipe, jbyteArray ba, jint off, jint baLen)
+JNIEXPORT jint JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_rebdPipe
+  (JNIEnv *env, jclbss cls, jlong hPipe, jbyteArrby bb, jint off, jint bbLen)
 {
-    unsigned char buf[128];
-    DWORD len, nread, remaining;
+    unsigned chbr buf[128];
+    DWORD len, nrebd, rembining;
     BOOL fSuccess;
 
     len = sizeof(buf);
-    remaining = (DWORD)(baLen - off);
-    if (len > remaining) {
-        len = remaining;
+    rembining = (DWORD)(bbLen - off);
+    if (len > rembining) {
+        len = rembining;
     }
 
-    fSuccess = ReadFile(
-         (HANDLE)hPipe,         // handle to pipe
-         buf,                   // buffer to receive data
+    fSuccess = RebdFile(
+         (HANDLE)hPipe,         // hbndle to pipe
+         buf,                   // buffer to receive dbtb
          len,                   // size of buffer
-         &nread,                // number of bytes read
-         NULL);                 // not overlapped I/O
+         &nrebd,                // number of bytes rebd
+         NULL);                 // not overlbpped I/O
 
     if (!fSuccess) {
-        if (GetLastError() == ERROR_BROKEN_PIPE) {
+        if (GetLbstError() == ERROR_BROKEN_PIPE) {
             return (jint)-1;
         } else {
-            JNU_ThrowIOExceptionWithLastError(env, "ReadFile");
+            JNU_ThrowIOExceptionWithLbstError(env, "RebdFile");
         }
     } else {
-        if (nread == 0) {
+        if (nrebd == 0) {
             return (jint)-1;        // EOF
         } else {
-            (*env)->SetByteArrayRegion(env, ba, off, (jint)nread, (jbyte *)(buf));
+            (*env)->SetByteArrbyRegion(env, bb, off, (jint)nrebd, (jbyte *)(buf));
         }
     }
 
-    return (jint)nread;
+    return (jint)nrebd;
 }
 
 
 /*
- * Class:     sun_tools_attach_WindowsVirtualMachine
+ * Clbss:     sun_tools_bttbch_WindowsVirtublMbchine
  * Method:    enqueue
- * Signature: (JZLjava/lang/String;[Ljava/lang/Object;)V
+ * Signbture: (JZLjbvb/lbng/String;[Ljbvb/lbng/Object;)V
  */
-JNIEXPORT void JNICALL Java_sun_tools_attach_WindowsVirtualMachine_enqueue
-  (JNIEnv *env, jclass cls, jlong handle, jbyteArray stub, jstring cmd,
-   jstring pipename, jobjectArray args)
+JNIEXPORT void JNICALL Jbvb_sun_tools_bttbch_WindowsVirtublMbchine_enqueue
+  (JNIEnv *env, jclbss cls, jlong hbndle, jbyteArrby stub, jstring cmd,
+   jstring pipenbme, jobjectArrby brgs)
 {
-    DataBlock data;
-    DataBlock* pData;
+    DbtbBlock dbtb;
+    DbtbBlock* pDbtb;
     DWORD* pCode;
     DWORD stubLen;
-    HANDLE hProcess, hThread;
-    jint argsLen, i;
+    HANDLE hProcess, hThrebd;
+    jint brgsLen, i;
     jbyte* stubCode;
-    jboolean isCopy;
+    jboolebn isCopy;
 
     /*
-     * Setup data to copy to target process
+     * Setup dbtb to copy to tbrget process
      */
-    data._GetModuleHandle = _GetModuleHandle;
-    data._GetProcAddress = _GetProcAddress;
+    dbtb._GetModuleHbndle = _GetModuleHbndle;
+    dbtb._GetProcAddress = _GetProcAddress;
 
-    strcpy(data.jvmLib, "jvm");
-    strcpy(data.func1, "JVM_EnqueueOperation");
-    strcpy(data.func2, "_JVM_EnqueueOperation@20");
+    strcpy(dbtb.jvmLib, "jvm");
+    strcpy(dbtb.func1, "JVM_EnqueueOperbtion");
+    strcpy(dbtb.func2, "_JVM_EnqueueOperbtion@20");
 
     /*
-     * Command and arguments
+     * Commbnd bnd brguments
      */
-    jstring_to_cstring(env, cmd, data.cmd, MAX_CMD_LENGTH);
-    argsLen = (*env)->GetArrayLength(env, args);
+    jstring_to_cstring(env, cmd, dbtb.cmd, MAX_CMD_LENGTH);
+    brgsLen = (*env)->GetArrbyLength(env, brgs);
 
-    if (argsLen > 0) {
-        if (argsLen > MAX_ARGS) {
-            JNU_ThrowInternalError(env, "Too many arguments");
+    if (brgsLen > 0) {
+        if (brgsLen > MAX_ARGS) {
+            JNU_ThrowInternblError(env, "Too mbny brguments");
             return;
         }
-        for (i=0; i<argsLen; i++) {
-            jobject obj = (*env)->GetObjectArrayElement(env, args, i);
+        for (i=0; i<brgsLen; i++) {
+            jobject obj = (*env)->GetObjectArrbyElement(env, brgs, i);
             if (obj == NULL) {
-                data.arg[i][0] = '\0';
+                dbtb.brg[i][0] = '\0';
             } else {
-                jstring_to_cstring(env, obj, data.arg[i], MAX_ARG_LENGTH);
+                jstring_to_cstring(env, obj, dbtb.brg[i], MAX_ARG_LENGTH);
             }
             if ((*env)->ExceptionOccurred(env)) return;
         }
     }
-    for (i=argsLen; i<MAX_ARGS; i++) {
-        data.arg[i][0] = '\0';
+    for (i=brgsLen; i<MAX_ARGS; i++) {
+        dbtb.brg[i][0] = '\0';
     }
 
-    /* pipe name */
-    jstring_to_cstring(env, pipename, data.pipename, MAX_PIPE_NAME_LENGTH);
+    /* pipe nbme */
+    jstring_to_cstring(env, pipenbme, dbtb.pipenbme, MAX_PIPE_NAME_LENGTH);
 
     /*
-     * Allocate memory in target process for data and code stub
-     * (assumed aligned and matches architecture of target process)
+     * Allocbte memory in tbrget process for dbtb bnd code stub
+     * (bssumed bligned bnd mbtches brchitecture of tbrget process)
      */
-    hProcess = (HANDLE)handle;
+    hProcess = (HANDLE)hbndle;
 
-    pData = (DataBlock*) VirtualAllocEx( hProcess, 0, sizeof(DataBlock), MEM_COMMIT, PAGE_READWRITE );
-    if (pData == NULL) {
-        JNU_ThrowIOExceptionWithLastError(env, "VirtualAllocEx failed");
+    pDbtb = (DbtbBlock*) VirtublAllocEx( hProcess, 0, sizeof(DbtbBlock), MEM_COMMIT, PAGE_READWRITE );
+    if (pDbtb == NULL) {
+        JNU_ThrowIOExceptionWithLbstError(env, "VirtublAllocEx fbiled");
         return;
     }
-    WriteProcessMemory( hProcess, (LPVOID)pData, (LPCVOID)&data, (SIZE_T)sizeof(DataBlock), NULL );
+    WriteProcessMemory( hProcess, (LPVOID)pDbtb, (LPCVOID)&dbtb, (SIZE_T)sizeof(DbtbBlock), NULL );
 
 
-    stubLen = (DWORD)(*env)->GetArrayLength(env, stub);
-    stubCode = (*env)->GetByteArrayElements(env, stub, &isCopy);
+    stubLen = (DWORD)(*env)->GetArrbyLength(env, stub);
+    stubCode = (*env)->GetByteArrbyElements(env, stub, &isCopy);
 
     if ((*env)->ExceptionOccurred(env)) return;
 
-    pCode = (PDWORD) VirtualAllocEx( hProcess, 0, stubLen, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+    pCode = (PDWORD) VirtublAllocEx( hProcess, 0, stubLen, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
     if (pCode == NULL) {
-        JNU_ThrowIOExceptionWithLastError(env, "VirtualAllocEx failed");
-        VirtualFreeEx(hProcess, pData, 0, MEM_RELEASE);
+        JNU_ThrowIOExceptionWithLbstError(env, "VirtublAllocEx fbiled");
+        VirtublFreeEx(hProcess, pDbtb, 0, MEM_RELEASE);
         return;
     }
     WriteProcessMemory( hProcess, (LPVOID)pCode, (LPCVOID)stubCode, (SIZE_T)stubLen, NULL );
     if (isCopy) {
-        (*env)->ReleaseByteArrayElements(env, stub, stubCode, JNI_ABORT);
+        (*env)->RelebseByteArrbyElements(env, stub, stubCode, JNI_ABORT);
     }
 
     /*
-     * Create thread in target process to execute code
+     * Crebte threbd in tbrget process to execute code
      */
-    hThread = CreateRemoteThread( hProcess,
+    hThrebd = CrebteRemoteThrebd( hProcess,
                                   NULL,
                                   0,
                                   (LPTHREAD_START_ROUTINE) pCode,
-                                  pData,
+                                  pDbtb,
                                   0,
                                   NULL );
-    if (hThread != NULL) {
-        if (WaitForSingleObject(hThread, INFINITE) != WAIT_OBJECT_0) {
-            JNU_ThrowIOExceptionWithLastError(env, "WaitForSingleObject failed");
+    if (hThrebd != NULL) {
+        if (WbitForSingleObject(hThrebd, INFINITE) != WAIT_OBJECT_0) {
+            JNU_ThrowIOExceptionWithLbstError(env, "WbitForSingleObject fbiled");
         } else {
             DWORD exitCode;
-            GetExitCodeThread(hThread, &exitCode);
+            GetExitCodeThrebd(hThrebd, &exitCode);
             if (exitCode) {
                 switch (exitCode) {
-                    case ERR_OPEN_JVM_FAIL :
+                    cbse ERR_OPEN_JVM_FAIL :
                         JNU_ThrowIOException(env,
-                            "jvm.dll not loaded by target process");
-                        break;
-                    case ERR_GET_ENQUEUE_FUNC_FAIL :
+                            "jvm.dll not lobded by tbrget process");
+                        brebk;
+                    cbse ERR_GET_ENQUEUE_FUNC_FAIL :
                         JNU_ThrowIOException(env,
-                            "Unable to enqueue operation: the target VM does not support attach mechanism");
-                        break;
-                    default :
-                        JNU_ThrowInternalError(env,
-                            "Remote thread failed for unknown reason");
+                            "Unbble to enqueue operbtion: the tbrget VM does not support bttbch mechbnism");
+                        brebk;
+                    defbult :
+                        JNU_ThrowInternblError(env,
+                            "Remote threbd fbiled for unknown rebson");
                 }
             }
         }
-        CloseHandle(hThread);
+        CloseHbndle(hThrebd);
     } else {
-        if (GetLastError() == ERROR_NOT_ENOUGH_MEMORY) {
+        if (GetLbstError() == ERROR_NOT_ENOUGH_MEMORY) {
             //
-            // This error will occur when attaching to a process belonging to
-            // another terminal session. See "Remarks":
-            // http://msdn.microsoft.com/en-us/library/ms682437%28VS.85%29.aspx
+            // This error will occur when bttbching to b process belonging to
+            // bnother terminbl session. See "Rembrks":
+            // http://msdn.microsoft.com/en-us/librbry/ms682437%28VS.85%29.bspx
             //
             JNU_ThrowIOException(env,
-                "Insufficient memory or insufficient privileges to attach");
+                "Insufficient memory or insufficient privileges to bttbch");
         } else {
-            JNU_ThrowIOExceptionWithLastError(env, "CreateRemoteThread failed");
+            JNU_ThrowIOExceptionWithLbstError(env, "CrebteRemoteThrebd fbiled");
         }
     }
 
-    VirtualFreeEx(hProcess, pCode, 0, MEM_RELEASE);
-    VirtualFreeEx(hProcess, pData, 0, MEM_RELEASE);
+    VirtublFreeEx(hProcess, pCode, 0, MEM_RELEASE);
+    VirtublFreeEx(hProcess, pDbtb, 0, MEM_RELEASE);
 }
 
 /*
- * Attempts to enable the SE_DEBUG_NAME privilege and open the given process.
+ * Attempts to enbble the SE_DEBUG_NAME privilege bnd open the given process.
  */
-static HANDLE
-doPrivilegedOpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProcessId) {
+stbtic HANDLE
+doPrivilegedOpenProcess(DWORD dwDesiredAccess, BOOL bInheritHbndle, DWORD dwProcessId) {
     HANDLE hToken;
     HANDLE hProcess = NULL;
     LUID luid;
@@ -500,24 +500,24 @@ doPrivilegedOpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProc
     DWORD retLength, error;
 
     /*
-     * Get the access token
+     * Get the bccess token
      */
-    if (!OpenThreadToken(GetCurrentThread(),
+    if (!OpenThrebdToken(GetCurrentThrebd(),
                          TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
                          FALSE,
                          &hToken)) {
-        if (GetLastError() != ERROR_NO_TOKEN) {
+        if (GetLbstError() != ERROR_NO_TOKEN) {
             return (HANDLE)NULL;
         }
 
         /*
-         * No access token for the thread so impersonate the security context
+         * No bccess token for the threbd so impersonbte the security context
          * of the process.
          */
-        if (!ImpersonateSelf(SecurityImpersonation)) {
+        if (!ImpersonbteSelf(SecurityImpersonbtion)) {
             return (HANDLE)NULL;
         }
-        if (!OpenThreadToken(GetCurrentThread(),
+        if (!OpenThrebdToken(GetCurrentThrebd(),
                              TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,
                              FALSE,
                              &hToken)) {
@@ -528,15 +528,15 @@ doPrivilegedOpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProc
     /*
      * Get LUID for the privilege
      */
-    if(!LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &luid)) {
-        error = GetLastError();
-        CloseHandle(hToken);
-        SetLastError(error);
+    if(!LookupPrivilegeVblue(NULL, SE_DEBUG_NAME, &luid)) {
+        error = GetLbstError();
+        CloseHbndle(hToken);
+        SetLbstError(error);
         return (HANDLE)NULL;
     }
 
     /*
-     * Enable the privilege
+     * Enbble the privilege
      */
     ZeroMemory(&tp, sizeof(tp));
     tp.PrivilegeCount = 1;
@@ -551,13 +551,13 @@ doPrivilegedOpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProc
                               &tpPrevious,
                               &retLength)) {
         /*
-         * If we enabled the privilege then attempt to open the
+         * If we enbbled the privilege then bttempt to open the
          * process.
          */
-        if (GetLastError() == ERROR_SUCCESS) {
-            hProcess = OpenProcess(dwDesiredAccess, bInheritHandle, dwProcessId);
+        if (GetLbstError() == ERROR_SUCCESS) {
+            hProcess = OpenProcess(dwDesiredAccess, bInheritHbndle, dwProcessId);
             if (hProcess == NULL) {
-                error = GetLastError();
+                error = GetLbstError();
             }
         } else {
             error = ERROR_ACCESS_DENIED;
@@ -573,34 +573,34 @@ doPrivilegedOpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProc
                               NULL,
                               NULL);
     } else {
-        error = GetLastError();
+        error = GetLbstError();
     }
 
 
     /*
-     * Close token and restore error
+     * Close token bnd restore error
      */
-    CloseHandle(hToken);
-    SetLastError(error);
+    CloseHbndle(hToken);
+    SetLbstError(error);
 
     return hProcess;
 }
 
 /* convert jstring to C string */
-static void jstring_to_cstring(JNIEnv* env, jstring jstr, char* cstr, int len) {
-    jboolean isCopy;
-    const char* str;
+stbtic void jstring_to_cstring(JNIEnv* env, jstring jstr, chbr* cstr, int len) {
+    jboolebn isCopy;
+    const chbr* str;
 
     if (jstr == NULL) {
         cstr[0] = '\0';
     } else {
-        str = JNU_GetStringPlatformChars(env, jstr, &isCopy);
+        str = JNU_GetStringPlbtformChbrs(env, jstr, &isCopy);
         if ((*env)->ExceptionOccurred(env)) return;
 
         strncpy(cstr, str, len);
         cstr[len-1] = '\0';
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, jstr, str);
+            JNU_RelebseStringPlbtformChbrs(env, jstr, str);
         }
     }
 }

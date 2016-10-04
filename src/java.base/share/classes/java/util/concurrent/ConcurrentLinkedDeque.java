@@ -1,472 +1,472 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea and Martin Buchholz with assistance from members of
- * JCP JSR-166 Expert Group and released to the public domain, as explained
- * at http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb bnd Mbrtin Buchholz with bssistbnce from members of
+ * JCP JSR-166 Expert Group bnd relebsed to the public dombin, bs explbined
+ * bt http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.util.AbstractCollection;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Queue;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
+import jbvb.util.AbstrbctCollection;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Deque;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Queue;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.Consumer;
 
 /**
- * An unbounded concurrent {@linkplain Deque deque} based on linked nodes.
- * Concurrent insertion, removal, and access operations execute safely
- * across multiple threads.
- * A {@code ConcurrentLinkedDeque} is an appropriate choice when
- * many threads will share access to a common collection.
- * Like most other concurrent collection implementations, this class
+ * An unbounded concurrent {@linkplbin Deque deque} bbsed on linked nodes.
+ * Concurrent insertion, removbl, bnd bccess operbtions execute sbfely
+ * bcross multiple threbds.
+ * A {@code ConcurrentLinkedDeque} is bn bppropribte choice when
+ * mbny threbds will shbre bccess to b common collection.
+ * Like most other concurrent collection implementbtions, this clbss
  * does not permit the use of {@code null} elements.
  *
- * <p>Iterators and spliterators are
- * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+ * <p>Iterbtors bnd spliterbtors bre
+ * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
  *
- * <p>Beware that, unlike in most collections, the {@code size} method
- * is <em>NOT</em> a constant-time operation. Because of the
- * asynchronous nature of these deques, determining the current number
- * of elements requires a traversal of the elements, and so may report
- * inaccurate results if this collection is modified during traversal.
- * Additionally, the bulk operations {@code addAll},
- * {@code removeAll}, {@code retainAll}, {@code containsAll},
- * {@code equals}, and {@code toArray} are <em>not</em> guaranteed
- * to be performed atomically. For example, an iterator operating
- * concurrently with an {@code addAll} operation might view only some
- * of the added elements.
+ * <p>Bewbre thbt, unlike in most collections, the {@code size} method
+ * is <em>NOT</em> b constbnt-time operbtion. Becbuse of the
+ * bsynchronous nbture of these deques, determining the current number
+ * of elements requires b trbversbl of the elements, bnd so mby report
+ * inbccurbte results if this collection is modified during trbversbl.
+ * Additionblly, the bulk operbtions {@code bddAll},
+ * {@code removeAll}, {@code retbinAll}, {@code contbinsAll},
+ * {@code equbls}, bnd {@code toArrby} bre <em>not</em> gubrbnteed
+ * to be performed btomicblly. For exbmple, bn iterbtor operbting
+ * concurrently with bn {@code bddAll} operbtion might view only some
+ * of the bdded elements.
  *
- * <p>This class and its iterator implement all of the <em>optional</em>
- * methods of the {@link Deque} and {@link Iterator} interfaces.
+ * <p>This clbss bnd its iterbtor implement bll of the <em>optionbl</em>
+ * methods of the {@link Deque} bnd {@link Iterbtor} interfbces.
  *
  * <p>Memory consistency effects: As with other concurrent collections,
- * actions in a thread prior to placing an object into a
+ * bctions in b threbd prior to plbcing bn object into b
  * {@code ConcurrentLinkedDeque}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions subsequent to the access or removal of that element from
- * the {@code ConcurrentLinkedDeque} in another thread.
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * bctions subsequent to the bccess or removbl of thbt element from
+ * the {@code ConcurrentLinkedDeque} in bnother threbd.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.7
- * @author Doug Lea
- * @author Martin Buchholz
- * @param <E> the type of elements held in this collection
+ * @buthor Doug Leb
+ * @buthor Mbrtin Buchholz
+ * @pbrbm <E> the type of elements held in this collection
  */
-public class ConcurrentLinkedDeque<E>
-    extends AbstractCollection<E>
-    implements Deque<E>, java.io.Serializable {
+public clbss ConcurrentLinkedDeque<E>
+    extends AbstrbctCollection<E>
+    implements Deque<E>, jbvb.io.Seriblizbble {
 
     /*
-     * This is an implementation of a concurrent lock-free deque
-     * supporting interior removes but not interior insertions, as
-     * required to support the entire Deque interface.
+     * This is bn implementbtion of b concurrent lock-free deque
+     * supporting interior removes but not interior insertions, bs
+     * required to support the entire Deque interfbce.
      *
-     * We extend the techniques developed for ConcurrentLinkedQueue and
-     * LinkedTransferQueue (see the internal docs for those classes).
-     * Understanding the ConcurrentLinkedQueue implementation is a
-     * prerequisite for understanding the implementation of this class.
+     * We extend the techniques developed for ConcurrentLinkedQueue bnd
+     * LinkedTrbnsferQueue (see the internbl docs for those clbsses).
+     * Understbnding the ConcurrentLinkedQueue implementbtion is b
+     * prerequisite for understbnding the implementbtion of this clbss.
      *
-     * The data structure is a symmetrical doubly-linked "GC-robust"
-     * linked list of nodes.  We minimize the number of volatile writes
-     * using two techniques: advancing multiple hops with a single CAS
-     * and mixing volatile and non-volatile writes of the same memory
-     * locations.
+     * The dbtb structure is b symmetricbl doubly-linked "GC-robust"
+     * linked list of nodes.  We minimize the number of volbtile writes
+     * using two techniques: bdvbncing multiple hops with b single CAS
+     * bnd mixing volbtile bnd non-volbtile writes of the sbme memory
+     * locbtions.
      *
-     * A node contains the expected E ("item") and links to predecessor
-     * ("prev") and successor ("next") nodes:
+     * A node contbins the expected E ("item") bnd links to predecessor
+     * ("prev") bnd successor ("next") nodes:
      *
-     * class Node<E> { volatile Node<E> prev, next; volatile E item; }
+     * clbss Node<E> { volbtile Node<E> prev, next; volbtile E item; }
      *
-     * A node p is considered "live" if it contains a non-null item
-     * (p.item != null).  When an item is CASed to null, the item is
-     * atomically logically deleted from the collection.
+     * A node p is considered "live" if it contbins b non-null item
+     * (p.item != null).  When bn item is CASed to null, the item is
+     * btomicblly logicblly deleted from the collection.
      *
-     * At any time, there is precisely one "first" node with a null
-     * prev reference that terminates any chain of prev references
-     * starting at a live node.  Similarly there is precisely one
-     * "last" node terminating any chain of next references starting at
-     * a live node.  The "first" and "last" nodes may or may not be live.
-     * The "first" and "last" nodes are always mutually reachable.
+     * At bny time, there is precisely one "first" node with b null
+     * prev reference thbt terminbtes bny chbin of prev references
+     * stbrting bt b live node.  Similbrly there is precisely one
+     * "lbst" node terminbting bny chbin of next references stbrting bt
+     * b live node.  The "first" bnd "lbst" nodes mby or mby not be live.
+     * The "first" bnd "lbst" nodes bre blwbys mutublly rebchbble.
      *
-     * A new element is added atomically by CASing the null prev or
-     * next reference in the first or last node to a fresh node
-     * containing the element.  The element's node atomically becomes
-     * "live" at that point.
+     * A new element is bdded btomicblly by CASing the null prev or
+     * next reference in the first or lbst node to b fresh node
+     * contbining the element.  The element's node btomicblly becomes
+     * "live" bt thbt point.
      *
-     * A node is considered "active" if it is a live node, or the
-     * first or last node.  Active nodes cannot be unlinked.
+     * A node is considered "bctive" if it is b live node, or the
+     * first or lbst node.  Active nodes cbnnot be unlinked.
      *
-     * A "self-link" is a next or prev reference that is the same node:
+     * A "self-link" is b next or prev reference thbt is the sbme node:
      *   p.prev == p  or  p.next == p
-     * Self-links are used in the node unlinking process.  Active nodes
-     * never have self-links.
+     * Self-links bre used in the node unlinking process.  Active nodes
+     * never hbve self-links.
      *
-     * A node p is active if and only if:
+     * A node p is bctive if bnd only if:
      *
      * p.item != null ||
      * (p.prev == null && p.next != p) ||
      * (p.next == null && p.prev != p)
      *
-     * The deque object has two node references, "head" and "tail".
-     * The head and tail are only approximations to the first and last
-     * nodes of the deque.  The first node can always be found by
-     * following prev pointers from head; likewise for tail.  However,
-     * it is permissible for head and tail to be referring to deleted
-     * nodes that have been unlinked and so may not be reachable from
-     * any live node.
+     * The deque object hbs two node references, "hebd" bnd "tbil".
+     * The hebd bnd tbil bre only bpproximbtions to the first bnd lbst
+     * nodes of the deque.  The first node cbn blwbys be found by
+     * following prev pointers from hebd; likewise for tbil.  However,
+     * it is permissible for hebd bnd tbil to be referring to deleted
+     * nodes thbt hbve been unlinked bnd so mby not be rebchbble from
+     * bny live node.
      *
-     * There are 3 stages of node deletion;
-     * "logical deletion", "unlinking", and "gc-unlinking".
+     * There bre 3 stbges of node deletion;
+     * "logicbl deletion", "unlinking", bnd "gc-unlinking".
      *
-     * 1. "logical deletion" by CASing item to null atomically removes
-     * the element from the collection, and makes the containing node
+     * 1. "logicbl deletion" by CASing item to null btomicblly removes
+     * the element from the collection, bnd mbkes the contbining node
      * eligible for unlinking.
      *
-     * 2. "unlinking" makes a deleted node unreachable from active
-     * nodes, and thus eventually reclaimable by GC.  Unlinked nodes
-     * may remain reachable indefinitely from an iterator.
+     * 2. "unlinking" mbkes b deleted node unrebchbble from bctive
+     * nodes, bnd thus eventublly reclbimbble by GC.  Unlinked nodes
+     * mby rembin rebchbble indefinitely from bn iterbtor.
      *
-     * Physical node unlinking is merely an optimization (albeit a
-     * critical one), and so can be performed at our convenience.  At
-     * any time, the set of live nodes maintained by prev and next
-     * links are identical, that is, the live nodes found via next
-     * links from the first node is equal to the elements found via
-     * prev links from the last node.  However, this is not true for
-     * nodes that have already been logically deleted - such nodes may
-     * be reachable in one direction only.
+     * Physicbl node unlinking is merely bn optimizbtion (blbeit b
+     * criticbl one), bnd so cbn be performed bt our convenience.  At
+     * bny time, the set of live nodes mbintbined by prev bnd next
+     * links bre identicbl, thbt is, the live nodes found vib next
+     * links from the first node is equbl to the elements found vib
+     * prev links from the lbst node.  However, this is not true for
+     * nodes thbt hbve blrebdy been logicblly deleted - such nodes mby
+     * be rebchbble in one direction only.
      *
-     * 3. "gc-unlinking" takes unlinking further by making active
-     * nodes unreachable from deleted nodes, making it easier for the
-     * GC to reclaim future deleted nodes.  This step makes the data
-     * structure "gc-robust", as first described in detail by Boehm
-     * (http://portal.acm.org/citation.cfm?doid=503272.503282).
+     * 3. "gc-unlinking" tbkes unlinking further by mbking bctive
+     * nodes unrebchbble from deleted nodes, mbking it ebsier for the
+     * GC to reclbim future deleted nodes.  This step mbkes the dbtb
+     * structure "gc-robust", bs first described in detbil by Boehm
+     * (http://portbl.bcm.org/citbtion.cfm?doid=503272.503282).
      *
-     * GC-unlinked nodes may remain reachable indefinitely from an
-     * iterator, but unlike unlinked nodes, are never reachable from
-     * head or tail.
+     * GC-unlinked nodes mby rembin rebchbble indefinitely from bn
+     * iterbtor, but unlike unlinked nodes, bre never rebchbble from
+     * hebd or tbil.
      *
-     * Making the data structure GC-robust will eliminate the risk of
-     * unbounded memory retention with conservative GCs and is likely
-     * to improve performance with generational GCs.
+     * Mbking the dbtb structure GC-robust will eliminbte the risk of
+     * unbounded memory retention with conservbtive GCs bnd is likely
+     * to improve performbnce with generbtionbl GCs.
      *
-     * When a node is dequeued at either end, e.g. via poll(), we would
-     * like to break any references from the node to active nodes.  We
-     * develop further the use of self-links that was very effective in
-     * other concurrent collection classes.  The idea is to replace
-     * prev and next pointers with special values that are interpreted
-     * to mean off-the-list-at-one-end.  These are approximations, but
-     * good enough to preserve the properties we want in our
-     * traversals, e.g. we guarantee that a traversal will never visit
-     * the same element twice, but we don't guarantee whether a
-     * traversal that runs out of elements will be able to see more
-     * elements later after enqueues at that end.  Doing gc-unlinking
-     * safely is particularly tricky, since any node can be in use
-     * indefinitely (for example by an iterator).  We must ensure that
-     * the nodes pointed at by head/tail never get gc-unlinked, since
-     * head/tail are needed to get "back on track" by other nodes that
-     * are gc-unlinked.  gc-unlinking accounts for much of the
-     * implementation complexity.
+     * When b node is dequeued bt either end, e.g. vib poll(), we would
+     * like to brebk bny references from the node to bctive nodes.  We
+     * develop further the use of self-links thbt wbs very effective in
+     * other concurrent collection clbsses.  The ideb is to replbce
+     * prev bnd next pointers with specibl vblues thbt bre interpreted
+     * to mebn off-the-list-bt-one-end.  These bre bpproximbtions, but
+     * good enough to preserve the properties we wbnt in our
+     * trbversbls, e.g. we gubrbntee thbt b trbversbl will never visit
+     * the sbme element twice, but we don't gubrbntee whether b
+     * trbversbl thbt runs out of elements will be bble to see more
+     * elements lbter bfter enqueues bt thbt end.  Doing gc-unlinking
+     * sbfely is pbrticulbrly tricky, since bny node cbn be in use
+     * indefinitely (for exbmple by bn iterbtor).  We must ensure thbt
+     * the nodes pointed bt by hebd/tbil never get gc-unlinked, since
+     * hebd/tbil bre needed to get "bbck on trbck" by other nodes thbt
+     * bre gc-unlinked.  gc-unlinking bccounts for much of the
+     * implementbtion complexity.
      *
-     * Since neither unlinking nor gc-unlinking are necessary for
-     * correctness, there are many implementation choices regarding
-     * frequency (eagerness) of these operations.  Since volatile
-     * reads are likely to be much cheaper than CASes, saving CASes by
-     * unlinking multiple adjacent nodes at a time may be a win.
-     * gc-unlinking can be performed rarely and still be effective,
-     * since it is most important that long chains of deleted nodes
-     * are occasionally broken.
+     * Since neither unlinking nor gc-unlinking bre necessbry for
+     * correctness, there bre mbny implementbtion choices regbrding
+     * frequency (ebgerness) of these operbtions.  Since volbtile
+     * rebds bre likely to be much chebper thbn CASes, sbving CASes by
+     * unlinking multiple bdjbcent nodes bt b time mby be b win.
+     * gc-unlinking cbn be performed rbrely bnd still be effective,
+     * since it is most importbnt thbt long chbins of deleted nodes
+     * bre occbsionblly broken.
      *
-     * The actual representation we use is that p.next == p means to
-     * goto the first node (which in turn is reached by following prev
-     * pointers from head), and p.next == null && p.prev == p means
-     * that the iteration is at an end and that p is a (static final)
-     * dummy node, NEXT_TERMINATOR, and not the last active node.
-     * Finishing the iteration when encountering such a TERMINATOR is
-     * good enough for read-only traversals, so such traversals can use
-     * p.next == null as the termination condition.  When we need to
-     * find the last (active) node, for enqueueing a new node, we need
-     * to check whether we have reached a TERMINATOR node; if so,
-     * restart traversal from tail.
+     * The bctubl representbtion we use is thbt p.next == p mebns to
+     * goto the first node (which in turn is rebched by following prev
+     * pointers from hebd), bnd p.next == null && p.prev == p mebns
+     * thbt the iterbtion is bt bn end bnd thbt p is b (stbtic finbl)
+     * dummy node, NEXT_TERMINATOR, bnd not the lbst bctive node.
+     * Finishing the iterbtion when encountering such b TERMINATOR is
+     * good enough for rebd-only trbversbls, so such trbversbls cbn use
+     * p.next == null bs the terminbtion condition.  When we need to
+     * find the lbst (bctive) node, for enqueueing b new node, we need
+     * to check whether we hbve rebched b TERMINATOR node; if so,
+     * restbrt trbversbl from tbil.
      *
-     * The implementation is completely directionally symmetrical,
-     * except that most public methods that iterate through the list
-     * follow next pointers ("forward" direction).
+     * The implementbtion is completely directionblly symmetricbl,
+     * except thbt most public methods thbt iterbte through the list
+     * follow next pointers ("forwbrd" direction).
      *
-     * We believe (without full proof) that all single-element deque
-     * operations (e.g., addFirst, peekLast, pollLast) are linearizable
-     * (see Herlihy and Shavit's book).  However, some combinations of
-     * operations are known not to be linearizable.  In particular,
-     * when an addFirst(A) is racing with pollFirst() removing B, it is
-     * possible for an observer iterating over the elements to observe
-     * A B C and subsequently observe A C, even though no interior
-     * removes are ever performed.  Nevertheless, iterators behave
-     * reasonably, providing the "weakly consistent" guarantees.
+     * We believe (without full proof) thbt bll single-element deque
+     * operbtions (e.g., bddFirst, peekLbst, pollLbst) bre linebrizbble
+     * (see Herlihy bnd Shbvit's book).  However, some combinbtions of
+     * operbtions bre known not to be linebrizbble.  In pbrticulbr,
+     * when bn bddFirst(A) is rbcing with pollFirst() removing B, it is
+     * possible for bn observer iterbting over the elements to observe
+     * A B C bnd subsequently observe A C, even though no interior
+     * removes bre ever performed.  Nevertheless, iterbtors behbve
+     * rebsonbbly, providing the "webkly consistent" gubrbntees.
      *
-     * Empirically, microbenchmarks suggest that this class adds about
-     * 40% overhead relative to ConcurrentLinkedQueue, which feels as
-     * good as we can hope for.
+     * Empiricblly, microbenchmbrks suggest thbt this clbss bdds bbout
+     * 40% overhebd relbtive to ConcurrentLinkedQueue, which feels bs
+     * good bs we cbn hope for.
      */
 
-    private static final long serialVersionUID = 876323262645176354L;
+    privbte stbtic finbl long seriblVersionUID = 876323262645176354L;
 
     /**
-     * A node from which the first node on list (that is, the unique node p
-     * with p.prev == null && p.next != p) can be reached in O(1) time.
-     * Invariants:
-     * - the first node is always O(1) reachable from head via prev links
-     * - all live nodes are reachable from the first node via succ()
-     * - head != null
-     * - (tmp = head).next != tmp || tmp != head
-     * - head is never gc-unlinked (but may be unlinked)
-     * Non-invariants:
-     * - head.item may or may not be null
-     * - head may not be reachable from the first or last node, or from tail
+     * A node from which the first node on list (thbt is, the unique node p
+     * with p.prev == null && p.next != p) cbn be rebched in O(1) time.
+     * Invbribnts:
+     * - the first node is blwbys O(1) rebchbble from hebd vib prev links
+     * - bll live nodes bre rebchbble from the first node vib succ()
+     * - hebd != null
+     * - (tmp = hebd).next != tmp || tmp != hebd
+     * - hebd is never gc-unlinked (but mby be unlinked)
+     * Non-invbribnts:
+     * - hebd.item mby or mby not be null
+     * - hebd mby not be rebchbble from the first or lbst node, or from tbil
      */
-    private transient volatile Node<E> head;
+    privbte trbnsient volbtile Node<E> hebd;
 
     /**
-     * A node from which the last node on list (that is, the unique node p
-     * with p.next == null && p.prev != p) can be reached in O(1) time.
-     * Invariants:
-     * - the last node is always O(1) reachable from tail via next links
-     * - all live nodes are reachable from the last node via pred()
-     * - tail != null
-     * - tail is never gc-unlinked (but may be unlinked)
-     * Non-invariants:
-     * - tail.item may or may not be null
-     * - tail may not be reachable from the first or last node, or from head
+     * A node from which the lbst node on list (thbt is, the unique node p
+     * with p.next == null && p.prev != p) cbn be rebched in O(1) time.
+     * Invbribnts:
+     * - the lbst node is blwbys O(1) rebchbble from tbil vib next links
+     * - bll live nodes bre rebchbble from the lbst node vib pred()
+     * - tbil != null
+     * - tbil is never gc-unlinked (but mby be unlinked)
+     * Non-invbribnts:
+     * - tbil.item mby or mby not be null
+     * - tbil mby not be rebchbble from the first or lbst node, or from hebd
      */
-    private transient volatile Node<E> tail;
+    privbte trbnsient volbtile Node<E> tbil;
 
-    private static final Node<Object> PREV_TERMINATOR, NEXT_TERMINATOR;
+    privbte stbtic finbl Node<Object> PREV_TERMINATOR, NEXT_TERMINATOR;
 
-    @SuppressWarnings("unchecked")
-    Node<E> prevTerminator() {
+    @SuppressWbrnings("unchecked")
+    Node<E> prevTerminbtor() {
         return (Node<E>) PREV_TERMINATOR;
     }
 
-    @SuppressWarnings("unchecked")
-    Node<E> nextTerminator() {
+    @SuppressWbrnings("unchecked")
+    Node<E> nextTerminbtor() {
         return (Node<E>) NEXT_TERMINATOR;
     }
 
-    static final class Node<E> {
-        volatile Node<E> prev;
-        volatile E item;
-        volatile Node<E> next;
+    stbtic finbl clbss Node<E> {
+        volbtile Node<E> prev;
+        volbtile E item;
+        volbtile Node<E> next;
 
-        Node() {  // default constructor for NEXT_TERMINATOR, PREV_TERMINATOR
+        Node() {  // defbult constructor for NEXT_TERMINATOR, PREV_TERMINATOR
         }
 
         /**
-         * Constructs a new node.  Uses relaxed write because item can
-         * only be seen after publication via casNext or casPrev.
+         * Constructs b new node.  Uses relbxed write becbuse item cbn
+         * only be seen bfter publicbtion vib cbsNext or cbsPrev.
          */
         Node(E item) {
             UNSAFE.putObject(this, itemOffset, item);
         }
 
-        boolean casItem(E cmp, E val) {
-            return UNSAFE.compareAndSwapObject(this, itemOffset, cmp, val);
+        boolebn cbsItem(E cmp, E vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, itemOffset, cmp, vbl);
         }
 
-        void lazySetNext(Node<E> val) {
-            UNSAFE.putOrderedObject(this, nextOffset, val);
+        void lbzySetNext(Node<E> vbl) {
+            UNSAFE.putOrderedObject(this, nextOffset, vbl);
         }
 
-        boolean casNext(Node<E> cmp, Node<E> val) {
-            return UNSAFE.compareAndSwapObject(this, nextOffset, cmp, val);
+        boolebn cbsNext(Node<E> cmp, Node<E> vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, nextOffset, cmp, vbl);
         }
 
-        void lazySetPrev(Node<E> val) {
-            UNSAFE.putOrderedObject(this, prevOffset, val);
+        void lbzySetPrev(Node<E> vbl) {
+            UNSAFE.putOrderedObject(this, prevOffset, vbl);
         }
 
-        boolean casPrev(Node<E> cmp, Node<E> val) {
-            return UNSAFE.compareAndSwapObject(this, prevOffset, cmp, val);
+        boolebn cbsPrev(Node<E> cmp, Node<E> vbl) {
+            return UNSAFE.compbreAndSwbpObject(this, prevOffset, cmp, vbl);
         }
 
-        // Unsafe mechanics
+        // Unsbfe mechbnics
 
-        private static final sun.misc.Unsafe UNSAFE;
-        private static final long prevOffset;
-        private static final long itemOffset;
-        private static final long nextOffset;
+        privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+        privbte stbtic finbl long prevOffset;
+        privbte stbtic finbl long itemOffset;
+        privbte stbtic finbl long nextOffset;
 
-        static {
+        stbtic {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
-                Class<?> k = Node.class;
+                UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+                Clbss<?> k = Node.clbss;
                 prevOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("prev"));
+                    (k.getDeclbredField("prev"));
                 itemOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("item"));
+                    (k.getDeclbredField("item"));
                 nextOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("next"));
-            } catch (Exception e) {
+                    (k.getDeclbredField("next"));
+            } cbtch (Exception e) {
                 throw new Error(e);
             }
         }
     }
 
     /**
-     * Links e as first element.
+     * Links e bs first element.
      */
-    private void linkFirst(E e) {
+    privbte void linkFirst(E e) {
         checkNotNull(e);
-        final Node<E> newNode = new Node<E>(e);
+        finbl Node<E> newNode = new Node<E>(e);
 
-        restartFromHead:
+        restbrtFromHebd:
         for (;;)
-            for (Node<E> h = head, p = h, q;;) {
+            for (Node<E> h = hebd, p = h, q;;) {
                 if ((q = p.prev) != null &&
                     (q = (p = q).prev) != null)
-                    // Check for head updates every other hop.
-                    // If p == q, we are sure to follow head instead.
-                    p = (h != (h = head)) ? h : q;
+                    // Check for hebd updbtes every other hop.
+                    // If p == q, we bre sure to follow hebd instebd.
+                    p = (h != (h = hebd)) ? h : q;
                 else if (p.next == p) // PREV_TERMINATOR
-                    continue restartFromHead;
+                    continue restbrtFromHebd;
                 else {
                     // p is first node
-                    newNode.lazySetNext(p); // CAS piggyback
-                    if (p.casPrev(null, newNode)) {
-                        // Successful CAS is the linearization point
-                        // for e to become an element of this deque,
-                        // and for newNode to become "live".
-                        if (p != h) // hop two nodes at a time
-                            casHead(h, newNode);  // Failure is OK.
+                    newNode.lbzySetNext(p); // CAS piggybbck
+                    if (p.cbsPrev(null, newNode)) {
+                        // Successful CAS is the linebrizbtion point
+                        // for e to become bn element of this deque,
+                        // bnd for newNode to become "live".
+                        if (p != h) // hop two nodes bt b time
+                            cbsHebd(h, newNode);  // Fbilure is OK.
                         return;
                     }
-                    // Lost CAS race to another thread; re-read prev
+                    // Lost CAS rbce to bnother threbd; re-rebd prev
                 }
             }
     }
 
     /**
-     * Links e as last element.
+     * Links e bs lbst element.
      */
-    private void linkLast(E e) {
+    privbte void linkLbst(E e) {
         checkNotNull(e);
-        final Node<E> newNode = new Node<E>(e);
+        finbl Node<E> newNode = new Node<E>(e);
 
-        restartFromTail:
+        restbrtFromTbil:
         for (;;)
-            for (Node<E> t = tail, p = t, q;;) {
+            for (Node<E> t = tbil, p = t, q;;) {
                 if ((q = p.next) != null &&
                     (q = (p = q).next) != null)
-                    // Check for tail updates every other hop.
-                    // If p == q, we are sure to follow tail instead.
-                    p = (t != (t = tail)) ? t : q;
+                    // Check for tbil updbtes every other hop.
+                    // If p == q, we bre sure to follow tbil instebd.
+                    p = (t != (t = tbil)) ? t : q;
                 else if (p.prev == p) // NEXT_TERMINATOR
-                    continue restartFromTail;
+                    continue restbrtFromTbil;
                 else {
-                    // p is last node
-                    newNode.lazySetPrev(p); // CAS piggyback
-                    if (p.casNext(null, newNode)) {
-                        // Successful CAS is the linearization point
-                        // for e to become an element of this deque,
-                        // and for newNode to become "live".
-                        if (p != t) // hop two nodes at a time
-                            casTail(t, newNode);  // Failure is OK.
+                    // p is lbst node
+                    newNode.lbzySetPrev(p); // CAS piggybbck
+                    if (p.cbsNext(null, newNode)) {
+                        // Successful CAS is the linebrizbtion point
+                        // for e to become bn element of this deque,
+                        // bnd for newNode to become "live".
+                        if (p != t) // hop two nodes bt b time
+                            cbsTbil(t, newNode);  // Fbilure is OK.
                         return;
                     }
-                    // Lost CAS race to another thread; re-read next
+                    // Lost CAS rbce to bnother threbd; re-rebd next
                 }
             }
     }
 
-    private static final int HOPS = 2;
+    privbte stbtic finbl int HOPS = 2;
 
     /**
      * Unlinks non-null node x.
      */
     void unlink(Node<E> x) {
-        // assert x != null;
-        // assert x.item == null;
-        // assert x != PREV_TERMINATOR;
-        // assert x != NEXT_TERMINATOR;
+        // bssert x != null;
+        // bssert x.item == null;
+        // bssert x != PREV_TERMINATOR;
+        // bssert x != NEXT_TERMINATOR;
 
-        final Node<E> prev = x.prev;
-        final Node<E> next = x.next;
+        finbl Node<E> prev = x.prev;
+        finbl Node<E> next = x.next;
         if (prev == null) {
             unlinkFirst(x, next);
         } else if (next == null) {
-            unlinkLast(x, prev);
+            unlinkLbst(x, prev);
         } else {
             // Unlink interior node.
             //
-            // This is the common case, since a series of polls at the
-            // same end will be "interior" removes, except perhaps for
-            // the first one, since end nodes cannot be unlinked.
+            // This is the common cbse, since b series of polls bt the
+            // sbme end will be "interior" removes, except perhbps for
+            // the first one, since end nodes cbnnot be unlinked.
             //
-            // At any time, all active nodes are mutually reachable by
-            // following a sequence of either next or prev pointers.
+            // At bny time, bll bctive nodes bre mutublly rebchbble by
+            // following b sequence of either next or prev pointers.
             //
-            // Our strategy is to find the unique active predecessor
-            // and successor of x.  Try to fix up their links so that
-            // they point to each other, leaving x unreachable from
-            // active nodes.  If successful, and if x has no live
-            // predecessor/successor, we additionally try to gc-unlink,
-            // leaving active nodes unreachable from x, by rechecking
-            // that the status of predecessor and successor are
-            // unchanged and ensuring that x is not reachable from
-            // tail/head, before setting x's prev/next links to their
-            // logical approximate replacements, self/TERMINATOR.
-            Node<E> activePred, activeSucc;
-            boolean isFirst, isLast;
+            // Our strbtegy is to find the unique bctive predecessor
+            // bnd successor of x.  Try to fix up their links so thbt
+            // they point to ebch other, lebving x unrebchbble from
+            // bctive nodes.  If successful, bnd if x hbs no live
+            // predecessor/successor, we bdditionblly try to gc-unlink,
+            // lebving bctive nodes unrebchbble from x, by rechecking
+            // thbt the stbtus of predecessor bnd successor bre
+            // unchbnged bnd ensuring thbt x is not rebchbble from
+            // tbil/hebd, before setting x's prev/next links to their
+            // logicbl bpproximbte replbcements, self/TERMINATOR.
+            Node<E> bctivePred, bctiveSucc;
+            boolebn isFirst, isLbst;
             int hops = 1;
 
-            // Find active predecessor
+            // Find bctive predecessor
             for (Node<E> p = prev; ; ++hops) {
                 if (p.item != null) {
-                    activePred = p;
-                    isFirst = false;
-                    break;
+                    bctivePred = p;
+                    isFirst = fblse;
+                    brebk;
                 }
                 Node<E> q = p.prev;
                 if (q == null) {
                     if (p.next == p)
                         return;
-                    activePred = p;
+                    bctivePred = p;
                     isFirst = true;
-                    break;
+                    brebk;
                 }
                 else if (p == q)
                     return;
@@ -474,20 +474,20 @@ public class ConcurrentLinkedDeque<E>
                     p = q;
             }
 
-            // Find active successor
+            // Find bctive successor
             for (Node<E> p = next; ; ++hops) {
                 if (p.item != null) {
-                    activeSucc = p;
-                    isLast = false;
-                    break;
+                    bctiveSucc = p;
+                    isLbst = fblse;
+                    brebk;
                 }
                 Node<E> q = p.next;
                 if (q == null) {
                     if (p.prev == p)
                         return;
-                    activeSucc = p;
-                    isLast = true;
-                    break;
+                    bctiveSucc = p;
+                    isLbst = true;
+                    brebk;
                 }
                 else if (p == q)
                     return;
@@ -497,30 +497,30 @@ public class ConcurrentLinkedDeque<E>
 
             // TODO: better HOP heuristics
             if (hops < HOPS
-                // always squeeze out interior deleted nodes
-                && (isFirst | isLast))
+                // blwbys squeeze out interior deleted nodes
+                && (isFirst | isLbst))
                 return;
 
-            // Squeeze out deleted nodes between activePred and
-            // activeSucc, including x.
-            skipDeletedSuccessors(activePred);
-            skipDeletedPredecessors(activeSucc);
+            // Squeeze out deleted nodes between bctivePred bnd
+            // bctiveSucc, including x.
+            skipDeletedSuccessors(bctivePred);
+            skipDeletedPredecessors(bctiveSucc);
 
             // Try to gc-unlink, if possible
-            if ((isFirst | isLast) &&
+            if ((isFirst | isLbst) &&
 
-                // Recheck expected state of predecessor and successor
-                (activePred.next == activeSucc) &&
-                (activeSucc.prev == activePred) &&
-                (isFirst ? activePred.prev == null : activePred.item != null) &&
-                (isLast  ? activeSucc.next == null : activeSucc.item != null)) {
+                // Recheck expected stbte of predecessor bnd successor
+                (bctivePred.next == bctiveSucc) &&
+                (bctiveSucc.prev == bctivePred) &&
+                (isFirst ? bctivePred.prev == null : bctivePred.item != null) &&
+                (isLbst  ? bctiveSucc.next == null : bctiveSucc.item != null)) {
 
-                updateHead(); // Ensure x is not reachable from head
-                updateTail(); // Ensure x is not reachable from tail
+                updbteHebd(); // Ensure x is not rebchbble from hebd
+                updbteTbil(); // Ensure x is not rebchbble from tbil
 
-                // Finally, actually gc-unlink
-                x.lazySetPrev(isFirst ? prevTerminator() : x);
-                x.lazySetNext(isLast  ? nextTerminator() : x);
+                // Finblly, bctublly gc-unlink
+                x.lbzySetPrev(isFirst ? prevTerminbtor() : x);
+                x.lbzySetNext(isLbst  ? nextTerminbtor() : x);
             }
         }
     }
@@ -528,24 +528,24 @@ public class ConcurrentLinkedDeque<E>
     /**
      * Unlinks non-null first node.
      */
-    private void unlinkFirst(Node<E> first, Node<E> next) {
-        // assert first != null;
-        // assert next != null;
-        // assert first.item == null;
+    privbte void unlinkFirst(Node<E> first, Node<E> next) {
+        // bssert first != null;
+        // bssert next != null;
+        // bssert first.item == null;
         for (Node<E> o = null, p = next, q;;) {
             if (p.item != null || (q = p.next) == null) {
-                if (o != null && p.prev != p && first.casNext(next, p)) {
+                if (o != null && p.prev != p && first.cbsNext(next, p)) {
                     skipDeletedPredecessors(p);
                     if (first.prev == null &&
                         (p.next == null || p.item != null) &&
                         p.prev == first) {
 
-                        updateHead(); // Ensure o is not reachable from head
-                        updateTail(); // Ensure o is not reachable from tail
+                        updbteHebd(); // Ensure o is not rebchbble from hebd
+                        updbteTbil(); // Ensure o is not rebchbble from tbil
 
-                        // Finally, actually gc-unlink
-                        o.lazySetNext(o);
-                        o.lazySetPrev(prevTerminator());
+                        // Finblly, bctublly gc-unlink
+                        o.lbzySetNext(o);
+                        o.lbzySetPrev(prevTerminbtor());
                     }
                 }
                 return;
@@ -560,26 +560,26 @@ public class ConcurrentLinkedDeque<E>
     }
 
     /**
-     * Unlinks non-null last node.
+     * Unlinks non-null lbst node.
      */
-    private void unlinkLast(Node<E> last, Node<E> prev) {
-        // assert last != null;
-        // assert prev != null;
-        // assert last.item == null;
+    privbte void unlinkLbst(Node<E> lbst, Node<E> prev) {
+        // bssert lbst != null;
+        // bssert prev != null;
+        // bssert lbst.item == null;
         for (Node<E> o = null, p = prev, q;;) {
             if (p.item != null || (q = p.prev) == null) {
-                if (o != null && p.next != p && last.casPrev(prev, p)) {
+                if (o != null && p.next != p && lbst.cbsPrev(prev, p)) {
                     skipDeletedSuccessors(p);
-                    if (last.next == null &&
+                    if (lbst.next == null &&
                         (p.prev == null || p.item != null) &&
-                        p.next == last) {
+                        p.next == lbst) {
 
-                        updateHead(); // Ensure o is not reachable from head
-                        updateTail(); // Ensure o is not reachable from tail
+                        updbteHebd(); // Ensure o is not rebchbble from hebd
+                        updbteTbil(); // Ensure o is not rebchbble from tbil
 
-                        // Finally, actually gc-unlink
-                        o.lazySetPrev(o);
-                        o.lazySetNext(nextTerminator());
+                        // Finblly, bctublly gc-unlink
+                        o.lbzySetPrev(o);
+                        o.lbzySetNext(nextTerminbtor());
                     }
                 }
                 return;
@@ -594,29 +594,29 @@ public class ConcurrentLinkedDeque<E>
     }
 
     /**
-     * Guarantees that any node which was unlinked before a call to
-     * this method will be unreachable from head after it returns.
-     * Does not guarantee to eliminate slack, only that head will
-     * point to a node that was active while this method was running.
+     * Gubrbntees thbt bny node which wbs unlinked before b cbll to
+     * this method will be unrebchbble from hebd bfter it returns.
+     * Does not gubrbntee to eliminbte slbck, only thbt hebd will
+     * point to b node thbt wbs bctive while this method wbs running.
      */
-    private final void updateHead() {
-        // Either head already points to an active node, or we keep
-        // trying to cas it to the first node until it does.
+    privbte finbl void updbteHebd() {
+        // Either hebd blrebdy points to bn bctive node, or we keep
+        // trying to cbs it to the first node until it does.
         Node<E> h, p, q;
-        restartFromHead:
-        while ((h = head).item == null && (p = h.prev) != null) {
+        restbrtFromHebd:
+        while ((h = hebd).item == null && (p = h.prev) != null) {
             for (;;) {
                 if ((q = p.prev) == null ||
                     (q = (p = q).prev) == null) {
-                    // It is possible that p is PREV_TERMINATOR,
-                    // but if so, the CAS is guaranteed to fail.
-                    if (casHead(h, p))
+                    // It is possible thbt p is PREV_TERMINATOR,
+                    // but if so, the CAS is gubrbnteed to fbil.
+                    if (cbsHebd(h, p))
                         return;
                     else
-                        continue restartFromHead;
+                        continue restbrtFromHebd;
                 }
-                else if (h != head)
-                    continue restartFromHead;
+                else if (h != hebd)
+                    continue restbrtFromHebd;
                 else
                     p = q;
             }
@@ -624,52 +624,52 @@ public class ConcurrentLinkedDeque<E>
     }
 
     /**
-     * Guarantees that any node which was unlinked before a call to
-     * this method will be unreachable from tail after it returns.
-     * Does not guarantee to eliminate slack, only that tail will
-     * point to a node that was active while this method was running.
+     * Gubrbntees thbt bny node which wbs unlinked before b cbll to
+     * this method will be unrebchbble from tbil bfter it returns.
+     * Does not gubrbntee to eliminbte slbck, only thbt tbil will
+     * point to b node thbt wbs bctive while this method wbs running.
      */
-    private final void updateTail() {
-        // Either tail already points to an active node, or we keep
-        // trying to cas it to the last node until it does.
+    privbte finbl void updbteTbil() {
+        // Either tbil blrebdy points to bn bctive node, or we keep
+        // trying to cbs it to the lbst node until it does.
         Node<E> t, p, q;
-        restartFromTail:
-        while ((t = tail).item == null && (p = t.next) != null) {
+        restbrtFromTbil:
+        while ((t = tbil).item == null && (p = t.next) != null) {
             for (;;) {
                 if ((q = p.next) == null ||
                     (q = (p = q).next) == null) {
-                    // It is possible that p is NEXT_TERMINATOR,
-                    // but if so, the CAS is guaranteed to fail.
-                    if (casTail(t, p))
+                    // It is possible thbt p is NEXT_TERMINATOR,
+                    // but if so, the CAS is gubrbnteed to fbil.
+                    if (cbsTbil(t, p))
                         return;
                     else
-                        continue restartFromTail;
+                        continue restbrtFromTbil;
                 }
-                else if (t != tail)
-                    continue restartFromTail;
+                else if (t != tbil)
+                    continue restbrtFromTbil;
                 else
                     p = q;
             }
         }
     }
 
-    private void skipDeletedPredecessors(Node<E> x) {
+    privbte void skipDeletedPredecessors(Node<E> x) {
         whileActive:
         do {
             Node<E> prev = x.prev;
-            // assert prev != null;
-            // assert x != NEXT_TERMINATOR;
-            // assert x != PREV_TERMINATOR;
+            // bssert prev != null;
+            // bssert x != NEXT_TERMINATOR;
+            // bssert x != PREV_TERMINATOR;
             Node<E> p = prev;
             findActive:
             for (;;) {
                 if (p.item != null)
-                    break findActive;
+                    brebk findActive;
                 Node<E> q = p.prev;
                 if (q == null) {
                     if (p.next == p)
                         continue whileActive;
-                    break findActive;
+                    brebk findActive;
                 }
                 else if (p == q)
                     continue whileActive;
@@ -677,30 +677,30 @@ public class ConcurrentLinkedDeque<E>
                     p = q;
             }
 
-            // found active CAS target
-            if (prev == p || x.casPrev(prev, p))
+            // found bctive CAS tbrget
+            if (prev == p || x.cbsPrev(prev, p))
                 return;
 
         } while (x.item != null || x.next == null);
     }
 
-    private void skipDeletedSuccessors(Node<E> x) {
+    privbte void skipDeletedSuccessors(Node<E> x) {
         whileActive:
         do {
             Node<E> next = x.next;
-            // assert next != null;
-            // assert x != NEXT_TERMINATOR;
-            // assert x != PREV_TERMINATOR;
+            // bssert next != null;
+            // bssert x != NEXT_TERMINATOR;
+            // bssert x != PREV_TERMINATOR;
             Node<E> p = next;
             findActive:
             for (;;) {
                 if (p.item != null)
-                    break findActive;
+                    brebk findActive;
                 Node<E> q = p.next;
                 if (q == null) {
                     if (p.prev == p)
                         continue whileActive;
-                    break findActive;
+                    brebk findActive;
                 }
                 else if (p == q)
                     continue whileActive;
@@ -708,143 +708,143 @@ public class ConcurrentLinkedDeque<E>
                     p = q;
             }
 
-            // found active CAS target
-            if (next == p || x.casNext(next, p))
+            // found bctive CAS tbrget
+            if (next == p || x.cbsNext(next, p))
                 return;
 
         } while (x.item != null || x.prev == null);
     }
 
     /**
-     * Returns the successor of p, or the first node if p.next has been
-     * linked to self, which will only be true if traversing with a
-     * stale pointer that is now off the list.
+     * Returns the successor of p, or the first node if p.next hbs been
+     * linked to self, which will only be true if trbversing with b
+     * stble pointer thbt is now off the list.
      */
-    final Node<E> succ(Node<E> p) {
+    finbl Node<E> succ(Node<E> p) {
         // TODO: should we skip deleted nodes here?
         Node<E> q = p.next;
         return (p == q) ? first() : q;
     }
 
     /**
-     * Returns the predecessor of p, or the last node if p.prev has been
-     * linked to self, which will only be true if traversing with a
-     * stale pointer that is now off the list.
+     * Returns the predecessor of p, or the lbst node if p.prev hbs been
+     * linked to self, which will only be true if trbversing with b
+     * stble pointer thbt is now off the list.
      */
-    final Node<E> pred(Node<E> p) {
+    finbl Node<E> pred(Node<E> p) {
         Node<E> q = p.prev;
-        return (p == q) ? last() : q;
+        return (p == q) ? lbst() : q;
     }
 
     /**
      * Returns the first node, the unique node p for which:
      *     p.prev == null && p.next != p
-     * The returned node may or may not be logically deleted.
-     * Guarantees that head is set to the returned node.
+     * The returned node mby or mby not be logicblly deleted.
+     * Gubrbntees thbt hebd is set to the returned node.
      */
     Node<E> first() {
-        restartFromHead:
+        restbrtFromHebd:
         for (;;)
-            for (Node<E> h = head, p = h, q;;) {
+            for (Node<E> h = hebd, p = h, q;;) {
                 if ((q = p.prev) != null &&
                     (q = (p = q).prev) != null)
-                    // Check for head updates every other hop.
-                    // If p == q, we are sure to follow head instead.
-                    p = (h != (h = head)) ? h : q;
+                    // Check for hebd updbtes every other hop.
+                    // If p == q, we bre sure to follow hebd instebd.
+                    p = (h != (h = hebd)) ? h : q;
                 else if (p == h
-                         // It is possible that p is PREV_TERMINATOR,
-                         // but if so, the CAS is guaranteed to fail.
-                         || casHead(h, p))
+                         // It is possible thbt p is PREV_TERMINATOR,
+                         // but if so, the CAS is gubrbnteed to fbil.
+                         || cbsHebd(h, p))
                     return p;
                 else
-                    continue restartFromHead;
+                    continue restbrtFromHebd;
             }
     }
 
     /**
-     * Returns the last node, the unique node p for which:
+     * Returns the lbst node, the unique node p for which:
      *     p.next == null && p.prev != p
-     * The returned node may or may not be logically deleted.
-     * Guarantees that tail is set to the returned node.
+     * The returned node mby or mby not be logicblly deleted.
+     * Gubrbntees thbt tbil is set to the returned node.
      */
-    Node<E> last() {
-        restartFromTail:
+    Node<E> lbst() {
+        restbrtFromTbil:
         for (;;)
-            for (Node<E> t = tail, p = t, q;;) {
+            for (Node<E> t = tbil, p = t, q;;) {
                 if ((q = p.next) != null &&
                     (q = (p = q).next) != null)
-                    // Check for tail updates every other hop.
-                    // If p == q, we are sure to follow tail instead.
-                    p = (t != (t = tail)) ? t : q;
+                    // Check for tbil updbtes every other hop.
+                    // If p == q, we bre sure to follow tbil instebd.
+                    p = (t != (t = tbil)) ? t : q;
                 else if (p == t
-                         // It is possible that p is NEXT_TERMINATOR,
-                         // but if so, the CAS is guaranteed to fail.
-                         || casTail(t, p))
+                         // It is possible thbt p is NEXT_TERMINATOR,
+                         // but if so, the CAS is gubrbnteed to fbil.
+                         || cbsTbil(t, p))
                     return p;
                 else
-                    continue restartFromTail;
+                    continue restbrtFromTbil;
             }
     }
 
     // Minor convenience utilities
 
     /**
-     * Throws NullPointerException if argument is null.
+     * Throws NullPointerException if brgument is null.
      *
-     * @param v the element
+     * @pbrbm v the element
      */
-    private static void checkNotNull(Object v) {
+    privbte stbtic void checkNotNull(Object v) {
         if (v == null)
             throw new NullPointerException();
     }
 
     /**
-     * Returns element unless it is null, in which case throws
+     * Returns element unless it is null, in which cbse throws
      * NoSuchElementException.
      *
-     * @param v the element
+     * @pbrbm v the element
      * @return the element
      */
-    private E screenNullResult(E v) {
+    privbte E screenNullResult(E v) {
         if (v == null)
             throw new NoSuchElementException();
         return v;
     }
 
     /**
-     * Creates an array list and fills it with elements of this list.
-     * Used by toArray.
+     * Crebtes bn brrby list bnd fills it with elements of this list.
+     * Used by toArrby.
      *
-     * @return the array list
+     * @return the brrby list
      */
-    private ArrayList<E> toArrayList() {
-        ArrayList<E> list = new ArrayList<E>();
+    privbte ArrbyList<E> toArrbyList() {
+        ArrbyList<E> list = new ArrbyList<E>();
         for (Node<E> p = first(); p != null; p = succ(p)) {
             E item = p.item;
             if (item != null)
-                list.add(item);
+                list.bdd(item);
         }
         return list;
     }
 
     /**
-     * Constructs an empty deque.
+     * Constructs bn empty deque.
      */
     public ConcurrentLinkedDeque() {
-        head = tail = new Node<E>(null);
+        hebd = tbil = new Node<E>(null);
     }
 
     /**
-     * Constructs a deque initially containing the elements of
-     * the given collection, added in traversal order of the
-     * collection's iterator.
+     * Constructs b deque initiblly contbining the elements of
+     * the given collection, bdded in trbversbl order of the
+     * collection's iterbtor.
      *
-     * @param c the collection of elements to initially contain
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm c the collection of elements to initiblly contbin
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
      */
     public ConcurrentLinkedDeque(Collection<? extends E> c) {
-        // Copy c into a private chain of Nodes
+        // Copy c into b privbte chbin of Nodes
         Node<E> h = null, t = null;
         for (E e : c) {
             checkNotNull(e);
@@ -852,80 +852,80 @@ public class ConcurrentLinkedDeque<E>
             if (h == null)
                 h = t = newNode;
             else {
-                t.lazySetNext(newNode);
-                newNode.lazySetPrev(t);
+                t.lbzySetNext(newNode);
+                newNode.lbzySetPrev(t);
                 t = newNode;
             }
         }
-        initHeadTail(h, t);
+        initHebdTbil(h, t);
     }
 
     /**
-     * Initializes head and tail, ensuring invariants hold.
+     * Initiblizes hebd bnd tbil, ensuring invbribnts hold.
      */
-    private void initHeadTail(Node<E> h, Node<E> t) {
+    privbte void initHebdTbil(Node<E> h, Node<E> t) {
         if (h == t) {
             if (h == null)
                 h = t = new Node<E>(null);
             else {
-                // Avoid edge case of a single Node with non-null item.
+                // Avoid edge cbse of b single Node with non-null item.
                 Node<E> newNode = new Node<E>(null);
-                t.lazySetNext(newNode);
-                newNode.lazySetPrev(t);
+                t.lbzySetNext(newNode);
+                newNode.lbzySetPrev(t);
                 t = newNode;
             }
         }
-        head = h;
-        tail = t;
+        hebd = h;
+        tbil = t;
     }
 
     /**
-     * Inserts the specified element at the front of this deque.
+     * Inserts the specified element bt the front of this deque.
      * As the deque is unbounded, this method will never throw
-     * {@link IllegalStateException}.
+     * {@link IllegblStbteException}.
      *
      * @throws NullPointerException if the specified element is null
      */
-    public void addFirst(E e) {
+    public void bddFirst(E e) {
         linkFirst(e);
     }
 
     /**
-     * Inserts the specified element at the end of this deque.
+     * Inserts the specified element bt the end of this deque.
      * As the deque is unbounded, this method will never throw
-     * {@link IllegalStateException}.
+     * {@link IllegblStbteException}.
      *
-     * <p>This method is equivalent to {@link #add}.
+     * <p>This method is equivblent to {@link #bdd}.
      *
      * @throws NullPointerException if the specified element is null
      */
-    public void addLast(E e) {
-        linkLast(e);
+    public void bddLbst(E e) {
+        linkLbst(e);
     }
 
     /**
-     * Inserts the specified element at the front of this deque.
-     * As the deque is unbounded, this method will never return {@code false}.
+     * Inserts the specified element bt the front of this deque.
+     * As the deque is unbounded, this method will never return {@code fblse}.
      *
-     * @return {@code true} (as specified by {@link Deque#offerFirst})
+     * @return {@code true} (bs specified by {@link Deque#offerFirst})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offerFirst(E e) {
+    public boolebn offerFirst(E e) {
         linkFirst(e);
         return true;
     }
 
     /**
-     * Inserts the specified element at the end of this deque.
-     * As the deque is unbounded, this method will never return {@code false}.
+     * Inserts the specified element bt the end of this deque.
+     * As the deque is unbounded, this method will never return {@code fblse}.
      *
-     * <p>This method is equivalent to {@link #add}.
+     * <p>This method is equivblent to {@link #bdd}.
      *
-     * @return {@code true} (as specified by {@link Deque#offerLast})
+     * @return {@code true} (bs specified by {@link Deque#offerLbst})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offerLast(E e) {
-        linkLast(e);
+    public boolebn offerLbst(E e) {
+        linkLbst(e);
         return true;
     }
 
@@ -938,8 +938,8 @@ public class ConcurrentLinkedDeque<E>
         return null;
     }
 
-    public E peekLast() {
-        for (Node<E> p = last(); p != null; p = pred(p)) {
+    public E peekLbst() {
+        for (Node<E> p = lbst(); p != null; p = pred(p)) {
             E item = p.item;
             if (item != null)
                 return item;
@@ -957,14 +957,14 @@ public class ConcurrentLinkedDeque<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
-    public E getLast() {
-        return screenNullResult(peekLast());
+    public E getLbst() {
+        return screenNullResult(peekLbst());
     }
 
     public E pollFirst() {
         for (Node<E> p = first(); p != null; p = succ(p)) {
             E item = p.item;
-            if (item != null && p.casItem(item, null)) {
+            if (item != null && p.cbsItem(item, null)) {
                 unlink(p);
                 return item;
             }
@@ -972,10 +972,10 @@ public class ConcurrentLinkedDeque<E>
         return null;
     }
 
-    public E pollLast() {
-        for (Node<E> p = last(); p != null; p = pred(p)) {
+    public E pollLbst() {
+        for (Node<E> p = lbst(); p != null; p = pred(p)) {
             E item = p.item;
-            if (item != null && p.casItem(item, null)) {
+            if (item != null && p.cbsItem(item, null)) {
                 unlink(p);
                 return item;
             }
@@ -993,33 +993,33 @@ public class ConcurrentLinkedDeque<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
-    public E removeLast() {
-        return screenNullResult(pollLast());
+    public E removeLbst() {
+        return screenNullResult(pollLbst());
     }
 
-    // *** Queue and stack methods ***
+    // *** Queue bnd stbck methods ***
 
     /**
-     * Inserts the specified element at the tail of this deque.
-     * As the deque is unbounded, this method will never return {@code false}.
+     * Inserts the specified element bt the tbil of this deque.
+     * As the deque is unbounded, this method will never return {@code fblse}.
      *
-     * @return {@code true} (as specified by {@link Queue#offer})
+     * @return {@code true} (bs specified by {@link Queue#offer})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offer(E e) {
-        return offerLast(e);
+    public boolebn offer(E e) {
+        return offerLbst(e);
     }
 
     /**
-     * Inserts the specified element at the tail of this deque.
+     * Inserts the specified element bt the tbil of this deque.
      * As the deque is unbounded, this method will never throw
-     * {@link IllegalStateException} or return {@code false}.
+     * {@link IllegblStbteException} or return {@code fblse}.
      *
-     * @return {@code true} (as specified by {@link Collection#add})
+     * @return {@code true} (bs specified by {@link Collection#bdd})
      * @throws NullPointerException if the specified element is null
      */
-    public boolean add(E e) {
-        return offerLast(e);
+    public boolebn bdd(E e) {
+        return offerLbst(e);
     }
 
     public E poll()           { return pollFirst(); }
@@ -1043,89 +1043,89 @@ public class ConcurrentLinkedDeque<E>
     /**
      * @throws NullPointerException {@inheritDoc}
      */
-    public void push(E e)     { addFirst(e); }
+    public void push(E e)     { bddFirst(e); }
 
     /**
-     * Removes the first element {@code e} such that
-     * {@code o.equals(e)}, if such an element exists in this deque.
-     * If the deque does not contain the element, it is unchanged.
+     * Removes the first element {@code e} such thbt
+     * {@code o.equbls(e)}, if such bn element exists in this deque.
+     * If the deque does not contbin the element, it is unchbnged.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if the deque contained the specified element
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if the deque contbined the specified element
      * @throws NullPointerException if the specified element is null
      */
-    public boolean removeFirstOccurrence(Object o) {
+    public boolebn removeFirstOccurrence(Object o) {
         checkNotNull(o);
         for (Node<E> p = first(); p != null; p = succ(p)) {
             E item = p.item;
-            if (item != null && o.equals(item) && p.casItem(item, null)) {
+            if (item != null && o.equbls(item) && p.cbsItem(item, null)) {
                 unlink(p);
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Removes the last element {@code e} such that
-     * {@code o.equals(e)}, if such an element exists in this deque.
-     * If the deque does not contain the element, it is unchanged.
+     * Removes the lbst element {@code e} such thbt
+     * {@code o.equbls(e)}, if such bn element exists in this deque.
+     * If the deque does not contbin the element, it is unchbnged.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if the deque contained the specified element
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if the deque contbined the specified element
      * @throws NullPointerException if the specified element is null
      */
-    public boolean removeLastOccurrence(Object o) {
+    public boolebn removeLbstOccurrence(Object o) {
         checkNotNull(o);
-        for (Node<E> p = last(); p != null; p = pred(p)) {
+        for (Node<E> p = lbst(); p != null; p = pred(p)) {
             E item = p.item;
-            if (item != null && o.equals(item) && p.casItem(item, null)) {
+            if (item != null && o.equbls(item) && p.cbsItem(item, null)) {
                 unlink(p);
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns {@code true} if this deque contains at least one
-     * element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this deque contbins bt lebst one
+     * element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o element whose presence in this deque is to be tested
-     * @return {@code true} if this deque contains the specified element
+     * @pbrbm o element whose presence in this deque is to be tested
+     * @return {@code true} if this deque contbins the specified element
      */
-    public boolean contains(Object o) {
-        if (o == null) return false;
+    public boolebn contbins(Object o) {
+        if (o == null) return fblse;
         for (Node<E> p = first(); p != null; p = succ(p)) {
             E item = p.item;
-            if (item != null && o.equals(item))
+            if (item != null && o.equbls(item))
                 return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns {@code true} if this collection contains no elements.
+     * Returns {@code true} if this collection contbins no elements.
      *
-     * @return {@code true} if this collection contains no elements
+     * @return {@code true} if this collection contbins no elements
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return peekFirst() == null;
     }
 
     /**
      * Returns the number of elements in this deque.  If this deque
-     * contains more than {@code Integer.MAX_VALUE} elements, it
+     * contbins more thbn {@code Integer.MAX_VALUE} elements, it
      * returns {@code Integer.MAX_VALUE}.
      *
-     * <p>Beware that, unlike in most collections, this method is
-     * <em>NOT</em> a constant-time operation. Because of the
-     * asynchronous nature of these deques, determining the current
-     * number of elements requires traversing them all to count them.
-     * Additionally, it is possible for the size to change during
-     * execution of this method, in which case the returned result
-     * will be inaccurate. Thus, this method is typically not very
-     * useful in concurrent applications.
+     * <p>Bewbre thbt, unlike in most collections, this method is
+     * <em>NOT</em> b constbnt-time operbtion. Becbuse of the
+     * bsynchronous nbture of these deques, determining the current
+     * number of elements requires trbversing them bll to count them.
+     * Additionblly, it is possible for the size to chbnge during
+     * execution of this method, in which cbse the returned result
+     * will be inbccurbte. Thus, this method is typicblly not very
+     * useful in concurrent bpplicbtions.
      *
      * @return the number of elements in this deque
      */
@@ -1133,329 +1133,329 @@ public class ConcurrentLinkedDeque<E>
         int count = 0;
         for (Node<E> p = first(); p != null; p = succ(p))
             if (p.item != null)
-                // Collection.size() spec says to max out
+                // Collection.size() spec sbys to mbx out
                 if (++count == Integer.MAX_VALUE)
-                    break;
+                    brebk;
         return count;
     }
 
     /**
-     * Removes the first element {@code e} such that
-     * {@code o.equals(e)}, if such an element exists in this deque.
-     * If the deque does not contain the element, it is unchanged.
+     * Removes the first element {@code e} such thbt
+     * {@code o.equbls(e)}, if such bn element exists in this deque.
+     * If the deque does not contbin the element, it is unchbnged.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if the deque contained the specified element
+     * @pbrbm o element to be removed from this deque, if present
+     * @return {@code true} if the deque contbined the specified element
      * @throws NullPointerException if the specified element is null
      */
-    public boolean remove(Object o) {
+    public boolebn remove(Object o) {
         return removeFirstOccurrence(o);
     }
 
     /**
-     * Appends all of the elements in the specified collection to the end of
-     * this deque, in the order that they are returned by the specified
-     * collection's iterator.  Attempts to {@code addAll} of a deque to
-     * itself result in {@code IllegalArgumentException}.
+     * Appends bll of the elements in the specified collection to the end of
+     * this deque, in the order thbt they bre returned by the specified
+     * collection's iterbtor.  Attempts to {@code bddAll} of b deque to
+     * itself result in {@code IllegblArgumentException}.
      *
-     * @param c the elements to be inserted into this deque
-     * @return {@code true} if this deque changed as a result of the call
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
-     * @throws IllegalArgumentException if the collection is this deque
+     * @pbrbm c the elements to be inserted into this deque
+     * @return {@code true} if this deque chbnged bs b result of the cbll
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
+     * @throws IllegblArgumentException if the collection is this deque
      */
-    public boolean addAll(Collection<? extends E> c) {
+    public boolebn bddAll(Collection<? extends E> c) {
         if (c == this)
-            // As historically specified in AbstractQueue#addAll
-            throw new IllegalArgumentException();
+            // As historicblly specified in AbstrbctQueue#bddAll
+            throw new IllegblArgumentException();
 
-        // Copy c into a private chain of Nodes
-        Node<E> beginningOfTheEnd = null, last = null;
+        // Copy c into b privbte chbin of Nodes
+        Node<E> beginningOfTheEnd = null, lbst = null;
         for (E e : c) {
             checkNotNull(e);
             Node<E> newNode = new Node<E>(e);
             if (beginningOfTheEnd == null)
-                beginningOfTheEnd = last = newNode;
+                beginningOfTheEnd = lbst = newNode;
             else {
-                last.lazySetNext(newNode);
-                newNode.lazySetPrev(last);
-                last = newNode;
+                lbst.lbzySetNext(newNode);
+                newNode.lbzySetPrev(lbst);
+                lbst = newNode;
             }
         }
         if (beginningOfTheEnd == null)
-            return false;
+            return fblse;
 
-        // Atomically append the chain at the tail of this collection
-        restartFromTail:
+        // Atomicblly bppend the chbin bt the tbil of this collection
+        restbrtFromTbil:
         for (;;)
-            for (Node<E> t = tail, p = t, q;;) {
+            for (Node<E> t = tbil, p = t, q;;) {
                 if ((q = p.next) != null &&
                     (q = (p = q).next) != null)
-                    // Check for tail updates every other hop.
-                    // If p == q, we are sure to follow tail instead.
-                    p = (t != (t = tail)) ? t : q;
+                    // Check for tbil updbtes every other hop.
+                    // If p == q, we bre sure to follow tbil instebd.
+                    p = (t != (t = tbil)) ? t : q;
                 else if (p.prev == p) // NEXT_TERMINATOR
-                    continue restartFromTail;
+                    continue restbrtFromTbil;
                 else {
-                    // p is last node
-                    beginningOfTheEnd.lazySetPrev(p); // CAS piggyback
-                    if (p.casNext(null, beginningOfTheEnd)) {
-                        // Successful CAS is the linearization point
-                        // for all elements to be added to this deque.
-                        if (!casTail(t, last)) {
-                            // Try a little harder to update tail,
-                            // since we may be adding many elements.
-                            t = tail;
-                            if (last.next == null)
-                                casTail(t, last);
+                    // p is lbst node
+                    beginningOfTheEnd.lbzySetPrev(p); // CAS piggybbck
+                    if (p.cbsNext(null, beginningOfTheEnd)) {
+                        // Successful CAS is the linebrizbtion point
+                        // for bll elements to be bdded to this deque.
+                        if (!cbsTbil(t, lbst)) {
+                            // Try b little hbrder to updbte tbil,
+                            // since we mby be bdding mbny elements.
+                            t = tbil;
+                            if (lbst.next == null)
+                                cbsTbil(t, lbst);
                         }
                         return true;
                     }
-                    // Lost CAS race to another thread; re-read next
+                    // Lost CAS rbce to bnother threbd; re-rebd next
                 }
             }
     }
 
     /**
-     * Removes all of the elements from this deque.
+     * Removes bll of the elements from this deque.
      */
-    public void clear() {
+    public void clebr() {
         while (pollFirst() != null)
             ;
     }
 
     /**
-     * Returns an array containing all of the elements in this deque, in
-     * proper sequence (from first to last element).
+     * Returns bn brrby contbining bll of the elements in this deque, in
+     * proper sequence (from first to lbst element).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this deque.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it bre
+     * mbintbined by this deque.  (In other words, this method must bllocbte
+     * b new brrby).  The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all of the elements in this deque
+     * @return bn brrby contbining bll of the elements in this deque
      */
-    public Object[] toArray() {
-        return toArrayList().toArray();
+    public Object[] toArrby() {
+        return toArrbyList().toArrby();
     }
 
     /**
-     * Returns an array containing all of the elements in this deque,
-     * in proper sequence (from first to last element); the runtime
-     * type of the returned array is that of the specified array.  If
-     * the deque fits in the specified array, it is returned therein.
-     * Otherwise, a new array is allocated with the runtime type of
-     * the specified array and the size of this deque.
+     * Returns bn brrby contbining bll of the elements in this deque,
+     * in proper sequence (from first to lbst element); the runtime
+     * type of the returned brrby is thbt of the specified brrby.  If
+     * the deque fits in the specified brrby, it is returned therein.
+     * Otherwise, b new brrby is bllocbted with the runtime type of
+     * the specified brrby bnd the size of this deque.
      *
-     * <p>If this deque fits in the specified array with room to spare
-     * (i.e., the array has more elements than this deque), the element in
-     * the array immediately following the end of the deque is set to
+     * <p>If this deque fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn this deque), the element in
+     * the brrby immedibtely following the end of the deque is set to
      * {@code null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as
-     * bridge between array-based and collection-based APIs.  Further,
-     * this method allows precise control over the runtime type of the
-     * output array, and may, under certain circumstances, be used to
-     * save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs
+     * bridge between brrby-bbsed bnd collection-bbsed APIs.  Further,
+     * this method bllows precise control over the runtime type of the
+     * output brrby, bnd mby, under certbin circumstbnces, be used to
+     * sbve bllocbtion costs.
      *
-     * <p>Suppose {@code x} is a deque known to contain only strings.
-     * The following code can be used to dump the deque into a newly
-     * allocated array of {@code String}:
+     * <p>Suppose {@code x} is b deque known to contbin only strings.
+     * The following code cbn be used to dump the deque into b newly
+     * bllocbted brrby of {@code String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <pre> {@code String[] y = x.toArrby(new String[0]);}</pre>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Note thbt {@code toArrby(new Object[0])} is identicbl in function to
+     * {@code toArrby()}.
      *
-     * @param a the array into which the elements of the deque are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this deque
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
+     * @pbrbm b the brrby into which the elements of the deque bre to
+     *          be stored, if it is big enough; otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose
+     * @return bn brrby contbining bll of the elements in this deque
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in
      *         this deque
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    public <T> T[] toArray(T[] a) {
-        return toArrayList().toArray(a);
+    public <T> T[] toArrby(T[] b) {
+        return toArrbyList().toArrby(b);
     }
 
     /**
-     * Returns an iterator over the elements in this deque in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Returns bn iterbtor over the elements in this deque in proper sequence.
+     * The elements will be returned in order from first (hebd) to lbst (tbil).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned iterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * @return an iterator over the elements in this deque in proper sequence
+     * @return bn iterbtor over the elements in this deque in proper sequence
      */
-    public Iterator<E> iterator() {
+    public Iterbtor<E> iterbtor() {
         return new Itr();
     }
 
     /**
-     * Returns an iterator over the elements in this deque in reverse
-     * sequential order.  The elements will be returned in order from
-     * last (tail) to first (head).
+     * Returns bn iterbtor over the elements in this deque in reverse
+     * sequentibl order.  The elements will be returned in order from
+     * lbst (tbil) to first (hebd).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned iterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * @return an iterator over the elements in this deque in reverse order
+     * @return bn iterbtor over the elements in this deque in reverse order
      */
-    public Iterator<E> descendingIterator() {
+    public Iterbtor<E> descendingIterbtor() {
         return new DescendingItr();
     }
 
-    private abstract class AbstractItr implements Iterator<E> {
+    privbte bbstrbct clbss AbstrbctItr implements Iterbtor<E> {
         /**
          * Next node to return item for.
          */
-        private Node<E> nextNode;
+        privbte Node<E> nextNode;
 
         /**
-         * nextItem holds on to item fields because once we claim
-         * that an element exists in hasNext(), we must return it in
-         * the following next() call even if it was in the process of
-         * being removed when hasNext() was called.
+         * nextItem holds on to item fields becbuse once we clbim
+         * thbt bn element exists in hbsNext(), we must return it in
+         * the following next() cbll even if it wbs in the process of
+         * being removed when hbsNext() wbs cblled.
          */
-        private E nextItem;
+        privbte E nextItem;
 
         /**
-         * Node returned by most recent call to next. Needed by remove.
-         * Reset to null if this element is deleted by a call to remove.
+         * Node returned by most recent cbll to next. Needed by remove.
+         * Reset to null if this element is deleted by b cbll to remove.
          */
-        private Node<E> lastRet;
+        privbte Node<E> lbstRet;
 
-        abstract Node<E> startNode();
-        abstract Node<E> nextNode(Node<E> p);
+        bbstrbct Node<E> stbrtNode();
+        bbstrbct Node<E> nextNode(Node<E> p);
 
-        AbstractItr() {
-            advance();
+        AbstrbctItr() {
+            bdvbnce();
         }
 
         /**
-         * Sets nextNode and nextItem to next valid node, or to null
+         * Sets nextNode bnd nextItem to next vblid node, or to null
          * if no such.
          */
-        private void advance() {
-            lastRet = nextNode;
+        privbte void bdvbnce() {
+            lbstRet = nextNode;
 
-            Node<E> p = (nextNode == null) ? startNode() : nextNode(nextNode);
+            Node<E> p = (nextNode == null) ? stbrtNode() : nextNode(nextNode);
             for (;; p = nextNode(p)) {
                 if (p == null) {
-                    // p might be active end or TERMINATOR node; both are OK
+                    // p might be bctive end or TERMINATOR node; both bre OK
                     nextNode = null;
                     nextItem = null;
-                    break;
+                    brebk;
                 }
                 E item = p.item;
                 if (item != null) {
                     nextNode = p;
                     nextItem = item;
-                    break;
+                    brebk;
                 }
             }
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return nextItem != null;
         }
 
         public E next() {
             E item = nextItem;
             if (item == null) throw new NoSuchElementException();
-            advance();
+            bdvbnce();
             return item;
         }
 
         public void remove() {
-            Node<E> l = lastRet;
-            if (l == null) throw new IllegalStateException();
+            Node<E> l = lbstRet;
+            if (l == null) throw new IllegblStbteException();
             l.item = null;
             unlink(l);
-            lastRet = null;
+            lbstRet = null;
         }
     }
 
-    /** Forward iterator */
-    private class Itr extends AbstractItr {
-        Node<E> startNode() { return first(); }
+    /** Forwbrd iterbtor */
+    privbte clbss Itr extends AbstrbctItr {
+        Node<E> stbrtNode() { return first(); }
         Node<E> nextNode(Node<E> p) { return succ(p); }
     }
 
-    /** Descending iterator */
-    private class DescendingItr extends AbstractItr {
-        Node<E> startNode() { return last(); }
+    /** Descending iterbtor */
+    privbte clbss DescendingItr extends AbstrbctItr {
+        Node<E> stbrtNode() { return lbst(); }
         Node<E> nextNode(Node<E> p) { return pred(p); }
     }
 
-    /** A customized variant of Spliterators.IteratorSpliterator */
-    static final class CLDSpliterator<E> implements Spliterator<E> {
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        final ConcurrentLinkedDeque<E> queue;
-        Node<E> current;    // current node; null until initialized
-        int batch;          // batch size for splits
-        boolean exhausted;  // true when no more nodes
-        CLDSpliterator(ConcurrentLinkedDeque<E> queue) {
+    /** A customized vbribnt of Spliterbtors.IterbtorSpliterbtor */
+    stbtic finbl clbss CLDSpliterbtor<E> implements Spliterbtor<E> {
+        stbtic finbl int MAX_BATCH = 1 << 25;  // mbx bbtch brrby size;
+        finbl ConcurrentLinkedDeque<E> queue;
+        Node<E> current;    // current node; null until initiblized
+        int bbtch;          // bbtch size for splits
+        boolebn exhbusted;  // true when no more nodes
+        CLDSpliterbtor(ConcurrentLinkedDeque<E> queue) {
             this.queue = queue;
         }
 
-        public Spliterator<E> trySplit() {
+        public Spliterbtor<E> trySplit() {
             Node<E> p;
-            final ConcurrentLinkedDeque<E> q = this.queue;
-            int b = batch;
+            finbl ConcurrentLinkedDeque<E> q = this.queue;
+            int b = bbtch;
             int n = (b <= 0) ? 1 : (b >= MAX_BATCH) ? MAX_BATCH : b + 1;
-            if (!exhausted &&
+            if (!exhbusted &&
                 ((p = current) != null || (p = q.first()) != null)) {
                 if (p.item == null && p == (p = p.next))
                     current = p = q.first();
                 if (p != null && p.next != null) {
-                    Object[] a = new Object[n];
+                    Object[] b = new Object[n];
                     int i = 0;
                     do {
-                        if ((a[i] = p.item) != null)
+                        if ((b[i] = p.item) != null)
                             ++i;
                         if (p == (p = p.next))
                             p = q.first();
                     } while (p != null && i < n);
                     if ((current = p) == null)
-                        exhausted = true;
+                        exhbusted = true;
                     if (i > 0) {
-                        batch = i;
-                        return Spliterators.spliterator
-                            (a, 0, i, Spliterator.ORDERED | Spliterator.NONNULL |
-                             Spliterator.CONCURRENT);
+                        bbtch = i;
+                        return Spliterbtors.spliterbtor
+                            (b, 0, i, Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                             Spliterbtor.CONCURRENT);
                     }
                 }
             }
             return null;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
+        public void forEbchRembining(Consumer<? super E> bction) {
             Node<E> p;
-            if (action == null) throw new NullPointerException();
-            final ConcurrentLinkedDeque<E> q = this.queue;
-            if (!exhausted &&
+            if (bction == null) throw new NullPointerException();
+            finbl ConcurrentLinkedDeque<E> q = this.queue;
+            if (!exhbusted &&
                 ((p = current) != null || (p = q.first()) != null)) {
-                exhausted = true;
+                exhbusted = true;
                 do {
                     E e = p.item;
                     if (p == (p = p.next))
                         p = q.first();
                     if (e != null)
-                        action.accept(e);
+                        bction.bccept(e);
                 } while (p != null);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
+        public boolebn tryAdvbnce(Consumer<? super E> bction) {
             Node<E> p;
-            if (action == null) throw new NullPointerException();
-            final ConcurrentLinkedDeque<E> q = this.queue;
-            if (!exhausted &&
+            if (bction == null) throw new NullPointerException();
+            finbl ConcurrentLinkedDeque<E> q = this.queue;
+            if (!exhbusted &&
                 ((p = current) != null || (p = q.first()) != null)) {
                 E e;
                 do {
@@ -1464,122 +1464,122 @@ public class ConcurrentLinkedDeque<E>
                         p = q.first();
                 } while (e == null && p != null);
                 if ((current = p) == null)
-                    exhausted = true;
+                    exhbusted = true;
                 if (e != null) {
-                    action.accept(e);
+                    bction.bccept(e);
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public long estimateSize() { return Long.MAX_VALUE; }
+        public long estimbteSize() { return Long.MAX_VALUE; }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.NONNULL |
-                Spliterator.CONCURRENT;
+        public int chbrbcteristics() {
+            return Spliterbtor.ORDERED | Spliterbtor.NONNULL |
+                Spliterbtor.CONCURRENT;
         }
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this deque.
+     * Returns b {@link Spliterbtor} over the elements in this deque.
      *
-     * <p>The returned spliterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The returned spliterbtor is
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#ORDERED}, and {@link Spliterator#NONNULL}.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#ORDERED}, bnd {@link Spliterbtor#NONNULL}.
      *
      * @implNote
-     * The {@code Spliterator} implements {@code trySplit} to permit limited
-     * parallelism.
+     * The {@code Spliterbtor} implements {@code trySplit} to permit limited
+     * pbrbllelism.
      *
-     * @return a {@code Spliterator} over the elements in this deque
+     * @return b {@code Spliterbtor} over the elements in this deque
      * @since 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new CLDSpliterator<E>(this);
+    public Spliterbtor<E> spliterbtor() {
+        return new CLDSpliterbtor<E>(this);
     }
 
     /**
-     * Saves this deque to a stream (that is, serializes it).
+     * Sbves this deque to b strebm (thbt is, seriblizes it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData All of the elements (each an {@code E}) in
-     * the proper order, followed by a null
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
+     * @seriblDbtb All of the elements (ebch bn {@code E}) in
+     * the proper order, followed by b null
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
 
-        // Write out any hidden stuff
-        s.defaultWriteObject();
+        // Write out bny hidden stuff
+        s.defbultWriteObject();
 
-        // Write out all elements in the proper order.
+        // Write out bll elements in the proper order.
         for (Node<E> p = first(); p != null; p = succ(p)) {
             E item = p.item;
             if (item != null)
                 s.writeObject(item);
         }
 
-        // Use trailing null as sentinel
+        // Use trbiling null bs sentinel
         s.writeObject(null);
     }
 
     /**
-     * Reconstitutes this deque from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
+     * Reconstitutes this deque from b strebm (thbt is, deseriblizes it).
+     * @pbrbm s the strebm
+     * @throws ClbssNotFoundException if the clbss of b seriblized object
      *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
 
-        // Read in elements until trailing null sentinel found
+        // Rebd in elements until trbiling null sentinel found
         Node<E> h = null, t = null;
         Object item;
-        while ((item = s.readObject()) != null) {
-            @SuppressWarnings("unchecked")
+        while ((item = s.rebdObject()) != null) {
+            @SuppressWbrnings("unchecked")
             Node<E> newNode = new Node<E>((E) item);
             if (h == null)
                 h = t = newNode;
             else {
-                t.lazySetNext(newNode);
-                newNode.lazySetPrev(t);
+                t.lbzySetNext(newNode);
+                newNode.lbzySetPrev(t);
                 t = newNode;
             }
         }
-        initHeadTail(h, t);
+        initHebdTbil(h, t);
     }
 
-    private boolean casHead(Node<E> cmp, Node<E> val) {
-        return UNSAFE.compareAndSwapObject(this, headOffset, cmp, val);
+    privbte boolebn cbsHebd(Node<E> cmp, Node<E> vbl) {
+        return UNSAFE.compbreAndSwbpObject(this, hebdOffset, cmp, vbl);
     }
 
-    private boolean casTail(Node<E> cmp, Node<E> val) {
-        return UNSAFE.compareAndSwapObject(this, tailOffset, cmp, val);
+    privbte boolebn cbsTbil(Node<E> cmp, Node<E> vbl) {
+        return UNSAFE.compbreAndSwbpObject(this, tbilOffset, cmp, vbl);
     }
 
-    // Unsafe mechanics
+    // Unsbfe mechbnics
 
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long headOffset;
-    private static final long tailOffset;
-    static {
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    privbte stbtic finbl long hebdOffset;
+    privbte stbtic finbl long tbilOffset;
+    stbtic {
         PREV_TERMINATOR = new Node<Object>();
         PREV_TERMINATOR.next = PREV_TERMINATOR;
         NEXT_TERMINATOR = new Node<Object>();
         NEXT_TERMINATOR.prev = NEXT_TERMINATOR;
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ConcurrentLinkedDeque.class;
-            headOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("head"));
-            tailOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("tail"));
-        } catch (Exception e) {
+            UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = ConcurrentLinkedDeque.clbss;
+            hebdOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("hebd"));
+            tbilOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("tbil"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

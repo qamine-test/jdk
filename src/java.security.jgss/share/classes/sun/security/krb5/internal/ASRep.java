@@ -1,66 +1,66 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
-import sun.security.krb5.PrincipalName;
-import sun.security.krb5.EncryptedData;
+import sun.security.krb5.PrincipblNbme;
+import sun.security.krb5.EncryptedDbtb;
 import sun.security.krb5.Asn1Exception;
-import sun.security.krb5.Realm;
-import sun.security.krb5.RealmException;
+import sun.security.krb5.Reblm;
+import sun.security.krb5.ReblmException;
 import sun.security.util.*;
-import java.io.IOException;
+import jbvb.io.IOException;
 
-public class ASRep extends KDCRep {
+public clbss ASRep extends KDCRep {
 
     public ASRep(
-            PAData[] new_pAData,
-            PrincipalName new_cname,
+            PADbtb[] new_pADbtb,
+            PrincipblNbme new_cnbme,
             Ticket new_ticket,
-            EncryptedData new_encPart) throws IOException {
-        super(new_pAData, new_cname, new_ticket,
-                new_encPart, Krb5.KRB_AS_REP);
+            EncryptedDbtb new_encPbrt) throws IOException {
+        super(new_pADbtb, new_cnbme, new_ticket,
+                new_encPbrt, Krb5.KRB_AS_REP);
     }
 
-    public ASRep(byte[] data) throws Asn1Exception,
-            RealmException, KrbApErrException, IOException {
-        init(new DerValue(data));
+    public ASRep(byte[] dbtb) throws Asn1Exception,
+            ReblmException, KrbApErrException, IOException {
+        init(new DerVblue(dbtb));
     }
 
-    public ASRep(DerValue encoding) throws Asn1Exception,
-            RealmException, KrbApErrException, IOException {
+    public ASRep(DerVblue encoding) throws Asn1Exception,
+            ReblmException, KrbApErrException, IOException {
         init(encoding);
     }
 
-    private void init(DerValue encoding) throws Asn1Exception,
-            RealmException, KrbApErrException, IOException {
+    privbte void init(DerVblue encoding) throws Asn1Exception,
+            ReblmException, KrbApErrException, IOException {
         init(encoding, Krb5.KRB_AS_REP);
     }
 }

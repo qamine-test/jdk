@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import javax.swing.Action;
-import javax.swing.KeyStroke;
+import jbvbx.swing.Action;
+import jbvbx.swing.KeyStroke;
 
 /**
- * A collection of bindings of KeyStrokes to actions.  The
- * bindings are basically name-value pairs that potentially
- * resolve in a hierarchy.
+ * A collection of bindings of KeyStrokes to bctions.  The
+ * bindings bre bbsicblly nbme-vblue pbirs thbt potentiblly
+ * resolve in b hierbrchy.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public interface Keymap {
+public interfbce Keymbp {
 
     /**
-     * Fetches the name of the set of key-bindings.
+     * Fetches the nbme of the set of key-bindings.
      *
-     * @return the name
+     * @return the nbme
      */
-    public String getName();
+    public String getNbme();
 
     /**
-     * Fetches the default action to fire if a
-     * key is typed (i.e. a KEY_TYPED KeyEvent is received)
-     * and there is no binding for it.  Typically this
-     * would be some action that inserts text so that
-     * the keymap doesn't require an action for each
+     * Fetches the defbult bction to fire if b
+     * key is typed (i.e. b KEY_TYPED KeyEvent is received)
+     * bnd there is no binding for it.  Typicblly this
+     * would be some bction thbt inserts text so thbt
+     * the keymbp doesn't require bn bction for ebch
      * possible key.
      *
-     * @return the default action
+     * @return the defbult bction
      */
-    public Action getDefaultAction();
+    public Action getDefbultAction();
 
     /**
-     * Set the default action to fire if a key is typed.
+     * Set the defbult bction to fire if b key is typed.
      *
-     * @param a the action
+     * @pbrbm b the bction
      */
-    public void setDefaultAction(Action a);
+    public void setDefbultAction(Action b);
 
     /**
-     * Fetches the action appropriate for the given symbolic
+     * Fetches the bction bppropribte for the given symbolic
      * event sequence.  This is used by JTextController to
      * determine how to interpret key sequences.  If the
-     * binding is not resolved locally, an attempt is made
-     * to resolve through the parent keymap, if one is set.
+     * binding is not resolved locblly, bn bttempt is mbde
+     * to resolve through the pbrent keymbp, if one is set.
      *
-     * @param key the key sequence
-     * @return  the action associated with the key
+     * @pbrbm key the key sequence
+     * @return  the bction bssocibted with the key
      *  sequence if one is defined, otherwise <code>null</code>
      */
     public Action getAction(KeyStroke key);
 
     /**
-     * Fetches all of the keystrokes in this map that
-     * are bound to some action.
+     * Fetches bll of the keystrokes in this mbp thbt
+     * bre bound to some bction.
      *
      * @return the list of keystrokes
      */
     public KeyStroke[] getBoundKeyStrokes();
 
     /**
-     * Fetches all of the actions defined in this keymap.
+     * Fetches bll of the bctions defined in this keymbp.
      *
-     * @return the list of actions
+     * @return the list of bctions
      */
     public Action[] getBoundActions();
 
     /**
-     * Fetches the keystrokes that will result in
-     * the given action.
+     * Fetches the keystrokes thbt will result in
+     * the given bction.
      *
-     * @param a the action
+     * @pbrbm b the bction
      * @return the list of keystrokes
      */
-    public KeyStroke[] getKeyStrokesForAction(Action a);
+    public KeyStroke[] getKeyStrokesForAction(Action b);
 
     /**
-     * Determines if the given key sequence is locally defined.
+     * Determines if the given key sequence is locblly defined.
      *
-     * @param key the key sequence
-     * @return true if the key sequence is locally defined else false
+     * @pbrbm key the key sequence
+     * @return true if the key sequence is locblly defined else fblse
      */
-    public boolean isLocallyDefined(KeyStroke key);
+    public boolebn isLocbllyDefined(KeyStroke key);
 
     /**
-     * Adds a binding to the keymap.
+     * Adds b binding to the keymbp.
      *
-     * @param key the key sequence
-     * @param a the action
+     * @pbrbm key the key sequence
+     * @pbrbm b the bction
      */
-    public void addActionForKeyStroke(KeyStroke key, Action a);
+    public void bddActionForKeyStroke(KeyStroke key, Action b);
 
     /**
-     * Removes a binding from the keymap.
+     * Removes b binding from the keymbp.
      *
-     * @param keys the key sequence
+     * @pbrbm keys the key sequence
      */
     public void removeKeyStrokeBinding(KeyStroke keys);
 
     /**
-     * Removes all bindings from the keymap.
+     * Removes bll bindings from the keymbp.
      */
     public void removeBindings();
 
     /**
-     * Fetches the parent keymap used to resolve key-bindings.
+     * Fetches the pbrent keymbp used to resolve key-bindings.
      *
-     * @return the keymap
+     * @return the keymbp
      */
-    public Keymap getResolveParent();
+    public Keymbp getResolvePbrent();
 
     /**
-     * Sets the parent keymap, which will be used to
+     * Sets the pbrent keymbp, which will be used to
      * resolve key-bindings.
-     * The behavior is unspecified if a {@code Keymap} has itself
-     * as one of its resolve parents.
+     * The behbvior is unspecified if b {@code Keymbp} hbs itself
+     * bs one of its resolve pbrents.
      *
-     * @param parent the parent keymap
+     * @pbrbm pbrent the pbrent keymbp
      */
-    public void setResolveParent(Keymap parent);
+    public void setResolvePbrent(Keymbp pbrent);
 
 }

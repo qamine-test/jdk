@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * An object that can be used to get information about the types
- * and properties of the columns in a <code>ResultSet</code> object.
- * The following code fragment creates the <code>ResultSet</code> object rs,
- * creates the <code>ResultSetMetaData</code> object rsmd, and uses rsmd
- * to find out how many columns rs has and whether the first column in rs
- * can be used in a <code>WHERE</code> clause.
+ * An object thbt cbn be used to get informbtion bbout the types
+ * bnd properties of the columns in b <code>ResultSet</code> object.
+ * The following code frbgment crebtes the <code>ResultSet</code> object rs,
+ * crebtes the <code>ResultSetMetbDbtb</code> object rsmd, bnd uses rsmd
+ * to find out how mbny columns rs hbs bnd whether the first column in rs
+ * cbn be used in b <code>WHERE</code> clbuse.
  * <PRE>
  *
- *     ResultSet rs = stmt.executeQuery("SELECT a, b, c FROM TABLE2");
- *     ResultSetMetaData rsmd = rs.getMetaData();
+ *     ResultSet rs = stmt.executeQuery("SELECT b, b, c FROM TABLE2");
+ *     ResultSetMetbDbtb rsmd = rs.getMetbDbtb();
  *     int numberOfColumns = rsmd.getColumnCount();
- *     boolean b = rsmd.isSearchable(1);
+ *     boolebn b = rsmd.isSebrchbble(1);
  *
  * </PRE>
  */
 
-public interface ResultSetMetaData extends Wrapper {
+public interfbce ResultSetMetbDbtb extends Wrbpper {
 
     /**
      * Returns the number of columns in this <code>ResultSet</code> object.
      *
      * @return the number of columns
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
     int getColumnCount() throws SQLException;
 
     /**
-     * Indicates whether the designated column is automatically numbered.
+     * Indicbtes whether the designbted column is butombticblly numbered.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isAutoIncrement(int column) throws SQLException;
+    boolebn isAutoIncrement(int column) throws SQLException;
 
     /**
-     * Indicates whether a column's case matters.
+     * Indicbtes whether b column's cbse mbtters.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isCaseSensitive(int column) throws SQLException;
+    boolebn isCbseSensitive(int column) throws SQLException;
 
     /**
-     * Indicates whether the designated column can be used in a where clause.
+     * Indicbtes whether the designbted column cbn be used in b where clbuse.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isSearchable(int column) throws SQLException;
+    boolebn isSebrchbble(int column) throws SQLException;
 
     /**
-     * Indicates whether the designated column is a cash value.
+     * Indicbtes whether the designbted column is b cbsh vblue.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isCurrency(int column) throws SQLException;
+    boolebn isCurrency(int column) throws SQLException;
 
     /**
-     * Indicates the nullability of values in the designated column.
+     * Indicbtes the nullbbility of vblues in the designbted column.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the nullability status of the given column; one of <code>columnNoNulls</code>,
-     *          <code>columnNullable</code> or <code>columnNullableUnknown</code>
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return the nullbbility stbtus of the given column; one of <code>columnNoNulls</code>,
+     *          <code>columnNullbble</code> or <code>columnNullbbleUnknown</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    int isNullable(int column) throws SQLException;
+    int isNullbble(int column) throws SQLException;
 
     /**
-     * The constant indicating that a
-     * column does not allow <code>NULL</code> values.
+     * The constbnt indicbting thbt b
+     * column does not bllow <code>NULL</code> vblues.
      */
     int columnNoNulls = 0;
 
     /**
-     * The constant indicating that a
-     * column allows <code>NULL</code> values.
+     * The constbnt indicbting thbt b
+     * column bllows <code>NULL</code> vblues.
      */
-    int columnNullable = 1;
+    int columnNullbble = 1;
 
     /**
-     * The constant indicating that the
-     * nullability of a column's values is unknown.
+     * The constbnt indicbting thbt the
+     * nullbbility of b column's vblues is unknown.
      */
-    int columnNullableUnknown = 2;
+    int columnNullbbleUnknown = 2;
 
     /**
-     * Indicates whether values in the designated column are signed numbers.
+     * Indicbtes whether vblues in the designbted column bre signed numbers.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isSigned(int column) throws SQLException;
+    boolebn isSigned(int column) throws SQLException;
 
     /**
-     * Indicates the designated column's normal maximum width in characters.
+     * Indicbtes the designbted column's normbl mbximum width in chbrbcters.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the normal maximum number of characters allowed as the width
-     *          of the designated column
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return the normbl mbximum number of chbrbcters bllowed bs the width
+     *          of the designbted column
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    int getColumnDisplaySize(int column) throws SQLException;
+    int getColumnDisplbySize(int column) throws SQLException;
 
     /**
-     * Gets the designated column's suggested title for use in printouts and
-     * displays. The suggested title is usually specified by the SQL <code>AS</code>
-     * clause.  If a SQL <code>AS</code> is not specified, the value returned from
-     * <code>getColumnLabel</code> will be the same as the value returned by the
-     * <code>getColumnName</code> method.
+     * Gets the designbted column's suggested title for use in printouts bnd
+     * displbys. The suggested title is usublly specified by the SQL <code>AS</code>
+     * clbuse.  If b SQL <code>AS</code> is not specified, the vblue returned from
+     * <code>getColumnLbbel</code> will be the sbme bs the vblue returned by the
+     * <code>getColumnNbme</code> method.
      *
-     * @param column the first column is 1, the second is 2, ...
+     * @pbrbm column the first column is 1, the second is 2, ...
      * @return the suggested column title
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    String getColumnLabel(int column) throws SQLException;
+    String getColumnLbbel(int column) throws SQLException;
 
     /**
-     * Get the designated column's name.
+     * Get the designbted column's nbme.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return column name
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return column nbme
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    String getColumnName(int column) throws SQLException;
+    String getColumnNbme(int column) throws SQLException;
 
     /**
-     * Get the designated column's table's schema.
+     * Get the designbted column's tbble's schemb.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return schema name or "" if not applicable
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return schemb nbme or "" if not bpplicbble
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    String getSchemaName(int column) throws SQLException;
+    String getSchembNbme(int column) throws SQLException;
 
     /**
-     * Get the designated column's specified column size.
-     * For numeric data, this is the maximum precision.  For character data, this is the length in characters.
-     * For datetime datatypes, this is the length in characters of the String representation (assuming the
-     * maximum allowed precision of the fractional seconds component). For binary data, this is the length in bytes.  For the ROWID datatype,
-     * this is the length in bytes. 0 is returned for data types where the
-     * column size is not applicable.
+     * Get the designbted column's specified column size.
+     * For numeric dbtb, this is the mbximum precision.  For chbrbcter dbtb, this is the length in chbrbcters.
+     * For dbtetime dbtbtypes, this is the length in chbrbcters of the String representbtion (bssuming the
+     * mbximum bllowed precision of the frbctionbl seconds component). For binbry dbtb, this is the length in bytes.  For the ROWID dbtbtype,
+     * this is the length in bytes. 0 is returned for dbtb types where the
+     * column size is not bpplicbble.
      *
-     * @param column the first column is 1, the second is 2, ...
+     * @pbrbm column the first column is 1, the second is 2, ...
      * @return precision
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
     int getPrecision(int column) throws SQLException;
 
     /**
-     * Gets the designated column's number of digits to right of the decimal point.
-     * 0 is returned for data types where the scale is not applicable.
+     * Gets the designbted column's number of digits to right of the decimbl point.
+     * 0 is returned for dbtb types where the scble is not bpplicbble.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return scale
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return scble
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    int getScale(int column) throws SQLException;
+    int getScble(int column) throws SQLException;
 
     /**
-     * Gets the designated column's table name.
+     * Gets the designbted column's tbble nbme.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return table name or "" if not applicable
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return tbble nbme or "" if not bpplicbble
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    String getTableName(int column) throws SQLException;
+    String getTbbleNbme(int column) throws SQLException;
 
     /**
-     * Gets the designated column's table's catalog name.
+     * Gets the designbted column's tbble's cbtblog nbme.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the name of the catalog for the table in which the given column
-     *          appears or "" if not applicable
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return the nbme of the cbtblog for the tbble in which the given column
+     *          bppebrs or "" if not bpplicbble
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    String getCatalogName(int column) throws SQLException;
+    String getCbtblogNbme(int column) throws SQLException;
 
     /**
-     * Retrieves the designated column's SQL type.
+     * Retrieves the designbted column's SQL type.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return SQL type from java.sql.Types
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return SQL type from jbvb.sql.Types
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @see Types
      */
     int getColumnType(int column) throws SQLException;
 
     /**
-     * Retrieves the designated column's database-specific type name.
+     * Retrieves the designbted column's dbtbbbse-specific type nbme.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return type name used by the database. If the column type is
-     * a user-defined type, then a fully-qualified type name is returned.
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return type nbme used by the dbtbbbse. If the column type is
+     * b user-defined type, then b fully-qublified type nbme is returned.
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    String getColumnTypeName(int column) throws SQLException;
+    String getColumnTypeNbme(int column) throws SQLException;
 
     /**
-     * Indicates whether the designated column is definitely not writable.
+     * Indicbtes whether the designbted column is definitely not writbble.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isReadOnly(int column) throws SQLException;
+    boolebn isRebdOnly(int column) throws SQLException;
 
     /**
-     * Indicates whether it is possible for a write on the designated column to succeed.
+     * Indicbtes whether it is possible for b write on the designbted column to succeed.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isWritable(int column) throws SQLException;
+    boolebn isWritbble(int column) throws SQLException;
 
     /**
-     * Indicates whether a write on the designated column will definitely succeed.
+     * Indicbtes whether b write on the designbted column will definitely succeed.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return <code>true</code> if so; <code>fblse</code> otherwise
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isDefinitelyWritable(int column) throws SQLException;
+    boolebn isDefinitelyWritbble(int column) throws SQLException;
 
     //--------------------------JDBC 2.0-----------------------------------
 
     /**
-     * <p>Returns the fully-qualified name of the Java class whose instances
-     * are manufactured if the method <code>ResultSet.getObject</code>
-     * is called to retrieve a value
-     * from the column.  <code>ResultSet.getObject</code> may return a subclass of the
-     * class returned by this method.
+     * <p>Returns the fully-qublified nbme of the Jbvb clbss whose instbnces
+     * bre mbnufbctured if the method <code>ResultSet.getObject</code>
+     * is cblled to retrieve b vblue
+     * from the column.  <code>ResultSet.getObject</code> mby return b subclbss of the
+     * clbss returned by this method.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the fully-qualified name of the class in the Java programming
-     *         language that would be used by the method
-     * <code>ResultSet.getObject</code> to retrieve the value in the specified
-     * column. This is the class name used for custom mapping.
-     * @exception SQLException if a database access error occurs
+     * @pbrbm column the first column is 1, the second is 2, ...
+     * @return the fully-qublified nbme of the clbss in the Jbvb progrbmming
+     *         lbngubge thbt would be used by the method
+     * <code>ResultSet.getObject</code> to retrieve the vblue in the specified
+     * column. This is the clbss nbme used for custom mbpping.
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.2
      */
-    String getColumnClassName(int column) throws SQLException;
+    String getColumnClbssNbme(int column) throws SQLException;
 }

@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef __THREADUTILITIES_H
 #define __THREADUTILITIES_H
 
-#import <pthread.h>
+#import <pthrebd.h>
 
 #import "AWT_debug.h"
 
@@ -34,8 +34,8 @@
 // --------------------------------------------------------------------------
 #ifndef PRODUCT_BUILD
 
-// Turn on the AWT thread assert mechanism. See below for different variants.
-// TODO: don't enable this for production builds...
+// Turn on the AWT threbd bssert mechbnism. See below for different vbribnts.
+// TODO: don't enbble this for production builds...
 #define AWT_THREAD_ASSERTS
 
 #endif /* PRODUCT_BUILD */
@@ -44,33 +44,33 @@
 // --------------------------------------------------------------------------
 #ifdef AWT_THREAD_ASSERTS
 
-// Turn on to have awt thread asserts display a message on the console.
+// Turn on to hbve bwt threbd bsserts displby b messbge on the console.
 #define AWT_THREAD_ASSERTS_MESSAGES
 
-// Turn on to have awt thread asserts use an environment variable switch to
-// determine if assert should really be called.
+// Turn on to hbve bwt threbd bsserts use bn environment vbribble switch to
+// determine if bssert should reblly be cblled.
 //#define AWT_THREAD_ASSERTS_ENV_ASSERT
 
-// Define AWT_THREAD_ASSERTS_WAIT to make asserts halt the asserting thread
+// Define AWT_THREAD_ASSERTS_WAIT to mbke bsserts hblt the bsserting threbd
 // for debugging purposes.
 //#define AWT_THREAD_ASSERTS_WAIT
 
 #ifdef AWT_THREAD_ASSERTS_MESSAGES
 
 #define AWT_THREAD_ASSERTS_NOT_APPKIT_MESSAGE \
-    AWT_DEBUG_LOG(@"Not running on AppKit thread 0 when expected.")
+    AWT_DEBUG_LOG(@"Not running on AppKit threbd 0 when expected.")
 
 #define AWT_THREAD_ASSERTS_ON_APPKIT_MESSAGE \
-    AWT_DEBUG_LOG(@"Running on AppKit thread 0 when not expected.")
+    AWT_DEBUG_LOG(@"Running on AppKit threbd 0 when not expected.")
 
 #ifdef AWT_THREAD_ASSERTS_ENV_ASSERT
 
-extern int sAWTThreadAsserts;
+extern int sAWTThrebdAsserts;
 #define AWT_THREAD_ASSERTS_ENV_ASSERT_CHECK    \
 do {                                           \
-    if (sAWTThreadAsserts) {                   \
-        NSLog(@"\tPlease run this java program again with setenv COCOA_AWT_DISABLE_THREAD_ASSERTS to proceed with a warning."); \
-        assert(NO);                            \
+    if (sAWTThrebdAsserts) {                   \
+        NSLog(@"\tPlebse run this jbvb progrbm bgbin with setenv COCOA_AWT_DISABLE_THREAD_ASSERTS to proceed with b wbrning."); \
+        bssert(NO);                            \
     }                                          \
 } while (0)
 
@@ -82,7 +82,7 @@ do {                                           \
 
 #define AWT_ASSERT_APPKIT_THREAD               \
 do {                                           \
-    if (pthread_main_np() == 0) {              \
+    if (pthrebd_mbin_np() == 0) {              \
         AWT_THREAD_ASSERTS_NOT_APPKIT_MESSAGE; \
         AWT_DEBUG_BUG_REPORT_MESSAGE;          \
         AWT_THREAD_ASSERTS_ENV_ASSERT_CHECK;   \
@@ -91,7 +91,7 @@ do {                                           \
 
 #define AWT_ASSERT_NOT_APPKIT_THREAD           \
 do {                                           \
-    if (pthread_main_np() != 0) {              \
+    if (pthrebd_mbin_np() != 0) {              \
         AWT_THREAD_ASSERTS_ON_APPKIT_MESSAGE;  \
         AWT_DEBUG_BUG_REPORT_MESSAGE;          \
         AWT_THREAD_ASSERTS_ENV_ASSERT_CHECK;   \
@@ -104,12 +104,12 @@ do {                                           \
 
 #define AWT_ASSERT_APPKIT_THREAD      \
 do {                                  \
-    while (pthread_main_np() == 0) {} \
+    while (pthrebd_mbin_np() == 0) {} \
 } while (0)
 
 #define AWT_ASSERT_NOT_APPKIT_THREAD  \
 do {                                  \
-    while (pthread_main_np() != 0) {} \
+    while (pthrebd_mbin_np() != 0) {} \
 } while (0)
 
 #endif /* AWT_THREAD_ASSERTS_WAIT */
@@ -122,19 +122,19 @@ do {                                  \
 #endif /* AWT_THREAD_ASSERTS */
 // --------------------------------------------------------------------------
 
-__attribute__((visibility("default")))
-@interface ThreadUtilities { }
+__bttribute__((visibility("defbult")))
+@interfbce ThrebdUtilities { }
 
 + (JNIEnv*)getJNIEnv;
-+ (JNIEnv*)getJNIEnvUncached;
-+ (void)detachCurrentThread;
-+ (void)setAppkitThreadGroup:(jobject)group;
++ (JNIEnv*)getJNIEnvUncbched;
++ (void)detbchCurrentThrebd;
++ (void)setAppkitThrebdGroup:(jobject)group;
 
-//Wrappers for the corresponding JNFRunLoop methods with a check for main thread
-+ (void)performOnMainThreadWaiting:(BOOL)wait block:(void (^)())block;
-+ (void)performOnMainThread:(SEL)aSelector on:(id)target withObject:(id)arg waitUntilDone:(BOOL)wait;
+//Wrbppers for the corresponding JNFRunLoop methods with b check for mbin threbd
++ (void)performOnMbinThrebdWbiting:(BOOL)wbit block:(void (^)())block;
++ (void)performOnMbinThrebd:(SEL)bSelector on:(id)tbrget withObject:(id)brg wbitUntilDone:(BOOL)wbit;
 @end
 
-void OSXAPP_SetJavaVM(JavaVM *vm);
+void OSXAPP_SetJbvbVM(JbvbVM *vm);
 
 #endif /* __THREADUTILITIES_H */

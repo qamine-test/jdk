@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.IOException;
-import java.nio.channels.spi.*;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.spi.*;
 
 
 /**
- * A pair of channels that implements a unidirectional pipe.
+ * A pbir of chbnnels thbt implements b unidirectionbl pipe.
  *
- * <p> A pipe consists of a pair of channels: A writable {@link
- * Pipe.SinkChannel sink} channel and a readable {@link Pipe.SourceChannel source}
- * channel.  Once some bytes are written to the sink channel they can be read
- * from source channel in exactlyAthe order in which they were written.
+ * <p> A pipe consists of b pbir of chbnnels: A writbble {@link
+ * Pipe.SinkChbnnel sink} chbnnel bnd b rebdbble {@link Pipe.SourceChbnnel source}
+ * chbnnel.  Once some bytes bre written to the sink chbnnel they cbn be rebd
+ * from source chbnnel in exbctlyAthe order in which they were written.
  *
- * <p> Whether or not a thread writing bytes to a pipe will block until another
- * thread reads those bytes, or some previously-written bytes, from the pipe is
- * system-dependent and therefore unspecified.  Many pipe implementations will
- * buffer up to a certain number of bytes between the sink and source channels,
- * but such buffering should not be assumed.  </p>
+ * <p> Whether or not b threbd writing bytes to b pipe will block until bnother
+ * threbd rebds those bytes, or some previously-written bytes, from the pipe is
+ * system-dependent bnd therefore unspecified.  Mbny pipe implementbtions will
+ * buffer up to b certbin number of bytes between the sink bnd source chbnnels,
+ * but such buffering should not be bssumed.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class Pipe {
+public bbstrbct clbss Pipe {
 
     /**
-     * A channel representing the readable end of a {@link Pipe}.
+     * A chbnnel representing the rebdbble end of b {@link Pipe}.
      *
      * @since 1.4
      */
-    public static abstract class SourceChannel
-        extends AbstractSelectableChannel
-        implements ReadableByteChannel, ScatteringByteChannel
+    public stbtic bbstrbct clbss SourceChbnnel
+        extends AbstrbctSelectbbleChbnnel
+        implements RebdbbleByteChbnnel, ScbtteringByteChbnnel
     {
         /**
-         * Constructs a new instance of this class.
+         * Constructs b new instbnce of this clbss.
          *
-         * @param  provider
+         * @pbrbm  provider
          *         The selector provider
          */
-        protected SourceChannel(SelectorProvider provider) {
+        protected SourceChbnnel(SelectorProvider provider) {
             super(provider);
         }
 
         /**
-         * Returns an operation set identifying this channel's supported
-         * operations.
+         * Returns bn operbtion set identifying this chbnnel's supported
+         * operbtions.
          *
-         * <p> Pipe-source channels only support reading, so this method
+         * <p> Pipe-source chbnnels only support rebding, so this method
          * returns {@link SelectionKey#OP_READ}.  </p>
          *
-         * @return  The valid-operation set
+         * @return  The vblid-operbtion set
          */
-        public final int validOps() {
+        public finbl int vblidOps() {
             return SelectionKey.OP_READ;
         }
 
     }
 
     /**
-     * A channel representing the writable end of a {@link Pipe}.
+     * A chbnnel representing the writbble end of b {@link Pipe}.
      *
      * @since 1.4
      */
-    public static abstract class SinkChannel
-        extends AbstractSelectableChannel
-        implements WritableByteChannel, GatheringByteChannel
+    public stbtic bbstrbct clbss SinkChbnnel
+        extends AbstrbctSelectbbleChbnnel
+        implements WritbbleByteChbnnel, GbtheringByteChbnnel
     {
         /**
-         * Initializes a new instance of this class.
+         * Initiblizes b new instbnce of this clbss.
          *
-         * @param  provider
+         * @pbrbm  provider
          *         The selector provider
          */
-        protected SinkChannel(SelectorProvider provider) {
+        protected SinkChbnnel(SelectorProvider provider) {
             super(provider);
         }
 
         /**
-         * Returns an operation set identifying this channel's supported
-         * operations.
+         * Returns bn operbtion set identifying this chbnnel's supported
+         * operbtions.
          *
-         * <p> Pipe-sink channels only support writing, so this method returns
+         * <p> Pipe-sink chbnnels only support writing, so this method returns
          * {@link SelectionKey#OP_WRITE}.  </p>
          *
-         * @return  The valid-operation set
+         * @return  The vblid-operbtion set
          */
-        public final int validOps() {
+        public finbl int vblidOps() {
             return SelectionKey.OP_WRITE;
         }
 
     }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
     protected Pipe() { }
 
     /**
-     * Returns this pipe's source channel.
+     * Returns this pipe's source chbnnel.
      *
-     * @return  This pipe's source channel
+     * @return  This pipe's source chbnnel
      */
-    public abstract SourceChannel source();
+    public bbstrbct SourceChbnnel source();
 
     /**
-     * Returns this pipe's sink channel.
+     * Returns this pipe's sink chbnnel.
      *
-     * @return  This pipe's sink channel
+     * @return  This pipe's sink chbnnel
      */
-    public abstract SinkChannel sink();
+    public bbstrbct SinkChbnnel sink();
 
     /**
-     * Opens a pipe.
+     * Opens b pipe.
      *
-     * <p> The new pipe is created by invoking the {@link
-     * java.nio.channels.spi.SelectorProvider#openPipe openPipe} method of the
-     * system-wide default {@link java.nio.channels.spi.SelectorProvider}
+     * <p> The new pipe is crebted by invoking the {@link
+     * jbvb.nio.chbnnels.spi.SelectorProvider#openPipe openPipe} method of the
+     * system-wide defbult {@link jbvb.nio.chbnnels.spi.SelectorProvider}
      * object.  </p>
      *
      * @return  A new pipe
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public static Pipe open() throws IOException {
+    public stbtic Pipe open() throws IOException {
         return SelectorProvider.provider().openPipe();
     }
 

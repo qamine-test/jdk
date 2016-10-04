@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.function;
+pbckbge jbvb.util.function;
 
-import java.util.Objects;
+import jbvb.util.Objects;
 
 /**
- * Represents a function that accepts one argument and produces a result.
+ * Represents b function thbt bccepts one brgument bnd produces b result.
  *
- * <p>This is a <a href="package-summary.html">functional interface</a>
- * whose functional method is {@link #apply(Object)}.
+ * <p>This is b <b href="pbckbge-summbry.html">functionbl interfbce</b>
+ * whose functionbl method is {@link #bpply(Object)}.
  *
- * @param <T> the type of the input to the function
- * @param <R> the type of the result of the function
+ * @pbrbm <T> the type of the input to the function
+ * @pbrbm <R> the type of the result of the function
  *
  * @since 1.8
  */
-@FunctionalInterface
-public interface Function<T, R> {
+@FunctionblInterfbce
+public interfbce Function<T, R> {
 
     /**
-     * Applies this function to the given argument.
+     * Applies this function to the given brgument.
      *
-     * @param t the function argument
+     * @pbrbm t the function brgument
      * @return the function result
      */
-    R apply(T t);
+    R bpply(T t);
 
     /**
-     * Returns a composed function that first applies the {@code before}
-     * function to its input, and then applies this function to the result.
-     * If evaluation of either function throws an exception, it is relayed to
-     * the caller of the composed function.
+     * Returns b composed function thbt first bpplies the {@code before}
+     * function to its input, bnd then bpplies this function to the result.
+     * If evblubtion of either function throws bn exception, it is relbyed to
+     * the cbller of the composed function.
      *
-     * @param <V> the type of input to the {@code before} function, and to the
+     * @pbrbm <V> the type of input to the {@code before} function, bnd to the
      *           composed function
-     * @param before the function to apply before this function is applied
-     * @return a composed function that first applies the {@code before}
-     * function and then applies this function
+     * @pbrbm before the function to bpply before this function is bpplied
+     * @return b composed function thbt first bpplies the {@code before}
+     * function bnd then bpplies this function
      * @throws NullPointerException if before is null
      *
-     * @see #andThen(Function)
+     * @see #bndThen(Function)
      */
-    default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+    defbult <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
         Objects.requireNonNull(before);
-        return (V v) -> apply(before.apply(v));
+        return (V v) -> bpply(before.bpply(v));
     }
 
     /**
-     * Returns a composed function that first applies this function to
-     * its input, and then applies the {@code after} function to the result.
-     * If evaluation of either function throws an exception, it is relayed to
-     * the caller of the composed function.
+     * Returns b composed function thbt first bpplies this function to
+     * its input, bnd then bpplies the {@code bfter} function to the result.
+     * If evblubtion of either function throws bn exception, it is relbyed to
+     * the cbller of the composed function.
      *
-     * @param <V> the type of output of the {@code after} function, and of the
+     * @pbrbm <V> the type of output of the {@code bfter} function, bnd of the
      *           composed function
-     * @param after the function to apply after this function is applied
-     * @return a composed function that first applies this function and then
-     * applies the {@code after} function
-     * @throws NullPointerException if after is null
+     * @pbrbm bfter the function to bpply bfter this function is bpplied
+     * @return b composed function thbt first bpplies this function bnd then
+     * bpplies the {@code bfter} function
+     * @throws NullPointerException if bfter is null
      *
      * @see #compose(Function)
      */
-    default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
-        Objects.requireNonNull(after);
-        return (T t) -> after.apply(apply(t));
+    defbult <V> Function<T, V> bndThen(Function<? super R, ? extends V> bfter) {
+        Objects.requireNonNull(bfter);
+        return (T t) -> bfter.bpply(bpply(t));
     }
 
     /**
-     * Returns a function that always returns its input argument.
+     * Returns b function thbt blwbys returns its input brgument.
      *
-     * @param <T> the type of the input and output objects to the function
-     * @return a function that always returns its input argument
+     * @pbrbm <T> the type of the input bnd output objects to the function
+     * @return b function thbt blwbys returns its input brgument
      */
-    static <T> Function<T, T> identity() {
+    stbtic <T> Function<T, T> identity() {
         return t -> t;
     }
 }

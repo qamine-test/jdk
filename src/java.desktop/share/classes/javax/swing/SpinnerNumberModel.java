@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.*;
-import java.io.Serializable;
+import jbvb.util.*;
+import jbvb.io.Seriblizbble;
 
 
 /**
  * A <code>SpinnerModel</code> for sequences of numbers.
- * The upper and lower bounds of the sequence are defined
- * by properties called <code>minimum</code> and
- * <code>maximum</code>. The size of the increase or decrease
- * computed by the <code>nextValue</code> and
- * <code>previousValue</code> methods is defined by a property called
- * <code>stepSize</code>.  The <code>minimum</code> and
- * <code>maximum</code> properties can be <code>null</code>
- * to indicate that the sequence has no lower or upper limit.
- * All of the properties in this class are defined in terms of two
- * generic types: <code>Number</code> and
- * <code>Comparable</code>, so that all Java numeric types
- * may be accommodated.  Internally, there's only support for
- * values whose type is one of the primitive <code>Number</code> types:
- * <code>Double</code>, <code>Float</code>, <code>Long</code>,
+ * The upper bnd lower bounds of the sequence bre defined
+ * by properties cblled <code>minimum</code> bnd
+ * <code>mbximum</code>. The size of the increbse or decrebse
+ * computed by the <code>nextVblue</code> bnd
+ * <code>previousVblue</code> methods is defined by b property cblled
+ * <code>stepSize</code>.  The <code>minimum</code> bnd
+ * <code>mbximum</code> properties cbn be <code>null</code>
+ * to indicbte thbt the sequence hbs no lower or upper limit.
+ * All of the properties in this clbss bre defined in terms of two
+ * generic types: <code>Number</code> bnd
+ * <code>Compbrbble</code>, so thbt bll Jbvb numeric types
+ * mby be bccommodbted.  Internblly, there's only support for
+ * vblues whose type is one of the primitive <code>Number</code> types:
+ * <code>Double</code>, <code>Flobt</code>, <code>Long</code>,
  * <code>Integer</code>, <code>Short</code>, or <code>Byte</code>.
  * <p>
- * To create a <code>SpinnerNumberModel</code> for the integer
- * range zero to one hundred, with
- * fifty as the initial value, one could write:
+ * To crebte b <code>SpinnerNumberModel</code> for the integer
+ * rbnge zero to one hundred, with
+ * fifty bs the initibl vblue, one could write:
  * <pre>
- * Integer value = new Integer(50);
+ * Integer vblue = new Integer(50);
  * Integer min = new Integer(0);
- * Integer max = new Integer(100);
+ * Integer mbx = new Integer(100);
  * Integer step = new Integer(1);
- * SpinnerNumberModel model = new SpinnerNumberModel(value, min, max, step);
- * int fifty = model.getNumber().intValue();
+ * SpinnerNumberModel model = new SpinnerNumberModel(vblue, min, mbx, step);
+ * int fifty = model.getNumber().intVblue();
  * </pre>
  * <p>
- * Spinners for integers and doubles are common, so special constructors
- * for these cases are provided.  For example to create the model in
- * the previous example, one could also write:
+ * Spinners for integers bnd doubles bre common, so specibl constructors
+ * for these cbses bre provided.  For exbmple to crebte the model in
+ * the previous exbmple, one could blso write:
  * <pre>
  * SpinnerNumberModel model = new SpinnerNumberModel(50, 0, 100, 1);
  * </pre>
  * <p>
- * This model inherits a <code>ChangeListener</code>.
- * The <code>ChangeListeners</code> are notified
- * whenever the model's <code>value</code>, <code>stepSize</code>,
- * <code>minimum</code>, or <code>maximum</code> properties changes.
+ * This model inherits b <code>ChbngeListener</code>.
+ * The <code>ChbngeListeners</code> bre notified
+ * whenever the model's <code>vblue</code>, <code>stepSize</code>,
+ * <code>minimum</code>, or <code>mbximum</code> properties chbnges.
  *
  * @see JSpinner
  * @see SpinnerModel
- * @see AbstractSpinnerModel
+ * @see AbstrbctSpinnerModel
  * @see SpinnerListModel
- * @see SpinnerDateModel
+ * @see SpinnerDbteModel
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.4
 */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class SpinnerNumberModel extends AbstractSpinnerModel implements Serializable
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss SpinnerNumberModel extends AbstrbctSpinnerModel implements Seriblizbble
 {
-    private Number stepSize, value;
-    // Both minimum and maximum are logically Comparable<? extends
-    // Number>, but that type is awkward to use since different
-    // instances of Number are not naturally Comparable. For example,
-    // a Double implements Comparable<Double> and an Integer
-    // implements Comparable<Integer>. Neither Integer nor Double will
-    // have a bridge method for Comparable<Number>. However, it safe
-    // to cast Comparable<?> to Comparable<Object> since all
-    // Comparables will have a compare(Object> method, possibly as a
+    privbte Number stepSize, vblue;
+    // Both minimum bnd mbximum bre logicblly Compbrbble<? extends
+    // Number>, but thbt type is bwkwbrd to use since different
+    // instbnces of Number bre not nbturblly Compbrbble. For exbmple,
+    // b Double implements Compbrbble<Double> bnd bn Integer
+    // implements Compbrbble<Integer>. Neither Integer nor Double will
+    // hbve b bridge method for Compbrbble<Number>. However, it sbfe
+    // to cbst Compbrbble<?> to Compbrbble<Object> since bll
+    // Compbrbbles will hbve b compbre(Object> method, possibly bs b
     // bridge.
-    private Comparable<?> minimum, maximum;
+    privbte Compbrbble<?> minimum, mbximum;
 
 
     /**
-     * Constructs a <code>SpinnerModel</code> that represents
-     * a closed sequence of
-     * numbers from <code>minimum</code> to <code>maximum</code>.  The
-     * <code>nextValue</code> and <code>previousValue</code> methods
-     * compute elements of the sequence by adding or subtracting
-     * <code>stepSize</code> respectively.  All of the parameters
-     * must be mutually <code>Comparable</code>, <code>value</code>
-     * and <code>stepSize</code> must be instances of <code>Integer</code>
-     * <code>Long</code>, <code>Float</code>, or <code>Double</code>.
+     * Constructs b <code>SpinnerModel</code> thbt represents
+     * b closed sequence of
+     * numbers from <code>minimum</code> to <code>mbximum</code>.  The
+     * <code>nextVblue</code> bnd <code>previousVblue</code> methods
+     * compute elements of the sequence by bdding or subtrbcting
+     * <code>stepSize</code> respectively.  All of the pbrbmeters
+     * must be mutublly <code>Compbrbble</code>, <code>vblue</code>
+     * bnd <code>stepSize</code> must be instbnces of <code>Integer</code>
+     * <code>Long</code>, <code>Flobt</code>, or <code>Double</code>.
      * <p>
-     * The <code>minimum</code> and <code>maximum</code> parameters
-     * can be <code>null</code> to indicate that the range doesn't
-     * have an upper or lower bound.
-     * If <code>value</code> or <code>stepSize</code> is <code>null</code>,
-     * or if both <code>minimum</code> and <code>maximum</code>
-     * are specified and <code>minimum &gt; maximum</code> then an
-     * <code>IllegalArgumentException</code> is thrown.
-     * Similarly if <code>(minimum &lt;= value &lt;= maximum</code>) is false,
-     * an <code>IllegalArgumentException</code> is thrown.
+     * The <code>minimum</code> bnd <code>mbximum</code> pbrbmeters
+     * cbn be <code>null</code> to indicbte thbt the rbnge doesn't
+     * hbve bn upper or lower bound.
+     * If <code>vblue</code> or <code>stepSize</code> is <code>null</code>,
+     * or if both <code>minimum</code> bnd <code>mbximum</code>
+     * bre specified bnd <code>minimum &gt; mbximum</code> then bn
+     * <code>IllegblArgumentException</code> is thrown.
+     * Similbrly if <code>(minimum &lt;= vblue &lt;= mbximum</code>) is fblse,
+     * bn <code>IllegblArgumentException</code> is thrown.
      *
-     * @param value the current (non <code>null</code>) value of the model
-     * @param minimum the first number in the sequence or <code>null</code>
-     * @param maximum the last number in the sequence or <code>null</code>
-     * @param stepSize the difference between elements of the sequence
+     * @pbrbm vblue the current (non <code>null</code>) vblue of the model
+     * @pbrbm minimum the first number in the sequence or <code>null</code>
+     * @pbrbm mbximum the lbst number in the sequence or <code>null</code>
+     * @pbrbm stepSize the difference between elements of the sequence
      *
-     * @throws IllegalArgumentException if stepSize or value is
-     *     <code>null</code> or if the following expression is false:
-     *     <code>minimum &lt;= value &lt;= maximum</code>
+     * @throws IllegblArgumentException if stepSize or vblue is
+     *     <code>null</code> or if the following expression is fblse:
+     *     <code>minimum &lt;= vblue &lt;= mbximum</code>
      */
-    @SuppressWarnings("unchecked") // Casts to Comparable<Object>
-    public SpinnerNumberModel(Number value,
-                               Comparable<?> minimum,
-                               Comparable<?> maximum,
+    @SuppressWbrnings("unchecked") // Cbsts to Compbrbble<Object>
+    public SpinnerNumberModel(Number vblue,
+                               Compbrbble<?> minimum,
+                               Compbrbble<?> mbximum,
                                Number stepSize) {
-        if ((value == null) || (stepSize == null)) {
-            throw new IllegalArgumentException("value and stepSize must be non-null");
+        if ((vblue == null) || (stepSize == null)) {
+            throw new IllegblArgumentException("vblue bnd stepSize must be non-null");
         }
-        if (!(((minimum == null) || (((Comparable<Object>)minimum).compareTo(value) <= 0)) &&
-              ((maximum == null) || (((Comparable<Object>)maximum).compareTo(value) >= 0)))) {
-            throw new IllegalArgumentException("(minimum <= value <= maximum) is false");
+        if (!(((minimum == null) || (((Compbrbble<Object>)minimum).compbreTo(vblue) <= 0)) &&
+              ((mbximum == null) || (((Compbrbble<Object>)mbximum).compbreTo(vblue) >= 0)))) {
+            throw new IllegblArgumentException("(minimum <= vblue <= mbximum) is fblse");
         }
-        this.value = value;
+        this.vblue = vblue;
         this.minimum = minimum;
-        this.maximum = maximum;
+        this.mbximum = mbximum;
         this.stepSize = stepSize;
     }
 
 
     /**
-     * Constructs a <code>SpinnerNumberModel</code> with the specified
-     * <code>value</code>, <code>minimum</code>/<code>maximum</code> bounds,
-     * and <code>stepSize</code>.
+     * Constructs b <code>SpinnerNumberModel</code> with the specified
+     * <code>vblue</code>, <code>minimum</code>/<code>mbximum</code> bounds,
+     * bnd <code>stepSize</code>.
      *
-     * @param value the current value of the model
-     * @param minimum the first number in the sequence
-     * @param maximum the last number in the sequence
-     * @param stepSize the difference between elements of the sequence
-     * @throws IllegalArgumentException if the following expression is false:
-     *     <code>minimum &lt;= value &lt;= maximum</code>
+     * @pbrbm vblue the current vblue of the model
+     * @pbrbm minimum the first number in the sequence
+     * @pbrbm mbximum the lbst number in the sequence
+     * @pbrbm stepSize the difference between elements of the sequence
+     * @throws IllegblArgumentException if the following expression is fblse:
+     *     <code>minimum &lt;= vblue &lt;= mbximum</code>
      */
-    public SpinnerNumberModel(int value, int minimum, int maximum, int stepSize) {
-        this(Integer.valueOf(value), Integer.valueOf(minimum), Integer.valueOf(maximum), Integer.valueOf(stepSize));
+    public SpinnerNumberModel(int vblue, int minimum, int mbximum, int stepSize) {
+        this(Integer.vblueOf(vblue), Integer.vblueOf(minimum), Integer.vblueOf(mbximum), Integer.vblueOf(stepSize));
     }
 
 
     /**
-     * Constructs a <code>SpinnerNumberModel</code> with the specified
-     * <code>value</code>, <code>minimum</code>/<code>maximum</code> bounds,
-     * and <code>stepSize</code>.
+     * Constructs b <code>SpinnerNumberModel</code> with the specified
+     * <code>vblue</code>, <code>minimum</code>/<code>mbximum</code> bounds,
+     * bnd <code>stepSize</code>.
      *
-     * @param value the current value of the model
-     * @param minimum the first number in the sequence
-     * @param maximum the last number in the sequence
-     * @param stepSize the difference between elements of the sequence
-     * @throws IllegalArgumentException   if the following expression is false:
-     *     <code>minimum &lt;= value &lt;= maximum</code>
+     * @pbrbm vblue the current vblue of the model
+     * @pbrbm minimum the first number in the sequence
+     * @pbrbm mbximum the lbst number in the sequence
+     * @pbrbm stepSize the difference between elements of the sequence
+     * @throws IllegblArgumentException   if the following expression is fblse:
+     *     <code>minimum &lt;= vblue &lt;= mbximum</code>
      */
-    public SpinnerNumberModel(double value, double minimum, double maximum, double stepSize) {
-        this(new Double(value), new Double(minimum), new Double(maximum), new Double(stepSize));
+    public SpinnerNumberModel(double vblue, double minimum, double mbximum, double stepSize) {
+        this(new Double(vblue), new Double(minimum), new Double(mbximum), new Double(stepSize));
     }
 
 
     /**
-     * Constructs a <code>SpinnerNumberModel</code> with no
-     * <code>minimum</code> or <code>maximum</code> value,
-     * <code>stepSize</code> equal to one, and an initial value of zero.
+     * Constructs b <code>SpinnerNumberModel</code> with no
+     * <code>minimum</code> or <code>mbximum</code> vblue,
+     * <code>stepSize</code> equbl to one, bnd bn initibl vblue of zero.
      */
     public SpinnerNumberModel() {
-        this(Integer.valueOf(0), null, null, Integer.valueOf(1));
+        this(Integer.vblueOf(0), null, null, Integer.vblueOf(1));
     }
 
 
     /**
-     * Changes the lower bound for numbers in this sequence.
+     * Chbnges the lower bound for numbers in this sequence.
      * If <code>minimum</code> is <code>null</code>,
      * then there is no lower bound.  No bounds checking is done here;
-     * the new <code>minimum</code> value may invalidate the
-     * <code>(minimum &lt;= value &lt;= maximum)</code>
-     * invariant enforced by the constructors.  This is to simplify updating
-     * the model, naturally one should ensure that the invariant is true
-     * before calling the <code>getNextValue</code>,
-     * <code>getPreviousValue</code>, or <code>setValue</code> methods.
+     * the new <code>minimum</code> vblue mby invblidbte the
+     * <code>(minimum &lt;= vblue &lt;= mbximum)</code>
+     * invbribnt enforced by the constructors.  This is to simplify updbting
+     * the model, nbturblly one should ensure thbt the invbribnt is true
+     * before cblling the <code>getNextVblue</code>,
+     * <code>getPreviousVblue</code>, or <code>setVblue</code> methods.
      * <p>
-     * Typically this property is a <code>Number</code> of the same type
-     * as the <code>value</code> however it's possible to use any
-     * <code>Comparable</code> with a <code>compareTo</code>
-     * method for a <code>Number</code> with the same type as the value.
-     * For example if value was a <code>Long</code>,
-     * <code>minimum</code> might be a Date subclass defined like this:
+     * Typicblly this property is b <code>Number</code> of the sbme type
+     * bs the <code>vblue</code> however it's possible to use bny
+     * <code>Compbrbble</code> with b <code>compbreTo</code>
+     * method for b <code>Number</code> with the sbme type bs the vblue.
+     * For exbmple if vblue wbs b <code>Long</code>,
+     * <code>minimum</code> might be b Dbte subclbss defined like this:
      * <pre>
-     * MyDate extends Date {  // Date already implements Comparable
-     *     public int compareTo(Long o) {
+     * MyDbte extends Dbte {  // Dbte blrebdy implements Compbrbble
+     *     public int compbreTo(Long o) {
      *         long t = getTime();
-     *         return (t &lt; o.longValue() ? -1 : (t == o.longValue() ? 0 : 1));
+     *         return (t &lt; o.longVblue() ? -1 : (t == o.longVblue() ? 0 : 1));
      *     }
      * }
      * </pre>
      * <p>
-     * This method fires a <code>ChangeEvent</code>
-     * if the <code>minimum</code> has changed.
+     * This method fires b <code>ChbngeEvent</code>
+     * if the <code>minimum</code> hbs chbnged.
      *
-     * @param minimum a <code>Comparable</code> that has a
-     *     <code>compareTo</code> method for <code>Number</code>s with
-     *     the same type as <code>value</code>
+     * @pbrbm minimum b <code>Compbrbble</code> thbt hbs b
+     *     <code>compbreTo</code> method for <code>Number</code>s with
+     *     the sbme type bs <code>vblue</code>
      * @see #getMinimum
-     * @see #setMaximum
-     * @see SpinnerModel#addChangeListener
+     * @see #setMbximum
+     * @see SpinnerModel#bddChbngeListener
      */
-    public void setMinimum(Comparable<?> minimum) {
-        if ((minimum == null) ? (this.minimum != null) : !minimum.equals(this.minimum)) {
+    public void setMinimum(Compbrbble<?> minimum) {
+        if ((minimum == null) ? (this.minimum != null) : !minimum.equbls(this.minimum)) {
             this.minimum = minimum;
-            fireStateChanged();
+            fireStbteChbnged();
         }
     }
 
@@ -236,137 +236,137 @@ public class SpinnerNumberModel extends AbstractSpinnerModel implements Serializ
     /**
      * Returns the first number in this sequence.
      *
-     * @return the value of the <code>minimum</code> property
+     * @return the vblue of the <code>minimum</code> property
      * @see #setMinimum
      */
-    public Comparable<?> getMinimum() {
+    public Compbrbble<?> getMinimum() {
         return minimum;
     }
 
 
     /**
-     * Changes the upper bound for numbers in this sequence.
-     * If <code>maximum</code> is <code>null</code>, then there
+     * Chbnges the upper bound for numbers in this sequence.
+     * If <code>mbximum</code> is <code>null</code>, then there
      * is no upper bound.  No bounds checking is done here; the new
-     * <code>maximum</code> value may invalidate the
-     * <code>(minimum &lt;= value &lt; maximum)</code>
-     * invariant enforced by the constructors.  This is to simplify updating
-     * the model, naturally one should ensure that the invariant is true
-     * before calling the <code>next</code>, <code>previous</code>,
-     * or <code>setValue</code> methods.
+     * <code>mbximum</code> vblue mby invblidbte the
+     * <code>(minimum &lt;= vblue &lt; mbximum)</code>
+     * invbribnt enforced by the constructors.  This is to simplify updbting
+     * the model, nbturblly one should ensure thbt the invbribnt is true
+     * before cblling the <code>next</code>, <code>previous</code>,
+     * or <code>setVblue</code> methods.
      * <p>
-     * Typically this property is a <code>Number</code> of the same type
-     * as the <code>value</code> however it's possible to use any
-     * <code>Comparable</code> with a <code>compareTo</code>
-     * method for a <code>Number</code> with the same type as the value.
-     * See <a href="#setMinimum(java.lang.Comparable)">
-     * <code>setMinimum</code></a> for an example.
+     * Typicblly this property is b <code>Number</code> of the sbme type
+     * bs the <code>vblue</code> however it's possible to use bny
+     * <code>Compbrbble</code> with b <code>compbreTo</code>
+     * method for b <code>Number</code> with the sbme type bs the vblue.
+     * See <b href="#setMinimum(jbvb.lbng.Compbrbble)">
+     * <code>setMinimum</code></b> for bn exbmple.
      * <p>
-     * This method fires a <code>ChangeEvent</code> if the
-     * <code>maximum</code> has changed.
+     * This method fires b <code>ChbngeEvent</code> if the
+     * <code>mbximum</code> hbs chbnged.
      *
-     * @param maximum a <code>Comparable</code> that has a
-     *     <code>compareTo</code> method for <code>Number</code>s with
-     *     the same type as <code>value</code>
-     * @see #getMaximum
+     * @pbrbm mbximum b <code>Compbrbble</code> thbt hbs b
+     *     <code>compbreTo</code> method for <code>Number</code>s with
+     *     the sbme type bs <code>vblue</code>
+     * @see #getMbximum
      * @see #setMinimum
-     * @see SpinnerModel#addChangeListener
+     * @see SpinnerModel#bddChbngeListener
      */
-    public void setMaximum(Comparable<?> maximum) {
-        if ((maximum == null) ? (this.maximum != null) : !maximum.equals(this.maximum)) {
-            this.maximum = maximum;
-            fireStateChanged();
+    public void setMbximum(Compbrbble<?> mbximum) {
+        if ((mbximum == null) ? (this.mbximum != null) : !mbximum.equbls(this.mbximum)) {
+            this.mbximum = mbximum;
+            fireStbteChbnged();
         }
     }
 
 
     /**
-     * Returns the last number in the sequence.
+     * Returns the lbst number in the sequence.
      *
-     * @return the value of the <code>maximum</code> property
-     * @see #setMaximum
+     * @return the vblue of the <code>mbximum</code> property
+     * @see #setMbximum
      */
-    public Comparable<?> getMaximum() {
-        return maximum;
+    public Compbrbble<?> getMbximum() {
+        return mbximum;
     }
 
 
     /**
-     * Changes the size of the value change computed by the
-     * <code>getNextValue</code> and <code>getPreviousValue</code>
-     * methods.  An <code>IllegalArgumentException</code>
+     * Chbnges the size of the vblue chbnge computed by the
+     * <code>getNextVblue</code> bnd <code>getPreviousVblue</code>
+     * methods.  An <code>IllegblArgumentException</code>
      * is thrown if <code>stepSize</code> is <code>null</code>.
      * <p>
-     * This method fires a <code>ChangeEvent</code> if the
-     * <code>stepSize</code> has changed.
+     * This method fires b <code>ChbngeEvent</code> if the
+     * <code>stepSize</code> hbs chbnged.
      *
-     * @param stepSize the size of the value change computed by the
-     *     <code>getNextValue</code> and <code>getPreviousValue</code> methods
-     * @see #getNextValue
-     * @see #getPreviousValue
+     * @pbrbm stepSize the size of the vblue chbnge computed by the
+     *     <code>getNextVblue</code> bnd <code>getPreviousVblue</code> methods
+     * @see #getNextVblue
+     * @see #getPreviousVblue
      * @see #getStepSize
-     * @see SpinnerModel#addChangeListener
+     * @see SpinnerModel#bddChbngeListener
      */
     public void setStepSize(Number stepSize) {
         if (stepSize == null) {
-            throw new IllegalArgumentException("null stepSize");
+            throw new IllegblArgumentException("null stepSize");
         }
-        if (!stepSize.equals(this.stepSize)) {
+        if (!stepSize.equbls(this.stepSize)) {
             this.stepSize = stepSize;
-            fireStateChanged();
+            fireStbteChbnged();
         }
     }
 
 
     /**
-     * Returns the size of the value change computed by the
-     * <code>getNextValue</code>
-     * and <code>getPreviousValue</code> methods.
+     * Returns the size of the vblue chbnge computed by the
+     * <code>getNextVblue</code>
+     * bnd <code>getPreviousVblue</code> methods.
      *
-     * @return the value of the <code>stepSize</code> property
+     * @return the vblue of the <code>stepSize</code> property
      * @see #setStepSize
      */
     public Number getStepSize() {
         return stepSize;
     }
 
-    @SuppressWarnings("unchecked") // Casts to Comparable<Object>
-    private Number incrValue(int dir)
+    @SuppressWbrnings("unchecked") // Cbsts to Compbrbble<Object>
+    privbte Number incrVblue(int dir)
     {
-        Number newValue;
-        if ((value instanceof Float) || (value instanceof Double)) {
-            double v = value.doubleValue() + (stepSize.doubleValue() * (double)dir);
-            if (value instanceof Double) {
-                newValue = new Double(v);
+        Number newVblue;
+        if ((vblue instbnceof Flobt) || (vblue instbnceof Double)) {
+            double v = vblue.doubleVblue() + (stepSize.doubleVblue() * (double)dir);
+            if (vblue instbnceof Double) {
+                newVblue = new Double(v);
             }
             else {
-                newValue = new Float(v);
+                newVblue = new Flobt(v);
             }
         } else {
-            long v = value.longValue() + (stepSize.longValue() * (long)dir);
+            long v = vblue.longVblue() + (stepSize.longVblue() * (long)dir);
 
-            if (value instanceof Long) {
-                newValue = Long.valueOf(v);
+            if (vblue instbnceof Long) {
+                newVblue = Long.vblueOf(v);
             }
-            else if (value instanceof Integer) {
-                newValue = Integer.valueOf((int)v);
+            else if (vblue instbnceof Integer) {
+                newVblue = Integer.vblueOf((int)v);
             }
-            else if (value instanceof Short) {
-                newValue = Short.valueOf((short)v);
+            else if (vblue instbnceof Short) {
+                newVblue = Short.vblueOf((short)v);
             }
             else {
-                newValue = Byte.valueOf((byte)v);
+                newVblue = Byte.vblueOf((byte)v);
             }
         }
 
-        if ((maximum != null) && (((Comparable<Object>)maximum).compareTo(newValue) < 0)) {
+        if ((mbximum != null) && (((Compbrbble<Object>)mbximum).compbreTo(newVblue) < 0)) {
             return null;
         }
-        if ((minimum != null) && (((Comparable<Object>)minimum).compareTo(newValue) > 0)) {
+        if ((minimum != null) && (((Compbrbble<Object>)minimum).compbreTo(newVblue) > 0)) {
             return null;
         }
         else {
-            return newValue;
+            return newVblue;
         }
     }
 
@@ -374,90 +374,90 @@ public class SpinnerNumberModel extends AbstractSpinnerModel implements Serializ
     /**
      * Returns the next number in the sequence.
      *
-     * @return <code>value + stepSize</code> or <code>null</code> if the sum
-     *     exceeds <code>maximum</code>.
+     * @return <code>vblue + stepSize</code> or <code>null</code> if the sum
+     *     exceeds <code>mbximum</code>.
      *
-     * @see SpinnerModel#getNextValue
-     * @see #getPreviousValue
+     * @see SpinnerModel#getNextVblue
+     * @see #getPreviousVblue
      * @see #setStepSize
      */
-    public Object getNextValue() {
-        return incrValue(+1);
+    public Object getNextVblue() {
+        return incrVblue(+1);
     }
 
 
     /**
      * Returns the previous number in the sequence.
      *
-     * @return <code>value - stepSize</code>, or
+     * @return <code>vblue - stepSize</code>, or
      *     <code>null</code> if the sum is less
-     *     than <code>minimum</code>.
+     *     thbn <code>minimum</code>.
      *
-     * @see SpinnerModel#getPreviousValue
-     * @see #getNextValue
+     * @see SpinnerModel#getPreviousVblue
+     * @see #getNextVblue
      * @see #setStepSize
      */
-    public Object getPreviousValue() {
-        return incrValue(-1);
+    public Object getPreviousVblue() {
+        return incrVblue(-1);
     }
 
 
     /**
-     * Returns the value of the current element of the sequence.
+     * Returns the vblue of the current element of the sequence.
      *
-     * @return the value property
-     * @see #setValue
+     * @return the vblue property
+     * @see #setVblue
      */
     public Number getNumber() {
-        return value;
+        return vblue;
     }
 
 
     /**
-     * Returns the value of the current element of the sequence.
+     * Returns the vblue of the current element of the sequence.
      *
-     * @return the value property
-     * @see #setValue
+     * @return the vblue property
+     * @see #setVblue
      * @see #getNumber
      */
-    public Object getValue() {
-        return value;
+    public Object getVblue() {
+        return vblue;
     }
 
 
     /**
-     * Sets the current value for this sequence.  If <code>value</code> is
-     * <code>null</code>, or not a <code>Number</code>, an
-     * <code>IllegalArgumentException</code> is thrown.  No
-     * bounds checking is done here; the new value may invalidate the
-     * <code>(minimum &lt;= value &lt;= maximum)</code>
-     * invariant enforced by the constructors.   It's also possible to set
-     * the value to be something that wouldn't naturally occur in the sequence,
-     * i.e. a value that's not modulo the <code>stepSize</code>.
-     * This is to simplify updating the model, and to accommodate
-     * spinners that don't want to restrict values that have been
-     * directly entered by the user. Naturally, one should ensure that the
-     * <code>(minimum &lt;= value &lt;= maximum)</code> invariant is true
-     * before calling the <code>next</code>, <code>previous</code>, or
-     * <code>setValue</code> methods.
+     * Sets the current vblue for this sequence.  If <code>vblue</code> is
+     * <code>null</code>, or not b <code>Number</code>, bn
+     * <code>IllegblArgumentException</code> is thrown.  No
+     * bounds checking is done here; the new vblue mby invblidbte the
+     * <code>(minimum &lt;= vblue &lt;= mbximum)</code>
+     * invbribnt enforced by the constructors.   It's blso possible to set
+     * the vblue to be something thbt wouldn't nbturblly occur in the sequence,
+     * i.e. b vblue thbt's not modulo the <code>stepSize</code>.
+     * This is to simplify updbting the model, bnd to bccommodbte
+     * spinners thbt don't wbnt to restrict vblues thbt hbve been
+     * directly entered by the user. Nbturblly, one should ensure thbt the
+     * <code>(minimum &lt;= vblue &lt;= mbximum)</code> invbribnt is true
+     * before cblling the <code>next</code>, <code>previous</code>, or
+     * <code>setVblue</code> methods.
      * <p>
-     * This method fires a <code>ChangeEvent</code> if the value has changed.
+     * This method fires b <code>ChbngeEvent</code> if the vblue hbs chbnged.
      *
-     * @param value the current (non <code>null</code>) <code>Number</code>
+     * @pbrbm vblue the current (non <code>null</code>) <code>Number</code>
      *         for this sequence
-     * @throws IllegalArgumentException if <code>value</code> is
-     *         <code>null</code> or not a <code>Number</code>
+     * @throws IllegblArgumentException if <code>vblue</code> is
+     *         <code>null</code> or not b <code>Number</code>
      * @see #getNumber
-     * @see #getValue
-     * @see SpinnerModel#addChangeListener
+     * @see #getVblue
+     * @see SpinnerModel#bddChbngeListener
      */
-    public void setValue(Object value) {
-        if ((value == null) || !(value instanceof Number)) {
-            throw new IllegalArgumentException("illegal value");
+    public void setVblue(Object vblue) {
+        if ((vblue == null) || !(vblue instbnceof Number)) {
+            throw new IllegblArgumentException("illegbl vblue");
         }
-        if (!value.equals(this.value)) {
-            this.value = (Number)value;
-            fireStateChanged();
+        if (!vblue.equbls(this.vblue)) {
+            this.vblue = (Number)vblue;
+            fireStbteChbnged();
         }
     }
 }

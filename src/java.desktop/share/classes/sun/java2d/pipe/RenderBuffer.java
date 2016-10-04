@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
 
 /**
- * The RenderBuffer class is a simplified, high-performance, Unsafe wrapper
- * used for buffering rendering operations in a single-threaded rendering
- * environment.  It's functionality is similar to the ByteBuffer and related
- * NIO classes.  However, the methods in this class perform little to no
- * alignment or bounds checks for performance reasons.  Therefore, it is
- * the caller's responsibility to ensure that all put() calls are properly
- * aligned and within bounds:
- *   - int and float values must be aligned on 4-byte boundaries
- *   - long and double values must be aligned on 8-byte boundaries
+ * The RenderBuffer clbss is b simplified, high-performbnce, Unsbfe wrbpper
+ * used for buffering rendering operbtions in b single-threbded rendering
+ * environment.  It's functionblity is similbr to the ByteBuffer bnd relbted
+ * NIO clbsses.  However, the methods in this clbss perform little to no
+ * blignment or bounds checks for performbnce rebsons.  Therefore, it is
+ * the cbller's responsibility to ensure thbt bll put() cblls bre properly
+ * bligned bnd within bounds:
+ *   - int bnd flobt vblues must be bligned on 4-byte boundbries
+ *   - long bnd double vblues must be bligned on 8-byte boundbries
  *
- * This class only includes the bare minimum of methods to support
- * single-threaded rendering.  For example, there is no put(double[]) method
- * because we currently have no need for such a method in the STR classes.
+ * This clbss only includes the bbre minimum of methods to support
+ * single-threbded rendering.  For exbmple, there is no put(double[]) method
+ * becbuse we currently hbve no need for such b method in the STR clbsses.
  */
-public class RenderBuffer {
+public clbss RenderBuffer {
 
     /**
-     * These constants represent the size of various data types (in bytes).
+     * These constbnts represent the size of vbrious dbtb types (in bytes).
      */
-    protected static final long SIZEOF_BYTE   = 1L;
-    protected static final long SIZEOF_SHORT  = 2L;
-    protected static final long SIZEOF_INT    = 4L;
-    protected static final long SIZEOF_FLOAT  = 4L;
-    protected static final long SIZEOF_LONG   = 8L;
-    protected static final long SIZEOF_DOUBLE = 8L;
+    protected stbtic finbl long SIZEOF_BYTE   = 1L;
+    protected stbtic finbl long SIZEOF_SHORT  = 2L;
+    protected stbtic finbl long SIZEOF_INT    = 4L;
+    protected stbtic finbl long SIZEOF_FLOAT  = 4L;
+    protected stbtic finbl long SIZEOF_LONG   = 8L;
+    protected stbtic finbl long SIZEOF_DOUBLE = 8L;
 
     /**
-     * Represents the number of elements at which we have empirically
-     * determined that the average cost of a JNI call exceeds the expense
-     * of an element by element copy.  In other words, if the number of
-     * elements in an array to be copied exceeds this value, then we should
-     * use the copyFromArray() method to complete the bulk put operation.
-     * (This value can be adjusted if the cost of JNI downcalls is reduced
-     * in a future release.)
+     * Represents the number of elements bt which we hbve empiricblly
+     * determined thbt the bverbge cost of b JNI cbll exceeds the expense
+     * of bn element by element copy.  In other words, if the number of
+     * elements in bn brrby to be copied exceeds this vblue, then we should
+     * use the copyFromArrby() method to complete the bulk put operbtion.
+     * (This vblue cbn be bdjusted if the cost of JNI downcblls is reduced
+     * in b future relebse.)
      */
-    private static final int COPY_FROM_ARRAY_THRESHOLD = 6;
+    privbte stbtic finbl int COPY_FROM_ARRAY_THRESHOLD = 6;
 
-    protected final Unsafe unsafe;
-    protected final long baseAddress;
-    protected final long endAddress;
+    protected finbl Unsbfe unsbfe;
+    protected finbl long bbseAddress;
+    protected finbl long endAddress;
     protected long curAddress;
-    protected final int capacity;
+    protected finbl int cbpbcity;
 
     protected RenderBuffer(int numBytes) {
-        unsafe = Unsafe.getUnsafe();
-        curAddress = baseAddress = unsafe.allocateMemory(numBytes);
-        endAddress = baseAddress + numBytes;
-        capacity = numBytes;
+        unsbfe = Unsbfe.getUnsbfe();
+        curAddress = bbseAddress = unsbfe.bllocbteMemory(numBytes);
+        endAddress = bbseAddress + numBytes;
+        cbpbcity = numBytes;
     }
 
     /**
-     * Allocates a fresh buffer using the machine endianness.
+     * Allocbtes b fresh buffer using the mbchine endibnness.
      */
-    public static RenderBuffer allocate(int numBytes) {
+    public stbtic RenderBuffer bllocbte(int numBytes) {
         return new RenderBuffer(numBytes);
     }
 
     /**
-     * Returns the base address of the underlying memory buffer.
+     * Returns the bbse bddress of the underlying memory buffer.
      */
-    public final long getAddress() {
-        return baseAddress;
+    public finbl long getAddress() {
+        return bbseAddress;
     }
 
     /**
-     * The behavior (and names) of the following methods are nearly
-     * identical to their counterparts in the various NIO Buffer classes.
+     * The behbvior (bnd nbmes) of the following methods bre nebrly
+     * identicbl to their counterpbrts in the vbrious NIO Buffer clbsses.
      */
 
-    public final int capacity() {
-        return capacity;
+    public finbl int cbpbcity() {
+        return cbpbcity;
     }
 
-    public final int remaining() {
+    public finbl int rembining() {
         return (int)(endAddress - curAddress);
     }
 
-    public final int position() {
-        return (int)(curAddress - baseAddress);
+    public finbl int position() {
+        return (int)(curAddress - bbseAddress);
     }
 
-    public final void position(long numBytes) {
-        curAddress = baseAddress + numBytes;
+    public finbl void position(long numBytes) {
+        curAddress = bbseAddress + numBytes;
     }
 
-    public final void clear() {
-        curAddress = baseAddress;
+    public finbl void clebr() {
+        curAddress = bbseAddress;
     }
 
-    public final RenderBuffer skip(long numBytes) {
+    public finbl RenderBuffer skip(long numBytes) {
         curAddress += numBytes;
         return this;
     }
@@ -127,8 +127,8 @@ public class RenderBuffer {
      * putByte() methods...
      */
 
-    public final RenderBuffer putByte(byte x) {
-        unsafe.putByte(curAddress, x);
+    public finbl RenderBuffer putByte(byte x) {
+        unsbfe.putByte(curAddress, x);
         curAddress += SIZEOF_BYTE;
         return this;
     }
@@ -139,9 +139,9 @@ public class RenderBuffer {
 
     public RenderBuffer put(byte[] x, int offset, int length) {
         if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_BYTE + Unsafe.ARRAY_BYTE_BASE_OFFSET;
+            long offsetInBytes = offset * SIZEOF_BYTE + Unsbfe.ARRAY_BYTE_BASE_OFFSET;
             long lengthInBytes = length * SIZEOF_BYTE;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
+            unsbfe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
             position(position() + lengthInBytes);
         } else {
             int end = offset + length;
@@ -156,9 +156,9 @@ public class RenderBuffer {
      * putShort() methods...
      */
 
-    public final RenderBuffer putShort(short x) {
-        // assert (position() % SIZEOF_SHORT == 0);
-        unsafe.putShort(curAddress, x);
+    public finbl RenderBuffer putShort(short x) {
+        // bssert (position() % SIZEOF_SHORT == 0);
+        unsbfe.putShort(curAddress, x);
         curAddress += SIZEOF_SHORT;
         return this;
     }
@@ -168,11 +168,11 @@ public class RenderBuffer {
     }
 
     public RenderBuffer put(short[] x, int offset, int length) {
-        // assert (position() % SIZEOF_SHORT == 0);
+        // bssert (position() % SIZEOF_SHORT == 0);
         if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_SHORT + Unsafe.ARRAY_SHORT_BASE_OFFSET;
+            long offsetInBytes = offset * SIZEOF_SHORT + Unsbfe.ARRAY_SHORT_BASE_OFFSET;
             long lengthInBytes = length * SIZEOF_SHORT;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
+            unsbfe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
             position(position() + lengthInBytes);
         } else {
             int end = offset + length;
@@ -187,15 +187,15 @@ public class RenderBuffer {
      * putInt() methods...
      */
 
-    public final RenderBuffer putInt(int pos, int x) {
-        // assert (baseAddress + pos % SIZEOF_INT == 0);
-        unsafe.putInt(baseAddress + pos, x);
+    public finbl RenderBuffer putInt(int pos, int x) {
+        // bssert (bbseAddress + pos % SIZEOF_INT == 0);
+        unsbfe.putInt(bbseAddress + pos, x);
         return this;
     }
 
-    public final RenderBuffer putInt(int x) {
-        // assert (position() % SIZEOF_INT == 0);
-        unsafe.putInt(curAddress, x);
+    public finbl RenderBuffer putInt(int x) {
+        // bssert (position() % SIZEOF_INT == 0);
+        unsbfe.putInt(curAddress, x);
         curAddress += SIZEOF_INT;
         return this;
     }
@@ -205,11 +205,11 @@ public class RenderBuffer {
     }
 
     public RenderBuffer put(int[] x, int offset, int length) {
-        // assert (position() % SIZEOF_INT == 0);
+        // bssert (position() % SIZEOF_INT == 0);
         if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_INT + Unsafe.ARRAY_INT_BASE_OFFSET;
+            long offsetInBytes = offset * SIZEOF_INT + Unsbfe.ARRAY_INT_BASE_OFFSET;
             long lengthInBytes = length * SIZEOF_INT;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
+            unsbfe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
             position(position() + lengthInBytes);
         } else {
             int end = offset + length;
@@ -221,31 +221,31 @@ public class RenderBuffer {
     }
 
     /**
-     * putFloat() methods...
+     * putFlobt() methods...
      */
 
-    public final RenderBuffer putFloat(float x) {
-        // assert (position() % SIZEOF_FLOAT == 0);
-        unsafe.putFloat(curAddress, x);
+    public finbl RenderBuffer putFlobt(flobt x) {
+        // bssert (position() % SIZEOF_FLOAT == 0);
+        unsbfe.putFlobt(curAddress, x);
         curAddress += SIZEOF_FLOAT;
         return this;
     }
 
-    public RenderBuffer put(float[] x) {
+    public RenderBuffer put(flobt[] x) {
         return put(x, 0, x.length);
     }
 
-    public RenderBuffer put(float[] x, int offset, int length) {
-        // assert (position() % SIZEOF_FLOAT == 0);
+    public RenderBuffer put(flobt[] x, int offset, int length) {
+        // bssert (position() % SIZEOF_FLOAT == 0);
         if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_FLOAT + Unsafe.ARRAY_FLOAT_BASE_OFFSET;
+            long offsetInBytes = offset * SIZEOF_FLOAT + Unsbfe.ARRAY_FLOAT_BASE_OFFSET;
             long lengthInBytes = length * SIZEOF_FLOAT;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
+            unsbfe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
             position(position() + lengthInBytes);
         } else {
             int end = offset + length;
             for (int i = offset; i < end; i++) {
-                putFloat(x[i]);
+                putFlobt(x[i]);
             }
         }
         return this;
@@ -255,9 +255,9 @@ public class RenderBuffer {
      * putLong() methods...
      */
 
-    public final RenderBuffer putLong(long x) {
-        // assert (position() % SIZEOF_LONG == 0);
-        unsafe.putLong(curAddress, x);
+    public finbl RenderBuffer putLong(long x) {
+        // bssert (position() % SIZEOF_LONG == 0);
+        unsbfe.putLong(curAddress, x);
         curAddress += SIZEOF_LONG;
         return this;
     }
@@ -267,11 +267,11 @@ public class RenderBuffer {
     }
 
     public RenderBuffer put(long[] x, int offset, int length) {
-        // assert (position() % SIZEOF_LONG == 0);
+        // bssert (position() % SIZEOF_LONG == 0);
         if (length > COPY_FROM_ARRAY_THRESHOLD) {
-            long offsetInBytes = offset * SIZEOF_LONG + Unsafe.ARRAY_LONG_BASE_OFFSET;
+            long offsetInBytes = offset * SIZEOF_LONG + Unsbfe.ARRAY_LONG_BASE_OFFSET;
             long lengthInBytes = length * SIZEOF_LONG;
-            unsafe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
+            unsbfe.copyMemory(x, offsetInBytes, null, curAddress, lengthInBytes);
             position(position() + lengthInBytes);
         } else {
             int end = offset + length;
@@ -286,9 +286,9 @@ public class RenderBuffer {
      * putDouble() method(s)...
      */
 
-    public final RenderBuffer putDouble(double x) {
-        // assert (position() % SIZEOF_DOUBLE == 0);
-        unsafe.putDouble(curAddress, x);
+    public finbl RenderBuffer putDouble(double x) {
+        // bssert (position() % SIZEOF_DOUBLE == 0);
+        unsbfe.putDouble(curAddress, x);
         curAddress += SIZEOF_DOUBLE;
         return this;
     }

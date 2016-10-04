@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.wbmp;
+pbckbge com.sun.imbgeio.plugins.wbmp;
 
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.MultiPixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
 
-import javax.imageio.IIOException;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.ImbgeRebdPbrbm;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.spi.ImbgeRebderSpi;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+import jbvb.io.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
 
-import com.sun.imageio.plugins.common.I18N;
-import com.sun.imageio.plugins.common.ReaderUtil;
+import com.sun.imbgeio.plugins.common.I18N;
+import com.sun.imbgeio.plugins.common.RebderUtil;
 
-/** This class is the Java Image IO plugin reader for WBMP images.
- *  It may subsample the image, clip the image,
- *  and shift the decoded image origin if the proper decoding parameter
- *  are set in the provided <code>WBMPImageReadParam</code>.
+/** This clbss is the Jbvb Imbge IO plugin rebder for WBMP imbges.
+ *  It mby subsbmple the imbge, clip the imbge,
+ *  bnd shift the decoded imbge origin if the proper decoding pbrbmeter
+ *  bre set in the provided <code>WBMPImbgeRebdPbrbm</code>.
  */
-public class WBMPImageReader extends ImageReader {
-    /** The input stream where reads from */
-    private ImageInputStream iis = null;
+public clbss WBMPImbgeRebder extends ImbgeRebder {
+    /** The input strebm where rebds from */
+    privbte ImbgeInputStrebm iis = null;
 
-    /** Indicates whether the header is read. */
-    private boolean gotHeader = false;
+    /** Indicbtes whether the hebder is rebd. */
+    privbte boolebn gotHebder = fblse;
 
-    /** The original image width. */
-    private int width;
+    /** The originbl imbge width. */
+    privbte int width;
 
-    /** The original image height. */
-    private int height;
+    /** The originbl imbge height. */
+    privbte int height;
 
-    private int wbmpType;
+    privbte int wbmpType;
 
-    private WBMPMetadata metadata;
+    privbte WBMPMetbdbtb metbdbtb;
 
-    /** Constructs <code>WBMPImageReader</code> from the provided
-     *  <code>ImageReaderSpi</code>.
+    /** Constructs <code>WBMPImbgeRebder</code> from the provided
+     *  <code>ImbgeRebderSpi</code>.
      */
-    public WBMPImageReader(ImageReaderSpi originator) {
-        super(originator);
+    public WBMPImbgeRebder(ImbgeRebderSpi originbtor) {
+        super(originbtor);
     }
 
-    /** Overrides the method defined in the superclass. */
+    /** Overrides the method defined in the superclbss. */
     public void setInput(Object input,
-                         boolean seekForwardOnly,
-                         boolean ignoreMetadata) {
-        super.setInput(input, seekForwardOnly, ignoreMetadata);
-        iis = (ImageInputStream) input; // Always works
-        gotHeader = false;
+                         boolebn seekForwbrdOnly,
+                         boolebn ignoreMetbdbtb) {
+        super.setInput(input, seekForwbrdOnly, ignoreMetbdbtb);
+        iis = (ImbgeInputStrebm) input; // Alwbys works
+        gotHebder = fblse;
     }
 
-    /** Overrides the method defined in the superclass. */
-    public int getNumImages(boolean allowSearch) throws IOException {
+    /** Overrides the method defined in the superclbss. */
+    public int getNumImbges(boolebn bllowSebrch) throws IOException {
         if (iis == null) {
-            throw new IllegalStateException(I18N.getString("GetNumImages0"));
+            throw new IllegblStbteException(I18N.getString("GetNumImbges0"));
         }
-        if (seekForwardOnly && allowSearch) {
-            throw new IllegalStateException(I18N.getString("GetNumImages1"));
+        if (seekForwbrdOnly && bllowSebrch) {
+            throw new IllegblStbteException(I18N.getString("GetNumImbges1"));
         }
         return 1;
     }
 
-    public int getWidth(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
-        readHeader();
+    public int getWidth(int imbgeIndex) throws IOException {
+        checkIndex(imbgeIndex);
+        rebdHebder();
         return width;
     }
 
-    public int getHeight(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
-        readHeader();
+    public int getHeight(int imbgeIndex) throws IOException {
+        checkIndex(imbgeIndex);
+        rebdHebder();
         return height;
     }
 
-    public boolean isRandomAccessEasy(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
+    public boolebn isRbndomAccessEbsy(int imbgeIndex) throws IOException {
+        checkIndex(imbgeIndex);
         return true;
     }
 
-    private void checkIndex(int imageIndex) {
-        if (imageIndex != 0) {
-            throw new IndexOutOfBoundsException(I18N.getString("WBMPImageReader0"));
+    privbte void checkIndex(int imbgeIndex) {
+        if (imbgeIndex != 0) {
+            throw new IndexOutOfBoundsException(I18N.getString("WBMPImbgeRebder0"));
         }
     }
 
-    public void readHeader() throws IOException {
-        if (gotHeader)
+    public void rebdHebder() throws IOException {
+        if (gotHebder)
             return;
 
         if (iis == null) {
-            throw new IllegalStateException("Input source not set!");
+            throw new IllegblStbteException("Input source not set!");
         }
 
-        metadata = new WBMPMetadata();
+        metbdbtb = new WBMPMetbdbtb();
 
-        wbmpType = iis.readByte();   // TypeField
-        byte fixHeaderField = iis.readByte();
+        wbmpType = iis.rebdByte();   // TypeField
+        byte fixHebderField = iis.rebdByte();
 
-        // check for valid wbmp image
-        if (fixHeaderField != 0
-            || !isValidWbmpType(wbmpType))
+        // check for vblid wbmp imbge
+        if (fixHebderField != 0
+            || !isVblidWbmpType(wbmpType))
         {
-            throw new IIOException(I18N.getString("WBMPImageReader2"));
+            throw new IIOException(I18N.getString("WBMPImbgeRebder2"));
         }
 
-        metadata.wbmpType = wbmpType;
+        metbdbtb.wbmpType = wbmpType;
 
-        // Read image width
-        width = ReaderUtil.readMultiByteInteger(iis);
-        metadata.width = width;
+        // Rebd imbge width
+        width = RebderUtil.rebdMultiByteInteger(iis);
+        metbdbtb.width = width;
 
-        // Read image height
-        height = ReaderUtil.readMultiByteInteger(iis);
-        metadata.height = height;
+        // Rebd imbge height
+        height = RebderUtil.rebdMultiByteInteger(iis);
+        metbdbtb.height = height;
 
-        gotHeader = true;
+        gotHebder = true;
     }
 
-    public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex)
+    public Iterbtor<ImbgeTypeSpecifier> getImbgeTypes(int imbgeIndex)
         throws IOException {
-        checkIndex(imageIndex);
-        readHeader();
+        checkIndex(imbgeIndex);
+        rebdHebder();
 
-        BufferedImage bi =
-            new BufferedImage(1, 1, BufferedImage.TYPE_BYTE_BINARY);
-        ArrayList<ImageTypeSpecifier> list = new ArrayList<>(1);
-        list.add(new ImageTypeSpecifier(bi));
-        return list.iterator();
+        BufferedImbge bi =
+            new BufferedImbge(1, 1, BufferedImbge.TYPE_BYTE_BINARY);
+        ArrbyList<ImbgeTypeSpecifier> list = new ArrbyList<>(1);
+        list.bdd(new ImbgeTypeSpecifier(bi));
+        return list.iterbtor();
     }
 
-    public ImageReadParam getDefaultReadParam() {
-        return new ImageReadParam();
+    public ImbgeRebdPbrbm getDefbultRebdPbrbm() {
+        return new ImbgeRebdPbrbm();
     }
 
-    public IIOMetadata getImageMetadata(int imageIndex)
+    public IIOMetbdbtb getImbgeMetbdbtb(int imbgeIndex)
         throws IOException {
-        checkIndex(imageIndex);
-        if (metadata == null) {
-            readHeader();
+        checkIndex(imbgeIndex);
+        if (metbdbtb == null) {
+            rebdHebder();
         }
-        return metadata;
+        return metbdbtb;
     }
 
-    public IIOMetadata getStreamMetadata() throws IOException {
+    public IIOMetbdbtb getStrebmMetbdbtb() throws IOException {
         return null;
     }
 
-    public BufferedImage read(int imageIndex, ImageReadParam param)
+    public BufferedImbge rebd(int imbgeIndex, ImbgeRebdPbrbm pbrbm)
         throws IOException {
 
         if (iis == null) {
-            throw new IllegalStateException(I18N.getString("WBMPImageReader1"));
+            throw new IllegblStbteException(I18N.getString("WBMPImbgeRebder1"));
         }
 
-        checkIndex(imageIndex);
-        clearAbortRequest();
-        processImageStarted(imageIndex);
-        if (param == null)
-            param = getDefaultReadParam();
+        checkIndex(imbgeIndex);
+        clebrAbortRequest();
+        processImbgeStbrted(imbgeIndex);
+        if (pbrbm == null)
+            pbrbm = getDefbultRebdPbrbm();
 
-        //read header
-        readHeader();
+        //rebd hebder
+        rebdHebder();
 
-        Rectangle sourceRegion = new Rectangle(0, 0, 0, 0);
-        Rectangle destinationRegion = new Rectangle(0, 0, 0, 0);
+        Rectbngle sourceRegion = new Rectbngle(0, 0, 0, 0);
+        Rectbngle destinbtionRegion = new Rectbngle(0, 0, 0, 0);
 
-        computeRegions(param, this.width, this.height,
-                       param.getDestination(),
+        computeRegions(pbrbm, this.width, this.height,
+                       pbrbm.getDestinbtion(),
                        sourceRegion,
-                       destinationRegion);
+                       destinbtionRegion);
 
-        int scaleX = param.getSourceXSubsampling();
-        int scaleY = param.getSourceYSubsampling();
-        int xOffset = param.getSubsamplingXOffset();
-        int yOffset = param.getSubsamplingYOffset();
+        int scbleX = pbrbm.getSourceXSubsbmpling();
+        int scbleY = pbrbm.getSourceYSubsbmpling();
+        int xOffset = pbrbm.getSubsbmplingXOffset();
+        int yOffset = pbrbm.getSubsbmplingYOffset();
 
-        // If the destination is provided, then use it.  Otherwise, create new one
-        BufferedImage bi = param.getDestination();
+        // If the destinbtion is provided, then use it.  Otherwise, crebte new one
+        BufferedImbge bi = pbrbm.getDestinbtion();
 
         if (bi == null)
-            bi = new BufferedImage(destinationRegion.x + destinationRegion.width,
-                              destinationRegion.y + destinationRegion.height,
-                              BufferedImage.TYPE_BYTE_BINARY);
+            bi = new BufferedImbge(destinbtionRegion.x + destinbtionRegion.width,
+                              destinbtionRegion.y + destinbtionRegion.height,
+                              BufferedImbge.TYPE_BYTE_BINARY);
 
-        boolean noTransform =
-            destinationRegion.equals(new Rectangle(0, 0, width, height)) &&
-            destinationRegion.equals(new Rectangle(0, 0, bi.getWidth(), bi.getHeight()));
+        boolebn noTrbnsform =
+            destinbtionRegion.equbls(new Rectbngle(0, 0, width, height)) &&
+            destinbtionRegion.equbls(new Rectbngle(0, 0, bi.getWidth(), bi.getHeight()));
 
-        // Get the image data.
-        WritableRaster tile = bi.getWritableTile(0, 0);
+        // Get the imbge dbtb.
+        WritbbleRbster tile = bi.getWritbbleTile(0, 0);
 
-        // Get the SampleModel.
-        MultiPixelPackedSampleModel sm =
-            (MultiPixelPackedSampleModel)bi.getSampleModel();
+        // Get the SbmpleModel.
+        MultiPixelPbckedSbmpleModel sm =
+            (MultiPixelPbckedSbmpleModel)bi.getSbmpleModel();
 
-        if (noTransform) {
-            if (abortRequested()) {
-                processReadAborted();
+        if (noTrbnsform) {
+            if (bbortRequested()) {
+                processRebdAborted();
                 return bi;
             }
 
-            // If noTransform is necessary, read the data.
-            iis.read(((DataBufferByte)tile.getDataBuffer()).getData(),
-                     0, height*sm.getScanlineStride());
-            processImageUpdate(bi,
+            // If noTrbnsform is necessbry, rebd the dbtb.
+            iis.rebd(((DbtbBufferByte)tile.getDbtbBuffer()).getDbtb(),
+                     0, height*sm.getScbnlineStride());
+            processImbgeUpdbte(bi,
                                0, 0,
                                width, height, 1, 1,
                                new int[]{0});
-            processImageProgress(100.0F);
+            processImbgeProgress(100.0F);
         } else {
             int len = (this.width + 7) / 8;
             byte[] buf = new byte[len];
-            byte[] data = ((DataBufferByte)tile.getDataBuffer()).getData();
-            int lineStride = sm.getScanlineStride();
+            byte[] dbtb = ((DbtbBufferByte)tile.getDbtbBuffer()).getDbtb();
+            int lineStride = sm.getScbnlineStride();
             iis.skipBytes(len * sourceRegion.y);
-            int skipLength = len * (scaleY - 1);
+            int skipLength = len * (scbleY - 1);
 
-            // cache the values to avoid duplicated computation
-            int[] srcOff = new int[destinationRegion.width];
-            int[] destOff = new int[destinationRegion.width];
-            int[] srcPos = new int[destinationRegion.width];
-            int[] destPos = new int[destinationRegion.width];
+            // cbche the vblues to bvoid duplicbted computbtion
+            int[] srcOff = new int[destinbtionRegion.width];
+            int[] destOff = new int[destinbtionRegion.width];
+            int[] srcPos = new int[destinbtionRegion.width];
+            int[] destPos = new int[destinbtionRegion.width];
 
-            for (int i = destinationRegion.x, x = sourceRegion.x, j = 0;
-                i < destinationRegion.x + destinationRegion.width;
-                    i++, j++, x += scaleX) {
+            for (int i = destinbtionRegion.x, x = sourceRegion.x, j = 0;
+                i < destinbtionRegion.x + destinbtionRegion.width;
+                    i++, j++, x += scbleX) {
                 srcPos[j] = x >> 3;
                 srcOff[j] = 7 - (x & 7);
                 destPos[j] = i >> 3;
@@ -267,56 +267,56 @@ public class WBMPImageReader extends ImageReader {
             }
 
             for (int j = 0, y = sourceRegion.y,
-                k = destinationRegion.y * lineStride;
-                j < destinationRegion.height; j++, y+=scaleY) {
+                k = destinbtionRegion.y * lineStride;
+                j < destinbtionRegion.height; j++, y+=scbleY) {
 
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, len);
-                for (int i = 0; i < destinationRegion.width; i++) {
-                    //get the bit and assign to the data buffer of the raster
+                if (bbortRequested())
+                    brebk;
+                iis.rebd(buf, 0, len);
+                for (int i = 0; i < destinbtionRegion.width; i++) {
+                    //get the bit bnd bssign to the dbtb buffer of the rbster
                     int v = (buf[srcPos[i]] >> srcOff[i]) & 1;
-                    data[k + destPos[i]] |= v << destOff[i];
+                    dbtb[k + destPos[i]] |= v << destOff[i];
                 }
 
                 k += lineStride;
                 iis.skipBytes(skipLength);
-                        processImageUpdate(bi,
+                        processImbgeUpdbte(bi,
                                            0, j,
-                                           destinationRegion.width, 1, 1, 1,
+                                           destinbtionRegion.width, 1, 1, 1,
                                            new int[]{0});
-                        processImageProgress(100.0F*j/destinationRegion.height);
+                        processImbgeProgress(100.0F*j/destinbtionRegion.height);
             }
         }
 
-        if (abortRequested())
-            processReadAborted();
+        if (bbortRequested())
+            processRebdAborted();
         else
-            processImageComplete();
+            processImbgeComplete();
         return bi;
     }
 
-    public boolean canReadRaster() {
+    public boolebn cbnRebdRbster() {
         return true;
     }
 
-    public Raster readRaster(int imageIndex,
-                             ImageReadParam param) throws IOException {
-        BufferedImage bi = read(imageIndex, param);
-        return bi.getData();
+    public Rbster rebdRbster(int imbgeIndex,
+                             ImbgeRebdPbrbm pbrbm) throws IOException {
+        BufferedImbge bi = rebd(imbgeIndex, pbrbm);
+        return bi.getDbtb();
     }
 
     public void reset() {
         super.reset();
         iis = null;
-        gotHeader = false;
+        gotHebder = fblse;
     }
 
     /*
-     * This method verifies that given byte is valid wbmp type marker.
-     * At the moment only 0x0 marker is described by wbmp spec.
+     * This method verifies thbt given byte is vblid wbmp type mbrker.
+     * At the moment only 0x0 mbrker is described by wbmp spec.
      */
-    boolean isValidWbmpType(int type) {
+    boolebn isVblidWbmpType(int type) {
         return type == 0;
     }
 }

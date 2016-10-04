@@ -1,506 +1,506 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset;
+pbckbge jbvbx.sql.rowset;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.math.*;
-import org.xml.sax.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import org.xml.sbx.*;
 
 /**
- * The standard interface that all implementations of a {@code WebRowSet}
+ * The stbndbrd interfbce thbt bll implementbtions of b {@code WebRowSet}
  * must implement.
  *
  * <h3>1.0 Overview</h3>
- * The {@code WebRowSetImpl} provides the standard
- * reference implementation, which may be extended if required.
+ * The {@code WebRowSetImpl} provides the stbndbrd
+ * reference implementbtion, which mby be extended if required.
  * <P>
- * The standard WebRowSet XML Schema definition is available at the following
+ * The stbndbrd WebRowSet XML Schemb definition is bvbilbble bt the following
  * URI:
  * <ul>
  * <li>
- * <a href="http://java.sun.com/xml/ns/jdbc/webrowset.xsd">http://java.sun.com/xml/ns/jdbc/webrowset.xsd</a>
+ * <b href="http://jbvb.sun.com/xml/ns/jdbc/webrowset.xsd">http://jbvb.sun.com/xml/ns/jdbc/webrowset.xsd</b>
  * </li>
  * </ul>
- * It describes the standard XML document format required when describing a
- * {@code RowSet} object in XML and must be used be all standard implementations
- * of the {@code WebRowSet} interface to ensure interoperability. In addition,
- * the {@code WebRowSet} schema uses specific SQL/XML Schema annotations,
- * thus ensuring greater cross
- * platform inter-operability. This is an effort currently under way at the ISO
- * organization. The SQL/XML definition is available at the following URI:
+ * It describes the stbndbrd XML document formbt required when describing b
+ * {@code RowSet} object in XML bnd must be used be bll stbndbrd implementbtions
+ * of the {@code WebRowSet} interfbce to ensure interoperbbility. In bddition,
+ * the {@code WebRowSet} schemb uses specific SQL/XML Schemb bnnotbtions,
+ * thus ensuring grebter cross
+ * plbtform inter-operbbility. This is bn effort currently under wby bt the ISO
+ * orgbnizbtion. The SQL/XML definition is bvbilbble bt the following URI:
  * <ul>
  * <li>
- * <a href="http://standards.iso.org/iso/9075/2002/12/sqlxml">http://standards.iso.org/iso/9075/2002/12/sqlxml</a>
+ * <b href="http://stbndbrds.iso.org/iso/9075/2002/12/sqlxml">http://stbndbrds.iso.org/iso/9075/2002/12/sqlxml</b>
  * </li>
  * </ul>
- * The schema definition describes the internal data of a {@code RowSet} object
- * in three distinct areas:
+ * The schemb definition describes the internbl dbtb of b {@code RowSet} object
+ * in three distinct brebs:
  * <UL>
- * <li>properties - These properties describe the standard synchronization
- * provider properties in addition to the more general {@code RowSet} properties.
+ * <li>properties - These properties describe the stbndbrd synchronizbtion
+ * provider properties in bddition to the more generbl {@code RowSet} properties.
  * </li>
- * <li>metadata - This describes the metadata associated with the tabular structure governed by a
- * {@code WebRowSet} object. The metadata described is closely aligned with the
- * metadata accessible in the underlying {@code java.sql.ResultSet} interface.
+ * <li>metbdbtb - This describes the metbdbtb bssocibted with the tbbulbr structure governed by b
+ * {@code WebRowSet} object. The metbdbtb described is closely bligned with the
+ * metbdbtb bccessible in the underlying {@code jbvb.sql.ResultSet} interfbce.
  * </li>
- * <li>data - This describes the original data (the state of data since the
- * last population
- * or last synchronization of the {@code WebRowSet} object) and the current
- * data. By keeping track of the delta between the original data and the current data,
- * a {@code WebRowSet} maintains the ability to synchronize changes
- * in its data back to the originating data source.
+ * <li>dbtb - This describes the originbl dbtb (the stbte of dbtb since the
+ * lbst populbtion
+ * or lbst synchronizbtion of the {@code WebRowSet} object) bnd the current
+ * dbtb. By keeping trbck of the deltb between the originbl dbtb bnd the current dbtb,
+ * b {@code WebRowSet} mbintbins the bbility to synchronize chbnges
+ * in its dbtb bbck to the originbting dbtb source.
  * </li>
  * </ul>
  *
- * <h3>2.0 WebRowSet States</h3>
- * The following sections demonstrates how a {@code WebRowSet} implementation
- * should use the XML Schema to describe update, insert, and delete operations
- * and to describe the state of a {@code WebRowSet} object in XML.
+ * <h3>2.0 WebRowSet Stbtes</h3>
+ * The following sections demonstrbtes how b {@code WebRowSet} implementbtion
+ * should use the XML Schemb to describe updbte, insert, bnd delete operbtions
+ * bnd to describe the stbte of b {@code WebRowSet} object in XML.
  *
- * <h4>2.1 State 1 - Outputting a {@code WebRowSet} Object to XML</h4>
- * In this example, a {@code WebRowSet} object is created and populated with a simple 2 column,
- * 5 row table from a data source. Having the 5 rows in a {@code WebRowSet} object
- * makes it possible to describe them in XML. The
- * metadata describing the various standard JavaBeans properties as defined
- * in the RowSet interface plus the standard properties defined in
- * the {@code CachedRowSet}&trade; interface
- * provide key details that describe WebRowSet
- * properties. Outputting the WebRowSet object to XML using the standard
- * {@code writeXml} methods describes the internal properties as follows:
+ * <h4>2.1 Stbte 1 - Outputting b {@code WebRowSet} Object to XML</h4>
+ * In this exbmple, b {@code WebRowSet} object is crebted bnd populbted with b simple 2 column,
+ * 5 row tbble from b dbtb source. Hbving the 5 rows in b {@code WebRowSet} object
+ * mbkes it possible to describe them in XML. The
+ * metbdbtb describing the vbrious stbndbrd JbvbBebns properties bs defined
+ * in the RowSet interfbce plus the stbndbrd properties defined in
+ * the {@code CbchedRowSet}&trbde; interfbce
+ * provide key detbils thbt describe WebRowSet
+ * properties. Outputting the WebRowSet object to XML using the stbndbrd
+ * {@code writeXml} methods describes the internbl properties bs follows:
  * <PRE>
  * {@code
  * <properties>
- *       <command>select co1, col2 from test_table</command>
+ *       <commbnd>select co1, col2 from test_tbble</commbnd>
  *      <concurrency>1</concurrency>
- *      <datasource/>
- *      <escape-processing>true</escape-processing>
+ *      <dbtbsource/>
+ *      <escbpe-processing>true</escbpe-processing>
  *      <fetch-direction>0</fetch-direction>
  *      <fetch-size>0</fetch-size>
- *      <isolation-level>1</isolation-level>
+ *      <isolbtion-level>1</isolbtion-level>
  *      <key-columns/>
- *      <map/>
- *      <max-field-size>0</max-field-size>
- *      <max-rows>0</max-rows>
+ *      <mbp/>
+ *      <mbx-field-size>0</mbx-field-size>
+ *      <mbx-rows>0</mbx-rows>
  *      <query-timeout>0</query-timeout>
- *      <read-only>false</read-only>
+ *      <rebd-only>fblse</rebd-only>
  *      <rowset-type>TRANSACTION_READ_UNCOMMITED</rowset-type>
- *      <show-deleted>false</show-deleted>
- *      <table-name/>
- *      <url>jdbc:thin:oracle</url>
+ *      <show-deleted>fblse</show-deleted>
+ *      <tbble-nbme/>
+ *      <url>jdbc:thin:orbcle</url>
  *      <sync-provider>
- *              <sync-provider-name>.com.rowset.provider.RIOptimisticProvider</sync-provider-name>
- *              <sync-provider-vendor>Oracle Corporation</sync-provider-vendor>
- *              <sync-provider-version>1.0</sync-provider-name>
- *              <sync-provider-grade>LOW</sync-provider-grade>
- *              <data-source-lock>NONE</data-source-lock>
+ *              <sync-provider-nbme>.com.rowset.provider.RIOptimisticProvider</sync-provider-nbme>
+ *              <sync-provider-vendor>Orbcle Corporbtion</sync-provider-vendor>
+ *              <sync-provider-version>1.0</sync-provider-nbme>
+ *              <sync-provider-grbde>LOW</sync-provider-grbde>
+ *              <dbtb-source-lock>NONE</dbtb-source-lock>
  *      </sync-provider>
  * </properties>
  * } </PRE>
- * The meta-data describing the make up of the WebRowSet is described
- * in XML as detailed below. Note both columns are described between the
- * {@code column-definition} tags.
+ * The metb-dbtb describing the mbke up of the WebRowSet is described
+ * in XML bs detbiled below. Note both columns bre described between the
+ * {@code column-definition} tbgs.
  * <PRE>
  * {@code
- * <metadata>
+ * <metbdbtb>
  *      <column-count>2</column-count>
  *      <column-definition>
  *              <column-index>1</column-index>
- *              <auto-increment>false</auto-increment>
- *              <case-sensitive>true</case-sensitive>
- *              <currency>false</currency>
- *              <nullable>1</nullable>
- *              <signed>false</signed>
- *              <searchable>true</searchable>
- *              <column-display-size>10</column-display-size>
- *              <column-label>COL1</column-label>
- *              <column-name>COL1</column-name>
- *              <schema-name/>
+ *              <buto-increment>fblse</buto-increment>
+ *              <cbse-sensitive>true</cbse-sensitive>
+ *              <currency>fblse</currency>
+ *              <nullbble>1</nullbble>
+ *              <signed>fblse</signed>
+ *              <sebrchbble>true</sebrchbble>
+ *              <column-displby-size>10</column-displby-size>
+ *              <column-lbbel>COL1</column-lbbel>
+ *              <column-nbme>COL1</column-nbme>
+ *              <schemb-nbme/>
  *              <column-precision>10</column-precision>
- *              <column-scale>0</column-scale>
- *              <table-name/>
- *              <catalog-name/>
+ *              <column-scble>0</column-scble>
+ *              <tbble-nbme/>
+ *              <cbtblog-nbme/>
  *              <column-type>1</column-type>
- *              <column-type-name>CHAR</column-type-name>
+ *              <column-type-nbme>CHAR</column-type-nbme>
  *      </column-definition>
  *      <column-definition>
  *              <column-index>2</column-index>
- *              <auto-increment>false</auto-increment>
- *              <case-sensitive>false</case-sensitive>
- *              <currency>false</currency>
- *              <nullable>1</nullable>
+ *              <buto-increment>fblse</buto-increment>
+ *              <cbse-sensitive>fblse</cbse-sensitive>
+ *              <currency>fblse</currency>
+ *              <nullbble>1</nullbble>
  *              <signed>true</signed>
- *              <searchable>true</searchable>
- *              <column-display-size>39</column-display-size>
- *              <column-label>COL2</column-label>
- *              <column-name>COL2</column-name>
- *              <schema-name/>
+ *              <sebrchbble>true</sebrchbble>
+ *              <column-displby-size>39</column-displby-size>
+ *              <column-lbbel>COL2</column-lbbel>
+ *              <column-nbme>COL2</column-nbme>
+ *              <schemb-nbme/>
  *              <column-precision>38</column-precision>
- *              <column-scale>0</column-scale>
- *              <table-name/>
- *              <catalog-name/>
+ *              <column-scble>0</column-scble>
+ *              <tbble-nbme/>
+ *              <cbtblog-nbme/>
  *              <column-type>3</column-type>
- *              <column-type-name>NUMBER</column-type-name>
+ *              <column-type-nbme>NUMBER</column-type-nbme>
  *      </column-definition>
- * </metadata>
+ * </metbdbtb>
  * }</PRE>
- * Having detailed how the properties and metadata are described, the following details
- * how the contents of a {@code WebRowSet} object is described in XML. Note, that
- * this describes a {@code WebRowSet} object that has not undergone any
- * modifications since its instantiation.
- * A {@code currentRow} tag is mapped to each row of the table structure that the
- * {@code WebRowSet} object provides. A {@code columnValue} tag may contain
- * either the {@code stringData} or {@code binaryData} tag, according to
- * the SQL type that
- * the XML value is mapping back to. The {@code binaryData} tag contains data in the
- * Base64 encoding and is typically used for {@code BLOB} and {@code CLOB} type data.
+ * Hbving detbiled how the properties bnd metbdbtb bre described, the following detbils
+ * how the contents of b {@code WebRowSet} object is described in XML. Note, thbt
+ * this describes b {@code WebRowSet} object thbt hbs not undergone bny
+ * modificbtions since its instbntibtion.
+ * A {@code currentRow} tbg is mbpped to ebch row of the tbble structure thbt the
+ * {@code WebRowSet} object provides. A {@code columnVblue} tbg mby contbin
+ * either the {@code stringDbtb} or {@code binbryDbtb} tbg, bccording to
+ * the SQL type thbt
+ * the XML vblue is mbpping bbck to. The {@code binbryDbtb} tbg contbins dbtb in the
+ * Bbse64 encoding bnd is typicblly used for {@code BLOB} bnd {@code CLOB} type dbtb.
  * <PRE>
  * {@code
- * <data>
+ * <dbtb>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      firstrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      1
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      secondrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      2
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      thirdrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      3
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      fourthrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      4
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
- * </data>
+ * </dbtb>
  * }</PRE>
- * <h4>2.2 State 2 - Deleting a Row</h4>
- * Deleting a row in a {@code WebRowSet} object involves simply moving to the row
- * to be deleted and then calling the method {@code deleteRow}, as in any other
+ * <h4>2.2 Stbte 2 - Deleting b Row</h4>
+ * Deleting b row in b {@code WebRowSet} object involves simply moving to the row
+ * to be deleted bnd then cblling the method {@code deleteRow}, bs in bny other
  * {@code RowSet} object.  The following
- * two lines of code, in which <i>wrs</i> is a {@code WebRowSet} object, delete
+ * two lines of code, in which <i>wrs</i> is b {@code WebRowSet} object, delete
  * the third row.
  * <PRE>
- *     wrs.absolute(3);
+ *     wrs.bbsolute(3);
  *     wrs.deleteRow();
  * </PRE>
- * The XML description shows the third row is marked as a {@code deleteRow},
- *  which eliminates the third row in the {@code WebRowSet} object.
+ * The XML description shows the third row is mbrked bs b {@code deleteRow},
+ *  which eliminbtes the third row in the {@code WebRowSet} object.
  * <PRE>
  * {@code
- * <data>
+ * <dbtb>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      firstrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      1
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      secondrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      2
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <deleteRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      thirdrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      3
- *              </columnValue>
+ *              </columnVblue>
  *      </deleteRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      fourthrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      4
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
- * </data>
+ * </dbtb>
  *} </PRE>
- * <h4>2.3 State 3 - Inserting a Row</h4>
- * A {@code WebRowSet} object can insert a new row by moving to the insert row,
- * calling the appropriate updater methods for each column in the row, and then
- * calling the method {@code insertRow}.
+ * <h4>2.3 Stbte 3 - Inserting b Row</h4>
+ * A {@code WebRowSet} object cbn insert b new row by moving to the insert row,
+ * cblling the bppropribte updbter methods for ebch column in the row, bnd then
+ * cblling the method {@code insertRow}.
  * <PRE>
  * {@code
  * wrs.moveToInsertRow();
- * wrs.updateString(1, "fifththrow");
- * wrs.updateString(2, "5");
+ * wrs.updbteString(1, "fifththrow");
+ * wrs.updbteString(2, "5");
  * wrs.insertRow();
  * }</PRE>
- * The following code fragment changes the second column value in the row just inserted.
- * Note that this code applies when new rows are inserted right after the current row,
+ * The following code frbgment chbnges the second column vblue in the row just inserted.
+ * Note thbt this code bpplies when new rows bre inserted right bfter the current row,
  * which is why the method {@code next} moves the cursor to the correct row.
- * Calling the method {@code acceptChanges} writes the change to the data source.
+ * Cblling the method {@code bcceptChbnges} writes the chbnge to the dbtb source.
  *
  * <PRE>
  * {@code wrs.moveToCurrentRow();
  * wrs.next();
- * wrs.updateString(2, "V");
- * wrs.acceptChanges();
+ * wrs.updbteString(2, "V");
+ * wrs.bcceptChbnges();
  * }</PRE>
- * Describing this in XML demonstrates where the Java code inserts a new row and then
- * performs an update on the newly inserted row on an individual field.
+ * Describing this in XML demonstrbtes where the Jbvb code inserts b new row bnd then
+ * performs bn updbte on the newly inserted row on bn individubl field.
  * <PRE>
  * {@code
- * <data>
+ * <dbtb>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      firstrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      1
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      secondrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      2
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      newthirdrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      III
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <insertRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      fifthrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      5
- *              </columnValue>
- *              <updateValue>
+ *              </columnVblue>
+ *              <updbteVblue>
  *                      V
- *              </updateValue>
+ *              </updbteVblue>
  *      </insertRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      fourthrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      4
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
- * </date>
+ * </dbte>
  *} </PRE>
- * <h4>2.4 State 4 - Modifying a Row</h4>
- * Modifying a row produces specific XML that records both the new value and the
- * value that was replaced.  The value that was replaced becomes the original value,
- * and the new value becomes the current value. The following
- * code moves the cursor to a specific row, performs some modifications, and updates
+ * <h4>2.4 Stbte 4 - Modifying b Row</h4>
+ * Modifying b row produces specific XML thbt records both the new vblue bnd the
+ * vblue thbt wbs replbced.  The vblue thbt wbs replbced becomes the originbl vblue,
+ * bnd the new vblue becomes the current vblue. The following
+ * code moves the cursor to b specific row, performs some modificbtions, bnd updbtes
  * the row when complete.
  * <PRE>
  *{@code
- * wrs.absolute(5);
- * wrs.updateString(1, "new4thRow");
- * wrs.updateString(2, "IV");
- * wrs.updateRow();
+ * wrs.bbsolute(5);
+ * wrs.updbteString(1, "new4thRow");
+ * wrs.updbteString(2, "IV");
+ * wrs.updbteRow();
  * }</PRE>
- * In XML, this is described by the {@code modifyRow} tag. Both the original and new
- * values are contained within the tag for original row tracking purposes.
+ * In XML, this is described by the {@code modifyRow} tbg. Both the originbl bnd new
+ * vblues bre contbined within the tbg for originbl row trbcking purposes.
  * <PRE>
  * {@code
- * <data>
+ * <dbtb>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      firstrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      1
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      secondrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      2
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      newthirdrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      III
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <currentRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      fifthrow
- *              </columnValue>
- *              <columnValue>
+ *              </columnVblue>
+ *              <columnVblue>
  *                      5
- *              </columnValue>
+ *              </columnVblue>
  *      </currentRow>
  *      <modifyRow>
- *              <columnValue>
+ *              <columnVblue>
  *                      fourthrow
- *              </columnValue>
- *              <updateValue>
+ *              </columnVblue>
+ *              <updbteVblue>
  *                      new4thRow
- *              </updateValue>
- *              <columnValue>
+ *              </updbteVblue>
+ *              <columnVblue>
  *                      4
- *              </columnValue>
- *              <updateValue>
+ *              </columnVblue>
+ *              <updbteVblue>
  *                      IV
- *              </updateValue>
+ *              </updbteVblue>
  *      </modifyRow>
- * </data>
+ * </dbtb>
  * }</PRE>
  *
- * @see javax.sql.rowset.JdbcRowSet
- * @see javax.sql.rowset.CachedRowSet
- * @see javax.sql.rowset.FilteredRowSet
- * @see javax.sql.rowset.JoinRowSet
+ * @see jbvbx.sql.rowset.JdbcRowSet
+ * @see jbvbx.sql.rowset.CbchedRowSet
+ * @see jbvbx.sql.rowset.FilteredRowSet
+ * @see jbvbx.sql.rowset.JoinRowSet
  * @since 1.5
  */
 
-public interface WebRowSet extends CachedRowSet {
+public interfbce WebRowSet extends CbchedRowSet {
 
    /**
-    * Reads a {@code WebRowSet} object in its XML format from the given
-    * {@code Reader} object.
+    * Rebds b {@code WebRowSet} object in its XML formbt from the given
+    * {@code Rebder} object.
     *
-    * @param reader the {@code java.io.Reader} stream from which this
-    *        {@code WebRowSet} object will be populated
+    * @pbrbm rebder the {@code jbvb.io.Rebder} strebm from which this
+    *        {@code WebRowSet} object will be populbted
 
-    * @throws SQLException if a database access error occurs
+    * @throws SQLException if b dbtbbbse bccess error occurs
     */
-    public void readXml(java.io.Reader reader) throws SQLException;
+    public void rebdXml(jbvb.io.Rebder rebder) throws SQLException;
 
     /**
-     * Reads a stream based XML input to populate this {@code WebRowSet}
+     * Rebds b strebm bbsed XML input to populbte this {@code WebRowSet}
      * object.
      *
-     * @param iStream the {@code java.io.InputStream} from which this
-     *        {@code WebRowSet} object will be populated
-     * @throws SQLException if a data source access error occurs
-     * @throws IOException if an IO exception occurs
+     * @pbrbm iStrebm the {@code jbvb.io.InputStrebm} from which this
+     *        {@code WebRowSet} object will be populbted
+     * @throws SQLException if b dbtb source bccess error occurs
+     * @throws IOException if bn IO exception occurs
      */
-    public void readXml(java.io.InputStream iStream) throws SQLException, IOException;
+    public void rebdXml(jbvb.io.InputStrebm iStrebm) throws SQLException, IOException;
 
    /**
-    * Populates this {@code WebRowSet} object with
-    * the contents of the given {@code ResultSet} object and writes its
-    * data, properties, and metadata
-    * to the given {@code Writer} object in XML format.
+    * Populbtes this {@code WebRowSet} object with
+    * the contents of the given {@code ResultSet} object bnd writes its
+    * dbtb, properties, bnd metbdbtb
+    * to the given {@code Writer} object in XML formbt.
     * <p>
-    * NOTE: The {@code WebRowSet} cursor may be moved to write out the
-    * contents to the XML data source. If implemented in this way, the cursor <b>must</b>
-    * be returned to its position just prior to the {@code writeXml()} call.
+    * NOTE: The {@code WebRowSet} cursor mby be moved to write out the
+    * contents to the XML dbtb source. If implemented in this wby, the cursor <b>must</b>
+    * be returned to its position just prior to the {@code writeXml()} cbll.
     *
-    * @param rs the {@code ResultSet} object with which to populate this
+    * @pbrbm rs the {@code ResultSet} object with which to populbte this
     *        {@code WebRowSet} object
-    * @param writer the {@code java.io.Writer} object to write to.
-    * @throws SQLException if an error occurs writing out the rowset
-    *          contents in XML format
+    * @pbrbm writer the {@code jbvb.io.Writer} object to write to.
+    * @throws SQLException if bn error occurs writing out the rowset
+    *          contents in XML formbt
     */
-    public void writeXml(ResultSet rs, java.io.Writer writer) throws SQLException;
+    public void writeXml(ResultSet rs, jbvb.io.Writer writer) throws SQLException;
 
    /**
-    * Populates this {@code WebRowSet} object with
-    * the contents of the given {@code ResultSet} object and writes its
-    * data, properties, and metadata
-    * to the given {@code OutputStream} object in XML format.
+    * Populbtes this {@code WebRowSet} object with
+    * the contents of the given {@code ResultSet} object bnd writes its
+    * dbtb, properties, bnd metbdbtb
+    * to the given {@code OutputStrebm} object in XML formbt.
     * <p>
-    * NOTE: The {@code WebRowSet} cursor may be moved to write out the
-    * contents to the XML data source. If implemented in this way, the cursor <b>must</b>
-    * be returned to its position just prior to the {@code writeXml()} call.
+    * NOTE: The {@code WebRowSet} cursor mby be moved to write out the
+    * contents to the XML dbtb source. If implemented in this wby, the cursor <b>must</b>
+    * be returned to its position just prior to the {@code writeXml()} cbll.
     *
-    * @param rs the {@code ResultSet} object with which to populate this
+    * @pbrbm rs the {@code ResultSet} object with which to populbte this
     *        {@code WebRowSet} object
-    * @param oStream the {@code java.io.OutputStream} to write to
-    * @throws SQLException if a data source access error occurs
-    * @throws IOException if a IO exception occurs
+    * @pbrbm oStrebm the {@code jbvb.io.OutputStrebm} to write to
+    * @throws SQLException if b dbtb source bccess error occurs
+    * @throws IOException if b IO exception occurs
     */
-    public void writeXml(ResultSet rs, java.io.OutputStream oStream) throws SQLException, IOException;
+    public void writeXml(ResultSet rs, jbvb.io.OutputStrebm oStrebm) throws SQLException, IOException;
 
    /**
-    * Writes the data, properties, and metadata for this {@code WebRowSet} object
-    * to the given {@code Writer} object in XML format.
+    * Writes the dbtb, properties, bnd metbdbtb for this {@code WebRowSet} object
+    * to the given {@code Writer} object in XML formbt.
     *
-    * @param writer the {@code java.io.Writer} stream to write to
-    * @throws SQLException if an error occurs writing out the rowset
+    * @pbrbm writer the {@code jbvb.io.Writer} strebm to write to
+    * @throws SQLException if bn error occurs writing out the rowset
     *          contents to XML
     */
-    public void writeXml(java.io.Writer writer) throws SQLException;
+    public void writeXml(jbvb.io.Writer writer) throws SQLException;
 
     /**
-     * Writes the data, properties, and metadata for this {@code WebRowSet} object
-     * to the given {@code OutputStream} object in XML format.
+     * Writes the dbtb, properties, bnd metbdbtb for this {@code WebRowSet} object
+     * to the given {@code OutputStrebm} object in XML formbt.
      *
-     * @param oStream the {@code java.io.OutputStream} stream to write to
-     * @throws SQLException if a data source access error occurs
-     * @throws IOException if a IO exception occurs
+     * @pbrbm oStrebm the {@code jbvb.io.OutputStrebm} strebm to write to
+     * @throws SQLException if b dbtb source bccess error occurs
+     * @throws IOException if b IO exception occurs
      */
-    public void writeXml(java.io.OutputStream oStream) throws SQLException, IOException;
+    public void writeXml(jbvb.io.OutputStrebm oStrebm) throws SQLException, IOException;
 
     /**
-     * The public identifier for the XML Schema definition that defines the XML
-     * tags and their valid values for a {@code WebRowSet} implementation.
+     * The public identifier for the XML Schemb definition thbt defines the XML
+     * tbgs bnd their vblid vblues for b {@code WebRowSet} implementbtion.
      */
-    public static String PUBLIC_XML_SCHEMA =
-        "--//Oracle Corporation//XSD Schema//EN";
+    public stbtic String PUBLIC_XML_SCHEMA =
+        "--//Orbcle Corporbtion//XSD Schemb//EN";
 
     /**
-     * The URL for the XML Schema definition file that defines the XML tags and
-     * their valid values for a {@code WebRowSet} implementation.
+     * The URL for the XML Schemb definition file thbt defines the XML tbgs bnd
+     * their vblid vblues for b {@code WebRowSet} implementbtion.
      */
-    public static String SCHEMA_SYSTEM_ID = "http://java.sun.com/xml/ns/jdbc/webrowset.xsd";
+    public stbtic String SCHEMA_SYSTEM_ID = "http://jbvb.sun.com/xml/ns/jdbc/webrowset.xsd";
 }

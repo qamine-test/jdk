@@ -1,255 +1,255 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_Toolkit.h"
-#include "awt_Frame.h"
-#include "awt_MenuBar.h"
-#include "awt_Dialog.h"
-#include "awt_IconCursor.h"
-#include "awt_Win32GraphicsDevice.h"
+#include "bwt_Toolkit.h"
+#include "bwt_Frbme.h"
+#include "bwt_MenuBbr.h"
+#include "bwt_Diblog.h"
+#include "bwt_IconCursor.h"
+#include "bwt_Win32GrbphicsDevice.h"
 #include "ComCtl32Util.h"
 
 #include <windowsx.h>
 
-#include <java_lang_Integer.h>
-#include <sun_awt_windows_WEmbeddedFrame.h>
-#include <sun_awt_windows_WEmbeddedFramePeer.h>
+#include <jbvb_lbng_Integer.h>
+#include <sun_bwt_windows_WEmbeddedFrbme.h>
+#include <sun_bwt_windows_WEmbeddedFrbmePeer.h>
 
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rebd the README.JNI file for notes on JNI converted AWT code.
  */
 
 /***********************************************************************/
-// Struct for _SetState() method
-struct SetStateStruct {
-    jobject frame;
-    jint state;
+// Struct for _SetStbte() method
+struct SetStbteStruct {
+    jobject frbme;
+    jint stbte;
 };
-// Struct for _SetMaximizedBounds() method
-struct SetMaximizedBoundsStruct {
-    jobject frame;
+// Struct for _SetMbximizedBounds() method
+struct SetMbximizedBoundsStruct {
+    jobject frbme;
     jint x, y;
     jint width, height;
 };
-// Struct for _SetMenuBar() method
-struct SetMenuBarStruct {
-    jobject frame;
-    jobject menubar;
+// Struct for _SetMenuBbr() method
+struct SetMenuBbrStruct {
+    jobject frbme;
+    jobject menubbr;
 };
 
 // Struct for _SetIMMOption() method
 struct SetIMMOptionStruct {
-    jobject frame;
+    jobject frbme;
     jstring option;
 };
-// Struct for _SynthesizeWmActivate() method
-struct SynthesizeWmActivateStruct {
-    jobject frame;
-    jboolean doActivate;
+// Struct for _SynthesizeWmActivbte() method
+struct SynthesizeWmActivbteStruct {
+    jobject frbme;
+    jboolebn doActivbte;
 };
-// Struct for _NotifyModalBlocked() method
-struct NotifyModalBlockedStruct {
-    jobject frame;
+// Struct for _NotifyModblBlocked() method
+struct NotifyModblBlockedStruct {
+    jobject frbme;
     jobject peer;
     jobject blockerPeer;
-    jboolean blocked;
+    jboolebn blocked;
 };
-// Information about thread containing modal blocked embedded frames
-struct BlockedThreadStruct {
-    int framesCount;
+// Informbtion bbout threbd contbining modbl blocked embedded frbmes
+struct BlockedThrebdStruct {
+    int frbmesCount;
     HHOOK mouseHook;
-    HHOOK modalHook;
+    HHOOK modblHook;
 };
 /************************************************************************
- * AwtFrame fields
+ * AwtFrbme fields
  */
 
-jfieldID AwtFrame::handleID;
+jfieldID AwtFrbme::hbndleID;
 
-jfieldID AwtFrame::undecoratedID;
-jmethodID AwtFrame::getExtendedStateMID;
-jmethodID AwtFrame::setExtendedStateMID;
+jfieldID AwtFrbme::undecorbtedID;
+jmethodID AwtFrbme::getExtendedStbteMID;
+jmethodID AwtFrbme::setExtendedStbteMID;
 
-jmethodID AwtFrame::activateEmbeddingTopLevelMID;
+jmethodID AwtFrbme::bctivbteEmbeddingTopLevelMID;
 
-Hashtable AwtFrame::sm_BlockedThreads("AWTBlockedThreads");
+Hbshtbble AwtFrbme::sm_BlockedThrebds("AWTBlockedThrebds");
 
 /************************************************************************
- * AwtFrame methods
+ * AwtFrbme methods
  */
 
-AwtFrame::AwtFrame() {
-    m_parentWnd = NULL;
-    menuBar = NULL;
+AwtFrbme::AwtFrbme() {
+    m_pbrentWnd = NULL;
+    menuBbr = NULL;
     m_isEmbedded = FALSE;
     m_isLightweight = FALSE;
     m_ignoreWmSize = FALSE;
     m_isMenuDropped = FALSE;
     m_isInputMethodWindow = FALSE;
-    m_isUndecorated = FALSE;
-    m_imeTargetComponent = NULL;
-    m_actualFocusedWindow = NULL;
+    m_isUndecorbted = FALSE;
+    m_imeTbrgetComponent = NULL;
+    m_bctublFocusedWindow = NULL;
     m_iconic = FALSE;
     m_zoomed = FALSE;
-    m_maxBoundsSet = FALSE;
+    m_mbxBoundsSet = FALSE;
     m_forceResetZoomed = FALSE;
 
-    isInManualMoveOrSize = FALSE;
-    grabbedHitTest = 0;
+    isInMbnublMoveOrSize = FALSE;
+    grbbbedHitTest = 0;
 }
 
-AwtFrame::~AwtFrame()
+AwtFrbme::~AwtFrbme()
 {
 }
 
-void AwtFrame::Dispose()
+void AwtFrbme::Dispose()
 {
     AwtWindow::Dispose();
 }
 
-LPCTSTR AwtFrame::GetClassName() {
+LPCTSTR AwtFrbme::GetClbssNbme() {
     return AWT_FRAME_WINDOW_CLASS_NAME;
 }
 
 /*
- * Create a new AwtFrame object and window.
+ * Crebte b new AwtFrbme object bnd window.
  */
-AwtFrame* AwtFrame::Create(jobject self, jobject parent)
+AwtFrbme* AwtFrbme::Crebte(jobject self, jobject pbrent)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(1) < 0) {
+    if (env->EnsureLocblCbpbcity(1) < 0) {
         return NULL;
     }
 
-    PDATA pData;
-    HWND hwndParent = NULL;
-    AwtFrame* frame;
-    jclass cls = NULL;
-    jclass inputMethodWindowCls = NULL;
-    jobject target = NULL;
+    PDATA pDbtb;
+    HWND hwndPbrent = NULL;
+    AwtFrbme* frbme;
+    jclbss cls = NULL;
+    jclbss inputMethodWindowCls = NULL;
+    jobject tbrget = NULL;
 
     try {
-        target = env->GetObjectField(self, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "target", done);
+        tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
+        JNI_CHECK_NULL_GOTO(tbrget, "tbrget", done);
 
-        if (parent != NULL) {
-            JNI_CHECK_PEER_GOTO(parent, done);
+        if (pbrent != NULL) {
+            JNI_CHECK_PEER_GOTO(pbrent, done);
             {
-                AwtFrame* parent = (AwtFrame *)pData;
-                hwndParent = parent->GetHWnd();
+                AwtFrbme* pbrent = (AwtFrbme *)pDbtb;
+                hwndPbrent = pbrent->GetHWnd();
             }
         }
 
-        frame = new AwtFrame();
+        frbme = new AwtFrbme();
 
         {
             /*
-             * A variation on Netscape's hack for embedded frames: the client
-             * area of the browser is a Java Frame for parenting purposes, but
-             * really a Windows child window
+             * A vbribtion on Netscbpe's hbck for embedded frbmes: the client
+             * breb of the browser is b Jbvb Frbme for pbrenting purposes, but
+             * reblly b Windows child window
              */
-            BOOL isEmbeddedInstance = FALSE;
+            BOOL isEmbeddedInstbnce = FALSE;
             BOOL isEmbedded = FALSE;
-            cls = env->FindClass("sun/awt/EmbeddedFrame");
+            cls = env->FindClbss("sun/bwt/EmbeddedFrbme");
 
             if (cls) {
-                isEmbeddedInstance = env->IsInstanceOf(target, cls);
+                isEmbeddedInstbnce = env->IsInstbnceOf(tbrget, cls);
             } else {
-                throw std::bad_alloc();
+                throw std::bbd_blloc();
             }
-            INT_PTR handle;
-            if (isEmbeddedInstance) {
-                handle = static_cast<INT_PTR>(env->GetLongField(target, AwtFrame::handleID));
-                if (handle != 0) {
+            INT_PTR hbndle;
+            if (isEmbeddedInstbnce) {
+                hbndle = stbtic_cbst<INT_PTR>(env->GetLongField(tbrget, AwtFrbme::hbndleID));
+                if (hbndle != 0) {
                     isEmbedded = TRUE;
                 }
             }
-            frame->m_isEmbedded = isEmbedded;
+            frbme->m_isEmbedded = isEmbedded;
 
             BOOL isLightweight = FALSE;
-            cls = env->FindClass("sun/awt/LightweightFrame");
+            cls = env->FindClbss("sun/bwt/LightweightFrbme");
             if (cls) {
-                isLightweight = env->IsInstanceOf(target, cls);
+                isLightweight = env->IsInstbnceOf(tbrget, cls);
             } else {
-                throw std::bad_alloc();
+                throw std::bbd_blloc();
             }
-            frame->m_isLightweight = isLightweight;
+            frbme->m_isLightweight = isLightweight;
 
             if (isEmbedded) {
-                hwndParent = (HWND)handle;
+                hwndPbrent = (HWND)hbndle;
                 RECT rect;
-                ::GetClientRect(hwndParent, &rect);
-                //Fix for 6328675: SWT_AWT.new_Frame doesn't occupy client area under JDK6
-                frame->m_isUndecorated = true;
+                ::GetClientRect(hwndPbrent, &rect);
+                //Fix for 6328675: SWT_AWT.new_Frbme doesn't occupy client breb under JDK6
+                frbme->m_isUndecorbted = true;
                 /*
-                 * Fix for BugTraq ID 4337754.
-                 * Initialize m_peerObject before the first call
-                 * to AwtFrame::GetClassName().
+                 * Fix for BugTrbq ID 4337754.
+                 * Initiblize m_peerObject before the first cbll
+                 * to AwtFrbme::GetClbssNbme().
                  */
-                frame->m_peerObject = env->NewGlobalRef(self);
-                frame->RegisterClass();
+                frbme->m_peerObject = env->NewGlobblRef(self);
+                frbme->RegisterClbss();
                 DWORD exStyle = WS_EX_NOPARENTNOTIFY;
 
                 if (GetRTL()) {
                     exStyle |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
-                    if (GetRTLReadingOrder())
+                    if (GetRTLRebdingOrder())
                         exStyle |= WS_EX_RTLREADING;
                 }
 
-                frame->m_hwnd = ::CreateWindowEx(exStyle,
-                                                 frame->GetClassName(), TEXT(""),
+                frbme->m_hwnd = ::CrebteWindowEx(exStyle,
+                                                 frbme->GetClbssNbme(), TEXT(""),
                                                  WS_CHILD | WS_CLIPCHILDREN,
                                                  0, 0,
                                                  rect.right, rect.bottom,
-                                                 hwndParent, NULL,
-                                                 AwtToolkit::GetInstance().GetModuleHandle(),
+                                                 hwndPbrent, NULL,
+                                                 AwtToolkit::GetInstbnce().GetModuleHbndle(),
                                                  NULL);
-                frame->LinkObjects(env, self);
-                frame->SubclassHWND();
+                frbme->LinkObjects(env, self);
+                frbme->SubclbssHWND();
 
-                // Update target's dimensions to reflect this embedded window.
-                ::GetClientRect(frame->m_hwnd, &rect);
-                ::MapWindowPoints(frame->m_hwnd, hwndParent, (LPPOINT)&rect, 2);
+                // Updbte tbrget's dimensions to reflect this embedded window.
+                ::GetClientRect(frbme->m_hwnd, &rect);
+                ::MbpWindowPoints(frbme->m_hwnd, hwndPbrent, (LPPOINT)&rect, 2);
 
-                env->SetIntField(target, AwtComponent::xID, rect.left);
-                env->SetIntField(target, AwtComponent::yID, rect.top);
-                env->SetIntField(target, AwtComponent::widthID,
+                env->SetIntField(tbrget, AwtComponent::xID, rect.left);
+                env->SetIntField(tbrget, AwtComponent::yID, rect.top);
+                env->SetIntField(tbrget, AwtComponent::widthID,
                                  rect.right-rect.left);
-                env->SetIntField(target, AwtComponent::heightID,
+                env->SetIntField(tbrget, AwtComponent::heightID,
                                  rect.bottom-rect.top);
-                frame->InitPeerGraphicsConfig(env, self);
-                AwtToolkit::GetInstance().RegisterEmbedderProcessId(hwndParent);
+                frbme->InitPeerGrbphicsConfig(env, self);
+                AwtToolkit::GetInstbnce().RegisterEmbedderProcessId(hwndPbrent);
             } else if (isLightweight) {
-                frame->m_isUndecorated = true;
-                frame->m_peerObject = env->NewGlobalRef(self);
-                frame->RegisterClass();
+                frbme->m_isUndecorbted = true;
+                frbme->m_peerObject = env->NewGlobblRef(self);
+                frbme->RegisterClbss();
 
                 DWORD exStyle = 0;
                 DWORD style = WS_POPUP;
 
-                frame->CreateHWnd(env, L"",
+                frbme->CrebteHWnd(env, L"",
                                   style,
                                   exStyle,
                                   0, 0, 0, 0,
@@ -259,271 +259,271 @@ AwtFrame* AwtFrame::Create(jobject self, jobject parent)
                                   ::GetSysColor(COLOR_WINDOWFRAME),
                                   self);
             } else {
-                jint state = env->CallIntMethod(self, AwtFrame::getExtendedStateMID);
+                jint stbte = env->CbllIntMethod(self, AwtFrbme::getExtendedStbteMID);
                 DWORD exStyle;
                 DWORD style;
 
-               // for input method windows, use minimal decorations
-               inputMethodWindowCls = env->FindClass("sun/awt/im/InputMethodWindow");
+               // for input method windows, use minimbl decorbtions
+               inputMethodWindowCls = env->FindClbss("sun/bwt/im/InputMethodWindow");
                if (inputMethodWindowCls == NULL) {
-                   throw std::bad_alloc();
+                   throw std::bbd_blloc();
                }
 
-               if (env->IsInstanceOf(target, inputMethodWindowCls)) {
-                   //for below-the-spot composition window, use no decoration
-                   if (env->GetBooleanField(target, AwtFrame::undecoratedID) == JNI_TRUE){
+               if (env->IsInstbnceOf(tbrget, inputMethodWindowCls)) {
+                   //for below-the-spot composition window, use no decorbtion
+                   if (env->GetBoolebnField(tbrget, AwtFrbme::undecorbtedID) == JNI_TRUE){
                         exStyle = 0;
                         style = WS_POPUP|WS_CLIPCHILDREN;
-                        frame->m_isUndecorated = TRUE;
+                        frbme->m_isUndecorbted = TRUE;
                    } else {
                         exStyle = WS_EX_PALETTEWINDOW;
                         style = WS_CLIPCHILDREN;
                    }
-                   frame->m_isInputMethodWindow = TRUE;
-                } else if (env->GetBooleanField(target, AwtFrame::undecoratedID) == JNI_TRUE) {
+                   frbme->m_isInputMethodWindow = TRUE;
+                } else if (env->GetBoolebnField(tbrget, AwtFrbme::undecorbtedID) == JNI_TRUE) {
                     exStyle = 0;
                     style = WS_POPUP | WS_SYSMENU | WS_CLIPCHILDREN |
                         WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
-                  if (state & java_awt_Frame_ICONIFIED) {
-                      frame->setIconic(TRUE);
+                  if (stbte & jbvb_bwt_Frbme_ICONIFIED) {
+                      frbme->setIconic(TRUE);
                   }
-                    frame->m_isUndecorated = TRUE;
+                    frbme->m_isUndecorbted = TRUE;
                 } else {
                     exStyle = WS_EX_WINDOWEDGE;
                     style = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
-                  if (state & java_awt_Frame_ICONIFIED) {
-                      frame->setIconic(TRUE);
+                  if (stbte & jbvb_bwt_Frbme_ICONIFIED) {
+                      frbme->setIconic(TRUE);
                   }
                 }
 
                 if (GetRTL()) {
                     exStyle |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
-                    if (GetRTLReadingOrder())
+                    if (GetRTLRebdingOrder())
                         exStyle |= WS_EX_RTLREADING;
                 }
 
-                jint x = env->GetIntField(target, AwtComponent::xID);
-                jint y = env->GetIntField(target, AwtComponent::yID);
-                jint width = env->GetIntField(target, AwtComponent::widthID);
-                jint height = env->GetIntField(target, AwtComponent::heightID);
+                jint x = env->GetIntField(tbrget, AwtComponent::xID);
+                jint y = env->GetIntField(tbrget, AwtComponent::yID);
+                jint width = env->GetIntField(tbrget, AwtComponent::widthID);
+                jint height = env->GetIntField(tbrget, AwtComponent::heightID);
 
-                frame->CreateHWnd(env, L"",
+                frbme->CrebteHWnd(env, L"",
                                   style,
                                   exStyle,
                                   0, 0, 0, 0,
-                                  hwndParent,
+                                  hwndPbrent,
                                   NULL,
                                   ::GetSysColor(COLOR_WINDOWTEXT),
                                   ::GetSysColor(COLOR_WINDOWFRAME),
                                   self);
                 /*
-                 * Reshape here instead of during create, so that a
+                 * Reshbpe here instebd of during crebte, so thbt b
                  * WM_NCCALCSIZE is sent.
                  */
-                frame->Reshape(x, y, width, height);
+                frbme->Reshbpe(x, y, width, height);
             }
         }
-    } catch (...) {
-        env->DeleteLocalRef(target);
-        env->DeleteLocalRef(cls);
-        env->DeleteLocalRef(inputMethodWindowCls);
+    } cbtch (...) {
+        env->DeleteLocblRef(tbrget);
+        env->DeleteLocblRef(cls);
+        env->DeleteLocblRef(inputMethodWindowCls);
         throw;
     }
 
 done:
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(cls);
-    env->DeleteLocalRef(inputMethodWindowCls);
+    env->DeleteLocblRef(tbrget);
+    env->DeleteLocblRef(cls);
+    env->DeleteLocblRef(inputMethodWindowCls);
 
-    return frame;
+    return frbme;
 }
 
-LRESULT AwtFrame::ProxyWindowProc(UINT message, WPARAM wParam, LPARAM lParam, MsgRouting &mr)
+LRESULT AwtFrbme::ProxyWindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm, MsgRouting &mr)
 {
-    LRESULT retValue = 0L;
+    LRESULT retVblue = 0L;
 
     AwtComponent *focusOwner = NULL;
-    AwtComponent *imeTargetComponent = NULL;
+    AwtComponent *imeTbrgetComponent = NULL;
 
-    // IME and input language related messages need to be sent to a window
-    // which has the Java input focus
-    switch (message) {
-        case WM_IME_STARTCOMPOSITION:
-        case WM_IME_ENDCOMPOSITION:
-        case WM_IME_COMPOSITION:
-        case WM_IME_SETCONTEXT:
-        case WM_IME_NOTIFY:
-        case WM_IME_CONTROL:
-        case WM_IME_COMPOSITIONFULL:
-        case WM_IME_SELECT:
-        case WM_IME_CHAR:
-        case WM_IME_REQUEST:
-        case WM_IME_KEYDOWN:
-        case WM_IME_KEYUP:
-        case WM_INPUTLANGCHANGEREQUEST:
-        case WM_INPUTLANGCHANGE:
-            if (message == WM_IME_STARTCOMPOSITION) {
-                SetImeTargetComponent(sm_focusOwner);
+    // IME bnd input lbngubge relbted messbges need to be sent to b window
+    // which hbs the Jbvb input focus
+    switch (messbge) {
+        cbse WM_IME_STARTCOMPOSITION:
+        cbse WM_IME_ENDCOMPOSITION:
+        cbse WM_IME_COMPOSITION:
+        cbse WM_IME_SETCONTEXT:
+        cbse WM_IME_NOTIFY:
+        cbse WM_IME_CONTROL:
+        cbse WM_IME_COMPOSITIONFULL:
+        cbse WM_IME_SELECT:
+        cbse WM_IME_CHAR:
+        cbse WM_IME_REQUEST:
+        cbse WM_IME_KEYDOWN:
+        cbse WM_IME_KEYUP:
+        cbse WM_INPUTLANGCHANGEREQUEST:
+        cbse WM_INPUTLANGCHANGE:
+            if (messbge == WM_IME_STARTCOMPOSITION) {
+                SetImeTbrgetComponent(sm_focusOwner);
             }
-            imeTargetComponent = AwtComponent::GetComponent(GetImeTargetComponent());
-            if (imeTargetComponent != NULL &&
-                imeTargetComponent != this) // avoid recursive calls
+            imeTbrgetComponent = AwtComponent::GetComponent(GetImeTbrgetComponent());
+            if (imeTbrgetComponent != NULL &&
+                imeTbrgetComponent != this) // bvoid recursive cblls
             {
-                retValue = imeTargetComponent->WindowProc(message, wParam, lParam);
+                retVblue = imeTbrgetComponent->WindowProc(messbge, wPbrbm, lPbrbm);
                 mr = mrConsume;
             }
-            if (message == WM_IME_ENDCOMPOSITION) {
-                SetImeTargetComponent(NULL);
+            if (messbge == WM_IME_ENDCOMPOSITION) {
+                SetImeTbrgetComponent(NULL);
             }
-            break;
-        case WM_SETFOCUS:
-            if (sm_inSynthesizeFocus) break; // pass it up the WindowProc chain
+            brebk;
+        cbse WM_SETFOCUS:
+            if (sm_inSynthesizeFocus) brebk; // pbss it up the WindowProc chbin
 
-            if (!sm_suppressFocusAndActivation) {
-                if (IsLightweightFrame() || IsEmbeddedFrame()) {
+            if (!sm_suppressFocusAndActivbtion) {
+                if (IsLightweightFrbme() || IsEmbeddedFrbme()) {
                     AwtSetActiveWindow();
                 }
             }
             mr = mrConsume;
-            break;
-        case WM_KILLFOCUS:
-            if (sm_inSynthesizeFocus) break; // pass it up the WindowProc chain
+            brebk;
+        cbse WM_KILLFOCUS:
+            if (sm_inSynthesizeFocus) brebk; // pbss it up the WindowProc chbin
 
-            if (!sm_suppressFocusAndActivation) {
-                if (IsLightweightFrame() || IsEmbeddedFrame()) {
-                    HWND oppositeToplevelHWnd = AwtComponent::GetTopLevelParentForWindow((HWND)wParam);
+            if (!sm_suppressFocusAndActivbtion) {
+                if (IsLightweightFrbme() || IsEmbeddedFrbme()) {
+                    HWND oppositeToplevelHWnd = AwtComponent::GetTopLevelPbrentForWindow((HWND)wPbrbm);
                     if (oppositeToplevelHWnd != AwtComponent::GetFocusedWindow()) {
-                        AwtWindow::SynthesizeWmActivate(FALSE, GetHWnd(), NULL);
+                        AwtWindow::SynthesizeWmActivbte(FALSE, GetHWnd(), NULL);
                     }
                 }
-            } else if (sm_restoreFocusAndActivation) {
+            } else if (sm_restoreFocusAndActivbtion) {
                 if (AwtComponent::GetFocusedWindow() != NULL) {
                     AwtWindow *focusedWindow = (AwtWindow*)GetComponent(AwtComponent::GetFocusedWindow());
                     if (focusedWindow != NULL) {
-                        // Will just silently restore native focus & activation.
+                        // Will just silently restore nbtive focus & bctivbtion.
                         focusedWindow->AwtSetActiveWindow();
                     }
                 }
             }
             mr = mrConsume;
-            break;
-        case 0x0127: // WM_CHANGEUISTATE
-        case 0x0128: // WM_UPDATEUISTATE
+            brebk;
+        cbse 0x0127: // WM_CHANGEUISTATE
+        cbse 0x0128: // WM_UPDATEUISTATE
             mr = mrConsume;
-            break;
+            brebk;
     }
 
-    return retValue;
+    return retVblue;
 }
 
-LRESULT AwtFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT AwtFrbme::WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    MsgRouting mr = mrDoDefault;
-    LRESULT retValue = 0L;
+    MsgRouting mr = mrDoDefbult;
+    LRESULT retVblue = 0L;
 
-    retValue = ProxyWindowProc(message, wParam, lParam, mr);
+    retVblue = ProxyWindowProc(messbge, wPbrbm, lPbrbm, mr);
 
     if (mr != mrConsume) {
-        retValue = AwtWindow::WindowProc(message, wParam, lParam);
+        retVblue = AwtWindow::WindowProc(messbge, wPbrbm, lPbrbm);
     }
-    return retValue;
+    return retVblue;
 }
 
-MsgRouting AwtFrame::WmShowWindow(BOOL show, UINT status)
+MsgRouting AwtFrbme::WmShowWindow(BOOL show, UINT stbtus)
 {
     /*
      * Fix for 6492970.
-     * When a non-focusable toplevel is shown alone the Java process
-     * is not foreground. If one shows another (focusable) toplevel
-     * the native platform not always makes it foreground (see the CR).
+     * When b non-focusbble toplevel is shown blone the Jbvb process
+     * is not foreground. If one shows bnother (focusbble) toplevel
+     * the nbtive plbtform not blwbys mbkes it foreground (see the CR).
      * Even worse, sometimes it sends the newly shown toplevel WM_ACTIVATE
-     * message. This breaks Java focus. To workaround the problem we
-     * set the toplevel being shown foreground programmatically.
-     * The fix is localized to non-foreground process case only.
-     * (See also: 6599270)
+     * messbge. This brebks Jbvb focus. To workbround the problem we
+     * set the toplevel being shown foreground progrbmmbticblly.
+     * The fix is locblized to non-foreground process cbse only.
+     * (See blso: 6599270)
      */
-    if (!IsEmbeddedFrame() && show == TRUE && status == 0) {
+    if (!IsEmbeddedFrbme() && show == TRUE && stbtus == 0) {
         HWND fgHWnd = ::GetForegroundWindow();
         if (fgHWnd != NULL) {
             DWORD fgProcessID;
-            ::GetWindowThreadProcessId(fgHWnd, &fgProcessID);
+            ::GetWindowThrebdProcessId(fgHWnd, &fgProcessID);
 
             if (fgProcessID != ::GetCurrentProcessId()) {
                 AwtWindow* window = (AwtWindow*)GetComponent(GetHWnd());
 
-                if (window != NULL && window->IsFocusableWindow() && window->IsAutoRequestFocus() &&
-                    !::IsWindow(GetModalBlocker(GetHWnd())))
+                if (window != NULL && window->IsFocusbbleWindow() && window->IsAutoRequestFocus() &&
+                    !::IsWindow(GetModblBlocker(GetHWnd())))
                 {
-                    // When the Java process is not allowed to set the foreground window
-                    // (see MSDN) the request below will just have no effect.
+                    // When the Jbvb process is not bllowed to set the foreground window
+                    // (see MSDN) the request below will just hbve no effect.
                     ::SetForegroundWindow(GetHWnd());
                 }
             }
         }
     }
-    return AwtWindow::WmShowWindow(show, status);
+    return AwtWindow::WmShowWindow(show, stbtus);
 }
 
-MsgRouting AwtFrame::WmMouseUp(UINT flags, int x, int y, int button) {
-    if (isInManualMoveOrSize) {
-        isInManualMoveOrSize = FALSE;
-        ::ReleaseCapture();
+MsgRouting AwtFrbme::WmMouseUp(UINT flbgs, int x, int y, int button) {
+    if (isInMbnublMoveOrSize) {
+        isInMbnublMoveOrSize = FALSE;
+        ::RelebseCbpture();
         return mrConsume;
     }
-    return AwtWindow::WmMouseUp(flags, x, y, button);
+    return AwtWindow::WmMouseUp(flbgs, x, y, button);
 }
 
-MsgRouting AwtFrame::WmMouseMove(UINT flags, int x, int y) {
+MsgRouting AwtFrbme::WmMouseMove(UINT flbgs, int x, int y) {
     /**
-     * If this Frame is non-focusable then we should implement move and size operation for it by
-     * ourselfves because we don't dispatch appropriate mouse messages to default window procedure.
+     * If this Frbme is non-focusbble then we should implement move bnd size operbtion for it by
+     * ourselfves becbuse we don't dispbtch bppropribte mouse messbges to defbult window procedure.
      */
-    if (!IsFocusableWindow() && isInManualMoveOrSize) {
-        DWORD curPos = ::GetMessagePos();
+    if (!IsFocusbbleWindow() && isInMbnublMoveOrSize) {
+        DWORD curPos = ::GetMessbgePos();
         x = GET_X_LPARAM(curPos);
         y = GET_Y_LPARAM(curPos);
         RECT r;
         ::GetWindowRect(GetHWnd(), &r);
         POINT mouseLoc = {x, y};
-        mouseLoc.x -= savedMousePos.x;
-        mouseLoc.y -= savedMousePos.y;
-        savedMousePos.x = x;
-        savedMousePos.y = y;
-        if (grabbedHitTest == HTCAPTION) {
+        mouseLoc.x -= sbvedMousePos.x;
+        mouseLoc.y -= sbvedMousePos.y;
+        sbvedMousePos.x = x;
+        sbvedMousePos.y = y;
+        if (grbbbedHitTest == HTCAPTION) {
             ::SetWindowPos(GetHWnd(), NULL, r.left+mouseLoc.x, r.top+mouseLoc.y,
                            r.right-r.left, r.bottom-r.top,
                            SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOZORDER);
         } else {
-            switch (grabbedHitTest) {
-            case HTTOP:
+            switch (grbbbedHitTest) {
+            cbse HTTOP:
                 r.top += mouseLoc.y;
-                break;
-            case HTBOTTOM:
+                brebk;
+            cbse HTBOTTOM:
                 r.bottom += mouseLoc.y;
-                break;
-            case HTRIGHT:
+                brebk;
+            cbse HTRIGHT:
                 r.right += mouseLoc.x;
-                break;
-            case HTLEFT:
+                brebk;
+            cbse HTLEFT:
                 r.left += mouseLoc.x;
-                break;
-            case HTTOPLEFT:
+                brebk;
+            cbse HTTOPLEFT:
                 r.left += mouseLoc.x;
                 r.top += mouseLoc.y;
-                break;
-            case HTTOPRIGHT:
+                brebk;
+            cbse HTTOPRIGHT:
                 r.top += mouseLoc.y;
                 r.right += mouseLoc.x;
-                break;
-            case HTBOTTOMLEFT:
+                brebk;
+            cbse HTBOTTOMLEFT:
                 r.left += mouseLoc.x;
                 r.bottom += mouseLoc.y;
-                break;
-            case HTBOTTOMRIGHT:
-            case HTSIZE:
+                brebk;
+            cbse HTBOTTOMRIGHT:
+            cbse HTSIZE:
                 r.right += mouseLoc.x;
                 r.bottom += mouseLoc.y;
-                break;
+                brebk;
             }
 
             ::SetWindowPos(GetHWnd(), NULL, r.left, r.top,
@@ -533,28 +533,28 @@ MsgRouting AwtFrame::WmMouseMove(UINT flags, int x, int y) {
         }
         return mrConsume;
     } else {
-        return AwtWindow::WmMouseMove(flags, x, y);
+        return AwtWindow::WmMouseMove(flbgs, x, y);
     }
 }
 
-MsgRouting AwtFrame::WmNcMouseUp(WPARAM hitTest, int x, int y, int button) {
-    if (!IsFocusableWindow() && (button & LEFT_BUTTON)) {
+MsgRouting AwtFrbme::WmNcMouseUp(WPARAM hitTest, int x, int y, int button) {
+    if (!IsFocusbbleWindow() && (button & LEFT_BUTTON)) {
         /*
          * Fix for 6399659.
-         * The native system shouldn't activate the next window in z-order
-         * when minimizing non-focusable window.
+         * The nbtive system shouldn't bctivbte the next window in z-order
+         * when minimizing non-focusbble window.
          */
         if (hitTest == HTMINBUTTON) {
             ::ShowWindow(GetHWnd(), SW_SHOWMINNOACTIVE);
             return mrConsume;
         }
         /**
-         * If this Frame is non-focusable then we should implement move and size operation for it by
-         * ourselfves because we don't dispatch appropriate mouse messages to default window procedure.
+         * If this Frbme is non-focusbble then we should implement move bnd size operbtion for it by
+         * ourselfves becbuse we don't dispbtch bppropribte mouse messbges to defbult window procedure.
          */
         if ((button & DBL_CLICK) && hitTest == HTCAPTION) {
-            // Double click on caption - maximize or restore Frame.
-            if (IsResizable()) {
+            // Double click on cbption - mbximize or restore Frbme.
+            if (IsResizbble()) {
                 if (::IsZoomed(GetHWnd())) {
                     ::ShowWindow(GetHWnd(), SW_SHOWNOACTIVATE);
                 } else {
@@ -564,8 +564,8 @@ MsgRouting AwtFrame::WmNcMouseUp(WPARAM hitTest, int x, int y, int button) {
             return mrConsume;
         }
         switch (hitTest) {
-        case HTMAXBUTTON:
-            if (IsResizable()) {
+        cbse HTMAXBUTTON:
+            if (IsResizbble()) {
                 if (::IsZoomed(GetHWnd())) {
                     ::ShowWindow(GetHWnd(), SW_SHOWNOACTIVATE);
                 } else {
@@ -573,154 +573,154 @@ MsgRouting AwtFrame::WmNcMouseUp(WPARAM hitTest, int x, int y, int button) {
                 }
             }
             return mrConsume;
-        default:
-            return mrDoDefault;
+        defbult:
+            return mrDoDefbult;
         }
     }
     return AwtWindow::WmNcMouseUp(hitTest, x, y, button);
 }
 
-MsgRouting AwtFrame::WmNcMouseDown(WPARAM hitTest, int x, int y, int button) {
-    // By Swing request, click on the Frame's decorations (even on
-    // grabbed Frame) should generate UngrabEvent
-    if (m_grabbedWindow != NULL/* && !m_grabbedWindow->IsOneOfOwnersOf(this)*/) {
-        m_grabbedWindow->Ungrab();
+MsgRouting AwtFrbme::WmNcMouseDown(WPARAM hitTest, int x, int y, int button) {
+    // By Swing request, click on the Frbme's decorbtions (even on
+    // grbbbed Frbme) should generbte UngrbbEvent
+    if (m_grbbbedWindow != NULL/* && !m_grbbbedWindow->IsOneOfOwnersOf(this)*/) {
+        m_grbbbedWindow->Ungrbb();
     }
-    if (!IsFocusableWindow() && (button & LEFT_BUTTON)) {
+    if (!IsFocusbbleWindow() && (button & LEFT_BUTTON)) {
         switch (hitTest) {
-        case HTTOP:
-        case HTBOTTOM:
-        case HTLEFT:
-        case HTRIGHT:
-        case HTTOPLEFT:
-        case HTTOPRIGHT:
-        case HTBOTTOMLEFT:
-        case HTBOTTOMRIGHT:
-        case HTSIZE:
-            // Zoomed or non-resizable unfocusable frames should not be resizable.
-            if (isZoomed() || !IsResizable()) {
+        cbse HTTOP:
+        cbse HTBOTTOM:
+        cbse HTLEFT:
+        cbse HTRIGHT:
+        cbse HTTOPLEFT:
+        cbse HTTOPRIGHT:
+        cbse HTBOTTOMLEFT:
+        cbse HTBOTTOMRIGHT:
+        cbse HTSIZE:
+            // Zoomed or non-resizbble unfocusbble frbmes should not be resizbble.
+            if (isZoomed() || !IsResizbble()) {
                 return mrConsume;
             }
-        case HTCAPTION:
-            // We are going to perform default mouse action on non-client area of this window
-            // Grab mouse for this purpose and store coordinates for motion vector calculation
-            savedMousePos.x = x;
-            savedMousePos.y = y;
-            ::SetCapture(GetHWnd());
-            isInManualMoveOrSize = TRUE;
-            grabbedHitTest = hitTest;
+        cbse HTCAPTION:
+            // We bre going to perform defbult mouse bction on non-client breb of this window
+            // Grbb mouse for this purpose bnd store coordinbtes for motion vector cblculbtion
+            sbvedMousePos.x = x;
+            sbvedMousePos.y = y;
+            ::SetCbpture(GetHWnd());
+            isInMbnublMoveOrSize = TRUE;
+            grbbbedHitTest = hitTest;
             return mrConsume;
-        default:
-            return mrDoDefault;
+        defbult:
+            return mrDoDefbult;
         }
     }
     return AwtWindow::WmNcMouseDown(hitTest, x, y, button);
 }
 
-// Override AwtWindow::Reshape() to handle minimized/maximized
-// frames (see 6525850, 4065534)
-void AwtFrame::Reshape(int x, int y, int width, int height)
+// Override AwtWindow::Reshbpe() to hbndle minimized/mbximized
+// frbmes (see 6525850, 4065534)
+void AwtFrbme::Reshbpe(int x, int y, int width, int height)
 {
     if (isIconic()) {
-    // normal AwtComponent::Reshape will not work for iconified windows so...
+    // normbl AwtComponent::Reshbpe will not work for iconified windows so...
         WINDOWPLACEMENT wp;
         POINT       ptMinPosition = {x,y};
-        POINT       ptMaxPosition = {0,0};
-        RECT        rcNormalPosition = {x,y,x+width,y+height};
-        RECT        rcWorkspace;
+        POINT       ptMbxPosition = {0,0};
+        RECT        rcNormblPosition = {x,y,x+width,y+height};
+        RECT        rcWorkspbce;
         HWND        hWndDesktop = GetDesktopWindow();
         HWND        hWndSelf = GetHWnd();
 
-        // SetWindowPlacement takes workspace coordinates, but
-        // if taskbar is at top of screen, workspace coords !=
-        // screen coords, so offset by workspace origin
-        VERIFY(::SystemParametersInfo(SPI_GETWORKAREA, 0, (PVOID)&rcWorkspace, 0));
-        ::OffsetRect(&rcNormalPosition, -rcWorkspace.left, -rcWorkspace.top);
+        // SetWindowPlbcement tbkes workspbce coordinbtes, but
+        // if tbskbbr is bt top of screen, workspbce coords !=
+        // screen coords, so offset by workspbce origin
+        VERIFY(::SystemPbrbmetersInfo(SPI_GETWORKAREA, 0, (PVOID)&rcWorkspbce, 0));
+        ::OffsetRect(&rcNormblPosition, -rcWorkspbce.left, -rcWorkspbce.top);
 
         // set the window size for when it is not-iconified
         wp.length = sizeof(wp);
-        wp.flags = WPF_SETMINPOSITION;
+        wp.flbgs = WPF_SETMINPOSITION;
         wp.showCmd = IsVisible() ? SW_SHOWMINIMIZED : SW_HIDE;
         wp.ptMinPosition = ptMinPosition;
-        wp.ptMaxPosition = ptMaxPosition;
-        wp.rcNormalPosition = rcNormalPosition;
+        wp.ptMbxPosition = ptMbxPosition;
+        wp.rcNormblPosition = rcNormblPosition;
 
-        // If the call is not guarded with ignoreWmSize,
-        // a regression for bug 4851435 appears.
-        // Having this call guarded also prevents
-        // changing the iconified state of the frame
-        // while calling the Frame.setBounds() method.
+        // If the cbll is not gubrded with ignoreWmSize,
+        // b regression for bug 4851435 bppebrs.
+        // Hbving this cbll gubrded blso prevents
+        // chbnging the iconified stbte of the frbme
+        // while cblling the Frbme.setBounds() method.
         m_ignoreWmSize = TRUE;
-        ::SetWindowPlacement(hWndSelf, &wp);
+        ::SetWindowPlbcement(hWndSelf, &wp);
         m_ignoreWmSize = FALSE;
 
         return;
     }
 
     if (isZoomed()) {
-    // setting size of maximized window, we remove the
-    // maximized state bit (matches Motif behaviour)
-    // (calling ShowWindow(SW_RESTORE) would fire an
-    //  activation event which we don't want)
+    // setting size of mbximized window, we remove the
+    // mbximized stbte bit (mbtches Motif behbviour)
+    // (cblling ShowWindow(SW_RESTORE) would fire bn
+    //  bctivbtion event which we don't wbnt)
         LONG    style = GetStyle();
         DASSERT(style & WS_MAXIMIZE);
         style ^= WS_MAXIMIZE;
         SetStyle(style);
     }
 
-    AwtWindow::Reshape(x, y, width, height);
+    AwtWindow::Reshbpe(x, y, width, height);
 }
 
 
-/* Show the frame in it's current state */
+/* Show the frbme in it's current stbte */
 void
-AwtFrame::Show()
+AwtFrbme::Show()
 {
     m_visible = true;
     HWND hwnd = GetHWnd();
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    if (IsLightweightFrame()) {
+    if (IsLightweightFrbme()) {
         return;
     }
 
-    DTRACE_PRINTLN3("AwtFrame::Show:%s%s%s",
+    DTRACE_PRINTLN3("AwtFrbme::Show:%s%s%s",
                   m_iconic ? " iconic" : "",
                   m_zoomed ? " zoomed" : "",
-                  m_iconic || m_zoomed ? "" : " normal");
+                  m_iconic || m_zoomed ? "" : " normbl");
 
-    BOOL locationByPlatform = env->GetBooleanField(GetTarget(env), AwtWindow::locationByPlatformID);
+    BOOL locbtionByPlbtform = env->GetBoolebnField(GetTbrget(env), AwtWindow::locbtionByPlbtformID);
 
-    if (locationByPlatform) {
-         moveToDefaultLocation();
+    if (locbtionByPlbtform) {
+         moveToDefbultLocbtion();
     }
-    EnableTranslucency(TRUE);
+    EnbbleTrbnslucency(TRUE);
 
-    BOOL autoRequestFocus = IsAutoRequestFocus();
+    BOOL butoRequestFocus = IsAutoRequestFocus();
 
     if (m_iconic) {
         if (m_zoomed) {
-            // This whole function could probably be rewritten to use
-            // ::SetWindowPlacement but MS docs doesn't tell if
-            // ::SetWindowPlacement is a proper superset of
-            // ::ShowWindow.  So let's be conservative and only use it
-            // here, where we really do need it.
-            DTRACE_PRINTLN("AwtFrame::Show(SW_SHOWMINIMIZED, WPF_RESTORETOMAXIMIZED");
+            // This whole function could probbbly be rewritten to use
+            // ::SetWindowPlbcement but MS docs doesn't tell if
+            // ::SetWindowPlbcement is b proper superset of
+            // ::ShowWindow.  So let's be conservbtive bnd only use it
+            // here, where we reblly do need it.
+            DTRACE_PRINTLN("AwtFrbme::Show(SW_SHOWMINIMIZED, WPF_RESTORETOMAXIMIZED");
             WINDOWPLACEMENT wp;
             ::ZeroMemory(&wp, sizeof(WINDOWPLACEMENT));
             wp.length = sizeof(WINDOWPLACEMENT);
-            ::GetWindowPlacement(hwnd, &wp);
-            if (!IsFocusableWindow() || !autoRequestFocus) {
+            ::GetWindowPlbcement(hwnd, &wp);
+            if (!IsFocusbbleWindow() || !butoRequestFocus) {
                 wp.showCmd = SW_SHOWMINNOACTIVE;
             } else {
                 wp.showCmd = SW_SHOWMINIMIZED;
             }
-            wp.flags |= WPF_RESTORETOMAXIMIZED;
-            ::SetWindowPlacement(hwnd, &wp);
+            wp.flbgs |= WPF_RESTORETOMAXIMIZED;
+            ::SetWindowPlbcement(hwnd, &wp);
         }
         else {
-            DTRACE_PRINTLN("AwtFrame::Show(SW_SHOWMINIMIZED)");
-            if (!IsFocusableWindow() || !autoRequestFocus) {
+            DTRACE_PRINTLN("AwtFrbme::Show(SW_SHOWMINIMIZED)");
+            if (!IsFocusbbleWindow() || !butoRequestFocus) {
                 ::ShowWindow(hwnd, SW_SHOWMINNOACTIVE);
             } else {
                 ::ShowWindow(hwnd, SW_SHOWMINIMIZED);
@@ -728,44 +728,44 @@ AwtFrame::Show()
         }
     }
     else if (m_zoomed) {
-        DTRACE_PRINTLN("AwtFrame::Show(SW_SHOWMAXIMIZED)");
-        if (!autoRequestFocus) {
+        DTRACE_PRINTLN("AwtFrbme::Show(SW_SHOWMAXIMIZED)");
+        if (!butoRequestFocus) {
 
-            m_filterFocusAndActivation = TRUE;
+            m_filterFocusAndActivbtion = TRUE;
             ::ShowWindow(hwnd, SW_MAXIMIZE);
-            m_filterFocusAndActivation = FALSE;
+            m_filterFocusAndActivbtion = FALSE;
 
-        } else if (!IsFocusableWindow()) {
+        } else if (!IsFocusbbleWindow()) {
             ::ShowWindow(hwnd, SW_MAXIMIZE);
         } else {
             ::ShowWindow(hwnd, SW_SHOWMAXIMIZED);
         }
     }
     else if (m_isInputMethodWindow) {
-        // Don't activate input methow window
-        DTRACE_PRINTLN("AwtFrame::Show(SW_SHOWNA)");
+        // Don't bctivbte input methow window
+        DTRACE_PRINTLN("AwtFrbme::Show(SW_SHOWNA)");
         ::ShowWindow(hwnd, SW_SHOWNA);
 
-        // After the input method window shown, we have to adjust the
-        // IME candidate window position. Here is why.
-        // Usually, when IMM opens the candidate window, it sends WM_IME_NOTIFY w/
-        // IMN_OPENCANDIDATE message to the awt component window. The
-        // awt component makes a Java call to acquire the text position
-        // in order to show the candidate window just below the input method window.
-        // However, by the time it acquires the position, the input method window
-        // hasn't been displayed yet, the position returned is just below
-        // the composed text and when the input method window is shown, it
-        // will hide part of the candidate list. To fix this, we have to
-        // adjust the candidate window position after the input method window
+        // After the input method window shown, we hbve to bdjust the
+        // IME cbndidbte window position. Here is why.
+        // Usublly, when IMM opens the cbndidbte window, it sends WM_IME_NOTIFY w/
+        // IMN_OPENCANDIDATE messbge to the bwt component window. The
+        // bwt component mbkes b Jbvb cbll to bcquire the text position
+        // in order to show the cbndidbte window just below the input method window.
+        // However, by the time it bcquires the position, the input method window
+        // hbsn't been displbyed yet, the position returned is just below
+        // the composed text bnd when the input method window is shown, it
+        // will hide pbrt of the cbndidbte list. To fix this, we hbve to
+        // bdjust the cbndidbte window position bfter the input method window
         // is shown. See bug 5012944.
-        AdjustCandidateWindowPos();
+        AdjustCbndidbteWindowPos();
     }
     else {
-        // Nor iconic, nor zoomed (handled above) - so use SW_RESTORE
-        // to show in "normal" state regardless of whatever stale
-        // state might the invisible window still has.
-        DTRACE_PRINTLN("AwtFrame::Show(SW_RESTORE)");
-        if (!IsFocusableWindow() || !autoRequestFocus) {
+        // Nor iconic, nor zoomed (hbndled bbove) - so use SW_RESTORE
+        // to show in "normbl" stbte regbrdless of whbtever stble
+        // stbte might the invisible window still hbs.
+        DTRACE_PRINTLN("AwtFrbme::Show(SW_RESTORE)");
+        if (!IsFocusbbleWindow() || !butoRequestFocus) {
             ::ShowWindow(hwnd, SW_SHOWNOACTIVATE);
         } else {
             ::ShowWindow(hwnd, SW_RESTORE);
@@ -774,22 +774,22 @@ AwtFrame::Show()
 }
 
 void
-AwtFrame::SendWindowStateEvent(int oldState, int newState)
+AwtFrbme::SendWindowStbteEvent(int oldStbte, int newStbte)
 {
-    SendWindowEvent(java_awt_event_WindowEvent_WINDOW_STATE_CHANGED,
-                    NULL, oldState, newState);
+    SendWindowEvent(jbvb_bwt_event_WindowEvent_WINDOW_STATE_CHANGED,
+                    NULL, oldStbte, newStbte);
 }
 
 void
-AwtFrame::ClearMaximizedBounds()
+AwtFrbme::ClebrMbximizedBounds()
 {
-    m_maxBoundsSet = FALSE;
+    m_mbxBoundsSet = FALSE;
 }
 
-void AwtFrame::AdjustCandidateWindowPos()
+void AwtFrbme::AdjustCbndidbteWindowPos()
 {
-    // This method should only be called if the current frame
-    // is the input method window frame.
+    // This method should only be cblled if the current frbme
+    // is the input method window frbme.
     if (!m_isInputMethodWindow) {
         return;
     }
@@ -803,91 +803,91 @@ void AwtFrame::AdjustCandidateWindowPos()
     ::GetWindowRect(GetHWnd(), &inputWinRec);
     ::GetWindowRect(sm_focusOwner, &focusWinRec);
 
-    LPARAM candType = comp->GetCandidateType();
-    HWND defaultIMEWnd = ::ImmGetDefaultIMEWnd(GetHWnd());
-    if (defaultIMEWnd == NULL) {
+    LPARAM cbndType = comp->GetCbndidbteType();
+    HWND defbultIMEWnd = ::ImmGetDefbultIMEWnd(GetHWnd());
+    if (defbultIMEWnd == NULL) {
         return;
     }
     UINT bits = 1;
-    // adjusts the candidate window position
-    for (int iCandType = 0; iCandType < 32; iCandType++, bits<<=1) {
-        if (candType & bits) {
+    // bdjusts the cbndidbte window position
+    for (int iCbndType = 0; iCbndType < 32; iCbndType++, bits<<=1) {
+        if (cbndType & bits) {
             CANDIDATEFORM cf;
-            cf.dwIndex = iCandType;
+            cf.dwIndex = iCbndType;
             cf.dwStyle = CFS_CANDIDATEPOS;
-            // Since the coordinates are relative to the containing window,
-            // we have to calculate the coordinates as below.
+            // Since the coordinbtes bre relbtive to the contbining window,
+            // we hbve to cblculbte the coordinbtes bs below.
             cf.ptCurrentPos.x = inputWinRec.left - focusWinRec.left;
             cf.ptCurrentPos.y = inputWinRec.bottom - focusWinRec.top;
 
-            // sends IMC_SETCANDIDATEPOS to IMM to move the candidate window.
-            ::SendMessage(defaultIMEWnd, WM_IME_CONTROL, IMC_SETCANDIDATEPOS, (LPARAM)&cf);
+            // sends IMC_SETCANDIDATEPOS to IMM to move the cbndidbte window.
+            ::SendMessbge(defbultIMEWnd, WM_IME_CONTROL, IMC_SETCANDIDATEPOS, (LPARAM)&cf);
         }
     }
 }
 
 void
-AwtFrame::SetMaximizedBounds(int x, int y, int w, int h)
+AwtFrbme::SetMbximizedBounds(int x, int y, int w, int h)
 {
-    m_maxPos.x  = x;
-    m_maxPos.y  = y;
-    m_maxSize.x = w;
-    m_maxSize.y = h;
-    m_maxBoundsSet = TRUE;
+    m_mbxPos.x  = x;
+    m_mbxPos.y  = y;
+    m_mbxSize.x = w;
+    m_mbxSize.y = h;
+    m_mbxBoundsSet = TRUE;
 }
 
-MsgRouting AwtFrame::WmGetMinMaxInfo(LPMINMAXINFO lpmmi)
+MsgRouting AwtFrbme::WmGetMinMbxInfo(LPMINMAXINFO lpmmi)
 {
-    //Firstly call AwtWindow's function
-    MsgRouting r = AwtWindow::WmGetMinMaxInfo(lpmmi);
+    //Firstly cbll AwtWindow's function
+    MsgRouting r = AwtWindow::WmGetMinMbxInfo(lpmmi);
 
-    //Then replace maxPos & maxSize if necessary
-    if (!m_maxBoundsSet) {
+    //Then replbce mbxPos & mbxSize if necessbry
+    if (!m_mbxBoundsSet) {
         return r;
     }
 
-    if (m_maxPos.x != java_lang_Integer_MAX_VALUE)
-        lpmmi->ptMaxPosition.x = m_maxPos.x;
-    if (m_maxPos.y != java_lang_Integer_MAX_VALUE)
-        lpmmi->ptMaxPosition.y = m_maxPos.y;
-    if (m_maxSize.x != java_lang_Integer_MAX_VALUE)
-        lpmmi->ptMaxSize.x = m_maxSize.x;
-    if (m_maxSize.y != java_lang_Integer_MAX_VALUE)
-        lpmmi->ptMaxSize.y = m_maxSize.y;
+    if (m_mbxPos.x != jbvb_lbng_Integer_MAX_VALUE)
+        lpmmi->ptMbxPosition.x = m_mbxPos.x;
+    if (m_mbxPos.y != jbvb_lbng_Integer_MAX_VALUE)
+        lpmmi->ptMbxPosition.y = m_mbxPos.y;
+    if (m_mbxSize.x != jbvb_lbng_Integer_MAX_VALUE)
+        lpmmi->ptMbxSize.x = m_mbxSize.x;
+    if (m_mbxSize.y != jbvb_lbng_Integer_MAX_VALUE)
+        lpmmi->ptMbxSize.y = m_mbxSize.y;
     return mrConsume;
 }
 
-MsgRouting AwtFrame::WmSize(UINT type, int w, int h)
+MsgRouting AwtFrbme::WmSize(UINT type, int w, int h)
 {
-    currentWmSizeState = type;
-    if (currentWmSizeState == SIZE_MINIMIZED) {
-        UpdateSecurityWarningVisibility();
+    currentWmSizeStbte = type;
+    if (currentWmSizeStbte == SIZE_MINIMIZED) {
+        UpdbteSecurityWbrningVisibility();
     }
 
     if (m_ignoreWmSize) {
-        return mrDoDefault;
+        return mrDoDefbult;
     }
 
-    DTRACE_PRINTLN6("AwtFrame::WmSize: %dx%d,%s visible, state%s%s%s",
+    DTRACE_PRINTLN6("AwtFrbme::WmSize: %dx%d,%s visible, stbte%s%s%s",
                   w, h,
                   ::IsWindowVisible(GetHWnd()) ? "" : " not",
                   m_iconic ? " iconic" : "",
                   m_zoomed ? " zoomed" : "",
-                  m_iconic || m_zoomed ? "" : " normal");
+                  m_iconic || m_zoomed ? "" : " normbl");
 
     BOOL iconify = type == SIZE_MINIMIZED;
 
-    // Note that zoom may be set to TRUE in several cases:
-    //    1. type == SIZE_MAXIMIZED means that either the user or
-    //       the developer (via setExtendedState(MAXIMIZED_BOTH)
-    //       maximizes the frame.
-    //    2. type == SIZE_MINIMIZED && isZoomed() means that a maximized
-    //       frame is to be minimized. If the user minimizes a maximized
-    //       frame, we need to keep the zoomed property TRUE. However,
-    //       if the developer calls setExtendedState(ICONIFIED), i.e.
-    //       w/o combining the ICONIFIED state with the MAXIMIZED state,
+    // Note thbt zoom mby be set to TRUE in severbl cbses:
+    //    1. type == SIZE_MAXIMIZED mebns thbt either the user or
+    //       the developer (vib setExtendedStbte(MAXIMIZED_BOTH)
+    //       mbximizes the frbme.
+    //    2. type == SIZE_MINIMIZED && isZoomed() mebns thbt b mbximized
+    //       frbme is to be minimized. If the user minimizes b mbximized
+    //       frbme, we need to keep the zoomed property TRUE. However,
+    //       if the developer cblls setExtendedStbte(ICONIFIED), i.e.
+    //       w/o combining the ICONIFIED stbte with the MAXIMIZED stbte,
     //       we MUST RESET the zoomed property.
-    //       The flag m_forceResetZoomed identifies the latter case.
+    //       The flbg m_forceResetZoomed identifies the lbtter cbse.
     BOOL zoom =
         (
          type == SIZE_MAXIMIZED
@@ -896,93 +896,93 @@ MsgRouting AwtFrame::WmSize(UINT type, int w, int h)
         )
         && !m_forceResetZoomed;
 
-    // Set the new state and send appropriate Java event
-    jint oldState = java_awt_Frame_NORMAL;
+    // Set the new stbte bnd send bppropribte Jbvb event
+    jint oldStbte = jbvb_bwt_Frbme_NORMAL;
     if (isIconic()) {
-        oldState |= java_awt_Frame_ICONIFIED;
+        oldStbte |= jbvb_bwt_Frbme_ICONIFIED;
     }
     if (isZoomed()) {
-        oldState |= java_awt_Frame_MAXIMIZED_BOTH;
+        oldStbte |= jbvb_bwt_Frbme_MAXIMIZED_BOTH;
     }
 
-    jint newState = java_awt_Frame_NORMAL;
+    jint newStbte = jbvb_bwt_Frbme_NORMAL;
     if (iconify) {
-        newState |= java_awt_Frame_ICONIFIED;
+        newStbte |= jbvb_bwt_Frbme_ICONIFIED;
     }
     if (zoom) {
-        newState |= java_awt_Frame_MAXIMIZED_BOTH;
+        newStbte |= jbvb_bwt_Frbme_MAXIMIZED_BOTH;
     }
 
     setIconic(iconify);
     setZoomed(zoom);
 
-    jint changed = oldState ^ newState;
-    if (changed != 0) {
-        DTRACE_PRINTLN2("AwtFrame::WmSize: reporting state change %x -> %x",
-                oldState, newState);
+    jint chbnged = oldStbte ^ newStbte;
+    if (chbnged != 0) {
+        DTRACE_PRINTLN2("AwtFrbme::WmSize: reporting stbte chbnge %x -> %x",
+                oldStbte, newStbte);
 
-        // sync target with peer
+        // sync tbrget with peer
         JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        env->CallVoidMethod(GetPeer(env), AwtFrame::setExtendedStateMID, newState);
+        env->CbllVoidMethod(GetPeer(env), AwtFrbme::setExtendedStbteMID, newStbte);
 
-        // report (de)iconification to old clients
-        if (changed & java_awt_Frame_ICONIFIED) {
-            if (newState & java_awt_Frame_ICONIFIED) {
-                SendWindowEvent(java_awt_event_WindowEvent_WINDOW_ICONIFIED);
+        // report (de)iconificbtion to old clients
+        if (chbnged & jbvb_bwt_Frbme_ICONIFIED) {
+            if (newStbte & jbvb_bwt_Frbme_ICONIFIED) {
+                SendWindowEvent(jbvb_bwt_event_WindowEvent_WINDOW_ICONIFIED);
             } else {
-                SendWindowEvent(java_awt_event_WindowEvent_WINDOW_DEICONIFIED);
+                SendWindowEvent(jbvb_bwt_event_WindowEvent_WINDOW_DEICONIFIED);
             }
         }
 
-        // New (since 1.4) state change event
-        SendWindowStateEvent(oldState, newState);
+        // New (since 1.4) stbte chbnge event
+        SendWindowStbteEvent(oldStbte, newStbte);
     }
 
-    // If window is in iconic state, do not send COMPONENT_RESIZED event
+    // If window is in iconic stbte, do not send COMPONENT_RESIZED event
     if (isIconic()) {
-        return mrDoDefault;
+        return mrDoDefbult;
     }
 
     return AwtWindow::WmSize(type, w, h);
 }
 
-MsgRouting AwtFrame::WmActivate(UINT nState, BOOL fMinimized, HWND opposite)
+MsgRouting AwtFrbme::WmActivbte(UINT nStbte, BOOL fMinimized, HWND opposite)
 {
     jint type;
 
-    if (nState != WA_INACTIVE) {
-        if (::IsWindow(AwtWindow::GetModalBlocker(GetHWnd())) ||
-            CheckActivateActualFocusedWindow(opposite))
+    if (nStbte != WA_INACTIVE) {
+        if (::IsWindow(AwtWindow::GetModblBlocker(GetHWnd())) ||
+            CheckActivbteActublFocusedWindow(opposite))
         {
             return mrConsume;
         }
-        type = java_awt_event_WindowEvent_WINDOW_GAINED_FOCUS;
+        type = jbvb_bwt_event_WindowEvent_WINDOW_GAINED_FOCUS;
         AwtComponent::SetFocusedWindow(GetHWnd());
 
     } else {
-        if (!::IsWindow(AwtWindow::GetModalBlocker(opposite))) {
-            // If deactivation happens because of press on grabbing
-            // window - this is nonsense, since grabbing window is
-            // assumed to have focus and watch for deactivation.  But
-            // this can happen - if grabbing window is proxied Window,
-            // with Frame keeping real focus for it.
-            if (m_grabbedWindow != NULL) {
-                if (m_grabbedWindow->GetHWnd() == opposite) {
+        if (!::IsWindow(AwtWindow::GetModblBlocker(opposite))) {
+            // If debctivbtion hbppens becbuse of press on grbbbing
+            // window - this is nonsense, since grbbbing window is
+            // bssumed to hbve focus bnd wbtch for debctivbtion.  But
+            // this cbn hbppen - if grbbbing window is proxied Window,
+            // with Frbme keeping rebl focus for it.
+            if (m_grbbbedWindow != NULL) {
+                if (m_grbbbedWindow->GetHWnd() == opposite) {
                     // Do nothing
                 } else {
-                    // Normally, we would rather check that this ==
-                    // grabbed window, and focus is leaving it -
-                    // ungrab.  But since we know about proxied
-                    // windows, we simply assume this is one of the
-                    // known cases.
-                    if (!m_grabbedWindow->IsOneOfOwnersOf((AwtWindow*)AwtComponent::GetComponent(opposite))) {
-                        m_grabbedWindow->Ungrab();
+                    // Normblly, we would rbther check thbt this ==
+                    // grbbbed window, bnd focus is lebving it -
+                    // ungrbb.  But since we know bbout proxied
+                    // windows, we simply bssume this is one of the
+                    // known cbses.
+                    if (!m_grbbbedWindow->IsOneOfOwnersOf((AwtWindow*)AwtComponent::GetComponent(opposite))) {
+                        m_grbbbedWindow->Ungrbb();
                     }
                 }
             }
-            CheckRetainActualFocusedWindow(opposite);
+            CheckRetbinActublFocusedWindow(opposite);
 
-            type = java_awt_event_WindowEvent_WINDOW_LOST_FOCUS;
+            type = jbvb_bwt_event_WindowEvent_WINDOW_LOST_FOCUS;
             AwtComponent::SetFocusedWindow(NULL);
             sm_focusOwner = NULL;
         }
@@ -992,287 +992,287 @@ MsgRouting AwtFrame::WmActivate(UINT nState, BOOL fMinimized, HWND opposite)
     return mrConsume;
 }
 
-BOOL AwtFrame::CheckActivateActualFocusedWindow(HWND deactivatedOpositeHWnd)
+BOOL AwtFrbme::CheckActivbteActublFocusedWindow(HWND debctivbtedOpositeHWnd)
 {
-    if (m_actualFocusedWindow != NULL) {
-        HWND hwnd = m_actualFocusedWindow->GetHWnd();
+    if (m_bctublFocusedWindow != NULL) {
+        HWND hwnd = m_bctublFocusedWindow->GetHWnd();
         if (hwnd != NULL && ::IsWindowVisible(hwnd)) {
-            SynthesizeWmActivate(TRUE, hwnd, deactivatedOpositeHWnd);
+            SynthesizeWmActivbte(TRUE, hwnd, debctivbtedOpositeHWnd);
             return TRUE;
         }
-        m_actualFocusedWindow = NULL;
+        m_bctublFocusedWindow = NULL;
     }
     return FALSE;
 }
 
-void AwtFrame::CheckRetainActualFocusedWindow(HWND activatedOpositeHWnd)
+void AwtFrbme::CheckRetbinActublFocusedWindow(HWND bctivbtedOpositeHWnd)
 {
-    // If actual focused window is not this Frame
+    // If bctubl focused window is not this Frbme
     if (AwtComponent::GetFocusedWindow() != GetHWnd()) {
-        // Make sure the actual focused window is an owned window of this frame
+        // Mbke sure the bctubl focused window is bn owned window of this frbme
         AwtWindow *focusedWindow = (AwtWindow *)AwtComponent::GetComponent(AwtComponent::GetFocusedWindow());
-        if (focusedWindow != NULL && focusedWindow->GetOwningFrameOrDialog() == this) {
+        if (focusedWindow != NULL && focusedWindow->GetOwningFrbmeOrDiblog() == this) {
 
-            // Check that the opposite window is not this frame, nor an owned window of this frame
-            if (activatedOpositeHWnd != NULL) {
-                AwtWindow *oppositeWindow = (AwtWindow *)AwtComponent::GetComponent(activatedOpositeHWnd);
+            // Check thbt the opposite window is not this frbme, nor bn owned window of this frbme
+            if (bctivbtedOpositeHWnd != NULL) {
+                AwtWindow *oppositeWindow = (AwtWindow *)AwtComponent::GetComponent(bctivbtedOpositeHWnd);
                 if (oppositeWindow && oppositeWindow != this &&
-                    oppositeWindow->GetOwningFrameOrDialog() != this)
+                    oppositeWindow->GetOwningFrbmeOrDiblog() != this)
                 {
-                    m_actualFocusedWindow = focusedWindow;
+                    m_bctublFocusedWindow = focusedWindow;
                 }
             } else {
-                 m_actualFocusedWindow = focusedWindow;
+                 m_bctublFocusedWindow = focusedWindow;
             }
         }
     }
 }
 
-BOOL AwtFrame::AwtSetActiveWindow(BOOL isMouseEventCause, UINT hittest)
+BOOL AwtFrbme::AwtSetActiveWindow(BOOL isMouseEventCbuse, UINT hittest)
 {
     if (hittest == HTCLIENT) {
-        // Don't let the actualFocusedWindow to steal focus if:
-        // a) the frame is clicked in its client area;
-        // b) focus is requested to some of the frame's child.
-        m_actualFocusedWindow = NULL;
+        // Don't let the bctublFocusedWindow to stebl focus if:
+        // b) the frbme is clicked in its client breb;
+        // b) focus is requested to some of the frbme's child.
+        m_bctublFocusedWindow = NULL;
     }
-    if (IsLightweightFrame()) {
+    if (IsLightweightFrbme()) {
         return TRUE;
     }
-    return AwtWindow::AwtSetActiveWindow(isMouseEventCause);
+    return AwtWindow::AwtSetActiveWindow(isMouseEventCbuse);
 }
 
-MsgRouting AwtFrame::WmEnterMenuLoop(BOOL isTrackPopupMenu)
+MsgRouting AwtFrbme::WmEnterMenuLoop(BOOL isTrbckPopupMenu)
 {
-    if ( !isTrackPopupMenu ) {
+    if ( !isTrbckPopupMenu ) {
         m_isMenuDropped = TRUE;
     }
-    return mrDoDefault;
+    return mrDoDefbult;
 }
 
-MsgRouting AwtFrame::WmExitMenuLoop(BOOL isTrackPopupMenu)
+MsgRouting AwtFrbme::WmExitMenuLoop(BOOL isTrbckPopupMenu)
 {
-    if ( !isTrackPopupMenu ) {
+    if ( !isTrbckPopupMenu ) {
         m_isMenuDropped = FALSE;
     }
-    return mrDoDefault;
+    return mrDoDefbult;
 }
 
-AwtMenuBar* AwtFrame::GetMenuBar()
+AwtMenuBbr* AwtFrbme::GetMenuBbr()
 {
-    return menuBar;
+    return menuBbr;
 }
 
-void AwtFrame::SetMenuBar(AwtMenuBar* mb)
+void AwtFrbme::SetMenuBbr(AwtMenuBbr* mb)
 {
-    menuBar = mb;
+    menuBbr = mb;
     if (mb == NULL) {
-        // Remove existing menu bar, if any.
+        // Remove existing menu bbr, if bny.
         ::SetMenu(GetHWnd(), NULL);
     } else {
-        if (menuBar->GetHMenu() != NULL) {
-            ::SetMenu(GetHWnd(), menuBar->GetHMenu());
+        if (menuBbr->GetHMenu() != NULL) {
+            ::SetMenu(GetHWnd(), menuBbr->GetHMenu());
         }
     }
 }
 
-MsgRouting AwtFrame::WmDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo)
+MsgRouting AwtFrbme::WmDrbwItem(UINT ctrlId, DRAWITEMSTRUCT& drbwInfo)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    // if the item to be redrawn is the menu bar, then do it
-    AwtMenuBar* awtMenubar = GetMenuBar();
-    if (drawInfo.CtlType == ODT_MENU && (awtMenubar != NULL) &&
-        (::GetMenu( GetHWnd() ) == (HMENU)drawInfo.hwndItem) )
+    // if the item to be redrbwn is the menu bbr, then do it
+    AwtMenuBbr* bwtMenubbr = GetMenuBbr();
+    if (drbwInfo.CtlType == ODT_MENU && (bwtMenubbr != NULL) &&
+        (::GetMenu( GetHWnd() ) == (HMENU)drbwInfo.hwndItem) )
         {
-                awtMenubar->DrawItem(drawInfo);
+                bwtMenubbr->DrbwItem(drbwInfo);
                 return mrConsume;
     }
 
-        return AwtComponent::WmDrawItem(ctrlId, drawInfo);
+        return AwtComponent::WmDrbwItem(ctrlId, drbwInfo);
 }
 
-MsgRouting AwtFrame::WmMeasureItem(UINT ctrlId, MEASUREITEMSTRUCT& measureInfo)
+MsgRouting AwtFrbme::WmMebsureItem(UINT ctrlId, MEASUREITEMSTRUCT& mebsureInfo)
 {
         JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        AwtMenuBar* awtMenubar = GetMenuBar();
-        if ((measureInfo.CtlType == ODT_MENU) && (awtMenubar != NULL))
+        AwtMenuBbr* bwtMenubbr = GetMenuBbr();
+        if ((mebsureInfo.CtlType == ODT_MENU) && (bwtMenubbr != NULL))
         {
-                // AwtMenu instance is stored in itemData. Use it to check if this
-                // menu is the menu bar.
-                AwtMenu * pMenu = (AwtMenu *) measureInfo.itemData;
+                // AwtMenu instbnce is stored in itemDbtb. Use it to check if this
+                // menu is the menu bbr.
+                AwtMenu * pMenu = (AwtMenu *) mebsureInfo.itemDbtb;
                 DASSERT(pMenu != NULL);
-                if ( pMenu == awtMenubar )
+                if ( pMenu == bwtMenubbr )
                 {
                         HWND hWnd = GetHWnd();
                         HDC hDC = ::GetDC(hWnd);
                         DASSERT(hDC != NULL);
-                        awtMenubar->MeasureItem(hDC, measureInfo);
-                        VERIFY(::ReleaseDC(hWnd, hDC));
+                        bwtMenubbr->MebsureItem(hDC, mebsureInfo);
+                        VERIFY(::RelebseDC(hWnd, hDC));
                         return mrConsume;
                 }
         }
 
-        return AwtComponent::WmMeasureItem(ctrlId, measureInfo);
+        return AwtComponent::WmMebsureItem(ctrlId, mebsureInfo);
 }
 
-MsgRouting AwtFrame::WmGetIcon(WPARAM iconType, LRESULT& retVal)
+MsgRouting AwtFrbme::WmGetIcon(WPARAM iconType, LRESULT& retVbl)
 {
-    //Workaround windows bug:
-    //when reseting from specific icon to class icon
-    //taskbar is not updated
+    //Workbround windows bug:
+    //when reseting from specific icon to clbss icon
+    //tbskbbr is not updbted
     if (iconType <= 2 /*ICON_SMALL2*/) {
-        retVal = (LRESULT)GetEffectiveIcon(iconType);
+        retVbl = (LRESULT)GetEffectiveIcon(iconType);
         return mrConsume;
     } else {
-        return mrDoDefault;
+        return mrDoDefbult;
     }
 }
 
-void AwtFrame::DoUpdateIcon()
+void AwtFrbme::DoUpdbteIcon()
 {
-    //Workaround windows bug:
-    //when reseting from specific icon to class icon
-    //taskbar is not updated
+    //Workbround windows bug:
+    //when reseting from specific icon to clbss icon
+    //tbskbbr is not updbted
     HICON hIcon = GetEffectiveIcon(ICON_BIG);
     HICON hIconSm = GetEffectiveIcon(ICON_SMALL);
-    SendMessage(WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
-    SendMessage(WM_SETICON, ICON_SMALL, (LPARAM)hIconSm);
+    SendMessbge(WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
+    SendMessbge(WM_SETICON, ICON_SMALL, (LPARAM)hIconSm);
 }
 
-HICON AwtFrame::GetEffectiveIcon(int iconType)
+HICON AwtFrbme::GetEffectiveIcon(int iconType)
 {
-    BOOL smallIcon = ((iconType == ICON_SMALL) || (iconType == 2/*ICON_SMALL2*/));
-    HICON hIcon = (smallIcon) ? GetHIconSm() : GetHIcon();
+    BOOL smbllIcon = ((iconType == ICON_SMALL) || (iconType == 2/*ICON_SMALL2*/));
+    HICON hIcon = (smbllIcon) ? GetHIconSm() : GetHIcon();
     if (hIcon == NULL) {
-        hIcon = (smallIcon) ? AwtToolkit::GetInstance().GetAwtIconSm() :
-            AwtToolkit::GetInstance().GetAwtIcon();
+        hIcon = (smbllIcon) ? AwtToolkit::GetInstbnce().GetAwtIconSm() :
+            AwtToolkit::GetInstbnce().GetAwtIcon();
     }
     return hIcon;
 }
 
-static BOOL keepOnMinimize(jobject peer) {
-    static BOOL checked = FALSE;
-    static BOOL keep = FALSE;
+stbtic BOOL keepOnMinimize(jobject peer) {
+    stbtic BOOL checked = FALSE;
+    stbtic BOOL keep = FALSE;
     if (!checked) {
-        keep = (JNU_GetStaticFieldByName(AwtToolkit::GetEnv(), NULL,
-            "sun/awt/windows/WFramePeer", "keepOnMinimize", "Z").z) == JNI_TRUE;
+        keep = (JNU_GetStbticFieldByNbme(AwtToolkit::GetEnv(), NULL,
+            "sun/bwt/windows/WFrbmePeer", "keepOnMinimize", "Z").z) == JNI_TRUE;
         checked = TRUE;
     }
     return keep;
 }
 
-MsgRouting AwtFrame::WmSysCommand(UINT uCmdType, int xPos, int yPos)
+MsgRouting AwtFrbme::WmSysCommbnd(UINT uCmdType, int xPos, int yPos)
 {
-    // ignore any WM_SYSCOMMAND if this window is blocked by modal dialog
-    if (::IsWindow(AwtWindow::GetModalBlocker(GetHWnd()))) {
+    // ignore bny WM_SYSCOMMAND if this window is blocked by modbl diblog
+    if (::IsWindow(AwtWindow::GetModblBlocker(GetHWnd()))) {
         return mrConsume;
     }
 
     if (uCmdType == (SYSCOMMAND_IMM & 0xFFF0)){
         JNIEnv* env = AwtToolkit::GetEnv();
-        JNU_CallMethodByName(env, NULL, m_peerObject,
-            "notifyIMMOptionChange", "()V");
-        DASSERT(!safe_ExceptionOccurred(env));
+        JNU_CbllMethodByNbme(env, NULL, m_peerObject,
+            "notifyIMMOptionChbnge", "()V");
+        DASSERT(!sbfe_ExceptionOccurred(env));
         return mrConsume;
     }
     if ((uCmdType == SC_MINIMIZE) && keepOnMinimize(m_peerObject)) {
         ::ShowWindow(GetHWnd(),SW_SHOWMINIMIZED);
         return mrConsume;
     }
-    return AwtWindow::WmSysCommand(uCmdType, xPos, yPos);
+    return AwtWindow::WmSysCommbnd(uCmdType, xPos, yPos);
 }
 
-LRESULT AwtFrame::WinThreadExecProc(ExecuteArgs * args)
+LRESULT AwtFrbme::WinThrebdExecProc(ExecuteArgs * brgs)
 {
-    switch( args->cmdId ) {
-        case FRAME_SETMENUBAR:
+    switch( brgs->cmdId ) {
+        cbse FRAME_SETMENUBAR:
         {
-            jobject  mbPeer = (jobject)args->param1;
+            jobject  mbPeer = (jobject)brgs->pbrbm1;
 
-            // cancel any currently dropped down menus
+            // cbncel bny currently dropped down menus
             if (m_isMenuDropped) {
-                SendMessage(WM_CANCELMODE);
+                SendMessbge(WM_CANCELMODE);
             }
 
             if (mbPeer == NULL) {
-                // Remove existing menu bar, if any
-                SetMenuBar(NULL);
+                // Remove existing menu bbr, if bny
+                SetMenuBbr(NULL);
             } else {
                 JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-                AwtMenuBar* menuBar = (AwtMenuBar *)JNI_GET_PDATA(mbPeer);
-                SetMenuBar(menuBar);
+                AwtMenuBbr* menuBbr = (AwtMenuBbr *)JNI_GET_PDATA(mbPeer);
+                SetMenuBbr(menuBbr);
             }
-            DrawMenuBar();
-            break;
+            DrbwMenuBbr();
+            brebk;
         }
 
-        default:
-            AwtWindow::WinThreadExecProc(args);
-            break;
+        defbult:
+            AwtWindow::WinThrebdExecProc(brgs);
+            brebk;
     }
 
     return 0L;
 }
 
-void AwtFrame::_SynthesizeWmActivate(void *param)
+void AwtFrbme::_SynthesizeWmActivbte(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SynthesizeWmActivateStruct *sas = (SynthesizeWmActivateStruct *)param;
-    jobject self = sas->frame;
-    jboolean doActivate = sas->doActivate;
+    SynthesizeWmActivbteStruct *sbs = (SynthesizeWmActivbteStruct *)pbrbm;
+    jobject self = sbs->frbme;
+    jboolebn doActivbte = sbs->doActivbte;
 
-    AwtFrame *frame = NULL;
+    AwtFrbme *frbme = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    frame = (AwtFrame *)pData;
+    frbme = (AwtFrbme *)pDbtb;
 
-    SynthesizeWmActivate(doActivate, frame->GetHWnd(), NULL);
+    SynthesizeWmActivbte(doActivbte, frbme->GetHWnd(), NULL);
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
 
-    delete sas;
+    delete sbs;
 }
 
-jobject AwtFrame::_GetBoundsPrivate(void *param)
+jobject AwtFrbme::_GetBoundsPrivbte(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobject self = (jobject)pbrbm;
 
     jobject result = NULL;
-    AwtFrame *f = NULL;
+    AwtFrbme *f = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    f = (AwtFrame *)pData;
+    f = (AwtFrbme *)pDbtb;
     if (::IsWindow(f->GetHWnd()))
     {
         RECT rect;
         ::GetWindowRect(f->GetHWnd(), &rect);
-        HWND parent = ::GetParent(f->GetHWnd());
-        if (::IsWindow(parent))
+        HWND pbrent = ::GetPbrent(f->GetHWnd());
+        if (::IsWindow(pbrent))
         {
             POINT zero;
             zero.x = 0;
             zero.y = 0;
-            ::ClientToScreen(parent, &zero);
+            ::ClientToScreen(pbrent, &zero);
             ::OffsetRect(&rect, -zero.x, -zero.y);
         }
 
-        result = JNU_NewObjectByName(env, "java/awt/Rectangle", "(IIII)V",
+        result = JNU_NewObjectByNbme(env, "jbvb/bwt/Rectbngle", "(IIII)V",
             rect.left, rect.top, rect.bottom-rect.top, rect.right-rect.left);
     }
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
 
     if (result != NULL)
     {
-        jobject resultGlobalRef = env->NewGlobalRef(result);
-        env->DeleteLocalRef(result);
-        return resultGlobalRef;
+        jobject resultGlobblRef = env->NewGlobblRef(result);
+        env->DeleteLocblRef(result);
+        return resultGlobblRef;
     }
     else
     {
@@ -1280,299 +1280,299 @@ ret:
     }
 }
 
-void AwtFrame::_SetState(void *param)
+void AwtFrbme::_SetStbte(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetStateStruct *sss = (SetStateStruct *)param;
-    jobject self = sss->frame;
-    jint state = sss->state;
+    SetStbteStruct *sss = (SetStbteStruct *)pbrbm;
+    jobject self = sss->frbme;
+    jint stbte = sss->stbte;
 
-    AwtFrame *f = NULL;
+    AwtFrbme *f = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    f = (AwtFrame *)pData;
+    f = (AwtFrbme *)pDbtb;
     HWND hwnd = f->GetHWnd();
     if (::IsWindow(hwnd))
     {
-        DASSERT(!IsBadReadPtr(f, sizeof(AwtFrame)));
+        DASSERT(!IsBbdRebdPtr(f, sizeof(AwtFrbme)));
 
-        BOOL iconify = (state & java_awt_Frame_ICONIFIED) != 0;
-        BOOL zoom = (state & java_awt_Frame_MAXIMIZED_BOTH)
-                        == java_awt_Frame_MAXIMIZED_BOTH;
+        BOOL iconify = (stbte & jbvb_bwt_Frbme_ICONIFIED) != 0;
+        BOOL zoom = (stbte & jbvb_bwt_Frbme_MAXIMIZED_BOTH)
+                        == jbvb_bwt_Frbme_MAXIMIZED_BOTH;
 
-        DTRACE_PRINTLN4("WFramePeer.setState:%s%s ->%s%s",
+        DTRACE_PRINTLN4("WFrbmePeer.setStbte:%s%s ->%s%s",
                   f->isIconic() ? " iconic" : "",
                   f->isZoomed() ? " zoomed" : "",
                   iconify       ? " iconic" : "",
                   zoom          ? " zoomed" : "");
 
         if (::IsWindowVisible(hwnd)) {
-            BOOL focusable = f->IsFocusableWindow();
+            BOOL focusbble = f->IsFocusbbleWindow();
 
             WINDOWPLACEMENT wp;
             ::ZeroMemory(&wp, sizeof(wp));
             wp.length = sizeof(wp);
-            ::GetWindowPlacement(hwnd, &wp);
+            ::GetWindowPlbcement(hwnd, &wp);
 
             // Iconify first.
-            // If both iconify & zoom are TRUE, handle this case
-            // with wp.flags field below.
+            // If both iconify & zoom bre TRUE, hbndle this cbse
+            // with wp.flbgs field below.
             if (iconify) {
-                wp.showCmd = focusable ? SW_MINIMIZE : SW_SHOWMINNOACTIVE;
+                wp.showCmd = focusbble ? SW_MINIMIZE : SW_SHOWMINNOACTIVE;
             } else if (zoom) {
-                wp.showCmd = focusable ? SW_SHOWMAXIMIZED : SW_MAXIMIZE;
+                wp.showCmd = focusbble ? SW_SHOWMAXIMIZED : SW_MAXIMIZE;
             } else { // zoom == iconify == FALSE
-                wp.showCmd = focusable ? SW_RESTORE : SW_SHOWNOACTIVATE;
+                wp.showCmd = focusbble ? SW_RESTORE : SW_SHOWNOACTIVATE;
             }
 
             if (zoom && iconify) {
-                wp.flags |= WPF_RESTORETOMAXIMIZED;
+                wp.flbgs |= WPF_RESTORETOMAXIMIZED;
             } else {
-                wp.flags &= ~WPF_RESTORETOMAXIMIZED;
+                wp.flbgs &= ~WPF_RESTORETOMAXIMIZED;
             }
 
             if (!zoom) {
                 f->m_forceResetZoomed = TRUE;
             }
 
-            // The SetWindowPlacement() causes the WmSize() invocation
-            //  which, in turn, actually updates the m_iconic & m_zoomed flags
-            //  as well as sends Java event (WINDOW_STATE_CHANGED.)
-            ::SetWindowPlacement(hwnd, &wp);
+            // The SetWindowPlbcement() cbuses the WmSize() invocbtion
+            //  which, in turn, bctublly updbtes the m_iconic & m_zoomed flbgs
+            //  bs well bs sends Jbvb event (WINDOW_STATE_CHANGED.)
+            ::SetWindowPlbcement(hwnd, &wp);
 
             f->m_forceResetZoomed = FALSE;
         } else {
-            DTRACE_PRINTLN("  not visible, just recording the requested state");
+            DTRACE_PRINTLN("  not visible, just recording the requested stbte");
 
             f->setIconic(iconify);
             f->setZoomed(zoom);
         }
     }
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
 
     delete sss;
 }
 
-jint AwtFrame::_GetState(void *param)
+jint AwtFrbme::_GetStbte(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobject self = (jobject)pbrbm;
 
-    jint result = java_awt_Frame_NORMAL;
-    AwtFrame *f = NULL;
+    jint result = jbvb_bwt_Frbme_NORMAL;
+    AwtFrbme *f = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    f = (AwtFrame *)pData;
+    f = (AwtFrbme *)pDbtb;
     if (::IsWindow(f->GetHWnd()))
     {
-        DASSERT(!::IsBadReadPtr(f, sizeof(AwtFrame)));
+        DASSERT(!::IsBbdRebdPtr(f, sizeof(AwtFrbme)));
         if (f->isIconic()) {
-            result |= java_awt_Frame_ICONIFIED;
+            result |= jbvb_bwt_Frbme_ICONIFIED;
         }
         if (f->isZoomed()) {
-            result |= java_awt_Frame_MAXIMIZED_BOTH;
+            result |= jbvb_bwt_Frbme_MAXIMIZED_BOTH;
         }
 
-        DTRACE_PRINTLN2("WFramePeer.getState:%s%s",
+        DTRACE_PRINTLN2("WFrbmePeer.getStbte:%s%s",
                   f->isIconic() ? " iconic" : "",
                   f->isZoomed() ? " zoomed" : "");
     }
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
 
     return result;
 }
 
-void AwtFrame::_SetMaximizedBounds(void *param)
+void AwtFrbme::_SetMbximizedBounds(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetMaximizedBoundsStruct *smbs = (SetMaximizedBoundsStruct *)param;
-    jobject self = smbs->frame;
+    SetMbximizedBoundsStruct *smbs = (SetMbximizedBoundsStruct *)pbrbm;
+    jobject self = smbs->frbme;
     int x = smbs->x;
     int y = smbs->y;
     int width = smbs->width;
     int height = smbs->height;
 
-    AwtFrame *f = NULL;
+    AwtFrbme *f = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    f = (AwtFrame *)pData;
+    f = (AwtFrbme *)pDbtb;
     if (::IsWindow(f->GetHWnd()))
     {
-        DASSERT(!::IsBadReadPtr(f, sizeof(AwtFrame)));
-        f->SetMaximizedBounds(x, y, width, height);
+        DASSERT(!::IsBbdRebdPtr(f, sizeof(AwtFrbme)));
+        f->SetMbximizedBounds(x, y, width, height);
     }
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
 
     delete smbs;
 }
 
-void AwtFrame::_ClearMaximizedBounds(void *param)
+void AwtFrbme::_ClebrMbximizedBounds(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobject self = (jobject)pbrbm;
 
-    AwtFrame *f = NULL;
+    AwtFrbme *f = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    f = (AwtFrame *)pData;
+    f = (AwtFrbme *)pDbtb;
     if (::IsWindow(f->GetHWnd()))
     {
-        DASSERT(!::IsBadReadPtr(f, sizeof(AwtFrame)));
-        f->ClearMaximizedBounds();
+        DASSERT(!::IsBbdRebdPtr(f, sizeof(AwtFrbme)));
+        f->ClebrMbximizedBounds();
     }
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
 }
 
-void AwtFrame::_SetMenuBar(void *param)
+void AwtFrbme::_SetMenuBbr(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetMenuBarStruct *smbs = (SetMenuBarStruct *)param;
-    jobject self = smbs->frame;
-    jobject menubar = smbs->menubar;
+    SetMenuBbrStruct *smbs = (SetMenuBbrStruct *)pbrbm;
+    jobject self = smbs->frbme;
+    jobject menubbr = smbs->menubbr;
 
-    AwtFrame *f = NULL;
+    AwtFrbme *f = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    f = (AwtFrame *)pData;
+    f = (AwtFrbme *)pDbtb;
     if (::IsWindow(f->GetHWnd()))
     {
-        ExecuteArgs args;
-        args.cmdId = FRAME_SETMENUBAR;
-        args.param1 = (LPARAM)menubar;
-        f->WinThreadExecProc(&args);
+        ExecuteArgs brgs;
+        brgs.cmdId = FRAME_SETMENUBAR;
+        brgs.pbrbm1 = (LPARAM)menubbr;
+        f->WinThrebdExecProc(&brgs);
     }
 ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(menubar);
+    env->DeleteGlobblRef(self);
+    env->DeleteGlobblRef(menubbr);
 
     delete smbs;
 }
 
-void AwtFrame::_SetIMMOption(void *param)
+void AwtFrbme::_SetIMMOption(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetIMMOptionStruct *sios = (SetIMMOptionStruct *)param;
-    jobject self = sios->frame;
+    SetIMMOptionStruct *sios = (SetIMMOptionStruct *)pbrbm;
+    jobject self = sios->frbme;
     jstring option = sios->option;
 
-    int badAlloc = 0;
+    int bbdAlloc = 0;
     LPCTSTR coption;
     LPCTSTR empty = TEXT("InputMethod");
-    AwtFrame *f = NULL;
+    AwtFrbme *f = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    JNI_CHECK_NULL_GOTO(option, "IMMOption argument", ret);
+    JNI_CHECK_NULL_GOTO(option, "IMMOption brgument", ret);
 
-    f = (AwtFrame *)pData;
+    f = (AwtFrbme *)pDbtb;
     if (::IsWindow(f->GetHWnd()))
     {
-        coption = JNU_GetStringPlatformChars(env, option, NULL);
+        coption = JNU_GetStringPlbtformChbrs(env, option, NULL);
         if (coption == NULL)
         {
-            badAlloc = 1;
+            bbdAlloc = 1;
         }
-        if (!badAlloc)
+        if (!bbdAlloc)
         {
             HMENU hSysMenu = ::GetSystemMenu(f->GetHWnd(), FALSE);
             ::AppendMenu(hSysMenu,  MF_STRING, SYSCOMMAND_IMM, coption);
 
             if (coption != empty)
             {
-                JNU_ReleaseStringPlatformChars(env, option, coption);
+                JNU_RelebseStringPlbtformChbrs(env, option, coption);
             }
         }
     }
 ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(option);
+    env->DeleteGlobblRef(self);
+    env->DeleteGlobblRef(option);
 
     delete sios;
 
-    if (badAlloc)
+    if (bbdAlloc)
     {
-        throw std::bad_alloc();
+        throw std::bbd_blloc();
     }
 }
 
-void AwtFrame::_NotifyModalBlocked(void *param)
+void AwtFrbme::_NotifyModblBlocked(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    NotifyModalBlockedStruct *nmbs = (NotifyModalBlockedStruct *)param;
-    jobject self = nmbs->frame;
+    NotifyModblBlockedStruct *nmbs = (NotifyModblBlockedStruct *)pbrbm;
+    jobject self = nmbs->frbme;
     jobject peer = nmbs->peer;
     jobject blockerPeer = nmbs->blockerPeer;
-    jboolean blocked = nmbs->blocked;
+    jboolebn blocked = nmbs->blocked;
 
-    PDATA pData;
+    PDATA pDbtb;
 
-    pData = JNI_GET_PDATA(peer);
-    AwtFrame *f = (AwtFrame *)pData;
+    pDbtb = JNI_GET_PDATA(peer);
+    AwtFrbme *f = (AwtFrbme *)pDbtb;
 
-    // dialog here may be NULL, for example, if the blocker is a native dialog
-    // however, we need to install/unistall modal hooks anyway
-    pData = JNI_GET_PDATA(blockerPeer);
-    AwtDialog *d = (AwtDialog *)pData;
+    // diblog here mby be NULL, for exbmple, if the blocker is b nbtive diblog
+    // however, we need to instbll/unistbll modbl hooks bnywby
+    pDbtb = JNI_GET_PDATA(blockerPeer);
+    AwtDiblog *d = (AwtDiblog *)pDbtb;
 
     if ((f != NULL) && ::IsWindow(f->GetHWnd()))
     {
-        // get an HWND of the toplevel window this embedded frame is within
+        // get bn HWND of the toplevel window this embedded frbme is within
         HWND fHWnd = f->GetHWnd();
-        while (::GetParent(fHWnd) != NULL) {
-            fHWnd = ::GetParent(fHWnd);
+        while (::GetPbrent(fHWnd) != NULL) {
+            fHWnd = ::GetPbrent(fHWnd);
         }
-        // we must get a toplevel hwnd here, however due to some strange
-        // behaviour of Java Plugin (a bug?) when running in IE at
-        // this moment the embedded frame hasn't been placed into the
-        // browser yet and fHWnd is not a toplevel, so we shouldn't install
+        // we must get b toplevel hwnd here, however due to some strbnge
+        // behbviour of Jbvb Plugin (b bug?) when running in IE bt
+        // this moment the embedded frbme hbsn't been plbced into the
+        // browser yet bnd fHWnd is not b toplevel, so we shouldn't instbll
         // the hook here
         if ((::GetWindowLong(fHWnd, GWL_STYLE) & WS_CHILD) == 0) {
-            // if this toplevel is created in another thread, we should install
-            // the modal hook into it to track window activation and mouse events
-            DWORD fThread = ::GetWindowThreadProcessId(fHWnd, NULL);
-            if (fThread != AwtToolkit::GetInstance().MainThread()) {
-                // check if this thread has been already blocked
-                BlockedThreadStruct *blockedThread = (BlockedThreadStruct *)sm_BlockedThreads.get((void *)fThread);
+            // if this toplevel is crebted in bnother threbd, we should instbll
+            // the modbl hook into it to trbck window bctivbtion bnd mouse events
+            DWORD fThrebd = ::GetWindowThrebdProcessId(fHWnd, NULL);
+            if (fThrebd != AwtToolkit::GetInstbnce().MbinThrebd()) {
+                // check if this threbd hbs been blrebdy blocked
+                BlockedThrebdStruct *blockedThrebd = (BlockedThrebdStruct *)sm_BlockedThrebds.get((void *)fThrebd);
                 if (blocked) {
-                    if (blockedThread == NULL) {
-                        blockedThread = new BlockedThreadStruct;
-                        blockedThread->framesCount = 1;
-                        blockedThread->modalHook = ::SetWindowsHookEx(WH_CBT, (HOOKPROC)AwtDialog::ModalFilterProc,
-                                                                      0, fThread);
-                        blockedThread->mouseHook = ::SetWindowsHookEx(WH_MOUSE, (HOOKPROC)AwtDialog::MouseHookProc_NonTT,
-                                                                      0, fThread);
-                        sm_BlockedThreads.put((void *)fThread, blockedThread);
+                    if (blockedThrebd == NULL) {
+                        blockedThrebd = new BlockedThrebdStruct;
+                        blockedThrebd->frbmesCount = 1;
+                        blockedThrebd->modblHook = ::SetWindowsHookEx(WH_CBT, (HOOKPROC)AwtDiblog::ModblFilterProc,
+                                                                      0, fThrebd);
+                        blockedThrebd->mouseHook = ::SetWindowsHookEx(WH_MOUSE, (HOOKPROC)AwtDiblog::MouseHookProc_NonTT,
+                                                                      0, fThrebd);
+                        sm_BlockedThrebds.put((void *)fThrebd, blockedThrebd);
                     } else {
-                        blockedThread->framesCount++;
+                        blockedThrebd->frbmesCount++;
                     }
                 } else {
-                    // see the comment above: if Java Plugin behaviour when running in IE
-                    // was right, blockedThread would be always not NULL here
-                    if (blockedThread != NULL) {
-                        DASSERT(blockedThread->framesCount > 0);
-                        if ((blockedThread->framesCount) == 1) {
-                            ::UnhookWindowsHookEx(blockedThread->modalHook);
-                            ::UnhookWindowsHookEx(blockedThread->mouseHook);
-                            sm_BlockedThreads.remove((void *)fThread);
-                            delete blockedThread;
+                    // see the comment bbove: if Jbvb Plugin behbviour when running in IE
+                    // wbs right, blockedThrebd would be blwbys not NULL here
+                    if (blockedThrebd != NULL) {
+                        DASSERT(blockedThrebd->frbmesCount > 0);
+                        if ((blockedThrebd->frbmesCount) == 1) {
+                            ::UnhookWindowsHookEx(blockedThrebd->modblHook);
+                            ::UnhookWindowsHookEx(blockedThrebd->mouseHook);
+                            sm_BlockedThrebds.remove((void *)fThrebd);
+                            delete blockedThrebd;
                         } else {
-                            blockedThread->framesCount--;
+                            blockedThrebd->frbmesCount--;
                         }
                     }
                 }
@@ -1580,190 +1580,190 @@ void AwtFrame::_NotifyModalBlocked(void *param)
         }
     }
 
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(peer);
-    env->DeleteGlobalRef(blockerPeer);
+    env->DeleteGlobblRef(self);
+    env->DeleteGlobblRef(peer);
+    env->DeleteGlobblRef(blockerPeer);
 
     delete nmbs;
 }
 
 /************************************************************************
- * WFramePeer native methods
+ * WFrbmePeer nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     java_awt_Frame
+ * Clbss:     jbvb_bwt_Frbme
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_Frame_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Frbme_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtFrame::undecoratedID = env->GetFieldID(cls,"undecorated","Z");
-    DASSERT(AwtFrame::undecoratedID != NULL);
+    AwtFrbme::undecorbtedID = env->GetFieldID(cls,"undecorbted","Z");
+    DASSERT(AwtFrbme::undecorbtedID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WFramePeer
+ * Clbss:     sun_bwt_windows_WFrbmePeer
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFramePeer_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WFrbmePeer_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtFrame::setExtendedStateMID = env->GetMethodID(cls, "setExtendedState", "(I)V");
-    DASSERT(AwtFrame::setExtendedStateMID);
-    CHECK_NULL(AwtFrame::setExtendedStateMID);
+    AwtFrbme::setExtendedStbteMID = env->GetMethodID(cls, "setExtendedStbte", "(I)V");
+    DASSERT(AwtFrbme::setExtendedStbteMID);
+    CHECK_NULL(AwtFrbme::setExtendedStbteMID);
 
-    AwtFrame::getExtendedStateMID = env->GetMethodID(cls, "getExtendedState", "()I");
-    DASSERT(AwtFrame::getExtendedStateMID);
+    AwtFrbme::getExtendedStbteMID = env->GetMethodID(cls, "getExtendedStbte", "()I");
+    DASSERT(AwtFrbme::getExtendedStbteMID);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WFramePeer
- * Method:    setState
- * Signature: (I)V
+ * Clbss:     sun_bwt_windows_WFrbmePeer
+ * Method:    setStbte
+ * Signbture: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFramePeer_setState(JNIEnv *env, jobject self,
-    jint state)
+Jbvb_sun_bwt_windows_WFrbmePeer_setStbte(JNIEnv *env, jobject self,
+    jint stbte)
 {
     TRY;
 
-    SetStateStruct *sss = new SetStateStruct;
-    sss->frame = env->NewGlobalRef(self);
-    sss->state = state;
+    SetStbteStruct *sss = new SetStbteStruct;
+    sss->frbme = env->NewGlobblRef(self);
+    sss->stbte = stbte;
 
-    AwtToolkit::GetInstance().SyncCall(AwtFrame::_SetState, sss);
-    // global ref and sss are deleted in _SetState()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtFrbme::_SetStbte, sss);
+    // globbl ref bnd sss bre deleted in _SetStbte()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WFramePeer
- * Method:    getState
- * Signature: ()I
+ * Clbss:     sun_bwt_windows_WFrbmePeer
+ * Method:    getStbte
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WFramePeer_getState(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WFrbmePeer_getStbte(JNIEnv *env, jobject self)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    jobject selfGlobblRef = env->NewGlobblRef(self);
 
-    return static_cast<jint>(reinterpret_cast<INT_PTR>(AwtToolkit::GetInstance().SyncCall(
-        (void*(*)(void*))AwtFrame::_GetState,
-        (void *)selfGlobalRef)));
-    // selfGlobalRef is deleted in _GetState()
+    return stbtic_cbst<jint>(reinterpret_cbst<INT_PTR>(AwtToolkit::GetInstbnce().SyncCbll(
+        (void*(*)(void*))AwtFrbme::_GetStbte,
+        (void *)selfGlobblRef)));
+    // selfGlobblRef is deleted in _GetStbte()
 
-    CATCH_BAD_ALLOC_RET(java_awt_Frame_NORMAL);
+    CATCH_BAD_ALLOC_RET(jbvb_bwt_Frbme_NORMAL);
 }
 
 
 /*
- * Class:     sun_awt_windows_WFramePeer
- * Method:    setMaximizedBounds
- * Signature: (IIII)V
+ * Clbss:     sun_bwt_windows_WFrbmePeer
+ * Method:    setMbximizedBounds
+ * Signbture: (IIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFramePeer_setMaximizedBounds(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WFrbmePeer_setMbximizedBounds(JNIEnv *env, jobject self,
     jint x, jint y, jint width, jint height)
 {
     TRY;
 
-    SetMaximizedBoundsStruct *smbs = new SetMaximizedBoundsStruct;
-    smbs->frame = env->NewGlobalRef(self);
+    SetMbximizedBoundsStruct *smbs = new SetMbximizedBoundsStruct;
+    smbs->frbme = env->NewGlobblRef(self);
     smbs->x = x;
     smbs->y = y;
     smbs->width = width;
     smbs->height = height;
 
-    AwtToolkit::GetInstance().SyncCall(AwtFrame::_SetMaximizedBounds, smbs);
-    // global ref and smbs are deleted in _SetMaximizedBounds()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtFrbme::_SetMbximizedBounds, smbs);
+    // globbl ref bnd smbs bre deleted in _SetMbximizedBounds()
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WFramePeer
- * Method:    clearMaximizedBounds
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WFrbmePeer
+ * Method:    clebrMbximizedBounds
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFramePeer_clearMaximizedBounds(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WFrbmePeer_clebrMbximizedBounds(JNIEnv *env, jobject self)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    jobject selfGlobblRef = env->NewGlobblRef(self);
 
-    AwtToolkit::GetInstance().SyncCall(AwtFrame::_ClearMaximizedBounds,
-        (void *)selfGlobalRef);
-    // selfGlobalRef is deleted in _ClearMaximizedBounds()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtFrbme::_ClebrMbximizedBounds,
+        (void *)selfGlobblRef);
+    // selfGlobblRef is deleted in _ClebrMbximizedBounds()
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WFramePeer
- * Method:    setMenuBar0
- * Signature: (Lsun/awt/windows/WMenuBarPeer;)V
+ * Clbss:     sun_bwt_windows_WFrbmePeer
+ * Method:    setMenuBbr0
+ * Signbture: (Lsun/bwt/windows/WMenuBbrPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFramePeer_setMenuBar0(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WFrbmePeer_setMenuBbr0(JNIEnv *env, jobject self,
                                             jobject mbPeer)
 {
     TRY;
 
-    SetMenuBarStruct *smbs = new SetMenuBarStruct;
-    smbs->frame = env->NewGlobalRef(self);
-    smbs->menubar = env->NewGlobalRef(mbPeer);
+    SetMenuBbrStruct *smbs = new SetMenuBbrStruct;
+    smbs->frbme = env->NewGlobblRef(self);
+    smbs->menubbr = env->NewGlobblRef(mbPeer);
 
-    AwtToolkit::GetInstance().SyncCall(AwtFrame::_SetMenuBar, smbs);
-    // global refs ans smbs are deleted in _SetMenuBar()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtFrbme::_SetMenuBbr, smbs);
+    // globbl refs bns smbs bre deleted in _SetMenuBbr()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WFramePeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WFrbmePeer
+ * Method:    crebte
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFramePeer_createAwtFrame(JNIEnv *env, jobject self,
-                                               jobject parent)
+Jbvb_sun_bwt_windows_WFrbmePeer_crebteAwtFrbme(JNIEnv *env, jobject self,
+                                               jobject pbrent)
 {
     TRY;
 
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtFrame::Create);
-    PDATA pData;
+    AwtToolkit::CrebteComponent(self, pbrent,
+                                (AwtToolkit::ComponentFbctory)
+                                AwtFrbme::Crebte);
+    PDATA pDbtb;
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WFramePeer
+ * Clbss:     sun_bwt_windows_WFrbmePeer
  * Method:    getSysMenuHeight
- * Signature: ()I
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WFramePeer_getSysMenuHeight(JNIEnv *env, jclass self)
+Jbvb_sun_bwt_windows_WFrbmePeer_getSysMenuHeight(JNIEnv *env, jclbss self)
 {
     TRY;
 
@@ -1773,22 +1773,22 @@ Java_sun_awt_windows_WFramePeer_getSysMenuHeight(JNIEnv *env, jclass self)
 }
 
 /*
- * Class:     sun_awt_windows_WFramePeer
+ * Clbss:     sun_bwt_windows_WFrbmePeer
  * Method:    pSetIMMOption
- * Signature: (Ljava/lang/String;)V
+ * Signbture: (Ljbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFramePeer_pSetIMMOption(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WFrbmePeer_pSetIMMOption(JNIEnv *env, jobject self,
                                                jstring option)
 {
     TRY;
 
     SetIMMOptionStruct *sios = new SetIMMOptionStruct;
-    sios->frame = env->NewGlobalRef(self);
-    sios->option = (jstring)env->NewGlobalRef(option);
+    sios->frbme = env->NewGlobblRef(self);
+    sios->option = (jstring)env->NewGlobblRef(option);
 
-    AwtToolkit::GetInstance().SyncCall(AwtFrame::_SetIMMOption, sios);
-    // global refs and sios are deleted in _SetIMMOption()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtFrbme::_SetIMMOption, sios);
+    // globbl refs bnd sios bre deleted in _SetIMMOption()
 
     CATCH_BAD_ALLOC;
 }
@@ -1797,48 +1797,48 @@ Java_sun_awt_windows_WFramePeer_pSetIMMOption(JNIEnv *env, jobject self,
 
 
 /************************************************************************
- * WEmbeddedFrame native methods
+ * WEmbeddedFrbme nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WFramePeer
+ * Clbss:     sun_bwt_windows_WFrbmePeer
  * Method:    initIDs
- * Signature: (Lsun/awt/windows/WMenuBarPeer;)V
+ * Signbture: (Lsun/bwt/windows/WMenuBbrPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WEmbeddedFrame_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WEmbeddedFrbme_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtFrame::handleID = env->GetFieldID(cls, "handle", "J");
-    DASSERT(AwtFrame::handleID != NULL);
-    CHECK_NULL(AwtFrame::handleID);
+    AwtFrbme::hbndleID = env->GetFieldID(cls, "hbndle", "J");
+    DASSERT(AwtFrbme::hbndleID != NULL);
+    CHECK_NULL(AwtFrbme::hbndleID);
 
-    AwtFrame::activateEmbeddingTopLevelMID = env->GetMethodID(cls, "activateEmbeddingTopLevel", "()V");
-    DASSERT(AwtFrame::activateEmbeddingTopLevelMID != NULL);
+    AwtFrbme::bctivbteEmbeddingTopLevelMID = env->GetMethodID(cls, "bctivbteEmbeddingTopLevel", "()V");
+    DASSERT(AwtFrbme::bctivbteEmbeddingTopLevelMID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WEmbeddedFrame_notifyModalBlockedImpl(JNIEnv *env,
+Jbvb_sun_bwt_windows_WEmbeddedFrbme_notifyModblBlockedImpl(JNIEnv *env,
                                                            jobject self,
                                                            jobject peer,
                                                            jobject blockerPeer,
-                                                           jboolean blocked)
+                                                           jboolebn blocked)
 {
     TRY;
 
-    NotifyModalBlockedStruct *nmbs = new NotifyModalBlockedStruct;
-    nmbs->frame = env->NewGlobalRef(self);
-    nmbs->peer = env->NewGlobalRef(peer);
-    nmbs->blockerPeer = env->NewGlobalRef(blockerPeer);
+    NotifyModblBlockedStruct *nmbs = new NotifyModblBlockedStruct;
+    nmbs->frbme = env->NewGlobblRef(self);
+    nmbs->peer = env->NewGlobblRef(peer);
+    nmbs->blockerPeer = env->NewGlobblRef(blockerPeer);
     nmbs->blocked = blocked;
 
-    AwtToolkit::GetInstance().SyncCall(AwtFrame::_NotifyModalBlocked, nmbs);
-    // global refs and nmbs are deleted in _NotifyModalBlocked()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtFrbme::_NotifyModblBlocked, nmbs);
+    // globbl refs bnd nmbs bre deleted in _NotifyModblBlocked()
 
     CATCH_BAD_ALLOC;
 }
@@ -1847,42 +1847,42 @@ Java_sun_awt_windows_WEmbeddedFrame_notifyModalBlockedImpl(JNIEnv *env,
 
 
 /************************************************************************
- * WEmbeddedFramePeer native methods
+ * WEmbeddedFrbmePeer nbtive methods
  */
 
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WEmbeddedFramePeer_create(JNIEnv *env, jobject self,
-                                               jobject parent)
+Jbvb_sun_bwt_windows_WEmbeddedFrbmePeer_crebte(JNIEnv *env, jobject self,
+                                               jobject pbrent)
 {
     TRY;
 
     JNI_CHECK_NULL_RETURN(self, "peer");
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtFrame::Create);
-    PDATA pData;
+    AwtToolkit::CrebteComponent(self, pbrent,
+                                (AwtToolkit::ComponentFbctory)
+                                AwtFrbme::Crebte);
+    PDATA pDbtb;
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
     CATCH_BAD_ALLOC;
 }
 
 JNIEXPORT jobject JNICALL
-Java_sun_awt_windows_WEmbeddedFramePeer_getBoundsPrivate(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WEmbeddedFrbmePeer_getBoundsPrivbte(JNIEnv *env, jobject self)
 {
     TRY;
 
-    jobject result = (jobject)AwtToolkit::GetInstance().SyncCall(
-        (void *(*)(void *))AwtFrame::_GetBoundsPrivate,
-        env->NewGlobalRef(self));
-    // global ref is deleted in _GetBoundsPrivate
+    jobject result = (jobject)AwtToolkit::GetInstbnce().SyncCbll(
+        (void *(*)(void *))AwtFrbme::_GetBoundsPrivbte,
+        env->NewGlobblRef(self));
+    // globbl ref is deleted in _GetBoundsPrivbte
 
     if (result != NULL)
     {
-        jobject resultLocalRef = env->NewLocalRef(result);
-        env->DeleteGlobalRef(result);
-        return resultLocalRef;
+        jobject resultLocblRef = env->NewLocblRef(result);
+        env->DeleteGlobblRef(result);
+        return resultLocblRef;
     }
     else
     {
@@ -1893,20 +1893,20 @@ Java_sun_awt_windows_WEmbeddedFramePeer_getBoundsPrivate(JNIEnv *env, jobject se
 }
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFramePeer_synthesizeWmActivate(JNIEnv *env, jobject self, jboolean doActivate)
+Jbvb_sun_bwt_windows_WFrbmePeer_synthesizeWmActivbte(JNIEnv *env, jobject self, jboolebn doActivbte)
 {
     TRY;
 
-    SynthesizeWmActivateStruct *sas = new SynthesizeWmActivateStruct;
-    sas->frame = env->NewGlobalRef(self);
-    sas->doActivate = doActivate;
+    SynthesizeWmActivbteStruct *sbs = new SynthesizeWmActivbteStruct;
+    sbs->frbme = env->NewGlobblRef(self);
+    sbs->doActivbte = doActivbte;
 
     /*
-     * WARNING: invoking this function without synchronization by m_Sync CriticalSection.
-     * Taking this lock results in a deadlock.
+     * WARNING: invoking this function without synchronizbtion by m_Sync CriticblSection.
+     * Tbking this lock results in b debdlock.
      */
-    AwtToolkit::GetInstance().InvokeFunction(AwtFrame::_SynthesizeWmActivate, sas);
-    // global ref and sas are deleted in _SynthesizeWmActivate()
+    AwtToolkit::GetInstbnce().InvokeFunction(AwtFrbme::_SynthesizeWmActivbte, sbs);
+    // globbl ref bnd sbs bre deleted in _SynthesizeWmActivbte()
 
     CATCH_BAD_ALLOC;
 }

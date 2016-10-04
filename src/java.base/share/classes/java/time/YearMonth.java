@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,280 +59,280 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.temporal.ChronoField.ERA;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.PROLEPTIC_MONTH;
-import static java.time.temporal.ChronoField.YEAR;
-import static java.time.temporal.ChronoField.YEAR_OF_ERA;
-import static java.time.temporal.ChronoUnit.CENTURIES;
-import static java.time.temporal.ChronoUnit.DECADES;
-import static java.time.temporal.ChronoUnit.ERAS;
-import static java.time.temporal.ChronoUnit.MILLENNIA;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtic jbvb.time.temporbl.ChronoField.ERA;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.PROLEPTIC_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR_OF_ERA;
+import stbtic jbvb.time.temporbl.ChronoUnit.CENTURIES;
+import stbtic jbvb.time.temporbl.ChronoUnit.DECADES;
+import stbtic jbvb.time.temporbl.ChronoUnit.ERAS;
+import stbtic jbvb.time.temporbl.ChronoUnit.MILLENNIA;
+import stbtic jbvb.time.temporbl.ChronoUnit.MONTHS;
+import stbtic jbvb.time.temporbl.ChronoUnit.YEARS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
-import java.time.format.SignStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.chrono.IsoChronology;
+import jbvb.time.formbt.DbteTimeFormbtter;
+import jbvb.time.formbt.DbteTimeFormbtterBuilder;
+import jbvb.time.formbt.DbteTimePbrseException;
+import jbvb.time.formbt.SignStyle;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Objects;
 
 /**
- * A year-month in the ISO-8601 calendar system, such as {@code 2007-12}.
+ * A yebr-month in the ISO-8601 cblendbr system, such bs {@code 2007-12}.
  * <p>
- * {@code YearMonth} is an immutable date-time object that represents the combination
- * of a year and month. Any field that can be derived from a year and month, such as
- * quarter-of-year, can be obtained.
+ * {@code YebrMonth} is bn immutbble dbte-time object thbt represents the combinbtion
+ * of b yebr bnd month. Any field thbt cbn be derived from b yebr bnd month, such bs
+ * qubrter-of-yebr, cbn be obtbined.
  * <p>
- * This class does not store or represent a day, time or time-zone.
- * For example, the value "October 2007" can be stored in a {@code YearMonth}.
+ * This clbss does not store or represent b dby, time or time-zone.
+ * For exbmple, the vblue "October 2007" cbn be stored in b {@code YebrMonth}.
  * <p>
- * The ISO-8601 calendar system is the modern civil calendar system used today
- * in most of the world. It is equivalent to the proleptic Gregorian calendar
- * system, in which today's rules for leap years are applied for all time.
- * For most applications written today, the ISO-8601 rules are entirely suitable.
- * However, any application that makes use of historical dates, and requires them
- * to be accurate will find the ISO-8601 approach unsuitable.
+ * The ISO-8601 cblendbr system is the modern civil cblendbr system used todby
+ * in most of the world. It is equivblent to the proleptic Gregoribn cblendbr
+ * system, in which todby's rules for lebp yebrs bre bpplied for bll time.
+ * For most bpplicbtions written todby, the ISO-8601 rules bre entirely suitbble.
+ * However, bny bpplicbtion thbt mbkes use of historicbl dbtes, bnd requires them
+ * to be bccurbte will find the ISO-8601 bpprobch unsuitbble.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code YearMonth} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code YebrMonth} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class YearMonth
-        implements Temporal, TemporalAdjuster, Comparable<YearMonth>, Serializable {
+public finbl clbss YebrMonth
+        implements Temporbl, TemporblAdjuster, Compbrbble<YebrMonth>, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 4183400860270640070L;
+    privbte stbtic finbl long seriblVersionUID = 4183400860270640070L;
     /**
-     * Parser.
+     * Pbrser.
      */
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder()
-        .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-        .appendLiteral('-')
-        .appendValue(MONTH_OF_YEAR, 2)
-        .toFormatter();
+    privbte stbtic finbl DbteTimeFormbtter PARSER = new DbteTimeFormbtterBuilder()
+        .bppendVblue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+        .bppendLiterbl('-')
+        .bppendVblue(MONTH_OF_YEAR, 2)
+        .toFormbtter();
 
     /**
-     * The year.
+     * The yebr.
      */
-    private final int year;
+    privbte finbl int yebr;
     /**
-     * The month-of-year, not null.
+     * The month-of-yebr, not null.
      */
-    private final int month;
+    privbte finbl int month;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current year-month from the system clock in the default time-zone.
+     * Obtbins the current yebr-month from the system clock in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current year-month.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current yebr-month.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @return the current year-month using the system clock and default time-zone, not null
+     * @return the current yebr-month using the system clock bnd defbult time-zone, not null
      */
-    public static YearMonth now() {
-        return now(Clock.systemDefaultZone());
+    public stbtic YebrMonth now() {
+        return now(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current year-month from the system clock in the specified time-zone.
+     * Obtbins the current yebr-month from the system clock in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current year-month.
-     * Specifying the time-zone avoids dependence on the default time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current yebr-month.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current year-month using the system clock, not null
+     * @pbrbm zone  the zone ID to use, not null
+     * @return the current yebr-month using the system clock, not null
      */
-    public static YearMonth now(ZoneId zone) {
+    public stbtic YebrMonth now(ZoneId zone) {
         return now(Clock.system(zone));
     }
 
     /**
-     * Obtains the current year-month from the specified clock.
+     * Obtbins the current yebr-month from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current year-month.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
+     * This will query the specified clock to obtbin the current yebr-month.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@link Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current year-month, not null
+     * @pbrbm clock  the clock to use, not null
+     * @return the current yebr-month, not null
      */
-    public static YearMonth now(Clock clock) {
-        final LocalDate now = LocalDate.now(clock);  // called once
-        return YearMonth.of(now.getYear(), now.getMonth());
+    public stbtic YebrMonth now(Clock clock) {
+        finbl LocblDbte now = LocblDbte.now(clock);  // cblled once
+        return YebrMonth.of(now.getYebr(), now.getMonth());
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code YearMonth} from a year and month.
+     * Obtbins bn instbnce of {@code YebrMonth} from b yebr bnd month.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, not null
-     * @return the year-month, not null
-     * @throws DateTimeException if the year value is invalid
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, not null
+     * @return the yebr-month, not null
+     * @throws DbteTimeException if the yebr vblue is invblid
      */
-    public static YearMonth of(int year, Month month) {
+    public stbtic YebrMonth of(int yebr, Month month) {
         Objects.requireNonNull(month, "month");
-        return of(year, month.getValue());
+        return of(yebr, month.getVblue());
     }
 
     /**
-     * Obtains an instance of {@code YearMonth} from a year and month.
+     * Obtbins bn instbnce of {@code YebrMonth} from b yebr bnd month.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @return the year-month, not null
-     * @throws DateTimeException if either field value is invalid
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, from 1 (Jbnubry) to 12 (December)
+     * @return the yebr-month, not null
+     * @throws DbteTimeException if either field vblue is invblid
      */
-    public static YearMonth of(int year, int month) {
-        YEAR.checkValidValue(year);
-        MONTH_OF_YEAR.checkValidValue(month);
-        return new YearMonth(year, month);
+    public stbtic YebrMonth of(int yebr, int month) {
+        YEAR.checkVblidVblue(yebr);
+        MONTH_OF_YEAR.checkVblidVblue(month);
+        return new YebrMonth(yebr, month);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code YearMonth} from a temporal object.
+     * Obtbins bn instbnce of {@code YebrMonth} from b temporbl object.
      * <p>
-     * This obtains a year-month based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code YearMonth}.
+     * This obtbins b yebr-month bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code YebrMonth}.
      * <p>
-     * The conversion extracts the {@link ChronoField#YEAR YEAR} and
+     * The conversion extrbcts the {@link ChronoField#YEAR YEAR} bnd
      * {@link ChronoField#MONTH_OF_YEAR MONTH_OF_YEAR} fields.
-     * The extraction is only permitted if the temporal object has an ISO
-     * chronology, or can be converted to a {@code LocalDate}.
+     * The extrbction is only permitted if the temporbl object hbs bn ISO
+     * chronology, or cbn be converted to b {@code LocblDbte}.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code YearMonth::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code YebrMonth::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the year-month, not null
-     * @throws DateTimeException if unable to convert to a {@code YearMonth}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the yebr-month, not null
+     * @throws DbteTimeException if unbble to convert to b {@code YebrMonth}
      */
-    public static YearMonth from(TemporalAccessor temporal) {
-        if (temporal instanceof YearMonth) {
-            return (YearMonth) temporal;
+    public stbtic YebrMonth from(TemporblAccessor temporbl) {
+        if (temporbl instbnceof YebrMonth) {
+            return (YebrMonth) temporbl;
         }
-        Objects.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporbl, "temporbl");
         try {
-            if (IsoChronology.INSTANCE.equals(Chronology.from(temporal)) == false) {
-                temporal = LocalDate.from(temporal);
+            if (IsoChronology.INSTANCE.equbls(Chronology.from(temporbl)) == fblse) {
+                temporbl = LocblDbte.from(temporbl);
             }
-            return of(temporal.get(YEAR), temporal.get(MONTH_OF_YEAR));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain YearMonth from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+            return of(temporbl.get(YEAR), temporbl.get(MONTH_OF_YEAR));
+        } cbtch (DbteTimeException ex) {
+            throw new DbteTimeException("Unbble to obtbin YebrMonth from TemporblAccessor: " +
+                    temporbl + " of type " + temporbl.getClbss().getNbme(), ex);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code YearMonth} from a text string such as {@code 2007-12}.
+     * Obtbins bn instbnce of {@code YebrMonth} from b text string such bs {@code 2007-12}.
      * <p>
-     * The string must represent a valid year-month.
-     * The format must be {@code uuuu-MM}.
-     * Years outside the range 0000 to 9999 must be prefixed by the plus or minus symbol.
+     * The string must represent b vblid yebr-month.
+     * The formbt must be {@code uuuu-MM}.
+     * Yebrs outside the rbnge 0000 to 9999 must be prefixed by the plus or minus symbol.
      *
-     * @param text  the text to parse such as "2007-12", not null
-     * @return the parsed year-month, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse such bs "2007-12", not null
+     * @return the pbrsed yebr-month, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static YearMonth parse(CharSequence text) {
-        return parse(text, PARSER);
+    public stbtic YebrMonth pbrse(ChbrSequence text) {
+        return pbrse(text, PARSER);
     }
 
     /**
-     * Obtains an instance of {@code YearMonth} from a text string using a specific formatter.
+     * Obtbins bn instbnce of {@code YebrMonth} from b text string using b specific formbtter.
      * <p>
-     * The text is parsed using the formatter, returning a year-month.
+     * The text is pbrsed using the formbtter, returning b yebr-month.
      *
-     * @param text  the text to parse, not null
-     * @param formatter  the formatter to use, not null
-     * @return the parsed year-month, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse, not null
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the pbrsed yebr-month, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static YearMonth parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, YearMonth::from);
+    public stbtic YebrMonth pbrse(ChbrSequence text, DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.pbrse(text, YebrMonth::from);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Constructor.
      *
-     * @param year  the year to represent, validated from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, validated from 1 (January) to 12 (December)
+     * @pbrbm yebr  the yebr to represent, vblidbted from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, vblidbted from 1 (Jbnubry) to 12 (December)
      */
-    private YearMonth(int year, int month) {
-        this.year = year;
+    privbte YebrMonth(int yebr, int month) {
+        this.yebr = yebr;
         this.month = month;
     }
 
     /**
-     * Returns a copy of this year-month with the new year and month, checking
-     * to see if a new object is in fact required.
+     * Returns b copy of this yebr-month with the new yebr bnd month, checking
+     * to see if b new object is in fbct required.
      *
-     * @param newYear  the year to represent, validated from MIN_YEAR to MAX_YEAR
-     * @param newMonth  the month-of-year to represent, validated not null
-     * @return the year-month, not null
+     * @pbrbm newYebr  the yebr to represent, vblidbted from MIN_YEAR to MAX_YEAR
+     * @pbrbm newMonth  the month-of-yebr to represent, vblidbted not null
+     * @return the yebr-month, not null
      */
-    private YearMonth with(int newYear, int newMonth) {
-        if (year == newYear && month == newMonth) {
+    privbte YebrMonth with(int newYebr, int newMonth) {
+        if (yebr == newYebr && month == newMonth) {
             return this;
         }
-        return new YearMonth(newYear, newMonth);
+        return new YebrMonth(newYebr, newMonth);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if this year-month can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * This checks if this yebr-month cbn be queried for the specified field.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge},
+     * {@link #get(TemporblField) get} bnd {@link #with(TemporblField, long)}
+     * methods will throw bn exception.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The supported fields bre:
      * <ul>
      * <li>{@code MONTH_OF_YEAR}
      * <li>{@code PROLEPTIC_MONTH}
@@ -340,19 +340,19 @@ public final class YearMonth
      * <li>{@code YEAR}
      * <li>{@code ERA}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All other {@code ChronoField} instbnces will return fblse.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this year-month, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field is supported on this yebr-month, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public boolebn isSupported(TemporblField field) {
+        if (field instbnceof ChronoField) {
             return field == YEAR || field == MONTH_OF_YEAR ||
                     field == PROLEPTIC_MONTH || field == YEAR_OF_ERA || field == ERA;
         }
@@ -362,12 +362,12 @@ public final class YearMonth
     /**
      * Checks if the specified unit is supported.
      * <p>
-     * This checks if the specified unit can be added to, or subtracted from, this year-month.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * This checks if the specified unit cbn be bdded to, or subtrbcted from, this yebr-month.
+     * If fblse, then cblling the {@link #plus(long, TemporblUnit)} bnd
+     * {@link #minus(long, TemporblUnit) minus} methods will throw bn exception.
      * <p>
-     * If the unit is a {@link ChronoUnit} then the query is implemented here.
-     * The supported units are:
+     * If the unit is b {@link ChronoUnit} then the query is implemented here.
+     * The supported units bre:
      * <ul>
      * <li>{@code MONTHS}
      * <li>{@code YEARS}
@@ -376,19 +376,19 @@ public final class YearMonth
      * <li>{@code MILLENNIA}
      * <li>{@code ERAS}
      * </ul>
-     * All other {@code ChronoUnit} instances will return false.
+     * All other {@code ChronoUnit} instbnces will return fblse.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.isSupportedBy(Temporbl)}
+     * pbssing {@code this} bs the brgument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  the unit to check, null returns fblse
+     * @return true if the unit cbn be bdded/subtrbcted, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    public boolebn isSupported(TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             return unit == MONTHS || unit == YEARS || unit == DECADES || unit == CENTURIES || unit == MILLENNIA || unit == ERAS;
         }
         return unit != null && unit.isSupportedBy(this);
@@ -396,148 +396,148 @@ public final class YearMonth
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This year-month is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * The rbnge object expresses the minimum bnd mbximum vblid vblues for b field.
+     * This yebr-month is used to enhbnce the bccurbcy of the returned rbnge.
+     * If it is not possible to return the rbnge, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return
+     * bppropribte rbnge instbnces.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.rbngeRefinedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
+     * Whether the rbnge cbn be obtbined is determined by the field.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to query the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      */
     @Override
-    public ValueRange range(TemporalField field) {
+    public VblueRbnge rbnge(TemporblField field) {
         if (field == YEAR_OF_ERA) {
-            return (getYear() <= 0 ? ValueRange.of(1, Year.MAX_VALUE + 1) : ValueRange.of(1, Year.MAX_VALUE));
+            return (getYebr() <= 0 ? VblueRbnge.of(1, Yebr.MAX_VALUE + 1) : VblueRbnge.of(1, Yebr.MAX_VALUE));
         }
-        return Temporal.super.range(field);
+        return Temporbl.super.rbnge(field);
     }
 
     /**
-     * Gets the value of the specified field from this year-month as an {@code int}.
+     * Gets the vblue of the specified field from this yebr-month bs bn {@code int}.
      * <p>
-     * This queries this year-month for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this yebr-month for the vblue of the specified field.
+     * The returned vblue will blwbys be within the vblid rbnge of vblues for the field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this year-month, except {@code PROLEPTIC_MONTH} which is too
-     * large to fit in an {@code int} and throw a {@code DateTimeException}.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this yebr-month, except {@code PROLEPTIC_MONTH} which is too
+     * lbrge to fit in bn {@code int} bnd throw b {@code DbteTimeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined or
+     *         the vblue is outside the rbnge of vblid vblues for the field
+     * @throws UnsupportedTemporblTypeException if the field is not supported or
+     *         the rbnge of vblues exceeds bn {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    @Override  // override for Javadoc
-    public int get(TemporalField field) {
-        return range(field).checkValidIntValue(getLong(field), field);
+    @Override  // override for Jbvbdoc
+    public int get(TemporblField field) {
+        return rbnge(field).checkVblidIntVblue(getLong(field), field);
     }
 
     /**
-     * Gets the value of the specified field from this year-month as a {@code long}.
+     * Gets the vblue of the specified field from this yebr-month bs b {@code long}.
      * <p>
-     * This queries this year-month for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this yebr-month for the vblue of the specified field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this year-month.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this yebr-month.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case MONTH_OF_YEAR: return month;
-                case PROLEPTIC_MONTH: return getProlepticMonth();
-                case YEAR_OF_ERA: return (year < 1 ? 1 - year : year);
-                case YEAR: return year;
-                case ERA: return (year < 1 ? 0 : 1);
+                cbse MONTH_OF_YEAR: return month;
+                cbse PROLEPTIC_MONTH: return getProlepticMonth();
+                cbse YEAR_OF_ERA: return (yebr < 1 ? 1 - yebr : yebr);
+                cbse YEAR: return yebr;
+                cbse ERA: return (yebr < 1 ? 0 : 1);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
         return field.getFrom(this);
     }
 
-    private long getProlepticMonth() {
-        return (year * 12L + month - 1);
+    privbte long getProlepticMonth() {
+        return (yebr * 12L + month - 1);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the year field.
+     * Gets the yebr field.
      * <p>
-     * This method returns the primitive {@code int} value for the year.
+     * This method returns the primitive {@code int} vblue for the yebr.
      * <p>
-     * The year returned by this method is proleptic as per {@code get(YEAR)}.
+     * The yebr returned by this method is proleptic bs per {@code get(YEAR)}.
      *
-     * @return the year, from MIN_YEAR to MAX_YEAR
+     * @return the yebr, from MIN_YEAR to MAX_YEAR
      */
-    public int getYear() {
-        return year;
+    public int getYebr() {
+        return yebr;
     }
 
     /**
-     * Gets the month-of-year field from 1 to 12.
+     * Gets the month-of-yebr field from 1 to 12.
      * <p>
-     * This method returns the month as an {@code int} from 1 to 12.
-     * Application code is frequently clearer if the enum {@link Month}
-     * is used by calling {@link #getMonth()}.
+     * This method returns the month bs bn {@code int} from 1 to 12.
+     * Applicbtion code is frequently clebrer if the enum {@link Month}
+     * is used by cblling {@link #getMonth()}.
      *
-     * @return the month-of-year, from 1 to 12
+     * @return the month-of-yebr, from 1 to 12
      * @see #getMonth()
      */
-    public int getMonthValue() {
+    public int getMonthVblue() {
         return month;
     }
 
     /**
-     * Gets the month-of-year field using the {@code Month} enum.
+     * Gets the month-of-yebr field using the {@code Month} enum.
      * <p>
      * This method returns the enum {@link Month} for the month.
-     * This avoids confusion as to what {@code int} values mean.
-     * If you need access to the primitive {@code int} value then the enum
-     * provides the {@link Month#getValue() int value}.
+     * This bvoids confusion bs to whbt {@code int} vblues mebn.
+     * If you need bccess to the primitive {@code int} vblue then the enum
+     * provides the {@link Month#getVblue() int vblue}.
      *
-     * @return the month-of-year, not null
-     * @see #getMonthValue()
+     * @return the month-of-yebr, not null
+     * @see #getMonthVblue()
      */
     public Month getMonth() {
         return Month.of(month);
@@ -545,587 +545,587 @@ public final class YearMonth
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the year is a leap year, according to the ISO proleptic
-     * calendar system rules.
+     * Checks if the yebr is b lebp yebr, bccording to the ISO proleptic
+     * cblendbr system rules.
      * <p>
-     * This method applies the current rules for leap years across the whole time-line.
-     * In general, a year is a leap year if it is divisible by four without
-     * remainder. However, years divisible by 100, are not leap years, with
-     * the exception of years divisible by 400 which are.
+     * This method bpplies the current rules for lebp yebrs bcross the whole time-line.
+     * In generbl, b yebr is b lebp yebr if it is divisible by four without
+     * rembinder. However, yebrs divisible by 100, bre not lebp yebrs, with
+     * the exception of yebrs divisible by 400 which bre.
      * <p>
-     * For example, 1904 is a leap year it is divisible by 4.
-     * 1900 was not a leap year as it is divisible by 100, however 2000 was a
-     * leap year as it is divisible by 400.
+     * For exbmple, 1904 is b lebp yebr it is divisible by 4.
+     * 1900 wbs not b lebp yebr bs it is divisible by 100, however 2000 wbs b
+     * lebp yebr bs it is divisible by 400.
      * <p>
-     * The calculation is proleptic - applying the same rules into the far future and far past.
-     * This is historically inaccurate, but is correct for the ISO-8601 standard.
+     * The cblculbtion is proleptic - bpplying the sbme rules into the fbr future bnd fbr pbst.
+     * This is historicblly inbccurbte, but is correct for the ISO-8601 stbndbrd.
      *
-     * @return true if the year is leap, false otherwise
+     * @return true if the yebr is lebp, fblse otherwise
      */
-    public boolean isLeapYear() {
-        return IsoChronology.INSTANCE.isLeapYear(year);
+    public boolebn isLebpYebr() {
+        return IsoChronology.INSTANCE.isLebpYebr(yebr);
     }
 
     /**
-     * Checks if the day-of-month is valid for this year-month.
+     * Checks if the dby-of-month is vblid for this yebr-month.
      * <p>
-     * This method checks whether this year and month and the input day form
-     * a valid date.
+     * This method checks whether this yebr bnd month bnd the input dby form
+     * b vblid dbte.
      *
-     * @param dayOfMonth  the day-of-month to validate, from 1 to 31, invalid value returns false
-     * @return true if the day is valid for this year-month
+     * @pbrbm dbyOfMonth  the dby-of-month to vblidbte, from 1 to 31, invblid vblue returns fblse
+     * @return true if the dby is vblid for this yebr-month
      */
-    public boolean isValidDay(int dayOfMonth) {
-        return dayOfMonth >= 1 && dayOfMonth <= lengthOfMonth();
+    public boolebn isVblidDby(int dbyOfMonth) {
+        return dbyOfMonth >= 1 && dbyOfMonth <= lengthOfMonth();
     }
 
     /**
-     * Returns the length of the month, taking account of the year.
+     * Returns the length of the month, tbking bccount of the yebr.
      * <p>
-     * This returns the length of the month in days.
-     * For example, a date in January would return 31.
+     * This returns the length of the month in dbys.
+     * For exbmple, b dbte in Jbnubry would return 31.
      *
-     * @return the length of the month in days, from 28 to 31
+     * @return the length of the month in dbys, from 28 to 31
      */
     public int lengthOfMonth() {
-        return getMonth().length(isLeapYear());
+        return getMonth().length(isLebpYebr());
     }
 
     /**
-     * Returns the length of the year.
+     * Returns the length of the yebr.
      * <p>
-     * This returns the length of the year in days, either 365 or 366.
+     * This returns the length of the yebr in dbys, either 365 or 366.
      *
-     * @return 366 if the year is leap, 365 otherwise
+     * @return 366 if the yebr is lebp, 365 otherwise
      */
-    public int lengthOfYear() {
-        return (isLeapYear() ? 366 : 365);
+    public int lengthOfYebr() {
+        return (isLebpYebr() ? 366 : 365);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns an adjusted copy of this year-month.
+     * Returns bn bdjusted copy of this yebr-month.
      * <p>
-     * This returns a {@code YearMonth}, based on this one, with the year-month adjusted.
-     * The adjustment takes place using the specified adjuster strategy object.
-     * Read the documentation of the adjuster to understand what adjustment will be made.
+     * This returns b {@code YebrMonth}, bbsed on this one, with the yebr-month bdjusted.
+     * The bdjustment tbkes plbce using the specified bdjuster strbtegy object.
+     * Rebd the documentbtion of the bdjuster to understbnd whbt bdjustment will be mbde.
      * <p>
-     * A simple adjuster might simply set the one of the fields, such as the year field.
-     * A more complex adjuster might set the year-month to the next month that
-     * Halley's comet will pass the Earth.
+     * A simple bdjuster might simply set the one of the fields, such bs the yebr field.
+     * A more complex bdjuster might set the yebr-month to the next month thbt
+     * Hblley's comet will pbss the Ebrth.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
-     * specified adjuster passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblAdjuster#bdjustInto(Temporbl)} method on the
+     * specified bdjuster pbssing {@code this} bs the brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param adjuster the adjuster to use, not null
-     * @return a {@code YearMonth} based on {@code this} with the adjustment made, not null
-     * @throws DateTimeException if the adjustment cannot be made
+     * @pbrbm bdjuster the bdjuster to use, not null
+     * @return b {@code YebrMonth} bbsed on {@code this} with the bdjustment mbde, not null
+     * @throws DbteTimeException if the bdjustment cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public YearMonth with(TemporalAdjuster adjuster) {
-        return (YearMonth) adjuster.adjustInto(this);
+    public YebrMonth with(TemporblAdjuster bdjuster) {
+        return (YebrMonth) bdjuster.bdjustInto(this);
     }
 
     /**
-     * Returns a copy of this year-month with the specified field set to a new value.
+     * Returns b copy of this yebr-month with the specified field set to b new vblue.
      * <p>
-     * This returns a {@code YearMonth}, based on this one, with the value
-     * for the specified field changed.
-     * This can be used to change any supported field, such as the year or month.
-     * If it is not possible to set the value, because the field is not supported or for
-     * some other reason, an exception is thrown.
+     * This returns b {@code YebrMonth}, bbsed on this one, with the vblue
+     * for the specified field chbnged.
+     * This cbn be used to chbnge bny supported field, such bs the yebr or month.
+     * If it is not possible to set the vblue, becbuse the field is not supported or for
+     * some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the adjustment is implemented here.
-     * The supported fields behave as follows:
+     * If the field is b {@link ChronoField} then the bdjustment is implemented here.
+     * The supported fields behbve bs follows:
      * <ul>
      * <li>{@code MONTH_OF_YEAR} -
-     *  Returns a {@code YearMonth} with the specified month-of-year.
-     *  The year will be unchanged.
+     *  Returns b {@code YebrMonth} with the specified month-of-yebr.
+     *  The yebr will be unchbnged.
      * <li>{@code PROLEPTIC_MONTH} -
-     *  Returns a {@code YearMonth} with the specified proleptic-month.
-     *  This completely replaces the year and month of this object.
+     *  Returns b {@code YebrMonth} with the specified proleptic-month.
+     *  This completely replbces the yebr bnd month of this object.
      * <li>{@code YEAR_OF_ERA} -
-     *  Returns a {@code YearMonth} with the specified year-of-era
-     *  The month and era will be unchanged.
+     *  Returns b {@code YebrMonth} with the specified yebr-of-erb
+     *  The month bnd erb will be unchbnged.
      * <li>{@code YEAR} -
-     *  Returns a {@code YearMonth} with the specified year.
-     *  The month will be unchanged.
+     *  Returns b {@code YebrMonth} with the specified yebr.
+     *  The month will be unchbnged.
      * <li>{@code ERA} -
-     *  Returns a {@code YearMonth} with the specified era.
-     *  The month and year-of-era will be unchanged.
+     *  Returns b {@code YebrMonth} with the specified erb.
+     *  The month bnd yebr-of-erb will be unchbnged.
      * </ul>
      * <p>
-     * In all cases, if the new value is outside the valid range of values for the field
-     * then a {@code DateTimeException} will be thrown.
+     * In bll cbses, if the new vblue is outside the vblid rbnge of vblues for the field
+     * then b {@code DbteTimeException} will be thrown.
      * <p>
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.adjustInto(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the field determines
-     * whether and how to adjust the instant.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.bdjustInto(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the field determines
+     * whether bnd how to bdjust the instbnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param field  the field to set in the result, not null
-     * @param newValue  the new value of the field in the result
-     * @return a {@code YearMonth} based on {@code this} with the specified field set, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to set in the result, not null
+     * @pbrbm newVblue  the new vblue of the field in the result
+     * @return b {@code YebrMonth} bbsed on {@code this} with the specified field set, not null
+     * @throws DbteTimeException if the field cbnnot be set
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public YearMonth with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public YebrMonth with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            f.checkValidValue(newValue);
+            f.checkVblidVblue(newVblue);
             switch (f) {
-                case MONTH_OF_YEAR: return withMonth((int) newValue);
-                case PROLEPTIC_MONTH: return plusMonths(newValue - getProlepticMonth());
-                case YEAR_OF_ERA: return withYear((int) (year < 1 ? 1 - newValue : newValue));
-                case YEAR: return withYear((int) newValue);
-                case ERA: return (getLong(ERA) == newValue ? this : withYear(1 - year));
+                cbse MONTH_OF_YEAR: return withMonth((int) newVblue);
+                cbse PROLEPTIC_MONTH: return plusMonths(newVblue - getProlepticMonth());
+                cbse YEAR_OF_ERA: return withYebr((int) (yebr < 1 ? 1 - newVblue : newVblue));
+                cbse YEAR: return withYebr((int) newVblue);
+                cbse ERA: return (getLong(ERA) == newVblue ? this : withYebr(1 - yebr));
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
-        return field.adjustInto(this, newValue);
+        return field.bdjustInto(this, newVblue);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code YearMonth} with the year altered.
+     * Returns b copy of this {@code YebrMonth} with the yebr bltered.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param year  the year to set in the returned year-month, from MIN_YEAR to MAX_YEAR
-     * @return a {@code YearMonth} based on this year-month with the requested year, not null
-     * @throws DateTimeException if the year value is invalid
+     * @pbrbm yebr  the yebr to set in the returned yebr-month, from MIN_YEAR to MAX_YEAR
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the requested yebr, not null
+     * @throws DbteTimeException if the yebr vblue is invblid
      */
-    public YearMonth withYear(int year) {
-        YEAR.checkValidValue(year);
-        return with(year, month);
+    public YebrMonth withYebr(int yebr) {
+        YEAR.checkVblidVblue(yebr);
+        return with(yebr, month);
     }
 
     /**
-     * Returns a copy of this {@code YearMonth} with the month-of-year altered.
+     * Returns b copy of this {@code YebrMonth} with the month-of-yebr bltered.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param month  the month-of-year to set in the returned year-month, from 1 (January) to 12 (December)
-     * @return a {@code YearMonth} based on this year-month with the requested month, not null
-     * @throws DateTimeException if the month-of-year value is invalid
+     * @pbrbm month  the month-of-yebr to set in the returned yebr-month, from 1 (Jbnubry) to 12 (December)
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the requested month, not null
+     * @throws DbteTimeException if the month-of-yebr vblue is invblid
      */
-    public YearMonth withMonth(int month) {
-        MONTH_OF_YEAR.checkValidValue(month);
-        return with(year, month);
+    public YebrMonth withMonth(int month) {
+        MONTH_OF_YEAR.checkVblidVblue(month);
+        return with(yebr, month);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this year-month with the specified amount added.
+     * Returns b copy of this yebr-month with the specified bmount bdded.
      * <p>
-     * This returns a {@code YearMonth}, based on this one, with the specified amount added.
-     * The amount is typically {@link Period} but may be any other type implementing
-     * the {@link TemporalAmount} interface.
+     * This returns b {@code YebrMonth}, bbsed on this one, with the specified bmount bdded.
+     * The bmount is typicblly {@link Period} but mby be bny other type implementing
+     * the {@link TemporblAmount} interfbce.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#addTo(Temporal)}. The amount implementation is free
-     * to implement the addition in any way it wishes, however it typically
-     * calls back to {@link #plus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully added.
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#bddTo(Temporbl)}. The bmount implementbtion is free
+     * to implement the bddition in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #plus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount to add, not null
-     * @return a {@code YearMonth} based on this year-month with the addition made, not null
-     * @throws DateTimeException if the addition cannot be made
+     * @pbrbm bmountToAdd  the bmount to bdd, not null
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the bddition mbde, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public YearMonth plus(TemporalAmount amountToAdd) {
-        return (YearMonth) amountToAdd.addTo(this);
+    public YebrMonth plus(TemporblAmount bmountToAdd) {
+        return (YebrMonth) bmountToAdd.bddTo(this);
     }
 
     /**
-     * Returns a copy of this year-month with the specified amount added.
+     * Returns b copy of this yebr-month with the specified bmount bdded.
      * <p>
-     * This returns a {@code YearMonth}, based on this one, with the amount
-     * in terms of the unit added. If it is not possible to add the amount, because the
-     * unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code YebrMonth}, bbsed on this one, with the bmount
+     * in terms of the unit bdded. If it is not possible to bdd the bmount, becbuse the
+     * unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoUnit} then the addition is implemented here.
-     * The supported fields behave as follows:
+     * If the field is b {@link ChronoUnit} then the bddition is implemented here.
+     * The supported fields behbve bs follows:
      * <ul>
      * <li>{@code MONTHS} -
-     *  Returns a {@code YearMonth} with the specified number of months added.
-     *  This is equivalent to {@link #plusMonths(long)}.
+     *  Returns b {@code YebrMonth} with the specified number of months bdded.
+     *  This is equivblent to {@link #plusMonths(long)}.
      * <li>{@code YEARS} -
-     *  Returns a {@code YearMonth} with the specified number of years added.
-     *  This is equivalent to {@link #plusYears(long)}.
+     *  Returns b {@code YebrMonth} with the specified number of yebrs bdded.
+     *  This is equivblent to {@link #plusYebrs(long)}.
      * <li>{@code DECADES} -
-     *  Returns a {@code YearMonth} with the specified number of decades added.
-     *  This is equivalent to calling {@link #plusYears(long)} with the amount
+     *  Returns b {@code YebrMonth} with the specified number of decbdes bdded.
+     *  This is equivblent to cblling {@link #plusYebrs(long)} with the bmount
      *  multiplied by 10.
      * <li>{@code CENTURIES} -
-     *  Returns a {@code YearMonth} with the specified number of centuries added.
-     *  This is equivalent to calling {@link #plusYears(long)} with the amount
+     *  Returns b {@code YebrMonth} with the specified number of centuries bdded.
+     *  This is equivblent to cblling {@link #plusYebrs(long)} with the bmount
      *  multiplied by 100.
      * <li>{@code MILLENNIA} -
-     *  Returns a {@code YearMonth} with the specified number of millennia added.
-     *  This is equivalent to calling {@link #plusYears(long)} with the amount
+     *  Returns b {@code YebrMonth} with the specified number of millennib bdded.
+     *  This is equivblent to cblling {@link #plusYebrs(long)} with the bmount
      *  multiplied by 1,000.
      * <li>{@code ERAS} -
-     *  Returns a {@code YearMonth} with the specified number of eras added.
-     *  Only two eras are supported so the amount must be one, zero or minus one.
-     *  If the amount is non-zero then the year is changed such that the year-of-era
-     *  is unchanged.
+     *  Returns b {@code YebrMonth} with the specified number of erbs bdded.
+     *  Only two erbs bre supported so the bmount must be one, zero or minus one.
+     *  If the bmount is non-zero then the yebr is chbnged such thbt the yebr-of-erb
+     *  is unchbnged.
      * </ul>
      * <p>
-     * All other {@code ChronoUnit} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All other {@code ChronoUnit} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.addTo(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the unit determines
-     * whether and how to perform the addition.
+     * If the field is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.bddTo(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the unit determines
+     * whether bnd how to perform the bddition.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount of the unit to add to the result, may be negative
-     * @param unit  the unit of the amount to add, not null
-     * @return a {@code YearMonth} based on this year-month with the specified amount added, not null
-     * @throws DateTimeException if the addition cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToAdd  the bmount of the unit to bdd to the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to bdd, not null
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the specified bmount bdded, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public YearMonth plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    public YebrMonth plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             switch ((ChronoUnit) unit) {
-                case MONTHS: return plusMonths(amountToAdd);
-                case YEARS: return plusYears(amountToAdd);
-                case DECADES: return plusYears(Math.multiplyExact(amountToAdd, 10));
-                case CENTURIES: return plusYears(Math.multiplyExact(amountToAdd, 100));
-                case MILLENNIA: return plusYears(Math.multiplyExact(amountToAdd, 1000));
-                case ERAS: return with(ERA, Math.addExact(getLong(ERA), amountToAdd));
+                cbse MONTHS: return plusMonths(bmountToAdd);
+                cbse YEARS: return plusYebrs(bmountToAdd);
+                cbse DECADES: return plusYebrs(Mbth.multiplyExbct(bmountToAdd, 10));
+                cbse CENTURIES: return plusYebrs(Mbth.multiplyExbct(bmountToAdd, 100));
+                cbse MILLENNIA: return plusYebrs(Mbth.multiplyExbct(bmountToAdd, 1000));
+                cbse ERAS: return with(ERA, Mbth.bddExbct(getLong(ERA), bmountToAdd));
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
-        return unit.addTo(this, amountToAdd);
+        return unit.bddTo(this, bmountToAdd);
     }
 
     /**
-     * Returns a copy of this {@code YearMonth} with the specified number of years added.
+     * Returns b copy of this {@code YebrMonth} with the specified number of yebrs bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param yearsToAdd  the years to add, may be negative
-     * @return a {@code YearMonth} based on this year-month with the years added, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm yebrsToAdd  the yebrs to bdd, mby be negbtive
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the yebrs bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public YearMonth plusYears(long yearsToAdd) {
-        if (yearsToAdd == 0) {
+    public YebrMonth plusYebrs(long yebrsToAdd) {
+        if (yebrsToAdd == 0) {
             return this;
         }
-        int newYear = YEAR.checkValidIntValue(year + yearsToAdd);  // safe overflow
-        return with(newYear, month);
+        int newYebr = YEAR.checkVblidIntVblue(yebr + yebrsToAdd);  // sbfe overflow
+        return with(newYebr, month);
     }
 
     /**
-     * Returns a copy of this {@code YearMonth} with the specified number of months added.
+     * Returns b copy of this {@code YebrMonth} with the specified number of months bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param monthsToAdd  the months to add, may be negative
-     * @return a {@code YearMonth} based on this year-month with the months added, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm monthsToAdd  the months to bdd, mby be negbtive
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the months bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public YearMonth plusMonths(long monthsToAdd) {
+    public YebrMonth plusMonths(long monthsToAdd) {
         if (monthsToAdd == 0) {
             return this;
         }
-        long monthCount = year * 12L + (month - 1);
-        long calcMonths = monthCount + monthsToAdd;  // safe overflow
-        int newYear = YEAR.checkValidIntValue(Math.floorDiv(calcMonths, 12));
-        int newMonth = (int)Math.floorMod(calcMonths, 12) + 1;
-        return with(newYear, newMonth);
+        long monthCount = yebr * 12L + (month - 1);
+        long cblcMonths = monthCount + monthsToAdd;  // sbfe overflow
+        int newYebr = YEAR.checkVblidIntVblue(Mbth.floorDiv(cblcMonths, 12));
+        int newMonth = (int)Mbth.floorMod(cblcMonths, 12) + 1;
+        return with(newYebr, newMonth);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this year-month with the specified amount subtracted.
+     * Returns b copy of this yebr-month with the specified bmount subtrbcted.
      * <p>
-     * This returns a {@code YearMonth}, based on this one, with the specified amount subtracted.
-     * The amount is typically {@link Period} but may be any other type implementing
-     * the {@link TemporalAmount} interface.
+     * This returns b {@code YebrMonth}, bbsed on this one, with the specified bmount subtrbcted.
+     * The bmount is typicblly {@link Period} but mby be bny other type implementing
+     * the {@link TemporblAmount} interfbce.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#subtractFrom(Temporal)}. The amount implementation is free
-     * to implement the subtraction in any way it wishes, however it typically
-     * calls back to {@link #minus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully subtracted.
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#subtrbctFrom(Temporbl)}. The bmount implementbtion is free
+     * to implement the subtrbction in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #minus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount to subtract, not null
-     * @return a {@code YearMonth} based on this year-month with the subtraction made, not null
-     * @throws DateTimeException if the subtraction cannot be made
+     * @pbrbm bmountToSubtrbct  the bmount to subtrbct, not null
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the subtrbction mbde, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public YearMonth minus(TemporalAmount amountToSubtract) {
-        return (YearMonth) amountToSubtract.subtractFrom(this);
+    public YebrMonth minus(TemporblAmount bmountToSubtrbct) {
+        return (YebrMonth) bmountToSubtrbct.subtrbctFrom(this);
     }
 
     /**
-     * Returns a copy of this year-month with the specified amount subtracted.
+     * Returns b copy of this yebr-month with the specified bmount subtrbcted.
      * <p>
-     * This returns a {@code YearMonth}, based on this one, with the amount
-     * in terms of the unit subtracted. If it is not possible to subtract the amount,
-     * because the unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code YebrMonth}, bbsed on this one, with the bmount
+     * in terms of the unit subtrbcted. If it is not possible to subtrbct the bmount,
+     * becbuse the unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * This method is equivalent to {@link #plus(long, TemporalUnit)} with the amount negated.
-     * See that method for a full description of how addition, and thus subtraction, works.
+     * This method is equivblent to {@link #plus(long, TemporblUnit)} with the bmount negbted.
+     * See thbt method for b full description of how bddition, bnd thus subtrbction, works.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount of the unit to subtract from the result, may be negative
-     * @param unit  the unit of the amount to subtract, not null
-     * @return a {@code YearMonth} based on this year-month with the specified amount subtracted, not null
-     * @throws DateTimeException if the subtraction cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToSubtrbct  the bmount of the unit to subtrbct from the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to subtrbct, not null
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the specified bmount subtrbcted, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public YearMonth minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+    public YebrMonth minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return (bmountToSubtrbct == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbct, unit));
     }
 
     /**
-     * Returns a copy of this {@code YearMonth} with the specified number of years subtracted.
+     * Returns b copy of this {@code YebrMonth} with the specified number of yebrs subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param yearsToSubtract  the years to subtract, may be negative
-     * @return a {@code YearMonth} based on this year-month with the years subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm yebrsToSubtrbct  the yebrs to subtrbct, mby be negbtive
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the yebrs subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public YearMonth minusYears(long yearsToSubtract) {
-        return (yearsToSubtract == Long.MIN_VALUE ? plusYears(Long.MAX_VALUE).plusYears(1) : plusYears(-yearsToSubtract));
+    public YebrMonth minusYebrs(long yebrsToSubtrbct) {
+        return (yebrsToSubtrbct == Long.MIN_VALUE ? plusYebrs(Long.MAX_VALUE).plusYebrs(1) : plusYebrs(-yebrsToSubtrbct));
     }
 
     /**
-     * Returns a copy of this {@code YearMonth} with the specified number of months subtracted.
+     * Returns b copy of this {@code YebrMonth} with the specified number of months subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param monthsToSubtract  the months to subtract, may be negative
-     * @return a {@code YearMonth} based on this year-month with the months subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm monthsToSubtrbct  the months to subtrbct, mby be negbtive
+     * @return b {@code YebrMonth} bbsed on this yebr-month with the months subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public YearMonth minusMonths(long monthsToSubtract) {
-        return (monthsToSubtract == Long.MIN_VALUE ? plusMonths(Long.MAX_VALUE).plusMonths(1) : plusMonths(-monthsToSubtract));
+    public YebrMonth minusMonths(long monthsToSubtrbct) {
+        return (monthsToSubtrbct == Long.MIN_VALUE ? plusMonths(Long.MAX_VALUE).plusMonths(1) : plusMonths(-monthsToSubtrbct));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this year-month using the specified query.
+     * Queries this yebr-month using the specified query.
      * <p>
-     * This queries this year-month using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * This queries this yebr-month using the specified query strbtegy object.
+     * The {@code TemporblQuery} object defines the logic to be used to
+     * obtbin the result. Rebd the documentbtion of the query to understbnd
+     * whbt the result of this method will be.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblQuery#queryFrom(TemporblAccessor)} method on the
+     * specified query pbssing {@code this} bs the brgument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @pbrbm <R> the type of the result
+     * @pbrbm query  the query to invoke, not null
+     * @return the query result, null mby be returned (defined by the query)
+     * @throws DbteTimeException if unbble to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
+    public <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.chronology()) {
             return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
+        } else if (query == TemporblQueries.precision()) {
             return (R) MONTHS;
         }
-        return Temporal.super.query(query);
+        return Temporbl.super.query(query);
     }
 
     /**
-     * Adjusts the specified temporal object to have this year-month.
+     * Adjusts the specified temporbl object to hbve this yebr-month.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the year and month changed to be the same as this.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with the yebr bnd month chbnged to be the sbme bs this.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * passing {@link ChronoField#PROLEPTIC_MONTH} as the field.
-     * If the specified temporal object does not use the ISO calendar system then
-     * a {@code DateTimeException} is thrown.
+     * The bdjustment is equivblent to using {@link Temporbl#with(TemporblField, long)}
+     * pbssing {@link ChronoField#PROLEPTIC_MONTH} bs the field.
+     * If the specified temporbl object does not use the ISO cblendbr system then
+     * b {@code DbteTimeException} is thrown.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#with(TemporblAdjuster)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisYearMonth.adjustInto(temporal);
-     *   temporal = temporal.with(thisYearMonth);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisYebrMonth.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisYebrMonth);
      * </pre>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @pbrbm temporbl  the tbrget object to be bdjusted, not null
+     * @return the bdjusted object, not null
+     * @throws DbteTimeException if unbble to mbke the bdjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
+    public Temporbl bdjustInto(Temporbl temporbl) {
+        if (Chronology.from(temporbl).equbls(IsoChronology.INSTANCE) == fblse) {
+            throw new DbteTimeException("Adjustment only supported on ISO dbte-time");
         }
-        return temporal.with(PROLEPTIC_MONTH, getProlepticMonth());
+        return temporbl.with(PROLEPTIC_MONTH, getProlepticMonth());
     }
 
     /**
-     * Calculates the amount of time until another year-month in terms of the specified unit.
+     * Cblculbtes the bmount of time until bnother yebr-month in terms of the specified unit.
      * <p>
-     * This calculates the amount of time between two {@code YearMonth}
-     * objects in terms of a single {@code TemporalUnit}.
-     * The start and end points are {@code this} and the specified year-month.
-     * The result will be negative if the end is before the start.
-     * The {@code Temporal} passed to this method is converted to a
-     * {@code YearMonth} using {@link #from(TemporalAccessor)}.
-     * For example, the amount in years between two year-months can be calculated
-     * using {@code startYearMonth.until(endYearMonth, YEARS)}.
+     * This cblculbtes the bmount of time between two {@code YebrMonth}
+     * objects in terms of b single {@code TemporblUnit}.
+     * The stbrt bnd end points bre {@code this} bnd the specified yebr-month.
+     * The result will be negbtive if the end is before the stbrt.
+     * The {@code Temporbl} pbssed to this method is converted to b
+     * {@code YebrMonth} using {@link #from(TemporblAccessor)}.
+     * For exbmple, the bmount in yebrs between two yebr-months cbn be cblculbted
+     * using {@code stbrtYebrMonth.until(endYebrMonth, YEARS)}.
      * <p>
-     * The calculation returns a whole number, representing the number of
-     * complete units between the two year-months.
-     * For example, the amount in decades between 2012-06 and 2032-05
-     * will only be one decade as it is one month short of two decades.
+     * The cblculbtion returns b whole number, representing the number of
+     * complete units between the two yebr-months.
+     * For exbmple, the bmount in decbdes between 2012-06 bnd 2032-05
+     * will only be one decbde bs it is one month short of two decbdes.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method.
-     * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
+     * The second is to use {@link TemporblUnit#between(Temporbl, Temporbl)}:
      * <pre>
-     *   // these two lines are equivalent
-     *   amount = start.until(end, MONTHS);
-     *   amount = MONTHS.between(start, end);
+     *   // these two lines bre equivblent
+     *   bmount = stbrt.until(end, MONTHS);
+     *   bmount = MONTHS.between(stbrt, end);
      * </pre>
-     * The choice should be made based on which makes the code more readable.
+     * The choice should be mbde bbsed on which mbkes the code more rebdbble.
      * <p>
-     * The calculation is implemented in this method for {@link ChronoUnit}.
+     * The cblculbtion is implemented in this method for {@link ChronoUnit}.
      * The units {@code MONTHS}, {@code YEARS}, {@code DECADES},
-     * {@code CENTURIES}, {@code MILLENNIA} and {@code ERAS} are supported.
-     * Other {@code ChronoUnit} values will throw an exception.
+     * {@code CENTURIES}, {@code MILLENNIA} bnd {@code ERAS} bre supported.
+     * Other {@code ChronoUnit} vblues will throw bn exception.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.between(Temporal, Temporal)}
-     * passing {@code this} as the first argument and the converted input temporal
-     * as the second argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.between(Temporbl, Temporbl)}
+     * pbssing {@code this} bs the first brgument bnd the converted input temporbl
+     * bs the second brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param endExclusive  the end date, exclusive, which is converted to a {@code YearMonth}, not null
-     * @param unit  the unit to measure the amount in, not null
-     * @return the amount of time between this year-month and the end year-month
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to a {@code YearMonth}
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm endExclusive  the end dbte, exclusive, which is converted to b {@code YebrMonth}, not null
+     * @pbrbm unit  the unit to mebsure the bmount in, not null
+     * @return the bmount of time between this yebr-month bnd the end yebr-month
+     * @throws DbteTimeException if the bmount cbnnot be cblculbted, or the end
+     *  temporbl cbnnot be converted to b {@code YebrMonth}
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        YearMonth end = YearMonth.from(endExclusive);
-        if (unit instanceof ChronoUnit) {
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
+        YebrMonth end = YebrMonth.from(endExclusive);
+        if (unit instbnceof ChronoUnit) {
             long monthsUntil = end.getProlepticMonth() - getProlepticMonth();  // no overflow
             switch ((ChronoUnit) unit) {
-                case MONTHS: return monthsUntil;
-                case YEARS: return monthsUntil / 12;
-                case DECADES: return monthsUntil / 120;
-                case CENTURIES: return monthsUntil / 1200;
-                case MILLENNIA: return monthsUntil / 12000;
-                case ERAS: return end.getLong(ERA) - getLong(ERA);
+                cbse MONTHS: return monthsUntil;
+                cbse YEARS: return monthsUntil / 12;
+                cbse DECADES: return monthsUntil / 120;
+                cbse CENTURIES: return monthsUntil / 1200;
+                cbse MILLENNIA: return monthsUntil / 12000;
+                cbse ERAS: return end.getLong(ERA) - getLong(ERA);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
         return unit.between(this, end);
     }
 
     /**
-     * Formats this year-month using the specified formatter.
+     * Formbts this yebr-month using the specified formbtter.
      * <p>
-     * This year-month will be passed to the formatter to produce a string.
+     * This yebr-month will be pbssed to the formbtter to produce b string.
      *
-     * @param formatter  the formatter to use, not null
-     * @return the formatted year-month string, not null
-     * @throws DateTimeException if an error occurs during printing
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the formbtted yebr-month string, not null
+     * @throws DbteTimeException if bn error occurs during printing
      */
-    public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+    public String formbt(DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.formbt(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Combines this year-month with a day-of-month to create a {@code LocalDate}.
+     * Combines this yebr-month with b dby-of-month to crebte b {@code LocblDbte}.
      * <p>
-     * This returns a {@code LocalDate} formed from this year-month and the specified day-of-month.
+     * This returns b {@code LocblDbte} formed from this yebr-month bnd the specified dby-of-month.
      * <p>
-     * The day-of-month value must be valid for the year-month.
+     * The dby-of-month vblue must be vblid for the yebr-month.
      * <p>
-     * This method can be used as part of a chain to produce a date:
+     * This method cbn be used bs pbrt of b chbin to produce b dbte:
      * <pre>
-     *  LocalDate date = year.atMonth(month).atDay(day);
+     *  LocblDbte dbte = yebr.btMonth(month).btDby(dby);
      * </pre>
      *
-     * @param dayOfMonth  the day-of-month to use, from 1 to 31
-     * @return the date formed from this year-month and the specified day, not null
-     * @throws DateTimeException if the day is invalid for the year-month
-     * @see #isValidDay(int)
+     * @pbrbm dbyOfMonth  the dby-of-month to use, from 1 to 31
+     * @return the dbte formed from this yebr-month bnd the specified dby, not null
+     * @throws DbteTimeException if the dby is invblid for the yebr-month
+     * @see #isVblidDby(int)
      */
-    public LocalDate atDay(int dayOfMonth) {
-        return LocalDate.of(year, month, dayOfMonth);
+    public LocblDbte btDby(int dbyOfMonth) {
+        return LocblDbte.of(yebr, month, dbyOfMonth);
     }
 
     /**
-     * Returns a {@code LocalDate} at the end of the month.
+     * Returns b {@code LocblDbte} bt the end of the month.
      * <p>
-     * This returns a {@code LocalDate} based on this year-month.
-     * The day-of-month is set to the last valid day of the month, taking
-     * into account leap years.
+     * This returns b {@code LocblDbte} bbsed on this yebr-month.
+     * The dby-of-month is set to the lbst vblid dby of the month, tbking
+     * into bccount lebp yebrs.
      * <p>
-     * This method can be used as part of a chain to produce a date:
+     * This method cbn be used bs pbrt of b chbin to produce b dbte:
      * <pre>
-     *  LocalDate date = year.atMonth(month).atEndOfMonth();
+     *  LocblDbte dbte = yebr.btMonth(month).btEndOfMonth();
      * </pre>
      *
-     * @return the last valid date of this year-month, not null
+     * @return the lbst vblid dbte of this yebr-month, not null
      */
-    public LocalDate atEndOfMonth() {
-        return LocalDate.of(year, month, lengthOfMonth());
+    public LocblDbte btEndOfMonth() {
+        return LocblDbte.of(yebr, month, lengthOfMonth());
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this year-month to another year-month.
+     * Compbres this yebr-month to bnother yebr-month.
      * <p>
-     * The comparison is based first on the value of the year, then on the value of the month.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * The compbrison is bbsed first on the vblue of the yebr, then on the vblue of the month.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      *
-     * @param other  the other year-month to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm other  the other yebr-month to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
     @Override
-    public int compareTo(YearMonth other) {
-        int cmp = (year - other.year);
+    public int compbreTo(YebrMonth other) {
+        int cmp = (yebr - other.yebr);
         if (cmp == 0) {
             cmp = (month - other.month);
         }
@@ -1133,118 +1133,118 @@ public final class YearMonth
     }
 
     /**
-     * Checks if this year-month is after the specified year-month.
+     * Checks if this yebr-month is bfter the specified yebr-month.
      *
-     * @param other  the other year-month to compare to, not null
-     * @return true if this is after the specified year-month
+     * @pbrbm other  the other yebr-month to compbre to, not null
+     * @return true if this is bfter the specified yebr-month
      */
-    public boolean isAfter(YearMonth other) {
-        return compareTo(other) > 0;
+    public boolebn isAfter(YebrMonth other) {
+        return compbreTo(other) > 0;
     }
 
     /**
-     * Checks if this year-month is before the specified year-month.
+     * Checks if this yebr-month is before the specified yebr-month.
      *
-     * @param other  the other year-month to compare to, not null
-     * @return true if this point is before the specified year-month
+     * @pbrbm other  the other yebr-month to compbre to, not null
+     * @return true if this point is before the specified yebr-month
      */
-    public boolean isBefore(YearMonth other) {
-        return compareTo(other) < 0;
+    public boolebn isBefore(YebrMonth other) {
+        return compbreTo(other) < 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this year-month is equal to another year-month.
+     * Checks if this yebr-month is equbl to bnother yebr-month.
      * <p>
-     * The comparison is based on the time-line position of the year-months.
+     * The compbrison is bbsed on the time-line position of the yebr-months.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other year-month
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other yebr-month
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof YearMonth) {
-            YearMonth other = (YearMonth) obj;
-            return year == other.year && month == other.month;
+        if (obj instbnceof YebrMonth) {
+            YebrMonth other = (YebrMonth) obj;
+            return yebr == other.yebr && month == other.month;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this year-month.
+     * A hbsh code for this yebr-month.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return year ^ (month << 27);
+    public int hbshCode() {
+        return yebr ^ (month << 27);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this year-month as a {@code String}, such as {@code 2007-12}.
+     * Outputs this yebr-month bs b {@code String}, such bs {@code 2007-12}.
      * <p>
-     * The output will be in the format {@code uuuu-MM}:
+     * The output will be in the formbt {@code uuuu-MM}:
      *
-     * @return a string representation of this year-month, not null
+     * @return b string representbtion of this yebr-month, not null
      */
     @Override
     public String toString() {
-        int absYear = Math.abs(year);
+        int bbsYebr = Mbth.bbs(yebr);
         StringBuilder buf = new StringBuilder(9);
-        if (absYear < 1000) {
-            if (year < 0) {
-                buf.append(year - 10000).deleteCharAt(1);
+        if (bbsYebr < 1000) {
+            if (yebr < 0) {
+                buf.bppend(yebr - 10000).deleteChbrAt(1);
             } else {
-                buf.append(year + 10000).deleteCharAt(0);
+                buf.bppend(yebr + 10000).deleteChbrAt(0);
             }
         } else {
-            buf.append(year);
+            buf.bppend(yebr);
         }
-        return buf.append(month < 10 ? "-0" : "-")
-            .append(month)
+        return buf.bppend(month < 10 ? "-0" : "-")
+            .bppend(month)
             .toString();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../seriblized-form.html#jbvb.time.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(12);  // identifies a YearMonth
-     *  out.writeInt(year);
+     *  out.writeByte(12);  // identifies b YebrMonth
+     *  out.writeInt(yebr);
      *  out.writeByte(month);
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.YEAR_MONTH_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeInt(year);
+    void writeExternbl(DbtbOutput out) throws IOException {
+        out.writeInt(yebr);
         out.writeByte(month);
     }
 
-    static YearMonth readExternal(DataInput in) throws IOException {
-        int year = in.readInt();
-        byte month = in.readByte();
-        return YearMonth.of(year, month);
+    stbtic YebrMonth rebdExternbl(DbtbInput in) throws IOException {
+        int yebr = in.rebdInt();
+        byte month = in.rebdByte();
+        return YebrMonth.of(yebr, month);
     }
 
 }

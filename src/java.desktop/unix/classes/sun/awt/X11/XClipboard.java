@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.DataFlavor;
-import java.util.SortedMap;
-import java.io.IOException;
-import java.security.AccessController;
-import java.util.HashMap;
-import java.util.Map;
-import sun.awt.UNIXToolkit;
-import sun.awt.datatransfer.DataTransferer;
-import sun.awt.datatransfer.SunClipboard;
-import sun.awt.datatransfer.ClipboardTransferable;
-import sun.security.action.GetIntegerAction;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.util.SortedMbp;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.bwt.UNIXToolkit;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
+import sun.bwt.dbtbtrbnsfer.SunClipbobrd;
+import sun.bwt.dbtbtrbnsfer.ClipbobrdTrbnsferbble;
+import sun.security.bction.GetIntegerAction;
 
 /**
- * A class which interfaces with the X11 selection service in order to support
- * data transfer via Clipboard operations.
+ * A clbss which interfbces with the X11 selection service in order to support
+ * dbtb trbnsfer vib Clipbobrd operbtions.
  */
-public final class XClipboard extends SunClipboard implements OwnershipListener
+public finbl clbss XClipbobrd extends SunClipbobrd implements OwnershipListener
 {
-    private final XSelection selection;
-    // Time of calling XConvertSelection().
-    private long convertSelectionTime;
-    // The flag used not to call XConvertSelection() if the previous SelectionNotify
-    // has not been processed by checkChange().
-    private volatile boolean isSelectionNotifyProcessed;
-    // The property in which the owner should place requested targets
-    // when tracking changes of available data flavors (practically targets).
-    private volatile XAtom targetsPropertyAtom;
+    privbte finbl XSelection selection;
+    // Time of cblling XConvertSelection().
+    privbte long convertSelectionTime;
+    // The flbg used not to cbll XConvertSelection() if the previous SelectionNotify
+    // hbs not been processed by checkChbnge().
+    privbte volbtile boolebn isSelectionNotifyProcessed;
+    // The property in which the owner should plbce requested tbrgets
+    // when trbcking chbnges of bvbilbble dbtb flbvors (prbcticblly tbrgets).
+    privbte volbtile XAtom tbrgetsPropertyAtom;
 
-    private static final Object classLock = new Object();
+    privbte stbtic finbl Object clbssLock = new Object();
 
-    private static final int defaultPollInterval = 200;
+    privbte stbtic finbl int defbultPollIntervbl = 200;
 
-    private static int pollInterval;
+    privbte stbtic int pollIntervbl;
 
-    private static Map<Long, XClipboard> targetsAtom2Clipboard;
+    privbte stbtic Mbp<Long, XClipbobrd> tbrgetsAtom2Clipbobrd;
 
     /**
-     * Creates a system clipboard object.
+     * Crebtes b system clipbobrd object.
      */
-    public XClipboard(String name, String selectionName) {
-        super(name);
-        selection = new XSelection(XAtom.get(selectionName));
+    public XClipbobrd(String nbme, String selectionNbme) {
+        super(nbme);
+        selection = new XSelection(XAtom.get(selectionNbme));
         selection.registerOwershipListener(this);
     }
 
     /*
-     * NOTE: This method may be called by privileged threads.
+     * NOTE: This method mby be cblled by privileged threbds.
      *       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
      */
-    public void ownershipChanged(final boolean isOwner) {
+    public void ownershipChbnged(finbl boolebn isOwner) {
         if (isOwner) {
-            checkChangeHere(contents);
+            checkChbngeHere(contents);
         } else {
             lostOwnershipImpl();
         }
     }
 
-    protected synchronized void setContentsNative(Transferable contents) {
-        SortedMap<Long,DataFlavor> formatMap =
-            DataTransferer.getInstance().getFormatsForTransferable
-                (contents, DataTransferer.adaptFlavorMap(getDefaultFlavorTable()));
-        long[] formats = DataTransferer.keysToLongArray(formatMap);
+    protected synchronized void setContentsNbtive(Trbnsferbble contents) {
+        SortedMbp<Long,DbtbFlbvor> formbtMbp =
+            DbtbTrbnsferer.getInstbnce().getFormbtsForTrbnsferbble
+                (contents, DbtbTrbnsferer.bdbptFlbvorMbp(getDefbultFlbvorTbble()));
+        long[] formbts = DbtbTrbnsferer.keysToLongArrby(formbtMbp);
 
-        if (!selection.setOwner(contents, formatMap, formats,
+        if (!selection.setOwner(contents, formbtMbp, formbts,
                                 XToolkit.getCurrentServerTime())) {
             this.owner = null;
             this.contents = null;
@@ -101,156 +101,156 @@ public final class XClipboard extends SunClipboard implements OwnershipListener
     }
 
     @Override
-    public synchronized Transferable getContents(Object requestor) {
+    public synchronized Trbnsferbble getContents(Object requestor) {
         if (contents != null) {
             return contents;
         }
-        return new ClipboardTransferable(this);
+        return new ClipbobrdTrbnsferbble(this);
     }
 
-    /* Caller is synchronized on this. */
-    protected void clearNativeContext() {
+    /* Cbller is synchronized on this. */
+    protected void clebrNbtiveContext() {
         selection.reset();
     }
 
 
-    protected long[] getClipboardFormats() {
-        return selection.getTargets(XToolkit.getCurrentServerTime());
+    protected long[] getClipbobrdFormbts() {
+        return selection.getTbrgets(XToolkit.getCurrentServerTime());
     }
 
-    protected byte[] getClipboardData(long format) throws IOException {
-        return selection.getData(format, XToolkit.getCurrentServerTime());
+    protected byte[] getClipbobrdDbtb(long formbt) throws IOException {
+        return selection.getDbtb(formbt, XToolkit.getCurrentServerTime());
     }
 
-    private void checkChangeHere(Transferable contents) {
-        if (areFlavorListenersRegistered()) {
-            checkChange(DataTransferer.getInstance().
-                        getFormatsForTransferableAsArray(contents, getDefaultFlavorTable()));
+    privbte void checkChbngeHere(Trbnsferbble contents) {
+        if (breFlbvorListenersRegistered()) {
+            checkChbnge(DbtbTrbnsferer.getInstbnce().
+                        getFormbtsForTrbnsferbbleAsArrby(contents, getDefbultFlbvorTbble()));
         }
     }
 
-    private static int getPollInterval() {
-        synchronized (XClipboard.classLock) {
-            if (pollInterval <= 0) {
-                pollInterval = AccessController.doPrivileged(
-                        new GetIntegerAction("awt.datatransfer.clipboard.poll.interval",
-                                             defaultPollInterval));
-                if (pollInterval <= 0) {
-                    pollInterval = defaultPollInterval;
+    privbte stbtic int getPollIntervbl() {
+        synchronized (XClipbobrd.clbssLock) {
+            if (pollIntervbl <= 0) {
+                pollIntervbl = AccessController.doPrivileged(
+                        new GetIntegerAction("bwt.dbtbtrbnsfer.clipbobrd.poll.intervbl",
+                                             defbultPollIntervbl));
+                if (pollIntervbl <= 0) {
+                    pollIntervbl = defbultPollIntervbl;
                 }
             }
-            return pollInterval;
+            return pollIntervbl;
         }
     }
 
-    private XAtom getTargetsPropertyAtom() {
-        if (null == targetsPropertyAtom) {
-            targetsPropertyAtom =
-                    XAtom.get("XAWT_TARGETS_OF_SELECTION:" + selection.getSelectionAtom().getName());
+    privbte XAtom getTbrgetsPropertyAtom() {
+        if (null == tbrgetsPropertyAtom) {
+            tbrgetsPropertyAtom =
+                    XAtom.get("XAWT_TARGETS_OF_SELECTION:" + selection.getSelectionAtom().getNbme());
         }
-        return targetsPropertyAtom;
+        return tbrgetsPropertyAtom;
     }
 
-    protected void registerClipboardViewerChecked() {
-        // for XConvertSelection() to be called for the first time in getTargetsDelayed()
+    protected void registerClipbobrdViewerChecked() {
+        // for XConvertSelection() to be cblled for the first time in getTbrgetsDelbyed()
         isSelectionNotifyProcessed = true;
 
-        boolean mustSchedule = false;
-        synchronized (XClipboard.classLock) {
-            if (targetsAtom2Clipboard == null) {
-                targetsAtom2Clipboard = new HashMap<Long, XClipboard>(2);
+        boolebn mustSchedule = fblse;
+        synchronized (XClipbobrd.clbssLock) {
+            if (tbrgetsAtom2Clipbobrd == null) {
+                tbrgetsAtom2Clipbobrd = new HbshMbp<Long, XClipbobrd>(2);
             }
-            mustSchedule = targetsAtom2Clipboard.isEmpty();
-            targetsAtom2Clipboard.put(getTargetsPropertyAtom().getAtom(), this);
+            mustSchedule = tbrgetsAtom2Clipbobrd.isEmpty();
+            tbrgetsAtom2Clipbobrd.put(getTbrgetsPropertyAtom().getAtom(), this);
             if (mustSchedule) {
-                XToolkit.addEventDispatcher(XWindow.getXAWTRootWindow().getWindow(),
-                                            new SelectionNotifyHandler());
+                XToolkit.bddEventDispbtcher(XWindow.getXAWTRootWindow().getWindow(),
+                                            new SelectionNotifyHbndler());
             }
         }
         if (mustSchedule) {
-            XToolkit.schedule(new CheckChangeTimerTask(), XClipboard.getPollInterval());
+            XToolkit.schedule(new CheckChbngeTimerTbsk(), XClipbobrd.getPollIntervbl());
         }
     }
 
-    private static class CheckChangeTimerTask implements Runnable {
+    privbte stbtic clbss CheckChbngeTimerTbsk implements Runnbble {
         public void run() {
-            for (XClipboard clpbrd : targetsAtom2Clipboard.values()) {
-                clpbrd.getTargetsDelayed();
+            for (XClipbobrd clpbrd : tbrgetsAtom2Clipbobrd.vblues()) {
+                clpbrd.getTbrgetsDelbyed();
             }
-            synchronized (XClipboard.classLock) {
-                if (targetsAtom2Clipboard != null && !targetsAtom2Clipboard.isEmpty()) {
+            synchronized (XClipbobrd.clbssLock) {
+                if (tbrgetsAtom2Clipbobrd != null && !tbrgetsAtom2Clipbobrd.isEmpty()) {
                     // The viewer is still registered, schedule next poll.
-                    XToolkit.schedule(this, XClipboard.getPollInterval());
+                    XToolkit.schedule(this, XClipbobrd.getPollIntervbl());
                 }
             }
         }
     }
 
-    private static class SelectionNotifyHandler implements XEventDispatcher {
-        public void dispatchEvent(XEvent ev) {
-            if (ev.get_type() == XConstants.SelectionNotify) {
-                final XSelectionEvent xse = ev.get_xselection();
-                XClipboard clipboard = null;
-                synchronized (XClipboard.classLock) {
-                    if (targetsAtom2Clipboard != null && targetsAtom2Clipboard.isEmpty()) {
-                        // The viewer was unregistered, remove the dispatcher.
-                        XToolkit.removeEventDispatcher(XWindow.getXAWTRootWindow().getWindow(), this);
+    privbte stbtic clbss SelectionNotifyHbndler implements XEventDispbtcher {
+        public void dispbtchEvent(XEvent ev) {
+            if (ev.get_type() == XConstbnts.SelectionNotify) {
+                finbl XSelectionEvent xse = ev.get_xselection();
+                XClipbobrd clipbobrd = null;
+                synchronized (XClipbobrd.clbssLock) {
+                    if (tbrgetsAtom2Clipbobrd != null && tbrgetsAtom2Clipbobrd.isEmpty()) {
+                        // The viewer wbs unregistered, remove the dispbtcher.
+                        XToolkit.removeEventDispbtcher(XWindow.getXAWTRootWindow().getWindow(), this);
                         return;
                     }
-                    final long propertyAtom = xse.get_property();
-                    clipboard = targetsAtom2Clipboard.get(propertyAtom);
+                    finbl long propertyAtom = xse.get_property();
+                    clipbobrd = tbrgetsAtom2Clipbobrd.get(propertyAtom);
                 }
-                if (null != clipboard) {
-                    clipboard.checkChange(xse);
+                if (null != clipbobrd) {
+                    clipbobrd.checkChbnge(xse);
                 }
             }
         }
     }
 
-    protected void unregisterClipboardViewerChecked() {
-        isSelectionNotifyProcessed = false;
-        synchronized (XClipboard.classLock) {
-            targetsAtom2Clipboard.remove(getTargetsPropertyAtom().getAtom());
+    protected void unregisterClipbobrdViewerChecked() {
+        isSelectionNotifyProcessed = fblse;
+        synchronized (XClipbobrd.clbssLock) {
+            tbrgetsAtom2Clipbobrd.remove(getTbrgetsPropertyAtom().getAtom());
         }
     }
 
-    // checkChange() will be called on SelectionNotify
-    private void getTargetsDelayed() {
-        XToolkit.awtLock();
+    // checkChbnge() will be cblled on SelectionNotify
+    privbte void getTbrgetsDelbyed() {
+        XToolkit.bwtLock();
         try {
             long curTime = System.currentTimeMillis();
-            if (isSelectionNotifyProcessed || curTime >= (convertSelectionTime + UNIXToolkit.getDatatransferTimeout()))
+            if (isSelectionNotifyProcessed || curTime >= (convertSelectionTime + UNIXToolkit.getDbtbtrbnsferTimeout()))
             {
                 convertSelectionTime = curTime;
-                XlibWrapper.XConvertSelection(XToolkit.getDisplay(),
+                XlibWrbpper.XConvertSelection(XToolkit.getDisplby(),
                                               selection.getSelectionAtom().getAtom(),
-                                              XDataTransferer.TARGETS_ATOM.getAtom(),
-                                              getTargetsPropertyAtom().getAtom(),
+                                              XDbtbTrbnsferer.TARGETS_ATOM.getAtom(),
+                                              getTbrgetsPropertyAtom().getAtom(),
                                               XWindow.getXAWTRootWindow().getWindow(),
-                                              XConstants.CurrentTime);
-                isSelectionNotifyProcessed = false;
+                                              XConstbnts.CurrentTime);
+                isSelectionNotifyProcessed = fblse;
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /*
-     * Tracks changes of available formats.
-     * NOTE: This method may be called by privileged threads.
+     * Trbcks chbnges of bvbilbble formbts.
+     * NOTE: This method mby be cblled by privileged threbds.
      *       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
      */
-    private void checkChange(XSelectionEvent xse) {
-        final long propertyAtom = xse.get_property();
-        if (propertyAtom != getTargetsPropertyAtom().getAtom()) {
-            // wrong atom
+    privbte void checkChbnge(XSelectionEvent xse) {
+        finbl long propertyAtom = xse.get_property();
+        if (propertyAtom != getTbrgetsPropertyAtom().getAtom()) {
+            // wrong btom
             return;
         }
 
-        final XAtom selectionAtom = XAtom.get(xse.get_selection());
-        final XSelection changedSelection = XSelection.getSelection(selectionAtom);
+        finbl XAtom selectionAtom = XAtom.get(xse.get_selection());
+        finbl XSelection chbngedSelection = XSelection.getSelection(selectionAtom);
 
-        if (null == changedSelection || changedSelection != selection) {
+        if (null == chbngedSelection || chbngedSelection != selection) {
             // unknown selection - do nothing
             return;
         }
@@ -258,29 +258,29 @@ public final class XClipboard extends SunClipboard implements OwnershipListener
         isSelectionNotifyProcessed = true;
 
         if (selection.isOwner()) {
-            // selection is owner - do not need formats
+            // selection is owner - do not need formbts
             return;
         }
 
-        long[] formats = null;
+        long[] formbts = null;
 
-        if (propertyAtom == XConstants.None) {
-            // We treat None property atom as "empty selection".
-            formats = new long[0];
+        if (propertyAtom == XConstbnts.None) {
+            // We trebt None property btom bs "empty selection".
+            formbts = new long[0];
         } else {
-            WindowPropertyGetter targetsGetter =
+            WindowPropertyGetter tbrgetsGetter =
                 new WindowPropertyGetter(XWindow.getXAWTRootWindow().getWindow(),
                                          XAtom.get(propertyAtom), 0,
                                          XSelection.MAX_LENGTH, true,
-                                         XConstants.AnyPropertyType);
+                                         XConstbnts.AnyPropertyType);
             try {
-                targetsGetter.execute();
-                formats = XSelection.getFormats(targetsGetter);
-            } finally {
-                targetsGetter.dispose();
+                tbrgetsGetter.execute();
+                formbts = XSelection.getFormbts(tbrgetsGetter);
+            } finblly {
+                tbrgetsGetter.dispose();
             }
         }
 
-        checkChange(formats);
+        checkChbnge(formbts);
     }
 }

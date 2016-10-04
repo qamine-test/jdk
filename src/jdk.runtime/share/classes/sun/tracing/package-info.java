@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * This package contains internal common code for implementing tracing
- * frameworks, and defined a number of existing frameworks.
+ * This pbckbge contbins internbl common code for implementing trbcing
+ * frbmeworks, bnd defined b number of existing frbmeworks.
  * <p>
- * There are four tracing frameworks currently defined.  The "Null" and
- * "Multiplex" frameworks are used internally as part of the implementation.
- * The "DTrace" framework is the prime consumer framework at the moment,
- * while the "PrintStream" framework is a functional, but hidden, framework
- * which can be used to track probe firings.  All but the "DTrace" framework
- * are defined in this package.  The "DTrace" framework is implemented in the
- * {@code sun.tracing.dtrace} package.
+ * There bre four trbcing frbmeworks currently defined.  The "Null" bnd
+ * "Multiplex" frbmeworks bre used internblly bs pbrt of the implementbtion.
+ * The "DTrbce" frbmework is the prime consumer frbmework bt the moment,
+ * while the "PrintStrebm" frbmework is b functionbl, but hidden, frbmework
+ * which cbn be used to trbck probe firings.  All but the "DTrbce" frbmework
+ * bre defined in this pbckbge.  The "DTrbce" frbmework is implemented in the
+ * {@code sun.trbcing.dtrbce} pbckbge.
  * <p>
- * This package also contains the {@code ProviderSkeleton} class, which
- * holds most of the common code needed for implementing frameworks.
+ * This pbckbge blso contbins the {@code ProviderSkeleton} clbss, which
+ * holds most of the common code needed for implementing frbmeworks.
  * <p>
- * The "Null" framework is used when there are no other active frameworks.
- * It accomplishes absolutely nothing and is merely a placeholder so that
- * the application can call the tracing routines without error.
+ * The "Null" frbmework is used when there bre no other bctive frbmeworks.
+ * It bccomplishes bbsolutely nothing bnd is merely b plbceholder so thbt
+ * the bpplicbtion cbn cbll the trbcing routines without error.
  * <p>
- * The "Multiplex" framework is used when there are multiple active frameworks.
- * It is initialized with the framework factories and create providers and
- * probes that dispatch to each active framework in turn.
+ * The "Multiplex" frbmework is used when there bre multiple bctive frbmeworks.
+ * It is initiblized with the frbmework fbctories bnd crebte providers bnd
+ * probes thbt dispbtch to ebch bctive frbmework in turn.
  * <p>
- * The "PrintStream" framework is currently a debugging framework which
- * dispatches trace calls to a user-defined PrintStream class, defined by
- * a property.  It may some day be opened up to general use.
+ * The "PrintStrebm" frbmework is currently b debugging frbmework which
+ * dispbtches trbce cblls to b user-defined PrintStrebm clbss, defined by
+ * b property.  It mby some dby be opened up to generbl use.
  * <p>
- * See the {@code sun.tracing.dtrace} and {@code com.sun.tracing.dtrace}
- * packages for information on the "DTrace" framework.
+ * See the {@code sun.trbcing.dtrbce} bnd {@code com.sun.trbcing.dtrbce}
+ * pbckbges for informbtion on the "DTrbce" frbmework.
  */
 
-package sun.tracing;
+pbckbge sun.trbcing;

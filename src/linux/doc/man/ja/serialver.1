@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: serialver
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Remote Method Invocation (RMI)ツール
-.\" Software: JDK 8
+.\" Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\" Title: seriblver
+.\" Lbngubge: English
+.\" Dbte: 2013年11月21日
+.\" SectDesc: Remote Method Invocbtion (RMI)ツール
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "serialver" "1" "2013年11月21日" "JDK 8" "Remote Method Invocation (RMI)"
+.TH "seriblver" "1" "2013年11月21日" "JDK 8" "Remote Method Invocbtion (RMI)"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-serialver \- 指定したクラスのシリアル・バージョンUIDを戻します。
+seriblver \- 指定したクラスのシリアル・バージョンUIDを戻します。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIserialver\fR [ \fIoptions\fR ] [ \fIclassnames\fR ]
+\fIseriblver\fR [ \fIoptions\fR ] [ \fIclbssnbmes\fR ]
 .fi
 .if n \{\
 .RE
@@ -67,38 +67,38 @@ serialver \- 指定したクラスのシリアル・バージョンUIDを戻します。
 コマンドライン・オプション。オプションを参照してください。
 .RE
 .PP
-\fIclassnames\fR
+\fIclbssnbmes\fR
 .RS 4
-\fIserialVersionUID\fRを戻すクラスです。
+\fIseriblVersionUID\fRを戻すクラスです。
 .RE
 .SH "説明"
 .PP
-\fIserialver\fRコマンドは、1つ以上のクラスの\fIserialVersionUID\fRを、展開しているクラスへコピーするのに適した形式で返します。引数なしで呼び出された場合、\fIserialver\fRコマンドは使用率行を出力します。
+\fIseriblver\fRコマンドは、1つ以上のクラスの\fIseriblVersionUID\fRを、展開しているクラスへコピーするのに適した形式で返します。引数なしで呼び出された場合、\fIseriblver\fRコマンドは使用率行を出力します。
 .SH "オプション"
 .PP
-\-classpath \fIpath\-files\fR
+\-clbsspbth \fIpbth\-files\fR
 .RS 4
 アプリケーションのクラスおよびリソースの検索パスを設定します。クラスとリソースをコロン(:)で区切ります。
 .RE
 .PP
 \-show
 .RS 4
-簡単なユーザー・インタフェースを表示します。完全指定のクラス名を入力して、Enterキーか「表示」ボタンを押し、\fIserialVersionUID\fRを表示します。
+簡単なユーザー・インタフェースを表示します。完全指定のクラス名を入力して、Enterキーか「表示」ボタンを押し、\fIseriblVersionUID\fRを表示します。
 .RE
 .PP
 \-J\fIoption\fR
 .RS 4
-Java仮想マシンに\fIoption\fRを渡します。optionには、Javaアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。java(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。optionには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
 .RE
 .SH "注意"
 .PP
-\fIserialver\fRコマンドは、指定されたクラスをその仮想マシン内に読み込んで初期化しますが、デフォルトではセキュリティ・マネージャの設定は行いません。信頼できないクラスとともに\fIserialver\fRコマンドを実行する場合には、次のオプションを使用してセキュリティ・マネージャを設定できます。
+\fIseriblver\fRコマンドは、指定されたクラスをその仮想マシン内に読み込んで初期化しますが、デフォルトではセキュリティ・マネージャの設定は行いません。信頼できないクラスとともに\fIseriblver\fRコマンドを実行する場合には、次のオプションを使用してセキュリティ・マネージャを設定できます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\-J\-Djava\&.security\&.manager
+\-J\-Djbvb\&.security\&.mbnbger
 .fi
 .if n \{\
 .RE
@@ -110,7 +110,7 @@ Java仮想マシンに\fIoption\fRを渡します。optionには、Javaアプリケーション起動ツー
 .RS 4
 .\}
 .nf
-\-J\-Djava\&.security\&.policy=<policy file>
+\-J\-Djbvb\&.security\&.policy=<policy file>
 .fi
 .if n \{\
 .RE
@@ -136,8 +136,8 @@ policytool(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-http://docs\&.oracle\&.com/javase/8/docs/api/java/io/ObjectStreamClass\&.htmlにある
-\fIjava\&.io\&.ObjectStream\fRクラス記述
+http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvb/io/ObjectStrebmClbss\&.htmlにある
+\fIjbvb\&.io\&.ObjectStrebm\fRクラス記述
 .RE
 .br
 'pl 8.5i

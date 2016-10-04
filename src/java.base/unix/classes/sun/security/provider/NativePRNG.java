@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.security.*;
 import sun.security.util.Debug;
 
 /**
- * Native PRNG implementation for Solaris/Linux/MacOS.
+ * Nbtive PRNG implementbtion for Solbris/Linux/MbcOS.
  * <p>
- * It obtains seed and random numbers by reading system files such as
- * the special device files /dev/random and /dev/urandom.  This
- * implementation respects the {@code securerandom.source} Security
- * property and {@code java.security.egd} System property for obtaining
- * seed material.  If the file specified by the properties does not
- * exist, /dev/random is the default seed source.  /dev/urandom is
- * the default source of random numbers.
+ * It obtbins seed bnd rbndom numbers by rebding system files such bs
+ * the specibl device files /dev/rbndom bnd /dev/urbndom.  This
+ * implementbtion respects the {@code securerbndom.source} Security
+ * property bnd {@code jbvb.security.egd} System property for obtbining
+ * seed mbteribl.  If the file specified by the properties does not
+ * exist, /dev/rbndom is the defbult seed source.  /dev/urbndom is
+ * the defbult source of rbndom numbers.
  * <p>
- * On some Unix platforms, /dev/random may block until enough entropy is
- * available, but that may negatively impact the perceived startup
- * time.  By selecting these sources, this implementation tries to
- * strike a balance between performance and security.
+ * On some Unix plbtforms, /dev/rbndom mby block until enough entropy is
+ * bvbilbble, but thbt mby negbtively impbct the perceived stbrtup
+ * time.  By selecting these sources, this implementbtion tries to
+ * strike b bblbnce between performbnce bnd security.
  * <p>
- * generateSeed() and setSeed() attempt to directly read/write to the seed
- * source. However, this file may only be writable by root in many
- * configurations. Because we cannot just ignore bytes specified via
- * setSeed(), we keep a SHA1PRNG around in parallel.
+ * generbteSeed() bnd setSeed() bttempt to directly rebd/write to the seed
+ * source. However, this file mby only be writbble by root in mbny
+ * configurbtions. Becbuse we cbnnot just ignore bytes specified vib
+ * setSeed(), we keep b SHA1PRNG bround in pbrbllel.
  * <p>
- * nextBytes() reads the bytes directly from the source of random
- * numbers (and then mixes them with bytes from the SHA1PRNG for the
- * reasons explained above). Reading bytes from the random generator means
- * that we are generally getting entropy from the operating system. This
- * is a notable advantage over the SHA1PRNG model, which acquires
- * entropy only initially during startup although the VM may be running
+ * nextBytes() rebds the bytes directly from the source of rbndom
+ * numbers (bnd then mixes them with bytes from the SHA1PRNG for the
+ * rebsons explbined bbove). Rebding bytes from the rbndom generbtor mebns
+ * thbt we bre generblly getting entropy from the operbting system. This
+ * is b notbble bdvbntbge over the SHA1PRNG model, which bcquires
+ * entropy only initiblly during stbrtup blthough the VM mby be running
  * for months.
  * <p>
- * Also note for nextBytes() that we do not need any initial pure random
- * seed from /dev/random. This is an advantage because on some versions
- * of Linux entropy can be exhausted very quickly and could thus impact
- * startup time.
+ * Also note for nextBytes() thbt we do not need bny initibl pure rbndom
+ * seed from /dev/rbndom. This is bn bdvbntbge becbuse on some versions
+ * of Linux entropy cbn be exhbusted very quickly bnd could thus impbct
+ * stbrtup time.
  * <p>
- * Finally, note that we use a singleton for the actual work (RandomIO)
- * to avoid having to open and close /dev/[u]random constantly. However,
- * there may be many NativePRNG instances created by the JCA framework.
+ * Finblly, note thbt we use b singleton for the bctubl work (RbndomIO)
+ * to bvoid hbving to open bnd close /dev/[u]rbndom constbntly. However,
+ * there mby be mbny NbtivePRNG instbnces crebted by the JCA frbmework.
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class NativePRNG extends SecureRandomSpi {
+public finbl clbss NbtivePRNG extends SecureRbndomSpi {
 
-    private static final long serialVersionUID = -6599091113397072932L;
+    privbte stbtic finbl long seriblVersionUID = -6599091113397072932L;
 
-    private static final Debug debug = Debug.getInstance("provider");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("provider");
 
-    // name of the pure random file (also used for setSeed())
-    private static final String NAME_RANDOM = "/dev/random";
-    // name of the pseudo random file
-    private static final String NAME_URANDOM = "/dev/urandom";
+    // nbme of the pure rbndom file (blso used for setSeed())
+    privbte stbtic finbl String NAME_RANDOM = "/dev/rbndom";
+    // nbme of the pseudo rbndom file
+    privbte stbtic finbl String NAME_URANDOM = "/dev/urbndom";
 
-    // which kind of RandomIO object are we creating?
-    private enum Variant {
+    // which kind of RbndomIO object bre we crebting?
+    privbte enum Vbribnt {
         MIXED, BLOCKING, NONBLOCKING
     }
 
-    // singleton instance or null if not available
-    private static final RandomIO INSTANCE = initIO(Variant.MIXED);
+    // singleton instbnce or null if not bvbilbble
+    privbte stbtic finbl RbndomIO INSTANCE = initIO(Vbribnt.MIXED);
 
     /**
-     * Get the System egd source (if defined).  We only allow "file:"
-     * URLs for now. If there is a egd value, parse it.
+     * Get the System egd source (if defined).  We only bllow "file:"
+     * URLs for now. If there is b egd vblue, pbrse it.
      *
-     * @return the URL or null if not available.
+     * @return the URL or null if not bvbilbble.
      */
-    private static URL getEgdUrl() {
-        // This will return "" if nothing was set.
+    privbte stbtic URL getEgdUrl() {
+        // This will return "" if nothing wbs set.
         String egdSource = SunEntries.getSeedSource();
         URL egdUrl;
 
         if (egdSource.length() != 0) {
             if (debug != null) {
-                debug.println("NativePRNG egdUrl: " + egdSource);
+                debug.println("NbtivePRNG egdUrl: " + egdSource);
             }
             try {
                 egdUrl = new URL(egdSource);
-                if (!egdUrl.getProtocol().equalsIgnoreCase("file")) {
+                if (!egdUrl.getProtocol().equblsIgnoreCbse("file")) {
                     return null;
                 }
-            } catch (MalformedURLException e) {
+            } cbtch (MblformedURLException e) {
                 return null;
             }
         } else {
@@ -121,88 +121,88 @@ public final class NativePRNG extends SecureRandomSpi {
     }
 
     /**
-     * Create a RandomIO object for all I/O of this Variant type.
+     * Crebte b RbndomIO object for bll I/O of this Vbribnt type.
      */
-    private static RandomIO initIO(final Variant v) {
+    privbte stbtic RbndomIO initIO(finbl Vbribnt v) {
         return AccessController.doPrivileged(
-            new PrivilegedAction<RandomIO>() {
+            new PrivilegedAction<RbndomIO>() {
                 @Override
-                public RandomIO run() {
+                public RbndomIO run() {
 
                     File seedFile;
                     File nextFile;
 
                     switch(v) {
-                    case MIXED:
+                    cbse MIXED:
                         URL egdUrl;
                         File egdFile = null;
 
                         if ((egdUrl = getEgdUrl()) != null) {
                             try {
                                 egdFile = SunEntries.getDeviceFile(egdUrl);
-                            } catch (IOException e) {
-                                // Swallow, seedFile is still null
+                            } cbtch (IOException e) {
+                                // Swbllow, seedFile is still null
                             }
                         }
 
                         // Try egd first.
-                        if ((egdFile != null) && egdFile.canRead()) {
+                        if ((egdFile != null) && egdFile.cbnRebd()) {
                             seedFile = egdFile;
                         } else {
-                            // fall back to /dev/random.
+                            // fbll bbck to /dev/rbndom.
                             seedFile = new File(NAME_RANDOM);
                         }
                         nextFile = new File(NAME_URANDOM);
-                        break;
+                        brebk;
 
-                    case BLOCKING:
+                    cbse BLOCKING:
                         seedFile = new File(NAME_RANDOM);
                         nextFile = new File(NAME_RANDOM);
-                        break;
+                        brebk;
 
-                    case NONBLOCKING:
+                    cbse NONBLOCKING:
                         seedFile = new File(NAME_URANDOM);
                         nextFile = new File(NAME_URANDOM);
-                        break;
+                        brebk;
 
-                    default:
-                        // Shouldn't happen!
+                    defbult:
+                        // Shouldn't hbppen!
                         return null;
                     }
 
                     if (debug != null) {
-                        debug.println("NativePRNG." + v +
+                        debug.println("NbtivePRNG." + v +
                             " seedFile: " + seedFile +
                             " nextFile: " + nextFile);
                     }
 
-                    if (!seedFile.canRead() || !nextFile.canRead()) {
+                    if (!seedFile.cbnRebd() || !nextFile.cbnRebd()) {
                         if (debug != null) {
-                            debug.println("NativePRNG." + v +
-                                " Couldn't read Files.");
+                            debug.println("NbtivePRNG." + v +
+                                " Couldn't rebd Files.");
                         }
                         return null;
                     }
 
                     try {
-                        return new RandomIO(seedFile, nextFile);
-                    } catch (Exception e) {
+                        return new RbndomIO(seedFile, nextFile);
+                    } cbtch (Exception e) {
                         return null;
                     }
                 }
         });
     }
 
-    // return whether the NativePRNG is available
-    static boolean isAvailable() {
+    // return whether the NbtivePRNG is bvbilbble
+    stbtic boolebn isAvbilbble() {
         return INSTANCE != null;
     }
 
-    // constructor, called by the JCA framework
-    public NativePRNG() {
+    // constructor, cblled by the JCA frbmework
+    public NbtivePRNG() {
         super();
         if (INSTANCE == null) {
-            throw new AssertionError("NativePRNG not available");
+            throw new AssertionError("NbtivePRNG not bvbilbble");
         }
     }
 
@@ -212,45 +212,45 @@ public final class NativePRNG extends SecureRandomSpi {
         INSTANCE.implSetSeed(seed);
     }
 
-    // get pseudo random bytes
+    // get pseudo rbndom bytes
     @Override
     protected void engineNextBytes(byte[] bytes) {
         INSTANCE.implNextBytes(bytes);
     }
 
-    // get true random bytes
+    // get true rbndom bytes
     @Override
-    protected byte[] engineGenerateSeed(int numBytes) {
-        return INSTANCE.implGenerateSeed(numBytes);
+    protected byte[] engineGenerbteSeed(int numBytes) {
+        return INSTANCE.implGenerbteSeed(numBytes);
     }
 
     /**
-     * A NativePRNG-like class that uses /dev/random for both
-     * seed and random material.
+     * A NbtivePRNG-like clbss thbt uses /dev/rbndom for both
+     * seed bnd rbndom mbteribl.
      *
-     * Note that it does not respect the egd properties, since we have
-     * no way of knowing what those qualities are.
+     * Note thbt it does not respect the egd properties, since we hbve
+     * no wby of knowing whbt those qublities bre.
      *
-     * This is very similar to the outer NativePRNG class, minimizing any
-     * breakage to the serialization of the existing implementation.
+     * This is very similbr to the outer NbtivePRNG clbss, minimizing bny
+     * brebkbge to the seriblizbtion of the existing implementbtion.
      *
      * @since   1.8
      */
-    public static final class Blocking extends SecureRandomSpi {
-        private static final long serialVersionUID = -6396183145759983347L;
+    public stbtic finbl clbss Blocking extends SecureRbndomSpi {
+        privbte stbtic finbl long seriblVersionUID = -6396183145759983347L;
 
-        private static final RandomIO INSTANCE = initIO(Variant.BLOCKING);
+        privbte stbtic finbl RbndomIO INSTANCE = initIO(Vbribnt.BLOCKING);
 
-        // return whether this is available
-        static boolean isAvailable() {
+        // return whether this is bvbilbble
+        stbtic boolebn isAvbilbble() {
             return INSTANCE != null;
         }
 
-        // constructor, called by the JCA framework
+        // constructor, cblled by the JCA frbmework
         public Blocking() {
             super();
             if (INSTANCE == null) {
-                throw new AssertionError("NativePRNG$Blocking not available");
+                throw new AssertionError("NbtivePRNG$Blocking not bvbilbble");
             }
         }
 
@@ -260,47 +260,47 @@ public final class NativePRNG extends SecureRandomSpi {
             INSTANCE.implSetSeed(seed);
         }
 
-        // get pseudo random bytes
+        // get pseudo rbndom bytes
         @Override
         protected void engineNextBytes(byte[] bytes) {
             INSTANCE.implNextBytes(bytes);
         }
 
-        // get true random bytes
+        // get true rbndom bytes
         @Override
-        protected byte[] engineGenerateSeed(int numBytes) {
-            return INSTANCE.implGenerateSeed(numBytes);
+        protected byte[] engineGenerbteSeed(int numBytes) {
+            return INSTANCE.implGenerbteSeed(numBytes);
         }
     }
 
     /**
-     * A NativePRNG-like class that uses /dev/urandom for both
-     * seed and random material.
+     * A NbtivePRNG-like clbss thbt uses /dev/urbndom for both
+     * seed bnd rbndom mbteribl.
      *
-     * Note that it does not respect the egd properties, since we have
-     * no way of knowing what those qualities are.
+     * Note thbt it does not respect the egd properties, since we hbve
+     * no wby of knowing whbt those qublities bre.
      *
-     * This is very similar to the outer NativePRNG class, minimizing any
-     * breakage to the serialization of the existing implementation.
+     * This is very similbr to the outer NbtivePRNG clbss, minimizing bny
+     * brebkbge to the seriblizbtion of the existing implementbtion.
      *
      * @since   1.8
      */
-    public static final class NonBlocking extends SecureRandomSpi {
-        private static final long serialVersionUID = -1102062982994105487L;
+    public stbtic finbl clbss NonBlocking extends SecureRbndomSpi {
+        privbte stbtic finbl long seriblVersionUID = -1102062982994105487L;
 
-        private static final RandomIO INSTANCE = initIO(Variant.NONBLOCKING);
+        privbte stbtic finbl RbndomIO INSTANCE = initIO(Vbribnt.NONBLOCKING);
 
-        // return whether this is available
-        static boolean isAvailable() {
+        // return whether this is bvbilbble
+        stbtic boolebn isAvbilbble() {
             return INSTANCE != null;
         }
 
-        // constructor, called by the JCA framework
+        // constructor, cblled by the JCA frbmework
         public NonBlocking() {
             super();
             if (INSTANCE == null) {
                 throw new AssertionError(
-                    "NativePRNG$NonBlocking not available");
+                    "NbtivePRNG$NonBlocking not bvbilbble");
             }
         }
 
@@ -310,104 +310,104 @@ public final class NativePRNG extends SecureRandomSpi {
             INSTANCE.implSetSeed(seed);
         }
 
-        // get pseudo random bytes
+        // get pseudo rbndom bytes
         @Override
         protected void engineNextBytes(byte[] bytes) {
             INSTANCE.implNextBytes(bytes);
         }
 
-        // get true random bytes
+        // get true rbndom bytes
         @Override
-        protected byte[] engineGenerateSeed(int numBytes) {
-            return INSTANCE.implGenerateSeed(numBytes);
+        protected byte[] engineGenerbteSeed(int numBytes) {
+            return INSTANCE.implGenerbteSeed(numBytes);
         }
     }
 
     /**
-     * Nested class doing the actual work. Singleton, see INSTANCE above.
+     * Nested clbss doing the bctubl work. Singleton, see INSTANCE bbove.
      */
-    private static class RandomIO {
+    privbte stbtic clbss RbndomIO {
 
-        // we buffer data we read from the "next" file for efficiency,
-        // but we limit the lifetime to avoid using stale bits
+        // we buffer dbtb we rebd from the "next" file for efficiency,
+        // but we limit the lifetime to bvoid using stble bits
         // lifetime in ms, currently 100 ms (0.1 s)
-        private final static long MAX_BUFFER_TIME = 100;
+        privbte finbl stbtic long MAX_BUFFER_TIME = 100;
 
         // size of the "next" buffer
-        private final static int BUFFER_SIZE = 32;
+        privbte finbl stbtic int BUFFER_SIZE = 32;
 
-        // Holder for the seedFile.  Used if we ever add seed material.
+        // Holder for the seedFile.  Used if we ever bdd seed mbteribl.
         File seedFile;
 
-        // In/OutputStream for "seed" and "next"
-        private final InputStream seedIn, nextIn;
-        private OutputStream seedOut;
+        // In/OutputStrebm for "seed" bnd "next"
+        privbte finbl InputStrebm seedIn, nextIn;
+        privbte OutputStrebm seedOut;
 
-        // flag indicating if we have tried to open seedOut yet
-        private boolean seedOutInitialized;
+        // flbg indicbting if we hbve tried to open seedOut yet
+        privbte boolebn seedOutInitiblized;
 
-        // SHA1PRNG instance for mixing
-        // initialized lazily on demand to avoid problems during startup
-        private volatile sun.security.provider.SecureRandom mixRandom;
+        // SHA1PRNG instbnce for mixing
+        // initiblized lbzily on dembnd to bvoid problems during stbrtup
+        privbte volbtile sun.security.provider.SecureRbndom mixRbndom;
 
         // buffer for next bits
-        private final byte[] nextBuffer;
+        privbte finbl byte[] nextBuffer;
 
         // number of bytes left in nextBuffer
-        private int buffered;
+        privbte int buffered;
 
-        // time we read the data into the nextBuffer
-        private long lastRead;
+        // time we rebd the dbtb into the nextBuffer
+        privbte long lbstRebd;
 
         // mutex lock for nextBytes()
-        private final Object LOCK_GET_BYTES = new Object();
+        privbte finbl Object LOCK_GET_BYTES = new Object();
 
-        // mutex lock for generateSeed()
-        private final Object LOCK_GET_SEED = new Object();
+        // mutex lock for generbteSeed()
+        privbte finbl Object LOCK_GET_SEED = new Object();
 
         // mutex lock for setSeed()
-        private final Object LOCK_SET_SEED = new Object();
+        privbte finbl Object LOCK_SET_SEED = new Object();
 
-        // constructor, called only once from initIO()
-        private RandomIO(File seedFile, File nextFile) throws IOException {
+        // constructor, cblled only once from initIO()
+        privbte RbndomIO(File seedFile, File nextFile) throws IOException {
             this.seedFile = seedFile;
-            seedIn = new FileInputStream(seedFile);
-            nextIn = new FileInputStream(nextFile);
+            seedIn = new FileInputStrebm(seedFile);
+            nextIn = new FileInputStrebm(nextFile);
             nextBuffer = new byte[BUFFER_SIZE];
         }
 
         // get the SHA1PRNG for mixing
-        // initialize if not yet created
-        private sun.security.provider.SecureRandom getMixRandom() {
-            sun.security.provider.SecureRandom r = mixRandom;
+        // initiblize if not yet crebted
+        privbte sun.security.provider.SecureRbndom getMixRbndom() {
+            sun.security.provider.SecureRbndom r = mixRbndom;
             if (r == null) {
                 synchronized (LOCK_GET_BYTES) {
-                    r = mixRandom;
+                    r = mixRbndom;
                     if (r == null) {
-                        r = new sun.security.provider.SecureRandom();
+                        r = new sun.security.provider.SecureRbndom();
                         try {
                             byte[] b = new byte[20];
-                            readFully(nextIn, b);
+                            rebdFully(nextIn, b);
                             r.engineSetSeed(b);
-                        } catch (IOException e) {
-                            throw new ProviderException("init failed", e);
+                        } cbtch (IOException e) {
+                            throw new ProviderException("init fbiled", e);
                         }
-                        mixRandom = r;
+                        mixRbndom = r;
                     }
                 }
             }
             return r;
         }
 
-        // read data.length bytes from in
-        // These are not normal files, so we need to loop the read.
-        // just keep trying as long as we are making progress
-        private static void readFully(InputStream in, byte[] data)
+        // rebd dbtb.length bytes from in
+        // These bre not normbl files, so we need to loop the rebd.
+        // just keep trying bs long bs we bre mbking progress
+        privbte stbtic void rebdFully(InputStrebm in, byte[] dbtb)
                 throws IOException {
-            int len = data.length;
+            int len = dbtb.length;
             int ofs = 0;
             while (len > 0) {
-                int k = in.read(data, ofs, len);
+                int k = in.rebd(dbtb, ofs, len);
                 if (k <= 0) {
                     throw new EOFException("File(s) closed?");
                 }
@@ -415,37 +415,37 @@ public final class NativePRNG extends SecureRandomSpi {
                 len -= k;
             }
             if (len > 0) {
-                throw new IOException("Could not read from file(s)");
+                throw new IOException("Could not rebd from file(s)");
             }
         }
 
-        // get true random bytes, just read from "seed"
-        private byte[] implGenerateSeed(int numBytes) {
+        // get true rbndom bytes, just rebd from "seed"
+        privbte byte[] implGenerbteSeed(int numBytes) {
             synchronized (LOCK_GET_SEED) {
                 try {
                     byte[] b = new byte[numBytes];
-                    readFully(seedIn, b);
+                    rebdFully(seedIn, b);
                     return b;
-                } catch (IOException e) {
-                    throw new ProviderException("generateSeed() failed", e);
+                } cbtch (IOException e) {
+                    throw new ProviderException("generbteSeed() fbiled", e);
                 }
             }
         }
 
-        // supply random bytes to the OS
+        // supply rbndom bytes to the OS
         // write to "seed" if possible
-        // always add the seed to our mixing random
-        private void implSetSeed(byte[] seed) {
+        // blwbys bdd the seed to our mixing rbndom
+        privbte void implSetSeed(byte[] seed) {
             synchronized (LOCK_SET_SEED) {
-                if (seedOutInitialized == false) {
-                    seedOutInitialized = true;
+                if (seedOutInitiblized == fblse) {
+                    seedOutInitiblized = true;
                     seedOut = AccessController.doPrivileged(
-                            new PrivilegedAction<OutputStream>() {
+                            new PrivilegedAction<OutputStrebm>() {
                         @Override
-                        public OutputStream run() {
+                        public OutputStrebm run() {
                             try {
-                                return new FileOutputStream(seedFile, true);
-                            } catch (Exception e) {
+                                return new FileOutputStrebm(seedFile, true);
+                            } cbtch (Exception e) {
                                 return null;
                             }
                         }
@@ -454,46 +454,46 @@ public final class NativePRNG extends SecureRandomSpi {
                 if (seedOut != null) {
                     try {
                         seedOut.write(seed);
-                    } catch (IOException e) {
-                        throw new ProviderException("setSeed() failed", e);
+                    } cbtch (IOException e) {
+                        throw new ProviderException("setSeed() fbiled", e);
                     }
                 }
-                getMixRandom().engineSetSeed(seed);
+                getMixRbndom().engineSetSeed(seed);
             }
         }
 
-        // ensure that there is at least one valid byte in the buffer
-        // if not, read new bytes
-        private void ensureBufferValid() throws IOException {
+        // ensure thbt there is bt lebst one vblid byte in the buffer
+        // if not, rebd new bytes
+        privbte void ensureBufferVblid() throws IOException {
             long time = System.currentTimeMillis();
-            if ((buffered > 0) && (time - lastRead < MAX_BUFFER_TIME)) {
+            if ((buffered > 0) && (time - lbstRebd < MAX_BUFFER_TIME)) {
                 return;
             }
-            lastRead = time;
-            readFully(nextIn, nextBuffer);
+            lbstRebd = time;
+            rebdFully(nextIn, nextBuffer);
             buffered = nextBuffer.length;
         }
 
-        // get pseudo random bytes
-        // read from "next" and XOR with bytes generated by the
+        // get pseudo rbndom bytes
+        // rebd from "next" bnd XOR with bytes generbted by the
         // mixing SHA1PRNG
-        private void implNextBytes(byte[] data) {
+        privbte void implNextBytes(byte[] dbtb) {
             synchronized (LOCK_GET_BYTES) {
                 try {
-                    getMixRandom().engineNextBytes(data);
-                    int len = data.length;
+                    getMixRbndom().engineNextBytes(dbtb);
+                    int len = dbtb.length;
                     int ofs = 0;
                     while (len > 0) {
-                        ensureBufferValid();
+                        ensureBufferVblid();
                         int bufferOfs = nextBuffer.length - buffered;
                         while ((len > 0) && (buffered > 0)) {
-                            data[ofs++] ^= nextBuffer[bufferOfs++];
+                            dbtb[ofs++] ^= nextBuffer[bufferOfs++];
                             len--;
                             buffered--;
                         }
                     }
-                } catch (IOException e) {
-                    throw new ProviderException("nextBytes() failed", e);
+                } cbtch (IOException e) {
+                    throw new ProviderException("nextBytes() fbiled", e);
                 }
             }
         }

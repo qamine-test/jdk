@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.reflect.PbrbmeterizedType;
+import jbvb.lbng.reflect.Type;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.Function;
 
 /**
- * Hash table based implementation of the <tt>Map</tt> interface.  This
- * implementation provides all of the optional map operations, and permits
- * <tt>null</tt> values and the <tt>null</tt> key.  (The <tt>HashMap</tt>
- * class is roughly equivalent to <tt>Hashtable</tt>, except that it is
- * unsynchronized and permits nulls.)  This class makes no guarantees as to
- * the order of the map; in particular, it does not guarantee that the order
- * will remain constant over time.
+ * Hbsh tbble bbsed implementbtion of the <tt>Mbp</tt> interfbce.  This
+ * implementbtion provides bll of the optionbl mbp operbtions, bnd permits
+ * <tt>null</tt> vblues bnd the <tt>null</tt> key.  (The <tt>HbshMbp</tt>
+ * clbss is roughly equivblent to <tt>Hbshtbble</tt>, except thbt it is
+ * unsynchronized bnd permits nulls.)  This clbss mbkes no gubrbntees bs to
+ * the order of the mbp; in pbrticulbr, it does not gubrbntee thbt the order
+ * will rembin constbnt over time.
  *
- * <p>This implementation provides constant-time performance for the basic
- * operations (<tt>get</tt> and <tt>put</tt>), assuming the hash function
- * disperses the elements properly among the buckets.  Iteration over
- * collection views requires time proportional to the "capacity" of the
- * <tt>HashMap</tt> instance (the number of buckets) plus its size (the number
- * of key-value mappings).  Thus, it's very important not to set the initial
- * capacity too high (or the load factor too low) if iteration performance is
- * important.
+ * <p>This implementbtion provides constbnt-time performbnce for the bbsic
+ * operbtions (<tt>get</tt> bnd <tt>put</tt>), bssuming the hbsh function
+ * disperses the elements properly bmong the buckets.  Iterbtion over
+ * collection views requires time proportionbl to the "cbpbcity" of the
+ * <tt>HbshMbp</tt> instbnce (the number of buckets) plus its size (the number
+ * of key-vblue mbppings).  Thus, it's very importbnt not to set the initibl
+ * cbpbcity too high (or the lobd fbctor too low) if iterbtion performbnce is
+ * importbnt.
  *
- * <p>An instance of <tt>HashMap</tt> has two parameters that affect its
- * performance: <i>initial capacity</i> and <i>load factor</i>.  The
- * <i>capacity</i> is the number of buckets in the hash table, and the initial
- * capacity is simply the capacity at the time the hash table is created.  The
- * <i>load factor</i> is a measure of how full the hash table is allowed to
- * get before its capacity is automatically increased.  When the number of
- * entries in the hash table exceeds the product of the load factor and the
- * current capacity, the hash table is <i>rehashed</i> (that is, internal data
- * structures are rebuilt) so that the hash table has approximately twice the
+ * <p>An instbnce of <tt>HbshMbp</tt> hbs two pbrbmeters thbt bffect its
+ * performbnce: <i>initibl cbpbcity</i> bnd <i>lobd fbctor</i>.  The
+ * <i>cbpbcity</i> is the number of buckets in the hbsh tbble, bnd the initibl
+ * cbpbcity is simply the cbpbcity bt the time the hbsh tbble is crebted.  The
+ * <i>lobd fbctor</i> is b mebsure of how full the hbsh tbble is bllowed to
+ * get before its cbpbcity is butombticblly increbsed.  When the number of
+ * entries in the hbsh tbble exceeds the product of the lobd fbctor bnd the
+ * current cbpbcity, the hbsh tbble is <i>rehbshed</i> (thbt is, internbl dbtb
+ * structures bre rebuilt) so thbt the hbsh tbble hbs bpproximbtely twice the
  * number of buckets.
  *
- * <p>As a general rule, the default load factor (.75) offers a good
- * tradeoff between time and space costs.  Higher values decrease the
- * space overhead but increase the lookup cost (reflected in most of
- * the operations of the <tt>HashMap</tt> class, including
- * <tt>get</tt> and <tt>put</tt>).  The expected number of entries in
- * the map and its load factor should be taken into account when
- * setting its initial capacity, so as to minimize the number of
- * rehash operations.  If the initial capacity is greater than the
- * maximum number of entries divided by the load factor, no rehash
- * operations will ever occur.
+ * <p>As b generbl rule, the defbult lobd fbctor (.75) offers b good
+ * trbdeoff between time bnd spbce costs.  Higher vblues decrebse the
+ * spbce overhebd but increbse the lookup cost (reflected in most of
+ * the operbtions of the <tt>HbshMbp</tt> clbss, including
+ * <tt>get</tt> bnd <tt>put</tt>).  The expected number of entries in
+ * the mbp bnd its lobd fbctor should be tbken into bccount when
+ * setting its initibl cbpbcity, so bs to minimize the number of
+ * rehbsh operbtions.  If the initibl cbpbcity is grebter thbn the
+ * mbximum number of entries divided by the lobd fbctor, no rehbsh
+ * operbtions will ever occur.
  *
- * <p>If many mappings are to be stored in a <tt>HashMap</tt>
- * instance, creating it with a sufficiently large capacity will allow
- * the mappings to be stored more efficiently than letting it perform
- * automatic rehashing as needed to grow the table.  Note that using
- * many keys with the same {@code hashCode()} is a sure way to slow
- * down performance of any hash table. To ameliorate impact, when keys
- * are {@link Comparable}, this class may use comparison order among
- * keys to help break ties.
+ * <p>If mbny mbppings bre to be stored in b <tt>HbshMbp</tt>
+ * instbnce, crebting it with b sufficiently lbrge cbpbcity will bllow
+ * the mbppings to be stored more efficiently thbn letting it perform
+ * butombtic rehbshing bs needed to grow the tbble.  Note thbt using
+ * mbny keys with the sbme {@code hbshCode()} is b sure wby to slow
+ * down performbnce of bny hbsh tbble. To bmeliorbte impbct, when keys
+ * bre {@link Compbrbble}, this clbss mby use compbrison order bmong
+ * keys to help brebk ties.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access a hash map concurrently, and at least one of
- * the threads modifies the map structurally, it <i>must</i> be
- * synchronized externally.  (A structural modification is any operation
- * that adds or deletes one or more mappings; merely changing the value
- * associated with a key that an instance already contains is not a
- * structural modification.)  This is typically accomplished by
- * synchronizing on some object that naturally encapsulates the map.
+ * <p><strong>Note thbt this implementbtion is not synchronized.</strong>
+ * If multiple threbds bccess b hbsh mbp concurrently, bnd bt lebst one of
+ * the threbds modifies the mbp structurblly, it <i>must</i> be
+ * synchronized externblly.  (A structurbl modificbtion is bny operbtion
+ * thbt bdds or deletes one or more mbppings; merely chbnging the vblue
+ * bssocibted with b key thbt bn instbnce blrebdy contbins is not b
+ * structurbl modificbtion.)  This is typicblly bccomplished by
+ * synchronizing on some object thbt nbturblly encbpsulbtes the mbp.
  *
- * If no such object exists, the map should be "wrapped" using the
- * {@link Collections#synchronizedMap Collections.synchronizedMap}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the map:<pre>
- *   Map m = Collections.synchronizedMap(new HashMap(...));</pre>
+ * If no such object exists, the mbp should be "wrbpped" using the
+ * {@link Collections#synchronizedMbp Collections.synchronizedMbp}
+ * method.  This is best done bt crebtion time, to prevent bccidentbl
+ * unsynchronized bccess to the mbp:<pre>
+ *   Mbp m = Collections.synchronizedMbp(new HbshMbp(...));</pre>
  *
- * <p>The iterators returned by all of this class's "collection view methods"
- * are <i>fail-fast</i>: if the map is structurally modified at any time after
- * the iterator is created, in any way except through the iterator's own
- * <tt>remove</tt> method, the iterator will throw a
- * {@link ConcurrentModificationException}.  Thus, in the face of concurrent
- * modification, the iterator fails quickly and cleanly, rather than risking
- * arbitrary, non-deterministic behavior at an undetermined time in the
+ * <p>The iterbtors returned by bll of this clbss's "collection view methods"
+ * bre <i>fbil-fbst</i>: if the mbp is structurblly modified bt bny time bfter
+ * the iterbtor is crebted, in bny wby except through the iterbtor's own
+ * <tt>remove</tt> method, the iterbtor will throw b
+ * {@link ConcurrentModificbtionException}.  Thus, in the fbce of concurrent
+ * modificbtion, the iterbtor fbils quickly bnd clebnly, rbther thbn risking
+ * brbitrbry, non-deterministic behbvior bt bn undetermined time in the
  * future.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness: <i>the fail-fast behavior of iterators
+ * <p>Note thbt the fbil-fbst behbvior of bn iterbtor cbnnot be gubrbnteed
+ * bs it is, generblly spebking, impossible to mbke bny hbrd gubrbntees in the
+ * presence of unsynchronized concurrent modificbtion.  Fbil-fbst iterbtors
+ * throw <tt>ConcurrentModificbtionException</tt> on b best-effort bbsis.
+ * Therefore, it would be wrong to write b progrbm thbt depended on this
+ * exception for its correctness: <i>the fbil-fbst behbvior of iterbtors
  * should be used only to detect bugs.</i>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @pbrbm <K> the type of keys mbintbined by this mbp
+ * @pbrbm <V> the type of mbpped vblues
  *
- * @author  Doug Lea
- * @author  Josh Bloch
- * @author  Arthur van Hoff
- * @author  Neal Gafter
- * @see     Object#hashCode()
+ * @buthor  Doug Leb
+ * @buthor  Josh Bloch
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Nebl Gbfter
+ * @see     Object#hbshCode()
  * @see     Collection
- * @see     Map
- * @see     TreeMap
- * @see     Hashtable
+ * @see     Mbp
+ * @see     TreeMbp
+ * @see     Hbshtbble
  * @since   1.2
  */
-public class HashMap<K,V> extends AbstractMap<K,V>
-    implements Map<K,V>, Cloneable, Serializable {
+public clbss HbshMbp<K,V> extends AbstrbctMbp<K,V>
+    implements Mbp<K,V>, Clonebble, Seriblizbble {
 
-    private static final long serialVersionUID = 362498820763181265L;
+    privbte stbtic finbl long seriblVersionUID = 362498820763181265L;
 
     /*
-     * Implementation notes.
+     * Implementbtion notes.
      *
-     * This map usually acts as a binned (bucketed) hash table, but
-     * when bins get too large, they are transformed into bins of
-     * TreeNodes, each structured similarly to those in
-     * java.util.TreeMap. Most methods try to use normal bins, but
-     * relay to TreeNode methods when applicable (simply by checking
-     * instanceof a node).  Bins of TreeNodes may be traversed and
-     * used like any others, but additionally support faster lookup
-     * when overpopulated. However, since the vast majority of bins in
-     * normal use are not overpopulated, checking for existence of
-     * tree bins may be delayed in the course of table methods.
+     * This mbp usublly bcts bs b binned (bucketed) hbsh tbble, but
+     * when bins get too lbrge, they bre trbnsformed into bins of
+     * TreeNodes, ebch structured similbrly to those in
+     * jbvb.util.TreeMbp. Most methods try to use normbl bins, but
+     * relby to TreeNode methods when bpplicbble (simply by checking
+     * instbnceof b node).  Bins of TreeNodes mby be trbversed bnd
+     * used like bny others, but bdditionblly support fbster lookup
+     * when overpopulbted. However, since the vbst mbjority of bins in
+     * normbl use bre not overpopulbted, checking for existence of
+     * tree bins mby be delbyed in the course of tbble methods.
      *
-     * Tree bins (i.e., bins whose elements are all TreeNodes) are
-     * ordered primarily by hashCode, but in the case of ties, if two
-     * elements are of the same "class C implements Comparable<C>",
-     * type then their compareTo method is used for ordering. (We
-     * conservatively check generic types via reflection to validate
-     * this -- see method comparableClassFor).  The added complexity
-     * of tree bins is worthwhile in providing worst-case O(log n)
-     * operations when keys either have distinct hashes or are
-     * orderable, Thus, performance degrades gracefully under
-     * accidental or malicious usages in which hashCode() methods
-     * return values that are poorly distributed, as well as those in
-     * which many keys share a hashCode, so long as they are also
-     * Comparable. (If neither of these apply, we may waste about a
-     * factor of two in time and space compared to taking no
-     * precautions. But the only known cases stem from poor user
-     * programming practices that are already so slow that this makes
+     * Tree bins (i.e., bins whose elements bre bll TreeNodes) bre
+     * ordered primbrily by hbshCode, but in the cbse of ties, if two
+     * elements bre of the sbme "clbss C implements Compbrbble<C>",
+     * type then their compbreTo method is used for ordering. (We
+     * conservbtively check generic types vib reflection to vblidbte
+     * this -- see method compbrbbleClbssFor).  The bdded complexity
+     * of tree bins is worthwhile in providing worst-cbse O(log n)
+     * operbtions when keys either hbve distinct hbshes or bre
+     * orderbble, Thus, performbnce degrbdes grbcefully under
+     * bccidentbl or mblicious usbges in which hbshCode() methods
+     * return vblues thbt bre poorly distributed, bs well bs those in
+     * which mbny keys shbre b hbshCode, so long bs they bre blso
+     * Compbrbble. (If neither of these bpply, we mby wbste bbout b
+     * fbctor of two in time bnd spbce compbred to tbking no
+     * precbutions. But the only known cbses stem from poor user
+     * progrbmming prbctices thbt bre blrebdy so slow thbt this mbkes
      * little difference.)
      *
-     * Because TreeNodes are about twice the size of regular nodes, we
-     * use them only when bins contain enough nodes to warrant use
-     * (see TREEIFY_THRESHOLD). And when they become too small (due to
-     * removal or resizing) they are converted back to plain bins.  In
-     * usages with well-distributed user hashCodes, tree bins are
-     * rarely used.  Ideally, under random hashCodes, the frequency of
-     * nodes in bins follows a Poisson distribution
-     * (http://en.wikipedia.org/wiki/Poisson_distribution) with a
-     * parameter of about 0.5 on average for the default resizing
-     * threshold of 0.75, although with a large variance because of
-     * resizing granularity. Ignoring variance, the expected
-     * occurrences of list size k are (exp(-0.5) * pow(0.5, k) /
-     * factorial(k)). The first values are:
+     * Becbuse TreeNodes bre bbout twice the size of regulbr nodes, we
+     * use them only when bins contbin enough nodes to wbrrbnt use
+     * (see TREEIFY_THRESHOLD). And when they become too smbll (due to
+     * removbl or resizing) they bre converted bbck to plbin bins.  In
+     * usbges with well-distributed user hbshCodes, tree bins bre
+     * rbrely used.  Ideblly, under rbndom hbshCodes, the frequency of
+     * nodes in bins follows b Poisson distribution
+     * (http://en.wikipedib.org/wiki/Poisson_distribution) with b
+     * pbrbmeter of bbout 0.5 on bverbge for the defbult resizing
+     * threshold of 0.75, blthough with b lbrge vbribnce becbuse of
+     * resizing grbnulbrity. Ignoring vbribnce, the expected
+     * occurrences of list size k bre (exp(-0.5) * pow(0.5, k) /
+     * fbctoribl(k)). The first vblues bre:
      *
      * 0:    0.60653066
      * 1:    0.30326533
@@ -194,166 +194,166 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * 6:    0.00001316
      * 7:    0.00000094
      * 8:    0.00000006
-     * more: less than 1 in ten million
+     * more: less thbn 1 in ten million
      *
-     * The root of a tree bin is normally its first node.  However,
-     * sometimes (currently only upon Iterator.remove), the root might
-     * be elsewhere, but can be recovered following parent links
+     * The root of b tree bin is normblly its first node.  However,
+     * sometimes (currently only upon Iterbtor.remove), the root might
+     * be elsewhere, but cbn be recovered following pbrent links
      * (method TreeNode.root()).
      *
-     * All applicable internal methods accept a hash code as an
-     * argument (as normally supplied from a public method), allowing
-     * them to call each other without recomputing user hashCodes.
-     * Most internal methods also accept a "tab" argument, that is
-     * normally the current table, but may be a new or old one when
+     * All bpplicbble internbl methods bccept b hbsh code bs bn
+     * brgument (bs normblly supplied from b public method), bllowing
+     * them to cbll ebch other without recomputing user hbshCodes.
+     * Most internbl methods blso bccept b "tbb" brgument, thbt is
+     * normblly the current tbble, but mby be b new or old one when
      * resizing or converting.
      *
-     * When bin lists are treeified, split, or untreeified, we keep
-     * them in the same relative access/traversal order (i.e., field
-     * Node.next) to better preserve locality, and to slightly
-     * simplify handling of splits and traversals that invoke
-     * iterator.remove. When using comparators on insertion, to keep a
-     * total ordering (or as close as is required here) across
-     * rebalancings, we compare classes and identityHashCodes as
-     * tie-breakers.
+     * When bin lists bre treeified, split, or untreeified, we keep
+     * them in the sbme relbtive bccess/trbversbl order (i.e., field
+     * Node.next) to better preserve locblity, bnd to slightly
+     * simplify hbndling of splits bnd trbversbls thbt invoke
+     * iterbtor.remove. When using compbrbtors on insertion, to keep b
+     * totbl ordering (or bs close bs is required here) bcross
+     * rebblbncings, we compbre clbsses bnd identityHbshCodes bs
+     * tie-brebkers.
      *
-     * The use and transitions among plain vs tree modes is
-     * complicated by the existence of subclass LinkedHashMap. See
+     * The use bnd trbnsitions bmong plbin vs tree modes is
+     * complicbted by the existence of subclbss LinkedHbshMbp. See
      * below for hook methods defined to be invoked upon insertion,
-     * removal and access that allow LinkedHashMap internals to
-     * otherwise remain independent of these mechanics. (This also
-     * requires that a map instance be passed to some utility methods
-     * that may create new nodes.)
+     * removbl bnd bccess thbt bllow LinkedHbshMbp internbls to
+     * otherwise rembin independent of these mechbnics. (This blso
+     * requires thbt b mbp instbnce be pbssed to some utility methods
+     * thbt mby crebte new nodes.)
      *
-     * The concurrent-programming-like SSA-based coding style helps
-     * avoid aliasing errors amid all of the twisty pointer operations.
+     * The concurrent-progrbmming-like SSA-bbsed coding style helps
+     * bvoid blibsing errors bmid bll of the twisty pointer operbtions.
      */
 
     /**
-     * The default initial capacity - MUST be a power of two.
+     * The defbult initibl cbpbcity - MUST be b power of two.
      */
-    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
+    stbtic finbl int DEFAULT_INITIAL_CAPACITY = 1 << 4; // bkb 16
 
     /**
-     * The maximum capacity, used if a higher value is implicitly specified
-     * by either of the constructors with arguments.
-     * MUST be a power of two <= 1<<30.
+     * The mbximum cbpbcity, used if b higher vblue is implicitly specified
+     * by either of the constructors with brguments.
+     * MUST be b power of two <= 1<<30.
      */
-    static final int MAXIMUM_CAPACITY = 1 << 30;
+    stbtic finbl int MAXIMUM_CAPACITY = 1 << 30;
 
     /**
-     * The load factor used when none specified in constructor.
+     * The lobd fbctor used when none specified in constructor.
      */
-    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    stbtic finbl flobt DEFAULT_LOAD_FACTOR = 0.75f;
 
     /**
-     * The bin count threshold for using a tree rather than list for a
-     * bin.  Bins are converted to trees when adding an element to a
-     * bin with at least this many nodes. The value must be greater
-     * than 2 and should be at least 8 to mesh with assumptions in
-     * tree removal about conversion back to plain bins upon
-     * shrinkage.
+     * The bin count threshold for using b tree rbther thbn list for b
+     * bin.  Bins bre converted to trees when bdding bn element to b
+     * bin with bt lebst this mbny nodes. The vblue must be grebter
+     * thbn 2 bnd should be bt lebst 8 to mesh with bssumptions in
+     * tree removbl bbout conversion bbck to plbin bins upon
+     * shrinkbge.
      */
-    static final int TREEIFY_THRESHOLD = 8;
+    stbtic finbl int TREEIFY_THRESHOLD = 8;
 
     /**
-     * The bin count threshold for untreeifying a (split) bin during a
-     * resize operation. Should be less than TREEIFY_THRESHOLD, and at
-     * most 6 to mesh with shrinkage detection under removal.
+     * The bin count threshold for untreeifying b (split) bin during b
+     * resize operbtion. Should be less thbn TREEIFY_THRESHOLD, bnd bt
+     * most 6 to mesh with shrinkbge detection under removbl.
      */
-    static final int UNTREEIFY_THRESHOLD = 6;
+    stbtic finbl int UNTREEIFY_THRESHOLD = 6;
 
     /**
-     * The smallest table capacity for which bins may be treeified.
-     * (Otherwise the table is resized if too many nodes in a bin.)
-     * Should be at least 4 * TREEIFY_THRESHOLD to avoid conflicts
-     * between resizing and treeification thresholds.
+     * The smbllest tbble cbpbcity for which bins mby be treeified.
+     * (Otherwise the tbble is resized if too mbny nodes in b bin.)
+     * Should be bt lebst 4 * TREEIFY_THRESHOLD to bvoid conflicts
+     * between resizing bnd treeificbtion thresholds.
      */
-    static final int MIN_TREEIFY_CAPACITY = 64;
+    stbtic finbl int MIN_TREEIFY_CAPACITY = 64;
 
     /**
-     * Basic hash bin node, used for most entries.  (See below for
-     * TreeNode subclass, and in LinkedHashMap for its Entry subclass.)
+     * Bbsic hbsh bin node, used for most entries.  (See below for
+     * TreeNode subclbss, bnd in LinkedHbshMbp for its Entry subclbss.)
      */
-    static class Node<K,V> implements Map.Entry<K,V> {
-        final int hash;
-        final K key;
-        V value;
+    stbtic clbss Node<K,V> implements Mbp.Entry<K,V> {
+        finbl int hbsh;
+        finbl K key;
+        V vblue;
         Node<K,V> next;
 
-        Node(int hash, K key, V value, Node<K,V> next) {
-            this.hash = hash;
+        Node(int hbsh, K key, V vblue, Node<K,V> next) {
+            this.hbsh = hbsh;
             this.key = key;
-            this.value = value;
+            this.vblue = vblue;
             this.next = next;
         }
 
-        public final K getKey()        { return key; }
-        public final V getValue()      { return value; }
-        public final String toString() { return key + "=" + value; }
+        public finbl K getKey()        { return key; }
+        public finbl V getVblue()      { return vblue; }
+        public finbl String toString() { return key + "=" + vblue; }
 
-        public final int hashCode() {
-            return Objects.hashCode(key) ^ Objects.hashCode(value);
+        public finbl int hbshCode() {
+            return Objects.hbshCode(key) ^ Objects.hbshCode(vblue);
         }
 
-        public final V setValue(V newValue) {
-            V oldValue = value;
-            value = newValue;
-            return oldValue;
+        public finbl V setVblue(V newVblue) {
+            V oldVblue = vblue;
+            vblue = newVblue;
+            return oldVblue;
         }
 
-        public final boolean equals(Object o) {
+        public finbl boolebn equbls(Object o) {
             if (o == this)
                 return true;
-            if (o instanceof Map.Entry) {
-                Map.Entry<?,?> e = (Map.Entry<?,?>)o;
-                if (Objects.equals(key, e.getKey()) &&
-                    Objects.equals(value, e.getValue()))
+            if (o instbnceof Mbp.Entry) {
+                Mbp.Entry<?,?> e = (Mbp.Entry<?,?>)o;
+                if (Objects.equbls(key, e.getKey()) &&
+                    Objects.equbls(vblue, e.getVblue()))
                     return true;
             }
-            return false;
+            return fblse;
         }
     }
 
-    /* ---------------- Static utilities -------------- */
+    /* ---------------- Stbtic utilities -------------- */
 
     /**
-     * Computes key.hashCode() and spreads (XORs) higher bits of hash
-     * to lower.  Because the table uses power-of-two masking, sets of
-     * hashes that vary only in bits above the current mask will
-     * always collide. (Among known examples are sets of Float keys
-     * holding consecutive whole numbers in small tables.)  So we
-     * apply a transform that spreads the impact of higher bits
-     * downward. There is a tradeoff between speed, utility, and
-     * quality of bit-spreading. Because many common sets of hashes
-     * are already reasonably distributed (so don't benefit from
-     * spreading), and because we use trees to handle large sets of
+     * Computes key.hbshCode() bnd sprebds (XORs) higher bits of hbsh
+     * to lower.  Becbuse the tbble uses power-of-two mbsking, sets of
+     * hbshes thbt vbry only in bits bbove the current mbsk will
+     * blwbys collide. (Among known exbmples bre sets of Flobt keys
+     * holding consecutive whole numbers in smbll tbbles.)  So we
+     * bpply b trbnsform thbt sprebds the impbct of higher bits
+     * downwbrd. There is b trbdeoff between speed, utility, bnd
+     * qublity of bit-sprebding. Becbuse mbny common sets of hbshes
+     * bre blrebdy rebsonbbly distributed (so don't benefit from
+     * sprebding), bnd becbuse we use trees to hbndle lbrge sets of
      * collisions in bins, we just XOR some shifted bits in the
-     * cheapest possible way to reduce systematic lossage, as well as
-     * to incorporate impact of the highest bits that would otherwise
-     * never be used in index calculations because of table bounds.
+     * chebpest possible wby to reduce systembtic lossbge, bs well bs
+     * to incorporbte impbct of the highest bits thbt would otherwise
+     * never be used in index cblculbtions becbuse of tbble bounds.
      */
-    static final int hash(Object key) {
+    stbtic finbl int hbsh(Object key) {
         int h;
-        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+        return (key == null) ? 0 : (h = key.hbshCode()) ^ (h >>> 16);
     }
 
     /**
-     * Returns x's Class if it is of the form "class C implements
-     * Comparable<C>", else null.
+     * Returns x's Clbss if it is of the form "clbss C implements
+     * Compbrbble<C>", else null.
      */
-    static Class<?> comparableClassFor(Object x) {
-        if (x instanceof Comparable) {
-            Class<?> c; Type[] ts, as; ParameterizedType p;
-            if ((c = x.getClass()) == String.class) // bypass checks
+    stbtic Clbss<?> compbrbbleClbssFor(Object x) {
+        if (x instbnceof Compbrbble) {
+            Clbss<?> c; Type[] ts, bs; PbrbmeterizedType p;
+            if ((c = x.getClbss()) == String.clbss) // bypbss checks
                 return c;
-            if ((ts = c.getGenericInterfaces()) != null) {
+            if ((ts = c.getGenericInterfbces()) != null) {
                 for (Type t : ts) {
-                    if ((t instanceof ParameterizedType) &&
-                        ((p = (ParameterizedType) t).getRawType() ==
-                         Comparable.class) &&
-                        (as = p.getActualTypeArguments()) != null &&
-                        as.length == 1 && as[0] == c) // type arg is c
+                    if ((t instbnceof PbrbmeterizedType) &&
+                        ((p = (PbrbmeterizedType) t).getRbwType() ==
+                         Compbrbble.clbss) &&
+                        (bs = p.getActublTypeArguments()) != null &&
+                        bs.length == 1 && bs[0] == c) // type brg is c
                         return c;
                 }
             }
@@ -362,20 +362,20 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns k.compareTo(x) if x matches kc (k's screened comparable
-     * class), else 0.
+     * Returns k.compbreTo(x) if x mbtches kc (k's screened compbrbble
+     * clbss), else 0.
      */
-    @SuppressWarnings({"rawtypes","unchecked"}) // for cast to Comparable
-    static int compareComparables(Class<?> kc, Object k, Object x) {
-        return (x == null || x.getClass() != kc ? 0 :
-                ((Comparable)k).compareTo(x));
+    @SuppressWbrnings({"rbwtypes","unchecked"}) // for cbst to Compbrbble
+    stbtic int compbreCompbrbbles(Clbss<?> kc, Object k, Object x) {
+        return (x == null || x.getClbss() != kc ? 0 :
+                ((Compbrbble)k).compbreTo(x));
     }
 
     /**
-     * Returns a power of two size for the given target capacity.
+     * Returns b power of two size for the given tbrget cbpbcity.
      */
-    static final int tableSizeFor(int cap) {
-        int n = cap - 1;
+    stbtic finbl int tbbleSizeFor(int cbp) {
+        int n = cbp - 1;
         n |= n >>> 1;
         n |= n >>> 2;
         n |= n >>> 4;
@@ -387,195 +387,195 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     /* ---------------- Fields -------------- */
 
     /**
-     * The table, initialized on first use, and resized as
-     * necessary. When allocated, length is always a power of two.
-     * (We also tolerate length zero in some operations to allow
-     * bootstrapping mechanics that are currently not needed.)
+     * The tbble, initiblized on first use, bnd resized bs
+     * necessbry. When bllocbted, length is blwbys b power of two.
+     * (We blso tolerbte length zero in some operbtions to bllow
+     * bootstrbpping mechbnics thbt bre currently not needed.)
      */
-    transient Node<K,V>[] table;
+    trbnsient Node<K,V>[] tbble;
 
     /**
-     * Holds cached entrySet(). Note that AbstractMap fields are used
-     * for keySet() and values().
+     * Holds cbched entrySet(). Note thbt AbstrbctMbp fields bre used
+     * for keySet() bnd vblues().
      */
-    transient Set<Map.Entry<K,V>> entrySet;
+    trbnsient Set<Mbp.Entry<K,V>> entrySet;
 
     /**
-     * The number of key-value mappings contained in this map.
+     * The number of key-vblue mbppings contbined in this mbp.
      */
-    transient int size;
+    trbnsient int size;
 
     /**
-     * The number of times this HashMap has been structurally modified
-     * Structural modifications are those that change the number of mappings in
-     * the HashMap or otherwise modify its internal structure (e.g.,
-     * rehash).  This field is used to make iterators on Collection-views of
-     * the HashMap fail-fast.  (See ConcurrentModificationException).
+     * The number of times this HbshMbp hbs been structurblly modified
+     * Structurbl modificbtions bre those thbt chbnge the number of mbppings in
+     * the HbshMbp or otherwise modify its internbl structure (e.g.,
+     * rehbsh).  This field is used to mbke iterbtors on Collection-views of
+     * the HbshMbp fbil-fbst.  (See ConcurrentModificbtionException).
      */
-    transient int modCount;
+    trbnsient int modCount;
 
     /**
-     * The next size value at which to resize (capacity * load factor).
+     * The next size vblue bt which to resize (cbpbcity * lobd fbctor).
      *
-     * @serial
+     * @seribl
      */
-    // (The javadoc description is true upon serialization.
-    // Additionally, if the table array has not been allocated, this
-    // field holds the initial array capacity, or zero signifying
+    // (The jbvbdoc description is true upon seriblizbtion.
+    // Additionblly, if the tbble brrby hbs not been bllocbted, this
+    // field holds the initibl brrby cbpbcity, or zero signifying
     // DEFAULT_INITIAL_CAPACITY.)
     int threshold;
 
     /**
-     * The load factor for the hash table.
+     * The lobd fbctor for the hbsh tbble.
      *
-     * @serial
+     * @seribl
      */
-    final float loadFactor;
+    finbl flobt lobdFbctor;
 
-    /* ---------------- Public operations -------------- */
+    /* ---------------- Public operbtions -------------- */
 
     /**
-     * Constructs an empty <tt>HashMap</tt> with the specified initial
-     * capacity and load factor.
+     * Constructs bn empty <tt>HbshMbp</tt> with the specified initibl
+     * cbpbcity bnd lobd fbctor.
      *
-     * @param  initialCapacity the initial capacity
-     * @param  loadFactor      the load factor
-     * @throws IllegalArgumentException if the initial capacity is negative
-     *         or the load factor is nonpositive
+     * @pbrbm  initiblCbpbcity the initibl cbpbcity
+     * @pbrbm  lobdFbctor      the lobd fbctor
+     * @throws IllegblArgumentException if the initibl cbpbcity is negbtive
+     *         or the lobd fbctor is nonpositive
      */
-    public HashMap(int initialCapacity, float loadFactor) {
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal initial capacity: " +
-                                               initialCapacity);
-        if (initialCapacity > MAXIMUM_CAPACITY)
-            initialCapacity = MAXIMUM_CAPACITY;
-        if (loadFactor <= 0 || Float.isNaN(loadFactor))
-            throw new IllegalArgumentException("Illegal load factor: " +
-                                               loadFactor);
-        this.loadFactor = loadFactor;
-        this.threshold = tableSizeFor(initialCapacity);
+    public HbshMbp(int initiblCbpbcity, flobt lobdFbctor) {
+        if (initiblCbpbcity < 0)
+            throw new IllegblArgumentException("Illegbl initibl cbpbcity: " +
+                                               initiblCbpbcity);
+        if (initiblCbpbcity > MAXIMUM_CAPACITY)
+            initiblCbpbcity = MAXIMUM_CAPACITY;
+        if (lobdFbctor <= 0 || Flobt.isNbN(lobdFbctor))
+            throw new IllegblArgumentException("Illegbl lobd fbctor: " +
+                                               lobdFbctor);
+        this.lobdFbctor = lobdFbctor;
+        this.threshold = tbbleSizeFor(initiblCbpbcity);
     }
 
     /**
-     * Constructs an empty <tt>HashMap</tt> with the specified initial
-     * capacity and the default load factor (0.75).
+     * Constructs bn empty <tt>HbshMbp</tt> with the specified initibl
+     * cbpbcity bnd the defbult lobd fbctor (0.75).
      *
-     * @param  initialCapacity the initial capacity.
-     * @throws IllegalArgumentException if the initial capacity is negative.
+     * @pbrbm  initiblCbpbcity the initibl cbpbcity.
+     * @throws IllegblArgumentException if the initibl cbpbcity is negbtive.
      */
-    public HashMap(int initialCapacity) {
-        this(initialCapacity, DEFAULT_LOAD_FACTOR);
+    public HbshMbp(int initiblCbpbcity) {
+        this(initiblCbpbcity, DEFAULT_LOAD_FACTOR);
     }
 
     /**
-     * Constructs an empty <tt>HashMap</tt> with the default initial capacity
-     * (16) and the default load factor (0.75).
+     * Constructs bn empty <tt>HbshMbp</tt> with the defbult initibl cbpbcity
+     * (16) bnd the defbult lobd fbctor (0.75).
      */
-    public HashMap() {
-        this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted
+    public HbshMbp() {
+        this.lobdFbctor = DEFAULT_LOAD_FACTOR; // bll other fields defbulted
     }
 
     /**
-     * Constructs a new <tt>HashMap</tt> with the same mappings as the
-     * specified <tt>Map</tt>.  The <tt>HashMap</tt> is created with
-     * default load factor (0.75) and an initial capacity sufficient to
-     * hold the mappings in the specified <tt>Map</tt>.
+     * Constructs b new <tt>HbshMbp</tt> with the sbme mbppings bs the
+     * specified <tt>Mbp</tt>.  The <tt>HbshMbp</tt> is crebted with
+     * defbult lobd fbctor (0.75) bnd bn initibl cbpbcity sufficient to
+     * hold the mbppings in the specified <tt>Mbp</tt>.
      *
-     * @param   m the map whose mappings are to be placed in this map
-     * @throws  NullPointerException if the specified map is null
+     * @pbrbm   m the mbp whose mbppings bre to be plbced in this mbp
+     * @throws  NullPointerException if the specified mbp is null
      */
-    public HashMap(Map<? extends K, ? extends V> m) {
-        this.loadFactor = DEFAULT_LOAD_FACTOR;
-        putMapEntries(m, false);
+    public HbshMbp(Mbp<? extends K, ? extends V> m) {
+        this.lobdFbctor = DEFAULT_LOAD_FACTOR;
+        putMbpEntries(m, fblse);
     }
 
     /**
-     * Implements Map.putAll and Map constructor
+     * Implements Mbp.putAll bnd Mbp constructor
      *
-     * @param m the map
-     * @param evict false when initially constructing this map, else
-     * true (relayed to method afterNodeInsertion).
+     * @pbrbm m the mbp
+     * @pbrbm evict fblse when initiblly constructing this mbp, else
+     * true (relbyed to method bfterNodeInsertion).
      */
-    final void putMapEntries(Map<? extends K, ? extends V> m, boolean evict) {
+    finbl void putMbpEntries(Mbp<? extends K, ? extends V> m, boolebn evict) {
         int s = m.size();
         if (s > 0) {
-            if (table == null) { // pre-size
-                float ft = ((float)s / loadFactor) + 1.0F;
-                int t = ((ft < (float)MAXIMUM_CAPACITY) ?
+            if (tbble == null) { // pre-size
+                flobt ft = ((flobt)s / lobdFbctor) + 1.0F;
+                int t = ((ft < (flobt)MAXIMUM_CAPACITY) ?
                          (int)ft : MAXIMUM_CAPACITY);
                 if (t > threshold)
-                    threshold = tableSizeFor(t);
+                    threshold = tbbleSizeFor(t);
             }
             else if (s > threshold)
                 resize();
-            for (Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
+            for (Mbp.Entry<? extends K, ? extends V> e : m.entrySet()) {
                 K key = e.getKey();
-                V value = e.getValue();
-                putVal(hash(key), key, value, false, evict);
+                V vblue = e.getVblue();
+                putVbl(hbsh(key), key, vblue, fblse, evict);
             }
         }
     }
 
     /**
-     * Returns the number of key-value mappings in this map.
+     * Returns the number of key-vblue mbppings in this mbp.
      *
-     * @return the number of key-value mappings in this map
+     * @return the number of key-vblue mbppings in this mbp
      */
     public int size() {
         return size;
     }
 
     /**
-     * Returns <tt>true</tt> if this map contains no key-value mappings.
+     * Returns <tt>true</tt> if this mbp contbins no key-vblue mbppings.
      *
-     * @return <tt>true</tt> if this map contains no key-value mappings
+     * @return <tt>true</tt> if this mbp contbins no key-vblue mbppings
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return size == 0;
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or {@code null} if this mbp contbins no mbpping for the key.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key==null ? k==null :
-     * key.equals(k))}, then this method returns {@code v}; otherwise
-     * it returns {@code null}.  (There can be at most one such mapping.)
+     * <p>More formblly, if this mbp contbins b mbpping from b key
+     * {@code k} to b vblue {@code v} such thbt {@code (key==null ? k==null :
+     * key.equbls(k))}, then this method returns {@code v}; otherwise
+     * it returns {@code null}.  (There cbn be bt most one such mbpping.)
      *
-     * <p>A return value of {@code null} does not <i>necessarily</i>
-     * indicate that the map contains no mapping for the key; it's also
-     * possible that the map explicitly maps the key to {@code null}.
-     * The {@link #containsKey containsKey} operation may be used to
-     * distinguish these two cases.
+     * <p>A return vblue of {@code null} does not <i>necessbrily</i>
+     * indicbte thbt the mbp contbins no mbpping for the key; it's blso
+     * possible thbt the mbp explicitly mbps the key to {@code null}.
+     * The {@link #contbinsKey contbinsKey} operbtion mby be used to
+     * distinguish these two cbses.
      *
      * @see #put(Object, Object)
      */
     public V get(Object key) {
         Node<K,V> e;
-        return (e = getNode(hash(key), key)) == null ? null : e.value;
+        return (e = getNode(hbsh(key), key)) == null ? null : e.vblue;
     }
 
     /**
-     * Implements Map.get and related methods
+     * Implements Mbp.get bnd relbted methods
      *
-     * @param hash hash for key
-     * @param key the key
+     * @pbrbm hbsh hbsh for key
+     * @pbrbm key the key
      * @return the node, or null if none
      */
-    final Node<K,V> getNode(int hash, Object key) {
-        Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
-        if ((tab = table) != null && (n = tab.length) > 0 &&
-            (first = tab[(n - 1) & hash]) != null) {
-            if (first.hash == hash && // always check first node
-                ((k = first.key) == key || (key != null && key.equals(k))))
+    finbl Node<K,V> getNode(int hbsh, Object key) {
+        Node<K,V>[] tbb; Node<K,V> first, e; int n; K k;
+        if ((tbb = tbble) != null && (n = tbb.length) > 0 &&
+            (first = tbb[(n - 1) & hbsh]) != null) {
+            if (first.hbsh == hbsh && // blwbys check first node
+                ((k = first.key) == key || (key != null && key.equbls(k))))
                 return first;
             if ((e = first.next) != null) {
-                if (first instanceof TreeNode)
-                    return ((TreeNode<K,V>)first).getTreeNode(hash, key);
+                if (first instbnceof TreeNode)
+                    return ((TreeNode<K,V>)first).getTreeNode(hbsh, key);
                 do {
-                    if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k))))
+                    if (e.hbsh == hbsh &&
+                        ((k = e.key) == key || (key != null && key.equbls(k))))
                         return e;
                 } while ((e = e.next) != null);
             }
@@ -584,181 +584,181 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns <tt>true</tt> if this map contains a mapping for the
+     * Returns <tt>true</tt> if this mbp contbins b mbpping for the
      * specified key.
      *
-     * @param   key   The key whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map contains a mapping for the specified
+     * @pbrbm   key   The key whose presence in this mbp is to be tested
+     * @return <tt>true</tt> if this mbp contbins b mbpping for the specified
      * key.
      */
-    public boolean containsKey(Object key) {
-        return getNode(hash(key), key) != null;
+    public boolebn contbinsKey(Object key) {
+        return getNode(hbsh(key), key) != null;
     }
 
     /**
-     * Associates the specified value with the specified key in this map.
-     * If the map previously contained a mapping for the key, the old
-     * value is replaced.
+     * Associbtes the specified vblue with the specified key in this mbp.
+     * If the mbp previously contbined b mbpping for the key, the old
+     * vblue is replbced.
      *
-     * @param key key with which the specified value is to be associated
-     * @param value value to be associated with the specified key
-     * @return the previous value associated with <tt>key</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
-     *         (A <tt>null</tt> return can also indicate that the map
-     *         previously associated <tt>null</tt> with <tt>key</tt>.)
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm vblue vblue to be bssocibted with the specified key
+     * @return the previous vblue bssocibted with <tt>key</tt>, or
+     *         <tt>null</tt> if there wbs no mbpping for <tt>key</tt>.
+     *         (A <tt>null</tt> return cbn blso indicbte thbt the mbp
+     *         previously bssocibted <tt>null</tt> with <tt>key</tt>.)
      */
-    public V put(K key, V value) {
-        return putVal(hash(key), key, value, false, true);
+    public V put(K key, V vblue) {
+        return putVbl(hbsh(key), key, vblue, fblse, true);
     }
 
     /**
-     * Implements Map.put and related methods
+     * Implements Mbp.put bnd relbted methods
      *
-     * @param hash hash for key
-     * @param key the key
-     * @param value the value to put
-     * @param onlyIfAbsent if true, don't change existing value
-     * @param evict if false, the table is in creation mode.
-     * @return previous value, or null if none
+     * @pbrbm hbsh hbsh for key
+     * @pbrbm key the key
+     * @pbrbm vblue the vblue to put
+     * @pbrbm onlyIfAbsent if true, don't chbnge existing vblue
+     * @pbrbm evict if fblse, the tbble is in crebtion mode.
+     * @return previous vblue, or null if none
      */
-    final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
-                   boolean evict) {
-        Node<K,V>[] tab; Node<K,V> p; int n, i;
-        if ((tab = table) == null || (n = tab.length) == 0)
-            n = (tab = resize()).length;
-        if ((p = tab[i = (n - 1) & hash]) == null)
-            tab[i] = newNode(hash, key, value, null);
+    finbl V putVbl(int hbsh, K key, V vblue, boolebn onlyIfAbsent,
+                   boolebn evict) {
+        Node<K,V>[] tbb; Node<K,V> p; int n, i;
+        if ((tbb = tbble) == null || (n = tbb.length) == 0)
+            n = (tbb = resize()).length;
+        if ((p = tbb[i = (n - 1) & hbsh]) == null)
+            tbb[i] = newNode(hbsh, key, vblue, null);
         else {
             Node<K,V> e; K k;
-            if (p.hash == hash &&
-                ((k = p.key) == key || (key != null && key.equals(k))))
+            if (p.hbsh == hbsh &&
+                ((k = p.key) == key || (key != null && key.equbls(k))))
                 e = p;
-            else if (p instanceof TreeNode)
-                e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+            else if (p instbnceof TreeNode)
+                e = ((TreeNode<K,V>)p).putTreeVbl(this, tbb, hbsh, key, vblue);
             else {
                 for (int binCount = 0; ; ++binCount) {
                     if ((e = p.next) == null) {
-                        p.next = newNode(hash, key, value, null);
+                        p.next = newNode(hbsh, key, vblue, null);
                         if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
-                            treeifyBin(tab, hash);
-                        break;
+                            treeifyBin(tbb, hbsh);
+                        brebk;
                     }
-                    if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k))))
-                        break;
+                    if (e.hbsh == hbsh &&
+                        ((k = e.key) == key || (key != null && key.equbls(k))))
+                        brebk;
                     p = e;
                 }
             }
-            if (e != null) { // existing mapping for key
-                V oldValue = e.value;
-                if (!onlyIfAbsent || oldValue == null)
-                    e.value = value;
-                afterNodeAccess(e);
-                return oldValue;
+            if (e != null) { // existing mbpping for key
+                V oldVblue = e.vblue;
+                if (!onlyIfAbsent || oldVblue == null)
+                    e.vblue = vblue;
+                bfterNodeAccess(e);
+                return oldVblue;
             }
         }
         ++modCount;
         if (++size > threshold)
             resize();
-        afterNodeInsertion(evict);
+        bfterNodeInsertion(evict);
         return null;
     }
 
     /**
-     * Initializes or doubles table size.  If null, allocates in
-     * accord with initial capacity target held in field threshold.
-     * Otherwise, because we are using power-of-two expansion, the
-     * elements from each bin must either stay at same index, or move
-     * with a power of two offset in the new table.
+     * Initiblizes or doubles tbble size.  If null, bllocbtes in
+     * bccord with initibl cbpbcity tbrget held in field threshold.
+     * Otherwise, becbuse we bre using power-of-two expbnsion, the
+     * elements from ebch bin must either stby bt sbme index, or move
+     * with b power of two offset in the new tbble.
      *
-     * @return the table
+     * @return the tbble
      */
-    final Node<K,V>[] resize() {
-        Node<K,V>[] oldTab = table;
-        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+    finbl Node<K,V>[] resize() {
+        Node<K,V>[] oldTbb = tbble;
+        int oldCbp = (oldTbb == null) ? 0 : oldTbb.length;
         int oldThr = threshold;
-        int newCap, newThr = 0;
-        if (oldCap > 0) {
-            if (oldCap >= MAXIMUM_CAPACITY) {
+        int newCbp, newThr = 0;
+        if (oldCbp > 0) {
+            if (oldCbp >= MAXIMUM_CAPACITY) {
                 threshold = Integer.MAX_VALUE;
-                return oldTab;
+                return oldTbb;
             }
-            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
-                     oldCap >= DEFAULT_INITIAL_CAPACITY)
+            else if ((newCbp = oldCbp << 1) < MAXIMUM_CAPACITY &&
+                     oldCbp >= DEFAULT_INITIAL_CAPACITY)
                 newThr = oldThr << 1; // double threshold
         }
-        else if (oldThr > 0) // initial capacity was placed in threshold
-            newCap = oldThr;
-        else {               // zero initial threshold signifies using defaults
-            newCap = DEFAULT_INITIAL_CAPACITY;
+        else if (oldThr > 0) // initibl cbpbcity wbs plbced in threshold
+            newCbp = oldThr;
+        else {               // zero initibl threshold signifies using defbults
+            newCbp = DEFAULT_INITIAL_CAPACITY;
             newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
         }
         if (newThr == 0) {
-            float ft = (float)newCap * loadFactor;
-            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+            flobt ft = (flobt)newCbp * lobdFbctor;
+            newThr = (newCbp < MAXIMUM_CAPACITY && ft < (flobt)MAXIMUM_CAPACITY ?
                       (int)ft : Integer.MAX_VALUE);
         }
         threshold = newThr;
-        @SuppressWarnings({"rawtypes","unchecked"})
-            Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
-        table = newTab;
-        if (oldTab != null) {
-            for (int j = 0; j < oldCap; ++j) {
+        @SuppressWbrnings({"rbwtypes","unchecked"})
+            Node<K,V>[] newTbb = (Node<K,V>[])new Node[newCbp];
+        tbble = newTbb;
+        if (oldTbb != null) {
+            for (int j = 0; j < oldCbp; ++j) {
                 Node<K,V> e;
-                if ((e = oldTab[j]) != null) {
-                    oldTab[j] = null;
+                if ((e = oldTbb[j]) != null) {
+                    oldTbb[j] = null;
                     if (e.next == null)
-                        newTab[e.hash & (newCap - 1)] = e;
-                    else if (e instanceof TreeNode)
-                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                        newTbb[e.hbsh & (newCbp - 1)] = e;
+                    else if (e instbnceof TreeNode)
+                        ((TreeNode<K,V>)e).split(this, newTbb, j, oldCbp);
                     else { // preserve order
-                        Node<K,V> loHead = null, loTail = null;
-                        Node<K,V> hiHead = null, hiTail = null;
+                        Node<K,V> loHebd = null, loTbil = null;
+                        Node<K,V> hiHebd = null, hiTbil = null;
                         Node<K,V> next;
                         do {
                             next = e.next;
-                            if ((e.hash & oldCap) == 0) {
-                                if (loTail == null)
-                                    loHead = e;
+                            if ((e.hbsh & oldCbp) == 0) {
+                                if (loTbil == null)
+                                    loHebd = e;
                                 else
-                                    loTail.next = e;
-                                loTail = e;
+                                    loTbil.next = e;
+                                loTbil = e;
                             }
                             else {
-                                if (hiTail == null)
-                                    hiHead = e;
+                                if (hiTbil == null)
+                                    hiHebd = e;
                                 else
-                                    hiTail.next = e;
-                                hiTail = e;
+                                    hiTbil.next = e;
+                                hiTbil = e;
                             }
                         } while ((e = next) != null);
-                        if (loTail != null) {
-                            loTail.next = null;
-                            newTab[j] = loHead;
+                        if (loTbil != null) {
+                            loTbil.next = null;
+                            newTbb[j] = loHebd;
                         }
-                        if (hiTail != null) {
-                            hiTail.next = null;
-                            newTab[j + oldCap] = hiHead;
+                        if (hiTbil != null) {
+                            hiTbil.next = null;
+                            newTbb[j + oldCbp] = hiHebd;
                         }
                     }
                 }
             }
         }
-        return newTab;
+        return newTbb;
     }
 
     /**
-     * Replaces all linked nodes in bin at index for given hash unless
-     * table is too small, in which case resizes instead.
+     * Replbces bll linked nodes in bin bt index for given hbsh unless
+     * tbble is too smbll, in which cbse resizes instebd.
      */
-    final void treeifyBin(Node<K,V>[] tab, int hash) {
+    finbl void treeifyBin(Node<K,V>[] tbb, int hbsh) {
         int n, index; Node<K,V> e;
-        if (tab == null || (n = tab.length) < MIN_TREEIFY_CAPACITY)
+        if (tbb == null || (n = tbb.length) < MIN_TREEIFY_CAPACITY)
             resize();
-        else if ((e = tab[index = (n - 1) & hash]) != null) {
+        else if ((e = tbb[index = (n - 1) & hbsh]) != null) {
             TreeNode<K,V> hd = null, tl = null;
             do {
-                TreeNode<K,V> p = replacementTreeNode(e, null);
+                TreeNode<K,V> p = replbcementTreeNode(e, null);
                 if (tl == null)
                     hd = p;
                 else {
@@ -767,83 +767,83 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 }
                 tl = p;
             } while ((e = e.next) != null);
-            if ((tab[index] = hd) != null)
-                hd.treeify(tab);
+            if ((tbb[index] = hd) != null)
+                hd.treeify(tbb);
         }
     }
 
     /**
-     * Copies all of the mappings from the specified map to this map.
-     * These mappings will replace any mappings that this map had for
-     * any of the keys currently in the specified map.
+     * Copies bll of the mbppings from the specified mbp to this mbp.
+     * These mbppings will replbce bny mbppings thbt this mbp hbd for
+     * bny of the keys currently in the specified mbp.
      *
-     * @param m mappings to be stored in this map
-     * @throws NullPointerException if the specified map is null
+     * @pbrbm m mbppings to be stored in this mbp
+     * @throws NullPointerException if the specified mbp is null
      */
-    public void putAll(Map<? extends K, ? extends V> m) {
-        putMapEntries(m, true);
+    public void putAll(Mbp<? extends K, ? extends V> m) {
+        putMbpEntries(m, true);
     }
 
     /**
-     * Removes the mapping for the specified key from this map if present.
+     * Removes the mbpping for the specified key from this mbp if present.
      *
-     * @param  key key whose mapping is to be removed from the map
-     * @return the previous value associated with <tt>key</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>key</tt>.
-     *         (A <tt>null</tt> return can also indicate that the map
-     *         previously associated <tt>null</tt> with <tt>key</tt>.)
+     * @pbrbm  key key whose mbpping is to be removed from the mbp
+     * @return the previous vblue bssocibted with <tt>key</tt>, or
+     *         <tt>null</tt> if there wbs no mbpping for <tt>key</tt>.
+     *         (A <tt>null</tt> return cbn blso indicbte thbt the mbp
+     *         previously bssocibted <tt>null</tt> with <tt>key</tt>.)
      */
     public V remove(Object key) {
         Node<K,V> e;
-        return (e = removeNode(hash(key), key, null, false, true)) == null ?
-            null : e.value;
+        return (e = removeNode(hbsh(key), key, null, fblse, true)) == null ?
+            null : e.vblue;
     }
 
     /**
-     * Implements Map.remove and related methods
+     * Implements Mbp.remove bnd relbted methods
      *
-     * @param hash hash for key
-     * @param key the key
-     * @param value the value to match if matchValue, else ignored
-     * @param matchValue if true only remove if value is equal
-     * @param movable if false do not move other nodes while removing
+     * @pbrbm hbsh hbsh for key
+     * @pbrbm key the key
+     * @pbrbm vblue the vblue to mbtch if mbtchVblue, else ignored
+     * @pbrbm mbtchVblue if true only remove if vblue is equbl
+     * @pbrbm movbble if fblse do not move other nodes while removing
      * @return the node, or null if none
      */
-    final Node<K,V> removeNode(int hash, Object key, Object value,
-                               boolean matchValue, boolean movable) {
-        Node<K,V>[] tab; Node<K,V> p; int n, index;
-        if ((tab = table) != null && (n = tab.length) > 0 &&
-            (p = tab[index = (n - 1) & hash]) != null) {
+    finbl Node<K,V> removeNode(int hbsh, Object key, Object vblue,
+                               boolebn mbtchVblue, boolebn movbble) {
+        Node<K,V>[] tbb; Node<K,V> p; int n, index;
+        if ((tbb = tbble) != null && (n = tbb.length) > 0 &&
+            (p = tbb[index = (n - 1) & hbsh]) != null) {
             Node<K,V> node = null, e; K k; V v;
-            if (p.hash == hash &&
-                ((k = p.key) == key || (key != null && key.equals(k))))
+            if (p.hbsh == hbsh &&
+                ((k = p.key) == key || (key != null && key.equbls(k))))
                 node = p;
             else if ((e = p.next) != null) {
-                if (p instanceof TreeNode)
-                    node = ((TreeNode<K,V>)p).getTreeNode(hash, key);
+                if (p instbnceof TreeNode)
+                    node = ((TreeNode<K,V>)p).getTreeNode(hbsh, key);
                 else {
                     do {
-                        if (e.hash == hash &&
+                        if (e.hbsh == hbsh &&
                             ((k = e.key) == key ||
-                             (key != null && key.equals(k)))) {
+                             (key != null && key.equbls(k)))) {
                             node = e;
-                            break;
+                            brebk;
                         }
                         p = e;
                     } while ((e = e.next) != null);
                 }
             }
-            if (node != null && (!matchValue || (v = node.value) == value ||
-                                 (value != null && value.equals(v)))) {
-                if (node instanceof TreeNode)
-                    ((TreeNode<K,V>)node).removeTreeNode(this, tab, movable);
+            if (node != null && (!mbtchVblue || (v = node.vblue) == vblue ||
+                                 (vblue != null && vblue.equbls(v)))) {
+                if (node instbnceof TreeNode)
+                    ((TreeNode<K,V>)node).removeTreeNode(this, tbb, movbble);
                 else if (node == p)
-                    tab[index] = node.next;
+                    tbb[index] = node.next;
                 else
                     p.next = node.next;
                 ++modCount;
                 --size;
-                afterNodeRemoval(node);
+                bfterNodeRemovbl(node);
                 return node;
             }
         }
@@ -851,389 +851,389 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Removes all of the mappings from this map.
-     * The map will be empty after this call returns.
+     * Removes bll of the mbppings from this mbp.
+     * The mbp will be empty bfter this cbll returns.
      */
-    public void clear() {
-        Node<K,V>[] tab;
+    public void clebr() {
+        Node<K,V>[] tbb;
         modCount++;
-        if ((tab = table) != null && size > 0) {
+        if ((tbb = tbble) != null && size > 0) {
             size = 0;
-            for (int i = 0; i < tab.length; ++i)
-                tab[i] = null;
+            for (int i = 0; i < tbb.length; ++i)
+                tbb[i] = null;
         }
     }
 
     /**
-     * Returns <tt>true</tt> if this map maps one or more keys to the
-     * specified value.
+     * Returns <tt>true</tt> if this mbp mbps one or more keys to the
+     * specified vblue.
      *
-     * @param value value whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map maps one or more keys to the
-     *         specified value
+     * @pbrbm vblue vblue whose presence in this mbp is to be tested
+     * @return <tt>true</tt> if this mbp mbps one or more keys to the
+     *         specified vblue
      */
-    public boolean containsValue(Object value) {
-        Node<K,V>[] tab; V v;
-        if ((tab = table) != null && size > 0) {
-            for (Node<K, V> e : tab) {
+    public boolebn contbinsVblue(Object vblue) {
+        Node<K,V>[] tbb; V v;
+        if ((tbb = tbble) != null && size > 0) {
+            for (Node<K, V> e : tbb) {
                 for (; e != null; e = e.next) {
-                    if ((v = e.value) == value ||
-                        (value != null && value.equals(v)))
+                    if ((v = e.vblue) == vblue ||
+                        (vblue != null && vblue.equbls(v)))
                         return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation), the results of
-     * the iteration are undefined.  The set supports element removal,
-     * which removes the corresponding mapping from the map, via the
-     * <tt>Iterator.remove</tt>, <tt>Set.remove</tt>,
-     * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt>
-     * operations.  It does not support the <tt>add</tt> or <tt>addAll</tt>
-     * operations.
+     * Returns b {@link Set} view of the keys contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  If the mbp is modified
+     * while bn iterbtion over the set is in progress (except through
+     * the iterbtor's own <tt>remove</tt> operbtion), the results of
+     * the iterbtion bre undefined.  The set supports element removbl,
+     * which removes the corresponding mbpping from the mbp, vib the
+     * <tt>Iterbtor.remove</tt>, <tt>Set.remove</tt>,
+     * <tt>removeAll</tt>, <tt>retbinAll</tt>, bnd <tt>clebr</tt>
+     * operbtions.  It does not support the <tt>bdd</tt> or <tt>bddAll</tt>
+     * operbtions.
      *
-     * @return a set view of the keys contained in this map
+     * @return b set view of the keys contbined in this mbp
      */
     public Set<K> keySet() {
         Set<K> ks;
         return (ks = keySet) == null ? (keySet = new KeySet()) : ks;
     }
 
-    final class KeySet extends AbstractSet<K> {
-        public final int size()                 { return size; }
-        public final void clear()               { HashMap.this.clear(); }
-        public final Iterator<K> iterator()     { return new KeyIterator(); }
-        public final boolean contains(Object o) { return containsKey(o); }
-        public final boolean remove(Object key) {
-            return removeNode(hash(key), key, null, false, true) != null;
+    finbl clbss KeySet extends AbstrbctSet<K> {
+        public finbl int size()                 { return size; }
+        public finbl void clebr()               { HbshMbp.this.clebr(); }
+        public finbl Iterbtor<K> iterbtor()     { return new KeyIterbtor(); }
+        public finbl boolebn contbins(Object o) { return contbinsKey(o); }
+        public finbl boolebn remove(Object key) {
+            return removeNode(hbsh(key), key, null, fblse, true) != null;
         }
-        public final Spliterator<K> spliterator() {
-            return new KeySpliterator<>(HashMap.this, 0, -1, 0, 0);
+        public finbl Spliterbtor<K> spliterbtor() {
+            return new KeySpliterbtor<>(HbshMbp.this, 0, -1, 0, 0);
         }
-        public final void forEach(Consumer<? super K> action) {
-            Node<K,V>[] tab;
-            if (action == null)
+        public finbl void forEbch(Consumer<? super K> bction) {
+            Node<K,V>[] tbb;
+            if (bction == null)
                 throw new NullPointerException();
-            if (size > 0 && (tab = table) != null) {
+            if (size > 0 && (tbb = tbble) != null) {
                 int mc = modCount;
-                for (Node<K, V> e : tab) {
+                for (Node<K, V> e : tbb) {
                     for (; e != null; e = e.next)
-                        action.accept(e.key);
+                        bction.bccept(e.key);
                 }
                 if (modCount != mc)
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
             }
         }
     }
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  If the map is
-     * modified while an iteration over the collection is in progress
-     * (except through the iterator's own <tt>remove</tt> operation),
-     * the results of the iteration are undefined.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
+     * Returns b {@link Collection} view of the vblues contbined in this mbp.
+     * The collection is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the collection, bnd vice-versb.  If the mbp is
+     * modified while bn iterbtion over the collection is in progress
+     * (except through the iterbtor's own <tt>remove</tt> operbtion),
+     * the results of the iterbtion bre undefined.  The collection
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the <tt>Iterbtor.remove</tt>,
      * <tt>Collection.remove</tt>, <tt>removeAll</tt>,
-     * <tt>retainAll</tt> and <tt>clear</tt> operations.  It does not
-     * support the <tt>add</tt> or <tt>addAll</tt> operations.
+     * <tt>retbinAll</tt> bnd <tt>clebr</tt> operbtions.  It does not
+     * support the <tt>bdd</tt> or <tt>bddAll</tt> operbtions.
      *
-     * @return a view of the values contained in this map
+     * @return b view of the vblues contbined in this mbp
      */
-    public Collection<V> values() {
+    public Collection<V> vblues() {
         Collection<V> vs;
-        return (vs = values) == null ? (values = new Values()) : vs;
+        return (vs = vblues) == null ? (vblues = new Vblues()) : vs;
     }
 
-    final class Values extends AbstractCollection<V> {
-        public final int size()                 { return size; }
-        public final void clear()               { HashMap.this.clear(); }
-        public final Iterator<V> iterator()     { return new ValueIterator(); }
-        public final boolean contains(Object o) { return containsValue(o); }
-        public final Spliterator<V> spliterator() {
-            return new ValueSpliterator<>(HashMap.this, 0, -1, 0, 0);
+    finbl clbss Vblues extends AbstrbctCollection<V> {
+        public finbl int size()                 { return size; }
+        public finbl void clebr()               { HbshMbp.this.clebr(); }
+        public finbl Iterbtor<V> iterbtor()     { return new VblueIterbtor(); }
+        public finbl boolebn contbins(Object o) { return contbinsVblue(o); }
+        public finbl Spliterbtor<V> spliterbtor() {
+            return new VblueSpliterbtor<>(HbshMbp.this, 0, -1, 0, 0);
         }
-        public final void forEach(Consumer<? super V> action) {
-            Node<K,V>[] tab;
-            if (action == null)
+        public finbl void forEbch(Consumer<? super V> bction) {
+            Node<K,V>[] tbb;
+            if (bction == null)
                 throw new NullPointerException();
-            if (size > 0 && (tab = table) != null) {
+            if (size > 0 && (tbb = tbble) != null) {
                 int mc = modCount;
-                for (Node<K, V> e : tab) {
+                for (Node<K, V> e : tbb) {
                     for (; e != null; e = e.next)
-                        action.accept(e.value);
+                        bction.bccept(e.vblue);
                 }
                 if (modCount != mc)
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
             }
         }
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation, or through the
-     * <tt>setValue</tt> operation on a map entry returned by the
-     * iterator) the results of the iteration are undefined.  The set
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
-     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt> and
-     * <tt>clear</tt> operations.  It does not support the
-     * <tt>add</tt> or <tt>addAll</tt> operations.
+     * Returns b {@link Set} view of the mbppings contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  If the mbp is modified
+     * while bn iterbtion over the set is in progress (except through
+     * the iterbtor's own <tt>remove</tt> operbtion, or through the
+     * <tt>setVblue</tt> operbtion on b mbp entry returned by the
+     * iterbtor) the results of the iterbtion bre undefined.  The set
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the <tt>Iterbtor.remove</tt>,
+     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retbinAll</tt> bnd
+     * <tt>clebr</tt> operbtions.  It does not support the
+     * <tt>bdd</tt> or <tt>bddAll</tt> operbtions.
      *
-     * @return a set view of the mappings contained in this map
+     * @return b set view of the mbppings contbined in this mbp
      */
-    public Set<Map.Entry<K,V>> entrySet() {
-        Set<Map.Entry<K,V>> es;
+    public Set<Mbp.Entry<K,V>> entrySet() {
+        Set<Mbp.Entry<K,V>> es;
         return (es = entrySet) == null ? (entrySet = new EntrySet()) : es;
     }
 
-    final class EntrySet extends AbstractSet<Map.Entry<K,V>> {
-        public final int size()                 { return size; }
-        public final void clear()               { HashMap.this.clear(); }
-        public final Iterator<Map.Entry<K,V>> iterator() {
-            return new EntryIterator();
+    finbl clbss EntrySet extends AbstrbctSet<Mbp.Entry<K,V>> {
+        public finbl int size()                 { return size; }
+        public finbl void clebr()               { HbshMbp.this.clebr(); }
+        public finbl Iterbtor<Mbp.Entry<K,V>> iterbtor() {
+            return new EntryIterbtor();
         }
-        public final boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> e = (Map.Entry<?,?>) o;
+        public finbl boolebn contbins(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> e = (Mbp.Entry<?,?>) o;
             Object key = e.getKey();
-            Node<K,V> candidate = getNode(hash(key), key);
-            return candidate != null && candidate.equals(e);
+            Node<K,V> cbndidbte = getNode(hbsh(key), key);
+            return cbndidbte != null && cbndidbte.equbls(e);
         }
-        public final boolean remove(Object o) {
-            if (o instanceof Map.Entry) {
-                Map.Entry<?,?> e = (Map.Entry<?,?>) o;
+        public finbl boolebn remove(Object o) {
+            if (o instbnceof Mbp.Entry) {
+                Mbp.Entry<?,?> e = (Mbp.Entry<?,?>) o;
                 Object key = e.getKey();
-                Object value = e.getValue();
-                return removeNode(hash(key), key, value, true, true) != null;
+                Object vblue = e.getVblue();
+                return removeNode(hbsh(key), key, vblue, true, true) != null;
             }
-            return false;
+            return fblse;
         }
-        public final Spliterator<Map.Entry<K,V>> spliterator() {
-            return new EntrySpliterator<>(HashMap.this, 0, -1, 0, 0);
+        public finbl Spliterbtor<Mbp.Entry<K,V>> spliterbtor() {
+            return new EntrySpliterbtor<>(HbshMbp.this, 0, -1, 0, 0);
         }
-        public final void forEach(Consumer<? super Map.Entry<K,V>> action) {
-            Node<K,V>[] tab;
-            if (action == null)
+        public finbl void forEbch(Consumer<? super Mbp.Entry<K,V>> bction) {
+            Node<K,V>[] tbb;
+            if (bction == null)
                 throw new NullPointerException();
-            if (size > 0 && (tab = table) != null) {
+            if (size > 0 && (tbb = tbble) != null) {
                 int mc = modCount;
-                for (Node<K, V> e : tab) {
+                for (Node<K, V> e : tbb) {
                     for (; e != null; e = e.next)
-                        action.accept(e);
+                        bction.bccept(e);
                 }
                 if (modCount != mc)
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
             }
         }
     }
 
-    // Overrides of JDK8 Map extension methods
+    // Overrides of JDK8 Mbp extension methods
 
     @Override
-    public V getOrDefault(Object key, V defaultValue) {
+    public V getOrDefbult(Object key, V defbultVblue) {
         Node<K,V> e;
-        return (e = getNode(hash(key), key)) == null ? defaultValue : e.value;
+        return (e = getNode(hbsh(key), key)) == null ? defbultVblue : e.vblue;
     }
 
     @Override
-    public V putIfAbsent(K key, V value) {
-        return putVal(hash(key), key, value, true, true);
+    public V putIfAbsent(K key, V vblue) {
+        return putVbl(hbsh(key), key, vblue, true, true);
     }
 
     @Override
-    public boolean remove(Object key, Object value) {
-        return removeNode(hash(key), key, value, true, true) != null;
+    public boolebn remove(Object key, Object vblue) {
+        return removeNode(hbsh(key), key, vblue, true, true) != null;
     }
 
     @Override
-    public boolean replace(K key, V oldValue, V newValue) {
+    public boolebn replbce(K key, V oldVblue, V newVblue) {
         Node<K,V> e; V v;
-        if ((e = getNode(hash(key), key)) != null &&
-            ((v = e.value) == oldValue || (v != null && v.equals(oldValue)))) {
-            e.value = newValue;
-            afterNodeAccess(e);
+        if ((e = getNode(hbsh(key), key)) != null &&
+            ((v = e.vblue) == oldVblue || (v != null && v.equbls(oldVblue)))) {
+            e.vblue = newVblue;
+            bfterNodeAccess(e);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public V replace(K key, V value) {
+    public V replbce(K key, V vblue) {
         Node<K,V> e;
-        if ((e = getNode(hash(key), key)) != null) {
-            V oldValue = e.value;
-            e.value = value;
-            afterNodeAccess(e);
-            return oldValue;
+        if ((e = getNode(hbsh(key), key)) != null) {
+            V oldVblue = e.vblue;
+            e.vblue = vblue;
+            bfterNodeAccess(e);
+            return oldVblue;
         }
         return null;
     }
 
     @Override
     public V computeIfAbsent(K key,
-                             Function<? super K, ? extends V> mappingFunction) {
-        if (mappingFunction == null)
+                             Function<? super K, ? extends V> mbppingFunction) {
+        if (mbppingFunction == null)
             throw new NullPointerException();
-        int hash = hash(key);
-        Node<K,V>[] tab; Node<K,V> first; int n, i;
+        int hbsh = hbsh(key);
+        Node<K,V>[] tbb; Node<K,V> first; int n, i;
         int binCount = 0;
         TreeNode<K,V> t = null;
         Node<K,V> old = null;
-        if (size > threshold || (tab = table) == null ||
-            (n = tab.length) == 0)
-            n = (tab = resize()).length;
-        if ((first = tab[i = (n - 1) & hash]) != null) {
-            if (first instanceof TreeNode)
-                old = (t = (TreeNode<K,V>)first).getTreeNode(hash, key);
+        if (size > threshold || (tbb = tbble) == null ||
+            (n = tbb.length) == 0)
+            n = (tbb = resize()).length;
+        if ((first = tbb[i = (n - 1) & hbsh]) != null) {
+            if (first instbnceof TreeNode)
+                old = (t = (TreeNode<K,V>)first).getTreeNode(hbsh, key);
             else {
                 Node<K,V> e = first; K k;
                 do {
-                    if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k)))) {
+                    if (e.hbsh == hbsh &&
+                        ((k = e.key) == key || (key != null && key.equbls(k)))) {
                         old = e;
-                        break;
+                        brebk;
                     }
                     ++binCount;
                 } while ((e = e.next) != null);
             }
-            V oldValue;
-            if (old != null && (oldValue = old.value) != null) {
-                afterNodeAccess(old);
-                return oldValue;
+            V oldVblue;
+            if (old != null && (oldVblue = old.vblue) != null) {
+                bfterNodeAccess(old);
+                return oldVblue;
             }
         }
-        V v = mappingFunction.apply(key);
+        V v = mbppingFunction.bpply(key);
         if (v == null) {
             return null;
         } else if (old != null) {
-            old.value = v;
-            afterNodeAccess(old);
+            old.vblue = v;
+            bfterNodeAccess(old);
             return v;
         }
         else if (t != null)
-            t.putTreeVal(this, tab, hash, key, v);
+            t.putTreeVbl(this, tbb, hbsh, key, v);
         else {
-            tab[i] = newNode(hash, key, v, first);
+            tbb[i] = newNode(hbsh, key, v, first);
             if (binCount >= TREEIFY_THRESHOLD - 1)
-                treeifyBin(tab, hash);
+                treeifyBin(tbb, hbsh);
         }
         ++modCount;
         ++size;
-        afterNodeInsertion(true);
+        bfterNodeInsertion(true);
         return v;
     }
 
     public V computeIfPresent(K key,
-                              BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-        if (remappingFunction == null)
+                              BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+        if (rembppingFunction == null)
             throw new NullPointerException();
-        Node<K,V> e; V oldValue;
-        int hash = hash(key);
-        if ((e = getNode(hash, key)) != null &&
-            (oldValue = e.value) != null) {
-            V v = remappingFunction.apply(key, oldValue);
+        Node<K,V> e; V oldVblue;
+        int hbsh = hbsh(key);
+        if ((e = getNode(hbsh, key)) != null &&
+            (oldVblue = e.vblue) != null) {
+            V v = rembppingFunction.bpply(key, oldVblue);
             if (v != null) {
-                e.value = v;
-                afterNodeAccess(e);
+                e.vblue = v;
+                bfterNodeAccess(e);
                 return v;
             }
             else
-                removeNode(hash, key, null, false, true);
+                removeNode(hbsh, key, null, fblse, true);
         }
         return null;
     }
 
     @Override
     public V compute(K key,
-                     BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-        if (remappingFunction == null)
+                     BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+        if (rembppingFunction == null)
             throw new NullPointerException();
-        int hash = hash(key);
-        Node<K,V>[] tab; Node<K,V> first; int n, i;
+        int hbsh = hbsh(key);
+        Node<K,V>[] tbb; Node<K,V> first; int n, i;
         int binCount = 0;
         TreeNode<K,V> t = null;
         Node<K,V> old = null;
-        if (size > threshold || (tab = table) == null ||
-            (n = tab.length) == 0)
-            n = (tab = resize()).length;
-        if ((first = tab[i = (n - 1) & hash]) != null) {
-            if (first instanceof TreeNode)
-                old = (t = (TreeNode<K,V>)first).getTreeNode(hash, key);
+        if (size > threshold || (tbb = tbble) == null ||
+            (n = tbb.length) == 0)
+            n = (tbb = resize()).length;
+        if ((first = tbb[i = (n - 1) & hbsh]) != null) {
+            if (first instbnceof TreeNode)
+                old = (t = (TreeNode<K,V>)first).getTreeNode(hbsh, key);
             else {
                 Node<K,V> e = first; K k;
                 do {
-                    if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k)))) {
+                    if (e.hbsh == hbsh &&
+                        ((k = e.key) == key || (key != null && key.equbls(k)))) {
                         old = e;
-                        break;
+                        brebk;
                     }
                     ++binCount;
                 } while ((e = e.next) != null);
             }
         }
-        V oldValue = (old == null) ? null : old.value;
-        V v = remappingFunction.apply(key, oldValue);
+        V oldVblue = (old == null) ? null : old.vblue;
+        V v = rembppingFunction.bpply(key, oldVblue);
         if (old != null) {
             if (v != null) {
-                old.value = v;
-                afterNodeAccess(old);
+                old.vblue = v;
+                bfterNodeAccess(old);
             }
             else
-                removeNode(hash, key, null, false, true);
+                removeNode(hbsh, key, null, fblse, true);
         }
         else if (v != null) {
             if (t != null)
-                t.putTreeVal(this, tab, hash, key, v);
+                t.putTreeVbl(this, tbb, hbsh, key, v);
             else {
-                tab[i] = newNode(hash, key, v, first);
+                tbb[i] = newNode(hbsh, key, v, first);
                 if (binCount >= TREEIFY_THRESHOLD - 1)
-                    treeifyBin(tab, hash);
+                    treeifyBin(tbb, hbsh);
             }
             ++modCount;
             ++size;
-            afterNodeInsertion(true);
+            bfterNodeInsertion(true);
         }
         return v;
     }
 
     @Override
-    public V merge(K key, V value,
-                   BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-        if (value == null)
+    public V merge(K key, V vblue,
+                   BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+        if (vblue == null)
             throw new NullPointerException();
-        if (remappingFunction == null)
+        if (rembppingFunction == null)
             throw new NullPointerException();
-        int hash = hash(key);
-        Node<K,V>[] tab; Node<K,V> first; int n, i;
+        int hbsh = hbsh(key);
+        Node<K,V>[] tbb; Node<K,V> first; int n, i;
         int binCount = 0;
         TreeNode<K,V> t = null;
         Node<K,V> old = null;
-        if (size > threshold || (tab = table) == null ||
-            (n = tab.length) == 0)
-            n = (tab = resize()).length;
-        if ((first = tab[i = (n - 1) & hash]) != null) {
-            if (first instanceof TreeNode)
-                old = (t = (TreeNode<K,V>)first).getTreeNode(hash, key);
+        if (size > threshold || (tbb = tbble) == null ||
+            (n = tbb.length) == 0)
+            n = (tbb = resize()).length;
+        if ((first = tbb[i = (n - 1) & hbsh]) != null) {
+            if (first instbnceof TreeNode)
+                old = (t = (TreeNode<K,V>)first).getTreeNode(hbsh, key);
             else {
                 Node<K,V> e = first; K k;
                 do {
-                    if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k)))) {
+                    if (e.hbsh == hbsh &&
+                        ((k = e.key) == key || (key != null && key.equbls(k)))) {
                         old = e;
-                        break;
+                        brebk;
                     }
                     ++binCount;
                 } while ((e = e.next) != null);
@@ -1241,540 +1241,540 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         }
         if (old != null) {
             V v;
-            if (old.value != null)
-                v = remappingFunction.apply(old.value, value);
+            if (old.vblue != null)
+                v = rembppingFunction.bpply(old.vblue, vblue);
             else
-                v = value;
+                v = vblue;
             if (v != null) {
-                old.value = v;
-                afterNodeAccess(old);
+                old.vblue = v;
+                bfterNodeAccess(old);
             }
             else
-                removeNode(hash, key, null, false, true);
+                removeNode(hbsh, key, null, fblse, true);
             return v;
         }
-        if (value != null) {
+        if (vblue != null) {
             if (t != null)
-                t.putTreeVal(this, tab, hash, key, value);
+                t.putTreeVbl(this, tbb, hbsh, key, vblue);
             else {
-                tab[i] = newNode(hash, key, value, first);
+                tbb[i] = newNode(hbsh, key, vblue, first);
                 if (binCount >= TREEIFY_THRESHOLD - 1)
-                    treeifyBin(tab, hash);
+                    treeifyBin(tbb, hbsh);
             }
             ++modCount;
             ++size;
-            afterNodeInsertion(true);
+            bfterNodeInsertion(true);
         }
-        return value;
+        return vblue;
     }
 
     @Override
-    public void forEach(BiConsumer<? super K, ? super V> action) {
-        Node<K,V>[] tab;
-        if (action == null)
+    public void forEbch(BiConsumer<? super K, ? super V> bction) {
+        Node<K,V>[] tbb;
+        if (bction == null)
             throw new NullPointerException();
-        if (size > 0 && (tab = table) != null) {
+        if (size > 0 && (tbb = tbble) != null) {
             int mc = modCount;
-            for (Node<K, V> e : tab) {
+            for (Node<K, V> e : tbb) {
                 for (; e != null; e = e.next)
-                    action.accept(e.key, e.value);
+                    bction.bccept(e.key, e.vblue);
             }
             if (modCount != mc)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
         }
     }
 
     @Override
-    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-        Node<K,V>[] tab;
+    public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+        Node<K,V>[] tbb;
         if (function == null)
             throw new NullPointerException();
-        if (size > 0 && (tab = table) != null) {
+        if (size > 0 && (tbb = tbble) != null) {
             int mc = modCount;
-            for (Node<K, V> e : tab) {
+            for (Node<K, V> e : tbb) {
                 for (; e != null; e = e.next) {
-                    e.value = function.apply(e.key, e.value);
+                    e.vblue = function.bpply(e.key, e.vblue);
                 }
             }
             if (modCount != mc)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
         }
     }
 
     /* ------------------------------------------------------------ */
-    // Cloning and serialization
+    // Cloning bnd seriblizbtion
 
     /**
-     * Returns a shallow copy of this <tt>HashMap</tt> instance: the keys and
-     * values themselves are not cloned.
+     * Returns b shbllow copy of this <tt>HbshMbp</tt> instbnce: the keys bnd
+     * vblues themselves bre not cloned.
      *
-     * @return a shallow copy of this map
+     * @return b shbllow copy of this mbp
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
     public Object clone() {
-        HashMap<K,V> result;
+        HbshMbp<K,V> result;
         try {
-            result = (HashMap<K,V>)super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            result = (HbshMbp<K,V>)super.clone();
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
-        result.reinitialize();
-        result.putMapEntries(this, false);
+        result.reinitiblize();
+        result.putMbpEntries(this, fblse);
         return result;
     }
 
-    // These methods are also used when serializing HashSets
-    final float loadFactor() { return loadFactor; }
-    final int capacity() {
-        return (table != null) ? table.length :
+    // These methods bre blso used when seriblizing HbshSets
+    finbl flobt lobdFbctor() { return lobdFbctor; }
+    finbl int cbpbcity() {
+        return (tbble != null) ? tbble.length :
             (threshold > 0) ? threshold :
             DEFAULT_INITIAL_CAPACITY;
     }
 
     /**
-     * Save the state of the <tt>HashMap</tt> instance to a stream (i.e.,
-     * serialize it).
+     * Sbve the stbte of the <tt>HbshMbp</tt> instbnce to b strebm (i.e.,
+     * seriblize it).
      *
-     * @serialData The <i>capacity</i> of the HashMap (the length of the
-     *             bucket array) is emitted (int), followed by the
-     *             <i>size</i> (an int, the number of key-value
-     *             mappings), followed by the key (Object) and value (Object)
-     *             for each key-value mapping.  The key-value mappings are
-     *             emitted in no particular order.
+     * @seriblDbtb The <i>cbpbcity</i> of the HbshMbp (the length of the
+     *             bucket brrby) is emitted (int), followed by the
+     *             <i>size</i> (bn int, the number of key-vblue
+     *             mbppings), followed by the key (Object) bnd vblue (Object)
+     *             for ebch key-vblue mbpping.  The key-vblue mbppings bre
+     *             emitted in no pbrticulbr order.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException {
-        int buckets = capacity();
-        // Write out the threshold, loadfactor, and any hidden stuff
-        s.defaultWriteObject();
+        int buckets = cbpbcity();
+        // Write out the threshold, lobdfbctor, bnd bny hidden stuff
+        s.defbultWriteObject();
         s.writeInt(buckets);
         s.writeInt(size);
-        internalWriteEntries(s);
+        internblWriteEntries(s);
     }
 
     /**
-     * Reconstitute the {@code HashMap} instance from a stream (i.e.,
-     * deserialize it).
+     * Reconstitute the {@code HbshMbp} instbnce from b strebm (i.e.,
+     * deseriblize it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        // Read in the threshold (ignored), loadfactor, and any hidden stuff
-        s.defaultReadObject();
-        reinitialize();
-        if (loadFactor <= 0 || Float.isNaN(loadFactor))
-            throw new InvalidObjectException("Illegal load factor: " +
-                                             loadFactor);
-        s.readInt();                // Read and ignore number of buckets
-        int mappings = s.readInt(); // Read number of mappings (size)
-        if (mappings < 0)
-            throw new InvalidObjectException("Illegal mappings count: " +
-                                             mappings);
-        else if (mappings > 0) { // (if zero, use defaults)
-            // Size the table using given load factor only if within
-            // range of 0.25...4.0
-            float lf = Math.min(Math.max(0.25f, loadFactor), 4.0f);
-            float fc = (float)mappings / lf + 1.0f;
-            int cap = ((fc < DEFAULT_INITIAL_CAPACITY) ?
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        // Rebd in the threshold (ignored), lobdfbctor, bnd bny hidden stuff
+        s.defbultRebdObject();
+        reinitiblize();
+        if (lobdFbctor <= 0 || Flobt.isNbN(lobdFbctor))
+            throw new InvblidObjectException("Illegbl lobd fbctor: " +
+                                             lobdFbctor);
+        s.rebdInt();                // Rebd bnd ignore number of buckets
+        int mbppings = s.rebdInt(); // Rebd number of mbppings (size)
+        if (mbppings < 0)
+            throw new InvblidObjectException("Illegbl mbppings count: " +
+                                             mbppings);
+        else if (mbppings > 0) { // (if zero, use defbults)
+            // Size the tbble using given lobd fbctor only if within
+            // rbnge of 0.25...4.0
+            flobt lf = Mbth.min(Mbth.mbx(0.25f, lobdFbctor), 4.0f);
+            flobt fc = (flobt)mbppings / lf + 1.0f;
+            int cbp = ((fc < DEFAULT_INITIAL_CAPACITY) ?
                        DEFAULT_INITIAL_CAPACITY :
                        (fc >= MAXIMUM_CAPACITY) ?
                        MAXIMUM_CAPACITY :
-                       tableSizeFor((int)fc));
-            float ft = (float)cap * lf;
-            threshold = ((cap < MAXIMUM_CAPACITY && ft < MAXIMUM_CAPACITY) ?
+                       tbbleSizeFor((int)fc));
+            flobt ft = (flobt)cbp * lf;
+            threshold = ((cbp < MAXIMUM_CAPACITY && ft < MAXIMUM_CAPACITY) ?
                          (int)ft : Integer.MAX_VALUE);
-            @SuppressWarnings({"rawtypes","unchecked"})
-                Node<K,V>[] tab = (Node<K,V>[])new Node[cap];
-            table = tab;
+            @SuppressWbrnings({"rbwtypes","unchecked"})
+                Node<K,V>[] tbb = (Node<K,V>[])new Node[cbp];
+            tbble = tbb;
 
-            // Read the keys and values, and put the mappings in the HashMap
-            for (int i = 0; i < mappings; i++) {
-                @SuppressWarnings("unchecked")
-                    K key = (K) s.readObject();
-                @SuppressWarnings("unchecked")
-                    V value = (V) s.readObject();
-                putVal(hash(key), key, value, false, false);
+            // Rebd the keys bnd vblues, bnd put the mbppings in the HbshMbp
+            for (int i = 0; i < mbppings; i++) {
+                @SuppressWbrnings("unchecked")
+                    K key = (K) s.rebdObject();
+                @SuppressWbrnings("unchecked")
+                    V vblue = (V) s.rebdObject();
+                putVbl(hbsh(key), key, vblue, fblse, fblse);
             }
         }
     }
 
     /* ------------------------------------------------------------ */
-    // iterators
+    // iterbtors
 
-    abstract class HashIterator {
+    bbstrbct clbss HbshIterbtor {
         Node<K,V> next;        // next entry to return
         Node<K,V> current;     // current entry
-        int expectedModCount;  // for fast-fail
+        int expectedModCount;  // for fbst-fbil
         int index;             // current slot
 
-        HashIterator() {
+        HbshIterbtor() {
             expectedModCount = modCount;
-            Node<K,V>[] t = table;
+            Node<K,V>[] t = tbble;
             current = next = null;
             index = 0;
-            if (t != null && size > 0) { // advance to first entry
+            if (t != null && size > 0) { // bdvbnce to first entry
                 do {} while (index < t.length && (next = t[index++]) == null);
             }
         }
 
-        public final boolean hasNext() {
+        public finbl boolebn hbsNext() {
             return next != null;
         }
 
-        final Node<K,V> nextNode() {
+        finbl Node<K,V> nextNode() {
             Node<K,V>[] t;
             Node<K,V> e = next;
             if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             if (e == null)
                 throw new NoSuchElementException();
-            if ((next = (current = e).next) == null && (t = table) != null) {
+            if ((next = (current = e).next) == null && (t = tbble) != null) {
                 do {} while (index < t.length && (next = t[index++]) == null);
             }
             return e;
         }
 
-        public final void remove() {
+        public finbl void remove() {
             Node<K,V> p = current;
             if (p == null)
-                throw new IllegalStateException();
+                throw new IllegblStbteException();
             if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             current = null;
             K key = p.key;
-            removeNode(hash(key), key, null, false, false);
+            removeNode(hbsh(key), key, null, fblse, fblse);
             expectedModCount = modCount;
         }
     }
 
-    final class KeyIterator extends HashIterator
-        implements Iterator<K> {
-        public final K next() { return nextNode().key; }
+    finbl clbss KeyIterbtor extends HbshIterbtor
+        implements Iterbtor<K> {
+        public finbl K next() { return nextNode().key; }
     }
 
-    final class ValueIterator extends HashIterator
-        implements Iterator<V> {
-        public final V next() { return nextNode().value; }
+    finbl clbss VblueIterbtor extends HbshIterbtor
+        implements Iterbtor<V> {
+        public finbl V next() { return nextNode().vblue; }
     }
 
-    final class EntryIterator extends HashIterator
-        implements Iterator<Map.Entry<K,V>> {
-        public final Map.Entry<K,V> next() { return nextNode(); }
+    finbl clbss EntryIterbtor extends HbshIterbtor
+        implements Iterbtor<Mbp.Entry<K,V>> {
+        public finbl Mbp.Entry<K,V> next() { return nextNode(); }
     }
 
     /* ------------------------------------------------------------ */
-    // spliterators
+    // spliterbtors
 
-    static class HashMapSpliterator<K,V> {
-        final HashMap<K,V> map;
+    stbtic clbss HbshMbpSpliterbtor<K,V> {
+        finbl HbshMbp<K,V> mbp;
         Node<K,V> current;          // current node
-        int index;                  // current index, modified on advance/split
-        int fence;                  // one past last index
-        int est;                    // size estimate
-        int expectedModCount;       // for comodification checks
+        int index;                  // current index, modified on bdvbnce/split
+        int fence;                  // one pbst lbst index
+        int est;                    // size estimbte
+        int expectedModCount;       // for comodificbtion checks
 
-        HashMapSpliterator(HashMap<K,V> m, int origin,
+        HbshMbpSpliterbtor(HbshMbp<K,V> m, int origin,
                            int fence, int est,
                            int expectedModCount) {
-            this.map = m;
+            this.mbp = m;
             this.index = origin;
             this.fence = fence;
             this.est = est;
             this.expectedModCount = expectedModCount;
         }
 
-        final int getFence() { // initialize fence and size on first use
+        finbl int getFence() { // initiblize fence bnd size on first use
             int hi;
             if ((hi = fence) < 0) {
-                HashMap<K,V> m = map;
+                HbshMbp<K,V> m = mbp;
                 est = m.size;
                 expectedModCount = m.modCount;
-                Node<K,V>[] tab = m.table;
-                hi = fence = (tab == null) ? 0 : tab.length;
+                Node<K,V>[] tbb = m.tbble;
+                hi = fence = (tbb == null) ? 0 : tbb.length;
             }
             return hi;
         }
 
-        public final long estimateSize() {
+        public finbl long estimbteSize() {
             getFence(); // force init
             return (long) est;
         }
     }
 
-    static final class KeySpliterator<K,V>
-        extends HashMapSpliterator<K,V>
-        implements Spliterator<K> {
-        KeySpliterator(HashMap<K,V> m, int origin, int fence, int est,
+    stbtic finbl clbss KeySpliterbtor<K,V>
+        extends HbshMbpSpliterbtor<K,V>
+        implements Spliterbtor<K> {
+        KeySpliterbtor(HbshMbp<K,V> m, int origin, int fence, int est,
                        int expectedModCount) {
             super(m, origin, fence, est, expectedModCount);
         }
 
-        public KeySpliterator<K,V> trySplit() {
+        public KeySpliterbtor<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
             return (lo >= mid || current != null) ? null :
-                new KeySpliterator<>(map, lo, index = mid, est >>>= 1,
+                new KeySpliterbtor<>(mbp, lo, index = mid, est >>>= 1,
                                         expectedModCount);
         }
 
-        public void forEachRemaining(Consumer<? super K> action) {
+        public void forEbchRembining(Consumer<? super K> bction) {
             int i, hi, mc;
-            if (action == null)
+            if (bction == null)
                 throw new NullPointerException();
-            HashMap<K,V> m = map;
-            Node<K,V>[] tab = m.table;
+            HbshMbp<K,V> m = mbp;
+            Node<K,V>[] tbb = m.tbble;
             if ((hi = fence) < 0) {
                 mc = expectedModCount = m.modCount;
-                hi = fence = (tab == null) ? 0 : tab.length;
+                hi = fence = (tbb == null) ? 0 : tbb.length;
             }
             else
                 mc = expectedModCount;
-            if (tab != null && tab.length >= hi &&
+            if (tbb != null && tbb.length >= hi &&
                 (i = index) >= 0 && (i < (index = hi) || current != null)) {
                 Node<K,V> p = current;
                 current = null;
                 do {
                     if (p == null)
-                        p = tab[i++];
+                        p = tbb[i++];
                     else {
-                        action.accept(p.key);
+                        bction.bccept(p.key);
                         p = p.next;
                     }
                 } while (p != null || i < hi);
                 if (m.modCount != mc)
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
             }
         }
 
-        public boolean tryAdvance(Consumer<? super K> action) {
+        public boolebn tryAdvbnce(Consumer<? super K> bction) {
             int hi;
-            if (action == null)
+            if (bction == null)
                 throw new NullPointerException();
-            Node<K,V>[] tab = map.table;
-            if (tab != null && tab.length >= (hi = getFence()) && index >= 0) {
+            Node<K,V>[] tbb = mbp.tbble;
+            if (tbb != null && tbb.length >= (hi = getFence()) && index >= 0) {
                 while (current != null || index < hi) {
                     if (current == null)
-                        current = tab[index++];
+                        current = tbb[index++];
                     else {
                         K k = current.key;
                         current = current.next;
-                        action.accept(k);
-                        if (map.modCount != expectedModCount)
-                            throw new ConcurrentModificationException();
+                        bction.bccept(k);
+                        if (mbp.modCount != expectedModCount)
+                            throw new ConcurrentModificbtionException();
                         return true;
                     }
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return (fence < 0 || est == map.size ? Spliterator.SIZED : 0) |
-                Spliterator.DISTINCT;
+        public int chbrbcteristics() {
+            return (fence < 0 || est == mbp.size ? Spliterbtor.SIZED : 0) |
+                Spliterbtor.DISTINCT;
         }
     }
 
-    static final class ValueSpliterator<K,V>
-        extends HashMapSpliterator<K,V>
-        implements Spliterator<V> {
-        ValueSpliterator(HashMap<K,V> m, int origin, int fence, int est,
+    stbtic finbl clbss VblueSpliterbtor<K,V>
+        extends HbshMbpSpliterbtor<K,V>
+        implements Spliterbtor<V> {
+        VblueSpliterbtor(HbshMbp<K,V> m, int origin, int fence, int est,
                          int expectedModCount) {
             super(m, origin, fence, est, expectedModCount);
         }
 
-        public ValueSpliterator<K,V> trySplit() {
+        public VblueSpliterbtor<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
             return (lo >= mid || current != null) ? null :
-                new ValueSpliterator<>(map, lo, index = mid, est >>>= 1,
+                new VblueSpliterbtor<>(mbp, lo, index = mid, est >>>= 1,
                                           expectedModCount);
         }
 
-        public void forEachRemaining(Consumer<? super V> action) {
+        public void forEbchRembining(Consumer<? super V> bction) {
             int i, hi, mc;
-            if (action == null)
+            if (bction == null)
                 throw new NullPointerException();
-            HashMap<K,V> m = map;
-            Node<K,V>[] tab = m.table;
+            HbshMbp<K,V> m = mbp;
+            Node<K,V>[] tbb = m.tbble;
             if ((hi = fence) < 0) {
                 mc = expectedModCount = m.modCount;
-                hi = fence = (tab == null) ? 0 : tab.length;
+                hi = fence = (tbb == null) ? 0 : tbb.length;
             }
             else
                 mc = expectedModCount;
-            if (tab != null && tab.length >= hi &&
+            if (tbb != null && tbb.length >= hi &&
                 (i = index) >= 0 && (i < (index = hi) || current != null)) {
                 Node<K,V> p = current;
                 current = null;
                 do {
                     if (p == null)
-                        p = tab[i++];
+                        p = tbb[i++];
                     else {
-                        action.accept(p.value);
+                        bction.bccept(p.vblue);
                         p = p.next;
                     }
                 } while (p != null || i < hi);
                 if (m.modCount != mc)
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
             }
         }
 
-        public boolean tryAdvance(Consumer<? super V> action) {
+        public boolebn tryAdvbnce(Consumer<? super V> bction) {
             int hi;
-            if (action == null)
+            if (bction == null)
                 throw new NullPointerException();
-            Node<K,V>[] tab = map.table;
-            if (tab != null && tab.length >= (hi = getFence()) && index >= 0) {
+            Node<K,V>[] tbb = mbp.tbble;
+            if (tbb != null && tbb.length >= (hi = getFence()) && index >= 0) {
                 while (current != null || index < hi) {
                     if (current == null)
-                        current = tab[index++];
+                        current = tbb[index++];
                     else {
-                        V v = current.value;
+                        V v = current.vblue;
                         current = current.next;
-                        action.accept(v);
-                        if (map.modCount != expectedModCount)
-                            throw new ConcurrentModificationException();
+                        bction.bccept(v);
+                        if (mbp.modCount != expectedModCount)
+                            throw new ConcurrentModificbtionException();
                         return true;
                     }
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return (fence < 0 || est == map.size ? Spliterator.SIZED : 0);
+        public int chbrbcteristics() {
+            return (fence < 0 || est == mbp.size ? Spliterbtor.SIZED : 0);
         }
     }
 
-    static final class EntrySpliterator<K,V>
-        extends HashMapSpliterator<K,V>
-        implements Spliterator<Map.Entry<K,V>> {
-        EntrySpliterator(HashMap<K,V> m, int origin, int fence, int est,
+    stbtic finbl clbss EntrySpliterbtor<K,V>
+        extends HbshMbpSpliterbtor<K,V>
+        implements Spliterbtor<Mbp.Entry<K,V>> {
+        EntrySpliterbtor(HbshMbp<K,V> m, int origin, int fence, int est,
                          int expectedModCount) {
             super(m, origin, fence, est, expectedModCount);
         }
 
-        public EntrySpliterator<K,V> trySplit() {
+        public EntrySpliterbtor<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
             return (lo >= mid || current != null) ? null :
-                new EntrySpliterator<>(map, lo, index = mid, est >>>= 1,
+                new EntrySpliterbtor<>(mbp, lo, index = mid, est >>>= 1,
                                           expectedModCount);
         }
 
-        public void forEachRemaining(Consumer<? super Map.Entry<K,V>> action) {
+        public void forEbchRembining(Consumer<? super Mbp.Entry<K,V>> bction) {
             int i, hi, mc;
-            if (action == null)
+            if (bction == null)
                 throw new NullPointerException();
-            HashMap<K,V> m = map;
-            Node<K,V>[] tab = m.table;
+            HbshMbp<K,V> m = mbp;
+            Node<K,V>[] tbb = m.tbble;
             if ((hi = fence) < 0) {
                 mc = expectedModCount = m.modCount;
-                hi = fence = (tab == null) ? 0 : tab.length;
+                hi = fence = (tbb == null) ? 0 : tbb.length;
             }
             else
                 mc = expectedModCount;
-            if (tab != null && tab.length >= hi &&
+            if (tbb != null && tbb.length >= hi &&
                 (i = index) >= 0 && (i < (index = hi) || current != null)) {
                 Node<K,V> p = current;
                 current = null;
                 do {
                     if (p == null)
-                        p = tab[i++];
+                        p = tbb[i++];
                     else {
-                        action.accept(p);
+                        bction.bccept(p);
                         p = p.next;
                     }
                 } while (p != null || i < hi);
                 if (m.modCount != mc)
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
             }
         }
 
-        public boolean tryAdvance(Consumer<? super Map.Entry<K,V>> action) {
+        public boolebn tryAdvbnce(Consumer<? super Mbp.Entry<K,V>> bction) {
             int hi;
-            if (action == null)
+            if (bction == null)
                 throw new NullPointerException();
-            Node<K,V>[] tab = map.table;
-            if (tab != null && tab.length >= (hi = getFence()) && index >= 0) {
+            Node<K,V>[] tbb = mbp.tbble;
+            if (tbb != null && tbb.length >= (hi = getFence()) && index >= 0) {
                 while (current != null || index < hi) {
                     if (current == null)
-                        current = tab[index++];
+                        current = tbb[index++];
                     else {
                         Node<K,V> e = current;
                         current = current.next;
-                        action.accept(e);
-                        if (map.modCount != expectedModCount)
-                            throw new ConcurrentModificationException();
+                        bction.bccept(e);
+                        if (mbp.modCount != expectedModCount)
+                            throw new ConcurrentModificbtionException();
                         return true;
                     }
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public int characteristics() {
-            return (fence < 0 || est == map.size ? Spliterator.SIZED : 0) |
-                Spliterator.DISTINCT;
+        public int chbrbcteristics() {
+            return (fence < 0 || est == mbp.size ? Spliterbtor.SIZED : 0) |
+                Spliterbtor.DISTINCT;
         }
     }
 
     /* ------------------------------------------------------------ */
-    // LinkedHashMap support
+    // LinkedHbshMbp support
 
 
     /*
-     * The following package-protected methods are designed to be
-     * overridden by LinkedHashMap, but not by any other subclass.
-     * Nearly all other internal methods are also package-protected
-     * but are declared final, so can be used by LinkedHashMap, view
-     * classes, and HashSet.
+     * The following pbckbge-protected methods bre designed to be
+     * overridden by LinkedHbshMbp, but not by bny other subclbss.
+     * Nebrly bll other internbl methods bre blso pbckbge-protected
+     * but bre declbred finbl, so cbn be used by LinkedHbshMbp, view
+     * clbsses, bnd HbshSet.
      */
 
-    // Create a regular (non-tree) node
-    Node<K,V> newNode(int hash, K key, V value, Node<K,V> next) {
-        return new Node<>(hash, key, value, next);
+    // Crebte b regulbr (non-tree) node
+    Node<K,V> newNode(int hbsh, K key, V vblue, Node<K,V> next) {
+        return new Node<>(hbsh, key, vblue, next);
     }
 
-    // For conversion from TreeNodes to plain nodes
-    Node<K,V> replacementNode(Node<K,V> p, Node<K,V> next) {
-        return new Node<>(p.hash, p.key, p.value, next);
+    // For conversion from TreeNodes to plbin nodes
+    Node<K,V> replbcementNode(Node<K,V> p, Node<K,V> next) {
+        return new Node<>(p.hbsh, p.key, p.vblue, next);
     }
 
-    // Create a tree bin node
-    TreeNode<K,V> newTreeNode(int hash, K key, V value, Node<K,V> next) {
-        return new TreeNode<>(hash, key, value, next);
+    // Crebte b tree bin node
+    TreeNode<K,V> newTreeNode(int hbsh, K key, V vblue, Node<K,V> next) {
+        return new TreeNode<>(hbsh, key, vblue, next);
     }
 
     // For treeifyBin
-    TreeNode<K,V> replacementTreeNode(Node<K,V> p, Node<K,V> next) {
-        return new TreeNode<>(p.hash, p.key, p.value, next);
+    TreeNode<K,V> replbcementTreeNode(Node<K,V> p, Node<K,V> next) {
+        return new TreeNode<>(p.hbsh, p.key, p.vblue, next);
     }
 
     /**
-     * Reset to initial default state.  Called by clone and readObject.
+     * Reset to initibl defbult stbte.  Cblled by clone bnd rebdObject.
      */
-    void reinitialize() {
-        table = null;
+    void reinitiblize() {
+        tbble = null;
         entrySet = null;
         keySet = null;
-        values = null;
+        vblues = null;
         modCount = 0;
         threshold = 0;
         size = 0;
     }
 
-    // Callbacks to allow LinkedHashMap post-actions
-    void afterNodeAccess(Node<K,V> p) { }
-    void afterNodeInsertion(boolean evict) { }
-    void afterNodeRemoval(Node<K,V> p) { }
+    // Cbllbbcks to bllow LinkedHbshMbp post-bctions
+    void bfterNodeAccess(Node<K,V> p) { }
+    void bfterNodeInsertion(boolebn evict) { }
+    void bfterNodeRemovbl(Node<K,V> p) { }
 
-    // Called only from writeObject, to ensure compatible ordering.
-    void internalWriteEntries(java.io.ObjectOutputStream s) throws IOException {
-        Node<K,V>[] tab;
-        if (size > 0 && (tab = table) != null) {
-            for (Node<K, V> e : tab) {
+    // Cblled only from writeObject, to ensure compbtible ordering.
+    void internblWriteEntries(jbvb.io.ObjectOutputStrebm s) throws IOException {
+        Node<K,V>[] tbb;
+        if (size > 0 && (tbb = tbble) != null) {
+            for (Node<K, V> e : tbb) {
                 for (; e != null; e = e.next) {
                     s.writeObject(e.key);
-                    s.writeObject(e.value);
+                    s.writeObject(e.vblue);
                 }
             }
         }
@@ -1784,42 +1784,42 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     // Tree bins
 
     /**
-     * Entry for Tree bins. Extends LinkedHashMap.Entry (which in turn
-     * extends Node) so can be used as extension of either regular or
+     * Entry for Tree bins. Extends LinkedHbshMbp.Entry (which in turn
+     * extends Node) so cbn be used bs extension of either regulbr or
      * linked node.
      */
-    static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
-        TreeNode<K,V> parent;  // red-black tree links
+    stbtic finbl clbss TreeNode<K,V> extends LinkedHbshMbp.Entry<K,V> {
+        TreeNode<K,V> pbrent;  // red-blbck tree links
         TreeNode<K,V> left;
         TreeNode<K,V> right;
         TreeNode<K,V> prev;    // needed to unlink next upon deletion
-        boolean red;
-        TreeNode(int hash, K key, V val, Node<K,V> next) {
-            super(hash, key, val, next);
+        boolebn red;
+        TreeNode(int hbsh, K key, V vbl, Node<K,V> next) {
+            super(hbsh, key, vbl, next);
         }
 
         /**
-         * Returns root of tree containing this node.
+         * Returns root of tree contbining this node.
          */
-        final TreeNode<K,V> root() {
+        finbl TreeNode<K,V> root() {
             for (TreeNode<K,V> r = this, p;;) {
-                if ((p = r.parent) == null)
+                if ((p = r.pbrent) == null)
                     return r;
                 r = p;
             }
         }
 
         /**
-         * Ensures that the given root is the first node of its bin.
+         * Ensures thbt the given root is the first node of its bin.
          */
-        static <K,V> void moveRootToFront(Node<K,V>[] tab, TreeNode<K,V> root) {
+        stbtic <K,V> void moveRootToFront(Node<K,V>[] tbb, TreeNode<K,V> root) {
             int n;
-            if (root != null && tab != null && (n = tab.length) > 0) {
-                int index = (n - 1) & root.hash;
-                TreeNode<K,V> first = (TreeNode<K,V>)tab[index];
+            if (root != null && tbb != null && (n = tbb.length) > 0) {
+                int index = (n - 1) & root.hbsh;
+                TreeNode<K,V> first = (TreeNode<K,V>)tbb[index];
                 if (root != first) {
                     Node<K,V> rn;
-                    tab[index] = root;
+                    tbb[index] = root;
                     TreeNode<K,V> rp = root.prev;
                     if ((rn = root.next) != null)
                         ((TreeNode<K,V>)rn).prev = rp;
@@ -1830,33 +1830,33 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                     root.next = first;
                     root.prev = null;
                 }
-                assert checkInvariants(root);
+                bssert checkInvbribnts(root);
             }
         }
 
         /**
-         * Finds the node starting at root p with the given hash and key.
-         * The kc argument caches comparableClassFor(key) upon first use
-         * comparing keys.
+         * Finds the node stbrting bt root p with the given hbsh bnd key.
+         * The kc brgument cbches compbrbbleClbssFor(key) upon first use
+         * compbring keys.
          */
-        final TreeNode<K,V> find(int h, Object k, Class<?> kc) {
+        finbl TreeNode<K,V> find(int h, Object k, Clbss<?> kc) {
             TreeNode<K,V> p = this;
             do {
                 int ph, dir; K pk;
                 TreeNode<K,V> pl = p.left, pr = p.right, q;
-                if ((ph = p.hash) > h)
+                if ((ph = p.hbsh) > h)
                     p = pl;
                 else if (ph < h)
                     p = pr;
-                else if ((pk = p.key) == k || (k != null && k.equals(pk)))
+                else if ((pk = p.key) == k || (k != null && k.equbls(pk)))
                     return p;
                 else if (pl == null)
                     p = pr;
                 else if (pr == null)
                     p = pl;
                 else if ((kc != null ||
-                          (kc = comparableClassFor(k)) != null) &&
-                         (dir = compareComparables(kc, k, pk)) != 0)
+                          (kc = compbrbbleClbssFor(k)) != null) &&
+                         (dir = compbreCompbrbbles(kc, k, pk)) != 0)
                     p = (dir < 0) ? pl : pr;
                 else if ((q = pr.find(h, k, kc)) != null)
                     return q;
@@ -1867,25 +1867,25 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         }
 
         /**
-         * Calls find for root node.
+         * Cblls find for root node.
          */
-        final TreeNode<K,V> getTreeNode(int h, Object k) {
-            return ((parent != null) ? root() : this).find(h, k, null);
+        finbl TreeNode<K,V> getTreeNode(int h, Object k) {
+            return ((pbrent != null) ? root() : this).find(h, k, null);
         }
 
         /**
-         * Tie-breaking utility for ordering insertions when equal
-         * hashCodes and non-comparable. We don't require a total
-         * order, just a consistent insertion rule to maintain
-         * equivalence across rebalancings. Tie-breaking further than
-         * necessary simplifies testing a bit.
+         * Tie-brebking utility for ordering insertions when equbl
+         * hbshCodes bnd non-compbrbble. We don't require b totbl
+         * order, just b consistent insertion rule to mbintbin
+         * equivblence bcross rebblbncings. Tie-brebking further thbn
+         * necessbry simplifies testing b bit.
          */
-        static int tieBreakOrder(Object a, Object b) {
+        stbtic int tieBrebkOrder(Object b, Object b) {
             int d;
-            if (a == null || b == null ||
-                (d = a.getClass().getName().
-                 compareTo(b.getClass().getName())) == 0)
-                d = (System.identityHashCode(a) <= System.identityHashCode(b) ?
+            if (b == null || b == null ||
+                (d = b.getClbss().getNbme().
+                 compbreTo(b.getClbss().getNbme())) == 0)
+                d = (System.identityHbshCode(b) <= System.identityHbshCode(b) ?
                      -1 : 1);
             return d;
         }
@@ -1894,56 +1894,56 @@ public class HashMap<K,V> extends AbstractMap<K,V>
          * Forms tree of the nodes linked from this node.
          * @return root of tree
          */
-        final void treeify(Node<K,V>[] tab) {
+        finbl void treeify(Node<K,V>[] tbb) {
             TreeNode<K,V> root = null;
             for (TreeNode<K,V> x = this, next; x != null; x = next) {
                 next = (TreeNode<K,V>)x.next;
                 x.left = x.right = null;
                 if (root == null) {
-                    x.parent = null;
-                    x.red = false;
+                    x.pbrent = null;
+                    x.red = fblse;
                     root = x;
                 }
                 else {
                     K k = x.key;
-                    int h = x.hash;
-                    Class<?> kc = null;
+                    int h = x.hbsh;
+                    Clbss<?> kc = null;
                     for (TreeNode<K,V> p = root;;) {
                         int dir, ph;
                         K pk = p.key;
-                        if ((ph = p.hash) > h)
+                        if ((ph = p.hbsh) > h)
                             dir = -1;
                         else if (ph < h)
                             dir = 1;
                         else if ((kc == null &&
-                                  (kc = comparableClassFor(k)) == null) ||
-                                 (dir = compareComparables(kc, k, pk)) == 0)
-                            dir = tieBreakOrder(k, pk);
+                                  (kc = compbrbbleClbssFor(k)) == null) ||
+                                 (dir = compbreCompbrbbles(kc, k, pk)) == 0)
+                            dir = tieBrebkOrder(k, pk);
 
                         TreeNode<K,V> xp = p;
                         if ((p = (dir <= 0) ? p.left : p.right) == null) {
-                            x.parent = xp;
+                            x.pbrent = xp;
                             if (dir <= 0)
                                 xp.left = x;
                             else
                                 xp.right = x;
-                            root = balanceInsertion(root, x);
-                            break;
+                            root = bblbnceInsertion(root, x);
+                            brebk;
                         }
                     }
                 }
             }
-            moveRootToFront(tab, root);
+            moveRootToFront(tbb, root);
         }
 
         /**
-         * Returns a list of non-TreeNodes replacing those linked from
+         * Returns b list of non-TreeNodes replbcing those linked from
          * this node.
          */
-        final Node<K,V> untreeify(HashMap<K,V> map) {
+        finbl Node<K,V> untreeify(HbshMbp<K,V> mbp) {
             Node<K,V> hd = null, tl = null;
             for (Node<K,V> q = this; q != null; q = q.next) {
-                Node<K,V> p = map.replacementNode(q, null);
+                Node<K,V> p = mbp.replbcementNode(q, null);
                 if (tl == null)
                     hd = p;
                 else
@@ -1954,148 +1954,148 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         }
 
         /**
-         * Tree version of putVal.
+         * Tree version of putVbl.
          */
-        final TreeNode<K,V> putTreeVal(HashMap<K,V> map, Node<K,V>[] tab,
+        finbl TreeNode<K,V> putTreeVbl(HbshMbp<K,V> mbp, Node<K,V>[] tbb,
                                        int h, K k, V v) {
-            Class<?> kc = null;
-            boolean searched = false;
-            TreeNode<K,V> root = (parent != null) ? root() : this;
+            Clbss<?> kc = null;
+            boolebn sebrched = fblse;
+            TreeNode<K,V> root = (pbrent != null) ? root() : this;
             for (TreeNode<K,V> p = root;;) {
                 int dir, ph; K pk;
-                if ((ph = p.hash) > h)
+                if ((ph = p.hbsh) > h)
                     dir = -1;
                 else if (ph < h)
                     dir = 1;
-                else if ((pk = p.key) == k || (k != null && k.equals(pk)))
+                else if ((pk = p.key) == k || (k != null && k.equbls(pk)))
                     return p;
                 else if ((kc == null &&
-                          (kc = comparableClassFor(k)) == null) ||
-                         (dir = compareComparables(kc, k, pk)) == 0) {
-                    if (!searched) {
+                          (kc = compbrbbleClbssFor(k)) == null) ||
+                         (dir = compbreCompbrbbles(kc, k, pk)) == 0) {
+                    if (!sebrched) {
                         TreeNode<K,V> q, ch;
-                        searched = true;
+                        sebrched = true;
                         if (((ch = p.left) != null &&
                              (q = ch.find(h, k, kc)) != null) ||
                             ((ch = p.right) != null &&
                              (q = ch.find(h, k, kc)) != null))
                             return q;
                     }
-                    dir = tieBreakOrder(k, pk);
+                    dir = tieBrebkOrder(k, pk);
                 }
 
                 TreeNode<K,V> xp = p;
                 if ((p = (dir <= 0) ? p.left : p.right) == null) {
                     Node<K,V> xpn = xp.next;
-                    TreeNode<K,V> x = map.newTreeNode(h, k, v, xpn);
+                    TreeNode<K,V> x = mbp.newTreeNode(h, k, v, xpn);
                     if (dir <= 0)
                         xp.left = x;
                     else
                         xp.right = x;
                     xp.next = x;
-                    x.parent = x.prev = xp;
+                    x.pbrent = x.prev = xp;
                     if (xpn != null)
                         ((TreeNode<K,V>)xpn).prev = x;
-                    moveRootToFront(tab, balanceInsertion(root, x));
+                    moveRootToFront(tbb, bblbnceInsertion(root, x));
                     return null;
                 }
             }
         }
 
         /**
-         * Removes the given node, that must be present before this call.
-         * This is messier than typical red-black deletion code because we
-         * cannot swap the contents of an interior node with a leaf
-         * successor that is pinned by "next" pointers that are accessible
-         * independently during traversal. So instead we swap the tree
-         * linkages. If the current tree appears to have too few nodes,
-         * the bin is converted back to a plain bin. (The test triggers
-         * somewhere between 2 and 6 nodes, depending on tree structure).
+         * Removes the given node, thbt must be present before this cbll.
+         * This is messier thbn typicbl red-blbck deletion code becbuse we
+         * cbnnot swbp the contents of bn interior node with b lebf
+         * successor thbt is pinned by "next" pointers thbt bre bccessible
+         * independently during trbversbl. So instebd we swbp the tree
+         * linkbges. If the current tree bppebrs to hbve too few nodes,
+         * the bin is converted bbck to b plbin bin. (The test triggers
+         * somewhere between 2 bnd 6 nodes, depending on tree structure).
          */
-        final void removeTreeNode(HashMap<K,V> map, Node<K,V>[] tab,
-                                  boolean movable) {
+        finbl void removeTreeNode(HbshMbp<K,V> mbp, Node<K,V>[] tbb,
+                                  boolebn movbble) {
             int n;
-            if (tab == null || (n = tab.length) == 0)
+            if (tbb == null || (n = tbb.length) == 0)
                 return;
-            int index = (n - 1) & hash;
-            TreeNode<K,V> first = (TreeNode<K,V>)tab[index], root = first, rl;
+            int index = (n - 1) & hbsh;
+            TreeNode<K,V> first = (TreeNode<K,V>)tbb[index], root = first, rl;
             TreeNode<K,V> succ = (TreeNode<K,V>)next, pred = prev;
             if (pred == null)
-                tab[index] = first = succ;
+                tbb[index] = first = succ;
             else
                 pred.next = succ;
             if (succ != null)
                 succ.prev = pred;
             if (first == null)
                 return;
-            if (root.parent != null)
+            if (root.pbrent != null)
                 root = root.root();
             if (root == null || root.right == null ||
                 (rl = root.left) == null || rl.left == null) {
-                tab[index] = first.untreeify(map);  // too small
+                tbb[index] = first.untreeify(mbp);  // too smbll
                 return;
             }
-            TreeNode<K,V> p = this, pl = left, pr = right, replacement;
+            TreeNode<K,V> p = this, pl = left, pr = right, replbcement;
             if (pl != null && pr != null) {
                 TreeNode<K,V> s = pr, sl;
                 while ((sl = s.left) != null) // find successor
                     s = sl;
-                boolean c = s.red; s.red = p.red; p.red = c; // swap colors
+                boolebn c = s.red; s.red = p.red; p.red = c; // swbp colors
                 TreeNode<K,V> sr = s.right;
-                TreeNode<K,V> pp = p.parent;
-                if (s == pr) { // p was s's direct parent
-                    p.parent = s;
+                TreeNode<K,V> pp = p.pbrent;
+                if (s == pr) { // p wbs s's direct pbrent
+                    p.pbrent = s;
                     s.right = p;
                 }
                 else {
-                    TreeNode<K,V> sp = s.parent;
-                    if ((p.parent = sp) != null) {
+                    TreeNode<K,V> sp = s.pbrent;
+                    if ((p.pbrent = sp) != null) {
                         if (s == sp.left)
                             sp.left = p;
                         else
                             sp.right = p;
                     }
                     if ((s.right = pr) != null)
-                        pr.parent = s;
+                        pr.pbrent = s;
                 }
                 p.left = null;
                 if ((p.right = sr) != null)
-                    sr.parent = p;
+                    sr.pbrent = p;
                 if ((s.left = pl) != null)
-                    pl.parent = s;
-                if ((s.parent = pp) == null)
+                    pl.pbrent = s;
+                if ((s.pbrent = pp) == null)
                     root = s;
                 else if (p == pp.left)
                     pp.left = s;
                 else
                     pp.right = s;
                 if (sr != null)
-                    replacement = sr;
+                    replbcement = sr;
                 else
-                    replacement = p;
+                    replbcement = p;
             }
             else if (pl != null)
-                replacement = pl;
+                replbcement = pl;
             else if (pr != null)
-                replacement = pr;
+                replbcement = pr;
             else
-                replacement = p;
-            if (replacement != p) {
-                TreeNode<K,V> pp = replacement.parent = p.parent;
+                replbcement = p;
+            if (replbcement != p) {
+                TreeNode<K,V> pp = replbcement.pbrent = p.pbrent;
                 if (pp == null)
-                    root = replacement;
+                    root = replbcement;
                 else if (p == pp.left)
-                    pp.left = replacement;
+                    pp.left = replbcement;
                 else
-                    pp.right = replacement;
-                p.left = p.right = p.parent = null;
+                    pp.right = replbcement;
+                p.left = p.right = p.pbrent = null;
             }
 
-            TreeNode<K,V> r = p.red ? root : balanceDeletion(root, replacement);
+            TreeNode<K,V> r = p.red ? root : bblbnceDeletion(root, replbcement);
 
-            if (replacement == p) {  // detach
-                TreeNode<K,V> pp = p.parent;
-                p.parent = null;
+            if (replbcement == p) {  // detbch
+                TreeNode<K,V> pp = p.pbrent;
+                p.pbrent = null;
                 if (pp != null) {
                     if (p == pp.left)
                         pp.left = null;
@@ -2103,154 +2103,154 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                         pp.right = null;
                 }
             }
-            if (movable)
-                moveRootToFront(tab, r);
+            if (movbble)
+                moveRootToFront(tbb, r);
         }
 
         /**
-         * Splits nodes in a tree bin into lower and upper tree bins,
-         * or untreeifies if now too small. Called only from resize;
-         * see above discussion about split bits and indices.
+         * Splits nodes in b tree bin into lower bnd upper tree bins,
+         * or untreeifies if now too smbll. Cblled only from resize;
+         * see bbove discussion bbout split bits bnd indices.
          *
-         * @param map the map
-         * @param tab the table for recording bin heads
-         * @param index the index of the table being split
-         * @param bit the bit of hash to split on
+         * @pbrbm mbp the mbp
+         * @pbrbm tbb the tbble for recording bin hebds
+         * @pbrbm index the index of the tbble being split
+         * @pbrbm bit the bit of hbsh to split on
          */
-        final void split(HashMap<K,V> map, Node<K,V>[] tab, int index, int bit) {
+        finbl void split(HbshMbp<K,V> mbp, Node<K,V>[] tbb, int index, int bit) {
             TreeNode<K,V> b = this;
-            // Relink into lo and hi lists, preserving order
-            TreeNode<K,V> loHead = null, loTail = null;
-            TreeNode<K,V> hiHead = null, hiTail = null;
+            // Relink into lo bnd hi lists, preserving order
+            TreeNode<K,V> loHebd = null, loTbil = null;
+            TreeNode<K,V> hiHebd = null, hiTbil = null;
             int lc = 0, hc = 0;
             for (TreeNode<K,V> e = b, next; e != null; e = next) {
                 next = (TreeNode<K,V>)e.next;
                 e.next = null;
-                if ((e.hash & bit) == 0) {
-                    if ((e.prev = loTail) == null)
-                        loHead = e;
+                if ((e.hbsh & bit) == 0) {
+                    if ((e.prev = loTbil) == null)
+                        loHebd = e;
                     else
-                        loTail.next = e;
-                    loTail = e;
+                        loTbil.next = e;
+                    loTbil = e;
                     ++lc;
                 }
                 else {
-                    if ((e.prev = hiTail) == null)
-                        hiHead = e;
+                    if ((e.prev = hiTbil) == null)
+                        hiHebd = e;
                     else
-                        hiTail.next = e;
-                    hiTail = e;
+                        hiTbil.next = e;
+                    hiTbil = e;
                     ++hc;
                 }
             }
 
-            if (loHead != null) {
+            if (loHebd != null) {
                 if (lc <= UNTREEIFY_THRESHOLD)
-                    tab[index] = loHead.untreeify(map);
+                    tbb[index] = loHebd.untreeify(mbp);
                 else {
-                    tab[index] = loHead;
-                    if (hiHead != null) // (else is already treeified)
-                        loHead.treeify(tab);
+                    tbb[index] = loHebd;
+                    if (hiHebd != null) // (else is blrebdy treeified)
+                        loHebd.treeify(tbb);
                 }
             }
-            if (hiHead != null) {
+            if (hiHebd != null) {
                 if (hc <= UNTREEIFY_THRESHOLD)
-                    tab[index + bit] = hiHead.untreeify(map);
+                    tbb[index + bit] = hiHebd.untreeify(mbp);
                 else {
-                    tab[index + bit] = hiHead;
-                    if (loHead != null)
-                        hiHead.treeify(tab);
+                    tbb[index + bit] = hiHebd;
+                    if (loHebd != null)
+                        hiHebd.treeify(tbb);
                 }
             }
         }
 
         /* ------------------------------------------------------------ */
-        // Red-black tree methods, all adapted from CLR
+        // Red-blbck tree methods, bll bdbpted from CLR
 
-        static <K,V> TreeNode<K,V> rotateLeft(TreeNode<K,V> root,
+        stbtic <K,V> TreeNode<K,V> rotbteLeft(TreeNode<K,V> root,
                                               TreeNode<K,V> p) {
             TreeNode<K,V> r, pp, rl;
             if (p != null && (r = p.right) != null) {
                 if ((rl = p.right = r.left) != null)
-                    rl.parent = p;
-                if ((pp = r.parent = p.parent) == null)
-                    (root = r).red = false;
+                    rl.pbrent = p;
+                if ((pp = r.pbrent = p.pbrent) == null)
+                    (root = r).red = fblse;
                 else if (pp.left == p)
                     pp.left = r;
                 else
                     pp.right = r;
                 r.left = p;
-                p.parent = r;
+                p.pbrent = r;
             }
             return root;
         }
 
-        static <K,V> TreeNode<K,V> rotateRight(TreeNode<K,V> root,
+        stbtic <K,V> TreeNode<K,V> rotbteRight(TreeNode<K,V> root,
                                                TreeNode<K,V> p) {
             TreeNode<K,V> l, pp, lr;
             if (p != null && (l = p.left) != null) {
                 if ((lr = p.left = l.right) != null)
-                    lr.parent = p;
-                if ((pp = l.parent = p.parent) == null)
-                    (root = l).red = false;
+                    lr.pbrent = p;
+                if ((pp = l.pbrent = p.pbrent) == null)
+                    (root = l).red = fblse;
                 else if (pp.right == p)
                     pp.right = l;
                 else
                     pp.left = l;
                 l.right = p;
-                p.parent = l;
+                p.pbrent = l;
             }
             return root;
         }
 
-        static <K,V> TreeNode<K,V> balanceInsertion(TreeNode<K,V> root,
+        stbtic <K,V> TreeNode<K,V> bblbnceInsertion(TreeNode<K,V> root,
                                                     TreeNode<K,V> x) {
             x.red = true;
             for (TreeNode<K,V> xp, xpp, xppl, xppr;;) {
-                if ((xp = x.parent) == null) {
-                    x.red = false;
+                if ((xp = x.pbrent) == null) {
+                    x.red = fblse;
                     return x;
                 }
-                else if (!xp.red || (xpp = xp.parent) == null)
+                else if (!xp.red || (xpp = xp.pbrent) == null)
                     return root;
                 if (xp == (xppl = xpp.left)) {
                     if ((xppr = xpp.right) != null && xppr.red) {
-                        xppr.red = false;
-                        xp.red = false;
+                        xppr.red = fblse;
+                        xp.red = fblse;
                         xpp.red = true;
                         x = xpp;
                     }
                     else {
                         if (x == xp.right) {
-                            root = rotateLeft(root, x = xp);
-                            xpp = (xp = x.parent) == null ? null : xp.parent;
+                            root = rotbteLeft(root, x = xp);
+                            xpp = (xp = x.pbrent) == null ? null : xp.pbrent;
                         }
                         if (xp != null) {
-                            xp.red = false;
+                            xp.red = fblse;
                             if (xpp != null) {
                                 xpp.red = true;
-                                root = rotateRight(root, xpp);
+                                root = rotbteRight(root, xpp);
                             }
                         }
                     }
                 }
                 else {
                     if (xppl != null && xppl.red) {
-                        xppl.red = false;
-                        xp.red = false;
+                        xppl.red = fblse;
+                        xp.red = fblse;
                         xpp.red = true;
                         x = xpp;
                     }
                     else {
                         if (x == xp.left) {
-                            root = rotateRight(root, x = xp);
-                            xpp = (xp = x.parent) == null ? null : xp.parent;
+                            root = rotbteRight(root, x = xp);
+                            xpp = (xp = x.pbrent) == null ? null : xp.pbrent;
                         }
                         if (xp != null) {
-                            xp.red = false;
+                            xp.red = fblse;
                             if (xpp != null) {
                                 xpp.red = true;
-                                root = rotateLeft(root, xpp);
+                                root = rotbteLeft(root, xpp);
                             }
                         }
                     }
@@ -2258,25 +2258,25 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             }
         }
 
-        static <K,V> TreeNode<K,V> balanceDeletion(TreeNode<K,V> root,
+        stbtic <K,V> TreeNode<K,V> bblbnceDeletion(TreeNode<K,V> root,
                                                    TreeNode<K,V> x) {
             for (TreeNode<K,V> xp, xpl, xpr;;)  {
                 if (x == null || x == root)
                     return root;
-                else if ((xp = x.parent) == null) {
-                    x.red = false;
+                else if ((xp = x.pbrent) == null) {
+                    x.red = fblse;
                     return x;
                 }
                 else if (x.red) {
-                    x.red = false;
+                    x.red = fblse;
                     return root;
                 }
                 else if ((xpl = xp.left) == x) {
                     if ((xpr = xp.right) != null && xpr.red) {
-                        xpr.red = false;
+                        xpr.red = fblse;
                         xp.red = true;
-                        root = rotateLeft(root, xp);
-                        xpr = (xp = x.parent) == null ? null : xp.right;
+                        root = rotbteLeft(root, xp);
+                        xpr = (xp = x.pbrent) == null ? null : xp.right;
                     }
                     if (xpr == null)
                         x = xp;
@@ -2290,20 +2290,20 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                         else {
                             if (sr == null || !sr.red) {
                                 if (sl != null)
-                                    sl.red = false;
+                                    sl.red = fblse;
                                 xpr.red = true;
-                                root = rotateRight(root, xpr);
-                                xpr = (xp = x.parent) == null ?
+                                root = rotbteRight(root, xpr);
+                                xpr = (xp = x.pbrent) == null ?
                                     null : xp.right;
                             }
                             if (xpr != null) {
-                                xpr.red = (xp == null) ? false : xp.red;
+                                xpr.red = (xp == null) ? fblse : xp.red;
                                 if ((sr = xpr.right) != null)
-                                    sr.red = false;
+                                    sr.red = fblse;
                             }
                             if (xp != null) {
-                                xp.red = false;
-                                root = rotateLeft(root, xp);
+                                xp.red = fblse;
+                                root = rotbteLeft(root, xp);
                             }
                             x = root;
                         }
@@ -2311,10 +2311,10 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 }
                 else { // symmetric
                     if (xpl != null && xpl.red) {
-                        xpl.red = false;
+                        xpl.red = fblse;
                         xp.red = true;
-                        root = rotateRight(root, xp);
-                        xpl = (xp = x.parent) == null ? null : xp.left;
+                        root = rotbteRight(root, xp);
+                        xpl = (xp = x.pbrent) == null ? null : xp.left;
                     }
                     if (xpl == null)
                         x = xp;
@@ -2328,20 +2328,20 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                         else {
                             if (sl == null || !sl.red) {
                                 if (sr != null)
-                                    sr.red = false;
+                                    sr.red = fblse;
                                 xpl.red = true;
-                                root = rotateLeft(root, xpl);
-                                xpl = (xp = x.parent) == null ?
+                                root = rotbteLeft(root, xpl);
+                                xpl = (xp = x.pbrent) == null ?
                                     null : xp.left;
                             }
                             if (xpl != null) {
-                                xpl.red = (xp == null) ? false : xp.red;
+                                xpl.red = (xp == null) ? fblse : xp.red;
                                 if ((sl = xpl.left) != null)
-                                    sl.red = false;
+                                    sl.red = fblse;
                             }
                             if (xp != null) {
-                                xp.red = false;
-                                root = rotateRight(root, xp);
+                                xp.red = fblse;
+                                root = rotbteRight(root, xp);
                             }
                             x = root;
                         }
@@ -2351,27 +2351,27 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         }
 
         /**
-         * Recursive invariant check
+         * Recursive invbribnt check
          */
-        static <K,V> boolean checkInvariants(TreeNode<K,V> t) {
-            TreeNode<K,V> tp = t.parent, tl = t.left, tr = t.right,
+        stbtic <K,V> boolebn checkInvbribnts(TreeNode<K,V> t) {
+            TreeNode<K,V> tp = t.pbrent, tl = t.left, tr = t.right,
                 tb = t.prev, tn = (TreeNode<K,V>)t.next;
             if (tb != null && tb.next != t)
-                return false;
+                return fblse;
             if (tn != null && tn.prev != t)
-                return false;
+                return fblse;
             if (tp != null && t != tp.left && t != tp.right)
-                return false;
-            if (tl != null && (tl.parent != t || tl.hash > t.hash))
-                return false;
-            if (tr != null && (tr.parent != t || tr.hash < t.hash))
-                return false;
+                return fblse;
+            if (tl != null && (tl.pbrent != t || tl.hbsh > t.hbsh))
+                return fblse;
+            if (tr != null && (tr.pbrent != t || tr.hbsh < t.hbsh))
+                return fblse;
             if (t.red && tl != null && tl.red && tr != null && tr.red)
-                return false;
-            if (tl != null && !checkInvariants(tl))
-                return false;
-            if (tr != null && !checkInvariants(tr))
-                return false;
+                return fblse;
+            if (tl != null && !checkInvbribnts(tl))
+                return fblse;
+            if (tr != null && !checkInvbribnts(tr))
+                return fblse;
             return true;
         }
     }

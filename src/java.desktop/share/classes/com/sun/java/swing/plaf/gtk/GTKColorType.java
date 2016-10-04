@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
-import javax.swing.plaf.synth.ColorType;
-import java.awt.Color;
-import javax.swing.plaf.ColorUIResource;
+import jbvbx.swing.plbf.synth.ColorType;
+import jbvb.bwt.Color;
+import jbvbx.swing.plbf.ColorUIResource;
 
 /**
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class GTKColorType extends ColorType {
-    // GTK allows you to specify the foreground and background in a
-    // gtkrc, the rest (dark, mid, light) are calculated from these
-    // values.
-    public static final ColorType LIGHT = new GTKColorType("Light");
-    public static final ColorType DARK = new GTKColorType("Dark");
-    public static final ColorType MID = new GTKColorType("Mid");
-    public static final ColorType BLACK = new GTKColorType("Black");
-    public static final ColorType WHITE = new GTKColorType("White");
+public clbss GTKColorType extends ColorType {
+    // GTK bllows you to specify the foreground bnd bbckground in b
+    // gtkrc, the rest (dbrk, mid, light) bre cblculbted from these
+    // vblues.
+    public stbtic finbl ColorType LIGHT = new GTKColorType("Light");
+    public stbtic finbl ColorType DARK = new GTKColorType("Dbrk");
+    public stbtic finbl ColorType MID = new GTKColorType("Mid");
+    public stbtic finbl ColorType BLACK = new GTKColorType("Blbck");
+    public stbtic finbl ColorType WHITE = new GTKColorType("White");
 
-    public static final int MAX_COUNT;
+    public stbtic finbl int MAX_COUNT;
 
-    private static final float[] HLS_COLORS = new float[3];
-    private static final Object HLS_COLOR_LOCK = new Object();
+    privbte stbtic finbl flobt[] HLS_COLORS = new flobt[3];
+    privbte stbtic finbl Object HLS_COLOR_LOCK = new Object();
 
-    static {
+    stbtic {
         MAX_COUNT = WHITE.getID() + 1;
     }
 
-    private static int hlsToRGB(float h, float l, float s) {
-        float m2 = (l <= .5f) ? (l * (1 + s)) : (l + s - l * s);
-        float m1 = 2.0f * l - m2;
-        float r, g, b;
+    privbte stbtic int hlsToRGB(flobt h, flobt l, flobt s) {
+        flobt m2 = (l <= .5f) ? (l * (1 + s)) : (l + s - l * s);
+        flobt m1 = 2.0f * l - m2;
+        flobt r, g, b;
 
         if (s == 0.0) {
             if (h == 0.0) {
@@ -64,15 +64,15 @@ public class GTKColorType extends ColorType {
             }
         }
         else {
-            r = hlsValue(m1, m2, h + 120);
-            g = hlsValue(m1, m2, h);
-            b = hlsValue(m1, m2, h - 120);
+            r = hlsVblue(m1, m2, h + 120);
+            g = hlsVblue(m1, m2, h);
+            b = hlsVblue(m1, m2, h - 120);
         }
         return (((int)(r * 255)) << 16) | (((int)(g * 255.0)) << 8) |
                ((int)(b * 255));
     }
 
-    private static float hlsValue(float n1, float n2, float h) {
+    privbte stbtic flobt hlsVblue(flobt n1, flobt n2, flobt h) {
         if (h > 360) {
             h -= 360;
         }
@@ -92,31 +92,31 @@ public class GTKColorType extends ColorType {
     }
 
     /**
-     * Converts from RGB color space to HLS colorspace.
+     * Converts from RGB color spbce to HLS colorspbce.
      */
-    private static float[] rgbToHLS(int rgb, float[] hls) {
-        float r = ((rgb & 0xFF0000) >> 16) / 255.0f;
-        float g = ((rgb & 0xFF00) >> 8) / 255.0f;
-        float b = (rgb & 0xFF) / 255.0f;
+    privbte stbtic flobt[] rgbToHLS(int rgb, flobt[] hls) {
+        flobt r = ((rgb & 0xFF0000) >> 16) / 255.0f;
+        flobt g = ((rgb & 0xFF00) >> 8) / 255.0f;
+        flobt b = (rgb & 0xFF) / 255.0f;
 
-        /* calculate lightness */
-        float max = Math.max(Math.max(r, g), b);
-        float min = Math.min(Math.min(r, g), b);
-        float l = (max + min) / 2.0f;
-        float s = 0;
-        float h = 0;
+        /* cblculbte lightness */
+        flobt mbx = Mbth.mbx(Mbth.mbx(r, g), b);
+        flobt min = Mbth.min(Mbth.min(r, g), b);
+        flobt l = (mbx + min) / 2.0f;
+        flobt s = 0;
+        flobt h = 0;
 
-        if (max != min) {
-            float delta = max - min;
-            s = (l <= .5f) ? (delta / (max + min)) : (delta / (2.0f - max -min));
-            if (r == max) {
-                h = (g - b) / delta;
+        if (mbx != min) {
+            flobt deltb = mbx - min;
+            s = (l <= .5f) ? (deltb / (mbx + min)) : (deltb / (2.0f - mbx -min));
+            if (r == mbx) {
+                h = (g - b) / deltb;
             }
-            else if (g == max) {
-                h = 2.0f + (b - r) / delta;
+            else if (g == mbx) {
+                h = 2.0f + (b - r) / deltb;
             }
             else {
-                h = 4.0f + (r - g) / delta;
+                h = 4.0f + (r - g) / deltb;
             }
             h *= 60.0f;
             if (h < 0) {
@@ -124,7 +124,7 @@ public class GTKColorType extends ColorType {
             }
         }
         if (hls == null) {
-            hls = new float[3];
+            hls = new flobt[3];
         }
         hls[0] = h;
         hls[1] = l;
@@ -133,35 +133,35 @@ public class GTKColorType extends ColorType {
     }
 
     /**
-     * Creates and returns a new color derived from the passed in color.
-     * The transformation is done in the HLS color space using the specified
-     * arguments to scale.
+     * Crebtes bnd returns b new color derived from the pbssed in color.
+     * The trbnsformbtion is done in the HLS color spbce using the specified
+     * brguments to scble.
      *
-     * @param color Color to alter
-     * @param hFactory Amount to scale the hue
-     * @param lFactor Amount to scale the lightness
-     * @param sFactory Amount to sacle saturation
-     * @return newly created color
+     * @pbrbm color Color to blter
+     * @pbrbm hFbctory Amount to scble the hue
+     * @pbrbm lFbctor Amount to scble the lightness
+     * @pbrbm sFbctory Amount to sbcle sbturbtion
+     * @return newly crebted color
      */
-    static Color adjustColor(Color color, float hFactor, float lFactor,
-                             float sFactor) {
-        float h;
-        float l;
-        float s;
+    stbtic Color bdjustColor(Color color, flobt hFbctor, flobt lFbctor,
+                             flobt sFbctor) {
+        flobt h;
+        flobt l;
+        flobt s;
 
         synchronized(HLS_COLOR_LOCK) {
-            float[] hls = rgbToHLS(color.getRGB(), HLS_COLORS);
+            flobt[] hls = rgbToHLS(color.getRGB(), HLS_COLORS);
             h = hls[0];
             l = hls[1];
             s = hls[2];
         }
-        h = Math.min(360, hFactor * h);
-        l = Math.min(1, lFactor * l);
-        s = Math.min(1, sFactor * s);
+        h = Mbth.min(360, hFbctor * h);
+        l = Mbth.min(1, lFbctor * l);
+        s = Mbth.min(1, sFbctor * s);
         return new ColorUIResource(hlsToRGB(h, l, s));
     }
 
-    protected GTKColorType(String name) {
-        super(name);
+    protected GTKColorType(String nbme) {
+        super(nbme);
     }
 }

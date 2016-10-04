@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.interfaces;
+pbckbge jbvb.security.interfbces;
 
-import java.math.BigInteger;
-import java.security.spec.RSAOtherPrimeInfo;
+import jbvb.mbth.BigInteger;
+import jbvb.security.spec.RSAOtherPrimeInfo;
 
 /**
- * The interface to an RSA multi-prime private key, as defined in the
- * PKCS#1 v2.1, using the <i>Chinese Remainder Theorem</i>
- * (CRT) information values.
+ * The interfbce to bn RSA multi-prime privbte key, bs defined in the
+ * PKCS#1 v2.1, using the <i>Chinese Rembinder Theorem</i>
+ * (CRT) informbtion vblues.
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  *
  *
- * @see java.security.spec.RSAPrivateKeySpec
- * @see java.security.spec.RSAMultiPrimePrivateCrtKeySpec
- * @see RSAPrivateKey
- * @see RSAPrivateCrtKey
+ * @see jbvb.security.spec.RSAPrivbteKeySpec
+ * @see jbvb.security.spec.RSAMultiPrimePrivbteCrtKeySpec
+ * @see RSAPrivbteKey
+ * @see RSAPrivbteCrtKey
  *
  * @since 1.4
  */
 
-public interface RSAMultiPrimePrivateCrtKey extends RSAPrivateKey {
+public interfbce RSAMultiPrimePrivbteCrtKey extends RSAPrivbteKey {
 
     /**
-     * The type fingerprint that is set to indicate
-     * serialization compatibility with a previous
+     * The type fingerprint thbt is set to indicbte
+     * seriblizbtion compbtibility with b previous
      * version of the type.
      */
-    static final long serialVersionUID = 618058533534628008L;
+    stbtic finbl long seriblVersionUID = 618058533534628008L;
 
     /**
      * Returns the public exponent.
@@ -96,8 +96,8 @@ public interface RSAMultiPrimePrivateCrtKey extends RSAPrivateKey {
     public BigInteger getCrtCoefficient();
 
     /**
-     * Returns the otherPrimeInfo or null if there are only
-     * two prime factors (p and q).
+     * Returns the otherPrimeInfo or null if there bre only
+     * two prime fbctors (p bnd q).
      *
      * @return the otherPrimeInfo.
      */

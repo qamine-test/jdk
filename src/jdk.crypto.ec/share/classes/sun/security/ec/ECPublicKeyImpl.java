@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ec;
+pbckbge sun.security.ec;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
+import jbvb.security.spec.*;
 
-import sun.security.util.ECParameters;
+import sun.security.util.ECPbrbmeters;
 import sun.security.util.ECUtil;
 
 import sun.security.x509.*;
 
 /**
- * Key implementation for EC public keys.
+ * Key implementbtion for EC public keys.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class ECPublicKeyImpl extends X509Key implements ECPublicKey {
+public finbl clbss ECPublicKeyImpl extends X509Key implements ECPublicKey {
 
-    private static final long serialVersionUID = -2462037275160462289L;
+    privbte stbtic finbl long seriblVersionUID = -2462037275160462289L;
 
-    private ECPoint w;
-    private ECParameterSpec params;
+    privbte ECPoint w;
+    privbte ECPbrbmeterSpec pbrbms;
 
     /**
-     * Construct a key from its components. Used by the
-     * ECKeyFactory.
+     * Construct b key from its components. Used by the
+     * ECKeyFbctory.
      */
-    @SuppressWarnings("deprecation")
-    ECPublicKeyImpl(ECPoint w, ECParameterSpec params)
-            throws InvalidKeyException {
+    @SuppressWbrnings("deprecbtion")
+    ECPublicKeyImpl(ECPoint w, ECPbrbmeterSpec pbrbms)
+            throws InvblidKeyException {
         this.w = w;
-        this.params = params;
-        // generate the encoding
-        algid = new AlgorithmId
-            (AlgorithmId.EC_oid, ECParameters.getAlgorithmParameters(params));
-        key = ECUtil.encodePoint(w, params.getCurve());
+        this.pbrbms = pbrbms;
+        // generbte the encoding
+        blgid = new AlgorithmId
+            (AlgorithmId.EC_oid, ECPbrbmeters.getAlgorithmPbrbmeters(pbrbms));
+        key = ECUtil.encodePoint(w, pbrbms.getCurve());
     }
 
     /**
-     * Construct a key from its encoding.
+     * Construct b key from its encoding.
      */
-    ECPublicKeyImpl(byte[] encoded) throws InvalidKeyException {
+    ECPublicKeyImpl(byte[] encoded) throws InvblidKeyException {
         decode(encoded);
     }
 
@@ -82,50 +82,50 @@ public final class ECPublicKeyImpl extends X509Key implements ECPublicKey {
     }
 
     // see JCA doc
-    public ECParameterSpec getParams() {
-        return params;
+    public ECPbrbmeterSpec getPbrbms() {
+        return pbrbms;
     }
 
-    // Internal API to get the encoded point. Currently used by SunPKCS11.
-    // This may change/go away depending on what we do with the public API.
-    @SuppressWarnings("deprecation")
-    public byte[] getEncodedPublicValue() {
+    // Internbl API to get the encoded point. Currently used by SunPKCS11.
+    // This mby chbnge/go bwby depending on whbt we do with the public API.
+    @SuppressWbrnings("deprecbtion")
+    public byte[] getEncodedPublicVblue() {
         return key.clone();
     }
 
     /**
-     * Parse the key. Called by X509Key.
+     * Pbrse the key. Cblled by X509Key.
      */
-    @SuppressWarnings("deprecation")
-    protected void parseKeyBits() throws InvalidKeyException {
-        AlgorithmParameters algParams = this.algid.getParameters();
-        if (algParams == null) {
-            throw new InvalidKeyException("EC domain parameters must be " +
-                "encoded in the algorithm identifier");
+    @SuppressWbrnings("deprecbtion")
+    protected void pbrseKeyBits() throws InvblidKeyException {
+        AlgorithmPbrbmeters blgPbrbms = this.blgid.getPbrbmeters();
+        if (blgPbrbms == null) {
+            throw new InvblidKeyException("EC dombin pbrbmeters must be " +
+                "encoded in the blgorithm identifier");
         }
 
         try {
-            params = algParams.getParameterSpec(ECParameterSpec.class);
-            w = ECUtil.decodePoint(key, params.getCurve());
-        } catch (IOException e) {
-            throw new InvalidKeyException("Invalid EC key", e);
-        } catch (InvalidParameterSpecException e) {
-            throw new InvalidKeyException("Invalid EC key", e);
+            pbrbms = blgPbrbms.getPbrbmeterSpec(ECPbrbmeterSpec.clbss);
+            w = ECUtil.decodePoint(key, pbrbms.getCurve());
+        } cbtch (IOException e) {
+            throw new InvblidKeyException("Invblid EC key", e);
+        } cbtch (InvblidPbrbmeterSpecException e) {
+            throw new InvblidKeyException("Invblid EC key", e);
         }
     }
 
-    // return a string representation of this key for debugging
+    // return b string representbtion of this key for debugging
     public String toString() {
-        return "Sun EC public key, " + params.getCurve().getField().getFieldSize()
+        return "Sun EC public key, " + pbrbms.getCurve().getField().getFieldSize()
             + " bits\n  public x coord: " + w.getAffineX()
             + "\n  public y coord: " + w.getAffineY()
-            + "\n  parameters: " + params;
+            + "\n  pbrbmeters: " + pbrbms;
     }
 
-    protected Object writeReplace() throws java.io.ObjectStreamException {
+    protected Object writeReplbce() throws jbvb.io.ObjectStrebmException {
         return new KeyRep(KeyRep.Type.PUBLIC,
                         getAlgorithm(),
-                        getFormat(),
+                        getFormbt(),
                         getEncoded());
     }
 }

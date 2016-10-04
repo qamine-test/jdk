@@ -1,261 +1,261 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.tools;
+pbckbge sun.security.krb5.internbl.tools;
 
-import java.io.File;
+import jbvb.io.File;
 import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.ccache.*;
-import java.io.IOException;
-import java.util.Arrays;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import sun.security.util.Password;
-import javax.security.auth.kerberos.KeyTab;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.ccbche.*;
+import jbvb.io.IOException;
+import jbvb.util.Arrbys;
+import jbvbx.security.buth.kerberos.KerberosPrincipbl;
+import sun.security.util.Pbssword;
+import jbvbx.security.buth.kerberos.KeyTbb;
 
 /**
- * Kinit tool for obtaining Kerberos v5 tickets.
+ * Kinit tool for obtbining Kerberos v5 tickets.
  *
- * @author Yanni Zhang
- * @author Ram Marti
+ * @buthor Ybnni Zhbng
+ * @buthor Rbm Mbrti
  */
-public class Kinit {
+public clbss Kinit {
 
-    private KinitOptions options;
-    private static final boolean DEBUG = Krb5.DEBUG;
+    privbte KinitOptions options;
+    privbte stbtic finbl boolebn DEBUG = Krb5.DEBUG;
 
     /**
-     * The main method is used to accept user command line input for ticket
+     * The mbin method is used to bccept user commbnd line input for ticket
      * request.
      * <p>
-     * Usage: kinit [-A] [-f] [-p] [-c cachename] [[-k [-t keytab_file_name]]
-     * [principal] [password]
+     * Usbge: kinit [-A] [-f] [-p] [-c cbchenbme] [[-k [-t keytbb_file_nbme]]
+     * [principbl] [pbssword]
      * <ul>
-     * <li>    -A        do not include addresses
-     * <li>    -f        forwardable
-     * <li>    -p        proxiable
-     * <li>    -c        cache name (i.e., FILE://c:\temp\mykrb5cc)
-     * <li>    -k        use keytab
-     * <li>    -t        keytab file name
-     * <li>    principal the principal name (i.e., duke@java.sun.com)
-     * <li>    password  the principal's Kerberos password
+     * <li>    -A        do not include bddresses
+     * <li>    -f        forwbrdbble
+     * <li>    -p        proxibble
+     * <li>    -c        cbche nbme (i.e., FILE://c:\temp\mykrb5cc)
+     * <li>    -k        use keytbb
+     * <li>    -t        keytbb file nbme
+     * <li>    principbl the principbl nbme (i.e., duke@jbvb.sun.com)
+     * <li>    pbssword  the principbl's Kerberos pbssword
      * </ul>
      * <p>
-     * Use java sun.security.krb5.tools.Kinit -help to bring up help menu.
+     * Use jbvb sun.security.krb5.tools.Kinit -help to bring up help menu.
      * <p>
-     * We currently support only file-based credentials cache to
-     * store the tickets obtained from the KDC.
-     * By default, for all Unix platforms a cache file named
-     * /tmp/krb5cc_&lt;uid&gt will be generated. The &lt;uid&gt is the
+     * We currently support only file-bbsed credentibls cbche to
+     * store the tickets obtbined from the KDC.
+     * By defbult, for bll Unix plbtforms b cbche file nbmed
+     * /tmp/krb5cc_&lt;uid&gt will be generbted. The &lt;uid&gt is the
      * numeric user identifier.
-     * For all other platforms, a cache file named
-     * &lt;USER_HOME&gt/krb5cc_&lt;USER_NAME&gt would be generated.
+     * For bll other plbtforms, b cbche file nbmed
+     * &lt;USER_HOME&gt/krb5cc_&lt;USER_NAME&gt would be generbted.
      * <p>
-     * &lt;USER_HOME&gt is obtained from <code>java.lang.System</code>
+     * &lt;USER_HOME&gt is obtbined from <code>jbvb.lbng.System</code>
      * property <i>user.home</i>.
-     * &lt;USER_NAME&gt is obtained from <code>java.lang.System</code>
-     * property <i>user.name</i>.
-     * If &lt;USER_HOME&gt is null the cache file would be stored in
-     * the current directory that the program is running from.
-     * &lt;USER_NAME&gt is operating system's login username.
-     * It could be different from user's principal name.
+     * &lt;USER_NAME&gt is obtbined from <code>jbvb.lbng.System</code>
+     * property <i>user.nbme</i>.
+     * If &lt;USER_HOME&gt is null the cbche file would be stored in
+     * the current directory thbt the progrbm is running from.
+     * &lt;USER_NAME&gt is operbting system's login usernbme.
+     * It could be different from user's principbl nbme.
      *</p>
      *<p>
-     * For instance, on Windows NT, it could be
+     * For instbnce, on Windows NT, it could be
      * c:\winnt\profiles\duke\krb5cc_duke, in
-     * which duke is the &lt;USER_NAME&gt, and c:\winnt\profile\duke is the
+     * which duke is the &lt;USER_NAME&gt, bnd c:\winnt\profile\duke is the
      * &lt;USER_HOME&gt.
      *<p>
-     * A single user could have multiple principal names,
-     * but the primary principal of the credentials cache could only be one,
-     * which means one cache file could only store tickets for one
-     * specific user principal. If the user switches
-     * the principal name at the next Kinit, the cache file generated for the
-     * new ticket would overwrite the old cache file by default.
-     * To avoid overwriting, you need to specify
-     * a different cache file name when you request a
+     * A single user could hbve multiple principbl nbmes,
+     * but the primbry principbl of the credentibls cbche could only be one,
+     * which mebns one cbche file could only store tickets for one
+     * specific user principbl. If the user switches
+     * the principbl nbme bt the next Kinit, the cbche file generbted for the
+     * new ticket would overwrite the old cbche file by defbult.
+     * To bvoid overwriting, you need to specify
+     * b different cbche file nbme when you request b
      * new ticket.
      *</p>
      *<p>
-     * You can specify the location of the cache file by using the -c option
+     * You cbn specify the locbtion of the cbche file by using the -c option
      *
      */
 
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
         try {
-            Kinit self = new Kinit(args);
+            Kinit self = new Kinit(brgs);
         }
-        catch (Exception e) {
+        cbtch (Exception e) {
             String msg = null;
-            if (e instanceof KrbException) {
-                msg = ((KrbException)e).krbErrorMessage() + " " +
-                    ((KrbException)e).returnCodeMessage();
+            if (e instbnceof KrbException) {
+                msg = ((KrbException)e).krbErrorMessbge() + " " +
+                    ((KrbException)e).returnCodeMessbge();
             } else  {
-                msg = e.getMessage();
+                msg = e.getMessbge();
             }
             if (msg != null) {
                 System.err.println("Exception: " + msg);
             } else {
                 System.out.println("Exception: " + e);
             }
-            e.printStackTrace();
+            e.printStbckTrbce();
             System.exit(-1);
         }
         return;
     }
 
     /**
-     * Constructs a new Kinit object.
-     * @param args array of ticket request options.
-     * Avaiable options are: -f, -p, -c, principal, password.
-     * @exception IOException if an I/O error occurs.
-     * @exception RealmException if the Realm could not be instantiated.
-     * @exception KrbException if error occurs during Kerberos operation.
+     * Constructs b new Kinit object.
+     * @pbrbm brgs brrby of ticket request options.
+     * Avbibble options bre: -f, -p, -c, principbl, pbssword.
+     * @exception IOException if bn I/O error occurs.
+     * @exception ReblmException if the Reblm could not be instbntibted.
+     * @exception KrbException if error occurs during Kerberos operbtion.
      */
-    private Kinit(String[] args)
-        throws IOException, RealmException, KrbException {
-        if (args == null || args.length == 0) {
+    privbte Kinit(String[] brgs)
+        throws IOException, ReblmException, KrbException {
+        if (brgs == null || brgs.length == 0) {
             options = new KinitOptions();
         } else {
-            options = new KinitOptions(args);
+            options = new KinitOptions(brgs);
         }
-        String princName = null;
-        PrincipalName principal = options.getPrincipal();
-        if (principal != null) {
-            princName = principal.toString();
+        String princNbme = null;
+        PrincipblNbme principbl = options.getPrincipbl();
+        if (principbl != null) {
+            princNbme = principbl.toString();
         }
         KrbAsReqBuilder builder;
         if (DEBUG) {
-            System.out.println("Principal is " + principal);
+            System.out.println("Principbl is " + principbl);
         }
-        char[] psswd = options.password;
-        boolean useKeytab = options.useKeytabFile();
-        if (!useKeytab) {
-            if (princName == null) {
-                throw new IllegalArgumentException
-                    (" Can not obtain principal name");
+        chbr[] psswd = options.pbssword;
+        boolebn useKeytbb = options.useKeytbbFile();
+        if (!useKeytbb) {
+            if (princNbme == null) {
+                throw new IllegblArgumentException
+                    (" Cbn not obtbin principbl nbme");
             }
             if (psswd == null) {
-                System.out.print("Password for " + princName + ":");
+                System.out.print("Pbssword for " + princNbme + ":");
                 System.out.flush();
-                psswd = Password.readPassword(System.in);
+                psswd = Pbssword.rebdPbssword(System.in);
                 if (DEBUG) {
                     System.out.println(">>> Kinit console input " +
                         new String(psswd));
                 }
             }
-            builder = new KrbAsReqBuilder(principal, psswd);
+            builder = new KrbAsReqBuilder(principbl, psswd);
         } else {
             if (DEBUG) {
-                System.out.println(">>> Kinit using keytab");
+                System.out.println(">>> Kinit using keytbb");
             }
-            if (princName == null) {
-                throw new IllegalArgumentException
-                    ("Principal name must be specified.");
+            if (princNbme == null) {
+                throw new IllegblArgumentException
+                    ("Principbl nbme must be specified.");
             }
-            String ktabName = options.keytabFileName();
-            if (ktabName != null) {
+            String ktbbNbme = options.keytbbFileNbme();
+            if (ktbbNbme != null) {
                 if (DEBUG) {
                     System.out.println(
-                                       ">>> Kinit keytab file name: " + ktabName);
+                                       ">>> Kinit keytbb file nbme: " + ktbbNbme);
                 }
             }
 
-            builder = new KrbAsReqBuilder(principal, ktabName == null
-                    ? KeyTab.getInstance()
-                    : KeyTab.getInstance(new File(ktabName)));
+            builder = new KrbAsReqBuilder(principbl, ktbbNbme == null
+                    ? KeyTbb.getInstbnce()
+                    : KeyTbb.getInstbnce(new File(ktbbNbme)));
         }
 
         KDCOptions opt = new KDCOptions();
-        setOptions(KDCOptions.FORWARDABLE, options.forwardable, opt);
-        setOptions(KDCOptions.PROXIABLE, options.proxiable, opt);
+        setOptions(KDCOptions.FORWARDABLE, options.forwbrdbble, opt);
+        setOptions(KDCOptions.PROXIABLE, options.proxibble, opt);
         builder.setOptions(opt);
-        String realm = options.getKDCRealm();
-        if (realm == null) {
-            realm = Config.getInstance().getDefaultRealm();
+        String reblm = options.getKDCReblm();
+        if (reblm == null) {
+            reblm = Config.getInstbnce().getDefbultReblm();
         }
 
         if (DEBUG) {
-            System.out.println(">>> Kinit realm name is " + realm);
+            System.out.println(">>> Kinit reblm nbme is " + reblm);
         }
 
-        PrincipalName sname = PrincipalName.tgsService(realm, realm);
-        builder.setTarget(sname);
+        PrincipblNbme snbme = PrincipblNbme.tgsService(reblm, reblm);
+        builder.setTbrget(snbme);
 
         if (DEBUG) {
-            System.out.println(">>> Creating KrbAsReq");
+            System.out.println(">>> Crebting KrbAsReq");
         }
 
         if (options.getAddressOption())
-            builder.setAddresses(HostAddresses.getLocalAddresses());
+            builder.setAddresses(HostAddresses.getLocblAddresses());
 
-        builder.action();
+        builder.bction();
 
-        sun.security.krb5.internal.ccache.Credentials credentials =
+        sun.security.krb5.internbl.ccbche.Credentibls credentibls =
             builder.getCCreds();
         builder.destroy();
 
-        // we always create a new cache and store the ticket we get
-        CredentialsCache cache =
-            CredentialsCache.create(principal, options.cachename);
-        if (cache == null) {
-           throw new IOException("Unable to create the cache file " +
-                                 options.cachename);
+        // we blwbys crebte b new cbche bnd store the ticket we get
+        CredentiblsCbche cbche =
+            CredentiblsCbche.crebte(principbl, options.cbchenbme);
+        if (cbche == null) {
+           throw new IOException("Unbble to crebte the cbche file " +
+                                 options.cbchenbme);
         }
-        cache.update(credentials);
-        cache.save();
+        cbche.updbte(credentibls);
+        cbche.sbve();
 
-        if (options.password == null) {
-            // Assume we're running interactively
-            System.out.println("New ticket is stored in cache file " +
-                               options.cachename);
+        if (options.pbssword == null) {
+            // Assume we're running interbctively
+            System.out.println("New ticket is stored in cbche file " +
+                               options.cbchenbme);
          } else {
-             Arrays.fill(options.password, '0');
+             Arrbys.fill(options.pbssword, '0');
          }
 
-        // clear the password
+        // clebr the pbssword
         if (psswd != null) {
-            Arrays.fill(psswd, '0');
+            Arrbys.fill(psswd, '0');
         }
-        options = null; // release reference to options
+        options = null; // relebse reference to options
     }
 
-    private static void setOptions(int flag, int option, KDCOptions opt) {
+    privbte stbtic void setOptions(int flbg, int option, KDCOptions opt) {
         switch (option) {
-        case 0:
-            break;
-        case -1:
-            opt.set(flag, false);
-            break;
-        case 1:
-            opt.set(flag, true);
+        cbse 0:
+            brebk;
+        cbse -1:
+            opt.set(flbg, fblse);
+            brebk;
+        cbse 1:
+            opt.set(flbg, true);
         }
     }
 }

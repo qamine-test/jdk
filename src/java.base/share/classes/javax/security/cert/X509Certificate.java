@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.security.cert;
+pbckbge jbvbx.security.cert;
 
-import java.io.InputStream;
-import java.lang.Class;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.security.Security;
+import jbvb.io.InputStrebm;
+import jbvb.lbng.Clbss;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.security.Security;
 
-import java.math.BigInteger;
-import java.security.AccessController;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.security.PublicKey;
-import java.util.BitSet;
-import java.util.Date;
+import jbvb.mbth.BigInteger;
+import jbvb.security.AccessController;
+import jbvb.security.Principbl;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PublicKey;
+import jbvb.util.BitSet;
+import jbvb.util.Dbte;
 
 /**
- * Abstract class for X.509 v1 certificates. This provides a standard
- * way to access all the version 1 attributes of an X.509 certificate.
- * Attributes that are specific to X.509 v2 or v3 are not available
- * through this interface. Future API evolution will provide full access to
- * complete X.509 v3 attributes.
+ * Abstrbct clbss for X.509 v1 certificbtes. This provides b stbndbrd
+ * wby to bccess bll the version 1 bttributes of bn X.509 certificbte.
+ * Attributes thbt bre specific to X.509 v2 or v3 bre not bvbilbble
+ * through this interfbce. Future API evolution will provide full bccess to
+ * complete X.509 v3 bttributes.
  * <p>
- * The basic X.509 format was defined by
- * ISO/IEC and ANSI X9 and is described below in ASN.1:
+ * The bbsic X.509 formbt wbs defined by
+ * ISO/IEC bnd ANSI X9 bnd is described below in ASN.1:
  * <pre>
- * Certificate  ::=  SEQUENCE  {
- *     tbsCertificate       TBSCertificate,
- *     signatureAlgorithm   AlgorithmIdentifier,
- *     signature            BIT STRING  }
+ * Certificbte  ::=  SEQUENCE  {
+ *     tbsCertificbte       TBSCertificbte,
+ *     signbtureAlgorithm   AlgorithmIdentifier,
+ *     signbture            BIT STRING  }
  * </pre>
  * <p>
- * These certificates are widely used to support authentication and
- * other functionality in Internet security systems. Common applications
- * include Privacy Enhanced Mail (PEM), Transport Layer Security (SSL),
- * code signing for trusted software distribution, and Secure Electronic
- * Transactions (SET).
+ * These certificbtes bre widely used to support buthenticbtion bnd
+ * other functionblity in Internet security systems. Common bpplicbtions
+ * include Privbcy Enhbnced Mbil (PEM), Trbnsport Lbyer Security (SSL),
+ * code signing for trusted softwbre distribution, bnd Secure Electronic
+ * Trbnsbctions (SET).
  * <p>
- * These certificates are managed and vouched for by <em>Certificate
- * Authorities</em> (CAs). CAs are services which create certificates by
- * placing data in the X.509 standard format and then digitally signing
- * that data. CAs act as trusted third parties, making introductions
- * between principals who have no direct knowledge of each other.
- * CA certificates are either signed by themselves, or by some other
- * CA such as a "root" CA.
+ * These certificbtes bre mbnbged bnd vouched for by <em>Certificbte
+ * Authorities</em> (CAs). CAs bre services which crebte certificbtes by
+ * plbcing dbtb in the X.509 stbndbrd formbt bnd then digitblly signing
+ * thbt dbtb. CAs bct bs trusted third pbrties, mbking introductions
+ * between principbls who hbve no direct knowledge of ebch other.
+ * CA certificbtes bre either signed by themselves, or by some other
+ * CA such bs b "root" CA.
  * <p>
- * The ASN.1 definition of {@code tbsCertificate} is:
+ * The ASN.1 definition of {@code tbsCertificbte} is:
  * <pre>
- * TBSCertificate  ::=  SEQUENCE  {
+ * TBSCertificbte  ::=  SEQUENCE  {
  *     version         [0]  EXPLICIT Version DEFAULT v1,
- *     serialNumber         CertificateSerialNumber,
- *     signature            AlgorithmIdentifier,
- *     issuer               Name,
- *     validity             Validity,
- *     subject              Name,
+ *     seriblNumber         CertificbteSeriblNumber,
+ *     signbture            AlgorithmIdentifier,
+ *     issuer               Nbme,
+ *     vblidity             Vblidity,
+ *     subject              Nbme,
  *     subjectPublicKeyInfo SubjectPublicKeyInfo,
  *     }
  * </pre>
  * <p>
- * Here is sample code to instantiate an X.509 certificate:
+ * Here is sbmple code to instbntibte bn X.509 certificbte:
  * <pre>
- * InputStream inStream = new FileInputStream("fileName-of-cert");
- * X509Certificate cert = X509Certificate.getInstance(inStream);
- * inStream.close();
+ * InputStrebm inStrebm = new FileInputStrebm("fileNbme-of-cert");
+ * X509Certificbte cert = X509Certificbte.getInstbnce(inStrebm);
+ * inStrebm.close();
  * </pre>
  * OR
  * <pre>
- * byte[] certData = &lt;certificate read from a file, say&gt;
- * X509Certificate cert = X509Certificate.getInstance(certData);
+ * byte[] certDbtb = &lt;certificbte rebd from b file, sby&gt;
+ * X509Certificbte cert = X509Certificbte.getInstbnce(certDbtb);
  * </pre>
  * <p>
- * In either case, the code that instantiates an X.509 certificate
- * consults the value of the {@code cert.provider.x509v1} security property
- * to locate the actual implementation or instantiates a default implementation.
+ * In either cbse, the code thbt instbntibtes bn X.509 certificbte
+ * consults the vblue of the {@code cert.provider.x509v1} security property
+ * to locbte the bctubl implementbtion or instbntibtes b defbult implementbtion.
  * <p>
- * The {@code cert.provider.x509v1} property is set to a default
- * implementation for X.509 such as:
+ * The {@code cert.provider.x509v1} property is set to b defbult
+ * implementbtion for X.509 such bs:
  * <pre>
- * cert.provider.x509v1=com.sun.security.cert.internal.x509.X509V1CertImpl
+ * cert.provider.x509v1=com.sun.security.cert.internbl.x509.X509V1CertImpl
  * </pre>
  * <p>
- * The value of this {@code cert.provider.x509v1} property has to be
- * changed to instantiate another implementation. If this security
- * property is not set, a default implementation will be used.
- * Currently, due to possible security restrictions on access to
- * Security properties, this value is looked up and cached at class
- * initialization time and will fallback on a default implementation if
- * the Security property is not accessible.
+ * The vblue of this {@code cert.provider.x509v1} property hbs to be
+ * chbnged to instbntibte bnother implementbtion. If this security
+ * property is not set, b defbult implementbtion will be used.
+ * Currently, due to possible security restrictions on bccess to
+ * Security properties, this vblue is looked up bnd cbched bt clbss
+ * initiblizbtion time bnd will fbllbbck on b defbult implementbtion if
+ * the Security property is not bccessible.
  *
- * <p><em>Note: The classes in the package {@code javax.security.cert}
- * exist for compatibility with earlier versions of the
- * Java Secure Sockets Extension (JSSE). New applications should instead
- * use the standard Java SE certificate classes located in
- * {@code java.security.cert}.</em></p>
+ * <p><em>Note: The clbsses in the pbckbge {@code jbvbx.security.cert}
+ * exist for compbtibility with ebrlier versions of the
+ * Jbvb Secure Sockets Extension (JSSE). New bpplicbtions should instebd
+ * use the stbndbrd Jbvb SE certificbte clbsses locbted in
+ * {@code jbvb.security.cert}.</em></p>
  *
- * @author Hemma Prafullchandra
+ * @buthor Hemmb Prbfullchbndrb
  * @since 1.4
- * @see Certificate
- * @see java.security.cert.X509Extension
- * @see java.security.Security security properties
+ * @see Certificbte
+ * @see jbvb.security.cert.X509Extension
+ * @see jbvb.security.Security security properties
  */
-public abstract class X509Certificate extends Certificate {
+public bbstrbct clbss X509Certificbte extends Certificbte {
 
     /*
-     * Constant to lookup in the Security properties file.
-     * In the Security properties file the default implementation
-     * for X.509 v3 is given as:
+     * Constbnt to lookup in the Security properties file.
+     * In the Security properties file the defbult implementbtion
+     * for X.509 v3 is given bs:
      * <pre>
-     * cert.provider.x509v1=com.sun.security.cert.internal.x509.X509V1CertImpl
+     * cert.provider.x509v1=com.sun.security.cert.internbl.x509.X509V1CertImpl
      * </pre>
      */
-    private static final String X509_PROVIDER = "cert.provider.x509v1";
-    private static String X509Provider;
+    privbte stbtic finbl String X509_PROVIDER = "cert.provider.x509v1";
+    privbte stbtic String X509Provider;
 
-    static {
+    stbtic {
         X509Provider = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
                 public String run() {
@@ -149,149 +149,149 @@ public abstract class X509Certificate extends Certificate {
     }
 
     /**
-     * Instantiates an X509Certificate object, and initializes it with
-     * the data read from the input stream {@code inStream}.
-     * The implementation (X509Certificate is an abstract class) is
-     * provided by the class specified as the value of the
+     * Instbntibtes bn X509Certificbte object, bnd initiblizes it with
+     * the dbtb rebd from the input strebm {@code inStrebm}.
+     * The implementbtion (X509Certificbte is bn bbstrbct clbss) is
+     * provided by the clbss specified bs the vblue of the
      * {@code cert.provider.x509v1} security property.
      *
      * <p>Note: Only one DER-encoded
-     * certificate is expected to be in the input stream.
-     * Also, all X509Certificate
-     * subclasses must provide a constructor of the form:
+     * certificbte is expected to be in the input strebm.
+     * Also, bll X509Certificbte
+     * subclbsses must provide b constructor of the form:
      * <pre>{@code
-     * public <subClass>(InputStream inStream) ...
+     * public <subClbss>(InputStrebm inStrebm) ...
      * }</pre>
      *
-     * @param inStream an input stream with the data to be read to
-     *        initialize the certificate.
-     * @return an X509Certificate object initialized with the data
-     *         from the input stream.
-     * @exception CertificateException if a class initialization
-     *            or certificate parsing error occurs.
+     * @pbrbm inStrebm bn input strebm with the dbtb to be rebd to
+     *        initiblize the certificbte.
+     * @return bn X509Certificbte object initiblized with the dbtb
+     *         from the input strebm.
+     * @exception CertificbteException if b clbss initiblizbtion
+     *            or certificbte pbrsing error occurs.
      */
-    public static final X509Certificate getInstance(InputStream inStream)
-    throws CertificateException {
-        return getInst((Object)inStream);
+    public stbtic finbl X509Certificbte getInstbnce(InputStrebm inStrebm)
+    throws CertificbteException {
+        return getInst((Object)inStrebm);
     }
 
     /**
-     * Instantiates an X509Certificate object, and initializes it with
-     * the specified byte array.
-     * The implementation (X509Certificate is an abstract class) is
-     * provided by the class specified as the value of the
+     * Instbntibtes bn X509Certificbte object, bnd initiblizes it with
+     * the specified byte brrby.
+     * The implementbtion (X509Certificbte is bn bbstrbct clbss) is
+     * provided by the clbss specified bs the vblue of the
      * {@code cert.provider.x509v1} security property.
      *
-     * <p>Note: All X509Certificate
-     * subclasses must provide a constructor of the form:
+     * <p>Note: All X509Certificbte
+     * subclbsses must provide b constructor of the form:
      * <pre>{@code
-     * public <subClass>(InputStream inStream) ...
+     * public <subClbss>(InputStrebm inStrebm) ...
      * }</pre>
      *
-     * @param certData a byte array containing the DER-encoded
-     *        certificate.
-     * @return an X509Certificate object initialized with the data
-     *         from {@code certData}.
-     * @exception CertificateException if a class initialization
-     *            or certificate parsing error occurs.
+     * @pbrbm certDbtb b byte brrby contbining the DER-encoded
+     *        certificbte.
+     * @return bn X509Certificbte object initiblized with the dbtb
+     *         from {@code certDbtb}.
+     * @exception CertificbteException if b clbss initiblizbtion
+     *            or certificbte pbrsing error occurs.
      */
-    public static final X509Certificate getInstance(byte[] certData)
-    throws CertificateException {
-        return getInst((Object)certData);
+    public stbtic finbl X509Certificbte getInstbnce(byte[] certDbtb)
+    throws CertificbteException {
+        return getInst((Object)certDbtb);
     }
 
-    private static final X509Certificate getInst(Object value)
-    throws CertificateException {
+    privbte stbtic finbl X509Certificbte getInst(Object vblue)
+    throws CertificbteException {
         /*
          * This turns out not to work for now. To run under JDK1.2 we would
-         * need to call beginPrivileged() but we can't do that and run
+         * need to cbll beginPrivileged() but we cbn't do thbt bnd run
          * under JDK1.1.
          */
-        String className = X509Provider;
-        if (className == null || className.length() == 0) {
-            // shouldn't happen, but assume corrupted properties file
-            // provide access to sun implementation
-            className = "com.sun.security.cert.internal.x509.X509V1CertImpl";
+        String clbssNbme = X509Provider;
+        if (clbssNbme == null || clbssNbme.length() == 0) {
+            // shouldn't hbppen, but bssume corrupted properties file
+            // provide bccess to sun implementbtion
+            clbssNbme = "com.sun.security.cert.internbl.x509.X509V1CertImpl";
         }
         try {
-            Class<?>[] params = null;
-            if (value instanceof InputStream) {
-                params = new Class<?>[] { InputStream.class };
-            } else if (value instanceof byte[]) {
-                params = new Class<?>[] { value.getClass() };
+            Clbss<?>[] pbrbms = null;
+            if (vblue instbnceof InputStrebm) {
+                pbrbms = new Clbss<?>[] { InputStrebm.clbss };
+            } else if (vblue instbnceof byte[]) {
+                pbrbms = new Clbss<?>[] { vblue.getClbss() };
             } else
-                throw new CertificateException("Unsupported argument type");
-            Class<?> certClass = Class.forName(className);
+                throw new CertificbteException("Unsupported brgument type");
+            Clbss<?> certClbss = Clbss.forNbme(clbssNbme);
 
-            // get the appropriate constructor and instantiate it
-            Constructor<?> cons = certClass.getConstructor(params);
+            // get the bppropribte constructor bnd instbntibte it
+            Constructor<?> cons = certClbss.getConstructor(pbrbms);
 
-            // get a new instance
-            Object obj = cons.newInstance(new Object[] {value});
-            return (X509Certificate)obj;
+            // get b new instbnce
+            Object obj = cons.newInstbnce(new Object[] {vblue});
+            return (X509Certificbte)obj;
 
-        } catch (ClassNotFoundException e) {
-          throw new CertificateException("Could not find class: " + e);
-        } catch (IllegalAccessException e) {
-          throw new CertificateException("Could not access class: " + e);
-        } catch (InstantiationException e) {
-          throw new CertificateException("Problems instantiating: " + e);
-        } catch (InvocationTargetException e) {
-          throw new CertificateException("InvocationTargetException: "
-                                         + e.getTargetException());
-        } catch (NoSuchMethodException e) {
-          throw new CertificateException("Could not find class method: "
-                                          + e.getMessage());
+        } cbtch (ClbssNotFoundException e) {
+          throw new CertificbteException("Could not find clbss: " + e);
+        } cbtch (IllegblAccessException e) {
+          throw new CertificbteException("Could not bccess clbss: " + e);
+        } cbtch (InstbntibtionException e) {
+          throw new CertificbteException("Problems instbntibting: " + e);
+        } cbtch (InvocbtionTbrgetException e) {
+          throw new CertificbteException("InvocbtionTbrgetException: "
+                                         + e.getTbrgetException());
+        } cbtch (NoSuchMethodException e) {
+          throw new CertificbteException("Could not find clbss method: "
+                                          + e.getMessbge());
         }
     }
 
     /**
-     * Checks that the certificate is currently valid. It is if
-     * the current date and time are within the validity period given in the
-     * certificate.
+     * Checks thbt the certificbte is currently vblid. It is if
+     * the current dbte bnd time bre within the vblidity period given in the
+     * certificbte.
      * <p>
-     * The validity period consists of two date/time values:
-     * the first and last dates (and times) on which the certificate
-     * is valid. It is defined in
-     * ASN.1 as:
+     * The vblidity period consists of two dbte/time vblues:
+     * the first bnd lbst dbtes (bnd times) on which the certificbte
+     * is vblid. It is defined in
+     * ASN.1 bs:
      * <pre>
-     * validity             Validity
+     * vblidity             Vblidity
      *
-     * Validity ::= SEQUENCE {
-     *     notBefore      CertificateValidityDate,
-     *     notAfter       CertificateValidityDate }
+     * Vblidity ::= SEQUENCE {
+     *     notBefore      CertificbteVblidityDbte,
+     *     notAfter       CertificbteVblidityDbte }
      *
-     * CertificateValidityDate ::= CHOICE {
+     * CertificbteVblidityDbte ::= CHOICE {
      *     utcTime        UTCTime,
-     *     generalTime    GeneralizedTime }
+     *     generblTime    GenerblizedTime }
      * </pre>
      *
-     * @exception CertificateExpiredException if the certificate has expired.
-     * @exception CertificateNotYetValidException if the certificate is not
-     *            yet valid.
+     * @exception CertificbteExpiredException if the certificbte hbs expired.
+     * @exception CertificbteNotYetVblidException if the certificbte is not
+     *            yet vblid.
      */
-    public abstract void checkValidity()
-        throws CertificateExpiredException, CertificateNotYetValidException;
+    public bbstrbct void checkVblidity()
+        throws CertificbteExpiredException, CertificbteNotYetVblidException;
 
     /**
-     * Checks that the specified date is within the certificate's
-     * validity period. In other words, this determines whether the
-     * certificate would be valid at the specified date/time.
+     * Checks thbt the specified dbte is within the certificbte's
+     * vblidity period. In other words, this determines whether the
+     * certificbte would be vblid bt the specified dbte/time.
      *
-     * @param date the Date to check against to see if this certificate
-     *        is valid at that date/time.
-     * @exception CertificateExpiredException if the certificate has expired
-     *            with respect to the {@code date} supplied.
-     * @exception CertificateNotYetValidException if the certificate is not
-     *            yet valid with respect to the {@code date} supplied.
-     * @see #checkValidity()
+     * @pbrbm dbte the Dbte to check bgbinst to see if this certificbte
+     *        is vblid bt thbt dbte/time.
+     * @exception CertificbteExpiredException if the certificbte hbs expired
+     *            with respect to the {@code dbte} supplied.
+     * @exception CertificbteNotYetVblidException if the certificbte is not
+     *            yet vblid with respect to the {@code dbte} supplied.
+     * @see #checkVblidity()
      */
-    public abstract void checkValidity(Date date)
-        throws CertificateExpiredException, CertificateNotYetValidException;
+    public bbstrbct void checkVblidity(Dbte dbte)
+        throws CertificbteExpiredException, CertificbteNotYetVblidException;
 
     /**
-     * Gets the {@code version} (version number) value from the
-     * certificate. The ASN.1 definition for this is:
+     * Gets the {@code version} (version number) vblue from the
+     * certificbte. The ASN.1 definition for this is:
      * <pre>
      * version         [0]  EXPLICIT Version DEFAULT v1
      *
@@ -300,153 +300,153 @@ public abstract class X509Certificate extends Certificate {
      *
      * @return the version number from the ASN.1 encoding, i.e. 0, 1 or 2.
      */
-    public abstract int getVersion();
+    public bbstrbct int getVersion();
 
     /**
-     * Gets the {@code serialNumber} value from the certificate.
-     * The serial number is an integer assigned by the certification
-     * authority to each certificate. It must be unique for each
-     * certificate issued by a given CA (i.e., the issuer name and
-     * serial number identify a unique certificate).
+     * Gets the {@code seriblNumber} vblue from the certificbte.
+     * The seribl number is bn integer bssigned by the certificbtion
+     * buthority to ebch certificbte. It must be unique for ebch
+     * certificbte issued by b given CA (i.e., the issuer nbme bnd
+     * seribl number identify b unique certificbte).
      * The ASN.1 definition for this is:
      * <pre>
-     * serialNumber     CertificateSerialNumber
+     * seriblNumber     CertificbteSeriblNumber
      *
-     * CertificateSerialNumber  ::=  INTEGER
+     * CertificbteSeriblNumber  ::=  INTEGER
      * </pre>
      *
-     * @return the serial number.
+     * @return the seribl number.
      */
-    public abstract BigInteger getSerialNumber();
+    public bbstrbct BigInteger getSeriblNumber();
 
     /**
-     * Gets the {@code issuer} (issuer distinguished name) value from
-     * the certificate. The issuer name identifies the entity that signed (and
-     * issued) the certificate.
+     * Gets the {@code issuer} (issuer distinguished nbme) vblue from
+     * the certificbte. The issuer nbme identifies the entity thbt signed (bnd
+     * issued) the certificbte.
      *
-     * <p>The issuer name field contains an
-     * X.500 distinguished name (DN).
+     * <p>The issuer nbme field contbins bn
+     * X.500 distinguished nbme (DN).
      * The ASN.1 definition for this is:
      * <pre>
-     * issuer    Name
+     * issuer    Nbme
      *
-     * Name ::= CHOICE { RDNSequence }
-     * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
-     * RelativeDistinguishedName ::=
-     *     SET OF AttributeValueAssertion
+     * Nbme ::= CHOICE { RDNSequence }
+     * RDNSequence ::= SEQUENCE OF RelbtiveDistinguishedNbme
+     * RelbtiveDistinguishedNbme ::=
+     *     SET OF AttributeVblueAssertion
      *
-     * AttributeValueAssertion ::= SEQUENCE {
+     * AttributeVblueAssertion ::= SEQUENCE {
      *                               AttributeType,
-     *                               AttributeValue }
+     *                               AttributeVblue }
      * AttributeType ::= OBJECT IDENTIFIER
-     * AttributeValue ::= ANY
+     * AttributeVblue ::= ANY
      * </pre>
-     * The {@code Name} describes a hierarchical name composed of
-     * attributes, such as country name, and corresponding values, such as US.
-     * The type of the {@code AttributeValue} component is determined by
-     * the {@code AttributeType}; in general it will be a
-     * {@code directoryString}. A {@code directoryString} is usually
-     * one of {@code PrintableString},
-     * {@code TeletexString} or {@code UniversalString}.
+     * The {@code Nbme} describes b hierbrchicbl nbme composed of
+     * bttributes, such bs country nbme, bnd corresponding vblues, such bs US.
+     * The type of the {@code AttributeVblue} component is determined by
+     * the {@code AttributeType}; in generbl it will be b
+     * {@code directoryString}. A {@code directoryString} is usublly
+     * one of {@code PrintbbleString},
+     * {@code TeletexString} or {@code UniversblString}.
      *
-     * @return a Principal whose name is the issuer distinguished name.
+     * @return b Principbl whose nbme is the issuer distinguished nbme.
      */
-    public abstract Principal getIssuerDN();
+    public bbstrbct Principbl getIssuerDN();
 
     /**
-     * Gets the {@code subject} (subject distinguished name) value
-     * from the certificate.
+     * Gets the {@code subject} (subject distinguished nbme) vblue
+     * from the certificbte.
      * The ASN.1 definition for this is:
      * <pre>
-     * subject    Name
+     * subject    Nbme
      * </pre>
      *
-     * <p>See {@link #getIssuerDN() getIssuerDN} for {@code Name}
-     * and other relevant definitions.
+     * <p>See {@link #getIssuerDN() getIssuerDN} for {@code Nbme}
+     * bnd other relevbnt definitions.
      *
-     * @return a Principal whose name is the subject name.
+     * @return b Principbl whose nbme is the subject nbme.
      * @see #getIssuerDN()
      */
-    public abstract Principal getSubjectDN();
+    public bbstrbct Principbl getSubjectDN();
 
     /**
-     * Gets the {@code notBefore} date from the validity period of
-     * the certificate.
-     * The relevant ASN.1 definitions are:
+     * Gets the {@code notBefore} dbte from the vblidity period of
+     * the certificbte.
+     * The relevbnt ASN.1 definitions bre:
      * <pre>
-     * validity             Validity
+     * vblidity             Vblidity
      *
-     * Validity ::= SEQUENCE {
-     *     notBefore      CertificateValidityDate,
-     *     notAfter       CertificateValidityDate }
+     * Vblidity ::= SEQUENCE {
+     *     notBefore      CertificbteVblidityDbte,
+     *     notAfter       CertificbteVblidityDbte }
      *
-     * CertificateValidityDate ::= CHOICE {
+     * CertificbteVblidityDbte ::= CHOICE {
      *     utcTime        UTCTime,
-     *     generalTime    GeneralizedTime }
+     *     generblTime    GenerblizedTime }
      * </pre>
      *
-     * @return the start date of the validity period.
-     * @see #checkValidity()
+     * @return the stbrt dbte of the vblidity period.
+     * @see #checkVblidity()
      */
-    public abstract Date getNotBefore();
+    public bbstrbct Dbte getNotBefore();
 
     /**
-     * Gets the {@code notAfter} date from the validity period of
-     * the certificate. See {@link #getNotBefore() getNotBefore}
-     * for relevant ASN.1 definitions.
+     * Gets the {@code notAfter} dbte from the vblidity period of
+     * the certificbte. See {@link #getNotBefore() getNotBefore}
+     * for relevbnt ASN.1 definitions.
      *
-     * @return the end date of the validity period.
-     * @see #checkValidity()
+     * @return the end dbte of the vblidity period.
+     * @see #checkVblidity()
      */
-    public abstract Date getNotAfter();
+    public bbstrbct Dbte getNotAfter();
 
     /**
-     * Gets the signature algorithm name for the certificate
-     * signature algorithm. An example is the string "SHA-1/DSA".
+     * Gets the signbture blgorithm nbme for the certificbte
+     * signbture blgorithm. An exbmple is the string "SHA-1/DSA".
      * The ASN.1 definition for this is:
      * <pre>
-     * signatureAlgorithm   AlgorithmIdentifier
+     * signbtureAlgorithm   AlgorithmIdentifier
      *
      * AlgorithmIdentifier  ::=  SEQUENCE  {
-     *     algorithm               OBJECT IDENTIFIER,
-     *     parameters              ANY DEFINED BY algorithm OPTIONAL  }
-     *                             -- contains a value of the type
+     *     blgorithm               OBJECT IDENTIFIER,
+     *     pbrbmeters              ANY DEFINED BY blgorithm OPTIONAL  }
+     *                             -- contbins b vblue of the type
      *                             -- registered for use with the
-     *                             -- algorithm object identifier value
+     *                             -- blgorithm object identifier vblue
      * </pre>
      *
-     * <p>The algorithm name is determined from the {@code algorithm}
+     * <p>The blgorithm nbme is determined from the {@code blgorithm}
      * OID string.
      *
-     * @return the signature algorithm name.
+     * @return the signbture blgorithm nbme.
      */
-    public abstract String getSigAlgName();
+    public bbstrbct String getSigAlgNbme();
 
     /**
-     * Gets the signature algorithm OID string from the certificate.
-     * An OID is represented by a set of positive whole numbers separated
+     * Gets the signbture blgorithm OID string from the certificbte.
+     * An OID is represented by b set of positive whole numbers sepbrbted
      * by periods.
-     * For example, the string "1.2.840.10040.4.3" identifies the SHA-1
-     * with DSA signature algorithm, as per the PKIX part I.
+     * For exbmple, the string "1.2.840.10040.4.3" identifies the SHA-1
+     * with DSA signbture blgorithm, bs per the PKIX pbrt I.
      *
-     * <p>See {@link #getSigAlgName() getSigAlgName} for
-     * relevant ASN.1 definitions.
+     * <p>See {@link #getSigAlgNbme() getSigAlgNbme} for
+     * relevbnt ASN.1 definitions.
      *
-     * @return the signature algorithm OID string.
+     * @return the signbture blgorithm OID string.
      */
-    public abstract String getSigAlgOID();
+    public bbstrbct String getSigAlgOID();
 
     /**
-     * Gets the DER-encoded signature algorithm parameters from this
-     * certificate's signature algorithm. In most cases, the signature
-     * algorithm parameters are null; the parameters are usually
-     * supplied with the certificate's public key.
+     * Gets the DER-encoded signbture blgorithm pbrbmeters from this
+     * certificbte's signbture blgorithm. In most cbses, the signbture
+     * blgorithm pbrbmeters bre null; the pbrbmeters bre usublly
+     * supplied with the certificbte's public key.
      *
-     * <p>See {@link #getSigAlgName() getSigAlgName} for
-     * relevant ASN.1 definitions.
+     * <p>See {@link #getSigAlgNbme() getSigAlgNbme} for
+     * relevbnt ASN.1 definitions.
      *
-     * @return the DER-encoded signature algorithm parameters, or
-     *         null if no parameters are present.
+     * @return the DER-encoded signbture blgorithm pbrbmeters, or
+     *         null if no pbrbmeters bre present.
      */
-    public abstract byte[] getSigAlgParams();
+    public bbstrbct byte[] getSigAlgPbrbms();
 }

@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <jlong.h>
 
-#include "sun_java2d_opengl_GLXSurfaceData.h"
+#include "sun_jbvb2d_opengl_GLXSurfbceDbtb.h"
 
 #include "OGLRenderQueue.h"
-#include "GLXGraphicsConfig.h"
-#include "GLXSurfaceData.h"
-#include "awt_Component.h"
-#include "awt_GraphicsEnv.h"
+#include "GLXGrbphicsConfig.h"
+#include "GLXSurfbceDbtb.h"
+#include "bwt_Component.h"
+#include "bwt_GrbphicsEnv.h"
 
 /**
- * The methods in this file implement the native windowing system specific
- * layer (GLX) for the OpenGL-based Java 2D pipeline.
+ * The methods in this file implement the nbtive windowing system specific
+ * lbyer (GLX) for the OpenGL-bbsed Jbvb 2D pipeline.
  */
 
 #ifndef HEADLESS
 
 extern LockFunc       OGLSD_Lock;
-extern GetRasInfoFunc OGLSD_GetRasInfo;
+extern GetRbsInfoFunc OGLSD_GetRbsInfo;
 extern UnlockFunc     OGLSD_Unlock;
 extern DisposeFunc    OGLSD_Dispose;
 
 extern void
-    OGLSD_SetNativeDimensions(JNIEnv *env, OGLSDOps *oglsdo, jint w, jint h);
+    OGLSD_SetNbtiveDimensions(JNIEnv *env, OGLSDOps *oglsdo, jint w, jint h);
 
-jboolean surfaceCreationFailed = JNI_FALSE;
+jboolebn surfbceCrebtionFbiled = JNI_FALSE;
 
 #endif /* !HEADLESS */
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_GLXSurfaceData_initOps(JNIEnv *env, jobject glxsd,
-                                              jobject peer, jlong aData)
+Jbvb_sun_jbvb2d_opengl_GLXSurfbceDbtb_initOps(JNIEnv *env, jobject glxsd,
+                                              jobject peer, jlong bDbtb)
 {
 #ifndef HEADLESS
-    GLXSDOps *glxsdo = (GLXSDOps *)malloc(sizeof(GLXSDOps));
+    GLXSDOps *glxsdo = (GLXSDOps *)mblloc(sizeof(GLXSDOps));
 
     if (glxsdo == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "creating native GLX ops");
+        JNU_ThrowOutOfMemoryError(env, "crebting nbtive GLX ops");
         return;
     }
 
-    OGLSDOps *oglsdo = (OGLSDOps *)SurfaceData_InitOps(env, glxsd,
+    OGLSDOps *oglsdo = (OGLSDOps *)SurfbceDbtb_InitOps(env, glxsd,
                                                        sizeof(OGLSDOps));
     if (oglsdo == NULL) {
         free(glxsdo);
-        JNU_ThrowOutOfMemoryError(env, "Initialization of SurfaceData failed.");
+        JNU_ThrowOutOfMemoryError(env, "Initiblizbtion of SurfbceDbtb fbiled.");
         return;
     }
 
-    J2dTraceLn(J2D_TRACE_INFO, "GLXSurfaceData_initOps");
+    J2dTrbceLn(J2D_TRACE_INFO, "GLXSurfbceDbtb_initOps");
 
     oglsdo->privOps = glxsdo;
 
     oglsdo->sdOps.Lock       = OGLSD_Lock;
-    oglsdo->sdOps.GetRasInfo = OGLSD_GetRasInfo;
+    oglsdo->sdOps.GetRbsInfo = OGLSD_GetRbsInfo;
     oglsdo->sdOps.Unlock     = OGLSD_Unlock;
     oglsdo->sdOps.Dispose    = OGLSD_Dispose;
 
-    oglsdo->drawableType = OGLSD_UNDEFINED;
-    oglsdo->activeBuffer = GL_FRONT;
+    oglsdo->drbwbbleType = OGLSD_UNDEFINED;
+    oglsdo->bctiveBuffer = GL_FRONT;
     oglsdo->needsInit = JNI_TRUE;
 
     if (peer != NULL) {
-        glxsdo->window = JNU_CallMethodByName(env, NULL, peer,
+        glxsdo->window = JNU_CbllMethodByNbme(env, NULL, peer,
                                               "getContentWindow", "()J").j;
     } else {
         glxsdo->window = 0;
     }
-    glxsdo->configData = (AwtGraphicsConfigDataPtr)jlong_to_ptr(aData);
-    if (glxsdo->configData == NULL) {
+    glxsdo->configDbtb = (AwtGrbphicsConfigDbtbPtr)jlong_to_ptr(bDbtb);
+    if (glxsdo->configDbtb == NULL) {
         free(glxsdo);
         JNU_ThrowNullPointerException(env,
-                                 "Native GraphicsConfig data block missing");
+                                 "Nbtive GrbphicsConfig dbtb block missing");
         return;
     }
 
-    if (glxsdo->configData->glxInfo == NULL) {
+    if (glxsdo->configDbtb->glxInfo == NULL) {
         free(glxsdo);
-        JNU_ThrowNullPointerException(env, "GLXGraphicsConfigInfo missing");
+        JNU_ThrowNullPointerException(env, "GLXGrbphicsConfigInfo missing");
         return;
     }
 #endif /* HEADLESS */
@@ -110,54 +110,54 @@ Java_sun_java2d_opengl_GLXSurfaceData_initOps(JNIEnv *env, jobject glxsd,
 #ifndef HEADLESS
 
 /**
- * This function disposes of any native windowing system resources associated
- * with this surface.  For instance, if the given OGLSDOps is of type
- * OGLSD_PBUFFER, this method implementation will destroy the actual pbuffer
- * surface.
+ * This function disposes of bny nbtive windowing system resources bssocibted
+ * with this surfbce.  For instbnce, if the given OGLSDOps is of type
+ * OGLSD_PBUFFER, this method implementbtion will destroy the bctubl pbuffer
+ * surfbce.
  */
 void
-OGLSD_DestroyOGLSurface(JNIEnv *env, OGLSDOps *oglsdo)
+OGLSD_DestroyOGLSurfbce(JNIEnv *env, OGLSDOps *oglsdo)
 {
     GLXSDOps *glxsdo = (GLXSDOps *)oglsdo->privOps;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_DestroyOGLSurface");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_DestroyOGLSurfbce");
 
-    if (oglsdo->drawableType == OGLSD_PBUFFER) {
-        if (glxsdo->drawable != 0) {
-            j2d_glXDestroyPbuffer(awt_display, glxsdo->drawable);
-            glxsdo->drawable = 0;
+    if (oglsdo->drbwbbleType == OGLSD_PBUFFER) {
+        if (glxsdo->drbwbble != 0) {
+            j2d_glXDestroyPbuffer(bwt_displby, glxsdo->drbwbble);
+            glxsdo->drbwbble = 0;
         }
-    } else if (oglsdo->drawableType == OGLSD_WINDOW) {
-        // X Window is free'd later by AWT code...
+    } else if (oglsdo->drbwbbleType == OGLSD_WINDOW) {
+        // X Window is free'd lbter by AWT code...
     }
 }
 
 /**
- * Makes the given context current to its associated "scratch" surface.  If
- * the operation is successful, this method will return JNI_TRUE; otherwise,
+ * Mbkes the given context current to its bssocibted "scrbtch" surfbce.  If
+ * the operbtion is successful, this method will return JNI_TRUE; otherwise,
  * returns JNI_FALSE.
  */
-static jboolean
-GLXSD_MakeCurrentToScratch(JNIEnv *env, OGLContext *oglc)
+stbtic jboolebn
+GLXSD_MbkeCurrentToScrbtch(JNIEnv *env, OGLContext *oglc)
 {
     GLXCtxInfo *ctxInfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "GLXSD_MakeCurrentToScratch");
+    J2dTrbceLn(J2D_TRACE_INFO, "GLXSD_MbkeCurrentToScrbtch");
 
     if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXSD_MakeCurrentToScratch: context is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "GLXSD_MbkeCurrentToScrbtch: context is null");
         return JNI_FALSE;
     }
 
     ctxInfo = (GLXCtxInfo *)oglc->ctxInfo;
-    if (!j2d_glXMakeContextCurrent(awt_display,
-                                   ctxInfo->scratchSurface,
-                                   ctxInfo->scratchSurface,
+    if (!j2d_glXMbkeContextCurrent(bwt_displby,
+                                   ctxInfo->scrbtchSurfbce,
+                                   ctxInfo->scrbtchSurfbce,
                                    ctxInfo->context))
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXSD_MakeCurrentToScratch: could not make current");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "GLXSD_MbkeCurrentToScrbtch: could not mbke current");
         return JNI_FALSE;
     }
 
@@ -165,133 +165,133 @@ GLXSD_MakeCurrentToScratch(JNIEnv *env, OGLContext *oglc)
 }
 
 /**
- * Returns a pointer (as a jlong) to the native GLXGraphicsConfigInfo
- * associated with the given OGLSDOps.  This method can be called from
- * shared code to retrieve the native GraphicsConfig data in a platform-
- * independent manner.
+ * Returns b pointer (bs b jlong) to the nbtive GLXGrbphicsConfigInfo
+ * bssocibted with the given OGLSDOps.  This method cbn be cblled from
+ * shbred code to retrieve the nbtive GrbphicsConfig dbtb in b plbtform-
+ * independent mbnner.
  */
 jlong
-OGLSD_GetNativeConfigInfo(OGLSDOps *oglsdo)
+OGLSD_GetNbtiveConfigInfo(OGLSDOps *oglsdo)
 {
     GLXSDOps *glxsdo;
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_GetNativeConfigInfo: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_GetNbtiveConfigInfo: ops bre null");
         return 0L;
     }
 
     glxsdo = (GLXSDOps *)oglsdo->privOps;
     if (glxsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_GetNativeConfigInfo: glx ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_GetNbtiveConfigInfo: glx ops bre null");
         return 0L;
     }
 
-    if (glxsdo->configData == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_GetNativeConfigInfo: config data is null");
+    if (glxsdo->configDbtb == NULL) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_GetNbtiveConfigInfo: config dbtb is null");
         return 0L;
     }
 
-    return ptr_to_jlong(glxsdo->configData->glxInfo);
+    return ptr_to_jlong(glxsdo->configDbtb->glxInfo);
 }
 
 /**
- * Makes the given GraphicsConfig's context current to its associated
- * "scratch" surface.  If there is a problem making the context current,
- * this method will return NULL; otherwise, returns a pointer to the
- * OGLContext that is associated with the given GraphicsConfig.
+ * Mbkes the given GrbphicsConfig's context current to its bssocibted
+ * "scrbtch" surfbce.  If there is b problem mbking the context current,
+ * this method will return NULL; otherwise, returns b pointer to the
+ * OGLContext thbt is bssocibted with the given GrbphicsConfig.
  */
 OGLContext *
-OGLSD_SetScratchSurface(JNIEnv *env, jlong pConfigInfo)
+OGLSD_SetScrbtchSurfbce(JNIEnv *env, jlong pConfigInfo)
 {
-    GLXGraphicsConfigInfo *glxInfo =
-        (GLXGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    GLXGrbphicsConfigInfo *glxInfo =
+        (GLXGrbphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
     OGLContext *oglc;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_SetScratchContext");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_SetScrbtchContext");
 
     if (glxInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SetScratchContext: glx config info is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_SetScrbtchContext: glx config info is null");
         return NULL;
     }
 
     oglc = glxInfo->context;
-    if (!GLXSD_MakeCurrentToScratch(env, oglc)) {
+    if (!GLXSD_MbkeCurrentToScrbtch(env, oglc)) {
         return NULL;
     }
 
     if (OGLC_IS_CAP_PRESENT(oglc, CAPS_EXT_FBOBJECT)) {
-        // the GL_EXT_framebuffer_object extension is present, so this call
-        // will ensure that we are bound to the scratch pbuffer (and not
-        // some other framebuffer object)
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        // the GL_EXT_frbmebuffer_object extension is present, so this cbll
+        // will ensure thbt we bre bound to the scrbtch pbuffer (bnd not
+        // some other frbmebuffer object)
+        j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 
     return oglc;
 }
 
 /**
- * Makes a context current to the given source and destination
- * surfaces.  If there is a problem making the context current, this method
- * will return NULL; otherwise, returns a pointer to the OGLContext that is
- * associated with the destination surface.
+ * Mbkes b context current to the given source bnd destinbtion
+ * surfbces.  If there is b problem mbking the context current, this method
+ * will return NULL; otherwise, returns b pointer to the OGLContext thbt is
+ * bssocibted with the destinbtion surfbce.
  */
 OGLContext *
-OGLSD_MakeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
+OGLSD_MbkeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
 {
     GLXSDOps *dstGLXOps = (GLXSDOps *)dstOps->privOps;
     OGLContext *oglc;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_MakeOGLContextCurrent");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_MbkeOGLContextCurrent");
 
-    oglc = dstGLXOps->configData->glxInfo->context;
+    oglc = dstGLXOps->configDbtb->glxInfo->context;
     if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_MakeOGLContextCurrent: context is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_MbkeOGLContextCurrent: context is null");
         return NULL;
     }
 
-    if (dstOps->drawableType == OGLSD_FBOBJECT) {
+    if (dstOps->drbwbbleType == OGLSD_FBOBJECT) {
         OGLContext *currentContext = OGLRenderQueue_GetCurrentContext();
 
-        // first make sure we have a current context (if the context isn't
-        // already current to some drawable, we will make it current to
-        // its scratch surface)
+        // first mbke sure we hbve b current context (if the context isn't
+        // blrebdy current to some drbwbble, we will mbke it current to
+        // its scrbtch surfbce)
         if (oglc != currentContext) {
-            if (!GLXSD_MakeCurrentToScratch(env, oglc)) {
+            if (!GLXSD_MbkeCurrentToScrbtch(env, oglc)) {
                 return NULL;
             }
         }
 
-        // now bind to the fbobject associated with the destination surface;
-        // this means that all rendering will go into the fbobject destination
-        // (note that we unbind the currently bound texture first; this is
-        // recommended procedure when binding an fbobject)
-        j2d_glBindTexture(dstOps->textureTarget, 0);
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjectID);
+        // now bind to the fbobject bssocibted with the destinbtion surfbce;
+        // this mebns thbt bll rendering will go into the fbobject destinbtion
+        // (note thbt we unbind the currently bound texture first; this is
+        // recommended procedure when binding bn fbobject)
+        j2d_glBindTexture(dstOps->textureTbrget, 0);
+        j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjectID);
     } else {
         GLXSDOps *srcGLXOps = (GLXSDOps *)srcOps->privOps;
         GLXCtxInfo *ctxinfo = (GLXCtxInfo *)oglc->ctxInfo;
 
-        // make the context current
-        if (!j2d_glXMakeContextCurrent(awt_display,
-                                       dstGLXOps->drawable,
-                                       srcGLXOps->drawable,
+        // mbke the context current
+        if (!j2d_glXMbkeContextCurrent(bwt_displby,
+                                       dstGLXOps->drbwbble,
+                                       srcGLXOps->drbwbble,
                                        ctxinfo->context))
         {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "OGLSD_MakeOGLContextCurrent: could not make current");
+            J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                "OGLSD_MbkeOGLContextCurrent: could not mbke current");
             return NULL;
         }
 
         if (OGLC_IS_CAP_PRESENT(oglc, CAPS_EXT_FBOBJECT)) {
-            // the GL_EXT_framebuffer_object extension is present, so we
-            // must bind to the default (windowing system provided)
-            // framebuffer
-            j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+            // the GL_EXT_frbmebuffer_object extension is present, so we
+            // must bind to the defbult (windowing system provided)
+            // frbmebuffer
+            j2d_glBindFrbmebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         }
     }
 
@@ -299,148 +299,148 @@ OGLSD_MakeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
 }
 
 /**
- * This function initializes a native window surface and caches the window
- * bounds in the given OGLSDOps.  Returns JNI_TRUE if the operation was
+ * This function initiblizes b nbtive window surfbce bnd cbches the window
+ * bounds in the given OGLSDOps.  Returns JNI_TRUE if the operbtion wbs
  * successful; JNI_FALSE otherwise.
  */
-jboolean
+jboolebn
 OGLSD_InitOGLWindow(JNIEnv *env, OGLSDOps *oglsdo)
 {
     GLXSDOps *glxsdo;
     Window window;
-    XWindowAttributes attr;
+    XWindowAttributes bttr;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: ops bre null");
         return JNI_FALSE;
     }
 
     glxsdo = (GLXSDOps *)oglsdo->privOps;
     if (glxsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: glx ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: glx ops bre null");
         return JNI_FALSE;
     }
 
     window = glxsdo->window;
     if (window == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: window is invalid");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: window is invblid");
         return JNI_FALSE;
     }
 
-    XGetWindowAttributes(awt_display, window, &attr);
-    oglsdo->width = attr.width;
-    oglsdo->height = attr.height;
+    XGetWindowAttributes(bwt_displby, window, &bttr);
+    oglsdo->width = bttr.width;
+    oglsdo->height = bttr.height;
 
-    oglsdo->drawableType = OGLSD_WINDOW;
-    oglsdo->isOpaque = JNI_TRUE;
+    oglsdo->drbwbbleType = OGLSD_WINDOW;
+    oglsdo->isOpbque = JNI_TRUE;
     oglsdo->xOffset = 0;
     oglsdo->yOffset = 0;
-    glxsdo->drawable = window;
-    glxsdo->xdrawable = window;
+    glxsdo->drbwbble = window;
+    glxsdo->xdrbwbble = window;
 
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  created window: w=%d h=%d",
+    J2dTrbceLn2(J2D_TRACE_VERBOSE, "  crebted window: w=%d h=%d",
                 oglsdo->width, oglsdo->height);
 
     return JNI_TRUE;
 }
 
-static int
-GLXSD_BadAllocXErrHandler(Display *display, XErrorEvent *xerr)
+stbtic int
+GLXSD_BbdAllocXErrHbndler(Displby *displby, XErrorEvent *xerr)
 {
-    if (xerr->error_code == BadAlloc) {
-        surfaceCreationFailed = JNI_TRUE;
+    if (xerr->error_code == BbdAlloc) {
+        surfbceCrebtionFbiled = JNI_TRUE;
     }
     return 0;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_GLXSurfaceData_initPbuffer
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_opengl_GLXSurfbceDbtb_initPbuffer
     (JNIEnv *env, jobject glxsd,
-     jlong pData, jlong pConfigInfo,
-     jboolean isOpaque,
+     jlong pDbtb, jlong pConfigInfo,
+     jboolebn isOpbque,
      jint width, jint height)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
-    GLXGraphicsConfigInfo *glxinfo =
-        (GLXGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
+    GLXGrbphicsConfigInfo *glxinfo =
+        (GLXGrbphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
     GLXSDOps *glxsdo;
     GLXPbuffer pbuffer;
-    int attrlist[] = {GLX_PBUFFER_WIDTH, 0,
+    int bttrlist[] = {GLX_PBUFFER_WIDTH, 0,
                       GLX_PBUFFER_HEIGHT, 0,
                       GLX_PRESERVED_CONTENTS, GL_FALSE, 0};
 
-    J2dTraceLn3(J2D_TRACE_INFO,
-                "GLXSurfaceData_initPbuffer: w=%d h=%d opq=%d",
-                width, height, isOpaque);
+    J2dTrbceLn3(J2D_TRACE_INFO,
+                "GLXSurfbceDbtb_initPbuffer: w=%d h=%d opq=%d",
+                width, height, isOpbque);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXSurfaceData_initPbuffer: ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "GLXSurfbceDbtb_initPbuffer: ops bre null");
         return JNI_FALSE;
     }
 
     glxsdo = (GLXSDOps *)oglsdo->privOps;
     if (glxsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXSurfaceData_initPbuffer: glx ops are null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "GLXSurfbceDbtb_initPbuffer: glx ops bre null");
         return JNI_FALSE;
     }
 
     if (glxinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXSurfaceData_initPbuffer: glx config info is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "GLXSurfbceDbtb_initPbuffer: glx config info is null");
         return JNI_FALSE;
     }
 
-    attrlist[1] = width;
-    attrlist[3] = height;
+    bttrlist[1] = width;
+    bttrlist[3] = height;
 
-    surfaceCreationFailed = JNI_FALSE;
+    surfbceCrebtionFbiled = JNI_FALSE;
     EXEC_WITH_XERROR_HANDLER(
-        GLXSD_BadAllocXErrHandler,
-        pbuffer = j2d_glXCreatePbuffer(awt_display,
-                                       glxinfo->fbconfig, attrlist));
-    if ((pbuffer == 0) || surfaceCreationFailed) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXSurfaceData_initPbuffer: could not create glx pbuffer");
+        GLXSD_BbdAllocXErrHbndler,
+        pbuffer = j2d_glXCrebtePbuffer(bwt_displby,
+                                       glxinfo->fbconfig, bttrlist));
+    if ((pbuffer == 0) || surfbceCrebtionFbiled) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "GLXSurfbceDbtb_initPbuffer: could not crebte glx pbuffer");
         return JNI_FALSE;
     }
 
-    oglsdo->drawableType = OGLSD_PBUFFER;
-    oglsdo->isOpaque = isOpaque;
+    oglsdo->drbwbbleType = OGLSD_PBUFFER;
+    oglsdo->isOpbque = isOpbque;
     oglsdo->width = width;
     oglsdo->height = height;
     oglsdo->xOffset = 0;
     oglsdo->yOffset = 0;
 
-    glxsdo->drawable = pbuffer;
-    glxsdo->xdrawable = 0;
+    glxsdo->drbwbble = pbuffer;
+    glxsdo->xdrbwbble = 0;
 
-    OGLSD_SetNativeDimensions(env, oglsdo, width, height);
+    OGLSD_SetNbtiveDimensions(env, oglsdo, width, height);
 
     return JNI_TRUE;
 }
 
 void
-OGLSD_SwapBuffers(JNIEnv *env, jlong window)
+OGLSD_SwbpBuffers(JNIEnv *env, jlong window)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_SwapBuffers");
+    J2dTrbceLn(J2D_TRACE_INFO, "OGLSD_SwbpBuffers");
 
     if (window == 0L) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: window is null");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBuffers: window is null");
         return;
     }
 
-    j2d_glXSwapBuffers(awt_display, (Window)window);
+    j2d_glXSwbpBuffers(bwt_displby, (Window)window);
 }
 
-// needed by Mac OS X port, no-op on other platforms
+// needed by Mbc OS X port, no-op on other plbtforms
 void
 OGLSD_Flush(JNIEnv *env)
 {

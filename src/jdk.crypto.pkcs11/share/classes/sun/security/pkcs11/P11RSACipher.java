@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.*;
 
-import java.util.Locale;
+import jbvb.util.Locble;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
-import sun.security.internal.spec.TlsRsaPremasterSecretParameterSpec;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
+import sun.security.internbl.spec.TlsRsbPrembsterSecretPbrbmeterSpec;
 import sun.security.util.KeyUtil;
 
 /**
- * RSA Cipher implementation class. We currently only support
- * PKCS#1 v1.5 padding on top of CKM_RSA_PKCS.
+ * RSA Cipher implementbtion clbss. We currently only support
+ * PKCS#1 v1.5 pbdding on top of CKM_RSA_PKCS.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11RSACipher extends CipherSpi {
+finbl clbss P11RSACipher extends CipherSpi {
 
-    // minimum length of PKCS#1 v1.5 padding
-    private final static int PKCS1_MIN_PADDING_LENGTH = 11;
+    // minimum length of PKCS#1 v1.5 pbdding
+    privbte finbl stbtic int PKCS1_MIN_PADDING_LENGTH = 11;
 
-    // constant byte[] of length 0
-    private final static byte[] B0 = new byte[0];
+    // constbnt byte[] of length 0
+    privbte finbl stbtic byte[] B0 = new byte[0];
 
-    // mode constant for public key encryption
-    private final static int MODE_ENCRYPT = 1;
-    // mode constant for private key decryption
-    private final static int MODE_DECRYPT = 2;
-    // mode constant for private key encryption (signing)
-    private final static int MODE_SIGN    = 3;
-    // mode constant for public key decryption (verifying)
-    private final static int MODE_VERIFY  = 4;
+    // mode constbnt for public key encryption
+    privbte finbl stbtic int MODE_ENCRYPT = 1;
+    // mode constbnt for privbte key decryption
+    privbte finbl stbtic int MODE_DECRYPT = 2;
+    // mode constbnt for privbte key encryption (signing)
+    privbte finbl stbtic int MODE_SIGN    = 3;
+    // mode constbnt for public key decryption (verifying)
+    privbte finbl stbtic int MODE_VERIFY  = 4;
 
-    // padding type constant for NoPadding
-    private final static int PAD_NONE = 1;
-    // padding type constant for PKCS1Padding
-    private final static int PAD_PKCS1 = 2;
+    // pbdding type constbnt for NoPbdding
+    privbte finbl stbtic int PAD_NONE = 1;
+    // pbdding type constbnt for PKCS1Pbdding
+    privbte finbl stbtic int PAD_PKCS1 = 2;
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name (always "RSA")
-    private final String algorithm;
+    // blgorithm nbme (blwbys "RSA")
+    privbte finbl String blgorithm;
 
-    // mechanism id
-    private final long mechanism;
+    // mechbnism id
+    privbte finbl long mechbnism;
 
-    // associated session, if any
-    private Session session;
+    // bssocibted session, if bny
+    privbte Session session;
 
-    // mode, one of MODE_* above
-    private int mode;
+    // mode, one of MODE_* bbove
+    privbte int mode;
 
-    // padding, one of PAD_* above
-    private int padType;
+    // pbdding, one of PAD_* bbove
+    privbte int pbdType;
 
-    private byte[] buffer;
-    private int bufOfs;
+    privbte byte[] buffer;
+    privbte int bufOfs;
 
-    // key, if init() was called
-    private P11Key p11Key;
+    // key, if init() wbs cblled
+    privbte P11Key p11Key;
 
-    // flag indicating whether an operation is initialized
-    private boolean initialized;
+    // flbg indicbting whether bn operbtion is initiblized
+    privbte boolebn initiblized;
 
-    // maximum input data size allowed
+    // mbximum input dbtb size bllowed
     // for decryption, this is the length of the key
-    // for encryption, length of the key minus minimum padding length
-    private int maxInputSize;
+    // for encryption, length of the key minus minimum pbdding length
+    privbte int mbxInputSize;
 
-    // maximum output size. this is the length of the key
-    private int outputSize;
+    // mbximum output size. this is the length of the key
+    privbte int outputSize;
 
-    // cipher parameter for TLS RSA premaster secret
-    private AlgorithmParameterSpec spec = null;
+    // cipher pbrbmeter for TLS RSA prembster secret
+    privbte AlgorithmPbrbmeterSpec spec = null;
 
-    // the source of randomness
-    private SecureRandom random;
+    // the source of rbndomness
+    privbte SecureRbndom rbndom;
 
-    P11RSACipher(Token token, String algorithm, long mechanism)
+    P11RSACipher(Token token, String blgorithm, long mechbnism)
             throws PKCS11Exception {
         super();
         this.token = token;
-        this.algorithm = "RSA";
-        this.mechanism = mechanism;
+        this.blgorithm = "RSA";
+        this.mechbnism = mechbnism;
     }
 
-    // modes do not make sense for RSA, but allow ECB
+    // modes do not mbke sense for RSA, but bllow ECB
     // see JCE spec
     protected void engineSetMode(String mode) throws NoSuchAlgorithmException {
-        if (mode.equalsIgnoreCase("ECB") == false) {
+        if (mode.equblsIgnoreCbse("ECB") == fblse) {
             throw new NoSuchAlgorithmException("Unsupported mode " + mode);
         }
     }
 
-    protected void engineSetPadding(String padding)
-            throws NoSuchPaddingException {
-        String lowerPadding = padding.toLowerCase(Locale.ENGLISH);
-        if (lowerPadding.equals("pkcs1padding")) {
-            padType = PAD_PKCS1;
-        } else if (lowerPadding.equals("nopadding")) {
-            padType = PAD_NONE;
+    protected void engineSetPbdding(String pbdding)
+            throws NoSuchPbddingException {
+        String lowerPbdding = pbdding.toLowerCbse(Locble.ENGLISH);
+        if (lowerPbdding.equbls("pkcs1pbdding")) {
+            pbdType = PAD_PKCS1;
+        } else if (lowerPbdding.equbls("nopbdding")) {
+            pbdType = PAD_NONE;
         } else {
-            throw new NoSuchPaddingException("Unsupported padding " + padding);
+            throw new NoSuchPbddingException("Unsupported pbdding " + pbdding);
         }
     }
 
-    // return 0 as block size, we are not a block cipher
+    // return 0 bs block size, we bre not b block cipher
     // see JCE spec
     protected int engineGetBlockSize() {
         return 0;
@@ -156,361 +156,361 @@ final class P11RSACipher extends CipherSpi {
         return null;
     }
 
-    // no parameters, return null
+    // no pbrbmeters, return null
     // see JCE spec
-    protected AlgorithmParameters engineGetParameters() {
+    protected AlgorithmPbrbmeters engineGetPbrbmeters() {
         return null;
     }
 
     // see JCE spec
-    protected void engineInit(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException {
+    protected void engineInit(int opmode, Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
         implInit(opmode, key);
     }
 
     // see JCE spec
     protected void engineInit(int opmode, Key key,
-            AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null) {
-            if (!(params instanceof TlsRsaPremasterSecretParameterSpec)) {
-                throw new InvalidAlgorithmParameterException(
-                        "Parameters not supported");
+            AlgorithmPbrbmeterSpec pbrbms, SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null) {
+            if (!(pbrbms instbnceof TlsRsbPrembsterSecretPbrbmeterSpec)) {
+                throw new InvblidAlgorithmPbrbmeterException(
+                        "Pbrbmeters not supported");
             }
-            spec = params;
-            this.random = random;   // for TLS RSA premaster secret
+            spec = pbrbms;
+            this.rbndom = rbndom;   // for TLS RSA prembster secret
         }
         implInit(opmode, key);
     }
 
     // see JCE spec
-    protected void engineInit(int opmode, Key key, AlgorithmParameters params,
-            SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException(
-                        "Parameters not supported");
+    protected void engineInit(int opmode, Key key, AlgorithmPbrbmeters pbrbms,
+            SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null) {
+            throw new InvblidAlgorithmPbrbmeterException(
+                        "Pbrbmeters not supported");
         }
         implInit(opmode, key);
     }
 
-    private void implInit(int opmode, Key key) throws InvalidKeyException {
-        cancelOperation();
-        p11Key = P11KeyFactory.convertKey(token, key, algorithm);
-        boolean encrypt;
+    privbte void implInit(int opmode, Key key) throws InvblidKeyException {
+        cbncelOperbtion();
+        p11Key = P11KeyFbctory.convertKey(token, key, blgorithm);
+        boolebn encrypt;
         if (opmode == Cipher.ENCRYPT_MODE) {
             encrypt = true;
         } else if (opmode == Cipher.DECRYPT_MODE) {
-            encrypt = false;
+            encrypt = fblse;
         } else if (opmode == Cipher.WRAP_MODE) {
-            if (p11Key.isPublic() == false) {
-                throw new InvalidKeyException
-                                ("Wrap has to be used with public keys");
+            if (p11Key.isPublic() == fblse) {
+                throw new InvblidKeyException
+                                ("Wrbp hbs to be used with public keys");
             }
-            // No further setup needed for C_Wrap(). We'll initialize later if
-            // we can't use C_Wrap().
+            // No further setup needed for C_Wrbp(). We'll initiblize lbter if
+            // we cbn't use C_Wrbp().
             return;
         } else if (opmode == Cipher.UNWRAP_MODE) {
-            if (p11Key.isPrivate() == false) {
-                throw new InvalidKeyException
-                                ("Unwrap has to be used with private keys");
+            if (p11Key.isPrivbte() == fblse) {
+                throw new InvblidKeyException
+                                ("Unwrbp hbs to be used with privbte keys");
             }
-            // No further setup needed for C_Unwrap(). We'll initialize later
-            // if we can't use C_Unwrap().
+            // No further setup needed for C_Unwrbp(). We'll initiblize lbter
+            // if we cbn't use C_Unwrbp().
             return;
         } else {
-            throw new InvalidKeyException("Unsupported mode: " + opmode);
+            throw new InvblidKeyException("Unsupported mode: " + opmode);
         }
         if (p11Key.isPublic()) {
             mode = encrypt ? MODE_ENCRYPT : MODE_VERIFY;
-        } else if (p11Key.isPrivate()) {
+        } else if (p11Key.isPrivbte()) {
             mode = encrypt ? MODE_SIGN : MODE_DECRYPT;
         } else {
-            throw new InvalidKeyException("Unknown key type: " + p11Key);
+            throw new InvblidKeyException("Unknown key type: " + p11Key);
         }
         int n = (p11Key.length() + 7) >> 3;
         outputSize = n;
         buffer = new byte[n];
-        maxInputSize = ((padType == PAD_PKCS1 && encrypt) ?
+        mbxInputSize = ((pbdType == PAD_PKCS1 && encrypt) ?
                             (n - PKCS1_MIN_PADDING_LENGTH) : n);
         try {
-            initialize();
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("init() failed", e);
+            initiblize();
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("init() fbiled", e);
         }
     }
 
-    private void cancelOperation() {
-        token.ensureValid();
-        if (initialized == false) {
+    privbte void cbncelOperbtion() {
+        token.ensureVblid();
+        if (initiblized == fblse) {
             return;
         }
-        initialized = false;
-        if ((session == null) || (token.explicitCancel == false)) {
+        initiblized = fblse;
+        if ((session == null) || (token.explicitCbncel == fblse)) {
             return;
         }
-        if (session.hasObjects() == false) {
+        if (session.hbsObjects() == fblse) {
             session = token.killSession(session);
             return;
         }
         try {
             PKCS11 p11 = token.p11;
-            int inLen = maxInputSize;
+            int inLen = mbxInputSize;
             int outLen = buffer.length;
             switch (mode) {
-            case MODE_ENCRYPT:
+            cbse MODE_ENCRYPT:
                 p11.C_Encrypt
                         (session.id(), buffer, 0, inLen, buffer, 0, outLen);
-                break;
-            case MODE_DECRYPT:
+                brebk;
+            cbse MODE_DECRYPT:
                 p11.C_Decrypt
                         (session.id(), buffer, 0, inLen, buffer, 0, outLen);
-                break;
-            case MODE_SIGN:
-                byte[] tmpBuffer = new byte[maxInputSize];
+                brebk;
+            cbse MODE_SIGN:
+                byte[] tmpBuffer = new byte[mbxInputSize];
                 p11.C_Sign
                         (session.id(), tmpBuffer);
-                break;
-            case MODE_VERIFY:
+                brebk;
+            cbse MODE_VERIFY:
                 p11.C_VerifyRecover
                         (session.id(), buffer, 0, inLen, buffer, 0, outLen);
-                break;
-            default:
-                throw new ProviderException("internal error");
+                brebk;
+            defbult:
+                throw new ProviderException("internbl error");
             }
-        } catch (PKCS11Exception e) {
-            // XXX ensure this always works, ignore error
+        } cbtch (PKCS11Exception e) {
+            // XXX ensure this blwbys works, ignore error
         }
     }
 
-    private void ensureInitialized() throws PKCS11Exception {
-        token.ensureValid();
-        if (initialized == false) {
-            initialize();
+    privbte void ensureInitiblized() throws PKCS11Exception {
+        token.ensureVblid();
+        if (initiblized == fblse) {
+            initiblize();
         }
     }
 
-    private void initialize() throws PKCS11Exception {
+    privbte void initiblize() throws PKCS11Exception {
         if (session == null) {
             session = token.getOpSession();
         }
         PKCS11 p11 = token.p11;
-        CK_MECHANISM ckMechanism = new CK_MECHANISM(mechanism);
+        CK_MECHANISM ckMechbnism = new CK_MECHANISM(mechbnism);
         switch (mode) {
-        case MODE_ENCRYPT:
-            p11.C_EncryptInit(session.id(), ckMechanism, p11Key.keyID);
-            break;
-        case MODE_DECRYPT:
-            p11.C_DecryptInit(session.id(), ckMechanism, p11Key.keyID);
-            break;
-        case MODE_SIGN:
-            p11.C_SignInit(session.id(), ckMechanism, p11Key.keyID);
-            break;
-        case MODE_VERIFY:
-            p11.C_VerifyRecoverInit(session.id(), ckMechanism, p11Key.keyID);
-            break;
-        default:
-            throw new AssertionError("internal error");
+        cbse MODE_ENCRYPT:
+            p11.C_EncryptInit(session.id(), ckMechbnism, p11Key.keyID);
+            brebk;
+        cbse MODE_DECRYPT:
+            p11.C_DecryptInit(session.id(), ckMechbnism, p11Key.keyID);
+            brebk;
+        cbse MODE_SIGN:
+            p11.C_SignInit(session.id(), ckMechbnism, p11Key.keyID);
+            brebk;
+        cbse MODE_VERIFY:
+            p11.C_VerifyRecoverInit(session.id(), ckMechbnism, p11Key.keyID);
+            brebk;
+        defbult:
+            throw new AssertionError("internbl error");
         }
         bufOfs = 0;
-        initialized = true;
+        initiblized = true;
     }
 
-    private void implUpdate(byte[] in, int inOfs, int inLen) {
+    privbte void implUpdbte(byte[] in, int inOfs, int inLen) {
         try {
-            ensureInitialized();
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("update() failed", e);
+            ensureInitiblized();
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("updbte() fbiled", e);
         }
         if ((inLen == 0) || (in == null)) {
             return;
         }
-        if (bufOfs + inLen > maxInputSize) {
-            bufOfs = maxInputSize + 1;
+        if (bufOfs + inLen > mbxInputSize) {
+            bufOfs = mbxInputSize + 1;
             return;
         }
-        System.arraycopy(in, inOfs, buffer, bufOfs, inLen);
+        System.brrbycopy(in, inOfs, buffer, bufOfs, inLen);
         bufOfs += inLen;
     }
 
-    private int implDoFinal(byte[] out, int outOfs, int outLen)
-            throws BadPaddingException, IllegalBlockSizeException {
-        if (bufOfs > maxInputSize) {
-            throw new IllegalBlockSizeException("Data must not be longer "
-                + "than " + maxInputSize + " bytes");
+    privbte int implDoFinbl(byte[] out, int outOfs, int outLen)
+            throws BbdPbddingException, IllegblBlockSizeException {
+        if (bufOfs > mbxInputSize) {
+            throw new IllegblBlockSizeException("Dbtb must not be longer "
+                + "thbn " + mbxInputSize + " bytes");
         }
         try {
-            ensureInitialized();
+            ensureInitiblized();
             PKCS11 p11 = token.p11;
             int n;
             switch (mode) {
-            case MODE_ENCRYPT:
+            cbse MODE_ENCRYPT:
                 n = p11.C_Encrypt
                         (session.id(), buffer, 0, bufOfs, out, outOfs, outLen);
-                break;
-            case MODE_DECRYPT:
+                brebk;
+            cbse MODE_DECRYPT:
                 n = p11.C_Decrypt
                         (session.id(), buffer, 0, bufOfs, out, outOfs, outLen);
-                break;
-            case MODE_SIGN:
+                brebk;
+            cbse MODE_SIGN:
                 byte[] tmpBuffer = new byte[bufOfs];
-                System.arraycopy(buffer, 0, tmpBuffer, 0, bufOfs);
+                System.brrbycopy(buffer, 0, tmpBuffer, 0, bufOfs);
                 tmpBuffer = p11.C_Sign(session.id(), tmpBuffer);
                 if (tmpBuffer.length > outLen) {
-                    throw new BadPaddingException("Output buffer too small");
+                    throw new BbdPbddingException("Output buffer too smbll");
                 }
-                System.arraycopy(tmpBuffer, 0, out, outOfs, tmpBuffer.length);
+                System.brrbycopy(tmpBuffer, 0, out, outOfs, tmpBuffer.length);
                 n = tmpBuffer.length;
-                break;
-            case MODE_VERIFY:
+                brebk;
+            cbse MODE_VERIFY:
                 n = p11.C_VerifyRecover
                         (session.id(), buffer, 0, bufOfs, out, outOfs, outLen);
-                break;
-            default:
-                throw new ProviderException("internal error");
+                brebk;
+            defbult:
+                throw new ProviderException("internbl error");
             }
             return n;
-        } catch (PKCS11Exception e) {
-            throw (BadPaddingException)new BadPaddingException
-                ("doFinal() failed").initCause(e);
-        } finally {
-            initialized = false;
-            session = token.releaseSession(session);
+        } cbtch (PKCS11Exception e) {
+            throw (BbdPbddingException)new BbdPbddingException
+                ("doFinbl() fbiled").initCbuse(e);
+        } finblly {
+            initiblized = fblse;
+            session = token.relebseSession(session);
         }
     }
 
     // see JCE spec
-    protected byte[] engineUpdate(byte[] in, int inOfs, int inLen) {
-        implUpdate(in, inOfs, inLen);
+    protected byte[] engineUpdbte(byte[] in, int inOfs, int inLen) {
+        implUpdbte(in, inOfs, inLen);
         return B0;
     }
 
     // see JCE spec
-    protected int engineUpdate(byte[] in, int inOfs, int inLen,
+    protected int engineUpdbte(byte[] in, int inOfs, int inLen,
             byte[] out, int outOfs) throws ShortBufferException {
-        implUpdate(in, inOfs, inLen);
+        implUpdbte(in, inOfs, inLen);
         return 0;
     }
 
     // see JCE spec
-    protected byte[] engineDoFinal(byte[] in, int inOfs, int inLen)
-            throws IllegalBlockSizeException, BadPaddingException {
-        implUpdate(in, inOfs, inLen);
-        int n = implDoFinal(buffer, 0, buffer.length);
+    protected byte[] engineDoFinbl(byte[] in, int inOfs, int inLen)
+            throws IllegblBlockSizeException, BbdPbddingException {
+        implUpdbte(in, inOfs, inLen);
+        int n = implDoFinbl(buffer, 0, buffer.length);
         byte[] out = new byte[n];
-        System.arraycopy(buffer, 0, out, 0, n);
+        System.brrbycopy(buffer, 0, out, 0, n);
         return out;
     }
 
     // see JCE spec
-    protected int engineDoFinal(byte[] in, int inOfs, int inLen,
+    protected int engineDoFinbl(byte[] in, int inOfs, int inLen,
             byte[] out, int outOfs) throws ShortBufferException,
-            IllegalBlockSizeException, BadPaddingException {
-        implUpdate(in, inOfs, inLen);
-        return implDoFinal(out, outOfs, out.length - outOfs);
+            IllegblBlockSizeException, BbdPbddingException {
+        implUpdbte(in, inOfs, inLen);
+        return implDoFinbl(out, outOfs, out.length - outOfs);
     }
 
-    private byte[] doFinal() throws BadPaddingException,
-            IllegalBlockSizeException {
+    privbte byte[] doFinbl() throws BbdPbddingException,
+            IllegblBlockSizeException {
         byte[] t = new byte[2048];
-        int n = implDoFinal(t, 0, t.length);
+        int n = implDoFinbl(t, 0, t.length);
         byte[] out = new byte[n];
-        System.arraycopy(t, 0, out, 0, n);
+        System.brrbycopy(t, 0, out, 0, n);
         return out;
     }
 
     // see JCE spec
-    protected byte[] engineWrap(Key key) throws InvalidKeyException,
-            IllegalBlockSizeException {
+    protected byte[] engineWrbp(Key key) throws InvblidKeyException,
+            IllegblBlockSizeException {
         String keyAlg = key.getAlgorithm();
         P11Key sKey = null;
         try {
-            // The conversion may fail, e.g. trying to wrap an AES key on
-            // a token that does not support AES, or when the key size is
-            // not within the range supported by the token.
-            sKey = P11SecretKeyFactory.convertKey(token, key, keyAlg);
-        } catch (InvalidKeyException ike) {
-            byte[] toBeWrappedKey = key.getEncoded();
-            if (toBeWrappedKey == null) {
-                throw new InvalidKeyException
-                        ("wrap() failed, no encoding available", ike);
+            // The conversion mby fbil, e.g. trying to wrbp bn AES key on
+            // b token thbt does not support AES, or when the key size is
+            // not within the rbnge supported by the token.
+            sKey = P11SecretKeyFbctory.convertKey(token, key, keyAlg);
+        } cbtch (InvblidKeyException ike) {
+            byte[] toBeWrbppedKey = key.getEncoded();
+            if (toBeWrbppedKey == null) {
+                throw new InvblidKeyException
+                        ("wrbp() fbiled, no encoding bvbilbble", ike);
             }
-            // Directly encrypt the key encoding when key conversion failed
+            // Directly encrypt the key encoding when key conversion fbiled
             implInit(Cipher.ENCRYPT_MODE, p11Key);
-            implUpdate(toBeWrappedKey, 0, toBeWrappedKey.length);
+            implUpdbte(toBeWrbppedKey, 0, toBeWrbppedKey.length);
             try {
-                return doFinal();
-            } catch (BadPaddingException bpe) {
+                return doFinbl();
+            } cbtch (BbdPbddingException bpe) {
                 // should not occur
-                throw new InvalidKeyException("wrap() failed", bpe);
-            } finally {
-                // Restore original mode
+                throw new InvblidKeyException("wrbp() fbiled", bpe);
+            } finblly {
+                // Restore originbl mode
                 implInit(Cipher.WRAP_MODE, p11Key);
             }
         }
         Session s = null;
         try {
             s = token.getOpSession();
-            return token.p11.C_WrapKey(s.id(), new CK_MECHANISM(mechanism),
+            return token.p11.C_WrbpKey(s.id(), new CK_MECHANISM(mechbnism),
                 p11Key.keyID, sKey.keyID);
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("wrap() failed", e);
-        } finally {
-            token.releaseSession(s);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("wrbp() fbiled", e);
+        } finblly {
+            token.relebseSession(s);
         }
     }
 
     // see JCE spec
-    protected Key engineUnwrap(byte[] wrappedKey, String algorithm,
-            int type) throws InvalidKeyException, NoSuchAlgorithmException {
+    protected Key engineUnwrbp(byte[] wrbppedKey, String blgorithm,
+            int type) throws InvblidKeyException, NoSuchAlgorithmException {
 
-        boolean isTlsRsaPremasterSecret =
-                algorithm.equals("TlsRsaPremasterSecret");
-        Exception failover = null;
+        boolebn isTlsRsbPrembsterSecret =
+                blgorithm.equbls("TlsRsbPrembsterSecret");
+        Exception fbilover = null;
 
-        SecureRandom secureRandom = random;
-        if (secureRandom == null && isTlsRsaPremasterSecret) {
-            secureRandom = new SecureRandom();
+        SecureRbndom secureRbndom = rbndom;
+        if (secureRbndom == null && isTlsRsbPrembsterSecret) {
+            secureRbndom = new SecureRbndom();
         }
 
-        // Should C_Unwrap be preferred for non-TLS RSA premaster secret?
-        if (token.supportsRawSecretKeyImport()) {
-            // XXX implement unwrap using C_Unwrap() for all keys
+        // Should C_Unwrbp be preferred for non-TLS RSA prembster secret?
+        if (token.supportsRbwSecretKeyImport()) {
+            // XXX implement unwrbp using C_Unwrbp() for bll keys
             implInit(Cipher.DECRYPT_MODE, p11Key);
-            if (wrappedKey.length > maxInputSize) {
-                throw new InvalidKeyException("Key is too long for unwrapping");
+            if (wrbppedKey.length > mbxInputSize) {
+                throw new InvblidKeyException("Key is too long for unwrbpping");
             }
 
             byte[] encoded = null;
-            implUpdate(wrappedKey, 0, wrappedKey.length);
+            implUpdbte(wrbppedKey, 0, wrbppedKey.length);
             try {
-                encoded = doFinal();
-            } catch (BadPaddingException e) {
-                if (isTlsRsaPremasterSecret) {
-                    failover = e;
+                encoded = doFinbl();
+            } cbtch (BbdPbddingException e) {
+                if (isTlsRsbPrembsterSecret) {
+                    fbilover = e;
                 } else {
-                    throw new InvalidKeyException("Unwrapping failed", e);
+                    throw new InvblidKeyException("Unwrbpping fbiled", e);
                 }
-            } catch (IllegalBlockSizeException e) {
-                // should not occur, handled with length check above
-                throw new InvalidKeyException("Unwrapping failed", e);
+            } cbtch (IllegblBlockSizeException e) {
+                // should not occur, hbndled with length check bbove
+                throw new InvblidKeyException("Unwrbpping fbiled", e);
             }
 
-            if (isTlsRsaPremasterSecret) {
-                if (!(spec instanceof TlsRsaPremasterSecretParameterSpec)) {
-                    throw new IllegalStateException(
-                            "No TlsRsaPremasterSecretParameterSpec specified");
+            if (isTlsRsbPrembsterSecret) {
+                if (!(spec instbnceof TlsRsbPrembsterSecretPbrbmeterSpec)) {
+                    throw new IllegblStbteException(
+                            "No TlsRsbPrembsterSecretPbrbmeterSpec specified");
                 }
 
-                // polish the TLS premaster secret
-                TlsRsaPremasterSecretParameterSpec psps =
-                        (TlsRsaPremasterSecretParameterSpec)spec;
-                encoded = KeyUtil.checkTlsPreMasterSecretKey(
+                // polish the TLS prembster secret
+                TlsRsbPrembsterSecretPbrbmeterSpec psps =
+                        (TlsRsbPrembsterSecretPbrbmeterSpec)spec;
+                encoded = KeyUtil.checkTlsPreMbsterSecretKey(
                         psps.getClientVersion(), psps.getServerVersion(),
-                        secureRandom, encoded, (failover != null));
+                        secureRbndom, encoded, (fbilover != null));
             }
 
-            return ConstructKeys.constructKey(encoded, algorithm, type);
+            return ConstructKeys.constructKey(encoded, blgorithm, type);
         } else {
             Session s = null;
             SecretKey secretKey = null;
@@ -518,77 +518,77 @@ final class P11RSACipher extends CipherSpi {
                 try {
                     s = token.getObjSession();
                     long keyType = CKK_GENERIC_SECRET;
-                    CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
+                    CK_ATTRIBUTE[] bttributes = new CK_ATTRIBUTE[] {
                             new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
                             new CK_ATTRIBUTE(CKA_KEY_TYPE, keyType),
                         };
-                    attributes = token.getAttributes(
-                            O_IMPORT, CKO_SECRET_KEY, keyType, attributes);
-                    long keyID = token.p11.C_UnwrapKey(s.id(),
-                            new CK_MECHANISM(mechanism), p11Key.keyID,
-                            wrappedKey, attributes);
+                    bttributes = token.getAttributes(
+                            O_IMPORT, CKO_SECRET_KEY, keyType, bttributes);
+                    long keyID = token.p11.C_UnwrbpKey(s.id(),
+                            new CK_MECHANISM(mechbnism), p11Key.keyID,
+                            wrbppedKey, bttributes);
                     secretKey = P11Key.secretKey(s, keyID,
-                            algorithm, 48 << 3, attributes);
-                } catch (PKCS11Exception e) {
-                    if (isTlsRsaPremasterSecret) {
-                        failover = e;
+                            blgorithm, 48 << 3, bttributes);
+                } cbtch (PKCS11Exception e) {
+                    if (isTlsRsbPrembsterSecret) {
+                        fbilover = e;
                     } else {
-                        throw new InvalidKeyException("unwrap() failed", e);
+                        throw new InvblidKeyException("unwrbp() fbiled", e);
                     }
                 }
 
-                if (isTlsRsaPremasterSecret) {
-                    byte[] replacer = new byte[48];
-                    if (failover == null) {
-                        // Does smart compiler dispose this operation?
-                        secureRandom.nextBytes(replacer);
+                if (isTlsRsbPrembsterSecret) {
+                    byte[] replbcer = new byte[48];
+                    if (fbilover == null) {
+                        // Does smbrt compiler dispose this operbtion?
+                        secureRbndom.nextBytes(replbcer);
                     }
 
-                    TlsRsaPremasterSecretParameterSpec psps =
-                            (TlsRsaPremasterSecretParameterSpec)spec;
+                    TlsRsbPrembsterSecretPbrbmeterSpec psps =
+                            (TlsRsbPrembsterSecretPbrbmeterSpec)spec;
 
-                    // Please use the tricky failover and replacer byte array
-                    // as the parameters so that smart compiler won't dispose
-                    // the unused variable .
-                    secretKey = polishPreMasterSecretKey(token, s,
-                            failover, replacer, secretKey,
+                    // Plebse use the tricky fbilover bnd replbcer byte brrby
+                    // bs the pbrbmeters so thbt smbrt compiler won't dispose
+                    // the unused vbribble .
+                    secretKey = polishPreMbsterSecretKey(token, s,
+                            fbilover, replbcer, secretKey,
                             psps.getClientVersion(), psps.getServerVersion());
                 }
 
                 return secretKey;
-            } finally {
-                token.releaseSession(s);
+            } finblly {
+                token.relebseSession(s);
             }
         }
     }
 
     // see JCE spec
-    protected int engineGetKeySize(Key key) throws InvalidKeyException {
-        int n = P11KeyFactory.convertKey(token, key, algorithm).length();
+    protected int engineGetKeySize(Key key) throws InvblidKeyException {
+        int n = P11KeyFbctory.convertKey(token, key, blgorithm).length();
         return n;
     }
 
-    private static SecretKey polishPreMasterSecretKey(
+    privbte stbtic SecretKey polishPreMbsterSecretKey(
             Token token, Session session,
-            Exception failover, byte[] replacer, SecretKey secretKey,
+            Exception fbilover, byte[] replbcer, SecretKey secretKey,
             int clientVersion, int serverVersion) {
 
-        if (failover != null) {
+        if (fbilover != null) {
             CK_VERSION version = new CK_VERSION(
                     (clientVersion >>> 8) & 0xFF, clientVersion & 0xFF);
             try {
-                CK_ATTRIBUTE[] attributes = token.getAttributes(
+                CK_ATTRIBUTE[] bttributes = token.getAttributes(
                         O_GENERATE, CKO_SECRET_KEY,
                         CKK_GENERIC_SECRET, new CK_ATTRIBUTE[0]);
-                long keyID = token.p11.C_GenerateKey(session.id(),
+                long keyID = token.p11.C_GenerbteKey(session.id(),
                     // new CK_MECHANISM(CKM_TLS_PRE_MASTER_KEY_GEN, version),
                         new CK_MECHANISM(CKM_SSL3_PRE_MASTER_KEY_GEN, version),
-                        attributes);
+                        bttributes);
                 return P11Key.secretKey(session,
-                        keyID, "TlsRsaPremasterSecret", 48 << 3, attributes);
-            } catch (PKCS11Exception e) {
+                        keyID, "TlsRsbPrembsterSecret", 48 << 3, bttributes);
+            } cbtch (PKCS11Exception e) {
                 throw new ProviderException(
-                        "Could not generate premaster secret", e);
+                        "Could not generbte prembster secret", e);
             }
         }
 
@@ -597,86 +597,86 @@ final class P11RSACipher extends CipherSpi {
 
 }
 
-final class ConstructKeys {
+finbl clbss ConstructKeys {
     /**
-     * Construct a public key from its encoding.
+     * Construct b public key from its encoding.
      *
-     * @param encodedKey the encoding of a public key.
+     * @pbrbm encodedKey the encoding of b public key.
      *
-     * @param encodedKeyAlgorithm the algorithm the encodedKey is for.
+     * @pbrbm encodedKeyAlgorithm the blgorithm the encodedKey is for.
      *
-     * @return a public key constructed from the encodedKey.
+     * @return b public key constructed from the encodedKey.
      */
-    private static final PublicKey constructPublicKey(byte[] encodedKey,
+    privbte stbtic finbl PublicKey constructPublicKey(byte[] encodedKey,
             String encodedKeyAlgorithm)
-            throws InvalidKeyException, NoSuchAlgorithmException {
+            throws InvblidKeyException, NoSuchAlgorithmException {
         try {
-            KeyFactory keyFactory =
-                KeyFactory.getInstance(encodedKeyAlgorithm);
+            KeyFbctory keyFbctory =
+                KeyFbctory.getInstbnce(encodedKeyAlgorithm);
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encodedKey);
-            return keyFactory.generatePublic(keySpec);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new NoSuchAlgorithmException("No installed providers " +
-                                               "can create keys for the " +
+            return keyFbctory.generbtePublic(keySpec);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new NoSuchAlgorithmException("No instblled providers " +
+                                               "cbn crebte keys for the " +
                                                encodedKeyAlgorithm +
-                                               "algorithm", nsae);
-        } catch (InvalidKeySpecException ike) {
-            throw new InvalidKeyException("Cannot construct public key", ike);
+                                               "blgorithm", nsbe);
+        } cbtch (InvblidKeySpecException ike) {
+            throw new InvblidKeyException("Cbnnot construct public key", ike);
         }
     }
 
     /**
-     * Construct a private key from its encoding.
+     * Construct b privbte key from its encoding.
      *
-     * @param encodedKey the encoding of a private key.
+     * @pbrbm encodedKey the encoding of b privbte key.
      *
-     * @param encodedKeyAlgorithm the algorithm the wrapped key is for.
+     * @pbrbm encodedKeyAlgorithm the blgorithm the wrbpped key is for.
      *
-     * @return a private key constructed from the encodedKey.
+     * @return b privbte key constructed from the encodedKey.
      */
-    private static final PrivateKey constructPrivateKey(byte[] encodedKey,
-            String encodedKeyAlgorithm) throws InvalidKeyException,
+    privbte stbtic finbl PrivbteKey constructPrivbteKey(byte[] encodedKey,
+            String encodedKeyAlgorithm) throws InvblidKeyException,
             NoSuchAlgorithmException {
         try {
-            KeyFactory keyFactory =
-                KeyFactory.getInstance(encodedKeyAlgorithm);
+            KeyFbctory keyFbctory =
+                KeyFbctory.getInstbnce(encodedKeyAlgorithm);
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encodedKey);
-            return keyFactory.generatePrivate(keySpec);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new NoSuchAlgorithmException("No installed providers " +
-                                               "can create keys for the " +
+            return keyFbctory.generbtePrivbte(keySpec);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new NoSuchAlgorithmException("No instblled providers " +
+                                               "cbn crebte keys for the " +
                                                encodedKeyAlgorithm +
-                                               "algorithm", nsae);
-        } catch (InvalidKeySpecException ike) {
-            throw new InvalidKeyException("Cannot construct private key", ike);
+                                               "blgorithm", nsbe);
+        } cbtch (InvblidKeySpecException ike) {
+            throw new InvblidKeyException("Cbnnot construct privbte key", ike);
         }
     }
 
     /**
-     * Construct a secret key from its encoding.
+     * Construct b secret key from its encoding.
      *
-     * @param encodedKey the encoding of a secret key.
+     * @pbrbm encodedKey the encoding of b secret key.
      *
-     * @param encodedKeyAlgorithm the algorithm the secret key is for.
+     * @pbrbm encodedKeyAlgorithm the blgorithm the secret key is for.
      *
-     * @return a secret key constructed from the encodedKey.
+     * @return b secret key constructed from the encodedKey.
      */
-    private static final SecretKey constructSecretKey(byte[] encodedKey,
+    privbte stbtic finbl SecretKey constructSecretKey(byte[] encodedKey,
             String encodedKeyAlgorithm) {
         return new SecretKeySpec(encodedKey, encodedKeyAlgorithm);
     }
 
-    static final Key constructKey(byte[] encoding, String keyAlgorithm,
-            int keyType) throws InvalidKeyException, NoSuchAlgorithmException {
+    stbtic finbl Key constructKey(byte[] encoding, String keyAlgorithm,
+            int keyType) throws InvblidKeyException, NoSuchAlgorithmException {
         switch (keyType) {
-        case Cipher.SECRET_KEY:
+        cbse Cipher.SECRET_KEY:
             return constructSecretKey(encoding, keyAlgorithm);
-        case Cipher.PRIVATE_KEY:
-            return constructPrivateKey(encoding, keyAlgorithm);
-        case Cipher.PUBLIC_KEY:
+        cbse Cipher.PRIVATE_KEY:
+            return constructPrivbteKey(encoding, keyAlgorithm);
+        cbse Cipher.PUBLIC_KEY:
             return constructPublicKey(encoding, keyAlgorithm);
-        default:
-            throw new InvalidKeyException("Unknown keytype " + keyType);
+        defbult:
+            throw new InvblidKeyException("Unknown keytype " + keyType);
         }
     }
 }

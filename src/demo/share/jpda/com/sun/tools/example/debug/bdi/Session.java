@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbckbge com.sun.tools.exbmple.debug.bdi;
 
-import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.VirtublMbchine;
 import com.sun.jdi.VMDisconnectedException;
 
 /**
- * Our repository of what we know about the state of one
+ * Our repository of whbt we know bbout the stbte of one
  * running VM.
  */
-class Session {
+clbss Session {
 
-    final VirtualMachine vm;
-    final ExecutionManager runtime;
-    final OutputListener diagnostics;
+    finbl VirtublMbchine vm;
+    finbl ExecutionMbnbger runtime;
+    finbl OutputListener dibgnostics;
 
-    boolean running = true;  // Set false by JDIEventSource
-    boolean interrupted = false;  // Set false by JDIEventSource
+    boolebn running = true;  // Set fblse by JDIEventSource
+    boolebn interrupted = fblse;  // Set fblse by JDIEventSource
 
-    private JDIEventSource eventSourceThread = null;
-    private int traceFlags;
-    private boolean dead = false;
+    privbte JDIEventSource eventSourceThrebd = null;
+    privbte int trbceFlbgs;
+    privbte boolebn debd = fblse;
 
-    public Session(VirtualMachine vm, ExecutionManager runtime,
-                   OutputListener diagnostics) {
+    public Session(VirtublMbchine vm, ExecutionMbnbger runtime,
+                   OutputListener dibgnostics) {
         this.vm = vm;
         this.runtime = runtime;
-        this.diagnostics = diagnostics;
-        this.traceFlags = VirtualMachine.TRACE_NONE;
+        this.dibgnostics = dibgnostics;
+        this.trbceFlbgs = VirtublMbchine.TRACE_NONE;
     }
 
     /**
-     * Determine if VM is interrupted, i.e, present and not running.
+     * Determine if VM is interrupted, i.e, present bnd not running.
      */
-    public boolean isInterrupted() {
+    public boolebn isInterrupted() {
         return interrupted;
     }
 
-    public void setTraceMode(int traceFlags) {
-        this.traceFlags = traceFlags;
-        if (!dead) {
-            vm.setDebugTraceMode(traceFlags);
+    public void setTrbceMode(int trbceFlbgs) {
+        this.trbceFlbgs = trbceFlbgs;
+        if (!debd) {
+            vm.setDebugTrbceMode(trbceFlbgs);
         }
     }
 
-    public boolean attach() {
-        vm.setDebugTraceMode(traceFlags);
-        diagnostics.putString("Connected to VM");
-        eventSourceThread = new JDIEventSource(this);
-        eventSourceThread.start();
+    public boolebn bttbch() {
+        vm.setDebugTrbceMode(trbceFlbgs);
+        dibgnostics.putString("Connected to VM");
+        eventSourceThrebd = new JDIEventSource(this);
+        eventSourceThrebd.stbrt();
         return true;
     }
 
-    public void detach() {
-        if (!dead) {
-            eventSourceThread.interrupt();
-            eventSourceThread = null;
-            //### The VM may already be disconnected
-            //### if the debuggee did a System.exit().
-            //### Exception handler here is a kludge,
-            //### Rather, there are many other places
-            //### where we need to handle this exception,
-            //### and initiate a detach due to an error
-            //### condition, e.g., connection failure.
+    public void detbch() {
+        if (!debd) {
+            eventSourceThrebd.interrupt();
+            eventSourceThrebd = null;
+            //### The VM mby blrebdy be disconnected
+            //### if the debuggee did b System.exit().
+            //### Exception hbndler here is b kludge,
+            //### Rbther, there bre mbny other plbces
+            //### where we need to hbndle this exception,
+            //### bnd initibte b detbch due to bn error
+            //### condition, e.g., connection fbilure.
             try {
                 vm.dispose();
-            } catch (VMDisconnectedException ee) {}
-            dead = true;
-            diagnostics.putString("Disconnected from VM");
+            } cbtch (VMDisconnectedException ee) {}
+            debd = true;
+            dibgnostics.putString("Disconnected from VM");
         }
     }
 }

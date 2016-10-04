@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.Locale;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
 
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.StreamPrintService;
-import javax.print.StreamPrintServiceFactory;
-import javax.print.ServiceUIFactory;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.AttributeSetUtilities;
-import javax.print.attribute.HashAttributeSet;
-import javax.print.attribute.HashPrintServiceAttributeSet;
-import javax.print.attribute.PrintServiceAttribute;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.Size2DSyntax;
-import javax.print.event.PrintServiceAttributeListener;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.RequestingUserName;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.ColorSupported;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.CopiesSupported;
-import javax.print.attribute.standard.Fidelity;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.PageRanges;
-import javax.print.attribute.standard.SheetCollate;
-import javax.print.attribute.standard.Sides;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.DocPrintJob;
+import jbvbx.print.StrebmPrintService;
+import jbvbx.print.StrebmPrintServiceFbctory;
+import jbvbx.print.ServiceUIFbctory;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.AttributeSet;
+import jbvbx.print.bttribute.AttributeSetUtilities;
+import jbvbx.print.bttribute.HbshAttributeSet;
+import jbvbx.print.bttribute.HbshPrintServiceAttributeSet;
+import jbvbx.print.bttribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.PrintServiceAttributeSet;
+import jbvbx.print.bttribute.Size2DSyntbx;
+import jbvbx.print.event.PrintServiceAttributeListener;
+import jbvbx.print.bttribute.stbndbrd.JobNbme;
+import jbvbx.print.bttribute.stbndbrd.RequestingUserNbme;
+import jbvbx.print.bttribute.stbndbrd.Chrombticity;
+import jbvbx.print.bttribute.stbndbrd.ColorSupported;
+import jbvbx.print.bttribute.stbndbrd.Copies;
+import jbvbx.print.bttribute.stbndbrd.CopiesSupported;
+import jbvbx.print.bttribute.stbndbrd.Fidelity;
+import jbvbx.print.bttribute.stbndbrd.Medib;
+import jbvbx.print.bttribute.stbndbrd.MedibPrintbbleAreb;
+import jbvbx.print.bttribute.stbndbrd.MedibSize;
+import jbvbx.print.bttribute.stbndbrd.MedibSizeNbme;
+import jbvbx.print.bttribute.stbndbrd.OrientbtionRequested;
+import jbvbx.print.bttribute.stbndbrd.PbgeRbnges;
+import jbvbx.print.bttribute.stbndbrd.SheetCollbte;
+import jbvbx.print.bttribute.stbndbrd.Sides;
 
-public class PSStreamPrintService extends StreamPrintService
+public clbss PSStrebmPrintService extends StrebmPrintService
     implements SunPrinterJobService {
 
-    private static final Class<?>[] suppAttrCats = {
-        Chromaticity.class,
-        Copies.class,
-        Fidelity.class,
-        JobName.class,
-        Media.class,
-        MediaPrintableArea.class,
-        OrientationRequested.class,
-        PageRanges.class,
-        RequestingUserName.class,
-        SheetCollate.class,
-        Sides.class,
+    privbte stbtic finbl Clbss<?>[] suppAttrCbts = {
+        Chrombticity.clbss,
+        Copies.clbss,
+        Fidelity.clbss,
+        JobNbme.clbss,
+        Medib.clbss,
+        MedibPrintbbleAreb.clbss,
+        OrientbtionRequested.clbss,
+        PbgeRbnges.clbss,
+        RequestingUserNbme.clbss,
+        SheetCollbte.clbss,
+        Sides.clbss,
     };
 
-    private static int MAXCOPIES = 1000;
+    privbte stbtic int MAXCOPIES = 1000;
 
-    private static final MediaSizeName mediaSizes[] = {
-        MediaSizeName.NA_LETTER,
-        MediaSizeName.TABLOID,
-        MediaSizeName.LEDGER,
-        MediaSizeName.NA_LEGAL,
-        MediaSizeName.EXECUTIVE,
-        MediaSizeName.ISO_A3,
-        MediaSizeName.ISO_A4,
-        MediaSizeName.ISO_A5,
-        MediaSizeName.ISO_B4,
-        MediaSizeName.ISO_B5,
+    privbte stbtic finbl MedibSizeNbme medibSizes[] = {
+        MedibSizeNbme.NA_LETTER,
+        MedibSizeNbme.TABLOID,
+        MedibSizeNbme.LEDGER,
+        MedibSizeNbme.NA_LEGAL,
+        MedibSizeNbme.EXECUTIVE,
+        MedibSizeNbme.ISO_A3,
+        MedibSizeNbme.ISO_A4,
+        MedibSizeNbme.ISO_A5,
+        MedibSizeNbme.ISO_B4,
+        MedibSizeNbme.ISO_B5,
     };
 
-    public PSStreamPrintService(OutputStream out) {
+    public PSStrebmPrintService(OutputStrebm out) {
         super(out);
     }
 
-    public String getOutputFormat() {
-        return PSStreamPrinterFactory.psMimeType;
+    public String getOutputFormbt() {
+        return PSStrebmPrinterFbctory.psMimeType;
     }
 
 
-    public DocFlavor[] getSupportedDocFlavors() {
-        return PSStreamPrinterFactory.getFlavors();
+    public DocFlbvor[] getSupportedDocFlbvors() {
+        return PSStrebmPrinterFbctory.getFlbvors();
     }
 
-    public DocPrintJob createPrintJob() {
-        return new PSStreamPrintJob(this);
+    public DocPrintJob crebtePrintJob() {
+        return new PSStrebmPrintJob(this);
     }
 
-    public boolean usesClass(Class<?> c) {
-        return (c == sun.print.PSPrinterJob.class);
+    public boolebn usesClbss(Clbss<?> c) {
+        return (c == sun.print.PSPrinterJob.clbss);
     }
 
-    public String getName() {
+    public String getNbme() {
         return "Postscript output";
     }
 
-    public void addPrintServiceAttributeListener(
+    public void bddPrintServiceAttributeListener(
                          PrintServiceAttributeListener listener) {
         return;
     }
@@ -128,16 +128,16 @@ public class PSStreamPrintService extends StreamPrintService
 
 
     public <T extends PrintServiceAttribute>
-        T getAttribute(Class<T> category)
+        T getAttribute(Clbss<T> cbtegory)
     {
-        if (category == null) {
-            throw new NullPointerException("category");
+        if (cbtegory == null) {
+            throw new NullPointerException("cbtegory");
         }
-        if (!(PrintServiceAttribute.class.isAssignableFrom(category))) {
-            throw new IllegalArgumentException("Not a PrintServiceAttribute");
+        if (!(PrintServiceAttribute.clbss.isAssignbbleFrom(cbtegory))) {
+            throw new IllegblArgumentException("Not b PrintServiceAttribute");
         }
-        if (category == ColorSupported.class) {
-            @SuppressWarnings("unchecked")
+        if (cbtegory == ColorSupported.clbss) {
+            @SuppressWbrnings("unchecked")
             T tmp = (T)ColorSupported.SUPPORTED;
             return tmp;
         } else {
@@ -145,103 +145,103 @@ public class PSStreamPrintService extends StreamPrintService
         }
     }
     public PrintServiceAttributeSet getAttributes() {
-        PrintServiceAttributeSet attrs = new HashPrintServiceAttributeSet();
-        attrs.add(ColorSupported.SUPPORTED);
+        PrintServiceAttributeSet bttrs = new HbshPrintServiceAttributeSet();
+        bttrs.bdd(ColorSupported.SUPPORTED);
 
-        return AttributeSetUtilities.unmodifiableView(attrs);
+        return AttributeSetUtilities.unmodifibbleView(bttrs);
     }
 
-    public boolean isDocFlavorSupported(DocFlavor flavor) {
-        DocFlavor [] flavors = getSupportedDocFlavors();
-        for (int f=0; f<flavors.length; f++) {
-            if (flavor.equals(flavors[f])) {
+    public boolebn isDocFlbvorSupported(DocFlbvor flbvor) {
+        DocFlbvor [] flbvors = getSupportedDocFlbvors();
+        for (int f=0; f<flbvors.length; f++) {
+            if (flbvor.equbls(flbvors[f])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
 
-    public Class<?>[] getSupportedAttributeCategories() {
-        Class<?>[] cats = new Class<?>[suppAttrCats.length];
-        System.arraycopy(suppAttrCats, 0, cats, 0, cats.length);
-        return cats;
+    public Clbss<?>[] getSupportedAttributeCbtegories() {
+        Clbss<?>[] cbts = new Clbss<?>[suppAttrCbts.length];
+        System.brrbycopy(suppAttrCbts, 0, cbts, 0, cbts.length);
+        return cbts;
     }
 
-    public boolean
-        isAttributeCategorySupported(Class<? extends Attribute> category)
+    public boolebn
+        isAttributeCbtegorySupported(Clbss<? extends Attribute> cbtegory)
     {
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (cbtegory == null) {
+            throw new NullPointerException("null cbtegory");
         }
-        if (!(Attribute.class.isAssignableFrom(category))) {
-            throw new IllegalArgumentException(category +
-                                             " is not an Attribute");
+        if (!(Attribute.clbss.isAssignbbleFrom(cbtegory))) {
+            throw new IllegblArgumentException(cbtegory +
+                                             " is not bn Attribute");
         }
 
-        for (int i=0;i<suppAttrCats.length;i++) {
-            if (category == suppAttrCats[i]) {
+        for (int i=0;i<suppAttrCbts.length;i++) {
+            if (cbtegory == suppAttrCbts[i]) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
 
     public Object
-        getDefaultAttributeValue(Class<? extends Attribute> category)
+        getDefbultAttributeVblue(Clbss<? extends Attribute> cbtegory)
     {
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (cbtegory == null) {
+            throw new NullPointerException("null cbtegory");
         }
-        if (!Attribute.class.isAssignableFrom(category)) {
-            throw new IllegalArgumentException(category +
-                                             " is not an Attribute");
+        if (!Attribute.clbss.isAssignbbleFrom(cbtegory)) {
+            throw new IllegblArgumentException(cbtegory +
+                                             " is not bn Attribute");
         }
 
-        if (!isAttributeCategorySupported(category)) {
+        if (!isAttributeCbtegorySupported(cbtegory)) {
             return null;
         }
 
-        if (category == Copies.class) {
+        if (cbtegory == Copies.clbss) {
             return new Copies(1);
-        } else if (category == Chromaticity.class) {
-            return Chromaticity.COLOR;
-        } else if (category == Fidelity.class) {
+        } else if (cbtegory == Chrombticity.clbss) {
+            return Chrombticity.COLOR;
+        } else if (cbtegory == Fidelity.clbss) {
             return Fidelity.FIDELITY_FALSE;
-        } else if (category == Media.class) {
-            String defaultCountry = Locale.getDefault().getCountry();
-            if (defaultCountry != null &&
-                (defaultCountry.equals("") ||
-                 defaultCountry.equals(Locale.US.getCountry()) ||
-                 defaultCountry.equals(Locale.CANADA.getCountry()))) {
-                return MediaSizeName.NA_LETTER;
+        } else if (cbtegory == Medib.clbss) {
+            String defbultCountry = Locble.getDefbult().getCountry();
+            if (defbultCountry != null &&
+                (defbultCountry.equbls("") ||
+                 defbultCountry.equbls(Locble.US.getCountry()) ||
+                 defbultCountry.equbls(Locble.CANADA.getCountry()))) {
+                return MedibSizeNbme.NA_LETTER;
             } else {
-                 return MediaSizeName.ISO_A4;
+                 return MedibSizeNbme.ISO_A4;
             }
-        } else if (category == MediaPrintableArea.class) {
-            String defaultCountry = Locale.getDefault().getCountry();
-            float iw, ih;
-            float margin = 0.5f; // both these papers > 5" in all dimensions
-            if (defaultCountry != null &&
-                (defaultCountry.equals("") ||
-                 defaultCountry.equals(Locale.US.getCountry()) ||
-                 defaultCountry.equals(Locale.CANADA.getCountry()))) {
-                iw = MediaSize.NA.LETTER.getX(Size2DSyntax.INCH) - 2*margin;
-                ih = MediaSize.NA.LETTER.getY(Size2DSyntax.INCH) - 2*margin;
+        } else if (cbtegory == MedibPrintbbleAreb.clbss) {
+            String defbultCountry = Locble.getDefbult().getCountry();
+            flobt iw, ih;
+            flobt mbrgin = 0.5f; // both these pbpers > 5" in bll dimensions
+            if (defbultCountry != null &&
+                (defbultCountry.equbls("") ||
+                 defbultCountry.equbls(Locble.US.getCountry()) ||
+                 defbultCountry.equbls(Locble.CANADA.getCountry()))) {
+                iw = MedibSize.NA.LETTER.getX(Size2DSyntbx.INCH) - 2*mbrgin;
+                ih = MedibSize.NA.LETTER.getY(Size2DSyntbx.INCH) - 2*mbrgin;
             } else {
-                iw = MediaSize.ISO.A4.getX(Size2DSyntax.INCH) - 2*margin;
-                ih = MediaSize.ISO.A4.getY(Size2DSyntax.INCH) - 2*margin;
+                iw = MedibSize.ISO.A4.getX(Size2DSyntbx.INCH) - 2*mbrgin;
+                ih = MedibSize.ISO.A4.getY(Size2DSyntbx.INCH) - 2*mbrgin;
             }
-            return new MediaPrintableArea(margin, margin, iw, ih,
-                                          MediaPrintableArea.INCH);
-        } else if (category == OrientationRequested.class) {
-            return OrientationRequested.PORTRAIT;
-        } else if (category == PageRanges.class) {
-            return new PageRanges(1, Integer.MAX_VALUE);
-        } else if (category == SheetCollate.class) {
-            return SheetCollate.UNCOLLATED;
-        } else if (category == Sides.class) {
+            return new MedibPrintbbleAreb(mbrgin, mbrgin, iw, ih,
+                                          MedibPrintbbleAreb.INCH);
+        } else if (cbtegory == OrientbtionRequested.clbss) {
+            return OrientbtionRequested.PORTRAIT;
+        } else if (cbtegory == PbgeRbnges.clbss) {
+            return new PbgeRbnges(1, Integer.MAX_VALUE);
+        } else if (cbtegory == SheetCollbte.clbss) {
+            return SheetCollbte.UNCOLLATED;
+        } else if (cbtegory == Sides.clbss) {
             return Sides.ONE_SIDED;
 
         } else
@@ -250,127 +250,127 @@ public class PSStreamPrintService extends StreamPrintService
 
 
     public Object
-        getSupportedAttributeValues(Class<? extends Attribute> category,
-                                    DocFlavor flavor,
-                                    AttributeSet attributes)
+        getSupportedAttributeVblues(Clbss<? extends Attribute> cbtegory,
+                                    DocFlbvor flbvor,
+                                    AttributeSet bttributes)
     {
 
-        if (category == null) {
-            throw new NullPointerException("null category");
+        if (cbtegory == null) {
+            throw new NullPointerException("null cbtegory");
         }
-        if (!Attribute.class.isAssignableFrom(category)) {
-            throw new IllegalArgumentException(category +
+        if (!Attribute.clbss.isAssignbbleFrom(cbtegory)) {
+            throw new IllegblArgumentException(cbtegory +
                                              " does not implement Attribute");
         }
-        if (flavor != null && !isDocFlavorSupported(flavor)) {
-            throw new IllegalArgumentException(flavor +
-                                               " is an unsupported flavor");
+        if (flbvor != null && !isDocFlbvorSupported(flbvor)) {
+            throw new IllegblArgumentException(flbvor +
+                                               " is bn unsupported flbvor");
         }
 
-        if (!isAttributeCategorySupported(category)) {
+        if (!isAttributeCbtegorySupported(cbtegory)) {
             return null;
         }
 
-        if (category == Chromaticity.class) {
-            Chromaticity[]arr = new Chromaticity[1];
-            arr[0] = Chromaticity.COLOR;
-            //arr[1] = Chromaticity.MONOCHROME;
-            return (arr);
-        } else if (category == JobName.class) {
-            return new JobName("", null);
-        } else if (category == RequestingUserName.class) {
-            return new RequestingUserName("", null);
-        } else if (category == OrientationRequested.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                OrientationRequested []arr = new OrientationRequested[3];
-                arr[0] = OrientationRequested.PORTRAIT;
-                arr[1] = OrientationRequested.LANDSCAPE;
-                arr[2] = OrientationRequested.REVERSE_LANDSCAPE;
-                return arr;
+        if (cbtegory == Chrombticity.clbss) {
+            Chrombticity[]brr = new Chrombticity[1];
+            brr[0] = Chrombticity.COLOR;
+            //brr[1] = Chrombticity.MONOCHROME;
+            return (brr);
+        } else if (cbtegory == JobNbme.clbss) {
+            return new JobNbme("", null);
+        } else if (cbtegory == RequestingUserNbme.clbss) {
+            return new RequestingUserNbme("", null);
+        } else if (cbtegory == OrientbtionRequested.clbss) {
+            if (flbvor == null ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                OrientbtionRequested []brr = new OrientbtionRequested[3];
+                brr[0] = OrientbtionRequested.PORTRAIT;
+                brr[1] = OrientbtionRequested.LANDSCAPE;
+                brr[2] = OrientbtionRequested.REVERSE_LANDSCAPE;
+                return brr;
             } else {
                 return null;
             }
-        } else if ((category == Copies.class) ||
-                   (category == CopiesSupported.class)) {
+        } else if ((cbtegory == Copies.clbss) ||
+                   (cbtegory == CopiesSupported.clbss)) {
             return new CopiesSupported(1, MAXCOPIES);
-        } else if (category == Media.class) {
-            Media []arr = new Media[mediaSizes.length];
-            System.arraycopy(mediaSizes, 0, arr, 0, mediaSizes.length);
-            return arr;
-        } else if (category == Fidelity.class) {
-            Fidelity []arr = new Fidelity[2];
-            arr[0] = Fidelity.FIDELITY_FALSE;
-            arr[1] = Fidelity.FIDELITY_TRUE;
-            return arr;
-        } else if (category == MediaPrintableArea.class) {
-            if (attributes == null) {
+        } else if (cbtegory == Medib.clbss) {
+            Medib []brr = new Medib[medibSizes.length];
+            System.brrbycopy(medibSizes, 0, brr, 0, medibSizes.length);
+            return brr;
+        } else if (cbtegory == Fidelity.clbss) {
+            Fidelity []brr = new Fidelity[2];
+            brr[0] = Fidelity.FIDELITY_FALSE;
+            brr[1] = Fidelity.FIDELITY_TRUE;
+            return brr;
+        } else if (cbtegory == MedibPrintbbleAreb.clbss) {
+            if (bttributes == null) {
                 return null;
             }
-            MediaSize mediaSize = (MediaSize)attributes.get(MediaSize.class);
-            if (mediaSize == null) {
-                Media media = (Media)attributes.get(Media.class);
-                if (media != null && media instanceof MediaSizeName) {
-                    MediaSizeName msn = (MediaSizeName)media;
-                    mediaSize = MediaSize.getMediaSizeForName(msn);
+            MedibSize medibSize = (MedibSize)bttributes.get(MedibSize.clbss);
+            if (medibSize == null) {
+                Medib medib = (Medib)bttributes.get(Medib.clbss);
+                if (medib != null && medib instbnceof MedibSizeNbme) {
+                    MedibSizeNbme msn = (MedibSizeNbme)medib;
+                    medibSize = MedibSize.getMedibSizeForNbme(msn);
                 }
             }
-            if (mediaSize == null) {
+            if (medibSize == null) {
                 return null;
             } else {
-                MediaPrintableArea []arr = new MediaPrintableArea[1];
-                float w = mediaSize.getX(MediaSize.INCH);
-                float h = mediaSize.getY(MediaSize.INCH);
-                /* For dimensions >= 5 inches use 0.5 inch margins.
-                 * For smaller dimensions, use 10% margins.
+                MedibPrintbbleAreb []brr = new MedibPrintbbleAreb[1];
+                flobt w = medibSize.getX(MedibSize.INCH);
+                flobt h = medibSize.getY(MedibSize.INCH);
+                /* For dimensions >= 5 inches use 0.5 inch mbrgins.
+                 * For smbller dimensions, use 10% mbrgins.
                  */
-                float xmargin = 0.5f;
-                float ymargin = 0.5f;
+                flobt xmbrgin = 0.5f;
+                flobt ymbrgin = 0.5f;
                 if (w < 5f) {
-                    xmargin = w/10;
+                    xmbrgin = w/10;
                 }
                 if (h < 5f) {
-                    ymargin = h/10;
+                    ymbrgin = h/10;
                 }
-                arr[0] = new MediaPrintableArea(xmargin, ymargin,
-                                                w - 2*xmargin,
-                                                h - 2*ymargin,
-                                                MediaSize.INCH);
-                return arr;
+                brr[0] = new MedibPrintbbleAreb(xmbrgin, ymbrgin,
+                                                w - 2*xmbrgin,
+                                                h - 2*ymbrgin,
+                                                MedibSize.INCH);
+                return brr;
             }
-        } else if (category == PageRanges.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                PageRanges []arr = new PageRanges[1];
-                arr[0] = new PageRanges(1, Integer.MAX_VALUE);
-                return arr;
+        } else if (cbtegory == PbgeRbnges.clbss) {
+            if (flbvor == null ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                PbgeRbnges []brr = new PbgeRbnges[1];
+                brr[0] = new PbgeRbnges(1, Integer.MAX_VALUE);
+                return brr;
             } else {
                 return null;
             }
-        } else if (category == SheetCollate.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                SheetCollate []arr = new SheetCollate[2];
-                arr[0] = SheetCollate.UNCOLLATED;
-                arr[1] = SheetCollate.COLLATED;
-                return arr;
+        } else if (cbtegory == SheetCollbte.clbss) {
+            if (flbvor == null ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                SheetCollbte []brr = new SheetCollbte[2];
+                brr[0] = SheetCollbte.UNCOLLATED;
+                brr[1] = SheetCollbte.COLLATED;
+                return brr;
             } else {
-                SheetCollate []arr = new SheetCollate[1];
-                arr[0] = SheetCollate.UNCOLLATED;
-                return arr;
+                SheetCollbte []brr = new SheetCollbte[1];
+                brr[0] = SheetCollbte.UNCOLLATED;
+                return brr;
             }
-        } else if (category == Sides.class) {
-            if (flavor == null ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE)) {
-                Sides []arr = new Sides[3];
-                arr[0] = Sides.ONE_SIDED;
-                arr[1] = Sides.TWO_SIDED_LONG_EDGE;
-                arr[2] = Sides.TWO_SIDED_SHORT_EDGE;
-                return arr;
+        } else if (cbtegory == Sides.clbss) {
+            if (flbvor == null ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE)) {
+                Sides []brr = new Sides[3];
+                brr[0] = Sides.ONE_SIDED;
+                brr[1] = Sides.TWO_SIDED_LONG_EDGE;
+                brr[2] = Sides.TWO_SIDED_SHORT_EDGE;
+                return brr;
             } else {
                 return null;
             }
@@ -379,96 +379,96 @@ public class PSStreamPrintService extends StreamPrintService
         }
     }
 
-    private boolean isSupportedCopies(Copies copies) {
-        int numCopies = copies.getValue();
+    privbte boolebn isSupportedCopies(Copies copies) {
+        int numCopies = copies.getVblue();
         return (numCopies > 0 && numCopies < MAXCOPIES);
     }
 
-    private boolean isSupportedMedia(MediaSizeName msn) {
-        for (int i=0; i<mediaSizes.length; i++) {
-            if (msn.equals(mediaSizes[i])) {
+    privbte boolebn isSupportedMedib(MedibSizeNbme msn) {
+        for (int i=0; i<medibSizes.length; i++) {
+            if (msn.equbls(medibSizes[i])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public boolean isAttributeValueSupported(Attribute attr,
-                                             DocFlavor flavor,
-                                             AttributeSet attributes) {
-        if (attr == null) {
-            throw new NullPointerException("null attribute");
+    public boolebn isAttributeVblueSupported(Attribute bttr,
+                                             DocFlbvor flbvor,
+                                             AttributeSet bttributes) {
+        if (bttr == null) {
+            throw new NullPointerException("null bttribute");
         }
-        if (flavor != null && !isDocFlavorSupported(flavor)) {
-            throw new IllegalArgumentException(flavor +
-                                               " is an unsupported flavor");
+        if (flbvor != null && !isDocFlbvorSupported(flbvor)) {
+            throw new IllegblArgumentException(flbvor +
+                                               " is bn unsupported flbvor");
         }
-        Class<? extends Attribute> category = attr.getCategory();
-        if (!isAttributeCategorySupported(category)) {
-            return false;
+        Clbss<? extends Attribute> cbtegory = bttr.getCbtegory();
+        if (!isAttributeCbtegorySupported(cbtegory)) {
+            return fblse;
         }
-        else if (attr.getCategory() == Chromaticity.class) {
-            return attr == Chromaticity.COLOR;
+        else if (bttr.getCbtegory() == Chrombticity.clbss) {
+            return bttr == Chrombticity.COLOR;
         }
-        else if (attr.getCategory() == Copies.class) {
-            return isSupportedCopies((Copies)attr);
-        } else if (attr.getCategory() == Media.class &&
-                   attr instanceof MediaSizeName) {
-            return isSupportedMedia((MediaSizeName)attr);
-        } else if (attr.getCategory() == OrientationRequested.class) {
-            if (attr == OrientationRequested.REVERSE_PORTRAIT ||
-                (flavor != null) &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        else if (bttr.getCbtegory() == Copies.clbss) {
+            return isSupportedCopies((Copies)bttr);
+        } else if (bttr.getCbtegory() == Medib.clbss &&
+                   bttr instbnceof MedibSizeNbme) {
+            return isSupportedMedib((MedibSizeNbme)bttr);
+        } else if (bttr.getCbtegory() == OrientbtionRequested.clbss) {
+            if (bttr == OrientbtionRequested.REVERSE_PORTRAIT ||
+                (flbvor != null) &&
+                !(flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                return fblse;
             }
-        } else if (attr.getCategory() == PageRanges.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } else if (bttr.getCbtegory() == PbgeRbnges.clbss) {
+            if (flbvor != null &&
+                !(flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                return fblse;
             }
-        } else if (attr.getCategory() == SheetCollate.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } else if (bttr.getCbtegory() == SheetCollbte.clbss) {
+            if (flbvor != null &&
+                !(flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                return fblse;
             }
-        } else if (attr.getCategory() == Sides.class) {
-            if (flavor != null &&
-                !(flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE) ||
-                flavor.equals(DocFlavor.SERVICE_FORMATTED.PRINTABLE))) {
-                return false;
+        } else if (bttr.getCbtegory() == Sides.clbss) {
+            if (flbvor != null &&
+                !(flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PAGEABLE) ||
+                flbvor.equbls(DocFlbvor.SERVICE_FORMATTED.PRINTABLE))) {
+                return fblse;
             }
         }
         return true;
     }
 
-    public AttributeSet getUnsupportedAttributes(DocFlavor flavor,
-                                                 AttributeSet attributes) {
+    public AttributeSet getUnsupportedAttributes(DocFlbvor flbvor,
+                                                 AttributeSet bttributes) {
 
-        if (flavor != null && !isDocFlavorSupported(flavor)) {
-            throw new IllegalArgumentException("flavor " + flavor +
+        if (flbvor != null && !isDocFlbvorSupported(flbvor)) {
+            throw new IllegblArgumentException("flbvor " + flbvor +
                                                "is not supported");
         }
 
-        if (attributes == null) {
+        if (bttributes == null) {
             return null;
         }
 
-        Attribute attr;
-        AttributeSet unsupp = new HashAttributeSet();
-        Attribute[] attrs = attributes.toArray();
-        for (int i=0; i<attrs.length; i++) {
+        Attribute bttr;
+        AttributeSet unsupp = new HbshAttributeSet();
+        Attribute[] bttrs = bttributes.toArrby();
+        for (int i=0; i<bttrs.length; i++) {
             try {
-                attr = attrs[i];
-                if (!isAttributeCategorySupported(attr.getCategory())) {
-                    unsupp.add(attr);
-                } else if (!isAttributeValueSupported(attr, flavor,
-                                                      attributes)) {
-                    unsupp.add(attr);
+                bttr = bttrs[i];
+                if (!isAttributeCbtegorySupported(bttr.getCbtegory())) {
+                    unsupp.bdd(bttr);
+                } else if (!isAttributeVblueSupported(bttr, flbvor,
+                                                      bttributes)) {
+                    unsupp.bdd(bttr);
                 }
-            } catch (ClassCastException e) {
+            } cbtch (ClbssCbstException e) {
             }
         }
         if (unsupp.isEmpty()) {
@@ -478,25 +478,25 @@ public class PSStreamPrintService extends StreamPrintService
         }
     }
 
-    public ServiceUIFactory getServiceUIFactory() {
+    public ServiceUIFbctory getServiceUIFbctory() {
         return null;
     }
 
     public String toString() {
-        return "PSStreamPrintService: " + getName();
+        return "PSStrebmPrintService: " + getNbme();
     }
 
-    /* Stream services have an output stream which cannot be shared,
-     * so two services are equal only if they are the same object.
+    /* Strebm services hbve bn output strebm which cbnnot be shbred,
+     * so two services bre equbl only if they bre the sbme object.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return (obj == this ||
-                 (obj instanceof PSStreamPrintService &&
-                 ((PSStreamPrintService)obj).getName().equals(getName())));
+                 (obj instbnceof PSStrebmPrintService &&
+                 ((PSStrebmPrintService)obj).getNbme().equbls(getNbme())));
     }
 
-   public int hashCode() {
-        return this.getClass().hashCode()+getName().hashCode();
+   public int hbshCode() {
+        return this.getClbss().hbshCode()+getNbme().hbshCode();
     }
 
 }

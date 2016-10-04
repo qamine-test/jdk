@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.monitor;
+pbckbge jbvbx.mbnbgement.monitor;
 
-import static com.sun.jmx.defaults.JmxProperties.MONITOR_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import com.sun.jmx.mbeanserver.Introspector;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Level;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.IntrospectionException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import static javax.management.monitor.MonitorNotification.*;
+import stbtic com.sun.jmx.defbults.JmxProperties.MONITOR_LOGGER;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
+import com.sun.jmx.mbebnserver.Introspector;
+import jbvb.io.IOException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.ProtectionDombin;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.concurrent.CopyOnWriteArrbyList;
+import jbvb.util.concurrent.Executors;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.LinkedBlockingQueue;
+import jbvb.util.concurrent.ScheduledExecutorService;
+import jbvb.util.concurrent.ScheduledFuture;
+import jbvb.util.concurrent.ThrebdFbctory;
+import jbvb.util.concurrent.ThrebdPoolExecutor;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import jbvb.util.logging.Level;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.IntrospectionException;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.NotificbtionBrobdcbsterSupport;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.ReflectionException;
+import stbtic jbvbx.mbnbgement.monitor.MonitorNotificbtion.*;
 
 /**
- * Defines the part common to all monitor MBeans.
- * A monitor MBean monitors values of an attribute common to a set of observed
- * MBeans. The observed attribute is monitored at intervals specified by the
- * granularity period. A gauge value (derived gauge) is derived from the values
- * of the observed attribute.
+ * Defines the pbrt common to bll monitor MBebns.
+ * A monitor MBebn monitors vblues of bn bttribute common to b set of observed
+ * MBebns. The observed bttribute is monitored bt intervbls specified by the
+ * grbnulbrity period. A gbuge vblue (derived gbuge) is derived from the vblues
+ * of the observed bttribute.
  *
  *
  * @since 1.5
  */
-public abstract class Monitor
-    extends NotificationBroadcasterSupport
-    implements MonitorMBean, MBeanRegistration {
+public bbstrbct clbss Monitor
+    extends NotificbtionBrobdcbsterSupport
+    implements MonitorMBebn, MBebnRegistrbtion {
 
     /*
      * ------------------------------------------
@@ -82,39 +82,39 @@ public abstract class Monitor
      * ------------------------------------------
      */
 
-    static class ObservedObject {
+    stbtic clbss ObservedObject {
 
-        public ObservedObject(ObjectName observedObject) {
+        public ObservedObject(ObjectNbme observedObject) {
             this.observedObject = observedObject;
         }
 
-        public final ObjectName getObservedObject() {
+        public finbl ObjectNbme getObservedObject() {
             return observedObject;
         }
-        public final synchronized int getAlreadyNotified() {
-            return alreadyNotified;
+        public finbl synchronized int getAlrebdyNotified() {
+            return blrebdyNotified;
         }
-        public final synchronized void setAlreadyNotified(int alreadyNotified) {
-            this.alreadyNotified = alreadyNotified;
+        public finbl synchronized void setAlrebdyNotified(int blrebdyNotified) {
+            this.blrebdyNotified = blrebdyNotified;
         }
-        public final synchronized Object getDerivedGauge() {
-            return derivedGauge;
+        public finbl synchronized Object getDerivedGbuge() {
+            return derivedGbuge;
         }
-        public final synchronized void setDerivedGauge(Object derivedGauge) {
-            this.derivedGauge = derivedGauge;
+        public finbl synchronized void setDerivedGbuge(Object derivedGbuge) {
+            this.derivedGbuge = derivedGbuge;
         }
-        public final synchronized long getDerivedGaugeTimeStamp() {
-            return derivedGaugeTimeStamp;
+        public finbl synchronized long getDerivedGbugeTimeStbmp() {
+            return derivedGbugeTimeStbmp;
         }
-        public final synchronized void setDerivedGaugeTimeStamp(
-                                                 long derivedGaugeTimeStamp) {
-            this.derivedGaugeTimeStamp = derivedGaugeTimeStamp;
+        public finbl synchronized void setDerivedGbugeTimeStbmp(
+                                                 long derivedGbugeTimeStbmp) {
+            this.derivedGbugeTimeStbmp = derivedGbugeTimeStbmp;
         }
 
-        private final ObjectName observedObject;
-        private int alreadyNotified;
-        private Object derivedGauge;
-        private long derivedGaugeTimeStamp;
+        privbte finbl ObjectNbme observedObject;
+        privbte int blrebdyNotified;
+        privbte Object derivedGbuge;
+        privbte long derivedGbugeTimeStbmp;
     }
 
     /*
@@ -126,118 +126,118 @@ public abstract class Monitor
     /**
      * Attribute to observe.
      */
-    private String observedAttribute;
+    privbte String observedAttribute;
 
     /**
-     * Monitor granularity period (in milliseconds).
-     * The default value is set to 10 seconds.
+     * Monitor grbnulbrity period (in milliseconds).
+     * The defbult vblue is set to 10 seconds.
      */
-    private long granularityPeriod = 10000;
+    privbte long grbnulbrityPeriod = 10000;
 
     /**
-     * Monitor state.
-     * The default value is set to <CODE>false</CODE>.
+     * Monitor stbte.
+     * The defbult vblue is set to <CODE>fblse</CODE>.
      */
-    private boolean isActive = false;
+    privbte boolebn isActive = fblse;
 
     /**
      * Monitor sequence number.
-     * The default value is set to 0.
+     * The defbult vblue is set to 0.
      */
-    private final AtomicLong sequenceNumber = new AtomicLong();
+    privbte finbl AtomicLong sequenceNumber = new AtomicLong();
 
     /**
-     * Complex type attribute flag.
-     * The default value is set to <CODE>false</CODE>.
+     * Complex type bttribute flbg.
+     * The defbult vblue is set to <CODE>fblse</CODE>.
      */
-    private boolean isComplexTypeAttribute = false;
+    privbte boolebn isComplexTypeAttribute = fblse;
 
     /**
-     * First attribute name extracted from complex type attribute name.
+     * First bttribute nbme extrbcted from complex type bttribute nbme.
      */
-    private String firstAttribute;
+    privbte String firstAttribute;
 
     /**
-     * Remaining attribute names extracted from complex type attribute name.
+     * Rembining bttribute nbmes extrbcted from complex type bttribute nbme.
      */
-    private final List<String> remainingAttributes =
-        new CopyOnWriteArrayList<String>();
+    privbte finbl List<String> rembiningAttributes =
+        new CopyOnWriteArrbyList<String>();
 
     /**
-     * AccessControlContext of the Monitor.start() caller.
+     * AccessControlContext of the Monitor.stbrt() cbller.
      */
-    private static final AccessControlContext noPermissionsACC =
+    privbte stbtic finbl AccessControlContext noPermissionsACC =
             new AccessControlContext(
-            new ProtectionDomain[] {new ProtectionDomain(null, null)});
-    private volatile AccessControlContext acc = noPermissionsACC;
+            new ProtectionDombin[] {new ProtectionDombin(null, null)});
+    privbte volbtile AccessControlContext bcc = noPermissionsACC;
 
     /**
      * Scheduler Service.
      */
-    private static final ScheduledExecutorService scheduler =
-        Executors.newSingleThreadScheduledExecutor(
-            new DaemonThreadFactory("Scheduler"));
+    privbte stbtic finbl ScheduledExecutorService scheduler =
+        Executors.newSingleThrebdScheduledExecutor(
+            new DbemonThrebdFbctory("Scheduler"));
 
     /**
-     * Map containing the thread pool executor per thread group.
+     * Mbp contbining the threbd pool executor per threbd group.
      */
-    private static final Map<ThreadPoolExecutor, Void> executors =
-            new WeakHashMap<ThreadPoolExecutor, Void>();
+    privbte stbtic finbl Mbp<ThrebdPoolExecutor, Void> executors =
+            new WebkHbshMbp<ThrebdPoolExecutor, Void>();
 
     /**
-     * Lock for executors map.
+     * Lock for executors mbp.
      */
-    private static final Object executorsLock = new Object();
+    privbte stbtic finbl Object executorsLock = new Object();
 
     /**
-     * Maximum Pool Size
+     * Mbximum Pool Size
      */
-    private static final int maximumPoolSize;
-    static {
-        final String maximumPoolSizeSysProp = "jmx.x.monitor.maximum.pool.size";
-        final String maximumPoolSizeStr = AccessController.doPrivileged(
-            new GetPropertyAction(maximumPoolSizeSysProp));
-        if (maximumPoolSizeStr == null ||
-            maximumPoolSizeStr.trim().length() == 0) {
-            maximumPoolSize = 10;
+    privbte stbtic finbl int mbximumPoolSize;
+    stbtic {
+        finbl String mbximumPoolSizeSysProp = "jmx.x.monitor.mbximum.pool.size";
+        finbl String mbximumPoolSizeStr = AccessController.doPrivileged(
+            new GetPropertyAction(mbximumPoolSizeSysProp));
+        if (mbximumPoolSizeStr == null ||
+            mbximumPoolSizeStr.trim().length() == 0) {
+            mbximumPoolSize = 10;
         } else {
-            int maximumPoolSizeTmp = 10;
+            int mbximumPoolSizeTmp = 10;
             try {
-                maximumPoolSizeTmp = Integer.parseInt(maximumPoolSizeStr);
-            } catch (NumberFormatException e) {
-                if (MONITOR_LOGGER.isLoggable(Level.FINER)) {
-                    MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                            "<static initializer>",
-                            "Wrong value for " + maximumPoolSizeSysProp +
+                mbximumPoolSizeTmp = Integer.pbrseInt(mbximumPoolSizeStr);
+            } cbtch (NumberFormbtException e) {
+                if (MONITOR_LOGGER.isLoggbble(Level.FINER)) {
+                    MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
+                            "<stbtic initiblizer>",
+                            "Wrong vblue for " + mbximumPoolSizeSysProp +
                             " system property", e);
-                    MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                            "<static initializer>",
-                            maximumPoolSizeSysProp + " defaults to 10");
+                    MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
+                            "<stbtic initiblizer>",
+                            mbximumPoolSizeSysProp + " defbults to 10");
                 }
-                maximumPoolSizeTmp = 10;
+                mbximumPoolSizeTmp = 10;
             }
-            if (maximumPoolSizeTmp < 1) {
-                maximumPoolSize = 1;
+            if (mbximumPoolSizeTmp < 1) {
+                mbximumPoolSize = 1;
             } else {
-                maximumPoolSize = maximumPoolSizeTmp;
+                mbximumPoolSize = mbximumPoolSizeTmp;
             }
         }
     }
 
     /**
-     * Future associated to the current monitor task.
+     * Future bssocibted to the current monitor tbsk.
      */
-    private Future<?> monitorFuture;
+    privbte Future<?> monitorFuture;
 
     /**
-     * Scheduler task to be executed by the Scheduler Service.
+     * Scheduler tbsk to be executed by the Scheduler Service.
      */
-    private final SchedulerTask schedulerTask = new SchedulerTask();
+    privbte finbl SchedulerTbsk schedulerTbsk = new SchedulerTbsk();
 
     /**
-     * ScheduledFuture associated to the current scheduler task.
+     * ScheduledFuture bssocibted to the current scheduler tbsk.
      */
-    private ScheduledFuture<?> schedulerFuture;
+    privbte ScheduledFuture<?> schedulerFuture;
 
     /*
      * ------------------------------------------
@@ -246,96 +246,96 @@ public abstract class Monitor
      */
 
     /**
-     * The amount by which the capacity of the monitor arrays are
-     * automatically incremented when their size becomes greater than
-     * their capacity.
+     * The bmount by which the cbpbcity of the monitor brrbys bre
+     * butombticblly incremented when their size becomes grebter thbn
+     * their cbpbcity.
      */
-    protected final static int capacityIncrement = 16;
+    protected finbl stbtic int cbpbcityIncrement = 16;
 
     /**
-     * The number of valid components in the vector of observed objects.
+     * The number of vblid components in the vector of observed objects.
      *
      */
     protected int elementCount = 0;
 
     /**
-     * Monitor errors that have already been notified.
-     * @deprecated equivalent to {@link #alreadyNotifieds}[0].
+     * Monitor errors thbt hbve blrebdy been notified.
+     * @deprecbted equivblent to {@link #blrebdyNotifieds}[0].
      */
-    @Deprecated
-    protected int alreadyNotified = 0;
+    @Deprecbted
+    protected int blrebdyNotified = 0;
 
     /**
-     * <p>Selected monitor errors that have already been notified.</p>
+     * <p>Selected monitor errors thbt hbve blrebdy been notified.</p>
      *
-     * <p>Each element in this array corresponds to an observed object
-     * in the vector.  It contains a bit mask of the flags {@link
-     * #OBSERVED_OBJECT_ERROR_NOTIFIED} etc, indicating whether the
-     * corresponding notification has already been sent for the MBean
+     * <p>Ebch element in this brrby corresponds to bn observed object
+     * in the vector.  It contbins b bit mbsk of the flbgs {@link
+     * #OBSERVED_OBJECT_ERROR_NOTIFIED} etc, indicbting whether the
+     * corresponding notificbtion hbs blrebdy been sent for the MBebn
      * being monitored.</p>
      *
      */
-    protected int alreadyNotifieds[] = new int[capacityIncrement];
+    protected int blrebdyNotifieds[] = new int[cbpbcityIncrement];
 
     /**
-     * Reference to the MBean server.  This reference is null when the
-     * monitor MBean is not registered in an MBean server.  This
-     * reference is initialized before the monitor MBean is registered
-     * in the MBean server.
-     * @see #preRegister(MBeanServer server, ObjectName name)
+     * Reference to the MBebn server.  This reference is null when the
+     * monitor MBebn is not registered in bn MBebn server.  This
+     * reference is initiblized before the monitor MBebn is registered
+     * in the MBebn server.
+     * @see #preRegister(MBebnServer server, ObjectNbme nbme)
      */
-    protected MBeanServer server;
+    protected MBebnServer server;
 
-    // Flags defining possible monitor errors.
+    // Flbgs defining possible monitor errors.
     //
 
     /**
-     * This flag is used to reset the {@link #alreadyNotifieds
-     * alreadyNotifieds} monitor attribute.
+     * This flbg is used to reset the {@link #blrebdyNotifieds
+     * blrebdyNotifieds} monitor bttribute.
      */
-    protected static final int RESET_FLAGS_ALREADY_NOTIFIED             = 0;
+    protected stbtic finbl int RESET_FLAGS_ALREADY_NOTIFIED             = 0;
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the observed object.  This flag is used to check that the new
-     * observed object is registered in the MBean server at the time
-     * of the first notification.
+     * Flbg denoting thbt b notificbtion hbs occurred bfter chbnging
+     * the observed object.  This flbg is used to check thbt the new
+     * observed object is registered in the MBebn server bt the time
+     * of the first notificbtion.
      */
-    protected static final int OBSERVED_OBJECT_ERROR_NOTIFIED           = 1;
+    protected stbtic finbl int OBSERVED_OBJECT_ERROR_NOTIFIED           = 1;
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the observed attribute.  This flag is used to check that the
-     * new observed attribute belongs to the observed object at the
-     * time of the first notification.
+     * Flbg denoting thbt b notificbtion hbs occurred bfter chbnging
+     * the observed bttribute.  This flbg is used to check thbt the
+     * new observed bttribute belongs to the observed object bt the
+     * time of the first notificbtion.
      */
-    protected static final int OBSERVED_ATTRIBUTE_ERROR_NOTIFIED        = 2;
+    protected stbtic finbl int OBSERVED_ATTRIBUTE_ERROR_NOTIFIED        = 2;
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the observed object or the observed attribute.  This flag is
-     * used to check that the observed attribute type is correct
-     * (depending on the monitor in use) at the time of the first
-     * notification.
+     * Flbg denoting thbt b notificbtion hbs occurred bfter chbnging
+     * the observed object or the observed bttribute.  This flbg is
+     * used to check thbt the observed bttribute type is correct
+     * (depending on the monitor in use) bt the time of the first
+     * notificbtion.
      */
-    protected static final int OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED   = 4;
+    protected stbtic finbl int OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED   = 4;
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the observed object or the observed attribute.  This flag is
-     * used to notify any exception (except the cases described above)
-     * when trying to get the value of the observed attribute at the
-     * time of the first notification.
+     * Flbg denoting thbt b notificbtion hbs occurred bfter chbnging
+     * the observed object or the observed bttribute.  This flbg is
+     * used to notify bny exception (except the cbses described bbove)
+     * when trying to get the vblue of the observed bttribute bt the
+     * time of the first notificbtion.
      */
-    protected static final int RUNTIME_ERROR_NOTIFIED                   = 8;
+    protected stbtic finbl int RUNTIME_ERROR_NOTIFIED                   = 8;
 
     /**
-     * This field is retained for compatibility but should not be referenced.
+     * This field is retbined for compbtibility but should not be referenced.
      *
-     * @deprecated No replacement.
+     * @deprecbted No replbcement.
      */
-    @Deprecated
-    protected String dbgTag = Monitor.class.getName();
+    @Deprecbted
+    protected String dbgTbg = Monitor.clbss.getNbme();
 
     /*
      * ------------------------------------------
@@ -344,28 +344,28 @@ public abstract class Monitor
      */
 
     /**
-     * List of ObservedObjects to which the attribute to observe belongs.
+     * List of ObservedObjects to which the bttribute to observe belongs.
      */
-    final List<ObservedObject> observedObjects =
-        new CopyOnWriteArrayList<ObservedObject>();
+    finbl List<ObservedObject> observedObjects =
+        new CopyOnWriteArrbyList<ObservedObject>();
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the threshold. This flag is used to notify any exception
-     * related to invalid thresholds settings.
+     * Flbg denoting thbt b notificbtion hbs occurred bfter chbnging
+     * the threshold. This flbg is used to notify bny exception
+     * relbted to invblid thresholds settings.
      */
-    static final int THRESHOLD_ERROR_NOTIFIED                           = 16;
+    stbtic finbl int THRESHOLD_ERROR_NOTIFIED                           = 16;
 
     /**
-     * Enumeration used to keep trace of the derived gauge type
-     * in counter and gauge monitors.
+     * Enumerbtion used to keep trbce of the derived gbuge type
+     * in counter bnd gbuge monitors.
      */
-    enum NumericalType { BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE };
+    enum NumericblType { BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE };
 
     /**
-     * Constant used to initialize all the numeric values.
+     * Constbnt used to initiblize bll the numeric vblues.
      */
-    static final Integer INTEGER_ZERO = 0;
+    stbtic finbl Integer INTEGER_ZERO = 0;
 
 
     /*
@@ -375,43 +375,43 @@ public abstract class Monitor
      */
 
     /**
-     * Allows the monitor MBean to perform any operations it needs
-     * before being registered in the MBean server.
+     * Allows the monitor MBebn to perform bny operbtions it needs
+     * before being registered in the MBebn server.
      * <P>
-     * Initializes the reference to the MBean server.
+     * Initiblizes the reference to the MBebn server.
      *
-     * @param server The MBean server in which the monitor MBean will
+     * @pbrbm server The MBebn server in which the monitor MBebn will
      * be registered.
-     * @param name The object name of the monitor MBean.
+     * @pbrbm nbme The object nbme of the monitor MBebn.
      *
-     * @return The name of the monitor MBean registered.
+     * @return The nbme of the monitor MBebn registered.
      *
      * @exception Exception
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
+    public ObjectNbme preRegister(MBebnServer server, ObjectNbme nbme)
         throws Exception {
 
-        MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                "preRegister(MBeanServer, ObjectName)",
-                "initialize the reference on the MBean server");
+        MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
+                "preRegister(MBebnServer, ObjectNbme)",
+                "initiblize the reference on the MBebn server");
 
         this.server = server;
-        return name;
+        return nbme;
     }
 
     /**
-     * Allows the monitor MBean to perform any operations needed after
-     * having been registered in the MBean server or after the
-     * registration has failed.
+     * Allows the monitor MBebn to perform bny operbtions needed bfter
+     * hbving been registered in the MBebn server or bfter the
+     * registrbtion hbs fbiled.
      * <P>
      * Not used in this context.
      */
-    public void postRegister(Boolean registrationDone) {
+    public void postRegister(Boolebn registrbtionDone) {
     }
 
     /**
-     * Allows the monitor MBean to perform any operations it needs
-     * before being unregistered by the MBean server.
+     * Allows the monitor MBebn to perform bny operbtions it needs
+     * before being unregistered by the MBebn server.
      * <P>
      * Stops the monitor.
      *
@@ -419,7 +419,7 @@ public abstract class Monitor
      */
     public void preDeregister() throws Exception {
 
-        MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
+        MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
                 "preDeregister()", "stop the monitor");
 
         // Stop the Monitor.
@@ -428,8 +428,8 @@ public abstract class Monitor
     }
 
     /**
-     * Allows the monitor MBean to perform any operations needed after
-     * having been unregistered by the MBean server.
+     * Allows the monitor MBebn to perform bny operbtions needed bfter
+     * hbving been unregistered by the MBebn server.
      * <P>
      * Not used in this context.
      */
@@ -437,30 +437,30 @@ public abstract class Monitor
     }
 
     /**
-     * Starts the monitor.
+     * Stbrts the monitor.
      */
-    public abstract void start();
+    public bbstrbct void stbrt();
 
     /**
      * Stops the monitor.
      */
-    public abstract void stop();
+    public bbstrbct void stop();
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Returns the object name of the first object in the set of observed
-     * MBeans, or <code>null</code> if there is no such object.
+     * Returns the object nbme of the first object in the set of observed
+     * MBebns, or <code>null</code> if there is no such object.
      *
      * @return The object being observed.
      *
-     * @see #setObservedObject(ObjectName)
+     * @see #setObservedObject(ObjectNbme)
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #getObservedObjects}
+     * @deprecbted As of JMX 1.2, replbced by {@link #getObservedObjects}
      */
-    @Deprecated
-    public synchronized ObjectName getObservedObject() {
+    @Deprecbted
+    public synchronized ObjectNbme getObservedObject() {
         if (observedObjects.isEmpty()) {
             return null;
         } else {
@@ -469,114 +469,114 @@ public abstract class Monitor
     }
 
     /**
-     * Removes all objects from the set of observed objects, and then adds the
+     * Removes bll objects from the set of observed objects, bnd then bdds the
      * specified object.
      *
-     * @param object The object to observe.
-     * @exception IllegalArgumentException The specified
+     * @pbrbm object The object to observe.
+     * @exception IllegblArgumentException The specified
      * object is null.
      *
      * @see #getObservedObject()
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #addObservedObject}
+     * @deprecbted As of JMX 1.2, replbced by {@link #bddObservedObject}
      */
-    @Deprecated
-    public synchronized void setObservedObject(ObjectName object)
-        throws IllegalArgumentException {
+    @Deprecbted
+    public synchronized void setObservedObject(ObjectNbme object)
+        throws IllegblArgumentException {
         if (object == null)
-            throw new IllegalArgumentException("Null observed object");
-        if (observedObjects.size() == 1 && containsObservedObject(object))
+            throw new IllegblArgumentException("Null observed object");
+        if (observedObjects.size() == 1 && contbinsObservedObject(object))
             return;
-        observedObjects.clear();
-        addObservedObject(object);
+        observedObjects.clebr();
+        bddObservedObject(object);
     }
 
     /**
-     * Adds the specified object in the set of observed MBeans, if this object
-     * is not already present.
+     * Adds the specified object in the set of observed MBebns, if this object
+     * is not blrebdy present.
      *
-     * @param object The object to observe.
-     * @exception IllegalArgumentException The specified object is null.
+     * @pbrbm object The object to observe.
+     * @exception IllegblArgumentException The specified object is null.
      *
      */
-    public synchronized void addObservedObject(ObjectName object)
-        throws IllegalArgumentException {
+    public synchronized void bddObservedObject(ObjectNbme object)
+        throws IllegblArgumentException {
 
         if (object == null) {
-            throw new IllegalArgumentException("Null observed object");
+            throw new IllegblArgumentException("Null observed object");
         }
 
-        // Check that the specified object is not already contained.
+        // Check thbt the specified object is not blrebdy contbined.
         //
-        if (containsObservedObject(object))
+        if (contbinsObservedObject(object))
             return;
 
         // Add the specified object in the list.
         //
-        ObservedObject o = createObservedObject(object);
-        o.setAlreadyNotified(RESET_FLAGS_ALREADY_NOTIFIED);
-        o.setDerivedGauge(INTEGER_ZERO);
-        o.setDerivedGaugeTimeStamp(System.currentTimeMillis());
-        observedObjects.add(o);
+        ObservedObject o = crebteObservedObject(object);
+        o.setAlrebdyNotified(RESET_FLAGS_ALREADY_NOTIFIED);
+        o.setDerivedGbuge(INTEGER_ZERO);
+        o.setDerivedGbugeTimeStbmp(System.currentTimeMillis());
+        observedObjects.bdd(o);
 
-        // Update legacy protected stuff.
+        // Updbte legbcy protected stuff.
         //
-        createAlreadyNotified();
+        crebteAlrebdyNotified();
     }
 
     /**
-     * Removes the specified object from the set of observed MBeans.
+     * Removes the specified object from the set of observed MBebns.
      *
-     * @param object The object to remove.
+     * @pbrbm object The object to remove.
      *
      */
-    public synchronized void removeObservedObject(ObjectName object) {
+    public synchronized void removeObservedObject(ObjectNbme object) {
         // Check for null object.
         //
         if (object == null)
             return;
 
-        final ObservedObject o = getObservedObject(object);
+        finbl ObservedObject o = getObservedObject(object);
         if (o != null) {
             // Remove the specified object from the list.
             //
             observedObjects.remove(o);
-            // Update legacy protected stuff.
+            // Updbte legbcy protected stuff.
             //
-            createAlreadyNotified();
+            crebteAlrebdyNotified();
         }
     }
 
     /**
-     * Tests whether the specified object is in the set of observed MBeans.
+     * Tests whether the specified object is in the set of observed MBebns.
      *
-     * @param object The object to check.
+     * @pbrbm object The object to check.
      * @return <CODE>true</CODE> if the specified object is present,
-     * <CODE>false</CODE> otherwise.
+     * <CODE>fblse</CODE> otherwise.
      *
      */
-    public synchronized boolean containsObservedObject(ObjectName object) {
+    public synchronized boolebn contbinsObservedObject(ObjectNbme object) {
         return getObservedObject(object) != null;
     }
 
     /**
-     * Returns an array containing the objects being observed.
+     * Returns bn brrby contbining the objects being observed.
      *
      * @return The objects being observed.
      *
      */
-    public synchronized ObjectName[] getObservedObjects() {
-        ObjectName[] names = new ObjectName[observedObjects.size()];
-        for (int i = 0; i < names.length; i++)
-            names[i] = observedObjects.get(i).getObservedObject();
-        return names;
+    public synchronized ObjectNbme[] getObservedObjects() {
+        ObjectNbme[] nbmes = new ObjectNbme[observedObjects.size()];
+        for (int i = 0; i < nbmes.length; i++)
+            nbmes[i] = observedObjects.get(i).getObservedObject();
+        return nbmes;
     }
 
     /**
-     * Gets the attribute being observed.
-     * <BR>The observed attribute is not initialized by default (set to null).
+     * Gets the bttribute being observed.
+     * <BR>The observed bttribute is not initiblized by defbult (set to null).
      *
-     * @return The attribute being observed.
+     * @return The bttribute being observed.
      *
      * @see #setObservedAttribute
      */
@@ -585,38 +585,38 @@ public abstract class Monitor
     }
 
     /**
-     * Sets the attribute to observe.
-     * <BR>The observed attribute is not initialized by default (set to null).
+     * Sets the bttribute to observe.
+     * <BR>The observed bttribute is not initiblized by defbult (set to null).
      *
-     * @param attribute The attribute to observe.
-     * @exception IllegalArgumentException The specified
-     * attribute is null.
+     * @pbrbm bttribute The bttribute to observe.
+     * @exception IllegblArgumentException The specified
+     * bttribute is null.
      *
      * @see #getObservedAttribute
      */
-    public void setObservedAttribute(String attribute)
-        throws IllegalArgumentException {
+    public void setObservedAttribute(String bttribute)
+        throws IllegblArgumentException {
 
-        if (attribute == null) {
-            throw new IllegalArgumentException("Null observed attribute");
+        if (bttribute == null) {
+            throw new IllegblArgumentException("Null observed bttribute");
         }
 
-        // Update alreadyNotified array.
+        // Updbte blrebdyNotified brrby.
         //
         synchronized (this) {
             if (observedAttribute != null &&
-                observedAttribute.equals(attribute))
+                observedAttribute.equbls(bttribute))
                 return;
-            observedAttribute = attribute;
+            observedAttribute = bttribute;
 
-            // Reset the complex type attribute information
-            // such that it is recalculated again.
+            // Reset the complex type bttribute informbtion
+            // such thbt it is recblculbted bgbin.
             //
-            cleanupIsComplexTypeAttribute();
+            clebnupIsComplexTypeAttribute();
 
             int index = 0;
             for (ObservedObject o : observedObjects) {
-                resetAlreadyNotified(o, index++,
+                resetAlrebdyNotified(o, index++,
                                      OBSERVED_ATTRIBUTE_ERROR_NOTIFIED |
                                      OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED);
             }
@@ -624,62 +624,62 @@ public abstract class Monitor
     }
 
     /**
-     * Gets the granularity period (in milliseconds).
-     * <BR>The default value of the granularity period is 10 seconds.
+     * Gets the grbnulbrity period (in milliseconds).
+     * <BR>The defbult vblue of the grbnulbrity period is 10 seconds.
      *
-     * @return The granularity period value.
+     * @return The grbnulbrity period vblue.
      *
-     * @see #setGranularityPeriod
+     * @see #setGrbnulbrityPeriod
      */
-    public synchronized long getGranularityPeriod() {
-        return granularityPeriod;
+    public synchronized long getGrbnulbrityPeriod() {
+        return grbnulbrityPeriod;
     }
 
     /**
-     * Sets the granularity period (in milliseconds).
-     * <BR>The default value of the granularity period is 10 seconds.
+     * Sets the grbnulbrity period (in milliseconds).
+     * <BR>The defbult vblue of the grbnulbrity period is 10 seconds.
      *
-     * @param period The granularity period value.
-     * @exception IllegalArgumentException The granularity
-     * period is less than or equal to zero.
+     * @pbrbm period The grbnulbrity period vblue.
+     * @exception IllegblArgumentException The grbnulbrity
+     * period is less thbn or equbl to zero.
      *
-     * @see #getGranularityPeriod
+     * @see #getGrbnulbrityPeriod
      */
-    public synchronized void setGranularityPeriod(long period)
-        throws IllegalArgumentException {
+    public synchronized void setGrbnulbrityPeriod(long period)
+        throws IllegblArgumentException {
 
         if (period <= 0) {
-            throw new IllegalArgumentException("Nonpositive granularity " +
+            throw new IllegblArgumentException("Nonpositive grbnulbrity " +
                                                "period");
         }
 
-        if (granularityPeriod == period)
+        if (grbnulbrityPeriod == period)
             return;
-        granularityPeriod = period;
+        grbnulbrityPeriod = period;
 
-        // Reschedule the scheduler task if the monitor is active.
+        // Reschedule the scheduler tbsk if the monitor is bctive.
         //
         if (isActive()) {
-            cleanupFutures();
-            schedulerFuture = scheduler.schedule(schedulerTask,
+            clebnupFutures();
+            schedulerFuture = scheduler.schedule(schedulerTbsk,
                                                  period,
                                                  TimeUnit.MILLISECONDS);
         }
     }
 
     /**
-     * Tests whether the monitor MBean is active.  A monitor MBean is
-     * marked active when the {@link #start start} method is called.
-     * It becomes inactive when the {@link #stop stop} method is
-     * called.
+     * Tests whether the monitor MBebn is bctive.  A monitor MBebn is
+     * mbrked bctive when the {@link #stbrt stbrt} method is cblled.
+     * It becomes inbctive when the {@link #stop stop} method is
+     * cblled.
      *
-     * @return <CODE>true</CODE> if the monitor MBean is active,
-     * <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the monitor MBebn is bctive,
+     * <CODE>fblse</CODE> otherwise.
      */
-    /* This method must be synchronized so that the monitoring thread will
-       correctly see modifications to the isActive variable. See the MonitorTask
-       action executed by the Scheduled Executor Service. */
-    public synchronized boolean isActive() {
+    /* This method must be synchronized so thbt the monitoring threbd will
+       correctly see modificbtions to the isActive vbribble. See the MonitorTbsk
+       bction executed by the Scheduled Executor Service. */
+    public synchronized boolebn isActive() {
         return isActive;
     }
 
@@ -690,37 +690,37 @@ public abstract class Monitor
      */
 
     /**
-     * Starts the monitor.
+     * Stbrts the monitor.
      */
-    void doStart() {
-            MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                "doStart()", "start the monitor");
+    void doStbrt() {
+            MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
+                "doStbrt()", "stbrt the monitor");
 
         synchronized (this) {
             if (isActive()) {
-                MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                        "doStart()", "the monitor is already active");
+                MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
+                        "doStbrt()", "the monitor is blrebdy bctive");
                 return;
             }
 
             isActive = true;
 
-            // Reset the complex type attribute information
-            // such that it is recalculated again.
+            // Reset the complex type bttribute informbtion
+            // such thbt it is recblculbted bgbin.
             //
-            cleanupIsComplexTypeAttribute();
+            clebnupIsComplexTypeAttribute();
 
-            // Cache the AccessControlContext of the Monitor.start() caller.
-            // The monitor tasks will be executed within this context.
+            // Cbche the AccessControlContext of the Monitor.stbrt() cbller.
+            // The monitor tbsks will be executed within this context.
             //
-            acc = AccessController.getContext();
+            bcc = AccessController.getContext();
 
-            // Start the scheduler.
+            // Stbrt the scheduler.
             //
-            cleanupFutures();
-            schedulerTask.setMonitorTask(new MonitorTask());
-            schedulerFuture = scheduler.schedule(schedulerTask,
-                                                 getGranularityPeriod(),
+            clebnupFutures();
+            schedulerTbsk.setMonitorTbsk(new MonitorTbsk());
+            schedulerFuture = scheduler.schedule(schedulerTbsk,
+                                                 getGrbnulbrityPeriod(),
                                                  TimeUnit.MILLISECONDS);
         }
     }
@@ -729,332 +729,332 @@ public abstract class Monitor
      * Stops the monitor.
      */
     void doStop() {
-        MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
+        MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
                 "doStop()", "stop the monitor");
 
         synchronized (this) {
             if (!isActive()) {
-                MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                        "doStop()", "the monitor is not active");
+                MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
+                        "doStop()", "the monitor is not bctive");
                 return;
             }
 
-            isActive = false;
+            isActive = fblse;
 
-            // Cancel the scheduler task associated with the
-            // scheduler and its associated monitor task.
+            // Cbncel the scheduler tbsk bssocibted with the
+            // scheduler bnd its bssocibted monitor tbsk.
             //
-            cleanupFutures();
+            clebnupFutures();
 
             // Reset the AccessControlContext.
             //
-            acc = noPermissionsACC;
+            bcc = noPermissionsACC;
 
-            // Reset the complex type attribute information
-            // such that it is recalculated again.
+            // Reset the complex type bttribute informbtion
+            // such thbt it is recblculbted bgbin.
             //
-            cleanupIsComplexTypeAttribute();
+            clebnupIsComplexTypeAttribute();
         }
     }
 
     /**
-     * Gets the derived gauge of the specified object, if this object is
-     * contained in the set of observed MBeans, or <code>null</code> otherwise.
+     * Gets the derived gbuge of the specified object, if this object is
+     * contbined in the set of observed MBebns, or <code>null</code> otherwise.
      *
-     * @param object the name of the object whose derived gauge is to
+     * @pbrbm object the nbme of the object whose derived gbuge is to
      * be returned.
      *
-     * @return The derived gauge of the specified object.
+     * @return The derived gbuge of the specified object.
      *
      * @since 1.6
      */
-    synchronized Object getDerivedGauge(ObjectName object) {
-        final ObservedObject o = getObservedObject(object);
-        return o == null ? null : o.getDerivedGauge();
+    synchronized Object getDerivedGbuge(ObjectNbme object) {
+        finbl ObservedObject o = getObservedObject(object);
+        return o == null ? null : o.getDerivedGbuge();
     }
 
     /**
-     * Gets the derived gauge timestamp of the specified object, if
-     * this object is contained in the set of observed MBeans, or
+     * Gets the derived gbuge timestbmp of the specified object, if
+     * this object is contbined in the set of observed MBebns, or
      * <code>0</code> otherwise.
      *
-     * @param object the name of the object whose derived gauge
-     * timestamp is to be returned.
+     * @pbrbm object the nbme of the object whose derived gbuge
+     * timestbmp is to be returned.
      *
-     * @return The derived gauge timestamp of the specified object.
+     * @return The derived gbuge timestbmp of the specified object.
      *
      */
-    synchronized long getDerivedGaugeTimeStamp(ObjectName object) {
-        final ObservedObject o = getObservedObject(object);
-        return o == null ? 0 : o.getDerivedGaugeTimeStamp();
+    synchronized long getDerivedGbugeTimeStbmp(ObjectNbme object) {
+        finbl ObservedObject o = getObservedObject(object);
+        return o == null ? 0 : o.getDerivedGbugeTimeStbmp();
     }
 
-    Object getAttribute(MBeanServerConnection mbsc,
-                        ObjectName object,
-                        String attribute)
+    Object getAttribute(MBebnServerConnection mbsc,
+                        ObjectNbme object,
+                        String bttribute)
         throws AttributeNotFoundException,
-               InstanceNotFoundException,
-               MBeanException,
+               InstbnceNotFoundException,
+               MBebnException,
                ReflectionException,
                IOException {
-        // Check for "ObservedAttribute" replacement.
-        // This could happen if a thread A called setObservedAttribute()
-        // while other thread B was in the middle of the monitor() method
-        // and received the old observed attribute value.
+        // Check for "ObservedAttribute" replbcement.
+        // This could hbppen if b threbd A cblled setObservedAttribute()
+        // while other threbd B wbs in the middle of the monitor() method
+        // bnd received the old observed bttribute vblue.
         //
-        final boolean lookupMBeanInfo;
+        finbl boolebn lookupMBebnInfo;
         synchronized (this) {
             if (!isActive())
-                throw new IllegalArgumentException(
-                    "The monitor has been stopped");
-            if (!attribute.equals(getObservedAttribute()))
-                throw new IllegalArgumentException(
-                    "The observed attribute has been changed");
-            lookupMBeanInfo =
-                (firstAttribute == null && attribute.indexOf('.') != -1);
+                throw new IllegblArgumentException(
+                    "The monitor hbs been stopped");
+            if (!bttribute.equbls(getObservedAttribute()))
+                throw new IllegblArgumentException(
+                    "The observed bttribute hbs been chbnged");
+            lookupMBebnInfo =
+                (firstAttribute == null && bttribute.indexOf('.') != -1);
         }
 
-        // Look up MBeanInfo if needed
+        // Look up MBebnInfo if needed
         //
-        final MBeanInfo mbi;
-        if (lookupMBeanInfo) {
+        finbl MBebnInfo mbi;
+        if (lookupMBebnInfo) {
             try {
-                mbi = mbsc.getMBeanInfo(object);
-            } catch (IntrospectionException e) {
-                throw new IllegalArgumentException(e);
+                mbi = mbsc.getMBebnInfo(object);
+            } cbtch (IntrospectionException e) {
+                throw new IllegblArgumentException(e);
             }
         } else {
             mbi = null;
         }
 
-        // Check for complex type attribute
+        // Check for complex type bttribute
         //
-        final String fa;
+        finbl String fb;
         synchronized (this) {
             if (!isActive())
-                throw new IllegalArgumentException(
-                    "The monitor has been stopped");
-            if (!attribute.equals(getObservedAttribute()))
-                throw new IllegalArgumentException(
-                    "The observed attribute has been changed");
+                throw new IllegblArgumentException(
+                    "The monitor hbs been stopped");
+            if (!bttribute.equbls(getObservedAttribute()))
+                throw new IllegblArgumentException(
+                    "The observed bttribute hbs been chbnged");
             if (firstAttribute == null) {
-                if (attribute.indexOf('.') != -1) {
-                    MBeanAttributeInfo mbaiArray[] = mbi.getAttributes();
-                    for (MBeanAttributeInfo mbai : mbaiArray) {
-                        if (attribute.equals(mbai.getName())) {
-                            firstAttribute = attribute;
-                            break;
+                if (bttribute.indexOf('.') != -1) {
+                    MBebnAttributeInfo mbbiArrby[] = mbi.getAttributes();
+                    for (MBebnAttributeInfo mbbi : mbbiArrby) {
+                        if (bttribute.equbls(mbbi.getNbme())) {
+                            firstAttribute = bttribute;
+                            brebk;
                         }
                     }
                     if (firstAttribute == null) {
-                        String tokens[] = attribute.split("\\.", -1);
+                        String tokens[] = bttribute.split("\\.", -1);
                         firstAttribute = tokens[0];
                         for (int i = 1; i < tokens.length; i++)
-                            remainingAttributes.add(tokens[i]);
+                            rembiningAttributes.bdd(tokens[i]);
                         isComplexTypeAttribute = true;
                     }
                 } else {
-                    firstAttribute = attribute;
+                    firstAttribute = bttribute;
                 }
             }
-            fa = firstAttribute;
+            fb = firstAttribute;
         }
-        return mbsc.getAttribute(object, fa);
+        return mbsc.getAttribute(object, fb);
     }
 
-    Comparable<?> getComparableFromAttribute(ObjectName object,
-                                             String attribute,
-                                             Object value)
+    Compbrbble<?> getCompbrbbleFromAttribute(ObjectNbme object,
+                                             String bttribute,
+                                             Object vblue)
         throws AttributeNotFoundException {
         if (isComplexTypeAttribute) {
-            Object v = value;
-            for (String attr : remainingAttributes)
-                v = Introspector.elementFromComplex(v, attr);
-            return (Comparable<?>) v;
+            Object v = vblue;
+            for (String bttr : rembiningAttributes)
+                v = Introspector.elementFromComplex(v, bttr);
+            return (Compbrbble<?>) v;
         } else {
-            return (Comparable<?>) value;
+            return (Compbrbble<?>) vblue;
         }
     }
 
-    boolean isComparableTypeValid(ObjectName object,
-                                  String attribute,
-                                  Comparable<?> value) {
+    boolebn isCompbrbbleTypeVblid(ObjectNbme object,
+                                  String bttribute,
+                                  Compbrbble<?> vblue) {
         return true;
     }
 
-    String buildErrorNotification(ObjectName object,
-                                  String attribute,
-                                  Comparable<?> value) {
+    String buildErrorNotificbtion(ObjectNbme object,
+                                  String bttribute,
+                                  Compbrbble<?> vblue) {
         return null;
     }
 
-    void onErrorNotification(MonitorNotification notification) {
+    void onErrorNotificbtion(MonitorNotificbtion notificbtion) {
     }
 
-    Comparable<?> getDerivedGaugeFromComparable(ObjectName object,
-                                                String attribute,
-                                                Comparable<?> value) {
-        return (Comparable<?>) value;
+    Compbrbble<?> getDerivedGbugeFromCompbrbble(ObjectNbme object,
+                                                String bttribute,
+                                                Compbrbble<?> vblue) {
+        return (Compbrbble<?>) vblue;
     }
 
-    MonitorNotification buildAlarmNotification(ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value){
+    MonitorNotificbtion buildAlbrmNotificbtion(ObjectNbme object,
+                                               String bttribute,
+                                               Compbrbble<?> vblue){
         return null;
     }
 
-    boolean isThresholdTypeValid(ObjectName object,
-                                 String attribute,
-                                 Comparable<?> value) {
+    boolebn isThresholdTypeVblid(ObjectNbme object,
+                                 String bttribute,
+                                 Compbrbble<?> vblue) {
         return true;
     }
 
-    static Class<? extends Number> classForType(NumericalType type) {
+    stbtic Clbss<? extends Number> clbssForType(NumericblType type) {
         switch (type) {
-            case BYTE:
-                return Byte.class;
-            case SHORT:
-                return Short.class;
-            case INTEGER:
-                return Integer.class;
-            case LONG:
-                return Long.class;
-            case FLOAT:
-                return Float.class;
-            case DOUBLE:
-                return Double.class;
-            default:
-                throw new IllegalArgumentException(
-                    "Unsupported numerical type");
+            cbse BYTE:
+                return Byte.clbss;
+            cbse SHORT:
+                return Short.clbss;
+            cbse INTEGER:
+                return Integer.clbss;
+            cbse LONG:
+                return Long.clbss;
+            cbse FLOAT:
+                return Flobt.clbss;
+            cbse DOUBLE:
+                return Double.clbss;
+            defbult:
+                throw new IllegblArgumentException(
+                    "Unsupported numericbl type");
         }
     }
 
-    static boolean isValidForType(Object value, Class<? extends Number> c) {
-        return ((value == INTEGER_ZERO) || c.isInstance(value));
+    stbtic boolebn isVblidForType(Object vblue, Clbss<? extends Number> c) {
+        return ((vblue == INTEGER_ZERO) || c.isInstbnce(vblue));
     }
 
     /**
      * Get the specified {@code ObservedObject} if this object is
-     * contained in the set of observed MBeans, or {@code null}
+     * contbined in the set of observed MBebns, or {@code null}
      * otherwise.
      *
-     * @param object the name of the {@code ObservedObject} to retrieve.
+     * @pbrbm object the nbme of the {@code ObservedObject} to retrieve.
      *
-     * @return The {@code ObservedObject} associated to the supplied
-     * {@code ObjectName}.
+     * @return The {@code ObservedObject} bssocibted to the supplied
+     * {@code ObjectNbme}.
      *
      * @since 1.6
      */
-    synchronized ObservedObject getObservedObject(ObjectName object) {
+    synchronized ObservedObject getObservedObject(ObjectNbme object) {
         for (ObservedObject o : observedObjects)
-            if (o.getObservedObject().equals(object))
+            if (o.getObservedObject().equbls(object))
                 return o;
         return null;
     }
 
     /**
-     * Factory method for ObservedObject creation.
+     * Fbctory method for ObservedObject crebtion.
      *
      * @since 1.6
      */
-    ObservedObject createObservedObject(ObjectName object) {
+    ObservedObject crebteObservedObject(ObjectNbme object) {
         return new ObservedObject(object);
     }
 
     /**
-     * Create the {@link #alreadyNotified} array from
-     * the {@code ObservedObject} array list.
+     * Crebte the {@link #blrebdyNotified} brrby from
+     * the {@code ObservedObject} brrby list.
      */
-    synchronized void createAlreadyNotified() {
-        // Update elementCount.
+    synchronized void crebteAlrebdyNotified() {
+        // Updbte elementCount.
         //
         elementCount = observedObjects.size();
 
-        // Update arrays.
+        // Updbte brrbys.
         //
-        alreadyNotifieds = new int[elementCount];
+        blrebdyNotifieds = new int[elementCount];
         for (int i = 0; i < elementCount; i++) {
-            alreadyNotifieds[i] = observedObjects.get(i).getAlreadyNotified();
+            blrebdyNotifieds[i] = observedObjects.get(i).getAlrebdyNotified();
         }
-        updateDeprecatedAlreadyNotified();
+        updbteDeprecbtedAlrebdyNotified();
     }
 
     /**
-     * Update the deprecated {@link #alreadyNotified} field.
+     * Updbte the deprecbted {@link #blrebdyNotified} field.
      */
-    synchronized void updateDeprecatedAlreadyNotified() {
+    synchronized void updbteDeprecbtedAlrebdyNotified() {
         if (elementCount > 0)
-            alreadyNotified = alreadyNotifieds[0];
+            blrebdyNotified = blrebdyNotifieds[0];
         else
-            alreadyNotified = 0;
+            blrebdyNotified = 0;
     }
 
     /**
-     * Update the {@link #alreadyNotifieds} array element at the given index
-     * with the already notified flag in the given {@code ObservedObject}.
-     * Ensure the deprecated {@link #alreadyNotified} field is updated
-     * if appropriate.
+     * Updbte the {@link #blrebdyNotifieds} brrby element bt the given index
+     * with the blrebdy notified flbg in the given {@code ObservedObject}.
+     * Ensure the deprecbted {@link #blrebdyNotified} field is updbted
+     * if bppropribte.
      */
-    synchronized void updateAlreadyNotified(ObservedObject o, int index) {
-        alreadyNotifieds[index] = o.getAlreadyNotified();
+    synchronized void updbteAlrebdyNotified(ObservedObject o, int index) {
+        blrebdyNotifieds[index] = o.getAlrebdyNotified();
         if (index == 0)
-            updateDeprecatedAlreadyNotified();
+            updbteDeprecbtedAlrebdyNotified();
     }
 
     /**
-     * Check if the given bits in the given element of {@link #alreadyNotifieds}
-     * are set.
+     * Check if the given bits in the given element of {@link #blrebdyNotifieds}
+     * bre set.
      */
-    synchronized boolean isAlreadyNotified(ObservedObject o, int mask) {
-        return ((o.getAlreadyNotified() & mask) != 0);
+    synchronized boolebn isAlrebdyNotified(ObservedObject o, int mbsk) {
+        return ((o.getAlrebdyNotified() & mbsk) != 0);
     }
 
     /**
-     * Set the given bits in the given element of {@link #alreadyNotifieds}.
-     * Ensure the deprecated {@link #alreadyNotified} field is updated
-     * if appropriate.
+     * Set the given bits in the given element of {@link #blrebdyNotifieds}.
+     * Ensure the deprecbted {@link #blrebdyNotified} field is updbted
+     * if bppropribte.
      */
-    synchronized void setAlreadyNotified(ObservedObject o, int index,
-                                         int mask, int an[]) {
-        final int i = computeAlreadyNotifiedIndex(o, index, an);
+    synchronized void setAlrebdyNotified(ObservedObject o, int index,
+                                         int mbsk, int bn[]) {
+        finbl int i = computeAlrebdyNotifiedIndex(o, index, bn);
         if (i == -1)
             return;
-        o.setAlreadyNotified(o.getAlreadyNotified() | mask);
-        updateAlreadyNotified(o, i);
+        o.setAlrebdyNotified(o.getAlrebdyNotified() | mbsk);
+        updbteAlrebdyNotified(o, i);
     }
 
     /**
-     * Reset the given bits in the given element of {@link #alreadyNotifieds}.
-     * Ensure the deprecated {@link #alreadyNotified} field is updated
-     * if appropriate.
+     * Reset the given bits in the given element of {@link #blrebdyNotifieds}.
+     * Ensure the deprecbted {@link #blrebdyNotified} field is updbted
+     * if bppropribte.
      */
-    synchronized void resetAlreadyNotified(ObservedObject o,
-                                           int index, int mask) {
-        o.setAlreadyNotified(o.getAlreadyNotified() & ~mask);
-        updateAlreadyNotified(o, index);
+    synchronized void resetAlrebdyNotified(ObservedObject o,
+                                           int index, int mbsk) {
+        o.setAlrebdyNotified(o.getAlrebdyNotified() & ~mbsk);
+        updbteAlrebdyNotified(o, index);
     }
 
     /**
-     * Reset all bits in the given element of {@link #alreadyNotifieds}.
-     * Ensure the deprecated {@link #alreadyNotified} field is updated
-     * if appropriate.
+     * Reset bll bits in the given element of {@link #blrebdyNotifieds}.
+     * Ensure the deprecbted {@link #blrebdyNotified} field is updbted
+     * if bppropribte.
      */
-    synchronized void resetAllAlreadyNotified(ObservedObject o,
-                                              int index, int an[]) {
-        final int i = computeAlreadyNotifiedIndex(o, index, an);
+    synchronized void resetAllAlrebdyNotified(ObservedObject o,
+                                              int index, int bn[]) {
+        finbl int i = computeAlrebdyNotifiedIndex(o, index, bn);
         if (i == -1)
             return;
-        o.setAlreadyNotified(RESET_FLAGS_ALREADY_NOTIFIED);
-        updateAlreadyNotified(o, index);
+        o.setAlrebdyNotified(RESET_FLAGS_ALREADY_NOTIFIED);
+        updbteAlrebdyNotified(o, index);
     }
 
     /**
-     * Check if the {@link #alreadyNotifieds} array has been modified.
+     * Check if the {@link #blrebdyNotifieds} brrby hbs been modified.
      * If true recompute the index for the given observed object.
      */
-    synchronized int computeAlreadyNotifiedIndex(ObservedObject o,
-                                                 int index, int an[]) {
-        if (an == alreadyNotifieds) {
+    synchronized int computeAlrebdyNotifiedIndex(ObservedObject o,
+                                                 int index, int bn[]) {
+        if (bn == blrebdyNotifieds) {
             return index;
         } else {
             return observedObjects.indexOf(o);
@@ -1068,347 +1068,347 @@ public abstract class Monitor
      */
 
     /**
-     * This method is used by the monitor MBean to create and send a
-     * monitor notification to all the listeners registered for this
-     * kind of notification.
+     * This method is used by the monitor MBebn to crebte bnd send b
+     * monitor notificbtion to bll the listeners registered for this
+     * kind of notificbtion.
      *
-     * @param type The notification type.
-     * @param timeStamp The notification emission date.
-     * @param msg The notification message.
-     * @param derGauge The derived gauge.
-     * @param trigger The threshold/string (depending on the monitor
-     * type) that triggered off the notification.
-     * @param object The ObjectName of the observed object that triggered
-     * off the notification.
-     * @param onError Flag indicating if this monitor notification is
-     * an error notification or an alarm notification.
+     * @pbrbm type The notificbtion type.
+     * @pbrbm timeStbmp The notificbtion emission dbte.
+     * @pbrbm msg The notificbtion messbge.
+     * @pbrbm derGbuge The derived gbuge.
+     * @pbrbm trigger The threshold/string (depending on the monitor
+     * type) thbt triggered off the notificbtion.
+     * @pbrbm object The ObjectNbme of the observed object thbt triggered
+     * off the notificbtion.
+     * @pbrbm onError Flbg indicbting if this monitor notificbtion is
+     * bn error notificbtion or bn blbrm notificbtion.
      */
-    private void sendNotification(String type, long timeStamp, String msg,
-                                  Object derGauge, Object trigger,
-                                  ObjectName object, boolean onError) {
+    privbte void sendNotificbtion(String type, long timeStbmp, String msg,
+                                  Object derGbuge, Object trigger,
+                                  ObjectNbme object, boolebn onError) {
         if (!isActive())
             return;
 
-        if (MONITOR_LOGGER.isLoggable(Level.FINER)) {
-            MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                    "sendNotification", "send notification: " +
-                    "\n\tNotification observed object = " + object +
-                    "\n\tNotification observed attribute = " + observedAttribute +
-                    "\n\tNotification derived gauge = " + derGauge);
+        if (MONITOR_LOGGER.isLoggbble(Level.FINER)) {
+            MONITOR_LOGGER.logp(Level.FINER, Monitor.clbss.getNbme(),
+                    "sendNotificbtion", "send notificbtion: " +
+                    "\n\tNotificbtion observed object = " + object +
+                    "\n\tNotificbtion observed bttribute = " + observedAttribute +
+                    "\n\tNotificbtion derived gbuge = " + derGbuge);
         }
 
         long seqno = sequenceNumber.getAndIncrement();
 
-        MonitorNotification mn =
-            new MonitorNotification(type,
+        MonitorNotificbtion mn =
+            new MonitorNotificbtion(type,
                                     this,
                                     seqno,
-                                    timeStamp,
+                                    timeStbmp,
                                     msg,
                                     object,
                                     observedAttribute,
-                                    derGauge,
+                                    derGbuge,
                                     trigger);
         if (onError)
-            onErrorNotification(mn);
-        sendNotification(mn);
+            onErrorNotificbtion(mn);
+        sendNotificbtion(mn);
     }
 
     /**
-     * This method is called by the monitor each time
-     * the granularity period has been exceeded.
-     * @param o The observed object.
+     * This method is cblled by the monitor ebch time
+     * the grbnulbrity period hbs been exceeded.
+     * @pbrbm o The observed object.
      */
-    private void monitor(ObservedObject o, int index, int an[]) {
+    privbte void monitor(ObservedObject o, int index, int bn[]) {
 
-        String attribute;
+        String bttribute;
         String notifType = null;
         String msg = null;
-        Object derGauge = null;
+        Object derGbuge = null;
         Object trigger = null;
-        ObjectName object;
-        Comparable<?> value = null;
-        MonitorNotification alarm = null;
+        ObjectNbme object;
+        Compbrbble<?> vblue = null;
+        MonitorNotificbtion blbrm = null;
 
         if (!isActive())
             return;
 
-        // Check that neither the observed object nor the
-        // observed attribute are null.  If the observed
-        // object or observed attribute is null, this means
-        // that the monitor started before a complete
-        // initialization and nothing is done.
+        // Check thbt neither the observed object nor the
+        // observed bttribute bre null.  If the observed
+        // object or observed bttribute is null, this mebns
+        // thbt the monitor stbrted before b complete
+        // initiblizbtion bnd nothing is done.
         //
         synchronized (this) {
             object = o.getObservedObject();
-            attribute = getObservedAttribute();
-            if (object == null || attribute == null) {
+            bttribute = getObservedAttribute();
+            if (object == null || bttribute == null) {
                 return;
             }
         }
 
-        // Check that the observed object is registered in the
-        // MBean server and that the observed attribute
+        // Check thbt the observed object is registered in the
+        // MBebn server bnd thbt the observed bttribute
         // belongs to the observed object.
         //
-        Object attributeValue = null;
+        Object bttributeVblue = null;
         try {
-            attributeValue = getAttribute(server, object, attribute);
-            if (attributeValue == null)
-                if (isAlreadyNotified(
+            bttributeVblue = getAttribute(server, object, bttribute);
+            if (bttributeVblue == null)
+                if (isAlrebdyNotified(
                         o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
                     return;
                 else {
                     notifType = OBSERVED_ATTRIBUTE_TYPE_ERROR;
-                    setAlreadyNotified(
-                        o, index, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, an);
-                    msg = "The observed attribute value is null.";
-                    MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                    setAlrebdyNotified(
+                        o, index, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
+                    msg = "The observed bttribute vblue is null.";
+                    MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                             "monitor", msg);
                 }
-        } catch (NullPointerException np_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
+        } cbtch (NullPointerException np_ex) {
+            if (isAlrebdyNotified(o, RUNTIME_ERROR_NOTIFIED))
                 return;
             else {
                 notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
+                setAlrebdyNotified(o, index, RUNTIME_ERROR_NOTIFIED, bn);
                 msg =
-                    "The monitor must be registered in the MBean " +
-                    "server or an MBeanServerConnection must be " +
+                    "The monitor must be registered in the MBebn " +
+                    "server or bn MBebnServerConnection must be " +
                     "explicitly supplied.";
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", np_ex.toString());
             }
-        } catch (InstanceNotFoundException inf_ex) {
-            if (isAlreadyNotified(o, OBSERVED_OBJECT_ERROR_NOTIFIED))
+        } cbtch (InstbnceNotFoundException inf_ex) {
+            if (isAlrebdyNotified(o, OBSERVED_OBJECT_ERROR_NOTIFIED))
                 return;
             else {
                 notifType = OBSERVED_OBJECT_ERROR;
-                setAlreadyNotified(
-                    o, index, OBSERVED_OBJECT_ERROR_NOTIFIED, an);
+                setAlrebdyNotified(
+                    o, index, OBSERVED_OBJECT_ERROR_NOTIFIED, bn);
                 msg =
-                    "The observed object must be accessible in " +
-                    "the MBeanServerConnection.";
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                    "The observed object must be bccessible in " +
+                    "the MBebnServerConnection.";
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", inf_ex.toString());
             }
-        } catch (AttributeNotFoundException anf_ex) {
-            if (isAlreadyNotified(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
+        } cbtch (AttributeNotFoundException bnf_ex) {
+            if (isAlrebdyNotified(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
                 return;
             else {
                 notifType = OBSERVED_ATTRIBUTE_ERROR;
-                setAlreadyNotified(
-                    o, index, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, an);
+                setAlrebdyNotified(
+                    o, index, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, bn);
                 msg =
-                    "The observed attribute must be accessible in " +
+                    "The observed bttribute must be bccessible in " +
                     "the observed object.";
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
-                        "monitor", anf_ex.toString());
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
+                        "monitor", bnf_ex.toString());
             }
-        } catch (MBeanException mb_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
+        } cbtch (MBebnException mb_ex) {
+            if (isAlrebdyNotified(o, RUNTIME_ERROR_NOTIFIED))
                 return;
             else {
                 notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
-                msg = mb_ex.getMessage() == null ? "" : mb_ex.getMessage();
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                setAlrebdyNotified(o, index, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = mb_ex.getMessbge() == null ? "" : mb_ex.getMessbge();
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", mb_ex.toString());
             }
-        } catch (ReflectionException ref_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED)) {
+        } cbtch (ReflectionException ref_ex) {
+            if (isAlrebdyNotified(o, RUNTIME_ERROR_NOTIFIED)) {
                 return;
             } else {
                 notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
-                msg = ref_ex.getMessage() == null ? "" : ref_ex.getMessage();
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                setAlrebdyNotified(o, index, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = ref_ex.getMessbge() == null ? "" : ref_ex.getMessbge();
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", ref_ex.toString());
             }
-        } catch (IOException io_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
+        } cbtch (IOException io_ex) {
+            if (isAlrebdyNotified(o, RUNTIME_ERROR_NOTIFIED))
                 return;
             else {
                 notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
-                msg = io_ex.getMessage() == null ? "" : io_ex.getMessage();
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                setAlrebdyNotified(o, index, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = io_ex.getMessbge() == null ? "" : io_ex.getMessbge();
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", io_ex.toString());
             }
-        } catch (RuntimeException rt_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
+        } cbtch (RuntimeException rt_ex) {
+            if (isAlrebdyNotified(o, RUNTIME_ERROR_NOTIFIED))
                 return;
             else {
                 notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
-                msg = rt_ex.getMessage() == null ? "" : rt_ex.getMessage();
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                setAlrebdyNotified(o, index, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = rt_ex.getMessbge() == null ? "" : rt_ex.getMessbge();
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                MONITOR_LOGGER.logp(Level.FINEST, Monitor.clbss.getNbme(),
                         "monitor", rt_ex.toString());
             }
         }
 
         synchronized (this) {
 
-            // Check if the monitor has been stopped.
+            // Check if the monitor hbs been stopped.
             //
             if (!isActive())
                 return;
 
-            // Check if the observed attribute has been changed.
+            // Check if the observed bttribute hbs been chbnged.
             //
-            // Avoid race condition where mbs.getAttribute() succeeded but
-            // another thread replaced the observed attribute meanwhile.
+            // Avoid rbce condition where mbs.getAttribute() succeeded but
+            // bnother threbd replbced the observed bttribute mebnwhile.
             //
-            // Avoid setting computed derived gauge on erroneous attribute.
+            // Avoid setting computed derived gbuge on erroneous bttribute.
             //
-            if (!attribute.equals(getObservedAttribute()))
+            if (!bttribute.equbls(getObservedAttribute()))
                 return;
 
-            // Derive a Comparable object from the ObservedAttribute value
-            // if the type of the ObservedAttribute value is a complex type.
+            // Derive b Compbrbble object from the ObservedAttribute vblue
+            // if the type of the ObservedAttribute vblue is b complex type.
             //
             if (msg == null) {
                 try {
-                    value = getComparableFromAttribute(object,
-                                                       attribute,
-                                                       attributeValue);
-                } catch (ClassCastException e) {
-                    if (isAlreadyNotified(
+                    vblue = getCompbrbbleFromAttribute(object,
+                                                       bttribute,
+                                                       bttributeVblue);
+                } cbtch (ClbssCbstException e) {
+                    if (isAlrebdyNotified(
                             o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
                         return;
                     else {
                         notifType = OBSERVED_ATTRIBUTE_TYPE_ERROR;
-                        setAlreadyNotified(o, index,
-                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, an);
+                        setAlrebdyNotified(o, index,
+                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
                         msg =
-                            "The observed attribute value does not " +
-                            "implement the Comparable interface.";
+                            "The observed bttribute vblue does not " +
+                            "implement the Compbrbble interfbce.";
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                                Monitor.clbss.getNbme(), "monitor", msg);
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", e.toString());
+                                Monitor.clbss.getNbme(), "monitor", e.toString());
                     }
-                } catch (AttributeNotFoundException e) {
-                    if (isAlreadyNotified(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
+                } cbtch (AttributeNotFoundException e) {
+                    if (isAlrebdyNotified(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
                         return;
                     else {
                         notifType = OBSERVED_ATTRIBUTE_ERROR;
-                        setAlreadyNotified(
-                            o, index, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, an);
+                        setAlrebdyNotified(
+                            o, index, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, bn);
                         msg =
-                            "The observed attribute must be accessible in " +
+                            "The observed bttribute must be bccessible in " +
                             "the observed object.";
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                                Monitor.clbss.getNbme(), "monitor", msg);
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", e.toString());
+                                Monitor.clbss.getNbme(), "monitor", e.toString());
                     }
-                } catch (RuntimeException e) {
-                    if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
+                } cbtch (RuntimeException e) {
+                    if (isAlrebdyNotified(o, RUNTIME_ERROR_NOTIFIED))
                         return;
                     else {
                         notifType = RUNTIME_ERROR;
-                        setAlreadyNotified(o, index,
-                            RUNTIME_ERROR_NOTIFIED, an);
-                        msg = e.getMessage() == null ? "" : e.getMessage();
+                        setAlrebdyNotified(o, index,
+                            RUNTIME_ERROR_NOTIFIED, bn);
+                        msg = e.getMessbge() == null ? "" : e.getMessbge();
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                                Monitor.clbss.getNbme(), "monitor", msg);
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", e.toString());
+                                Monitor.clbss.getNbme(), "monitor", e.toString());
                     }
                 }
             }
 
-            // Check that the observed attribute type is supported by this
+            // Check thbt the observed bttribute type is supported by this
             // monitor.
             //
             if (msg == null) {
-                if (!isComparableTypeValid(object, attribute, value)) {
-                    if (isAlreadyNotified(
+                if (!isCompbrbbleTypeVblid(object, bttribute, vblue)) {
+                    if (isAlrebdyNotified(
                             o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
                         return;
                     else {
                         notifType = OBSERVED_ATTRIBUTE_TYPE_ERROR;
-                        setAlreadyNotified(o, index,
-                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, an);
-                        msg = "The observed attribute type is not valid.";
+                        setAlrebdyNotified(o, index,
+                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
+                        msg = "The observed bttribute type is not vblid.";
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                                Monitor.clbss.getNbme(), "monitor", msg);
                     }
                 }
             }
 
-            // Check that threshold type is supported by this monitor.
+            // Check thbt threshold type is supported by this monitor.
             //
             if (msg == null) {
-                if (!isThresholdTypeValid(object, attribute, value)) {
-                    if (isAlreadyNotified(o, THRESHOLD_ERROR_NOTIFIED))
+                if (!isThresholdTypeVblid(object, bttribute, vblue)) {
+                    if (isAlrebdyNotified(o, THRESHOLD_ERROR_NOTIFIED))
                         return;
                     else {
                         notifType = THRESHOLD_ERROR;
-                        setAlreadyNotified(o, index,
-                            THRESHOLD_ERROR_NOTIFIED, an);
-                        msg = "The threshold type is not valid.";
+                        setAlrebdyNotified(o, index,
+                            THRESHOLD_ERROR_NOTIFIED, bn);
+                        msg = "The threshold type is not vblid.";
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                                Monitor.clbss.getNbme(), "monitor", msg);
                     }
                 }
             }
 
-            // Let someone subclassing the monitor to perform additional
-            // monitor consistency checks and report errors if necessary.
+            // Let someone subclbssing the monitor to perform bdditionbl
+            // monitor consistency checks bnd report errors if necessbry.
             //
             if (msg == null) {
-                msg = buildErrorNotification(object, attribute, value);
+                msg = buildErrorNotificbtion(object, bttribute, vblue);
                 if (msg != null) {
-                    if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
+                    if (isAlrebdyNotified(o, RUNTIME_ERROR_NOTIFIED))
                         return;
                     else {
                         notifType = RUNTIME_ERROR;
-                        setAlreadyNotified(o, index,
-                            RUNTIME_ERROR_NOTIFIED, an);
+                        setAlrebdyNotified(o, index,
+                            RUNTIME_ERROR_NOTIFIED, bn);
                         MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                                Monitor.clbss.getNbme(), "monitor", msg);
                     }
                 }
             }
 
-            // If no errors were found then clear all error flags and
-            // let the monitor decide if a notification must be sent.
+            // If no errors were found then clebr bll error flbgs bnd
+            // let the monitor decide if b notificbtion must be sent.
             //
             if (msg == null) {
-                // Clear all already notified flags.
+                // Clebr bll blrebdy notified flbgs.
                 //
-                resetAllAlreadyNotified(o, index, an);
+                resetAllAlrebdyNotified(o, index, bn);
 
-                // Get derived gauge from comparable value.
+                // Get derived gbuge from compbrbble vblue.
                 //
-                derGauge = getDerivedGaugeFromComparable(object,
-                                                         attribute,
-                                                         value);
+                derGbuge = getDerivedGbugeFromCompbrbble(object,
+                                                         bttribute,
+                                                         vblue);
 
-                o.setDerivedGauge(derGauge);
-                o.setDerivedGaugeTimeStamp(System.currentTimeMillis());
+                o.setDerivedGbuge(derGbuge);
+                o.setDerivedGbugeTimeStbmp(System.currentTimeMillis());
 
-                // Check if an alarm must be fired.
+                // Check if bn blbrm must be fired.
                 //
-                alarm = buildAlarmNotification(object,
-                                               attribute,
-                                               (Comparable<?>) derGauge);
+                blbrm = buildAlbrmNotificbtion(object,
+                                               bttribute,
+                                               (Compbrbble<?>) derGbuge);
             }
 
         }
@@ -1416,58 +1416,58 @@ public abstract class Monitor
         // Notify monitor errors
         //
         if (msg != null)
-            sendNotification(notifType,
+            sendNotificbtion(notifType,
                              System.currentTimeMillis(),
                              msg,
-                             derGauge,
+                             derGbuge,
                              trigger,
                              object,
                              true);
 
-        // Notify monitor alarms
+        // Notify monitor blbrms
         //
-        if (alarm != null && alarm.getType() != null)
-            sendNotification(alarm.getType(),
+        if (blbrm != null && blbrm.getType() != null)
+            sendNotificbtion(blbrm.getType(),
                              System.currentTimeMillis(),
-                             alarm.getMessage(),
-                             derGauge,
-                             alarm.getTrigger(),
+                             blbrm.getMessbge(),
+                             derGbuge,
+                             blbrm.getTrigger(),
                              object,
-                             false);
+                             fblse);
     }
 
     /**
-     * Cleanup the scheduler and monitor tasks futures.
+     * Clebnup the scheduler bnd monitor tbsks futures.
      */
-    private synchronized void cleanupFutures() {
+    privbte synchronized void clebnupFutures() {
         if (schedulerFuture != null) {
-            schedulerFuture.cancel(false);
+            schedulerFuture.cbncel(fblse);
             schedulerFuture = null;
         }
         if (monitorFuture != null) {
-            monitorFuture.cancel(false);
+            monitorFuture.cbncel(fblse);
             monitorFuture = null;
         }
     }
 
     /**
-     * Cleanup the "is complex type attribute" info.
+     * Clebnup the "is complex type bttribute" info.
      */
-    private synchronized void cleanupIsComplexTypeAttribute() {
+    privbte synchronized void clebnupIsComplexTypeAttribute() {
         firstAttribute = null;
-        remainingAttributes.clear();
-        isComplexTypeAttribute = false;
+        rembiningAttributes.clebr();
+        isComplexTypeAttribute = fblse;
     }
 
     /**
-     * SchedulerTask nested class: This class implements the Runnable interface.
+     * SchedulerTbsk nested clbss: This clbss implements the Runnbble interfbce.
      *
-     * The SchedulerTask is executed periodically with a given fixed delay by
+     * The SchedulerTbsk is executed periodicblly with b given fixed delby by
      * the Scheduled Executor Service.
      */
-    private class SchedulerTask implements Runnable {
+    privbte clbss SchedulerTbsk implements Runnbble {
 
-        private MonitorTask task;
+        privbte MonitorTbsk tbsk;
 
         /*
          * ------------------------------------------
@@ -1475,7 +1475,7 @@ public abstract class Monitor
          * ------------------------------------------
          */
 
-        public SchedulerTask() {
+        public SchedulerTbsk() {
         }
 
         /*
@@ -1484,8 +1484,8 @@ public abstract class Monitor
          * ------------------------------------------
          */
 
-        public void setMonitorTask(MonitorTask task) {
-            this.task = task;
+        public void setMonitorTbsk(MonitorTbsk tbsk) {
+            this.tbsk = tbsk;
         }
 
         /*
@@ -1496,20 +1496,20 @@ public abstract class Monitor
 
         public void run() {
             synchronized (Monitor.this) {
-                Monitor.this.monitorFuture = task.submit();
+                Monitor.this.monitorFuture = tbsk.submit();
             }
         }
     }
 
     /**
-     * MonitorTask nested class: This class implements the Runnable interface.
+     * MonitorTbsk nested clbss: This clbss implements the Runnbble interfbce.
      *
-     * The MonitorTask is executed periodically with a given fixed delay by the
+     * The MonitorTbsk is executed periodicblly with b given fixed delby by the
      * Scheduled Executor Service.
      */
-    private class MonitorTask implements Runnable {
+    privbte clbss MonitorTbsk implements Runnbble {
 
-        private ThreadPoolExecutor executor;
+        privbte ThrebdPoolExecutor executor;
 
         /*
          * ------------------------------------------
@@ -1517,36 +1517,36 @@ public abstract class Monitor
          * ------------------------------------------
          */
 
-        public MonitorTask() {
-            // Find out if there's already an existing executor for the calling
-            // thread and reuse it. Otherwise, create a new one and store it in
-            // the executors map. If there is a SecurityManager, the group of
-            // System.getSecurityManager() is used, else the group of the thread
-            // instantiating this MonitorTask, i.e. the group of the thread that
-            // calls "Monitor.start()".
-            SecurityManager s = System.getSecurityManager();
-            ThreadGroup group = (s != null) ? s.getThreadGroup() :
-                Thread.currentThread().getThreadGroup();
+        public MonitorTbsk() {
+            // Find out if there's blrebdy bn existing executor for the cblling
+            // threbd bnd reuse it. Otherwise, crebte b new one bnd store it in
+            // the executors mbp. If there is b SecurityMbnbger, the group of
+            // System.getSecurityMbnbger() is used, else the group of the threbd
+            // instbntibting this MonitorTbsk, i.e. the group of the threbd thbt
+            // cblls "Monitor.stbrt()".
+            SecurityMbnbger s = System.getSecurityMbnbger();
+            ThrebdGroup group = (s != null) ? s.getThrebdGroup() :
+                Threbd.currentThrebd().getThrebdGroup();
             synchronized (executorsLock) {
-                for (ThreadPoolExecutor e : executors.keySet()) {
-                    DaemonThreadFactory tf =
-                            (DaemonThreadFactory) e.getThreadFactory();
-                    ThreadGroup tg = tf.getThreadGroup();
+                for (ThrebdPoolExecutor e : executors.keySet()) {
+                    DbemonThrebdFbctory tf =
+                            (DbemonThrebdFbctory) e.getThrebdFbctory();
+                    ThrebdGroup tg = tf.getThrebdGroup();
                     if (tg == group) {
                         executor = e;
-                        break;
+                        brebk;
                     }
                 }
                 if (executor == null) {
-                    executor = new ThreadPoolExecutor(
-                            maximumPoolSize,
-                            maximumPoolSize,
+                    executor = new ThrebdPoolExecutor(
+                            mbximumPoolSize,
+                            mbximumPoolSize,
                             60L,
                             TimeUnit.SECONDS,
-                            new LinkedBlockingQueue<Runnable>(),
-                            new DaemonThreadFactory("ThreadGroup<" +
-                            group.getName() + "> Executor", group));
-                    executor.allowCoreThreadTimeOut(true);
+                            new LinkedBlockingQueue<Runnbble>(),
+                            new DbemonThrebdFbctory("ThrebdGroup<" +
+                            group.getNbme() + "> Executor", group));
+                    executor.bllowCoreThrebdTimeOut(true);
                     executors.put(executor, null);
                 }
             }
@@ -1563,37 +1563,37 @@ public abstract class Monitor
         }
 
         public void run() {
-            final ScheduledFuture<?> sf;
-            final AccessControlContext ac;
+            finbl ScheduledFuture<?> sf;
+            finbl AccessControlContext bc;
             synchronized (Monitor.this) {
                 sf = Monitor.this.schedulerFuture;
-                ac = Monitor.this.acc;
+                bc = Monitor.this.bcc;
             }
-            PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
+            PrivilegedAction<Void> bction = new PrivilegedAction<Void>() {
                 public Void run() {
                     if (Monitor.this.isActive()) {
-                        final int an[] = alreadyNotifieds;
+                        finbl int bn[] = blrebdyNotifieds;
                         int index = 0;
                         for (ObservedObject o : Monitor.this.observedObjects) {
                             if (Monitor.this.isActive()) {
-                                Monitor.this.monitor(o, index++, an);
+                                Monitor.this.monitor(o, index++, bn);
                             }
                         }
                     }
                     return null;
                 }
             };
-            if (ac == null) {
-                throw new SecurityException("AccessControlContext cannot be null");
+            if (bc == null) {
+                throw new SecurityException("AccessControlContext cbnnot be null");
             }
-            AccessController.doPrivileged(action, ac);
+            AccessController.doPrivileged(bction, bc);
             synchronized (Monitor.this) {
                 if (Monitor.this.isActive() &&
                     Monitor.this.schedulerFuture == sf) {
                     Monitor.this.monitorFuture = null;
                     Monitor.this.schedulerFuture =
-                        scheduler.schedule(Monitor.this.schedulerTask,
-                                           Monitor.this.getGranularityPeriod(),
+                        scheduler.schedule(Monitor.this.schedulerTbsk,
+                                           Monitor.this.getGrbnulbrityPeriod(),
                                            TimeUnit.MILLISECONDS);
                 }
             }
@@ -1601,50 +1601,50 @@ public abstract class Monitor
     }
 
     /**
-     * Daemon thread factory used by the monitor executors.
+     * Dbemon threbd fbctory used by the monitor executors.
      * <P>
-     * This factory creates all new threads used by an Executor in
-     * the same ThreadGroup. If there is a SecurityManager, it uses
-     * the group of System.getSecurityManager(), else the group of
-     * the thread instantiating this DaemonThreadFactory. Each new
-     * thread is created as a daemon thread with priority
-     * Thread.NORM_PRIORITY. New threads have names accessible via
-     * Thread.getName() of "{@literal JMX Monitor <pool-name> Pool [Thread-M]}",
-     * where M is the sequence number of the thread created by this
-     * factory.
+     * This fbctory crebtes bll new threbds used by bn Executor in
+     * the sbme ThrebdGroup. If there is b SecurityMbnbger, it uses
+     * the group of System.getSecurityMbnbger(), else the group of
+     * the threbd instbntibting this DbemonThrebdFbctory. Ebch new
+     * threbd is crebted bs b dbemon threbd with priority
+     * Threbd.NORM_PRIORITY. New threbds hbve nbmes bccessible vib
+     * Threbd.getNbme() of "{@literbl JMX Monitor <pool-nbme> Pool [Threbd-M]}",
+     * where M is the sequence number of the threbd crebted by this
+     * fbctory.
      */
-    private static class DaemonThreadFactory implements ThreadFactory {
-        final ThreadGroup group;
-        final AtomicInteger threadNumber = new AtomicInteger(1);
-        final String namePrefix;
-        static final String nameSuffix = "]";
+    privbte stbtic clbss DbemonThrebdFbctory implements ThrebdFbctory {
+        finbl ThrebdGroup group;
+        finbl AtomicInteger threbdNumber = new AtomicInteger(1);
+        finbl String nbmePrefix;
+        stbtic finbl String nbmeSuffix = "]";
 
-        public DaemonThreadFactory(String poolName) {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() :
-                                  Thread.currentThread().getThreadGroup();
-            namePrefix = "JMX Monitor " + poolName + " Pool [Thread-";
+        public DbemonThrebdFbctory(String poolNbme) {
+            SecurityMbnbger s = System.getSecurityMbnbger();
+            group = (s != null) ? s.getThrebdGroup() :
+                                  Threbd.currentThrebd().getThrebdGroup();
+            nbmePrefix = "JMX Monitor " + poolNbme + " Pool [Threbd-";
         }
 
-        public DaemonThreadFactory(String poolName, ThreadGroup threadGroup) {
-            group = threadGroup;
-            namePrefix = "JMX Monitor " + poolName + " Pool [Thread-";
+        public DbemonThrebdFbctory(String poolNbme, ThrebdGroup threbdGroup) {
+            group = threbdGroup;
+            nbmePrefix = "JMX Monitor " + poolNbme + " Pool [Threbd-";
         }
 
-        public ThreadGroup getThreadGroup() {
+        public ThrebdGroup getThrebdGroup() {
             return group;
         }
 
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(group,
+        public Threbd newThrebd(Runnbble r) {
+            Threbd t = new Threbd(group,
                                   r,
-                                  namePrefix +
-                                  threadNumber.getAndIncrement() +
-                                  nameSuffix,
+                                  nbmePrefix +
+                                  threbdNumber.getAndIncrement() +
+                                  nbmeSuffix,
                                   0);
-            t.setDaemon(true);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
-                t.setPriority(Thread.NORM_PRIORITY);
+            t.setDbemon(true);
+            if (t.getPriority() != Threbd.NORM_PRIORITY)
+                t.setPriority(Threbd.NORM_PRIORITY);
             return t;
         }
     }

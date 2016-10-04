@@ -1,316 +1,316 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.spi.BreakIteratorProvider;
-import java.text.spi.CollatorProvider;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.text.spi.NumberFormatProvider;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CalendarNameProvider;
-import java.util.spi.CurrencyNameProvider;
-import java.util.spi.LocaleNameProvider;
-import java.util.spi.LocaleServiceProvider;
-import java.util.spi.TimeZoneNameProvider;
-import sun.util.resources.LocaleData;
-import sun.util.spi.CalendarProvider;
+import jbvb.io.File;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.text.spi.BrebkIterbtorProvider;
+import jbvb.text.spi.CollbtorProvider;
+import jbvb.text.spi.DbteFormbtProvider;
+import jbvb.text.spi.DbteFormbtSymbolsProvider;
+import jbvb.text.spi.DecimblFormbtSymbolsProvider;
+import jbvb.text.spi.NumberFormbtProvider;
+import jbvb.util.HbshSet;
+import jbvb.util.Locble;
+import jbvb.util.Set;
+import jbvb.util.StringTokenizer;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.spi.CblendbrDbtbProvider;
+import jbvb.util.spi.CblendbrNbmeProvider;
+import jbvb.util.spi.CurrencyNbmeProvider;
+import jbvb.util.spi.LocbleNbmeProvider;
+import jbvb.util.spi.LocbleServiceProvider;
+import jbvb.util.spi.TimeZoneNbmeProvider;
+import sun.util.resources.LocbleDbtb;
+import sun.util.spi.CblendbrProvider;
 
 /**
- * LocaleProviderAdapter implementation for the legacy JRE locale data.
+ * LocbleProviderAdbpter implementbtion for the legbcy JRE locble dbtb.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public class JRELocaleProviderAdapter extends LocaleProviderAdapter implements ResourceBundleBasedAdapter {
+public clbss JRELocbleProviderAdbpter extends LocbleProviderAdbpter implements ResourceBundleBbsedAdbpter {
 
-    private static final String LOCALE_DATA_JAR_NAME = "localedata.jar";
+    privbte stbtic finbl String LOCALE_DATA_JAR_NAME = "locbledbtb.jbr";
 
-    private final ConcurrentMap<String, Set<String>> langtagSets
-        = new ConcurrentHashMap<>();
+    privbte finbl ConcurrentMbp<String, Set<String>> lbngtbgSets
+        = new ConcurrentHbshMbp<>();
 
-    private final ConcurrentMap<Locale, LocaleResources> localeResourcesMap
-        = new ConcurrentHashMap<>();
+    privbte finbl ConcurrentMbp<Locble, LocbleResources> locbleResourcesMbp
+        = new ConcurrentHbshMbp<>();
 
-    // LocaleData specific to this LocaleProviderAdapter.
-    private volatile LocaleData localeData;
+    // LocbleDbtb specific to this LocbleProviderAdbpter.
+    privbte volbtile LocbleDbtb locbleDbtb;
 
     /**
-     * Returns the type of this LocaleProviderAdapter
+     * Returns the type of this LocbleProviderAdbpter
      */
     @Override
-    public LocaleProviderAdapter.Type getAdapterType() {
+    public LocbleProviderAdbpter.Type getAdbpterType() {
         return Type.JRE;
     }
 
     /**
-     * Getter method for Locale Service Providers
+     * Getter method for Locble Service Providers
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public <P extends LocaleServiceProvider> P getLocaleServiceProvider(Class<P> c) {
-        switch (c.getSimpleName()) {
-        case "BreakIteratorProvider":
-            return (P) getBreakIteratorProvider();
-        case "CollatorProvider":
-            return (P) getCollatorProvider();
-        case "DateFormatProvider":
-            return (P) getDateFormatProvider();
-        case "DateFormatSymbolsProvider":
-            return (P) getDateFormatSymbolsProvider();
-        case "DecimalFormatSymbolsProvider":
-            return (P) getDecimalFormatSymbolsProvider();
-        case "NumberFormatProvider":
-            return (P) getNumberFormatProvider();
-        case "CurrencyNameProvider":
-            return (P) getCurrencyNameProvider();
-        case "LocaleNameProvider":
-            return (P) getLocaleNameProvider();
-        case "TimeZoneNameProvider":
-            return (P) getTimeZoneNameProvider();
-        case "CalendarDataProvider":
-            return (P) getCalendarDataProvider();
-        case "CalendarNameProvider":
-            return (P) getCalendarNameProvider();
-        case "CalendarProvider":
-            return (P) getCalendarProvider();
-        default:
-            throw new InternalError("should not come down here");
+    @SuppressWbrnings("unchecked")
+    public <P extends LocbleServiceProvider> P getLocbleServiceProvider(Clbss<P> c) {
+        switch (c.getSimpleNbme()) {
+        cbse "BrebkIterbtorProvider":
+            return (P) getBrebkIterbtorProvider();
+        cbse "CollbtorProvider":
+            return (P) getCollbtorProvider();
+        cbse "DbteFormbtProvider":
+            return (P) getDbteFormbtProvider();
+        cbse "DbteFormbtSymbolsProvider":
+            return (P) getDbteFormbtSymbolsProvider();
+        cbse "DecimblFormbtSymbolsProvider":
+            return (P) getDecimblFormbtSymbolsProvider();
+        cbse "NumberFormbtProvider":
+            return (P) getNumberFormbtProvider();
+        cbse "CurrencyNbmeProvider":
+            return (P) getCurrencyNbmeProvider();
+        cbse "LocbleNbmeProvider":
+            return (P) getLocbleNbmeProvider();
+        cbse "TimeZoneNbmeProvider":
+            return (P) getTimeZoneNbmeProvider();
+        cbse "CblendbrDbtbProvider":
+            return (P) getCblendbrDbtbProvider();
+        cbse "CblendbrNbmeProvider":
+            return (P) getCblendbrNbmeProvider();
+        cbse "CblendbrProvider":
+            return (P) getCblendbrProvider();
+        defbult:
+            throw new InternblError("should not come down here");
         }
     }
 
-    private volatile BreakIteratorProvider breakIteratorProvider = null;
-    private volatile CollatorProvider collatorProvider = null;
-    private volatile DateFormatProvider dateFormatProvider = null;
-    private volatile DateFormatSymbolsProvider dateFormatSymbolsProvider = null;
-    private volatile DecimalFormatSymbolsProvider decimalFormatSymbolsProvider = null;
-    private volatile NumberFormatProvider numberFormatProvider = null;
+    privbte volbtile BrebkIterbtorProvider brebkIterbtorProvider = null;
+    privbte volbtile CollbtorProvider collbtorProvider = null;
+    privbte volbtile DbteFormbtProvider dbteFormbtProvider = null;
+    privbte volbtile DbteFormbtSymbolsProvider dbteFormbtSymbolsProvider = null;
+    privbte volbtile DecimblFormbtSymbolsProvider decimblFormbtSymbolsProvider = null;
+    privbte volbtile NumberFormbtProvider numberFormbtProvider = null;
 
-    private volatile CurrencyNameProvider currencyNameProvider = null;
-    private volatile LocaleNameProvider localeNameProvider = null;
-    private volatile TimeZoneNameProvider timeZoneNameProvider = null;
-    private volatile CalendarDataProvider calendarDataProvider = null;
-    private volatile CalendarNameProvider calendarNameProvider = null;
+    privbte volbtile CurrencyNbmeProvider currencyNbmeProvider = null;
+    privbte volbtile LocbleNbmeProvider locbleNbmeProvider = null;
+    privbte volbtile TimeZoneNbmeProvider timeZoneNbmeProvider = null;
+    privbte volbtile CblendbrDbtbProvider cblendbrDbtbProvider = null;
+    privbte volbtile CblendbrNbmeProvider cblendbrNbmeProvider = null;
 
-    private volatile CalendarProvider calendarProvider = null;
+    privbte volbtile CblendbrProvider cblendbrProvider = null;
 
     /*
-     * Getter methods for java.text.spi.* providers
+     * Getter methods for jbvb.text.spi.* providers
      */
     @Override
-    public BreakIteratorProvider getBreakIteratorProvider() {
-        if (breakIteratorProvider == null) {
-            BreakIteratorProvider provider = new BreakIteratorProviderImpl(getAdapterType(),
-                                                            getLanguageTagSet("FormatData"));
+    public BrebkIterbtorProvider getBrebkIterbtorProvider() {
+        if (brebkIterbtorProvider == null) {
+            BrebkIterbtorProvider provider = new BrebkIterbtorProviderImpl(getAdbpterType(),
+                                                            getLbngubgeTbgSet("FormbtDbtb"));
             synchronized (this) {
-                if (breakIteratorProvider == null) {
-                    breakIteratorProvider = provider;
+                if (brebkIterbtorProvider == null) {
+                    brebkIterbtorProvider = provider;
                 }
             }
         }
-        return breakIteratorProvider;
+        return brebkIterbtorProvider;
     }
 
     @Override
-    public CollatorProvider getCollatorProvider() {
-        if (collatorProvider == null) {
-            CollatorProvider provider = new CollatorProviderImpl(getAdapterType(),
-                                                getLanguageTagSet("CollationData"));
+    public CollbtorProvider getCollbtorProvider() {
+        if (collbtorProvider == null) {
+            CollbtorProvider provider = new CollbtorProviderImpl(getAdbpterType(),
+                                                getLbngubgeTbgSet("CollbtionDbtb"));
             synchronized (this) {
-                if (collatorProvider == null) {
-                    collatorProvider = provider;
+                if (collbtorProvider == null) {
+                    collbtorProvider = provider;
                 }
             }
         }
-        return collatorProvider;
+        return collbtorProvider;
     }
 
     @Override
-    public DateFormatProvider getDateFormatProvider() {
-        if (dateFormatProvider == null) {
-            DateFormatProvider provider = new DateFormatProviderImpl(getAdapterType(),
-                                                    getLanguageTagSet("FormatData"));
+    public DbteFormbtProvider getDbteFormbtProvider() {
+        if (dbteFormbtProvider == null) {
+            DbteFormbtProvider provider = new DbteFormbtProviderImpl(getAdbpterType(),
+                                                    getLbngubgeTbgSet("FormbtDbtb"));
             synchronized (this) {
-                if (dateFormatProvider == null) {
-                    dateFormatProvider = provider;
+                if (dbteFormbtProvider == null) {
+                    dbteFormbtProvider = provider;
                 }
             }
         }
-        return dateFormatProvider;
+        return dbteFormbtProvider;
     }
 
     @Override
-    public DateFormatSymbolsProvider getDateFormatSymbolsProvider() {
-        if (dateFormatSymbolsProvider == null) {
-            DateFormatSymbolsProvider provider = new DateFormatSymbolsProviderImpl(getAdapterType(),
-                                                                getLanguageTagSet("FormatData"));
+    public DbteFormbtSymbolsProvider getDbteFormbtSymbolsProvider() {
+        if (dbteFormbtSymbolsProvider == null) {
+            DbteFormbtSymbolsProvider provider = new DbteFormbtSymbolsProviderImpl(getAdbpterType(),
+                                                                getLbngubgeTbgSet("FormbtDbtb"));
             synchronized (this) {
-                if (dateFormatSymbolsProvider == null) {
-                    dateFormatSymbolsProvider = provider;
+                if (dbteFormbtSymbolsProvider == null) {
+                    dbteFormbtSymbolsProvider = provider;
                 }
             }
         }
-        return dateFormatSymbolsProvider;
+        return dbteFormbtSymbolsProvider;
     }
 
     @Override
-    public DecimalFormatSymbolsProvider getDecimalFormatSymbolsProvider() {
-        if (decimalFormatSymbolsProvider == null) {
-            DecimalFormatSymbolsProvider provider = new DecimalFormatSymbolsProviderImpl(getAdapterType(), getLanguageTagSet("FormatData"));
+    public DecimblFormbtSymbolsProvider getDecimblFormbtSymbolsProvider() {
+        if (decimblFormbtSymbolsProvider == null) {
+            DecimblFormbtSymbolsProvider provider = new DecimblFormbtSymbolsProviderImpl(getAdbpterType(), getLbngubgeTbgSet("FormbtDbtb"));
             synchronized (this) {
-                if (decimalFormatSymbolsProvider == null) {
-                    decimalFormatSymbolsProvider = provider;
+                if (decimblFormbtSymbolsProvider == null) {
+                    decimblFormbtSymbolsProvider = provider;
                 }
             }
         }
-        return decimalFormatSymbolsProvider;
+        return decimblFormbtSymbolsProvider;
     }
 
     @Override
-    public NumberFormatProvider getNumberFormatProvider() {
-        if (numberFormatProvider == null) {
-            NumberFormatProvider provider = new NumberFormatProviderImpl(getAdapterType(),
-                                                        getLanguageTagSet("FormatData"));
+    public NumberFormbtProvider getNumberFormbtProvider() {
+        if (numberFormbtProvider == null) {
+            NumberFormbtProvider provider = new NumberFormbtProviderImpl(getAdbpterType(),
+                                                        getLbngubgeTbgSet("FormbtDbtb"));
             synchronized (this) {
-                if (numberFormatProvider == null) {
-                    numberFormatProvider = provider;
+                if (numberFormbtProvider == null) {
+                    numberFormbtProvider = provider;
                 }
             }
         }
-        return numberFormatProvider;
+        return numberFormbtProvider;
     }
 
     /**
-     * Getter methods for java.util.spi.* providers
+     * Getter methods for jbvb.util.spi.* providers
      */
     @Override
-    public CurrencyNameProvider getCurrencyNameProvider() {
-        if (currencyNameProvider == null) {
-            CurrencyNameProvider provider = new CurrencyNameProviderImpl(getAdapterType(),
-                                            getLanguageTagSet("CurrencyNames"));
+    public CurrencyNbmeProvider getCurrencyNbmeProvider() {
+        if (currencyNbmeProvider == null) {
+            CurrencyNbmeProvider provider = new CurrencyNbmeProviderImpl(getAdbpterType(),
+                                            getLbngubgeTbgSet("CurrencyNbmes"));
             synchronized (this) {
-                if (currencyNameProvider == null) {
-                    currencyNameProvider = provider;
+                if (currencyNbmeProvider == null) {
+                    currencyNbmeProvider = provider;
                 }
             }
         }
-        return currencyNameProvider;
+        return currencyNbmeProvider;
     }
 
     @Override
-    public LocaleNameProvider getLocaleNameProvider() {
-        if (localeNameProvider == null) {
-            LocaleNameProvider provider = new LocaleNameProviderImpl(getAdapterType(),
-                                                    getLanguageTagSet("LocaleNames"));
+    public LocbleNbmeProvider getLocbleNbmeProvider() {
+        if (locbleNbmeProvider == null) {
+            LocbleNbmeProvider provider = new LocbleNbmeProviderImpl(getAdbpterType(),
+                                                    getLbngubgeTbgSet("LocbleNbmes"));
             synchronized (this) {
-                if (localeNameProvider == null) {
-                    localeNameProvider = provider;
+                if (locbleNbmeProvider == null) {
+                    locbleNbmeProvider = provider;
                 }
             }
         }
-        return localeNameProvider;
+        return locbleNbmeProvider;
     }
 
     @Override
-    public TimeZoneNameProvider getTimeZoneNameProvider() {
-        if (timeZoneNameProvider == null) {
-            TimeZoneNameProvider provider = new TimeZoneNameProviderImpl(getAdapterType(),
-                                                    getLanguageTagSet("TimeZoneNames"));
+    public TimeZoneNbmeProvider getTimeZoneNbmeProvider() {
+        if (timeZoneNbmeProvider == null) {
+            TimeZoneNbmeProvider provider = new TimeZoneNbmeProviderImpl(getAdbpterType(),
+                                                    getLbngubgeTbgSet("TimeZoneNbmes"));
             synchronized (this) {
-                if (timeZoneNameProvider == null) {
-                    timeZoneNameProvider = provider;
+                if (timeZoneNbmeProvider == null) {
+                    timeZoneNbmeProvider = provider;
                 }
             }
         }
-        return timeZoneNameProvider;
+        return timeZoneNbmeProvider;
     }
 
     @Override
-    public CalendarDataProvider getCalendarDataProvider() {
-        if (calendarDataProvider == null) {
-            CalendarDataProvider provider;
-            provider = new CalendarDataProviderImpl(getAdapterType(),
-                                                    getLanguageTagSet("CalendarData"));
+    public CblendbrDbtbProvider getCblendbrDbtbProvider() {
+        if (cblendbrDbtbProvider == null) {
+            CblendbrDbtbProvider provider;
+            provider = new CblendbrDbtbProviderImpl(getAdbpterType(),
+                                                    getLbngubgeTbgSet("CblendbrDbtb"));
             synchronized (this) {
-                if (calendarDataProvider == null) {
-                    calendarDataProvider = provider;
+                if (cblendbrDbtbProvider == null) {
+                    cblendbrDbtbProvider = provider;
                 }
             }
         }
-        return calendarDataProvider;
+        return cblendbrDbtbProvider;
     }
 
     @Override
-    public CalendarNameProvider getCalendarNameProvider() {
-        if (calendarNameProvider == null) {
-            CalendarNameProvider provider;
-            provider = new CalendarNameProviderImpl(getAdapterType(),
-                                                    getLanguageTagSet("FormatData"));
+    public CblendbrNbmeProvider getCblendbrNbmeProvider() {
+        if (cblendbrNbmeProvider == null) {
+            CblendbrNbmeProvider provider;
+            provider = new CblendbrNbmeProviderImpl(getAdbpterType(),
+                                                    getLbngubgeTbgSet("FormbtDbtb"));
             synchronized (this) {
-                if (calendarNameProvider == null) {
-                    calendarNameProvider = provider;
+                if (cblendbrNbmeProvider == null) {
+                    cblendbrNbmeProvider = provider;
                 }
             }
         }
-        return calendarNameProvider;
+        return cblendbrNbmeProvider;
     }
 
     /**
      * Getter methods for sun.util.spi.* providers
      */
     @Override
-    public CalendarProvider getCalendarProvider() {
-        if (calendarProvider == null) {
-            CalendarProvider provider = new CalendarProviderImpl(getAdapterType(),
-                                                    getLanguageTagSet("CalendarData"));
+    public CblendbrProvider getCblendbrProvider() {
+        if (cblendbrProvider == null) {
+            CblendbrProvider provider = new CblendbrProviderImpl(getAdbpterType(),
+                                                    getLbngubgeTbgSet("CblendbrDbtb"));
             synchronized (this) {
-                if (calendarProvider == null) {
-                    calendarProvider = provider;
+                if (cblendbrProvider == null) {
+                    cblendbrProvider = provider;
                 }
             }
         }
-        return calendarProvider;
+        return cblendbrProvider;
     }
 
     @Override
-    public LocaleResources getLocaleResources(Locale locale) {
-        LocaleResources lr = localeResourcesMap.get(locale);
+    public LocbleResources getLocbleResources(Locble locble) {
+        LocbleResources lr = locbleResourcesMbp.get(locble);
         if (lr == null) {
-            lr = new LocaleResources(this, locale);
-            LocaleResources lrc = localeResourcesMap.putIfAbsent(locale, lr);
+            lr = new LocbleResources(this, locble);
+            LocbleResources lrc = locbleResourcesMbp.putIfAbsent(locble, lr);
             if (lrc != null) {
                 lr = lrc;
             }
@@ -318,141 +318,141 @@ public class JRELocaleProviderAdapter extends LocaleProviderAdapter implements R
         return lr;
     }
 
-    // ResourceBundleBasedAdapter method implementation
+    // ResourceBundleBbsedAdbpter method implementbtion
     @Override
-    public LocaleData getLocaleData() {
-        if (localeData == null) {
+    public LocbleDbtb getLocbleDbtb() {
+        if (locbleDbtb == null) {
             synchronized (this) {
-                if (localeData == null) {
-                    localeData = new LocaleData(getAdapterType());
+                if (locbleDbtb == null) {
+                    locbleDbtb = new LocbleDbtb(getAdbpterType());
                 }
             }
         }
-        return localeData;
+        return locbleDbtb;
     }
 
     /**
-     * Returns a list of the installed locales. Currently, this simply returns
-     * the list of locales for which a sun.text.resources.FormatData bundle
-     * exists. This bundle family happens to be the one with the broadest
-     * locale coverage in the JRE.
+     * Returns b list of the instblled locbles. Currently, this simply returns
+     * the list of locbles for which b sun.text.resources.FormbtDbtb bundle
+     * exists. This bundle fbmily hbppens to be the one with the brobdest
+     * locble coverbge in the JRE.
      */
     @Override
-    public Locale[] getAvailableLocales() {
-        return AvailableJRELocales.localeList.clone();
+    public Locble[] getAvbilbbleLocbles() {
+        return AvbilbbleJRELocbles.locbleList.clone();
     }
 
-    public Set<String> getLanguageTagSet(String category) {
-        Set<String> tagset = langtagSets.get(category);
-        if (tagset == null) {
-            tagset = createLanguageTagSet(category);
-            Set<String> ts = langtagSets.putIfAbsent(category, tagset);
+    public Set<String> getLbngubgeTbgSet(String cbtegory) {
+        Set<String> tbgset = lbngtbgSets.get(cbtegory);
+        if (tbgset == null) {
+            tbgset = crebteLbngubgeTbgSet(cbtegory);
+            Set<String> ts = lbngtbgSets.putIfAbsent(cbtegory, tbgset);
             if (ts != null) {
-                tagset = ts;
+                tbgset = ts;
             }
         }
-        return tagset;
+        return tbgset;
     }
 
-    protected Set<String> createLanguageTagSet(String category) {
-        String supportedLocaleString = LocaleDataMetaInfo.getSupportedLocaleString(category);
-        Set<String> tagset = new HashSet<>();
-        StringTokenizer tokens = new StringTokenizer(supportedLocaleString);
-        while (tokens.hasMoreTokens()) {
+    protected Set<String> crebteLbngubgeTbgSet(String cbtegory) {
+        String supportedLocbleString = LocbleDbtbMetbInfo.getSupportedLocbleString(cbtegory);
+        Set<String> tbgset = new HbshSet<>();
+        StringTokenizer tokens = new StringTokenizer(supportedLocbleString);
+        while (tokens.hbsMoreTokens()) {
             String token = tokens.nextToken();
-            if (token.equals("|")) {
-                if (isNonENLangSupported()) {
+            if (token.equbls("|")) {
+                if (isNonENLbngSupported()) {
                     continue;
                 }
-                break;
+                brebk;
             }
-            tagset.add(token);
+            tbgset.bdd(token);
         }
 
-        return tagset;
+        return tbgset;
     }
 
     /**
-     * Lazy load available locales.
+     * Lbzy lobd bvbilbble locbles.
      */
-    private static class AvailableJRELocales {
-        private static final Locale[] localeList = createAvailableLocales();
-        private AvailableJRELocales() {
+    privbte stbtic clbss AvbilbbleJRELocbles {
+        privbte stbtic finbl Locble[] locbleList = crebteAvbilbbleLocbles();
+        privbte AvbilbbleJRELocbles() {
         }
     }
 
-    private static Locale[] createAvailableLocales() {
+    privbte stbtic Locble[] crebteAvbilbbleLocbles() {
         /*
-         * Gets the locale string list from LocaleDataMetaInfo class and then
-         * contructs the Locale array and a set of language tags based on the
-         * locale string returned above.
+         * Gets the locble string list from LocbleDbtbMetbInfo clbss bnd then
+         * contructs the Locble brrby bnd b set of lbngubge tbgs bbsed on the
+         * locble string returned bbove.
          */
-        String supportedLocaleString = LocaleDataMetaInfo.getSupportedLocaleString("AvailableLocales");
+        String supportedLocbleString = LocbleDbtbMetbInfo.getSupportedLocbleString("AvbilbbleLocbles");
 
-        if (supportedLocaleString.length() == 0) {
-            throw new InternalError("No available locales for JRE");
+        if (supportedLocbleString.length() == 0) {
+            throw new InternblError("No bvbilbble locbles for JRE");
         }
 
         /*
-         * Look for "|" and construct a new locale string list.
+         * Look for "|" bnd construct b new locble string list.
          */
-        int barIndex = supportedLocaleString.indexOf('|');
-        StringTokenizer localeStringTokenizer;
-        if (isNonENLangSupported()) {
-            localeStringTokenizer = new StringTokenizer(supportedLocaleString.substring(0, barIndex)
-                    + supportedLocaleString.substring(barIndex + 1));
+        int bbrIndex = supportedLocbleString.indexOf('|');
+        StringTokenizer locbleStringTokenizer;
+        if (isNonENLbngSupported()) {
+            locbleStringTokenizer = new StringTokenizer(supportedLocbleString.substring(0, bbrIndex)
+                    + supportedLocbleString.substring(bbrIndex + 1));
         } else {
-            localeStringTokenizer = new StringTokenizer(supportedLocaleString.substring(0, barIndex));
+            locbleStringTokenizer = new StringTokenizer(supportedLocbleString.substring(0, bbrIndex));
         }
 
-        int length = localeStringTokenizer.countTokens();
-        Locale[] locales = new Locale[length + 1];
-        locales[0] = Locale.ROOT;
+        int length = locbleStringTokenizer.countTokens();
+        Locble[] locbles = new Locble[length + 1];
+        locbles[0] = Locble.ROOT;
         for (int i = 1; i <= length; i++) {
-            String currentToken = localeStringTokenizer.nextToken();
+            String currentToken = locbleStringTokenizer.nextToken();
             switch (currentToken) {
-                case "ja-JP-JP":
-                    locales[i] = JRELocaleConstants.JA_JP_JP;
-                    break;
-                case "no-NO-NY":
-                    locales[i] = JRELocaleConstants.NO_NO_NY;
-                    break;
-                case "th-TH-TH":
-                    locales[i] = JRELocaleConstants.TH_TH_TH;
-                    break;
-                default:
-                    locales[i] = Locale.forLanguageTag(currentToken);
+                cbse "jb-JP-JP":
+                    locbles[i] = JRELocbleConstbnts.JA_JP_JP;
+                    brebk;
+                cbse "no-NO-NY":
+                    locbles[i] = JRELocbleConstbnts.NO_NO_NY;
+                    brebk;
+                cbse "th-TH-TH":
+                    locbles[i] = JRELocbleConstbnts.TH_TH_TH;
+                    brebk;
+                defbult:
+                    locbles[i] = Locble.forLbngubgeTbg(currentToken);
             }
         }
-        return locales;
+        return locbles;
     }
 
-    private static volatile Boolean isNonENSupported = null;
+    privbte stbtic volbtile Boolebn isNonENSupported = null;
 
     /*
-     * Returns true if the non EN resources jar file exists in jre
-     * extension directory. @returns true if the jar file is there. Otherwise,
-     * returns false.
+     * Returns true if the non EN resources jbr file exists in jre
+     * extension directory. @returns true if the jbr file is there. Otherwise,
+     * returns fblse.
      */
-    private static boolean isNonENLangSupported() {
+    privbte stbtic boolebn isNonENLbngSupported() {
         if (isNonENSupported == null) {
-            synchronized (JRELocaleProviderAdapter.class) {
+            synchronized (JRELocbleProviderAdbpter.clbss) {
                 if (isNonENSupported == null) {
-                    final String sep = File.separator;
-                    String localeDataJar =
-                            java.security.AccessController.doPrivileged(
-                            new sun.security.action.GetPropertyAction("java.home"))
+                    finbl String sep = File.sepbrbtor;
+                    String locbleDbtbJbr =
+                            jbvb.security.AccessController.doPrivileged(
+                            new sun.security.bction.GetPropertyAction("jbvb.home"))
                             + sep + "lib" + sep + "ext" + sep + LOCALE_DATA_JAR_NAME;
 
                     /*
-                     * Peek at the installed extension directory to see if
-                     * localedata.jar is installed or not.
+                     * Peek bt the instblled extension directory to see if
+                     * locbledbtb.jbr is instblled or not.
                      */
-                    final File f = new File(localeDataJar);
+                    finbl File f = new File(locbleDbtbJbr);
                     isNonENSupported =
-                        AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+                        AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
                             @Override
-                            public Boolean run() {
+                            public Boolebn run() {
                                 return f.exists();
                             }
                         });

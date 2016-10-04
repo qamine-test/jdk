@@ -3,271 +3,271 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
 /**
- * Provides all constants and some translation functions for i18n.
+ * Provides bll constbnts bnd some trbnslbtion functions for i18n.
  *
- * For the used Algorithm identifiers and Namespaces, look at the
- * <A HREF="http://www.w3.org/TR/xmldsig-core/#sec-TransformAlg">XML
- * Signature specification</A>.
+ * For the used Algorithm identifiers bnd Nbmespbces, look bt the
+ * <A HREF="http://www.w3.org/TR/xmldsig-core/#sec-TrbnsformAlg">XML
+ * Signbture specificbtion</A>.
  *
- * @author $Author: coheigea $
+ * @buthor $Author: coheigeb $
  */
-public class Constants {
+public clbss Constbnts {
 
-    /** Field configurationFile */
-    public static final String configurationFile = "data/websig.conf";
+    /** Field configurbtionFile */
+    public stbtic finbl String configurbtionFile = "dbtb/websig.conf";
 
-    /** Field configurationFileNew */
-    public static final String configurationFileNew = ".xmlsecurityconfig";
+    /** Field configurbtionFileNew */
+    public stbtic finbl String configurbtionFileNew = ".xmlsecurityconfig";
 
-    /** Field exceptionMessagesResourceBundleDir */
-    public static final String exceptionMessagesResourceBundleDir =
-        "com/sun/org/apache/xml/internal/security/resource";
+    /** Field exceptionMessbgesResourceBundleDir */
+    public stbtic finbl String exceptionMessbgesResourceBundleDir =
+        "com/sun/org/bpbche/xml/internbl/security/resource";
 
-    /** Field exceptionMessagesResourceBundleBase is the location of the <CODE>ResourceBundle</CODE> */
-    public static final String exceptionMessagesResourceBundleBase =
-        exceptionMessagesResourceBundleDir + "/" + "xmlsecurity";
+    /** Field exceptionMessbgesResourceBundleBbse is the locbtion of the <CODE>ResourceBundle</CODE> */
+    public stbtic finbl String exceptionMessbgesResourceBundleBbse =
+        exceptionMessbgesResourceBundleDir + "/" + "xmlsecurity";
 
     /**
      * The URL of the
-     * <A HREF="http://www.w3.org/TR/2001/CR-xmldsig-core-20010419/">XML Signature specification</A>
+     * <A HREF="http://www.w3.org/TR/2001/CR-xmldsig-core-20010419/">XML Signbture specificbtion</A>
      */
-    public static final String SIGNATURESPECIFICATION_URL =
+    public stbtic finbl String SIGNATURESPECIFICATION_URL =
         "http://www.w3.org/TR/2001/CR-xmldsig-core-20010419/";
 
     /**
-     * The namespace of the
-     * <A HREF="http://www.w3.org/TR/2001/CR-xmldsig-core-20010419/">XML Signature specification</A>
+     * The nbmespbce of the
+     * <A HREF="http://www.w3.org/TR/2001/CR-xmldsig-core-20010419/">XML Signbture specificbtion</A>
      */
-    public static final String SignatureSpecNS = "http://www.w3.org/2000/09/xmldsig#";
+    public stbtic finbl String SignbtureSpecNS = "http://www.w3.org/2000/09/xmldsig#";
 
     /**
-     * The namespace of the
-     * <A HREF="http://www.w3.org/TR/xmldsig-core1/">XML Signature specification</A>
+     * The nbmespbce of the
+     * <A HREF="http://www.w3.org/TR/xmldsig-core1/">XML Signbture specificbtion</A>
      */
-    public static final String SignatureSpec11NS = "http://www.w3.org/2009/xmldsig11#";
+    public stbtic finbl String SignbtureSpec11NS = "http://www.w3.org/2009/xmldsig11#";
 
-    /** The URL for more algorithms **/
-    public static final String MoreAlgorithmsSpecNS = "http://www.w3.org/2001/04/xmldsig-more#";
+    /** The URL for more blgorithms **/
+    public stbtic finbl String MoreAlgorithmsSpecNS = "http://www.w3.org/2001/04/xmldsig-more#";
 
     /** The URI for XML spec*/
-    public static final String XML_LANG_SPACE_SpecNS = "http://www.w3.org/XML/1998/namespace";
+    public stbtic finbl String XML_LANG_SPACE_SpecNS = "http://www.w3.org/XML/1998/nbmespbce";
 
     /** The URI for XMLNS spec*/
-    public static final String NamespaceSpecNS = "http://www.w3.org/2000/xmlns/";
+    public stbtic finbl String NbmespbceSpecNS = "http://www.w3.org/2000/xmlns/";
 
-    /** Tag of Attr Algorithm**/
-    public static final String _ATT_ALGORITHM = "Algorithm";
+    /** Tbg of Attr Algorithm**/
+    public stbtic finbl String _ATT_ALGORITHM = "Algorithm";
 
-    /** Tag of Attr URI**/
-    public static final String _ATT_URI = "URI";
+    /** Tbg of Attr URI**/
+    public stbtic finbl String _ATT_URI = "URI";
 
-    /** Tag of Attr Type**/
-    public static final String _ATT_TYPE = "Type";
+    /** Tbg of Attr Type**/
+    public stbtic finbl String _ATT_TYPE = "Type";
 
-    /** Tag of Attr Id**/
-    public static final String _ATT_ID = "Id";
+    /** Tbg of Attr Id**/
+    public stbtic finbl String _ATT_ID = "Id";
 
-    /** Tag of Attr MimeType**/
-    public static final String _ATT_MIMETYPE = "MimeType";
+    /** Tbg of Attr MimeType**/
+    public stbtic finbl String _ATT_MIMETYPE = "MimeType";
 
-    /** Tag of Attr Encoding**/
-    public static final String _ATT_ENCODING = "Encoding";
+    /** Tbg of Attr Encoding**/
+    public stbtic finbl String _ATT_ENCODING = "Encoding";
 
-    /** Tag of Attr Target**/
-    public static final String _ATT_TARGET = "Target";
+    /** Tbg of Attr Tbrget**/
+    public stbtic finbl String _ATT_TARGET = "Tbrget";
 
-    // KeyInfo (KeyName|KeyValue|RetrievalMethod|X509Data|PGPData|SPKIData|MgmtData)
-    // KeyValue (DSAKeyValue|RSAKeyValue)
-    // DSAKeyValue (P, Q, G, Y, J?, (Seed, PgenCounter)?)
-    // RSAKeyValue (Modulus, Exponent)
-    // RetrievalMethod (Transforms?)
-    // X509Data ((X509IssuerSerial | X509SKI | X509SubjectName | X509Certificate)+ | X509CRL)
-    // X509IssuerSerial (X509IssuerName, X509SerialNumber)
-    // PGPData ((PGPKeyID, PGPKeyPacket?) | (PGPKeyPacket))
-    // SPKIData (SPKISexp)
+    // KeyInfo (KeyNbme|KeyVblue|RetrievblMethod|X509Dbtb|PGPDbtb|SPKIDbtb|MgmtDbtb)
+    // KeyVblue (DSAKeyVblue|RSAKeyVblue)
+    // DSAKeyVblue (P, Q, G, Y, J?, (Seed, PgenCounter)?)
+    // RSAKeyVblue (Modulus, Exponent)
+    // RetrievblMethod (Trbnsforms?)
+    // X509Dbtb ((X509IssuerSeribl | X509SKI | X509SubjectNbme | X509Certificbte)+ | X509CRL)
+    // X509IssuerSeribl (X509IssuerNbme, X509SeriblNumber)
+    // PGPDbtb ((PGPKeyID, PGPKeyPbcket?) | (PGPKeyPbcket))
+    // SPKIDbtb (SPKISexp)
 
-    /** Tag of Element CanonicalizationMethod **/
-    public static final String _TAG_CANONICALIZATIONMETHOD = "CanonicalizationMethod";
+    /** Tbg of Element CbnonicblizbtionMethod **/
+    public stbtic finbl String _TAG_CANONICALIZATIONMETHOD = "CbnonicblizbtionMethod";
 
-    /** Tag of Element DigestMethod **/
-    public static final String _TAG_DIGESTMETHOD = "DigestMethod";
+    /** Tbg of Element DigestMethod **/
+    public stbtic finbl String _TAG_DIGESTMETHOD = "DigestMethod";
 
-    /** Tag of Element DigestValue **/
-    public static final String _TAG_DIGESTVALUE = "DigestValue";
+    /** Tbg of Element DigestVblue **/
+    public stbtic finbl String _TAG_DIGESTVALUE = "DigestVblue";
 
-    /** Tag of Element Manifest **/
-    public static final String _TAG_MANIFEST = "Manifest";
+    /** Tbg of Element Mbnifest **/
+    public stbtic finbl String _TAG_MANIFEST = "Mbnifest";
 
-    /** Tag of Element Methods **/
-    public static final String _TAG_METHODS = "Methods";
+    /** Tbg of Element Methods **/
+    public stbtic finbl String _TAG_METHODS = "Methods";
 
-    /** Tag of Element Object **/
-    public static final String _TAG_OBJECT = "Object";
+    /** Tbg of Element Object **/
+    public stbtic finbl String _TAG_OBJECT = "Object";
 
-    /** Tag of Element Reference **/
-    public static final String _TAG_REFERENCE = "Reference";
+    /** Tbg of Element Reference **/
+    public stbtic finbl String _TAG_REFERENCE = "Reference";
 
-    /** Tag of Element Signature **/
-    public static final String _TAG_SIGNATURE = "Signature";
+    /** Tbg of Element Signbture **/
+    public stbtic finbl String _TAG_SIGNATURE = "Signbture";
 
-    /** Tag of Element SignatureMethod **/
-    public static final String _TAG_SIGNATUREMETHOD = "SignatureMethod";
+    /** Tbg of Element SignbtureMethod **/
+    public stbtic finbl String _TAG_SIGNATUREMETHOD = "SignbtureMethod";
 
-    /** Tag of Element HMACOutputLength **/
-    public static final String _TAG_HMACOUTPUTLENGTH = "HMACOutputLength";
+    /** Tbg of Element HMACOutputLength **/
+    public stbtic finbl String _TAG_HMACOUTPUTLENGTH = "HMACOutputLength";
 
-    /** Tag of Element SignatureProperties **/
-    public static final String _TAG_SIGNATUREPROPERTIES = "SignatureProperties";
+    /** Tbg of Element SignbtureProperties **/
+    public stbtic finbl String _TAG_SIGNATUREPROPERTIES = "SignbtureProperties";
 
-    /** Tag of Element SignatureProperty **/
-    public static final String _TAG_SIGNATUREPROPERTY = "SignatureProperty";
+    /** Tbg of Element SignbtureProperty **/
+    public stbtic finbl String _TAG_SIGNATUREPROPERTY = "SignbtureProperty";
 
-    /** Tag of Element SignatureValue **/
-    public static final String _TAG_SIGNATUREVALUE = "SignatureValue";
+    /** Tbg of Element SignbtureVblue **/
+    public stbtic finbl String _TAG_SIGNATUREVALUE = "SignbtureVblue";
 
-    /** Tag of Element SignedInfo **/
-    public static final String _TAG_SIGNEDINFO = "SignedInfo";
+    /** Tbg of Element SignedInfo **/
+    public stbtic finbl String _TAG_SIGNEDINFO = "SignedInfo";
 
-    /** Tag of Element Transform **/
-    public static final String _TAG_TRANSFORM = "Transform";
+    /** Tbg of Element Trbnsform **/
+    public stbtic finbl String _TAG_TRANSFORM = "Trbnsform";
 
-    /** Tag of Element Transforms **/
-    public static final String _TAG_TRANSFORMS = "Transforms";
+    /** Tbg of Element Trbnsforms **/
+    public stbtic finbl String _TAG_TRANSFORMS = "Trbnsforms";
 
-    /** Tag of Element XPath **/
-    public static final String _TAG_XPATH = "XPath";
+    /** Tbg of Element XPbth **/
+    public stbtic finbl String _TAG_XPATH = "XPbth";
 
-    /** Tag of Element KeyInfo **/
-    public static final String _TAG_KEYINFO = "KeyInfo";
+    /** Tbg of Element KeyInfo **/
+    public stbtic finbl String _TAG_KEYINFO = "KeyInfo";
 
-    /** Tag of Element KeyName **/
-    public static final String _TAG_KEYNAME = "KeyName";
+    /** Tbg of Element KeyNbme **/
+    public stbtic finbl String _TAG_KEYNAME = "KeyNbme";
 
-    /** Tag of Element KeyValue **/
-    public static final String _TAG_KEYVALUE = "KeyValue";
+    /** Tbg of Element KeyVblue **/
+    public stbtic finbl String _TAG_KEYVALUE = "KeyVblue";
 
-    /** Tag of Element RetrievalMethod **/
-    public static final String _TAG_RETRIEVALMETHOD = "RetrievalMethod";
+    /** Tbg of Element RetrievblMethod **/
+    public stbtic finbl String _TAG_RETRIEVALMETHOD = "RetrievblMethod";
 
-    /** Tag of Element X509Data **/
-    public static final String _TAG_X509DATA = "X509Data";
+    /** Tbg of Element X509Dbtb **/
+    public stbtic finbl String _TAG_X509DATA = "X509Dbtb";
 
-    /** Tag of Element PGPData **/
-    public static final String _TAG_PGPDATA = "PGPData";
+    /** Tbg of Element PGPDbtb **/
+    public stbtic finbl String _TAG_PGPDATA = "PGPDbtb";
 
-    /** Tag of Element SPKIData **/
-    public static final String _TAG_SPKIDATA = "SPKIData";
+    /** Tbg of Element SPKIDbtb **/
+    public stbtic finbl String _TAG_SPKIDATA = "SPKIDbtb";
 
-    /** Tag of Element MgmtData **/
-    public static final String _TAG_MGMTDATA = "MgmtData";
+    /** Tbg of Element MgmtDbtb **/
+    public stbtic finbl String _TAG_MGMTDATA = "MgmtDbtb";
 
-    /** Tag of Element RSAKeyValue **/
-    public static final String _TAG_RSAKEYVALUE = "RSAKeyValue";
+    /** Tbg of Element RSAKeyVblue **/
+    public stbtic finbl String _TAG_RSAKEYVALUE = "RSAKeyVblue";
 
-    /** Tag of Element Exponent **/
-    public static final String _TAG_EXPONENT = "Exponent";
+    /** Tbg of Element Exponent **/
+    public stbtic finbl String _TAG_EXPONENT = "Exponent";
 
-    /** Tag of Element Modulus **/
-    public static final String _TAG_MODULUS = "Modulus";
+    /** Tbg of Element Modulus **/
+    public stbtic finbl String _TAG_MODULUS = "Modulus";
 
-    /** Tag of Element DSAKeyValue **/
-    public static final String _TAG_DSAKEYVALUE = "DSAKeyValue";
+    /** Tbg of Element DSAKeyVblue **/
+    public stbtic finbl String _TAG_DSAKEYVALUE = "DSAKeyVblue";
 
-    /** Tag of Element P **/
-    public static final String _TAG_P = "P";
+    /** Tbg of Element P **/
+    public stbtic finbl String _TAG_P = "P";
 
-    /** Tag of Element Q **/
-    public static final String _TAG_Q   = "Q";
+    /** Tbg of Element Q **/
+    public stbtic finbl String _TAG_Q   = "Q";
 
-    /** Tag of Element G **/
-    public static final String _TAG_G = "G";
+    /** Tbg of Element G **/
+    public stbtic finbl String _TAG_G = "G";
 
-    /** Tag of Element Y **/
-    public static final String _TAG_Y = "Y";
+    /** Tbg of Element Y **/
+    public stbtic finbl String _TAG_Y = "Y";
 
-    /** Tag of Element J **/
-    public static final String _TAG_J = "J";
+    /** Tbg of Element J **/
+    public stbtic finbl String _TAG_J = "J";
 
-    /** Tag of Element Seed **/
-    public static final String _TAG_SEED = "Seed";
+    /** Tbg of Element Seed **/
+    public stbtic finbl String _TAG_SEED = "Seed";
 
-    /** Tag of Element PgenCounter **/
-    public static final String _TAG_PGENCOUNTER = "PgenCounter";
+    /** Tbg of Element PgenCounter **/
+    public stbtic finbl String _TAG_PGENCOUNTER = "PgenCounter";
 
-    /** Tag of Element rawX509Certificate **/
-    public static final String _TAG_RAWX509CERTIFICATE = "rawX509Certificate";
+    /** Tbg of Element rbwX509Certificbte **/
+    public stbtic finbl String _TAG_RAWX509CERTIFICATE = "rbwX509Certificbte";
 
-    /** Tag of Element X509IssuerSerial **/
-    public static final String _TAG_X509ISSUERSERIAL= "X509IssuerSerial";
+    /** Tbg of Element X509IssuerSeribl **/
+    public stbtic finbl String _TAG_X509ISSUERSERIAL= "X509IssuerSeribl";
 
-    /** Tag of Element X509SKI **/
-    public static final String _TAG_X509SKI = "X509SKI";
+    /** Tbg of Element X509SKI **/
+    public stbtic finbl String _TAG_X509SKI = "X509SKI";
 
-    /** Tag of Element X509SubjectName **/
-    public static final String _TAG_X509SUBJECTNAME = "X509SubjectName";
+    /** Tbg of Element X509SubjectNbme **/
+    public stbtic finbl String _TAG_X509SUBJECTNAME = "X509SubjectNbme";
 
-    /** Tag of Element X509Certificate **/
-    public static final String _TAG_X509CERTIFICATE = "X509Certificate";
+    /** Tbg of Element X509Certificbte **/
+    public stbtic finbl String _TAG_X509CERTIFICATE = "X509Certificbte";
 
-    /** Tag of Element X509CRL **/
-    public static final String _TAG_X509CRL = "X509CRL";
+    /** Tbg of Element X509CRL **/
+    public stbtic finbl String _TAG_X509CRL = "X509CRL";
 
-    /** Tag of Element X509IssuerName **/
-    public static final String _TAG_X509ISSUERNAME = "X509IssuerName";
+    /** Tbg of Element X509IssuerNbme **/
+    public stbtic finbl String _TAG_X509ISSUERNAME = "X509IssuerNbme";
 
-    /** Tag of Element X509SerialNumber **/
-    public static final String _TAG_X509SERIALNUMBER = "X509SerialNumber";
+    /** Tbg of Element X509SeriblNumber **/
+    public stbtic finbl String _TAG_X509SERIALNUMBER = "X509SeriblNumber";
 
-    /** Tag of Element PGPKeyID **/
-    public static final String _TAG_PGPKEYID = "PGPKeyID";
+    /** Tbg of Element PGPKeyID **/
+    public stbtic finbl String _TAG_PGPKEYID = "PGPKeyID";
 
-    /** Tag of Element PGPKeyPacket **/
-    public static final String _TAG_PGPKEYPACKET = "PGPKeyPacket";
+    /** Tbg of Element PGPKeyPbcket **/
+    public stbtic finbl String _TAG_PGPKEYPACKET = "PGPKeyPbcket";
 
-    /** Tag of Element PGPKeyPacket **/
-    public static final String _TAG_DERENCODEDKEYVALUE = "DEREncodedKeyValue";
+    /** Tbg of Element PGPKeyPbcket **/
+    public stbtic finbl String _TAG_DERENCODEDKEYVALUE = "DEREncodedKeyVblue";
 
-    /** Tag of Element PGPKeyPacket **/
-    public static final String _TAG_KEYINFOREFERENCE = "KeyInfoReference";
+    /** Tbg of Element PGPKeyPbcket **/
+    public stbtic finbl String _TAG_KEYINFOREFERENCE = "KeyInfoReference";
 
-    /** Tag of Element PGPKeyPacket **/
-    public static final String _TAG_X509DIGEST = "X509Digest";
+    /** Tbg of Element PGPKeyPbcket **/
+    public stbtic finbl String _TAG_X509DIGEST = "X509Digest";
 
-    /** Tag of Element SPKISexp **/
-    public static final String _TAG_SPKISEXP = "SPKISexp";
+    /** Tbg of Element SPKISexp **/
+    public stbtic finbl String _TAG_SPKISEXP = "SPKISexp";
 
     /** Digest - Required SHA1 */
-    public static final String ALGO_ID_DIGEST_SHA1 = SignatureSpecNS + "sha1";
+    public stbtic finbl String ALGO_ID_DIGEST_SHA1 = SignbtureSpecNS + "shb1";
 
     /**
-     * @see <A HREF="http://www.ietf.org/internet-drafts/draft-blake-wilson-xmldsig-ecdsa-02.txt">
-     *  draft-blake-wilson-xmldsig-ecdsa-02.txt</A>
+     * @see <A HREF="http://www.ietf.org/internet-drbfts/drbft-blbke-wilson-xmldsig-ecdsb-02.txt">
+     *  drbft-blbke-wilson-xmldsig-ecdsb-02.txt</A>
      */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_CERTICOM =
-        "http://www.certicom.com/2000/11/xmlecdsig#ecdsa-sha1";
+    public stbtic finbl String ALGO_ID_SIGNATURE_ECDSA_CERTICOM =
+        "http://www.certicom.com/2000/11/xmlecdsig#ecdsb-shb1";
 
-    private Constants() {
-        // we don't allow instantiation
+    privbte Constbnts() {
+        // we don't bllow instbntibtion
     }
 
 }

@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.tasks;
+pbckbge com.sun.jmx.snmp.tbsks;
 
-import java.util.ArrayList;
-import com.sun.jmx.snmp.tasks.Task;
-import com.sun.jmx.snmp.tasks.TaskServer;
+import jbvb.util.ArrbyList;
+import com.sun.jmx.snmp.tbsks.Tbsk;
+import com.sun.jmx.snmp.tbsks.TbskServer;
 
 /**
- * This class implements a {@link com.sun.jmx.snmp.tasks.TaskServer} over
- * a thread pool.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * This clbss implements b {@link com.sun.jmx.snmp.tbsks.TbskServer} over
+ * b threbd pool.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  **/
-public class ThreadService implements TaskServer {
+public clbss ThrebdService implements TbskServer {
 
-    public ThreadService(int threadNumber) {
-        if (threadNumber <= 0) {
-            throw new IllegalArgumentException("The thread number should bigger than zero.");
+    public ThrebdService(int threbdNumber) {
+        if (threbdNumber <= 0) {
+            throw new IllegblArgumentException("The threbd number should bigger thbn zero.");
         }
 
-        minThreads = threadNumber;
-        threadList = new ExecutorThread[threadNumber];
+        minThrebds = threbdNumber;
+        threbdList = new ExecutorThrebd[threbdNumber];
 
-        priority = Thread.currentThread().getPriority();
-        cloader = Thread.currentThread().getContextClassLoader();
+        priority = Threbd.currentThrebd().getPriority();
+        clobder = Threbd.currentThrebd().getContextClbssLobder();
 
     }
 
@@ -54,80 +54,80 @@ public class ThreadService implements TaskServer {
 // --------------
 
     /**
-     * Submit a task to be executed.
-     * Once a task is submitted, it is guaranteed that either
-     * {@link com.sun.jmx.snmp.tasks.Task#run() task.run()} or
-     * {@link com.sun.jmx.snmp.tasks.Task#cancel() task.cancel()} will be called.
-     * This implementation of TaskServer uses a thread pool to execute
-     * the submitted tasks.
-     * @param task The task to be executed.
-     * @exception IllegalArgumentException if the submitted task is null.
+     * Submit b tbsk to be executed.
+     * Once b tbsk is submitted, it is gubrbnteed thbt either
+     * {@link com.sun.jmx.snmp.tbsks.Tbsk#run() tbsk.run()} or
+     * {@link com.sun.jmx.snmp.tbsks.Tbsk#cbncel() tbsk.cbncel()} will be cblled.
+     * This implementbtion of TbskServer uses b threbd pool to execute
+     * the submitted tbsks.
+     * @pbrbm tbsk The tbsk to be executed.
+     * @exception IllegblArgumentException if the submitted tbsk is null.
      **/
-    public void submitTask(Task task) throws IllegalArgumentException {
-        submitTask((Runnable)task);
+    public void submitTbsk(Tbsk tbsk) throws IllegblArgumentException {
+        submitTbsk((Runnbble)tbsk);
     }
 
     /**
-     * Submit a task to be executed.
-     * This implementation of TaskServer uses a thread pool to execute
-     * the submitted tasks.
-     * @param task The task to be executed.
-     * @exception IllegalArgumentException if the submitted task is null.
+     * Submit b tbsk to be executed.
+     * This implementbtion of TbskServer uses b threbd pool to execute
+     * the submitted tbsks.
+     * @pbrbm tbsk The tbsk to be executed.
+     * @exception IllegblArgumentException if the submitted tbsk is null.
      **/
-    public void submitTask(Runnable task) throws IllegalArgumentException {
-        stateCheck();
+    public void submitTbsk(Runnbble tbsk) throws IllegblArgumentException {
+        stbteCheck();
 
-        if (task == null) {
-            throw new IllegalArgumentException("No task specified.");
+        if (tbsk == null) {
+            throw new IllegblArgumentException("No tbsk specified.");
         }
 
         synchronized(jobList) {
-            jobList.add(jobList.size(), task);
+            jobList.bdd(jobList.size(), tbsk);
 
             jobList.notify();
         }
 
-        createThread();
+        crebteThrebd();
     }
 
-    public Runnable removeTask(Runnable task) {
-        stateCheck();
+    public Runnbble removeTbsk(Runnbble tbsk) {
+        stbteCheck();
 
-        Runnable removed = null;
+        Runnbble removed = null;
         synchronized(jobList) {
-            int lg = jobList.indexOf(task);
+            int lg = jobList.indexOf(tbsk);
             if (lg >= 0) {
                 removed = jobList.remove(lg);
             }
         }
-        if (removed != null && removed instanceof Task)
-            ((Task) removed).cancel();
+        if (removed != null && removed instbnceof Tbsk)
+            ((Tbsk) removed).cbncel();
         return removed;
     }
 
     public void removeAll() {
-        stateCheck();
+        stbteCheck();
 
-        final Object[] jobs;
+        finbl Object[] jobs;
         synchronized(jobList) {
-            jobs = jobList.toArray();
-            jobList.clear();
+            jobs = jobList.toArrby();
+            jobList.clebr();
         }
-        final int len = jobs.length;
+        finbl int len = jobs.length;
         for (int i=0; i<len ; i++) {
-            final Object o = jobs[i];
-            if (o!= null && o instanceof Task) ((Task)o).cancel();
+            finbl Object o = jobs[i];
+            if (o!= null && o instbnceof Tbsk) ((Tbsk)o).cbncel();
         }
     }
 
-    // to terminate
-    public void terminate() {
+    // to terminbte
+    public void terminbte() {
 
-        if (terminated == true) {
+        if (terminbted == true) {
             return;
         }
 
-        terminated = true;
+        terminbted = true;
 
         synchronized(jobList) {
             jobList.notifyAll();
@@ -137,36 +137,36 @@ public class ThreadService implements TaskServer {
 
         for (int i=0; i<currThreds; i++) {
             try {
-                threadList[i].interrupt();
-            } catch (Exception e) {
+                threbdList[i].interrupt();
+            } cbtch (Exception e) {
                 // TODO
             }
         }
 
-        threadList = null;
+        threbdList = null;
     }
 
-// private classes
+// privbte clbsses
 // ---------------
 
-    // A thread used to execute jobs
+    // A threbd used to execute jobs
     //
-    private class ExecutorThread extends Thread {
-        public ExecutorThread() {
-            super(threadGroup, "ThreadService-"+counter++);
-            setDaemon(true);
+    privbte clbss ExecutorThrebd extends Threbd {
+        public ExecutorThrebd() {
+            super(threbdGroup, "ThrebdService-"+counter++);
+            setDbemon(true);
 
             // init
             this.setPriority(priority);
-            this.setContextClassLoader(cloader);
+            this.setContextClbssLobder(clobder);
 
             idle++;
         }
 
         public void run() {
 
-            while(!terminated) {
-                Runnable job = null;
+            while(!terminbted) {
+                Runnbble job = null;
 
                 synchronized(jobList) {
                     if (jobList.size() > 0) {
@@ -177,10 +177,10 @@ public class ThreadService implements TaskServer {
 
                     } else {
                         try {
-                            jobList.wait();
-                        } catch (InterruptedException ie) {
-                            // terminated ?
-                        } finally {
+                            jobList.wbit();
+                        } cbtch (InterruptedException ie) {
+                            // terminbted ?
+                        } finblly {
                         }
                         continue;
                     }
@@ -189,58 +189,58 @@ public class ThreadService implements TaskServer {
                     try {
                         idle--;
                         job.run();
-                    } catch (Exception e) {
+                    } cbtch (Exception e) {
                         // TODO
-                        e.printStackTrace();
-                    } finally {
+                        e.printStbckTrbce();
+                    } finblly {
                         idle++;
                     }
                 }
 
                 // re-init
                 this.setPriority(priority);
-                Thread.interrupted();
-                this.setContextClassLoader(cloader);
+                Threbd.interrupted();
+                this.setContextClbssLobder(clobder);
             }
         }
     }
 
-// private methods
-    private void stateCheck() throws IllegalStateException {
-        if (terminated) {
-            throw new IllegalStateException("The thread service has been terminated.");
+// privbte methods
+    privbte void stbteCheck() throws IllegblStbteException {
+        if (terminbted) {
+            throw new IllegblStbteException("The threbd service hbs been terminbted.");
         }
     }
 
-    private void createThread() {
+    privbte void crebteThrebd() {
         if (idle < 1) {
-            synchronized(threadList) {
-                if (jobList.size() > 0 && currThreds < minThreads) {
-                    ExecutorThread et = new ExecutorThread();
-                    et.start();
-                    threadList[currThreds++] = et;
+            synchronized(threbdList) {
+                if (jobList.size() > 0 && currThreds < minThrebds) {
+                    ExecutorThrebd et = new ExecutorThrebd();
+                    et.stbrt();
+                    threbdList[currThreds++] = et;
                 }
             }
         }
     }
 
 
-// protected or private variables
+// protected or privbte vbribbles
 // ------------------------------
-    private ArrayList<Runnable> jobList = new ArrayList<Runnable>(0);
+    privbte ArrbyList<Runnbble> jobList = new ArrbyList<Runnbble>(0);
 
-    private ExecutorThread[] threadList;
-    private int minThreads = 1;
-    private int currThreds = 0;
-    private int idle = 0;
+    privbte ExecutorThrebd[] threbdList;
+    privbte int minThrebds = 1;
+    privbte int currThreds = 0;
+    privbte int idle = 0;
 
-    private boolean terminated = false;
-    private int priority;
-    private ThreadGroup threadGroup = new ThreadGroup("ThreadService");
-    private ClassLoader cloader;
+    privbte boolebn terminbted = fblse;
+    privbte int priority;
+    privbte ThrebdGroup threbdGroup = new ThrebdGroup("ThrebdService");
+    privbte ClbssLobder clobder;
 
-    private static long counter = 0;
+    privbte stbtic long counter = 0;
 
-    private int addedJobs = 1;
-    private int doneJobs = 1;
+    privbte int bddedJobs = 1;
+    privbte int doneJobs = 1;
 }

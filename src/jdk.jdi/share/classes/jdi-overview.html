@@ -1,87 +1,87 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
-  <head>
-    <title>Java(tm) Debug Interface</title>
-  </head>
+  <hebd>
+    <title>Jbvb(tm) Debug Interfbce</title>
+  </hebd>
   <body>
-	The Java<sup><font size="-2">TM</font></sup>
- Debug Interface (JDI) is a high level Java
-API providing information useful for debuggers and similar
-systems needing access to the running state of a (usually remote)
-virtual machine.
+	The Jbvb<sup><font size="-2">TM</font></sup>
+ Debug Interfbce (JDI) is b high level Jbvb
+API providing informbtion useful for debuggers bnd similbr
+systems needing bccess to the running stbte of b (usublly remote)
+virtubl mbchine.
 <p>
 	The JDI provides introspective
-access to a running virtual machine's state, Class, Array,
-Interface, and primitive types, and instances of those
+bccess to b running virtubl mbchine's stbte, Clbss, Arrby,
+Interfbce, bnd primitive types, bnd instbnces of those
 types.
 <P>
-The JDI also provides explicit control over
-a virtual machine's execution. The ability to suspend
-and resume threads, and to set breakpoints, watchpoints, ...
-Notification
-of exceptions, class loading, thread creation...
-The ability to inspect a suspended thread's state,
-local variables, stack backtrace...
+The JDI blso provides explicit control over
+b virtubl mbchine's execution. The bbility to suspend
+bnd resume threbds, bnd to set brebkpoints, wbtchpoints, ...
+Notificbtion
+of exceptions, clbss lobding, threbd crebtion...
+The bbility to inspect b suspended threbd's stbte,
+locbl vbribbles, stbck bbcktrbce...
 <p>
-JDI is the highest-layer of the Java Platform Debugger Architecture (JPDA).
-For more information on the Java Platform Debugger Architecture, see the
-<a href="{@docRoot}/../../../../technotes/guides/jpda/index.html">
-Java Platform Debugger Architecture documentation</a>
-for this release and the
-<a href="http://java.sun.com/products/jpda">Java Platform Debugger Architecture website</a>.
+JDI is the highest-lbyer of the Jbvb Plbtform Debugger Architecture (JPDA).
+For more informbtion on the Jbvb Plbtform Debugger Architecture, see the
+<b href="{@docRoot}/../../../../technotes/guides/jpdb/index.html">
+Jbvb Plbtform Debugger Architecture documentbtion</b>
+for this relebse bnd the
+<b href="http://jbvb.sun.com/products/jpdb">Jbvb Plbtform Debugger Architecture website</b>.
 <p>
-<font size="+1"><b>Global Exceptions:</b></font>
+<font size="+1"><b>Globbl Exceptions:</b></font>
 <p>
-This section documents exceptions which apply to the entire API and are thus
-not documented on individual methods.
+This section documents exceptions which bpply to the entire API bnd bre thus
+not documented on individubl methods.
 
     <blockquote>
         <p>
-        <b>{@link com.sun.jdi.VMMismatchException}</b>
+        <b>{@link com.sun.jdi.VMMismbtchException}</b>
         <p>
-            Any method on a {@link com.sun.jdi.Mirror} that takes a <code>Mirror</code> as an
-            parameter directly or indirectly (e.g., as a element in a <code>List</code>) will
-            throw {@link com.sun.jdi.VMMismatchException} if the mirrors are from different
-            virtual machines.
+            Any method on b {@link com.sun.jdi.Mirror} thbt tbkes b <code>Mirror</code> bs bn
+            pbrbmeter directly or indirectly (e.g., bs b element in b <code>List</code>) will
+            throw {@link com.sun.jdi.VMMismbtchException} if the mirrors bre from different
+            virtubl mbchines.
         <p>
-        <b>{@link java.lang.NullPointerException}</b>
+        <b>{@link jbvb.lbng.NullPointerException}</b>
         <p>
-            Any method which takes a {@link java.lang.Object} as an parameter will throw
-            {@link java.lang.NullPointerException} if null is passed directly or indirectly
-            -- unless null is explicitly mentioned as a valid parameter.
+            Any method which tbkes b {@link jbvb.lbng.Object} bs bn pbrbmeter will throw
+            {@link jbvb.lbng.NullPointerException} if null is pbssed directly or indirectly
+            -- unless null is explicitly mentioned bs b vblid pbrbmeter.
         <p>
     </blockquote>
-     NOTE: The exceptions below may be thrown whenever the specified
-     conditions are met but a guarantee that they are thrown only
-     exists when a valid result cannot be returned.
+     NOTE: The exceptions below mby be thrown whenever the specified
+     conditions bre met but b gubrbntee thbt they bre thrown only
+     exists when b vblid result cbnnot be returned.
     <blockquote>
         <p>
         <b>{@link com.sun.jdi.VMDisconnectedException}</b>
         <p>
             Any method on {@link com.sun.jdi.ObjectReference}, {@link com.sun.jdi.ReferenceType},
-            {@link com.sun.jdi.request.EventRequest}, {@link com.sun.jdi.StackFrame}, or
-            {@link com.sun.jdi.VirtualMachine} or which takes one of these directly or indirectly
-            as an parameter may throw {@link com.sun.jdi.VMDisconnectedException} if the target VM
-            is disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is available
-            to be read from the {@link com.sun.jdi.event.EventQueue}.
+            {@link com.sun.jdi.request.EventRequest}, {@link com.sun.jdi.StbckFrbme}, or
+            {@link com.sun.jdi.VirtublMbchine} or which tbkes one of these directly or indirectly
+            bs bn pbrbmeter mby throw {@link com.sun.jdi.VMDisconnectedException} if the tbrget VM
+            is disconnected bnd the {@link com.sun.jdi.event.VMDisconnectEvent} hbs been or is bvbilbble
+            to be rebd from the {@link com.sun.jdi.event.EventQueue}.
         <p>
         <b>{@link com.sun.jdi.VMOutOfMemoryException}</b>
         <p>
             Any method on {@link com.sun.jdi.ObjectReference}, {@link com.sun.jdi.ReferenceType},
-            {@link com.sun.jdi.request.EventRequest}, {@link com.sun.jdi.StackFrame}, or
-            {@link com.sun.jdi.VirtualMachine} or which takes one of these directly or indirectly
-            as an parameter may throw {@link com.sun.jdi.VMOutOfMemoryException} if the target
-            VM has run out of memory.
+            {@link com.sun.jdi.request.EventRequest}, {@link com.sun.jdi.StbckFrbme}, or
+            {@link com.sun.jdi.VirtublMbchine} or which tbkes one of these directly or indirectly
+            bs bn pbrbmeter mby throw {@link com.sun.jdi.VMOutOfMemoryException} if the tbrget
+            VM hbs run out of memory.
         <p>
         <b>{@link com.sun.jdi.ObjectCollectedException}</b>
         <p>
-            Any method on {@link com.sun.jdi.ObjectReference} or which directly or indirectly takes
-            <code>ObjectReference</code> as parameter may throw {@link com.sun.jdi.ObjectCollectedException}
-            if the mirrored object has been garbage collected.
+            Any method on {@link com.sun.jdi.ObjectReference} or which directly or indirectly tbkes
+            <code>ObjectReference</code> bs pbrbmeter mby throw {@link com.sun.jdi.ObjectCollectedException}
+            if the mirrored object hbs been gbrbbge collected.
         <p>
-            Any method on {@link com.sun.jdi.ReferenceType} or which directly or indirectly takes
-            <code>ReferenceType</code> as parameter may throw {@link com.sun.jdi.ObjectCollectedException}
-            if the mirrored type has been unloaded.
+            Any method on {@link com.sun.jdi.ReferenceType} or which directly or indirectly tbkes
+            <code>ReferenceType</code> bs pbrbmeter mby throw {@link com.sun.jdi.ObjectCollectedException}
+            if the mirrored type hbs been unlobded.
 
     </blockquote>
   </body>

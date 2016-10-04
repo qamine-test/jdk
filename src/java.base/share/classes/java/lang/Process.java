@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.*;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.*;
+import jbvb.util.concurrent.TimeUnit;
 
 /**
- * The {@link ProcessBuilder#start()} and
+ * The {@link ProcessBuilder#stbrt()} bnd
  * {@link Runtime#exec(String[],String[],File) Runtime.exec}
- * methods create a native process and return an instance of a
- * subclass of {@code Process} that can be used to control the process
- * and obtain information about it.  The class {@code Process}
+ * methods crebte b nbtive process bnd return bn instbnce of b
+ * subclbss of {@code Process} thbt cbn be used to control the process
+ * bnd obtbin informbtion bbout it.  The clbss {@code Process}
  * provides methods for performing input from the process, performing
- * output to the process, waiting for the process to complete,
- * checking the exit status of the process, and destroying (killing)
+ * output to the process, wbiting for the process to complete,
+ * checking the exit stbtus of the process, bnd destroying (killing)
  * the process.
  *
- * <p>The methods that create processes may not work well for special
- * processes on certain native platforms, such as native windowing
- * processes, daemon processes, Win16/DOS processes on Microsoft
+ * <p>The methods thbt crebte processes mby not work well for specibl
+ * processes on certbin nbtive plbtforms, such bs nbtive windowing
+ * processes, dbemon processes, Win16/DOS processes on Microsoft
  * Windows, or shell scripts.
  *
- * <p>By default, the created subprocess does not have its own terminal
- * or console.  All its standard I/O (i.e. stdin, stdout, stderr)
- * operations will be redirected to the parent process, where they can
- * be accessed via the streams obtained using the methods
- * {@link #getOutputStream()},
- * {@link #getInputStream()}, and
- * {@link #getErrorStream()}.
- * The parent process uses these streams to feed input to and get output
- * from the subprocess.  Because some native platforms only provide
- * limited buffer size for standard input and output streams, failure
- * to promptly write the input stream or read the output stream of
- * the subprocess may cause the subprocess to block, or even deadlock.
+ * <p>By defbult, the crebted subprocess does not hbve its own terminbl
+ * or console.  All its stbndbrd I/O (i.e. stdin, stdout, stderr)
+ * operbtions will be redirected to the pbrent process, where they cbn
+ * be bccessed vib the strebms obtbined using the methods
+ * {@link #getOutputStrebm()},
+ * {@link #getInputStrebm()}, bnd
+ * {@link #getErrorStrebm()}.
+ * The pbrent process uses these strebms to feed input to bnd get output
+ * from the subprocess.  Becbuse some nbtive plbtforms only provide
+ * limited buffer size for stbndbrd input bnd output strebms, fbilure
+ * to promptly write the input strebm or rebd the output strebm of
+ * the subprocess mby cbuse the subprocess to block, or even debdlock.
  *
- * <p>Where desired, <a href="ProcessBuilder.html#redirect-input">
- * subprocess I/O can also be redirected</a>
- * using methods of the {@link ProcessBuilder} class.
+ * <p>Where desired, <b href="ProcessBuilder.html#redirect-input">
+ * subprocess I/O cbn blso be redirected</b>
+ * using methods of the {@link ProcessBuilder} clbss.
  *
- * <p>The subprocess is not killed when there are no more references to
- * the {@code Process} object, but rather the subprocess
- * continues executing asynchronously.
+ * <p>The subprocess is not killed when there bre no more references to
+ * the {@code Process} object, but rbther the subprocess
+ * continues executing bsynchronously.
  *
- * <p>There is no requirement that a process represented by a {@code
- * Process} object execute asynchronously or concurrently with respect
- * to the Java process that owns the {@code Process} object.
+ * <p>There is no requirement thbt b process represented by b {@code
+ * Process} object execute bsynchronously or concurrently with respect
+ * to the Jbvb process thbt owns the {@code Process} object.
  *
- * <p>As of 1.5, {@link ProcessBuilder#start()} is the preferred way
- * to create a {@code Process}.
+ * <p>As of 1.5, {@link ProcessBuilder#stbrt()} is the preferred wby
+ * to crebte b {@code Process}.
  *
  * @since   1.0
  */
-public abstract class Process {
+public bbstrbct clbss Process {
     /**
-     * Returns the output stream connected to the normal input of the
-     * subprocess.  Output to the stream is piped into the standard
+     * Returns the output strebm connected to the normbl input of the
+     * subprocess.  Output to the strebm is piped into the stbndbrd
      * input of the process represented by this {@code Process} object.
      *
-     * <p>If the standard input of the subprocess has been redirected using
+     * <p>If the stbndbrd input of the subprocess hbs been redirected using
      * {@link ProcessBuilder#redirectInput(Redirect)
      * ProcessBuilder.redirectInput}
-     * then this method will return a
-     * <a href="ProcessBuilder.html#redirect-input">null output stream</a>.
+     * then this method will return b
+     * <b href="ProcessBuilder.html#redirect-input">null output strebm</b>.
      *
-     * <p>Implementation note: It is a good idea for the returned
-     * output stream to be buffered.
+     * <p>Implementbtion note: It is b good ideb for the returned
+     * output strebm to be buffered.
      *
-     * @return the output stream connected to the normal input of the
+     * @return the output strebm connected to the normbl input of the
      *         subprocess
      */
-    public abstract OutputStream getOutputStream();
+    public bbstrbct OutputStrebm getOutputStrebm();
 
     /**
-     * Returns the input stream connected to the normal output of the
-     * subprocess.  The stream obtains data piped from the standard
+     * Returns the input strebm connected to the normbl output of the
+     * subprocess.  The strebm obtbins dbtb piped from the stbndbrd
      * output of the process represented by this {@code Process} object.
      *
-     * <p>If the standard output of the subprocess has been redirected using
+     * <p>If the stbndbrd output of the subprocess hbs been redirected using
      * {@link ProcessBuilder#redirectOutput(Redirect)
      * ProcessBuilder.redirectOutput}
-     * then this method will return a
-     * <a href="ProcessBuilder.html#redirect-output">null input stream</a>.
+     * then this method will return b
+     * <b href="ProcessBuilder.html#redirect-output">null input strebm</b>.
      *
-     * <p>Otherwise, if the standard error of the subprocess has been
+     * <p>Otherwise, if the stbndbrd error of the subprocess hbs been
      * redirected using
-     * {@link ProcessBuilder#redirectErrorStream(boolean)
-     * ProcessBuilder.redirectErrorStream}
-     * then the input stream returned by this method will receive the
-     * merged standard output and the standard error of the subprocess.
+     * {@link ProcessBuilder#redirectErrorStrebm(boolebn)
+     * ProcessBuilder.redirectErrorStrebm}
+     * then the input strebm returned by this method will receive the
+     * merged stbndbrd output bnd the stbndbrd error of the subprocess.
      *
-     * <p>Implementation note: It is a good idea for the returned
-     * input stream to be buffered.
+     * <p>Implementbtion note: It is b good ideb for the returned
+     * input strebm to be buffered.
      *
-     * @return the input stream connected to the normal output of the
+     * @return the input strebm connected to the normbl output of the
      *         subprocess
      */
-    public abstract InputStream getInputStream();
+    public bbstrbct InputStrebm getInputStrebm();
 
     /**
-     * Returns the input stream connected to the error output of the
-     * subprocess.  The stream obtains data piped from the error output
+     * Returns the input strebm connected to the error output of the
+     * subprocess.  The strebm obtbins dbtb piped from the error output
      * of the process represented by this {@code Process} object.
      *
-     * <p>If the standard error of the subprocess has been redirected using
+     * <p>If the stbndbrd error of the subprocess hbs been redirected using
      * {@link ProcessBuilder#redirectError(Redirect)
      * ProcessBuilder.redirectError} or
-     * {@link ProcessBuilder#redirectErrorStream(boolean)
-     * ProcessBuilder.redirectErrorStream}
-     * then this method will return a
-     * <a href="ProcessBuilder.html#redirect-output">null input stream</a>.
+     * {@link ProcessBuilder#redirectErrorStrebm(boolebn)
+     * ProcessBuilder.redirectErrorStrebm}
+     * then this method will return b
+     * <b href="ProcessBuilder.html#redirect-output">null input strebm</b>.
      *
-     * <p>Implementation note: It is a good idea for the returned
-     * input stream to be buffered.
+     * <p>Implementbtion note: It is b good ideb for the returned
+     * input strebm to be buffered.
      *
-     * @return the input stream connected to the error output of
+     * @return the input strebm connected to the error output of
      *         the subprocess
      */
-    public abstract InputStream getErrorStream();
+    public bbstrbct InputStrebm getErrorStrebm();
 
     /**
-     * Causes the current thread to wait, if necessary, until the
-     * process represented by this {@code Process} object has
-     * terminated.  This method returns immediately if the subprocess
-     * has already terminated.  If the subprocess has not yet
-     * terminated, the calling thread will be blocked until the
+     * Cbuses the current threbd to wbit, if necessbry, until the
+     * process represented by this {@code Process} object hbs
+     * terminbted.  This method returns immedibtely if the subprocess
+     * hbs blrebdy terminbted.  If the subprocess hbs not yet
+     * terminbted, the cblling threbd will be blocked until the
      * subprocess exits.
      *
-     * @return the exit value of the subprocess represented by this
-     *         {@code Process} object.  By convention, the value
-     *         {@code 0} indicates normal termination.
-     * @throws InterruptedException if the current thread is
-     *         {@linkplain Thread#interrupt() interrupted} by another
-     *         thread while it is waiting, then the wait is ended and
-     *         an {@link InterruptedException} is thrown.
+     * @return the exit vblue of the subprocess represented by this
+     *         {@code Process} object.  By convention, the vblue
+     *         {@code 0} indicbtes normbl terminbtion.
+     * @throws InterruptedException if the current threbd is
+     *         {@linkplbin Threbd#interrupt() interrupted} by bnother
+     *         threbd while it is wbiting, then the wbit is ended bnd
+     *         bn {@link InterruptedException} is thrown.
      */
-    public abstract int waitFor() throws InterruptedException;
+    public bbstrbct int wbitFor() throws InterruptedException;
 
     /**
-     * Causes the current thread to wait, if necessary, until the
-     * subprocess represented by this {@code Process} object has
-     * terminated, or the specified waiting time elapses.
+     * Cbuses the current threbd to wbit, if necessbry, until the
+     * subprocess represented by this {@code Process} object hbs
+     * terminbted, or the specified wbiting time elbpses.
      *
-     * <p>If the subprocess has already terminated then this method returns
-     * immediately with the value {@code true}.  If the process has not
-     * terminated and the timeout value is less than, or equal to, zero, then
-     * this method returns immediately with the value {@code false}.
+     * <p>If the subprocess hbs blrebdy terminbted then this method returns
+     * immedibtely with the vblue {@code true}.  If the process hbs not
+     * terminbted bnd the timeout vblue is less thbn, or equbl to, zero, then
+     * this method returns immedibtely with the vblue {@code fblse}.
      *
-     * <p>The default implementation of this methods polls the {@code exitValue}
-     * to check if the process has terminated. Concrete implementations of this
-     * class are strongly encouraged to override this method with a more
-     * efficient implementation.
+     * <p>The defbult implementbtion of this methods polls the {@code exitVblue}
+     * to check if the process hbs terminbted. Concrete implementbtions of this
+     * clbss bre strongly encourbged to override this method with b more
+     * efficient implementbtion.
      *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the {@code timeout} argument
-     * @return {@code true} if the subprocess has exited and {@code false} if
-     *         the waiting time elapsed before the subprocess has exited.
-     * @throws InterruptedException if the current thread is interrupted
-     *         while waiting.
+     * @pbrbm timeout the mbximum time to wbit
+     * @pbrbm unit the time unit of the {@code timeout} brgument
+     * @return {@code true} if the subprocess hbs exited bnd {@code fblse} if
+     *         the wbiting time elbpsed before the subprocess hbs exited.
+     * @throws InterruptedException if the current threbd is interrupted
+     *         while wbiting.
      * @throws NullPointerException if unit is null
      * @since 1.8
      */
-    public boolean waitFor(long timeout, TimeUnit unit)
+    public boolebn wbitFor(long timeout, TimeUnit unit)
         throws InterruptedException
     {
-        long startTime = System.nanoTime();
-        long rem = unit.toNanos(timeout);
+        long stbrtTime = System.nbnoTime();
+        long rem = unit.toNbnos(timeout);
 
         do {
             try {
-                exitValue();
+                exitVblue();
                 return true;
-            } catch(IllegalThreadStateException ex) {
+            } cbtch(IllegblThrebdStbteException ex) {
                 if (rem > 0)
-                    Thread.sleep(
-                        Math.min(TimeUnit.NANOSECONDS.toMillis(rem) + 1, 100));
+                    Threbd.sleep(
+                        Mbth.min(TimeUnit.NANOSECONDS.toMillis(rem) + 1, 100));
             }
-            rem = unit.toNanos(timeout) - (System.nanoTime() - startTime);
+            rem = unit.toNbnos(timeout) - (System.nbnoTime() - stbrtTime);
         } while (rem > 0);
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the exit value for the subprocess.
+     * Returns the exit vblue for the subprocess.
      *
-     * @return the exit value of the subprocess represented by this
-     *         {@code Process} object.  By convention, the value
-     *         {@code 0} indicates normal termination.
-     * @throws IllegalThreadStateException if the subprocess represented
-     *         by this {@code Process} object has not yet terminated
+     * @return the exit vblue of the subprocess represented by this
+     *         {@code Process} object.  By convention, the vblue
+     *         {@code 0} indicbtes normbl terminbtion.
+     * @throws IllegblThrebdStbteException if the subprocess represented
+     *         by this {@code Process} object hbs not yet terminbted
      */
-    public abstract int exitValue();
+    public bbstrbct int exitVblue();
 
     /**
      * Kills the subprocess. Whether the subprocess represented by this
-     * {@code Process} object is forcibly terminated or not is
-     * implementation dependent.
+     * {@code Process} object is forcibly terminbted or not is
+     * implementbtion dependent.
      */
-    public abstract void destroy();
+    public bbstrbct void destroy();
 
     /**
      * Kills the subprocess. The subprocess represented by this
-     * {@code Process} object is forcibly terminated.
+     * {@code Process} object is forcibly terminbted.
      *
-     * <p>The default implementation of this method invokes {@link #destroy}
-     * and so may not forcibly terminate the process. Concrete implementations
-     * of this class are strongly encouraged to override this method with a
-     * compliant implementation.  Invoking this method on {@code Process}
-     * objects returned by {@link ProcessBuilder#start} and
-     * {@link Runtime#exec} will forcibly terminate the process.
+     * <p>The defbult implementbtion of this method invokes {@link #destroy}
+     * bnd so mby not forcibly terminbte the process. Concrete implementbtions
+     * of this clbss bre strongly encourbged to override this method with b
+     * complibnt implementbtion.  Invoking this method on {@code Process}
+     * objects returned by {@link ProcessBuilder#stbrt} bnd
+     * {@link Runtime#exec} will forcibly terminbte the process.
      *
-     * <p>Note: The subprocess may not terminate immediately.
-     * i.e. {@code isAlive()} may return true for a brief period
-     * after {@code destroyForcibly()} is called. This method
-     * may be chained to {@code waitFor()} if needed.
+     * <p>Note: The subprocess mby not terminbte immedibtely.
+     * i.e. {@code isAlive()} mby return true for b brief period
+     * bfter {@code destroyForcibly()} is cblled. This method
+     * mby be chbined to {@code wbitFor()} if needed.
      *
      * @return the {@code Process} object representing the
      *         subprocess to be forcibly destroyed.
@@ -248,32 +248,32 @@ public abstract class Process {
 
     /**
      * Tests whether the subprocess represented by this {@code Process} is
-     * alive.
+     * blive.
      *
      * @return {@code true} if the subprocess represented by this
-     *         {@code Process} object has not yet terminated.
+     *         {@code Process} object hbs not yet terminbted.
      * @since 1.8
      */
-    public boolean isAlive() {
+    public boolebn isAlive() {
         try {
-            exitValue();
-            return false;
-        } catch(IllegalThreadStateException e) {
+            exitVblue();
+            return fblse;
+        } cbtch(IllegblThrebdStbteException e) {
             return true;
         }
     }
 
     /**
-     * Returns the native process id of the subprocess.
-     * The native process id is an identification number that the operating
-     * system assigns to the process.
+     * Returns the nbtive process id of the subprocess.
+     * The nbtive process id is bn identificbtion number thbt the operbting
+     * system bssigns to the process.
      *
-     * @return the native process id of the subprocess
-     * @throws UnsupportedOperationException if the Process implementation
-     *     does not support this operation
+     * @return the nbtive process id of the subprocess
+     * @throws UnsupportedOperbtionException if the Process implementbtion
+     *     does not support this operbtion
      * @since 1.9
      */
     public long getPid() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 }

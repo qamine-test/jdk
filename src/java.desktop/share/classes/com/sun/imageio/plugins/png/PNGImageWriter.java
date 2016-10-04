@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.png;
+pbckbge com.sun.imbgeio.plugins.png;
 
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
-import javax.imageio.IIOException;
-import javax.imageio.IIOImage;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.stream.ImageOutputStreamImpl;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.zip.Deflbter;
+import jbvb.util.zip.DeflbterOutputStrebm;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.IIOImbge;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.ImbgeWritePbrbm;
+import jbvbx.imbgeio.ImbgeWriter;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.spi.ImbgeWriterSpi;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebmImpl;
 
-class CRC {
+clbss CRC {
 
-    private static int[] crcTable = new int[256];
-    private int crc = 0xffffffff;
+    privbte stbtic int[] crcTbble = new int[256];
+    privbte int crc = 0xffffffff;
 
-    static {
-        // Initialize CRC table
+    stbtic {
+        // Initiblize CRC tbble
         for (int n = 0; n < 256; n++) {
             int c = n;
             for (int k = 0; k < 8; k++) {
@@ -67,7 +67,7 @@ class CRC {
                     c >>>= 1;
                 }
 
-                crcTable[n] = c;
+                crcTbble[n] = c;
             }
         }
     }
@@ -78,130 +78,130 @@ class CRC {
         crc = 0xffffffff;
     }
 
-    public void update(byte[] data, int off, int len) {
+    public void updbte(byte[] dbtb, int off, int len) {
         for (int n = 0; n < len; n++) {
-            crc = crcTable[(crc ^ data[off + n]) & 0xff] ^ (crc >>> 8);
+            crc = crcTbble[(crc ^ dbtb[off + n]) & 0xff] ^ (crc >>> 8);
         }
     }
 
-    public void update(int data) {
-        crc = crcTable[(crc ^ data) & 0xff] ^ (crc >>> 8);
+    public void updbte(int dbtb) {
+        crc = crcTbble[(crc ^ dbtb) & 0xff] ^ (crc >>> 8);
     }
 
-    public int getValue() {
+    public int getVblue() {
         return crc ^ 0xffffffff;
     }
 }
 
 
-final class ChunkStream extends ImageOutputStreamImpl {
+finbl clbss ChunkStrebm extends ImbgeOutputStrebmImpl {
 
-    private ImageOutputStream stream;
-    private long startPos;
-    private CRC crc = new CRC();
+    privbte ImbgeOutputStrebm strebm;
+    privbte long stbrtPos;
+    privbte CRC crc = new CRC();
 
-    public ChunkStream(int type, ImageOutputStream stream) throws IOException {
-        this.stream = stream;
-        this.startPos = stream.getStreamPosition();
+    public ChunkStrebm(int type, ImbgeOutputStrebm strebm) throws IOException {
+        this.strebm = strebm;
+        this.stbrtPos = strebm.getStrebmPosition();
 
-        stream.writeInt(-1); // length, will backpatch
+        strebm.writeInt(-1); // length, will bbckpbtch
         writeInt(type);
     }
 
-    public int read() throws IOException {
-        throw new RuntimeException("Method not available");
+    public int rebd() throws IOException {
+        throw new RuntimeException("Method not bvbilbble");
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
-        throw new RuntimeException("Method not available");
+    public int rebd(byte[] b, int off, int len) throws IOException {
+        throw new RuntimeException("Method not bvbilbble");
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
-        crc.update(b, off, len);
-        stream.write(b, off, len);
+        crc.updbte(b, off, len);
+        strebm.write(b, off, len);
     }
 
     public void write(int b) throws IOException {
-        crc.update(b);
-        stream.write(b);
+        crc.updbte(b);
+        strebm.write(b);
     }
 
     public void finish() throws IOException {
         // Write CRC
-        stream.writeInt(crc.getValue());
+        strebm.writeInt(crc.getVblue());
 
         // Write length
-        long pos = stream.getStreamPosition();
-        stream.seek(startPos);
-        stream.writeInt((int)(pos - startPos) - 12);
+        long pos = strebm.getStrebmPosition();
+        strebm.seek(stbrtPos);
+        strebm.writeInt((int)(pos - stbrtPos) - 12);
 
-        // Return to end of chunk and flush to minimize buffering
-        stream.seek(pos);
-        stream.flushBefore(pos);
+        // Return to end of chunk bnd flush to minimize buffering
+        strebm.seek(pos);
+        strebm.flushBefore(pos);
     }
 
-    protected void finalize() throws Throwable {
-        // Empty finalizer (for improved performance; no need to call
-        // super.finalize() in this case)
+    protected void finblize() throws Throwbble {
+        // Empty finblizer (for improved performbnce; no need to cbll
+        // super.finblize() in this cbse)
     }
 }
 
-// Compress output and write as a series of 'IDAT' chunks of
+// Compress output bnd write bs b series of 'IDAT' chunks of
 // fixed length.
-final class IDATOutputStream extends ImageOutputStreamImpl {
+finbl clbss IDATOutputStrebm extends ImbgeOutputStrebmImpl {
 
-    private static byte[] chunkType = {
+    privbte stbtic byte[] chunkType = {
         (byte)'I', (byte)'D', (byte)'A', (byte)'T'
     };
 
-    private ImageOutputStream stream;
-    private int chunkLength;
-    private long startPos;
-    private CRC crc = new CRC();
+    privbte ImbgeOutputStrebm strebm;
+    privbte int chunkLength;
+    privbte long stbrtPos;
+    privbte CRC crc = new CRC();
 
-    Deflater def = new Deflater(Deflater.BEST_COMPRESSION);
+    Deflbter def = new Deflbter(Deflbter.BEST_COMPRESSION);
     byte[] buf = new byte[512];
 
-    private int bytesRemaining;
+    privbte int bytesRembining;
 
-    public IDATOutputStream(ImageOutputStream stream, int chunkLength)
+    public IDATOutputStrebm(ImbgeOutputStrebm strebm, int chunkLength)
         throws IOException {
-        this.stream = stream;
+        this.strebm = strebm;
         this.chunkLength = chunkLength;
-        startChunk();
+        stbrtChunk();
     }
 
-    private void startChunk() throws IOException {
+    privbte void stbrtChunk() throws IOException {
         crc.reset();
-        this.startPos = stream.getStreamPosition();
-        stream.writeInt(-1); // length, will backpatch
+        this.stbrtPos = strebm.getStrebmPosition();
+        strebm.writeInt(-1); // length, will bbckpbtch
 
-        crc.update(chunkType, 0, 4);
-        stream.write(chunkType, 0, 4);
+        crc.updbte(chunkType, 0, 4);
+        strebm.write(chunkType, 0, 4);
 
-        this.bytesRemaining = chunkLength;
+        this.bytesRembining = chunkLength;
     }
 
-    private void finishChunk() throws IOException {
+    privbte void finishChunk() throws IOException {
         // Write CRC
-        stream.writeInt(crc.getValue());
+        strebm.writeInt(crc.getVblue());
 
         // Write length
-        long pos = stream.getStreamPosition();
-        stream.seek(startPos);
-        stream.writeInt((int)(pos - startPos) - 12);
+        long pos = strebm.getStrebmPosition();
+        strebm.seek(stbrtPos);
+        strebm.writeInt((int)(pos - stbrtPos) - 12);
 
-        // Return to end of chunk and flush to minimize buffering
-        stream.seek(pos);
-        stream.flushBefore(pos);
+        // Return to end of chunk bnd flush to minimize buffering
+        strebm.seek(pos);
+        strebm.flushBefore(pos);
     }
 
-    public int read() throws IOException {
-        throw new RuntimeException("Method not available");
+    public int rebd() throws IOException {
+        throw new RuntimeException("Method not bvbilbble");
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
-        throw new RuntimeException("Method not available");
+    public int rebd(byte[] b, int off, int len) throws IOException {
+        throw new RuntimeException("Method not bvbilbble");
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
@@ -212,28 +212,28 @@ final class IDATOutputStream extends ImageOutputStreamImpl {
         if (!def.finished()) {
             def.setInput(b, off, len);
             while (!def.needsInput()) {
-                deflate();
+                deflbte();
             }
         }
     }
 
-    public void deflate() throws IOException {
-        int len = def.deflate(buf, 0, buf.length);
+    public void deflbte() throws IOException {
+        int len = def.deflbte(buf, 0, buf.length);
         int off = 0;
 
         while (len > 0) {
-            if (bytesRemaining == 0) {
+            if (bytesRembining == 0) {
                 finishChunk();
-                startChunk();
+                stbrtChunk();
             }
 
-            int nbytes = Math.min(len, bytesRemaining);
-            crc.update(buf, off, nbytes);
-            stream.write(buf, off, nbytes);
+            int nbytes = Mbth.min(len, bytesRembining);
+            crc.updbte(buf, off, nbytes);
+            strebm.write(buf, off, nbytes);
 
             off += nbytes;
             len -= nbytes;
-            bytesRemaining -= nbytes;
+            bytesRembining -= nbytes;
         }
     }
 
@@ -248,49 +248,49 @@ final class IDATOutputStream extends ImageOutputStreamImpl {
             if (!def.finished()) {
                 def.finish();
                 while (!def.finished()) {
-                    deflate();
+                    deflbte();
                 }
             }
             finishChunk();
-        } finally {
+        } finblly {
             def.end();
         }
     }
 
-    protected void finalize() throws Throwable {
-        // Empty finalizer (for improved performance; no need to call
-        // super.finalize() in this case)
+    protected void finblize() throws Throwbble {
+        // Empty finblizer (for improved performbnce; no need to cbll
+        // super.finblize() in this cbse)
     }
 }
 
 
-class PNGImageWriteParam extends ImageWriteParam {
+clbss PNGImbgeWritePbrbm extends ImbgeWritePbrbm {
 
-    public PNGImageWriteParam(Locale locale) {
+    public PNGImbgeWritePbrbm(Locble locble) {
         super();
-        this.canWriteProgressive = true;
-        this.locale = locale;
+        this.cbnWriteProgressive = true;
+        this.locble = locble;
     }
 }
 
 /**
  */
-public class PNGImageWriter extends ImageWriter {
+public clbss PNGImbgeWriter extends ImbgeWriter {
 
-    ImageOutputStream stream = null;
+    ImbgeOutputStrebm strebm = null;
 
-    PNGMetadata metadata = null;
+    PNGMetbdbtb metbdbtb = null;
 
-    // Factors from the ImageWriteParam
+    // Fbctors from the ImbgeWritePbrbm
     int sourceXOffset = 0;
     int sourceYOffset = 0;
     int sourceWidth = 0;
     int sourceHeight = 0;
-    int[] sourceBands = null;
+    int[] sourceBbnds = null;
     int periodX = 1;
     int periodY = 1;
 
-    int numBands;
+    int numBbnds;
     int bpp;
 
     RowFilter rowFilter = new RowFilter();
@@ -298,257 +298,257 @@ public class PNGImageWriter extends ImageWriter {
     byte[] currRow = null;
     byte[][] filteredRows = null;
 
-    // Per-band scaling tables
+    // Per-bbnd scbling tbbles
     //
-    // After the first call to initializeScaleTables, either scale and scale0
-    // will be valid, or scaleh and scalel will be valid, but not both.
+    // After the first cbll to initiblizeScbleTbbles, either scble bnd scble0
+    // will be vblid, or scbleh bnd scblel will be vblid, but not both.
     //
-    // The tables will be designed for use with a set of input but depths
-    // given by sampleSize, and an output bit depth given by scalingBitDepth.
+    // The tbbles will be designed for use with b set of input but depths
+    // given by sbmpleSize, bnd bn output bit depth given by scblingBitDepth.
     //
-    int[] sampleSize = null; // Sample size per band, in bits
-    int scalingBitDepth = -1; // Output bit depth of the scaling tables
+    int[] sbmpleSize = null; // Sbmple size per bbnd, in bits
+    int scblingBitDepth = -1; // Output bit depth of the scbling tbbles
 
-    // Tables for 1, 2, 4, or 8 bit output
-    byte[][] scale = null; // 8 bit table
-    byte[] scale0 = null; // equivalent to scale[0]
+    // Tbbles for 1, 2, 4, or 8 bit output
+    byte[][] scble = null; // 8 bit tbble
+    byte[] scble0 = null; // equivblent to scble[0]
 
-    // Tables for 16 bit output
-    byte[][] scaleh = null; // High bytes of output
-    byte[][] scalel = null; // Low bytes of output
+    // Tbbles for 16 bit output
+    byte[][] scbleh = null; // High bytes of output
+    byte[][] scblel = null; // Low bytes of output
 
-    int totalPixels; // Total number of pixels to be written by write_IDAT
+    int totblPixels; // Totbl number of pixels to be written by write_IDAT
     int pixelsDone; // Running count of pixels written by write_IDAT
 
-    public PNGImageWriter(ImageWriterSpi originatingProvider) {
-        super(originatingProvider);
+    public PNGImbgeWriter(ImbgeWriterSpi originbtingProvider) {
+        super(originbtingProvider);
     }
 
     public void setOutput(Object output) {
         super.setOutput(output);
         if (output != null) {
-            if (!(output instanceof ImageOutputStream)) {
-                throw new IllegalArgumentException("output not an ImageOutputStream!");
+            if (!(output instbnceof ImbgeOutputStrebm)) {
+                throw new IllegblArgumentException("output not bn ImbgeOutputStrebm!");
             }
-            this.stream = (ImageOutputStream)output;
+            this.strebm = (ImbgeOutputStrebm)output;
         } else {
-            this.stream = null;
+            this.strebm = null;
         }
     }
 
-    private static int[] allowedProgressivePasses = { 1, 7 };
+    privbte stbtic int[] bllowedProgressivePbsses = { 1, 7 };
 
-    public ImageWriteParam getDefaultWriteParam() {
-        return new PNGImageWriteParam(getLocale());
+    public ImbgeWritePbrbm getDefbultWritePbrbm() {
+        return new PNGImbgeWritePbrbm(getLocble());
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
+    public IIOMetbdbtb getDefbultStrebmMetbdbtb(ImbgeWritePbrbm pbrbm) {
         return null;
     }
 
-    public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
-        PNGMetadata m = new PNGMetadata();
-        m.initialize(imageType, imageType.getSampleModel().getNumBands());
+    public IIOMetbdbtb getDefbultImbgeMetbdbtb(ImbgeTypeSpecifier imbgeType,
+                                               ImbgeWritePbrbm pbrbm) {
+        PNGMetbdbtb m = new PNGMetbdbtb();
+        m.initiblize(imbgeType, imbgeType.getSbmpleModel().getNumBbnds());
         return m;
     }
 
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
+    public IIOMetbdbtb convertStrebmMetbdbtb(IIOMetbdbtb inDbtb,
+                                             ImbgeWritePbrbm pbrbm) {
         return null;
     }
 
-    public IIOMetadata convertImageMetadata(IIOMetadata inData,
-                                            ImageTypeSpecifier imageType,
-                                            ImageWriteParam param) {
-        // TODO - deal with imageType
-        if (inData instanceof PNGMetadata) {
-            return (PNGMetadata)((PNGMetadata)inData).clone();
+    public IIOMetbdbtb convertImbgeMetbdbtb(IIOMetbdbtb inDbtb,
+                                            ImbgeTypeSpecifier imbgeType,
+                                            ImbgeWritePbrbm pbrbm) {
+        // TODO - debl with imbgeType
+        if (inDbtb instbnceof PNGMetbdbtb) {
+            return (PNGMetbdbtb)((PNGMetbdbtb)inDbtb).clone();
         } else {
-            return new PNGMetadata(inData);
+            return new PNGMetbdbtb(inDbtb);
         }
     }
 
-    private void write_magic() throws IOException {
-        // Write signature
-        byte[] magic = { (byte)137, 80, 78, 71, 13, 10, 26, 10 };
-        stream.write(magic);
+    privbte void write_mbgic() throws IOException {
+        // Write signbture
+        byte[] mbgic = { (byte)137, 80, 78, 71, 13, 10, 26, 10 };
+        strebm.write(mbgic);
     }
 
-    private void write_IHDR() throws IOException {
+    privbte void write_IHDR() throws IOException {
         // Write IHDR chunk
-        ChunkStream cs = new ChunkStream(PNGImageReader.IHDR_TYPE, stream);
-        cs.writeInt(metadata.IHDR_width);
-        cs.writeInt(metadata.IHDR_height);
-        cs.writeByte(metadata.IHDR_bitDepth);
-        cs.writeByte(metadata.IHDR_colorType);
-        if (metadata.IHDR_compressionMethod != 0) {
+        ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.IHDR_TYPE, strebm);
+        cs.writeInt(metbdbtb.IHDR_width);
+        cs.writeInt(metbdbtb.IHDR_height);
+        cs.writeByte(metbdbtb.IHDR_bitDepth);
+        cs.writeByte(metbdbtb.IHDR_colorType);
+        if (metbdbtb.IHDR_compressionMethod != 0) {
             throw new IIOException(
 "Only compression method 0 is defined in PNG 1.1");
         }
-        cs.writeByte(metadata.IHDR_compressionMethod);
-        if (metadata.IHDR_filterMethod != 0) {
+        cs.writeByte(metbdbtb.IHDR_compressionMethod);
+        if (metbdbtb.IHDR_filterMethod != 0) {
             throw new IIOException(
 "Only filter method 0 is defined in PNG 1.1");
         }
-        cs.writeByte(metadata.IHDR_filterMethod);
-        if (metadata.IHDR_interlaceMethod < 0 ||
-            metadata.IHDR_interlaceMethod > 1) {
+        cs.writeByte(metbdbtb.IHDR_filterMethod);
+        if (metbdbtb.IHDR_interlbceMethod < 0 ||
+            metbdbtb.IHDR_interlbceMethod > 1) {
             throw new IIOException(
-"Only interlace methods 0 (node) and 1 (adam7) are defined in PNG 1.1");
+"Only interlbce methods 0 (node) bnd 1 (bdbm7) bre defined in PNG 1.1");
         }
-        cs.writeByte(metadata.IHDR_interlaceMethod);
+        cs.writeByte(metbdbtb.IHDR_interlbceMethod);
         cs.finish();
     }
 
-    private void write_cHRM() throws IOException {
-        if (metadata.cHRM_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.cHRM_TYPE, stream);
-            cs.writeInt(metadata.cHRM_whitePointX);
-            cs.writeInt(metadata.cHRM_whitePointY);
-            cs.writeInt(metadata.cHRM_redX);
-            cs.writeInt(metadata.cHRM_redY);
-            cs.writeInt(metadata.cHRM_greenX);
-            cs.writeInt(metadata.cHRM_greenY);
-            cs.writeInt(metadata.cHRM_blueX);
-            cs.writeInt(metadata.cHRM_blueY);
+    privbte void write_cHRM() throws IOException {
+        if (metbdbtb.cHRM_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.cHRM_TYPE, strebm);
+            cs.writeInt(metbdbtb.cHRM_whitePointX);
+            cs.writeInt(metbdbtb.cHRM_whitePointY);
+            cs.writeInt(metbdbtb.cHRM_redX);
+            cs.writeInt(metbdbtb.cHRM_redY);
+            cs.writeInt(metbdbtb.cHRM_greenX);
+            cs.writeInt(metbdbtb.cHRM_greenY);
+            cs.writeInt(metbdbtb.cHRM_blueX);
+            cs.writeInt(metbdbtb.cHRM_blueY);
             cs.finish();
         }
     }
 
-    private void write_gAMA() throws IOException {
-        if (metadata.gAMA_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.gAMA_TYPE, stream);
-            cs.writeInt(metadata.gAMA_gamma);
+    privbte void write_gAMA() throws IOException {
+        if (metbdbtb.gAMA_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.gAMA_TYPE, strebm);
+            cs.writeInt(metbdbtb.gAMA_gbmmb);
             cs.finish();
         }
     }
 
-    private void write_iCCP() throws IOException {
-        if (metadata.iCCP_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.iCCP_TYPE, stream);
-            cs.writeBytes(metadata.iCCP_profileName);
-            cs.writeByte(0); // null terminator
+    privbte void write_iCCP() throws IOException {
+        if (metbdbtb.iCCP_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.iCCP_TYPE, strebm);
+            cs.writeBytes(metbdbtb.iCCP_profileNbme);
+            cs.writeByte(0); // null terminbtor
 
-            cs.writeByte(metadata.iCCP_compressionMethod);
-            cs.write(metadata.iCCP_compressedProfile);
+            cs.writeByte(metbdbtb.iCCP_compressionMethod);
+            cs.write(metbdbtb.iCCP_compressedProfile);
             cs.finish();
         }
     }
 
-    private void write_sBIT() throws IOException {
-        if (metadata.sBIT_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.sBIT_TYPE, stream);
-            int colorType = metadata.IHDR_colorType;
-            if (metadata.sBIT_colorType != colorType) {
-                processWarningOccurred(0,
-"sBIT metadata has wrong color type.\n" +
+    privbte void write_sBIT() throws IOException {
+        if (metbdbtb.sBIT_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.sBIT_TYPE, strebm);
+            int colorType = metbdbtb.IHDR_colorType;
+            if (metbdbtb.sBIT_colorType != colorType) {
+                processWbrningOccurred(0,
+"sBIT metbdbtb hbs wrong color type.\n" +
 "The chunk will not be written.");
                 return;
             }
 
-            if (colorType == PNGImageReader.PNG_COLOR_GRAY ||
-                colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA) {
-                cs.writeByte(metadata.sBIT_grayBits);
-            } else if (colorType == PNGImageReader.PNG_COLOR_RGB ||
-                       colorType == PNGImageReader.PNG_COLOR_PALETTE ||
-                       colorType == PNGImageReader.PNG_COLOR_RGB_ALPHA) {
-                cs.writeByte(metadata.sBIT_redBits);
-                cs.writeByte(metadata.sBIT_greenBits);
-                cs.writeByte(metadata.sBIT_blueBits);
+            if (colorType == PNGImbgeRebder.PNG_COLOR_GRAY ||
+                colorType == PNGImbgeRebder.PNG_COLOR_GRAY_ALPHA) {
+                cs.writeByte(metbdbtb.sBIT_grbyBits);
+            } else if (colorType == PNGImbgeRebder.PNG_COLOR_RGB ||
+                       colorType == PNGImbgeRebder.PNG_COLOR_PALETTE ||
+                       colorType == PNGImbgeRebder.PNG_COLOR_RGB_ALPHA) {
+                cs.writeByte(metbdbtb.sBIT_redBits);
+                cs.writeByte(metbdbtb.sBIT_greenBits);
+                cs.writeByte(metbdbtb.sBIT_blueBits);
             }
 
-            if (colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA ||
-                colorType == PNGImageReader.PNG_COLOR_RGB_ALPHA) {
-                cs.writeByte(metadata.sBIT_alphaBits);
+            if (colorType == PNGImbgeRebder.PNG_COLOR_GRAY_ALPHA ||
+                colorType == PNGImbgeRebder.PNG_COLOR_RGB_ALPHA) {
+                cs.writeByte(metbdbtb.sBIT_blphbBits);
             }
             cs.finish();
         }
     }
 
-    private void write_sRGB() throws IOException {
-        if (metadata.sRGB_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.sRGB_TYPE, stream);
-            cs.writeByte(metadata.sRGB_renderingIntent);
+    privbte void write_sRGB() throws IOException {
+        if (metbdbtb.sRGB_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.sRGB_TYPE, strebm);
+            cs.writeByte(metbdbtb.sRGB_renderingIntent);
             cs.finish();
         }
     }
 
-    private void write_PLTE() throws IOException {
-        if (metadata.PLTE_present) {
-            if (metadata.IHDR_colorType == PNGImageReader.PNG_COLOR_GRAY ||
-              metadata.IHDR_colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA) {
-                // PLTE cannot occur in a gray image
+    privbte void write_PLTE() throws IOException {
+        if (metbdbtb.PLTE_present) {
+            if (metbdbtb.IHDR_colorType == PNGImbgeRebder.PNG_COLOR_GRAY ||
+              metbdbtb.IHDR_colorType == PNGImbgeRebder.PNG_COLOR_GRAY_ALPHA) {
+                // PLTE cbnnot occur in b grby imbge
 
-                processWarningOccurred(0,
-"A PLTE chunk may not appear in a gray or gray alpha image.\n" +
+                processWbrningOccurred(0,
+"A PLTE chunk mby not bppebr in b grby or grby blphb imbge.\n" +
 "The chunk will not be written");
                 return;
             }
 
-            ChunkStream cs = new ChunkStream(PNGImageReader.PLTE_TYPE, stream);
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.PLTE_TYPE, strebm);
 
-            int numEntries = metadata.PLTE_red.length;
-            byte[] palette = new byte[numEntries*3];
+            int numEntries = metbdbtb.PLTE_red.length;
+            byte[] pblette = new byte[numEntries*3];
             int index = 0;
             for (int i = 0; i < numEntries; i++) {
-                palette[index++] = metadata.PLTE_red[i];
-                palette[index++] = metadata.PLTE_green[i];
-                palette[index++] = metadata.PLTE_blue[i];
+                pblette[index++] = metbdbtb.PLTE_red[i];
+                pblette[index++] = metbdbtb.PLTE_green[i];
+                pblette[index++] = metbdbtb.PLTE_blue[i];
             }
 
-            cs.write(palette);
+            cs.write(pblette);
             cs.finish();
         }
     }
 
-    private void write_hIST() throws IOException, IIOException {
-        if (metadata.hIST_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.hIST_TYPE, stream);
+    privbte void write_hIST() throws IOException, IIOException {
+        if (metbdbtb.hIST_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.hIST_TYPE, strebm);
 
-            if (!metadata.PLTE_present) {
+            if (!metbdbtb.PLTE_present) {
                 throw new IIOException("hIST chunk without PLTE chunk!");
             }
 
-            cs.writeChars(metadata.hIST_histogram,
-                          0, metadata.hIST_histogram.length);
+            cs.writeChbrs(metbdbtb.hIST_histogrbm,
+                          0, metbdbtb.hIST_histogrbm.length);
             cs.finish();
         }
     }
 
-    private void write_tRNS() throws IOException, IIOException {
-        if (metadata.tRNS_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.tRNS_TYPE, stream);
-            int colorType = metadata.IHDR_colorType;
-            int chunkType = metadata.tRNS_colorType;
+    privbte void write_tRNS() throws IOException, IIOException {
+        if (metbdbtb.tRNS_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.tRNS_TYPE, strebm);
+            int colorType = metbdbtb.IHDR_colorType;
+            int chunkType = metbdbtb.tRNS_colorType;
 
-            // Special case: image is RGB and chunk is Gray
+            // Specibl cbse: imbge is RGB bnd chunk is Grby
             // Promote chunk contents to RGB
-            int chunkRed = metadata.tRNS_red;
-            int chunkGreen = metadata.tRNS_green;
-            int chunkBlue = metadata.tRNS_blue;
-            if (colorType == PNGImageReader.PNG_COLOR_RGB &&
-                chunkType == PNGImageReader.PNG_COLOR_GRAY) {
+            int chunkRed = metbdbtb.tRNS_red;
+            int chunkGreen = metbdbtb.tRNS_green;
+            int chunkBlue = metbdbtb.tRNS_blue;
+            if (colorType == PNGImbgeRebder.PNG_COLOR_RGB &&
+                chunkType == PNGImbgeRebder.PNG_COLOR_GRAY) {
                 chunkType = colorType;
                 chunkRed = chunkGreen = chunkBlue =
-                    metadata.tRNS_gray;
+                    metbdbtb.tRNS_grby;
             }
 
             if (chunkType != colorType) {
-                processWarningOccurred(0,
-"tRNS metadata has incompatible color type.\n" +
+                processWbrningOccurred(0,
+"tRNS metbdbtb hbs incompbtible color type.\n" +
 "The chunk will not be written.");
                 return;
             }
 
-            if (colorType == PNGImageReader.PNG_COLOR_PALETTE) {
-                if (!metadata.PLTE_present) {
+            if (colorType == PNGImbgeRebder.PNG_COLOR_PALETTE) {
+                if (!metbdbtb.PLTE_present) {
                     throw new IIOException("tRNS chunk without PLTE chunk!");
                 }
-                cs.write(metadata.tRNS_alpha);
-            } else if (colorType == PNGImageReader.PNG_COLOR_GRAY) {
-                cs.writeShort(metadata.tRNS_gray);
-            } else if (colorType == PNGImageReader.PNG_COLOR_RGB) {
+                cs.write(metbdbtb.tRNS_blphb);
+            } else if (colorType == PNGImbgeRebder.PNG_COLOR_GRAY) {
+                cs.writeShort(metbdbtb.tRNS_grby);
+            } else if (colorType == PNGImbgeRebder.PNG_COLOR_RGB) {
                 cs.writeShort(chunkRed);
                 cs.writeShort(chunkGreen);
                 cs.writeShort(chunkBlue);
@@ -559,40 +559,40 @@ public class PNGImageWriter extends ImageWriter {
         }
     }
 
-    private void write_bKGD() throws IOException {
-        if (metadata.bKGD_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.bKGD_TYPE, stream);
-            int colorType = metadata.IHDR_colorType & 0x3;
-            int chunkType = metadata.bKGD_colorType;
+    privbte void write_bKGD() throws IOException {
+        if (metbdbtb.bKGD_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.bKGD_TYPE, strebm);
+            int colorType = metbdbtb.IHDR_colorType & 0x3;
+            int chunkType = metbdbtb.bKGD_colorType;
 
-            // Special case: image is RGB(A) and chunk is Gray
+            // Specibl cbse: imbge is RGB(A) bnd chunk is Grby
             // Promote chunk contents to RGB
-            int chunkRed = metadata.bKGD_red;
-            int chunkGreen = metadata.bKGD_red;
-            int chunkBlue = metadata.bKGD_red;
-            if (colorType == PNGImageReader.PNG_COLOR_RGB &&
-                chunkType == PNGImageReader.PNG_COLOR_GRAY) {
-                // Make a gray bKGD chunk look like RGB
+            int chunkRed = metbdbtb.bKGD_red;
+            int chunkGreen = metbdbtb.bKGD_red;
+            int chunkBlue = metbdbtb.bKGD_red;
+            if (colorType == PNGImbgeRebder.PNG_COLOR_RGB &&
+                chunkType == PNGImbgeRebder.PNG_COLOR_GRAY) {
+                // Mbke b grby bKGD chunk look like RGB
                 chunkType = colorType;
                 chunkRed = chunkGreen = chunkBlue =
-                    metadata.bKGD_gray;
+                    metbdbtb.bKGD_grby;
             }
 
-            // Ignore status of alpha in colorType
+            // Ignore stbtus of blphb in colorType
             if (chunkType != colorType) {
-                processWarningOccurred(0,
-"bKGD metadata has incompatible color type.\n" +
+                processWbrningOccurred(0,
+"bKGD metbdbtb hbs incompbtible color type.\n" +
 "The chunk will not be written.");
                 return;
             }
 
-            if (colorType == PNGImageReader.PNG_COLOR_PALETTE) {
-                cs.writeByte(metadata.bKGD_index);
-            } else if (colorType == PNGImageReader.PNG_COLOR_GRAY ||
-                       colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA) {
-                cs.writeShort(metadata.bKGD_gray);
-            } else { // colorType == PNGImageReader.PNG_COLOR_RGB ||
-                     // colorType == PNGImageReader.PNG_COLOR_RGB_ALPHA
+            if (colorType == PNGImbgeRebder.PNG_COLOR_PALETTE) {
+                cs.writeByte(metbdbtb.bKGD_index);
+            } else if (colorType == PNGImbgeRebder.PNG_COLOR_GRAY ||
+                       colorType == PNGImbgeRebder.PNG_COLOR_GRAY_ALPHA) {
+                cs.writeShort(metbdbtb.bKGD_grby);
+            } else { // colorType == PNGImbgeRebder.PNG_COLOR_RGB ||
+                     // colorType == PNGImbgeRebder.PNG_COLOR_RGB_ALPHA
                 cs.writeShort(chunkRed);
                 cs.writeShort(chunkGreen);
                 cs.writeShort(chunkBlue);
@@ -601,66 +601,66 @@ public class PNGImageWriter extends ImageWriter {
         }
     }
 
-    private void write_pHYs() throws IOException {
-        if (metadata.pHYs_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.pHYs_TYPE, stream);
-            cs.writeInt(metadata.pHYs_pixelsPerUnitXAxis);
-            cs.writeInt(metadata.pHYs_pixelsPerUnitYAxis);
-            cs.writeByte(metadata.pHYs_unitSpecifier);
+    privbte void write_pHYs() throws IOException {
+        if (metbdbtb.pHYs_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.pHYs_TYPE, strebm);
+            cs.writeInt(metbdbtb.pHYs_pixelsPerUnitXAxis);
+            cs.writeInt(metbdbtb.pHYs_pixelsPerUnitYAxis);
+            cs.writeByte(metbdbtb.pHYs_unitSpecifier);
             cs.finish();
         }
     }
 
-    private void write_sPLT() throws IOException {
-        if (metadata.sPLT_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.sPLT_TYPE, stream);
+    privbte void write_sPLT() throws IOException {
+        if (metbdbtb.sPLT_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.sPLT_TYPE, strebm);
 
-            cs.writeBytes(metadata.sPLT_paletteName);
-            cs.writeByte(0); // null terminator
+            cs.writeBytes(metbdbtb.sPLT_pbletteNbme);
+            cs.writeByte(0); // null terminbtor
 
-            cs.writeByte(metadata.sPLT_sampleDepth);
-            int numEntries = metadata.sPLT_red.length;
+            cs.writeByte(metbdbtb.sPLT_sbmpleDepth);
+            int numEntries = metbdbtb.sPLT_red.length;
 
-            if (metadata.sPLT_sampleDepth == 8) {
+            if (metbdbtb.sPLT_sbmpleDepth == 8) {
                 for (int i = 0; i < numEntries; i++) {
-                    cs.writeByte(metadata.sPLT_red[i]);
-                    cs.writeByte(metadata.sPLT_green[i]);
-                    cs.writeByte(metadata.sPLT_blue[i]);
-                    cs.writeByte(metadata.sPLT_alpha[i]);
-                    cs.writeShort(metadata.sPLT_frequency[i]);
+                    cs.writeByte(metbdbtb.sPLT_red[i]);
+                    cs.writeByte(metbdbtb.sPLT_green[i]);
+                    cs.writeByte(metbdbtb.sPLT_blue[i]);
+                    cs.writeByte(metbdbtb.sPLT_blphb[i]);
+                    cs.writeShort(metbdbtb.sPLT_frequency[i]);
                 }
-            } else { // sampleDepth == 16
+            } else { // sbmpleDepth == 16
                 for (int i = 0; i < numEntries; i++) {
-                    cs.writeShort(metadata.sPLT_red[i]);
-                    cs.writeShort(metadata.sPLT_green[i]);
-                    cs.writeShort(metadata.sPLT_blue[i]);
-                    cs.writeShort(metadata.sPLT_alpha[i]);
-                    cs.writeShort(metadata.sPLT_frequency[i]);
+                    cs.writeShort(metbdbtb.sPLT_red[i]);
+                    cs.writeShort(metbdbtb.sPLT_green[i]);
+                    cs.writeShort(metbdbtb.sPLT_blue[i]);
+                    cs.writeShort(metbdbtb.sPLT_blphb[i]);
+                    cs.writeShort(metbdbtb.sPLT_frequency[i]);
                 }
             }
             cs.finish();
         }
     }
 
-    private void write_tIME() throws IOException {
-        if (metadata.tIME_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.tIME_TYPE, stream);
-            cs.writeShort(metadata.tIME_year);
-            cs.writeByte(metadata.tIME_month);
-            cs.writeByte(metadata.tIME_day);
-            cs.writeByte(metadata.tIME_hour);
-            cs.writeByte(metadata.tIME_minute);
-            cs.writeByte(metadata.tIME_second);
+    privbte void write_tIME() throws IOException {
+        if (metbdbtb.tIME_present) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.tIME_TYPE, strebm);
+            cs.writeShort(metbdbtb.tIME_yebr);
+            cs.writeByte(metbdbtb.tIME_month);
+            cs.writeByte(metbdbtb.tIME_dby);
+            cs.writeByte(metbdbtb.tIME_hour);
+            cs.writeByte(metbdbtb.tIME_minute);
+            cs.writeByte(metbdbtb.tIME_second);
             cs.finish();
         }
     }
 
-    private void write_tEXt() throws IOException {
-        Iterator<String> keywordIter = metadata.tEXt_keyword.iterator();
-        Iterator<String> textIter = metadata.tEXt_text.iterator();
+    privbte void write_tEXt() throws IOException {
+        Iterbtor<String> keywordIter = metbdbtb.tEXt_keyword.iterbtor();
+        Iterbtor<String> textIter = metbdbtb.tEXt_text.iterbtor();
 
-        while (keywordIter.hasNext()) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.tEXt_TYPE, stream);
+        while (keywordIter.hbsNext()) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.tEXt_TYPE, strebm);
             String keyword = keywordIter.next();
             cs.writeBytes(keyword);
             cs.writeByte(0);
@@ -671,44 +671,44 @@ public class PNGImageWriter extends ImageWriter {
         }
     }
 
-    private byte[] deflate(byte[] b) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DeflaterOutputStream dos = new DeflaterOutputStream(baos);
+    privbte byte[] deflbte(byte[] b) throws IOException {
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+        DeflbterOutputStrebm dos = new DeflbterOutputStrebm(bbos);
         dos.write(b);
         dos.close();
-        return baos.toByteArray();
+        return bbos.toByteArrby();
     }
 
-    private void write_iTXt() throws IOException {
-        Iterator<String> keywordIter = metadata.iTXt_keyword.iterator();
-        Iterator<Boolean> flagIter = metadata.iTXt_compressionFlag.iterator();
-        Iterator<Integer> methodIter = metadata.iTXt_compressionMethod.iterator();
-        Iterator<String> languageIter = metadata.iTXt_languageTag.iterator();
-        Iterator<String> translatedKeywordIter =
-            metadata.iTXt_translatedKeyword.iterator();
-        Iterator<String> textIter = metadata.iTXt_text.iterator();
+    privbte void write_iTXt() throws IOException {
+        Iterbtor<String> keywordIter = metbdbtb.iTXt_keyword.iterbtor();
+        Iterbtor<Boolebn> flbgIter = metbdbtb.iTXt_compressionFlbg.iterbtor();
+        Iterbtor<Integer> methodIter = metbdbtb.iTXt_compressionMethod.iterbtor();
+        Iterbtor<String> lbngubgeIter = metbdbtb.iTXt_lbngubgeTbg.iterbtor();
+        Iterbtor<String> trbnslbtedKeywordIter =
+            metbdbtb.iTXt_trbnslbtedKeyword.iterbtor();
+        Iterbtor<String> textIter = metbdbtb.iTXt_text.iterbtor();
 
-        while (keywordIter.hasNext()) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.iTXt_TYPE, stream);
+        while (keywordIter.hbsNext()) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.iTXt_TYPE, strebm);
 
             cs.writeBytes(keywordIter.next());
             cs.writeByte(0);
 
-            Boolean compressed = flagIter.next();
+            Boolebn compressed = flbgIter.next();
             cs.writeByte(compressed ? 1 : 0);
 
-            cs.writeByte(methodIter.next().intValue());
+            cs.writeByte(methodIter.next().intVblue());
 
-            cs.writeBytes(languageIter.next());
+            cs.writeBytes(lbngubgeIter.next());
             cs.writeByte(0);
 
 
-            cs.write(translatedKeywordIter.next().getBytes("UTF8"));
+            cs.write(trbnslbtedKeywordIter.next().getBytes("UTF8"));
             cs.writeByte(0);
 
             String text = textIter.next();
             if (compressed) {
-                cs.write(deflate(text.getBytes("UTF8")));
+                cs.write(deflbte(text.getBytes("UTF8")));
             } else {
                 cs.write(text.getBytes("UTF8"));
             }
@@ -716,51 +716,51 @@ public class PNGImageWriter extends ImageWriter {
         }
     }
 
-    private void write_zTXt() throws IOException {
-        Iterator<String> keywordIter = metadata.zTXt_keyword.iterator();
-        Iterator<Integer> methodIter = metadata.zTXt_compressionMethod.iterator();
-        Iterator<String> textIter = metadata.zTXt_text.iterator();
+    privbte void write_zTXt() throws IOException {
+        Iterbtor<String> keywordIter = metbdbtb.zTXt_keyword.iterbtor();
+        Iterbtor<Integer> methodIter = metbdbtb.zTXt_compressionMethod.iterbtor();
+        Iterbtor<String> textIter = metbdbtb.zTXt_text.iterbtor();
 
-        while (keywordIter.hasNext()) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.zTXt_TYPE, stream);
+        while (keywordIter.hbsNext()) {
+            ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.zTXt_TYPE, strebm);
             String keyword = keywordIter.next();
             cs.writeBytes(keyword);
             cs.writeByte(0);
 
-            int compressionMethod = (methodIter.next()).intValue();
+            int compressionMethod = (methodIter.next()).intVblue();
             cs.writeByte(compressionMethod);
 
             String text = textIter.next();
-            cs.write(deflate(text.getBytes("ISO-8859-1")));
+            cs.write(deflbte(text.getBytes("ISO-8859-1")));
             cs.finish();
         }
     }
 
-    private void writeUnknownChunks() throws IOException {
-        Iterator<String> typeIter = metadata.unknownChunkType.iterator();
-        Iterator<byte[]> dataIter = metadata.unknownChunkData.iterator();
+    privbte void writeUnknownChunks() throws IOException {
+        Iterbtor<String> typeIter = metbdbtb.unknownChunkType.iterbtor();
+        Iterbtor<byte[]> dbtbIter = metbdbtb.unknownChunkDbtb.iterbtor();
 
-        while (typeIter.hasNext() && dataIter.hasNext()) {
+        while (typeIter.hbsNext() && dbtbIter.hbsNext()) {
             String type = typeIter.next();
-            ChunkStream cs = new ChunkStream(chunkType(type), stream);
-            byte[] data = dataIter.next();
-            cs.write(data);
+            ChunkStrebm cs = new ChunkStrebm(chunkType(type), strebm);
+            byte[] dbtb = dbtbIter.next();
+            cs.write(dbtb);
             cs.finish();
         }
     }
 
-    private static int chunkType(String typeString) {
-        char c0 = typeString.charAt(0);
-        char c1 = typeString.charAt(1);
-        char c2 = typeString.charAt(2);
-        char c3 = typeString.charAt(3);
+    privbte stbtic int chunkType(String typeString) {
+        chbr c0 = typeString.chbrAt(0);
+        chbr c1 = typeString.chbrAt(1);
+        chbr c2 = typeString.chbrAt(2);
+        chbr c3 = typeString.chbrAt(3);
 
         int type = (c0 << 24) | (c1 << 16) | (c2 << 8) | c3;
         return type;
     }
 
-    private void encodePass(ImageOutputStream os,
-                            RenderedImage image,
+    privbte void encodePbss(ImbgeOutputStrebm os,
+                            RenderedImbge imbge,
                             int xOffset, int yOffset,
                             int xSkip, int ySkip) throws IOException {
         int minX = sourceXOffset;
@@ -768,138 +768,138 @@ public class PNGImageWriter extends ImageWriter {
         int width = sourceWidth;
         int height = sourceHeight;
 
-        // Adjust offsets and skips based on source subsampling factors
+        // Adjust offsets bnd skips bbsed on source subsbmpling fbctors
         xOffset *= periodX;
         xSkip *= periodX;
         yOffset *= periodY;
         ySkip *= periodY;
 
-        // Early exit if no data for this pass
+        // Ebrly exit if no dbtb for this pbss
         int hpixels = (width - xOffset + xSkip - 1)/xSkip;
         int vpixels = (height - yOffset + ySkip - 1)/ySkip;
         if (hpixels == 0 || vpixels == 0) {
             return;
         }
 
-        // Convert X offset and skip from pixels to samples
-        xOffset *= numBands;
-        xSkip *= numBands;
+        // Convert X offset bnd skip from pixels to sbmples
+        xOffset *= numBbnds;
+        xSkip *= numBbnds;
 
-        // Create row buffers
-        int samplesPerByte = 8/metadata.IHDR_bitDepth;
-        int numSamples = width*numBands;
-        int[] samples = new int[numSamples];
+        // Crebte row buffers
+        int sbmplesPerByte = 8/metbdbtb.IHDR_bitDepth;
+        int numSbmples = width*numBbnds;
+        int[] sbmples = new int[numSbmples];
 
-        int bytesPerRow = hpixels*numBands;
-        if (metadata.IHDR_bitDepth < 8) {
-            bytesPerRow = (bytesPerRow + samplesPerByte - 1)/samplesPerByte;
-        } else if (metadata.IHDR_bitDepth == 16) {
+        int bytesPerRow = hpixels*numBbnds;
+        if (metbdbtb.IHDR_bitDepth < 8) {
+            bytesPerRow = (bytesPerRow + sbmplesPerByte - 1)/sbmplesPerByte;
+        } else if (metbdbtb.IHDR_bitDepth == 16) {
             bytesPerRow *= 2;
         }
 
-        IndexColorModel icm_gray_alpha = null;
-        if (metadata.IHDR_colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA &&
-            image.getColorModel() instanceof IndexColorModel)
+        IndexColorModel icm_grby_blphb = null;
+        if (metbdbtb.IHDR_colorType == PNGImbgeRebder.PNG_COLOR_GRAY_ALPHA &&
+            imbge.getColorModel() instbnceof IndexColorModel)
         {
-            // reserve space for alpha samples
+            // reserve spbce for blphb sbmples
             bytesPerRow *= 2;
 
-            // will be used to calculate alpha value for the pixel
-            icm_gray_alpha = (IndexColorModel)image.getColorModel();
+            // will be used to cblculbte blphb vblue for the pixel
+            icm_grby_blphb = (IndexColorModel)imbge.getColorModel();
         }
 
         currRow = new byte[bytesPerRow + bpp];
         prevRow = new byte[bytesPerRow + bpp];
         filteredRows = new byte[5][bytesPerRow + bpp];
 
-        int bitDepth = metadata.IHDR_bitDepth;
+        int bitDepth = metbdbtb.IHDR_bitDepth;
         for (int row = minY + yOffset; row < minY + height; row += ySkip) {
-            Rectangle rect = new Rectangle(minX, row, width, 1);
-            Raster ras = image.getData(rect);
-            if (sourceBands != null) {
-                ras = ras.createChild(minX, row, width, 1, minX, row,
-                                      sourceBands);
+            Rectbngle rect = new Rectbngle(minX, row, width, 1);
+            Rbster rbs = imbge.getDbtb(rect);
+            if (sourceBbnds != null) {
+                rbs = rbs.crebteChild(minX, row, width, 1, minX, row,
+                                      sourceBbnds);
             }
 
-            ras.getPixels(minX, row, width, 1, samples);
+            rbs.getPixels(minX, row, width, 1, sbmples);
 
-            if (image.getColorModel().isAlphaPremultiplied()) {
-                WritableRaster wr = ras.createCompatibleWritableRaster();
+            if (imbge.getColorModel().isAlphbPremultiplied()) {
+                WritbbleRbster wr = rbs.crebteCompbtibleWritbbleRbster();
                 wr.setPixels(wr.getMinX(), wr.getMinY(),
                              wr.getWidth(), wr.getHeight(),
-                             samples);
+                             sbmples);
 
-                image.getColorModel().coerceData(wr, false);
+                imbge.getColorModel().coerceDbtb(wr, fblse);
                 wr.getPixels(wr.getMinX(), wr.getMinY(),
                              wr.getWidth(), wr.getHeight(),
-                             samples);
+                             sbmples);
             }
 
-            // Reorder palette data if necessary
-            int[] paletteOrder = metadata.PLTE_order;
-            if (paletteOrder != null) {
-                for (int i = 0; i < numSamples; i++) {
-                    samples[i] = paletteOrder[samples[i]];
+            // Reorder pblette dbtb if necessbry
+            int[] pbletteOrder = metbdbtb.PLTE_order;
+            if (pbletteOrder != null) {
+                for (int i = 0; i < numSbmples; i++) {
+                    sbmples[i] = pbletteOrder[sbmples[i]];
                 }
             }
 
-            int count = bpp; // leave first 'bpp' bytes zero
+            int count = bpp; // lebve first 'bpp' bytes zero
             int pos = 0;
             int tmp = 0;
 
             switch (bitDepth) {
-            case 1: case 2: case 4:
-                // Image can only have a single band
+            cbse 1: cbse 2: cbse 4:
+                // Imbge cbn only hbve b single bbnd
 
-                int mask = samplesPerByte - 1;
-                for (int s = xOffset; s < numSamples; s += xSkip) {
-                    byte val = scale0[samples[s]];
-                    tmp = (tmp << bitDepth) | val;
+                int mbsk = sbmplesPerByte - 1;
+                for (int s = xOffset; s < numSbmples; s += xSkip) {
+                    byte vbl = scble0[sbmples[s]];
+                    tmp = (tmp << bitDepth) | vbl;
 
-                    if ((pos++ & mask) == mask) {
+                    if ((pos++ & mbsk) == mbsk) {
                         currRow[count++] = (byte)tmp;
                         tmp = 0;
                         pos = 0;
                     }
                 }
 
-                // Left shift the last byte
-                if ((pos & mask) != 0) {
+                // Left shift the lbst byte
+                if ((pos & mbsk) != 0) {
                     tmp <<= ((8/bitDepth) - pos)*bitDepth;
                     currRow[count++] = (byte)tmp;
                 }
-                break;
+                brebk;
 
-            case 8:
-                if (numBands == 1) {
-                    for (int s = xOffset; s < numSamples; s += xSkip) {
-                        currRow[count++] = scale0[samples[s]];
-                        if (icm_gray_alpha != null) {
+            cbse 8:
+                if (numBbnds == 1) {
+                    for (int s = xOffset; s < numSbmples; s += xSkip) {
+                        currRow[count++] = scble0[sbmples[s]];
+                        if (icm_grby_blphb != null) {
                             currRow[count++] =
-                                scale0[icm_gray_alpha.getAlpha(0xff & samples[s])];
+                                scble0[icm_grby_blphb.getAlphb(0xff & sbmples[s])];
                         }
                     }
                 } else {
-                    for (int s = xOffset; s < numSamples; s += xSkip) {
-                        for (int b = 0; b < numBands; b++) {
-                            currRow[count++] = scale[b][samples[s + b]];
+                    for (int s = xOffset; s < numSbmples; s += xSkip) {
+                        for (int b = 0; b < numBbnds; b++) {
+                            currRow[count++] = scble[b][sbmples[s + b]];
                         }
                     }
                 }
-                break;
+                brebk;
 
-            case 16:
-                for (int s = xOffset; s < numSamples; s += xSkip) {
-                    for (int b = 0; b < numBands; b++) {
-                        currRow[count++] = scaleh[b][samples[s + b]];
-                        currRow[count++] = scalel[b][samples[s + b]];
+            cbse 16:
+                for (int s = xOffset; s < numSbmples; s += xSkip) {
+                    for (int b = 0; b < numBbnds; b++) {
+                        currRow[count++] = scbleh[b][sbmples[s + b]];
+                        currRow[count++] = scblel[b][sbmples[s + b]];
                     }
                 }
-                break;
+                brebk;
             }
 
             // Perform filtering
-            int filterType = rowFilter.filterRow(metadata.IHDR_colorType,
+            int filterType = rowFilter.filterRow(metbdbtb.IHDR_colorType,
                                                  currRow, prevRow,
                                                  filteredRows,
                                                  bytesPerRow, bpp);
@@ -907,175 +907,175 @@ public class PNGImageWriter extends ImageWriter {
             os.write(filterType);
             os.write(filteredRows[filterType], bpp, bytesPerRow);
 
-            // Swap current and previous rows
-            byte[] swap = currRow;
+            // Swbp current bnd previous rows
+            byte[] swbp = currRow;
             currRow = prevRow;
-            prevRow = swap;
+            prevRow = swbp;
 
             pixelsDone += hpixels;
-            processImageProgress(100.0F*pixelsDone/totalPixels);
+            processImbgeProgress(100.0F*pixelsDone/totblPixels);
 
-            // If write has been aborted, just return;
-            // processWriteAborted will be called later
-            if (abortRequested()) {
+            // If write hbs been bborted, just return;
+            // processWriteAborted will be cblled lbter
+            if (bbortRequested()) {
                 return;
             }
         }
     }
 
     // Use sourceXOffset, etc.
-    private void write_IDAT(RenderedImage image) throws IOException {
-        IDATOutputStream ios = new IDATOutputStream(stream, 32768);
+    privbte void write_IDAT(RenderedImbge imbge) throws IOException {
+        IDATOutputStrebm ios = new IDATOutputStrebm(strebm, 32768);
         try {
-            if (metadata.IHDR_interlaceMethod == 1) {
+            if (metbdbtb.IHDR_interlbceMethod == 1) {
                 for (int i = 0; i < 7; i++) {
-                    encodePass(ios, image,
-                               PNGImageReader.adam7XOffset[i],
-                               PNGImageReader.adam7YOffset[i],
-                               PNGImageReader.adam7XSubsampling[i],
-                               PNGImageReader.adam7YSubsampling[i]);
-                    if (abortRequested()) {
-                        break;
+                    encodePbss(ios, imbge,
+                               PNGImbgeRebder.bdbm7XOffset[i],
+                               PNGImbgeRebder.bdbm7YOffset[i],
+                               PNGImbgeRebder.bdbm7XSubsbmpling[i],
+                               PNGImbgeRebder.bdbm7YSubsbmpling[i]);
+                    if (bbortRequested()) {
+                        brebk;
                     }
                 }
             } else {
-                encodePass(ios, image, 0, 0, 1, 1);
+                encodePbss(ios, imbge, 0, 0, 1, 1);
             }
-        } finally {
+        } finblly {
             ios.finish();
         }
     }
 
-    private void writeIEND() throws IOException {
-        ChunkStream cs = new ChunkStream(PNGImageReader.IEND_TYPE, stream);
+    privbte void writeIEND() throws IOException {
+        ChunkStrebm cs = new ChunkStrebm(PNGImbgeRebder.IEND_TYPE, strebm);
         cs.finish();
     }
 
-    // Check two int arrays for value equality, always returns false
-    // if either array is null
-    private boolean equals(int[] s0, int[] s1) {
+    // Check two int brrbys for vblue equblity, blwbys returns fblse
+    // if either brrby is null
+    privbte boolebn equbls(int[] s0, int[] s1) {
         if (s0 == null || s1 == null) {
-            return false;
+            return fblse;
         }
         if (s0.length != s1.length) {
-            return false;
+            return fblse;
         }
         for (int i = 0; i < s0.length; i++) {
             if (s0[i] != s1[i]) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
-    // Initialize the scale/scale0 or scaleh/scalel arrays to
-    // hold the results of scaling an input value to the desired
+    // Initiblize the scble/scble0 or scbleh/scblel brrbys to
+    // hold the results of scbling bn input vblue to the desired
     // output bit depth
-    private void initializeScaleTables(int[] sampleSize) {
-        int bitDepth = metadata.IHDR_bitDepth;
+    privbte void initiblizeScbleTbbles(int[] sbmpleSize) {
+        int bitDepth = metbdbtb.IHDR_bitDepth;
 
-        // If the existing tables are still valid, just return
-        if (bitDepth == scalingBitDepth &&
-            equals(sampleSize, this.sampleSize)) {
+        // If the existing tbbles bre still vblid, just return
+        if (bitDepth == scblingBitDepth &&
+            equbls(sbmpleSize, this.sbmpleSize)) {
             return;
         }
 
-        // Compute new tables
-        this.sampleSize = sampleSize;
-        this.scalingBitDepth = bitDepth;
-        int maxOutSample = (1 << bitDepth) - 1;
+        // Compute new tbbles
+        this.sbmpleSize = sbmpleSize;
+        this.scblingBitDepth = bitDepth;
+        int mbxOutSbmple = (1 << bitDepth) - 1;
         if (bitDepth <= 8) {
-            scale = new byte[numBands][];
-            for (int b = 0; b < numBands; b++) {
-                int maxInSample = (1 << sampleSize[b]) - 1;
-                int halfMaxInSample = maxInSample/2;
-                scale[b] = new byte[maxInSample + 1];
-                for (int s = 0; s <= maxInSample; s++) {
-                    scale[b][s] =
-                        (byte)((s*maxOutSample + halfMaxInSample)/maxInSample);
+            scble = new byte[numBbnds][];
+            for (int b = 0; b < numBbnds; b++) {
+                int mbxInSbmple = (1 << sbmpleSize[b]) - 1;
+                int hblfMbxInSbmple = mbxInSbmple/2;
+                scble[b] = new byte[mbxInSbmple + 1];
+                for (int s = 0; s <= mbxInSbmple; s++) {
+                    scble[b][s] =
+                        (byte)((s*mbxOutSbmple + hblfMbxInSbmple)/mbxInSbmple);
                 }
             }
-            scale0 = scale[0];
-            scaleh = scalel = null;
+            scble0 = scble[0];
+            scbleh = scblel = null;
         } else { // bitDepth == 16
-            // Divide scaling table into high and low bytes
-            scaleh = new byte[numBands][];
-            scalel = new byte[numBands][];
+            // Divide scbling tbble into high bnd low bytes
+            scbleh = new byte[numBbnds][];
+            scblel = new byte[numBbnds][];
 
-            for (int b = 0; b < numBands; b++) {
-                int maxInSample = (1 << sampleSize[b]) - 1;
-                int halfMaxInSample = maxInSample/2;
-                scaleh[b] = new byte[maxInSample + 1];
-                scalel[b] = new byte[maxInSample + 1];
-                for (int s = 0; s <= maxInSample; s++) {
-                    int val = (s*maxOutSample + halfMaxInSample)/maxInSample;
-                    scaleh[b][s] = (byte)(val >> 8);
-                    scalel[b][s] = (byte)(val & 0xff);
+            for (int b = 0; b < numBbnds; b++) {
+                int mbxInSbmple = (1 << sbmpleSize[b]) - 1;
+                int hblfMbxInSbmple = mbxInSbmple/2;
+                scbleh[b] = new byte[mbxInSbmple + 1];
+                scblel[b] = new byte[mbxInSbmple + 1];
+                for (int s = 0; s <= mbxInSbmple; s++) {
+                    int vbl = (s*mbxOutSbmple + hblfMbxInSbmple)/mbxInSbmple;
+                    scbleh[b][s] = (byte)(vbl >> 8);
+                    scblel[b][s] = (byte)(vbl & 0xff);
                 }
             }
-            scale = null;
-            scale0 = null;
+            scble = null;
+            scble0 = null;
         }
     }
 
-    public void write(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("output == null!");
+    public void write(IIOMetbdbtb strebmMetbdbtb,
+                      IIOImbge imbge,
+                      ImbgeWritePbrbm pbrbm) throws IIOException {
+        if (strebm == null) {
+            throw new IllegblStbteException("output == null!");
         }
-        if (image == null) {
-            throw new IllegalArgumentException("image == null!");
+        if (imbge == null) {
+            throw new IllegblArgumentException("imbge == null!");
         }
-        if (image.hasRaster()) {
-            throw new UnsupportedOperationException("image has a Raster!");
+        if (imbge.hbsRbster()) {
+            throw new UnsupportedOperbtionException("imbge hbs b Rbster!");
         }
 
-        RenderedImage im = image.getRenderedImage();
-        SampleModel sampleModel = im.getSampleModel();
-        this.numBands = sampleModel.getNumBands();
+        RenderedImbge im = imbge.getRenderedImbge();
+        SbmpleModel sbmpleModel = im.getSbmpleModel();
+        this.numBbnds = sbmpleModel.getNumBbnds();
 
-        // Set source region and subsampling to default values
+        // Set source region bnd subsbmpling to defbult vblues
         this.sourceXOffset = im.getMinX();
         this.sourceYOffset = im.getMinY();
         this.sourceWidth = im.getWidth();
         this.sourceHeight = im.getHeight();
-        this.sourceBands = null;
+        this.sourceBbnds = null;
         this.periodX = 1;
         this.periodY = 1;
 
-        if (param != null) {
-            // Get source region and subsampling factors
-            Rectangle sourceRegion = param.getSourceRegion();
+        if (pbrbm != null) {
+            // Get source region bnd subsbmpling fbctors
+            Rectbngle sourceRegion = pbrbm.getSourceRegion();
             if (sourceRegion != null) {
-                Rectangle imageBounds = new Rectangle(im.getMinX(),
+                Rectbngle imbgeBounds = new Rectbngle(im.getMinX(),
                                                       im.getMinY(),
                                                       im.getWidth(),
                                                       im.getHeight());
-                // Clip to actual image bounds
-                sourceRegion = sourceRegion.intersection(imageBounds);
+                // Clip to bctubl imbge bounds
+                sourceRegion = sourceRegion.intersection(imbgeBounds);
                 sourceXOffset = sourceRegion.x;
                 sourceYOffset = sourceRegion.y;
                 sourceWidth = sourceRegion.width;
                 sourceHeight = sourceRegion.height;
             }
 
-            // Adjust for subsampling offsets
-            int gridX = param.getSubsamplingXOffset();
-            int gridY = param.getSubsamplingYOffset();
+            // Adjust for subsbmpling offsets
+            int gridX = pbrbm.getSubsbmplingXOffset();
+            int gridY = pbrbm.getSubsbmplingYOffset();
             sourceXOffset += gridX;
             sourceYOffset += gridY;
             sourceWidth -= gridX;
             sourceHeight -= gridY;
 
-            // Get subsampling factors
-            periodX = param.getSourceXSubsampling();
-            periodY = param.getSourceYSubsampling();
+            // Get subsbmpling fbctors
+            periodX = pbrbm.getSourceXSubsbmpling();
+            periodY = pbrbm.getSourceYSubsbmpling();
 
-            int[] sBands = param.getSourceBands();
-            if (sBands != null) {
-                sourceBands = sBands;
-                numBands = sourceBands.length;
+            int[] sBbnds = pbrbm.getSourceBbnds();
+            if (sBbnds != null) {
+                sourceBbnds = sBbnds;
+                numBbnds = sourceBbnds.length;
             }
         }
 
@@ -1083,55 +1083,55 @@ public class PNGImageWriter extends ImageWriter {
         int destWidth = (sourceWidth + periodX - 1)/periodX;
         int destHeight = (sourceHeight + periodY - 1)/periodY;
         if (destWidth <= 0 || destHeight <= 0) {
-            throw new IllegalArgumentException("Empty source region!");
+            throw new IllegblArgumentException("Empty source region!");
         }
 
-        // Compute total number of pixels for progress notification
-        this.totalPixels = destWidth*destHeight;
+        // Compute totbl number of pixels for progress notificbtion
+        this.totblPixels = destWidth*destHeight;
         this.pixelsDone = 0;
 
-        // Create metadata
-        IIOMetadata imd = image.getMetadata();
+        // Crebte metbdbtb
+        IIOMetbdbtb imd = imbge.getMetbdbtb();
         if (imd != null) {
-            metadata = (PNGMetadata)convertImageMetadata(imd,
-                               ImageTypeSpecifier.createFromRenderedImage(im),
+            metbdbtb = (PNGMetbdbtb)convertImbgeMetbdbtb(imd,
+                               ImbgeTypeSpecifier.crebteFromRenderedImbge(im),
                                                          null);
         } else {
-            metadata = new PNGMetadata();
+            metbdbtb = new PNGMetbdbtb();
         }
 
-        if (param != null) {
-            // Use Adam7 interlacing if set in write param
-            switch (param.getProgressiveMode()) {
-            case ImageWriteParam.MODE_DEFAULT:
-                metadata.IHDR_interlaceMethod = 1;
-                break;
-            case ImageWriteParam.MODE_DISABLED:
-                metadata.IHDR_interlaceMethod = 0;
-                break;
-                // MODE_COPY_FROM_METADATA should alreay be taken care of
-                // MODE_EXPLICIT is not allowed
+        if (pbrbm != null) {
+            // Use Adbm7 interlbcing if set in write pbrbm
+            switch (pbrbm.getProgressiveMode()) {
+            cbse ImbgeWritePbrbm.MODE_DEFAULT:
+                metbdbtb.IHDR_interlbceMethod = 1;
+                brebk;
+            cbse ImbgeWritePbrbm.MODE_DISABLED:
+                metbdbtb.IHDR_interlbceMethod = 0;
+                brebk;
+                // MODE_COPY_FROM_METADATA should blreby be tbken cbre of
+                // MODE_EXPLICIT is not bllowed
             }
         }
 
-        // Initialize bitDepth and colorType
-        metadata.initialize(new ImageTypeSpecifier(im), numBands);
+        // Initiblize bitDepth bnd colorType
+        metbdbtb.initiblize(new ImbgeTypeSpecifier(im), numBbnds);
 
-        // Overwrite IHDR width and height values with values from image
-        metadata.IHDR_width = destWidth;
-        metadata.IHDR_height = destHeight;
+        // Overwrite IHDR width bnd height vblues with vblues from imbge
+        metbdbtb.IHDR_width = destWidth;
+        metbdbtb.IHDR_height = destHeight;
 
-        this.bpp = numBands*((metadata.IHDR_bitDepth == 16) ? 2 : 1);
+        this.bpp = numBbnds*((metbdbtb.IHDR_bitDepth == 16) ? 2 : 1);
 
-        // Initialize scaling tables for this image
-        initializeScaleTables(sampleModel.getSampleSize());
+        // Initiblize scbling tbbles for this imbge
+        initiblizeScbleTbbles(sbmpleModel.getSbmpleSize());
 
-        clearAbortRequest();
+        clebrAbortRequest();
 
-        processImageStarted(0);
+        processImbgeStbrted(0);
 
         try {
-            write_magic();
+            write_mbgic();
             write_IHDR();
 
             write_cHRM();
@@ -1157,14 +1157,14 @@ public class PNGImageWriter extends ImageWriter {
 
             write_IDAT(im);
 
-            if (abortRequested()) {
+            if (bbortRequested()) {
                 processWriteAborted();
             } else {
-                // Finish up and inform the listeners we are done
+                // Finish up bnd inform the listeners we bre done
                 writeIEND();
-                processImageComplete();
+                processImbgeComplete();
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new IIOException("I/O error writing PNG file!", e);
         }
     }

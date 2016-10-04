@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2007,2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007,2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
+pbckbge jbvb.net;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
 /**
- * This class defines a factory for creating DatagramSocketImpls. It defaults
- * to creating plain DatagramSocketImpls, but may create other DatagramSocketImpls
+ * This clbss defines b fbctory for crebting DbtbgrbmSocketImpls. It defbults
+ * to crebting plbin DbtbgrbmSocketImpls, but mby crebte other DbtbgrbmSocketImpls
  * by setting the impl.prefix system property.
  *
- * @author Chris Hegarty
+ * @buthor Chris Hegbrty
  */
 
-class DefaultDatagramSocketImplFactory {
-    static Class<?> prefixImplClass = null;
+clbss DefbultDbtbgrbmSocketImplFbctory {
+    stbtic Clbss<?> prefixImplClbss = null;
 
-    static {
+    stbtic {
         String prefix = null;
         try {
             prefix = AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("impl.prefix", null));
+                new sun.security.bction.GetPropertyAction("impl.prefix", null));
             if (prefix != null)
-                prefixImplClass = Class.forName("java.net."+prefix+"DatagramSocketImpl");
-        } catch (Exception e) {
-            System.err.println("Can't find class: java.net." +
+                prefixImplClbss = Clbss.forNbme("jbvb.net."+prefix+"DbtbgrbmSocketImpl");
+        } cbtch (Exception e) {
+            System.err.println("Cbn't find clbss: jbvb.net." +
                                 prefix +
-                                "DatagramSocketImpl: check impl.prefix property");
-            //prefixImplClass = null;
+                                "DbtbgrbmSocketImpl: check impl.prefix property");
+            //prefixImplClbss = null;
         }
     }
 
     /**
-     * Creates a new <code>DatagramSocketImpl</code> instance.
+     * Crebtes b new <code>DbtbgrbmSocketImpl</code> instbnce.
      *
-     * @param   isMulticast     true if this impl if for a MutlicastSocket
-     * @return  a new instance of a <code>DatagramSocketImpl</code>.
+     * @pbrbm   isMulticbst     true if this impl if for b MutlicbstSocket
+     * @return  b new instbnce of b <code>DbtbgrbmSocketImpl</code>.
      */
-    static DatagramSocketImpl createDatagramSocketImpl(boolean isMulticast /*unused on unix*/)
+    stbtic DbtbgrbmSocketImpl crebteDbtbgrbmSocketImpl(boolebn isMulticbst /*unused on unix*/)
         throws SocketException {
-        if (prefixImplClass != null) {
+        if (prefixImplClbss != null) {
             try {
-                return (DatagramSocketImpl)prefixImplClass.newInstance();
-            } catch (Exception e) {
-                throw new SocketException("can't instantiate DatagramSocketImpl");
+                return (DbtbgrbmSocketImpl)prefixImplClbss.newInstbnce();
+            } cbtch (Exception e) {
+                throw new SocketException("cbn't instbntibte DbtbgrbmSocketImpl");
             }
         } else {
-            return new java.net.PlainDatagramSocketImpl();
+            return new jbvb.net.PlbinDbtbgrbmSocketImpl();
         }
     }
 }

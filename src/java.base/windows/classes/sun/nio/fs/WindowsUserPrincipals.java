@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.IOException;
 
-import static sun.nio.fs.WindowsConstants.*;
-import static sun.nio.fs.WindowsNativeDispatcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
 
-class WindowsUserPrincipals {
-    private WindowsUserPrincipals() { }
+clbss WindowsUserPrincipbls {
+    privbte WindowsUserPrincipbls() { }
 
-    static class User implements UserPrincipal {
-        // String representation of SID
-        private final String sidString;
+    stbtic clbss User implements UserPrincipbl {
+        // String representbtion of SID
+        privbte finbl String sidString;
 
         // SID type
-        private final int sidType;
+        privbte finbl int sidType;
 
-        // Account name (if available) or SID
-        private final String accountName;
+        // Account nbme (if bvbilbble) or SID
+        privbte finbl String bccountNbme;
 
-        User(String sidString, int sidType, String accountName) {
+        User(String sidString, int sidType, String bccountNbme) {
             this.sidString = sidString;
             this.sidType = sidType;
-            this.accountName = accountName;
+            this.bccountNbme = bccountNbme;
         }
 
-        // package-private
+        // pbckbge-privbte
         String sidString() {
             return sidString;
         }
 
         @Override
-        public String getName() {
-            return accountName;
+        public String getNbme() {
+            return bccountNbme;
         }
 
         @Override
         public String toString() {
             String type;
             switch (sidType) {
-                case SidTypeUser : type = "User"; break;
-                case SidTypeGroup : type = "Group"; break;
-                case SidTypeDomain : type = "Domain"; break;
-                case SidTypeAlias : type = "Alias"; break;
-                case SidTypeWellKnownGroup : type = "Well-known group"; break;
-                case SidTypeDeletedAccount : type = "Deleted"; break;
-                case SidTypeInvalid : type = "Invalid"; break;
-                case SidTypeComputer : type = "Computer"; break;
-                default: type = "Unknown";
+                cbse SidTypeUser : type = "User"; brebk;
+                cbse SidTypeGroup : type = "Group"; brebk;
+                cbse SidTypeDombin : type = "Dombin"; brebk;
+                cbse SidTypeAlibs : type = "Alibs"; brebk;
+                cbse SidTypeWellKnownGroup : type = "Well-known group"; brebk;
+                cbse SidTypeDeletedAccount : type = "Deleted"; brebk;
+                cbse SidTypeInvblid : type = "Invblid"; brebk;
+                cbse SidTypeComputer : type = "Computer"; brebk;
+                defbult: type = "Unknown";
             }
-            return accountName + " (" + type + ")";
+            return bccountNbme + " (" + type + ")";
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this)
                 return true;
-            if (!(obj instanceof WindowsUserPrincipals.User))
-                return false;
-            WindowsUserPrincipals.User other = (WindowsUserPrincipals.User)obj;
-            return this.sidString.equals(other.sidString);
+            if (!(obj instbnceof WindowsUserPrincipbls.User))
+                return fblse;
+            WindowsUserPrincipbls.User other = (WindowsUserPrincipbls.User)obj;
+            return this.sidString.equbls(other.sidString);
         }
 
         @Override
-        public int hashCode() {
-            return sidString.hashCode();
+        public int hbshCode() {
+            return sidString.hbshCode();
         }
     }
 
-    static class Group extends User implements GroupPrincipal {
-        Group(String sidString, int sidType, String accountName) {
-            super(sidString, sidType, accountName);
+    stbtic clbss Group extends User implements GroupPrincipbl {
+        Group(String sidString, int sidType, String bccountNbme) {
+            super(sidString, sidType, bccountNbme);
         }
     }
 
-    static UserPrincipal fromSid(long sidAddress) throws IOException {
+    stbtic UserPrincipbl fromSid(long sidAddress) throws IOException {
         String sidString;
         try {
             sidString = ConvertSidToStringSid(sidAddress);
@@ -106,64 +106,64 @@ class WindowsUserPrincipals {
                 // pre-Windows XP system?
                 throw new AssertionError();
             }
-        } catch (WindowsException x) {
-            throw new IOException("Unable to convert SID to String: " +
+        } cbtch (WindowsException x) {
+            throw new IOException("Unbble to convert SID to String: " +
                 x.errorString());
         }
 
-        // lookup account; if not available then use the SID as the name
-        Account account = null;
-        String name;
+        // lookup bccount; if not bvbilbble then use the SID bs the nbme
+        Account bccount = null;
+        String nbme;
         try {
-            account = LookupAccountSid(sidAddress);
-            name = account.domain() + "\\" + account.name();
-        } catch (WindowsException x) {
-            name = sidString;
+            bccount = LookupAccountSid(sidAddress);
+            nbme = bccount.dombin() + "\\" + bccount.nbme();
+        } cbtch (WindowsException x) {
+            nbme = sidString;
         }
 
-        int sidType = (account == null) ? SidTypeUnknown : account.use();
+        int sidType = (bccount == null) ? SidTypeUnknown : bccount.use();
         if ((sidType == SidTypeGroup) ||
             (sidType == SidTypeWellKnownGroup) ||
-            (sidType == SidTypeAlias)) // alias for local group
+            (sidType == SidTypeAlibs)) // blibs for locbl group
         {
-            return new Group(sidString, sidType, name);
+            return new Group(sidString, sidType, nbme);
         } else {
-            return new User(sidString, sidType, name);
+            return new User(sidString, sidType, nbme);
         }
     }
 
-    static UserPrincipal lookup(String name) throws IOException {
-        SecurityManager sm = System.getSecurityManager();
+    stbtic UserPrincipbl lookup(String nbme) throws IOException {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("lookupUserInformation"));
+            sm.checkPermission(new RuntimePermission("lookupUserInformbtion"));
         }
 
-        // invoke LookupAccountName to get buffer size needed for SID
+        // invoke LookupAccountNbme to get buffer size needed for SID
         int size = 0;
         try {
-            size = LookupAccountName(name, 0L, 0);
-        } catch (WindowsException x) {
-            if (x.lastError() == ERROR_NONE_MAPPED)
-                throw new UserPrincipalNotFoundException(name);
-            throw new IOException(name + ": " + x.errorString());
+            size = LookupAccountNbme(nbme, 0L, 0);
+        } cbtch (WindowsException x) {
+            if (x.lbstError() == ERROR_NONE_MAPPED)
+                throw new UserPrincipblNotFoundException(nbme);
+            throw new IOException(nbme + ": " + x.errorString());
         }
-        assert size > 0;
+        bssert size > 0;
 
-        // allocate buffer and re-invoke LookupAccountName get SID
-        NativeBuffer sidBuffer = NativeBuffers.getNativeBuffer(size);
+        // bllocbte buffer bnd re-invoke LookupAccountNbme get SID
+        NbtiveBuffer sidBuffer = NbtiveBuffers.getNbtiveBuffer(size);
         try {
-            int newSize = LookupAccountName(name, sidBuffer.address(), size);
+            int newSize = LookupAccountNbme(nbme, sidBuffer.bddress(), size);
             if (newSize != size) {
-                // can this happen?
-                throw new AssertionError("SID change during lookup");
+                // cbn this hbppen?
+                throw new AssertionError("SID chbnge during lookup");
             }
 
-            // return user principal
-            return fromSid(sidBuffer.address());
-        } catch (WindowsException x) {
-            throw new IOException(name + ": " + x.errorString());
-        } finally {
-            sidBuffer.release();
+            // return user principbl
+            return fromSid(sidBuffer.bddress());
+        } cbtch (WindowsException x) {
+            throw new IOException(nbme + ": " + x.errorString());
+        } finblly {
+            sidBuffer.relebse();
         }
     }
 }

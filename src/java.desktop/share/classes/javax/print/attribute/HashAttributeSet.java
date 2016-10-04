@@ -1,524 +1,524 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.util.HbshMbp;
 
 /**
- * Class HashAttributeSet provides an <code>AttributeSet</code>
- * implementation with characteristics of a hash map.
+ * Clbss HbshAttributeSet provides bn <code>AttributeSet</code>
+ * implementbtion with chbrbcteristics of b hbsh mbp.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public class HashAttributeSet implements AttributeSet, Serializable {
+public clbss HbshAttributeSet implements AttributeSet, Seriblizbble {
 
-    private static final long serialVersionUID = 5311560590283707917L;
+    privbte stbtic finbl long seriblVersionUID = 5311560590283707917L;
 
     /**
-     * The interface of which all members of this attribute set must be an
-     * instance. It is assumed to be interface {@link Attribute Attribute}
-     * or a subinterface thereof.
-     * @serial
+     * The interfbce of which bll members of this bttribute set must be bn
+     * instbnce. It is bssumed to be interfbce {@link Attribute Attribute}
+     * or b subinterfbce thereof.
+     * @seribl
      */
-    private Class<?> myInterface;
+    privbte Clbss<?> myInterfbce;
 
     /*
-     * A HashMap used by the implementation.
-     * The serialised form doesn't include this instance variable.
+     * A HbshMbp used by the implementbtion.
+     * The seriblised form doesn't include this instbnce vbribble.
      */
-    private transient HashMap<Class<?>, Attribute> attrMap = new HashMap<>();
+    privbte trbnsient HbshMbp<Clbss<?>, Attribute> bttrMbp = new HbshMbp<>();
 
     /**
-     * Write the instance to a stream (ie serialize the object)
+     * Write the instbnce to b strebm (ie seriblize the object)
      *
-     * @serialData
-     * The serialized form of an attribute set explicitly writes the
-     * number of attributes in the set, and each of the attributes.
-     * This does not guarantee equality of serialized forms since
-     * the order in which the attributes are written is not defined.
+     * @seriblDbtb
+     * The seriblized form of bn bttribute set explicitly writes the
+     * number of bttributes in the set, bnd ebch of the bttributes.
+     * This does not gubrbntee equblity of seriblized forms since
+     * the order in which the bttributes bre written is not defined.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
 
-        s.defaultWriteObject();
-        Attribute [] attrs = toArray();
-        s.writeInt(attrs.length);
-        for (int i = 0; i < attrs.length; i++) {
-            s.writeObject(attrs[i]);
+        s.defbultWriteObject();
+        Attribute [] bttrs = toArrby();
+        s.writeInt(bttrs.length);
+        for (int i = 0; i < bttrs.length; i++) {
+            s.writeObject(bttrs[i]);
         }
     }
 
     /**
-     * Reconstitute an instance from a stream that is, deserialize it).
+     * Reconstitute bn instbnce from b strebm thbt is, deseriblize it).
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException {
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException {
 
-        s.defaultReadObject();
-        attrMap = new HashMap<>();
-        int count = s.readInt();
-        Attribute attr;
+        s.defbultRebdObject();
+        bttrMbp = new HbshMbp<>();
+        int count = s.rebdInt();
+        Attribute bttr;
         for (int i = 0; i < count; i++) {
-            attr = (Attribute)s.readObject();
-            add(attr);
+            bttr = (Attribute)s.rebdObject();
+            bdd(bttr);
         }
     }
 
     /**
-     * Construct a new, empty attribute set.
+     * Construct b new, empty bttribute set.
      */
-    public HashAttributeSet() {
-        this(Attribute.class);
+    public HbshAttributeSet() {
+        this(Attribute.clbss);
     }
 
     /**
-     * Construct a new attribute set,
-     * initially populated with the given attribute.
+     * Construct b new bttribute set,
+     * initiblly populbted with the given bttribute.
      *
-     * @param  attribute  Attribute value to add to the set.
+     * @pbrbm  bttribute  Attribute vblue to bdd to the set.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>attribute</CODE> is null.
+     *     (unchecked exception) Thrown if <CODE>bttribute</CODE> is null.
      */
-    public HashAttributeSet(Attribute attribute) {
-        this (attribute, Attribute.class);
+    public HbshAttributeSet(Attribute bttribute) {
+        this (bttribute, Attribute.clbss);
     }
 
     /**
-     * Construct a new attribute set,
-     * initially populated with the values from the
-     * given array. The new attribute set is populated by
-     * adding the elements of <CODE>attributes</CODE> array to the set in
-     * sequence, starting at index 0. Thus, later array elements may replace
-     * earlier array elements if the array contains duplicate attribute
-     * values or attribute categories.
+     * Construct b new bttribute set,
+     * initiblly populbted with the vblues from the
+     * given brrby. The new bttribute set is populbted by
+     * bdding the elements of <CODE>bttributes</CODE> brrby to the set in
+     * sequence, stbrting bt index 0. Thus, lbter brrby elements mby replbce
+     * ebrlier brrby elements if the brrby contbins duplicbte bttribute
+     * vblues or bttribute cbtegories.
      *
-     * @param  attributes  Array of attribute values to add to the set.
-     *                    If null, an empty attribute set is constructed.
+     * @pbrbm  bttributes  Arrby of bttribute vblues to bdd to the set.
+     *                    If null, bn empty bttribute set is constructed.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if any element of
-     *     <CODE>attributes</CODE> is null.
+     *     (unchecked exception) Thrown if bny element of
+     *     <CODE>bttributes</CODE> is null.
      */
-    public HashAttributeSet(Attribute[] attributes) {
-        this (attributes, Attribute.class);
+    public HbshAttributeSet(Attribute[] bttributes) {
+        this (bttributes, Attribute.clbss);
     }
 
     /**
-     * Construct a new attribute set,
-     * initially populated with the values from the  given set.
+     * Construct b new bttribute set,
+     * initiblly populbted with the vblues from the  given set.
      *
-     * @param  attributes Set of attributes from which to initialise this set.
-     *                 If null, an empty attribute set is constructed.
+     * @pbrbm  bttributes Set of bttributes from which to initiblise this set.
+     *                 If null, bn empty bttribute set is constructed.
      *
      */
-    public HashAttributeSet(AttributeSet attributes) {
-        this (attributes, Attribute.class);
+    public HbshAttributeSet(AttributeSet bttributes) {
+        this (bttributes, Attribute.clbss);
     }
 
     /**
-     * Construct a new, empty attribute set, where the members of
-     * the attribute set are restricted to the given interface.
+     * Construct b new, empty bttribute set, where the members of
+     * the bttribute set bre restricted to the given interfbce.
      *
-     * @param  interfaceName  The interface of which all members of this
-     *                     attribute set must be an instance. It is assumed to
-     *                     be interface {@link Attribute Attribute} or a
-     *                     subinterface thereof.
-     * @exception NullPointerException if interfaceName is null.
+     * @pbrbm  interfbceNbme  The interfbce of which bll members of this
+     *                     bttribute set must be bn instbnce. It is bssumed to
+     *                     be interfbce {@link Attribute Attribute} or b
+     *                     subinterfbce thereof.
+     * @exception NullPointerException if interfbceNbme is null.
      */
-    protected HashAttributeSet(Class<?> interfaceName) {
-        if (interfaceName == null) {
-            throw new NullPointerException("null interface");
+    protected HbshAttributeSet(Clbss<?> interfbceNbme) {
+        if (interfbceNbme == null) {
+            throw new NullPointerException("null interfbce");
         }
-        myInterface = interfaceName;
+        myInterfbce = interfbceNbme;
     }
 
     /**
-     * Construct a new attribute set, initially populated with the given
-     * attribute, where the members of the attribute set are restricted to the
-     * given interface.
+     * Construct b new bttribute set, initiblly populbted with the given
+     * bttribute, where the members of the bttribute set bre restricted to the
+     * given interfbce.
      *
-     * @param  attribute      Attribute value to add to the set.
-     * @param  interfaceName  The interface of which all members of this
-     *                    attribute set must be an instance. It is assumed to
-     *                    be interface {@link Attribute Attribute} or a
-     *                    subinterface thereof.
+     * @pbrbm  bttribute      Attribute vblue to bdd to the set.
+     * @pbrbm  interfbceNbme  The interfbce of which bll members of this
+     *                    bttribute set must be bn instbnce. It is bssumed to
+     *                    be interfbce {@link Attribute Attribute} or b
+     *                    subinterfbce thereof.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>attribute</CODE> is null.
-     * @exception NullPointerException if interfaceName is null.
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if <CODE>attribute</CODE> is not an
-     *     instance of <CODE>interfaceName</CODE>.
+     *     (unchecked exception) Thrown if <CODE>bttribute</CODE> is null.
+     * @exception NullPointerException if interfbceNbme is null.
+     * @exception  ClbssCbstException
+     *     (unchecked exception) Thrown if <CODE>bttribute</CODE> is not bn
+     *     instbnce of <CODE>interfbceNbme</CODE>.
      */
-    protected HashAttributeSet(Attribute attribute, Class<?> interfaceName) {
-        if (interfaceName == null) {
-            throw new NullPointerException("null interface");
+    protected HbshAttributeSet(Attribute bttribute, Clbss<?> interfbceNbme) {
+        if (interfbceNbme == null) {
+            throw new NullPointerException("null interfbce");
         }
-        myInterface = interfaceName;
-        add (attribute);
+        myInterfbce = interfbceNbme;
+        bdd (bttribute);
     }
 
     /**
-     * Construct a new attribute set, where the members of the attribute
-     * set are restricted to the given interface.
-     * The new attribute set is populated
-     * by adding the elements of <CODE>attributes</CODE> array to the set in
-     * sequence, starting at index 0. Thus, later array elements may replace
-     * earlier array elements if the array contains duplicate attribute
-     * values or attribute categories.
+     * Construct b new bttribute set, where the members of the bttribute
+     * set bre restricted to the given interfbce.
+     * The new bttribute set is populbted
+     * by bdding the elements of <CODE>bttributes</CODE> brrby to the set in
+     * sequence, stbrting bt index 0. Thus, lbter brrby elements mby replbce
+     * ebrlier brrby elements if the brrby contbins duplicbte bttribute
+     * vblues or bttribute cbtegories.
      *
-     * @param  attributes Array of attribute values to add to the set. If
-     *                    null, an empty attribute set is constructed.
-     * @param  interfaceName  The interface of which all members of this
-     *                    attribute set must be an instance. It is assumed to
-     *                    be interface {@link Attribute Attribute} or a
-     *                    subinterface thereof.
+     * @pbrbm  bttributes Arrby of bttribute vblues to bdd to the set. If
+     *                    null, bn empty bttribute set is constructed.
+     * @pbrbm  interfbceNbme  The interfbce of which bll members of this
+     *                    bttribute set must be bn instbnce. It is bssumed to
+     *                    be interfbce {@link Attribute Attribute} or b
+     *                    subinterfbce thereof.
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if any element of
-     * <CODE>attributes</CODE> is null.
-     * @exception NullPointerException if interfaceName is null.
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if any element of
-     * <CODE>attributes</CODE> is not an instance of
-     * <CODE>interfaceName</CODE>.
+     *     (unchecked exception) Thrown if bny element of
+     * <CODE>bttributes</CODE> is null.
+     * @exception NullPointerException if interfbceNbme is null.
+     * @exception  ClbssCbstException
+     *     (unchecked exception) Thrown if bny element of
+     * <CODE>bttributes</CODE> is not bn instbnce of
+     * <CODE>interfbceNbme</CODE>.
      */
-    protected HashAttributeSet(Attribute[] attributes, Class<?> interfaceName) {
-        if (interfaceName == null) {
-            throw new NullPointerException("null interface");
+    protected HbshAttributeSet(Attribute[] bttributes, Clbss<?> interfbceNbme) {
+        if (interfbceNbme == null) {
+            throw new NullPointerException("null interfbce");
         }
-        myInterface = interfaceName;
-        int n = attributes == null ? 0 : attributes.length;
+        myInterfbce = interfbceNbme;
+        int n = bttributes == null ? 0 : bttributes.length;
         for (int i = 0; i < n; ++ i) {
-            add (attributes[i]);
+            bdd (bttributes[i]);
         }
     }
 
     /**
-     * Construct a new attribute set, initially populated with the
-     * values from the  given set where the members of the attribute
-     * set are restricted to the given interface.
+     * Construct b new bttribute set, initiblly populbted with the
+     * vblues from the  given set where the members of the bttribute
+     * set bre restricted to the given interfbce.
      *
-     * @param  attributes set of attribute values to initialise the set. If
-     *                    null, an empty attribute set is constructed.
-     * @param  interfaceName  The interface of which all members of this
-     *                    attribute set must be an instance. It is assumed to
-     *                    be interface {@link Attribute Attribute} or a
-     *                    subinterface thereof.
+     * @pbrbm  bttributes set of bttribute vblues to initiblise the set. If
+     *                    null, bn empty bttribute set is constructed.
+     * @pbrbm  interfbceNbme  The interfbce of which bll members of this
+     *                    bttribute set must be bn instbnce. It is bssumed to
+     *                    be interfbce {@link Attribute Attribute} or b
+     *                    subinterfbce thereof.
      *
-     * @exception  ClassCastException
-     *     (unchecked exception) Thrown if any element of
-     * <CODE>attributes</CODE> is not an instance of
-     * <CODE>interfaceName</CODE>.
+     * @exception  ClbssCbstException
+     *     (unchecked exception) Thrown if bny element of
+     * <CODE>bttributes</CODE> is not bn instbnce of
+     * <CODE>interfbceNbme</CODE>.
      */
-    protected HashAttributeSet(AttributeSet attributes, Class<?> interfaceName) {
-      myInterface = interfaceName;
-      if (attributes != null) {
-        Attribute[] attribArray = attributes.toArray();
-        int n = attribArray == null ? 0 : attribArray.length;
+    protected HbshAttributeSet(AttributeSet bttributes, Clbss<?> interfbceNbme) {
+      myInterfbce = interfbceNbme;
+      if (bttributes != null) {
+        Attribute[] bttribArrby = bttributes.toArrby();
+        int n = bttribArrby == null ? 0 : bttribArrby.length;
         for (int i = 0; i < n; ++ i) {
-          add (attribArray[i]);
+          bdd (bttribArrby[i]);
         }
       }
     }
 
     /**
-     * Returns the attribute value which this attribute set contains in the
-     * given attribute category. Returns <tt>null</tt> if this attribute set
-     * does not contain any attribute value in the given attribute category.
+     * Returns the bttribute vblue which this bttribute set contbins in the
+     * given bttribute cbtegory. Returns <tt>null</tt> if this bttribute set
+     * does not contbin bny bttribute vblue in the given bttribute cbtegory.
      *
-     * @param  category  Attribute category whose associated attribute value
-     *                   is to be returned. It must be a
-     *                   {@link java.lang.Class Class}
-     *                   that implements interface {@link Attribute
+     * @pbrbm  cbtegory  Attribute cbtegory whose bssocibted bttribute vblue
+     *                   is to be returned. It must be b
+     *                   {@link jbvb.lbng.Clbss Clbss}
+     *                   thbt implements interfbce {@link Attribute
      *                   Attribute}.
      *
-     * @return  The attribute value in the given attribute category contained
-     *          in this attribute set, or <tt>null</tt> if this attribute set
-     *          does not contain any attribute value in the given attribute
-     *          category.
+     * @return  The bttribute vblue in the given bttribute cbtegory contbined
+     *          in this bttribute set, or <tt>null</tt> if this bttribute set
+     *          does not contbin bny bttribute vblue in the given bttribute
+     *          cbtegory.
      *
      * @throws  NullPointerException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is not a
-     *     {@link java.lang.Class Class} that implements interface {@link
+     *     (unchecked exception) Thrown if the <CODE>cbtegory</CODE> is null.
+     * @throws  ClbssCbstException
+     *     (unchecked exception) Thrown if the <CODE>cbtegory</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} thbt implements interfbce {@link
      *     Attribute Attribute}.
      */
-    public Attribute get(Class<?> category) {
-        return attrMap.get(AttributeSetUtilities.
-                           verifyAttributeCategory(category,
-                                                   Attribute.class));
+    public Attribute get(Clbss<?> cbtegory) {
+        return bttrMbp.get(AttributeSetUtilities.
+                           verifyAttributeCbtegory(cbtegory,
+                                                   Attribute.clbss));
     }
 
     /**
-     * Adds the specified attribute to this attribute set if it is not
-     * already present, first removing any existing in the same
-     * attribute category as the specified attribute value.
+     * Adds the specified bttribute to this bttribute set if it is not
+     * blrebdy present, first removing bny existing in the sbme
+     * bttribute cbtegory bs the specified bttribute vblue.
      *
-     * @param  attribute  Attribute value to be added to this attribute set.
+     * @pbrbm  bttribute  Attribute vblue to be bdded to this bttribute set.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *          call, i.e., the given attribute value was not already a
-     *          member of this attribute set.
+     * @return  <tt>true</tt> if this bttribute set chbnged bs b result of the
+     *          cbll, i.e., the given bttribute vblue wbs not blrebdy b
+     *          member of this bttribute set.
      *
      * @throws  NullPointerException
-     *    (unchecked exception) Thrown if the <CODE>attribute</CODE> is null.
-     * @throws  UnmodifiableSetException
-     *    (unchecked exception) Thrown if this attribute set does not support
-     *     the <CODE>add()</CODE> operation.
+     *    (unchecked exception) Thrown if the <CODE>bttribute</CODE> is null.
+     * @throws  UnmodifibbleSetException
+     *    (unchecked exception) Thrown if this bttribute set does not support
+     *     the <CODE>bdd()</CODE> operbtion.
      */
-    public boolean add(Attribute attribute) {
+    public boolebn bdd(Attribute bttribute) {
         Object oldAttribute =
-            attrMap.put(attribute.getCategory(),
+            bttrMbp.put(bttribute.getCbtegory(),
                         AttributeSetUtilities.
-                        verifyAttributeValue(attribute, myInterface));
-        return (!attribute.equals(oldAttribute));
+                        verifyAttributeVblue(bttribute, myInterfbce));
+        return (!bttribute.equbls(oldAttribute));
     }
 
     /**
-     * Removes any attribute for this category from this attribute set if
-     * present. If <CODE>category</CODE> is null, then
-     * <CODE>remove()</CODE> does nothing and returns <tt>false</tt>.
+     * Removes bny bttribute for this cbtegory from this bttribute set if
+     * present. If <CODE>cbtegory</CODE> is null, then
+     * <CODE>remove()</CODE> does nothing bnd returns <tt>fblse</tt>.
      *
-     * @param  category Attribute category to be removed from this
-     *                  attribute set.
+     * @pbrbm  cbtegory Attribute cbtegory to be removed from this
+     *                  bttribute set.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *         call, i.e., the given attribute category had been a member of
-     *         this attribute set.
+     * @return  <tt>true</tt> if this bttribute set chbnged bs b result of the
+     *         cbll, i.e., the given bttribute cbtegory hbd been b member of
+     *         this bttribute set.
      *
-     * @throws  UnmodifiableSetException
-     *     (unchecked exception) Thrown if this attribute set does not
-     *     support the <CODE>remove()</CODE> operation.
+     * @throws  UnmodifibbleSetException
+     *     (unchecked exception) Thrown if this bttribute set does not
+     *     support the <CODE>remove()</CODE> operbtion.
      */
-    public boolean remove(Class<?> category) {
+    public boolebn remove(Clbss<?> cbtegory) {
         return
-            category != null &&
+            cbtegory != null &&
             AttributeSetUtilities.
-            verifyAttributeCategory(category, Attribute.class) != null &&
-            attrMap.remove(category) != null;
+            verifyAttributeCbtegory(cbtegory, Attribute.clbss) != null &&
+            bttrMbp.remove(cbtegory) != null;
     }
 
     /**
-     * Removes the specified attribute from this attribute set if
-     * present. If <CODE>attribute</CODE> is null, then
-     * <CODE>remove()</CODE> does nothing and returns <tt>false</tt>.
+     * Removes the specified bttribute from this bttribute set if
+     * present. If <CODE>bttribute</CODE> is null, then
+     * <CODE>remove()</CODE> does nothing bnd returns <tt>fblse</tt>.
      *
-     * @param attribute Attribute value to be removed from this attribute set.
+     * @pbrbm bttribute Attribute vblue to be removed from this bttribute set.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *         call, i.e., the given attribute value had been a member of
-     *         this attribute set.
+     * @return  <tt>true</tt> if this bttribute set chbnged bs b result of the
+     *         cbll, i.e., the given bttribute vblue hbd been b member of
+     *         this bttribute set.
      *
-     * @throws  UnmodifiableSetException
-     *     (unchecked exception) Thrown if this attribute set does not
-     *     support the <CODE>remove()</CODE> operation.
+     * @throws  UnmodifibbleSetException
+     *     (unchecked exception) Thrown if this bttribute set does not
+     *     support the <CODE>remove()</CODE> operbtion.
      */
-    public boolean remove(Attribute attribute) {
+    public boolebn remove(Attribute bttribute) {
         return
-            attribute != null &&
-            attrMap.remove(attribute.getCategory()) != null;
+            bttribute != null &&
+            bttrMbp.remove(bttribute.getCbtegory()) != null;
     }
 
     /**
-     * Returns <tt>true</tt> if this attribute set contains an
-     * attribute for the specified category.
+     * Returns <tt>true</tt> if this bttribute set contbins bn
+     * bttribute for the specified cbtegory.
      *
-     * @param  category whose presence in this attribute set is
+     * @pbrbm  cbtegory whose presence in this bttribute set is
      *            to be tested.
      *
-     * @return  <tt>true</tt> if this attribute set contains an attribute
-     *         value for the specified category.
+     * @return  <tt>true</tt> if this bttribute set contbins bn bttribute
+     *         vblue for the specified cbtegory.
      */
-    public boolean containsKey(Class<?> category) {
+    public boolebn contbinsKey(Clbss<?> cbtegory) {
         return
-            category != null &&
+            cbtegory != null &&
             AttributeSetUtilities.
-            verifyAttributeCategory(category, Attribute.class) != null &&
-            attrMap.get(category) != null;
+            verifyAttributeCbtegory(cbtegory, Attribute.clbss) != null &&
+            bttrMbp.get(cbtegory) != null;
     }
 
     /**
-     * Returns <tt>true</tt> if this attribute set contains the given
-     * attribute.
+     * Returns <tt>true</tt> if this bttribute set contbins the given
+     * bttribute.
      *
-     * @param  attribute  value whose presence in this attribute set is
+     * @pbrbm  bttribute  vblue whose presence in this bttribute set is
      *            to be tested.
      *
-     * @return  <tt>true</tt> if this attribute set contains the given
-     *      attribute    value.
+     * @return  <tt>true</tt> if this bttribute set contbins the given
+     *      bttribute    vblue.
      */
-    public boolean containsValue(Attribute attribute) {
+    public boolebn contbinsVblue(Attribute bttribute) {
         return
-           attribute != null &&
-           attribute instanceof Attribute &&
-           attribute.equals(attrMap.get(attribute.getCategory()));
+           bttribute != null &&
+           bttribute instbnceof Attribute &&
+           bttribute.equbls(bttrMbp.get(bttribute.getCbtegory()));
     }
 
     /**
-     * Adds all of the elements in the specified set to this attribute.
-     * The outcome is the same as if the
-     * {@link #add(Attribute) add(Attribute)}
-     * operation had been applied to this attribute set successively with
-     * each element from the specified set.
-     * The behavior of the <CODE>addAll(AttributeSet)</CODE>
-     * operation is unspecified if the specified set is modified while
-     * the operation is in progress.
+     * Adds bll of the elements in the specified set to this bttribute.
+     * The outcome is the sbme bs if the
+     * {@link #bdd(Attribute) bdd(Attribute)}
+     * operbtion hbd been bpplied to this bttribute set successively with
+     * ebch element from the specified set.
+     * The behbvior of the <CODE>bddAll(AttributeSet)</CODE>
+     * operbtion is unspecified if the specified set is modified while
+     * the operbtion is in progress.
      * <P>
-     * If the <CODE>addAll(AttributeSet)</CODE> operation throws an exception,
-     * the effect on this attribute set's state is implementation dependent;
-     * elements from the specified set before the point of the exception may
-     * or may not have been added to this attribute set.
+     * If the <CODE>bddAll(AttributeSet)</CODE> operbtion throws bn exception,
+     * the effect on this bttribute set's stbte is implementbtion dependent;
+     * elements from the specified set before the point of the exception mby
+     * or mby not hbve been bdded to this bttribute set.
      *
-     * @param  attributes  whose elements are to be added to this attribute
+     * @pbrbm  bttributes  whose elements bre to be bdded to this bttribute
      *            set.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *          call.
+     * @return  <tt>true</tt> if this bttribute set chbnged bs b result of the
+     *          cbll.
      *
-     * @throws  UnmodifiableSetException
-     *    (Unchecked exception) Thrown if this attribute set does not
-     *     support the <tt>addAll(AttributeSet)</tt> method.
+     * @throws  UnmodifibbleSetException
+     *    (Unchecked exception) Thrown if this bttribute set does not
+     *     support the <tt>bddAll(AttributeSet)</tt> method.
      * @throws  NullPointerException
      *     (Unchecked exception) Thrown if some element in the specified
      *     set is null, or the set is null.
      *
-     * @see #add(Attribute)
+     * @see #bdd(Attribute)
      */
-    public boolean addAll(AttributeSet attributes) {
+    public boolebn bddAll(AttributeSet bttributes) {
 
-        Attribute []attrs = attributes.toArray();
-        boolean result = false;
-        for (int i=0; i<attrs.length; i++) {
-            Attribute newValue =
-                AttributeSetUtilities.verifyAttributeValue(attrs[i],
-                                                           myInterface);
-            Object oldValue = attrMap.put(newValue.getCategory(), newValue);
-            result = (! newValue.equals(oldValue)) || result;
+        Attribute []bttrs = bttributes.toArrby();
+        boolebn result = fblse;
+        for (int i=0; i<bttrs.length; i++) {
+            Attribute newVblue =
+                AttributeSetUtilities.verifyAttributeVblue(bttrs[i],
+                                                           myInterfbce);
+            Object oldVblue = bttrMbp.put(newVblue.getCbtegory(), newVblue);
+            result = (! newVblue.equbls(oldVblue)) || result;
         }
         return result;
     }
 
     /**
-     * Returns the number of attributes in this attribute set. If this
-     * attribute set contains more than <tt>Integer.MAX_VALUE</tt> elements,
+     * Returns the number of bttributes in this bttribute set. If this
+     * bttribute set contbins more thbn <tt>Integer.MAX_VALUE</tt> elements,
      * returns  <tt>Integer.MAX_VALUE</tt>.
      *
-     * @return  The number of attributes in this attribute set.
+     * @return  The number of bttributes in this bttribute set.
      */
     public int size() {
-        return attrMap.size();
+        return bttrMbp.size();
     }
 
     /**
      *
-     * @return the Attributes contained in this set as an array, zero length
+     * @return the Attributes contbined in this set bs bn brrby, zero length
      * if the AttributeSet is empty.
      */
-    public Attribute[] toArray() {
-        Attribute []attrs = new Attribute[size()];
-        attrMap.values().toArray(attrs);
-        return attrs;
+    public Attribute[] toArrby() {
+        Attribute []bttrs = new Attribute[size()];
+        bttrMbp.vblues().toArrby(bttrs);
+        return bttrs;
     }
 
 
     /**
-     * Removes all attributes from this attribute set.
+     * Removes bll bttributes from this bttribute set.
      *
-     * @throws  UnmodifiableSetException
-     *   (unchecked exception) Thrown if this attribute set does not support
-     *     the <CODE>clear()</CODE> operation.
+     * @throws  UnmodifibbleSetException
+     *   (unchecked exception) Thrown if this bttribute set does not support
+     *     the <CODE>clebr()</CODE> operbtion.
      */
-    public void clear() {
-        attrMap.clear();
+    public void clebr() {
+        bttrMbp.clebr();
     }
 
    /**
-     * Returns true if this attribute set contains no attributes.
+     * Returns true if this bttribute set contbins no bttributes.
      *
-     * @return true if this attribute set contains no attributes.
+     * @return true if this bttribute set contbins no bttributes.
      */
-    public boolean isEmpty() {
-        return attrMap.isEmpty();
+    public boolebn isEmpty() {
+        return bttrMbp.isEmpty();
     }
 
     /**
-     * Compares the specified object with this attribute set for equality.
-     * Returns <tt>true</tt> if the given object is also an attribute set and
-     * the two attribute sets contain the same attribute category-attribute
-     * value mappings. This ensures that the
-     * <tt>equals()</tt> method works properly across different
-     * implementations of the AttributeSet interface.
+     * Compbres the specified object with this bttribute set for equblity.
+     * Returns <tt>true</tt> if the given object is blso bn bttribute set bnd
+     * the two bttribute sets contbin the sbme bttribute cbtegory-bttribute
+     * vblue mbppings. This ensures thbt the
+     * <tt>equbls()</tt> method works properly bcross different
+     * implementbtions of the AttributeSet interfbce.
      *
-     * @param  object to be compared for equality with this attribute set.
+     * @pbrbm  object to be compbred for equblity with this bttribute set.
      *
-     * @return  <tt>true</tt> if the specified object is equal to this
-     *       attribute   set.
+     * @return  <tt>true</tt> if the specified object is equbl to this
+     *       bttribute   set.
      */
 
-    public boolean equals(Object object) {
-        if (object == null || !(object instanceof AttributeSet)) {
-            return false;
+    public boolebn equbls(Object object) {
+        if (object == null || !(object instbnceof AttributeSet)) {
+            return fblse;
         }
 
-        AttributeSet aset = (AttributeSet)object;
-        if (aset.size() != size()) {
-            return false;
+        AttributeSet bset = (AttributeSet)object;
+        if (bset.size() != size()) {
+            return fblse;
         }
 
-        Attribute[] attrs = toArray();
-        for (int i=0;i<attrs.length; i++) {
-            if (!aset.containsValue(attrs[i])) {
-                return false;
+        Attribute[] bttrs = toArrby();
+        for (int i=0;i<bttrs.length; i++) {
+            if (!bset.contbinsVblue(bttrs[i])) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Returns the hash code value for this attribute set.
-     * The hash code of an attribute set is defined to be the sum
-     * of the hash codes of each entry in the AttributeSet.
-     * This ensures that <tt>t1.equals(t2)</tt> implies that
-     * <tt>t1.hashCode()==t2.hashCode()</tt> for any two attribute sets
-     * <tt>t1</tt> and <tt>t2</tt>, as required by the general contract of
-     * {@link java.lang.Object#hashCode() Object.hashCode()}.
+     * Returns the hbsh code vblue for this bttribute set.
+     * The hbsh code of bn bttribute set is defined to be the sum
+     * of the hbsh codes of ebch entry in the AttributeSet.
+     * This ensures thbt <tt>t1.equbls(t2)</tt> implies thbt
+     * <tt>t1.hbshCode()==t2.hbshCode()</tt> for bny two bttribute sets
+     * <tt>t1</tt> bnd <tt>t2</tt>, bs required by the generbl contrbct of
+     * {@link jbvb.lbng.Object#hbshCode() Object.hbshCode()}.
      *
-     * @return  The hash code value for this attribute set.
+     * @return  The hbsh code vblue for this bttribute set.
      */
-    public int hashCode() {
+    public int hbshCode() {
         int hcode = 0;
-        Attribute[] attrs = toArray();
-        for (int i=0;i<attrs.length; i++) {
-            hcode += attrs[i].hashCode();
+        Attribute[] bttrs = toArrby();
+        for (int i=0;i<bttrs.length; i++) {
+            hcode += bttrs[i].hbshCode();
         }
         return hcode;
     }

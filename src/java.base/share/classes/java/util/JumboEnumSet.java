@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * Private implementation class for EnumSet, for "jumbo" enum types
- * (i.e., those with more than 64 elements).
+ * Privbte implementbtion clbss for EnumSet, for "jumbo" enum types
+ * (i.e., those with more thbn 64 elements).
  *
- * @author Josh Bloch
+ * @buthor Josh Bloch
  * @since 1.5
- * @serial exclude
+ * @seribl exclude
  */
-class JumboEnumSet<E extends Enum<E>> extends EnumSet<E> {
-    private static final long serialVersionUID = 334349849919042784L;
+clbss JumboEnumSet<E extends Enum<E>> extends EnumSet<E> {
+    privbte stbtic finbl long seriblVersionUID = 334349849919042784L;
 
     /**
-     * Bit vector representation of this set.  The ith bit of the jth
-     * element of this array represents the  presence of universe[64*j +i]
+     * Bit vector representbtion of this set.  The ith bit of the jth
+     * element of this brrby represents the  presence of universe[64*j +i]
      * in this set.
      */
-    private long elements[];
+    privbte long elements[];
 
-    // Redundant - maintained for performance
-    private int size = 0;
+    // Redundbnt - mbintbined for performbnce
+    privbte int size = 0;
 
-    JumboEnumSet(Class<E>elementType, Enum<?>[] universe) {
+    JumboEnumSet(Clbss<E>elementType, Enum<?>[] universe) {
         super(elementType, universe);
         elements = new long[(universe.length + 63) >>> 6];
     }
 
-    void addRange(E from, E to) {
-        int fromIndex = from.ordinal() >>> 6;
-        int toIndex = to.ordinal() >>> 6;
+    void bddRbnge(E from, E to) {
+        int fromIndex = from.ordinbl() >>> 6;
+        int toIndex = to.ordinbl() >>> 6;
 
         if (fromIndex == toIndex) {
-            elements[fromIndex] = (-1L >>>  (from.ordinal() - to.ordinal() - 1))
-                            << from.ordinal();
+            elements[fromIndex] = (-1L >>>  (from.ordinbl() - to.ordinbl() - 1))
+                            << from.ordinbl();
         } else {
-            elements[fromIndex] = (-1L << from.ordinal());
+            elements[fromIndex] = (-1L << from.ordinbl());
             for (int i = fromIndex + 1; i < toIndex; i++)
                 elements[i] = -1;
-            elements[toIndex] = -1L >>> (63 - to.ordinal());
+            elements[toIndex] = -1L >>> (63 - to.ordinbl());
         }
-        size = to.ordinal() - from.ordinal() + 1;
+        size = to.ordinbl() - from.ordinbl() + 1;
     }
 
-    void addAll() {
+    void bddAll() {
         for (int i = 0; i < elements.length; i++)
             elements[i] = -1;
         elements[elements.length - 1] >>>= -universe.length;
@@ -82,74 +82,74 @@ class JumboEnumSet<E extends Enum<E>> extends EnumSet<E> {
     }
 
     /**
-     * Returns an iterator over the elements contained in this set.  The
-     * iterator traverses the elements in their <i>natural order</i> (which is
-     * the order in which the enum constants are declared). The returned
-     * Iterator is a "weakly consistent" iterator that will never throw {@link
-     * ConcurrentModificationException}.
+     * Returns bn iterbtor over the elements contbined in this set.  The
+     * iterbtor trbverses the elements in their <i>nbturbl order</i> (which is
+     * the order in which the enum constbnts bre declbred). The returned
+     * Iterbtor is b "webkly consistent" iterbtor thbt will never throw {@link
+     * ConcurrentModificbtionException}.
      *
-     * @return an iterator over the elements contained in this set
+     * @return bn iterbtor over the elements contbined in this set
      */
-    public Iterator<E> iterator() {
-        return new EnumSetIterator<>();
+    public Iterbtor<E> iterbtor() {
+        return new EnumSetIterbtor<>();
     }
 
-    private class EnumSetIterator<E extends Enum<E>> implements Iterator<E> {
+    privbte clbss EnumSetIterbtor<E extends Enum<E>> implements Iterbtor<E> {
         /**
          * A bit vector representing the elements in the current "word"
-         * of the set not yet returned by this iterator.
+         * of the set not yet returned by this iterbtor.
          */
         long unseen;
 
         /**
-         * The index corresponding to unseen in the elements array.
+         * The index corresponding to unseen in the elements brrby.
          */
         int unseenIndex = 0;
 
         /**
-         * The bit representing the last element returned by this iterator
+         * The bit representing the lbst element returned by this iterbtor
          * but not removed, or zero if no such element exists.
          */
-        long lastReturned = 0;
+        long lbstReturned = 0;
 
         /**
-         * The index corresponding to lastReturned in the elements array.
+         * The index corresponding to lbstReturned in the elements brrby.
          */
-        int lastReturnedIndex = 0;
+        int lbstReturnedIndex = 0;
 
-        EnumSetIterator() {
+        EnumSetIterbtor() {
             unseen = elements[0];
         }
 
         @Override
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             while (unseen == 0 && unseenIndex < elements.length - 1)
                 unseen = elements[++unseenIndex];
             return unseen != 0;
         }
 
         @Override
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public E next() {
-            if (!hasNext())
+            if (!hbsNext())
                 throw new NoSuchElementException();
-            lastReturned = unseen & -unseen;
-            lastReturnedIndex = unseenIndex;
-            unseen -= lastReturned;
-            return (E) universe[(lastReturnedIndex << 6)
-                                + Long.numberOfTrailingZeros(lastReturned)];
+            lbstReturned = unseen & -unseen;
+            lbstReturnedIndex = unseenIndex;
+            unseen -= lbstReturned;
+            return (E) universe[(lbstReturnedIndex << 6)
+                                + Long.numberOfTrbilingZeros(lbstReturned)];
         }
 
         @Override
         public void remove() {
-            if (lastReturned == 0)
-                throw new IllegalStateException();
-            final long oldElements = elements[lastReturnedIndex];
-            elements[lastReturnedIndex] &= ~lastReturned;
-            if (oldElements != elements[lastReturnedIndex]) {
+            if (lbstReturned == 0)
+                throw new IllegblStbteException();
+            finbl long oldElements = elements[lbstReturnedIndex];
+            elements[lbstReturnedIndex] &= ~lbstReturned;
+            if (oldElements != elements[lbstReturnedIndex]) {
                 size--;
             }
-            lastReturned = 0;
+            lbstReturned = 0;
         }
     }
 
@@ -163,50 +163,50 @@ class JumboEnumSet<E extends Enum<E>> extends EnumSet<E> {
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Returns <tt>true</tt> if this set contbins no elements.
      *
-     * @return <tt>true</tt> if this set contains no elements
+     * @return <tt>true</tt> if this set contbins no elements
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return size == 0;
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.
+     * Returns <tt>true</tt> if this set contbins the specified element.
      *
-     * @param e element to be checked for containment in this collection
-     * @return <tt>true</tt> if this set contains the specified element
+     * @pbrbm e element to be checked for contbinment in this collection
+     * @return <tt>true</tt> if this set contbins the specified element
      */
-    public boolean contains(Object e) {
+    public boolebn contbins(Object e) {
         if (e == null)
-            return false;
-        Class<?> eClass = e.getClass();
-        if (eClass != elementType && eClass.getSuperclass() != elementType)
-            return false;
+            return fblse;
+        Clbss<?> eClbss = e.getClbss();
+        if (eClbss != elementType && eClbss.getSuperclbss() != elementType)
+            return fblse;
 
-        int eOrdinal = ((Enum<?>)e).ordinal();
-        return (elements[eOrdinal >>> 6] & (1L << eOrdinal)) != 0;
+        int eOrdinbl = ((Enum<?>)e).ordinbl();
+        return (elements[eOrdinbl >>> 6] & (1L << eOrdinbl)) != 0;
     }
 
-    // Modification Operations
+    // Modificbtion Operbtions
 
     /**
-     * Adds the specified element to this set if it is not already present.
+     * Adds the specified element to this set if it is not blrebdy present.
      *
-     * @param e element to be added to this set
-     * @return <tt>true</tt> if the set changed as a result of the call
+     * @pbrbm e element to be bdded to this set
+     * @return <tt>true</tt> if the set chbnged bs b result of the cbll
      *
      * @throws NullPointerException if <tt>e</tt> is null
      */
-    public boolean add(E e) {
+    public boolebn bdd(E e) {
         typeCheck(e);
 
-        int eOrdinal = e.ordinal();
-        int eWordNum = eOrdinal >>> 6;
+        int eOrdinbl = e.ordinbl();
+        int eWordNum = eOrdinbl >>> 6;
 
         long oldElements = elements[eWordNum];
-        elements[eWordNum] |= (1L << eOrdinal);
-        boolean result = (elements[eWordNum] != oldElements);
+        elements[eWordNum] |= (1L << eOrdinbl);
+        boolebn result = (elements[eWordNum] != oldElements);
         if (result)
             size++;
         return result;
@@ -215,40 +215,40 @@ class JumboEnumSet<E extends Enum<E>> extends EnumSet<E> {
     /**
      * Removes the specified element from this set if it is present.
      *
-     * @param e element to be removed from this set, if present
-     * @return <tt>true</tt> if the set contained the specified element
+     * @pbrbm e element to be removed from this set, if present
+     * @return <tt>true</tt> if the set contbined the specified element
      */
-    public boolean remove(Object e) {
+    public boolebn remove(Object e) {
         if (e == null)
-            return false;
-        Class<?> eClass = e.getClass();
-        if (eClass != elementType && eClass.getSuperclass() != elementType)
-            return false;
-        int eOrdinal = ((Enum<?>)e).ordinal();
-        int eWordNum = eOrdinal >>> 6;
+            return fblse;
+        Clbss<?> eClbss = e.getClbss();
+        if (eClbss != elementType && eClbss.getSuperclbss() != elementType)
+            return fblse;
+        int eOrdinbl = ((Enum<?>)e).ordinbl();
+        int eWordNum = eOrdinbl >>> 6;
 
         long oldElements = elements[eWordNum];
-        elements[eWordNum] &= ~(1L << eOrdinal);
-        boolean result = (elements[eWordNum] != oldElements);
+        elements[eWordNum] &= ~(1L << eOrdinbl);
+        boolebn result = (elements[eWordNum] != oldElements);
         if (result)
             size--;
         return result;
     }
 
-    // Bulk Operations
+    // Bulk Operbtions
 
     /**
-     * Returns <tt>true</tt> if this set contains all of the elements
+     * Returns <tt>true</tt> if this set contbins bll of the elements
      * in the specified collection.
      *
-     * @param c collection to be checked for containment in this set
-     * @return <tt>true</tt> if this set contains all of the elements
+     * @pbrbm c collection to be checked for contbinment in this set
+     * @return <tt>true</tt> if this set contbins bll of the elements
      *        in the specified collection
      * @throws NullPointerException if the specified collection is null
      */
-    public boolean containsAll(Collection<?> c) {
-        if (!(c instanceof JumboEnumSet))
-            return super.containsAll(c);
+    public boolebn contbinsAll(Collection<?> c) {
+        if (!(c instbnceof JumboEnumSet))
+            return super.contbinsAll(c);
 
         JumboEnumSet<?> es = (JumboEnumSet<?>)c;
         if (es.elementType != elementType)
@@ -256,113 +256,113 @@ class JumboEnumSet<E extends Enum<E>> extends EnumSet<E> {
 
         for (int i = 0; i < elements.length; i++)
             if ((es.elements[i] & ~elements[i]) != 0)
-                return false;
+                return fblse;
         return true;
     }
 
     /**
-     * Adds all of the elements in the specified collection to this set.
+     * Adds bll of the elements in the specified collection to this set.
      *
-     * @param c collection whose elements are to be added to this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws NullPointerException if the specified collection or any of
-     *     its elements are null
+     * @pbrbm c collection whose elements bre to be bdded to this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
+     * @throws NullPointerException if the specified collection or bny of
+     *     its elements bre null
      */
-    public boolean addAll(Collection<? extends E> c) {
-        if (!(c instanceof JumboEnumSet))
-            return super.addAll(c);
+    public boolebn bddAll(Collection<? extends E> c) {
+        if (!(c instbnceof JumboEnumSet))
+            return super.bddAll(c);
 
         JumboEnumSet<?> es = (JumboEnumSet<?>)c;
         if (es.elementType != elementType) {
             if (es.isEmpty())
-                return false;
+                return fblse;
             else
-                throw new ClassCastException(
+                throw new ClbssCbstException(
                     es.elementType + " != " + elementType);
         }
 
         for (int i = 0; i < elements.length; i++)
             elements[i] |= es.elements[i];
-        return recalculateSize();
+        return recblculbteSize();
     }
 
     /**
-     * Removes from this set all of its elements that are contained in
+     * Removes from this set bll of its elements thbt bre contbined in
      * the specified collection.
      *
-     * @param c elements to be removed from this set
-     * @return <tt>true</tt> if this set changed as a result of the call
+     * @pbrbm c elements to be removed from this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
      * @throws NullPointerException if the specified collection is null
      */
-    public boolean removeAll(Collection<?> c) {
-        if (!(c instanceof JumboEnumSet))
+    public boolebn removeAll(Collection<?> c) {
+        if (!(c instbnceof JumboEnumSet))
             return super.removeAll(c);
 
         JumboEnumSet<?> es = (JumboEnumSet<?>)c;
         if (es.elementType != elementType)
-            return false;
+            return fblse;
 
         for (int i = 0; i < elements.length; i++)
             elements[i] &= ~es.elements[i];
-        return recalculateSize();
+        return recblculbteSize();
     }
 
     /**
-     * Retains only the elements in this set that are contained in the
+     * Retbins only the elements in this set thbt bre contbined in the
      * specified collection.
      *
-     * @param c elements to be retained in this set
-     * @return <tt>true</tt> if this set changed as a result of the call
+     * @pbrbm c elements to be retbined in this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
      * @throws NullPointerException if the specified collection is null
      */
-    public boolean retainAll(Collection<?> c) {
-        if (!(c instanceof JumboEnumSet))
-            return super.retainAll(c);
+    public boolebn retbinAll(Collection<?> c) {
+        if (!(c instbnceof JumboEnumSet))
+            return super.retbinAll(c);
 
         JumboEnumSet<?> es = (JumboEnumSet<?>)c;
         if (es.elementType != elementType) {
-            boolean changed = (size != 0);
-            clear();
-            return changed;
+            boolebn chbnged = (size != 0);
+            clebr();
+            return chbnged;
         }
 
         for (int i = 0; i < elements.length; i++)
             elements[i] &= es.elements[i];
-        return recalculateSize();
+        return recblculbteSize();
     }
 
     /**
-     * Removes all of the elements from this set.
+     * Removes bll of the elements from this set.
      */
-    public void clear() {
-        Arrays.fill(elements, 0);
+    public void clebr() {
+        Arrbys.fill(elements, 0);
         size = 0;
     }
 
     /**
-     * Compares the specified object with this set for equality.  Returns
-     * <tt>true</tt> if the given object is also a set, the two sets have
-     * the same size, and every member of the given set is contained in
+     * Compbres the specified object with this set for equblity.  Returns
+     * <tt>true</tt> if the given object is blso b set, the two sets hbve
+     * the sbme size, bnd every member of the given set is contbined in
      * this set.
      *
-     * @param o object to be compared for equality with this set
-     * @return <tt>true</tt> if the specified object is equal to this set
+     * @pbrbm o object to be compbred for equblity with this set
+     * @return <tt>true</tt> if the specified object is equbl to this set
      */
-    public boolean equals(Object o) {
-        if (!(o instanceof JumboEnumSet))
-            return super.equals(o);
+    public boolebn equbls(Object o) {
+        if (!(o instbnceof JumboEnumSet))
+            return super.equbls(o);
 
         JumboEnumSet<?> es = (JumboEnumSet<?>)o;
         if (es.elementType != elementType)
             return size == 0 && es.size == 0;
 
-        return Arrays.equals(es.elements, elements);
+        return Arrbys.equbls(es.elements, elements);
     }
 
     /**
-     * Recalculates the size of the set.  Returns true if it's changed.
+     * Recblculbtes the size of the set.  Returns true if it's chbnged.
      */
-    private boolean recalculateSize() {
+    privbte boolebn recblculbteSize() {
         int oldSize = size;
         size = 0;
         for (long elt : elements)

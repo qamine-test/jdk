@@ -1,22 +1,22 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbce -Zs
 
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -35,57 +35,57 @@
 */
 
 /*
- * Usage:
- *   1. hotspot_jni_calls_tree.d -c "java ..."
- *   2. hotspot_jni_calls_tree.d -p JAVA_PID
+ * Usbge:
+ *   1. hotspot_jni_cblls_tree.d -c "jbvb ..."
+ *   2. hotspot_jni_cblls_tree.d -p JAVA_PID
  *
- * The script prints tree of JNI method calls.
+ * The script prints tree of JNI method cblls.
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option bufsize=16m
-#pragma D option aggrate=100ms
+#prbgmb D option quiet
+#prbgmb D option destructive
+#prbgmb D option defbultbrgs
+#prbgmb D option bufsize=16m
+#prbgmb D option bggrbte=100ms
 
 
 self int indent;
 
 :::BEGIN
 {
-    printf("BEGIN hotspot_jni tracing\n");
+    printf("BEGIN hotspot_jni trbcing\n");
 }
 
 
-hotspot_jni$target:::*
+hotspot_jni$tbrget:::*
 /!self->indent/
 {
     self->indent = 11;
 }
 
-hotspot_jni$target:::*-entry
+hotspot_jni$tbrget:::*-entry
 {
     self->indent++;
-    printf("%d %*s -> %s\n", curcpu->cpu_id, self->indent, "", probename);
+    printf("%d %*s -> %s\n", curcpu->cpu_id, self->indent, "", probenbme);
 }
 
 
-hotspot_jni$target:::*-return
+hotspot_jni$tbrget:::*-return
 {
-    printf("%d %*s <- %s\n", curcpu->cpu_id, self->indent, "", probename);
+    printf("%d %*s <- %s\n", curcpu->cpu_id, self->indent, "", probenbme);
     self->indent--;
 }
 
 :::END
 {
-   printf("\nEND hotspot_jni tracing.\n");
+   printf("\nEND hotspot_jni trbcing.\n");
 
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+syscbll::rexit:entry,
+syscbll::exit:entry
+/pid == $tbrget/
 {
    exit(0);
 }

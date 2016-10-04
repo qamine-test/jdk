@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.File;
+import jbvb.io.OutputStrebm;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.concurrent.Sembphore;
+import jbvb.util.concurrent.TimeUnit;
 
-import sun.awt.AppContext;
-import sun.awt.util.ThreadGroupUtils;
+import sun.bwt.AppContext;
+import sun.bwt.util.ThrebdGroupUtils;
 
-public class CreatedFontTracker {
+public clbss CrebtedFontTrbcker {
 
-    public static final int MAX_FILE_SIZE = 32 * 1024 * 1024;
-    public static final int MAX_TOTAL_BYTES = 10 * MAX_FILE_SIZE;
+    public stbtic finbl int MAX_FILE_SIZE = 32 * 1024 * 1024;
+    public stbtic finbl int MAX_TOTAL_BYTES = 10 * MAX_FILE_SIZE;
 
-    static CreatedFontTracker tracker;
+    stbtic CrebtedFontTrbcker trbcker;
     int numBytes;
 
-    public static synchronized CreatedFontTracker getTracker() {
-        if (tracker == null) {
-            tracker = new CreatedFontTracker();
+    public stbtic synchronized CrebtedFontTrbcker getTrbcker() {
+        if (trbcker == null) {
+            trbcker = new CrebtedFontTrbcker();
         }
-        return tracker;
+        return trbcker;
     }
 
-    private CreatedFontTracker() {
+    privbte CrebtedFontTrbcker() {
         numBytes = 0;
     }
 
@@ -60,7 +60,7 @@ public class CreatedFontTracker {
         return numBytes;
     }
 
-    public synchronized void addBytes(int sz) {
+    public synchronized void bddBytes(int sz) {
         numBytes += sz;
     }
 
@@ -69,34 +69,34 @@ public class CreatedFontTracker {
     }
 
     /**
-     * Returns an AppContext-specific counting semaphore.
+     * Returns bn AppContext-specific counting sembphore.
      */
-    private static synchronized Semaphore getCS() {
-        final AppContext appContext = AppContext.getAppContext();
-        Semaphore cs = (Semaphore) appContext.get(CreatedFontTracker.class);
+    privbte stbtic synchronized Sembphore getCS() {
+        finbl AppContext bppContext = AppContext.getAppContext();
+        Sembphore cs = (Sembphore) bppContext.get(CrebtedFontTrbcker.clbss);
         if (cs == null) {
-            // Make a semaphore with 5 permits that obeys the first-in first-out
-            // granting of permits.
-            cs = new Semaphore(5, true);
-            appContext.put(CreatedFontTracker.class, cs);
+            // Mbke b sembphore with 5 permits thbt obeys the first-in first-out
+            // grbnting of permits.
+            cs = new Sembphore(5, true);
+            bppContext.put(CrebtedFontTrbcker.clbss, cs);
         }
         return cs;
     }
 
-    public boolean acquirePermit() throws InterruptedException {
-        // This does a timed-out wait.
+    public boolebn bcquirePermit() throws InterruptedException {
+        // This does b timed-out wbit.
         return getCS().tryAcquire(120, TimeUnit.SECONDS);
     }
 
-    public void releasePermit() {
-        getCS().release();
+    public void relebsePermit() {
+        getCS().relebse();
     }
 
-    public void add(File file) {
-        TempFileDeletionHook.add(file);
+    public void bdd(File file) {
+        TempFileDeletionHook.bdd(file);
     }
 
-    public void set(File file, OutputStream os) {
+    public void set(File file, OutputStrebm os) {
         TempFileDeletionHook.set(file, os);
     }
 
@@ -105,58 +105,58 @@ public class CreatedFontTracker {
     }
 
     /**
-     * Helper class for cleanup of temp files created while processing fonts.
-     * Note that this only applies to createFont() from an InputStream object.
+     * Helper clbss for clebnup of temp files crebted while processing fonts.
+     * Note thbt this only bpplies to crebteFont() from bn InputStrebm object.
      */
-    private static class TempFileDeletionHook {
-        private static HashMap<File, OutputStream> files = new HashMap<>();
+    privbte stbtic clbss TempFileDeletionHook {
+        privbte stbtic HbshMbp<File, OutputStrebm> files = new HbshMbp<>();
 
-        private static Thread t = null;
-        static void init() {
+        privbte stbtic Threbd t = null;
+        stbtic void init() {
             if (t == null) {
-                // Add a shutdown hook to remove the temp file.
+                // Add b shutdown hook to remove the temp file.
                 AccessController.doPrivileged(
                         (PrivilegedAction<Void>) () -> {
-                            /* The thread must be a member of a thread group
+                            /* The threbd must be b member of b threbd group
                              * which will not get GCed before VM exit.
-                             * Make its parent the top-level thread group.
+                             * Mbke its pbrent the top-level threbd group.
                              */
-                            ThreadGroup rootTG = ThreadGroupUtils.getRootThreadGroup();
-                            t = new Thread(rootTG, TempFileDeletionHook::runHooks);
-                            t.setContextClassLoader(null);
-                            Runtime.getRuntime().addShutdownHook(t);
+                            ThrebdGroup rootTG = ThrebdGroupUtils.getRootThrebdGroup();
+                            t = new Threbd(rootTG, TempFileDeletionHook::runHooks);
+                            t.setContextClbssLobder(null);
+                            Runtime.getRuntime().bddShutdownHook(t);
                             return null;
                         });
             }
         }
 
-        private TempFileDeletionHook() {}
+        privbte TempFileDeletionHook() {}
 
-        static synchronized void add(File file) {
+        stbtic synchronized void bdd(File file) {
             init();
             files.put(file, null);
         }
 
-        static synchronized void set(File file, OutputStream os) {
+        stbtic synchronized void set(File file, OutputStrebm os) {
             files.put(file, os);
         }
 
-        static synchronized void remove(File file) {
+        stbtic synchronized void remove(File file) {
             files.remove(file);
         }
 
-        static synchronized void runHooks() {
+        stbtic synchronized void runHooks() {
             if (files.isEmpty()) {
                 return;
             }
 
-            for (Map.Entry<File, OutputStream> entry : files.entrySet()) {
-                // Close the associated output stream, and then delete the file.
+            for (Mbp.Entry<File, OutputStrebm> entry : files.entrySet()) {
+                // Close the bssocibted output strebm, bnd then delete the file.
                 try {
-                    if (entry.getValue() != null) {
-                        entry.getValue().close();
+                    if (entry.getVblue() != null) {
+                        entry.getVblue().close();
                     }
-                } catch (Exception e) {}
+                } cbtch (Exception e) {}
                 entry.getKey().delete();
             }
         }

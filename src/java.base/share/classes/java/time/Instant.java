@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,403 +59,403 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.LocalTime.NANOS_PER_SECOND;
-import static java.time.LocalTime.SECONDS_PER_DAY;
-import static java.time.LocalTime.SECONDS_PER_HOUR;
-import static java.time.LocalTime.SECONDS_PER_MINUTE;
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
-import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
-import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.NANOS;
+import stbtic jbvb.time.LocblTime.NANOS_PER_SECOND;
+import stbtic jbvb.time.LocblTime.SECONDS_PER_DAY;
+import stbtic jbvb.time.LocblTime.SECONDS_PER_HOUR;
+import stbtic jbvb.time.LocblTime.SECONDS_PER_MINUTE;
+import stbtic jbvb.time.temporbl.ChronoField.INSTANT_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoField.MICRO_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoField.MILLI_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_SECOND;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.NANOS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.formbt.DbteTimeFormbtter;
+import jbvb.time.formbt.DbteTimePbrseException;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Objects;
 
 /**
- * An instantaneous point on the time-line.
+ * An instbntbneous point on the time-line.
  * <p>
- * This class models a single instantaneous point on the time-line.
- * This might be used to record event time-stamps in the application.
+ * This clbss models b single instbntbneous point on the time-line.
+ * This might be used to record event time-stbmps in the bpplicbtion.
  * <p>
- * The range of an instant requires the storage of a number larger than a {@code long}.
- * To achieve this, the class stores a {@code long} representing epoch-seconds and an
- * {@code int} representing nanosecond-of-second, which will always be between 0 and 999,999,999.
- * The epoch-seconds are measured from the standard Java epoch of {@code 1970-01-01T00:00:00Z}
- * where instants after the epoch have positive values, and earlier instants have negative values.
- * For both the epoch-second and nanosecond parts, a larger value is always later on the time-line
- * than a smaller value.
+ * The rbnge of bn instbnt requires the storbge of b number lbrger thbn b {@code long}.
+ * To bchieve this, the clbss stores b {@code long} representing epoch-seconds bnd bn
+ * {@code int} representing nbnosecond-of-second, which will blwbys be between 0 bnd 999,999,999.
+ * The epoch-seconds bre mebsured from the stbndbrd Jbvb epoch of {@code 1970-01-01T00:00:00Z}
+ * where instbnts bfter the epoch hbve positive vblues, bnd ebrlier instbnts hbve negbtive vblues.
+ * For both the epoch-second bnd nbnosecond pbrts, b lbrger vblue is blwbys lbter on the time-line
+ * thbn b smbller vblue.
  *
- * <h3>Time-scale</h3>
+ * <h3>Time-scble</h3>
  * <p>
- * The length of the solar day is the standard way that humans measure time.
- * This has traditionally been subdivided into 24 hours of 60 minutes of 60 seconds,
- * forming a 86400 second day.
+ * The length of the solbr dby is the stbndbrd wby thbt humbns mebsure time.
+ * This hbs trbditionblly been subdivided into 24 hours of 60 minutes of 60 seconds,
+ * forming b 86400 second dby.
  * <p>
- * Modern timekeeping is based on atomic clocks which precisely define an SI second
- * relative to the transitions of a Caesium atom. The length of an SI second was defined
- * to be very close to the 86400th fraction of a day.
+ * Modern timekeeping is bbsed on btomic clocks which precisely define bn SI second
+ * relbtive to the trbnsitions of b Cbesium btom. The length of bn SI second wbs defined
+ * to be very close to the 86400th frbction of b dby.
  * <p>
- * Unfortunately, as the Earth rotates the length of the day varies.
- * In addition, over time the average length of the day is getting longer as the Earth slows.
- * As a result, the length of a solar day in 2012 is slightly longer than 86400 SI seconds.
- * The actual length of any given day and the amount by which the Earth is slowing
- * are not predictable and can only be determined by measurement.
- * The UT1 time-scale captures the accurate length of day, but is only available some
- * time after the day has completed.
+ * Unfortunbtely, bs the Ebrth rotbtes the length of the dby vbries.
+ * In bddition, over time the bverbge length of the dby is getting longer bs the Ebrth slows.
+ * As b result, the length of b solbr dby in 2012 is slightly longer thbn 86400 SI seconds.
+ * The bctubl length of bny given dby bnd the bmount by which the Ebrth is slowing
+ * bre not predictbble bnd cbn only be determined by mebsurement.
+ * The UT1 time-scble cbptures the bccurbte length of dby, but is only bvbilbble some
+ * time bfter the dby hbs completed.
  * <p>
- * The UTC time-scale is a standard approach to bundle up all the additional fractions
- * of a second from UT1 into whole seconds, known as <i>leap-seconds</i>.
- * A leap-second may be added or removed depending on the Earth's rotational changes.
- * As such, UTC permits a day to have 86399 SI seconds or 86401 SI seconds where
- * necessary in order to keep the day aligned with the Sun.
+ * The UTC time-scble is b stbndbrd bpprobch to bundle up bll the bdditionbl frbctions
+ * of b second from UT1 into whole seconds, known bs <i>lebp-seconds</i>.
+ * A lebp-second mby be bdded or removed depending on the Ebrth's rotbtionbl chbnges.
+ * As such, UTC permits b dby to hbve 86399 SI seconds or 86401 SI seconds where
+ * necessbry in order to keep the dby bligned with the Sun.
  * <p>
- * The modern UTC time-scale was introduced in 1972, introducing the concept of whole leap-seconds.
- * Between 1958 and 1972, the definition of UTC was complex, with minor sub-second leaps and
- * alterations to the length of the notional second. As of 2012, discussions are underway
- * to change the definition of UTC again, with the potential to remove leap seconds or
- * introduce other changes.
+ * The modern UTC time-scble wbs introduced in 1972, introducing the concept of whole lebp-seconds.
+ * Between 1958 bnd 1972, the definition of UTC wbs complex, with minor sub-second lebps bnd
+ * blterbtions to the length of the notionbl second. As of 2012, discussions bre underwby
+ * to chbnge the definition of UTC bgbin, with the potentibl to remove lebp seconds or
+ * introduce other chbnges.
  * <p>
- * Given the complexity of accurate timekeeping described above, this Java API defines
- * its own time-scale, the <i>Java Time-Scale</i>.
+ * Given the complexity of bccurbte timekeeping described bbove, this Jbvb API defines
+ * its own time-scble, the <i>Jbvb Time-Scble</i>.
  * <p>
- * The Java Time-Scale divides each calendar day into exactly 86400
- * subdivisions, known as seconds.  These seconds may differ from the
- * SI second.  It closely matches the de facto international civil time
- * scale, the definition of which changes from time to time.
+ * The Jbvb Time-Scble divides ebch cblendbr dby into exbctly 86400
+ * subdivisions, known bs seconds.  These seconds mby differ from the
+ * SI second.  It closely mbtches the de fbcto internbtionbl civil time
+ * scble, the definition of which chbnges from time to time.
  * <p>
- * The Java Time-Scale has slightly different definitions for different
- * segments of the time-line, each based on the consensus international
- * time scale that is used as the basis for civil time. Whenever the
- * internationally-agreed time scale is modified or replaced, a new
- * segment of the Java Time-Scale must be defined for it.  Each segment
+ * The Jbvb Time-Scble hbs slightly different definitions for different
+ * segments of the time-line, ebch bbsed on the consensus internbtionbl
+ * time scble thbt is used bs the bbsis for civil time. Whenever the
+ * internbtionblly-bgreed time scble is modified or replbced, b new
+ * segment of the Jbvb Time-Scble must be defined for it.  Ebch segment
  * must meet these requirements:
  * <ul>
- * <li>the Java Time-Scale shall closely match the underlying international
- *  civil time scale;</li>
- * <li>the Java Time-Scale shall exactly match the international civil
- *  time scale at noon each day;</li>
- * <li>the Java Time-Scale shall have a precisely-defined relationship to
- *  the international civil time scale.</li>
+ * <li>the Jbvb Time-Scble shbll closely mbtch the underlying internbtionbl
+ *  civil time scble;</li>
+ * <li>the Jbvb Time-Scble shbll exbctly mbtch the internbtionbl civil
+ *  time scble bt noon ebch dby;</li>
+ * <li>the Jbvb Time-Scble shbll hbve b precisely-defined relbtionship to
+ *  the internbtionbl civil time scble.</li>
  * </ul>
- * There are currently, as of 2013, two segments in the Java time-scale.
+ * There bre currently, bs of 2013, two segments in the Jbvb time-scble.
  * <p>
- * For the segment from 1972-11-03 (exact boundary discussed below) until
- * further notice, the consensus international time scale is UTC (with
- * leap seconds).  In this segment, the Java Time-Scale is identical to
- * <a href="http://www.cl.cam.ac.uk/~mgk25/time/utc-sls/">UTC-SLS</a>.
- * This is identical to UTC on days that do not have a leap second.
- * On days that do have a leap second, the leap second is spread equally
- * over the last 1000 seconds of the day, maintaining the appearance of
- * exactly 86400 seconds per day.
+ * For the segment from 1972-11-03 (exbct boundbry discussed below) until
+ * further notice, the consensus internbtionbl time scble is UTC (with
+ * lebp seconds).  In this segment, the Jbvb Time-Scble is identicbl to
+ * <b href="http://www.cl.cbm.bc.uk/~mgk25/time/utc-sls/">UTC-SLS</b>.
+ * This is identicbl to UTC on dbys thbt do not hbve b lebp second.
+ * On dbys thbt do hbve b lebp second, the lebp second is sprebd equblly
+ * over the lbst 1000 seconds of the dby, mbintbining the bppebrbnce of
+ * exbctly 86400 seconds per dby.
  * <p>
- * For the segment prior to 1972-11-03, extending back arbitrarily far,
- * the consensus international time scale is defined to be UT1, applied
- * proleptically, which is equivalent to the (mean) solar time on the
- * prime meridian (Greenwich). In this segment, the Java Time-Scale is
- * identical to the consensus international time scale. The exact
- * boundary between the two segments is the instant where UT1 = UTC
- * between 1972-11-03T00:00 and 1972-11-04T12:00.
+ * For the segment prior to 1972-11-03, extending bbck brbitrbrily fbr,
+ * the consensus internbtionbl time scble is defined to be UT1, bpplied
+ * prolepticblly, which is equivblent to the (mebn) solbr time on the
+ * prime meridibn (Greenwich). In this segment, the Jbvb Time-Scble is
+ * identicbl to the consensus internbtionbl time scble. The exbct
+ * boundbry between the two segments is the instbnt where UT1 = UTC
+ * between 1972-11-03T00:00 bnd 1972-11-04T12:00.
  * <p>
- * Implementations of the Java time-scale using the JSR-310 API are not
- * required to provide any clock that is sub-second accurate, or that
- * progresses monotonically or smoothly. Implementations are therefore
- * not required to actually perform the UTC-SLS slew or to otherwise be
- * aware of leap seconds. JSR-310 does, however, require that
- * implementations must document the approach they use when defining a
- * clock representing the current instant.
- * See {@link Clock} for details on the available clocks.
+ * Implementbtions of the Jbvb time-scble using the JSR-310 API bre not
+ * required to provide bny clock thbt is sub-second bccurbte, or thbt
+ * progresses monotonicblly or smoothly. Implementbtions bre therefore
+ * not required to bctublly perform the UTC-SLS slew or to otherwise be
+ * bwbre of lebp seconds. JSR-310 does, however, require thbt
+ * implementbtions must document the bpprobch they use when defining b
+ * clock representing the current instbnt.
+ * See {@link Clock} for detbils on the bvbilbble clocks.
  * <p>
- * The Java time-scale is used for all date-time classes.
- * This includes {@code Instant}, {@code LocalDate}, {@code LocalTime}, {@code OffsetDateTime},
- * {@code ZonedDateTime} and {@code Duration}.
+ * The Jbvb time-scble is used for bll dbte-time clbsses.
+ * This includes {@code Instbnt}, {@code LocblDbte}, {@code LocblTime}, {@code OffsetDbteTime},
+ * {@code ZonedDbteTime} bnd {@code Durbtion}.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code Instant} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code Instbnt} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class Instant
-        implements Temporal, TemporalAdjuster, Comparable<Instant>, Serializable {
+public finbl clbss Instbnt
+        implements Temporbl, TemporblAdjuster, Compbrbble<Instbnt>, Seriblizbble {
 
     /**
-     * Constant for the 1970-01-01T00:00:00Z epoch instant.
+     * Constbnt for the 1970-01-01T00:00:00Z epoch instbnt.
      */
-    public static final Instant EPOCH = new Instant(0, 0);
+    public stbtic finbl Instbnt EPOCH = new Instbnt(0, 0);
     /**
      * The minimum supported epoch second.
      */
-    private static final long MIN_SECOND = -31557014167219200L;
+    privbte stbtic finbl long MIN_SECOND = -31557014167219200L;
     /**
-     * The maximum supported epoch second.
+     * The mbximum supported epoch second.
      */
-    private static final long MAX_SECOND = 31556889864403199L;
+    privbte stbtic finbl long MAX_SECOND = 31556889864403199L;
     /**
-     * The minimum supported {@code Instant}, '-1000000000-01-01T00:00Z'.
-     * This could be used by an application as a "far past" instant.
+     * The minimum supported {@code Instbnt}, '-1000000000-01-01T00:00Z'.
+     * This could be used by bn bpplicbtion bs b "fbr pbst" instbnt.
      * <p>
-     * This is one year earlier than the minimum {@code LocalDateTime}.
-     * This provides sufficient values to handle the range of {@code ZoneOffset}
-     * which affect the instant in addition to the local date-time.
-     * The value is also chosen such that the value of the year fits in
-     * an {@code int}.
+     * This is one yebr ebrlier thbn the minimum {@code LocblDbteTime}.
+     * This provides sufficient vblues to hbndle the rbnge of {@code ZoneOffset}
+     * which bffect the instbnt in bddition to the locbl dbte-time.
+     * The vblue is blso chosen such thbt the vblue of the yebr fits in
+     * bn {@code int}.
      */
-    public static final Instant MIN = Instant.ofEpochSecond(MIN_SECOND, 0);
+    public stbtic finbl Instbnt MIN = Instbnt.ofEpochSecond(MIN_SECOND, 0);
     /**
-     * The maximum supported {@code Instant}, '1000000000-12-31T23:59:59.999999999Z'.
-     * This could be used by an application as a "far future" instant.
+     * The mbximum supported {@code Instbnt}, '1000000000-12-31T23:59:59.999999999Z'.
+     * This could be used by bn bpplicbtion bs b "fbr future" instbnt.
      * <p>
-     * This is one year later than the maximum {@code LocalDateTime}.
-     * This provides sufficient values to handle the range of {@code ZoneOffset}
-     * which affect the instant in addition to the local date-time.
-     * The value is also chosen such that the value of the year fits in
-     * an {@code int}.
+     * This is one yebr lbter thbn the mbximum {@code LocblDbteTime}.
+     * This provides sufficient vblues to hbndle the rbnge of {@code ZoneOffset}
+     * which bffect the instbnt in bddition to the locbl dbte-time.
+     * The vblue is blso chosen such thbt the vblue of the yebr fits in
+     * bn {@code int}.
      */
-    public static final Instant MAX = Instant.ofEpochSecond(MAX_SECOND, 999_999_999);
+    public stbtic finbl Instbnt MAX = Instbnt.ofEpochSecond(MAX_SECOND, 999_999_999);
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -665713676816604388L;
+    privbte stbtic finbl long seriblVersionUID = -665713676816604388L;
 
     /**
      * The number of seconds from the epoch of 1970-01-01T00:00:00Z.
      */
-    private final long seconds;
+    privbte finbl long seconds;
     /**
-     * The number of nanoseconds, later along the time-line, from the seconds field.
-     * This is always positive, and never exceeds 999,999,999.
+     * The number of nbnoseconds, lbter blong the time-line, from the seconds field.
+     * This is blwbys positive, bnd never exceeds 999,999,999.
      */
-    private final int nanos;
+    privbte finbl int nbnos;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current instant from the system clock.
+     * Obtbins the current instbnt from the system clock.
      * <p>
      * This will query the {@link Clock#systemUTC() system UTC clock} to
-     * obtain the current instant.
+     * obtbin the current instbnt.
      * <p>
-     * Using this method will prevent the ability to use an alternate time-source for
-     * testing because the clock is effectively hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte time-source for
+     * testing becbuse the clock is effectively hbrd-coded.
      *
-     * @return the current instant using the system clock, not null
+     * @return the current instbnt using the system clock, not null
      */
-    public static Instant now() {
-        return Clock.systemUTC().instant();
+    public stbtic Instbnt now() {
+        return Clock.systemUTC().instbnt();
     }
 
     /**
-     * Obtains the current instant from the specified clock.
+     * Obtbins the current instbnt from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current time.
+     * This will query the specified clock to obtbin the current time.
      * <p>
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@link Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current instant, not null
+     * @pbrbm clock  the clock to use, not null
+     * @return the current instbnt, not null
      */
-    public static Instant now(Clock clock) {
+    public stbtic Instbnt now(Clock clock) {
         Objects.requireNonNull(clock, "clock");
-        return clock.instant();
+        return clock.instbnt();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Instant} using seconds from the
+     * Obtbins bn instbnce of {@code Instbnt} using seconds from the
      * epoch of 1970-01-01T00:00:00Z.
      * <p>
-     * The nanosecond field is set to zero.
+     * The nbnosecond field is set to zero.
      *
-     * @param epochSecond  the number of seconds from 1970-01-01T00:00:00Z
-     * @return an instant, not null
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
+     * @pbrbm epochSecond  the number of seconds from 1970-01-01T00:00:00Z
+     * @return bn instbnt, not null
+     * @throws DbteTimeException if the instbnt exceeds the mbximum or minimum instbnt
      */
-    public static Instant ofEpochSecond(long epochSecond) {
-        return create(epochSecond, 0);
+    public stbtic Instbnt ofEpochSecond(long epochSecond) {
+        return crebte(epochSecond, 0);
     }
 
     /**
-     * Obtains an instance of {@code Instant} using seconds from the
-     * epoch of 1970-01-01T00:00:00Z and nanosecond fraction of second.
+     * Obtbins bn instbnce of {@code Instbnt} using seconds from the
+     * epoch of 1970-01-01T00:00:00Z bnd nbnosecond frbction of second.
      * <p>
-     * This method allows an arbitrary number of nanoseconds to be passed in.
-     * The factory will alter the values of the second and nanosecond in order
-     * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
-     * For example, the following will result in the exactly the same instant:
+     * This method bllows bn brbitrbry number of nbnoseconds to be pbssed in.
+     * The fbctory will blter the vblues of the second bnd nbnosecond in order
+     * to ensure thbt the stored nbnosecond is in the rbnge 0 to 999,999,999.
+     * For exbmple, the following will result in the exbctly the sbme instbnt:
      * <pre>
-     *  Instant.ofEpochSecond(3, 1);
-     *  Instant.ofEpochSecond(4, -999_999_999);
-     *  Instant.ofEpochSecond(2, 1000_000_001);
+     *  Instbnt.ofEpochSecond(3, 1);
+     *  Instbnt.ofEpochSecond(4, -999_999_999);
+     *  Instbnt.ofEpochSecond(2, 1000_000_001);
      * </pre>
      *
-     * @param epochSecond  the number of seconds from 1970-01-01T00:00:00Z
-     * @param nanoAdjustment  the nanosecond adjustment to the number of seconds, positive or negative
-     * @return an instant, not null
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
+     * @pbrbm epochSecond  the number of seconds from 1970-01-01T00:00:00Z
+     * @pbrbm nbnoAdjustment  the nbnosecond bdjustment to the number of seconds, positive or negbtive
+     * @return bn instbnt, not null
+     * @throws DbteTimeException if the instbnt exceeds the mbximum or minimum instbnt
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public static Instant ofEpochSecond(long epochSecond, long nanoAdjustment) {
-        long secs = Math.addExact(epochSecond, Math.floorDiv(nanoAdjustment, NANOS_PER_SECOND));
-        int nos = (int)Math.floorMod(nanoAdjustment, NANOS_PER_SECOND);
-        return create(secs, nos);
+    public stbtic Instbnt ofEpochSecond(long epochSecond, long nbnoAdjustment) {
+        long secs = Mbth.bddExbct(epochSecond, Mbth.floorDiv(nbnoAdjustment, NANOS_PER_SECOND));
+        int nos = (int)Mbth.floorMod(nbnoAdjustment, NANOS_PER_SECOND);
+        return crebte(secs, nos);
     }
 
     /**
-     * Obtains an instance of {@code Instant} using milliseconds from the
+     * Obtbins bn instbnce of {@code Instbnt} using milliseconds from the
      * epoch of 1970-01-01T00:00:00Z.
      * <p>
-     * The seconds and nanoseconds are extracted from the specified milliseconds.
+     * The seconds bnd nbnoseconds bre extrbcted from the specified milliseconds.
      *
-     * @param epochMilli  the number of milliseconds from 1970-01-01T00:00:00Z
-     * @return an instant, not null
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
+     * @pbrbm epochMilli  the number of milliseconds from 1970-01-01T00:00:00Z
+     * @return bn instbnt, not null
+     * @throws DbteTimeException if the instbnt exceeds the mbximum or minimum instbnt
      */
-    public static Instant ofEpochMilli(long epochMilli) {
-        long secs = Math.floorDiv(epochMilli, 1000);
-        int mos = (int)Math.floorMod(epochMilli, 1000);
-        return create(secs, mos * 1000_000);
+    public stbtic Instbnt ofEpochMilli(long epochMilli) {
+        long secs = Mbth.floorDiv(epochMilli, 1000);
+        int mos = (int)Mbth.floorMod(epochMilli, 1000);
+        return crebte(secs, mos * 1000_000);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Instant} from a temporal object.
+     * Obtbins bn instbnce of {@code Instbnt} from b temporbl object.
      * <p>
-     * This obtains an instant based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code Instant}.
+     * This obtbins bn instbnt bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code Instbnt}.
      * <p>
-     * The conversion extracts the {@link ChronoField#INSTANT_SECONDS INSTANT_SECONDS}
-     * and {@link ChronoField#NANO_OF_SECOND NANO_OF_SECOND} fields.
+     * The conversion extrbcts the {@link ChronoField#INSTANT_SECONDS INSTANT_SECONDS}
+     * bnd {@link ChronoField#NANO_OF_SECOND NANO_OF_SECOND} fields.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code Instant::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code Instbnt::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the instant, not null
-     * @throws DateTimeException if unable to convert to an {@code Instant}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the instbnt, not null
+     * @throws DbteTimeException if unbble to convert to bn {@code Instbnt}
      */
-    public static Instant from(TemporalAccessor temporal) {
-        if (temporal instanceof Instant) {
-            return (Instant) temporal;
+    public stbtic Instbnt from(TemporblAccessor temporbl) {
+        if (temporbl instbnceof Instbnt) {
+            return (Instbnt) temporbl;
         }
-        Objects.requireNonNull(temporal, "temporal");
+        Objects.requireNonNull(temporbl, "temporbl");
         try {
-            long instantSecs = temporal.getLong(INSTANT_SECONDS);
-            int nanoOfSecond = temporal.get(NANO_OF_SECOND);
-            return Instant.ofEpochSecond(instantSecs, nanoOfSecond);
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain Instant from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+            long instbntSecs = temporbl.getLong(INSTANT_SECONDS);
+            int nbnoOfSecond = temporbl.get(NANO_OF_SECOND);
+            return Instbnt.ofEpochSecond(instbntSecs, nbnoOfSecond);
+        } cbtch (DbteTimeException ex) {
+            throw new DbteTimeException("Unbble to obtbin Instbnt from TemporblAccessor: " +
+                    temporbl + " of type " + temporbl.getClbss().getNbme(), ex);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Instant} from a text string such as
+     * Obtbins bn instbnce of {@code Instbnt} from b text string such bs
      * {@code 2007-12-03T10:15:30.00Z}.
      * <p>
-     * The string must represent a valid instant in UTC and is parsed using
-     * {@link DateTimeFormatter#ISO_INSTANT}.
+     * The string must represent b vblid instbnt in UTC bnd is pbrsed using
+     * {@link DbteTimeFormbtter#ISO_INSTANT}.
      *
-     * @param text  the text to parse, not null
-     * @return the parsed instant, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse, not null
+     * @return the pbrsed instbnt, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static Instant parse(final CharSequence text) {
-        return DateTimeFormatter.ISO_INSTANT.parse(text, Instant::from);
+    public stbtic Instbnt pbrse(finbl ChbrSequence text) {
+        return DbteTimeFormbtter.ISO_INSTANT.pbrse(text, Instbnt::from);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Instant} using seconds and nanoseconds.
+     * Obtbins bn instbnce of {@code Instbnt} using seconds bnd nbnoseconds.
      *
-     * @param seconds  the length of the duration in seconds
-     * @param nanoOfSecond  the nano-of-second, from 0 to 999,999,999
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
+     * @pbrbm seconds  the length of the durbtion in seconds
+     * @pbrbm nbnoOfSecond  the nbno-of-second, from 0 to 999,999,999
+     * @throws DbteTimeException if the instbnt exceeds the mbximum or minimum instbnt
      */
-    private static Instant create(long seconds, int nanoOfSecond) {
-        if ((seconds | nanoOfSecond) == 0) {
+    privbte stbtic Instbnt crebte(long seconds, int nbnoOfSecond) {
+        if ((seconds | nbnoOfSecond) == 0) {
             return EPOCH;
         }
         if (seconds < MIN_SECOND || seconds > MAX_SECOND) {
-            throw new DateTimeException("Instant exceeds minimum or maximum instant");
+            throw new DbteTimeException("Instbnt exceeds minimum or mbximum instbnt");
         }
-        return new Instant(seconds, nanoOfSecond);
+        return new Instbnt(seconds, nbnoOfSecond);
     }
 
     /**
-     * Constructs an instance of {@code Instant} using seconds from the epoch of
-     * 1970-01-01T00:00:00Z and nanosecond fraction of second.
+     * Constructs bn instbnce of {@code Instbnt} using seconds from the epoch of
+     * 1970-01-01T00:00:00Z bnd nbnosecond frbction of second.
      *
-     * @param epochSecond  the number of seconds from 1970-01-01T00:00:00Z
-     * @param nanos  the nanoseconds within the second, must be positive
+     * @pbrbm epochSecond  the number of seconds from 1970-01-01T00:00:00Z
+     * @pbrbm nbnos  the nbnoseconds within the second, must be positive
      */
-    private Instant(long epochSecond, int nanos) {
+    privbte Instbnt(long epochSecond, int nbnos) {
         super();
         this.seconds = epochSecond;
-        this.nanos = nanos;
+        this.nbnos = nbnos;
     }
 
     //-----------------------------------------------------------------------
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if this instant can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * This checks if this instbnt cbn be queried for the specified field.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge},
+     * {@link #get(TemporblField) get} bnd {@link #with(TemporblField, long)}
+     * methods will throw bn exception.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The supported fields bre:
      * <ul>
      * <li>{@code NANO_OF_SECOND}
      * <li>{@code MICRO_OF_SECOND}
      * <li>{@code MILLI_OF_SECOND}
      * <li>{@code INSTANT_SECONDS}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All other {@code ChronoField} instbnces will return fblse.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this instant, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field is supported on this instbnt, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public boolebn isSupported(TemporblField field) {
+        if (field instbnceof ChronoField) {
             return field == INSTANT_SECONDS || field == NANO_OF_SECOND || field == MICRO_OF_SECOND || field == MILLI_OF_SECOND;
         }
         return field != null && field.isSupportedBy(this);
@@ -464,12 +464,12 @@ public final class Instant
     /**
      * Checks if the specified unit is supported.
      * <p>
-     * This checks if the specified unit can be added to, or subtracted from, this date-time.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * This checks if the specified unit cbn be bdded to, or subtrbcted from, this dbte-time.
+     * If fblse, then cblling the {@link #plus(long, TemporblUnit)} bnd
+     * {@link #minus(long, TemporblUnit) minus} methods will throw bn exception.
      * <p>
-     * If the unit is a {@link ChronoUnit} then the query is implemented here.
-     * The supported units are:
+     * If the unit is b {@link ChronoUnit} then the query is implemented here.
+     * The supported units bre:
      * <ul>
      * <li>{@code NANOS}
      * <li>{@code MICROS}
@@ -480,138 +480,138 @@ public final class Instant
      * <li>{@code HALF_DAYS}
      * <li>{@code DAYS}
      * </ul>
-     * All other {@code ChronoUnit} instances will return false.
+     * All other {@code ChronoUnit} instbnces will return fblse.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.isSupportedBy(Temporbl)}
+     * pbssing {@code this} bs the brgument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  the unit to check, null returns fblse
+     * @return true if the unit cbn be bdded/subtrbcted, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit.isTimeBased() || unit == DAYS;
+    public boolebn isSupported(TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
+            return unit.isTimeBbsed() || unit == DAYS;
         }
         return unit != null && unit.isSupportedBy(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This instant is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * The rbnge object expresses the minimum bnd mbximum vblid vblues for b field.
+     * This instbnt is used to enhbnce the bccurbcy of the returned rbnge.
+     * If it is not possible to return the rbnge, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return
+     * bppropribte rbnge instbnces.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.rbngeRefinedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
+     * Whether the rbnge cbn be obtbined is determined by the field.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to query the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      */
-    @Override  // override for Javadoc
-    public ValueRange range(TemporalField field) {
-        return Temporal.super.range(field);
+    @Override  // override for Jbvbdoc
+    public VblueRbnge rbnge(TemporblField field) {
+        return Temporbl.super.rbnge(field);
     }
 
     /**
-     * Gets the value of the specified field from this instant as an {@code int}.
+     * Gets the vblue of the specified field from this instbnt bs bn {@code int}.
      * <p>
-     * This queries this instant for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this instbnt for the vblue of the specified field.
+     * The returned vblue will blwbys be within the vblid rbnge of vblues for the field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time, except {@code INSTANT_SECONDS} which is too
-     * large to fit in an {@code int} and throws a {@code DateTimeException}.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this dbte-time, except {@code INSTANT_SECONDS} which is too
+     * lbrge to fit in bn {@code int} bnd throws b {@code DbteTimeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined or
+     *         the vblue is outside the rbnge of vblid vblues for the field
+     * @throws UnsupportedTemporblTypeException if the field is not supported or
+     *         the rbnge of vblues exceeds bn {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    @Override  // override for Javadoc and performance
-    public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
+    @Override  // override for Jbvbdoc bnd performbnce
+    public int get(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case NANO_OF_SECOND: return nanos;
-                case MICRO_OF_SECOND: return nanos / 1000;
-                case MILLI_OF_SECOND: return nanos / 1000_000;
-                case INSTANT_SECONDS: INSTANT_SECONDS.checkValidIntValue(seconds);
+                cbse NANO_OF_SECOND: return nbnos;
+                cbse MICRO_OF_SECOND: return nbnos / 1000;
+                cbse MILLI_OF_SECOND: return nbnos / 1000_000;
+                cbse INSTANT_SECONDS: INSTANT_SECONDS.checkVblidIntVblue(seconds);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
-        return range(field).checkValidIntValue(field.getFrom(this), field);
+        return rbnge(field).checkVblidIntVblue(field.getFrom(this), field);
     }
 
     /**
-     * Gets the value of the specified field from this instant as a {@code long}.
+     * Gets the vblue of the specified field from this instbnt bs b {@code long}.
      * <p>
-     * This queries this instant for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this instbnt for the vblue of the specified field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this dbte-time.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case NANO_OF_SECOND: return nanos;
-                case MICRO_OF_SECOND: return nanos / 1000;
-                case MILLI_OF_SECOND: return nanos / 1000_000;
-                case INSTANT_SECONDS: return seconds;
+                cbse NANO_OF_SECOND: return nbnos;
+                cbse MICRO_OF_SECOND: return nbnos / 1000;
+                cbse MILLI_OF_SECOND: return nbnos / 1000_000;
+                cbse INSTANT_SECONDS: return seconds;
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
         return field.getFrom(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the number of seconds from the Java epoch of 1970-01-01T00:00:00Z.
+     * Gets the number of seconds from the Jbvb epoch of 1970-01-01T00:00:00Z.
      * <p>
-     * The epoch second count is a simple incrementing count of seconds where
+     * The epoch second count is b simple incrementing count of seconds where
      * second 0 is 1970-01-01T00:00:00Z.
-     * The nanosecond part of the day is returned by {@code getNanosOfSecond}.
+     * The nbnosecond pbrt of the dby is returned by {@code getNbnosOfSecond}.
      *
      * @return the seconds from the epoch of 1970-01-01T00:00:00Z
      */
@@ -620,557 +620,557 @@ public final class Instant
     }
 
     /**
-     * Gets the number of nanoseconds, later along the time-line, from the start
+     * Gets the number of nbnoseconds, lbter blong the time-line, from the stbrt
      * of the second.
      * <p>
-     * The nanosecond-of-second value measures the total number of nanoseconds from
+     * The nbnosecond-of-second vblue mebsures the totbl number of nbnoseconds from
      * the second returned by {@code getEpochSecond}.
      *
-     * @return the nanoseconds within the second, always positive, never exceeds 999,999,999
+     * @return the nbnoseconds within the second, blwbys positive, never exceeds 999,999,999
      */
-    public int getNano() {
-        return nanos;
+    public int getNbno() {
+        return nbnos;
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Returns an adjusted copy of this instant.
+     * Returns bn bdjusted copy of this instbnt.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the instant adjusted.
-     * The adjustment takes place using the specified adjuster strategy object.
-     * Read the documentation of the adjuster to understand what adjustment will be made.
+     * This returns bn {@code Instbnt}, bbsed on this one, with the instbnt bdjusted.
+     * The bdjustment tbkes plbce using the specified bdjuster strbtegy object.
+     * Rebd the documentbtion of the bdjuster to understbnd whbt bdjustment will be mbde.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
-     * specified adjuster passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblAdjuster#bdjustInto(Temporbl)} method on the
+     * specified bdjuster pbssing {@code this} bs the brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param adjuster the adjuster to use, not null
-     * @return an {@code Instant} based on {@code this} with the adjustment made, not null
-     * @throws DateTimeException if the adjustment cannot be made
+     * @pbrbm bdjuster the bdjuster to use, not null
+     * @return bn {@code Instbnt} bbsed on {@code this} with the bdjustment mbde, not null
+     * @throws DbteTimeException if the bdjustment cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Instant with(TemporalAdjuster adjuster) {
-        return (Instant) adjuster.adjustInto(this);
+    public Instbnt with(TemporblAdjuster bdjuster) {
+        return (Instbnt) bdjuster.bdjustInto(this);
     }
 
     /**
-     * Returns a copy of this instant with the specified field set to a new value.
+     * Returns b copy of this instbnt with the specified field set to b new vblue.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the value
-     * for the specified field changed.
-     * If it is not possible to set the value, because the field is not supported or for
-     * some other reason, an exception is thrown.
+     * This returns bn {@code Instbnt}, bbsed on this one, with the vblue
+     * for the specified field chbnged.
+     * If it is not possible to set the vblue, becbuse the field is not supported or for
+     * some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the adjustment is implemented here.
-     * The supported fields behave as follows:
+     * If the field is b {@link ChronoField} then the bdjustment is implemented here.
+     * The supported fields behbve bs follows:
      * <ul>
      * <li>{@code NANO_OF_SECOND} -
-     *  Returns an {@code Instant} with the specified nano-of-second.
-     *  The epoch-second will be unchanged.
+     *  Returns bn {@code Instbnt} with the specified nbno-of-second.
+     *  The epoch-second will be unchbnged.
      * <li>{@code MICRO_OF_SECOND} -
-     *  Returns an {@code Instant} with the nano-of-second replaced by the specified
-     *  micro-of-second multiplied by 1,000. The epoch-second will be unchanged.
+     *  Returns bn {@code Instbnt} with the nbno-of-second replbced by the specified
+     *  micro-of-second multiplied by 1,000. The epoch-second will be unchbnged.
      * <li>{@code MILLI_OF_SECOND} -
-     *  Returns an {@code Instant} with the nano-of-second replaced by the specified
-     *  milli-of-second multiplied by 1,000,000. The epoch-second will be unchanged.
+     *  Returns bn {@code Instbnt} with the nbno-of-second replbced by the specified
+     *  milli-of-second multiplied by 1,000,000. The epoch-second will be unchbnged.
      * <li>{@code INSTANT_SECONDS} -
-     *  Returns an {@code Instant} with the specified epoch-second.
-     *  The nano-of-second will be unchanged.
+     *  Returns bn {@code Instbnt} with the specified epoch-second.
+     *  The nbno-of-second will be unchbnged.
      * </ul>
      * <p>
-     * In all cases, if the new value is outside the valid range of values for the field
-     * then a {@code DateTimeException} will be thrown.
+     * In bll cbses, if the new vblue is outside the vblid rbnge of vblues for the field
+     * then b {@code DbteTimeException} will be thrown.
      * <p>
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.adjustInto(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the field determines
-     * whether and how to adjust the instant.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.bdjustInto(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the field determines
+     * whether bnd how to bdjust the instbnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param field  the field to set in the result, not null
-     * @param newValue  the new value of the field in the result
-     * @return an {@code Instant} based on {@code this} with the specified field set, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to set in the result, not null
+     * @pbrbm newVblue  the new vblue of the field in the result
+     * @return bn {@code Instbnt} bbsed on {@code this} with the specified field set, not null
+     * @throws DbteTimeException if the field cbnnot be set
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Instant with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public Instbnt with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            f.checkValidValue(newValue);
+            f.checkVblidVblue(newVblue);
             switch (f) {
-                case MILLI_OF_SECOND: {
-                    int nval = (int) newValue * 1000_000;
-                    return (nval != nanos ? create(seconds, nval) : this);
+                cbse MILLI_OF_SECOND: {
+                    int nvbl = (int) newVblue * 1000_000;
+                    return (nvbl != nbnos ? crebte(seconds, nvbl) : this);
                 }
-                case MICRO_OF_SECOND: {
-                    int nval = (int) newValue * 1000;
-                    return (nval != nanos ? create(seconds, nval) : this);
+                cbse MICRO_OF_SECOND: {
+                    int nvbl = (int) newVblue * 1000;
+                    return (nvbl != nbnos ? crebte(seconds, nvbl) : this);
                 }
-                case NANO_OF_SECOND: return (newValue != nanos ? create(seconds, (int) newValue) : this);
-                case INSTANT_SECONDS: return (newValue != seconds ? create(newValue, nanos) : this);
+                cbse NANO_OF_SECOND: return (newVblue != nbnos ? crebte(seconds, (int) newVblue) : this);
+                cbse INSTANT_SECONDS: return (newVblue != seconds ? crebte(newVblue, nbnos) : this);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
-        return field.adjustInto(this, newValue);
+        return field.bdjustInto(this, newVblue);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code Instant} truncated to the specified unit.
+     * Returns b copy of this {@code Instbnt} truncbted to the specified unit.
      * <p>
-     * Truncating the instant returns a copy of the original with fields
-     * smaller than the specified unit set to zero.
-     * The fields are calculated on the basis of using a UTC offset as seen
+     * Truncbting the instbnt returns b copy of the originbl with fields
+     * smbller thbn the specified unit set to zero.
+     * The fields bre cblculbted on the bbsis of using b UTC offset bs seen
      * in {@code toString}.
-     * For example, truncating with the {@link ChronoUnit#MINUTES MINUTES} unit will
-     * round down to the nearest minute, setting the seconds and nanoseconds to zero.
+     * For exbmple, truncbting with the {@link ChronoUnit#MINUTES MINUTES} unit will
+     * round down to the nebrest minute, setting the seconds bnd nbnoseconds to zero.
      * <p>
-     * The unit must have a {@linkplain TemporalUnit#getDuration() duration}
-     * that divides into the length of a standard day without remainder.
-     * This includes all supplied time units on {@link ChronoUnit} and
-     * {@link ChronoUnit#DAYS DAYS}. Other units throw an exception.
+     * The unit must hbve b {@linkplbin TemporblUnit#getDurbtion() durbtion}
+     * thbt divides into the length of b stbndbrd dby without rembinder.
+     * This includes bll supplied time units on {@link ChronoUnit} bnd
+     * {@link ChronoUnit#DAYS DAYS}. Other units throw bn exception.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param unit  the unit to truncate to, not null
-     * @return an {@code Instant} based on this instant with the time truncated, not null
-     * @throws DateTimeException if the unit is invalid for truncation
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm unit  the unit to truncbte to, not null
+     * @return bn {@code Instbnt} bbsed on this instbnt with the time truncbted, not null
+     * @throws DbteTimeException if the unit is invblid for truncbtion
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      */
-    public Instant truncatedTo(TemporalUnit unit) {
+    public Instbnt truncbtedTo(TemporblUnit unit) {
         if (unit == ChronoUnit.NANOS) {
             return this;
         }
-        Duration unitDur = unit.getDuration();
-        if (unitDur.getSeconds() > LocalTime.SECONDS_PER_DAY) {
-            throw new UnsupportedTemporalTypeException("Unit is too large to be used for truncation");
+        Durbtion unitDur = unit.getDurbtion();
+        if (unitDur.getSeconds() > LocblTime.SECONDS_PER_DAY) {
+            throw new UnsupportedTemporblTypeException("Unit is too lbrge to be used for truncbtion");
         }
-        long dur = unitDur.toNanos();
-        if ((LocalTime.NANOS_PER_DAY % dur) != 0) {
-            throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
+        long dur = unitDur.toNbnos();
+        if ((LocblTime.NANOS_PER_DAY % dur) != 0) {
+            throw new UnsupportedTemporblTypeException("Unit must divide into b stbndbrd dby without rembinder");
         }
-        long nod = (seconds % LocalTime.SECONDS_PER_DAY) * LocalTime.NANOS_PER_SECOND + nanos;
+        long nod = (seconds % LocblTime.SECONDS_PER_DAY) * LocblTime.NANOS_PER_SECOND + nbnos;
         long result = (nod / dur) * dur;
-        return plusNanos(result - nod);
+        return plusNbnos(result - nod);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this instant with the specified amount added.
+     * Returns b copy of this instbnt with the specified bmount bdded.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the specified amount added.
-     * The amount is typically {@link Duration} but may be any other type implementing
-     * the {@link TemporalAmount} interface.
+     * This returns bn {@code Instbnt}, bbsed on this one, with the specified bmount bdded.
+     * The bmount is typicblly {@link Durbtion} but mby be bny other type implementing
+     * the {@link TemporblAmount} interfbce.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#addTo(Temporal)}. The amount implementation is free
-     * to implement the addition in any way it wishes, however it typically
-     * calls back to {@link #plus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully added.
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#bddTo(Temporbl)}. The bmount implementbtion is free
+     * to implement the bddition in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #plus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount to add, not null
-     * @return an {@code Instant} based on this instant with the addition made, not null
-     * @throws DateTimeException if the addition cannot be made
+     * @pbrbm bmountToAdd  the bmount to bdd, not null
+     * @return bn {@code Instbnt} bbsed on this instbnt with the bddition mbde, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Instant plus(TemporalAmount amountToAdd) {
-        return (Instant) amountToAdd.addTo(this);
+    public Instbnt plus(TemporblAmount bmountToAdd) {
+        return (Instbnt) bmountToAdd.bddTo(this);
     }
 
     /**
-     * Returns a copy of this instant with the specified amount added.
+     * Returns b copy of this instbnt with the specified bmount bdded.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the amount
-     * in terms of the unit added. If it is not possible to add the amount, because the
-     * unit is not supported or for some other reason, an exception is thrown.
+     * This returns bn {@code Instbnt}, bbsed on this one, with the bmount
+     * in terms of the unit bdded. If it is not possible to bdd the bmount, becbuse the
+     * unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoUnit} then the addition is implemented here.
-     * The supported fields behave as follows:
+     * If the field is b {@link ChronoUnit} then the bddition is implemented here.
+     * The supported fields behbve bs follows:
      * <ul>
      * <li>{@code NANOS} -
-     *  Returns a {@code Instant} with the specified number of nanoseconds added.
-     *  This is equivalent to {@link #plusNanos(long)}.
+     *  Returns b {@code Instbnt} with the specified number of nbnoseconds bdded.
+     *  This is equivblent to {@link #plusNbnos(long)}.
      * <li>{@code MICROS} -
-     *  Returns a {@code Instant} with the specified number of microseconds added.
-     *  This is equivalent to {@link #plusNanos(long)} with the amount
+     *  Returns b {@code Instbnt} with the specified number of microseconds bdded.
+     *  This is equivblent to {@link #plusNbnos(long)} with the bmount
      *  multiplied by 1,000.
      * <li>{@code MILLIS} -
-     *  Returns a {@code Instant} with the specified number of milliseconds added.
-     *  This is equivalent to {@link #plusNanos(long)} with the amount
+     *  Returns b {@code Instbnt} with the specified number of milliseconds bdded.
+     *  This is equivblent to {@link #plusNbnos(long)} with the bmount
      *  multiplied by 1,000,000.
      * <li>{@code SECONDS} -
-     *  Returns a {@code Instant} with the specified number of seconds added.
-     *  This is equivalent to {@link #plusSeconds(long)}.
+     *  Returns b {@code Instbnt} with the specified number of seconds bdded.
+     *  This is equivblent to {@link #plusSeconds(long)}.
      * <li>{@code MINUTES} -
-     *  Returns a {@code Instant} with the specified number of minutes added.
-     *  This is equivalent to {@link #plusSeconds(long)} with the amount
+     *  Returns b {@code Instbnt} with the specified number of minutes bdded.
+     *  This is equivblent to {@link #plusSeconds(long)} with the bmount
      *  multiplied by 60.
      * <li>{@code HOURS} -
-     *  Returns a {@code Instant} with the specified number of hours added.
-     *  This is equivalent to {@link #plusSeconds(long)} with the amount
+     *  Returns b {@code Instbnt} with the specified number of hours bdded.
+     *  This is equivblent to {@link #plusSeconds(long)} with the bmount
      *  multiplied by 3,600.
      * <li>{@code HALF_DAYS} -
-     *  Returns a {@code Instant} with the specified number of half-days added.
-     *  This is equivalent to {@link #plusSeconds(long)} with the amount
+     *  Returns b {@code Instbnt} with the specified number of hblf-dbys bdded.
+     *  This is equivblent to {@link #plusSeconds(long)} with the bmount
      *  multiplied by 43,200 (12 hours).
      * <li>{@code DAYS} -
-     *  Returns a {@code Instant} with the specified number of days added.
-     *  This is equivalent to {@link #plusSeconds(long)} with the amount
+     *  Returns b {@code Instbnt} with the specified number of dbys bdded.
+     *  This is equivblent to {@link #plusSeconds(long)} with the bmount
      *  multiplied by 86,400 (24 hours).
      * </ul>
      * <p>
-     * All other {@code ChronoUnit} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All other {@code ChronoUnit} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.addTo(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the unit determines
-     * whether and how to perform the addition.
+     * If the field is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.bddTo(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the unit determines
+     * whether bnd how to perform the bddition.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount of the unit to add to the result, may be negative
-     * @param unit  the unit of the amount to add, not null
-     * @return an {@code Instant} based on this instant with the specified amount added, not null
-     * @throws DateTimeException if the addition cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToAdd  the bmount of the unit to bdd to the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to bdd, not null
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified bmount bdded, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Instant plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    public Instbnt plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             switch ((ChronoUnit) unit) {
-                case NANOS: return plusNanos(amountToAdd);
-                case MICROS: return plus(amountToAdd / 1000_000, (amountToAdd % 1000_000) * 1000);
-                case MILLIS: return plusMillis(amountToAdd);
-                case SECONDS: return plusSeconds(amountToAdd);
-                case MINUTES: return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_MINUTE));
-                case HOURS: return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_HOUR));
-                case HALF_DAYS: return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_DAY / 2));
-                case DAYS: return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_DAY));
+                cbse NANOS: return plusNbnos(bmountToAdd);
+                cbse MICROS: return plus(bmountToAdd / 1000_000, (bmountToAdd % 1000_000) * 1000);
+                cbse MILLIS: return plusMillis(bmountToAdd);
+                cbse SECONDS: return plusSeconds(bmountToAdd);
+                cbse MINUTES: return plusSeconds(Mbth.multiplyExbct(bmountToAdd, SECONDS_PER_MINUTE));
+                cbse HOURS: return plusSeconds(Mbth.multiplyExbct(bmountToAdd, SECONDS_PER_HOUR));
+                cbse HALF_DAYS: return plusSeconds(Mbth.multiplyExbct(bmountToAdd, SECONDS_PER_DAY / 2));
+                cbse DAYS: return plusSeconds(Mbth.multiplyExbct(bmountToAdd, SECONDS_PER_DAY));
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
-        return unit.addTo(this, amountToAdd);
+        return unit.bddTo(this, bmountToAdd);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this instant with the specified duration in seconds added.
+     * Returns b copy of this instbnt with the specified durbtion in seconds bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param secondsToAdd  the seconds to add, positive or negative
-     * @return an {@code Instant} based on this instant with the specified seconds added, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
+     * @pbrbm secondsToAdd  the seconds to bdd, positive or negbtive
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified seconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the mbximum or minimum instbnt
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Instant plusSeconds(long secondsToAdd) {
+    public Instbnt plusSeconds(long secondsToAdd) {
         return plus(secondsToAdd, 0);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration in milliseconds added.
+     * Returns b copy of this instbnt with the specified durbtion in milliseconds bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param millisToAdd  the milliseconds to add, positive or negative
-     * @return an {@code Instant} based on this instant with the specified milliseconds added, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
+     * @pbrbm millisToAdd  the milliseconds to bdd, positive or negbtive
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified milliseconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the mbximum or minimum instbnt
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Instant plusMillis(long millisToAdd) {
+    public Instbnt plusMillis(long millisToAdd) {
         return plus(millisToAdd / 1000, (millisToAdd % 1000) * 1000_000);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration in nanoseconds added.
+     * Returns b copy of this instbnt with the specified durbtion in nbnoseconds bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanosToAdd  the nanoseconds to add, positive or negative
-     * @return an {@code Instant} based on this instant with the specified nanoseconds added, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
+     * @pbrbm nbnosToAdd  the nbnoseconds to bdd, positive or negbtive
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified nbnoseconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the mbximum or minimum instbnt
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Instant plusNanos(long nanosToAdd) {
-        return plus(0, nanosToAdd);
+    public Instbnt plusNbnos(long nbnosToAdd) {
+        return plus(0, nbnosToAdd);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration added.
+     * Returns b copy of this instbnt with the specified durbtion bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param secondsToAdd  the seconds to add, positive or negative
-     * @param nanosToAdd  the nanos to add, positive or negative
-     * @return an {@code Instant} based on this instant with the specified seconds added, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
+     * @pbrbm secondsToAdd  the seconds to bdd, positive or negbtive
+     * @pbrbm nbnosToAdd  the nbnos to bdd, positive or negbtive
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified seconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the mbximum or minimum instbnt
      * @throws ArithmeticException if numeric overflow occurs
      */
-    private Instant plus(long secondsToAdd, long nanosToAdd) {
-        if ((secondsToAdd | nanosToAdd) == 0) {
+    privbte Instbnt plus(long secondsToAdd, long nbnosToAdd) {
+        if ((secondsToAdd | nbnosToAdd) == 0) {
             return this;
         }
-        long epochSec = Math.addExact(seconds, secondsToAdd);
-        epochSec = Math.addExact(epochSec, nanosToAdd / NANOS_PER_SECOND);
-        nanosToAdd = nanosToAdd % NANOS_PER_SECOND;
-        long nanoAdjustment = nanos + nanosToAdd;  // safe int+NANOS_PER_SECOND
-        return ofEpochSecond(epochSec, nanoAdjustment);
+        long epochSec = Mbth.bddExbct(seconds, secondsToAdd);
+        epochSec = Mbth.bddExbct(epochSec, nbnosToAdd / NANOS_PER_SECOND);
+        nbnosToAdd = nbnosToAdd % NANOS_PER_SECOND;
+        long nbnoAdjustment = nbnos + nbnosToAdd;  // sbfe int+NANOS_PER_SECOND
+        return ofEpochSecond(epochSec, nbnoAdjustment);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this instant with the specified amount subtracted.
+     * Returns b copy of this instbnt with the specified bmount subtrbcted.
      * <p>
-     * This returns an {@code Instant}, based on this one, with the specified amount subtracted.
-     * The amount is typically {@link Duration} but may be any other type implementing
-     * the {@link TemporalAmount} interface.
+     * This returns bn {@code Instbnt}, bbsed on this one, with the specified bmount subtrbcted.
+     * The bmount is typicblly {@link Durbtion} but mby be bny other type implementing
+     * the {@link TemporblAmount} interfbce.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#subtractFrom(Temporal)}. The amount implementation is free
-     * to implement the subtraction in any way it wishes, however it typically
-     * calls back to {@link #minus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully subtracted.
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#subtrbctFrom(Temporbl)}. The bmount implementbtion is free
+     * to implement the subtrbction in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #minus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount to subtract, not null
-     * @return an {@code Instant} based on this instant with the subtraction made, not null
-     * @throws DateTimeException if the subtraction cannot be made
+     * @pbrbm bmountToSubtrbct  the bmount to subtrbct, not null
+     * @return bn {@code Instbnt} bbsed on this instbnt with the subtrbction mbde, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Instant minus(TemporalAmount amountToSubtract) {
-        return (Instant) amountToSubtract.subtractFrom(this);
+    public Instbnt minus(TemporblAmount bmountToSubtrbct) {
+        return (Instbnt) bmountToSubtrbct.subtrbctFrom(this);
     }
 
     /**
-     * Returns a copy of this instant with the specified amount subtracted.
+     * Returns b copy of this instbnt with the specified bmount subtrbcted.
      * <p>
-     * This returns a {@code Instant}, based on this one, with the amount
-     * in terms of the unit subtracted. If it is not possible to subtract the amount,
-     * because the unit is not supported or for some other reason, an exception is thrown.
+     * This returns b {@code Instbnt}, bbsed on this one, with the bmount
+     * in terms of the unit subtrbcted. If it is not possible to subtrbct the bmount,
+     * becbuse the unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * This method is equivalent to {@link #plus(long, TemporalUnit)} with the amount negated.
-     * See that method for a full description of how addition, and thus subtraction, works.
+     * This method is equivblent to {@link #plus(long, TemporblUnit)} with the bmount negbted.
+     * See thbt method for b full description of how bddition, bnd thus subtrbction, works.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount of the unit to subtract from the result, may be negative
-     * @param unit  the unit of the amount to subtract, not null
-     * @return an {@code Instant} based on this instant with the specified amount subtracted, not null
-     * @throws DateTimeException if the subtraction cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToSubtrbct  the bmount of the unit to subtrbct from the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to subtrbct, not null
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified bmount subtrbcted, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Instant minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+    public Instbnt minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return (bmountToSubtrbct == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbct, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this instant with the specified duration in seconds subtracted.
+     * Returns b copy of this instbnt with the specified durbtion in seconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param secondsToSubtract  the seconds to subtract, positive or negative
-     * @return an {@code Instant} based on this instant with the specified seconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
+     * @pbrbm secondsToSubtrbct  the seconds to subtrbct, positive or negbtive
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified seconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the mbximum or minimum instbnt
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Instant minusSeconds(long secondsToSubtract) {
-        if (secondsToSubtract == Long.MIN_VALUE) {
+    public Instbnt minusSeconds(long secondsToSubtrbct) {
+        if (secondsToSubtrbct == Long.MIN_VALUE) {
             return plusSeconds(Long.MAX_VALUE).plusSeconds(1);
         }
-        return plusSeconds(-secondsToSubtract);
+        return plusSeconds(-secondsToSubtrbct);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration in milliseconds subtracted.
+     * Returns b copy of this instbnt with the specified durbtion in milliseconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param millisToSubtract  the milliseconds to subtract, positive or negative
-     * @return an {@code Instant} based on this instant with the specified milliseconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
+     * @pbrbm millisToSubtrbct  the milliseconds to subtrbct, positive or negbtive
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified milliseconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the mbximum or minimum instbnt
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Instant minusMillis(long millisToSubtract) {
-        if (millisToSubtract == Long.MIN_VALUE) {
+    public Instbnt minusMillis(long millisToSubtrbct) {
+        if (millisToSubtrbct == Long.MIN_VALUE) {
             return plusMillis(Long.MAX_VALUE).plusMillis(1);
         }
-        return plusMillis(-millisToSubtract);
+        return plusMillis(-millisToSubtrbct);
     }
 
     /**
-     * Returns a copy of this instant with the specified duration in nanoseconds subtracted.
+     * Returns b copy of this instbnt with the specified durbtion in nbnoseconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanosToSubtract  the nanoseconds to subtract, positive or negative
-     * @return an {@code Instant} based on this instant with the specified nanoseconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the maximum or minimum instant
+     * @pbrbm nbnosToSubtrbct  the nbnoseconds to subtrbct, positive or negbtive
+     * @return bn {@code Instbnt} bbsed on this instbnt with the specified nbnoseconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the mbximum or minimum instbnt
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public Instant minusNanos(long nanosToSubtract) {
-        if (nanosToSubtract == Long.MIN_VALUE) {
-            return plusNanos(Long.MAX_VALUE).plusNanos(1);
+    public Instbnt minusNbnos(long nbnosToSubtrbct) {
+        if (nbnosToSubtrbct == Long.MIN_VALUE) {
+            return plusNbnos(Long.MAX_VALUE).plusNbnos(1);
         }
-        return plusNanos(-nanosToSubtract);
+        return plusNbnos(-nbnosToSubtrbct);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Queries this instant using the specified query.
+     * Queries this instbnt using the specified query.
      * <p>
-     * This queries this instant using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * This queries this instbnt using the specified query strbtegy object.
+     * The {@code TemporblQuery} object defines the logic to be used to
+     * obtbin the result. Rebd the documentbtion of the query to understbnd
+     * whbt the result of this method will be.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblQuery#queryFrom(TemporblAccessor)} method on the
+     * specified query pbssing {@code this} bs the brgument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @pbrbm <R> the type of the result
+     * @pbrbm query  the query to invoke, not null
+     * @return the query result, null mby be returned (defined by the query)
+     * @throws DbteTimeException if unbble to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.precision()) {
+    public <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.precision()) {
             return (R) NANOS;
         }
-        // inline TemporalAccessor.super.query(query) as an optimization
-        if (query == TemporalQueries.chronology() || query == TemporalQueries.zoneId() ||
-                query == TemporalQueries.zone() || query == TemporalQueries.offset() ||
-                query == TemporalQueries.localDate() || query == TemporalQueries.localTime()) {
+        // inline TemporblAccessor.super.query(query) bs bn optimizbtion
+        if (query == TemporblQueries.chronology() || query == TemporblQueries.zoneId() ||
+                query == TemporblQueries.zone() || query == TemporblQueries.offset() ||
+                query == TemporblQueries.locblDbte() || query == TemporblQueries.locblTime()) {
             return null;
         }
         return query.queryFrom(this);
     }
 
     /**
-     * Adjusts the specified temporal object to have this instant.
+     * Adjusts the specified temporbl object to hbve this instbnt.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the instant changed to be the same as this.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with the instbnt chbnged to be the sbme bs this.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * twice, passing {@link ChronoField#INSTANT_SECONDS} and
-     * {@link ChronoField#NANO_OF_SECOND} as the fields.
+     * The bdjustment is equivblent to using {@link Temporbl#with(TemporblField, long)}
+     * twice, pbssing {@link ChronoField#INSTANT_SECONDS} bnd
+     * {@link ChronoField#NANO_OF_SECOND} bs the fields.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#with(TemporblAdjuster)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisInstant.adjustInto(temporal);
-     *   temporal = temporal.with(thisInstant);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisInstbnt.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisInstbnt);
      * </pre>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @pbrbm temporbl  the tbrget object to be bdjusted, not null
+     * @return the bdjusted object, not null
+     * @throws DbteTimeException if unbble to mbke the bdjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal adjustInto(Temporal temporal) {
-        return temporal.with(INSTANT_SECONDS, seconds).with(NANO_OF_SECOND, nanos);
+    public Temporbl bdjustInto(Temporbl temporbl) {
+        return temporbl.with(INSTANT_SECONDS, seconds).with(NANO_OF_SECOND, nbnos);
     }
 
     /**
-     * Calculates the amount of time until another instant in terms of the specified unit.
+     * Cblculbtes the bmount of time until bnother instbnt in terms of the specified unit.
      * <p>
-     * This calculates the amount of time between two {@code Instant}
-     * objects in terms of a single {@code TemporalUnit}.
-     * The start and end points are {@code this} and the specified instant.
-     * The result will be negative if the end is before the start.
-     * The calculation returns a whole number, representing the number of
-     * complete units between the two instants.
-     * The {@code Temporal} passed to this method is converted to a
-     * {@code Instant} using {@link #from(TemporalAccessor)}.
-     * For example, the amount in days between two dates can be calculated
-     * using {@code startInstant.until(endInstant, SECONDS)}.
+     * This cblculbtes the bmount of time between two {@code Instbnt}
+     * objects in terms of b single {@code TemporblUnit}.
+     * The stbrt bnd end points bre {@code this} bnd the specified instbnt.
+     * The result will be negbtive if the end is before the stbrt.
+     * The cblculbtion returns b whole number, representing the number of
+     * complete units between the two instbnts.
+     * The {@code Temporbl} pbssed to this method is converted to b
+     * {@code Instbnt} using {@link #from(TemporblAccessor)}.
+     * For exbmple, the bmount in dbys between two dbtes cbn be cblculbted
+     * using {@code stbrtInstbnt.until(endInstbnt, SECONDS)}.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method.
-     * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
+     * The second is to use {@link TemporblUnit#between(Temporbl, Temporbl)}:
      * <pre>
-     *   // these two lines are equivalent
-     *   amount = start.until(end, SECONDS);
-     *   amount = SECONDS.between(start, end);
+     *   // these two lines bre equivblent
+     *   bmount = stbrt.until(end, SECONDS);
+     *   bmount = SECONDS.between(stbrt, end);
      * </pre>
-     * The choice should be made based on which makes the code more readable.
+     * The choice should be mbde bbsed on which mbkes the code more rebdbble.
      * <p>
-     * The calculation is implemented in this method for {@link ChronoUnit}.
+     * The cblculbtion is implemented in this method for {@link ChronoUnit}.
      * The units {@code NANOS}, {@code MICROS}, {@code MILLIS}, {@code SECONDS},
-     * {@code MINUTES}, {@code HOURS}, {@code HALF_DAYS} and {@code DAYS}
-     * are supported. Other {@code ChronoUnit} values will throw an exception.
+     * {@code MINUTES}, {@code HOURS}, {@code HALF_DAYS} bnd {@code DAYS}
+     * bre supported. Other {@code ChronoUnit} vblues will throw bn exception.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.between(Temporal, Temporal)}
-     * passing {@code this} as the first argument and the converted input temporal
-     * as the second argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.between(Temporbl, Temporbl)}
+     * pbssing {@code this} bs the first brgument bnd the converted input temporbl
+     * bs the second brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param endExclusive  the end date, exclusive, which is converted to an {@code Instant}, not null
-     * @param unit  the unit to measure the amount in, not null
-     * @return the amount of time between this instant and the end instant
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to an {@code Instant}
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm endExclusive  the end dbte, exclusive, which is converted to bn {@code Instbnt}, not null
+     * @pbrbm unit  the unit to mebsure the bmount in, not null
+     * @return the bmount of time between this instbnt bnd the end instbnt
+     * @throws DbteTimeException if the bmount cbnnot be cblculbted, or the end
+     *  temporbl cbnnot be converted to bn {@code Instbnt}
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        Instant end = Instant.from(endExclusive);
-        if (unit instanceof ChronoUnit) {
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
+        Instbnt end = Instbnt.from(endExclusive);
+        if (unit instbnceof ChronoUnit) {
             ChronoUnit f = (ChronoUnit) unit;
             switch (f) {
-                case NANOS: return nanosUntil(end);
-                case MICROS: return nanosUntil(end) / 1000;
-                case MILLIS: return Math.subtractExact(end.toEpochMilli(), toEpochMilli());
-                case SECONDS: return secondsUntil(end);
-                case MINUTES: return secondsUntil(end) / SECONDS_PER_MINUTE;
-                case HOURS: return secondsUntil(end) / SECONDS_PER_HOUR;
-                case HALF_DAYS: return secondsUntil(end) / (12 * SECONDS_PER_HOUR);
-                case DAYS: return secondsUntil(end) / (SECONDS_PER_DAY);
+                cbse NANOS: return nbnosUntil(end);
+                cbse MICROS: return nbnosUntil(end) / 1000;
+                cbse MILLIS: return Mbth.subtrbctExbct(end.toEpochMilli(), toEpochMilli());
+                cbse SECONDS: return secondsUntil(end);
+                cbse MINUTES: return secondsUntil(end) / SECONDS_PER_MINUTE;
+                cbse HOURS: return secondsUntil(end) / SECONDS_PER_HOUR;
+                cbse HALF_DAYS: return secondsUntil(end) / (12 * SECONDS_PER_HOUR);
+                cbse DAYS: return secondsUntil(end) / (SECONDS_PER_DAY);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported unit: " + unit);
+            throw new UnsupportedTemporblTypeException("Unsupported unit: " + unit);
         }
         return unit.between(this, end);
     }
 
-    private long nanosUntil(Instant end) {
-        long secsDiff = Math.subtractExact(end.seconds, seconds);
-        long totalNanos = Math.multiplyExact(secsDiff, NANOS_PER_SECOND);
-        return Math.addExact(totalNanos, end.nanos - nanos);
+    privbte long nbnosUntil(Instbnt end) {
+        long secsDiff = Mbth.subtrbctExbct(end.seconds, seconds);
+        long totblNbnos = Mbth.multiplyExbct(secsDiff, NANOS_PER_SECOND);
+        return Mbth.bddExbct(totblNbnos, end.nbnos - nbnos);
     }
 
-    private long secondsUntil(Instant end) {
-        long secsDiff = Math.subtractExact(end.seconds, seconds);
-        long nanosDiff = end.nanos - nanos;
-        if (secsDiff > 0 && nanosDiff < 0) {
+    privbte long secondsUntil(Instbnt end) {
+        long secsDiff = Mbth.subtrbctExbct(end.seconds, seconds);
+        long nbnosDiff = end.nbnos - nbnos;
+        if (secsDiff > 0 && nbnosDiff < 0) {
             secsDiff--;
-        } else if (secsDiff < 0 && nanosDiff > 0) {
+        } else if (secsDiff < 0 && nbnosDiff > 0) {
             secsDiff++;
         }
         return secsDiff;
@@ -1178,188 +1178,188 @@ public final class Instant
 
     //-----------------------------------------------------------------------
     /**
-     * Combines this instant with an offset to create an {@code OffsetDateTime}.
+     * Combines this instbnt with bn offset to crebte bn {@code OffsetDbteTime}.
      * <p>
-     * This returns an {@code OffsetDateTime} formed from this instant at the
+     * This returns bn {@code OffsetDbteTime} formed from this instbnt bt the
      * specified offset from UTC/Greenwich. An exception will be thrown if the
-     * instant is too large to fit into an offset date-time.
+     * instbnt is too lbrge to fit into bn offset dbte-time.
      * <p>
-     * This method is equivalent to
-     * {@link OffsetDateTime#ofInstant(Instant, ZoneId) OffsetDateTime.ofInstant(this, offset)}.
+     * This method is equivblent to
+     * {@link OffsetDbteTime#ofInstbnt(Instbnt, ZoneId) OffsetDbteTime.ofInstbnt(this, offset)}.
      *
-     * @param offset  the offset to combine with, not null
-     * @return the offset date-time formed from this instant and the specified offset, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm offset  the offset to combine with, not null
+     * @return the offset dbte-time formed from this instbnt bnd the specified offset, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public OffsetDateTime atOffset(ZoneOffset offset) {
-        return OffsetDateTime.ofInstant(this, offset);
+    public OffsetDbteTime btOffset(ZoneOffset offset) {
+        return OffsetDbteTime.ofInstbnt(this, offset);
     }
 
     /**
-     * Combines this instant with a time-zone to create a {@code ZonedDateTime}.
+     * Combines this instbnt with b time-zone to crebte b {@code ZonedDbteTime}.
      * <p>
-     * This returns an {@code ZonedDateTime} formed from this instant at the
-     * specified time-zone. An exception will be thrown if the instant is too
-     * large to fit into a zoned date-time.
+     * This returns bn {@code ZonedDbteTime} formed from this instbnt bt the
+     * specified time-zone. An exception will be thrown if the instbnt is too
+     * lbrge to fit into b zoned dbte-time.
      * <p>
-     * This method is equivalent to
-     * {@link ZonedDateTime#ofInstant(Instant, ZoneId) ZonedDateTime.ofInstant(this, zone)}.
+     * This method is equivblent to
+     * {@link ZonedDbteTime#ofInstbnt(Instbnt, ZoneId) ZonedDbteTime.ofInstbnt(this, zone)}.
      *
-     * @param zone  the zone to combine with, not null
-     * @return the zoned date-time formed from this instant and the specified zone, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm zone  the zone to combine with, not null
+     * @return the zoned dbte-time formed from this instbnt bnd the specified zone, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public ZonedDateTime atZone(ZoneId zone) {
-        return ZonedDateTime.ofInstant(this, zone);
+    public ZonedDbteTime btZone(ZoneId zone) {
+        return ZonedDbteTime.ofInstbnt(this, zone);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Converts this instant to the number of milliseconds from the epoch
+     * Converts this instbnt to the number of milliseconds from the epoch
      * of 1970-01-01T00:00:00Z.
      * <p>
-     * If this instant represents a point on the time-line too far in the future
-     * or past to fit in a {@code long} milliseconds, then an exception is thrown.
+     * If this instbnt represents b point on the time-line too fbr in the future
+     * or pbst to fit in b {@code long} milliseconds, then bn exception is thrown.
      * <p>
-     * If this instant has greater than millisecond precision, then the conversion
-     * will drop any excess precision information as though the amount in nanoseconds
-     * was subject to integer division by one million.
+     * If this instbnt hbs grebter thbn millisecond precision, then the conversion
+     * will drop bny excess precision informbtion bs though the bmount in nbnoseconds
+     * wbs subject to integer division by one million.
      *
      * @return the number of milliseconds since the epoch of 1970-01-01T00:00:00Z
      * @throws ArithmeticException if numeric overflow occurs
      */
     public long toEpochMilli() {
-        long millis = Math.multiplyExact(seconds, 1000);
-        return millis + nanos / 1000_000;
+        long millis = Mbth.multiplyExbct(seconds, 1000);
+        return millis + nbnos / 1000_000;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this instant to the specified instant.
+     * Compbres this instbnt to the specified instbnt.
      * <p>
-     * The comparison is based on the time-line position of the instants.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * The compbrison is bbsed on the time-line position of the instbnts.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      *
-     * @param otherInstant  the other instant to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
-     * @throws NullPointerException if otherInstant is null
+     * @pbrbm otherInstbnt  the other instbnt to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
+     * @throws NullPointerException if otherInstbnt is null
      */
     @Override
-    public int compareTo(Instant otherInstant) {
-        int cmp = Long.compare(seconds, otherInstant.seconds);
+    public int compbreTo(Instbnt otherInstbnt) {
+        int cmp = Long.compbre(seconds, otherInstbnt.seconds);
         if (cmp != 0) {
             return cmp;
         }
-        return nanos - otherInstant.nanos;
+        return nbnos - otherInstbnt.nbnos;
     }
 
     /**
-     * Checks if this instant is after the specified instant.
+     * Checks if this instbnt is bfter the specified instbnt.
      * <p>
-     * The comparison is based on the time-line position of the instants.
+     * The compbrison is bbsed on the time-line position of the instbnts.
      *
-     * @param otherInstant  the other instant to compare to, not null
-     * @return true if this instant is after the specified instant
-     * @throws NullPointerException if otherInstant is null
+     * @pbrbm otherInstbnt  the other instbnt to compbre to, not null
+     * @return true if this instbnt is bfter the specified instbnt
+     * @throws NullPointerException if otherInstbnt is null
      */
-    public boolean isAfter(Instant otherInstant) {
-        return compareTo(otherInstant) > 0;
+    public boolebn isAfter(Instbnt otherInstbnt) {
+        return compbreTo(otherInstbnt) > 0;
     }
 
     /**
-     * Checks if this instant is before the specified instant.
+     * Checks if this instbnt is before the specified instbnt.
      * <p>
-     * The comparison is based on the time-line position of the instants.
+     * The compbrison is bbsed on the time-line position of the instbnts.
      *
-     * @param otherInstant  the other instant to compare to, not null
-     * @return true if this instant is before the specified instant
-     * @throws NullPointerException if otherInstant is null
+     * @pbrbm otherInstbnt  the other instbnt to compbre to, not null
+     * @return true if this instbnt is before the specified instbnt
+     * @throws NullPointerException if otherInstbnt is null
      */
-    public boolean isBefore(Instant otherInstant) {
-        return compareTo(otherInstant) < 0;
+    public boolebn isBefore(Instbnt otherInstbnt) {
+        return compbreTo(otherInstbnt) < 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this instant is equal to the specified instant.
+     * Checks if this instbnt is equbl to the specified instbnt.
      * <p>
-     * The comparison is based on the time-line position of the instants.
+     * The compbrison is bbsed on the time-line position of the instbnts.
      *
-     * @param otherInstant  the other instant, null returns false
-     * @return true if the other instant is equal to this one
+     * @pbrbm otherInstbnt  the other instbnt, null returns fblse
+     * @return true if the other instbnt is equbl to this one
      */
     @Override
-    public boolean equals(Object otherInstant) {
-        if (this == otherInstant) {
+    public boolebn equbls(Object otherInstbnt) {
+        if (this == otherInstbnt) {
             return true;
         }
-        if (otherInstant instanceof Instant) {
-            Instant other = (Instant) otherInstant;
+        if (otherInstbnt instbnceof Instbnt) {
+            Instbnt other = (Instbnt) otherInstbnt;
             return this.seconds == other.seconds &&
-                   this.nanos == other.nanos;
+                   this.nbnos == other.nbnos;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this instant.
+     * Returns b hbsh code for this instbnt.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return ((int) (seconds ^ (seconds >>> 32))) + 51 * nanos;
+    public int hbshCode() {
+        return ((int) (seconds ^ (seconds >>> 32))) + 51 * nbnos;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * A string representation of this instant using ISO-8601 representation.
+     * A string representbtion of this instbnt using ISO-8601 representbtion.
      * <p>
-     * The format used is the same as {@link DateTimeFormatter#ISO_INSTANT}.
+     * The formbt used is the sbme bs {@link DbteTimeFormbtter#ISO_INSTANT}.
      *
-     * @return an ISO-8601 representation of this instant, not null
+     * @return bn ISO-8601 representbtion of this instbnt, not null
      */
     @Override
     public String toString() {
-        return DateTimeFormatter.ISO_INSTANT.format(this);
+        return DbteTimeFormbtter.ISO_INSTANT.formbt(this);
     }
 
     // -----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../seriblized-form.html#jbvb.time.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(2);  // identifies an Instant
+     *  out.writeByte(2);  // identifies bn Instbnt
      *  out.writeLong(seconds);
-     *  out.writeInt(nanos);
+     *  out.writeInt(nbnos);
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.INSTANT_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
+    void writeExternbl(DbtbOutput out) throws IOException {
         out.writeLong(seconds);
-        out.writeInt(nanos);
+        out.writeInt(nbnos);
     }
 
-    static Instant readExternal(DataInput in) throws IOException {
-        long seconds = in.readLong();
-        int nanos = in.readInt();
-        return Instant.ofEpochSecond(seconds, nanos);
+    stbtic Instbnt rebdExternbl(DbtbInput in) throws IOException {
+        long seconds = in.rebdLong();
+        int nbnos = in.rebdInt();
+        return Instbnt.ofEpochSecond(seconds, nbnos);
     }
 
 }

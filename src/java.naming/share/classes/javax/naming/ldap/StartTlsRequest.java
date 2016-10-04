@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
-import java.util.Iterator;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.naming.ConfigurationException;
-import javax.naming.NamingException;
-import com.sun.naming.internal.VersionHelper;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import jbvb.util.Iterbtor;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvbx.nbming.ConfigurbtionException;
+import jbvbx.nbming.NbmingException;
+import com.sun.nbming.internbl.VersionHelper;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
 
 /**
- * This class implements the LDAPv3 Extended Request for StartTLS as
+ * This clbss implements the LDAPv3 Extended Request for StbrtTLS bs
  * defined in
- * <a href="http://www.ietf.org/rfc/rfc2830.txt">Lightweight Directory
- * Access Protocol (v3): Extension for Transport Layer Security</a>
+ * <b href="http://www.ietf.org/rfc/rfc2830.txt">Lightweight Directory
+ * Access Protocol (v3): Extension for Trbnsport Lbyer Security</b>
  *
- * The object identifier for StartTLS is 1.3.6.1.4.1.1466.20037
- * and no extended request value is defined.
+ * The object identifier for StbrtTLS is 1.3.6.1.4.1.1466.20037
+ * bnd no extended request vblue is defined.
  *<p>
- * <tt>StartTlsRequest</tt>/<tt>StartTlsResponse</tt> are used to establish
- * a TLS connection over the existing LDAP connection associated with
- * the JNDI context on which <tt>extendedOperation()</tt> is invoked.
- * Typically, a JNDI program uses these classes as follows.
+ * <tt>StbrtTlsRequest</tt>/<tt>StbrtTlsResponse</tt> bre used to estbblish
+ * b TLS connection over the existing LDAP connection bssocibted with
+ * the JNDI context on which <tt>extendedOperbtion()</tt> is invoked.
+ * Typicblly, b JNDI progrbm uses these clbsses bs follows.
  * <blockquote><pre>
- * import javax.naming.ldap.*;
+ * import jbvbx.nbming.ldbp.*;
  *
- * // Open an LDAP association
- * LdapContext ctx = new InitialLdapContext();
+ * // Open bn LDAP bssocibtion
+ * LdbpContext ctx = new InitiblLdbpContext();
  *
- * // Perform a StartTLS extended operation
- * StartTlsResponse tls =
- *     (StartTlsResponse) ctx.extendedOperation(new StartTlsRequest());
+ * // Perform b StbrtTLS extended operbtion
+ * StbrtTlsResponse tls =
+ *     (StbrtTlsResponse) ctx.extendedOperbtion(new StbrtTlsRequest());
  *
- * // Open a TLS connection (over the existing LDAP association) and get details
- * // of the negotiated TLS session: cipher suite, peer certificate, etc.
- * SSLSession session = tls.negotiate();
+ * // Open b TLS connection (over the existing LDAP bssocibtion) bnd get detbils
+ * // of the negotibted TLS session: cipher suite, peer certificbte, etc.
+ * SSLSession session = tls.negotibte();
  *
- * // ... use ctx to perform protected LDAP operations
+ * // ... use ctx to perform protected LDAP operbtions
  *
- * // Close the TLS connection (revert back to the underlying LDAP association)
+ * // Close the TLS connection (revert bbck to the underlying LDAP bssocibtion)
  * tls.close();
  *
- * // ... use ctx to perform unprotected LDAP operations
+ * // ... use ctx to perform unprotected LDAP operbtions
  *
- * // Close the LDAP association
+ * // Close the LDAP bssocibtion
  * ctx.close;
  * </pre></blockquote>
  *
  * @since 1.4
- * @see StartTlsResponse
- * @author Vincent Ryan
+ * @see StbrtTlsResponse
+ * @buthor Vincent Rybn
  */
-public class StartTlsRequest implements ExtendedRequest {
+public clbss StbrtTlsRequest implements ExtendedRequest {
 
-    // Constant
+    // Constbnt
 
     /**
-     * The StartTLS extended request's assigned object identifier
+     * The StbrtTLS extended request's bssigned object identifier
      * is 1.3.6.1.4.1.1466.20037.
      */
-    public static final String OID = "1.3.6.1.4.1.1466.20037";
+    public stbtic finbl String OID = "1.3.6.1.4.1.1466.20037";
 
 
     // Constructors
 
     /**
-     * Constructs a StartTLS extended request.
+     * Constructs b StbrtTLS extended request.
      */
-    public StartTlsRequest() {
+    public StbrtTlsRequest() {
     }
 
 
     // ExtendedRequest methods
 
     /**
-     * Retrieves the StartTLS request's object identifier string.
+     * Retrieves the StbrtTLS request's object identifier string.
      *
      * @return The object identifier string, "1.3.6.1.4.1.1466.20037".
      */
@@ -108,83 +108,83 @@ public class StartTlsRequest implements ExtendedRequest {
     }
 
     /**
-     * Retrieves the StartTLS request's ASN.1 BER encoded value.
-     * Since the request has no defined value, null is always
+     * Retrieves the StbrtTLS request's ASN.1 BER encoded vblue.
+     * Since the request hbs no defined vblue, null is blwbys
      * returned.
      *
-     * @return The null value.
+     * @return The null vblue.
      */
-    public byte[] getEncodedValue() {
+    public byte[] getEncodedVblue() {
         return null;
     }
 
     /**
-     * Creates an extended response object that corresponds to the
-     * LDAP StartTLS extended request.
+     * Crebtes bn extended response object thbt corresponds to the
+     * LDAP StbrtTLS extended request.
      * <p>
-     * The result must be a concrete subclass of StartTlsResponse
-     * and must have a public zero-argument constructor.
+     * The result must be b concrete subclbss of StbrtTlsResponse
+     * bnd must hbve b public zero-brgument constructor.
      * <p>
-     * This method locates the implementation class by locating
-     * configuration files that have the name:
+     * This method locbtes the implementbtion clbss by locbting
+     * configurbtion files thbt hbve the nbme:
      * <blockquote><tt>
-     *     META-INF/services/javax.naming.ldap.StartTlsResponse
+     *     META-INF/services/jbvbx.nbming.ldbp.StbrtTlsResponse
      * </tt></blockquote>
-     * The configuration files and their corresponding implementation classes must
-     * be accessible to the calling thread's context class loader.
+     * The configurbtion files bnd their corresponding implementbtion clbsses must
+     * be bccessible to the cblling threbd's context clbss lobder.
      * <p>
-     * Each configuration file should contain a list of fully-qualified class
-     * names, one per line.  Space and tab characters surrounding each name, as
-     * well as blank lines, are ignored.  The comment character is <tt>'#'</tt>
-     * (<tt>0x23</tt>); on each line all characters following the first comment
-     * character are ignored.  The file must be encoded in UTF-8.
+     * Ebch configurbtion file should contbin b list of fully-qublified clbss
+     * nbmes, one per line.  Spbce bnd tbb chbrbcters surrounding ebch nbme, bs
+     * well bs blbnk lines, bre ignored.  The comment chbrbcter is <tt>'#'</tt>
+     * (<tt>0x23</tt>); on ebch line bll chbrbcters following the first comment
+     * chbrbcter bre ignored.  The file must be encoded in UTF-8.
      * <p>
-     * This method will return an instance of the first implementation
-     * class that it is able to load and instantiate successfully from
-     * the list of class names collected from the configuration files.
-     * This method uses the calling thread's context classloader to find the
-     * configuration files and to load the implementation class.
+     * This method will return bn instbnce of the first implementbtion
+     * clbss thbt it is bble to lobd bnd instbntibte successfully from
+     * the list of clbss nbmes collected from the configurbtion files.
+     * This method uses the cblling threbd's context clbsslobder to find the
+     * configurbtion files bnd to lobd the implementbtion clbss.
      * <p>
-     * If no class can be found in this way, this method will use
-     * an implementation-specific way to locate an implementation.
-     * If none is found, a NamingException is thrown.
+     * If no clbss cbn be found in this wby, this method will use
+     * bn implementbtion-specific wby to locbte bn implementbtion.
+     * If none is found, b NbmingException is thrown.
      *
-     * @param id         The object identifier of the extended response.
-     *                   Its value must be "1.3.6.1.4.1.1466.20037" or null.
-     *                   Both values are equivalent.
-     * @param berValue   The possibly null ASN.1 BER encoded value of the
-     *                   extended response. This is the raw BER bytes
-     *                   including the tag and length of the response value.
+     * @pbrbm id         The object identifier of the extended response.
+     *                   Its vblue must be "1.3.6.1.4.1.1466.20037" or null.
+     *                   Both vblues bre equivblent.
+     * @pbrbm berVblue   The possibly null ASN.1 BER encoded vblue of the
+     *                   extended response. This is the rbw BER bytes
+     *                   including the tbg bnd length of the response vblue.
      *                   It does not include the response OID.
-     *                   Its value is ignored because a Start TLS response
-     *                   is not expected to contain any response value.
-     * @param offset     The starting position in berValue of the bytes to use.
-     *                   Its value is ignored because a Start TLS response
-     *                   is not expected to contain any response value.
-     * @param length     The number of bytes in berValue to use.
-     *                   Its value is ignored because a Start TLS response
-     *                   is not expected to contain any response value.
-     * @return           The StartTLS extended response object.
-     * @exception        NamingException If a naming exception was encountered
-     *                   while creating the StartTLS extended response object.
+     *                   Its vblue is ignored becbuse b Stbrt TLS response
+     *                   is not expected to contbin bny response vblue.
+     * @pbrbm offset     The stbrting position in berVblue of the bytes to use.
+     *                   Its vblue is ignored becbuse b Stbrt TLS response
+     *                   is not expected to contbin bny response vblue.
+     * @pbrbm length     The number of bytes in berVblue to use.
+     *                   Its vblue is ignored becbuse b Stbrt TLS response
+     *                   is not expected to contbin bny response vblue.
+     * @return           The StbrtTLS extended response object.
+     * @exception        NbmingException If b nbming exception wbs encountered
+     *                   while crebting the StbrtTLS extended response object.
      */
-    public ExtendedResponse createExtendedResponse(String id, byte[] berValue,
-        int offset, int length) throws NamingException {
+    public ExtendedResponse crebteExtendedResponse(String id, byte[] berVblue,
+        int offset, int length) throws NbmingException {
 
-        // Confirm that the object identifier is correct
-        if ((id != null) && (!id.equals(OID))) {
-            throw new ConfigurationException(
-                "Start TLS received the following response instead of " +
+        // Confirm thbt the object identifier is correct
+        if ((id != null) && (!id.equbls(OID))) {
+            throw new ConfigurbtionException(
+                "Stbrt TLS received the following response instebd of " +
                 OID + ": " + id);
         }
 
-        StartTlsResponse resp = null;
+        StbrtTlsResponse resp = null;
 
-        ServiceLoader<StartTlsResponse> sl = ServiceLoader.load(
-                StartTlsResponse.class, getContextClassLoader());
-        Iterator<StartTlsResponse> iter = sl.iterator();
+        ServiceLobder<StbrtTlsResponse> sl = ServiceLobder.lobd(
+                StbrtTlsResponse.clbss, getContextClbssLobder());
+        Iterbtor<StbrtTlsResponse> iter = sl.iterbtor();
 
-        while (resp == null && privilegedHasNext(iter)) {
+        while (resp == null && privilegedHbsNext(iter)) {
             resp = iter.next();
         }
         if (resp != null) {
@@ -192,58 +192,58 @@ public class StartTlsRequest implements ExtendedRequest {
         }
         try {
             VersionHelper helper = VersionHelper.getVersionHelper();
-            Class<?> clas = helper.loadClass(
-                "com.sun.jndi.ldap.ext.StartTlsResponseImpl");
+            Clbss<?> clbs = helper.lobdClbss(
+                "com.sun.jndi.ldbp.ext.StbrtTlsResponseImpl");
 
-            resp = (StartTlsResponse) clas.newInstance();
+            resp = (StbrtTlsResponse) clbs.newInstbnce();
 
-        } catch (IllegalAccessException e) {
-            throw wrapException(e);
+        } cbtch (IllegblAccessException e) {
+            throw wrbpException(e);
 
-        } catch (InstantiationException e) {
-            throw wrapException(e);
+        } cbtch (InstbntibtionException e) {
+            throw wrbpException(e);
 
-        } catch (ClassNotFoundException e) {
-            throw wrapException(e);
+        } cbtch (ClbssNotFoundException e) {
+            throw wrbpException(e);
         }
 
         return resp;
     }
 
     /*
-     * Wrap an exception, thrown while attempting to load the StartTlsResponse
-     * class, in a configuration exception.
+     * Wrbp bn exception, thrown while bttempting to lobd the StbrtTlsResponse
+     * clbss, in b configurbtion exception.
      */
-    private ConfigurationException wrapException(Exception e) {
-        ConfigurationException ce = new ConfigurationException(
-            "Cannot load implementation of javax.naming.ldap.StartTlsResponse");
+    privbte ConfigurbtionException wrbpException(Exception e) {
+        ConfigurbtionException ce = new ConfigurbtionException(
+            "Cbnnot lobd implementbtion of jbvbx.nbming.ldbp.StbrtTlsResponse");
 
-        ce.setRootCause(e);
+        ce.setRootCbuse(e);
         return ce;
     }
 
     /*
-     * Acquire the class loader associated with this thread.
+     * Acquire the clbss lobder bssocibted with this threbd.
      */
-    private final ClassLoader getContextClassLoader() {
+    privbte finbl ClbssLobder getContextClbssLobder() {
         return AccessController.doPrivileged(
-            new PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    return Thread.currentThread().getContextClassLoader();
+            new PrivilegedAction<ClbssLobder>() {
+                public ClbssLobder run() {
+                    return Threbd.currentThrebd().getContextClbssLobder();
                 }
             }
         );
     }
 
-    private final static boolean privilegedHasNext(final Iterator<StartTlsResponse> iter) {
-        Boolean answer = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return Boolean.valueOf(iter.hasNext());
+    privbte finbl stbtic boolebn privilegedHbsNext(finbl Iterbtor<StbrtTlsResponse> iter) {
+        Boolebn bnswer = AccessController.doPrivileged(
+            new PrivilegedAction<Boolebn>() {
+            public Boolebn run() {
+                return Boolebn.vblueOf(iter.hbsNext());
             }
         });
-        return answer.booleanValue();
+        return bnswer.boolebnVblue();
     }
 
-    private static final long serialVersionUID = 4441679576360753397L;
+    privbte stbtic finbl long seriblVersionUID = 4441679576360753397L;
 }

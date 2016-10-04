@@ -1,378 +1,378 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.ref.WeakReference;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Properties;
+import jbvb.util.StringTokenizer;
+import jbvb.util.prefs.BbckingStoreException;
+import jbvb.util.prefs.Preferences;
 
-import javax.sound.midi.Instrument;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiDevice;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Receiver;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.Transmitter;
-import javax.sound.midi.VoiceStatus;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
+import jbvbx.sound.midi.Instrument;
+import jbvbx.sound.midi.MidiChbnnel;
+import jbvbx.sound.midi.MidiDevice;
+import jbvbx.sound.midi.MidiSystem;
+import jbvbx.sound.midi.MidiUnbvbilbbleException;
+import jbvbx.sound.midi.Pbtch;
+import jbvbx.sound.midi.Receiver;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.Trbnsmitter;
+import jbvbx.sound.midi.VoiceStbtus;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.LineUnbvbilbbleException;
+import jbvbx.sound.sbmpled.SourceDbtbLine;
 
 /**
- * The software synthesizer class.
+ * The softwbre synthesizer clbss.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftSynthesizer implements AudioSynthesizer,
+public finbl clbss SoftSynthesizer implements AudioSynthesizer,
         ReferenceCountingDevice {
 
-    protected static final class WeakAudioStream extends InputStream
+    protected stbtic finbl clbss WebkAudioStrebm extends InputStrebm
     {
-        private volatile AudioInputStream stream;
+        privbte volbtile AudioInputStrebm strebm;
         public SoftAudioPusher pusher = null;
-        public AudioInputStream jitter_stream = null;
-        public SourceDataLine sourceDataLine = null;
-        public volatile long silent_samples = 0;
-        private int framesize = 0;
-        private WeakReference<AudioInputStream> weak_stream_link;
-        private AudioFloatConverter converter;
-        private float[] silentbuffer = null;
-        private int samplesize;
+        public AudioInputStrebm jitter_strebm = null;
+        public SourceDbtbLine sourceDbtbLine = null;
+        public volbtile long silent_sbmples = 0;
+        privbte int frbmesize = 0;
+        privbte WebkReference<AudioInputStrebm> webk_strebm_link;
+        privbte AudioFlobtConverter converter;
+        privbte flobt[] silentbuffer = null;
+        privbte int sbmplesize;
 
-        public void setInputStream(AudioInputStream stream)
+        public void setInputStrebm(AudioInputStrebm strebm)
         {
-            this.stream = stream;
+            this.strebm = strebm;
         }
 
-        public int available() throws IOException {
-            AudioInputStream local_stream = stream;
-            if(local_stream != null)
-                return local_stream.available();
+        public int bvbilbble() throws IOException {
+            AudioInputStrebm locbl_strebm = strebm;
+            if(locbl_strebm != null)
+                return locbl_strebm.bvbilbble();
             return 0;
         }
 
-        public int read() throws IOException {
+        public int rebd() throws IOException {
              byte[] b = new byte[1];
-             if (read(b) == -1)
+             if (rebd(b) == -1)
                   return -1;
              return b[0] & 0xFF;
         }
 
-        public int read(byte[] b, int off, int len) throws IOException {
-             AudioInputStream local_stream = stream;
-             if(local_stream != null)
-                 return local_stream.read(b, off, len);
+        public int rebd(byte[] b, int off, int len) throws IOException {
+             AudioInputStrebm locbl_strebm = strebm;
+             if(locbl_strebm != null)
+                 return locbl_strebm.rebd(b, off, len);
              else
              {
-                 int flen = len / samplesize;
+                 int flen = len / sbmplesize;
                  if(silentbuffer == null || silentbuffer.length < flen)
-                     silentbuffer = new float[flen];
-                 converter.toByteArray(silentbuffer, flen, b, off);
+                     silentbuffer = new flobt[flen];
+                 converter.toByteArrby(silentbuffer, flen, b, off);
 
-                 silent_samples += (long)((len / framesize));
+                 silent_sbmples += (long)((len / frbmesize));
 
                  if(pusher != null)
-                 if(weak_stream_link.get() == null)
+                 if(webk_strebm_link.get() == null)
                  {
-                     Runnable runnable = new Runnable()
+                     Runnbble runnbble = new Runnbble()
                      {
                          SoftAudioPusher _pusher = pusher;
-                         AudioInputStream _jitter_stream = jitter_stream;
-                         SourceDataLine _sourceDataLine = sourceDataLine;
+                         AudioInputStrebm _jitter_strebm = jitter_strebm;
+                         SourceDbtbLine _sourceDbtbLine = sourceDbtbLine;
                          public void run()
                          {
                              _pusher.stop();
-                             if(_jitter_stream != null)
+                             if(_jitter_strebm != null)
                                 try {
-                                    _jitter_stream.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                    _jitter_strebm.close();
+                                } cbtch (IOException e) {
+                                    e.printStbckTrbce();
                                 }
-                             if(_sourceDataLine != null)
-                                 _sourceDataLine.close();
+                             if(_sourceDbtbLine != null)
+                                 _sourceDbtbLine.close();
                          }
                      };
                      pusher = null;
-                     jitter_stream = null;
-                     sourceDataLine = null;
-                     new Thread(runnable).start();
+                     jitter_strebm = null;
+                     sourceDbtbLine = null;
+                     new Threbd(runnbble).stbrt();
                  }
                  return len;
              }
         }
 
-        public WeakAudioStream(AudioInputStream stream) {
-            this.stream = stream;
-            weak_stream_link = new WeakReference<AudioInputStream>(stream);
-            converter = AudioFloatConverter.getConverter(stream.getFormat());
-            samplesize = stream.getFormat().getFrameSize() / stream.getFormat().getChannels();
-            framesize = stream.getFormat().getFrameSize();
+        public WebkAudioStrebm(AudioInputStrebm strebm) {
+            this.strebm = strebm;
+            webk_strebm_link = new WebkReference<AudioInputStrebm>(strebm);
+            converter = AudioFlobtConverter.getConverter(strebm.getFormbt());
+            sbmplesize = strebm.getFormbt().getFrbmeSize() / strebm.getFormbt().getChbnnels();
+            frbmesize = strebm.getFormbt().getFrbmeSize();
         }
 
-        public AudioInputStream getAudioInputStream()
+        public AudioInputStrebm getAudioInputStrebm()
         {
-            return new AudioInputStream(this, stream.getFormat(), AudioSystem.NOT_SPECIFIED);
+            return new AudioInputStrebm(this, strebm.getFormbt(), AudioSystem.NOT_SPECIFIED);
         }
 
         public void close() throws IOException
         {
-            AudioInputStream astream  = weak_stream_link.get();
-            if(astream != null)
-                astream.close();
+            AudioInputStrebm bstrebm  = webk_strebm_link.get();
+            if(bstrebm != null)
+                bstrebm.close();
         }
     }
 
-    private static class Info extends MidiDevice.Info {
+    privbte stbtic clbss Info extends MidiDevice.Info {
         Info() {
             super(INFO_NAME, INFO_VENDOR, INFO_DESCRIPTION, INFO_VERSION);
         }
     }
 
-    static final String INFO_NAME = "Gervill";
-    static final String INFO_VENDOR = "OpenJDK";
-    static final String INFO_DESCRIPTION = "Software MIDI Synthesizer";
-    static final String INFO_VERSION = "1.0";
-    final static MidiDevice.Info info = new Info();
+    stbtic finbl String INFO_NAME = "Gervill";
+    stbtic finbl String INFO_VENDOR = "OpenJDK";
+    stbtic finbl String INFO_DESCRIPTION = "Softwbre MIDI Synthesizer";
+    stbtic finbl String INFO_VERSION = "1.0";
+    finbl stbtic MidiDevice.Info info = new Info();
 
-    private static SourceDataLine testline = null;
+    privbte stbtic SourceDbtbLine testline = null;
 
-    private static Soundbank defaultSoundBank = null;
+    privbte stbtic Soundbbnk defbultSoundBbnk = null;
 
-    WeakAudioStream weakstream = null;
+    WebkAudioStrebm webkstrebm = null;
 
-    final Object control_mutex = this;
+    finbl Object control_mutex = this;
 
     int voiceIDCounter = 0;
 
-    // 0: default
-    // 1: DLS Voice Allocation
-    int voice_allocation_mode = 0;
+    // 0: defbult
+    // 1: DLS Voice Allocbtion
+    int voice_bllocbtion_mode = 0;
 
-    boolean load_default_soundbank = false;
-    boolean reverb_light = true;
-    boolean reverb_on = true;
-    boolean chorus_on = true;
-    boolean agc_on = true;
+    boolebn lobd_defbult_soundbbnk = fblse;
+    boolebn reverb_light = true;
+    boolebn reverb_on = true;
+    boolebn chorus_on = true;
+    boolebn bgc_on = true;
 
-    SoftChannel[] channels;
-    SoftChannelProxy[] external_channels = null;
+    SoftChbnnel[] chbnnels;
+    SoftChbnnelProxy[] externbl_chbnnels = null;
 
-    private boolean largemode = false;
+    privbte boolebn lbrgemode = fblse;
 
-    // 0: GM Mode off (default)
+    // 0: GM Mode off (defbult)
     // 1: GM Level 1
     // 2: GM Level 2
-    private int gmmode = 0;
+    privbte int gmmode = 0;
 
-    private int deviceid = 0;
+    privbte int deviceid = 0;
 
-    private AudioFormat format = new AudioFormat(44100, 16, 2, true, false);
+    privbte AudioFormbt formbt = new AudioFormbt(44100, 16, 2, true, fblse);
 
-    private SourceDataLine sourceDataLine = null;
+    privbte SourceDbtbLine sourceDbtbLine = null;
 
-    private SoftAudioPusher pusher = null;
-    private AudioInputStream pusher_stream = null;
+    privbte SoftAudioPusher pusher = null;
+    privbte AudioInputStrebm pusher_strebm = null;
 
-    private float controlrate = 147f;
+    privbte flobt controlrbte = 147f;
 
-    private boolean open = false;
-    private boolean implicitOpen = false;
+    privbte boolebn open = fblse;
+    privbte boolebn implicitOpen = fblse;
 
-    private String resamplerType = "linear";
-    private SoftResampler resampler = new SoftLinearResampler();
+    privbte String resbmplerType = "linebr";
+    privbte SoftResbmpler resbmpler = new SoftLinebrResbmpler();
 
-    private int number_of_midi_channels = 16;
-    private int maxpoly = 64;
-    private long latency = 200000; // 200 msec
-    private boolean jitter_correction = false;
+    privbte int number_of_midi_chbnnels = 16;
+    privbte int mbxpoly = 64;
+    privbte long lbtency = 200000; // 200 msec
+    privbte boolebn jitter_correction = fblse;
 
-    private SoftMainMixer mainmixer;
-    private SoftVoice[] voices;
+    privbte SoftMbinMixer mbinmixer;
+    privbte SoftVoice[] voices;
 
-    private Map<String, SoftTuning> tunings
-            = new HashMap<String, SoftTuning>();
-    private Map<String, SoftInstrument> inslist
-            = new HashMap<String, SoftInstrument>();
-    private Map<String, ModelInstrument> loadedlist
-            = new HashMap<String, ModelInstrument>();
+    privbte Mbp<String, SoftTuning> tunings
+            = new HbshMbp<String, SoftTuning>();
+    privbte Mbp<String, SoftInstrument> inslist
+            = new HbshMbp<String, SoftInstrument>();
+    privbte Mbp<String, ModelInstrument> lobdedlist
+            = new HbshMbp<String, ModelInstrument>();
 
-    private ArrayList<Receiver> recvslist = new ArrayList<Receiver>();
+    privbte ArrbyList<Receiver> recvslist = new ArrbyList<Receiver>();
 
-    private void getBuffers(ModelInstrument instrument,
+    privbte void getBuffers(ModelInstrument instrument,
             List<ModelByteBuffer> buffers) {
         for (ModelPerformer performer : instrument.getPerformers()) {
-            if (performer.getOscillators() != null) {
-                for (ModelOscillator osc : performer.getOscillators()) {
-                    if (osc instanceof ModelByteBufferWavetable) {
-                        ModelByteBufferWavetable w = (ModelByteBufferWavetable)osc;
+            if (performer.getOscillbtors() != null) {
+                for (ModelOscillbtor osc : performer.getOscillbtors()) {
+                    if (osc instbnceof ModelByteBufferWbvetbble) {
+                        ModelByteBufferWbvetbble w = (ModelByteBufferWbvetbble)osc;
                         ModelByteBuffer buff = w.getBuffer();
                         if (buff != null)
-                            buffers.add(buff);
+                            buffers.bdd(buff);
                         buff = w.get8BitExtensionBuffer();
                         if (buff != null)
-                            buffers.add(buff);
+                            buffers.bdd(buff);
                     }
                 }
             }
         }
     }
 
-    private boolean loadSamples(List<ModelInstrument> instruments) {
-        if (largemode)
+    privbte boolebn lobdSbmples(List<ModelInstrument> instruments) {
+        if (lbrgemode)
             return true;
-        List<ModelByteBuffer> buffers = new ArrayList<ModelByteBuffer>();
+        List<ModelByteBuffer> buffers = new ArrbyList<ModelByteBuffer>();
         for (ModelInstrument instrument : instruments)
             getBuffers(instrument, buffers);
         try {
-            ModelByteBuffer.loadAll(buffers);
-        } catch (IOException e) {
-            return false;
+            ModelByteBuffer.lobdAll(buffers);
+        } cbtch (IOException e) {
+            return fblse;
         }
         return true;
     }
 
-    private boolean loadInstruments(List<ModelInstrument> instruments) {
+    privbte boolebn lobdInstruments(List<ModelInstrument> instruments) {
         if (!isOpen())
-            return false;
-        if (!loadSamples(instruments))
-            return false;
+            return fblse;
+        if (!lobdSbmples(instruments))
+            return fblse;
 
         synchronized (control_mutex) {
-            if (channels != null)
-                for (SoftChannel c : channels)
+            if (chbnnels != null)
+                for (SoftChbnnel c : chbnnels)
                 {
                     c.current_instrument = null;
                     c.current_director = null;
                 }
             for (Instrument instrument : instruments) {
-                String pat = patchToString(instrument.getPatch());
+                String pbt = pbtchToString(instrument.getPbtch());
                 SoftInstrument softins
                         = new SoftInstrument((ModelInstrument) instrument);
-                inslist.put(pat, softins);
-                loadedlist.put(pat, (ModelInstrument) instrument);
+                inslist.put(pbt, softins);
+                lobdedlist.put(pbt, (ModelInstrument) instrument);
             }
         }
 
         return true;
     }
 
-    private void processPropertyInfo(Map<String, Object> info) {
+    privbte void processPropertyInfo(Mbp<String, Object> info) {
         AudioSynthesizerPropertyInfo[] items = getPropertyInfo(info);
 
-        String resamplerType = (String)items[0].value;
-        if (resamplerType.equalsIgnoreCase("point"))
+        String resbmplerType = (String)items[0].vblue;
+        if (resbmplerType.equblsIgnoreCbse("point"))
         {
-            this.resampler = new SoftPointResampler();
-            this.resamplerType = "point";
+            this.resbmpler = new SoftPointResbmpler();
+            this.resbmplerType = "point";
         }
-        else if (resamplerType.equalsIgnoreCase("linear"))
+        else if (resbmplerType.equblsIgnoreCbse("linebr"))
         {
-            this.resampler = new SoftLinearResampler2();
-            this.resamplerType = "linear";
+            this.resbmpler = new SoftLinebrResbmpler2();
+            this.resbmplerType = "linebr";
         }
-        else if (resamplerType.equalsIgnoreCase("linear1"))
+        else if (resbmplerType.equblsIgnoreCbse("linebr1"))
         {
-            this.resampler = new SoftLinearResampler();
-            this.resamplerType = "linear1";
+            this.resbmpler = new SoftLinebrResbmpler();
+            this.resbmplerType = "linebr1";
         }
-        else if (resamplerType.equalsIgnoreCase("linear2"))
+        else if (resbmplerType.equblsIgnoreCbse("linebr2"))
         {
-            this.resampler = new SoftLinearResampler2();
-            this.resamplerType = "linear2";
+            this.resbmpler = new SoftLinebrResbmpler2();
+            this.resbmplerType = "linebr2";
         }
-        else if (resamplerType.equalsIgnoreCase("cubic"))
+        else if (resbmplerType.equblsIgnoreCbse("cubic"))
         {
-            this.resampler = new SoftCubicResampler();
-            this.resamplerType = "cubic";
+            this.resbmpler = new SoftCubicResbmpler();
+            this.resbmplerType = "cubic";
         }
-        else if (resamplerType.equalsIgnoreCase("lanczos"))
+        else if (resbmplerType.equblsIgnoreCbse("lbnczos"))
         {
-            this.resampler = new SoftLanczosResampler();
-            this.resamplerType = "lanczos";
+            this.resbmpler = new SoftLbnczosResbmpler();
+            this.resbmplerType = "lbnczos";
         }
-        else if (resamplerType.equalsIgnoreCase("sinc"))
+        else if (resbmplerType.equblsIgnoreCbse("sinc"))
         {
-            this.resampler = new SoftSincResampler();
-            this.resamplerType = "sinc";
+            this.resbmpler = new SoftSincResbmpler();
+            this.resbmplerType = "sinc";
         }
 
-        setFormat((AudioFormat)items[2].value);
-        controlrate = (Float)items[1].value;
-        latency = (Long)items[3].value;
-        deviceid = (Integer)items[4].value;
-        maxpoly = (Integer)items[5].value;
-        reverb_on = (Boolean)items[6].value;
-        chorus_on = (Boolean)items[7].value;
-        agc_on = (Boolean)items[8].value;
-        largemode = (Boolean)items[9].value;
-        number_of_midi_channels = (Integer)items[10].value;
-        jitter_correction = (Boolean)items[11].value;
-        reverb_light = (Boolean)items[12].value;
-        load_default_soundbank = (Boolean)items[13].value;
+        setFormbt((AudioFormbt)items[2].vblue);
+        controlrbte = (Flobt)items[1].vblue;
+        lbtency = (Long)items[3].vblue;
+        deviceid = (Integer)items[4].vblue;
+        mbxpoly = (Integer)items[5].vblue;
+        reverb_on = (Boolebn)items[6].vblue;
+        chorus_on = (Boolebn)items[7].vblue;
+        bgc_on = (Boolebn)items[8].vblue;
+        lbrgemode = (Boolebn)items[9].vblue;
+        number_of_midi_chbnnels = (Integer)items[10].vblue;
+        jitter_correction = (Boolebn)items[11].vblue;
+        reverb_light = (Boolebn)items[12].vblue;
+        lobd_defbult_soundbbnk = (Boolebn)items[13].vblue;
     }
 
-    private String patchToString(Patch patch) {
-        if (patch instanceof ModelPatch && ((ModelPatch) patch).isPercussion())
-            return "p." + patch.getProgram() + "." + patch.getBank();
+    privbte String pbtchToString(Pbtch pbtch) {
+        if (pbtch instbnceof ModelPbtch && ((ModelPbtch) pbtch).isPercussion())
+            return "p." + pbtch.getProgrbm() + "." + pbtch.getBbnk();
         else
-            return patch.getProgram() + "." + patch.getBank();
+            return pbtch.getProgrbm() + "." + pbtch.getBbnk();
     }
 
-    private void setFormat(AudioFormat format) {
-        if (format.getChannels() > 2) {
-            throw new IllegalArgumentException(
-                    "Only mono and stereo audio supported.");
+    privbte void setFormbt(AudioFormbt formbt) {
+        if (formbt.getChbnnels() > 2) {
+            throw new IllegblArgumentException(
+                    "Only mono bnd stereo budio supported.");
         }
-        if (AudioFloatConverter.getConverter(format) == null)
-            throw new IllegalArgumentException("Audio format not supported.");
-        this.format = format;
+        if (AudioFlobtConverter.getConverter(formbt) == null)
+            throw new IllegblArgumentException("Audio formbt not supported.");
+        this.formbt = formbt;
     }
 
     void removeReceiver(Receiver recv) {
-        boolean perform_close = false;
+        boolebn perform_close = fblse;
         synchronized (control_mutex) {
             if (recvslist.remove(recv)) {
                 if (implicitOpen && recvslist.isEmpty())
@@ -383,82 +383,82 @@ public final class SoftSynthesizer implements AudioSynthesizer,
             close();
     }
 
-    SoftMainMixer getMainMixer() {
+    SoftMbinMixer getMbinMixer() {
         if (!isOpen())
             return null;
-        return mainmixer;
+        return mbinmixer;
     }
 
-    SoftInstrument findInstrument(int program, int bank, int channel) {
+    SoftInstrument findInstrument(int progrbm, int bbnk, int chbnnel) {
 
-        // Add support for GM2 banks 0x78 and 0x79
-        // as specified in DLS 2.2 in Section 1.4.6
-        // which allows using percussion and melodic instruments
-        // on all channels
-        if (bank >> 7 == 0x78 || bank >> 7 == 0x79) {
+        // Add support for GM2 bbnks 0x78 bnd 0x79
+        // bs specified in DLS 2.2 in Section 1.4.6
+        // which bllows using percussion bnd melodic instruments
+        // on bll chbnnels
+        if (bbnk >> 7 == 0x78 || bbnk >> 7 == 0x79) {
             SoftInstrument current_instrument
-                    = inslist.get(program + "." + bank);
+                    = inslist.get(progrbm + "." + bbnk);
             if (current_instrument != null)
                 return current_instrument;
 
-            String p_plaf;
-            if (bank >> 7 == 0x78)
-                p_plaf = "p.";
+            String p_plbf;
+            if (bbnk >> 7 == 0x78)
+                p_plbf = "p.";
             else
-                p_plaf = "";
+                p_plbf = "";
 
-            // Instrument not found fallback to MSB:bank, LSB:0
-            current_instrument = inslist.get(p_plaf + program + "."
-                    + ((bank & 128) << 7));
+            // Instrument not found fbllbbck to MSB:bbnk, LSB:0
+            current_instrument = inslist.get(p_plbf + progrbm + "."
+                    + ((bbnk & 128) << 7));
             if (current_instrument != null)
                 return current_instrument;
-            // Instrument not found fallback to MSB:0, LSB:bank
-            current_instrument = inslist.get(p_plaf + program + "."
-                    + (bank & 128));
+            // Instrument not found fbllbbck to MSB:0, LSB:bbnk
+            current_instrument = inslist.get(p_plbf + progrbm + "."
+                    + (bbnk & 128));
             if (current_instrument != null)
                 return current_instrument;
-            // Instrument not found fallback to MSB:0, LSB:0
-            current_instrument = inslist.get(p_plaf + program + ".0");
+            // Instrument not found fbllbbck to MSB:0, LSB:0
+            current_instrument = inslist.get(p_plbf + progrbm + ".0");
             if (current_instrument != null)
                 return current_instrument;
-            // Instrument not found fallback to MSB:0, LSB:0, program=0
-            current_instrument = inslist.get(p_plaf + program + "0.0");
+            // Instrument not found fbllbbck to MSB:0, LSB:0, progrbm=0
+            current_instrument = inslist.get(p_plbf + progrbm + "0.0");
             if (current_instrument != null)
                 return current_instrument;
             return null;
         }
 
-        // Channel 10 uses percussion instruments
-        String p_plaf;
-        if (channel == 9)
-            p_plaf = "p.";
+        // Chbnnel 10 uses percussion instruments
+        String p_plbf;
+        if (chbnnel == 9)
+            p_plbf = "p.";
         else
-            p_plaf = "";
+            p_plbf = "";
 
         SoftInstrument current_instrument
-                = inslist.get(p_plaf + program + "." + bank);
+                = inslist.get(p_plbf + progrbm + "." + bbnk);
         if (current_instrument != null)
             return current_instrument;
-        // Instrument not found fallback to MSB:0, LSB:0
-        current_instrument = inslist.get(p_plaf + program + ".0");
+        // Instrument not found fbllbbck to MSB:0, LSB:0
+        current_instrument = inslist.get(p_plbf + progrbm + ".0");
         if (current_instrument != null)
             return current_instrument;
-        // Instrument not found fallback to MSB:0, LSB:0, program=0
-        current_instrument = inslist.get(p_plaf + "0.0");
+        // Instrument not found fbllbbck to MSB:0, LSB:0, progrbm=0
+        current_instrument = inslist.get(p_plbf + "0.0");
         if (current_instrument != null)
             return current_instrument;
         return null;
     }
 
-    int getVoiceAllocationMode() {
-        return voice_allocation_mode;
+    int getVoiceAllocbtionMode() {
+        return voice_bllocbtion_mode;
     }
 
-    int getGeneralMidiMode() {
+    int getGenerblMidiMode() {
         return gmmode;
     }
 
-    void setGeneralMidiMode(int gmmode) {
+    void setGenerblMidiMode(int gmmode) {
         this.gmmode = gmmode;
     }
 
@@ -466,185 +466,185 @@ public final class SoftSynthesizer implements AudioSynthesizer,
         return deviceid;
     }
 
-    float getControlRate() {
-        return controlrate;
+    flobt getControlRbte() {
+        return controlrbte;
     }
 
     SoftVoice[] getVoices() {
         return voices;
     }
 
-    SoftTuning getTuning(Patch patch) {
-        String t_id = patchToString(patch);
+    SoftTuning getTuning(Pbtch pbtch) {
+        String t_id = pbtchToString(pbtch);
         SoftTuning tuning = tunings.get(t_id);
         if (tuning == null) {
-            tuning = new SoftTuning(patch);
+            tuning = new SoftTuning(pbtch);
             tunings.put(t_id, tuning);
         }
         return tuning;
     }
 
-    public long getLatency() {
+    public long getLbtency() {
         synchronized (control_mutex) {
-            return latency;
+            return lbtency;
         }
     }
 
-    public AudioFormat getFormat() {
+    public AudioFormbt getFormbt() {
         synchronized (control_mutex) {
-            return format;
+            return formbt;
         }
     }
 
-    public int getMaxPolyphony() {
+    public int getMbxPolyphony() {
         synchronized (control_mutex) {
-            return maxpoly;
+            return mbxpoly;
         }
     }
 
-    public MidiChannel[] getChannels() {
+    public MidiChbnnel[] getChbnnels() {
 
         synchronized (control_mutex) {
-            // if (external_channels == null) => the synthesizer is not open,
-            // create 16 proxy channels
-            // otherwise external_channels has the same length as channels array
-            if (external_channels == null) {
-                external_channels = new SoftChannelProxy[16];
-                for (int i = 0; i < external_channels.length; i++)
-                    external_channels[i] = new SoftChannelProxy();
+            // if (externbl_chbnnels == null) => the synthesizer is not open,
+            // crebte 16 proxy chbnnels
+            // otherwise externbl_chbnnels hbs the sbme length bs chbnnels brrby
+            if (externbl_chbnnels == null) {
+                externbl_chbnnels = new SoftChbnnelProxy[16];
+                for (int i = 0; i < externbl_chbnnels.length; i++)
+                    externbl_chbnnels[i] = new SoftChbnnelProxy();
             }
-            MidiChannel[] ret;
+            MidiChbnnel[] ret;
             if (isOpen())
-                ret = new MidiChannel[channels.length];
+                ret = new MidiChbnnel[chbnnels.length];
             else
-                ret = new MidiChannel[16];
+                ret = new MidiChbnnel[16];
             for (int i = 0; i < ret.length; i++)
-                ret[i] = external_channels[i];
+                ret[i] = externbl_chbnnels[i];
             return ret;
         }
     }
 
-    public VoiceStatus[] getVoiceStatus() {
+    public VoiceStbtus[] getVoiceStbtus() {
         if (!isOpen()) {
-            VoiceStatus[] tempVoiceStatusArray
-                    = new VoiceStatus[getMaxPolyphony()];
-            for (int i = 0; i < tempVoiceStatusArray.length; i++) {
-                VoiceStatus b = new VoiceStatus();
-                b.active = false;
-                b.bank = 0;
-                b.channel = 0;
+            VoiceStbtus[] tempVoiceStbtusArrby
+                    = new VoiceStbtus[getMbxPolyphony()];
+            for (int i = 0; i < tempVoiceStbtusArrby.length; i++) {
+                VoiceStbtus b = new VoiceStbtus();
+                b.bctive = fblse;
+                b.bbnk = 0;
+                b.chbnnel = 0;
                 b.note = 0;
-                b.program = 0;
+                b.progrbm = 0;
                 b.volume = 0;
-                tempVoiceStatusArray[i] = b;
+                tempVoiceStbtusArrby[i] = b;
             }
-            return tempVoiceStatusArray;
+            return tempVoiceStbtusArrby;
         }
 
         synchronized (control_mutex) {
-            VoiceStatus[] tempVoiceStatusArray = new VoiceStatus[voices.length];
+            VoiceStbtus[] tempVoiceStbtusArrby = new VoiceStbtus[voices.length];
             for (int i = 0; i < voices.length; i++) {
-                VoiceStatus a = voices[i];
-                VoiceStatus b = new VoiceStatus();
-                b.active = a.active;
-                b.bank = a.bank;
-                b.channel = a.channel;
-                b.note = a.note;
-                b.program = a.program;
-                b.volume = a.volume;
-                tempVoiceStatusArray[i] = b;
+                VoiceStbtus b = voices[i];
+                VoiceStbtus b = new VoiceStbtus();
+                b.bctive = b.bctive;
+                b.bbnk = b.bbnk;
+                b.chbnnel = b.chbnnel;
+                b.note = b.note;
+                b.progrbm = b.progrbm;
+                b.volume = b.volume;
+                tempVoiceStbtusArrby[i] = b;
             }
-            return tempVoiceStatusArray;
+            return tempVoiceStbtusArrby;
         }
     }
 
-    public boolean isSoundbankSupported(Soundbank soundbank) {
-        for (Instrument ins: soundbank.getInstruments())
-            if (!(ins instanceof ModelInstrument))
-                return false;
+    public boolebn isSoundbbnkSupported(Soundbbnk soundbbnk) {
+        for (Instrument ins: soundbbnk.getInstruments())
+            if (!(ins instbnceof ModelInstrument))
+                return fblse;
         return true;
     }
 
-    public boolean loadInstrument(Instrument instrument) {
-        if (instrument == null || (!(instrument instanceof ModelInstrument))) {
-            throw new IllegalArgumentException("Unsupported instrument: " +
+    public boolebn lobdInstrument(Instrument instrument) {
+        if (instrument == null || (!(instrument instbnceof ModelInstrument))) {
+            throw new IllegblArgumentException("Unsupported instrument: " +
                     instrument);
         }
-        List<ModelInstrument> instruments = new ArrayList<ModelInstrument>();
-        instruments.add((ModelInstrument)instrument);
-        return loadInstruments(instruments);
+        List<ModelInstrument> instruments = new ArrbyList<ModelInstrument>();
+        instruments.bdd((ModelInstrument)instrument);
+        return lobdInstruments(instruments);
     }
 
-    public void unloadInstrument(Instrument instrument) {
-        if (instrument == null || (!(instrument instanceof ModelInstrument))) {
-            throw new IllegalArgumentException("Unsupported instrument: " +
+    public void unlobdInstrument(Instrument instrument) {
+        if (instrument == null || (!(instrument instbnceof ModelInstrument))) {
+            throw new IllegblArgumentException("Unsupported instrument: " +
                     instrument);
         }
         if (!isOpen())
             return;
 
-        String pat = patchToString(instrument.getPatch());
+        String pbt = pbtchToString(instrument.getPbtch());
         synchronized (control_mutex) {
-            for (SoftChannel c: channels)
+            for (SoftChbnnel c: chbnnels)
                 c.current_instrument = null;
-            inslist.remove(pat);
-            loadedlist.remove(pat);
-            for (int i = 0; i < channels.length; i++) {
-                channels[i].allSoundOff();
+            inslist.remove(pbt);
+            lobdedlist.remove(pbt);
+            for (int i = 0; i < chbnnels.length; i++) {
+                chbnnels[i].bllSoundOff();
             }
         }
     }
 
-    public boolean remapInstrument(Instrument from, Instrument to) {
+    public boolebn rembpInstrument(Instrument from, Instrument to) {
 
         if (from == null)
             throw new NullPointerException();
         if (to == null)
             throw new NullPointerException();
-        if (!(from instanceof ModelInstrument)) {
-            throw new IllegalArgumentException("Unsupported instrument: " +
+        if (!(from instbnceof ModelInstrument)) {
+            throw new IllegblArgumentException("Unsupported instrument: " +
                     from.toString());
         }
-        if (!(to instanceof ModelInstrument)) {
-            throw new IllegalArgumentException("Unsupported instrument: " +
+        if (!(to instbnceof ModelInstrument)) {
+            throw new IllegblArgumentException("Unsupported instrument: " +
                     to.toString());
         }
         if (!isOpen())
-            return false;
+            return fblse;
 
         synchronized (control_mutex) {
-            if (!loadedlist.containsValue(to))
-                throw new IllegalArgumentException("Instrument to is not loaded.");
-            unloadInstrument(from);
-            ModelMappedInstrument mfrom = new ModelMappedInstrument(
-                    (ModelInstrument)to, from.getPatch());
-            return loadInstrument(mfrom);
+            if (!lobdedlist.contbinsVblue(to))
+                throw new IllegblArgumentException("Instrument to is not lobded.");
+            unlobdInstrument(from);
+            ModelMbppedInstrument mfrom = new ModelMbppedInstrument(
+                    (ModelInstrument)to, from.getPbtch());
+            return lobdInstrument(mfrom);
         }
     }
 
-    public Soundbank getDefaultSoundbank() {
-        synchronized (SoftSynthesizer.class) {
-            if (defaultSoundBank != null)
-                return defaultSoundBank;
+    public Soundbbnk getDefbultSoundbbnk() {
+        synchronized (SoftSynthesizer.clbss) {
+            if (defbultSoundBbnk != null)
+                return defbultSoundBbnk;
 
-            List<PrivilegedAction<InputStream>> actions =
-                new ArrayList<PrivilegedAction<InputStream>>();
+            List<PrivilegedAction<InputStrebm>> bctions =
+                new ArrbyList<PrivilegedAction<InputStrebm>>();
 
-            actions.add(new PrivilegedAction<InputStream>() {
-                public InputStream run() {
-                    File javahome = new File(System.getProperties()
-                            .getProperty("java.home"));
-                    File libaudio = new File(new File(javahome, "lib"), "audio");
-                    if (libaudio.exists()) {
+            bctions.bdd(new PrivilegedAction<InputStrebm>() {
+                public InputStrebm run() {
+                    File jbvbhome = new File(System.getProperties()
+                            .getProperty("jbvb.home"));
+                    File libbudio = new File(new File(jbvbhome, "lib"), "budio");
+                    if (libbudio.exists()) {
                         File foundfile = null;
-                        File[] files = libaudio.listFiles();
+                        File[] files = libbudio.listFiles();
                         if (files != null) {
                             for (int i = 0; i < files.length; i++) {
                                 File file = files[i];
                                 if (file.isFile()) {
-                                    String lname = file.getName().toLowerCase();
-                                    if (lname.endsWith(".sf2")
-                                            || lname.endsWith(".dls")) {
+                                    String lnbme = file.getNbme().toLowerCbse();
+                                    if (lnbme.endsWith(".sf2")
+                                            || lnbme.endsWith(".dls")) {
                                         if (foundfile == null
                                                 || (file.length() > foundfile
                                                         .length())) {
@@ -656,8 +656,8 @@ public final class SoftSynthesizer implements AudioSynthesizer,
                         }
                         if (foundfile != null) {
                             try {
-                                return new FileInputStream(foundfile);
-                            } catch (IOException e) {
+                                return new FileInputStrebm(foundfile);
+                            } cbtch (IOException e) {
                             }
                         }
                     }
@@ -665,16 +665,16 @@ public final class SoftSynthesizer implements AudioSynthesizer,
                 }
             });
 
-            actions.add(new PrivilegedAction<InputStream>() {
-                public InputStream run() {
-                    if (System.getProperties().getProperty("os.name")
-                            .startsWith("Windows")) {
+            bctions.bdd(new PrivilegedAction<InputStrebm>() {
+                public InputStrebm run() {
+                    if (System.getProperties().getProperty("os.nbme")
+                            .stbrtsWith("Windows")) {
                         File gm_dls = new File(System.getenv("SystemRoot")
                                 + "\\system32\\drivers\\gm.dls");
                         if (gm_dls.exists()) {
                             try {
-                                return new FileInputStream(gm_dls);
-                            } catch (IOException e) {
+                                return new FileInputStrebm(gm_dls);
+                            } cbtch (IOException e) {
                             }
                         }
                     }
@@ -682,160 +682,160 @@ public final class SoftSynthesizer implements AudioSynthesizer,
                 }
             });
 
-            actions.add(new PrivilegedAction<InputStream>() {
-                public InputStream run() {
+            bctions.bdd(new PrivilegedAction<InputStrebm>() {
+                public InputStrebm run() {
                     /*
-                     * Try to load saved generated soundbank
+                     * Try to lobd sbved generbted soundbbnk
                      */
                     File userhome = new File(System.getProperty("user.home"),
                             ".gervill");
-                    File emg_soundbank_file = new File(userhome,
-                            "soundbank-emg.sf2");
-                    if (emg_soundbank_file.exists()) {
+                    File emg_soundbbnk_file = new File(userhome,
+                            "soundbbnk-emg.sf2");
+                    if (emg_soundbbnk_file.exists()) {
                         try {
-                            return new FileInputStream(emg_soundbank_file);
-                        } catch (IOException e) {
+                            return new FileInputStrebm(emg_soundbbnk_file);
+                        } cbtch (IOException e) {
                         }
                     }
                     return null;
                 }
             });
 
-            for (PrivilegedAction<InputStream> action : actions) {
+            for (PrivilegedAction<InputStrebm> bction : bctions) {
                 try {
-                    InputStream is = AccessController.doPrivileged(action);
+                    InputStrebm is = AccessController.doPrivileged(bction);
                     if(is == null) continue;
-                    Soundbank sbk;
+                    Soundbbnk sbk;
                     try {
-                        sbk = MidiSystem.getSoundbank(new BufferedInputStream(is));
-                    } finally {
+                        sbk = MidiSystem.getSoundbbnk(new BufferedInputStrebm(is));
+                    } finblly {
                         is.close();
                     }
                     if (sbk != null) {
-                        defaultSoundBank = sbk;
-                        return defaultSoundBank;
+                        defbultSoundBbnk = sbk;
+                        return defbultSoundBbnk;
                     }
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                 }
             }
 
             try {
                 /*
-                 * Generate emergency soundbank
+                 * Generbte emergency soundbbnk
                  */
-                defaultSoundBank = EmergencySoundbank.createSoundbank();
-            } catch (Exception e) {
+                defbultSoundBbnk = EmergencySoundbbnk.crebteSoundbbnk();
+            } cbtch (Exception e) {
             }
 
-            if (defaultSoundBank != null) {
+            if (defbultSoundBbnk != null) {
                 /*
-                 * Save generated soundbank to disk for faster future use.
+                 * Sbve generbted soundbbnk to disk for fbster future use.
                  */
-                OutputStream out = AccessController
-                        .doPrivileged(new PrivilegedAction<OutputStream>() {
-                            public OutputStream run() {
+                OutputStrebm out = AccessController
+                        .doPrivileged(new PrivilegedAction<OutputStrebm>() {
+                            public OutputStrebm run() {
                                 try {
                                     File userhome = new File(System
                                             .getProperty("user.home"),
                                             ".gervill");
                                     if (!userhome.exists())
                                         userhome.mkdirs();
-                                    File emg_soundbank_file = new File(
-                                            userhome, "soundbank-emg.sf2");
-                                    if (emg_soundbank_file.exists())
+                                    File emg_soundbbnk_file = new File(
+                                            userhome, "soundbbnk-emg.sf2");
+                                    if (emg_soundbbnk_file.exists())
                                         return null;
-                                    return new FileOutputStream(
-                                            emg_soundbank_file);
-                                } catch (IOException e) {
-                                } catch (SecurityException e) {
+                                    return new FileOutputStrebm(
+                                            emg_soundbbnk_file);
+                                } cbtch (IOException e) {
+                                } cbtch (SecurityException e) {
                                 }
                                 return null;
                             }
                         });
                 if (out != null) {
                     try {
-                        ((SF2Soundbank) defaultSoundBank).save(out);
+                        ((SF2Soundbbnk) defbultSoundBbnk).sbve(out);
                         out.close();
-                    } catch (IOException e) {
+                    } cbtch (IOException e) {
                     }
                 }
             }
         }
-        return defaultSoundBank;
+        return defbultSoundBbnk;
     }
 
-    public Instrument[] getAvailableInstruments() {
-        Soundbank defsbk = getDefaultSoundbank();
+    public Instrument[] getAvbilbbleInstruments() {
+        Soundbbnk defsbk = getDefbultSoundbbnk();
         if (defsbk == null)
             return new Instrument[0];
-        Instrument[] inslist_array = defsbk.getInstruments();
-        Arrays.sort(inslist_array, new ModelInstrumentComparator());
-        return inslist_array;
+        Instrument[] inslist_brrby = defsbk.getInstruments();
+        Arrbys.sort(inslist_brrby, new ModelInstrumentCompbrbtor());
+        return inslist_brrby;
     }
 
-    public Instrument[] getLoadedInstruments() {
+    public Instrument[] getLobdedInstruments() {
         if (!isOpen())
             return new Instrument[0];
 
         synchronized (control_mutex) {
-            ModelInstrument[] inslist_array =
-                    new ModelInstrument[loadedlist.values().size()];
-            loadedlist.values().toArray(inslist_array);
-            Arrays.sort(inslist_array, new ModelInstrumentComparator());
-            return inslist_array;
+            ModelInstrument[] inslist_brrby =
+                    new ModelInstrument[lobdedlist.vblues().size()];
+            lobdedlist.vblues().toArrby(inslist_brrby);
+            Arrbys.sort(inslist_brrby, new ModelInstrumentCompbrbtor());
+            return inslist_brrby;
         }
     }
 
-    public boolean loadAllInstruments(Soundbank soundbank) {
-        List<ModelInstrument> instruments = new ArrayList<ModelInstrument>();
-        for (Instrument ins: soundbank.getInstruments()) {
-            if (ins == null || !(ins instanceof ModelInstrument)) {
-                throw new IllegalArgumentException(
+    public boolebn lobdAllInstruments(Soundbbnk soundbbnk) {
+        List<ModelInstrument> instruments = new ArrbyList<ModelInstrument>();
+        for (Instrument ins: soundbbnk.getInstruments()) {
+            if (ins == null || !(ins instbnceof ModelInstrument)) {
+                throw new IllegblArgumentException(
                         "Unsupported instrument: " + ins);
             }
-            instruments.add((ModelInstrument)ins);
+            instruments.bdd((ModelInstrument)ins);
         }
-        return loadInstruments(instruments);
+        return lobdInstruments(instruments);
     }
 
-    public void unloadAllInstruments(Soundbank soundbank) {
-        if (soundbank == null || !isSoundbankSupported(soundbank))
-            throw new IllegalArgumentException("Unsupported soundbank: " + soundbank);
+    public void unlobdAllInstruments(Soundbbnk soundbbnk) {
+        if (soundbbnk == null || !isSoundbbnkSupported(soundbbnk))
+            throw new IllegblArgumentException("Unsupported soundbbnk: " + soundbbnk);
 
         if (!isOpen())
             return;
 
-        for (Instrument ins: soundbank.getInstruments()) {
-            if (ins instanceof ModelInstrument) {
-                unloadInstrument(ins);
+        for (Instrument ins: soundbbnk.getInstruments()) {
+            if (ins instbnceof ModelInstrument) {
+                unlobdInstrument(ins);
             }
         }
     }
 
-    public boolean loadInstruments(Soundbank soundbank, Patch[] patchList) {
-        List<ModelInstrument> instruments = new ArrayList<ModelInstrument>();
-        for (Patch patch: patchList) {
-            Instrument ins = soundbank.getInstrument(patch);
-            if (ins == null || !(ins instanceof ModelInstrument)) {
-                throw new IllegalArgumentException(
+    public boolebn lobdInstruments(Soundbbnk soundbbnk, Pbtch[] pbtchList) {
+        List<ModelInstrument> instruments = new ArrbyList<ModelInstrument>();
+        for (Pbtch pbtch: pbtchList) {
+            Instrument ins = soundbbnk.getInstrument(pbtch);
+            if (ins == null || !(ins instbnceof ModelInstrument)) {
+                throw new IllegblArgumentException(
                         "Unsupported instrument: " + ins);
             }
-            instruments.add((ModelInstrument)ins);
+            instruments.bdd((ModelInstrument)ins);
         }
-        return loadInstruments(instruments);
+        return lobdInstruments(instruments);
     }
 
-    public void unloadInstruments(Soundbank soundbank, Patch[] patchList) {
-        if (soundbank == null || !isSoundbankSupported(soundbank))
-            throw new IllegalArgumentException("Unsupported soundbank: " + soundbank);
+    public void unlobdInstruments(Soundbbnk soundbbnk, Pbtch[] pbtchList) {
+        if (soundbbnk == null || !isSoundbbnkSupported(soundbbnk))
+            throw new IllegblArgumentException("Unsupported soundbbnk: " + soundbbnk);
 
         if (!isOpen())
             return;
 
-        for (Patch pat: patchList) {
-            Instrument ins = soundbank.getInstrument(pat);
-            if (ins instanceof ModelInstrument) {
-                unloadInstrument(ins);
+        for (Pbtch pbt: pbtchList) {
+            Instrument ins = soundbbnk.getInstrument(pbt);
+            if (ins instbnceof ModelInstrument) {
+                unlobdInstrument(ins);
             }
         }
     }
@@ -844,181 +844,181 @@ public final class SoftSynthesizer implements AudioSynthesizer,
         return info;
     }
 
-    private Properties getStoredProperties() {
+    privbte Properties getStoredProperties() {
         return AccessController
                 .doPrivileged(new PrivilegedAction<Properties>() {
                     public Properties run() {
                         Properties p = new Properties();
-                        String notePath = "/com/sun/media/sound/softsynthesizer";
+                        String notePbth = "/com/sun/medib/sound/softsynthesizer";
                         try {
                             Preferences prefroot = Preferences.userRoot();
-                            if (prefroot.nodeExists(notePath)) {
-                                Preferences prefs = prefroot.node(notePath);
+                            if (prefroot.nodeExists(notePbth)) {
+                                Preferences prefs = prefroot.node(notePbth);
                                 String[] prefs_keys = prefs.keys();
                                 for (String prefs_key : prefs_keys) {
-                                    String val = prefs.get(prefs_key, null);
-                                    if (val != null)
-                                        p.setProperty(prefs_key, val);
+                                    String vbl = prefs.get(prefs_key, null);
+                                    if (vbl != null)
+                                        p.setProperty(prefs_key, vbl);
                                 }
                             }
-                        } catch (BackingStoreException e) {
-                        } catch (SecurityException e) {
+                        } cbtch (BbckingStoreException e) {
+                        } cbtch (SecurityException e) {
                         }
                         return p;
                     }
                 });
     }
 
-    public AudioSynthesizerPropertyInfo[] getPropertyInfo(Map<String, Object> info) {
+    public AudioSynthesizerPropertyInfo[] getPropertyInfo(Mbp<String, Object> info) {
         List<AudioSynthesizerPropertyInfo> list =
-                new ArrayList<AudioSynthesizerPropertyInfo>();
+                new ArrbyList<AudioSynthesizerPropertyInfo>();
 
         AudioSynthesizerPropertyInfo item;
 
         // If info != null or synthesizer is closed
         //   we return how the synthesizer will be set on next open
-        // If info == null and synthesizer is open
+        // If info == null bnd synthesizer is open
         //   we return current synthesizer properties.
-        boolean o = info == null && open;
+        boolebn o = info == null && open;
 
-        item = new AudioSynthesizerPropertyInfo("interpolation", o?resamplerType:"linear");
-        item.choices = new String[]{"linear", "linear1", "linear2", "cubic",
-                                    "lanczos", "sinc", "point"};
-        item.description = "Interpolation method";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("interpolbtion", o?resbmplerType:"linebr");
+        item.choices = new String[]{"linebr", "linebr1", "linebr2", "cubic",
+                                    "lbnczos", "sinc", "point"};
+        item.description = "Interpolbtion method";
+        list.bdd(item);
 
-        item = new AudioSynthesizerPropertyInfo("control rate", o?controlrate:147f);
-        item.description = "Control rate";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("control rbte", o?controlrbte:147f);
+        item.description = "Control rbte";
+        list.bdd(item);
 
-        item = new AudioSynthesizerPropertyInfo("format",
-                o?format:new AudioFormat(44100, 16, 2, true, false));
-        item.description = "Default audio format";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("formbt",
+                o?formbt:new AudioFormbt(44100, 16, 2, true, fblse));
+        item.description = "Defbult budio formbt";
+        list.bdd(item);
 
-        item = new AudioSynthesizerPropertyInfo("latency", o?latency:120000L);
-        item.description = "Default latency";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("lbtency", o?lbtency:120000L);
+        item.description = "Defbult lbtency";
+        list.bdd(item);
 
         item = new AudioSynthesizerPropertyInfo("device id", o?deviceid:0);
-        item.description = "Device ID for SysEx Messages";
-        list.add(item);
+        item.description = "Device ID for SysEx Messbges";
+        list.bdd(item);
 
-        item = new AudioSynthesizerPropertyInfo("max polyphony", o?maxpoly:64);
-        item.description = "Maximum polyphony";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("mbx polyphony", o?mbxpoly:64);
+        item.description = "Mbximum polyphony";
+        list.bdd(item);
 
         item = new AudioSynthesizerPropertyInfo("reverb", o?reverb_on:true);
         item.description = "Turn reverb effect on or off";
-        list.add(item);
+        list.bdd(item);
 
         item = new AudioSynthesizerPropertyInfo("chorus", o?chorus_on:true);
         item.description = "Turn chorus effect on or off";
-        list.add(item);
+        list.bdd(item);
 
-        item = new AudioSynthesizerPropertyInfo("auto gain control", o?agc_on:true);
-        item.description = "Turn auto gain control on or off";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("buto gbin control", o?bgc_on:true);
+        item.description = "Turn buto gbin control on or off";
+        list.bdd(item);
 
-        item = new AudioSynthesizerPropertyInfo("large mode", o?largemode:false);
-        item.description = "Turn large mode on or off.";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("lbrge mode", o?lbrgemode:fblse);
+        item.description = "Turn lbrge mode on or off.";
+        list.bdd(item);
 
-        item = new AudioSynthesizerPropertyInfo("midi channels", o?channels.length:16);
-        item.description = "Number of midi channels.";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("midi chbnnels", o?chbnnels.length:16);
+        item.description = "Number of midi chbnnels.";
+        list.bdd(item);
 
         item = new AudioSynthesizerPropertyInfo("jitter correction", o?jitter_correction:true);
         item.description = "Turn jitter correction on or off.";
-        list.add(item);
+        list.bdd(item);
 
         item = new AudioSynthesizerPropertyInfo("light reverb", o?reverb_light:true);
         item.description = "Turn light reverb mode on or off";
-        list.add(item);
+        list.bdd(item);
 
-        item = new AudioSynthesizerPropertyInfo("load default soundbank", o?load_default_soundbank:true);
-        item.description = "Enabled/disable loading default soundbank";
-        list.add(item);
+        item = new AudioSynthesizerPropertyInfo("lobd defbult soundbbnk", o?lobd_defbult_soundbbnk:true);
+        item.description = "Enbbled/disbble lobding defbult soundbbnk";
+        list.bdd(item);
 
         AudioSynthesizerPropertyInfo[] items;
-        items = list.toArray(new AudioSynthesizerPropertyInfo[list.size()]);
+        items = list.toArrby(new AudioSynthesizerPropertyInfo[list.size()]);
 
         Properties storedProperties = getStoredProperties();
 
         for (AudioSynthesizerPropertyInfo item2 : items) {
-            Object v = (info == null) ? null : info.get(item2.name);
-            v = (v != null) ? v : storedProperties.getProperty(item2.name);
+            Object v = (info == null) ? null : info.get(item2.nbme);
+            v = (v != null) ? v : storedProperties.getProperty(item2.nbme);
             if (v != null) {
-                Class<?> c = (item2.valueClass);
-                if (c.isInstance(v))
-                    item2.value = v;
-                else if (v instanceof String) {
+                Clbss<?> c = (item2.vblueClbss);
+                if (c.isInstbnce(v))
+                    item2.vblue = v;
+                else if (v instbnceof String) {
                     String s = (String) v;
-                    if (c == Boolean.class) {
-                        if (s.equalsIgnoreCase("true"))
-                            item2.value = Boolean.TRUE;
-                        if (s.equalsIgnoreCase("false"))
-                            item2.value = Boolean.FALSE;
-                    } else if (c == AudioFormat.class) {
-                        int channels = 2;
-                        boolean signed = true;
-                        boolean bigendian = false;
+                    if (c == Boolebn.clbss) {
+                        if (s.equblsIgnoreCbse("true"))
+                            item2.vblue = Boolebn.TRUE;
+                        if (s.equblsIgnoreCbse("fblse"))
+                            item2.vblue = Boolebn.FALSE;
+                    } else if (c == AudioFormbt.clbss) {
+                        int chbnnels = 2;
+                        boolebn signed = true;
+                        boolebn bigendibn = fblse;
                         int bits = 16;
-                        float sampleRate = 44100f;
+                        flobt sbmpleRbte = 44100f;
                         try {
                             StringTokenizer st = new StringTokenizer(s, ", ");
                             String prevToken = "";
-                            while (st.hasMoreTokens()) {
-                                String token = st.nextToken().toLowerCase();
-                                if (token.equals("mono"))
-                                    channels = 1;
-                                if (token.startsWith("channel"))
-                                    channels = Integer.parseInt(prevToken);
-                                if (token.contains("unsigned"))
-                                    signed = false;
-                                if (token.equals("big-endian"))
-                                    bigendian = true;
-                                if (token.equals("bit"))
-                                    bits = Integer.parseInt(prevToken);
-                                if (token.equals("hz"))
-                                    sampleRate = Float.parseFloat(prevToken);
+                            while (st.hbsMoreTokens()) {
+                                String token = st.nextToken().toLowerCbse();
+                                if (token.equbls("mono"))
+                                    chbnnels = 1;
+                                if (token.stbrtsWith("chbnnel"))
+                                    chbnnels = Integer.pbrseInt(prevToken);
+                                if (token.contbins("unsigned"))
+                                    signed = fblse;
+                                if (token.equbls("big-endibn"))
+                                    bigendibn = true;
+                                if (token.equbls("bit"))
+                                    bits = Integer.pbrseInt(prevToken);
+                                if (token.equbls("hz"))
+                                    sbmpleRbte = Flobt.pbrseFlobt(prevToken);
                                 prevToken = token;
                             }
-                            item2.value = new AudioFormat(sampleRate, bits,
-                                    channels, signed, bigendian);
-                        } catch (NumberFormatException e) {
+                            item2.vblue = new AudioFormbt(sbmpleRbte, bits,
+                                    chbnnels, signed, bigendibn);
+                        } cbtch (NumberFormbtException e) {
                         }
 
                     } else
                         try {
-                            if (c == Byte.class)
-                                item2.value = Byte.valueOf(s);
-                            else if (c == Short.class)
-                                item2.value = Short.valueOf(s);
-                            else if (c == Integer.class)
-                                item2.value = Integer.valueOf(s);
-                            else if (c == Long.class)
-                                item2.value = Long.valueOf(s);
-                            else if (c == Float.class)
-                                item2.value = Float.valueOf(s);
-                            else if (c == Double.class)
-                                item2.value = Double.valueOf(s);
-                        } catch (NumberFormatException e) {
+                            if (c == Byte.clbss)
+                                item2.vblue = Byte.vblueOf(s);
+                            else if (c == Short.clbss)
+                                item2.vblue = Short.vblueOf(s);
+                            else if (c == Integer.clbss)
+                                item2.vblue = Integer.vblueOf(s);
+                            else if (c == Long.clbss)
+                                item2.vblue = Long.vblueOf(s);
+                            else if (c == Flobt.clbss)
+                                item2.vblue = Flobt.vblueOf(s);
+                            else if (c == Double.clbss)
+                                item2.vblue = Double.vblueOf(s);
+                        } cbtch (NumberFormbtException e) {
                         }
-                } else if (v instanceof Number) {
+                } else if (v instbnceof Number) {
                     Number n = (Number) v;
-                    if (c == Byte.class)
-                        item2.value = Byte.valueOf(n.byteValue());
-                    if (c == Short.class)
-                        item2.value = Short.valueOf(n.shortValue());
-                    if (c == Integer.class)
-                        item2.value = Integer.valueOf(n.intValue());
-                    if (c == Long.class)
-                        item2.value = Long.valueOf(n.longValue());
-                    if (c == Float.class)
-                        item2.value = Float.valueOf(n.floatValue());
-                    if (c == Double.class)
-                        item2.value = Double.valueOf(n.doubleValue());
+                    if (c == Byte.clbss)
+                        item2.vblue = Byte.vblueOf(n.byteVblue());
+                    if (c == Short.clbss)
+                        item2.vblue = Short.vblueOf(n.shortVblue());
+                    if (c == Integer.clbss)
+                        item2.vblue = Integer.vblueOf(n.intVblue());
+                    if (c == Long.clbss)
+                        item2.vblue = Long.vblueOf(n.longVblue());
+                    if (c == Flobt.clbss)
+                        item2.vblue = Flobt.vblueOf(n.flobtVblue());
+                    if (c == Double.clbss)
+                        item2.vblue = Double.vblueOf(n.doubleVblue());
                 }
             }
         }
@@ -1026,74 +1026,74 @@ public final class SoftSynthesizer implements AudioSynthesizer,
         return items;
     }
 
-    public void open() throws MidiUnavailableException {
+    public void open() throws MidiUnbvbilbbleException {
         if (isOpen()) {
             synchronized (control_mutex) {
-                implicitOpen = false;
+                implicitOpen = fblse;
             }
             return;
         }
         open(null, null);
     }
 
-    public void open(SourceDataLine line, Map<String, Object> info) throws MidiUnavailableException {
+    public void open(SourceDbtbLine line, Mbp<String, Object> info) throws MidiUnbvbilbbleException {
         if (isOpen()) {
             synchronized (control_mutex) {
-                implicitOpen = false;
+                implicitOpen = fblse;
             }
             return;
         }
         synchronized (control_mutex) {
-            Throwable causeException = null;
+            Throwbble cbuseException = null;
             try {
                 if (line != null) {
-                    // can throw IllegalArgumentException
-                    setFormat(line.getFormat());
+                    // cbn throw IllegblArgumentException
+                    setFormbt(line.getFormbt());
                 }
 
-                AudioInputStream ais = openStream(getFormat(), info);
+                AudioInputStrebm bis = openStrebm(getFormbt(), info);
 
-                weakstream = new WeakAudioStream(ais);
-                ais = weakstream.getAudioInputStream();
+                webkstrebm = new WebkAudioStrebm(bis);
+                bis = webkstrebm.getAudioInputStrebm();
 
                 if (line == null)
                 {
                     if (testline != null) {
                         line = testline;
                     } else {
-                        // can throw LineUnavailableException,
-                        // IllegalArgumentException, SecurityException
-                        line = AudioSystem.getSourceDataLine(getFormat());
+                        // cbn throw LineUnbvbilbbleException,
+                        // IllegblArgumentException, SecurityException
+                        line = AudioSystem.getSourceDbtbLine(getFormbt());
                     }
                 }
 
-                double latency = this.latency;
+                double lbtency = this.lbtency;
 
                 if (!line.isOpen()) {
-                    int bufferSize = getFormat().getFrameSize()
-                        * (int)(getFormat().getFrameRate() * (latency/1000000f));
-                    // can throw LineUnavailableException,
-                    // IllegalArgumentException, SecurityException
-                    line.open(getFormat(), bufferSize);
+                    int bufferSize = getFormbt().getFrbmeSize()
+                        * (int)(getFormbt().getFrbmeRbte() * (lbtency/1000000f));
+                    // cbn throw LineUnbvbilbbleException,
+                    // IllegblArgumentException, SecurityException
+                    line.open(getFormbt(), bufferSize);
 
-                    // Remember that we opened that line
-                    // so we can close again in SoftSynthesizer.close()
-                    sourceDataLine = line;
+                    // Remember thbt we opened thbt line
+                    // so we cbn close bgbin in SoftSynthesizer.close()
+                    sourceDbtbLine = line;
                 }
                 if (!line.isActive())
-                    line.start();
+                    line.stbrt();
 
                 int controlbuffersize = 512;
                 try {
-                    controlbuffersize = ais.available();
-                } catch (IOException e) {
+                    controlbuffersize = bis.bvbilbble();
+                } cbtch (IOException e) {
                 }
 
-                // Tell mixer not fill read buffers fully.
-                // This lowers latency, and tells DataPusher
-                // to read in smaller amounts.
-                //mainmixer.readfully = false;
-                //pusher = new DataPusher(line, ais);
+                // Tell mixer not fill rebd buffers fully.
+                // This lowers lbtency, bnd tells DbtbPusher
+                // to rebd in smbller bmounts.
+                //mbinmixer.rebdfully = fblse;
+                //pusher = new DbtbPusher(line, bis);
 
                 int buffersize = line.getBufferSize();
                 buffersize -= buffersize % controlbuffersize;
@@ -1102,120 +1102,120 @@ public final class SoftSynthesizer implements AudioSynthesizer,
                     buffersize = 3 * controlbuffersize;
 
                 if (jitter_correction) {
-                    ais = new SoftJitterCorrector(ais, buffersize,
+                    bis = new SoftJitterCorrector(bis, buffersize,
                             controlbuffersize);
-                    if(weakstream != null)
-                        weakstream.jitter_stream = ais;
+                    if(webkstrebm != null)
+                        webkstrebm.jitter_strebm = bis;
                 }
-                pusher = new SoftAudioPusher(line, ais, controlbuffersize);
-                pusher_stream = ais;
-                pusher.start();
+                pusher = new SoftAudioPusher(line, bis, controlbuffersize);
+                pusher_strebm = bis;
+                pusher.stbrt();
 
-                if(weakstream != null)
+                if(webkstrebm != null)
                 {
-                    weakstream.pusher = pusher;
-                    weakstream.sourceDataLine = sourceDataLine;
+                    webkstrebm.pusher = pusher;
+                    webkstrebm.sourceDbtbLine = sourceDbtbLine;
                 }
 
-            } catch (LineUnavailableException e) {
-                causeException = e;
-            } catch (IllegalArgumentException e) {
-                causeException = e;
-            } catch (SecurityException e) {
-                causeException = e;
+            } cbtch (LineUnbvbilbbleException e) {
+                cbuseException = e;
+            } cbtch (IllegblArgumentException e) {
+                cbuseException = e;
+            } cbtch (SecurityException e) {
+                cbuseException = e;
             }
 
-            if (causeException != null) {
+            if (cbuseException != null) {
                 if (isOpen())
                     close();
-                // am: need MidiUnavailableException(Throwable) ctor!
-                MidiUnavailableException ex = new MidiUnavailableException(
-                        "Can not open line");
-                ex.initCause(causeException);
+                // bm: need MidiUnbvbilbbleException(Throwbble) ctor!
+                MidiUnbvbilbbleException ex = new MidiUnbvbilbbleException(
+                        "Cbn not open line");
+                ex.initCbuse(cbuseException);
                 throw ex;
             }
 
         }
     }
 
-    public AudioInputStream openStream(AudioFormat targetFormat,
-            Map<String, Object> info) throws MidiUnavailableException {
+    public AudioInputStrebm openStrebm(AudioFormbt tbrgetFormbt,
+            Mbp<String, Object> info) throws MidiUnbvbilbbleException {
 
         if (isOpen())
-            throw new MidiUnavailableException("Synthesizer is already open");
+            throw new MidiUnbvbilbbleException("Synthesizer is blrebdy open");
 
         synchronized (control_mutex) {
 
             gmmode = 0;
-            voice_allocation_mode = 0;
+            voice_bllocbtion_mode = 0;
 
             processPropertyInfo(info);
 
             open = true;
-            implicitOpen = false;
+            implicitOpen = fblse;
 
-            if (targetFormat != null)
-                setFormat(targetFormat);
+            if (tbrgetFormbt != null)
+                setFormbt(tbrgetFormbt);
 
-            if (load_default_soundbank)
+            if (lobd_defbult_soundbbnk)
             {
-                Soundbank defbank = getDefaultSoundbank();
-                if (defbank != null) {
-                    loadAllInstruments(defbank);
+                Soundbbnk defbbnk = getDefbultSoundbbnk();
+                if (defbbnk != null) {
+                    lobdAllInstruments(defbbnk);
                 }
             }
 
-            voices = new SoftVoice[maxpoly];
-            for (int i = 0; i < maxpoly; i++)
+            voices = new SoftVoice[mbxpoly];
+            for (int i = 0; i < mbxpoly; i++)
                 voices[i] = new SoftVoice(this);
 
-            mainmixer = new SoftMainMixer(this);
+            mbinmixer = new SoftMbinMixer(this);
 
-            channels = new SoftChannel[number_of_midi_channels];
-            for (int i = 0; i < channels.length; i++)
-                channels[i] = new SoftChannel(this, i);
+            chbnnels = new SoftChbnnel[number_of_midi_chbnnels];
+            for (int i = 0; i < chbnnels.length; i++)
+                chbnnels[i] = new SoftChbnnel(this, i);
 
-            if (external_channels == null) {
-                // Always create external_channels array
-                // with 16 or more channels
-                // so getChannels works correctly
+            if (externbl_chbnnels == null) {
+                // Alwbys crebte externbl_chbnnels brrby
+                // with 16 or more chbnnels
+                // so getChbnnels works correctly
                 // when the synhtesizer is closed.
-                if (channels.length < 16)
-                    external_channels = new SoftChannelProxy[16];
+                if (chbnnels.length < 16)
+                    externbl_chbnnels = new SoftChbnnelProxy[16];
                 else
-                    external_channels = new SoftChannelProxy[channels.length];
-                for (int i = 0; i < external_channels.length; i++)
-                    external_channels[i] = new SoftChannelProxy();
+                    externbl_chbnnels = new SoftChbnnelProxy[chbnnels.length];
+                for (int i = 0; i < externbl_chbnnels.length; i++)
+                    externbl_chbnnels[i] = new SoftChbnnelProxy();
             } else {
-                // We must resize external_channels array
-                // but we must also copy the old SoftChannelProxy
+                // We must resize externbl_chbnnels brrby
+                // but we must blso copy the old SoftChbnnelProxy
                 // into the new one
-                if (channels.length > external_channels.length) {
-                    SoftChannelProxy[] new_external_channels
-                            = new SoftChannelProxy[channels.length];
-                    for (int i = 0; i < external_channels.length; i++)
-                        new_external_channels[i] = external_channels[i];
-                    for (int i = external_channels.length;
-                            i < new_external_channels.length; i++) {
-                        new_external_channels[i] = new SoftChannelProxy();
+                if (chbnnels.length > externbl_chbnnels.length) {
+                    SoftChbnnelProxy[] new_externbl_chbnnels
+                            = new SoftChbnnelProxy[chbnnels.length];
+                    for (int i = 0; i < externbl_chbnnels.length; i++)
+                        new_externbl_chbnnels[i] = externbl_chbnnels[i];
+                    for (int i = externbl_chbnnels.length;
+                            i < new_externbl_chbnnels.length; i++) {
+                        new_externbl_chbnnels[i] = new SoftChbnnelProxy();
                     }
                 }
             }
 
-            for (int i = 0; i < channels.length; i++)
-                external_channels[i].setChannel(channels[i]);
+            for (int i = 0; i < chbnnels.length; i++)
+                externbl_chbnnels[i].setChbnnel(chbnnels[i]);
 
             for (SoftVoice voice: getVoices())
-                voice.resampler = resampler.openStreamer();
+                voice.resbmpler = resbmpler.openStrebmer();
 
             for (Receiver recv: getReceivers()) {
                 SoftReceiver srecv = ((SoftReceiver)recv);
                 srecv.open = open;
-                srecv.mainmixer = mainmixer;
-                srecv.midimessages = mainmixer.midimessages;
+                srecv.mbinmixer = mbinmixer;
+                srecv.midimessbges = mbinmixer.midimessbges;
             }
 
-            return mainmixer.getInputStream();
+            return mbinmixer.getInputStrebm();
         }
     }
 
@@ -1225,51 +1225,51 @@ public final class SoftSynthesizer implements AudioSynthesizer,
             return;
 
         SoftAudioPusher pusher_to_be_closed = null;
-        AudioInputStream pusher_stream_to_be_closed = null;
+        AudioInputStrebm pusher_strebm_to_be_closed = null;
         synchronized (control_mutex) {
             if (pusher != null) {
                 pusher_to_be_closed = pusher;
-                pusher_stream_to_be_closed = pusher_stream;
+                pusher_strebm_to_be_closed = pusher_strebm;
                 pusher = null;
-                pusher_stream = null;
+                pusher_strebm = null;
             }
         }
 
         if (pusher_to_be_closed != null) {
-            // Pusher must not be closed synchronized against control_mutex,
-            // this may result in synchronized conflict between pusher
-            // and current thread.
+            // Pusher must not be closed synchronized bgbinst control_mutex,
+            // this mby result in synchronized conflict between pusher
+            // bnd current threbd.
             pusher_to_be_closed.stop();
 
             try {
-                pusher_stream_to_be_closed.close();
-            } catch (IOException e) {
-                //e.printStackTrace();
+                pusher_strebm_to_be_closed.close();
+            } cbtch (IOException e) {
+                //e.printStbckTrbce();
             }
         }
 
         synchronized (control_mutex) {
 
-            if (mainmixer != null)
-                mainmixer.close();
-            open = false;
-            implicitOpen = false;
-            mainmixer = null;
+            if (mbinmixer != null)
+                mbinmixer.close();
+            open = fblse;
+            implicitOpen = fblse;
+            mbinmixer = null;
             voices = null;
-            channels = null;
+            chbnnels = null;
 
-            if (external_channels != null)
-                for (int i = 0; i < external_channels.length; i++)
-                    external_channels[i].setChannel(null);
+            if (externbl_chbnnels != null)
+                for (int i = 0; i < externbl_chbnnels.length; i++)
+                    externbl_chbnnels[i].setChbnnel(null);
 
-            if (sourceDataLine != null) {
-                sourceDataLine.close();
-                sourceDataLine = null;
+            if (sourceDbtbLine != null) {
+                sourceDbtbLine.close();
+                sourceDbtbLine = null;
             }
 
-            inslist.clear();
-            loadedlist.clear();
-            tunings.clear();
+            inslist.clebr();
+            lobdedlist.clebr();
+            tunings.clebr();
 
             while (recvslist.size() != 0)
                 recvslist.get(recvslist.size() - 1).close();
@@ -1277,7 +1277,7 @@ public final class SoftSynthesizer implements AudioSynthesizer,
         }
     }
 
-    public boolean isOpen() {
+    public boolebn isOpen() {
         synchronized (control_mutex) {
             return open;
         }
@@ -1289,24 +1289,24 @@ public final class SoftSynthesizer implements AudioSynthesizer,
             return 0;
 
         synchronized (control_mutex) {
-            return mainmixer.getMicrosecondPosition();
+            return mbinmixer.getMicrosecondPosition();
         }
     }
 
-    public int getMaxReceivers() {
+    public int getMbxReceivers() {
         return -1;
     }
 
-    public int getMaxTransmitters() {
+    public int getMbxTrbnsmitters() {
         return 0;
     }
 
-    public Receiver getReceiver() throws MidiUnavailableException {
+    public Receiver getReceiver() throws MidiUnbvbilbbleException {
 
         synchronized (control_mutex) {
             SoftReceiver receiver = new SoftReceiver(this);
             receiver.open = open;
-            recvslist.add(receiver);
+            recvslist.bdd(receiver);
             return receiver;
         }
     }
@@ -1314,24 +1314,24 @@ public final class SoftSynthesizer implements AudioSynthesizer,
     public List<Receiver> getReceivers() {
 
         synchronized (control_mutex) {
-            ArrayList<Receiver> recvs = new ArrayList<Receiver>();
-            recvs.addAll(recvslist);
+            ArrbyList<Receiver> recvs = new ArrbyList<Receiver>();
+            recvs.bddAll(recvslist);
             return recvs;
         }
     }
 
-    public Transmitter getTransmitter() throws MidiUnavailableException {
+    public Trbnsmitter getTrbnsmitter() throws MidiUnbvbilbbleException {
 
-        throw new MidiUnavailableException("No transmitter available");
+        throw new MidiUnbvbilbbleException("No trbnsmitter bvbilbble");
     }
 
-    public List<Transmitter> getTransmitters() {
+    public List<Trbnsmitter> getTrbnsmitters() {
 
-        return new ArrayList<Transmitter>();
+        return new ArrbyList<Trbnsmitter>();
     }
 
     public Receiver getReceiverReferenceCounting()
-            throws MidiUnavailableException {
+            throws MidiUnbvbilbbleException {
 
         if (!isOpen()) {
             open();
@@ -1343,9 +1343,9 @@ public final class SoftSynthesizer implements AudioSynthesizer,
         return getReceiver();
     }
 
-    public Transmitter getTransmitterReferenceCounting()
-            throws MidiUnavailableException {
+    public Trbnsmitter getTrbnsmitterReferenceCounting()
+            throws MidiUnbvbilbbleException {
 
-        throw new MidiUnavailableException("No transmitter available");
+        throw new MidiUnbvbilbbleException("No trbnsmitter bvbilbble");
     }
 }

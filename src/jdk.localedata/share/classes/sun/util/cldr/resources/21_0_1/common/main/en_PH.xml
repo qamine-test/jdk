@@ -3,14 +3,14 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5717 $"/>
-		<generation date="$Date: 2011-04-28 12:37:06 +0900 (Thu, 28 Apr 2011) $"/>
-		<language type="en"/>
+		<generbtion dbte="$Dbte: 2011-04-28 12:37:06 +0900 (Thu, 28 Apr 2011) $"/>
+		<lbngubge type="en"/>
 		<territory type="PH"/>
 	</identity>
 	<numbers>
 		<currencies>
 			<currency type="PHP">
-				<displayName>Peso</displayName>
+				<displbyNbme>Peso</displbyNbme>
 				<symbol>₱</symbol>
 			</currency>
 			<currency type="USD">

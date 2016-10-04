@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.util.*;
-import java.lang.*;
-import java.math.BigInteger;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.ProviderException;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidKeySpecException;
-import javax.crypto.KeyAgreementSpi;
-import javax.crypto.ShortBufferException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.*;
+import jbvb.util.*;
+import jbvb.lbng.*;
+import jbvb.mbth.BigInteger;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.Key;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.SecureRbndom;
+import jbvb.security.ProviderException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvbx.crypto.KeyAgreementSpi;
+import jbvbx.crypto.ShortBufferException;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.*;
 
 import sun.security.util.KeyUtil;
 
 /**
- * This class implements the Diffie-Hellman key agreement protocol between
- * any number of parties.
+ * This clbss implements the Diffie-Hellmbn key bgreement protocol between
+ * bny number of pbrties.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
 
-public final class DHKeyAgreement
+public finbl clbss DHKeyAgreement
 extends KeyAgreementSpi {
 
-    private boolean generateSecret = false;
-    private BigInteger init_p = null;
-    private BigInteger init_g = null;
-    private BigInteger x = BigInteger.ZERO; // the private value
-    private BigInteger y = BigInteger.ZERO;
+    privbte boolebn generbteSecret = fblse;
+    privbte BigInteger init_p = null;
+    privbte BigInteger init_g = null;
+    privbte BigInteger x = BigInteger.ZERO; // the privbte vblue
+    privbte BigInteger y = BigInteger.ZERO;
 
     /**
      * Empty constructor
@@ -67,155 +67,155 @@ extends KeyAgreementSpi {
     }
 
     /**
-     * Initializes this key agreement with the given key and source of
-     * randomness. The given key is required to contain all the algorithm
-     * parameters required for this key agreement.
+     * Initiblizes this key bgreement with the given key bnd source of
+     * rbndomness. The given key is required to contbin bll the blgorithm
+     * pbrbmeters required for this key bgreement.
      *
-     * <p> If the key agreement algorithm requires random bytes, it gets them
-     * from the given source of randomness, <code>random</code>.
+     * <p> If the key bgreement blgorithm requires rbndom bytes, it gets them
+     * from the given source of rbndomness, <code>rbndom</code>.
      * However, if the underlying
-     * algorithm implementation does not require any random bytes,
-     * <code>random</code> is ignored.
+     * blgorithm implementbtion does not require bny rbndom bytes,
+     * <code>rbndom</code> is ignored.
      *
-     * @param key the party's private information. For example, in the case
-     * of the Diffie-Hellman key agreement, this would be the party's own
-     * Diffie-Hellman private key.
-     * @param random the source of randomness
+     * @pbrbm key the pbrty's privbte informbtion. For exbmple, in the cbse
+     * of the Diffie-Hellmbn key bgreement, this would be the pbrty's own
+     * Diffie-Hellmbn privbte key.
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is
-     * inappropriate for this key agreement, e.g., is of the wrong type or
-     * has an incompatible algorithm type.
+     * @exception InvblidKeyException if the given key is
+     * inbppropribte for this key bgreement, e.g., is of the wrong type or
+     * hbs bn incompbtible blgorithm type.
      */
-    protected void engineInit(Key key, SecureRandom random)
-        throws InvalidKeyException
+    protected void engineInit(Key key, SecureRbndom rbndom)
+        throws InvblidKeyException
     {
         try {
-            engineInit(key, null, random);
-        } catch (InvalidAlgorithmParameterException e) {
-            // never happens, because we did not pass any parameters
+            engineInit(key, null, rbndom);
+        } cbtch (InvblidAlgorithmPbrbmeterException e) {
+            // never hbppens, becbuse we did not pbss bny pbrbmeters
         }
     }
 
     /**
-     * Initializes this key agreement with the given key, set of
-     * algorithm parameters, and source of randomness.
+     * Initiblizes this key bgreement with the given key, set of
+     * blgorithm pbrbmeters, bnd source of rbndomness.
      *
-     * @param key the party's private information. For example, in the case
-     * of the Diffie-Hellman key agreement, this would be the party's own
-     * Diffie-Hellman private key.
-     * @param params the key agreement parameters
-     * @param random the source of randomness
+     * @pbrbm key the pbrty's privbte informbtion. For exbmple, in the cbse
+     * of the Diffie-Hellmbn key bgreement, this would be the pbrty's own
+     * Diffie-Hellmbn privbte key.
+     * @pbrbm pbrbms the key bgreement pbrbmeters
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is
-     * inappropriate for this key agreement, e.g., is of the wrong type or
-     * has an incompatible algorithm type.
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key agreement.
+     * @exception InvblidKeyException if the given key is
+     * inbppropribte for this key bgreement, e.g., is of the wrong type or
+     * hbs bn incompbtible blgorithm type.
+     * @exception InvblidAlgorithmPbrbmeterException if the given pbrbmeters
+     * bre inbppropribte for this key bgreement.
      */
-    protected void engineInit(Key key, AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException
+    protected void engineInit(Key key, AlgorithmPbrbmeterSpec pbrbms,
+                              SecureRbndom rbndom)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException
     {
-        // ignore "random" parameter, because our implementation does not
-        // require any source of randomness
-        generateSecret = false;
+        // ignore "rbndom" pbrbmeter, becbuse our implementbtion does not
+        // require bny source of rbndomness
+        generbteSecret = fblse;
         init_p = null;
         init_g = null;
 
-        if ((params != null) && !(params instanceof DHParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("Diffie-Hellman parameters expected");
+        if ((pbrbms != null) && !(pbrbms instbnceof DHPbrbmeterSpec)) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Diffie-Hellmbn pbrbmeters expected");
         }
-        if (!(key instanceof javax.crypto.interfaces.DHPrivateKey)) {
-            throw new InvalidKeyException("Diffie-Hellman private key "
+        if (!(key instbnceof jbvbx.crypto.interfbces.DHPrivbteKey)) {
+            throw new InvblidKeyException("Diffie-Hellmbn privbte key "
                                           + "expected");
         }
-        javax.crypto.interfaces.DHPrivateKey dhPrivKey;
-        dhPrivKey = (javax.crypto.interfaces.DHPrivateKey)key;
+        jbvbx.crypto.interfbces.DHPrivbteKey dhPrivKey;
+        dhPrivKey = (jbvbx.crypto.interfbces.DHPrivbteKey)key;
 
-        // check if private key parameters are compatible with
-        // initialized ones
-        if (params != null) {
-            init_p = ((DHParameterSpec)params).getP();
-            init_g = ((DHParameterSpec)params).getG();
+        // check if privbte key pbrbmeters bre compbtible with
+        // initiblized ones
+        if (pbrbms != null) {
+            init_p = ((DHPbrbmeterSpec)pbrbms).getP();
+            init_g = ((DHPbrbmeterSpec)pbrbms).getG();
         }
-        BigInteger priv_p = dhPrivKey.getParams().getP();
-        BigInteger priv_g = dhPrivKey.getParams().getG();
-        if (init_p != null && priv_p != null && !(init_p.equals(priv_p))) {
-            throw new InvalidKeyException("Incompatible parameters");
+        BigInteger priv_p = dhPrivKey.getPbrbms().getP();
+        BigInteger priv_g = dhPrivKey.getPbrbms().getG();
+        if (init_p != null && priv_p != null && !(init_p.equbls(priv_p))) {
+            throw new InvblidKeyException("Incompbtible pbrbmeters");
         }
-        if (init_g != null && priv_g != null && !(init_g.equals(priv_g))) {
-            throw new InvalidKeyException("Incompatible parameters");
+        if (init_g != null && priv_g != null && !(init_g.equbls(priv_g))) {
+            throw new InvblidKeyException("Incompbtible pbrbmeters");
         }
         if ((init_p == null && priv_p == null)
             || (init_g == null && priv_g == null)) {
-            throw new InvalidKeyException("Missing parameters");
+            throw new InvblidKeyException("Missing pbrbmeters");
         }
         init_p = priv_p;
         init_g = priv_g;
 
-        // store the x value
+        // store the x vblue
         this.x = dhPrivKey.getX();
     }
 
     /**
-     * Executes the next phase of this key agreement with the given
-     * key that was received from one of the other parties involved in this key
-     * agreement.
+     * Executes the next phbse of this key bgreement with the given
+     * key thbt wbs received from one of the other pbrties involved in this key
+     * bgreement.
      *
-     * @param key the key for this phase. For example, in the case of
-     * Diffie-Hellman between 2 parties, this would be the other party's
-     * Diffie-Hellman public key.
-     * @param lastPhase flag which indicates whether or not this is the last
-     * phase of this key agreement.
+     * @pbrbm key the key for this phbse. For exbmple, in the cbse of
+     * Diffie-Hellmbn between 2 pbrties, this would be the other pbrty's
+     * Diffie-Hellmbn public key.
+     * @pbrbm lbstPhbse flbg which indicbtes whether or not this is the lbst
+     * phbse of this key bgreement.
      *
-     * @return the (intermediate) key resulting from this phase, or null if
-     * this phase does not yield a key
+     * @return the (intermedibte) key resulting from this phbse, or null if
+     * this phbse does not yield b key
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this phase.
-     * @exception IllegalStateException if this key agreement has not been
-     * initialized.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * this phbse.
+     * @exception IllegblStbteException if this key bgreement hbs not been
+     * initiblized.
      */
-    protected Key engineDoPhase(Key key, boolean lastPhase)
-        throws InvalidKeyException, IllegalStateException
+    protected Key engineDoPhbse(Key key, boolebn lbstPhbse)
+        throws InvblidKeyException, IllegblStbteException
     {
-        if (!(key instanceof javax.crypto.interfaces.DHPublicKey)) {
-            throw new InvalidKeyException("Diffie-Hellman public key "
+        if (!(key instbnceof jbvbx.crypto.interfbces.DHPublicKey)) {
+            throw new InvblidKeyException("Diffie-Hellmbn public key "
                                           + "expected");
         }
-        javax.crypto.interfaces.DHPublicKey dhPubKey;
-        dhPubKey = (javax.crypto.interfaces.DHPublicKey)key;
+        jbvbx.crypto.interfbces.DHPublicKey dhPubKey;
+        dhPubKey = (jbvbx.crypto.interfbces.DHPublicKey)key;
 
         if (init_p == null || init_g == null) {
-            throw new IllegalStateException("Not initialized");
+            throw new IllegblStbteException("Not initiblized");
         }
 
-        // check if public key parameters are compatible with
-        // initialized ones
-        BigInteger pub_p = dhPubKey.getParams().getP();
-        BigInteger pub_g = dhPubKey.getParams().getG();
-        if (pub_p != null && !(init_p.equals(pub_p))) {
-            throw new InvalidKeyException("Incompatible parameters");
+        // check if public key pbrbmeters bre compbtible with
+        // initiblized ones
+        BigInteger pub_p = dhPubKey.getPbrbms().getP();
+        BigInteger pub_g = dhPubKey.getPbrbms().getG();
+        if (pub_p != null && !(init_p.equbls(pub_p))) {
+            throw new InvblidKeyException("Incompbtible pbrbmeters");
         }
-        if (pub_g != null && !(init_g.equals(pub_g))) {
-            throw new InvalidKeyException("Incompatible parameters");
+        if (pub_g != null && !(init_g.equbls(pub_g))) {
+            throw new InvblidKeyException("Incompbtible pbrbmeters");
         }
 
-        // validate the Diffie-Hellman public key
-        KeyUtil.validate(dhPubKey);
+        // vblidbte the Diffie-Hellmbn public key
+        KeyUtil.vblidbte(dhPubKey);
 
-        // store the y value
+        // store the y vblue
         this.y = dhPubKey.getY();
 
-        // we've received a public key (from one of the other parties),
-        // so we are ready to create the secret, which may be an
-        // intermediate secret, in which case we wrap it into a
-        // Diffie-Hellman public key object and return it.
-        generateSecret = true;
-        if (lastPhase == false) {
-            byte[] intermediate = engineGenerateSecret();
-            return new DHPublicKey(new BigInteger(1, intermediate),
+        // we've received b public key (from one of the other pbrties),
+        // so we bre rebdy to crebte the secret, which mby be bn
+        // intermedibte secret, in which cbse we wrbp it into b
+        // Diffie-Hellmbn public key object bnd return it.
+        generbteSecret = true;
+        if (lbstPhbse == fblse) {
+            byte[] intermedibte = engineGenerbteSecret();
+            return new DHPublicKey(new BigInteger(1, intermedibte),
                                    init_p, init_g);
         } else {
             return null;
@@ -223,114 +223,114 @@ extends KeyAgreementSpi {
     }
 
     /**
-     * Generates the shared secret and returns it in a new buffer.
+     * Generbtes the shbred secret bnd returns it in b new buffer.
      *
      * <p>This method resets this <code>KeyAgreementSpi</code> object,
-     * so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>engineInit</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>engineInit</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @return the new buffer with the shared secret
+     * @return the new buffer with the shbred secret
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
      */
-    protected byte[] engineGenerateSecret()
-        throws IllegalStateException
+    protected byte[] engineGenerbteSecret()
+        throws IllegblStbteException
     {
         int expectedLen = (init_p.bitLength() + 7) >>> 3;
         byte[] result = new byte[expectedLen];
         try {
-            engineGenerateSecret(result, 0);
-        } catch (ShortBufferException sbe) {
-            // should never happen since length are identical
+            engineGenerbteSecret(result, 0);
+        } cbtch (ShortBufferException sbe) {
+            // should never hbppen since length bre identicbl
         }
         return result;
     }
 
     /**
-     * Generates the shared secret, and places it into the buffer
-     * <code>sharedSecret</code>, beginning at <code>offset</code>.
+     * Generbtes the shbred secret, bnd plbces it into the buffer
+     * <code>shbredSecret</code>, beginning bt <code>offset</code>.
      *
-     * <p>If the <code>sharedSecret</code> buffer is too small to hold the
-     * result, a <code>ShortBufferException</code> is thrown.
-     * In this case, this call should be repeated with a larger output buffer.
+     * <p>If the <code>shbredSecret</code> buffer is too smbll to hold the
+     * result, b <code>ShortBufferException</code> is thrown.
+     * In this cbse, this cbll should be repebted with b lbrger output buffer.
      *
      * <p>This method resets this <code>KeyAgreementSpi</code> object,
-     * so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>engineInit</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>engineInit</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @param sharedSecret the buffer for the shared secret
-     * @param offset the offset in <code>sharedSecret</code> where the
-     * shared secret will be stored
+     * @pbrbm shbredSecret the buffer for the shbred secret
+     * @pbrbm offset the offset in <code>shbredSecret</code> where the
+     * shbred secret will be stored
      *
-     * @return the number of bytes placed into <code>sharedSecret</code>
+     * @return the number of bytes plbced into <code>shbredSecret</code>
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the secret
      */
-    protected int engineGenerateSecret(byte[] sharedSecret, int offset)
-        throws IllegalStateException, ShortBufferException
+    protected int engineGenerbteSecret(byte[] shbredSecret, int offset)
+        throws IllegblStbteException, ShortBufferException
     {
-        if (generateSecret == false) {
-            throw new IllegalStateException
-                ("Key agreement has not been completed yet");
+        if (generbteSecret == fblse) {
+            throw new IllegblStbteException
+                ("Key bgreement hbs not been completed yet");
         }
 
-        if (sharedSecret == null) {
+        if (shbredSecret == null) {
             throw new ShortBufferException
-                ("No buffer provided for shared secret");
+                ("No buffer provided for shbred secret");
         }
 
         BigInteger modulus = init_p;
         int expectedLen = (modulus.bitLength() + 7) >>> 3;
-        if ((sharedSecret.length - offset) < expectedLen) {
+        if ((shbredSecret.length - offset) < expectedLen) {
             throw new ShortBufferException
-                    ("Buffer too short for shared secret");
+                    ("Buffer too short for shbred secret");
         }
 
-        // Reset the key agreement after checking for ShortBufferException
-        // above, so user can recover w/o losing internal state
-        generateSecret = false;
+        // Reset the key bgreement bfter checking for ShortBufferException
+        // bbove, so user cbn recover w/o losing internbl stbte
+        generbteSecret = fblse;
 
         /*
-         * NOTE: BigInteger.toByteArray() returns a byte array containing
-         * the two's-complement representation of this BigInteger with
-         * the most significant byte is in the zeroth element. This
-         * contains the minimum number of bytes required to represent
-         * this BigInteger, including at least one sign bit whose value
-         * is always 0.
+         * NOTE: BigInteger.toByteArrby() returns b byte brrby contbining
+         * the two's-complement representbtion of this BigInteger with
+         * the most significbnt byte is in the zeroth element. This
+         * contbins the minimum number of bytes required to represent
+         * this BigInteger, including bt lebst one sign bit whose vblue
+         * is blwbys 0.
          *
-         * Keys are always positive, and the above sign bit isn't
-         * actually used when representing keys.  (i.e. key = new
-         * BigInteger(1, byteArray))  To obtain an array containing
-         * exactly expectedLen bytes of magnitude, we strip any extra
-         * leading 0's, or pad with 0's in case of a "short" secret.
+         * Keys bre blwbys positive, bnd the bbove sign bit isn't
+         * bctublly used when representing keys.  (i.e. key = new
+         * BigInteger(1, byteArrby))  To obtbin bn brrby contbining
+         * exbctly expectedLen bytes of mbgnitude, we strip bny extrb
+         * lebding 0's, or pbd with 0's in cbse of b "short" secret.
          */
-        byte[] secret = this.y.modPow(this.x, modulus).toByteArray();
+        byte[] secret = this.y.modPow(this.x, modulus).toByteArrby();
         if (secret.length == expectedLen) {
-            System.arraycopy(secret, 0, sharedSecret, offset,
+            System.brrbycopy(secret, 0, shbredSecret, offset,
                              secret.length);
         } else {
-            // Array too short, pad it w/ leading 0s
+            // Arrby too short, pbd it w/ lebding 0s
             if (secret.length < expectedLen) {
-                System.arraycopy(secret, 0, sharedSecret,
+                System.brrbycopy(secret, 0, shbredSecret,
                     offset + (expectedLen - secret.length),
                     secret.length);
             } else {
-                // Array too long, check and trim off the excess
+                // Arrby too long, check bnd trim off the excess
                 if ((secret.length == (expectedLen+1)) && secret[0] == 0) {
-                    // ignore the leading sign byte
-                    System.arraycopy(secret, 1, sharedSecret, offset, expectedLen);
+                    // ignore the lebding sign byte
+                    System.brrbycopy(secret, 1, shbredSecret, offset, expectedLen);
                 } else {
-                    throw new ProviderException("Generated secret is out-of-range");
+                    throw new ProviderException("Generbted secret is out-of-rbnge");
                 }
             }
         }
@@ -338,77 +338,77 @@ extends KeyAgreementSpi {
     }
 
     /**
-     * Creates the shared secret and returns it as a secret key object
-     * of the requested algorithm type.
+     * Crebtes the shbred secret bnd returns it bs b secret key object
+     * of the requested blgorithm type.
      *
      * <p>This method resets this <code>KeyAgreementSpi</code> object,
-     * so that it
-     * can be reused for further key agreements. Unless this key agreement is
-     * reinitialized with one of the <code>engineInit</code> methods, the same
-     * private information and algorithm parameters will be used for
-     * subsequent key agreements.
+     * so thbt it
+     * cbn be reused for further key bgreements. Unless this key bgreement is
+     * reinitiblized with one of the <code>engineInit</code> methods, the sbme
+     * privbte informbtion bnd blgorithm pbrbmeters will be used for
+     * subsequent key bgreements.
      *
-     * @param algorithm the requested secret key algorithm
+     * @pbrbm blgorithm the requested secret key blgorithm
      *
-     * @return the shared secret key
+     * @return the shbred secret key
      *
-     * @exception IllegalStateException if this key agreement has not been
+     * @exception IllegblStbteException if this key bgreement hbs not been
      * completed yet
      * @exception NoSuchAlgorithmException if the requested secret key
-     * algorithm is not available
-     * @exception InvalidKeyException if the shared secret key material cannot
-     * be used to generate a secret key of the requested algorithm type (e.g.,
-     * the key material is too short)
+     * blgorithm is not bvbilbble
+     * @exception InvblidKeyException if the shbred secret key mbteribl cbnnot
+     * be used to generbte b secret key of the requested blgorithm type (e.g.,
+     * the key mbteribl is too short)
      */
-    protected SecretKey engineGenerateSecret(String algorithm)
-        throws IllegalStateException, NoSuchAlgorithmException,
-            InvalidKeyException
+    protected SecretKey engineGenerbteSecret(String blgorithm)
+        throws IllegblStbteException, NoSuchAlgorithmException,
+            InvblidKeyException
     {
-        if (algorithm == null) {
-            throw new NoSuchAlgorithmException("null algorithm");
+        if (blgorithm == null) {
+            throw new NoSuchAlgorithmException("null blgorithm");
         }
-        byte[] secret = engineGenerateSecret();
-        if (algorithm.equalsIgnoreCase("DES")) {
+        byte[] secret = engineGenerbteSecret();
+        if (blgorithm.equblsIgnoreCbse("DES")) {
             // DES
             return new DESKey(secret);
-        } else if (algorithm.equalsIgnoreCase("DESede")
-                   || algorithm.equalsIgnoreCase("TripleDES")) {
+        } else if (blgorithm.equblsIgnoreCbse("DESede")
+                   || blgorithm.equblsIgnoreCbse("TripleDES")) {
             // Triple DES
             return new DESedeKey(secret);
-        } else if (algorithm.equalsIgnoreCase("Blowfish")) {
+        } else if (blgorithm.equblsIgnoreCbse("Blowfish")) {
             // Blowfish
             int keysize = secret.length;
-            if (keysize >= BlowfishConstants.BLOWFISH_MAX_KEYSIZE)
-                keysize = BlowfishConstants.BLOWFISH_MAX_KEYSIZE;
+            if (keysize >= BlowfishConstbnts.BLOWFISH_MAX_KEYSIZE)
+                keysize = BlowfishConstbnts.BLOWFISH_MAX_KEYSIZE;
             SecretKeySpec skey = new SecretKeySpec(secret, 0, keysize,
                                                    "Blowfish");
             return skey;
-        } else if (algorithm.equalsIgnoreCase("AES")) {
+        } else if (blgorithm.equblsIgnoreCbse("AES")) {
             // AES
             int keysize = secret.length;
             SecretKeySpec skey = null;
-            int idx = AESConstants.AES_KEYSIZES.length - 1;
+            int idx = AESConstbnts.AES_KEYSIZES.length - 1;
             while (skey == null && idx >= 0) {
-                // Generate the strongest key using the shared secret
-                // assuming the key sizes in AESConstants class are
-                // in ascending order
-                if (keysize >= AESConstants.AES_KEYSIZES[idx]) {
-                    keysize = AESConstants.AES_KEYSIZES[idx];
+                // Generbte the strongest key using the shbred secret
+                // bssuming the key sizes in AESConstbnts clbss bre
+                // in bscending order
+                if (keysize >= AESConstbnts.AES_KEYSIZES[idx]) {
+                    keysize = AESConstbnts.AES_KEYSIZES[idx];
                     skey = new SecretKeySpec(secret, 0, keysize, "AES");
                 }
                 idx--;
             }
             if (skey == null) {
-                throw new InvalidKeyException("Key material is too short");
+                throw new InvblidKeyException("Key mbteribl is too short");
             }
             return skey;
-        } else if (algorithm.equals("TlsPremasterSecret")) {
-            // remove leading zero bytes per RFC 5246 Section 8.1.2
+        } else if (blgorithm.equbls("TlsPrembsterSecret")) {
+            // remove lebding zero bytes per RFC 5246 Section 8.1.2
             return new SecretKeySpec(
-                        KeyUtil.trimZeroes(secret), "TlsPremasterSecret");
+                        KeyUtil.trimZeroes(secret), "TlsPrembsterSecret");
         } else {
             throw new NoSuchAlgorithmException("Unsupported secret key "
-                                               + "algorithm: "+ algorithm);
+                                               + "blgorithm: "+ blgorithm);
         }
     }
 }

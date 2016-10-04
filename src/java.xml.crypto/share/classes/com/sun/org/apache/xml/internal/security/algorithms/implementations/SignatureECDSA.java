@@ -3,453 +3,453 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.algorithms.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.blgorithms.implementbtions;
 
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.io.IOException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.Key;
+import jbvb.security.NoSuchProviderException;
+import jbvb.security.PrivbteKey;
+import jbvb.security.PublicKey;
+import jbvb.security.SecureRbndom;
+import jbvb.security.Signbture;
+import jbvb.security.SignbtureException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithmSpi;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignature;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.JCEMbpper;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.SignbtureAlgorithmSpi;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbture;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
 
 /**
  *
- * @author $Author: raul $
- * @author Alex Dupre
+ * @buthor $Author: rbul $
+ * @buthor Alex Dupre
  */
-public abstract class SignatureECDSA extends SignatureAlgorithmSpi {
+public bbstrbct clbss SignbtureECDSA extends SignbtureAlgorithmSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(SignatureECDSA.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(SignbtureECDSA.clbss.getNbme());
 
     /** @inheritDoc */
-    public abstract String engineGetURI();
+    public bbstrbct String engineGetURI();
 
-    /** Field algorithm */
-    private java.security.Signature signatureAlgorithm = null;
+    /** Field blgorithm */
+    privbte jbvb.security.Signbture signbtureAlgorithm = null;
 
     /**
-     * Converts an ASN.1 ECDSA value to a XML Signature ECDSA Value.
+     * Converts bn ASN.1 ECDSA vblue to b XML Signbture ECDSA Vblue.
      *
-     * The JAVA JCE ECDSA Signature algorithm creates ASN.1 encoded (r,s) value
-     * pairs; the XML Signature requires the core BigInteger values.
+     * The JAVA JCE ECDSA Signbture blgorithm crebtes ASN.1 encoded (r,s) vblue
+     * pbirs; the XML Signbture requires the core BigInteger vblues.
      *
-     * @param asn1Bytes
+     * @pbrbm bsn1Bytes
      * @return the decode bytes
      *
      * @throws IOException
-     * @see <A HREF="http://www.w3.org/TR/xmldsig-core/#dsa-sha1">6.4.1 DSA</A>
-     * @see <A HREF="ftp://ftp.rfc-editor.org/in-notes/rfc4050.txt">3.3. ECDSA Signatures</A>
+     * @see <A HREF="http://www.w3.org/TR/xmldsig-core/#dsb-shb1">6.4.1 DSA</A>
+     * @see <A HREF="ftp://ftp.rfc-editor.org/in-notes/rfc4050.txt">3.3. ECDSA Signbtures</A>
      */
-    public static byte[] convertASN1toXMLDSIG(byte asn1Bytes[]) throws IOException {
+    public stbtic byte[] convertASN1toXMLDSIG(byte bsn1Bytes[]) throws IOException {
 
-        if (asn1Bytes.length < 8 || asn1Bytes[0] != 48) {
-            throw new IOException("Invalid ASN.1 format of ECDSA signature");
+        if (bsn1Bytes.length < 8 || bsn1Bytes[0] != 48) {
+            throw new IOException("Invblid ASN.1 formbt of ECDSA signbture");
         }
         int offset;
-        if (asn1Bytes[1] > 0) {
+        if (bsn1Bytes[1] > 0) {
             offset = 2;
-        } else if (asn1Bytes[1] == (byte) 0x81) {
+        } else if (bsn1Bytes[1] == (byte) 0x81) {
             offset = 3;
         } else {
-            throw new IOException("Invalid ASN.1 format of ECDSA signature");
+            throw new IOException("Invblid ASN.1 formbt of ECDSA signbture");
         }
 
-        byte rLength = asn1Bytes[offset + 1];
+        byte rLength = bsn1Bytes[offset + 1];
         int i;
 
-        for (i = rLength; (i > 0) && (asn1Bytes[(offset + 2 + rLength) - i] == 0); i--);
+        for (i = rLength; (i > 0) && (bsn1Bytes[(offset + 2 + rLength) - i] == 0); i--);
 
-        byte sLength = asn1Bytes[offset + 2 + rLength + 1];
+        byte sLength = bsn1Bytes[offset + 2 + rLength + 1];
         int j;
 
         for (j = sLength;
-            (j > 0) && (asn1Bytes[(offset + 2 + rLength + 2 + sLength) - j] == 0); j--);
+            (j > 0) && (bsn1Bytes[(offset + 2 + rLength + 2 + sLength) - j] == 0); j--);
 
-        int rawLen = Math.max(i, j);
+        int rbwLen = Mbth.mbx(i, j);
 
-        if ((asn1Bytes[offset - 1] & 0xff) != asn1Bytes.length - offset
-            || (asn1Bytes[offset - 1] & 0xff) != 2 + rLength + 2 + sLength
-            || asn1Bytes[offset] != 2
-            || asn1Bytes[offset + 2 + rLength] != 2) {
-            throw new IOException("Invalid ASN.1 format of ECDSA signature");
+        if ((bsn1Bytes[offset - 1] & 0xff) != bsn1Bytes.length - offset
+            || (bsn1Bytes[offset - 1] & 0xff) != 2 + rLength + 2 + sLength
+            || bsn1Bytes[offset] != 2
+            || bsn1Bytes[offset + 2 + rLength] != 2) {
+            throw new IOException("Invblid ASN.1 formbt of ECDSA signbture");
         }
-        byte xmldsigBytes[] = new byte[2*rawLen];
+        byte xmldsigBytes[] = new byte[2*rbwLen];
 
-        System.arraycopy(asn1Bytes, (offset + 2 + rLength) - i, xmldsigBytes, rawLen - i, i);
-        System.arraycopy(asn1Bytes, (offset + 2 + rLength + 2 + sLength) - j, xmldsigBytes,
-                         2*rawLen - j, j);
+        System.brrbycopy(bsn1Bytes, (offset + 2 + rLength) - i, xmldsigBytes, rbwLen - i, i);
+        System.brrbycopy(bsn1Bytes, (offset + 2 + rLength + 2 + sLength) - j, xmldsigBytes,
+                         2*rbwLen - j, j);
 
         return xmldsigBytes;
     }
 
     /**
-     * Converts a XML Signature ECDSA Value to an ASN.1 DSA value.
+     * Converts b XML Signbture ECDSA Vblue to bn ASN.1 DSA vblue.
      *
-     * The JAVA JCE ECDSA Signature algorithm creates ASN.1 encoded (r,s) value
-     * pairs; the XML Signature requires the core BigInteger values.
+     * The JAVA JCE ECDSA Signbture blgorithm crebtes ASN.1 encoded (r,s) vblue
+     * pbirs; the XML Signbture requires the core BigInteger vblues.
      *
-     * @param xmldsigBytes
+     * @pbrbm xmldsigBytes
      * @return the encoded ASN.1 bytes
      *
      * @throws IOException
-     * @see <A HREF="http://www.w3.org/TR/xmldsig-core/#dsa-sha1">6.4.1 DSA</A>
-     * @see <A HREF="ftp://ftp.rfc-editor.org/in-notes/rfc4050.txt">3.3. ECDSA Signatures</A>
+     * @see <A HREF="http://www.w3.org/TR/xmldsig-core/#dsb-shb1">6.4.1 DSA</A>
+     * @see <A HREF="ftp://ftp.rfc-editor.org/in-notes/rfc4050.txt">3.3. ECDSA Signbtures</A>
      */
-    public static byte[] convertXMLDSIGtoASN1(byte xmldsigBytes[]) throws IOException {
+    public stbtic byte[] convertXMLDSIGtoASN1(byte xmldsigBytes[]) throws IOException {
 
-        int rawLen = xmldsigBytes.length/2;
+        int rbwLen = xmldsigBytes.length/2;
 
         int i;
 
-        for (i = rawLen; (i > 0) && (xmldsigBytes[rawLen - i] == 0); i--);
+        for (i = rbwLen; (i > 0) && (xmldsigBytes[rbwLen - i] == 0); i--);
 
         int j = i;
 
-        if (xmldsigBytes[rawLen - i] < 0) {
+        if (xmldsigBytes[rbwLen - i] < 0) {
             j += 1;
         }
 
         int k;
 
-        for (k = rawLen; (k > 0) && (xmldsigBytes[2*rawLen - k] == 0); k--);
+        for (k = rbwLen; (k > 0) && (xmldsigBytes[2*rbwLen - k] == 0); k--);
 
         int l = k;
 
-        if (xmldsigBytes[2*rawLen - k] < 0) {
+        if (xmldsigBytes[2*rbwLen - k] < 0) {
             l += 1;
         }
 
         int len = 2 + j + 2 + l;
         if (len > 255) {
-            throw new IOException("Invalid XMLDSIG format of ECDSA signature");
+            throw new IOException("Invblid XMLDSIG formbt of ECDSA signbture");
         }
         int offset;
-        byte asn1Bytes[];
+        byte bsn1Bytes[];
         if (len < 128) {
-            asn1Bytes = new byte[2 + 2 + j + 2 + l];
+            bsn1Bytes = new byte[2 + 2 + j + 2 + l];
             offset = 1;
         } else {
-            asn1Bytes = new byte[3 + 2 + j + 2 + l];
-            asn1Bytes[1] = (byte) 0x81;
+            bsn1Bytes = new byte[3 + 2 + j + 2 + l];
+            bsn1Bytes[1] = (byte) 0x81;
             offset = 2;
         }
-        asn1Bytes[0] = 48;
-        asn1Bytes[offset++] = (byte) len;
-        asn1Bytes[offset++] = 2;
-        asn1Bytes[offset++] = (byte) j;
+        bsn1Bytes[0] = 48;
+        bsn1Bytes[offset++] = (byte) len;
+        bsn1Bytes[offset++] = 2;
+        bsn1Bytes[offset++] = (byte) j;
 
-        System.arraycopy(xmldsigBytes, rawLen - i, asn1Bytes, (offset + j) - i, i);
+        System.brrbycopy(xmldsigBytes, rbwLen - i, bsn1Bytes, (offset + j) - i, i);
 
         offset += j;
 
-        asn1Bytes[offset++] = 2;
-        asn1Bytes[offset++] = (byte) l;
+        bsn1Bytes[offset++] = 2;
+        bsn1Bytes[offset++] = (byte) l;
 
-        System.arraycopy(xmldsigBytes, 2*rawLen - k, asn1Bytes, (offset + l) - k, k);
+        System.brrbycopy(xmldsigBytes, 2*rbwLen - k, bsn1Bytes, (offset + l) - k, k);
 
-        return asn1Bytes;
+        return bsn1Bytes;
     }
 
     /**
-     * Constructor SignatureRSA
+     * Constructor SignbtureRSA
      *
-     * @throws XMLSignatureException
+     * @throws XMLSignbtureException
      */
-    public SignatureECDSA() throws XMLSignatureException {
+    public SignbtureECDSA() throws XMLSignbtureException {
 
-        String algorithmID = JCEMapper.translateURItoJCEID(this.engineGetURI());
+        String blgorithmID = JCEMbpper.trbnslbteURItoJCEID(this.engineGetURI());
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Created SignatureECDSA using " + algorithmID);
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Crebted SignbtureECDSA using " + blgorithmID);
         }
-        String provider = JCEMapper.getProviderId();
+        String provider = JCEMbpper.getProviderId();
         try {
             if (provider == null) {
-                this.signatureAlgorithm = Signature.getInstance(algorithmID);
+                this.signbtureAlgorithm = Signbture.getInstbnce(blgorithmID);
             } else {
-                this.signatureAlgorithm = Signature.getInstance(algorithmID,provider);
+                this.signbtureAlgorithm = Signbture.getInstbnce(blgorithmID,provider);
             }
-        } catch (java.security.NoSuchAlgorithmException ex) {
-            Object[] exArgs = { algorithmID, ex.getLocalizedMessage() };
+        } cbtch (jbvb.security.NoSuchAlgorithmException ex) {
+            Object[] exArgs = { blgorithmID, ex.getLocblizedMessbge() };
 
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
-        } catch (NoSuchProviderException ex) {
-            Object[] exArgs = { algorithmID, ex.getLocalizedMessage() };
+            throw new XMLSignbtureException("blgorithms.NoSuchAlgorithm", exArgs);
+        } cbtch (NoSuchProviderException ex) {
+            Object[] exArgs = { blgorithmID, ex.getLocblizedMessbge() };
 
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
+            throw new XMLSignbtureException("blgorithms.NoSuchAlgorithm", exArgs);
         }
     }
 
     /** @inheritDoc */
-    protected void engineSetParameter(AlgorithmParameterSpec params)
-        throws XMLSignatureException {
+    protected void engineSetPbrbmeter(AlgorithmPbrbmeterSpec pbrbms)
+        throws XMLSignbtureException {
         try {
-            this.signatureAlgorithm.setParameter(params);
-        } catch (InvalidAlgorithmParameterException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.setPbrbmeter(pbrbms);
+        } cbtch (InvblidAlgorithmPbrbmeterException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected boolean engineVerify(byte[] signature) throws XMLSignatureException {
+    protected boolebn engineVerify(byte[] signbture) throws XMLSignbtureException {
         try {
-            byte[] jcebytes = SignatureECDSA.convertXMLDSIGtoASN1(signature);
+            byte[] jcebytes = SignbtureECDSA.convertXMLDSIGtoASN1(signbture);
 
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Called ECDSA.verify() on " + Base64.encode(signature));
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "Cblled ECDSA.verify() on " + Bbse64.encode(signbture));
             }
 
-            return this.signatureAlgorithm.verify(jcebytes);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (IOException ex) {
-            throw new XMLSignatureException("empty", ex);
+            return this.signbtureAlgorithm.verify(jcebytes);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineInitVerify(Key publicKey) throws XMLSignatureException {
+    protected void engineInitVerify(Key publicKey) throws XMLSignbtureException {
 
-        if (!(publicKey instanceof PublicKey)) {
-            String supplied = publicKey.getClass().getName();
-            String needed = PublicKey.class.getName();
+        if (!(publicKey instbnceof PublicKey)) {
+            String supplied = publicKey.getClbss().getNbme();
+            String needed = PublicKey.clbss.getNbme();
             Object exArgs[] = { supplied, needed };
 
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
+            throw new XMLSignbtureException("blgorithms.WrongKeyForThisOperbtion", exArgs);
         }
 
         try {
-            this.signatureAlgorithm.initVerify((PublicKey) publicKey);
-        } catch (InvalidKeyException ex) {
-            // reinstantiate Signature object to work around bug in JDK
+            this.signbtureAlgorithm.initVerify((PublicKey) publicKey);
+        } cbtch (InvblidKeyException ex) {
+            // reinstbntibte Signbture object to work bround bug in JDK
             // see: http://bugs.sun.com/view_bug.do?bug_id=4953555
-            Signature sig = this.signatureAlgorithm;
+            Signbture sig = this.signbtureAlgorithm;
             try {
-                this.signatureAlgorithm = Signature.getInstance(signatureAlgorithm.getAlgorithm());
-            } catch (Exception e) {
+                this.signbtureAlgorithm = Signbture.getInstbnce(signbtureAlgorithm.getAlgorithm());
+            } cbtch (Exception e) {
                 // this shouldn't occur, but if it does, restore previous
-                // Signature
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Exception when reinstantiating Signature:" + e);
+                // Signbture
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "Exception when reinstbntibting Signbture:" + e);
                 }
-                this.signatureAlgorithm = sig;
+                this.signbtureAlgorithm = sig;
             }
-            throw new XMLSignatureException("empty", ex);
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected byte[] engineSign() throws XMLSignatureException {
+    protected byte[] engineSign() throws XMLSignbtureException {
         try {
-            byte jcebytes[] = this.signatureAlgorithm.sign();
+            byte jcebytes[] = this.signbtureAlgorithm.sign();
 
-            return SignatureECDSA.convertASN1toXMLDSIG(jcebytes);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (IOException ex) {
-            throw new XMLSignatureException("empty", ex);
+            return SignbtureECDSA.convertASN1toXMLDSIG(jcebytes);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineInitSign(Key privateKey, SecureRandom secureRandom)
-        throws XMLSignatureException {
-        if (!(privateKey instanceof PrivateKey)) {
-            String supplied = privateKey.getClass().getName();
-            String needed = PrivateKey.class.getName();
+    protected void engineInitSign(Key privbteKey, SecureRbndom secureRbndom)
+        throws XMLSignbtureException {
+        if (!(privbteKey instbnceof PrivbteKey)) {
+            String supplied = privbteKey.getClbss().getNbme();
+            String needed = PrivbteKey.clbss.getNbme();
             Object exArgs[] = { supplied, needed };
 
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
+            throw new XMLSignbtureException("blgorithms.WrongKeyForThisOperbtion", exArgs);
         }
 
         try {
-            this.signatureAlgorithm.initSign((PrivateKey) privateKey, secureRandom);
-        } catch (InvalidKeyException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.initSign((PrivbteKey) privbteKey, secureRbndom);
+        } cbtch (InvblidKeyException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineInitSign(Key privateKey) throws XMLSignatureException {
-        if (!(privateKey instanceof PrivateKey)) {
-            String supplied = privateKey.getClass().getName();
-            String needed = PrivateKey.class.getName();
+    protected void engineInitSign(Key privbteKey) throws XMLSignbtureException {
+        if (!(privbteKey instbnceof PrivbteKey)) {
+            String supplied = privbteKey.getClbss().getNbme();
+            String needed = PrivbteKey.clbss.getNbme();
             Object exArgs[] = { supplied, needed };
 
-            throw new XMLSignatureException("algorithms.WrongKeyForThisOperation", exArgs);
+            throw new XMLSignbtureException("blgorithms.WrongKeyForThisOperbtion", exArgs);
         }
 
         try {
-            this.signatureAlgorithm.initSign((PrivateKey) privateKey);
-        } catch (InvalidKeyException ex) {
-            throw new XMLSignatureException("empty", ex);
-        }
-    }
-
-    /** @inheritDoc */
-    protected void engineUpdate(byte[] input) throws XMLSignatureException {
-        try {
-            this.signatureAlgorithm.update(input);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.initSign((PrivbteKey) privbteKey);
+        } cbtch (InvblidKeyException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineUpdate(byte input) throws XMLSignatureException {
+    protected void engineUpdbte(byte[] input) throws XMLSignbtureException {
         try {
-            this.signatureAlgorithm.update(input);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.updbte(input);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    protected void engineUpdate(byte buf[], int offset, int len) throws XMLSignatureException {
+    protected void engineUpdbte(byte input) throws XMLSignbtureException {
         try {
-            this.signatureAlgorithm.update(buf, offset, len);
-        } catch (SignatureException ex) {
-            throw new XMLSignatureException("empty", ex);
+            this.signbtureAlgorithm.updbte(input);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        }
+    }
+
+    /** @inheritDoc */
+    protected void engineUpdbte(byte buf[], int offset, int len) throws XMLSignbtureException {
+        try {
+            this.signbtureAlgorithm.updbte(buf, offset, len);
+        } cbtch (SignbtureException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /** @inheritDoc */
     protected String engineGetJCEAlgorithmString() {
-        return this.signatureAlgorithm.getAlgorithm();
+        return this.signbtureAlgorithm.getAlgorithm();
     }
 
     /** @inheritDoc */
-    protected String engineGetJCEProviderName() {
-        return this.signatureAlgorithm.getProvider().getName();
+    protected String engineGetJCEProviderNbme() {
+        return this.signbtureAlgorithm.getProvider().getNbme();
     }
 
     /** @inheritDoc */
     protected void engineSetHMACOutputLength(int HMACOutputLength)
-        throws XMLSignatureException {
-        throw new XMLSignatureException("algorithms.HMACOutputLengthOnlyForHMAC");
+        throws XMLSignbtureException {
+        throw new XMLSignbtureException("blgorithms.HMACOutputLengthOnlyForHMAC");
     }
 
     /** @inheritDoc */
     protected void engineInitSign(
-        Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
-    ) throws XMLSignatureException {
-        throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnRSA");
+        Key signingKey, AlgorithmPbrbmeterSpec blgorithmPbrbmeterSpec
+    ) throws XMLSignbtureException {
+        throw new XMLSignbtureException("blgorithms.CbnnotUseAlgorithmPbrbmeterSpecOnRSA");
     }
 
     /**
-     * Class SignatureRSASHA1
+     * Clbss SignbtureRSASHA1
      *
-     * @author $Author: marcx $
+     * @buthor $Author: mbrcx $
      */
-    public static class SignatureECDSASHA1 extends SignatureECDSA {
+    public stbtic clbss SignbtureECDSASHA1 extends SignbtureECDSA {
         /**
-         * Constructor SignatureRSASHA1
+         * Constructor SignbtureRSASHA1
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureECDSASHA1() throws XMLSignatureException {
+        public SignbtureECDSASHA1() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA1;
+            return XMLSignbture.ALGO_ID_SIGNATURE_ECDSA_SHA1;
         }
     }
 
     /**
-     * Class SignatureRSASHA256
+     * Clbss SignbtureRSASHA256
      *
-     * @author Alex Dupre
+     * @buthor Alex Dupre
      */
-    public static class SignatureECDSASHA256 extends SignatureECDSA {
+    public stbtic clbss SignbtureECDSASHA256 extends SignbtureECDSA {
 
         /**
-         * Constructor SignatureRSASHA256
+         * Constructor SignbtureRSASHA256
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureECDSASHA256() throws XMLSignatureException {
+        public SignbtureECDSASHA256() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA256;
+            return XMLSignbture.ALGO_ID_SIGNATURE_ECDSA_SHA256;
         }
     }
 
     /**
-     * Class SignatureRSASHA384
+     * Clbss SignbtureRSASHA384
      *
-     * @author Alex Dupre
+     * @buthor Alex Dupre
      */
-    public static class SignatureECDSASHA384 extends SignatureECDSA {
+    public stbtic clbss SignbtureECDSASHA384 extends SignbtureECDSA {
 
         /**
-         * Constructor SignatureRSASHA384
+         * Constructor SignbtureRSASHA384
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureECDSASHA384() throws XMLSignatureException {
+        public SignbtureECDSASHA384() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA384;
+            return XMLSignbture.ALGO_ID_SIGNATURE_ECDSA_SHA384;
         }
     }
 
     /**
-     * Class SignatureRSASHA512
+     * Clbss SignbtureRSASHA512
      *
-     * @author Alex Dupre
+     * @buthor Alex Dupre
      */
-    public static class SignatureECDSASHA512 extends SignatureECDSA {
+    public stbtic clbss SignbtureECDSASHA512 extends SignbtureECDSA {
 
         /**
-         * Constructor SignatureRSASHA512
+         * Constructor SignbtureRSASHA512
          *
-         * @throws XMLSignatureException
+         * @throws XMLSignbtureException
          */
-        public SignatureECDSASHA512() throws XMLSignatureException {
+        public SignbtureECDSASHA512() throws XMLSignbtureException {
             super();
         }
 
         /** @inheritDoc */
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_ECDSA_SHA512;
+            return XMLSignbture.ALGO_ID_SIGNATURE_ECDSA_SHA512;
         }
     }
 

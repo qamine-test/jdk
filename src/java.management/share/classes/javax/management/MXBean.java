@@ -1,544 +1,544 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import jbvb.lbng.bnnotbtion.Documented;
+import jbvb.lbng.bnnotbtion.ElementType;
+import jbvb.lbng.bnnotbtion.Retention;
+import jbvb.lbng.bnnotbtion.RetentionPolicy;
+import jbvb.lbng.bnnotbtion.Tbrget;
 
-// remaining imports are for Javadoc
-import java.io.InvalidObjectException;
-import java.lang.management.MemoryUsage;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.util.Arrays;
-import java.util.List;
-import javax.management.openmbean.ArrayType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataInvocationHandler;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.CompositeDataView;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.OpenDataException;
-import javax.management.openmbean.OpenMBeanInfo;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.SimpleType;
-import javax.management.openmbean.TabularData;
-import javax.management.openmbean.TabularDataSupport;
-import javax.management.openmbean.TabularType;
+// rembining imports bre for Jbvbdoc
+import jbvb.io.InvblidObjectException;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvb.lbng.reflect.UndeclbredThrowbbleException;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvbx.mbnbgement.openmbebn.ArrbyType;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbInvocbtionHbndler;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbView;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.OpenDbtbException;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnInfo;
+import jbvbx.mbnbgement.openmbebn.OpenType;
+import jbvbx.mbnbgement.openmbebn.SimpleType;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtb;
+import jbvbx.mbnbgement.openmbebn.TbbulbrDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.TbbulbrType;
 
 /**
-    <p>Annotation to mark an interface explicitly as being an MXBean
-    interface, or as not being an MXBean interface.  By default, an
-    interface is an MXBean interface if it is public and its name ends
-    with {@code MXBean}, as in {@code SomethingMXBean}.  The following
-    interfaces are MXBean interfaces:</p>
+    <p>Annotbtion to mbrk bn interfbce explicitly bs being bn MXBebn
+    interfbce, or bs not being bn MXBebn interfbce.  By defbult, bn
+    interfbce is bn MXBebn interfbce if it is public bnd its nbme ends
+    with {@code MXBebn}, bs in {@code SomethingMXBebn}.  The following
+    interfbces bre MXBebn interfbces:</p>
 
     <pre>
-    public interface WhatsitMXBean {}
+    public interfbce WhbtsitMXBebn {}
 
-    &#64;MXBean
-    public interface Whatsit1Interface {}
+    &#64;MXBebn
+    public interfbce Whbtsit1Interfbce {}
 
-    &#64;MXBean(true)
-    public interface Whatsit2Interface {}
+    &#64;MXBebn(true)
+    public interfbce Whbtsit2Interfbce {}
     </pre>
 
-    <p>The following interfaces are not MXBean interfaces:</p>
+    <p>The following interfbces bre not MXBebn interfbces:</p>
 
     <pre>
-    interface NonPublicInterfaceNotMXBean{}
+    interfbce NonPublicInterfbceNotMXBebn{}
 
-    public interface Whatsit3Interface{}
+    public interfbce Whbtsit3Interfbce{}
 
-    &#64;MXBean(false)
-    public interface MisleadingMXBean {}
+    &#64;MXBebn(fblse)
+    public interfbce MislebdingMXBebn {}
     </pre>
 
-    <h3 id="MXBean-spec">MXBean specification</h3>
+    <h3 id="MXBebn-spec">MXBebn specificbtion</h3>
 
-    <p>The MXBean concept provides a simple way to code an MBean
-      that only references a predefined set of types, the ones defined
-      by {@link javax.management.openmbean}.  In this way, you can be
-      sure that your MBean will be usable by any client, including
-      remote clients, without any requirement that the client have
-      access to <em>model-specific classes</em> representing the types
-      of your MBeans.</p>
+    <p>The MXBebn concept provides b simple wby to code bn MBebn
+      thbt only references b predefined set of types, the ones defined
+      by {@link jbvbx.mbnbgement.openmbebn}.  In this wby, you cbn be
+      sure thbt your MBebn will be usbble by bny client, including
+      remote clients, without bny requirement thbt the client hbve
+      bccess to <em>model-specific clbsses</em> representing the types
+      of your MBebns.</p>
 
-    <p>The concepts are easier to understand by comparison with the
-      Standard MBean concept.  Here is how a managed object might be
-      represented as a Standard MBean, and as an MXBean:</p>
+    <p>The concepts bre ebsier to understbnd by compbrison with the
+      Stbndbrd MBebn concept.  Here is how b mbnbged object might be
+      represented bs b Stbndbrd MBebn, bnd bs bn MXBebn:</p>
 
-    <table border="1" cellpadding="5" summary="Standard Bean vs. MXBean">
+    <tbble border="1" cellpbdding="5" summbry="Stbndbrd Bebn vs. MXBebn">
       <tr>
-        <th>Standard MBean</th><th>MXBean</th>
+        <th>Stbndbrd MBebn</th><th>MXBebn</th>
       </tr>
       <tr>
         <td><pre>
-public interface MemoryPool<b>MBean</b> {
-    String getName();
-    MemoryUsage getUsage();
+public interfbce MemoryPool<b>MBebn</b> {
+    String getNbme();
+    MemoryUsbge getUsbge();
     // ...
 }
           </pre></td>
         <td><pre>
-public interface MemoryPool<b>MXBean</b> {
-    String getName();
-    MemoryUsage getUsage();
+public interfbce MemoryPool<b>MXBebn</b> {
+    String getNbme();
+    MemoryUsbge getUsbge();
     // ...
 }
           </pre></td>
       </tr>
-    </table>
+    </tbble>
 
-    <p>As you can see, the definitions are very similar.  The only
-      difference is that the convention for naming the interface is to use
-      <code><em>Something</em>MXBean</code> for MXBeans, rather than
-      <code><em>Something</em>MBean</code> for Standard MBeans.</p>
+    <p>As you cbn see, the definitions bre very similbr.  The only
+      difference is thbt the convention for nbming the interfbce is to use
+      <code><em>Something</em>MXBebn</code> for MXBebns, rbther thbn
+      <code><em>Something</em>MBebn</code> for Stbndbrd MBebns.</p>
 
-    <p>In this managed object, there is an attribute called
-      <code>Usage</code> of type {@link MemoryUsage}.  The point of an
-      attribute like this is that it gives a coherent snapshot of a set
-      of data items.  For example, it might include the current amount
-      of used memory in the memory pool, and the current maximum of the
-      memory pool.  If these were separate items, obtained with separate
-      {@link MBeanServer#getAttribute getAttribute} calls, then we could
-      get values seen at different times that were not consistent.  We
-      might get a <code>used</code> value that was greater than the
-      <code>max</code> value.</p>
+    <p>In this mbnbged object, there is bn bttribute cblled
+      <code>Usbge</code> of type {@link MemoryUsbge}.  The point of bn
+      bttribute like this is thbt it gives b coherent snbpshot of b set
+      of dbtb items.  For exbmple, it might include the current bmount
+      of used memory in the memory pool, bnd the current mbximum of the
+      memory pool.  If these were sepbrbte items, obtbined with sepbrbte
+      {@link MBebnServer#getAttribute getAttribute} cblls, then we could
+      get vblues seen bt different times thbt were not consistent.  We
+      might get b <code>used</code> vblue thbt wbs grebter thbn the
+      <code>mbx</code> vblue.</p>
 
-    <p>So, we might define <code>MemoryUsage</code> like this:</p>
+    <p>So, we might define <code>MemoryUsbge</code> like this:</p>
 
-    <table border="1" cellpadding="5" summary="Standard Bean vs. MXBean">
+    <tbble border="1" cellpbdding="5" summbry="Stbndbrd Bebn vs. MXBebn">
       <tr>
-        <th>Standard MBean</th><th>MXBean</th>
+        <th>Stbndbrd MBebn</th><th>MXBebn</th>
       </tr>
       <tr>
         <td><pre>
-public class MemoryUsage <b>implements Serializable</b> {
-    // standard JavaBean conventions with getters
+public clbss MemoryUsbge <b>implements Seriblizbble</b> {
+    // stbndbrd JbvbBebn conventions with getters
 
-    public MemoryUsage(long init, long used,
-                       long committed, long max) {...}
+    public MemoryUsbge(long init, long used,
+                       long committed, long mbx) {...}
     long getInit() {...}
     long getUsed() {...}
     long getCommitted() {...}
-    long getMax() {...}
+    long getMbx() {...}
 }
           </pre></td>
         <td><pre>
-public class MemoryUsage {
-    // standard JavaBean conventions with getters
-    <b>&#64;ConstructorProperties({"init", "used", "committed", "max"})</b>
-    public MemoryUsage(long init, long used,
-                       long committed, long max) {...}
+public clbss MemoryUsbge {
+    // stbndbrd JbvbBebn conventions with getters
+    <b>&#64;ConstructorProperties({"init", "used", "committed", "mbx"})</b>
+    public MemoryUsbge(long init, long used,
+                       long committed, long mbx) {...}
     long getInit() {...}
     long getUsed() {...}
     long getCommitted() {...}
-    long getMax() {...}
+    long getMbx() {...}
 }
           </pre></td>
       </tr>
-    </table>
+    </tbble>
 
-    <p>The definitions are the same in the two cases, except
-      that with the MXBean, <code>MemoryUsage</code> no longer needs to
-      be marked <code>Serializable</code> (though it can be).  On
-      the other hand, we have added a {@code @ConstructorProperties} annotation
-      to link the constructor parameters to the corresponding getters.
-      We will see more about this below.</p>
+    <p>The definitions bre the sbme in the two cbses, except
+      thbt with the MXBebn, <code>MemoryUsbge</code> no longer needs to
+      be mbrked <code>Seriblizbble</code> (though it cbn be).  On
+      the other hbnd, we hbve bdded b {@code @ConstructorProperties} bnnotbtion
+      to link the constructor pbrbmeters to the corresponding getters.
+      We will see more bbout this below.</p>
 
-    <p><code>MemoryUsage</code> is a <em>model-specific class</em>.
-      With Standard MBeans, a client of the MBean Server cannot access the
-      <code>Usage</code> attribute if it does not know the class
-      <code>MemoryUsage</code>.  Suppose the client is a generic console
-      based on JMX technology.  Then the console would have to be
-      configured with the model-specific classes of every application it
-      might connect to.  The problem is even worse for clients that are
-      not written in the Java language.  Then there may not be any way
-      to tell the client what a <code>MemoryUsage</code> looks like.</p>
+    <p><code>MemoryUsbge</code> is b <em>model-specific clbss</em>.
+      With Stbndbrd MBebns, b client of the MBebn Server cbnnot bccess the
+      <code>Usbge</code> bttribute if it does not know the clbss
+      <code>MemoryUsbge</code>.  Suppose the client is b generic console
+      bbsed on JMX technology.  Then the console would hbve to be
+      configured with the model-specific clbsses of every bpplicbtion it
+      might connect to.  The problem is even worse for clients thbt bre
+      not written in the Jbvb lbngubge.  Then there mby not be bny wby
+      to tell the client whbt b <code>MemoryUsbge</code> looks like.</p>
 
-    <p>This is where MXBeans differ from Standard MBeans.  Although we
-      define the management interface in almost exactly the same way,
-      the MXBean framework <em>converts</em> model-specific classes into
-      standard classes from the Java platform.  Using arrays and the
-      {@link javax.management.openmbean.CompositeData CompositeData} and
-      {@link javax.management.openmbean.TabularData TabularData} classes
-      from the standard {@link javax.management.openmbean} package, it
-      is possible to build data structures of arbitrary complexity
-      using only standard classes.</p>
+    <p>This is where MXBebns differ from Stbndbrd MBebns.  Although we
+      define the mbnbgement interfbce in blmost exbctly the sbme wby,
+      the MXBebn frbmework <em>converts</em> model-specific clbsses into
+      stbndbrd clbsses from the Jbvb plbtform.  Using brrbys bnd the
+      {@link jbvbx.mbnbgement.openmbebn.CompositeDbtb CompositeDbtb} bnd
+      {@link jbvbx.mbnbgement.openmbebn.TbbulbrDbtb TbbulbrDbtb} clbsses
+      from the stbndbrd {@link jbvbx.mbnbgement.openmbebn} pbckbge, it
+      is possible to build dbtb structures of brbitrbry complexity
+      using only stbndbrd clbsses.</p>
 
-    <p>This becomes clearer if we compare what the clients of the two
+    <p>This becomes clebrer if we compbre whbt the clients of the two
       models might look like:</p>
 
-    <table border="1" cellpadding="5" summary="Standard Bean vs. MXBean">
+    <tbble border="1" cellpbdding="5" summbry="Stbndbrd Bebn vs. MXBebn">
       <tr>
-        <th>Standard MBean</th><th>MXBean</th>
+        <th>Stbndbrd MBebn</th><th>MXBebn</th>
       </tr>
       <tr>
         <td><pre>
-String name = (String)
-    mbeanServer.{@link MBeanServer#getAttribute
-    getAttribute}(objectName, "Name");
-<b>MemoryUsage</b> usage = (<b>MemoryUsage</b>)
-    mbeanServer.getAttribute(objectName, "Usage");
-<b>long used = usage.getUsed();</b>
+String nbme = (String)
+    mbebnServer.{@link MBebnServer#getAttribute
+    getAttribute}(objectNbme, "Nbme");
+<b>MemoryUsbge</b> usbge = (<b>MemoryUsbge</b>)
+    mbebnServer.getAttribute(objectNbme, "Usbge");
+<b>long used = usbge.getUsed();</b>
           </pre></td>
         <td><pre>
-String name = (String)
-    mbeanServer.{@link MBeanServer#getAttribute
-    getAttribute}(objectName, "Name");
-<b>{@link CompositeData}</b> usage = (<b>CompositeData</b>)
-    mbeanServer.getAttribute(objectName, "Usage");
-<b>long used = (Long) usage.{@link CompositeData#get get}("used");</b>
+String nbme = (String)
+    mbebnServer.{@link MBebnServer#getAttribute
+    getAttribute}(objectNbme, "Nbme");
+<b>{@link CompositeDbtb}</b> usbge = (<b>CompositeDbtb</b>)
+    mbebnServer.getAttribute(objectNbme, "Usbge");
+<b>long used = (Long) usbge.{@link CompositeDbtb#get get}("used");</b>
           </pre></td>
-    </table>
+    </tbble>
 
-    <p>For attributes with simple types like <code>String</code>, the
-      code is the same.  But for attributes with complex types, the
-      Standard MBean code requires the client to know the model-specific
-      class <code>MemoryUsage</code>, while the MXBean code requires no
-      non-standard classes.</p>
+    <p>For bttributes with simple types like <code>String</code>, the
+      code is the sbme.  But for bttributes with complex types, the
+      Stbndbrd MBebn code requires the client to know the model-specific
+      clbss <code>MemoryUsbge</code>, while the MXBebn code requires no
+      non-stbndbrd clbsses.</p>
 
-    <p>The client code shown here is slightly more complicated for the
-      MXBean client.  But, if the client does in fact know the model,
-      here the interface <code>MemoryPoolMXBean</code> and the
-      class <code>MemoryUsage</code>, then it can construct a
-      <em>proxy</em>.  This is the recommended way to interact with
-      managed objects when you know the model beforehand, regardless
-      of whether you are using Standard MBeans or MXBeans:</p>
+    <p>The client code shown here is slightly more complicbted for the
+      MXBebn client.  But, if the client does in fbct know the model,
+      here the interfbce <code>MemoryPoolMXBebn</code> bnd the
+      clbss <code>MemoryUsbge</code>, then it cbn construct b
+      <em>proxy</em>.  This is the recommended wby to interbct with
+      mbnbged objects when you know the model beforehbnd, regbrdless
+      of whether you bre using Stbndbrd MBebns or MXBebns:</p>
 
-    <table border="1" cellpadding="5" summary="Standard Bean vs. MXBean">
+    <tbble border="1" cellpbdding="5" summbry="Stbndbrd Bebn vs. MXBebn">
       <tr>
-        <th>Standard MBean</th><th>MXBean</th>
+        <th>Stbndbrd MBebn</th><th>MXBebn</th>
       </tr>
       <tr>
         <td><pre>
-MemoryPool<b>MBean</b> proxy =
-    JMX.<b>{@link JMX#newMBeanProxy(MBeanServerConnection, ObjectName,
-              Class) newMBeanProxy}</b>(
-        mbeanServer,
-        objectName,
-        MemoryPool<b>MBean</b>.class);
-String name = proxy.getName();
-MemoryUsage usage = proxy.getUsage();
-long used = usage.getUsed();
+MemoryPool<b>MBebn</b> proxy =
+    JMX.<b>{@link JMX#newMBebnProxy(MBebnServerConnection, ObjectNbme,
+              Clbss) newMBebnProxy}</b>(
+        mbebnServer,
+        objectNbme,
+        MemoryPool<b>MBebn</b>.clbss);
+String nbme = proxy.getNbme();
+MemoryUsbge usbge = proxy.getUsbge();
+long used = usbge.getUsed();
           </pre></td>
         <td><pre>
-MemoryPool<b>MXBean</b> proxy =
-    JMX.<b>{@link JMX#newMXBeanProxy(MBeanServerConnection, ObjectName,
-              Class) newMXBeanProxy}</b>(
-        mbeanServer,
-        objectName,
-        MemoryPool<b>MXBean</b>.class);
-String name = proxy.getName();
-MemoryUsage usage = proxy.getUsage();
-long used = usage.getUsed();
+MemoryPool<b>MXBebn</b> proxy =
+    JMX.<b>{@link JMX#newMXBebnProxy(MBebnServerConnection, ObjectNbme,
+              Clbss) newMXBebnProxy}</b>(
+        mbebnServer,
+        objectNbme,
+        MemoryPool<b>MXBebn</b>.clbss);
+String nbme = proxy.getNbme();
+MemoryUsbge usbge = proxy.getUsbge();
+long used = usbge.getUsed();
           </pre></td>
       </tr>
-    </table>
+    </tbble>
 
-    <p>Implementing the MemoryPool object works similarly for both
-      Standard MBeans and MXBeans.</p>
+    <p>Implementing the MemoryPool object works similbrly for both
+      Stbndbrd MBebns bnd MXBebns.</p>
 
-    <table border="1" cellpadding="5" summary="Standard Bean vs. MXBean">
+    <tbble border="1" cellpbdding="5" summbry="Stbndbrd Bebn vs. MXBebn">
       <tr>
-        <th>Standard MBean</th><th>MXBean</th>
+        <th>Stbndbrd MBebn</th><th>MXBebn</th>
       </tr>
       <tr>
         <td><pre>
-public class MemoryPool
-        implements MemoryPool<b>MBean</b> {
-    public String getName() {...}
-    public MemoryUsage getUsage() {...}
+public clbss MemoryPool
+        implements MemoryPool<b>MBebn</b> {
+    public String getNbme() {...}
+    public MemoryUsbge getUsbge() {...}
     // ...
 }
           </pre></td>
         <td><pre>
-public class MemoryPool
-        implements MemoryPool<b>MXBean</b> {
-    public String getName() {...}
-    public MemoryUsage getUsage() {...}
+public clbss MemoryPool
+        implements MemoryPool<b>MXBebn</b> {
+    public String getNbme() {...}
+    public MemoryUsbge getUsbge() {...}
     // ...
 }
           </pre></td>
       </tr>
-    </table>
+    </tbble>
 
-    <p>Registering the MBean in the MBean Server works in the same way
-      in both cases:</p>
+    <p>Registering the MBebn in the MBebn Server works in the sbme wby
+      in both cbses:</p>
 
-    <table border="1" cellpadding="5" summary="Standard Bean vs. MXBean">
+    <tbble border="1" cellpbdding="5" summbry="Stbndbrd Bebn vs. MXBebn">
       <tr>
-        <th>Standard MBean</th><th>MXBean</th>
+        <th>Stbndbrd MBebn</th><th>MXBebn</th>
       </tr>
       <tr>
         <td><pre>
 {
-    MemoryPool<b>MBean</b> pool = new MemoryPool();
-    mbeanServer.{@link MBeanServer#registerMBean
-    registerMBean}(pool, objectName);
+    MemoryPool<b>MBebn</b> pool = new MemoryPool();
+    mbebnServer.{@link MBebnServer#registerMBebn
+    registerMBebn}(pool, objectNbme);
 }
           </pre></td>
         <td><pre>
 {
-    MemoryPool<b>MXBean</b> pool = new MemoryPool();
-    mbeanServer.{@link MBeanServer#registerMBean
-    registerMBean}(pool, objectName);
+    MemoryPool<b>MXBebn</b> pool = new MemoryPool();
+    mbebnServer.{@link MBebnServer#registerMBebn
+    registerMBebn}(pool, objectNbme);
 }
           </pre></td>
       </tr>
-    </table>
+    </tbble>
 
 
-    <h2 id="mxbean-def">Definition of an MXBean</h2>
+    <h2 id="mxbebn-def">Definition of bn MXBebn</h2>
 
-    <p>An MXBean is a kind of MBean.  An MXBean object can be
-      registered directly in the MBean Server, or it can be used as an
-      argument to {@link StandardMBean} and the resultant MBean
-      registered in the MBean Server.</p>
+    <p>An MXBebn is b kind of MBebn.  An MXBebn object cbn be
+      registered directly in the MBebn Server, or it cbn be used bs bn
+      brgument to {@link StbndbrdMBebn} bnd the resultbnt MBebn
+      registered in the MBebn Server.</p>
 
-    <p>When an object is registered in the MBean Server using the
-      {@code registerMBean} or {@code createMBean} methods of the
-      {@link MBeanServer} interface, the object's class is examined
-      to determine what type of MBean it is:</p>
+    <p>When bn object is registered in the MBebn Server using the
+      {@code registerMBebn} or {@code crebteMBebn} methods of the
+      {@link MBebnServer} interfbce, the object's clbss is exbmined
+      to determine whbt type of MBebn it is:</p>
 
     <ul>
-      <li>If the class implements the interface {@link DynamicMBean}
-        then the MBean is a Dynamic MBean.  Note that the class
-        {@code StandardMBean} implements this interface, so this
-        case applies to a Standard MBean or MXBean created using
-        the class {@code StandardMBean}.</li>
+      <li>If the clbss implements the interfbce {@link DynbmicMBebn}
+        then the MBebn is b Dynbmic MBebn.  Note thbt the clbss
+        {@code StbndbrdMBebn} implements this interfbce, so this
+        cbse bpplies to b Stbndbrd MBebn or MXBebn crebted using
+        the clbss {@code StbndbrdMBebn}.</li>
 
-      <li>Otherwise, if the class matches the Standard MBean naming
-        conventions, then the MBean is a Standard MBean.</li>
+      <li>Otherwise, if the clbss mbtches the Stbndbrd MBebn nbming
+        conventions, then the MBebn is b Stbndbrd MBebn.</li>
 
-      <li>Otherwise, it may be an MXBean.  The set of interfaces
-        implemented by the object is examined for interfaces that:
+      <li>Otherwise, it mby be bn MXBebn.  The set of interfbces
+        implemented by the object is exbmined for interfbces thbt:
 
         <ul>
-          <li>have a class name <code><em>S</em>MXBean</code> where
-            <code><em>S</em></code> is any non-empty string, and
-            do not have an annotation {@code @MXBean(false)}; and/or</li>
-          <li>have an annotation {@code @MXBean(true)}
-            or just {@code @MXBean}.</li>
+          <li>hbve b clbss nbme <code><em>S</em>MXBebn</code> where
+            <code><em>S</em></code> is bny non-empty string, bnd
+            do not hbve bn bnnotbtion {@code @MXBebn(fblse)}; bnd/or</li>
+          <li>hbve bn bnnotbtion {@code @MXBebn(true)}
+            or just {@code @MXBebn}.</li>
         </ul>
 
-        If there is exactly one such interface, or if there is one
-        such interface that is a subinterface of all the others, then
-        the object is an MXBean.  The interface in question is the
-        <em>MXBean interface</em>.  In the example above, the MXBean
-        interface is {@code MemoryPoolMXBean}.
+        If there is exbctly one such interfbce, or if there is one
+        such interfbce thbt is b subinterfbce of bll the others, then
+        the object is bn MXBebn.  The interfbce in question is the
+        <em>MXBebn interfbce</em>.  In the exbmple bbove, the MXBebn
+        interfbce is {@code MemoryPoolMXBebn}.
 
-      <li>If none of these conditions is met, the MBean is invalid and
-        the attempt to register it will generate {@link
-        NotCompliantMBeanException}.
+      <li>If none of these conditions is met, the MBebn is invblid bnd
+        the bttempt to register it will generbte {@link
+        NotComplibntMBebnException}.
     </ul>
 
-    <p>Every Java type that appears as the parameter or return type of a
-      method in an MXBean interface must be <em>convertible</em> using
-      the rules below.  Additionally, parameters must be
-      <em>reconstructible</em> as defined below.</p>
+    <p>Every Jbvb type thbt bppebrs bs the pbrbmeter or return type of b
+      method in bn MXBebn interfbce must be <em>convertible</em> using
+      the rules below.  Additionblly, pbrbmeters must be
+      <em>reconstructible</em> bs defined below.</p>
 
-    <p>An attempt to construct an MXBean that does not conform to the
-      above rules will produce an exception.</p>
+    <p>An bttempt to construct bn MXBebn thbt does not conform to the
+      bbove rules will produce bn exception.</p>
 
 
-    <h2 id="naming-conv">Naming conventions</h2>
+    <h2 id="nbming-conv">Nbming conventions</h2>
 
-    <p>The same naming conventions are applied to the methods in an
-      MXBean as in a Standard MBean:</p>
+    <p>The sbme nbming conventions bre bpplied to the methods in bn
+      MXBebn bs in b Stbndbrd MBebn:</p>
 
     <ol>
       <li>A method <code><em>T</em> get<em>N</em>()</code>, where
-        <code><em>T</em></code> is a Java type (not <code>void</code>)
-        and <code><em>N</em></code> is a non-empty string, specifies
-        that there is a readable attribute called
-        <code><em>N</em></code>.  The Java type and Open type of the
-        attribute are determined by the mapping rules below.
-        The method {@code final Class getClass()} inherited from {@code
+        <code><em>T</em></code> is b Jbvb type (not <code>void</code>)
+        bnd <code><em>N</em></code> is b non-empty string, specifies
+        thbt there is b rebdbble bttribute cblled
+        <code><em>N</em></code>.  The Jbvb type bnd Open type of the
+        bttribute bre determined by the mbpping rules below.
+        The method {@code finbl Clbss getClbss()} inherited from {@code
         Object} is ignored when looking for getters.</li>
 
-      <li>A method <code>boolean is<em>N</em>()</code> specifies that
-        there is a readable attribute called <code><em>N</em></code>
-        with Java type <code>boolean</code> and Open type
-        <code>SimpleType.Boolean</code>.</li>
+      <li>A method <code>boolebn is<em>N</em>()</code> specifies thbt
+        there is b rebdbble bttribute cblled <code><em>N</em></code>
+        with Jbvb type <code>boolebn</code> bnd Open type
+        <code>SimpleType.Boolebn</code>.</li>
 
       <li>A method <code>void set<em>N</em>(<em>T</em> x)</code>
-        specifies that there is a writeable attribute called
-        <code><em>N</em></code>.  The Java type and Open type of the
-        attribute are determined by the mapping rules below.  (Of
-        course, the name <code>x</code> of the parameter is
-        irrelevant.)</li>
+        specifies thbt there is b writebble bttribute cblled
+        <code><em>N</em></code>.  The Jbvb type bnd Open type of the
+        bttribute bre determined by the mbpping rules below.  (Of
+        course, the nbme <code>x</code> of the pbrbmeter is
+        irrelevbnt.)</li>
 
-      <li>Every other method specifies that there is an operation with
-        the same name as the method.  The Java type and Open type of the
-        return value and of each parameter are determined by the mapping
+      <li>Every other method specifies thbt there is bn operbtion with
+        the sbme nbme bs the method.  The Jbvb type bnd Open type of the
+        return vblue bnd of ebch pbrbmeter bre determined by the mbpping
         rules below.</li>
     </ol>
 
-    <p>The rules for <code>get<em>N</em></code> and
-      <code>is<em>N</em></code> collectively define the notion of a
+    <p>The rules for <code>get<em>N</em></code> bnd
+      <code>is<em>N</em></code> collectively define the notion of b
       <em>getter</em>.  The rule for <code>set<em>N</em></code> defines
-      the notion of a <em>setter</em>.</p>
+      the notion of b <em>setter</em>.</p>
 
-    <p>It is an error for there to be two getters with the same name, or
-      two setters with the same name.  If there is a getter and a setter
-      for the same name, then the type <code><em>T</em></code> in both
-      must be the same.  In this case the attribute is read/write.  If
-      there is only a getter or only a setter, the attribute is
-      read-only or write-only respectively.</p>
+    <p>It is bn error for there to be two getters with the sbme nbme, or
+      two setters with the sbme nbme.  If there is b getter bnd b setter
+      for the sbme nbme, then the type <code><em>T</em></code> in both
+      must be the sbme.  In this cbse the bttribute is rebd/write.  If
+      there is only b getter or only b setter, the bttribute is
+      rebd-only or write-only respectively.</p>
 
 
-    <h2 id="mapping-rules">Type mapping rules</h2>
+    <h2 id="mbpping-rules">Type mbpping rules</h2>
 
-    <p>An MXBean is a kind of Open MBean, as defined by the {@link
-      javax.management.openmbean} package.  This means that the types of
-      attributes, operation parameters, and operation return values must
-      all be describable using <em>Open Types</em>, that is the four
-      standard subclasses of {@link javax.management.openmbean.OpenType}.
-      MXBeans achieve this by mapping Java types into Open Types.</p>
+    <p>An MXBebn is b kind of Open MBebn, bs defined by the {@link
+      jbvbx.mbnbgement.openmbebn} pbckbge.  This mebns thbt the types of
+      bttributes, operbtion pbrbmeters, bnd operbtion return vblues must
+      bll be describbble using <em>Open Types</em>, thbt is the four
+      stbndbrd subclbsses of {@link jbvbx.mbnbgement.openmbebn.OpenType}.
+      MXBebns bchieve this by mbpping Jbvb types into Open Types.</p>
 
-    <p>For every Java type <em>J</em>, the MXBean mapping is described
-      by the following information:</p>
+    <p>For every Jbvb type <em>J</em>, the MXBebn mbpping is described
+      by the following informbtion:</p>
 
     <ul>
       <li>The corresponding Open Type, <em>opentype(J)</em>.  This is
-        an instance of a subclass of {@link
-        javax.management.openmbean.OpenType}.</li>
-      <li>The <em>mapped</em> Java type, <em>opendata(J)</em>, which is
-        always the same for any given <em>opentype(J)</em>.  This is a Java
-        class.</li>
-      <li>How a value is converted from type <em>J</em> to type
-        <em>opendata(J)</em>.</li>
-      <li>How a value is converted from type <em>opendata(J)</em> to
-        type <em>J</em>, if it can be.</li>
+        bn instbnce of b subclbss of {@link
+        jbvbx.mbnbgement.openmbebn.OpenType}.</li>
+      <li>The <em>mbpped</em> Jbvb type, <em>opendbtb(J)</em>, which is
+        blwbys the sbme for bny given <em>opentype(J)</em>.  This is b Jbvb
+        clbss.</li>
+      <li>How b vblue is converted from type <em>J</em> to type
+        <em>opendbtb(J)</em>.</li>
+      <li>How b vblue is converted from type <em>opendbtb(J)</em> to
+        type <em>J</em>, if it cbn be.</li>
     </ul>
 
-    <p>For example, for the Java type {@code List<String>}:</p>
+    <p>For exbmple, for the Jbvb type {@code List<String>}:</p>
 
     <ul>
       <li>The Open Type, <em>opentype(</em>{@code
-        List<String>}<em>)</em>, is {@link ArrayType}<code>(1, </code>{@link
-          SimpleType#STRING}<code>)</code>, representing a 1-dimensional
-          array of <code>String</code>s.</li>
-      <li>The mapped Java type, <em>opendata(</em>{@code
+        List<String>}<em>)</em>, is {@link ArrbyType}<code>(1, </code>{@link
+          SimpleType#STRING}<code>)</code>, representing b 1-dimensionbl
+          brrby of <code>String</code>s.</li>
+      <li>The mbpped Jbvb type, <em>opendbtb(</em>{@code
         List<String>}<em>)</em>, is {@code String[]}.</li>
-      <li>A {@code List<String>} can be converted to a {@code String[]}
-          using {@link List#toArray(Object[]) List.toArray(new
+      <li>A {@code List<String>} cbn be converted to b {@code String[]}
+          using {@link List#toArrby(Object[]) List.toArrby(new
           String[0])}.</li>
-      <li>A {@code String[]} can be converted to a {@code List<String>}
-          using {@link Arrays#asList Arrays.asList}.</li>
+      <li>A {@code String[]} cbn be converted to b {@code List<String>}
+          using {@link Arrbys#bsList Arrbys.bsList}.</li>
     </ul>
 
-    <p>If no mapping rules exist to derive <em>opentype(J)</em> from
-      <em>J</em>, then <em>J</em> cannot be the type of a method
-      parameter or return value in an MXBean interface.</p>
+    <p>If no mbpping rules exist to derive <em>opentype(J)</em> from
+      <em>J</em>, then <em>J</em> cbnnot be the type of b method
+      pbrbmeter or return vblue in bn MXBebn interfbce.</p>
 
-    <p id="reconstructible-def">If there is a way to convert
-      <em>opendata(J)</em> back to <em>J</em> then we say that <em>J</em> is
-      <em>reconstructible</em>.  All method parameters in an MXBean
-      interface must be reconstructible, because when the MXBean
-      framework is invoking a method it will need to convert those
-      parameters from <em>opendata(J)</em> to <em>J</em>.  In a proxy
-      generated by {@link JMX#newMXBeanProxy(MBeanServerConnection,
-      ObjectName, Class) JMX.newMXBeanProxy}, it is the return values
-      of the methods in the MXBean interface that must be
+    <p id="reconstructible-def">If there is b wby to convert
+      <em>opendbtb(J)</em> bbck to <em>J</em> then we sby thbt <em>J</em> is
+      <em>reconstructible</em>.  All method pbrbmeters in bn MXBebn
+      interfbce must be reconstructible, becbuse when the MXBebn
+      frbmework is invoking b method it will need to convert those
+      pbrbmeters from <em>opendbtb(J)</em> to <em>J</em>.  In b proxy
+      generbted by {@link JMX#newMXBebnProxy(MBebnServerConnection,
+      ObjectNbme, Clbss) JMX.newMXBebnProxy}, it is the return vblues
+      of the methods in the MXBebn interfbce thbt must be
       reconstructible.</p>
 
-    <p>Null values are allowed for all Java types and Open Types,
-      except primitive Java types where they are not possible.  When
-      converting from type <em>J</em> to type <em>opendata(J)</em> or
-      from type <em>opendata(J)</em> to type <em>J</em>, a null value is
-      mapped to a null value.</p>
+    <p>Null vblues bre bllowed for bll Jbvb types bnd Open Types,
+      except primitive Jbvb types where they bre not possible.  When
+      converting from type <em>J</em> to type <em>opendbtb(J)</em> or
+      from type <em>opendbtb(J)</em> to type <em>J</em>, b null vblue is
+      mbpped to b null vblue.</p>
 
-    <p>The following table summarizes the type mapping rules.</p>
+    <p>The following tbble summbrizes the type mbpping rules.</p>
 
-    <table border="1" cellpadding="5" summary="Type Mapping Rules">
+    <tbble border="1" cellpbdding="5" summbry="Type Mbpping Rules">
       <tr>
-        <th>Java type <em>J</em></th>
+        <th>Jbvb type <em>J</em></th>
         <th><em>opentype(J)</em></th>
-        <th><em>opendata(J)</em></th>
+        <th><em>opendbtb(J)</em></th>
       </tr>
-      <tbody valign="top">
+      <tbody vblign="top">
         <tr>
-          <td>{@code int}, {@code boolean}, etc<br>
-            (the 8 primitive Java types)</td>
+          <td>{@code int}, {@code boolebn}, etc<br>
+            (the 8 primitive Jbvb types)</td>
           <td>{@code SimpleType.INTEGER},<br>
             {@code SimpleType.BOOLEAN}, etc</td>
-          <td>{@code Integer}, {@code Boolean}, etc<br>
+          <td>{@code Integer}, {@code Boolebn}, etc<br>
             (the corresponding boxed types)</td>
         </tr>
         <tr>
-          <td>{@code Integer}, {@code ObjectName}, etc<br>
+          <td>{@code Integer}, {@code ObjectNbme}, etc<br>
             (the types covered by {@link SimpleType})</td>
           <td>the corresponding {@code SimpleType}</td>
-          <td><em>J</em>, the same type</td>
+          <td><em>J</em>, the sbme type</td>
         </tr>
         <tr>
           <td>{@code int[]} etc<br>
-            (a one-dimensional array with<br>
+            (b one-dimensionbl brrby with<br>
             primitive element type)</td>
-          <td>{@code ArrayType.getPrimitiveArrayType(int[].class)} etc</td>
-          <td><em>J</em>, the same type</td>
+          <td>{@code ArrbyType.getPrimitiveArrbyType(int[].clbss)} etc</td>
+          <td><em>J</em>, the sbme type</td>
         <tr>
           <td><em>E</em>{@code []}<br>
-            (an array with non-primitive element type <em>E</em>;
+            (bn brrby with non-primitive element type <em>E</em>;
               this includes {@code int[][]}, where <em>E</em> is {@code int[]})</td>
-          <td>{@code ArrayType.getArrayType(}<em>opentype(E)</em>{@code )}</td>
-          <td><em>opendata(E)</em>{@code []}</td>
+          <td>{@code ArrbyType.getArrbyType(}<em>opentype(E)</em>{@code )}</td>
+          <td><em>opendbtb(E)</em>{@code []}</td>
         </tr>
         <tr>
           <td>{@code List<}<em>E</em>{@code >}<br>
             {@code Set<}<em>E</em>{@code >}<br>
             {@code SortedSet<}<em>E</em>{@code >} (see below)</td>
-          <td>same as for <em>E</em>{@code []}</td>
-          <td>same as for <em>E</em>{@code []}</td>
+          <td>sbme bs for <em>E</em>{@code []}</td>
+          <td>sbme bs for <em>E</em>{@code []}</td>
         </tr>
         <tr>
-          <td>An enumeration <em>E</em><br>
-            (declared in Java as {@code enum }<em>E</em>
+          <td>An enumerbtion <em>E</em><br>
+            (declbred in Jbvb bs {@code enum }<em>E</em>
             {@code {...}})</td>
           <td>{@code SimpleType.STRING}</td>
           <td>{@code String}</td>
         </tr>
         <tr>
-          <td>{@code Map<}<em>K</em>,<em>V</em>{@code >}<br>
-            {@code SortedMap<}<em>K</em>,<em>V</em>{@code >}</td>
-          <td>{@link TabularType}<br>
+          <td>{@code Mbp<}<em>K</em>,<em>V</em>{@code >}<br>
+            {@code SortedMbp<}<em>K</em>,<em>V</em>{@code >}</td>
+          <td>{@link TbbulbrType}<br>
             (see below)</td>
-          <td>{@link TabularData}<br>
+          <td>{@link TbbulbrDbtb}<br>
             (see below)</td>
         </tr>
         <tr>
-          <td>An MXBean interface</td>
+          <td>An MXBebn interfbce</td>
           <td>{@code SimpleType.OBJECTNAME}<br>
             (see below)</td>
-          <td>{@link ObjectName}<br>
+          <td>{@link ObjectNbme}<br>
             (see below)</td>
         </tr>
         <tr>
@@ -546,388 +546,388 @@ public class MemoryPool
           <td>{@link CompositeType},
             if possible<br>
             (see below)</td>
-          <td>{@link CompositeData}</td>
+          <td>{@link CompositeDbtb}</td>
       </tbody>
-    </table>
+    </tbble>
 
-    <p>The following sections give further details of these rules.</p>
+    <p>The following sections give further detbils of these rules.</p>
 
 
-    <h3>Mappings for primitive types</h3>
+    <h3>Mbppings for primitive types</h3>
 
-    <p>The 8 primitive Java types
-      ({@code boolean}, {@code byte}, {@code short}, {@code int}, {@code
-      long}, {@code float}, {@code double}, {@code char}) are mapped to the
-      corresponding boxed types from {@code java.lang}, namely {@code
-      Boolean}, {@code Byte}, etc.  The Open Type is the corresponding
+    <p>The 8 primitive Jbvb types
+      ({@code boolebn}, {@code byte}, {@code short}, {@code int}, {@code
+      long}, {@code flobt}, {@code double}, {@code chbr}) bre mbpped to the
+      corresponding boxed types from {@code jbvb.lbng}, nbmely {@code
+      Boolebn}, {@code Byte}, etc.  The Open Type is the corresponding
       {@code SimpleType}.  Thus, <em>opentype(</em>{@code
-      long}<em>)</em> is {@code SimpleType.LONG}, and
-      <em>opendata(</em>{@code long}<em>)</em> is {@code
-      java.lang.Long}.</p>
+      long}<em>)</em> is {@code SimpleType.LONG}, bnd
+      <em>opendbtb(</em>{@code long}<em>)</em> is {@code
+      jbvb.lbng.Long}.</p>
 
-    <p>An array of primitive type such as {@code long[]} can be represented
-      directly as an Open Type.  Thus, <em>openType(</em>{@code
+    <p>An brrby of primitive type such bs {@code long[]} cbn be represented
+      directly bs bn Open Type.  Thus, <em>openType(</em>{@code
       long[]}<em>)</em> is {@code
-      ArrayType.getPrimitiveArrayType(long[].class)}, and
-      <em>opendata(</em>{@code long[]}<em>)</em> is {@code
+      ArrbyType.getPrimitiveArrbyType(long[].clbss)}, bnd
+      <em>opendbtb(</em>{@code long[]}<em>)</em> is {@code
       long[]}.</p>
 
-    <p>In practice, the difference between a plain {@code int} and {@code
-      Integer}, etc, does not show up because operations in the JMX API
-      are always on Java objects, not primitives.  However, the
-      difference <em>does</em> show up with arrays.</p>
+    <p>In prbctice, the difference between b plbin {@code int} bnd {@code
+      Integer}, etc, does not show up becbuse operbtions in the JMX API
+      bre blwbys on Jbvb objects, not primitives.  However, the
+      difference <em>does</em> show up with brrbys.</p>
 
 
-    <h3>Mappings for collections ({@code List<}<em>E</em>{@code >} etc)</h3>
+    <h3>Mbppings for collections ({@code List<}<em>E</em>{@code >} etc)</h3>
 
     <p>A {@code List<}<em>E</em>{@code >} or {@code
-      Set<}<em>E</em>{@code >}, such as {@code List<String>} or {@code
-        Set<ObjectName>}, is mapped in the same way as an array of the
-          same element type, such as {@code String[]} or {@code
-          ObjectName[]}.</p>
+      Set<}<em>E</em>{@code >}, such bs {@code List<String>} or {@code
+        Set<ObjectNbme>}, is mbpped in the sbme wby bs bn brrby of the
+          sbme element type, such bs {@code String[]} or {@code
+          ObjectNbme[]}.</p>
 
-    <p>A {@code SortedSet<}<em>E</em>{@code >} is also mapped in the
-      same way as an <em>E</em>{@code []}, but it is only convertible if
-      <em>E</em> is a class or interface that implements {@link
-      java.lang.Comparable}.  Thus, a {@code SortedSet<String>} or
-        {@code SortedSet<Integer>} is convertible, but a {@code
+    <p>A {@code SortedSet<}<em>E</em>{@code >} is blso mbpped in the
+      sbme wby bs bn <em>E</em>{@code []}, but it is only convertible if
+      <em>E</em> is b clbss or interfbce thbt implements {@link
+      jbvb.lbng.Compbrbble}.  Thus, b {@code SortedSet<String>} or
+        {@code SortedSet<Integer>} is convertible, but b {@code
           SortedSet<int[]>} or {@code SortedSet<List<String>>} is not.  The
-                conversion of a {@code SortedSet} instance will fail with an
-                {@code IllegalArgumentException} if it has a
-                non-null {@link java.util.SortedSet#comparator()
-                comparator()}.</p>
+                conversion of b {@code SortedSet} instbnce will fbil with bn
+                {@code IllegblArgumentException} if it hbs b
+                non-null {@link jbvb.util.SortedSet#compbrbtor()
+                compbrbtor()}.</p>
 
-    <p>A {@code List<}<em>E</em>{@code >} is reconstructed as a
-      {@code java.util.ArrayList<}<em>E</em>{@code >};
-      a {@code Set<}<em>E</em>{@code >} as a
-      {@code java.util.HashSet<}<em>E</em>{@code >};
-      a {@code SortedSet<}<em>E</em>{@code >} as a
-      {@code java.util.TreeSet<}<em>E</em>{@code >}.</p>
+    <p>A {@code List<}<em>E</em>{@code >} is reconstructed bs b
+      {@code jbvb.util.ArrbyList<}<em>E</em>{@code >};
+      b {@code Set<}<em>E</em>{@code >} bs b
+      {@code jbvb.util.HbshSet<}<em>E</em>{@code >};
+      b {@code SortedSet<}<em>E</em>{@code >} bs b
+      {@code jbvb.util.TreeSet<}<em>E</em>{@code >}.</p>
 
 
-    <h3>Mappings for maps ({@code Map<}<em>K</em>,<em>V</em>{@code >} etc)</h3>
+    <h3>Mbppings for mbps ({@code Mbp<}<em>K</em>,<em>V</em>{@code >} etc)</h3>
 
-    <p>A {@code Map<}<em>K</em>,<em>V</em>{@code >} or {@code
-      SortedMap<}<em>K</em>,<em>V</em>{@code >}, for example {@code
-      Map<String,ObjectName>}, has Open Type {@link TabularType} and is mapped
-        to a {@link TabularData}.
-        The {@code TabularType} has two items called {@code key} and
-        {@code value}.  The Open Type of {@code key} is
-        <em>opentype(K)</em>, and the Open Type of {@code value} is
-        <em>opentype(V)</em>.  The index of the {@code TabularType} is the
+    <p>A {@code Mbp<}<em>K</em>,<em>V</em>{@code >} or {@code
+      SortedMbp<}<em>K</em>,<em>V</em>{@code >}, for exbmple {@code
+      Mbp<String,ObjectNbme>}, hbs Open Type {@link TbbulbrType} bnd is mbpped
+        to b {@link TbbulbrDbtb}.
+        The {@code TbbulbrType} hbs two items cblled {@code key} bnd
+        {@code vblue}.  The Open Type of {@code key} is
+        <em>opentype(K)</em>, bnd the Open Type of {@code vblue} is
+        <em>opentype(V)</em>.  The index of the {@code TbbulbrType} is the
         single item {@code key}.</p>
 
-    <p>For example, the {@code TabularType} for a {@code
-      Map<String,ObjectName>} might be constructed with code like
+    <p>For exbmple, the {@code TbbulbrType} for b {@code
+      Mbp<String,ObjectNbme>} might be constructed with code like
         this:</p>
 
     <pre>
-String typeName =
-    "java.util.Map&lt;java.lang.String, javax.management.ObjectName&gt;";
-String[] keyValue =
-    new String[] {"key", "value"};
+String typeNbme =
+    "jbvb.util.Mbp&lt;jbvb.lbng.String, jbvbx.mbnbgement.ObjectNbme&gt;";
+String[] keyVblue =
+    new String[] {"key", "vblue"};
 OpenType[] openTypes =
     new OpenType[] {SimpleType.STRING, SimpleType.OBJECTNAME};
 CompositeType rowType =
-    new CompositeType(typeName, typeName, keyValue, keyValue, openTypes);
-TabularType tabularType =
-    new TabularType(typeName, typeName, rowType, new String[] {"key"});
+    new CompositeType(typeNbme, typeNbme, keyVblue, keyVblue, openTypes);
+TbbulbrType tbbulbrType =
+    new TbbulbrType(typeNbme, typeNbme, rowType, new String[] {"key"});
     </pre>
 
-    <p>The {@code typeName} here is determined by the <a href="#type-names">
-      type name rules</a> detailed below.
+    <p>The {@code typeNbme} here is determined by the <b href="#type-nbmes">
+      type nbme rules</b> detbiled below.
 
-    <p>A {@code SortedMap<}<em>K</em>,<em>V</em>{@code >} is mapped in the
-      same way, but it is only convertible if
-      <em>K</em> is a class or interface that implements {@link
-      java.lang.Comparable}.  Thus, a {@code SortedMap<String,int[]>}
-        is convertible, but a
-        {@code SortedMap<int[],String>} is not.  The conversion of a
-          {@code SortedMap} instance will fail with an {@code
-          IllegalArgumentException} if it has a non-null {@link
-          java.util.SortedMap#comparator() comparator()}.</p>
+    <p>A {@code SortedMbp<}<em>K</em>,<em>V</em>{@code >} is mbpped in the
+      sbme wby, but it is only convertible if
+      <em>K</em> is b clbss or interfbce thbt implements {@link
+      jbvb.lbng.Compbrbble}.  Thus, b {@code SortedMbp<String,int[]>}
+        is convertible, but b
+        {@code SortedMbp<int[],String>} is not.  The conversion of b
+          {@code SortedMbp} instbnce will fbil with bn {@code
+          IllegblArgumentException} if it hbs b non-null {@link
+          jbvb.util.SortedMbp#compbrbtor() compbrbtor()}.</p>
 
-    <p>A {@code Map<}<em>K</em>,<em>V</em>{@code >} is reconstructed as
-      a {@code java.util.HashMap<}<em>K</em>,<em>V</em>{@code >};
-      a {@code SortedMap<}<em>K</em>,<em>V</em>{@code >} as
-      a {@code java.util.TreeMap<}<em>K</em>,<em>V</em>{@code >}.</p>
+    <p>A {@code Mbp<}<em>K</em>,<em>V</em>{@code >} is reconstructed bs
+      b {@code jbvb.util.HbshMbp<}<em>K</em>,<em>V</em>{@code >};
+      b {@code SortedMbp<}<em>K</em>,<em>V</em>{@code >} bs
+      b {@code jbvb.util.TreeMbp<}<em>K</em>,<em>V</em>{@code >}.</p>
 
-    <p>{@code TabularData} is an interface.  The concrete class that is
-      used to represent a {@code Map<}<em>K</em>,<em>V</em>{@code >} as
-      Open Data is {@link TabularDataSupport},
-      or another class implementing {@code
-      TabularData} that serializes as {@code TabularDataSupport}.</p>
+    <p>{@code TbbulbrDbtb} is bn interfbce.  The concrete clbss thbt is
+      used to represent b {@code Mbp<}<em>K</em>,<em>V</em>{@code >} bs
+      Open Dbtb is {@link TbbulbrDbtbSupport},
+      or bnother clbss implementing {@code
+      TbbulbrDbtb} thbt seriblizes bs {@code TbbulbrDbtbSupport}.</p>
 
 
-    <h3 id="mxbean-map">Mappings for MXBean interfaces</h3>
+    <h3 id="mxbebn-mbp">Mbppings for MXBebn interfbces</h3>
 
-    <p>An MXBean interface, or a type referenced within an MXBean
-      interface, can reference another MXBean interface, <em>J</em>.
-      Then <em>opentype(J)</em> is {@code SimpleType.OBJECTNAME} and
-      <em>opendata(J)</em> is {@code ObjectName}.</p>
+    <p>An MXBebn interfbce, or b type referenced within bn MXBebn
+      interfbce, cbn reference bnother MXBebn interfbce, <em>J</em>.
+      Then <em>opentype(J)</em> is {@code SimpleType.OBJECTNAME} bnd
+      <em>opendbtb(J)</em> is {@code ObjectNbme}.</p>
 
-    <p>For example, suppose you have two MXBean interfaces like this:</p>
+    <p>For exbmple, suppose you hbve two MXBebn interfbces like this:</p>
 
     <pre>
-public interface ProductMXBean {
-    public ModuleMXBean[] getModules();
+public interfbce ProductMXBebn {
+    public ModuleMXBebn[] getModules();
 }
 
-public interface ModuleMXBean {
-    public ProductMXBean getProduct();
+public interfbce ModuleMXBebn {
+    public ProductMXBebn getProduct();
 }
     </pre>
 
-    <p>The object implementing the {@code ModuleMXBean} interface
-      returns from its {@code getProduct} method an object
-      implementing the {@code ProductMXBean} interface.  The
-      {@code ModuleMXBean} object and the returned {@code
-      ProductMXBean} objects must both be registered as MXBeans in the
-      same MBean Server.</p>
+    <p>The object implementing the {@code ModuleMXBebn} interfbce
+      returns from its {@code getProduct} method bn object
+      implementing the {@code ProductMXBebn} interfbce.  The
+      {@code ModuleMXBebn} object bnd the returned {@code
+      ProductMXBebn} objects must both be registered bs MXBebns in the
+      sbme MBebn Server.</p>
 
-    <p>The method {@code ModuleMXBean.getProduct()} defines an
-      attribute called {@code Product}.  The Open Type for this
-      attribute is {@code SimpleType.OBJECTNAME}, and the corresponding
-      {@code ObjectName} value will be the name under which the
-      referenced {@code ProductMXBean} is registered in the MBean
+    <p>The method {@code ModuleMXBebn.getProduct()} defines bn
+      bttribute cblled {@code Product}.  The Open Type for this
+      bttribute is {@code SimpleType.OBJECTNAME}, bnd the corresponding
+      {@code ObjectNbme} vblue will be the nbme under which the
+      referenced {@code ProductMXBebn} is registered in the MBebn
       Server.</p>
 
-    <p>If you make an MXBean proxy for a {@code ModuleMXBean} and
-      call its {@code getProduct()} method, the proxy will map the
-      {@code ObjectName} back into a {@code ProductMXBean} by making
-      another MXBean proxy.  More formally, when a proxy made with
-      {@link JMX#newMXBeanProxy(MBeanServerConnection, ObjectName,
-       Class)
-      JMX.newMXBeanProxy(mbeanServerConnection, objectNameX,
-      interfaceX)} needs to map {@code objectNameY} back into {@code
-      interfaceY}, another MXBean interface, it does so with {@code
-      JMX.newMXBeanProxy(mbeanServerConnection, objectNameY,
-      interfaceY)}.  The implementation may return a proxy that was
-      previously created by a call to {@code JMX.newMXBeanProxy}
-      with the same parameters, or it may create a new proxy.</p>
+    <p>If you mbke bn MXBebn proxy for b {@code ModuleMXBebn} bnd
+      cbll its {@code getProduct()} method, the proxy will mbp the
+      {@code ObjectNbme} bbck into b {@code ProductMXBebn} by mbking
+      bnother MXBebn proxy.  More formblly, when b proxy mbde with
+      {@link JMX#newMXBebnProxy(MBebnServerConnection, ObjectNbme,
+       Clbss)
+      JMX.newMXBebnProxy(mbebnServerConnection, objectNbmeX,
+      interfbceX)} needs to mbp {@code objectNbmeY} bbck into {@code
+      interfbceY}, bnother MXBebn interfbce, it does so with {@code
+      JMX.newMXBebnProxy(mbebnServerConnection, objectNbmeY,
+      interfbceY)}.  The implementbtion mby return b proxy thbt wbs
+      previously crebted by b cbll to {@code JMX.newMXBebnProxy}
+      with the sbme pbrbmeters, or it mby crebte b new proxy.</p>
 
-    <p>The reverse mapping is illustrated by the following change to the
-      {@code ModuleMXBean} interface:</p>
+    <p>The reverse mbpping is illustrbted by the following chbnge to the
+      {@code ModuleMXBebn} interfbce:</p>
 
     <pre>
-public interface ModuleMXBean {
-    public ProductMXBean getProduct();
-    public void setProduct(ProductMXBean c);
+public interfbce ModuleMXBebn {
+    public ProductMXBebn getProduct();
+    public void setProduct(ProductMXBebn c);
 }
     </pre>
 
-    <p>The presence of the {@code setProduct} method now means that the
-      {@code Product} attribute is read/write.  As before, the value
-      of this attribute is an {@code ObjectName}.  When the attribute is
-      set, the {@code ObjectName} must be converted into the
-      {@code ProductMXBean} object that the {@code setProduct} method
-      expects.  This object will be an MXBean proxy for the given
-      {@code ObjectName} in the same MBean Server.</p>
+    <p>The presence of the {@code setProduct} method now mebns thbt the
+      {@code Product} bttribute is rebd/write.  As before, the vblue
+      of this bttribute is bn {@code ObjectNbme}.  When the bttribute is
+      set, the {@code ObjectNbme} must be converted into the
+      {@code ProductMXBebn} object thbt the {@code setProduct} method
+      expects.  This object will be bn MXBebn proxy for the given
+      {@code ObjectNbme} in the sbme MBebn Server.</p>
 
-    <p>If you make an MXBean proxy for a {@code ModuleMXBean} and
-      call its {@code setProduct} method, the proxy will map its
-      {@code ProductMXBean} argument back into an {@code ObjectName}.
-      This will only work if the argument is in fact another proxy,
-      for a {@code ProductMXBean} in the same {@code
-      MBeanServerConnection}.  The proxy can have been returned from
-      another proxy (like {@code ModuleMXBean.getProduct()} which
-      returns a proxy for a {@code ProductMXBean}); or it can have
-      been created by {@link
-      JMX#newMXBeanProxy(MBeanServerConnection, ObjectName, Class)
-      JMX.newMXBeanProxy}; or it can have been created using {@link
-      java.lang.reflect.Proxy Proxy} with an invocation handler that
-      is {@link MBeanServerInvocationHandler} or a subclass.</p>
+    <p>If you mbke bn MXBebn proxy for b {@code ModuleMXBebn} bnd
+      cbll its {@code setProduct} method, the proxy will mbp its
+      {@code ProductMXBebn} brgument bbck into bn {@code ObjectNbme}.
+      This will only work if the brgument is in fbct bnother proxy,
+      for b {@code ProductMXBebn} in the sbme {@code
+      MBebnServerConnection}.  The proxy cbn hbve been returned from
+      bnother proxy (like {@code ModuleMXBebn.getProduct()} which
+      returns b proxy for b {@code ProductMXBebn}); or it cbn hbve
+      been crebted by {@link
+      JMX#newMXBebnProxy(MBebnServerConnection, ObjectNbme, Clbss)
+      JMX.newMXBebnProxy}; or it cbn hbve been crebted using {@link
+      jbvb.lbng.reflect.Proxy Proxy} with bn invocbtion hbndler thbt
+      is {@link MBebnServerInvocbtionHbndler} or b subclbss.</p>
 
-    <p>If the same MXBean were registered under two different
-      {@code ObjectName}s, a reference to that MXBean from another
-      MXBean would be ambiguous.  Therefore, if an MXBean object is
-      already registered in an MBean Server and an attempt is made to
-      register it in the same MBean Server under another name, the
-      result is an {@link InstanceAlreadyExistsException}.  Registering
-      the same MBean object under more than one name is discouraged in
-      general, notably because it does not work well for MBeans that are
-      {@link NotificationBroadcaster}s.</p>
+    <p>If the sbme MXBebn were registered under two different
+      {@code ObjectNbme}s, b reference to thbt MXBebn from bnother
+      MXBebn would be bmbiguous.  Therefore, if bn MXBebn object is
+      blrebdy registered in bn MBebn Server bnd bn bttempt is mbde to
+      register it in the sbme MBebn Server under bnother nbme, the
+      result is bn {@link InstbnceAlrebdyExistsException}.  Registering
+      the sbme MBebn object under more thbn one nbme is discourbged in
+      generbl, notbbly becbuse it does not work well for MBebns thbt bre
+      {@link NotificbtionBrobdcbster}s.</p>
 
-    <h3 id="composite-map">Mappings for other types</h3>
+    <h3 id="composite-mbp">Mbppings for other types</h3>
 
-    <p>Given a Java class or interface <em>J</em> that does not match the other
-      rules in the table above, the MXBean framework will attempt to map
-      it to a {@link CompositeType} as follows.  The type name of this
-      {@code CompositeType} is determined by the <a href="#type-names">
-      type name rules</a> below.</p>
+    <p>Given b Jbvb clbss or interfbce <em>J</em> thbt does not mbtch the other
+      rules in the tbble bbove, the MXBebn frbmework will bttempt to mbp
+      it to b {@link CompositeType} bs follows.  The type nbme of this
+      {@code CompositeType} is determined by the <b href="#type-nbmes">
+      type nbme rules</b> below.</p>
 
-    <p>The class is examined for getters using the conventions
-      <a href="#naming-conv">above</a>.  (Getters must be public
-      instance methods.)  If there are no getters, or if
-      any getter has a type that is not convertible, then <em>J</em> is
+    <p>The clbss is exbmined for getters using the conventions
+      <b href="#nbming-conv">bbove</b>.  (Getters must be public
+      instbnce methods.)  If there bre no getters, or if
+      bny getter hbs b type thbt is not convertible, then <em>J</em> is
       not convertible.</p>
 
-    <p>If there is at least one getter and every getter has a
-      convertible type, then <em>opentype(J)</em> is a {@code
+    <p>If there is bt lebst one getter bnd every getter hbs b
+      convertible type, then <em>opentype(J)</em> is b {@code
       CompositeType} with one item for every getter.  If the getter is
 
     <blockquote>
-      <code><em>T</em> get<em>Name</em>()</code>
+      <code><em>T</em> get<em>Nbme</em>()</code>
     </blockquote>
 
-    then the item in the {@code CompositeType} is called {@code name}
-    and has type <em>opentype(T)</em>.  For example, if the item is
+    then the item in the {@code CompositeType} is cblled {@code nbme}
+    bnd hbs type <em>opentype(T)</em>.  For exbmple, if the item is
 
     <blockquote>
       <code>String getOwner()</code>
     </blockquote>
 
-    then the item is called {@code owner} and has Open Type {@code
+    then the item is cblled {@code owner} bnd hbs Open Type {@code
     SimpleType.STRING}.  If the getter is
 
     <blockquote>
-      <code>boolean is<em>Name</em>()</code>
+      <code>boolebn is<em>Nbme</em>()</code>
     </blockquote>
 
-    then the item in the {@code CompositeType} is called {@code name}
-    and has type {@code SimpleType.BOOLEAN}.
+    then the item in the {@code CompositeType} is cblled {@code nbme}
+    bnd hbs type {@code SimpleType.BOOLEAN}.
 
-    <p>Notice that the first character (or code point) is converted to
-      lower case.  This follows the Java Beans convention, which for
-      historical reasons is different from the Standard MBean
-      convention.  In a Standard MBean or MXBean interface, a method
-      {@code getOwner} defines an attribute called {@code Owner}, while
-      in a Java Bean or mapped {@code CompositeType}, a method {@code
-      getOwner} defines a property or item called {@code owner}.</p>
+    <p>Notice thbt the first chbrbcter (or code point) is converted to
+      lower cbse.  This follows the Jbvb Bebns convention, which for
+      historicbl rebsons is different from the Stbndbrd MBebn
+      convention.  In b Stbndbrd MBebn or MXBebn interfbce, b method
+      {@code getOwner} defines bn bttribute cblled {@code Owner}, while
+      in b Jbvb Bebn or mbpped {@code CompositeType}, b method {@code
+      getOwner} defines b property or item cblled {@code owner}.</p>
 
-    <p>If two methods produce the same item name (for example, {@code
-      getOwner} and {@code isOwner}, or {@code getOwner} and {@code
+    <p>If two methods produce the sbme item nbme (for exbmple, {@code
+      getOwner} bnd {@code isOwner}, or {@code getOwner} bnd {@code
       getowner}) then the type is not convertible.</p>
 
     <p>When the Open Type is {@code CompositeType}, the corresponding
-      mapped Java type (<em>opendata(J)</em>) is {@link
-      CompositeData}.  The mapping from an instance of <em>J</em> to a
-      {@code CompositeData} corresponding to the {@code CompositeType}
-      just described is done as follows.  First, if <em>J</em>
-      implements the interface {@link CompositeDataView}, then that
-      interface's {@link CompositeDataView#toCompositeData
-      toCompositeData} method is called to do the conversion.
-      Otherwise, the {@code CompositeData} is constructed by calling
-      the getter for each item and converting it to the corresponding
-      Open Data type.  Thus, a getter such as</p>
+      mbpped Jbvb type (<em>opendbtb(J)</em>) is {@link
+      CompositeDbtb}.  The mbpping from bn instbnce of <em>J</em> to b
+      {@code CompositeDbtb} corresponding to the {@code CompositeType}
+      just described is done bs follows.  First, if <em>J</em>
+      implements the interfbce {@link CompositeDbtbView}, then thbt
+      interfbce's {@link CompositeDbtbView#toCompositeDbtb
+      toCompositeDbtb} method is cblled to do the conversion.
+      Otherwise, the {@code CompositeDbtb} is constructed by cblling
+      the getter for ebch item bnd converting it to the corresponding
+      Open Dbtb type.  Thus, b getter such bs</p>
 
     <blockquote>
-      {@code List<String> getNames()}
+      {@code List<String> getNbmes()}
     </blockquote>
 
-    <p>will have been mapped to an item with name "{@code names}" and
-      Open Type {@code ArrayType(1, SimpleType.STRING)}.  The conversion
-      to {@code CompositeData} will call {@code getNames()} and convert
-      the resultant {@code List<String>} into a {@code String[]} for the
-        item "{@code names}".</p>
+    <p>will hbve been mbpped to bn item with nbme "{@code nbmes}" bnd
+      Open Type {@code ArrbyType(1, SimpleType.STRING)}.  The conversion
+      to {@code CompositeDbtb} will cbll {@code getNbmes()} bnd convert
+      the resultbnt {@code List<String>} into b {@code String[]} for the
+        item "{@code nbmes}".</p>
 
-    <p>{@code CompositeData} is an interface.  The concrete class that is
-      used to represent a type as Open Data is {@link
-      CompositeDataSupport}, or another class implementing {@code
-      CompositeData} that serializes as {@code
-      CompositeDataSupport}.</p>
+    <p>{@code CompositeDbtb} is bn interfbce.  The concrete clbss thbt is
+      used to represent b type bs Open Dbtb is {@link
+      CompositeDbtbSupport}, or bnother clbss implementing {@code
+      CompositeDbtb} thbt seriblizes bs {@code
+      CompositeDbtbSupport}.</p>
 
 
-    <h4>Reconstructing an instance of Java type <em>J</em> from
-      a {@code CompositeData}</h4>
+    <h4>Reconstructing bn instbnce of Jbvb type <em>J</em> from
+      b {@code CompositeDbtb}</h4>
 
-    <p>If <em>opendata(J)</em> is {@code CompositeData} for a Java type
-      <em>J</em>, then either an instance of <em>J</em> can be
-      reconstructed from a {@code CompositeData}, or <em>J</em> is not
-      reconstructible.  If any item in the {@code CompositeData} is not
+    <p>If <em>opendbtb(J)</em> is {@code CompositeDbtb} for b Jbvb type
+      <em>J</em>, then either bn instbnce of <em>J</em> cbn be
+      reconstructed from b {@code CompositeDbtb}, or <em>J</em> is not
+      reconstructible.  If bny item in the {@code CompositeDbtb} is not
       reconstructible, then <em>J</em> is not reconstructible either.</p>
 
-    <p>For any given <em>J</em>, the following rules are consulted to
-      determine how to reconstruct instances of <em>J</em> from
-      {@code CompositeData}.  The first applicable rule in the list is
-      the one that will be used.</p>
+    <p>For bny given <em>J</em>, the following rules bre consulted to
+      determine how to reconstruct instbnces of <em>J</em> from
+      {@code CompositeDbtb}.  The first bpplicbble rule in the list is
+      the one thbt will be used.</p>
 
     <ol>
 
-      <li><p>If <em>J</em> has a method<br>
-        {@code public static }<em>J </em>{@code from(CompositeData cd)}<br>
-        then that method is called to reconstruct an instance of
+      <li><p>If <em>J</em> hbs b method<br>
+        {@code public stbtic }<em>J </em>{@code from(CompositeDbtb cd)}<br>
+        then thbt method is cblled to reconstruct bn instbnce of
         <em>J</em>.</p></li>
 
-      <li><p>Otherwise, if <em>J</em> has at least one public
-        constructor with a {@link java.beans.ConstructorProperties
-        ConstructorProperties} annotation, then one
-        of those constructors (not necessarily always the same one)
-        will be called to reconstruct an instance of <em>J</em>.
-        Every such annotation must list as many strings as the
-        constructor has parameters; each string must name a property
-        corresponding to a getter of <em>J</em>; and the type of this
-        getter must be the same as the corresponding constructor
-        parameter.  It is not an error for there to be getters that
-        are not mentioned in the {@code ConstructorProperties} annotation
-        (these may correspond to information that is not needed to
+      <li><p>Otherwise, if <em>J</em> hbs bt lebst one public
+        constructor with b {@link jbvb.bebns.ConstructorProperties
+        ConstructorProperties} bnnotbtion, then one
+        of those constructors (not necessbrily blwbys the sbme one)
+        will be cblled to reconstruct bn instbnce of <em>J</em>.
+        Every such bnnotbtion must list bs mbny strings bs the
+        constructor hbs pbrbmeters; ebch string must nbme b property
+        corresponding to b getter of <em>J</em>; bnd the type of this
+        getter must be the sbme bs the corresponding constructor
+        pbrbmeter.  It is not bn error for there to be getters thbt
+        bre not mentioned in the {@code ConstructorProperties} bnnotbtion
+        (these mby correspond to informbtion thbt is not needed to
         reconstruct the object).</p>
 
-        <p>An instance of <em>J</em> is reconstructed by calling a
-        constructor with the appropriate reconstructed items from the
-        {@code CompositeData}.  The constructor to be called will be
-        determined at runtime based on the items actually present in
-        the {@code CompositeData}, given that this {@code
-        CompositeData} might come from an earlier version of
-        <em>J</em> where not all the items were present.  A
-        constructor is <em>applicable</em> if all the properties named
-        in its {@code ConstructorProperties} annotation are present as items
-        in the {@code CompositeData}.  If no constructor is
-        applicable, then the attempt to reconstruct <em>J</em> fails.</p>
+        <p>An instbnce of <em>J</em> is reconstructed by cblling b
+        constructor with the bppropribte reconstructed items from the
+        {@code CompositeDbtb}.  The constructor to be cblled will be
+        determined bt runtime bbsed on the items bctublly present in
+        the {@code CompositeDbtb}, given thbt this {@code
+        CompositeDbtb} might come from bn ebrlier version of
+        <em>J</em> where not bll the items were present.  A
+        constructor is <em>bpplicbble</em> if bll the properties nbmed
+        in its {@code ConstructorProperties} bnnotbtion bre present bs items
+        in the {@code CompositeDbtb}.  If no constructor is
+        bpplicbble, then the bttempt to reconstruct <em>J</em> fbils.</p>
 
-        <p>For any possible combination of properties, it must be the
-        case that either (a) there are no applicable constructors, or
-        (b) there is exactly one applicable constructor, or (c) one of
-        the applicable constructors names a proper superset of the
-        properties named by each other applicable constructor.  (In
-        other words, there should never be ambiguity over which
+        <p>For bny possible combinbtion of properties, it must be the
+        cbse thbt either (b) there bre no bpplicbble constructors, or
+        (b) there is exbctly one bpplicbble constructor, or (c) one of
+        the bpplicbble constructors nbmes b proper superset of the
+        properties nbmed by ebch other bpplicbble constructor.  (In
+        other words, there should never be bmbiguity over which
         constructor to choose.)  If this condition is not true, then
         <em>J</em> is not reconstructible.</p></li>
 
-      <li><p>Otherwise, if <em>J</em> has a public no-arg constructor, and
+      <li><p>Otherwise, if <em>J</em> hbs b public no-brg constructor, bnd
         for every getter in <em>J</em> with type
-        <em>T</em> and name <em>N</em> there is a corresponding setter
-        with the same name and type, then an instance of <em>J</em> is
-        constructed with the no-arg constructor and the setters are
-        called with the reconstructed items from the {@code CompositeData}
-        to restore the values.  For example, if there is a method<br>
-        {@code public List<String> getNames()}<br>
-          then there must also be a method<br>
-          {@code public void setNames(List<String> names)}<br>
-            for this rule to apply.</p>
+        <em>T</em> bnd nbme <em>N</em> there is b corresponding setter
+        with the sbme nbme bnd type, then bn instbnce of <em>J</em> is
+        constructed with the no-brg constructor bnd the setters bre
+        cblled with the reconstructed items from the {@code CompositeDbtb}
+        to restore the vblues.  For exbmple, if there is b method<br>
+        {@code public List<String> getNbmes()}<br>
+          then there must blso be b method<br>
+          {@code public void setNbmes(List<String> nbmes)}<br>
+            for this rule to bpply.</p>
 
-        <p>If the {@code CompositeData} came from an earlier version of
-        <em>J</em>, some items might not be present.  In this case,
-        the corresponding setters will not be called.</p></li>
+        <p>If the {@code CompositeDbtb} cbme from bn ebrlier version of
+        <em>J</em>, some items might not be present.  In this cbse,
+        the corresponding setters will not be cblled.</p></li>
 
-      <li><p>Otherwise, if <em>J</em> is an interface that has no methods
-        other than getters, an instance of <em>J</em> is constructed
-        using a {@link java.lang.reflect.Proxy} with a {@link
-        CompositeDataInvocationHandler} backed by the {@code
-        CompositeData} being converted.</p></li>
+      <li><p>Otherwise, if <em>J</em> is bn interfbce thbt hbs no methods
+        other thbn getters, bn instbnce of <em>J</em> is constructed
+        using b {@link jbvb.lbng.reflect.Proxy} with b {@link
+        CompositeDbtbInvocbtionHbndler} bbcked by the {@code
+        CompositeDbtb} being converted.</p></li>
 
       <li><p>Otherwise, <em>J</em> is not reconstructible.</p></li>
     </ol>
 
-    <p>Rule 2 is not applicable to subset Profiles of Java SE that do not
-    include the {@code java.beans} package. When targeting a runtime that does
-    not include the {@code java.beans} package, and where there is a mismatch
-    between the compile-time and runtime environment whereby <em>J</em> is
-    compiled with a public constructor and the {@code ConstructorProperties}
-    annotation, then <em>J</em> is not reconstructible unless another rule
-    applies.</p>
+    <p>Rule 2 is not bpplicbble to subset Profiles of Jbvb SE thbt do not
+    include the {@code jbvb.bebns} pbckbge. When tbrgeting b runtime thbt does
+    not include the {@code jbvb.bebns} pbckbge, bnd where there is b mismbtch
+    between the compile-time bnd runtime environment whereby <em>J</em> is
+    compiled with b public constructor bnd the {@code ConstructorProperties}
+    bnnotbtion, then <em>J</em> is not reconstructible unless bnother rule
+    bpplies.</p>
 
-    <p>Here are examples showing different ways to code a type {@code
-      NamedNumber} that consists of an {@code int} and a {@code
-      String}.  In each case, the {@code CompositeType} looks like this:</p>
+    <p>Here bre exbmples showing different wbys to code b type {@code
+      NbmedNumber} thbt consists of bn {@code int} bnd b {@code
+      String}.  In ebch cbse, the {@code CompositeType} looks like this:</p>
 
     <blockquote>
       <pre>
 {@link CompositeType}(
-    "NamedNumber",                      // typeName
-    "NamedNumber",                      // description
-    new String[] {"number", "name"},    // itemNames
-    new String[] {"number", "name"},    // itemDescriptions
+    "NbmedNumber",                      // typeNbme
+    "NbmedNumber",                      // description
+    new String[] {"number", "nbme"},    // itemNbmes
+    new String[] {"number", "nbme"},    // itemDescriptions
     new OpenType[] {SimpleType.INTEGER,
                     SimpleType.STRING}  // itemTypes
 );
@@ -935,42 +935,42 @@ public interface ModuleMXBean {
     </blockquote>
 
     <ol>
-      <li>Static {@code from} method:
+      <li>Stbtic {@code from} method:
 
         <blockquote>
           <pre>
-public class NamedNumber {
+public clbss NbmedNumber {
     public int getNumber() {return number;}
-    public String getName() {return name;}
-    private NamedNumber(int number, String name) {
+    public String getNbme() {return nbme;}
+    privbte NbmedNumber(int number, String nbme) {
         this.number = number;
-        this.name = name;
+        this.nbme = nbme;
     }
-    <b>public static NamedNumber from(CompositeData cd)</b> {
-        return new NamedNumber((Integer) cd.get("number"),
-                               (String) cd.get("name"));
+    <b>public stbtic NbmedNumber from(CompositeDbtb cd)</b> {
+        return new NbmedNumber((Integer) cd.get("number"),
+                               (String) cd.get("nbme"));
     }
-    private final int number;
-    private final String name;
+    privbte finbl int number;
+    privbte finbl String nbme;
 }
           </pre>
         </blockquote>
       </li>
 
-      <li>Public constructor with <code>&#64;ConstructorProperties</code> annotation:
+      <li>Public constructor with <code>&#64;ConstructorProperties</code> bnnotbtion:
 
         <blockquote>
           <pre>
-public class NamedNumber {
+public clbss NbmedNumber {
     public int getNumber() {return number;}
-    public String getName() {return name;}
-    <b>&#64;ConstructorProperties({"number", "name"})
-    public NamedNumber(int number, String name)</b> {
+    public String getNbme() {return nbme;}
+    <b>&#64;ConstructorProperties({"number", "nbme"})
+    public NbmedNumber(int number, String nbme)</b> {
         this.number = number;
-        this.name = name;
+        this.nbme = nbme;
     }
-    private final int number;
-    private final String name;
+    privbte finbl int number;
+    privbte finbl String nbme;
 }
           </pre>
         </blockquote>
@@ -980,209 +980,209 @@ public class NamedNumber {
 
         <blockquote>
           <pre>
-public class NamedNumber {
+public clbss NbmedNumber {
     public int getNumber() {return number;}
     public void <b>setNumber</b>(int number) {this.number = number;}
-    public String getName() {return name;}
-    public void <b>setName</b>(String name) {this.name = name;}
-    <b>public NamedNumber()</b> {}
-    private int number;
-    private String name;
+    public String getNbme() {return nbme;}
+    public void <b>setNbme</b>(String nbme) {this.nbme = nbme;}
+    <b>public NbmedNumber()</b> {}
+    privbte int number;
+    privbte String nbme;
 }
           </pre>
         </blockquote>
       </li>
 
-      <li>Interface with only getters:
+      <li>Interfbce with only getters:
 
         <blockquote>
           <pre>
-public interface NamedNumber {
+public interfbce NbmedNumber {
     public int getNumber();
-    public String getName();
+    public String getNbme();
 }
           </pre>
         </blockquote>
       </li>
     </ol>
 
-    <p>It is usually better for classes that simply represent a
-      collection of data to be <em>immutable</em>.  An instance of an
-      immutable class cannot be changed after it has been constructed.
-      Notice that {@code CompositeData} itself is immutable.
-      Immutability has many advantages, notably with regard to
-      thread-safety and security.  So the approach using setters should
-      generally be avoided if possible.</p>
+    <p>It is usublly better for clbsses thbt simply represent b
+      collection of dbtb to be <em>immutbble</em>.  An instbnce of bn
+      immutbble clbss cbnnot be chbnged bfter it hbs been constructed.
+      Notice thbt {@code CompositeDbtb} itself is immutbble.
+      Immutbbility hbs mbny bdvbntbges, notbbly with regbrd to
+      threbd-sbfety bnd security.  So the bpprobch using setters should
+      generblly be bvoided if possible.</p>
 
 
     <h3>Recursive types</h3>
 
-    <p>Recursive (self-referential) types cannot be used in MXBean
-      interfaces.  This is a consequence of the immutability of {@link
-      CompositeType}.  For example, the following type could not be the
-      type of an attribute, because it refers to itself:</p>
+    <p>Recursive (self-referentibl) types cbnnot be used in MXBebn
+      interfbces.  This is b consequence of the immutbbility of {@link
+      CompositeType}.  For exbmple, the following type could not be the
+      type of bn bttribute, becbuse it refers to itself:</p>
 
     <pre>
-public interface <b>Node</b> {
-    public String getName();
+public interfbce <b>Node</b> {
+    public String getNbme();
     public int getPriority();
     public <b>Node</b> getNext();
 }
 </pre>
 
-    <p>It is always possible to rewrite recursive types like this so
-      they are no longer recursive.  Doing so may require introducing
-      new types.  For example:</p>
+    <p>It is blwbys possible to rewrite recursive types like this so
+      they bre no longer recursive.  Doing so mby require introducing
+      new types.  For exbmple:</p>
 
     <pre>
-public interface <b>NodeList</b> {
+public interfbce <b>NodeList</b> {
     public List&lt;Node&gt; getNodes();
 }
 
-public interface Node {
-    public String getName();
+public interfbce Node {
+    public String getNbme();
     public int getPriority();
 }
 </pre>
 
-    <h3>MBeanInfo contents for an MXBean</h3>
+    <h3>MBebnInfo contents for bn MXBebn</h3>
 
-    <p>An MXBean is a type of Open MBean.  However, for compatibility
-      reasons, its {@link MBeanInfo} is not an {@link OpenMBeanInfo}.
-      In particular, when the type of an attribute, parameter, or
-      operation return value is a primitive type such as {@code int},
-      or is {@code void} (for a return type), then the attribute,
-      parameter, or operation will be represented respectively by an
-      {@link MBeanAttributeInfo}, {@link MBeanParameterInfo}, or
-      {@link MBeanOperationInfo} whose {@code getType()} or {@code
-      getReturnType()} returns the primitive name ("{@code int}" etc).
-      This is so even though the mapping rules above specify that the
-      <em>opendata</em> mapping is the wrapped type ({@code Integer}
+    <p>An MXBebn is b type of Open MBebn.  However, for compbtibility
+      rebsons, its {@link MBebnInfo} is not bn {@link OpenMBebnInfo}.
+      In pbrticulbr, when the type of bn bttribute, pbrbmeter, or
+      operbtion return vblue is b primitive type such bs {@code int},
+      or is {@code void} (for b return type), then the bttribute,
+      pbrbmeter, or operbtion will be represented respectively by bn
+      {@link MBebnAttributeInfo}, {@link MBebnPbrbmeterInfo}, or
+      {@link MBebnOperbtionInfo} whose {@code getType()} or {@code
+      getReturnType()} returns the primitive nbme ("{@code int}" etc).
+      This is so even though the mbpping rules bbove specify thbt the
+      <em>opendbtb</em> mbpping is the wrbpped type ({@code Integer}
       etc).</p>
 
-    <p>The array of public constructors returned by {@link
-      MBeanInfo#getConstructors()} for an MXBean that is directly
-      registered in the MBean Server will contain all of the public
-      constructors of that MXBean.  If the class of the MXBean is not
-      public then its constructors are not considered public either.
-      The list returned for an MXBean that is constructed using the
-      {@link StandardMBean} class is derived in the same way as for
-      Standard MBeans.  Regardless of how the MXBean was constructed,
-      its constructor parameters are not subject to MXBean mapping
-      rules and do not have a corresponding {@code OpenType}.</p>
+    <p>The brrby of public constructors returned by {@link
+      MBebnInfo#getConstructors()} for bn MXBebn thbt is directly
+      registered in the MBebn Server will contbin bll of the public
+      constructors of thbt MXBebn.  If the clbss of the MXBebn is not
+      public then its constructors bre not considered public either.
+      The list returned for bn MXBebn thbt is constructed using the
+      {@link StbndbrdMBebn} clbss is derived in the sbme wby bs for
+      Stbndbrd MBebns.  Regbrdless of how the MXBebn wbs constructed,
+      its constructor pbrbmeters bre not subject to MXBebn mbpping
+      rules bnd do not hbve b corresponding {@code OpenType}.</p>
 
-    <p>The array of notification types returned by {@link
-      MBeanInfo#getNotifications()} for an MXBean that is directly
-      registered in the MBean Server will be empty if the MXBean does
-      not implement the {@link NotificationBroadcaster} interface.
-      Otherwise, it will be the result of calling {@link
-      NotificationBroadcaster#getNotificationInfo()} at the time the MXBean
-      was registered.  Even if the result of this method changes
-      subsequently, the result of {@code MBeanInfo.getNotifications()}
-      will not.  The list returned for an MXBean that is constructed
-      using the {@link StandardMBean} or {@link StandardEmitterMBean}
-      class is derived in the same way as for Standard MBeans.</p>
+    <p>The brrby of notificbtion types returned by {@link
+      MBebnInfo#getNotificbtions()} for bn MXBebn thbt is directly
+      registered in the MBebn Server will be empty if the MXBebn does
+      not implement the {@link NotificbtionBrobdcbster} interfbce.
+      Otherwise, it will be the result of cblling {@link
+      NotificbtionBrobdcbster#getNotificbtionInfo()} bt the time the MXBebn
+      wbs registered.  Even if the result of this method chbnges
+      subsequently, the result of {@code MBebnInfo.getNotificbtions()}
+      will not.  The list returned for bn MXBebn thbt is constructed
+      using the {@link StbndbrdMBebn} or {@link StbndbrdEmitterMBebn}
+      clbss is derived in the sbme wby bs for Stbndbrd MBebns.</p>
 
-    <p>The {@link Descriptor} for all of the
-      {@code MBeanAttributeInfo}, {@code MBeanParameterInfo}, and
-      {@code MBeanOperationInfo} objects contained in the {@code MBeanInfo}
-      will have a field {@code openType} whose value is the {@link OpenType}
-      specified by the mapping rules above.  So even when {@code getType()}
+    <p>The {@link Descriptor} for bll of the
+      {@code MBebnAttributeInfo}, {@code MBebnPbrbmeterInfo}, bnd
+      {@code MBebnOperbtionInfo} objects contbined in the {@code MBebnInfo}
+      will hbve b field {@code openType} whose vblue is the {@link OpenType}
+      specified by the mbpping rules bbove.  So even when {@code getType()}
       is "{@code int}", {@code getDescriptor().getField("openType")} will
       be {@link SimpleType#INTEGER}.</p>
 
-    <p>The {@code Descriptor} for each of these objects will also have a
-      field {@code originalType} that is a string representing the Java type
-      that appeared in the MXBean interface.  The format of this string
-      is described in the section <a href="#type-names">Type Names</a>
+    <p>The {@code Descriptor} for ebch of these objects will blso hbve b
+      field {@code originblType} thbt is b string representing the Jbvb type
+      thbt bppebred in the MXBebn interfbce.  The formbt of this string
+      is described in the section <b href="#type-nbmes">Type Nbmes</b>
       below.</p>
 
-    <p>The {@code Descriptor} for the {@code MBeanInfo} will have a field
-      {@code mxbean} whose value is the string "{@code true}".</p>
+    <p>The {@code Descriptor} for the {@code MBebnInfo} will hbve b field
+      {@code mxbebn} whose vblue is the string "{@code true}".</p>
 
 
-    <h3 id="type-names">Type Names</h3>
+    <h3 id="type-nbmes">Type Nbmes</h3>
 
-    <p>Sometimes the unmapped type <em>T</em> of a method parameter or
-    return value in an MXBean must be represented as a string.  If
-    <em>T</em> is a non-generic type, this string is the value
-    returned by {@link Class#getName()}.  Otherwise it is the value of
-    <em>genericstring(T)</em>, defined as follows:
+    <p>Sometimes the unmbpped type <em>T</em> of b method pbrbmeter or
+    return vblue in bn MXBebn must be represented bs b string.  If
+    <em>T</em> is b non-generic type, this string is the vblue
+    returned by {@link Clbss#getNbme()}.  Otherwise it is the vblue of
+    <em>genericstring(T)</em>, defined bs follows:
 
     <ul>
 
-      <li>If <em>T</em> is a non-generic non-array type,
-      <em>genericstring(T)</em> is the value returned by {@link
-      Class#getName()}, for example {@code "int"} or {@code
-      "java.lang.String"}.
+      <li>If <em>T</em> is b non-generic non-brrby type,
+      <em>genericstring(T)</em> is the vblue returned by {@link
+      Clbss#getNbme()}, for exbmple {@code "int"} or {@code
+      "jbvb.lbng.String"}.
 
-      <li>If <em>T</em> is an array <em>E[]</em>,
+      <li>If <em>T</em> is bn brrby <em>E[]</em>,
       <em>genericstring(T)</em> is <em>genericstring(E)</em> followed
-      by {@code "[]"}.  For example, <em>genericstring({@code int[]})</em>
-      is {@code "int[]"}, and <em>genericstring({@code
+      by {@code "[]"}.  For exbmple, <em>genericstring({@code int[]})</em>
+      is {@code "int[]"}, bnd <em>genericstring({@code
       List<String>[][]})</em> is {@code
-      "java.util.List<java.lang.String>[][]"}.
+      "jbvb.util.List<jbvb.lbng.String>[][]"}.
 
-    <li>Otherwise, <em>T</em> is a parameterized type such as {@code
-    List<String>} and <em>genericstring(T)</em> consists of the
-    following: the fully-qualified name of the parameterized type as
-    returned by {@code Class.getName()}; a left angle bracket ({@code
+    <li>Otherwise, <em>T</em> is b pbrbmeterized type such bs {@code
+    List<String>} bnd <em>genericstring(T)</em> consists of the
+    following: the fully-qublified nbme of the pbrbmeterized type bs
+    returned by {@code Clbss.getNbme()}; b left bngle brbcket ({@code
     "<"}); <em>genericstring(A)</em> where <em>A</em> is the first
-    type parameter; if there is a second type parameter <em>B</em>
-    then {@code ", "} (a comma and a single space) followed by
-    <em>genericstring(B)</em>; a right angle bracket ({@code ">"}).
+    type pbrbmeter; if there is b second type pbrbmeter <em>B</em>
+    then {@code ", "} (b commb bnd b single spbce) followed by
+    <em>genericstring(B)</em>; b right bngle brbcket ({@code ">"}).
 
     </ul>
 
-    <p>Note that if a method returns {@code int[]}, this will be
+    <p>Note thbt if b method returns {@code int[]}, this will be
       represented by the string {@code "[I"} returned by {@code
-      Class.getName()}, but if a method returns {@code List<int[]>},
+      Clbss.getNbme()}, but if b method returns {@code List<int[]>},
       this will be represented by the string {@code
-      "java.util.List<int[]>"}.
+      "jbvb.util.List<int[]>"}.
 
     <h3>Exceptions</h3>
 
-    <p>A problem with mapping <em>from</em> Java types <em>to</em>
-      Open types is signaled with an {@link OpenDataException}.  This
-      can happen when an MXBean interface is being analyzed, for
-      example if it references a type like {@link java.util.Random
-      java.util.Random} that has no getters.  Or it can happen when an
-      instance is being converted (a return value from a method in an
-      MXBean or a parameter to a method in an MXBean proxy), for
-      example when converting from {@code SortedSet<String>} to {@code
-      String[]} if the {@code SortedSet} has a non-null {@code
-      Comparator}.</p>
+    <p>A problem with mbpping <em>from</em> Jbvb types <em>to</em>
+      Open types is signbled with bn {@link OpenDbtbException}.  This
+      cbn hbppen when bn MXBebn interfbce is being bnblyzed, for
+      exbmple if it references b type like {@link jbvb.util.Rbndom
+      jbvb.util.Rbndom} thbt hbs no getters.  Or it cbn hbppen when bn
+      instbnce is being converted (b return vblue from b method in bn
+      MXBebn or b pbrbmeter to b method in bn MXBebn proxy), for
+      exbmple when converting from {@code SortedSet<String>} to {@code
+      String[]} if the {@code SortedSet} hbs b non-null {@code
+      Compbrbtor}.</p>
 
-    <p>A problem with mapping <em>to</em> Java types <em>from</em>
-      Open types is signaled with an {@link InvalidObjectException}.
-      This can happen when an MXBean interface is being analyzed, for
-      example if it references a type that is not
-      <em>reconstructible</em> according to the rules above, in a
-      context where a reconstructible type is required.  Or it can
-      happen when an instance is being converted (a parameter to a
-      method in an MXBean or a return value from a method in an MXBean
-      proxy), for example from a String to an Enum if there is no Enum
-      constant with that name.</p>
+    <p>A problem with mbpping <em>to</em> Jbvb types <em>from</em>
+      Open types is signbled with bn {@link InvblidObjectException}.
+      This cbn hbppen when bn MXBebn interfbce is being bnblyzed, for
+      exbmple if it references b type thbt is not
+      <em>reconstructible</em> bccording to the rules bbove, in b
+      context where b reconstructible type is required.  Or it cbn
+      hbppen when bn instbnce is being converted (b pbrbmeter to b
+      method in bn MXBebn or b return vblue from b method in bn MXBebn
+      proxy), for exbmple from b String to bn Enum if there is no Enum
+      constbnt with thbt nbme.</p>
 
-    <p>Depending on the context, the {@code OpenDataException} or
-      {@code InvalidObjectException} may be wrapped in another
-      exception such as {@link RuntimeMBeanException} or {@link
-      UndeclaredThrowableException}.  For every thrown exception,
+    <p>Depending on the context, the {@code OpenDbtbException} or
+      {@code InvblidObjectException} mby be wrbpped in bnother
+      exception such bs {@link RuntimeMBebnException} or {@link
+      UndeclbredThrowbbleException}.  For every thrown exception,
       the condition <em>C</em> will be true: "<em>e</em> is {@code
-      OpenDataException} or {@code InvalidObjectException} (as
-      appropriate), or <em>C</em> is true of <em>e</em>.{@link
-      Throwable#getCause() getCause()}".</p>
+      OpenDbtbException} or {@code InvblidObjectException} (bs
+      bppropribte), or <em>C</em> is true of <em>e</em>.{@link
+      Throwbble#getCbuse() getCbuse()}".</p>
 
    @since 1.6
 */
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface MXBean {
+@Tbrget(ElementType.TYPE)
+public @interfbce MXBebn {
     /**
-       True if the annotated interface is an MXBean interface.
-       @return true if the annotated interface is an MXBean interface.
+       True if the bnnotbted interfbce is bn MXBebn interfbce.
+       @return true if the bnnotbted interfbce is bn MXBebn interfbce.
     */
-    boolean value() default true;
+    boolebn vblue() defbult true;
 }

@@ -1,198 +1,198 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.Spliterator;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NbvigbbleMbp;
+import jbvb.util.NbvigbbleSet;
+import jbvb.util.Set;
+import jbvb.util.SortedSet;
+import jbvb.util.Spliterbtor;
 
 /**
- * A scalable concurrent {@link NavigableSet} implementation based on
- * a {@link ConcurrentSkipListMap}.  The elements of the set are kept
- * sorted according to their {@linkplain Comparable natural ordering},
- * or by a {@link Comparator} provided at set creation time, depending
+ * A scblbble concurrent {@link NbvigbbleSet} implementbtion bbsed on
+ * b {@link ConcurrentSkipListMbp}.  The elements of the set bre kept
+ * sorted bccording to their {@linkplbin Compbrbble nbturbl ordering},
+ * or by b {@link Compbrbtor} provided bt set crebtion time, depending
  * on which constructor is used.
  *
- * <p>This implementation provides expected average <i>log(n)</i> time
- * cost for the {@code contains}, {@code add}, and {@code remove}
- * operations and their variants.  Insertion, removal, and access
- * operations safely execute concurrently by multiple threads.
+ * <p>This implementbtion provides expected bverbge <i>log(n)</i> time
+ * cost for the {@code contbins}, {@code bdd}, bnd {@code remove}
+ * operbtions bnd their vbribnts.  Insertion, removbl, bnd bccess
+ * operbtions sbfely execute concurrently by multiple threbds.
  *
- * <p>Iterators and spliterators are
- * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+ * <p>Iterbtors bnd spliterbtors bre
+ * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
  *
- * <p>Ascending ordered views and their iterators are faster than
+ * <p>Ascending ordered views bnd their iterbtors bre fbster thbn
  * descending ones.
  *
- * <p>Beware that, unlike in most collections, the {@code size}
- * method is <em>not</em> a constant-time operation. Because of the
- * asynchronous nature of these sets, determining the current number
- * of elements requires a traversal of the elements, and so may report
- * inaccurate results if this collection is modified during traversal.
- * Additionally, the bulk operations {@code addAll},
- * {@code removeAll}, {@code retainAll}, {@code containsAll},
- * {@code equals}, and {@code toArray} are <em>not</em> guaranteed
- * to be performed atomically. For example, an iterator operating
- * concurrently with an {@code addAll} operation might view only some
- * of the added elements.
+ * <p>Bewbre thbt, unlike in most collections, the {@code size}
+ * method is <em>not</em> b constbnt-time operbtion. Becbuse of the
+ * bsynchronous nbture of these sets, determining the current number
+ * of elements requires b trbversbl of the elements, bnd so mby report
+ * inbccurbte results if this collection is modified during trbversbl.
+ * Additionblly, the bulk operbtions {@code bddAll},
+ * {@code removeAll}, {@code retbinAll}, {@code contbinsAll},
+ * {@code equbls}, bnd {@code toArrby} bre <em>not</em> gubrbnteed
+ * to be performed btomicblly. For exbmple, bn iterbtor operbting
+ * concurrently with bn {@code bddAll} operbtion might view only some
+ * of the bdded elements.
  *
- * <p>This class and its iterators implement all of the
- * <em>optional</em> methods of the {@link Set} and {@link Iterator}
- * interfaces. Like most other concurrent collection implementations,
- * this class does not permit the use of {@code null} elements,
- * because {@code null} arguments and return values cannot be reliably
- * distinguished from the absence of elements.
+ * <p>This clbss bnd its iterbtors implement bll of the
+ * <em>optionbl</em> methods of the {@link Set} bnd {@link Iterbtor}
+ * interfbces. Like most other concurrent collection implementbtions,
+ * this clbss does not permit the use of {@code null} elements,
+ * becbuse {@code null} brguments bnd return vblues cbnnot be relibbly
+ * distinguished from the bbsence of elements.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @author Doug Lea
- * @param <E> the type of elements maintained by this set
+ * @buthor Doug Leb
+ * @pbrbm <E> the type of elements mbintbined by this set
  * @since 1.6
  */
-public class ConcurrentSkipListSet<E>
-    extends AbstractSet<E>
-    implements NavigableSet<E>, Cloneable, java.io.Serializable {
+public clbss ConcurrentSkipListSet<E>
+    extends AbstrbctSet<E>
+    implements NbvigbbleSet<E>, Clonebble, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -2479143111061671589L;
+    privbte stbtic finbl long seriblVersionUID = -2479143111061671589L;
 
     /**
-     * The underlying map. Uses Boolean.TRUE as value for each
-     * element.  This field is declared final for the sake of thread
-     * safety, which entails some ugliness in clone().
+     * The underlying mbp. Uses Boolebn.TRUE bs vblue for ebch
+     * element.  This field is declbred finbl for the sbke of threbd
+     * sbfety, which entbils some ugliness in clone().
      */
-    private final ConcurrentNavigableMap<E,Object> m;
+    privbte finbl ConcurrentNbvigbbleMbp<E,Object> m;
 
     /**
-     * Constructs a new, empty set that orders its elements according to
-     * their {@linkplain Comparable natural ordering}.
+     * Constructs b new, empty set thbt orders its elements bccording to
+     * their {@linkplbin Compbrbble nbturbl ordering}.
      */
     public ConcurrentSkipListSet() {
-        m = new ConcurrentSkipListMap<E,Object>();
+        m = new ConcurrentSkipListMbp<E,Object>();
     }
 
     /**
-     * Constructs a new, empty set that orders its elements according to
-     * the specified comparator.
+     * Constructs b new, empty set thbt orders its elements bccording to
+     * the specified compbrbtor.
      *
-     * @param comparator the comparator that will be used to order this set.
-     *        If {@code null}, the {@linkplain Comparable natural
+     * @pbrbm compbrbtor the compbrbtor thbt will be used to order this set.
+     *        If {@code null}, the {@linkplbin Compbrbble nbturbl
      *        ordering} of the elements will be used.
      */
-    public ConcurrentSkipListSet(Comparator<? super E> comparator) {
-        m = new ConcurrentSkipListMap<E,Object>(comparator);
+    public ConcurrentSkipListSet(Compbrbtor<? super E> compbrbtor) {
+        m = new ConcurrentSkipListMbp<E,Object>(compbrbtor);
     }
 
     /**
-     * Constructs a new set containing the elements in the specified
-     * collection, that orders its elements according to their
-     * {@linkplain Comparable natural ordering}.
+     * Constructs b new set contbining the elements in the specified
+     * collection, thbt orders its elements bccording to their
+     * {@linkplbin Compbrbble nbturbl ordering}.
      *
-     * @param c The elements that will comprise the new set
-     * @throws ClassCastException if the elements in {@code c} are
-     *         not {@link Comparable}, or are not mutually comparable
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm c The elements thbt will comprise the new set
+     * @throws ClbssCbstException if the elements in {@code c} bre
+     *         not {@link Compbrbble}, or bre not mutublly compbrbble
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
      */
     public ConcurrentSkipListSet(Collection<? extends E> c) {
-        m = new ConcurrentSkipListMap<E,Object>();
-        addAll(c);
+        m = new ConcurrentSkipListMbp<E,Object>();
+        bddAll(c);
     }
 
     /**
-     * Constructs a new set containing the same elements and using the
-     * same ordering as the specified sorted set.
+     * Constructs b new set contbining the sbme elements bnd using the
+     * sbme ordering bs the specified sorted set.
      *
-     * @param s sorted set whose elements will comprise the new set
-     * @throws NullPointerException if the specified sorted set or any
-     *         of its elements are null
+     * @pbrbm s sorted set whose elements will comprise the new set
+     * @throws NullPointerException if the specified sorted set or bny
+     *         of its elements bre null
      */
     public ConcurrentSkipListSet(SortedSet<E> s) {
-        m = new ConcurrentSkipListMap<E,Object>(s.comparator());
-        addAll(s);
+        m = new ConcurrentSkipListMbp<E,Object>(s.compbrbtor());
+        bddAll(s);
     }
 
     /**
-     * For use by submaps
+     * For use by submbps
      */
-    ConcurrentSkipListSet(ConcurrentNavigableMap<E,Object> m) {
+    ConcurrentSkipListSet(ConcurrentNbvigbbleMbp<E,Object> m) {
         this.m = m;
     }
 
     /**
-     * Returns a shallow copy of this {@code ConcurrentSkipListSet}
-     * instance. (The elements themselves are not cloned.)
+     * Returns b shbllow copy of this {@code ConcurrentSkipListSet}
+     * instbnce. (The elements themselves bre not cloned.)
      *
-     * @return a shallow copy of this set
+     * @return b shbllow copy of this set
      */
     public ConcurrentSkipListSet<E> clone() {
         try {
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             ConcurrentSkipListSet<E> clone =
                 (ConcurrentSkipListSet<E>) super.clone();
-            clone.setMap(new ConcurrentSkipListMap<E,Object>(m));
+            clone.setMbp(new ConcurrentSkipListMbp<E,Object>(m));
             return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError();
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError();
         }
     }
 
-    /* ---------------- Set operations -------------- */
+    /* ---------------- Set operbtions -------------- */
 
     /**
      * Returns the number of elements in this set.  If this set
-     * contains more than {@code Integer.MAX_VALUE} elements, it
+     * contbins more thbn {@code Integer.MAX_VALUE} elements, it
      * returns {@code Integer.MAX_VALUE}.
      *
-     * <p>Beware that, unlike in most collections, this method is
-     * <em>NOT</em> a constant-time operation. Because of the
-     * asynchronous nature of these sets, determining the current
-     * number of elements requires traversing them all to count them.
-     * Additionally, it is possible for the size to change during
-     * execution of this method, in which case the returned result
-     * will be inaccurate. Thus, this method is typically not very
-     * useful in concurrent applications.
+     * <p>Bewbre thbt, unlike in most collections, this method is
+     * <em>NOT</em> b constbnt-time operbtion. Becbuse of the
+     * bsynchronous nbture of these sets, determining the current
+     * number of elements requires trbversing them bll to count them.
+     * Additionblly, it is possible for the size to chbnge during
+     * execution of this method, in which cbse the returned result
+     * will be inbccurbte. Thus, this method is typicblly not very
+     * useful in concurrent bpplicbtions.
      *
      * @return the number of elements in this set
      */
@@ -201,146 +201,146 @@ public class ConcurrentSkipListSet<E>
     }
 
     /**
-     * Returns {@code true} if this set contains no elements.
-     * @return {@code true} if this set contains no elements
+     * Returns {@code true} if this set contbins no elements.
+     * @return {@code true} if this set contbins no elements
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return m.isEmpty();
     }
 
     /**
-     * Returns {@code true} if this set contains the specified element.
-     * More formally, returns {@code true} if and only if this set
-     * contains an element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this set contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this set
+     * contbins bn element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o object to be checked for containment in this set
-     * @return {@code true} if this set contains the specified element
-     * @throws ClassCastException if the specified element cannot be
-     *         compared with the elements currently in this set
+     * @pbrbm o object to be checked for contbinment in this set
+     * @return {@code true} if this set contbins the specified element
+     * @throws ClbssCbstException if the specified element cbnnot be
+     *         compbred with the elements currently in this set
      * @throws NullPointerException if the specified element is null
      */
-    public boolean contains(Object o) {
-        return m.containsKey(o);
+    public boolebn contbins(Object o) {
+        return m.contbinsKey(o);
     }
 
     /**
-     * Adds the specified element to this set if it is not already present.
-     * More formally, adds the specified element {@code e} to this set if
-     * the set contains no element {@code e2} such that {@code e.equals(e2)}.
-     * If this set already contains the element, the call leaves the set
-     * unchanged and returns {@code false}.
+     * Adds the specified element to this set if it is not blrebdy present.
+     * More formblly, bdds the specified element {@code e} to this set if
+     * the set contbins no element {@code e2} such thbt {@code e.equbls(e2)}.
+     * If this set blrebdy contbins the element, the cbll lebves the set
+     * unchbnged bnd returns {@code fblse}.
      *
-     * @param e element to be added to this set
-     * @return {@code true} if this set did not already contain the
+     * @pbrbm e element to be bdded to this set
+     * @return {@code true} if this set did not blrebdy contbin the
      *         specified element
-     * @throws ClassCastException if {@code e} cannot be compared
+     * @throws ClbssCbstException if {@code e} cbnnot be compbred
      *         with the elements currently in this set
      * @throws NullPointerException if the specified element is null
      */
-    public boolean add(E e) {
-        return m.putIfAbsent(e, Boolean.TRUE) == null;
+    public boolebn bdd(E e) {
+        return m.putIfAbsent(e, Boolebn.TRUE) == null;
     }
 
     /**
      * Removes the specified element from this set if it is present.
-     * More formally, removes an element {@code e} such that
-     * {@code o.equals(e)}, if this set contains such an element.
-     * Returns {@code true} if this set contained the element (or
-     * equivalently, if this set changed as a result of the call).
-     * (This set will not contain the element once the call returns.)
+     * More formblly, removes bn element {@code e} such thbt
+     * {@code o.equbls(e)}, if this set contbins such bn element.
+     * Returns {@code true} if this set contbined the element (or
+     * equivblently, if this set chbnged bs b result of the cbll).
+     * (This set will not contbin the element once the cbll returns.)
      *
-     * @param o object to be removed from this set, if present
-     * @return {@code true} if this set contained the specified element
-     * @throws ClassCastException if {@code o} cannot be compared
+     * @pbrbm o object to be removed from this set, if present
+     * @return {@code true} if this set contbined the specified element
+     * @throws ClbssCbstException if {@code o} cbnnot be compbred
      *         with the elements currently in this set
      * @throws NullPointerException if the specified element is null
      */
-    public boolean remove(Object o) {
-        return m.remove(o, Boolean.TRUE);
+    public boolebn remove(Object o) {
+        return m.remove(o, Boolebn.TRUE);
     }
 
     /**
-     * Removes all of the elements from this set.
+     * Removes bll of the elements from this set.
      */
-    public void clear() {
-        m.clear();
+    public void clebr() {
+        m.clebr();
     }
 
     /**
-     * Returns an iterator over the elements in this set in ascending order.
+     * Returns bn iterbtor over the elements in this set in bscending order.
      *
-     * @return an iterator over the elements in this set in ascending order
+     * @return bn iterbtor over the elements in this set in bscending order
      */
-    public Iterator<E> iterator() {
-        return m.navigableKeySet().iterator();
+    public Iterbtor<E> iterbtor() {
+        return m.nbvigbbleKeySet().iterbtor();
     }
 
     /**
-     * Returns an iterator over the elements in this set in descending order.
+     * Returns bn iterbtor over the elements in this set in descending order.
      *
-     * @return an iterator over the elements in this set in descending order
+     * @return bn iterbtor over the elements in this set in descending order
      */
-    public Iterator<E> descendingIterator() {
-        return m.descendingKeySet().iterator();
+    public Iterbtor<E> descendingIterbtor() {
+        return m.descendingKeySet().iterbtor();
     }
 
 
-    /* ---------------- AbstractSet Overrides -------------- */
+    /* ---------------- AbstrbctSet Overrides -------------- */
 
     /**
-     * Compares the specified object with this set for equality.  Returns
-     * {@code true} if the specified object is also a set, the two sets
-     * have the same size, and every member of the specified set is
-     * contained in this set (or equivalently, every member of this set is
-     * contained in the specified set).  This definition ensures that the
-     * equals method works properly across different implementations of the
-     * set interface.
+     * Compbres the specified object with this set for equblity.  Returns
+     * {@code true} if the specified object is blso b set, the two sets
+     * hbve the sbme size, bnd every member of the specified set is
+     * contbined in this set (or equivblently, every member of this set is
+     * contbined in the specified set).  This definition ensures thbt the
+     * equbls method works properly bcross different implementbtions of the
+     * set interfbce.
      *
-     * @param o the object to be compared for equality with this set
-     * @return {@code true} if the specified object is equal to this set
+     * @pbrbm o the object to be compbred for equblity with this set
+     * @return {@code true} if the specified object is equbl to this set
      */
-    public boolean equals(Object o) {
-        // Override AbstractSet version to avoid calling size()
+    public boolebn equbls(Object o) {
+        // Override AbstrbctSet version to bvoid cblling size()
         if (o == this)
             return true;
-        if (!(o instanceof Set))
-            return false;
+        if (!(o instbnceof Set))
+            return fblse;
         Collection<?> c = (Collection<?>) o;
         try {
-            return containsAll(c) && c.containsAll(this);
-        } catch (ClassCastException unused) {
-            return false;
-        } catch (NullPointerException unused) {
-            return false;
+            return contbinsAll(c) && c.contbinsAll(this);
+        } cbtch (ClbssCbstException unused) {
+            return fblse;
+        } cbtch (NullPointerException unused) {
+            return fblse;
         }
     }
 
     /**
-     * Removes from this set all of its elements that are contained in
-     * the specified collection.  If the specified collection is also
-     * a set, this operation effectively modifies this set so that its
-     * value is the <i>asymmetric set difference</i> of the two sets.
+     * Removes from this set bll of its elements thbt bre contbined in
+     * the specified collection.  If the specified collection is blso
+     * b set, this operbtion effectively modifies this set so thbt its
+     * vblue is the <i>bsymmetric set difference</i> of the two sets.
      *
-     * @param  c collection containing elements to be removed from this set
-     * @return {@code true} if this set changed as a result of the call
-     * @throws ClassCastException if the types of one or more elements in this
-     *         set are incompatible with the specified collection
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm  c collection contbining elements to be removed from this set
+     * @return {@code true} if this set chbnged bs b result of the cbll
+     * @throws ClbssCbstException if the types of one or more elements in this
+     *         set bre incompbtible with the specified collection
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
      */
-    public boolean removeAll(Collection<?> c) {
-        // Override AbstractSet version to avoid unnecessary call to size()
-        boolean modified = false;
+    public boolebn removeAll(Collection<?> c) {
+        // Override AbstrbctSet version to bvoid unnecessbry cbll to size()
+        boolebn modified = fblse;
         for (Object e : c)
             if (remove(e))
                 modified = true;
         return modified;
     }
 
-    /* ---------------- Relational operations -------------- */
+    /* ---------------- Relbtionbl operbtions -------------- */
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified element is null
      */
     public E lower(E e) {
@@ -348,7 +348,7 @@ public class ConcurrentSkipListSet<E>
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified element is null
      */
     public E floor(E e) {
@@ -356,7 +356,7 @@ public class ConcurrentSkipListSet<E>
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified element is null
      */
     public E ceiling(E e) {
@@ -364,7 +364,7 @@ public class ConcurrentSkipListSet<E>
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified element is null
      */
     public E higher(E e) {
@@ -372,154 +372,154 @@ public class ConcurrentSkipListSet<E>
     }
 
     public E pollFirst() {
-        Map.Entry<E,Object> e = m.pollFirstEntry();
+        Mbp.Entry<E,Object> e = m.pollFirstEntry();
         return (e == null) ? null : e.getKey();
     }
 
-    public E pollLast() {
-        Map.Entry<E,Object> e = m.pollLastEntry();
+    public E pollLbst() {
+        Mbp.Entry<E,Object> e = m.pollLbstEntry();
         return (e == null) ? null : e.getKey();
     }
 
 
-    /* ---------------- SortedSet operations -------------- */
+    /* ---------------- SortedSet operbtions -------------- */
 
 
-    public Comparator<? super E> comparator() {
-        return m.comparator();
+    public Compbrbtor<? super E> compbrbtor() {
+        return m.compbrbtor();
     }
 
     /**
-     * @throws java.util.NoSuchElementException {@inheritDoc}
+     * @throws jbvb.util.NoSuchElementException {@inheritDoc}
      */
     public E first() {
         return m.firstKey();
     }
 
     /**
-     * @throws java.util.NoSuchElementException {@inheritDoc}
+     * @throws jbvb.util.NoSuchElementException {@inheritDoc}
      */
-    public E last() {
-        return m.lastKey();
+    public E lbst() {
+        return m.lbstKey();
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromElement} or
      *         {@code toElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public NavigableSet<E> subSet(E fromElement,
-                                  boolean fromInclusive,
+    public NbvigbbleSet<E> subSet(E fromElement,
+                                  boolebn fromInclusive,
                                   E toElement,
-                                  boolean toInclusive) {
+                                  boolebn toInclusive) {
         return new ConcurrentSkipListSet<E>
-            (m.subMap(fromElement, fromInclusive,
+            (m.subMbp(fromElement, fromInclusive,
                       toElement,   toInclusive));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code toElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-        return new ConcurrentSkipListSet<E>(m.headMap(toElement, inclusive));
+    public NbvigbbleSet<E> hebdSet(E toElement, boolebn inclusive) {
+        return new ConcurrentSkipListSet<E>(m.hebdMbp(toElement, inclusive));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-        return new ConcurrentSkipListSet<E>(m.tailMap(fromElement, inclusive));
+    public NbvigbbleSet<E> tbilSet(E fromElement, boolebn inclusive) {
+        return new ConcurrentSkipListSet<E>(m.tbilMbp(fromElement, inclusive));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromElement} or
      *         {@code toElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public NavigableSet<E> subSet(E fromElement, E toElement) {
-        return subSet(fromElement, true, toElement, false);
+    public NbvigbbleSet<E> subSet(E fromElement, E toElement) {
+        return subSet(fromElement, true, toElement, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code toElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public NavigableSet<E> headSet(E toElement) {
-        return headSet(toElement, false);
+    public NbvigbbleSet<E> hebdSet(E toElement) {
+        return hebdSet(toElement, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromElement} is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public NavigableSet<E> tailSet(E fromElement) {
-        return tailSet(fromElement, true);
+    public NbvigbbleSet<E> tbilSet(E fromElement) {
+        return tbilSet(fromElement, true);
     }
 
     /**
-     * Returns a reverse order view of the elements contained in this set.
-     * The descending set is backed by this set, so changes to the set are
-     * reflected in the descending set, and vice-versa.
+     * Returns b reverse order view of the elements contbined in this set.
+     * The descending set is bbcked by this set, so chbnges to the set bre
+     * reflected in the descending set, bnd vice-versb.
      *
-     * <p>The returned set has an ordering equivalent to
-     * {@link Collections#reverseOrder(Comparator) Collections.reverseOrder}{@code (comparator())}.
-     * The expression {@code s.descendingSet().descendingSet()} returns a
-     * view of {@code s} essentially equivalent to {@code s}.
+     * <p>The returned set hbs bn ordering equivblent to
+     * {@link Collections#reverseOrder(Compbrbtor) Collections.reverseOrder}{@code (compbrbtor())}.
+     * The expression {@code s.descendingSet().descendingSet()} returns b
+     * view of {@code s} essentiblly equivblent to {@code s}.
      *
-     * @return a reverse order view of this set
+     * @return b reverse order view of this set
      */
-    public NavigableSet<E> descendingSet() {
-        return new ConcurrentSkipListSet<E>(m.descendingMap());
+    public NbvigbbleSet<E> descendingSet() {
+        return new ConcurrentSkipListSet<E>(m.descendingMbp());
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this set.
+     * Returns b {@link Spliterbtor} over the elements in this set.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#NONNULL}, {@link Spliterator#DISTINCT},
-     * {@link Spliterator#SORTED} and {@link Spliterator#ORDERED}, with an
-     * encounter order that is ascending order.  Overriding implementations
-     * should document the reporting of additional characteristic values.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#NONNULL}, {@link Spliterbtor#DISTINCT},
+     * {@link Spliterbtor#SORTED} bnd {@link Spliterbtor#ORDERED}, with bn
+     * encounter order thbt is bscending order.  Overriding implementbtions
+     * should document the reporting of bdditionbl chbrbcteristic vblues.
      *
-     * <p>The spliterator's comparator (see
-     * {@link java.util.Spliterator#getComparator()}) is {@code null} if
-     * the set's comparator (see {@link #comparator()}) is {@code null}.
-     * Otherwise, the spliterator's comparator is the same as or imposes the
-     * same total ordering as the set's comparator.
+     * <p>The spliterbtor's compbrbtor (see
+     * {@link jbvb.util.Spliterbtor#getCompbrbtor()}) is {@code null} if
+     * the set's compbrbtor (see {@link #compbrbtor()}) is {@code null}.
+     * Otherwise, the spliterbtor's compbrbtor is the sbme bs or imposes the
+     * sbme totbl ordering bs the set's compbrbtor.
      *
-     * @return a {@code Spliterator} over the elements in this set
+     * @return b {@code Spliterbtor} over the elements in this set
      * @since 1.8
      */
-    @SuppressWarnings("unchecked")
-    public Spliterator<E> spliterator() {
-        if (m instanceof ConcurrentSkipListMap)
-            return ((ConcurrentSkipListMap<E,?>)m).keySpliterator();
+    @SuppressWbrnings("unchecked")
+    public Spliterbtor<E> spliterbtor() {
+        if (m instbnceof ConcurrentSkipListMbp)
+            return ((ConcurrentSkipListMbp<E,?>)m).keySpliterbtor();
         else
-            return (Spliterator<E>)((ConcurrentSkipListMap.SubMap<E,?>)m).keyIterator();
+            return (Spliterbtor<E>)((ConcurrentSkipListMbp.SubMbp<E,?>)m).keyIterbtor();
     }
 
-    // Support for resetting map in clone
-    private void setMap(ConcurrentNavigableMap<E,Object> map) {
-        UNSAFE.putObjectVolatile(this, mapOffset, map);
+    // Support for resetting mbp in clone
+    privbte void setMbp(ConcurrentNbvigbbleMbp<E,Object> mbp) {
+        UNSAFE.putObjectVolbtile(this, mbpOffset, mbp);
     }
 
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long mapOffset;
-    static {
+    privbte stbtic finbl sun.misc.Unsbfe UNSAFE;
+    privbte stbtic finbl long mbpOffset;
+    stbtic {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ConcurrentSkipListSet.class;
-            mapOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("m"));
-        } catch (Exception e) {
+            UNSAFE = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = ConcurrentSkipListSet.clbss;
+            mbpOffset = UNSAFE.objectFieldOffset
+                (k.getDeclbredField("m"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

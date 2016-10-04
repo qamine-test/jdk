@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import javax.management.MBeanRegistration;
-import javax.management.ObjectName;
-import javax.management.InstanceNotFoundException;
-import javax.management.ServiceNotFoundException;
-import javax.management.ReflectionException;
-import javax.management.MBeanException;
-import com.sun.jmx.snmp.SnmpVarBind;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.ServiceNotFoundException;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.MBebnException;
+import com.sun.jmx.snmp.SnmpVbrBind;
 import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpPdu;
 import com.sun.jmx.snmp.SnmpOid;
 import com.sun.jmx.snmp.SnmpEngine;
 
 /**
- * Abstract class for representing an SNMP agent.
+ * Abstrbct clbss for representing bn SNMP bgent.
  *
- * The class is used by the SNMP protocol adaptor as the entry point in
- * the SNMP agent to query.
+ * The clbss is used by the SNMP protocol bdbptor bs the entry point in
+ * the SNMP bgent to query.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpMibAgent
-    implements SnmpMibAgentMBean, MBeanRegistration, Serializable {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss SnmpMibAgent
+    implements SnmpMibAgentMBebn, MBebnRegistrbtion, Seriblizbble {
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
     public SnmpMibAgent() {
     }
@@ -74,41 +74,41 @@ public abstract class SnmpMibAgent
     //----------------------------------------------------------------------
 
     /**
-     * Initializes the MIB (with no registration of the MBeans into the
-     * MBean server).
+     * Initiblizes the MIB (with no registrbtion of the MBebns into the
+     * MBebn server).
      *
-     * @exception IllegalAccessException The MIB can not be initialized.
+     * @exception IllegblAccessException The MIB cbn not be initiblized.
      */
-    public abstract void init() throws IllegalAccessException;
+    public bbstrbct void init() throws IllegblAccessException;
 
     /**
-     * Initializes the MIB but each single MBean representing the MIB
-     * is inserted into the MBean server.
+     * Initiblizes the MIB but ebch single MBebn representing the MIB
+     * is inserted into the MBebn server.
      *
-     * @param server The MBean server to register the service with.
-     * @param name The object name.
+     * @pbrbm server The MBebn server to register the service with.
+     * @pbrbm nbme The object nbme.
      *
-     * @return The name of the SNMP MIB registered.
+     * @return The nbme of the SNMP MIB registered.
      *
-     * @exception java.lang.Exception
+     * @exception jbvb.lbng.Exception
      */
     @Override
-    public abstract ObjectName preRegister(MBeanServer server,
-                                           ObjectName name)
-        throws java.lang.Exception;
+    public bbstrbct ObjectNbme preRegister(MBebnServer server,
+                                           ObjectNbme nbme)
+        throws jbvb.lbng.Exception;
 
     /**
      * Not used in this context.
      */
     @Override
-    public void postRegister (Boolean registrationDone) {
+    public void postRegister (Boolebn registrbtionDone) {
     }
 
     /**
      * Not used in this context.
      */
     @Override
-    public void preDeregister() throws java.lang.Exception {
+    public void preDeregister() throws jbvb.lbng.Exception {
     }
 
     /**
@@ -119,99 +119,99 @@ public abstract class SnmpMibAgent
     }
 
     /**
-     * Processes a <CODE>get</CODE> operation.
-     * This method must update the SnmpVarBinds contained in the
-     * <var>{@link SnmpMibRequest} req</var> parameter.
+     * Processes b <CODE>get</CODE> operbtion.
+     * This method must updbte the SnmpVbrBinds contbined in the
+     * <vbr>{@link SnmpMibRequest} req</vbr> pbrbmeter.
      *
-     * @param req The SnmpMibRequest object holding the list of variable to
+     * @pbrbm req The SnmpMibRequest object holding the list of vbribble to
      *            be retrieved. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     *            <CODE>SnmpVbrBind</CODE> objects.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @exception SnmpStbtusException An error occurred during the operbtion.
      */
     @Override
-    public abstract void get(SnmpMibRequest req)
-        throws SnmpStatusException;
+    public bbstrbct void get(SnmpMibRequest req)
+        throws SnmpStbtusException;
 
     /**
-     * Processes a <CODE>getNext</CODE> operation.
-     * This method must update the SnmpVarBinds contained in the
-     * <var>{@link SnmpMibRequest} req</var> parameter.
+     * Processes b <CODE>getNext</CODE> operbtion.
+     * This method must updbte the SnmpVbrBinds contbined in the
+     * <vbr>{@link SnmpMibRequest} req</vbr> pbrbmeter.
      *
-     * @param req The SnmpMibRequest object holding the list of
-     *            OIDs from which the next variables should be retrieved.
-     *            This list is composed of <CODE>SnmpVarBind</CODE> objects.
+     * @pbrbm req The SnmpMibRequest object holding the list of
+     *            OIDs from which the next vbribbles should be retrieved.
+     *            This list is composed of <CODE>SnmpVbrBind</CODE> objects.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @exception SnmpStbtusException An error occurred during the operbtion.
      */
     @Override
-    public abstract void getNext(SnmpMibRequest req)
-        throws SnmpStatusException;
+    public bbstrbct void getNext(SnmpMibRequest req)
+        throws SnmpStbtusException;
 
     /**
-     * Processes a <CODE>getBulk</CODE> operation.
-     * This method must update the SnmpVarBinds contained in the
-     * <var>{@link SnmpMibRequest} req</var> parameter.
+     * Processes b <CODE>getBulk</CODE> operbtion.
+     * This method must updbte the SnmpVbrBinds contbined in the
+     * <vbr>{@link SnmpMibRequest} req</vbr> pbrbmeter.
      *
-     * @param req The SnmpMibRequest object holding the list of variable to
+     * @pbrbm req The SnmpMibRequest object holding the list of vbribble to
      *            be retrieved. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     *            <CODE>SnmpVbrBind</CODE> objects.
      *
-     * @param nonRepeat The number of variables, starting with the first
-     *    variable in the variable-bindings, for which a single
-     *    lexicographic successor is requested.
+     * @pbrbm nonRepebt The number of vbribbles, stbrting with the first
+     *    vbribble in the vbribble-bindings, for which b single
+     *    lexicogrbphic successor is requested.
      *
-     * @param maxRepeat The number of lexicographic successors requested
-     *    for each of the last R variables. R is the number of variables
-     *    following the first <CODE>nonRepeat</CODE> variables for which
-     *    multiple lexicographic successors are requested.
+     * @pbrbm mbxRepebt The number of lexicogrbphic successors requested
+     *    for ebch of the lbst R vbribbles. R is the number of vbribbles
+     *    following the first <CODE>nonRepebt</CODE> vbribbles for which
+     *    multiple lexicogrbphic successors bre requested.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @exception SnmpStbtusException An error occurred during the operbtion.
      */
     @Override
-    public abstract void getBulk(SnmpMibRequest req, int nonRepeat,
-                                 int maxRepeat)
-        throws SnmpStatusException;
+    public bbstrbct void getBulk(SnmpMibRequest req, int nonRepebt,
+                                 int mbxRepebt)
+        throws SnmpStbtusException;
 
     /**
-     * Processes a <CODE>set</CODE> operation.
-     * This method must update the SnmpVarBinds contained in the
-     * <var>{@link SnmpMibRequest} req</var> parameter.
-     * This method is called during the second phase of the SET two-phase
+     * Processes b <CODE>set</CODE> operbtion.
+     * This method must updbte the SnmpVbrBinds contbined in the
+     * <vbr>{@link SnmpMibRequest} req</vbr> pbrbmeter.
+     * This method is cblled during the second phbse of the SET two-phbse
      * commit.
      *
-     * @param req The SnmpMibRequest object holding the list of variable to
+     * @pbrbm req The SnmpMibRequest object holding the list of vbribble to
      *            be set. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     *            <CODE>SnmpVbrBind</CODE> objects.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
-     *            Throwing an exception in this method will break the
-     *            atomicity of the SET operation. Care must be taken so that
+     * @exception SnmpStbtusException An error occurred during the operbtion.
+     *            Throwing bn exception in this method will brebk the
+     *            btomicity of the SET operbtion. Cbre must be tbken so thbt
      *            the exception is thrown in the {@link #check(SnmpMibRequest)}
-     *            method instead.
+     *            method instebd.
      */
     @Override
-    public abstract void set(SnmpMibRequest req)
-        throws SnmpStatusException;
+    public bbstrbct void set(SnmpMibRequest req)
+        throws SnmpStbtusException;
 
 
     /**
-     * Checks if a <CODE>set</CODE> operation can be performed.
-     * If the operation can not be performed, the method should throw an
-     * <CODE>SnmpStatusException</CODE>.
-     * This method is called during the first phase of the SET two-phase
+     * Checks if b <CODE>set</CODE> operbtion cbn be performed.
+     * If the operbtion cbn not be performed, the method should throw bn
+     * <CODE>SnmpStbtusException</CODE>.
+     * This method is cblled during the first phbse of the SET two-phbse
      * commit.
      *
-     * @param req The SnmpMibRequest object holding the list of variable to
+     * @pbrbm req The SnmpMibRequest object holding the list of vbribble to
      *            be set. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     *            <CODE>SnmpVbrBind</CODE> objects.
      *
-     * @exception SnmpStatusException The <CODE>set</CODE> operation
-     *    cannot be performed.
+     * @exception SnmpStbtusException The <CODE>set</CODE> operbtion
+     *    cbnnot be performed.
      */
     @Override
-    public abstract void check(SnmpMibRequest req)
-        throws SnmpStatusException;
+    public bbstrbct void check(SnmpMibRequest req)
+        throws SnmpStbtusException;
 
     /**
      * Gets the root object identifier of the MIB.
@@ -220,468 +220,468 @@ public abstract class SnmpMibAgent
      *
      * @return The root object identifier.
      */
-    public abstract long[] getRootOid();
+    public bbstrbct long[] getRootOid();
 
     // ---------------------------------------------------------------------
     // GETTERS AND SETTERS
     // ---------------------------------------------------------------------
 
     /**
-     * Gets the reference to the MBean server in which the SNMP MIB is
+     * Gets the reference to the MBebn server in which the SNMP MIB is
      * registered.
      *
-     * @return The MBean server or null if the MIB is not registered in any
-     *     MBean server.
+     * @return The MBebn server or null if the MIB is not registered in bny
+     *     MBebn server.
      */
     @Override
-    public MBeanServer getMBeanServer() {
+    public MBebnServer getMBebnServer() {
         return server;
     }
 
     /**
-     * Gets the reference to the SNMP protocol adaptor to which the MIB is
+     * Gets the reference to the SNMP protocol bdbptor to which the MIB is
      * bound.
      *
-     * @return The SNMP MIB handler.
+     * @return The SNMP MIB hbndler.
      */
     @Override
-    public SnmpMibHandler getSnmpAdaptor() {
-        return adaptor;
+    public SnmpMibHbndler getSnmpAdbptor() {
+        return bdbptor;
     }
 
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler.
+     * Sets the reference to the SNMP protocol bdbptor through which the MIB
+     * will be SNMP bccessible bnd bdd this new MIB in the SNMP MIB hbndler.
      *
-     * @param stack The SNMP MIB handler.
+     * @pbrbm stbck The SNMP MIB hbndler.
      */
     @Override
-    public void setSnmpAdaptor(SnmpMibHandler stack) {
-        if (adaptor != null) {
-            adaptor.removeMib(this);
+    public void setSnmpAdbptor(SnmpMibHbndler stbck) {
+        if (bdbptor != null) {
+            bdbptor.removeMib(this);
         }
-        adaptor = stack;
-        if (adaptor != null) {
-            adaptor.addMib(this);
+        bdbptor = stbck;
+        if (bdbptor != null) {
+            bdbptor.bddMib(this);
         }
     }
 
      /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler.
-     * This method is to be called to set a specific agent to a specific OID. This can be useful when dealing with MIB overlapping.
-     * Some OID can be implemented in more than one MIB. In this case, the OID nearest the agent will be used on SNMP operations.
-     * @param stack The SNMP MIB handler.
-     * @param oids The set of OIDs this agent implements.
+     * Sets the reference to the SNMP protocol bdbptor through which the MIB
+     * will be SNMP bccessible bnd bdd this new MIB in the SNMP MIB hbndler.
+     * This method is to be cblled to set b specific bgent to b specific OID. This cbn be useful when debling with MIB overlbpping.
+     * Some OID cbn be implemented in more thbn one MIB. In this cbse, the OID nebrest the bgent will be used on SNMP operbtions.
+     * @pbrbm stbck The SNMP MIB hbndler.
+     * @pbrbm oids The set of OIDs this bgent implements.
      *
      * @since 1.5
      */
     @Override
-    public void setSnmpAdaptor(SnmpMibHandler stack, SnmpOid[] oids) {
-        if (adaptor != null) {
-            adaptor.removeMib(this);
+    public void setSnmpAdbptor(SnmpMibHbndler stbck, SnmpOid[] oids) {
+        if (bdbptor != null) {
+            bdbptor.removeMib(this);
         }
-        adaptor = stack;
-        if (adaptor != null) {
-            adaptor.addMib(this, oids);
+        bdbptor = stbck;
+        if (bdbptor != null) {
+            bdbptor.bddMib(this, oids);
         }
     }
 
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and adds this new MIB in the SNMP MIB handler.
-     * Adds a new contextualized MIB in the SNMP MIB handler.
+     * Sets the reference to the SNMP protocol bdbptor through which the MIB
+     * will be SNMP bccessible bnd bdds this new MIB in the SNMP MIB hbndler.
+     * Adds b new contextublized MIB in the SNMP MIB hbndler.
      *
-     * @param stack The SNMP MIB handler.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
+     * @pbrbm stbck The SNMP MIB hbndler.
+     * @pbrbm contextNbme The MIB context nbme. If null is pbssed, will be registered in the defbult context.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @exception IllegblArgumentException If the pbrbmeter is null.
      *
      * @since 1.5
      */
     @Override
-    public void setSnmpAdaptor(SnmpMibHandler stack, String contextName) {
-        if (adaptor != null) {
-            adaptor.removeMib(this, contextName);
+    public void setSnmpAdbptor(SnmpMibHbndler stbck, String contextNbme) {
+        if (bdbptor != null) {
+            bdbptor.removeMib(this, contextNbme);
         }
-        adaptor = stack;
-        if (adaptor != null) {
-            adaptor.addMib(this, contextName);
+        bdbptor = stbck;
+        if (bdbptor != null) {
+            bdbptor.bddMib(this, contextNbme);
         }
     }
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and adds this new MIB in the SNMP MIB handler.
-     * Adds a new contextualized MIB in the SNMP MIB handler.
+     * Sets the reference to the SNMP protocol bdbptor through which the MIB
+     * will be SNMP bccessible bnd bdds this new MIB in the SNMP MIB hbndler.
+     * Adds b new contextublized MIB in the SNMP MIB hbndler.
      *
-     * @param stack The SNMP MIB handler.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     * @param oids The set of OIDs this agent implements.
-     * @exception IllegalArgumentException If the parameter is null.
+     * @pbrbm stbck The SNMP MIB hbndler.
+     * @pbrbm contextNbme The MIB context nbme. If null is pbssed, will be registered in the defbult context.
+     * @pbrbm oids The set of OIDs this bgent implements.
+     * @exception IllegblArgumentException If the pbrbmeter is null.
      *
      * @since 1.5
      */
     @Override
-    public void setSnmpAdaptor(SnmpMibHandler stack,
-                               String contextName,
+    public void setSnmpAdbptor(SnmpMibHbndler stbck,
+                               String contextNbme,
                                SnmpOid[] oids) {
-        if (adaptor != null) {
-            adaptor.removeMib(this, contextName);
+        if (bdbptor != null) {
+            bdbptor.removeMib(this, contextNbme);
         }
-        adaptor = stack;
-        if (adaptor != null) {
-            adaptor.addMib(this, contextName, oids);
+        bdbptor = stbck;
+        if (bdbptor != null) {
+            bdbptor.bddMib(this, contextNbme, oids);
         }
     }
 
     /**
-     * Gets the object name of the SNMP protocol adaptor to which the MIB
+     * Gets the object nbme of the SNMP protocol bdbptor to which the MIB
      * is bound.
      *
-     * @return The name of the SNMP protocol adaptor.
+     * @return The nbme of the SNMP protocol bdbptor.
      */
     @Override
-    public ObjectName getSnmpAdaptorName() {
-        return adaptorName;
+    public ObjectNbme getSnmpAdbptorNbme() {
+        return bdbptorNbme;
     }
 
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler
-     * associated to the specified <CODE>name</CODE>.
+     * Sets the reference to the SNMP protocol bdbptor through which the MIB
+     * will be SNMP bccessible bnd bdd this new MIB in the SNMP MIB hbndler
+     * bssocibted to the specified <CODE>nbme</CODE>.
      *
-     * @param name The name of the SNMP protocol adaptor.
+     * @pbrbm nbme The nbme of the SNMP protocol bdbptor.
      *
-     * @exception InstanceNotFoundException The SNMP protocol adaptor does
-     *     not exist in the MBean server.
+     * @exception InstbnceNotFoundException The SNMP protocol bdbptor does
+     *     not exist in the MBebn server.
      *
      * @exception ServiceNotFoundException This SNMP MIB is not registered
-     *     in the MBean server or the requested service is not supported.
+     *     in the MBebn server or the requested service is not supported.
      */
     @Override
-    public void setSnmpAdaptorName(ObjectName name)
-        throws InstanceNotFoundException, ServiceNotFoundException {
+    public void setSnmpAdbptorNbme(ObjectNbme nbme)
+        throws InstbnceNotFoundException, ServiceNotFoundException {
 
         if (server == null) {
-            throw new ServiceNotFoundException(mibName + " is not registered in the MBean server");
+            throw new ServiceNotFoundException(mibNbme + " is not registered in the MBebn server");
         }
-        // First remove the reference on the old adaptor server.
+        // First remove the reference on the old bdbptor server.
         //
-        if (adaptor != null) {
-            adaptor.removeMib(this);
+        if (bdbptor != null) {
+            bdbptor.removeMib(this);
         }
 
-        // Then update the reference to the new adaptor server.
+        // Then updbte the reference to the new bdbptor server.
         //
-        Object[] params = {this};
-        String[] signature = {"com.sun.jmx.snmp.agent.SnmpMibAgent"};
+        Object[] pbrbms = {this};
+        String[] signbture = {"com.sun.jmx.snmp.bgent.SnmpMibAgent"};
         try {
-            adaptor = (SnmpMibHandler)(server.invoke(name, "addMib", params,
-                                                     signature));
-        } catch (InstanceNotFoundException e) {
-            throw new InstanceNotFoundException(name.toString());
-        } catch (ReflectionException e) {
-            throw new ServiceNotFoundException(name.toString());
-        } catch (MBeanException e) {
+            bdbptor = (SnmpMibHbndler)(server.invoke(nbme, "bddMib", pbrbms,
+                                                     signbture));
+        } cbtch (InstbnceNotFoundException e) {
+            throw new InstbnceNotFoundException(nbme.toString());
+        } cbtch (ReflectionException e) {
+            throw new ServiceNotFoundException(nbme.toString());
+        } cbtch (MBebnException e) {
             // Should never occur...
         }
 
-        adaptorName = name;
+        bdbptorNbme = nbme;
     }
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler
-     * associated to the specified <CODE>name</CODE>.
-     * This method is to be called to set a specific agent to a specific OID. This can be useful when dealing with MIB overlapping.
-     * Some OID can be implemented in more than one MIB. In this case, the OID nearer agent will be used on SNMP operations.
-     * @param name The name of the SNMP protocol adaptor.
-     * @param oids The set of OIDs this agent implements.
-     * @exception InstanceNotFoundException The SNMP protocol adaptor does
-     *     not exist in the MBean server.
+     * Sets the reference to the SNMP protocol bdbptor through which the MIB
+     * will be SNMP bccessible bnd bdd this new MIB in the SNMP MIB hbndler
+     * bssocibted to the specified <CODE>nbme</CODE>.
+     * This method is to be cblled to set b specific bgent to b specific OID. This cbn be useful when debling with MIB overlbpping.
+     * Some OID cbn be implemented in more thbn one MIB. In this cbse, the OID nebrer bgent will be used on SNMP operbtions.
+     * @pbrbm nbme The nbme of the SNMP protocol bdbptor.
+     * @pbrbm oids The set of OIDs this bgent implements.
+     * @exception InstbnceNotFoundException The SNMP protocol bdbptor does
+     *     not exist in the MBebn server.
      *
      * @exception ServiceNotFoundException This SNMP MIB is not registered
-     *     in the MBean server or the requested service is not supported.
+     *     in the MBebn server or the requested service is not supported.
      *
      * @since 1.5
      */
     @Override
-    public void setSnmpAdaptorName(ObjectName name, SnmpOid[] oids)
-        throws InstanceNotFoundException, ServiceNotFoundException {
+    public void setSnmpAdbptorNbme(ObjectNbme nbme, SnmpOid[] oids)
+        throws InstbnceNotFoundException, ServiceNotFoundException {
 
         if (server == null) {
-            throw new ServiceNotFoundException(mibName + " is not registered in the MBean server");
+            throw new ServiceNotFoundException(mibNbme + " is not registered in the MBebn server");
         }
-        // First remove the reference on the old adaptor server.
+        // First remove the reference on the old bdbptor server.
         //
-        if (adaptor != null) {
-            adaptor.removeMib(this);
+        if (bdbptor != null) {
+            bdbptor.removeMib(this);
         }
 
-        // Then update the reference to the new adaptor server.
+        // Then updbte the reference to the new bdbptor server.
         //
-        Object[] params = {this, oids};
-        String[] signature = {"com.sun.jmx.snmp.agent.SnmpMibAgent",
-        oids.getClass().getName()};
+        Object[] pbrbms = {this, oids};
+        String[] signbture = {"com.sun.jmx.snmp.bgent.SnmpMibAgent",
+        oids.getClbss().getNbme()};
         try {
-            adaptor = (SnmpMibHandler)(server.invoke(name, "addMib", params,
-                                                     signature));
-        } catch (InstanceNotFoundException e) {
-            throw new InstanceNotFoundException(name.toString());
-        } catch (ReflectionException e) {
-            throw new ServiceNotFoundException(name.toString());
-        } catch (MBeanException e) {
+            bdbptor = (SnmpMibHbndler)(server.invoke(nbme, "bddMib", pbrbms,
+                                                     signbture));
+        } cbtch (InstbnceNotFoundException e) {
+            throw new InstbnceNotFoundException(nbme.toString());
+        } cbtch (ReflectionException e) {
+            throw new ServiceNotFoundException(nbme.toString());
+        } cbtch (MBebnException e) {
             // Should never occur...
         }
 
-        adaptorName = name;
+        bdbptorNbme = nbme;
     }
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler
-     * associated to the specified <CODE>name</CODE>.
+     * Sets the reference to the SNMP protocol bdbptor through which the MIB
+     * will be SNMP bccessible bnd bdd this new MIB in the SNMP MIB hbndler
+     * bssocibted to the specified <CODE>nbme</CODE>.
      *
-     * @param name The name of the SNMP protocol adaptor.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     * @exception InstanceNotFoundException The SNMP protocol adaptor does
-     *     not exist in the MBean server.
+     * @pbrbm nbme The nbme of the SNMP protocol bdbptor.
+     * @pbrbm contextNbme The MIB context nbme. If null is pbssed, will be registered in the defbult context.
+     * @exception InstbnceNotFoundException The SNMP protocol bdbptor does
+     *     not exist in the MBebn server.
      *
      * @exception ServiceNotFoundException This SNMP MIB is not registered
-     *     in the MBean server or the requested service is not supported.
+     *     in the MBebn server or the requested service is not supported.
      *
      * @since 1.5
      */
     @Override
-    public void setSnmpAdaptorName(ObjectName name, String contextName)
-        throws InstanceNotFoundException, ServiceNotFoundException {
+    public void setSnmpAdbptorNbme(ObjectNbme nbme, String contextNbme)
+        throws InstbnceNotFoundException, ServiceNotFoundException {
 
         if (server == null) {
-            throw new ServiceNotFoundException(mibName + " is not registered in the MBean server");
+            throw new ServiceNotFoundException(mibNbme + " is not registered in the MBebn server");
         }
 
-        // First remove the reference on the old adaptor server.
+        // First remove the reference on the old bdbptor server.
         //
-        if (adaptor != null) {
-            adaptor.removeMib(this, contextName);
+        if (bdbptor != null) {
+            bdbptor.removeMib(this, contextNbme);
         }
 
-        // Then update the reference to the new adaptor server.
+        // Then updbte the reference to the new bdbptor server.
         //
-        Object[] params = {this, contextName};
-        String[] signature = {"com.sun.jmx.snmp.agent.SnmpMibAgent", "java.lang.String"};
+        Object[] pbrbms = {this, contextNbme};
+        String[] signbture = {"com.sun.jmx.snmp.bgent.SnmpMibAgent", "jbvb.lbng.String"};
         try {
-            adaptor = (SnmpMibHandler)(server.invoke(name, "addMib", params,
-                                                     signature));
-        } catch (InstanceNotFoundException e) {
-            throw new InstanceNotFoundException(name.toString());
-        } catch (ReflectionException e) {
-            throw new ServiceNotFoundException(name.toString());
-        } catch (MBeanException e) {
+            bdbptor = (SnmpMibHbndler)(server.invoke(nbme, "bddMib", pbrbms,
+                                                     signbture));
+        } cbtch (InstbnceNotFoundException e) {
+            throw new InstbnceNotFoundException(nbme.toString());
+        } cbtch (ReflectionException e) {
+            throw new ServiceNotFoundException(nbme.toString());
+        } cbtch (MBebnException e) {
             // Should never occur...
         }
 
-        adaptorName = name;
+        bdbptorNbme = nbme;
     }
 
     /**
-     * Sets the reference to the SNMP protocol adaptor through which the MIB
-     * will be SNMP accessible and add this new MIB in the SNMP MIB handler
-     * associated to the specified <CODE>name</CODE>.
+     * Sets the reference to the SNMP protocol bdbptor through which the MIB
+     * will be SNMP bccessible bnd bdd this new MIB in the SNMP MIB hbndler
+     * bssocibted to the specified <CODE>nbme</CODE>.
      *
-     * @param name The name of the SNMP protocol adaptor.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     * @param oids The set of OIDs this agent implements.
-     * @exception InstanceNotFoundException The SNMP protocol adaptor does
-     *     not exist in the MBean server.
+     * @pbrbm nbme The nbme of the SNMP protocol bdbptor.
+     * @pbrbm contextNbme The MIB context nbme. If null is pbssed, will be registered in the defbult context.
+     * @pbrbm oids The set of OIDs this bgent implements.
+     * @exception InstbnceNotFoundException The SNMP protocol bdbptor does
+     *     not exist in the MBebn server.
      *
      * @exception ServiceNotFoundException This SNMP MIB is not registered
-     *     in the MBean server or the requested service is not supported.
+     *     in the MBebn server or the requested service is not supported.
      *
      * @since 1.5
      */
     @Override
-    public void setSnmpAdaptorName(ObjectName name,
-                                   String contextName, SnmpOid[] oids)
-        throws InstanceNotFoundException, ServiceNotFoundException {
+    public void setSnmpAdbptorNbme(ObjectNbme nbme,
+                                   String contextNbme, SnmpOid[] oids)
+        throws InstbnceNotFoundException, ServiceNotFoundException {
 
         if (server == null) {
-            throw new ServiceNotFoundException(mibName + " is not registered in the MBean server");
+            throw new ServiceNotFoundException(mibNbme + " is not registered in the MBebn server");
         }
 
-        // First remove the reference on the old adaptor server.
+        // First remove the reference on the old bdbptor server.
         //
-        if (adaptor != null) {
-            adaptor.removeMib(this, contextName);
+        if (bdbptor != null) {
+            bdbptor.removeMib(this, contextNbme);
         }
 
-        // Then update the reference to the new adaptor server.
+        // Then updbte the reference to the new bdbptor server.
         //
-        Object[] params = {this, contextName, oids};
-        String[] signature = {"com.sun.jmx.snmp.agent.SnmpMibAgent", "java.lang.String", oids.getClass().getName()};
+        Object[] pbrbms = {this, contextNbme, oids};
+        String[] signbture = {"com.sun.jmx.snmp.bgent.SnmpMibAgent", "jbvb.lbng.String", oids.getClbss().getNbme()};
         try {
-            adaptor = (SnmpMibHandler)(server.invoke(name, "addMib", params,
-                                                     signature));
-        } catch (InstanceNotFoundException e) {
-            throw new InstanceNotFoundException(name.toString());
-        } catch (ReflectionException e) {
-            throw new ServiceNotFoundException(name.toString());
-        } catch (MBeanException e) {
+            bdbptor = (SnmpMibHbndler)(server.invoke(nbme, "bddMib", pbrbms,
+                                                     signbture));
+        } cbtch (InstbnceNotFoundException e) {
+            throw new InstbnceNotFoundException(nbme.toString());
+        } cbtch (ReflectionException e) {
+            throw new ServiceNotFoundException(nbme.toString());
+        } cbtch (MBebnException e) {
             // Should never occur...
         }
 
-        adaptorName = name;
+        bdbptorNbme = nbme;
     }
 
     /**
-     * Indicates whether or not the MIB module is bound to a SNMP protocol
-     * adaptor.
-     * As a reminder, only bound MIBs can be accessed through SNMP protocol
-     * adaptor.
+     * Indicbtes whether or not the MIB module is bound to b SNMP protocol
+     * bdbptor.
+     * As b reminder, only bound MIBs cbn be bccessed through SNMP protocol
+     * bdbptor.
      *
      * @return <CODE>true</CODE> if the MIB module is bound,
-     *         <CODE>false</CODE> otherwise.
+     *         <CODE>fblse</CODE> otherwise.
      */
     @Override
-    public boolean getBindingState() {
-        if (adaptor == null)
-            return false;
+    public boolebn getBindingStbte() {
+        if (bdbptor == null)
+            return fblse;
         else
             return true;
     }
 
     /**
-     * Gets the MIB name.
+     * Gets the MIB nbme.
      *
-     * @return The MIB name.
+     * @return The MIB nbme.
      */
     @Override
-    public String getMibName() {
-        return mibName;
+    public String getMibNbme() {
+        return mibNbme;
     }
 
     /**
-     * This is a factory method for creating new SnmpMibRequest objects.
-     * @param reqPdu The received PDU.
-     * @param vblist   The vector of SnmpVarBind objects in which the
+     * This is b fbctory method for crebting new SnmpMibRequest objects.
+     * @pbrbm reqPdu The received PDU.
+     * @pbrbm vblist   The vector of SnmpVbrBind objects in which the
      *        MIB concerned by this request is involved.
-     * @param version  The protocol version of the SNMP request.
-     * @param userData User allocated contextual data.
+     * @pbrbm version  The protocol version of the SNMP request.
+     * @pbrbm userDbtb User bllocbted contextubl dbtb.
      *
      * @return A new SnmpMibRequest object.
      *
      * @since 1.5
      **/
-    public static SnmpMibRequest newMibRequest(SnmpPdu reqPdu,
-                                               Vector<SnmpVarBind> vblist,
+    public stbtic SnmpMibRequest newMibRequest(SnmpPdu reqPdu,
+                                               Vector<SnmpVbrBind> vblist,
                                                int version,
-                                               Object userData)
+                                               Object userDbtb)
     {
         return new SnmpMibRequestImpl(null,
                                       reqPdu,
                                       vblist,
                                       version,
-                                      userData,
+                                      userDbtb,
                                       null,
                                       SnmpDefinitions.noAuthNoPriv,
                                       getSecurityModel(version),
                                       null,null);
     }
     /**
-     * This is a factory method for creating new SnmpMibRequest objects.
-     * @param engine The local engine.
-     * @param reqPdu The received pdu.
-     * @param vblist The vector of SnmpVarBind objects in which the
+     * This is b fbctory method for crebting new SnmpMibRequest objects.
+     * @pbrbm engine The locbl engine.
+     * @pbrbm reqPdu The received pdu.
+     * @pbrbm vblist The vector of SnmpVbrBind objects in which the
      *        MIB concerned by this request is involved.
-     * @param version The protocol version of the SNMP request.
-     * @param userData User allocated contextual data.
+     * @pbrbm version The protocol version of the SNMP request.
+     * @pbrbm userDbtb User bllocbted contextubl dbtb.
      *
      * @return A new SnmpMibRequest object.
      *
      * @since 1.5
      **/
-    public static SnmpMibRequest newMibRequest(SnmpEngine engine,
+    public stbtic SnmpMibRequest newMibRequest(SnmpEngine engine,
                                                SnmpPdu reqPdu,
-                                               Vector<SnmpVarBind> vblist,
+                                               Vector<SnmpVbrBind> vblist,
                                                int version,
-                                               Object userData,
-                                               String principal,
+                                               Object userDbtb,
+                                               String principbl,
                                                int securityLevel,
                                                int securityModel,
-                                               byte[] contextName,
-                                               byte[] accessContextName) {
+                                               byte[] contextNbme,
+                                               byte[] bccessContextNbme) {
         return new SnmpMibRequestImpl(engine,
                                       reqPdu,
                                       vblist,
                                       version,
-                                      userData,
-                                      principal,
+                                      userDbtb,
+                                      principbl,
                                       securityLevel,
                                       securityModel,
-                                      contextName,
-                                      accessContextName);
+                                      contextNbme,
+                                      bccessContextNbme);
     }
     // ---------------------------------------------------------------------
     // PACKAGE METHODS
     // ---------------------------------------------------------------------
 
     /**
-     * Processes a <CODE>getBulk</CODE> operation using call to
+     * Processes b <CODE>getBulk</CODE> operbtion using cbll to
      * <CODE>getNext</CODE>.
-     * The method implements the <CODE>getBulk</CODE> operation by calling
-     * appropriately the <CODE>getNext</CODE> method.
+     * The method implements the <CODE>getBulk</CODE> operbtion by cblling
+     * bppropribtely the <CODE>getNext</CODE> method.
      *
-     * @param req The SnmpMibRequest containing the variable list to be
+     * @pbrbm req The SnmpMibRequest contbining the vbribble list to be
      *        retrieved.
      *
-     * @param nonRepeat The number of variables, starting with the first
-     *    variable in the variable-bindings, for which a single lexicographic
+     * @pbrbm nonRepebt The number of vbribbles, stbrting with the first
+     *    vbribble in the vbribble-bindings, for which b single lexicogrbphic
      *    successor is requested.
      *
-     * @param maxRepeat The number of lexicographic successors
-     *    requested for each of the last R variables. R is the number of
-     *    variables following the first nonRepeat variables for which
-     *    multiple lexicographic successors are requested.
+     * @pbrbm mbxRepebt The number of lexicogrbphic successors
+     *    requested for ebch of the lbst R vbribbles. R is the number of
+     *    vbribbles following the first nonRepebt vbribbles for which
+     *    multiple lexicogrbphic successors bre requested.
      *
-     * @return The variable list containing returned values.
+     * @return The vbribble list contbining returned vblues.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @exception SnmpStbtusException An error occurred during the operbtion.
      */
-    void getBulkWithGetNext(SnmpMibRequest req, int nonRepeat, int maxRepeat)
-        throws SnmpStatusException {
-        final Vector<SnmpVarBind> list = req.getSubList();
+    void getBulkWithGetNext(SnmpMibRequest req, int nonRepebt, int mbxRepebt)
+        throws SnmpStbtusException {
+        finbl Vector<SnmpVbrBind> list = req.getSubList();
 
         // RFC 1905, Section 4.2.3, p14
-        final int L = list.size() ;
-        final int N = Math.max(Math.min(nonRepeat, L), 0) ;
-        final int M = Math.max(maxRepeat, 0) ;
-        final int R = L - N ;
+        finbl int L = list.size() ;
+        finbl int N = Mbth.mbx(Mbth.min(nonRepebt, L), 0) ;
+        finbl int M = Mbth.mbx(mbxRepebt, 0) ;
+        finbl int R = L - N ;
 
-        // Let's build the varBindList for the response pdu
+        // Let's build the vbrBindList for the response pdu
         //
-        // int errorStatus = SnmpDefinitions.snmpRspNoError ;
+        // int errorStbtus = SnmpDefinitions.snmpRspNoError ;
         // int errorIndex = 0 ;
         if (L != 0) {
 
-            // Non-repeaters and first row of repeaters
+            // Non-repebters bnd first row of repebters
             //
             getNext(req);
 
-            // Now the remaining repeaters
+            // Now the rembining repebters
             //
-            Vector<SnmpVarBind> repeaters= splitFrom(list, N);
-            SnmpMibRequestImpl repeatedReq =
+            Vector<SnmpVbrBind> repebters= splitFrom(list, N);
+            SnmpMibRequestImpl repebtedReq =
                 new SnmpMibRequestImpl(req.getEngine(),
                                        req.getPdu(),
-                                       repeaters,
+                                       repebters,
                                        SnmpDefinitions.snmpVersionTwo,
-                                       req.getUserData(),
-                                       req.getPrincipal(),
+                                       req.getUserDbtb(),
+                                       req.getPrincipbl(),
                                        req.getSecurityLevel(),
                                        req.getSecurityModel(),
-                                       req.getContextName(),
-                                       req.getAccessContextName());
+                                       req.getContextNbme(),
+                                       req.getAccessContextNbme());
             for (int i = 2 ; i <= M ; i++) {
-                getNext(repeatedReq);
-                concatVector(req, repeaters);
+                getNext(repebtedReq);
+                concbtVector(req, repebters);
             }
         }
     }
@@ -692,45 +692,45 @@ public abstract class SnmpMibAgent
     // ---------------------------------------------------------------------
 
     /**
-     * This method creates a new Vector which does not contain the first
+     * This method crebtes b new Vector which does not contbin the first
      * element up to the specified limit.
      *
-     * @param original The original vector.
-     * @param limit The limit.
+     * @pbrbm originbl The originbl vector.
+     * @pbrbm limit The limit.
      */
-    private Vector<SnmpVarBind> splitFrom(Vector<SnmpVarBind> original, int limit) {
+    privbte Vector<SnmpVbrBind> splitFrom(Vector<SnmpVbrBind> originbl, int limit) {
 
-        int max= original.size();
-        Vector<SnmpVarBind> result= new Vector<>(max - limit);
+        int mbx= originbl.size();
+        Vector<SnmpVbrBind> result= new Vector<>(mbx - limit);
         int i= limit;
 
-        // Ok the loop looks a bit strange. But in order to improve the
-        // perf, we try to avoid reference to the limit variable from
+        // Ok the loop looks b bit strbnge. But in order to improve the
+        // perf, we try to bvoid reference to the limit vbribble from
         // within the loop ...
         //
-        for(Enumeration<SnmpVarBind> e= original.elements(); e.hasMoreElements(); --i) {
-            SnmpVarBind var= e.nextElement();
+        for(Enumerbtion<SnmpVbrBind> e= originbl.elements(); e.hbsMoreElements(); --i) {
+            SnmpVbrBind vbr= e.nextElement();
             if (i >0)
                 continue;
-            result.addElement(new SnmpVarBind(var.oid, var.value));
+            result.bddElement(new SnmpVbrBind(vbr.oid, vbr.vblue));
         }
         return result;
     }
 
-    private void concatVector(SnmpMibRequest req, Vector<SnmpVarBind> source) {
-        for(Enumeration<SnmpVarBind> e= source.elements(); e.hasMoreElements(); ) {
-            SnmpVarBind var= e.nextElement();
-            // We need to duplicate the SnmpVarBind otherwise it is going
-            // to be overloaded by the next get Next ...
-            req.addVarBind(new SnmpVarBind(var.oid, var.value));
+    privbte void concbtVector(SnmpMibRequest req, Vector<SnmpVbrBind> source) {
+        for(Enumerbtion<SnmpVbrBind> e= source.elements(); e.hbsMoreElements(); ) {
+            SnmpVbrBind vbr= e.nextElement();
+            // We need to duplicbte the SnmpVbrBind otherwise it is going
+            // to be overlobded by the next get Next ...
+            req.bddVbrBind(new SnmpVbrBind(vbr.oid, vbr.vblue));
         }
     }
 
-    private static int getSecurityModel(int version) {
+    privbte stbtic int getSecurityModel(int version) {
         switch(version) {
-        case SnmpDefinitions.snmpVersionOne:
+        cbse SnmpDefinitions.snmpVersionOne:
             return SnmpDefinitions.snmpV1SecurityModel;
-        default:
+        defbult:
             return SnmpDefinitions.snmpV2SecurityModel;
         }
     }
@@ -740,29 +740,29 @@ public abstract class SnmpMibAgent
     // ---------------------------------------------------------------------
 
     /**
-     * The object name of the MIB.
-     * @serial
+     * The object nbme of the MIB.
+     * @seribl
      */
-    protected String mibName;
+    protected String mibNbme;
 
     /**
-     * The reference to the MBean server.
-     * @serial
+     * The reference to the MBebn server.
+     * @seribl
      */
-    protected MBeanServer server;
+    protected MBebnServer server;
 
     // ---------------------------------------------------------------------
     // PRIVATE VARIABLES
     // ---------------------------------------------------------------------
 
     /**
-     * The object name of the SNMP protocol adaptor.
-     * @serial
+     * The object nbme of the SNMP protocol bdbptor.
+     * @seribl
      */
-    private ObjectName adaptorName;
+    privbte ObjectNbme bdbptorNbme;
 
     /**
-     * The reference to the SNMP stack.
+     * The reference to the SNMP stbck.
      */
-    private transient SnmpMibHandler adaptor;
+    privbte trbnsient SnmpMibHbndler bdbptor;
 }

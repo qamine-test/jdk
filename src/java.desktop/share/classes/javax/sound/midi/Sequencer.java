@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
 
 
 /**
- * A hardware or software device that plays back a MIDI
- * <code>{@link Sequence sequence}</code> is known as a <em>sequencer</em>.
- * A MIDI sequence contains lists of time-stamped MIDI data, such as
- * might be read from a standard MIDI file.  Most
- * sequencers also provide functions for creating and editing sequences.
+ * A hbrdwbre or softwbre device thbt plbys bbck b MIDI
+ * <code>{@link Sequence sequence}</code> is known bs b <em>sequencer</em>.
+ * A MIDI sequence contbins lists of time-stbmped MIDI dbtb, such bs
+ * might be rebd from b stbndbrd MIDI file.  Most
+ * sequencers blso provide functions for crebting bnd editing sequences.
  * <p>
- * The <code>Sequencer</code> interface includes methods for the following
- * basic MIDI sequencer operations:
+ * The <code>Sequencer</code> interfbce includes methods for the following
+ * bbsic MIDI sequencer operbtions:
  * <ul>
- * <li>obtaining a sequence from MIDI file data</li>
- * <li>starting and stopping playback</li>
- * <li>moving to an arbitrary position in the sequence</li>
- * <li>changing the tempo (speed) of playback</li>
- * <li>synchronizing playback to an internal clock or to received MIDI
- * messages</li>
- * <li>controlling the timing of another device</li>
+ * <li>obtbining b sequence from MIDI file dbtb</li>
+ * <li>stbrting bnd stopping plbybbck</li>
+ * <li>moving to bn brbitrbry position in the sequence</li>
+ * <li>chbnging the tempo (speed) of plbybbck</li>
+ * <li>synchronizing plbybbck to bn internbl clock or to received MIDI
+ * messbges</li>
+ * <li>controlling the timing of bnother device</li>
  * </ul>
- * In addition, the following operations are supported, either directly, or
- * indirectly through objects that the <code>Sequencer</code> has access to:
+ * In bddition, the following operbtions bre supported, either directly, or
+ * indirectly through objects thbt the <code>Sequencer</code> hbs bccess to:
  * <ul>
- * <li>editing the data by adding or deleting individual MIDI events or entire
- * tracks</li>
- * <li>muting or soloing individual tracks in the sequence</li>
- * <li>notifying listener objects about any meta-events or
- * control-change events encountered while playing back the sequence.</li>
+ * <li>editing the dbtb by bdding or deleting individubl MIDI events or entire
+ * trbcks</li>
+ * <li>muting or soloing individubl trbcks in the sequence</li>
+ * <li>notifying listener objects bbout bny metb-events or
+ * control-chbnge events encountered while plbying bbck the sequence.</li>
  * </ul>
  *
  * @see Sequencer.SyncMode
- * @see #addMetaEventListener
+ * @see #bddMetbEventListener
  * @see ControllerEventListener
  * @see Receiver
- * @see Transmitter
+ * @see Trbnsmitter
  * @see MidiDevice
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
-public interface Sequencer extends MidiDevice {
+public interfbce Sequencer extends MidiDevice {
 
 
     /**
-     * A value indicating that looping should continue
-     * indefinitely rather than complete after a specific
+     * A vblue indicbting thbt looping should continue
+     * indefinitely rbther thbn complete bfter b specific
      * number of loops.
      *
      * @see #setLoopCount
      * @since 1.5
      */
-    public static final int LOOP_CONTINUOUSLY = -1;
+    public stbtic finbl int LOOP_CONTINUOUSLY = -1;
 
 
 
     /**
-     * Sets the current sequence on which the sequencer operates.
+     * Sets the current sequence on which the sequencer operbtes.
      *
-     * <p>This method can be called even if the
+     * <p>This method cbn be cblled even if the
      * <code>Sequencer</code> is closed.
      *
-     * @param sequence the sequence to be loaded.
-     * @throws InvalidMidiDataException if the sequence contains invalid
-     * MIDI data, or is not supported.
+     * @pbrbm sequence the sequence to be lobded.
+     * @throws InvblidMidiDbtbException if the sequence contbins invblid
+     * MIDI dbtb, or is not supported.
      */
-    public void setSequence(Sequence sequence) throws InvalidMidiDataException;
+    public void setSequence(Sequence sequence) throws InvblidMidiDbtbException;
 
 
     /**
-     * Sets the current sequence on which the sequencer operates.
-     * The stream must point to MIDI file data.
+     * Sets the current sequence on which the sequencer operbtes.
+     * The strebm must point to MIDI file dbtb.
      *
-     * <p>This method can be called even if the
+     * <p>This method cbn be cblled even if the
      * <code>Sequencer</code> is closed.
      *
-     * @param stream stream containing MIDI file data.
-     * @throws IOException if an I/O exception occurs during reading of the stream.
-     * @throws InvalidMidiDataException if invalid data is encountered
-     * in the stream, or the stream is not supported.
+     * @pbrbm strebm strebm contbining MIDI file dbtb.
+     * @throws IOException if bn I/O exception occurs during rebding of the strebm.
+     * @throws InvblidMidiDbtbException if invblid dbtb is encountered
+     * in the strebm, or the strebm is not supported.
      */
-    public void setSequence(InputStream stream) throws IOException, InvalidMidiDataException;
+    public void setSequence(InputStrebm strebm) throws IOException, InvblidMidiDbtbException;
 
 
     /**
-     * Obtains the sequence on which the Sequencer is currently operating.
+     * Obtbins the sequence on which the Sequencer is currently operbting.
      *
-     * <p>This method can be called even if the
+     * <p>This method cbn be cblled even if the
      * <code>Sequencer</code> is closed.
      *
      * @return the current sequence, or <code>null</code> if no sequence is currently set.
@@ -122,201 +122,201 @@ public interface Sequencer extends MidiDevice {
 
 
     /**
-     * Starts playback of the MIDI data in the currently
-     * loaded sequence.
-     * Playback will begin from the current position.
-     * If the playback position reaches the loop end point,
-     * and the loop count is greater than 0, playback will
-     * resume at the loop start point for the number of
+     * Stbrts plbybbck of the MIDI dbtb in the currently
+     * lobded sequence.
+     * Plbybbck will begin from the current position.
+     * If the plbybbck position rebches the loop end point,
+     * bnd the loop count is grebter thbn 0, plbybbck will
+     * resume bt the loop stbrt point for the number of
      * repetitions set with <code>setLoopCount</code>.
-     * After that, or if the loop count is 0, playback will
-     * continue to play to the end of the sequence.
+     * After thbt, or if the loop count is 0, plbybbck will
+     * continue to plby to the end of the sequence.
      *
-     * <p>The implementation ensures that the synthesizer
-     * is brought to a consistent state when jumping
-     * to the loop start point by sending appropriate
-     * controllers, pitch bend, and program change events.
+     * <p>The implementbtion ensures thbt the synthesizer
+     * is brought to b consistent stbte when jumping
+     * to the loop stbrt point by sending bppropribte
+     * controllers, pitch bend, bnd progrbm chbnge events.
      *
-     * @throws IllegalStateException if the <code>Sequencer</code> is
+     * @throws IllegblStbteException if the <code>Sequencer</code> is
      * closed.
      *
-     * @see #setLoopStartPoint
+     * @see #setLoopStbrtPoint
      * @see #setLoopEndPoint
      * @see #setLoopCount
      * @see #stop
      */
-    public void start();
+    public void stbrt();
 
 
     /**
-     * Stops recording, if active, and playback of the currently loaded sequence,
-     * if any.
+     * Stops recording, if bctive, bnd plbybbck of the currently lobded sequence,
+     * if bny.
      *
-     * @throws IllegalStateException if the <code>Sequencer</code> is
+     * @throws IllegblStbteException if the <code>Sequencer</code> is
      * closed.
      *
-     * @see #start
+     * @see #stbrt
      * @see #isRunning
      */
     public void stop();
 
 
     /**
-     * Indicates whether the Sequencer is currently running.  The default is <code>false</code>.
-     * The Sequencer starts running when either <code>{@link #start}</code> or <code>{@link #startRecording}</code>
-     * is called.  <code>isRunning</code> then returns <code>true</code> until playback of the
-     * sequence completes or <code>{@link #stop}</code> is called.
-     * @return <code>true</code> if the Sequencer is running, otherwise <code>false</code>
+     * Indicbtes whether the Sequencer is currently running.  The defbult is <code>fblse</code>.
+     * The Sequencer stbrts running when either <code>{@link #stbrt}</code> or <code>{@link #stbrtRecording}</code>
+     * is cblled.  <code>isRunning</code> then returns <code>true</code> until plbybbck of the
+     * sequence completes or <code>{@link #stop}</code> is cblled.
+     * @return <code>true</code> if the Sequencer is running, otherwise <code>fblse</code>
      */
-    public boolean isRunning();
+    public boolebn isRunning();
 
 
     /**
-     * Starts recording and playback of MIDI data.  Data is recorded to all enabled tracks,
-     * on the channel(s) for which they were enabled.  Recording begins at the current position
-     * of the sequencer.   Any events already in the track are overwritten for the duration
-     * of the recording session.  Events from the currently loaded sequence,
-     * if any, are delivered to the sequencer's transmitter(s) along with messages
+     * Stbrts recording bnd plbybbck of MIDI dbtb.  Dbtb is recorded to bll enbbled trbcks,
+     * on the chbnnel(s) for which they were enbbled.  Recording begins bt the current position
+     * of the sequencer.   Any events blrebdy in the trbck bre overwritten for the durbtion
+     * of the recording session.  Events from the currently lobded sequence,
+     * if bny, bre delivered to the sequencer's trbnsmitter(s) blong with messbges
      * received during recording.
      * <p>
-     * Note that tracks are not by default enabled for recording.  In order to record MIDI data,
-     * at least one track must be specifically enabled for recording.
+     * Note thbt trbcks bre not by defbult enbbled for recording.  In order to record MIDI dbtb,
+     * bt lebst one trbck must be specificblly enbbled for recording.
      *
-     * @throws IllegalStateException if the <code>Sequencer</code> is
+     * @throws IllegblStbteException if the <code>Sequencer</code> is
      * closed.
      *
-     * @see #startRecording
-     * @see #recordEnable
-     * @see #recordDisable
+     * @see #stbrtRecording
+     * @see #recordEnbble
+     * @see #recordDisbble
      */
-    public void startRecording();
+    public void stbrtRecording();
 
 
     /**
-     * Stops recording, if active.  Playback of the current sequence continues.
+     * Stops recording, if bctive.  Plbybbck of the current sequence continues.
      *
-     * @throws IllegalStateException if the <code>Sequencer</code> is
+     * @throws IllegblStbteException if the <code>Sequencer</code> is
      * closed.
      *
-     * @see #startRecording
+     * @see #stbrtRecording
      * @see #isRecording
      */
     public void stopRecording();
 
 
     /**
-     * Indicates whether the Sequencer is currently recording.  The default is <code>false</code>.
-     * The Sequencer begins recording when <code>{@link #startRecording}</code> is called,
-     * and then returns <code>true</code> until <code>{@link #stop}</code> or <code>{@link #stopRecording}</code>
-     * is called.
-     * @return <code>true</code> if the Sequencer is recording, otherwise <code>false</code>
+     * Indicbtes whether the Sequencer is currently recording.  The defbult is <code>fblse</code>.
+     * The Sequencer begins recording when <code>{@link #stbrtRecording}</code> is cblled,
+     * bnd then returns <code>true</code> until <code>{@link #stop}</code> or <code>{@link #stopRecording}</code>
+     * is cblled.
+     * @return <code>true</code> if the Sequencer is recording, otherwise <code>fblse</code>
      */
-    public boolean isRecording();
+    public boolebn isRecording();
 
 
     /**
-     * Prepares the specified track for recording events received on a particular channel.
-     * Once enabled, a track will receive events when recording is active.
-     * @param track the track to which events will be recorded
-     * @param channel the channel on which events will be received.  If -1 is specified
-     * for the channel value, the track will receive data from all channels.
-     * @throws IllegalArgumentException thrown if the track is not part of the current
+     * Prepbres the specified trbck for recording events received on b pbrticulbr chbnnel.
+     * Once enbbled, b trbck will receive events when recording is bctive.
+     * @pbrbm trbck the trbck to which events will be recorded
+     * @pbrbm chbnnel the chbnnel on which events will be received.  If -1 is specified
+     * for the chbnnel vblue, the trbck will receive dbtb from bll chbnnels.
+     * @throws IllegblArgumentException thrown if the trbck is not pbrt of the current
      * sequence.
      */
-    public void recordEnable(Track track, int channel);
+    public void recordEnbble(Trbck trbck, int chbnnel);
 
 
     /**
-     * Disables recording to the specified track.  Events will no longer be recorded
-     * into this track.
-     * @param track the track to disable for recording, or <code>null</code> to disable
-     * recording for all tracks.
+     * Disbbles recording to the specified trbck.  Events will no longer be recorded
+     * into this trbck.
+     * @pbrbm trbck the trbck to disbble for recording, or <code>null</code> to disbble
+     * recording for bll trbcks.
      */
-    public void recordDisable(Track track);
+    public void recordDisbble(Trbck trbck);
 
 
     /**
-     * Obtains the current tempo, expressed in beats per minute.  The
-     * actual tempo of playback is the product of the returned value
-     * and the tempo factor.
+     * Obtbins the current tempo, expressed in bebts per minute.  The
+     * bctubl tempo of plbybbck is the product of the returned vblue
+     * bnd the tempo fbctor.
      *
-     * @return the current tempo in beats per minute
+     * @return the current tempo in bebts per minute
      *
-     * @see #getTempoFactor
-     * @see #setTempoInBPM(float)
+     * @see #getTempoFbctor
+     * @see #setTempoInBPM(flobt)
      * @see #getTempoInMPQ
      */
-    public float getTempoInBPM();
+    public flobt getTempoInBPM();
 
 
     /**
-     * Sets the tempo in beats per minute.   The actual tempo of playback
-     * is the product of the specified value and the tempo factor.
+     * Sets the tempo in bebts per minute.   The bctubl tempo of plbybbck
+     * is the product of the specified vblue bnd the tempo fbctor.
      *
-     * @param bpm desired new tempo in beats per minute
-     * @see #getTempoFactor
-     * @see #setTempoInMPQ(float)
+     * @pbrbm bpm desired new tempo in bebts per minute
+     * @see #getTempoFbctor
+     * @see #setTempoInMPQ(flobt)
      * @see #getTempoInBPM
      */
-    public void setTempoInBPM(float bpm);
+    public void setTempoInBPM(flobt bpm);
 
 
     /**
-     * Obtains the current tempo, expressed in microseconds per quarter
-     * note.  The actual tempo of playback is the product of the returned
-     * value and the tempo factor.
+     * Obtbins the current tempo, expressed in microseconds per qubrter
+     * note.  The bctubl tempo of plbybbck is the product of the returned
+     * vblue bnd the tempo fbctor.
      *
-     * @return the current tempo in microseconds per quarter note
-     * @see #getTempoFactor
-     * @see #setTempoInMPQ(float)
+     * @return the current tempo in microseconds per qubrter note
+     * @see #getTempoFbctor
+     * @see #setTempoInMPQ(flobt)
      * @see #getTempoInBPM
      */
-    public float getTempoInMPQ();
+    public flobt getTempoInMPQ();
 
 
     /**
-     * Sets the tempo in microseconds per quarter note.  The actual tempo
-     * of playback is the product of the specified value and the tempo
-     * factor.
+     * Sets the tempo in microseconds per qubrter note.  The bctubl tempo
+     * of plbybbck is the product of the specified vblue bnd the tempo
+     * fbctor.
      *
-     * @param mpq desired new tempo in microseconds per quarter note.
-     * @see #getTempoFactor
-     * @see #setTempoInBPM(float)
+     * @pbrbm mpq desired new tempo in microseconds per qubrter note.
+     * @see #getTempoFbctor
+     * @see #setTempoInBPM(flobt)
      * @see #getTempoInMPQ
      */
-    public void setTempoInMPQ(float mpq);
+    public void setTempoInMPQ(flobt mpq);
 
 
     /**
-     * Scales the sequencer's actual playback tempo by the factor provided.
-     * The default is 1.0.  A value of 1.0 represents the natural rate (the
-     * tempo specified in the sequence), 2.0 means twice as fast, etc.
-     * The tempo factor does not affect the values returned by
-     * <code>{@link #getTempoInMPQ}</code> and <code>{@link #getTempoInBPM}</code>.
-     * Those values indicate the tempo prior to scaling.
+     * Scbles the sequencer's bctubl plbybbck tempo by the fbctor provided.
+     * The defbult is 1.0.  A vblue of 1.0 represents the nbturbl rbte (the
+     * tempo specified in the sequence), 2.0 mebns twice bs fbst, etc.
+     * The tempo fbctor does not bffect the vblues returned by
+     * <code>{@link #getTempoInMPQ}</code> bnd <code>{@link #getTempoInBPM}</code>.
+     * Those vblues indicbte the tempo prior to scbling.
      * <p>
-     * Note that the tempo factor cannot be adjusted when external
-     * synchronization is used.  In that situation,
-     * <code>setTempoFactor</code> always sets the tempo factor to 1.0.
+     * Note thbt the tempo fbctor cbnnot be bdjusted when externbl
+     * synchronizbtion is used.  In thbt situbtion,
+     * <code>setTempoFbctor</code> blwbys sets the tempo fbctor to 1.0.
      *
-     * @param factor the requested tempo scalar
-     * @see #getTempoFactor
+     * @pbrbm fbctor the requested tempo scblbr
+     * @see #getTempoFbctor
      */
-    public void setTempoFactor(float factor);
+    public void setTempoFbctor(flobt fbctor);
 
 
     /**
-     * Returns the current tempo factor for the sequencer.  The default is
+     * Returns the current tempo fbctor for the sequencer.  The defbult is
      * 1.0.
      *
-     * @return tempo factor.
-     * @see #setTempoFactor(float)
+     * @return tempo fbctor.
+     * @see #setTempoFbctor(flobt)
      */
-    public float getTempoFactor();
+    public flobt getTempoFbctor();
 
 
     /**
-     * Obtains the length of the current sequence, expressed in MIDI ticks,
+     * Obtbins the length of the current sequence, expressed in MIDI ticks,
      * or 0 if no sequence is set.
      * @return length of the sequence in ticks
      */
@@ -324,9 +324,9 @@ public interface Sequencer extends MidiDevice {
 
 
     /**
-     * Obtains the current position in the sequence, expressed in MIDI
-     * ticks.  (The duration of a tick in seconds is determined both by
-     * the tempo and by the timing resolution stored in the
+     * Obtbins the current position in the sequence, expressed in MIDI
+     * ticks.  (The durbtion of b tick in seconds is determined both by
+     * the tempo bnd by the timing resolution stored in the
      * <code>{@link Sequence}</code>.)
      *
      * @return current tick
@@ -337,14 +337,14 @@ public interface Sequencer extends MidiDevice {
 
     /**
      * Sets the current sequencer position in MIDI ticks
-     * @param tick the desired tick position
+     * @pbrbm tick the desired tick position
      * @see #getTickPosition
      */
     public void setTickPosition(long tick);
 
 
     /**
-     * Obtains the length of the current sequence, expressed in microseconds,
+     * Obtbins the length of the current sequence, expressed in microseconds,
      * or 0 if no sequence is set.
      * @return length of the sequence in microseconds.
      */
@@ -352,7 +352,7 @@ public interface Sequencer extends MidiDevice {
 
 
     /**
-     * Obtains the current position in the sequence, expressed in
+     * Obtbins the current position in the sequence, expressed in
      * microseconds.
      * @return the current position in microseconds
      * @see #setMicrosecondPosition
@@ -362,327 +362,327 @@ public interface Sequencer extends MidiDevice {
 
     /**
      * Sets the current position in the sequence, expressed in microseconds
-     * @param microseconds desired position in microseconds
+     * @pbrbm microseconds desired position in microseconds
      * @see #getMicrosecondPosition
      */
     public void setMicrosecondPosition(long microseconds);
 
 
     /**
-     * Sets the source of timing information used by this sequencer.
-     * The sequencer synchronizes to the master, which is the internal clock,
-     * MIDI clock, or MIDI time code, depending on the value of
-     * <code>sync</code>.  The <code>sync</code> argument must be one
-     * of the supported modes, as returned by
-     * <code>{@link #getMasterSyncModes}</code>.
+     * Sets the source of timing informbtion used by this sequencer.
+     * The sequencer synchronizes to the mbster, which is the internbl clock,
+     * MIDI clock, or MIDI time code, depending on the vblue of
+     * <code>sync</code>.  The <code>sync</code> brgument must be one
+     * of the supported modes, bs returned by
+     * <code>{@link #getMbsterSyncModes}</code>.
      *
-     * @param sync the desired master synchronization mode
+     * @pbrbm sync the desired mbster synchronizbtion mode
      *
      * @see SyncMode#INTERNAL_CLOCK
      * @see SyncMode#MIDI_SYNC
      * @see SyncMode#MIDI_TIME_CODE
-     * @see #getMasterSyncMode
+     * @see #getMbsterSyncMode
      */
-    public void setMasterSyncMode(SyncMode sync);
+    public void setMbsterSyncMode(SyncMode sync);
 
 
     /**
-     * Obtains the current master synchronization mode for this sequencer.
+     * Obtbins the current mbster synchronizbtion mode for this sequencer.
      *
-     * @return the current master synchronization mode
+     * @return the current mbster synchronizbtion mode
      *
-     * @see #setMasterSyncMode(Sequencer.SyncMode)
-     * @see #getMasterSyncModes
+     * @see #setMbsterSyncMode(Sequencer.SyncMode)
+     * @see #getMbsterSyncModes
      */
-    public SyncMode getMasterSyncMode();
+    public SyncMode getMbsterSyncMode();
 
 
     /**
-     * Obtains the set of master synchronization modes supported by this
+     * Obtbins the set of mbster synchronizbtion modes supported by this
      * sequencer.
      *
-     * @return the available master synchronization modes
+     * @return the bvbilbble mbster synchronizbtion modes
      *
      * @see SyncMode#INTERNAL_CLOCK
      * @see SyncMode#MIDI_SYNC
      * @see SyncMode#MIDI_TIME_CODE
-     * @see #getMasterSyncMode
-     * @see #setMasterSyncMode(Sequencer.SyncMode)
+     * @see #getMbsterSyncMode
+     * @see #setMbsterSyncMode(Sequencer.SyncMode)
      */
-    public SyncMode[] getMasterSyncModes();
+    public SyncMode[] getMbsterSyncModes();
 
 
     /**
-     * Sets the slave synchronization mode for the sequencer.
-     * This indicates the type of timing information sent by the sequencer
-     * to its receiver.  The <code>sync</code> argument must be one
-     * of the supported modes, as returned by
-     * <code>{@link #getSlaveSyncModes}</code>.
+     * Sets the slbve synchronizbtion mode for the sequencer.
+     * This indicbtes the type of timing informbtion sent by the sequencer
+     * to its receiver.  The <code>sync</code> brgument must be one
+     * of the supported modes, bs returned by
+     * <code>{@link #getSlbveSyncModes}</code>.
      *
-     * @param sync the desired slave synchronization mode
+     * @pbrbm sync the desired slbve synchronizbtion mode
      *
      * @see SyncMode#MIDI_SYNC
      * @see SyncMode#MIDI_TIME_CODE
      * @see SyncMode#NO_SYNC
-     * @see #getSlaveSyncModes
+     * @see #getSlbveSyncModes
      */
-    public void setSlaveSyncMode(SyncMode sync);
+    public void setSlbveSyncMode(SyncMode sync);
 
 
     /**
-     * Obtains the current slave synchronization mode for this sequencer.
+     * Obtbins the current slbve synchronizbtion mode for this sequencer.
      *
-     * @return the current slave synchronization mode
+     * @return the current slbve synchronizbtion mode
      *
-     * @see #setSlaveSyncMode(Sequencer.SyncMode)
-     * @see #getSlaveSyncModes
+     * @see #setSlbveSyncMode(Sequencer.SyncMode)
+     * @see #getSlbveSyncModes
      */
-    public SyncMode getSlaveSyncMode();
+    public SyncMode getSlbveSyncMode();
 
 
     /**
-     * Obtains the set of slave synchronization modes supported by the sequencer.
+     * Obtbins the set of slbve synchronizbtion modes supported by the sequencer.
      *
-     * @return the available slave synchronization modes
+     * @return the bvbilbble slbve synchronizbtion modes
      *
      * @see SyncMode#MIDI_SYNC
      * @see SyncMode#MIDI_TIME_CODE
      * @see SyncMode#NO_SYNC
      */
-    public SyncMode[] getSlaveSyncModes();
+    public SyncMode[] getSlbveSyncModes();
 
 
     /**
-     * Sets the mute state for a track.  This method may fail for a number
-     * of reasons.  For example, the track number specified may not be valid
-     * for the current sequence, or the sequencer may not support this functionality.
-     * An application which needs to verify whether this operation succeeded should
-     * follow this call with a call to <code>{@link #getTrackMute}</code>.
+     * Sets the mute stbte for b trbck.  This method mby fbil for b number
+     * of rebsons.  For exbmple, the trbck number specified mby not be vblid
+     * for the current sequence, or the sequencer mby not support this functionblity.
+     * An bpplicbtion which needs to verify whether this operbtion succeeded should
+     * follow this cbll with b cbll to <code>{@link #getTrbckMute}</code>.
      *
-     * @param track the track number.  Tracks in the current sequence are numbered
-     * from 0 to the number of tracks in the sequence minus 1.
-     * @param mute the new mute state for the track.  <code>true</code> implies the
-     * track should be muted, <code>false</code> implies the track should be unmuted.
+     * @pbrbm trbck the trbck number.  Trbcks in the current sequence bre numbered
+     * from 0 to the number of trbcks in the sequence minus 1.
+     * @pbrbm mute the new mute stbte for the trbck.  <code>true</code> implies the
+     * trbck should be muted, <code>fblse</code> implies the trbck should be unmuted.
      * @see #getSequence
      */
-    public void setTrackMute(int track, boolean mute);
+    public void setTrbckMute(int trbck, boolebn mute);
 
 
     /**
-     * Obtains the current mute state for a track.  The default mute
-     * state for all tracks which have not been muted is false.  In any
-     * case where the specified track has not been muted, this method should
-     * return false.  This applies if the sequencer does not support muting
-     * of tracks, and if the specified track index is not valid.
+     * Obtbins the current mute stbte for b trbck.  The defbult mute
+     * stbte for bll trbcks which hbve not been muted is fblse.  In bny
+     * cbse where the specified trbck hbs not been muted, this method should
+     * return fblse.  This bpplies if the sequencer does not support muting
+     * of trbcks, bnd if the specified trbck index is not vblid.
      *
-     * @param track the track number.  Tracks in the current sequence are numbered
-     * from 0 to the number of tracks in the sequence minus 1.
-     * @return <code>true</code> if muted, <code>false</code> if not.
+     * @pbrbm trbck the trbck number.  Trbcks in the current sequence bre numbered
+     * from 0 to the number of trbcks in the sequence minus 1.
+     * @return <code>true</code> if muted, <code>fblse</code> if not.
      */
-    public boolean getTrackMute(int track);
+    public boolebn getTrbckMute(int trbck);
 
     /**
-     * Sets the solo state for a track.  If <code>solo</code> is <code>true</code>
-     * only this track and other solo'd tracks will sound. If <code>solo</code>
-     * is <code>false</code> then only other solo'd tracks will sound, unless no
-     * tracks are solo'd in which case all un-muted tracks will sound.
+     * Sets the solo stbte for b trbck.  If <code>solo</code> is <code>true</code>
+     * only this trbck bnd other solo'd trbcks will sound. If <code>solo</code>
+     * is <code>fblse</code> then only other solo'd trbcks will sound, unless no
+     * trbcks bre solo'd in which cbse bll un-muted trbcks will sound.
      * <p>
-     * This method may fail for a number
-     * of reasons.  For example, the track number specified may not be valid
-     * for the current sequence, or the sequencer may not support this functionality.
-     * An application which needs to verify whether this operation succeeded should
-     * follow this call with a call to <code>{@link #getTrackSolo}</code>.
+     * This method mby fbil for b number
+     * of rebsons.  For exbmple, the trbck number specified mby not be vblid
+     * for the current sequence, or the sequencer mby not support this functionblity.
+     * An bpplicbtion which needs to verify whether this operbtion succeeded should
+     * follow this cbll with b cbll to <code>{@link #getTrbckSolo}</code>.
      *
-     * @param track the track number.  Tracks in the current sequence are numbered
-     * from 0 to the number of tracks in the sequence minus 1.
-     * @param solo the new solo state for the track.  <code>true</code> implies the
-     * track should be solo'd, <code>false</code> implies the track should not be solo'd.
+     * @pbrbm trbck the trbck number.  Trbcks in the current sequence bre numbered
+     * from 0 to the number of trbcks in the sequence minus 1.
+     * @pbrbm solo the new solo stbte for the trbck.  <code>true</code> implies the
+     * trbck should be solo'd, <code>fblse</code> implies the trbck should not be solo'd.
      * @see #getSequence
      */
-    public void setTrackSolo(int track, boolean solo);
+    public void setTrbckSolo(int trbck, boolebn solo);
 
 
     /**
-     * Obtains the current solo state for a track.  The default mute
-     * state for all tracks which have not been solo'd is false.  In any
-     * case where the specified track has not been solo'd, this method should
-     * return false.  This applies if the sequencer does not support soloing
-     * of tracks, and if the specified track index is not valid.
+     * Obtbins the current solo stbte for b trbck.  The defbult mute
+     * stbte for bll trbcks which hbve not been solo'd is fblse.  In bny
+     * cbse where the specified trbck hbs not been solo'd, this method should
+     * return fblse.  This bpplies if the sequencer does not support soloing
+     * of trbcks, bnd if the specified trbck index is not vblid.
      *
-     * @param track the track number.  Tracks in the current sequence are numbered
-     * from 0 to the number of tracks in the sequence minus 1.
-     * @return <code>true</code> if solo'd, <code>false</code> if not.
+     * @pbrbm trbck the trbck number.  Trbcks in the current sequence bre numbered
+     * from 0 to the number of trbcks in the sequence minus 1.
+     * @return <code>true</code> if solo'd, <code>fblse</code> if not.
      */
-    public boolean getTrackSolo(int track);
+    public boolebn getTrbckSolo(int trbck);
 
 
     /**
-     * Registers a meta-event listener to receive
-     * notification whenever a meta-event is encountered in the sequence
-     * and processed by the sequencer. This method can fail if, for
-     * instance,this class of sequencer does not support meta-event
-     * notification.
+     * Registers b metb-event listener to receive
+     * notificbtion whenever b metb-event is encountered in the sequence
+     * bnd processed by the sequencer. This method cbn fbil if, for
+     * instbnce,this clbss of sequencer does not support metb-event
+     * notificbtion.
      *
-     * @param listener listener to add
-     * @return <code>true</code> if the listener was successfully added,
-     * otherwise <code>false</code>
+     * @pbrbm listener listener to bdd
+     * @return <code>true</code> if the listener wbs successfully bdded,
+     * otherwise <code>fblse</code>
      *
-     * @see #removeMetaEventListener
-     * @see MetaEventListener
-     * @see MetaMessage
+     * @see #removeMetbEventListener
+     * @see MetbEventListener
+     * @see MetbMessbge
      */
-    public boolean addMetaEventListener(MetaEventListener listener);
+    public boolebn bddMetbEventListener(MetbEventListener listener);
 
 
     /**
-     * Removes the specified meta-event listener from this sequencer's
-     * list of registered listeners, if in fact the listener is registered.
+     * Removes the specified metb-event listener from this sequencer's
+     * list of registered listeners, if in fbct the listener is registered.
      *
-     * @param listener the meta-event listener to remove
-     * @see #addMetaEventListener
+     * @pbrbm listener the metb-event listener to remove
+     * @see #bddMetbEventListener
      */
-    public void removeMetaEventListener(MetaEventListener listener);
+    public void removeMetbEventListener(MetbEventListener listener);
 
 
     /**
-     * Registers a controller event listener to receive notification
-     * whenever the sequencer processes a control-change event of the
-     * requested type or types.  The types are specified by the
-     * <code>controllers</code> argument, which should contain an array of
-     * MIDI controller numbers.  (Each number should be between 0 and 127,
-     * inclusive.  See the MIDI 1.0 Specification for the numbers that
-     * correspond to various types of controllers.)
+     * Registers b controller event listener to receive notificbtion
+     * whenever the sequencer processes b control-chbnge event of the
+     * requested type or types.  The types bre specified by the
+     * <code>controllers</code> brgument, which should contbin bn brrby of
+     * MIDI controller numbers.  (Ebch number should be between 0 bnd 127,
+     * inclusive.  See the MIDI 1.0 Specificbtion for the numbers thbt
+     * correspond to vbrious types of controllers.)
      * <p>
-     * The returned array contains the MIDI controller
+     * The returned brrby contbins the MIDI controller
      * numbers for which the listener will now receive events.
-     * Some sequencers might not support controller event notification, in
-     * which case the array has a length of 0.  Other sequencers might
-     * support notification for some controllers but not all.
-     * This method may be invoked repeatedly.
-     * Each time, the returned array indicates all the controllers
-     * that the listener will be notified about, not only the controllers
-     * requested in that particular invocation.
+     * Some sequencers might not support controller event notificbtion, in
+     * which cbse the brrby hbs b length of 0.  Other sequencers might
+     * support notificbtion for some controllers but not bll.
+     * This method mby be invoked repebtedly.
+     * Ebch time, the returned brrby indicbtes bll the controllers
+     * thbt the listener will be notified bbout, not only the controllers
+     * requested in thbt pbrticulbr invocbtion.
      *
-     * @param listener the controller event listener to add to the list of
+     * @pbrbm listener the controller event listener to bdd to the list of
      * registered listeners
-     * @param controllers the MIDI controller numbers for which change
-     * notification is requested
-     * @return the numbers of all the MIDI controllers whose changes will
+     * @pbrbm controllers the MIDI controller numbers for which chbnge
+     * notificbtion is requested
+     * @return the numbers of bll the MIDI controllers whose chbnges will
      * now be reported to the specified listener
      *
      * @see #removeControllerEventListener
      * @see ControllerEventListener
      */
-    public int[] addControllerEventListener(ControllerEventListener listener, int[] controllers);
+    public int[] bddControllerEventListener(ControllerEventListener listener, int[] controllers);
 
 
     /**
-     * Removes a controller event listener's interest in one or more
-     * types of controller event. The <code>controllers</code> argument
-     * is an array of MIDI numbers corresponding to the  controllers for
-     * which the listener should no longer receive change notifications.
+     * Removes b controller event listener's interest in one or more
+     * types of controller event. The <code>controllers</code> brgument
+     * is bn brrby of MIDI numbers corresponding to the  controllers for
+     * which the listener should no longer receive chbnge notificbtions.
      * To completely remove this listener from the list of registered
-     * listeners, pass in <code>null</code> for <code>controllers</code>.
-     * The returned array contains the MIDI controller
+     * listeners, pbss in <code>null</code> for <code>controllers</code>.
+     * The returned brrby contbins the MIDI controller
      * numbers for which the listener will now receive events.  The
-     * array has a length of 0 if the listener will not receive
-     * change notifications for any controllers.
+     * brrby hbs b length of 0 if the listener will not receive
+     * chbnge notificbtions for bny controllers.
      *
-     * @param listener old listener
-     * @param controllers the MIDI controller numbers for which change
-     * notification should be cancelled, or <code>null</code> to cancel
-     * for all controllers
-     * @return the numbers of all the MIDI controllers whose changes will
+     * @pbrbm listener old listener
+     * @pbrbm controllers the MIDI controller numbers for which chbnge
+     * notificbtion should be cbncelled, or <code>null</code> to cbncel
+     * for bll controllers
+     * @return the numbers of bll the MIDI controllers whose chbnges will
      * now be reported to the specified listener
      *
-     * @see #addControllerEventListener
+     * @see #bddControllerEventListener
      */
     public int[] removeControllerEventListener(ControllerEventListener listener, int[] controllers);
 
 
     /**
-     * Sets the first MIDI tick that will be
-     * played in the loop. If the loop count is
-     * greater than 0, playback will jump to this
-     * point when reaching the loop end point.
+     * Sets the first MIDI tick thbt will be
+     * plbyed in the loop. If the loop count is
+     * grebter thbn 0, plbybbck will jump to this
+     * point when rebching the loop end point.
      *
-     * <p>A value of 0 for the starting point means the
-     * beginning of the loaded sequence. The starting
-     * point must be lower than or equal to the ending
-     * point, and it must fall within the size of the
-     * loaded sequence.
+     * <p>A vblue of 0 for the stbrting point mebns the
+     * beginning of the lobded sequence. The stbrting
+     * point must be lower thbn or equbl to the ending
+     * point, bnd it must fbll within the size of the
+     * lobded sequence.
      *
-     * <p>A sequencer's loop start point defaults to
-     * start of the sequence.
+     * <p>A sequencer's loop stbrt point defbults to
+     * stbrt of the sequence.
      *
-     * @param tick the loop's starting position,
-     *        in MIDI ticks (zero-based)
-     * @throws IllegalArgumentException if the requested
-     *         loop start point cannot be set, usually because
-     *         it falls outside the sequence's
-     *         duration or because the start point is
-     *         after the end point
+     * @pbrbm tick the loop's stbrting position,
+     *        in MIDI ticks (zero-bbsed)
+     * @throws IllegblArgumentException if the requested
+     *         loop stbrt point cbnnot be set, usublly becbuse
+     *         it fblls outside the sequence's
+     *         durbtion or becbuse the stbrt point is
+     *         bfter the end point
      *
      * @see #setLoopEndPoint
      * @see #setLoopCount
-     * @see #getLoopStartPoint
-     * @see #start
+     * @see #getLoopStbrtPoint
+     * @see #stbrt
      * @since 1.5
      */
-    public void setLoopStartPoint(long tick);
+    public void setLoopStbrtPoint(long tick);
 
 
     /**
-     * Obtains the start position of the loop,
+     * Obtbins the stbrt position of the loop,
      * in MIDI ticks.
      *
-     * @return the start position of the loop,
-               in MIDI ticks (zero-based)
-     * @see #setLoopStartPoint
+     * @return the stbrt position of the loop,
+               in MIDI ticks (zero-bbsed)
+     * @see #setLoopStbrtPoint
      * @since 1.5
      */
-    public long getLoopStartPoint();
+    public long getLoopStbrtPoint();
 
 
     /**
-     * Sets the last MIDI tick that will be played in
+     * Sets the lbst MIDI tick thbt will be plbyed in
      * the loop. If the loop count is 0, the loop end
-     * point has no effect and playback continues to
-     * play when reaching the loop end point.
+     * point hbs no effect bnd plbybbck continues to
+     * plby when rebching the loop end point.
      *
-     * <p>A value of -1 for the ending point
-     * indicates the last tick of the sequence.
-     * Otherwise, the ending point must be greater
-     * than or equal to the starting point, and it must
-     * fall within the size of the loaded sequence.
+     * <p>A vblue of -1 for the ending point
+     * indicbtes the lbst tick of the sequence.
+     * Otherwise, the ending point must be grebter
+     * thbn or equbl to the stbrting point, bnd it must
+     * fbll within the size of the lobded sequence.
      *
-     * <p>A sequencer's loop end point defaults to -1,
-     * meaning the end of the sequence.
+     * <p>A sequencer's loop end point defbults to -1,
+     * mebning the end of the sequence.
      *
-     * @param tick the loop's ending position,
-     *        in MIDI ticks (zero-based), or
-     *        -1 to indicate the final tick
-     * @throws IllegalArgumentException if the requested
-     *         loop point cannot be set, usually because
-     *         it falls outside the sequence's
-     *         duration or because the ending point is
-     *         before the starting point
+     * @pbrbm tick the loop's ending position,
+     *        in MIDI ticks (zero-bbsed), or
+     *        -1 to indicbte the finbl tick
+     * @throws IllegblArgumentException if the requested
+     *         loop point cbnnot be set, usublly becbuse
+     *         it fblls outside the sequence's
+     *         durbtion or becbuse the ending point is
+     *         before the stbrting point
      *
-     * @see #setLoopStartPoint
+     * @see #setLoopStbrtPoint
      * @see #setLoopCount
      * @see #getLoopEndPoint
-     * @see #start
+     * @see #stbrt
      * @since 1.5
      */
     public void setLoopEndPoint(long tick);
 
 
     /**
-     * Obtains the end position of the loop,
+     * Obtbins the end position of the loop,
      * in MIDI ticks.
      *
      * @return the end position of the loop, in MIDI
-     *         ticks (zero-based), or -1 to indicate
+     *         ticks (zero-bbsed), or -1 to indicbte
      *         the end of the sequence
      * @see #setLoopEndPoint
      * @since 1.5
@@ -692,177 +692,177 @@ public interface Sequencer extends MidiDevice {
 
     /**
      * Sets the number of repetitions of the loop for
-     * playback.
-     * When the playback position reaches the loop end point,
-     * it will loop back to the loop start point
-     * <code>count</code> times, after which playback will
-     * continue to play to the end of the sequence.
+     * plbybbck.
+     * When the plbybbck position rebches the loop end point,
+     * it will loop bbck to the loop stbrt point
+     * <code>count</code> times, bfter which plbybbck will
+     * continue to plby to the end of the sequence.
      * <p>
      * If the current position when this method is invoked
-     * is greater than the loop end point, playback
+     * is grebter thbn the loop end point, plbybbck
      * continues to the end of the sequence without looping,
-     * unless the loop end point is changed subsequently.
+     * unless the loop end point is chbnged subsequently.
      * <p>
-     * A <code>count</code> value of 0 disables looping:
-     * playback will continue at the loop end point, and it
-     * will not loop back to the loop start point.
-     * This is a sequencer's default.
+     * A <code>count</code> vblue of 0 disbbles looping:
+     * plbybbck will continue bt the loop end point, bnd it
+     * will not loop bbck to the loop stbrt point.
+     * This is b sequencer's defbult.
      *
-     * <p>If playback is stopped during looping, the
-     * current loop status is cleared; subsequent start
-     * requests are not affected by an interrupted loop
-     * operation.
+     * <p>If plbybbck is stopped during looping, the
+     * current loop stbtus is clebred; subsequent stbrt
+     * requests bre not bffected by bn interrupted loop
+     * operbtion.
      *
-     * @param count the number of times playback should
-     *        loop back from the loop's end position
-     *        to the loop's start position, or
+     * @pbrbm count the number of times plbybbck should
+     *        loop bbck from the loop's end position
+     *        to the loop's stbrt position, or
      *        <code>{@link #LOOP_CONTINUOUSLY}</code>
-     *        to indicate that looping should
+     *        to indicbte thbt looping should
      *        continue until interrupted
      *
-     * @throws IllegalArgumentException if <code>count</code> is
-     * negative and not equal to {@link #LOOP_CONTINUOUSLY}
+     * @throws IllegblArgumentException if <code>count</code> is
+     * negbtive bnd not equbl to {@link #LOOP_CONTINUOUSLY}
      *
-     * @see #setLoopStartPoint
+     * @see #setLoopStbrtPoint
      * @see #setLoopEndPoint
      * @see #getLoopCount
-     * @see #start
+     * @see #stbrt
      * @since 1.5
      */
     public void setLoopCount(int count);
 
 
     /**
-     * Obtains the number of repetitions for
-     * playback.
+     * Obtbins the number of repetitions for
+     * plbybbck.
      *
-     * @return the number of loops after which
-     *         playback plays to the end of the
+     * @return the number of loops bfter which
+     *         plbybbck plbys to the end of the
      *         sequence
      * @see #setLoopCount
-     * @see #start
+     * @see #stbrt
      * @since 1.5
      */
     public int getLoopCount();
 
     /**
-     * A <code>SyncMode</code> object represents one of the ways in which
-     * a MIDI sequencer's notion of time can be synchronized with a master
-     * or slave device.
-     * If the sequencer is being synchronized to a master, the
-     * sequencer revises its current time in response to messages from
-     * the master.  If the sequencer has a slave, the sequencer
-     * similarly sends messages to control the slave's timing.
+     * A <code>SyncMode</code> object represents one of the wbys in which
+     * b MIDI sequencer's notion of time cbn be synchronized with b mbster
+     * or slbve device.
+     * If the sequencer is being synchronized to b mbster, the
+     * sequencer revises its current time in response to messbges from
+     * the mbster.  If the sequencer hbs b slbve, the sequencer
+     * similbrly sends messbges to control the slbve's timing.
      * <p>
-     * There are three predefined modes that specify possible masters
-     * for a sequencer: <code>INTERNAL_CLOCK</code>,
-     * <code>MIDI_SYNC</code>, and <code>MIDI_TIME_CODE</code>.  The
-     * latter two work if the sequencer receives MIDI messages from
-     * another device.  In these two modes, the sequencer's time gets reset
-     * based on system real-time timing clock messages or MIDI time code
-     * (MTC) messages, respectively.  These two modes can also be used
-     * as slave modes, in which case the sequencer sends the corresponding
-     * types of MIDI messages to its receiver (whether or not the sequencer
-     * is also receiving them from a master).  A fourth mode,
-     * <code>NO_SYNC</code>, is used to indicate that the sequencer should
+     * There bre three predefined modes thbt specify possible mbsters
+     * for b sequencer: <code>INTERNAL_CLOCK</code>,
+     * <code>MIDI_SYNC</code>, bnd <code>MIDI_TIME_CODE</code>.  The
+     * lbtter two work if the sequencer receives MIDI messbges from
+     * bnother device.  In these two modes, the sequencer's time gets reset
+     * bbsed on system rebl-time timing clock messbges or MIDI time code
+     * (MTC) messbges, respectively.  These two modes cbn blso be used
+     * bs slbve modes, in which cbse the sequencer sends the corresponding
+     * types of MIDI messbges to its receiver (whether or not the sequencer
+     * is blso receiving them from b mbster).  A fourth mode,
+     * <code>NO_SYNC</code>, is used to indicbte thbt the sequencer should
      * not control its receiver's timing.
      *
-     * @see Sequencer#setMasterSyncMode(Sequencer.SyncMode)
-     * @see Sequencer#setSlaveSyncMode(Sequencer.SyncMode)
+     * @see Sequencer#setMbsterSyncMode(Sequencer.SyncMode)
+     * @see Sequencer#setSlbveSyncMode(Sequencer.SyncMode)
      */
-    public static class SyncMode {
+    public stbtic clbss SyncMode {
 
         /**
-         * Synchronization mode name.
+         * Synchronizbtion mode nbme.
          */
-        private String name;
+        privbte String nbme;
 
         /**
-         * Constructs a synchronization mode.
-         * @param name name of the synchronization mode
+         * Constructs b synchronizbtion mode.
+         * @pbrbm nbme nbme of the synchronizbtion mode
          */
-        protected SyncMode(String name) {
+        protected SyncMode(String nbme) {
 
-            this.name = name;
+            this.nbme = nbme;
         }
 
 
         /**
-         * Determines whether two objects are equal.
-         * Returns <code>true</code> if the objects are identical
-         * @param obj the reference object with which to compare
-         * @return <code>true</code> if this object is the same as the
-         * <code>obj</code> argument, <code>false</code> otherwise
+         * Determines whether two objects bre equbl.
+         * Returns <code>true</code> if the objects bre identicbl
+         * @pbrbm obj the reference object with which to compbre
+         * @return <code>true</code> if this object is the sbme bs the
+         * <code>obj</code> brgument, <code>fblse</code> otherwise
          */
-        public final boolean equals(Object obj) {
+        public finbl boolebn equbls(Object obj) {
 
-            return super.equals(obj);
+            return super.equbls(obj);
         }
 
 
         /**
-         * Finalizes the hashcode method.
+         * Finblizes the hbshcode method.
          */
-        public final int hashCode() {
+        public finbl int hbshCode() {
 
-            return super.hashCode();
+            return super.hbshCode();
         }
 
 
         /**
-         * Provides this synchronization mode's name as the string
-         * representation of the mode.
-         * @return the name of this synchronization mode
+         * Provides this synchronizbtion mode's nbme bs the string
+         * representbtion of the mode.
+         * @return the nbme of this synchronizbtion mode
          */
-        public final String toString() {
+        public finbl String toString() {
 
-            return name;
+            return nbme;
         }
 
 
         /**
-         * A master synchronization mode that makes the sequencer get
-         * its timing information from its internal clock.  This is not
-         * a legal slave sync mode.
+         * A mbster synchronizbtion mode thbt mbkes the sequencer get
+         * its timing informbtion from its internbl clock.  This is not
+         * b legbl slbve sync mode.
          */
-        public static final SyncMode INTERNAL_CLOCK             = new SyncMode("Internal Clock");
+        public stbtic finbl SyncMode INTERNAL_CLOCK             = new SyncMode("Internbl Clock");
 
 
         /**
-         * A master or slave synchronization mode that specifies the
+         * A mbster or slbve synchronizbtion mode thbt specifies the
          * use of MIDI clock
-         * messages.  If this mode is used as the master sync mode,
-         * the sequencer gets its timing information from system real-time
-         * MIDI clock messages.  This mode only applies as the master sync
-         * mode for sequencers that are also MIDI receivers.  If this is the
-         * slave sync mode, the sequencer sends system real-time MIDI clock
-         * messages to its receiver.  MIDI clock messages are sent at a rate
-         * of 24 per quarter note.
+         * messbges.  If this mode is used bs the mbster sync mode,
+         * the sequencer gets its timing informbtion from system rebl-time
+         * MIDI clock messbges.  This mode only bpplies bs the mbster sync
+         * mode for sequencers thbt bre blso MIDI receivers.  If this is the
+         * slbve sync mode, the sequencer sends system rebl-time MIDI clock
+         * messbges to its receiver.  MIDI clock messbges bre sent bt b rbte
+         * of 24 per qubrter note.
          */
-        public static final SyncMode MIDI_SYNC                  = new SyncMode("MIDI Sync");
+        public stbtic finbl SyncMode MIDI_SYNC                  = new SyncMode("MIDI Sync");
 
 
         /**
-         * A master or slave synchronization mode that specifies the
+         * A mbster or slbve synchronizbtion mode thbt specifies the
          * use of MIDI Time Code.
-         * If this mode is used as the master sync mode,
-         * the sequencer gets its timing information from MIDI Time Code
-         * messages.  This mode only applies as the master sync
-         * mode to sequencers that are also MIDI receivers.  If this
-         * mode is used as the
-         * slave sync mode, the sequencer sends MIDI Time Code
-         * messages to its receiver.  (See the MIDI 1.0 Detailed
-         * Specification for a description of MIDI Time Code.)
+         * If this mode is used bs the mbster sync mode,
+         * the sequencer gets its timing informbtion from MIDI Time Code
+         * messbges.  This mode only bpplies bs the mbster sync
+         * mode to sequencers thbt bre blso MIDI receivers.  If this
+         * mode is used bs the
+         * slbve sync mode, the sequencer sends MIDI Time Code
+         * messbges to its receiver.  (See the MIDI 1.0 Detbiled
+         * Specificbtion for b description of MIDI Time Code.)
          */
-        public static final SyncMode MIDI_TIME_CODE             = new SyncMode("MIDI Time Code");
+        public stbtic finbl SyncMode MIDI_TIME_CODE             = new SyncMode("MIDI Time Code");
 
 
         /**
-         * A slave synchronization mode indicating that no timing information
-         * should be sent to the receiver.  This is not a legal master sync
+         * A slbve synchronizbtion mode indicbting thbt no timing informbtion
+         * should be sent to the receiver.  This is not b legbl mbster sync
          * mode.
          */
-        public static final SyncMode NO_SYNC                            = new SyncMode("No Timing");
+        public stbtic finbl SyncMode NO_SYNC                            = new SyncMode("No Timing");
 
-    } // class SyncMode
+    } // clbss SyncMode
 }

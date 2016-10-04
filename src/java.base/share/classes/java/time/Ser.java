@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2011-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -54,76 +54,76 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.StreamCorruptedException;
+import jbvb.io.Externblizbble;
+import jbvb.io.IOException;
+import jbvb.io.InvblidClbssException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.io.StrebmCorruptedException;
 
 /**
- * The shared serialization delegate for this package.
+ * The shbred seriblizbtion delegbte for this pbckbge.
  *
  * @implNote
- * This class wraps the object being serialized, and takes a byte representing the type of the class to
- * be serialized.  This byte can also be used for versioning the serialization format.  In this case another
- * byte flag would be used in order to specify an alternative version of the type format.
- * For example {@code LOCAL_DATE_TYPE_VERSION_2 = 21}.
+ * This clbss wrbps the object being seriblized, bnd tbkes b byte representing the type of the clbss to
+ * be seriblized.  This byte cbn blso be used for versioning the seriblizbtion formbt.  In this cbse bnother
+ * byte flbg would be used in order to specify bn blternbtive version of the type formbt.
+ * For exbmple {@code LOCAL_DATE_TYPE_VERSION_2 = 21}.
  * <p>
- * In order to serialize the object it writes its byte and then calls back to the appropriate class where
- * the serialization is performed.  In order to deserialize the object it read in the type byte, switching
- * in order to select which class to call back into.
+ * In order to seriblize the object it writes its byte bnd then cblls bbck to the bppropribte clbss where
+ * the seriblizbtion is performed.  In order to deseriblize the object it rebd in the type byte, switching
+ * in order to select which clbss to cbll bbck into.
  * <p>
- * The serialization format is determined on a per class basis.  In the case of field based classes each
- * of the fields is written out with an appropriate size format in descending order of the field's size.  For
- * example in the case of {@link LocalDate} year is written before month.  Composite classes, such as
- * {@link LocalDateTime} are serialized as one object.
+ * The seriblizbtion formbt is determined on b per clbss bbsis.  In the cbse of field bbsed clbsses ebch
+ * of the fields is written out with bn bppropribte size formbt in descending order of the field's size.  For
+ * exbmple in the cbse of {@link LocblDbte} yebr is written before month.  Composite clbsses, such bs
+ * {@link LocblDbteTime} bre seriblized bs one object.
  * <p>
- * This class is mutable and should be created once per serialization.
+ * This clbss is mutbble bnd should be crebted once per seriblizbtion.
  *
- * @serial include
+ * @seribl include
  * @since 1.8
  */
-final class Ser implements Externalizable {
+finbl clbss Ser implements Externblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -7683839454370182990L;
+    privbte stbtic finbl long seriblVersionUID = -7683839454370182990L;
 
-    static final byte DURATION_TYPE = 1;
-    static final byte INSTANT_TYPE = 2;
-    static final byte LOCAL_DATE_TYPE = 3;
-    static final byte LOCAL_TIME_TYPE = 4;
-    static final byte LOCAL_DATE_TIME_TYPE = 5;
-    static final byte ZONE_DATE_TIME_TYPE = 6;
-    static final byte ZONE_REGION_TYPE = 7;
-    static final byte ZONE_OFFSET_TYPE = 8;
-    static final byte OFFSET_TIME_TYPE = 9;
-    static final byte OFFSET_DATE_TIME_TYPE = 10;
-    static final byte YEAR_TYPE = 11;
-    static final byte YEAR_MONTH_TYPE = 12;
-    static final byte MONTH_DAY_TYPE = 13;
-    static final byte PERIOD_TYPE = 14;
+    stbtic finbl byte DURATION_TYPE = 1;
+    stbtic finbl byte INSTANT_TYPE = 2;
+    stbtic finbl byte LOCAL_DATE_TYPE = 3;
+    stbtic finbl byte LOCAL_TIME_TYPE = 4;
+    stbtic finbl byte LOCAL_DATE_TIME_TYPE = 5;
+    stbtic finbl byte ZONE_DATE_TIME_TYPE = 6;
+    stbtic finbl byte ZONE_REGION_TYPE = 7;
+    stbtic finbl byte ZONE_OFFSET_TYPE = 8;
+    stbtic finbl byte OFFSET_TIME_TYPE = 9;
+    stbtic finbl byte OFFSET_DATE_TIME_TYPE = 10;
+    stbtic finbl byte YEAR_TYPE = 11;
+    stbtic finbl byte YEAR_MONTH_TYPE = 12;
+    stbtic finbl byte MONTH_DAY_TYPE = 13;
+    stbtic finbl byte PERIOD_TYPE = 14;
 
-    /** The type being serialized. */
-    private byte type;
-    /** The object being serialized. */
-    private Object object;
+    /** The type being seriblized. */
+    privbte byte type;
+    /** The object being seriblized. */
+    privbte Object object;
 
     /**
-     * Constructor for deserialization.
+     * Constructor for deseriblizbtion.
      */
     public Ser() {
     }
 
     /**
-     * Creates an instance for serialization.
+     * Crebtes bn instbnce for seriblizbtion.
      *
-     * @param type  the type
-     * @param object  the object
+     * @pbrbm type  the type
+     * @pbrbm object  the object
      */
     Ser(byte type, Object object) {
         this.type = type;
@@ -132,152 +132,152 @@ final class Ser implements Externalizable {
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to write the object.
-     * @serialData
+     * Implements the {@code Externblizbble} interfbce to write the object.
+     * @seriblDbtb
      *
-     * Each serializable class is mapped to a type that is the first byte
-     * in the stream.  Refer to each class {@code writeReplace}
-     * serialized form for the value of the type and sequence of values for the type.
+     * Ebch seriblizbble clbss is mbpped to b type thbt is the first byte
+     * in the strebm.  Refer to ebch clbss {@code writeReplbce}
+     * seriblized form for the vblue of the type bnd sequence of vblues for the type.
      * <ul>
-     * <li><a href="../../serialized-form.html#java.time.Duration">Duration.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.Instant">Instant.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.LocalDate">LocalDate.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.LocalDateTime">LocalDateTime.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.LocalTime">LocalTime.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.MonthDay">MonthDay.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.OffsetTime">OffsetTime.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.OffsetDateTime">OffsetDateTime.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.Period">Period.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.Year">Year.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.YearMonth">YearMonth.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.ZoneId">ZoneId.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.ZoneOffset">ZoneOffset.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.ZonedDateTime">ZonedDateTime.writeReplace</a>
+     * <li><b href="../../seriblized-form.html#jbvb.time.Durbtion">Durbtion.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.Instbnt">Instbnt.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.LocblDbte">LocblDbte.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.LocblDbteTime">LocblDbteTime.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.LocblTime">LocblTime.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.MonthDby">MonthDby.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.OffsetTime">OffsetTime.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.OffsetDbteTime">OffsetDbteTime.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.Period">Period.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.Yebr">Yebr.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.YebrMonth">YebrMonth.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.ZoneId">ZoneId.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.ZoneOffset">ZoneOffset.writeReplbce</b>
+     * <li><b href="../../seriblized-form.html#jbvb.time.ZonedDbteTime">ZonedDbteTime.writeReplbce</b>
      * </ul>
      *
-     * @param out  the data stream to write to, not null
+     * @pbrbm out  the dbtb strebm to write to, not null
      */
     @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        writeInternal(type, object, out);
+    public void writeExternbl(ObjectOutput out) throws IOException {
+        writeInternbl(type, object, out);
     }
 
-    static void writeInternal(byte type, Object object, ObjectOutput out) throws IOException {
+    stbtic void writeInternbl(byte type, Object object, ObjectOutput out) throws IOException {
         out.writeByte(type);
         switch (type) {
-            case DURATION_TYPE:
-                ((Duration) object).writeExternal(out);
-                break;
-            case INSTANT_TYPE:
-                ((Instant) object).writeExternal(out);
-                break;
-            case LOCAL_DATE_TYPE:
-                ((LocalDate) object).writeExternal(out);
-                break;
-            case LOCAL_DATE_TIME_TYPE:
-                ((LocalDateTime) object).writeExternal(out);
-                break;
-            case LOCAL_TIME_TYPE:
-                ((LocalTime) object).writeExternal(out);
-                break;
-            case ZONE_REGION_TYPE:
-                ((ZoneRegion) object).writeExternal(out);
-                break;
-            case ZONE_OFFSET_TYPE:
-                ((ZoneOffset) object).writeExternal(out);
-                break;
-            case ZONE_DATE_TIME_TYPE:
-                ((ZonedDateTime) object).writeExternal(out);
-                break;
-            case OFFSET_TIME_TYPE:
-                ((OffsetTime) object).writeExternal(out);
-                break;
-            case OFFSET_DATE_TIME_TYPE:
-                ((OffsetDateTime) object).writeExternal(out);
-                break;
-            case YEAR_TYPE:
-                ((Year) object).writeExternal(out);
-                break;
-            case YEAR_MONTH_TYPE:
-                ((YearMonth) object).writeExternal(out);
-                break;
-            case MONTH_DAY_TYPE:
-                ((MonthDay) object).writeExternal(out);
-                break;
-            case PERIOD_TYPE:
-                ((Period) object).writeExternal(out);
-                break;
-            default:
-                throw new InvalidClassException("Unknown serialized type");
+            cbse DURATION_TYPE:
+                ((Durbtion) object).writeExternbl(out);
+                brebk;
+            cbse INSTANT_TYPE:
+                ((Instbnt) object).writeExternbl(out);
+                brebk;
+            cbse LOCAL_DATE_TYPE:
+                ((LocblDbte) object).writeExternbl(out);
+                brebk;
+            cbse LOCAL_DATE_TIME_TYPE:
+                ((LocblDbteTime) object).writeExternbl(out);
+                brebk;
+            cbse LOCAL_TIME_TYPE:
+                ((LocblTime) object).writeExternbl(out);
+                brebk;
+            cbse ZONE_REGION_TYPE:
+                ((ZoneRegion) object).writeExternbl(out);
+                brebk;
+            cbse ZONE_OFFSET_TYPE:
+                ((ZoneOffset) object).writeExternbl(out);
+                brebk;
+            cbse ZONE_DATE_TIME_TYPE:
+                ((ZonedDbteTime) object).writeExternbl(out);
+                brebk;
+            cbse OFFSET_TIME_TYPE:
+                ((OffsetTime) object).writeExternbl(out);
+                brebk;
+            cbse OFFSET_DATE_TIME_TYPE:
+                ((OffsetDbteTime) object).writeExternbl(out);
+                brebk;
+            cbse YEAR_TYPE:
+                ((Yebr) object).writeExternbl(out);
+                brebk;
+            cbse YEAR_MONTH_TYPE:
+                ((YebrMonth) object).writeExternbl(out);
+                brebk;
+            cbse MONTH_DAY_TYPE:
+                ((MonthDby) object).writeExternbl(out);
+                brebk;
+            cbse PERIOD_TYPE:
+                ((Period) object).writeExternbl(out);
+                brebk;
+            defbult:
+                throw new InvblidClbssException("Unknown seriblized type");
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to read the object.
-     * @serialData
+     * Implements the {@code Externblizbble} interfbce to rebd the object.
+     * @seriblDbtb
      *
-     * The streamed type and parameters defined by the type's {@code writeReplace}
-     * method are read and passed to the corresponding static factory for the type
-     * to create a new instance.  That instance is returned as the de-serialized
+     * The strebmed type bnd pbrbmeters defined by the type's {@code writeReplbce}
+     * method bre rebd bnd pbssed to the corresponding stbtic fbctory for the type
+     * to crebte b new instbnce.  Thbt instbnce is returned bs the de-seriblized
      * {@code Ser} object.
      *
      * <ul>
-     * <li><a href="../../serialized-form.html#java.time.Duration">Duration</a> - {@code Duration.ofSeconds(seconds, nanos);}
-     * <li><a href="../../serialized-form.html#java.time.Instant">Instant</a> - {@code Instant.ofEpochSecond(seconds, nanos);}
-     * <li><a href="../../serialized-form.html#java.time.LocalDate">LocalDate</a> - {@code LocalDate.of(year, month, day);}
-     * <li><a href="../../serialized-form.html#java.time.LocalDateTime">LocalDateTime</a> - {@code LocalDateTime.of(date, time);}
-     * <li><a href="../../serialized-form.html#java.time.LocalTime">LocalTime</a> - {@code LocalTime.of(hour, minute, second, nano);}
-     * <li><a href="../../serialized-form.html#java.time.MonthDay">MonthDay</a> - {@code MonthDay.of(month, day);}
-     * <li><a href="../../serialized-form.html#java.time.OffsetTime">OffsetTime</a> - {@code OffsetTime.of(time, offset);}
-     * <li><a href="../../serialized-form.html#java.time.OffsetDateTime">OffsetDateTime</a> - {@code OffsetDateTime.of(dateTime, offset);}
-     * <li><a href="../../serialized-form.html#java.time.Period">Period</a> - {@code Period.of(years, months, days);}
-     * <li><a href="../../serialized-form.html#java.time.Year">Year</a> - {@code Year.of(year);}
-     * <li><a href="../../serialized-form.html#java.time.YearMonth">YearMonth</a> - {@code YearMonth.of(year, month);}
-     * <li><a href="../../serialized-form.html#java.time.ZonedDateTime">ZonedDateTime</a> - {@code ZonedDateTime.ofLenient(dateTime, offset, zone);}
-     * <li><a href="../../serialized-form.html#java.time.ZoneId">ZoneId</a> - {@code ZoneId.of(id);}
-     * <li><a href="../../serialized-form.html#java.time.ZoneOffset">ZoneOffset</a> - {@code (offsetByte == 127 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(offsetByte * 900));}
+     * <li><b href="../../seriblized-form.html#jbvb.time.Durbtion">Durbtion</b> - {@code Durbtion.ofSeconds(seconds, nbnos);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.Instbnt">Instbnt</b> - {@code Instbnt.ofEpochSecond(seconds, nbnos);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.LocblDbte">LocblDbte</b> - {@code LocblDbte.of(yebr, month, dby);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.LocblDbteTime">LocblDbteTime</b> - {@code LocblDbteTime.of(dbte, time);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.LocblTime">LocblTime</b> - {@code LocblTime.of(hour, minute, second, nbno);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.MonthDby">MonthDby</b> - {@code MonthDby.of(month, dby);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.OffsetTime">OffsetTime</b> - {@code OffsetTime.of(time, offset);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.OffsetDbteTime">OffsetDbteTime</b> - {@code OffsetDbteTime.of(dbteTime, offset);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.Period">Period</b> - {@code Period.of(yebrs, months, dbys);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.Yebr">Yebr</b> - {@code Yebr.of(yebr);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.YebrMonth">YebrMonth</b> - {@code YebrMonth.of(yebr, month);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.ZonedDbteTime">ZonedDbteTime</b> - {@code ZonedDbteTime.ofLenient(dbteTime, offset, zone);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.ZoneId">ZoneId</b> - {@code ZoneId.of(id);}
+     * <li><b href="../../seriblized-form.html#jbvb.time.ZoneOffset">ZoneOffset</b> - {@code (offsetByte == 127 ? ZoneOffset.ofTotblSeconds(in.rebdInt()) : ZoneOffset.ofTotblSeconds(offsetByte * 900));}
      * </ul>
      *
-     * @param in  the data to read, not null
+     * @pbrbm in  the dbtb to rebd, not null
      */
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        type = in.readByte();
-        object = readInternal(type, in);
+    public void rebdExternbl(ObjectInput in) throws IOException, ClbssNotFoundException {
+        type = in.rebdByte();
+        object = rebdInternbl(type, in);
     }
 
-    static Object read(ObjectInput in) throws IOException, ClassNotFoundException {
-        byte type = in.readByte();
-        return readInternal(type, in);
+    stbtic Object rebd(ObjectInput in) throws IOException, ClbssNotFoundException {
+        byte type = in.rebdByte();
+        return rebdInternbl(type, in);
     }
 
-    private static Object readInternal(byte type, ObjectInput in) throws IOException, ClassNotFoundException {
+    privbte stbtic Object rebdInternbl(byte type, ObjectInput in) throws IOException, ClbssNotFoundException {
         switch (type) {
-            case DURATION_TYPE: return Duration.readExternal(in);
-            case INSTANT_TYPE: return Instant.readExternal(in);
-            case LOCAL_DATE_TYPE: return LocalDate.readExternal(in);
-            case LOCAL_DATE_TIME_TYPE: return LocalDateTime.readExternal(in);
-            case LOCAL_TIME_TYPE: return LocalTime.readExternal(in);
-            case ZONE_DATE_TIME_TYPE: return ZonedDateTime.readExternal(in);
-            case ZONE_OFFSET_TYPE: return ZoneOffset.readExternal(in);
-            case ZONE_REGION_TYPE: return ZoneRegion.readExternal(in);
-            case OFFSET_TIME_TYPE: return OffsetTime.readExternal(in);
-            case OFFSET_DATE_TIME_TYPE: return OffsetDateTime.readExternal(in);
-            case YEAR_TYPE: return Year.readExternal(in);
-            case YEAR_MONTH_TYPE: return YearMonth.readExternal(in);
-            case MONTH_DAY_TYPE: return MonthDay.readExternal(in);
-            case PERIOD_TYPE: return Period.readExternal(in);
-            default:
-                throw new StreamCorruptedException("Unknown serialized type");
+            cbse DURATION_TYPE: return Durbtion.rebdExternbl(in);
+            cbse INSTANT_TYPE: return Instbnt.rebdExternbl(in);
+            cbse LOCAL_DATE_TYPE: return LocblDbte.rebdExternbl(in);
+            cbse LOCAL_DATE_TIME_TYPE: return LocblDbteTime.rebdExternbl(in);
+            cbse LOCAL_TIME_TYPE: return LocblTime.rebdExternbl(in);
+            cbse ZONE_DATE_TIME_TYPE: return ZonedDbteTime.rebdExternbl(in);
+            cbse ZONE_OFFSET_TYPE: return ZoneOffset.rebdExternbl(in);
+            cbse ZONE_REGION_TYPE: return ZoneRegion.rebdExternbl(in);
+            cbse OFFSET_TIME_TYPE: return OffsetTime.rebdExternbl(in);
+            cbse OFFSET_DATE_TIME_TYPE: return OffsetDbteTime.rebdExternbl(in);
+            cbse YEAR_TYPE: return Yebr.rebdExternbl(in);
+            cbse YEAR_MONTH_TYPE: return YebrMonth.rebdExternbl(in);
+            cbse MONTH_DAY_TYPE: return MonthDby.rebdExternbl(in);
+            cbse PERIOD_TYPE: return Period.rebdExternbl(in);
+            defbult:
+                throw new StrebmCorruptedException("Unknown seriblized type");
         }
     }
 
     /**
-     * Returns the object that will replace this one.
+     * Returns the object thbt will replbce this one.
      *
-     * @return the read object, should never be null
+     * @return the rebd object, should never be null
      */
-    private Object readResolve() {
+    privbte Object rebdResolve() {
          return object;
     }
 

@@ -1,341 +1,341 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.io.ObjectStreamField;
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.Spliterator;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.LockSupport;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.DoubleBinaryOperator;
-import java.util.function.Function;
-import java.util.function.IntBinaryOperator;
-import java.util.function.LongBinaryOperator;
-import java.util.function.ToDoubleBiFunction;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntBiFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongBiFunction;
-import java.util.function.ToLongFunction;
-import java.util.stream.Stream;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.reflect.PbrbmeterizedType;
+import jbvb.lbng.reflect.Type;
+import jbvb.util.AbstrbctMbp;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
+import jbvb.util.Spliterbtor;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.concurrent.ForkJoinPool;
+import jbvb.util.concurrent.btomic.AtomicReference;
+import jbvb.util.concurrent.locks.LockSupport;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.DoubleBinbryOperbtor;
+import jbvb.util.function.Function;
+import jbvb.util.function.IntBinbryOperbtor;
+import jbvb.util.function.LongBinbryOperbtor;
+import jbvb.util.function.ToDoubleBiFunction;
+import jbvb.util.function.ToDoubleFunction;
+import jbvb.util.function.ToIntBiFunction;
+import jbvb.util.function.ToIntFunction;
+import jbvb.util.function.ToLongBiFunction;
+import jbvb.util.function.ToLongFunction;
+import jbvb.util.strebm.Strebm;
 
 /**
- * A hash table supporting full concurrency of retrievals and
- * high expected concurrency for updates. This class obeys the
- * same functional specification as {@link java.util.Hashtable}, and
- * includes versions of methods corresponding to each method of
- * {@code Hashtable}. However, even though all operations are
- * thread-safe, retrieval operations do <em>not</em> entail locking,
- * and there is <em>not</em> any support for locking the entire table
- * in a way that prevents all access.  This class is fully
- * interoperable with {@code Hashtable} in programs that rely on its
- * thread safety but not on its synchronization details.
+ * A hbsh tbble supporting full concurrency of retrievbls bnd
+ * high expected concurrency for updbtes. This clbss obeys the
+ * sbme functionbl specificbtion bs {@link jbvb.util.Hbshtbble}, bnd
+ * includes versions of methods corresponding to ebch method of
+ * {@code Hbshtbble}. However, even though bll operbtions bre
+ * threbd-sbfe, retrievbl operbtions do <em>not</em> entbil locking,
+ * bnd there is <em>not</em> bny support for locking the entire tbble
+ * in b wby thbt prevents bll bccess.  This clbss is fully
+ * interoperbble with {@code Hbshtbble} in progrbms thbt rely on its
+ * threbd sbfety but not on its synchronizbtion detbils.
  *
- * <p>Retrieval operations (including {@code get}) generally do not
- * block, so may overlap with update operations (including {@code put}
- * and {@code remove}). Retrievals reflect the results of the most
- * recently <em>completed</em> update operations holding upon their
- * onset. (More formally, an update operation for a given key bears a
- * <em>happens-before</em> relation with any (non-null) retrieval for
- * that key reporting the updated value.)  For aggregate operations
- * such as {@code putAll} and {@code clear}, concurrent retrievals may
- * reflect insertion or removal of only some entries.  Similarly,
- * Iterators, Spliterators and Enumerations return elements reflecting the
- * state of the hash table at some point at or since the creation of the
- * iterator/enumeration.  They do <em>not</em> throw {@link
- * java.util.ConcurrentModificationException ConcurrentModificationException}.
- * However, iterators are designed to be used by only one thread at a time.
- * Bear in mind that the results of aggregate status methods including
- * {@code size}, {@code isEmpty}, and {@code containsValue} are typically
- * useful only when a map is not undergoing concurrent updates in other threads.
- * Otherwise the results of these methods reflect transient states
- * that may be adequate for monitoring or estimation purposes, but not
- * for program control.
+ * <p>Retrievbl operbtions (including {@code get}) generblly do not
+ * block, so mby overlbp with updbte operbtions (including {@code put}
+ * bnd {@code remove}). Retrievbls reflect the results of the most
+ * recently <em>completed</em> updbte operbtions holding upon their
+ * onset. (More formblly, bn updbte operbtion for b given key bebrs b
+ * <em>hbppens-before</em> relbtion with bny (non-null) retrievbl for
+ * thbt key reporting the updbted vblue.)  For bggregbte operbtions
+ * such bs {@code putAll} bnd {@code clebr}, concurrent retrievbls mby
+ * reflect insertion or removbl of only some entries.  Similbrly,
+ * Iterbtors, Spliterbtors bnd Enumerbtions return elements reflecting the
+ * stbte of the hbsh tbble bt some point bt or since the crebtion of the
+ * iterbtor/enumerbtion.  They do <em>not</em> throw {@link
+ * jbvb.util.ConcurrentModificbtionException ConcurrentModificbtionException}.
+ * However, iterbtors bre designed to be used by only one threbd bt b time.
+ * Bebr in mind thbt the results of bggregbte stbtus methods including
+ * {@code size}, {@code isEmpty}, bnd {@code contbinsVblue} bre typicblly
+ * useful only when b mbp is not undergoing concurrent updbtes in other threbds.
+ * Otherwise the results of these methods reflect trbnsient stbtes
+ * thbt mby be bdequbte for monitoring or estimbtion purposes, but not
+ * for progrbm control.
  *
- * <p>The table is dynamically expanded when there are too many
- * collisions (i.e., keys that have distinct hash codes but fall into
- * the same slot modulo the table size), with the expected average
- * effect of maintaining roughly two bins per mapping (corresponding
- * to a 0.75 load factor threshold for resizing). There may be much
- * variance around this average as mappings are added and removed, but
- * overall, this maintains a commonly accepted time/space tradeoff for
- * hash tables.  However, resizing this or any other kind of hash
- * table may be a relatively slow operation. When possible, it is a
- * good idea to provide a size estimate as an optional {@code
- * initialCapacity} constructor argument. An additional optional
- * {@code loadFactor} constructor argument provides a further means of
- * customizing initial table capacity by specifying the table density
- * to be used in calculating the amount of space to allocate for the
- * given number of elements.  Also, for compatibility with previous
- * versions of this class, constructors may optionally specify an
- * expected {@code concurrencyLevel} as an additional hint for
- * internal sizing.  Note that using many keys with exactly the same
- * {@code hashCode()} is a sure way to slow down performance of any
- * hash table. To ameliorate impact, when keys are {@link Comparable},
- * this class may use comparison order among keys to help break ties.
+ * <p>The tbble is dynbmicblly expbnded when there bre too mbny
+ * collisions (i.e., keys thbt hbve distinct hbsh codes but fbll into
+ * the sbme slot modulo the tbble size), with the expected bverbge
+ * effect of mbintbining roughly two bins per mbpping (corresponding
+ * to b 0.75 lobd fbctor threshold for resizing). There mby be much
+ * vbribnce bround this bverbge bs mbppings bre bdded bnd removed, but
+ * overbll, this mbintbins b commonly bccepted time/spbce trbdeoff for
+ * hbsh tbbles.  However, resizing this or bny other kind of hbsh
+ * tbble mby be b relbtively slow operbtion. When possible, it is b
+ * good ideb to provide b size estimbte bs bn optionbl {@code
+ * initiblCbpbcity} constructor brgument. An bdditionbl optionbl
+ * {@code lobdFbctor} constructor brgument provides b further mebns of
+ * customizing initibl tbble cbpbcity by specifying the tbble density
+ * to be used in cblculbting the bmount of spbce to bllocbte for the
+ * given number of elements.  Also, for compbtibility with previous
+ * versions of this clbss, constructors mby optionblly specify bn
+ * expected {@code concurrencyLevel} bs bn bdditionbl hint for
+ * internbl sizing.  Note thbt using mbny keys with exbctly the sbme
+ * {@code hbshCode()} is b sure wby to slow down performbnce of bny
+ * hbsh tbble. To bmeliorbte impbct, when keys bre {@link Compbrbble},
+ * this clbss mby use compbrison order bmong keys to help brebk ties.
  *
- * <p>A {@link Set} projection of a ConcurrentHashMap may be created
+ * <p>A {@link Set} projection of b ConcurrentHbshMbp mby be crebted
  * (using {@link #newKeySet()} or {@link #newKeySet(int)}), or viewed
- * (using {@link #keySet(Object)} when only keys are of interest, and the
- * mapped values are (perhaps transiently) not used or all take the
- * same mapping value.
+ * (using {@link #keySet(Object)} when only keys bre of interest, bnd the
+ * mbpped vblues bre (perhbps trbnsiently) not used or bll tbke the
+ * sbme mbpping vblue.
  *
- * <p>A ConcurrentHashMap can be used as a scalable frequency map (a
- * form of histogram or multiset) by using {@link
- * java.util.concurrent.atomic.LongAdder} values and initializing via
- * {@link #computeIfAbsent computeIfAbsent}. For example, to add a count
- * to a {@code ConcurrentHashMap<String,LongAdder> freqs}, you can use
+ * <p>A ConcurrentHbshMbp cbn be used bs b scblbble frequency mbp (b
+ * form of histogrbm or multiset) by using {@link
+ * jbvb.util.concurrent.btomic.LongAdder} vblues bnd initiblizing vib
+ * {@link #computeIfAbsent computeIfAbsent}. For exbmple, to bdd b count
+ * to b {@code ConcurrentHbshMbp<String,LongAdder> freqs}, you cbn use
  * {@code freqs.computeIfAbsent(key, k -> new LongAdder()).increment();}
  *
- * <p>This class and its views and iterators implement all of the
- * <em>optional</em> methods of the {@link Map} and {@link Iterator}
- * interfaces.
+ * <p>This clbss bnd its views bnd iterbtors implement bll of the
+ * <em>optionbl</em> methods of the {@link Mbp} bnd {@link Iterbtor}
+ * interfbces.
  *
- * <p>Like {@link Hashtable} but unlike {@link HashMap}, this class
- * does <em>not</em> allow {@code null} to be used as a key or value.
+ * <p>Like {@link Hbshtbble} but unlike {@link HbshMbp}, this clbss
+ * does <em>not</em> bllow {@code null} to be used bs b key or vblue.
  *
- * <p>ConcurrentHashMaps support a set of sequential and parallel bulk
- * operations that, unlike most {@link Stream} methods, are designed
- * to be safely, and often sensibly, applied even with maps that are
- * being concurrently updated by other threads; for example, when
- * computing a snapshot summary of the values in a shared registry.
- * There are three kinds of operation, each with four forms, accepting
- * functions with Keys, Values, Entries, and (Key, Value) arguments
- * and/or return values. Because the elements of a ConcurrentHashMap
- * are not ordered in any particular way, and may be processed in
- * different orders in different parallel executions, the correctness
- * of supplied functions should not depend on any ordering, or on any
- * other objects or values that may transiently change while
- * computation is in progress; and except for forEach actions, should
- * ideally be side-effect-free. Bulk operations on {@link java.util.Map.Entry}
- * objects do not support method {@code setValue}.
- *
- * <ul>
- * <li> forEach: Perform a given action on each element.
- * A variant form applies a given transformation on each element
- * before performing the action.</li>
- *
- * <li> search: Return the first available non-null result of
- * applying a given function on each element; skipping further
- * search when a result is found.</li>
- *
- * <li> reduce: Accumulate each element.  The supplied reduction
- * function cannot rely on ordering (more formally, it should be
- * both associative and commutative).  There are five variants:
+ * <p>ConcurrentHbshMbps support b set of sequentibl bnd pbrbllel bulk
+ * operbtions thbt, unlike most {@link Strebm} methods, bre designed
+ * to be sbfely, bnd often sensibly, bpplied even with mbps thbt bre
+ * being concurrently updbted by other threbds; for exbmple, when
+ * computing b snbpshot summbry of the vblues in b shbred registry.
+ * There bre three kinds of operbtion, ebch with four forms, bccepting
+ * functions with Keys, Vblues, Entries, bnd (Key, Vblue) brguments
+ * bnd/or return vblues. Becbuse the elements of b ConcurrentHbshMbp
+ * bre not ordered in bny pbrticulbr wby, bnd mby be processed in
+ * different orders in different pbrbllel executions, the correctness
+ * of supplied functions should not depend on bny ordering, or on bny
+ * other objects or vblues thbt mby trbnsiently chbnge while
+ * computbtion is in progress; bnd except for forEbch bctions, should
+ * ideblly be side-effect-free. Bulk operbtions on {@link jbvb.util.Mbp.Entry}
+ * objects do not support method {@code setVblue}.
  *
  * <ul>
+ * <li> forEbch: Perform b given bction on ebch element.
+ * A vbribnt form bpplies b given trbnsformbtion on ebch element
+ * before performing the bction.</li>
  *
- * <li> Plain reductions. (There is not a form of this method for
- * (key, value) function arguments since there is no corresponding
+ * <li> sebrch: Return the first bvbilbble non-null result of
+ * bpplying b given function on ebch element; skipping further
+ * sebrch when b result is found.</li>
+ *
+ * <li> reduce: Accumulbte ebch element.  The supplied reduction
+ * function cbnnot rely on ordering (more formblly, it should be
+ * both bssocibtive bnd commutbtive).  There bre five vbribnts:
+ *
+ * <ul>
+ *
+ * <li> Plbin reductions. (There is not b form of this method for
+ * (key, vblue) function brguments since there is no corresponding
  * return type.)</li>
  *
- * <li> Mapped reductions that accumulate the results of a given
- * function applied to each element.</li>
+ * <li> Mbpped reductions thbt bccumulbte the results of b given
+ * function bpplied to ebch element.</li>
  *
- * <li> Reductions to scalar doubles, longs, and ints, using a
- * given basis value.</li>
+ * <li> Reductions to scblbr doubles, longs, bnd ints, using b
+ * given bbsis vblue.</li>
  *
  * </ul>
  * </li>
  * </ul>
  *
- * <p>These bulk operations accept a {@code parallelismThreshold}
- * argument. Methods proceed sequentially if the current map size is
- * estimated to be less than the given threshold. Using a value of
- * {@code Long.MAX_VALUE} suppresses all parallelism.  Using a value
- * of {@code 1} results in maximal parallelism by partitioning into
- * enough subtasks to fully utilize the {@link
- * ForkJoinPool#commonPool()} that is used for all parallel
- * computations. Normally, you would initially choose one of these
- * extreme values, and then measure performance of using in-between
- * values that trade off overhead versus throughput.
+ * <p>These bulk operbtions bccept b {@code pbrbllelismThreshold}
+ * brgument. Methods proceed sequentiblly if the current mbp size is
+ * estimbted to be less thbn the given threshold. Using b vblue of
+ * {@code Long.MAX_VALUE} suppresses bll pbrbllelism.  Using b vblue
+ * of {@code 1} results in mbximbl pbrbllelism by pbrtitioning into
+ * enough subtbsks to fully utilize the {@link
+ * ForkJoinPool#commonPool()} thbt is used for bll pbrbllel
+ * computbtions. Normblly, you would initiblly choose one of these
+ * extreme vblues, bnd then mebsure performbnce of using in-between
+ * vblues thbt trbde off overhebd versus throughput.
  *
- * <p>The concurrency properties of bulk operations follow
- * from those of ConcurrentHashMap: Any non-null result returned
- * from {@code get(key)} and related access methods bears a
- * happens-before relation with the associated insertion or
- * update.  The result of any bulk operation reflects the
- * composition of these per-element relations (but is not
- * necessarily atomic with respect to the map as a whole unless it
- * is somehow known to be quiescent).  Conversely, because keys
- * and values in the map are never null, null serves as a reliable
- * atomic indicator of the current lack of any result.  To
- * maintain this property, null serves as an implicit basis for
- * all non-scalar reduction operations. For the double, long, and
- * int versions, the basis should be one that, when combined with
- * any other value, returns that other value (more formally, it
+ * <p>The concurrency properties of bulk operbtions follow
+ * from those of ConcurrentHbshMbp: Any non-null result returned
+ * from {@code get(key)} bnd relbted bccess methods bebrs b
+ * hbppens-before relbtion with the bssocibted insertion or
+ * updbte.  The result of bny bulk operbtion reflects the
+ * composition of these per-element relbtions (but is not
+ * necessbrily btomic with respect to the mbp bs b whole unless it
+ * is somehow known to be quiescent).  Conversely, becbuse keys
+ * bnd vblues in the mbp bre never null, null serves bs b relibble
+ * btomic indicbtor of the current lbck of bny result.  To
+ * mbintbin this property, null serves bs bn implicit bbsis for
+ * bll non-scblbr reduction operbtions. For the double, long, bnd
+ * int versions, the bbsis should be one thbt, when combined with
+ * bny other vblue, returns thbt other vblue (more formblly, it
  * should be the identity element for the reduction). Most common
- * reductions have these properties; for example, computing a sum
- * with basis 0 or a minimum with basis MAX_VALUE.
+ * reductions hbve these properties; for exbmple, computing b sum
+ * with bbsis 0 or b minimum with bbsis MAX_VALUE.
  *
- * <p>Search and transformation functions provided as arguments
- * should similarly return null to indicate the lack of any result
- * (in which case it is not used). In the case of mapped
- * reductions, this also enables transformations to serve as
- * filters, returning null (or, in the case of primitive
- * specializations, the identity basis) if the element should not
- * be combined. You can create compound transformations and
- * filterings by composing them yourself under this "null means
- * there is nothing there now" rule before using them in search or
- * reduce operations.
+ * <p>Sebrch bnd trbnsformbtion functions provided bs brguments
+ * should similbrly return null to indicbte the lbck of bny result
+ * (in which cbse it is not used). In the cbse of mbpped
+ * reductions, this blso enbbles trbnsformbtions to serve bs
+ * filters, returning null (or, in the cbse of primitive
+ * speciblizbtions, the identity bbsis) if the element should not
+ * be combined. You cbn crebte compound trbnsformbtions bnd
+ * filterings by composing them yourself under this "null mebns
+ * there is nothing there now" rule before using them in sebrch or
+ * reduce operbtions.
  *
- * <p>Methods accepting and/or returning Entry arguments maintain
- * key-value associations. They may be useful for example when
- * finding the key for the greatest value. Note that "plain" Entry
- * arguments can be supplied using {@code new
- * AbstractMap.SimpleEntry(k,v)}.
+ * <p>Methods bccepting bnd/or returning Entry brguments mbintbin
+ * key-vblue bssocibtions. They mby be useful for exbmple when
+ * finding the key for the grebtest vblue. Note thbt "plbin" Entry
+ * brguments cbn be supplied using {@code new
+ * AbstrbctMbp.SimpleEntry(k,v)}.
  *
- * <p>Bulk operations may complete abruptly, throwing an
- * exception encountered in the application of a supplied
- * function. Bear in mind when handling such exceptions that other
- * concurrently executing functions could also have thrown
- * exceptions, or would have done so if the first exception had
+ * <p>Bulk operbtions mby complete bbruptly, throwing bn
+ * exception encountered in the bpplicbtion of b supplied
+ * function. Bebr in mind when hbndling such exceptions thbt other
+ * concurrently executing functions could blso hbve thrown
+ * exceptions, or would hbve done so if the first exception hbd
  * not occurred.
  *
- * <p>Speedups for parallel compared to sequential forms are common
- * but not guaranteed.  Parallel operations involving brief functions
- * on small maps may execute more slowly than sequential forms if the
- * underlying work to parallelize the computation is more expensive
- * than the computation itself.  Similarly, parallelization may not
- * lead to much actual parallelism if all processors are busy
- * performing unrelated tasks.
+ * <p>Speedups for pbrbllel compbred to sequentibl forms bre common
+ * but not gubrbnteed.  Pbrbllel operbtions involving brief functions
+ * on smbll mbps mby execute more slowly thbn sequentibl forms if the
+ * underlying work to pbrbllelize the computbtion is more expensive
+ * thbn the computbtion itself.  Similbrly, pbrbllelizbtion mby not
+ * lebd to much bctubl pbrbllelism if bll processors bre busy
+ * performing unrelbted tbsks.
  *
- * <p>All arguments to all task methods must be non-null.
+ * <p>All brguments to bll tbsk methods must be non-null.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.5
- * @author Doug Lea
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @buthor Doug Leb
+ * @pbrbm <K> the type of keys mbintbined by this mbp
+ * @pbrbm <V> the type of mbpped vblues
  */
-public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
-    implements ConcurrentMap<K,V>, Serializable {
-    private static final long serialVersionUID = 7249069246763182397L;
+public clbss ConcurrentHbshMbp<K,V> extends AbstrbctMbp<K,V>
+    implements ConcurrentMbp<K,V>, Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 7249069246763182397L;
 
     /*
      * Overview:
      *
-     * The primary design goal of this hash table is to maintain
-     * concurrent readability (typically method get(), but also
-     * iterators and related methods) while minimizing update
-     * contention. Secondary goals are to keep space consumption about
-     * the same or better than java.util.HashMap, and to support high
-     * initial insertion rates on an empty table by many threads.
+     * The primbry design gobl of this hbsh tbble is to mbintbin
+     * concurrent rebdbbility (typicblly method get(), but blso
+     * iterbtors bnd relbted methods) while minimizing updbte
+     * contention. Secondbry gobls bre to keep spbce consumption bbout
+     * the sbme or better thbn jbvb.util.HbshMbp, bnd to support high
+     * initibl insertion rbtes on bn empty tbble by mbny threbds.
      *
-     * This map usually acts as a binned (bucketed) hash table.  Each
-     * key-value mapping is held in a Node.  Most nodes are instances
-     * of the basic Node class with hash, key, value, and next
-     * fields. However, various subclasses exist: TreeNodes are
-     * arranged in balanced trees, not lists.  TreeBins hold the roots
-     * of sets of TreeNodes. ForwardingNodes are placed at the heads
-     * of bins during resizing. ReservationNodes are used as
-     * placeholders while establishing values in computeIfAbsent and
-     * related methods.  The types TreeBin, ForwardingNode, and
-     * ReservationNode do not hold normal user keys, values, or
-     * hashes, and are readily distinguishable during search etc
-     * because they have negative hash fields and null key and value
-     * fields. (These special nodes are either uncommon or transient,
-     * so the impact of carrying around some unused fields is
-     * insignificant.)
+     * This mbp usublly bcts bs b binned (bucketed) hbsh tbble.  Ebch
+     * key-vblue mbpping is held in b Node.  Most nodes bre instbnces
+     * of the bbsic Node clbss with hbsh, key, vblue, bnd next
+     * fields. However, vbrious subclbsses exist: TreeNodes bre
+     * brrbnged in bblbnced trees, not lists.  TreeBins hold the roots
+     * of sets of TreeNodes. ForwbrdingNodes bre plbced bt the hebds
+     * of bins during resizing. ReservbtionNodes bre used bs
+     * plbceholders while estbblishing vblues in computeIfAbsent bnd
+     * relbted methods.  The types TreeBin, ForwbrdingNode, bnd
+     * ReservbtionNode do not hold normbl user keys, vblues, or
+     * hbshes, bnd bre rebdily distinguishbble during sebrch etc
+     * becbuse they hbve negbtive hbsh fields bnd null key bnd vblue
+     * fields. (These specibl nodes bre either uncommon or trbnsient,
+     * so the impbct of cbrrying bround some unused fields is
+     * insignificbnt.)
      *
-     * The table is lazily initialized to a power-of-two size upon the
-     * first insertion.  Each bin in the table normally contains a
-     * list of Nodes (most often, the list has only zero or one Node).
-     * Table accesses require volatile/atomic reads, writes, and
-     * CASes.  Because there is no other way to arrange this without
-     * adding further indirections, we use intrinsics
-     * (sun.misc.Unsafe) operations.
+     * The tbble is lbzily initiblized to b power-of-two size upon the
+     * first insertion.  Ebch bin in the tbble normblly contbins b
+     * list of Nodes (most often, the list hbs only zero or one Node).
+     * Tbble bccesses require volbtile/btomic rebds, writes, bnd
+     * CASes.  Becbuse there is no other wby to brrbnge this without
+     * bdding further indirections, we use intrinsics
+     * (sun.misc.Unsbfe) operbtions.
      *
-     * We use the top (sign) bit of Node hash fields for control
-     * purposes -- it is available anyway because of addressing
-     * constraints.  Nodes with negative hash fields are specially
-     * handled or ignored in map methods.
+     * We use the top (sign) bit of Node hbsh fields for control
+     * purposes -- it is bvbilbble bnywby becbuse of bddressing
+     * constrbints.  Nodes with negbtive hbsh fields bre speciblly
+     * hbndled or ignored in mbp methods.
      *
-     * Insertion (via put or its variants) of the first node in an
+     * Insertion (vib put or its vbribnts) of the first node in bn
      * empty bin is performed by just CASing it to the bin.  This is
-     * by far the most common case for put operations under most
-     * key/hash distributions.  Other update operations (insert,
-     * delete, and replace) require locks.  We do not want to waste
-     * the space required to associate a distinct lock object with
-     * each bin, so instead use the first node of a bin list itself as
-     * a lock. Locking support for these locks relies on builtin
+     * by fbr the most common cbse for put operbtions under most
+     * key/hbsh distributions.  Other updbte operbtions (insert,
+     * delete, bnd replbce) require locks.  We do not wbnt to wbste
+     * the spbce required to bssocibte b distinct lock object with
+     * ebch bin, so instebd use the first node of b bin list itself bs
+     * b lock. Locking support for these locks relies on builtin
      * "synchronized" monitors.
      *
-     * Using the first node of a list as a lock does not by itself
-     * suffice though: When a node is locked, any update must first
-     * validate that it is still the first node after locking it, and
-     * retry if not. Because new nodes are always appended to lists,
-     * once a node is first in a bin, it remains first until deleted
-     * or the bin becomes invalidated (upon resizing).
+     * Using the first node of b list bs b lock does not by itself
+     * suffice though: When b node is locked, bny updbte must first
+     * vblidbte thbt it is still the first node bfter locking it, bnd
+     * retry if not. Becbuse new nodes bre blwbys bppended to lists,
+     * once b node is first in b bin, it rembins first until deleted
+     * or the bin becomes invblidbted (upon resizing).
      *
-     * The main disadvantage of per-bin locks is that other update
-     * operations on other nodes in a bin list protected by the same
-     * lock can stall, for example when user equals() or mapping
-     * functions take a long time.  However, statistically, under
-     * random hash codes, this is not a common problem.  Ideally, the
-     * frequency of nodes in bins follows a Poisson distribution
-     * (http://en.wikipedia.org/wiki/Poisson_distribution) with a
-     * parameter of about 0.5 on average, given the resizing threshold
-     * of 0.75, although with a large variance because of resizing
-     * granularity. Ignoring variance, the expected occurrences of
-     * list size k are (exp(-0.5) * pow(0.5, k) / factorial(k)). The
-     * first values are:
+     * The mbin disbdvbntbge of per-bin locks is thbt other updbte
+     * operbtions on other nodes in b bin list protected by the sbme
+     * lock cbn stbll, for exbmple when user equbls() or mbpping
+     * functions tbke b long time.  However, stbtisticblly, under
+     * rbndom hbsh codes, this is not b common problem.  Ideblly, the
+     * frequency of nodes in bins follows b Poisson distribution
+     * (http://en.wikipedib.org/wiki/Poisson_distribution) with b
+     * pbrbmeter of bbout 0.5 on bverbge, given the resizing threshold
+     * of 0.75, blthough with b lbrge vbribnce becbuse of resizing
+     * grbnulbrity. Ignoring vbribnce, the expected occurrences of
+     * list size k bre (exp(-0.5) * pow(0.5, k) / fbctoribl(k)). The
+     * first vblues bre:
      *
      * 0:    0.60653066
      * 1:    0.30326533
@@ -346,316 +346,316 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
      * 6:    0.00001316
      * 7:    0.00000094
      * 8:    0.00000006
-     * more: less than 1 in ten million
+     * more: less thbn 1 in ten million
      *
-     * Lock contention probability for two threads accessing distinct
-     * elements is roughly 1 / (8 * #elements) under random hashes.
+     * Lock contention probbbility for two threbds bccessing distinct
+     * elements is roughly 1 / (8 * #elements) under rbndom hbshes.
      *
-     * Actual hash code distributions encountered in practice
-     * sometimes deviate significantly from uniform randomness.  This
-     * includes the case when N > (1<<30), so some keys MUST collide.
-     * Similarly for dumb or hostile usages in which multiple keys are
-     * designed to have identical hash codes or ones that differs only
-     * in masked-out high bits. So we use a secondary strategy that
-     * applies when the number of nodes in a bin exceeds a
-     * threshold. These TreeBins use a balanced tree to hold nodes (a
-     * specialized form of red-black trees), bounding search time to
-     * O(log N).  Each search step in a TreeBin is at least twice as
-     * slow as in a regular list, but given that N cannot exceed
-     * (1<<64) (before running out of addresses) this bounds search
-     * steps, lock hold times, etc, to reasonable constants (roughly
-     * 100 nodes inspected per operation worst case) so long as keys
-     * are Comparable (which is very common -- String, Long, etc).
-     * TreeBin nodes (TreeNodes) also maintain the same "next"
-     * traversal pointers as regular nodes, so can be traversed in
-     * iterators in the same way.
+     * Actubl hbsh code distributions encountered in prbctice
+     * sometimes devibte significbntly from uniform rbndomness.  This
+     * includes the cbse when N > (1<<30), so some keys MUST collide.
+     * Similbrly for dumb or hostile usbges in which multiple keys bre
+     * designed to hbve identicbl hbsh codes or ones thbt differs only
+     * in mbsked-out high bits. So we use b secondbry strbtegy thbt
+     * bpplies when the number of nodes in b bin exceeds b
+     * threshold. These TreeBins use b bblbnced tree to hold nodes (b
+     * speciblized form of red-blbck trees), bounding sebrch time to
+     * O(log N).  Ebch sebrch step in b TreeBin is bt lebst twice bs
+     * slow bs in b regulbr list, but given thbt N cbnnot exceed
+     * (1<<64) (before running out of bddresses) this bounds sebrch
+     * steps, lock hold times, etc, to rebsonbble constbnts (roughly
+     * 100 nodes inspected per operbtion worst cbse) so long bs keys
+     * bre Compbrbble (which is very common -- String, Long, etc).
+     * TreeBin nodes (TreeNodes) blso mbintbin the sbme "next"
+     * trbversbl pointers bs regulbr nodes, so cbn be trbversed in
+     * iterbtors in the sbme wby.
      *
-     * The table is resized when occupancy exceeds a percentage
-     * threshold (nominally, 0.75, but see below).  Any thread
-     * noticing an overfull bin may assist in resizing after the
-     * initiating thread allocates and sets up the replacement array.
-     * However, rather than stalling, these other threads may proceed
+     * The tbble is resized when occupbncy exceeds b percentbge
+     * threshold (nominblly, 0.75, but see below).  Any threbd
+     * noticing bn overfull bin mby bssist in resizing bfter the
+     * initibting threbd bllocbtes bnd sets up the replbcement brrby.
+     * However, rbther thbn stblling, these other threbds mby proceed
      * with insertions etc.  The use of TreeBins shields us from the
-     * worst case effects of overfilling while resizes are in
-     * progress.  Resizing proceeds by transferring bins, one by one,
-     * from the table to the next table. However, threads claim small
-     * blocks of indices to transfer (via field transferIndex) before
-     * doing so, reducing contention.  A generation stamp in field
-     * sizeCtl ensures that resizings do not overlap. Because we are
-     * using power-of-two expansion, the elements from each bin must
-     * either stay at same index, or move with a power of two
-     * offset. We eliminate unnecessary node creation by catching
-     * cases where old nodes can be reused because their next fields
-     * won't change.  On average, only about one-sixth of them need
-     * cloning when a table doubles. The nodes they replace will be
-     * garbage collectable as soon as they are no longer referenced by
-     * any reader thread that may be in the midst of concurrently
-     * traversing table.  Upon transfer, the old table bin contains
-     * only a special forwarding node (with hash field "MOVED") that
-     * contains the next table as its key. On encountering a
-     * forwarding node, access and update operations restart, using
-     * the new table.
+     * worst cbse effects of overfilling while resizes bre in
+     * progress.  Resizing proceeds by trbnsferring bins, one by one,
+     * from the tbble to the next tbble. However, threbds clbim smbll
+     * blocks of indices to trbnsfer (vib field trbnsferIndex) before
+     * doing so, reducing contention.  A generbtion stbmp in field
+     * sizeCtl ensures thbt resizings do not overlbp. Becbuse we bre
+     * using power-of-two expbnsion, the elements from ebch bin must
+     * either stby bt sbme index, or move with b power of two
+     * offset. We eliminbte unnecessbry node crebtion by cbtching
+     * cbses where old nodes cbn be reused becbuse their next fields
+     * won't chbnge.  On bverbge, only bbout one-sixth of them need
+     * cloning when b tbble doubles. The nodes they replbce will be
+     * gbrbbge collectbble bs soon bs they bre no longer referenced by
+     * bny rebder threbd thbt mby be in the midst of concurrently
+     * trbversing tbble.  Upon trbnsfer, the old tbble bin contbins
+     * only b specibl forwbrding node (with hbsh field "MOVED") thbt
+     * contbins the next tbble bs its key. On encountering b
+     * forwbrding node, bccess bnd updbte operbtions restbrt, using
+     * the new tbble.
      *
-     * Each bin transfer requires its bin lock, which can stall
-     * waiting for locks while resizing. However, because other
-     * threads can join in and help resize rather than contend for
-     * locks, average aggregate waits become shorter as resizing
-     * progresses.  The transfer operation must also ensure that all
-     * accessible bins in both the old and new table are usable by any
-     * traversal.  This is arranged in part by proceeding from the
-     * last bin (table.length - 1) up towards the first.  Upon seeing
-     * a forwarding node, traversals (see class Traverser) arrange to
-     * move to the new table without revisiting nodes.  To ensure that
-     * no intervening nodes are skipped even when moved out of order,
-     * a stack (see class TableStack) is created on first encounter of
-     * a forwarding node during a traversal, to maintain its place if
-     * later processing the current table. The need for these
-     * save/restore mechanics is relatively rare, but when one
-     * forwarding node is encountered, typically many more will be.
-     * So Traversers use a simple caching scheme to avoid creating so
-     * many new TableStack nodes. (Thanks to Peter Levart for
-     * suggesting use of a stack here.)
+     * Ebch bin trbnsfer requires its bin lock, which cbn stbll
+     * wbiting for locks while resizing. However, becbuse other
+     * threbds cbn join in bnd help resize rbther thbn contend for
+     * locks, bverbge bggregbte wbits become shorter bs resizing
+     * progresses.  The trbnsfer operbtion must blso ensure thbt bll
+     * bccessible bins in both the old bnd new tbble bre usbble by bny
+     * trbversbl.  This is brrbnged in pbrt by proceeding from the
+     * lbst bin (tbble.length - 1) up towbrds the first.  Upon seeing
+     * b forwbrding node, trbversbls (see clbss Trbverser) brrbnge to
+     * move to the new tbble without revisiting nodes.  To ensure thbt
+     * no intervening nodes bre skipped even when moved out of order,
+     * b stbck (see clbss TbbleStbck) is crebted on first encounter of
+     * b forwbrding node during b trbversbl, to mbintbin its plbce if
+     * lbter processing the current tbble. The need for these
+     * sbve/restore mechbnics is relbtively rbre, but when one
+     * forwbrding node is encountered, typicblly mbny more will be.
+     * So Trbversers use b simple cbching scheme to bvoid crebting so
+     * mbny new TbbleStbck nodes. (Thbnks to Peter Levbrt for
+     * suggesting use of b stbck here.)
      *
-     * The traversal scheme also applies to partial traversals of
-     * ranges of bins (via an alternate Traverser constructor)
-     * to support partitioned aggregate operations.  Also, read-only
-     * operations give up if ever forwarded to a null table, which
-     * provides support for shutdown-style clearing, which is also not
+     * The trbversbl scheme blso bpplies to pbrtibl trbversbls of
+     * rbnges of bins (vib bn blternbte Trbverser constructor)
+     * to support pbrtitioned bggregbte operbtions.  Also, rebd-only
+     * operbtions give up if ever forwbrded to b null tbble, which
+     * provides support for shutdown-style clebring, which is blso not
      * currently implemented.
      *
-     * Lazy table initialization minimizes footprint until first use,
-     * and also avoids resizings when the first operation is from a
-     * putAll, constructor with map argument, or deserialization.
-     * These cases attempt to override the initial capacity settings,
-     * but harmlessly fail to take effect in cases of races.
+     * Lbzy tbble initiblizbtion minimizes footprint until first use,
+     * bnd blso bvoids resizings when the first operbtion is from b
+     * putAll, constructor with mbp brgument, or deseriblizbtion.
+     * These cbses bttempt to override the initibl cbpbcity settings,
+     * but hbrmlessly fbil to tbke effect in cbses of rbces.
      *
-     * The element count is maintained using a specialization of
-     * LongAdder. We need to incorporate a specialization rather than
-     * just use a LongAdder in order to access implicit
-     * contention-sensing that leads to creation of multiple
-     * CounterCells.  The counter mechanics avoid contention on
-     * updates but can encounter cache thrashing if read too
-     * frequently during concurrent access. To avoid reading so often,
-     * resizing under contention is attempted only upon adding to a
-     * bin already holding two or more nodes. Under uniform hash
-     * distributions, the probability of this occurring at threshold
-     * is around 13%, meaning that only about 1 in 8 puts check
-     * threshold (and after resizing, many fewer do so).
+     * The element count is mbintbined using b speciblizbtion of
+     * LongAdder. We need to incorporbte b speciblizbtion rbther thbn
+     * just use b LongAdder in order to bccess implicit
+     * contention-sensing thbt lebds to crebtion of multiple
+     * CounterCells.  The counter mechbnics bvoid contention on
+     * updbtes but cbn encounter cbche thrbshing if rebd too
+     * frequently during concurrent bccess. To bvoid rebding so often,
+     * resizing under contention is bttempted only upon bdding to b
+     * bin blrebdy holding two or more nodes. Under uniform hbsh
+     * distributions, the probbbility of this occurring bt threshold
+     * is bround 13%, mebning thbt only bbout 1 in 8 puts check
+     * threshold (bnd bfter resizing, mbny fewer do so).
      *
-     * TreeBins use a special form of comparison for search and
-     * related operations (which is the main reason we cannot use
-     * existing collections such as TreeMaps). TreeBins contain
-     * Comparable elements, but may contain others, as well as
-     * elements that are Comparable but not necessarily Comparable for
-     * the same T, so we cannot invoke compareTo among them. To handle
-     * this, the tree is ordered primarily by hash value, then by
-     * Comparable.compareTo order if applicable.  On lookup at a node,
-     * if elements are not comparable or compare as 0 then both left
-     * and right children may need to be searched in the case of tied
-     * hash values. (This corresponds to the full list search that
-     * would be necessary if all elements were non-Comparable and had
-     * tied hashes.) On insertion, to keep a total ordering (or as
-     * close as is required here) across rebalancings, we compare
-     * classes and identityHashCodes as tie-breakers. The red-black
-     * balancing code is updated from pre-jdk-collections
-     * (http://gee.cs.oswego.edu/dl/classes/collections/RBCell.java)
-     * based in turn on Cormen, Leiserson, and Rivest "Introduction to
+     * TreeBins use b specibl form of compbrison for sebrch bnd
+     * relbted operbtions (which is the mbin rebson we cbnnot use
+     * existing collections such bs TreeMbps). TreeBins contbin
+     * Compbrbble elements, but mby contbin others, bs well bs
+     * elements thbt bre Compbrbble but not necessbrily Compbrbble for
+     * the sbme T, so we cbnnot invoke compbreTo bmong them. To hbndle
+     * this, the tree is ordered primbrily by hbsh vblue, then by
+     * Compbrbble.compbreTo order if bpplicbble.  On lookup bt b node,
+     * if elements bre not compbrbble or compbre bs 0 then both left
+     * bnd right children mby need to be sebrched in the cbse of tied
+     * hbsh vblues. (This corresponds to the full list sebrch thbt
+     * would be necessbry if bll elements were non-Compbrbble bnd hbd
+     * tied hbshes.) On insertion, to keep b totbl ordering (or bs
+     * close bs is required here) bcross rebblbncings, we compbre
+     * clbsses bnd identityHbshCodes bs tie-brebkers. The red-blbck
+     * bblbncing code is updbted from pre-jdk-collections
+     * (http://gee.cs.oswego.edu/dl/clbsses/collections/RBCell.jbvb)
+     * bbsed in turn on Cormen, Leiserson, bnd Rivest "Introduction to
      * Algorithms" (CLR).
      *
-     * TreeBins also require an additional locking mechanism.  While
-     * list traversal is always possible by readers even during
-     * updates, tree traversal is not, mainly because of tree-rotations
-     * that may change the root node and/or its linkages.  TreeBins
-     * include a simple read-write lock mechanism parasitic on the
-     * main bin-synchronization strategy: Structural adjustments
-     * associated with an insertion or removal are already bin-locked
-     * (and so cannot conflict with other writers) but must wait for
-     * ongoing readers to finish. Since there can be only one such
-     * waiter, we use a simple scheme using a single "waiter" field to
-     * block writers.  However, readers need never block.  If the root
-     * lock is held, they proceed along the slow traversal path (via
-     * next-pointers) until the lock becomes available or the list is
-     * exhausted, whichever comes first. These cases are not fast, but
-     * maximize aggregate expected throughput.
+     * TreeBins blso require bn bdditionbl locking mechbnism.  While
+     * list trbversbl is blwbys possible by rebders even during
+     * updbtes, tree trbversbl is not, mbinly becbuse of tree-rotbtions
+     * thbt mby chbnge the root node bnd/or its linkbges.  TreeBins
+     * include b simple rebd-write lock mechbnism pbrbsitic on the
+     * mbin bin-synchronizbtion strbtegy: Structurbl bdjustments
+     * bssocibted with bn insertion or removbl bre blrebdy bin-locked
+     * (bnd so cbnnot conflict with other writers) but must wbit for
+     * ongoing rebders to finish. Since there cbn be only one such
+     * wbiter, we use b simple scheme using b single "wbiter" field to
+     * block writers.  However, rebders need never block.  If the root
+     * lock is held, they proceed blong the slow trbversbl pbth (vib
+     * next-pointers) until the lock becomes bvbilbble or the list is
+     * exhbusted, whichever comes first. These cbses bre not fbst, but
+     * mbximize bggregbte expected throughput.
      *
-     * Maintaining API and serialization compatibility with previous
-     * versions of this class introduces several oddities. Mainly: We
-     * leave untouched but unused constructor arguments refering to
-     * concurrencyLevel. We accept a loadFactor constructor argument,
-     * but apply it only to initial table capacity (which is the only
-     * time that we can guarantee to honor it.) We also declare an
-     * unused "Segment" class that is instantiated in minimal form
-     * only when serializing.
+     * Mbintbining API bnd seriblizbtion compbtibility with previous
+     * versions of this clbss introduces severbl oddities. Mbinly: We
+     * lebve untouched but unused constructor brguments refering to
+     * concurrencyLevel. We bccept b lobdFbctor constructor brgument,
+     * but bpply it only to initibl tbble cbpbcity (which is the only
+     * time thbt we cbn gubrbntee to honor it.) We blso declbre bn
+     * unused "Segment" clbss thbt is instbntibted in minimbl form
+     * only when seriblizing.
      *
-     * Also, solely for compatibility with previous versions of this
-     * class, it extends AbstractMap, even though all of its methods
-     * are overridden, so it is just useless baggage.
+     * Also, solely for compbtibility with previous versions of this
+     * clbss, it extends AbstrbctMbp, even though bll of its methods
+     * bre overridden, so it is just useless bbggbge.
      *
-     * This file is organized to make things a little easier to follow
-     * while reading than they might otherwise: First the main static
-     * declarations and utilities, then fields, then main public
-     * methods (with a few factorings of multiple public methods into
-     * internal ones), then sizing methods, trees, traversers, and
-     * bulk operations.
+     * This file is orgbnized to mbke things b little ebsier to follow
+     * while rebding thbn they might otherwise: First the mbin stbtic
+     * declbrbtions bnd utilities, then fields, then mbin public
+     * methods (with b few fbctorings of multiple public methods into
+     * internbl ones), then sizing methods, trees, trbversers, bnd
+     * bulk operbtions.
      */
 
-    /* ---------------- Constants -------------- */
+    /* ---------------- Constbnts -------------- */
 
     /**
-     * The largest possible table capacity.  This value must be
-     * exactly 1<<30 to stay within Java array allocation and indexing
-     * bounds for power of two table sizes, and is further required
-     * because the top two bits of 32bit hash fields are used for
+     * The lbrgest possible tbble cbpbcity.  This vblue must be
+     * exbctly 1<<30 to stby within Jbvb brrby bllocbtion bnd indexing
+     * bounds for power of two tbble sizes, bnd is further required
+     * becbuse the top two bits of 32bit hbsh fields bre used for
      * control purposes.
      */
-    private static final int MAXIMUM_CAPACITY = 1 << 30;
+    privbte stbtic finbl int MAXIMUM_CAPACITY = 1 << 30;
 
     /**
-     * The default initial table capacity.  Must be a power of 2
-     * (i.e., at least 1) and at most MAXIMUM_CAPACITY.
+     * The defbult initibl tbble cbpbcity.  Must be b power of 2
+     * (i.e., bt lebst 1) bnd bt most MAXIMUM_CAPACITY.
      */
-    private static final int DEFAULT_CAPACITY = 16;
+    privbte stbtic finbl int DEFAULT_CAPACITY = 16;
 
     /**
-     * The largest possible (non-power of two) array size.
-     * Needed by toArray and related methods.
+     * The lbrgest possible (non-power of two) brrby size.
+     * Needed by toArrby bnd relbted methods.
      */
-    static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+    stbtic finbl int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
     /**
-     * The default concurrency level for this table. Unused but
-     * defined for compatibility with previous versions of this class.
+     * The defbult concurrency level for this tbble. Unused but
+     * defined for compbtibility with previous versions of this clbss.
      */
-    private static final int DEFAULT_CONCURRENCY_LEVEL = 16;
+    privbte stbtic finbl int DEFAULT_CONCURRENCY_LEVEL = 16;
 
     /**
-     * The load factor for this table. Overrides of this value in
-     * constructors affect only the initial table capacity.  The
-     * actual floating point value isn't normally used -- it is
-     * simpler to use expressions such as {@code n - (n >>> 2)} for
-     * the associated resizing threshold.
+     * The lobd fbctor for this tbble. Overrides of this vblue in
+     * constructors bffect only the initibl tbble cbpbcity.  The
+     * bctubl flobting point vblue isn't normblly used -- it is
+     * simpler to use expressions such bs {@code n - (n >>> 2)} for
+     * the bssocibted resizing threshold.
      */
-    private static final float LOAD_FACTOR = 0.75f;
+    privbte stbtic finbl flobt LOAD_FACTOR = 0.75f;
 
     /**
-     * The bin count threshold for using a tree rather than list for a
-     * bin.  Bins are converted to trees when adding an element to a
-     * bin with at least this many nodes. The value must be greater
-     * than 2, and should be at least 8 to mesh with assumptions in
-     * tree removal about conversion back to plain bins upon
-     * shrinkage.
+     * The bin count threshold for using b tree rbther thbn list for b
+     * bin.  Bins bre converted to trees when bdding bn element to b
+     * bin with bt lebst this mbny nodes. The vblue must be grebter
+     * thbn 2, bnd should be bt lebst 8 to mesh with bssumptions in
+     * tree removbl bbout conversion bbck to plbin bins upon
+     * shrinkbge.
      */
-    static final int TREEIFY_THRESHOLD = 8;
+    stbtic finbl int TREEIFY_THRESHOLD = 8;
 
     /**
-     * The bin count threshold for untreeifying a (split) bin during a
-     * resize operation. Should be less than TREEIFY_THRESHOLD, and at
-     * most 6 to mesh with shrinkage detection under removal.
+     * The bin count threshold for untreeifying b (split) bin during b
+     * resize operbtion. Should be less thbn TREEIFY_THRESHOLD, bnd bt
+     * most 6 to mesh with shrinkbge detection under removbl.
      */
-    static final int UNTREEIFY_THRESHOLD = 6;
+    stbtic finbl int UNTREEIFY_THRESHOLD = 6;
 
     /**
-     * The smallest table capacity for which bins may be treeified.
-     * (Otherwise the table is resized if too many nodes in a bin.)
-     * The value should be at least 4 * TREEIFY_THRESHOLD to avoid
-     * conflicts between resizing and treeification thresholds.
+     * The smbllest tbble cbpbcity for which bins mby be treeified.
+     * (Otherwise the tbble is resized if too mbny nodes in b bin.)
+     * The vblue should be bt lebst 4 * TREEIFY_THRESHOLD to bvoid
+     * conflicts between resizing bnd treeificbtion thresholds.
      */
-    static final int MIN_TREEIFY_CAPACITY = 64;
+    stbtic finbl int MIN_TREEIFY_CAPACITY = 64;
 
     /**
-     * Minimum number of rebinnings per transfer step. Ranges are
-     * subdivided to allow multiple resizer threads.  This value
-     * serves as a lower bound to avoid resizers encountering
-     * excessive memory contention.  The value should be at least
+     * Minimum number of rebinnings per trbnsfer step. Rbnges bre
+     * subdivided to bllow multiple resizer threbds.  This vblue
+     * serves bs b lower bound to bvoid resizers encountering
+     * excessive memory contention.  The vblue should be bt lebst
      * DEFAULT_CAPACITY.
      */
-    private static final int MIN_TRANSFER_STRIDE = 16;
+    privbte stbtic finbl int MIN_TRANSFER_STRIDE = 16;
 
     /**
-     * The number of bits used for generation stamp in sizeCtl.
-     * Must be at least 6 for 32bit arrays.
+     * The number of bits used for generbtion stbmp in sizeCtl.
+     * Must be bt lebst 6 for 32bit brrbys.
      */
-    private static int RESIZE_STAMP_BITS = 16;
+    privbte stbtic int RESIZE_STAMP_BITS = 16;
 
     /**
-     * The maximum number of threads that can help resize.
+     * The mbximum number of threbds thbt cbn help resize.
      * Must fit in 32 - RESIZE_STAMP_BITS bits.
      */
-    private static final int MAX_RESIZERS = (1 << (32 - RESIZE_STAMP_BITS)) - 1;
+    privbte stbtic finbl int MAX_RESIZERS = (1 << (32 - RESIZE_STAMP_BITS)) - 1;
 
     /**
-     * The bit shift for recording size stamp in sizeCtl.
+     * The bit shift for recording size stbmp in sizeCtl.
      */
-    private static final int RESIZE_STAMP_SHIFT = 32 - RESIZE_STAMP_BITS;
+    privbte stbtic finbl int RESIZE_STAMP_SHIFT = 32 - RESIZE_STAMP_BITS;
 
     /*
-     * Encodings for Node hash fields. See above for explanation.
+     * Encodings for Node hbsh fields. See bbove for explbnbtion.
      */
-    static final int MOVED     = -1; // hash for forwarding nodes
-    static final int TREEBIN   = -2; // hash for roots of trees
-    static final int RESERVED  = -3; // hash for transient reservations
-    static final int HASH_BITS = 0x7fffffff; // usable bits of normal node hash
+    stbtic finbl int MOVED     = -1; // hbsh for forwbrding nodes
+    stbtic finbl int TREEBIN   = -2; // hbsh for roots of trees
+    stbtic finbl int RESERVED  = -3; // hbsh for trbnsient reservbtions
+    stbtic finbl int HASH_BITS = 0x7fffffff; // usbble bits of normbl node hbsh
 
-    /** Number of CPUS, to place bounds on some sizings */
-    static final int NCPU = Runtime.getRuntime().availableProcessors();
+    /** Number of CPUS, to plbce bounds on some sizings */
+    stbtic finbl int NCPU = Runtime.getRuntime().bvbilbbleProcessors();
 
-    /** For serialization compatibility. */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("segments", Segment[].class),
-        new ObjectStreamField("segmentMask", Integer.TYPE),
-        new ObjectStreamField("segmentShift", Integer.TYPE)
+    /** For seriblizbtion compbtibility. */
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("segments", Segment[].clbss),
+        new ObjectStrebmField("segmentMbsk", Integer.TYPE),
+        new ObjectStrebmField("segmentShift", Integer.TYPE)
     };
 
     /* ---------------- Nodes -------------- */
 
     /**
-     * Key-value entry.  This class is never exported out as a
-     * user-mutable Map.Entry (i.e., one supporting setValue; see
-     * MapEntry below), but can be used for read-only traversals used
-     * in bulk tasks.  Subclasses of Node with a negative hash field
-     * are special, and contain null keys and values (but are never
-     * exported).  Otherwise, keys and vals are never null.
+     * Key-vblue entry.  This clbss is never exported out bs b
+     * user-mutbble Mbp.Entry (i.e., one supporting setVblue; see
+     * MbpEntry below), but cbn be used for rebd-only trbversbls used
+     * in bulk tbsks.  Subclbsses of Node with b negbtive hbsh field
+     * bre specibl, bnd contbin null keys bnd vblues (but bre never
+     * exported).  Otherwise, keys bnd vbls bre never null.
      */
-    static class Node<K,V> implements Map.Entry<K,V> {
-        final int hash;
-        final K key;
-        volatile V val;
-        volatile Node<K,V> next;
+    stbtic clbss Node<K,V> implements Mbp.Entry<K,V> {
+        finbl int hbsh;
+        finbl K key;
+        volbtile V vbl;
+        volbtile Node<K,V> next;
 
-        Node(int hash, K key, V val, Node<K,V> next) {
-            this.hash = hash;
+        Node(int hbsh, K key, V vbl, Node<K,V> next) {
+            this.hbsh = hbsh;
             this.key = key;
-            this.val = val;
+            this.vbl = vbl;
             this.next = next;
         }
 
-        public final K getKey()       { return key; }
-        public final V getValue()     { return val; }
-        public final int hashCode()   { return key.hashCode() ^ val.hashCode(); }
-        public final String toString(){ return key + "=" + val; }
-        public final V setValue(V value) {
-            throw new UnsupportedOperationException();
+        public finbl K getKey()       { return key; }
+        public finbl V getVblue()     { return vbl; }
+        public finbl int hbshCode()   { return key.hbshCode() ^ vbl.hbshCode(); }
+        public finbl String toString(){ return key + "=" + vbl; }
+        public finbl V setVblue(V vblue) {
+            throw new UnsupportedOperbtionException();
         }
 
-        public final boolean equals(Object o) {
-            Object k, v, u; Map.Entry<?,?> e;
-            return ((o instanceof Map.Entry) &&
-                    (k = (e = (Map.Entry<?,?>)o).getKey()) != null &&
-                    (v = e.getValue()) != null &&
-                    (k == key || k.equals(key)) &&
-                    (v == (u = val) || v.equals(u)));
+        public finbl boolebn equbls(Object o) {
+            Object k, v, u; Mbp.Entry<?,?> e;
+            return ((o instbnceof Mbp.Entry) &&
+                    (k = (e = (Mbp.Entry<?,?>)o).getKey()) != null &&
+                    (v = e.getVblue()) != null &&
+                    (k == key || k.equbls(key)) &&
+                    (v == (u = vbl) || v.equbls(u)));
         }
 
         /**
-         * Virtualized support for map.get(); overridden in subclasses.
+         * Virtublized support for mbp.get(); overridden in subclbsses.
          */
         Node<K,V> find(int h, Object k) {
             Node<K,V> e = this;
             if (k != null) {
                 do {
                     K ek;
-                    if (e.hash == h &&
-                        ((ek = e.key) == k || (ek != null && k.equals(ek))))
+                    if (e.hbsh == h &&
+                        ((ek = e.key) == k || (ek != null && k.equbls(ek))))
                         return e;
                 } while ((e = e.next) != null);
             }
@@ -663,33 +663,33 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    /* ---------------- Static utilities -------------- */
+    /* ---------------- Stbtic utilities -------------- */
 
     /**
-     * Spreads (XORs) higher bits of hash to lower and also forces top
-     * bit to 0. Because the table uses power-of-two masking, sets of
-     * hashes that vary only in bits above the current mask will
-     * always collide. (Among known examples are sets of Float keys
-     * holding consecutive whole numbers in small tables.)  So we
-     * apply a transform that spreads the impact of higher bits
-     * downward. There is a tradeoff between speed, utility, and
-     * quality of bit-spreading. Because many common sets of hashes
-     * are already reasonably distributed (so don't benefit from
-     * spreading), and because we use trees to handle large sets of
+     * Sprebds (XORs) higher bits of hbsh to lower bnd blso forces top
+     * bit to 0. Becbuse the tbble uses power-of-two mbsking, sets of
+     * hbshes thbt vbry only in bits bbove the current mbsk will
+     * blwbys collide. (Among known exbmples bre sets of Flobt keys
+     * holding consecutive whole numbers in smbll tbbles.)  So we
+     * bpply b trbnsform thbt sprebds the impbct of higher bits
+     * downwbrd. There is b trbdeoff between speed, utility, bnd
+     * qublity of bit-sprebding. Becbuse mbny common sets of hbshes
+     * bre blrebdy rebsonbbly distributed (so don't benefit from
+     * sprebding), bnd becbuse we use trees to hbndle lbrge sets of
      * collisions in bins, we just XOR some shifted bits in the
-     * cheapest possible way to reduce systematic lossage, as well as
-     * to incorporate impact of the highest bits that would otherwise
-     * never be used in index calculations because of table bounds.
+     * chebpest possible wby to reduce systembtic lossbge, bs well bs
+     * to incorporbte impbct of the highest bits thbt would otherwise
+     * never be used in index cblculbtions becbuse of tbble bounds.
      */
-    static final int spread(int h) {
+    stbtic finbl int sprebd(int h) {
         return (h ^ (h >>> 16)) & HASH_BITS;
     }
 
     /**
-     * Returns a power of two table size for the given desired capacity.
-     * See Hackers Delight, sec 3.2
+     * Returns b power of two tbble size for the given desired cbpbcity.
+     * See Hbckers Delight, sec 3.2
      */
-    private static final int tableSizeFor(int c) {
+    privbte stbtic finbl int tbbleSizeFor(int c) {
         int n = c - 1;
         n |= n >>> 1;
         n |= n >>> 2;
@@ -700,21 +700,21 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns x's Class if it is of the form "class C implements
-     * Comparable<C>", else null.
+     * Returns x's Clbss if it is of the form "clbss C implements
+     * Compbrbble<C>", else null.
      */
-    static Class<?> comparableClassFor(Object x) {
-        if (x instanceof Comparable) {
-            Class<?> c; Type[] ts, as; Type t; ParameterizedType p;
-            if ((c = x.getClass()) == String.class) // bypass checks
+    stbtic Clbss<?> compbrbbleClbssFor(Object x) {
+        if (x instbnceof Compbrbble) {
+            Clbss<?> c; Type[] ts, bs; Type t; PbrbmeterizedType p;
+            if ((c = x.getClbss()) == String.clbss) // bypbss checks
                 return c;
-            if ((ts = c.getGenericInterfaces()) != null) {
+            if ((ts = c.getGenericInterfbces()) != null) {
                 for (int i = 0; i < ts.length; ++i) {
-                    if (((t = ts[i]) instanceof ParameterizedType) &&
-                        ((p = (ParameterizedType)t).getRawType() ==
-                         Comparable.class) &&
-                        (as = p.getActualTypeArguments()) != null &&
-                        as.length == 1 && as[0] == c) // type arg is c
+                    if (((t = ts[i]) instbnceof PbrbmeterizedType) &&
+                        ((p = (PbrbmeterizedType)t).getRbwType() ==
+                         Compbrbble.clbss) &&
+                        (bs = p.getActublTypeArguments()) != null &&
+                        bs.length == 1 && bs[0] == c) // type brg is c
                         return c;
                 }
             }
@@ -723,185 +723,185 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns k.compareTo(x) if x matches kc (k's screened comparable
-     * class), else 0.
+     * Returns k.compbreTo(x) if x mbtches kc (k's screened compbrbble
+     * clbss), else 0.
      */
-    @SuppressWarnings({"rawtypes","unchecked"}) // for cast to Comparable
-    static int compareComparables(Class<?> kc, Object k, Object x) {
-        return (x == null || x.getClass() != kc ? 0 :
-                ((Comparable)k).compareTo(x));
+    @SuppressWbrnings({"rbwtypes","unchecked"}) // for cbst to Compbrbble
+    stbtic int compbreCompbrbbles(Clbss<?> kc, Object k, Object x) {
+        return (x == null || x.getClbss() != kc ? 0 :
+                ((Compbrbble)k).compbreTo(x));
     }
 
-    /* ---------------- Table element access -------------- */
+    /* ---------------- Tbble element bccess -------------- */
 
     /*
-     * Volatile access methods are used for table elements as well as
-     * elements of in-progress next table while resizing.  All uses of
-     * the tab arguments must be null checked by callers.  All callers
-     * also paranoically precheck that tab's length is not zero (or an
-     * equivalent check), thus ensuring that any index argument taking
-     * the form of a hash value anded with (length - 1) is a valid
-     * index.  Note that, to be correct wrt arbitrary concurrency
-     * errors by users, these checks must operate on local variables,
-     * which accounts for some odd-looking inline assignments below.
-     * Note that calls to setTabAt always occur within locked regions,
-     * and so in principle require only release ordering, not
-     * full volatile semantics, but are currently coded as volatile
-     * writes to be conservative.
+     * Volbtile bccess methods bre used for tbble elements bs well bs
+     * elements of in-progress next tbble while resizing.  All uses of
+     * the tbb brguments must be null checked by cbllers.  All cbllers
+     * blso pbrbnoicblly precheck thbt tbb's length is not zero (or bn
+     * equivblent check), thus ensuring thbt bny index brgument tbking
+     * the form of b hbsh vblue bnded with (length - 1) is b vblid
+     * index.  Note thbt, to be correct wrt brbitrbry concurrency
+     * errors by users, these checks must operbte on locbl vbribbles,
+     * which bccounts for some odd-looking inline bssignments below.
+     * Note thbt cblls to setTbbAt blwbys occur within locked regions,
+     * bnd so in principle require only relebse ordering, not
+     * full volbtile sembntics, but bre currently coded bs volbtile
+     * writes to be conservbtive.
      */
 
-    @SuppressWarnings("unchecked")
-    static final <K,V> Node<K,V> tabAt(Node<K,V>[] tab, int i) {
-        return (Node<K,V>)U.getObjectVolatile(tab, ((long)i << ASHIFT) + ABASE);
+    @SuppressWbrnings("unchecked")
+    stbtic finbl <K,V> Node<K,V> tbbAt(Node<K,V>[] tbb, int i) {
+        return (Node<K,V>)U.getObjectVolbtile(tbb, ((long)i << ASHIFT) + ABASE);
     }
 
-    static final <K,V> boolean casTabAt(Node<K,V>[] tab, int i,
+    stbtic finbl <K,V> boolebn cbsTbbAt(Node<K,V>[] tbb, int i,
                                         Node<K,V> c, Node<K,V> v) {
-        return U.compareAndSwapObject(tab, ((long)i << ASHIFT) + ABASE, c, v);
+        return U.compbreAndSwbpObject(tbb, ((long)i << ASHIFT) + ABASE, c, v);
     }
 
-    static final <K,V> void setTabAt(Node<K,V>[] tab, int i, Node<K,V> v) {
-        U.putObjectVolatile(tab, ((long)i << ASHIFT) + ABASE, v);
+    stbtic finbl <K,V> void setTbbAt(Node<K,V>[] tbb, int i, Node<K,V> v) {
+        U.putObjectVolbtile(tbb, ((long)i << ASHIFT) + ABASE, v);
     }
 
     /* ---------------- Fields -------------- */
 
     /**
-     * The array of bins. Lazily initialized upon first insertion.
-     * Size is always a power of two. Accessed directly by iterators.
+     * The brrby of bins. Lbzily initiblized upon first insertion.
+     * Size is blwbys b power of two. Accessed directly by iterbtors.
      */
-    transient volatile Node<K,V>[] table;
+    trbnsient volbtile Node<K,V>[] tbble;
 
     /**
-     * The next table to use; non-null only while resizing.
+     * The next tbble to use; non-null only while resizing.
      */
-    private transient volatile Node<K,V>[] nextTable;
+    privbte trbnsient volbtile Node<K,V>[] nextTbble;
 
     /**
-     * Base counter value, used mainly when there is no contention,
-     * but also as a fallback during table initialization
-     * races. Updated via CAS.
+     * Bbse counter vblue, used mbinly when there is no contention,
+     * but blso bs b fbllbbck during tbble initiblizbtion
+     * rbces. Updbted vib CAS.
      */
-    private transient volatile long baseCount;
+    privbte trbnsient volbtile long bbseCount;
 
     /**
-     * Table initialization and resizing control.  When negative, the
-     * table is being initialized or resized: -1 for initialization,
-     * else -(1 + the number of active resizing threads).  Otherwise,
-     * when table is null, holds the initial table size to use upon
-     * creation, or 0 for default. After initialization, holds the
-     * next element count value upon which to resize the table.
+     * Tbble initiblizbtion bnd resizing control.  When negbtive, the
+     * tbble is being initiblized or resized: -1 for initiblizbtion,
+     * else -(1 + the number of bctive resizing threbds).  Otherwise,
+     * when tbble is null, holds the initibl tbble size to use upon
+     * crebtion, or 0 for defbult. After initiblizbtion, holds the
+     * next element count vblue upon which to resize the tbble.
      */
-    private transient volatile int sizeCtl;
+    privbte trbnsient volbtile int sizeCtl;
 
     /**
-     * The next table index (plus one) to split while resizing.
+     * The next tbble index (plus one) to split while resizing.
      */
-    private transient volatile int transferIndex;
+    privbte trbnsient volbtile int trbnsferIndex;
 
     /**
-     * Spinlock (locked via CAS) used when resizing and/or creating CounterCells.
+     * Spinlock (locked vib CAS) used when resizing bnd/or crebting CounterCells.
      */
-    private transient volatile int cellsBusy;
+    privbte trbnsient volbtile int cellsBusy;
 
     /**
-     * Table of counter cells. When non-null, size is a power of 2.
+     * Tbble of counter cells. When non-null, size is b power of 2.
      */
-    private transient volatile CounterCell[] counterCells;
+    privbte trbnsient volbtile CounterCell[] counterCells;
 
     // views
-    private transient KeySetView<K,V> keySet;
-    private transient ValuesView<K,V> values;
-    private transient EntrySetView<K,V> entrySet;
+    privbte trbnsient KeySetView<K,V> keySet;
+    privbte trbnsient VbluesView<K,V> vblues;
+    privbte trbnsient EntrySetView<K,V> entrySet;
 
 
-    /* ---------------- Public operations -------------- */
+    /* ---------------- Public operbtions -------------- */
 
     /**
-     * Creates a new, empty map with the default initial table size (16).
+     * Crebtes b new, empty mbp with the defbult initibl tbble size (16).
      */
-    public ConcurrentHashMap() {
+    public ConcurrentHbshMbp() {
     }
 
     /**
-     * Creates a new, empty map with an initial table size
-     * accommodating the specified number of elements without the need
-     * to dynamically resize.
+     * Crebtes b new, empty mbp with bn initibl tbble size
+     * bccommodbting the specified number of elements without the need
+     * to dynbmicblly resize.
      *
-     * @param initialCapacity The implementation performs internal
-     * sizing to accommodate this many elements.
-     * @throws IllegalArgumentException if the initial capacity of
-     * elements is negative
+     * @pbrbm initiblCbpbcity The implementbtion performs internbl
+     * sizing to bccommodbte this mbny elements.
+     * @throws IllegblArgumentException if the initibl cbpbcity of
+     * elements is negbtive
      */
-    public ConcurrentHashMap(int initialCapacity) {
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException();
-        int cap = ((initialCapacity >= (MAXIMUM_CAPACITY >>> 1)) ?
+    public ConcurrentHbshMbp(int initiblCbpbcity) {
+        if (initiblCbpbcity < 0)
+            throw new IllegblArgumentException();
+        int cbp = ((initiblCbpbcity >= (MAXIMUM_CAPACITY >>> 1)) ?
                    MAXIMUM_CAPACITY :
-                   tableSizeFor(initialCapacity + (initialCapacity >>> 1) + 1));
-        this.sizeCtl = cap;
+                   tbbleSizeFor(initiblCbpbcity + (initiblCbpbcity >>> 1) + 1));
+        this.sizeCtl = cbp;
     }
 
     /**
-     * Creates a new map with the same mappings as the given map.
+     * Crebtes b new mbp with the sbme mbppings bs the given mbp.
      *
-     * @param m the map
+     * @pbrbm m the mbp
      */
-    public ConcurrentHashMap(Map<? extends K, ? extends V> m) {
+    public ConcurrentHbshMbp(Mbp<? extends K, ? extends V> m) {
         this.sizeCtl = DEFAULT_CAPACITY;
         putAll(m);
     }
 
     /**
-     * Creates a new, empty map with an initial table size based on
-     * the given number of elements ({@code initialCapacity}) and
-     * initial table density ({@code loadFactor}).
+     * Crebtes b new, empty mbp with bn initibl tbble size bbsed on
+     * the given number of elements ({@code initiblCbpbcity}) bnd
+     * initibl tbble density ({@code lobdFbctor}).
      *
-     * @param initialCapacity the initial capacity. The implementation
-     * performs internal sizing to accommodate this many elements,
-     * given the specified load factor.
-     * @param loadFactor the load factor (table density) for
-     * establishing the initial table size
-     * @throws IllegalArgumentException if the initial capacity of
-     * elements is negative or the load factor is nonpositive
+     * @pbrbm initiblCbpbcity the initibl cbpbcity. The implementbtion
+     * performs internbl sizing to bccommodbte this mbny elements,
+     * given the specified lobd fbctor.
+     * @pbrbm lobdFbctor the lobd fbctor (tbble density) for
+     * estbblishing the initibl tbble size
+     * @throws IllegblArgumentException if the initibl cbpbcity of
+     * elements is negbtive or the lobd fbctor is nonpositive
      *
      * @since 1.6
      */
-    public ConcurrentHashMap(int initialCapacity, float loadFactor) {
-        this(initialCapacity, loadFactor, 1);
+    public ConcurrentHbshMbp(int initiblCbpbcity, flobt lobdFbctor) {
+        this(initiblCbpbcity, lobdFbctor, 1);
     }
 
     /**
-     * Creates a new, empty map with an initial table size based on
-     * the given number of elements ({@code initialCapacity}), table
-     * density ({@code loadFactor}), and number of concurrently
-     * updating threads ({@code concurrencyLevel}).
+     * Crebtes b new, empty mbp with bn initibl tbble size bbsed on
+     * the given number of elements ({@code initiblCbpbcity}), tbble
+     * density ({@code lobdFbctor}), bnd number of concurrently
+     * updbting threbds ({@code concurrencyLevel}).
      *
-     * @param initialCapacity the initial capacity. The implementation
-     * performs internal sizing to accommodate this many elements,
-     * given the specified load factor.
-     * @param loadFactor the load factor (table density) for
-     * establishing the initial table size
-     * @param concurrencyLevel the estimated number of concurrently
-     * updating threads. The implementation may use this value as
-     * a sizing hint.
-     * @throws IllegalArgumentException if the initial capacity is
-     * negative or the load factor or concurrencyLevel are
+     * @pbrbm initiblCbpbcity the initibl cbpbcity. The implementbtion
+     * performs internbl sizing to bccommodbte this mbny elements,
+     * given the specified lobd fbctor.
+     * @pbrbm lobdFbctor the lobd fbctor (tbble density) for
+     * estbblishing the initibl tbble size
+     * @pbrbm concurrencyLevel the estimbted number of concurrently
+     * updbting threbds. The implementbtion mby use this vblue bs
+     * b sizing hint.
+     * @throws IllegblArgumentException if the initibl cbpbcity is
+     * negbtive or the lobd fbctor or concurrencyLevel bre
      * nonpositive
      */
-    public ConcurrentHashMap(int initialCapacity,
-                             float loadFactor, int concurrencyLevel) {
-        if (!(loadFactor > 0.0f) || initialCapacity < 0 || concurrencyLevel <= 0)
-            throw new IllegalArgumentException();
-        if (initialCapacity < concurrencyLevel)   // Use at least as many bins
-            initialCapacity = concurrencyLevel;   // as estimated threads
-        long size = (long)(1.0 + (long)initialCapacity / loadFactor);
-        int cap = (size >= (long)MAXIMUM_CAPACITY) ?
-            MAXIMUM_CAPACITY : tableSizeFor((int)size);
-        this.sizeCtl = cap;
+    public ConcurrentHbshMbp(int initiblCbpbcity,
+                             flobt lobdFbctor, int concurrencyLevel) {
+        if (!(lobdFbctor > 0.0f) || initiblCbpbcity < 0 || concurrencyLevel <= 0)
+            throw new IllegblArgumentException();
+        if (initiblCbpbcity < concurrencyLevel)   // Use bt lebst bs mbny bins
+            initiblCbpbcity = concurrencyLevel;   // bs estimbted threbds
+        long size = (long)(1.0 + (long)initiblCbpbcity / lobdFbctor);
+        int cbp = (size >= (long)MAXIMUM_CAPACITY) ?
+            MAXIMUM_CAPACITY : tbbleSizeFor((int)size);
+        this.sizeCtl = cbp;
     }
 
-    // Original (since JDK1.2) Map methods
+    // Originbl (since JDK1.2) Mbp methods
 
     /**
      * {@inheritDoc}
@@ -916,257 +916,257 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     /**
      * {@inheritDoc}
      */
-    public boolean isEmpty() {
-        return sumCount() <= 0L; // ignore transient negative values
+    public boolebn isEmpty() {
+        return sumCount() <= 0L; // ignore trbnsient negbtive vblues
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or {@code null} if this mbp contbins no mbpping for the key.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code key.equals(k)},
+     * <p>More formblly, if this mbp contbins b mbpping from b key
+     * {@code k} to b vblue {@code v} such thbt {@code key.equbls(k)},
      * then this method returns {@code v}; otherwise it returns
-     * {@code null}.  (There can be at most one such mapping.)
+     * {@code null}.  (There cbn be bt most one such mbpping.)
      *
      * @throws NullPointerException if the specified key is null
      */
     public V get(Object key) {
-        Node<K,V>[] tab; Node<K,V> e, p; int n, eh; K ek;
-        int h = spread(key.hashCode());
-        if ((tab = table) != null && (n = tab.length) > 0 &&
-            (e = tabAt(tab, (n - 1) & h)) != null) {
-            if ((eh = e.hash) == h) {
-                if ((ek = e.key) == key || (ek != null && key.equals(ek)))
-                    return e.val;
+        Node<K,V>[] tbb; Node<K,V> e, p; int n, eh; K ek;
+        int h = sprebd(key.hbshCode());
+        if ((tbb = tbble) != null && (n = tbb.length) > 0 &&
+            (e = tbbAt(tbb, (n - 1) & h)) != null) {
+            if ((eh = e.hbsh) == h) {
+                if ((ek = e.key) == key || (ek != null && key.equbls(ek)))
+                    return e.vbl;
             }
             else if (eh < 0)
-                return (p = e.find(h, key)) != null ? p.val : null;
+                return (p = e.find(h, key)) != null ? p.vbl : null;
             while ((e = e.next) != null) {
-                if (e.hash == h &&
-                    ((ek = e.key) == key || (ek != null && key.equals(ek))))
-                    return e.val;
+                if (e.hbsh == h &&
+                    ((ek = e.key) == key || (ek != null && key.equbls(ek))))
+                    return e.vbl;
             }
         }
         return null;
     }
 
     /**
-     * Tests if the specified object is a key in this table.
+     * Tests if the specified object is b key in this tbble.
      *
-     * @param  key possible key
-     * @return {@code true} if and only if the specified object
-     *         is a key in this table, as determined by the
-     *         {@code equals} method; {@code false} otherwise
+     * @pbrbm  key possible key
+     * @return {@code true} if bnd only if the specified object
+     *         is b key in this tbble, bs determined by the
+     *         {@code equbls} method; {@code fblse} otherwise
      * @throws NullPointerException if the specified key is null
      */
-    public boolean containsKey(Object key) {
+    public boolebn contbinsKey(Object key) {
         return get(key) != null;
     }
 
     /**
-     * Returns {@code true} if this map maps one or more keys to the
-     * specified value. Note: This method may require a full traversal
-     * of the map, and is much slower than method {@code containsKey}.
+     * Returns {@code true} if this mbp mbps one or more keys to the
+     * specified vblue. Note: This method mby require b full trbversbl
+     * of the mbp, bnd is much slower thbn method {@code contbinsKey}.
      *
-     * @param value value whose presence in this map is to be tested
-     * @return {@code true} if this map maps one or more keys to the
-     *         specified value
-     * @throws NullPointerException if the specified value is null
+     * @pbrbm vblue vblue whose presence in this mbp is to be tested
+     * @return {@code true} if this mbp mbps one or more keys to the
+     *         specified vblue
+     * @throws NullPointerException if the specified vblue is null
      */
-    public boolean containsValue(Object value) {
-        if (value == null)
+    public boolebn contbinsVblue(Object vblue) {
+        if (vblue == null)
             throw new NullPointerException();
         Node<K,V>[] t;
-        if ((t = table) != null) {
-            Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-            for (Node<K,V> p; (p = it.advance()) != null; ) {
+        if ((t = tbble) != null) {
+            Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+            for (Node<K,V> p; (p = it.bdvbnce()) != null; ) {
                 V v;
-                if ((v = p.val) == value || (v != null && value.equals(v)))
+                if ((v = p.vbl) == vblue || (v != null && vblue.equbls(v)))
                     return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Maps the specified key to the specified value in this table.
-     * Neither the key nor the value can be null.
+     * Mbps the specified key to the specified vblue in this tbble.
+     * Neither the key nor the vblue cbn be null.
      *
-     * <p>The value can be retrieved by calling the {@code get} method
-     * with a key that is equal to the original key.
+     * <p>The vblue cbn be retrieved by cblling the {@code get} method
+     * with b key thbt is equbl to the originbl key.
      *
-     * @param key key with which the specified value is to be associated
-     * @param value value to be associated with the specified key
-     * @return the previous value associated with {@code key}, or
-     *         {@code null} if there was no mapping for {@code key}
-     * @throws NullPointerException if the specified key or value is null
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm vblue vblue to be bssocibted with the specified key
+     * @return the previous vblue bssocibted with {@code key}, or
+     *         {@code null} if there wbs no mbpping for {@code key}
+     * @throws NullPointerException if the specified key or vblue is null
      */
-    public V put(K key, V value) {
-        return putVal(key, value, false);
+    public V put(K key, V vblue) {
+        return putVbl(key, vblue, fblse);
     }
 
-    /** Implementation for put and putIfAbsent */
-    final V putVal(K key, V value, boolean onlyIfAbsent) {
-        if (key == null || value == null) throw new NullPointerException();
-        int hash = spread(key.hashCode());
+    /** Implementbtion for put bnd putIfAbsent */
+    finbl V putVbl(K key, V vblue, boolebn onlyIfAbsent) {
+        if (key == null || vblue == null) throw new NullPointerException();
+        int hbsh = sprebd(key.hbshCode());
         int binCount = 0;
-        for (Node<K,V>[] tab = table;;) {
+        for (Node<K,V>[] tbb = tbble;;) {
             Node<K,V> f; int n, i, fh;
-            if (tab == null || (n = tab.length) == 0)
-                tab = initTable();
-            else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
-                if (casTabAt(tab, i, null,
-                             new Node<K,V>(hash, key, value, null)))
-                    break;                   // no lock when adding to empty bin
+            if (tbb == null || (n = tbb.length) == 0)
+                tbb = initTbble();
+            else if ((f = tbbAt(tbb, i = (n - 1) & hbsh)) == null) {
+                if (cbsTbbAt(tbb, i, null,
+                             new Node<K,V>(hbsh, key, vblue, null)))
+                    brebk;                   // no lock when bdding to empty bin
             }
-            else if ((fh = f.hash) == MOVED)
-                tab = helpTransfer(tab, f);
+            else if ((fh = f.hbsh) == MOVED)
+                tbb = helpTrbnsfer(tbb, f);
             else {
-                V oldVal = null;
+                V oldVbl = null;
                 synchronized (f) {
-                    if (tabAt(tab, i) == f) {
+                    if (tbbAt(tbb, i) == f) {
                         if (fh >= 0) {
                             binCount = 1;
                             for (Node<K,V> e = f;; ++binCount) {
                                 K ek;
-                                if (e.hash == hash &&
+                                if (e.hbsh == hbsh &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
-                                    oldVal = e.val;
+                                     (ek != null && key.equbls(ek)))) {
+                                    oldVbl = e.vbl;
                                     if (!onlyIfAbsent)
-                                        e.val = value;
-                                    break;
+                                        e.vbl = vblue;
+                                    brebk;
                                 }
                                 Node<K,V> pred = e;
                                 if ((e = e.next) == null) {
-                                    pred.next = new Node<K,V>(hash, key,
-                                                              value, null);
-                                    break;
+                                    pred.next = new Node<K,V>(hbsh, key,
+                                                              vblue, null);
+                                    brebk;
                                 }
                             }
                         }
-                        else if (f instanceof TreeBin) {
+                        else if (f instbnceof TreeBin) {
                             Node<K,V> p;
                             binCount = 2;
-                            if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
-                                                           value)) != null) {
-                                oldVal = p.val;
+                            if ((p = ((TreeBin<K,V>)f).putTreeVbl(hbsh, key,
+                                                           vblue)) != null) {
+                                oldVbl = p.vbl;
                                 if (!onlyIfAbsent)
-                                    p.val = value;
+                                    p.vbl = vblue;
                             }
                         }
                     }
                 }
                 if (binCount != 0) {
                     if (binCount >= TREEIFY_THRESHOLD)
-                        treeifyBin(tab, i);
-                    if (oldVal != null)
-                        return oldVal;
-                    break;
+                        treeifyBin(tbb, i);
+                    if (oldVbl != null)
+                        return oldVbl;
+                    brebk;
                 }
             }
         }
-        addCount(1L, binCount);
+        bddCount(1L, binCount);
         return null;
     }
 
     /**
-     * Copies all of the mappings from the specified map to this one.
-     * These mappings replace any mappings that this map had for any of the
-     * keys currently in the specified map.
+     * Copies bll of the mbppings from the specified mbp to this one.
+     * These mbppings replbce bny mbppings thbt this mbp hbd for bny of the
+     * keys currently in the specified mbp.
      *
-     * @param m mappings to be stored in this map
+     * @pbrbm m mbppings to be stored in this mbp
      */
-    public void putAll(Map<? extends K, ? extends V> m) {
+    public void putAll(Mbp<? extends K, ? extends V> m) {
         tryPresize(m.size());
-        for (Map.Entry<? extends K, ? extends V> e : m.entrySet())
-            putVal(e.getKey(), e.getValue(), false);
+        for (Mbp.Entry<? extends K, ? extends V> e : m.entrySet())
+            putVbl(e.getKey(), e.getVblue(), fblse);
     }
 
     /**
-     * Removes the key (and its corresponding value) from this map.
-     * This method does nothing if the key is not in the map.
+     * Removes the key (bnd its corresponding vblue) from this mbp.
+     * This method does nothing if the key is not in the mbp.
      *
-     * @param  key the key that needs to be removed
-     * @return the previous value associated with {@code key}, or
-     *         {@code null} if there was no mapping for {@code key}
+     * @pbrbm  key the key thbt needs to be removed
+     * @return the previous vblue bssocibted with {@code key}, or
+     *         {@code null} if there wbs no mbpping for {@code key}
      * @throws NullPointerException if the specified key is null
      */
     public V remove(Object key) {
-        return replaceNode(key, null, null);
+        return replbceNode(key, null, null);
     }
 
     /**
-     * Implementation for the four public remove/replace methods:
-     * Replaces node value with v, conditional upon match of cv if
-     * non-null.  If resulting value is null, delete.
+     * Implementbtion for the four public remove/replbce methods:
+     * Replbces node vblue with v, conditionbl upon mbtch of cv if
+     * non-null.  If resulting vblue is null, delete.
      */
-    final V replaceNode(Object key, V value, Object cv) {
-        int hash = spread(key.hashCode());
-        for (Node<K,V>[] tab = table;;) {
+    finbl V replbceNode(Object key, V vblue, Object cv) {
+        int hbsh = sprebd(key.hbshCode());
+        for (Node<K,V>[] tbb = tbble;;) {
             Node<K,V> f; int n, i, fh;
-            if (tab == null || (n = tab.length) == 0 ||
-                (f = tabAt(tab, i = (n - 1) & hash)) == null)
-                break;
-            else if ((fh = f.hash) == MOVED)
-                tab = helpTransfer(tab, f);
+            if (tbb == null || (n = tbb.length) == 0 ||
+                (f = tbbAt(tbb, i = (n - 1) & hbsh)) == null)
+                brebk;
+            else if ((fh = f.hbsh) == MOVED)
+                tbb = helpTrbnsfer(tbb, f);
             else {
-                V oldVal = null;
-                boolean validated = false;
+                V oldVbl = null;
+                boolebn vblidbted = fblse;
                 synchronized (f) {
-                    if (tabAt(tab, i) == f) {
+                    if (tbbAt(tbb, i) == f) {
                         if (fh >= 0) {
-                            validated = true;
+                            vblidbted = true;
                             for (Node<K,V> e = f, pred = null;;) {
                                 K ek;
-                                if (e.hash == hash &&
+                                if (e.hbsh == hbsh &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
-                                    V ev = e.val;
+                                     (ek != null && key.equbls(ek)))) {
+                                    V ev = e.vbl;
                                     if (cv == null || cv == ev ||
-                                        (ev != null && cv.equals(ev))) {
-                                        oldVal = ev;
-                                        if (value != null)
-                                            e.val = value;
+                                        (ev != null && cv.equbls(ev))) {
+                                        oldVbl = ev;
+                                        if (vblue != null)
+                                            e.vbl = vblue;
                                         else if (pred != null)
                                             pred.next = e.next;
                                         else
-                                            setTabAt(tab, i, e.next);
+                                            setTbbAt(tbb, i, e.next);
                                     }
-                                    break;
+                                    brebk;
                                 }
                                 pred = e;
                                 if ((e = e.next) == null)
-                                    break;
+                                    brebk;
                             }
                         }
-                        else if (f instanceof TreeBin) {
-                            validated = true;
+                        else if (f instbnceof TreeBin) {
+                            vblidbted = true;
                             TreeBin<K,V> t = (TreeBin<K,V>)f;
                             TreeNode<K,V> r, p;
                             if ((r = t.root) != null &&
-                                (p = r.findTreeNode(hash, key, null)) != null) {
-                                V pv = p.val;
+                                (p = r.findTreeNode(hbsh, key, null)) != null) {
+                                V pv = p.vbl;
                                 if (cv == null || cv == pv ||
-                                    (pv != null && cv.equals(pv))) {
-                                    oldVal = pv;
-                                    if (value != null)
-                                        p.val = value;
+                                    (pv != null && cv.equbls(pv))) {
+                                    oldVbl = pv;
+                                    if (vblue != null)
+                                        p.vbl = vblue;
                                     else if (t.removeTreeNode(p))
-                                        setTabAt(tab, i, untreeify(t.first));
+                                        setTbbAt(tbb, i, untreeify(t.first));
                                 }
                             }
                         }
                     }
                 }
-                if (validated) {
-                    if (oldVal != null) {
-                        if (value == null)
-                            addCount(-1L, -1);
-                        return oldVal;
+                if (vblidbted) {
+                    if (oldVbl != null) {
+                        if (vblue == null)
+                            bddCount(-1L, -1);
+                        return oldVbl;
                     }
-                    break;
+                    brebk;
                 }
             }
         }
@@ -1174,55 +1174,55 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Removes all of the mappings from this map.
+     * Removes bll of the mbppings from this mbp.
      */
-    public void clear() {
-        long delta = 0L; // negative number of deletions
+    public void clebr() {
+        long deltb = 0L; // negbtive number of deletions
         int i = 0;
-        Node<K,V>[] tab = table;
-        while (tab != null && i < tab.length) {
+        Node<K,V>[] tbb = tbble;
+        while (tbb != null && i < tbb.length) {
             int fh;
-            Node<K,V> f = tabAt(tab, i);
+            Node<K,V> f = tbbAt(tbb, i);
             if (f == null)
                 ++i;
-            else if ((fh = f.hash) == MOVED) {
-                tab = helpTransfer(tab, f);
-                i = 0; // restart
+            else if ((fh = f.hbsh) == MOVED) {
+                tbb = helpTrbnsfer(tbb, f);
+                i = 0; // restbrt
             }
             else {
                 synchronized (f) {
-                    if (tabAt(tab, i) == f) {
+                    if (tbbAt(tbb, i) == f) {
                         Node<K,V> p = (fh >= 0 ? f :
-                                       (f instanceof TreeBin) ?
+                                       (f instbnceof TreeBin) ?
                                        ((TreeBin<K,V>)f).first : null);
                         while (p != null) {
-                            --delta;
+                            --deltb;
                             p = p.next;
                         }
-                        setTabAt(tab, i++, null);
+                        setTbbAt(tbb, i++, null);
                     }
                 }
             }
         }
-        if (delta != 0L)
-            addCount(delta, -1);
+        if (deltb != 0L)
+            bddCount(deltb, -1);
     }
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa. The set supports element
-     * removal, which removes the corresponding mapping from this map,
-     * via the {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll}, and {@code clear}
-     * operations.  It does not support the {@code add} or
-     * {@code addAll} operations.
+     * Returns b {@link Set} view of the keys contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb. The set supports element
+     * removbl, which removes the corresponding mbpping from this mbp,
+     * vib the {@code Iterbtor.remove}, {@code Set.remove},
+     * {@code removeAll}, {@code retbinAll}, bnd {@code clebr}
+     * operbtions.  It does not support the {@code bdd} or
+     * {@code bddAll} operbtions.
      *
-     * <p>The view's iterators and spliterators are
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The view's iterbtors bnd spliterbtors bre
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The view's {@code spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#DISTINCT}, and {@link Spliterator#NONNULL}.
+     * <p>The view's {@code spliterbtor} reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#DISTINCT}, bnd {@link Spliterbtor#NONNULL}.
      *
      * @return the set view
      */
@@ -1232,161 +1232,161 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from this map, via the {@code Iterator.remove},
+     * Returns b {@link Collection} view of the vblues contbined in this mbp.
+     * The collection is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the collection, bnd vice-versb.  The collection
+     * supports element removbl, which removes the corresponding
+     * mbpping from this mbp, vib the {@code Iterbtor.remove},
      * {@code Collection.remove}, {@code removeAll},
-     * {@code retainAll}, and {@code clear} operations.  It does not
-     * support the {@code add} or {@code addAll} operations.
+     * {@code retbinAll}, bnd {@code clebr} operbtions.  It does not
+     * support the {@code bdd} or {@code bddAll} operbtions.
      *
-     * <p>The view's iterators and spliterators are
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The view's iterbtors bnd spliterbtors bre
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The view's {@code spliterator} reports {@link Spliterator#CONCURRENT}
-     * and {@link Spliterator#NONNULL}.
+     * <p>The view's {@code spliterbtor} reports {@link Spliterbtor#CONCURRENT}
+     * bnd {@link Spliterbtor#NONNULL}.
      *
      * @return the collection view
      */
-    public Collection<V> values() {
-        ValuesView<K,V> vs;
-        return (vs = values) != null ? vs : (values = new ValuesView<K,V>(this));
+    public Collection<V> vblues() {
+        VbluesView<K,V> vs;
+        return (vs = vblues) != null ? vs : (vblues = new VbluesView<K,V>(this));
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  The set supports element
-     * removal, which removes the corresponding mapping from the map,
-     * via the {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll}, and {@code clear}
-     * operations.
+     * Returns b {@link Set} view of the mbppings contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  The set supports element
+     * removbl, which removes the corresponding mbpping from the mbp,
+     * vib the {@code Iterbtor.remove}, {@code Set.remove},
+     * {@code removeAll}, {@code retbinAll}, bnd {@code clebr}
+     * operbtions.
      *
-     * <p>The view's iterators and spliterators are
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>The view's iterbtors bnd spliterbtors bre
+     * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
      *
-     * <p>The view's {@code spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#DISTINCT}, and {@link Spliterator#NONNULL}.
+     * <p>The view's {@code spliterbtor} reports {@link Spliterbtor#CONCURRENT},
+     * {@link Spliterbtor#DISTINCT}, bnd {@link Spliterbtor#NONNULL}.
      *
      * @return the set view
      */
-    public Set<Map.Entry<K,V>> entrySet() {
+    public Set<Mbp.Entry<K,V>> entrySet() {
         EntrySetView<K,V> es;
         return (es = entrySet) != null ? es : (entrySet = new EntrySetView<K,V>(this));
     }
 
     /**
-     * Returns the hash code value for this {@link Map}, i.e.,
-     * the sum of, for each key-value pair in the map,
-     * {@code key.hashCode() ^ value.hashCode()}.
+     * Returns the hbsh code vblue for this {@link Mbp}, i.e.,
+     * the sum of, for ebch key-vblue pbir in the mbp,
+     * {@code key.hbshCode() ^ vblue.hbshCode()}.
      *
-     * @return the hash code value for this map
+     * @return the hbsh code vblue for this mbp
      */
-    public int hashCode() {
+    public int hbshCode() {
         int h = 0;
         Node<K,V>[] t;
-        if ((t = table) != null) {
-            Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-            for (Node<K,V> p; (p = it.advance()) != null; )
-                h += p.key.hashCode() ^ p.val.hashCode();
+        if ((t = tbble) != null) {
+            Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+            for (Node<K,V> p; (p = it.bdvbnce()) != null; )
+                h += p.key.hbshCode() ^ p.vbl.hbshCode();
         }
         return h;
     }
 
     /**
-     * Returns a string representation of this map.  The string
-     * representation consists of a list of key-value mappings (in no
-     * particular order) enclosed in braces ("{@code {}}").  Adjacent
-     * mappings are separated by the characters {@code ", "} (comma
-     * and space).  Each key-value mapping is rendered as the key
-     * followed by an equals sign ("{@code =}") followed by the
-     * associated value.
+     * Returns b string representbtion of this mbp.  The string
+     * representbtion consists of b list of key-vblue mbppings (in no
+     * pbrticulbr order) enclosed in brbces ("{@code {}}").  Adjbcent
+     * mbppings bre sepbrbted by the chbrbcters {@code ", "} (commb
+     * bnd spbce).  Ebch key-vblue mbpping is rendered bs the key
+     * followed by bn equbls sign ("{@code =}") followed by the
+     * bssocibted vblue.
      *
-     * @return a string representation of this map
+     * @return b string representbtion of this mbp
      */
     public String toString() {
         Node<K,V>[] t;
-        int f = (t = table) == null ? 0 : t.length;
-        Traverser<K,V> it = new Traverser<K,V>(t, f, 0, f);
+        int f = (t = tbble) == null ? 0 : t.length;
+        Trbverser<K,V> it = new Trbverser<K,V>(t, f, 0, f);
         StringBuilder sb = new StringBuilder();
-        sb.append('{');
+        sb.bppend('{');
         Node<K,V> p;
-        if ((p = it.advance()) != null) {
+        if ((p = it.bdvbnce()) != null) {
             for (;;) {
                 K k = p.key;
-                V v = p.val;
-                sb.append(k == this ? "(this Map)" : k);
-                sb.append('=');
-                sb.append(v == this ? "(this Map)" : v);
-                if ((p = it.advance()) == null)
-                    break;
-                sb.append(',').append(' ');
+                V v = p.vbl;
+                sb.bppend(k == this ? "(this Mbp)" : k);
+                sb.bppend('=');
+                sb.bppend(v == this ? "(this Mbp)" : v);
+                if ((p = it.bdvbnce()) == null)
+                    brebk;
+                sb.bppend(',').bppend(' ');
             }
         }
-        return sb.append('}').toString();
+        return sb.bppend('}').toString();
     }
 
     /**
-     * Compares the specified object with this map for equality.
-     * Returns {@code true} if the given object is a map with the same
-     * mappings as this map.  This operation may return misleading
-     * results if either map is concurrently modified during execution
+     * Compbres the specified object with this mbp for equblity.
+     * Returns {@code true} if the given object is b mbp with the sbme
+     * mbppings bs this mbp.  This operbtion mby return mislebding
+     * results if either mbp is concurrently modified during execution
      * of this method.
      *
-     * @param o object to be compared for equality with this map
-     * @return {@code true} if the specified object is equal to this map
+     * @pbrbm o object to be compbred for equblity with this mbp
+     * @return {@code true} if the specified object is equbl to this mbp
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o != this) {
-            if (!(o instanceof Map))
-                return false;
-            Map<?,?> m = (Map<?,?>) o;
+            if (!(o instbnceof Mbp))
+                return fblse;
+            Mbp<?,?> m = (Mbp<?,?>) o;
             Node<K,V>[] t;
-            int f = (t = table) == null ? 0 : t.length;
-            Traverser<K,V> it = new Traverser<K,V>(t, f, 0, f);
-            for (Node<K,V> p; (p = it.advance()) != null; ) {
-                V val = p.val;
+            int f = (t = tbble) == null ? 0 : t.length;
+            Trbverser<K,V> it = new Trbverser<K,V>(t, f, 0, f);
+            for (Node<K,V> p; (p = it.bdvbnce()) != null; ) {
+                V vbl = p.vbl;
                 Object v = m.get(p.key);
-                if (v == null || (v != val && !v.equals(val)))
-                    return false;
+                if (v == null || (v != vbl && !v.equbls(vbl)))
+                    return fblse;
             }
-            for (Map.Entry<?,?> e : m.entrySet()) {
+            for (Mbp.Entry<?,?> e : m.entrySet()) {
                 Object mk, mv, v;
                 if ((mk = e.getKey()) == null ||
-                    (mv = e.getValue()) == null ||
+                    (mv = e.getVblue()) == null ||
                     (v = get(mk)) == null ||
-                    (mv != v && !mv.equals(v)))
-                    return false;
+                    (mv != v && !mv.equbls(v)))
+                    return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Stripped-down version of helper class used in previous version,
-     * declared for the sake of serialization compatibility
+     * Stripped-down version of helper clbss used in previous version,
+     * declbred for the sbke of seriblizbtion compbtibility
      */
-    static class Segment<K,V> extends ReentrantLock implements Serializable {
-        private static final long serialVersionUID = 2249069246763182397L;
-        final float loadFactor;
-        Segment(float lf) { this.loadFactor = lf; }
+    stbtic clbss Segment<K,V> extends ReentrbntLock implements Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 2249069246763182397L;
+        finbl flobt lobdFbctor;
+        Segment(flobt lf) { this.lobdFbctor = lf; }
     }
 
     /**
-     * Saves the state of the {@code ConcurrentHashMap} instance to a
-     * stream (i.e., serializes it).
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData
-     * the key (Object) and value (Object)
-     * for each key-value mapping, followed by a null pair.
-     * The key-value mappings are emitted in no particular order.
+     * Sbves the stbte of the {@code ConcurrentHbshMbp} instbnce to b
+     * strebm (i.e., seriblizes it).
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
+     * @seriblDbtb
+     * the key (Object) bnd vblue (Object)
+     * for ebch key-vblue mbpping, followed by b null pbir.
+     * The key-vblue mbppings bre emitted in no pbrticulbr order.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        // For serialization compatibility
-        // Emulate segment calculation from previous version of this class
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        // For seriblizbtion compbtibility
+        // Emulbte segment cblculbtion from previous version of this clbss
         int sshift = 0;
         int ssize = 1;
         while (ssize < DEFAULT_CONCURRENCY_LEVEL) {
@@ -1394,61 +1394,61 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             ssize <<= 1;
         }
         int segmentShift = 32 - sshift;
-        int segmentMask = ssize - 1;
-        @SuppressWarnings("unchecked")
+        int segmentMbsk = ssize - 1;
+        @SuppressWbrnings("unchecked")
         Segment<K,V>[] segments = (Segment<K,V>[])
             new Segment<?,?>[DEFAULT_CONCURRENCY_LEVEL];
         for (int i = 0; i < segments.length; ++i)
             segments[i] = new Segment<K,V>(LOAD_FACTOR);
         s.putFields().put("segments", segments);
         s.putFields().put("segmentShift", segmentShift);
-        s.putFields().put("segmentMask", segmentMask);
+        s.putFields().put("segmentMbsk", segmentMbsk);
         s.writeFields();
 
         Node<K,V>[] t;
-        if ((t = table) != null) {
-            Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-            for (Node<K,V> p; (p = it.advance()) != null; ) {
+        if ((t = tbble) != null) {
+            Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+            for (Node<K,V> p; (p = it.bdvbnce()) != null; ) {
                 s.writeObject(p.key);
-                s.writeObject(p.val);
+                s.writeObject(p.vbl);
             }
         }
         s.writeObject(null);
         s.writeObject(null);
-        segments = null; // throw away
+        segments = null; // throw bwby
     }
 
     /**
-     * Reconstitutes the instance from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
+     * Reconstitutes the instbnce from b strebm (thbt is, deseriblizes it).
+     * @pbrbm s the strebm
+     * @throws ClbssNotFoundException if the clbss of b seriblized object
      *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
         /*
-         * To improve performance in typical cases, we create nodes
-         * while reading, then place in table once size is known.
-         * However, we must also validate uniqueness and deal with
-         * overpopulated bins while doing so, which requires
-         * specialized versions of putVal mechanics.
+         * To improve performbnce in typicbl cbses, we crebte nodes
+         * while rebding, then plbce in tbble once size is known.
+         * However, we must blso vblidbte uniqueness bnd debl with
+         * overpopulbted bins while doing so, which requires
+         * speciblized versions of putVbl mechbnics.
          */
-        sizeCtl = -1; // force exclusion for table construction
-        s.defaultReadObject();
+        sizeCtl = -1; // force exclusion for tbble construction
+        s.defbultRebdObject();
         long size = 0L;
         Node<K,V> p = null;
         for (;;) {
-            @SuppressWarnings("unchecked")
-            K k = (K) s.readObject();
-            @SuppressWarnings("unchecked")
-            V v = (V) s.readObject();
+            @SuppressWbrnings("unchecked")
+            K k = (K) s.rebdObject();
+            @SuppressWbrnings("unchecked")
+            V v = (V) s.rebdObject();
             if (k != null && v != null) {
-                p = new Node<K,V>(spread(k.hashCode()), k, v, p);
+                p = new Node<K,V>(sprebd(k.hbshCode()), k, v, p);
                 ++size;
             }
             else
-                break;
+                brebk;
         }
         if (size == 0L)
             sizeCtl = 0;
@@ -1458,81 +1458,81 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 n = MAXIMUM_CAPACITY;
             else {
                 int sz = (int)size;
-                n = tableSizeFor(sz + (sz >>> 1) + 1);
+                n = tbbleSizeFor(sz + (sz >>> 1) + 1);
             }
-            @SuppressWarnings("unchecked")
-            Node<K,V>[] tab = (Node<K,V>[])new Node<?,?>[n];
-            int mask = n - 1;
-            long added = 0L;
+            @SuppressWbrnings("unchecked")
+            Node<K,V>[] tbb = (Node<K,V>[])new Node<?,?>[n];
+            int mbsk = n - 1;
+            long bdded = 0L;
             while (p != null) {
-                boolean insertAtFront;
+                boolebn insertAtFront;
                 Node<K,V> next = p.next, first;
-                int h = p.hash, j = h & mask;
-                if ((first = tabAt(tab, j)) == null)
+                int h = p.hbsh, j = h & mbsk;
+                if ((first = tbbAt(tbb, j)) == null)
                     insertAtFront = true;
                 else {
                     K k = p.key;
-                    if (first.hash < 0) {
+                    if (first.hbsh < 0) {
                         TreeBin<K,V> t = (TreeBin<K,V>)first;
-                        if (t.putTreeVal(h, k, p.val) == null)
-                            ++added;
-                        insertAtFront = false;
+                        if (t.putTreeVbl(h, k, p.vbl) == null)
+                            ++bdded;
+                        insertAtFront = fblse;
                     }
                     else {
                         int binCount = 0;
                         insertAtFront = true;
                         Node<K,V> q; K qk;
                         for (q = first; q != null; q = q.next) {
-                            if (q.hash == h &&
+                            if (q.hbsh == h &&
                                 ((qk = q.key) == k ||
-                                 (qk != null && k.equals(qk)))) {
-                                insertAtFront = false;
-                                break;
+                                 (qk != null && k.equbls(qk)))) {
+                                insertAtFront = fblse;
+                                brebk;
                             }
                             ++binCount;
                         }
                         if (insertAtFront && binCount >= TREEIFY_THRESHOLD) {
-                            insertAtFront = false;
-                            ++added;
+                            insertAtFront = fblse;
+                            ++bdded;
                             p.next = first;
                             TreeNode<K,V> hd = null, tl = null;
                             for (q = p; q != null; q = q.next) {
                                 TreeNode<K,V> t = new TreeNode<K,V>
-                                    (q.hash, q.key, q.val, null, null);
+                                    (q.hbsh, q.key, q.vbl, null, null);
                                 if ((t.prev = tl) == null)
                                     hd = t;
                                 else
                                     tl.next = t;
                                 tl = t;
                             }
-                            setTabAt(tab, j, new TreeBin<K,V>(hd));
+                            setTbbAt(tbb, j, new TreeBin<K,V>(hd));
                         }
                     }
                 }
                 if (insertAtFront) {
-                    ++added;
+                    ++bdded;
                     p.next = first;
-                    setTabAt(tab, j, p);
+                    setTbbAt(tbb, j, p);
                 }
                 p = next;
             }
-            table = tab;
+            tbble = tbb;
             sizeCtl = n - (n >>> 2);
-            baseCount = added;
+            bbseCount = bdded;
         }
     }
 
-    // ConcurrentMap methods
+    // ConcurrentMbp methods
 
     /**
      * {@inheritDoc}
      *
-     * @return the previous value associated with the specified key,
-     *         or {@code null} if there was no mapping for the key
-     * @throws NullPointerException if the specified key or value is null
+     * @return the previous vblue bssocibted with the specified key,
+     *         or {@code null} if there wbs no mbpping for the key
+     * @throws NullPointerException if the specified key or vblue is null
      */
-    public V putIfAbsent(K key, V value) {
-        return putVal(key, value, true);
+    public V putIfAbsent(K key, V vblue) {
+        return putVbl(key, vblue, true);
     }
 
     /**
@@ -1540,366 +1540,366 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
      *
      * @throws NullPointerException if the specified key is null
      */
-    public boolean remove(Object key, Object value) {
+    public boolebn remove(Object key, Object vblue) {
         if (key == null)
             throw new NullPointerException();
-        return value != null && replaceNode(key, null, value) != null;
+        return vblue != null && replbceNode(key, null, vblue) != null;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @throws NullPointerException if any of the arguments are null
+     * @throws NullPointerException if bny of the brguments bre null
      */
-    public boolean replace(K key, V oldValue, V newValue) {
-        if (key == null || oldValue == null || newValue == null)
+    public boolebn replbce(K key, V oldVblue, V newVblue) {
+        if (key == null || oldVblue == null || newVblue == null)
             throw new NullPointerException();
-        return replaceNode(key, newValue, oldValue) != null;
+        return replbceNode(key, newVblue, oldVblue) != null;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @return the previous value associated with the specified key,
-     *         or {@code null} if there was no mapping for the key
-     * @throws NullPointerException if the specified key or value is null
+     * @return the previous vblue bssocibted with the specified key,
+     *         or {@code null} if there wbs no mbpping for the key
+     * @throws NullPointerException if the specified key or vblue is null
      */
-    public V replace(K key, V value) {
-        if (key == null || value == null)
+    public V replbce(K key, V vblue) {
+        if (key == null || vblue == null)
             throw new NullPointerException();
-        return replaceNode(key, value, null);
+        return replbceNode(key, vblue, null);
     }
 
-    // Overrides of JDK8+ Map extension method defaults
+    // Overrides of JDK8+ Mbp extension method defbults
 
     /**
-     * Returns the value to which the specified key is mapped, or the
-     * given default value if this map contains no mapping for the
+     * Returns the vblue to which the specified key is mbpped, or the
+     * given defbult vblue if this mbp contbins no mbpping for the
      * key.
      *
-     * @param key the key whose associated value is to be returned
-     * @param defaultValue the value to return if this map contains
-     * no mapping for the given key
-     * @return the mapping for the key, if present; else the default value
+     * @pbrbm key the key whose bssocibted vblue is to be returned
+     * @pbrbm defbultVblue the vblue to return if this mbp contbins
+     * no mbpping for the given key
+     * @return the mbpping for the key, if present; else the defbult vblue
      * @throws NullPointerException if the specified key is null
      */
-    public V getOrDefault(Object key, V defaultValue) {
+    public V getOrDefbult(Object key, V defbultVblue) {
         V v;
-        return (v = get(key)) == null ? defaultValue : v;
+        return (v = get(key)) == null ? defbultVblue : v;
     }
 
-    public void forEach(BiConsumer<? super K, ? super V> action) {
-        if (action == null) throw new NullPointerException();
+    public void forEbch(BiConsumer<? super K, ? super V> bction) {
+        if (bction == null) throw new NullPointerException();
         Node<K,V>[] t;
-        if ((t = table) != null) {
-            Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-            for (Node<K,V> p; (p = it.advance()) != null; ) {
-                action.accept(p.key, p.val);
+        if ((t = tbble) != null) {
+            Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+            for (Node<K,V> p; (p = it.bdvbnce()) != null; ) {
+                bction.bccept(p.key, p.vbl);
             }
         }
     }
 
-    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+    public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
         if (function == null) throw new NullPointerException();
         Node<K,V>[] t;
-        if ((t = table) != null) {
-            Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-            for (Node<K,V> p; (p = it.advance()) != null; ) {
-                V oldValue = p.val;
+        if ((t = tbble) != null) {
+            Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+            for (Node<K,V> p; (p = it.bdvbnce()) != null; ) {
+                V oldVblue = p.vbl;
                 for (K key = p.key;;) {
-                    V newValue = function.apply(key, oldValue);
-                    if (newValue == null)
+                    V newVblue = function.bpply(key, oldVblue);
+                    if (newVblue == null)
                         throw new NullPointerException();
-                    if (replaceNode(key, newValue, oldValue) != null ||
-                        (oldValue = get(key)) == null)
-                        break;
+                    if (replbceNode(key, newVblue, oldVblue) != null ||
+                        (oldVblue = get(key)) == null)
+                        brebk;
                 }
             }
         }
     }
 
     /**
-     * If the specified key is not already associated with a value,
-     * attempts to compute its value using the given mapping function
-     * and enters it into this map unless {@code null}.  The entire
-     * method invocation is performed atomically, so the function is
-     * applied at most once per key.  Some attempted update operations
-     * on this map by other threads may be blocked while computation
-     * is in progress, so the computation should be short and simple,
-     * and must not attempt to update any other mappings of this map.
+     * If the specified key is not blrebdy bssocibted with b vblue,
+     * bttempts to compute its vblue using the given mbpping function
+     * bnd enters it into this mbp unless {@code null}.  The entire
+     * method invocbtion is performed btomicblly, so the function is
+     * bpplied bt most once per key.  Some bttempted updbte operbtions
+     * on this mbp by other threbds mby be blocked while computbtion
+     * is in progress, so the computbtion should be short bnd simple,
+     * bnd must not bttempt to updbte bny other mbppings of this mbp.
      *
-     * @param key key with which the specified value is to be associated
-     * @param mappingFunction the function to compute a value
-     * @return the current (existing or computed) value associated with
-     *         the specified key, or null if the computed value is null
-     * @throws NullPointerException if the specified key or mappingFunction
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm mbppingFunction the function to compute b vblue
+     * @return the current (existing or computed) vblue bssocibted with
+     *         the specified key, or null if the computed vblue is null
+     * @throws NullPointerException if the specified key or mbppingFunction
      *         is null
-     * @throws IllegalStateException if the computation detectably
-     *         attempts a recursive update to this map that would
+     * @throws IllegblStbteException if the computbtion detectbbly
+     *         bttempts b recursive updbte to this mbp thbt would
      *         otherwise never complete
-     * @throws RuntimeException or Error if the mappingFunction does so,
-     *         in which case the mapping is left unestablished
+     * @throws RuntimeException or Error if the mbppingFunction does so,
+     *         in which cbse the mbpping is left unestbblished
      */
-    public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
-        if (key == null || mappingFunction == null)
+    public V computeIfAbsent(K key, Function<? super K, ? extends V> mbppingFunction) {
+        if (key == null || mbppingFunction == null)
             throw new NullPointerException();
-        int h = spread(key.hashCode());
-        V val = null;
+        int h = sprebd(key.hbshCode());
+        V vbl = null;
         int binCount = 0;
-        for (Node<K,V>[] tab = table;;) {
+        for (Node<K,V>[] tbb = tbble;;) {
             Node<K,V> f; int n, i, fh;
-            if (tab == null || (n = tab.length) == 0)
-                tab = initTable();
-            else if ((f = tabAt(tab, i = (n - 1) & h)) == null) {
-                Node<K,V> r = new ReservationNode<K,V>();
+            if (tbb == null || (n = tbb.length) == 0)
+                tbb = initTbble();
+            else if ((f = tbbAt(tbb, i = (n - 1) & h)) == null) {
+                Node<K,V> r = new ReservbtionNode<K,V>();
                 synchronized (r) {
-                    if (casTabAt(tab, i, null, r)) {
+                    if (cbsTbbAt(tbb, i, null, r)) {
                         binCount = 1;
                         Node<K,V> node = null;
                         try {
-                            if ((val = mappingFunction.apply(key)) != null)
-                                node = new Node<K,V>(h, key, val, null);
-                        } finally {
-                            setTabAt(tab, i, node);
+                            if ((vbl = mbppingFunction.bpply(key)) != null)
+                                node = new Node<K,V>(h, key, vbl, null);
+                        } finblly {
+                            setTbbAt(tbb, i, node);
                         }
                     }
                 }
                 if (binCount != 0)
-                    break;
+                    brebk;
             }
-            else if ((fh = f.hash) == MOVED)
-                tab = helpTransfer(tab, f);
+            else if ((fh = f.hbsh) == MOVED)
+                tbb = helpTrbnsfer(tbb, f);
             else {
-                boolean added = false;
+                boolebn bdded = fblse;
                 synchronized (f) {
-                    if (tabAt(tab, i) == f) {
+                    if (tbbAt(tbb, i) == f) {
                         if (fh >= 0) {
                             binCount = 1;
                             for (Node<K,V> e = f;; ++binCount) {
                                 K ek; V ev;
-                                if (e.hash == h &&
+                                if (e.hbsh == h &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
-                                    val = e.val;
-                                    break;
+                                     (ek != null && key.equbls(ek)))) {
+                                    vbl = e.vbl;
+                                    brebk;
                                 }
                                 Node<K,V> pred = e;
                                 if ((e = e.next) == null) {
-                                    if ((val = mappingFunction.apply(key)) != null) {
-                                        added = true;
-                                        pred.next = new Node<K,V>(h, key, val, null);
+                                    if ((vbl = mbppingFunction.bpply(key)) != null) {
+                                        bdded = true;
+                                        pred.next = new Node<K,V>(h, key, vbl, null);
                                     }
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
-                        else if (f instanceof TreeBin) {
+                        else if (f instbnceof TreeBin) {
                             binCount = 2;
                             TreeBin<K,V> t = (TreeBin<K,V>)f;
                             TreeNode<K,V> r, p;
                             if ((r = t.root) != null &&
                                 (p = r.findTreeNode(h, key, null)) != null)
-                                val = p.val;
-                            else if ((val = mappingFunction.apply(key)) != null) {
-                                added = true;
-                                t.putTreeVal(h, key, val);
+                                vbl = p.vbl;
+                            else if ((vbl = mbppingFunction.bpply(key)) != null) {
+                                bdded = true;
+                                t.putTreeVbl(h, key, vbl);
                             }
                         }
                     }
                 }
                 if (binCount != 0) {
                     if (binCount >= TREEIFY_THRESHOLD)
-                        treeifyBin(tab, i);
-                    if (!added)
-                        return val;
-                    break;
+                        treeifyBin(tbb, i);
+                    if (!bdded)
+                        return vbl;
+                    brebk;
                 }
             }
         }
-        if (val != null)
-            addCount(1L, binCount);
-        return val;
+        if (vbl != null)
+            bddCount(1L, binCount);
+        return vbl;
     }
 
     /**
-     * If the value for the specified key is present, attempts to
-     * compute a new mapping given the key and its current mapped
-     * value.  The entire method invocation is performed atomically.
-     * Some attempted update operations on this map by other threads
-     * may be blocked while computation is in progress, so the
-     * computation should be short and simple, and must not attempt to
-     * update any other mappings of this map.
+     * If the vblue for the specified key is present, bttempts to
+     * compute b new mbpping given the key bnd its current mbpped
+     * vblue.  The entire method invocbtion is performed btomicblly.
+     * Some bttempted updbte operbtions on this mbp by other threbds
+     * mby be blocked while computbtion is in progress, so the
+     * computbtion should be short bnd simple, bnd must not bttempt to
+     * updbte bny other mbppings of this mbp.
      *
-     * @param key key with which a value may be associated
-     * @param remappingFunction the function to compute a value
-     * @return the new value associated with the specified key, or null if none
-     * @throws NullPointerException if the specified key or remappingFunction
+     * @pbrbm key key with which b vblue mby be bssocibted
+     * @pbrbm rembppingFunction the function to compute b vblue
+     * @return the new vblue bssocibted with the specified key, or null if none
+     * @throws NullPointerException if the specified key or rembppingFunction
      *         is null
-     * @throws IllegalStateException if the computation detectably
-     *         attempts a recursive update to this map that would
+     * @throws IllegblStbteException if the computbtion detectbbly
+     *         bttempts b recursive updbte to this mbp thbt would
      *         otherwise never complete
-     * @throws RuntimeException or Error if the remappingFunction does so,
-     *         in which case the mapping is unchanged
+     * @throws RuntimeException or Error if the rembppingFunction does so,
+     *         in which cbse the mbpping is unchbnged
      */
-    public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-        if (key == null || remappingFunction == null)
+    public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+        if (key == null || rembppingFunction == null)
             throw new NullPointerException();
-        int h = spread(key.hashCode());
-        V val = null;
-        int delta = 0;
+        int h = sprebd(key.hbshCode());
+        V vbl = null;
+        int deltb = 0;
         int binCount = 0;
-        for (Node<K,V>[] tab = table;;) {
+        for (Node<K,V>[] tbb = tbble;;) {
             Node<K,V> f; int n, i, fh;
-            if (tab == null || (n = tab.length) == 0)
-                tab = initTable();
-            else if ((f = tabAt(tab, i = (n - 1) & h)) == null)
-                break;
-            else if ((fh = f.hash) == MOVED)
-                tab = helpTransfer(tab, f);
+            if (tbb == null || (n = tbb.length) == 0)
+                tbb = initTbble();
+            else if ((f = tbbAt(tbb, i = (n - 1) & h)) == null)
+                brebk;
+            else if ((fh = f.hbsh) == MOVED)
+                tbb = helpTrbnsfer(tbb, f);
             else {
                 synchronized (f) {
-                    if (tabAt(tab, i) == f) {
+                    if (tbbAt(tbb, i) == f) {
                         if (fh >= 0) {
                             binCount = 1;
                             for (Node<K,V> e = f, pred = null;; ++binCount) {
                                 K ek;
-                                if (e.hash == h &&
+                                if (e.hbsh == h &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
-                                    val = remappingFunction.apply(key, e.val);
-                                    if (val != null)
-                                        e.val = val;
+                                     (ek != null && key.equbls(ek)))) {
+                                    vbl = rembppingFunction.bpply(key, e.vbl);
+                                    if (vbl != null)
+                                        e.vbl = vbl;
                                     else {
-                                        delta = -1;
+                                        deltb = -1;
                                         Node<K,V> en = e.next;
                                         if (pred != null)
                                             pred.next = en;
                                         else
-                                            setTabAt(tab, i, en);
+                                            setTbbAt(tbb, i, en);
                                     }
-                                    break;
+                                    brebk;
                                 }
                                 pred = e;
                                 if ((e = e.next) == null)
-                                    break;
+                                    brebk;
                             }
                         }
-                        else if (f instanceof TreeBin) {
+                        else if (f instbnceof TreeBin) {
                             binCount = 2;
                             TreeBin<K,V> t = (TreeBin<K,V>)f;
                             TreeNode<K,V> r, p;
                             if ((r = t.root) != null &&
                                 (p = r.findTreeNode(h, key, null)) != null) {
-                                val = remappingFunction.apply(key, p.val);
-                                if (val != null)
-                                    p.val = val;
+                                vbl = rembppingFunction.bpply(key, p.vbl);
+                                if (vbl != null)
+                                    p.vbl = vbl;
                                 else {
-                                    delta = -1;
+                                    deltb = -1;
                                     if (t.removeTreeNode(p))
-                                        setTabAt(tab, i, untreeify(t.first));
+                                        setTbbAt(tbb, i, untreeify(t.first));
                                 }
                             }
                         }
                     }
                 }
                 if (binCount != 0)
-                    break;
+                    brebk;
             }
         }
-        if (delta != 0)
-            addCount((long)delta, binCount);
-        return val;
+        if (deltb != 0)
+            bddCount((long)deltb, binCount);
+        return vbl;
     }
 
     /**
-     * Attempts to compute a mapping for the specified key and its
-     * current mapped value (or {@code null} if there is no current
-     * mapping). The entire method invocation is performed atomically.
-     * Some attempted update operations on this map by other threads
-     * may be blocked while computation is in progress, so the
-     * computation should be short and simple, and must not attempt to
-     * update any other mappings of this Map.
+     * Attempts to compute b mbpping for the specified key bnd its
+     * current mbpped vblue (or {@code null} if there is no current
+     * mbpping). The entire method invocbtion is performed btomicblly.
+     * Some bttempted updbte operbtions on this mbp by other threbds
+     * mby be blocked while computbtion is in progress, so the
+     * computbtion should be short bnd simple, bnd must not bttempt to
+     * updbte bny other mbppings of this Mbp.
      *
-     * @param key key with which the specified value is to be associated
-     * @param remappingFunction the function to compute a value
-     * @return the new value associated with the specified key, or null if none
-     * @throws NullPointerException if the specified key or remappingFunction
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm rembppingFunction the function to compute b vblue
+     * @return the new vblue bssocibted with the specified key, or null if none
+     * @throws NullPointerException if the specified key or rembppingFunction
      *         is null
-     * @throws IllegalStateException if the computation detectably
-     *         attempts a recursive update to this map that would
+     * @throws IllegblStbteException if the computbtion detectbbly
+     *         bttempts b recursive updbte to this mbp thbt would
      *         otherwise never complete
-     * @throws RuntimeException or Error if the remappingFunction does so,
-     *         in which case the mapping is unchanged
+     * @throws RuntimeException or Error if the rembppingFunction does so,
+     *         in which cbse the mbpping is unchbnged
      */
     public V compute(K key,
-                     BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
-        if (key == null || remappingFunction == null)
+                     BiFunction<? super K, ? super V, ? extends V> rembppingFunction) {
+        if (key == null || rembppingFunction == null)
             throw new NullPointerException();
-        int h = spread(key.hashCode());
-        V val = null;
-        int delta = 0;
+        int h = sprebd(key.hbshCode());
+        V vbl = null;
+        int deltb = 0;
         int binCount = 0;
-        for (Node<K,V>[] tab = table;;) {
+        for (Node<K,V>[] tbb = tbble;;) {
             Node<K,V> f; int n, i, fh;
-            if (tab == null || (n = tab.length) == 0)
-                tab = initTable();
-            else if ((f = tabAt(tab, i = (n - 1) & h)) == null) {
-                Node<K,V> r = new ReservationNode<K,V>();
+            if (tbb == null || (n = tbb.length) == 0)
+                tbb = initTbble();
+            else if ((f = tbbAt(tbb, i = (n - 1) & h)) == null) {
+                Node<K,V> r = new ReservbtionNode<K,V>();
                 synchronized (r) {
-                    if (casTabAt(tab, i, null, r)) {
+                    if (cbsTbbAt(tbb, i, null, r)) {
                         binCount = 1;
                         Node<K,V> node = null;
                         try {
-                            if ((val = remappingFunction.apply(key, null)) != null) {
-                                delta = 1;
-                                node = new Node<K,V>(h, key, val, null);
+                            if ((vbl = rembppingFunction.bpply(key, null)) != null) {
+                                deltb = 1;
+                                node = new Node<K,V>(h, key, vbl, null);
                             }
-                        } finally {
-                            setTabAt(tab, i, node);
+                        } finblly {
+                            setTbbAt(tbb, i, node);
                         }
                     }
                 }
                 if (binCount != 0)
-                    break;
+                    brebk;
             }
-            else if ((fh = f.hash) == MOVED)
-                tab = helpTransfer(tab, f);
+            else if ((fh = f.hbsh) == MOVED)
+                tbb = helpTrbnsfer(tbb, f);
             else {
                 synchronized (f) {
-                    if (tabAt(tab, i) == f) {
+                    if (tbbAt(tbb, i) == f) {
                         if (fh >= 0) {
                             binCount = 1;
                             for (Node<K,V> e = f, pred = null;; ++binCount) {
                                 K ek;
-                                if (e.hash == h &&
+                                if (e.hbsh == h &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
-                                    val = remappingFunction.apply(key, e.val);
-                                    if (val != null)
-                                        e.val = val;
+                                     (ek != null && key.equbls(ek)))) {
+                                    vbl = rembppingFunction.bpply(key, e.vbl);
+                                    if (vbl != null)
+                                        e.vbl = vbl;
                                     else {
-                                        delta = -1;
+                                        deltb = -1;
                                         Node<K,V> en = e.next;
                                         if (pred != null)
                                             pred.next = en;
                                         else
-                                            setTabAt(tab, i, en);
+                                            setTbbAt(tbb, i, en);
                                     }
-                                    break;
+                                    brebk;
                                 }
                                 pred = e;
                                 if ((e = e.next) == null) {
-                                    val = remappingFunction.apply(key, null);
-                                    if (val != null) {
-                                        delta = 1;
+                                    vbl = rembppingFunction.bpply(key, null);
+                                    if (vbl != null) {
+                                        deltb = 1;
                                         pred.next =
-                                            new Node<K,V>(h, key, val, null);
+                                            new Node<K,V>(h, key, vbl, null);
                                     }
-                                    break;
+                                    brebk;
                                 }
                             }
                         }
-                        else if (f instanceof TreeBin) {
+                        else if (f instbnceof TreeBin) {
                             binCount = 1;
                             TreeBin<K,V> t = (TreeBin<K,V>)f;
                             TreeNode<K,V> r, p;
@@ -1907,281 +1907,281 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 p = r.findTreeNode(h, key, null);
                             else
                                 p = null;
-                            V pv = (p == null) ? null : p.val;
-                            val = remappingFunction.apply(key, pv);
-                            if (val != null) {
+                            V pv = (p == null) ? null : p.vbl;
+                            vbl = rembppingFunction.bpply(key, pv);
+                            if (vbl != null) {
                                 if (p != null)
-                                    p.val = val;
+                                    p.vbl = vbl;
                                 else {
-                                    delta = 1;
-                                    t.putTreeVal(h, key, val);
+                                    deltb = 1;
+                                    t.putTreeVbl(h, key, vbl);
                                 }
                             }
                             else if (p != null) {
-                                delta = -1;
+                                deltb = -1;
                                 if (t.removeTreeNode(p))
-                                    setTabAt(tab, i, untreeify(t.first));
+                                    setTbbAt(tbb, i, untreeify(t.first));
                             }
                         }
                     }
                 }
                 if (binCount != 0) {
                     if (binCount >= TREEIFY_THRESHOLD)
-                        treeifyBin(tab, i);
-                    break;
+                        treeifyBin(tbb, i);
+                    brebk;
                 }
             }
         }
-        if (delta != 0)
-            addCount((long)delta, binCount);
-        return val;
+        if (deltb != 0)
+            bddCount((long)deltb, binCount);
+        return vbl;
     }
 
     /**
-     * If the specified key is not already associated with a
-     * (non-null) value, associates it with the given value.
-     * Otherwise, replaces the value with the results of the given
-     * remapping function, or removes if {@code null}. The entire
-     * method invocation is performed atomically.  Some attempted
-     * update operations on this map by other threads may be blocked
-     * while computation is in progress, so the computation should be
-     * short and simple, and must not attempt to update any other
-     * mappings of this Map.
+     * If the specified key is not blrebdy bssocibted with b
+     * (non-null) vblue, bssocibtes it with the given vblue.
+     * Otherwise, replbces the vblue with the results of the given
+     * rembpping function, or removes if {@code null}. The entire
+     * method invocbtion is performed btomicblly.  Some bttempted
+     * updbte operbtions on this mbp by other threbds mby be blocked
+     * while computbtion is in progress, so the computbtion should be
+     * short bnd simple, bnd must not bttempt to updbte bny other
+     * mbppings of this Mbp.
      *
-     * @param key key with which the specified value is to be associated
-     * @param value the value to use if absent
-     * @param remappingFunction the function to recompute a value if present
-     * @return the new value associated with the specified key, or null if none
+     * @pbrbm key key with which the specified vblue is to be bssocibted
+     * @pbrbm vblue the vblue to use if bbsent
+     * @pbrbm rembppingFunction the function to recompute b vblue if present
+     * @return the new vblue bssocibted with the specified key, or null if none
      * @throws NullPointerException if the specified key or the
-     *         remappingFunction is null
-     * @throws RuntimeException or Error if the remappingFunction does so,
-     *         in which case the mapping is unchanged
+     *         rembppingFunction is null
+     * @throws RuntimeException or Error if the rembppingFunction does so,
+     *         in which cbse the mbpping is unchbnged
      */
-    public V merge(K key, V value, BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
-        if (key == null || value == null || remappingFunction == null)
+    public V merge(K key, V vblue, BiFunction<? super V, ? super V, ? extends V> rembppingFunction) {
+        if (key == null || vblue == null || rembppingFunction == null)
             throw new NullPointerException();
-        int h = spread(key.hashCode());
-        V val = null;
-        int delta = 0;
+        int h = sprebd(key.hbshCode());
+        V vbl = null;
+        int deltb = 0;
         int binCount = 0;
-        for (Node<K,V>[] tab = table;;) {
+        for (Node<K,V>[] tbb = tbble;;) {
             Node<K,V> f; int n, i, fh;
-            if (tab == null || (n = tab.length) == 0)
-                tab = initTable();
-            else if ((f = tabAt(tab, i = (n - 1) & h)) == null) {
-                if (casTabAt(tab, i, null, new Node<K,V>(h, key, value, null))) {
-                    delta = 1;
-                    val = value;
-                    break;
+            if (tbb == null || (n = tbb.length) == 0)
+                tbb = initTbble();
+            else if ((f = tbbAt(tbb, i = (n - 1) & h)) == null) {
+                if (cbsTbbAt(tbb, i, null, new Node<K,V>(h, key, vblue, null))) {
+                    deltb = 1;
+                    vbl = vblue;
+                    brebk;
                 }
             }
-            else if ((fh = f.hash) == MOVED)
-                tab = helpTransfer(tab, f);
+            else if ((fh = f.hbsh) == MOVED)
+                tbb = helpTrbnsfer(tbb, f);
             else {
                 synchronized (f) {
-                    if (tabAt(tab, i) == f) {
+                    if (tbbAt(tbb, i) == f) {
                         if (fh >= 0) {
                             binCount = 1;
                             for (Node<K,V> e = f, pred = null;; ++binCount) {
                                 K ek;
-                                if (e.hash == h &&
+                                if (e.hbsh == h &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
-                                    val = remappingFunction.apply(e.val, value);
-                                    if (val != null)
-                                        e.val = val;
+                                     (ek != null && key.equbls(ek)))) {
+                                    vbl = rembppingFunction.bpply(e.vbl, vblue);
+                                    if (vbl != null)
+                                        e.vbl = vbl;
                                     else {
-                                        delta = -1;
+                                        deltb = -1;
                                         Node<K,V> en = e.next;
                                         if (pred != null)
                                             pred.next = en;
                                         else
-                                            setTabAt(tab, i, en);
+                                            setTbbAt(tbb, i, en);
                                     }
-                                    break;
+                                    brebk;
                                 }
                                 pred = e;
                                 if ((e = e.next) == null) {
-                                    delta = 1;
-                                    val = value;
+                                    deltb = 1;
+                                    vbl = vblue;
                                     pred.next =
-                                        new Node<K,V>(h, key, val, null);
-                                    break;
+                                        new Node<K,V>(h, key, vbl, null);
+                                    brebk;
                                 }
                             }
                         }
-                        else if (f instanceof TreeBin) {
+                        else if (f instbnceof TreeBin) {
                             binCount = 2;
                             TreeBin<K,V> t = (TreeBin<K,V>)f;
                             TreeNode<K,V> r = t.root;
                             TreeNode<K,V> p = (r == null) ? null :
                                 r.findTreeNode(h, key, null);
-                            val = (p == null) ? value :
-                                remappingFunction.apply(p.val, value);
-                            if (val != null) {
+                            vbl = (p == null) ? vblue :
+                                rembppingFunction.bpply(p.vbl, vblue);
+                            if (vbl != null) {
                                 if (p != null)
-                                    p.val = val;
+                                    p.vbl = vbl;
                                 else {
-                                    delta = 1;
-                                    t.putTreeVal(h, key, val);
+                                    deltb = 1;
+                                    t.putTreeVbl(h, key, vbl);
                                 }
                             }
                             else if (p != null) {
-                                delta = -1;
+                                deltb = -1;
                                 if (t.removeTreeNode(p))
-                                    setTabAt(tab, i, untreeify(t.first));
+                                    setTbbAt(tbb, i, untreeify(t.first));
                             }
                         }
                     }
                 }
                 if (binCount != 0) {
                     if (binCount >= TREEIFY_THRESHOLD)
-                        treeifyBin(tab, i);
-                    break;
+                        treeifyBin(tbb, i);
+                    brebk;
                 }
             }
         }
-        if (delta != 0)
-            addCount((long)delta, binCount);
-        return val;
+        if (deltb != 0)
+            bddCount((long)deltb, binCount);
+        return vbl;
     }
 
-    // Hashtable legacy methods
+    // Hbshtbble legbcy methods
 
     /**
-     * Legacy method testing if some key maps into the specified value
-     * in this table.  This method is identical in functionality to
-     * {@link #containsValue(Object)}, and exists solely to ensure
-     * full compatibility with class {@link java.util.Hashtable},
+     * Legbcy method testing if some key mbps into the specified vblue
+     * in this tbble.  This method is identicbl in functionblity to
+     * {@link #contbinsVblue(Object)}, bnd exists solely to ensure
+     * full compbtibility with clbss {@link jbvb.util.Hbshtbble},
      * which supported this method prior to introduction of the
-     * Java Collections framework.
+     * Jbvb Collections frbmework.
      *
-     * @param  value a value to search for
-     * @return {@code true} if and only if some key maps to the
-     *         {@code value} argument in this table as
-     *         determined by the {@code equals} method;
-     *         {@code false} otherwise
-     * @throws NullPointerException if the specified value is null
+     * @pbrbm  vblue b vblue to sebrch for
+     * @return {@code true} if bnd only if some key mbps to the
+     *         {@code vblue} brgument in this tbble bs
+     *         determined by the {@code equbls} method;
+     *         {@code fblse} otherwise
+     * @throws NullPointerException if the specified vblue is null
      */
-    public boolean contains(Object value) {
-        return containsValue(value);
+    public boolebn contbins(Object vblue) {
+        return contbinsVblue(vblue);
     }
 
     /**
-     * Returns an enumeration of the keys in this table.
+     * Returns bn enumerbtion of the keys in this tbble.
      *
-     * @return an enumeration of the keys in this table
+     * @return bn enumerbtion of the keys in this tbble
      * @see #keySet()
      */
-    public Enumeration<K> keys() {
+    public Enumerbtion<K> keys() {
         Node<K,V>[] t;
-        int f = (t = table) == null ? 0 : t.length;
-        return new KeyIterator<K,V>(t, f, 0, f, this);
+        int f = (t = tbble) == null ? 0 : t.length;
+        return new KeyIterbtor<K,V>(t, f, 0, f, this);
     }
 
     /**
-     * Returns an enumeration of the values in this table.
+     * Returns bn enumerbtion of the vblues in this tbble.
      *
-     * @return an enumeration of the values in this table
-     * @see #values()
+     * @return bn enumerbtion of the vblues in this tbble
+     * @see #vblues()
      */
-    public Enumeration<V> elements() {
+    public Enumerbtion<V> elements() {
         Node<K,V>[] t;
-        int f = (t = table) == null ? 0 : t.length;
-        return new ValueIterator<K,V>(t, f, 0, f, this);
+        int f = (t = tbble) == null ? 0 : t.length;
+        return new VblueIterbtor<K,V>(t, f, 0, f, this);
     }
 
-    // ConcurrentHashMap-only methods
+    // ConcurrentHbshMbp-only methods
 
     /**
-     * Returns the number of mappings. This method should be used
-     * instead of {@link #size} because a ConcurrentHashMap may
-     * contain more mappings than can be represented as an int. The
-     * value returned is an estimate; the actual count may differ if
-     * there are concurrent insertions or removals.
+     * Returns the number of mbppings. This method should be used
+     * instebd of {@link #size} becbuse b ConcurrentHbshMbp mby
+     * contbin more mbppings thbn cbn be represented bs bn int. The
+     * vblue returned is bn estimbte; the bctubl count mby differ if
+     * there bre concurrent insertions or removbls.
      *
-     * @return the number of mappings
+     * @return the number of mbppings
      * @since 1.8
      */
-    public long mappingCount() {
+    public long mbppingCount() {
         long n = sumCount();
-        return (n < 0L) ? 0L : n; // ignore transient negative values
+        return (n < 0L) ? 0L : n; // ignore trbnsient negbtive vblues
     }
 
     /**
-     * Creates a new {@link Set} backed by a ConcurrentHashMap
-     * from the given type to {@code Boolean.TRUE}.
+     * Crebtes b new {@link Set} bbcked by b ConcurrentHbshMbp
+     * from the given type to {@code Boolebn.TRUE}.
      *
-     * @param <K> the element type of the returned set
+     * @pbrbm <K> the element type of the returned set
      * @return the new set
      * @since 1.8
      */
-    public static <K> KeySetView<K,Boolean> newKeySet() {
-        return new KeySetView<K,Boolean>
-            (new ConcurrentHashMap<K,Boolean>(), Boolean.TRUE);
+    public stbtic <K> KeySetView<K,Boolebn> newKeySet() {
+        return new KeySetView<K,Boolebn>
+            (new ConcurrentHbshMbp<K,Boolebn>(), Boolebn.TRUE);
     }
 
     /**
-     * Creates a new {@link Set} backed by a ConcurrentHashMap
-     * from the given type to {@code Boolean.TRUE}.
+     * Crebtes b new {@link Set} bbcked by b ConcurrentHbshMbp
+     * from the given type to {@code Boolebn.TRUE}.
      *
-     * @param initialCapacity The implementation performs internal
-     * sizing to accommodate this many elements.
-     * @param <K> the element type of the returned set
+     * @pbrbm initiblCbpbcity The implementbtion performs internbl
+     * sizing to bccommodbte this mbny elements.
+     * @pbrbm <K> the element type of the returned set
      * @return the new set
-     * @throws IllegalArgumentException if the initial capacity of
-     * elements is negative
+     * @throws IllegblArgumentException if the initibl cbpbcity of
+     * elements is negbtive
      * @since 1.8
      */
-    public static <K> KeySetView<K,Boolean> newKeySet(int initialCapacity) {
-        return new KeySetView<K,Boolean>
-            (new ConcurrentHashMap<K,Boolean>(initialCapacity), Boolean.TRUE);
+    public stbtic <K> KeySetView<K,Boolebn> newKeySet(int initiblCbpbcity) {
+        return new KeySetView<K,Boolebn>
+            (new ConcurrentHbshMbp<K,Boolebn>(initiblCbpbcity), Boolebn.TRUE);
     }
 
     /**
-     * Returns a {@link Set} view of the keys in this map, using the
-     * given common mapped value for any additions (i.e., {@link
-     * Collection#add} and {@link Collection#addAll(Collection)}).
-     * This is of course only appropriate if it is acceptable to use
-     * the same value for all additions from this view.
+     * Returns b {@link Set} view of the keys in this mbp, using the
+     * given common mbpped vblue for bny bdditions (i.e., {@link
+     * Collection#bdd} bnd {@link Collection#bddAll(Collection)}).
+     * This is of course only bppropribte if it is bcceptbble to use
+     * the sbme vblue for bll bdditions from this view.
      *
-     * @param mappedValue the mapped value to use for any additions
+     * @pbrbm mbppedVblue the mbpped vblue to use for bny bdditions
      * @return the set view
-     * @throws NullPointerException if the mappedValue is null
+     * @throws NullPointerException if the mbppedVblue is null
      */
-    public KeySetView<K,V> keySet(V mappedValue) {
-        if (mappedValue == null)
+    public KeySetView<K,V> keySet(V mbppedVblue) {
+        if (mbppedVblue == null)
             throw new NullPointerException();
-        return new KeySetView<K,V>(this, mappedValue);
+        return new KeySetView<K,V>(this, mbppedVblue);
     }
 
-    /* ---------------- Special Nodes -------------- */
+    /* ---------------- Specibl Nodes -------------- */
 
     /**
-     * A node inserted at head of bins during transfer operations.
+     * A node inserted bt hebd of bins during trbnsfer operbtions.
      */
-    static final class ForwardingNode<K,V> extends Node<K,V> {
-        final Node<K,V>[] nextTable;
-        ForwardingNode(Node<K,V>[] tab) {
+    stbtic finbl clbss ForwbrdingNode<K,V> extends Node<K,V> {
+        finbl Node<K,V>[] nextTbble;
+        ForwbrdingNode(Node<K,V>[] tbb) {
             super(MOVED, null, null, null);
-            this.nextTable = tab;
+            this.nextTbble = tbb;
         }
 
         Node<K,V> find(int h, Object k) {
-            // loop to avoid arbitrarily deep recursion on forwarding nodes
-            outer: for (Node<K,V>[] tab = nextTable;;) {
+            // loop to bvoid brbitrbrily deep recursion on forwbrding nodes
+            outer: for (Node<K,V>[] tbb = nextTbble;;) {
                 Node<K,V> e; int n;
-                if (k == null || tab == null || (n = tab.length) == 0 ||
-                    (e = tabAt(tab, (n - 1) & h)) == null)
+                if (k == null || tbb == null || (n = tbb.length) == 0 ||
+                    (e = tbbAt(tbb, (n - 1) & h)) == null)
                     return null;
                 for (;;) {
                     int eh; K ek;
-                    if ((eh = e.hash) == h &&
-                        ((ek = e.key) == k || (ek != null && k.equals(ek))))
+                    if ((eh = e.hbsh) == h &&
+                        ((ek = e.key) == k || (ek != null && k.equbls(ek))))
                         return e;
                     if (eh < 0) {
-                        if (e instanceof ForwardingNode) {
-                            tab = ((ForwardingNode<K,V>)e).nextTable;
+                        if (e instbnceof ForwbrdingNode) {
+                            tbb = ((ForwbrdingNode<K,V>)e).nextTbble;
                             continue outer;
                         }
                         else
@@ -2195,10 +2195,10 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * A place-holder node used in computeIfAbsent and compute
+     * A plbce-holder node used in computeIfAbsent bnd compute
      */
-    static final class ReservationNode<K,V> extends Node<K,V> {
-        ReservationNode() {
+    stbtic finbl clbss ReservbtionNode<K,V> extends Node<K,V> {
+        ReservbtionNode() {
             super(RESERVED, null, null, null);
         }
 
@@ -2207,62 +2207,62 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    /* ---------------- Table Initialization and Resizing -------------- */
+    /* ---------------- Tbble Initiblizbtion bnd Resizing -------------- */
 
     /**
-     * Returns the stamp bits for resizing a table of size n.
-     * Must be negative when shifted left by RESIZE_STAMP_SHIFT.
+     * Returns the stbmp bits for resizing b tbble of size n.
+     * Must be negbtive when shifted left by RESIZE_STAMP_SHIFT.
      */
-    static final int resizeStamp(int n) {
-        return Integer.numberOfLeadingZeros(n) | (1 << (RESIZE_STAMP_BITS - 1));
+    stbtic finbl int resizeStbmp(int n) {
+        return Integer.numberOfLebdingZeros(n) | (1 << (RESIZE_STAMP_BITS - 1));
     }
 
     /**
-     * Initializes table, using the size recorded in sizeCtl.
+     * Initiblizes tbble, using the size recorded in sizeCtl.
      */
-    private final Node<K,V>[] initTable() {
-        Node<K,V>[] tab; int sc;
-        while ((tab = table) == null || tab.length == 0) {
+    privbte finbl Node<K,V>[] initTbble() {
+        Node<K,V>[] tbb; int sc;
+        while ((tbb = tbble) == null || tbb.length == 0) {
             if ((sc = sizeCtl) < 0)
-                Thread.yield(); // lost initialization race; just spin
-            else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
+                Threbd.yield(); // lost initiblizbtion rbce; just spin
+            else if (U.compbreAndSwbpInt(this, SIZECTL, sc, -1)) {
                 try {
-                    if ((tab = table) == null || tab.length == 0) {
+                    if ((tbb = tbble) == null || tbb.length == 0) {
                         int n = (sc > 0) ? sc : DEFAULT_CAPACITY;
-                        @SuppressWarnings("unchecked")
+                        @SuppressWbrnings("unchecked")
                         Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n];
-                        table = tab = nt;
+                        tbble = tbb = nt;
                         sc = n - (n >>> 2);
                     }
-                } finally {
+                } finblly {
                     sizeCtl = sc;
                 }
-                break;
+                brebk;
             }
         }
-        return tab;
+        return tbb;
     }
 
     /**
-     * Adds to count, and if table is too small and not already
-     * resizing, initiates transfer. If already resizing, helps
-     * perform transfer if work is available.  Rechecks occupancy
-     * after a transfer to see if another resize is already needed
-     * because resizings are lagging additions.
+     * Adds to count, bnd if tbble is too smbll bnd not blrebdy
+     * resizing, initibtes trbnsfer. If blrebdy resizing, helps
+     * perform trbnsfer if work is bvbilbble.  Rechecks occupbncy
+     * bfter b trbnsfer to see if bnother resize is blrebdy needed
+     * becbuse resizings bre lbgging bdditions.
      *
-     * @param x the count to add
-     * @param check if <0, don't check resize, if <= 1 only check if uncontended
+     * @pbrbm x the count to bdd
+     * @pbrbm check if <0, don't check resize, if <= 1 only check if uncontended
      */
-    private final void addCount(long x, int check) {
-        CounterCell[] as; long b, s;
-        if ((as = counterCells) != null ||
-            !U.compareAndSwapLong(this, BASECOUNT, b = baseCount, s = b + x)) {
-            CounterCell a; long v; int m;
-            boolean uncontended = true;
-            if (as == null || (m = as.length - 1) < 0 ||
-                (a = as[ThreadLocalRandom.getProbe() & m]) == null ||
+    privbte finbl void bddCount(long x, int check) {
+        CounterCell[] bs; long b, s;
+        if ((bs = counterCells) != null ||
+            !U.compbreAndSwbpLong(this, BASECOUNT, b = bbseCount, s = b + x)) {
+            CounterCell b; long v; int m;
+            boolebn uncontended = true;
+            if (bs == null || (m = bs.length - 1) < 0 ||
+                (b = bs[ThrebdLocblRbndom.getProbe() & m]) == null ||
                 !(uncontended =
-                  U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {
+                  U.compbreAndSwbpLong(b, CELLVALUE, v = b.vblue, v + x))) {
                 fullAddCount(x, uncontended);
                 return;
             }
@@ -2271,214 +2271,214 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             s = sumCount();
         }
         if (check >= 0) {
-            Node<K,V>[] tab, nt; int n, sc;
-            while (s >= (long)(sc = sizeCtl) && (tab = table) != null &&
-                   (n = tab.length) < MAXIMUM_CAPACITY) {
-                int rs = resizeStamp(n);
+            Node<K,V>[] tbb, nt; int n, sc;
+            while (s >= (long)(sc = sizeCtl) && (tbb = tbble) != null &&
+                   (n = tbb.length) < MAXIMUM_CAPACITY) {
+                int rs = resizeStbmp(n);
                 if (sc < 0) {
                     if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
-                        sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
-                        transferIndex <= 0)
-                        break;
-                    if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
-                        transfer(tab, nt);
+                        sc == rs + MAX_RESIZERS || (nt = nextTbble) == null ||
+                        trbnsferIndex <= 0)
+                        brebk;
+                    if (U.compbreAndSwbpInt(this, SIZECTL, sc, sc + 1))
+                        trbnsfer(tbb, nt);
                 }
-                else if (U.compareAndSwapInt(this, SIZECTL, sc,
+                else if (U.compbreAndSwbpInt(this, SIZECTL, sc,
                                              (rs << RESIZE_STAMP_SHIFT) + 2))
-                    transfer(tab, null);
+                    trbnsfer(tbb, null);
                 s = sumCount();
             }
         }
     }
 
     /**
-     * Helps transfer if a resize is in progress.
+     * Helps trbnsfer if b resize is in progress.
      */
-    final Node<K,V>[] helpTransfer(Node<K,V>[] tab, Node<K,V> f) {
-        Node<K,V>[] nextTab; int sc;
-        if (tab != null && (f instanceof ForwardingNode) &&
-            (nextTab = ((ForwardingNode<K,V>)f).nextTable) != null) {
-            int rs = resizeStamp(tab.length);
-            while (nextTab == nextTable && table == tab &&
+    finbl Node<K,V>[] helpTrbnsfer(Node<K,V>[] tbb, Node<K,V> f) {
+        Node<K,V>[] nextTbb; int sc;
+        if (tbb != null && (f instbnceof ForwbrdingNode) &&
+            (nextTbb = ((ForwbrdingNode<K,V>)f).nextTbble) != null) {
+            int rs = resizeStbmp(tbb.length);
+            while (nextTbb == nextTbble && tbble == tbb &&
                    (sc = sizeCtl) < 0) {
                 if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
-                    sc == rs + MAX_RESIZERS || transferIndex <= 0)
-                    break;
-                if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1)) {
-                    transfer(tab, nextTab);
-                    break;
+                    sc == rs + MAX_RESIZERS || trbnsferIndex <= 0)
+                    brebk;
+                if (U.compbreAndSwbpInt(this, SIZECTL, sc, sc + 1)) {
+                    trbnsfer(tbb, nextTbb);
+                    brebk;
                 }
             }
-            return nextTab;
+            return nextTbb;
         }
-        return table;
+        return tbble;
     }
 
     /**
-     * Tries to presize table to accommodate the given number of elements.
+     * Tries to presize tbble to bccommodbte the given number of elements.
      *
-     * @param size number of elements (doesn't need to be perfectly accurate)
+     * @pbrbm size number of elements (doesn't need to be perfectly bccurbte)
      */
-    private final void tryPresize(int size) {
+    privbte finbl void tryPresize(int size) {
         int c = (size >= (MAXIMUM_CAPACITY >>> 1)) ? MAXIMUM_CAPACITY :
-            tableSizeFor(size + (size >>> 1) + 1);
+            tbbleSizeFor(size + (size >>> 1) + 1);
         int sc;
         while ((sc = sizeCtl) >= 0) {
-            Node<K,V>[] tab = table; int n;
-            if (tab == null || (n = tab.length) == 0) {
+            Node<K,V>[] tbb = tbble; int n;
+            if (tbb == null || (n = tbb.length) == 0) {
                 n = (sc > c) ? sc : c;
-                if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
+                if (U.compbreAndSwbpInt(this, SIZECTL, sc, -1)) {
                     try {
-                        if (table == tab) {
-                            @SuppressWarnings("unchecked")
+                        if (tbble == tbb) {
+                            @SuppressWbrnings("unchecked")
                             Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n];
-                            table = nt;
+                            tbble = nt;
                             sc = n - (n >>> 2);
                         }
-                    } finally {
+                    } finblly {
                         sizeCtl = sc;
                     }
                 }
             }
             else if (c <= sc || n >= MAXIMUM_CAPACITY)
-                break;
-            else if (tab == table) {
-                int rs = resizeStamp(n);
+                brebk;
+            else if (tbb == tbble) {
+                int rs = resizeStbmp(n);
                 if (sc < 0) {
                     Node<K,V>[] nt;
                     if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
-                        sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
-                        transferIndex <= 0)
-                        break;
-                    if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
-                        transfer(tab, nt);
+                        sc == rs + MAX_RESIZERS || (nt = nextTbble) == null ||
+                        trbnsferIndex <= 0)
+                        brebk;
+                    if (U.compbreAndSwbpInt(this, SIZECTL, sc, sc + 1))
+                        trbnsfer(tbb, nt);
                 }
-                else if (U.compareAndSwapInt(this, SIZECTL, sc,
+                else if (U.compbreAndSwbpInt(this, SIZECTL, sc,
                                              (rs << RESIZE_STAMP_SHIFT) + 2))
-                    transfer(tab, null);
+                    trbnsfer(tbb, null);
             }
         }
     }
 
     /**
-     * Moves and/or copies the nodes in each bin to new table. See
-     * above for explanation.
+     * Moves bnd/or copies the nodes in ebch bin to new tbble. See
+     * bbove for explbnbtion.
      */
-    private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
-        int n = tab.length, stride;
+    privbte finbl void trbnsfer(Node<K,V>[] tbb, Node<K,V>[] nextTbb) {
+        int n = tbb.length, stride;
         if ((stride = (NCPU > 1) ? (n >>> 3) / NCPU : n) < MIN_TRANSFER_STRIDE)
-            stride = MIN_TRANSFER_STRIDE; // subdivide range
-        if (nextTab == null) {            // initiating
+            stride = MIN_TRANSFER_STRIDE; // subdivide rbnge
+        if (nextTbb == null) {            // initibting
             try {
-                @SuppressWarnings("unchecked")
+                @SuppressWbrnings("unchecked")
                 Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n << 1];
-                nextTab = nt;
-            } catch (Throwable ex) {      // try to cope with OOME
+                nextTbb = nt;
+            } cbtch (Throwbble ex) {      // try to cope with OOME
                 sizeCtl = Integer.MAX_VALUE;
                 return;
             }
-            nextTable = nextTab;
-            transferIndex = n;
+            nextTbble = nextTbb;
+            trbnsferIndex = n;
         }
-        int nextn = nextTab.length;
-        ForwardingNode<K,V> fwd = new ForwardingNode<K,V>(nextTab);
-        boolean advance = true;
-        boolean finishing = false; // to ensure sweep before committing nextTab
+        int nextn = nextTbb.length;
+        ForwbrdingNode<K,V> fwd = new ForwbrdingNode<K,V>(nextTbb);
+        boolebn bdvbnce = true;
+        boolebn finishing = fblse; // to ensure sweep before committing nextTbb
         for (int i = 0, bound = 0;;) {
             Node<K,V> f; int fh;
-            while (advance) {
+            while (bdvbnce) {
                 int nextIndex, nextBound;
                 if (--i >= bound || finishing)
-                    advance = false;
-                else if ((nextIndex = transferIndex) <= 0) {
+                    bdvbnce = fblse;
+                else if ((nextIndex = trbnsferIndex) <= 0) {
                     i = -1;
-                    advance = false;
+                    bdvbnce = fblse;
                 }
-                else if (U.compareAndSwapInt
+                else if (U.compbreAndSwbpInt
                          (this, TRANSFERINDEX, nextIndex,
                           nextBound = (nextIndex > stride ?
                                        nextIndex - stride : 0))) {
                     bound = nextBound;
                     i = nextIndex - 1;
-                    advance = false;
+                    bdvbnce = fblse;
                 }
             }
             if (i < 0 || i >= n || i + n >= nextn) {
                 int sc;
                 if (finishing) {
-                    nextTable = null;
-                    table = nextTab;
+                    nextTbble = null;
+                    tbble = nextTbb;
                     sizeCtl = (n << 1) - (n >>> 1);
                     return;
                 }
-                if (U.compareAndSwapInt(this, SIZECTL, sc = sizeCtl, sc - 1)) {
-                    if ((sc - 2) != resizeStamp(n) << RESIZE_STAMP_SHIFT)
+                if (U.compbreAndSwbpInt(this, SIZECTL, sc = sizeCtl, sc - 1)) {
+                    if ((sc - 2) != resizeStbmp(n) << RESIZE_STAMP_SHIFT)
                         return;
-                    finishing = advance = true;
+                    finishing = bdvbnce = true;
                     i = n; // recheck before commit
                 }
             }
-            else if ((f = tabAt(tab, i)) == null)
-                advance = casTabAt(tab, i, null, fwd);
-            else if ((fh = f.hash) == MOVED)
-                advance = true; // already processed
+            else if ((f = tbbAt(tbb, i)) == null)
+                bdvbnce = cbsTbbAt(tbb, i, null, fwd);
+            else if ((fh = f.hbsh) == MOVED)
+                bdvbnce = true; // blrebdy processed
             else {
                 synchronized (f) {
-                    if (tabAt(tab, i) == f) {
+                    if (tbbAt(tbb, i) == f) {
                         Node<K,V> ln, hn;
                         if (fh >= 0) {
                             int runBit = fh & n;
-                            Node<K,V> lastRun = f;
+                            Node<K,V> lbstRun = f;
                             for (Node<K,V> p = f.next; p != null; p = p.next) {
-                                int b = p.hash & n;
+                                int b = p.hbsh & n;
                                 if (b != runBit) {
                                     runBit = b;
-                                    lastRun = p;
+                                    lbstRun = p;
                                 }
                             }
                             if (runBit == 0) {
-                                ln = lastRun;
+                                ln = lbstRun;
                                 hn = null;
                             }
                             else {
-                                hn = lastRun;
+                                hn = lbstRun;
                                 ln = null;
                             }
-                            for (Node<K,V> p = f; p != lastRun; p = p.next) {
-                                int ph = p.hash; K pk = p.key; V pv = p.val;
+                            for (Node<K,V> p = f; p != lbstRun; p = p.next) {
+                                int ph = p.hbsh; K pk = p.key; V pv = p.vbl;
                                 if ((ph & n) == 0)
                                     ln = new Node<K,V>(ph, pk, pv, ln);
                                 else
                                     hn = new Node<K,V>(ph, pk, pv, hn);
                             }
-                            setTabAt(nextTab, i, ln);
-                            setTabAt(nextTab, i + n, hn);
-                            setTabAt(tab, i, fwd);
-                            advance = true;
+                            setTbbAt(nextTbb, i, ln);
+                            setTbbAt(nextTbb, i + n, hn);
+                            setTbbAt(tbb, i, fwd);
+                            bdvbnce = true;
                         }
-                        else if (f instanceof TreeBin) {
+                        else if (f instbnceof TreeBin) {
                             TreeBin<K,V> t = (TreeBin<K,V>)f;
-                            TreeNode<K,V> lo = null, loTail = null;
-                            TreeNode<K,V> hi = null, hiTail = null;
+                            TreeNode<K,V> lo = null, loTbil = null;
+                            TreeNode<K,V> hi = null, hiTbil = null;
                             int lc = 0, hc = 0;
                             for (Node<K,V> e = t.first; e != null; e = e.next) {
-                                int h = e.hash;
+                                int h = e.hbsh;
                                 TreeNode<K,V> p = new TreeNode<K,V>
-                                    (h, e.key, e.val, null, null);
+                                    (h, e.key, e.vbl, null, null);
                                 if ((h & n) == 0) {
-                                    if ((p.prev = loTail) == null)
+                                    if ((p.prev = loTbil) == null)
                                         lo = p;
                                     else
-                                        loTail.next = p;
-                                    loTail = p;
+                                        loTbil.next = p;
+                                    loTbil = p;
                                     ++lc;
                                 }
                                 else {
-                                    if ((p.prev = hiTail) == null)
+                                    if ((p.prev = hiTbil) == null)
                                         hi = p;
                                     else
-                                        hiTail.next = p;
-                                    hiTail = p;
+                                        hiTbil.next = p;
+                                    hiTbil = p;
                                     ++hc;
                                 }
                             }
@@ -2486,10 +2486,10 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 (hc != 0) ? new TreeBin<K,V>(lo) : t;
                             hn = (hc <= UNTREEIFY_THRESHOLD) ? untreeify(hi) :
                                 (lc != 0) ? new TreeBin<K,V>(hi) : t;
-                            setTabAt(nextTab, i, ln);
-                            setTabAt(nextTab, i + n, hn);
-                            setTabAt(tab, i, fwd);
-                            advance = true;
+                            setTbbAt(nextTbb, i, ln);
+                            setTbbAt(nextTbb, i + n, hn);
+                            setTbbAt(tbb, i, fwd);
+                            bdvbnce = true;
                         }
                     }
                 }
@@ -2500,126 +2500,126 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     /* ---------------- Counter support -------------- */
 
     /**
-     * A padded cell for distributing counts.  Adapted from LongAdder
-     * and Striped64.  See their internal docs for explanation.
+     * A pbdded cell for distributing counts.  Adbpted from LongAdder
+     * bnd Striped64.  See their internbl docs for explbnbtion.
      */
-    @sun.misc.Contended static final class CounterCell {
-        volatile long value;
-        CounterCell(long x) { value = x; }
+    @sun.misc.Contended stbtic finbl clbss CounterCell {
+        volbtile long vblue;
+        CounterCell(long x) { vblue = x; }
     }
 
-    final long sumCount() {
-        CounterCell[] as = counterCells; CounterCell a;
-        long sum = baseCount;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    sum += a.value;
+    finbl long sumCount() {
+        CounterCell[] bs = counterCells; CounterCell b;
+        long sum = bbseCount;
+        if (bs != null) {
+            for (int i = 0; i < bs.length; ++i) {
+                if ((b = bs[i]) != null)
+                    sum += b.vblue;
             }
         }
         return sum;
     }
 
-    // See LongAdder version for explanation
-    private final void fullAddCount(long x, boolean wasUncontended) {
+    // See LongAdder version for explbnbtion
+    privbte finbl void fullAddCount(long x, boolebn wbsUncontended) {
         int h;
-        if ((h = ThreadLocalRandom.getProbe()) == 0) {
-            ThreadLocalRandom.localInit();      // force initialization
-            h = ThreadLocalRandom.getProbe();
-            wasUncontended = true;
+        if ((h = ThrebdLocblRbndom.getProbe()) == 0) {
+            ThrebdLocblRbndom.locblInit();      // force initiblizbtion
+            h = ThrebdLocblRbndom.getProbe();
+            wbsUncontended = true;
         }
-        boolean collide = false;                // True if last slot nonempty
+        boolebn collide = fblse;                // True if lbst slot nonempty
         for (;;) {
-            CounterCell[] as; CounterCell a; int n; long v;
-            if ((as = counterCells) != null && (n = as.length) > 0) {
-                if ((a = as[(n - 1) & h]) == null) {
-                    if (cellsBusy == 0) {            // Try to attach new Cell
-                        CounterCell r = new CounterCell(x); // Optimistic create
+            CounterCell[] bs; CounterCell b; int n; long v;
+            if ((bs = counterCells) != null && (n = bs.length) > 0) {
+                if ((b = bs[(n - 1) & h]) == null) {
+                    if (cellsBusy == 0) {            // Try to bttbch new Cell
+                        CounterCell r = new CounterCell(x); // Optimistic crebte
                         if (cellsBusy == 0 &&
-                            U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
-                            boolean created = false;
+                            U.compbreAndSwbpInt(this, CELLSBUSY, 0, 1)) {
+                            boolebn crebted = fblse;
                             try {               // Recheck under lock
                                 CounterCell[] rs; int m, j;
                                 if ((rs = counterCells) != null &&
                                     (m = rs.length) > 0 &&
                                     rs[j = (m - 1) & h] == null) {
                                     rs[j] = r;
-                                    created = true;
+                                    crebted = true;
                                 }
-                            } finally {
+                            } finblly {
                                 cellsBusy = 0;
                             }
-                            if (created)
-                                break;
+                            if (crebted)
+                                brebk;
                             continue;           // Slot is now non-empty
                         }
                     }
-                    collide = false;
+                    collide = fblse;
                 }
-                else if (!wasUncontended)       // CAS already known to fail
-                    wasUncontended = true;      // Continue after rehash
-                else if (U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))
-                    break;
-                else if (counterCells != as || n >= NCPU)
-                    collide = false;            // At max size or stale
+                else if (!wbsUncontended)       // CAS blrebdy known to fbil
+                    wbsUncontended = true;      // Continue bfter rehbsh
+                else if (U.compbreAndSwbpLong(b, CELLVALUE, v = b.vblue, v + x))
+                    brebk;
+                else if (counterCells != bs || n >= NCPU)
+                    collide = fblse;            // At mbx size or stble
                 else if (!collide)
                     collide = true;
                 else if (cellsBusy == 0 &&
-                         U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+                         U.compbreAndSwbpInt(this, CELLSBUSY, 0, 1)) {
                     try {
-                        if (counterCells == as) {// Expand table unless stale
+                        if (counterCells == bs) {// Expbnd tbble unless stble
                             CounterCell[] rs = new CounterCell[n << 1];
                             for (int i = 0; i < n; ++i)
-                                rs[i] = as[i];
+                                rs[i] = bs[i];
                             counterCells = rs;
                         }
-                    } finally {
+                    } finblly {
                         cellsBusy = 0;
                     }
-                    collide = false;
-                    continue;                   // Retry with expanded table
+                    collide = fblse;
+                    continue;                   // Retry with expbnded tbble
                 }
-                h = ThreadLocalRandom.advanceProbe(h);
+                h = ThrebdLocblRbndom.bdvbnceProbe(h);
             }
-            else if (cellsBusy == 0 && counterCells == as &&
-                     U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
-                boolean init = false;
-                try {                           // Initialize table
-                    if (counterCells == as) {
+            else if (cellsBusy == 0 && counterCells == bs &&
+                     U.compbreAndSwbpInt(this, CELLSBUSY, 0, 1)) {
+                boolebn init = fblse;
+                try {                           // Initiblize tbble
+                    if (counterCells == bs) {
                         CounterCell[] rs = new CounterCell[2];
                         rs[h & 1] = new CounterCell(x);
                         counterCells = rs;
                         init = true;
                     }
-                } finally {
+                } finblly {
                     cellsBusy = 0;
                 }
                 if (init)
-                    break;
+                    brebk;
             }
-            else if (U.compareAndSwapLong(this, BASECOUNT, v = baseCount, v + x))
-                break;                          // Fall back on using base
+            else if (U.compbreAndSwbpLong(this, BASECOUNT, v = bbseCount, v + x))
+                brebk;                          // Fbll bbck on using bbse
         }
     }
 
     /* ---------------- Conversion from/to TreeBins -------------- */
 
     /**
-     * Replaces all linked nodes in bin at given index unless table is
-     * too small, in which case resizes instead.
+     * Replbces bll linked nodes in bin bt given index unless tbble is
+     * too smbll, in which cbse resizes instebd.
      */
-    private final void treeifyBin(Node<K,V>[] tab, int index) {
+    privbte finbl void treeifyBin(Node<K,V>[] tbb, int index) {
         Node<K,V> b; int n, sc;
-        if (tab != null) {
-            if ((n = tab.length) < MIN_TREEIFY_CAPACITY)
+        if (tbb != null) {
+            if ((n = tbb.length) < MIN_TREEIFY_CAPACITY)
                 tryPresize(n << 1);
-            else if ((b = tabAt(tab, index)) != null && b.hash >= 0) {
+            else if ((b = tbbAt(tbb, index)) != null && b.hbsh >= 0) {
                 synchronized (b) {
-                    if (tabAt(tab, index) == b) {
+                    if (tbbAt(tbb, index) == b) {
                         TreeNode<K,V> hd = null, tl = null;
                         for (Node<K,V> e = b; e != null; e = e.next) {
                             TreeNode<K,V> p =
-                                new TreeNode<K,V>(e.hash, e.key, e.val,
+                                new TreeNode<K,V>(e.hbsh, e.key, e.vbl,
                                                   null, null);
                             if ((p.prev = tl) == null)
                                 hd = p;
@@ -2627,7 +2627,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 tl.next = p;
                             tl = p;
                         }
-                        setTabAt(tab, index, new TreeBin<K,V>(hd));
+                        setTbbAt(tbb, index, new TreeBin<K,V>(hd));
                     }
                 }
             }
@@ -2635,12 +2635,12 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Returns a list on non-TreeNodes replacing those in given list.
+     * Returns b list on non-TreeNodes replbcing those in given list.
      */
-    static <K,V> Node<K,V> untreeify(Node<K,V> b) {
+    stbtic <K,V> Node<K,V> untreeify(Node<K,V> b) {
         Node<K,V> hd = null, tl = null;
         for (Node<K,V> q = b; q != null; q = q.next) {
-            Node<K,V> p = new Node<K,V>(q.hash, q.key, q.val, null);
+            Node<K,V> p = new Node<K,V>(q.hbsh, q.key, q.vbl, null);
             if (tl == null)
                 hd = p;
             else
@@ -2655,17 +2655,17 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     /**
      * Nodes for use in TreeBins
      */
-    static final class TreeNode<K,V> extends Node<K,V> {
-        TreeNode<K,V> parent;  // red-black tree links
+    stbtic finbl clbss TreeNode<K,V> extends Node<K,V> {
+        TreeNode<K,V> pbrent;  // red-blbck tree links
         TreeNode<K,V> left;
         TreeNode<K,V> right;
         TreeNode<K,V> prev;    // needed to unlink next upon deletion
-        boolean red;
+        boolebn red;
 
-        TreeNode(int hash, K key, V val, Node<K,V> next,
-                 TreeNode<K,V> parent) {
-            super(hash, key, val, next);
-            this.parent = parent;
+        TreeNode(int hbsh, K key, V vbl, Node<K,V> next,
+                 TreeNode<K,V> pbrent) {
+            super(hbsh, key, vbl, next);
+            this.pbrent = pbrent;
         }
 
         Node<K,V> find(int h, Object k) {
@@ -2674,27 +2674,27 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
 
         /**
          * Returns the TreeNode (or null if not found) for the given key
-         * starting at given root.
+         * stbrting bt given root.
          */
-        final TreeNode<K,V> findTreeNode(int h, Object k, Class<?> kc) {
+        finbl TreeNode<K,V> findTreeNode(int h, Object k, Clbss<?> kc) {
             if (k != null) {
                 TreeNode<K,V> p = this;
                 do  {
                     int ph, dir; K pk; TreeNode<K,V> q;
                     TreeNode<K,V> pl = p.left, pr = p.right;
-                    if ((ph = p.hash) > h)
+                    if ((ph = p.hbsh) > h)
                         p = pl;
                     else if (ph < h)
                         p = pr;
-                    else if ((pk = p.key) == k || (pk != null && k.equals(pk)))
+                    else if ((pk = p.key) == k || (pk != null && k.equbls(pk)))
                         return p;
                     else if (pl == null)
                         p = pr;
                     else if (pr == null)
                         p = pl;
                     else if ((kc != null ||
-                              (kc = comparableClassFor(k)) != null) &&
-                             (dir = compareComparables(kc, k, pk)) != 0)
+                              (kc = compbrbbleClbssFor(k)) != null) &&
+                             (dir = compbreCompbrbbles(kc, k, pk)) != 0)
                         p = (dir < 0) ? pl : pr;
                     else if ((q = pr.findTreeNode(h, k, kc)) != null)
                         return q;
@@ -2709,41 +2709,41 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     /* ---------------- TreeBins -------------- */
 
     /**
-     * TreeNodes used at the heads of bins. TreeBins do not hold user
-     * keys or values, but instead point to list of TreeNodes and
-     * their root. They also maintain a parasitic read-write lock
-     * forcing writers (who hold bin lock) to wait for readers (who do
-     * not) to complete before tree restructuring operations.
+     * TreeNodes used bt the hebds of bins. TreeBins do not hold user
+     * keys or vblues, but instebd point to list of TreeNodes bnd
+     * their root. They blso mbintbin b pbrbsitic rebd-write lock
+     * forcing writers (who hold bin lock) to wbit for rebders (who do
+     * not) to complete before tree restructuring operbtions.
      */
-    static final class TreeBin<K,V> extends Node<K,V> {
+    stbtic finbl clbss TreeBin<K,V> extends Node<K,V> {
         TreeNode<K,V> root;
-        volatile TreeNode<K,V> first;
-        volatile Thread waiter;
-        volatile int lockState;
-        // values for lockState
-        static final int WRITER = 1; // set while holding write lock
-        static final int WAITER = 2; // set when waiting for write lock
-        static final int READER = 4; // increment value for setting read lock
+        volbtile TreeNode<K,V> first;
+        volbtile Threbd wbiter;
+        volbtile int lockStbte;
+        // vblues for lockStbte
+        stbtic finbl int WRITER = 1; // set while holding write lock
+        stbtic finbl int WAITER = 2; // set when wbiting for write lock
+        stbtic finbl int READER = 4; // increment vblue for setting rebd lock
 
         /**
-         * Tie-breaking utility for ordering insertions when equal
-         * hashCodes and non-comparable. We don't require a total
-         * order, just a consistent insertion rule to maintain
-         * equivalence across rebalancings. Tie-breaking further than
-         * necessary simplifies testing a bit.
+         * Tie-brebking utility for ordering insertions when equbl
+         * hbshCodes bnd non-compbrbble. We don't require b totbl
+         * order, just b consistent insertion rule to mbintbin
+         * equivblence bcross rebblbncings. Tie-brebking further thbn
+         * necessbry simplifies testing b bit.
          */
-        static int tieBreakOrder(Object a, Object b) {
+        stbtic int tieBrebkOrder(Object b, Object b) {
             int d;
-            if (a == null || b == null ||
-                (d = a.getClass().getName().
-                 compareTo(b.getClass().getName())) == 0)
-                d = (System.identityHashCode(a) <= System.identityHashCode(b) ?
+            if (b == null || b == null ||
+                (d = b.getClbss().getNbme().
+                 compbreTo(b.getClbss().getNbme())) == 0)
+                d = (System.identityHbshCode(b) <= System.identityHbshCode(b) ?
                      -1 : 1);
             return d;
         }
 
         /**
-         * Creates bin with initial set of nodes headed by b.
+         * Crebtes bin with initibl set of nodes hebded by b.
          */
         TreeBin(TreeNode<K,V> b) {
             super(TREEBIN, null, null, null);
@@ -2753,107 +2753,107 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 next = (TreeNode<K,V>)x.next;
                 x.left = x.right = null;
                 if (r == null) {
-                    x.parent = null;
-                    x.red = false;
+                    x.pbrent = null;
+                    x.red = fblse;
                     r = x;
                 }
                 else {
                     K k = x.key;
-                    int h = x.hash;
-                    Class<?> kc = null;
+                    int h = x.hbsh;
+                    Clbss<?> kc = null;
                     for (TreeNode<K,V> p = r;;) {
                         int dir, ph;
                         K pk = p.key;
-                        if ((ph = p.hash) > h)
+                        if ((ph = p.hbsh) > h)
                             dir = -1;
                         else if (ph < h)
                             dir = 1;
                         else if ((kc == null &&
-                                  (kc = comparableClassFor(k)) == null) ||
-                                 (dir = compareComparables(kc, k, pk)) == 0)
-                            dir = tieBreakOrder(k, pk);
+                                  (kc = compbrbbleClbssFor(k)) == null) ||
+                                 (dir = compbreCompbrbbles(kc, k, pk)) == 0)
+                            dir = tieBrebkOrder(k, pk);
                             TreeNode<K,V> xp = p;
                         if ((p = (dir <= 0) ? p.left : p.right) == null) {
-                            x.parent = xp;
+                            x.pbrent = xp;
                             if (dir <= 0)
                                 xp.left = x;
                             else
                                 xp.right = x;
-                            r = balanceInsertion(r, x);
-                            break;
+                            r = bblbnceInsertion(r, x);
+                            brebk;
                         }
                     }
                 }
             }
             this.root = r;
-            assert checkInvariants(root);
+            bssert checkInvbribnts(root);
         }
 
         /**
          * Acquires write lock for tree restructuring.
          */
-        private final void lockRoot() {
-            if (!U.compareAndSwapInt(this, LOCKSTATE, 0, WRITER))
-                contendedLock(); // offload to separate method
+        privbte finbl void lockRoot() {
+            if (!U.compbreAndSwbpInt(this, LOCKSTATE, 0, WRITER))
+                contendedLock(); // offlobd to sepbrbte method
         }
 
         /**
-         * Releases write lock for tree restructuring.
+         * Relebses write lock for tree restructuring.
          */
-        private final void unlockRoot() {
-            lockState = 0;
+        privbte finbl void unlockRoot() {
+            lockStbte = 0;
         }
 
         /**
-         * Possibly blocks awaiting root lock.
+         * Possibly blocks bwbiting root lock.
          */
-        private final void contendedLock() {
-            boolean waiting = false;
+        privbte finbl void contendedLock() {
+            boolebn wbiting = fblse;
             for (int s;;) {
-                if (((s = lockState) & ~WAITER) == 0) {
-                    if (U.compareAndSwapInt(this, LOCKSTATE, s, WRITER)) {
-                        if (waiting)
-                            waiter = null;
+                if (((s = lockStbte) & ~WAITER) == 0) {
+                    if (U.compbreAndSwbpInt(this, LOCKSTATE, s, WRITER)) {
+                        if (wbiting)
+                            wbiter = null;
                         return;
                     }
                 }
                 else if ((s & WAITER) == 0) {
-                    if (U.compareAndSwapInt(this, LOCKSTATE, s, s | WAITER)) {
-                        waiting = true;
-                        waiter = Thread.currentThread();
+                    if (U.compbreAndSwbpInt(this, LOCKSTATE, s, s | WAITER)) {
+                        wbiting = true;
+                        wbiter = Threbd.currentThrebd();
                     }
                 }
-                else if (waiting)
-                    LockSupport.park(this);
+                else if (wbiting)
+                    LockSupport.pbrk(this);
             }
         }
 
         /**
-         * Returns matching node or null if none. Tries to search
-         * using tree comparisons from root, but continues linear
-         * search when lock not available.
+         * Returns mbtching node or null if none. Tries to sebrch
+         * using tree compbrisons from root, but continues linebr
+         * sebrch when lock not bvbilbble.
          */
-        final Node<K,V> find(int h, Object k) {
+        finbl Node<K,V> find(int h, Object k) {
             if (k != null) {
                 for (Node<K,V> e = first; e != null; ) {
                     int s; K ek;
-                    if (((s = lockState) & (WAITER|WRITER)) != 0) {
-                        if (e.hash == h &&
-                            ((ek = e.key) == k || (ek != null && k.equals(ek))))
+                    if (((s = lockStbte) & (WAITER|WRITER)) != 0) {
+                        if (e.hbsh == h &&
+                            ((ek = e.key) == k || (ek != null && k.equbls(ek))))
                             return e;
                         e = e.next;
                     }
-                    else if (U.compareAndSwapInt(this, LOCKSTATE, s,
+                    else if (U.compbreAndSwbpInt(this, LOCKSTATE, s,
                                                  s + READER)) {
                         TreeNode<K,V> r, p;
                         try {
                             p = ((r = root) == null ? null :
                                  r.findTreeNode(h, k, null));
-                        } finally {
-                            Thread w;
+                        } finblly {
+                            Threbd w;
                             if (U.getAndAddInt(this, LOCKSTATE, -READER) ==
-                                (READER|WAITER) && (w = waiter) != null)
-                                LockSupport.unpark(w);
+                                (READER|WAITER) && (w = wbiter) != null)
+                                LockSupport.unpbrk(w);
                         }
                         return p;
                     }
@@ -2863,37 +2863,37 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
 
         /**
-         * Finds or adds a node.
-         * @return null if added
+         * Finds or bdds b node.
+         * @return null if bdded
          */
-        final TreeNode<K,V> putTreeVal(int h, K k, V v) {
-            Class<?> kc = null;
-            boolean searched = false;
+        finbl TreeNode<K,V> putTreeVbl(int h, K k, V v) {
+            Clbss<?> kc = null;
+            boolebn sebrched = fblse;
             for (TreeNode<K,V> p = root;;) {
                 int dir, ph; K pk;
                 if (p == null) {
                     first = root = new TreeNode<K,V>(h, k, v, null, null);
-                    break;
+                    brebk;
                 }
-                else if ((ph = p.hash) > h)
+                else if ((ph = p.hbsh) > h)
                     dir = -1;
                 else if (ph < h)
                     dir = 1;
-                else if ((pk = p.key) == k || (pk != null && k.equals(pk)))
+                else if ((pk = p.key) == k || (pk != null && k.equbls(pk)))
                     return p;
                 else if ((kc == null &&
-                          (kc = comparableClassFor(k)) == null) ||
-                         (dir = compareComparables(kc, k, pk)) == 0) {
-                    if (!searched) {
+                          (kc = compbrbbleClbssFor(k)) == null) ||
+                         (dir = compbreCompbrbbles(kc, k, pk)) == 0) {
+                    if (!sebrched) {
                         TreeNode<K,V> q, ch;
-                        searched = true;
+                        sebrched = true;
                         if (((ch = p.left) != null &&
                              (q = ch.findTreeNode(h, k, kc)) != null) ||
                             ((ch = p.right) != null &&
                              (q = ch.findTreeNode(h, k, kc)) != null))
                             return q;
                     }
-                    dir = tieBreakOrder(k, pk);
+                    dir = tieBrebkOrder(k, pk);
                 }
 
                 TreeNode<K,V> xp = p;
@@ -2911,31 +2911,31 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                     else {
                         lockRoot();
                         try {
-                            root = balanceInsertion(root, x);
-                        } finally {
+                            root = bblbnceInsertion(root, x);
+                        } finblly {
                             unlockRoot();
                         }
                     }
-                    break;
+                    brebk;
                 }
             }
-            assert checkInvariants(root);
+            bssert checkInvbribnts(root);
             return null;
         }
 
         /**
-         * Removes the given node, that must be present before this
-         * call.  This is messier than typical red-black deletion code
-         * because we cannot swap the contents of an interior node
-         * with a leaf successor that is pinned by "next" pointers
-         * that are accessible independently of lock. So instead we
-         * swap the tree linkages.
+         * Removes the given node, thbt must be present before this
+         * cbll.  This is messier thbn typicbl red-blbck deletion code
+         * becbuse we cbnnot swbp the contents of bn interior node
+         * with b lebf successor thbt is pinned by "next" pointers
+         * thbt bre bccessible independently of lock. So instebd we
+         * swbp the tree linkbges.
          *
-         * @return true if now too small, so should be untreeified
+         * @return true if now too smbll, so should be untreeified
          */
-        final boolean removeTreeNode(TreeNode<K,V> p) {
+        finbl boolebn removeTreeNode(TreeNode<K,V> p) {
             TreeNode<K,V> next = (TreeNode<K,V>)p.next;
-            TreeNode<K,V> pred = p.prev;  // unlink traversal pointers
+            TreeNode<K,V> pred = p.prev;  // unlink trbversbl pointers
             TreeNode<K,V> r, rl;
             if (pred == null)
                 first = next;
@@ -2947,175 +2947,175 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 root = null;
                 return true;
             }
-            if ((r = root) == null || r.right == null || // too small
+            if ((r = root) == null || r.right == null || // too smbll
                 (rl = r.left) == null || rl.left == null)
                 return true;
             lockRoot();
             try {
-                TreeNode<K,V> replacement;
+                TreeNode<K,V> replbcement;
                 TreeNode<K,V> pl = p.left;
                 TreeNode<K,V> pr = p.right;
                 if (pl != null && pr != null) {
                     TreeNode<K,V> s = pr, sl;
                     while ((sl = s.left) != null) // find successor
                         s = sl;
-                    boolean c = s.red; s.red = p.red; p.red = c; // swap colors
+                    boolebn c = s.red; s.red = p.red; p.red = c; // swbp colors
                     TreeNode<K,V> sr = s.right;
-                    TreeNode<K,V> pp = p.parent;
-                    if (s == pr) { // p was s's direct parent
-                        p.parent = s;
+                    TreeNode<K,V> pp = p.pbrent;
+                    if (s == pr) { // p wbs s's direct pbrent
+                        p.pbrent = s;
                         s.right = p;
                     }
                     else {
-                        TreeNode<K,V> sp = s.parent;
-                        if ((p.parent = sp) != null) {
+                        TreeNode<K,V> sp = s.pbrent;
+                        if ((p.pbrent = sp) != null) {
                             if (s == sp.left)
                                 sp.left = p;
                             else
                                 sp.right = p;
                         }
                         if ((s.right = pr) != null)
-                            pr.parent = s;
+                            pr.pbrent = s;
                     }
                     p.left = null;
                     if ((p.right = sr) != null)
-                        sr.parent = p;
+                        sr.pbrent = p;
                     if ((s.left = pl) != null)
-                        pl.parent = s;
-                    if ((s.parent = pp) == null)
+                        pl.pbrent = s;
+                    if ((s.pbrent = pp) == null)
                         r = s;
                     else if (p == pp.left)
                         pp.left = s;
                     else
                         pp.right = s;
                     if (sr != null)
-                        replacement = sr;
+                        replbcement = sr;
                     else
-                        replacement = p;
+                        replbcement = p;
                 }
                 else if (pl != null)
-                    replacement = pl;
+                    replbcement = pl;
                 else if (pr != null)
-                    replacement = pr;
+                    replbcement = pr;
                 else
-                    replacement = p;
-                if (replacement != p) {
-                    TreeNode<K,V> pp = replacement.parent = p.parent;
+                    replbcement = p;
+                if (replbcement != p) {
+                    TreeNode<K,V> pp = replbcement.pbrent = p.pbrent;
                     if (pp == null)
-                        r = replacement;
+                        r = replbcement;
                     else if (p == pp.left)
-                        pp.left = replacement;
+                        pp.left = replbcement;
                     else
-                        pp.right = replacement;
-                    p.left = p.right = p.parent = null;
+                        pp.right = replbcement;
+                    p.left = p.right = p.pbrent = null;
                 }
 
-                root = (p.red) ? r : balanceDeletion(r, replacement);
+                root = (p.red) ? r : bblbnceDeletion(r, replbcement);
 
-                if (p == replacement) {  // detach pointers
+                if (p == replbcement) {  // detbch pointers
                     TreeNode<K,V> pp;
-                    if ((pp = p.parent) != null) {
+                    if ((pp = p.pbrent) != null) {
                         if (p == pp.left)
                             pp.left = null;
                         else if (p == pp.right)
                             pp.right = null;
-                        p.parent = null;
+                        p.pbrent = null;
                     }
                 }
-            } finally {
+            } finblly {
                 unlockRoot();
             }
-            assert checkInvariants(root);
-            return false;
+            bssert checkInvbribnts(root);
+            return fblse;
         }
 
         /* ------------------------------------------------------------ */
-        // Red-black tree methods, all adapted from CLR
+        // Red-blbck tree methods, bll bdbpted from CLR
 
-        static <K,V> TreeNode<K,V> rotateLeft(TreeNode<K,V> root,
+        stbtic <K,V> TreeNode<K,V> rotbteLeft(TreeNode<K,V> root,
                                               TreeNode<K,V> p) {
             TreeNode<K,V> r, pp, rl;
             if (p != null && (r = p.right) != null) {
                 if ((rl = p.right = r.left) != null)
-                    rl.parent = p;
-                if ((pp = r.parent = p.parent) == null)
-                    (root = r).red = false;
+                    rl.pbrent = p;
+                if ((pp = r.pbrent = p.pbrent) == null)
+                    (root = r).red = fblse;
                 else if (pp.left == p)
                     pp.left = r;
                 else
                     pp.right = r;
                 r.left = p;
-                p.parent = r;
+                p.pbrent = r;
             }
             return root;
         }
 
-        static <K,V> TreeNode<K,V> rotateRight(TreeNode<K,V> root,
+        stbtic <K,V> TreeNode<K,V> rotbteRight(TreeNode<K,V> root,
                                                TreeNode<K,V> p) {
             TreeNode<K,V> l, pp, lr;
             if (p != null && (l = p.left) != null) {
                 if ((lr = p.left = l.right) != null)
-                    lr.parent = p;
-                if ((pp = l.parent = p.parent) == null)
-                    (root = l).red = false;
+                    lr.pbrent = p;
+                if ((pp = l.pbrent = p.pbrent) == null)
+                    (root = l).red = fblse;
                 else if (pp.right == p)
                     pp.right = l;
                 else
                     pp.left = l;
                 l.right = p;
-                p.parent = l;
+                p.pbrent = l;
             }
             return root;
         }
 
-        static <K,V> TreeNode<K,V> balanceInsertion(TreeNode<K,V> root,
+        stbtic <K,V> TreeNode<K,V> bblbnceInsertion(TreeNode<K,V> root,
                                                     TreeNode<K,V> x) {
             x.red = true;
             for (TreeNode<K,V> xp, xpp, xppl, xppr;;) {
-                if ((xp = x.parent) == null) {
-                    x.red = false;
+                if ((xp = x.pbrent) == null) {
+                    x.red = fblse;
                     return x;
                 }
-                else if (!xp.red || (xpp = xp.parent) == null)
+                else if (!xp.red || (xpp = xp.pbrent) == null)
                     return root;
                 if (xp == (xppl = xpp.left)) {
                     if ((xppr = xpp.right) != null && xppr.red) {
-                        xppr.red = false;
-                        xp.red = false;
+                        xppr.red = fblse;
+                        xp.red = fblse;
                         xpp.red = true;
                         x = xpp;
                     }
                     else {
                         if (x == xp.right) {
-                            root = rotateLeft(root, x = xp);
-                            xpp = (xp = x.parent) == null ? null : xp.parent;
+                            root = rotbteLeft(root, x = xp);
+                            xpp = (xp = x.pbrent) == null ? null : xp.pbrent;
                         }
                         if (xp != null) {
-                            xp.red = false;
+                            xp.red = fblse;
                             if (xpp != null) {
                                 xpp.red = true;
-                                root = rotateRight(root, xpp);
+                                root = rotbteRight(root, xpp);
                             }
                         }
                     }
                 }
                 else {
                     if (xppl != null && xppl.red) {
-                        xppl.red = false;
-                        xp.red = false;
+                        xppl.red = fblse;
+                        xp.red = fblse;
                         xpp.red = true;
                         x = xpp;
                     }
                     else {
                         if (x == xp.left) {
-                            root = rotateRight(root, x = xp);
-                            xpp = (xp = x.parent) == null ? null : xp.parent;
+                            root = rotbteRight(root, x = xp);
+                            xpp = (xp = x.pbrent) == null ? null : xp.pbrent;
                         }
                         if (xp != null) {
-                            xp.red = false;
+                            xp.red = fblse;
                             if (xpp != null) {
                                 xpp.red = true;
-                                root = rotateLeft(root, xpp);
+                                root = rotbteLeft(root, xpp);
                             }
                         }
                     }
@@ -3123,25 +3123,25 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             }
         }
 
-        static <K,V> TreeNode<K,V> balanceDeletion(TreeNode<K,V> root,
+        stbtic <K,V> TreeNode<K,V> bblbnceDeletion(TreeNode<K,V> root,
                                                    TreeNode<K,V> x) {
             for (TreeNode<K,V> xp, xpl, xpr;;)  {
                 if (x == null || x == root)
                     return root;
-                else if ((xp = x.parent) == null) {
-                    x.red = false;
+                else if ((xp = x.pbrent) == null) {
+                    x.red = fblse;
                     return x;
                 }
                 else if (x.red) {
-                    x.red = false;
+                    x.red = fblse;
                     return root;
                 }
                 else if ((xpl = xp.left) == x) {
                     if ((xpr = xp.right) != null && xpr.red) {
-                        xpr.red = false;
+                        xpr.red = fblse;
                         xp.red = true;
-                        root = rotateLeft(root, xp);
-                        xpr = (xp = x.parent) == null ? null : xp.right;
+                        root = rotbteLeft(root, xp);
+                        xpr = (xp = x.pbrent) == null ? null : xp.right;
                     }
                     if (xpr == null)
                         x = xp;
@@ -3155,20 +3155,20 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                         else {
                             if (sr == null || !sr.red) {
                                 if (sl != null)
-                                    sl.red = false;
+                                    sl.red = fblse;
                                 xpr.red = true;
-                                root = rotateRight(root, xpr);
-                                xpr = (xp = x.parent) == null ?
+                                root = rotbteRight(root, xpr);
+                                xpr = (xp = x.pbrent) == null ?
                                     null : xp.right;
                             }
                             if (xpr != null) {
-                                xpr.red = (xp == null) ? false : xp.red;
+                                xpr.red = (xp == null) ? fblse : xp.red;
                                 if ((sr = xpr.right) != null)
-                                    sr.red = false;
+                                    sr.red = fblse;
                             }
                             if (xp != null) {
-                                xp.red = false;
-                                root = rotateLeft(root, xp);
+                                xp.red = fblse;
+                                root = rotbteLeft(root, xp);
                             }
                             x = root;
                         }
@@ -3176,10 +3176,10 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 }
                 else { // symmetric
                     if (xpl != null && xpl.red) {
-                        xpl.red = false;
+                        xpl.red = fblse;
                         xp.red = true;
-                        root = rotateRight(root, xp);
-                        xpl = (xp = x.parent) == null ? null : xp.left;
+                        root = rotbteRight(root, xp);
+                        xpl = (xp = x.pbrent) == null ? null : xp.left;
                     }
                     if (xpl == null)
                         x = xp;
@@ -3193,20 +3193,20 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                         else {
                             if (sl == null || !sl.red) {
                                 if (sr != null)
-                                    sr.red = false;
+                                    sr.red = fblse;
                                 xpl.red = true;
-                                root = rotateLeft(root, xpl);
-                                xpl = (xp = x.parent) == null ?
+                                root = rotbteLeft(root, xpl);
+                                xpl = (xp = x.pbrent) == null ?
                                     null : xp.left;
                             }
                             if (xpl != null) {
-                                xpl.red = (xp == null) ? false : xp.red;
+                                xpl.red = (xp == null) ? fblse : xp.red;
                                 if ((sl = xpl.left) != null)
-                                    sl.red = false;
+                                    sl.red = fblse;
                             }
                             if (xp != null) {
-                                xp.red = false;
-                                root = rotateRight(root, xp);
+                                xp.red = fblse;
+                                root = rotbteRight(root, xp);
                             }
                             x = root;
                         }
@@ -3216,1199 +3216,1199 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
 
         /**
-         * Recursive invariant check
+         * Recursive invbribnt check
          */
-        static <K,V> boolean checkInvariants(TreeNode<K,V> t) {
-            TreeNode<K,V> tp = t.parent, tl = t.left, tr = t.right,
+        stbtic <K,V> boolebn checkInvbribnts(TreeNode<K,V> t) {
+            TreeNode<K,V> tp = t.pbrent, tl = t.left, tr = t.right,
                 tb = t.prev, tn = (TreeNode<K,V>)t.next;
             if (tb != null && tb.next != t)
-                return false;
+                return fblse;
             if (tn != null && tn.prev != t)
-                return false;
+                return fblse;
             if (tp != null && t != tp.left && t != tp.right)
-                return false;
-            if (tl != null && (tl.parent != t || tl.hash > t.hash))
-                return false;
-            if (tr != null && (tr.parent != t || tr.hash < t.hash))
-                return false;
+                return fblse;
+            if (tl != null && (tl.pbrent != t || tl.hbsh > t.hbsh))
+                return fblse;
+            if (tr != null && (tr.pbrent != t || tr.hbsh < t.hbsh))
+                return fblse;
             if (t.red && tl != null && tl.red && tr != null && tr.red)
-                return false;
-            if (tl != null && !checkInvariants(tl))
-                return false;
-            if (tr != null && !checkInvariants(tr))
-                return false;
+                return fblse;
+            if (tl != null && !checkInvbribnts(tl))
+                return fblse;
+            if (tr != null && !checkInvbribnts(tr))
+                return fblse;
             return true;
         }
 
-        private static final sun.misc.Unsafe U;
-        private static final long LOCKSTATE;
-        static {
+        privbte stbtic finbl sun.misc.Unsbfe U;
+        privbte stbtic finbl long LOCKSTATE;
+        stbtic {
             try {
-                U = sun.misc.Unsafe.getUnsafe();
-                Class<?> k = TreeBin.class;
+                U = sun.misc.Unsbfe.getUnsbfe();
+                Clbss<?> k = TreeBin.clbss;
                 LOCKSTATE = U.objectFieldOffset
-                    (k.getDeclaredField("lockState"));
-            } catch (Exception e) {
+                    (k.getDeclbredField("lockStbte"));
+            } cbtch (Exception e) {
                 throw new Error(e);
             }
         }
     }
 
-    /* ----------------Table Traversal -------------- */
+    /* ----------------Tbble Trbversbl -------------- */
 
     /**
-     * Records the table, its length, and current traversal index for a
-     * traverser that must process a region of a forwarded table before
-     * proceeding with current table.
+     * Records the tbble, its length, bnd current trbversbl index for b
+     * trbverser thbt must process b region of b forwbrded tbble before
+     * proceeding with current tbble.
      */
-    static final class TableStack<K,V> {
+    stbtic finbl clbss TbbleStbck<K,V> {
         int length;
         int index;
-        Node<K,V>[] tab;
-        TableStack<K,V> next;
+        Node<K,V>[] tbb;
+        TbbleStbck<K,V> next;
     }
 
     /**
-     * Encapsulates traversal for methods such as containsValue; also
-     * serves as a base class for other iterators and spliterators.
+     * Encbpsulbtes trbversbl for methods such bs contbinsVblue; blso
+     * serves bs b bbse clbss for other iterbtors bnd spliterbtors.
      *
-     * Method advance visits once each still-valid node that was
-     * reachable upon iterator construction. It might miss some that
-     * were added to a bin after the bin was visited, which is OK wrt
-     * consistency guarantees. Maintaining this property in the face
-     * of possible ongoing resizes requires a fair amount of
-     * bookkeeping state that is difficult to optimize away amidst
-     * volatile accesses.  Even so, traversal maintains reasonable
+     * Method bdvbnce visits once ebch still-vblid node thbt wbs
+     * rebchbble upon iterbtor construction. It might miss some thbt
+     * were bdded to b bin bfter the bin wbs visited, which is OK wrt
+     * consistency gubrbntees. Mbintbining this property in the fbce
+     * of possible ongoing resizes requires b fbir bmount of
+     * bookkeeping stbte thbt is difficult to optimize bwby bmidst
+     * volbtile bccesses.  Even so, trbversbl mbintbins rebsonbble
      * throughput.
      *
-     * Normally, iteration proceeds bin-by-bin traversing lists.
-     * However, if the table has been resized, then all future steps
-     * must traverse both the bin at the current index as well as at
-     * (index + baseSize); and so on for further resizings. To
-     * paranoically cope with potential sharing by users of iterators
-     * across threads, iteration terminates if a bounds checks fails
-     * for a table read.
+     * Normblly, iterbtion proceeds bin-by-bin trbversing lists.
+     * However, if the tbble hbs been resized, then bll future steps
+     * must trbverse both the bin bt the current index bs well bs bt
+     * (index + bbseSize); bnd so on for further resizings. To
+     * pbrbnoicblly cope with potentibl shbring by users of iterbtors
+     * bcross threbds, iterbtion terminbtes if b bounds checks fbils
+     * for b tbble rebd.
      */
-    static class Traverser<K,V> {
-        Node<K,V>[] tab;        // current table; updated if resized
+    stbtic clbss Trbverser<K,V> {
+        Node<K,V>[] tbb;        // current tbble; updbted if resized
         Node<K,V> next;         // the next entry to use
-        TableStack<K,V> stack, spare; // to save/restore on ForwardingNodes
+        TbbleStbck<K,V> stbck, spbre; // to sbve/restore on ForwbrdingNodes
         int index;              // index of bin to use next
-        int baseIndex;          // current index of initial table
-        int baseLimit;          // index bound for initial table
-        final int baseSize;     // initial table size
+        int bbseIndex;          // current index of initibl tbble
+        int bbseLimit;          // index bound for initibl tbble
+        finbl int bbseSize;     // initibl tbble size
 
-        Traverser(Node<K,V>[] tab, int size, int index, int limit) {
-            this.tab = tab;
-            this.baseSize = size;
-            this.baseIndex = this.index = index;
-            this.baseLimit = limit;
+        Trbverser(Node<K,V>[] tbb, int size, int index, int limit) {
+            this.tbb = tbb;
+            this.bbseSize = size;
+            this.bbseIndex = this.index = index;
+            this.bbseLimit = limit;
             this.next = null;
         }
 
         /**
-         * Advances if possible, returning next valid node, or null if none.
+         * Advbnces if possible, returning next vblid node, or null if none.
          */
-        final Node<K,V> advance() {
+        finbl Node<K,V> bdvbnce() {
             Node<K,V> e;
             if ((e = next) != null)
                 e = e.next;
             for (;;) {
-                Node<K,V>[] t; int i, n;  // must use locals in checks
+                Node<K,V>[] t; int i, n;  // must use locbls in checks
                 if (e != null)
                     return next = e;
-                if (baseIndex >= baseLimit || (t = tab) == null ||
+                if (bbseIndex >= bbseLimit || (t = tbb) == null ||
                     (n = t.length) <= (i = index) || i < 0)
                     return next = null;
-                if ((e = tabAt(t, i)) != null && e.hash < 0) {
-                    if (e instanceof ForwardingNode) {
-                        tab = ((ForwardingNode<K,V>)e).nextTable;
+                if ((e = tbbAt(t, i)) != null && e.hbsh < 0) {
+                    if (e instbnceof ForwbrdingNode) {
+                        tbb = ((ForwbrdingNode<K,V>)e).nextTbble;
                         e = null;
-                        pushState(t, i, n);
+                        pushStbte(t, i, n);
                         continue;
                     }
-                    else if (e instanceof TreeBin)
+                    else if (e instbnceof TreeBin)
                         e = ((TreeBin<K,V>)e).first;
                     else
                         e = null;
                 }
-                if (stack != null)
-                    recoverState(n);
-                else if ((index = i + baseSize) >= n)
-                    index = ++baseIndex; // visit upper slots if present
+                if (stbck != null)
+                    recoverStbte(n);
+                else if ((index = i + bbseSize) >= n)
+                    index = ++bbseIndex; // visit upper slots if present
             }
         }
 
         /**
-         * Saves traversal state upon encountering a forwarding node.
+         * Sbves trbversbl stbte upon encountering b forwbrding node.
          */
-        private void pushState(Node<K,V>[] t, int i, int n) {
-            TableStack<K,V> s = spare;  // reuse if possible
+        privbte void pushStbte(Node<K,V>[] t, int i, int n) {
+            TbbleStbck<K,V> s = spbre;  // reuse if possible
             if (s != null)
-                spare = s.next;
+                spbre = s.next;
             else
-                s = new TableStack<K,V>();
-            s.tab = t;
+                s = new TbbleStbck<K,V>();
+            s.tbb = t;
             s.length = n;
             s.index = i;
-            s.next = stack;
-            stack = s;
+            s.next = stbck;
+            stbck = s;
         }
 
         /**
-         * Possibly pops traversal state.
+         * Possibly pops trbversbl stbte.
          *
-         * @param n length of current table
+         * @pbrbm n length of current tbble
          */
-        private void recoverState(int n) {
-            TableStack<K,V> s; int len;
-            while ((s = stack) != null && (index += (len = s.length)) >= n) {
+        privbte void recoverStbte(int n) {
+            TbbleStbck<K,V> s; int len;
+            while ((s = stbck) != null && (index += (len = s.length)) >= n) {
                 n = len;
                 index = s.index;
-                tab = s.tab;
-                s.tab = null;
-                TableStack<K,V> next = s.next;
-                s.next = spare; // save for reuse
-                stack = next;
-                spare = s;
+                tbb = s.tbb;
+                s.tbb = null;
+                TbbleStbck<K,V> next = s.next;
+                s.next = spbre; // sbve for reuse
+                stbck = next;
+                spbre = s;
             }
-            if (s == null && (index += baseSize) >= n)
-                index = ++baseIndex;
+            if (s == null && (index += bbseSize) >= n)
+                index = ++bbseIndex;
         }
     }
 
     /**
-     * Base of key, value, and entry Iterators. Adds fields to
-     * Traverser to support iterator.remove.
+     * Bbse of key, vblue, bnd entry Iterbtors. Adds fields to
+     * Trbverser to support iterbtor.remove.
      */
-    static class BaseIterator<K,V> extends Traverser<K,V> {
-        final ConcurrentHashMap<K,V> map;
-        Node<K,V> lastReturned;
-        BaseIterator(Node<K,V>[] tab, int size, int index, int limit,
-                    ConcurrentHashMap<K,V> map) {
-            super(tab, size, index, limit);
-            this.map = map;
-            advance();
+    stbtic clbss BbseIterbtor<K,V> extends Trbverser<K,V> {
+        finbl ConcurrentHbshMbp<K,V> mbp;
+        Node<K,V> lbstReturned;
+        BbseIterbtor(Node<K,V>[] tbb, int size, int index, int limit,
+                    ConcurrentHbshMbp<K,V> mbp) {
+            super(tbb, size, index, limit);
+            this.mbp = mbp;
+            bdvbnce();
         }
 
-        public final boolean hasNext() { return next != null; }
-        public final boolean hasMoreElements() { return next != null; }
+        public finbl boolebn hbsNext() { return next != null; }
+        public finbl boolebn hbsMoreElements() { return next != null; }
 
-        public final void remove() {
+        public finbl void remove() {
             Node<K,V> p;
-            if ((p = lastReturned) == null)
-                throw new IllegalStateException();
-            lastReturned = null;
-            map.replaceNode(p.key, null, null);
+            if ((p = lbstReturned) == null)
+                throw new IllegblStbteException();
+            lbstReturned = null;
+            mbp.replbceNode(p.key, null, null);
         }
     }
 
-    static final class KeyIterator<K,V> extends BaseIterator<K,V>
-        implements Iterator<K>, Enumeration<K> {
-        KeyIterator(Node<K,V>[] tab, int index, int size, int limit,
-                    ConcurrentHashMap<K,V> map) {
-            super(tab, index, size, limit, map);
+    stbtic finbl clbss KeyIterbtor<K,V> extends BbseIterbtor<K,V>
+        implements Iterbtor<K>, Enumerbtion<K> {
+        KeyIterbtor(Node<K,V>[] tbb, int index, int size, int limit,
+                    ConcurrentHbshMbp<K,V> mbp) {
+            super(tbb, index, size, limit, mbp);
         }
 
-        public final K next() {
+        public finbl K next() {
             Node<K,V> p;
             if ((p = next) == null)
                 throw new NoSuchElementException();
             K k = p.key;
-            lastReturned = p;
-            advance();
+            lbstReturned = p;
+            bdvbnce();
             return k;
         }
 
-        public final K nextElement() { return next(); }
+        public finbl K nextElement() { return next(); }
     }
 
-    static final class ValueIterator<K,V> extends BaseIterator<K,V>
-        implements Iterator<V>, Enumeration<V> {
-        ValueIterator(Node<K,V>[] tab, int index, int size, int limit,
-                      ConcurrentHashMap<K,V> map) {
-            super(tab, index, size, limit, map);
+    stbtic finbl clbss VblueIterbtor<K,V> extends BbseIterbtor<K,V>
+        implements Iterbtor<V>, Enumerbtion<V> {
+        VblueIterbtor(Node<K,V>[] tbb, int index, int size, int limit,
+                      ConcurrentHbshMbp<K,V> mbp) {
+            super(tbb, index, size, limit, mbp);
         }
 
-        public final V next() {
+        public finbl V next() {
             Node<K,V> p;
             if ((p = next) == null)
                 throw new NoSuchElementException();
-            V v = p.val;
-            lastReturned = p;
-            advance();
+            V v = p.vbl;
+            lbstReturned = p;
+            bdvbnce();
             return v;
         }
 
-        public final V nextElement() { return next(); }
+        public finbl V nextElement() { return next(); }
     }
 
-    static final class EntryIterator<K,V> extends BaseIterator<K,V>
-        implements Iterator<Map.Entry<K,V>> {
-        EntryIterator(Node<K,V>[] tab, int index, int size, int limit,
-                      ConcurrentHashMap<K,V> map) {
-            super(tab, index, size, limit, map);
+    stbtic finbl clbss EntryIterbtor<K,V> extends BbseIterbtor<K,V>
+        implements Iterbtor<Mbp.Entry<K,V>> {
+        EntryIterbtor(Node<K,V>[] tbb, int index, int size, int limit,
+                      ConcurrentHbshMbp<K,V> mbp) {
+            super(tbb, index, size, limit, mbp);
         }
 
-        public final Map.Entry<K,V> next() {
+        public finbl Mbp.Entry<K,V> next() {
             Node<K,V> p;
             if ((p = next) == null)
                 throw new NoSuchElementException();
             K k = p.key;
-            V v = p.val;
-            lastReturned = p;
-            advance();
-            return new MapEntry<K,V>(k, v, map);
+            V v = p.vbl;
+            lbstReturned = p;
+            bdvbnce();
+            return new MbpEntry<K,V>(k, v, mbp);
         }
     }
 
     /**
-     * Exported Entry for EntryIterator
+     * Exported Entry for EntryIterbtor
      */
-    static final class MapEntry<K,V> implements Map.Entry<K,V> {
-        final K key; // non-null
-        V val;       // non-null
-        final ConcurrentHashMap<K,V> map;
-        MapEntry(K key, V val, ConcurrentHashMap<K,V> map) {
+    stbtic finbl clbss MbpEntry<K,V> implements Mbp.Entry<K,V> {
+        finbl K key; // non-null
+        V vbl;       // non-null
+        finbl ConcurrentHbshMbp<K,V> mbp;
+        MbpEntry(K key, V vbl, ConcurrentHbshMbp<K,V> mbp) {
             this.key = key;
-            this.val = val;
-            this.map = map;
+            this.vbl = vbl;
+            this.mbp = mbp;
         }
         public K getKey()        { return key; }
-        public V getValue()      { return val; }
-        public int hashCode()    { return key.hashCode() ^ val.hashCode(); }
-        public String toString() { return key + "=" + val; }
+        public V getVblue()      { return vbl; }
+        public int hbshCode()    { return key.hbshCode() ^ vbl.hbshCode(); }
+        public String toString() { return key + "=" + vbl; }
 
-        public boolean equals(Object o) {
-            Object k, v; Map.Entry<?,?> e;
-            return ((o instanceof Map.Entry) &&
-                    (k = (e = (Map.Entry<?,?>)o).getKey()) != null &&
-                    (v = e.getValue()) != null &&
-                    (k == key || k.equals(key)) &&
-                    (v == val || v.equals(val)));
+        public boolebn equbls(Object o) {
+            Object k, v; Mbp.Entry<?,?> e;
+            return ((o instbnceof Mbp.Entry) &&
+                    (k = (e = (Mbp.Entry<?,?>)o).getKey()) != null &&
+                    (v = e.getVblue()) != null &&
+                    (k == key || k.equbls(key)) &&
+                    (v == vbl || v.equbls(vbl)));
         }
 
         /**
-         * Sets our entry's value and writes through to the map. The
-         * value to return is somewhat arbitrary here. Since we do not
-         * necessarily track asynchronous changes, the most recent
-         * "previous" value could be different from what we return (or
-         * could even have been removed, in which case the put will
-         * re-establish). We do not and cannot guarantee more.
+         * Sets our entry's vblue bnd writes through to the mbp. The
+         * vblue to return is somewhbt brbitrbry here. Since we do not
+         * necessbrily trbck bsynchronous chbnges, the most recent
+         * "previous" vblue could be different from whbt we return (or
+         * could even hbve been removed, in which cbse the put will
+         * re-estbblish). We do not bnd cbnnot gubrbntee more.
          */
-        public V setValue(V value) {
-            if (value == null) throw new NullPointerException();
-            V v = val;
-            val = value;
-            map.put(key, value);
+        public V setVblue(V vblue) {
+            if (vblue == null) throw new NullPointerException();
+            V v = vbl;
+            vbl = vblue;
+            mbp.put(key, vblue);
             return v;
         }
     }
 
-    static final class KeySpliterator<K,V> extends Traverser<K,V>
-        implements Spliterator<K> {
-        long est;               // size estimate
-        KeySpliterator(Node<K,V>[] tab, int size, int index, int limit,
+    stbtic finbl clbss KeySpliterbtor<K,V> extends Trbverser<K,V>
+        implements Spliterbtor<K> {
+        long est;               // size estimbte
+        KeySpliterbtor(Node<K,V>[] tbb, int size, int index, int limit,
                        long est) {
-            super(tab, size, index, limit);
+            super(tbb, size, index, limit);
             this.est = est;
         }
 
-        public Spliterator<K> trySplit() {
+        public Spliterbtor<K> trySplit() {
             int i, f, h;
-            return (h = ((i = baseIndex) + (f = baseLimit)) >>> 1) <= i ? null :
-                new KeySpliterator<K,V>(tab, baseSize, baseLimit = h,
+            return (h = ((i = bbseIndex) + (f = bbseLimit)) >>> 1) <= i ? null :
+                new KeySpliterbtor<K,V>(tbb, bbseSize, bbseLimit = h,
                                         f, est >>>= 1);
         }
 
-        public void forEachRemaining(Consumer<? super K> action) {
-            if (action == null) throw new NullPointerException();
-            for (Node<K,V> p; (p = advance()) != null;)
-                action.accept(p.key);
+        public void forEbchRembining(Consumer<? super K> bction) {
+            if (bction == null) throw new NullPointerException();
+            for (Node<K,V> p; (p = bdvbnce()) != null;)
+                bction.bccept(p.key);
         }
 
-        public boolean tryAdvance(Consumer<? super K> action) {
-            if (action == null) throw new NullPointerException();
+        public boolebn tryAdvbnce(Consumer<? super K> bction) {
+            if (bction == null) throw new NullPointerException();
             Node<K,V> p;
-            if ((p = advance()) == null)
-                return false;
-            action.accept(p.key);
+            if ((p = bdvbnce()) == null)
+                return fblse;
+            bction.bccept(p.key);
             return true;
         }
 
-        public long estimateSize() { return est; }
+        public long estimbteSize() { return est; }
 
-        public int characteristics() {
-            return Spliterator.DISTINCT | Spliterator.CONCURRENT |
-                Spliterator.NONNULL;
+        public int chbrbcteristics() {
+            return Spliterbtor.DISTINCT | Spliterbtor.CONCURRENT |
+                Spliterbtor.NONNULL;
         }
     }
 
-    static final class ValueSpliterator<K,V> extends Traverser<K,V>
-        implements Spliterator<V> {
-        long est;               // size estimate
-        ValueSpliterator(Node<K,V>[] tab, int size, int index, int limit,
+    stbtic finbl clbss VblueSpliterbtor<K,V> extends Trbverser<K,V>
+        implements Spliterbtor<V> {
+        long est;               // size estimbte
+        VblueSpliterbtor(Node<K,V>[] tbb, int size, int index, int limit,
                          long est) {
-            super(tab, size, index, limit);
+            super(tbb, size, index, limit);
             this.est = est;
         }
 
-        public Spliterator<V> trySplit() {
+        public Spliterbtor<V> trySplit() {
             int i, f, h;
-            return (h = ((i = baseIndex) + (f = baseLimit)) >>> 1) <= i ? null :
-                new ValueSpliterator<K,V>(tab, baseSize, baseLimit = h,
+            return (h = ((i = bbseIndex) + (f = bbseLimit)) >>> 1) <= i ? null :
+                new VblueSpliterbtor<K,V>(tbb, bbseSize, bbseLimit = h,
                                           f, est >>>= 1);
         }
 
-        public void forEachRemaining(Consumer<? super V> action) {
-            if (action == null) throw new NullPointerException();
-            for (Node<K,V> p; (p = advance()) != null;)
-                action.accept(p.val);
+        public void forEbchRembining(Consumer<? super V> bction) {
+            if (bction == null) throw new NullPointerException();
+            for (Node<K,V> p; (p = bdvbnce()) != null;)
+                bction.bccept(p.vbl);
         }
 
-        public boolean tryAdvance(Consumer<? super V> action) {
-            if (action == null) throw new NullPointerException();
+        public boolebn tryAdvbnce(Consumer<? super V> bction) {
+            if (bction == null) throw new NullPointerException();
             Node<K,V> p;
-            if ((p = advance()) == null)
-                return false;
-            action.accept(p.val);
+            if ((p = bdvbnce()) == null)
+                return fblse;
+            bction.bccept(p.vbl);
             return true;
         }
 
-        public long estimateSize() { return est; }
+        public long estimbteSize() { return est; }
 
-        public int characteristics() {
-            return Spliterator.CONCURRENT | Spliterator.NONNULL;
+        public int chbrbcteristics() {
+            return Spliterbtor.CONCURRENT | Spliterbtor.NONNULL;
         }
     }
 
-    static final class EntrySpliterator<K,V> extends Traverser<K,V>
-        implements Spliterator<Map.Entry<K,V>> {
-        final ConcurrentHashMap<K,V> map; // To export MapEntry
-        long est;               // size estimate
-        EntrySpliterator(Node<K,V>[] tab, int size, int index, int limit,
-                         long est, ConcurrentHashMap<K,V> map) {
-            super(tab, size, index, limit);
-            this.map = map;
+    stbtic finbl clbss EntrySpliterbtor<K,V> extends Trbverser<K,V>
+        implements Spliterbtor<Mbp.Entry<K,V>> {
+        finbl ConcurrentHbshMbp<K,V> mbp; // To export MbpEntry
+        long est;               // size estimbte
+        EntrySpliterbtor(Node<K,V>[] tbb, int size, int index, int limit,
+                         long est, ConcurrentHbshMbp<K,V> mbp) {
+            super(tbb, size, index, limit);
+            this.mbp = mbp;
             this.est = est;
         }
 
-        public Spliterator<Map.Entry<K,V>> trySplit() {
+        public Spliterbtor<Mbp.Entry<K,V>> trySplit() {
             int i, f, h;
-            return (h = ((i = baseIndex) + (f = baseLimit)) >>> 1) <= i ? null :
-                new EntrySpliterator<K,V>(tab, baseSize, baseLimit = h,
-                                          f, est >>>= 1, map);
+            return (h = ((i = bbseIndex) + (f = bbseLimit)) >>> 1) <= i ? null :
+                new EntrySpliterbtor<K,V>(tbb, bbseSize, bbseLimit = h,
+                                          f, est >>>= 1, mbp);
         }
 
-        public void forEachRemaining(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null) throw new NullPointerException();
-            for (Node<K,V> p; (p = advance()) != null; )
-                action.accept(new MapEntry<K,V>(p.key, p.val, map));
+        public void forEbchRembining(Consumer<? super Mbp.Entry<K,V>> bction) {
+            if (bction == null) throw new NullPointerException();
+            for (Node<K,V> p; (p = bdvbnce()) != null; )
+                bction.bccept(new MbpEntry<K,V>(p.key, p.vbl, mbp));
         }
 
-        public boolean tryAdvance(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null) throw new NullPointerException();
+        public boolebn tryAdvbnce(Consumer<? super Mbp.Entry<K,V>> bction) {
+            if (bction == null) throw new NullPointerException();
             Node<K,V> p;
-            if ((p = advance()) == null)
-                return false;
-            action.accept(new MapEntry<K,V>(p.key, p.val, map));
+            if ((p = bdvbnce()) == null)
+                return fblse;
+            bction.bccept(new MbpEntry<K,V>(p.key, p.vbl, mbp));
             return true;
         }
 
-        public long estimateSize() { return est; }
+        public long estimbteSize() { return est; }
 
-        public int characteristics() {
-            return Spliterator.DISTINCT | Spliterator.CONCURRENT |
-                Spliterator.NONNULL;
+        public int chbrbcteristics() {
+            return Spliterbtor.DISTINCT | Spliterbtor.CONCURRENT |
+                Spliterbtor.NONNULL;
         }
     }
 
-    // Parallel bulk operations
+    // Pbrbllel bulk operbtions
 
     /**
-     * Computes initial batch value for bulk tasks. The returned value
-     * is approximately exp2 of the number of times (minus one) to
-     * split task by two before executing leaf action. This value is
-     * faster to compute and more convenient to use as a guide to
-     * splitting than is the depth, since it is used while dividing by
-     * two anyway.
+     * Computes initibl bbtch vblue for bulk tbsks. The returned vblue
+     * is bpproximbtely exp2 of the number of times (minus one) to
+     * split tbsk by two before executing lebf bction. This vblue is
+     * fbster to compute bnd more convenient to use bs b guide to
+     * splitting thbn is the depth, since it is used while dividing by
+     * two bnywby.
      */
-    final int batchFor(long b) {
+    finbl int bbtchFor(long b) {
         long n;
         if (b == Long.MAX_VALUE || (n = sumCount()) <= 1L || n < b)
             return 0;
-        int sp = ForkJoinPool.getCommonPoolParallelism() << 2; // slack of 4
+        int sp = ForkJoinPool.getCommonPoolPbrbllelism() << 2; // slbck of 4
         return (b <= 0L || (n /= b) >= sp) ? sp : (int)n;
     }
 
     /**
-     * Performs the given action for each (key, value).
+     * Performs the given bction for ebch (key, vblue).
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param action the action
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm bction the bction
      * @since 1.8
      */
-    public void forEach(long parallelismThreshold,
-                        BiConsumer<? super K,? super V> action) {
-        if (action == null) throw new NullPointerException();
-        new ForEachMappingTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             action).invoke();
+    public void forEbch(long pbrbllelismThreshold,
+                        BiConsumer<? super K,? super V> bction) {
+        if (bction == null) throw new NullPointerException();
+        new ForEbchMbppingTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             bction).invoke();
     }
 
     /**
-     * Performs the given action for each non-null transformation
-     * of each (key, value).
+     * Performs the given bction for ebch non-null trbnsformbtion
+     * of ebch (key, vblue).
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element, or null if there is no transformation (in
-     * which case the action is not applied)
-     * @param action the action
-     * @param <U> the return type of the transformer
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element, or null if there is no trbnsformbtion (in
+     * which cbse the bction is not bpplied)
+     * @pbrbm bction the bction
+     * @pbrbm <U> the return type of the trbnsformer
      * @since 1.8
      */
-    public <U> void forEach(long parallelismThreshold,
-                            BiFunction<? super K, ? super V, ? extends U> transformer,
-                            Consumer<? super U> action) {
-        if (transformer == null || action == null)
+    public <U> void forEbch(long pbrbllelismThreshold,
+                            BiFunction<? super K, ? super V, ? extends U> trbnsformer,
+                            Consumer<? super U> bction) {
+        if (trbnsformer == null || bction == null)
             throw new NullPointerException();
-        new ForEachTransformedMappingTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             transformer, action).invoke();
+        new ForEbchTrbnsformedMbppingTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             trbnsformer, bction).invoke();
     }
 
     /**
-     * Returns a non-null result from applying the given search
-     * function on each (key, value), or null if none.  Upon
-     * success, further element processing is suppressed and the
-     * results of any other parallel invocations of the search
-     * function are ignored.
+     * Returns b non-null result from bpplying the given sebrch
+     * function on ebch (key, vblue), or null if none.  Upon
+     * success, further element processing is suppressed bnd the
+     * results of bny other pbrbllel invocbtions of the sebrch
+     * function bre ignored.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param searchFunction a function returning a non-null
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm sebrchFunction b function returning b non-null
      * result on success, else null
-     * @param <U> the return type of the search function
-     * @return a non-null result from applying the given search
-     * function on each (key, value), or null if none
+     * @pbrbm <U> the return type of the sebrch function
+     * @return b non-null result from bpplying the given sebrch
+     * function on ebch (key, vblue), or null if none
      * @since 1.8
      */
-    public <U> U search(long parallelismThreshold,
-                        BiFunction<? super K, ? super V, ? extends U> searchFunction) {
-        if (searchFunction == null) throw new NullPointerException();
-        return new SearchMappingsTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             searchFunction, new AtomicReference<U>()).invoke();
+    public <U> U sebrch(long pbrbllelismThreshold,
+                        BiFunction<? super K, ? super V, ? extends U> sebrchFunction) {
+        if (sebrchFunction == null) throw new NullPointerException();
+        return new SebrchMbppingsTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             sebrchFunction, new AtomicReference<U>()).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all (key, value) pairs using the given reducer to
-     * combine values, or null if none.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll (key, vblue) pbirs using the given reducer to
+     * combine vblues, or null if none.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element, or null if there is no transformation (in
-     * which case it is not combined)
-     * @param reducer a commutative associative combining function
-     * @param <U> the return type of the transformer
-     * @return the result of accumulating the given transformation
-     * of all (key, value) pairs
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element, or null if there is no trbnsformbtion (in
+     * which cbse it is not combined)
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @pbrbm <U> the return type of the trbnsformer
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll (key, vblue) pbirs
      * @since 1.8
      */
-    public <U> U reduce(long parallelismThreshold,
-                        BiFunction<? super K, ? super V, ? extends U> transformer,
+    public <U> U reduce(long pbrbllelismThreshold,
+                        BiFunction<? super K, ? super V, ? extends U> trbnsformer,
                         BiFunction<? super U, ? super U, ? extends U> reducer) {
-        if (transformer == null || reducer == null)
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceMappingsTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, reducer).invoke();
+        return new MbpReduceMbppingsTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all (key, value) pairs using the given reducer to
-     * combine values, and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll (key, vblue) pbirs using the given reducer to
+     * combine vblues, bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all (key, value) pairs
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll (key, vblue) pbirs
      * @since 1.8
      */
-    public double reduceToDouble(long parallelismThreshold,
-                                 ToDoubleBiFunction<? super K, ? super V> transformer,
-                                 double basis,
-                                 DoubleBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public double reduceToDouble(long pbrbllelismThreshold,
+                                 ToDoubleBiFunction<? super K, ? super V> trbnsformer,
+                                 double bbsis,
+                                 DoubleBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceMappingsToDoubleTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceMbppingsToDoubleTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all (key, value) pairs using the given reducer to
-     * combine values, and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll (key, vblue) pbirs using the given reducer to
+     * combine vblues, bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all (key, value) pairs
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll (key, vblue) pbirs
      * @since 1.8
      */
-    public long reduceToLong(long parallelismThreshold,
-                             ToLongBiFunction<? super K, ? super V> transformer,
-                             long basis,
-                             LongBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public long reduceToLong(long pbrbllelismThreshold,
+                             ToLongBiFunction<? super K, ? super V> trbnsformer,
+                             long bbsis,
+                             LongBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceMappingsToLongTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceMbppingsToLongTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all (key, value) pairs using the given reducer to
-     * combine values, and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll (key, vblue) pbirs using the given reducer to
+     * combine vblues, bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all (key, value) pairs
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll (key, vblue) pbirs
      * @since 1.8
      */
-    public int reduceToInt(long parallelismThreshold,
-                           ToIntBiFunction<? super K, ? super V> transformer,
-                           int basis,
-                           IntBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public int reduceToInt(long pbrbllelismThreshold,
+                           ToIntBiFunction<? super K, ? super V> trbnsformer,
+                           int bbsis,
+                           IntBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceMappingsToIntTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceMbppingsToIntTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Performs the given action for each key.
+     * Performs the given bction for ebch key.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param action the action
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm bction the bction
      * @since 1.8
      */
-    public void forEachKey(long parallelismThreshold,
-                           Consumer<? super K> action) {
-        if (action == null) throw new NullPointerException();
-        new ForEachKeyTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             action).invoke();
+    public void forEbchKey(long pbrbllelismThreshold,
+                           Consumer<? super K> bction) {
+        if (bction == null) throw new NullPointerException();
+        new ForEbchKeyTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             bction).invoke();
     }
 
     /**
-     * Performs the given action for each non-null transformation
-     * of each key.
+     * Performs the given bction for ebch non-null trbnsformbtion
+     * of ebch key.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element, or null if there is no transformation (in
-     * which case the action is not applied)
-     * @param action the action
-     * @param <U> the return type of the transformer
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element, or null if there is no trbnsformbtion (in
+     * which cbse the bction is not bpplied)
+     * @pbrbm bction the bction
+     * @pbrbm <U> the return type of the trbnsformer
      * @since 1.8
      */
-    public <U> void forEachKey(long parallelismThreshold,
-                               Function<? super K, ? extends U> transformer,
-                               Consumer<? super U> action) {
-        if (transformer == null || action == null)
+    public <U> void forEbchKey(long pbrbllelismThreshold,
+                               Function<? super K, ? extends U> trbnsformer,
+                               Consumer<? super U> bction) {
+        if (trbnsformer == null || bction == null)
             throw new NullPointerException();
-        new ForEachTransformedKeyTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             transformer, action).invoke();
+        new ForEbchTrbnsformedKeyTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             trbnsformer, bction).invoke();
     }
 
     /**
-     * Returns a non-null result from applying the given search
-     * function on each key, or null if none. Upon success,
-     * further element processing is suppressed and the results of
-     * any other parallel invocations of the search function are
+     * Returns b non-null result from bpplying the given sebrch
+     * function on ebch key, or null if none. Upon success,
+     * further element processing is suppressed bnd the results of
+     * bny other pbrbllel invocbtions of the sebrch function bre
      * ignored.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param searchFunction a function returning a non-null
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm sebrchFunction b function returning b non-null
      * result on success, else null
-     * @param <U> the return type of the search function
-     * @return a non-null result from applying the given search
-     * function on each key, or null if none
+     * @pbrbm <U> the return type of the sebrch function
+     * @return b non-null result from bpplying the given sebrch
+     * function on ebch key, or null if none
      * @since 1.8
      */
-    public <U> U searchKeys(long parallelismThreshold,
-                            Function<? super K, ? extends U> searchFunction) {
-        if (searchFunction == null) throw new NullPointerException();
-        return new SearchKeysTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             searchFunction, new AtomicReference<U>()).invoke();
+    public <U> U sebrchKeys(long pbrbllelismThreshold,
+                            Function<? super K, ? extends U> sebrchFunction) {
+        if (sebrchFunction == null) throw new NullPointerException();
+        return new SebrchKeysTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             sebrchFunction, new AtomicReference<U>()).invoke();
     }
 
     /**
-     * Returns the result of accumulating all keys using the given
-     * reducer to combine values, or null if none.
+     * Returns the result of bccumulbting bll keys using the given
+     * reducer to combine vblues, or null if none.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating all keys using the given
-     * reducer to combine values, or null if none
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting bll keys using the given
+     * reducer to combine vblues, or null if none
      * @since 1.8
      */
-    public K reduceKeys(long parallelismThreshold,
+    public K reduceKeys(long pbrbllelismThreshold,
                         BiFunction<? super K, ? super K, ? extends K> reducer) {
         if (reducer == null) throw new NullPointerException();
-        return new ReduceKeysTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
+        return new ReduceKeysTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
              null, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all keys using the given reducer to combine values, or
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll keys using the given reducer to combine vblues, or
      * null if none.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element, or null if there is no transformation (in
-     * which case it is not combined)
-     * @param reducer a commutative associative combining function
-     * @param <U> the return type of the transformer
-     * @return the result of accumulating the given transformation
-     * of all keys
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element, or null if there is no trbnsformbtion (in
+     * which cbse it is not combined)
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @pbrbm <U> the return type of the trbnsformer
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll keys
      * @since 1.8
      */
-    public <U> U reduceKeys(long parallelismThreshold,
-                            Function<? super K, ? extends U> transformer,
+    public <U> U reduceKeys(long pbrbllelismThreshold,
+                            Function<? super K, ? extends U> trbnsformer,
          BiFunction<? super U, ? super U, ? extends U> reducer) {
-        if (transformer == null || reducer == null)
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceKeysTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, reducer).invoke();
+        return new MbpReduceKeysTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all keys using the given reducer to combine values, and
-     * the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll keys using the given reducer to combine vblues, bnd
+     * the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all keys
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll keys
      * @since 1.8
      */
-    public double reduceKeysToDouble(long parallelismThreshold,
-                                     ToDoubleFunction<? super K> transformer,
-                                     double basis,
-                                     DoubleBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public double reduceKeysToDouble(long pbrbllelismThreshold,
+                                     ToDoubleFunction<? super K> trbnsformer,
+                                     double bbsis,
+                                     DoubleBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceKeysToDoubleTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceKeysToDoubleTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all keys using the given reducer to combine values, and
-     * the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll keys using the given reducer to combine vblues, bnd
+     * the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all keys
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll keys
      * @since 1.8
      */
-    public long reduceKeysToLong(long parallelismThreshold,
-                                 ToLongFunction<? super K> transformer,
-                                 long basis,
-                                 LongBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public long reduceKeysToLong(long pbrbllelismThreshold,
+                                 ToLongFunction<? super K> trbnsformer,
+                                 long bbsis,
+                                 LongBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceKeysToLongTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceKeysToLongTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all keys using the given reducer to combine values, and
-     * the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll keys using the given reducer to combine vblues, bnd
+     * the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all keys
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll keys
      * @since 1.8
      */
-    public int reduceKeysToInt(long parallelismThreshold,
-                               ToIntFunction<? super K> transformer,
-                               int basis,
-                               IntBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public int reduceKeysToInt(long pbrbllelismThreshold,
+                               ToIntFunction<? super K> trbnsformer,
+                               int bbsis,
+                               IntBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceKeysToIntTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceKeysToIntTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Performs the given action for each value.
+     * Performs the given bction for ebch vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param action the action
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm bction the bction
      * @since 1.8
      */
-    public void forEachValue(long parallelismThreshold,
-                             Consumer<? super V> action) {
-        if (action == null)
+    public void forEbchVblue(long pbrbllelismThreshold,
+                             Consumer<? super V> bction) {
+        if (bction == null)
             throw new NullPointerException();
-        new ForEachValueTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             action).invoke();
+        new ForEbchVblueTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             bction).invoke();
     }
 
     /**
-     * Performs the given action for each non-null transformation
-     * of each value.
+     * Performs the given bction for ebch non-null trbnsformbtion
+     * of ebch vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element, or null if there is no transformation (in
-     * which case the action is not applied)
-     * @param action the action
-     * @param <U> the return type of the transformer
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element, or null if there is no trbnsformbtion (in
+     * which cbse the bction is not bpplied)
+     * @pbrbm bction the bction
+     * @pbrbm <U> the return type of the trbnsformer
      * @since 1.8
      */
-    public <U> void forEachValue(long parallelismThreshold,
-                                 Function<? super V, ? extends U> transformer,
-                                 Consumer<? super U> action) {
-        if (transformer == null || action == null)
+    public <U> void forEbchVblue(long pbrbllelismThreshold,
+                                 Function<? super V, ? extends U> trbnsformer,
+                                 Consumer<? super U> bction) {
+        if (trbnsformer == null || bction == null)
             throw new NullPointerException();
-        new ForEachTransformedValueTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             transformer, action).invoke();
+        new ForEbchTrbnsformedVblueTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             trbnsformer, bction).invoke();
     }
 
     /**
-     * Returns a non-null result from applying the given search
-     * function on each value, or null if none.  Upon success,
-     * further element processing is suppressed and the results of
-     * any other parallel invocations of the search function are
+     * Returns b non-null result from bpplying the given sebrch
+     * function on ebch vblue, or null if none.  Upon success,
+     * further element processing is suppressed bnd the results of
+     * bny other pbrbllel invocbtions of the sebrch function bre
      * ignored.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param searchFunction a function returning a non-null
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm sebrchFunction b function returning b non-null
      * result on success, else null
-     * @param <U> the return type of the search function
-     * @return a non-null result from applying the given search
-     * function on each value, or null if none
+     * @pbrbm <U> the return type of the sebrch function
+     * @return b non-null result from bpplying the given sebrch
+     * function on ebch vblue, or null if none
      * @since 1.8
      */
-    public <U> U searchValues(long parallelismThreshold,
-                              Function<? super V, ? extends U> searchFunction) {
-        if (searchFunction == null) throw new NullPointerException();
-        return new SearchValuesTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             searchFunction, new AtomicReference<U>()).invoke();
+    public <U> U sebrchVblues(long pbrbllelismThreshold,
+                              Function<? super V, ? extends U> sebrchFunction) {
+        if (sebrchFunction == null) throw new NullPointerException();
+        return new SebrchVbluesTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             sebrchFunction, new AtomicReference<U>()).invoke();
     }
 
     /**
-     * Returns the result of accumulating all values using the
-     * given reducer to combine values, or null if none.
+     * Returns the result of bccumulbting bll vblues using the
+     * given reducer to combine vblues, or null if none.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating all values
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting bll vblues
      * @since 1.8
      */
-    public V reduceValues(long parallelismThreshold,
+    public V reduceVblues(long pbrbllelismThreshold,
                           BiFunction<? super V, ? super V, ? extends V> reducer) {
         if (reducer == null) throw new NullPointerException();
-        return new ReduceValuesTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
+        return new ReduceVbluesTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
              null, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all values using the given reducer to combine values, or
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll vblues using the given reducer to combine vblues, or
      * null if none.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element, or null if there is no transformation (in
-     * which case it is not combined)
-     * @param reducer a commutative associative combining function
-     * @param <U> the return type of the transformer
-     * @return the result of accumulating the given transformation
-     * of all values
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element, or null if there is no trbnsformbtion (in
+     * which cbse it is not combined)
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @pbrbm <U> the return type of the trbnsformer
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll vblues
      * @since 1.8
      */
-    public <U> U reduceValues(long parallelismThreshold,
-                              Function<? super V, ? extends U> transformer,
+    public <U> U reduceVblues(long pbrbllelismThreshold,
+                              Function<? super V, ? extends U> trbnsformer,
                               BiFunction<? super U, ? super U, ? extends U> reducer) {
-        if (transformer == null || reducer == null)
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceValuesTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, reducer).invoke();
+        return new MbpReduceVbluesTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all values using the given reducer to combine values,
-     * and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll vblues using the given reducer to combine vblues,
+     * bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all values
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll vblues
      * @since 1.8
      */
-    public double reduceValuesToDouble(long parallelismThreshold,
-                                       ToDoubleFunction<? super V> transformer,
-                                       double basis,
-                                       DoubleBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public double reduceVbluesToDouble(long pbrbllelismThreshold,
+                                       ToDoubleFunction<? super V> trbnsformer,
+                                       double bbsis,
+                                       DoubleBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceValuesToDoubleTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceVbluesToDoubleTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all values using the given reducer to combine values,
-     * and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll vblues using the given reducer to combine vblues,
+     * bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all values
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll vblues
      * @since 1.8
      */
-    public long reduceValuesToLong(long parallelismThreshold,
-                                   ToLongFunction<? super V> transformer,
-                                   long basis,
-                                   LongBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public long reduceVbluesToLong(long pbrbllelismThreshold,
+                                   ToLongFunction<? super V> trbnsformer,
+                                   long bbsis,
+                                   LongBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceValuesToLongTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceVbluesToLongTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all values using the given reducer to combine values,
-     * and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll vblues using the given reducer to combine vblues,
+     * bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all values
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll vblues
      * @since 1.8
      */
-    public int reduceValuesToInt(long parallelismThreshold,
-                                 ToIntFunction<? super V> transformer,
-                                 int basis,
-                                 IntBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public int reduceVbluesToInt(long pbrbllelismThreshold,
+                                 ToIntFunction<? super V> trbnsformer,
+                                 int bbsis,
+                                 IntBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceValuesToIntTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceVbluesToIntTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Performs the given action for each entry.
+     * Performs the given bction for ebch entry.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param action the action
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm bction the bction
      * @since 1.8
      */
-    public void forEachEntry(long parallelismThreshold,
-                             Consumer<? super Map.Entry<K,V>> action) {
-        if (action == null) throw new NullPointerException();
-        new ForEachEntryTask<K,V>(null, batchFor(parallelismThreshold), 0, 0, table,
-                                  action).invoke();
+    public void forEbchEntry(long pbrbllelismThreshold,
+                             Consumer<? super Mbp.Entry<K,V>> bction) {
+        if (bction == null) throw new NullPointerException();
+        new ForEbchEntryTbsk<K,V>(null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+                                  bction).invoke();
     }
 
     /**
-     * Performs the given action for each non-null transformation
-     * of each entry.
+     * Performs the given bction for ebch non-null trbnsformbtion
+     * of ebch entry.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element, or null if there is no transformation (in
-     * which case the action is not applied)
-     * @param action the action
-     * @param <U> the return type of the transformer
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element, or null if there is no trbnsformbtion (in
+     * which cbse the bction is not bpplied)
+     * @pbrbm bction the bction
+     * @pbrbm <U> the return type of the trbnsformer
      * @since 1.8
      */
-    public <U> void forEachEntry(long parallelismThreshold,
-                                 Function<Map.Entry<K,V>, ? extends U> transformer,
-                                 Consumer<? super U> action) {
-        if (transformer == null || action == null)
+    public <U> void forEbchEntry(long pbrbllelismThreshold,
+                                 Function<Mbp.Entry<K,V>, ? extends U> trbnsformer,
+                                 Consumer<? super U> bction) {
+        if (trbnsformer == null || bction == null)
             throw new NullPointerException();
-        new ForEachTransformedEntryTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             transformer, action).invoke();
+        new ForEbchTrbnsformedEntryTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             trbnsformer, bction).invoke();
     }
 
     /**
-     * Returns a non-null result from applying the given search
-     * function on each entry, or null if none.  Upon success,
-     * further element processing is suppressed and the results of
-     * any other parallel invocations of the search function are
+     * Returns b non-null result from bpplying the given sebrch
+     * function on ebch entry, or null if none.  Upon success,
+     * further element processing is suppressed bnd the results of
+     * bny other pbrbllel invocbtions of the sebrch function bre
      * ignored.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param searchFunction a function returning a non-null
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm sebrchFunction b function returning b non-null
      * result on success, else null
-     * @param <U> the return type of the search function
-     * @return a non-null result from applying the given search
-     * function on each entry, or null if none
+     * @pbrbm <U> the return type of the sebrch function
+     * @return b non-null result from bpplying the given sebrch
+     * function on ebch entry, or null if none
      * @since 1.8
      */
-    public <U> U searchEntries(long parallelismThreshold,
-                               Function<Map.Entry<K,V>, ? extends U> searchFunction) {
-        if (searchFunction == null) throw new NullPointerException();
-        return new SearchEntriesTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             searchFunction, new AtomicReference<U>()).invoke();
+    public <U> U sebrchEntries(long pbrbllelismThreshold,
+                               Function<Mbp.Entry<K,V>, ? extends U> sebrchFunction) {
+        if (sebrchFunction == null) throw new NullPointerException();
+        return new SebrchEntriesTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             sebrchFunction, new AtomicReference<U>()).invoke();
     }
 
     /**
-     * Returns the result of accumulating all entries using the
-     * given reducer to combine values, or null if none.
+     * Returns the result of bccumulbting bll entries using the
+     * given reducer to combine vblues, or null if none.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating all entries
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting bll entries
      * @since 1.8
      */
-    public Map.Entry<K,V> reduceEntries(long parallelismThreshold,
-                                        BiFunction<Map.Entry<K,V>, Map.Entry<K,V>, ? extends Map.Entry<K,V>> reducer) {
+    public Mbp.Entry<K,V> reduceEntries(long pbrbllelismThreshold,
+                                        BiFunction<Mbp.Entry<K,V>, Mbp.Entry<K,V>, ? extends Mbp.Entry<K,V>> reducer) {
         if (reducer == null) throw new NullPointerException();
-        return new ReduceEntriesTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
+        return new ReduceEntriesTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
              null, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all entries using the given reducer to combine values,
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll entries using the given reducer to combine vblues,
      * or null if none.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element, or null if there is no transformation (in
-     * which case it is not combined)
-     * @param reducer a commutative associative combining function
-     * @param <U> the return type of the transformer
-     * @return the result of accumulating the given transformation
-     * of all entries
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element, or null if there is no trbnsformbtion (in
+     * which cbse it is not combined)
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @pbrbm <U> the return type of the trbnsformer
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll entries
      * @since 1.8
      */
-    public <U> U reduceEntries(long parallelismThreshold,
-                               Function<Map.Entry<K,V>, ? extends U> transformer,
+    public <U> U reduceEntries(long pbrbllelismThreshold,
+                               Function<Mbp.Entry<K,V>, ? extends U> trbnsformer,
                                BiFunction<? super U, ? super U, ? extends U> reducer) {
-        if (transformer == null || reducer == null)
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceEntriesTask<K,V,U>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, reducer).invoke();
+        return new MbpReduceEntriesTbsk<K,V,U>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all entries using the given reducer to combine values,
-     * and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll entries using the given reducer to combine vblues,
+     * bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all entries
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll entries
      * @since 1.8
      */
-    public double reduceEntriesToDouble(long parallelismThreshold,
-                                        ToDoubleFunction<Map.Entry<K,V>> transformer,
-                                        double basis,
-                                        DoubleBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public double reduceEntriesToDouble(long pbrbllelismThreshold,
+                                        ToDoubleFunction<Mbp.Entry<K,V>> trbnsformer,
+                                        double bbsis,
+                                        DoubleBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceEntriesToDoubleTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceEntriesToDoubleTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all entries using the given reducer to combine values,
-     * and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll entries using the given reducer to combine vblues,
+     * bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all entries
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll entries
      * @since 1.8
      */
-    public long reduceEntriesToLong(long parallelismThreshold,
-                                    ToLongFunction<Map.Entry<K,V>> transformer,
-                                    long basis,
-                                    LongBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public long reduceEntriesToLong(long pbrbllelismThreshold,
+                                    ToLongFunction<Mbp.Entry<K,V>> trbnsformer,
+                                    long bbsis,
+                                    LongBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceEntriesToLongTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceEntriesToLongTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
     /**
-     * Returns the result of accumulating the given transformation
-     * of all entries using the given reducer to combine values,
-     * and the given basis as an identity value.
+     * Returns the result of bccumulbting the given trbnsformbtion
+     * of bll entries using the given reducer to combine vblues,
+     * bnd the given bbsis bs bn identity vblue.
      *
-     * @param parallelismThreshold the (estimated) number of elements
-     * needed for this operation to be executed in parallel
-     * @param transformer a function returning the transformation
-     * for an element
-     * @param basis the identity (initial default value) for the reduction
-     * @param reducer a commutative associative combining function
-     * @return the result of accumulating the given transformation
-     * of all entries
+     * @pbrbm pbrbllelismThreshold the (estimbted) number of elements
+     * needed for this operbtion to be executed in pbrbllel
+     * @pbrbm trbnsformer b function returning the trbnsformbtion
+     * for bn element
+     * @pbrbm bbsis the identity (initibl defbult vblue) for the reduction
+     * @pbrbm reducer b commutbtive bssocibtive combining function
+     * @return the result of bccumulbting the given trbnsformbtion
+     * of bll entries
      * @since 1.8
      */
-    public int reduceEntriesToInt(long parallelismThreshold,
-                                  ToIntFunction<Map.Entry<K,V>> transformer,
-                                  int basis,
-                                  IntBinaryOperator reducer) {
-        if (transformer == null || reducer == null)
+    public int reduceEntriesToInt(long pbrbllelismThreshold,
+                                  ToIntFunction<Mbp.Entry<K,V>> trbnsformer,
+                                  int bbsis,
+                                  IntBinbryOperbtor reducer) {
+        if (trbnsformer == null || reducer == null)
             throw new NullPointerException();
-        return new MapReduceEntriesToIntTask<K,V>
-            (null, batchFor(parallelismThreshold), 0, 0, table,
-             null, transformer, basis, reducer).invoke();
+        return new MbpReduceEntriesToIntTbsk<K,V>
+            (null, bbtchFor(pbrbllelismThreshold), 0, 0, tbble,
+             null, trbnsformer, bbsis, reducer).invoke();
     }
 
 
     /* ----------------Views -------------- */
 
     /**
-     * Base class for views.
+     * Bbse clbss for views.
      */
-    abstract static class CollectionView<K,V,E>
-        implements Collection<E>, java.io.Serializable {
-        private static final long serialVersionUID = 7249069246763182397L;
-        final ConcurrentHashMap<K,V> map;
-        CollectionView(ConcurrentHashMap<K,V> map)  { this.map = map; }
+    bbstrbct stbtic clbss CollectionView<K,V,E>
+        implements Collection<E>, jbvb.io.Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 7249069246763182397L;
+        finbl ConcurrentHbshMbp<K,V> mbp;
+        CollectionView(ConcurrentHbshMbp<K,V> mbp)  { this.mbp = mbp; }
 
         /**
-         * Returns the map backing this view.
+         * Returns the mbp bbcking this view.
          *
-         * @return the map backing this view
+         * @return the mbp bbcking this view
          */
-        public ConcurrentHashMap<K,V> getMap() { return map; }
+        public ConcurrentHbshMbp<K,V> getMbp() { return mbp; }
 
         /**
-         * Removes all of the elements from this view, by removing all
-         * the mappings from the map backing this view.
+         * Removes bll of the elements from this view, by removing bll
+         * the mbppings from the mbp bbcking this view.
          */
-        public final void clear()      { map.clear(); }
-        public final int size()        { return map.size(); }
-        public final boolean isEmpty() { return map.isEmpty(); }
+        public finbl void clebr()      { mbp.clebr(); }
+        public finbl int size()        { return mbp.size(); }
+        public finbl boolebn isEmpty() { return mbp.isEmpty(); }
 
-        // implementations below rely on concrete classes supplying these
-        // abstract methods
+        // implementbtions below rely on concrete clbsses supplying these
+        // bbstrbct methods
         /**
-         * Returns an iterator over the elements in this collection.
+         * Returns bn iterbtor over the elements in this collection.
          *
-         * <p>The returned iterator is
-         * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+         * <p>The returned iterbtor is
+         * <b href="pbckbge-summbry.html#Webkly"><i>webkly consistent</i></b>.
          *
-         * @return an iterator over the elements in this collection
+         * @return bn iterbtor over the elements in this collection
          */
-        public abstract Iterator<E> iterator();
-        public abstract boolean contains(Object o);
-        public abstract boolean remove(Object o);
+        public bbstrbct Iterbtor<E> iterbtor();
+        public bbstrbct boolebn contbins(Object o);
+        public bbstrbct boolebn remove(Object o);
 
-        private static final String oomeMsg = "Required array size too large";
+        privbte stbtic finbl String oomeMsg = "Required brrby size too lbrge";
 
-        public final Object[] toArray() {
-            long sz = map.mappingCount();
+        public finbl Object[] toArrby() {
+            long sz = mbp.mbppingCount();
             if (sz > MAX_ARRAY_SIZE)
                 throw new OutOfMemoryError(oomeMsg);
             int n = (int)sz;
@@ -4422,22 +4422,22 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                         n = MAX_ARRAY_SIZE;
                     else
                         n += (n >>> 1) + 1;
-                    r = Arrays.copyOf(r, n);
+                    r = Arrbys.copyOf(r, n);
                 }
                 r[i++] = e;
             }
-            return (i == n) ? r : Arrays.copyOf(r, i);
+            return (i == n) ? r : Arrbys.copyOf(r, i);
         }
 
-        @SuppressWarnings("unchecked")
-        public final <T> T[] toArray(T[] a) {
-            long sz = map.mappingCount();
+        @SuppressWbrnings("unchecked")
+        public finbl <T> T[] toArrby(T[] b) {
+            long sz = mbp.mbppingCount();
             if (sz > MAX_ARRAY_SIZE)
                 throw new OutOfMemoryError(oomeMsg);
             int m = (int)sz;
-            T[] r = (a.length >= m) ? a :
-                (T[])java.lang.reflect.Array
-                .newInstance(a.getClass().getComponentType(), m);
+            T[] r = (b.length >= m) ? b :
+                (T[])jbvb.lbng.reflect.Arrby
+                .newInstbnce(b.getClbss().getComponentType(), m);
             int n = r.length;
             int i = 0;
             for (E e : this) {
@@ -4448,59 +4448,59 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                         n = MAX_ARRAY_SIZE;
                     else
                         n += (n >>> 1) + 1;
-                    r = Arrays.copyOf(r, n);
+                    r = Arrbys.copyOf(r, n);
                 }
                 r[i++] = (T)e;
             }
-            if (a == r && i < n) {
-                r[i] = null; // null-terminate
+            if (b == r && i < n) {
+                r[i] = null; // null-terminbte
                 return r;
             }
-            return (i == n) ? r : Arrays.copyOf(r, i);
+            return (i == n) ? r : Arrbys.copyOf(r, i);
         }
 
         /**
-         * Returns a string representation of this collection.
-         * The string representation consists of the string representations
-         * of the collection's elements in the order they are returned by
-         * its iterator, enclosed in square brackets ({@code "[]"}).
-         * Adjacent elements are separated by the characters {@code ", "}
-         * (comma and space).  Elements are converted to strings as by
-         * {@link String#valueOf(Object)}.
+         * Returns b string representbtion of this collection.
+         * The string representbtion consists of the string representbtions
+         * of the collection's elements in the order they bre returned by
+         * its iterbtor, enclosed in squbre brbckets ({@code "[]"}).
+         * Adjbcent elements bre sepbrbted by the chbrbcters {@code ", "}
+         * (commb bnd spbce).  Elements bre converted to strings bs by
+         * {@link String#vblueOf(Object)}.
          *
-         * @return a string representation of this collection
+         * @return b string representbtion of this collection
          */
-        public final String toString() {
+        public finbl String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append('[');
-            Iterator<E> it = iterator();
-            if (it.hasNext()) {
+            sb.bppend('[');
+            Iterbtor<E> it = iterbtor();
+            if (it.hbsNext()) {
                 for (;;) {
                     Object e = it.next();
-                    sb.append(e == this ? "(this Collection)" : e);
-                    if (!it.hasNext())
-                        break;
-                    sb.append(',').append(' ');
+                    sb.bppend(e == this ? "(this Collection)" : e);
+                    if (!it.hbsNext())
+                        brebk;
+                    sb.bppend(',').bppend(' ');
                 }
             }
-            return sb.append(']').toString();
+            return sb.bppend(']').toString();
         }
 
-        public final boolean containsAll(Collection<?> c) {
+        public finbl boolebn contbinsAll(Collection<?> c) {
             if (c != this) {
                 for (Object e : c) {
-                    if (e == null || !contains(e))
-                        return false;
+                    if (e == null || !contbins(e))
+                        return fblse;
                 }
             }
             return true;
         }
 
-        public final boolean removeAll(Collection<?> c) {
+        public finbl boolebn removeAll(Collection<?> c) {
             if (c == null) throw new NullPointerException();
-            boolean modified = false;
-            for (Iterator<E> it = iterator(); it.hasNext();) {
-                if (c.contains(it.next())) {
+            boolebn modified = fblse;
+            for (Iterbtor<E> it = iterbtor(); it.hbsNext();) {
+                if (c.contbins(it.next())) {
                     it.remove();
                     modified = true;
                 }
@@ -4508,11 +4508,11 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             return modified;
         }
 
-        public final boolean retainAll(Collection<?> c) {
+        public finbl boolebn retbinAll(Collection<?> c) {
             if (c == null) throw new NullPointerException();
-            boolean modified = false;
-            for (Iterator<E> it = iterator(); it.hasNext();) {
-                if (!c.contains(it.next())) {
+            boolebn modified = fblse;
+            for (Iterbtor<E> it = iterbtor(); it.hbsNext();) {
+                if (!c.contbins(it.next())) {
                     it.remove();
                     modified = true;
                 }
@@ -4523,9 +4523,9 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * A view of a ConcurrentHashMap as a {@link Set} of keys, in
-     * which additions may optionally be enabled by mapping to a
-     * common value.  This class cannot be directly instantiated.
+     * A view of b ConcurrentHbshMbp bs b {@link Set} of keys, in
+     * which bdditions mby optionblly be enbbled by mbpping to b
+     * common vblue.  This clbss cbnnot be directly instbntibted.
      * See {@link #keySet() keySet()},
      * {@link #keySet(Object) keySet(V)},
      * {@link #newKeySet() newKeySet()},
@@ -4533,266 +4533,266 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
      *
      * @since 1.8
      */
-    public static class KeySetView<K,V> extends CollectionView<K,V,K>
-        implements Set<K>, java.io.Serializable {
-        private static final long serialVersionUID = 7249069246763182397L;
-        private final V value;
-        KeySetView(ConcurrentHashMap<K,V> map, V value) {  // non-public
-            super(map);
-            this.value = value;
+    public stbtic clbss KeySetView<K,V> extends CollectionView<K,V,K>
+        implements Set<K>, jbvb.io.Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 7249069246763182397L;
+        privbte finbl V vblue;
+        KeySetView(ConcurrentHbshMbp<K,V> mbp, V vblue) {  // non-public
+            super(mbp);
+            this.vblue = vblue;
         }
 
         /**
-         * Returns the default mapped value for additions,
-         * or {@code null} if additions are not supported.
+         * Returns the defbult mbpped vblue for bdditions,
+         * or {@code null} if bdditions bre not supported.
          *
-         * @return the default mapped value for additions, or {@code null}
+         * @return the defbult mbpped vblue for bdditions, or {@code null}
          * if not supported
          */
-        public V getMappedValue() { return value; }
+        public V getMbppedVblue() { return vblue; }
 
         /**
          * {@inheritDoc}
          * @throws NullPointerException if the specified key is null
          */
-        public boolean contains(Object o) { return map.containsKey(o); }
+        public boolebn contbins(Object o) { return mbp.contbinsKey(o); }
 
         /**
-         * Removes the key from this map view, by removing the key (and its
-         * corresponding value) from the backing map.  This method does
-         * nothing if the key is not in the map.
+         * Removes the key from this mbp view, by removing the key (bnd its
+         * corresponding vblue) from the bbcking mbp.  This method does
+         * nothing if the key is not in the mbp.
          *
-         * @param  o the key to be removed from the backing map
-         * @return {@code true} if the backing map contained the specified key
+         * @pbrbm  o the key to be removed from the bbcking mbp
+         * @return {@code true} if the bbcking mbp contbined the specified key
          * @throws NullPointerException if the specified key is null
          */
-        public boolean remove(Object o) { return map.remove(o) != null; }
+        public boolebn remove(Object o) { return mbp.remove(o) != null; }
 
         /**
-         * @return an iterator over the keys of the backing map
+         * @return bn iterbtor over the keys of the bbcking mbp
          */
-        public Iterator<K> iterator() {
+        public Iterbtor<K> iterbtor() {
             Node<K,V>[] t;
-            ConcurrentHashMap<K,V> m = map;
-            int f = (t = m.table) == null ? 0 : t.length;
-            return new KeyIterator<K,V>(t, f, 0, f, m);
+            ConcurrentHbshMbp<K,V> m = mbp;
+            int f = (t = m.tbble) == null ? 0 : t.length;
+            return new KeyIterbtor<K,V>(t, f, 0, f, m);
         }
 
         /**
-         * Adds the specified key to this set view by mapping the key to
-         * the default mapped value in the backing map, if defined.
+         * Adds the specified key to this set view by mbpping the key to
+         * the defbult mbpped vblue in the bbcking mbp, if defined.
          *
-         * @param e key to be added
-         * @return {@code true} if this set changed as a result of the call
+         * @pbrbm e key to be bdded
+         * @return {@code true} if this set chbnged bs b result of the cbll
          * @throws NullPointerException if the specified key is null
-         * @throws UnsupportedOperationException if no default mapped value
-         * for additions was provided
+         * @throws UnsupportedOperbtionException if no defbult mbpped vblue
+         * for bdditions wbs provided
          */
-        public boolean add(K e) {
+        public boolebn bdd(K e) {
             V v;
-            if ((v = value) == null)
-                throw new UnsupportedOperationException();
-            return map.putVal(e, v, true) == null;
+            if ((v = vblue) == null)
+                throw new UnsupportedOperbtionException();
+            return mbp.putVbl(e, v, true) == null;
         }
 
         /**
-         * Adds all of the elements in the specified collection to this set,
-         * as if by calling {@link #add} on each one.
+         * Adds bll of the elements in the specified collection to this set,
+         * bs if by cblling {@link #bdd} on ebch one.
          *
-         * @param c the elements to be inserted into this set
-         * @return {@code true} if this set changed as a result of the call
-         * @throws NullPointerException if the collection or any of its
-         * elements are {@code null}
-         * @throws UnsupportedOperationException if no default mapped value
-         * for additions was provided
+         * @pbrbm c the elements to be inserted into this set
+         * @return {@code true} if this set chbnged bs b result of the cbll
+         * @throws NullPointerException if the collection or bny of its
+         * elements bre {@code null}
+         * @throws UnsupportedOperbtionException if no defbult mbpped vblue
+         * for bdditions wbs provided
          */
-        public boolean addAll(Collection<? extends K> c) {
-            boolean added = false;
+        public boolebn bddAll(Collection<? extends K> c) {
+            boolebn bdded = fblse;
             V v;
-            if ((v = value) == null)
-                throw new UnsupportedOperationException();
+            if ((v = vblue) == null)
+                throw new UnsupportedOperbtionException();
             for (K e : c) {
-                if (map.putVal(e, v, true) == null)
-                    added = true;
+                if (mbp.putVbl(e, v, true) == null)
+                    bdded = true;
             }
-            return added;
+            return bdded;
         }
 
-        public int hashCode() {
+        public int hbshCode() {
             int h = 0;
             for (K e : this)
-                h += e.hashCode();
+                h += e.hbshCode();
             return h;
         }
 
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             Set<?> c;
-            return ((o instanceof Set) &&
+            return ((o instbnceof Set) &&
                     ((c = (Set<?>)o) == this ||
-                     (containsAll(c) && c.containsAll(this))));
+                     (contbinsAll(c) && c.contbinsAll(this))));
         }
 
-        public Spliterator<K> spliterator() {
+        public Spliterbtor<K> spliterbtor() {
             Node<K,V>[] t;
-            ConcurrentHashMap<K,V> m = map;
+            ConcurrentHbshMbp<K,V> m = mbp;
             long n = m.sumCount();
-            int f = (t = m.table) == null ? 0 : t.length;
-            return new KeySpliterator<K,V>(t, f, 0, f, n < 0L ? 0L : n);
+            int f = (t = m.tbble) == null ? 0 : t.length;
+            return new KeySpliterbtor<K,V>(t, f, 0, f, n < 0L ? 0L : n);
         }
 
-        public void forEach(Consumer<? super K> action) {
-            if (action == null) throw new NullPointerException();
+        public void forEbch(Consumer<? super K> bction) {
+            if (bction == null) throw new NullPointerException();
             Node<K,V>[] t;
-            if ((t = map.table) != null) {
-                Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-                for (Node<K,V> p; (p = it.advance()) != null; )
-                    action.accept(p.key);
+            if ((t = mbp.tbble) != null) {
+                Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+                for (Node<K,V> p; (p = it.bdvbnce()) != null; )
+                    bction.bccept(p.key);
             }
         }
     }
 
     /**
-     * A view of a ConcurrentHashMap as a {@link Collection} of
-     * values, in which additions are disabled. This class cannot be
-     * directly instantiated. See {@link #values()}.
+     * A view of b ConcurrentHbshMbp bs b {@link Collection} of
+     * vblues, in which bdditions bre disbbled. This clbss cbnnot be
+     * directly instbntibted. See {@link #vblues()}.
      */
-    static final class ValuesView<K,V> extends CollectionView<K,V,V>
-        implements Collection<V>, java.io.Serializable {
-        private static final long serialVersionUID = 2249069246763182397L;
-        ValuesView(ConcurrentHashMap<K,V> map) { super(map); }
-        public final boolean contains(Object o) {
-            return map.containsValue(o);
+    stbtic finbl clbss VbluesView<K,V> extends CollectionView<K,V,V>
+        implements Collection<V>, jbvb.io.Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 2249069246763182397L;
+        VbluesView(ConcurrentHbshMbp<K,V> mbp) { super(mbp); }
+        public finbl boolebn contbins(Object o) {
+            return mbp.contbinsVblue(o);
         }
 
-        public final boolean remove(Object o) {
+        public finbl boolebn remove(Object o) {
             if (o != null) {
-                for (Iterator<V> it = iterator(); it.hasNext();) {
-                    if (o.equals(it.next())) {
+                for (Iterbtor<V> it = iterbtor(); it.hbsNext();) {
+                    if (o.equbls(it.next())) {
                         it.remove();
                         return true;
                     }
                 }
             }
-            return false;
+            return fblse;
         }
 
-        public final Iterator<V> iterator() {
-            ConcurrentHashMap<K,V> m = map;
+        public finbl Iterbtor<V> iterbtor() {
+            ConcurrentHbshMbp<K,V> m = mbp;
             Node<K,V>[] t;
-            int f = (t = m.table) == null ? 0 : t.length;
-            return new ValueIterator<K,V>(t, f, 0, f, m);
+            int f = (t = m.tbble) == null ? 0 : t.length;
+            return new VblueIterbtor<K,V>(t, f, 0, f, m);
         }
 
-        public final boolean add(V e) {
-            throw new UnsupportedOperationException();
+        public finbl boolebn bdd(V e) {
+            throw new UnsupportedOperbtionException();
         }
-        public final boolean addAll(Collection<? extends V> c) {
-            throw new UnsupportedOperationException();
+        public finbl boolebn bddAll(Collection<? extends V> c) {
+            throw new UnsupportedOperbtionException();
         }
 
-        public Spliterator<V> spliterator() {
+        public Spliterbtor<V> spliterbtor() {
             Node<K,V>[] t;
-            ConcurrentHashMap<K,V> m = map;
+            ConcurrentHbshMbp<K,V> m = mbp;
             long n = m.sumCount();
-            int f = (t = m.table) == null ? 0 : t.length;
-            return new ValueSpliterator<K,V>(t, f, 0, f, n < 0L ? 0L : n);
+            int f = (t = m.tbble) == null ? 0 : t.length;
+            return new VblueSpliterbtor<K,V>(t, f, 0, f, n < 0L ? 0L : n);
         }
 
-        public void forEach(Consumer<? super V> action) {
-            if (action == null) throw new NullPointerException();
+        public void forEbch(Consumer<? super V> bction) {
+            if (bction == null) throw new NullPointerException();
             Node<K,V>[] t;
-            if ((t = map.table) != null) {
-                Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-                for (Node<K,V> p; (p = it.advance()) != null; )
-                    action.accept(p.val);
+            if ((t = mbp.tbble) != null) {
+                Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+                for (Node<K,V> p; (p = it.bdvbnce()) != null; )
+                    bction.bccept(p.vbl);
             }
         }
     }
 
     /**
-     * A view of a ConcurrentHashMap as a {@link Set} of (key, value)
-     * entries.  This class cannot be directly instantiated. See
+     * A view of b ConcurrentHbshMbp bs b {@link Set} of (key, vblue)
+     * entries.  This clbss cbnnot be directly instbntibted. See
      * {@link #entrySet()}.
      */
-    static final class EntrySetView<K,V> extends CollectionView<K,V,Map.Entry<K,V>>
-        implements Set<Map.Entry<K,V>>, java.io.Serializable {
-        private static final long serialVersionUID = 2249069246763182397L;
-        EntrySetView(ConcurrentHashMap<K,V> map) { super(map); }
+    stbtic finbl clbss EntrySetView<K,V> extends CollectionView<K,V,Mbp.Entry<K,V>>
+        implements Set<Mbp.Entry<K,V>>, jbvb.io.Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 2249069246763182397L;
+        EntrySetView(ConcurrentHbshMbp<K,V> mbp) { super(mbp); }
 
-        public boolean contains(Object o) {
-            Object k, v, r; Map.Entry<?,?> e;
-            return ((o instanceof Map.Entry) &&
-                    (k = (e = (Map.Entry<?,?>)o).getKey()) != null &&
-                    (r = map.get(k)) != null &&
-                    (v = e.getValue()) != null &&
-                    (v == r || v.equals(r)));
+        public boolebn contbins(Object o) {
+            Object k, v, r; Mbp.Entry<?,?> e;
+            return ((o instbnceof Mbp.Entry) &&
+                    (k = (e = (Mbp.Entry<?,?>)o).getKey()) != null &&
+                    (r = mbp.get(k)) != null &&
+                    (v = e.getVblue()) != null &&
+                    (v == r || v.equbls(r)));
         }
 
-        public boolean remove(Object o) {
-            Object k, v; Map.Entry<?,?> e;
-            return ((o instanceof Map.Entry) &&
-                    (k = (e = (Map.Entry<?,?>)o).getKey()) != null &&
-                    (v = e.getValue()) != null &&
-                    map.remove(k, v));
+        public boolebn remove(Object o) {
+            Object k, v; Mbp.Entry<?,?> e;
+            return ((o instbnceof Mbp.Entry) &&
+                    (k = (e = (Mbp.Entry<?,?>)o).getKey()) != null &&
+                    (v = e.getVblue()) != null &&
+                    mbp.remove(k, v));
         }
 
         /**
-         * @return an iterator over the entries of the backing map
+         * @return bn iterbtor over the entries of the bbcking mbp
          */
-        public Iterator<Map.Entry<K,V>> iterator() {
-            ConcurrentHashMap<K,V> m = map;
+        public Iterbtor<Mbp.Entry<K,V>> iterbtor() {
+            ConcurrentHbshMbp<K,V> m = mbp;
             Node<K,V>[] t;
-            int f = (t = m.table) == null ? 0 : t.length;
-            return new EntryIterator<K,V>(t, f, 0, f, m);
+            int f = (t = m.tbble) == null ? 0 : t.length;
+            return new EntryIterbtor<K,V>(t, f, 0, f, m);
         }
 
-        public boolean add(Entry<K,V> e) {
-            return map.putVal(e.getKey(), e.getValue(), false) == null;
+        public boolebn bdd(Entry<K,V> e) {
+            return mbp.putVbl(e.getKey(), e.getVblue(), fblse) == null;
         }
 
-        public boolean addAll(Collection<? extends Entry<K,V>> c) {
-            boolean added = false;
+        public boolebn bddAll(Collection<? extends Entry<K,V>> c) {
+            boolebn bdded = fblse;
             for (Entry<K,V> e : c) {
-                if (add(e))
-                    added = true;
+                if (bdd(e))
+                    bdded = true;
             }
-            return added;
+            return bdded;
         }
 
-        public final int hashCode() {
+        public finbl int hbshCode() {
             int h = 0;
             Node<K,V>[] t;
-            if ((t = map.table) != null) {
-                Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-                for (Node<K,V> p; (p = it.advance()) != null; ) {
-                    h += p.hashCode();
+            if ((t = mbp.tbble) != null) {
+                Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+                for (Node<K,V> p; (p = it.bdvbnce()) != null; ) {
+                    h += p.hbshCode();
                 }
             }
             return h;
         }
 
-        public final boolean equals(Object o) {
+        public finbl boolebn equbls(Object o) {
             Set<?> c;
-            return ((o instanceof Set) &&
+            return ((o instbnceof Set) &&
                     ((c = (Set<?>)o) == this ||
-                     (containsAll(c) && c.containsAll(this))));
+                     (contbinsAll(c) && c.contbinsAll(this))));
         }
 
-        public Spliterator<Map.Entry<K,V>> spliterator() {
+        public Spliterbtor<Mbp.Entry<K,V>> spliterbtor() {
             Node<K,V>[] t;
-            ConcurrentHashMap<K,V> m = map;
+            ConcurrentHbshMbp<K,V> m = mbp;
             long n = m.sumCount();
-            int f = (t = m.table) == null ? 0 : t.length;
-            return new EntrySpliterator<K,V>(t, f, 0, f, n < 0L ? 0L : n, m);
+            int f = (t = m.tbble) == null ? 0 : t.length;
+            return new EntrySpliterbtor<K,V>(t, f, 0, f, n < 0L ? 0L : n, m);
         }
 
-        public void forEach(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null) throw new NullPointerException();
+        public void forEbch(Consumer<? super Mbp.Entry<K,V>> bction) {
+            if (bction == null) throw new NullPointerException();
             Node<K,V>[] t;
-            if ((t = map.table) != null) {
-                Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
-                for (Node<K,V> p; (p = it.advance()) != null; )
-                    action.accept(new MapEntry<K,V>(p.key, p.val, map));
+            if ((t = mbp.tbble) != null) {
+                Trbverser<K,V> it = new Trbverser<K,V>(t, t.length, 0, t.length);
+                for (Node<K,V> p; (p = it.bdvbnce()) != null; )
+                    bction.bccept(new MbpEntry<K,V>(p.key, p.vbl, mbp));
             }
         }
 
@@ -4801,38 +4801,38 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     // -------------------------------------------------------
 
     /**
-     * Base class for bulk tasks. Repeats some fields and code from
-     * class Traverser, because we need to subclass CountedCompleter.
+     * Bbse clbss for bulk tbsks. Repebts some fields bnd code from
+     * clbss Trbverser, becbuse we need to subclbss CountedCompleter.
      */
-    @SuppressWarnings("serial")
-    abstract static class BulkTask<K,V,R> extends CountedCompleter<R> {
-        Node<K,V>[] tab;        // same as Traverser
+    @SuppressWbrnings("seribl")
+    bbstrbct stbtic clbss BulkTbsk<K,V,R> extends CountedCompleter<R> {
+        Node<K,V>[] tbb;        // sbme bs Trbverser
         Node<K,V> next;
-        TableStack<K,V> stack, spare;
+        TbbleStbck<K,V> stbck, spbre;
         int index;
-        int baseIndex;
-        int baseLimit;
-        final int baseSize;
-        int batch;              // split control
+        int bbseIndex;
+        int bbseLimit;
+        finbl int bbseSize;
+        int bbtch;              // split control
 
-        BulkTask(BulkTask<K,V,?> par, int b, int i, int f, Node<K,V>[] t) {
-            super(par);
-            this.batch = b;
-            this.index = this.baseIndex = i;
-            if ((this.tab = t) == null)
-                this.baseSize = this.baseLimit = 0;
-            else if (par == null)
-                this.baseSize = this.baseLimit = t.length;
+        BulkTbsk(BulkTbsk<K,V,?> pbr, int b, int i, int f, Node<K,V>[] t) {
+            super(pbr);
+            this.bbtch = b;
+            this.index = this.bbseIndex = i;
+            if ((this.tbb = t) == null)
+                this.bbseSize = this.bbseLimit = 0;
+            else if (pbr == null)
+                this.bbseSize = this.bbseLimit = t.length;
             else {
-                this.baseLimit = f;
-                this.baseSize = par.baseSize;
+                this.bbseLimit = f;
+                this.bbseSize = pbr.bbseSize;
             }
         }
 
         /**
-         * Same as Traverser version
+         * Sbme bs Trbverser version
          */
-        final Node<K,V> advance() {
+        finbl Node<K,V> bdvbnce() {
             Node<K,V> e;
             if ((e = next) != null)
                 e = e.next;
@@ -4840,430 +4840,430 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 Node<K,V>[] t; int i, n;
                 if (e != null)
                     return next = e;
-                if (baseIndex >= baseLimit || (t = tab) == null ||
+                if (bbseIndex >= bbseLimit || (t = tbb) == null ||
                     (n = t.length) <= (i = index) || i < 0)
                     return next = null;
-                if ((e = tabAt(t, i)) != null && e.hash < 0) {
-                    if (e instanceof ForwardingNode) {
-                        tab = ((ForwardingNode<K,V>)e).nextTable;
+                if ((e = tbbAt(t, i)) != null && e.hbsh < 0) {
+                    if (e instbnceof ForwbrdingNode) {
+                        tbb = ((ForwbrdingNode<K,V>)e).nextTbble;
                         e = null;
-                        pushState(t, i, n);
+                        pushStbte(t, i, n);
                         continue;
                     }
-                    else if (e instanceof TreeBin)
+                    else if (e instbnceof TreeBin)
                         e = ((TreeBin<K,V>)e).first;
                     else
                         e = null;
                 }
-                if (stack != null)
-                    recoverState(n);
-                else if ((index = i + baseSize) >= n)
-                    index = ++baseIndex;
+                if (stbck != null)
+                    recoverStbte(n);
+                else if ((index = i + bbseSize) >= n)
+                    index = ++bbseIndex;
             }
         }
 
-        private void pushState(Node<K,V>[] t, int i, int n) {
-            TableStack<K,V> s = spare;
+        privbte void pushStbte(Node<K,V>[] t, int i, int n) {
+            TbbleStbck<K,V> s = spbre;
             if (s != null)
-                spare = s.next;
+                spbre = s.next;
             else
-                s = new TableStack<K,V>();
-            s.tab = t;
+                s = new TbbleStbck<K,V>();
+            s.tbb = t;
             s.length = n;
             s.index = i;
-            s.next = stack;
-            stack = s;
+            s.next = stbck;
+            stbck = s;
         }
 
-        private void recoverState(int n) {
-            TableStack<K,V> s; int len;
-            while ((s = stack) != null && (index += (len = s.length)) >= n) {
+        privbte void recoverStbte(int n) {
+            TbbleStbck<K,V> s; int len;
+            while ((s = stbck) != null && (index += (len = s.length)) >= n) {
                 n = len;
                 index = s.index;
-                tab = s.tab;
-                s.tab = null;
-                TableStack<K,V> next = s.next;
-                s.next = spare; // save for reuse
-                stack = next;
-                spare = s;
+                tbb = s.tbb;
+                s.tbb = null;
+                TbbleStbck<K,V> next = s.next;
+                s.next = spbre; // sbve for reuse
+                stbck = next;
+                spbre = s;
             }
-            if (s == null && (index += baseSize) >= n)
-                index = ++baseIndex;
+            if (s == null && (index += bbseSize) >= n)
+                index = ++bbseIndex;
         }
     }
 
     /*
-     * Task classes. Coded in a regular but ugly format/style to
-     * simplify checks that each variant differs in the right way from
-     * others. The null screenings exist because compilers cannot tell
-     * that we've already null-checked task arguments, so we force
-     * simplest hoisted bypass to help avoid convoluted traps.
+     * Tbsk clbsses. Coded in b regulbr but ugly formbt/style to
+     * simplify checks thbt ebch vbribnt differs in the right wby from
+     * others. The null screenings exist becbuse compilers cbnnot tell
+     * thbt we've blrebdy null-checked tbsk brguments, so we force
+     * simplest hoisted bypbss to help bvoid convoluted trbps.
      */
-    @SuppressWarnings("serial")
-    static final class ForEachKeyTask<K,V>
-        extends BulkTask<K,V,Void> {
-        final Consumer<? super K> action;
-        ForEachKeyTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Consumer<? super K> action) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchKeyTbsk<K,V>
+        extends BulkTbsk<K,V,Void> {
+        finbl Consumer<? super K> bction;
+        ForEbchKeyTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Consumer<? super K> bction) {
             super(p, b, i, f, t);
-            this.action = action;
+            this.bction = bction;
         }
-        public final void compute() {
-            final Consumer<? super K> action;
-            if ((action = this.action) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    new ForEachKeyTask<K,V>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         action).fork();
+        public finbl void compute() {
+            finbl Consumer<? super K> bction;
+            if ((bction = this.bction) != null) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    new ForEbchKeyTbsk<K,V>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         bction).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null;)
-                    action.accept(p.key);
-                propagateCompletion();
+                for (Node<K,V> p; (p = bdvbnce()) != null;)
+                    bction.bccept(p.key);
+                propbgbteCompletion();
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ForEachValueTask<K,V>
-        extends BulkTask<K,V,Void> {
-        final Consumer<? super V> action;
-        ForEachValueTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Consumer<? super V> action) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchVblueTbsk<K,V>
+        extends BulkTbsk<K,V,Void> {
+        finbl Consumer<? super V> bction;
+        ForEbchVblueTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Consumer<? super V> bction) {
             super(p, b, i, f, t);
-            this.action = action;
+            this.bction = bction;
         }
-        public final void compute() {
-            final Consumer<? super V> action;
-            if ((action = this.action) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    new ForEachValueTask<K,V>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         action).fork();
+        public finbl void compute() {
+            finbl Consumer<? super V> bction;
+            if ((bction = this.bction) != null) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    new ForEbchVblueTbsk<K,V>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         bction).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null;)
-                    action.accept(p.val);
-                propagateCompletion();
+                for (Node<K,V> p; (p = bdvbnce()) != null;)
+                    bction.bccept(p.vbl);
+                propbgbteCompletion();
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ForEachEntryTask<K,V>
-        extends BulkTask<K,V,Void> {
-        final Consumer<? super Entry<K,V>> action;
-        ForEachEntryTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Consumer<? super Entry<K,V>> action) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchEntryTbsk<K,V>
+        extends BulkTbsk<K,V,Void> {
+        finbl Consumer<? super Entry<K,V>> bction;
+        ForEbchEntryTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Consumer<? super Entry<K,V>> bction) {
             super(p, b, i, f, t);
-            this.action = action;
+            this.bction = bction;
         }
-        public final void compute() {
-            final Consumer<? super Entry<K,V>> action;
-            if ((action = this.action) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    new ForEachEntryTask<K,V>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         action).fork();
+        public finbl void compute() {
+            finbl Consumer<? super Entry<K,V>> bction;
+            if ((bction = this.bction) != null) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    new ForEbchEntryTbsk<K,V>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         bction).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    action.accept(p);
-                propagateCompletion();
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    bction.bccept(p);
+                propbgbteCompletion();
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ForEachMappingTask<K,V>
-        extends BulkTask<K,V,Void> {
-        final BiConsumer<? super K, ? super V> action;
-        ForEachMappingTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             BiConsumer<? super K,? super V> action) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchMbppingTbsk<K,V>
+        extends BulkTbsk<K,V,Void> {
+        finbl BiConsumer<? super K, ? super V> bction;
+        ForEbchMbppingTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             BiConsumer<? super K,? super V> bction) {
             super(p, b, i, f, t);
-            this.action = action;
+            this.bction = bction;
         }
-        public final void compute() {
-            final BiConsumer<? super K, ? super V> action;
-            if ((action = this.action) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    new ForEachMappingTask<K,V>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         action).fork();
+        public finbl void compute() {
+            finbl BiConsumer<? super K, ? super V> bction;
+            if ((bction = this.bction) != null) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    new ForEbchMbppingTbsk<K,V>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         bction).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    action.accept(p.key, p.val);
-                propagateCompletion();
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    bction.bccept(p.key, p.vbl);
+                propbgbteCompletion();
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ForEachTransformedKeyTask<K,V,U>
-        extends BulkTask<K,V,Void> {
-        final Function<? super K, ? extends U> transformer;
-        final Consumer<? super U> action;
-        ForEachTransformedKeyTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Function<? super K, ? extends U> transformer, Consumer<? super U> action) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchTrbnsformedKeyTbsk<K,V,U>
+        extends BulkTbsk<K,V,Void> {
+        finbl Function<? super K, ? extends U> trbnsformer;
+        finbl Consumer<? super U> bction;
+        ForEbchTrbnsformedKeyTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Function<? super K, ? extends U> trbnsformer, Consumer<? super U> bction) {
             super(p, b, i, f, t);
-            this.transformer = transformer; this.action = action;
+            this.trbnsformer = trbnsformer; this.bction = bction;
         }
-        public final void compute() {
-            final Function<? super K, ? extends U> transformer;
-            final Consumer<? super U> action;
-            if ((transformer = this.transformer) != null &&
-                (action = this.action) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    new ForEachTransformedKeyTask<K,V,U>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         transformer, action).fork();
+        public finbl void compute() {
+            finbl Function<? super K, ? extends U> trbnsformer;
+            finbl Consumer<? super U> bction;
+            if ((trbnsformer = this.trbnsformer) != null &&
+                (bction = this.bction) != null) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    new ForEbchTrbnsformedKeyTbsk<K,V,U>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         trbnsformer, bction).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     U u;
-                    if ((u = transformer.apply(p.key)) != null)
-                        action.accept(u);
+                    if ((u = trbnsformer.bpply(p.key)) != null)
+                        bction.bccept(u);
                 }
-                propagateCompletion();
+                propbgbteCompletion();
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ForEachTransformedValueTask<K,V,U>
-        extends BulkTask<K,V,Void> {
-        final Function<? super V, ? extends U> transformer;
-        final Consumer<? super U> action;
-        ForEachTransformedValueTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Function<? super V, ? extends U> transformer, Consumer<? super U> action) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchTrbnsformedVblueTbsk<K,V,U>
+        extends BulkTbsk<K,V,Void> {
+        finbl Function<? super V, ? extends U> trbnsformer;
+        finbl Consumer<? super U> bction;
+        ForEbchTrbnsformedVblueTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Function<? super V, ? extends U> trbnsformer, Consumer<? super U> bction) {
             super(p, b, i, f, t);
-            this.transformer = transformer; this.action = action;
+            this.trbnsformer = trbnsformer; this.bction = bction;
         }
-        public final void compute() {
-            final Function<? super V, ? extends U> transformer;
-            final Consumer<? super U> action;
-            if ((transformer = this.transformer) != null &&
-                (action = this.action) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    new ForEachTransformedValueTask<K,V,U>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         transformer, action).fork();
+        public finbl void compute() {
+            finbl Function<? super V, ? extends U> trbnsformer;
+            finbl Consumer<? super U> bction;
+            if ((trbnsformer = this.trbnsformer) != null &&
+                (bction = this.bction) != null) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    new ForEbchTrbnsformedVblueTbsk<K,V,U>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         trbnsformer, bction).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     U u;
-                    if ((u = transformer.apply(p.val)) != null)
-                        action.accept(u);
+                    if ((u = trbnsformer.bpply(p.vbl)) != null)
+                        bction.bccept(u);
                 }
-                propagateCompletion();
+                propbgbteCompletion();
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ForEachTransformedEntryTask<K,V,U>
-        extends BulkTask<K,V,Void> {
-        final Function<Map.Entry<K,V>, ? extends U> transformer;
-        final Consumer<? super U> action;
-        ForEachTransformedEntryTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Function<Map.Entry<K,V>, ? extends U> transformer, Consumer<? super U> action) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchTrbnsformedEntryTbsk<K,V,U>
+        extends BulkTbsk<K,V,Void> {
+        finbl Function<Mbp.Entry<K,V>, ? extends U> trbnsformer;
+        finbl Consumer<? super U> bction;
+        ForEbchTrbnsformedEntryTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Function<Mbp.Entry<K,V>, ? extends U> trbnsformer, Consumer<? super U> bction) {
             super(p, b, i, f, t);
-            this.transformer = transformer; this.action = action;
+            this.trbnsformer = trbnsformer; this.bction = bction;
         }
-        public final void compute() {
-            final Function<Map.Entry<K,V>, ? extends U> transformer;
-            final Consumer<? super U> action;
-            if ((transformer = this.transformer) != null &&
-                (action = this.action) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    new ForEachTransformedEntryTask<K,V,U>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         transformer, action).fork();
+        public finbl void compute() {
+            finbl Function<Mbp.Entry<K,V>, ? extends U> trbnsformer;
+            finbl Consumer<? super U> bction;
+            if ((trbnsformer = this.trbnsformer) != null &&
+                (bction = this.bction) != null) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    new ForEbchTrbnsformedEntryTbsk<K,V,U>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         trbnsformer, bction).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     U u;
-                    if ((u = transformer.apply(p)) != null)
-                        action.accept(u);
+                    if ((u = trbnsformer.bpply(p)) != null)
+                        bction.bccept(u);
                 }
-                propagateCompletion();
+                propbgbteCompletion();
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ForEachTransformedMappingTask<K,V,U>
-        extends BulkTask<K,V,Void> {
-        final BiFunction<? super K, ? super V, ? extends U> transformer;
-        final Consumer<? super U> action;
-        ForEachTransformedMappingTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             BiFunction<? super K, ? super V, ? extends U> transformer,
-             Consumer<? super U> action) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ForEbchTrbnsformedMbppingTbsk<K,V,U>
+        extends BulkTbsk<K,V,Void> {
+        finbl BiFunction<? super K, ? super V, ? extends U> trbnsformer;
+        finbl Consumer<? super U> bction;
+        ForEbchTrbnsformedMbppingTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             BiFunction<? super K, ? super V, ? extends U> trbnsformer,
+             Consumer<? super U> bction) {
             super(p, b, i, f, t);
-            this.transformer = transformer; this.action = action;
+            this.trbnsformer = trbnsformer; this.bction = bction;
         }
-        public final void compute() {
-            final BiFunction<? super K, ? super V, ? extends U> transformer;
-            final Consumer<? super U> action;
-            if ((transformer = this.transformer) != null &&
-                (action = this.action) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    new ForEachTransformedMappingTask<K,V,U>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         transformer, action).fork();
+        public finbl void compute() {
+            finbl BiFunction<? super K, ? super V, ? extends U> trbnsformer;
+            finbl Consumer<? super U> bction;
+            if ((trbnsformer = this.trbnsformer) != null &&
+                (bction = this.bction) != null) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    new ForEbchTrbnsformedMbppingTbsk<K,V,U>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         trbnsformer, bction).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     U u;
-                    if ((u = transformer.apply(p.key, p.val)) != null)
-                        action.accept(u);
+                    if ((u = trbnsformer.bpply(p.key, p.vbl)) != null)
+                        bction.bccept(u);
                 }
-                propagateCompletion();
+                propbgbteCompletion();
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class SearchKeysTask<K,V,U>
-        extends BulkTask<K,V,U> {
-        final Function<? super K, ? extends U> searchFunction;
-        final AtomicReference<U> result;
-        SearchKeysTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Function<? super K, ? extends U> searchFunction,
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss SebrchKeysTbsk<K,V,U>
+        extends BulkTbsk<K,V,U> {
+        finbl Function<? super K, ? extends U> sebrchFunction;
+        finbl AtomicReference<U> result;
+        SebrchKeysTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Function<? super K, ? extends U> sebrchFunction,
              AtomicReference<U> result) {
             super(p, b, i, f, t);
-            this.searchFunction = searchFunction; this.result = result;
+            this.sebrchFunction = sebrchFunction; this.result = result;
         }
-        public final U getRawResult() { return result.get(); }
-        public final void compute() {
-            final Function<? super K, ? extends U> searchFunction;
-            final AtomicReference<U> result;
-            if ((searchFunction = this.searchFunction) != null &&
+        public finbl U getRbwResult() { return result.get(); }
+        public finbl void compute() {
+            finbl Function<? super K, ? extends U> sebrchFunction;
+            finbl AtomicReference<U> result;
+            if ((sebrchFunction = this.sebrchFunction) != null &&
                 (result = this.result) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
                     if (result.get() != null)
                         return;
-                    addToPendingCount(1);
-                    new SearchKeysTask<K,V,U>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         searchFunction, result).fork();
+                    bddToPendingCount(1);
+                    new SebrchKeysTbsk<K,V,U>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         sebrchFunction, result).fork();
                 }
                 while (result.get() == null) {
                     U u;
                     Node<K,V> p;
-                    if ((p = advance()) == null) {
-                        propagateCompletion();
-                        break;
+                    if ((p = bdvbnce()) == null) {
+                        propbgbteCompletion();
+                        brebk;
                     }
-                    if ((u = searchFunction.apply(p.key)) != null) {
-                        if (result.compareAndSet(null, u))
+                    if ((u = sebrchFunction.bpply(p.key)) != null) {
+                        if (result.compbreAndSet(null, u))
                             quietlyCompleteRoot();
-                        break;
+                        brebk;
                     }
                 }
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class SearchValuesTask<K,V,U>
-        extends BulkTask<K,V,U> {
-        final Function<? super V, ? extends U> searchFunction;
-        final AtomicReference<U> result;
-        SearchValuesTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Function<? super V, ? extends U> searchFunction,
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss SebrchVbluesTbsk<K,V,U>
+        extends BulkTbsk<K,V,U> {
+        finbl Function<? super V, ? extends U> sebrchFunction;
+        finbl AtomicReference<U> result;
+        SebrchVbluesTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Function<? super V, ? extends U> sebrchFunction,
              AtomicReference<U> result) {
             super(p, b, i, f, t);
-            this.searchFunction = searchFunction; this.result = result;
+            this.sebrchFunction = sebrchFunction; this.result = result;
         }
-        public final U getRawResult() { return result.get(); }
-        public final void compute() {
-            final Function<? super V, ? extends U> searchFunction;
-            final AtomicReference<U> result;
-            if ((searchFunction = this.searchFunction) != null &&
+        public finbl U getRbwResult() { return result.get(); }
+        public finbl void compute() {
+            finbl Function<? super V, ? extends U> sebrchFunction;
+            finbl AtomicReference<U> result;
+            if ((sebrchFunction = this.sebrchFunction) != null &&
                 (result = this.result) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
                     if (result.get() != null)
                         return;
-                    addToPendingCount(1);
-                    new SearchValuesTask<K,V,U>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         searchFunction, result).fork();
+                    bddToPendingCount(1);
+                    new SebrchVbluesTbsk<K,V,U>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         sebrchFunction, result).fork();
                 }
                 while (result.get() == null) {
                     U u;
                     Node<K,V> p;
-                    if ((p = advance()) == null) {
-                        propagateCompletion();
-                        break;
+                    if ((p = bdvbnce()) == null) {
+                        propbgbteCompletion();
+                        brebk;
                     }
-                    if ((u = searchFunction.apply(p.val)) != null) {
-                        if (result.compareAndSet(null, u))
+                    if ((u = sebrchFunction.bpply(p.vbl)) != null) {
+                        if (result.compbreAndSet(null, u))
                             quietlyCompleteRoot();
-                        break;
+                        brebk;
                     }
                 }
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class SearchEntriesTask<K,V,U>
-        extends BulkTask<K,V,U> {
-        final Function<Entry<K,V>, ? extends U> searchFunction;
-        final AtomicReference<U> result;
-        SearchEntriesTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             Function<Entry<K,V>, ? extends U> searchFunction,
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss SebrchEntriesTbsk<K,V,U>
+        extends BulkTbsk<K,V,U> {
+        finbl Function<Entry<K,V>, ? extends U> sebrchFunction;
+        finbl AtomicReference<U> result;
+        SebrchEntriesTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             Function<Entry<K,V>, ? extends U> sebrchFunction,
              AtomicReference<U> result) {
             super(p, b, i, f, t);
-            this.searchFunction = searchFunction; this.result = result;
+            this.sebrchFunction = sebrchFunction; this.result = result;
         }
-        public final U getRawResult() { return result.get(); }
-        public final void compute() {
-            final Function<Entry<K,V>, ? extends U> searchFunction;
-            final AtomicReference<U> result;
-            if ((searchFunction = this.searchFunction) != null &&
+        public finbl U getRbwResult() { return result.get(); }
+        public finbl void compute() {
+            finbl Function<Entry<K,V>, ? extends U> sebrchFunction;
+            finbl AtomicReference<U> result;
+            if ((sebrchFunction = this.sebrchFunction) != null &&
                 (result = this.result) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
                     if (result.get() != null)
                         return;
-                    addToPendingCount(1);
-                    new SearchEntriesTask<K,V,U>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         searchFunction, result).fork();
+                    bddToPendingCount(1);
+                    new SebrchEntriesTbsk<K,V,U>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         sebrchFunction, result).fork();
                 }
                 while (result.get() == null) {
                     U u;
                     Node<K,V> p;
-                    if ((p = advance()) == null) {
-                        propagateCompletion();
-                        break;
+                    if ((p = bdvbnce()) == null) {
+                        propbgbteCompletion();
+                        brebk;
                     }
-                    if ((u = searchFunction.apply(p)) != null) {
-                        if (result.compareAndSet(null, u))
+                    if ((u = sebrchFunction.bpply(p)) != null) {
+                        if (result.compbreAndSet(null, u))
                             quietlyCompleteRoot();
                         return;
                     }
@@ -5272,91 +5272,91 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class SearchMappingsTask<K,V,U>
-        extends BulkTask<K,V,U> {
-        final BiFunction<? super K, ? super V, ? extends U> searchFunction;
-        final AtomicReference<U> result;
-        SearchMappingsTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             BiFunction<? super K, ? super V, ? extends U> searchFunction,
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss SebrchMbppingsTbsk<K,V,U>
+        extends BulkTbsk<K,V,U> {
+        finbl BiFunction<? super K, ? super V, ? extends U> sebrchFunction;
+        finbl AtomicReference<U> result;
+        SebrchMbppingsTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             BiFunction<? super K, ? super V, ? extends U> sebrchFunction,
              AtomicReference<U> result) {
             super(p, b, i, f, t);
-            this.searchFunction = searchFunction; this.result = result;
+            this.sebrchFunction = sebrchFunction; this.result = result;
         }
-        public final U getRawResult() { return result.get(); }
-        public final void compute() {
-            final BiFunction<? super K, ? super V, ? extends U> searchFunction;
-            final AtomicReference<U> result;
-            if ((searchFunction = this.searchFunction) != null &&
+        public finbl U getRbwResult() { return result.get(); }
+        public finbl void compute() {
+            finbl BiFunction<? super K, ? super V, ? extends U> sebrchFunction;
+            finbl AtomicReference<U> result;
+            if ((sebrchFunction = this.sebrchFunction) != null &&
                 (result = this.result) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
                     if (result.get() != null)
                         return;
-                    addToPendingCount(1);
-                    new SearchMappingsTask<K,V,U>
-                        (this, batch >>>= 1, baseLimit = h, f, tab,
-                         searchFunction, result).fork();
+                    bddToPendingCount(1);
+                    new SebrchMbppingsTbsk<K,V,U>
+                        (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                         sebrchFunction, result).fork();
                 }
                 while (result.get() == null) {
                     U u;
                     Node<K,V> p;
-                    if ((p = advance()) == null) {
-                        propagateCompletion();
-                        break;
+                    if ((p = bdvbnce()) == null) {
+                        propbgbteCompletion();
+                        brebk;
                     }
-                    if ((u = searchFunction.apply(p.key, p.val)) != null) {
-                        if (result.compareAndSet(null, u))
+                    if ((u = sebrchFunction.bpply(p.key, p.vbl)) != null) {
+                        if (result.compbreAndSet(null, u))
                             quietlyCompleteRoot();
-                        break;
+                        brebk;
                     }
                 }
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ReduceKeysTask<K,V>
-        extends BulkTask<K,V,K> {
-        final BiFunction<? super K, ? super K, ? extends K> reducer;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ReduceKeysTbsk<K,V>
+        extends BulkTbsk<K,V,K> {
+        finbl BiFunction<? super K, ? super K, ? extends K> reducer;
         K result;
-        ReduceKeysTask<K,V> rights, nextRight;
-        ReduceKeysTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             ReduceKeysTask<K,V> nextRight,
+        ReduceKeysTbsk<K,V> rights, nextRight;
+        ReduceKeysTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             ReduceKeysTbsk<K,V> nextRight,
              BiFunction<? super K, ? super K, ? extends K> reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
             this.reducer = reducer;
         }
-        public final K getRawResult() { return result; }
-        public final void compute() {
-            final BiFunction<? super K, ? super K, ? extends K> reducer;
+        public finbl K getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl BiFunction<? super K, ? super K, ? extends K> reducer;
             if ((reducer = this.reducer) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new ReduceKeysTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new ReduceKeysTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
                       rights, reducer)).fork();
                 }
                 K r = null;
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     K u = p.key;
-                    r = (r == null) ? u : u == null ? r : reducer.apply(r, u);
+                    r = (r == null) ? u : u == null ? r : reducer.bpply(r, u);
                 }
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    ReduceKeysTask<K,V>
-                        t = (ReduceKeysTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    ReduceKeysTbsk<K,V>
+                        t = (ReduceKeysTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
                         K tr, sr;
                         if ((sr = s.result) != null)
                             t.result = (((tr = t.result) == null) ? sr :
-                                        reducer.apply(tr, sr));
+                                        reducer.bpply(tr, sr));
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5364,47 +5364,47 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ReduceValuesTask<K,V>
-        extends BulkTask<K,V,V> {
-        final BiFunction<? super V, ? super V, ? extends V> reducer;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ReduceVbluesTbsk<K,V>
+        extends BulkTbsk<K,V,V> {
+        finbl BiFunction<? super V, ? super V, ? extends V> reducer;
         V result;
-        ReduceValuesTask<K,V> rights, nextRight;
-        ReduceValuesTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             ReduceValuesTask<K,V> nextRight,
+        ReduceVbluesTbsk<K,V> rights, nextRight;
+        ReduceVbluesTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             ReduceVbluesTbsk<K,V> nextRight,
              BiFunction<? super V, ? super V, ? extends V> reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
             this.reducer = reducer;
         }
-        public final V getRawResult() { return result; }
-        public final void compute() {
-            final BiFunction<? super V, ? super V, ? extends V> reducer;
+        public finbl V getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl BiFunction<? super V, ? super V, ? extends V> reducer;
             if ((reducer = this.reducer) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new ReduceValuesTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new ReduceVbluesTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
                       rights, reducer)).fork();
                 }
                 V r = null;
-                for (Node<K,V> p; (p = advance()) != null; ) {
-                    V v = p.val;
-                    r = (r == null) ? v : reducer.apply(r, v);
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
+                    V v = p.vbl;
+                    r = (r == null) ? v : reducer.bpply(r, v);
                 }
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    ReduceValuesTask<K,V>
-                        t = (ReduceValuesTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    ReduceVbluesTbsk<K,V>
+                        t = (ReduceVbluesTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
                         V tr, sr;
                         if ((sr = s.result) != null)
                             t.result = (((tr = t.result) == null) ? sr :
-                                        reducer.apply(tr, sr));
+                                        reducer.bpply(tr, sr));
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5412,45 +5412,45 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class ReduceEntriesTask<K,V>
-        extends BulkTask<K,V,Map.Entry<K,V>> {
-        final BiFunction<Map.Entry<K,V>, Map.Entry<K,V>, ? extends Map.Entry<K,V>> reducer;
-        Map.Entry<K,V> result;
-        ReduceEntriesTask<K,V> rights, nextRight;
-        ReduceEntriesTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             ReduceEntriesTask<K,V> nextRight,
-             BiFunction<Entry<K,V>, Map.Entry<K,V>, ? extends Map.Entry<K,V>> reducer) {
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss ReduceEntriesTbsk<K,V>
+        extends BulkTbsk<K,V,Mbp.Entry<K,V>> {
+        finbl BiFunction<Mbp.Entry<K,V>, Mbp.Entry<K,V>, ? extends Mbp.Entry<K,V>> reducer;
+        Mbp.Entry<K,V> result;
+        ReduceEntriesTbsk<K,V> rights, nextRight;
+        ReduceEntriesTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             ReduceEntriesTbsk<K,V> nextRight,
+             BiFunction<Entry<K,V>, Mbp.Entry<K,V>, ? extends Mbp.Entry<K,V>> reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
             this.reducer = reducer;
         }
-        public final Map.Entry<K,V> getRawResult() { return result; }
-        public final void compute() {
-            final BiFunction<Map.Entry<K,V>, Map.Entry<K,V>, ? extends Map.Entry<K,V>> reducer;
+        public finbl Mbp.Entry<K,V> getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl BiFunction<Mbp.Entry<K,V>, Mbp.Entry<K,V>, ? extends Mbp.Entry<K,V>> reducer;
             if ((reducer = this.reducer) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new ReduceEntriesTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new ReduceEntriesTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
                       rights, reducer)).fork();
                 }
-                Map.Entry<K,V> r = null;
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = (r == null) ? p : reducer.apply(r, p);
+                Mbp.Entry<K,V> r = null;
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = (r == null) ? p : reducer.bpply(r, p);
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    ReduceEntriesTask<K,V>
-                        t = (ReduceEntriesTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    ReduceEntriesTbsk<K,V>
+                        t = (ReduceEntriesTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        Map.Entry<K,V> tr, sr;
+                        Mbp.Entry<K,V> tr, sr;
                         if ((sr = s.result) != null)
                             t.result = (((tr = t.result) == null) ? sr :
-                                        reducer.apply(tr, sr));
+                                        reducer.bpply(tr, sr));
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5458,53 +5458,53 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceKeysTask<K,V,U>
-        extends BulkTask<K,V,U> {
-        final Function<? super K, ? extends U> transformer;
-        final BiFunction<? super U, ? super U, ? extends U> reducer;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceKeysTbsk<K,V,U>
+        extends BulkTbsk<K,V,U> {
+        finbl Function<? super K, ? extends U> trbnsformer;
+        finbl BiFunction<? super U, ? super U, ? extends U> reducer;
         U result;
-        MapReduceKeysTask<K,V,U> rights, nextRight;
-        MapReduceKeysTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceKeysTask<K,V,U> nextRight,
-             Function<? super K, ? extends U> transformer,
+        MbpReduceKeysTbsk<K,V,U> rights, nextRight;
+        MbpReduceKeysTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceKeysTbsk<K,V,U> nextRight,
+             Function<? super K, ? extends U> trbnsformer,
              BiFunction<? super U, ? super U, ? extends U> reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
+            this.trbnsformer = trbnsformer;
             this.reducer = reducer;
         }
-        public final U getRawResult() { return result; }
-        public final void compute() {
-            final Function<? super K, ? extends U> transformer;
-            final BiFunction<? super U, ? super U, ? extends U> reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl U getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl Function<? super K, ? extends U> trbnsformer;
+            finbl BiFunction<? super U, ? super U, ? extends U> reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceKeysTask<K,V,U>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, reducer)).fork();
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceKeysTbsk<K,V,U>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, reducer)).fork();
                 }
                 U r = null;
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     U u;
-                    if ((u = transformer.apply(p.key)) != null)
-                        r = (r == null) ? u : reducer.apply(r, u);
+                    if ((u = trbnsformer.bpply(p.key)) != null)
+                        r = (r == null) ? u : reducer.bpply(r, u);
                 }
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceKeysTask<K,V,U>
-                        t = (MapReduceKeysTask<K,V,U>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceKeysTbsk<K,V,U>
+                        t = (MbpReduceKeysTbsk<K,V,U>)c,
                         s = t.rights;
                     while (s != null) {
                         U tr, sr;
                         if ((sr = s.result) != null)
                             t.result = (((tr = t.result) == null) ? sr :
-                                        reducer.apply(tr, sr));
+                                        reducer.bpply(tr, sr));
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5512,53 +5512,53 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceValuesTask<K,V,U>
-        extends BulkTask<K,V,U> {
-        final Function<? super V, ? extends U> transformer;
-        final BiFunction<? super U, ? super U, ? extends U> reducer;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceVbluesTbsk<K,V,U>
+        extends BulkTbsk<K,V,U> {
+        finbl Function<? super V, ? extends U> trbnsformer;
+        finbl BiFunction<? super U, ? super U, ? extends U> reducer;
         U result;
-        MapReduceValuesTask<K,V,U> rights, nextRight;
-        MapReduceValuesTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceValuesTask<K,V,U> nextRight,
-             Function<? super V, ? extends U> transformer,
+        MbpReduceVbluesTbsk<K,V,U> rights, nextRight;
+        MbpReduceVbluesTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceVbluesTbsk<K,V,U> nextRight,
+             Function<? super V, ? extends U> trbnsformer,
              BiFunction<? super U, ? super U, ? extends U> reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
+            this.trbnsformer = trbnsformer;
             this.reducer = reducer;
         }
-        public final U getRawResult() { return result; }
-        public final void compute() {
-            final Function<? super V, ? extends U> transformer;
-            final BiFunction<? super U, ? super U, ? extends U> reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl U getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl Function<? super V, ? extends U> trbnsformer;
+            finbl BiFunction<? super U, ? super U, ? extends U> reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceValuesTask<K,V,U>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, reducer)).fork();
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceVbluesTbsk<K,V,U>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, reducer)).fork();
                 }
                 U r = null;
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     U u;
-                    if ((u = transformer.apply(p.val)) != null)
-                        r = (r == null) ? u : reducer.apply(r, u);
+                    if ((u = trbnsformer.bpply(p.vbl)) != null)
+                        r = (r == null) ? u : reducer.bpply(r, u);
                 }
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceValuesTask<K,V,U>
-                        t = (MapReduceValuesTask<K,V,U>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceVbluesTbsk<K,V,U>
+                        t = (MbpReduceVbluesTbsk<K,V,U>)c,
                         s = t.rights;
                     while (s != null) {
                         U tr, sr;
                         if ((sr = s.result) != null)
                             t.result = (((tr = t.result) == null) ? sr :
-                                        reducer.apply(tr, sr));
+                                        reducer.bpply(tr, sr));
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5566,53 +5566,53 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceEntriesTask<K,V,U>
-        extends BulkTask<K,V,U> {
-        final Function<Map.Entry<K,V>, ? extends U> transformer;
-        final BiFunction<? super U, ? super U, ? extends U> reducer;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceEntriesTbsk<K,V,U>
+        extends BulkTbsk<K,V,U> {
+        finbl Function<Mbp.Entry<K,V>, ? extends U> trbnsformer;
+        finbl BiFunction<? super U, ? super U, ? extends U> reducer;
         U result;
-        MapReduceEntriesTask<K,V,U> rights, nextRight;
-        MapReduceEntriesTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceEntriesTask<K,V,U> nextRight,
-             Function<Map.Entry<K,V>, ? extends U> transformer,
+        MbpReduceEntriesTbsk<K,V,U> rights, nextRight;
+        MbpReduceEntriesTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceEntriesTbsk<K,V,U> nextRight,
+             Function<Mbp.Entry<K,V>, ? extends U> trbnsformer,
              BiFunction<? super U, ? super U, ? extends U> reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
+            this.trbnsformer = trbnsformer;
             this.reducer = reducer;
         }
-        public final U getRawResult() { return result; }
-        public final void compute() {
-            final Function<Map.Entry<K,V>, ? extends U> transformer;
-            final BiFunction<? super U, ? super U, ? extends U> reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl U getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl Function<Mbp.Entry<K,V>, ? extends U> trbnsformer;
+            finbl BiFunction<? super U, ? super U, ? extends U> reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceEntriesTask<K,V,U>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, reducer)).fork();
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceEntriesTbsk<K,V,U>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, reducer)).fork();
                 }
                 U r = null;
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     U u;
-                    if ((u = transformer.apply(p)) != null)
-                        r = (r == null) ? u : reducer.apply(r, u);
+                    if ((u = trbnsformer.bpply(p)) != null)
+                        r = (r == null) ? u : reducer.bpply(r, u);
                 }
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceEntriesTask<K,V,U>
-                        t = (MapReduceEntriesTask<K,V,U>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceEntriesTbsk<K,V,U>
+                        t = (MbpReduceEntriesTbsk<K,V,U>)c,
                         s = t.rights;
                     while (s != null) {
                         U tr, sr;
                         if ((sr = s.result) != null)
                             t.result = (((tr = t.result) == null) ? sr :
-                                        reducer.apply(tr, sr));
+                                        reducer.bpply(tr, sr));
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5620,53 +5620,53 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceMappingsTask<K,V,U>
-        extends BulkTask<K,V,U> {
-        final BiFunction<? super K, ? super V, ? extends U> transformer;
-        final BiFunction<? super U, ? super U, ? extends U> reducer;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceMbppingsTbsk<K,V,U>
+        extends BulkTbsk<K,V,U> {
+        finbl BiFunction<? super K, ? super V, ? extends U> trbnsformer;
+        finbl BiFunction<? super U, ? super U, ? extends U> reducer;
         U result;
-        MapReduceMappingsTask<K,V,U> rights, nextRight;
-        MapReduceMappingsTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceMappingsTask<K,V,U> nextRight,
-             BiFunction<? super K, ? super V, ? extends U> transformer,
+        MbpReduceMbppingsTbsk<K,V,U> rights, nextRight;
+        MbpReduceMbppingsTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceMbppingsTbsk<K,V,U> nextRight,
+             BiFunction<? super K, ? super V, ? extends U> trbnsformer,
              BiFunction<? super U, ? super U, ? extends U> reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
+            this.trbnsformer = trbnsformer;
             this.reducer = reducer;
         }
-        public final U getRawResult() { return result; }
-        public final void compute() {
-            final BiFunction<? super K, ? super V, ? extends U> transformer;
-            final BiFunction<? super U, ? super U, ? extends U> reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl U getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl BiFunction<? super K, ? super V, ? extends U> trbnsformer;
+            finbl BiFunction<? super U, ? super U, ? extends U> reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceMappingsTask<K,V,U>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, reducer)).fork();
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceMbppingsTbsk<K,V,U>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, reducer)).fork();
                 }
                 U r = null;
-                for (Node<K,V> p; (p = advance()) != null; ) {
+                for (Node<K,V> p; (p = bdvbnce()) != null; ) {
                     U u;
-                    if ((u = transformer.apply(p.key, p.val)) != null)
-                        r = (r == null) ? u : reducer.apply(r, u);
+                    if ((u = trbnsformer.bpply(p.key, p.vbl)) != null)
+                        r = (r == null) ? u : reducer.bpply(r, u);
                 }
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceMappingsTask<K,V,U>
-                        t = (MapReduceMappingsTask<K,V,U>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceMbppingsTbsk<K,V,U>
+                        t = (MbpReduceMbppingsTbsk<K,V,U>)c,
                         s = t.rights;
                     while (s != null) {
                         U tr, sr;
                         if ((sr = s.result) != null)
                             t.result = (((tr = t.result) == null) ? sr :
-                                        reducer.apply(tr, sr));
+                                        reducer.bpply(tr, sr));
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5674,49 +5674,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceKeysToDoubleTask<K,V>
-        extends BulkTask<K,V,Double> {
-        final ToDoubleFunction<? super K> transformer;
-        final DoubleBinaryOperator reducer;
-        final double basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceKeysToDoubleTbsk<K,V>
+        extends BulkTbsk<K,V,Double> {
+        finbl ToDoubleFunction<? super K> trbnsformer;
+        finbl DoubleBinbryOperbtor reducer;
+        finbl double bbsis;
         double result;
-        MapReduceKeysToDoubleTask<K,V> rights, nextRight;
-        MapReduceKeysToDoubleTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceKeysToDoubleTask<K,V> nextRight,
-             ToDoubleFunction<? super K> transformer,
-             double basis,
-             DoubleBinaryOperator reducer) {
+        MbpReduceKeysToDoubleTbsk<K,V> rights, nextRight;
+        MbpReduceKeysToDoubleTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceKeysToDoubleTbsk<K,V> nextRight,
+             ToDoubleFunction<? super K> trbnsformer,
+             double bbsis,
+             DoubleBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Double getRawResult() { return result; }
-        public final void compute() {
-            final ToDoubleFunction<? super K> transformer;
-            final DoubleBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Double getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToDoubleFunction<? super K> trbnsformer;
+            finbl DoubleBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                double r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceKeysToDoubleTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                double r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceKeysToDoubleTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsDouble(r, transformer.applyAsDouble(p.key));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsDouble(r, trbnsformer.bpplyAsDouble(p.key));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceKeysToDoubleTask<K,V>
-                        t = (MapReduceKeysToDoubleTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceKeysToDoubleTbsk<K,V>
+                        t = (MbpReduceKeysToDoubleTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsDouble(t.result, s.result);
+                        t.result = reducer.bpplyAsDouble(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5724,49 +5724,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceValuesToDoubleTask<K,V>
-        extends BulkTask<K,V,Double> {
-        final ToDoubleFunction<? super V> transformer;
-        final DoubleBinaryOperator reducer;
-        final double basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceVbluesToDoubleTbsk<K,V>
+        extends BulkTbsk<K,V,Double> {
+        finbl ToDoubleFunction<? super V> trbnsformer;
+        finbl DoubleBinbryOperbtor reducer;
+        finbl double bbsis;
         double result;
-        MapReduceValuesToDoubleTask<K,V> rights, nextRight;
-        MapReduceValuesToDoubleTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceValuesToDoubleTask<K,V> nextRight,
-             ToDoubleFunction<? super V> transformer,
-             double basis,
-             DoubleBinaryOperator reducer) {
+        MbpReduceVbluesToDoubleTbsk<K,V> rights, nextRight;
+        MbpReduceVbluesToDoubleTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceVbluesToDoubleTbsk<K,V> nextRight,
+             ToDoubleFunction<? super V> trbnsformer,
+             double bbsis,
+             DoubleBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Double getRawResult() { return result; }
-        public final void compute() {
-            final ToDoubleFunction<? super V> transformer;
-            final DoubleBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Double getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToDoubleFunction<? super V> trbnsformer;
+            finbl DoubleBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                double r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceValuesToDoubleTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                double r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceVbluesToDoubleTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsDouble(r, transformer.applyAsDouble(p.val));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsDouble(r, trbnsformer.bpplyAsDouble(p.vbl));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceValuesToDoubleTask<K,V>
-                        t = (MapReduceValuesToDoubleTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceVbluesToDoubleTbsk<K,V>
+                        t = (MbpReduceVbluesToDoubleTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsDouble(t.result, s.result);
+                        t.result = reducer.bpplyAsDouble(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5774,49 +5774,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceEntriesToDoubleTask<K,V>
-        extends BulkTask<K,V,Double> {
-        final ToDoubleFunction<Map.Entry<K,V>> transformer;
-        final DoubleBinaryOperator reducer;
-        final double basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceEntriesToDoubleTbsk<K,V>
+        extends BulkTbsk<K,V,Double> {
+        finbl ToDoubleFunction<Mbp.Entry<K,V>> trbnsformer;
+        finbl DoubleBinbryOperbtor reducer;
+        finbl double bbsis;
         double result;
-        MapReduceEntriesToDoubleTask<K,V> rights, nextRight;
-        MapReduceEntriesToDoubleTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceEntriesToDoubleTask<K,V> nextRight,
-             ToDoubleFunction<Map.Entry<K,V>> transformer,
-             double basis,
-             DoubleBinaryOperator reducer) {
+        MbpReduceEntriesToDoubleTbsk<K,V> rights, nextRight;
+        MbpReduceEntriesToDoubleTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceEntriesToDoubleTbsk<K,V> nextRight,
+             ToDoubleFunction<Mbp.Entry<K,V>> trbnsformer,
+             double bbsis,
+             DoubleBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Double getRawResult() { return result; }
-        public final void compute() {
-            final ToDoubleFunction<Map.Entry<K,V>> transformer;
-            final DoubleBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Double getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToDoubleFunction<Mbp.Entry<K,V>> trbnsformer;
+            finbl DoubleBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                double r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceEntriesToDoubleTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                double r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceEntriesToDoubleTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsDouble(r, transformer.applyAsDouble(p));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsDouble(r, trbnsformer.bpplyAsDouble(p));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceEntriesToDoubleTask<K,V>
-                        t = (MapReduceEntriesToDoubleTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceEntriesToDoubleTbsk<K,V>
+                        t = (MbpReduceEntriesToDoubleTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsDouble(t.result, s.result);
+                        t.result = reducer.bpplyAsDouble(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5824,49 +5824,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceMappingsToDoubleTask<K,V>
-        extends BulkTask<K,V,Double> {
-        final ToDoubleBiFunction<? super K, ? super V> transformer;
-        final DoubleBinaryOperator reducer;
-        final double basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceMbppingsToDoubleTbsk<K,V>
+        extends BulkTbsk<K,V,Double> {
+        finbl ToDoubleBiFunction<? super K, ? super V> trbnsformer;
+        finbl DoubleBinbryOperbtor reducer;
+        finbl double bbsis;
         double result;
-        MapReduceMappingsToDoubleTask<K,V> rights, nextRight;
-        MapReduceMappingsToDoubleTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceMappingsToDoubleTask<K,V> nextRight,
-             ToDoubleBiFunction<? super K, ? super V> transformer,
-             double basis,
-             DoubleBinaryOperator reducer) {
+        MbpReduceMbppingsToDoubleTbsk<K,V> rights, nextRight;
+        MbpReduceMbppingsToDoubleTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceMbppingsToDoubleTbsk<K,V> nextRight,
+             ToDoubleBiFunction<? super K, ? super V> trbnsformer,
+             double bbsis,
+             DoubleBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Double getRawResult() { return result; }
-        public final void compute() {
-            final ToDoubleBiFunction<? super K, ? super V> transformer;
-            final DoubleBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Double getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToDoubleBiFunction<? super K, ? super V> trbnsformer;
+            finbl DoubleBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                double r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceMappingsToDoubleTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                double r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceMbppingsToDoubleTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsDouble(r, transformer.applyAsDouble(p.key, p.val));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsDouble(r, trbnsformer.bpplyAsDouble(p.key, p.vbl));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceMappingsToDoubleTask<K,V>
-                        t = (MapReduceMappingsToDoubleTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceMbppingsToDoubleTbsk<K,V>
+                        t = (MbpReduceMbppingsToDoubleTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsDouble(t.result, s.result);
+                        t.result = reducer.bpplyAsDouble(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5874,49 +5874,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceKeysToLongTask<K,V>
-        extends BulkTask<K,V,Long> {
-        final ToLongFunction<? super K> transformer;
-        final LongBinaryOperator reducer;
-        final long basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceKeysToLongTbsk<K,V>
+        extends BulkTbsk<K,V,Long> {
+        finbl ToLongFunction<? super K> trbnsformer;
+        finbl LongBinbryOperbtor reducer;
+        finbl long bbsis;
         long result;
-        MapReduceKeysToLongTask<K,V> rights, nextRight;
-        MapReduceKeysToLongTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceKeysToLongTask<K,V> nextRight,
-             ToLongFunction<? super K> transformer,
-             long basis,
-             LongBinaryOperator reducer) {
+        MbpReduceKeysToLongTbsk<K,V> rights, nextRight;
+        MbpReduceKeysToLongTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceKeysToLongTbsk<K,V> nextRight,
+             ToLongFunction<? super K> trbnsformer,
+             long bbsis,
+             LongBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Long getRawResult() { return result; }
-        public final void compute() {
-            final ToLongFunction<? super K> transformer;
-            final LongBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Long getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToLongFunction<? super K> trbnsformer;
+            finbl LongBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                long r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceKeysToLongTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                long r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceKeysToLongTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsLong(r, transformer.applyAsLong(p.key));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsLong(r, trbnsformer.bpplyAsLong(p.key));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceKeysToLongTask<K,V>
-                        t = (MapReduceKeysToLongTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceKeysToLongTbsk<K,V>
+                        t = (MbpReduceKeysToLongTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsLong(t.result, s.result);
+                        t.result = reducer.bpplyAsLong(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5924,49 +5924,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceValuesToLongTask<K,V>
-        extends BulkTask<K,V,Long> {
-        final ToLongFunction<? super V> transformer;
-        final LongBinaryOperator reducer;
-        final long basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceVbluesToLongTbsk<K,V>
+        extends BulkTbsk<K,V,Long> {
+        finbl ToLongFunction<? super V> trbnsformer;
+        finbl LongBinbryOperbtor reducer;
+        finbl long bbsis;
         long result;
-        MapReduceValuesToLongTask<K,V> rights, nextRight;
-        MapReduceValuesToLongTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceValuesToLongTask<K,V> nextRight,
-             ToLongFunction<? super V> transformer,
-             long basis,
-             LongBinaryOperator reducer) {
+        MbpReduceVbluesToLongTbsk<K,V> rights, nextRight;
+        MbpReduceVbluesToLongTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceVbluesToLongTbsk<K,V> nextRight,
+             ToLongFunction<? super V> trbnsformer,
+             long bbsis,
+             LongBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Long getRawResult() { return result; }
-        public final void compute() {
-            final ToLongFunction<? super V> transformer;
-            final LongBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Long getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToLongFunction<? super V> trbnsformer;
+            finbl LongBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                long r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceValuesToLongTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                long r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceVbluesToLongTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsLong(r, transformer.applyAsLong(p.val));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsLong(r, trbnsformer.bpplyAsLong(p.vbl));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceValuesToLongTask<K,V>
-                        t = (MapReduceValuesToLongTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceVbluesToLongTbsk<K,V>
+                        t = (MbpReduceVbluesToLongTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsLong(t.result, s.result);
+                        t.result = reducer.bpplyAsLong(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -5974,49 +5974,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceEntriesToLongTask<K,V>
-        extends BulkTask<K,V,Long> {
-        final ToLongFunction<Map.Entry<K,V>> transformer;
-        final LongBinaryOperator reducer;
-        final long basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceEntriesToLongTbsk<K,V>
+        extends BulkTbsk<K,V,Long> {
+        finbl ToLongFunction<Mbp.Entry<K,V>> trbnsformer;
+        finbl LongBinbryOperbtor reducer;
+        finbl long bbsis;
         long result;
-        MapReduceEntriesToLongTask<K,V> rights, nextRight;
-        MapReduceEntriesToLongTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceEntriesToLongTask<K,V> nextRight,
-             ToLongFunction<Map.Entry<K,V>> transformer,
-             long basis,
-             LongBinaryOperator reducer) {
+        MbpReduceEntriesToLongTbsk<K,V> rights, nextRight;
+        MbpReduceEntriesToLongTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceEntriesToLongTbsk<K,V> nextRight,
+             ToLongFunction<Mbp.Entry<K,V>> trbnsformer,
+             long bbsis,
+             LongBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Long getRawResult() { return result; }
-        public final void compute() {
-            final ToLongFunction<Map.Entry<K,V>> transformer;
-            final LongBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Long getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToLongFunction<Mbp.Entry<K,V>> trbnsformer;
+            finbl LongBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                long r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceEntriesToLongTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                long r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceEntriesToLongTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsLong(r, transformer.applyAsLong(p));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsLong(r, trbnsformer.bpplyAsLong(p));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceEntriesToLongTask<K,V>
-                        t = (MapReduceEntriesToLongTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceEntriesToLongTbsk<K,V>
+                        t = (MbpReduceEntriesToLongTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsLong(t.result, s.result);
+                        t.result = reducer.bpplyAsLong(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -6024,49 +6024,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceMappingsToLongTask<K,V>
-        extends BulkTask<K,V,Long> {
-        final ToLongBiFunction<? super K, ? super V> transformer;
-        final LongBinaryOperator reducer;
-        final long basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceMbppingsToLongTbsk<K,V>
+        extends BulkTbsk<K,V,Long> {
+        finbl ToLongBiFunction<? super K, ? super V> trbnsformer;
+        finbl LongBinbryOperbtor reducer;
+        finbl long bbsis;
         long result;
-        MapReduceMappingsToLongTask<K,V> rights, nextRight;
-        MapReduceMappingsToLongTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceMappingsToLongTask<K,V> nextRight,
-             ToLongBiFunction<? super K, ? super V> transformer,
-             long basis,
-             LongBinaryOperator reducer) {
+        MbpReduceMbppingsToLongTbsk<K,V> rights, nextRight;
+        MbpReduceMbppingsToLongTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceMbppingsToLongTbsk<K,V> nextRight,
+             ToLongBiFunction<? super K, ? super V> trbnsformer,
+             long bbsis,
+             LongBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Long getRawResult() { return result; }
-        public final void compute() {
-            final ToLongBiFunction<? super K, ? super V> transformer;
-            final LongBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Long getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToLongBiFunction<? super K, ? super V> trbnsformer;
+            finbl LongBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                long r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceMappingsToLongTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                long r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceMbppingsToLongTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsLong(r, transformer.applyAsLong(p.key, p.val));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsLong(r, trbnsformer.bpplyAsLong(p.key, p.vbl));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceMappingsToLongTask<K,V>
-                        t = (MapReduceMappingsToLongTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceMbppingsToLongTbsk<K,V>
+                        t = (MbpReduceMbppingsToLongTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsLong(t.result, s.result);
+                        t.result = reducer.bpplyAsLong(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -6074,49 +6074,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceKeysToIntTask<K,V>
-        extends BulkTask<K,V,Integer> {
-        final ToIntFunction<? super K> transformer;
-        final IntBinaryOperator reducer;
-        final int basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceKeysToIntTbsk<K,V>
+        extends BulkTbsk<K,V,Integer> {
+        finbl ToIntFunction<? super K> trbnsformer;
+        finbl IntBinbryOperbtor reducer;
+        finbl int bbsis;
         int result;
-        MapReduceKeysToIntTask<K,V> rights, nextRight;
-        MapReduceKeysToIntTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceKeysToIntTask<K,V> nextRight,
-             ToIntFunction<? super K> transformer,
-             int basis,
-             IntBinaryOperator reducer) {
+        MbpReduceKeysToIntTbsk<K,V> rights, nextRight;
+        MbpReduceKeysToIntTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceKeysToIntTbsk<K,V> nextRight,
+             ToIntFunction<? super K> trbnsformer,
+             int bbsis,
+             IntBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Integer getRawResult() { return result; }
-        public final void compute() {
-            final ToIntFunction<? super K> transformer;
-            final IntBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Integer getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToIntFunction<? super K> trbnsformer;
+            finbl IntBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                int r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceKeysToIntTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                int r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceKeysToIntTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsInt(r, transformer.applyAsInt(p.key));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsInt(r, trbnsformer.bpplyAsInt(p.key));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceKeysToIntTask<K,V>
-                        t = (MapReduceKeysToIntTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceKeysToIntTbsk<K,V>
+                        t = (MbpReduceKeysToIntTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsInt(t.result, s.result);
+                        t.result = reducer.bpplyAsInt(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -6124,49 +6124,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceValuesToIntTask<K,V>
-        extends BulkTask<K,V,Integer> {
-        final ToIntFunction<? super V> transformer;
-        final IntBinaryOperator reducer;
-        final int basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceVbluesToIntTbsk<K,V>
+        extends BulkTbsk<K,V,Integer> {
+        finbl ToIntFunction<? super V> trbnsformer;
+        finbl IntBinbryOperbtor reducer;
+        finbl int bbsis;
         int result;
-        MapReduceValuesToIntTask<K,V> rights, nextRight;
-        MapReduceValuesToIntTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceValuesToIntTask<K,V> nextRight,
-             ToIntFunction<? super V> transformer,
-             int basis,
-             IntBinaryOperator reducer) {
+        MbpReduceVbluesToIntTbsk<K,V> rights, nextRight;
+        MbpReduceVbluesToIntTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceVbluesToIntTbsk<K,V> nextRight,
+             ToIntFunction<? super V> trbnsformer,
+             int bbsis,
+             IntBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Integer getRawResult() { return result; }
-        public final void compute() {
-            final ToIntFunction<? super V> transformer;
-            final IntBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Integer getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToIntFunction<? super V> trbnsformer;
+            finbl IntBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                int r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceValuesToIntTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                int r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceVbluesToIntTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsInt(r, transformer.applyAsInt(p.val));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsInt(r, trbnsformer.bpplyAsInt(p.vbl));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceValuesToIntTask<K,V>
-                        t = (MapReduceValuesToIntTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceVbluesToIntTbsk<K,V>
+                        t = (MbpReduceVbluesToIntTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsInt(t.result, s.result);
+                        t.result = reducer.bpplyAsInt(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -6174,49 +6174,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceEntriesToIntTask<K,V>
-        extends BulkTask<K,V,Integer> {
-        final ToIntFunction<Map.Entry<K,V>> transformer;
-        final IntBinaryOperator reducer;
-        final int basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceEntriesToIntTbsk<K,V>
+        extends BulkTbsk<K,V,Integer> {
+        finbl ToIntFunction<Mbp.Entry<K,V>> trbnsformer;
+        finbl IntBinbryOperbtor reducer;
+        finbl int bbsis;
         int result;
-        MapReduceEntriesToIntTask<K,V> rights, nextRight;
-        MapReduceEntriesToIntTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceEntriesToIntTask<K,V> nextRight,
-             ToIntFunction<Map.Entry<K,V>> transformer,
-             int basis,
-             IntBinaryOperator reducer) {
+        MbpReduceEntriesToIntTbsk<K,V> rights, nextRight;
+        MbpReduceEntriesToIntTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceEntriesToIntTbsk<K,V> nextRight,
+             ToIntFunction<Mbp.Entry<K,V>> trbnsformer,
+             int bbsis,
+             IntBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Integer getRawResult() { return result; }
-        public final void compute() {
-            final ToIntFunction<Map.Entry<K,V>> transformer;
-            final IntBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Integer getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToIntFunction<Mbp.Entry<K,V>> trbnsformer;
+            finbl IntBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                int r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceEntriesToIntTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                int r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceEntriesToIntTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsInt(r, transformer.applyAsInt(p));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsInt(r, trbnsformer.bpplyAsInt(p));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceEntriesToIntTask<K,V>
-                        t = (MapReduceEntriesToIntTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceEntriesToIntTbsk<K,V>
+                        t = (MbpReduceEntriesToIntTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsInt(t.result, s.result);
+                        t.result = reducer.bpplyAsInt(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -6224,49 +6224,49 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    @SuppressWarnings("serial")
-    static final class MapReduceMappingsToIntTask<K,V>
-        extends BulkTask<K,V,Integer> {
-        final ToIntBiFunction<? super K, ? super V> transformer;
-        final IntBinaryOperator reducer;
-        final int basis;
+    @SuppressWbrnings("seribl")
+    stbtic finbl clbss MbpReduceMbppingsToIntTbsk<K,V>
+        extends BulkTbsk<K,V,Integer> {
+        finbl ToIntBiFunction<? super K, ? super V> trbnsformer;
+        finbl IntBinbryOperbtor reducer;
+        finbl int bbsis;
         int result;
-        MapReduceMappingsToIntTask<K,V> rights, nextRight;
-        MapReduceMappingsToIntTask
-            (BulkTask<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
-             MapReduceMappingsToIntTask<K,V> nextRight,
-             ToIntBiFunction<? super K, ? super V> transformer,
-             int basis,
-             IntBinaryOperator reducer) {
+        MbpReduceMbppingsToIntTbsk<K,V> rights, nextRight;
+        MbpReduceMbppingsToIntTbsk
+            (BulkTbsk<K,V,?> p, int b, int i, int f, Node<K,V>[] t,
+             MbpReduceMbppingsToIntTbsk<K,V> nextRight,
+             ToIntBiFunction<? super K, ? super V> trbnsformer,
+             int bbsis,
+             IntBinbryOperbtor reducer) {
             super(p, b, i, f, t); this.nextRight = nextRight;
-            this.transformer = transformer;
-            this.basis = basis; this.reducer = reducer;
+            this.trbnsformer = trbnsformer;
+            this.bbsis = bbsis; this.reducer = reducer;
         }
-        public final Integer getRawResult() { return result; }
-        public final void compute() {
-            final ToIntBiFunction<? super K, ? super V> transformer;
-            final IntBinaryOperator reducer;
-            if ((transformer = this.transformer) != null &&
+        public finbl Integer getRbwResult() { return result; }
+        public finbl void compute() {
+            finbl ToIntBiFunction<? super K, ? super V> trbnsformer;
+            finbl IntBinbryOperbtor reducer;
+            if ((trbnsformer = this.trbnsformer) != null &&
                 (reducer = this.reducer) != null) {
-                int r = this.basis;
-                for (int i = baseIndex, f, h; batch > 0 &&
-                         (h = ((f = baseLimit) + i) >>> 1) > i;) {
-                    addToPendingCount(1);
-                    (rights = new MapReduceMappingsToIntTask<K,V>
-                     (this, batch >>>= 1, baseLimit = h, f, tab,
-                      rights, transformer, r, reducer)).fork();
+                int r = this.bbsis;
+                for (int i = bbseIndex, f, h; bbtch > 0 &&
+                         (h = ((f = bbseLimit) + i) >>> 1) > i;) {
+                    bddToPendingCount(1);
+                    (rights = new MbpReduceMbppingsToIntTbsk<K,V>
+                     (this, bbtch >>>= 1, bbseLimit = h, f, tbb,
+                      rights, trbnsformer, r, reducer)).fork();
                 }
-                for (Node<K,V> p; (p = advance()) != null; )
-                    r = reducer.applyAsInt(r, transformer.applyAsInt(p.key, p.val));
+                for (Node<K,V> p; (p = bdvbnce()) != null; )
+                    r = reducer.bpplyAsInt(r, trbnsformer.bpplyAsInt(p.key, p.vbl));
                 result = r;
                 CountedCompleter<?> c;
                 for (c = firstComplete(); c != null; c = c.nextComplete()) {
-                    @SuppressWarnings("unchecked")
-                    MapReduceMappingsToIntTask<K,V>
-                        t = (MapReduceMappingsToIntTask<K,V>)c,
+                    @SuppressWbrnings("unchecked")
+                    MbpReduceMbppingsToIntTbsk<K,V>
+                        t = (MbpReduceMbppingsToIntTbsk<K,V>)c,
                         s = t.rights;
                     while (s != null) {
-                        t.result = reducer.applyAsInt(t.result, s.result);
+                        t.result = reducer.bpplyAsInt(t.result, s.result);
                         s = t.rights = s.nextRight;
                     }
                 }
@@ -6274,38 +6274,38 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         }
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe U;
-    private static final long SIZECTL;
-    private static final long TRANSFERINDEX;
-    private static final long BASECOUNT;
-    private static final long CELLSBUSY;
-    private static final long CELLVALUE;
-    private static final long ABASE;
-    private static final int ASHIFT;
+    // Unsbfe mechbnics
+    privbte stbtic finbl sun.misc.Unsbfe U;
+    privbte stbtic finbl long SIZECTL;
+    privbte stbtic finbl long TRANSFERINDEX;
+    privbte stbtic finbl long BASECOUNT;
+    privbte stbtic finbl long CELLSBUSY;
+    privbte stbtic finbl long CELLVALUE;
+    privbte stbtic finbl long ABASE;
+    privbte stbtic finbl int ASHIFT;
 
-    static {
+    stbtic {
         try {
-            U = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ConcurrentHashMap.class;
+            U = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = ConcurrentHbshMbp.clbss;
             SIZECTL = U.objectFieldOffset
-                (k.getDeclaredField("sizeCtl"));
+                (k.getDeclbredField("sizeCtl"));
             TRANSFERINDEX = U.objectFieldOffset
-                (k.getDeclaredField("transferIndex"));
+                (k.getDeclbredField("trbnsferIndex"));
             BASECOUNT = U.objectFieldOffset
-                (k.getDeclaredField("baseCount"));
+                (k.getDeclbredField("bbseCount"));
             CELLSBUSY = U.objectFieldOffset
-                (k.getDeclaredField("cellsBusy"));
-            Class<?> ck = CounterCell.class;
+                (k.getDeclbredField("cellsBusy"));
+            Clbss<?> ck = CounterCell.clbss;
             CELLVALUE = U.objectFieldOffset
-                (ck.getDeclaredField("value"));
-            Class<?> ak = Node[].class;
-            ABASE = U.arrayBaseOffset(ak);
-            int scale = U.arrayIndexScale(ak);
-            if ((scale & (scale - 1)) != 0)
-                throw new Error("data type scale not a power of two");
-            ASHIFT = 31 - Integer.numberOfLeadingZeros(scale);
-        } catch (Exception e) {
+                (ck.getDeclbredField("vblue"));
+            Clbss<?> bk = Node[].clbss;
+            ABASE = U.brrbyBbseOffset(bk);
+            int scble = U.brrbyIndexScble(bk);
+            if ((scble & (scble - 1)) != 0)
+                throw new Error("dbtb type scble not b power of two");
+            ASHIFT = 31 - Integer.numberOfLebdingZeros(scble);
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

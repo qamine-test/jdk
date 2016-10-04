@@ -1,125 +1,125 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.ccache;
+pbckbge sun.security.krb5.internbl.ccbche;
 
 import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import sun.security.krb5.internbl.*;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
+import jbvb.io.IOException;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.BufferedRebder;
+import jbvb.io.InputStrebmRebder;
 
 /**
- * CredentialsCache stores credentials(tickets, session keys, etc) in a semi-permanent store
- * for later use by different program.
+ * CredentiblsCbche stores credentibls(tickets, session keys, etc) in b semi-permbnent store
+ * for lbter use by different progrbm.
  *
- * @author Yanni Zhang
+ * @buthor Ybnni Zhbng
  */
-public abstract class CredentialsCache {
-    static CredentialsCache singleton = null;
-    static String cacheName;
-    private static boolean DEBUG = Krb5.DEBUG;
+public bbstrbct clbss CredentiblsCbche {
+    stbtic CredentiblsCbche singleton = null;
+    stbtic String cbcheNbme;
+    privbte stbtic boolebn DEBUG = Krb5.DEBUG;
 
-    public static CredentialsCache getInstance(PrincipalName principal) {
-        return FileCredentialsCache.acquireInstance(principal, null);
+    public stbtic CredentiblsCbche getInstbnce(PrincipblNbme principbl) {
+        return FileCredentiblsCbche.bcquireInstbnce(principbl, null);
     }
 
-    public static CredentialsCache getInstance(String cache) {
-        if ((cache.length() >= 5) && cache.substring(0, 5).equalsIgnoreCase("FILE:")) {
-            return FileCredentialsCache.acquireInstance(null, cache.substring(5));
+    public stbtic CredentiblsCbche getInstbnce(String cbche) {
+        if ((cbche.length() >= 5) && cbche.substring(0, 5).equblsIgnoreCbse("FILE:")) {
+            return FileCredentiblsCbche.bcquireInstbnce(null, cbche.substring(5));
         }
-        // XXX else, memory credential cache
-        // default is file credential cache.
-        return FileCredentialsCache.acquireInstance(null, cache);
+        // XXX else, memory credentibl cbche
+        // defbult is file credentibl cbche.
+        return FileCredentiblsCbche.bcquireInstbnce(null, cbche);
     }
 
-    public static CredentialsCache getInstance(PrincipalName principal,
-                                               String cache) {
+    public stbtic CredentiblsCbche getInstbnce(PrincipblNbme principbl,
+                                               String cbche) {
 
-        // XXX Modify this to use URL framework of the JDK
-        if (cache != null &&
-            (cache.length() >= 5) &&
-            cache.regionMatches(true, 0, "FILE:", 0, 5)) {
-            return FileCredentialsCache.acquireInstance(principal,
-                                                        cache.substring(5));
+        // XXX Modify this to use URL frbmework of the JDK
+        if (cbche != null &&
+            (cbche.length() >= 5) &&
+            cbche.regionMbtches(true, 0, "FILE:", 0, 5)) {
+            return FileCredentiblsCbche.bcquireInstbnce(principbl,
+                                                        cbche.substring(5));
         }
 
-        // When cache is null, read the default cache.
-        // XXX else ..we haven't provided support for memory credential cache
-        // yet. (supported in native code)
-        // default is file credentials cache.
-        return FileCredentialsCache.acquireInstance(principal, cache);
+        // When cbche is null, rebd the defbult cbche.
+        // XXX else ..we hbven't provided support for memory credentibl cbche
+        // yet. (supported in nbtive code)
+        // defbult is file credentibls cbche.
+        return FileCredentiblsCbche.bcquireInstbnce(principbl, cbche);
 
     }
 
     /**
-     * Gets the default credentials cache.
+     * Gets the defbult credentibls cbche.
      */
-    public static CredentialsCache getInstance() {
-        // Default credentials cache is file-based.
-        return FileCredentialsCache.acquireInstance();
+    public stbtic CredentiblsCbche getInstbnce() {
+        // Defbult credentibls cbche is file-bbsed.
+        return FileCredentiblsCbche.bcquireInstbnce();
     }
 
-    public static CredentialsCache create(PrincipalName principal, String name) {
-        if (name == null) {
-            throw new RuntimeException("cache name error");
+    public stbtic CredentiblsCbche crebte(PrincipblNbme principbl, String nbme) {
+        if (nbme == null) {
+            throw new RuntimeException("cbche nbme error");
         }
-        if ((name.length() >= 5)
-            && name.regionMatches(true, 0, "FILE:", 0, 5)) {
-            name = name.substring(5);
-            return (FileCredentialsCache.New(principal, name));
+        if ((nbme.length() >= 5)
+            && nbme.regionMbtches(true, 0, "FILE:", 0, 5)) {
+            nbme = nbme.substring(5);
+            return (FileCredentiblsCbche.New(principbl, nbme));
         }
-        // else return file credentials cache
-        // default is file credentials cache.
-        return (FileCredentialsCache.New(principal, name));
+        // else return file credentibls cbche
+        // defbult is file credentibls cbche.
+        return (FileCredentiblsCbche.New(principbl, nbme));
     }
 
-    public static CredentialsCache create(PrincipalName principal) {
-        // create a default credentials cache for a specified principal
-        return (FileCredentialsCache.New(principal));
+    public stbtic CredentiblsCbche crebte(PrincipblNbme principbl) {
+        // crebte b defbult credentibls cbche for b specified principbl
+        return (FileCredentiblsCbche.New(principbl));
     }
 
-    public static String cacheName() {
-        return cacheName;
+    public stbtic String cbcheNbme() {
+        return cbcheNbme;
     }
 
-    public abstract PrincipalName getPrimaryPrincipal();
-    public abstract void update(Credentials c);
-    public abstract void save() throws IOException, KrbException;
-    public abstract Credentials[] getCredsList();
-    public abstract Credentials getDefaultCreds();
-    public abstract Credentials getCreds(PrincipalName sname);
-    public abstract Credentials getCreds(LoginOptions options, PrincipalName sname);
+    public bbstrbct PrincipblNbme getPrimbryPrincipbl();
+    public bbstrbct void updbte(Credentibls c);
+    public bbstrbct void sbve() throws IOException, KrbException;
+    public bbstrbct Credentibls[] getCredsList();
+    public bbstrbct Credentibls getDefbultCreds();
+    public bbstrbct Credentibls getCreds(PrincipblNbme snbme);
+    public bbstrbct Credentibls getCreds(LoginOptions options, PrincipblNbme snbme);
 }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,82 +57,82 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
 
 /**
- * A {@link LocalVariablesSorter} for type mapping.
+ * A {@link LocblVbribblesSorter} for type mbpping.
  *
- * @author Eugene Kuleshov
+ * @buthor Eugene Kuleshov
  */
-public class RemappingMethodAdapter extends LocalVariablesSorter {
+public clbss RembppingMethodAdbpter extends LocblVbribblesSorter {
 
-    protected final Remapper remapper;
+    protected finbl Rembpper rembpper;
 
-    public RemappingMethodAdapter(final int access, final String desc,
-            final MethodVisitor mv, final Remapper remapper) {
-        this(Opcodes.ASM5, access, desc, mv, remapper);
+    public RembppingMethodAdbpter(finbl int bccess, finbl String desc,
+            finbl MethodVisitor mv, finbl Rembpper rembpper) {
+        this(Opcodes.ASM5, bccess, desc, mv, rembpper);
     }
 
-    protected RemappingMethodAdapter(final int api, final int access,
-            final String desc, final MethodVisitor mv, final Remapper remapper) {
-        super(api, access, desc, mv);
-        this.remapper = remapper;
-    }
-
-    @Override
-    public AnnotationVisitor visitAnnotationDefault() {
-        AnnotationVisitor av = super.visitAnnotationDefault();
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    protected RembppingMethodAdbpter(finbl int bpi, finbl int bccess,
+            finbl String desc, finbl MethodVisitor mv, finbl Rembpper rembpper) {
+        super(bpi, bccess, desc, mv);
+        this.rembpper = rembpper;
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        AnnotationVisitor av = super.visitAnnotation(remapper.mapDesc(desc),
+    public AnnotbtionVisitor visitAnnotbtionDefbult() {
+        AnnotbtionVisitor bv = super.visitAnnotbtionDefbult();
+        return bv == null ? bv : new RembppingAnnotbtionAdbpter(bv, rembpper);
+    }
+
+    @Override
+    public AnnotbtionVisitor visitAnnotbtion(String desc, boolebn visible) {
+        AnnotbtionVisitor bv = super.visitAnnotbtion(rembpper.mbpDesc(desc),
                 visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+        return bv == null ? bv : new RembppingAnnotbtionAdbpter(bv, rembpper);
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        AnnotationVisitor av = super.visitTypeAnnotation(typeRef, typePath,
-                remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    public AnnotbtionVisitor visitTypeAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        AnnotbtionVisitor bv = super.visitTypeAnnotbtion(typeRef, typePbth,
+                rembpper.mbpDesc(desc), visible);
+        return bv == null ? bv : new RembppingAnnotbtionAdbpter(bv, rembpper);
     }
 
     @Override
-    public AnnotationVisitor visitParameterAnnotation(int parameter,
-            String desc, boolean visible) {
-        AnnotationVisitor av = super.visitParameterAnnotation(parameter,
-                remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    public AnnotbtionVisitor visitPbrbmeterAnnotbtion(int pbrbmeter,
+            String desc, boolebn visible) {
+        AnnotbtionVisitor bv = super.visitPbrbmeterAnnotbtion(pbrbmeter,
+                rembpper.mbpDesc(desc), visible);
+        return bv == null ? bv : new RembppingAnnotbtionAdbpter(bv, rembpper);
     }
 
     @Override
-    public void visitFrame(int type, int nLocal, Object[] local, int nStack,
-            Object[] stack) {
-        super.visitFrame(type, nLocal, remapEntries(nLocal, local), nStack,
-                remapEntries(nStack, stack));
+    public void visitFrbme(int type, int nLocbl, Object[] locbl, int nStbck,
+            Object[] stbck) {
+        super.visitFrbme(type, nLocbl, rembpEntries(nLocbl, locbl), nStbck,
+                rembpEntries(nStbck, stbck));
     }
 
-    private Object[] remapEntries(int n, Object[] entries) {
+    privbte Object[] rembpEntries(int n, Object[] entries) {
         for (int i = 0; i < n; i++) {
-            if (entries[i] instanceof String) {
+            if (entries[i] instbnceof String) {
                 Object[] newEntries = new Object[n];
                 if (i > 0) {
-                    System.arraycopy(entries, 0, newEntries, 0, i);
+                    System.brrbycopy(entries, 0, newEntries, 0, i);
                 }
                 do {
                     Object t = entries[i];
-                    newEntries[i++] = t instanceof String ? remapper
-                            .mapType((String) t) : t;
+                    newEntries[i++] = t instbnceof String ? rembpper
+                            .mbpType((String) t) : t;
                 } while (i < n);
                 return newEntries;
             }
@@ -141,113 +141,113 @@ public class RemappingMethodAdapter extends LocalVariablesSorter {
     }
 
     @Override
-    public void visitFieldInsn(int opcode, String owner, String name,
+    public void visitFieldInsn(int opcode, String owner, String nbme,
             String desc) {
-        super.visitFieldInsn(opcode, remapper.mapType(owner),
-                remapper.mapFieldName(owner, name, desc),
-                remapper.mapDesc(desc));
+        super.visitFieldInsn(opcode, rembpper.mbpType(owner),
+                rembpper.mbpFieldNbme(owner, nbme, desc),
+                rembpper.mbpDesc(desc));
     }
 
-    @Deprecated
+    @Deprecbted
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        if (bpi >= Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc,
+        doVisitMethodInsn(opcode, owner, nbme, desc,
                 opcode == Opcodes.INVOKEINTERFACE);
     }
 
     @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
+            super.visitMethodInsn(opcode, owner, nbme, desc, itf);
             return;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMethodInsn(opcode, owner, nbme, desc, itf);
     }
 
-    private void doVisitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
-        // Calling super.visitMethodInsn requires to call the correct version
-        // depending on this.api (otherwise infinite loops can occur). To
-        // simplify and to make it easier to automatically remove the backward
-        // compatibility code, we inline the code of the overridden method here.
+    privbte void doVisitMethodInsn(int opcode, String owner, String nbme,
+            String desc, boolebn itf) {
+        // Cblling super.visitMethodInsn requires to cbll the correct version
+        // depending on this.bpi (otherwise infinite loops cbn occur). To
+        // simplify bnd to mbke it ebsier to butombticblly remove the bbckwbrd
+        // compbtibility code, we inline the code of the overridden method here.
         // IMPORTANT: THIS ASSUMES THAT visitMethodInsn IS NOT OVERRIDDEN IN
-        // LocalVariableSorter.
+        // LocblVbribbleSorter.
         if (mv != null) {
-            mv.visitMethodInsn(opcode, remapper.mapType(owner),
-                    remapper.mapMethodName(owner, name, desc),
-                    remapper.mapMethodDesc(desc), itf);
+            mv.visitMethodInsn(opcode, rembpper.mbpType(owner),
+                    rembpper.mbpMethodNbme(owner, nbme, desc),
+                    rembpper.mbpMethodDesc(desc), itf);
         }
     }
 
     @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
+    public void visitInvokeDynbmicInsn(String nbme, String desc, Hbndle bsm,
             Object... bsmArgs) {
         for (int i = 0; i < bsmArgs.length; i++) {
-            bsmArgs[i] = remapper.mapValue(bsmArgs[i]);
+            bsmArgs[i] = rembpper.mbpVblue(bsmArgs[i]);
         }
-        super.visitInvokeDynamicInsn(
-                remapper.mapInvokeDynamicMethodName(name, desc),
-                remapper.mapMethodDesc(desc), (Handle) remapper.mapValue(bsm),
+        super.visitInvokeDynbmicInsn(
+                rembpper.mbpInvokeDynbmicMethodNbme(nbme, desc),
+                rembpper.mbpMethodDesc(desc), (Hbndle) rembpper.mbpVblue(bsm),
                 bsmArgs);
     }
 
     @Override
     public void visitTypeInsn(int opcode, String type) {
-        super.visitTypeInsn(opcode, remapper.mapType(type));
+        super.visitTypeInsn(opcode, rembpper.mbpType(type));
     }
 
     @Override
     public void visitLdcInsn(Object cst) {
-        super.visitLdcInsn(remapper.mapValue(cst));
+        super.visitLdcInsn(rembpper.mbpVblue(cst));
     }
 
     @Override
-    public void visitMultiANewArrayInsn(String desc, int dims) {
-        super.visitMultiANewArrayInsn(remapper.mapDesc(desc), dims);
+    public void visitMultiANewArrbyInsn(String desc, int dims) {
+        super.visitMultiANewArrbyInsn(rembpper.mbpDesc(desc), dims);
     }
 
     @Override
-    public AnnotationVisitor visitInsnAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        AnnotationVisitor av = super.visitInsnAnnotation(typeRef, typePath,
-                remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    public AnnotbtionVisitor visitInsnAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        AnnotbtionVisitor bv = super.visitInsnAnnotbtion(typeRef, typePbth,
+                rembpper.mbpDesc(desc), visible);
+        return bv == null ? bv : new RembppingAnnotbtionAdbpter(bv, rembpper);
     }
 
     @Override
-    public void visitTryCatchBlock(Label start, Label end, Label handler,
+    public void visitTryCbtchBlock(Lbbel stbrt, Lbbel end, Lbbel hbndler,
             String type) {
-        super.visitTryCatchBlock(start, end, handler, type == null ? null
-                : remapper.mapType(type));
+        super.visitTryCbtchBlock(stbrt, end, hbndler, type == null ? null
+                : rembpper.mbpType(type));
     }
 
     @Override
-    public AnnotationVisitor visitTryCatchAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        AnnotationVisitor av = super.visitTryCatchAnnotation(typeRef, typePath,
-                remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    public AnnotbtionVisitor visitTryCbtchAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        AnnotbtionVisitor bv = super.visitTryCbtchAnnotbtion(typeRef, typePbth,
+                rembpper.mbpDesc(desc), visible);
+        return bv == null ? bv : new RembppingAnnotbtionAdbpter(bv, rembpper);
     }
 
     @Override
-    public void visitLocalVariable(String name, String desc, String signature,
-            Label start, Label end, int index) {
-        super.visitLocalVariable(name, remapper.mapDesc(desc),
-                remapper.mapSignature(signature, true), start, end, index);
+    public void visitLocblVbribble(String nbme, String desc, String signbture,
+            Lbbel stbrt, Lbbel end, int index) {
+        super.visitLocblVbribble(nbme, rembpper.mbpDesc(desc),
+                rembpper.mbpSignbture(signbture, true), stbrt, end, index);
     }
 
     @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        AnnotationVisitor av = super.visitLocalVariableAnnotation(typeRef,
-                typePath, start, end, index, remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    public AnnotbtionVisitor visitLocblVbribbleAnnotbtion(int typeRef,
+            TypePbth typePbth, Lbbel[] stbrt, Lbbel[] end, int[] index,
+            String desc, boolebn visible) {
+        AnnotbtionVisitor bv = super.visitLocblVbribbleAnnotbtion(typeRef,
+                typePbth, stbrt, end, index, rembpper.mbpDesc(desc), visible);
+        return bv == null ? bv : new RembppingAnnotbtionAdbpter(bv, rembpper);
     }
 }

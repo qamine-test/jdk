@@ -3,246 +3,246 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebmWriter;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
+import com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Converts <code>String</code>s into <code>Node</code>s and visa versa.
+ * Converts <code>String</code>s into <code>Node</code>s bnd visb versb.
  *
- * An abstract class for common Serializer functionality
+ * An bbstrbct clbss for common Seriblizer functionblity
  */
-public abstract class AbstractSerializer implements Serializer {
+public bbstrbct clbss AbstrbctSeriblizer implements Seriblizer {
 
-    protected Canonicalizer canon;
+    protected Cbnonicblizer cbnon;
 
-    public void setCanonicalizer(Canonicalizer canon) {
-        this.canon = canon;
+    public void setCbnonicblizer(Cbnonicblizer cbnon) {
+        this.cbnon = cbnon;
     }
 
     /**
-     * Returns a <code>String</code> representation of the specified
+     * Returns b <code>String</code> representbtion of the specified
      * <code>Element</code>.
      * <p/>
-     * Refer also to comments about setup of format.
+     * Refer blso to comments bbout setup of formbt.
      *
-     * @param element the <code>Element</code> to serialize.
-     * @return the <code>String</code> representation of the serilaized
+     * @pbrbm element the <code>Element</code> to seriblize.
+     * @return the <code>String</code> representbtion of the serilbized
      *   <code>Element</code>.
      * @throws Exception
      */
-    public String serialize(Element element) throws Exception {
-        return canonSerialize(element);
+    public String seriblize(Element element) throws Exception {
+        return cbnonSeriblize(element);
     }
 
     /**
-     * Returns a <code>byte[]</code> representation of the specified
+     * Returns b <code>byte[]</code> representbtion of the specified
      * <code>Element</code>.
      *
-     * @param element the <code>Element</code> to serialize.
-     * @return the <code>byte[]</code> representation of the serilaized
+     * @pbrbm element the <code>Element</code> to seriblize.
+     * @return the <code>byte[]</code> representbtion of the serilbized
      *   <code>Element</code>.
      * @throws Exception
      */
-    public byte[] serializeToByteArray(Element element) throws Exception {
-        return canonSerializeToByteArray(element);
+    public byte[] seriblizeToByteArrby(Element element) throws Exception {
+        return cbnonSeriblizeToByteArrby(element);
     }
 
     /**
-     * Returns a <code>String</code> representation of the specified
+     * Returns b <code>String</code> representbtion of the specified
      * <code>NodeList</code>.
      * <p/>
-     * This is a special case because the NodeList may represent a
-     * <code>DocumentFragment</code>. A document fragment may be a
-     * non-valid XML document (refer to appropriate description of
-     * W3C) because it my start with a non-element node, e.g. a text
+     * This is b specibl cbse becbuse the NodeList mby represent b
+     * <code>DocumentFrbgment</code>. A document frbgment mby be b
+     * non-vblid XML document (refer to bppropribte description of
+     * W3C) becbuse it my stbrt with b non-element node, e.g. b text
      * node.
      * <p/>
-     * The methods first converts the node list into a document fragment.
-     * Special care is taken to not destroy the current document, thus
-     * the method clones the nodes (deep cloning) before it appends
-     * them to the document fragment.
+     * The methods first converts the node list into b document frbgment.
+     * Specibl cbre is tbken to not destroy the current document, thus
+     * the method clones the nodes (deep cloning) before it bppends
+     * them to the document frbgment.
      * <p/>
-     * Refer also to comments about setup of format.
+     * Refer blso to comments bbout setup of formbt.
      *
-     * @param content the <code>NodeList</code> to serialize.
-     * @return the <code>String</code> representation of the serialized
+     * @pbrbm content the <code>NodeList</code> to seriblize.
+     * @return the <code>String</code> representbtion of the seriblized
      *   <code>NodeList</code>.
      * @throws Exception
      */
-    public String serialize(NodeList content) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        canon.setWriter(baos);
-        canon.notReset();
+    public String seriblize(NodeList content) throws Exception {
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+        cbnon.setWriter(bbos);
+        cbnon.notReset();
         for (int i = 0; i < content.getLength(); i++) {
-            canon.canonicalizeSubtree(content.item(i));
+            cbnon.cbnonicblizeSubtree(content.item(i));
         }
-        String ret = baos.toString("UTF-8");
-        baos.reset();
+        String ret = bbos.toString("UTF-8");
+        bbos.reset();
         return ret;
     }
 
     /**
-     * Returns a <code>byte[]</code> representation of the specified
+     * Returns b <code>byte[]</code> representbtion of the specified
      * <code>NodeList</code>.
      *
-     * @param content the <code>NodeList</code> to serialize.
-     * @return the <code>byte[]</code> representation of the serialized
+     * @pbrbm content the <code>NodeList</code> to seriblize.
+     * @return the <code>byte[]</code> representbtion of the seriblized
      *   <code>NodeList</code>.
      * @throws Exception
      */
-    public byte[] serializeToByteArray(NodeList content) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        canon.setWriter(baos);
-        canon.notReset();
+    public byte[] seriblizeToByteArrby(NodeList content) throws Exception {
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+        cbnon.setWriter(bbos);
+        cbnon.notReset();
         for (int i = 0; i < content.getLength(); i++) {
-            canon.canonicalizeSubtree(content.item(i));
+            cbnon.cbnonicblizeSubtree(content.item(i));
         }
-        return baos.toByteArray();
+        return bbos.toByteArrby();
     }
 
     /**
-     * Use the Canonicalizer to serialize the node
-     * @param node
-     * @return the canonicalization of the node
+     * Use the Cbnonicblizer to seriblize the node
+     * @pbrbm node
+     * @return the cbnonicblizbtion of the node
      * @throws Exception
      */
-    public String canonSerialize(Node node) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        canon.setWriter(baos);
-        canon.notReset();
-        canon.canonicalizeSubtree(node);
-        String ret = baos.toString("UTF-8");
-        baos.reset();
+    public String cbnonSeriblize(Node node) throws Exception {
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+        cbnon.setWriter(bbos);
+        cbnon.notReset();
+        cbnon.cbnonicblizeSubtree(node);
+        String ret = bbos.toString("UTF-8");
+        bbos.reset();
         return ret;
     }
 
     /**
-     * Use the Canonicalizer to serialize the node
-     * @param node
-     * @return the (byte[]) canonicalization of the node
+     * Use the Cbnonicblizer to seriblize the node
+     * @pbrbm node
+     * @return the (byte[]) cbnonicblizbtion of the node
      * @throws Exception
      */
-    public byte[] canonSerializeToByteArray(Node node) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        canon.setWriter(baos);
-        canon.notReset();
-        canon.canonicalizeSubtree(node);
-        return baos.toByteArray();
+    public byte[] cbnonSeriblizeToByteArrby(Node node) throws Exception {
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+        cbnon.setWriter(bbos);
+        cbnon.notReset();
+        cbnon.cbnonicblizeSubtree(node);
+        return bbos.toByteArrby();
     }
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
+     * @pbrbm source
+     * @pbrbm ctx
+     * @return the Node resulting from the pbrse of the source
      * @throws XMLEncryptionException
      */
-    public abstract Node deserialize(String source, Node ctx) throws XMLEncryptionException;
+    public bbstrbct Node deseriblize(String source, Node ctx) throws XMLEncryptionException;
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
+     * @pbrbm source
+     * @pbrbm ctx
+     * @return the Node resulting from the pbrse of the source
      * @throws XMLEncryptionException
      */
-    public abstract Node deserialize(byte[] source, Node ctx) throws XMLEncryptionException;
+    public bbstrbct Node deseriblize(byte[] source, Node ctx) throws XMLEncryptionException;
 
-    protected static byte[] createContext(byte[] source, Node ctx) throws XMLEncryptionException {
-        // Create the context to parse the document against
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    protected stbtic byte[] crebteContext(byte[] source, Node ctx) throws XMLEncryptionException {
+        // Crebte the context to pbrse the document bgbinst
+        ByteArrbyOutputStrebm byteArrbyOutputStrebm = new ByteArrbyOutputStrebm();
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
-            outputStreamWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><dummy");
+            OutputStrebmWriter outputStrebmWriter = new OutputStrebmWriter(byteArrbyOutputStrebm, "UTF-8");
+            outputStrebmWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><dummy");
 
-            // Run through each node up to the document node and find any xmlns: nodes
-            Map<String, String> storedNamespaces = new HashMap<String, String>();
+            // Run through ebch node up to the document node bnd find bny xmlns: nodes
+            Mbp<String, String> storedNbmespbces = new HbshMbp<String, String>();
             Node wk = ctx;
             while (wk != null) {
-                NamedNodeMap atts = wk.getAttributes();
-                if (atts != null) {
-                    for (int i = 0; i < atts.getLength(); ++i) {
-                        Node att = atts.item(i);
-                        String nodeName = att.getNodeName();
-                        if ((nodeName.equals("xmlns") || nodeName.startsWith("xmlns:"))
-                                && !storedNamespaces.containsKey(att.getNodeName())) {
-                            outputStreamWriter.write(" ");
-                            outputStreamWriter.write(nodeName);
-                            outputStreamWriter.write("=\"");
-                            outputStreamWriter.write(att.getNodeValue());
-                            outputStreamWriter.write("\"");
-                            storedNamespaces.put(nodeName, att.getNodeValue());
+                NbmedNodeMbp btts = wk.getAttributes();
+                if (btts != null) {
+                    for (int i = 0; i < btts.getLength(); ++i) {
+                        Node btt = btts.item(i);
+                        String nodeNbme = btt.getNodeNbme();
+                        if ((nodeNbme.equbls("xmlns") || nodeNbme.stbrtsWith("xmlns:"))
+                                && !storedNbmespbces.contbinsKey(btt.getNodeNbme())) {
+                            outputStrebmWriter.write(" ");
+                            outputStrebmWriter.write(nodeNbme);
+                            outputStrebmWriter.write("=\"");
+                            outputStrebmWriter.write(btt.getNodeVblue());
+                            outputStrebmWriter.write("\"");
+                            storedNbmespbces.put(nodeNbme, btt.getNodeVblue());
                         }
                     }
                 }
-                wk = wk.getParentNode();
+                wk = wk.getPbrentNode();
             }
-            outputStreamWriter.write(">");
-            outputStreamWriter.flush();
-            byteArrayOutputStream.write(source);
+            outputStrebmWriter.write(">");
+            outputStrebmWriter.flush();
+            byteArrbyOutputStrebm.write(source);
 
-            outputStreamWriter.write("</dummy>");
-            outputStreamWriter.close();
+            outputStrebmWriter.write("</dummy>");
+            outputStrebmWriter.close();
 
-            return byteArrayOutputStream.toByteArray();
-        } catch (UnsupportedEncodingException e) {
+            return byteArrbyOutputStrebm.toByteArrby();
+        } cbtch (UnsupportedEncodingException e) {
             throw new XMLEncryptionException("empty", e);
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new XMLEncryptionException("empty", e);
         }
     }
 
-    protected static String createContext(String source, Node ctx) {
-        // Create the context to parse the document against
+    protected stbtic String crebteContext(String source, Node ctx) {
+        // Crebte the context to pbrse the document bgbinst
         StringBuilder sb = new StringBuilder();
-        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?><dummy");
+        sb.bppend("<?xml version=\"1.0\" encoding=\"UTF-8\"?><dummy");
 
-        // Run through each node up to the document node and find any xmlns: nodes
-        Map<String, String> storedNamespaces = new HashMap<String, String>();
+        // Run through ebch node up to the document node bnd find bny xmlns: nodes
+        Mbp<String, String> storedNbmespbces = new HbshMbp<String, String>();
         Node wk = ctx;
         while (wk != null) {
-            NamedNodeMap atts = wk.getAttributes();
-            if (atts != null) {
-                for (int i = 0; i < atts.getLength(); ++i) {
-                    Node att = atts.item(i);
-                    String nodeName = att.getNodeName();
-                    if ((nodeName.equals("xmlns") || nodeName.startsWith("xmlns:"))
-                        && !storedNamespaces.containsKey(att.getNodeName())) {
-                        sb.append(" " + nodeName + "=\"" + att.getNodeValue() + "\"");
-                        storedNamespaces.put(nodeName, att.getNodeValue());
+            NbmedNodeMbp btts = wk.getAttributes();
+            if (btts != null) {
+                for (int i = 0; i < btts.getLength(); ++i) {
+                    Node btt = btts.item(i);
+                    String nodeNbme = btt.getNodeNbme();
+                    if ((nodeNbme.equbls("xmlns") || nodeNbme.stbrtsWith("xmlns:"))
+                        && !storedNbmespbces.contbinsKey(btt.getNodeNbme())) {
+                        sb.bppend(" " + nodeNbme + "=\"" + btt.getNodeVblue() + "\"");
+                        storedNbmespbces.put(nodeNbme, btt.getNodeVblue());
                     }
                 }
             }
-            wk = wk.getParentNode();
+            wk = wk.getPbrentNode();
         }
-        sb.append(">" + source + "</dummy>");
+        sb.bppend(">" + source + "</dummy>");
         return sb.toString();
     }
 

@@ -1,233 +1,233 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.DocAttribute;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.DocAttribute;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class SheetCollate is a printing attribute class, an enumeration, that
- * specifies whether or not the media sheets of each copy of each printed
- * document in a job are to be in sequence, when multiple copies of the document
- * are specified by the {@link Copies Copies} attribute. When SheetCollate is
- * COLLATED, each copy of each document is printed with the print-stream sheets
- * in sequence. When SheetCollate is UNCOLLATED, each print-stream sheet is
- * printed a number of times equal to the value of the {@link Copies Copies}
- * attribute in succession. For example, suppose a document produces two media
- * sheets as output, {@link Copies Copies} is 6, and SheetCollate is UNCOLLATED;
- * in this case six copies of the first media sheet are printed followed by
- * six copies of the second media sheet.
+ * Clbss SheetCollbte is b printing bttribute clbss, bn enumerbtion, thbt
+ * specifies whether or not the medib sheets of ebch copy of ebch printed
+ * document in b job bre to be in sequence, when multiple copies of the document
+ * bre specified by the {@link Copies Copies} bttribute. When SheetCollbte is
+ * COLLATED, ebch copy of ebch document is printed with the print-strebm sheets
+ * in sequence. When SheetCollbte is UNCOLLATED, ebch print-strebm sheet is
+ * printed b number of times equbl to the vblue of the {@link Copies Copies}
+ * bttribute in succession. For exbmple, suppose b document produces two medib
+ * sheets bs output, {@link Copies Copies} is 6, bnd SheetCollbte is UNCOLLATED;
+ * in this cbse six copies of the first medib sheet bre printed followed by
+ * six copies of the second medib sheet.
  * <P>
- * Whether the effect of sheet collation is achieved by placing copies of a
- * document in multiple output bins or in the same output bin with
- * implementation defined document separation is implementation dependent.
- * Also whether it is achieved by making multiple passes over the job or by
- * using an output sorter is implementation dependent.
+ * Whether the effect of sheet collbtion is bchieved by plbcing copies of b
+ * document in multiple output bins or in the sbme output bin with
+ * implementbtion defined document sepbrbtion is implementbtion dependent.
+ * Also whether it is bchieved by mbking multiple pbsses over the job or by
+ * using bn output sorter is implementbtion dependent.
  * <P>
- * If a printer does not support the SheetCollate attribute (meaning the client
- * cannot specify any particular sheet collation), the printer must behave as
- * though SheetCollate were always set to COLLATED.
+ * If b printer does not support the SheetCollbte bttribute (mebning the client
+ * cbnnot specify bny pbrticulbr sheet collbtion), the printer must behbve bs
+ * though SheetCollbte were blwbys set to COLLATED.
  * <P>
- * The SheetCollate attribute interacts with the {@link MultipleDocumentHandling
- * MultipleDocumentHandling} attribute. The {@link MultipleDocumentHandling
- * MultipleDocumentHandling} attribute describes the collation of entire
- * documents, and the SheetCollate attribute describes the semantics of
- * collating individual pages within a document.
+ * The SheetCollbte bttribute interbcts with the {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} bttribute. The {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} bttribute describes the collbtion of entire
+ * documents, bnd the SheetCollbte bttribute describes the sembntics of
+ * collbting individubl pbges within b document.
  * <P>
- * The effect of a SheetCollate attribute on a multidoc print job (a job with
- * multiple documents) depends on whether all the docs have the same sheet
- * collation specified or whether different docs have different sheet
- * collations specified, and on the (perhaps defaulted) value of the {@link
- * MultipleDocumentHandling MultipleDocumentHandling} attribute.
+ * The effect of b SheetCollbte bttribute on b multidoc print job (b job with
+ * multiple documents) depends on whether bll the docs hbve the sbme sheet
+ * collbtion specified or whether different docs hbve different sheet
+ * collbtions specified, bnd on the (perhbps defbulted) vblue of the {@link
+ * MultipleDocumentHbndling MultipleDocumentHbndling} bttribute.
  * <UL>
  * <LI>
- * If all the docs have the same sheet collation specified, then the following
- * combinations of SheetCollate and {@link MultipleDocumentHandling
- * MultipleDocumentHandling} are permitted, and the printer reports an error
- * when the job is submitted if any other combination is specified:
+ * If bll the docs hbve the sbme sheet collbtion specified, then the following
+ * combinbtions of SheetCollbte bnd {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} bre permitted, bnd the printer reports bn error
+ * when the job is submitted if bny other combinbtion is specified:
  * <UL>
  * <LI>
- * SheetCollate = COLLATED, {@link MultipleDocumentHandling
- * MultipleDocumentHandling} = SINGLE_DOCUMENT -- All the input docs will be
+ * SheetCollbte = COLLATED, {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} = SINGLE_DOCUMENT -- All the input docs will be
  * combined into one output document. Multiple copies of the output document
- * will be produced with pages in collated order, i.e. pages 1, 2, 3, . . .,
+ * will be produced with pbges in collbted order, i.e. pbges 1, 2, 3, . . .,
  * 1, 2, 3, . . .
  *
  * <LI>
- * SheetCollate = COLLATED, {@link MultipleDocumentHandling
- * MultipleDocumentHandling} = SINGLE_DOCUMENT_NEW_SHEET -- All the input docs
- * will be combined into one output document, and the first impression of each
- * input doc will always start on a new media sheet. Multiple copies of the
- * output document will be produced with pages in collated order, i.e. pages
+ * SheetCollbte = COLLATED, {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} = SINGLE_DOCUMENT_NEW_SHEET -- All the input docs
+ * will be combined into one output document, bnd the first impression of ebch
+ * input doc will blwbys stbrt on b new medib sheet. Multiple copies of the
+ * output document will be produced with pbges in collbted order, i.e. pbges
  * 1, 2, 3, . . ., 1, 2, 3, . . .
  *
  * <LI>
- * SheetCollate = COLLATED, {@link MultipleDocumentHandling
- * MultipleDocumentHandling} = SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Each
- * input doc will remain a separate output document. Multiple copies of each
- * output document (call them A, B, . . .) will be produced with each document's
- * pages in collated order, but the documents themselves in uncollated order,
- * i.e. pages A1, A2, A3, . . ., A1, A2, A3, . . ., B1, B2, B3, . . ., B1, B2,
+ * SheetCollbte = COLLATED, {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} = SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Ebch
+ * input doc will rembin b sepbrbte output document. Multiple copies of ebch
+ * output document (cbll them A, B, . . .) will be produced with ebch document's
+ * pbges in collbted order, but the documents themselves in uncollbted order,
+ * i.e. pbges A1, A2, A3, . . ., A1, A2, A3, . . ., B1, B2, B3, . . ., B1, B2,
  * B3, . . .
  *
  * <LI>
- * SheetCollate = COLLATED, {@link MultipleDocumentHandling
- * MultipleDocumentHandling} = SEPARATE_DOCUMENTS_COLLATED_COPIES -- Each input
- * doc will remain a separate output document. Multiple copies of each output
- * document (call them A, B, . . .) will be produced with each document's pages
- * in collated order, with the documents themselves also in collated order, i.e.
- * pages A1, A2, A3, . . ., B1, B2, B3, . . ., A1, A2, A3, . . ., B1, B2, B3,
+ * SheetCollbte = COLLATED, {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} = SEPARATE_DOCUMENTS_COLLATED_COPIES -- Ebch input
+ * doc will rembin b sepbrbte output document. Multiple copies of ebch output
+ * document (cbll them A, B, . . .) will be produced with ebch document's pbges
+ * in collbted order, with the documents themselves blso in collbted order, i.e.
+ * pbges A1, A2, A3, . . ., B1, B2, B3, . . ., A1, A2, A3, . . ., B1, B2, B3,
  * . . .
  *
  * <LI>
- * SheetCollate = UNCOLLATED, {@link MultipleDocumentHandling
- * MultipleDocumentHandling} = SINGLE_DOCUMENT -- All the input docs will be
+ * SheetCollbte = UNCOLLATED, {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} = SINGLE_DOCUMENT -- All the input docs will be
  * combined into one output document. Multiple copies of the output document
- * will be produced with pages in uncollated order, i.e. pages 1, 1, . . .,
+ * will be produced with pbges in uncollbted order, i.e. pbges 1, 1, . . .,
  * 2, 2, . . ., 3, 3, . . .
  *
  * <LI>
- * SheetCollate = UNCOLLATED, {@link MultipleDocumentHandling
- * MultipleDocumentHandling} = SINGLE_DOCUMENT_NEW_SHEET -- All the input docs
- * will be combined into one output document, and the first impression of each
- * input doc will always start on a new media sheet. Multiple copies of the
- * output document will be produced with pages in uncollated order, i.e. pages
+ * SheetCollbte = UNCOLLATED, {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} = SINGLE_DOCUMENT_NEW_SHEET -- All the input docs
+ * will be combined into one output document, bnd the first impression of ebch
+ * input doc will blwbys stbrt on b new medib sheet. Multiple copies of the
+ * output document will be produced with pbges in uncollbted order, i.e. pbges
  * 1, 1, . . ., 2, 2, . . ., 3, 3, . . .
  *
  * <LI>
- * SheetCollate = UNCOLLATED, {@link MultipleDocumentHandling
- * MultipleDocumentHandling} = SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Each
- * input doc will remain a separate output document. Multiple copies of each
- * output document (call them A, B, . . .) will be produced with each document's
- * pages in uncollated order, with the documents themselves also in uncollated
- * order, i.e. pages A1, A1, . . ., A2, A2, . . ., A3, A3, . . ., B1, B1, . . .,
+ * SheetCollbte = UNCOLLATED, {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} = SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Ebch
+ * input doc will rembin b sepbrbte output document. Multiple copies of ebch
+ * output document (cbll them A, B, . . .) will be produced with ebch document's
+ * pbges in uncollbted order, with the documents themselves blso in uncollbted
+ * order, i.e. pbges A1, A1, . . ., A2, A2, . . ., A3, A3, . . ., B1, B1, . . .,
  * B2, B2, . . ., B3, B3, . . .
  * </UL>
  *
  * <LI>
- * If different docs have different sheet collations specified, then only one
- * value of {@link MultipleDocumentHandling MultipleDocumentHandling} is
- * permitted, and the printer reports an error when the job is submitted if any
- * other value is specified:
+ * If different docs hbve different sheet collbtions specified, then only one
+ * vblue of {@link MultipleDocumentHbndling MultipleDocumentHbndling} is
+ * permitted, bnd the printer reports bn error when the job is submitted if bny
+ * other vblue is specified:
  * <UL>
  * <LI>
- * {@link MultipleDocumentHandling MultipleDocumentHandling} =
- * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Each input doc will remain a separate
- * output document. Multiple copies of each output document (call them A, B,
- * . . .) will be produced with each document's pages in collated or uncollated
- * order as the corresponding input doc's SheetCollate attribute specifies, and
- * with the documents themselves in uncollated order. If document A had
- * SheetCollate = UNCOLLATED and document B had SheetCollate = COLLATED, the
- * following pages would be produced: A1, A1, . . ., A2, A2, . . ., A3, A3,
+ * {@link MultipleDocumentHbndling MultipleDocumentHbndling} =
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Ebch input doc will rembin b sepbrbte
+ * output document. Multiple copies of ebch output document (cbll them A, B,
+ * . . .) will be produced with ebch document's pbges in collbted or uncollbted
+ * order bs the corresponding input doc's SheetCollbte bttribute specifies, bnd
+ * with the documents themselves in uncollbted order. If document A hbd
+ * SheetCollbte = UNCOLLATED bnd document B hbd SheetCollbte = COLLATED, the
+ * following pbges would be produced: A1, A1, . . ., A2, A2, . . ., A3, A3,
  * . . ., B1, B2, B3, . . ., B1, B2, B3, . . .
  * </UL>
  * </UL>
  * <P>
- * <B>IPP Compatibility:</B> SheetCollate is not an IPP attribute at present.
+ * <B>IPP Compbtibility:</B> SheetCollbte is not bn IPP bttribute bt present.
  *
- * @see  MultipleDocumentHandling
+ * @see  MultipleDocumentHbndling
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class SheetCollate extends EnumSyntax
+public finbl clbss SheetCollbte extends EnumSyntbx
     implements DocAttribute, PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = 7080587914259873003L;
+    privbte stbtic finbl long seriblVersionUID = 7080587914259873003L;
 
     /**
-     * Sheets within a document appear in uncollated order when multiple
-     * copies are printed.
+     * Sheets within b document bppebr in uncollbted order when multiple
+     * copies bre printed.
      */
-    public static final SheetCollate UNCOLLATED = new SheetCollate(0);
+    public stbtic finbl SheetCollbte UNCOLLATED = new SheetCollbte(0);
 
     /**
-     * Sheets within a document appear in collated order when multiple copies
-     * are printed.
+     * Sheets within b document bppebr in collbted order when multiple copies
+     * bre printed.
      */
-    public static final SheetCollate COLLATED = new SheetCollate(1);
+    public stbtic finbl SheetCollbte COLLATED = new SheetCollbte(1);
 
     /**
-     * Construct a new sheet collate enumeration value with the given integer
-     * value.
+     * Construct b new sheet collbte enumerbtion vblue with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected SheetCollate(int value) {
-        super (value);
+    protected SheetCollbte(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
-        "uncollated",
-        "collated"
+    privbte stbtic finbl String[] myStringTbble = {
+        "uncollbted",
+        "collbted"
     };
 
-    private static final SheetCollate[] myEnumValueTable = {
+    privbte stbtic finbl SheetCollbte[] myEnumVblueTbble = {
         UNCOLLATED,
         COLLATED
     };
 
     /**
-     * Returns the string table for class SheetCollate.
+     * Returns the string tbble for clbss SheetCollbte.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protected String[] getStringTbble() {
+        return myStringTbble;
     }
 
     /**
-     * Returns the enumeration value table for class SheetCollate.
+     * Returns the enumerbtion vblue tbble for clbss SheetCollbte.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return myEnumVblueTbble;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class SheetCollate, the category is class SheetCollate itself.
+     * For clbss SheetCollbte, the cbtegory is clbss SheetCollbte itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return SheetCollate.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return SheetCollbte.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class SheetCollate, the category name is <CODE>"sheet-collate"</CODE>.
+     * For clbss SheetCollbte, the cbtegory nbme is <CODE>"sheet-collbte"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "sheet-collate";
+    public finbl String getNbme() {
+        return "sheet-collbte";
     }
 
 }

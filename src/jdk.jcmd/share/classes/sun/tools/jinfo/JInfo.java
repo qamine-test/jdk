@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jinfo;
+pbckbge sun.tools.jinfo;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.lbng.reflect.Method;
+import jbvb.util.Arrbys;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
 
-import com.sun.tools.attach.VirtualMachine;
+import com.sun.tools.bttbch.VirtublMbchine;
 
-import sun.tools.attach.HotSpotVirtualMachine;
+import sun.tools.bttbch.HotSpotVirtublMbchine;
 
 /*
- * This class is the main class for the JInfo utility. It parses its arguments
- * and decides if the command should be satisfied using the VM attach mechanism
- * or an SA tool.
+ * This clbss is the mbin clbss for the JInfo utility. It pbrses its brguments
+ * bnd decides if the commbnd should be sbtisfied using the VM bttbch mechbnism
+ * or bn SA tool.
  */
-final public class JInfo {
-    private boolean useSA = false;
-    private String[] args = null;
+finbl public clbss JInfo {
+    privbte boolebn useSA = fblse;
+    privbte String[] brgs = null;
 
-    private JInfo(String[] args) throws IllegalArgumentException {
-        if (args.length == 0) {
-            throw new IllegalArgumentException();
+    privbte JInfo(String[] brgs) throws IllegblArgumentException {
+        if (brgs.length == 0) {
+            throw new IllegblArgumentException();
         }
 
-        int argCopyIndex = 0;
-        // First determine if we should launch SA or not
-        if (args[0].equals("-F")) {
+        int brgCopyIndex = 0;
+        // First determine if we should lbunch SA or not
+        if (brgs[0].equbls("-F")) {
             // delete the -F
-            argCopyIndex = 1;
+            brgCopyIndex = 1;
             useSA = true;
-        } else if (args[0].equals("-flags")
-                   || args[0].equals("-sysprops"))
+        } else if (brgs[0].equbls("-flbgs")
+                   || brgs[0].equbls("-sysprops"))
         {
-            if (args.length == 2) {
-                if (!isPid(args[1])) {
-                    // If args[1] doesn't parse to a number then
+            if (brgs.length == 2) {
+                if (!isPid(brgs[1])) {
+                    // If brgs[1] doesn't pbrse to b number then
                     // it must be the SA debug server
                     // (otherwise it is the pid)
                     useSA = true;
                 }
-            } else if (args.length == 3) {
-                // arguments include an executable and a core file
+            } else if (brgs.length == 3) {
+                // brguments include bn executbble bnd b core file
                 useSA = true;
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
-        } else if (!args[0].startsWith("-")) {
-            if (args.length == 2) {
-                // the only arguments are an executable and a core file
+        } else if (!brgs[0].stbrtsWith("-")) {
+            if (brgs.length == 2) {
+                // the only brguments bre bn executbble bnd b core file
                 useSA = true;
-            } else if (args.length == 1) {
-                if (!isPid(args[0])) {
-                    // The only argument is not a PID; it must be SA debug
+            } else if (brgs.length == 1) {
+                if (!isPid(brgs[0])) {
+                    // The only brgument is not b PID; it must be SA debug
                     // server
                     useSA = true;
                 }
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
-        } else if (args[0].equals("-h") || args[0].equals("-help")) {
-            if (args.length > 1) {
-                throw new IllegalArgumentException();
+        } else if (brgs[0].equbls("-h") || brgs[0].equbls("-help")) {
+            if (brgs.length > 1) {
+                throw new IllegblArgumentException();
             }
-        } else if (args[0].equals("-flag")) {
-            if (args.length == 3) {
-                if (!isPid(args[2])) {
-                    throw new IllegalArgumentException();
+        } else if (brgs[0].equbls("-flbg")) {
+            if (brgs.length == 3) {
+                if (!isPid(brgs[2])) {
+                    throw new IllegblArgumentException();
                 }
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegblArgumentException();
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        this.args = Arrays.copyOfRange(args, argCopyIndex, args.length);
+        this.brgs = Arrbys.copyOfRbnge(brgs, brgCopyIndex, brgs.length);
     }
 
-    @SuppressWarnings("fallthrough")
-    private void execute() throws Exception {
-        if (args[0].equals("-h")
-            || args[0].equals("-help")) {
-            usage(0);
+    @SuppressWbrnings("fbllthrough")
+    privbte void execute() throws Exception {
+        if (brgs[0].equbls("-h")
+            || brgs[0].equbls("-help")) {
+            usbge(0);
         }
 
         if (useSA) {
-            // SA only supports -flags or -sysprops
-            if (args[0].startsWith("-")) {
-                if (!(args[0].equals("-flags") || args[0].equals("-sysprops"))) {
-                    usage(1);
+            // SA only supports -flbgs or -sysprops
+            if (brgs[0].stbrtsWith("-")) {
+                if (!(brgs[0].equbls("-flbgs") || brgs[0].equbls("-sysprops"))) {
+                    usbge(1);
                 }
             }
 
-            // invoke SA which does it's own argument parsing
+            // invoke SA which does it's own brgument pbrsing
             runTool();
 
         } else {
-            // Now we can parse arguments for the non-SA case
+            // Now we cbn pbrse brguments for the non-SA cbse
             String pid = null;
 
-            switch(args[0]) {
-                case "-flag":
-                    if (args.length != 3) {
-                        usage(1);
+            switch(brgs[0]) {
+                cbse "-flbg":
+                    if (brgs.length != 3) {
+                        usbge(1);
                     }
-                    String option = args[1];
-                    pid = args[2];
-                    flag(pid, option);
-                    break;
-                case "-flags":
-                    if (args.length != 2) {
-                        usage(1);
+                    String option = brgs[1];
+                    pid = brgs[2];
+                    flbg(pid, option);
+                    brebk;
+                cbse "-flbgs":
+                    if (brgs.length != 2) {
+                        usbge(1);
                     }
-                    pid = args[1];
-                    flags(pid);
-                    break;
-                case "-sysprops":
-                    if (args.length != 2) {
-                        usage(1);
+                    pid = brgs[1];
+                    flbgs(pid);
+                    brebk;
+                cbse "-sysprops":
+                    if (brgs.length != 2) {
+                        usbge(1);
                     }
-                    pid = args[1];
+                    pid = brgs[1];
                     sysprops(pid);
-                    break;
-                case "-help":
-                case "-h":
-                    usage(0);
-                    // Fall through
-                default:
-                    if (args.length == 1) {
-                        // no flags specified, we do -sysprops and -flags
-                        pid = args[0];
+                    brebk;
+                cbse "-help":
+                cbse "-h":
+                    usbge(0);
+                    // Fbll through
+                defbult:
+                    if (brgs.length == 1) {
+                        // no flbgs specified, we do -sysprops bnd -flbgs
+                        pid = brgs[0];
                         sysprops(pid);
                         System.out.println();
-                        flags(pid);
+                        flbgs(pid);
                         System.out.println();
-                        commandLine(pid);
+                        commbndLine(pid);
                     } else {
-                        usage(1);
+                        usbge(1);
                     }
             }
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public stbtic void mbin(String[] brgs) throws Exception {
         JInfo jinfo = null;
         try {
-            jinfo = new JInfo(args);
+            jinfo = new JInfo(brgs);
             jinfo.execute();
-        } catch (IllegalArgumentException e) {
-            usage(1);
+        } cbtch (IllegblArgumentException e) {
+            usbge(1);
         }
     }
 
-    private static boolean isPid(String arg) {
-        return arg.matches("[0-9]+");
+    privbte stbtic boolebn isPid(String brg) {
+        return brg.mbtches("[0-9]+");
     }
 
-    // Invoke SA tool with the given arguments
-    private void runTool() throws Exception {
+    // Invoke SA tool with the given brguments
+    privbte void runTool() throws Exception {
         String tool = "sun.jvm.hotspot.tools.JInfo";
-        // Tool not available on this platform.
-        Class<?> c = loadClass(tool);
+        // Tool not bvbilbble on this plbtform.
+        Clbss<?> c = lobdClbss(tool);
         if (c == null) {
-            usage(1);
+            usbge(1);
         }
 
-        // invoke the main method with the arguments
-        Class<?>[] argTypes = { String[].class } ;
-        Method m = c.getDeclaredMethod("main", argTypes);
+        // invoke the mbin method with the brguments
+        Clbss<?>[] brgTypes = { String[].clbss } ;
+        Method m = c.getDeclbredMethod("mbin", brgTypes);
 
-        Object[] invokeArgs = { args };
+        Object[] invokeArgs = { brgs };
         m.invoke(null, invokeArgs);
     }
 
-    // loads the given class using the system class loader
-    private static Class<?> loadClass(String name) {
+    // lobds the given clbss using the system clbss lobder
+    privbte stbtic Clbss<?> lobdClbss(String nbme) {
         //
-        // We specify the system class loader so as to cater for development
-        // environments where this class is on the boot class path but sa-jdi.jar
-        // is on the system class path. Once the JDK is deployed then both
-        // tools.jar and sa-jdi.jar are on the system class path.
+        // We specify the system clbss lobder so bs to cbter for development
+        // environments where this clbss is on the boot clbss pbth but sb-jdi.jbr
+        // is on the system clbss pbth. Once the JDK is deployed then both
+        // tools.jbr bnd sb-jdi.jbr bre on the system clbss pbth.
         //
         try {
-            return Class.forName(name, true,
-                                 ClassLoader.getSystemClassLoader());
-        } catch (Exception x)  { }
+            return Clbss.forNbme(nbme, true,
+                                 ClbssLobder.getSystemClbssLobder());
+        } cbtch (Exception x)  { }
         return null;
     }
 
-    private static void flag(String pid, String option) throws IOException {
-        HotSpotVirtualMachine vm = (HotSpotVirtualMachine) attach(pid);
-        String flag;
-        InputStream in;
+    privbte stbtic void flbg(String pid, String option) throws IOException {
+        HotSpotVirtublMbchine vm = (HotSpotVirtublMbchine) bttbch(pid);
+        String flbg;
+        InputStrebm in;
         int index = option.indexOf('=');
         if (index != -1) {
-            flag = option.substring(0, index);
-            String value = option.substring(index + 1);
-            in = vm.setFlag(flag, value);
+            flbg = option.substring(0, index);
+            String vblue = option.substring(index + 1);
+            in = vm.setFlbg(flbg, vblue);
         } else {
-            char c = option.charAt(0);
+            chbr c = option.chbrAt(0);
             switch (c) {
-                case '+':
-                    flag = option.substring(1);
-                    in = vm.setFlag(flag, "1");
-                    break;
-                case '-':
-                    flag = option.substring(1);
-                    in = vm.setFlag(flag, "0");
-                    break;
-                default:
-                    flag = option;
-                    in = vm.printFlag(flag);
-                    break;
+                cbse '+':
+                    flbg = option.substring(1);
+                    in = vm.setFlbg(flbg, "1");
+                    brebk;
+                cbse '-':
+                    flbg = option.substring(1);
+                    in = vm.setFlbg(flbg, "0");
+                    brebk;
+                defbult:
+                    flbg = option;
+                    in = vm.printFlbg(flbg);
+                    brebk;
             }
         }
 
-        drain(vm, in);
+        drbin(vm, in);
     }
 
-    private static void flags(String pid) throws IOException {
-        HotSpotVirtualMachine vm = (HotSpotVirtualMachine) attach(pid);
-        InputStream in = vm.executeJCmd("VM.flags");
-        System.out.println("VM Flags:");
-        drain(vm, in);
+    privbte stbtic void flbgs(String pid) throws IOException {
+        HotSpotVirtublMbchine vm = (HotSpotVirtublMbchine) bttbch(pid);
+        InputStrebm in = vm.executeJCmd("VM.flbgs");
+        System.out.println("VM Flbgs:");
+        drbin(vm, in);
     }
 
-    private static void commandLine(String pid) throws IOException {
-        HotSpotVirtualMachine vm = (HotSpotVirtualMachine) attach(pid);
-        InputStream in = vm.executeJCmd("VM.command_line");
-        drain(vm, in);
+    privbte stbtic void commbndLine(String pid) throws IOException {
+        HotSpotVirtublMbchine vm = (HotSpotVirtublMbchine) bttbch(pid);
+        InputStrebm in = vm.executeJCmd("VM.commbnd_line");
+        drbin(vm, in);
     }
 
-    private static void sysprops(String pid) throws IOException {
-        HotSpotVirtualMachine vm = (HotSpotVirtualMachine) attach(pid);
-        InputStream in = vm.executeJCmd("VM.system_properties");
-        System.out.println("Java System Properties:");
-        drain(vm, in);
+    privbte stbtic void sysprops(String pid) throws IOException {
+        HotSpotVirtublMbchine vm = (HotSpotVirtublMbchine) bttbch(pid);
+        InputStrebm in = vm.executeJCmd("VM.system_properties");
+        System.out.println("Jbvb System Properties:");
+        drbin(vm, in);
     }
 
-    // Attach to <pid>, exiting if we fail to attach
-    private static VirtualMachine attach(String pid) {
+    // Attbch to <pid>, exiting if we fbil to bttbch
+    privbte stbtic VirtublMbchine bttbch(String pid) {
         try {
-            return VirtualMachine.attach(pid);
-        } catch (Exception x) {
-            String msg = x.getMessage();
+            return VirtublMbchine.bttbch(pid);
+        } cbtch (Exception x) {
+            String msg = x.getMessbge();
             if (msg != null) {
                 System.err.println(pid + ": " + msg);
             } else {
-                x.printStackTrace();
+                x.printStbckTrbce();
             }
             System.exit(1);
-            return null; // keep compiler happy
+            return null; // keep compiler hbppy
         }
     }
 
-    // Read the stream from the target VM until EOF, then detach
-    private static void drain(VirtualMachine vm, InputStream in) throws IOException {
-        // read to EOF and just print output
+    // Rebd the strebm from the tbrget VM until EOF, then detbch
+    privbte stbtic void drbin(VirtublMbchine vm, InputStrebm in) throws IOException {
+        // rebd to EOF bnd just print output
         byte b[] = new byte[256];
         int n;
         do {
-            n = in.read(b);
+            n = in.rebd(b);
             if (n > 0) {
                 String s = new String(b, 0, n, "UTF-8");
                 System.out.print(s);
             }
         } while (n > 0);
         in.close();
-        vm.detach();
+        vm.detbch();
     }
 
 
-    // print usage message
-    private static void usage(int exit) {
+    // print usbge messbge
+    privbte stbtic void usbge(int exit) {
 
-        Class<?> c = loadClass("sun.jvm.hotspot.tools.JInfo");
-        boolean usageSA = (c != null);
+        Clbss<?> c = lobdClbss("sun.jvm.hotspot.tools.JInfo");
+        boolebn usbgeSA = (c != null);
 
-        System.err.println("Usage:");
-        if (usageSA) {
+        System.err.println("Usbge:");
+        if (usbgeSA) {
             System.err.println("    jinfo [option] <pid>");
-            System.err.println("        (to connect to a running process)");
+            System.err.println("        (to connect to b running process)");
             System.err.println("    jinfo -F [option] <pid>");
-            System.err.println("        (to connect to a hung process)");
-            System.err.println("    jinfo [option] <executable> <core>");
-            System.err.println("        (to connect to a core file)");
-            System.err.println("    jinfo [option] [server_id@]<remote server IP or hostname>");
+            System.err.println("        (to connect to b hung process)");
+            System.err.println("    jinfo [option] <executbble> <core>");
+            System.err.println("        (to connect to b core file)");
+            System.err.println("    jinfo [option] [server_id@]<remote server IP or hostnbme>");
             System.err.println("        (to connect to remote debug server)");
             System.err.println("");
             System.err.println("where <option> is one of:");
             System.err.println("  for running processes:");
-            System.err.println("    -flag <name>         to print the value of the named VM flag");
-            System.err.println("    -flag [+|-]<name>    to enable or disable the named VM flag");
-            System.err.println("    -flag <name>=<value> to set the named VM flag to the given value");
-            System.err.println("  for running or hung processes and core files:");
-            System.err.println("    -flags               to print VM flags");
-            System.err.println("    -sysprops            to print Java system properties");
-            System.err.println("    <no option>          to print both VM flags and system properties");
-            System.err.println("    -h | -help           to print this help message");
+            System.err.println("    -flbg <nbme>         to print the vblue of the nbmed VM flbg");
+            System.err.println("    -flbg [+|-]<nbme>    to enbble or disbble the nbmed VM flbg");
+            System.err.println("    -flbg <nbme>=<vblue> to set the nbmed VM flbg to the given vblue");
+            System.err.println("  for running or hung processes bnd core files:");
+            System.err.println("    -flbgs               to print VM flbgs");
+            System.err.println("    -sysprops            to print Jbvb system properties");
+            System.err.println("    <no option>          to print both VM flbgs bnd system properties");
+            System.err.println("    -h | -help           to print this help messbge");
         } else {
             System.err.println("    jinfo <option> <pid>");
-            System.err.println("       (to connect to a running process)");
+            System.err.println("       (to connect to b running process)");
             System.err.println("");
             System.err.println("where <option> is one of:");
-            System.err.println("    -flag <name>         to print the value of the named VM flag");
-            System.err.println("    -flag [+|-]<name>    to enable or disable the named VM flag");
-            System.err.println("    -flag <name>=<value> to set the named VM flag to the given value");
-            System.err.println("    -flags               to print VM flags");
-            System.err.println("    -sysprops            to print Java system properties");
-            System.err.println("    <no option>          to print both VM flags and system properties");
-            System.err.println("    -h | -help           to print this help message");
+            System.err.println("    -flbg <nbme>         to print the vblue of the nbmed VM flbg");
+            System.err.println("    -flbg [+|-]<nbme>    to enbble or disbble the nbmed VM flbg");
+            System.err.println("    -flbg <nbme>=<vblue> to set the nbmed VM flbg to the given vblue");
+            System.err.println("    -flbgs               to print VM flbgs");
+            System.err.println("    -sysprops            to print Jbvb system properties");
+            System.err.println("    <no option>          to print both VM flbgs bnd system properties");
+            System.err.println("    -h | -help           to print this help messbge");
         }
 
         System.exit(exit);

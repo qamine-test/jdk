@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
-import java.awt.Component;
-import javax.swing.JTree;
+import jbvb.bwt.Component;
+import jbvbx.swing.JTree;
 
 /**
- * Defines the requirements for an object that displays a tree node.
- * See <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
- * in <em>The Java Tutorial</em>
- * for an example of implementing a tree cell renderer
- * that displays custom icons.
+ * Defines the requirements for bn object thbt displbys b tree node.
+ * See <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tree.html">How to Use Trees</b>
+ * in <em>The Jbvb Tutoribl</em>
+ * for bn exbmple of implementing b tree cell renderer
+ * thbt displbys custom icons.
  *
- * @author Rob Davis
- * @author Ray Ryan
- * @author Scott Violet
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
+ * @buthor Scott Violet
  */
-public interface TreeCellRenderer {
+public interfbce TreeCellRenderer {
 
     /**
-     * Sets the value of the current tree cell to <code>value</code>.
-     * If <code>selected</code> is true, the cell will be drawn as if
-     * selected. If <code>expanded</code> is true the node is currently
-     * expanded and if <code>leaf</code> is true the node represents a
-     * leaf and if <code>hasFocus</code> is true the node currently has
+     * Sets the vblue of the current tree cell to <code>vblue</code>.
+     * If <code>selected</code> is true, the cell will be drbwn bs if
+     * selected. If <code>expbnded</code> is true the node is currently
+     * expbnded bnd if <code>lebf</code> is true the node represents b
+     * lebf bnd if <code>hbsFocus</code> is true the node currently hbs
      * focus. <code>tree</code> is the <code>JTree</code> the receiver is being
-     * configured for.  Returns the <code>Component</code> that the renderer
-     * uses to draw the value.
+     * configured for.  Returns the <code>Component</code> thbt the renderer
+     * uses to drbw the vblue.
      * <p>
-     * The <code>TreeCellRenderer</code> is also responsible for rendering the
-     * the cell representing the tree's current DnD drop location if
-     * it has one. If this renderer cares about rendering
-     * the DnD drop location, it should query the tree directly to
-     * see if the given row represents the drop location:
+     * The <code>TreeCellRenderer</code> is blso responsible for rendering the
+     * the cell representing the tree's current DnD drop locbtion if
+     * it hbs one. If this renderer cbres bbout rendering
+     * the DnD drop locbtion, it should query the tree directly to
+     * see if the given row represents the drop locbtion:
      * <pre>
-     *     JTree.DropLocation dropLocation = tree.getDropLocation();
-     *     if (dropLocation != null
-     *             &amp;&amp; dropLocation.getChildIndex() == -1
-     *             &amp;&amp; tree.getRowForPath(dropLocation.getPath()) == row) {
+     *     JTree.DropLocbtion dropLocbtion = tree.getDropLocbtion();
+     *     if (dropLocbtion != null
+     *             &bmp;&bmp; dropLocbtion.getChildIndex() == -1
+     *             &bmp;&bmp; tree.getRowForPbth(dropLocbtion.getPbth()) == row) {
      *
-     *         // this row represents the current drop location
-     *         // so render it specially, perhaps with a different color
+     *         // this row represents the current drop locbtion
+     *         // so render it speciblly, perhbps with b different color
      *     }
      * </pre>
      *
-     * @param tree      the receiver is being configured for
-     * @param value     the value to render
-     * @param selected  whether node is selected
-     * @param expanded  whether node is expanded
-     * @param leaf      whether node is a lead node
-     * @param row       row index
-     * @param hasFocus  whether node has focus
-     * @return          the {@code Component} that the renderer uses to draw the value
+     * @pbrbm tree      the receiver is being configured for
+     * @pbrbm vblue     the vblue to render
+     * @pbrbm selected  whether node is selected
+     * @pbrbm expbnded  whether node is expbnded
+     * @pbrbm lebf      whether node is b lebd node
+     * @pbrbm row       row index
+     * @pbrbm hbsFocus  whether node hbs focus
+     * @return          the {@code Component} thbt the renderer uses to drbw the vblue
      */
-    Component getTreeCellRendererComponent(JTree tree, Object value,
-                                   boolean selected, boolean expanded,
-                                   boolean leaf, int row, boolean hasFocus);
+    Component getTreeCellRendererComponent(JTree tree, Object vblue,
+                                   boolebn selected, boolebn expbnded,
+                                   boolebn lebf, int row, boolebn hbsFocus);
 
 }

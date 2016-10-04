@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.colorchooser;
+pbckbge jbvbx.swing.colorchooser;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.Serializable;
-import javax.accessibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.io.Seriblizbble;
+import jbvbx.bccessibility.*;
 
 
 /**
- * The standard color swatch chooser.
+ * The stbndbrd color swbtch chooser.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Steve Wilson
+ * @buthor Steve Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss DefbultSwbtchChooserPbnel extends AbstrbctColorChooserPbnel {
 
-    SwatchPanel swatchPanel;
-    RecentSwatchPanel recentSwatchPanel;
-    MouseListener mainSwatchListener;
-    MouseListener recentSwatchListener;
-    private KeyListener mainSwatchKeyListener;
-    private KeyListener recentSwatchKeyListener;
+    SwbtchPbnel swbtchPbnel;
+    RecentSwbtchPbnel recentSwbtchPbnel;
+    MouseListener mbinSwbtchListener;
+    MouseListener recentSwbtchListener;
+    privbte KeyListener mbinSwbtchKeyListener;
+    privbte KeyListener recentSwbtchKeyListener;
 
-    public DefaultSwatchChooserPanel() {
+    public DefbultSwbtchChooserPbnel() {
         super();
         setInheritsPopupMenu(true);
     }
 
-    public String getDisplayName() {
-        return UIManager.getString("ColorChooser.swatchesNameText", getLocale());
+    public String getDisplbyNbme() {
+        return UIMbnbger.getString("ColorChooser.swbtchesNbmeText", getLocble());
     }
 
     /**
-     * Provides a hint to the look and feel as to the
-     * <code>KeyEvent.VK</code> constant that can be used as a mnemonic to
-     * access the panel. A return value <= 0 indicates there is no mnemonic.
+     * Provides b hint to the look bnd feel bs to the
+     * <code>KeyEvent.VK</code> constbnt thbt cbn be used bs b mnemonic to
+     * bccess the pbnel. A return vblue <= 0 indicbtes there is no mnemonic.
      * <p>
-     * The return value here is a hint, it is ultimately up to the look
-     * and feel to honor the return value in some meaningful way.
+     * The return vblue here is b hint, it is ultimbtely up to the look
+     * bnd feel to honor the return vblue in some mebningful wby.
      * <p>
-     * This implementation looks up the value from the default
-     * <code>ColorChooser.swatchesMnemonic</code>, or if it
-     * isn't available (or not an <code>Integer</code>) returns -1.
-     * The lookup for the default is done through the <code>UIManager</code>:
-     * <code>UIManager.get("ColorChooser.swatchesMnemonic");</code>.
+     * This implementbtion looks up the vblue from the defbult
+     * <code>ColorChooser.swbtchesMnemonic</code>, or if it
+     * isn't bvbilbble (or not bn <code>Integer</code>) returns -1.
+     * The lookup for the defbult is done through the <code>UIMbnbger</code>:
+     * <code>UIMbnbger.get("ColorChooser.swbtchesMnemonic");</code>.
      *
-     * @return KeyEvent.VK constant identifying the mnemonic; <= 0 for no
+     * @return KeyEvent.VK constbnt identifying the mnemonic; <= 0 for no
      *         mnemonic
-     * @see #getDisplayedMnemonicIndex
+     * @see #getDisplbyedMnemonicIndex
      * @since 1.4
      */
     public int getMnemonic() {
-        return getInt("ColorChooser.swatchesMnemonic", -1);
+        return getInt("ColorChooser.swbtchesMnemonic", -1);
     }
 
     /**
-     * Provides a hint to the look and feel as to the index of the character in
-     * <code>getDisplayName</code> that should be visually identified as the
-     * mnemonic. The look and feel should only use this if
-     * <code>getMnemonic</code> returns a value > 0.
+     * Provides b hint to the look bnd feel bs to the index of the chbrbcter in
+     * <code>getDisplbyNbme</code> thbt should be visublly identified bs the
+     * mnemonic. The look bnd feel should only use this if
+     * <code>getMnemonic</code> returns b vblue > 0.
      * <p>
-     * The return value here is a hint, it is ultimately up to the look
-     * and feel to honor the return value in some meaningful way. For example,
-     * a look and feel may wish to render each
-     * <code>AbstractColorChooserPanel</code> in a <code>JTabbedPane</code>,
-     * and further use this return value to underline a character in
-     * the <code>getDisplayName</code>.
+     * The return vblue here is b hint, it is ultimbtely up to the look
+     * bnd feel to honor the return vblue in some mebningful wby. For exbmple,
+     * b look bnd feel mby wish to render ebch
+     * <code>AbstrbctColorChooserPbnel</code> in b <code>JTbbbedPbne</code>,
+     * bnd further use this return vblue to underline b chbrbcter in
+     * the <code>getDisplbyNbme</code>.
      * <p>
-     * This implementation looks up the value from the default
-     * <code>ColorChooser.rgbDisplayedMnemonicIndex</code>, or if it
-     * isn't available (or not an <code>Integer</code>) returns -1.
-     * The lookup for the default is done through the <code>UIManager</code>:
-     * <code>UIManager.get("ColorChooser.swatchesDisplayedMnemonicIndex");</code>.
+     * This implementbtion looks up the vblue from the defbult
+     * <code>ColorChooser.rgbDisplbyedMnemonicIndex</code>, or if it
+     * isn't bvbilbble (or not bn <code>Integer</code>) returns -1.
+     * The lookup for the defbult is done through the <code>UIMbnbger</code>:
+     * <code>UIMbnbger.get("ColorChooser.swbtchesDisplbyedMnemonicIndex");</code>.
      *
-     * @return Character index to render mnemonic for; -1 to provide no
-     *                   visual identifier for this panel.
+     * @return Chbrbcter index to render mnemonic for; -1 to provide no
+     *                   visubl identifier for this pbnel.
      * @see #getMnemonic
      * @since 1.4
      */
-    public int getDisplayedMnemonicIndex() {
-        return getInt("ColorChooser.swatchesDisplayedMnemonicIndex", -1);
+    public int getDisplbyedMnemonicIndex() {
+        return getInt("ColorChooser.swbtchesDisplbyedMnemonicIndex", -1);
     }
 
-    public Icon getSmallDisplayIcon() {
+    public Icon getSmbllDisplbyIcon() {
         return null;
     }
 
-    public Icon getLargeDisplayIcon() {
+    public Icon getLbrgeDisplbyIcon() {
         return null;
     }
 
     /**
-     * The background color, foreground color, and font are already set to the
-     * defaults from the defaults table before this method is called.
+     * The bbckground color, foreground color, bnd font bre blrebdy set to the
+     * defbults from the defbults tbble before this method is cblled.
      */
-    public void installChooserPanel(JColorChooser enclosingChooser) {
-        super.installChooserPanel(enclosingChooser);
+    public void instbllChooserPbnel(JColorChooser enclosingChooser) {
+        super.instbllChooserPbnel(enclosingChooser);
     }
 
     protected void buildChooser() {
 
-        String recentStr = UIManager.getString("ColorChooser.swatchesRecentText", getLocale());
+        String recentStr = UIMbnbger.getString("ColorChooser.swbtchesRecentText", getLocble());
 
-        GridBagLayout gb = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        JPanel superHolder = new JPanel(gb);
+        GridBbgLbyout gb = new GridBbgLbyout();
+        GridBbgConstrbints gbc = new GridBbgConstrbints();
+        JPbnel superHolder = new JPbnel(gb);
 
-        swatchPanel =  new MainSwatchPanel();
-        swatchPanel.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-                                      getDisplayName());
-        swatchPanel.setInheritsPopupMenu(true);
+        swbtchPbnel =  new MbinSwbtchPbnel();
+        swbtchPbnel.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
+                                      getDisplbyNbme());
+        swbtchPbnel.setInheritsPopupMenu(true);
 
-        recentSwatchPanel = new RecentSwatchPanel();
-        recentSwatchPanel.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
+        recentSwbtchPbnel = new RecentSwbtchPbnel();
+        recentSwbtchPbnel.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
                                             recentStr);
 
-        mainSwatchKeyListener = new MainSwatchKeyListener();
-        mainSwatchListener = new MainSwatchListener();
-        swatchPanel.addMouseListener(mainSwatchListener);
-        swatchPanel.addKeyListener(mainSwatchKeyListener);
-        recentSwatchListener = new RecentSwatchListener();
-        recentSwatchKeyListener = new RecentSwatchKeyListener();
-        recentSwatchPanel.addMouseListener(recentSwatchListener);
-        recentSwatchPanel.addKeyListener(recentSwatchKeyListener);
+        mbinSwbtchKeyListener = new MbinSwbtchKeyListener();
+        mbinSwbtchListener = new MbinSwbtchListener();
+        swbtchPbnel.bddMouseListener(mbinSwbtchListener);
+        swbtchPbnel.bddKeyListener(mbinSwbtchKeyListener);
+        recentSwbtchListener = new RecentSwbtchListener();
+        recentSwbtchKeyListener = new RecentSwbtchKeyListener();
+        recentSwbtchPbnel.bddMouseListener(recentSwbtchListener);
+        recentSwbtchPbnel.bddKeyListener(recentSwbtchKeyListener);
 
-        JPanel mainHolder = new JPanel(new BorderLayout());
-        Border border = new CompoundBorder( new LineBorder(Color.black),
+        JPbnel mbinHolder = new JPbnel(new BorderLbyout());
+        Border border = new CompoundBorder( new LineBorder(Color.blbck),
                                             new LineBorder(Color.white) );
-        mainHolder.setBorder(border);
-        mainHolder.add(swatchPanel, BorderLayout.CENTER);
+        mbinHolder.setBorder(border);
+        mbinHolder.bdd(swbtchPbnel, BorderLbyout.CENTER);
 
-        gbc.anchor = GridBagConstraints.LAST_LINE_START;
+        gbc.bnchor = GridBbgConstrbints.LAST_LINE_START;
         gbc.gridwidth = 1;
         gbc.gridheight = 2;
         Insets oldInsets = gbc.insets;
         gbc.insets = new Insets(0, 0, 0, 10);
-        superHolder.add(mainHolder, gbc);
+        superHolder.bdd(mbinHolder, gbc);
         gbc.insets = oldInsets;
 
-        recentSwatchPanel.setInheritsPopupMenu(true);
-        JPanel recentHolder = new JPanel( new BorderLayout() );
+        recentSwbtchPbnel.setInheritsPopupMenu(true);
+        JPbnel recentHolder = new JPbnel( new BorderLbyout() );
         recentHolder.setBorder(border);
         recentHolder.setInheritsPopupMenu(true);
-        recentHolder.add(recentSwatchPanel, BorderLayout.CENTER);
+        recentHolder.bdd(recentSwbtchPbnel, BorderLbyout.CENTER);
 
-        JLabel l = new JLabel(recentStr);
-        l.setLabelFor(recentSwatchPanel);
+        JLbbel l = new JLbbel(recentStr);
+        l.setLbbelFor(recentSwbtchPbnel);
 
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridwidth = GridBbgConstrbints.REMAINDER;
         gbc.gridheight = 1;
         gbc.weighty = 1.0;
-        superHolder.add(l, gbc);
+        superHolder.bdd(l, gbc);
 
         gbc.weighty = 0;
-        gbc.gridheight = GridBagConstraints.REMAINDER;
+        gbc.gridheight = GridBbgConstrbints.REMAINDER;
         gbc.insets = new Insets(0, 0, 0, 2);
-        superHolder.add(recentHolder, gbc);
+        superHolder.bdd(recentHolder, gbc);
         superHolder.setInheritsPopupMenu(true);
 
-        add(superHolder);
+        bdd(superHolder);
     }
 
-    public void uninstallChooserPanel(JColorChooser enclosingChooser) {
-        super.uninstallChooserPanel(enclosingChooser);
-        swatchPanel.removeMouseListener(mainSwatchListener);
-        swatchPanel.removeKeyListener(mainSwatchKeyListener);
-        recentSwatchPanel.removeMouseListener(recentSwatchListener);
-        recentSwatchPanel.removeKeyListener(recentSwatchKeyListener);
+    public void uninstbllChooserPbnel(JColorChooser enclosingChooser) {
+        super.uninstbllChooserPbnel(enclosingChooser);
+        swbtchPbnel.removeMouseListener(mbinSwbtchListener);
+        swbtchPbnel.removeKeyListener(mbinSwbtchKeyListener);
+        recentSwbtchPbnel.removeMouseListener(recentSwbtchListener);
+        recentSwbtchPbnel.removeKeyListener(recentSwbtchKeyListener);
 
-        swatchPanel = null;
-        recentSwatchPanel = null;
-        mainSwatchListener = null;
-        mainSwatchKeyListener = null;
-        recentSwatchListener = null;
-        recentSwatchKeyListener = null;
+        swbtchPbnel = null;
+        recentSwbtchPbnel = null;
+        mbinSwbtchListener = null;
+        mbinSwbtchKeyListener = null;
+        recentSwbtchListener = null;
+        recentSwbtchKeyListener = null;
 
-        removeAll();  // strip out all the sub-components
+        removeAll();  // strip out bll the sub-components
     }
 
-    public void updateChooser() {
+    public void updbteChooser() {
 
     }
 
 
-    private class RecentSwatchKeyListener extends KeyAdapter {
+    privbte clbss RecentSwbtchKeyListener extends KeyAdbpter {
         public void keyPressed(KeyEvent e) {
             if (KeyEvent.VK_SPACE == e.getKeyCode()) {
-                Color color = recentSwatchPanel.getSelectedColor();
+                Color color = recentSwbtchPbnel.getSelectedColor();
                 setSelectedColor(color);
             }
         }
     }
 
-    private class MainSwatchKeyListener extends KeyAdapter {
+    privbte clbss MbinSwbtchKeyListener extends KeyAdbpter {
         public void keyPressed(KeyEvent e) {
             if (KeyEvent.VK_SPACE == e.getKeyCode()) {
-                Color color = swatchPanel.getSelectedColor();
+                Color color = swbtchPbnel.getSelectedColor();
                 setSelectedColor(color);
-                recentSwatchPanel.setMostRecentColor(color);
+                recentSwbtchPbnel.setMostRecentColor(color);
             }
         }
     }
 
-    class RecentSwatchListener extends MouseAdapter implements Serializable {
+    clbss RecentSwbtchListener extends MouseAdbpter implements Seriblizbble {
         public void mousePressed(MouseEvent e) {
-            if (isEnabled()) {
-                Color color = recentSwatchPanel.getColorForLocation(e.getX(), e.getY());
-                recentSwatchPanel.setSelectedColorFromLocation(e.getX(), e.getY());
+            if (isEnbbled()) {
+                Color color = recentSwbtchPbnel.getColorForLocbtion(e.getX(), e.getY());
+                recentSwbtchPbnel.setSelectedColorFromLocbtion(e.getX(), e.getY());
                 setSelectedColor(color);
-                recentSwatchPanel.requestFocusInWindow();
+                recentSwbtchPbnel.requestFocusInWindow();
             }
         }
     }
 
-    class MainSwatchListener extends MouseAdapter implements Serializable {
+    clbss MbinSwbtchListener extends MouseAdbpter implements Seriblizbble {
         public void mousePressed(MouseEvent e) {
-            if (isEnabled()) {
-                Color color = swatchPanel.getColorForLocation(e.getX(), e.getY());
+            if (isEnbbled()) {
+                Color color = swbtchPbnel.getColorForLocbtion(e.getX(), e.getY());
                 setSelectedColor(color);
-                swatchPanel.setSelectedColorFromLocation(e.getX(), e.getY());
-                recentSwatchPanel.setMostRecentColor(color);
-                swatchPanel.requestFocusInWindow();
+                swbtchPbnel.setSelectedColorFromLocbtion(e.getX(), e.getY());
+                recentSwbtchPbnel.setMostRecentColor(color);
+                swbtchPbnel.requestFocusInWindow();
             }
         }
     }
 
 }
 
-@SuppressWarnings("serial") // Same-version serialization only
-class SwatchPanel extends JPanel {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss SwbtchPbnel extends JPbnel {
 
     protected Color[] colors;
-    protected Dimension swatchSize;
-    protected Dimension numSwatches;
-    protected Dimension gap;
+    protected Dimension swbtchSize;
+    protected Dimension numSwbtches;
+    protected Dimension gbp;
 
-    private int selRow;
-    private int selCol;
+    privbte int selRow;
+    privbte int selCol;
 
-    public SwatchPanel() {
-        initValues();
+    public SwbtchPbnel() {
+        initVblues();
         initColors();
         setToolTipText(""); // register for events
-        setOpaque(true);
-        setBackground(Color.white);
-        setFocusable(true);
+        setOpbque(true);
+        setBbckground(Color.white);
+        setFocusbble(true);
         setInheritsPopupMenu(true);
 
-        addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                repaint();
+        bddFocusListener(new FocusAdbpter() {
+            public void focusGbined(FocusEvent e) {
+                repbint();
             }
 
             public void focusLost(FocusEvent e) {
-                repaint();
+                repbint();
             }
         });
 
-        addKeyListener(new KeyAdapter() {
+        bddKeyListener(new KeyAdbpter() {
             public void keyPressed(KeyEvent e) {
                 int typed = e.getKeyCode();
                 switch (typed) {
-                    case KeyEvent.VK_UP:
+                    cbse KeyEvent.VK_UP:
                         if (selRow > 0) {
                             selRow--;
-                            repaint();
+                            repbint();
                         }
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        if (selRow < numSwatches.height - 1) {
+                        brebk;
+                    cbse KeyEvent.VK_DOWN:
+                        if (selRow < numSwbtches.height - 1) {
                             selRow++;
-                            repaint();
+                            repbint();
                         }
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        if (selCol > 0 && SwatchPanel.this.getComponentOrientation().isLeftToRight()) {
+                        brebk;
+                    cbse KeyEvent.VK_LEFT:
+                        if (selCol > 0 && SwbtchPbnel.this.getComponentOrientbtion().isLeftToRight()) {
                             selCol--;
-                            repaint();
-                        } else if (selCol < numSwatches.width - 1
-                                && !SwatchPanel.this.getComponentOrientation().isLeftToRight()) {
+                            repbint();
+                        } else if (selCol < numSwbtches.width - 1
+                                && !SwbtchPbnel.this.getComponentOrientbtion().isLeftToRight()) {
                             selCol++;
-                            repaint();
+                            repbint();
                         }
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        if (selCol < numSwatches.width - 1
-                                && SwatchPanel.this.getComponentOrientation().isLeftToRight()) {
+                        brebk;
+                    cbse KeyEvent.VK_RIGHT:
+                        if (selCol < numSwbtches.width - 1
+                                && SwbtchPbnel.this.getComponentOrientbtion().isLeftToRight()) {
                             selCol++;
-                            repaint();
-                        } else if (selCol > 0 && !SwatchPanel.this.getComponentOrientation().isLeftToRight()) {
+                            repbint();
+                        } else if (selCol > 0 && !SwbtchPbnel.this.getComponentOrientbtion().isLeftToRight()) {
                             selCol--;
-                            repaint();
+                            repbint();
                         }
-                        break;
-                    case KeyEvent.VK_HOME:
+                        brebk;
+                    cbse KeyEvent.VK_HOME:
                         selCol = 0;
                         selRow = 0;
-                        repaint();
-                        break;
-                    case KeyEvent.VK_END:
-                        selCol = numSwatches.width - 1;
-                        selRow = numSwatches.height - 1;
-                        repaint();
-                        break;
+                        repbint();
+                        brebk;
+                    cbse KeyEvent.VK_END:
+                        selCol = numSwbtches.width - 1;
+                        selRow = numSwbtches.height - 1;
+                        repbint();
+                        brebk;
                 }
             }
         });
@@ -351,28 +351,28 @@ class SwatchPanel extends JPanel {
         return getColorForCell(selCol, selRow);
     }
 
-    protected void initValues() {
+    protected void initVblues() {
 
     }
 
-    public void paintComponent(Graphics g) {
-         g.setColor(getBackground());
+    public void pbintComponent(Grbphics g) {
+         g.setColor(getBbckground());
          g.fillRect(0,0,getWidth(), getHeight());
-         for (int row = 0; row < numSwatches.height; row++) {
-            int y = row * (swatchSize.height + gap.height);
-            for (int column = 0; column < numSwatches.width; column++) {
+         for (int row = 0; row < numSwbtches.height; row++) {
+            int y = row * (swbtchSize.height + gbp.height);
+            for (int column = 0; column < numSwbtches.width; column++) {
                 Color c = getColorForCell(column, row);
                 g.setColor(c);
                 int x;
-                if (!this.getComponentOrientation().isLeftToRight()) {
-                    x = (numSwatches.width - column - 1) * (swatchSize.width + gap.width);
+                if (!this.getComponentOrientbtion().isLeftToRight()) {
+                    x = (numSwbtches.width - column - 1) * (swbtchSize.width + gbp.width);
                 } else {
-                    x = column * (swatchSize.width + gap.width);
+                    x = column * (swbtchSize.width + gbp.width);
                 }
-                g.fillRect( x, y, swatchSize.width, swatchSize.height);
-                g.setColor(Color.black);
-                g.drawLine( x+swatchSize.width-1, y, x+swatchSize.width-1, y+swatchSize.height-1);
-                g.drawLine( x, y+swatchSize.height-1, x+swatchSize.width-1, y+swatchSize.height-1);
+                g.fillRect( x, y, swbtchSize.width, swbtchSize.height);
+                g.setColor(Color.blbck);
+                g.drbwLine( x+swbtchSize.width-1, y, x+swbtchSize.width-1, y+swbtchSize.height-1);
+                g.drbwLine( x, y+swbtchSize.height-1, x+swbtchSize.width-1, y+swbtchSize.height-1);
 
                 if (selRow == row && selCol == column && this.isFocusOwner()) {
                     Color c2 = new Color(c.getRed() < 125 ? 255 : 0,
@@ -380,20 +380,20 @@ class SwatchPanel extends JPanel {
                             c.getBlue() < 125 ? 255 : 0);
                     g.setColor(c2);
 
-                    g.drawLine(x, y, x + swatchSize.width - 1, y);
-                    g.drawLine(x, y, x, y + swatchSize.height - 1);
-                    g.drawLine(x + swatchSize.width - 1, y, x + swatchSize.width - 1, y + swatchSize.height - 1);
-                    g.drawLine(x, y + swatchSize.height - 1, x + swatchSize.width - 1, y + swatchSize.height - 1);
-                    g.drawLine(x, y, x + swatchSize.width - 1, y + swatchSize.height - 1);
-                    g.drawLine(x, y + swatchSize.height - 1, x + swatchSize.width - 1, y);
+                    g.drbwLine(x, y, x + swbtchSize.width - 1, y);
+                    g.drbwLine(x, y, x, y + swbtchSize.height - 1);
+                    g.drbwLine(x + swbtchSize.width - 1, y, x + swbtchSize.width - 1, y + swbtchSize.height - 1);
+                    g.drbwLine(x, y + swbtchSize.height - 1, x + swbtchSize.width - 1, y + swbtchSize.height - 1);
+                    g.drbwLine(x, y, x + swbtchSize.width - 1, y + swbtchSize.height - 1);
+                    g.drbwLine(x, y + swbtchSize.height - 1, x + swbtchSize.width - 1, y);
                 }
             }
          }
     }
 
     public Dimension getPreferredSize() {
-        int x = numSwatches.width * (swatchSize.width + gap.width) - 1;
-        int y = numSwatches.height * (swatchSize.height + gap.height) - 1;
+        int x = numSwbtches.width * (swbtchSize.width + gbp.width) - 1;
+        int y = numSwbtches.height * (swbtchSize.height + gbp.height) - 1;
         return new Dimension( x, y );
     }
 
@@ -403,33 +403,33 @@ class SwatchPanel extends JPanel {
     }
 
     public String getToolTipText(MouseEvent e) {
-        Color color = getColorForLocation(e.getX(), e.getY());
+        Color color = getColorForLocbtion(e.getX(), e.getY());
         return color.getRed()+", "+ color.getGreen() + ", " + color.getBlue();
     }
 
-    public void setSelectedColorFromLocation(int x, int y) {
-        if (!this.getComponentOrientation().isLeftToRight()) {
-            selCol = numSwatches.width - x / (swatchSize.width + gap.width) - 1;
+    public void setSelectedColorFromLocbtion(int x, int y) {
+        if (!this.getComponentOrientbtion().isLeftToRight()) {
+            selCol = numSwbtches.width - x / (swbtchSize.width + gbp.width) - 1;
         } else {
-            selCol = x / (swatchSize.width + gap.width);
+            selCol = x / (swbtchSize.width + gbp.width);
         }
-        selRow = y / (swatchSize.height + gap.height);
-        repaint();
+        selRow = y / (swbtchSize.height + gbp.height);
+        repbint();
     }
 
-    public Color getColorForLocation( int x, int y ) {
+    public Color getColorForLocbtion( int x, int y ) {
         int column;
-        if (!this.getComponentOrientation().isLeftToRight()) {
-            column = numSwatches.width - x / (swatchSize.width + gap.width) - 1;
+        if (!this.getComponentOrientbtion().isLeftToRight()) {
+            column = numSwbtches.width - x / (swbtchSize.width + gbp.width) - 1;
         } else {
-            column = x / (swatchSize.width + gap.width);
+            column = x / (swbtchSize.width + gbp.width);
         }
-        int row = y / (swatchSize.height + gap.height);
+        int row = y / (swbtchSize.height + gbp.height);
         return getColorForCell(column, row);
     }
 
-    private Color getColorForCell( int column, int row) {
-        return colors[ (row * numSwatches.width) + column ]; // (STEVE) - change data orientation here
+    privbte Color getColorForCell( int column, int row) {
+        return colors[ (row * numSwbtches.width) + column ]; // (STEVE) - chbnge dbtb orientbtion here
     }
 
 
@@ -437,57 +437,57 @@ class SwatchPanel extends JPanel {
 
 }
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class RecentSwatchPanel extends SwatchPanel {
-    protected void initValues() {
-        swatchSize = UIManager.getDimension("ColorChooser.swatchesRecentSwatchSize", getLocale());
-        numSwatches = new Dimension( 5, 7 );
-        gap = new Dimension(1, 1);
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss RecentSwbtchPbnel extends SwbtchPbnel {
+    protected void initVblues() {
+        swbtchSize = UIMbnbger.getDimension("ColorChooser.swbtchesRecentSwbtchSize", getLocble());
+        numSwbtches = new Dimension( 5, 7 );
+        gbp = new Dimension(1, 1);
     }
 
 
     protected void initColors() {
-        Color defaultRecentColor = UIManager.getColor("ColorChooser.swatchesDefaultRecentColor", getLocale());
-        int numColors = numSwatches.width * numSwatches.height;
+        Color defbultRecentColor = UIMbnbger.getColor("ColorChooser.swbtchesDefbultRecentColor", getLocble());
+        int numColors = numSwbtches.width * numSwbtches.height;
 
         colors = new Color[numColors];
         for (int i = 0; i < numColors ; i++) {
-            colors[i] = defaultRecentColor;
+            colors[i] = defbultRecentColor;
         }
     }
 
     public void setMostRecentColor(Color c) {
 
-        System.arraycopy( colors, 0, colors, 1, colors.length-1);
+        System.brrbycopy( colors, 0, colors, 1, colors.length-1);
         colors[0] = c;
-        repaint();
+        repbint();
     }
 
 }
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class MainSwatchPanel extends SwatchPanel {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss MbinSwbtchPbnel extends SwbtchPbnel {
 
 
-    protected void initValues() {
-        swatchSize = UIManager.getDimension("ColorChooser.swatchesSwatchSize", getLocale());
-        numSwatches = new Dimension( 31, 9 );
-        gap = new Dimension(1, 1);
+    protected void initVblues() {
+        swbtchSize = UIMbnbger.getDimension("ColorChooser.swbtchesSwbtchSize", getLocble());
+        numSwbtches = new Dimension( 31, 9 );
+        gbp = new Dimension(1, 1);
     }
 
     protected void initColors() {
-        int[] rawValues = initRawValues();
-        int numColors = rawValues.length / 3;
+        int[] rbwVblues = initRbwVblues();
+        int numColors = rbwVblues.length / 3;
 
         colors = new Color[numColors];
         for (int i = 0; i < numColors ; i++) {
-            colors[i] = new Color( rawValues[(i*3)], rawValues[(i*3)+1], rawValues[(i*3)+2] );
+            colors[i] = new Color( rbwVblues[(i*3)], rbwVblues[(i*3)+1], rbwVblues[(i*3)+2] );
         }
     }
 
-    private int[] initRawValues() {
+    privbte int[] initRbwVblues() {
 
-        int[] rawValues = {
+        int[] rbwVblues = {
 255, 255, 255, // first row.
 204, 255, 255,
 204, 204, 255,
@@ -767,6 +767,6 @@ class MainSwatchPanel extends SwatchPanel {
 0, 51, 51,
 0, 51, 51,
 51, 51, 51 };
-        return rawValues;
+        return rbwVblues;
     }
 }

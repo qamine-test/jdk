@@ -1,384 +1,384 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.text.BreakIterator;
-import java.text.CharacterIterator;
-import java.text.AttributedCharacterIterator;
-import java.awt.font.FontRenderContext;
+import jbvb.text.BrebkIterbtor;
+import jbvb.text.ChbrbcterIterbtor;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.bwt.font.FontRenderContext;
 
 /**
- * The <code>LineBreakMeasurer</code> class allows styled text to be
- * broken into lines (or segments) that fit within a particular visual
- * advance.  This is useful for clients who wish to display a paragraph of
- * text that fits within a specific width, called the <b>wrapping
+ * The <code>LineBrebkMebsurer</code> clbss bllows styled text to be
+ * broken into lines (or segments) thbt fit within b pbrticulbr visubl
+ * bdvbnce.  This is useful for clients who wish to displby b pbrbgrbph of
+ * text thbt fits within b specific width, cblled the <b>wrbpping
  * width</b>.
  * <p>
- * <code>LineBreakMeasurer</code> is constructed with an iterator over
- * styled text.  The iterator's range should be a single paragraph in the
+ * <code>LineBrebkMebsurer</code> is constructed with bn iterbtor over
+ * styled text.  The iterbtor's rbnge should be b single pbrbgrbph in the
  * text.
- * <code>LineBreakMeasurer</code> maintains a position in the text for the
- * start of the next text segment.  Initially, this position is the
- * start of text.  Paragraphs are assigned an overall direction (either
- * left-to-right or right-to-left) according to the bidirectional
- * formatting rules.  All segments obtained from a paragraph have the
- * same direction as the paragraph.
+ * <code>LineBrebkMebsurer</code> mbintbins b position in the text for the
+ * stbrt of the next text segment.  Initiblly, this position is the
+ * stbrt of text.  Pbrbgrbphs bre bssigned bn overbll direction (either
+ * left-to-right or right-to-left) bccording to the bidirectionbl
+ * formbtting rules.  All segments obtbined from b pbrbgrbph hbve the
+ * sbme direction bs the pbrbgrbph.
  * <p>
- * Segments of text are obtained by calling the method
- * <code>nextLayout</code>, which returns a {@link TextLayout}
- * representing the text that fits within the wrapping width.
- * The <code>nextLayout</code> method moves the current position
- * to the end of the layout returned from <code>nextLayout</code>.
+ * Segments of text bre obtbined by cblling the method
+ * <code>nextLbyout</code>, which returns b {@link TextLbyout}
+ * representing the text thbt fits within the wrbpping width.
+ * The <code>nextLbyout</code> method moves the current position
+ * to the end of the lbyout returned from <code>nextLbyout</code>.
  * <p>
- * <code>LineBreakMeasurer</code> implements the most commonly used
- * line-breaking policy: Every word that fits within the wrapping
- * width is placed on the line. If the first word does not fit, then all
- * of the characters that fit within the wrapping width are placed on the
- * line.  At least one character is placed on each line.
+ * <code>LineBrebkMebsurer</code> implements the most commonly used
+ * line-brebking policy: Every word thbt fits within the wrbpping
+ * width is plbced on the line. If the first word does not fit, then bll
+ * of the chbrbcters thbt fit within the wrbpping width bre plbced on the
+ * line.  At lebst one chbrbcter is plbced on ebch line.
  * <p>
- * The <code>TextLayout</code> instances returned by
- * <code>LineBreakMeasurer</code> treat tabs like 0-width spaces.  Clients
- * who wish to obtain tab-delimited segments for positioning should use
- * the overload of <code>nextLayout</code> which takes a limiting offset
+ * The <code>TextLbyout</code> instbnces returned by
+ * <code>LineBrebkMebsurer</code> trebt tbbs like 0-width spbces.  Clients
+ * who wish to obtbin tbb-delimited segments for positioning should use
+ * the overlobd of <code>nextLbyout</code> which tbkes b limiting offset
  * in the text.
- * The limiting offset should be the first character after the tab.
- * The <code>TextLayout</code> objects returned from this method end
- * at the limit provided (or before, if the text between the current
- * position and the limit won't fit entirely within the  wrapping
+ * The limiting offset should be the first chbrbcter bfter the tbb.
+ * The <code>TextLbyout</code> objects returned from this method end
+ * bt the limit provided (or before, if the text between the current
+ * position bnd the limit won't fit entirely within the  wrbpping
  * width).
  * <p>
- * Clients who are laying out tab-delimited text need a slightly
- * different line-breaking policy after the first segment has been
- * placed on a line.  Instead of fitting partial words in the
- * remaining space, they should place words which don't fit in the
- * remaining space entirely on the next line.  This change of policy
- * can be requested in the overload of <code>nextLayout</code> which
- * takes a <code>boolean</code> parameter.  If this parameter is
- * <code>true</code>, <code>nextLayout</code> returns
+ * Clients who bre lbying out tbb-delimited text need b slightly
+ * different line-brebking policy bfter the first segment hbs been
+ * plbced on b line.  Instebd of fitting pbrtibl words in the
+ * rembining spbce, they should plbce words which don't fit in the
+ * rembining spbce entirely on the next line.  This chbnge of policy
+ * cbn be requested in the overlobd of <code>nextLbyout</code> which
+ * tbkes b <code>boolebn</code> pbrbmeter.  If this pbrbmeter is
+ * <code>true</code>, <code>nextLbyout</code> returns
  * <code>null</code> if the first word won't fit in
- * the given space.  See the tab sample below.
+ * the given spbce.  See the tbb sbmple below.
  * <p>
- * In general, if the text used to construct the
- * <code>LineBreakMeasurer</code> changes, a new
- * <code>LineBreakMeasurer</code> must be constructed to reflect
- * the change.  (The old <code>LineBreakMeasurer</code> continues to
- * function properly, but it won't be aware of the text change.)
- * Nevertheless, if the text change is the insertion or deletion of a
- * single character, an existing <code>LineBreakMeasurer</code> can be
- * 'updated' by calling <code>insertChar</code> or
- * <code>deleteChar</code>. Updating an existing
- * <code>LineBreakMeasurer</code> is much faster than creating a new one.
- * Clients who modify text based on user typing should take advantage
+ * In generbl, if the text used to construct the
+ * <code>LineBrebkMebsurer</code> chbnges, b new
+ * <code>LineBrebkMebsurer</code> must be constructed to reflect
+ * the chbnge.  (The old <code>LineBrebkMebsurer</code> continues to
+ * function properly, but it won't be bwbre of the text chbnge.)
+ * Nevertheless, if the text chbnge is the insertion or deletion of b
+ * single chbrbcter, bn existing <code>LineBrebkMebsurer</code> cbn be
+ * 'updbted' by cblling <code>insertChbr</code> or
+ * <code>deleteChbr</code>. Updbting bn existing
+ * <code>LineBrebkMebsurer</code> is much fbster thbn crebting b new one.
+ * Clients who modify text bbsed on user typing should tbke bdvbntbge
  * of these methods.
  * <p>
- * <strong>Examples</strong>:<p>
- * Rendering a paragraph in a component
+ * <strong>Exbmples</strong>:<p>
+ * Rendering b pbrbgrbph in b component
  * <blockquote>
  * <pre>{@code
- * public void paint(Graphics graphics) {
+ * public void pbint(Grbphics grbphics) {
  *
  *     Point2D pen = new Point2D(10, 20);
- *     Graphics2D g2d = (Graphics2D)graphics;
+ *     Grbphics2D g2d = (Grbphics2D)grbphics;
  *     FontRenderContext frc = g2d.getFontRenderContext();
  *
- *     // let styledText be an AttributedCharacterIterator containing at least
- *     // one character
+ *     // let styledText be bn AttributedChbrbcterIterbtor contbining bt lebst
+ *     // one chbrbcter
  *
- *     LineBreakMeasurer measurer = new LineBreakMeasurer(styledText, frc);
- *     float wrappingWidth = getSize().width - 15;
+ *     LineBrebkMebsurer mebsurer = new LineBrebkMebsurer(styledText, frc);
+ *     flobt wrbppingWidth = getSize().width - 15;
  *
- *     while (measurer.getPosition() < fStyledText.length()) {
+ *     while (mebsurer.getPosition() < fStyledText.length()) {
  *
- *         TextLayout layout = measurer.nextLayout(wrappingWidth);
+ *         TextLbyout lbyout = mebsurer.nextLbyout(wrbppingWidth);
  *
- *         pen.y += (layout.getAscent());
- *         float dx = layout.isLeftToRight() ?
- *             0 : (wrappingWidth - layout.getAdvance());
+ *         pen.y += (lbyout.getAscent());
+ *         flobt dx = lbyout.isLeftToRight() ?
+ *             0 : (wrbppingWidth - lbyout.getAdvbnce());
  *
- *         layout.draw(graphics, pen.x + dx, pen.y);
- *         pen.y += layout.getDescent() + layout.getLeading();
+ *         lbyout.drbw(grbphics, pen.x + dx, pen.y);
+ *         pen.y += lbyout.getDescent() + lbyout.getLebding();
  *     }
  * }
  * }</pre>
  * </blockquote>
  * <p>
- * Rendering text with tabs.  For simplicity, the overall text
- * direction is assumed to be left-to-right
+ * Rendering text with tbbs.  For simplicity, the overbll text
+ * direction is bssumed to be left-to-right
  * <blockquote>
  * <pre>{@code
- * public void paint(Graphics graphics) {
+ * public void pbint(Grbphics grbphics) {
  *
- *     float leftMargin = 10, rightMargin = 310;
- *     float[] tabStops = { 100, 250 };
+ *     flobt leftMbrgin = 10, rightMbrgin = 310;
+ *     flobt[] tbbStops = { 100, 250 };
  *
- *     // assume styledText is an AttributedCharacterIterator, and the number
- *     // of tabs in styledText is tabCount
+ *     // bssume styledText is bn AttributedChbrbcterIterbtor, bnd the number
+ *     // of tbbs in styledText is tbbCount
  *
- *     int[] tabLocations = new int[tabCount+1];
+ *     int[] tbbLocbtions = new int[tbbCount+1];
  *
  *     int i = 0;
- *     for (char c = styledText.first(); c != styledText.DONE; c = styledText.next()) {
+ *     for (chbr c = styledText.first(); c != styledText.DONE; c = styledText.next()) {
  *         if (c == '\t') {
- *             tabLocations[i++] = styledText.getIndex();
+ *             tbbLocbtions[i++] = styledText.getIndex();
  *         }
  *     }
- *     tabLocations[tabCount] = styledText.getEndIndex() - 1;
+ *     tbbLocbtions[tbbCount] = styledText.getEndIndex() - 1;
  *
- *     // Now tabLocations has an entry for every tab's offset in
- *     // the text.  For convenience, the last entry is tabLocations
- *     // is the offset of the last character in the text.
+ *     // Now tbbLocbtions hbs bn entry for every tbb's offset in
+ *     // the text.  For convenience, the lbst entry is tbbLocbtions
+ *     // is the offset of the lbst chbrbcter in the text.
  *
- *     LineBreakMeasurer measurer = new LineBreakMeasurer(styledText);
- *     int currentTab = 0;
- *     float verticalPos = 20;
+ *     LineBrebkMebsurer mebsurer = new LineBrebkMebsurer(styledText);
+ *     int currentTbb = 0;
+ *     flobt verticblPos = 20;
  *
- *     while (measurer.getPosition() < styledText.getEndIndex()) {
+ *     while (mebsurer.getPosition() < styledText.getEndIndex()) {
  *
- *         // Lay out and draw each line.  All segments on a line
- *         // must be computed before any drawing can occur, since
- *         // we must know the largest ascent on the line.
- *         // TextLayouts are computed and stored in a Vector;
- *         // their horizontal positions are stored in a parallel
+ *         // Lby out bnd drbw ebch line.  All segments on b line
+ *         // must be computed before bny drbwing cbn occur, since
+ *         // we must know the lbrgest bscent on the line.
+ *         // TextLbyouts bre computed bnd stored in b Vector;
+ *         // their horizontbl positions bre stored in b pbrbllel
  *         // Vector.
  *
- *         // lineContainsText is true after first segment is drawn
- *         boolean lineContainsText = false;
- *         boolean lineComplete = false;
- *         float maxAscent = 0, maxDescent = 0;
- *         float horizontalPos = leftMargin;
- *         Vector layouts = new Vector(1);
+ *         // lineContbinsText is true bfter first segment is drbwn
+ *         boolebn lineContbinsText = fblse;
+ *         boolebn lineComplete = fblse;
+ *         flobt mbxAscent = 0, mbxDescent = 0;
+ *         flobt horizontblPos = leftMbrgin;
+ *         Vector lbyouts = new Vector(1);
  *         Vector penPositions = new Vector(1);
  *
  *         while (!lineComplete) {
- *             float wrappingWidth = rightMargin - horizontalPos;
- *             TextLayout layout =
- *                     measurer.nextLayout(wrappingWidth,
- *                                         tabLocations[currentTab]+1,
- *                                         lineContainsText);
+ *             flobt wrbppingWidth = rightMbrgin - horizontblPos;
+ *             TextLbyout lbyout =
+ *                     mebsurer.nextLbyout(wrbppingWidth,
+ *                                         tbbLocbtions[currentTbb]+1,
+ *                                         lineContbinsText);
  *
- *             // layout can be null if lineContainsText is true
- *             if (layout != null) {
- *                 layouts.addElement(layout);
- *                 penPositions.addElement(new Float(horizontalPos));
- *                 horizontalPos += layout.getAdvance();
- *                 maxAscent = Math.max(maxAscent, layout.getAscent());
- *                 maxDescent = Math.max(maxDescent,
- *                     layout.getDescent() + layout.getLeading());
+ *             // lbyout cbn be null if lineContbinsText is true
+ *             if (lbyout != null) {
+ *                 lbyouts.bddElement(lbyout);
+ *                 penPositions.bddElement(new Flobt(horizontblPos));
+ *                 horizontblPos += lbyout.getAdvbnce();
+ *                 mbxAscent = Mbth.mbx(mbxAscent, lbyout.getAscent());
+ *                 mbxDescent = Mbth.mbx(mbxDescent,
+ *                     lbyout.getDescent() + lbyout.getLebding());
  *             } else {
  *                 lineComplete = true;
  *             }
  *
- *             lineContainsText = true;
+ *             lineContbinsText = true;
  *
- *             if (measurer.getPosition() == tabLocations[currentTab]+1) {
- *                 currentTab++;
+ *             if (mebsurer.getPosition() == tbbLocbtions[currentTbb]+1) {
+ *                 currentTbb++;
  *             }
  *
- *             if (measurer.getPosition() == styledText.getEndIndex())
+ *             if (mebsurer.getPosition() == styledText.getEndIndex())
  *                 lineComplete = true;
- *             else if (horizontalPos >= tabStops[tabStops.length-1])
+ *             else if (horizontblPos >= tbbStops[tbbStops.length-1])
  *                 lineComplete = true;
  *
  *             if (!lineComplete) {
- *                 // move to next tab stop
+ *                 // move to next tbb stop
  *                 int j;
- *                 for (j=0; horizontalPos >= tabStops[j]; j++) {}
- *                 horizontalPos = tabStops[j];
+ *                 for (j=0; horizontblPos >= tbbStops[j]; j++) {}
+ *                 horizontblPos = tbbStops[j];
  *             }
  *         }
  *
- *         verticalPos += maxAscent;
+ *         verticblPos += mbxAscent;
  *
- *         Enumeration layoutEnum = layouts.elements();
- *         Enumeration positionEnum = penPositions.elements();
+ *         Enumerbtion lbyoutEnum = lbyouts.elements();
+ *         Enumerbtion positionEnum = penPositions.elements();
  *
- *         // now iterate through layouts and draw them
- *         while (layoutEnum.hasMoreElements()) {
- *             TextLayout nextLayout = (TextLayout) layoutEnum.nextElement();
- *             Float nextPosition = (Float) positionEnum.nextElement();
- *             nextLayout.draw(graphics, nextPosition.floatValue(), verticalPos);
+ *         // now iterbte through lbyouts bnd drbw them
+ *         while (lbyoutEnum.hbsMoreElements()) {
+ *             TextLbyout nextLbyout = (TextLbyout) lbyoutEnum.nextElement();
+ *             Flobt nextPosition = (Flobt) positionEnum.nextElement();
+ *             nextLbyout.drbw(grbphics, nextPosition.flobtVblue(), verticblPos);
  *         }
  *
- *         verticalPos += maxDescent;
+ *         verticblPos += mbxDescent;
  *     }
  * }
  * }</pre>
  * </blockquote>
- * @see TextLayout
+ * @see TextLbyout
  */
 
-public final class LineBreakMeasurer {
+public finbl clbss LineBrebkMebsurer {
 
-    private BreakIterator breakIter;
-    private int start;
-    private int pos;
-    private int limit;
-    private TextMeasurer measurer;
-    private CharArrayIterator charIter;
+    privbte BrebkIterbtor brebkIter;
+    privbte int stbrt;
+    privbte int pos;
+    privbte int limit;
+    privbte TextMebsurer mebsurer;
+    privbte ChbrArrbyIterbtor chbrIter;
 
     /**
-     * Constructs a <code>LineBreakMeasurer</code> for the specified text.
+     * Constructs b <code>LineBrebkMebsurer</code> for the specified text.
      *
-     * @param text the text for which this <code>LineBreakMeasurer</code>
-     *       produces <code>TextLayout</code> objects; the text must contain
-     *       at least one character; if the text available through
-     *       <code>iter</code> changes, further calls to this
-     *       <code>LineBreakMeasurer</code> instance are undefined (except,
-     *       in some cases, when <code>insertChar</code> or
-     *       <code>deleteChar</code> are invoked afterward - see below)
-     * @param frc contains information about a graphics device which is
-     *       needed to measure the text correctly;
-     *       text measurements can vary slightly depending on the
-     *       device resolution, and attributes such as antialiasing; this
-     *       parameter does not specify a translation between the
-     *       <code>LineBreakMeasurer</code> and user space
-     * @see LineBreakMeasurer#insertChar
-     * @see LineBreakMeasurer#deleteChar
+     * @pbrbm text the text for which this <code>LineBrebkMebsurer</code>
+     *       produces <code>TextLbyout</code> objects; the text must contbin
+     *       bt lebst one chbrbcter; if the text bvbilbble through
+     *       <code>iter</code> chbnges, further cblls to this
+     *       <code>LineBrebkMebsurer</code> instbnce bre undefined (except,
+     *       in some cbses, when <code>insertChbr</code> or
+     *       <code>deleteChbr</code> bre invoked bfterwbrd - see below)
+     * @pbrbm frc contbins informbtion bbout b grbphics device which is
+     *       needed to mebsure the text correctly;
+     *       text mebsurements cbn vbry slightly depending on the
+     *       device resolution, bnd bttributes such bs bntiblibsing; this
+     *       pbrbmeter does not specify b trbnslbtion between the
+     *       <code>LineBrebkMebsurer</code> bnd user spbce
+     * @see LineBrebkMebsurer#insertChbr
+     * @see LineBrebkMebsurer#deleteChbr
      */
-    public LineBreakMeasurer(AttributedCharacterIterator text, FontRenderContext frc) {
-        this(text, BreakIterator.getLineInstance(), frc);
+    public LineBrebkMebsurer(AttributedChbrbcterIterbtor text, FontRenderContext frc) {
+        this(text, BrebkIterbtor.getLineInstbnce(), frc);
     }
 
     /**
-     * Constructs a <code>LineBreakMeasurer</code> for the specified text.
+     * Constructs b <code>LineBrebkMebsurer</code> for the specified text.
      *
-     * @param text the text for which this <code>LineBreakMeasurer</code>
-     *     produces <code>TextLayout</code> objects; the text must contain
-     *     at least one character; if the text available through
-     *     <code>iter</code> changes, further calls to this
-     *     <code>LineBreakMeasurer</code> instance are undefined (except,
-     *     in some cases, when <code>insertChar</code> or
-     *     <code>deleteChar</code> are invoked afterward - see below)
-     * @param breakIter the {@link BreakIterator} which defines line
-     *     breaks
-     * @param frc contains information about a graphics device which is
-     *       needed to measure the text correctly;
-     *       text measurements can vary slightly depending on the
-     *       device resolution, and attributes such as antialiasing; this
-     *       parameter does not specify a translation between the
-     *       <code>LineBreakMeasurer</code> and user space
-     * @throws IllegalArgumentException if the text has less than one character
-     * @see LineBreakMeasurer#insertChar
-     * @see LineBreakMeasurer#deleteChar
+     * @pbrbm text the text for which this <code>LineBrebkMebsurer</code>
+     *     produces <code>TextLbyout</code> objects; the text must contbin
+     *     bt lebst one chbrbcter; if the text bvbilbble through
+     *     <code>iter</code> chbnges, further cblls to this
+     *     <code>LineBrebkMebsurer</code> instbnce bre undefined (except,
+     *     in some cbses, when <code>insertChbr</code> or
+     *     <code>deleteChbr</code> bre invoked bfterwbrd - see below)
+     * @pbrbm brebkIter the {@link BrebkIterbtor} which defines line
+     *     brebks
+     * @pbrbm frc contbins informbtion bbout b grbphics device which is
+     *       needed to mebsure the text correctly;
+     *       text mebsurements cbn vbry slightly depending on the
+     *       device resolution, bnd bttributes such bs bntiblibsing; this
+     *       pbrbmeter does not specify b trbnslbtion between the
+     *       <code>LineBrebkMebsurer</code> bnd user spbce
+     * @throws IllegblArgumentException if the text hbs less thbn one chbrbcter
+     * @see LineBrebkMebsurer#insertChbr
+     * @see LineBrebkMebsurer#deleteChbr
      */
-    public LineBreakMeasurer(AttributedCharacterIterator text,
-                             BreakIterator breakIter,
+    public LineBrebkMebsurer(AttributedChbrbcterIterbtor text,
+                             BrebkIterbtor brebkIter,
                              FontRenderContext frc) {
         if (text.getEndIndex() - text.getBeginIndex() < 1) {
-            throw new IllegalArgumentException("Text must contain at least one character.");
+            throw new IllegblArgumentException("Text must contbin bt lebst one chbrbcter.");
         }
 
-        this.breakIter = breakIter;
-        this.measurer = new TextMeasurer(text, frc);
+        this.brebkIter = brebkIter;
+        this.mebsurer = new TextMebsurer(text, frc);
         this.limit = text.getEndIndex();
-        this.pos = this.start = text.getBeginIndex();
+        this.pos = this.stbrt = text.getBeginIndex();
 
-        charIter = new CharArrayIterator(measurer.getChars(), this.start);
-        this.breakIter.setText(charIter);
+        chbrIter = new ChbrArrbyIterbtor(mebsurer.getChbrs(), this.stbrt);
+        this.brebkIter.setText(chbrIter);
     }
 
     /**
-     * Returns the position at the end of the next layout.  Does NOT
-     * update the current position of this <code>LineBreakMeasurer</code>.
+     * Returns the position bt the end of the next lbyout.  Does NOT
+     * updbte the current position of this <code>LineBrebkMebsurer</code>.
      *
-     * @param wrappingWidth the maximum visible advance permitted for
-     *    the text in the next layout
-     * @return an offset in the text representing the limit of the
-     *    next <code>TextLayout</code>.
+     * @pbrbm wrbppingWidth the mbximum visible bdvbnce permitted for
+     *    the text in the next lbyout
+     * @return bn offset in the text representing the limit of the
+     *    next <code>TextLbyout</code>.
      */
-    public int nextOffset(float wrappingWidth) {
-        return nextOffset(wrappingWidth, limit, false);
+    public int nextOffset(flobt wrbppingWidth) {
+        return nextOffset(wrbppingWidth, limit, fblse);
     }
 
     /**
-     * Returns the position at the end of the next layout.  Does NOT
-     * update the current position of this <code>LineBreakMeasurer</code>.
+     * Returns the position bt the end of the next lbyout.  Does NOT
+     * updbte the current position of this <code>LineBrebkMebsurer</code>.
      *
-     * @param wrappingWidth the maximum visible advance permitted for
-     *    the text in the next layout
-     * @param offsetLimit the first character that can not be included
-     *    in the next layout, even if the text after the limit would fit
-     *    within the wrapping width; <code>offsetLimit</code> must be
-     *    greater than the current position
-     * @param requireNextWord if <code>true</code>, the current position
-     *    that is returned if the entire next word does not fit within
-     *    <code>wrappingWidth</code>; if <code>false</code>, the offset
-     *    returned is at least one greater than the current position
-     * @return an offset in the text representing the limit of the
-     *    next <code>TextLayout</code>
+     * @pbrbm wrbppingWidth the mbximum visible bdvbnce permitted for
+     *    the text in the next lbyout
+     * @pbrbm offsetLimit the first chbrbcter thbt cbn not be included
+     *    in the next lbyout, even if the text bfter the limit would fit
+     *    within the wrbpping width; <code>offsetLimit</code> must be
+     *    grebter thbn the current position
+     * @pbrbm requireNextWord if <code>true</code>, the current position
+     *    thbt is returned if the entire next word does not fit within
+     *    <code>wrbppingWidth</code>; if <code>fblse</code>, the offset
+     *    returned is bt lebst one grebter thbn the current position
+     * @return bn offset in the text representing the limit of the
+     *    next <code>TextLbyout</code>
      */
-    public int nextOffset(float wrappingWidth, int offsetLimit,
-                          boolean requireNextWord) {
+    public int nextOffset(flobt wrbppingWidth, int offsetLimit,
+                          boolebn requireNextWord) {
 
         int nextOffset = pos;
 
         if (pos < limit) {
             if (offsetLimit <= pos) {
-                    throw new IllegalArgumentException("offsetLimit must be after current position");
+                    throw new IllegblArgumentException("offsetLimit must be bfter current position");
             }
 
-            int charAtMaxAdvance =
-                            measurer.getLineBreakIndex(pos, wrappingWidth);
+            int chbrAtMbxAdvbnce =
+                            mebsurer.getLineBrebkIndex(pos, wrbppingWidth);
 
-            if (charAtMaxAdvance == limit) {
+            if (chbrAtMbxAdvbnce == limit) {
                 nextOffset = limit;
             }
-            else if (Character.isWhitespace(measurer.getChars()[charAtMaxAdvance-start])) {
-                nextOffset = breakIter.following(charAtMaxAdvance);
+            else if (Chbrbcter.isWhitespbce(mebsurer.getChbrs()[chbrAtMbxAdvbnce-stbrt])) {
+                nextOffset = brebkIter.following(chbrAtMbxAdvbnce);
             }
             else {
-            // Break is in a word;  back up to previous break.
+            // Brebk is in b word;  bbck up to previous brebk.
 
-                // NOTE:  I think that breakIter.preceding(limit) should be
-                // equivalent to breakIter.last(), breakIter.previous() but
-                // the authors of BreakIterator thought otherwise...
-                // If they were equivalent then the first branch would be
-                // unnecessary.
-                int testPos = charAtMaxAdvance + 1;
+                // NOTE:  I think thbt brebkIter.preceding(limit) should be
+                // equivblent to brebkIter.lbst(), brebkIter.previous() but
+                // the buthors of BrebkIterbtor thought otherwise...
+                // If they were equivblent then the first brbnch would be
+                // unnecessbry.
+                int testPos = chbrAtMbxAdvbnce + 1;
                 if (testPos == limit) {
-                    breakIter.last();
-                    nextOffset = breakIter.previous();
+                    brebkIter.lbst();
+                    nextOffset = brebkIter.previous();
                 }
                 else {
-                    nextOffset = breakIter.preceding(testPos);
+                    nextOffset = brebkIter.preceding(testPos);
                 }
 
                 if (nextOffset <= pos) {
@@ -387,7 +387,7 @@ public final class LineBreakMeasurer {
                         nextOffset = pos;
                     }
                     else {
-                        nextOffset = Math.max(pos+1, charAtMaxAdvance);
+                        nextOffset = Mbth.mbx(pos+1, chbrAtMbxAdvbnce);
                     }
                 }
             }
@@ -401,49 +401,49 @@ public final class LineBreakMeasurer {
     }
 
     /**
-     * Returns the next layout, and updates the current position.
+     * Returns the next lbyout, bnd updbtes the current position.
      *
-     * @param wrappingWidth the maximum visible advance permitted for
-     *     the text in the next layout
-     * @return a <code>TextLayout</code>, beginning at the current
+     * @pbrbm wrbppingWidth the mbximum visible bdvbnce permitted for
+     *     the text in the next lbyout
+     * @return b <code>TextLbyout</code>, beginning bt the current
      *     position, which represents the next line fitting within
-     *     <code>wrappingWidth</code>
+     *     <code>wrbppingWidth</code>
      */
-    public TextLayout nextLayout(float wrappingWidth) {
-        return nextLayout(wrappingWidth, limit, false);
+    public TextLbyout nextLbyout(flobt wrbppingWidth) {
+        return nextLbyout(wrbppingWidth, limit, fblse);
     }
 
     /**
-     * Returns the next layout, and updates the current position.
+     * Returns the next lbyout, bnd updbtes the current position.
      *
-     * @param wrappingWidth the maximum visible advance permitted
-     *    for the text in the next layout
-     * @param offsetLimit the first character that can not be
-     *    included in the next layout, even if the text after the limit
-     *    would fit within the wrapping width; <code>offsetLimit</code>
-     *    must be greater than the current position
-     * @param requireNextWord if <code>true</code>, and if the entire word
-     *    at the current position does not fit within the wrapping width,
-     *    <code>null</code> is returned. If <code>false</code>, a valid
-     *    layout is returned that includes at least the character at the
+     * @pbrbm wrbppingWidth the mbximum visible bdvbnce permitted
+     *    for the text in the next lbyout
+     * @pbrbm offsetLimit the first chbrbcter thbt cbn not be
+     *    included in the next lbyout, even if the text bfter the limit
+     *    would fit within the wrbpping width; <code>offsetLimit</code>
+     *    must be grebter thbn the current position
+     * @pbrbm requireNextWord if <code>true</code>, bnd if the entire word
+     *    bt the current position does not fit within the wrbpping width,
+     *    <code>null</code> is returned. If <code>fblse</code>, b vblid
+     *    lbyout is returned thbt includes bt lebst the chbrbcter bt the
      *    current position
-     * @return a <code>TextLayout</code>, beginning at the current
-     *    position, that represents the next line fitting within
-     *    <code>wrappingWidth</code>.  If the current position is at the end
-     *    of the text used by this <code>LineBreakMeasurer</code>,
+     * @return b <code>TextLbyout</code>, beginning bt the current
+     *    position, thbt represents the next line fitting within
+     *    <code>wrbppingWidth</code>.  If the current position is bt the end
+     *    of the text used by this <code>LineBrebkMebsurer</code>,
      *    <code>null</code> is returned
      */
-    public TextLayout nextLayout(float wrappingWidth, int offsetLimit,
-                                 boolean requireNextWord) {
+    public TextLbyout nextLbyout(flobt wrbppingWidth, int offsetLimit,
+                                 boolebn requireNextWord) {
 
         if (pos < limit) {
-            int layoutLimit = nextOffset(wrappingWidth, offsetLimit, requireNextWord);
-            if (layoutLimit == pos) {
+            int lbyoutLimit = nextOffset(wrbppingWidth, offsetLimit, requireNextWord);
+            if (lbyoutLimit == pos) {
                 return null;
             }
 
-            TextLayout result = measurer.getLayout(pos, layoutLimit);
-            pos = layoutLimit;
+            TextLbyout result = mebsurer.getLbyout(pos, lbyoutLimit);
+            pos = lbyoutLimit;
 
             return result;
         } else {
@@ -452,9 +452,9 @@ public final class LineBreakMeasurer {
     }
 
     /**
-     * Returns the current position of this <code>LineBreakMeasurer</code>.
+     * Returns the current position of this <code>LineBrebkMebsurer</code>.
      *
-     * @return the current position of this <code>LineBreakMeasurer</code>
+     * @return the current position of this <code>LineBrebkMebsurer</code>
      * @see #setPosition
      */
     public int getPosition() {
@@ -462,72 +462,72 @@ public final class LineBreakMeasurer {
     }
 
     /**
-     * Sets the current position of this <code>LineBreakMeasurer</code>.
+     * Sets the current position of this <code>LineBrebkMebsurer</code>.
      *
-     * @param newPosition the current position of this
-     *    <code>LineBreakMeasurer</code>; the position should be within the
-     *    text used to construct this <code>LineBreakMeasurer</code> (or in
-     *    the text most recently passed to <code>insertChar</code>
-     *    or <code>deleteChar</code>
+     * @pbrbm newPosition the current position of this
+     *    <code>LineBrebkMebsurer</code>; the position should be within the
+     *    text used to construct this <code>LineBrebkMebsurer</code> (or in
+     *    the text most recently pbssed to <code>insertChbr</code>
+     *    or <code>deleteChbr</code>
      * @see #getPosition
      */
     public void setPosition(int newPosition) {
-        if (newPosition < start || newPosition > limit) {
-            throw new IllegalArgumentException("position is out of range");
+        if (newPosition < stbrt || newPosition > limit) {
+            throw new IllegblArgumentException("position is out of rbnge");
         }
         pos = newPosition;
     }
 
     /**
-     * Updates this <code>LineBreakMeasurer</code> after a single
-     * character is inserted into the text, and sets the current
-     * position to the beginning of the paragraph.
+     * Updbtes this <code>LineBrebkMebsurer</code> bfter b single
+     * chbrbcter is inserted into the text, bnd sets the current
+     * position to the beginning of the pbrbgrbph.
      *
-     * @param newParagraph the text after the insertion
-     * @param insertPos the position in the text at which the character
+     * @pbrbm newPbrbgrbph the text bfter the insertion
+     * @pbrbm insertPos the position in the text bt which the chbrbcter
      *    is inserted
      * @throws IndexOutOfBoundsException if <code>insertPos</code> is less
-     *         than the start of <code>newParagraph</code> or greater than
-     *         or equal to the end of <code>newParagraph</code>
-     * @throws NullPointerException if <code>newParagraph</code> is
+     *         thbn the stbrt of <code>newPbrbgrbph</code> or grebter thbn
+     *         or equbl to the end of <code>newPbrbgrbph</code>
+     * @throws NullPointerException if <code>newPbrbgrbph</code> is
      *         <code>null</code>
-     * @see #deleteChar
+     * @see #deleteChbr
      */
-    public void insertChar(AttributedCharacterIterator newParagraph,
+    public void insertChbr(AttributedChbrbcterIterbtor newPbrbgrbph,
                            int insertPos) {
 
-        measurer.insertChar(newParagraph, insertPos);
+        mebsurer.insertChbr(newPbrbgrbph, insertPos);
 
-        limit = newParagraph.getEndIndex();
-        pos = start = newParagraph.getBeginIndex();
+        limit = newPbrbgrbph.getEndIndex();
+        pos = stbrt = newPbrbgrbph.getBeginIndex();
 
-        charIter.reset(measurer.getChars(), newParagraph.getBeginIndex());
-        breakIter.setText(charIter);
+        chbrIter.reset(mebsurer.getChbrs(), newPbrbgrbph.getBeginIndex());
+        brebkIter.setText(chbrIter);
     }
 
     /**
-     * Updates this <code>LineBreakMeasurer</code> after a single
-     * character is deleted from the text, and sets the current
-     * position to the beginning of the paragraph.
-     * @param newParagraph the text after the deletion
-     * @param deletePos the position in the text at which the character
+     * Updbtes this <code>LineBrebkMebsurer</code> bfter b single
+     * chbrbcter is deleted from the text, bnd sets the current
+     * position to the beginning of the pbrbgrbph.
+     * @pbrbm newPbrbgrbph the text bfter the deletion
+     * @pbrbm deletePos the position in the text bt which the chbrbcter
      *    is deleted
      * @throws IndexOutOfBoundsException if <code>deletePos</code> is
-     *         less than the start of <code>newParagraph</code> or greater
-     *         than the end of <code>newParagraph</code>
-     * @throws NullPointerException if <code>newParagraph</code> is
+     *         less thbn the stbrt of <code>newPbrbgrbph</code> or grebter
+     *         thbn the end of <code>newPbrbgrbph</code>
+     * @throws NullPointerException if <code>newPbrbgrbph</code> is
      *         <code>null</code>
-     * @see #insertChar
+     * @see #insertChbr
      */
-    public void deleteChar(AttributedCharacterIterator newParagraph,
+    public void deleteChbr(AttributedChbrbcterIterbtor newPbrbgrbph,
                            int deletePos) {
 
-        measurer.deleteChar(newParagraph, deletePos);
+        mebsurer.deleteChbr(newPbrbgrbph, deletePos);
 
-        limit = newParagraph.getEndIndex();
-        pos = start = newParagraph.getBeginIndex();
+        limit = newPbrbgrbph.getEndIndex();
+        pos = stbrt = newPbrbgrbph.getBeginIndex();
 
-        charIter.reset(measurer.getChars(), start);
-        breakIter.setText(charIter);
+        chbrIter.reset(mebsurer.getChbrs(), stbrt);
+        brebkIter.setText(chbrIter);
     }
 }

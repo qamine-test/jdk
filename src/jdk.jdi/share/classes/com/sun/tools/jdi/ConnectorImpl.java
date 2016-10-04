@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.tools.jdi.*;
 import com.sun.jdi.*;
 import com.sun.jdi.connect.*;
-import com.sun.jdi.InternalException;
-import java.util.Collections;
-import java.util.Collection;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ResourceBundle;
-import java.io.Serializable;
+import com.sun.jdi.InternblException;
+import jbvb.util.Collections;
+import jbvb.util.Collection;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.ResourceBundle;
+import jbvb.io.Seriblizbble;
 
-abstract class ConnectorImpl implements Connector {
-    Map<String,Argument> defaultArguments = new java.util.LinkedHashMap<String,Argument>();
+bbstrbct clbss ConnectorImpl implements Connector {
+    Mbp<String,Argument> defbultArguments = new jbvb.util.LinkedHbshMbp<String,Argument>();
 
-    // Used by BooleanArgument
-    static String trueString = null;
-    static String falseString;
+    // Used by BoolebnArgument
+    stbtic String trueString = null;
+    stbtic String fblseString;
 
-    public Map<String,Argument> defaultArguments() {
-        Map<String,Argument> defaults = new java.util.LinkedHashMap<String,Argument>();
-        Collection<Argument> values = defaultArguments.values();
+    public Mbp<String,Argument> defbultArguments() {
+        Mbp<String,Argument> defbults = new jbvb.util.LinkedHbshMbp<String,Argument>();
+        Collection<Argument> vblues = defbultArguments.vblues();
 
-        Iterator<Argument> iter = values.iterator();
-        while (iter.hasNext()) {
-            ArgumentImpl argument = (ArgumentImpl)iter.next();
-            defaults.put(argument.name(), (Argument)argument.clone());
+        Iterbtor<Argument> iter = vblues.iterbtor();
+        while (iter.hbsNext()) {
+            ArgumentImpl brgument = (ArgumentImpl)iter.next();
+            defbults.put(brgument.nbme(), (Argument)brgument.clone());
         }
-        return defaults;
+        return defbults;
     }
 
-    void addStringArgument(String name, String label, String description,
-                           String defaultValue, boolean mustSpecify) {
-        defaultArguments.put(name,
-                             new StringArgumentImpl(name, label,
+    void bddStringArgument(String nbme, String lbbel, String description,
+                           String defbultVblue, boolebn mustSpecify) {
+        defbultArguments.put(nbme,
+                             new StringArgumentImpl(nbme, lbbel,
                                                     description,
-                                                    defaultValue,
+                                                    defbultVblue,
                                                     mustSpecify));
     }
 
-    void addBooleanArgument(String name, String label, String description,
-                            boolean defaultValue, boolean mustSpecify) {
-        defaultArguments.put(name,
-                             new BooleanArgumentImpl(name, label,
+    void bddBoolebnArgument(String nbme, String lbbel, String description,
+                            boolebn defbultVblue, boolebn mustSpecify) {
+        defbultArguments.put(nbme,
+                             new BoolebnArgumentImpl(nbme, lbbel,
                                                      description,
-                                                     defaultValue,
+                                                     defbultVblue,
                                                      mustSpecify));
     }
 
-    void addIntegerArgument(String name, String label, String description,
-                            String defaultValue, boolean mustSpecify,
-                            int min, int max) {
-        defaultArguments.put(name,
-                             new IntegerArgumentImpl(name, label,
+    void bddIntegerArgument(String nbme, String lbbel, String description,
+                            String defbultVblue, boolebn mustSpecify,
+                            int min, int mbx) {
+        defbultArguments.put(nbme,
+                             new IntegerArgumentImpl(nbme, lbbel,
                                                      description,
-                                                     defaultValue,
+                                                     defbultVblue,
                                                      mustSpecify,
-                                                     min, max));
+                                                     min, mbx));
     }
 
-    void addSelectedArgument(String name, String label, String description,
-                             String defaultValue, boolean mustSpecify,
+    void bddSelectedArgument(String nbme, String lbbel, String description,
+                             String defbultVblue, boolebn mustSpecify,
                              List<String> list) {
-        defaultArguments.put(name,
-                             new SelectedArgumentImpl(name, label,
+        defbultArguments.put(nbme,
+                             new SelectedArgumentImpl(nbme, lbbel,
                                                       description,
-                                                      defaultValue,
+                                                      defbultVblue,
                                                       mustSpecify, list));
     }
 
-    ArgumentImpl argument(String name, Map<String, ? extends Argument> arguments)
-                throws IllegalConnectorArgumentsException {
+    ArgumentImpl brgument(String nbme, Mbp<String, ? extends Argument> brguments)
+                throws IllegblConnectorArgumentsException {
 
-        ArgumentImpl argument = (ArgumentImpl)arguments.get(name);
-        if (argument == null) {
-            throw new IllegalConnectorArgumentsException(
-                         "Argument missing", name);
+        ArgumentImpl brgument = (ArgumentImpl)brguments.get(nbme);
+        if (brgument == null) {
+            throw new IllegblConnectorArgumentsException(
+                         "Argument missing", nbme);
         }
-        String value = argument.value();
-        if (value == null || value.length() == 0) {
-            if (argument.mustSpecify()) {
-            throw new IllegalConnectorArgumentsException(
-                         "Argument unspecified", name);
+        String vblue = brgument.vblue();
+        if (vblue == null || vblue.length() == 0) {
+            if (brgument.mustSpecify()) {
+            throw new IllegblConnectorArgumentsException(
+                         "Argument unspecified", nbme);
             }
-        } else if(!argument.isValid(value)) {
-            throw new IllegalConnectorArgumentsException(
-                         "Argument invalid", name);
+        } else if(!brgument.isVblid(vblue)) {
+            throw new IllegblConnectorArgumentsException(
+                         "Argument invblid", nbme);
         }
 
-        return argument;
+        return brgument;
     }
 
 
-    private ResourceBundle messages = null;
+    privbte ResourceBundle messbges = null;
 
     String getString(String key) {
-        if (messages == null) {
-            messages = ResourceBundle.getBundle("com.sun.tools.jdi.resources.jdi");
+        if (messbges == null) {
+            messbges = ResourceBundle.getBundle("com.sun.tools.jdi.resources.jdi");
         }
-        return messages.getString(key);
+        return messbges.getString(key);
     }
 
     public String toString() {
-        String string = name() + " (defaults: ";
-        Iterator<Argument> iter = defaultArguments().values().iterator();
-        boolean first = true;
-        while (iter.hasNext()) {
-            ArgumentImpl argument = (ArgumentImpl)iter.next();
+        String string = nbme() + " (defbults: ";
+        Iterbtor<Argument> iter = defbultArguments().vblues().iterbtor();
+        boolebn first = true;
+        while (iter.hbsNext()) {
+            ArgumentImpl brgument = (ArgumentImpl)iter.next();
             if (!first) {
                 string += ", ";
             }
-            string += argument.toString();
-            first = false;
+            string += brgument.toString();
+            first = fblse;
         }
         string += ")";
         return string;
     }
 
-    @SuppressWarnings("serial") // JDK implementation class
-    abstract class ArgumentImpl implements Connector.Argument, Cloneable, Serializable {
-        private String name;
-        private String label;
-        private String description;
-        private String value;
-        private boolean mustSpecify;
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    bbstrbct clbss ArgumentImpl implements Connector.Argument, Clonebble, Seriblizbble {
+        privbte String nbme;
+        privbte String lbbel;
+        privbte String description;
+        privbte String vblue;
+        privbte boolebn mustSpecify;
 
-        ArgumentImpl(String name, String label, String description,
-                     String value,
-                     boolean mustSpecify) {
-            this.name = name;
-            this.label = label;
+        ArgumentImpl(String nbme, String lbbel, String description,
+                     String vblue,
+                     boolebn mustSpecify) {
+            this.nbme = nbme;
+            this.lbbel = lbbel;
             this.description = description;
-            this.value = value;
+            this.vblue = vblue;
             this.mustSpecify = mustSpecify;
         }
 
-        public abstract boolean isValid(String value);
+        public bbstrbct boolebn isVblid(String vblue);
 
-        public String name() {
-            return name;
+        public String nbme() {
+            return nbme;
         }
 
-        public String label() {
-            return label;
+        public String lbbel() {
+            return lbbel;
         }
 
         public String description() {
             return description;
         }
 
-        public String value() {
-            return value;
+        public String vblue() {
+            return vblue;
         }
 
-        public void setValue(String value) {
-            if (value == null) {
-                throw new NullPointerException("Can't set null value");
+        public void setVblue(String vblue) {
+            if (vblue == null) {
+                throw new NullPointerException("Cbn't set null vblue");
             }
-            this.value = value;
+            this.vblue = vblue;
         }
 
-        public boolean mustSpecify() {
+        public boolebn mustSpecify() {
             return mustSpecify;
         }
 
-        public boolean equals(Object obj) {
-            if ((obj != null) && (obj instanceof Connector.Argument)) {
+        public boolebn equbls(Object obj) {
+            if ((obj != null) && (obj instbnceof Connector.Argument)) {
                 Connector.Argument other = (Connector.Argument)obj;
-                return (name().equals(other.name())) &&
-                       (description().equals(other.description())) &&
+                return (nbme().equbls(other.nbme())) &&
+                       (description().equbls(other.description())) &&
                        (mustSpecify() == other.mustSpecify()) &&
-                       (value().equals(other.value()));
+                       (vblue().equbls(other.vblue()));
             } else {
-                return false;
+                return fblse;
             }
         }
 
-        public int hashCode() {
-            return description().hashCode();
+        public int hbshCode() {
+            return description().hbshCode();
         }
 
         public Object clone() {
             try {
                 return super.clone();
-            } catch (CloneNotSupportedException e) {
-                // Object should always support clone
-                throw new InternalException();
+            } cbtch (CloneNotSupportedException e) {
+                // Object should blwbys support clone
+                throw new InternblException();
             }
         }
 
         public String toString() {
-            return name() + "=" + value();
+            return nbme() + "=" + vblue();
         }
     }
 
-    class BooleanArgumentImpl extends ConnectorImpl.ArgumentImpl
-                              implements Connector.BooleanArgument {
-        private static final long serialVersionUID = 1624542968639361316L;
-        BooleanArgumentImpl(String name, String label, String description,
-                            boolean value,
-                            boolean mustSpecify) {
-            super(name, label, description, null, mustSpecify);
+    clbss BoolebnArgumentImpl extends ConnectorImpl.ArgumentImpl
+                              implements Connector.BoolebnArgument {
+        privbte stbtic finbl long seriblVersionUID = 1624542968639361316L;
+        BoolebnArgumentImpl(String nbme, String lbbel, String description,
+                            boolebn vblue,
+                            boolebn mustSpecify) {
+            super(nbme, lbbel, description, null, mustSpecify);
             if(trueString == null) {
                 trueString = getString("true");
-                falseString = getString("false");
+                fblseString = getString("fblse");
             }
-            setValue(value);
+            setVblue(vblue);
         }
 
         /**
-         * Sets the value of the argument.
+         * Sets the vblue of the brgument.
          */
-        public void setValue(boolean value) {
-            setValue(stringValueOf(value));
+        public void setVblue(boolebn vblue) {
+            setVblue(stringVblueOf(vblue));
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value is a string
-         * representation of a boolean value.
-         * @see #stringValueOf(boolean)
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> if vblue is b string
+         * representbtion of b boolebn vblue.
+         * @see #stringVblueOf(boolebn)
          */
-        public boolean isValid(String value) {
-            return value.equals(trueString) || value.equals(falseString);
+        public boolebn isVblid(String vblue) {
+            return vblue.equbls(trueString) || vblue.equbls(fblseString);
         }
 
         /**
-         * Return the string representation of the <code>value</code>
-         * parameter.
-         * Does not set or examine the value or the argument.
-         * @return the localized String representation of the
-         * boolean value.
+         * Return the string representbtion of the <code>vblue</code>
+         * pbrbmeter.
+         * Does not set or exbmine the vblue or the brgument.
+         * @return the locblized String representbtion of the
+         * boolebn vblue.
          */
-        public String stringValueOf(boolean value) {
-            return value? trueString : falseString;
+        public String stringVblueOf(boolebn vblue) {
+            return vblue? trueString : fblseString;
         }
 
         /**
-         * Return the value of the argument as a boolean.  Since
-         * the argument may not have been set or may have an invalid
-         * value {@link #isValid(String)} should be called on
-         * {@link #value()} to check its validity.  If it is invalid
-         * the boolean returned by this method is undefined.
-         * @return the value of the argument as a boolean.
+         * Return the vblue of the brgument bs b boolebn.  Since
+         * the brgument mby not hbve been set or mby hbve bn invblid
+         * vblue {@link #isVblid(String)} should be cblled on
+         * {@link #vblue()} to check its vblidity.  If it is invblid
+         * the boolebn returned by this method is undefined.
+         * @return the vblue of the brgument bs b boolebn.
          */
-        public boolean booleanValue() {
-            return value().equals(trueString);
+        public boolebn boolebnVblue() {
+            return vblue().equbls(trueString);
         }
     }
 
-    class IntegerArgumentImpl extends ConnectorImpl.ArgumentImpl
+    clbss IntegerArgumentImpl extends ConnectorImpl.ArgumentImpl
                               implements Connector.IntegerArgument {
-        private static final long serialVersionUID = 763286081923797770L;
-        private final int min;
-        private final int max;
+        privbte stbtic finbl long seriblVersionUID = 763286081923797770L;
+        privbte finbl int min;
+        privbte finbl int mbx;
 
-        IntegerArgumentImpl(String name, String label, String description,
-                            String value,
-                            boolean mustSpecify, int min, int max) {
-            super(name, label, description, value, mustSpecify);
+        IntegerArgumentImpl(String nbme, String lbbel, String description,
+                            String vblue,
+                            boolebn mustSpecify, int min, int mbx) {
+            super(nbme, lbbel, description, vblue, mustSpecify);
             this.min = min;
-            this.max = max;
+            this.mbx = mbx;
         }
 
         /**
-         * Sets the value of the argument.
-         * The value should be checked with {@link #isValid(int)}
-         * before setting it; invalid values will throw an exception
-         * when the connection is established - for example,
-         * on {@link LaunchingConnector#launch}
+         * Sets the vblue of the brgument.
+         * The vblue should be checked with {@link #isVblid(int)}
+         * before setting it; invblid vblues will throw bn exception
+         * when the connection is estbblished - for exbmple,
+         * on {@link LbunchingConnector#lbunch}
          */
-        public void setValue(int value) {
-            setValue(stringValueOf(value));
+        public void setVblue(int vblue) {
+            setVblue(stringVblueOf(vblue));
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value represents an int that is
-         * <code>{@link #min()} &lt;= value &lt;= {@link #max()}</code>
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> if vblue represents bn int thbt is
+         * <code>{@link #min()} &lt;= vblue &lt;= {@link #mbx()}</code>
          */
-        public boolean isValid(String value) {
-            if (value == null) {
-                return false;
+        public boolebn isVblid(String vblue) {
+            if (vblue == null) {
+                return fblse;
             }
             try {
-                return isValid(Integer.decode(value).intValue());
-            } catch(NumberFormatException exc) {
-                return false;
+                return isVblid(Integer.decode(vblue).intVblue());
+            } cbtch(NumberFormbtException exc) {
+                return fblse;
             }
         }
 
         /**
-         * Performs basic sanity check of argument.
+         * Performs bbsic sbnity check of brgument.
          * @return <code>true</code> if
-         * <code>{@link #min()} &lt;= value  &lt;= {@link #max()}</code>
+         * <code>{@link #min()} &lt;= vblue  &lt;= {@link #mbx()}</code>
          */
-        public boolean isValid(int value) {
-            return min <= value && value <= max;
+        public boolebn isVblid(int vblue) {
+            return min <= vblue && vblue <= mbx;
         }
 
         /**
-         * Return the string representation of the <code>value</code>
-         * parameter.
-         * Does not set or examine the value or the argument.
-         * @return the String representation of the
-         * int value.
+         * Return the string representbtion of the <code>vblue</code>
+         * pbrbmeter.
+         * Does not set or exbmine the vblue or the brgument.
+         * @return the String representbtion of the
+         * int vblue.
          */
-        public String stringValueOf(int value) {
-            // *** Should this be internationalized????
-            // *** Even Brian Beck was unsure if an Arabic programmer
-            // *** would expect port numbers in Arabic numerals,
+        public String stringVblueOf(int vblue) {
+            // *** Should this be internbtionblized????
+            // *** Even Bribn Beck wbs unsure if bn Arbbic progrbmmer
+            // *** would expect port numbers in Arbbic numerbls,
             // *** so punt for now.
-            return ""+value;
+            return ""+vblue;
         }
 
         /**
-         * Return the value of the argument as a int.  Since
-         * the argument may not have been set or may have an invalid
-         * value {@link #isValid(String)} should be called on
-         * {@link #value()} to check its validity.  If it is invalid
+         * Return the vblue of the brgument bs b int.  Since
+         * the brgument mby not hbve been set or mby hbve bn invblid
+         * vblue {@link #isVblid(String)} should be cblled on
+         * {@link #vblue()} to check its vblidity.  If it is invblid
          * the int returned by this method is undefined.
-         * @return the value of the argument as a int.
+         * @return the vblue of the brgument bs b int.
          */
-        public int intValue() {
-            if (value() == null) {
+        public int intVblue() {
+            if (vblue() == null) {
                 return 0;
             }
             try {
-                return Integer.decode(value()).intValue();
-            } catch(NumberFormatException exc) {
+                return Integer.decode(vblue()).intVblue();
+            } cbtch(NumberFormbtException exc) {
                 return 0;
             }
         }
 
         /**
-         * The upper bound for the value.
-         * @return the maximum allowed value for this argument.
+         * The upper bound for the vblue.
+         * @return the mbximum bllowed vblue for this brgument.
          */
-        public int max() {
-            return max;
+        public int mbx() {
+            return mbx;
         }
 
         /**
-         * The lower bound for the value.
-         * @return the minimum allowed value for this argument.
+         * The lower bound for the vblue.
+         * @return the minimum bllowed vblue for this brgument.
          */
         public int min() {
             return min;
         }
     }
 
-    class StringArgumentImpl extends ConnectorImpl.ArgumentImpl
+    clbss StringArgumentImpl extends ConnectorImpl.ArgumentImpl
                               implements Connector.StringArgument {
-        private static final long serialVersionUID = 7500484902692107464L;
-        StringArgumentImpl(String name, String label, String description,
-                           String value,
-                           boolean mustSpecify) {
-            super(name, label, description, value, mustSpecify);
+        privbte stbtic finbl long seriblVersionUID = 7500484902692107464L;
+        StringArgumentImpl(String nbme, String lbbel, String description,
+                           String vblue,
+                           boolebn mustSpecify) {
+            super(nbme, lbbel, description, vblue, mustSpecify);
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> always
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> blwbys
          */
-        public boolean isValid(String value) {
+        public boolebn isVblid(String vblue) {
             return true;
         }
     }
 
-    class SelectedArgumentImpl extends ConnectorImpl.ArgumentImpl
+    clbss SelectedArgumentImpl extends ConnectorImpl.ArgumentImpl
                               implements Connector.SelectedArgument {
-        private static final long serialVersionUID = -5689584530908382517L;
-        private final List<String> choices;
+        privbte stbtic finbl long seriblVersionUID = -5689584530908382517L;
+        privbte finbl List<String> choices;
 
-        SelectedArgumentImpl(String name, String label, String description,
-                             String value,
-                             boolean mustSpecify, List<String> choices) {
-            super(name, label, description, value, mustSpecify);
-            this.choices = Collections.unmodifiableList(new ArrayList<String>(choices));
+        SelectedArgumentImpl(String nbme, String lbbel, String description,
+                             String vblue,
+                             boolebn mustSpecify, List<String> choices) {
+            super(nbme, lbbel, description, vblue, mustSpecify);
+            this.choices = Collections.unmodifibbleList(new ArrbyList<String>(choices));
         }
 
         /**
-         * Return the possible values for the argument
+         * Return the possible vblues for the brgument
          * @return {@link List} of {@link String}
          */
         public List<String> choices() {
@@ -416,11 +416,11 @@ abstract class ConnectorImpl implements Connector {
         }
 
         /**
-         * Performs basic sanity check of argument.
-         * @return <code>true</code> if value is one of {@link #choices()}.
+         * Performs bbsic sbnity check of brgument.
+         * @return <code>true</code> if vblue is one of {@link #choices()}.
          */
-        public boolean isValid(String value) {
-            return choices.contains(value);
+        public boolebn isVblid(String vblue) {
+            return choices.contbins(vblue);
         }
     }
 }

@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
 import com.sun.jdi.*;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.request.*;
-import com.sun.tools.example.debug.expr.ExpressionParser;
-import com.sun.tools.example.debug.expr.ParseException;
+import com.sun.tools.exbmple.debug.expr.ExpressionPbrser;
+import com.sun.tools.exbmple.debug.expr.PbrseException;
 
-import java.text.*;
-import java.util.*;
-import java.io.*;
+import jbvb.text.*;
+import jbvb.util.*;
+import jbvb.io.*;
 
-class Commands {
+clbss Commbnds {
 
-    abstract class AsyncExecution {
-        abstract void action();
+    bbstrbct clbss AsyncExecution {
+        bbstrbct void bction();
 
         AsyncExecution() {
             execute();
@@ -55,872 +55,872 @@ class Commands {
 
         void execute() {
             /*
-             * Save current thread and stack frame. (BugId 4296031)
+             * Sbve current threbd bnd stbck frbme. (BugId 4296031)
              */
-            final ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            final int stackFrame = threadInfo == null? 0 : threadInfo.getCurrentFrameIndex();
-            Thread thread = new Thread("asynchronous jdb command") {
+            finbl ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+            finbl int stbckFrbme = threbdInfo == null? 0 : threbdInfo.getCurrentFrbmeIndex();
+            Threbd threbd = new Threbd("bsynchronous jdb commbnd") {
                     @Override
                     public void run() {
                         try {
-                            action();
-                        } catch (UnsupportedOperationException uoe) {
+                            bction();
+                        } cbtch (UnsupportedOperbtionException uoe) {
                             //(BugId 4453329)
-                            MessageOutput.println("Operation is not supported on the target VM");
-                        } catch (Exception e) {
-                            MessageOutput.println("Internal exception during operation:",
-                                                  e.getMessage());
-                        } finally {
+                            MessbgeOutput.println("Operbtion is not supported on the tbrget VM");
+                        } cbtch (Exception e) {
+                            MessbgeOutput.println("Internbl exception during operbtion:",
+                                                  e.getMessbge());
+                        } finblly {
                             /*
-                             * This was an asynchronous command.  Events may have been
-                             * processed while it was running.  Restore the thread and
-                             * stack frame the user was looking at.  (BugId 4296031)
+                             * This wbs bn bsynchronous commbnd.  Events mby hbve been
+                             * processed while it wbs running.  Restore the threbd bnd
+                             * stbck frbme the user wbs looking bt.  (BugId 4296031)
                              */
-                            if (threadInfo != null) {
-                                ThreadInfo.setCurrentThreadInfo(threadInfo);
+                            if (threbdInfo != null) {
+                                ThrebdInfo.setCurrentThrebdInfo(threbdInfo);
                                 try {
-                                    threadInfo.setCurrentFrameIndex(stackFrame);
-                                } catch (IncompatibleThreadStateException e) {
-                                    MessageOutput.println("Current thread isnt suspended.");
-                                } catch (ArrayIndexOutOfBoundsException e) {
-                                    MessageOutput.println("Requested stack frame is no longer active:",
-                                                          new Object []{stackFrame});
+                                    threbdInfo.setCurrentFrbmeIndex(stbckFrbme);
+                                } cbtch (IncompbtibleThrebdStbteException e) {
+                                    MessbgeOutput.println("Current threbd isnt suspended.");
+                                } cbtch (ArrbyIndexOutOfBoundsException e) {
+                                    MessbgeOutput.println("Requested stbck frbme is no longer bctive:",
+                                                          new Object []{stbckFrbme});
                                 }
                             }
-                            MessageOutput.printPrompt();
+                            MessbgeOutput.printPrompt();
                         }
                     }
                 };
-            thread.start();
+            threbd.stbrt();
         }
     }
 
-    Commands() {
+    Commbnds() {
     }
 
-    private Value evaluate(String expr) {
-        Value result = null;
-        ExpressionParser.GetFrame frameGetter = null;
+    privbte Vblue evblubte(String expr) {
+        Vblue result = null;
+        ExpressionPbrser.GetFrbme frbmeGetter = null;
         try {
-            final ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if ((threadInfo != null) && (threadInfo.getCurrentFrame() != null)) {
-                frameGetter = new ExpressionParser.GetFrame() {
+            finbl ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+            if ((threbdInfo != null) && (threbdInfo.getCurrentFrbme() != null)) {
+                frbmeGetter = new ExpressionPbrser.GetFrbme() {
                         @Override
-                        public StackFrame get() throws IncompatibleThreadStateException {
-                            return threadInfo.getCurrentFrame();
+                        public StbckFrbme get() throws IncompbtibleThrebdStbteException {
+                            return threbdInfo.getCurrentFrbme();
                         }
                     };
             }
-            result = ExpressionParser.evaluate(expr, Env.vm(), frameGetter);
-        } catch (InvocationException ie) {
-            MessageOutput.println("Exception in expression:",
-                                  ie.exception().referenceType().name());
-        } catch (Exception ex) {
-            String exMessage = ex.getMessage();
-            if (exMessage == null) {
-                MessageOutput.printException(exMessage, ex);
+            result = ExpressionPbrser.evblubte(expr, Env.vm(), frbmeGetter);
+        } cbtch (InvocbtionException ie) {
+            MessbgeOutput.println("Exception in expression:",
+                                  ie.exception().referenceType().nbme());
+        } cbtch (Exception ex) {
+            String exMessbge = ex.getMessbge();
+            if (exMessbge == null) {
+                MessbgeOutput.printException(exMessbge, ex);
             } else {
                 String s;
                 try {
-                    s = MessageOutput.format(exMessage);
-                } catch (MissingResourceException mex) {
+                    s = MessbgeOutput.formbt(exMessbge);
+                } cbtch (MissingResourceException mex) {
                     s = ex.toString();
                 }
-                MessageOutput.printDirectln(s);// Special case: use printDirectln()
+                MessbgeOutput.printDirectln(s);// Specibl cbse: use printDirectln()
             }
         }
         return result;
     }
 
-    private String getStringValue() {
-         Value val = null;
-         String valStr = null;
+    privbte String getStringVblue() {
+         Vblue vbl = null;
+         String vblStr = null;
          try {
-              val = ExpressionParser.getMassagedValue();
-              valStr = val.toString();
-         } catch (ParseException e) {
-              String msg = e.getMessage();
+              vbl = ExpressionPbrser.getMbssbgedVblue();
+              vblStr = vbl.toString();
+         } cbtch (PbrseException e) {
+              String msg = e.getMessbge();
               if (msg == null) {
-                  MessageOutput.printException(msg, e);
+                  MessbgeOutput.printException(msg, e);
               } else {
                   String s;
                   try {
-                      s = MessageOutput.format(msg);
-                  } catch (MissingResourceException mex) {
+                      s = MessbgeOutput.formbt(msg);
+                  } cbtch (MissingResourceException mex) {
                       s = e.toString();
                   }
-                  MessageOutput.printDirectln(s);
+                  MessbgeOutput.printDirectln(s);
               }
          }
-         return valStr;
+         return vblStr;
     }
 
-    private ThreadInfo doGetThread(String idToken) {
-        ThreadInfo threadInfo = ThreadInfo.getThreadInfo(idToken);
-        if (threadInfo == null) {
-            MessageOutput.println("is not a valid thread id", idToken);
+    privbte ThrebdInfo doGetThrebd(String idToken) {
+        ThrebdInfo threbdInfo = ThrebdInfo.getThrebdInfo(idToken);
+        if (threbdInfo == null) {
+            MessbgeOutput.println("is not b vblid threbd id", idToken);
         }
-        return threadInfo;
+        return threbdInfo;
     }
 
-    String typedName(Method method) {
+    String typedNbme(Method method) {
         StringBuilder sb = new StringBuilder();
-        sb.append(method.name());
-        sb.append("(");
+        sb.bppend(method.nbme());
+        sb.bppend("(");
 
-        List<String> args = method.argumentTypeNames();
-        int lastParam = args.size() - 1;
-        // output param types except for the last
-        for (int ii = 0; ii < lastParam; ii++) {
-            sb.append(args.get(ii));
-            sb.append(", ");
+        List<String> brgs = method.brgumentTypeNbmes();
+        int lbstPbrbm = brgs.size() - 1;
+        // output pbrbm types except for the lbst
+        for (int ii = 0; ii < lbstPbrbm; ii++) {
+            sb.bppend(brgs.get(ii));
+            sb.bppend(", ");
         }
-        if (lastParam >= 0) {
-            // output the last param
-            String lastStr = args.get(lastParam);
-            if (method.isVarArgs()) {
-                // lastParam is an array.  Replace the [] with ...
-                sb.append(lastStr.substring(0, lastStr.length() - 2));
-                sb.append("...");
+        if (lbstPbrbm >= 0) {
+            // output the lbst pbrbm
+            String lbstStr = brgs.get(lbstPbrbm);
+            if (method.isVbrArgs()) {
+                // lbstPbrbm is bn brrby.  Replbce the [] with ...
+                sb.bppend(lbstStr.substring(0, lbstStr.length() - 2));
+                sb.bppend("...");
             } else {
-                sb.append(lastStr);
+                sb.bppend(lbstStr);
             }
         }
-        sb.append(")");
+        sb.bppend(")");
         return sb.toString();
     }
 
-    void commandConnectors(VirtualMachineManager vmm) {
-        Collection<Connector> ccs = vmm.allConnectors();
+    void commbndConnectors(VirtublMbchineMbnbger vmm) {
+        Collection<Connector> ccs = vmm.bllConnectors();
         if (ccs.isEmpty()) {
-            MessageOutput.println("Connectors available");
+            MessbgeOutput.println("Connectors bvbilbble");
         }
         for (Connector cc : ccs) {
-            String transportName =
-                cc.transport() == null ? "null" : cc.transport().name();
-            MessageOutput.println();
-            MessageOutput.println("Connector and Transport name",
-                                  new Object [] {cc.name(), transportName});
-            MessageOutput.println("Connector description", cc.description());
+            String trbnsportNbme =
+                cc.trbnsport() == null ? "null" : cc.trbnsport().nbme();
+            MessbgeOutput.println();
+            MessbgeOutput.println("Connector bnd Trbnsport nbme",
+                                  new Object [] {cc.nbme(), trbnsportNbme});
+            MessbgeOutput.println("Connector description", cc.description());
 
-            for (Connector.Argument aa : cc.defaultArguments().values()) {
-                    MessageOutput.println();
+            for (Connector.Argument bb : cc.defbultArguments().vblues()) {
+                    MessbgeOutput.println();
 
-                    boolean requiredArgument = aa.mustSpecify();
-                    if (aa.value() == null || aa.value() == "") {
-                        //no current value and no default.
-                        MessageOutput.println(requiredArgument ?
-                                              "Connector required argument nodefault" :
-                                              "Connector argument nodefault", aa.name());
+                    boolebn requiredArgument = bb.mustSpecify();
+                    if (bb.vblue() == null || bb.vblue() == "") {
+                        //no current vblue bnd no defbult.
+                        MessbgeOutput.println(requiredArgument ?
+                                              "Connector required brgument nodefbult" :
+                                              "Connector brgument nodefbult", bb.nbme());
                     } else {
-                        MessageOutput.println(requiredArgument ?
-                                              "Connector required argument default" :
-                                              "Connector argument default",
-                                              new Object [] {aa.name(), aa.value()});
+                        MessbgeOutput.println(requiredArgument ?
+                                              "Connector required brgument defbult" :
+                                              "Connector brgument defbult",
+                                              new Object [] {bb.nbme(), bb.vblue()});
                     }
-                    MessageOutput.println("Connector description", aa.description());
+                    MessbgeOutput.println("Connector description", bb.description());
 
                 }
             }
 
     }
 
-    void commandClasses() {
-        StringBuilder classList = new StringBuilder();
-        for (ReferenceType refType : Env.vm().allClasses()) {
-            classList.append(refType.name());
-            classList.append("\n");
+    void commbndClbsses() {
+        StringBuilder clbssList = new StringBuilder();
+        for (ReferenceType refType : Env.vm().bllClbsses()) {
+            clbssList.bppend(refType.nbme());
+            clbssList.bppend("\n");
         }
-        MessageOutput.print("** classes list **", classList.toString());
+        MessbgeOutput.print("** clbsses list **", clbssList.toString());
     }
 
-    void commandClass(StringTokenizer t) {
+    void commbndClbss(StringTokenizer t) {
 
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No clbss specified.");
             return;
         }
 
-        String idClass = t.nextToken();
-        boolean showAll = false;
+        String idClbss = t.nextToken();
+        boolebn showAll = fblse;
 
-        if (t.hasMoreTokens()) {
-            if (t.nextToken().toLowerCase().equals("all")) {
+        if (t.hbsMoreTokens()) {
+            if (t.nextToken().toLowerCbse().equbls("bll")) {
                 showAll = true;
             } else {
-                MessageOutput.println("Invalid option on class command");
+                MessbgeOutput.println("Invblid option on clbss commbnd");
                 return;
             }
         }
-        ReferenceType type = Env.getReferenceTypeFromToken(idClass);
+        ReferenceType type = Env.getReferenceTypeFromToken(idClbss);
         if (type == null) {
-            MessageOutput.println("is not a valid id or class name", idClass);
+            MessbgeOutput.println("is not b vblid id or clbss nbme", idClbss);
             return;
         }
-        if (type instanceof ClassType) {
-            ClassType clazz = (ClassType)type;
-            MessageOutput.println("Class:", clazz.name());
+        if (type instbnceof ClbssType) {
+            ClbssType clbzz = (ClbssType)type;
+            MessbgeOutput.println("Clbss:", clbzz.nbme());
 
-            ClassType superclass = clazz.superclass();
-            while (superclass != null) {
-                MessageOutput.println("extends:", superclass.name());
-                superclass = showAll ? superclass.superclass() : null;
-            }
-
-            List<InterfaceType> interfaces =
-                showAll ? clazz.allInterfaces() : clazz.interfaces();
-            for (InterfaceType interfaze : interfaces) {
-                MessageOutput.println("implements:", interfaze.name());
+            ClbssType superclbss = clbzz.superclbss();
+            while (superclbss != null) {
+                MessbgeOutput.println("extends:", superclbss.nbme());
+                superclbss = showAll ? superclbss.superclbss() : null;
             }
 
-            for (ClassType sub : clazz.subclasses()) {
-                MessageOutput.println("subclass:", sub.name());
+            List<InterfbceType> interfbces =
+                showAll ? clbzz.bllInterfbces() : clbzz.interfbces();
+            for (InterfbceType interfbze : interfbces) {
+                MessbgeOutput.println("implements:", interfbze.nbme());
             }
-            for (ReferenceType nest : clazz.nestedTypes()) {
-                MessageOutput.println("nested:", nest.name());
+
+            for (ClbssType sub : clbzz.subclbsses()) {
+                MessbgeOutput.println("subclbss:", sub.nbme());
             }
-        } else if (type instanceof InterfaceType) {
-            InterfaceType interfaze = (InterfaceType)type;
-            MessageOutput.println("Interface:", interfaze.name());
-            for (InterfaceType superinterface : interfaze.superinterfaces()) {
-                MessageOutput.println("extends:", superinterface.name());
+            for (ReferenceType nest : clbzz.nestedTypes()) {
+                MessbgeOutput.println("nested:", nest.nbme());
             }
-            for (InterfaceType sub : interfaze.subinterfaces()) {
-                MessageOutput.println("subinterface:", sub.name());
+        } else if (type instbnceof InterfbceType) {
+            InterfbceType interfbze = (InterfbceType)type;
+            MessbgeOutput.println("Interfbce:", interfbze.nbme());
+            for (InterfbceType superinterfbce : interfbze.superinterfbces()) {
+                MessbgeOutput.println("extends:", superinterfbce.nbme());
             }
-            for (ClassType implementor : interfaze.implementors()) {
-                MessageOutput.println("implementor:", implementor.name());
+            for (InterfbceType sub : interfbze.subinterfbces()) {
+                MessbgeOutput.println("subinterfbce:", sub.nbme());
             }
-            for (ReferenceType nest : interfaze.nestedTypes()) {
-                MessageOutput.println("nested:", nest.name());
+            for (ClbssType implementor : interfbze.implementors()) {
+                MessbgeOutput.println("implementor:", implementor.nbme());
             }
-        } else {  // array type
-            ArrayType array = (ArrayType)type;
-            MessageOutput.println("Array:", array.name());
+            for (ReferenceType nest : interfbze.nestedTypes()) {
+                MessbgeOutput.println("nested:", nest.nbme());
+            }
+        } else {  // brrby type
+            ArrbyType brrby = (ArrbyType)type;
+            MessbgeOutput.println("Arrby:", brrby.nbme());
         }
     }
 
-    void commandMethods(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
+    void commbndMethods(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No clbss specified.");
             return;
         }
 
-        String idClass = t.nextToken();
-        ReferenceType cls = Env.getReferenceTypeFromToken(idClass);
+        String idClbss = t.nextToken();
+        ReferenceType cls = Env.getReferenceTypeFromToken(idClbss);
         if (cls != null) {
             StringBuilder methodsList = new StringBuilder();
-            for (Method method : cls.allMethods()) {
-                methodsList.append(method.declaringType().name());
-                methodsList.append(" ");
-                methodsList.append(typedName(method));
-                methodsList.append('\n');
+            for (Method method : cls.bllMethods()) {
+                methodsList.bppend(method.declbringType().nbme());
+                methodsList.bppend(" ");
+                methodsList.bppend(typedNbme(method));
+                methodsList.bppend('\n');
             }
-            MessageOutput.print("** methods list **", methodsList.toString());
+            MessbgeOutput.print("** methods list **", methodsList.toString());
         } else {
-            MessageOutput.println("is not a valid id or class name", idClass);
+            MessbgeOutput.println("is not b vblid id or clbss nbme", idClbss);
         }
     }
 
-    void commandFields(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
+    void commbndFields(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No clbss specified.");
             return;
         }
 
-        String idClass = t.nextToken();
-        ReferenceType cls = Env.getReferenceTypeFromToken(idClass);
+        String idClbss = t.nextToken();
+        ReferenceType cls = Env.getReferenceTypeFromToken(idClbss);
         if (cls != null) {
-            List<Field> fields = cls.allFields();
+            List<Field> fields = cls.bllFields();
             List<Field> visible = cls.visibleFields();
             StringBuilder fieldsList = new StringBuilder();
             for (Field field : fields) {
                 String s;
-                if (!visible.contains(field)) {
-                    s = MessageOutput.format("list field typename and name hidden",
-                                             new Object [] {field.typeName(),
-                                                            field.name()});
-                } else if (!field.declaringType().equals(cls)) {
-                    s = MessageOutput.format("list field typename and name inherited",
-                                             new Object [] {field.typeName(),
-                                                            field.name(),
-                                                            field.declaringType().name()});
+                if (!visible.contbins(field)) {
+                    s = MessbgeOutput.formbt("list field typenbme bnd nbme hidden",
+                                             new Object [] {field.typeNbme(),
+                                                            field.nbme()});
+                } else if (!field.declbringType().equbls(cls)) {
+                    s = MessbgeOutput.formbt("list field typenbme bnd nbme inherited",
+                                             new Object [] {field.typeNbme(),
+                                                            field.nbme(),
+                                                            field.declbringType().nbme()});
                 } else {
-                    s = MessageOutput.format("list field typename and name",
-                                             new Object [] {field.typeName(),
-                                                            field.name()});
+                    s = MessbgeOutput.formbt("list field typenbme bnd nbme",
+                                             new Object [] {field.typeNbme(),
+                                                            field.nbme()});
                 }
-                fieldsList.append(s);
+                fieldsList.bppend(s);
             }
-            MessageOutput.print("** fields list **", fieldsList.toString());
+            MessbgeOutput.print("** fields list **", fieldsList.toString());
         } else {
-            MessageOutput.println("is not a valid id or class name", idClass);
+            MessbgeOutput.println("is not b vblid id or clbss nbme", idClbss);
         }
     }
 
-    private void printThreadGroup(ThreadGroupReference tg) {
-        ThreadIterator threadIter = new ThreadIterator(tg);
+    privbte void printThrebdGroup(ThrebdGroupReference tg) {
+        ThrebdIterbtor threbdIter = new ThrebdIterbtor(tg);
 
-        MessageOutput.println("Thread Group:", tg.name());
-        int maxIdLength = 0;
-        int maxNameLength = 0;
-        while (threadIter.hasNext()) {
-            ThreadReference thr = threadIter.next();
-            maxIdLength = Math.max(maxIdLength,
+        MessbgeOutput.println("Threbd Group:", tg.nbme());
+        int mbxIdLength = 0;
+        int mbxNbmeLength = 0;
+        while (threbdIter.hbsNext()) {
+            ThrebdReference thr = threbdIter.next();
+            mbxIdLength = Mbth.mbx(mbxIdLength,
                                    Env.description(thr).length());
-            maxNameLength = Math.max(maxNameLength,
-                                     thr.name().length());
+            mbxNbmeLength = Mbth.mbx(mbxNbmeLength,
+                                     thr.nbme().length());
         }
 
-        threadIter = new ThreadIterator(tg);
-        while (threadIter.hasNext()) {
-            ThreadReference thr = threadIter.next();
-            if (thr.threadGroup() == null) {
+        threbdIter = new ThrebdIterbtor(tg);
+        while (threbdIter.hbsNext()) {
+            ThrebdReference thr = threbdIter.next();
+            if (thr.threbdGroup() == null) {
                 continue;
             }
-            // Note any thread group changes
-            if (!thr.threadGroup().equals(tg)) {
-                tg = thr.threadGroup();
-                MessageOutput.println("Thread Group:", tg.name());
+            // Note bny threbd group chbnges
+            if (!thr.threbdGroup().equbls(tg)) {
+                tg = thr.threbdGroup();
+                MessbgeOutput.println("Threbd Group:", tg.nbme());
             }
 
             /*
-             * Do a bit of filling with whitespace to get thread ID
-             * and thread names to line up in the listing, and also
-             * allow for proper localization.  This also works for
-             * very long thread names, at the possible cost of lines
-             * being wrapped by the display device.
+             * Do b bit of filling with whitespbce to get threbd ID
+             * bnd threbd nbmes to line up in the listing, bnd blso
+             * bllow for proper locblizbtion.  This blso works for
+             * very long threbd nbmes, bt the possible cost of lines
+             * being wrbpped by the displby device.
              */
             StringBuilder idBuffer = new StringBuilder(Env.description(thr));
-            for (int i = idBuffer.length(); i < maxIdLength; i++) {
-                idBuffer.append(" ");
+            for (int i = idBuffer.length(); i < mbxIdLength; i++) {
+                idBuffer.bppend(" ");
             }
-            StringBuilder nameBuffer = new StringBuilder(thr.name());
-            for (int i = nameBuffer.length(); i < maxNameLength; i++) {
-                nameBuffer.append(" ");
+            StringBuilder nbmeBuffer = new StringBuilder(thr.nbme());
+            for (int i = nbmeBuffer.length(); i < mbxNbmeLength; i++) {
+                nbmeBuffer.bppend(" ");
             }
 
             /*
-             * Select the output format to use based on thread status
-             * and breakpoint.
+             * Select the output formbt to use bbsed on threbd stbtus
+             * bnd brebkpoint.
              */
-            String statusFormat;
-            switch (thr.status()) {
-            case ThreadReference.THREAD_STATUS_UNKNOWN:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name unknownStatus BP";
+            String stbtusFormbt;
+            switch (thr.stbtus()) {
+            cbse ThrebdReference.THREAD_STATUS_UNKNOWN:
+                if (thr.isAtBrebkpoint()) {
+                    stbtusFormbt = "Threbd description nbme unknownStbtus BP";
                 } else {
-                    statusFormat = "Thread description name unknownStatus";
+                    stbtusFormbt = "Threbd description nbme unknownStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_ZOMBIE:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name zombieStatus BP";
+                brebk;
+            cbse ThrebdReference.THREAD_STATUS_ZOMBIE:
+                if (thr.isAtBrebkpoint()) {
+                    stbtusFormbt = "Threbd description nbme zombieStbtus BP";
                 } else {
-                    statusFormat = "Thread description name zombieStatus";
+                    stbtusFormbt = "Threbd description nbme zombieStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_RUNNING:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name runningStatus BP";
+                brebk;
+            cbse ThrebdReference.THREAD_STATUS_RUNNING:
+                if (thr.isAtBrebkpoint()) {
+                    stbtusFormbt = "Threbd description nbme runningStbtus BP";
                 } else {
-                    statusFormat = "Thread description name runningStatus";
+                    stbtusFormbt = "Threbd description nbme runningStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_SLEEPING:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name sleepingStatus BP";
+                brebk;
+            cbse ThrebdReference.THREAD_STATUS_SLEEPING:
+                if (thr.isAtBrebkpoint()) {
+                    stbtusFormbt = "Threbd description nbme sleepingStbtus BP";
                 } else {
-                    statusFormat = "Thread description name sleepingStatus";
+                    stbtusFormbt = "Threbd description nbme sleepingStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_MONITOR:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name waitingStatus BP";
+                brebk;
+            cbse ThrebdReference.THREAD_STATUS_MONITOR:
+                if (thr.isAtBrebkpoint()) {
+                    stbtusFormbt = "Threbd description nbme wbitingStbtus BP";
                 } else {
-                    statusFormat = "Thread description name waitingStatus";
+                    stbtusFormbt = "Threbd description nbme wbitingStbtus";
                 }
-                break;
-            case ThreadReference.THREAD_STATUS_WAIT:
-                if (thr.isAtBreakpoint()) {
-                    statusFormat = "Thread description name condWaitstatus BP";
+                brebk;
+            cbse ThrebdReference.THREAD_STATUS_WAIT:
+                if (thr.isAtBrebkpoint()) {
+                    stbtusFormbt = "Threbd description nbme condWbitstbtus BP";
                 } else {
-                    statusFormat = "Thread description name condWaitstatus";
+                    stbtusFormbt = "Threbd description nbme condWbitstbtus";
                 }
-                break;
-            default:
-                throw new InternalError(MessageOutput.format("Invalid thread status."));
+                brebk;
+            defbult:
+                throw new InternblError(MessbgeOutput.formbt("Invblid threbd stbtus."));
             }
-            MessageOutput.println(statusFormat,
+            MessbgeOutput.println(stbtusFormbt,
                                   new Object [] {idBuffer.toString(),
-                                                 nameBuffer.toString()});
+                                                 nbmeBuffer.toString()});
         }
     }
 
-    void commandThreads(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            printThreadGroup(ThreadInfo.group());
+    void commbndThrebds(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            printThrebdGroup(ThrebdInfo.group());
             return;
         }
-        String name = t.nextToken();
-        ThreadGroupReference tg = ThreadGroupIterator.find(name);
+        String nbme = t.nextToken();
+        ThrebdGroupReference tg = ThrebdGroupIterbtor.find(nbme);
         if (tg == null) {
-            MessageOutput.println("is not a valid threadgroup name", name);
+            MessbgeOutput.println("is not b vblid threbdgroup nbme", nbme);
         } else {
-            printThreadGroup(tg);
+            printThrebdGroup(tg);
         }
     }
 
-    void commandThreadGroups() {
-        ThreadGroupIterator it = new ThreadGroupIterator();
+    void commbndThrebdGroups() {
+        ThrebdGroupIterbtor it = new ThrebdGroupIterbtor();
         int cnt = 0;
-        while (it.hasNext()) {
-            ThreadGroupReference tg = it.nextThreadGroup();
+        while (it.hbsNext()) {
+            ThrebdGroupReference tg = it.nextThrebdGroup();
             ++cnt;
-            MessageOutput.println("thread group number description name",
+            MessbgeOutput.println("threbd group number description nbme",
                                   new Object [] { new Integer (cnt),
                                                   Env.description(tg),
-                                                  tg.name()});
+                                                  tg.nbme()});
         }
     }
 
-    void commandThread(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Thread number not specified.");
+    void commbndThrebd(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("Threbd number not specified.");
             return;
         }
-        ThreadInfo threadInfo = doGetThread(t.nextToken());
-        if (threadInfo != null) {
-            ThreadInfo.setCurrentThreadInfo(threadInfo);
+        ThrebdInfo threbdInfo = doGetThrebd(t.nextToken());
+        if (threbdInfo != null) {
+            ThrebdInfo.setCurrentThrebdInfo(threbdInfo);
         }
     }
 
-    void commandThreadGroup(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Threadgroup name not specified.");
+    void commbndThrebdGroup(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("Threbdgroup nbme not specified.");
             return;
         }
-        String name = t.nextToken();
-        ThreadGroupReference tg = ThreadGroupIterator.find(name);
+        String nbme = t.nextToken();
+        ThrebdGroupReference tg = ThrebdGroupIterbtor.find(nbme);
         if (tg == null) {
-            MessageOutput.println("is not a valid threadgroup name", name);
+            MessbgeOutput.println("is not b vblid threbdgroup nbme", nbme);
         } else {
-            ThreadInfo.setThreadGroup(tg);
+            ThrebdInfo.setThrebdGroup(tg);
         }
     }
 
-    void commandRun(StringTokenizer t) {
+    void commbndRun(StringTokenizer t) {
         /*
-         * The 'run' command makes little sense in a
-         * that doesn't support restarts or multiple VMs. However,
-         * this is an attempt to emulate the behavior of the old
-         * JDB as much as possible. For new users and implementations
-         * it is much more straightforward to launch immedidately
-         * with the -launch option.
+         * The 'run' commbnd mbkes little sense in b
+         * thbt doesn't support restbrts or multiple VMs. However,
+         * this is bn bttempt to emulbte the behbvior of the old
+         * JDB bs much bs possible. For new users bnd implementbtions
+         * it is much more strbightforwbrd to lbunch immedidbtely
+         * with the -lbunch option.
          */
         VMConnection connection = Env.connection();
-        if (!connection.isLaunch()) {
-            if (!t.hasMoreTokens()) {
-                commandCont();
+        if (!connection.isLbunch()) {
+            if (!t.hbsMoreTokens()) {
+                commbndCont();
             } else {
-                MessageOutput.println("run <args> command is valid only with launched VMs");
+                MessbgeOutput.println("run <brgs> commbnd is vblid only with lbunched VMs");
             }
             return;
         }
         if (connection.isOpen()) {
-            MessageOutput.println("VM already running. use cont to continue after events.");
+            MessbgeOutput.println("VM blrebdy running. use cont to continue bfter events.");
             return;
         }
 
         /*
-         * Set the main class and any arguments. Note that this will work
-         * only with the standard launcher, "com.sun.jdi.CommandLineLauncher"
+         * Set the mbin clbss bnd bny brguments. Note thbt this will work
+         * only with the stbndbrd lbuncher, "com.sun.jdi.CommbndLineLbuncher"
          */
-        String args;
-        if (t.hasMoreTokens()) {
-            args = t.nextToken("");
-            boolean argsSet = connection.setConnectorArg("main", args);
-            if (!argsSet) {
-                MessageOutput.println("Unable to set main class and arguments");
+        String brgs;
+        if (t.hbsMoreTokens()) {
+            brgs = t.nextToken("");
+            boolebn brgsSet = connection.setConnectorArg("mbin", brgs);
+            if (!brgsSet) {
+                MessbgeOutput.println("Unbble to set mbin clbss bnd brguments");
                 return;
             }
         } else {
-            args = connection.connectorArg("main");
-            if (args.length() == 0) {
-                MessageOutput.println("Main class and arguments must be specified");
+            brgs = connection.connectorArg("mbin");
+            if (brgs.length() == 0) {
+                MessbgeOutput.println("Mbin clbss bnd brguments must be specified");
                 return;
             }
         }
-        MessageOutput.println("run", args);
+        MessbgeOutput.println("run", brgs);
 
         /*
-         * Launch the VM.
+         * Lbunch the VM.
          */
         connection.open();
 
     }
 
-    void commandLoad(StringTokenizer t) {
-        MessageOutput.println("The load command is no longer supported.");
+    void commbndLobd(StringTokenizer t) {
+        MessbgeOutput.println("The lobd commbnd is no longer supported.");
     }
 
-    private List<ThreadReference> allThreads(ThreadGroupReference group) {
-        List<ThreadReference> list = new ArrayList<ThreadReference>();
-        list.addAll(group.threads());
-        for (ThreadGroupReference child : group.threadGroups()) {
-            list.addAll(allThreads(child));
+    privbte List<ThrebdReference> bllThrebds(ThrebdGroupReference group) {
+        List<ThrebdReference> list = new ArrbyList<ThrebdReference>();
+        list.bddAll(group.threbds());
+        for (ThrebdGroupReference child : group.threbdGroups()) {
+            list.bddAll(bllThrebds(child));
         }
         return list;
     }
 
-    void commandSuspend(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
+    void commbndSuspend(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
             Env.vm().suspend();
-            MessageOutput.println("All threads suspended.");
+            MessbgeOutput.println("All threbds suspended.");
         } else {
-            while (t.hasMoreTokens()) {
-                ThreadInfo threadInfo = doGetThread(t.nextToken());
-                if (threadInfo != null) {
-                    threadInfo.getThread().suspend();
+            while (t.hbsMoreTokens()) {
+                ThrebdInfo threbdInfo = doGetThrebd(t.nextToken());
+                if (threbdInfo != null) {
+                    threbdInfo.getThrebd().suspend();
                 }
             }
         }
     }
 
-    void commandResume(StringTokenizer t) {
-         if (!t.hasMoreTokens()) {
-             ThreadInfo.invalidateAll();
+    void commbndResume(StringTokenizer t) {
+         if (!t.hbsMoreTokens()) {
+             ThrebdInfo.invblidbteAll();
              Env.vm().resume();
-             MessageOutput.println("All threads resumed.");
+             MessbgeOutput.println("All threbds resumed.");
          } else {
-             while (t.hasMoreTokens()) {
-                ThreadInfo threadInfo = doGetThread(t.nextToken());
-                if (threadInfo != null) {
-                    threadInfo.invalidate();
-                    threadInfo.getThread().resume();
+             while (t.hbsMoreTokens()) {
+                ThrebdInfo threbdInfo = doGetThrebd(t.nextToken());
+                if (threbdInfo != null) {
+                    threbdInfo.invblidbte();
+                    threbdInfo.getThrebd().resume();
                 }
             }
         }
     }
 
-    void commandCont() {
-        if (ThreadInfo.getCurrentThreadInfo() == null) {
-            MessageOutput.println("Nothing suspended.");
+    void commbndCont() {
+        if (ThrebdInfo.getCurrentThrebdInfo() == null) {
+            MessbgeOutput.println("Nothing suspended.");
             return;
         }
-        ThreadInfo.invalidateAll();
+        ThrebdInfo.invblidbteAll();
         Env.vm().resume();
     }
 
-    void clearPreviousStep(ThreadReference thread) {
+    void clebrPreviousStep(ThrebdReference threbd) {
         /*
-         * A previous step may not have completed on this thread;
+         * A previous step mby not hbve completed on this threbd;
          * if so, it gets removed here.
          */
-         EventRequestManager mgr = Env.vm().eventRequestManager();
+         EventRequestMbnbger mgr = Env.vm().eventRequestMbnbger();
          for (StepRequest request : mgr.stepRequests()) {
-             if (request.thread().equals(thread)) {
+             if (request.threbd().equbls(threbd)) {
                  mgr.deleteEventRequest(request);
-                 break;
+                 brebk;
              }
          }
     }
     /* step
      *
      */
-    void commandStep(StringTokenizer t) {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Nothing suspended.");
+    void commbndStep(StringTokenizer t) {
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        if (threbdInfo == null) {
+            MessbgeOutput.println("Nothing suspended.");
             return;
         }
         int depth;
-        if (t.hasMoreTokens() &&
-                  t.nextToken().toLowerCase().equals("up")) {
+        if (t.hbsMoreTokens() &&
+                  t.nextToken().toLowerCbse().equbls("up")) {
             depth = StepRequest.STEP_OUT;
         } else {
             depth = StepRequest.STEP_INTO;
         }
 
-        clearPreviousStep(threadInfo.getThread());
-        EventRequestManager reqMgr = Env.vm().eventRequestManager();
-        StepRequest request = reqMgr.createStepRequest(threadInfo.getThread(),
+        clebrPreviousStep(threbdInfo.getThrebd());
+        EventRequestMbnbger reqMgr = Env.vm().eventRequestMbnbger();
+        StepRequest request = reqMgr.crebteStepRequest(threbdInfo.getThrebd(),
                                                        StepRequest.STEP_LINE, depth);
         if (depth == StepRequest.STEP_INTO) {
-            Env.addExcludes(request);
+            Env.bddExcludes(request);
         }
-        // We want just the next step event and no others
-        request.addCountFilter(1);
-        request.enable();
-        ThreadInfo.invalidateAll();
+        // We wbnt just the next step event bnd no others
+        request.bddCountFilter(1);
+        request.enbble();
+        ThrebdInfo.invblidbteAll();
         Env.vm().resume();
     }
 
     /* stepi
      * step instruction.
      */
-    void commandStepi() {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Nothing suspended.");
+    void commbndStepi() {
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        if (threbdInfo == null) {
+            MessbgeOutput.println("Nothing suspended.");
             return;
         }
-        clearPreviousStep(threadInfo.getThread());
-        EventRequestManager reqMgr = Env.vm().eventRequestManager();
-        StepRequest request = reqMgr.createStepRequest(threadInfo.getThread(),
+        clebrPreviousStep(threbdInfo.getThrebd());
+        EventRequestMbnbger reqMgr = Env.vm().eventRequestMbnbger();
+        StepRequest request = reqMgr.crebteStepRequest(threbdInfo.getThrebd(),
                                                        StepRequest.STEP_MIN,
                                                        StepRequest.STEP_INTO);
-        Env.addExcludes(request);
-        // We want just the next step event and no others
-        request.addCountFilter(1);
-        request.enable();
-        ThreadInfo.invalidateAll();
+        Env.bddExcludes(request);
+        // We wbnt just the next step event bnd no others
+        request.bddCountFilter(1);
+        request.enbble();
+        ThrebdInfo.invblidbteAll();
         Env.vm().resume();
     }
 
-    void commandNext() {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Nothing suspended.");
+    void commbndNext() {
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        if (threbdInfo == null) {
+            MessbgeOutput.println("Nothing suspended.");
             return;
         }
-        clearPreviousStep(threadInfo.getThread());
-        EventRequestManager reqMgr = Env.vm().eventRequestManager();
-        StepRequest request = reqMgr.createStepRequest(threadInfo.getThread(),
+        clebrPreviousStep(threbdInfo.getThrebd());
+        EventRequestMbnbger reqMgr = Env.vm().eventRequestMbnbger();
+        StepRequest request = reqMgr.crebteStepRequest(threbdInfo.getThrebd(),
                                                        StepRequest.STEP_LINE,
                                                        StepRequest.STEP_OVER);
-        Env.addExcludes(request);
-        // We want just the next step event and no others
-        request.addCountFilter(1);
-        request.enable();
-        ThreadInfo.invalidateAll();
+        Env.bddExcludes(request);
+        // We wbnt just the next step event bnd no others
+        request.bddCountFilter(1);
+        request.enbble();
+        ThrebdInfo.invblidbteAll();
         Env.vm().resume();
     }
 
-    void doKill(ThreadReference thread, StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No exception object specified.");
+    void doKill(ThrebdReference threbd, StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No exception object specified.");
             return;
         }
         String expr = t.nextToken("");
-        Value val = evaluate(expr);
-        if ((val != null) && (val instanceof ObjectReference)) {
+        Vblue vbl = evblubte(expr);
+        if ((vbl != null) && (vbl instbnceof ObjectReference)) {
             try {
-                thread.stop((ObjectReference)val);
-                MessageOutput.println("killed", thread.toString());
-            } catch (InvalidTypeException e) {
-                MessageOutput.println("Invalid exception object");
+                threbd.stop((ObjectReference)vbl);
+                MessbgeOutput.println("killed", threbd.toString());
+            } cbtch (InvblidTypeException e) {
+                MessbgeOutput.println("Invblid exception object");
             }
         } else {
-            MessageOutput.println("Expression must evaluate to an object");
+            MessbgeOutput.println("Expression must evblubte to bn object");
         }
     }
 
-    void doKillThread(final ThreadReference threadToKill,
-                      final StringTokenizer tokenizer) {
+    void doKillThrebd(finbl ThrebdReference threbdToKill,
+                      finbl StringTokenizer tokenizer) {
         new AsyncExecution() {
                 @Override
-                void action() {
-                    doKill(threadToKill, tokenizer);
+                void bction() {
+                    doKill(threbdToKill, tokenizer);
                 }
             };
     }
 
-    void commandKill(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Usage: kill <thread id> <throwable>");
+    void commbndKill(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("Usbge: kill <threbd id> <throwbble>");
             return;
         }
-        ThreadInfo threadInfo = doGetThread(t.nextToken());
-        if (threadInfo != null) {
-            MessageOutput.println("killing thread:", threadInfo.getThread().name());
-            doKillThread(threadInfo.getThread(), t);
+        ThrebdInfo threbdInfo = doGetThrebd(t.nextToken());
+        if (threbdInfo != null) {
+            MessbgeOutput.println("killing threbd:", threbdInfo.getThrebd().nbme());
+            doKillThrebd(threbdInfo.getThrebd(), t);
             return;
         }
     }
 
-    void listCaughtExceptions() {
-        boolean noExceptions = true;
+    void listCbughtExceptions() {
+        boolebn noExceptions = true;
 
-        // Print a listing of the catch patterns currently in place
+        // Print b listing of the cbtch pbtterns currently in plbce
         for (EventRequestSpec spec : Env.specList.eventRequestSpecs()) {
-            if (spec instanceof ExceptionSpec) {
+            if (spec instbnceof ExceptionSpec) {
                 if (noExceptions) {
-                    noExceptions = false;
-                    MessageOutput.println("Exceptions caught:");
+                    noExceptions = fblse;
+                    MessbgeOutput.println("Exceptions cbught:");
                 }
-                MessageOutput.println("tab", spec.toString());
+                MessbgeOutput.println("tbb", spec.toString());
             }
         }
         if (noExceptions) {
-            MessageOutput.println("No exceptions caught.");
+            MessbgeOutput.println("No exceptions cbught.");
         }
     }
 
-    private EventRequestSpec parseExceptionSpec(StringTokenizer t) {
-        String notification = t.nextToken();
-        boolean notifyCaught = false;
-        boolean notifyUncaught = false;
+    privbte EventRequestSpec pbrseExceptionSpec(StringTokenizer t) {
+        String notificbtion = t.nextToken();
+        boolebn notifyCbught = fblse;
+        boolebn notifyUncbught = fblse;
         EventRequestSpec spec = null;
-        String classPattern = null;
+        String clbssPbttern = null;
 
-        if (notification.equals("uncaught")) {
-            notifyCaught = false;
-            notifyUncaught = true;
-        } else if (notification.equals("caught")) {
-            notifyCaught = true;
-            notifyUncaught = false;
-        } else if (notification.equals("all")) {
-            notifyCaught = true;
-            notifyUncaught = true;
+        if (notificbtion.equbls("uncbught")) {
+            notifyCbught = fblse;
+            notifyUncbught = true;
+        } else if (notificbtion.equbls("cbught")) {
+            notifyCbught = true;
+            notifyUncbught = fblse;
+        } else if (notificbtion.equbls("bll")) {
+            notifyCbught = true;
+            notifyUncbught = true;
         } else {
             /*
-             * Handle the same as "all" for backward
-             * compatibility with existing .jdbrc files.
+             * Hbndle the sbme bs "bll" for bbckwbrd
+             * compbtibility with existing .jdbrc files.
              *
-             * Insert an "all" and take the current token as the
-             * intended classPattern
+             * Insert bn "bll" bnd tbke the current token bs the
+             * intended clbssPbttern
              *
              */
-            notifyCaught = true;
-            notifyUncaught = true;
-            classPattern = notification;
+            notifyCbught = true;
+            notifyUncbught = true;
+            clbssPbttern = notificbtion;
         }
-        if (classPattern == null && t.hasMoreTokens()) {
-            classPattern = t.nextToken();
+        if (clbssPbttern == null && t.hbsMoreTokens()) {
+            clbssPbttern = t.nextToken();
         }
-        if ((classPattern != null) && (notifyCaught || notifyUncaught)) {
+        if ((clbssPbttern != null) && (notifyCbught || notifyUncbught)) {
             try {
-                spec = Env.specList.createExceptionCatch(classPattern,
-                                                         notifyCaught,
-                                                         notifyUncaught);
-            } catch (ClassNotFoundException exc) {
-                MessageOutput.println("is not a valid class name", classPattern);
+                spec = Env.specList.crebteExceptionCbtch(clbssPbttern,
+                                                         notifyCbught,
+                                                         notifyUncbught);
+            } cbtch (ClbssNotFoundException exc) {
+                MessbgeOutput.println("is not b vblid clbss nbme", clbssPbttern);
             }
         }
         return spec;
     }
 
-    void commandCatchException(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            listCaughtExceptions();
+    void commbndCbtchException(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            listCbughtExceptions();
         } else {
-            EventRequestSpec spec = parseExceptionSpec(t);
+            EventRequestSpec spec = pbrseExceptionSpec(t);
             if (spec != null) {
                 resolveNow(spec);
             } else {
-                MessageOutput.println("Usage: catch exception");
+                MessbgeOutput.println("Usbge: cbtch exception");
             }
         }
     }
 
-    void commandIgnoreException(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            listCaughtExceptions();
+    void commbndIgnoreException(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            listCbughtExceptions();
         } else {
-            EventRequestSpec spec = parseExceptionSpec(t);
+            EventRequestSpec spec = pbrseExceptionSpec(t);
             if (Env.specList.delete(spec)) {
-                MessageOutput.println("Removed:", spec.toString());
+                MessbgeOutput.println("Removed:", spec.toString());
             } else {
                 if (spec != null) {
-                    MessageOutput.println("Not found:", spec.toString());
+                    MessbgeOutput.println("Not found:", spec.toString());
                 }
-                MessageOutput.println("Usage: ignore exception");
+                MessbgeOutput.println("Usbge: ignore exception");
             }
         }
     }
 
-    void commandUp(StringTokenizer t) {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Current thread not set.");
+    void commbndUp(StringTokenizer t) {
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        if (threbdInfo == null) {
+            MessbgeOutput.println("Current threbd not set.");
             return;
         }
 
         int nLevels = 1;
-        if (t.hasMoreTokens()) {
+        if (t.hbsMoreTokens()) {
             String idToken = t.nextToken();
             int i;
             try {
-                NumberFormat nf = NumberFormat.getNumberInstance();
-                nf.setParseIntegerOnly(true);
-                Number n = nf.parse(idToken);
-                i = n.intValue();
-            } catch (java.text.ParseException jtpe) {
+                NumberFormbt nf = NumberFormbt.getNumberInstbnce();
+                nf.setPbrseIntegerOnly(true);
+                Number n = nf.pbrse(idToken);
+                i = n.intVblue();
+            } cbtch (jbvb.text.PbrseException jtpe) {
                 i = 0;
             }
             if (i <= 0) {
-                MessageOutput.println("Usage: up [n frames]");
+                MessbgeOutput.println("Usbge: up [n frbmes]");
                 return;
             }
             nLevels = i;
         }
 
         try {
-            threadInfo.up(nLevels);
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Current thread isnt suspended.");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            MessageOutput.println("End of stack.");
+            threbdInfo.up(nLevels);
+        } cbtch (IncompbtibleThrebdStbteException e) {
+            MessbgeOutput.println("Current threbd isnt suspended.");
+        } cbtch (ArrbyIndexOutOfBoundsException e) {
+            MessbgeOutput.println("End of stbck.");
         }
     }
 
-    void commandDown(StringTokenizer t) {
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("Current thread not set.");
+    void commbndDown(StringTokenizer t) {
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        if (threbdInfo == null) {
+            MessbgeOutput.println("Current threbd not set.");
             return;
         }
 
         int nLevels = 1;
-        if (t.hasMoreTokens()) {
+        if (t.hbsMoreTokens()) {
             String idToken = t.nextToken();
             int i;
             try {
-                NumberFormat nf = NumberFormat.getNumberInstance();
-                nf.setParseIntegerOnly(true);
-                Number n = nf.parse(idToken);
-                i = n.intValue();
-            } catch (java.text.ParseException jtpe) {
+                NumberFormbt nf = NumberFormbt.getNumberInstbnce();
+                nf.setPbrseIntegerOnly(true);
+                Number n = nf.pbrse(idToken);
+                i = n.intVblue();
+            } cbtch (jbvb.text.PbrseException jtpe) {
                 i = 0;
             }
             if (i <= 0) {
-                MessageOutput.println("Usage: down [n frames]");
+                MessbgeOutput.println("Usbge: down [n frbmes]");
                 return;
             }
             nLevels = i;
         }
 
         try {
-            threadInfo.down(nLevels);
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Current thread isnt suspended.");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            MessageOutput.println("End of stack.");
+            threbdInfo.down(nLevels);
+        } cbtch (IncompbtibleThrebdStbteException e) {
+            MessbgeOutput.println("Current threbd isnt suspended.");
+        } cbtch (ArrbyIndexOutOfBoundsException e) {
+            MessbgeOutput.println("End of stbck.");
         }
     }
 
-    private void dumpStack(ThreadInfo threadInfo, boolean showPC) {
-        List<StackFrame> stack = null;
+    privbte void dumpStbck(ThrebdInfo threbdInfo, boolebn showPC) {
+        List<StbckFrbme> stbck = null;
         try {
-            stack = threadInfo.getStack();
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Current thread isnt suspended.");
+            stbck = threbdInfo.getStbck();
+        } cbtch (IncompbtibleThrebdStbteException e) {
+            MessbgeOutput.println("Current threbd isnt suspended.");
             return;
         }
-        if (stack == null) {
-            MessageOutput.println("Thread is not running (no stack).");
+        if (stbck == null) {
+            MessbgeOutput.println("Threbd is not running (no stbck).");
         } else {
-            int nFrames = stack.size();
-            for (int i = threadInfo.getCurrentFrameIndex(); i < nFrames; i++) {
-                StackFrame frame = stack.get(i);
-                dumpFrame (i, showPC, frame);
+            int nFrbmes = stbck.size();
+            for (int i = threbdInfo.getCurrentFrbmeIndex(); i < nFrbmes; i++) {
+                StbckFrbme frbme = stbck.get(i);
+                dumpFrbme (i, showPC, frbme);
             }
         }
     }
 
-    private void dumpFrame (int frameNumber, boolean showPC, StackFrame frame) {
-        Location loc = frame.location();
+    privbte void dumpFrbme (int frbmeNumber, boolebn showPC, StbckFrbme frbme) {
+        Locbtion loc = frbme.locbtion();
         long pc = -1;
         if (showPC) {
             pc = loc.codeIndex();
@@ -929,231 +929,231 @@ class Commands {
 
         long lineNumber = loc.lineNumber();
         String methodInfo = null;
-        if (meth.isNative()) {
-            methodInfo = MessageOutput.format("native method");
+        if (meth.isNbtive()) {
+            methodInfo = MessbgeOutput.formbt("nbtive method");
         } else if (lineNumber != -1) {
             try {
-                methodInfo = loc.sourceName() +
-                    MessageOutput.format("line number",
-                                         new Object [] {Long.valueOf(lineNumber)});
-            } catch (AbsentInformationException e) {
-                methodInfo = MessageOutput.format("unknown");
+                methodInfo = loc.sourceNbme() +
+                    MessbgeOutput.formbt("line number",
+                                         new Object [] {Long.vblueOf(lineNumber)});
+            } cbtch (AbsentInformbtionException e) {
+                methodInfo = MessbgeOutput.formbt("unknown");
             }
         }
         if (pc != -1) {
-            MessageOutput.println("stack frame dump with pc",
-                                  new Object [] {(frameNumber + 1),
-                                                 meth.declaringType().name(),
-                                                 meth.name(),
+            MessbgeOutput.println("stbck frbme dump with pc",
+                                  new Object [] {(frbmeNumber + 1),
+                                                 meth.declbringType().nbme(),
+                                                 meth.nbme(),
                                                  methodInfo,
-                                                 Long.valueOf(pc)});
+                                                 Long.vblueOf(pc)});
         } else {
-            MessageOutput.println("stack frame dump",
-                                  new Object [] {(frameNumber + 1),
-                                                 meth.declaringType().name(),
-                                                 meth.name(),
+            MessbgeOutput.println("stbck frbme dump",
+                                  new Object [] {(frbmeNumber + 1),
+                                                 meth.declbringType().nbme(),
+                                                 meth.nbme(),
                                                  methodInfo});
         }
     }
 
-    void commandWhere(StringTokenizer t, boolean showPC) {
-        if (!t.hasMoreTokens()) {
-            ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if (threadInfo == null) {
-                MessageOutput.println("No thread specified.");
+    void commbndWhere(StringTokenizer t, boolebn showPC) {
+        if (!t.hbsMoreTokens()) {
+            ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+            if (threbdInfo == null) {
+                MessbgeOutput.println("No threbd specified.");
                 return;
             }
-            dumpStack(threadInfo, showPC);
+            dumpStbck(threbdInfo, showPC);
         } else {
             String token = t.nextToken();
-            if (token.toLowerCase().equals("all")) {
-                for (ThreadInfo threadInfo : ThreadInfo.threads()) {
-                    MessageOutput.println("Thread:",
-                                          threadInfo.getThread().name());
-                    dumpStack(threadInfo, showPC);
+            if (token.toLowerCbse().equbls("bll")) {
+                for (ThrebdInfo threbdInfo : ThrebdInfo.threbds()) {
+                    MessbgeOutput.println("Threbd:",
+                                          threbdInfo.getThrebd().nbme());
+                    dumpStbck(threbdInfo, showPC);
                 }
             } else {
-                ThreadInfo threadInfo = doGetThread(token);
-                if (threadInfo != null) {
-                    ThreadInfo.setCurrentThreadInfo(threadInfo);
-                    dumpStack(threadInfo, showPC);
+                ThrebdInfo threbdInfo = doGetThrebd(token);
+                if (threbdInfo != null) {
+                    ThrebdInfo.setCurrentThrebdInfo(threbdInfo);
+                    dumpStbck(threbdInfo, showPC);
                 }
             }
         }
     }
 
-    void commandInterrupt(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if (threadInfo == null) {
-                MessageOutput.println("No thread specified.");
+    void commbndInterrupt(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+            if (threbdInfo == null) {
+                MessbgeOutput.println("No threbd specified.");
                 return;
             }
-            threadInfo.getThread().interrupt();
+            threbdInfo.getThrebd().interrupt();
         } else {
-            ThreadInfo threadInfo = doGetThread(t.nextToken());
-            if (threadInfo != null) {
-                threadInfo.getThread().interrupt();
+            ThrebdInfo threbdInfo = doGetThrebd(t.nextToken());
+            if (threbdInfo != null) {
+                threbdInfo.getThrebd().interrupt();
             }
         }
     }
 
-    void commandMemory() {
-        MessageOutput.println("The memory command is no longer supported.");
+    void commbndMemory() {
+        MessbgeOutput.println("The memory commbnd is no longer supported.");
     }
 
-    void commandGC() {
-        MessageOutput.println("The gc command is no longer necessary.");
+    void commbndGC() {
+        MessbgeOutput.println("The gc commbnd is no longer necessbry.");
     }
 
     /*
-     * The next two methods are used by this class and by EventHandler
-     * to print consistent locations and error messages.
+     * The next two methods bre used by this clbss bnd by EventHbndler
+     * to print consistent locbtions bnd error messbges.
      */
-    static String locationString(Location loc) {
-        return MessageOutput.format("locationString",
-                                    new Object [] {loc.declaringType().name(),
-                                                   loc.method().name(),
+    stbtic String locbtionString(Locbtion loc) {
+        return MessbgeOutput.formbt("locbtionString",
+                                    new Object [] {loc.declbringType().nbme(),
+                                                   loc.method().nbme(),
                                                    new Integer (loc.lineNumber()),
-                                                   Long.valueOf(loc.codeIndex())});
+                                                   Long.vblueOf(loc.codeIndex())});
     }
 
-    void listBreakpoints() {
-        boolean noBreakpoints = true;
+    void listBrebkpoints() {
+        boolebn noBrebkpoints = true;
 
-        // Print set breakpoints
+        // Print set brebkpoints
         for (EventRequestSpec spec : Env.specList.eventRequestSpecs()) {
-            if (spec instanceof BreakpointSpec) {
-                if (noBreakpoints) {
-                    noBreakpoints = false;
-                    MessageOutput.println("Breakpoints set:");
+            if (spec instbnceof BrebkpointSpec) {
+                if (noBrebkpoints) {
+                    noBrebkpoints = fblse;
+                    MessbgeOutput.println("Brebkpoints set:");
                 }
-                MessageOutput.println("tab", spec.toString());
+                MessbgeOutput.println("tbb", spec.toString());
             }
         }
-        if (noBreakpoints) {
-            MessageOutput.println("No breakpoints set.");
+        if (noBrebkpoints) {
+            MessbgeOutput.println("No brebkpoints set.");
         }
     }
 
 
-    private void printBreakpointCommandUsage(String atForm, String inForm) {
-        MessageOutput.println("printbreakpointcommandusage",
-                              new Object [] {atForm, inForm});
+    privbte void printBrebkpointCommbndUsbge(String btForm, String inForm) {
+        MessbgeOutput.println("printbrebkpointcommbndusbge",
+                              new Object [] {btForm, inForm});
     }
 
-    protected BreakpointSpec parseBreakpointSpec(StringTokenizer t,
-                                             String atForm, String inForm) {
-        BreakpointSpec breakpoint = null;
+    protected BrebkpointSpec pbrseBrebkpointSpec(StringTokenizer t,
+                                             String btForm, String inForm) {
+        BrebkpointSpec brebkpoint = null;
         try {
             String token = t.nextToken(":( \t\n\r");
 
-            // We can't use hasMoreTokens here because it will cause any leading
-            // paren to be lost.
+            // We cbn't use hbsMoreTokens here becbuse it will cbuse bny lebding
+            // pbren to be lost.
             String rest;
             try {
                 rest = t.nextToken("").trim();
-            } catch (NoSuchElementException e) {
+            } cbtch (NoSuchElementException e) {
                 rest = null;
             }
 
-            if ((rest != null) && rest.startsWith(":")) {
+            if ((rest != null) && rest.stbrtsWith(":")) {
                 t = new StringTokenizer(rest.substring(1));
-                String classId = token;
+                String clbssId = token;
                 String lineToken = t.nextToken();
 
-                NumberFormat nf = NumberFormat.getNumberInstance();
-                nf.setParseIntegerOnly(true);
-                Number n = nf.parse(lineToken);
-                int lineNumber = n.intValue();
+                NumberFormbt nf = NumberFormbt.getNumberInstbnce();
+                nf.setPbrseIntegerOnly(true);
+                Number n = nf.pbrse(lineToken);
+                int lineNumber = n.intVblue();
 
-                if (t.hasMoreTokens()) {
-                    printBreakpointCommandUsage(atForm, inForm);
+                if (t.hbsMoreTokens()) {
+                    printBrebkpointCommbndUsbge(btForm, inForm);
                     return null;
                 }
                 try {
-                    breakpoint = Env.specList.createBreakpoint(classId,
+                    brebkpoint = Env.specList.crebteBrebkpoint(clbssId,
                                                                lineNumber);
-                } catch (ClassNotFoundException exc) {
-                    MessageOutput.println("is not a valid class name", classId);
+                } cbtch (ClbssNotFoundException exc) {
+                    MessbgeOutput.println("is not b vblid clbss nbme", clbssId);
                 }
             } else {
-                // Try stripping method from class.method token.
-                int idot = token.lastIndexOf('.');
-                if ( (idot <= 0) ||                     /* No dot or dot in first char */
-                     (idot >= token.length() - 1) ) { /* dot in last char */
-                    printBreakpointCommandUsage(atForm, inForm);
+                // Try stripping method from clbss.method token.
+                int idot = token.lbstIndexOf('.');
+                if ( (idot <= 0) ||                     /* No dot or dot in first chbr */
+                     (idot >= token.length() - 1) ) { /* dot in lbst chbr */
+                    printBrebkpointCommbndUsbge(btForm, inForm);
                     return null;
                 }
-                String methodName = token.substring(idot + 1);
-                String classId = token.substring(0, idot);
-                List<String> argumentList = null;
+                String methodNbme = token.substring(idot + 1);
+                String clbssId = token.substring(0, idot);
+                List<String> brgumentList = null;
                 if (rest != null) {
-                    if (!rest.startsWith("(") || !rest.endsWith(")")) {
-                        MessageOutput.println("Invalid method specification:",
-                                              methodName + rest);
-                        printBreakpointCommandUsage(atForm, inForm);
+                    if (!rest.stbrtsWith("(") || !rest.endsWith(")")) {
+                        MessbgeOutput.println("Invblid method specificbtion:",
+                                              methodNbme + rest);
+                        printBrebkpointCommbndUsbge(btForm, inForm);
                         return null;
                     }
-                    // Trim the parens
+                    // Trim the pbrens
                     rest = rest.substring(1, rest.length() - 1);
 
-                    argumentList = new ArrayList<String>();
+                    brgumentList = new ArrbyList<String>();
                     t = new StringTokenizer(rest, ",");
-                    while (t.hasMoreTokens()) {
-                        argumentList.add(t.nextToken());
+                    while (t.hbsMoreTokens()) {
+                        brgumentList.bdd(t.nextToken());
                     }
                 }
                 try {
-                    breakpoint = Env.specList.createBreakpoint(classId,
-                                                               methodName,
-                                                               argumentList);
-                } catch (MalformedMemberNameException exc) {
-                    MessageOutput.println("is not a valid method name", methodName);
-                } catch (ClassNotFoundException exc) {
-                    MessageOutput.println("is not a valid class name", classId);
+                    brebkpoint = Env.specList.crebteBrebkpoint(clbssId,
+                                                               methodNbme,
+                                                               brgumentList);
+                } cbtch (MblformedMemberNbmeException exc) {
+                    MessbgeOutput.println("is not b vblid method nbme", methodNbme);
+                } cbtch (ClbssNotFoundException exc) {
+                    MessbgeOutput.println("is not b vblid clbss nbme", clbssId);
                 }
             }
-        } catch (Exception e) {
-            printBreakpointCommandUsage(atForm, inForm);
+        } cbtch (Exception e) {
+            printBrebkpointCommbndUsbge(btForm, inForm);
             return null;
         }
-        return breakpoint;
+        return brebkpoint;
     }
 
-    private void resolveNow(EventRequestSpec spec) {
-        boolean success = Env.specList.addEagerlyResolve(spec);
+    privbte void resolveNow(EventRequestSpec spec) {
+        boolebn success = Env.specList.bddEbgerlyResolve(spec);
         if (success && !spec.isResolved()) {
-            MessageOutput.println("Deferring.", spec.toString());
+            MessbgeOutput.println("Deferring.", spec.toString());
         }
     }
 
-    void commandStop(StringTokenizer t) {
-        String atIn;
+    void commbndStop(StringTokenizer t) {
+        String btIn;
         byte suspendPolicy = EventRequest.SUSPEND_ALL;
 
-        if (t.hasMoreTokens()) {
-            atIn = t.nextToken();
-            if (atIn.equals("go") && t.hasMoreTokens()) {
+        if (t.hbsMoreTokens()) {
+            btIn = t.nextToken();
+            if (btIn.equbls("go") && t.hbsMoreTokens()) {
                 suspendPolicy = EventRequest.SUSPEND_NONE;
-                atIn = t.nextToken();
-            } else if (atIn.equals("thread") && t.hasMoreTokens()) {
+                btIn = t.nextToken();
+            } else if (btIn.equbls("threbd") && t.hbsMoreTokens()) {
                 suspendPolicy = EventRequest.SUSPEND_EVENT_THREAD;
-                atIn = t.nextToken();
+                btIn = t.nextToken();
             }
         } else {
-            listBreakpoints();
+            listBrebkpoints();
             return;
         }
 
-        BreakpointSpec spec = parseBreakpointSpec(t, "stop at", "stop in");
+        BrebkpointSpec spec = pbrseBrebkpointSpec(t, "stop bt", "stop in");
         if (spec != null) {
-            // Enforcement of "at" vs. "in". The distinction is really
-            // unnecessary and we should consider not checking for this
-            // (and making "at" and "in" optional).
-            if (atIn.equals("at") && spec.isMethodBreakpoint()) {
-                MessageOutput.println("Use stop at to set a breakpoint at a line number");
-                printBreakpointCommandUsage("stop at", "stop in");
+            // Enforcement of "bt" vs. "in". The distinction is reblly
+            // unnecessbry bnd we should consider not checking for this
+            // (bnd mbking "bt" bnd "in" optionbl).
+            if (btIn.equbls("bt") && spec.isMethodBrebkpoint()) {
+                MessbgeOutput.println("Use stop bt to set b brebkpoint bt b line number");
+                printBrebkpointCommbndUsbge("stop bt", "stop in");
                 return;
             }
             spec.suspendPolicy = suspendPolicy;
@@ -1161,946 +1161,946 @@ class Commands {
         }
     }
 
-    void commandClear(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            listBreakpoints();
+    void commbndClebr(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            listBrebkpoints();
             return;
         }
 
-        BreakpointSpec spec = parseBreakpointSpec(t, "clear", "clear");
+        BrebkpointSpec spec = pbrseBrebkpointSpec(t, "clebr", "clebr");
         if (spec != null) {
             if (Env.specList.delete(spec)) {
-                MessageOutput.println("Removed:", spec.toString());
+                MessbgeOutput.println("Removed:", spec.toString());
             } else {
-                MessageOutput.println("Not found:", spec.toString());
+                MessbgeOutput.println("Not found:", spec.toString());
             }
         }
     }
 
-    private List<WatchpointSpec> parseWatchpointSpec(StringTokenizer t) {
-        List<WatchpointSpec> list = new ArrayList<WatchpointSpec>();
-        boolean access = false;
-        boolean modification = false;
+    privbte List<WbtchpointSpec> pbrseWbtchpointSpec(StringTokenizer t) {
+        List<WbtchpointSpec> list = new ArrbyList<WbtchpointSpec>();
+        boolebn bccess = fblse;
+        boolebn modificbtion = fblse;
         int suspendPolicy = EventRequest.SUSPEND_ALL;
 
-        String fieldName = t.nextToken();
-        if (fieldName.equals("go")) {
+        String fieldNbme = t.nextToken();
+        if (fieldNbme.equbls("go")) {
             suspendPolicy = EventRequest.SUSPEND_NONE;
-            fieldName = t.nextToken();
-        } else if (fieldName.equals("thread")) {
+            fieldNbme = t.nextToken();
+        } else if (fieldNbme.equbls("threbd")) {
             suspendPolicy = EventRequest.SUSPEND_EVENT_THREAD;
-            fieldName = t.nextToken();
+            fieldNbme = t.nextToken();
         }
-        if (fieldName.equals("access")) {
-            access = true;
-            fieldName = t.nextToken();
-        } else if (fieldName.equals("all")) {
-            access = true;
-            modification = true;
-            fieldName = t.nextToken();
+        if (fieldNbme.equbls("bccess")) {
+            bccess = true;
+            fieldNbme = t.nextToken();
+        } else if (fieldNbme.equbls("bll")) {
+            bccess = true;
+            modificbtion = true;
+            fieldNbme = t.nextToken();
         } else {
-            modification = true;
+            modificbtion = true;
         }
-        int dot = fieldName.lastIndexOf('.');
+        int dot = fieldNbme.lbstIndexOf('.');
         if (dot < 0) {
-            MessageOutput.println("Class containing field must be specified.");
+            MessbgeOutput.println("Clbss contbining field must be specified.");
             return list;
         }
-        String className = fieldName.substring(0, dot);
-        fieldName = fieldName.substring(dot+1);
+        String clbssNbme = fieldNbme.substring(0, dot);
+        fieldNbme = fieldNbme.substring(dot+1);
 
         try {
-            WatchpointSpec spec;
-            if (access) {
-                spec = Env.specList.createAccessWatchpoint(className,
-                                                           fieldName);
+            WbtchpointSpec spec;
+            if (bccess) {
+                spec = Env.specList.crebteAccessWbtchpoint(clbssNbme,
+                                                           fieldNbme);
                 spec.suspendPolicy = suspendPolicy;
-                list.add(spec);
+                list.bdd(spec);
             }
-            if (modification) {
-                spec = Env.specList.createModificationWatchpoint(className,
-                                                                 fieldName);
+            if (modificbtion) {
+                spec = Env.specList.crebteModificbtionWbtchpoint(clbssNbme,
+                                                                 fieldNbme);
                 spec.suspendPolicy = suspendPolicy;
-                list.add(spec);
+                list.bdd(spec);
             }
-        } catch (MalformedMemberNameException exc) {
-            MessageOutput.println("is not a valid field name", fieldName);
-        } catch (ClassNotFoundException exc) {
-            MessageOutput.println("is not a valid class name", className);
+        } cbtch (MblformedMemberNbmeException exc) {
+            MessbgeOutput.println("is not b vblid field nbme", fieldNbme);
+        } cbtch (ClbssNotFoundException exc) {
+            MessbgeOutput.println("is not b vblid clbss nbme", clbssNbme);
         }
         return list;
     }
 
-    void commandWatch(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Field to watch not specified");
+    void commbndWbtch(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("Field to wbtch not specified");
             return;
         }
 
-        for (WatchpointSpec spec : parseWatchpointSpec(t)) {
+        for (WbtchpointSpec spec : pbrseWbtchpointSpec(t)) {
             resolveNow(spec);
         }
     }
 
-    void commandUnwatch(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Field to unwatch not specified");
+    void commbndUnwbtch(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("Field to unwbtch not specified");
             return;
         }
 
-        for (WatchpointSpec spec : parseWatchpointSpec(t)) {
+        for (WbtchpointSpec spec : pbrseWbtchpointSpec(t)) {
             if (Env.specList.delete(spec)) {
-                MessageOutput.println("Removed:", spec.toString());
+                MessbgeOutput.println("Removed:", spec.toString());
             } else {
-                MessageOutput.println("Not found:", spec.toString());
+                MessbgeOutput.println("Not found:", spec.toString());
             }
         }
     }
 
-    void turnOnExitTrace(ThreadInfo threadInfo, int suspendPolicy) {
-        EventRequestManager erm = Env.vm().eventRequestManager();
-        MethodExitRequest exit = erm.createMethodExitRequest();
-        if (threadInfo != null) {
-            exit.addThreadFilter(threadInfo.getThread());
+    void turnOnExitTrbce(ThrebdInfo threbdInfo, int suspendPolicy) {
+        EventRequestMbnbger erm = Env.vm().eventRequestMbnbger();
+        MethodExitRequest exit = erm.crebteMethodExitRequest();
+        if (threbdInfo != null) {
+            exit.bddThrebdFilter(threbdInfo.getThrebd());
         }
-        Env.addExcludes(exit);
+        Env.bddExcludes(exit);
         exit.setSuspendPolicy(suspendPolicy);
-        exit.enable();
+        exit.enbble();
 
     }
 
-    static String methodTraceCommand = null;
+    stbtic String methodTrbceCommbnd = null;
 
-    void commandTrace(StringTokenizer t) {
+    void commbndTrbce(StringTokenizer t) {
         String modif;
         int suspendPolicy = EventRequest.SUSPEND_ALL;
-        ThreadInfo threadInfo = null;
+        ThrebdInfo threbdInfo = null;
         String goStr = " ";
 
         /*
-         * trace [go] methods [thread]
-         * trace [go] method exit | exits [thread]
+         * trbce [go] methods [threbd]
+         * trbce [go] method exit | exits [threbd]
          */
-        if (t.hasMoreTokens()) {
+        if (t.hbsMoreTokens()) {
             modif = t.nextToken();
-            if (modif.equals("go")) {
+            if (modif.equbls("go")) {
                 suspendPolicy = EventRequest.SUSPEND_NONE;
                 goStr = " go ";
-                if (t.hasMoreTokens()) {
+                if (t.hbsMoreTokens()) {
                     modif = t.nextToken();
                 }
-            } else if (modif.equals("thread")) {
-                // this is undocumented as it doesn't work right.
+            } else if (modif.equbls("threbd")) {
+                // this is undocumented bs it doesn't work right.
                 suspendPolicy = EventRequest.SUSPEND_EVENT_THREAD;
-                if (t.hasMoreTokens()) {
+                if (t.hbsMoreTokens()) {
                     modif = t.nextToken();
                 }
             }
 
-            if  (modif.equals("method")) {
-                String traceCmd = null;
+            if  (modif.equbls("method")) {
+                String trbceCmd = null;
 
-                if (t.hasMoreTokens()) {
+                if (t.hbsMoreTokens()) {
                     String modif1 = t.nextToken();
-                    if (modif1.equals("exits") || modif1.equals("exit")) {
-                        if (t.hasMoreTokens()) {
-                            threadInfo = doGetThread(t.nextToken());
+                    if (modif1.equbls("exits") || modif1.equbls("exit")) {
+                        if (t.hbsMoreTokens()) {
+                            threbdInfo = doGetThrebd(t.nextToken());
                         }
-                        if (modif1.equals("exit")) {
-                            StackFrame frame;
+                        if (modif1.equbls("exit")) {
+                            StbckFrbme frbme;
                             try {
-                                frame = ThreadInfo.getCurrentThreadInfo().getCurrentFrame();
-                            } catch (IncompatibleThreadStateException ee) {
-                                MessageOutput.println("Current thread isnt suspended.");
+                                frbme = ThrebdInfo.getCurrentThrebdInfo().getCurrentFrbme();
+                            } cbtch (IncompbtibleThrebdStbteException ee) {
+                                MessbgeOutput.println("Current threbd isnt suspended.");
                                 return;
                             }
-                            Env.setAtExitMethod(frame.location().method());
-                            traceCmd = MessageOutput.format("trace" +
+                            Env.setAtExitMethod(frbme.locbtion().method());
+                            trbceCmd = MessbgeOutput.formbt("trbce" +
                                                     goStr + "method exit " +
                                                     "in effect for",
-                                                    Env.atExitMethod().toString());
+                                                    Env.btExitMethod().toString());
                         } else {
-                            traceCmd = MessageOutput.format("trace" +
+                            trbceCmd = MessbgeOutput.formbt("trbce" +
                                                    goStr + "method exits " +
                                                    "in effect");
                         }
-                        commandUntrace(new StringTokenizer("methods"));
-                        turnOnExitTrace(threadInfo, suspendPolicy);
-                        methodTraceCommand = traceCmd;
+                        commbndUntrbce(new StringTokenizer("methods"));
+                        turnOnExitTrbce(threbdInfo, suspendPolicy);
+                        methodTrbceCommbnd = trbceCmd;
                         return;
                     }
                 } else {
-                   MessageOutput.println("Can only trace");
+                   MessbgeOutput.println("Cbn only trbce");
                    return;
                 }
             }
-            if (modif.equals("methods")) {
-                // Turn on method entry trace
+            if (modif.equbls("methods")) {
+                // Turn on method entry trbce
                 MethodEntryRequest entry;
-                EventRequestManager erm = Env.vm().eventRequestManager();
-                if (t.hasMoreTokens()) {
-                    threadInfo = doGetThread(t.nextToken());
+                EventRequestMbnbger erm = Env.vm().eventRequestMbnbger();
+                if (t.hbsMoreTokens()) {
+                    threbdInfo = doGetThrebd(t.nextToken());
                 }
-                if (threadInfo != null) {
+                if (threbdInfo != null) {
                     /*
-                     * To keep things simple we want each 'trace' to cancel
-                     * previous traces.  However in this case, we don't do that
-                     * to preserve backward compatibility with pre JDK 6.0.
-                     * IE, you can currently do
-                     *   trace   methods 0x21
-                     *   trace   methods 0x22
-                     * and you will get xxx traced just on those two threads
-                     * But this feature is kind of broken because if you then do
-                     *   untrace  0x21
-                     * it turns off both traces instead of just the one.
-                     * Another bogosity is that if you do
-                     *   trace methods
-                     *   trace methods
-                     * and you will get two traces.
+                     * To keep things simple we wbnt ebch 'trbce' to cbncel
+                     * previous trbces.  However in this cbse, we don't do thbt
+                     * to preserve bbckwbrd compbtibility with pre JDK 6.0.
+                     * IE, you cbn currently do
+                     *   trbce   methods 0x21
+                     *   trbce   methods 0x22
+                     * bnd you will get xxx trbced just on those two threbds
+                     * But this febture is kind of broken becbuse if you then do
+                     *   untrbce  0x21
+                     * it turns off both trbces instebd of just the one.
+                     * Another bogosity is thbt if you do
+                     *   trbce methods
+                     *   trbce methods
+                     * bnd you will get two trbces.
                      */
 
-                    entry = erm.createMethodEntryRequest();
-                    entry.addThreadFilter(threadInfo.getThread());
+                    entry = erm.crebteMethodEntryRequest();
+                    entry.bddThrebdFilter(threbdInfo.getThrebd());
                 } else {
-                    commandUntrace(new StringTokenizer("methods"));
-                    entry = erm.createMethodEntryRequest();
+                    commbndUntrbce(new StringTokenizer("methods"));
+                    entry = erm.crebteMethodEntryRequest();
                 }
-                Env.addExcludes(entry);
+                Env.bddExcludes(entry);
                 entry.setSuspendPolicy(suspendPolicy);
-                entry.enable();
-                turnOnExitTrace(threadInfo, suspendPolicy);
-                methodTraceCommand = MessageOutput.format("trace" + goStr +
+                entry.enbble();
+                turnOnExitTrbce(threbdInfo, suspendPolicy);
+                methodTrbceCommbnd = MessbgeOutput.formbt("trbce" + goStr +
                                                           "methods in effect");
 
                 return;
             }
 
-            MessageOutput.println("Can only trace");
+            MessbgeOutput.println("Cbn only trbce");
             return;
         }
 
-        // trace all by itself.
-        if (methodTraceCommand != null) {
-            MessageOutput.printDirectln(methodTraceCommand);
+        // trbce bll by itself.
+        if (methodTrbceCommbnd != null) {
+            MessbgeOutput.printDirectln(methodTrbceCommbnd);
         }
 
-        // More trace lines can be added here.
+        // More trbce lines cbn be bdded here.
     }
 
-    void commandUntrace(StringTokenizer t) {
-        // untrace
-        // untrace methods
+    void commbndUntrbce(StringTokenizer t) {
+        // untrbce
+        // untrbce methods
 
         String modif = null;
-        EventRequestManager erm = Env.vm().eventRequestManager();
-        if (t.hasMoreTokens()) {
+        EventRequestMbnbger erm = Env.vm().eventRequestMbnbger();
+        if (t.hbsMoreTokens()) {
             modif = t.nextToken();
         }
-        if (modif == null || modif.equals("methods")) {
+        if (modif == null || modif.equbls("methods")) {
             erm.deleteEventRequests(erm.methodEntryRequests());
             erm.deleteEventRequests(erm.methodExitRequests());
             Env.setAtExitMethod(null);
-            methodTraceCommand = null;
+            methodTrbceCommbnd = null;
         }
     }
 
-    void commandList(StringTokenizer t) {
-        StackFrame frame = null;
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("No thread specified.");
+    void commbndList(StringTokenizer t) {
+        StbckFrbme frbme = null;
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        if (threbdInfo == null) {
+            MessbgeOutput.println("No threbd specified.");
             return;
         }
         try {
-            frame = threadInfo.getCurrentFrame();
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Current thread isnt suspended.");
+            frbme = threbdInfo.getCurrentFrbme();
+        } cbtch (IncompbtibleThrebdStbteException e) {
+            MessbgeOutput.println("Current threbd isnt suspended.");
             return;
         }
 
-        if (frame == null) {
-            MessageOutput.println("No frames on the current call stack");
+        if (frbme == null) {
+            MessbgeOutput.println("No frbmes on the current cbll stbck");
             return;
         }
 
-        Location loc = frame.location();
-        if (loc.method().isNative()) {
-            MessageOutput.println("Current method is native");
+        Locbtion loc = frbme.locbtion();
+        if (loc.method().isNbtive()) {
+            MessbgeOutput.println("Current method is nbtive");
             return;
         }
 
-        String sourceFileName = null;
+        String sourceFileNbme = null;
         try {
-            sourceFileName = loc.sourceName();
+            sourceFileNbme = loc.sourceNbme();
 
-            ReferenceType refType = loc.declaringType();
+            ReferenceType refType = loc.declbringType();
             int lineno = loc.lineNumber();
 
-            if (t.hasMoreTokens()) {
+            if (t.hbsMoreTokens()) {
                 String id = t.nextToken();
 
-                // See if token is a line number.
+                // See if token is b line number.
                 try {
-                    NumberFormat nf = NumberFormat.getNumberInstance();
-                    nf.setParseIntegerOnly(true);
-                    Number n = nf.parse(id);
-                    lineno = n.intValue();
-                } catch (java.text.ParseException jtpe) {
-                    // It isn't -- see if it's a method name.
-                        List<Method> meths = refType.methodsByName(id);
+                    NumberFormbt nf = NumberFormbt.getNumberInstbnce();
+                    nf.setPbrseIntegerOnly(true);
+                    Number n = nf.pbrse(id);
+                    lineno = n.intVblue();
+                } cbtch (jbvb.text.PbrseException jtpe) {
+                    // It isn't -- see if it's b method nbme.
+                        List<Method> meths = refType.methodsByNbme(id);
                         if (meths == null || meths.size() == 0) {
-                            MessageOutput.println("is not a valid line number or method name for",
-                                                  new Object [] {id, refType.name()});
+                            MessbgeOutput.println("is not b vblid line number or method nbme for",
+                                                  new Object [] {id, refType.nbme()});
                             return;
                         } else if (meths.size() > 1) {
-                            MessageOutput.println("is an ambiguous method name in",
-                                                  new Object [] {id, refType.name()});
+                            MessbgeOutput.println("is bn bmbiguous method nbme in",
+                                                  new Object [] {id, refType.nbme()});
                             return;
                         }
-                        loc = meths.get(0).location();
+                        loc = meths.get(0).locbtion();
                         lineno = loc.lineNumber();
                 }
             }
-            int startLine = Math.max(lineno - 4, 1);
-            int endLine = startLine + 9;
+            int stbrtLine = Mbth.mbx(lineno - 4, 1);
+            int endLine = stbrtLine + 9;
             if (lineno < 0) {
-                MessageOutput.println("Line number information not available for");
+                MessbgeOutput.println("Line number informbtion not bvbilbble for");
             } else if (Env.sourceLine(loc, lineno) == null) {
-                MessageOutput.println("is an invalid line number for",
+                MessbgeOutput.println("is bn invblid line number for",
                                       new Object [] {new Integer (lineno),
-                                                     refType.name()});
+                                                     refType.nbme()});
             } else {
-                for (int i = startLine; i <= endLine; i++) {
+                for (int i = stbrtLine; i <= endLine; i++) {
                     String sourceLine = Env.sourceLine(loc, i);
                     if (sourceLine == null) {
-                        break;
+                        brebk;
                     }
                     if (i == lineno) {
-                        MessageOutput.println("source line number current line and line",
+                        MessbgeOutput.println("source line number current line bnd line",
                                               new Object [] {new Integer (i),
                                                              sourceLine});
                     } else {
-                        MessageOutput.println("source line number and line",
+                        MessbgeOutput.println("source line number bnd line",
                                               new Object [] {new Integer (i),
                                                              sourceLine});
                     }
                 }
             }
-        } catch (AbsentInformationException e) {
-            MessageOutput.println("No source information available for:", loc.toString());
-        } catch(FileNotFoundException exc) {
-            MessageOutput.println("Source file not found:", sourceFileName);
-        } catch(IOException exc) {
-            MessageOutput.println("I/O exception occurred:", exc.toString());
+        } cbtch (AbsentInformbtionException e) {
+            MessbgeOutput.println("No source informbtion bvbilbble for:", loc.toString());
+        } cbtch(FileNotFoundException exc) {
+            MessbgeOutput.println("Source file not found:", sourceFileNbme);
+        } cbtch(IOException exc) {
+            MessbgeOutput.println("I/O exception occurred:", exc.toString());
         }
     }
 
-    void commandLines(StringTokenizer t) { // Undocumented command: useful for testing
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Specify class and method");
+    void commbndLines(StringTokenizer t) { // Undocumented commbnd: useful for testing
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("Specify clbss bnd method");
         } else {
-            String idClass = t.nextToken();
-            String idMethod = t.hasMoreTokens() ? t.nextToken() : null;
+            String idClbss = t.nextToken();
+            String idMethod = t.hbsMoreTokens() ? t.nextToken() : null;
             try {
-                ReferenceType refType = Env.getReferenceTypeFromToken(idClass);
+                ReferenceType refType = Env.getReferenceTypeFromToken(idClbss);
                 if (refType != null) {
-                    List<Location> lines = null;
+                    List<Locbtion> lines = null;
                     if (idMethod == null) {
-                        lines = refType.allLineLocations();
+                        lines = refType.bllLineLocbtions();
                     } else {
-                        for (Method method : refType.allMethods()) {
-                            if (method.name().equals(idMethod)) {
-                                lines = method.allLineLocations();
+                        for (Method method : refType.bllMethods()) {
+                            if (method.nbme().equbls(idMethod)) {
+                                lines = method.bllLineLocbtions();
                             }
                         }
                         if (lines == null) {
-                            MessageOutput.println("is not a valid method name", idMethod);
+                            MessbgeOutput.println("is not b vblid method nbme", idMethod);
                         }
                     }
-                    for (Location line : lines) {
-                        MessageOutput.printDirectln(line.toString());// Special case: use printDirectln()
+                    for (Locbtion line : lines) {
+                        MessbgeOutput.printDirectln(line.toString());// Specibl cbse: use printDirectln()
                     }
                 } else {
-                    MessageOutput.println("is not a valid id or class name", idClass);
+                    MessbgeOutput.println("is not b vblid id or clbss nbme", idClbss);
                 }
-            } catch (AbsentInformationException e) {
-                MessageOutput.println("Line number information not available for", idClass);
+            } cbtch (AbsentInformbtionException e) {
+                MessbgeOutput.println("Line number informbtion not bvbilbble for", idClbss);
             }
         }
     }
 
-    void commandClasspath(StringTokenizer t) {
-        if (Env.vm() instanceof PathSearchingVirtualMachine) {
-            PathSearchingVirtualMachine vm = (PathSearchingVirtualMachine)Env.vm();
-            MessageOutput.println("base directory:", vm.baseDirectory());
-            MessageOutput.println("classpath:", vm.classPath().toString());
-            MessageOutput.println("bootclasspath:", vm.bootClassPath().toString());
+    void commbndClbsspbth(StringTokenizer t) {
+        if (Env.vm() instbnceof PbthSebrchingVirtublMbchine) {
+            PbthSebrchingVirtublMbchine vm = (PbthSebrchingVirtublMbchine)Env.vm();
+            MessbgeOutput.println("bbse directory:", vm.bbseDirectory());
+            MessbgeOutput.println("clbsspbth:", vm.clbssPbth().toString());
+            MessbgeOutput.println("bootclbsspbth:", vm.bootClbssPbth().toString());
         } else {
-            MessageOutput.println("The VM does not use paths");
+            MessbgeOutput.println("The VM does not use pbths");
         }
     }
 
-    /* Get or set the source file path list. */
-    void commandUse(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.printDirectln(Env.getSourcePath());// Special case: use printDirectln()
+    /* Get or set the source file pbth list. */
+    void commbndUse(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.printDirectln(Env.getSourcePbth());// Specibl cbse: use printDirectln()
         } else {
             /*
-             * Take the remainder of the command line, minus
-             * leading or trailing whitespace.  Embedded
-             * whitespace is fine.
+             * Tbke the rembinder of the commbnd line, minus
+             * lebding or trbiling whitespbce.  Embedded
+             * whitespbce is fine.
              */
-            Env.setSourcePath(t.nextToken("").trim());
+            Env.setSourcePbth(t.nextToken("").trim());
         }
     }
 
-    /* Print a stack variable */
-    private void printVar(LocalVariable var, Value value) {
-        MessageOutput.println("expr is value",
-                              new Object [] {var.name(),
-                                             value == null ? "null" : value.toString()});
+    /* Print b stbck vbribble */
+    privbte void printVbr(LocblVbribble vbr, Vblue vblue) {
+        MessbgeOutput.println("expr is vblue",
+                              new Object [] {vbr.nbme(),
+                                             vblue == null ? "null" : vblue.toString()});
     }
 
-    /* Print all local variables in current stack frame. */
-    void commandLocals() {
-        StackFrame frame;
-        ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-        if (threadInfo == null) {
-            MessageOutput.println("No default thread specified:");
+    /* Print bll locbl vbribbles in current stbck frbme. */
+    void commbndLocbls() {
+        StbckFrbme frbme;
+        ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+        if (threbdInfo == null) {
+            MessbgeOutput.println("No defbult threbd specified:");
             return;
         }
         try {
-            frame = threadInfo.getCurrentFrame();
-            if (frame == null) {
-                throw new AbsentInformationException();
+            frbme = threbdInfo.getCurrentFrbme();
+            if (frbme == null) {
+                throw new AbsentInformbtionException();
             }
-            List<LocalVariable> vars = frame.visibleVariables();
+            List<LocblVbribble> vbrs = frbme.visibleVbribbles();
 
-            if (vars.size() == 0) {
-                MessageOutput.println("No local variables");
+            if (vbrs.size() == 0) {
+                MessbgeOutput.println("No locbl vbribbles");
                 return;
             }
-            Map<LocalVariable, Value> values = frame.getValues(vars);
+            Mbp<LocblVbribble, Vblue> vblues = frbme.getVblues(vbrs);
 
-            MessageOutput.println("Method arguments:");
-            for (LocalVariable var : vars) {
-                if (var.isArgument()) {
-                    Value val = values.get(var);
-                    printVar(var, val);
+            MessbgeOutput.println("Method brguments:");
+            for (LocblVbribble vbr : vbrs) {
+                if (vbr.isArgument()) {
+                    Vblue vbl = vblues.get(vbr);
+                    printVbr(vbr, vbl);
                 }
             }
-            MessageOutput.println("Local variables:");
-            for (LocalVariable var : vars) {
-                if (!var.isArgument()) {
-                    Value val = values.get(var);
-                    printVar(var, val);
+            MessbgeOutput.println("Locbl vbribbles:");
+            for (LocblVbribble vbr : vbrs) {
+                if (!vbr.isArgument()) {
+                    Vblue vbl = vblues.get(vbr);
+                    printVbr(vbr, vbl);
                 }
             }
-        } catch (AbsentInformationException aie) {
-            MessageOutput.println("Local variable information not available.");
-        } catch (IncompatibleThreadStateException exc) {
-            MessageOutput.println("Current thread isnt suspended.");
+        } cbtch (AbsentInformbtionException bie) {
+            MessbgeOutput.println("Locbl vbribble informbtion not bvbilbble.");
+        } cbtch (IncompbtibleThrebdStbteException exc) {
+            MessbgeOutput.println("Current threbd isnt suspended.");
         }
     }
 
-    private void dump(ObjectReference obj, ReferenceType refType,
-                      ReferenceType refTypeBase) {
+    privbte void dump(ObjectReference obj, ReferenceType refType,
+                      ReferenceType refTypeBbse) {
         for (Field field : refType.fields()) {
             StringBuilder sb = new StringBuilder();
-            sb.append("    ");
-            if (!refType.equals(refTypeBase)) {
-                sb.append(refType.name());
-                sb.append(".");
+            sb.bppend("    ");
+            if (!refType.equbls(refTypeBbse)) {
+                sb.bppend(refType.nbme());
+                sb.bppend(".");
             }
-            sb.append(field.name());
-            sb.append(MessageOutput.format("colon space"));
-            sb.append(obj.getValue(field));
-            MessageOutput.printDirectln(sb.toString()); // Special case: use printDirectln()
+            sb.bppend(field.nbme());
+            sb.bppend(MessbgeOutput.formbt("colon spbce"));
+            sb.bppend(obj.getVblue(field));
+            MessbgeOutput.printDirectln(sb.toString()); // Specibl cbse: use printDirectln()
         }
-        if (refType instanceof ClassType) {
-            ClassType sup = ((ClassType)refType).superclass();
+        if (refType instbnceof ClbssType) {
+            ClbssType sup = ((ClbssType)refType).superclbss();
             if (sup != null) {
-                dump(obj, sup, refTypeBase);
+                dump(obj, sup, refTypeBbse);
             }
-        } else if (refType instanceof InterfaceType) {
-            for (InterfaceType sup : ((InterfaceType)refType).superinterfaces()) {
-                dump(obj, sup, refTypeBase);
+        } else if (refType instbnceof InterfbceType) {
+            for (InterfbceType sup : ((InterfbceType)refType).superinterfbces()) {
+                dump(obj, sup, refTypeBbse);
             }
         } else {
-            /* else refType is an instanceof ArrayType */
-            if (obj instanceof ArrayReference) {
-                for (Iterator<Value> it = ((ArrayReference)obj).getValues().iterator();
-                     it.hasNext(); ) {
-                    MessageOutput.printDirect(it.next().toString());// Special case: use printDirect()
-                    if (it.hasNext()) {
-                        MessageOutput.printDirect(", ");// Special case: use printDirect()
+            /* else refType is bn instbnceof ArrbyType */
+            if (obj instbnceof ArrbyReference) {
+                for (Iterbtor<Vblue> it = ((ArrbyReference)obj).getVblues().iterbtor();
+                     it.hbsNext(); ) {
+                    MessbgeOutput.printDirect(it.next().toString());// Specibl cbse: use printDirect()
+                    if (it.hbsNext()) {
+                        MessbgeOutput.printDirect(", ");// Specibl cbse: use printDirect()
                     }
                 }
-                MessageOutput.println();
+                MessbgeOutput.println();
             }
         }
     }
 
-    /* Print a specified reference.
+    /* Print b specified reference.
      */
-    void doPrint(StringTokenizer t, boolean dumpObject) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No objects specified.");
+    void doPrint(StringTokenizer t, boolebn dumpObject) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No objects specified.");
             return;
         }
 
-        while (t.hasMoreTokens()) {
+        while (t.hbsMoreTokens()) {
             String expr = t.nextToken("");
-            Value val = evaluate(expr);
-            if (val == null) {
-                MessageOutput.println("expr is null", expr.toString());
-            } else if (dumpObject && (val instanceof ObjectReference) &&
-                       !(val instanceof StringReference)) {
-                ObjectReference obj = (ObjectReference)val;
+            Vblue vbl = evblubte(expr);
+            if (vbl == null) {
+                MessbgeOutput.println("expr is null", expr.toString());
+            } else if (dumpObject && (vbl instbnceof ObjectReference) &&
+                       !(vbl instbnceof StringReference)) {
+                ObjectReference obj = (ObjectReference)vbl;
                 ReferenceType refType = obj.referenceType();
-                MessageOutput.println("expr is value",
+                MessbgeOutput.println("expr is vblue",
                                       new Object [] {expr.toString(),
-                                                     MessageOutput.format("grouping begin character")});
+                                                     MessbgeOutput.formbt("grouping begin chbrbcter")});
                 dump(obj, refType, refType);
-                MessageOutput.println("grouping end character");
+                MessbgeOutput.println("grouping end chbrbcter");
             } else {
-                  String strVal = getStringValue();
-                  if (strVal != null) {
-                     MessageOutput.println("expr is value", new Object [] {expr.toString(),
-                                                                      strVal});
+                  String strVbl = getStringVblue();
+                  if (strVbl != null) {
+                     MessbgeOutput.println("expr is vblue", new Object [] {expr.toString(),
+                                                                      strVbl});
                    }
             }
         }
     }
 
-    void commandPrint(final StringTokenizer t, final boolean dumpObject) {
+    void commbndPrint(finbl StringTokenizer t, finbl boolebn dumpObject) {
         new AsyncExecution() {
                 @Override
-                void action() {
+                void bction() {
                     doPrint(t, dumpObject);
                 }
             };
     }
 
-    void commandSet(final StringTokenizer t) {
-        String all = t.nextToken("");
+    void commbndSet(finbl StringTokenizer t) {
+        String bll = t.nextToken("");
 
         /*
-         * Bare bones error checking.
+         * Bbre bones error checking.
          */
-        if (all.indexOf('=') == -1) {
-            MessageOutput.println("Invalid assignment syntax");
-            MessageOutput.printPrompt();
+        if (bll.indexOf('=') == -1) {
+            MessbgeOutput.println("Invblid bssignment syntbx");
+            MessbgeOutput.printPrompt();
             return;
         }
 
         /*
-         * The set command is really just syntactic sugar. Pass it on to the
-         * print command.
+         * The set commbnd is reblly just syntbctic sugbr. Pbss it on to the
+         * print commbnd.
          */
-        commandPrint(new StringTokenizer(all), false);
+        commbndPrint(new StringTokenizer(bll), fblse);
     }
 
     void doLock(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No object specified.");
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No object specified.");
             return;
         }
 
         String expr = t.nextToken("");
-        Value val = evaluate(expr);
+        Vblue vbl = evblubte(expr);
 
         try {
-            if ((val != null) && (val instanceof ObjectReference)) {
-                ObjectReference object = (ObjectReference)val;
-                String strVal = getStringValue();
-                if (strVal != null) {
-                    MessageOutput.println("Monitor information for expr",
+            if ((vbl != null) && (vbl instbnceof ObjectReference)) {
+                ObjectReference object = (ObjectReference)vbl;
+                String strVbl = getStringVblue();
+                if (strVbl != null) {
+                    MessbgeOutput.println("Monitor informbtion for expr",
                                       new Object [] {expr.trim(),
-                                                     strVal});
+                                                     strVbl});
                 }
-                ThreadReference owner = object.owningThread();
+                ThrebdReference owner = object.owningThrebd();
                 if (owner == null) {
-                    MessageOutput.println("Not owned");
+                    MessbgeOutput.println("Not owned");
                 } else {
-                    MessageOutput.println("Owned by:",
-                                          new Object [] {owner.name(),
+                    MessbgeOutput.println("Owned by:",
+                                          new Object [] {owner.nbme(),
                                                          new Integer (object.entryCount())});
                 }
-                List<ThreadReference> waiters = object.waitingThreads();
-                if (waiters.size() == 0) {
-                    MessageOutput.println("No waiters");
+                List<ThrebdReference> wbiters = object.wbitingThrebds();
+                if (wbiters.size() == 0) {
+                    MessbgeOutput.println("No wbiters");
                 } else {
-                    for (ThreadReference waiter : waiters) {
-                        MessageOutput.println("Waiting thread:", waiter.name());
+                    for (ThrebdReference wbiter : wbiters) {
+                        MessbgeOutput.println("Wbiting threbd:", wbiter.nbme());
                     }
                 }
             } else {
-                MessageOutput.println("Expression must evaluate to an object");
+                MessbgeOutput.println("Expression must evblubte to bn object");
             }
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Threads must be suspended");
+        } cbtch (IncompbtibleThrebdStbteException e) {
+            MessbgeOutput.println("Threbds must be suspended");
         }
     }
 
-    void commandLock(final StringTokenizer t) {
+    void commbndLock(finbl StringTokenizer t) {
         new AsyncExecution() {
                 @Override
-                void action() {
+                void bction() {
                     doLock(t);
                 }
             };
     }
 
-    private void printThreadLockInfo(ThreadInfo threadInfo) {
-        ThreadReference thread = threadInfo.getThread();
+    privbte void printThrebdLockInfo(ThrebdInfo threbdInfo) {
+        ThrebdReference threbd = threbdInfo.getThrebd();
         try {
-            MessageOutput.println("Monitor information for thread", thread.name());
-            List<ObjectReference> owned = thread.ownedMonitors();
+            MessbgeOutput.println("Monitor informbtion for threbd", threbd.nbme());
+            List<ObjectReference> owned = threbd.ownedMonitors();
             if (owned.size() == 0) {
-                MessageOutput.println("No monitors owned");
+                MessbgeOutput.println("No monitors owned");
             } else {
                 for (ObjectReference monitor : owned) {
-                    MessageOutput.println("Owned monitor:", monitor.toString());
+                    MessbgeOutput.println("Owned monitor:", monitor.toString());
                 }
             }
-            ObjectReference waiting = thread.currentContendedMonitor();
-            if (waiting == null) {
-                MessageOutput.println("Not waiting for a monitor");
+            ObjectReference wbiting = threbd.currentContendedMonitor();
+            if (wbiting == null) {
+                MessbgeOutput.println("Not wbiting for b monitor");
             } else {
-                MessageOutput.println("Waiting for monitor:", waiting.toString());
+                MessbgeOutput.println("Wbiting for monitor:", wbiting.toString());
             }
-        } catch (IncompatibleThreadStateException e) {
-            MessageOutput.println("Threads must be suspended");
+        } cbtch (IncompbtibleThrebdStbteException e) {
+            MessbgeOutput.println("Threbds must be suspended");
         }
     }
 
-    void commandThreadlocks(final StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            ThreadInfo threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if (threadInfo == null) {
-                MessageOutput.println("Current thread not set.");
+    void commbndThrebdlocks(finbl StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            ThrebdInfo threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+            if (threbdInfo == null) {
+                MessbgeOutput.println("Current threbd not set.");
             } else {
-                printThreadLockInfo(threadInfo);
+                printThrebdLockInfo(threbdInfo);
             }
             return;
         }
         String token = t.nextToken();
-        if (token.toLowerCase().equals("all")) {
-            for (ThreadInfo threadInfo : ThreadInfo.threads()) {
-                printThreadLockInfo(threadInfo);
+        if (token.toLowerCbse().equbls("bll")) {
+            for (ThrebdInfo threbdInfo : ThrebdInfo.threbds()) {
+                printThrebdLockInfo(threbdInfo);
             }
         } else {
-            ThreadInfo threadInfo = doGetThread(token);
-            if (threadInfo != null) {
-                ThreadInfo.setCurrentThreadInfo(threadInfo);
-                printThreadLockInfo(threadInfo);
+            ThrebdInfo threbdInfo = doGetThrebd(token);
+            if (threbdInfo != null) {
+                ThrebdInfo.setCurrentThrebdInfo(threbdInfo);
+                printThrebdLockInfo(threbdInfo);
             }
         }
     }
 
-    void doDisableGC(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No object specified.");
+    void doDisbbleGC(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No object specified.");
             return;
         }
 
         String expr = t.nextToken("");
-        Value val = evaluate(expr);
-        if ((val != null) && (val instanceof ObjectReference)) {
-            ObjectReference object = (ObjectReference)val;
-            object.disableCollection();
-            String strVal = getStringValue();
-            if (strVal != null) {
-                 MessageOutput.println("GC Disabled for", strVal);
+        Vblue vbl = evblubte(expr);
+        if ((vbl != null) && (vbl instbnceof ObjectReference)) {
+            ObjectReference object = (ObjectReference)vbl;
+            object.disbbleCollection();
+            String strVbl = getStringVblue();
+            if (strVbl != null) {
+                 MessbgeOutput.println("GC Disbbled for", strVbl);
             }
         } else {
-            MessageOutput.println("Expression must evaluate to an object");
+            MessbgeOutput.println("Expression must evblubte to bn object");
         }
     }
 
-    void commandDisableGC(final StringTokenizer t) {
+    void commbndDisbbleGC(finbl StringTokenizer t) {
         new AsyncExecution() {
                 @Override
-                void action() {
-                    doDisableGC(t);
+                void bction() {
+                    doDisbbleGC(t);
                 }
             };
     }
 
-    void doEnableGC(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No object specified.");
+    void doEnbbleGC(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No object specified.");
             return;
         }
 
         String expr = t.nextToken("");
-        Value val = evaluate(expr);
-        if ((val != null) && (val instanceof ObjectReference)) {
-            ObjectReference object = (ObjectReference)val;
-            object.enableCollection();
-            String strVal = getStringValue();
-            if (strVal != null) {
-                 MessageOutput.println("GC Enabled for", strVal);
+        Vblue vbl = evblubte(expr);
+        if ((vbl != null) && (vbl instbnceof ObjectReference)) {
+            ObjectReference object = (ObjectReference)vbl;
+            object.enbbleCollection();
+            String strVbl = getStringVblue();
+            if (strVbl != null) {
+                 MessbgeOutput.println("GC Enbbled for", strVbl);
             }
         } else {
-            MessageOutput.println("Expression must evaluate to an object");
+            MessbgeOutput.println("Expression must evblubte to bn object");
         }
     }
 
-    void commandEnableGC(final StringTokenizer t) {
+    void commbndEnbbleGC(finbl StringTokenizer t) {
         new AsyncExecution() {
                 @Override
-                void action() {
-                    doEnableGC(t);
+                void bction() {
+                    doEnbbleGC(t);
                 }
             };
     }
 
-    void doSave(StringTokenizer t) {// Undocumented command: useful for testing.
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No save index specified.");
+    void doSbve(StringTokenizer t) {// Undocumented commbnd: useful for testing.
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No sbve index specified.");
             return;
         }
 
         String key = t.nextToken();
 
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No expression specified.");
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No expression specified.");
             return;
         }
         String expr = t.nextToken("");
-        Value val = evaluate(expr);
-        if (val != null) {
-            Env.setSavedValue(key, val);
-            String strVal = getStringValue();
-            if (strVal != null) {
-                 MessageOutput.println("saved", strVal);
+        Vblue vbl = evblubte(expr);
+        if (vbl != null) {
+            Env.setSbvedVblue(key, vbl);
+            String strVbl = getStringVblue();
+            if (strVbl != null) {
+                 MessbgeOutput.println("sbved", strVbl);
             }
         } else {
-            MessageOutput.println("Expression cannot be void");
+            MessbgeOutput.println("Expression cbnnot be void");
         }
     }
 
-    void commandSave(final StringTokenizer t) { // Undocumented command: useful for testing.
-        if (!t.hasMoreTokens()) {
-            Set<String> keys = Env.getSaveKeys();
+    void commbndSbve(finbl StringTokenizer t) { // Undocumented commbnd: useful for testing.
+        if (!t.hbsMoreTokens()) {
+            Set<String> keys = Env.getSbveKeys();
             if (keys.isEmpty()) {
-                MessageOutput.println("No saved values");
+                MessbgeOutput.println("No sbved vblues");
                 return;
             }
             for (String key : keys) {
-                Value value = Env.getSavedValue(key);
-                if ((value instanceof ObjectReference) &&
-                    ((ObjectReference)value).isCollected()) {
-                    MessageOutput.println("expr is value <collected>",
-                                          new Object [] {key, value.toString()});
+                Vblue vblue = Env.getSbvedVblue(key);
+                if ((vblue instbnceof ObjectReference) &&
+                    ((ObjectReference)vblue).isCollected()) {
+                    MessbgeOutput.println("expr is vblue <collected>",
+                                          new Object [] {key, vblue.toString()});
                 } else {
-                    if (value == null){
-                        MessageOutput.println("expr is null", key);
+                    if (vblue == null){
+                        MessbgeOutput.println("expr is null", key);
                     } else {
-                        MessageOutput.println("expr is value",
-                                              new Object [] {key, value.toString()});
+                        MessbgeOutput.println("expr is vblue",
+                                              new Object [] {key, vblue.toString()});
                     }
                 }
             }
         } else {
             new AsyncExecution() {
                     @Override
-                    void action() {
-                        doSave(t);
+                    void bction() {
+                        doSbve(t);
                     }
                 };
         }
 
     }
 
-   void commandBytecodes(final StringTokenizer t) { // Undocumented command: useful for testing.
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
+   void commbndBytecodes(finbl StringTokenizer t) { // Undocumented commbnd: useful for testing.
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No clbss specified.");
             return;
         }
-        String className = t.nextToken();
+        String clbssNbme = t.nextToken();
 
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No method specified.");
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No method specified.");
             return;
         }
-        // Overloading is not handled here.
-        String methodName = t.nextToken();
+        // Overlobding is not hbndled here.
+        String methodNbme = t.nextToken();
 
-        List<ReferenceType> classes = Env.vm().classesByName(className);
-        // TO DO: handle multiple classes found
-        if (classes.size() == 0) {
-            if (className.indexOf('.') < 0) {
-                MessageOutput.println("not found (try the full name)", className);
+        List<ReferenceType> clbsses = Env.vm().clbssesByNbme(clbssNbme);
+        // TO DO: hbndle multiple clbsses found
+        if (clbsses.size() == 0) {
+            if (clbssNbme.indexOf('.') < 0) {
+                MessbgeOutput.println("not found (try the full nbme)", clbssNbme);
             } else {
-                MessageOutput.println("not found", className);
+                MessbgeOutput.println("not found", clbssNbme);
             }
             return;
         }
 
-        ReferenceType rt = classes.get(0);
-        if (!(rt instanceof ClassType)) {
-            MessageOutput.println("not a class", className);
+        ReferenceType rt = clbsses.get(0);
+        if (!(rt instbnceof ClbssType)) {
+            MessbgeOutput.println("not b clbss", clbssNbme);
             return;
         }
 
         byte[] bytecodes = null;
-        for (Method method : rt.methodsByName(methodName)) {
-            if (!method.isAbstract()) {
+        for (Method method : rt.methodsByNbme(methodNbme)) {
+            if (!method.isAbstrbct()) {
                 bytecodes = method.bytecodes();
-                break;
+                brebk;
             }
         }
 
         StringBuilder line = new StringBuilder(80);
-        line.append("0000: ");
+        line.bppend("0000: ");
         for (int i = 0; i < bytecodes.length; i++) {
             if ((i > 0) && (i % 16 == 0)) {
-                MessageOutput.printDirectln(line.toString());// Special case: use printDirectln()
+                MessbgeOutput.printDirectln(line.toString());// Specibl cbse: use printDirectln()
                 line.setLength(0);
-                line.append(String.valueOf(i));
-                line.append(": ");
+                line.bppend(String.vblueOf(i));
+                line.bppend(": ");
                 int len = line.length();
                 for (int j = 0; j < 6 - len; j++) {
                     line.insert(0, '0');
                 }
             }
-            int val = 0xff & bytecodes[i];
-            String str = Integer.toHexString(val);
+            int vbl = 0xff & bytecodes[i];
+            String str = Integer.toHexString(vbl);
             if (str.length() == 1) {
-                line.append('0');
+                line.bppend('0');
             }
-            line.append(str);
-            line.append(' ');
+            line.bppend(str);
+            line.bppend(' ');
         }
         if (line.length() > 6) {
-            MessageOutput.printDirectln(line.toString());// Special case: use printDirectln()
+            MessbgeOutput.printDirectln(line.toString());// Specibl cbse: use printDirectln()
         }
     }
 
-    void commandExclude(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.printDirectln(Env.excludesString());// Special case: use printDirectln()
+    void commbndExclude(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.printDirectln(Env.excludesString());// Specibl cbse: use printDirectln()
         } else {
             String rest = t.nextToken("");
-            if (rest.equals("none")) {
+            if (rest.equbls("none")) {
                 rest = "";
             }
             Env.setExcludes(rest);
         }
     }
 
-    void commandRedefine(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("Specify classes to redefine");
+    void commbndRedefine(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("Specify clbsses to redefine");
         } else {
-            String className = t.nextToken();
-            List<ReferenceType> classes = Env.vm().classesByName(className);
-            if (classes.size() == 0) {
-                MessageOutput.println("No class named", className);
+            String clbssNbme = t.nextToken();
+            List<ReferenceType> clbsses = Env.vm().clbssesByNbme(clbssNbme);
+            if (clbsses.size() == 0) {
+                MessbgeOutput.println("No clbss nbmed", clbssNbme);
                 return;
             }
-            if (classes.size() > 1) {
-                MessageOutput.println("More than one class named", className);
+            if (clbsses.size() > 1) {
+                MessbgeOutput.println("More thbn one clbss nbmed", clbssNbme);
                 return;
             }
-            Env.setSourcePath(Env.getSourcePath());
-            ReferenceType refType = classes.get(0);
-            if (!t.hasMoreTokens()) {
-                MessageOutput.println("Specify file name for class", className);
+            Env.setSourcePbth(Env.getSourcePbth());
+            ReferenceType refType = clbsses.get(0);
+            if (!t.hbsMoreTokens()) {
+                MessbgeOutput.println("Specify file nbme for clbss", clbssNbme);
                 return;
             }
-            String fileName = t.nextToken();
-            File phyl = new File(fileName);
+            String fileNbme = t.nextToken();
+            File phyl = new File(fileNbme);
             byte[] bytes = new byte[(int)phyl.length()];
             try {
-                InputStream in = new FileInputStream(phyl);
-                in.read(bytes);
+                InputStrebm in = new FileInputStrebm(phyl);
+                in.rebd(bytes);
                 in.close();
-            } catch (Exception exc) {
-                MessageOutput.println("Error reading file",
-                             new Object [] {fileName, exc.toString()});
+            } cbtch (Exception exc) {
+                MessbgeOutput.println("Error rebding file",
+                             new Object [] {fileNbme, exc.toString()});
                 return;
             }
-            Map<ReferenceType, byte[]> map
-                = new HashMap<ReferenceType, byte[]>();
-            map.put(refType, bytes);
+            Mbp<ReferenceType, byte[]> mbp
+                = new HbshMbp<ReferenceType, byte[]>();
+            mbp.put(refType, bytes);
             try {
-                Env.vm().redefineClasses(map);
-            } catch (Throwable exc) {
-                MessageOutput.println("Error redefining class to file",
-                             new Object [] {className,
-                                            fileName,
+                Env.vm().redefineClbsses(mbp);
+            } cbtch (Throwbble exc) {
+                MessbgeOutput.println("Error redefining clbss to file",
+                             new Object [] {clbssNbme,
+                                            fileNbme,
                                             exc});
             }
         }
     }
 
-    void commandPopFrames(StringTokenizer t, boolean reenter) {
-        ThreadInfo threadInfo;
+    void commbndPopFrbmes(StringTokenizer t, boolebn reenter) {
+        ThrebdInfo threbdInfo;
 
-        if (t.hasMoreTokens()) {
+        if (t.hbsMoreTokens()) {
             String token = t.nextToken();
-            threadInfo = doGetThread(token);
-            if (threadInfo == null) {
+            threbdInfo = doGetThrebd(token);
+            if (threbdInfo == null) {
                 return;
             }
         } else {
-            threadInfo = ThreadInfo.getCurrentThreadInfo();
-            if (threadInfo == null) {
-                MessageOutput.println("No thread specified.");
+            threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+            if (threbdInfo == null) {
+                MessbgeOutput.println("No threbd specified.");
                 return;
             }
         }
 
         try {
-            StackFrame frame = threadInfo.getCurrentFrame();
-            threadInfo.getThread().popFrames(frame);
-            threadInfo = ThreadInfo.getCurrentThreadInfo();
-            ThreadInfo.setCurrentThreadInfo(threadInfo);
+            StbckFrbme frbme = threbdInfo.getCurrentFrbme();
+            threbdInfo.getThrebd().popFrbmes(frbme);
+            threbdInfo = ThrebdInfo.getCurrentThrebdInfo();
+            ThrebdInfo.setCurrentThrebdInfo(threbdInfo);
             if (reenter) {
-                commandStepi();
+                commbndStepi();
             }
-        } catch (Throwable exc) {
-            MessageOutput.println("Error popping frame", exc.toString());
+        } cbtch (Throwbble exc) {
+            MessbgeOutput.println("Error popping frbme", exc.toString());
         }
     }
 
-    void commandExtension(StringTokenizer t) {
-        if (!t.hasMoreTokens()) {
-            MessageOutput.println("No class specified.");
+    void commbndExtension(StringTokenizer t) {
+        if (!t.hbsMoreTokens()) {
+            MessbgeOutput.println("No clbss specified.");
             return;
         }
 
-        String idClass = t.nextToken();
-        ReferenceType cls = Env.getReferenceTypeFromToken(idClass);
+        String idClbss = t.nextToken();
+        ReferenceType cls = Env.getReferenceTypeFromToken(idClbss);
         String extension = null;
         if (cls != null) {
             try {
                 extension = cls.sourceDebugExtension();
-                MessageOutput.println("sourcedebugextension", extension);
-            } catch (AbsentInformationException e) {
-                MessageOutput.println("No sourcedebugextension specified");
+                MessbgeOutput.println("sourcedebugextension", extension);
+            } cbtch (AbsentInformbtionException e) {
+                MessbgeOutput.println("No sourcedebugextension specified");
             }
         } else {
-            MessageOutput.println("is not a valid id or class name", idClass);
+            MessbgeOutput.println("is not b vblid id or clbss nbme", idClbss);
         }
     }
 
-    void commandVersion(String debuggerName,
-                        VirtualMachineManager vmm) {
-        MessageOutput.println("minus version",
-                              new Object [] { debuggerName,
-                                              vmm.majorInterfaceVersion(),
-                                              vmm.minorInterfaceVersion(),
-                                                  System.getProperty("java.version")});
+    void commbndVersion(String debuggerNbme,
+                        VirtublMbchineMbnbger vmm) {
+        MessbgeOutput.println("minus version",
+                              new Object [] { debuggerNbme,
+                                              vmm.mbjorInterfbceVersion(),
+                                              vmm.minorInterfbceVersion(),
+                                                  System.getProperty("jbvb.version")});
         if (Env.connection() != null) {
             try {
-                MessageOutput.printDirectln(Env.vm().description());// Special case: use printDirectln()
-            } catch (VMNotConnectedException e) {
-                MessageOutput.println("No VM connected");
+                MessbgeOutput.printDirectln(Env.vm().description());// Specibl cbse: use printDirectln()
+            } cbtch (VMNotConnectedException e) {
+                MessbgeOutput.println("No VM connected");
             }
         }
     }

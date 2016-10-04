@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.PKIXReason;
-import java.security.cert.X509Certificate;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.security.cert.PKIXRebson;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
 
 import sun.security.util.Debug;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.x509.NameConstraintsExtension;
+import stbtic sun.security.x509.PKIXExtensions.*;
+import sun.security.x509.NbmeConstrbintsExtension;
 import sun.security.x509.X509CertImpl;
 
 /**
- * ConstraintsChecker is a <code>PKIXCertPathChecker</code> that checks
- * constraints information on a PKIX certificate, namely basic constraints
- * and name constraints.
+ * ConstrbintsChecker is b <code>PKIXCertPbthChecker</code> thbt checks
+ * constrbints informbtion on b PKIX certificbte, nbmely bbsic constrbints
+ * bnd nbme constrbints.
  *
  * @since       1.4
- * @author      Yassir Elley
+ * @buthor      Ybssir Elley
  */
-class ConstraintsChecker extends PKIXCertPathChecker {
+clbss ConstrbintsChecker extends PKIXCertPbthChecker {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    /* length of cert path */
-    private final int certPathLength;
-    /* current maximum path length (as defined in PKIX) */
-    private int maxPathLength;
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
+    /* length of cert pbth */
+    privbte finbl int certPbthLength;
+    /* current mbximum pbth length (bs defined in PKIX) */
+    privbte int mbxPbthLength;
     /* current index of cert */
-    private int i;
-    private NameConstraintsExtension prevNC;
+    privbte int i;
+    privbte NbmeConstrbintsExtension prevNC;
 
-    private Set<String> supportedExts;
+    privbte Set<String> supportedExts;
 
     /**
-     * Creates a ConstraintsChecker.
+     * Crebtes b ConstrbintsChecker.
      *
-     * @param certPathLength the length of the certification path
+     * @pbrbm certPbthLength the length of the certificbtion pbth
      */
-    ConstraintsChecker(int certPathLength) {
-        this.certPathLength = certPathLength;
+    ConstrbintsChecker(int certPbthLength) {
+        this.certPbthLength = certPbthLength;
     }
 
     @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        if (!forward) {
+    public void init(boolebn forwbrd) throws CertPbthVblidbtorException {
+        if (!forwbrd) {
             i = 0;
-            maxPathLength = certPathLength;
+            mbxPbthLength = certPbthLength;
             prevNC = null;
         } else {
-            throw new CertPathValidatorException
-                ("forward checking not supported");
+            throw new CertPbthVblidbtorException
+                ("forwbrd checking not supported");
         }
     }
 
     @Override
-    public boolean isForwardCheckingSupported() {
-        return false;
+    public boolebn isForwbrdCheckingSupported() {
+        return fblse;
     }
 
     @Override
     public Set<String> getSupportedExtensions() {
         if (supportedExts == null) {
-            supportedExts = new HashSet<String>(2);
-            supportedExts.add(BasicConstraints_Id.toString());
-            supportedExts.add(NameConstraints_Id.toString());
-            supportedExts = Collections.unmodifiableSet(supportedExts);
+            supportedExts = new HbshSet<String>(2);
+            supportedExts.bdd(BbsicConstrbints_Id.toString());
+            supportedExts.bdd(NbmeConstrbints_Id.toString());
+            supportedExts = Collections.unmodifibbleSet(supportedExts);
         }
         return supportedExts;
     }
 
     /**
-     * Performs the basic constraints and name constraints
-     * checks on the certificate using its internal state.
+     * Performs the bbsic constrbints bnd nbme constrbints
+     * checks on the certificbte using its internbl stbte.
      *
-     * @param cert the <code>Certificate</code> to be checked
-     * @param unresCritExts a <code>Collection</code> of OID strings
-     *        representing the current set of unresolved critical extensions
-     * @throws CertPathValidatorException if the specified certificate
-     *         does not pass the check
+     * @pbrbm cert the <code>Certificbte</code> to be checked
+     * @pbrbm unresCritExts b <code>Collection</code> of OID strings
+     *        representing the current set of unresolved criticbl extensions
+     * @throws CertPbthVblidbtorException if the specified certificbte
+     *         does not pbss the check
      */
     @Override
-    public void check(Certificate cert, Collection<String> unresCritExts)
-        throws CertPathValidatorException
+    public void check(Certificbte cert, Collection<String> unresCritExts)
+        throws CertPbthVblidbtorException
     {
-        X509Certificate currCert = (X509Certificate)cert;
+        X509Certificbte currCert = (X509Certificbte)cert;
 
         i++;
         // MUST run NC check second, since it depends on BC check to
-        // update remainingCerts
-        checkBasicConstraints(currCert);
-        verifyNameConstraints(currCert);
+        // updbte rembiningCerts
+        checkBbsicConstrbints(currCert);
+        verifyNbmeConstrbints(currCert);
 
         if (unresCritExts != null && !unresCritExts.isEmpty()) {
-            unresCritExts.remove(BasicConstraints_Id.toString());
-            unresCritExts.remove(NameConstraints_Id.toString());
+            unresCritExts.remove(BbsicConstrbints_Id.toString());
+            unresCritExts.remove(NbmeConstrbints_Id.toString());
         }
     }
 
     /**
-     * Internal method to check the name constraints against a cert
+     * Internbl method to check the nbme constrbints bgbinst b cert
      */
-    private void verifyNameConstraints(X509Certificate currCert)
-        throws CertPathValidatorException
+    privbte void verifyNbmeConstrbints(X509Certificbte currCert)
+        throws CertPbthVblidbtorException
     {
-        String msg = "name constraints";
+        String msg = "nbme constrbints";
         if (debug != null) {
             debug.println("---checking " + msg + "...");
         }
 
-        // check name constraints only if there is a previous name constraint
-        // and either the currCert is the final cert or the currCert is not
+        // check nbme constrbints only if there is b previous nbme constrbint
+        // bnd either the currCert is the finbl cert or the currCert is not
         // self-issued
-        if (prevNC != null && ((i == certPathLength) ||
+        if (prevNC != null && ((i == certPbthLength) ||
                 !X509CertImpl.isSelfIssued(currCert))) {
             if (debug != null) {
                 debug.println("prevNC = " + prevNC);
-                debug.println("currDN = " + currCert.getSubjectX500Principal());
+                debug.println("currDN = " + currCert.getSubjectX500Principbl());
             }
 
             try {
                 if (!prevNC.verify(currCert)) {
-                    throw new CertPathValidatorException(msg + " check failed",
-                        null, null, -1, PKIXReason.INVALID_NAME);
+                    throw new CertPbthVblidbtorException(msg + " check fbiled",
+                        null, null, -1, PKIXRebson.INVALID_NAME);
                 }
-            } catch (IOException ioe) {
-                throw new CertPathValidatorException(ioe);
+            } cbtch (IOException ioe) {
+                throw new CertPbthVblidbtorException(ioe);
             }
         }
 
-        // merge name constraints regardless of whether cert is self-issued
-        prevNC = mergeNameConstraints(currCert, prevNC);
+        // merge nbme constrbints regbrdless of whether cert is self-issued
+        prevNC = mergeNbmeConstrbints(currCert, prevNC);
 
         if (debug != null)
             debug.println(msg + " verified.");
     }
 
     /**
-     * Helper to fold sets of name constraints together
+     * Helper to fold sets of nbme constrbints together
      */
-    static NameConstraintsExtension mergeNameConstraints(
-        X509Certificate currCert, NameConstraintsExtension prevNC)
-        throws CertPathValidatorException
+    stbtic NbmeConstrbintsExtension mergeNbmeConstrbints(
+        X509Certificbte currCert, NbmeConstrbintsExtension prevNC)
+        throws CertPbthVblidbtorException
     {
         X509CertImpl currCertImpl;
         try {
             currCertImpl = X509CertImpl.toImpl(currCert);
-        } catch (CertificateException ce) {
-            throw new CertPathValidatorException(ce);
+        } cbtch (CertificbteException ce) {
+            throw new CertPbthVblidbtorException(ce);
         }
 
-        NameConstraintsExtension newConstraints =
-            currCertImpl.getNameConstraintsExtension();
+        NbmeConstrbintsExtension newConstrbints =
+            currCertImpl.getNbmeConstrbintsExtension();
 
         if (debug != null) {
             debug.println("prevNC = " + prevNC);
-            debug.println("newNC = " + String.valueOf(newConstraints));
+            debug.println("newNC = " + String.vblueOf(newConstrbints));
         }
 
-        // if there are no previous name constraints, we just return the
-        // new name constraints.
+        // if there bre no previous nbme constrbints, we just return the
+        // new nbme constrbints.
         if (prevNC == null) {
             if (debug != null) {
-                debug.println("mergedNC = " + String.valueOf(newConstraints));
+                debug.println("mergedNC = " + String.vblueOf(newConstrbints));
             }
-            if (newConstraints == null) {
-                return newConstraints;
+            if (newConstrbints == null) {
+                return newConstrbints;
             } else {
-                // Make sure we do a clone here, because we're probably
-                // going to modify this object later and we don't want to
-                // be sharing it with a Certificate object!
-                return (NameConstraintsExtension)newConstraints.clone();
+                // Mbke sure we do b clone here, becbuse we're probbbly
+                // going to modify this object lbter bnd we don't wbnt to
+                // be shbring it with b Certificbte object!
+                return (NbmeConstrbintsExtension)newConstrbints.clone();
             }
         } else {
             try {
-                // after merge, prevNC should contain the merged constraints
-                prevNC.merge(newConstraints);
-            } catch (IOException ioe) {
-                throw new CertPathValidatorException(ioe);
+                // bfter merge, prevNC should contbin the merged constrbints
+                prevNC.merge(newConstrbints);
+            } cbtch (IOException ioe) {
+                throw new CertPbthVblidbtorException(ioe);
             }
             if (debug != null) {
                 debug.println("mergedNC = " + prevNC);
@@ -217,92 +217,92 @@ class ConstraintsChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Internal method to check that a given cert meets basic constraints.
+     * Internbl method to check thbt b given cert meets bbsic constrbints.
      */
-    private void checkBasicConstraints(X509Certificate currCert)
-        throws CertPathValidatorException
+    privbte void checkBbsicConstrbints(X509Certificbte currCert)
+        throws CertPbthVblidbtorException
     {
-        String msg = "basic constraints";
+        String msg = "bbsic constrbints";
         if (debug != null) {
             debug.println("---checking " + msg + "...");
             debug.println("i = " + i);
-            debug.println("maxPathLength = " + maxPathLength);
+            debug.println("mbxPbthLength = " + mbxPbthLength);
         }
 
-        /* check if intermediate cert */
-        if (i < certPathLength) {
-            // RFC5280: If certificate i is a version 3 certificate, verify
-            // that the basicConstraints extension is present and that cA is
-            // set to TRUE.  (If certificate i is a version 1 or version 2
-            // certificate, then the application MUST either verify that
-            // certificate i is a CA certificate through out-of-band means
-            // or reject the certificate.  Conforming implementations may
-            // choose to reject all version 1 and version 2 intermediate
-            // certificates.)
+        /* check if intermedibte cert */
+        if (i < certPbthLength) {
+            // RFC5280: If certificbte i is b version 3 certificbte, verify
+            // thbt the bbsicConstrbints extension is present bnd thbt cA is
+            // set to TRUE.  (If certificbte i is b version 1 or version 2
+            // certificbte, then the bpplicbtion MUST either verify thbt
+            // certificbte i is b CA certificbte through out-of-bbnd mebns
+            // or reject the certificbte.  Conforming implementbtions mby
+            // choose to reject bll version 1 bnd version 2 intermedibte
+            // certificbtes.)
             //
-            // We choose to reject all version 1 and version 2 intermediate
-            // certificates except that it is self issued by the trust
-            // anchor in order to support key rollover or changes in
-            // certificate policies.
-            int pathLenConstraint = -1;
+            // We choose to reject bll version 1 bnd version 2 intermedibte
+            // certificbtes except thbt it is self issued by the trust
+            // bnchor in order to support key rollover or chbnges in
+            // certificbte policies.
+            int pbthLenConstrbint = -1;
             if (currCert.getVersion() < 3) {    // version 1 or version 2
-                if (i == 1) {                   // issued by a trust anchor
+                if (i == 1) {                   // issued by b trust bnchor
                     if (X509CertImpl.isSelfIssued(currCert)) {
-                        pathLenConstraint = Integer.MAX_VALUE;
+                        pbthLenConstrbint = Integer.MAX_VALUE;
                     }
                 }
             } else {
-                pathLenConstraint = currCert.getBasicConstraints();
+                pbthLenConstrbint = currCert.getBbsicConstrbints();
             }
 
-            if (pathLenConstraint == -1) {
-                throw new CertPathValidatorException
-                    (msg + " check failed: this is not a CA certificate",
-                     null, null, -1, PKIXReason.NOT_CA_CERT);
+            if (pbthLenConstrbint == -1) {
+                throw new CertPbthVblidbtorException
+                    (msg + " check fbiled: this is not b CA certificbte",
+                     null, null, -1, PKIXRebson.NOT_CA_CERT);
             }
 
             if (!X509CertImpl.isSelfIssued(currCert)) {
-                if (maxPathLength <= 0) {
-                   throw new CertPathValidatorException
-                        (msg + " check failed: pathLenConstraint violated - "
-                         + "this cert must be the last cert in the "
-                         + "certification path", null, null, -1,
-                         PKIXReason.PATH_TOO_LONG);
+                if (mbxPbthLength <= 0) {
+                   throw new CertPbthVblidbtorException
+                        (msg + " check fbiled: pbthLenConstrbint violbted - "
+                         + "this cert must be the lbst cert in the "
+                         + "certificbtion pbth", null, null, -1,
+                         PKIXRebson.PATH_TOO_LONG);
                 }
-                maxPathLength--;
+                mbxPbthLength--;
             }
-            if (pathLenConstraint < maxPathLength)
-                maxPathLength = pathLenConstraint;
+            if (pbthLenConstrbint < mbxPbthLength)
+                mbxPbthLength = pbthLenConstrbint;
         }
 
         if (debug != null) {
-            debug.println("after processing, maxPathLength = " + maxPathLength);
+            debug.println("bfter processing, mbxPbthLength = " + mbxPbthLength);
             debug.println(msg + " verified.");
         }
     }
 
     /**
-     * Merges the specified maxPathLength with the pathLenConstraint
-     * obtained from the certificate.
+     * Merges the specified mbxPbthLength with the pbthLenConstrbint
+     * obtbined from the certificbte.
      *
-     * @param cert the <code>X509Certificate</code>
-     * @param maxPathLength the previous maximum path length
-     * @return the new maximum path length constraint (-1 means no more
-     * certificates can follow, Integer.MAX_VALUE means path length is
-     * unconstrained)
+     * @pbrbm cert the <code>X509Certificbte</code>
+     * @pbrbm mbxPbthLength the previous mbximum pbth length
+     * @return the new mbximum pbth length constrbint (-1 mebns no more
+     * certificbtes cbn follow, Integer.MAX_VALUE mebns pbth length is
+     * unconstrbined)
      */
-    static int mergeBasicConstraints(X509Certificate cert, int maxPathLength) {
+    stbtic int mergeBbsicConstrbints(X509Certificbte cert, int mbxPbthLength) {
 
-        int pathLenConstraint = cert.getBasicConstraints();
+        int pbthLenConstrbint = cert.getBbsicConstrbints();
 
         if (!X509CertImpl.isSelfIssued(cert)) {
-            maxPathLength--;
+            mbxPbthLength--;
         }
 
-        if (pathLenConstraint < maxPathLength) {
-            maxPathLength = pathLenConstraint;
+        if (pbthLenConstrbint < mbxPbthLength) {
+            mbxPbthLength = pbthLenConstrbint;
         }
 
-        return maxPathLength;
+        return mbxPbthLength;
     }
 }

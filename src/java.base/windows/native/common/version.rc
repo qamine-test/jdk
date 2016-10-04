@@ -1,31 +1,31 @@
 //
-// Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
 // DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 //
-// This code is free software; you can redistribute it and/or modify it
-// under the terms of the GNU General Public License version 2 only, as
-// published by the Free Software Foundation.  Oracle designates this
-// particular file as subject to the "Classpath" exception as provided
-// by Oracle in the LICENSE file that accompanied this code.
+// This code is free softwbre; you cbn redistribute it bnd/or modify it
+// under the terms of the GNU Generbl Public License version 2 only, bs
+// published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+// pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+// by Orbcle in the LICENSE file thbt bccompbnied this code.
 //
-// This code is distributed in the hope that it will be useful, but WITHOUT
-// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-// version 2 for more details (a copy is included in the LICENSE file that
-// accompanied this code).
+// This code is distributed in the hope thbt it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+// version 2 for more detbils (b copy is included in the LICENSE file thbt
+// bccompbnied this code).
 //
-// You should have received a copy of the GNU General Public License version
-// 2 along with this work; if not, write to the Free Software Foundation,
-// Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+// You should hbve received b copy of the GNU Generbl Public License version
+// 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+// Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 //
-// Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-// or visit www.oracle.com if you need additional information or have any
+// Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+// or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 // questions.
 //
 
 #include "windows.h"
 
-// Need 2 defines so macro argument to XSTR will get expanded before quoting.
+// Need 2 defines so mbcro brgument to XSTR will get expbnded before quoting.
 #define XSTR(x) STR(x)
 #define STR(x)  #x
 
@@ -47,7 +47,7 @@ VS_VERSION_INFO VERSIONINFO
 #endif
  // FILEOS 0x4 is Win32, 0x40004 is Win32 NT only
  FILEOS 0x4L
- // FILETYPE should be 0x1 for .exe and 0x2 for .dll
+ // FILETYPE should be 0x1 for .exe bnd 0x2 for .dll
  FILETYPE JDK_FTYPE
  FILESUBTYPE 0x0L
 BEGIN
@@ -55,19 +55,19 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "CompanyName",      XSTR(JDK_COMPANY)       "\0"
+            VALUE "CompbnyNbme",      XSTR(JDK_COMPANY)       "\0"
             VALUE "FileDescription",  XSTR(JDK_COMPONENT)     "\0"
             VALUE "FileVersion",      XSTR(JDK_VER)           "\0"
             VALUE "Full Version",     XSTR(JDK_BUILD_ID)      "\0"
-	    VALUE "InternalName",     XSTR(JDK_INTERNAL_NAME) "\0"
-            VALUE "LegalCopyright",   XSTR(JDK_COPYRIGHT)     "\0"
-            VALUE "OriginalFilename", XSTR(JDK_FNAME)         "\0"
-            VALUE "ProductName",      XSTR(JDK_NAME)          "\0"
+	    VALUE "InternblNbme",     XSTR(JDK_INTERNAL_NAME) "\0"
+            VALUE "LegblCopyright",   XSTR(JDK_COPYRIGHT)     "\0"
+            VALUE "OriginblFilenbme", XSTR(JDK_FNAME)         "\0"
+            VALUE "ProductNbme",      XSTR(JDK_NAME)          "\0"
             VALUE "ProductVersion",   XSTR(JDK_VER)           "\0"
         END
     END
-    BLOCK "VarFileInfo"
+    BLOCK "VbrFileInfo"
     BEGIN
-        VALUE "Translation", 0x0, 1200
+        VALUE "Trbnslbtion", 0x0, 1200
     END
 END

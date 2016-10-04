@@ -1,255 +1,255 @@
 /*
- * Copyright (c) 2004, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.Component;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import sun.awt.SunToolkit;
-import sun.awt.windows.WComponentPeer;
-import sun.java2d.SurfaceData;
+import jbvb.bwt.Component;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.ColorModel;
+import sun.bwt.SunToolkit;
+import sun.bwt.windows.WComponentPeer;
+import sun.jbvb2d.SurfbceDbtb;
 
-public abstract class WGLSurfaceData extends OGLSurfaceData {
+public bbstrbct clbss WGLSurfbceDbtb extends OGLSurfbceDbtb {
 
     protected WComponentPeer peer;
-    private WGLGraphicsConfig graphicsConfig;
+    privbte WGLGrbphicsConfig grbphicsConfig;
 
-    private native void initOps(long pConfigInfo, WComponentPeer peer,
+    privbte nbtive void initOps(long pConfigInfo, WComponentPeer peer,
                                 long hwnd);
-    protected native boolean initPbuffer(long pData, long pConfigInfo,
-                                         boolean isOpaque,
+    protected nbtive boolebn initPbuffer(long pDbtb, long pConfigInfo,
+                                         boolebn isOpbque,
                                          int width, int height);
 
-    protected WGLSurfaceData(WComponentPeer peer, WGLGraphicsConfig gc,
+    protected WGLSurfbceDbtb(WComponentPeer peer, WGLGrbphicsConfig gc,
                              ColorModel cm, int type)
     {
         super(gc, cm, type);
         this.peer = peer;
-        this.graphicsConfig = gc;
+        this.grbphicsConfig = gc;
 
-        long pConfigInfo = gc.getNativeConfigInfo();
+        long pConfigInfo = gc.getNbtiveConfigInfo();
         long hwnd = peer != null ? peer.getHWnd() : 0L;
 
         initOps(pConfigInfo, peer, hwnd);
     }
 
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return graphicsConfig;
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        return grbphicsConfig;
     }
 
     /**
-     * Creates a SurfaceData object representing the primary (front) buffer
-     * of an on-screen Window.
+     * Crebtes b SurfbceDbtb object representing the primbry (front) buffer
+     * of bn on-screen Window.
      */
-    public static WGLWindowSurfaceData createData(WComponentPeer peer) {
-        // the OGL pipeline can render directly to the screen and interfere
-        // with layered windows, which is why we don't allow accelerated
-        // surfaces in this case
-        if (!peer.isAccelCapable() ||
-            !SunToolkit.isContainingTopLevelOpaque((Component)peer.getTarget()))
+    public stbtic WGLWindowSurfbceDbtb crebteDbtb(WComponentPeer peer) {
+        // the OGL pipeline cbn render directly to the screen bnd interfere
+        // with lbyered windows, which is why we don't bllow bccelerbted
+        // surfbces in this cbse
+        if (!peer.isAccelCbpbble() ||
+            !SunToolkit.isContbiningTopLevelOpbque((Component)peer.getTbrget()))
         {
             return null;
         }
-        WGLGraphicsConfig gc = getGC(peer);
-        return new WGLWindowSurfaceData(peer, gc);
+        WGLGrbphicsConfig gc = getGC(peer);
+        return new WGLWindowSurfbceDbtb(peer, gc);
     }
 
     /**
-     * Creates a SurfaceData object representing the back buffer of a
+     * Crebtes b SurfbceDbtb object representing the bbck buffer of b
      * double-buffered on-screen Window.
      */
-    public static WGLOffScreenSurfaceData createData(WComponentPeer peer,
-                                                     Image image,
+    public stbtic WGLOffScreenSurfbceDbtb crebteDbtb(WComponentPeer peer,
+                                                     Imbge imbge,
                                                      int type)
     {
-        // the OGL pipeline can render directly to the screen and interfere
-        // with layered windows, which is why we don't allow accelerated
-        // surfaces in this case
-        if (!peer.isAccelCapable() ||
-            !SunToolkit.isContainingTopLevelOpaque((Component)peer.getTarget()))
+        // the OGL pipeline cbn render directly to the screen bnd interfere
+        // with lbyered windows, which is why we don't bllow bccelerbted
+        // surfbces in this cbse
+        if (!peer.isAccelCbpbble() ||
+            !SunToolkit.isContbiningTopLevelOpbque((Component)peer.getTbrget()))
         {
             return null;
         }
-        WGLGraphicsConfig gc = getGC(peer);
-        Rectangle r = peer.getBounds();
+        WGLGrbphicsConfig gc = getGC(peer);
+        Rectbngle r = peer.getBounds();
         if (type == FLIP_BACKBUFFER) {
-            return new WGLOffScreenSurfaceData(peer, gc, r.width, r.height,
-                                               image, peer.getColorModel(),
+            return new WGLOffScreenSurfbceDbtb(peer, gc, r.width, r.height,
+                                               imbge, peer.getColorModel(),
                                                type);
         } else {
-            return new WGLVSyncOffScreenSurfaceData(peer, gc, r.width, r.height,
-                                                    image, peer.getColorModel(),
+            return new WGLVSyncOffScreenSurfbceDbtb(peer, gc, r.width, r.height,
+                                                    imbge, peer.getColorModel(),
                                                     type);
         }
     }
 
     /**
-     * Creates a SurfaceData object representing an off-screen buffer (either
-     * a Pbuffer or Texture).
+     * Crebtes b SurfbceDbtb object representing bn off-screen buffer (either
+     * b Pbuffer or Texture).
      */
-    public static WGLOffScreenSurfaceData createData(WGLGraphicsConfig gc,
+    public stbtic WGLOffScreenSurfbceDbtb crebteDbtb(WGLGrbphicsConfig gc,
                                                      int width, int height,
                                                      ColorModel cm,
-                                                     Image image, int type)
+                                                     Imbge imbge, int type)
     {
-        return new WGLOffScreenSurfaceData(null, gc, width, height,
-                                           image, cm, type);
+        return new WGLOffScreenSurfbceDbtb(null, gc, width, height,
+                                           imbge, cm, type);
     }
 
-    public static WGLGraphicsConfig getGC(WComponentPeer peer) {
+    public stbtic WGLGrbphicsConfig getGC(WComponentPeer peer) {
         if (peer != null) {
-            return (WGLGraphicsConfig)peer.getGraphicsConfiguration();
+            return (WGLGrbphicsConfig)peer.getGrbphicsConfigurbtion();
         } else {
-            // REMIND: this should rarely (never?) happen, but what if
-            //         default config is not WGL?
-            GraphicsEnvironment env =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice gd = env.getDefaultScreenDevice();
-            return (WGLGraphicsConfig)gd.getDefaultConfiguration();
+            // REMIND: this should rbrely (never?) hbppen, but whbt if
+            //         defbult config is not WGL?
+            GrbphicsEnvironment env =
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+            GrbphicsDevice gd = env.getDefbultScreenDevice();
+            return (WGLGrbphicsConfig)gd.getDefbultConfigurbtion();
         }
     }
 
-    public static class WGLWindowSurfaceData extends WGLSurfaceData {
+    public stbtic clbss WGLWindowSurfbceDbtb extends WGLSurfbceDbtb {
 
-        public WGLWindowSurfaceData(WComponentPeer peer,
-                                    WGLGraphicsConfig gc)
+        public WGLWindowSurfbceDbtb(WComponentPeer peer,
+                                    WGLGrbphicsConfig gc)
         {
             super(peer, gc, peer.getColorModel(), WINDOW);
         }
 
-        public SurfaceData getReplacement() {
-            return peer.getSurfaceData();
+        public SurfbceDbtb getReplbcement() {
+            return peer.getSurfbceDbtb();
         }
 
-        public Rectangle getBounds() {
-            Rectangle r = peer.getBounds();
+        public Rectbngle getBounds() {
+            Rectbngle r = peer.getBounds();
             r.x = r.y = 0;
             return r;
         }
 
         /**
-         * Returns destination Component associated with this SurfaceData.
+         * Returns destinbtion Component bssocibted with this SurfbceDbtb.
          */
-        public Object getDestination() {
-            return peer.getTarget();
+        public Object getDestinbtion() {
+            return peer.getTbrget();
         }
     }
 
     /**
-     * A surface which implements a v-synced flip back-buffer with COPIED
+     * A surfbce which implements b v-synced flip bbck-buffer with COPIED
      * FlipContents.
      *
-     * This surface serves as a back-buffer to the outside world, while
-     * it is actually an offscreen surface. When the BufferStrategy this surface
-     * belongs to is showed, it is first copied to the real private
+     * This surfbce serves bs b bbck-buffer to the outside world, while
+     * it is bctublly bn offscreen surfbce. When the BufferStrbtegy this surfbce
+     * belongs to is showed, it is first copied to the rebl privbte
      * FLIP_BACKBUFFER, which is then flipped.
      */
-    public static class WGLVSyncOffScreenSurfaceData extends
-        WGLOffScreenSurfaceData
+    public stbtic clbss WGLVSyncOffScreenSurfbceDbtb extends
+        WGLOffScreenSurfbceDbtb
     {
-        private WGLOffScreenSurfaceData flipSurface;
+        privbte WGLOffScreenSurfbceDbtb flipSurfbce;
 
-        public WGLVSyncOffScreenSurfaceData(WComponentPeer peer,
-                                            WGLGraphicsConfig gc,
+        public WGLVSyncOffScreenSurfbceDbtb(WComponentPeer peer,
+                                            WGLGrbphicsConfig gc,
                                             int width, int height,
-                                            Image image, ColorModel cm,
+                                            Imbge imbge, ColorModel cm,
                                             int type)
         {
-            super(peer, gc, width, height, image, cm, type);
-            flipSurface = WGLSurfaceData.createData(peer, image, FLIP_BACKBUFFER);
+            super(peer, gc, width, height, imbge, cm, type);
+            flipSurfbce = WGLSurfbceDbtb.crebteDbtb(peer, imbge, FLIP_BACKBUFFER);
         }
 
-        public SurfaceData getFlipSurface() {
-            return flipSurface;
+        public SurfbceDbtb getFlipSurfbce() {
+            return flipSurfbce;
         }
 
         @Override
         public void flush() {
-            flipSurface.flush();
+            flipSurfbce.flush();
             super.flush();
         }
 
     }
 
-    public static class WGLOffScreenSurfaceData extends WGLSurfaceData {
+    public stbtic clbss WGLOffScreenSurfbceDbtb extends WGLSurfbceDbtb {
 
-        private Image offscreenImage;
-        private int width, height;
+        privbte Imbge offscreenImbge;
+        privbte int width, height;
 
-        public WGLOffScreenSurfaceData(WComponentPeer peer,
-                                       WGLGraphicsConfig gc,
+        public WGLOffScreenSurfbceDbtb(WComponentPeer peer,
+                                       WGLGrbphicsConfig gc,
                                        int width, int height,
-                                       Image image, ColorModel cm,
+                                       Imbge imbge, ColorModel cm,
                                        int type)
         {
             super(peer, gc, cm, type);
 
             this.width = width;
             this.height = height;
-            offscreenImage = image;
+            offscreenImbge = imbge;
 
-            initSurface(width, height);
+            initSurfbce(width, height);
         }
 
-        public SurfaceData getReplacement() {
-            return restoreContents(offscreenImage);
+        public SurfbceDbtb getReplbcement() {
+            return restoreContents(offscreenImbge);
         }
 
-        public Rectangle getBounds() {
+        public Rectbngle getBounds() {
             if (type == FLIP_BACKBUFFER) {
-                Rectangle r = peer.getBounds();
+                Rectbngle r = peer.getBounds();
                 r.x = r.y = 0;
                 return r;
             } else {
-                return new Rectangle(width, height);
+                return new Rectbngle(width, height);
             }
         }
 
         /**
-         * Returns destination Image associated with this SurfaceData.
+         * Returns destinbtion Imbge bssocibted with this SurfbceDbtb.
          */
-        public Object getDestination() {
-            return offscreenImage;
+        public Object getDestinbtion() {
+            return offscreenImbge;
         }
     }
 
     /**
-     * Updates the layered window with the contents of the surface.
+     * Updbtes the lbyered window with the contents of the surfbce.
      *
-     * @param psdops pointer to the native ogl sd structure
-     * @param pData pointer to the AwtWindow peer data
-     * @param w width of the window
-     * @param h height of the window
-     * @see sun.awt.windows.TranslucentWindowPainter
+     * @pbrbm psdops pointer to the nbtive ogl sd structure
+     * @pbrbm pDbtb pointer to the AwtWindow peer dbtb
+     * @pbrbm w width of the window
+     * @pbrbm h height of the window
+     * @see sun.bwt.windows.TrbnslucentWindowPbinter
      */
-    public static native boolean updateWindowAccelImpl(long psdops,
+    public stbtic nbtive boolebn updbteWindowAccelImpl(long psdops,
                                                        WComponentPeer peer,
                                                        int w, int h);
 }

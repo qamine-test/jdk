@@ -1,287 +1,287 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
-import javax.crypto.spec.DHParameterSpec;
+import jbvbx.crypto.spec.DHPbrbmeterSpec;
 
-import sun.security.provider.ParameterCache;
+import sun.security.provider.PbrbmeterCbche;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
-import sun.security.rsa.RSAKeyFactory;
+import sun.security.rsb.RSAKeyFbctory;
 
 /**
- * KeyPairGenerator implementation class. This class currently supports
- * RSA, DSA, DH, and EC.
+ * KeyPbirGenerbtor implementbtion clbss. This clbss currently supports
+ * RSA, DSA, DH, bnd EC.
  *
- * Note that for DSA and DH we rely on the Sun and SunJCE providers to
- * obtain the parameters from.
+ * Note thbt for DSA bnd DH we rely on the Sun bnd SunJCE providers to
+ * obtbin the pbrbmeters from.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11KeyPairGenerator extends KeyPairGeneratorSpi {
+finbl clbss P11KeyPbirGenerbtor extends KeyPbirGenerbtorSpi {
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name
-    private final String algorithm;
+    // blgorithm nbme
+    privbte finbl String blgorithm;
 
-    // mechanism id
-    private final long mechanism;
+    // mechbnism id
+    privbte finbl long mechbnism;
 
-    // selected or default key size, always valid
-    private int keySize;
+    // selected or defbult key size, blwbys vblid
+    privbte int keySize;
 
-    // parameters specified via init, if any
-    private AlgorithmParameterSpec params;
+    // pbrbmeters specified vib init, if bny
+    privbte AlgorithmPbrbmeterSpec pbrbms;
 
-    // for RSA, selected or default value of public exponent, always valid
-    private BigInteger rsaPublicExponent = RSAKeyGenParameterSpec.F4;
+    // for RSA, selected or defbult vblue of public exponent, blwbys vblid
+    privbte BigInteger rsbPublicExponent = RSAKeyGenPbrbmeterSpec.F4;
 
-    // the supported keysize range of the native PKCS11 library
-    // if the value cannot be retrieved or unspecified, -1 is used.
-    private final int minKeySize;
-    private final int maxKeySize;
+    // the supported keysize rbnge of the nbtive PKCS11 librbry
+    // if the vblue cbnnot be retrieved or unspecified, -1 is used.
+    privbte finbl int minKeySize;
+    privbte finbl int mbxKeySize;
 
-    // SecureRandom instance, if specified in init
-    private SecureRandom random;
+    // SecureRbndom instbnce, if specified in init
+    privbte SecureRbndom rbndom;
 
-    P11KeyPairGenerator(Token token, String algorithm, long mechanism)
+    P11KeyPbirGenerbtor(Token token, String blgorithm, long mechbnism)
             throws PKCS11Exception {
         super();
         int minKeyLen = -1;
-        int maxKeyLen = -1;
+        int mbxKeyLen = -1;
         try {
-            CK_MECHANISM_INFO mechInfo = token.getMechanismInfo(mechanism);
+            CK_MECHANISM_INFO mechInfo = token.getMechbnismInfo(mechbnism);
             if (mechInfo != null) {
                 minKeyLen = (int) mechInfo.ulMinKeySize;
-                maxKeyLen = (int) mechInfo.ulMaxKeySize;
+                mbxKeyLen = (int) mechInfo.ulMbxKeySize;
             }
-        } catch (PKCS11Exception p11e) {
-            // Should never happen
+        } cbtch (PKCS11Exception p11e) {
+            // Should never hbppen
             throw new ProviderException
-                        ("Unexpected error while getting mechanism info", p11e);
+                        ("Unexpected error while getting mechbnism info", p11e);
         }
-        // set default key sizes and apply our own algorithm-specific limits
-        // override lower limit to disallow unsecure keys being generated
-        // override upper limit to deter DOS attack
-        if (algorithm.equals("EC")) {
+        // set defbult key sizes bnd bpply our own blgorithm-specific limits
+        // override lower limit to disbllow unsecure keys being generbted
+        // override upper limit to deter DOS bttbck
+        if (blgorithm.equbls("EC")) {
             keySize = 256;
             if ((minKeyLen == -1) || (minKeyLen < 112)) {
                 minKeyLen = 112;
             }
-            if ((maxKeyLen == -1) || (maxKeyLen > 2048)) {
-                maxKeyLen = 2048;
+            if ((mbxKeyLen == -1) || (mbxKeyLen > 2048)) {
+                mbxKeyLen = 2048;
             }
         } else {
-            // RSA, DH, and DSA
+            // RSA, DH, bnd DSA
             keySize = 1024;
             if ((minKeyLen == -1) || (minKeyLen < 512)) {
                 minKeyLen = 512;
             }
-            if (algorithm.equals("RSA")) {
-                if ((maxKeyLen == -1) || (maxKeyLen > 64 * 1024)) {
-                    maxKeyLen = 64 * 1024;
+            if (blgorithm.equbls("RSA")) {
+                if ((mbxKeyLen == -1) || (mbxKeyLen > 64 * 1024)) {
+                    mbxKeyLen = 64 * 1024;
                 }
             }
         }
 
-        // auto-adjust default keysize in case it's out-of-range
+        // buto-bdjust defbult keysize in cbse it's out-of-rbnge
         if ((minKeyLen != -1) && (keySize < minKeyLen)) {
             keySize = minKeyLen;
         }
-        if ((maxKeyLen != -1) && (keySize > maxKeyLen)) {
-            keySize = maxKeyLen;
+        if ((mbxKeyLen != -1) && (keySize > mbxKeyLen)) {
+            keySize = mbxKeyLen;
         }
         this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = mechanism;
+        this.blgorithm = blgorithm;
+        this.mechbnism = mechbnism;
         this.minKeySize = minKeyLen;
-        this.maxKeySize = maxKeyLen;
-        initialize(keySize, null);
+        this.mbxKeySize = mbxKeyLen;
+        initiblize(keySize, null);
     }
 
     // see JCA spec
-    public void initialize(int keySize, SecureRandom random) {
-        token.ensureValid();
+    public void initiblize(int keySize, SecureRbndom rbndom) {
+        token.ensureVblid();
         try {
             checkKeySize(keySize, null);
-        } catch (InvalidAlgorithmParameterException e) {
-            throw new InvalidParameterException(e.getMessage());
+        } cbtch (InvblidAlgorithmPbrbmeterException e) {
+            throw new InvblidPbrbmeterException(e.getMessbge());
         }
-        this.params = null;
-        if (algorithm.equals("EC")) {
-            params = P11ECKeyFactory.getECParameterSpec(keySize);
-            if (params == null) {
-                throw new InvalidParameterException(
-                    "No EC parameters available for key size "
+        this.pbrbms = null;
+        if (blgorithm.equbls("EC")) {
+            pbrbms = P11ECKeyFbctory.getECPbrbmeterSpec(keySize);
+            if (pbrbms == null) {
+                throw new InvblidPbrbmeterException(
+                    "No EC pbrbmeters bvbilbble for key size "
                     + keySize + " bits");
             }
         }
         this.keySize = keySize;
-        this.random = random;
+        this.rbndom = rbndom;
     }
 
     // see JCA spec
-    public void initialize(AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidAlgorithmParameterException {
-        token.ensureValid();
+    public void initiblize(AlgorithmPbrbmeterSpec pbrbms, SecureRbndom rbndom)
+            throws InvblidAlgorithmPbrbmeterException {
+        token.ensureVblid();
         int tmpKeySize;
-        if (algorithm.equals("DH")) {
-            if (params instanceof DHParameterSpec == false) {
-                throw new InvalidAlgorithmParameterException
-                        ("DHParameterSpec required for Diffie-Hellman");
+        if (blgorithm.equbls("DH")) {
+            if (pbrbms instbnceof DHPbrbmeterSpec == fblse) {
+                throw new InvblidAlgorithmPbrbmeterException
+                        ("DHPbrbmeterSpec required for Diffie-Hellmbn");
             }
-            DHParameterSpec dhParams = (DHParameterSpec) params;
-            tmpKeySize = dhParams.getP().bitLength();
+            DHPbrbmeterSpec dhPbrbms = (DHPbrbmeterSpec) pbrbms;
+            tmpKeySize = dhPbrbms.getP().bitLength();
             checkKeySize(tmpKeySize, null);
-            // XXX sanity check params
-        } else if (algorithm.equals("RSA")) {
-            if (params instanceof RSAKeyGenParameterSpec == false) {
-                throw new InvalidAlgorithmParameterException
-                        ("RSAKeyGenParameterSpec required for RSA");
+            // XXX sbnity check pbrbms
+        } else if (blgorithm.equbls("RSA")) {
+            if (pbrbms instbnceof RSAKeyGenPbrbmeterSpec == fblse) {
+                throw new InvblidAlgorithmPbrbmeterException
+                        ("RSAKeyGenPbrbmeterSpec required for RSA");
             }
-            RSAKeyGenParameterSpec rsaParams =
-                (RSAKeyGenParameterSpec) params;
-            tmpKeySize = rsaParams.getKeysize();
-            checkKeySize(tmpKeySize, rsaParams);
-            // override the supplied params to null
-            params = null;
-            this.rsaPublicExponent = rsaParams.getPublicExponent();
-            // XXX sanity check params
-        } else if (algorithm.equals("DSA")) {
-            if (params instanceof DSAParameterSpec == false) {
-                throw new InvalidAlgorithmParameterException
-                        ("DSAParameterSpec required for DSA");
+            RSAKeyGenPbrbmeterSpec rsbPbrbms =
+                (RSAKeyGenPbrbmeterSpec) pbrbms;
+            tmpKeySize = rsbPbrbms.getKeysize();
+            checkKeySize(tmpKeySize, rsbPbrbms);
+            // override the supplied pbrbms to null
+            pbrbms = null;
+            this.rsbPublicExponent = rsbPbrbms.getPublicExponent();
+            // XXX sbnity check pbrbms
+        } else if (blgorithm.equbls("DSA")) {
+            if (pbrbms instbnceof DSAPbrbmeterSpec == fblse) {
+                throw new InvblidAlgorithmPbrbmeterException
+                        ("DSAPbrbmeterSpec required for DSA");
             }
-            DSAParameterSpec dsaParams = (DSAParameterSpec) params;
-            tmpKeySize = dsaParams.getP().bitLength();
+            DSAPbrbmeterSpec dsbPbrbms = (DSAPbrbmeterSpec) pbrbms;
+            tmpKeySize = dsbPbrbms.getP().bitLength();
             checkKeySize(tmpKeySize, null);
-            // XXX sanity check params
-        } else if (algorithm.equals("EC")) {
-            ECParameterSpec ecParams;
-            if (params instanceof ECParameterSpec) {
-                ecParams = P11ECKeyFactory.getECParameterSpec(
-                    (ECParameterSpec)params);
-                if (ecParams == null) {
-                    throw new InvalidAlgorithmParameterException
-                        ("Unsupported curve: " + params);
+            // XXX sbnity check pbrbms
+        } else if (blgorithm.equbls("EC")) {
+            ECPbrbmeterSpec ecPbrbms;
+            if (pbrbms instbnceof ECPbrbmeterSpec) {
+                ecPbrbms = P11ECKeyFbctory.getECPbrbmeterSpec(
+                    (ECPbrbmeterSpec)pbrbms);
+                if (ecPbrbms == null) {
+                    throw new InvblidAlgorithmPbrbmeterException
+                        ("Unsupported curve: " + pbrbms);
                 }
-            } else if (params instanceof ECGenParameterSpec) {
-                String name = ((ECGenParameterSpec) params).getName();
-                ecParams = P11ECKeyFactory.getECParameterSpec(name);
-                if (ecParams == null) {
-                    throw new InvalidAlgorithmParameterException
-                        ("Unknown curve name: " + name);
+            } else if (pbrbms instbnceof ECGenPbrbmeterSpec) {
+                String nbme = ((ECGenPbrbmeterSpec) pbrbms).getNbme();
+                ecPbrbms = P11ECKeyFbctory.getECPbrbmeterSpec(nbme);
+                if (ecPbrbms == null) {
+                    throw new InvblidAlgorithmPbrbmeterException
+                        ("Unknown curve nbme: " + nbme);
                 }
-                // override the supplied params with the derived one
-                params = ecParams;
+                // override the supplied pbrbms with the derived one
+                pbrbms = ecPbrbms;
             } else {
-                throw new InvalidAlgorithmParameterException
-                    ("ECParameterSpec or ECGenParameterSpec required for EC");
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("ECPbrbmeterSpec or ECGenPbrbmeterSpec required for EC");
             }
-            tmpKeySize = ecParams.getCurve().getField().getFieldSize();
+            tmpKeySize = ecPbrbms.getCurve().getField().getFieldSize();
             checkKeySize(tmpKeySize, null);
         } else {
-            throw new ProviderException("Unknown algorithm: " + algorithm);
+            throw new ProviderException("Unknown blgorithm: " + blgorithm);
         }
         this.keySize = tmpKeySize;
-        this.params = params;
-        this.random = random;
+        this.pbrbms = pbrbms;
+        this.rbndom = rbndom;
     }
 
-    // NOTE: 'params' is only used for checking RSA keys currently.
-    private void checkKeySize(int keySize, RSAKeyGenParameterSpec params)
-        throws InvalidAlgorithmParameterException {
-        // check native range first
+    // NOTE: 'pbrbms' is only used for checking RSA keys currently.
+    privbte void checkKeySize(int keySize, RSAKeyGenPbrbmeterSpec pbrbms)
+        throws InvblidAlgorithmPbrbmeterException {
+        // check nbtive rbnge first
         if ((minKeySize != -1) && (keySize < minKeySize)) {
-            throw new InvalidAlgorithmParameterException(algorithm +
-                " key must be at least " + minKeySize + " bits");
+            throw new InvblidAlgorithmPbrbmeterException(blgorithm +
+                " key must be bt lebst " + minKeySize + " bits");
         }
-        if ((maxKeySize != -1) && (keySize > maxKeySize)) {
-            throw new InvalidAlgorithmParameterException(algorithm +
-                " key must be at most " + maxKeySize + " bits");
+        if ((mbxKeySize != -1) && (keySize > mbxKeySize)) {
+            throw new InvblidAlgorithmPbrbmeterException(blgorithm +
+                " key must be bt most " + mbxKeySize + " bits");
         }
 
-        // check our own algorithm-specific limits also
-        if (algorithm.equals("EC")) {
+        // check our own blgorithm-specific limits blso
+        if (blgorithm.equbls("EC")) {
             if (keySize < 112) {
-                throw new InvalidAlgorithmParameterException
-                    ("Key size must be at least 112 bit");
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Key size must be bt lebst 112 bit");
             }
             if (keySize > 2048) {
-                // sanity check, nobody really wants keys this large
-                throw new InvalidAlgorithmParameterException
-                    ("Key size must be at most 2048 bit");
+                // sbnity check, nobody reblly wbnts keys this lbrge
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Key size must be bt most 2048 bit");
             }
         } else {
             // RSA, DH, DSA
             if (keySize < 512) {
-                throw new InvalidAlgorithmParameterException
-                    ("Key size must be at least 512 bit");
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Key size must be bt lebst 512 bit");
             }
-            if (algorithm.equals("RSA")) {
-                BigInteger tmpExponent = rsaPublicExponent;
-                if (params != null) {
-                    tmpExponent = params.getPublicExponent();
+            if (blgorithm.equbls("RSA")) {
+                BigInteger tmpExponent = rsbPublicExponent;
+                if (pbrbms != null) {
+                    tmpExponent = pbrbms.getPublicExponent();
                 }
                 try {
-                    // Reuse the checking in SunRsaSign provider.
-                    // If maxKeySize is -1, then replace it with
-                    // Integer.MAX_VALUE to indicate no limit.
-                    RSAKeyFactory.checkKeyLengths(keySize, tmpExponent,
+                    // Reuse the checking in SunRsbSign provider.
+                    // If mbxKeySize is -1, then replbce it with
+                    // Integer.MAX_VALUE to indicbte no limit.
+                    RSAKeyFbctory.checkKeyLengths(keySize, tmpExponent,
                         minKeySize,
-                        (maxKeySize==-1? Integer.MAX_VALUE:maxKeySize));
-                } catch (InvalidKeyException e) {
-                    throw new InvalidAlgorithmParameterException(e.getMessage());
+                        (mbxKeySize==-1? Integer.MAX_VALUE:mbxKeySize));
+                } cbtch (InvblidKeyException e) {
+                    throw new InvblidAlgorithmPbrbmeterException(e.getMessbge());
                 }
             } else {
-                if (algorithm.equals("DH") && (params != null)) {
-                    // sanity check, nobody really wants keys this large
+                if (blgorithm.equbls("DH") && (pbrbms != null)) {
+                    // sbnity check, nobody reblly wbnts keys this lbrge
                     if (keySize > 64 * 1024) {
-                        throw new InvalidAlgorithmParameterException
-                            ("Key size must be at most 65536 bit");
+                        throw new InvblidAlgorithmPbrbmeterException
+                            ("Key size must be bt most 65536 bit");
                     }
                 } else {
                     // this restriction is in the spec for DSA
-                    // since we currently use DSA parameters for DH as well,
-                    // it also applies to DH if no parameters are specified
+                    // since we currently use DSA pbrbmeters for DH bs well,
+                    // it blso bpplies to DH if no pbrbmeters bre specified
                     if ((keySize != 2048) &&
                         ((keySize > 1024) || ((keySize & 0x3f) != 0))) {
-                        throw new InvalidAlgorithmParameterException(algorithm +
-                            " key must be multiples of 64 if less than 1024 bits" +
+                        throw new InvblidAlgorithmPbrbmeterException(blgorithm +
+                            " key must be multiples of 64 if less thbn 1024 bits" +
                             ", or 2048 bits");
                     }
                 }
@@ -290,102 +290,102 @@ final class P11KeyPairGenerator extends KeyPairGeneratorSpi {
     }
 
     // see JCA spec
-    public KeyPair generateKeyPair() {
-        token.ensureValid();
-        CK_ATTRIBUTE[] publicKeyTemplate;
-        CK_ATTRIBUTE[] privateKeyTemplate;
+    public KeyPbir generbteKeyPbir() {
+        token.ensureVblid();
+        CK_ATTRIBUTE[] publicKeyTemplbte;
+        CK_ATTRIBUTE[] privbteKeyTemplbte;
         long keyType;
-        if (algorithm.equals("RSA")) {
+        if (blgorithm.equbls("RSA")) {
             keyType = CKK_RSA;
-            publicKeyTemplate = new CK_ATTRIBUTE[] {
+            publicKeyTemplbte = new CK_ATTRIBUTE[] {
                 new CK_ATTRIBUTE(CKA_MODULUS_BITS, keySize),
-                new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, rsaPublicExponent),
+                new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, rsbPublicExponent),
             };
-            privateKeyTemplate = new CK_ATTRIBUTE[] {
+            privbteKeyTemplbte = new CK_ATTRIBUTE[] {
                 // empty
             };
-        } else if (algorithm.equals("DSA")) {
+        } else if (blgorithm.equbls("DSA")) {
             keyType = CKK_DSA;
-            DSAParameterSpec dsaParams;
-            if (params == null) {
+            DSAPbrbmeterSpec dsbPbrbms;
+            if (pbrbms == null) {
                 try {
-                    dsaParams = ParameterCache.getDSAParameterSpec
-                                                    (keySize, random);
-                } catch (GeneralSecurityException e) {
+                    dsbPbrbms = PbrbmeterCbche.getDSAPbrbmeterSpec
+                                                    (keySize, rbndom);
+                } cbtch (GenerblSecurityException e) {
                     throw new ProviderException
-                            ("Could not generate DSA parameters", e);
+                            ("Could not generbte DSA pbrbmeters", e);
                 }
             } else {
-                dsaParams = (DSAParameterSpec)params;
+                dsbPbrbms = (DSAPbrbmeterSpec)pbrbms;
             }
-            publicKeyTemplate = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_PRIME, dsaParams.getP()),
-                new CK_ATTRIBUTE(CKA_SUBPRIME, dsaParams.getQ()),
-                new CK_ATTRIBUTE(CKA_BASE, dsaParams.getG()),
+            publicKeyTemplbte = new CK_ATTRIBUTE[] {
+                new CK_ATTRIBUTE(CKA_PRIME, dsbPbrbms.getP()),
+                new CK_ATTRIBUTE(CKA_SUBPRIME, dsbPbrbms.getQ()),
+                new CK_ATTRIBUTE(CKA_BASE, dsbPbrbms.getG()),
             };
-            privateKeyTemplate = new CK_ATTRIBUTE[] {
+            privbteKeyTemplbte = new CK_ATTRIBUTE[] {
                 // empty
             };
-        } else if (algorithm.equals("DH")) {
+        } else if (blgorithm.equbls("DH")) {
             keyType = CKK_DH;
-            DHParameterSpec dhParams;
-            int privateBits;
-            if (params == null) {
+            DHPbrbmeterSpec dhPbrbms;
+            int privbteBits;
+            if (pbrbms == null) {
                 try {
-                    dhParams = ParameterCache.getDHParameterSpec
-                                                    (keySize, random);
-                } catch (GeneralSecurityException e) {
+                    dhPbrbms = PbrbmeterCbche.getDHPbrbmeterSpec
+                                                    (keySize, rbndom);
+                } cbtch (GenerblSecurityException e) {
                     throw new ProviderException
-                            ("Could not generate DH parameters", e);
+                            ("Could not generbte DH pbrbmeters", e);
                 }
-                privateBits = 0;
+                privbteBits = 0;
             } else {
-                dhParams = (DHParameterSpec)params;
-                privateBits = dhParams.getL();
+                dhPbrbms = (DHPbrbmeterSpec)pbrbms;
+                privbteBits = dhPbrbms.getL();
             }
-            if (privateBits <= 0) {
-                // XXX find better defaults
-                privateBits = (keySize >= 1024) ? 768 : 512;
+            if (privbteBits <= 0) {
+                // XXX find better defbults
+                privbteBits = (keySize >= 1024) ? 768 : 512;
             }
-            publicKeyTemplate = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_PRIME, dhParams.getP()),
-                new CK_ATTRIBUTE(CKA_BASE, dhParams.getG())
+            publicKeyTemplbte = new CK_ATTRIBUTE[] {
+                new CK_ATTRIBUTE(CKA_PRIME, dhPbrbms.getP()),
+                new CK_ATTRIBUTE(CKA_BASE, dhPbrbms.getG())
             };
-            privateKeyTemplate = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_VALUE_BITS, privateBits),
+            privbteKeyTemplbte = new CK_ATTRIBUTE[] {
+                new CK_ATTRIBUTE(CKA_VALUE_BITS, privbteBits),
             };
-        } else if (algorithm.equals("EC")) {
+        } else if (blgorithm.equbls("EC")) {
             keyType = CKK_EC;
-            byte[] encodedParams =
-                    P11ECKeyFactory.encodeParameters((ECParameterSpec)params);
-            publicKeyTemplate = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_EC_PARAMS, encodedParams),
+            byte[] encodedPbrbms =
+                    P11ECKeyFbctory.encodePbrbmeters((ECPbrbmeterSpec)pbrbms);
+            publicKeyTemplbte = new CK_ATTRIBUTE[] {
+                new CK_ATTRIBUTE(CKA_EC_PARAMS, encodedPbrbms),
             };
-            privateKeyTemplate = new CK_ATTRIBUTE[] {
+            privbteKeyTemplbte = new CK_ATTRIBUTE[] {
                 // empty
             };
         } else {
-            throw new ProviderException("Unknown algorithm: " + algorithm);
+            throw new ProviderException("Unknown blgorithm: " + blgorithm);
         }
         Session session = null;
         try {
             session = token.getObjSession();
-            publicKeyTemplate = token.getAttributes
-                (O_GENERATE, CKO_PUBLIC_KEY, keyType, publicKeyTemplate);
-            privateKeyTemplate = token.getAttributes
-                (O_GENERATE, CKO_PRIVATE_KEY, keyType, privateKeyTemplate);
-            long[] keyIDs = token.p11.C_GenerateKeyPair
-                (session.id(), new CK_MECHANISM(mechanism),
-                publicKeyTemplate, privateKeyTemplate);
+            publicKeyTemplbte = token.getAttributes
+                (O_GENERATE, CKO_PUBLIC_KEY, keyType, publicKeyTemplbte);
+            privbteKeyTemplbte = token.getAttributes
+                (O_GENERATE, CKO_PRIVATE_KEY, keyType, privbteKeyTemplbte);
+            long[] keyIDs = token.p11.C_GenerbteKeyPbir
+                (session.id(), new CK_MECHANISM(mechbnism),
+                publicKeyTemplbte, privbteKeyTemplbte);
             PublicKey publicKey = P11Key.publicKey
-                (session, keyIDs[0], algorithm, keySize, publicKeyTemplate);
-            PrivateKey privateKey = P11Key.privateKey
-                (session, keyIDs[1], algorithm, keySize, privateKeyTemplate);
-            return new KeyPair(publicKey, privateKey);
-        } catch (PKCS11Exception e) {
+                (session, keyIDs[0], blgorithm, keySize, publicKeyTemplbte);
+            PrivbteKey privbteKey = P11Key.privbteKey
+                (session, keyIDs[1], blgorithm, keySize, privbteKeyTemplbte);
+            return new KeyPbir(publicKey, privbteKey);
+        } cbtch (PKCS11Exception e) {
             throw new ProviderException(e);
-        } finally {
-            token.releaseSession(session);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 }

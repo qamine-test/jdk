@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.colorchooser;
+pbckbge jbvbx.swing.colorchooser;
 
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvbx.swing.*;
 
 /**
- * This is the abstract superclass for color choosers.  If you want to add
- * a new color chooser panel into a <code>JColorChooser</code>, subclass
- * this class.
+ * This is the bbstrbct superclbss for color choosers.  If you wbnt to bdd
+ * b new color chooser pbnel into b <code>JColorChooser</code>, subclbss
+ * this clbss.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Tom Santos
- * @author Steve Wilson
+ * @buthor Tom Sbntos
+ * @buthor Steve Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class AbstractColorChooserPanel extends JPanel {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public bbstrbct clbss AbstrbctColorChooserPbnel extends JPbnel {
 
-    private final PropertyChangeListener enabledListener = new PropertyChangeListener() {
-        public void propertyChange(PropertyChangeEvent event) {
-            Object value = event.getNewValue();
-            if (value instanceof Boolean) {
-                setEnabled((Boolean) value);
+    privbte finbl PropertyChbngeListener enbbledListener = new PropertyChbngeListener() {
+        public void propertyChbnge(PropertyChbngeEvent event) {
+            Object vblue = event.getNewVblue();
+            if (vblue instbnceof Boolebn) {
+                setEnbbled((Boolebn) vblue);
             }
         }
     };
@@ -62,42 +62,42 @@ public abstract class AbstractColorChooserPanel extends JPanel {
     /**
      *
      */
-    private JColorChooser chooser;
+    privbte JColorChooser chooser;
 
     /**
-      * Invoked automatically when the model's state changes.
-      * It is also called by <code>installChooserPanel</code> to allow
-      * you to set up the initial state of your chooser.
-      * Override this method to update your <code>ChooserPanel</code>.
+      * Invoked butombticblly when the model's stbte chbnges.
+      * It is blso cblled by <code>instbllChooserPbnel</code> to bllow
+      * you to set up the initibl stbte of your chooser.
+      * Override this method to updbte your <code>ChooserPbnel</code>.
       */
-    public abstract void updateChooser();
+    public bbstrbct void updbteChooser();
 
     /**
-     * Builds a new chooser panel.
+     * Builds b new chooser pbnel.
      */
-    protected abstract void buildChooser();
+    protected bbstrbct void buildChooser();
 
     /**
-     * Returns a string containing the display name of the panel.
-     * @return the name of the display panel
+     * Returns b string contbining the displby nbme of the pbnel.
+     * @return the nbme of the displby pbnel
      */
-    public abstract String getDisplayName();
+    public bbstrbct String getDisplbyNbme();
 
     /**
-     * Provides a hint to the look and feel as to the
-     * <code>KeyEvent.VK</code> constant that can be used as a mnemonic to
-     * access the panel. A return value &lt;= 0 indicates there is no mnemonic.
+     * Provides b hint to the look bnd feel bs to the
+     * <code>KeyEvent.VK</code> constbnt thbt cbn be used bs b mnemonic to
+     * bccess the pbnel. A return vblue &lt;= 0 indicbtes there is no mnemonic.
      * <p>
-     * The return value here is a hint, it is ultimately up to the look
-     * and feel to honor the return value in some meaningful way.
+     * The return vblue here is b hint, it is ultimbtely up to the look
+     * bnd feel to honor the return vblue in some mebningful wby.
      * <p>
-     * This implementation returns 0, indicating the
-     * <code>AbstractColorChooserPanel</code> does not support a mnemonic,
-     * subclasses wishing a mnemonic will need to override this.
+     * This implementbtion returns 0, indicbting the
+     * <code>AbstrbctColorChooserPbnel</code> does not support b mnemonic,
+     * subclbsses wishing b mnemonic will need to override this.
      *
-     * @return KeyEvent.VK constant identifying the mnemonic; &lt;= 0 for no
+     * @return KeyEvent.VK constbnt identifying the mnemonic; &lt;= 0 for no
      *         mnemonic
-     * @see #getDisplayedMnemonicIndex
+     * @see #getDisplbyedMnemonicIndex
      * @since 1.4
      */
     public int getMnemonic() {
@@ -105,76 +105,76 @@ public abstract class AbstractColorChooserPanel extends JPanel {
     }
 
     /**
-     * Provides a hint to the look and feel as to the index of the character in
-     * <code>getDisplayName</code> that should be visually identified as the
-     * mnemonic. The look and feel should only use this if
-     * <code>getMnemonic</code> returns a value &gt; 0.
+     * Provides b hint to the look bnd feel bs to the index of the chbrbcter in
+     * <code>getDisplbyNbme</code> thbt should be visublly identified bs the
+     * mnemonic. The look bnd feel should only use this if
+     * <code>getMnemonic</code> returns b vblue &gt; 0.
      * <p>
-     * The return value here is a hint, it is ultimately up to the look
-     * and feel to honor the return value in some meaningful way. For example,
-     * a look and feel may wish to render each
-     * <code>AbstractColorChooserPanel</code> in a <code>JTabbedPane</code>,
-     * and further use this return value to underline a character in
-     * the <code>getDisplayName</code>.
+     * The return vblue here is b hint, it is ultimbtely up to the look
+     * bnd feel to honor the return vblue in some mebningful wby. For exbmple,
+     * b look bnd feel mby wish to render ebch
+     * <code>AbstrbctColorChooserPbnel</code> in b <code>JTbbbedPbne</code>,
+     * bnd further use this return vblue to underline b chbrbcter in
+     * the <code>getDisplbyNbme</code>.
      * <p>
-     * This implementation returns -1, indicating the
-     * <code>AbstractColorChooserPanel</code> does not support a mnemonic,
-     * subclasses wishing a mnemonic will need to override this.
+     * This implementbtion returns -1, indicbting the
+     * <code>AbstrbctColorChooserPbnel</code> does not support b mnemonic,
+     * subclbsses wishing b mnemonic will need to override this.
      *
-     * @return Character index to render mnemonic for; -1 to provide no
-     *                   visual identifier for this panel.
+     * @return Chbrbcter index to render mnemonic for; -1 to provide no
+     *                   visubl identifier for this pbnel.
      * @see #getMnemonic
      * @since 1.4
      */
-    public int getDisplayedMnemonicIndex() {
+    public int getDisplbyedMnemonicIndex() {
         return -1;
     }
 
     /**
-     * Returns the small display icon for the panel.
-     * @return the small display icon
+     * Returns the smbll displby icon for the pbnel.
+     * @return the smbll displby icon
      */
-    public abstract Icon getSmallDisplayIcon();
+    public bbstrbct Icon getSmbllDisplbyIcon();
 
     /**
-     * Returns the large display icon for the panel.
-     * @return the large display icon
+     * Returns the lbrge displby icon for the pbnel.
+     * @return the lbrge displby icon
      */
-    public abstract Icon getLargeDisplayIcon();
+    public bbstrbct Icon getLbrgeDisplbyIcon();
 
     /**
-     * Invoked when the panel is added to the chooser.
-     * If you override this, be sure to call <code>super</code>.
+     * Invoked when the pbnel is bdded to the chooser.
+     * If you override this, be sure to cbll <code>super</code>.
      *
-     * @param enclosingChooser the chooser to which the panel is to be added
-     * @exception RuntimeException  if the chooser panel has already been
-     *                          installed
+     * @pbrbm enclosingChooser the chooser to which the pbnel is to be bdded
+     * @exception RuntimeException  if the chooser pbnel hbs blrebdy been
+     *                          instblled
      */
-    public void installChooserPanel(JColorChooser enclosingChooser) {
+    public void instbllChooserPbnel(JColorChooser enclosingChooser) {
         if (chooser != null) {
-            throw new RuntimeException ("This chooser panel is already installed");
+            throw new RuntimeException ("This chooser pbnel is blrebdy instblled");
         }
         chooser = enclosingChooser;
-        chooser.addPropertyChangeListener("enabled", enabledListener);
-        setEnabled(chooser.isEnabled());
+        chooser.bddPropertyChbngeListener("enbbled", enbbledListener);
+        setEnbbled(chooser.isEnbbled());
         buildChooser();
-        updateChooser();
+        updbteChooser();
     }
 
     /**
-     * Invoked when the panel is removed from the chooser.
-     * If override this, be sure to call <code>super</code>.
+     * Invoked when the pbnel is removed from the chooser.
+     * If override this, be sure to cbll <code>super</code>.
      *
-     * @param enclosingChooser the chooser from which the panel is to be removed
+     * @pbrbm enclosingChooser the chooser from which the pbnel is to be removed
      */
-  public void uninstallChooserPanel(JColorChooser enclosingChooser) {
-        chooser.removePropertyChangeListener("enabled", enabledListener);
+  public void uninstbllChooserPbnel(JColorChooser enclosingChooser) {
+        chooser.removePropertyChbngeListener("enbbled", enbbledListener);
         chooser = null;
     }
 
     /**
-      * Returns the model that the chooser panel is editing.
-      * @return the <code>ColorSelectionModel</code> model this panel
+      * Returns the model thbt the chooser pbnel is editing.
+      * @return the <code>ColorSelectionModel</code> model this pbnel
       *         is editing
       */
     public ColorSelectionModel getColorSelectionModel() {
@@ -184,8 +184,8 @@ public abstract class AbstractColorChooserPanel extends JPanel {
     }
 
     /**
-     * Returns the color that is currently selected.
-     * @return the <code>Color</code> that is selected
+     * Returns the color thbt is currently selected.
+     * @return the <code>Color</code> thbt is selected
      */
     protected Color getColorFromModel() {
         ColorSelectionModel model = getColorSelectionModel();
@@ -202,34 +202,34 @@ public abstract class AbstractColorChooserPanel extends JPanel {
     }
 
     /**
-     * Draws the panel.
-     * @param g  the <code>Graphics</code> object
+     * Drbws the pbnel.
+     * @pbrbm g  the <code>Grbphics</code> object
      */
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void pbint(Grbphics g) {
+        super.pbint(g);
     }
 
     /**
-     * Returns an integer from the defaults table. If <code>key</code> does
-     * not map to a valid <code>Integer</code>, <code>default</code> is
+     * Returns bn integer from the defbults tbble. If <code>key</code> does
+     * not mbp to b vblid <code>Integer</code>, <code>defbult</code> is
      * returned.
      *
-     * @param key  an <code>Object</code> specifying the int
-     * @param defaultValue Returned value if <code>key</code> is not available,
-     *                     or is not an Integer
+     * @pbrbm key  bn <code>Object</code> specifying the int
+     * @pbrbm defbultVblue Returned vblue if <code>key</code> is not bvbilbble,
+     *                     or is not bn Integer
      * @return the int
      */
-    int getInt(Object key, int defaultValue) {
-        Object value = UIManager.get(key, getLocale());
+    int getInt(Object key, int defbultVblue) {
+        Object vblue = UIMbnbger.get(key, getLocble());
 
-        if (value instanceof Integer) {
-            return ((Integer)value).intValue();
+        if (vblue instbnceof Integer) {
+            return ((Integer)vblue).intVblue();
         }
-        if (value instanceof String) {
+        if (vblue instbnceof String) {
             try {
-                return Integer.parseInt((String)value);
-            } catch (NumberFormatException nfe) {}
+                return Integer.pbrseInt((String)vblue);
+            } cbtch (NumberFormbtException nfe) {}
         }
-        return defaultValue;
+        return defbultVblue;
     }
 }

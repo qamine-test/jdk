@@ -1,31 +1,31 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
  * $Xorg: extutil.h,v 1.3 2000/08/18 04:05:45 coskrey Exp $
@@ -34,8 +34,8 @@ Copyright 1989, 1998  The Open Group
 
 All Rights Reserved.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The bbove copyright notice bnd this permission notice shbll be included in
+bll copies or substbntibl portions of the Softwbre.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -44,19 +44,19 @@ OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of The Open Group shall not be
-used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization from The Open Group.
+Except bs contbined in this notice, the nbme of The Open Group shbll not be
+used in bdvertising or otherwise to promote the sble, use or other deblings
+in this Softwbre without prior written buthorizbtion from The Open Group.
  *
  * Author:  Jim Fulton, MIT The Open Group
  *
  *                     Xlib Extension-Writing Utilities
  *
- * This package contains utilities for writing the client API for various
+ * This pbckbge contbins utilities for writing the client API for vbrious
  * protocol extensions.  THESE INTERFACES ARE NOT PART OF THE X STANDARD AND
  * ARE SUBJECT TO CHANGE!
  */
-/* $XFree86: xc/include/extensions/extutil.h,v 1.5 2001/01/17 17:53:20 dawes Exp $ */
+/* $XFree86: xc/include/extensions/extutil.h,v 1.5 2001/01/17 17:53:20 dbwes Exp $ */
 
 #if defined(__linux__) || defined(MACOSX)
 
@@ -64,106 +64,106 @@ in this Software without prior written authorization from The Open Group.
 #define _EXTUTIL_H_
 
 /*
- * We need to keep a list of open displays since the Xlib display list isn't
- * public.  We also have to per-display info in a separate block since it isn't
- * stored directly in the Display structure.
+ * We need to keep b list of open displbys since the Xlib displby list isn't
+ * public.  We blso hbve to per-displby info in b sepbrbte block since it isn't
+ * stored directly in the Displby structure.
  */
-typedef struct _XExtDisplayInfo {
-    struct _XExtDisplayInfo *next;      /* keep a linked list */
-    Display *display;                   /* which display this is */
+typedef struct _XExtDisplbyInfo {
+    struct _XExtDisplbyInfo *next;      /* keep b linked list */
+    Displby *displby;                   /* which displby this is */
     XExtCodes *codes;                   /* the extension protocol codes */
-    XPointer data;                      /* extra data for extension to use */
-} XExtDisplayInfo;
+    XPointer dbtb;                      /* extrb dbtb for extension to use */
+} XExtDisplbyInfo;
 
 typedef struct _XExtensionInfo {
-    XExtDisplayInfo *head;              /* start of list */
-    XExtDisplayInfo *cur;               /* most recently used */
-    int ndisplays;                      /* number of displays */
+    XExtDisplbyInfo *hebd;              /* stbrt of list */
+    XExtDisplbyInfo *cur;               /* most recently used */
+    int ndisplbys;                      /* number of displbys */
 } XExtensionInfo;
 
 typedef struct _XExtensionHooks {
-    int (*create_gc)(
+    int (*crebte_gc)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               GC                        /* gc */,
               XExtCodes*                /* codes */
 #endif
 );
     int (*copy_gc)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               GC                        /* gc */,
               XExtCodes*                /* codes */
 #endif
 );
     int (*flush_gc)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               GC                        /* gc */,
               XExtCodes*                /* codes */
 #endif
 );
     int (*free_gc)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               GC                        /* gc */,
               XExtCodes*                /* codes */
 #endif
 );
-    int (*create_font)(
+    int (*crebte_font)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               XFontStruct*              /* fs */,
               XExtCodes*                /* codes */
 #endif
 );
     int (*free_font)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               XFontStruct*              /* fs */,
               XExtCodes*                /* codes */
 #endif
 );
-    int (*close_display)(
+    int (*close_displby)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               XExtCodes*                /* codes */
 #endif
 );
     Bool (*wire_to_event)(
 #if NeedNestedPrototypes
-               Display*                 /* display */,
+               Displby*                 /* displby */,
                XEvent*                  /* re */,
                xEvent*                  /* event */
 #endif
 );
-    Status (*event_to_wire)(
+    Stbtus (*event_to_wire)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               XEvent*                   /* re */,
               xEvent*                   /* event */
 #endif
 );
     int (*error)(
 #if NeedNestedPrototypes
-              Display*                  /* display */,
+              Displby*                  /* displby */,
               xError*                   /* err */,
               XExtCodes*                /* codes */,
               int*                      /* ret_code */
 #endif
 );
-    char *(*error_string)(
+    chbr *(*error_string)(
 #if NeedNestedPrototypes
-                Display*                /* display */,
+                Displby*                /* displby */,
                 int                     /* code */,
                 XExtCodes*              /* codes */,
-                char*                   /* buffer */,
+                chbr*                   /* buffer */,
                 int                     /* nbytes */
 #endif
 );
 } XExtensionHooks;
 
-extern XExtensionInfo *XextCreateExtension(
+extern XExtensionInfo *XextCrebteExtension(
 #if NeedFunctionPrototypes
     void
 #endif
@@ -173,79 +173,79 @@ extern void XextDestroyExtension(
     XExtensionInfo*     /* info */
 #endif
 );
-extern XExtDisplayInfo *XextAddDisplay(
+extern XExtDisplbyInfo *XextAddDisplby(
 #if NeedFunctionPrototypes
     XExtensionInfo*     /* extinfo */,
-    Display*            /* dpy */,
-    char*               /* ext_name */,
+    Displby*            /* dpy */,
+    chbr*               /* ext_nbme */,
     XExtensionHooks*    /* hooks */,
     int                 /* nevents */,
-    XPointer            /* data */
+    XPointer            /* dbtb */
 #endif
 );
-extern int XextRemoveDisplay(
+extern int XextRemoveDisplby(
 #if NeedFunctionPrototypes
     XExtensionInfo*     /* extinfo */,
-    Display*            /* dpy */
+    Displby*            /* dpy */
 #endif
 );
-extern XExtDisplayInfo *XextFindDisplay(
+extern XExtDisplbyInfo *XextFindDisplby(
 #if NeedFunctionPrototypes
     XExtensionInfo*     /* extinfo */,
-    Display*            /* dpy */
+    Displby*            /* dpy */
 #endif
 );
 
-#define XextHasExtension(i) ((i) && ((i)->codes))
-#define XextCheckExtension(dpy,i,name,val) \
-  if (!XextHasExtension(i)) { XMissingExtension (dpy, name); return val; }
-#define XextSimpleCheckExtension(dpy,i,name) \
-  if (!XextHasExtension(i)) { XMissingExtension (dpy, name); return; }
+#define XextHbsExtension(i) ((i) && ((i)->codes))
+#define XextCheckExtension(dpy,i,nbme,vbl) \
+  if (!XextHbsExtension(i)) { XMissingExtension (dpy, nbme); return vbl; }
+#define XextSimpleCheckExtension(dpy,i,nbme) \
+  if (!XextHbsExtension(i)) { XMissingExtension (dpy, nbme); return; }
 
 
 /*
- * helper macros to generate code that is common to all extensions; caller
- * should prefix it with static if extension source is in one file; this
- * could be a utility function, but have to stack 6 unused arguments for
- * something that is called many, many times would be bad.
+ * helper mbcros to generbte code thbt is common to bll extensions; cbller
+ * should prefix it with stbtic if extension source is in one file; this
+ * could be b utility function, but hbve to stbck 6 unused brguments for
+ * something thbt is cblled mbny, mbny times would be bbd.
  */
-#define XEXT_GENERATE_FIND_DISPLAY(proc,extinfo,extname,hooks,nev,data) \
-XExtDisplayInfo *proc (Display *dpy) \
+#define XEXT_GENERATE_FIND_DISPLAY(proc,extinfo,extnbme,hooks,nev,dbtb) \
+XExtDisplbyInfo *proc (Displby *dpy) \
 { \
-    XExtDisplayInfo *dpyinfo; \
-    if (!extinfo) { if (!(extinfo = XextCreateExtension())) return NULL; } \
-    if (!(dpyinfo = XextFindDisplay (extinfo, dpy))) \
-      dpyinfo = XextAddDisplay (extinfo,dpy,extname,hooks,nev,data); \
+    XExtDisplbyInfo *dpyinfo; \
+    if (!extinfo) { if (!(extinfo = XextCrebteExtension())) return NULL; } \
+    if (!(dpyinfo = XextFindDisplby (extinfo, dpy))) \
+      dpyinfo = XextAddDisplby (extinfo,dpy,extnbme,hooks,nev,dbtb); \
     return dpyinfo; \
 }
 
 #define XEXT_FIND_DISPLAY_PROTO(proc) \
-        XExtDisplayInfo *proc(Display *dpy)
+        XExtDisplbyInfo *proc(Displby *dpy)
 
 #define XEXT_GENERATE_CLOSE_DISPLAY(proc,extinfo) \
-int proc (Display *dpy, XExtCodes *codes) \
+int proc (Displby *dpy, XExtCodes *codes) \
 { \
-    return XextRemoveDisplay (extinfo, dpy); \
+    return XextRemoveDisplby (extinfo, dpy); \
 }
 
 #define XEXT_CLOSE_DISPLAY_PROTO(proc) \
-        int proc(Display *dpy, XExtCodes *codes)
+        int proc(Displby *dpy, XExtCodes *codes)
 
-#define XEXT_GENERATE_ERROR_STRING(proc,extname,nerr,errl) \
-char *proc (Display *dpy, int code, XExtCodes *codes, char *buf, int n) \
+#define XEXT_GENERATE_ERROR_STRING(proc,extnbme,nerr,errl) \
+chbr *proc (Displby *dpy, int code, XExtCodes *codes, chbr *buf, int n) \
 {  \
     code -= codes->first_error;  \
     if (code >= 0 && code < nerr) { \
-        char tmp[256]; \
-        sprintf (tmp, "%s.%d", extname, code); \
-        XGetErrorDatabaseText (dpy, "XProtoError", tmp, errl[code], buf, n); \
+        chbr tmp[256]; \
+        sprintf (tmp, "%s.%d", extnbme, code); \
+        XGetErrorDbtbbbseText (dpy, "XProtoError", tmp, errl[code], buf, n); \
         return buf; \
     } \
-    return (char *)0; \
+    return (chbr *)0; \
 }
 
 #define XEXT_ERROR_STRING_PROTO(proc) \
-        char *proc(Display *dpy, int code, XExtCodes *codes, char *buf, int n)
+        chbr *proc(Displby *dpy, int code, XExtCodes *codes, chbr *buf, int n)
 #endif
 
 #endif /* __linux__ || MACOSX */

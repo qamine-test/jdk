@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,141 +30,141 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Simple stack storage mechanism (or simple List). */
+/* Simple stbck storbge mechbnism (or simple List). */
 
 /*
- * Stack is any depth (grows as it needs to), elements are arbitrary
- *   length but known at stack init time.
+ * Stbck is bny depth (grows bs it needs to), elements bre brbitrbry
+ *   length but known bt stbck init time.
  *
- * Stack elements can be accessed via pointers (be careful, if stack
- *   moved while you point into stack you have problems)
+ * Stbck elements cbn be bccessed vib pointers (be cbreful, if stbck
+ *   moved while you point into stbck you hbve problems)
  *
- * Pointers to stack elements passed in are copied.
+ * Pointers to stbck elements pbssed in bre copied.
  *
- * Since the stack can be inspected, it can be used for more than just
- *    a simple stack.
+ * Since the stbck cbn be inspected, it cbn be used for more thbn just
+ *    b simple stbck.
  *
  */
 
 #include "hprof.h"
 
-static void
-resize(Stack *stack)
+stbtic void
+resize(Stbck *stbck)
 {
     void  *old_elements;
     void  *new_elements;
     int    old_size;
     int    new_size;
 
-    HPROF_ASSERT(stack!=NULL);
-    HPROF_ASSERT(stack->elements!=NULL);
-    HPROF_ASSERT(stack->size>0);
-    HPROF_ASSERT(stack->elem_size>0);
-    HPROF_ASSERT(stack->incr_size>0);
-    old_size     = stack->size;
-    old_elements = stack->elements;
-    if ( (stack->resizes % 10) && stack->incr_size < (old_size >> 2) ) {
-        stack->incr_size = old_size >> 2; /* 1/4 the old_size */
+    HPROF_ASSERT(stbck!=NULL);
+    HPROF_ASSERT(stbck->elements!=NULL);
+    HPROF_ASSERT(stbck->size>0);
+    HPROF_ASSERT(stbck->elem_size>0);
+    HPROF_ASSERT(stbck->incr_size>0);
+    old_size     = stbck->size;
+    old_elements = stbck->elements;
+    if ( (stbck->resizes % 10) && stbck->incr_size < (old_size >> 2) ) {
+        stbck->incr_size = old_size >> 2; /* 1/4 the old_size */
     }
-    new_size = old_size + stack->incr_size;
-    new_elements = HPROF_MALLOC(new_size*stack->elem_size);
-    (void)memcpy(new_elements, old_elements, old_size*stack->elem_size);
-    stack->size     = new_size;
-    stack->elements = new_elements;
+    new_size = old_size + stbck->incr_size;
+    new_elements = HPROF_MALLOC(new_size*stbck->elem_size);
+    (void)memcpy(new_elements, old_elements, old_size*stbck->elem_size);
+    stbck->size     = new_size;
+    stbck->elements = new_elements;
     HPROF_FREE(old_elements);
-    stack->resizes++;
+    stbck->resizes++;
 }
 
-Stack *
-stack_init(int init_size, int incr_size, int elem_size)
+Stbck *
+stbck_init(int init_size, int incr_size, int elem_size)
 {
-    Stack *stack;
+    Stbck *stbck;
     void  *elements;
 
     HPROF_ASSERT(init_size>0);
     HPROF_ASSERT(elem_size>0);
     HPROF_ASSERT(incr_size>0);
-    stack            = (Stack*)HPROF_MALLOC((int)sizeof(Stack));
+    stbck            = (Stbck*)HPROF_MALLOC((int)sizeof(Stbck));
     elements         = HPROF_MALLOC(init_size*elem_size);
-    stack->size      = init_size;
-    stack->incr_size = incr_size;
-    stack->elem_size = elem_size;
-    stack->count       = 0;
-    stack->elements  = elements;
-    stack->resizes   = 0;
-    return stack;
+    stbck->size      = init_size;
+    stbck->incr_size = incr_size;
+    stbck->elem_size = elem_size;
+    stbck->count       = 0;
+    stbck->elements  = elements;
+    stbck->resizes   = 0;
+    return stbck;
 }
 
 void *
-stack_element(Stack *stack, int i)
+stbck_element(Stbck *stbck, int i)
 {
-    HPROF_ASSERT(stack!=NULL);
-    HPROF_ASSERT(stack->elements!=NULL);
-    HPROF_ASSERT(stack->count>i);
+    HPROF_ASSERT(stbck!=NULL);
+    HPROF_ASSERT(stbck->elements!=NULL);
+    HPROF_ASSERT(stbck->count>i);
     HPROF_ASSERT(i>=0);
-    return (void*)(((char*)stack->elements) + i * stack->elem_size);
+    return (void*)(((chbr*)stbck->elements) + i * stbck->elem_size);
 }
 
 void *
-stack_top(Stack *stack)
+stbck_top(Stbck *stbck)
 {
     void *element;
 
-    HPROF_ASSERT(stack!=NULL);
+    HPROF_ASSERT(stbck!=NULL);
     element = NULL;
-    if ( stack->count > 0 ) {
-        element = stack_element(stack, (stack->count-1));
+    if ( stbck->count > 0 ) {
+        element = stbck_element(stbck, (stbck->count-1));
     }
     return element;
 }
 
 int
-stack_depth(Stack *stack)
+stbck_depth(Stbck *stbck)
 {
-    HPROF_ASSERT(stack!=NULL);
-    return stack->count;
+    HPROF_ASSERT(stbck!=NULL);
+    return stbck->count;
 }
 
 void *
-stack_pop(Stack *stack)
+stbck_pop(Stbck *stbck)
 {
     void *element;
 
-    element = stack_top(stack);
+    element = stbck_top(stbck);
     if ( element != NULL ) {
-        stack->count--;
+        stbck->count--;
     }
     return element;
 }
 
 void
-stack_push(Stack *stack, void *element)
+stbck_push(Stbck *stbck, void *element)
 {
     void *top_element;
 
-    HPROF_ASSERT(stack!=NULL);
-    if ( stack->count >= stack->size ) {
-        resize(stack);
+    HPROF_ASSERT(stbck!=NULL);
+    if ( stbck->count >= stbck->size ) {
+        resize(stbck);
     }
-    stack->count++;
-    top_element = stack_top(stack);
-    (void)memcpy(top_element, element, stack->elem_size);
+    stbck->count++;
+    top_element = stbck_top(stbck);
+    (void)memcpy(top_element, element, stbck->elem_size);
 }
 
 void
-stack_term(Stack *stack)
+stbck_term(Stbck *stbck)
 {
-    HPROF_ASSERT(stack!=NULL);
-    if ( stack->elements != NULL ) {
-        HPROF_FREE(stack->elements);
+    HPROF_ASSERT(stbck!=NULL);
+    if ( stbck->elements != NULL ) {
+        HPROF_FREE(stbck->elements);
     }
-    HPROF_FREE(stack);
+    HPROF_FREE(stbck);
 }

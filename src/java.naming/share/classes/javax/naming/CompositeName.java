@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import java.util.Enumeration;
-import java.util.Properties;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Properties;
 
 /**
- * This class represents a composite name -- a sequence of
- * component names spanning multiple namespaces.
- * Each component is a string name from the namespace of a
- * naming system. If the component comes from a hierarchical
- * namespace, that component can be further parsed into
- * its atomic parts by using the CompoundName class.
+ * This clbss represents b composite nbme -- b sequence of
+ * component nbmes spbnning multiple nbmespbces.
+ * Ebch component is b string nbme from the nbmespbce of b
+ * nbming system. If the component comes from b hierbrchicbl
+ * nbmespbce, thbt component cbn be further pbrsed into
+ * its btomic pbrts by using the CompoundNbme clbss.
  *<p>
- * The components of a composite name are numbered.  The indexes of a
- * composite name with N components range from 0 up to, but not including, N.
- * This range may be written as [0,N).
- * The most significant component is at index 0.
- * An empty composite name has no components.
+ * The components of b composite nbme bre numbered.  The indexes of b
+ * composite nbme with N components rbnge from 0 up to, but not including, N.
+ * This rbnge mby be written bs [0,N).
+ * The most significbnt component is bt index 0.
+ * An empty composite nbme hbs no components.
  *
- * <h1>JNDI Composite Name Syntax</h1>
- * JNDI defines a standard string representation for composite names. This
- * representation is the concatenation of the components of a composite name
- * from left to right using the component separator (a forward
- * slash character (/)) to separate each component.
- * The JNDI syntax defines the following meta characters:
+ * <h1>JNDI Composite Nbme Syntbx</h1>
+ * JNDI defines b stbndbrd string representbtion for composite nbmes. This
+ * representbtion is the concbtenbtion of the components of b composite nbme
+ * from left to right using the component sepbrbtor (b forwbrd
+ * slbsh chbrbcter (/)) to sepbrbte ebch component.
+ * The JNDI syntbx defines the following metb chbrbcters:
  * <ul>
- * <li>escape (backward slash \),
- * <li>quote characters  (single (') and double quotes (")), and
- * <li>component separator (forward slash character (/)).
+ * <li>escbpe (bbckwbrd slbsh \),
+ * <li>quote chbrbcters  (single (') bnd double quotes (")), bnd
+ * <li>component sepbrbtor (forwbrd slbsh chbrbcter (/)).
  * </ul>
- * Any occurrence of a leading quote, an escape preceding any meta character,
- * an escape at the end of a component, or a component separator character
- * in an unquoted component must be preceded by an escape character when
- * that component is being composed into a composite name string.
- * Alternatively, to avoid adding escape characters as described,
- * the entire component can be quoted using matching single quotes
- * or matching double quotes. A single quote occurring within a double-quoted
- * component is not considered a meta character (and need not be escaped),
- * and vice versa.
+ * Any occurrence of b lebding quote, bn escbpe preceding bny metb chbrbcter,
+ * bn escbpe bt the end of b component, or b component sepbrbtor chbrbcter
+ * in bn unquoted component must be preceded by bn escbpe chbrbcter when
+ * thbt component is being composed into b composite nbme string.
+ * Alternbtively, to bvoid bdding escbpe chbrbcters bs described,
+ * the entire component cbn be quoted using mbtching single quotes
+ * or mbtching double quotes. A single quote occurring within b double-quoted
+ * component is not considered b metb chbrbcter (bnd need not be escbped),
+ * bnd vice versb.
  *<p>
- * When two composite names are compared, the case of the characters
- * is significant.
+ * When two composite nbmes bre compbred, the cbse of the chbrbcters
+ * is significbnt.
  *<p>
- * A leading component separator (the composite name string begins with
- * a separator) denotes a leading empty component (a component consisting
- * of an empty string).
- * A trailing component separator (the composite name string ends with
- * a separator) denotes a trailing empty component.
- * Adjacent component separators denote an empty component.
+ * A lebding component sepbrbtor (the composite nbme string begins with
+ * b sepbrbtor) denotes b lebding empty component (b component consisting
+ * of bn empty string).
+ * A trbiling component sepbrbtor (the composite nbme string ends with
+ * b sepbrbtor) denotes b trbiling empty component.
+ * Adjbcent component sepbrbtors denote bn empty component.
  *
- *<h1>Composite Name Examples</h1>
- *This table shows examples of some composite names. Each row shows
- *the string form of a composite name and its corresponding structural form
- *(<tt>CompositeName</tt>).
+ *<h1>Composite Nbme Exbmples</h1>
+ *This tbble shows exbmples of some composite nbmes. Ebch row shows
+ *the string form of b composite nbme bnd its corresponding structurbl form
+ *(<tt>CompositeNbme</tt>).
  *
-<table border="1" cellpadding=3 summary="examples showing string form of composite name and its corresponding structural form (CompositeName)">
+<tbble border="1" cellpbdding=3 summbry="exbmples showing string form of composite nbme bnd its corresponding structurbl form (CompositeNbme)">
 
 <tr>
-<th>String Name</th>
-<th>CompositeName</th>
+<th>String Nbme</th>
+<th>CompositeNbme</th>
 </tr>
 
 <tr>
 <td>
 ""
 </td>
-<td>{} (the empty name == new CompositeName("") == new CompositeName())
+<td>{} (the empty nbme == new CompositeNbme("") == new CompositeNbme())
 </td>
 </tr>
 
@@ -135,20 +135,20 @@ import java.util.Properties;
 <tr><td>"x//y"</td>
 <td>{"x", "", "y"}</td>
 </tr>
-</table>
+</tbble>
  *
- *<h1>Composition Examples</h1>
- * Here are some composition examples.  The right column shows composing
- * string composite names while the left column shows composing the
- * corresponding <tt>CompositeName</tt>s.  Notice that composing the
- * string forms of two composite names simply involves concatenating
+ *<h1>Composition Exbmples</h1>
+ * Here bre some composition exbmples.  The right column shows composing
+ * string composite nbmes while the left column shows composing the
+ * corresponding <tt>CompositeNbme</tt>s.  Notice thbt composing the
+ * string forms of two composite nbmes simply involves concbtenbting
  * their string forms together.
 
-<table border="1" cellpadding=3 summary="composition examples showing string names and composite names">
+<tbble border="1" cellpbdding=3 summbry="composition exbmples showing string nbmes bnd composite nbmes">
 
 <tr>
-<th>String Names</th>
-<th>CompositeNames</th>
+<th>String Nbmes</th>
+<th>CompositeNbmes</th>
 </tr>
 
 <tr>
@@ -187,420 +187,420 @@ import java.util.Properties;
 </td>
 </tr>
 
-</table>
+</tbble>
  *
- *<h1>Multithreaded Access</h1>
- * A <tt>CompositeName</tt> instance is not synchronized against concurrent
- * multithreaded access. Multiple threads trying to access and modify a
- * <tt>CompositeName</tt> should lock the object.
+ *<h1>Multithrebded Access</h1>
+ * A <tt>CompositeNbme</tt> instbnce is not synchronized bgbinst concurrent
+ * multithrebded bccess. Multiple threbds trying to bccess bnd modify b
+ * <tt>CompositeNbme</tt> should lock the object.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  * @since 1.3
  */
 
 
-public class CompositeName implements Name {
+public clbss CompositeNbme implements Nbme {
 
-    private transient NameImpl impl;
+    privbte trbnsient NbmeImpl impl;
     /**
-      * Constructs a new composite name instance using the components
+      * Constructs b new composite nbme instbnce using the components
       * specified by 'comps'. This protected method is intended
-      * to be used by subclasses of CompositeName when they override
-      * methods such as clone(), getPrefix(), getSuffix().
+      * to be used by subclbsses of CompositeNbme when they override
+      * methods such bs clone(), getPrefix(), getSuffix().
       *
-      * @param comps A non-null enumeration containing the components for the new
-      *              composite name. Each element is of class String.
-      *               The enumeration will be consumed to extract its
+      * @pbrbm comps A non-null enumerbtion contbining the components for the new
+      *              composite nbme. Ebch element is of clbss String.
+      *               The enumerbtion will be consumed to extrbct its
       *               elements.
       */
-    protected CompositeName(Enumeration<String> comps) {
-        impl = new NameImpl(null, comps); // null means use default syntax
+    protected CompositeNbme(Enumerbtion<String> comps) {
+        impl = new NbmeImpl(null, comps); // null mebns use defbult syntbx
     }
 
     /**
-      * Constructs a new composite name instance by parsing the string n
-      * using the composite name syntax (left-to-right, slash separated).
-      * The composite name syntax is described in detail in the class
+      * Constructs b new composite nbme instbnce by pbrsing the string n
+      * using the composite nbme syntbx (left-to-right, slbsh sepbrbted).
+      * The composite nbme syntbx is described in detbil in the clbss
       * description.
       *
-      * @param  n       The non-null string to parse.
-      * @exception InvalidNameException If n has invalid composite name syntax.
+      * @pbrbm  n       The non-null string to pbrse.
+      * @exception InvblidNbmeException If n hbs invblid composite nbme syntbx.
       */
-    public CompositeName(String n) throws InvalidNameException {
-        impl = new NameImpl(null, n);  // null means use default syntax
+    public CompositeNbme(String n) throws InvblidNbmeException {
+        impl = new NbmeImpl(null, n);  // null mebns use defbult syntbx
     }
 
     /**
-      * Constructs a new empty composite name. Such a name returns true
+      * Constructs b new empty composite nbme. Such b nbme returns true
       * when <code>isEmpty()</code> is invoked on it.
       */
-    public CompositeName() {
-        impl = new NameImpl(null);  // null means use default syntax
+    public CompositeNbme() {
+        impl = new NbmeImpl(null);  // null mebns use defbult syntbx
     }
 
     /**
-      * Generates the string representation of this composite name.
-      * The string representation consists of enumerating in order
-      * each component of the composite name and separating
-      * each component by a forward slash character. Quoting and
-      * escape characters are applied where necessary according to
-      * the JNDI syntax, which is described in the class description.
-      * An empty component is represented by an empty string.
+      * Generbtes the string representbtion of this composite nbme.
+      * The string representbtion consists of enumerbting in order
+      * ebch component of the composite nbme bnd sepbrbting
+      * ebch component by b forwbrd slbsh chbrbcter. Quoting bnd
+      * escbpe chbrbcters bre bpplied where necessbry bccording to
+      * the JNDI syntbx, which is described in the clbss description.
+      * An empty component is represented by bn empty string.
       *
-      * The string representation thus generated can be passed to
-      * the CompositeName constructor to create a new equivalent
-      * composite name.
+      * The string representbtion thus generbted cbn be pbssed to
+      * the CompositeNbme constructor to crebte b new equivblent
+      * composite nbme.
       *
-      * @return A non-null string representation of this composite name.
+      * @return A non-null string representbtion of this composite nbme.
       */
     public String toString() {
         return impl.toString();
     }
 
     /**
-      * Determines whether two composite names are equal.
-      * If obj is null or not a composite name, false is returned.
-      * Two composite names are equal if each component in one is equal
+      * Determines whether two composite nbmes bre equbl.
+      * If obj is null or not b composite nbme, fblse is returned.
+      * Two composite nbmes bre equbl if ebch component in one is equbl
       * to the corresponding component in the other. This implies
-      * both have the same number of components, and each component's
-      * equals() test against the corresponding component in the other name
+      * both hbve the sbme number of components, bnd ebch component's
+      * equbls() test bgbinst the corresponding component in the other nbme
       * returns true.
       *
-      * @param  obj     The possibly null object to compare against.
-      * @return true if obj is equal to this composite name, false otherwise.
-      * @see #hashCode
+      * @pbrbm  obj     The possibly null object to compbre bgbinst.
+      * @return true if obj is equbl to this composite nbme, fblse otherwise.
+      * @see #hbshCode
       */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return (obj != null &&
-                obj instanceof CompositeName &&
-                impl.equals(((CompositeName)obj).impl));
+                obj instbnceof CompositeNbme &&
+                impl.equbls(((CompositeNbme)obj).impl));
     }
 
     /**
-      * Computes the hash code of this composite name.
-      * The hash code is the sum of the hash codes of individual components
-      * of this composite name.
+      * Computes the hbsh code of this composite nbme.
+      * The hbsh code is the sum of the hbsh codes of individubl components
+      * of this composite nbme.
       *
-      * @return An int representing the hash code of this name.
-      * @see #equals
+      * @return An int representing the hbsh code of this nbme.
+      * @see #equbls
       */
-    public int hashCode() {
-        return impl.hashCode();
+    public int hbshCode() {
+        return impl.hbshCode();
     }
 
 
     /**
-     * Compares this CompositeName with the specified Object for order.
-     * Returns a
-     * negative integer, zero, or a positive integer as this Name is less
-     * than, equal to, or greater than the given Object.
+     * Compbres this CompositeNbme with the specified Object for order.
+     * Returns b
+     * negbtive integer, zero, or b positive integer bs this Nbme is less
+     * thbn, equbl to, or grebter thbn the given Object.
      * <p>
-     * If obj is null or not an instance of CompositeName, ClassCastException
+     * If obj is null or not bn instbnce of CompositeNbme, ClbssCbstException
      * is thrown.
      * <p>
-     * See equals() for what it means for two composite names to be equal.
-     * If two composite names are equal, 0 is returned.
+     * See equbls() for whbt it mebns for two composite nbmes to be equbl.
+     * If two composite nbmes bre equbl, 0 is returned.
      * <p>
-     * Ordering of composite names follows the lexicographical rules for
-     * string comparison, with the extension that this applies to all
-     * the components in the composite name. The effect is as if all the
-     * components were lined up in their specified ordered and the
-     * lexicographical rules applied over the two line-ups.
-     * If this composite name is "lexicographically" lesser than obj,
-     * a negative number is returned.
-     * If this composite name is "lexicographically" greater than obj,
-     * a positive number is returned.
-     * @param obj The non-null object to compare against.
+     * Ordering of composite nbmes follows the lexicogrbphicbl rules for
+     * string compbrison, with the extension thbt this bpplies to bll
+     * the components in the composite nbme. The effect is bs if bll the
+     * components were lined up in their specified ordered bnd the
+     * lexicogrbphicbl rules bpplied over the two line-ups.
+     * If this composite nbme is "lexicogrbphicblly" lesser thbn obj,
+     * b negbtive number is returned.
+     * If this composite nbme is "lexicogrbphicblly" grebter thbn obj,
+     * b positive number is returned.
+     * @pbrbm obj The non-null object to compbre bgbinst.
      *
-     * @return  a negative integer, zero, or a positive integer as this Name
-     *          is less than, equal to, or greater than the given Object.
-     * @exception ClassCastException if obj is not a CompositeName.
+     * @return  b negbtive integer, zero, or b positive integer bs this Nbme
+     *          is less thbn, equbl to, or grebter thbn the given Object.
+     * @exception ClbssCbstException if obj is not b CompositeNbme.
      */
-    public int compareTo(Object obj) {
-        if (!(obj instanceof CompositeName)) {
-            throw new ClassCastException("Not a CompositeName");
+    public int compbreTo(Object obj) {
+        if (!(obj instbnceof CompositeNbme)) {
+            throw new ClbssCbstException("Not b CompositeNbme");
         }
-        return impl.compareTo(((CompositeName)obj).impl);
+        return impl.compbreTo(((CompositeNbme)obj).impl);
     }
 
     /**
-      * Generates a copy of this composite name.
-      * Changes to the components of this composite name won't
-      * affect the new copy and vice versa.
+      * Generbtes b copy of this composite nbme.
+      * Chbnges to the components of this composite nbme won't
+      * bffect the new copy bnd vice versb.
       *
-      * @return A non-null copy of this composite name.
+      * @return A non-null copy of this composite nbme.
       */
     public Object clone() {
-        return (new CompositeName(getAll()));
+        return (new CompositeNbme(getAll()));
     }
 
     /**
-      * Retrieves the number of components in this composite name.
+      * Retrieves the number of components in this composite nbme.
       *
-      * @return The nonnegative number of components in this composite name.
+      * @return The nonnegbtive number of components in this composite nbme.
       */
     public int size() {
         return (impl.size());
     }
 
     /**
-      * Determines whether this composite name is empty. A composite name
-      * is empty if it has zero components.
+      * Determines whether this composite nbme is empty. A composite nbme
+      * is empty if it hbs zero components.
       *
-      * @return true if this composite name is empty, false otherwise.
+      * @return true if this composite nbme is empty, fblse otherwise.
       */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return (impl.isEmpty());
     }
 
     /**
-      * Retrieves the components of this composite name as an enumeration
+      * Retrieves the components of this composite nbme bs bn enumerbtion
       * of strings.
-      * The effects of updates to this composite name on this enumeration
+      * The effects of updbtes to this composite nbme on this enumerbtion
       * is undefined.
       *
-      * @return A non-null enumeration of the components of
-      *         this composite name. Each element of the enumeration is of
-      *         class String.
+      * @return A non-null enumerbtion of the components of
+      *         this composite nbme. Ebch element of the enumerbtion is of
+      *         clbss String.
       */
-    public Enumeration<String> getAll() {
+    public Enumerbtion<String> getAll() {
         return (impl.getAll());
     }
 
     /**
-      * Retrieves a component of this composite name.
+      * Retrieves b component of this composite nbme.
       *
-      * @param  posn    The 0-based index of the component to retrieve.
-      *                 Must be in the range [0,size()).
-      * @return The non-null component at index posn.
-      * @exception ArrayIndexOutOfBoundsException if posn is outside the
-      *         specified range.
+      * @pbrbm  posn    The 0-bbsed index of the component to retrieve.
+      *                 Must be in the rbnge [0,size()).
+      * @return The non-null component bt index posn.
+      * @exception ArrbyIndexOutOfBoundsException if posn is outside the
+      *         specified rbnge.
       */
     public String get(int posn) {
         return (impl.get(posn));
     }
 
     /**
-      * Creates a composite name whose components consist of a prefix of the
-      * components in this composite name. Subsequent changes to
-      * this composite name does not affect the name that is returned.
+      * Crebtes b composite nbme whose components consist of b prefix of the
+      * components in this composite nbme. Subsequent chbnges to
+      * this composite nbme does not bffect the nbme thbt is returned.
       *
-      * @param  posn    The 0-based index of the component at which to stop.
-      *                 Must be in the range [0,size()].
-      * @return A composite name consisting of the components at indexes in
-      *         the range [0,posn).
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm  posn    The 0-bbsed index of the component bt which to stop.
+      *                 Must be in the rbnge [0,size()].
+      * @return A composite nbme consisting of the components bt indexes in
+      *         the rbnge [0,posn).
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge.
       */
-    public Name getPrefix(int posn) {
-        Enumeration<String> comps = impl.getPrefix(posn);
-        return (new CompositeName(comps));
+    public Nbme getPrefix(int posn) {
+        Enumerbtion<String> comps = impl.getPrefix(posn);
+        return (new CompositeNbme(comps));
     }
 
     /**
-      * Creates a composite name whose components consist of a suffix of the
-      * components in this composite name. Subsequent changes to
-      * this composite name does not affect the name that is returned.
+      * Crebtes b composite nbme whose components consist of b suffix of the
+      * components in this composite nbme. Subsequent chbnges to
+      * this composite nbme does not bffect the nbme thbt is returned.
       *
-      * @param  posn    The 0-based index of the component at which to start.
-      *                 Must be in the range [0,size()].
-      * @return A composite name consisting of the components at indexes in
-      *         the range [posn,size()).  If posn is equal to
-      *         size(), an empty composite name is returned.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm  posn    The 0-bbsed index of the component bt which to stbrt.
+      *                 Must be in the rbnge [0,size()].
+      * @return A composite nbme consisting of the components bt indexes in
+      *         the rbnge [posn,size()).  If posn is equbl to
+      *         size(), bn empty composite nbme is returned.
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge.
       */
-    public Name getSuffix(int posn) {
-        Enumeration<String> comps = impl.getSuffix(posn);
-        return (new CompositeName(comps));
+    public Nbme getSuffix(int posn) {
+        Enumerbtion<String> comps = impl.getSuffix(posn);
+        return (new CompositeNbme(comps));
     }
 
     /**
-      * Determines whether a composite name is a prefix of this composite name.
-      * A composite name 'n' is a prefix if it is equal to
-      * getPrefix(n.size())--in other words, this composite name
-      * starts with 'n'. If 'n' is null or not a composite name, false is returned.
+      * Determines whether b composite nbme is b prefix of this composite nbme.
+      * A composite nbme 'n' is b prefix if it is equbl to
+      * getPrefix(n.size())--in other words, this composite nbme
+      * stbrts with 'n'. If 'n' is null or not b composite nbme, fblse is returned.
       *
-      * @param  n       The possibly null name to check.
-      * @return true if n is a CompositeName and
-      *         is a prefix of this composite name, false otherwise.
+      * @pbrbm  n       The possibly null nbme to check.
+      * @return true if n is b CompositeNbme bnd
+      *         is b prefix of this composite nbme, fblse otherwise.
       */
-    public boolean startsWith(Name n) {
-        if (n instanceof CompositeName) {
-            return (impl.startsWith(n.size(), n.getAll()));
+    public boolebn stbrtsWith(Nbme n) {
+        if (n instbnceof CompositeNbme) {
+            return (impl.stbrtsWith(n.size(), n.getAll()));
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-      * Determines whether a composite name is a suffix of this composite name.
-      * A composite name 'n' is a suffix if it is equal to
+      * Determines whether b composite nbme is b suffix of this composite nbme.
+      * A composite nbme 'n' is b suffix if it is equbl to
       * getSuffix(size()-n.size())--in other words, this
-      * composite name ends with 'n'.
-      * If n is null or not a composite name, false is returned.
+      * composite nbme ends with 'n'.
+      * If n is null or not b composite nbme, fblse is returned.
       *
-      * @param  n       The possibly null name to check.
-      * @return true if n is a CompositeName and
-      *         is a suffix of this composite name, false otherwise.
+      * @pbrbm  n       The possibly null nbme to check.
+      * @return true if n is b CompositeNbme bnd
+      *         is b suffix of this composite nbme, fblse otherwise.
       */
-    public boolean endsWith(Name n) {
-        if (n instanceof CompositeName) {
+    public boolebn endsWith(Nbme n) {
+        if (n instbnceof CompositeNbme) {
             return (impl.endsWith(n.size(), n.getAll()));
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-      * Adds the components of a composite name -- in order -- to the end of
-      * this composite name.
+      * Adds the components of b composite nbme -- in order -- to the end of
+      * this composite nbme.
       *
-      * @param suffix   The non-null components to add.
-      * @return The updated CompositeName, not a new one. Cannot be null.
-      * @exception InvalidNameException If suffix is not a composite name.
+      * @pbrbm suffix   The non-null components to bdd.
+      * @return The updbted CompositeNbme, not b new one. Cbnnot be null.
+      * @exception InvblidNbmeException If suffix is not b composite nbme.
       */
-    public Name addAll(Name suffix)
-        throws InvalidNameException
+    public Nbme bddAll(Nbme suffix)
+        throws InvblidNbmeException
     {
-        if (suffix instanceof CompositeName) {
-            impl.addAll(suffix.getAll());
+        if (suffix instbnceof CompositeNbme) {
+            impl.bddAll(suffix.getAll());
             return this;
         } else {
-            throw new InvalidNameException("Not a composite name: " +
+            throw new InvblidNbmeException("Not b composite nbme: " +
                 suffix.toString());
         }
     }
 
     /**
-      * Adds the components of a composite name -- in order -- at a specified
-      * position within this composite name.
-      * Components of this composite name at or after the index of the first
-      * new component are shifted up (away from index 0)
-      * to accommodate the new components.
+      * Adds the components of b composite nbme -- in order -- bt b specified
+      * position within this composite nbme.
+      * Components of this composite nbme bt or bfter the index of the first
+      * new component bre shifted up (bwby from index 0)
+      * to bccommodbte the new components.
       *
-      * @param n        The non-null components to add.
-      * @param posn     The index in this name at which to add the new
-      *                 components.  Must be in the range [0,size()].
-      * @return The updated CompositeName, not a new one. Cannot be null.
-      * @exception InvalidNameException If n is not a composite name.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm n        The non-null components to bdd.
+      * @pbrbm posn     The index in this nbme bt which to bdd the new
+      *                 components.  Must be in the rbnge [0,size()].
+      * @return The updbted CompositeNbme, not b new one. Cbnnot be null.
+      * @exception InvblidNbmeException If n is not b composite nbme.
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge.
       */
-    public Name addAll(int posn, Name n)
-        throws InvalidNameException
+    public Nbme bddAll(int posn, Nbme n)
+        throws InvblidNbmeException
     {
-        if (n instanceof CompositeName) {
-            impl.addAll(posn, n.getAll());
+        if (n instbnceof CompositeNbme) {
+            impl.bddAll(posn, n.getAll());
             return this;
         } else {
-            throw new InvalidNameException("Not a composite name: " +
+            throw new InvblidNbmeException("Not b composite nbme: " +
                 n.toString());
         }
     }
 
     /**
-      * Adds a single component to the end of this composite name.
+      * Adds b single component to the end of this composite nbme.
       *
-      * @param comp     The non-null component to add.
-      * @return The updated CompositeName, not a new one. Cannot be null.
-      * @exception InvalidNameException If adding comp at end of the name
-      *                         would violate the name's syntax.
+      * @pbrbm comp     The non-null component to bdd.
+      * @return The updbted CompositeNbme, not b new one. Cbnnot be null.
+      * @exception InvblidNbmeException If bdding comp bt end of the nbme
+      *                         would violbte the nbme's syntbx.
       */
-    public Name add(String comp) throws InvalidNameException {
-        impl.add(comp);
+    public Nbme bdd(String comp) throws InvblidNbmeException {
+        impl.bdd(comp);
         return this;
     }
 
     /**
-      * Adds a single component at a specified position within this
-      * composite name.
-      * Components of this composite name at or after the index of the new
-      * component are shifted up by one (away from index 0) to accommodate
+      * Adds b single component bt b specified position within this
+      * composite nbme.
+      * Components of this composite nbme bt or bfter the index of the new
+      * component bre shifted up by one (bwby from index 0) to bccommodbte
       * the new component.
       *
-      * @param  comp    The non-null component to add.
-      * @param  posn    The index at which to add the new component.
-      *                 Must be in the range [0,size()].
-      * @return The updated CompositeName, not a new one. Cannot be null.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
-      * @exception InvalidNameException If adding comp at the specified position
-      *                         would violate the name's syntax.
+      * @pbrbm  comp    The non-null component to bdd.
+      * @pbrbm  posn    The index bt which to bdd the new component.
+      *                 Must be in the rbnge [0,size()].
+      * @return The updbted CompositeNbme, not b new one. Cbnnot be null.
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge.
+      * @exception InvblidNbmeException If bdding comp bt the specified position
+      *                         would violbte the nbme's syntbx.
       */
-    public Name add(int posn, String comp)
-        throws InvalidNameException
+    public Nbme bdd(int posn, String comp)
+        throws InvblidNbmeException
     {
-        impl.add(posn, comp);
+        impl.bdd(posn, comp);
         return this;
     }
 
     /**
-      * Deletes a component from this composite name.
-      * The component of this composite name at position 'posn' is removed,
-      * and components at indices greater than 'posn'
-      * are shifted down (towards index 0) by one.
+      * Deletes b component from this composite nbme.
+      * The component of this composite nbme bt position 'posn' is removed,
+      * bnd components bt indices grebter thbn 'posn'
+      * bre shifted down (towbrds index 0) by one.
       *
-      * @param  posn    The index of the component to delete.
-      *                 Must be in the range [0,size()).
-      * @return The component removed (a String).
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range (includes case where
-      *         composite name is empty).
-      * @exception InvalidNameException If deleting the component
-      *                         would violate the name's syntax.
+      * @pbrbm  posn    The index of the component to delete.
+      *                 Must be in the rbnge [0,size()).
+      * @return The component removed (b String).
+      * @exception ArrbyIndexOutOfBoundsException
+      *         If posn is outside the specified rbnge (includes cbse where
+      *         composite nbme is empty).
+      * @exception InvblidNbmeException If deleting the component
+      *                         would violbte the nbme's syntbx.
       */
-    public Object remove(int posn) throws InvalidNameException{
+    public Object remove(int posn) throws InvblidNbmeException{
         return impl.remove(posn);
     }
 
     /**
-     * Overridden to avoid implementation dependency.
-     * @serialData The number of components (an <tt>int</tt>) followed by
-     * the individual components (each a <tt>String</tt>).
+     * Overridden to bvoid implementbtion dependency.
+     * @seriblDbtb The number of components (bn <tt>int</tt>) followed by
+     * the individubl components (ebch b <tt>String</tt>).
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException {
         s.writeInt(size());
-        Enumeration<String> comps = getAll();
-        while (comps.hasMoreElements()) {
+        Enumerbtion<String> comps = getAll();
+        while (comps.hbsMoreElements()) {
             s.writeObject(comps.nextElement());
         }
     }
 
     /**
-     * Overridden to avoid implementation dependency.
+     * Overridden to bvoid implementbtion dependency.
      */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        impl = new NameImpl(null);  // null means use default syntax
-        int n = s.readInt();    // number of components
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.io.IOException, ClbssNotFoundException {
+        impl = new NbmeImpl(null);  // null mebns use defbult syntbx
+        int n = s.rebdInt();    // number of components
         try {
             while (--n >= 0) {
-                add((String)s.readObject());
+                bdd((String)s.rebdObject());
             }
-        } catch (InvalidNameException e) {
-            throw (new java.io.StreamCorruptedException("Invalid name"));
+        } cbtch (InvblidNbmeException e) {
+            throw (new jbvb.io.StrebmCorruptedException("Invblid nbme"));
         }
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 1667768148915813118L;
+    privbte stbtic finbl long seriblVersionUID = 1667768148915813118L;
 
 /*
-    // %%% Test code for serialization.
-    public static void main(String[] args) throws Exception {
-        CompositeName c = new CompositeName("aaa/bbb");
-        java.io.FileOutputStream f1 = new java.io.FileOutputStream("/tmp/ser");
-        java.io.ObjectOutputStream s1 = new java.io.ObjectOutputStream(f1);
+    // %%% Test code for seriblizbtion.
+    public stbtic void mbin(String[] brgs) throws Exception {
+        CompositeNbme c = new CompositeNbme("bbb/bbb");
+        jbvb.io.FileOutputStrebm f1 = new jbvb.io.FileOutputStrebm("/tmp/ser");
+        jbvb.io.ObjectOutputStrebm s1 = new jbvb.io.ObjectOutputStrebm(f1);
         s1.writeObject(c);
         s1.close();
-        java.io.FileInputStream f2 = new java.io.FileInputStream("/tmp/ser");
-        java.io.ObjectInputStream s2 = new java.io.ObjectInputStream(f2);
-        c = (CompositeName)s2.readObject();
+        jbvb.io.FileInputStrebm f2 = new jbvb.io.FileInputStrebm("/tmp/ser");
+        jbvb.io.ObjectInputStrebm s2 = new jbvb.io.ObjectInputStrebm(f2);
+        c = (CompositeNbme)s2.rebdObject();
 
         System.out.println("Size: " + c.size());
         System.out.println("Size: " + c.snit);
@@ -609,21 +609,21 @@ public class CompositeName implements Name {
 
 /*
    %%% Testing code
-    public static void main(String[] args) {
+    public stbtic void mbin(String[] brgs) {
         try {
-            for (int i = 0; i < args.length; i++) {
-                Name name;
-                Enumeration e;
-                System.out.println("Given name: " + args[i]);
-                name = new CompositeName(args[i]);
-                e = name.getComponents();
-                while (e.hasMoreElements()) {
+            for (int i = 0; i < brgs.length; i++) {
+                Nbme nbme;
+                Enumerbtion e;
+                System.out.println("Given nbme: " + brgs[i]);
+                nbme = new CompositeNbme(brgs[i]);
+                e = nbme.getComponents();
+                while (e.hbsMoreElements()) {
                     System.out.println("Element: " + e.nextElement());
                 }
-                System.out.println("Constructed name: " + name.toString());
+                System.out.println("Constructed nbme: " + nbme.toString());
             }
-        } catch (Exception ne) {
-            ne.printStackTrace();
+        } cbtch (Exception ne) {
+            ne.printStbckTrbce();
         }
     }
 */

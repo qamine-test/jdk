@@ -1,300 +1,300 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.io.*;
-import java.util.*;
-import java.lang.reflect.*;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.lbng.reflect.*;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.IllegblChbrsetNbmeException;
+import jbvb.nio.chbrset.UnsupportedChbrsetException;
 
 /**
- * The <code>XMLEncoder</code> class is a complementary alternative to
- * the <code>ObjectOutputStream</code> and can used to generate
- * a textual representation of a <em>JavaBean</em> in the same
- * way that the <code>ObjectOutputStream</code> can
- * be used to create binary representation of <code>Serializable</code>
- * objects. For example, the following fragment can be used to create
- * a textual representation the supplied <em>JavaBean</em>
- * and all its properties:
+ * The <code>XMLEncoder</code> clbss is b complementbry blternbtive to
+ * the <code>ObjectOutputStrebm</code> bnd cbn used to generbte
+ * b textubl representbtion of b <em>JbvbBebn</em> in the sbme
+ * wby thbt the <code>ObjectOutputStrebm</code> cbn
+ * be used to crebte binbry representbtion of <code>Seriblizbble</code>
+ * objects. For exbmple, the following frbgment cbn be used to crebte
+ * b textubl representbtion the supplied <em>JbvbBebn</em>
+ * bnd bll its properties:
  * <pre>
  *       XMLEncoder e = new XMLEncoder(
- *                          new BufferedOutputStream(
- *                              new FileOutputStream("Test.xml")));
+ *                          new BufferedOutputStrebm(
+ *                              new FileOutputStrebm("Test.xml")));
  *       e.writeObject(new JButton("Hello, world"));
  *       e.close();
  * </pre>
- * Despite the similarity of their APIs, the <code>XMLEncoder</code>
- * class is exclusively designed for the purpose of archiving graphs
- * of <em>JavaBean</em>s as textual representations of their public
- * properties. Like Java source files, documents written this way
- * have a natural immunity to changes in the implementations of the classes
- * involved. The <code>ObjectOutputStream</code> continues to be recommended
- * for interprocess communication and general purpose serialization.
+ * Despite the similbrity of their APIs, the <code>XMLEncoder</code>
+ * clbss is exclusively designed for the purpose of brchiving grbphs
+ * of <em>JbvbBebn</em>s bs textubl representbtions of their public
+ * properties. Like Jbvb source files, documents written this wby
+ * hbve b nbturbl immunity to chbnges in the implementbtions of the clbsses
+ * involved. The <code>ObjectOutputStrebm</code> continues to be recommended
+ * for interprocess communicbtion bnd generbl purpose seriblizbtion.
  * <p>
- * The <code>XMLEncoder</code> class provides a default denotation for
- * <em>JavaBean</em>s in which they are represented as XML documents
- * complying with version 1.0 of the XML specification and the
- * UTF-8 character encoding of the Unicode/ISO 10646 character set.
- * The XML documents produced by the <code>XMLEncoder</code> class are:
+ * The <code>XMLEncoder</code> clbss provides b defbult denotbtion for
+ * <em>JbvbBebn</em>s in which they bre represented bs XML documents
+ * complying with version 1.0 of the XML specificbtion bnd the
+ * UTF-8 chbrbcter encoding of the Unicode/ISO 10646 chbrbcter set.
+ * The XML documents produced by the <code>XMLEncoder</code> clbss bre:
  * <ul>
  * <li>
- * <em>Portable and version resilient</em>: they have no dependencies
- * on the private implementation of any class and so, like Java source
- * files, they may be exchanged between environments which may have
- * different versions of some of the classes and between VMs from
+ * <em>Portbble bnd version resilient</em>: they hbve no dependencies
+ * on the privbte implementbtion of bny clbss bnd so, like Jbvb source
+ * files, they mby be exchbnged between environments which mby hbve
+ * different versions of some of the clbsses bnd between VMs from
  * different vendors.
  * <li>
- * <em>Structurally compact</em>: The <code>XMLEncoder</code> class
- * uses a <em>redundancy elimination</em> algorithm internally so that the
- * default values of a Bean's properties are not written to the stream.
+ * <em>Structurblly compbct</em>: The <code>XMLEncoder</code> clbss
+ * uses b <em>redundbncy eliminbtion</em> blgorithm internblly so thbt the
+ * defbult vblues of b Bebn's properties bre not written to the strebm.
  * <li>
- * <em>Fault tolerant</em>: Non-structural errors in the file,
- * caused either by damage to the file or by API changes
- * made to classes in an archive remain localized
- * so that a reader can report the error and continue to load the parts
- * of the document which were not affected by the error.
+ * <em>Fbult tolerbnt</em>: Non-structurbl errors in the file,
+ * cbused either by dbmbge to the file or by API chbnges
+ * mbde to clbsses in bn brchive rembin locblized
+ * so thbt b rebder cbn report the error bnd continue to lobd the pbrts
+ * of the document which were not bffected by the error.
  * </ul>
  * <p>
- * Below is an example of an XML archive containing
- * some user interface components from the <em>swing</em> toolkit:
+ * Below is bn exbmple of bn XML brchive contbining
+ * some user interfbce components from the <em>swing</em> toolkit:
  * <pre>
  * &lt;?xml version="1.0" encoding="UTF-8"?&gt;
- * &lt;java version="1.0" class="java.beans.XMLDecoder"&gt;
- * &lt;object class="javax.swing.JFrame"&gt;
- *   &lt;void property="name"&gt;
- *     &lt;string&gt;frame1&lt;/string&gt;
+ * &lt;jbvb version="1.0" clbss="jbvb.bebns.XMLDecoder"&gt;
+ * &lt;object clbss="jbvbx.swing.JFrbme"&gt;
+ *   &lt;void property="nbme"&gt;
+ *     &lt;string&gt;frbme1&lt;/string&gt;
  *   &lt;/void&gt;
  *   &lt;void property="bounds"&gt;
- *     &lt;object class="java.awt.Rectangle"&gt;
+ *     &lt;object clbss="jbvb.bwt.Rectbngle"&gt;
  *       &lt;int&gt;0&lt;/int&gt;
  *       &lt;int&gt;0&lt;/int&gt;
  *       &lt;int&gt;200&lt;/int&gt;
  *       &lt;int&gt;200&lt;/int&gt;
  *     &lt;/object&gt;
  *   &lt;/void&gt;
- *   &lt;void property="contentPane"&gt;
- *     &lt;void method="add"&gt;
- *       &lt;object class="javax.swing.JButton"&gt;
- *         &lt;void property="label"&gt;
+ *   &lt;void property="contentPbne"&gt;
+ *     &lt;void method="bdd"&gt;
+ *       &lt;object clbss="jbvbx.swing.JButton"&gt;
+ *         &lt;void property="lbbel"&gt;
  *           &lt;string&gt;Hello&lt;/string&gt;
  *         &lt;/void&gt;
  *       &lt;/object&gt;
  *     &lt;/void&gt;
  *   &lt;/void&gt;
  *   &lt;void property="visible"&gt;
- *     &lt;boolean&gt;true&lt;/boolean&gt;
+ *     &lt;boolebn&gt;true&lt;/boolebn&gt;
  *   &lt;/void&gt;
  * &lt;/object&gt;
- * &lt;/java&gt;
+ * &lt;/jbvb&gt;
  * </pre>
- * The XML syntax uses the following conventions:
+ * The XML syntbx uses the following conventions:
  * <ul>
  * <li>
- * Each element represents a method call.
+ * Ebch element represents b method cbll.
  * <li>
- * The "object" tag denotes an <em>expression</em> whose value is
- * to be used as the argument to the enclosing element.
+ * The "object" tbg denotes bn <em>expression</em> whose vblue is
+ * to be used bs the brgument to the enclosing element.
  * <li>
- * The "void" tag denotes a <em>statement</em> which will
- * be executed, but whose result will not be used as an
- * argument to the enclosing method.
+ * The "void" tbg denotes b <em>stbtement</em> which will
+ * be executed, but whose result will not be used bs bn
+ * brgument to the enclosing method.
  * <li>
- * Elements which contain elements use those elements as arguments,
- * unless they have the tag: "void".
+ * Elements which contbin elements use those elements bs brguments,
+ * unless they hbve the tbg: "void".
  * <li>
- * The name of the method is denoted by the "method" attribute.
+ * The nbme of the method is denoted by the "method" bttribute.
  * <li>
- * XML's standard "id" and "idref" attributes are used to make
- * references to previous expressions - so as to deal with
- * circularities in the object graph.
+ * XML's stbndbrd "id" bnd "idref" bttributes bre used to mbke
+ * references to previous expressions - so bs to debl with
+ * circulbrities in the object grbph.
  * <li>
- * The "class" attribute is used to specify the target of a static
- * method or constructor explicitly; its value being the fully
- * qualified name of the class.
+ * The "clbss" bttribute is used to specify the tbrget of b stbtic
+ * method or constructor explicitly; its vblue being the fully
+ * qublified nbme of the clbss.
  * <li>
- * Elements with the "void" tag are executed using
- * the outer context as the target if no target is defined
- * by a "class" attribute.
+ * Elements with the "void" tbg bre executed using
+ * the outer context bs the tbrget if no tbrget is defined
+ * by b "clbss" bttribute.
  * <li>
- * Java's String class is treated specially and is
+ * Jbvb's String clbss is trebted speciblly bnd is
  * written &lt;string&gt;Hello, world&lt;/string&gt; where
- * the characters of the string are converted to bytes
- * using the UTF-8 character encoding.
+ * the chbrbcters of the string bre converted to bytes
+ * using the UTF-8 chbrbcter encoding.
  * </ul>
  * <p>
- * Although all object graphs may be written using just these three
- * tags, the following definitions are included so that common
- * data structures can be expressed more concisely:
+ * Although bll object grbphs mby be written using just these three
+ * tbgs, the following definitions bre included so thbt common
+ * dbtb structures cbn be expressed more concisely:
  * <ul>
  * <li>
- * The default method name is "new".
+ * The defbult method nbme is "new".
  * <li>
- * A reference to a java class is written in the form
- *  &lt;class&gt;javax.swing.JButton&lt;/class&gt;.
+ * A reference to b jbvb clbss is written in the form
+ *  &lt;clbss&gt;jbvbx.swing.JButton&lt;/clbss&gt;.
  * <li>
- * Instances of the wrapper classes for Java's primitive types are written
- * using the name of the primitive type as the tag. For example, an
- * instance of the <code>Integer</code> class could be written:
- * &lt;int&gt;123&lt;/int&gt;. Note that the <code>XMLEncoder</code> class
- * uses Java's reflection package in which the conversion between
- * Java's primitive types and their associated "wrapper classes"
- * is handled internally. The API for the <code>XMLEncoder</code> class
- * itself deals only with <code>Object</code>s.
+ * Instbnces of the wrbpper clbsses for Jbvb's primitive types bre written
+ * using the nbme of the primitive type bs the tbg. For exbmple, bn
+ * instbnce of the <code>Integer</code> clbss could be written:
+ * &lt;int&gt;123&lt;/int&gt;. Note thbt the <code>XMLEncoder</code> clbss
+ * uses Jbvb's reflection pbckbge in which the conversion between
+ * Jbvb's primitive types bnd their bssocibted "wrbpper clbsses"
+ * is hbndled internblly. The API for the <code>XMLEncoder</code> clbss
+ * itself debls only with <code>Object</code>s.
  * <li>
- * In an element representing a nullary method whose name
- * starts with "get", the "method" attribute is replaced
- * with a "property" attribute whose value is given by removing
- * the "get" prefix and decapitalizing the result.
+ * In bn element representing b nullbry method whose nbme
+ * stbrts with "get", the "method" bttribute is replbced
+ * with b "property" bttribute whose vblue is given by removing
+ * the "get" prefix bnd decbpitblizing the result.
  * <li>
- * In an element representing a monadic method whose name
- * starts with "set", the "method" attribute is replaced
- * with a "property" attribute whose value is given by removing
- * the "set" prefix and decapitalizing the result.
+ * In bn element representing b monbdic method whose nbme
+ * stbrts with "set", the "method" bttribute is replbced
+ * with b "property" bttribute whose vblue is given by removing
+ * the "set" prefix bnd decbpitblizing the result.
  * <li>
- * In an element representing a method named "get" taking one
- * integer argument, the "method" attribute is replaced
- * with an "index" attribute whose value the value of the
- * first argument.
+ * In bn element representing b method nbmed "get" tbking one
+ * integer brgument, the "method" bttribute is replbced
+ * with bn "index" bttribute whose vblue the vblue of the
+ * first brgument.
  * <li>
- * In an element representing a method named "set" taking two arguments,
- * the first of which is an integer, the "method" attribute is replaced
- * with an "index" attribute whose value the value of the
- * first argument.
+ * In bn element representing b method nbmed "set" tbking two brguments,
+ * the first of which is bn integer, the "method" bttribute is replbced
+ * with bn "index" bttribute whose vblue the vblue of the
+ * first brgument.
  * <li>
- * A reference to an array is written using the "array"
- * tag. The "class" and "length" attributes specify the
- * sub-type of the array and its length respectively.
+ * A reference to bn brrby is written using the "brrby"
+ * tbg. The "clbss" bnd "length" bttributes specify the
+ * sub-type of the brrby bnd its length respectively.
  * </ul>
  *
  *<p>
- * For more information you might also want to check out
- * <a
- href="http://java.sun.com/products/jfc/tsc/articles/persistence4">Using XMLEncoder</a>,
- * an article in <em>The Swing Connection.</em>
+ * For more informbtion you might blso wbnt to check out
+ * <b
+ href="http://jbvb.sun.com/products/jfc/tsc/brticles/persistence4">Using XMLEncoder</b>,
+ * bn brticle in <em>The Swing Connection.</em>
  * @see XMLDecoder
- * @see java.io.ObjectOutputStream
+ * @see jbvb.io.ObjectOutputStrebm
  *
  * @since 1.4
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
-public class XMLEncoder extends Encoder implements AutoCloseable {
+public clbss XMLEncoder extends Encoder implements AutoClosebble {
 
-    private final CharsetEncoder encoder;
-    private final String charset;
-    private final boolean declaration;
+    privbte finbl ChbrsetEncoder encoder;
+    privbte finbl String chbrset;
+    privbte finbl boolebn declbrbtion;
 
-    private OutputStreamWriter out;
-    private Object owner;
-    private int indentation = 0;
-    private boolean internal = false;
-    private Map<Object, ValueData> valueToExpression;
-    private Map<Object, List<Statement>> targetToStatementList;
-    private boolean preambleWritten = false;
-    private NameGenerator nameGenerator;
+    privbte OutputStrebmWriter out;
+    privbte Object owner;
+    privbte int indentbtion = 0;
+    privbte boolebn internbl = fblse;
+    privbte Mbp<Object, VblueDbtb> vblueToExpression;
+    privbte Mbp<Object, List<Stbtement>> tbrgetToStbtementList;
+    privbte boolebn prebmbleWritten = fblse;
+    privbte NbmeGenerbtor nbmeGenerbtor;
 
-    private class ValueData {
+    privbte clbss VblueDbtb {
         public int refs = 0;
-        public boolean marked = false; // Marked -> refs > 0 unless ref was a target.
-        public String name = null;
+        public boolebn mbrked = fblse; // Mbrked -> refs > 0 unless ref wbs b tbrget.
+        public String nbme = null;
         public Expression exp = null;
     }
 
     /**
-     * Creates a new XML encoder to write out <em>JavaBeans</em>
-     * to the stream <code>out</code> using an XML encoding.
+     * Crebtes b new XML encoder to write out <em>JbvbBebns</em>
+     * to the strebm <code>out</code> using bn XML encoding.
      *
-     * @param out  the stream to which the XML representation of
+     * @pbrbm out  the strebm to which the XML representbtion of
      *             the objects will be written
      *
-     * @throws  IllegalArgumentException
+     * @throws  IllegblArgumentException
      *          if <code>out</code> is <code>null</code>
      *
-     * @see XMLDecoder#XMLDecoder(InputStream)
+     * @see XMLDecoder#XMLDecoder(InputStrebm)
      */
-    public XMLEncoder(OutputStream out) {
+    public XMLEncoder(OutputStrebm out) {
         this(out, "UTF-8", true, 0);
     }
 
     /**
-     * Creates a new XML encoder to write out <em>JavaBeans</em>
-     * to the stream <code>out</code> using the given <code>charset</code>
-     * starting from the given <code>indentation</code>.
+     * Crebtes b new XML encoder to write out <em>JbvbBebns</em>
+     * to the strebm <code>out</code> using the given <code>chbrset</code>
+     * stbrting from the given <code>indentbtion</code>.
      *
-     * @param out          the stream to which the XML representation of
+     * @pbrbm out          the strebm to which the XML representbtion of
      *                     the objects will be written
-     * @param charset      the name of the requested charset;
-     *                     may be either a canonical name or an alias
-     * @param declaration  whether the XML declaration should be generated;
-     *                     set this to <code>false</code>
-     *                     when embedding the contents in another XML document
-     * @param indentation  the number of space characters to indent the entire XML document by
+     * @pbrbm chbrset      the nbme of the requested chbrset;
+     *                     mby be either b cbnonicbl nbme or bn blibs
+     * @pbrbm declbrbtion  whether the XML declbrbtion should be generbted;
+     *                     set this to <code>fblse</code>
+     *                     when embedding the contents in bnother XML document
+     * @pbrbm indentbtion  the number of spbce chbrbcters to indent the entire XML document by
      *
-     * @throws  IllegalArgumentException
-     *          if <code>out</code> or <code>charset</code> is <code>null</code>,
-     *          or if <code>indentation</code> is less than 0
+     * @throws  IllegblArgumentException
+     *          if <code>out</code> or <code>chbrset</code> is <code>null</code>,
+     *          or if <code>indentbtion</code> is less thbn 0
      *
-     * @throws  IllegalCharsetNameException
-     *          if <code>charset</code> name is illegal
+     * @throws  IllegblChbrsetNbmeException
+     *          if <code>chbrset</code> nbme is illegbl
      *
-     * @throws  UnsupportedCharsetException
-     *          if no support for the named charset is available
-     *          in this instance of the Java virtual machine
+     * @throws  UnsupportedChbrsetException
+     *          if no support for the nbmed chbrset is bvbilbble
+     *          in this instbnce of the Jbvb virtubl mbchine
      *
-     * @throws  UnsupportedOperationException
-     *          if loaded charset does not support encoding
+     * @throws  UnsupportedOperbtionException
+     *          if lobded chbrset does not support encoding
      *
-     * @see Charset#forName(String)
+     * @see Chbrset#forNbme(String)
      *
      * @since 1.7
      */
-    public XMLEncoder(OutputStream out, String charset, boolean declaration, int indentation) {
+    public XMLEncoder(OutputStrebm out, String chbrset, boolebn declbrbtion, int indentbtion) {
         if (out == null) {
-            throw new IllegalArgumentException("the output stream cannot be null");
+            throw new IllegblArgumentException("the output strebm cbnnot be null");
         }
-        if (indentation < 0) {
-            throw new IllegalArgumentException("the indentation must be >= 0");
+        if (indentbtion < 0) {
+            throw new IllegblArgumentException("the indentbtion must be >= 0");
         }
-        Charset cs = Charset.forName(charset);
+        Chbrset cs = Chbrset.forNbme(chbrset);
         this.encoder = cs.newEncoder();
-        this.charset = charset;
-        this.declaration = declaration;
-        this.indentation = indentation;
-        this.out = new OutputStreamWriter(out, cs.newEncoder());
-        valueToExpression = new IdentityHashMap<>();
-        targetToStatementList = new IdentityHashMap<>();
-        nameGenerator = new NameGenerator();
+        this.chbrset = chbrset;
+        this.declbrbtion = declbrbtion;
+        this.indentbtion = indentbtion;
+        this.out = new OutputStrebmWriter(out, cs.newEncoder());
+        vblueToExpression = new IdentityHbshMbp<>();
+        tbrgetToStbtementList = new IdentityHbshMbp<>();
+        nbmeGenerbtor = new NbmeGenerbtor();
     }
 
     /**
      * Sets the owner of this encoder to <code>owner</code>.
      *
-     * @param owner The owner of this encoder.
+     * @pbrbm owner The owner of this encoder.
      *
      * @see #getOwner
      */
@@ -315,204 +315,204 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
     }
 
     /**
-     * Write an XML representation of the specified object to the output.
+     * Write bn XML representbtion of the specified object to the output.
      *
-     * @param o The object to be written to the stream.
+     * @pbrbm o The object to be written to the strebm.
      *
-     * @see XMLDecoder#readObject
+     * @see XMLDecoder#rebdObject
      */
     public void writeObject(Object o) {
-        if (internal) {
+        if (internbl) {
             super.writeObject(o);
         }
         else {
-            writeStatement(new Statement(this, "writeObject", new Object[]{o}));
+            writeStbtement(new Stbtement(this, "writeObject", new Object[]{o}));
         }
     }
 
-    private List<Statement> statementList(Object target) {
-        List<Statement> list = targetToStatementList.get(target);
+    privbte List<Stbtement> stbtementList(Object tbrget) {
+        List<Stbtement> list = tbrgetToStbtementList.get(tbrget);
         if (list == null) {
-            list = new ArrayList<>();
-            targetToStatementList.put(target, list);
+            list = new ArrbyList<>();
+            tbrgetToStbtementList.put(tbrget, list);
         }
         return list;
     }
 
 
-    private void mark(Object o, boolean isArgument) {
+    privbte void mbrk(Object o, boolebn isArgument) {
         if (o == null || o == this) {
             return;
         }
-        ValueData d = getValueData(o);
+        VblueDbtb d = getVblueDbtb(o);
         Expression exp = d.exp;
-        // Do not mark liternal strings. Other strings, which might,
-        // for example, come from resource bundles should still be marked.
-        if (o.getClass() == String.class && exp == null) {
+        // Do not mbrk liternbl strings. Other strings, which might,
+        // for exbmple, come from resource bundles should still be mbrked.
+        if (o.getClbss() == String.clbss && exp == null) {
             return;
         }
 
-        // Bump the reference counts of all arguments
+        // Bump the reference counts of bll brguments
         if (isArgument) {
             d.refs++;
         }
-        if (d.marked) {
+        if (d.mbrked) {
             return;
         }
-        d.marked = true;
-        Object target = exp.getTarget();
-        mark(exp);
-        if (!(target instanceof Class)) {
-            statementList(target).add(exp);
+        d.mbrked = true;
+        Object tbrget = exp.getTbrget();
+        mbrk(exp);
+        if (!(tbrget instbnceof Clbss)) {
+            stbtementList(tbrget).bdd(exp);
             // Pending: Why does the reference count need to
             // be incremented here?
             d.refs++;
         }
     }
 
-    private void mark(Statement stm) {
-        Object[] args = stm.getArguments();
-        for (int i = 0; i < args.length; i++) {
-            Object arg = args[i];
-            mark(arg, true);
+    privbte void mbrk(Stbtement stm) {
+        Object[] brgs = stm.getArguments();
+        for (int i = 0; i < brgs.length; i++) {
+            Object brg = brgs[i];
+            mbrk(brg, true);
         }
-        mark(stm.getTarget(), stm instanceof Expression);
+        mbrk(stm.getTbrget(), stm instbnceof Expression);
     }
 
 
     /**
-     * Records the Statement so that the Encoder will
-     * produce the actual output when the stream is flushed.
+     * Records the Stbtement so thbt the Encoder will
+     * produce the bctubl output when the strebm is flushed.
      * <P>
      * This method should only be invoked within the context
-     * of initializing a persistence delegate.
+     * of initiblizing b persistence delegbte.
      *
-     * @param oldStm The statement that will be written
-     *               to the stream.
-     * @see java.beans.PersistenceDelegate#initialize
+     * @pbrbm oldStm The stbtement thbt will be written
+     *               to the strebm.
+     * @see jbvb.bebns.PersistenceDelegbte#initiblize
      */
-    public void writeStatement(Statement oldStm) {
-        // System.out.println("XMLEncoder::writeStatement: " + oldStm);
-        boolean internal = this.internal;
-        this.internal = true;
+    public void writeStbtement(Stbtement oldStm) {
+        // System.out.println("XMLEncoder::writeStbtement: " + oldStm);
+        boolebn internbl = this.internbl;
+        this.internbl = true;
         try {
-            super.writeStatement(oldStm);
+            super.writeStbtement(oldStm);
             /*
-               Note we must do the mark first as we may
-               require the results of previous values in
-               this context for this statement.
-               Test case is:
+               Note we must do the mbrk first bs we mby
+               require the results of previous vblues in
+               this context for this stbtement.
+               Test cbse is:
                    os.setOwner(this);
                    os.writeObject(this);
             */
-            mark(oldStm);
-            Object target = oldStm.getTarget();
-            if (target instanceof Field) {
-                String method = oldStm.getMethodName();
-                Object[] args = oldStm.getArguments();
-                if ((method == null) || (args == null)) {
+            mbrk(oldStm);
+            Object tbrget = oldStm.getTbrget();
+            if (tbrget instbnceof Field) {
+                String method = oldStm.getMethodNbme();
+                Object[] brgs = oldStm.getArguments();
+                if ((method == null) || (brgs == null)) {
                 }
-                else if (method.equals("get") && (args.length == 1)) {
-                    target = args[0];
+                else if (method.equbls("get") && (brgs.length == 1)) {
+                    tbrget = brgs[0];
                 }
-                else if (method.equals("set") && (args.length == 2)) {
-                    target = args[0];
+                else if (method.equbls("set") && (brgs.length == 2)) {
+                    tbrget = brgs[0];
                 }
             }
-            statementList(target).add(oldStm);
+            stbtementList(tbrget).bdd(oldStm);
         }
-        catch (Exception e) {
-            getExceptionListener().exceptionThrown(new Exception("XMLEncoder: discarding statement " + oldStm, e));
+        cbtch (Exception e) {
+            getExceptionListener().exceptionThrown(new Exception("XMLEncoder: discbrding stbtement " + oldStm, e));
         }
-        this.internal = internal;
+        this.internbl = internbl;
     }
 
 
     /**
-     * Records the Expression so that the Encoder will
-     * produce the actual output when the stream is flushed.
+     * Records the Expression so thbt the Encoder will
+     * produce the bctubl output when the strebm is flushed.
      * <P>
      * This method should only be invoked within the context of
-     * initializing a persistence delegate or setting up an encoder to
-     * read from a resource bundle.
+     * initiblizing b persistence delegbte or setting up bn encoder to
+     * rebd from b resource bundle.
      * <P>
-     * For more information about using resource bundles with the
+     * For more informbtion bbout using resource bundles with the
      * XMLEncoder, see
-     * http://java.sun.com/products/jfc/tsc/articles/persistence4/#i18n
+     * http://jbvb.sun.com/products/jfc/tsc/brticles/persistence4/#i18n
      *
-     * @param oldExp The expression that will be written
-     *               to the stream.
-     * @see java.beans.PersistenceDelegate#initialize
+     * @pbrbm oldExp The expression thbt will be written
+     *               to the strebm.
+     * @see jbvb.bebns.PersistenceDelegbte#initiblize
      */
     public void writeExpression(Expression oldExp) {
-        boolean internal = this.internal;
-        this.internal = true;
-        Object oldValue = getValue(oldExp);
-        if (get(oldValue) == null || (oldValue instanceof String && !internal)) {
-            getValueData(oldValue).exp = oldExp;
+        boolebn internbl = this.internbl;
+        this.internbl = true;
+        Object oldVblue = getVblue(oldExp);
+        if (get(oldVblue) == null || (oldVblue instbnceof String && !internbl)) {
+            getVblueDbtb(oldVblue).exp = oldExp;
             super.writeExpression(oldExp);
         }
-        this.internal = internal;
+        this.internbl = internbl;
     }
 
     /**
-     * This method writes out the preamble associated with the
-     * XML encoding if it has not been written already and
-     * then writes out all of the values that been
-     * written to the stream since the last time <code>flush</code>
-     * was called. After flushing, all internal references to the
-     * values that were written to this stream are cleared.
+     * This method writes out the prebmble bssocibted with the
+     * XML encoding if it hbs not been written blrebdy bnd
+     * then writes out bll of the vblues thbt been
+     * written to the strebm since the lbst time <code>flush</code>
+     * wbs cblled. After flushing, bll internbl references to the
+     * vblues thbt were written to this strebm bre clebred.
      */
     public void flush() {
-        if (!preambleWritten) { // Don't do this in constructor - it throws ... pending.
-            if (this.declaration) {
+        if (!prebmbleWritten) { // Don't do this in constructor - it throws ... pending.
+            if (this.declbrbtion) {
                 writeln("<?xml version=" + quote("1.0") +
-                            " encoding=" + quote(this.charset) + "?>");
+                            " encoding=" + quote(this.chbrset) + "?>");
             }
-            writeln("<java version=" + quote(System.getProperty("java.version")) +
-                           " class=" + quote(XMLDecoder.class.getName()) + ">");
-            preambleWritten = true;
+            writeln("<jbvb version=" + quote(System.getProperty("jbvb.version")) +
+                           " clbss=" + quote(XMLDecoder.clbss.getNbme()) + ">");
+            prebmbleWritten = true;
         }
-        indentation++;
-        List<Statement> statements = statementList(this);
-        while (!statements.isEmpty()) {
-            Statement s = statements.remove(0);
-            if ("writeObject".equals(s.getMethodName())) {
-                outputValue(s.getArguments()[0], this, true);
+        indentbtion++;
+        List<Stbtement> stbtements = stbtementList(this);
+        while (!stbtements.isEmpty()) {
+            Stbtement s = stbtements.remove(0);
+            if ("writeObject".equbls(s.getMethodNbme())) {
+                outputVblue(s.getArguments()[0], this, true);
             }
             else {
-                outputStatement(s, this, false);
+                outputStbtement(s, this, fblse);
             }
         }
-        indentation--;
+        indentbtion--;
 
-        Statement statement = getMissedStatement();
-        while (statement != null) {
-            outputStatement(statement, this, false);
-            statement = getMissedStatement();
+        Stbtement stbtement = getMissedStbtement();
+        while (stbtement != null) {
+            outputStbtement(stbtement, this, fblse);
+            stbtement = getMissedStbtement();
         }
 
         try {
             out.flush();
         }
-        catch (IOException e) {
+        cbtch (IOException e) {
             getExceptionListener().exceptionThrown(e);
         }
-        clear();
+        clebr();
     }
 
-    void clear() {
-        super.clear();
-        nameGenerator.clear();
-        valueToExpression.clear();
-        targetToStatementList.clear();
+    void clebr() {
+        super.clebr();
+        nbmeGenerbtor.clebr();
+        vblueToExpression.clebr();
+        tbrgetToStbtementList.clebr();
     }
 
-    Statement getMissedStatement() {
-        for (List<Statement> statements : this.targetToStatementList.values()) {
-            for (int i = 0; i < statements.size(); i++) {
-                if (Statement.class == statements.get(i).getClass()) {
-                    return statements.remove(i);
+    Stbtement getMissedStbtement() {
+        for (List<Stbtement> stbtements : this.tbrgetToStbtementList.vblues()) {
+            for (int i = 0; i < stbtements.size(); i++) {
+                if (Stbtement.clbss == stbtements.get(i).getClbss()) {
+                    return stbtements.remove(i);
                 }
             }
         }
@@ -521,54 +521,54 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
 
 
     /**
-     * This method calls <code>flush</code>, writes the closing
-     * postamble and then closes the output stream associated
-     * with this stream.
+     * This method cblls <code>flush</code>, writes the closing
+     * postbmble bnd then closes the output strebm bssocibted
+     * with this strebm.
      */
     public void close() {
         flush();
-        writeln("</java>");
+        writeln("</jbvb>");
         try {
             out.close();
         }
-        catch (IOException e) {
+        cbtch (IOException e) {
             getExceptionListener().exceptionThrown(e);
         }
     }
 
-    private String quote(String s) {
+    privbte String quote(String s) {
         return "\"" + s + "\"";
     }
 
-    private ValueData getValueData(Object o) {
-        ValueData d = valueToExpression.get(o);
+    privbte VblueDbtb getVblueDbtb(Object o) {
+        VblueDbtb d = vblueToExpression.get(o);
         if (d == null) {
-            d = new ValueData();
-            valueToExpression.put(o, d);
+            d = new VblueDbtb();
+            vblueToExpression.put(o, d);
         }
         return d;
     }
 
     /**
-     * Returns <code>true</code> if the argument,
-     * a Unicode code point, is valid in XML documents.
-     * Unicode characters fit into the low sixteen bits of a Unicode code point,
-     * and pairs of Unicode <em>surrogate characters</em> can be combined
-     * to encode Unicode code point in documents containing only Unicode.
-     * (The <code>char</code> datatype in the Java Programming Language
-     * represents Unicode characters, including unpaired surrogates.)
-     * <par>
-     * [2] Char ::= #x0009 | #x000A | #x000D
+     * Returns <code>true</code> if the brgument,
+     * b Unicode code point, is vblid in XML documents.
+     * Unicode chbrbcters fit into the low sixteen bits of b Unicode code point,
+     * bnd pbirs of Unicode <em>surrogbte chbrbcters</em> cbn be combined
+     * to encode Unicode code point in documents contbining only Unicode.
+     * (The <code>chbr</code> dbtbtype in the Jbvb Progrbmming Lbngubge
+     * represents Unicode chbrbcters, including unpbired surrogbtes.)
+     * <pbr>
+     * [2] Chbr ::= #x0009 | #x000A | #x000D
      *            | [#x0020-#xD7FF]
      *            | [#xE000-#xFFFD]
      *            | [#x10000-#x10ffff]
-     * </par>
+     * </pbr>
      *
-     * @param code  the 32-bit Unicode code point being tested
-     * @return  <code>true</code> if the Unicode code point is valid,
-     *          <code>false</code> otherwise
+     * @pbrbm code  the 32-bit Unicode code point being tested
+     * @return  <code>true</code> if the Unicode code point is vblid,
+     *          <code>fblse</code> otherwise
      */
-    private static boolean isValidCharCode(int code) {
+    privbte stbtic boolebn isVblidChbrCode(int code) {
         return (0x0020 <= code && code <= 0xD7FF)
             || (0x000A == code)
             || (0x0009 == code)
@@ -577,235 +577,235 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
             || (0x10000 <= code && code <= 0x10ffff);
     }
 
-    private void writeln(String exp) {
+    privbte void writeln(String exp) {
         try {
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < indentation; i++) {
-                sb.append(' ');
+            for(int i = 0; i < indentbtion; i++) {
+                sb.bppend(' ');
             }
-            sb.append(exp);
-            sb.append('\n');
+            sb.bppend(exp);
+            sb.bppend('\n');
             this.out.write(sb.toString());
         }
-        catch (IOException e) {
+        cbtch (IOException e) {
             getExceptionListener().exceptionThrown(e);
         }
     }
 
-    private void outputValue(Object value, Object outer, boolean isArgument) {
-        if (value == null) {
+    privbte void outputVblue(Object vblue, Object outer, boolebn isArgument) {
+        if (vblue == null) {
             writeln("<null/>");
             return;
         }
 
-        if (value instanceof Class) {
-            writeln("<class>" + ((Class)value).getName() + "</class>");
+        if (vblue instbnceof Clbss) {
+            writeln("<clbss>" + ((Clbss)vblue).getNbme() + "</clbss>");
             return;
         }
 
-        ValueData d = getValueData(value);
+        VblueDbtb d = getVblueDbtb(vblue);
         if (d.exp != null) {
-            Object target = d.exp.getTarget();
-            String methodName = d.exp.getMethodName();
+            Object tbrget = d.exp.getTbrget();
+            String methodNbme = d.exp.getMethodNbme();
 
-            if (target == null || methodName == null) {
-                throw new NullPointerException((target == null ? "target" :
-                                                "methodName") + " should not be null");
+            if (tbrget == null || methodNbme == null) {
+                throw new NullPointerException((tbrget == null ? "tbrget" :
+                                                "methodNbme") + " should not be null");
             }
 
-            if (isArgument && target instanceof Field && methodName.equals("get")) {
-                Field f = (Field)target;
-                writeln("<object class=" + quote(f.getDeclaringClass().getName()) +
-                        " field=" + quote(f.getName()) + "/>");
+            if (isArgument && tbrget instbnceof Field && methodNbme.equbls("get")) {
+                Field f = (Field)tbrget;
+                writeln("<object clbss=" + quote(f.getDeclbringClbss().getNbme()) +
+                        " field=" + quote(f.getNbme()) + "/>");
                 return;
             }
 
-            Class<?> primitiveType = primitiveTypeFor(value.getClass());
-            if (primitiveType != null && target == value.getClass() &&
-                methodName.equals("new")) {
-                String primitiveTypeName = primitiveType.getName();
-                // Make sure that character types are quoted correctly.
-                if (primitiveType == Character.TYPE) {
-                    char code = ((Character) value).charValue();
-                    if (!isValidCharCode(code)) {
-                        writeln(createString(code));
+            Clbss<?> primitiveType = primitiveTypeFor(vblue.getClbss());
+            if (primitiveType != null && tbrget == vblue.getClbss() &&
+                methodNbme.equbls("new")) {
+                String primitiveTypeNbme = primitiveType.getNbme();
+                // Mbke sure thbt chbrbcter types bre quoted correctly.
+                if (primitiveType == Chbrbcter.TYPE) {
+                    chbr code = ((Chbrbcter) vblue).chbrVblue();
+                    if (!isVblidChbrCode(code)) {
+                        writeln(crebteString(code));
                         return;
                     }
-                    value = quoteCharCode(code);
-                    if (value == null) {
-                        value = Character.valueOf(code);
+                    vblue = quoteChbrCode(code);
+                    if (vblue == null) {
+                        vblue = Chbrbcter.vblueOf(code);
                     }
                 }
-                writeln("<" + primitiveTypeName + ">" + value + "</" +
-                        primitiveTypeName + ">");
+                writeln("<" + primitiveTypeNbme + ">" + vblue + "</" +
+                        primitiveTypeNbme + ">");
                 return;
             }
 
-        } else if (value instanceof String) {
-            writeln(createString((String) value));
+        } else if (vblue instbnceof String) {
+            writeln(crebteString((String) vblue));
             return;
         }
 
-        if (d.name != null) {
+        if (d.nbme != null) {
             if (isArgument) {
-                writeln("<object idref=" + quote(d.name) + "/>");
+                writeln("<object idref=" + quote(d.nbme) + "/>");
             }
             else {
-                outputXML("void", " idref=" + quote(d.name), value);
+                outputXML("void", " idref=" + quote(d.nbme), vblue);
             }
         }
         else if (d.exp != null) {
-            outputStatement(d.exp, outer, isArgument);
+            outputStbtement(d.exp, outer, isArgument);
         }
     }
 
-    private static String quoteCharCode(int code) {
+    privbte stbtic String quoteChbrCode(int code) {
         switch(code) {
-          case '&':  return "&amp;";
-          case '<':  return "&lt;";
-          case '>':  return "&gt;";
-          case '"':  return "&quot;";
-          case '\'': return "&apos;";
-          case '\r': return "&#13;";
-          default:   return null;
+          cbse '&':  return "&bmp;";
+          cbse '<':  return "&lt;";
+          cbse '>':  return "&gt;";
+          cbse '"':  return "&quot;";
+          cbse '\'': return "&bpos;";
+          cbse '\r': return "&#13;";
+          defbult:   return null;
         }
     }
 
-    private static String createString(int code) {
-        return "<char code=\"#" + Integer.toString(code, 16) + "\"/>";
+    privbte stbtic String crebteString(int code) {
+        return "<chbr code=\"#" + Integer.toString(code, 16) + "\"/>";
     }
 
-    private String createString(String string) {
+    privbte String crebteString(String string) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<string>");
+        sb.bppend("<string>");
         int index = 0;
         while (index < string.length()) {
             int point = string.codePointAt(index);
-            int count = Character.charCount(point);
+            int count = Chbrbcter.chbrCount(point);
 
-            if (isValidCharCode(point) && this.encoder.canEncode(string.substring(index, index + count))) {
-                String value = quoteCharCode(point);
-                if (value != null) {
-                    sb.append(value);
+            if (isVblidChbrCode(point) && this.encoder.cbnEncode(string.substring(index, index + count))) {
+                String vblue = quoteChbrCode(point);
+                if (vblue != null) {
+                    sb.bppend(vblue);
                 } else {
-                    sb.appendCodePoint(point);
+                    sb.bppendCodePoint(point);
                 }
                 index += count;
             } else {
-                sb.append(createString(string.charAt(index)));
+                sb.bppend(crebteString(string.chbrAt(index)));
                 index++;
             }
         }
-        sb.append("</string>");
+        sb.bppend("</string>");
         return sb.toString();
     }
 
-    private void outputStatement(Statement exp, Object outer, boolean isArgument) {
-        Object target = exp.getTarget();
-        String methodName = exp.getMethodName();
+    privbte void outputStbtement(Stbtement exp, Object outer, boolebn isArgument) {
+        Object tbrget = exp.getTbrget();
+        String methodNbme = exp.getMethodNbme();
 
-        if (target == null || methodName == null) {
-            throw new NullPointerException((target == null ? "target" :
-                                            "methodName") + " should not be null");
+        if (tbrget == null || methodNbme == null) {
+            throw new NullPointerException((tbrget == null ? "tbrget" :
+                                            "methodNbme") + " should not be null");
         }
 
-        Object[] args = exp.getArguments();
-        boolean expression = exp.getClass() == Expression.class;
-        Object value = (expression) ? getValue((Expression)exp) : null;
+        Object[] brgs = exp.getArguments();
+        boolebn expression = exp.getClbss() == Expression.clbss;
+        Object vblue = (expression) ? getVblue((Expression)exp) : null;
 
-        String tag = (expression && isArgument) ? "object" : "void";
-        String attributes = "";
-        ValueData d = getValueData(value);
+        String tbg = (expression && isArgument) ? "object" : "void";
+        String bttributes = "";
+        VblueDbtb d = getVblueDbtb(vblue);
 
-        // Special cases for targets.
-        if (target == outer) {
+        // Specibl cbses for tbrgets.
+        if (tbrget == outer) {
         }
-        else if (target == Array.class && methodName.equals("newInstance")) {
-            tag = "array";
-            attributes = attributes + " class=" + quote(((Class)args[0]).getName());
-            attributes = attributes + " length=" + quote(args[1].toString());
-            args = new Object[]{};
+        else if (tbrget == Arrby.clbss && methodNbme.equbls("newInstbnce")) {
+            tbg = "brrby";
+            bttributes = bttributes + " clbss=" + quote(((Clbss)brgs[0]).getNbme());
+            bttributes = bttributes + " length=" + quote(brgs[1].toString());
+            brgs = new Object[]{};
         }
-        else if (target.getClass() == Class.class) {
-            attributes = attributes + " class=" + quote(((Class)target).getName());
+        else if (tbrget.getClbss() == Clbss.clbss) {
+            bttributes = bttributes + " clbss=" + quote(((Clbss)tbrget).getNbme());
         }
         else {
             d.refs = 2;
-            if (d.name == null) {
-                getValueData(target).refs++;
-                List<Statement> statements = statementList(target);
-                if (!statements.contains(exp)) {
-                    statements.add(exp);
+            if (d.nbme == null) {
+                getVblueDbtb(tbrget).refs++;
+                List<Stbtement> stbtements = stbtementList(tbrget);
+                if (!stbtements.contbins(exp)) {
+                    stbtements.bdd(exp);
                 }
-                outputValue(target, outer, false);
+                outputVblue(tbrget, outer, fblse);
             }
             if (expression) {
-                outputValue(value, outer, isArgument);
+                outputVblue(vblue, outer, isArgument);
             }
             return;
         }
         if (expression && (d.refs > 1)) {
-            String instanceName = nameGenerator.instanceName(value);
-            d.name = instanceName;
-            attributes = attributes + " id=" + quote(instanceName);
+            String instbnceNbme = nbmeGenerbtor.instbnceNbme(vblue);
+            d.nbme = instbnceNbme;
+            bttributes = bttributes + " id=" + quote(instbnceNbme);
         }
 
-        // Special cases for methods.
-        if ((!expression && methodName.equals("set") && args.length == 2 &&
-             args[0] instanceof Integer) ||
-             (expression && methodName.equals("get") && args.length == 1 &&
-              args[0] instanceof Integer)) {
-            attributes = attributes + " index=" + quote(args[0].toString());
-            args = (args.length == 1) ? new Object[]{} : new Object[]{args[1]};
+        // Specibl cbses for methods.
+        if ((!expression && methodNbme.equbls("set") && brgs.length == 2 &&
+             brgs[0] instbnceof Integer) ||
+             (expression && methodNbme.equbls("get") && brgs.length == 1 &&
+              brgs[0] instbnceof Integer)) {
+            bttributes = bttributes + " index=" + quote(brgs[0].toString());
+            brgs = (brgs.length == 1) ? new Object[]{} : new Object[]{brgs[1]};
         }
-        else if ((!expression && methodName.startsWith("set") && args.length == 1) ||
-                 (expression && methodName.startsWith("get") && args.length == 0)) {
-            if (3 < methodName.length()) {
-                attributes = attributes + " property=" +
-                    quote(Introspector.decapitalize(methodName.substring(3)));
+        else if ((!expression && methodNbme.stbrtsWith("set") && brgs.length == 1) ||
+                 (expression && methodNbme.stbrtsWith("get") && brgs.length == 0)) {
+            if (3 < methodNbme.length()) {
+                bttributes = bttributes + " property=" +
+                    quote(Introspector.decbpitblize(methodNbme.substring(3)));
             }
         }
-        else if (!methodName.equals("new") && !methodName.equals("newInstance")) {
-            attributes = attributes + " method=" + quote(methodName);
+        else if (!methodNbme.equbls("new") && !methodNbme.equbls("newInstbnce")) {
+            bttributes = bttributes + " method=" + quote(methodNbme);
         }
-        outputXML(tag, attributes, value, args);
+        outputXML(tbg, bttributes, vblue, brgs);
     }
 
-    private void outputXML(String tag, String attributes, Object value, Object... args) {
-        List<Statement> statements = statementList(value);
+    privbte void outputXML(String tbg, String bttributes, Object vblue, Object... brgs) {
+        List<Stbtement> stbtements = stbtementList(vblue);
         // Use XML's short form when there is no body.
-        if (args.length == 0 && statements.size() == 0) {
-            writeln("<" + tag + attributes + "/>");
+        if (brgs.length == 0 && stbtements.size() == 0) {
+            writeln("<" + tbg + bttributes + "/>");
             return;
         }
 
-        writeln("<" + tag + attributes + ">");
-        indentation++;
+        writeln("<" + tbg + bttributes + ">");
+        indentbtion++;
 
-        for(int i = 0; i < args.length; i++) {
-            outputValue(args[i], null, true);
+        for(int i = 0; i < brgs.length; i++) {
+            outputVblue(brgs[i], null, true);
         }
 
-        while (!statements.isEmpty()) {
-            Statement s = statements.remove(0);
-            outputStatement(s, value, false);
+        while (!stbtements.isEmpty()) {
+            Stbtement s = stbtements.remove(0);
+            outputStbtement(s, vblue, fblse);
         }
 
-        indentation--;
-        writeln("</" + tag + ">");
+        indentbtion--;
+        writeln("</" + tbg + ">");
     }
 
-    @SuppressWarnings("rawtypes")
-    static Class primitiveTypeFor(Class wrapper) {
-        if (wrapper == Boolean.class) return Boolean.TYPE;
-        if (wrapper == Byte.class) return Byte.TYPE;
-        if (wrapper == Character.class) return Character.TYPE;
-        if (wrapper == Short.class) return Short.TYPE;
-        if (wrapper == Integer.class) return Integer.TYPE;
-        if (wrapper == Long.class) return Long.TYPE;
-        if (wrapper == Float.class) return Float.TYPE;
-        if (wrapper == Double.class) return Double.TYPE;
-        if (wrapper == Void.class) return Void.TYPE;
+    @SuppressWbrnings("rbwtypes")
+    stbtic Clbss primitiveTypeFor(Clbss wrbpper) {
+        if (wrbpper == Boolebn.clbss) return Boolebn.TYPE;
+        if (wrbpper == Byte.clbss) return Byte.TYPE;
+        if (wrbpper == Chbrbcter.clbss) return Chbrbcter.TYPE;
+        if (wrbpper == Short.clbss) return Short.TYPE;
+        if (wrbpper == Integer.clbss) return Integer.TYPE;
+        if (wrbpper == Long.clbss) return Long.TYPE;
+        if (wrbpper == Flobt.clbss) return Flobt.TYPE;
+        if (wrbpper == Double.clbss) return Double.TYPE;
+        if (wrbpper == Void.clbss) return Void.TYPE;
         return null;
     }
 }

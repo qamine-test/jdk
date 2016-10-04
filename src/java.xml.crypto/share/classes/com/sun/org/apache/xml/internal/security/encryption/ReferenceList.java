@@ -3,48 +3,48 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 
 /**
- * <code>ReferenceList</code> is an element that contains pointers from a key
- * value of an <code>EncryptedKey</code> to items encrypted by that key value
- * (<code>EncryptedData</code> or <code>EncryptedKey</code> elements).
+ * <code>ReferenceList</code> is bn element thbt contbins pointers from b key
+ * vblue of bn <code>EncryptedKey</code> to items encrypted by thbt key vblue
+ * (<code>EncryptedDbtb</code> or <code>EncryptedKey</code> elements).
  * <p>
- * It is defined as follows:
+ * It is defined bs follows:
  * <xmp>
- * <element name='ReferenceList'>
+ * <element nbme='ReferenceList'>
  *     <complexType>
- *         <choice minOccurs='1' maxOccurs='unbounded'>
- *             <element name='DataReference' type='xenc:ReferenceType'/>
- *             <element name='KeyReference' type='xenc:ReferenceType'/>
+ *         <choice minOccurs='1' mbxOccurs='unbounded'>
+ *             <element nbme='DbtbReference' type='xenc:ReferenceType'/>
+ *             <element nbme='KeyReference' type='xenc:ReferenceType'/>
  *         </choice>
  *     </complexType>
  * </element>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  * @see Reference
  */
-public interface ReferenceList {
+public interfbce ReferenceList {
 
     /** DATA TAG */
     int DATA_REFERENCE = 0x00000001;
@@ -53,18 +53,18 @@ public interface ReferenceList {
     int KEY_REFERENCE  = 0x00000002;
 
     /**
-     * Adds a reference to this reference list.
+     * Adds b reference to this reference list.
      *
-     * @param reference the reference to add.
-     * @throws IllegalAccessException if the <code>Reference</code> is not an
-     *   instance of <code>DataReference</code> or <code>KeyReference</code>.
+     * @pbrbm reference the reference to bdd.
+     * @throws IllegblAccessException if the <code>Reference</code> is not bn
+     *   instbnce of <code>DbtbReference</code> or <code>KeyReference</code>.
      */
-    void add(Reference reference);
+    void bdd(Reference reference);
 
     /**
-     * Removes a reference from the <code>ReferenceList</code>.
+     * Removes b reference from the <code>ReferenceList</code>.
      *
-     * @param reference the reference to remove.
+     * @pbrbm reference the reference to remove.
      */
     void remove(Reference reference);
 
@@ -76,34 +76,34 @@ public interface ReferenceList {
     int size();
 
     /**
-     * Indicates if the <code>ReferenceList</code> is empty.
+     * Indicbtes if the <code>ReferenceList</code> is empty.
      *
      * @return <code><b>true</b></code> if the <code>ReferenceList</code> is
-     *     empty, else <code><b>false</b></code>.
+     *     empty, else <code><b>fblse</b></code>.
      */
-    boolean isEmpty();
+    boolebn isEmpty();
 
     /**
-     * Returns an <code>Iterator</code> over all the <code>Reference</code>s
-     * contained in this <code>ReferenceList</code>.
+     * Returns bn <code>Iterbtor</code> over bll the <code>Reference</code>s
+     * contbined in this <code>ReferenceList</code>.
      *
-     * @return Iterator.
+     * @return Iterbtor.
      */
-    Iterator<Reference> getReferences();
+    Iterbtor<Reference> getReferences();
 
     /**
-     * <code>DataReference</code> factory method. Returns a
-     * <code>DataReference</code>.
-     * @param uri
-     * @return a <code>DataReference</code>.
+     * <code>DbtbReference</code> fbctory method. Returns b
+     * <code>DbtbReference</code>.
+     * @pbrbm uri
+     * @return b <code>DbtbReference</code>.
      */
-    Reference newDataReference(String uri);
+    Reference newDbtbReference(String uri);
 
     /**
-     * <code>KeyReference</code> factory method. Returns a
+     * <code>KeyReference</code> fbctory method. Returns b
      * <code>KeyReference</code>.
-     * @param uri
-     * @return a <code>KeyReference</code>.
+     * @pbrbm uri
+     * @return b <code>KeyReference</code>.
      */
     Reference newKeyReference(String uri);
 }

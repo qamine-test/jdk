@@ -1,656 +1,656 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.util.Locale;
-import java.util.Vector;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.Locble;
+import jbvb.util.Vector;
+import jbvb.io.Seriblizbble;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
 
 /**
- * An extended version of <code>java.awt.Frame</code> that adds support for
- * the JFC/Swing component architecture.
- * You can find task-oriented documentation about using <code>JFrame</code>
- * in <em>The Java Tutorial</em>, in the section
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/frame.html">How to Make Frames</a>.
+ * An extended version of <code>jbvb.bwt.Frbme</code> thbt bdds support for
+ * the JFC/Swing component brchitecture.
+ * You cbn find tbsk-oriented documentbtion bbout using <code>JFrbme</code>
+ * in <em>The Jbvb Tutoribl</em>, in the section
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/frbme.html">How to Mbke Frbmes</b>.
  *
  * <p>
- * The <code>JFrame</code> class is slightly incompatible with <code>Frame</code>.
- * Like all other JFC/Swing top-level containers,
- * a <code>JFrame</code> contains a <code>JRootPane</code> as its only child.
- * The <b>content pane</b> provided by the root pane should,
- * as a rule, contain
- * all the non-menu components displayed by the <code>JFrame</code>.
- * This is different from the AWT <code>Frame</code> case.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to a frame as follows:
+ * The <code>JFrbme</code> clbss is slightly incompbtible with <code>Frbme</code>.
+ * Like bll other JFC/Swing top-level contbiners,
+ * b <code>JFrbme</code> contbins b <code>JRootPbne</code> bs its only child.
+ * The <b>content pbne</b> provided by the root pbne should,
+ * bs b rule, contbin
+ * bll the non-menu components displbyed by the <code>JFrbme</code>.
+ * This is different from the AWT <code>Frbme</code> cbse.
+ * As b convenience, the {@code bdd}, {@code remove}, bnd {@code setLbyout}
+ * methods of this clbss bre overridden, so thbt they delegbte cblls
+ * to the corresponding methods of the {@code ContentPbne}.
+ * For exbmple, you cbn bdd b child component to b frbme bs follows:
  * <pre>
- *       frame.add(child);
+ *       frbme.bdd(child);
  * </pre>
- * And the child will be added to the contentPane.
- * The content pane will
- * always be non-null. Attempting to set it to null will cause the JFrame
- * to throw an exception. The default content pane will have a BorderLayout
- * manager set on it.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the <code>LayoutManager</code>
- * of a <code>JFrame</code>.
+ * And the child will be bdded to the contentPbne.
+ * The content pbne will
+ * blwbys be non-null. Attempting to set it to null will cbuse the JFrbme
+ * to throw bn exception. The defbult content pbne will hbve b BorderLbyout
+ * mbnbger set on it.
+ * Refer to {@link jbvbx.swing.RootPbneContbiner}
+ * for detbils on bdding, removing bnd setting the <code>LbyoutMbnbger</code>
+ * of b <code>JFrbme</code>.
  * <p>
- * Unlike a <code>Frame</code>, a <code>JFrame</code> has some notion of how to
- * respond when the user attempts to close the window. The default behavior
- * is to simply hide the JFrame when the user closes the window. To change the
- * default behavior, you invoke the method
- * {@link #setDefaultCloseOperation}.
- * To make the <code>JFrame</code> behave the same as a <code>Frame</code>
- * instance, use
- * <code>setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE)</code>.
+ * Unlike b <code>Frbme</code>, b <code>JFrbme</code> hbs some notion of how to
+ * respond when the user bttempts to close the window. The defbult behbvior
+ * is to simply hide the JFrbme when the user closes the window. To chbnge the
+ * defbult behbvior, you invoke the method
+ * {@link #setDefbultCloseOperbtion}.
+ * To mbke the <code>JFrbme</code> behbve the sbme bs b <code>Frbme</code>
+ * instbnce, use
+ * <code>setDefbultCloseOperbtion(WindowConstbnts.DO_NOTHING_ON_CLOSE)</code>.
  * <p>
- * For more information on content panes
- * and other features that root panes provide,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/toplevel.html">Using Top-Level Containers</a> in <em>The Java Tutorial</em>.
+ * For more informbtion on content pbnes
+ * bnd other febtures thbt root pbnes provide,
+ * see <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/toplevel.html">Using Top-Level Contbiners</b> in <em>The Jbvb Tutoribl</em>.
  * <p>
- * In a multi-screen environment, you can create a <code>JFrame</code>
- * on a different screen device.  See {@link java.awt.Frame} for more
- * information.
+ * In b multi-screen environment, you cbn crebte b <code>JFrbme</code>
+ * on b different screen device.  See {@link jbvb.bwt.Frbme} for more
+ * informbtion.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JRootPane
- * @see #setDefaultCloseOperation
- * @see java.awt.event.WindowListener#windowClosing
- * @see javax.swing.RootPaneContainer
+ * @see JRootPbne
+ * @see #setDefbultCloseOperbtion
+ * @see jbvb.bwt.event.WindowListener#windowClosing
+ * @see jbvbx.swing.RootPbneContbiner
  *
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *    description: A toplevel window which can be minimized to an icon.
+ * @bebninfo
+ *      bttribute: isContbiner true
+ *      bttribute: contbinerDelegbte getContentPbne
+ *    description: A toplevel window which cbn be minimized to bn icon.
  *
- * @author Jeff Dinkins
- * @author Georges Saab
- * @author David Kloba
+ * @buthor Jeff Dinkins
+ * @buthor Georges Sbbb
+ * @buthor Dbvid Klobb
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JFrame  extends Frame implements WindowConstants,
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JFrbme  extends Frbme implements WindowConstbnts,
                                               Accessible,
-                                              RootPaneContainer,
-                              TransferHandler.HasGetTransferHandler
+                                              RootPbneContbiner,
+                              TrbnsferHbndler.HbsGetTrbnsferHbndler
 {
     /**
-     * The exit application default window close operation. If a window
-     * has this set as the close operation and is closed in an applet,
-     * a <code>SecurityException</code> may be thrown.
-     * It is recommended you only use this in an application.
+     * The exit bpplicbtion defbult window close operbtion. If b window
+     * hbs this set bs the close operbtion bnd is closed in bn bpplet,
+     * b <code>SecurityException</code> mby be thrown.
+     * It is recommended you only use this in bn bpplicbtion.
      *
      * @since 1.3
      */
-    public static final int EXIT_ON_CLOSE = 3;
+    public stbtic finbl int EXIT_ON_CLOSE = 3;
 
     /**
-     * Key into the AppContext, used to check if should provide decorations
-     * by default.
+     * Key into the AppContext, used to check if should provide decorbtions
+     * by defbult.
      */
-    private static final Object defaultLookAndFeelDecoratedKey =
-            new StringBuffer("JFrame.defaultLookAndFeelDecorated");
+    privbte stbtic finbl Object defbultLookAndFeelDecorbtedKey =
+            new StringBuffer("JFrbme.defbultLookAndFeelDecorbted");
 
-    private int defaultCloseOperation = HIDE_ON_CLOSE;
+    privbte int defbultCloseOperbtion = HIDE_ON_CLOSE;
 
     /**
-     * The <code>TransferHandler</code> for this frame.
+     * The <code>TrbnsferHbndler</code> for this frbme.
      */
-    private TransferHandler transferHandler;
+    privbte TrbnsferHbndler trbnsferHbndler;
 
     /**
-     * The <code>JRootPane</code> instance that manages the
-     * <code>contentPane</code>
-     * and optional <code>menuBar</code> for this frame, as well as the
-     * <code>glassPane</code>.
+     * The <code>JRootPbne</code> instbnce thbt mbnbges the
+     * <code>contentPbne</code>
+     * bnd optionbl <code>menuBbr</code> for this frbme, bs well bs the
+     * <code>glbssPbne</code>.
      *
-     * @see JRootPane
-     * @see RootPaneContainer
+     * @see JRootPbne
+     * @see RootPbneContbiner
      */
-    protected JRootPane rootPane;
+    protected JRootPbne rootPbne;
 
     /**
-     * If true then calls to <code>add</code> and <code>setLayout</code>
-     * will be forwarded to the <code>contentPane</code>. This is initially
-     * false, but is set to true when the <code>JFrame</code> is constructed.
+     * If true then cblls to <code>bdd</code> bnd <code>setLbyout</code>
+     * will be forwbrded to the <code>contentPbne</code>. This is initiblly
+     * fblse, but is set to true when the <code>JFrbme</code> is constructed.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #isRootPbneCheckingEnbbled
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protected boolebn rootPbneCheckingEnbbled = fblse;
 
 
     /**
-     * Constructs a new frame that is initially invisible.
+     * Constructs b new frbme thbt is initiblly invisible.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @see Component#setSize
      * @see Component#setVisible
-     * @see JComponent#getDefaultLocale
+     * @see JComponent#getDefbultLocble
      */
-    public JFrame() throws HeadlessException {
+    public JFrbme() throws HebdlessException {
         super();
-        frameInit();
+        frbmeInit();
     }
 
     /**
-     * Creates a <code>Frame</code> in the specified
-     * <code>GraphicsConfiguration</code> of
-     * a screen device and a blank title.
+     * Crebtes b <code>Frbme</code> in the specified
+     * <code>GrbphicsConfigurbtion</code> of
+     * b screen device bnd b blbnk title.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @param gc the <code>GraphicsConfiguration</code> that is used
-     *          to construct the new <code>Frame</code>;
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code> thbt is used
+     *          to construct the new <code>Frbme</code>;
      *          if <code>gc</code> is <code>null</code>, the system
-     *          default <code>GraphicsConfiguration</code> is assumed
-     * @exception IllegalArgumentException if <code>gc</code> is not from
-     *          a screen device.  This exception is always thrown when
-     *      GraphicsEnvironment.isHeadless() returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     *          defbult <code>GrbphicsConfigurbtion</code> is bssumed
+     * @exception IllegblArgumentException if <code>gc</code> is not from
+     *          b screen device.  This exception is blwbys thrown when
+     *      GrbphicsEnvironment.isHebdless() returns true.
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      * @since     1.3
      */
-    public JFrame(GraphicsConfiguration gc) {
+    public JFrbme(GrbphicsConfigurbtion gc) {
         super(gc);
-        frameInit();
+        frbmeInit();
     }
 
     /**
-     * Creates a new, initially invisible <code>Frame</code> with the
+     * Crebtes b new, initiblly invisible <code>Frbme</code> with the
      * specified title.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @param title the title for the frame
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @pbrbm title the title for the frbme
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @see Component#setSize
      * @see Component#setVisible
-     * @see JComponent#getDefaultLocale
+     * @see JComponent#getDefbultLocble
      */
-    public JFrame(String title) throws HeadlessException {
+    public JFrbme(String title) throws HebdlessException {
         super(title);
-        frameInit();
+        frbmeInit();
     }
 
     /**
-     * Creates a <code>JFrame</code> with the specified title and the
-     * specified <code>GraphicsConfiguration</code> of a screen device.
+     * Crebtes b <code>JFrbme</code> with the specified title bnd the
+     * specified <code>GrbphicsConfigurbtion</code> of b screen device.
      * <p>
-     * This constructor sets the component's locale property to the value
-     * returned by <code>JComponent.getDefaultLocale</code>.
+     * This constructor sets the component's locble property to the vblue
+     * returned by <code>JComponent.getDefbultLocble</code>.
      *
-     * @param title the title to be displayed in the
-     *          frame's border. A <code>null</code> value is treated as
-     *          an empty string, "".
-     * @param gc the <code>GraphicsConfiguration</code> that is used
-     *          to construct the new <code>JFrame</code> with;
+     * @pbrbm title the title to be displbyed in the
+     *          frbme's border. A <code>null</code> vblue is trebted bs
+     *          bn empty string, "".
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code> thbt is used
+     *          to construct the new <code>JFrbme</code> with;
      *          if <code>gc</code> is <code>null</code>, the system
-     *          default <code>GraphicsConfiguration</code> is assumed
-     * @exception IllegalArgumentException if <code>gc</code> is not from
-     *          a screen device.  This exception is always thrown when
-     *      GraphicsEnvironment.isHeadless() returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see JComponent#getDefaultLocale
+     *          defbult <code>GrbphicsConfigurbtion</code> is bssumed
+     * @exception IllegblArgumentException if <code>gc</code> is not from
+     *          b screen device.  This exception is blwbys thrown when
+     *      GrbphicsEnvironment.isHebdless() returns true.
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see JComponent#getDefbultLocble
      * @since     1.3
      */
-    public JFrame(String title, GraphicsConfiguration gc) {
+    public JFrbme(String title, GrbphicsConfigurbtion gc) {
         super(title, gc);
-        frameInit();
+        frbmeInit();
     }
 
-    /** Called by the constructors to init the <code>JFrame</code> properly. */
-    protected void frameInit() {
-        enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.WINDOW_EVENT_MASK);
-        setLocale( JComponent.getDefaultLocale() );
-        setRootPane(createRootPane());
-        setBackground(UIManager.getColor("control"));
-        setRootPaneCheckingEnabled(true);
-        if (JFrame.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-            UIManager.getLookAndFeel().getSupportsWindowDecorations();
-            if (supportsWindowDecorations) {
-                setUndecorated(true);
-                getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+    /** Cblled by the constructors to init the <code>JFrbme</code> properly. */
+    protected void frbmeInit() {
+        enbbleEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.WINDOW_EVENT_MASK);
+        setLocble( JComponent.getDefbultLocble() );
+        setRootPbne(crebteRootPbne());
+        setBbckground(UIMbnbger.getColor("control"));
+        setRootPbneCheckingEnbbled(true);
+        if (JFrbme.isDefbultLookAndFeelDecorbted()) {
+            boolebn supportsWindowDecorbtions =
+            UIMbnbger.getLookAndFeel().getSupportsWindowDecorbtions();
+            if (supportsWindowDecorbtions) {
+                setUndecorbted(true);
+                getRootPbne().setWindowDecorbtionStyle(JRootPbne.FRAME);
             }
         }
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
+        sun.bwt.SunToolkit.checkAndSetPolicy(this);
     }
 
     /**
-     * Called by the constructor methods to create the default
-     * <code>rootPane</code>.
+     * Cblled by the constructor methods to crebte the defbult
+     * <code>rootPbne</code>.
      *
-     * @return a new {@code JRootPane}
+     * @return b new {@code JRootPbne}
      */
-    protected JRootPane createRootPane() {
-        JRootPane rp = new JRootPane();
-        // NOTE: this uses setOpaque vs LookAndFeel.installProperty as there
-        // is NO reason for the RootPane not to be opaque. For painting to
-        // work the contentPane must be opaque, therefor the RootPane can
-        // also be opaque.
-        rp.setOpaque(true);
+    protected JRootPbne crebteRootPbne() {
+        JRootPbne rp = new JRootPbne();
+        // NOTE: this uses setOpbque vs LookAndFeel.instbllProperty bs there
+        // is NO rebson for the RootPbne not to be opbque. For pbinting to
+        // work the contentPbne must be opbque, therefor the RootPbne cbn
+        // blso be opbque.
+        rp.setOpbque(true);
         return rp;
     }
 
     /**
      * Processes window events occurring on this component.
-     * Hides the window or disposes of it, as specified by the setting
-     * of the <code>defaultCloseOperation</code> property.
+     * Hides the window or disposes of it, bs specified by the setting
+     * of the <code>defbultCloseOperbtion</code> property.
      *
-     * @param  e  the window event
-     * @see    #setDefaultCloseOperation
-     * @see    java.awt.Window#processWindowEvent
+     * @pbrbm  e  the window event
+     * @see    #setDefbultCloseOperbtion
+     * @see    jbvb.bwt.Window#processWindowEvent
      */
     protected void processWindowEvent(WindowEvent e) {
         super.processWindowEvent(e);
 
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            switch(defaultCloseOperation) {
-              case HIDE_ON_CLOSE:
-                 setVisible(false);
-                 break;
-              case DISPOSE_ON_CLOSE:
+            switch(defbultCloseOperbtion) {
+              cbse HIDE_ON_CLOSE:
+                 setVisible(fblse);
+                 brebk;
+              cbse DISPOSE_ON_CLOSE:
                  dispose();
-                 break;
-              case DO_NOTHING_ON_CLOSE:
-                 default:
-                 break;
-              case EXIT_ON_CLOSE:
-                  // This needs to match the checkExit call in
-                  // setDefaultCloseOperation
+                 brebk;
+              cbse DO_NOTHING_ON_CLOSE:
+                 defbult:
+                 brebk;
+              cbse EXIT_ON_CLOSE:
+                  // This needs to mbtch the checkExit cbll in
+                  // setDefbultCloseOperbtion
                 System.exit(0);
-                break;
+                brebk;
             }
         }
     }
 
-//    public void setMenuBar(MenuBar menu) {
-//        throw new IllegalComponentStateException("Please use setJMenuBar() with JFrame.");
+//    public void setMenuBbr(MenuBbr menu) {
+//        throw new IllegblComponentStbteException("Plebse use setJMenuBbr() with JFrbme.");
 //    }
 
     /**
-     * Sets the operation that will happen by default when
-     * the user initiates a "close" on this frame.
+     * Sets the operbtion thbt will hbppen by defbult when
+     * the user initibtes b "close" on this frbme.
      * You must specify one of the following choices:
      * <br><br>
      * <ul>
      * <li><code>DO_NOTHING_ON_CLOSE</code>
-     * (defined in <code>WindowConstants</code>):
-     * Don't do anything; require the
-     * program to handle the operation in the <code>windowClosing</code>
-     * method of a registered <code>WindowListener</code> object.
+     * (defined in <code>WindowConstbnts</code>):
+     * Don't do bnything; require the
+     * progrbm to hbndle the operbtion in the <code>windowClosing</code>
+     * method of b registered <code>WindowListener</code> object.
      *
      * <li><code>HIDE_ON_CLOSE</code>
-     * (defined in <code>WindowConstants</code>):
-     * Automatically hide the frame after
-     * invoking any registered <code>WindowListener</code>
+     * (defined in <code>WindowConstbnts</code>):
+     * Autombticblly hide the frbme bfter
+     * invoking bny registered <code>WindowListener</code>
      * objects.
      *
      * <li><code>DISPOSE_ON_CLOSE</code>
-     * (defined in <code>WindowConstants</code>):
-     * Automatically hide and dispose the
-     * frame after invoking any registered <code>WindowListener</code>
+     * (defined in <code>WindowConstbnts</code>):
+     * Autombticblly hide bnd dispose the
+     * frbme bfter invoking bny registered <code>WindowListener</code>
      * objects.
      *
      * <li><code>EXIT_ON_CLOSE</code>
-     * (defined in <code>JFrame</code>):
-     * Exit the application using the <code>System</code>
-     * <code>exit</code> method.  Use this only in applications.
+     * (defined in <code>JFrbme</code>):
+     * Exit the bpplicbtion using the <code>System</code>
+     * <code>exit</code> method.  Use this only in bpplicbtions.
      * </ul>
      * <p>
-     * The value is set to <code>HIDE_ON_CLOSE</code> by default. Changes
-     * to the value of this property cause the firing of a property
-     * change event, with property name "defaultCloseOperation".
+     * The vblue is set to <code>HIDE_ON_CLOSE</code> by defbult. Chbnges
+     * to the vblue of this property cbuse the firing of b property
+     * chbnge event, with property nbme "defbultCloseOperbtion".
      * <p>
-     * <b>Note</b>: When the last displayable window within the
-     * Java virtual machine (VM) is disposed of, the VM may
-     * terminate.  See <a href="../../java/awt/doc-files/AWTThreadIssues.html">
-     * AWT Threading Issues</a> for more information.
+     * <b>Note</b>: When the lbst displbybble window within the
+     * Jbvb virtubl mbchine (VM) is disposed of, the VM mby
+     * terminbte.  See <b href="../../jbvb/bwt/doc-files/AWTThrebdIssues.html">
+     * AWT Threbding Issues</b> for more informbtion.
      *
-     * @param operation the operation which should be performed when the
-     *        user closes the frame
-     * @exception IllegalArgumentException if defaultCloseOperation value
-     *             isn't one of the above valid values
-     * @see #addWindowListener
-     * @see #getDefaultCloseOperation
-     * @see WindowConstants
+     * @pbrbm operbtion the operbtion which should be performed when the
+     *        user closes the frbme
+     * @exception IllegblArgumentException if defbultCloseOperbtion vblue
+     *             isn't one of the bbove vblid vblues
+     * @see #bddWindowListener
+     * @see #getDefbultCloseOperbtion
+     * @see WindowConstbnts
      * @throws  SecurityException
-     *        if <code>EXIT_ON_CLOSE</code> has been specified and the
-     *        <code>SecurityManager</code> will
-     *        not allow the caller to invoke <code>System.exit</code>
-     * @see        java.lang.Runtime#exit(int)
+     *        if <code>EXIT_ON_CLOSE</code> hbs been specified bnd the
+     *        <code>SecurityMbnbger</code> will
+     *        not bllow the cbller to invoke <code>System.exit</code>
+     * @see        jbvb.lbng.Runtime#exit(int)
      *
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
      *       bound: true
-     *        enum: DO_NOTHING_ON_CLOSE WindowConstants.DO_NOTHING_ON_CLOSE
-     *              HIDE_ON_CLOSE       WindowConstants.HIDE_ON_CLOSE
-     *              DISPOSE_ON_CLOSE    WindowConstants.DISPOSE_ON_CLOSE
-     *              EXIT_ON_CLOSE       WindowConstants.EXIT_ON_CLOSE
-     * description: The frame's default close operation.
+     *        enum: DO_NOTHING_ON_CLOSE WindowConstbnts.DO_NOTHING_ON_CLOSE
+     *              HIDE_ON_CLOSE       WindowConstbnts.HIDE_ON_CLOSE
+     *              DISPOSE_ON_CLOSE    WindowConstbnts.DISPOSE_ON_CLOSE
+     *              EXIT_ON_CLOSE       WindowConstbnts.EXIT_ON_CLOSE
+     * description: The frbme's defbult close operbtion.
      */
-    public void setDefaultCloseOperation(int operation) {
-        if (operation != DO_NOTHING_ON_CLOSE &&
-            operation != HIDE_ON_CLOSE &&
-            operation != DISPOSE_ON_CLOSE &&
-            operation != EXIT_ON_CLOSE) {
-            throw new IllegalArgumentException("defaultCloseOperation must be one of: DO_NOTHING_ON_CLOSE, HIDE_ON_CLOSE, DISPOSE_ON_CLOSE, or EXIT_ON_CLOSE");
+    public void setDefbultCloseOperbtion(int operbtion) {
+        if (operbtion != DO_NOTHING_ON_CLOSE &&
+            operbtion != HIDE_ON_CLOSE &&
+            operbtion != DISPOSE_ON_CLOSE &&
+            operbtion != EXIT_ON_CLOSE) {
+            throw new IllegblArgumentException("defbultCloseOperbtion must be one of: DO_NOTHING_ON_CLOSE, HIDE_ON_CLOSE, DISPOSE_ON_CLOSE, or EXIT_ON_CLOSE");
         }
 
-        if (operation == EXIT_ON_CLOSE) {
-            SecurityManager security = System.getSecurityManager();
+        if (operbtion == EXIT_ON_CLOSE) {
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
                 security.checkExit(0);
             }
         }
-        if (this.defaultCloseOperation != operation) {
-            int oldValue = this.defaultCloseOperation;
-            this.defaultCloseOperation = operation;
-            firePropertyChange("defaultCloseOperation", oldValue, operation);
+        if (this.defbultCloseOperbtion != operbtion) {
+            int oldVblue = this.defbultCloseOperbtion;
+            this.defbultCloseOperbtion = operbtion;
+            firePropertyChbnge("defbultCloseOperbtion", oldVblue, operbtion);
         }
     }
 
 
    /**
-    * Returns the operation that occurs when the user
-    * initiates a "close" on this frame.
+    * Returns the operbtion thbt occurs when the user
+    * initibtes b "close" on this frbme.
     *
-    * @return an integer indicating the window-close operation
-    * @see #setDefaultCloseOperation
+    * @return bn integer indicbting the window-close operbtion
+    * @see #setDefbultCloseOperbtion
     */
-    public int getDefaultCloseOperation() {
-        return defaultCloseOperation;
+    public int getDefbultCloseOperbtion() {
+        return defbultCloseOperbtion;
     }
 
     /**
-     * Sets the {@code transferHandler} property, which is a mechanism to
-     * support transfer of data into this component. Use {@code null}
-     * if the component does not support data transfer operations.
+     * Sets the {@code trbnsferHbndler} property, which is b mechbnism to
+     * support trbnsfer of dbtb into this component. Use {@code null}
+     * if the component does not support dbtb trbnsfer operbtions.
      * <p>
-     * If the system property {@code suppressSwingDropSupport} is {@code false}
-     * (the default) and the current drop target on this component is either
-     * {@code null} or not a user-set drop target, this method will change the
-     * drop target as follows: If {@code newHandler} is {@code null} it will
-     * clear the drop target. If not {@code null} it will install a new
-     * {@code DropTarget}.
+     * If the system property {@code suppressSwingDropSupport} is {@code fblse}
+     * (the defbult) bnd the current drop tbrget on this component is either
+     * {@code null} or not b user-set drop tbrget, this method will chbnge the
+     * drop tbrget bs follows: If {@code newHbndler} is {@code null} it will
+     * clebr the drop tbrget. If not {@code null} it will instbll b new
+     * {@code DropTbrget}.
      * <p>
-     * Note: When used with {@code JFrame}, {@code TransferHandler} only
-     * provides data import capability, as the data export related methods
-     * are currently typed to {@code JComponent}.
+     * Note: When used with {@code JFrbme}, {@code TrbnsferHbndler} only
+     * provides dbtb import cbpbbility, bs the dbtb export relbted methods
+     * bre currently typed to {@code JComponent}.
      * <p>
-     * Please see
-     * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
-     * How to Use Drag and Drop and Data Transfer</a>, a section in
-     * <em>The Java Tutorial</em>, for more information.
+     * Plebse see
+     * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/dnd/index.html">
+     * How to Use Drbg bnd Drop bnd Dbtb Trbnsfer</b>, b section in
+     * <em>The Jbvb Tutoribl</em>, for more informbtion.
      *
-     * @param newHandler the new {@code TransferHandler}
+     * @pbrbm newHbndler the new {@code TrbnsferHbndler}
      *
-     * @see TransferHandler
-     * @see #getTransferHandler
-     * @see java.awt.Component#setDropTarget
+     * @see TrbnsferHbndler
+     * @see #getTrbnsferHbndler
+     * @see jbvb.bwt.Component#setDropTbrget
      * @since 1.6
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *  description: Mechanism for transfer of data into the component
+     *  description: Mechbnism for trbnsfer of dbtb into the component
      */
-    public void setTransferHandler(TransferHandler newHandler) {
-        TransferHandler oldHandler = transferHandler;
-        transferHandler = newHandler;
-        SwingUtilities.installSwingDropTargetAsNecessary(this, transferHandler);
-        firePropertyChange("transferHandler", oldHandler, newHandler);
+    public void setTrbnsferHbndler(TrbnsferHbndler newHbndler) {
+        TrbnsferHbndler oldHbndler = trbnsferHbndler;
+        trbnsferHbndler = newHbndler;
+        SwingUtilities.instbllSwingDropTbrgetAsNecessbry(this, trbnsferHbndler);
+        firePropertyChbnge("trbnsferHbndler", oldHbndler, newHbndler);
     }
 
     /**
-     * Gets the <code>transferHandler</code> property.
+     * Gets the <code>trbnsferHbndler</code> property.
      *
-     * @return the value of the <code>transferHandler</code> property
+     * @return the vblue of the <code>trbnsferHbndler</code> property
      *
-     * @see TransferHandler
-     * @see #setTransferHandler
+     * @see TrbnsferHbndler
+     * @see #setTrbnsferHbndler
      * @since 1.6
      */
-    public TransferHandler getTransferHandler() {
-        return transferHandler;
+    public TrbnsferHbndler getTrbnsferHbndler() {
+        return trbnsferHbndler;
     }
 
     /**
-     * Just calls <code>paint(g)</code>.  This method was overridden to
-     * prevent an unnecessary call to clear the background.
+     * Just cblls <code>pbint(g)</code>.  This method wbs overridden to
+     * prevent bn unnecessbry cbll to clebr the bbckground.
      *
-     * @param g the Graphics context in which to paint
+     * @pbrbm g the Grbphics context in which to pbint
      */
-    public void update(Graphics g) {
-        paint(g);
+    public void updbte(Grbphics g) {
+        pbint(g);
     }
 
    /**
-    * Sets the menubar for this frame.
-    * @param menubar the menubar being placed in the frame
+    * Sets the menubbr for this frbme.
+    * @pbrbm menubbr the menubbr being plbced in the frbme
     *
-    * @see #getJMenuBar
+    * @see #getJMenuBbr
     *
-    * @beaninfo
+    * @bebninfo
     *      hidden: true
-    * description: The menubar for accessing pulldown menus from this frame.
+    * description: The menubbr for bccessing pulldown menus from this frbme.
     */
-    public void setJMenuBar(JMenuBar menubar) {
-        getRootPane().setMenuBar(menubar);
+    public void setJMenuBbr(JMenuBbr menubbr) {
+        getRootPbne().setMenuBbr(menubbr);
     }
 
    /**
-    * Returns the menubar set on this frame.
-    * @return the menubar for this frame
+    * Returns the menubbr set on this frbme.
+    * @return the menubbr for this frbme
     *
-    * @see #setJMenuBar
+    * @see #setJMenuBbr
     */
-    public JMenuBar getJMenuBar() {
-        return getRootPane().getMenuBar();
+    public JMenuBbr getJMenuBbr() {
+        return getRootPbne().getMenuBbr();
     }
 
     /**
-     * Returns whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Returns whether cblls to <code>bdd</code> bnd
+     * <code>setLbyout</code> bre forwbrded to the <code>contentPbne</code>.
      *
-     * @return true if <code>add</code> and <code>setLayout</code>
-     *         are forwarded; false otherwise
+     * @return true if <code>bdd</code> bnd <code>setLbyout</code>
+     *         bre forwbrded; fblse otherwise
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protected boolebn isRootPbneCheckingEnbbled() {
+        return rootPbneCheckingEnbbled;
     }
 
 
     /**
-     * Sets whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Sets whether cblls to <code>bdd</code> bnd
+     * <code>setLbyout</code> bre forwbrded to the <code>contentPbne</code>.
      *
-     * @param enabled  true if <code>add</code> and <code>setLayout</code>
-     *        are forwarded, false if they should operate directly on the
-     *        <code>JFrame</code>.
+     * @pbrbm enbbled  true if <code>bdd</code> bnd <code>setLbyout</code>
+     *        bre forwbrded, fblse if they should operbte directly on the
+     *        <code>JFrbme</code>.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #isRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
+     * @bebninfo
      *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * description: Whether the bdd bnd setLbyout methods bre forwbrded
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protected void setRootPbneCheckingEnbbled(boolebn enbbled) {
+        rootPbneCheckingEnbbled = enbbled;
     }
 
 
     /**
      * Adds the specified child <code>Component</code>.
-     * This method is overridden to conditionally forward calls to the
-     * <code>contentPane</code>.
-     * By default, children are added to the <code>contentPane</code> instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * This method is overridden to conditionblly forwbrd cblls to the
+     * <code>contentPbne</code>.
+     * By defbult, children bre bdded to the <code>contentPbne</code> instebd
+     * of the frbme, refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * detbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @exception IllegalArgumentException if <code>index</code> is invalid
-     * @exception IllegalArgumentException if adding the container's parent
+     * @pbrbm comp the component to be enhbnced
+     * @pbrbm constrbints the constrbints to be respected
+     * @pbrbm index the index
+     * @exception IllegblArgumentException if <code>index</code> is invblid
+     * @exception IllegblArgumentException if bdding the contbiner's pbrent
      *                  to itself
-     * @exception IllegalArgumentException if adding a window to a container
+     * @exception IllegblArgumentException if bdding b window to b contbiner
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protected void bddImpl(Component comp, Object constrbints, int index)
     {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().bdd(comp, constrbints, index);
         }
         else {
-            super.addImpl(comp, constraints, index);
+            super.bddImpl(comp, constrbints, index);
         }
     }
 
     /**
-     * Removes the specified component from the container. If
-     * <code>comp</code> is not the <code>rootPane</code>, this will forward
-     * the call to the <code>contentPane</code>. This will do nothing if
-     * <code>comp</code> is not a child of the <code>JFrame</code> or
-     * <code>contentPane</code>.
+     * Removes the specified component from the contbiner. If
+     * <code>comp</code> is not the <code>rootPbne</code>, this will forwbrd
+     * the cbll to the <code>contentPbne</code>. This will do nothing if
+     * <code>comp</code> is not b child of the <code>JFrbme</code> or
+     * <code>contentPbne</code>.
      *
-     * @param comp the component to be removed
+     * @pbrbm comp the component to be removed
      * @throws NullPointerException if <code>comp</code> is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
+     * @see #bdd
+     * @see jbvbx.swing.RootPbneContbiner
      */
     public void remove(Component comp) {
-        if (comp == rootPane) {
+        if (comp == rootPbne) {
             super.remove(comp);
         } else {
-            getContentPane().remove(comp);
+            getContentPbne().remove(comp);
         }
     }
 
 
     /**
-     * Sets the <code>LayoutManager</code>.
-     * Overridden to conditionally forward the call to the
-     * <code>contentPane</code>.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
+     * Sets the <code>LbyoutMbnbger</code>.
+     * Overridden to conditionblly forwbrd the cbll to the
+     * <code>contentPbne</code>.
+     * Refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * more informbtion.
      *
-     * @param manager the <code>LayoutManager</code>
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @pbrbm mbnbger the <code>LbyoutMbnbger</code>
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
+    public void setLbyout(LbyoutMbnbger mbnbger) {
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().setLbyout(mbnbger);
         }
         else {
-            super.setLayout(manager);
+            super.setLbyout(mbnbger);
         }
     }
 
 
     /**
-     * Returns the <code>rootPane</code> object for this frame.
-     * @return the <code>rootPane</code> property
+     * Returns the <code>rootPbne</code> object for this frbme.
+     * @return the <code>rootPbne</code> property
      *
-     * @see #setRootPane
-     * @see RootPaneContainer#getRootPane
+     * @see #setRootPbne
+     * @see RootPbneContbiner#getRootPbne
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    public JRootPbne getRootPbne() {
+        return rootPbne;
     }
 
 
     /**
-     * Sets the <code>rootPane</code> property.
-     * This method is called by the constructor.
-     * @param root the <code>rootPane</code> object for this frame
+     * Sets the <code>rootPbne</code> property.
+     * This method is cblled by the constructor.
+     * @pbrbm root the <code>rootPbne</code> object for this frbme
      *
-     * @see #getRootPane
+     * @see #getRootPbne
      *
-     * @beaninfo
+     * @bebninfo
      *   hidden: true
-     * description: the RootPane object for this frame.
+     * description: the RootPbne object for this frbme.
      */
-    protected void setRootPane(JRootPane root)
+    protected void setRootPbne(JRootPbne root)
     {
-        if(rootPane != null) {
-            remove(rootPane);
+        if(rootPbne != null) {
+            remove(rootPbne);
         }
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        rootPbne = root;
+        if(rootPbne != null) {
+            boolebn checkingEnbbled = isRootPbneCheckingEnbbled();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                setRootPbneCheckingEnbbled(fblse);
+                bdd(rootPbne, BorderLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                setRootPbneCheckingEnbbled(checkingEnbbled);
             }
         }
     }
@@ -658,101 +658,101 @@ public class JFrame  extends Frame implements WindowConstants,
     /**
      * {@inheritDoc}
      */
-    public void setIconImage(Image image) {
-        super.setIconImage(image);
+    public void setIconImbge(Imbge imbge) {
+        super.setIconImbge(imbge);
     }
 
     /**
-     * Returns the <code>contentPane</code> object for this frame.
-     * @return the <code>contentPane</code> property
+     * Returns the <code>contentPbne</code> object for this frbme.
+     * @return the <code>contentPbne</code> property
      *
-     * @see #setContentPane
-     * @see RootPaneContainer#getContentPane
+     * @see #setContentPbne
+     * @see RootPbneContbiner#getContentPbne
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
+    public Contbiner getContentPbne() {
+        return getRootPbne().getContentPbne();
     }
 
     /**
-     * Sets the <code>contentPane</code> property.
-     * This method is called by the constructor.
+     * Sets the <code>contentPbne</code> property.
+     * This method is cblled by the constructor.
      * <p>
-     * Swing's painting architecture requires an opaque <code>JComponent</code>
-     * in the containment hierarchy. This is typically provided by the
-     * content pane. If you replace the content pane it is recommended you
-     * replace it with an opaque <code>JComponent</code>.
+     * Swing's pbinting brchitecture requires bn opbque <code>JComponent</code>
+     * in the contbinment hierbrchy. This is typicblly provided by the
+     * content pbne. If you replbce the content pbne it is recommended you
+     * replbce it with bn opbque <code>JComponent</code>.
      *
-     * @param contentPane the <code>contentPane</code> object for this frame
+     * @pbrbm contentPbne the <code>contentPbne</code> object for this frbme
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is <code>null</code>
-     * @see #getContentPane
-     * @see RootPaneContainer#setContentPane
-     * @see JRootPane
+     * @exception jbvb.bwt.IllegblComponentStbteException (b runtime
+     *            exception) if the content pbne pbrbmeter is <code>null</code>
+     * @see #getContentPbne
+     * @see RootPbneContbiner#setContentPbne
+     * @see JRootPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: The client area of the frame where child
-     *                  components are normally inserted.
+     *     description: The client breb of the frbme where child
+     *                  components bre normblly inserted.
      */
-    public void setContentPane(Container contentPane) {
-        getRootPane().setContentPane(contentPane);
+    public void setContentPbne(Contbiner contentPbne) {
+        getRootPbne().setContentPbne(contentPbne);
     }
 
     /**
-     * Returns the <code>layeredPane</code> object for this frame.
-     * @return the <code>layeredPane</code> property
+     * Returns the <code>lbyeredPbne</code> object for this frbme.
+     * @return the <code>lbyeredPbne</code> property
      *
-     * @see #setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
+     * @see #setLbyeredPbne
+     * @see RootPbneContbiner#getLbyeredPbne
      */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
+    public JLbyeredPbne getLbyeredPbne() {
+        return getRootPbne().getLbyeredPbne();
     }
 
     /**
-     * Sets the <code>layeredPane</code> property.
-     * This method is called by the constructor.
-     * @param layeredPane the <code>layeredPane</code> object for this frame
+     * Sets the <code>lbyeredPbne</code> property.
+     * This method is cblled by the constructor.
+     * @pbrbm lbyeredPbne the <code>lbyeredPbne</code> object for this frbme
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the layered pane parameter is <code>null</code>
-     * @see #getLayeredPane
-     * @see RootPaneContainer#setLayeredPane
+     * @exception jbvb.bwt.IllegblComponentStbteException (b runtime
+     *            exception) if the lbyered pbne pbrbmeter is <code>null</code>
+     * @see #getLbyeredPbne
+     * @see RootPbneContbiner#setLbyeredPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: The pane that holds the various frame layers.
+     *     description: The pbne thbt holds the vbrious frbme lbyers.
      */
-    public void setLayeredPane(JLayeredPane layeredPane) {
-        getRootPane().setLayeredPane(layeredPane);
+    public void setLbyeredPbne(JLbyeredPbne lbyeredPbne) {
+        getRootPbne().setLbyeredPbne(lbyeredPbne);
     }
 
     /**
-     * Returns the <code>glassPane</code> object for this frame.
-     * @return the <code>glassPane</code> property
+     * Returns the <code>glbssPbne</code> object for this frbme.
+     * @return the <code>glbssPbne</code> property
      *
-     * @see #setGlassPane
-     * @see RootPaneContainer#getGlassPane
+     * @see #setGlbssPbne
+     * @see RootPbneContbiner#getGlbssPbne
      */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
+    public Component getGlbssPbne() {
+        return getRootPbne().getGlbssPbne();
     }
 
     /**
-     * Sets the <code>glassPane</code> property.
-     * This method is called by the constructor.
-     * @param glassPane the <code>glassPane</code> object for this frame
+     * Sets the <code>glbssPbne</code> property.
+     * This method is cblled by the constructor.
+     * @pbrbm glbssPbne the <code>glbssPbne</code> object for this frbme
      *
-     * @see #getGlassPane
-     * @see RootPaneContainer#setGlassPane
+     * @see #getGlbssPbne
+     * @see RootPbneContbiner#setGlbssPbne
      *
-     * @beaninfo
+     * @bebninfo
      *     hidden: true
-     *     description: A transparent pane used for menu rendering.
+     *     description: A trbnspbrent pbne used for menu rendering.
      */
-    public void setGlassPane(Component glassPane) {
-        getRootPane().setGlassPane(glassPane);
+    public void setGlbssPbne(Component glbssPbne) {
+        getRootPbne().setGlbssPbne(glbssPbne);
     }
 
     /**
@@ -760,114 +760,114 @@ public class JFrame  extends Frame implements WindowConstants,
      *
      * @since 1.6
      */
-    public Graphics getGraphics() {
-        JComponent.getGraphicsInvoked(this);
-        return super.getGraphics();
+    public Grbphics getGrbphics() {
+        JComponent.getGrbphicsInvoked(this);
+        return super.getGrbphics();
     }
 
     /**
-     * Repaints the specified rectangle of this component within
-     * <code>time</code> milliseconds.  Refer to <code>RepaintManager</code>
-     * for details on how the repaint is handled.
+     * Repbints the specified rectbngle of this component within
+     * <code>time</code> milliseconds.  Refer to <code>RepbintMbnbger</code>
+     * for detbils on how the repbint is hbndled.
      *
-     * @param     time   maximum time in milliseconds before update
-     * @param     x    the <i>x</i> coordinate
-     * @param     y    the <i>y</i> coordinate
-     * @param     width    the width
-     * @param     height   the height
-     * @see       RepaintManager
+     * @pbrbm     time   mbximum time in milliseconds before updbte
+     * @pbrbm     x    the <i>x</i> coordinbte
+     * @pbrbm     y    the <i>y</i> coordinbte
+     * @pbrbm     width    the width
+     * @pbrbm     height   the height
+     * @see       RepbintMbnbger
      * @since     1.6
      */
-    public void repaint(long time, int x, int y, int width, int height) {
-        if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
-            RepaintManager.currentManager(this).addDirtyRegion(
+    public void repbint(long time, int x, int y, int width, int height) {
+        if (RepbintMbnbger.HANDLE_TOP_LEVEL_PAINT) {
+            RepbintMbnbger.currentMbnbger(this).bddDirtyRegion(
                               this, x, y, width, height);
         }
         else {
-            super.repaint(time, x, y, width, height);
+            super.repbint(time, x, y, width, height);
         }
     }
 
     /**
-     * Provides a hint as to whether or not newly created <code>JFrame</code>s
-     * should have their Window decorations (such as borders, widgets to
+     * Provides b hint bs to whether or not newly crebted <code>JFrbme</code>s
+     * should hbve their Window decorbtions (such bs borders, widgets to
      * close the window, title...) provided by the current look
-     * and feel. If <code>defaultLookAndFeelDecorated</code> is true,
+     * bnd feel. If <code>defbultLookAndFeelDecorbted</code> is true,
      * the current <code>LookAndFeel</code> supports providing window
-     * decorations, and the current window manager supports undecorated
-     * windows, then newly created <code>JFrame</code>s will have their
-     * Window decorations provided by the current <code>LookAndFeel</code>.
-     * Otherwise, newly created <code>JFrame</code>s will have their
-     * Window decorations provided by the current window manager.
+     * decorbtions, bnd the current window mbnbger supports undecorbted
+     * windows, then newly crebted <code>JFrbme</code>s will hbve their
+     * Window decorbtions provided by the current <code>LookAndFeel</code>.
+     * Otherwise, newly crebted <code>JFrbme</code>s will hbve their
+     * Window decorbtions provided by the current window mbnbger.
      * <p>
-     * You can get the same effect on a single JFrame by doing the following:
+     * You cbn get the sbme effect on b single JFrbme by doing the following:
      * <pre>
-     *    JFrame frame = new JFrame();
-     *    frame.setUndecorated(true);
-     *    frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+     *    JFrbme frbme = new JFrbme();
+     *    frbme.setUndecorbted(true);
+     *    frbme.getRootPbne().setWindowDecorbtionStyle(JRootPbne.FRAME);
      * </pre>
      *
-     * @param defaultLookAndFeelDecorated A hint as to whether or not current
-     *        look and feel should provide window decorations
-     * @see javax.swing.LookAndFeel#getSupportsWindowDecorations
+     * @pbrbm defbultLookAndFeelDecorbted A hint bs to whether or not current
+     *        look bnd feel should provide window decorbtions
+     * @see jbvbx.swing.LookAndFeel#getSupportsWindowDecorbtions
      * @since 1.4
      */
-    public static void setDefaultLookAndFeelDecorated(boolean defaultLookAndFeelDecorated) {
-        if (defaultLookAndFeelDecorated) {
-            SwingUtilities.appContextPut(defaultLookAndFeelDecoratedKey, Boolean.TRUE);
+    public stbtic void setDefbultLookAndFeelDecorbted(boolebn defbultLookAndFeelDecorbted) {
+        if (defbultLookAndFeelDecorbted) {
+            SwingUtilities.bppContextPut(defbultLookAndFeelDecorbtedKey, Boolebn.TRUE);
         } else {
-            SwingUtilities.appContextPut(defaultLookAndFeelDecoratedKey, Boolean.FALSE);
+            SwingUtilities.bppContextPut(defbultLookAndFeelDecorbtedKey, Boolebn.FALSE);
         }
     }
 
 
     /**
-     * Returns true if newly created <code>JFrame</code>s should have their
-     * Window decorations provided by the current look and feel. This is only
-     * a hint, as certain look and feels may not support this feature.
+     * Returns true if newly crebted <code>JFrbme</code>s should hbve their
+     * Window decorbtions provided by the current look bnd feel. This is only
+     * b hint, bs certbin look bnd feels mby not support this febture.
      *
-     * @return true if look and feel should provide Window decorations.
+     * @return true if look bnd feel should provide Window decorbtions.
      * @since 1.4
      */
-    public static boolean isDefaultLookAndFeelDecorated() {
-        Boolean defaultLookAndFeelDecorated =
-            (Boolean) SwingUtilities.appContextGet(defaultLookAndFeelDecoratedKey);
-        if (defaultLookAndFeelDecorated == null) {
-            defaultLookAndFeelDecorated = Boolean.FALSE;
+    public stbtic boolebn isDefbultLookAndFeelDecorbted() {
+        Boolebn defbultLookAndFeelDecorbted =
+            (Boolebn) SwingUtilities.bppContextGet(defbultLookAndFeelDecorbtedKey);
+        if (defbultLookAndFeelDecorbted == null) {
+            defbultLookAndFeelDecorbted = Boolebn.FALSE;
         }
-        return defaultLookAndFeelDecorated.booleanValue();
+        return defbultLookAndFeelDecorbted.boolebnVblue();
     }
 
     /**
-     * Returns a string representation of this <code>JFrame</code>.
+     * Returns b string representbtion of this <code>JFrbme</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JFrame</code>
+     * @return  b string representbtion of this <code>JFrbme</code>
      */
-    protected String paramString() {
-        String defaultCloseOperationString;
-        if (defaultCloseOperation == HIDE_ON_CLOSE) {
-            defaultCloseOperationString = "HIDE_ON_CLOSE";
-        } else if (defaultCloseOperation == DISPOSE_ON_CLOSE) {
-            defaultCloseOperationString = "DISPOSE_ON_CLOSE";
-        } else if (defaultCloseOperation == DO_NOTHING_ON_CLOSE) {
-            defaultCloseOperationString = "DO_NOTHING_ON_CLOSE";
-        } else if (defaultCloseOperation == 3) {
-            defaultCloseOperationString = "EXIT_ON_CLOSE";
-        } else defaultCloseOperationString = "";
-        String rootPaneString = (rootPane != null ?
-                                 rootPane.toString() : "");
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
+    protected String pbrbmString() {
+        String defbultCloseOperbtionString;
+        if (defbultCloseOperbtion == HIDE_ON_CLOSE) {
+            defbultCloseOperbtionString = "HIDE_ON_CLOSE";
+        } else if (defbultCloseOperbtion == DISPOSE_ON_CLOSE) {
+            defbultCloseOperbtionString = "DISPOSE_ON_CLOSE";
+        } else if (defbultCloseOperbtion == DO_NOTHING_ON_CLOSE) {
+            defbultCloseOperbtionString = "DO_NOTHING_ON_CLOSE";
+        } else if (defbultCloseOperbtion == 3) {
+            defbultCloseOperbtionString = "EXIT_ON_CLOSE";
+        } else defbultCloseOperbtionString = "";
+        String rootPbneString = (rootPbne != null ?
+                                 rootPbne.toString() : "");
+        String rootPbneCheckingEnbbledString = (rootPbneCheckingEnbbled ?
+                                                "true" : "fblse");
 
-        return super.paramString() +
-        ",defaultCloseOperation=" + defaultCloseOperationString +
-        ",rootPane=" + rootPaneString +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString;
+        return super.pbrbmString() +
+        ",defbultCloseOperbtion=" + defbultCloseOperbtionString +
+        ",rootPbne=" + rootPbneString +
+        ",rootPbneCheckingEnbbled=" + rootPbneCheckingEnbbledString;
     }
 
 
@@ -877,47 +877,47 @@ public class JFrame  extends Frame implements WindowConstants,
 ////////////////
 
     /**
-     * The accessible context property.
+     * The bccessible context property.
      */
-    protected AccessibleContext accessibleContext = null;
+    protected AccessibleContext bccessibleContext = null;
 
     /**
-     * Gets the AccessibleContext associated with this JFrame.
-     * For JFrames, the AccessibleContext takes the form of an
-     * AccessibleJFrame.
-     * A new AccessibleJFrame instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JFrbme.
+     * For JFrbmes, the AccessibleContext tbkes the form of bn
+     * AccessibleJFrbme.
+     * A new AccessibleJFrbme instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJFrame that serves as the
-     *         AccessibleContext of this JFrame
+     * @return bn AccessibleJFrbme thbt serves bs the
+     *         AccessibleContext of this JFrbme
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJFrame();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJFrbme();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JFrame</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to frame user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JFrbme</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to frbme user-interfbce
      * elements.
      */
-    protected class AccessibleJFrame extends AccessibleAWTFrame {
+    protected clbss AccessibleJFrbme extends AccessibleAWTFrbme {
 
         // AccessibleContext methods
         /**
-         * Get the accessible name of this object.
+         * Get the bccessible nbme of this object.
          *
-         * @return the localized name of the object -- can be null if this
-         * object does not have a name
+         * @return the locblized nbme of the object -- cbn be null if this
+         * object does not hbve b nbme
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
+        public String getAccessibleNbme() {
+            if (bccessibleNbme != null) {
+                return bccessibleNbme;
             } else {
                 if (getTitle() == null) {
-                    return super.getAccessibleName();
+                    return super.getAccessibleNbme();
                 } else {
                     return getTitle();
                 }
@@ -925,24 +925,24 @@ public class JFrame  extends Frame implements WindowConstants,
         }
 
         /**
-         * Get the state of this object.
+         * Get the stbte of this object.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @return bn instbnce of AccessibleStbteSet contbining the current
+         * stbte set of the object
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
 
-            if (isResizable()) {
-                states.add(AccessibleState.RESIZABLE);
+            if (isResizbble()) {
+                stbtes.bdd(AccessibleStbte.RESIZABLE);
             }
             if (getFocusOwner() != null) {
-                states.add(AccessibleState.ACTIVE);
+                stbtes.bdd(AccessibleStbte.ACTIVE);
             }
-            // FIXME:  [[[WDW - should also return ICONIFIED and ICONIFIABLE
-            // if we can ever figure these out]]]
-            return states;
+            // FIXME:  [[[WDW - should blso return ICONIFIED bnd ICONIFIABLE
+            // if we cbn ever figure these out]]]
+            return stbtes;
         }
-    } // inner class AccessibleJFrame
+    } // inner clbss AccessibleJFrbme
 }

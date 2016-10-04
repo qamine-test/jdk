@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2013 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2013 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,78 +57,78 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * The path to a type argument, wildcard bound, array element type, or static
- * inner type within an enclosing type.
+ * The pbth to b type brgument, wildcbrd bound, brrby element type, or stbtic
+ * inner type within bn enclosing type.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class TypePath {
+public clbss TypePbth {
 
     /**
-     * A type path step that steps into the element type of an array type. See
+     * A type pbth step thbt steps into the element type of bn brrby type. See
      * {@link #getStep getStep}.
      */
-    public final static int ARRAY_ELEMENT = 0;
+    public finbl stbtic int ARRAY_ELEMENT = 0;
 
     /**
-     * A type path step that steps into the nested type of a class type. See
+     * A type pbth step thbt steps into the nested type of b clbss type. See
      * {@link #getStep getStep}.
      */
-    public final static int INNER_TYPE = 1;
+    public finbl stbtic int INNER_TYPE = 1;
 
     /**
-     * A type path step that steps into the bound of a wildcard type. See
+     * A type pbth step thbt steps into the bound of b wildcbrd type. See
      * {@link #getStep getStep}.
      */
-    public final static int WILDCARD_BOUND = 2;
+    public finbl stbtic int WILDCARD_BOUND = 2;
 
     /**
-     * A type path step that steps into a type argument of a generic type. See
+     * A type pbth step thbt steps into b type brgument of b generic type. See
      * {@link #getStep getStep}.
      */
-    public final static int TYPE_ARGUMENT = 3;
+    public finbl stbtic int TYPE_ARGUMENT = 3;
 
     /**
-     * The byte array where the path is stored, in Java class file format.
+     * The byte brrby where the pbth is stored, in Jbvb clbss file formbt.
      */
     byte[] b;
 
     /**
-     * The offset of the first byte of the type path in 'b'.
+     * The offset of the first byte of the type pbth in 'b'.
      */
     int offset;
 
     /**
-     * Creates a new type path.
+     * Crebtes b new type pbth.
      *
-     * @param b
-     *            the byte array containing the type path in Java class file
-     *            format.
-     * @param offset
-     *            the offset of the first byte of the type path in 'b'.
+     * @pbrbm b
+     *            the byte brrby contbining the type pbth in Jbvb clbss file
+     *            formbt.
+     * @pbrbm offset
+     *            the offset of the first byte of the type pbth in 'b'.
      */
-    TypePath(byte[] b, int offset) {
+    TypePbth(byte[] b, int offset) {
         this.b = b;
         this.offset = offset;
     }
 
     /**
-     * Returns the length of this path.
+     * Returns the length of this pbth.
      *
-     * @return the length of this path.
+     * @return the length of this pbth.
      */
     public int getLength() {
         return b[offset];
     }
 
     /**
-     * Returns the value of the given step of this path.
+     * Returns the vblue of the given step of this pbth.
      *
-     * @param index
-     *            an index between 0 and {@link #getLength()}, exclusive.
+     * @pbrbm index
+     *            bn index between 0 bnd {@link #getLength()}, exclusive.
      * @return {@link #ARRAY_ELEMENT ARRAY_ELEMENT}, {@link #INNER_TYPE
      *         INNER_TYPE}, {@link #WILDCARD_BOUND WILDCARD_BOUND}, or
      *         {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
@@ -138,13 +138,13 @@ public class TypePath {
     }
 
     /**
-     * Returns the index of the type argument that the given step is stepping
-     * into. This method should only be used for steps whose value is
+     * Returns the index of the type brgument thbt the given step is stepping
+     * into. This method should only be used for steps whose vblue is
      * {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
      *
-     * @param index
-     *            an index between 0 and {@link #getLength()}, exclusive.
-     * @return the index of the type argument that the given step is stepping
+     * @pbrbm index
+     *            bn index between 0 bnd {@link #getLength()}, exclusive.
+     * @return the index of the type brgument thbt the given step is stepping
      *         into.
      */
     public int getStepArgument(int index) {
@@ -152,23 +152,23 @@ public class TypePath {
     }
 
     /**
-     * Converts a type path in string form, in the format used by
-     * {@link #toString()}, into a TypePath object.
+     * Converts b type pbth in string form, in the formbt used by
+     * {@link #toString()}, into b TypePbth object.
      *
-     * @param typePath
-     *            a type path in string form, in the format used by
-     *            {@link #toString()}. May be null or empty.
-     * @return the corresponding TypePath object, or null if the path is empty.
+     * @pbrbm typePbth
+     *            b type pbth in string form, in the formbt used by
+     *            {@link #toString()}. Mby be null or empty.
+     * @return the corresponding TypePbth object, or null if the pbth is empty.
      */
-    public static TypePath fromString(final String typePath) {
-        if (typePath == null || typePath.length() == 0) {
+    public stbtic TypePbth fromString(finbl String typePbth) {
+        if (typePbth == null || typePbth.length() == 0) {
             return null;
         }
-        int n = typePath.length();
+        int n = typePbth.length();
         ByteVector out = new ByteVector(n);
         out.putByte(0);
         for (int i = 0; i < n;) {
-            char c = typePath.charAt(i++);
+            chbr c = typePbth.chbrAt(i++);
             if (c == '[') {
                 out.put11(ARRAY_ELEMENT, 0);
             } else if (c == '.') {
@@ -177,23 +177,23 @@ public class TypePath {
                 out.put11(WILDCARD_BOUND, 0);
             } else if (c >= '0' && c <= '9') {
                 int typeArg = c - '0';
-                while (i < n && (c = typePath.charAt(i)) >= '0' && c <= '9') {
+                while (i < n && (c = typePbth.chbrAt(i)) >= '0' && c <= '9') {
                     typeArg = typeArg * 10 + c - '0';
                     i += 1;
                 }
                 out.put11(TYPE_ARGUMENT, typeArg);
             }
         }
-        out.data[0] = (byte) (out.length / 2);
-        return new TypePath(out.data, 0);
+        out.dbtb[0] = (byte) (out.length / 2);
+        return new TypePbth(out.dbtb, 0);
     }
 
     /**
-     * Returns a string representation of this type path. {@link #ARRAY_ELEMENT
-     * ARRAY_ELEMENT} steps are represented with '[', {@link #INNER_TYPE
+     * Returns b string representbtion of this type pbth. {@link #ARRAY_ELEMENT
+     * ARRAY_ELEMENT} steps bre represented with '[', {@link #INNER_TYPE
      * INNER_TYPE} steps with '.', {@link #WILDCARD_BOUND WILDCARD_BOUND} steps
-     * with '*' and {@link #TYPE_ARGUMENT TYPE_ARGUMENT} steps with their type
-     * argument index in decimal form.
+     * with '*' bnd {@link #TYPE_ARGUMENT TYPE_ARGUMENT} steps with their type
+     * brgument index in decimbl form.
      */
     @Override
     public String toString() {
@@ -201,20 +201,20 @@ public class TypePath {
         StringBuilder result = new StringBuilder(length * 2);
         for (int i = 0; i < length; ++i) {
             switch (getStep(i)) {
-            case ARRAY_ELEMENT:
-                result.append('[');
-                break;
-            case INNER_TYPE:
-                result.append('.');
-                break;
-            case WILDCARD_BOUND:
-                result.append('*');
-                break;
-            case TYPE_ARGUMENT:
-                result.append(getStepArgument(i));
-                break;
-            default:
-                result.append('_');
+            cbse ARRAY_ELEMENT:
+                result.bppend('[');
+                brebk;
+            cbse INNER_TYPE:
+                result.bppend('.');
+                brebk;
+            cbse WILDCARD_BOUND:
+                result.bppend('*');
+                brebk;
+            cbse TYPE_ARGUMENT:
+                result.bppend(getStepArgument(i));
+                brebk;
+            defbult:
+                result.bppend('_');
             }
         }
         return result.toString();

@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.Vector;
-import java.awt.*;
-import javax.swing.event.*;
-import javax.swing.SwingConstants;
+import jbvb.util.Vector;
+import jbvb.bwt.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.SwingConstbnts;
 
 /**
- * <code>CompositeView</code> is an abstract <code>View</code>
- * implementation which manages one or more child views.
- * (Note that <code>CompositeView</code> is intended
- * for managing relatively small numbers of child views.)
- * <code>CompositeView</code> is intended to be used as
- * a starting point for <code>View</code> implementations,
- * such as <code>BoxView</code>, that will contain child
- * <code>View</code>s. Subclasses that wish to manage the
+ * <code>CompositeView</code> is bn bbstrbct <code>View</code>
+ * implementbtion which mbnbges one or more child views.
+ * (Note thbt <code>CompositeView</code> is intended
+ * for mbnbging relbtively smbll numbers of child views.)
+ * <code>CompositeView</code> is intended to be used bs
+ * b stbrting point for <code>View</code> implementbtions,
+ * such bs <code>BoxView</code>, thbt will contbin child
+ * <code>View</code>s. Subclbsses thbt wish to mbnbge the
  * collection of child <code>View</code>s should use the
- * {@link #replace} method.  As <code>View</code> invokes
- * <code>replace</code> during <code>DocumentListener</code>
- * notification, you normally won't need to directly
- * invoke <code>replace</code>.
+ * {@link #replbce} method.  As <code>View</code> invokes
+ * <code>replbce</code> during <code>DocumentListener</code>
+ * notificbtion, you normblly won't need to directly
+ * invoke <code>replbce</code>.
  *
  * <p>While <code>CompositeView</code>
- * does not impose a layout policy on its child <code>View</code>s,
- * it does allow for inseting the child <code>View</code>s
- * it will contain.  The insets can be set by either
- * {@link #setInsets} or {@link #setParagraphInsets}.
+ * does not impose b lbyout policy on its child <code>View</code>s,
+ * it does bllow for inseting the child <code>View</code>s
+ * it will contbin.  The insets cbn be set by either
+ * {@link #setInsets} or {@link #setPbrbgrbphInsets}.
  *
- * <p>In addition to the abstract methods of
- * {@link javax.swing.text.View},
- * subclasses of <code>CompositeView</code> will need to
+ * <p>In bddition to the bbstrbct methods of
+ * {@link jbvbx.swing.text.View},
+ * subclbsses of <code>CompositeView</code> will need to
  * override:
  * <ul>
- * <li>{@link #isBefore} - Used to test if a given
- *     <code>View</code> location is before the visual space
+ * <li>{@link #isBefore} - Used to test if b given
+ *     <code>View</code> locbtion is before the visubl spbce
  *     of the <code>CompositeView</code>.
- * <li>{@link #isAfter} - Used to test if a given
- *     <code>View</code> location is after the visual space
+ * <li>{@link #isAfter} - Used to test if b given
+ *     <code>View</code> locbtion is bfter the visubl spbce
  *     of the <code>CompositeView</code>.
- * <li>{@link #getViewAtPoint} - Returns the view at
- *     a given visual location.
- * <li>{@link #childAllocation} - Returns the bounds of
- *     a particular child <code>View</code>.
- *     <code>getChildAllocation</code> will invoke
- *     <code>childAllocation</code> after offseting
+ * <li>{@link #getViewAtPoint} - Returns the view bt
+ *     b given visubl locbtion.
+ * <li>{@link #childAllocbtion} - Returns the bounds of
+ *     b pbrticulbr child <code>View</code>.
+ *     <code>getChildAllocbtion</code> will invoke
+ *     <code>childAllocbtion</code> bfter offseting
  *     the bounds by the <code>Inset</code>s of the
  *     <code>CompositeView</code>.
  * </ul>
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public abstract class CompositeView extends View {
+public bbstrbct clbss CompositeView extends View {
 
     /**
-     * Constructs a <code>CompositeView</code> for the given element.
+     * Constructs b <code>CompositeView</code> for the given element.
      *
-     * @param elem  the element this view is responsible for
+     * @pbrbm elem  the element this view is responsible for
      */
     public CompositeView(Element elem) {
         super(elem);
         children = new View[1];
         nchildren = 0;
-        childAlloc = new Rectangle();
+        childAlloc = new Rectbngle();
     }
 
     /**
-     * Loads all of the children to initialize the view.
-     * This is called by the {@link #setParent}
-     * method.  Subclasses can reimplement this to initialize
-     * their child views in a different manner.  The default
-     * implementation creates a child view for each
+     * Lobds bll of the children to initiblize the view.
+     * This is cblled by the {@link #setPbrent}
+     * method.  Subclbsses cbn reimplement this to initiblize
+     * their child views in b different mbnner.  The defbult
+     * implementbtion crebtes b child view for ebch
      * child element.
      *
-     * @param f the view factory
-     * @see #setParent
+     * @pbrbm f the view fbctory
+     * @see #setPbrent
      */
-    protected void loadChildren(ViewFactory f) {
+    protected void lobdChildren(ViewFbctory f) {
         if (f == null) {
-            // No factory. This most likely indicates the parent view
-            // has changed out from under us, bail!
+            // No fbctory. This most likely indicbtes the pbrent view
+            // hbs chbnged out from under us, bbil!
             return;
         }
         Element e = getElement();
         int n = e.getElementCount();
         if (n > 0) {
-            View[] added = new View[n];
+            View[] bdded = new View[n];
             for (int i = 0; i < n; i++) {
-                added[i] = f.create(e.getElement(i));
+                bdded[i] = f.crebte(e.getElement(i));
             }
-            replace(0, 0, added);
+            replbce(0, 0, bdded);
         }
     }
 
     // --- View methods ---------------------------------------------
 
     /**
-     * Sets the parent of the view.
-     * This is reimplemented to provide the superclass
-     * behavior as well as calling the <code>loadChildren</code>
-     * method if this view does not already have children.
-     * The children should not be loaded in the
-     * constructor because the act of setting the parent
-     * may cause them to try to search up the hierarchy
-     * (to get the hosting <code>Container</code> for example).
-     * If this view has children (the view is being moved
-     * from one place in the view hierarchy to another),
-     * the <code>loadChildren</code> method will not be called.
+     * Sets the pbrent of the view.
+     * This is reimplemented to provide the superclbss
+     * behbvior bs well bs cblling the <code>lobdChildren</code>
+     * method if this view does not blrebdy hbve children.
+     * The children should not be lobded in the
+     * constructor becbuse the bct of setting the pbrent
+     * mby cbuse them to try to sebrch up the hierbrchy
+     * (to get the hosting <code>Contbiner</code> for exbmple).
+     * If this view hbs children (the view is being moved
+     * from one plbce in the view hierbrchy to bnother),
+     * the <code>lobdChildren</code> method will not be cblled.
      *
-     * @param parent the parent of the view, <code>null</code> if none
+     * @pbrbm pbrent the pbrent of the view, <code>null</code> if none
      */
-    public void setParent(View parent) {
-        super.setParent(parent);
-        if ((parent != null) && (nchildren == 0)) {
-            ViewFactory f = getViewFactory();
-            loadChildren(f);
+    public void setPbrent(View pbrent) {
+        super.setPbrent(pbrent);
+        if ((pbrent != null) && (nchildren == 0)) {
+            ViewFbctory f = getViewFbctory();
+            lobdChildren(f);
         }
     }
 
@@ -151,422 +151,422 @@ public abstract class CompositeView extends View {
     }
 
     /**
-     * Returns the n-th view in this container.
+     * Returns the n-th view in this contbiner.
      *
-     * @param n the number of the desired view, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @return the view at index <code>n</code>
+     * @pbrbm n the number of the desired view, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
+     * @return the view bt index <code>n</code>
      */
     public View getView(int n) {
         return children[n];
     }
 
     /**
-     * Replaces child views.  If there are no views to remove
-     * this acts as an insert.  If there are no views to
-     * add this acts as a remove.  Views being removed will
-     * have the parent set to <code>null</code>,
-     * and the internal reference to them removed so that they
-     * may be garbage collected.
+     * Replbces child views.  If there bre no views to remove
+     * this bcts bs bn insert.  If there bre no views to
+     * bdd this bcts bs b remove.  Views being removed will
+     * hbve the pbrent set to <code>null</code>,
+     * bnd the internbl reference to them removed so thbt they
+     * mby be gbrbbge collected.
      *
-     * @param offset the starting index into the child views to insert
-     *   the new views; &gt;= 0 and &lt;= getViewCount
-     * @param length the number of existing child views to remove;
-     *   this should be a value &gt;= 0 and &lt;= (getViewCount() - offset)
-     * @param views the child views to add; this value can be
+     * @pbrbm offset the stbrting index into the child views to insert
+     *   the new views; &gt;= 0 bnd &lt;= getViewCount
+     * @pbrbm length the number of existing child views to remove;
+     *   this should be b vblue &gt;= 0 bnd &lt;= (getViewCount() - offset)
+     * @pbrbm views the child views to bdd; this vblue cbn be
      *  <code>null</code>
-     *   to indicate no children are being added (useful to remove)
+     *   to indicbte no children bre being bdded (useful to remove)
      */
-    public void replace(int offset, int length, View[] views) {
-        // make sure an array exists
+    public void replbce(int offset, int length, View[] views) {
+        // mbke sure bn brrby exists
         if (views == null) {
             views = ZERO;
         }
 
-        // update parent reference on removed views
+        // updbte pbrent reference on removed views
         for (int i = offset; i < offset + length; i++) {
-            if (children[i].getParent() == this) {
-                // in FlowView.java view might be referenced
-                // from two super-views as a child. see logicalView
-                children[i].setParent(null);
+            if (children[i].getPbrent() == this) {
+                // in FlowView.jbvb view might be referenced
+                // from two super-views bs b child. see logicblView
+                children[i].setPbrent(null);
             }
             children[i] = null;
         }
 
-        // update the array
-        int delta = views.length - length;
+        // updbte the brrby
+        int deltb = views.length - length;
         int src = offset + length;
         int nmove = nchildren - src;
-        int dest = src + delta;
-        if ((nchildren + delta) >= children.length) {
-            // need to grow the array
-            int newLength = Math.max(2*children.length, nchildren + delta);
+        int dest = src + deltb;
+        if ((nchildren + deltb) >= children.length) {
+            // need to grow the brrby
+            int newLength = Mbth.mbx(2*children.length, nchildren + deltb);
             View[] newChildren = new View[newLength];
-            System.arraycopy(children, 0, newChildren, 0, offset);
-            System.arraycopy(views, 0, newChildren, offset, views.length);
-            System.arraycopy(children, src, newChildren, dest, nmove);
+            System.brrbycopy(children, 0, newChildren, 0, offset);
+            System.brrbycopy(views, 0, newChildren, offset, views.length);
+            System.brrbycopy(children, src, newChildren, dest, nmove);
             children = newChildren;
         } else {
-            // patch the existing array
-            System.arraycopy(children, src, children, dest, nmove);
-            System.arraycopy(views, 0, children, offset, views.length);
+            // pbtch the existing brrby
+            System.brrbycopy(children, src, children, dest, nmove);
+            System.brrbycopy(views, 0, children, offset, views.length);
         }
-        nchildren = nchildren + delta;
+        nchildren = nchildren + deltb;
 
-        // update parent reference on added views
+        // updbte pbrent reference on bdded views
         for (int i = 0; i < views.length; i++) {
-            views[i].setParent(this);
+            views[i].setPbrent(this);
         }
     }
 
     /**
-     * Fetches the allocation for the given child view to
-     * render into. This enables finding out where various views
-     * are located.
+     * Fetches the bllocbtion for the given child view to
+     * render into. This enbbles finding out where vbrious views
+     * bre locbted.
      *
-     * @param index the index of the child, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @param a  the allocation to this view
-     * @return the allocation to the child
+     * @pbrbm index the index of the child, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
+     * @pbrbm b  the bllocbtion to this view
+     * @return the bllocbtion to the child
      */
-    public Shape getChildAllocation(int index, Shape a) {
-        Rectangle alloc = getInsideAllocation(a);
-        childAllocation(index, alloc);
-        return alloc;
+    public Shbpe getChildAllocbtion(int index, Shbpe b) {
+        Rectbngle blloc = getInsideAllocbtion(b);
+        childAllocbtion(index, blloc);
+        return blloc;
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Provides b mbpping from the document model coordinbte spbce
+     * to the coordinbte spbce of the view mbpped to it.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @param b a bias value of either <code>Position.Bias.Forward</code>
-     *  or <code>Position.Bias.Backward</code>
+     * @pbrbm pos the position to convert &gt;= 0
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm b b bibs vblue of either <code>Position.Bibs.Forwbrd</code>
+     *  or <code>Position.Bibs.Bbckwbrd</code>
      * @return the bounding box of the given position
-     * @exception BadLocationException  if the given position does
-     *   not represent a valid location in the associated document
+     * @exception BbdLocbtionException  if the given position does
+     *   not represent b vblid locbtion in the bssocibted document
      * @see View#modelToView
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        boolean isBackward = (b == Position.Bias.Backward);
-        int testPos = (isBackward) ? Math.max(0, pos - 1) : pos;
-        if(isBackward && testPos < getStartOffset()) {
+    public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException {
+        boolebn isBbckwbrd = (b == Position.Bibs.Bbckwbrd);
+        int testPos = (isBbckwbrd) ? Mbth.mbx(0, pos - 1) : pos;
+        if(isBbckwbrd && testPos < getStbrtOffset()) {
             return null;
         }
         int vIndex = getViewIndexAtPosition(testPos);
         if ((vIndex != -1) && (vIndex < getViewCount())) {
             View v = getView(vIndex);
-            if(v != null && testPos >= v.getStartOffset() &&
+            if(v != null && testPos >= v.getStbrtOffset() &&
                testPos < v.getEndOffset()) {
-                Shape childShape = getChildAllocation(vIndex, a);
-                if (childShape == null) {
-                    // We are likely invalid, fail.
+                Shbpe childShbpe = getChildAllocbtion(vIndex, b);
+                if (childShbpe == null) {
+                    // We bre likely invblid, fbil.
                     return null;
                 }
-                Shape retShape = v.modelToView(pos, childShape, b);
-                if(retShape == null && v.getEndOffset() == pos) {
+                Shbpe retShbpe = v.modelToView(pos, childShbpe, b);
+                if(retShbpe == null && v.getEndOffset() == pos) {
                     if(++vIndex < getViewCount()) {
                         v = getView(vIndex);
-                        retShape = v.modelToView(pos, getChildAllocation(vIndex, a), b);
+                        retShbpe = v.modelToView(pos, getChildAllocbtion(vIndex, b), b);
                     }
                 }
-                return retShape;
+                return retShbpe;
             }
         }
-        throw new BadLocationException("Position not represented by view",
+        throw new BbdLocbtionException("Position not represented by view",
                                        pos);
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Provides b mbpping from the document model coordinbte spbce
+     * to the coordinbte spbce of the view mbpped to it.
      *
-     * @param p0 the position to convert &gt;= 0
-     * @param b0 the bias toward the previous character or the
-     *  next character represented by p0, in case the
-     *  position is a boundary of two views; either
-     *  <code>Position.Bias.Forward</code> or
-     *  <code>Position.Bias.Backward</code>
-     * @param p1 the position to convert &gt;= 0
-     * @param b1 the bias toward the previous character or the
-     *  next character represented by p1, in case the
-     *  position is a boundary of two views
-     * @param a the allocated region to render into
+     * @pbrbm p0 the position to convert &gt;= 0
+     * @pbrbm b0 the bibs towbrd the previous chbrbcter or the
+     *  next chbrbcter represented by p0, in cbse the
+     *  position is b boundbry of two views; either
+     *  <code>Position.Bibs.Forwbrd</code> or
+     *  <code>Position.Bibs.Bbckwbrd</code>
+     * @pbrbm p1 the position to convert &gt;= 0
+     * @pbrbm b1 the bibs towbrd the previous chbrbcter or the
+     *  next chbrbcter represented by p1, in cbse the
+     *  position is b boundbry of two views
+     * @pbrbm b the bllocbted region to render into
      * @return the bounding box of the given position is returned
-     * @exception BadLocationException  if the given position does
-     *   not represent a valid location in the associated document
-     * @exception IllegalArgumentException for an invalid bias argument
+     * @exception BbdLocbtionException  if the given position does
+     *   not represent b vblid locbtion in the bssocibted document
+     * @exception IllegblArgumentException for bn invblid bibs brgument
      * @see View#viewToModel
      */
-    public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a) throws BadLocationException {
-        if (p0 == getStartOffset() && p1 == getEndOffset()) {
-            return a;
+    public Shbpe modelToView(int p0, Position.Bibs b0, int p1, Position.Bibs b1, Shbpe b) throws BbdLocbtionException {
+        if (p0 == getStbrtOffset() && p1 == getEndOffset()) {
+            return b;
         }
-        Rectangle alloc = getInsideAllocation(a);
-        Rectangle r0 = new Rectangle(alloc);
-        View v0 = getViewAtPosition((b0 == Position.Bias.Backward) ?
-                                    Math.max(0, p0 - 1) : p0, r0);
-        Rectangle r1 = new Rectangle(alloc);
-        View v1 = getViewAtPosition((b1 == Position.Bias.Backward) ?
-                                    Math.max(0, p1 - 1) : p1, r1);
+        Rectbngle blloc = getInsideAllocbtion(b);
+        Rectbngle r0 = new Rectbngle(blloc);
+        View v0 = getViewAtPosition((b0 == Position.Bibs.Bbckwbrd) ?
+                                    Mbth.mbx(0, p0 - 1) : p0, r0);
+        Rectbngle r1 = new Rectbngle(blloc);
+        View v1 = getViewAtPosition((b1 == Position.Bibs.Bbckwbrd) ?
+                                    Mbth.mbx(0, p1 - 1) : p1, r1);
         if (v0 == v1) {
             if (v0 == null) {
-                return a;
+                return b;
             }
-            // Range contained in one view
+            // Rbnge contbined in one view
             return v0.modelToView(p0, b0, p1, b1, r0);
         }
-        // Straddles some views.
+        // Strbddles some views.
         int viewCount = getViewCount();
         int counter = 0;
         while (counter < viewCount) {
             View v;
-            // Views may not be in same order as model.
-            // v0 or v1 may be null if there is a gap in the range this
-            // view contains.
+            // Views mby not be in sbme order bs model.
+            // v0 or v1 mby be null if there is b gbp in the rbnge this
+            // view contbins.
             if ((v = getView(counter)) == v0 || v == v1) {
                 View endView;
-                Rectangle retRect;
-                Rectangle tempRect = new Rectangle();
+                Rectbngle retRect;
+                Rectbngle tempRect = new Rectbngle();
                 if (v == v0) {
                     retRect = v0.modelToView(p0, b0, v0.getEndOffset(),
-                                             Position.Bias.Backward, r0).
+                                             Position.Bibs.Bbckwbrd, r0).
                               getBounds();
                     endView = v1;
                 }
                 else {
-                    retRect = v1.modelToView(v1.getStartOffset(),
-                                             Position.Bias.Forward,
+                    retRect = v1.modelToView(v1.getStbrtOffset(),
+                                             Position.Bibs.Forwbrd,
                                              p1, b1, r1).getBounds();
                     endView = v0;
                 }
 
-                // Views entirely covered by range.
+                // Views entirely covered by rbnge.
                 while (++counter < viewCount &&
                        (v = getView(counter)) != endView) {
-                    tempRect.setBounds(alloc);
-                    childAllocation(counter, tempRect);
-                    retRect.add(tempRect);
+                    tempRect.setBounds(blloc);
+                    childAllocbtion(counter, tempRect);
+                    retRect.bdd(tempRect);
                 }
 
                 // End view.
                 if (endView != null) {
-                    Shape endShape;
+                    Shbpe endShbpe;
                     if (endView == v1) {
-                        endShape = v1.modelToView(v1.getStartOffset(),
-                                                  Position.Bias.Forward,
+                        endShbpe = v1.modelToView(v1.getStbrtOffset(),
+                                                  Position.Bibs.Forwbrd,
                                                   p1, b1, r1);
                     }
                     else {
-                        endShape = v0.modelToView(p0, b0, v0.getEndOffset(),
-                                                  Position.Bias.Backward, r0);
+                        endShbpe = v0.modelToView(p0, b0, v0.getEndOffset(),
+                                                  Position.Bibs.Bbckwbrd, r0);
                     }
-                    if (endShape instanceof Rectangle) {
-                        retRect.add((Rectangle)endShape);
+                    if (endShbpe instbnceof Rectbngle) {
+                        retRect.bdd((Rectbngle)endShbpe);
                     }
                     else {
-                        retRect.add(endShape.getBounds());
+                        retRect.bdd(endShbpe.getBounds());
                     }
                 }
                 return retRect;
             }
             counter++;
         }
-        throw new BadLocationException("Position not represented by view", p0);
+        throw new BbdLocbtionException("Position not represented by view", p0);
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.
      *
-     * @param x   x coordinate of the view location to convert &gt;= 0
-     * @param y   y coordinate of the view location to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @param bias either <code>Position.Bias.Forward</code> or
-     *  <code>Position.Bias.Backward</code>
-     * @return the location within the model that best represents the
+     * @pbrbm x   x coordinbte of the view locbtion to convert &gt;= 0
+     * @pbrbm y   y coordinbte of the view locbtion to convert &gt;= 0
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm bibs either <code>Position.Bibs.Forwbrd</code> or
+     *  <code>Position.Bibs.Bbckwbrd</code>
+     * @return the locbtion within the model thbt best represents the
      *  given point in the view &gt;= 0
      * @see View#viewToModel
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-        Rectangle alloc = getInsideAllocation(a);
-        if (isBefore((int) x, (int) y, alloc)) {
-            // point is before the range represented
-            int retValue = -1;
+    public int viewToModel(flobt x, flobt y, Shbpe b, Position.Bibs[] bibs) {
+        Rectbngle blloc = getInsideAllocbtion(b);
+        if (isBefore((int) x, (int) y, blloc)) {
+            // point is before the rbnge represented
+            int retVblue = -1;
 
             try {
-                retValue = getNextVisualPositionFrom(-1, Position.Bias.Forward,
-                                                     a, EAST, bias);
-            } catch (BadLocationException ble) { }
-            catch (IllegalArgumentException iae) { }
-            if(retValue == -1) {
-                retValue = getStartOffset();
-                bias[0] = Position.Bias.Forward;
+                retVblue = getNextVisublPositionFrom(-1, Position.Bibs.Forwbrd,
+                                                     b, EAST, bibs);
+            } cbtch (BbdLocbtionException ble) { }
+            cbtch (IllegblArgumentException ibe) { }
+            if(retVblue == -1) {
+                retVblue = getStbrtOffset();
+                bibs[0] = Position.Bibs.Forwbrd;
             }
-            return retValue;
-        } else if (isAfter((int) x, (int) y, alloc)) {
-            // point is after the range represented.
-            int retValue = -1;
+            return retVblue;
+        } else if (isAfter((int) x, (int) y, blloc)) {
+            // point is bfter the rbnge represented.
+            int retVblue = -1;
             try {
-                retValue = getNextVisualPositionFrom(-1, Position.Bias.Forward,
-                                                     a, WEST, bias);
-            } catch (BadLocationException ble) { }
-            catch (IllegalArgumentException iae) { }
+                retVblue = getNextVisublPositionFrom(-1, Position.Bibs.Forwbrd,
+                                                     b, WEST, bibs);
+            } cbtch (BbdLocbtionException ble) { }
+            cbtch (IllegblArgumentException ibe) { }
 
-            if(retValue == -1) {
-                // NOTE: this could actually use end offset with backward.
-                retValue = getEndOffset() - 1;
-                bias[0] = Position.Bias.Forward;
+            if(retVblue == -1) {
+                // NOTE: this could bctublly use end offset with bbckwbrd.
+                retVblue = getEndOffset() - 1;
+                bibs[0] = Position.Bibs.Forwbrd;
             }
-            return retValue;
+            return retVblue;
         } else {
-            // locate the child and pass along the request
-            View v = getViewAtPoint((int) x, (int) y, alloc);
+            // locbte the child bnd pbss blong the request
+            View v = getViewAtPoint((int) x, (int) y, blloc);
             if (v != null) {
-              return v.viewToModel(x, y, alloc, bias);
+              return v.viewToModel(x, y, blloc, bibs);
             }
         }
         return -1;
     }
 
     /**
-     * Provides a way to determine the next visually represented model
-     * location that one might place a caret.  Some views may not be visible,
-     * they might not be in the same order found in the model, or they just
-     * might not allow access to some of the locations in the model.
-     * This is a convenience method for {@link #getNextNorthSouthVisualPositionFrom}
-     * and {@link #getNextEastWestVisualPositionFrom}.
-     * This method enables specifying a position to convert
-     * within the range of &gt;=0.  If the value is -1, a position
-     * will be calculated automatically.  If the value &lt; -1,
-     * the {@code BadLocationException} will be thrown.
+     * Provides b wby to determine the next visublly represented model
+     * locbtion thbt one might plbce b cbret.  Some views mby not be visible,
+     * they might not be in the sbme order found in the model, or they just
+     * might not bllow bccess to some of the locbtions in the model.
+     * This is b convenience method for {@link #getNextNorthSouthVisublPositionFrom}
+     * bnd {@link #getNextEbstWestVisublPositionFrom}.
+     * This method enbbles specifying b position to convert
+     * within the rbnge of &gt;=0.  If the vblue is -1, b position
+     * will be cblculbted butombticblly.  If the vblue &lt; -1,
+     * the {@code BbdLocbtionException} will be thrown.
      *
-     * @param pos the position to convert
-     * @param b a bias value of either <code>Position.Bias.Forward</code>
-     *  or <code>Position.Bias.Backward</code>
-     * @param a the allocated region to render into
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard;
-     *  this may be one of the following:
+     * @pbrbm pos the position to convert
+     * @pbrbm b b bibs vblue of either <code>Position.Bibs.Forwbrd</code>
+     *  or <code>Position.Bibs.Bbckwbrd</code>
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm direction the direction from the current position thbt cbn
+     *  be thought of bs the brrow keys typicblly found on b keybobrd;
+     *  this mby be one of the following:
      *  <ul>
-     *  <li><code>SwingConstants.WEST</code>
-     *  <li><code>SwingConstants.EAST</code>
-     *  <li><code>SwingConstants.NORTH</code>
-     *  <li><code>SwingConstants.SOUTH</code>
+     *  <li><code>SwingConstbnts.WEST</code>
+     *  <li><code>SwingConstbnts.EAST</code>
+     *  <li><code>SwingConstbnts.NORTH</code>
+     *  <li><code>SwingConstbnts.SOUTH</code>
      *  </ul>
-     * @param biasRet an array containing the bias that was checked
-     * @return the location within the model that best represents the next
-     *  location visual position
-     * @exception BadLocationException the given position is not a valid
+     * @pbrbm bibsRet bn brrby contbining the bibs thbt wbs checked
+     * @return the locbtion within the model thbt best represents the next
+     *  locbtion visubl position
+     * @exception BbdLocbtionException the given position is not b vblid
      *                                 position within the document
-     * @exception IllegalArgumentException if <code>direction</code> is invalid
+     * @exception IllegblArgumentException if <code>direction</code> is invblid
      */
-    public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
-                                         int direction, Position.Bias[] biasRet)
-      throws BadLocationException {
+    public int getNextVisublPositionFrom(int pos, Position.Bibs b, Shbpe b,
+                                         int direction, Position.Bibs[] bibsRet)
+      throws BbdLocbtionException {
         if (pos < -1) {
-            throw new BadLocationException("invalid position", pos);
+            throw new BbdLocbtionException("invblid position", pos);
         }
-        Rectangle alloc = getInsideAllocation(a);
+        Rectbngle blloc = getInsideAllocbtion(b);
 
         switch (direction) {
-        case NORTH:
-            return getNextNorthSouthVisualPositionFrom(pos, b, a, direction,
-                                                       biasRet);
-        case SOUTH:
-            return getNextNorthSouthVisualPositionFrom(pos, b, a, direction,
-                                                       biasRet);
-        case EAST:
-            return getNextEastWestVisualPositionFrom(pos, b, a, direction,
-                                                     biasRet);
-        case WEST:
-            return getNextEastWestVisualPositionFrom(pos, b, a, direction,
-                                                     biasRet);
-        default:
-            throw new IllegalArgumentException("Bad direction: " + direction);
+        cbse NORTH:
+            return getNextNorthSouthVisublPositionFrom(pos, b, b, direction,
+                                                       bibsRet);
+        cbse SOUTH:
+            return getNextNorthSouthVisublPositionFrom(pos, b, b, direction,
+                                                       bibsRet);
+        cbse EAST:
+            return getNextEbstWestVisublPositionFrom(pos, b, b, direction,
+                                                     bibsRet);
+        cbse WEST:
+            return getNextEbstWestVisublPositionFrom(pos, b, b, direction,
+                                                     bibsRet);
+        defbult:
+            throw new IllegblArgumentException("Bbd direction: " + direction);
         }
     }
 
     /**
      * Returns the child view index representing the given
-     * position in the model.  This is implemented to call the
+     * position in the model.  This is implemented to cbll the
      * <code>getViewIndexByPosition</code>
-     * method for backward compatibility.
+     * method for bbckwbrd compbtibility.
      *
-     * @param pos the position &gt;= 0
+     * @pbrbm pos the position &gt;= 0
      * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     *   -1 if no view represents thbt position
      * @since 1.3
      */
-    public int getViewIndex(int pos, Position.Bias b) {
-        if(b == Position.Bias.Backward) {
+    public int getViewIndex(int pos, Position.Bibs b) {
+        if(b == Position.Bibs.Bbckwbrd) {
             pos -= 1;
         }
-        if ((pos >= getStartOffset()) && (pos < getEndOffset())) {
+        if ((pos >= getStbrtOffset()) && (pos < getEndOffset())) {
             return getViewIndexAtPosition(pos);
         }
         return -1;
     }
 
-    // --- local methods ----------------------------------------------------
+    // --- locbl methods ----------------------------------------------------
 
 
     /**
-     * Tests whether a point lies before the rectangle range.
+     * Tests whether b point lies before the rectbngle rbnge.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param alloc the rectangle
-     * @return true if the point is before the specified range
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm blloc the rectbngle
+     * @return true if the point is before the specified rbnge
      */
-    protected abstract boolean isBefore(int x, int y, Rectangle alloc);
+    protected bbstrbct boolebn isBefore(int x, int y, Rectbngle blloc);
 
     /**
-     * Tests whether a point lies after the rectangle range.
+     * Tests whether b point lies bfter the rectbngle rbnge.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param alloc the rectangle
-     * @return true if the point is after the specified range
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm blloc the rectbngle
+     * @return true if the point is bfter the specified rbnge
      */
-    protected abstract boolean isAfter(int x, int y, Rectangle alloc);
+    protected bbstrbct boolebn isAfter(int x, int y, Rectbngle blloc);
 
     /**
-     * Fetches the child view at the given coordinates.
+     * Fetches the child view bt the given coordinbtes.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param alloc the parent's allocation on entry, which should
-     *   be changed to the child's allocation on exit
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm blloc the pbrent's bllocbtion on entry, which should
+     *   be chbnged to the child's bllocbtion on exit
      * @return the child view
      */
-    protected abstract View getViewAtPoint(int x, int y, Rectangle alloc);
+    protected bbstrbct View getViewAtPoint(int x, int y, Rectbngle blloc);
 
     /**
-     * Returns the allocation for a given child.
+     * Returns the bllocbtion for b given child.
      *
-     * @param index the index of the child, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @param a  the allocation to the interior of the box on entry,
-     *   and the allocation of the child view at the index on exit.
+     * @pbrbm index the index of the child, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
+     * @pbrbm b  the bllocbtion to the interior of the box on entry,
+     *   bnd the bllocbtion of the child view bt the index on exit.
      */
-    protected abstract void childAllocation(int index, Rectangle a);
+    protected bbstrbct void childAllocbtion(int index, Rectbngle b);
 
     /**
-     * Fetches the child view that represents the given position in
-     * the model.  This is implemented to fetch the view in the case
-     * where there is a child view for each child element.
+     * Fetches the child view thbt represents the given position in
+     * the model.  This is implemented to fetch the view in the cbse
+     * where there is b child view for ebch child element.
      *
-     * @param pos the position &gt;= 0
-     * @param a  the allocation to the interior of the box on entry,
-     *   and the allocation of the view containing the position on exit
+     * @pbrbm pos the position &gt;= 0
+     * @pbrbm b  the bllocbtion to the interior of the box on entry,
+     *   bnd the bllocbtion of the view contbining the position on exit
      * @return  the view representing the given position, or
      *   <code>null</code> if there isn't one
      */
-    protected View getViewAtPosition(int pos, Rectangle a) {
+    protected View getViewAtPosition(int pos, Rectbngle b) {
         int index = getViewIndexAtPosition(pos);
         if ((index >= 0) && (index < getViewCount())) {
             View v = getView(index);
-            if (a != null) {
-                childAllocation(index, a);
+            if (b != null) {
+                childAllocbtion(index, b);
             }
             return v;
         }
@@ -575,12 +575,12 @@ public abstract class CompositeView extends View {
 
     /**
      * Fetches the child view index representing the given position in
-     * the model.  This is implemented to fetch the view in the case
-     * where there is a child view for each child element.
+     * the model.  This is implemented to fetch the view in the cbse
+     * where there is b child view for ebch child element.
      *
-     * @param pos the position &gt;= 0
+     * @pbrbm pos the position &gt;= 0
      * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     *   -1 if no view represents thbt position
      */
     protected int getViewIndexAtPosition(int pos) {
         Element elem = getElement();
@@ -588,37 +588,37 @@ public abstract class CompositeView extends View {
     }
 
     /**
-     * Translates the immutable allocation given to the view
-     * to a mutable allocation that represents the interior
-     * allocation (i.e. the bounds of the given allocation
-     * with the top, left, bottom, and right insets removed.
-     * It is expected that the returned value would be further
-     * mutated to represent an allocation to a child view.
-     * This is implemented to reuse an instance variable so
-     * it avoids creating excessive Rectangles.  Typically
-     * the result of calling this method would be fed to
-     * the <code>childAllocation</code> method.
+     * Trbnslbtes the immutbble bllocbtion given to the view
+     * to b mutbble bllocbtion thbt represents the interior
+     * bllocbtion (i.e. the bounds of the given bllocbtion
+     * with the top, left, bottom, bnd right insets removed.
+     * It is expected thbt the returned vblue would be further
+     * mutbted to represent bn bllocbtion to b child view.
+     * This is implemented to reuse bn instbnce vbribble so
+     * it bvoids crebting excessive Rectbngles.  Typicblly
+     * the result of cblling this method would be fed to
+     * the <code>childAllocbtion</code> method.
      *
-     * @param a the allocation given to the view
-     * @return the allocation that represents the inside of the
-     *   view after the margins have all been removed; if the
-     *   given allocation was <code>null</code>,
-     *   the return value is <code>null</code>
+     * @pbrbm b the bllocbtion given to the view
+     * @return the bllocbtion thbt represents the inside of the
+     *   view bfter the mbrgins hbve bll been removed; if the
+     *   given bllocbtion wbs <code>null</code>,
+     *   the return vblue is <code>null</code>
      */
-    protected Rectangle getInsideAllocation(Shape a) {
-        if (a != null) {
-            // get the bounds, hopefully without allocating
-            // a new rectangle.  The Shape argument should
+    protected Rectbngle getInsideAllocbtion(Shbpe b) {
+        if (b != null) {
+            // get the bounds, hopefully without bllocbting
+            // b new rectbngle.  The Shbpe brgument should
             // not be modified... we copy it into the
-            // child allocation.
-            Rectangle alloc;
-            if (a instanceof Rectangle) {
-                alloc = (Rectangle) a;
+            // child bllocbtion.
+            Rectbngle blloc;
+            if (b instbnceof Rectbngle) {
+                blloc = (Rectbngle) b;
             } else {
-                alloc = a.getBounds();
+                blloc = b.getBounds();
             }
 
-            childAlloc.setBounds(alloc);
+            childAlloc.setBounds(blloc);
             childAlloc.x += getLeftInset();
             childAlloc.y += getTopInset();
             childAlloc.width -= getLeftInset() + getRightInset();
@@ -629,28 +629,28 @@ public abstract class CompositeView extends View {
     }
 
     /**
-     * Sets the insets from the paragraph attributes specified in
-     * the given attributes.
+     * Sets the insets from the pbrbgrbph bttributes specified in
+     * the given bttributes.
      *
-     * @param attr the attributes
+     * @pbrbm bttr the bttributes
      */
-    protected void setParagraphInsets(AttributeSet attr) {
-        // Since version 1.1 doesn't have scaling and assumes
-        // a pixel is equal to a point, we just cast the point
+    protected void setPbrbgrbphInsets(AttributeSet bttr) {
+        // Since version 1.1 doesn't hbve scbling bnd bssumes
+        // b pixel is equbl to b point, we just cbst the point
         // sizes to integers.
-        top = (short) StyleConstants.getSpaceAbove(attr);
-        left = (short) StyleConstants.getLeftIndent(attr);
-        bottom = (short) StyleConstants.getSpaceBelow(attr);
-        right = (short) StyleConstants.getRightIndent(attr);
+        top = (short) StyleConstbnts.getSpbceAbove(bttr);
+        left = (short) StyleConstbnts.getLeftIndent(bttr);
+        bottom = (short) StyleConstbnts.getSpbceBelow(bttr);
+        right = (short) StyleConstbnts.getRightIndent(bttr);
     }
 
     /**
      * Sets the insets for the view.
      *
-     * @param top the top inset &gt;= 0
-     * @param left the left inset &gt;= 0
-     * @param bottom the bottom inset &gt;= 0
-     * @param right the right inset &gt;= 0
+     * @pbrbm top the top inset &gt;= 0
+     * @pbrbm left the left inset &gt;= 0
+     * @pbrbm bottom the bottom inset &gt;= 0
+     * @pbrbm right the right inset &gt;= 0
      */
     protected void setInsets(short top, short left, short bottom, short right) {
         this.top = top;
@@ -696,107 +696,107 @@ public abstract class CompositeView extends View {
     }
 
     /**
-     * Returns the next visual position for the cursor, in either the
+     * Returns the next visubl position for the cursor, in either the
      * north or south direction.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param b a bias value of either <code>Position.Bias.Forward</code>
-     *  or <code>Position.Bias.Backward</code>
-     * @param a the allocated region to render into
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard;
-     *  this may be one of the following:
+     * @pbrbm pos the position to convert &gt;= 0
+     * @pbrbm b b bibs vblue of either <code>Position.Bibs.Forwbrd</code>
+     *  or <code>Position.Bibs.Bbckwbrd</code>
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm direction the direction from the current position thbt cbn
+     *  be thought of bs the brrow keys typicblly found on b keybobrd;
+     *  this mby be one of the following:
      *  <ul>
-     *  <li><code>SwingConstants.NORTH</code>
-     *  <li><code>SwingConstants.SOUTH</code>
+     *  <li><code>SwingConstbnts.NORTH</code>
+     *  <li><code>SwingConstbnts.SOUTH</code>
      *  </ul>
-     * @param biasRet an array containing the bias that was checked
-     * @return the location within the model that best represents the next
-     *  north or south location
-     * @exception BadLocationException for a bad location within a document model
-     * @exception IllegalArgumentException if <code>direction</code> is invalid
-     * @see #getNextVisualPositionFrom
+     * @pbrbm bibsRet bn brrby contbining the bibs thbt wbs checked
+     * @return the locbtion within the model thbt best represents the next
+     *  north or south locbtion
+     * @exception BbdLocbtionException for b bbd locbtion within b document model
+     * @exception IllegblArgumentException if <code>direction</code> is invblid
+     * @see #getNextVisublPositionFrom
      *
-     * @return the next position west of the passed in position
+     * @return the next position west of the pbssed in position
      */
-    protected int getNextNorthSouthVisualPositionFrom(int pos, Position.Bias b,
-                                                      Shape a, int direction,
-                                                      Position.Bias[] biasRet)
-                                                throws BadLocationException {
-        return Utilities.getNextVisualPositionFrom(
-                            this, pos, b, a, direction, biasRet);
+    protected int getNextNorthSouthVisublPositionFrom(int pos, Position.Bibs b,
+                                                      Shbpe b, int direction,
+                                                      Position.Bibs[] bibsRet)
+                                                throws BbdLocbtionException {
+        return Utilities.getNextVisublPositionFrom(
+                            this, pos, b, b, direction, bibsRet);
     }
 
     /**
-     * Returns the next visual position for the cursor, in either the
-     * east or west direction.
+     * Returns the next visubl position for the cursor, in either the
+     * ebst or west direction.
      *
-    * @param pos the position to convert &gt;= 0
-     * @param b a bias value of either <code>Position.Bias.Forward</code>
-     *  or <code>Position.Bias.Backward</code>
-     * @param a the allocated region to render into
-     * @param direction the direction from the current position that can
-     *  be thought of as the arrow keys typically found on a keyboard;
-     *  this may be one of the following:
+    * @pbrbm pos the position to convert &gt;= 0
+     * @pbrbm b b bibs vblue of either <code>Position.Bibs.Forwbrd</code>
+     *  or <code>Position.Bibs.Bbckwbrd</code>
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm direction the direction from the current position thbt cbn
+     *  be thought of bs the brrow keys typicblly found on b keybobrd;
+     *  this mby be one of the following:
      *  <ul>
-     *  <li><code>SwingConstants.WEST</code>
-     *  <li><code>SwingConstants.EAST</code>
+     *  <li><code>SwingConstbnts.WEST</code>
+     *  <li><code>SwingConstbnts.EAST</code>
      *  </ul>
-     * @param biasRet an array containing the bias that was checked
-     * @return the location within the model that best represents the next
-     *  west or east location
-     * @exception BadLocationException for a bad location within a document model
-     * @exception IllegalArgumentException if <code>direction</code> is invalid
-     * @see #getNextVisualPositionFrom
+     * @pbrbm bibsRet bn brrby contbining the bibs thbt wbs checked
+     * @return the locbtion within the model thbt best represents the next
+     *  west or ebst locbtion
+     * @exception BbdLocbtionException for b bbd locbtion within b document model
+     * @exception IllegblArgumentException if <code>direction</code> is invblid
+     * @see #getNextVisublPositionFrom
      */
-    protected int getNextEastWestVisualPositionFrom(int pos, Position.Bias b,
-                                                    Shape a,
+    protected int getNextEbstWestVisublPositionFrom(int pos, Position.Bibs b,
+                                                    Shbpe b,
                                                     int direction,
-                                                    Position.Bias[] biasRet)
-                                                throws BadLocationException {
-        return Utilities.getNextVisualPositionFrom(
-                            this, pos, b, a, direction, biasRet);
+                                                    Position.Bibs[] bibsRet)
+                                                throws BbdLocbtionException {
+        return Utilities.getNextVisublPositionFrom(
+                            this, pos, b, b, direction, bibsRet);
     }
 
     /**
-     * Determines in which direction the next view lays.
-     * Consider the <code>View</code> at index n. Typically the
-     * <code>View</code>s are layed out from left to right,
-     * so that the <code>View</code> to the EAST will be
-     * at index n + 1, and the <code>View</code> to the WEST
-     * will be at index n - 1. In certain situations,
-     * such as with bidirectional text, it is possible
-     * that the <code>View</code> to EAST is not at index n + 1,
-     * but rather at index n - 1, or that the <code>View</code>
-     * to the WEST is not at index n - 1, but index n + 1.
-     * In this case this method would return true, indicating the
-     * <code>View</code>s are layed out in descending order.
+     * Determines in which direction the next view lbys.
+     * Consider the <code>View</code> bt index n. Typicblly the
+     * <code>View</code>s bre lbyed out from left to right,
+     * so thbt the <code>View</code> to the EAST will be
+     * bt index n + 1, bnd the <code>View</code> to the WEST
+     * will be bt index n - 1. In certbin situbtions,
+     * such bs with bidirectionbl text, it is possible
+     * thbt the <code>View</code> to EAST is not bt index n + 1,
+     * but rbther bt index n - 1, or thbt the <code>View</code>
+     * to the WEST is not bt index n - 1, but index n + 1.
+     * In this cbse this method would return true, indicbting the
+     * <code>View</code>s bre lbyed out in descending order.
      * <p>
-     * This unconditionally returns false, subclasses should override this
-     * method if there is the possibility for laying <code>View</code>s in
+     * This unconditionblly returns fblse, subclbsses should override this
+     * method if there is the possibility for lbying <code>View</code>s in
      * descending order.
      *
-     * @param position position into the model
-     * @param bias either <code>Position.Bias.Forward</code> or
-     *          <code>Position.Bias.Backward</code>
-     * @return false
+     * @pbrbm position position into the model
+     * @pbrbm bibs either <code>Position.Bibs.Forwbrd</code> or
+     *          <code>Position.Bibs.Bbckwbrd</code>
+     * @return fblse
      */
-    protected boolean flipEastAndWestAtEnds(int position,
-                                            Position.Bias bias) {
-        return false;
+    protected boolebn flipEbstAndWestAtEnds(int position,
+                                            Position.Bibs bibs) {
+        return fblse;
     }
 
 
-    // ---- member variables ---------------------------------------------
+    // ---- member vbribbles ---------------------------------------------
 
 
-    private static View[] ZERO = new View[0];
+    privbte stbtic View[] ZERO = new View[0];
 
-    private View[] children;
-    private int nchildren;
-    private short left;
-    private short right;
-    private short top;
-    private short bottom;
-    private Rectangle childAlloc;
+    privbte View[] children;
+    privbte int nchildren;
+    privbte short left;
+    privbte short right;
+    privbte short top;
+    privbte short bottom;
+    privbte Rectbngle childAlloc;
 }

@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.interfaces;
+pbckbge jbvb.security.interfbces;
 
-import java.security.*;
+import jbvb.security.*;
 
 /**
- * An interface to an object capable of generating DSA key pairs.
+ * An interfbce to bn object cbpbble of generbting DSA key pbirs.
  *
- * <p>The {@code initialize} methods may each be called any number
- * of times. If no {@code initialize} method is called on a
- * DSAKeyPairGenerator, the default is to generate 1024-bit keys, using
- * precomputed p, q and g parameters and an instance of SecureRandom as
- * the random bit source.
+ * <p>The {@code initiblize} methods mby ebch be cblled bny number
+ * of times. If no {@code initiblize} method is cblled on b
+ * DSAKeyPbirGenerbtor, the defbult is to generbte 1024-bit keys, using
+ * precomputed p, q bnd g pbrbmeters bnd bn instbnce of SecureRbndom bs
+ * the rbndom bit source.
  *
- * <p>Users wishing to indicate DSA-specific parameters, and to generate a key
- * pair suitable for use with the DSA algorithm typically
+ * <p>Users wishing to indicbte DSA-specific pbrbmeters, bnd to generbte b key
+ * pbir suitbble for use with the DSA blgorithm typicblly
  *
  * <ol>
  *
- * <li>Get a key pair generator for the DSA algorithm by calling the
- * KeyPairGenerator {@code getInstance} method with "DSA"
- * as its argument.
+ * <li>Get b key pbir generbtor for the DSA blgorithm by cblling the
+ * KeyPbirGenerbtor {@code getInstbnce} method with "DSA"
+ * bs its brgument.
  *
- * <li>Initialize the generator by casting the result to a DSAKeyPairGenerator
- * and calling one of the
- * {@code initialize} methods from this DSAKeyPairGenerator interface.
+ * <li>Initiblize the generbtor by cbsting the result to b DSAKeyPbirGenerbtor
+ * bnd cblling one of the
+ * {@code initiblize} methods from this DSAKeyPbirGenerbtor interfbce.
  *
- * <li>Generate a key pair by calling the {@code generateKeyPair}
- * method from the KeyPairGenerator class.
+ * <li>Generbte b key pbir by cblling the {@code generbteKeyPbir}
+ * method from the KeyPbirGenerbtor clbss.
  *
  * </ol>
  *
- * <p>Note: it is not always necessary to do do algorithm-specific
- * initialization for a DSA key pair generator. That is, it is not always
- * necessary to call an {@code initialize} method in this interface.
- * Algorithm-independent initialization using the {@code initialize} method
- * in the KeyPairGenerator
- * interface is all that is needed when you accept defaults for algorithm-specific
- * parameters.
+ * <p>Note: it is not blwbys necessbry to do do blgorithm-specific
+ * initiblizbtion for b DSA key pbir generbtor. Thbt is, it is not blwbys
+ * necessbry to cbll bn {@code initiblize} method in this interfbce.
+ * Algorithm-independent initiblizbtion using the {@code initiblize} method
+ * in the KeyPbirGenerbtor
+ * interfbce is bll thbt is needed when you bccept defbults for blgorithm-specific
+ * pbrbmeters.
  *
- * <p>Note: Some earlier implementations of this interface may not support
- * larger sizes of DSA parameters such as 2048 and 3072-bit.
+ * <p>Note: Some ebrlier implementbtions of this interfbce mby not support
+ * lbrger sizes of DSA pbrbmeters such bs 2048 bnd 3072-bit.
  *
- * @see java.security.KeyPairGenerator
+ * @see jbvb.security.KeyPbirGenerbtor
  */
-public interface DSAKeyPairGenerator {
+public interfbce DSAKeyPbirGenerbtor {
 
     /**
-     * Initializes the key pair generator using the DSA family parameters
-     * (p,q and g) and an optional SecureRandom bit source. If a
-     * SecureRandom bit source is needed but not supplied, i.e. null, a
-     * default SecureRandom instance will be used.
+     * Initiblizes the key pbir generbtor using the DSA fbmily pbrbmeters
+     * (p,q bnd g) bnd bn optionbl SecureRbndom bit source. If b
+     * SecureRbndom bit source is needed but not supplied, i.e. null, b
+     * defbult SecureRbndom instbnce will be used.
      *
-     * @param params the parameters to use to generate the keys.
+     * @pbrbm pbrbms the pbrbmeters to use to generbte the keys.
      *
-     * @param random the random bit source to use to generate key bits;
-     * can be null.
+     * @pbrbm rbndom the rbndom bit source to use to generbte key bits;
+     * cbn be null.
      *
-     * @exception InvalidParameterException if the {@code params}
-     * value is invalid, null, or unsupported.
+     * @exception InvblidPbrbmeterException if the {@code pbrbms}
+     * vblue is invblid, null, or unsupported.
      */
-   public void initialize(DSAParams params, SecureRandom random)
-   throws InvalidParameterException;
+   public void initiblize(DSAPbrbms pbrbms, SecureRbndom rbndom)
+   throws InvblidPbrbmeterException;
 
     /**
-     * Initializes the key pair generator for a given modulus length
-     * (instead of parameters), and an optional SecureRandom bit source.
-     * If a SecureRandom bit source is needed but not supplied, i.e.
-     * null, a default SecureRandom instance will be used.
+     * Initiblizes the key pbir generbtor for b given modulus length
+     * (instebd of pbrbmeters), bnd bn optionbl SecureRbndom bit source.
+     * If b SecureRbndom bit source is needed but not supplied, i.e.
+     * null, b defbult SecureRbndom instbnce will be used.
      *
-     * <p>If {@code genParams} is true, this method generates new
-     * p, q and g parameters. If it is false, the method uses precomputed
-     * parameters for the modulus length requested. If there are no
-     * precomputed parameters for that modulus length, an exception will be
-     * thrown. It is guaranteed that there will always be
-     * default parameters for modulus lengths of 512 and 1024 bits.
+     * <p>If {@code genPbrbms} is true, this method generbtes new
+     * p, q bnd g pbrbmeters. If it is fblse, the method uses precomputed
+     * pbrbmeters for the modulus length requested. If there bre no
+     * precomputed pbrbmeters for thbt modulus length, bn exception will be
+     * thrown. It is gubrbnteed thbt there will blwbys be
+     * defbult pbrbmeters for modulus lengths of 512 bnd 1024 bits.
      *
-     * @param modlen the modulus length in bits. Valid values are any
-     * multiple of 64 between 512 and 1024, inclusive, 2048, and 3072.
+     * @pbrbm modlen the modulus length in bits. Vblid vblues bre bny
+     * multiple of 64 between 512 bnd 1024, inclusive, 2048, bnd 3072.
      *
-     * @param random the random bit source to use to generate key bits;
-     * can be null.
+     * @pbrbm rbndom the rbndom bit source to use to generbte key bits;
+     * cbn be null.
      *
-     * @param genParams whether or not to generate new parameters for
+     * @pbrbm genPbrbms whether or not to generbte new pbrbmeters for
      * the modulus length requested.
      *
-     * @exception InvalidParameterException if {@code modlen} is
-     * invalid, or unsupported, or if {@code genParams} is false and there
-     * are no precomputed parameters for the requested modulus length.
+     * @exception InvblidPbrbmeterException if {@code modlen} is
+     * invblid, or unsupported, or if {@code genPbrbms} is fblse bnd there
+     * bre no precomputed pbrbmeters for the requested modulus length.
      */
-    public void initialize(int modlen, boolean genParams, SecureRandom random)
-    throws InvalidParameterException;
+    public void initiblize(int modlen, boolebn genPbrbms, SecureRbndom rbndom)
+    throws InvblidPbrbmeterException;
 }

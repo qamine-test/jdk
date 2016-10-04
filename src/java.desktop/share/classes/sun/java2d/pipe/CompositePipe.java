@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- * This interface defines the set of calls used by a rendering pipeline
- * based on an AATileGenerator to communicate the alpha tile sequence
- * to the output (compositing) stages of the pipeline.
+ * This interfbce defines the set of cblls used by b rendering pipeline
+ * bbsed on bn AATileGenerbtor to communicbte the blphb tile sequence
+ * to the output (compositing) stbges of the pipeline.
  */
-public interface CompositePipe {
-    public Object startSequence(SunGraphics2D sg, Shape s, Rectangle dev,
-                                int[] abox);
+public interfbce CompositePipe {
+    public Object stbrtSequence(SunGrbphics2D sg, Shbpe s, Rectbngle dev,
+                                int[] bbox);
 
-    public boolean needTile(Object context, int x, int y, int w, int h);
+    public boolebn needTile(Object context, int x, int y, int w, int h);
 
-    public void renderPathTile(Object context,
-                               byte[] atile, int offset, int tilesize,
+    public void renderPbthTile(Object context,
+                               byte[] btile, int offset, int tilesize,
                                int x, int y, int w, int h);
 
     public void skipTile(Object context, int x, int y);

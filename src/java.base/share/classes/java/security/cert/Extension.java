@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.Seriblizbble;
 
 /**
- * This interface represents an X.509 extension.
+ * This interfbce represents bn X.509 extension.
  *
  * <p>
- * Extensions provide a means of associating additional attributes with users
- * or public keys and for managing a certification hierarchy.  The extension
- * format also allows communities to define private extensions to carry
- * information unique to those communities.
+ * Extensions provide b mebns of bssocibting bdditionbl bttributes with users
+ * or public keys bnd for mbnbging b certificbtion hierbrchy.  The extension
+ * formbt blso bllows communities to define privbte extensions to cbrry
+ * informbtion unique to those communities.
  *
  * <p>
- * Each extension contains an object identifier, a criticality setting
- * indicating whether it is a critical or a non-critical extension, and
- * and an ASN.1 DER-encoded value. Its ASN.1 definition is:
+ * Ebch extension contbins bn object identifier, b criticblity setting
+ * indicbting whether it is b criticbl or b non-criticbl extension, bnd
+ * bnd bn ASN.1 DER-encoded vblue. Its ASN.1 definition is:
  *
  * <pre>
  *
  *     Extension ::= SEQUENCE {
  *         extnId        OBJECT IDENTIFIER,
- *         critical      BOOLEAN DEFAULT FALSE,
- *         extnValue     OCTET STRING
- *                 -- contains a DER encoding of a value
+ *         criticbl      BOOLEAN DEFAULT FALSE,
+ *         extnVblue     OCTET STRING
+ *                 -- contbins b DER encoding of b vblue
  *                 -- of the type registered for use with
- *                 -- the extnId object identifier value
+ *                 -- the extnId object identifier vblue
  *     }
  *
  * </pre>
  *
  * <p>
- * This interface is designed to provide access to a single extension,
- * unlike {@link java.security.cert.X509Extension} which is more suitable
- * for accessing a set of extensions.
+ * This interfbce is designed to provide bccess to b single extension,
+ * unlike {@link jbvb.security.cert.X509Extension} which is more suitbble
+ * for bccessing b set of extensions.
  *
  * @since 1.7
  */
-public interface Extension {
+public interfbce Extension {
 
     /**
      * Gets the extensions's object identifier.
      *
-     * @return the object identifier as a String
+     * @return the object identifier bs b String
      */
     String getId();
 
     /**
-     * Gets the extension's criticality setting.
+     * Gets the extension's criticblity setting.
      *
-     * @return true if this is a critical extension.
+     * @return true if this is b criticbl extension.
      */
-    boolean isCritical();
+    boolebn isCriticbl();
 
     /**
-     * Gets the extensions's DER-encoded value. Note, this is the bytes
-     * that are encoded as an OCTET STRING. It does not include the OCTET
-     * STRING tag and length.
+     * Gets the extensions's DER-encoded vblue. Note, this is the bytes
+     * thbt bre encoded bs bn OCTET STRING. It does not include the OCTET
+     * STRING tbg bnd length.
      *
-     * @return a copy of the extension's value, or {@code null} if no
-     *    extension value is present.
+     * @return b copy of the extension's vblue, or {@code null} if no
+     *    extension vblue is present.
      */
-    byte[] getValue();
+    byte[] getVblue();
 
     /**
-     * Generates the extension's DER encoding and writes it to the output
-     * stream.
+     * Generbtes the extension's DER encoding bnd writes it to the output
+     * strebm.
      *
-     * @param out the output stream
+     * @pbrbm out the output strebm
      * @exception IOException on encoding or output error.
      * @exception NullPointerException if {@code out} is {@code null}.
      */
-    void encode(OutputStream out) throws IOException;
+    void encode(OutputStrebm out) throws IOException;
 }

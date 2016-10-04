@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.event;
+pbckbge com.sun.jdi.event;
 
 import com.sun.jdi.*;
 
 /**
- * Notification of target VM termination.
- * This event occurs if the target VM terminates before the
+ * Notificbtion of tbrget VM terminbtion.
+ * This event occurs if the tbrget VM terminbtes before the
  * VM disconnects ({@link VMDisconnectEvent}).
  * Thus, this event will NOT occur if
- * external forces terminate the connection (e.g. a crash)
- * or if the connection is intentionally terminated with
- * {@link com.sun.jdi.VirtualMachine#dispose()
- *      VirtualMachine.dispose()}
+ * externbl forces terminbte the connection (e.g. b crbsh)
+ * or if the connection is intentionblly terminbted with
+ * {@link com.sun.jdi.VirtublMbchine#dispose()
+ *      VirtublMbchine.dispose()}
  * <P>
- * On VM termination, a single unsolicited VMDeathEvent
- * will always be sent with a
+ * On VM terminbtion, b single unsolicited VMDebthEvent
+ * will blwbys be sent with b
  * {@link com.sun.jdi.request.EventRequest#suspendPolicy() suspend policy}
  * of {@link com.sun.jdi.request.EventRequest#SUSPEND_NONE SUSPEND_NONE}.
- * Additional VMDeathEvents will be sent in the same event set if they are
- * requested with a
- * {@link com.sun.jdi.request.VMDeathRequest VMDeathRequest}.
+ * Additionbl VMDebthEvents will be sent in the sbme event set if they bre
+ * requested with b
+ * {@link com.sun.jdi.request.VMDebthRequest VMDebthRequest}.
  * <P>
- * The VM is still intact and can be queried at the point this
- * event was initiated but immediately thereafter it is not
- * considered intact and cannot be queried.
- * Note: If the enclosing {@link EventSet} has a
+ * The VM is still intbct bnd cbn be queried bt the point this
+ * event wbs initibted but immedibtely therebfter it is not
+ * considered intbct bnd cbnnot be queried.
+ * Note: If the enclosing {@link EventSet} hbs b
  * {@link com.sun.jdi.request.EventRequest#suspendPolicy() suspend policy}
- * other than
+ * other thbn
  * {@link com.sun.jdi.request.EventRequest#SUSPEND_ALL SUSPEND_ALL}
- * the initiating point may be long past.
+ * the initibting point mby be long pbst.
  * <P>
- * All VMDeathEvents will be in a single {@link EventSet},
+ * All VMDebthEvents will be in b single {@link EventSet},
  * no other events will be in the event set.  A resume
- * must occur to continue execution after any event set which
- * performs suspensions - in this case to allow proper shutdown.
+ * must occur to continue execution bfter bny event set which
+ * performs suspensions - in this cbse to bllow proper shutdown.
  *
  * @see VMDisconnectEvent
- * @see com.sun.jdi.request.EventRequestManager#createVMDeathRequest
- * @see com.sun.jdi.request.VMDeathRequest
+ * @see com.sun.jdi.request.EventRequestMbnbger#crebteVMDebthRequest
+ * @see com.sun.jdi.request.VMDebthRequest
  * @see EventQueue
- * @see VirtualMachine
+ * @see VirtublMbchine
  *
- * @author Robert Field
+ * @buthor Robert Field
  * @since  1.3
  */
 @jdk.Exported
-public interface VMDeathEvent extends Event {
+public interfbce VMDebthEvent extends Event {
 }

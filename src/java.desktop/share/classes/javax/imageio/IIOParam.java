@@ -1,676 +1,676 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio;
+pbckbge jbvbx.imbgeio;
 
-import java.awt.Point;
-import java.awt.Rectangle;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
 
 /**
- * A superclass of all classes describing how streams should be
- * decoded or encoded.  This class contains all the variables and
- * methods that are shared by <code>ImageReadParam</code> and
- * <code>ImageWriteParam</code>.
+ * A superclbss of bll clbsses describing how strebms should be
+ * decoded or encoded.  This clbss contbins bll the vbribbles bnd
+ * methods thbt bre shbred by <code>ImbgeRebdPbrbm</code> bnd
+ * <code>ImbgeWritePbrbm</code>.
  *
- * <p> This class provides mechanisms to specify a source region and a
- * destination region.  When reading, the source is the stream and
- * the in-memory image is the destination.  When writing, these are
- * reversed.  In the case of writing, destination regions may be used
- * only with a writer that supports pixel replacement.
+ * <p> This clbss provides mechbnisms to specify b source region bnd b
+ * destinbtion region.  When rebding, the source is the strebm bnd
+ * the in-memory imbge is the destinbtion.  When writing, these bre
+ * reversed.  In the cbse of writing, destinbtion regions mby be used
+ * only with b writer thbt supports pixel replbcement.
  * <p>
- * Decimation subsampling may be specified for both readers
- * and writers, using a movable subsampling grid.
+ * Decimbtion subsbmpling mby be specified for both rebders
+ * bnd writers, using b movbble subsbmpling grid.
  * <p>
- * Subsets of the source and destination bands may be selected.
+ * Subsets of the source bnd destinbtion bbnds mby be selected.
  *
  */
-public abstract class IIOParam {
+public bbstrbct clbss IIOPbrbm {
 
     /**
      * The source region, on <code>null</code> if none is set.
      */
-    protected Rectangle sourceRegion = null;
+    protected Rectbngle sourceRegion = null;
 
     /**
-     * The decimation subsampling to be applied in the horizontal
-     * direction.  By default, the value is <code>1</code>.
-     * The value must not be negative or 0.
+     * The decimbtion subsbmpling to be bpplied in the horizontbl
+     * direction.  By defbult, the vblue is <code>1</code>.
+     * The vblue must not be negbtive or 0.
      */
-    protected int sourceXSubsampling = 1;
+    protected int sourceXSubsbmpling = 1;
 
     /**
-     * The decimation subsampling to be applied in the vertical
-     * direction.  By default, the value is <code>1</code>.
-     * The value must not be negative or 0.
+     * The decimbtion subsbmpling to be bpplied in the verticbl
+     * direction.  By defbult, the vblue is <code>1</code>.
+     * The vblue must not be negbtive or 0.
      */
-    protected int sourceYSubsampling = 1;
+    protected int sourceYSubsbmpling = 1;
 
     /**
-     * A horizontal offset to be applied to the subsampling grid before
-     * subsampling.  The first pixel to be used will be offset this
-     * amount from the origin of the region, or of the image if no
+     * A horizontbl offset to be bpplied to the subsbmpling grid before
+     * subsbmpling.  The first pixel to be used will be offset this
+     * bmount from the origin of the region, or of the imbge if no
      * region is specified.
      */
-    protected int subsamplingXOffset = 0;
+    protected int subsbmplingXOffset = 0;
 
     /**
-     * A vertical offset to be applied to the subsampling grid before
-     * subsampling.  The first pixel to be used will be offset this
-     * amount from the origin of the region, or of the image if no
+     * A verticbl offset to be bpplied to the subsbmpling grid before
+     * subsbmpling.  The first pixel to be used will be offset this
+     * bmount from the origin of the region, or of the imbge if no
      * region is specified.
      */
-    protected int subsamplingYOffset = 0;
+    protected int subsbmplingYOffset = 0;
 
     /**
-     * An array of <code>int</code>s indicating which source bands
+     * An brrby of <code>int</code>s indicbting which source bbnds
      * will be used, or <code>null</code>.  If <code>null</code>, the
-     * set of source bands to be used is as described in the comment
-     * for the <code>setSourceBands</code> method.  No value should
-     * be allowed to be negative.
+     * set of source bbnds to be used is bs described in the comment
+     * for the <code>setSourceBbnds</code> method.  No vblue should
+     * be bllowed to be negbtive.
      */
-    protected int[] sourceBands = null;
+    protected int[] sourceBbnds = null;
 
     /**
-     * An <code>ImageTypeSpecifier</code> to be used to generate a
-     * destination image when reading, or to set the output color type
-     * when writing.  If non has been set the value will be
-     * <code>null</code>.  By default, the value is <code>null</code>.
+     * An <code>ImbgeTypeSpecifier</code> to be used to generbte b
+     * destinbtion imbge when rebding, or to set the output color type
+     * when writing.  If non hbs been set the vblue will be
+     * <code>null</code>.  By defbult, the vblue is <code>null</code>.
      */
-    protected ImageTypeSpecifier destinationType = null;
+    protected ImbgeTypeSpecifier destinbtionType = null;
 
     /**
-     * The offset in the destination where the upper-left decoded
-     * pixel should be placed.  By default, the value is (0, 0).
+     * The offset in the destinbtion where the upper-left decoded
+     * pixel should be plbced.  By defbult, the vblue is (0, 0).
      */
-    protected Point destinationOffset = new Point(0, 0);
+    protected Point destinbtionOffset = new Point(0, 0);
 
     /**
-     * The default <code>IIOParamController</code> that will be
-     * used to provide settings for this <code>IIOParam</code>
-     * object when the <code>activateController</code> method
-     * is called.  This default should be set by subclasses
-     * that choose to provide their own default controller,
-     * usually a GUI, for setting parameters.
+     * The defbult <code>IIOPbrbmController</code> thbt will be
+     * used to provide settings for this <code>IIOPbrbm</code>
+     * object when the <code>bctivbteController</code> method
+     * is cblled.  This defbult should be set by subclbsses
+     * thbt choose to provide their own defbult controller,
+     * usublly b GUI, for setting pbrbmeters.
      *
-     * @see IIOParamController
-     * @see #getDefaultController
-     * @see #activateController
+     * @see IIOPbrbmController
+     * @see #getDefbultController
+     * @see #bctivbteController
      */
-    protected IIOParamController defaultController = null;
+    protected IIOPbrbmController defbultController = null;
 
     /**
-     * The <code>IIOParamController</code> that will be
-     * used to provide settings for this <code>IIOParam</code>
-     * object when the <code>activateController</code> method
-     * is called.  This value overrides any default controller,
+     * The <code>IIOPbrbmController</code> thbt will be
+     * used to provide settings for this <code>IIOPbrbm</code>
+     * object when the <code>bctivbteController</code> method
+     * is cblled.  This vblue overrides bny defbult controller,
      * even when null.
      *
-     * @see IIOParamController
-     * @see #setController(IIOParamController)
-     * @see #hasController()
-     * @see #activateController()
+     * @see IIOPbrbmController
+     * @see #setController(IIOPbrbmController)
+     * @see #hbsController()
+     * @see #bctivbteController()
      */
-    protected IIOParamController controller = null;
+    protected IIOPbrbmController controller = null;
 
     /**
-     * Protected constructor may be called only by subclasses.
+     * Protected constructor mby be cblled only by subclbsses.
      */
-    protected IIOParam() {
-        controller = defaultController;
+    protected IIOPbrbm() {
+        controller = defbultController;
     }
 
     /**
      * Sets the source region of interest.  The region of interest is
-     * described as a rectangle, with the upper-left corner of the
-     * source image as pixel (0, 0) and increasing values down and to
-     * the right.  The actual number of pixels used will depend on
-     * the subsampling factors set by <code>setSourceSubsampling</code>.
-     * If subsampling has been set such that this number is zero,
-     * an <code>IllegalStateException</code> will be thrown.
+     * described bs b rectbngle, with the upper-left corner of the
+     * source imbge bs pixel (0, 0) bnd increbsing vblues down bnd to
+     * the right.  The bctubl number of pixels used will depend on
+     * the subsbmpling fbctors set by <code>setSourceSubsbmpling</code>.
+     * If subsbmpling hbs been set such thbt this number is zero,
+     * bn <code>IllegblStbteException</code> will be thrown.
      *
      * <p> The source region of interest specified by this method will
-     * be clipped as needed to fit within the source bounds, as well
-     * as the destination offsets, width, and height at the time of
-     * actual I/O.
+     * be clipped bs needed to fit within the source bounds, bs well
+     * bs the destinbtion offsets, width, bnd height bt the time of
+     * bctubl I/O.
      *
-     * <p> A value of <code>null</code> for <code>sourceRegion</code>
-     * will remove any region specification, causing the entire image
+     * <p> A vblue of <code>null</code> for <code>sourceRegion</code>
+     * will remove bny region specificbtion, cbusing the entire imbge
      * to be used.
      *
-     * @param sourceRegion a <code>Rectangle</code> specifying the
+     * @pbrbm sourceRegion b <code>Rectbngle</code> specifying the
      * source region of interest, or <code>null</code>.
      *
-     * @exception IllegalArgumentException if
-     * <code>sourceRegion</code> is non-<code>null</code> and either
+     * @exception IllegblArgumentException if
+     * <code>sourceRegion</code> is non-<code>null</code> bnd either
      * <code>sourceRegion.x</code> or <code>sourceRegion.y</code> is
-     * negative.
-     * @exception IllegalArgumentException if
-     * <code>sourceRegion</code> is non-<code>null</code> and either
+     * negbtive.
+     * @exception IllegblArgumentException if
+     * <code>sourceRegion</code> is non-<code>null</code> bnd either
      * <code>sourceRegion.width</code> or
-     * <code>sourceRegion.height</code> is negative or 0.
-     * @exception IllegalStateException if subsampling is such that
-     * this region will have a subsampled width or height of zero.
+     * <code>sourceRegion.height</code> is negbtive or 0.
+     * @exception IllegblStbteException if subsbmpling is such thbt
+     * this region will hbve b subsbmpled width or height of zero.
      *
      * @see #getSourceRegion
-     * @see #setSourceSubsampling
-     * @see ImageReadParam#setDestinationOffset
-     * @see ImageReadParam#getDestinationOffset
+     * @see #setSourceSubsbmpling
+     * @see ImbgeRebdPbrbm#setDestinbtionOffset
+     * @see ImbgeRebdPbrbm#getDestinbtionOffset
      */
-    public void setSourceRegion(Rectangle sourceRegion) {
+    public void setSourceRegion(Rectbngle sourceRegion) {
         if (sourceRegion == null) {
             this.sourceRegion = null;
             return;
         }
 
         if (sourceRegion.x < 0) {
-            throw new IllegalArgumentException("sourceRegion.x < 0!");
+            throw new IllegblArgumentException("sourceRegion.x < 0!");
         }
         if (sourceRegion.y < 0){
-            throw new IllegalArgumentException("sourceRegion.y < 0!");
+            throw new IllegblArgumentException("sourceRegion.y < 0!");
         }
         if (sourceRegion.width <= 0) {
-            throw new IllegalArgumentException("sourceRegion.width <= 0!");
+            throw new IllegblArgumentException("sourceRegion.width <= 0!");
         }
         if (sourceRegion.height <= 0) {
-            throw new IllegalArgumentException("sourceRegion.height <= 0!");
+            throw new IllegblArgumentException("sourceRegion.height <= 0!");
         }
 
-        // Throw an IllegalStateException if region falls between subsamples
-        if (sourceRegion.width <= subsamplingXOffset) {
-            throw new IllegalStateException
-                ("sourceRegion.width <= subsamplingXOffset!");
+        // Throw bn IllegblStbteException if region fblls between subsbmples
+        if (sourceRegion.width <= subsbmplingXOffset) {
+            throw new IllegblStbteException
+                ("sourceRegion.width <= subsbmplingXOffset!");
         }
-        if (sourceRegion.height <= subsamplingYOffset) {
-            throw new IllegalStateException
-                ("sourceRegion.height <= subsamplingYOffset!");
+        if (sourceRegion.height <= subsbmplingYOffset) {
+            throw new IllegblStbteException
+                ("sourceRegion.height <= subsbmplingYOffset!");
         }
 
-        this.sourceRegion = (Rectangle)sourceRegion.clone();
+        this.sourceRegion = (Rectbngle)sourceRegion.clone();
     }
 
     /**
-     * Returns the source region to be used.  The returned value is
-     * that set by the most recent call to
-     * <code>setSourceRegion</code>, and will be <code>null</code> if
+     * Returns the source region to be used.  The returned vblue is
+     * thbt set by the most recent cbll to
+     * <code>setSourceRegion</code>, bnd will be <code>null</code> if
      * there is no region set.
      *
-     * @return the source region of interest as a
-     * <code>Rectangle</code>, or <code>null</code>.
+     * @return the source region of interest bs b
+     * <code>Rectbngle</code>, or <code>null</code>.
      *
      * @see #setSourceRegion
      */
-    public Rectangle getSourceRegion() {
+    public Rectbngle getSourceRegion() {
         if (sourceRegion == null) {
             return null;
         }
-        return (Rectangle)sourceRegion.clone();
+        return (Rectbngle)sourceRegion.clone();
     }
 
     /**
-     * Specifies a decimation subsampling to apply on I/O.  The
-     * <code>sourceXSubsampling</code> and
-     * <code>sourceYSubsampling</code> parameters specify the
-     * subsampling period (<i>i.e.</i>, the number of rows and columns
-     * to advance after every source pixel).  Specifically, a period of
-     * 1 will use every row or column; a period of 2 will use every
-     * other row or column.  The <code>subsamplingXOffset</code> and
-     * <code>subsamplingYOffset</code> parameters specify an offset
-     * from the region (or image) origin for the first subsampled pixel.
-     * Adjusting the origin of the subsample grid is useful for avoiding
-     * seams when subsampling a very large source image into destination
-     * regions that will be assembled into a complete subsampled image.
-     * Most users will want to simply leave these parameters at 0.
+     * Specifies b decimbtion subsbmpling to bpply on I/O.  The
+     * <code>sourceXSubsbmpling</code> bnd
+     * <code>sourceYSubsbmpling</code> pbrbmeters specify the
+     * subsbmpling period (<i>i.e.</i>, the number of rows bnd columns
+     * to bdvbnce bfter every source pixel).  Specificblly, b period of
+     * 1 will use every row or column; b period of 2 will use every
+     * other row or column.  The <code>subsbmplingXOffset</code> bnd
+     * <code>subsbmplingYOffset</code> pbrbmeters specify bn offset
+     * from the region (or imbge) origin for the first subsbmpled pixel.
+     * Adjusting the origin of the subsbmple grid is useful for bvoiding
+     * sebms when subsbmpling b very lbrge source imbge into destinbtion
+     * regions thbt will be bssembled into b complete subsbmpled imbge.
+     * Most users will wbnt to simply lebve these pbrbmeters bt 0.
      *
-     * <p> The number of pixels and scanlines to be used are calculated
-     * as follows.
+     * <p> The number of pixels bnd scbnlines to be used bre cblculbted
+     * bs follows.
      * <p>
-     * The number of subsampled pixels in a scanline is given by
+     * The number of subsbmpled pixels in b scbnline is given by
      * <p>
-     * <code>truncate[(width - subsamplingXOffset + sourceXSubsampling - 1)
-     * / sourceXSubsampling]</code>.
+     * <code>truncbte[(width - subsbmplingXOffset + sourceXSubsbmpling - 1)
+     * / sourceXSubsbmpling]</code>.
      * <p>
-     * If the region is such that this width is zero, an
-     * <code>IllegalStateException</code> is thrown.
+     * If the region is such thbt this width is zero, bn
+     * <code>IllegblStbteException</code> is thrown.
      * <p>
-     * The number of scanlines to be used can be computed similarly.
+     * The number of scbnlines to be used cbn be computed similbrly.
      *
-     * <p>The ability to set the subsampling grid to start somewhere
-     * other than the source region origin is useful if the
-     * region is being used to create subsampled tiles of a large image,
-     * where the tile width and height are not multiples of the
-     * subsampling periods.  If the subsampling grid does not remain
-     * consistent from tile to tile, there will be artifacts at the tile
-     * boundaries.  By adjusting the subsampling grid offset for each
-     * tile to compensate, these artifacts can be avoided.  The tradeoff
-     * is that in order to avoid these artifacts, the tiles are not all
-     * the same size.  The grid offset to use in this case is given by:
+     * <p>The bbility to set the subsbmpling grid to stbrt somewhere
+     * other thbn the source region origin is useful if the
+     * region is being used to crebte subsbmpled tiles of b lbrge imbge,
+     * where the tile width bnd height bre not multiples of the
+     * subsbmpling periods.  If the subsbmpling grid does not rembin
+     * consistent from tile to tile, there will be brtifbcts bt the tile
+     * boundbries.  By bdjusting the subsbmpling grid offset for ebch
+     * tile to compensbte, these brtifbcts cbn be bvoided.  The trbdeoff
+     * is thbt in order to bvoid these brtifbcts, the tiles bre not bll
+     * the sbme size.  The grid offset to use in this cbse is given by:
      * <br>
      * grid offset = [period - (region offset modulo period)] modulo period)
      *
-     * <p> If either <code>sourceXSubsampling</code> or
-     * <code>sourceYSubsampling</code> is 0 or negative, an
-     * <code>IllegalArgumentException</code> will be thrown.
+     * <p> If either <code>sourceXSubsbmpling</code> or
+     * <code>sourceYSubsbmpling</code> is 0 or negbtive, bn
+     * <code>IllegblArgumentException</code> will be thrown.
      *
-     * <p> If either <code>subsamplingXOffset</code> or
-     * <code>subsamplingYOffset</code> is negative or greater than or
-     * equal to the corresponding period, an
-     * <code>IllegalArgumentException</code> will be thrown.
+     * <p> If either <code>subsbmplingXOffset</code> or
+     * <code>subsbmplingYOffset</code> is negbtive or grebter thbn or
+     * equbl to the corresponding period, bn
+     * <code>IllegblArgumentException</code> will be thrown.
      *
-     * <p> There is no <code>unsetSourceSubsampling</code> method;
-     * simply call <code>setSourceSubsampling(1, 1, 0, 0)</code> to
-     * restore default values.
+     * <p> There is no <code>unsetSourceSubsbmpling</code> method;
+     * simply cbll <code>setSourceSubsbmpling(1, 1, 0, 0)</code> to
+     * restore defbult vblues.
      *
-     * @param sourceXSubsampling the number of columns to advance
+     * @pbrbm sourceXSubsbmpling the number of columns to bdvbnce
      * between pixels.
-     * @param sourceYSubsampling the number of rows to advance between
+     * @pbrbm sourceYSubsbmpling the number of rows to bdvbnce between
      * pixels.
-     * @param subsamplingXOffset the horizontal offset of the first subsample
-     * within the region, or within the image if no region is set.
-     * @param subsamplingYOffset the horizontal offset of the first subsample
-     * within the region, or within the image if no region is set.
-     * @exception IllegalArgumentException if either period is
-     * negative or 0, or if either grid offset is negative or greater than
+     * @pbrbm subsbmplingXOffset the horizontbl offset of the first subsbmple
+     * within the region, or within the imbge if no region is set.
+     * @pbrbm subsbmplingYOffset the horizontbl offset of the first subsbmple
+     * within the region, or within the imbge if no region is set.
+     * @exception IllegblArgumentException if either period is
+     * negbtive or 0, or if either grid offset is negbtive or grebter thbn
      * the corresponding period.
-     * @exception IllegalStateException if the source region is such that
-     * the subsampled output would contain no pixels.
+     * @exception IllegblStbteException if the source region is such thbt
+     * the subsbmpled output would contbin no pixels.
      */
-    public void setSourceSubsampling(int sourceXSubsampling,
-                                     int sourceYSubsampling,
-                                     int subsamplingXOffset,
-                                     int subsamplingYOffset) {
-        if (sourceXSubsampling <= 0) {
-            throw new IllegalArgumentException("sourceXSubsampling <= 0!");
+    public void setSourceSubsbmpling(int sourceXSubsbmpling,
+                                     int sourceYSubsbmpling,
+                                     int subsbmplingXOffset,
+                                     int subsbmplingYOffset) {
+        if (sourceXSubsbmpling <= 0) {
+            throw new IllegblArgumentException("sourceXSubsbmpling <= 0!");
         }
-        if (sourceYSubsampling <= 0) {
-            throw new IllegalArgumentException("sourceYSubsampling <= 0!");
+        if (sourceYSubsbmpling <= 0) {
+            throw new IllegblArgumentException("sourceYSubsbmpling <= 0!");
         }
-        if (subsamplingXOffset < 0 ||
-            subsamplingXOffset >= sourceXSubsampling) {
-            throw new IllegalArgumentException
-                ("subsamplingXOffset out of range!");
+        if (subsbmplingXOffset < 0 ||
+            subsbmplingXOffset >= sourceXSubsbmpling) {
+            throw new IllegblArgumentException
+                ("subsbmplingXOffset out of rbnge!");
         }
-        if (subsamplingYOffset < 0 ||
-            subsamplingYOffset >= sourceYSubsampling) {
-            throw new IllegalArgumentException
-                ("subsamplingYOffset out of range!");
+        if (subsbmplingYOffset < 0 ||
+            subsbmplingYOffset >= sourceYSubsbmpling) {
+            throw new IllegblArgumentException
+                ("subsbmplingYOffset out of rbnge!");
         }
 
-        // Throw an IllegalStateException if region falls between subsamples
+        // Throw bn IllegblStbteException if region fblls between subsbmples
         if (sourceRegion != null) {
-            if (subsamplingXOffset >= sourceRegion.width ||
-                subsamplingYOffset >= sourceRegion.height) {
-                throw new IllegalStateException("region contains no pixels!");
+            if (subsbmplingXOffset >= sourceRegion.width ||
+                subsbmplingYOffset >= sourceRegion.height) {
+                throw new IllegblStbteException("region contbins no pixels!");
             }
         }
 
-        this.sourceXSubsampling = sourceXSubsampling;
-        this.sourceYSubsampling = sourceYSubsampling;
-        this.subsamplingXOffset = subsamplingXOffset;
-        this.subsamplingYOffset = subsamplingYOffset;
+        this.sourceXSubsbmpling = sourceXSubsbmpling;
+        this.sourceYSubsbmpling = sourceYSubsbmpling;
+        this.subsbmplingXOffset = subsbmplingXOffset;
+        this.subsbmplingYOffset = subsbmplingYOffset;
     }
 
     /**
-     * Returns the number of source columns to advance for each pixel.
+     * Returns the number of source columns to bdvbnce for ebch pixel.
      *
-     * <p>If <code>setSourceSubsampling</code> has not been called, 1
-     * is returned (which is the correct value).
+     * <p>If <code>setSourceSubsbmpling</code> hbs not been cblled, 1
+     * is returned (which is the correct vblue).
      *
-     * @return the source subsampling X period.
+     * @return the source subsbmpling X period.
      *
-     * @see #setSourceSubsampling
-     * @see #getSourceYSubsampling
+     * @see #setSourceSubsbmpling
+     * @see #getSourceYSubsbmpling
      */
-    public int getSourceXSubsampling() {
-        return sourceXSubsampling;
+    public int getSourceXSubsbmpling() {
+        return sourceXSubsbmpling;
     }
 
     /**
-     * Returns the number of rows to advance for each pixel.
+     * Returns the number of rows to bdvbnce for ebch pixel.
      *
-     * <p>If <code>setSourceSubsampling</code> has not been called, 1
-     * is returned (which is the correct value).
+     * <p>If <code>setSourceSubsbmpling</code> hbs not been cblled, 1
+     * is returned (which is the correct vblue).
      *
-     * @return the source subsampling Y period.
+     * @return the source subsbmpling Y period.
      *
-     * @see #setSourceSubsampling
-     * @see #getSourceXSubsampling
+     * @see #setSourceSubsbmpling
+     * @see #getSourceXSubsbmpling
      */
-    public int getSourceYSubsampling() {
-        return sourceYSubsampling;
+    public int getSourceYSubsbmpling() {
+        return sourceYSubsbmpling;
     }
 
     /**
-     * Returns the horizontal offset of the subsampling grid.
+     * Returns the horizontbl offset of the subsbmpling grid.
      *
-     * <p>If <code>setSourceSubsampling</code> has not been called, 0
-     * is returned (which is the correct value).
+     * <p>If <code>setSourceSubsbmpling</code> hbs not been cblled, 0
+     * is returned (which is the correct vblue).
      *
-     * @return the source subsampling grid X offset.
+     * @return the source subsbmpling grid X offset.
      *
-     * @see #setSourceSubsampling
-     * @see #getSubsamplingYOffset
+     * @see #setSourceSubsbmpling
+     * @see #getSubsbmplingYOffset
      */
-    public int getSubsamplingXOffset() {
-        return subsamplingXOffset;
+    public int getSubsbmplingXOffset() {
+        return subsbmplingXOffset;
     }
 
     /**
-     * Returns the vertical offset of the subsampling grid.
+     * Returns the verticbl offset of the subsbmpling grid.
      *
-     * <p>If <code>setSourceSubsampling</code> has not been called, 0
-     * is returned (which is the correct value).
+     * <p>If <code>setSourceSubsbmpling</code> hbs not been cblled, 0
+     * is returned (which is the correct vblue).
      *
-     * @return the source subsampling grid Y offset.
+     * @return the source subsbmpling grid Y offset.
      *
-     * @see #setSourceSubsampling
-     * @see #getSubsamplingXOffset
+     * @see #setSourceSubsbmpling
+     * @see #getSubsbmplingXOffset
      */
-    public int getSubsamplingYOffset() {
-        return subsamplingYOffset;
+    public int getSubsbmplingYOffset() {
+        return subsbmplingYOffset;
     }
 
     /**
-     * Sets the indices of the source bands to be used.  Duplicate
-     * indices are not allowed.
+     * Sets the indices of the source bbnds to be used.  Duplicbte
+     * indices bre not bllowed.
      *
-     * <p> A <code>null</code> value indicates that all source bands
+     * <p> A <code>null</code> vblue indicbtes thbt bll source bbnds
      * will be used.
      *
-     * <p> At the time of reading, an
-     * <code>IllegalArgumentException</code> will be thrown by the
-     * reader or writer if a value larger than the largest available
-     * source band index has been specified or if the number of source
-     * bands and destination bands to be used differ.  The
-     * <code>ImageReader.checkReadParamBandSettings</code> method may
-     * be used to automate this test.
+     * <p> At the time of rebding, bn
+     * <code>IllegblArgumentException</code> will be thrown by the
+     * rebder or writer if b vblue lbrger thbn the lbrgest bvbilbble
+     * source bbnd index hbs been specified or if the number of source
+     * bbnds bnd destinbtion bbnds to be used differ.  The
+     * <code>ImbgeRebder.checkRebdPbrbmBbndSettings</code> method mby
+     * be used to butombte this test.
      *
-     * <p> Semantically, a copy is made of the array; changes to the
-     * array contents subsequent to this call have no effect on
-     * this <code>IIOParam</code>.
+     * <p> Sembnticblly, b copy is mbde of the brrby; chbnges to the
+     * brrby contents subsequent to this cbll hbve no effect on
+     * this <code>IIOPbrbm</code>.
      *
-     * @param sourceBands an array of integer band indices to be
+     * @pbrbm sourceBbnds bn brrby of integer bbnd indices to be
      * used.
      *
-     * @exception IllegalArgumentException if <code>sourceBands</code>
-     * contains a negative or duplicate value.
+     * @exception IllegblArgumentException if <code>sourceBbnds</code>
+     * contbins b negbtive or duplicbte vblue.
      *
-     * @see #getSourceBands
-     * @see ImageReadParam#setDestinationBands
-     * @see ImageReader#checkReadParamBandSettings
+     * @see #getSourceBbnds
+     * @see ImbgeRebdPbrbm#setDestinbtionBbnds
+     * @see ImbgeRebder#checkRebdPbrbmBbndSettings
      */
-    public void setSourceBands(int[] sourceBands) {
-        if (sourceBands == null) {
-            this.sourceBands = null;
+    public void setSourceBbnds(int[] sourceBbnds) {
+        if (sourceBbnds == null) {
+            this.sourceBbnds = null;
         } else {
-            int numBands = sourceBands.length;
-            for (int i = 0; i < numBands; i++) {
-                int band = sourceBands[i];
-                if (band < 0) {
-                    throw new IllegalArgumentException("Band value < 0!");
+            int numBbnds = sourceBbnds.length;
+            for (int i = 0; i < numBbnds; i++) {
+                int bbnd = sourceBbnds[i];
+                if (bbnd < 0) {
+                    throw new IllegblArgumentException("Bbnd vblue < 0!");
                 }
-                for (int j = i + 1; j < numBands; j++) {
-                    if (band == sourceBands[j]) {
-                        throw new IllegalArgumentException("Duplicate band value!");
+                for (int j = i + 1; j < numBbnds; j++) {
+                    if (bbnd == sourceBbnds[j]) {
+                        throw new IllegblArgumentException("Duplicbte bbnd vblue!");
                     }
                 }
 
             }
-            this.sourceBands = (sourceBands.clone());
+            this.sourceBbnds = (sourceBbnds.clone());
         }
     }
 
     /**
-     * Returns the set of of source bands to be used. The returned
-     * value is that set by the most recent call to
-     * <code>setSourceBands</code>, or <code>null</code> if there have
-     * been no calls to <code>setSourceBands</code>.
+     * Returns the set of of source bbnds to be used. The returned
+     * vblue is thbt set by the most recent cbll to
+     * <code>setSourceBbnds</code>, or <code>null</code> if there hbve
+     * been no cblls to <code>setSourceBbnds</code>.
      *
-     * <p> Semantically, the array returned is a copy; changes to
-     * array contents subsequent to this call have no effect on this
-     * <code>IIOParam</code>.
+     * <p> Sembnticblly, the brrby returned is b copy; chbnges to
+     * brrby contents subsequent to this cbll hbve no effect on this
+     * <code>IIOPbrbm</code>.
      *
-     * @return the set of source bands to be used, or
+     * @return the set of source bbnds to be used, or
      * <code>null</code>.
      *
-     * @see #setSourceBands
+     * @see #setSourceBbnds
      */
-    public int[] getSourceBands() {
-        if (sourceBands == null) {
+    public int[] getSourceBbnds() {
+        if (sourceBbnds == null) {
             return null;
         }
-        return (sourceBands.clone());
+        return (sourceBbnds.clone());
     }
 
     /**
-     * Sets the desired image type for the destination image, using an
-     * <code>ImageTypeSpecifier</code>.
+     * Sets the desired imbge type for the destinbtion imbge, using bn
+     * <code>ImbgeTypeSpecifier</code>.
      *
-     * <p> When reading, if the layout of the destination has been set
-     * using this method, each call to an <code>ImageReader</code>
-     * <code>read</code> method will return a new
-     * <code>BufferedImage</code> using the format specified by the
-     * supplied type specifier.  As a side effect, any destination
-     * <code>BufferedImage</code> set by
-     * <code>ImageReadParam.setDestination(BufferedImage)</code> will
-     * no longer be set as the destination.  In other words, this
-     * method may be thought of as calling
-     * <code>setDestination((BufferedImage)null)</code>.
+     * <p> When rebding, if the lbyout of the destinbtion hbs been set
+     * using this method, ebch cbll to bn <code>ImbgeRebder</code>
+     * <code>rebd</code> method will return b new
+     * <code>BufferedImbge</code> using the formbt specified by the
+     * supplied type specifier.  As b side effect, bny destinbtion
+     * <code>BufferedImbge</code> set by
+     * <code>ImbgeRebdPbrbm.setDestinbtion(BufferedImbge)</code> will
+     * no longer be set bs the destinbtion.  In other words, this
+     * method mby be thought of bs cblling
+     * <code>setDestinbtion((BufferedImbge)null)</code>.
      *
-     * <p> When writing, the destination type maybe used to determine
-     * the color type of the image.  The <code>SampleModel</code>
-     * information will be ignored, and may be <code>null</code>.  For
-     * example, a 4-banded image could represent either CMYK or RGBA
-     * data.  If a destination type is set, its
-     * <code>ColorModel</code> will override any
-     * <code>ColorModel</code> on the image itself.  This is crucial
-     * when <code>setSourceBands</code> is used since the image's
-     * <code>ColorModel</code> will refer to the entire image rather
-     * than to the subset of bands being written.
+     * <p> When writing, the destinbtion type mbybe used to determine
+     * the color type of the imbge.  The <code>SbmpleModel</code>
+     * informbtion will be ignored, bnd mby be <code>null</code>.  For
+     * exbmple, b 4-bbnded imbge could represent either CMYK or RGBA
+     * dbtb.  If b destinbtion type is set, its
+     * <code>ColorModel</code> will override bny
+     * <code>ColorModel</code> on the imbge itself.  This is crucibl
+     * when <code>setSourceBbnds</code> is used since the imbge's
+     * <code>ColorModel</code> will refer to the entire imbge rbther
+     * thbn to the subset of bbnds being written.
      *
-     * @param destinationType the <code>ImageTypeSpecifier</code> to
-     * be used to determine the destination layout and color type.
+     * @pbrbm destinbtionType the <code>ImbgeTypeSpecifier</code> to
+     * be used to determine the destinbtion lbyout bnd color type.
      *
-     * @see #getDestinationType
+     * @see #getDestinbtionType
      */
-    public void setDestinationType(ImageTypeSpecifier destinationType) {
-        this.destinationType = destinationType;
+    public void setDestinbtionType(ImbgeTypeSpecifier destinbtionType) {
+        this.destinbtionType = destinbtionType;
     }
 
     /**
-     * Returns the type of image to be returned by the read, if one
-     * was set by a call to
-     * <code>setDestination(ImageTypeSpecifier)</code>, as an
-     * <code>ImageTypeSpecifier</code>.  If none was set,
+     * Returns the type of imbge to be returned by the rebd, if one
+     * wbs set by b cbll to
+     * <code>setDestinbtion(ImbgeTypeSpecifier)</code>, bs bn
+     * <code>ImbgeTypeSpecifier</code>.  If none wbs set,
      * <code>null</code> is returned.
      *
-     * @return an <code>ImageTypeSpecifier</code> describing the
-     * destination type, or <code>null</code>.
+     * @return bn <code>ImbgeTypeSpecifier</code> describing the
+     * destinbtion type, or <code>null</code>.
      *
-     * @see #setDestinationType
+     * @see #setDestinbtionType
      */
-    public ImageTypeSpecifier getDestinationType() {
-        return destinationType;
+    public ImbgeTypeSpecifier getDestinbtionType() {
+        return destinbtionType;
     }
 
     /**
-     * Specifies the offset in the destination image at which future
-     * decoded pixels are to be placed, when reading, or where a
+     * Specifies the offset in the destinbtion imbge bt which future
+     * decoded pixels bre to be plbced, when rebding, or where b
      * region will be written, when writing.
      *
-     * <p> When reading, the region to be written within the
-     * destination <code>BufferedImage</code> will start at this
-     * offset and have a width and height determined by the source
-     * region of interest, the subsampling parameters, and the
-     * destination bounds.
+     * <p> When rebding, the region to be written within the
+     * destinbtion <code>BufferedImbge</code> will stbrt bt this
+     * offset bnd hbve b width bnd height determined by the source
+     * region of interest, the subsbmpling pbrbmeters, bnd the
+     * destinbtion bounds.
      *
-     * <p> Normal writes are not affected by this method, only writes
-     * performed using <code>ImageWriter.replacePixels</code>.  For
-     * such writes, the offset specified is within the output stream
-     * image whose pixels are being modified.
+     * <p> Normbl writes bre not bffected by this method, only writes
+     * performed using <code>ImbgeWriter.replbcePixels</code>.  For
+     * such writes, the offset specified is within the output strebm
+     * imbge whose pixels bre being modified.
      *
-     * <p> There is no <code>unsetDestinationOffset</code> method;
-     * simply call <code>setDestinationOffset(new Point(0, 0))</code> to
-     * restore default values.
+     * <p> There is no <code>unsetDestinbtionOffset</code> method;
+     * simply cbll <code>setDestinbtionOffset(new Point(0, 0))</code> to
+     * restore defbult vblues.
      *
-     * @param destinationOffset the offset in the destination, as a
+     * @pbrbm destinbtionOffset the offset in the destinbtion, bs b
      * <code>Point</code>.
      *
-     * @exception IllegalArgumentException if
-     * <code>destinationOffset</code> is <code>null</code>.
+     * @exception IllegblArgumentException if
+     * <code>destinbtionOffset</code> is <code>null</code>.
      *
-     * @see #getDestinationOffset
-     * @see ImageWriter#replacePixels
+     * @see #getDestinbtionOffset
+     * @see ImbgeWriter#replbcePixels
      */
-    public void setDestinationOffset(Point destinationOffset) {
-        if (destinationOffset == null) {
-            throw new IllegalArgumentException("destinationOffset == null!");
+    public void setDestinbtionOffset(Point destinbtionOffset) {
+        if (destinbtionOffset == null) {
+            throw new IllegblArgumentException("destinbtionOffset == null!");
         }
-        this.destinationOffset = (Point)destinationOffset.clone();
+        this.destinbtionOffset = (Point)destinbtionOffset.clone();
     }
 
     /**
-     * Returns the offset in the destination image at which pixels are
-     * to be placed.
+     * Returns the offset in the destinbtion imbge bt which pixels bre
+     * to be plbced.
      *
-     * <p> If <code>setDestinationOffsets</code> has not been called,
-     * a <code>Point</code> with zero X and Y values is returned
-     * (which is the correct value).
+     * <p> If <code>setDestinbtionOffsets</code> hbs not been cblled,
+     * b <code>Point</code> with zero X bnd Y vblues is returned
+     * (which is the correct vblue).
      *
-     * @return the destination offset as a <code>Point</code>.
+     * @return the destinbtion offset bs b <code>Point</code>.
      *
-     * @see #setDestinationOffset
+     * @see #setDestinbtionOffset
      */
-    public Point getDestinationOffset() {
-        return (Point)destinationOffset.clone();
+    public Point getDestinbtionOffset() {
+        return (Point)destinbtionOffset.clone();
     }
 
     /**
-     * Sets the <code>IIOParamController</code> to be used
-     * to provide settings for this <code>IIOParam</code>
-     * object when the <code>activateController</code> method
-     * is called, overriding any default controller.  If the
-     * argument is <code>null</code>, no controller will be
-     * used, including any default.  To restore the default, use
-     * <code>setController(getDefaultController())</code>.
+     * Sets the <code>IIOPbrbmController</code> to be used
+     * to provide settings for this <code>IIOPbrbm</code>
+     * object when the <code>bctivbteController</code> method
+     * is cblled, overriding bny defbult controller.  If the
+     * brgument is <code>null</code>, no controller will be
+     * used, including bny defbult.  To restore the defbult, use
+     * <code>setController(getDefbultController())</code>.
      *
-     * @param controller An appropriate
-     * <code>IIOParamController</code>, or <code>null</code>.
+     * @pbrbm controller An bppropribte
+     * <code>IIOPbrbmController</code>, or <code>null</code>.
      *
-     * @see IIOParamController
+     * @see IIOPbrbmController
      * @see #getController
-     * @see #getDefaultController
-     * @see #hasController
-     * @see #activateController()
+     * @see #getDefbultController
+     * @see #hbsController
+     * @see #bctivbteController()
      */
-    public void setController(IIOParamController controller) {
+    public void setController(IIOPbrbmController controller) {
         this.controller = controller;
     }
 
     /**
-     * Returns whatever <code>IIOParamController</code> is currently
-     * installed.  This could be the default if there is one,
-     * <code>null</code>, or the argument of the most recent call
+     * Returns whbtever <code>IIOPbrbmController</code> is currently
+     * instblled.  This could be the defbult if there is one,
+     * <code>null</code>, or the brgument of the most recent cbll
      * to <code>setController</code>.
      *
-     * @return the currently installed
-     * <code>IIOParamController</code>, or <code>null</code>.
+     * @return the currently instblled
+     * <code>IIOPbrbmController</code>, or <code>null</code>.
      *
-     * @see IIOParamController
+     * @see IIOPbrbmController
      * @see #setController
-     * @see #getDefaultController
-     * @see #hasController
-     * @see #activateController()
+     * @see #getDefbultController
+     * @see #hbsController
+     * @see #bctivbteController()
      */
-    public IIOParamController getController() {
+    public IIOPbrbmController getController() {
         return controller;
     }
 
     /**
-     * Returns the default <code>IIOParamController</code>, if there
-     * is one, regardless of the currently installed controller.  If
-     * there is no default controller, returns <code>null</code>.
+     * Returns the defbult <code>IIOPbrbmController</code>, if there
+     * is one, regbrdless of the currently instblled controller.  If
+     * there is no defbult controller, returns <code>null</code>.
      *
-     * @return the default <code>IIOParamController</code>, or
+     * @return the defbult <code>IIOPbrbmController</code>, or
      * <code>null</code>.
      *
-     * @see IIOParamController
-     * @see #setController(IIOParamController)
+     * @see IIOPbrbmController
+     * @see #setController(IIOPbrbmController)
      * @see #getController
-     * @see #hasController
-     * @see #activateController()
+     * @see #hbsController
+     * @see #bctivbteController()
      */
-    public IIOParamController getDefaultController() {
-        return defaultController;
+    public IIOPbrbmController getDefbultController() {
+        return defbultController;
     }
 
     /**
-     * Returns <code>true</code> if there is a controller installed
-     * for this <code>IIOParam</code> object.  This will return
+     * Returns <code>true</code> if there is b controller instblled
+     * for this <code>IIOPbrbm</code> object.  This will return
      * <code>true</code> if <code>getController</code> would not
      * return <code>null</code>.
      *
-     * @return <code>true</code> if a controller is installed.
+     * @return <code>true</code> if b controller is instblled.
      *
-     * @see IIOParamController
-     * @see #setController(IIOParamController)
+     * @see IIOPbrbmController
+     * @see #setController(IIOPbrbmController)
      * @see #getController
-     * @see #getDefaultController
-     * @see #activateController()
+     * @see #getDefbultController
+     * @see #bctivbteController()
      */
-    public boolean hasController() {
+    public boolebn hbsController() {
         return (controller != null);
     }
 
     /**
-     * Activates the installed <code>IIOParamController</code> for
-     * this <code>IIOParam</code> object and returns the resulting
-     * value.  When this method returns <code>true</code>, all values
-     * for this <code>IIOParam</code> object will be ready for the
-     * next read or write operation.  If <code>false</code> is
-     * returned, no settings in this object will have been disturbed
-     * (<i>i.e.</i>, the user canceled the operation).
+     * Activbtes the instblled <code>IIOPbrbmController</code> for
+     * this <code>IIOPbrbm</code> object bnd returns the resulting
+     * vblue.  When this method returns <code>true</code>, bll vblues
+     * for this <code>IIOPbrbm</code> object will be rebdy for the
+     * next rebd or write operbtion.  If <code>fblse</code> is
+     * returned, no settings in this object will hbve been disturbed
+     * (<i>i.e.</i>, the user cbnceled the operbtion).
      *
-     * <p> Ordinarily, the controller will be a GUI providing a user
-     * interface for a subclass of <code>IIOParam</code> for a
-     * particular plug-in.  Controllers need not be GUIs, however.
+     * <p> Ordinbrily, the controller will be b GUI providing b user
+     * interfbce for b subclbss of <code>IIOPbrbm</code> for b
+     * pbrticulbr plug-in.  Controllers need not be GUIs, however.
      *
-     * @return <code>true</code> if the controller completed normally.
+     * @return <code>true</code> if the controller completed normblly.
      *
-     * @exception IllegalStateException if there is no controller
-     * currently installed.
+     * @exception IllegblStbteException if there is no controller
+     * currently instblled.
      *
-     * @see IIOParamController
-     * @see #setController(IIOParamController)
+     * @see IIOPbrbmController
+     * @see #setController(IIOPbrbmController)
      * @see #getController
-     * @see #getDefaultController
-     * @see #hasController
+     * @see #getDefbultController
+     * @see #hbsController
      */
-    public boolean activateController() {
-        if (!hasController()) {
-            throw new IllegalStateException("hasController() == false!");
+    public boolebn bctivbteController() {
+        if (!hbsController()) {
+            throw new IllegblStbteException("hbsController() == fblse!");
         }
-        return getController().activate(this);
+        return getController().bctivbte(this);
     }
 }

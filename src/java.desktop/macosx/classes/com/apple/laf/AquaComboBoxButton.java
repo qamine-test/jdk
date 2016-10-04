@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIResource;
 
-import apple.laf.JRSUIState;
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.JRSUIStbte;
+import bpple.lbf.JRSUIConstbnts.*;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class AquaComboBoxButton extends JButton {
-    final protected JComboBox<Object> comboBox;
-    final protected JList<?> list;
-    final protected CellRendererPane rendererPane;
-    final protected AquaComboBoxUI ui;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss AqubComboBoxButton extends JButton {
+    finbl protected JComboBox<Object> comboBox;
+    finbl protected JList<?> list;
+    finbl protected CellRendererPbne rendererPbne;
+    finbl protected AqubComboBoxUI ui;
 
-    protected final AquaPainter<JRSUIState> painter = AquaPainter.create(JRSUIState.getInstance());
-    boolean isPopDown;
-    boolean isSquare;
+    protected finbl AqubPbinter<JRSUIStbte> pbinter = AqubPbinter.crebte(JRSUIStbte.getInstbnce());
+    boolebn isPopDown;
+    boolebn isSqubre;
 
-    @SuppressWarnings("serial") // anonymous class
-    protected AquaComboBoxButton(final AquaComboBoxUI ui,
-                                 final JComboBox<Object> comboBox,
-                                 final CellRendererPane rendererPane,
-                                 final JList<?> list) {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    protected AqubComboBoxButton(finbl AqubComboBoxUI ui,
+                                 finbl JComboBox<Object> comboBox,
+                                 finbl CellRendererPbne rendererPbne,
+                                 finbl JList<?> list) {
         super("");
-        putClientProperty("JButton.buttonType", "comboboxInternal");
+        putClientProperty("JButton.buttonType", "comboboxInternbl");
 
         this.ui = ui;
         this.comboBox = comboBox;
-        this.rendererPane = rendererPane;
+        this.rendererPbne = rendererPbne;
         this.list = list;
 
-        setModel(new DefaultButtonModel() {
-            public void setArmed(final boolean armed) {
-                super.setArmed(isPressed() ? true : armed);
+        setModel(new DefbultButtonModel() {
+            public void setArmed(finbl boolebn brmed) {
+                super.setArmed(isPressed() ? true : brmed);
             }
         });
 
-        setEnabled(comboBox.isEnabled());
+        setEnbbled(comboBox.isEnbbled());
     }
 
-    public boolean isEnabled() {
-        return comboBox == null ? true : comboBox.isEnabled();
+    public boolebn isEnbbled() {
+        return comboBox == null ? true : comboBox.isEnbbled();
     }
 
-    public boolean isFocusTraversable() {
-        return false;
+    public boolebn isFocusTrbversbble() {
+        return fblse;
     }
 
-    protected void setIsPopDown(final boolean isPopDown) {
+    protected void setIsPopDown(finbl boolebn isPopDown) {
         this.isPopDown = isPopDown;
-        repaint();
+        repbint();
     }
 
-    protected void setIsSquare(final boolean isSquare) {
-        this.isSquare = isSquare;
-        repaint();
+    protected void setIsSqubre(finbl boolebn isSqubre) {
+        this.isSqubre = isSqubre;
+        repbint();
     }
 
-    protected State getState(final ButtonModel buttonModel) {
-        if (!comboBox.isEnabled()) return State.DISABLED;
-        if (!AquaFocusHandler.isActive(comboBox)) return State.INACTIVE;
-        if (buttonModel.isArmed()) return State.PRESSED;
-        return State.ACTIVE;
+    protected Stbte getStbte(finbl ButtonModel buttonModel) {
+        if (!comboBox.isEnbbled()) return Stbte.DISABLED;
+        if (!AqubFocusHbndler.isActive(comboBox)) return Stbte.INACTIVE;
+        if (buttonModel.isArmed()) return Stbte.PRESSED;
+        return Stbte.ACTIVE;
     }
 
-    public void paintComponent(final Graphics g) {
-        // Don't Paint the button as usual
-        // super.paintComponent( g );
-        final boolean editable = comboBox.isEditable();
+    public void pbintComponent(finbl Grbphics g) {
+        // Don't Pbint the button bs usubl
+        // super.pbintComponent( g );
+        finbl boolebn editbble = comboBox.isEditbble();
 
         int top = 0;
         int left = 0;
         int width = getWidth();
         int height = getHeight();
 
-        if (comboBox.isOpaque()) {
-            g.setColor(getBackground());
+        if (comboBox.isOpbque()) {
+            g.setColor(getBbckground());
             g.fillRect(0, 0, width, height);
         }
 
-        final Size size = AquaUtilControlSize.getUserSizeFrom(comboBox);
-        painter.state.set(size == null ? Size.REGULAR : size);
+        finbl Size size = AqubUtilControlSize.getUserSizeFrom(comboBox);
+        pbinter.stbte.set(size == null ? Size.REGULAR : size);
 
-        final ButtonModel buttonModel = getModel();
-        painter.state.set(getState(buttonModel));
+        finbl ButtonModel buttonModel = getModel();
+        pbinter.stbte.set(getStbte(buttonModel));
 
-        painter.state.set(AlignmentVertical.CENTER);
+        pbinter.stbte.set(AlignmentVerticbl.CENTER);
 
-        if (AquaComboBoxUI.isTableCellEditor(comboBox)) {
-            painter.state.set(AlignmentHorizontal.RIGHT);
-            painter.state.set(Widget.BUTTON_POP_UP);
-            painter.state.set(ArrowsOnly.YES);
-            painter.paint(g, this, left, top, width, height);
-            doRendererPaint(g, buttonModel, editable, getInsets(), left, top, width, height);
+        if (AqubComboBoxUI.isTbbleCellEditor(comboBox)) {
+            pbinter.stbte.set(AlignmentHorizontbl.RIGHT);
+            pbinter.stbte.set(Widget.BUTTON_POP_UP);
+            pbinter.stbte.set(ArrowsOnly.YES);
+            pbinter.pbint(g, this, left, top, width, height);
+            doRendererPbint(g, buttonModel, editbble, getInsets(), left, top, width, height);
             return;
         }
 
-        painter.state.set(AlignmentHorizontal.CENTER);
-        final Insets insets = getInsets();
-        if (!editable) {
+        pbinter.stbte.set(AlignmentHorizontbl.CENTER);
+        finbl Insets insets = getInsets();
+        if (!editbble) {
             top += insets.top;
             left += insets.left;
             width -= insets.left + insets.right;
@@ -136,94 +136,94 @@ class AquaComboBoxButton extends JButton {
             return;
         }
 
-        boolean hasFocus = comboBox.hasFocus();
-        if (editable) {
-            painter.state.set(Widget.BUTTON_COMBO_BOX);
-            painter.state.set(IndicatorOnly.YES);
-            painter.state.set(AlignmentHorizontal.LEFT);
-            hasFocus |= comboBox.getEditor().getEditorComponent().hasFocus();
+        boolebn hbsFocus = comboBox.hbsFocus();
+        if (editbble) {
+            pbinter.stbte.set(Widget.BUTTON_COMBO_BOX);
+            pbinter.stbte.set(IndicbtorOnly.YES);
+            pbinter.stbte.set(AlignmentHorizontbl.LEFT);
+            hbsFocus |= comboBox.getEditor().getEditorComponent().hbsFocus();
         } else {
-            painter.state.set(IndicatorOnly.NO);
-            painter.state.set(AlignmentHorizontal.CENTER);
+            pbinter.stbte.set(IndicbtorOnly.NO);
+            pbinter.stbte.set(AlignmentHorizontbl.CENTER);
             if (isPopDown) {
-                painter.state.set(isSquare ? Widget.BUTTON_POP_DOWN_SQUARE : Widget.BUTTON_POP_DOWN);
+                pbinter.stbte.set(isSqubre ? Widget.BUTTON_POP_DOWN_SQUARE : Widget.BUTTON_POP_DOWN);
             } else {
-                painter.state.set(isSquare ? Widget.BUTTON_POP_UP_SQUARE : Widget.BUTTON_POP_UP);
+                pbinter.stbte.set(isSqubre ? Widget.BUTTON_POP_UP_SQUARE : Widget.BUTTON_POP_UP);
             }
         }
-        painter.state.set(hasFocus ? Focused.YES : Focused.NO);
+        pbinter.stbte.set(hbsFocus ? Focused.YES : Focused.NO);
 
-        if (isSquare) {
-            painter.paint(g, comboBox, left + 2, top - 1, width - 4, height);
+        if (isSqubre) {
+            pbinter.pbint(g, comboBox, left + 2, top - 1, width - 4, height);
         } else {
-            painter.paint(g, comboBox, left, top, width, height);
+            pbinter.pbint(g, comboBox, left, top, width, height);
         }
 
-        // Let the renderer paint
-        if (!editable && comboBox != null) {
-            doRendererPaint(g, buttonModel, editable, insets, left, top, width, height);
+        // Let the renderer pbint
+        if (!editbble && comboBox != null) {
+            doRendererPbint(g, buttonModel, editbble, insets, left, top, width, height);
         }
     }
 
-    protected void doRendererPaint(final Graphics g, final ButtonModel buttonModel, final boolean editable, final Insets insets, int left, int top, int width, int height) {
-        final ListCellRenderer<Object> renderer = comboBox.getRenderer();
+    protected void doRendererPbint(finbl Grbphics g, finbl ButtonModel buttonModel, finbl boolebn editbble, finbl Insets insets, int left, int top, int width, int height) {
+        finbl ListCellRenderer<Object> renderer = comboBox.getRenderer();
 
-        // fake it out! not renderPressed
-        final Component c = renderer.getListCellRendererComponent(list, comboBox.getSelectedItem(), -1, false, false);
+        // fbke it out! not renderPressed
+        finbl Component c = renderer.getListCellRendererComponent(list, comboBox.getSelectedItem(), -1, fblse, fblse);
         // System.err.println("Renderer: " + renderer);
 
-        if (!editable && !AquaComboBoxUI.isTableCellEditor(comboBox)) {
-            final int indentLeft = 10;
-            final int buttonWidth = 24;
+        if (!editbble && !AqubComboBoxUI.isTbbleCellEditor(comboBox)) {
+            finbl int indentLeft = 10;
+            finbl int buttonWidth = 24;
 
-            // hardcoded for now. We should adjust as necessary.
+            // hbrdcoded for now. We should bdjust bs necessbry.
             top += 1;
             height -= 4;
             left += indentLeft;
             width -= (indentLeft + buttonWidth);
         }
 
-        c.setFont(rendererPane.getFont());
+        c.setFont(rendererPbne.getFont());
 
         if (buttonModel.isArmed() && buttonModel.isPressed()) {
-            if (isOpaque()) {
-                c.setBackground(UIManager.getColor("Button.select"));
+            if (isOpbque()) {
+                c.setBbckground(UIMbnbger.getColor("Button.select"));
             }
             c.setForeground(comboBox.getForeground());
-        } else if (!comboBox.isEnabled()) {
-            if (isOpaque()) {
-                c.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
+        } else if (!comboBox.isEnbbled()) {
+            if (isOpbque()) {
+                c.setBbckground(UIMbnbger.getColor("ComboBox.disbbledBbckground"));
             }
-            c.setForeground(UIManager.getColor("ComboBox.disabledForeground"));
+            c.setForeground(UIMbnbger.getColor("ComboBox.disbbledForeground"));
         } else {
             c.setForeground(comboBox.getForeground());
-            c.setBackground(comboBox.getBackground());
+            c.setBbckground(comboBox.getBbckground());
         }
 
-        // Sun Fix for 4238829: should lay out the JPanel.
-        boolean shouldValidate = false;
-        if (c instanceof JPanel) {
-            shouldValidate = true;
+        // Sun Fix for 4238829: should lby out the JPbnel.
+        boolebn shouldVblidbte = fblse;
+        if (c instbnceof JPbnel) {
+            shouldVblidbte = true;
         }
 
-        final int iconWidth = 0;
-        final int cWidth = width - (insets.right + iconWidth);
+        finbl int iconWidth = 0;
+        finbl int cWidth = width - (insets.right + iconWidth);
 
-        // fix for 3156483 we need to crop images that are too big.
+        // fix for 3156483 we need to crop imbges thbt bre too big.
         // if (height > 18)
-        // always crop.
+        // blwbys crop.
         {
             top = height / 2 - 8;
             height = 19;
         }
 
-        // It doesn't need to draw its background, we handled it
-        final Color bg = c.getBackground();
-        final boolean inhibitBackground = bg instanceof UIResource;
-        if (inhibitBackground) c.setBackground(new Color(0, 0, 0, 0));
+        // It doesn't need to drbw its bbckground, we hbndled it
+        finbl Color bg = c.getBbckground();
+        finbl boolebn inhibitBbckground = bg instbnceof UIResource;
+        if (inhibitBbckground) c.setBbckground(new Color(0, 0, 0, 0));
 
-        rendererPane.paintComponent(g, c, this, left, top, cWidth, height, shouldValidate); // h - (insets.top + insets.bottom) );
+        rendererPbne.pbintComponent(g, c, this, left, top, cWidth, height, shouldVblidbte); // h - (insets.top + insets.bottom) );
 
-        if (inhibitBackground) c.setBackground(bg);
+        if (inhibitBbckground) c.setBbckground(bg);
     }
 }

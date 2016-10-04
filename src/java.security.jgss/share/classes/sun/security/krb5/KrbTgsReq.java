@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.crypto.*;
+import jbvb.io.IOException;
+import jbvb.net.UnknownHostException;
+import jbvb.util.Arrbys;
 
 /**
- * This class encapsulates a Kerberos TGS-REQ that is sent from the
+ * This clbss encbpsulbtes b Kerberos TGS-REQ thbt is sent from the
  * client to the KDC.
  */
-public class KrbTgsReq {
+public clbss KrbTgsReq {
 
-    private PrincipalName princName;
-    private PrincipalName servName;
-    private TGSReq tgsReqMessg;
-    private KerberosTime ctime;
-    private Ticket secondTicket = null;
-    private boolean useSubkey = false;
+    privbte PrincipblNbme princNbme;
+    privbte PrincipblNbme servNbme;
+    privbte TGSReq tgsReqMessg;
+    privbte KerberosTime ctime;
+    privbte Ticket secondTicket = null;
+    privbte boolebn useSubkey = fblse;
     EncryptionKey tgsReqKey;
 
-    private static final boolean DEBUG = Krb5.DEBUG;
+    privbte stbtic finbl boolebn DEBUG = Krb5.DEBUG;
 
-    private byte[] obuf;
-    private byte[] ibuf;
+    privbte byte[] obuf;
+    privbte byte[] ibuf;
 
-    // Used in CredentialsUtil
-    public KrbTgsReq(Credentials asCreds,
-                     PrincipalName sname)
+    // Used in CredentiblsUtil
+    public KrbTgsReq(Credentibls bsCreds,
+                     PrincipblNbme snbme)
         throws KrbException, IOException {
         this(new KDCOptions(),
-            asCreds,
-            sname,
+            bsCreds,
+            snbme,
             null, // KerberosTime from
             null, // KerberosTime till
             null, // KerberosTime rtime
             null, // eTypes, // null, // int[] eTypes
-            null, // HostAddresses addresses
-            null, // AuthorizationData authorizationData
-            null, // Ticket[] additionalTickets
+            null, // HostAddresses bddresses
+            null, // AuthorizbtionDbtb buthorizbtionDbtb
+            null, // Ticket[] bdditionblTickets
             null); // EncryptionKey subSessionKey
     }
 
     // S4U2proxy
-    public KrbTgsReq(Credentials asCreds,
+    public KrbTgsReq(Credentibls bsCreds,
                      Ticket second,
-                     PrincipalName sname)
+                     PrincipblNbme snbme)
             throws KrbException, IOException {
         this(KDCOptions.with(KDCOptions.CNAME_IN_ADDL_TKT,
                 KDCOptions.FORWARDABLE),
-            asCreds,
-            sname,
+            bsCreds,
+            snbme,
             null,
             null,
             null,
@@ -93,14 +93,14 @@ public class KrbTgsReq {
     }
 
     // S4U2user
-    public KrbTgsReq(Credentials asCreds,
-                     PrincipalName sname,
-                     PAData extraPA)
+    public KrbTgsReq(Credentibls bsCreds,
+                     PrincipblNbme snbme,
+                     PADbtb extrbPA)
         throws KrbException, IOException {
         this(KDCOptions.with(KDCOptions.FORWARDABLE),
-            asCreds,
-            asCreds.getClient(),
-            sname,
+            bsCreds,
+            bsCreds.getClient(),
+            snbme,
             null,
             null,
             null,
@@ -109,148 +109,148 @@ public class KrbTgsReq {
             null,
             null,
             null,
-            extraPA); // the PA-FOR-USER
+            extrbPA); // the PA-FOR-USER
     }
 
-    // Called by Credentials, KrbCred
+    // Cblled by Credentibls, KrbCred
     KrbTgsReq(
             KDCOptions options,
-            Credentials asCreds,
-            PrincipalName sname,
+            Credentibls bsCreds,
+            PrincipblNbme snbme,
             KerberosTime from,
             KerberosTime till,
             KerberosTime rtime,
             int[] eTypes,
-            HostAddresses addresses,
-            AuthorizationData authorizationData,
-            Ticket[] additionalTickets,
+            HostAddresses bddresses,
+            AuthorizbtionDbtb buthorizbtionDbtb,
+            Ticket[] bdditionblTickets,
             EncryptionKey subKey) throws KrbException, IOException {
-        this(options, asCreds, asCreds.getClient(), sname,
-                from, till, rtime, eTypes, addresses,
-                authorizationData, additionalTickets, subKey, null);
+        this(options, bsCreds, bsCreds.getClient(), snbme,
+                from, till, rtime, eTypes, bddresses,
+                buthorizbtionDbtb, bdditionblTickets, subKey, null);
     }
 
-    private KrbTgsReq(
+    privbte KrbTgsReq(
             KDCOptions options,
-            Credentials asCreds,
-            PrincipalName cname,
-            PrincipalName sname,
+            Credentibls bsCreds,
+            PrincipblNbme cnbme,
+            PrincipblNbme snbme,
             KerberosTime from,
             KerberosTime till,
             KerberosTime rtime,
             int[] eTypes,
-            HostAddresses addresses,
-            AuthorizationData authorizationData,
-            Ticket[] additionalTickets,
+            HostAddresses bddresses,
+            AuthorizbtionDbtb buthorizbtionDbtb,
+            Ticket[] bdditionblTickets,
             EncryptionKey subKey,
-            PAData extraPA) throws KrbException, IOException {
+            PADbtb extrbPA) throws KrbException, IOException {
 
-        princName = cname;
-        servName = sname;
+        princNbme = cnbme;
+        servNbme = snbme;
         ctime = KerberosTime.now();
 
-        // check if they are valid arguments. The optional fields
+        // check if they bre vblid brguments. The optionbl fields
         // should be  consistent with settings in KDCOptions.
 
-        // TODO: Is this necessary? If the TGT is not FORWARDABLE,
-        // you can still request for a FORWARDABLE ticket, just the
-        // KDC will give you a non-FORWARDABLE one. Even if you
-        // cannot use the ticket expected, it still contains info.
-        // This means there will be problem later. We already have
-        // flags check in KrbTgsRep. Of course, sometimes the KDC
-        // will not issue the ticket at all.
+        // TODO: Is this necessbry? If the TGT is not FORWARDABLE,
+        // you cbn still request for b FORWARDABLE ticket, just the
+        // KDC will give you b non-FORWARDABLE one. Even if you
+        // cbnnot use the ticket expected, it still contbins info.
+        // This mebns there will be problem lbter. We blrebdy hbve
+        // flbgs check in KrbTgsRep. Of course, sometimes the KDC
+        // will not issue the ticket bt bll.
 
         if (options.get(KDCOptions.FORWARDABLE) &&
-                (!(asCreds.flags.get(Krb5.TKT_OPTS_FORWARDABLE)))) {
+                (!(bsCreds.flbgs.get(Krb5.TKT_OPTS_FORWARDABLE)))) {
             throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
         if (options.get(KDCOptions.FORWARDED)) {
-            if (!(asCreds.flags.get(KDCOptions.FORWARDABLE)))
+            if (!(bsCreds.flbgs.get(KDCOptions.FORWARDABLE)))
                 throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
         if (options.get(KDCOptions.PROXIABLE) &&
-                (!(asCreds.flags.get(Krb5.TKT_OPTS_PROXIABLE)))) {
+                (!(bsCreds.flbgs.get(Krb5.TKT_OPTS_PROXIABLE)))) {
             throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
         if (options.get(KDCOptions.PROXY)) {
-            if (!(asCreds.flags.get(KDCOptions.PROXIABLE)))
+            if (!(bsCreds.flbgs.get(KDCOptions.PROXIABLE)))
                 throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
         if (options.get(KDCOptions.ALLOW_POSTDATE) &&
-                (!(asCreds.flags.get(Krb5.TKT_OPTS_MAY_POSTDATE)))) {
+                (!(bsCreds.flbgs.get(Krb5.TKT_OPTS_MAY_POSTDATE)))) {
             throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
         if (options.get(KDCOptions.RENEWABLE) &&
-                (!(asCreds.flags.get(Krb5.TKT_OPTS_RENEWABLE)))) {
+                (!(bsCreds.flbgs.get(Krb5.TKT_OPTS_RENEWABLE)))) {
             throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
 
         if (options.get(KDCOptions.POSTDATED)) {
-            if (!(asCreds.flags.get(KDCOptions.POSTDATED)))
+            if (!(bsCreds.flbgs.get(KDCOptions.POSTDATED)))
                 throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         } else {
             if (from != null)  from = null;
         }
         if (options.get(KDCOptions.RENEWABLE)) {
-            if (!(asCreds.flags.get(KDCOptions.RENEWABLE)))
+            if (!(bsCreds.flbgs.get(KDCOptions.RENEWABLE)))
                 throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         } else {
             if (rtime != null)  rtime = null;
         }
         if (options.get(KDCOptions.ENC_TKT_IN_SKEY) || options.get(KDCOptions.CNAME_IN_ADDL_TKT)) {
-            if (additionalTickets == null)
+            if (bdditionblTickets == null)
                 throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
-            // in TGS_REQ there could be more than one additional
-            // tickets,  but in file-based credential cache,
-            // there is only one additional ticket field.
-            secondTicket = additionalTickets[0];
+            // in TGS_REQ there could be more thbn one bdditionbl
+            // tickets,  but in file-bbsed credentibl cbche,
+            // there is only one bdditionbl ticket field.
+            secondTicket = bdditionblTickets[0];
         } else {
-            if (additionalTickets != null)
-                additionalTickets = null;
+            if (bdditionblTickets != null)
+                bdditionblTickets = null;
         }
 
-        tgsReqMessg = createRequest(
+        tgsReqMessg = crebteRequest(
                 options,
-                asCreds.ticket,
-                asCreds.key,
+                bsCreds.ticket,
+                bsCreds.key,
                 ctime,
-                princName,
-                servName,
+                princNbme,
+                servNbme,
                 from,
                 till,
                 rtime,
                 eTypes,
-                addresses,
-                authorizationData,
-                additionalTickets,
+                bddresses,
+                buthorizbtionDbtb,
+                bdditionblTickets,
                 subKey,
-                extraPA);
-        obuf = tgsReqMessg.asn1Encode();
+                extrbPA);
+        obuf = tgsReqMessg.bsn1Encode();
 
-        // XXX We need to revisit this to see if can't move it
-        // up such that FORWARDED flag set in the options
-        // is included in the marshaled request.
+        // XXX We need to revisit this to see if cbn't move it
+        // up such thbt FORWARDED flbg set in the options
+        // is included in the mbrshbled request.
         /*
-         * If this is based on a forwarded ticket, record that in the
-         * options, because the returned TgsRep will contain the
-         * FORWARDED flag set.
+         * If this is bbsed on b forwbrded ticket, record thbt in the
+         * options, becbuse the returned TgsRep will contbin the
+         * FORWARDED flbg set.
          */
-        if (asCreds.flags.get(KDCOptions.FORWARDED))
+        if (bsCreds.flbgs.get(KDCOptions.FORWARDED))
             options.set(KDCOptions.FORWARDED, true);
 
 
     }
 
     /**
-     * Sends a TGS request to the realm of the target.
+     * Sends b TGS request to the reblm of the tbrget.
      * @throws KrbException
      * @throws IOException
      */
     public void send() throws IOException, KrbException {
-        String realmStr = null;
-        if (servName != null)
-            realmStr = servName.getRealmString();
-        KdcComm comm = new KdcComm(realmStr);
+        String reblmStr = null;
+        if (servNbme != null)
+            reblmStr = servNbme.getReblmString();
+        KdcComm comm = new KdcComm(reblmStr);
         ibuf = comm.send(obuf);
     }
 
@@ -260,10 +260,10 @@ public class KrbTgsReq {
     }
 
     /**
-     * Sends the request, waits for a reply, and returns the Credentials.
-     * Used in Credentials, KrbCred, and internal/CredentialsUtil.
+     * Sends the request, wbits for b reply, bnd returns the Credentibls.
+     * Used in Credentibls, KrbCred, bnd internbl/CredentiblsUtil.
      */
-    public Credentials sendAndGetCreds() throws IOException, KrbException {
+    public Credentibls sendAndGetCreds() throws IOException, KrbException {
         KrbTgsRep tgs_rep = null;
         String kdc = null;
         send();
@@ -275,22 +275,22 @@ public class KrbTgsReq {
         return ctime;
     }
 
-    private TGSReq createRequest(
+    privbte TGSReq crebteRequest(
                          KDCOptions kdc_options,
                          Ticket ticket,
                          EncryptionKey key,
                          KerberosTime ctime,
-                         PrincipalName cname,
-                         PrincipalName sname,
+                         PrincipblNbme cnbme,
+                         PrincipblNbme snbme,
                          KerberosTime from,
                          KerberosTime till,
                          KerberosTime rtime,
                          int[] eTypes,
-                         HostAddresses addresses,
-                         AuthorizationData authorizationData,
-                         Ticket[] additionalTickets,
+                         HostAddresses bddresses,
+                         AuthorizbtionDbtb buthorizbtionDbtb,
+                         Ticket[] bdditionblTickets,
                          EncryptionKey subKey,
-                         PAData extraPA)
+                         PADbtb extrbPA)
         throws IOException, KrbException, UnknownHostException {
         KerberosTime req_till = null;
         if (till == null) {
@@ -302,8 +302,8 @@ public class KrbTgsReq {
         /*
          * RFC 4120, Section 5.4.2.
          * For KRB_TGS_REP, the ciphertext is encrypted in the
-         * sub-session key from the Authenticator, or if absent,
-         * the session key from the ticket-granting ticket used
+         * sub-session key from the Authenticbtor, or if bbsent,
+         * the session key from the ticket-grbnting ticket used
          * in the request.
          *
          * To support this, use tgsReqKey to remember which key to use.
@@ -312,85 +312,85 @@ public class KrbTgsReq {
 
         int[] req_eTypes = null;
         if (eTypes == null) {
-            req_eTypes = EType.getDefaults("default_tgs_enctypes");
+            req_eTypes = EType.getDefbults("defbult_tgs_enctypes");
         } else {
             req_eTypes = eTypes;
         }
 
         EncryptionKey reqKey = null;
-        EncryptedData encAuthorizationData = null;
-        if (authorizationData != null) {
-            byte[] ad = authorizationData.asn1Encode();
+        EncryptedDbtb encAuthorizbtionDbtb = null;
+        if (buthorizbtionDbtb != null) {
+            byte[] bd = buthorizbtionDbtb.bsn1Encode();
             if (subKey != null) {
                 reqKey = subKey;
                 tgsReqKey = subKey;    // Key to use to decrypt reply
                 useSubkey = true;
-                encAuthorizationData = new EncryptedData(reqKey, ad,
-                    KeyUsage.KU_TGS_REQ_AUTH_DATA_SUBKEY);
+                encAuthorizbtionDbtb = new EncryptedDbtb(reqKey, bd,
+                    KeyUsbge.KU_TGS_REQ_AUTH_DATA_SUBKEY);
             } else
-                encAuthorizationData = new EncryptedData(key, ad,
-                    KeyUsage.KU_TGS_REQ_AUTH_DATA_SESSKEY);
+                encAuthorizbtionDbtb = new EncryptedDbtb(key, bd,
+                    KeyUsbge.KU_TGS_REQ_AUTH_DATA_SESSKEY);
         }
 
         KDCReqBody reqBody = new KDCReqBody(
                                             kdc_options,
-                                            cname,
-                                            sname,
+                                            cnbme,
+                                            snbme,
                                             from,
                                             req_till,
                                             rtime,
-                                            Nonce.value(),
+                                            Nonce.vblue(),
                                             req_eTypes,
-                                            addresses,
-                                            encAuthorizationData,
-                                            additionalTickets);
+                                            bddresses,
+                                            encAuthorizbtionDbtb,
+                                            bdditionblTickets);
 
-        byte[] temp = reqBody.asn1Encode(Krb5.KRB_TGS_REQ);
+        byte[] temp = reqBody.bsn1Encode(Krb5.KRB_TGS_REQ);
         // if the checksum type is one of the keyed checksum types,
         // use session key.
         Checksum cksum;
         switch (Checksum.CKSUMTYPE_DEFAULT) {
-        case Checksum.CKSUMTYPE_RSA_MD4_DES:
-        case Checksum.CKSUMTYPE_DES_MAC:
-        case Checksum.CKSUMTYPE_DES_MAC_K:
-        case Checksum.CKSUMTYPE_RSA_MD4_DES_K:
-        case Checksum.CKSUMTYPE_RSA_MD5_DES:
-        case Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
-        case Checksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
-        case Checksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
-        case Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
+        cbse Checksum.CKSUMTYPE_RSA_MD4_DES:
+        cbse Checksum.CKSUMTYPE_DES_MAC:
+        cbse Checksum.CKSUMTYPE_DES_MAC_K:
+        cbse Checksum.CKSUMTYPE_RSA_MD4_DES_K:
+        cbse Checksum.CKSUMTYPE_RSA_MD5_DES:
+        cbse Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
+        cbse Checksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
+        cbse Checksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
+        cbse Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
             cksum = new Checksum(Checksum.CKSUMTYPE_DEFAULT, temp, key,
-                KeyUsage.KU_PA_TGS_REQ_CKSUM);
-            break;
-        case Checksum.CKSUMTYPE_CRC32:
-        case Checksum.CKSUMTYPE_RSA_MD4:
-        case Checksum.CKSUMTYPE_RSA_MD5:
-        default:
+                KeyUsbge.KU_PA_TGS_REQ_CKSUM);
+            brebk;
+        cbse Checksum.CKSUMTYPE_CRC32:
+        cbse Checksum.CKSUMTYPE_RSA_MD4:
+        cbse Checksum.CKSUMTYPE_RSA_MD5:
+        defbult:
             cksum = new Checksum(Checksum.CKSUMTYPE_DEFAULT, temp);
         }
 
-        // Usage will be KeyUsage.KU_PA_TGS_REQ_AUTHENTICATOR
+        // Usbge will be KeyUsbge.KU_PA_TGS_REQ_AUTHENTICATOR
 
-        byte[] tgs_ap_req = new KrbApReq(
+        byte[] tgs_bp_req = new KrbApReq(
                                          new APOptions(),
                                          ticket,
                                          key,
-                                         cname,
+                                         cnbme,
                                          cksum,
                                          ctime,
                                          reqKey,
                                          null,
-                                         null).getMessage();
+                                         null).getMessbge();
 
-        PAData tgsPAData = new PAData(Krb5.PA_TGS_REQ, tgs_ap_req);
+        PADbtb tgsPADbtb = new PADbtb(Krb5.PA_TGS_REQ, tgs_bp_req);
         return new TGSReq(
-                extraPA != null ?
-                    new PAData[] {extraPA, tgsPAData } :
-                    new PAData[] {tgsPAData},
+                extrbPA != null ?
+                    new PADbtb[] {extrbPA, tgsPADbtb } :
+                    new PADbtb[] {tgsPADbtb},
                 reqBody);
     }
 
-    TGSReq getMessage() {
+    TGSReq getMessbge() {
         return tgsReqMessg;
     }
 
@@ -398,11 +398,11 @@ public class KrbTgsReq {
         return secondTicket;
     }
 
-    private static void debug(String message) {
-        //      System.err.println(">>> KrbTgsReq: " + message);
+    privbte stbtic void debug(String messbge) {
+        //      System.err.println(">>> KrbTgsReq: " + messbge);
     }
 
-    boolean usedSubkey() {
+    boolebn usedSubkey() {
         return useSubkey;
     }
 

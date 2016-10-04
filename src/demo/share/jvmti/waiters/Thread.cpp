@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -45,55 +45,55 @@
 #include "jni.h"
 #include "jvmti.h"
 
-#include "agent_util.h"
+#include "bgent_util.h"
 
-#include "Thread.hpp"
+#include "Threbd.hpp"
 
-/* Implementation of the Thread class */
+/* Implementbtion of the Threbd clbss */
 
-Thread::Thread(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+Threbd::Threbd(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
     jvmtiError      err;
-    jvmtiThreadInfo info;
+    jvmtiThrebdInfo info;
 
-    /* Get and save the name of the thread */
-    info.name = NULL;
-    (void)strcpy(name, "Unknown");
-    err = jvmti->GetThreadInfo(thread, &info);
-    check_jvmti_error(jvmti, err, "get thread info");
-    if ( info.name != NULL ) {
-        (void)strncpy(name, info.name, (int)sizeof(name)-1);
-        name[(int)sizeof(name)-1] = 0;
-        deallocate(jvmti, info.name);
+    /* Get bnd sbve the nbme of the threbd */
+    info.nbme = NULL;
+    (void)strcpy(nbme, "Unknown");
+    err = jvmti->GetThrebdInfo(threbd, &info);
+    check_jvmti_error(jvmti, err, "get threbd info");
+    if ( info.nbme != NULL ) {
+        (void)strncpy(nbme, info.nbme, (int)sizeof(nbme)-1);
+        nbme[(int)sizeof(nbme)-1] = 0;
+        debllocbte(jvmti, info.nbme);
     }
 
-    /* Clear thread counters */
+    /* Clebr threbd counters */
     contends = 0;
-    waits    = 0;
+    wbits    = 0;
     timeouts = 0;
 }
 
-Thread::~Thread()
+Threbd::~Threbd()
 {
-    /* Send out summary message */
-    stdout_message("Thread %s summary: %d waits plus %d contended\n",
-        name, waits, contends);
+    /* Send out summbry messbge */
+    stdout_messbge("Threbd %s summbry: %d wbits plus %d contended\n",
+        nbme, wbits, contends);
 }
 
-void Thread::monitor_contended_enter(jvmtiEnv* jvmti, JNIEnv *env,
-             jthread thread, jobject object)
+void Threbd::monitor_contended_enter(jvmtiEnv* jvmti, JNIEnv *env,
+             jthrebd threbd, jobject object)
 {
     contends++;
 }
 
-void Thread::monitor_wait(jvmtiEnv* jvmti, JNIEnv *env,
-               jthread thread, jobject object, jlong timeout)
+void Threbd::monitor_wbit(jvmtiEnv* jvmti, JNIEnv *env,
+               jthrebd threbd, jobject object, jlong timeout)
 {
-    waits++;
+    wbits++;
 }
 
-void Thread::monitor_waited(jvmtiEnv* jvmti, JNIEnv *env,
-               jthread thread, jobject object, jboolean timed_out)
+void Threbd::monitor_wbited(jvmtiEnv* jvmti, JNIEnv *env,
+               jthrebd threbd, jobject object, jboolebn timed_out)
 {
     if ( timed_out ) {
         timeouts++;

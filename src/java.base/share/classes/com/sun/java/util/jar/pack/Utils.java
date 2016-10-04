@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collections;
-import java.util.Date;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
-import java.util.jar.JarOutputStream;
-import java.util.zip.ZipEntry;
-import sun.util.logging.PlatformLogger;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FilterOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Collections;
+import jbvb.util.Dbte;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.JbrFile;
+import jbvb.util.jbr.JbrInputStrebm;
+import jbvb.util.jbr.JbrOutputStrebm;
+import jbvb.util.zip.ZipEntry;
+import sun.util.logging.PlbtformLogger;
 
-class Utils {
-    static final String COM_PREFIX = "com.sun.java.util.jar.pack.";
-    static final String METAINF    = "META-INF";
+clbss Utils {
+    stbtic finbl String COM_PREFIX = "com.sun.jbvb.util.jbr.pbck.";
+    stbtic finbl String METAINF    = "META-INF";
 
     /*
-     * Outputs various diagnostic support information.
-     * If >0, print summary comments (e.g., constant pool info).
-     * If >1, print unit comments (e.g., processing of classes).
-     * If >2, print many comments (e.g., processing of members).
+     * Outputs vbrious dibgnostic support informbtion.
+     * If >0, print summbry comments (e.g., constbnt pool info).
+     * If >1, print unit comments (e.g., processing of clbsses).
+     * If >2, print mbny comments (e.g., processing of members).
      * If >3, print tons of comments (e.g., processing of references).
-     * (installer only)
+     * (instbller only)
      */
-    static final String DEBUG_VERBOSE = COM_PREFIX+"verbose";
+    stbtic finbl String DEBUG_VERBOSE = COM_PREFIX+"verbose";
 
     /*
-     * Disables use of native code, prefers the Java-coded implementation.
-     * (installer only)
+     * Disbbles use of nbtive code, prefers the Jbvb-coded implementbtion.
+     * (instbller only)
      */
-    static final String DEBUG_DISABLE_NATIVE = COM_PREFIX+"disable.native";
+    stbtic finbl String DEBUG_DISABLE_NATIVE = COM_PREFIX+"disbble.nbtive";
 
     /*
-     * Use the default working TimeZone instead of UTC.
-     * Note: This has installer unpacker implications.
-     * see: zip.cpp which uses gmtime vs. localtime.
+     * Use the defbult working TimeZone instebd of UTC.
+     * Note: This hbs instbller unpbcker implicbtions.
+     * see: zip.cpp which uses gmtime vs. locbltime.
      */
-    static final String PACK_DEFAULT_TIMEZONE = COM_PREFIX+"default.timezone";
+    stbtic finbl String PACK_DEFAULT_TIMEZONE = COM_PREFIX+"defbult.timezone";
 
     /*
-     * Property indicating that the unpacker should
-     * ignore the transmitted PACK_MODIFICATION_TIME,
-     * replacing it by the given value. The value can
-     * be a numeric string, representing the number of
-     * mSecs since the epoch (UTC), or the special string
-     * {@link #NOW}, meaning the current time (UTC).
-     * The default value is the special string {@link #KEEP},
-     * which asks the unpacker to preserve all transmitted
-     * modification time information.
-     * (installer only)
+     * Property indicbting thbt the unpbcker should
+     * ignore the trbnsmitted PACK_MODIFICATION_TIME,
+     * replbcing it by the given vblue. The vblue cbn
+     * be b numeric string, representing the number of
+     * mSecs since the epoch (UTC), or the specibl string
+     * {@link #NOW}, mebning the current time (UTC).
+     * The defbult vblue is the specibl string {@link #KEEP},
+     * which bsks the unpbcker to preserve bll trbnsmitted
+     * modificbtion time informbtion.
+     * (instbller only)
      */
-    static final String UNPACK_MODIFICATION_TIME = COM_PREFIX+"unpack.modification.time";
+    stbtic finbl String UNPACK_MODIFICATION_TIME = COM_PREFIX+"unpbck.modificbtion.time";
 
     /*
-     * Property indicating that the unpacker strip the
-     * Debug Attributes, if they are present, in the pack stream.
-     * The default value is false.
-     * (installer only)
+     * Property indicbting thbt the unpbcker strip the
+     * Debug Attributes, if they bre present, in the pbck strebm.
+     * The defbult vblue is fblse.
+     * (instbller only)
      */
-    static final String UNPACK_STRIP_DEBUG = COM_PREFIX+"unpack.strip.debug";
+    stbtic finbl String UNPACK_STRIP_DEBUG = COM_PREFIX+"unpbck.strip.debug";
 
     /*
-     * Remove the input file after unpacking.
-     * (installer only)
+     * Remove the input file bfter unpbcking.
+     * (instbller only)
      */
-    static final String UNPACK_REMOVE_PACKFILE = COM_PREFIX+"unpack.remove.packfile";
+    stbtic finbl String UNPACK_REMOVE_PACKFILE = COM_PREFIX+"unpbck.remove.pbckfile";
 
     /*
-     * A possible value for MODIFICATION_TIME
+     * A possible vblue for MODIFICATION_TIME
      */
-    static final String NOW                             = "now";
+    stbtic finbl String NOW                             = "now";
     // Other debug options:
-    //   com...debug.bands=false      add band IDs to pack file, to verify sync
-    //   com...dump.bands=false       dump band contents to local disk
-    //   com...no.vary.codings=false  turn off coding variation heuristics
-    //   com...no.big.strings=false   turn off "big string" feature
+    //   com...debug.bbnds=fblse      bdd bbnd IDs to pbck file, to verify sync
+    //   com...dump.bbnds=fblse       dump bbnd contents to locbl disk
+    //   com...no.vbry.codings=fblse  turn off coding vbribtion heuristics
+    //   com...no.big.strings=fblse   turn off "big string" febture
 
     /*
-     * If this property is set to {@link #TRUE}, the packer will preserve
-     * the ordering of class files of the original jar in the output archive.
-     * The ordering is preserved only for class-files; resource files
-     * may be reordered.
+     * If this property is set to {@link #TRUE}, the pbcker will preserve
+     * the ordering of clbss files of the originbl jbr in the output brchive.
+     * The ordering is preserved only for clbss-files; resource files
+     * mby be reordered.
      * <p>
-     * If the packer is allowed to reorder class files, it can marginally
-     * decrease the transmitted size of the archive.
+     * If the pbcker is bllowed to reorder clbss files, it cbn mbrginblly
+     * decrebse the trbnsmitted size of the brchive.
      */
-    static final String PACK_KEEP_CLASS_ORDER = COM_PREFIX+"keep.class.order";
+    stbtic finbl String PACK_KEEP_CLASS_ORDER = COM_PREFIX+"keep.clbss.order";
     /*
-     * This string PACK200 is given as a zip comment on all JAR files
+     * This string PACK200 is given bs b zip comment on bll JAR files
      * produced by this utility.
      */
-    static final String PACK_ZIP_ARCHIVE_MARKER_COMMENT = "PACK200";
+    stbtic finbl String PACK_ZIP_ARCHIVE_MARKER_COMMENT = "PACK200";
 
     /*
-     * behaviour when we hit a class format error, but not necessarily
-     * an unknown attribute, by default it is allowed to PASS.
+     * behbviour when we hit b clbss formbt error, but not necessbrily
+     * bn unknown bttribute, by defbult it is bllowed to PASS.
      */
-    static final String CLASS_FORMAT_ERROR = COM_PREFIX+"class.format.error";
+    stbtic finbl String CLASS_FORMAT_ERROR = COM_PREFIX+"clbss.formbt.error";
 
-    // Keep a TLS point to the global data and environment.
-    // This makes it simpler to supply environmental options
-    // to the engine code, especially the native code.
-    static final ThreadLocal<TLGlobals> currentInstance = new ThreadLocal<>();
+    // Keep b TLS point to the globbl dbtb bnd environment.
+    // This mbkes it simpler to supply environmentbl options
+    // to the engine code, especiblly the nbtive code.
+    stbtic finbl ThrebdLocbl<TLGlobbls> currentInstbnce = new ThrebdLocbl<>();
 
-    // convenience method to access the TL globals
-    static TLGlobals getTLGlobals() {
-        return currentInstance.get();
+    // convenience method to bccess the TL globbls
+    stbtic TLGlobbls getTLGlobbls() {
+        return currentInstbnce.get();
     }
 
-    static PropMap currentPropMap() {
-        Object obj = currentInstance.get();
-        if (obj instanceof PackerImpl)
-            return ((PackerImpl)obj).props;
-        if (obj instanceof UnpackerImpl)
-            return ((UnpackerImpl)obj).props;
+    stbtic PropMbp currentPropMbp() {
+        Object obj = currentInstbnce.get();
+        if (obj instbnceof PbckerImpl)
+            return ((PbckerImpl)obj).props;
+        if (obj instbnceof UnpbckerImpl)
+            return ((UnpbckerImpl)obj).props;
         return null;
     }
 
-    static final boolean nolog
-        = Boolean.getBoolean(COM_PREFIX+"nolog");
+    stbtic finbl boolebn nolog
+        = Boolebn.getBoolebn(COM_PREFIX+"nolog");
 
-    static final boolean SORT_MEMBERS_DESCR_MAJOR
-        = Boolean.getBoolean(COM_PREFIX+"sort.members.descr.major");
+    stbtic finbl boolebn SORT_MEMBERS_DESCR_MAJOR
+        = Boolebn.getBoolebn(COM_PREFIX+"sort.members.descr.mbjor");
 
-    static final boolean SORT_HANDLES_KIND_MAJOR
-        = Boolean.getBoolean(COM_PREFIX+"sort.handles.kind.major");
+    stbtic finbl boolebn SORT_HANDLES_KIND_MAJOR
+        = Boolebn.getBoolebn(COM_PREFIX+"sort.hbndles.kind.mbjor");
 
-    static final boolean SORT_INDY_BSS_MAJOR
-        = Boolean.getBoolean(COM_PREFIX+"sort.indy.bss.major");
+    stbtic finbl boolebn SORT_INDY_BSS_MAJOR
+        = Boolebn.getBoolebn(COM_PREFIX+"sort.indy.bss.mbjor");
 
-    static final boolean SORT_BSS_BSM_MAJOR
-        = Boolean.getBoolean(COM_PREFIX+"sort.bss.bsm.major");
+    stbtic finbl boolebn SORT_BSS_BSM_MAJOR
+        = Boolebn.getBoolebn(COM_PREFIX+"sort.bss.bsm.mbjor");
 
-    static class Pack200Logger {
-        private final String name;
-        private PlatformLogger log;
-        Pack200Logger(String name) {
-            this.name = name;
+    stbtic clbss Pbck200Logger {
+        privbte finbl String nbme;
+        privbte PlbtformLogger log;
+        Pbck200Logger(String nbme) {
+            this.nbme = nbme;
         }
 
-        private synchronized PlatformLogger getLogger() {
+        privbte synchronized PlbtformLogger getLogger() {
             if (log == null) {
-                log = PlatformLogger.getLogger(name);
+                log = PlbtformLogger.getLogger(nbme);
             }
             return log;
         }
 
-        public void warning(String msg, Object param) {
-                getLogger().warning(msg, param);
+        public void wbrning(String msg, Object pbrbm) {
+                getLogger().wbrning(msg, pbrbm);
             }
 
-        public void warning(String msg) {
-            warning(msg, null);
+        public void wbrning(String msg) {
+            wbrning(msg, null);
         }
 
         public void info(String msg) {
-            int verbose = currentPropMap().getInteger(DEBUG_VERBOSE);
+            int verbose = currentPropMbp().getInteger(DEBUG_VERBOSE);
             if (verbose > 0) {
                 if (nolog) {
                     System.out.println(msg);
@@ -196,86 +196,86 @@ class Utils {
         }
 
         public void fine(String msg) {
-            int verbose = currentPropMap().getInteger(DEBUG_VERBOSE);
+            int verbose = currentPropMbp().getInteger(DEBUG_VERBOSE);
             if (verbose > 0) {
                     System.out.println(msg);
             }
         }
     }
 
-    static final Pack200Logger log
-        = new Pack200Logger("java.util.jar.Pack200");
+    stbtic finbl Pbck200Logger log
+        = new Pbck200Logger("jbvb.util.jbr.Pbck200");
 
-    // Returns the Max Version String of this implementation
-    static String getVersionString() {
-        return "Pack200, Vendor: " +
-            System.getProperty("java.vendor") +
-            ", Version: " + Constants.MAX_PACKAGE_VERSION;
+    // Returns the Mbx Version String of this implementbtion
+    stbtic String getVersionString() {
+        return "Pbck200, Vendor: " +
+            System.getProperty("jbvb.vendor") +
+            ", Version: " + Constbnts.MAX_PACKAGE_VERSION;
     }
 
-    static void markJarFile(JarOutputStream out) throws IOException {
+    stbtic void mbrkJbrFile(JbrOutputStrebm out) throws IOException {
         out.setComment(PACK_ZIP_ARCHIVE_MARKER_COMMENT);
     }
 
     // -0 mode helper
-    static void copyJarFile(JarInputStream in, JarOutputStream out) throws IOException {
-        if (in.getManifest() != null) {
-            ZipEntry me = new ZipEntry(JarFile.MANIFEST_NAME);
+    stbtic void copyJbrFile(JbrInputStrebm in, JbrOutputStrebm out) throws IOException {
+        if (in.getMbnifest() != null) {
+            ZipEntry me = new ZipEntry(JbrFile.MANIFEST_NAME);
             out.putNextEntry(me);
-            in.getManifest().write(out);
+            in.getMbnifest().write(out);
             out.closeEntry();
         }
         byte[] buffer = new byte[1 << 14];
-        for (JarEntry je; (je = in.getNextJarEntry()) != null; ) {
+        for (JbrEntry je; (je = in.getNextJbrEntry()) != null; ) {
             out.putNextEntry(je);
-            for (int nr; 0 < (nr = in.read(buffer)); ) {
+            for (int nr; 0 < (nr = in.rebd(buffer)); ) {
                 out.write(buffer, 0, nr);
             }
         }
         in.close();
-        markJarFile(out);  // add PACK200 comment
+        mbrkJbrFile(out);  // bdd PACK200 comment
     }
-    static void copyJarFile(JarFile in, JarOutputStream out) throws IOException {
+    stbtic void copyJbrFile(JbrFile in, JbrOutputStrebm out) throws IOException {
         byte[] buffer = new byte[1 << 14];
-        for (JarEntry je : Collections.list(in.entries())) {
+        for (JbrEntry je : Collections.list(in.entries())) {
             out.putNextEntry(je);
-            InputStream ein = in.getInputStream(je);
-            for (int nr; 0 < (nr = ein.read(buffer)); ) {
+            InputStrebm ein = in.getInputStrebm(je);
+            for (int nr; 0 < (nr = ein.rebd(buffer)); ) {
                 out.write(buffer, 0, nr);
             }
         }
         in.close();
-        markJarFile(out);  // add PACK200 comment
+        mbrkJbrFile(out);  // bdd PACK200 comment
     }
-    static void copyJarFile(JarInputStream in, OutputStream out) throws IOException {
-        // 4947205 : Peformance is slow when using pack-effort=0
-        out = new BufferedOutputStream(out);
-        out = new NonCloser(out); // protect from JarOutputStream.close()
-        try (JarOutputStream jout = new JarOutputStream(out)) {
-            copyJarFile(in, jout);
+    stbtic void copyJbrFile(JbrInputStrebm in, OutputStrebm out) throws IOException {
+        // 4947205 : Peformbnce is slow when using pbck-effort=0
+        out = new BufferedOutputStrebm(out);
+        out = new NonCloser(out); // protect from JbrOutputStrebm.close()
+        try (JbrOutputStrebm jout = new JbrOutputStrebm(out)) {
+            copyJbrFile(in, jout);
         }
     }
-    static void copyJarFile(JarFile in, OutputStream out) throws IOException {
+    stbtic void copyJbrFile(JbrFile in, OutputStrebm out) throws IOException {
 
-        // 4947205 : Peformance is slow when using pack-effort=0
-        out = new BufferedOutputStream(out);
-        out = new NonCloser(out); // protect from JarOutputStream.close()
-        try (JarOutputStream jout = new JarOutputStream(out)) {
-            copyJarFile(in, jout);
+        // 4947205 : Peformbnce is slow when using pbck-effort=0
+        out = new BufferedOutputStrebm(out);
+        out = new NonCloser(out); // protect from JbrOutputStrebm.close()
+        try (JbrOutputStrebm jout = new JbrOutputStrebm(out)) {
+            copyJbrFile(in, jout);
         }
     }
-        // Wrapper to prevent closing of client-supplied stream.
-    static private
-    class NonCloser extends FilterOutputStream {
-        NonCloser(OutputStream out) { super(out); }
+        // Wrbpper to prevent closing of client-supplied strebm.
+    stbtic privbte
+    clbss NonCloser extends FilterOutputStrebm {
+        NonCloser(OutputStrebm out) { super(out); }
         public void close() throws IOException { flush(); }
     }
-   static String getJarEntryName(String name) {
-        if (name == null)  return null;
-        return name.replace(File.separatorChar, '/');
+   stbtic String getJbrEntryNbme(String nbme) {
+        if (nbme == null)  return null;
+        return nbme.replbce(File.sepbrbtorChbr, '/');
     }
 
-    static String zeString(ZipEntry ze) {
+    stbtic String zeString(ZipEntry ze) {
         int store = (ze.getCompressedSize() > 0) ?
             (int)( (1.0 - ((double)ze.getCompressedSize()/(double)ze.getSize()))*100 )
             : 0 ;
@@ -283,45 +283,45 @@ class Utils {
         return ze.getSize() + "\t" + ze.getMethod()
             + "\t" + ze.getCompressedSize() + "\t"
             + store + "%\t"
-            + new Date(ze.getTime()) + "\t"
+            + new Dbte(ze.getTime()) + "\t"
             + Long.toHexString(ze.getCrc()) + "\t"
-            + ze.getName() ;
+            + ze.getNbme() ;
     }
 
 
 
-    static byte[] readMagic(BufferedInputStream in) throws IOException {
-        in.mark(4);
-        byte[] magic = new byte[4];
-        for (int i = 0; i < magic.length; i++) {
-            // read 1 byte at a time, so we always get 4
-            if (1 != in.read(magic, i, 1))
-                break;
+    stbtic byte[] rebdMbgic(BufferedInputStrebm in) throws IOException {
+        in.mbrk(4);
+        byte[] mbgic = new byte[4];
+        for (int i = 0; i < mbgic.length; i++) {
+            // rebd 1 byte bt b time, so we blwbys get 4
+            if (1 != in.rebd(mbgic, i, 1))
+                brebk;
         }
         in.reset();
-        return magic;
+        return mbgic;
     }
 
-    // magic number recognizers
-    static boolean isJarMagic(byte[] magic) {
-        return (magic[0] == (byte)'P' &&
-                magic[1] == (byte)'K' &&
-                magic[2] >= 1 &&
-                magic[2] <  8 &&
-                magic[3] == magic[2] + 1);
+    // mbgic number recognizers
+    stbtic boolebn isJbrMbgic(byte[] mbgic) {
+        return (mbgic[0] == (byte)'P' &&
+                mbgic[1] == (byte)'K' &&
+                mbgic[2] >= 1 &&
+                mbgic[2] <  8 &&
+                mbgic[3] == mbgic[2] + 1);
     }
-    static boolean isPackMagic(byte[] magic) {
-        return (magic[0] == (byte)0xCA &&
-                magic[1] == (byte)0xFE &&
-                magic[2] == (byte)0xD0 &&
-                magic[3] == (byte)0x0D);
+    stbtic boolebn isPbckMbgic(byte[] mbgic) {
+        return (mbgic[0] == (byte)0xCA &&
+                mbgic[1] == (byte)0xFE &&
+                mbgic[2] == (byte)0xD0 &&
+                mbgic[3] == (byte)0x0D);
     }
-    static boolean isGZIPMagic(byte[] magic) {
-        return (magic[0] == (byte)0x1F &&
-                magic[1] == (byte)0x8B &&
-                magic[2] == (byte)0x08);
-        // fourth byte is variable "flg" field
+    stbtic boolebn isGZIPMbgic(byte[] mbgic) {
+        return (mbgic[0] == (byte)0x1F &&
+                mbgic[1] == (byte)0x8B &&
+                mbgic[2] == (byte)0x08);
+        // fourth byte is vbribble "flg" field
     }
 
-    private Utils() { } // do not instantiate
+    privbte Utils() { } // do not instbntibte
 }

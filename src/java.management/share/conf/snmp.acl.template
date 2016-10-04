@@ -1,110 +1,110 @@
 # ----------------------------------------------------------------------
-#           Template for SNMP Access Control List File
+#           Templbte for SNMP Access Control List File
 #
-# o Copy this template to snmp.acl
-# o Set access control for SNMP support
-# o Change the permission of snmp.acl to be read-only
+# o Copy this templbte to snmp.bcl
+# o Set bccess control for SNMP support
+# o Chbnge the permission of snmp.bcl to be rebd-only
 #   by the owner.
 #
-# See below for the location of snmp.acl file.
+# See below for the locbtion of snmp.bcl file.
 # ----------------------------------------------------------------------
 
 ############################################################
 #            SNMP Access Control List File  
 ############################################################
 #
-# Default location of this file is $JRE/lib/management/snmp.acl.
-# You can specify an alternate location by specifying a property in 
-# the management config file $JRE/lib/management/management.properties
-# or by specifying a system property (See that file for details).
+# Defbult locbtion of this file is $JRE/lib/mbnbgement/snmp.bcl.
+# You cbn specify bn blternbte locbtion by specifying b property in 
+# the mbnbgement config file $JRE/lib/mbnbgement/mbnbgement.properties
+# or by specifying b system property (See thbt file for detbils).
 #
 
 
 ##############################################################
-#        File permissions of the snmp.acl file
+#        File permissions of the snmp.bcl file
 ##############################################################
 # 
-#      Since there are cleartext community strings stored in this file,
-#      this ACL file must be readable by ONLY the owner,
-#      otherwise the program will exit with an error. 
+#      Since there bre clebrtext community strings stored in this file,
+#      this ACL file must be rebdbble by ONLY the owner,
+#      otherwise the progrbm will exit with bn error. 
 #
 ##############################################################
-#		Format of the acl group
+#		Formbt of the bcl group
 ##############################################################
 #
-# communities: a list of SNMP community strings to which the
-#              access control applies separated by commas.
+# communities: b list of SNMP community strings to which the
+#              bccess control bpplies sepbrbted by commbs.
 #
-# access: either "read-only" or "read-write".
+# bccess: either "rebd-only" or "rebd-write".
 #
-# managers: a list of hosts to be granted the access rights.
-#    Each can be expressed as any one of the following:
-#    - hostname: hubble
-#    - ip v4 and v6 addresses: 123.456.789.12 , fe80::a00:20ff:fe9b:ea82
-#    - ip v4 and v6 netmask prefix notation: 123.456.789.0/24, 
-#         fe80::a00:20ff:fe9b:ea82/64  
+# mbnbgers: b list of hosts to be grbnted the bccess rights.
+#    Ebch cbn be expressed bs bny one of the following:
+#    - hostnbme: hubble
+#    - ip v4 bnd v6 bddresses: 123.456.789.12 , fe80::b00:20ff:fe9b:eb82
+#    - ip v4 bnd v6 netmbsk prefix notbtion: 123.456.789.0/24, 
+#         fe80::b00:20ff:fe9b:eb82/64  
 #      see RFC 2373 (http://www.ietf.org/rfc/rfc2373.txt)
 #
-# An example of two community groups for multiple hosts:
-#    acl = {
+# An exbmple of two community groups for multiple hosts:
+#    bcl = {
 #     {
-#       communities = public, private
-#       access = read-only
-#       managers = hubble, snowbell, nanak
+#       communities = public, privbte
+#       bccess = rebd-only
+#       mbnbgers = hubble, snowbell, nbnbk
 #     }
 #     {
 #       communities = jerry
-#       access = read-write
-#       managers = hubble, telescope
+#       bccess = rebd-write
+#       mbnbgers = hubble, telescope
 #     }
 #    }
 # 
 ##############################################################
-#                   Format of the trap group
+#                   Formbt of the trbp group
 ##############################################################
 #
-# trap-community: a single SNMP community string that will be included
-#                 in  the traps sent to the hosts.
+# trbp-community: b single SNMP community string thbt will be included
+#                 in  the trbps sent to the hosts.
 #
-# hosts: a list of hosts to which the SNMP agent will send traps.
+# hosts: b list of hosts to which the SNMP bgent will send trbps.
 #
-# An example of two trap community definitions for multiple hosts:
-#    trap = {
+# An exbmple of two trbp community definitions for multiple hosts:
+#    trbp = {
 #      {
-#        trap-community = public
+#        trbp-community = public
 #        hosts = hubble, snowbell
 #      }
 #      {
-#        trap-community = private
+#        trbp-community = privbte
 #        hosts = telescope
 #      }
 #    }
 #
 ############################################################
 #
-#  Update the community strings (public and private) below
-#  before copying this template file
+#  Updbte the community strings (public bnd privbte) below
+#  before copying this templbte file
 # 	
-# Common SNMP ACL Example
+# Common SNMP ACL Exbmple
 # ------------------------
 #
-# o Only localhost can connect, and access rights
-#   are limited to read-only
-# o Traps are sent to localhost only
+# o Only locblhost cbn connect, bnd bccess rights
+#   bre limited to rebd-only
+# o Trbps bre sent to locblhost only
 #
 #
-# acl = {
+# bcl = {
 #  {
-#    communities = public, private
-#    access = read-only
-#    managers = localhost
+#    communities = public, privbte
+#    bccess = rebd-only
+#    mbnbgers = locblhost
 #  }
 # }
 # 
 # 
-# trap = {
+# trbp = {
 #   {
-#     trap-community = public
-#     hosts = localhost 
+#     trbp-community = public
+#     hosts = locblhost 
 #   }
 # }

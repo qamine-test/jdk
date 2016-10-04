@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.UIResource;
+import jbvbx.swing.text.JTextComponent;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtilControlSize.*;
+import com.bpple.lbf.AqubUtilControlSize.*;
 
-public abstract class AquaBorder implements Border, UIResource {
-    protected final AquaPainter<? extends JRSUIState> painter;
-    protected final SizeDescriptor sizeDescriptor;
-    protected SizeVariant sizeVariant;
+public bbstrbct clbss AqubBorder implements Border, UIResource {
+    protected finbl AqubPbinter<? extends JRSUIStbte> pbinter;
+    protected finbl SizeDescriptor sizeDescriptor;
+    protected SizeVbribnt sizeVbribnt;
 
-    protected AquaBorder(final SizeDescriptor sizeDescriptor) {
+    protected AqubBorder(finbl SizeDescriptor sizeDescriptor) {
         this.sizeDescriptor = sizeDescriptor;
-        this.sizeVariant = sizeDescriptor.get(Size.REGULAR);
-        this.painter = createPainter();
+        this.sizeVbribnt = sizeDescriptor.get(Size.REGULAR);
+        this.pbinter = crebtePbinter();
     }
 
-    protected AquaPainter<? extends JRSUIState> createPainter() {
-        final AquaPainter<JRSUIState> painter = AquaPainter.create(JRSUIState.getInstance());
-        painter.state.set(AlignmentVertical.CENTER);
-        painter.state.set(AlignmentHorizontal.CENTER);
-        return painter;
+    protected AqubPbinter<? extends JRSUIStbte> crebtePbinter() {
+        finbl AqubPbinter<JRSUIStbte> pbinter = AqubPbinter.crebte(JRSUIStbte.getInstbnce());
+        pbinter.stbte.set(AlignmentVerticbl.CENTER);
+        pbinter.stbte.set(AlignmentHorizontbl.CENTER);
+        return pbinter;
     }
 
-    protected AquaBorder(final AquaBorder other) {
+    protected AqubBorder(finbl AqubBorder other) {
         this.sizeDescriptor = other.sizeDescriptor;
-        this.sizeVariant = other.sizeVariant;
-        this.painter = AquaPainter.create(other.painter.state.derive());
-        painter.state.set(AlignmentVertical.CENTER);
-        painter.state.set(AlignmentHorizontal.CENTER);
+        this.sizeVbribnt = other.sizeVbribnt;
+        this.pbinter = AqubPbinter.crebte(other.pbinter.stbte.derive());
+        pbinter.stbte.set(AlignmentVerticbl.CENTER);
+        pbinter.stbte.set(AlignmentHorizontbl.CENTER);
     }
 
-    protected void setSize(final Size size) {
-        sizeVariant = sizeDescriptor.get(size);
-        painter.state.set(size);
+    protected void setSize(finbl Size size) {
+        sizeVbribnt = sizeDescriptor.get(size);
+        pbinter.stbte.set(size);
     }
 
-    public Insets getBorderInsets(final Component c) {
-        return sizeVariant.margins;
+    public Insets getBorderInsets(finbl Component c) {
+        return sizeVbribnt.mbrgins;
     }
 
-    protected AquaBorder deriveBorderForSize(final Size size) {
+    protected AqubBorder deriveBorderForSize(finbl Size size) {
         try {
-            final Class<? extends AquaBorder> clazz = getClass();
-            final AquaBorder border = clazz.getConstructor(new Class<?>[] { clazz }).newInstance(new Object[] { this });
+            finbl Clbss<? extends AqubBorder> clbzz = getClbss();
+            finbl AqubBorder border = clbzz.getConstructor(new Clbss<?>[] { clbzz }).newInstbnce(new Object[] { this });
             border.setSize(size);
             return border;
-        } catch (final Throwable e) {
+        } cbtch (finbl Throwbble e) {
             return null;
         }
     }
 
-    public static void repaintBorder(final JComponent c) {
+    public stbtic void repbintBorder(finbl JComponent c) {
         JComponent borderedComponent = c;
         Border border = c.getBorder();
         if (border == null) {
-            // See if it's inside a JScrollpane or something
-            final Container p = c.getParent();
-            if (p instanceof JViewport) {
-                borderedComponent = (JComponent)p.getParent();
+            // See if it's inside b JScrollpbne or something
+            finbl Contbiner p = c.getPbrent();
+            if (p instbnceof JViewport) {
+                borderedComponent = (JComponent)p.getPbrent();
                 if (borderedComponent != null) border = borderedComponent.getBorder();
             }
         }
 
-        // If we really don't have a border, then bail
-        // It might be a compound border with a ThemeBorder inside
-        // The check for that case is tricky, so we just go ahead and repaint any border
+        // If we reblly don't hbve b border, then bbil
+        // It might be b compound border with b ThemeBorder inside
+        // The check for thbt cbse is tricky, so we just go bhebd bnd repbint bny border
         if (border == null || borderedComponent == null) return;
 
-        final int width = borderedComponent.getWidth();
-        final int height = borderedComponent.getHeight();
-        final Insets i = borderedComponent.getInsets();
+        finbl int width = borderedComponent.getWidth();
+        finbl int height = borderedComponent.getHeight();
+        finbl Insets i = borderedComponent.getInsets();
 
-        borderedComponent.repaint(0, 0, width, i.top); // Top edge
-        borderedComponent.repaint(0, 0, i.left, height); // Left edge
-        borderedComponent.repaint(0, height - i.bottom, width, i.bottom); // Bottom edge
-        borderedComponent.repaint(width - i.right, 0, i.right, height); // Right edge
+        borderedComponent.repbint(0, 0, width, i.top); // Top edge
+        borderedComponent.repbint(0, 0, i.left, height); // Left edge
+        borderedComponent.repbint(0, height - i.bottom, width, i.bottom); // Bottom edge
+        borderedComponent.repbint(width - i.right, 0, i.right, height); // Right edge
     }
 
-    // The JScrollPane doesn't let us know if its viewport view has focus
-    protected boolean isFocused(final Component c) {
-        // Being really paranoid in case this Component isn't a Swing component
-        Component focusable = c;
+    // The JScrollPbne doesn't let us know if its viewport view hbs focus
+    protected boolebn isFocused(finbl Component c) {
+        // Being reblly pbrbnoid in cbse this Component isn't b Swing component
+        Component focusbble = c;
 
-        if (c instanceof JScrollPane) {
-            final JViewport vp = ((JScrollPane)c).getViewport();
+        if (c instbnceof JScrollPbne) {
+            finbl JViewport vp = ((JScrollPbne)c).getViewport();
             if (vp != null) {
-                focusable = vp.getView();
-                // Lists, Tables & Trees get focus rings, TextAreas don't (JBuilder puts TextField border on TextAreas)
-                if (focusable instanceof JTextComponent) return false;
+                focusbble = vp.getView();
+                // Lists, Tbbles & Trees get focus rings, TextArebs don't (JBuilder puts TextField border on TextArebs)
+                if (focusbble instbnceof JTextComponent) return fblse;
             }
-        } else if (focusable instanceof JTextComponent) {
-            // non-editable text areas don't draw the focus ring
-            if (!((javax.swing.text.JTextComponent)focusable).isEditable()) return false;
+        } else if (focusbble instbnceof JTextComponent) {
+            // non-editbble text brebs don't drbw the focus ring
+            if (!((jbvbx.swing.text.JTextComponent)focusbble).isEditbble()) return fblse;
         }
 
-        return (focusable != null && focusable instanceof JComponent && ((JComponent)focusable).hasFocus());
+        return (focusbble != null && focusbble instbnceof JComponent && ((JComponent)focusbble).hbsFocus());
     }
 
-    public boolean isBorderOpaque() { return false; }
+    public boolebn isBorderOpbque() { return fblse; }
 
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
-        painter.paint(g, c, x, y, w, h);
+    public void pbintBorder(finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int w, finbl int h) {
+        pbinter.pbint(g, c, x, y, w, h);
     }
 
-    static class Default extends AquaBorder {
-        Default() { super(new SizeDescriptor(new SizeVariant())); }
+    stbtic clbss Defbult extends AqubBorder {
+        Defbult() { super(new SizeDescriptor(new SizeVbribnt())); }
     }
 }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,52 +57,52 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
 
 /**
- * An {@link AnnotationVisitor} adapter for type remapping.
+ * An {@link AnnotbtionVisitor} bdbpter for type rembpping.
  *
- * @author Eugene Kuleshov
+ * @buthor Eugene Kuleshov
  */
-public class RemappingAnnotationAdapter extends AnnotationVisitor {
+public clbss RembppingAnnotbtionAdbpter extends AnnotbtionVisitor {
 
-    protected final Remapper remapper;
+    protected finbl Rembpper rembpper;
 
-    public RemappingAnnotationAdapter(final AnnotationVisitor av,
-            final Remapper remapper) {
-        this(Opcodes.ASM5, av, remapper);
+    public RembppingAnnotbtionAdbpter(finbl AnnotbtionVisitor bv,
+            finbl Rembpper rembpper) {
+        this(Opcodes.ASM5, bv, rembpper);
     }
 
-    protected RemappingAnnotationAdapter(final int api,
-            final AnnotationVisitor av, final Remapper remapper) {
-        super(api, av);
-        this.remapper = remapper;
-    }
-
-    @Override
-    public void visit(String name, Object value) {
-        av.visit(name, remapper.mapValue(value));
+    protected RembppingAnnotbtionAdbpter(finbl int bpi,
+            finbl AnnotbtionVisitor bv, finbl Rembpper rembpper) {
+        super(bpi, bv);
+        this.rembpper = rembpper;
     }
 
     @Override
-    public void visitEnum(String name, String desc, String value) {
-        av.visitEnum(name, remapper.mapDesc(desc), value);
+    public void visit(String nbme, Object vblue) {
+        bv.visit(nbme, rembpper.mbpVblue(vblue));
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(String name, String desc) {
-        AnnotationVisitor v = av.visitAnnotation(name, remapper.mapDesc(desc));
-        return v == null ? null : (v == av ? this
-                : new RemappingAnnotationAdapter(v, remapper));
+    public void visitEnum(String nbme, String desc, String vblue) {
+        bv.visitEnum(nbme, rembpper.mbpDesc(desc), vblue);
     }
 
     @Override
-    public AnnotationVisitor visitArray(String name) {
-        AnnotationVisitor v = av.visitArray(name);
-        return v == null ? null : (v == av ? this
-                : new RemappingAnnotationAdapter(v, remapper));
+    public AnnotbtionVisitor visitAnnotbtion(String nbme, String desc) {
+        AnnotbtionVisitor v = bv.visitAnnotbtion(nbme, rembpper.mbpDesc(desc));
+        return v == null ? null : (v == bv ? this
+                : new RembppingAnnotbtionAdbpter(v, rembpper));
+    }
+
+    @Override
+    public AnnotbtionVisitor visitArrby(String nbme) {
+        AnnotbtionVisitor v = bv.visitArrby(nbme);
+        return v == null ? null : (v == bv ? this
+                : new RembppingAnnotbtionAdbpter(v, rembpper));
     }
 }

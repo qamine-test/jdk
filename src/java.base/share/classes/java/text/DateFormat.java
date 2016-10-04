@@ -1,1040 +1,1040 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.io.InvalidObjectException;
-import java.text.spi.DateFormatProvider;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
-import java.util.spi.LocaleServiceProvider;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvb.io.InvblidObjectException;
+import jbvb.text.spi.DbteFormbtProvider;
+import jbvb.util.Cblendbr;
+import jbvb.util.Dbte;
+import jbvb.util.GregoribnCblendbr;
+import jbvb.util.HbshMbp;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
+import jbvb.util.TimeZone;
+import jbvb.util.spi.LocbleServiceProvider;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleServiceProviderPool;
 
 /**
- * {@code DateFormat} is an abstract class for date/time formatting subclasses which
- * formats and parses dates or time in a language-independent manner.
- * The date/time formatting subclass, such as {@link SimpleDateFormat}, allows for
- * formatting (i.e., date &rarr; text), parsing (text &rarr; date), and
- * normalization.  The date is represented as a <code>Date</code> object or
- * as the milliseconds since January 1, 1970, 00:00:00 GMT.
+ * {@code DbteFormbt} is bn bbstrbct clbss for dbte/time formbtting subclbsses which
+ * formbts bnd pbrses dbtes or time in b lbngubge-independent mbnner.
+ * The dbte/time formbtting subclbss, such bs {@link SimpleDbteFormbt}, bllows for
+ * formbtting (i.e., dbte &rbrr; text), pbrsing (text &rbrr; dbte), bnd
+ * normblizbtion.  The dbte is represented bs b <code>Dbte</code> object or
+ * bs the milliseconds since Jbnubry 1, 1970, 00:00:00 GMT.
  *
- * <p>{@code DateFormat} provides many class methods for obtaining default date/time
- * formatters based on the default or a given locale and a number of formatting
- * styles. The formatting styles include {@link #FULL}, {@link #LONG}, {@link #MEDIUM}, and {@link #SHORT}. More
- * detail and examples of using these styles are provided in the method
+ * <p>{@code DbteFormbt} provides mbny clbss methods for obtbining defbult dbte/time
+ * formbtters bbsed on the defbult or b given locble bnd b number of formbtting
+ * styles. The formbtting styles include {@link #FULL}, {@link #LONG}, {@link #MEDIUM}, bnd {@link #SHORT}. More
+ * detbil bnd exbmples of using these styles bre provided in the method
  * descriptions.
  *
- * <p>{@code DateFormat} helps you to format and parse dates for any locale.
- * Your code can be completely independent of the locale conventions for
- * months, days of the week, or even the calendar format: lunar vs. solar.
+ * <p>{@code DbteFormbt} helps you to formbt bnd pbrse dbtes for bny locble.
+ * Your code cbn be completely independent of the locble conventions for
+ * months, dbys of the week, or even the cblendbr formbt: lunbr vs. solbr.
  *
- * <p>To format a date for the current Locale, use one of the
- * static factory methods:
+ * <p>To formbt b dbte for the current Locble, use one of the
+ * stbtic fbctory methods:
  * <blockquote>
  * <pre>{@code
- * myString = DateFormat.getDateInstance().format(myDate);
+ * myString = DbteFormbt.getDbteInstbnce().formbt(myDbte);
  * }</pre>
  * </blockquote>
- * <p>If you are formatting multiple dates, it is
- * more efficient to get the format and use it multiple times so that
- * the system doesn't have to fetch the information about the local
- * language and country conventions multiple times.
+ * <p>If you bre formbtting multiple dbtes, it is
+ * more efficient to get the formbt bnd use it multiple times so thbt
+ * the system doesn't hbve to fetch the informbtion bbout the locbl
+ * lbngubge bnd country conventions multiple times.
  * <blockquote>
  * <pre>{@code
- * DateFormat df = DateFormat.getDateInstance();
- * for (int i = 0; i < myDate.length; ++i) {
- *     output.println(df.format(myDate[i]) + "; ");
+ * DbteFormbt df = DbteFormbt.getDbteInstbnce();
+ * for (int i = 0; i < myDbte.length; ++i) {
+ *     output.println(df.formbt(myDbte[i]) + "; ");
  * }
  * }</pre>
  * </blockquote>
- * <p>To format a date for a different Locale, specify it in the
- * call to {@link #getDateInstance(int, Locale) getDateInstance()}.
+ * <p>To formbt b dbte for b different Locble, specify it in the
+ * cbll to {@link #getDbteInstbnce(int, Locble) getDbteInstbnce()}.
  * <blockquote>
  * <pre>{@code
- * DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, Locale.FRANCE);
+ * DbteFormbt df = DbteFormbt.getDbteInstbnce(DbteFormbt.LONG, Locble.FRANCE);
  * }</pre>
  * </blockquote>
- * <p>You can use a DateFormat to parse also.
+ * <p>You cbn use b DbteFormbt to pbrse blso.
  * <blockquote>
  * <pre>{@code
- * myDate = df.parse(myString);
+ * myDbte = df.pbrse(myString);
  * }</pre>
  * </blockquote>
- * <p>Use {@code getDateInstance} to get the normal date format for that country.
- * There are other static factory methods available.
- * Use {@code getTimeInstance} to get the time format for that country.
- * Use {@code getDateTimeInstance} to get a date and time format. You can pass in
- * different options to these factory methods to control the length of the
- * result; from {@link #SHORT} to {@link #MEDIUM} to {@link #LONG} to {@link #FULL}. The exact result depends
- * on the locale, but generally:
- * <ul><li>{@link #SHORT} is completely numeric, such as {@code 12.13.52} or {@code 3:30pm}
- * <li>{@link #MEDIUM} is longer, such as {@code Jan 12, 1952}
- * <li>{@link #LONG} is longer, such as {@code January 12, 1952} or {@code 3:30:32pm}
- * <li>{@link #FULL} is pretty completely specified, such as
- * {@code Tuesday, April 12, 1952 AD or 3:30:42pm PST}.
+ * <p>Use {@code getDbteInstbnce} to get the normbl dbte formbt for thbt country.
+ * There bre other stbtic fbctory methods bvbilbble.
+ * Use {@code getTimeInstbnce} to get the time formbt for thbt country.
+ * Use {@code getDbteTimeInstbnce} to get b dbte bnd time formbt. You cbn pbss in
+ * different options to these fbctory methods to control the length of the
+ * result; from {@link #SHORT} to {@link #MEDIUM} to {@link #LONG} to {@link #FULL}. The exbct result depends
+ * on the locble, but generblly:
+ * <ul><li>{@link #SHORT} is completely numeric, such bs {@code 12.13.52} or {@code 3:30pm}
+ * <li>{@link #MEDIUM} is longer, such bs {@code Jbn 12, 1952}
+ * <li>{@link #LONG} is longer, such bs {@code Jbnubry 12, 1952} or {@code 3:30:32pm}
+ * <li>{@link #FULL} is pretty completely specified, such bs
+ * {@code Tuesdby, April 12, 1952 AD or 3:30:42pm PST}.
  * </ul>
  *
- * <p>You can also set the time zone on the format if you wish.
- * If you want even more control over the format or parsing,
- * (or want to give your users more control),
- * you can try casting the {@code DateFormat} you get from the factory methods
- * to a {@link SimpleDateFormat}. This will work for the majority
- * of countries; just remember to put it in a {@code try} block in case you
- * encounter an unusual one.
+ * <p>You cbn blso set the time zone on the formbt if you wish.
+ * If you wbnt even more control over the formbt or pbrsing,
+ * (or wbnt to give your users more control),
+ * you cbn try cbsting the {@code DbteFormbt} you get from the fbctory methods
+ * to b {@link SimpleDbteFormbt}. This will work for the mbjority
+ * of countries; just remember to put it in b {@code try} block in cbse you
+ * encounter bn unusubl one.
  *
- * <p>You can also use forms of the parse and format methods with
- * {@link ParsePosition} and {@link FieldPosition} to
- * allow you to
- * <ul><li>progressively parse through pieces of a string.
- * <li>align any particular field, or find out where it is for selection
+ * <p>You cbn blso use forms of the pbrse bnd formbt methods with
+ * {@link PbrsePosition} bnd {@link FieldPosition} to
+ * bllow you to
+ * <ul><li>progressively pbrse through pieces of b string.
+ * <li>blign bny pbrticulbr field, or find out where it is for selection
  * on the screen.
  * </ul>
  *
- * <h3><a name="synchronization">Synchronization</a></h3>
+ * <h3><b nbme="synchronizbtion">Synchronizbtion</b></h3>
  *
  * <p>
- * Date formats are not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Dbte formbts bre not synchronized.
+ * It is recommended to crebte sepbrbte formbt instbnces for ebch threbd.
+ * If multiple threbds bccess b formbt concurrently, it must be synchronized
+ * externblly.
  *
- * @see          Format
- * @see          NumberFormat
- * @see          SimpleDateFormat
- * @see          java.util.Calendar
- * @see          java.util.GregorianCalendar
- * @see          java.util.TimeZone
- * @author       Mark Davis, Chen-Lieh Huang, Alan Liu
+ * @see          Formbt
+ * @see          NumberFormbt
+ * @see          SimpleDbteFormbt
+ * @see          jbvb.util.Cblendbr
+ * @see          jbvb.util.GregoribnCblendbr
+ * @see          jbvb.util.TimeZone
+ * @buthor       Mbrk Dbvis, Chen-Lieh Hubng, Albn Liu
  */
-public abstract class DateFormat extends Format {
+public bbstrbct clbss DbteFormbt extends Formbt {
 
     /**
-     * The {@link Calendar} instance used for calculating the date-time fields
-     * and the instant of time. This field is used for both formatting and
-     * parsing.
+     * The {@link Cblendbr} instbnce used for cblculbting the dbte-time fields
+     * bnd the instbnt of time. This field is used for both formbtting bnd
+     * pbrsing.
      *
-     * <p>Subclasses should initialize this field to a {@link Calendar}
-     * appropriate for the {@link Locale} associated with this
-     * <code>DateFormat</code>.
-     * @serial
+     * <p>Subclbsses should initiblize this field to b {@link Cblendbr}
+     * bppropribte for the {@link Locble} bssocibted with this
+     * <code>DbteFormbt</code>.
+     * @seribl
      */
-    protected Calendar calendar;
+    protected Cblendbr cblendbr;
 
     /**
-     * The number formatter that <code>DateFormat</code> uses to format numbers
-     * in dates and times.  Subclasses should initialize this to a number format
-     * appropriate for the locale associated with this <code>DateFormat</code>.
-     * @serial
+     * The number formbtter thbt <code>DbteFormbt</code> uses to formbt numbers
+     * in dbtes bnd times.  Subclbsses should initiblize this to b number formbt
+     * bppropribte for the locble bssocibted with this <code>DbteFormbt</code>.
+     * @seribl
      */
-    protected NumberFormat numberFormat;
+    protected NumberFormbt numberFormbt;
 
     /**
-     * Useful constant for ERA field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for ERA field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int ERA_FIELD = 0;
+    public finbl stbtic int ERA_FIELD = 0;
     /**
-     * Useful constant for YEAR field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for YEAR field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int YEAR_FIELD = 1;
+    public finbl stbtic int YEAR_FIELD = 1;
     /**
-     * Useful constant for MONTH field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for MONTH field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int MONTH_FIELD = 2;
+    public finbl stbtic int MONTH_FIELD = 2;
     /**
-     * Useful constant for DATE field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for DATE field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int DATE_FIELD = 3;
+    public finbl stbtic int DATE_FIELD = 3;
     /**
-     * Useful constant for one-based HOUR_OF_DAY field alignment.
-     * Used in FieldPosition of date/time formatting.
-     * HOUR_OF_DAY1_FIELD is used for the one-based 24-hour clock.
-     * For example, 23:59 + 01:00 results in 24:59.
+     * Useful constbnt for one-bbsed HOUR_OF_DAY field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
+     * HOUR_OF_DAY1_FIELD is used for the one-bbsed 24-hour clock.
+     * For exbmple, 23:59 + 01:00 results in 24:59.
      */
-    public final static int HOUR_OF_DAY1_FIELD = 4;
+    public finbl stbtic int HOUR_OF_DAY1_FIELD = 4;
     /**
-     * Useful constant for zero-based HOUR_OF_DAY field alignment.
-     * Used in FieldPosition of date/time formatting.
-     * HOUR_OF_DAY0_FIELD is used for the zero-based 24-hour clock.
-     * For example, 23:59 + 01:00 results in 00:59.
+     * Useful constbnt for zero-bbsed HOUR_OF_DAY field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
+     * HOUR_OF_DAY0_FIELD is used for the zero-bbsed 24-hour clock.
+     * For exbmple, 23:59 + 01:00 results in 00:59.
      */
-    public final static int HOUR_OF_DAY0_FIELD = 5;
+    public finbl stbtic int HOUR_OF_DAY0_FIELD = 5;
     /**
-     * Useful constant for MINUTE field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for MINUTE field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int MINUTE_FIELD = 6;
+    public finbl stbtic int MINUTE_FIELD = 6;
     /**
-     * Useful constant for SECOND field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for SECOND field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int SECOND_FIELD = 7;
+    public finbl stbtic int SECOND_FIELD = 7;
     /**
-     * Useful constant for MILLISECOND field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for MILLISECOND field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int MILLISECOND_FIELD = 8;
+    public finbl stbtic int MILLISECOND_FIELD = 8;
     /**
-     * Useful constant for DAY_OF_WEEK field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for DAY_OF_WEEK field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int DAY_OF_WEEK_FIELD = 9;
+    public finbl stbtic int DAY_OF_WEEK_FIELD = 9;
     /**
-     * Useful constant for DAY_OF_YEAR field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for DAY_OF_YEAR field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int DAY_OF_YEAR_FIELD = 10;
+    public finbl stbtic int DAY_OF_YEAR_FIELD = 10;
     /**
-     * Useful constant for DAY_OF_WEEK_IN_MONTH field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for DAY_OF_WEEK_IN_MONTH field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int DAY_OF_WEEK_IN_MONTH_FIELD = 11;
+    public finbl stbtic int DAY_OF_WEEK_IN_MONTH_FIELD = 11;
     /**
-     * Useful constant for WEEK_OF_YEAR field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for WEEK_OF_YEAR field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int WEEK_OF_YEAR_FIELD = 12;
+    public finbl stbtic int WEEK_OF_YEAR_FIELD = 12;
     /**
-     * Useful constant for WEEK_OF_MONTH field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for WEEK_OF_MONTH field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int WEEK_OF_MONTH_FIELD = 13;
+    public finbl stbtic int WEEK_OF_MONTH_FIELD = 13;
     /**
-     * Useful constant for AM_PM field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for AM_PM field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int AM_PM_FIELD = 14;
+    public finbl stbtic int AM_PM_FIELD = 14;
     /**
-     * Useful constant for one-based HOUR field alignment.
-     * Used in FieldPosition of date/time formatting.
-     * HOUR1_FIELD is used for the one-based 12-hour clock.
-     * For example, 11:30 PM + 1 hour results in 12:30 AM.
+     * Useful constbnt for one-bbsed HOUR field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
+     * HOUR1_FIELD is used for the one-bbsed 12-hour clock.
+     * For exbmple, 11:30 PM + 1 hour results in 12:30 AM.
      */
-    public final static int HOUR1_FIELD = 15;
+    public finbl stbtic int HOUR1_FIELD = 15;
     /**
-     * Useful constant for zero-based HOUR field alignment.
-     * Used in FieldPosition of date/time formatting.
-     * HOUR0_FIELD is used for the zero-based 12-hour clock.
-     * For example, 11:30 PM + 1 hour results in 00:30 AM.
+     * Useful constbnt for zero-bbsed HOUR field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
+     * HOUR0_FIELD is used for the zero-bbsed 12-hour clock.
+     * For exbmple, 11:30 PM + 1 hour results in 00:30 AM.
      */
-    public final static int HOUR0_FIELD = 16;
+    public finbl stbtic int HOUR0_FIELD = 16;
     /**
-     * Useful constant for TIMEZONE field alignment.
-     * Used in FieldPosition of date/time formatting.
+     * Useful constbnt for TIMEZONE field blignment.
+     * Used in FieldPosition of dbte/time formbtting.
      */
-    public final static int TIMEZONE_FIELD = 17;
+    public finbl stbtic int TIMEZONE_FIELD = 17;
 
-    // Proclaim serial compatibility with 1.1 FCS
-    private static final long serialVersionUID = 7218322306649953788L;
+    // Proclbim seribl compbtibility with 1.1 FCS
+    privbte stbtic finbl long seriblVersionUID = 7218322306649953788L;
 
     /**
-     * Overrides Format.
-     * Formats a time object into a time string. Examples of time objects
-     * are a time value expressed in milliseconds and a Date object.
-     * @param obj must be a Number or a Date.
-     * @param toAppendTo the string buffer for the returning time string.
-     * @return the string buffer passed in as toAppendTo, with formatted text appended.
-     * @param fieldPosition keeps track of the position of the field
+     * Overrides Formbt.
+     * Formbts b time object into b time string. Exbmples of time objects
+     * bre b time vblue expressed in milliseconds bnd b Dbte object.
+     * @pbrbm obj must be b Number or b Dbte.
+     * @pbrbm toAppendTo the string buffer for the returning time string.
+     * @return the string buffer pbssed in bs toAppendTo, with formbtted text bppended.
+     * @pbrbm fieldPosition keeps trbck of the position of the field
      * within the returned string.
-     * On input: an alignment field,
-     * if desired. On output: the offsets of the alignment field. For
-     * example, given a time text "1996.07.10 AD at 15:08:56 PDT",
-     * if the given fieldPosition is DateFormat.YEAR_FIELD, the
-     * begin index and end index of fieldPosition will be set to
-     * 0 and 4, respectively.
-     * Notice that if the same time field appears
-     * more than once in a pattern, the fieldPosition will be set for the first
-     * occurrence of that time field. For instance, formatting a Date to
-     * the time string "1 PM PDT (Pacific Daylight Time)" using the pattern
-     * "h a z (zzzz)" and the alignment field DateFormat.TIMEZONE_FIELD,
-     * the begin index and end index of fieldPosition will be set to
-     * 5 and 8, respectively, for the first occurrence of the timezone
-     * pattern character 'z'.
-     * @see java.text.Format
+     * On input: bn blignment field,
+     * if desired. On output: the offsets of the blignment field. For
+     * exbmple, given b time text "1996.07.10 AD bt 15:08:56 PDT",
+     * if the given fieldPosition is DbteFormbt.YEAR_FIELD, the
+     * begin index bnd end index of fieldPosition will be set to
+     * 0 bnd 4, respectively.
+     * Notice thbt if the sbme time field bppebrs
+     * more thbn once in b pbttern, the fieldPosition will be set for the first
+     * occurrence of thbt time field. For instbnce, formbtting b Dbte to
+     * the time string "1 PM PDT (Pbcific Dbylight Time)" using the pbttern
+     * "h b z (zzzz)" bnd the blignment field DbteFormbt.TIMEZONE_FIELD,
+     * the begin index bnd end index of fieldPosition will be set to
+     * 5 bnd 8, respectively, for the first occurrence of the timezone
+     * pbttern chbrbcter 'z'.
+     * @see jbvb.text.Formbt
      */
-    public final StringBuffer format(Object obj, StringBuffer toAppendTo,
+    public finbl StringBuffer formbt(Object obj, StringBuffer toAppendTo,
                                      FieldPosition fieldPosition)
     {
-        if (obj instanceof Date)
-            return format( (Date)obj, toAppendTo, fieldPosition );
-        else if (obj instanceof Number)
-            return format( new Date(((Number)obj).longValue()),
+        if (obj instbnceof Dbte)
+            return formbt( (Dbte)obj, toAppendTo, fieldPosition );
+        else if (obj instbnceof Number)
+            return formbt( new Dbte(((Number)obj).longVblue()),
                           toAppendTo, fieldPosition );
         else
-            throw new IllegalArgumentException("Cannot format given Object as a Date");
+            throw new IllegblArgumentException("Cbnnot formbt given Object bs b Dbte");
     }
 
     /**
-     * Formats a Date into a date/time string.
-     * @param date a Date to be formatted into a date/time string.
-     * @param toAppendTo the string buffer for the returning date/time string.
-     * @param fieldPosition keeps track of the position of the field
+     * Formbts b Dbte into b dbte/time string.
+     * @pbrbm dbte b Dbte to be formbtted into b dbte/time string.
+     * @pbrbm toAppendTo the string buffer for the returning dbte/time string.
+     * @pbrbm fieldPosition keeps trbck of the position of the field
      * within the returned string.
-     * On input: an alignment field,
-     * if desired. On output: the offsets of the alignment field. For
-     * example, given a time text "1996.07.10 AD at 15:08:56 PDT",
-     * if the given fieldPosition is DateFormat.YEAR_FIELD, the
-     * begin index and end index of fieldPosition will be set to
-     * 0 and 4, respectively.
-     * Notice that if the same time field appears
-     * more than once in a pattern, the fieldPosition will be set for the first
-     * occurrence of that time field. For instance, formatting a Date to
-     * the time string "1 PM PDT (Pacific Daylight Time)" using the pattern
-     * "h a z (zzzz)" and the alignment field DateFormat.TIMEZONE_FIELD,
-     * the begin index and end index of fieldPosition will be set to
-     * 5 and 8, respectively, for the first occurrence of the timezone
-     * pattern character 'z'.
-     * @return the string buffer passed in as toAppendTo, with formatted text appended.
+     * On input: bn blignment field,
+     * if desired. On output: the offsets of the blignment field. For
+     * exbmple, given b time text "1996.07.10 AD bt 15:08:56 PDT",
+     * if the given fieldPosition is DbteFormbt.YEAR_FIELD, the
+     * begin index bnd end index of fieldPosition will be set to
+     * 0 bnd 4, respectively.
+     * Notice thbt if the sbme time field bppebrs
+     * more thbn once in b pbttern, the fieldPosition will be set for the first
+     * occurrence of thbt time field. For instbnce, formbtting b Dbte to
+     * the time string "1 PM PDT (Pbcific Dbylight Time)" using the pbttern
+     * "h b z (zzzz)" bnd the blignment field DbteFormbt.TIMEZONE_FIELD,
+     * the begin index bnd end index of fieldPosition will be set to
+     * 5 bnd 8, respectively, for the first occurrence of the timezone
+     * pbttern chbrbcter 'z'.
+     * @return the string buffer pbssed in bs toAppendTo, with formbtted text bppended.
      */
-    public abstract StringBuffer format(Date date, StringBuffer toAppendTo,
+    public bbstrbct StringBuffer formbt(Dbte dbte, StringBuffer toAppendTo,
                                         FieldPosition fieldPosition);
 
     /**
-     * Formats a Date into a date/time string.
-     * @param date the time value to be formatted into a time string.
-     * @return the formatted time string.
+     * Formbts b Dbte into b dbte/time string.
+     * @pbrbm dbte the time vblue to be formbtted into b time string.
+     * @return the formbtted time string.
      */
-    public final String format(Date date)
+    public finbl String formbt(Dbte dbte)
     {
-        return format(date, new StringBuffer(),
-                      DontCareFieldPosition.INSTANCE).toString();
+        return formbt(dbte, new StringBuffer(),
+                      DontCbreFieldPosition.INSTANCE).toString();
     }
 
     /**
-     * Parses text from the beginning of the given string to produce a date.
-     * The method may not use the entire text of the given string.
+     * Pbrses text from the beginning of the given string to produce b dbte.
+     * The method mby not use the entire text of the given string.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on date parsing.
+     * See the {@link #pbrse(String, PbrsePosition)} method for more informbtion
+     * on dbte pbrsing.
      *
-     * @param source A <code>String</code> whose beginning should be parsed.
-     * @return A <code>Date</code> parsed from the string.
-     * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+     * @pbrbm source A <code>String</code> whose beginning should be pbrsed.
+     * @return A <code>Dbte</code> pbrsed from the string.
+     * @exception PbrseException if the beginning of the specified string
+     *            cbnnot be pbrsed.
      */
-    public Date parse(String source) throws ParseException
+    public Dbte pbrse(String source) throws PbrseException
     {
-        ParsePosition pos = new ParsePosition(0);
-        Date result = parse(source, pos);
+        PbrsePosition pos = new PbrsePosition(0);
+        Dbte result = pbrse(source, pos);
         if (pos.index == 0)
-            throw new ParseException("Unparseable date: \"" + source + "\"" ,
+            throw new PbrseException("Unpbrsebble dbte: \"" + source + "\"" ,
                 pos.errorIndex);
         return result;
     }
 
     /**
-     * Parse a date/time string according to the given parse position.  For
-     * example, a time text {@code "07/10/96 4:5 PM, PDT"} will be parsed into a {@code Date}
-     * that is equivalent to {@code Date(837039900000L)}.
+     * Pbrse b dbte/time string bccording to the given pbrse position.  For
+     * exbmple, b time text {@code "07/10/96 4:5 PM, PDT"} will be pbrsed into b {@code Dbte}
+     * thbt is equivblent to {@code Dbte(837039900000L)}.
      *
-     * <p> By default, parsing is lenient: If the input is not in the form used
-     * by this object's format method but can still be parsed as a date, then
-     * the parse succeeds.  Clients may insist on strict adherence to the
-     * format by calling {@link #setLenient(boolean) setLenient(false)}.
+     * <p> By defbult, pbrsing is lenient: If the input is not in the form used
+     * by this object's formbt method but cbn still be pbrsed bs b dbte, then
+     * the pbrse succeeds.  Clients mby insist on strict bdherence to the
+     * formbt by cblling {@link #setLenient(boolebn) setLenient(fblse)}.
      *
-     * <p>This parsing operation uses the {@link #calendar} to produce
-     * a {@code Date}. As a result, the {@code calendar}'s date-time
-     * fields and the {@code TimeZone} value may have been
-     * overwritten, depending on subclass implementations. Any {@code
-     * TimeZone} value that has previously been set by a call to
-     * {@link #setTimeZone(java.util.TimeZone) setTimeZone} may need
-     * to be restored for further operations.
+     * <p>This pbrsing operbtion uses the {@link #cblendbr} to produce
+     * b {@code Dbte}. As b result, the {@code cblendbr}'s dbte-time
+     * fields bnd the {@code TimeZone} vblue mby hbve been
+     * overwritten, depending on subclbss implementbtions. Any {@code
+     * TimeZone} vblue thbt hbs previously been set by b cbll to
+     * {@link #setTimeZone(jbvb.util.TimeZone) setTimeZone} mby need
+     * to be restored for further operbtions.
      *
-     * @param source  The date/time string to be parsed
+     * @pbrbm source  The dbte/time string to be pbrsed
      *
-     * @param pos   On input, the position at which to start parsing; on
-     *              output, the position at which parsing terminated, or the
-     *              start position if the parse failed.
+     * @pbrbm pos   On input, the position bt which to stbrt pbrsing; on
+     *              output, the position bt which pbrsing terminbted, or the
+     *              stbrt position if the pbrse fbiled.
      *
-     * @return      A {@code Date}, or {@code null} if the input could not be parsed
+     * @return      A {@code Dbte}, or {@code null} if the input could not be pbrsed
      */
-    public abstract Date parse(String source, ParsePosition pos);
+    public bbstrbct Dbte pbrse(String source, PbrsePosition pos);
 
     /**
-     * Parses text from a string to produce a <code>Date</code>.
+     * Pbrses text from b string to produce b <code>Dbte</code>.
      * <p>
-     * The method attempts to parse text starting at the index given by
+     * The method bttempts to pbrse text stbrting bt the index given by
      * <code>pos</code>.
-     * If parsing succeeds, then the index of <code>pos</code> is updated
-     * to the index after the last character used (parsing does not necessarily
-     * use all characters up to the end of the string), and the parsed
-     * date is returned. The updated <code>pos</code> can be used to
-     * indicate the starting point for the next call to this method.
-     * If an error occurs, then the index of <code>pos</code> is not
-     * changed, the error index of <code>pos</code> is set to the index of
-     * the character where the error occurred, and null is returned.
+     * If pbrsing succeeds, then the index of <code>pos</code> is updbted
+     * to the index bfter the lbst chbrbcter used (pbrsing does not necessbrily
+     * use bll chbrbcters up to the end of the string), bnd the pbrsed
+     * dbte is returned. The updbted <code>pos</code> cbn be used to
+     * indicbte the stbrting point for the next cbll to this method.
+     * If bn error occurs, then the index of <code>pos</code> is not
+     * chbnged, the error index of <code>pos</code> is set to the index of
+     * the chbrbcter where the error occurred, bnd null is returned.
      * <p>
-     * See the {@link #parse(String, ParsePosition)} method for more information
-     * on date parsing.
+     * See the {@link #pbrse(String, PbrsePosition)} method for more informbtion
+     * on dbte pbrsing.
      *
-     * @param source A <code>String</code>, part of which should be parsed.
-     * @param pos A <code>ParsePosition</code> object with index and error
-     *            index information as described above.
-     * @return A <code>Date</code> parsed from the string. In case of
+     * @pbrbm source A <code>String</code>, pbrt of which should be pbrsed.
+     * @pbrbm pos A <code>PbrsePosition</code> object with index bnd error
+     *            index informbtion bs described bbove.
+     * @return A <code>Dbte</code> pbrsed from the string. In cbse of
      *         error, returns null.
      * @exception NullPointerException if <code>pos</code> is null.
      */
-    public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
+    public Object pbrseObject(String source, PbrsePosition pos) {
+        return pbrse(source, pos);
     }
 
     /**
-     * Constant for full style pattern.
+     * Constbnt for full style pbttern.
      */
-    public static final int FULL = 0;
+    public stbtic finbl int FULL = 0;
     /**
-     * Constant for long style pattern.
+     * Constbnt for long style pbttern.
      */
-    public static final int LONG = 1;
+    public stbtic finbl int LONG = 1;
     /**
-     * Constant for medium style pattern.
+     * Constbnt for medium style pbttern.
      */
-    public static final int MEDIUM = 2;
+    public stbtic finbl int MEDIUM = 2;
     /**
-     * Constant for short style pattern.
+     * Constbnt for short style pbttern.
      */
-    public static final int SHORT = 3;
+    public stbtic finbl int SHORT = 3;
     /**
-     * Constant for default style pattern.  Its value is MEDIUM.
+     * Constbnt for defbult style pbttern.  Its vblue is MEDIUM.
      */
-    public static final int DEFAULT = MEDIUM;
+    public stbtic finbl int DEFAULT = MEDIUM;
 
     /**
-     * Gets the time formatter with the default formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getTimeInstance(int, Locale) getTimeInstance(DEFAULT,
-     *     Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @return a time formatter.
+     * Gets the time formbtter with the defbult formbtting style
+     * for the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getTimeInstbnce(int, Locble) getTimeInstbnce(DEFAULT,
+     *     Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @return b time formbtter.
      */
-    public final static DateFormat getTimeInstance()
+    public finbl stbtic DbteFormbt getTimeInstbnce()
     {
-        return get(DEFAULT, 0, 1, Locale.getDefault(Locale.Category.FORMAT));
+        return get(DEFAULT, 0, 1, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets the time formatter with the given formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getTimeInstance(int, Locale) getTimeInstance(style,
-     *     Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @param style the given formatting style. For example,
-     * SHORT for "h:mm a" in the US locale.
-     * @return a time formatter.
+     * Gets the time formbtter with the given formbtting style
+     * for the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getTimeInstbnce(int, Locble) getTimeInstbnce(style,
+     *     Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @pbrbm style the given formbtting style. For exbmple,
+     * SHORT for "h:mm b" in the US locble.
+     * @return b time formbtter.
      */
-    public final static DateFormat getTimeInstance(int style)
+    public finbl stbtic DbteFormbt getTimeInstbnce(int style)
     {
-        return get(style, 0, 1, Locale.getDefault(Locale.Category.FORMAT));
+        return get(style, 0, 1, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets the time formatter with the given formatting style
-     * for the given locale.
-     * @param style the given formatting style. For example,
-     * SHORT for "h:mm a" in the US locale.
-     * @param aLocale the given locale.
-     * @return a time formatter.
+     * Gets the time formbtter with the given formbtting style
+     * for the given locble.
+     * @pbrbm style the given formbtting style. For exbmple,
+     * SHORT for "h:mm b" in the US locble.
+     * @pbrbm bLocble the given locble.
+     * @return b time formbtter.
      */
-    public final static DateFormat getTimeInstance(int style,
-                                                 Locale aLocale)
+    public finbl stbtic DbteFormbt getTimeInstbnce(int style,
+                                                 Locble bLocble)
     {
-        return get(style, 0, 1, aLocale);
+        return get(style, 0, 1, bLocble);
     }
 
     /**
-     * Gets the date formatter with the default formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getDateInstance(int, Locale) getDateInstance(DEFAULT,
-     *     Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @return a date formatter.
+     * Gets the dbte formbtter with the defbult formbtting style
+     * for the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getDbteInstbnce(int, Locble) getDbteInstbnce(DEFAULT,
+     *     Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @return b dbte formbtter.
      */
-    public final static DateFormat getDateInstance()
+    public finbl stbtic DbteFormbt getDbteInstbnce()
     {
-        return get(0, DEFAULT, 2, Locale.getDefault(Locale.Category.FORMAT));
+        return get(0, DEFAULT, 2, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets the date formatter with the given formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getDateInstance(int, Locale) getDateInstance(style,
-     *     Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @param style the given formatting style. For example,
-     * SHORT for "M/d/yy" in the US locale.
-     * @return a date formatter.
+     * Gets the dbte formbtter with the given formbtting style
+     * for the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getDbteInstbnce(int, Locble) getDbteInstbnce(style,
+     *     Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @pbrbm style the given formbtting style. For exbmple,
+     * SHORT for "M/d/yy" in the US locble.
+     * @return b dbte formbtter.
      */
-    public final static DateFormat getDateInstance(int style)
+    public finbl stbtic DbteFormbt getDbteInstbnce(int style)
     {
-        return get(0, style, 2, Locale.getDefault(Locale.Category.FORMAT));
+        return get(0, style, 2, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets the date formatter with the given formatting style
-     * for the given locale.
-     * @param style the given formatting style. For example,
-     * SHORT for "M/d/yy" in the US locale.
-     * @param aLocale the given locale.
-     * @return a date formatter.
+     * Gets the dbte formbtter with the given formbtting style
+     * for the given locble.
+     * @pbrbm style the given formbtting style. For exbmple,
+     * SHORT for "M/d/yy" in the US locble.
+     * @pbrbm bLocble the given locble.
+     * @return b dbte formbtter.
      */
-    public final static DateFormat getDateInstance(int style,
-                                                 Locale aLocale)
+    public finbl stbtic DbteFormbt getDbteInstbnce(int style,
+                                                 Locble bLocble)
     {
-        return get(0, style, 2, aLocale);
+        return get(0, style, 2, bLocble);
     }
 
     /**
-     * Gets the date/time formatter with the default formatting style
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getDateTimeInstance(int, int, Locale) getDateTimeInstance(DEFAULT,
-     *     DEFAULT, Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @return a date/time formatter.
+     * Gets the dbte/time formbtter with the defbult formbtting style
+     * for the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getDbteTimeInstbnce(int, int, Locble) getDbteTimeInstbnce(DEFAULT,
+     *     DEFAULT, Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @return b dbte/time formbtter.
      */
-    public final static DateFormat getDateTimeInstance()
+    public finbl stbtic DbteFormbt getDbteTimeInstbnce()
     {
-        return get(DEFAULT, DEFAULT, 3, Locale.getDefault(Locale.Category.FORMAT));
+        return get(DEFAULT, DEFAULT, 3, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets the date/time formatter with the given date and time
-     * formatting styles for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <p>This is equivalent to calling
-     * {@link #getDateTimeInstance(int, int, Locale) getDateTimeInstance(dateStyle,
-     *     timeStyle, Locale.getDefault(Locale.Category.FORMAT))}.
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @param dateStyle the given date formatting style. For example,
-     * SHORT for "M/d/yy" in the US locale.
-     * @param timeStyle the given time formatting style. For example,
-     * SHORT for "h:mm a" in the US locale.
-     * @return a date/time formatter.
+     * Gets the dbte/time formbtter with the given dbte bnd time
+     * formbtting styles for the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <p>This is equivblent to cblling
+     * {@link #getDbteTimeInstbnce(int, int, Locble) getDbteTimeInstbnce(dbteStyle,
+     *     timeStyle, Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @pbrbm dbteStyle the given dbte formbtting style. For exbmple,
+     * SHORT for "M/d/yy" in the US locble.
+     * @pbrbm timeStyle the given time formbtting style. For exbmple,
+     * SHORT for "h:mm b" in the US locble.
+     * @return b dbte/time formbtter.
      */
-    public final static DateFormat getDateTimeInstance(int dateStyle,
+    public finbl stbtic DbteFormbt getDbteTimeInstbnce(int dbteStyle,
                                                        int timeStyle)
     {
-        return get(timeStyle, dateStyle, 3, Locale.getDefault(Locale.Category.FORMAT));
+        return get(timeStyle, dbteStyle, 3, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Gets the date/time formatter with the given formatting styles
-     * for the given locale.
-     * @param dateStyle the given date formatting style.
-     * @param timeStyle the given time formatting style.
-     * @param aLocale the given locale.
-     * @return a date/time formatter.
+     * Gets the dbte/time formbtter with the given formbtting styles
+     * for the given locble.
+     * @pbrbm dbteStyle the given dbte formbtting style.
+     * @pbrbm timeStyle the given time formbtting style.
+     * @pbrbm bLocble the given locble.
+     * @return b dbte/time formbtter.
      */
-    public final static DateFormat
-        getDateTimeInstance(int dateStyle, int timeStyle, Locale aLocale)
+    public finbl stbtic DbteFormbt
+        getDbteTimeInstbnce(int dbteStyle, int timeStyle, Locble bLocble)
     {
-        return get(timeStyle, dateStyle, 3, aLocale);
+        return get(timeStyle, dbteStyle, 3, bLocble);
     }
 
     /**
-     * Get a default date/time formatter that uses the SHORT style for both the
-     * date and the time.
+     * Get b defbult dbte/time formbtter thbt uses the SHORT style for both the
+     * dbte bnd the time.
      *
-     * @return a date/time formatter
+     * @return b dbte/time formbtter
      */
-    public final static DateFormat getInstance() {
-        return getDateTimeInstance(SHORT, SHORT);
+    public finbl stbtic DbteFormbt getInstbnce() {
+        return getDbteTimeInstbnce(SHORT, SHORT);
     }
 
     /**
-     * Returns an array of all locales for which the
-     * <code>get*Instance</code> methods of this class can return
-     * localized instances.
-     * The returned array represents the union of locales supported by the Java
-     * runtime and by installed
-     * {@link java.text.spi.DateFormatProvider DateFormatProvider} implementations.
-     * It must contain at least a <code>Locale</code> instance equal to
-     * {@link java.util.Locale#US Locale.US}.
+     * Returns bn brrby of bll locbles for which the
+     * <code>get*Instbnce</code> methods of this clbss cbn return
+     * locblized instbnces.
+     * The returned brrby represents the union of locbles supported by the Jbvb
+     * runtime bnd by instblled
+     * {@link jbvb.text.spi.DbteFormbtProvider DbteFormbtProvider} implementbtions.
+     * It must contbin bt lebst b <code>Locble</code> instbnce equbl to
+     * {@link jbvb.util.Locble#US Locble.US}.
      *
-     * @return An array of locales for which localized
-     *         <code>DateFormat</code> instances are available.
+     * @return An brrby of locbles for which locblized
+     *         <code>DbteFormbt</code> instbnces bre bvbilbble.
      */
-    public static Locale[] getAvailableLocales()
+    public stbtic Locble[] getAvbilbbleLocbles()
     {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(DateFormatProvider.class);
-        return pool.getAvailableLocales();
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(DbteFormbtProvider.clbss);
+        return pool.getAvbilbbleLocbles();
     }
 
     /**
-     * Set the calendar to be used by this date format.  Initially, the default
-     * calendar for the specified or default locale is used.
+     * Set the cblendbr to be used by this dbte formbt.  Initiblly, the defbult
+     * cblendbr for the specified or defbult locble is used.
      *
-     * <p>Any {@link java.util.TimeZone TimeZone} and {@linkplain
-     * #isLenient() leniency} values that have previously been set are
-     * overwritten by {@code newCalendar}'s values.
+     * <p>Any {@link jbvb.util.TimeZone TimeZone} bnd {@linkplbin
+     * #isLenient() leniency} vblues thbt hbve previously been set bre
+     * overwritten by {@code newCblendbr}'s vblues.
      *
-     * @param newCalendar the new {@code Calendar} to be used by the date format
+     * @pbrbm newCblendbr the new {@code Cblendbr} to be used by the dbte formbt
      */
-    public void setCalendar(Calendar newCalendar)
+    public void setCblendbr(Cblendbr newCblendbr)
     {
-        this.calendar = newCalendar;
+        this.cblendbr = newCblendbr;
     }
 
     /**
-     * Gets the calendar associated with this date/time formatter.
+     * Gets the cblendbr bssocibted with this dbte/time formbtter.
      *
-     * @return the calendar associated with this date/time formatter.
+     * @return the cblendbr bssocibted with this dbte/time formbtter.
      */
-    public Calendar getCalendar()
+    public Cblendbr getCblendbr()
     {
-        return calendar;
+        return cblendbr;
     }
 
     /**
-     * Allows you to set the number formatter.
-     * @param newNumberFormat the given new NumberFormat.
+     * Allows you to set the number formbtter.
+     * @pbrbm newNumberFormbt the given new NumberFormbt.
      */
-    public void setNumberFormat(NumberFormat newNumberFormat)
+    public void setNumberFormbt(NumberFormbt newNumberFormbt)
     {
-        this.numberFormat = newNumberFormat;
+        this.numberFormbt = newNumberFormbt;
     }
 
     /**
-     * Gets the number formatter which this date/time formatter uses to
-     * format and parse a time.
-     * @return the number formatter which this date/time formatter uses.
+     * Gets the number formbtter which this dbte/time formbtter uses to
+     * formbt bnd pbrse b time.
+     * @return the number formbtter which this dbte/time formbtter uses.
      */
-    public NumberFormat getNumberFormat()
+    public NumberFormbt getNumberFormbt()
     {
-        return numberFormat;
+        return numberFormbt;
     }
 
     /**
-     * Sets the time zone for the calendar of this {@code DateFormat} object.
-     * This method is equivalent to the following call.
+     * Sets the time zone for the cblendbr of this {@code DbteFormbt} object.
+     * This method is equivblent to the following cbll.
      * <blockquote><pre>{@code
-     * getCalendar().setTimeZone(zone)
+     * getCblendbr().setTimeZone(zone)
      * }</pre></blockquote>
      *
-     * <p>The {@code TimeZone} set by this method is overwritten by a
-     * {@link #setCalendar(java.util.Calendar) setCalendar} call.
+     * <p>The {@code TimeZone} set by this method is overwritten by b
+     * {@link #setCblendbr(jbvb.util.Cblendbr) setCblendbr} cbll.
      *
-     * <p>The {@code TimeZone} set by this method may be overwritten as
-     * a result of a call to the parse method.
+     * <p>The {@code TimeZone} set by this method mby be overwritten bs
+     * b result of b cbll to the pbrse method.
      *
-     * @param zone the given new time zone.
+     * @pbrbm zone the given new time zone.
      */
     public void setTimeZone(TimeZone zone)
     {
-        calendar.setTimeZone(zone);
+        cblendbr.setTimeZone(zone);
     }
 
     /**
      * Gets the time zone.
-     * This method is equivalent to the following call.
+     * This method is equivblent to the following cbll.
      * <blockquote><pre>{@code
-     * getCalendar().getTimeZone()
+     * getCblendbr().getTimeZone()
      * }</pre></blockquote>
      *
-     * @return the time zone associated with the calendar of DateFormat.
+     * @return the time zone bssocibted with the cblendbr of DbteFormbt.
      */
     public TimeZone getTimeZone()
     {
-        return calendar.getTimeZone();
+        return cblendbr.getTimeZone();
     }
 
     /**
-     * Specify whether or not date/time parsing is to be lenient.  With
-     * lenient parsing, the parser may use heuristics to interpret inputs that
-     * do not precisely match this object's format.  With strict parsing,
-     * inputs must match this object's format.
+     * Specify whether or not dbte/time pbrsing is to be lenient.  With
+     * lenient pbrsing, the pbrser mby use heuristics to interpret inputs thbt
+     * do not precisely mbtch this object's formbt.  With strict pbrsing,
+     * inputs must mbtch this object's formbt.
      *
-     * <p>This method is equivalent to the following call.
+     * <p>This method is equivblent to the following cbll.
      * <blockquote><pre>{@code
-     * getCalendar().setLenient(lenient)
+     * getCblendbr().setLenient(lenient)
      * }</pre></blockquote>
      *
-     * <p>This leniency value is overwritten by a call to {@link
-     * #setCalendar(java.util.Calendar) setCalendar()}.
+     * <p>This leniency vblue is overwritten by b cbll to {@link
+     * #setCblendbr(jbvb.util.Cblendbr) setCblendbr()}.
      *
-     * @param lenient when {@code true}, parsing is lenient
-     * @see java.util.Calendar#setLenient(boolean)
+     * @pbrbm lenient when {@code true}, pbrsing is lenient
+     * @see jbvb.util.Cblendbr#setLenient(boolebn)
      */
-    public void setLenient(boolean lenient)
+    public void setLenient(boolebn lenient)
     {
-        calendar.setLenient(lenient);
+        cblendbr.setLenient(lenient);
     }
 
     /**
-     * Tell whether date/time parsing is to be lenient.
-     * This method is equivalent to the following call.
+     * Tell whether dbte/time pbrsing is to be lenient.
+     * This method is equivblent to the following cbll.
      * <blockquote><pre>{@code
-     * getCalendar().isLenient()
+     * getCblendbr().isLenient()
      * }</pre></blockquote>
      *
-     * @return {@code true} if the {@link #calendar} is lenient;
-     *         {@code false} otherwise.
-     * @see java.util.Calendar#isLenient()
+     * @return {@code true} if the {@link #cblendbr} is lenient;
+     *         {@code fblse} otherwise.
+     * @see jbvb.util.Cblendbr#isLenient()
      */
-    public boolean isLenient()
+    public boolebn isLenient()
     {
-        return calendar.isLenient();
+        return cblendbr.isLenient();
     }
 
     /**
-     * Overrides hashCode
+     * Overrides hbshCode
      */
-    public int hashCode() {
-        return numberFormat.hashCode();
-        // just enough fields for a reasonable distribution
+    public int hbshCode() {
+        return numberFormbt.hbshCode();
+        // just enough fields for b rebsonbble distribution
     }
 
     /**
-     * Overrides equals
+     * Overrides equbls
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        DateFormat other = (DateFormat) obj;
-        return (// calendar.equivalentTo(other.calendar) // THIS API DOESN'T EXIST YET!
-                calendar.getFirstDayOfWeek() == other.calendar.getFirstDayOfWeek() &&
-                calendar.getMinimalDaysInFirstWeek() == other.calendar.getMinimalDaysInFirstWeek() &&
-                calendar.isLenient() == other.calendar.isLenient() &&
-                calendar.getTimeZone().equals(other.calendar.getTimeZone()) &&
-                numberFormat.equals(other.numberFormat));
+        if (obj == null || getClbss() != obj.getClbss()) return fblse;
+        DbteFormbt other = (DbteFormbt) obj;
+        return (// cblendbr.equivblentTo(other.cblendbr) // THIS API DOESN'T EXIST YET!
+                cblendbr.getFirstDbyOfWeek() == other.cblendbr.getFirstDbyOfWeek() &&
+                cblendbr.getMinimblDbysInFirstWeek() == other.cblendbr.getMinimblDbysInFirstWeek() &&
+                cblendbr.isLenient() == other.cblendbr.isLenient() &&
+                cblendbr.getTimeZone().equbls(other.cblendbr.getTimeZone()) &&
+                numberFormbt.equbls(other.numberFormbt));
     }
 
     /**
-     * Overrides Cloneable
+     * Overrides Clonebble
      */
     public Object clone()
     {
-        DateFormat other = (DateFormat) super.clone();
-        other.calendar = (Calendar) calendar.clone();
-        other.numberFormat = (NumberFormat) numberFormat.clone();
+        DbteFormbt other = (DbteFormbt) super.clone();
+        other.cblendbr = (Cblendbr) cblendbr.clone();
+        other.numberFormbt = (NumberFormbt) numberFormbt.clone();
         return other;
     }
 
     /**
-     * Creates a DateFormat with the given time and/or date style in the given
-     * locale.
-     * @param timeStyle a value from 0 to 3 indicating the time format,
-     * ignored if flags is 2
-     * @param dateStyle a value from 0 to 3 indicating the time format,
-     * ignored if flags is 1
-     * @param flags either 1 for a time format, 2 for a date format,
-     * or 3 for a date/time format
-     * @param loc the locale for the format
+     * Crebtes b DbteFormbt with the given time bnd/or dbte style in the given
+     * locble.
+     * @pbrbm timeStyle b vblue from 0 to 3 indicbting the time formbt,
+     * ignored if flbgs is 2
+     * @pbrbm dbteStyle b vblue from 0 to 3 indicbting the time formbt,
+     * ignored if flbgs is 1
+     * @pbrbm flbgs either 1 for b time formbt, 2 for b dbte formbt,
+     * or 3 for b dbte/time formbt
+     * @pbrbm loc the locble for the formbt
      */
-    private static DateFormat get(int timeStyle, int dateStyle,
-                                  int flags, Locale loc) {
-        if ((flags & 1) != 0) {
+    privbte stbtic DbteFormbt get(int timeStyle, int dbteStyle,
+                                  int flbgs, Locble loc) {
+        if ((flbgs & 1) != 0) {
             if (timeStyle < 0 || timeStyle > 3) {
-                throw new IllegalArgumentException("Illegal time style " + timeStyle);
+                throw new IllegblArgumentException("Illegbl time style " + timeStyle);
             }
         } else {
             timeStyle = -1;
         }
-        if ((flags & 2) != 0) {
-            if (dateStyle < 0 || dateStyle > 3) {
-                throw new IllegalArgumentException("Illegal date style " + dateStyle);
+        if ((flbgs & 2) != 0) {
+            if (dbteStyle < 0 || dbteStyle > 3) {
+                throw new IllegblArgumentException("Illegbl dbte style " + dbteStyle);
             }
         } else {
-            dateStyle = -1;
+            dbteStyle = -1;
         }
 
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(DateFormatProvider.class, loc);
-        DateFormat dateFormat = get(adapter, timeStyle, dateStyle, loc);
-        if (dateFormat == null) {
-            dateFormat = get(LocaleProviderAdapter.forJRE(), timeStyle, dateStyle, loc);
+        LocbleProviderAdbpter bdbpter = LocbleProviderAdbpter.getAdbpter(DbteFormbtProvider.clbss, loc);
+        DbteFormbt dbteFormbt = get(bdbpter, timeStyle, dbteStyle, loc);
+        if (dbteFormbt == null) {
+            dbteFormbt = get(LocbleProviderAdbpter.forJRE(), timeStyle, dbteStyle, loc);
         }
-        return dateFormat;
+        return dbteFormbt;
     }
 
-    private static DateFormat get(LocaleProviderAdapter adapter, int timeStyle, int dateStyle, Locale loc) {
-        DateFormatProvider provider = adapter.getDateFormatProvider();
-        DateFormat dateFormat;
+    privbte stbtic DbteFormbt get(LocbleProviderAdbpter bdbpter, int timeStyle, int dbteStyle, Locble loc) {
+        DbteFormbtProvider provider = bdbpter.getDbteFormbtProvider();
+        DbteFormbt dbteFormbt;
         if (timeStyle == -1) {
-            dateFormat = provider.getDateInstance(dateStyle, loc);
+            dbteFormbt = provider.getDbteInstbnce(dbteStyle, loc);
         } else {
-            if (dateStyle == -1) {
-                dateFormat = provider.getTimeInstance(timeStyle, loc);
+            if (dbteStyle == -1) {
+                dbteFormbt = provider.getTimeInstbnce(timeStyle, loc);
             } else {
-                dateFormat = provider.getDateTimeInstance(dateStyle, timeStyle, loc);
+                dbteFormbt = provider.getDbteTimeInstbnce(dbteStyle, timeStyle, loc);
             }
         }
-        return dateFormat;
+        return dbteFormbt;
     }
 
     /**
-     * Create a new date format.
+     * Crebte b new dbte formbt.
      */
-    protected DateFormat() {}
+    protected DbteFormbt() {}
 
     /**
-     * Defines constants that are used as attribute keys in the
-     * <code>AttributedCharacterIterator</code> returned
-     * from <code>DateFormat.formatToCharacterIterator</code> and as
+     * Defines constbnts thbt bre used bs bttribute keys in the
+     * <code>AttributedChbrbcterIterbtor</code> returned
+     * from <code>DbteFormbt.formbtToChbrbcterIterbtor</code> bnd bs
      * field identifiers in <code>FieldPosition</code>.
      * <p>
-     * The class also provides two methods to map
-     * between its constants and the corresponding Calendar constants.
+     * The clbss blso provides two methods to mbp
+     * between its constbnts bnd the corresponding Cblendbr constbnts.
      *
      * @since 1.4
-     * @see java.util.Calendar
+     * @see jbvb.util.Cblendbr
      */
-    public static class Field extends Format.Field {
+    public stbtic clbss Field extends Formbt.Field {
 
-        // Proclaim serial compatibility with 1.4 FCS
-        private static final long serialVersionUID = 7441350119349544720L;
+        // Proclbim seribl compbtibility with 1.4 FCS
+        privbte stbtic finbl long seriblVersionUID = 7441350119349544720L;
 
-        // table of all instances in this class, used by readResolve
-        private static final Map<String, Field> instanceMap = new HashMap<>(18);
-        // Maps from Calendar constant (such as Calendar.ERA) to Field
-        // constant (such as Field.ERA).
-        private static final Field[] calendarToFieldMapping =
-                                             new Field[Calendar.FIELD_COUNT];
+        // tbble of bll instbnces in this clbss, used by rebdResolve
+        privbte stbtic finbl Mbp<String, Field> instbnceMbp = new HbshMbp<>(18);
+        // Mbps from Cblendbr constbnt (such bs Cblendbr.ERA) to Field
+        // constbnt (such bs Field.ERA).
+        privbte stbtic finbl Field[] cblendbrToFieldMbpping =
+                                             new Field[Cblendbr.FIELD_COUNT];
 
-        /** Calendar field. */
-        private int calendarField;
+        /** Cblendbr field. */
+        privbte int cblendbrField;
 
         /**
-         * Returns the <code>Field</code> constant that corresponds to
-         * the <code>Calendar</code> constant <code>calendarField</code>.
-         * If there is no direct mapping between the <code>Calendar</code>
-         * constant and a <code>Field</code>, null is returned.
+         * Returns the <code>Field</code> constbnt thbt corresponds to
+         * the <code>Cblendbr</code> constbnt <code>cblendbrField</code>.
+         * If there is no direct mbpping between the <code>Cblendbr</code>
+         * constbnt bnd b <code>Field</code>, null is returned.
          *
-         * @throws IllegalArgumentException if <code>calendarField</code> is
-         *         not the value of a <code>Calendar</code> field constant.
-         * @param calendarField Calendar field constant
-         * @return Field instance representing calendarField.
-         * @see java.util.Calendar
+         * @throws IllegblArgumentException if <code>cblendbrField</code> is
+         *         not the vblue of b <code>Cblendbr</code> field constbnt.
+         * @pbrbm cblendbrField Cblendbr field constbnt
+         * @return Field instbnce representing cblendbrField.
+         * @see jbvb.util.Cblendbr
          */
-        public static Field ofCalendarField(int calendarField) {
-            if (calendarField < 0 || calendarField >=
-                        calendarToFieldMapping.length) {
-                throw new IllegalArgumentException("Unknown Calendar constant "
-                                                   + calendarField);
+        public stbtic Field ofCblendbrField(int cblendbrField) {
+            if (cblendbrField < 0 || cblendbrField >=
+                        cblendbrToFieldMbpping.length) {
+                throw new IllegblArgumentException("Unknown Cblendbr constbnt "
+                                                   + cblendbrField);
             }
-            return calendarToFieldMapping[calendarField];
+            return cblendbrToFieldMbpping[cblendbrField];
         }
 
         /**
-         * Creates a <code>Field</code>.
+         * Crebtes b <code>Field</code>.
          *
-         * @param name the name of the <code>Field</code>
-         * @param calendarField the <code>Calendar</code> constant this
-         *        <code>Field</code> corresponds to; any value, even one
-         *        outside the range of legal <code>Calendar</code> values may
-         *        be used, but <code>-1</code> should be used for values
-         *        that don't correspond to legal <code>Calendar</code> values
+         * @pbrbm nbme the nbme of the <code>Field</code>
+         * @pbrbm cblendbrField the <code>Cblendbr</code> constbnt this
+         *        <code>Field</code> corresponds to; bny vblue, even one
+         *        outside the rbnge of legbl <code>Cblendbr</code> vblues mby
+         *        be used, but <code>-1</code> should be used for vblues
+         *        thbt don't correspond to legbl <code>Cblendbr</code> vblues
          */
-        protected Field(String name, int calendarField) {
-            super(name);
-            this.calendarField = calendarField;
-            if (this.getClass() == DateFormat.Field.class) {
-                instanceMap.put(name, this);
-                if (calendarField >= 0) {
-                    // assert(calendarField < Calendar.FIELD_COUNT);
-                    calendarToFieldMapping[calendarField] = this;
+        protected Field(String nbme, int cblendbrField) {
+            super(nbme);
+            this.cblendbrField = cblendbrField;
+            if (this.getClbss() == DbteFormbt.Field.clbss) {
+                instbnceMbp.put(nbme, this);
+                if (cblendbrField >= 0) {
+                    // bssert(cblendbrField < Cblendbr.FIELD_COUNT);
+                    cblendbrToFieldMbpping[cblendbrField] = this;
                 }
             }
         }
 
         /**
-         * Returns the <code>Calendar</code> field associated with this
-         * attribute. For example, if this represents the hours field of
-         * a <code>Calendar</code>, this would return
-         * <code>Calendar.HOUR</code>. If there is no corresponding
-         * <code>Calendar</code> constant, this will return -1.
+         * Returns the <code>Cblendbr</code> field bssocibted with this
+         * bttribute. For exbmple, if this represents the hours field of
+         * b <code>Cblendbr</code>, this would return
+         * <code>Cblendbr.HOUR</code>. If there is no corresponding
+         * <code>Cblendbr</code> constbnt, this will return -1.
          *
-         * @return Calendar constant for this field
-         * @see java.util.Calendar
+         * @return Cblendbr constbnt for this field
+         * @see jbvb.util.Cblendbr
          */
-        public int getCalendarField() {
-            return calendarField;
+        public int getCblendbrField() {
+            return cblendbrField;
         }
 
         /**
-         * Resolves instances being deserialized to the predefined constants.
+         * Resolves instbnces being deseriblized to the predefined constbnts.
          *
-         * @throws InvalidObjectException if the constant could not be
+         * @throws InvblidObjectException if the constbnt could not be
          *         resolved.
-         * @return resolved DateFormat.Field constant
+         * @return resolved DbteFormbt.Field constbnt
          */
         @Override
-        protected Object readResolve() throws InvalidObjectException {
-            if (this.getClass() != DateFormat.Field.class) {
-                throw new InvalidObjectException("subclass didn't correctly implement readResolve");
+        protected Object rebdResolve() throws InvblidObjectException {
+            if (this.getClbss() != DbteFormbt.Field.clbss) {
+                throw new InvblidObjectException("subclbss didn't correctly implement rebdResolve");
             }
 
-            Object instance = instanceMap.get(getName());
-            if (instance != null) {
-                return instance;
+            Object instbnce = instbnceMbp.get(getNbme());
+            if (instbnce != null) {
+                return instbnce;
             } else {
-                throw new InvalidObjectException("unknown attribute name");
+                throw new InvblidObjectException("unknown bttribute nbme");
             }
         }
 
         //
-        // The constants
+        // The constbnts
         //
 
         /**
-         * Constant identifying the era field.
+         * Constbnt identifying the erb field.
          */
-        public final static Field ERA = new Field("era", Calendar.ERA);
+        public finbl stbtic Field ERA = new Field("erb", Cblendbr.ERA);
 
         /**
-         * Constant identifying the year field.
+         * Constbnt identifying the yebr field.
          */
-        public final static Field YEAR = new Field("year", Calendar.YEAR);
+        public finbl stbtic Field YEAR = new Field("yebr", Cblendbr.YEAR);
 
         /**
-         * Constant identifying the month field.
+         * Constbnt identifying the month field.
          */
-        public final static Field MONTH = new Field("month", Calendar.MONTH);
+        public finbl stbtic Field MONTH = new Field("month", Cblendbr.MONTH);
 
         /**
-         * Constant identifying the day of month field.
+         * Constbnt identifying the dby of month field.
          */
-        public final static Field DAY_OF_MONTH = new
-                            Field("day of month", Calendar.DAY_OF_MONTH);
+        public finbl stbtic Field DAY_OF_MONTH = new
+                            Field("dby of month", Cblendbr.DAY_OF_MONTH);
 
         /**
-         * Constant identifying the hour of day field, where the legal values
-         * are 1 to 24.
+         * Constbnt identifying the hour of dby field, where the legbl vblues
+         * bre 1 to 24.
          */
-        public final static Field HOUR_OF_DAY1 = new Field("hour of day 1",-1);
+        public finbl stbtic Field HOUR_OF_DAY1 = new Field("hour of dby 1",-1);
 
         /**
-         * Constant identifying the hour of day field, where the legal values
-         * are 0 to 23.
+         * Constbnt identifying the hour of dby field, where the legbl vblues
+         * bre 0 to 23.
          */
-        public final static Field HOUR_OF_DAY0 = new
-               Field("hour of day", Calendar.HOUR_OF_DAY);
+        public finbl stbtic Field HOUR_OF_DAY0 = new
+               Field("hour of dby", Cblendbr.HOUR_OF_DAY);
 
         /**
-         * Constant identifying the minute field.
+         * Constbnt identifying the minute field.
          */
-        public final static Field MINUTE =new Field("minute", Calendar.MINUTE);
+        public finbl stbtic Field MINUTE =new Field("minute", Cblendbr.MINUTE);
 
         /**
-         * Constant identifying the second field.
+         * Constbnt identifying the second field.
          */
-        public final static Field SECOND =new Field("second", Calendar.SECOND);
+        public finbl stbtic Field SECOND =new Field("second", Cblendbr.SECOND);
 
         /**
-         * Constant identifying the millisecond field.
+         * Constbnt identifying the millisecond field.
          */
-        public final static Field MILLISECOND = new
-                Field("millisecond", Calendar.MILLISECOND);
+        public finbl stbtic Field MILLISECOND = new
+                Field("millisecond", Cblendbr.MILLISECOND);
 
         /**
-         * Constant identifying the day of week field.
+         * Constbnt identifying the dby of week field.
          */
-        public final static Field DAY_OF_WEEK = new
-                Field("day of week", Calendar.DAY_OF_WEEK);
+        public finbl stbtic Field DAY_OF_WEEK = new
+                Field("dby of week", Cblendbr.DAY_OF_WEEK);
 
         /**
-         * Constant identifying the day of year field.
+         * Constbnt identifying the dby of yebr field.
          */
-        public final static Field DAY_OF_YEAR = new
-                Field("day of year", Calendar.DAY_OF_YEAR);
+        public finbl stbtic Field DAY_OF_YEAR = new
+                Field("dby of yebr", Cblendbr.DAY_OF_YEAR);
 
         /**
-         * Constant identifying the day of week field.
+         * Constbnt identifying the dby of week field.
          */
-        public final static Field DAY_OF_WEEK_IN_MONTH =
-                     new Field("day of week in month",
-                                            Calendar.DAY_OF_WEEK_IN_MONTH);
+        public finbl stbtic Field DAY_OF_WEEK_IN_MONTH =
+                     new Field("dby of week in month",
+                                            Cblendbr.DAY_OF_WEEK_IN_MONTH);
 
         /**
-         * Constant identifying the week of year field.
+         * Constbnt identifying the week of yebr field.
          */
-        public final static Field WEEK_OF_YEAR = new
-              Field("week of year", Calendar.WEEK_OF_YEAR);
+        public finbl stbtic Field WEEK_OF_YEAR = new
+              Field("week of yebr", Cblendbr.WEEK_OF_YEAR);
 
         /**
-         * Constant identifying the week of month field.
+         * Constbnt identifying the week of month field.
          */
-        public final static Field WEEK_OF_MONTH = new
-            Field("week of month", Calendar.WEEK_OF_MONTH);
+        public finbl stbtic Field WEEK_OF_MONTH = new
+            Field("week of month", Cblendbr.WEEK_OF_MONTH);
 
         /**
-         * Constant identifying the time of day indicator
-         * (e.g. "a.m." or "p.m.") field.
+         * Constbnt identifying the time of dby indicbtor
+         * (e.g. "b.m." or "p.m.") field.
          */
-        public final static Field AM_PM = new
-                            Field("am pm", Calendar.AM_PM);
+        public finbl stbtic Field AM_PM = new
+                            Field("bm pm", Cblendbr.AM_PM);
 
         /**
-         * Constant identifying the hour field, where the legal values are
+         * Constbnt identifying the hour field, where the legbl vblues bre
          * 1 to 12.
          */
-        public final static Field HOUR1 = new Field("hour 1", -1);
+        public finbl stbtic Field HOUR1 = new Field("hour 1", -1);
 
         /**
-         * Constant identifying the hour field, where the legal values are
+         * Constbnt identifying the hour field, where the legbl vblues bre
          * 0 to 11.
          */
-        public final static Field HOUR0 = new
-                            Field("hour", Calendar.HOUR);
+        public finbl stbtic Field HOUR0 = new
+                            Field("hour", Cblendbr.HOUR);
 
         /**
-         * Constant identifying the time zone field.
+         * Constbnt identifying the time zone field.
          */
-        public final static Field TIME_ZONE = new Field("time zone", -1);
+        public finbl stbtic Field TIME_ZONE = new Field("time zone", -1);
     }
 }

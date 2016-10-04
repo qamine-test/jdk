@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbckbge com.sun.imbgeio.plugins.gif;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
-public class GIFStreamMetadataFormatResources extends ListResourceBundle {
+public clbss GIFStrebmMetbdbtbFormbtResources extends ListResourceBundle {
 
-    public GIFStreamMetadataFormatResources() {}
+    public GIFStrebmMetbdbtbFormbtResources() {}
 
     protected Object[][] getContents() {
         return new Object[][] {
 
-        // Node name, followed by description
-        { "Version", "The file version, either 87a or 89a" },
-        { "LogicalScreenDescriptor",
-          "The logical screen descriptor, except for the global color table" },
-        { "GlobalColorTable", "The global color table" },
-        { "ColorTableEntry", "A global color table entry" },
+        // Node nbme, followed by description
+        { "Version", "The file version, either 87b or 89b" },
+        { "LogicblScreenDescriptor",
+          "The logicbl screen descriptor, except for the globbl color tbble" },
+        { "GlobblColorTbble", "The globbl color tbble" },
+        { "ColorTbbleEntry", "A globbl color tbble entry" },
 
-        // Node name + "/" + AttributeName, followed by description
-        { "Version/value",
+        // Node nbme + "/" + AttributeNbme, followed by description
+        { "Version/vblue",
           "The version string" },
-        { "LogicalScreenDescriptor/logicalScreenWidth",
+        { "LogicblScreenDescriptor/logicblScreenWidth",
           "The width in pixels of the whole picture" },
-        { "LogicalScreenDescriptor/logicalScreenHeight",
+        { "LogicblScreenDescriptor/logicblScreenHeight",
           "The height in pixels of the whole picture" },
-        { "LogicalScreenDescriptor/colorResolution",
-          "The number of bits of color resolution, beteen 1 and 8" },
-        { "LogicalScreenDescriptor/pixelAspectRatio",
-          "If 0, indicates square pixels, else W/H = (value + 15)/64" },
-        { "GlobalColorTable/sizeOfGlobalColorTable",
-          "The number of entries in the global color table" },
-        { "GlobalColorTable/backgroundColorIndex",
-          "The index of the color table entry to be used as a background" },
-        { "GlobalColorTable/sortFlag",
-          "True if the global color table is sorted by frequency" },
-        { "ColorTableEntry/index", "The index of the color table entry" },
-        { "ColorTableEntry/red",
-          "The red value for the color table entry" },
-        { "ColorTableEntry/green",
-          "The green value for the color table entry" },
-        { "ColorTableEntry/blue",
-          "The blue value for the color table entry" },
+        { "LogicblScreenDescriptor/colorResolution",
+          "The number of bits of color resolution, beteen 1 bnd 8" },
+        { "LogicblScreenDescriptor/pixelAspectRbtio",
+          "If 0, indicbtes squbre pixels, else W/H = (vblue + 15)/64" },
+        { "GlobblColorTbble/sizeOfGlobblColorTbble",
+          "The number of entries in the globbl color tbble" },
+        { "GlobblColorTbble/bbckgroundColorIndex",
+          "The index of the color tbble entry to be used bs b bbckground" },
+        { "GlobblColorTbble/sortFlbg",
+          "True if the globbl color tbble is sorted by frequency" },
+        { "ColorTbbleEntry/index", "The index of the color tbble entry" },
+        { "ColorTbbleEntry/red",
+          "The red vblue for the color tbble entry" },
+        { "ColorTbbleEntry/green",
+          "The green vblue for the color tbble entry" },
+        { "ColorTbbleEntry/blue",
+          "The blue vblue for the color tbble entry" },
 
         };
     }

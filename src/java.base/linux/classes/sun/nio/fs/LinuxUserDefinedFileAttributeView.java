@@ -1,350 +1,350 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.ByteBuffer;
-import java.io.IOException;
-import java.util.*;
-import sun.misc.Unsafe;
+import jbvb.nio.file.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import sun.misc.Unsbfe;
 
-import static sun.nio.fs.UnixConstants.*;
-import static sun.nio.fs.LinuxNativeDispatcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
+import stbtic sun.nio.fs.LinuxNbtiveDispbtcher.*;
 
 /**
- * Linux implementation of UserDefinedFileAttributeView using extended attributes.
+ * Linux implementbtion of UserDefinedFileAttributeView using extended bttributes.
  */
 
-class LinuxUserDefinedFileAttributeView
-    extends AbstractUserDefinedFileAttributeView
+clbss LinuxUserDefinedFileAttributeView
+    extends AbstrbctUserDefinedFileAttributeView
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    // namespace for extended user attributes
-    private static final String USER_NAMESPACE = "user.";
+    // nbmespbce for extended user bttributes
+    privbte stbtic finbl String USER_NAMESPACE = "user.";
 
-    // maximum bytes in extended attribute name (includes namespace)
-    private static final int XATTR_NAME_MAX = 255;
+    // mbximum bytes in extended bttribute nbme (includes nbmespbce)
+    privbte stbtic finbl int XATTR_NAME_MAX = 255;
 
-    private byte[] nameAsBytes(UnixPath file, String name) throws IOException {
-        if (name == null)
-            throw new NullPointerException("'name' is null");
-        name = USER_NAMESPACE + name;
-        byte[] bytes = Util.toBytes(name);
+    privbte byte[] nbmeAsBytes(UnixPbth file, String nbme) throws IOException {
+        if (nbme == null)
+            throw new NullPointerException("'nbme' is null");
+        nbme = USER_NAMESPACE + nbme;
+        byte[] bytes = Util.toBytes(nbme);
         if (bytes.length > XATTR_NAME_MAX) {
-            throw new FileSystemException(file.getPathForExceptionMessage(),
-                null, "'" + name + "' is too big");
+            throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                null, "'" + nbme + "' is too big");
         }
         return bytes;
     }
 
-    // Parses buffer as array of NULL-terminated C strings.
-    private List<String> asList(long address, int size) {
-        List<String> list = new ArrayList<>();
-        int start = 0;
+    // Pbrses buffer bs brrby of NULL-terminbted C strings.
+    privbte List<String> bsList(long bddress, int size) {
+        List<String> list = new ArrbyList<>();
+        int stbrt = 0;
         int pos = 0;
         while (pos < size) {
-            if (unsafe.getByte(address + pos) == 0) {
-                int len = pos - start;
-                byte[] value = new byte[len];
-                unsafe.copyMemory(null, address+start, value,
-                    Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
-                String s = Util.toString(value);
-                if (s.startsWith(USER_NAMESPACE)) {
+            if (unsbfe.getByte(bddress + pos) == 0) {
+                int len = pos - stbrt;
+                byte[] vblue = new byte[len];
+                unsbfe.copyMemory(null, bddress+stbrt, vblue,
+                    Unsbfe.ARRAY_BYTE_BASE_OFFSET, len);
+                String s = Util.toString(vblue);
+                if (s.stbrtsWith(USER_NAMESPACE)) {
                     s = s.substring(USER_NAMESPACE.length());
-                    list.add(s);
+                    list.bdd(s);
                 }
-                start = pos + 1;
+                stbrt = pos + 1;
             }
             pos++;
         }
         return list;
     }
 
-    private final UnixPath file;
-    private final boolean followLinks;
+    privbte finbl UnixPbth file;
+    privbte finbl boolebn followLinks;
 
-    LinuxUserDefinedFileAttributeView(UnixPath file, boolean followLinks) {
+    LinuxUserDefinedFileAttributeView(UnixPbth file, boolebn followLinks) {
         this.file = file;
         this.followLinks = followLinks;
     }
 
     @Override
     public List<String> list() throws IOException  {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
 
         int fd = file.openForAttributeAccess(followLinks);
-        NativeBuffer buffer = null;
+        NbtiveBuffer buffer = null;
         try {
             int size = 1024;
-            buffer = NativeBuffers.getNativeBuffer(size);
+            buffer = NbtiveBuffers.getNbtiveBuffer(size);
             for (;;) {
                 try {
-                    int n = flistxattr(fd, buffer.address(), size);
-                    List<String> list = asList(buffer.address(), n);
-                    return Collections.unmodifiableList(list);
-                } catch (UnixException x) {
-                    // allocate larger buffer if required
+                    int n = flistxbttr(fd, buffer.bddress(), size);
+                    List<String> list = bsList(buffer.bddress(), n);
+                    return Collections.unmodifibbleList(list);
+                } cbtch (UnixException x) {
+                    // bllocbte lbrger buffer if required
                     if (x.errno() == ERANGE && size < 32*1024) {
-                        buffer.release();
+                        buffer.relebse();
                         size *= 2;
                         buffer = null;
-                        buffer = NativeBuffers.getNativeBuffer(size);
+                        buffer = NbtiveBuffers.getNbtiveBuffer(size);
                         continue;
                     }
-                    throw new FileSystemException(file.getPathForExceptionMessage(),
-                        null, "Unable to get list of extended attributes: " +
-                        x.getMessage());
+                    throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                        null, "Unbble to get list of extended bttributes: " +
+                        x.getMessbge());
                 }
             }
-        } finally {
+        } finblly {
             if (buffer != null)
-                buffer.release();
+                buffer.relebse();
             close(fd);
         }
     }
 
     @Override
-    public int size(String name) throws IOException  {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
+    public int size(String nbme) throws IOException  {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
-            // fgetxattr returns size if called with size==0
-            return fgetxattr(fd, nameAsBytes(file,name), 0L, 0);
-        } catch (UnixException x) {
-            throw new FileSystemException(file.getPathForExceptionMessage(),
-                null, "Unable to get size of extended attribute '" + name +
-                "': " + x.getMessage());
-        } finally {
+            // fgetxbttr returns size if cblled with size==0
+            return fgetxbttr(fd, nbmeAsBytes(file,nbme), 0L, 0);
+        } cbtch (UnixException x) {
+            throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                null, "Unbble to get size of extended bttribute '" + nbme +
+                "': " + x.getMessbge());
+        } finblly {
             close(fd);
         }
     }
 
     @Override
-    public int read(String name, ByteBuffer dst) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
+    public int rebd(String nbme, ByteBuffer dst) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
 
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
+        if (dst.isRebdOnly())
+            throw new IllegblArgumentException("Rebd-only buffer");
         int pos = dst.position();
         int lim = dst.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
-        NativeBuffer nb;
-        long address;
-        if (dst instanceof sun.nio.ch.DirectBuffer) {
+        NbtiveBuffer nb;
+        long bddress;
+        if (dst instbnceof sun.nio.ch.DirectBuffer) {
             nb = null;
-            address = ((sun.nio.ch.DirectBuffer)dst).address() + pos;
+            bddress = ((sun.nio.ch.DirectBuffer)dst).bddress() + pos;
         } else {
-            // substitute with native buffer
-            nb = NativeBuffers.getNativeBuffer(rem);
-            address = nb.address();
+            // substitute with nbtive buffer
+            nb = NbtiveBuffers.getNbtiveBuffer(rem);
+            bddress = nb.bddress();
         }
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
             try {
-                int n = fgetxattr(fd, nameAsBytes(file,name), address, rem);
+                int n = fgetxbttr(fd, nbmeAsBytes(file,nbme), bddress, rem);
 
-                // if remaining is zero then fgetxattr returns the size
+                // if rembining is zero then fgetxbttr returns the size
                 if (rem == 0) {
                     if (n > 0)
                         throw new UnixException(ERANGE);
                     return 0;
                 }
 
-                // copy from buffer into backing array if necessary
+                // copy from buffer into bbcking brrby if necessbry
                 if (nb != null) {
-                    int off = dst.arrayOffset() + pos + Unsafe.ARRAY_BYTE_BASE_OFFSET;
-                    unsafe.copyMemory(null, address, dst.array(), off, n);
+                    int off = dst.brrbyOffset() + pos + Unsbfe.ARRAY_BYTE_BASE_OFFSET;
+                    unsbfe.copyMemory(null, bddress, dst.brrby(), off, n);
                 }
                 dst.position(pos + n);
                 return n;
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 String msg = (x.errno() == ERANGE) ?
-                    "Insufficient space in buffer" : x.getMessage();
-                throw new FileSystemException(file.getPathForExceptionMessage(),
-                    null, "Error reading extended attribute '" + name + "': " + msg);
-            } finally {
+                    "Insufficient spbce in buffer" : x.getMessbge();
+                throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                    null, "Error rebding extended bttribute '" + nbme + "': " + msg);
+            } finblly {
                 close(fd);
             }
-        } finally {
+        } finblly {
             if (nb != null)
-                nb.release();
+                nb.relebse();
         }
     }
 
     @Override
-    public int write(String name, ByteBuffer src) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), false, true);
+    public int write(String nbme, ByteBuffer src) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), fblse, true);
 
         int pos = src.position();
         int lim = src.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
-        NativeBuffer nb;
-        long address;
-        if (src instanceof sun.nio.ch.DirectBuffer) {
+        NbtiveBuffer nb;
+        long bddress;
+        if (src instbnceof sun.nio.ch.DirectBuffer) {
             nb = null;
-            address = ((sun.nio.ch.DirectBuffer)src).address() + pos;
+            bddress = ((sun.nio.ch.DirectBuffer)src).bddress() + pos;
         } else {
-            // substitute with native buffer
-            nb = NativeBuffers.getNativeBuffer(rem);
-            address = nb.address();
+            // substitute with nbtive buffer
+            nb = NbtiveBuffers.getNbtiveBuffer(rem);
+            bddress = nb.bddress();
 
-            if (src.hasArray()) {
-                // copy from backing array into buffer
-                int off = src.arrayOffset() + pos + Unsafe.ARRAY_BYTE_BASE_OFFSET;
-                unsafe.copyMemory(src.array(), off, null, address, rem);
+            if (src.hbsArrby()) {
+                // copy from bbcking brrby into buffer
+                int off = src.brrbyOffset() + pos + Unsbfe.ARRAY_BYTE_BASE_OFFSET;
+                unsbfe.copyMemory(src.brrby(), off, null, bddress, rem);
             } else {
-                // backing array not accessible so transfer via temporary array
+                // bbcking brrby not bccessible so trbnsfer vib temporbry brrby
                 byte[] tmp = new byte[rem];
                 src.get(tmp);
-                src.position(pos);  // reset position as write may fail
-                unsafe.copyMemory(tmp, Unsafe.ARRAY_BYTE_BASE_OFFSET, null,
-                    address, rem);
+                src.position(pos);  // reset position bs write mby fbil
+                unsbfe.copyMemory(tmp, Unsbfe.ARRAY_BYTE_BASE_OFFSET, null,
+                    bddress, rem);
             }
         }
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
             try {
-                fsetxattr(fd, nameAsBytes(file,name), address, rem);
+                fsetxbttr(fd, nbmeAsBytes(file,nbme), bddress, rem);
                 src.position(pos + rem);
                 return rem;
-            } catch (UnixException x) {
-                throw new FileSystemException(file.getPathForExceptionMessage(),
-                    null, "Error writing extended attribute '" + name + "': " +
-                    x.getMessage());
-            } finally {
+            } cbtch (UnixException x) {
+                throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                    null, "Error writing extended bttribute '" + nbme + "': " +
+                    x.getMessbge());
+            } finblly {
                 close(fd);
             }
-        } finally {
+        } finblly {
             if (nb != null)
-                nb.release();
+                nb.relebse();
         }
     }
 
     @Override
-    public void delete(String name) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), false, true);
+    public void delete(String nbme) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), fblse, true);
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
-            fremovexattr(fd, nameAsBytes(file,name));
-        } catch (UnixException x) {
-            throw new FileSystemException(file.getPathForExceptionMessage(),
-                null, "Unable to delete extended attribute '" + name + "': " + x.getMessage());
-        } finally {
+            fremovexbttr(fd, nbmeAsBytes(file,nbme));
+        } cbtch (UnixException x) {
+            throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                null, "Unbble to delete extended bttribute '" + nbme + "': " + x.getMessbge());
+        } finblly {
             close(fd);
         }
     }
 
     /**
-     * Used by copyTo/moveTo to copy extended attributes from source to target.
+     * Used by copyTo/moveTo to copy extended bttributes from source to tbrget.
      *
-     * @param   ofd
+     * @pbrbm   ofd
      *          file descriptor for source file
-     * @param   nfd
-     *          file descriptor for target file
+     * @pbrbm   nfd
+     *          file descriptor for tbrget file
      */
-    static void copyExtendedAttributes(int ofd, int nfd) {
-        NativeBuffer buffer = null;
+    stbtic void copyExtendedAttributes(int ofd, int nfd) {
+        NbtiveBuffer buffer = null;
         try {
 
-            // call flistxattr to get list of extended attributes.
+            // cbll flistxbttr to get list of extended bttributes.
             int size = 1024;
-            buffer = NativeBuffers.getNativeBuffer(size);
+            buffer = NbtiveBuffers.getNbtiveBuffer(size);
             for (;;) {
                 try {
-                    size = flistxattr(ofd, buffer.address(), size);
-                    break;
-                } catch (UnixException x) {
-                    // allocate larger buffer if required
+                    size = flistxbttr(ofd, buffer.bddress(), size);
+                    brebk;
+                } cbtch (UnixException x) {
+                    // bllocbte lbrger buffer if required
                     if (x.errno() == ERANGE && size < 32*1024) {
-                        buffer.release();
+                        buffer.relebse();
                         size *= 2;
                         buffer = null;
-                        buffer = NativeBuffers.getNativeBuffer(size);
+                        buffer = NbtiveBuffers.getNbtiveBuffer(size);
                         continue;
                     }
 
-                    // unable to get list of attributes
+                    // unbble to get list of bttributes
                     return;
                 }
             }
 
-            // parse buffer as array of NULL-terminated C strings.
-            long address = buffer.address();
-            int start = 0;
+            // pbrse buffer bs brrby of NULL-terminbted C strings.
+            long bddress = buffer.bddress();
+            int stbrt = 0;
             int pos = 0;
             while (pos < size) {
-                if (unsafe.getByte(address + pos) == 0) {
-                    // extract attribute name and copy attribute to target.
-                    // FIXME: We can avoid needless copying by using address+pos
-                    // as the address of the name.
-                    int len = pos - start;
-                    byte[] name = new byte[len];
-                    unsafe.copyMemory(null, address+start, name,
-                        Unsafe.ARRAY_BYTE_BASE_OFFSET, len);
+                if (unsbfe.getByte(bddress + pos) == 0) {
+                    // extrbct bttribute nbme bnd copy bttribute to tbrget.
+                    // FIXME: We cbn bvoid needless copying by using bddress+pos
+                    // bs the bddress of the nbme.
+                    int len = pos - stbrt;
+                    byte[] nbme = new byte[len];
+                    unsbfe.copyMemory(null, bddress+stbrt, nbme,
+                        Unsbfe.ARRAY_BYTE_BASE_OFFSET, len);
                     try {
-                        copyExtendedAttribute(ofd, name, nfd);
-                    } catch (UnixException ignore) {
+                        copyExtendedAttribute(ofd, nbme, nfd);
+                    } cbtch (UnixException ignore) {
                         // ignore
                     }
-                    start = pos + 1;
+                    stbrt = pos + 1;
                 }
                 pos++;
             }
 
-        } finally {
+        } finblly {
             if (buffer != null)
-                buffer.release();
+                buffer.relebse();
         }
     }
 
-    private static void copyExtendedAttribute(int ofd, byte[] name, int nfd)
+    privbte stbtic void copyExtendedAttribute(int ofd, byte[] nbme, int nfd)
         throws UnixException
     {
-        int size = fgetxattr(ofd, name, 0L, 0);
-        NativeBuffer buffer = NativeBuffers.getNativeBuffer(size);
+        int size = fgetxbttr(ofd, nbme, 0L, 0);
+        NbtiveBuffer buffer = NbtiveBuffers.getNbtiveBuffer(size);
         try {
-            long address = buffer.address();
-            size = fgetxattr(ofd, name, address, size);
-            fsetxattr(nfd, name, address, size);
-        } finally {
-            buffer.release();
+            long bddress = buffer.bddress();
+            size = fgetxbttr(ofd, nbme, bddress, size);
+            fsetxbttr(nfd, nbme, bddress, size);
+        } finblly {
+            buffer.relebse();
         }
     }
 }

@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.Shape;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /**
- * The <code>ShapeGraphicAttribute</code> class is an implementation of
- * {@link GraphicAttribute} that draws shapes in a {@link TextLayout}.
- * @see GraphicAttribute
+ * The <code>ShbpeGrbphicAttribute</code> clbss is bn implementbtion of
+ * {@link GrbphicAttribute} thbt drbws shbpes in b {@link TextLbyout}.
+ * @see GrbphicAttribute
  */
-public final class ShapeGraphicAttribute extends GraphicAttribute {
+public finbl clbss ShbpeGrbphicAttribute extends GrbphicAttribute {
 
-    private Shape fShape;
-    private boolean fStroke;
+    privbte Shbpe fShbpe;
+    privbte boolebn fStroke;
 
     /**
-     * A key indicating the shape should be stroked with a 1-pixel wide stroke.
+     * A key indicbting the shbpe should be stroked with b 1-pixel wide stroke.
      */
-    public static final boolean STROKE = true;
+    public stbtic finbl boolebn STROKE = true;
 
     /**
-     * A key indicating the shape should be filled.
+     * A key indicbting the shbpe should be filled.
      */
-    public static final boolean FILL = false;
+    public stbtic finbl boolebn FILL = fblse;
 
-    // cache shape bounds, since GeneralPath doesn't
-    private Rectangle2D fShapeBounds;
+    // cbche shbpe bounds, since GenerblPbth doesn't
+    privbte Rectbngle2D fShbpeBounds;
 
     /**
-     * Constructs a <code>ShapeGraphicAttribute</code> for the specified
-     * {@link Shape}.
-     * @param shape the <code>Shape</code> to render.  The
-     * <code>Shape</code> is rendered with its origin at the origin of
-     * this <code>ShapeGraphicAttribute</code> in the
-     * host <code>TextLayout</code>.  This object maintains a reference to
-     * <code>shape</code>.
-     * @param alignment one of the alignments from this
-     * <code>ShapeGraphicAttribute</code>.
-     * @param stroke <code>true</code> if the <code>Shape</code> should be
-     * stroked; <code>false</code> if the <code>Shape</code> should be
+     * Constructs b <code>ShbpeGrbphicAttribute</code> for the specified
+     * {@link Shbpe}.
+     * @pbrbm shbpe the <code>Shbpe</code> to render.  The
+     * <code>Shbpe</code> is rendered with its origin bt the origin of
+     * this <code>ShbpeGrbphicAttribute</code> in the
+     * host <code>TextLbyout</code>.  This object mbintbins b reference to
+     * <code>shbpe</code>.
+     * @pbrbm blignment one of the blignments from this
+     * <code>ShbpeGrbphicAttribute</code>.
+     * @pbrbm stroke <code>true</code> if the <code>Shbpe</code> should be
+     * stroked; <code>fblse</code> if the <code>Shbpe</code> should be
      * filled.
      */
-    public ShapeGraphicAttribute(Shape shape,
-                                 int alignment,
-                                 boolean stroke) {
+    public ShbpeGrbphicAttribute(Shbpe shbpe,
+                                 int blignment,
+                                 boolebn stroke) {
 
-        super(alignment);
+        super(blignment);
 
-        fShape = shape;
+        fShbpe = shbpe;
         fStroke = stroke;
-        fShapeBounds = fShape.getBounds2D();
+        fShbpeBounds = fShbpe.getBounds2D();
     }
 
     /**
-     * Returns the ascent of this <code>ShapeGraphicAttribute</code>.  The
-     * ascent of a <code>ShapeGraphicAttribute</code> is the positive
-     * distance from the origin of its <code>Shape</code> to the top of
-     * bounds of its <code>Shape</code>.
-     * @return the ascent of this <code>ShapeGraphicAttribute</code>.
+     * Returns the bscent of this <code>ShbpeGrbphicAttribute</code>.  The
+     * bscent of b <code>ShbpeGrbphicAttribute</code> is the positive
+     * distbnce from the origin of its <code>Shbpe</code> to the top of
+     * bounds of its <code>Shbpe</code>.
+     * @return the bscent of this <code>ShbpeGrbphicAttribute</code>.
      */
-    public float getAscent() {
+    public flobt getAscent() {
 
-        return (float) Math.max(0, -fShapeBounds.getMinY());
+        return (flobt) Mbth.mbx(0, -fShbpeBounds.getMinY());
     }
 
     /**
-     * Returns the descent of this <code>ShapeGraphicAttribute</code>.
-     * The descent of a <code>ShapeGraphicAttribute</code> is the distance
-     * from the origin of its <code>Shape</code> to the bottom of the
-     * bounds of its <code>Shape</code>.
-     * @return the descent of this <code>ShapeGraphicAttribute</code>.
+     * Returns the descent of this <code>ShbpeGrbphicAttribute</code>.
+     * The descent of b <code>ShbpeGrbphicAttribute</code> is the distbnce
+     * from the origin of its <code>Shbpe</code> to the bottom of the
+     * bounds of its <code>Shbpe</code>.
+     * @return the descent of this <code>ShbpeGrbphicAttribute</code>.
      */
-    public float getDescent() {
+    public flobt getDescent() {
 
-        return (float) Math.max(0, fShapeBounds.getMaxY());
+        return (flobt) Mbth.mbx(0, fShbpeBounds.getMbxY());
     }
 
     /**
-     * Returns the advance of this <code>ShapeGraphicAttribute</code>.
-     * The advance of a <code>ShapeGraphicAttribute</code> is the distance
-     * from the origin of its <code>Shape</code> to the right side of the
-     * bounds of its <code>Shape</code>.
-     * @return the advance of this <code>ShapeGraphicAttribute</code>.
+     * Returns the bdvbnce of this <code>ShbpeGrbphicAttribute</code>.
+     * The bdvbnce of b <code>ShbpeGrbphicAttribute</code> is the distbnce
+     * from the origin of its <code>Shbpe</code> to the right side of the
+     * bounds of its <code>Shbpe</code>.
+     * @return the bdvbnce of this <code>ShbpeGrbphicAttribute</code>.
      */
-    public float getAdvance() {
+    public flobt getAdvbnce() {
 
-        return (float) Math.max(0, fShapeBounds.getMaxX());
+        return (flobt) Mbth.mbx(0, fShbpeBounds.getMbxX());
     }
 
     /**
      * {@inheritDoc}
      */
-    public void draw(Graphics2D graphics, float x, float y) {
+    public void drbw(Grbphics2D grbphics, flobt x, flobt y) {
 
-        // translating graphics to draw Shape !!!
-        graphics.translate((int)x, (int)y);
+        // trbnslbting grbphics to drbw Shbpe !!!
+        grbphics.trbnslbte((int)x, (int)y);
 
         try {
             if (fStroke == STROKE) {
                 // REMIND: set stroke to correct size
-                graphics.draw(fShape);
+                grbphics.drbw(fShbpe);
             }
             else {
-                graphics.fill(fShape);
+                grbphics.fill(fShbpe);
             }
         }
-        finally {
-            graphics.translate(-(int)x, -(int)y);
+        finblly {
+            grbphics.trbnslbte(-(int)x, -(int)y);
         }
     }
 
     /**
-     * Returns a {@link Rectangle2D} that encloses all of the
-     * bits drawn by this <code>ShapeGraphicAttribute</code> relative to
-     * the rendering position.  A graphic can be rendered beyond its
-     * origin, ascent, descent, or advance;  but if it does, this method's
-     * implementation should indicate where the graphic is rendered.
-     * @return a <code>Rectangle2D</code> that encloses all of the bits
-     * rendered by this <code>ShapeGraphicAttribute</code>.
+     * Returns b {@link Rectbngle2D} thbt encloses bll of the
+     * bits drbwn by this <code>ShbpeGrbphicAttribute</code> relbtive to
+     * the rendering position.  A grbphic cbn be rendered beyond its
+     * origin, bscent, descent, or bdvbnce;  but if it does, this method's
+     * implementbtion should indicbte where the grbphic is rendered.
+     * @return b <code>Rectbngle2D</code> thbt encloses bll of the bits
+     * rendered by this <code>ShbpeGrbphicAttribute</code>.
      */
-    public Rectangle2D getBounds() {
+    public Rectbngle2D getBounds() {
 
-        Rectangle2D.Float bounds = new Rectangle2D.Float();
-        bounds.setRect(fShapeBounds);
+        Rectbngle2D.Flobt bounds = new Rectbngle2D.Flobt();
+        bounds.setRect(fShbpeBounds);
 
         if (fStroke == STROKE) {
             ++bounds.width;
@@ -177,62 +177,62 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
     }
 
     /**
-     * Return a {@link java.awt.Shape} that represents the region that
-     * this <code>ShapeGraphicAttribute</code> renders.  This is used when a
-     * {@link TextLayout} is requested to return the outline of the text.
-     * The (untransformed) shape must not extend outside the rectangular
+     * Return b {@link jbvb.bwt.Shbpe} thbt represents the region thbt
+     * this <code>ShbpeGrbphicAttribute</code> renders.  This is used when b
+     * {@link TextLbyout} is requested to return the outline of the text.
+     * The (untrbnsformed) shbpe must not extend outside the rectbngulbr
      * bounds returned by <code>getBounds</code>.
-     * @param tx an optional {@link AffineTransform} to apply to the
-     *   this <code>ShapeGraphicAttribute</code>. This can be null.
-     * @return the <code>Shape</code> representing this graphic attribute,
-     *   suitable for stroking or filling.
+     * @pbrbm tx bn optionbl {@link AffineTrbnsform} to bpply to the
+     *   this <code>ShbpeGrbphicAttribute</code>. This cbn be null.
+     * @return the <code>Shbpe</code> representing this grbphic bttribute,
+     *   suitbble for stroking or filling.
      * @since 1.6
      */
-    public Shape getOutline(AffineTransform tx) {
-        return tx == null ? fShape : tx.createTransformedShape(fShape);
+    public Shbpe getOutline(AffineTrbnsform tx) {
+        return tx == null ? fShbpe : tx.crebteTrbnsformedShbpe(fShbpe);
     }
 
     /**
-     * Returns a hashcode for this <code>ShapeGraphicAttribute</code>.
-     * @return  a hash code value for this
-     * <code>ShapeGraphicAttribute</code>.
+     * Returns b hbshcode for this <code>ShbpeGrbphicAttribute</code>.
+     * @return  b hbsh code vblue for this
+     * <code>ShbpeGrbphicAttribute</code>.
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        return fShape.hashCode();
+        return fShbpe.hbshCode();
     }
 
     /**
-     * Compares this <code>ShapeGraphicAttribute</code> to the specified
+     * Compbres this <code>ShbpeGrbphicAttribute</code> to the specified
      * <code>Object</code>.
-     * @param rhs the <code>Object</code> to compare for equality
+     * @pbrbm rhs the <code>Object</code> to compbre for equblity
      * @return <code>true</code> if this
-     * <code>ShapeGraphicAttribute</code> equals <code>rhs</code>;
-     * <code>false</code> otherwise.
+     * <code>ShbpeGrbphicAttribute</code> equbls <code>rhs</code>;
+     * <code>fblse</code> otherwise.
      */
-    public boolean equals(Object rhs) {
+    public boolebn equbls(Object rhs) {
 
         try {
-            return equals((ShapeGraphicAttribute) rhs);
+            return equbls((ShbpeGrbphicAttribute) rhs);
         }
-        catch(ClassCastException e) {
-            return false;
+        cbtch(ClbssCbstException e) {
+            return fblse;
         }
     }
 
     /**
-     * Compares this <code>ShapeGraphicAttribute</code> to the specified
-     * <code>ShapeGraphicAttribute</code>.
-     * @param rhs the <code>ShapeGraphicAttribute</code> to compare for
-     * equality
+     * Compbres this <code>ShbpeGrbphicAttribute</code> to the specified
+     * <code>ShbpeGrbphicAttribute</code>.
+     * @pbrbm rhs the <code>ShbpeGrbphicAttribute</code> to compbre for
+     * equblity
      * @return <code>true</code> if this
-     * <code>ShapeGraphicAttribute</code> equals <code>rhs</code>;
-     * <code>false</code> otherwise.
+     * <code>ShbpeGrbphicAttribute</code> equbls <code>rhs</code>;
+     * <code>fblse</code> otherwise.
      */
-    public boolean equals(ShapeGraphicAttribute rhs) {
+    public boolebn equbls(ShbpeGrbphicAttribute rhs) {
 
         if (rhs == null) {
-            return false;
+            return fblse;
         }
 
         if (this == rhs) {
@@ -240,15 +240,15 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
         }
 
         if (fStroke != rhs.fStroke) {
-            return false;
+            return fblse;
         }
 
         if (getAlignment() != rhs.getAlignment()) {
-            return false;
+            return fblse;
         }
 
-        if (!fShape.equals(rhs.fShape)) {
-            return false;
+        if (!fShbpe.equbls(rhs.fShbpe)) {
+            return fblse;
         }
 
         return true;

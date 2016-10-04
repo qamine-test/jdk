@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,101 +28,101 @@
 
 #include <jni_util.h>
 
-/* The preferred native type for storing text on the current OS */
+/* The preferred nbtive type for storing text on the current OS */
 #ifdef WIN32
-#include <tchar.h>
-typedef WCHAR nchar;
+#include <tchbr.h>
+typedef WCHAR nchbr;
 #else
-typedef char nchar;
+typedef chbr nchbr;
 #endif
 
 typedef struct {
-    char *os_name;
-    char *os_version;
-    char *os_arch;
+    chbr *os_nbme;
+    chbr *os_version;
+    chbr *os_brch;
 
 #ifdef JDK_ARCH_ABI_PROP_NAME
-    char *sun_arch_abi;
+    chbr *sun_brch_bbi;
 #endif
 
-    nchar *tmp_dir;
-    nchar *font_dir;
-    nchar *user_dir;
+    nchbr *tmp_dir;
+    nchbr *font_dir;
+    nchbr *user_dir;
 
-    char *file_separator;
-    char *path_separator;
-    char *line_separator;
+    chbr *file_sepbrbtor;
+    chbr *pbth_sepbrbtor;
+    chbr *line_sepbrbtor;
 
-    nchar *user_name;
-    nchar *user_home;
+    nchbr *user_nbme;
+    nchbr *user_home;
 
-    char *language;
-    char *format_language;
-    char *display_language;
-    char *script;
-    char *format_script;
-    char *display_script;
-    char *country;
-    char *format_country;
-    char *display_country;
-    char *variant;
-    char *format_variant;
-    char *display_variant;
-    char *encoding;
-    char *sun_jnu_encoding;
-    char *sun_stdout_encoding;
-    char *sun_stderr_encoding;
-    char *timezone;
+    chbr *lbngubge;
+    chbr *formbt_lbngubge;
+    chbr *displby_lbngubge;
+    chbr *script;
+    chbr *formbt_script;
+    chbr *displby_script;
+    chbr *country;
+    chbr *formbt_country;
+    chbr *displby_country;
+    chbr *vbribnt;
+    chbr *formbt_vbribnt;
+    chbr *displby_vbribnt;
+    chbr *encoding;
+    chbr *sun_jnu_encoding;
+    chbr *sun_stdout_encoding;
+    chbr *sun_stderr_encoding;
+    chbr *timezone;
 
-    char *printerJob;
-    char *graphics_env;
-    char *awt_toolkit;
+    chbr *printerJob;
+    chbr *grbphics_env;
+    chbr *bwt_toolkit;
 
-    char *unicode_encoding;     /* The default endianness of unicode
+    chbr *unicode_encoding;     /* The defbult endibnness of unicode
                                     i.e. UnicodeBig or UnicodeLittle   */
 
-    const char *cpu_isalist;    /* list of supported instruction sets */
+    const chbr *cpu_isblist;    /* list of supported instruction sets */
 
-    char *cpu_endian;           /* endianness of platform */
+    chbr *cpu_endibn;           /* endibnness of plbtform */
 
-    char *data_model;           /* 32 or 64 bit data model */
+    chbr *dbtb_model;           /* 32 or 64 bit dbtb model */
 
-    char *patch_level;          /* patches/service packs installed */
+    chbr *pbtch_level;          /* pbtches/service pbcks instblled */
 
-    char *desktop;              /* Desktop name. */
+    chbr *desktop;              /* Desktop nbme. */
 
 #ifdef MACOSX
-    // These are for proxy-related information.
-    // Note that if these platform-specific extensions get out of hand we should make a new
-    // structure for them and #include it here.
-    int httpProxyEnabled;
-    char *httpHost;
-    char *httpPort;
+    // These bre for proxy-relbted informbtion.
+    // Note thbt if these plbtform-specific extensions get out of hbnd we should mbke b new
+    // structure for them bnd #include it here.
+    int httpProxyEnbbled;
+    chbr *httpHost;
+    chbr *httpPort;
 
-    int httpsProxyEnabled;
-    char *httpsHost;
-    char *httpsPort;
+    int httpsProxyEnbbled;
+    chbr *httpsHost;
+    chbr *httpsPort;
 
-    int ftpProxyEnabled;
-    char *ftpHost;
-    char *ftpPort;
+    int ftpProxyEnbbled;
+    chbr *ftpHost;
+    chbr *ftpPort;
 
-    int socksProxyEnabled;
-    char *socksHost;
-    char *socksPort;
+    int socksProxyEnbbled;
+    chbr *socksHost;
+    chbr *socksPort;
 
-    int gopherProxyEnabled;
-    char *gopherHost;
-    char *gopherPort;
+    int gopherProxyEnbbled;
+    chbr *gopherHost;
+    chbr *gopherPort;
 
-    char *exceptionList;
+    chbr *exceptionList;
 
-    char *awt_headless;  /* java.awt.headless setting, if NULL (default) will not be set */
+    chbr *bwt_hebdless;  /* jbvb.bwt.hebdless setting, if NULL (defbult) will not be set */
 #endif
 
-} java_props_t;
+} jbvb_props_t;
 
-java_props_t *GetJavaProperties(JNIEnv *env);
-jstring GetStringPlatform(JNIEnv *env, nchar* str);
+jbvb_props_t *GetJbvbProperties(JNIEnv *env);
+jstring GetStringPlbtform(JNIEnv *env, nchbr* str);
 
 #endif /* _JAVA_PROPS_H */

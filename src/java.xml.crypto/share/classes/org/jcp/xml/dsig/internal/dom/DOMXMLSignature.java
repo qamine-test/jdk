@@ -3,25 +3,25 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
  * ===========================================================================
@@ -31,93 +31,93 @@
  * ===========================================================================
  */
 /*
- * $Id: DOMXMLSignature.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMXMLSignbture.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.dom.DOMSignContext;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.dom.DOMSignContext;
+import jbvbx.xml.crypto.dsig.dom.DOMVblidbteContext;
+import jbvbx.xml.crypto.dsig.keyinfo.KeyInfo;
 
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.Provider;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.Key;
+import jbvb.security.Provider;
+import jbvb.util.Collections;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
 
 /**
- * DOM-based implementation of XMLSignature.
+ * DOM-bbsed implementbtion of XMLSignbture.
  *
- * @author Sean Mullan
- * @author Joyce Leung
+ * @buthor Sebn Mullbn
+ * @buthor Joyce Leung
  */
-public final class DOMXMLSignature extends DOMStructure
-    implements XMLSignature {
+public finbl clbss DOMXMLSignbture extends DOMStructure
+    implements XMLSignbture {
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
-    private String id;
-    private SignatureValue sv;
-    private KeyInfo ki;
-    private List<XMLObject> objects;
-    private SignedInfo si;
-    private Document ownerDoc = null;
-    private Element localSigElem = null;
-    private Element sigElem = null;
-    private boolean validationStatus;
-    private boolean validated = false;
-    private KeySelectorResult ksr;
-    private HashMap<String, XMLStructure> signatureIdMap;
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger("org.jcp.xml.dsig.internbl.dom");
+    privbte String id;
+    privbte SignbtureVblue sv;
+    privbte KeyInfo ki;
+    privbte List<XMLObject> objects;
+    privbte SignedInfo si;
+    privbte Document ownerDoc = null;
+    privbte Element locblSigElem = null;
+    privbte Element sigElem = null;
+    privbte boolebn vblidbtionStbtus;
+    privbte boolebn vblidbted = fblse;
+    privbte KeySelectorResult ksr;
+    privbte HbshMbp<String, XMLStructure> signbtureIdMbp;
 
-    static {
-        com.sun.org.apache.xml.internal.security.Init.init();
+    stbtic {
+        com.sun.org.bpbche.xml.internbl.security.Init.init();
     }
 
     /**
-     * Creates a <code>DOMXMLSignature</code> from the specified components.
+     * Crebtes b <code>DOMXMLSignbture</code> from the specified components.
      *
-     * @param si the <code>SignedInfo</code>
-     * @param ki the <code>KeyInfo</code>, or <code>null</code> if not specified
-     * @param objs a list of <code>XMLObject</code>s or <code>null</code>
-     *  if not specified. The list is copied to protect against subsequent
-     *  modification.
-     * @param id an optional id (specify <code>null</code> to omit)
-     * @param signatureValueId an optional id (specify <code>null</code> to
+     * @pbrbm si the <code>SignedInfo</code>
+     * @pbrbm ki the <code>KeyInfo</code>, or <code>null</code> if not specified
+     * @pbrbm objs b list of <code>XMLObject</code>s or <code>null</code>
+     *  if not specified. The list is copied to protect bgbinst subsequent
+     *  modificbtion.
+     * @pbrbm id bn optionbl id (specify <code>null</code> to omit)
+     * @pbrbm signbtureVblueId bn optionbl id (specify <code>null</code> to
      *  omit)
      * @throws NullPointerException if <code>si</code> is <code>null</code>
      */
-    public DOMXMLSignature(SignedInfo si, KeyInfo ki,
+    public DOMXMLSignbture(SignedInfo si, KeyInfo ki,
                            List<? extends XMLObject> objs,
-                           String id, String signatureValueId)
+                           String id, String signbtureVblueId)
     {
         if (si == null) {
-            throw new NullPointerException("signedInfo cannot be null");
+            throw new NullPointerException("signedInfo cbnnot be null");
         }
         this.si = si;
         this.id = id;
-        this.sv = new DOMSignatureValue(signatureValueId);
+        this.sv = new DOMSignbtureVblue(signbtureVblueId);
         if (objs == null) {
             this.objects = Collections.emptyList();
         } else {
             this.objects =
-                Collections.unmodifiableList(new ArrayList<XMLObject>(objs));
+                Collections.unmodifibbleList(new ArrbyList<XMLObject>(objs));
             for (int i = 0, size = this.objects.size(); i < size; i++) {
-                if (!(this.objects.get(i) instanceof XMLObject)) {
-                    throw new ClassCastException
-                        ("objs["+i+"] is not an XMLObject");
+                if (!(this.objects.get(i) instbnceof XMLObject)) {
+                    throw new ClbssCbstException
+                        ("objs["+i+"] is not bn XMLObject");
                 }
             }
         }
@@ -125,54 +125,54 @@ public final class DOMXMLSignature extends DOMStructure
     }
 
     /**
-     * Creates a <code>DOMXMLSignature</code> from XML.
+     * Crebtes b <code>DOMXMLSignbture</code> from XML.
      *
-     * @param sigElem Signature element
-     * @throws MarshalException if XMLSignature cannot be unmarshalled
+     * @pbrbm sigElem Signbture element
+     * @throws MbrshblException if XMLSignbture cbnnot be unmbrshblled
      */
-    public DOMXMLSignature(Element sigElem, XMLCryptoContext context,
+    public DOMXMLSignbture(Element sigElem, XMLCryptoContext context,
                            Provider provider)
-        throws MarshalException
+        throws MbrshblException
     {
-        localSigElem = sigElem;
-        ownerDoc = localSigElem.getOwnerDocument();
+        locblSigElem = sigElem;
+        ownerDoc = locblSigElem.getOwnerDocument();
 
-        // get Id attribute, if specified
-        id = DOMUtils.getAttributeValue(localSigElem, "Id");
+        // get Id bttribute, if specified
+        id = DOMUtils.getAttributeVblue(locblSigElem, "Id");
 
-        // unmarshal SignedInfo
-        Element siElem = DOMUtils.getFirstChildElement(localSigElem,
+        // unmbrshbl SignedInfo
+        Element siElem = DOMUtils.getFirstChildElement(locblSigElem,
                                                        "SignedInfo");
         si = new DOMSignedInfo(siElem, context, provider);
 
-        // unmarshal SignatureValue
-        Element sigValElem = DOMUtils.getNextSiblingElement(siElem,
-                                                            "SignatureValue");
-        sv = new DOMSignatureValue(sigValElem, context);
+        // unmbrshbl SignbtureVblue
+        Element sigVblElem = DOMUtils.getNextSiblingElement(siElem,
+                                                            "SignbtureVblue");
+        sv = new DOMSignbtureVblue(sigVblElem, context);
 
-        // unmarshal KeyInfo, if specified
-        Element nextSibling = DOMUtils.getNextSiblingElement(sigValElem);
-        if (nextSibling != null && nextSibling.getLocalName().equals("KeyInfo")) {
+        // unmbrshbl KeyInfo, if specified
+        Element nextSibling = DOMUtils.getNextSiblingElement(sigVblElem);
+        if (nextSibling != null && nextSibling.getLocblNbme().equbls("KeyInfo")) {
             ki = new DOMKeyInfo(nextSibling, context, provider);
             nextSibling = DOMUtils.getNextSiblingElement(nextSibling);
         }
 
-        // unmarshal Objects, if specified
+        // unmbrshbl Objects, if specified
         if (nextSibling == null) {
             objects = Collections.emptyList();
         } else {
-            List<XMLObject> tempObjects = new ArrayList<XMLObject>();
+            List<XMLObject> tempObjects = new ArrbyList<XMLObject>();
             while (nextSibling != null) {
-                String name = nextSibling.getLocalName();
-                if (!name.equals("Object")) {
-                    throw new MarshalException("Invalid element name: " + name +
+                String nbme = nextSibling.getLocblNbme();
+                if (!nbme.equbls("Object")) {
+                    throw new MbrshblException("Invblid element nbme: " + nbme +
                                                ", expected KeyInfo or Object");
                 }
-                tempObjects.add(new DOMXMLObject(nextSibling,
+                tempObjects.bdd(new DOMXMLObject(nextSibling,
                                                  context, provider));
                 nextSibling = DOMUtils.getNextSiblingElement(nextSibling);
             }
-            objects = Collections.unmodifiableList(tempObjects);
+            objects = Collections.unmodifibbleList(tempObjects);
         }
     }
 
@@ -192,7 +192,7 @@ public final class DOMXMLSignature extends DOMStructure
         return objects;
     }
 
-    public SignatureValue getSignatureValue() {
+    public SignbtureVblue getSignbtureVblue() {
         return sv;
     }
 
@@ -200,187 +200,187 @@ public final class DOMXMLSignature extends DOMStructure
         return ksr;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        marshal(parent, null, dsPrefix, context);
+        mbrshbl(pbrent, null, dsPrefix, context);
     }
 
-    public void marshal(Node parent, Node nextSibling, String dsPrefix,
+    public void mbrshbl(Node pbrent, Node nextSibling, String dsPrefix,
                         DOMCryptoContext context)
-        throws MarshalException
+        throws MbrshblException
     {
-        ownerDoc = DOMUtils.getOwnerDocument(parent);
-        sigElem = DOMUtils.createElement(ownerDoc, "Signature",
-                                         XMLSignature.XMLNS, dsPrefix);
+        ownerDoc = DOMUtils.getOwnerDocument(pbrent);
+        sigElem = DOMUtils.crebteElement(ownerDoc, "Signbture",
+                                         XMLSignbture.XMLNS, dsPrefix);
 
-        // append xmlns attribute
+        // bppend xmlns bttribute
         if (dsPrefix == null || dsPrefix.length() == 0) {
             sigElem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-                                   XMLSignature.XMLNS);
+                                   XMLSignbture.XMLNS);
         } else {
             sigElem.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" +
-                                   dsPrefix, XMLSignature.XMLNS);
+                                   dsPrefix, XMLSignbture.XMLNS);
         }
 
-        // create and append SignedInfo element
-        ((DOMSignedInfo)si).marshal(sigElem, dsPrefix, context);
+        // crebte bnd bppend SignedInfo element
+        ((DOMSignedInfo)si).mbrshbl(sigElem, dsPrefix, context);
 
-        // create and append SignatureValue element
-        ((DOMSignatureValue)sv).marshal(sigElem, dsPrefix, context);
+        // crebte bnd bppend SignbtureVblue element
+        ((DOMSignbtureVblue)sv).mbrshbl(sigElem, dsPrefix, context);
 
-        // create and append KeyInfo element if necessary
+        // crebte bnd bppend KeyInfo element if necessbry
         if (ki != null) {
-            ((DOMKeyInfo)ki).marshal(sigElem, null, dsPrefix, context);
+            ((DOMKeyInfo)ki).mbrshbl(sigElem, null, dsPrefix, context);
         }
 
-        // create and append Object elements if necessary
+        // crebte bnd bppend Object elements if necessbry
         for (int i = 0, size = objects.size(); i < size; i++) {
-            ((DOMXMLObject)objects.get(i)).marshal(sigElem, dsPrefix, context);
+            ((DOMXMLObject)objects.get(i)).mbrshbl(sigElem, dsPrefix, context);
         }
 
-        // append Id attribute
+        // bppend Id bttribute
         DOMUtils.setAttributeID(sigElem, "Id", id);
 
-        parent.insertBefore(sigElem, nextSibling);
+        pbrent.insertBefore(sigElem, nextSibling);
     }
 
-    public boolean validate(XMLValidateContext vc)
-        throws XMLSignatureException
+    public boolebn vblidbte(XMLVblidbteContext vc)
+        throws XMLSignbtureException
     {
         if (vc == null) {
-            throw new NullPointerException("validateContext is null");
+            throw new NullPointerException("vblidbteContext is null");
         }
 
-        if (!(vc instanceof DOMValidateContext)) {
-            throw new ClassCastException
-                ("validateContext must be of type DOMValidateContext");
+        if (!(vc instbnceof DOMVblidbteContext)) {
+            throw new ClbssCbstException
+                ("vblidbteContext must be of type DOMVblidbteContext");
         }
 
-        if (validated) {
-            return validationStatus;
+        if (vblidbted) {
+            return vblidbtionStbtus;
         }
 
-        // validate the signature
-        boolean sigValidity = sv.validate(vc);
-        if (!sigValidity) {
-            validationStatus = false;
-            validated = true;
-            return validationStatus;
+        // vblidbte the signbture
+        boolebn sigVblidity = sv.vblidbte(vc);
+        if (!sigVblidity) {
+            vblidbtionStbtus = fblse;
+            vblidbted = true;
+            return vblidbtionStbtus;
         }
 
-        // validate all References
-        @SuppressWarnings("unchecked")
+        // vblidbte bll References
+        @SuppressWbrnings("unchecked")
         List<Reference> refs = this.si.getReferences();
-        boolean validateRefs = true;
-        for (int i = 0, size = refs.size(); validateRefs && i < size; i++) {
+        boolebn vblidbteRefs = true;
+        for (int i = 0, size = refs.size(); vblidbteRefs && i < size; i++) {
             Reference ref = refs.get(i);
-            boolean refValid = ref.validate(vc);
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Reference[" + ref.getURI() + "] is valid: " + refValid);
+            boolebn refVblid = ref.vblidbte(vc);
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "Reference[" + ref.getURI() + "] is vblid: " + refVblid);
             }
-            validateRefs &= refValid;
+            vblidbteRefs &= refVblid;
         }
-        if (!validateRefs) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Couldn't validate the References");
+        if (!vblidbteRefs) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "Couldn't vblidbte the References");
             }
-            validationStatus = false;
-            validated = true;
-            return validationStatus;
+            vblidbtionStbtus = fblse;
+            vblidbted = true;
+            return vblidbtionStbtus;
         }
 
-        // validate Manifests, if property set
-        boolean validateMans = true;
-        if (Boolean.TRUE.equals(vc.getProperty
-                                ("org.jcp.xml.dsig.validateManifests")))
+        // vblidbte Mbnifests, if property set
+        boolebn vblidbteMbns = true;
+        if (Boolebn.TRUE.equbls(vc.getProperty
+                                ("org.jcp.xml.dsig.vblidbteMbnifests")))
         {
-            for (int i=0, size=objects.size(); validateMans && i < size; i++) {
+            for (int i=0, size=objects.size(); vblidbteMbns && i < size; i++) {
                 XMLObject xo = objects.get(i);
-                @SuppressWarnings("unchecked")
+                @SuppressWbrnings("unchecked")
                 List<XMLStructure> content = xo.getContent();
                 int csize = content.size();
-                for (int j = 0; validateMans && j < csize; j++) {
+                for (int j = 0; vblidbteMbns && j < csize; j++) {
                     XMLStructure xs = content.get(j);
-                    if (xs instanceof Manifest) {
-                        if (log.isLoggable(java.util.logging.Level.FINE)) {
-                            log.log(java.util.logging.Level.FINE, "validating manifest");
+                    if (xs instbnceof Mbnifest) {
+                        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                            log.log(jbvb.util.logging.Level.FINE, "vblidbting mbnifest");
                         }
-                        Manifest man = (Manifest)xs;
-                        @SuppressWarnings("unchecked")
-                        List<Reference> manRefs = man.getReferences();
-                        int rsize = manRefs.size();
-                        for (int k = 0; validateMans && k < rsize; k++) {
-                            Reference ref = manRefs.get(k);
-                            boolean refValid = ref.validate(vc);
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE,
-                                    "Manifest ref[" + ref.getURI() + "] is valid: " + refValid
+                        Mbnifest mbn = (Mbnifest)xs;
+                        @SuppressWbrnings("unchecked")
+                        List<Reference> mbnRefs = mbn.getReferences();
+                        int rsize = mbnRefs.size();
+                        for (int k = 0; vblidbteMbns && k < rsize; k++) {
+                            Reference ref = mbnRefs.get(k);
+                            boolebn refVblid = ref.vblidbte(vc);
+                            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                                log.log(jbvb.util.logging.Level.FINE,
+                                    "Mbnifest ref[" + ref.getURI() + "] is vblid: " + refVblid
                                 );
                             }
-                            validateMans &= refValid;
+                            vblidbteMbns &= refVblid;
                         }
                     }
                 }
             }
         }
 
-        validationStatus = validateMans;
-        validated = true;
-        return validationStatus;
+        vblidbtionStbtus = vblidbteMbns;
+        vblidbted = true;
+        return vblidbtionStbtus;
     }
 
     public void sign(XMLSignContext signContext)
-        throws MarshalException, XMLSignatureException
+        throws MbrshblException, XMLSignbtureException
     {
         if (signContext == null) {
-            throw new NullPointerException("signContext cannot be null");
+            throw new NullPointerException("signContext cbnnot be null");
         }
         DOMSignContext context = (DOMSignContext)signContext;
-        marshal(context.getParent(), context.getNextSibling(),
-                DOMUtils.getSignaturePrefix(context), context);
+        mbrshbl(context.getPbrent(), context.getNextSibling(),
+                DOMUtils.getSignbturePrefix(context), context);
 
-        // generate references and signature value
-        List<Reference> allReferences = new ArrayList<Reference>();
+        // generbte references bnd signbture vblue
+        List<Reference> bllReferences = new ArrbyList<Reference>();
 
-        // traverse the Signature and register all objects with IDs that
-        // may contain References
-        signatureIdMap = new HashMap<String, XMLStructure>();
-        signatureIdMap.put(id, this);
-        signatureIdMap.put(si.getId(), si);
-        @SuppressWarnings("unchecked")
+        // trbverse the Signbture bnd register bll objects with IDs thbt
+        // mby contbin References
+        signbtureIdMbp = new HbshMbp<String, XMLStructure>();
+        signbtureIdMbp.put(id, this);
+        signbtureIdMbp.put(si.getId(), si);
+        @SuppressWbrnings("unchecked")
         List<Reference> refs = si.getReferences();
         for (Reference ref : refs) {
-            signatureIdMap.put(ref.getId(), ref);
+            signbtureIdMbp.put(ref.getId(), ref);
         }
         for (XMLObject obj : objects) {
-            signatureIdMap.put(obj.getId(), obj);
-            @SuppressWarnings("unchecked")
+            signbtureIdMbp.put(obj.getId(), obj);
+            @SuppressWbrnings("unchecked")
             List<XMLStructure> content = obj.getContent();
             for (XMLStructure xs : content) {
-                if (xs instanceof Manifest) {
-                    Manifest man = (Manifest)xs;
-                    signatureIdMap.put(man.getId(), man);
-                    @SuppressWarnings("unchecked")
-                    List<Reference> manRefs = man.getReferences();
-                    for (Reference ref : manRefs) {
-                        allReferences.add(ref);
-                        signatureIdMap.put(ref.getId(), ref);
+                if (xs instbnceof Mbnifest) {
+                    Mbnifest mbn = (Mbnifest)xs;
+                    signbtureIdMbp.put(mbn.getId(), mbn);
+                    @SuppressWbrnings("unchecked")
+                    List<Reference> mbnRefs = mbn.getReferences();
+                    for (Reference ref : mbnRefs) {
+                        bllReferences.bdd(ref);
+                        signbtureIdMbp.put(ref.getId(), ref);
                     }
                 }
             }
         }
-        // always add SignedInfo references after Manifest references so
-        // that Manifest reference are digested first
-        allReferences.addAll(refs);
+        // blwbys bdd SignedInfo references bfter Mbnifest references so
+        // thbt Mbnifest reference bre digested first
+        bllReferences.bddAll(refs);
 
-        // generate/digest each reference
-        for (Reference ref : allReferences) {
+        // generbte/digest ebch reference
+        for (Reference ref : bllReferences) {
             digestReference((DOMReference)ref, signContext);
         }
 
-        // do final sweep to digest any references that were skipped or missed
-        for (Reference ref : allReferences) {
+        // do finbl sweep to digest bny references thbt were skipped or missed
+        for (Reference ref : bllReferences) {
             if (((DOMReference)ref).isDigested()) {
                 continue;
             }
@@ -392,103 +392,103 @@ public final class DOMXMLSignature extends DOMStructure
         try {
             ksr = signContext.getKeySelector().select(ki,
                                                       KeySelector.Purpose.SIGN,
-                                                      si.getSignatureMethod(),
+                                                      si.getSignbtureMethod(),
                                                       signContext);
             signingKey = ksr.getKey();
             if (signingKey == null) {
-                throw new XMLSignatureException("the keySelector did not " +
-                                                "find a signing key");
+                throw new XMLSignbtureException("the keySelector did not " +
+                                                "find b signing key");
             }
-        } catch (KeySelectorException kse) {
-            throw new XMLSignatureException("cannot find signing key", kse);
+        } cbtch (KeySelectorException kse) {
+            throw new XMLSignbtureException("cbnnot find signing key", kse);
         }
 
-        // calculate signature value
+        // cblculbte signbture vblue
         try {
-            byte[] val = ((AbstractDOMSignatureMethod)
-                si.getSignatureMethod()).sign(signingKey, si, signContext);
-            ((DOMSignatureValue)sv).setValue(val);
-        } catch (InvalidKeyException ike) {
-            throw new XMLSignatureException(ike);
+            byte[] vbl = ((AbstrbctDOMSignbtureMethod)
+                si.getSignbtureMethod()).sign(signingKey, si, signContext);
+            ((DOMSignbtureVblue)sv).setVblue(vbl);
+        } cbtch (InvblidKeyException ike) {
+            throw new XMLSignbtureException(ike);
         }
 
-        this.localSigElem = sigElem;
+        this.locblSigElem = sigElem;
         this.ksr = ksr;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
 
-        if (!(o instanceof XMLSignature)) {
-            return false;
+        if (!(o instbnceof XMLSignbture)) {
+            return fblse;
         }
-        XMLSignature osig = (XMLSignature)o;
+        XMLSignbture osig = (XMLSignbture)o;
 
-        boolean idEqual =
-            (id == null ? osig.getId() == null : id.equals(osig.getId()));
-        boolean keyInfoEqual =
+        boolebn idEqubl =
+            (id == null ? osig.getId() == null : id.equbls(osig.getId()));
+        boolebn keyInfoEqubl =
             (ki == null ? osig.getKeyInfo() == null
-                        : ki.equals(osig.getKeyInfo()));
+                        : ki.equbls(osig.getKeyInfo()));
 
-        return (idEqual && keyInfoEqual &&
-                sv.equals(osig.getSignatureValue()) &&
-                si.equals(osig.getSignedInfo()) &&
-                objects.equals(osig.getObjects()));
+        return (idEqubl && keyInfoEqubl &&
+                sv.equbls(osig.getSignbtureVblue()) &&
+                si.equbls(osig.getSignedInfo()) &&
+                objects.equbls(osig.getObjects()));
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            result = 31 * result + id.hbshCode();
         }
         if (ki != null) {
-            result = 31 * result + ki.hashCode();
+            result = 31 * result + ki.hbshCode();
         }
-        result = 31 * result + sv.hashCode();
-        result = 31 * result + si.hashCode();
-        result = 31 * result + objects.hashCode();
+        result = 31 * result + sv.hbshCode();
+        result = 31 * result + si.hbshCode();
+        result = 31 * result + objects.hbshCode();
 
         return result;
     }
 
-    private void digestReference(DOMReference ref, XMLSignContext signContext)
-        throws XMLSignatureException
+    privbte void digestReference(DOMReference ref, XMLSignContext signContext)
+        throws XMLSignbtureException
     {
         if (ref.isDigested()) {
             return;
         }
         // check dependencies
         String uri = ref.getURI();
-        if (Utils.sameDocumentURI(uri)) {
-            String id = Utils.parseIdFromSameDocumentURI(uri);
-            if (id != null && signatureIdMap.containsKey(id)) {
-                XMLStructure xs = signatureIdMap.get(id);
-                if (xs instanceof DOMReference) {
+        if (Utils.sbmeDocumentURI(uri)) {
+            String id = Utils.pbrseIdFromSbmeDocumentURI(uri);
+            if (id != null && signbtureIdMbp.contbinsKey(id)) {
+                XMLStructure xs = signbtureIdMbp.get(id);
+                if (xs instbnceof DOMReference) {
                     digestReference((DOMReference)xs, signContext);
-                } else if (xs instanceof Manifest) {
-                    Manifest man = (Manifest)xs;
-                    List<Reference> manRefs =
-                        DOMManifest.getManifestReferences(man);
-                    for (int i = 0, size = manRefs.size(); i < size; i++) {
-                        digestReference((DOMReference)manRefs.get(i),
+                } else if (xs instbnceof Mbnifest) {
+                    Mbnifest mbn = (Mbnifest)xs;
+                    List<Reference> mbnRefs =
+                        DOMMbnifest.getMbnifestReferences(mbn);
+                    for (int i = 0, size = mbnRefs.size(); i < size; i++) {
+                        digestReference((DOMReference)mbnRefs.get(i),
                                         signContext);
                     }
                 }
             }
-            // if uri="" and there are XPath Transforms, there may be
-            // reference dependencies in the XPath Transform - so be on
-            // the safe side, and skip and do at end in the final sweep
+            // if uri="" bnd there bre XPbth Trbnsforms, there mby be
+            // reference dependencies in the XPbth Trbnsform - so be on
+            // the sbfe side, bnd skip bnd do bt end in the finbl sweep
             if (uri.length() == 0) {
-                @SuppressWarnings("unchecked")
-                List<Transform> transforms = ref.getTransforms();
-                for (Transform transform : transforms) {
-                    String transformAlg = transform.getAlgorithm();
-                    if (transformAlg.equals(Transform.XPATH) ||
-                        transformAlg.equals(Transform.XPATH2)) {
+                @SuppressWbrnings("unchecked")
+                List<Trbnsform> trbnsforms = ref.getTrbnsforms();
+                for (Trbnsform trbnsform : trbnsforms) {
+                    String trbnsformAlg = trbnsform.getAlgorithm();
+                    if (trbnsformAlg.equbls(Trbnsform.XPATH) ||
+                        trbnsformAlg.equbls(Trbnsform.XPATH2)) {
                         return;
                     }
                 }
@@ -497,137 +497,137 @@ public final class DOMXMLSignature extends DOMStructure
         ref.digest(signContext);
     }
 
-    public class DOMSignatureValue extends DOMStructure
-        implements SignatureValue
+    public clbss DOMSignbtureVblue extends DOMStructure
+        implements SignbtureVblue
     {
-        private String id;
-        private byte[] value;
-        private String valueBase64;
-        private Element sigValueElem;
-        private boolean validated = false;
-        private boolean validationStatus;
+        privbte String id;
+        privbte byte[] vblue;
+        privbte String vblueBbse64;
+        privbte Element sigVblueElem;
+        privbte boolebn vblidbted = fblse;
+        privbte boolebn vblidbtionStbtus;
 
-        DOMSignatureValue(String id) {
+        DOMSignbtureVblue(String id) {
             this.id = id;
         }
 
-        DOMSignatureValue(Element sigValueElem, XMLCryptoContext context)
-            throws MarshalException
+        DOMSignbtureVblue(Element sigVblueElem, XMLCryptoContext context)
+            throws MbrshblException
         {
             try {
-                // base64 decode signatureValue
-                value = Base64.decode(sigValueElem);
-            } catch (Base64DecodingException bde) {
-                throw new MarshalException(bde);
+                // bbse64 decode signbtureVblue
+                vblue = Bbse64.decode(sigVblueElem);
+            } cbtch (Bbse64DecodingException bde) {
+                throw new MbrshblException(bde);
             }
 
-            Attr attr = sigValueElem.getAttributeNodeNS(null, "Id");
-            if (attr != null) {
-                id = attr.getValue();
-                sigValueElem.setIdAttributeNode(attr, true);
+            Attr bttr = sigVblueElem.getAttributeNodeNS(null, "Id");
+            if (bttr != null) {
+                id = bttr.getVblue();
+                sigVblueElem.setIdAttributeNode(bttr, true);
             } else {
                 id = null;
             }
-            this.sigValueElem = sigValueElem;
+            this.sigVblueElem = sigVblueElem;
         }
 
         public String getId() {
             return id;
         }
 
-        public byte[] getValue() {
-            return (value == null) ? null : value.clone();
+        public byte[] getVblue() {
+            return (vblue == null) ? null : vblue.clone();
         }
 
-        public boolean validate(XMLValidateContext validateContext)
-            throws XMLSignatureException
+        public boolebn vblidbte(XMLVblidbteContext vblidbteContext)
+            throws XMLSignbtureException
         {
-            if (validateContext == null) {
-                throw new NullPointerException("context cannot be null");
+            if (vblidbteContext == null) {
+                throw new NullPointerException("context cbnnot be null");
             }
 
-            if (validated) {
-                return validationStatus;
+            if (vblidbted) {
+                return vblidbtionStbtus;
             }
 
-            // get validating key
-            SignatureMethod sm = si.getSignatureMethod();
-            Key validationKey = null;
+            // get vblidbting key
+            SignbtureMethod sm = si.getSignbtureMethod();
+            Key vblidbtionKey = null;
             KeySelectorResult ksResult;
             try {
-                ksResult = validateContext.getKeySelector().select
-                    (ki, KeySelector.Purpose.VERIFY, sm, validateContext);
-                validationKey = ksResult.getKey();
-                if (validationKey == null) {
-                    throw new XMLSignatureException("the keyselector did not " +
-                                                    "find a validation key");
+                ksResult = vblidbteContext.getKeySelector().select
+                    (ki, KeySelector.Purpose.VERIFY, sm, vblidbteContext);
+                vblidbtionKey = ksResult.getKey();
+                if (vblidbtionKey == null) {
+                    throw new XMLSignbtureException("the keyselector did not " +
+                                                    "find b vblidbtion key");
                 }
-            } catch (KeySelectorException kse) {
-                throw new XMLSignatureException("cannot find validation " +
+            } cbtch (KeySelectorException kse) {
+                throw new XMLSignbtureException("cbnnot find vblidbtion " +
                                                 "key", kse);
             }
 
-            // canonicalize SignedInfo and verify signature
+            // cbnonicblize SignedInfo bnd verify signbture
             try {
-                validationStatus = ((AbstractDOMSignatureMethod)sm).verify
-                    (validationKey, si, value, validateContext);
-            } catch (Exception e) {
-                throw new XMLSignatureException(e);
+                vblidbtionStbtus = ((AbstrbctDOMSignbtureMethod)sm).verify
+                    (vblidbtionKey, si, vblue, vblidbteContext);
+            } cbtch (Exception e) {
+                throw new XMLSignbtureException(e);
             }
 
-            validated = true;
+            vblidbted = true;
             ksr = ksResult;
-            return validationStatus;
+            return vblidbtionStbtus;
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (this == o) {
                 return true;
             }
 
-            if (!(o instanceof SignatureValue)) {
-                return false;
+            if (!(o instbnceof SignbtureVblue)) {
+                return fblse;
             }
-            SignatureValue osv = (SignatureValue)o;
+            SignbtureVblue osv = (SignbtureVblue)o;
 
-            boolean idEqual =
-                (id == null ? osv.getId() == null : id.equals(osv.getId()));
+            boolebn idEqubl =
+                (id == null ? osv.getId() == null : id.equbls(osv.getId()));
 
-            //XXX compare signature values?
-            return idEqual;
+            //XXX compbre signbture vblues?
+            return idEqubl;
         }
 
         @Override
-        public int hashCode() {
+        public int hbshCode() {
             int result = 17;
             if (id != null) {
-                result = 31 * result + id.hashCode();
+                result = 31 * result + id.hbshCode();
             }
 
             return result;
         }
 
-        public void marshal(Node parent, String dsPrefix,
+        public void mbrshbl(Node pbrent, String dsPrefix,
                             DOMCryptoContext context)
-            throws MarshalException
+            throws MbrshblException
         {
-            // create SignatureValue element
-            sigValueElem = DOMUtils.createElement(ownerDoc, "SignatureValue",
-                                                  XMLSignature.XMLNS, dsPrefix);
-            if (valueBase64 != null) {
-                sigValueElem.appendChild(ownerDoc.createTextNode(valueBase64));
+            // crebte SignbtureVblue element
+            sigVblueElem = DOMUtils.crebteElement(ownerDoc, "SignbtureVblue",
+                                                  XMLSignbture.XMLNS, dsPrefix);
+            if (vblueBbse64 != null) {
+                sigVblueElem.bppendChild(ownerDoc.crebteTextNode(vblueBbse64));
             }
 
-            // append Id attribute, if specified
-            DOMUtils.setAttributeID(sigValueElem, "Id", id);
-            parent.appendChild(sigValueElem);
+            // bppend Id bttribute, if specified
+            DOMUtils.setAttributeID(sigVblueElem, "Id", id);
+            pbrent.bppendChild(sigVblueElem);
         }
 
-        void setValue(byte[] value) {
-            this.value = value;
-            valueBase64 = Base64.encode(value);
-            sigValueElem.appendChild(ownerDoc.createTextNode(valueBase64));
+        void setVblue(byte[] vblue) {
+            this.vblue = vblue;
+            vblueBbse64 = Bbse64.encode(vblue);
+            sigVblueElem.bppendChild(ownerDoc.crebteTextNode(vblueBbse64));
         }
     }
 }

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
 
 /**
- * Parameters used as input for the Collection {@code CertStore}
- * algorithm.
+ * Pbrbmeters used bs input for the Collection {@code CertStore}
+ * blgorithm.
  * <p>
- * This class is used to provide necessary configuration parameters
- * to implementations of the Collection {@code CertStore}
- * algorithm. The only parameter included in this class is the
+ * This clbss is used to provide necessbry configurbtion pbrbmeters
+ * to implementbtions of the Collection {@code CertStore}
+ * blgorithm. The only pbrbmeter included in this clbss is the
  * {@code Collection} from which the {@code CertStore} will
- * retrieve certificates and CRLs.
+ * retrieve certificbtes bnd CRLs.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
  * @since       1.4
- * @author      Steve Hanna
- * @see         java.util.Collection
+ * @buthor      Steve Hbnnb
+ * @see         jbvb.util.Collection
  * @see         CertStore
  */
-public class CollectionCertStoreParameters
-    implements CertStoreParameters {
+public clbss CollectionCertStorePbrbmeters
+    implements CertStorePbrbmeters {
 
-    private Collection<?> coll;
+    privbte Collection<?> coll;
 
     /**
-     * Creates an instance of {@code CollectionCertStoreParameters}
-     * which will allow certificates and CRLs to be retrieved from the
+     * Crebtes bn instbnce of {@code CollectionCertStorePbrbmeters}
+     * which will bllow certificbtes bnd CRLs to be retrieved from the
      * specified {@code Collection}. If the specified
-     * {@code Collection} contains an object that is not a
-     * {@code Certificate} or {@code CRL}, that object will be
+     * {@code Collection} contbins bn object thbt is not b
+     * {@code Certificbte} or {@code CRL}, thbt object will be
      * ignored by the Collection {@code CertStore}.
      * <p>
-     * The {@code Collection} is <b>not</b> copied. Instead, a
-     * reference is used. This allows the caller to subsequently add or
-     * remove {@code Certificates} or {@code CRL}s from the
-     * {@code Collection}, thus changing the set of
-     * {@code Certificates} or {@code CRL}s available to the
+     * The {@code Collection} is <b>not</b> copied. Instebd, b
+     * reference is used. This bllows the cbller to subsequently bdd or
+     * remove {@code Certificbtes} or {@code CRL}s from the
+     * {@code Collection}, thus chbnging the set of
+     * {@code Certificbtes} or {@code CRL}s bvbilbble to the
      * Collection {@code CertStore}. The Collection {@code CertStore}
      * will not modify the contents of the {@code Collection}.
      * <p>
-     * If the {@code Collection} will be modified by one thread while
-     * another thread is calling a method of a Collection {@code CertStore}
-     * that has been initialized with this {@code Collection}, the
-     * {@code Collection} must have fail-fast iterators.
+     * If the {@code Collection} will be modified by one threbd while
+     * bnother threbd is cblling b method of b Collection {@code CertStore}
+     * thbt hbs been initiblized with this {@code Collection}, the
+     * {@code Collection} must hbve fbil-fbst iterbtors.
      *
-     * @param collection a {@code Collection} of
-     *        {@code Certificate}s and {@code CRL}s
+     * @pbrbm collection b {@code Collection} of
+     *        {@code Certificbte}s bnd {@code CRL}s
      * @exception NullPointerException if {@code collection} is
      * {@code null}
      */
-    public CollectionCertStoreParameters(Collection<?> collection) {
+    public CollectionCertStorePbrbmeters(Collection<?> collection) {
         if (collection == null)
             throw new NullPointerException();
         coll = collection;
     }
 
     /**
-     * Creates an instance of {@code CollectionCertStoreParameters} with
-     * the default parameter values (an empty and immutable
+     * Crebtes bn instbnce of {@code CollectionCertStorePbrbmeters} with
+     * the defbult pbrbmeter vblues (bn empty bnd immutbble
      * {@code Collection}).
      */
-    public CollectionCertStoreParameters() {
+    public CollectionCertStorePbrbmeters() {
         coll = Collections.EMPTY_SET;
     }
 
     /**
-     * Returns the {@code Collection} from which {@code Certificate}s
-     * and {@code CRL}s are retrieved. This is <b>not</b> a copy of the
-     * {@code Collection}, it is a reference. This allows the caller to
-     * subsequently add or remove {@code Certificates} or
+     * Returns the {@code Collection} from which {@code Certificbte}s
+     * bnd {@code CRL}s bre retrieved. This is <b>not</b> b copy of the
+     * {@code Collection}, it is b reference. This bllows the cbller to
+     * subsequently bdd or remove {@code Certificbtes} or
      * {@code CRL}s from the {@code Collection}.
      *
      * @return the {@code Collection} (never null)
@@ -112,30 +112,30 @@ public class CollectionCertStoreParameters
     }
 
     /**
-     * Returns a copy of this object. Note that only a reference to the
-     * {@code Collection} is copied, and not the contents.
+     * Returns b copy of this object. Note thbt only b reference to the
+     * {@code Collection} is copied, bnd not the contents.
      *
      * @return the copy
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            /* Cannot happen */
-            throw new InternalError(e.toString(), e);
+        } cbtch (CloneNotSupportedException e) {
+            /* Cbnnot hbppen */
+            throw new InternblError(e.toString(), e);
         }
     }
 
     /**
-     * Returns a formatted string describing the parameters.
+     * Returns b formbtted string describing the pbrbmeters.
      *
-     * @return a formatted string describing the parameters
+     * @return b formbtted string describing the pbrbmeters
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("CollectionCertStoreParameters: [\n");
-        sb.append("  collection: " + coll + "\n");
-        sb.append("]");
+        sb.bppend("CollectionCertStorePbrbmeters: [\n");
+        sb.bppend("  collection: " + coll + "\n");
+        sb.bppend("]");
         return sb.toString();
     }
 }

@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.rmic.newrmic;
+pbckbge sun.rmi.rmic.newrmic;
 
-import com.sun.javadoc.ClassDoc;
-import java.io.File;
-import java.util.Set;
+import com.sun.jbvbdoc.ClbssDoc;
+import jbvb.io.File;
+import jbvb.util.Set;
 
 /**
- * The interface to rmic back end implementations.  Classes that
- * implement this interface correspond to the various generation modes
+ * The interfbce to rmic bbck end implementbtions.  Clbsses thbt
+ * implement this interfbce correspond to the vbrious generbtion modes
  * of rmic (JRMP, IIOP, IDL, etc.).
  *
- * A Generator instance corresponds to a particular rmic compilation
- * batch, and its instance state represents the generator-specific
- * command line options for that batch.  Main will instantiate a
- * generator class when the command line arguments indicate selection
- * of the corresponding generation mode.  Main will then invoke the
- * "parseArgs" method to allow the generator to process any
- * generator-specific command line options and set its instance state
- * accordingly.
+ * A Generbtor instbnce corresponds to b pbrticulbr rmic compilbtion
+ * bbtch, bnd its instbnce stbte represents the generbtor-specific
+ * commbnd line options for thbt bbtch.  Mbin will instbntibte b
+ * generbtor clbss when the commbnd line brguments indicbte selection
+ * of the corresponding generbtion mode.  Mbin will then invoke the
+ * "pbrseArgs" method to bllow the generbtor to process bny
+ * generbtor-specific commbnd line options bnd set its instbnce stbte
+ * bccordingly.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
- * @author Peter Jones
+ * @buthor Peter Jones
  **/
-public interface Generator {
+public interfbce Generbtor {
 
     /**
-     * Processes the command line options specific to this generator.
-     * Processed options are set to null in the specified array.
-     * Returns true if successful or false if an error occurs.  Errors
-     * are output to the specific Main instance.
+     * Processes the commbnd line options specific to this generbtor.
+     * Processed options bre set to null in the specified brrby.
+     * Returns true if successful or fblse if bn error occurs.  Errors
+     * bre output to the specific Mbin instbnce.
      **/
-    public boolean parseArgs(String[] args, Main main);
+    public boolebn pbrseArgs(String[] brgs, Mbin mbin);
 
     /**
-     * Returns the most specific environment class required by this
-     * generator.
+     * Returns the most specific environment clbss required by this
+     * generbtor.
      **/
-    public Class<? extends BatchEnvironment> envClass();
+    public Clbss<? extends BbtchEnvironment> envClbss();
 
     /**
-     * Returns the names of the classes that must be available through
-     * the doclet API in order for this generator to function.
+     * Returns the nbmes of the clbsses thbt must be bvbilbble through
+     * the doclet API in order for this generbtor to function.
      **/
-    public Set<String> bootstrapClassNames();
+    public Set<String> bootstrbpClbssNbmes();
 
     /**
-     * Generates the protocol-specific rmic output files for the
-     * specified remote class.  This method is invoked once for each
-     * class or interface specified on the command line for the rmic
-     * compilation batch associated with this instance.
+     * Generbtes the protocol-specific rmic output files for the
+     * specified remote clbss.  This method is invoked once for ebch
+     * clbss or interfbce specified on the commbnd line for the rmic
+     * compilbtion bbtch bssocibted with this instbnce.
      *
-     * Any generated source files (to be compiled with javac) are
-     * passed to the addGeneratedFile method of the specified
-     * BatchEnvironment.
+     * Any generbted source files (to be compiled with jbvbc) bre
+     * pbssed to the bddGenerbtedFile method of the specified
+     * BbtchEnvironment.
      **/
-    public void generate(BatchEnvironment env,
-                         ClassDoc inputClass,
+    public void generbte(BbtchEnvironment env,
+                         ClbssDoc inputClbss,
                          File destDir);
 }

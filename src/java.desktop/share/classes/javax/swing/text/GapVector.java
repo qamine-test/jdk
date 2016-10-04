@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.Vector;
-import java.io.Serializable;
-import javax.swing.undo.UndoableEdit;
+import jbvb.util.Vector;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.undo.UndobbleEdit;
 
 /**
- * An implementation of a gapped buffer similar to that used by
- * emacs.  The underlying storage is a java array of some type,
- * which is known only by the subclass of this class.  The array
- * has a gap somewhere.  The gap is moved to the location of changes
- * to take advantage of common behavior where most changes occur
- * in the same location.  Changes that occur at a gap boundary are
- * generally cheap and moving the gap is generally cheaper than
- * moving the array contents directly to accommodate the change.
+ * An implementbtion of b gbpped buffer similbr to thbt used by
+ * embcs.  The underlying storbge is b jbvb brrby of some type,
+ * which is known only by the subclbss of this clbss.  The brrby
+ * hbs b gbp somewhere.  The gbp is moved to the locbtion of chbnges
+ * to tbke bdvbntbge of common behbvior where most chbnges occur
+ * in the sbme locbtion.  Chbnges thbt occur bt b gbp boundbry bre
+ * generblly chebp bnd moving the gbp is generblly chebper thbn
+ * moving the brrby contents directly to bccommodbte the chbnge.
  *
- * @author  Timothy Prinzing
- * @see GapContent
+ * @buthor  Timothy Prinzing
+ * @see GbpContent
  */
-@SuppressWarnings("serial") // Data in fields not necessarily serializable
-abstract class GapVector implements Serializable {
+@SuppressWbrnings("seribl") // Dbtb in fields not necessbrily seriblizbble
+bbstrbct clbss GbpVector implements Seriblizbble {
 
 
     /**
-     * Creates a new GapVector object.  Initial size defaults to 10.
+     * Crebtes b new GbpVector object.  Initibl size defbults to 10.
      */
-    public GapVector() {
+    public GbpVector() {
         this(10);
     }
 
     /**
-     * Creates a new GapVector object, with the initial
+     * Crebtes b new GbpVector object, with the initibl
      * size specified.
      *
-     * @param initialLength the initial size
+     * @pbrbm initiblLength the initibl size
      */
-    public GapVector(int initialLength) {
-        array = allocateArray(initialLength);
+    public GbpVector(int initiblLength) {
+        brrby = bllocbteArrby(initiblLength);
         g0 = 0;
-        g1 = initialLength;
+        g1 = initiblLength;
     }
 
     /**
-     * Allocate an array to store items of the type
-     * appropriate (which is determined by the subclass).
+     * Allocbte bn brrby to store items of the type
+     * bppropribte (which is determined by the subclbss).
      */
-    protected abstract Object allocateArray(int len);
+    protected bbstrbct Object bllocbteArrby(int len);
 
     /**
-     * Get the length of the allocated array
+     * Get the length of the bllocbted brrby
      */
-    protected abstract int getArrayLength();
+    protected bbstrbct int getArrbyLength();
 
     /**
-     * Access to the array.  The actual type
-     * of the array is known only by the subclass.
+     * Access to the brrby.  The bctubl type
+     * of the brrby is known only by the subclbss.
      */
-    protected final Object getArray() {
-        return array;
+    protected finbl Object getArrby() {
+        return brrby;
     }
 
     /**
-     * Access to the start of the gap.
+     * Access to the stbrt of the gbp.
      */
-    protected final int getGapStart() {
+    protected finbl int getGbpStbrt() {
         return g0;
     }
 
     /**
-     * Access to the end of the gap.
+     * Access to the end of the gbp.
      */
-    protected final int getGapEnd() {
+    protected finbl int getGbpEnd() {
         return g1;
     }
 
-    // ---- variables -----------------------------------
+    // ---- vbribbles -----------------------------------
 
     /**
-     * The array of items.  The type is determined by the subclass.
+     * The brrby of items.  The type is determined by the subclbss.
      */
-    private Object array;
+    privbte Object brrby;
 
     /**
-     * start of gap in the array
+     * stbrt of gbp in the brrby
      */
-    private int g0;
+    privbte int g0;
 
     /**
-     * end of gap in the array
+     * end of gbp in the brrby
      */
-    private int g1;
+    privbte int g1;
 
 
-    // --- gap management -------------------------------
+    // --- gbp mbnbgement -------------------------------
 
     /**
-     * Replace the given logical position in the storage with
-     * the given new items.  This will move the gap to the area
-     * being changed if the gap is not currently located at the
-     * change location.
+     * Replbce the given logicbl position in the storbge with
+     * the given new items.  This will move the gbp to the breb
+     * being chbnged if the gbp is not currently locbted bt the
+     * chbnge locbtion.
      *
-     * @param position the location to make the replacement.  This
-     *  is not the location in the underlying storage array, but
-     *  the location in the contiguous space being modeled.
-     * @param rmSize the number of items to remove
-     * @param addItems the new items to place in storage.
+     * @pbrbm position the locbtion to mbke the replbcement.  This
+     *  is not the locbtion in the underlying storbge brrby, but
+     *  the locbtion in the contiguous spbce being modeled.
+     * @pbrbm rmSize the number of items to remove
+     * @pbrbm bddItems the new items to plbce in storbge.
      */
-    protected void replace(int position, int rmSize, Object addItems, int addSize) {
-        int addOffset = 0;
-        if (addSize == 0) {
+    protected void replbce(int position, int rmSize, Object bddItems, int bddSize) {
+        int bddOffset = 0;
+        if (bddSize == 0) {
             close(position, rmSize);
             return;
-        } else if (rmSize > addSize) {
+        } else if (rmSize > bddSize) {
             /* Shrink the end. */
-            close(position+addSize, rmSize-addSize);
+            close(position+bddSize, rmSize-bddSize);
         } else {
             /* Grow the end, do two chunks. */
-            int endSize = addSize - rmSize;
+            int endSize = bddSize - rmSize;
             int end = open(position + rmSize, endSize);
-            System.arraycopy(addItems, rmSize, array, end, endSize);
-            addSize = rmSize;
+            System.brrbycopy(bddItems, rmSize, brrby, end, endSize);
+            bddSize = rmSize;
         }
-        System.arraycopy(addItems, addOffset, array, position, addSize);
+        System.brrbycopy(bddItems, bddOffset, brrby, position, bddSize);
     }
 
     /**
-     * Delete nItems at position.  Squeezes any marks
-     * within the deleted area to position.  This moves
-     * the gap to the best place by minimizing it's
-     * overall movement.  The gap must intersect the
-     * target block.
+     * Delete nItems bt position.  Squeezes bny mbrks
+     * within the deleted breb to position.  This moves
+     * the gbp to the best plbce by minimizing it's
+     * overbll movement.  The gbp must intersect the
+     * tbrget block.
      */
     void close(int position, int nItems) {
         if (nItems == 0)  return;
@@ -160,47 +160,47 @@ abstract class GapVector implements Serializable {
         int end = position + nItems;
         int new_gs = (g1 - g0) + nItems;
         if (end <= g0) {
-            // Move gap to end of block.
+            // Move gbp to end of block.
             if (g0 != end) {
-                shiftGap(end);
+                shiftGbp(end);
             }
             // Adjust g0.
-            shiftGapStartDown(g0 - nItems);
+            shiftGbpStbrtDown(g0 - nItems);
         } else if (position >= g0) {
-            // Move gap to beginning of block.
+            // Move gbp to beginning of block.
             if (g0 != position) {
-                shiftGap(position);
+                shiftGbp(position);
             }
             // Adjust g1.
-            shiftGapEndUp(g0 + new_gs);
+            shiftGbpEndUp(g0 + new_gs);
         } else {
-            // The gap is properly inside the target block.
-            // No data movement necessary, simply move both gap pointers.
-            shiftGapStartDown(position);
-            shiftGapEndUp(g0 + new_gs);
+            // The gbp is properly inside the tbrget block.
+            // No dbtb movement necessbry, simply move both gbp pointers.
+            shiftGbpStbrtDown(position);
+            shiftGbpEndUp(g0 + new_gs);
         }
     }
 
     /**
-     * Make space for the given number of items at the given
-     * location.
+     * Mbke spbce for the given number of items bt the given
+     * locbtion.
      *
-     * @return the location that the caller should fill in
+     * @return the locbtion thbt the cbller should fill in
      */
     int open(int position, int nItems) {
-        int gapSize = g1 - g0;
+        int gbpSize = g1 - g0;
         if (nItems == 0) {
             if (position > g0)
-                position += gapSize;
+                position += gbpSize;
             return position;
         }
 
-        // Expand the array if the gap is too small.
-        shiftGap(position);
-        if (nItems >= gapSize) {
-            // Pre-shift the gap, to reduce total movement.
-            shiftEnd(getArrayLength() - gapSize + nItems);
-            gapSize = g1 - g0;
+        // Expbnd the brrby if the gbp is too smbll.
+        shiftGbp(position);
+        if (nItems >= gbpSize) {
+            // Pre-shift the gbp, to reduce totbl movement.
+            shiftEnd(getArrbyLength() - gbpSize + nItems);
+            gbpSize = g1 - g0;
         }
 
         g0 = g0 + nItems;
@@ -208,93 +208,93 @@ abstract class GapVector implements Serializable {
     }
 
     /**
-     * resize the underlying storage array to the
+     * resize the underlying storbge brrby to the
      * given new size
      */
     void resize(int nsize) {
-        Object narray = allocateArray(nsize);
-        System.arraycopy(array, 0, narray, 0, Math.min(nsize, getArrayLength()));
-        array = narray;
+        Object nbrrby = bllocbteArrby(nsize);
+        System.brrbycopy(brrby, 0, nbrrby, 0, Mbth.min(nsize, getArrbyLength()));
+        brrby = nbrrby;
     }
 
     /**
-     * Make the gap bigger, moving any necessary data and updating
-     * the appropriate marks
+     * Mbke the gbp bigger, moving bny necessbry dbtb bnd updbting
+     * the bppropribte mbrks
      */
     protected void shiftEnd(int newSize) {
-        int oldSize = getArrayLength();
-        int oldGapEnd = g1;
-        int upperSize = oldSize - oldGapEnd;
-        int arrayLength = getNewArraySize(newSize);
-        int newGapEnd = arrayLength - upperSize;
-        resize(arrayLength);
-        g1 = newGapEnd;
+        int oldSize = getArrbyLength();
+        int oldGbpEnd = g1;
+        int upperSize = oldSize - oldGbpEnd;
+        int brrbyLength = getNewArrbySize(newSize);
+        int newGbpEnd = brrbyLength - upperSize;
+        resize(brrbyLength);
+        g1 = newGbpEnd;
 
         if (upperSize != 0) {
-            // Copy array items to new end of array.
-            System.arraycopy(array, oldGapEnd, array, newGapEnd, upperSize);
+            // Copy brrby items to new end of brrby.
+            System.brrbycopy(brrby, oldGbpEnd, brrby, newGbpEnd, upperSize);
         }
     }
 
     /**
-     * Calculates a new size of the storage array depending on required
-     * capacity.
-     * @param reqSize the size which is necessary for new content
-     * @return the new size of the storage array
+     * Cblculbtes b new size of the storbge brrby depending on required
+     * cbpbcity.
+     * @pbrbm reqSize the size which is necessbry for new content
+     * @return the new size of the storbge brrby
      */
-    int getNewArraySize(int reqSize) {
+    int getNewArrbySize(int reqSize) {
         return (reqSize + 1) * 2;
     }
 
     /**
-     * Move the start of the gap to a new location,
-     * without changing the size of the gap.  This
-     * moves the data in the array and updates the
-     * marks accordingly.
+     * Move the stbrt of the gbp to b new locbtion,
+     * without chbnging the size of the gbp.  This
+     * moves the dbtb in the brrby bnd updbtes the
+     * mbrks bccordingly.
      */
-    protected void shiftGap(int newGapStart) {
-        if (newGapStart == g0) {
+    protected void shiftGbp(int newGbpStbrt) {
+        if (newGbpStbrt == g0) {
             return;
         }
-        int oldGapStart = g0;
-        int dg = newGapStart - oldGapStart;
-        int oldGapEnd = g1;
-        int newGapEnd = oldGapEnd + dg;
-        int gapSize = oldGapEnd - oldGapStart;
+        int oldGbpStbrt = g0;
+        int dg = newGbpStbrt - oldGbpStbrt;
+        int oldGbpEnd = g1;
+        int newGbpEnd = oldGbpEnd + dg;
+        int gbpSize = oldGbpEnd - oldGbpStbrt;
 
-        g0 = newGapStart;
-        g1 = newGapEnd;
+        g0 = newGbpStbrt;
+        g1 = newGbpEnd;
         if (dg > 0) {
-            // Move gap up, move data down.
-            System.arraycopy(array, oldGapEnd, array, oldGapStart, dg);
+            // Move gbp up, move dbtb down.
+            System.brrbycopy(brrby, oldGbpEnd, brrby, oldGbpStbrt, dg);
         } else if (dg < 0) {
-            // Move gap down, move data up.
-            System.arraycopy(array, newGapStart, array, newGapEnd, -dg);
+            // Move gbp down, move dbtb up.
+            System.brrbycopy(brrby, newGbpStbrt, brrby, newGbpEnd, -dg);
         }
     }
 
     /**
-     * Adjust the gap end downward.  This doesn't move
-     * any data, but it does update any marks affected
-     * by the boundary change.  All marks from the old
-     * gap start down to the new gap start are squeezed
-     * to the end of the gap (their location has been
+     * Adjust the gbp end downwbrd.  This doesn't move
+     * bny dbtb, but it does updbte bny mbrks bffected
+     * by the boundbry chbnge.  All mbrks from the old
+     * gbp stbrt down to the new gbp stbrt bre squeezed
+     * to the end of the gbp (their locbtion hbs been
      * removed).
      */
-    protected void shiftGapStartDown(int newGapStart) {
-        g0 = newGapStart;
+    protected void shiftGbpStbrtDown(int newGbpStbrt) {
+        g0 = newGbpStbrt;
     }
 
     /**
-     * Adjust the gap end upward.  This doesn't move
-     * any data, but it does update any marks affected
-     * by the boundary change. All marks from the old
-     * gap end up to the new gap end are squeezed
-     * to the end of the gap (their location has been
+     * Adjust the gbp end upwbrd.  This doesn't move
+     * bny dbtb, but it does updbte bny mbrks bffected
+     * by the boundbry chbnge. All mbrks from the old
+     * gbp end up to the new gbp end bre squeezed
+     * to the end of the gbp (their locbtion hbs been
      * removed).
      */
-    protected void shiftGapEndUp(int newGapEnd) {
-        g1 = newGapEnd;
+    protected void shiftGbpEndUp(int newGbpEnd) {
+        g1 = newGbpEnd;
     }
 
 }

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.png;
+pbckbge com.sun.imbgeio.plugins.png;
 
-import java.io.IOException;
-import java.util.Locale;
-import java.util.Iterator;
-import javax.imageio.ImageReader;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.IOException;
+import jbvb.util.Locble;
+import jbvb.util.Iterbtor;
+import jbvbx.imbgeio.ImbgeRebder;
+import jbvbx.imbgeio.spi.ImbgeRebderSpi;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbt;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
-public class PNGImageReaderSpi extends ImageReaderSpi {
+public clbss PNGImbgeRebderSpi extends ImbgeRebderSpi {
 
-    private static final String vendorName = "Oracle Corporation";
+    privbte stbtic finbl String vendorNbme = "Orbcle Corporbtion";
 
-    private static final String version = "1.0";
+    privbte stbtic finbl String version = "1.0";
 
-    private static final String[] names = { "png", "PNG" };
+    privbte stbtic finbl String[] nbmes = { "png", "PNG" };
 
-    private static final String[] suffixes = { "png" };
+    privbte stbtic finbl String[] suffixes = { "png" };
 
-    private static final String[] MIMETypes = { "image/png", "image/x-png" };
+    privbte stbtic finbl String[] MIMETypes = { "imbge/png", "imbge/x-png" };
 
-    private static final String readerClassName =
-        "com.sun.imageio.plugins.png.PNGImageReader";
+    privbte stbtic finbl String rebderClbssNbme =
+        "com.sun.imbgeio.plugins.png.PNGImbgeRebder";
 
-    private static final String[] writerSpiNames = {
-        "com.sun.imageio.plugins.png.PNGImageWriterSpi"
+    privbte stbtic finbl String[] writerSpiNbmes = {
+        "com.sun.imbgeio.plugins.png.PNGImbgeWriterSpi"
     };
 
-    public PNGImageReaderSpi() {
-        super(vendorName,
+    public PNGImbgeRebderSpi() {
+        super(vendorNbme,
               version,
-              names,
+              nbmes,
               suffixes,
               MIMETypes,
-              readerClassName,
-              new Class<?>[] { ImageInputStream.class },
-              writerSpiNames,
-              false,
+              rebderClbssNbme,
+              new Clbss<?>[] { ImbgeInputStrebm.clbss },
+              writerSpiNbmes,
+              fblse,
               null, null,
               null, null,
               true,
-              PNGMetadata.nativeMetadataFormatName,
-              "com.sun.imageio.plugins.png.PNGMetadataFormat",
+              PNGMetbdbtb.nbtiveMetbdbtbFormbtNbme,
+              "com.sun.imbgeio.plugins.png.PNGMetbdbtbFormbt",
               null, null
               );
     }
 
-    public String getDescription(Locale locale) {
-        return "Standard PNG image reader";
+    public String getDescription(Locble locble) {
+        return "Stbndbrd PNG imbge rebder";
     }
 
-    public boolean canDecodeInput(Object input) throws IOException {
-        if (!(input instanceof ImageInputStream)) {
-            return false;
+    public boolebn cbnDecodeInput(Object input) throws IOException {
+        if (!(input instbnceof ImbgeInputStrebm)) {
+            return fblse;
         }
 
-        ImageInputStream stream = (ImageInputStream)input;
+        ImbgeInputStrebm strebm = (ImbgeInputStrebm)input;
         byte[] b = new byte[8];
-        stream.mark();
-        stream.readFully(b);
-        stream.reset();
+        strebm.mbrk();
+        strebm.rebdFully(b);
+        strebm.reset();
 
         return (b[0] == (byte)137 &&
                 b[1] == (byte)80 &&
@@ -97,7 +97,7 @@ public class PNGImageReaderSpi extends ImageReaderSpi {
                 b[7] == (byte)10);
     }
 
-    public ImageReader createReaderInstance(Object extension) {
-        return new PNGImageReader(this);
+    public ImbgeRebder crebteRebderInstbnce(Object extension) {
+        return new PNGImbgeRebder(this);
     }
 }

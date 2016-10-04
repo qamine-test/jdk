@@ -1,705 +1,705 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.Collection;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.Collection;
+import jbvb.util.concurrent.locks.AbstrbctQueuedSynchronizer;
 
 /**
- * A counting semaphore.  Conceptually, a semaphore maintains a set of
- * permits.  Each {@link #acquire} blocks if necessary until a permit is
- * available, and then takes it.  Each {@link #release} adds a permit,
- * potentially releasing a blocking acquirer.
- * However, no actual permit objects are used; the {@code Semaphore} just
- * keeps a count of the number available and acts accordingly.
+ * A counting sembphore.  Conceptublly, b sembphore mbintbins b set of
+ * permits.  Ebch {@link #bcquire} blocks if necessbry until b permit is
+ * bvbilbble, bnd then tbkes it.  Ebch {@link #relebse} bdds b permit,
+ * potentiblly relebsing b blocking bcquirer.
+ * However, no bctubl permit objects bre used; the {@code Sembphore} just
+ * keeps b count of the number bvbilbble bnd bcts bccordingly.
  *
- * <p>Semaphores are often used to restrict the number of threads than can
- * access some (physical or logical) resource. For example, here is
- * a class that uses a semaphore to control access to a pool of items:
+ * <p>Sembphores bre often used to restrict the number of threbds thbn cbn
+ * bccess some (physicbl or logicbl) resource. For exbmple, here is
+ * b clbss thbt uses b sembphore to control bccess to b pool of items:
  *  <pre> {@code
- * class Pool {
- *   private static final int MAX_AVAILABLE = 100;
- *   private final Semaphore available = new Semaphore(MAX_AVAILABLE, true);
+ * clbss Pool {
+ *   privbte stbtic finbl int MAX_AVAILABLE = 100;
+ *   privbte finbl Sembphore bvbilbble = new Sembphore(MAX_AVAILABLE, true);
  *
  *   public Object getItem() throws InterruptedException {
- *     available.acquire();
- *     return getNextAvailableItem();
+ *     bvbilbble.bcquire();
+ *     return getNextAvbilbbleItem();
  *   }
  *
  *   public void putItem(Object x) {
- *     if (markAsUnused(x))
- *       available.release();
+ *     if (mbrkAsUnused(x))
+ *       bvbilbble.relebse();
  *   }
  *
- *   // Not a particularly efficient data structure; just for demo
+ *   // Not b pbrticulbrly efficient dbtb structure; just for demo
  *
- *   protected Object[] items = ... whatever kinds of items being managed
- *   protected boolean[] used = new boolean[MAX_AVAILABLE];
+ *   protected Object[] items = ... whbtever kinds of items being mbnbged
+ *   protected boolebn[] used = new boolebn[MAX_AVAILABLE];
  *
- *   protected synchronized Object getNextAvailableItem() {
+ *   protected synchronized Object getNextAvbilbbleItem() {
  *     for (int i = 0; i < MAX_AVAILABLE; ++i) {
  *       if (!used[i]) {
  *          used[i] = true;
  *          return items[i];
  *       }
  *     }
- *     return null; // not reached
+ *     return null; // not rebched
  *   }
  *
- *   protected synchronized boolean markAsUnused(Object item) {
+ *   protected synchronized boolebn mbrkAsUnused(Object item) {
  *     for (int i = 0; i < MAX_AVAILABLE; ++i) {
  *       if (item == items[i]) {
  *          if (used[i]) {
- *            used[i] = false;
+ *            used[i] = fblse;
  *            return true;
  *          } else
- *            return false;
+ *            return fblse;
  *       }
  *     }
- *     return false;
+ *     return fblse;
  *   }
  * }}</pre>
  *
- * <p>Before obtaining an item each thread must acquire a permit from
- * the semaphore, guaranteeing that an item is available for use. When
- * the thread has finished with the item it is returned back to the
- * pool and a permit is returned to the semaphore, allowing another
- * thread to acquire that item.  Note that no synchronization lock is
- * held when {@link #acquire} is called as that would prevent an item
- * from being returned to the pool.  The semaphore encapsulates the
- * synchronization needed to restrict access to the pool, separately
- * from any synchronization needed to maintain the consistency of the
+ * <p>Before obtbining bn item ebch threbd must bcquire b permit from
+ * the sembphore, gubrbnteeing thbt bn item is bvbilbble for use. When
+ * the threbd hbs finished with the item it is returned bbck to the
+ * pool bnd b permit is returned to the sembphore, bllowing bnother
+ * threbd to bcquire thbt item.  Note thbt no synchronizbtion lock is
+ * held when {@link #bcquire} is cblled bs thbt would prevent bn item
+ * from being returned to the pool.  The sembphore encbpsulbtes the
+ * synchronizbtion needed to restrict bccess to the pool, sepbrbtely
+ * from bny synchronizbtion needed to mbintbin the consistency of the
  * pool itself.
  *
- * <p>A semaphore initialized to one, and which is used such that it
- * only has at most one permit available, can serve as a mutual
- * exclusion lock.  This is more commonly known as a <em>binary
- * semaphore</em>, because it only has two states: one permit
- * available, or zero permits available.  When used in this way, the
- * binary semaphore has the property (unlike many {@link java.util.concurrent.locks.Lock}
- * implementations), that the &quot;lock&quot; can be released by a
- * thread other than the owner (as semaphores have no notion of
- * ownership).  This can be useful in some specialized contexts, such
- * as deadlock recovery.
+ * <p>A sembphore initiblized to one, bnd which is used such thbt it
+ * only hbs bt most one permit bvbilbble, cbn serve bs b mutubl
+ * exclusion lock.  This is more commonly known bs b <em>binbry
+ * sembphore</em>, becbuse it only hbs two stbtes: one permit
+ * bvbilbble, or zero permits bvbilbble.  When used in this wby, the
+ * binbry sembphore hbs the property (unlike mbny {@link jbvb.util.concurrent.locks.Lock}
+ * implementbtions), thbt the &quot;lock&quot; cbn be relebsed by b
+ * threbd other thbn the owner (bs sembphores hbve no notion of
+ * ownership).  This cbn be useful in some speciblized contexts, such
+ * bs debdlock recovery.
  *
- * <p> The constructor for this class optionally accepts a
- * <em>fairness</em> parameter. When set false, this class makes no
- * guarantees about the order in which threads acquire permits. In
- * particular, <em>barging</em> is permitted, that is, a thread
- * invoking {@link #acquire} can be allocated a permit ahead of a
- * thread that has been waiting - logically the new thread places itself at
- * the head of the queue of waiting threads. When fairness is set true, the
- * semaphore guarantees that threads invoking any of the {@link
- * #acquire() acquire} methods are selected to obtain permits in the order in
- * which their invocation of those methods was processed
- * (first-in-first-out; FIFO). Note that FIFO ordering necessarily
- * applies to specific internal points of execution within these
- * methods.  So, it is possible for one thread to invoke
- * {@code acquire} before another, but reach the ordering point after
- * the other, and similarly upon return from the method.
- * Also note that the untimed {@link #tryAcquire() tryAcquire} methods do not
- * honor the fairness setting, but will take any permits that are
- * available.
+ * <p> The constructor for this clbss optionblly bccepts b
+ * <em>fbirness</em> pbrbmeter. When set fblse, this clbss mbkes no
+ * gubrbntees bbout the order in which threbds bcquire permits. In
+ * pbrticulbr, <em>bbrging</em> is permitted, thbt is, b threbd
+ * invoking {@link #bcquire} cbn be bllocbted b permit bhebd of b
+ * threbd thbt hbs been wbiting - logicblly the new threbd plbces itself bt
+ * the hebd of the queue of wbiting threbds. When fbirness is set true, the
+ * sembphore gubrbntees thbt threbds invoking bny of the {@link
+ * #bcquire() bcquire} methods bre selected to obtbin permits in the order in
+ * which their invocbtion of those methods wbs processed
+ * (first-in-first-out; FIFO). Note thbt FIFO ordering necessbrily
+ * bpplies to specific internbl points of execution within these
+ * methods.  So, it is possible for one threbd to invoke
+ * {@code bcquire} before bnother, but rebch the ordering point bfter
+ * the other, bnd similbrly upon return from the method.
+ * Also note thbt the untimed {@link #tryAcquire() tryAcquire} methods do not
+ * honor the fbirness setting, but will tbke bny permits thbt bre
+ * bvbilbble.
  *
- * <p>Generally, semaphores used to control resource access should be
- * initialized as fair, to ensure that no thread is starved out from
- * accessing a resource. When using semaphores for other kinds of
- * synchronization control, the throughput advantages of non-fair
- * ordering often outweigh fairness considerations.
+ * <p>Generblly, sembphores used to control resource bccess should be
+ * initiblized bs fbir, to ensure thbt no threbd is stbrved out from
+ * bccessing b resource. When using sembphores for other kinds of
+ * synchronizbtion control, the throughput bdvbntbges of non-fbir
+ * ordering often outweigh fbirness considerbtions.
  *
- * <p>This class also provides convenience methods to {@link
- * #acquire(int) acquire} and {@link #release(int) release} multiple
- * permits at a time.  Beware of the increased risk of indefinite
- * postponement when these methods are used without fairness set true.
+ * <p>This clbss blso provides convenience methods to {@link
+ * #bcquire(int) bcquire} bnd {@link #relebse(int) relebse} multiple
+ * permits bt b time.  Bewbre of the increbsed risk of indefinite
+ * postponement when these methods bre used without fbirness set true.
  *
- * <p>Memory consistency effects: Actions in a thread prior to calling
- * a "release" method such as {@code release()}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions following a successful "acquire" method such as {@code acquire()}
- * in another thread.
+ * <p>Memory consistency effects: Actions in b threbd prior to cblling
+ * b "relebse" method such bs {@code relebse()}
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * bctions following b successful "bcquire" method such bs {@code bcquire()}
+ * in bnother threbd.
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class Semaphore implements java.io.Serializable {
-    private static final long serialVersionUID = -3222578661600680210L;
-    /** All mechanics via AbstractQueuedSynchronizer subclass */
-    private final Sync sync;
+public clbss Sembphore implements jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -3222578661600680210L;
+    /** All mechbnics vib AbstrbctQueuedSynchronizer subclbss */
+    privbte finbl Sync sync;
 
     /**
-     * Synchronization implementation for semaphore.  Uses AQS state
-     * to represent permits. Subclassed into fair and nonfair
+     * Synchronizbtion implementbtion for sembphore.  Uses AQS stbte
+     * to represent permits. Subclbssed into fbir bnd nonfbir
      * versions.
      */
-    abstract static class Sync extends AbstractQueuedSynchronizer {
-        private static final long serialVersionUID = 1192457210091910933L;
+    bbstrbct stbtic clbss Sync extends AbstrbctQueuedSynchronizer {
+        privbte stbtic finbl long seriblVersionUID = 1192457210091910933L;
 
         Sync(int permits) {
-            setState(permits);
+            setStbte(permits);
         }
 
-        final int getPermits() {
-            return getState();
+        finbl int getPermits() {
+            return getStbte();
         }
 
-        final int nonfairTryAcquireShared(int acquires) {
+        finbl int nonfbirTryAcquireShbred(int bcquires) {
             for (;;) {
-                int available = getState();
-                int remaining = available - acquires;
-                if (remaining < 0 ||
-                    compareAndSetState(available, remaining))
-                    return remaining;
+                int bvbilbble = getStbte();
+                int rembining = bvbilbble - bcquires;
+                if (rembining < 0 ||
+                    compbreAndSetStbte(bvbilbble, rembining))
+                    return rembining;
             }
         }
 
-        protected final boolean tryReleaseShared(int releases) {
+        protected finbl boolebn tryRelebseShbred(int relebses) {
             for (;;) {
-                int current = getState();
-                int next = current + releases;
+                int current = getStbte();
+                int next = current + relebses;
                 if (next < current) // overflow
-                    throw new Error("Maximum permit count exceeded");
-                if (compareAndSetState(current, next))
+                    throw new Error("Mbximum permit count exceeded");
+                if (compbreAndSetStbte(current, next))
                     return true;
             }
         }
 
-        final void reducePermits(int reductions) {
+        finbl void reducePermits(int reductions) {
             for (;;) {
-                int current = getState();
+                int current = getStbte();
                 int next = current - reductions;
                 if (next > current) // underflow
                     throw new Error("Permit count underflow");
-                if (compareAndSetState(current, next))
+                if (compbreAndSetStbte(current, next))
                     return;
             }
         }
 
-        final int drainPermits() {
+        finbl int drbinPermits() {
             for (;;) {
-                int current = getState();
-                if (current == 0 || compareAndSetState(current, 0))
+                int current = getStbte();
+                if (current == 0 || compbreAndSetStbte(current, 0))
                     return current;
             }
         }
     }
 
     /**
-     * NonFair version
+     * NonFbir version
      */
-    static final class NonfairSync extends Sync {
-        private static final long serialVersionUID = -2694183684443567898L;
+    stbtic finbl clbss NonfbirSync extends Sync {
+        privbte stbtic finbl long seriblVersionUID = -2694183684443567898L;
 
-        NonfairSync(int permits) {
+        NonfbirSync(int permits) {
             super(permits);
         }
 
-        protected int tryAcquireShared(int acquires) {
-            return nonfairTryAcquireShared(acquires);
+        protected int tryAcquireShbred(int bcquires) {
+            return nonfbirTryAcquireShbred(bcquires);
         }
     }
 
     /**
-     * Fair version
+     * Fbir version
      */
-    static final class FairSync extends Sync {
-        private static final long serialVersionUID = 2014338818796000944L;
+    stbtic finbl clbss FbirSync extends Sync {
+        privbte stbtic finbl long seriblVersionUID = 2014338818796000944L;
 
-        FairSync(int permits) {
+        FbirSync(int permits) {
             super(permits);
         }
 
-        protected int tryAcquireShared(int acquires) {
+        protected int tryAcquireShbred(int bcquires) {
             for (;;) {
-                if (hasQueuedPredecessors())
+                if (hbsQueuedPredecessors())
                     return -1;
-                int available = getState();
-                int remaining = available - acquires;
-                if (remaining < 0 ||
-                    compareAndSetState(available, remaining))
-                    return remaining;
+                int bvbilbble = getStbte();
+                int rembining = bvbilbble - bcquires;
+                if (rembining < 0 ||
+                    compbreAndSetStbte(bvbilbble, rembining))
+                    return rembining;
             }
         }
     }
 
     /**
-     * Creates a {@code Semaphore} with the given number of
-     * permits and nonfair fairness setting.
+     * Crebtes b {@code Sembphore} with the given number of
+     * permits bnd nonfbir fbirness setting.
      *
-     * @param permits the initial number of permits available.
-     *        This value may be negative, in which case releases
-     *        must occur before any acquires will be granted.
+     * @pbrbm permits the initibl number of permits bvbilbble.
+     *        This vblue mby be negbtive, in which cbse relebses
+     *        must occur before bny bcquires will be grbnted.
      */
-    public Semaphore(int permits) {
-        sync = new NonfairSync(permits);
+    public Sembphore(int permits) {
+        sync = new NonfbirSync(permits);
     }
 
     /**
-     * Creates a {@code Semaphore} with the given number of
-     * permits and the given fairness setting.
+     * Crebtes b {@code Sembphore} with the given number of
+     * permits bnd the given fbirness setting.
      *
-     * @param permits the initial number of permits available.
-     *        This value may be negative, in which case releases
-     *        must occur before any acquires will be granted.
-     * @param fair {@code true} if this semaphore will guarantee
-     *        first-in first-out granting of permits under contention,
-     *        else {@code false}
+     * @pbrbm permits the initibl number of permits bvbilbble.
+     *        This vblue mby be negbtive, in which cbse relebses
+     *        must occur before bny bcquires will be grbnted.
+     * @pbrbm fbir {@code true} if this sembphore will gubrbntee
+     *        first-in first-out grbnting of permits under contention,
+     *        else {@code fblse}
      */
-    public Semaphore(int permits, boolean fair) {
-        sync = fair ? new FairSync(permits) : new NonfairSync(permits);
+    public Sembphore(int permits, boolebn fbir) {
+        sync = fbir ? new FbirSync(permits) : new NonfbirSync(permits);
     }
 
     /**
-     * Acquires a permit from this semaphore, blocking until one is
-     * available, or the thread is {@linkplain Thread#interrupt interrupted}.
+     * Acquires b permit from this sembphore, blocking until one is
+     * bvbilbble, or the threbd is {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>Acquires a permit, if one is available and returns immediately,
-     * reducing the number of available permits by one.
+     * <p>Acquires b permit, if one is bvbilbble bnd returns immedibtely,
+     * reducing the number of bvbilbble permits by one.
      *
-     * <p>If no permit is available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of two things happens:
+     * <p>If no permit is bvbilbble then the current threbd becomes
+     * disbbled for threbd scheduling purposes bnd lies dormbnt until
+     * one of two things hbppens:
      * <ul>
-     * <li>Some other thread invokes the {@link #release} method for this
-     * semaphore and the current thread is next to be assigned a permit; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread.
+     * <li>Some other threbd invokes the {@link #relebse} method for this
+     * sembphore bnd the current threbd is next to be bssigned b permit; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * for a permit,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while wbiting
+     * for b permit,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * @throws InterruptedException if the current thread is interrupted
+     * @throws InterruptedException if the current threbd is interrupted
      */
-    public void acquire() throws InterruptedException {
-        sync.acquireSharedInterruptibly(1);
+    public void bcquire() throws InterruptedException {
+        sync.bcquireShbredInterruptibly(1);
     }
 
     /**
-     * Acquires a permit from this semaphore, blocking until one is
-     * available.
+     * Acquires b permit from this sembphore, blocking until one is
+     * bvbilbble.
      *
-     * <p>Acquires a permit, if one is available and returns immediately,
-     * reducing the number of available permits by one.
+     * <p>Acquires b permit, if one is bvbilbble bnd returns immedibtely,
+     * reducing the number of bvbilbble permits by one.
      *
-     * <p>If no permit is available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * some other thread invokes the {@link #release} method for this
-     * semaphore and the current thread is next to be assigned a permit.
+     * <p>If no permit is bvbilbble then the current threbd becomes
+     * disbbled for threbd scheduling purposes bnd lies dormbnt until
+     * some other threbd invokes the {@link #relebse} method for this
+     * sembphore bnd the current threbd is next to be bssigned b permit.
      *
-     * <p>If the current thread is {@linkplain Thread#interrupt interrupted}
-     * while waiting for a permit then it will continue to wait, but the
-     * time at which the thread is assigned a permit may change compared to
-     * the time it would have received the permit had no interruption
-     * occurred.  When the thread does return from this method its interrupt
-     * status will be set.
+     * <p>If the current threbd is {@linkplbin Threbd#interrupt interrupted}
+     * while wbiting for b permit then it will continue to wbit, but the
+     * time bt which the threbd is bssigned b permit mby chbnge compbred to
+     * the time it would hbve received the permit hbd no interruption
+     * occurred.  When the threbd does return from this method its interrupt
+     * stbtus will be set.
      */
-    public void acquireUninterruptibly() {
-        sync.acquireShared(1);
+    public void bcquireUninterruptibly() {
+        sync.bcquireShbred(1);
     }
 
     /**
-     * Acquires a permit from this semaphore, only if one is available at the
-     * time of invocation.
+     * Acquires b permit from this sembphore, only if one is bvbilbble bt the
+     * time of invocbtion.
      *
-     * <p>Acquires a permit, if one is available and returns immediately,
-     * with the value {@code true},
-     * reducing the number of available permits by one.
+     * <p>Acquires b permit, if one is bvbilbble bnd returns immedibtely,
+     * with the vblue {@code true},
+     * reducing the number of bvbilbble permits by one.
      *
-     * <p>If no permit is available then this method will return
-     * immediately with the value {@code false}.
+     * <p>If no permit is bvbilbble then this method will return
+     * immedibtely with the vblue {@code fblse}.
      *
-     * <p>Even when this semaphore has been set to use a
-     * fair ordering policy, a call to {@code tryAcquire()} <em>will</em>
-     * immediately acquire a permit if one is available, whether or not
-     * other threads are currently waiting.
-     * This &quot;barging&quot; behavior can be useful in certain
-     * circumstances, even though it breaks fairness. If you want to honor
-     * the fairness setting, then use
+     * <p>Even when this sembphore hbs been set to use b
+     * fbir ordering policy, b cbll to {@code tryAcquire()} <em>will</em>
+     * immedibtely bcquire b permit if one is bvbilbble, whether or not
+     * other threbds bre currently wbiting.
+     * This &quot;bbrging&quot; behbvior cbn be useful in certbin
+     * circumstbnces, even though it brebks fbirness. If you wbnt to honor
+     * the fbirness setting, then use
      * {@link #tryAcquire(long, TimeUnit) tryAcquire(0, TimeUnit.SECONDS) }
-     * which is almost equivalent (it also detects interruption).
+     * which is blmost equivblent (it blso detects interruption).
      *
-     * @return {@code true} if a permit was acquired and {@code false}
+     * @return {@code true} if b permit wbs bcquired bnd {@code fblse}
      *         otherwise
      */
-    public boolean tryAcquire() {
-        return sync.nonfairTryAcquireShared(1) >= 0;
+    public boolebn tryAcquire() {
+        return sync.nonfbirTryAcquireShbred(1) >= 0;
     }
 
     /**
-     * Acquires a permit from this semaphore, if one becomes available
-     * within the given waiting time and the current thread has not
-     * been {@linkplain Thread#interrupt interrupted}.
+     * Acquires b permit from this sembphore, if one becomes bvbilbble
+     * within the given wbiting time bnd the current threbd hbs not
+     * been {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>Acquires a permit, if one is available and returns immediately,
-     * with the value {@code true},
-     * reducing the number of available permits by one.
+     * <p>Acquires b permit, if one is bvbilbble bnd returns immedibtely,
+     * with the vblue {@code true},
+     * reducing the number of bvbilbble permits by one.
      *
-     * <p>If no permit is available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of three things happens:
+     * <p>If no permit is bvbilbble then the current threbd becomes
+     * disbbled for threbd scheduling purposes bnd lies dormbnt until
+     * one of three things hbppens:
      * <ul>
-     * <li>Some other thread invokes the {@link #release} method for this
-     * semaphore and the current thread is next to be assigned a permit; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>The specified waiting time elapses.
+     * <li>Some other threbd invokes the {@link #relebse} method for this
+     * sembphore bnd the current threbd is next to be bssigned b permit; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd; or
+     * <li>The specified wbiting time elbpses.
      * </ul>
      *
-     * <p>If a permit is acquired then the value {@code true} is returned.
+     * <p>If b permit is bcquired then the vblue {@code true} is returned.
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * to acquire a permit,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while wbiting
+     * to bcquire b permit,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
      *
-     * <p>If the specified waiting time elapses then the value {@code false}
-     * is returned.  If the time is less than or equal to zero, the method
-     * will not wait at all.
+     * <p>If the specified wbiting time elbpses then the vblue {@code fblse}
+     * is returned.  If the time is less thbn or equbl to zero, the method
+     * will not wbit bt bll.
      *
-     * @param timeout the maximum time to wait for a permit
-     * @param unit the time unit of the {@code timeout} argument
-     * @return {@code true} if a permit was acquired and {@code false}
-     *         if the waiting time elapsed before a permit was acquired
-     * @throws InterruptedException if the current thread is interrupted
+     * @pbrbm timeout the mbximum time to wbit for b permit
+     * @pbrbm unit the time unit of the {@code timeout} brgument
+     * @return {@code true} if b permit wbs bcquired bnd {@code fblse}
+     *         if the wbiting time elbpsed before b permit wbs bcquired
+     * @throws InterruptedException if the current threbd is interrupted
      */
-    public boolean tryAcquire(long timeout, TimeUnit unit)
+    public boolebn tryAcquire(long timeout, TimeUnit unit)
         throws InterruptedException {
-        return sync.tryAcquireSharedNanos(1, unit.toNanos(timeout));
+        return sync.tryAcquireShbredNbnos(1, unit.toNbnos(timeout));
     }
 
     /**
-     * Releases a permit, returning it to the semaphore.
+     * Relebses b permit, returning it to the sembphore.
      *
-     * <p>Releases a permit, increasing the number of available permits by
-     * one.  If any threads are trying to acquire a permit, then one is
-     * selected and given the permit that was just released.  That thread
-     * is (re)enabled for thread scheduling purposes.
+     * <p>Relebses b permit, increbsing the number of bvbilbble permits by
+     * one.  If bny threbds bre trying to bcquire b permit, then one is
+     * selected bnd given the permit thbt wbs just relebsed.  Thbt threbd
+     * is (re)enbbled for threbd scheduling purposes.
      *
-     * <p>There is no requirement that a thread that releases a permit must
-     * have acquired that permit by calling {@link #acquire}.
-     * Correct usage of a semaphore is established by programming convention
-     * in the application.
+     * <p>There is no requirement thbt b threbd thbt relebses b permit must
+     * hbve bcquired thbt permit by cblling {@link #bcquire}.
+     * Correct usbge of b sembphore is estbblished by progrbmming convention
+     * in the bpplicbtion.
      */
-    public void release() {
-        sync.releaseShared(1);
+    public void relebse() {
+        sync.relebseShbred(1);
     }
 
     /**
-     * Acquires the given number of permits from this semaphore,
-     * blocking until all are available,
-     * or the thread is {@linkplain Thread#interrupt interrupted}.
+     * Acquires the given number of permits from this sembphore,
+     * blocking until bll bre bvbilbble,
+     * or the threbd is {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>Acquires the given number of permits, if they are available,
-     * and returns immediately, reducing the number of available permits
-     * by the given amount.
+     * <p>Acquires the given number of permits, if they bre bvbilbble,
+     * bnd returns immedibtely, reducing the number of bvbilbble permits
+     * by the given bmount.
      *
-     * <p>If insufficient permits are available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of two things happens:
+     * <p>If insufficient permits bre bvbilbble then the current threbd becomes
+     * disbbled for threbd scheduling purposes bnd lies dormbnt until
+     * one of two things hbppens:
      * <ul>
-     * <li>Some other thread invokes one of the {@link #release() release}
-     * methods for this semaphore, the current thread is next to be assigned
-     * permits and the number of available permits satisfies this request; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread.
+     * <li>Some other threbd invokes one of the {@link #relebse() relebse}
+     * methods for this sembphore, the current threbd is next to be bssigned
+     * permits bnd the number of bvbilbble permits sbtisfies this request; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * for a permit,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while wbiting
+     * for b permit,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
-     * Any permits that were to be assigned to this thread are instead
-     * assigned to other threads trying to acquire permits, as if
-     * permits had been made available by a call to {@link #release()}.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
+     * Any permits thbt were to be bssigned to this threbd bre instebd
+     * bssigned to other threbds trying to bcquire permits, bs if
+     * permits hbd been mbde bvbilbble by b cbll to {@link #relebse()}.
      *
-     * @param permits the number of permits to acquire
-     * @throws InterruptedException if the current thread is interrupted
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * @pbrbm permits the number of permits to bcquire
+     * @throws InterruptedException if the current threbd is interrupted
+     * @throws IllegblArgumentException if {@code permits} is negbtive
      */
-    public void acquire(int permits) throws InterruptedException {
-        if (permits < 0) throw new IllegalArgumentException();
-        sync.acquireSharedInterruptibly(permits);
+    public void bcquire(int permits) throws InterruptedException {
+        if (permits < 0) throw new IllegblArgumentException();
+        sync.bcquireShbredInterruptibly(permits);
     }
 
     /**
-     * Acquires the given number of permits from this semaphore,
-     * blocking until all are available.
+     * Acquires the given number of permits from this sembphore,
+     * blocking until bll bre bvbilbble.
      *
-     * <p>Acquires the given number of permits, if they are available,
-     * and returns immediately, reducing the number of available permits
-     * by the given amount.
+     * <p>Acquires the given number of permits, if they bre bvbilbble,
+     * bnd returns immedibtely, reducing the number of bvbilbble permits
+     * by the given bmount.
      *
-     * <p>If insufficient permits are available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * some other thread invokes one of the {@link #release() release}
-     * methods for this semaphore, the current thread is next to be assigned
-     * permits and the number of available permits satisfies this request.
+     * <p>If insufficient permits bre bvbilbble then the current threbd becomes
+     * disbbled for threbd scheduling purposes bnd lies dormbnt until
+     * some other threbd invokes one of the {@link #relebse() relebse}
+     * methods for this sembphore, the current threbd is next to be bssigned
+     * permits bnd the number of bvbilbble permits sbtisfies this request.
      *
-     * <p>If the current thread is {@linkplain Thread#interrupt interrupted}
-     * while waiting for permits then it will continue to wait and its
-     * position in the queue is not affected.  When the thread does return
-     * from this method its interrupt status will be set.
+     * <p>If the current threbd is {@linkplbin Threbd#interrupt interrupted}
+     * while wbiting for permits then it will continue to wbit bnd its
+     * position in the queue is not bffected.  When the threbd does return
+     * from this method its interrupt stbtus will be set.
      *
-     * @param permits the number of permits to acquire
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * @pbrbm permits the number of permits to bcquire
+     * @throws IllegblArgumentException if {@code permits} is negbtive
      */
-    public void acquireUninterruptibly(int permits) {
-        if (permits < 0) throw new IllegalArgumentException();
-        sync.acquireShared(permits);
+    public void bcquireUninterruptibly(int permits) {
+        if (permits < 0) throw new IllegblArgumentException();
+        sync.bcquireShbred(permits);
     }
 
     /**
-     * Acquires the given number of permits from this semaphore, only
-     * if all are available at the time of invocation.
+     * Acquires the given number of permits from this sembphore, only
+     * if bll bre bvbilbble bt the time of invocbtion.
      *
-     * <p>Acquires the given number of permits, if they are available, and
-     * returns immediately, with the value {@code true},
-     * reducing the number of available permits by the given amount.
+     * <p>Acquires the given number of permits, if they bre bvbilbble, bnd
+     * returns immedibtely, with the vblue {@code true},
+     * reducing the number of bvbilbble permits by the given bmount.
      *
-     * <p>If insufficient permits are available then this method will return
-     * immediately with the value {@code false} and the number of available
-     * permits is unchanged.
+     * <p>If insufficient permits bre bvbilbble then this method will return
+     * immedibtely with the vblue {@code fblse} bnd the number of bvbilbble
+     * permits is unchbnged.
      *
-     * <p>Even when this semaphore has been set to use a fair ordering
-     * policy, a call to {@code tryAcquire} <em>will</em>
-     * immediately acquire a permit if one is available, whether or
-     * not other threads are currently waiting.  This
-     * &quot;barging&quot; behavior can be useful in certain
-     * circumstances, even though it breaks fairness. If you want to
-     * honor the fairness setting, then use {@link #tryAcquire(int,
+     * <p>Even when this sembphore hbs been set to use b fbir ordering
+     * policy, b cbll to {@code tryAcquire} <em>will</em>
+     * immedibtely bcquire b permit if one is bvbilbble, whether or
+     * not other threbds bre currently wbiting.  This
+     * &quot;bbrging&quot; behbvior cbn be useful in certbin
+     * circumstbnces, even though it brebks fbirness. If you wbnt to
+     * honor the fbirness setting, then use {@link #tryAcquire(int,
      * long, TimeUnit) tryAcquire(permits, 0, TimeUnit.SECONDS) }
-     * which is almost equivalent (it also detects interruption).
+     * which is blmost equivblent (it blso detects interruption).
      *
-     * @param permits the number of permits to acquire
-     * @return {@code true} if the permits were acquired and
-     *         {@code false} otherwise
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * @pbrbm permits the number of permits to bcquire
+     * @return {@code true} if the permits were bcquired bnd
+     *         {@code fblse} otherwise
+     * @throws IllegblArgumentException if {@code permits} is negbtive
      */
-    public boolean tryAcquire(int permits) {
-        if (permits < 0) throw new IllegalArgumentException();
-        return sync.nonfairTryAcquireShared(permits) >= 0;
+    public boolebn tryAcquire(int permits) {
+        if (permits < 0) throw new IllegblArgumentException();
+        return sync.nonfbirTryAcquireShbred(permits) >= 0;
     }
 
     /**
-     * Acquires the given number of permits from this semaphore, if all
-     * become available within the given waiting time and the current
-     * thread has not been {@linkplain Thread#interrupt interrupted}.
+     * Acquires the given number of permits from this sembphore, if bll
+     * become bvbilbble within the given wbiting time bnd the current
+     * threbd hbs not been {@linkplbin Threbd#interrupt interrupted}.
      *
-     * <p>Acquires the given number of permits, if they are available and
-     * returns immediately, with the value {@code true},
-     * reducing the number of available permits by the given amount.
+     * <p>Acquires the given number of permits, if they bre bvbilbble bnd
+     * returns immedibtely, with the vblue {@code true},
+     * reducing the number of bvbilbble permits by the given bmount.
      *
-     * <p>If insufficient permits are available then
-     * the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until one of three things happens:
+     * <p>If insufficient permits bre bvbilbble then
+     * the current threbd becomes disbbled for threbd scheduling
+     * purposes bnd lies dormbnt until one of three things hbppens:
      * <ul>
-     * <li>Some other thread invokes one of the {@link #release() release}
-     * methods for this semaphore, the current thread is next to be assigned
-     * permits and the number of available permits satisfies this request; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>The specified waiting time elapses.
+     * <li>Some other threbd invokes one of the {@link #relebse() relebse}
+     * methods for this sembphore, the current threbd is next to be bssigned
+     * permits bnd the number of bvbilbble permits sbtisfies this request; or
+     * <li>Some other threbd {@linkplbin Threbd#interrupt interrupts}
+     * the current threbd; or
+     * <li>The specified wbiting time elbpses.
      * </ul>
      *
-     * <p>If the permits are acquired then the value {@code true} is returned.
+     * <p>If the permits bre bcquired then the vblue {@code true} is returned.
      *
-     * <p>If the current thread:
+     * <p>If the current threbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting
-     * to acquire the permits,
+     * <li>hbs its interrupted stbtus set on entry to this method; or
+     * <li>is {@linkplbin Threbd#interrupt interrupted} while wbiting
+     * to bcquire the permits,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
-     * Any permits that were to be assigned to this thread, are instead
-     * assigned to other threads trying to acquire permits, as if
-     * the permits had been made available by a call to {@link #release()}.
+     * then {@link InterruptedException} is thrown bnd the current threbd's
+     * interrupted stbtus is clebred.
+     * Any permits thbt were to be bssigned to this threbd, bre instebd
+     * bssigned to other threbds trying to bcquire permits, bs if
+     * the permits hbd been mbde bvbilbble by b cbll to {@link #relebse()}.
      *
-     * <p>If the specified waiting time elapses then the value {@code false}
-     * is returned.  If the time is less than or equal to zero, the method
-     * will not wait at all.  Any permits that were to be assigned to this
-     * thread, are instead assigned to other threads trying to acquire
-     * permits, as if the permits had been made available by a call to
-     * {@link #release()}.
+     * <p>If the specified wbiting time elbpses then the vblue {@code fblse}
+     * is returned.  If the time is less thbn or equbl to zero, the method
+     * will not wbit bt bll.  Any permits thbt were to be bssigned to this
+     * threbd, bre instebd bssigned to other threbds trying to bcquire
+     * permits, bs if the permits hbd been mbde bvbilbble by b cbll to
+     * {@link #relebse()}.
      *
-     * @param permits the number of permits to acquire
-     * @param timeout the maximum time to wait for the permits
-     * @param unit the time unit of the {@code timeout} argument
-     * @return {@code true} if all permits were acquired and {@code false}
-     *         if the waiting time elapsed before all permits were acquired
-     * @throws InterruptedException if the current thread is interrupted
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * @pbrbm permits the number of permits to bcquire
+     * @pbrbm timeout the mbximum time to wbit for the permits
+     * @pbrbm unit the time unit of the {@code timeout} brgument
+     * @return {@code true} if bll permits were bcquired bnd {@code fblse}
+     *         if the wbiting time elbpsed before bll permits were bcquired
+     * @throws InterruptedException if the current threbd is interrupted
+     * @throws IllegblArgumentException if {@code permits} is negbtive
      */
-    public boolean tryAcquire(int permits, long timeout, TimeUnit unit)
+    public boolebn tryAcquire(int permits, long timeout, TimeUnit unit)
         throws InterruptedException {
-        if (permits < 0) throw new IllegalArgumentException();
-        return sync.tryAcquireSharedNanos(permits, unit.toNanos(timeout));
+        if (permits < 0) throw new IllegblArgumentException();
+        return sync.tryAcquireShbredNbnos(permits, unit.toNbnos(timeout));
     }
 
     /**
-     * Releases the given number of permits, returning them to the semaphore.
+     * Relebses the given number of permits, returning them to the sembphore.
      *
-     * <p>Releases the given number of permits, increasing the number of
-     * available permits by that amount.
-     * If any threads are trying to acquire permits, then one
-     * is selected and given the permits that were just released.
-     * If the number of available permits satisfies that thread's request
-     * then that thread is (re)enabled for thread scheduling purposes;
-     * otherwise the thread will wait until sufficient permits are available.
-     * If there are still permits available
-     * after this thread's request has been satisfied, then those permits
-     * are assigned in turn to other threads trying to acquire permits.
+     * <p>Relebses the given number of permits, increbsing the number of
+     * bvbilbble permits by thbt bmount.
+     * If bny threbds bre trying to bcquire permits, then one
+     * is selected bnd given the permits thbt were just relebsed.
+     * If the number of bvbilbble permits sbtisfies thbt threbd's request
+     * then thbt threbd is (re)enbbled for threbd scheduling purposes;
+     * otherwise the threbd will wbit until sufficient permits bre bvbilbble.
+     * If there bre still permits bvbilbble
+     * bfter this threbd's request hbs been sbtisfied, then those permits
+     * bre bssigned in turn to other threbds trying to bcquire permits.
      *
-     * <p>There is no requirement that a thread that releases a permit must
-     * have acquired that permit by calling {@link Semaphore#acquire acquire}.
-     * Correct usage of a semaphore is established by programming convention
-     * in the application.
+     * <p>There is no requirement thbt b threbd thbt relebses b permit must
+     * hbve bcquired thbt permit by cblling {@link Sembphore#bcquire bcquire}.
+     * Correct usbge of b sembphore is estbblished by progrbmming convention
+     * in the bpplicbtion.
      *
-     * @param permits the number of permits to release
-     * @throws IllegalArgumentException if {@code permits} is negative
+     * @pbrbm permits the number of permits to relebse
+     * @throws IllegblArgumentException if {@code permits} is negbtive
      */
-    public void release(int permits) {
-        if (permits < 0) throw new IllegalArgumentException();
-        sync.releaseShared(permits);
+    public void relebse(int permits) {
+        if (permits < 0) throw new IllegblArgumentException();
+        sync.relebseShbred(permits);
     }
 
     /**
-     * Returns the current number of permits available in this semaphore.
+     * Returns the current number of permits bvbilbble in this sembphore.
      *
-     * <p>This method is typically used for debugging and testing purposes.
+     * <p>This method is typicblly used for debugging bnd testing purposes.
      *
-     * @return the number of permits available in this semaphore
+     * @return the number of permits bvbilbble in this sembphore
      */
-    public int availablePermits() {
+    public int bvbilbblePermits() {
         return sync.getPermits();
     }
 
     /**
-     * Acquires and returns all permits that are immediately available.
+     * Acquires bnd returns bll permits thbt bre immedibtely bvbilbble.
      *
-     * @return the number of permits acquired
+     * @return the number of permits bcquired
      */
-    public int drainPermits() {
-        return sync.drainPermits();
+    public int drbinPermits() {
+        return sync.drbinPermits();
     }
 
     /**
-     * Shrinks the number of available permits by the indicated
-     * reduction. This method can be useful in subclasses that use
-     * semaphores to track resources that become unavailable. This
-     * method differs from {@code acquire} in that it does not block
-     * waiting for permits to become available.
+     * Shrinks the number of bvbilbble permits by the indicbted
+     * reduction. This method cbn be useful in subclbsses thbt use
+     * sembphores to trbck resources thbt become unbvbilbble. This
+     * method differs from {@code bcquire} in thbt it does not block
+     * wbiting for permits to become bvbilbble.
      *
-     * @param reduction the number of permits to remove
-     * @throws IllegalArgumentException if {@code reduction} is negative
+     * @pbrbm reduction the number of permits to remove
+     * @throws IllegblArgumentException if {@code reduction} is negbtive
      */
     protected void reducePermits(int reduction) {
-        if (reduction < 0) throw new IllegalArgumentException();
+        if (reduction < 0) throw new IllegblArgumentException();
         sync.reducePermits(reduction);
     }
 
     /**
-     * Returns {@code true} if this semaphore has fairness set true.
+     * Returns {@code true} if this sembphore hbs fbirness set true.
      *
-     * @return {@code true} if this semaphore has fairness set true
+     * @return {@code true} if this sembphore hbs fbirness set true
      */
-    public boolean isFair() {
-        return sync instanceof FairSync;
+    public boolebn isFbir() {
+        return sync instbnceof FbirSync;
     }
 
     /**
-     * Queries whether any threads are waiting to acquire. Note that
-     * because cancellations may occur at any time, a {@code true}
-     * return does not guarantee that any other thread will ever
-     * acquire.  This method is designed primarily for use in
-     * monitoring of the system state.
+     * Queries whether bny threbds bre wbiting to bcquire. Note thbt
+     * becbuse cbncellbtions mby occur bt bny time, b {@code true}
+     * return does not gubrbntee thbt bny other threbd will ever
+     * bcquire.  This method is designed primbrily for use in
+     * monitoring of the system stbte.
      *
-     * @return {@code true} if there may be other threads waiting to
-     *         acquire the lock
+     * @return {@code true} if there mby be other threbds wbiting to
+     *         bcquire the lock
      */
-    public final boolean hasQueuedThreads() {
-        return sync.hasQueuedThreads();
+    public finbl boolebn hbsQueuedThrebds() {
+        return sync.hbsQueuedThrebds();
     }
 
     /**
-     * Returns an estimate of the number of threads waiting to acquire.
-     * The value is only an estimate because the number of threads may
-     * change dynamically while this method traverses internal data
+     * Returns bn estimbte of the number of threbds wbiting to bcquire.
+     * The vblue is only bn estimbte becbuse the number of threbds mby
+     * chbnge dynbmicblly while this method trbverses internbl dbtb
      * structures.  This method is designed for use in monitoring of the
-     * system state, not for synchronization control.
+     * system stbte, not for synchronizbtion control.
      *
-     * @return the estimated number of threads waiting for this lock
+     * @return the estimbted number of threbds wbiting for this lock
      */
-    public final int getQueueLength() {
+    public finbl int getQueueLength() {
         return sync.getQueueLength();
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to acquire.
-     * Because the actual set of threads may change dynamically while
-     * constructing this result, the returned collection is only a best-effort
-     * estimate.  The elements of the returned collection are in no particular
-     * order.  This method is designed to facilitate construction of
-     * subclasses that provide more extensive monitoring facilities.
+     * Returns b collection contbining threbds thbt mby be wbiting to bcquire.
+     * Becbuse the bctubl set of threbds mby chbnge dynbmicblly while
+     * constructing this result, the returned collection is only b best-effort
+     * estimbte.  The elements of the returned collection bre in no pbrticulbr
+     * order.  This method is designed to fbcilitbte construction of
+     * subclbsses thbt provide more extensive monitoring fbcilities.
      *
-     * @return the collection of threads
+     * @return the collection of threbds
      */
-    protected Collection<Thread> getQueuedThreads() {
-        return sync.getQueuedThreads();
+    protected Collection<Threbd> getQueuedThrebds() {
+        return sync.getQueuedThrebds();
     }
 
     /**
-     * Returns a string identifying this semaphore, as well as its state.
-     * The state, in brackets, includes the String {@code "Permits ="}
+     * Returns b string identifying this sembphore, bs well bs its stbte.
+     * The stbte, in brbckets, includes the String {@code "Permits ="}
      * followed by the number of permits.
      *
-     * @return a string identifying this semaphore, as well as its state
+     * @return b string identifying this sembphore, bs well bs its stbte
      */
     public String toString() {
         return super.toString() + "[Permits = " + sync.getPermits() + "]";

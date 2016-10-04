@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.lang.ref.*;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.lbng.ref.*;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
 
-abstract class FileLockTable {
-    protected FileLockTable() {
+bbstrbct clbss FileLockTbble {
+    protected FileLockTbble() {
     }
 
     /**
-     * Creates and returns a file lock table for a channel that is connected to
-     * the a system-wide map of all file locks for the Java virtual machine.
+     * Crebtes bnd returns b file lock tbble for b chbnnel thbt is connected to
+     * the b system-wide mbp of bll file locks for the Jbvb virtubl mbchine.
      */
-    public static FileLockTable newSharedFileLockTable(Channel channel,
+    public stbtic FileLockTbble newShbredFileLockTbble(Chbnnel chbnnel,
                                                        FileDescriptor fd)
         throws IOException
     {
-        return new SharedFileLockTable(channel, fd);
+        return new ShbredFileLockTbble(chbnnel, fd);
     }
 
     /**
-     * Adds a file lock to the table.
+     * Adds b file lock to the tbble.
      *
-     * @throws OverlappingFileLockException if the file lock overlaps
-     *         with an existing file lock in the table
+     * @throws OverlbppingFileLockException if the file lock overlbps
+     *         with bn existing file lock in the tbble
      */
-    public abstract void add(FileLock fl) throws OverlappingFileLockException;
+    public bbstrbct void bdd(FileLock fl) throws OverlbppingFileLockException;
 
     /**
-     * Remove an existing file lock from the table.
+     * Remove bn existing file lock from the tbble.
      */
-    public abstract void remove(FileLock fl);
+    public bbstrbct void remove(FileLock fl);
 
     /**
-     * Removes all file locks from the table.
+     * Removes bll file locks from the tbble.
      *
      * @return  The list of file locks removed
      */
-    public abstract List<FileLock> removeAll();
+    public bbstrbct List<FileLock> removeAll();
 
     /**
-     * Replaces an existing file lock in the table.
+     * Replbces bn existing file lock in the tbble.
      */
-    public abstract void replace(FileLock fl1, FileLock fl2);
+    public bbstrbct void replbce(FileLock fl1, FileLock fl2);
 }
 
 
 /**
- * A file lock table that is over a system-wide map of all file locks.
+ * A file lock tbble thbt is over b system-wide mbp of bll file locks.
  */
-class SharedFileLockTable extends FileLockTable {
+clbss ShbredFileLockTbble extends FileLockTbble {
 
     /**
-     * A weak reference to a FileLock.
+     * A webk reference to b FileLock.
      * <p>
-     * SharedFileLockTable uses a list of file lock references to avoid keeping the
-     * FileLock (and FileChannel) alive.
+     * ShbredFileLockTbble uses b list of file lock references to bvoid keeping the
+     * FileLock (bnd FileChbnnel) blive.
      */
-    private static class FileLockReference extends WeakReference<FileLock> {
-        private FileKey fileKey;
+    privbte stbtic clbss FileLockReference extends WebkReference<FileLock> {
+        privbte FileKey fileKey;
 
         FileLockReference(FileLock referent,
                           ReferenceQueue<FileLock> queue,
@@ -100,82 +100,82 @@ class SharedFileLockTable extends FileLockTable {
         }
     }
 
-    // The system-wide map is a ConcurrentHashMap that is keyed on the FileKey.
-    // The map value is a list of file locks represented by FileLockReferences.
-    // All access to the list must be synchronized on the list.
-    private static ConcurrentHashMap<FileKey, List<FileLockReference>> lockMap =
-        new ConcurrentHashMap<FileKey, List<FileLockReference>>();
+    // The system-wide mbp is b ConcurrentHbshMbp thbt is keyed on the FileKey.
+    // The mbp vblue is b list of file locks represented by FileLockReferences.
+    // All bccess to the list must be synchronized on the list.
+    privbte stbtic ConcurrentHbshMbp<FileKey, List<FileLockReference>> lockMbp =
+        new ConcurrentHbshMbp<FileKey, List<FileLockReference>>();
 
-    // reference queue for cleared refs
-    private static ReferenceQueue<FileLock> queue = new ReferenceQueue<FileLock>();
+    // reference queue for clebred refs
+    privbte stbtic ReferenceQueue<FileLock> queue = new ReferenceQueue<FileLock>();
 
-    // The connection to which this table is connected
-    private final Channel channel;
+    // The connection to which this tbble is connected
+    privbte finbl Chbnnel chbnnel;
 
-    // File key for the file that this channel is connected to
-    private final FileKey fileKey;
+    // File key for the file thbt this chbnnel is connected to
+    privbte finbl FileKey fileKey;
 
-    SharedFileLockTable(Channel channel, FileDescriptor fd) throws IOException {
-        this.channel = channel;
-        this.fileKey = FileKey.create(fd);
+    ShbredFileLockTbble(Chbnnel chbnnel, FileDescriptor fd) throws IOException {
+        this.chbnnel = chbnnel;
+        this.fileKey = FileKey.crebte(fd);
     }
 
     @Override
-    public void add(FileLock fl) throws OverlappingFileLockException {
-        List<FileLockReference> list = lockMap.get(fileKey);
+    public void bdd(FileLock fl) throws OverlbppingFileLockException {
+        List<FileLockReference> list = lockMbp.get(fileKey);
 
         for (;;) {
 
-            // The key isn't in the map so we try to create it atomically
+            // The key isn't in the mbp so we try to crebte it btomicblly
             if (list == null) {
-                list = new ArrayList<FileLockReference>(2);
+                list = new ArrbyList<FileLockReference>(2);
                 List<FileLockReference> prev;
                 synchronized (list) {
-                    prev = lockMap.putIfAbsent(fileKey, list);
+                    prev = lockMbp.putIfAbsent(fileKey, list);
                     if (prev == null) {
-                        // we successfully created the key so we add the file lock
-                        list.add(new FileLockReference(fl, queue, fileKey));
-                        break;
+                        // we successfully crebted the key so we bdd the file lock
+                        list.bdd(new FileLockReference(fl, queue, fileKey));
+                        brebk;
                     }
                 }
                 // someone else got there first
                 list = prev;
             }
 
-            // There is already a key. It is possible that some other thread
-            // is removing it so we re-fetch the value from the map. If it
-            // hasn't changed then we check the list for overlapping locks
-            // and add the new lock to the list.
+            // There is blrebdy b key. It is possible thbt some other threbd
+            // is removing it so we re-fetch the vblue from the mbp. If it
+            // hbsn't chbnged then we check the list for overlbpping locks
+            // bnd bdd the new lock to the list.
             synchronized (list) {
-                List<FileLockReference> current = lockMap.get(fileKey);
+                List<FileLockReference> current = lockMbp.get(fileKey);
                 if (list == current) {
                     checkList(list, fl.position(), fl.size());
-                    list.add(new FileLockReference(fl, queue, fileKey));
-                    break;
+                    list.bdd(new FileLockReference(fl, queue, fileKey));
+                    brebk;
                 }
                 list = current;
             }
 
         }
 
-        // process any stale entries pending in the reference queue
-        removeStaleEntries();
+        // process bny stble entries pending in the reference queue
+        removeStbleEntries();
     }
 
-    private void removeKeyIfEmpty(FileKey fk, List<FileLockReference> list) {
-        assert Thread.holdsLock(list);
-        assert lockMap.get(fk) == list;
+    privbte void removeKeyIfEmpty(FileKey fk, List<FileLockReference> list) {
+        bssert Threbd.holdsLock(list);
+        bssert lockMbp.get(fk) == list;
         if (list.isEmpty()) {
-            lockMap.remove(fk);
+            lockMbp.remove(fk);
         }
     }
 
     @Override
     public void remove(FileLock fl) {
-        assert fl != null;
+        bssert fl != null;
 
         // the lock must exist so the list of locks must be present
-        List<FileLockReference> list = lockMap.get(fileKey);
+        List<FileLockReference> list = lockMbp.get(fileKey);
         if (list == null) return;
 
         synchronized (list) {
@@ -184,10 +184,10 @@ class SharedFileLockTable extends FileLockTable {
                 FileLockReference ref = list.get(index);
                 FileLock lock = ref.get();
                 if (lock == fl) {
-                    assert (lock != null) && (lock.acquiredBy() == channel);
-                    ref.clear();
+                    bssert (lock != null) && (lock.bcquiredBy() == chbnnel);
+                    ref.clebr();
                     list.remove(index);
-                    break;
+                    brebk;
                 }
                 index++;
             }
@@ -196,8 +196,8 @@ class SharedFileLockTable extends FileLockTable {
 
     @Override
     public List<FileLock> removeAll() {
-        List<FileLock> result = new ArrayList<FileLock>();
-        List<FileLockReference> list = lockMap.get(fileKey);
+        List<FileLock> result = new ArrbyList<FileLock>();
+        List<FileLockReference> list = lockMbp.get(fileKey);
         if (list != null) {
             synchronized (list) {
                 int index = 0;
@@ -205,20 +205,20 @@ class SharedFileLockTable extends FileLockTable {
                     FileLockReference ref = list.get(index);
                     FileLock lock = ref.get();
 
-                    // remove locks obtained by this channel
-                    if (lock != null && lock.acquiredBy() == channel) {
+                    // remove locks obtbined by this chbnnel
+                    if (lock != null && lock.bcquiredBy() == chbnnel) {
                         // remove the lock from the list
-                        ref.clear();
+                        ref.clebr();
                         list.remove(index);
 
-                        // add to result
-                        result.add(lock);
+                        // bdd to result
+                        result.bdd(lock);
                     } else {
                         index++;
                     }
                 }
 
-                // once the lock list is empty we remove it from the map
+                // once the lock list is empty we remove it from the mbp
                 removeKeyIfEmpty(fileKey, list);
             }
         }
@@ -226,42 +226,42 @@ class SharedFileLockTable extends FileLockTable {
     }
 
     @Override
-    public void replace(FileLock fromLock, FileLock toLock) {
-        // the lock must exist so there must be a list
-        List<FileLockReference> list = lockMap.get(fileKey);
-        assert list != null;
+    public void replbce(FileLock fromLock, FileLock toLock) {
+        // the lock must exist so there must be b list
+        List<FileLockReference> list = lockMbp.get(fileKey);
+        bssert list != null;
 
         synchronized (list) {
             for (int index=0; index<list.size(); index++) {
                 FileLockReference ref = list.get(index);
                 FileLock lock = ref.get();
                 if (lock == fromLock) {
-                    ref.clear();
+                    ref.clebr();
                     list.set(index, new FileLockReference(toLock, queue, fileKey));
-                    break;
+                    brebk;
                 }
             }
         }
     }
 
-    // Check for overlapping file locks
-    private void checkList(List<FileLockReference> list, long position, long size)
-        throws OverlappingFileLockException
+    // Check for overlbpping file locks
+    privbte void checkList(List<FileLockReference> list, long position, long size)
+        throws OverlbppingFileLockException
     {
-        assert Thread.holdsLock(list);
+        bssert Threbd.holdsLock(list);
         for (FileLockReference ref: list) {
             FileLock fl = ref.get();
-            if (fl != null && fl.overlaps(position, size))
-                throw new OverlappingFileLockException();
+            if (fl != null && fl.overlbps(position, size))
+                throw new OverlbppingFileLockException();
         }
     }
 
     // Process the reference queue
-    private void removeStaleEntries() {
+    privbte void removeStbleEntries() {
         FileLockReference ref;
         while ((ref = (FileLockReference)queue.poll()) != null) {
             FileKey fk = ref.fileKey();
-            List<FileLockReference> list = lockMap.get(fk);
+            List<FileLockReference> list = lockMbp.get(fk);
             if (list != null) {
                 synchronized (list) {
                     list.remove(ref);

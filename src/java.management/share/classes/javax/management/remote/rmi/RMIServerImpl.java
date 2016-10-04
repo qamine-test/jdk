@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote.rmi;
+pbckbge jbvbx.mbnbgement.remote.rmi;
 
-import com.sun.jmx.remote.internal.ArrayNotificationBuffer;
-import com.sun.jmx.remote.internal.NotificationBuffer;
-import com.sun.jmx.remote.security.JMXPluggableAuthenticator;
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.internbl.ArrbyNotificbtionBuffer;
+import com.sun.jmx.remote.internbl.NotificbtionBuffer;
+import com.sun.jmx.remote.security.JMXPluggbbleAuthenticbtor;
+import com.sun.jmx.remote.util.ClbssLogger;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.rmi.Remote;
-import java.rmi.server.RemoteServer;
-import java.rmi.server.ServerNotActiveException;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.Closebble;
+import jbvb.io.IOException;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.rmi.Remote;
+import jbvb.rmi.server.RemoteServer;
+import jbvb.rmi.server.ServerNotActiveException;
+import jbvb.security.Principbl;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-import javax.management.MBeanServer;
-import javax.management.remote.JMXAuthenticator;
-import javax.management.remote.JMXConnectorServer;
-import javax.security.auth.Subject;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.remote.JMXAuthenticbtor;
+import jbvbx.mbnbgement.remote.JMXConnectorServer;
+import jbvbx.security.buth.Subject;
 
 /**
- * <p>An RMI object representing a connector server.  Remote clients
- * can make connections using the {@link #newClient(Object)} method.  This
- * method returns an RMI object representing the connection.</p>
+ * <p>An RMI object representing b connector server.  Remote clients
+ * cbn mbke connections using the {@link #newClient(Object)} method.  This
+ * method returns bn RMI object representing the connection.</p>
  *
- * <p>User code does not usually reference this class directly.
- * RMI connection servers are usually created with the class {@link
- * RMIConnectorServer}.  Remote clients usually create connections
- * either with {@link javax.management.remote.JMXConnectorFactory}
- * or by instantiating {@link RMIConnector}.</p>
+ * <p>User code does not usublly reference this clbss directly.
+ * RMI connection servers bre usublly crebted with the clbss {@link
+ * RMIConnectorServer}.  Remote clients usublly crebte connections
+ * either with {@link jbvbx.mbnbgement.remote.JMXConnectorFbctory}
+ * or by instbntibting {@link RMIConnector}.</p>
  *
- * <p>This is an abstract class.  Concrete subclasses define the
- * details of the client connection objects, such as whether they use
+ * <p>This is bn bbstrbct clbss.  Concrete subclbsses define the
+ * detbils of the client connection objects, such bs whether they use
  * JRMP or IIOP.</p>
  *
  * @since 1.5
  */
-public abstract class RMIServerImpl implements Closeable, RMIServer {
+public bbstrbct clbss RMIServerImpl implements Closebble, RMIServer {
     /**
-     * <p>Constructs a new <code>RMIServerImpl</code>.</p>
+     * <p>Constructs b new <code>RMIServerImpl</code>.</p>
      *
-     * @param env the environment containing attributes for the new
-     * <code>RMIServerImpl</code>.  Can be null, which is equivalent
-     * to an empty Map.
+     * @pbrbm env the environment contbining bttributes for the new
+     * <code>RMIServerImpl</code>.  Cbn be null, which is equivblent
+     * to bn empty Mbp.
      */
-    public RMIServerImpl(Map<String,?> env) {
-        this.env = (env == null) ? Collections.<String,Object>emptyMap() : env;
+    public RMIServerImpl(Mbp<String,?> env) {
+        this.env = (env == null) ? Collections.<String,Object>emptyMbp() : env;
     }
 
     void setRMIConnectorServer(RMIConnectorServer connServer)
@@ -86,248 +86,248 @@ public abstract class RMIServerImpl implements Closeable, RMIServer {
     /**
      * <p>Exports this RMI object.</p>
      *
-     * @exception IOException if this RMI object cannot be exported.
+     * @exception IOException if this RMI object cbnnot be exported.
      */
-    protected abstract void export() throws IOException;
+    protected bbstrbct void export() throws IOException;
 
     /**
-     * Returns a remotable stub for this server object.
-     * @return a remotable stub.
-     * @exception IOException if the stub cannot be obtained - e.g the
-     *            RMIServerImpl has not been exported yet.
+     * Returns b remotbble stub for this server object.
+     * @return b remotbble stub.
+     * @exception IOException if the stub cbnnot be obtbined - e.g the
+     *            RMIServerImpl hbs not been exported yet.
      **/
-    public abstract Remote toStub() throws IOException;
+    public bbstrbct Remote toStub() throws IOException;
 
     /**
-     * <p>Sets the default <code>ClassLoader</code> for this connector
-     * server. New client connections will use this classloader.
-     * Existing client connections are unaffected.</p>
+     * <p>Sets the defbult <code>ClbssLobder</code> for this connector
+     * server. New client connections will use this clbsslobder.
+     * Existing client connections bre unbffected.</p>
      *
-     * @param cl the new <code>ClassLoader</code> to be used by this
+     * @pbrbm cl the new <code>ClbssLobder</code> to be used by this
      * connector server.
      *
-     * @see #getDefaultClassLoader
+     * @see #getDefbultClbssLobder
      */
-    public synchronized void setDefaultClassLoader(ClassLoader cl) {
+    public synchronized void setDefbultClbssLobder(ClbssLobder cl) {
         this.cl = cl;
     }
 
     /**
-     * <p>Gets the default <code>ClassLoader</code> used by this connector
+     * <p>Gets the defbult <code>ClbssLobder</code> used by this connector
      * server.</p>
      *
-     * @return the default <code>ClassLoader</code> used by this
+     * @return the defbult <code>ClbssLobder</code> used by this
      * connector server.
      *
-     * @see #setDefaultClassLoader
+     * @see #setDefbultClbssLobder
      */
-    public synchronized ClassLoader getDefaultClassLoader() {
+    public synchronized ClbssLobder getDefbultClbssLobder() {
         return cl;
     }
 
     /**
-     * <p>Sets the <code>MBeanServer</code> to which this connector
-     * server is attached. New client connections will interact
-     * with this <code>MBeanServer</code>. Existing client connections are
-     * unaffected.</p>
+     * <p>Sets the <code>MBebnServer</code> to which this connector
+     * server is bttbched. New client connections will interbct
+     * with this <code>MBebnServer</code>. Existing client connections bre
+     * unbffected.</p>
      *
-     * @param mbs the new <code>MBeanServer</code>.  Can be null, but
-     * new client connections will be refused as long as it is.
+     * @pbrbm mbs the new <code>MBebnServer</code>.  Cbn be null, but
+     * new client connections will be refused bs long bs it is.
      *
-     * @see #getMBeanServer
+     * @see #getMBebnServer
      */
-    public synchronized void setMBeanServer(MBeanServer mbs) {
-        this.mbeanServer = mbs;
+    public synchronized void setMBebnServer(MBebnServer mbs) {
+        this.mbebnServer = mbs;
     }
 
     /**
-     * <p>The <code>MBeanServer</code> to which this connector server
-     * is attached.  This is the last value passed to {@link
-     * #setMBeanServer} on this object, or null if that method has
-     * never been called.</p>
+     * <p>The <code>MBebnServer</code> to which this connector server
+     * is bttbched.  This is the lbst vblue pbssed to {@link
+     * #setMBebnServer} on this object, or null if thbt method hbs
+     * never been cblled.</p>
      *
-     * @return the <code>MBeanServer</code> to which this connector
-     * is attached.
+     * @return the <code>MBebnServer</code> to which this connector
+     * is bttbched.
      *
-     * @see #setMBeanServer
+     * @see #setMBebnServer
      */
-    public synchronized MBeanServer getMBeanServer() {
-        return mbeanServer;
+    public synchronized MBebnServer getMBebnServer() {
+        return mbebnServer;
     }
 
     public String getVersion() {
-        // Expected format is: "protocol-version implementation-name"
+        // Expected formbt is: "protocol-version implementbtion-nbme"
         try {
-            return "1.0 java_runtime_" +
-                    System.getProperty("java.runtime.version");
-        } catch (SecurityException e) {
+            return "1.0 jbvb_runtime_" +
+                    System.getProperty("jbvb.runtime.version");
+        } cbtch (SecurityException e) {
             return "1.0 ";
         }
     }
 
     /**
-     * <p>Creates a new client connection.  This method calls {@link
-     * #makeClient makeClient} and adds the returned client connection
-     * object to an internal list.  When this
-     * <code>RMIServerImpl</code> is shut down via its {@link
+     * <p>Crebtes b new client connection.  This method cblls {@link
+     * #mbkeClient mbkeClient} bnd bdds the returned client connection
+     * object to bn internbl list.  When this
+     * <code>RMIServerImpl</code> is shut down vib its {@link
      * #close()} method, the {@link RMIConnection#close() close()}
-     * method of each object remaining in the list is called.</p>
+     * method of ebch object rembining in the list is cblled.</p>
      *
-     * <p>The fact that a client connection object is in this internal
-     * list does not prevent it from being garbage collected.</p>
+     * <p>The fbct thbt b client connection object is in this internbl
+     * list does not prevent it from being gbrbbge collected.</p>
      *
-     * @param credentials this object specifies the user-defined
-     * credentials to be passed in to the server in order to
-     * authenticate the caller before creating the
-     * <code>RMIConnection</code>.  Can be null.
+     * @pbrbm credentibls this object specifies the user-defined
+     * credentibls to be pbssed in to the server in order to
+     * buthenticbte the cbller before crebting the
+     * <code>RMIConnection</code>.  Cbn be null.
      *
-     * @return the newly-created <code>RMIConnection</code>.  This is
-     * usually the object created by <code>makeClient</code>, though
-     * an implementation may choose to wrap that object in another
+     * @return the newly-crebted <code>RMIConnection</code>.  This is
+     * usublly the object crebted by <code>mbkeClient</code>, though
+     * bn implementbtion mby choose to wrbp thbt object in bnother
      * object implementing <code>RMIConnection</code>.
      *
-     * @exception IOException if the new client object cannot be
-     * created or exported.
+     * @exception IOException if the new client object cbnnot be
+     * crebted or exported.
      *
-     * @exception SecurityException if the given credentials do not allow
-     * the server to authenticate the user successfully.
+     * @exception SecurityException if the given credentibls do not bllow
+     * the server to buthenticbte the user successfully.
      *
-     * @exception IllegalStateException if {@link #getMBeanServer()}
+     * @exception IllegblStbteException if {@link #getMBebnServer()}
      * is null.
      */
-    public RMIConnection newClient(Object credentials) throws IOException {
-        return doNewClient(credentials);
+    public RMIConnection newClient(Object credentibls) throws IOException {
+        return doNewClient(credentibls);
     }
 
     /**
-     * This method could be overridden by subclasses defined in this package
-     * to perform additional operations specific to the underlying transport
-     * before creating the new client connection.
+     * This method could be overridden by subclbsses defined in this pbckbge
+     * to perform bdditionbl operbtions specific to the underlying trbnsport
+     * before crebting the new client connection.
      */
-    RMIConnection doNewClient(Object credentials) throws IOException {
-        final boolean tracing = logger.traceOn();
+    RMIConnection doNewClient(Object credentibls) throws IOException {
+        finbl boolebn trbcing = logger.trbceOn();
 
-        if (tracing) logger.trace("newClient","making new client");
+        if (trbcing) logger.trbce("newClient","mbking new client");
 
-        if (getMBeanServer() == null)
-            throw new IllegalStateException("Not attached to an MBean server");
+        if (getMBebnServer() == null)
+            throw new IllegblStbteException("Not bttbched to bn MBebn server");
 
         Subject subject = null;
-        JMXAuthenticator authenticator =
-            (JMXAuthenticator) env.get(JMXConnectorServer.AUTHENTICATOR);
-        if (authenticator == null) {
+        JMXAuthenticbtor buthenticbtor =
+            (JMXAuthenticbtor) env.get(JMXConnectorServer.AUTHENTICATOR);
+        if (buthenticbtor == null) {
             /*
-             * Create the JAAS-based authenticator only if authentication
-             * has been enabled
+             * Crebte the JAAS-bbsed buthenticbtor only if buthenticbtion
+             * hbs been enbbled
              */
-            if (env.get("jmx.remote.x.password.file") != null ||
+            if (env.get("jmx.remote.x.pbssword.file") != null ||
                 env.get("jmx.remote.x.login.config") != null) {
-                authenticator = new JMXPluggableAuthenticator(env);
+                buthenticbtor = new JMXPluggbbleAuthenticbtor(env);
             }
         }
-        if (authenticator != null) {
-            if (tracing) logger.trace("newClient","got authenticator: " +
-                               authenticator.getClass().getName());
+        if (buthenticbtor != null) {
+            if (trbcing) logger.trbce("newClient","got buthenticbtor: " +
+                               buthenticbtor.getClbss().getNbme());
             try {
-                subject = authenticator.authenticate(credentials);
-            } catch (SecurityException e) {
-                logger.trace("newClient", "Authentication failed: " + e);
+                subject = buthenticbtor.buthenticbte(credentibls);
+            } cbtch (SecurityException e) {
+                logger.trbce("newClient", "Authenticbtion fbiled: " + e);
                 throw e;
             }
         }
 
-        if (tracing) {
+        if (trbcing) {
             if (subject != null)
-                logger.trace("newClient","subject is not null");
-            else logger.trace("newClient","no subject");
+                logger.trbce("newClient","subject is not null");
+            else logger.trbce("newClient","no subject");
         }
 
-        final String connectionId = makeConnectionId(getProtocol(), subject);
+        finbl String connectionId = mbkeConnectionId(getProtocol(), subject);
 
-        if (tracing)
-            logger.trace("newClient","making new connection: " + connectionId);
+        if (trbcing)
+            logger.trbce("newClient","mbking new connection: " + connectionId);
 
-        RMIConnection client = makeClient(connectionId, subject);
+        RMIConnection client = mbkeClient(connectionId, subject);
 
-        dropDeadReferences();
-        WeakReference<RMIConnection> wr = new WeakReference<RMIConnection>(client);
+        dropDebdReferences();
+        WebkReference<RMIConnection> wr = new WebkReference<RMIConnection>(client);
         synchronized (clientList) {
-            clientList.add(wr);
+            clientList.bdd(wr);
         }
 
         connServer.connectionOpened(connectionId, "Connection opened", null);
 
         synchronized (clientList) {
-            if (!clientList.contains(wr)) {
-                // can be removed only by a JMXConnectionNotification listener
+            if (!clientList.contbins(wr)) {
+                // cbn be removed only by b JMXConnectionNotificbtion listener
                 throw new IOException("The connection is refused.");
             }
         }
 
-        if (tracing)
-            logger.trace("newClient","new connection done: " + connectionId );
+        if (trbcing)
+            logger.trbce("newClient","new connection done: " + connectionId );
 
         return client;
     }
 
     /**
-     * <p>Creates a new client connection.  This method is called by
+     * <p>Crebtes b new client connection.  This method is cblled by
      * the public method {@link #newClient(Object)}.</p>
      *
-     * @param connectionId the ID of the new connection.  Every
-     * connection opened by this connector server will have a
-     * different ID.  The behavior is unspecified if this parameter is
+     * @pbrbm connectionId the ID of the new connection.  Every
+     * connection opened by this connector server will hbve b
+     * different ID.  The behbvior is unspecified if this pbrbmeter is
      * null.
      *
-     * @param subject the authenticated subject.  Can be null.
+     * @pbrbm subject the buthenticbted subject.  Cbn be null.
      *
-     * @return the newly-created <code>RMIConnection</code>.
+     * @return the newly-crebted <code>RMIConnection</code>.
      *
-     * @exception IOException if the new client object cannot be
-     * created or exported.
+     * @exception IOException if the new client object cbnnot be
+     * crebted or exported.
      */
-    protected abstract RMIConnection makeClient(String connectionId,
+    protected bbstrbct RMIConnection mbkeClient(String connectionId,
                                                 Subject subject)
             throws IOException;
 
     /**
-     * <p>Closes a client connection made by {@link #makeClient makeClient}.
+     * <p>Closes b client connection mbde by {@link #mbkeClient mbkeClient}.
      *
-     * @param client a connection previously returned by
-     * <code>makeClient</code> on which the <code>closeClient</code>
-     * method has not previously been called.  The behavior is
-     * unspecified if these conditions are violated, including the
-     * case where <code>client</code> is null.
+     * @pbrbm client b connection previously returned by
+     * <code>mbkeClient</code> on which the <code>closeClient</code>
+     * method hbs not previously been cblled.  The behbvior is
+     * unspecified if these conditions bre violbted, including the
+     * cbse where <code>client</code> is null.
      *
-     * @exception IOException if the client connection cannot be
+     * @exception IOException if the client connection cbnnot be
      * closed.
      */
-    protected abstract void closeClient(RMIConnection client)
+    protected bbstrbct void closeClient(RMIConnection client)
             throws IOException;
 
     /**
      * <p>Returns the protocol string for this object.  The string is
-     * <code>rmi</code> for RMI/JRMP and <code>iiop</code> for RMI/IIOP.
+     * <code>rmi</code> for RMI/JRMP bnd <code>iiop</code> for RMI/IIOP.
      *
      * @return the protocol string for this object.
      */
-    protected abstract String getProtocol();
+    protected bbstrbct String getProtocol();
 
     /**
-     * <p>Method called when a client connection created by {@link
-     * #makeClient makeClient} is closed.  A subclass that defines
-     * <code>makeClient</code> must arrange for this method to be
-     * called when the resultant object's {@link RMIConnection#close()
-     * close} method is called.  This enables it to be removed from
+     * <p>Method cblled when b client connection crebted by {@link
+     * #mbkeClient mbkeClient} is closed.  A subclbss thbt defines
+     * <code>mbkeClient</code> must brrbnge for this method to be
+     * cblled when the resultbnt object's {@link RMIConnection#close()
+     * close} method is cblled.  This enbbles it to be removed from
      * the <code>RMIServerImpl</code>'s list of connections.  It is
-     * not an error for <code>client</code> not to be in that
+     * not bn error for <code>client</code> not to be in thbt
      * list.</p>
      *
      * <p>After removing <code>client</code> from the list of
-     * connections, this method calls {@link #closeClient
+     * connections, this method cblls {@link #closeClient
      * closeClient(client)}.</p>
      *
-     * @param client the client connection that has been closed.
+     * @pbrbm client the client connection thbt hbs been closed.
      *
      * @exception IOException if {@link #closeClient} throws this
      * exception.
@@ -335,112 +335,112 @@ public abstract class RMIServerImpl implements Closeable, RMIServer {
      * @exception NullPointerException if <code>client</code> is null.
      */
     protected void clientClosed(RMIConnection client) throws IOException {
-        final boolean debug = logger.debugOn();
+        finbl boolebn debug = logger.debugOn();
 
-        if (debug) logger.trace("clientClosed","client="+client);
+        if (debug) logger.trbce("clientClosed","client="+client);
 
         if (client == null)
             throw new NullPointerException("Null client");
 
         synchronized (clientList) {
-            dropDeadReferences();
-            for (Iterator<WeakReference<RMIConnection>> it = clientList.iterator();
-                 it.hasNext(); ) {
-                WeakReference<RMIConnection> wr = it.next();
+            dropDebdReferences();
+            for (Iterbtor<WebkReference<RMIConnection>> it = clientList.iterbtor();
+                 it.hbsNext(); ) {
+                WebkReference<RMIConnection> wr = it.next();
                 if (wr.get() == client) {
                     it.remove();
-                    break;
+                    brebk;
                 }
             }
-            /* It is not a bug for this loop not to find the client.  In
-               our close() method, we remove a client from the list before
-               calling its close() method.  */
+            /* It is not b bug for this loop not to find the client.  In
+               our close() method, we remove b client from the list before
+               cblling its close() method.  */
         }
 
-        if (debug) logger.trace("clientClosed", "closing client.");
+        if (debug) logger.trbce("clientClosed", "closing client.");
         closeClient(client);
 
-        if (debug) logger.trace("clientClosed", "sending notif");
+        if (debug) logger.trbce("clientClosed", "sending notif");
         connServer.connectionClosed(client.getConnectionId(),
                                     "Client connection closed", null);
 
-        if (debug) logger.trace("clientClosed","done");
+        if (debug) logger.trbce("clientClosed","done");
     }
 
     /**
-     * <p>Closes this connection server.  This method first calls the
-     * {@link #closeServer()} method so that no new client connections
-     * will be accepted.  Then, for each remaining {@link
-     * RMIConnection} object returned by {@link #makeClient
-     * makeClient}, its {@link RMIConnection#close() close} method is
-     * called.</p>
+     * <p>Closes this connection server.  This method first cblls the
+     * {@link #closeServer()} method so thbt no new client connections
+     * will be bccepted.  Then, for ebch rembining {@link
+     * RMIConnection} object returned by {@link #mbkeClient
+     * mbkeClient}, its {@link RMIConnection#close() close} method is
+     * cblled.</p>
      *
-     * <p>The behavior when this method is called more than once is
+     * <p>The behbvior when this method is cblled more thbn once is
      * unspecified.</p>
      *
-     * <p>If {@link #closeServer()} throws an
-     * <code>IOException</code>, the individual connections are
-     * nevertheless closed, and then the <code>IOException</code> is
+     * <p>If {@link #closeServer()} throws bn
+     * <code>IOException</code>, the individubl connections bre
+     * nevertheless closed, bnd then the <code>IOException</code> is
      * thrown from this method.</p>
      *
-     * <p>If {@link #closeServer()} returns normally but one or more
-     * of the individual connections throws an
-     * <code>IOException</code>, then, after closing all the
+     * <p>If {@link #closeServer()} returns normblly but one or more
+     * of the individubl connections throws bn
+     * <code>IOException</code>, then, bfter closing bll the
      * connections, one of those <code>IOException</code>s is thrown
-     * from this method.  If more than one connection throws an
+     * from this method.  If more thbn one connection throws bn
      * <code>IOException</code>, it is unspecified which one is thrown
      * from this method.</p>
      *
      * @exception IOException if {@link #closeServer()} or one of the
-     * {@link RMIConnection#close()} calls threw
+     * {@link RMIConnection#close()} cblls threw
      * <code>IOException</code>.
      */
     public synchronized void close() throws IOException {
-        final boolean tracing = logger.traceOn();
-        final boolean debug   = logger.debugOn();
+        finbl boolebn trbcing = logger.trbceOn();
+        finbl boolebn debug   = logger.debugOn();
 
-        if (tracing) logger.trace("close","closing");
+        if (trbcing) logger.trbce("close","closing");
 
         IOException ioException = null;
         try {
             if (debug)   logger.debug("close","closing Server");
             closeServer();
-        } catch (IOException e) {
-            if (tracing) logger.trace("close","Failed to close server: " + e);
+        } cbtch (IOException e) {
+            if (trbcing) logger.trbce("close","Fbiled to close server: " + e);
             if (debug)   logger.debug("close",e);
             ioException = e;
         }
 
         if (debug)   logger.debug("close","closing Clients");
-        // Loop to close all clients
+        // Loop to close bll clients
         while (true) {
             synchronized (clientList) {
-                if (debug) logger.debug("close","droping dead references");
-                dropDeadReferences();
+                if (debug) logger.debug("close","droping debd references");
+                dropDebdReferences();
 
                 if (debug) logger.debug("close","client count: "+clientList.size());
                 if (clientList.size() == 0)
-                    break;
-                /* Loop until we find a non-null client.  Because we called
-                   dropDeadReferences(), this will usually be the first
-                   element of the list, but a garbage collection could have
-                   happened in between.  */
-                for (Iterator<WeakReference<RMIConnection>> it = clientList.iterator();
-                     it.hasNext(); ) {
-                    WeakReference<RMIConnection> wr = it.next();
+                    brebk;
+                /* Loop until we find b non-null client.  Becbuse we cblled
+                   dropDebdReferences(), this will usublly be the first
+                   element of the list, but b gbrbbge collection could hbve
+                   hbppened in between.  */
+                for (Iterbtor<WebkReference<RMIConnection>> it = clientList.iterbtor();
+                     it.hbsNext(); ) {
+                    WebkReference<RMIConnection> wr = it.next();
                     RMIConnection client = wr.get();
                     it.remove();
                     if (client != null) {
                         try {
                             client.close();
-                        } catch (IOException e) {
-                            if (tracing)
-                                logger.trace("close","Failed to close client: " + e);
+                        } cbtch (IOException e) {
+                            if (trbcing)
+                                logger.trbce("close","Fbiled to close client: " + e);
                             if (debug) logger.debug("close",e);
                             if (ioException == null)
                                 ioException = e;
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
@@ -450,24 +450,24 @@ public abstract class RMIServerImpl implements Closeable, RMIServer {
             notifBuffer.dispose();
 
         if (ioException != null) {
-            if (tracing) logger.trace("close","close failed.");
+            if (trbcing) logger.trbce("close","close fbiled.");
             throw ioException;
         }
 
-        if (tracing) logger.trace("close","closed.");
+        if (trbcing) logger.trbce("close","closed.");
     }
 
     /**
-     * <p>Called by {@link #close()} to close the connector server.
+     * <p>Cblled by {@link #close()} to close the connector server.
      * After returning from this method, the connector server must
-     * not accept any new connections.</p>
+     * not bccept bny new connections.</p>
      *
-     * @exception IOException if the attempt to close the connector
-     * server failed.
+     * @exception IOException if the bttempt to close the connector
+     * server fbiled.
      */
-    protected abstract void closeServer() throws IOException;
+    protected bbstrbct void closeServer() throws IOException;
 
-    private static synchronized String makeConnectionId(String protocol,
+    privbte stbtic synchronized String mbkeConnectionId(String protocol,
                                                         Subject subject) {
         connectionIdNumber++;
 
@@ -475,77 +475,77 @@ public abstract class RMIServerImpl implements Closeable, RMIServer {
         try {
             clientHost = RemoteServer.getClientHost();
             /*
-             * According to the rules specified in the javax.management.remote
-             * package description, a numeric IPv6 address (detected by the
-             * presence of otherwise forbidden ":" character) forming a part
-             * of the connection id must be enclosed in square brackets.
+             * According to the rules specified in the jbvbx.mbnbgement.remote
+             * pbckbge description, b numeric IPv6 bddress (detected by the
+             * presence of otherwise forbidden ":" chbrbcter) forming b pbrt
+             * of the connection id must be enclosed in squbre brbckets.
              */
-            if (clientHost.contains(":")) {
+            if (clientHost.contbins(":")) {
                 clientHost = "[" + clientHost + "]";
             }
-        } catch (ServerNotActiveException e) {
-            logger.trace("makeConnectionId", "getClientHost", e);
+        } cbtch (ServerNotActiveException e) {
+            logger.trbce("mbkeConnectionId", "getClientHost", e);
         }
 
-        final StringBuilder buf = new StringBuilder();
-        buf.append(protocol).append(":");
+        finbl StringBuilder buf = new StringBuilder();
+        buf.bppend(protocol).bppend(":");
         if (clientHost.length() > 0)
-            buf.append("//").append(clientHost);
-        buf.append(" ");
+            buf.bppend("//").bppend(clientHost);
+        buf.bppend(" ");
         if (subject != null) {
-            Set<Principal> principals = subject.getPrincipals();
+            Set<Principbl> principbls = subject.getPrincipbls();
             String sep = "";
-            for (Iterator<Principal> it = principals.iterator(); it.hasNext(); ) {
-                Principal p = it.next();
-                String name = p.getName().replace(' ', '_').replace(';', ':');
-                buf.append(sep).append(name);
+            for (Iterbtor<Principbl> it = principbls.iterbtor(); it.hbsNext(); ) {
+                Principbl p = it.next();
+                String nbme = p.getNbme().replbce(' ', '_').replbce(';', ':');
+                buf.bppend(sep).bppend(nbme);
                 sep = ";";
             }
         }
-        buf.append(" ").append(connectionIdNumber);
-        if (logger.traceOn())
-            logger.trace("newConnectionId","connectionId="+buf);
+        buf.bppend(" ").bppend(connectionIdNumber);
+        if (logger.trbceOn())
+            logger.trbce("newConnectionId","connectionId="+buf);
         return buf.toString();
     }
 
-    private void dropDeadReferences() {
+    privbte void dropDebdReferences() {
         synchronized (clientList) {
-            for (Iterator<WeakReference<RMIConnection>> it = clientList.iterator();
-                 it.hasNext(); ) {
-                WeakReference<RMIConnection> wr = it.next();
+            for (Iterbtor<WebkReference<RMIConnection>> it = clientList.iterbtor();
+                 it.hbsNext(); ) {
+                WebkReference<RMIConnection> wr = it.next();
                 if (wr.get() == null)
                     it.remove();
             }
         }
     }
 
-    synchronized NotificationBuffer getNotifBuffer() {
-        //Notification buffer is lazily created when the first client connects
+    synchronized NotificbtionBuffer getNotifBuffer() {
+        //Notificbtion buffer is lbzily crebted when the first client connects
         if(notifBuffer == null)
             notifBuffer =
-                ArrayNotificationBuffer.getNotificationBuffer(mbeanServer,
+                ArrbyNotificbtionBuffer.getNotificbtionBuffer(mbebnServer,
                                                               env);
         return notifBuffer;
     }
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.rmi", "RMIServerImpl");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.rmi", "RMIServerImpl");
 
-    /** List of WeakReference values.  Each one references an
-        RMIConnection created by this object, or null if the
-        RMIConnection has been garbage-collected.  */
-    private final List<WeakReference<RMIConnection>> clientList =
-            new ArrayList<WeakReference<RMIConnection>>();
+    /** List of WebkReference vblues.  Ebch one references bn
+        RMIConnection crebted by this object, or null if the
+        RMIConnection hbs been gbrbbge-collected.  */
+    privbte finbl List<WebkReference<RMIConnection>> clientList =
+            new ArrbyList<WebkReference<RMIConnection>>();
 
-    private ClassLoader cl;
+    privbte ClbssLobder cl;
 
-    private MBeanServer mbeanServer;
+    privbte MBebnServer mbebnServer;
 
-    private final Map<String, ?> env;
+    privbte finbl Mbp<String, ?> env;
 
-    private RMIConnectorServer connServer;
+    privbte RMIConnectorServer connServer;
 
-    private static int connectionIdNumber;
+    privbte stbtic int connectionIdNumber;
 
-    private NotificationBuffer notifBuffer;
+    privbte NotificbtionBuffer notifBuffer;
 }

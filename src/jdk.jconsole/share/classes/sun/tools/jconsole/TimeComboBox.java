@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2004, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.util.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * A combo box to control the visible time range for one or more Plotter components.
- * When used with two or more Plotters, it also acts to coordinate the range between
+ * A combo box to control the visible time rbnge for one or more Plotter components.
+ * When used with two or more Plotters, it blso bcts to coordinbte the rbnge between
  * them.
  */
-@SuppressWarnings("serial")
-public class TimeComboBox extends JComboBox<String> implements ItemListener, PropertyChangeListener {
-    private ArrayList<Plotter> plotters = new ArrayList<Plotter>();
+@SuppressWbrnings("seribl")
+public clbss TimeComboBox extends JComboBox<String> implements ItemListener, PropertyChbngeListener {
+    privbte ArrbyList<Plotter> plotters = new ArrbyList<Plotter>();
 
-    public TimeComboBox(Plotter... plotterArray) {
-        super(Plotter.rangeNames);
+    public TimeComboBox(Plotter... plotterArrby) {
+        super(Plotter.rbngeNbmes);
 
-        addItemListener(this);
+        bddItemListener(this);
 
-        if (plotterArray != null && plotterArray.length > 0) {
-            plotters.addAll(Arrays.asList(plotterArray));
-            selectValue(plotterArray[0].getViewRange());
+        if (plotterArrby != null && plotterArrby.length > 0) {
+            plotters.bddAll(Arrbys.bsList(plotterArrby));
+            selectVblue(plotterArrby[0].getViewRbnge());
             for (Plotter plotter : plotters) {
-                plotter.addPropertyChangeListener(this);
+                plotter.bddPropertyChbngeListener(this);
             }
         }
     }
 
-    public void addPlotter(Plotter plotter) {
-        plotters.add(plotter);
+    public void bddPlotter(Plotter plotter) {
+        plotters.bdd(plotter);
         if (plotters.size() == 1) {
-            selectValue(plotter.getViewRange());
+            selectVblue(plotter.getViewRbnge());
         }
-        plotter.addPropertyChangeListener(this);
+        plotter.bddPropertyChbngeListener(this);
     }
 
-    public void itemStateChanged(ItemEvent ev) {
+    public void itemStbteChbnged(ItemEvent ev) {
         for (Plotter plotter : plotters) {
-            plotter.setViewRange(Plotter.rangeValues[getSelectedIndex()]);
+            plotter.setViewRbnge(Plotter.rbngeVblues[getSelectedIndex()]);
         }
     }
 
-    private void selectValue(int value) {
-        // Set the selected value
-        for (int i = 0; i < Plotter.rangeValues.length; i++) {
-            if (Plotter.rangeValues[i] == value) {
-                setSelectedItem(Plotter.rangeNames[i]);
+    privbte void selectVblue(int vblue) {
+        // Set the selected vblue
+        for (int i = 0; i < Plotter.rbngeVblues.length; i++) {
+            if (Plotter.rbngeVblues[i] == vblue) {
+                setSelectedItem(Plotter.rbngeNbmes[i]);
             }
         }
-        // Make sure all plotters show this value
+        // Mbke sure bll plotters show this vblue
         if (plotters.size() > 1) {
             for (Plotter plotter : plotters) {
-                plotter.setViewRange(value);
+                plotter.setViewRbnge(vblue);
             }
         }
     }
 
-    public void propertyChange(PropertyChangeEvent ev) {
-        if (ev.getPropertyName() == "viewRange") {
-            selectValue((Integer)ev.getNewValue());
+    public void propertyChbnge(PropertyChbngeEvent ev) {
+        if (ev.getPropertyNbme() == "viewRbnge") {
+            selectVblue((Integer)ev.getNewVblue());
         }
     }
 }

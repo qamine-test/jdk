@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.SecureRandomSpi;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
+import jbvb.io.IOException;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.SecureRbndomSpi;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.NoSuchProviderException;
 
 /**
- * <p>This class provides a crytpographically strong pseudo-random number
- * generator based on the SHA-1 hash algorithm.
+ * <p>This clbss provides b crytpogrbphicblly strong pseudo-rbndom number
+ * generbtor bbsed on the SHA-1 hbsh blgorithm.
  *
- * <p>Note that if a seed is not provided, we attempt to provide sufficient
- * seed bytes to completely randomize the internal state of the generator
- * (20 bytes).  However, our seed generation algorithm has not been thoroughly
+ * <p>Note thbt if b seed is not provided, we bttempt to provide sufficient
+ * seed bytes to completely rbndomize the internbl stbte of the generbtor
+ * (20 bytes).  However, our seed generbtion blgorithm hbs not been thoroughly
  * studied or widely deployed.
  *
- * <p>Also note that when a random object is deserialized,
- * <a href="#engineNextBytes(byte[])">engineNextBytes</a> invoked on the
- * restored random object will yield the exact same (random) bytes as the
- * original object.  If this behaviour is not desired, the restored random
+ * <p>Also note thbt when b rbndom object is deseriblized,
+ * <b href="#engineNextBytes(byte[])">engineNextBytes</b> invoked on the
+ * restored rbndom object will yield the exbct sbme (rbndom) bytes bs the
+ * originbl object.  If this behbviour is not desired, the restored rbndom
  * object should be seeded, using
- * <a href="#engineSetSeed(byte[])">engineSetSeed</a>.
+ * <b href="#engineSetSeed(byte[])">engineSetSeed</b>.
  *
- * @author Benjamin Renaud
- * @author Josh Bloch
- * @author Gadi Guy
+ * @buthor Benjbmin Renbud
+ * @buthor Josh Bloch
+ * @buthor Gbdi Guy
  */
 
-public final class SecureRandom extends SecureRandomSpi
-implements java.io.Serializable {
+public finbl clbss SecureRbndom extends SecureRbndomSpi
+implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 3581829991155417889L;
+    privbte stbtic finbl long seriblVersionUID = 3581829991155417889L;
 
-    private static final int DIGEST_SIZE = 20;
-    private transient MessageDigest digest;
-    private byte[] state;
-    private byte[] remainder;
-    private int remCount;
+    privbte stbtic finbl int DIGEST_SIZE = 20;
+    privbte trbnsient MessbgeDigest digest;
+    privbte byte[] stbte;
+    privbte byte[] rembinder;
+    privbte int remCount;
 
     /**
-     * This empty constructor automatically seeds the generator.  We attempt
-     * to provide sufficient seed bytes to completely randomize the internal
-     * state of the generator (20 bytes).  Note, however, that our seed
-     * generation algorithm has not been thoroughly studied or widely deployed.
+     * This empty constructor butombticblly seeds the generbtor.  We bttempt
+     * to provide sufficient seed bytes to completely rbndomize the internbl
+     * stbte of the generbtor (20 bytes).  Note, however, thbt our seed
+     * generbtion blgorithm hbs not been thoroughly studied or widely deployed.
      *
-     * <p>The first time this constructor is called in a given Virtual Machine,
-     * it may take several seconds of CPU time to seed the generator, depending
-     * on the underlying hardware.  Successive calls run quickly because they
-     * rely on the same (internal) pseudo-random number generator for their
+     * <p>The first time this constructor is cblled in b given Virtubl Mbchine,
+     * it mby tbke severbl seconds of CPU time to seed the generbtor, depending
+     * on the underlying hbrdwbre.  Successive cblls run quickly becbuse they
+     * rely on the sbme (internbl) pseudo-rbndom number generbtor for their
      * seed bits.
      */
-    public SecureRandom() {
+    public SecureRbndom() {
         init(null);
     }
 
     /**
-     * This constructor is used to instantiate the private seeder object
-     * with a given seed from the SeedGenerator.
+     * This constructor is used to instbntibte the privbte seeder object
+     * with b given seed from the SeedGenerbtor.
      *
-     * @param seed the seed.
+     * @pbrbm seed the seed.
      */
-    private SecureRandom(byte seed[]) {
+    privbte SecureRbndom(byte seed[]) {
         init(seed);
     }
 
     /**
-     * This call, used by the constructors, instantiates the SHA digest
-     * and sets the seed, if given.
+     * This cbll, used by the constructors, instbntibtes the SHA digest
+     * bnd sets the seed, if given.
      */
-    private void init(byte[] seed) {
+    privbte void init(byte[] seed) {
         try {
             /*
-             * Use the local SUN implementation to avoid native
-             * performance overhead.
+             * Use the locbl SUN implementbtion to bvoid nbtive
+             * performbnce overhebd.
              */
-            digest = MessageDigest.getInstance("SHA", "SUN");
-        } catch (NoSuchProviderException | NoSuchAlgorithmException e) {
-            // Fallback to any available.
+            digest = MessbgeDigest.getInstbnce("SHA", "SUN");
+        } cbtch (NoSuchProviderException | NoSuchAlgorithmException e) {
+            // Fbllbbck to bny bvbilbble.
             try {
-                digest = MessageDigest.getInstance("SHA");
-            } catch (NoSuchAlgorithmException exc) {
-                throw new InternalError(
-                    "internal error: SHA-1 not available.", exc);
+                digest = MessbgeDigest.getInstbnce("SHA");
+            } cbtch (NoSuchAlgorithmException exc) {
+                throw new InternblError(
+                    "internbl error: SHA-1 not bvbilbble.", exc);
             }
         }
 
@@ -117,115 +117,115 @@ implements java.io.Serializable {
 
     /**
      * Returns the given number of seed bytes, computed using the seed
-     * generation algorithm that this class uses to seed itself.  This
-     * call may be used to seed other random number generators.  While
-     * we attempt to return a "truly random" sequence of bytes, we do not
-     * know exactly how random the bytes returned by this call are.  (See
-     * the empty constructor <a href = "#SecureRandom">SecureRandom</a>
-     * for a brief description of the underlying algorithm.)
-     * The prudent user will err on the side of caution and get extra
-     * seed bytes, although it should be noted that seed generation is
-     * somewhat costly.
+     * generbtion blgorithm thbt this clbss uses to seed itself.  This
+     * cbll mby be used to seed other rbndom number generbtors.  While
+     * we bttempt to return b "truly rbndom" sequence of bytes, we do not
+     * know exbctly how rbndom the bytes returned by this cbll bre.  (See
+     * the empty constructor <b href = "#SecureRbndom">SecureRbndom</b>
+     * for b brief description of the underlying blgorithm.)
+     * The prudent user will err on the side of cbution bnd get extrb
+     * seed bytes, blthough it should be noted thbt seed generbtion is
+     * somewhbt costly.
      *
-     * @param numBytes the number of seed bytes to generate.
+     * @pbrbm numBytes the number of seed bytes to generbte.
      *
      * @return the seed bytes.
      */
     @Override
-    public byte[] engineGenerateSeed(int numBytes) {
-        // Neither of the SeedGenerator implementations require
+    public byte[] engineGenerbteSeed(int numBytes) {
+        // Neither of the SeedGenerbtor implementbtions require
         // locking, so no sync needed here.
         byte[] b = new byte[numBytes];
-        SeedGenerator.generateSeed(b);
+        SeedGenerbtor.generbteSeed(b);
         return b;
     }
 
     /**
-     * Reseeds this random object. The given seed supplements, rather than
-     * replaces, the existing seed. Thus, repeated calls are guaranteed
-     * never to reduce randomness.
+     * Reseeds this rbndom object. The given seed supplements, rbther thbn
+     * replbces, the existing seed. Thus, repebted cblls bre gubrbnteed
+     * never to reduce rbndomness.
      *
-     * @param seed the seed.
+     * @pbrbm seed the seed.
      */
     @Override
     synchronized public void engineSetSeed(byte[] seed) {
-        if (state != null) {
-            digest.update(state);
-            for (int i = 0; i < state.length; i++) {
-                state[i] = 0;
+        if (stbte != null) {
+            digest.updbte(stbte);
+            for (int i = 0; i < stbte.length; i++) {
+                stbte[i] = 0;
             }
         }
-        state = digest.digest(seed);
+        stbte = digest.digest(seed);
     }
 
-    private static void updateState(byte[] state, byte[] output) {
-        int last = 1;
+    privbte stbtic void updbteStbte(byte[] stbte, byte[] output) {
+        int lbst = 1;
         int v;
         byte t;
-        boolean zf = false;
+        boolebn zf = fblse;
 
-        // state(n + 1) = (state(n) + output(n) + 1) % 2^160;
-        for (int i = 0; i < state.length; i++) {
+        // stbte(n + 1) = (stbte(n) + output(n) + 1) % 2^160;
+        for (int i = 0; i < stbte.length; i++) {
             // Add two bytes
-            v = (int)state[i] + (int)output[i] + last;
+            v = (int)stbte[i] + (int)output[i] + lbst;
             // Result is lower 8 bits
             t = (byte)v;
-            // Store result. Check for state collision.
-            zf = zf | (state[i] != t);
-            state[i] = t;
-            // High 8 bits are carry. Store for next iteration.
-            last = v >> 8;
+            // Store result. Check for stbte collision.
+            zf = zf | (stbte[i] != t);
+            stbte[i] = t;
+            // High 8 bits bre cbrry. Store for next iterbtion.
+            lbst = v >> 8;
         }
 
-        // Make sure at least one bit changes!
+        // Mbke sure bt lebst one bit chbnges!
         if (!zf) {
-           state[0]++;
+           stbte[0]++;
         }
     }
 
     /**
-     * This static object will be seeded by SeedGenerator, and used
-     * to seed future instances of SHA1PRNG SecureRandoms.
+     * This stbtic object will be seeded by SeedGenerbtor, bnd used
+     * to seed future instbnces of SHA1PRNG SecureRbndoms.
      *
-     * Bloch, Effective Java Second Edition: Item 71
+     * Bloch, Effective Jbvb Second Edition: Item 71
      */
-    private static class SeederHolder {
+    privbte stbtic clbss SeederHolder {
 
-        private static final SecureRandom seeder;
+        privbte stbtic finbl SecureRbndom seeder;
 
-        static {
+        stbtic {
             /*
-             * Call to SeedGenerator.generateSeed() to add additional
-             * seed material (likely from the Native implementation).
+             * Cbll to SeedGenerbtor.generbteSeed() to bdd bdditionbl
+             * seed mbteribl (likely from the Nbtive implementbtion).
              */
-            seeder = new SecureRandom(SeedGenerator.getSystemEntropy());
+            seeder = new SecureRbndom(SeedGenerbtor.getSystemEntropy());
             byte [] b = new byte[DIGEST_SIZE];
-            SeedGenerator.generateSeed(b);
+            SeedGenerbtor.generbteSeed(b);
             seeder.engineSetSeed(b);
         }
     }
 
     /**
-     * Generates a user-specified number of random bytes.
+     * Generbtes b user-specified number of rbndom bytes.
      *
-     * @param bytes the array to be filled in with random bytes.
+     * @pbrbm bytes the brrby to be filled in with rbndom bytes.
      */
     @Override
     public synchronized void engineNextBytes(byte[] result) {
         int index = 0;
         int todo;
-        byte[] output = remainder;
+        byte[] output = rembinder;
 
-        if (state == null) {
+        if (stbte == null) {
             byte[] seed = new byte[DIGEST_SIZE];
             SeederHolder.seeder.engineNextBytes(seed);
-            state = digest.digest(seed);
+            stbte = digest.digest(seed);
         }
 
-        // Use remainder from last time
+        // Use rembinder from lbst time
         int r = remCount;
         if (r > 0) {
-            // How many bytes?
+            // How mbny bytes?
             todo = (result.length - index) < (DIGEST_SIZE - r) ?
                         (result.length - index) : (DIGEST_SIZE - r);
             // Copy the bytes, zero the buffer
@@ -237,14 +237,14 @@ implements java.io.Serializable {
             index += todo;
         }
 
-        // If we need more bytes, make them.
+        // If we need more bytes, mbke them.
         while (index < result.length) {
-            // Step the state
-            digest.update(state);
+            // Step the stbte
+            digest.updbte(stbte);
             output = digest.digest();
-            updateState(state, output);
+            updbteStbte(stbte, output);
 
-            // How many bytes?
+            // How mbny bytes?
             todo = (result.length - index) > DIGEST_SIZE ?
                 DIGEST_SIZE : result.length - index;
             // Copy the bytes, zero the buffer
@@ -255,39 +255,39 @@ implements java.io.Serializable {
             remCount += todo;
         }
 
-        // Store remainder for next time
-        remainder = output;
+        // Store rembinder for next time
+        rembinder = output;
         remCount %= DIGEST_SIZE;
     }
 
     /*
-     * readObject is called to restore the state of the random object from
-     * a stream.  We have to create a new instance of MessageDigest, because
-     * it is not included in the stream (it is marked "transient").
+     * rebdObject is cblled to restore the stbte of the rbndom object from
+     * b strebm.  We hbve to crebte b new instbnce of MessbgeDigest, becbuse
+     * it is not included in the strebm (it is mbrked "trbnsient").
      *
-     * Note that the engineNextBytes() method invoked on the restored random
-     * object will yield the exact same (random) bytes as the original.
-     * If you do not want this behaviour, you should re-seed the restored
-     * random object, using engineSetSeed().
+     * Note thbt the engineNextBytes() method invoked on the restored rbndom
+     * object will yield the exbct sbme (rbndom) bytes bs the originbl.
+     * If you do not wbnt this behbviour, you should re-seed the restored
+     * rbndom object, using engineSetSeed().
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
 
-        s.defaultReadObject ();
+        s.defbultRebdObject ();
 
         try {
             /*
-             * Use the local SUN implementation to avoid native
-             * performance overhead.
+             * Use the locbl SUN implementbtion to bvoid nbtive
+             * performbnce overhebd.
              */
-            digest = MessageDigest.getInstance("SHA", "SUN");
-        } catch (NoSuchProviderException | NoSuchAlgorithmException e) {
-            // Fallback to any available.
+            digest = MessbgeDigest.getInstbnce("SHA", "SUN");
+        } cbtch (NoSuchProviderException | NoSuchAlgorithmException e) {
+            // Fbllbbck to bny bvbilbble.
             try {
-                digest = MessageDigest.getInstance("SHA");
-            } catch (NoSuchAlgorithmException exc) {
-                throw new InternalError(
-                    "internal error: SHA-1 not available.", exc);
+                digest = MessbgeDigest.getInstbnce("SHA");
+            } cbtch (NoSuchAlgorithmException exc) {
+                throw new InternblError(
+                    "internbl error: SHA-1 not bvbilbble.", exc);
             }
         }
     }

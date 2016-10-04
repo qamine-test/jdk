@@ -1,505 +1,505 @@
-<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 trbnsitionbl//en">
 <html>
-<head>
+<hebd>
 
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
+  <metb http-equiv="Content-Type"
+ content="text/html; chbrset=iso-8859-1">
 
-  <meta name="GENERATOR"
- content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+  <metb nbme="GENERATOR"
+ content="Mozillb/4.79 [en] (Windows NT 5.0; U) [Netscbpe]">
 <!--
-Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-  <title>javax.sql.rowset.spi</title>
+  <title>jbvbx.sql.rowset.spi</title>
 
-</head>
+</hebd>
   <body bgcolor="#ffffff">
 
-The standard classes and interfaces that a third party vendor has to
-use in its implementation of a synchronization provider. These classes and 
-interfaces are referred to as the Service Provider Interface (SPI). A vendor may 
-have its implementation included on the JDBC web page that lists available
-<code>SyncProvider</code> implementations by sending email to <code>jdbc@sun.com</code>.
-Doing this helps make developers aware of the implementation. To make it possible
-for a <code>RowSet</code> object to use an implementation, the vendor must register
-it with the <code>SyncFactory</code> singleton. (See the class comment for
-<code>SyncProvider</code> for a full explanation of the registration process and 
-the naming convention to be used.)
+The stbndbrd clbsses bnd interfbces thbt b third pbrty vendor hbs to
+use in its implementbtion of b synchronizbtion provider. These clbsses bnd 
+interfbces bre referred to bs the Service Provider Interfbce (SPI). A vendor mby 
+hbve its implementbtion included on the JDBC web pbge thbt lists bvbilbble
+<code>SyncProvider</code> implementbtions by sending embil to <code>jdbc@sun.com</code>.
+Doing this helps mbke developers bwbre of the implementbtion. To mbke it possible
+for b <code>RowSet</code> object to use bn implementbtion, the vendor must register
+it with the <code>SyncFbctory</code> singleton. (See the clbss comment for
+<code>SyncProvider</code> for b full explbnbtion of the registrbtion process bnd 
+the nbming convention to be used.)
 
-<h2>Table of Contents</h2>
+<h2>Tbble of Contents</h2>
 <ul>
-<li><a href="#pkgspec">1.0 Package Specification</a>
-<li><a href="#arch">2.0 Service Provider Architecture</a>
-<li><a href="#impl">3.0 Implementer's Guide</a>
-<li><a href="#resolving">4.0 Resolving Synchronization Conflicts</a>
-<li><a href="#relspec">5.0 Related Specifications</a>
-<li><a href="#reldocs">6.0 Related Documentation</a>
+<li><b href="#pkgspec">1.0 Pbckbge Specificbtion</b>
+<li><b href="#brch">2.0 Service Provider Architecture</b>
+<li><b href="#impl">3.0 Implementer's Guide</b>
+<li><b href="#resolving">4.0 Resolving Synchronizbtion Conflicts</b>
+<li><b href="#relspec">5.0 Relbted Specificbtions</b>
+<li><b href="#reldocs">6.0 Relbted Documentbtion</b>
 </ul>
 
-<h3><a name="pkgspec">1.0 Package Specification</a></h3>
+<h3><b nbme="pkgspec">1.0 Pbckbge Specificbtion</b></h3>
 <P>
-The following classes and interfaces make up the <code>javax.sql.rowset.spi</code>
-package:
+The following clbsses bnd interfbces mbke up the <code>jbvbx.sql.rowset.spi</code>
+pbckbge:
 <UL>
-  <LI><code>SyncFactory</code>
+  <LI><code>SyncFbctory</code>
   <LI><code>SyncProvider</code>
-  <LI><code>SyncFactoryException</code>
+  <LI><code>SyncFbctoryException</code>
   <LI><code>SyncProviderException</code>
   <LI><code>SyncResolver</code>
-  <LI><code>XmlReader</code>
+  <LI><code>XmlRebder</code>
   <LI><code>XmlWriter</code>
-  <LI><code>TransactionalWriter</code>
+  <LI><code>TrbnsbctionblWriter</code>
 </UL>
-The following interfaces, in the <code>javax.sql</code> package, are also part of the SPI:
+The following interfbces, in the <code>jbvbx.sql</code> pbckbge, bre blso pbrt of the SPI:
 <UL>
-  <LI><code>RowSetReader</code>
+  <LI><code>RowSetRebder</code>
   <LI><code>RowSetWriter</code>
 </UL>
 <P>
-A <code>SyncProvider</code> implementation provides a disconnected <code>RowSet</code>
-object with the mechanisms for reading data into it and for writing data that has been
+A <code>SyncProvider</code> implementbtion provides b disconnected <code>RowSet</code>
+object with the mechbnisms for rebding dbtb into it bnd for writing dbtb thbt hbs been
 modified in it
-back to the underlying data source.  A <i>reader</i>, a <code>RowSetReader</code> or
-<code>XMLReader</code> object, reads data into a <code>RowSet</code> object when the 
-<code>CachedRowSet</code> methods <code>execute</code> or <code>populate</code> 
-are called.  A <i>writer</i>, a <code>RowSetWriter</code> or <code>XMLWriter</code>
-object, writes changes back to the underlying data source when the 
-<code>CachedRowSet</code> method <code>acceptChanges</code> is called.
+bbck to the underlying dbtb source.  A <i>rebder</i>, b <code>RowSetRebder</code> or
+<code>XMLRebder</code> object, rebds dbtb into b <code>RowSet</code> object when the 
+<code>CbchedRowSet</code> methods <code>execute</code> or <code>populbte</code> 
+bre cblled.  A <i>writer</i>, b <code>RowSetWriter</code> or <code>XMLWriter</code>
+object, writes chbnges bbck to the underlying dbtb source when the 
+<code>CbchedRowSet</code> method <code>bcceptChbnges</code> is cblled.
 <P>
-The process of writing changes in a <code>RowSet</code> object to its data source
-is known as <i>synchronization</i>.  The <code>SyncProvider</code> implementation that a
-<code>RowSet</code> object is using determines the level of synchronization that the
-<code>RowSet</code> object's writer uses. The various levels of synchronization are
-referred to as <i>grades</i>.
+The process of writing chbnges in b <code>RowSet</code> object to its dbtb source
+is known bs <i>synchronizbtion</i>.  The <code>SyncProvider</code> implementbtion thbt b
+<code>RowSet</code> object is using determines the level of synchronizbtion thbt the
+<code>RowSet</code> object's writer uses. The vbrious levels of synchronizbtion bre
+referred to bs <i>grbdes</i>.
 <P>
-The lower grades of synchronization are
-known as <i>optimistic</i> concurrency levels because they optimistically
-assume that there will be no conflicts or very few conflicts.  A conflict exists when
-the same data modified in the <code>RowSet</code> object has also been modified 
-in the data source. Using the optimistic concurrency model means that if there
-is a conflict, modifications to either the data source or the <code>RowSet</code> 
+The lower grbdes of synchronizbtion bre
+known bs <i>optimistic</i> concurrency levels becbuse they optimisticblly
+bssume thbt there will be no conflicts or very few conflicts.  A conflict exists when
+the sbme dbtb modified in the <code>RowSet</code> object hbs blso been modified 
+in the dbtb source. Using the optimistic concurrency model mebns thbt if there
+is b conflict, modificbtions to either the dbtb source or the <code>RowSet</code> 
 object will be lost.
 <P>
-Higher grades of synchronization are called <i>pessimistic</i> because they assume
-that others will be accessing the data source and making modifications.  These
-grades set varying levels of locks to increase the chances that no conflicts
+Higher grbdes of synchronizbtion bre cblled <i>pessimistic</i> becbuse they bssume
+thbt others will be bccessing the dbtb source bnd mbking modificbtions.  These
+grbdes set vbrying levels of locks to increbse the chbnces thbt no conflicts
 occur.
 <P>
-The lowest level of synchronization is simply writing any changes made to the 
-<code>RowSet</code> object to its underlying data source.  The writer does
+The lowest level of synchronizbtion is simply writing bny chbnges mbde to the 
+<code>RowSet</code> object to its underlying dbtb source.  The writer does
 nothing to check for conflicts. 
-If there is a conflict and the data
-source values are overwritten, the changes other parties have made by to the data
-source are lost. 
+If there is b conflict bnd the dbtb
+source vblues bre overwritten, the chbnges other pbrties hbve mbde by to the dbtb
+source bre lost. 
 <P>
-The <code>RIXMLProvider</code> implementation uses the lowest level 
-of synchronization and just writes <code>RowSet</code> changes to the data source.
-This is true because  typically XML data sources do not enable transaction
-techniques for maintaining the integrity of data. However, specific standards 
-groups have considered offering XML-based synchronization.  For details, see
+The <code>RIXMLProvider</code> implementbtion uses the lowest level 
+of synchronizbtion bnd just writes <code>RowSet</code> chbnges to the dbtb source.
+This is true becbuse  typicblly XML dbtb sources do not enbble trbnsbction
+techniques for mbintbining the integrity of dbtb. However, specific stbndbrds 
+groups hbve considered offering XML-bbsed synchronizbtion.  For detbils, see
 <PRE>
-     <a href="http://www.syncml.org">http://www.syncml.org</a>
+     <b href="http://www.syncml.org">http://www.syncml.org</b>
 </PRE>
 <P>
 For the the next level up, the
-writer checks to see if there are any conflicts, and if there are, 
-it does not write anything to the data source.  The problem with this concurrency
-level is that if another party has modified the corresponding data in the data source 
-since the <code>RowSet</code> object got its data,
-the changes made to the <code>RowSet</code> object are lost. The
-<code>RIOptimisticProvider</code> implementation uses this level of synchronization.
+writer checks to see if there bre bny conflicts, bnd if there bre, 
+it does not write bnything to the dbtb source.  The problem with this concurrency
+level is thbt if bnother pbrty hbs modified the corresponding dbtb in the dbtb source 
+since the <code>RowSet</code> object got its dbtb,
+the chbnges mbde to the <code>RowSet</code> object bre lost. The
+<code>RIOptimisticProvider</code> implementbtion uses this level of synchronizbtion.
 <P>
-At higher levels of synchronization, referred to as pessimistic concurrency,
-the writer take steps to avoid conflicts by setting locks. Setting locks
-can vary from setting a lock on a single row to setting a lock on a table 
-or the entire data source. The level of synchronization is therefore a tradeoff 
-between the ability of users to access the data source concurrently and the  ability
-of the writer to keep the data in the <code>RowSet</code> object and its data source
+At higher levels of synchronizbtion, referred to bs pessimistic concurrency,
+the writer tbke steps to bvoid conflicts by setting locks. Setting locks
+cbn vbry from setting b lock on b single row to setting b lock on b tbble 
+or the entire dbtb source. The level of synchronizbtion is therefore b trbdeoff 
+between the bbility of users to bccess the dbtb source concurrently bnd the  bbility
+of the writer to keep the dbtb in the <code>RowSet</code> object bnd its dbtb source
 synchronized.
 <P>
-It is a requirement that all disconnected <code>RowSet</code> objects 
-(<code>CachedRowSet</code>, <code>FilteredRowSet</code>, <code>JoinRowSet</code>, 
-and <code>WebRowSet</code> objects) obtain their <code>SyncProvider</code> objects
-from the <code>SyncFactory</code> mechanism.  
+It is b requirement thbt bll disconnected <code>RowSet</code> objects 
+(<code>CbchedRowSet</code>, <code>FilteredRowSet</code>, <code>JoinRowSet</code>, 
+bnd <code>WebRowSet</code> objects) obtbin their <code>SyncProvider</code> objects
+from the <code>SyncFbctory</code> mechbnism.  
 <P>
-The reference implementation (RI) provides two synchronization providers.
+The reference implementbtion (RI) provides two synchronizbtion providers.
 	<UL>
        <LI><b><tt>RIOptimisticProvider</tt></b> <br>
-           The default provider that the <code>SyncFactory</code> instance will
-           supply to a disconnected <code>RowSet</code> object when no provider
-           implementation is specified.<BR>
-           This synchronization provider uses an optimistic concurrency model,
-           assuming that there will be few conflicts among users 
-           who are accessing the same data in a database.  It avoids
-           using locks; rather, it checks to see if there is a conflict
-           before trying to synchronize the <code>RowSet</code> object and the
-           data source. If there is a conflict, it does nothing, meaning that
-           changes to the <code>RowSet</code> object are not persisted to the data
+           The defbult provider thbt the <code>SyncFbctory</code> instbnce will
+           supply to b disconnected <code>RowSet</code> object when no provider
+           implementbtion is specified.<BR>
+           This synchronizbtion provider uses bn optimistic concurrency model,
+           bssuming thbt there will be few conflicts bmong users 
+           who bre bccessing the sbme dbtb in b dbtbbbse.  It bvoids
+           using locks; rbther, it checks to see if there is b conflict
+           before trying to synchronize the <code>RowSet</code> object bnd the
+           dbtb source. If there is b conflict, it does nothing, mebning thbt
+           chbnges to the <code>RowSet</code> object bre not persisted to the dbtb
            source.
        <LI><B><tt>RIXMLProvider</tt></B> <BR>
-            A synchronization provider that can be used with a
-            <code>WebRowSet</code> object, which is a rowset that can be written 
-            in XML format or read from XML format. The 
-            <code>RIXMLProvider</code> implementation does no checking at all for
-            conflicts and simply writes any updated data in the
-            <code>WebRowSet</code> object to the underlying data source.
-            <code>WebRowSet</code> objects use this provider when they are 
-            dealing with XML data.
+            A synchronizbtion provider thbt cbn be used with b
+            <code>WebRowSet</code> object, which is b rowset thbt cbn be written 
+            in XML formbt or rebd from XML formbt. The 
+            <code>RIXMLProvider</code> implementbtion does no checking bt bll for
+            conflicts bnd simply writes bny updbted dbtb in the
+            <code>WebRowSet</code> object to the underlying dbtb source.
+            <code>WebRowSet</code> objects use this provider when they bre 
+            debling with XML dbtb.
 	</UL>
 
-These <code>SyncProvider</code> implementations
-are bundled with the reference implementation, which makes them always available to
-<code>RowSet</code> implementations. 
-<code>SyncProvider</code> implementations make themselves available by being
-registered with the <code>SyncFactory</code> singleton.  When a <code>RowSet</code> 
-object requests a provider, by specifying it in the constructor or as an argument to the
-<code>CachedRowSet</code> method <code>setSyncProvider</code>, 
-the <code>SyncFactory</code> singleton
-checks to see if the requested provider has been registered with it.
-If it has, the <code>SyncFactory</code> creates an instance of it and passes it to the
+These <code>SyncProvider</code> implementbtions
+bre bundled with the reference implementbtion, which mbkes them blwbys bvbilbble to
+<code>RowSet</code> implementbtions. 
+<code>SyncProvider</code> implementbtions mbke themselves bvbilbble by being
+registered with the <code>SyncFbctory</code> singleton.  When b <code>RowSet</code> 
+object requests b provider, by specifying it in the constructor or bs bn brgument to the
+<code>CbchedRowSet</code> method <code>setSyncProvider</code>, 
+the <code>SyncFbctory</code> singleton
+checks to see if the requested provider hbs been registered with it.
+If it hbs, the <code>SyncFbctory</code> crebtes bn instbnce of it bnd pbsses it to the
 requesting <code>RowSet</code> object.  
-If the <code>SyncProvider</code> implementation that is specified has not been registered,
-the <code>SyncFactory</code> singleton causes a <code>SyncFactoryException</code> object
+If the <code>SyncProvider</code> implementbtion thbt is specified hbs not been registered,
+the <code>SyncFbctory</code> singleton cbuses b <code>SyncFbctoryException</code> object
 to be thrown.  If no provider is specified,
-the <code>SyncFactory</code> singleton will create an instance of the default
-provider implementation, <code>RIOptimisticProvider</code>,
-and pass it to the requesting <code>RowSet</code> object.
+the <code>SyncFbctory</code> singleton will crebte bn instbnce of the defbult
+provider implementbtion, <code>RIOptimisticProvider</code>,
+bnd pbss it to the requesting <code>RowSet</code> object.
 
 <P>
-If a <code>WebRowSet</code> object does not specify a provider in its constructor, the
-<code>SyncFactory</code> will give it an instance of <code>RIOptimisticProvider</code>.
+If b <code>WebRowSet</code> object does not specify b provider in its constructor, the
+<code>SyncFbctory</code> will give it bn instbnce of <code>RIOptimisticProvider</code>.
 However, the constructor for <code>WebRowSet</code> is implemented to set the provider 
-to the <code>RIXMLProvider</code>, which reads and writes a <code>RowSet</code> object
-in XML format.
+to the <code>RIXMLProvider</code>, which rebds bnd writes b <code>RowSet</code> object
+in XML formbt.
 <P>
-See the <a href="SyncProvider.html">SyncProvider</a> class
-specification for further details.
+See the <b href="SyncProvider.html">SyncProvider</b> clbss
+specificbtion for further detbils.
 <p>
-Vendors may develop a <tt>SyncProvider</tt> implementation with any one of the possible
-levels of synchronization, thus giving <code>RowSet</code> objects a choice of
-synchronization mechanisms.  A vendor can make its implementation available by 
-registering the fully qualified class name with Oracle Corporation at
-<code>jdbc@sun.com</code>. This process is discussed in further detail below. 
+Vendors mby develop b <tt>SyncProvider</tt> implementbtion with bny one of the possible
+levels of synchronizbtion, thus giving <code>RowSet</code> objects b choice of
+synchronizbtion mechbnisms.  A vendor cbn mbke its implementbtion bvbilbble by 
+registering the fully qublified clbss nbme with Orbcle Corporbtion bt
+<code>jdbc@sun.com</code>. This process is discussed in further detbil below. 
 
-<h3><a name="arch">2.0 Service Provider Interface Architecture</a></h3>
+<h3><b nbme="brch">2.0 Service Provider Interfbce Architecture</b></h3>
 <b>2.1 Overview</b>
 <p>
-The Service Provider Interface provides a pluggable mechanism by which
-<code>SyncProvider</code> implementations can be registered and then generated when
-required. The lazy reference mechanism employed by the <code>SyncFactory</code> limits
-unnecessary resource consumption by not creating an instance until it is 
-required by a disconnected
-<code>RowSet</code> object. The <code>SyncFactory</code> class also provides
-a standard API to configure logging options and streams that <b>may</b> be provided
-by a particular <code>SyncProvider</code> implementation.
+The Service Provider Interfbce provides b pluggbble mechbnism by which
+<code>SyncProvider</code> implementbtions cbn be registered bnd then generbted when
+required. The lbzy reference mechbnism employed by the <code>SyncFbctory</code> limits
+unnecessbry resource consumption by not crebting bn instbnce until it is 
+required by b disconnected
+<code>RowSet</code> object. The <code>SyncFbctory</code> clbss blso provides
+b stbndbrd API to configure logging options bnd strebms thbt <b>mby</b> be provided
+by b pbrticulbr <code>SyncProvider</code> implementbtion.
 <p>
-<b>2.2 Registering with the <code>SyncFactory</code></b>
+<b>2.2 Registering with the <code>SyncFbctory</code></b>
 <p>
-A third party <code>SyncProvider</code> implementation must be registered with the 
-<code>SyncFactory</code> in order for a disconnected <code>RowSet</code> object 
-to obtain it and thereby use its <code>javax.sql.RowSetReader</code> and 
-<code>javax.sql.RowSetWriter</code>
-implementations. The following registration mechanisms are available to all 
-<code>SyncProvider</code> implementations:
+A third pbrty <code>SyncProvider</code> implementbtion must be registered with the 
+<code>SyncFbctory</code> in order for b disconnected <code>RowSet</code> object 
+to obtbin it bnd thereby use its <code>jbvbx.sql.RowSetRebder</code> bnd 
+<code>jbvbx.sql.RowSetWriter</code>
+implementbtions. The following registrbtion mechbnisms bre bvbilbble to bll 
+<code>SyncProvider</code> implementbtions:
 <ul>
-<li><b>System properties</b> - Properties set at the command line. These
-properties are set at run time and apply system-wide per invocation of the Java
-application. See the section <a href="#reldocs">"Related Documentation"</a>
-further related information.
+<li><b>System properties</b> - Properties set bt the commbnd line. These
+properties bre set bt run time bnd bpply system-wide per invocbtion of the Jbvb
+bpplicbtion. See the section <b href="#reldocs">"Relbted Documentbtion"</b>
+further relbted informbtion.
 
-<li><b>Property Files</b> - Properties specified in a standard property file.
-This can be specified using a System Property or by modifying a standard
-property file located in the platform run-time. The
-reference implementation of this technology includes a standard property
-file than can be edited to add additional <code>SyncProvider</code> objects.
+<li><b>Property Files</b> - Properties specified in b stbndbrd property file.
+This cbn be specified using b System Property or by modifying b stbndbrd
+property file locbted in the plbtform run-time. The
+reference implementbtion of this technology includes b stbndbrd property
+file thbn cbn be edited to bdd bdditionbl <code>SyncProvider</code> objects.
 
-<li><b>JNDI Context</b> - Available providers can be registered on a JNDI
-context. The <tt>SyncFactory</tt> will attempt to load <tt>SyncProvider</tt>
-objects bound to the context and register them with the factory. This
-context must be supplied to the <code>SyncFactory</code> for the mechanism to 
+<li><b>JNDI Context</b> - Avbilbble providers cbn be registered on b JNDI
+context. The <tt>SyncFbctory</tt> will bttempt to lobd <tt>SyncProvider</tt>
+objects bound to the context bnd register them with the fbctory. This
+context must be supplied to the <code>SyncFbctory</code> for the mechbnism to 
 function correctly.
 </ul>
 <p>
-Details on how to specify the system properties or properties in a property file
-and how to configure the JNDI Context are explained in detail in the
-<a href="SyncFactory.html"><code>SyncFactory</code></a> class description.
+Detbils on how to specify the system properties or properties in b property file
+bnd how to configure the JNDI Context bre explbined in detbil in the
+<b href="SyncFbctory.html"><code>SyncFbctory</code></b> clbss description.
 <p>
-<b>2.3 SyncFactory Provider Instance Generation Policies</b>
+<b>2.3 SyncFbctory Provider Instbnce Generbtion Policies</b>
 <p>
-The <code>SyncFactory</code> generates a requested <code>SyncProvider</code>
-object if the provider has been correctly registered.  The
-following policies are adhered to when either a disconnected <code>RowSet</code> object
-is instantiated with a specified <code>SyncProvider</code> implementation or is 
-reconfigured at runtime with an alternative <code>SyncProvider</code> object.
+The <code>SyncFbctory</code> generbtes b requested <code>SyncProvider</code>
+object if the provider hbs been correctly registered.  The
+following policies bre bdhered to when either b disconnected <code>RowSet</code> object
+is instbntibted with b specified <code>SyncProvider</code> implementbtion or is 
+reconfigured bt runtime with bn blternbtive <code>SyncProvider</code> object.
 <ul>
-<li> If a <code>SyncProvider</code> object is specified and the <code>SyncFactory</code>
-contains <i>no</i> reference to the provider, a <code>SyncFactoryException</code> is 
+<li> If b <code>SyncProvider</code> object is specified bnd the <code>SyncFbctory</code>
+contbins <i>no</i> reference to the provider, b <code>SyncFbctoryException</code> is 
 thrown.
 
-<li> If a <code>SyncProvider</code> object is specified and the <code>SyncFactory</code>
-contains a reference to the provider, the requested provider is supplied.
+<li> If b <code>SyncProvider</code> object is specified bnd the <code>SyncFbctory</code>
+contbins b reference to the provider, the requested provider is supplied.
 
 <li> If no <code>SyncProvider</code> object is specified, the reference
-implementation provider <code>RIOptimisticProvider</code> is supplied.
+implementbtion provider <code>RIOptimisticProvider</code> is supplied.
 </ul>
 <p>
-These policies are explored in more detail in the <a href="SyncFactory.html">
-<code>SyncFactory</code></a> class.
+These policies bre explored in more detbil in the <b href="SyncFbctory.html">
+<code>SyncFbctory</code></b> clbss.
 
-<h3><a name="impl">3.0 SyncProvider Implementer's Guide</a></h3>
+<h3><b nbme="impl">3.0 SyncProvider Implementer's Guide</b></h3>
 
 <b>3.1 Requirements</b>
 <p>
-A compliant <code>SyncProvider</code> implementation that is fully pluggable
-into the <code>SyncFactory</code> <b>must</b> extend and implement all
-abstract methods in the <a href="SyncProvider.html"><code>SyncProvider</code></a>
-class. In addition, an implementation <b>must</b> determine the 
-grade, locking and updatable view capabilities defined in the
-<code>SyncProvider</code> class definition. One or more of the
-<code>SyncProvider</code> description criteria <b>must</b> be supported. It
-is expected that vendor implementations will offer a range of grade, locking, and
-updatable view capabilities.
+A complibnt <code>SyncProvider</code> implementbtion thbt is fully pluggbble
+into the <code>SyncFbctory</code> <b>must</b> extend bnd implement bll
+bbstrbct methods in the <b href="SyncProvider.html"><code>SyncProvider</code></b>
+clbss. In bddition, bn implementbtion <b>must</b> determine the 
+grbde, locking bnd updbtbble view cbpbbilities defined in the
+<code>SyncProvider</code> clbss definition. One or more of the
+<code>SyncProvider</code> description criterib <b>must</b> be supported. It
+is expected thbt vendor implementbtions will offer b rbnge of grbde, locking, bnd
+updbtbble view cbpbbilities.
 <p>
-Furthermore, the <code>SyncProvider</code> naming convention <b>must</b> be followed as
-detailed in the <a href="SyncProvider.html"><code>SyncProvider</code></a> class
+Furthermore, the <code>SyncProvider</code> nbming convention <b>must</b> be followed bs
+detbiled in the <b href="SyncProvider.html"><code>SyncProvider</code></b> clbss
 description.
 <p>
-<b>3.2 Grades</b>
+<b>3.2 Grbdes</b>
 <p>
-JSR 114 defines a set of grades to describe the quality of synchronization
-a <code>SyncProvider</code> object can offer a disconnected <code>RowSet</code>
-object. These grades are listed from the lowest quality of service to the highest.
+JSR 114 defines b set of grbdes to describe the qublity of synchronizbtion
+b <code>SyncProvider</code> object cbn offer b disconnected <code>RowSet</code>
+object. These grbdes bre listed from the lowest qublity of service to the highest.
 <ul>
-<li><b>GRADE_NONE</b> - No synchronization with the originating data source is
-provided. A <code>SyncProvider</code> implementation returning this grade will simply
-attempt to write any data that has changed in the <code>RowSet</code> object to the
-underlying data source, overwriting whatever is there. No attempt is made to compare 
-original values with current values to see if there is a conflict. The 
-<code>RIXMLProvider</code> is implemented with this grade.
+<li><b>GRADE_NONE</b> - No synchronizbtion with the originbting dbtb source is
+provided. A <code>SyncProvider</code> implementbtion returning this grbde will simply
+bttempt to write bny dbtb thbt hbs chbnged in the <code>RowSet</code> object to the
+underlying dbtb source, overwriting whbtever is there. No bttempt is mbde to compbre 
+originbl vblues with current vblues to see if there is b conflict. The 
+<code>RIXMLProvider</code> is implemented with this grbde.
 
-<li><b>GRADE_CHECK_MODIFIED_AT_COMMIT</b> - A low grade of optimistic synchronization.
-A <code>SyncProvider</code> implementation returning this grade
-will check for conflicts in rows that have changed between the last synchronization 
-and the current synchronization under way. Any changes in the originating data source
-that have been modified will not be reflected in the disconnected <code>RowSet</code>
-object. If there are no conflicts, changes in the <code>RowSet</code> object will be
-written to the data source. If there are conflicts, no changes are written.
-The <code>RIOptimisticProvider</code> implementation uses this grade.
+<li><b>GRADE_CHECK_MODIFIED_AT_COMMIT</b> - A low grbde of optimistic synchronizbtion.
+A <code>SyncProvider</code> implementbtion returning this grbde
+will check for conflicts in rows thbt hbve chbnged between the lbst synchronizbtion 
+bnd the current synchronizbtion under wby. Any chbnges in the originbting dbtb source
+thbt hbve been modified will not be reflected in the disconnected <code>RowSet</code>
+object. If there bre no conflicts, chbnges in the <code>RowSet</code> object will be
+written to the dbtb source. If there bre conflicts, no chbnges bre written.
+The <code>RIOptimisticProvider</code> implementbtion uses this grbde.
 
-<li><b>GRADE_CHECK_ALL_AT_COMMIT</b> - A high grade of optimistic synchronization.
-A <code>SyncProvider</code> implementation   returning this grade
-will check all rows, including rows that have not changed in the disconnected
-<code>RowSet</code> object. In this way, any changes to rows in the underlying
-data source will be reflected in the disconnected <code>RowSet</code> object
-when the synchronization finishes successfully.
+<li><b>GRADE_CHECK_ALL_AT_COMMIT</b> - A high grbde of optimistic synchronizbtion.
+A <code>SyncProvider</code> implementbtion   returning this grbde
+will check bll rows, including rows thbt hbve not chbnged in the disconnected
+<code>RowSet</code> object. In this wby, bny chbnges to rows in the underlying
+dbtb source will be reflected in the disconnected <code>RowSet</code> object
+when the synchronizbtion finishes successfully.
 
-<li><b>GRADE_LOCK_WHEN_MODIFIED</b> - A pessimistic grade of synchronization.
-<code>SyncProvider</code> implementations returning this grade will lock
-the row in the originating  data source that corresponds to the row being changed
+<li><b>GRADE_LOCK_WHEN_MODIFIED</b> - A pessimistic grbde of synchronizbtion.
+<code>SyncProvider</code> implementbtions returning this grbde will lock
+the row in the originbting  dbtb source thbt corresponds to the row being chbnged
 in the <code>RowSet</code> object to reduce the possibility of other
-processes modifying the same data in the data source.
+processes modifying the sbme dbtb in the dbtb source.
 
-<li><b>GRADE_LOCK_WHEN_LOADED</b> - A higher pessimistic synchronization grade.
-A <code>SyncProvider</code> implementation returning this grade will lock
-the entire view and/or  table affected by the original query used to
-populate a <code>RowSet</code> object.
+<li><b>GRADE_LOCK_WHEN_LOADED</b> - A higher pessimistic synchronizbtion grbde.
+A <code>SyncProvider</code> implementbtion returning this grbde will lock
+the entire view bnd/or  tbble bffected by the originbl query used to
+populbte b <code>RowSet</code> object.
 </ul>
 <p>
 <b>3.3 Locks</b>
 <p>
-JSR 114 defines a set of constants that specify whether any locks have been
-placed on a <code>RowSet</code> object's underlying data source and, if so,
-on which constructs the locks are placed.  These locks will remain on the data
-source while the <code>RowSet</code> object is disconnected from the data source.
+JSR 114 defines b set of constbnts thbt specify whether bny locks hbve been
+plbced on b <code>RowSet</code> object's underlying dbtb source bnd, if so,
+on which constructs the locks bre plbced.  These locks will rembin on the dbtb
+source while the <code>RowSet</code> object is disconnected from the dbtb source.
 <P>
-These constants <b>should</b> be considered complementary to the 
-grade constants. The default setting for the majority of grade settings requires
-that no data source locks remain when a <code>RowSet</code> object is disconnected 
-from its data source.
-The grades <code>GRADE_LOCK_WHEN_MODIFIED</code> and
-<code>GRADE_LOCK_WHEN_LOADED</code> allow a disconnected <code>RowSet</code> object
-to have a fine-grained control over the degree of locking.
+These constbnts <b>should</b> be considered complementbry to the 
+grbde constbnts. The defbult setting for the mbjority of grbde settings requires
+thbt no dbtb source locks rembin when b <code>RowSet</code> object is disconnected 
+from its dbtb source.
+The grbdes <code>GRADE_LOCK_WHEN_MODIFIED</code> bnd
+<code>GRADE_LOCK_WHEN_LOADED</code> bllow b disconnected <code>RowSet</code> object
+to hbve b fine-grbined control over the degree of locking.
 <ul>
-<li><b>DATASOURCE_NO_LOCK</b> - No locks remain on the originating data source. 
-This is the default lock setting for all <code>SyncProvider</code> implementations 
-unless otherwise directed by a <code>RowSet</code> object.
+<li><b>DATASOURCE_NO_LOCK</b> - No locks rembin on the originbting dbtb source. 
+This is the defbult lock setting for bll <code>SyncProvider</code> implementbtions 
+unless otherwise directed by b <code>RowSet</code> object.
 
-<li><b>DATASOURCE_ROW_LOCK</b> - A lock is placed on the rows that are touched by
-the original SQL query used to populate the <code>RowSet</code> object.
+<li><b>DATASOURCE_ROW_LOCK</b> - A lock is plbced on the rows thbt bre touched by
+the originbl SQL query used to populbte the <code>RowSet</code> object.
 
-<li><b>DATASOURCE_TABLE_LOCK</b> - A lock is placed on all tables that are touched
-by the query that was used to populate the <code>RowSet</code> object.
+<li><b>DATASOURCE_TABLE_LOCK</b> - A lock is plbced on bll tbbles thbt bre touched
+by the query thbt wbs used to populbte the <code>RowSet</code> object.
 
 <li><b>DATASOURCE_DB_LOCK</b>
-A lock is placed on the entire data source that is used by the <code>RowSet</code>
+A lock is plbced on the entire dbtb source thbt is used by the <code>RowSet</code>
 object.
 </ul>
 <p>
-<b>3.4 Updatable Views</b>
+<b>3.4 Updbtbble Views</b>
 <p>
-A <code>RowSet</code> object may be populated with data from an SQL <code>VIEW</code>.
-The following constants indicate whether a <code>SyncProvider</code> object can
-update data in the table or tables from which the <code>VIEW</code> was derived.
+A <code>RowSet</code> object mby be populbted with dbtb from bn SQL <code>VIEW</code>.
+The following constbnts indicbte whether b <code>SyncProvider</code> object cbn
+updbte dbtb in the tbble or tbbles from which the <code>VIEW</code> wbs derived.
 <ul>
 <li><b>UPDATABLE_VIEW_SYNC</b>
-Indicates that a <code>SyncProvider</code> implementation  supports synchronization
-to the table or tables from which the SQL <code>VIEW</code> used to populate  a
-a <code>RowSet</code> object is derived.
+Indicbtes thbt b <code>SyncProvider</code> implementbtion  supports synchronizbtion
+to the tbble or tbbles from which the SQL <code>VIEW</code> used to populbte  b
+b <code>RowSet</code> object is derived.
 
 <li><b>NONUPDATABLE_VIEW_SYNC</b>
-Indicates that a <code>SyncProvider</code> implementation  does <b>not</b> support
-synchronization to the table or tables from which the SQL <code>VIEW</code> 
-used to populate  a <code>RowSet</code> object is derived.
+Indicbtes thbt b <code>SyncProvider</code> implementbtion  does <b>not</b> support
+synchronizbtion to the tbble or tbbles from which the SQL <code>VIEW</code> 
+used to populbte  b <code>RowSet</code> object is derived.
 </ul>
 <p>
-<b>3.5 Usage of <code>SyncProvider</code> Grading and Locking</b>
+<b>3.5 Usbge of <code>SyncProvider</code> Grbding bnd Locking</b>
 <p>
-In the example below, the reference <tt>CachedRowSetImpl</tt> implementation
-reconfigures its current <tt>SyncProvider</tt> object by calling the 
+In the exbmple below, the reference <tt>CbchedRowSetImpl</tt> implementbtion
+reconfigures its current <tt>SyncProvider</tt> object by cblling the 
 <tt>setSyncProvider</tt> method.<br>
 
 <PRE>
-    CachedRowSetImpl crs = new CachedRowSetImpl();
-    crs.setSyncProvider("com.foo.bar.HASyncProvider");
+    CbchedRowSetImpl crs = new CbchedRowSetImpl();
+    crs.setSyncProvider("com.foo.bbr.HASyncProvider");
 </PRE>
-    An application can retrieve the <tt>SyncProvider</tt> object currently in use
-by a disconnected <code>RowSet</code> object. It can also retrieve the
-grade of synchronization with which the provider was implemented and the degree of
-locking currently in use.  In addition, an application has the flexibility to set
-the degree of locking to be used, which can increase the possibilities for successful
-synchronization.  These operation are shown in the following code fragment.
+    An bpplicbtion cbn retrieve the <tt>SyncProvider</tt> object currently in use
+by b disconnected <code>RowSet</code> object. It cbn blso retrieve the
+grbde of synchronizbtion with which the provider wbs implemented bnd the degree of
+locking currently in use.  In bddition, bn bpplicbtion hbs the flexibility to set
+the degree of locking to be used, which cbn increbse the possibilities for successful
+synchronizbtion.  These operbtion bre shown in the following code frbgment.
 <PRE>
     SyncProvider sync = crs.getSyncProvider();
 
-    switch (sync.getProviderGrade()) {
-    case: SyncProvider.GRADE_CHECK_ALL_AT_COMMIT
-         //A high grade of optimistic synchronization
-    break;
-    case: SyncProvider.GRADE_CHECK_MODIFIED_AT_COMMIT 
-         //A low grade of optimistic synchronization 
-    break;
-    case: SyncProvider.GRADE_LOCK_WHEN_LOADED 
-         // A pessimistic synchronization grade 
-    break;
-    case: SyncProvider.GRADE_LOCK_WHEN_MODIFIED 
-         // A pessimistic synchronization grade 
-    break;
-    case: SyncProvider.GRADE_NONE 
-      // No synchronization with the originating data source provided
-    break;
+    switch (sync.getProviderGrbde()) {
+    cbse: SyncProvider.GRADE_CHECK_ALL_AT_COMMIT
+         //A high grbde of optimistic synchronizbtion
+    brebk;
+    cbse: SyncProvider.GRADE_CHECK_MODIFIED_AT_COMMIT 
+         //A low grbde of optimistic synchronizbtion 
+    brebk;
+    cbse: SyncProvider.GRADE_LOCK_WHEN_LOADED 
+         // A pessimistic synchronizbtion grbde 
+    brebk;
+    cbse: SyncProvider.GRADE_LOCK_WHEN_MODIFIED 
+         // A pessimistic synchronizbtion grbde 
+    brebk;
+    cbse: SyncProvider.GRADE_NONE 
+      // No synchronizbtion with the originbting dbtb source provided
+    brebk;
     }
 
-    switch (sync.getDataSourcLock() {
-      case: SyncProvider.DATASOURCE_DB_LOCK
-       // A lock is placed on the entire datasource that is used by the
+    switch (sync.getDbtbSourcLock() {
+      cbse: SyncProvider.DATASOURCE_DB_LOCK
+       // A lock is plbced on the entire dbtbsource thbt is used by the
        // <code>RowSet</code> object 
-       break;
+       brebk;
 
-      case: SyncProvider.DATASOURCE_NO_LOCK
-       // No locks remain on the  originating data source.
-      break;
+      cbse: SyncProvider.DATASOURCE_NO_LOCK
+       // No locks rembin on the  originbting dbtb source.
+      brebk;
 
-      case: SyncProvider.DATASOURCE_ROW_LOCK
-       // A lock is placed on the rows that are  touched by the original 
-       // SQL statement used to populate
-       // the RowSet object that is using the SyncProvider
-       break;
+      cbse: SyncProvider.DATASOURCE_ROW_LOCK
+       // A lock is plbced on the rows thbt bre  touched by the originbl 
+       // SQL stbtement used to populbte
+       // the RowSet object thbt is using the SyncProvider
+       brebk;
 
-      case: DATASOURCE_TABLE_LOCK
-       // A lock is placed on  all tables that are touched by the original 
-       // SQL statement used to populated
-       // the RowSet object that is using the SyncProvider
-       break;
+      cbse: DATASOURCE_TABLE_LOCK
+       // A lock is plbced on  bll tbbles thbt bre touched by the originbl 
+       // SQL stbtement used to populbted
+       // the RowSet object thbt is using the SyncProvider
+       brebk;
 
 </PRE>
-    It is also possible using the static utility method in the
-<code>SyncFactory</code> class to determine the list of <code>SyncProvider</code>
-implementations currently registered with the <code>SyncFactory</code>.
+    It is blso possible using the stbtic utility method in the
+<code>SyncFbctory</code> clbss to determine the list of <code>SyncProvider</code>
+implementbtions currently registered with the <code>SyncFbctory</code>.
 
 <pre>
-       Enumeration e = SyncFactory.getRegisteredProviders();
+       Enumerbtion e = SyncFbctory.getRegisteredProviders();
 </pre>
 
 
-<h3><a name="resolving">4.0 Resolving Synchronization Conflicts</a></h3>
+<h3><b nbme="resolving">4.0 Resolving Synchronizbtion Conflicts</b></h3>
 
-The interface <code>SyncResolver</code> provides a way for an application to
-decide manually what to do when a conflict occurs. When the <code>CachedRowSet</code>
-method <code>acceptChanges</code> finishes and has detected one or more conflicts,
-it throws a <code>SyncProviderException</code> object.  An application can
-catch the exception and
-have it retrieve a <code>SyncResolver</code> object by calling the method
+The interfbce <code>SyncResolver</code> provides b wby for bn bpplicbtion to
+decide mbnublly whbt to do when b conflict occurs. When the <code>CbchedRowSet</code>
+method <code>bcceptChbnges</code> finishes bnd hbs detected one or more conflicts,
+it throws b <code>SyncProviderException</code> object.  An bpplicbtion cbn
+cbtch the exception bnd
+hbve it retrieve b <code>SyncResolver</code> object by cblling the method
 <code>SyncProviderException.getSyncResolver()</code>. 
 <P>
-A <code>SyncResolver</code> object, which is a special kind of 
-<code>CachedRowSet</code> object or
-a <code>JdbcRowSet</code> object that has implemented the <code>SyncResolver</code> 
-interface,  examines the conflicts row by row. It is a duplicate of the 
-<code>RowSet</code> object being synchronized except that it contains only the data
-from the data source this is causing a conflict. All of the other column values are
-set to <code>null</code>. To navigate from one conflict value to another, a
-<code>SyncResolver</code> object provides the methods <code>nextConflict</code> and
+A <code>SyncResolver</code> object, which is b specibl kind of 
+<code>CbchedRowSet</code> object or
+b <code>JdbcRowSet</code> object thbt hbs implemented the <code>SyncResolver</code> 
+interfbce,  exbmines the conflicts row by row. It is b duplicbte of the 
+<code>RowSet</code> object being synchronized except thbt it contbins only the dbtb
+from the dbtb source this is cbusing b conflict. All of the other column vblues bre
+set to <code>null</code>. To nbvigbte from one conflict vblue to bnother, b
+<code>SyncResolver</code> object provides the methods <code>nextConflict</code> bnd
 <code>previousConflict</code>.
 <P>
-The <code>SyncResolver</code> interface also
+The <code>SyncResolver</code> interfbce blso
 provides methods for doing the following:
 <UL>
- <LI>finding out whether the conflict involved an update, a delete, or an insert
- <LI>getting the value in the data source that caused the conflict
- <LI>setting the value that should be in the data source if it needs to be changed
-     or setting the value that should be in the <code>RowSet</code> object if it needs
-     to be changed
+ <LI>finding out whether the conflict involved bn updbte, b delete, or bn insert
+ <LI>getting the vblue in the dbtb source thbt cbused the conflict
+ <LI>setting the vblue thbt should be in the dbtb source if it needs to be chbnged
+     or setting the vblue thbt should be in the <code>RowSet</code> object if it needs
+     to be chbnged
 </UL>
 <P>
-When the <code>CachedRowSet</code> method <code>acceptChanges</code> is called, it 
-delegates to the <code>RowSet</code> object's  <code>SyncProvider</code> object.
-How the writer provided by that <code>SyncProvider</code> object is implemented
-determines what level (grade) of checking for conflicts will be done.  After all 
-checking for conflicts is completed and one or more conflicts has been found, the method
-<code>acceptChanges</code> throws a <code>SyncProviderException</code> object. The
-application can catch the exception and use it to obtain a <code>SyncResolver</code> object.  
+When the <code>CbchedRowSet</code> method <code>bcceptChbnges</code> is cblled, it 
+delegbtes to the <code>RowSet</code> object's  <code>SyncProvider</code> object.
+How the writer provided by thbt <code>SyncProvider</code> object is implemented
+determines whbt level (grbde) of checking for conflicts will be done.  After bll 
+checking for conflicts is completed bnd one or more conflicts hbs been found, the method
+<code>bcceptChbnges</code> throws b <code>SyncProviderException</code> object. The
+bpplicbtion cbn cbtch the exception bnd use it to obtbin b <code>SyncResolver</code> object.  
 <P>
-The application can then use <code>SyncResolver</code> methods to get information
-about each conflict and decide what to do.  If the application logic or the user
-decides that a value in the <code>RowSet</code> object should be the one to
-persist, the application or user can overwrite the data source value with it.  
+The bpplicbtion cbn then use <code>SyncResolver</code> methods to get informbtion
+bbout ebch conflict bnd decide whbt to do.  If the bpplicbtion logic or the user
+decides thbt b vblue in the <code>RowSet</code> object should be the one to
+persist, the bpplicbtion or user cbn overwrite the dbtb source vblue with it.  
 <P>
-The comment for the <code>SyncResolver</code> interface has more detail.
+The comment for the <code>SyncResolver</code> interfbce hbs more detbil.
 
-<h3><a name="relspec">5.0 Related Specifications</a></h3>
+<h3><b nbme="relspec">5.0 Relbted Specificbtions</b></h3>
 <ul>
-<li><a href="http://docs.oracle.com/javase/jndi/tutorial/index.html">JNDI</a>
-<li><a href="{@docRoot}/../technotes/guides/logging/index.html">Java Logging
-APIs</a>
+<li><b href="http://docs.orbcle.com/jbvbse/jndi/tutoribl/index.html">JNDI</b>
+<li><b href="{@docRoot}/../technotes/guides/logging/index.html">Jbvb Logging
+APIs</b>
 </ul>
-<h3><a name="reldocs">6.0 Related Documentation</a></h3>
+<h3><b nbme="reldocs">6.0 Relbted Documentbtion</b></h3>
 <ul>
-<li><a href="{@docRoot}/../technotes/tools/index.html#basic">System
-properties</a>
+<li><b href="{@docRoot}/../technotes/tools/index.html#bbsic">System
+properties</b>
 <li>Resource Files
-<li><a href="http://docs.oracle.com/javase/tutorial/jdbc/">DataSource for JDBC
-Connections</a>
+<li><b href="http://docs.orbcle.com/jbvbse/tutoribl/jdbc/">DbtbSource for JDBC
+Connections</b>
 </ul>
 
 </body>

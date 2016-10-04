@@ -1,288 +1,288 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs;
+pbckbge sun.security.pkcs;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CertificateException;
-import java.util.Locale;
-import java.util.Date;
-import java.util.Hashtable;
-import sun.security.x509.CertificateExtensions;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.cert.CertificbteException;
+import jbvb.util.Locble;
+import jbvb.util.Dbte;
+import jbvb.util.Hbshtbble;
+import sun.security.x509.CertificbteExtensions;
 import sun.security.util.Debug;
 import sun.security.util.DerEncoder;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
 import sun.security.util.ObjectIdentifier;
 import sun.misc.HexDumpEncoder;
 
 /**
- * Class supporting any PKCS9 attributes.
- * Supports DER decoding/encoding and access to attribute values.
+ * Clbss supporting bny PKCS9 bttributes.
+ * Supports DER decoding/encoding bnd bccess to bttribute vblues.
  *
- * <a name="classTable"><h3>Type/Class Table</h3></a>
- * The following table shows the correspondence between
- * PKCS9 attribute types and value component classes.
- * For types not listed here, its name is the OID
- * in string form, its value is a (single-valued)
- * byte array that is the SET's encoding.
+ * <b nbme="clbssTbble"><h3>Type/Clbss Tbble</h3></b>
+ * The following tbble shows the correspondence between
+ * PKCS9 bttribute types bnd vblue component clbsses.
+ * For types not listed here, its nbme is the OID
+ * in string form, its vblue is b (single-vblued)
+ * byte brrby thbt is the SET's encoding.
  *
  * <P>
  * <TABLE BORDER CELLPADDING=8 ALIGN=CENTER>
  *
  * <TR>
  * <TH>Object Identifier</TH>
- * <TH>Attribute Name</TH>
+ * <TH>Attribute Nbme</TH>
  * <TH>Type</TH>
- * <TH>Value Class</TH>
+ * <TH>Vblue Clbss</TH>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.1</TD>
- * <TD>EmailAddress</TD>
- * <TD>Multi-valued</TD>
+ * <TD>EmbilAddress</TD>
+ * <TD>Multi-vblued</TD>
  * <TD><code>String[]</code></TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.2</TD>
- * <TD>UnstructuredName</TD>
- * <TD>Multi-valued</TD>
+ * <TD>UnstructuredNbme</TD>
+ * <TD>Multi-vblued</TD>
  * <TD><code>String[]</code></TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.3</TD>
  * <TD>ContentType</TD>
- * <TD>Single-valued</TD>
+ * <TD>Single-vblued</TD>
  * <TD><code>ObjectIdentifier</code></TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.4</TD>
- * <TD>MessageDigest</TD>
- * <TD>Single-valued</TD>
+ * <TD>MessbgeDigest</TD>
+ * <TD>Single-vblued</TD>
  * <TD><code>byte[]</code></TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.5</TD>
  * <TD>SigningTime</TD>
- * <TD>Single-valued</TD>
- * <TD><code>Date</code></TD>
+ * <TD>Single-vblued</TD>
+ * <TD><code>Dbte</code></TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.6</TD>
- * <TD>Countersignature</TD>
- * <TD>Multi-valued</TD>
+ * <TD>Countersignbture</TD>
+ * <TD>Multi-vblued</TD>
  * <TD><code>SignerInfo[]</code></TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.7</TD>
- * <TD>ChallengePassword</TD>
- * <TD>Single-valued</TD>
+ * <TD>ChbllengePbssword</TD>
+ * <TD>Single-vblued</TD>
  * <TD><code>String</code></TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.8</TD>
  * <TD>UnstructuredAddress</TD>
- * <TD>Single-valued</TD>
+ * <TD>Single-vblued</TD>
  * <TD><code>String</code></TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.9</TD>
- * <TD>ExtendedCertificateAttributes</TD>
- * <TD>Multi-valued</TD>
+ * <TD>ExtendedCertificbteAttributes</TD>
+ * <TD>Multi-vblued</TD>
  * <TD>(not supported)</TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.10</TD>
- * <TD>IssuerAndSerialNumber</TD>
- * <TD>Single-valued</TD>
+ * <TD>IssuerAndSeriblNumber</TD>
+ * <TD>Single-vblued</TD>
  * <TD>(not supported)</TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.{11,12}</TD>
- * <TD>RSA DSI proprietary</TD>
- * <TD>Single-valued</TD>
+ * <TD>RSA DSI proprietbry</TD>
+ * <TD>Single-vblued</TD>
  * <TD>(not supported)</TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.13</TD>
- * <TD>S/MIME unused assignment</TD>
- * <TD>Single-valued</TD>
+ * <TD>S/MIME unused bssignment</TD>
+ * <TD>Single-vblued</TD>
  * <TD>(not supported)</TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.14</TD>
  * <TD>ExtensionRequest</TD>
- * <TD>Single-valued</TD>
- * <TD>CertificateExtensions</TD>
+ * <TD>Single-vblued</TD>
+ * <TD>CertificbteExtensions</TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.15</TD>
- * <TD>SMIMECapability</TD>
- * <TD>Single-valued</TD>
+ * <TD>SMIMECbpbbility</TD>
+ * <TD>Single-vblued</TD>
  * <TD>(not supported)</TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.16.2.12</TD>
- * <TD>SigningCertificate</TD>
- * <TD>Single-valued</TD>
- * <TD>SigningCertificateInfo</TD>
+ * <TD>SigningCertificbte</TD>
+ * <TD>Single-vblued</TD>
+ * <TD>SigningCertificbteInfo</TD>
  * </TR>
  *
  * <TR>
  * <TD>1.2.840.113549.1.9.16.2.14</TD>
- * <TD>SignatureTimestampToken</TD>
- * <TD>Single-valued</TD>
+ * <TD>SignbtureTimestbmpToken</TD>
+ * <TD>Single-vblued</TD>
  * <TD>byte[]</TD>
  * </TR>
  *
  * </TABLE>
  *
- * @author Douglas Hoover
+ * @buthor Douglbs Hoover
  */
-public class PKCS9Attribute implements DerEncoder {
+public clbss PKCS9Attribute implements DerEncoder {
 
     /* Are we debugging ? */
-    private static final Debug debug = Debug.getInstance("jar");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("jbr");
 
     /**
-     * Array of attribute OIDs defined in PKCS9, by number.
+     * Arrby of bttribute OIDs defined in PKCS9, by number.
      */
-    static final ObjectIdentifier[] PKCS9_OIDS = new ObjectIdentifier[18];
+    stbtic finbl ObjectIdentifier[] PKCS9_OIDS = new ObjectIdentifier[18];
 
-    private final static Class<?> BYTE_ARRAY_CLASS;
+    privbte finbl stbtic Clbss<?> BYTE_ARRAY_CLASS;
 
-    static {   // static initializer for PKCS9_OIDS
+    stbtic {   // stbtic initiblizer for PKCS9_OIDS
         for (int i = 1; i < PKCS9_OIDS.length - 2; i++) {
             PKCS9_OIDS[i] =
-                ObjectIdentifier.newInternal(new int[]{1,2,840,113549,1,9,i});
+                ObjectIdentifier.newInternbl(new int[]{1,2,840,113549,1,9,i});
         }
-        // Initialize SigningCertificate and SignatureTimestampToken
-        // separately (because their values are out of sequence)
+        // Initiblize SigningCertificbte bnd SignbtureTimestbmpToken
+        // sepbrbtely (becbuse their vblues bre out of sequence)
         PKCS9_OIDS[PKCS9_OIDS.length - 2] =
-            ObjectIdentifier.newInternal(new int[]{1,2,840,113549,1,9,16,2,12});
+            ObjectIdentifier.newInternbl(new int[]{1,2,840,113549,1,9,16,2,12});
         PKCS9_OIDS[PKCS9_OIDS.length - 1] =
-            ObjectIdentifier.newInternal(new int[]{1,2,840,113549,1,9,16,2,14});
+            ObjectIdentifier.newInternbl(new int[]{1,2,840,113549,1,9,16,2,14});
 
         try {
-            BYTE_ARRAY_CLASS = Class.forName("[B");
-        } catch (ClassNotFoundException e) {
-            throw new ExceptionInInitializerError(e.toString());
+            BYTE_ARRAY_CLASS = Clbss.forNbme("[B");
+        } cbtch (ClbssNotFoundException e) {
+            throw new ExceptionInInitiblizerError(e.toString());
         }
     }
 
     // first element [0] not used
-    public static final ObjectIdentifier EMAIL_ADDRESS_OID = PKCS9_OIDS[1];
-    public static final ObjectIdentifier UNSTRUCTURED_NAME_OID = PKCS9_OIDS[2];
-    public static final ObjectIdentifier CONTENT_TYPE_OID = PKCS9_OIDS[3];
-    public static final ObjectIdentifier MESSAGE_DIGEST_OID = PKCS9_OIDS[4];
-    public static final ObjectIdentifier SIGNING_TIME_OID = PKCS9_OIDS[5];
-    public static final ObjectIdentifier COUNTERSIGNATURE_OID = PKCS9_OIDS[6];
-    public static final ObjectIdentifier CHALLENGE_PASSWORD_OID = PKCS9_OIDS[7];
-    public static final ObjectIdentifier UNSTRUCTURED_ADDRESS_OID = PKCS9_OIDS[8];
-    public static final ObjectIdentifier EXTENDED_CERTIFICATE_ATTRIBUTES_OID
+    public stbtic finbl ObjectIdentifier EMAIL_ADDRESS_OID = PKCS9_OIDS[1];
+    public stbtic finbl ObjectIdentifier UNSTRUCTURED_NAME_OID = PKCS9_OIDS[2];
+    public stbtic finbl ObjectIdentifier CONTENT_TYPE_OID = PKCS9_OIDS[3];
+    public stbtic finbl ObjectIdentifier MESSAGE_DIGEST_OID = PKCS9_OIDS[4];
+    public stbtic finbl ObjectIdentifier SIGNING_TIME_OID = PKCS9_OIDS[5];
+    public stbtic finbl ObjectIdentifier COUNTERSIGNATURE_OID = PKCS9_OIDS[6];
+    public stbtic finbl ObjectIdentifier CHALLENGE_PASSWORD_OID = PKCS9_OIDS[7];
+    public stbtic finbl ObjectIdentifier UNSTRUCTURED_ADDRESS_OID = PKCS9_OIDS[8];
+    public stbtic finbl ObjectIdentifier EXTENDED_CERTIFICATE_ATTRIBUTES_OID
                                          = PKCS9_OIDS[9];
-    public static final ObjectIdentifier ISSUER_SERIALNUMBER_OID = PKCS9_OIDS[10];
-    // [11], [12] are RSA DSI proprietary
-    // [13] ==> signingDescription, S/MIME, not used anymore
-    public static final ObjectIdentifier EXTENSION_REQUEST_OID = PKCS9_OIDS[14];
-    public static final ObjectIdentifier SMIME_CAPABILITY_OID = PKCS9_OIDS[15];
-    public static final ObjectIdentifier SIGNING_CERTIFICATE_OID = PKCS9_OIDS[16];
-    public static final ObjectIdentifier SIGNATURE_TIMESTAMP_TOKEN_OID =
+    public stbtic finbl ObjectIdentifier ISSUER_SERIALNUMBER_OID = PKCS9_OIDS[10];
+    // [11], [12] bre RSA DSI proprietbry
+    // [13] ==> signingDescription, S/MIME, not used bnymore
+    public stbtic finbl ObjectIdentifier EXTENSION_REQUEST_OID = PKCS9_OIDS[14];
+    public stbtic finbl ObjectIdentifier SMIME_CAPABILITY_OID = PKCS9_OIDS[15];
+    public stbtic finbl ObjectIdentifier SIGNING_CERTIFICATE_OID = PKCS9_OIDS[16];
+    public stbtic finbl ObjectIdentifier SIGNATURE_TIMESTAMP_TOKEN_OID =
                                 PKCS9_OIDS[17];
-    public static final String EMAIL_ADDRESS_STR = "EmailAddress";
-    public static final String UNSTRUCTURED_NAME_STR = "UnstructuredName";
-    public static final String CONTENT_TYPE_STR = "ContentType";
-    public static final String MESSAGE_DIGEST_STR = "MessageDigest";
-    public static final String SIGNING_TIME_STR = "SigningTime";
-    public static final String COUNTERSIGNATURE_STR = "Countersignature";
-    public static final String CHALLENGE_PASSWORD_STR = "ChallengePassword";
-    public static final String UNSTRUCTURED_ADDRESS_STR = "UnstructuredAddress";
-    public static final String EXTENDED_CERTIFICATE_ATTRIBUTES_STR =
-                               "ExtendedCertificateAttributes";
-    public static final String ISSUER_SERIALNUMBER_STR = "IssuerAndSerialNumber";
-    // [11], [12] are RSA DSI proprietary
-    private static final String RSA_PROPRIETARY_STR = "RSAProprietary";
-    // [13] ==> signingDescription, S/MIME, not used anymore
-    private static final String SMIME_SIGNING_DESC_STR = "SMIMESigningDesc";
-    public static final String EXTENSION_REQUEST_STR = "ExtensionRequest";
-    public static final String SMIME_CAPABILITY_STR = "SMIMECapability";
-    public static final String SIGNING_CERTIFICATE_STR = "SigningCertificate";
-    public static final String SIGNATURE_TIMESTAMP_TOKEN_STR =
-                                "SignatureTimestampToken";
+    public stbtic finbl String EMAIL_ADDRESS_STR = "EmbilAddress";
+    public stbtic finbl String UNSTRUCTURED_NAME_STR = "UnstructuredNbme";
+    public stbtic finbl String CONTENT_TYPE_STR = "ContentType";
+    public stbtic finbl String MESSAGE_DIGEST_STR = "MessbgeDigest";
+    public stbtic finbl String SIGNING_TIME_STR = "SigningTime";
+    public stbtic finbl String COUNTERSIGNATURE_STR = "Countersignbture";
+    public stbtic finbl String CHALLENGE_PASSWORD_STR = "ChbllengePbssword";
+    public stbtic finbl String UNSTRUCTURED_ADDRESS_STR = "UnstructuredAddress";
+    public stbtic finbl String EXTENDED_CERTIFICATE_ATTRIBUTES_STR =
+                               "ExtendedCertificbteAttributes";
+    public stbtic finbl String ISSUER_SERIALNUMBER_STR = "IssuerAndSeriblNumber";
+    // [11], [12] bre RSA DSI proprietbry
+    privbte stbtic finbl String RSA_PROPRIETARY_STR = "RSAProprietbry";
+    // [13] ==> signingDescription, S/MIME, not used bnymore
+    privbte stbtic finbl String SMIME_SIGNING_DESC_STR = "SMIMESigningDesc";
+    public stbtic finbl String EXTENSION_REQUEST_STR = "ExtensionRequest";
+    public stbtic finbl String SMIME_CAPABILITY_STR = "SMIMECbpbbility";
+    public stbtic finbl String SIGNING_CERTIFICATE_STR = "SigningCertificbte";
+    public stbtic finbl String SIGNATURE_TIMESTAMP_TOKEN_STR =
+                                "SignbtureTimestbmpToken";
 
     /**
-     * Hashtable mapping names and variant names of supported
-     * attributes to their OIDs. This table contains all name forms
-     * that occur in PKCS9, in lower case.
+     * Hbshtbble mbpping nbmes bnd vbribnt nbmes of supported
+     * bttributes to their OIDs. This tbble contbins bll nbme forms
+     * thbt occur in PKCS9, in lower cbse.
      */
-    private static final Hashtable<String, ObjectIdentifier> NAME_OID_TABLE =
-        new Hashtable<String, ObjectIdentifier>(18);
+    privbte stbtic finbl Hbshtbble<String, ObjectIdentifier> NAME_OID_TABLE =
+        new Hbshtbble<String, ObjectIdentifier>(18);
 
-    static { // static initializer for PCKS9_NAMES
-        NAME_OID_TABLE.put("emailaddress", PKCS9_OIDS[1]);
-        NAME_OID_TABLE.put("unstructuredname", PKCS9_OIDS[2]);
+    stbtic { // stbtic initiblizer for PCKS9_NAMES
+        NAME_OID_TABLE.put("embilbddress", PKCS9_OIDS[1]);
+        NAME_OID_TABLE.put("unstructurednbme", PKCS9_OIDS[2]);
         NAME_OID_TABLE.put("contenttype", PKCS9_OIDS[3]);
-        NAME_OID_TABLE.put("messagedigest", PKCS9_OIDS[4]);
+        NAME_OID_TABLE.put("messbgedigest", PKCS9_OIDS[4]);
         NAME_OID_TABLE.put("signingtime", PKCS9_OIDS[5]);
-        NAME_OID_TABLE.put("countersignature", PKCS9_OIDS[6]);
-        NAME_OID_TABLE.put("challengepassword", PKCS9_OIDS[7]);
-        NAME_OID_TABLE.put("unstructuredaddress", PKCS9_OIDS[8]);
-        NAME_OID_TABLE.put("extendedcertificateattributes", PKCS9_OIDS[9]);
-        NAME_OID_TABLE.put("issuerandserialnumber", PKCS9_OIDS[10]);
-        NAME_OID_TABLE.put("rsaproprietary", PKCS9_OIDS[11]);
-        NAME_OID_TABLE.put("rsaproprietary", PKCS9_OIDS[12]);
+        NAME_OID_TABLE.put("countersignbture", PKCS9_OIDS[6]);
+        NAME_OID_TABLE.put("chbllengepbssword", PKCS9_OIDS[7]);
+        NAME_OID_TABLE.put("unstructuredbddress", PKCS9_OIDS[8]);
+        NAME_OID_TABLE.put("extendedcertificbtebttributes", PKCS9_OIDS[9]);
+        NAME_OID_TABLE.put("issuerbndseriblnumber", PKCS9_OIDS[10]);
+        NAME_OID_TABLE.put("rsbproprietbry", PKCS9_OIDS[11]);
+        NAME_OID_TABLE.put("rsbproprietbry", PKCS9_OIDS[12]);
         NAME_OID_TABLE.put("signingdescription", PKCS9_OIDS[13]);
         NAME_OID_TABLE.put("extensionrequest", PKCS9_OIDS[14]);
-        NAME_OID_TABLE.put("smimecapability", PKCS9_OIDS[15]);
-        NAME_OID_TABLE.put("signingcertificate", PKCS9_OIDS[16]);
-        NAME_OID_TABLE.put("signaturetimestamptoken", PKCS9_OIDS[17]);
+        NAME_OID_TABLE.put("smimecbpbbility", PKCS9_OIDS[15]);
+        NAME_OID_TABLE.put("signingcertificbte", PKCS9_OIDS[16]);
+        NAME_OID_TABLE.put("signbturetimestbmptoken", PKCS9_OIDS[17]);
     };
 
     /**
-     * Hashtable mapping attribute OIDs defined in PKCS9 to the
-     * corresponding attribute value type.
+     * Hbshtbble mbpping bttribute OIDs defined in PKCS9 to the
+     * corresponding bttribute vblue type.
      */
-    private static final Hashtable<ObjectIdentifier, String> OID_NAME_TABLE =
-        new Hashtable<ObjectIdentifier, String>(16);
-    static {
+    privbte stbtic finbl Hbshtbble<ObjectIdentifier, String> OID_NAME_TABLE =
+        new Hbshtbble<ObjectIdentifier, String>(16);
+    stbtic {
         OID_NAME_TABLE.put(PKCS9_OIDS[1], EMAIL_ADDRESS_STR);
         OID_NAME_TABLE.put(PKCS9_OIDS[2], UNSTRUCTURED_NAME_STR);
         OID_NAME_TABLE.put(PKCS9_OIDS[3], CONTENT_TYPE_STR);
@@ -303,576 +303,576 @@ public class PKCS9Attribute implements DerEncoder {
     }
 
     /**
-     * Acceptable ASN.1 tags for DER encodings of values of PKCS9
-     * attributes, by index in <code>PKCS9_OIDS</code>.
-     * Sets of acceptable tags are represented as arrays.
+     * Acceptbble ASN.1 tbgs for DER encodings of vblues of PKCS9
+     * bttributes, by index in <code>PKCS9_OIDS</code>.
+     * Sets of bcceptbble tbgs bre represented bs brrbys.
      */
-    private static final Byte[][] PKCS9_VALUE_TAGS = {
+    privbte stbtic finbl Byte[][] PKCS9_VALUE_TAGS = {
         null,
-        {DerValue.tag_IA5String},   // EMailAddress
-        {DerValue.tag_IA5String,   // UnstructuredName
-         DerValue.tag_PrintableString},
-        {DerValue.tag_ObjectId},    // ContentType
-        {DerValue.tag_OctetString}, // MessageDigest
-        {DerValue.tag_UtcTime},     // SigningTime
-        {DerValue.tag_Sequence},    // Countersignature
-        {DerValue.tag_PrintableString,
-         DerValue.tag_T61String},   // ChallengePassword
-        {DerValue.tag_PrintableString,
-         DerValue.tag_T61String},   // UnstructuredAddress
-        {DerValue.tag_SetOf},       // ExtendedCertificateAttributes
-        {DerValue.tag_Sequence},    // issuerAndSerialNumber
+        {DerVblue.tbg_IA5String},   // EMbilAddress
+        {DerVblue.tbg_IA5String,   // UnstructuredNbme
+         DerVblue.tbg_PrintbbleString},
+        {DerVblue.tbg_ObjectId},    // ContentType
+        {DerVblue.tbg_OctetString}, // MessbgeDigest
+        {DerVblue.tbg_UtcTime},     // SigningTime
+        {DerVblue.tbg_Sequence},    // Countersignbture
+        {DerVblue.tbg_PrintbbleString,
+         DerVblue.tbg_T61String},   // ChbllengePbssword
+        {DerVblue.tbg_PrintbbleString,
+         DerVblue.tbg_T61String},   // UnstructuredAddress
+        {DerVblue.tbg_SetOf},       // ExtendedCertificbteAttributes
+        {DerVblue.tbg_Sequence},    // issuerAndSeriblNumber
         null,
         null,
         null,
-        {DerValue.tag_Sequence},    // extensionRequest
-        {DerValue.tag_Sequence},    // SMIMECapability
-        {DerValue.tag_Sequence},    // SigningCertificate
-        {DerValue.tag_Sequence}     // SignatureTimestampToken
+        {DerVblue.tbg_Sequence},    // extensionRequest
+        {DerVblue.tbg_Sequence},    // SMIMECbpbbility
+        {DerVblue.tbg_Sequence},    // SigningCertificbte
+        {DerVblue.tbg_Sequence}     // SignbtureTimestbmpToken
     };
 
-    private static final Class<?>[] VALUE_CLASSES = new Class<?>[18];
+    privbte stbtic finbl Clbss<?>[] VALUE_CLASSES = new Clbss<?>[18];
 
-    static {
+    stbtic {
         try {
-            Class<?> str = Class.forName("[Ljava.lang.String;");
+            Clbss<?> str = Clbss.forNbme("[Ljbvb.lbng.String;");
 
             VALUE_CLASSES[0] = null;  // not used
-            VALUE_CLASSES[1] = str;   // EMailAddress
-            VALUE_CLASSES[2] = str;   // UnstructuredName
+            VALUE_CLASSES[1] = str;   // EMbilAddress
+            VALUE_CLASSES[2] = str;   // UnstructuredNbme
             VALUE_CLASSES[3] =        // ContentType
-                Class.forName("sun.security.util.ObjectIdentifier");
-            VALUE_CLASSES[4] = BYTE_ARRAY_CLASS; // MessageDigest (byte[])
-            VALUE_CLASSES[5] = Class.forName("java.util.Date"); // SigningTime
-            VALUE_CLASSES[6] =        // Countersignature
-                Class.forName("[Lsun.security.pkcs.SignerInfo;");
-            VALUE_CLASSES[7] =        // ChallengePassword
-                Class.forName("java.lang.String");
+                Clbss.forNbme("sun.security.util.ObjectIdentifier");
+            VALUE_CLASSES[4] = BYTE_ARRAY_CLASS; // MessbgeDigest (byte[])
+            VALUE_CLASSES[5] = Clbss.forNbme("jbvb.util.Dbte"); // SigningTime
+            VALUE_CLASSES[6] =        // Countersignbture
+                Clbss.forNbme("[Lsun.security.pkcs.SignerInfo;");
+            VALUE_CLASSES[7] =        // ChbllengePbssword
+                Clbss.forNbme("jbvb.lbng.String");
             VALUE_CLASSES[8] = str;   // UnstructuredAddress
-            VALUE_CLASSES[9] = null;  // ExtendedCertificateAttributes
-            VALUE_CLASSES[10] = null;  // IssuerAndSerialNumber
+            VALUE_CLASSES[9] = null;  // ExtendedCertificbteAttributes
+            VALUE_CLASSES[10] = null;  // IssuerAndSeriblNumber
             VALUE_CLASSES[11] = null;  // not used
             VALUE_CLASSES[12] = null;  // not used
             VALUE_CLASSES[13] = null;  // not used
             VALUE_CLASSES[14] =        // ExtensionRequest
-                Class.forName("sun.security.x509.CertificateExtensions");
+                Clbss.forNbme("sun.security.x509.CertificbteExtensions");
             VALUE_CLASSES[15] = null;  // not supported yet
             VALUE_CLASSES[16] = null;  // not supported yet
-            VALUE_CLASSES[17] = BYTE_ARRAY_CLASS;  // SignatureTimestampToken
-        } catch (ClassNotFoundException e) {
-            throw new ExceptionInInitializerError(e.toString());
+            VALUE_CLASSES[17] = BYTE_ARRAY_CLASS;  // SignbtureTimestbmpToken
+        } cbtch (ClbssNotFoundException e) {
+            throw new ExceptionInInitiblizerError(e.toString());
         }
     }
 
     /**
-     * Array indicating which PKCS9 attributes are single-valued,
+     * Arrby indicbting which PKCS9 bttributes bre single-vblued,
      * by index in <code>PKCS9_OIDS</code>.
      */
-    private static final boolean[] SINGLE_VALUED = {
-      false,
-      false,   // EMailAddress
-      false,   // UnstructuredName
+    privbte stbtic finbl boolebn[] SINGLE_VALUED = {
+      fblse,
+      fblse,   // EMbilAddress
+      fblse,   // UnstructuredNbme
       true,    // ContentType
-      true,    // MessageDigest
+      true,    // MessbgeDigest
       true,    // SigningTime
-      false,   // Countersignature
-      true,    // ChallengePassword
-      false,   // UnstructuredAddress
-      false,   // ExtendedCertificateAttributes
-      true,    // IssuerAndSerialNumber - not supported yet
-      false,   // not used
-      false,   // not used
-      false,   // not used
+      fblse,   // Countersignbture
+      true,    // ChbllengePbssword
+      fblse,   // UnstructuredAddress
+      fblse,   // ExtendedCertificbteAttributes
+      true,    // IssuerAndSeriblNumber - not supported yet
+      fblse,   // not used
+      fblse,   // not used
+      fblse,   // not used
       true,    // ExtensionRequest
-      true,    // SMIMECapability - not supported yet
-      true,    // SigningCertificate
-      true     // SignatureTimestampToken
+      true,    // SMIMECbpbbility - not supported yet
+      true,    // SigningCertificbte
+      true     // SignbtureTimestbmpToken
     };
 
     /**
-     * The OID of this attribute.
+     * The OID of this bttribute.
      */
-    private ObjectIdentifier oid;
+    privbte ObjectIdentifier oid;
 
     /**
-     * The index of the OID of this attribute in <code>PKCS9_OIDS</code>,
+     * The index of the OID of this bttribute in <code>PKCS9_OIDS</code>,
      * or -1 if it's unknown.
      */
-    private int index;
+    privbte int index;
 
     /**
-     * Value set of this attribute.  Its class is given by
+     * Vblue set of this bttribute.  Its clbss is given by
      * <code>VALUE_CLASSES[index]</code>. The SET itself
-     * as byte[] if unknown.
+     * bs byte[] if unknown.
      */
-    private Object value;
+    privbte Object vblue;
 
     /**
-     * Construct an attribute object from the attribute's OID and
-     * value.  If the attribute is single-valued, provide only one
-     * value.  If the attribute is multi-valued, provide an array
-     * containing all the values.
-     * Arrays of length zero are accepted, though probably useless.
+     * Construct bn bttribute object from the bttribute's OID bnd
+     * vblue.  If the bttribute is single-vblued, provide only one
+     * vblue.  If the bttribute is multi-vblued, provide bn brrby
+     * contbining bll the vblues.
+     * Arrbys of length zero bre bccepted, though probbbly useless.
      *
      * <P> The
-     * <a href=#classTable>table</a> gives the class that <code>value</code>
-     * must have for a given attribute.
+     * <b href=#clbssTbble>tbble</b> gives the clbss thbt <code>vblue</code>
+     * must hbve for b given bttribute.
      *
-     * @exception IllegalArgumentException
-     * if the <code>value</code> has the wrong type.
+     * @exception IllegblArgumentException
+     * if the <code>vblue</code> hbs the wrong type.
      */
-    public PKCS9Attribute(ObjectIdentifier oid, Object value)
-    throws IllegalArgumentException {
-        init(oid, value);
+    public PKCS9Attribute(ObjectIdentifier oid, Object vblue)
+    throws IllegblArgumentException {
+        init(oid, vblue);
     }
 
     /**
-     * Construct an attribute object from the attribute's name and
-     * value.  If the attribute is single-valued, provide only one
-     * value.  If the attribute is multi-valued, provide an array
-     * containing all the values.
-     * Arrays of length zero are accepted, though probably useless.
+     * Construct bn bttribute object from the bttribute's nbme bnd
+     * vblue.  If the bttribute is single-vblued, provide only one
+     * vblue.  If the bttribute is multi-vblued, provide bn brrby
+     * contbining bll the vblues.
+     * Arrbys of length zero bre bccepted, though probbbly useless.
      *
      * <P> The
-     * <a href=#classTable>table</a> gives the class that <code>value</code>
-     * must have for a given attribute. Reasonable variants of these
-     * attributes are accepted; in particular, case does not matter.
+     * <b href=#clbssTbble>tbble</b> gives the clbss thbt <code>vblue</code>
+     * must hbve for b given bttribute. Rebsonbble vbribnts of these
+     * bttributes bre bccepted; in pbrticulbr, cbse does not mbtter.
      *
-     * @exception IllegalArgumentException
-     * if the <code>name</code> is not recognized or the
-     * <code>value</code> has the wrong type.
+     * @exception IllegblArgumentException
+     * if the <code>nbme</code> is not recognized or the
+     * <code>vblue</code> hbs the wrong type.
      */
-    public PKCS9Attribute(String name, Object value)
-    throws IllegalArgumentException {
-        ObjectIdentifier oid = getOID(name);
+    public PKCS9Attribute(String nbme, Object vblue)
+    throws IllegblArgumentException {
+        ObjectIdentifier oid = getOID(nbme);
 
         if (oid == null)
-            throw new IllegalArgumentException(
-                       "Unrecognized attribute name " + name +
+            throw new IllegblArgumentException(
+                       "Unrecognized bttribute nbme " + nbme +
                        " constructing PKCS9Attribute.");
 
-        init(oid, value);
+        init(oid, vblue);
     }
 
-    private void init(ObjectIdentifier oid, Object value)
-        throws IllegalArgumentException {
+    privbte void init(ObjectIdentifier oid, Object vblue)
+        throws IllegblArgumentException {
 
         this.oid = oid;
         index = indexOf(oid, PKCS9_OIDS, 1);
-        Class<?> clazz = index == -1 ? BYTE_ARRAY_CLASS: VALUE_CLASSES[index];
-        if (!clazz.isInstance(value)) {
-                throw new IllegalArgumentException(
-                           "Wrong value class " +
-                           " for attribute " + oid +
-                           " constructing PKCS9Attribute; was " +
-                           value.getClass().toString() + ", should be " +
-                           clazz.toString());
+        Clbss<?> clbzz = index == -1 ? BYTE_ARRAY_CLASS: VALUE_CLASSES[index];
+        if (!clbzz.isInstbnce(vblue)) {
+                throw new IllegblArgumentException(
+                           "Wrong vblue clbss " +
+                           " for bttribute " + oid +
+                           " constructing PKCS9Attribute; wbs " +
+                           vblue.getClbss().toString() + ", should be " +
+                           clbzz.toString());
         }
-        this.value = value;
+        this.vblue = vblue;
     }
 
 
     /**
-     * Construct a PKCS9Attribute from its encoding on an input
-     * stream.
+     * Construct b PKCS9Attribute from its encoding on bn input
+     * strebm.
      *
-     * @param val the DerValue representing the DER encoding of the attribute.
-     * @exception IOException on parsing error.
+     * @pbrbm vbl the DerVblue representing the DER encoding of the bttribute.
+     * @exception IOException on pbrsing error.
      */
-    public PKCS9Attribute(DerValue derVal) throws IOException {
+    public PKCS9Attribute(DerVblue derVbl) throws IOException {
 
-        DerInputStream derIn = new DerInputStream(derVal.toByteArray());
-        DerValue[] val =  derIn.getSequence(2);
+        DerInputStrebm derIn = new DerInputStrebm(derVbl.toByteArrby());
+        DerVblue[] vbl =  derIn.getSequence(2);
 
-        if (derIn.available() != 0)
-            throw new IOException("Excess data parsing PKCS9Attribute");
+        if (derIn.bvbilbble() != 0)
+            throw new IOException("Excess dbtb pbrsing PKCS9Attribute");
 
-        if (val.length != 2)
-            throw new IOException("PKCS9Attribute doesn't have two components");
+        if (vbl.length != 2)
+            throw new IOException("PKCS9Attribute doesn't hbve two components");
 
         // get the oid
-        oid = val[0].getOID();
-        byte[] content = val[1].toByteArray();
-        DerValue[] elems = new DerInputStream(content).getSet(1);
+        oid = vbl[0].getOID();
+        byte[] content = vbl[1].toByteArrby();
+        DerVblue[] elems = new DerInputStrebm(content).getSet(1);
 
         index = indexOf(oid, PKCS9_OIDS, 1);
         if (index == -1) {
             if (debug != null) {
-                debug.println("Unsupported signer attribute: " + oid);
+                debug.println("Unsupported signer bttribute: " + oid);
             }
-            value = content;
+            vblue = content;
             return;
         }
 
-        // check single valued have only one value
+        // check single vblued hbve only one vblue
         if (SINGLE_VALUED[index] && elems.length > 1)
-            throwSingleValuedException();
+            throwSingleVbluedException();
 
-        // check for illegal element tags
-        Byte tag;
+        // check for illegbl element tbgs
+        Byte tbg;
         for (int i=0; i < elems.length; i++) {
-            tag = elems[i].tag;
+            tbg = elems[i].tbg;
 
-            if (indexOf(tag, PKCS9_VALUE_TAGS[index], 0) == -1)
-                throwTagException(tag);
+            if (indexOf(tbg, PKCS9_VALUE_TAGS[index], 0) == -1)
+                throwTbgException(tbg);
         }
 
         switch (index) {
-        case 1:     // email address
-        case 2:     // unstructured name
-        case 8:     // unstructured address
+        cbse 1:     // embil bddress
+        cbse 2:     // unstructured nbme
+        cbse 8:     // unstructured bddress
             { // open scope
-                String[] values = new String[elems.length];
+                String[] vblues = new String[elems.length];
 
                 for (int i=0; i < elems.length; i++)
-                    values[i] = elems[i].getAsString();
-                value = values;
+                    vblues[i] = elems[i].getAsString();
+                vblue = vblues;
             } // close scope
-            break;
+            brebk;
 
-        case 3:     // content type
-            value = elems[0].getOID();
-            break;
+        cbse 3:     // content type
+            vblue = elems[0].getOID();
+            brebk;
 
-        case 4:     // message digest
-            value = elems[0].getOctetString();
-            break;
+        cbse 4:     // messbge digest
+            vblue = elems[0].getOctetString();
+            brebk;
 
-        case 5:     // signing time
-            value = (new DerInputStream(elems[0].toByteArray())).getUTCTime();
-            break;
+        cbse 5:     // signing time
+            vblue = (new DerInputStrebm(elems[0].toByteArrby())).getUTCTime();
+            brebk;
 
-        case 6:     // countersignature
+        cbse 6:     // countersignbture
             { // open scope
-                SignerInfo[] values = new SignerInfo[elems.length];
+                SignerInfo[] vblues = new SignerInfo[elems.length];
                 for (int i=0; i < elems.length; i++)
-                    values[i] =
-                        new SignerInfo(elems[i].toDerInputStream());
-                value = values;
+                    vblues[i] =
+                        new SignerInfo(elems[i].toDerInputStrebm());
+                vblue = vblues;
             } // close scope
-            break;
+            brebk;
 
-        case 7:     // challenge password
-            value = elems[0].getAsString();
-            break;
+        cbse 7:     // chbllenge pbssword
+            vblue = elems[0].getAsString();
+            brebk;
 
-        case 9:     // extended-certificate attribute -- not supported
-            throw new IOException("PKCS9 extended-certificate " +
-                                  "attribute not supported.");
-            // break unnecessary
-        case 10:    // issuerAndserialNumber attribute -- not supported
-            throw new IOException("PKCS9 IssuerAndSerialNumber" +
-                                  "attribute not supported.");
-            // break unnecessary
-        case 11:    // RSA DSI proprietary
-        case 12:    // RSA DSI proprietary
-            throw new IOException("PKCS9 RSA DSI attributes" +
-                                  "11 and 12, not supported.");
-            // break unnecessary
-        case 13:    // S/MIME unused attribute
-            throw new IOException("PKCS9 attribute #13 not supported.");
-            // break unnecessary
+        cbse 9:     // extended-certificbte bttribute -- not supported
+            throw new IOException("PKCS9 extended-certificbte " +
+                                  "bttribute not supported.");
+            // brebk unnecessbry
+        cbse 10:    // issuerAndseriblNumber bttribute -- not supported
+            throw new IOException("PKCS9 IssuerAndSeriblNumber" +
+                                  "bttribute not supported.");
+            // brebk unnecessbry
+        cbse 11:    // RSA DSI proprietbry
+        cbse 12:    // RSA DSI proprietbry
+            throw new IOException("PKCS9 RSA DSI bttributes" +
+                                  "11 bnd 12, not supported.");
+            // brebk unnecessbry
+        cbse 13:    // S/MIME unused bttribute
+            throw new IOException("PKCS9 bttribute #13 not supported.");
+            // brebk unnecessbry
 
-        case 14:     // ExtensionRequest
-            value = new CertificateExtensions(
-                       new DerInputStream(elems[0].toByteArray()));
-            break;
+        cbse 14:     // ExtensionRequest
+            vblue = new CertificbteExtensions(
+                       new DerInputStrebm(elems[0].toByteArrby()));
+            brebk;
 
-        case 15:     // SMIME-capability attribute -- not supported
-            throw new IOException("PKCS9 SMIMECapability " +
-                                  "attribute not supported.");
-            // break unnecessary
-        case 16:     // SigningCertificate attribute
-            value = new SigningCertificateInfo(elems[0].toByteArray());
-            break;
+        cbse 15:     // SMIME-cbpbbility bttribute -- not supported
+            throw new IOException("PKCS9 SMIMECbpbbility " +
+                                  "bttribute not supported.");
+            // brebk unnecessbry
+        cbse 16:     // SigningCertificbte bttribute
+            vblue = new SigningCertificbteInfo(elems[0].toByteArrby());
+            brebk;
 
-        case 17:     // SignatureTimestampToken attribute
-            value = elems[0].toByteArray();
-            break;
-        default: // can't happen
+        cbse 17:     // SignbtureTimestbmpToken bttribute
+            vblue = elems[0].toByteArrby();
+            brebk;
+        defbult: // cbn't hbppen
         }
     }
 
     /**
-     * Write the DER encoding of this attribute to an output stream.
+     * Write the DER encoding of this bttribute to bn output strebm.
      *
-     * <P> N.B.: This method always encodes values of
-     * ChallengePassword and UnstructuredAddress attributes as ASN.1
-     * <code>PrintableString</code>s, without checking whether they
-     * should be encoded as <code>T61String</code>s.
+     * <P> N.B.: This method blwbys encodes vblues of
+     * ChbllengePbssword bnd UnstructuredAddress bttributes bs ASN.1
+     * <code>PrintbbleString</code>s, without checking whether they
+     * should be encoded bs <code>T61String</code>s.
      */
-    public void derEncode(OutputStream out) throws IOException {
-        DerOutputStream temp = new DerOutputStream();
+    public void derEncode(OutputStrebm out) throws IOException {
+        DerOutputStrebm temp = new DerOutputStrebm();
         temp.putOID(oid);
         switch (index) {
-        case -1:    // Unknown
-            temp.write((byte[])value);
-            break;
-        case 1:     // email address
-        case 2:     // unstructured name
+        cbse -1:    // Unknown
+            temp.write((byte[])vblue);
+            brebk;
+        cbse 1:     // embil bddress
+        cbse 2:     // unstructured nbme
             { // open scope
-                String[] values = (String[]) value;
-                DerOutputStream[] temps = new
-                    DerOutputStream[values.length];
+                String[] vblues = (String[]) vblue;
+                DerOutputStrebm[] temps = new
+                    DerOutputStrebm[vblues.length];
 
-                for (int i=0; i < values.length; i++) {
-                    temps[i] = new DerOutputStream();
-                    temps[i].putIA5String( values[i]);
+                for (int i=0; i < vblues.length; i++) {
+                    temps[i] = new DerOutputStrebm();
+                    temps[i].putIA5String( vblues[i]);
                 }
-                temp.putOrderedSetOf(DerValue.tag_Set, temps);
+                temp.putOrderedSetOf(DerVblue.tbg_Set, temps);
             } // close scope
-            break;
+            brebk;
 
-        case 3:     // content type
+        cbse 3:     // content type
             {
-                DerOutputStream temp2 = new DerOutputStream();
-                temp2.putOID((ObjectIdentifier) value);
-                temp.write(DerValue.tag_Set, temp2.toByteArray());
+                DerOutputStrebm temp2 = new DerOutputStrebm();
+                temp2.putOID((ObjectIdentifier) vblue);
+                temp.write(DerVblue.tbg_Set, temp2.toByteArrby());
             }
-            break;
+            brebk;
 
-        case 4:     // message digest
+        cbse 4:     // messbge digest
             {
-                DerOutputStream temp2 = new DerOutputStream();
-                temp2.putOctetString((byte[]) value);
-                temp.write(DerValue.tag_Set, temp2.toByteArray());
+                DerOutputStrebm temp2 = new DerOutputStrebm();
+                temp2.putOctetString((byte[]) vblue);
+                temp.write(DerVblue.tbg_Set, temp2.toByteArrby());
             }
-            break;
+            brebk;
 
-        case 5:     // signing time
+        cbse 5:     // signing time
             {
-                DerOutputStream temp2 = new DerOutputStream();
-                temp2.putUTCTime((Date) value);
-                temp.write(DerValue.tag_Set, temp2.toByteArray());
+                DerOutputStrebm temp2 = new DerOutputStrebm();
+                temp2.putUTCTime((Dbte) vblue);
+                temp.write(DerVblue.tbg_Set, temp2.toByteArrby());
             }
-            break;
+            brebk;
 
-        case 6:     // countersignature
-            temp.putOrderedSetOf(DerValue.tag_Set, (DerEncoder[]) value);
-            break;
+        cbse 6:     // countersignbture
+            temp.putOrderedSetOf(DerVblue.tbg_Set, (DerEncoder[]) vblue);
+            brebk;
 
-        case 7:     // challenge password
+        cbse 7:     // chbllenge pbssword
             {
-                DerOutputStream temp2 = new DerOutputStream();
-                temp2.putPrintableString((String) value);
-                temp.write(DerValue.tag_Set, temp2.toByteArray());
+                DerOutputStrebm temp2 = new DerOutputStrebm();
+                temp2.putPrintbbleString((String) vblue);
+                temp.write(DerVblue.tbg_Set, temp2.toByteArrby());
             }
-            break;
+            brebk;
 
-        case 8:     // unstructured address
+        cbse 8:     // unstructured bddress
             { // open scope
-                String[] values = (String[]) value;
-                DerOutputStream[] temps = new
-                    DerOutputStream[values.length];
+                String[] vblues = (String[]) vblue;
+                DerOutputStrebm[] temps = new
+                    DerOutputStrebm[vblues.length];
 
-                for (int i=0; i < values.length; i++) {
-                    temps[i] = new DerOutputStream();
-                    temps[i].putPrintableString(values[i]);
+                for (int i=0; i < vblues.length; i++) {
+                    temps[i] = new DerOutputStrebm();
+                    temps[i].putPrintbbleString(vblues[i]);
                 }
-                temp.putOrderedSetOf(DerValue.tag_Set, temps);
+                temp.putOrderedSetOf(DerVblue.tbg_Set, temps);
             } // close scope
-            break;
+            brebk;
 
-        case 9:     // extended-certificate attribute -- not supported
-            throw new IOException("PKCS9 extended-certificate " +
-                                  "attribute not supported.");
-            // break unnecessary
-        case 10:    // issuerAndserialNumber attribute -- not supported
-            throw new IOException("PKCS9 IssuerAndSerialNumber" +
-                                  "attribute not supported.");
-            // break unnecessary
-        case 11:    // RSA DSI proprietary
-        case 12:    // RSA DSI proprietary
-            throw new IOException("PKCS9 RSA DSI attributes" +
-                                  "11 and 12, not supported.");
-            // break unnecessary
-        case 13:    // S/MIME unused attribute
-            throw new IOException("PKCS9 attribute #13 not supported.");
-            // break unnecessary
+        cbse 9:     // extended-certificbte bttribute -- not supported
+            throw new IOException("PKCS9 extended-certificbte " +
+                                  "bttribute not supported.");
+            // brebk unnecessbry
+        cbse 10:    // issuerAndseriblNumber bttribute -- not supported
+            throw new IOException("PKCS9 IssuerAndSeriblNumber" +
+                                  "bttribute not supported.");
+            // brebk unnecessbry
+        cbse 11:    // RSA DSI proprietbry
+        cbse 12:    // RSA DSI proprietbry
+            throw new IOException("PKCS9 RSA DSI bttributes" +
+                                  "11 bnd 12, not supported.");
+            // brebk unnecessbry
+        cbse 13:    // S/MIME unused bttribute
+            throw new IOException("PKCS9 bttribute #13 not supported.");
+            // brebk unnecessbry
 
-        case 14:     // ExtensionRequest
+        cbse 14:     // ExtensionRequest
             {
-                DerOutputStream temp2 = new DerOutputStream();
-                CertificateExtensions exts = (CertificateExtensions)value;
+                DerOutputStrebm temp2 = new DerOutputStrebm();
+                CertificbteExtensions exts = (CertificbteExtensions)vblue;
                 try {
                     exts.encode(temp2, true);
-                } catch (CertificateException ex) {
+                } cbtch (CertificbteException ex) {
                     throw new IOException(ex.toString());
                 }
-                temp.write(DerValue.tag_Set, temp2.toByteArray());
+                temp.write(DerVblue.tbg_Set, temp2.toByteArrby());
             }
-            break;
-        case 15:    // SMIMECapability
-            throw new IOException("PKCS9 attribute #15 not supported.");
-            // break unnecessary
+            brebk;
+        cbse 15:    // SMIMECbpbbility
+            throw new IOException("PKCS9 bttribute #15 not supported.");
+            // brebk unnecessbry
 
-        case 16:    // SigningCertificate
+        cbse 16:    // SigningCertificbte
             throw new IOException(
-                "PKCS9 SigningCertificate attribute not supported.");
-            // break unnecessary
+                "PKCS9 SigningCertificbte bttribute not supported.");
+            // brebk unnecessbry
 
-        case 17:    // SignatureTimestampToken
-            temp.write(DerValue.tag_Set, (byte[])value);
-            break;
+        cbse 17:    // SignbtureTimestbmpToken
+            temp.write(DerVblue.tbg_Set, (byte[])vblue);
+            brebk;
 
-        default: // can't happen
+        defbult: // cbn't hbppen
         }
 
-        DerOutputStream derOut = new DerOutputStream();
-        derOut.write(DerValue.tag_Sequence, temp.toByteArray());
+        DerOutputStrebm derOut = new DerOutputStrebm();
+        derOut.write(DerVblue.tbg_Sequence, temp.toByteArrby());
 
-        out.write(derOut.toByteArray());
+        out.write(derOut.toByteArrby());
 
     }
 
     /**
-     * Returns if the attribute is known. Unknown attributes can be created
+     * Returns if the bttribute is known. Unknown bttributes cbn be crebted
      * from DER encoding with unknown OIDs.
      */
-    public boolean isKnown() {
+    public boolebn isKnown() {
         return index != -1;
     }
 
     /**
-     * Get the value of this attribute.  If the attribute is
-     * single-valued, return just the one value.  If the attribute is
-     * multi-valued, return an array containing all the values.
-     * It is possible for this array to be of length 0.
+     * Get the vblue of this bttribute.  If the bttribute is
+     * single-vblued, return just the one vblue.  If the bttribute is
+     * multi-vblued, return bn brrby contbining bll the vblues.
+     * It is possible for this brrby to be of length 0.
      *
      * <P> The
-     * <a href=#classTable>table</a> gives the class of the value returned,
-     * depending on the type of this attribute.
+     * <b href=#clbssTbble>tbble</b> gives the clbss of the vblue returned,
+     * depending on the type of this bttribute.
      */
-    public Object getValue() {
-        return value;
+    public Object getVblue() {
+        return vblue;
     }
 
     /**
-     * Show whether this attribute is single-valued.
+     * Show whether this bttribute is single-vblued.
      */
-    public boolean isSingleValued() {
+    public boolebn isSingleVblued() {
         return index == -1 || SINGLE_VALUED[index];
     }
 
     /**
-     *  Return the OID of this attribute.
+     *  Return the OID of this bttribute.
      */
     public ObjectIdentifier getOID() {
         return oid;
     }
 
     /**
-     *  Return the name of this attribute.
+     *  Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return index == -1 ?
                 oid.toString() :
                 OID_NAME_TABLE.get(PKCS9_OIDS[index]);
     }
 
     /**
-     * Return the OID for a given attribute name or null if we don't recognize
-     * the name.
+     * Return the OID for b given bttribute nbme or null if we don't recognize
+     * the nbme.
      */
-    public static ObjectIdentifier getOID(String name) {
-        return NAME_OID_TABLE.get(name.toLowerCase(Locale.ENGLISH));
+    public stbtic ObjectIdentifier getOID(String nbme) {
+        return NAME_OID_TABLE.get(nbme.toLowerCbse(Locble.ENGLISH));
     }
 
     /**
-     * Return the attribute name for a given OID or null if we don't recognize
+     * Return the bttribute nbme for b given OID or null if we don't recognize
      * the oid.
      */
-    public static String getName(ObjectIdentifier oid) {
+    public stbtic String getNbme(ObjectIdentifier oid) {
         return OID_NAME_TABLE.get(oid);
     }
 
     /**
-     * Returns a string representation of this attribute.
+     * Returns b string representbtion of this bttribute.
      */
     public String toString() {
         StringBuilder sb = new StringBuilder(100);
 
-        sb.append("[");
+        sb.bppend("[");
 
         if (index == -1) {
-            sb.append(oid.toString());
+            sb.bppend(oid.toString());
         } else {
-            sb.append(OID_NAME_TABLE.get(PKCS9_OIDS[index]));
+            sb.bppend(OID_NAME_TABLE.get(PKCS9_OIDS[index]));
         }
-        sb.append(": ");
+        sb.bppend(": ");
 
         if (index == -1 || SINGLE_VALUED[index]) {
-            if (value instanceof byte[]) { // special case for octet string
+            if (vblue instbnceof byte[]) { // specibl cbse for octet string
                 HexDumpEncoder hexDump = new HexDumpEncoder();
-                sb.append(hexDump.encodeBuffer((byte[]) value));
+                sb.bppend(hexDump.encodeBuffer((byte[]) vblue));
             } else {
-                sb.append(value.toString());
+                sb.bppend(vblue.toString());
             }
-            sb.append("]");
+            sb.bppend("]");
             return sb.toString();
-        } else { // multi-valued
-            boolean first = true;
-            Object[] values = (Object[]) value;
+        } else { // multi-vblued
+            boolebn first = true;
+            Object[] vblues = (Object[]) vblue;
 
-            for (int j=0; j < values.length; j++) {
+            for (int j=0; j < vblues.length; j++) {
                 if (first)
-                    first = false;
+                    first = fblse;
                 else
-                    sb.append(", ");
+                    sb.bppend(", ");
 
-                sb.append(values[j].toString());
+                sb.bppend(vblues[j].toString());
             }
             return sb.toString();
         }
     }
 
     /**
-     * Beginning the search at <code>start</code>, find the first
-     * index <code>i</code> such that <code>a[i] = obj</code>.
+     * Beginning the sebrch bt <code>stbrt</code>, find the first
+     * index <code>i</code> such thbt <code>b[i] = obj</code>.
      *
-     * @return the index, if found, and -1 otherwise.
+     * @return the index, if found, bnd -1 otherwise.
      */
-    static int indexOf(Object obj, Object[] a, int start) {
-        for (int i=start; i < a.length; i++) {
-            if (obj.equals(a[i])) return i;
+    stbtic int indexOf(Object obj, Object[] b, int stbrt) {
+        for (int i=stbrt; i < b.length; i++) {
+            if (obj.equbls(b[i])) return i;
         }
         return -1;
     }
 
     /**
-     * Throw an exception when there are multiple values for
-     * a single-valued attribute.
+     * Throw bn exception when there bre multiple vblues for
+     * b single-vblued bttribute.
      */
-    private void throwSingleValuedException() throws IOException {
-        throw new IOException("Single-value attribute " +
-                              oid + " (" + getName() + ")" +
-                              " has multiple values.");
+    privbte void throwSingleVbluedException() throws IOException {
+        throw new IOException("Single-vblue bttribute " +
+                              oid + " (" + getNbme() + ")" +
+                              " hbs multiple vblues.");
     }
 
     /**
-     * Throw an exception when the tag on a value encoding is
-     * wrong for the attribute whose value it is. This method
-     * will only be called for known tags.
+     * Throw bn exception when the tbg on b vblue encoding is
+     * wrong for the bttribute whose vblue it is. This method
+     * will only be cblled for known tbgs.
      */
-    private void throwTagException(Byte tag)
+    privbte void throwTbgException(Byte tbg)
     throws IOException {
-        Byte[] expectedTags = PKCS9_VALUE_TAGS[index];
+        Byte[] expectedTbgs = PKCS9_VALUE_TAGS[index];
         StringBuilder msg = new StringBuilder(100);
-        msg.append("Value of attribute ");
-        msg.append(oid.toString());
-        msg.append(" (");
-        msg.append(getName());
-        msg.append(") has wrong tag: ");
-        msg.append(tag.toString());
-        msg.append(".  Expected tags: ");
+        msg.bppend("Vblue of bttribute ");
+        msg.bppend(oid.toString());
+        msg.bppend(" (");
+        msg.bppend(getNbme());
+        msg.bppend(") hbs wrong tbg: ");
+        msg.bppend(tbg.toString());
+        msg.bppend(".  Expected tbgs: ");
 
-        msg.append(expectedTags[0].toString());
+        msg.bppend(expectedTbgs[0].toString());
 
-        for (int i = 1; i < expectedTags.length; i++) {
-            msg.append(", ");
-            msg.append(expectedTags[i].toString());
+        for (int i = 1; i < expectedTbgs.length; i++) {
+            msg.bppend(", ");
+            msg.bppend(expectedTbgs[i].toString());
         }
-        msg.append(".");
+        msg.bppend(".");
         throw new IOException(msg.toString());
     }
 }

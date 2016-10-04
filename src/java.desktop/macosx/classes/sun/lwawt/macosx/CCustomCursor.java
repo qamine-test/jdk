@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.BufferedImbge;
 
-@SuppressWarnings("serial") // JDK implementation class
-public class CCustomCursor extends Cursor {
-    static Dimension sMaxCursorSize;
-    static Dimension getMaxCursorSize() {
-        if (sMaxCursorSize != null) return sMaxCursorSize;
-        final Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().getBounds();
-        return sMaxCursorSize = new Dimension(bounds.width / 2, bounds.height / 2);
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public clbss CCustomCursor extends Cursor {
+    stbtic Dimension sMbxCursorSize;
+    stbtic Dimension getMbxCursorSize() {
+        if (sMbxCursorSize != null) return sMbxCursorSize;
+        finbl Rectbngle bounds = GrbphicsEnvironment.getLocblGrbphicsEnvironment().getDefbultScreenDevice().getDefbultConfigurbtion().getBounds();
+        return sMbxCursorSize = new Dimension(bounds.width / 2, bounds.height / 2);
     }
 
-    Image fImage;
+    Imbge fImbge;
     Point fHotspot;
     int fWidth;
     int fHeight;
 
-    public CCustomCursor(final Image cursor, final Point hotSpot, final String name) throws IndexOutOfBoundsException, HeadlessException {
-        super(name);
-        fImage = cursor;
+    public CCustomCursor(finbl Imbge cursor, finbl Point hotSpot, finbl String nbme) throws IndexOutOfBoundsException, HebdlessException {
+        super(nbme);
+        fImbge = cursor;
         fHotspot = hotSpot;
 
-        // This chunk of code is copied from sun.awt.CustomCursor
-        final Toolkit toolkit = Toolkit.getDefaultToolkit();
+        // This chunk of code is copied from sun.bwt.CustomCursor
+        finbl Toolkit toolkit = Toolkit.getDefbultToolkit();
 
-        // Make sure image is fully loaded.
-        final Component c = new Canvas(); // for its imageUpdate method
-        final MediaTracker tracker = new MediaTracker(c);
-        // MediaTracker loads resolution variants from MultiResolution Toolkit image
-        tracker.addImage(fImage, 0);
+        // Mbke sure imbge is fully lobded.
+        finbl Component c = new Cbnvbs(); // for its imbgeUpdbte method
+        finbl MedibTrbcker trbcker = new MedibTrbcker(c);
+        // MedibTrbcker lobds resolution vbribnts from MultiResolution Toolkit imbge
+        trbcker.bddImbge(fImbge, 0);
         try {
-            tracker.waitForAll();
-        } catch (final InterruptedException e) {}
+            trbcker.wbitForAll();
+        } cbtch (finbl InterruptedException e) {}
 
-        int width = fImage.getWidth(c);
-        int height = fImage.getHeight(c);
+        int width = fImbge.getWidth(c);
+        int height = fImbge.getHeight(c);
 
-        // Fix for bug 4212593 The Toolkit.createCustomCursor does not
-        // check absence of the image of cursor
-        // If the image is invalid, the cursor will be hidden (made completely
-        // transparent).
-        if (tracker.isErrorAny() || width < 0 || height < 0) {
+        // Fix for bug 4212593 The Toolkit.crebteCustomCursor does not
+        // check bbsence of the imbge of cursor
+        // If the imbge is invblid, the cursor will be hidden (mbde completely
+        // trbnspbrent).
+        if (trbcker.isErrorAny() || width < 0 || height < 0) {
             fHotspot.x = fHotspot.y = 0;
             width = height = 1;
-            fImage = createTransparentImage(width, height);
+            fImbge = crebteTrbnspbrentImbge(width, height);
         } else {
-            // Get the nearest supported cursor size
-            final Dimension nativeSize = toolkit.getBestCursorSize(width, height);
-            width = nativeSize.width;
-            height = nativeSize.height;
+            // Get the nebrest supported cursor size
+            finbl Dimension nbtiveSize = toolkit.getBestCursorSize(width, height);
+            width = nbtiveSize.width;
+            height = nbtiveSize.height;
         }
 
         fWidth = width;
         fHeight = height;
 
-        // NOTE: this was removed for 3169146, but in 1.5 the JCK tests for an exception and fails if one isn't thrown.
-        // See what JBuilder does.
-        // Verify that the hotspot is within cursor bounds.
+        // NOTE: this wbs removed for 3169146, but in 1.5 the JCK tests for bn exception bnd fbils if one isn't thrown.
+        // See whbt JBuilder does.
+        // Verify thbt the hotspot is within cursor bounds.
         if (fHotspot.x >= width || fHotspot.y >= height || fHotspot.x < 0 || fHotspot.y < 0) {
-            throw new IndexOutOfBoundsException("invalid hotSpot");
+            throw new IndexOutOfBoundsException("invblid hotSpot");
         }
 
-        // Must normalize the hotspot
+        // Must normblize the hotspot
         if (fHotspot.x >= width) {
-            fHotspot.x = width - 1; // it is zero based.
+            fHotspot.x = width - 1; // it is zero bbsed.
         } else if (fHotspot.x < 0) {
             fHotspot.x = 0;
         }
         if (fHotspot.y >= height) {
-            fHotspot.y = height - 1; // it is zero based.
+            fHotspot.y = height - 1; // it is zero bbsed.
         } else if (fHotspot.y < 0) {
             fHotspot.y = 0;
         }
     }
 
-    private static BufferedImage createTransparentImage(int w, int h) {
-        GraphicsEnvironment ge =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gs = ge.getDefaultScreenDevice();
-        GraphicsConfiguration gc = gs.getDefaultConfiguration();
+    privbte stbtic BufferedImbge crebteTrbnspbrentImbge(int w, int h) {
+        GrbphicsEnvironment ge =
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        GrbphicsDevice gs = ge.getDefbultScreenDevice();
+        GrbphicsConfigurbtion gc = gs.getDefbultConfigurbtion();
 
-        BufferedImage img = gc.createCompatibleImage(w, h, Transparency.BITMASK);
-        Graphics2D g = (Graphics2D)img.getGraphics();
-        g.setBackground(new Color(0, 0, 0, 0));
-        g.clearRect(0, 0, w, h);
+        BufferedImbge img = gc.crebteCompbtibleImbge(w, h, Trbnspbrency.BITMASK);
+        Grbphics2D g = (Grbphics2D)img.getGrbphics();
+        g.setBbckground(new Color(0, 0, 0, 0));
+        g.clebrRect(0, 0, w, h);
         g.dispose();
 
         return img;
     }
 
-    public static Dimension getBestCursorSize(final int preferredWidth, final int preferredHeight) {
-        // With Panther, cursors have no limit on their size. So give the client their
-        // preferred size, but no larger than half the dimensions of the main screen
-        // This will allow large cursors, but not cursors so large that they cover the
-        // screen. Since solaris nor windows allow cursors this big, this shouldn't be
-        // a limitation.
-        // JCK triggers an overflow in the int -- if we get a bizarre value normalize it.
-        final Dimension maxCursorSize = getMaxCursorSize();
-        final Dimension d = new Dimension(Math.max(1, Math.abs(preferredWidth)), Math.max(1, Math.abs(preferredHeight)));
-        return new Dimension(Math.min(d.width, maxCursorSize.width), Math.min(d.height, maxCursorSize.height));
+    public stbtic Dimension getBestCursorSize(finbl int preferredWidth, finbl int preferredHeight) {
+        // With Pbnther, cursors hbve no limit on their size. So give the client their
+        // preferred size, but no lbrger thbn hblf the dimensions of the mbin screen
+        // This will bllow lbrge cursors, but not cursors so lbrge thbt they cover the
+        // screen. Since solbris nor windows bllow cursors this big, this shouldn't be
+        // b limitbtion.
+        // JCK triggers bn overflow in the int -- if we get b bizbrre vblue normblize it.
+        finbl Dimension mbxCursorSize = getMbxCursorSize();
+        finbl Dimension d = new Dimension(Mbth.mbx(1, Mbth.bbs(preferredWidth)), Mbth.mbx(1, Mbth.bbs(preferredHeight)));
+        return new Dimension(Mbth.min(d.width, mbxCursorSize.width), Mbth.min(d.height, mbxCursorSize.height));
     }
 
-    // Called from native when the cursor is set
-    CImage fCImage;
-    long getImageData() {
-        if (fCImage != null) {
-            return fCImage.ptr;
+    // Cblled from nbtive when the cursor is set
+    CImbge fCImbge;
+    long getImbgeDbtb() {
+        if (fCImbge != null) {
+            return fCImbge.ptr;
         }
 
         try {
-            fCImage = CImage.getCreator().createFromImage(fImage);
-            if (fCImage == null) {
-                // Something unexpected happened: CCustomCursor constructor
-                // takes care of invalid cursor images, yet createFromImage()
-                // failed to do its job. Return null to keep the cursor unchanged.
+            fCImbge = CImbge.getCrebtor().crebteFromImbge(fImbge);
+            if (fCImbge == null) {
+                // Something unexpected hbppened: CCustomCursor constructor
+                // tbkes cbre of invblid cursor imbges, yet crebteFromImbge()
+                // fbiled to do its job. Return null to keep the cursor unchbnged.
                 return 0L;
             } else {
-                fCImage.resizeRepresentations(fWidth, fHeight);
-                return fCImage.ptr;
+                fCImbge.resizeRepresentbtions(fWidth, fHeight);
+                return fCImbge.ptr;
             }
-        } catch (IllegalArgumentException iae) {
-            // see comment above
+        } cbtch (IllegblArgumentException ibe) {
+            // see comment bbove
             return 0L;
         }
     }

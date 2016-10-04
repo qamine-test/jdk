@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs;
+pbckbge sun.security.pkcs;
 
-import java.io.*;
+import jbvb.io.*;
 import sun.security.x509.*;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * This class implements the <code>EncryptedPrivateKeyInfo</code> type,
- * which is defined in PKCS #8 as follows:
+ * This clbss implements the <code>EncryptedPrivbteKeyInfo</code> type,
+ * which is defined in PKCS #8 bs follows:
  *
  * <pre>
- * EncryptedPrivateKeyInfo ::=  SEQUENCE {
+ * EncryptedPrivbteKeyInfo ::=  SEQUENCE {
  *     encryptionAlgorithm   AlgorithmIdentifier,
- *     encryptedData   OCTET STRING }
+ *     encryptedDbtb   OCTET STRING }
  * </pre>
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
 
-public class EncryptedPrivateKeyInfo {
+public clbss EncryptedPrivbteKeyInfo {
 
     // the "encryptionAlgorithm" field
-    private AlgorithmId algid;
+    privbte AlgorithmId blgid;
 
-    // the "encryptedData" field
-    private byte[] encryptedData;
+    // the "encryptedDbtb" field
+    privbte byte[] encryptedDbtb;
 
-    // the ASN.1 encoded contents of this class
-    private byte[] encoded;
+    // the ASN.1 encoded contents of this clbss
+    privbte byte[] encoded;
 
     /**
-     * Constructs (i.e., parses) an <code>EncryptedPrivateKeyInfo</code> from
+     * Constructs (i.e., pbrses) bn <code>EncryptedPrivbteKeyInfo</code> from
      * its encoding.
      */
-    public EncryptedPrivateKeyInfo(byte[] encoded)
+    public EncryptedPrivbteKeyInfo(byte[] encoded)
         throws IOException
     {
         if (encoded == null) {
-            throw new IllegalArgumentException("encoding must not be null");
+            throw new IllegblArgumentException("encoding must not be null");
         }
 
-        DerValue val = new DerValue(encoded);
+        DerVblue vbl = new DerVblue(encoded);
 
-        DerValue[] seq = new DerValue[2];
+        DerVblue[] seq = new DerVblue[2];
 
-        seq[0] = val.data.getDerValue();
-        seq[1] = val.data.getDerValue();
+        seq[0] = vbl.dbtb.getDerVblue();
+        seq[1] = vbl.dbtb.getDerVblue();
 
-        if (val.data.available() != 0) {
-            throw new IOException("overrun, bytes = " + val.data.available());
+        if (vbl.dbtb.bvbilbble() != 0) {
+            throw new IOException("overrun, bytes = " + vbl.dbtb.bvbilbble());
         }
 
-        this.algid = AlgorithmId.parse(seq[0]);
-        if (seq[0].data.available() != 0) {
+        this.blgid = AlgorithmId.pbrse(seq[0]);
+        if (seq[0].dbtb.bvbilbble() != 0) {
             throw new IOException("encryptionAlgorithm field overrun");
         }
 
-        this.encryptedData = seq[1].getOctetString();
-        if (seq[1].data.available() != 0)
-            throw new IOException("encryptedData field overrun");
+        this.encryptedDbtb = seq[1].getOctetString();
+        if (seq[1].dbtb.bvbilbble() != 0)
+            throw new IOException("encryptedDbtb field overrun");
 
         this.encoded = encoded.clone();
     }
 
     /**
-     * Constructs an <code>EncryptedPrivateKeyInfo</code> from the
-     * encryption algorithm and the encrypted data.
+     * Constructs bn <code>EncryptedPrivbteKeyInfo</code> from the
+     * encryption blgorithm bnd the encrypted dbtb.
      */
-    public EncryptedPrivateKeyInfo(AlgorithmId algid, byte[] encryptedData) {
-        this.algid = algid;
-        this.encryptedData = encryptedData.clone();
+    public EncryptedPrivbteKeyInfo(AlgorithmId blgid, byte[] encryptedDbtb) {
+        this.blgid = blgid;
+        this.encryptedDbtb = encryptedDbtb.clone();
     }
 
     /**
-     * Returns the encryption algorithm.
+     * Returns the encryption blgorithm.
      */
     public AlgorithmId getAlgorithm() {
-        return this.algid;
+        return this.blgid;
     }
 
     /**
-     * Returns the encrypted data.
+     * Returns the encrypted dbtb.
      */
-    public byte[] getEncryptedData() {
-        return this.encryptedData.clone();
+    public byte[] getEncryptedDbtb() {
+        return this.encryptedDbtb.clone();
     }
 
     /**
-     * Returns the ASN.1 encoding of this class.
+     * Returns the ASN.1 encoding of this clbss.
      */
     public byte[] getEncoded()
         throws IOException
     {
         if (this.encoded != null) return this.encoded.clone();
 
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+        DerOutputStrebm out = new DerOutputStrebm();
+        DerOutputStrebm tmp = new DerOutputStrebm();
 
-        // encode encryption algorithm
-        algid.encode(tmp);
+        // encode encryption blgorithm
+        blgid.encode(tmp);
 
-        // encode encrypted data
-        tmp.putOctetString(encryptedData);
+        // encode encrypted dbtb
+        tmp.putOctetString(encryptedDbtb);
 
-        // wrap everything into a SEQUENCE
-        out.write(DerValue.tag_Sequence, tmp);
-        this.encoded = out.toByteArray();
+        // wrbp everything into b SEQUENCE
+        out.write(DerVblue.tbg_Sequence, tmp);
+        this.encoded = out.toByteArrby();
 
         return this.encoded.clone();
     }
 
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other)
             return true;
-        if (!(other instanceof EncryptedPrivateKeyInfo))
-            return false;
+        if (!(other instbnceof EncryptedPrivbteKeyInfo))
+            return fblse;
         try {
             byte[] thisEncrInfo = this.getEncoded();
             byte[] otherEncrInfo
-                = ((EncryptedPrivateKeyInfo)other).getEncoded();
+                = ((EncryptedPrivbteKeyInfo)other).getEncoded();
 
             if (thisEncrInfo.length != otherEncrInfo.length)
-                return false;
+                return fblse;
             for (int i = 0; i < thisEncrInfo.length; i++)
                  if (thisEncrInfo[i] != otherEncrInfo[i])
-                     return false;
+                     return fblse;
             return true;
-        } catch (IOException e) {
-            return false;
+        } cbtch (IOException e) {
+            return fblse;
         }
     }
 
     /**
-     * Returns a hashcode for this EncryptedPrivateKeyInfo.
+     * Returns b hbshcode for this EncryptedPrivbteKeyInfo.
      *
-     * @return a hashcode for this EncryptedPrivateKeyInfo.
+     * @return b hbshcode for this EncryptedPrivbteKeyInfo.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
 
-        for (int i = 0; i < this.encryptedData.length; i++)
-            retval += this.encryptedData[i] * i;
-        return retval;
+        for (int i = 0; i < this.encryptedDbtb.length; i++)
+            retvbl += this.encryptedDbtb[i] * i;
+        return retvbl;
     }
 }

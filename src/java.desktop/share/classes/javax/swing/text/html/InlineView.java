@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.*;
-import java.text.BreakIterator;
-import javax.swing.event.DocumentEvent;
-import javax.swing.text.*;
+import jbvb.bwt.*;
+import jbvb.text.BrebkIterbtor;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.text.*;
 
 /**
- * Displays the <dfn>inline element</dfn> styles
- * based upon css attributes.
+ * Displbys the <dfn>inline element</dfn> styles
+ * bbsed upon css bttributes.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public class InlineView extends LabelView {
+public clbss InlineView extends LbbelView {
 
     /**
-     * Constructs a new view wrapped on an element.
+     * Constructs b new view wrbpped on bn element.
      *
-     * @param elem the element
+     * @pbrbm elem the element
      */
     public InlineView(Element elem) {
         super(elem);
         StyleSheet sheet = getStyleSheet();
-        attr = sheet.getViewAttributes(this);
+        bttr = sheet.getViewAttributes(this);
     }
 
     /**
-     * Gives notification that something was inserted into
-     * the document in a location that this view is responsible for.
-     * If either parameter is <code>null</code>, behavior of this method is
-     * implementation dependent.
+     * Gives notificbtion thbt something wbs inserted into
+     * the document in b locbtion thbt this view is responsible for.
+     * If either pbrbmeter is <code>null</code>, behbvior of this method is
+     * implementbtion dependent.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
      * @since 1.5
-     * @see View#insertUpdate
+     * @see View#insertUpdbte
      */
-    public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        super.insertUpdate(e, a, f);
+    public void insertUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        super.insertUpdbte(e, b, f);
     }
 
     /**
-     * Gives notification that something was removed from the document
-     * in a location that this view is responsible for.
-     * If either parameter is <code>null</code>, behavior of this method is
-     * implementation dependent.
+     * Gives notificbtion thbt something wbs removed from the document
+     * in b locbtion thbt this view is responsible for.
+     * If either pbrbmeter is <code>null</code>, behbvior of this method is
+     * implementbtion dependent.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
      * @since 1.5
-     * @see View#removeUpdate
+     * @see View#removeUpdbte
      */
-    public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        super.removeUpdate(e, a, f);
+    public void removeUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        super.removeUpdbte(e, b, f);
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Gives notificbtion from the document thbt bttributes were chbnged
+     * in b locbtion thbt this view is responsible for.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#chbngedUpdbte
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        super.changedUpdate(e, a, f);
+    public void chbngedUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        super.chbngedUpdbte(e, b, f);
         StyleSheet sheet = getStyleSheet();
-        attr = sheet.getViewAttributes(this);
-        preferenceChanged(null, true, true);
+        bttr = sheet.getViewAttributes(this);
+        preferenceChbnged(null, true, true);
     }
 
     /**
-     * Fetches the attributes to use when rendering.  This is
-     * implemented to multiplex the attributes specified in the
-     * model with a StyleSheet.
+     * Fetches the bttributes to use when rendering.  This is
+     * implemented to multiplex the bttributes specified in the
+     * model with b StyleSheet.
      */
     public AttributeSet getAttributes() {
-        return attr;
+        return bttr;
     }
 
     /**
-     * Determines how attractive a break opportunity in
-     * this view is.  This can be used for determining which
-     * view is the most attractive to call <code>breakView</code>
-     * on in the process of formatting.  A view that represents
-     * text that has whitespace in it might be more attractive
-     * than a view that has no whitespace, for example.  The
-     * higher the weight, the more attractive the break.  A
-     * value equal to or lower than <code>BadBreakWeight</code>
-     * should not be considered for a break.  A value greater
-     * than or equal to <code>ForcedBreakWeight</code> should
+     * Determines how bttrbctive b brebk opportunity in
+     * this view is.  This cbn be used for determining which
+     * view is the most bttrbctive to cbll <code>brebkView</code>
+     * on in the process of formbtting.  A view thbt represents
+     * text thbt hbs whitespbce in it might be more bttrbctive
+     * thbn b view thbt hbs no whitespbce, for exbmple.  The
+     * higher the weight, the more bttrbctive the brebk.  A
+     * vblue equbl to or lower thbn <code>BbdBrebkWeight</code>
+     * should not be considered for b brebk.  A vblue grebter
+     * thbn or equbl to <code>ForcedBrebkWeight</code> should
      * be broken.
      * <p>
-     * This is implemented to provide the default behavior
-     * of returning <code>BadBreakWeight</code> unless the length
-     * is greater than the length of the view in which case the
-     * entire view represents the fragment.  Unless a view has
-     * been written to support breaking behavior, it is not
-     * attractive to try and break the view.  An example of
-     * a view that does support breaking is <code>LabelView</code>.
-     * An example of a view that uses break weight is
-     * <code>ParagraphView</code>.
+     * This is implemented to provide the defbult behbvior
+     * of returning <code>BbdBrebkWeight</code> unless the length
+     * is grebter thbn the length of the view in which cbse the
+     * entire view represents the frbgment.  Unless b view hbs
+     * been written to support brebking behbvior, it is not
+     * bttrbctive to try bnd brebk the view.  An exbmple of
+     * b view thbt does support brebking is <code>LbbelView</code>.
+     * An exbmple of b view thbt uses brebk weight is
+     * <code>PbrbgrbphView</code>.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @param pos the potential location of the start of the
-     *   broken view &gt;= 0.  This may be useful for calculating tab
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @pbrbm pos the potentibl locbtion of the stbrt of the
+     *   broken view &gt;= 0.  This mby be useful for cblculbting tbb
      *   positions.
-     * @param len specifies the relative length from <em>pos</em>
-     *   where a potential break is desired &gt;= 0.
-     * @return the weight, which should be a value between
-     *   ForcedBreakWeight and BadBreakWeight.
-     * @see LabelView
-     * @see ParagraphView
-     * @see javax.swing.text.View#BadBreakWeight
-     * @see javax.swing.text.View#GoodBreakWeight
-     * @see javax.swing.text.View#ExcellentBreakWeight
-     * @see javax.swing.text.View#ForcedBreakWeight
+     * @pbrbm len specifies the relbtive length from <em>pos</em>
+     *   where b potentibl brebk is desired &gt;= 0.
+     * @return the weight, which should be b vblue between
+     *   ForcedBrebkWeight bnd BbdBrebkWeight.
+     * @see LbbelView
+     * @see PbrbgrbphView
+     * @see jbvbx.swing.text.View#BbdBrebkWeight
+     * @see jbvbx.swing.text.View#GoodBrebkWeight
+     * @see jbvbx.swing.text.View#ExcellentBrebkWeight
+     * @see jbvbx.swing.text.View#ForcedBrebkWeight
      */
-    public int getBreakWeight(int axis, float pos, float len) {
-        if (nowrap) {
-            return BadBreakWeight;
+    public int getBrebkWeight(int bxis, flobt pos, flobt len) {
+        if (nowrbp) {
+            return BbdBrebkWeight;
         }
-        return super.getBreakWeight(axis, pos, len);
+        return super.getBrebkWeight(bxis, pos, len);
     }
 
     /**
-     * Tries to break this view on the given axis. Refer to
-     * {@link javax.swing.text.View#breakView} for a complete
+     * Tries to brebk this view on the given bxis. Refer to
+     * {@link jbvbx.swing.text.View#brebkView} for b complete
      * description of this method.
-     * <p>Behavior of this method is unspecified in case <code>axis</code>
-     * is neither <code>View.X_AXIS</code> nor <code>View.Y_AXIS</code>, and
-     * in case <code>offset</code>, <code>pos</code>, or <code>len</code>
+     * <p>Behbvior of this method is unspecified in cbse <code>bxis</code>
+     * is neither <code>View.X_AXIS</code> nor <code>View.Y_AXIS</code>, bnd
+     * in cbse <code>offset</code>, <code>pos</code>, or <code>len</code>
      * is null.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @param offset the location in the document model
-     *   that a broken fragment would occupy &gt;= 0.  This
-     *   would be the starting offset of the fragment
+     * @pbrbm offset the locbtion in the document model
+     *   thbt b broken frbgment would occupy &gt;= 0.  This
+     *   would be the stbrting offset of the frbgment
      *   returned
-     * @param pos the position along the axis that the
-     *  broken view would occupy &gt;= 0.  This may be useful for
-     *  things like tab calculations
-     * @param len specifies the distance along the axis
-     *  where a potential break is desired &gt;= 0
-     * @return the fragment of the view that represents the
-     *  given span.
+     * @pbrbm pos the position blong the bxis thbt the
+     *  broken view would occupy &gt;= 0.  This mby be useful for
+     *  things like tbb cblculbtions
+     * @pbrbm len specifies the distbnce blong the bxis
+     *  where b potentibl brebk is desired &gt;= 0
+     * @return the frbgment of the view thbt represents the
+     *  given spbn.
      * @since 1.5
-     * @see javax.swing.text.View#breakView
+     * @see jbvbx.swing.text.View#brebkView
      */
-    public View breakView(int axis, int offset, float pos, float len) {
-        return super.breakView(axis, offset, pos, len);
+    public View brebkView(int bxis, int offset, flobt pos, flobt len) {
+        return super.brebkView(bxis, offset, pos, len);
     }
 
 
     /**
-     * Set the cached properties from the attributes.
+     * Set the cbched properties from the bttributes.
      */
     protected void setPropertiesFromAttributes() {
         super.setPropertiesFromAttributes();
-        AttributeSet a = getAttributes();
-        Object decor = a.getAttribute(CSS.Attribute.TEXT_DECORATION);
-        boolean u = (decor != null) ?
-          (decor.toString().indexOf("underline") >= 0) : false;
+        AttributeSet b = getAttributes();
+        Object decor = b.getAttribute(CSS.Attribute.TEXT_DECORATION);
+        boolebn u = (decor != null) ?
+          (decor.toString().indexOf("underline") >= 0) : fblse;
         setUnderline(u);
-        boolean s = (decor != null) ?
-          (decor.toString().indexOf("line-through") >= 0) : false;
+        boolebn s = (decor != null) ?
+          (decor.toString().indexOf("line-through") >= 0) : fblse;
         setStrikeThrough(s);
-        Object vAlign = a.getAttribute(CSS.Attribute.VERTICAL_ALIGN);
-        s = (vAlign != null) ? (vAlign.toString().indexOf("sup") >= 0) : false;
+        Object vAlign = b.getAttribute(CSS.Attribute.VERTICAL_ALIGN);
+        s = (vAlign != null) ? (vAlign.toString().indexOf("sup") >= 0) : fblse;
         setSuperscript(s);
-        s = (vAlign != null) ? (vAlign.toString().indexOf("sub") >= 0) : false;
+        s = (vAlign != null) ? (vAlign.toString().indexOf("sub") >= 0) : fblse;
         setSubscript(s);
 
-        Object whitespace = a.getAttribute(CSS.Attribute.WHITE_SPACE);
-        if ((whitespace != null) && whitespace.equals("nowrap")) {
-            nowrap = true;
+        Object whitespbce = b.getAttribute(CSS.Attribute.WHITE_SPACE);
+        if ((whitespbce != null) && whitespbce.equbls("nowrbp")) {
+            nowrbp = true;
         } else {
-            nowrap = false;
+            nowrbp = fblse;
         }
 
         HTMLDocument doc = (HTMLDocument)getDocument();
-        // fetches background color from stylesheet if specified
-        Color bg = doc.getBackground(a);
+        // fetches bbckground color from stylesheet if specified
+        Color bg = doc.getBbckground(b);
         if (bg != null) {
-            setBackground(bg);
+            setBbckground(bg);
         }
     }
 
@@ -224,6 +224,6 @@ public class InlineView extends LabelView {
         return doc.getStyleSheet();
     }
 
-    private boolean nowrap;
-    private AttributeSet attr;
+    privbte boolebn nowrbp;
+    privbte AttributeSet bttr;
 }

@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * SecretKeyFactory implementation class. This class currently supports
- * DES, DESede, AES, ARCFOUR, and Blowfish.
+ * SecretKeyFbctory implementbtion clbss. This clbss currently supports
+ * DES, DESede, AES, ARCFOUR, bnd Blowfish.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11SecretKeyFactory extends SecretKeyFactorySpi {
+finbl clbss P11SecretKeyFbctory extends SecretKeyFbctorySpi {
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name
-    private final String algorithm;
+    // blgorithm nbme
+    privbte finbl String blgorithm;
 
-    P11SecretKeyFactory(Token token, String algorithm) {
+    P11SecretKeyFbctory(Token token, String blgorithm) {
         super();
         this.token = token;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
-    private static final Map<String,Long> keyTypes;
+    privbte stbtic finbl Mbp<String,Long> keyTypes;
 
-    static {
-        keyTypes = new HashMap<String,Long>();
-        addKeyType("RC4",      CKK_RC4);
-        addKeyType("ARCFOUR",  CKK_RC4);
-        addKeyType("DES",      CKK_DES);
-        addKeyType("DESede",   CKK_DES3);
-        addKeyType("AES",      CKK_AES);
-        addKeyType("Blowfish", CKK_BLOWFISH);
+    stbtic {
+        keyTypes = new HbshMbp<String,Long>();
+        bddKeyType("RC4",      CKK_RC4);
+        bddKeyType("ARCFOUR",  CKK_RC4);
+        bddKeyType("DES",      CKK_DES);
+        bddKeyType("DESede",   CKK_DES3);
+        bddKeyType("AES",      CKK_AES);
+        bddKeyType("Blowfish", CKK_BLOWFISH);
 
-        // we don't implement RC2 or IDEA, but we want to be able to generate
+        // we don't implement RC2 or IDEA, but we wbnt to be bble to generbte
         // keys for those SSL/TLS ciphersuites.
-        addKeyType("RC2",      CKK_RC2);
-        addKeyType("IDEA",     CKK_IDEA);
+        bddKeyType("RC2",      CKK_RC2);
+        bddKeyType("IDEA",     CKK_IDEA);
 
-        addKeyType("TlsPremasterSecret",    PCKK_TLSPREMASTER);
-        addKeyType("TlsRsaPremasterSecret", PCKK_TLSRSAPREMASTER);
-        addKeyType("TlsMasterSecret",       PCKK_TLSMASTER);
-        addKeyType("Generic",               CKK_GENERIC_SECRET);
+        bddKeyType("TlsPrembsterSecret",    PCKK_TLSPREMASTER);
+        bddKeyType("TlsRsbPrembsterSecret", PCKK_TLSRSAPREMASTER);
+        bddKeyType("TlsMbsterSecret",       PCKK_TLSMASTER);
+        bddKeyType("Generic",               CKK_GENERIC_SECRET);
     }
 
-    private static void addKeyType(String name, long id) {
-        Long l = Long.valueOf(id);
-        keyTypes.put(name, l);
-        keyTypes.put(name.toUpperCase(Locale.ENGLISH), l);
+    privbte stbtic void bddKeyType(String nbme, long id) {
+        Long l = Long.vblueOf(id);
+        keyTypes.put(nbme, l);
+        keyTypes.put(nbme.toUpperCbse(Locble.ENGLISH), l);
     }
 
-    static long getKeyType(String algorithm) {
-        Long l = keyTypes.get(algorithm);
+    stbtic long getKeyType(String blgorithm) {
+        Long l = keyTypes.get(blgorithm);
         if (l == null) {
-            algorithm = algorithm.toUpperCase(Locale.ENGLISH);
-            l = keyTypes.get(algorithm);
+            blgorithm = blgorithm.toUpperCbse(Locble.ENGLISH);
+            l = keyTypes.get(blgorithm);
             if (l == null) {
-                if (algorithm.startsWith("HMAC")) {
+                if (blgorithm.stbrtsWith("HMAC")) {
                     return PCKK_HMAC;
-                } else if (algorithm.startsWith("SSLMAC")) {
+                } else if (blgorithm.stbrtsWith("SSLMAC")) {
                     return PCKK_SSLMAC;
                 }
             }
         }
-        return (l != null) ? l.longValue() : -1;
+        return (l != null) ? l.longVblue() : -1;
     }
 
     /**
-     * Convert an arbitrary key of algorithm into a P11Key of provider.
-     * Used in engineTranslateKey(), P11Cipher.init(), and P11Mac.init().
+     * Convert bn brbitrbry key of blgorithm into b P11Key of provider.
+     * Used in engineTrbnslbteKey(), P11Cipher.init(), bnd P11Mbc.init().
      */
-    static P11Key convertKey(Token token, Key key, String algo)
-            throws InvalidKeyException {
-        return convertKey(token, key, algo, null);
+    stbtic P11Key convertKey(Token token, Key key, String blgo)
+            throws InvblidKeyException {
+        return convertKey(token, key, blgo, null);
     }
 
     /**
-     * Convert an arbitrary key of algorithm w/ custom attributes into a
+     * Convert bn brbitrbry key of blgorithm w/ custom bttributes into b
      * P11Key of provider.
      * Used in P11KeyStore.storeSkey.
      */
-    static P11Key convertKey(Token token, Key key, String algo,
-            CK_ATTRIBUTE[] extraAttrs)
-            throws InvalidKeyException {
-        token.ensureValid();
+    stbtic P11Key convertKey(Token token, Key key, String blgo,
+            CK_ATTRIBUTE[] extrbAttrs)
+            throws InvblidKeyException {
+        token.ensureVblid();
         if (key == null) {
-            throw new InvalidKeyException("Key must not be null");
+            throw new InvblidKeyException("Key must not be null");
         }
-        if (key instanceof SecretKey == false) {
-            throw new InvalidKeyException("Key must be a SecretKey");
+        if (key instbnceof SecretKey == fblse) {
+            throw new InvblidKeyException("Key must be b SecretKey");
         }
-        long algoType;
-        if (algo == null) {
-            algo = key.getAlgorithm();
-            algoType = getKeyType(algo);
+        long blgoType;
+        if (blgo == null) {
+            blgo = key.getAlgorithm();
+            blgoType = getKeyType(blgo);
         } else {
-            algoType = getKeyType(algo);
+            blgoType = getKeyType(blgo);
             long keyAlgorithmType = getKeyType(key.getAlgorithm());
-            if (algoType != keyAlgorithmType) {
-                if ((algoType == PCKK_HMAC) || (algoType == PCKK_SSLMAC)) {
-                    // ignore key algorithm for MACs
+            if (blgoType != keyAlgorithmType) {
+                if ((blgoType == PCKK_HMAC) || (blgoType == PCKK_SSLMAC)) {
+                    // ignore key blgorithm for MACs
                 } else {
-                    throw new InvalidKeyException
-                            ("Key algorithm must be " + algo);
+                    throw new InvblidKeyException
+                            ("Key blgorithm must be " + blgo);
                 }
             }
         }
-        if (key instanceof P11Key) {
+        if (key instbnceof P11Key) {
             P11Key p11Key = (P11Key)key;
             if (p11Key.token == token) {
-                if (extraAttrs != null) {
+                if (extrbAttrs != null) {
                     Session session = null;
                     try {
                         session = token.getObjSession();
                         long newKeyID = token.p11.C_CopyObject(session.id(),
-                                p11Key.keyID, extraAttrs);
+                                p11Key.keyID, extrbAttrs);
                         p11Key = (P11Key) (P11Key.secretKey(session,
-                                newKeyID, p11Key.algorithm, p11Key.keyLength,
-                                extraAttrs));
-                    } catch (PKCS11Exception p11e) {
-                        throw new InvalidKeyException
-                                ("Cannot duplicate the PKCS11 key", p11e);
-                    } finally {
-                        token.releaseSession(session);
+                                newKeyID, p11Key.blgorithm, p11Key.keyLength,
+                                extrbAttrs));
+                    } cbtch (PKCS11Exception p11e) {
+                        throw new InvblidKeyException
+                                ("Cbnnot duplicbte the PKCS11 key", p11e);
+                    } finblly {
+                        token.relebseSession(session);
                     }
                 }
                 return p11Key;
             }
         }
-        P11Key p11Key = token.secretCache.get(key);
+        P11Key p11Key = token.secretCbche.get(key);
         if (p11Key != null) {
             return p11Key;
         }
-        if ("RAW".equalsIgnoreCase(key.getFormat()) == false) {
-            throw new InvalidKeyException("Encoded format must be RAW");
+        if ("RAW".equblsIgnoreCbse(key.getFormbt()) == fblse) {
+            throw new InvblidKeyException("Encoded formbt must be RAW");
         }
         byte[] encoded = key.getEncoded();
-        p11Key = createKey(token, encoded, algo, algoType, extraAttrs);
-        token.secretCache.put(key, p11Key);
+        p11Key = crebteKey(token, encoded, blgo, blgoType, extrbAttrs);
+        token.secretCbche.put(key, p11Key);
         return p11Key;
     }
 
-    static void fixDESParity(byte[] key, int offset) {
+    stbtic void fixDESPbrity(byte[] key, int offset) {
         for (int i = 0; i < 8; i++) {
             int b = key[offset] & 0xfe;
             b |= (Integer.bitCount(b) & 1) ^ 1;
@@ -185,174 +185,174 @@ final class P11SecretKeyFactory extends SecretKeyFactorySpi {
         }
     }
 
-    private static P11Key createKey(Token token, byte[] encoded,
-            String algorithm, long keyType, CK_ATTRIBUTE[] extraAttrs)
-            throws InvalidKeyException {
+    privbte stbtic P11Key crebteKey(Token token, byte[] encoded,
+            String blgorithm, long keyType, CK_ATTRIBUTE[] extrbAttrs)
+            throws InvblidKeyException {
         int n = encoded.length << 3;
         int keyLength = n;
         try {
             switch ((int)keyType) {
-                case (int)CKK_DES:
+                cbse (int)CKK_DES:
                     keyLength =
-                        P11KeyGenerator.checkKeySize(CKM_DES_KEY_GEN, n, token);
-                    fixDESParity(encoded, 0);
-                    break;
-                case (int)CKK_DES3:
+                        P11KeyGenerbtor.checkKeySize(CKM_DES_KEY_GEN, n, token);
+                    fixDESPbrity(encoded, 0);
+                    brebk;
+                cbse (int)CKK_DES3:
                     keyLength =
-                        P11KeyGenerator.checkKeySize(CKM_DES3_KEY_GEN, n, token);
-                    fixDESParity(encoded, 0);
-                    fixDESParity(encoded, 8);
+                        P11KeyGenerbtor.checkKeySize(CKM_DES3_KEY_GEN, n, token);
+                    fixDESPbrity(encoded, 0);
+                    fixDESPbrity(encoded, 8);
                     if (keyLength == 112) {
                         keyType = CKK_DES2;
                     } else {
                         keyType = CKK_DES3;
-                        fixDESParity(encoded, 16);
+                        fixDESPbrity(encoded, 16);
                     }
-                    break;
-                case (int)CKK_AES:
+                    brebk;
+                cbse (int)CKK_AES:
                     keyLength =
-                        P11KeyGenerator.checkKeySize(CKM_AES_KEY_GEN, n, token);
-                    break;
-                case (int)CKK_RC4:
+                        P11KeyGenerbtor.checkKeySize(CKM_AES_KEY_GEN, n, token);
+                    brebk;
+                cbse (int)CKK_RC4:
                     keyLength =
-                        P11KeyGenerator.checkKeySize(CKM_RC4_KEY_GEN, n, token);
-                    break;
-                case (int)CKK_BLOWFISH:
+                        P11KeyGenerbtor.checkKeySize(CKM_RC4_KEY_GEN, n, token);
+                    brebk;
+                cbse (int)CKK_BLOWFISH:
                     keyLength =
-                        P11KeyGenerator.checkKeySize(CKM_BLOWFISH_KEY_GEN, n,
+                        P11KeyGenerbtor.checkKeySize(CKM_BLOWFISH_KEY_GEN, n,
                         token);
-                    break;
-                case (int)CKK_GENERIC_SECRET:
-                case (int)PCKK_TLSPREMASTER:
-                case (int)PCKK_TLSRSAPREMASTER:
-                case (int)PCKK_TLSMASTER:
+                    brebk;
+                cbse (int)CKK_GENERIC_SECRET:
+                cbse (int)PCKK_TLSPREMASTER:
+                cbse (int)PCKK_TLSRSAPREMASTER:
+                cbse (int)PCKK_TLSMASTER:
                     keyType = CKK_GENERIC_SECRET;
-                    break;
-                case (int)PCKK_SSLMAC:
-                case (int)PCKK_HMAC:
+                    brebk;
+                cbse (int)PCKK_SSLMAC:
+                cbse (int)PCKK_HMAC:
                     if (n == 0) {
-                        throw new InvalidKeyException
+                        throw new InvblidKeyException
                                 ("MAC keys must not be empty");
                     }
                     keyType = CKK_GENERIC_SECRET;
-                    break;
-                default:
-                    throw new InvalidKeyException("Unknown algorithm " +
-                            algorithm);
+                    brebk;
+                defbult:
+                    throw new InvblidKeyException("Unknown blgorithm " +
+                            blgorithm);
             }
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new InvalidKeyException("Invalid key for " + algorithm,
-                    iape);
-        } catch (ProviderException pe) {
-            throw new InvalidKeyException("Could not create key", pe);
+        } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+            throw new InvblidKeyException("Invblid key for " + blgorithm,
+                    ibpe);
+        } cbtch (ProviderException pe) {
+            throw new InvblidKeyException("Could not crebte key", pe);
         }
         Session session = null;
         try {
-            CK_ATTRIBUTE[] attributes;
-            if (extraAttrs != null) {
-                attributes = new CK_ATTRIBUTE[3 + extraAttrs.length];
-                System.arraycopy(extraAttrs, 0, attributes, 3,
-                        extraAttrs.length);
+            CK_ATTRIBUTE[] bttributes;
+            if (extrbAttrs != null) {
+                bttributes = new CK_ATTRIBUTE[3 + extrbAttrs.length];
+                System.brrbycopy(extrbAttrs, 0, bttributes, 3,
+                        extrbAttrs.length);
             } else {
-                attributes = new CK_ATTRIBUTE[3];
+                bttributes = new CK_ATTRIBUTE[3];
             }
-            attributes[0] = new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY);
-            attributes[1] = new CK_ATTRIBUTE(CKA_KEY_TYPE, keyType);
-            attributes[2] = new CK_ATTRIBUTE(CKA_VALUE, encoded);
-            attributes = token.getAttributes
-                (O_IMPORT, CKO_SECRET_KEY, keyType, attributes);
+            bttributes[0] = new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY);
+            bttributes[1] = new CK_ATTRIBUTE(CKA_KEY_TYPE, keyType);
+            bttributes[2] = new CK_ATTRIBUTE(CKA_VALUE, encoded);
+            bttributes = token.getAttributes
+                (O_IMPORT, CKO_SECRET_KEY, keyType, bttributes);
             session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
+            long keyID = token.p11.C_CrebteObject(session.id(), bttributes);
             P11Key p11Key = (P11Key)P11Key.secretKey
-                (session, keyID, algorithm, keyLength, attributes);
+                (session, keyID, blgorithm, keyLength, bttributes);
             return p11Key;
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create key", e);
-        } finally {
-            token.releaseSession(session);
+        } cbtch (PKCS11Exception e) {
+            throw new InvblidKeyException("Could not crebte key", e);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 
     // see JCE spec
-    protected SecretKey engineGenerateSecret(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
+    protected SecretKey engineGenerbteSecret(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
         if (keySpec == null) {
-            throw new InvalidKeySpecException("KeySpec must not be null");
+            throw new InvblidKeySpecException("KeySpec must not be null");
         }
-        if (keySpec instanceof SecretKeySpec) {
+        if (keySpec instbnceof SecretKeySpec) {
             try {
-                Key key = convertKey(token, (SecretKey)keySpec, algorithm);
+                Key key = convertKey(token, (SecretKey)keySpec, blgorithm);
                 return (SecretKey)key;
-            } catch (InvalidKeyException e) {
-                throw new InvalidKeySpecException(e);
+            } cbtch (InvblidKeyException e) {
+                throw new InvblidKeySpecException(e);
             }
-        } else if (algorithm.equalsIgnoreCase("DES")) {
-            if (keySpec instanceof DESKeySpec) {
+        } else if (blgorithm.equblsIgnoreCbse("DES")) {
+            if (keySpec instbnceof DESKeySpec) {
                 byte[] keyBytes = ((DESKeySpec)keySpec).getKey();
                 keySpec = new SecretKeySpec(keyBytes, "DES");
-                return engineGenerateSecret(keySpec);
+                return engineGenerbteSecret(keySpec);
             }
-        } else if (algorithm.equalsIgnoreCase("DESede")) {
-            if (keySpec instanceof DESedeKeySpec) {
+        } else if (blgorithm.equblsIgnoreCbse("DESede")) {
+            if (keySpec instbnceof DESedeKeySpec) {
                 byte[] keyBytes = ((DESedeKeySpec)keySpec).getKey();
                 keySpec = new SecretKeySpec(keyBytes, "DESede");
-                return engineGenerateSecret(keySpec);
+                return engineGenerbteSecret(keySpec);
             }
         }
-        throw new InvalidKeySpecException
-                ("Unsupported spec: " + keySpec.getClass().getName());
+        throw new InvblidKeySpecException
+                ("Unsupported spec: " + keySpec.getClbss().getNbme());
     }
 
-    private byte[] getKeyBytes(SecretKey key) throws InvalidKeySpecException {
+    privbte byte[] getKeyBytes(SecretKey key) throws InvblidKeySpecException {
         try {
-            key = engineTranslateKey(key);
-            if ("RAW".equalsIgnoreCase(key.getFormat()) == false) {
-                throw new InvalidKeySpecException
-                    ("Could not obtain key bytes");
+            key = engineTrbnslbteKey(key);
+            if ("RAW".equblsIgnoreCbse(key.getFormbt()) == fblse) {
+                throw new InvblidKeySpecException
+                    ("Could not obtbin key bytes");
             }
             byte[] k = key.getEncoded();
             return k;
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException(e);
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidKeySpecException(e);
         }
     }
 
     // see JCE spec
-    protected KeySpec engineGetKeySpec(SecretKey key, Class<?> keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
+    protected KeySpec engineGetKeySpec(SecretKey key, Clbss<?> keySpec)
+            throws InvblidKeySpecException {
+        token.ensureVblid();
         if ((key == null) || (keySpec == null)) {
-            throw new InvalidKeySpecException
-                ("key and keySpec must not be null");
+            throw new InvblidKeySpecException
+                ("key bnd keySpec must not be null");
         }
-        if (SecretKeySpec.class.isAssignableFrom(keySpec)) {
-            return new SecretKeySpec(getKeyBytes(key), algorithm);
-        } else if (algorithm.equalsIgnoreCase("DES")) {
+        if (SecretKeySpec.clbss.isAssignbbleFrom(keySpec)) {
+            return new SecretKeySpec(getKeyBytes(key), blgorithm);
+        } else if (blgorithm.equblsIgnoreCbse("DES")) {
             try {
-                if (DESKeySpec.class.isAssignableFrom(keySpec)) {
+                if (DESKeySpec.clbss.isAssignbbleFrom(keySpec)) {
                     return new DESKeySpec(getKeyBytes(key));
                 }
-            } catch (InvalidKeyException e) {
-                throw new InvalidKeySpecException(e);
+            } cbtch (InvblidKeyException e) {
+                throw new InvblidKeySpecException(e);
             }
-        } else if (algorithm.equalsIgnoreCase("DESede")) {
+        } else if (blgorithm.equblsIgnoreCbse("DESede")) {
             try {
-                if (DESedeKeySpec.class.isAssignableFrom(keySpec)) {
+                if (DESedeKeySpec.clbss.isAssignbbleFrom(keySpec)) {
                     return new DESedeKeySpec(getKeyBytes(key));
                 }
-            } catch (InvalidKeyException e) {
-                throw new InvalidKeySpecException(e);
+            } cbtch (InvblidKeyException e) {
+                throw new InvblidKeySpecException(e);
             }
         }
-        throw new InvalidKeySpecException
-                ("Unsupported spec: " + keySpec.getName());
+        throw new InvblidKeySpecException
+                ("Unsupported spec: " + keySpec.getNbme());
     }
 
     // see JCE spec
-    protected SecretKey engineTranslateKey(SecretKey key)
-            throws InvalidKeyException {
-        return (SecretKey)convertKey(token, key, algorithm);
+    protected SecretKey engineTrbnslbteKey(SecretKey key)
+            throws InvblidKeyException {
+        return (SecretKey)convertKey(token, key, blgorithm);
     }
 
 }

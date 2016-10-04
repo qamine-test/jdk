@@ -1,39 +1,39 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
 
-import java.util.*;
-import java.awt.*;
-import javax.swing.text.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.text.*;
 
 
 /**
- * Encapsulation of a link, or set of links (e.g. client side imagemap)
- * in a Hypertext document
+ * Encbpsulbtion of b link, or set of links (e.g. client side imbgembp)
+ * in b Hypertext document
  *
  * @see Accessible
  * @see Accessible#getAccessibleContext
@@ -41,100 +41,100 @@ import javax.swing.text.*;
  * @see AccessibleText
  * @see AccessibleContext#getAccessibleText
  *
- * @author      Peter Korn
+ * @buthor      Peter Korn
  */
-public abstract class AccessibleHyperlink implements AccessibleAction {
+public bbstrbct clbss AccessibleHyperlink implements AccessibleAction {
 
         /**
-         * Since the document a link is associated with may have
-         * changed, this method returns whether or not this Link is still valid
+         * Since the document b link is bssocibted with mby hbve
+         * chbnged, this method returns whether or not this Link is still vblid
          * (with respect to the document it references).
          *
-         * @return a flag indicating whether this link is still valid with
+         * @return b flbg indicbting whether this link is still vblid with
          *         respect to the AccessibleHypertext it belongs to
          */
-        public abstract boolean isValid();
+        public bbstrbct boolebn isVblid();
 
         /**
-         * Returns the number of accessible actions available in this Link
-         * If there are more than one, the first one is NOT considered the
-         * "default" action of this LINK object (e.g. in an HTML imagemap).
-         * In general, links will have only one AccessibleAction in them.
+         * Returns the number of bccessible bctions bvbilbble in this Link
+         * If there bre more thbn one, the first one is NOT considered the
+         * "defbult" bction of this LINK object (e.g. in bn HTML imbgembp).
+         * In generbl, links will hbve only one AccessibleAction in them.
          *
-         * @return the zero-based number of Actions in this object
+         * @return the zero-bbsed number of Actions in this object
          */
-        public abstract int getAccessibleActionCount();
+        public bbstrbct int getAccessibleActionCount();
 
         /**
          * Performs the specified Action on the object
          *
-         * @param i zero-based index of actions
-         * @return true if the action was performed; otherwise false.
+         * @pbrbm i zero-bbsed index of bctions
+         * @return true if the bction wbs performed; otherwise fblse.
          * @see #getAccessibleActionCount
          */
-        public abstract boolean doAccessibleAction(int i);
+        public bbstrbct boolebn doAccessibleAction(int i);
 
         /**
-         * Returns a String description of this particular
-         * link action.  This should be a text string
-         * associated with anchoring text, this should be the
-         * anchor text.  E.g. from HTML:
-         *   &lt;a HREF="http://www.sun.com/access"&gt;Accessibility&lt;/a&gt;
+         * Returns b String description of this pbrticulbr
+         * link bction.  This should be b text string
+         * bssocibted with bnchoring text, this should be the
+         * bnchor text.  E.g. from HTML:
+         *   &lt;b HREF="http://www.sun.com/bccess"&gt;Accessibility&lt;/b&gt;
          * this method would return "Accessibility".
          *
-         * Similarly, from this HTML:
-         *   &lt;a HREF="#top"&gt;&lt;img src="top-hat.gif" alt="top hat"&gt;&lt;/a&gt;
-         * this method would return "top hat"
+         * Similbrly, from this HTML:
+         *   &lt;b HREF="#top"&gt;&lt;img src="top-hbt.gif" blt="top hbt"&gt;&lt;/b&gt;
+         * this method would return "top hbt"
          *
-         * @param i zero-based index of the actions
-         * @return a String description of the action
+         * @pbrbm i zero-bbsed index of the bctions
+         * @return b String description of the bction
          * @see #getAccessibleActionCount
          */
-        public abstract String getAccessibleActionDescription(int i);
+        public bbstrbct String getAccessibleActionDescription(int i);
 
         /**
-         * Returns an object that represents the link action,
-         * as appropriate for that link.  E.g. from HTML:
-         *   &lt;a HREF="http://www.sun.com/access"&gt;Accessibility&lt;/a&gt;
-         * this method would return a
-         * java.net.URL("http://www.sun.com/access.html");
+         * Returns bn object thbt represents the link bction,
+         * bs bppropribte for thbt link.  E.g. from HTML:
+         *   &lt;b HREF="http://www.sun.com/bccess"&gt;Accessibility&lt;/b&gt;
+         * this method would return b
+         * jbvb.net.URL("http://www.sun.com/bccess.html");
          *
-         * @param i zero-based index of the actions
-         * @return an Object representing the hypertext link itself
+         * @pbrbm i zero-bbsed index of the bctions
+         * @return bn Object representing the hypertext link itself
          * @see #getAccessibleActionCount
          */
-        public abstract Object getAccessibleActionObject(int i);
+        public bbstrbct Object getAccessibleActionObject(int i);
 
         /**
-         * Returns an object that represents the link anchor,
-         * as appropriate for that link.  E.g. from HTML:
-         *   &lt;a href="http://www.sun.com/access"&gt;Accessibility&lt;/a&gt;
-         * this method would return a String containing the text:
+         * Returns bn object thbt represents the link bnchor,
+         * bs bppropribte for thbt link.  E.g. from HTML:
+         *   &lt;b href="http://www.sun.com/bccess"&gt;Accessibility&lt;/b&gt;
+         * this method would return b String contbining the text:
          * "Accessibility".
          *
-         * Similarly, from this HTML:
-         *   &lt;a HREF="#top"&gt;&lt;img src="top-hat.gif" alt="top hat"&gt;&lt;/a&gt;
-         * this might return the object ImageIcon("top-hat.gif", "top hat");
+         * Similbrly, from this HTML:
+         *   &lt;b HREF="#top"&gt;&lt;img src="top-hbt.gif" blt="top hbt"&gt;&lt;/b&gt;
+         * this might return the object ImbgeIcon("top-hbt.gif", "top hbt");
          *
-         * @param i zero-based index of the actions
-         * @return an Object representing the hypertext anchor
+         * @pbrbm i zero-bbsed index of the bctions
+         * @return bn Object representing the hypertext bnchor
          * @see #getAccessibleActionCount
          */
-        public abstract Object getAccessibleActionAnchor(int i);
+        public bbstrbct Object getAccessibleActionAnchor(int i);
 
         /**
-         * Gets the index with the hypertext document at which this
+         * Gets the index with the hypertext document bt which this
          * link begins
          *
-         * @return index of start of link
+         * @return index of stbrt of link
          */
-        public abstract int getStartIndex();
+        public bbstrbct int getStbrtIndex();
 
         /**
-         * Gets the index with the hypertext document at which this
+         * Gets the index with the hypertext document bt which this
          * link ends
          *
          * @return index of end of link
          */
-        public abstract int getEndIndex();
+        public bbstrbct int getEndIndex();
 }

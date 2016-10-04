@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.AlphaComposite;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
-import java.awt.image.BufferedImage;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.SurfaceData;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
+import jbvb.bwt.Composite;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.BufferedImbge;
+import sun.bwt.imbge.BufImgSurfbceDbtb;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.pipe.Region;
 
 /**
  * BlitBg
- * 1) copies rectangle of pixels from one surface to another
- * 2) performs compositing of colors based upon a Composite
- *    parameter
- * 3) assumes that non-opaque pixels are to be blended with
- *    the indicated Bg color before compositing with the
- *    destination
+ * 1) copies rectbngle of pixels from one surfbce to bnother
+ * 2) performs compositing of colors bbsed upon b Composite
+ *    pbrbmeter
+ * 3) bssumes thbt non-opbque pixels bre to be blended with
+ *    the indicbted Bg color before compositing with the
+ *    destinbtion
  *
- * precise behavior is undefined if the source surface
- * and the destination surface are the same surface
- * with overlapping regions of pixels
+ * precise behbvior is undefined if the source surfbce
+ * bnd the destinbtion surfbce bre the sbme surfbce
+ * with overlbpping regions of pixels
  */
-public class BlitBg extends GraphicsPrimitive
+public clbss BlitBg extends GrbphicsPrimitive
 {
-    public static final String methodSignature = "BlitBg(...)".toString();
+    public stbtic finbl String methodSignbture = "BlitBg(...)".toString();
 
-    public static final int primTypeID = makePrimTypeID();
+    public stbtic finbl int primTypeID = mbkePrimTypeID();
 
-    private static RenderCache blitcache = new RenderCache(20);
+    privbte stbtic RenderCbche blitcbche = new RenderCbche(20);
 
-    public static BlitBg locate(SurfaceType srctype,
+    public stbtic BlitBg locbte(SurfbceType srctype,
                                 CompositeType comptype,
-                                SurfaceType dsttype)
+                                SurfbceType dsttype)
     {
         return (BlitBg)
-            GraphicsPrimitiveMgr.locate(primTypeID,
+            GrbphicsPrimitiveMgr.locbte(primTypeID,
                                         srctype, comptype, dsttype);
     }
 
-    public static BlitBg getFromCache(SurfaceType src,
+    public stbtic BlitBg getFromCbche(SurfbceType src,
                                       CompositeType comp,
-                                      SurfaceType dst)
+                                      SurfbceType dst)
     {
-        Object o = blitcache.get(src, comp, dst);
+        Object o = blitcbche.get(src, comp, dst);
         if (o != null) {
             return (BlitBg) o;
         }
-        BlitBg blit = locate(src, comp, dst);
+        BlitBg blit = locbte(src, comp, dst);
         if (blit == null) {
             System.out.println("blitbg loop not found for:");
             System.out.println("src:  "+src);
             System.out.println("comp: "+comp);
             System.out.println("dst:  "+dst);
         } else {
-            blitcache.put(src, comp, dst, blit);
+            blitcbche.put(src, comp, dst, blit);
         }
         return blit;
     }
 
-    protected BlitBg(SurfaceType srctype,
+    protected BlitBg(SurfbceType srctype,
                      CompositeType comptype,
-                     SurfaceType dsttype)
+                     SurfbceType dsttype)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
-    public BlitBg(long pNativePrim,
-                  SurfaceType srctype,
+    public BlitBg(long pNbtivePrim,
+                  SurfbceType srctype,
                   CompositeType comptype,
-                  SurfaceType dsttype)
+                  SurfbceType dsttype)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(pNbtivePrim, methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
     /**
-     * All BlitBg implementors must have this invoker method
+     * All BlitBg implementors must hbve this invoker method
      */
-    public native void BlitBg(SurfaceData src, SurfaceData dst,
+    public nbtive void BlitBg(SurfbceDbtb src, SurfbceDbtb dst,
                               Composite comp, Region clip,
                               int bgColor,
                               int srcx, int srcy,
                               int dstx, int dsty,
                               int width, int height);
 
-    static {
-        GraphicsPrimitiveMgr.registerGeneral(new BlitBg(null, null, null));
+    stbtic {
+        GrbphicsPrimitiveMgr.registerGenerbl(new BlitBg(null, null, null));
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
+    public GrbphicsPrimitive mbkePrimitive(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype)
+                                           SurfbceType dsttype)
     {
         /*
-        System.out.println("Constructing general blitbg for:");
+        System.out.println("Constructing generbl blitbg for:");
         System.out.println("src:  "+srctype);
         System.out.println("comp: "+comptype);
         System.out.println("dst:  "+dsttype);
         */
-        return new General(srctype, comptype, dsttype);
+        return new Generbl(srctype, comptype, dsttype);
     }
 
-    private static class General extends BlitBg {
+    privbte stbtic clbss Generbl extends BlitBg {
         CompositeType compositeType;
 
-        public General(SurfaceType srctype,
+        public Generbl(SurfbceType srctype,
                        CompositeType comptype,
-                       SurfaceType dsttype)
+                       SurfbceType dsttype)
         {
             super(srctype, comptype, dsttype);
             compositeType = comptype;
         }
 
         @Override
-        public void BlitBg(SurfaceData srcData,
-                           SurfaceData dstData,
+        public void BlitBg(SurfbceDbtb srcDbtb,
+                           SurfbceDbtb dstDbtb,
                            Composite comp,
                            Region clip,
                            int bgArgb,
@@ -152,65 +152,65 @@ public class BlitBg extends GraphicsPrimitive
                            int dstx, int dsty,
                            int width, int height)
         {
-            ColorModel dstModel = dstData.getColorModel();
-            boolean bgHasAlpha = (bgArgb >>> 24) != 0xff;
-            if (!dstModel.hasAlpha() && bgHasAlpha) {
-                dstModel = ColorModel.getRGBdefault();
+            ColorModel dstModel = dstDbtb.getColorModel();
+            boolebn bgHbsAlphb = (bgArgb >>> 24) != 0xff;
+            if (!dstModel.hbsAlphb() && bgHbsAlphb) {
+                dstModel = ColorModel.getRGBdefbult();
             }
-            WritableRaster wr =
-                dstModel.createCompatibleWritableRaster(width, height);
-            boolean isPremult = dstModel.isAlphaPremultiplied();
-            BufferedImage bimg =
-                new BufferedImage(dstModel, wr, isPremult, null);
-            SurfaceData tmpData = BufImgSurfaceData.createData(bimg);
-            Color bgColor = new Color(bgArgb, bgHasAlpha);
-            SunGraphics2D sg2d = new SunGraphics2D(tmpData, bgColor, bgColor,
-                                                   defaultFont);
-            FillRect fillop = FillRect.locate(SurfaceType.AnyColor,
-                                              CompositeType.SrcNoEa,
-                                              tmpData.getSurfaceType());
-            Blit combineop = Blit.getFromCache(srcData.getSurfaceType(),
-                                               CompositeType.SrcOverNoEa,
-                                               tmpData.getSurfaceType());
-            Blit blitop = Blit.getFromCache(tmpData.getSurfaceType(), compositeType,
-                                            dstData.getSurfaceType());
-            fillop.FillRect(sg2d, tmpData, 0, 0, width, height);
-            combineop.Blit(srcData, tmpData, AlphaComposite.SrcOver, null,
+            WritbbleRbster wr =
+                dstModel.crebteCompbtibleWritbbleRbster(width, height);
+            boolebn isPremult = dstModel.isAlphbPremultiplied();
+            BufferedImbge bimg =
+                new BufferedImbge(dstModel, wr, isPremult, null);
+            SurfbceDbtb tmpDbtb = BufImgSurfbceDbtb.crebteDbtb(bimg);
+            Color bgColor = new Color(bgArgb, bgHbsAlphb);
+            SunGrbphics2D sg2d = new SunGrbphics2D(tmpDbtb, bgColor, bgColor,
+                                                   defbultFont);
+            FillRect fillop = FillRect.locbte(SurfbceType.AnyColor,
+                                              CompositeType.SrcNoEb,
+                                              tmpDbtb.getSurfbceType());
+            Blit combineop = Blit.getFromCbche(srcDbtb.getSurfbceType(),
+                                               CompositeType.SrcOverNoEb,
+                                               tmpDbtb.getSurfbceType());
+            Blit blitop = Blit.getFromCbche(tmpDbtb.getSurfbceType(), compositeType,
+                                            dstDbtb.getSurfbceType());
+            fillop.FillRect(sg2d, tmpDbtb, 0, 0, width, height);
+            combineop.Blit(srcDbtb, tmpDbtb, AlphbComposite.SrcOver, null,
                            srcx, srcy, 0, 0, width, height);
-            blitop.Blit(tmpData, dstData, comp, clip,
+            blitop.Blit(tmpDbtb, dstDbtb, comp, clip,
                         0, 0, dstx, dsty, width, height);
         }
 
-        private static Font defaultFont = new Font("Dialog", Font.PLAIN, 12);
+        privbte stbtic Font defbultFont = new Font("Diblog", Font.PLAIN, 12);
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceBlitBg(this);
+    public GrbphicsPrimitive trbceWrbp() {
+        return new TrbceBlitBg(this);
     }
 
-    private static class TraceBlitBg extends BlitBg {
-        BlitBg target;
+    privbte stbtic clbss TrbceBlitBg extends BlitBg {
+        BlitBg tbrget;
 
-        public TraceBlitBg(BlitBg target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        public TrbceBlitBg(BlitBg tbrget) {
+            super(tbrget.getSourceType(),
+                  tbrget.getCompositeType(),
+                  tbrget.getDestType());
+            this.tbrget = tbrget;
         }
 
-        public GraphicsPrimitive traceWrap() {
+        public GrbphicsPrimitive trbceWrbp() {
             return this;
         }
 
         @Override
-        public void BlitBg(SurfaceData src, SurfaceData dst,
+        public void BlitBg(SurfbceDbtb src, SurfbceDbtb dst,
                            Composite comp, Region clip,
                            int bgColor,
                            int srcx, int srcy, int dstx, int dsty,
                            int width, int height)
         {
-            tracePrimitive(target);
-            target.BlitBg(src, dst, comp, clip, bgColor,
+            trbcePrimitive(tbrget);
+            tbrget.BlitBg(src, dst, comp, clip, bgColor,
                           srcx, srcy, dstx, dsty, width, height);
         }
     }

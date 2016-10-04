@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbckbge com.sun.tools.exbmple.debug.bdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.request.EventRequest;
 
-abstract public class EventRequestSpec {
+bbstrbct public clbss EventRequestSpec {
 
-    static final int STATUS_UNRESOLVED = 1;
-    static final int STATUS_RESOLVED = 2;
-    static final int STATUS_ERROR = 3;
+    stbtic finbl int STATUS_UNRESOLVED = 1;
+    stbtic finbl int STATUS_RESOLVED = 2;
+    stbtic finbl int STATUS_ERROR = 3;
 
-    static final Object specPropertyKey = "spec";
+    stbtic finbl Object specPropertyKey = "spec";
 
-    final EventRequestSpecList specs;
-    final ReferenceTypeSpec refSpec;
+    finbl EventRequestSpecList specs;
+    finbl ReferenceTypeSpec refSpec;
     EventRequest request = null;
 
-    int status = STATUS_UNRESOLVED;
+    int stbtus = STATUS_UNRESOLVED;
 
     EventRequestSpec(EventRequestSpecList specs, ReferenceTypeSpec refSpec) {
         this.specs = specs;
@@ -59,53 +59,53 @@ abstract public class EventRequestSpec {
     void setRequest(EventRequest request) {
         this.request = request;
         request.putProperty(specPropertyKey, this);
-        request.enable();
+        request.enbble();
     }
 
     /**
-     * The 'refType' is known to match.
+     * The 'refType' is known to mbtch.
      */
-    abstract void resolve(ReferenceType refType) throws Exception;
+    bbstrbct void resolve(ReferenceType refType) throws Exception;
 
-    abstract void notifySet(SpecListener listener, SpecEvent evt);
-    abstract void notifyDeferred(SpecListener listener, SpecEvent evt);
-    abstract void notifyResolved(SpecListener listener, SpecEvent evt);
-    abstract void notifyDeleted(SpecListener listener, SpecEvent evt);
-    abstract void notifyError(SpecListener listener, SpecErrorEvent evt);
+    bbstrbct void notifySet(SpecListener listener, SpecEvent evt);
+    bbstrbct void notifyDeferred(SpecListener listener, SpecEvent evt);
+    bbstrbct void notifyResolved(SpecListener listener, SpecEvent evt);
+    bbstrbct void notifyDeleted(SpecListener listener, SpecEvent evt);
+    bbstrbct void notifyError(SpecListener listener, SpecErrorEvent evt);
 
     /**
-     * The 'refType' is known to match.
+     * The 'refType' is known to mbtch.
      */
     void resolveNotify(ReferenceType refType) {
         try {
             resolve(refType);
-            status = STATUS_RESOLVED;
+            stbtus = STATUS_RESOLVED;
             specs.notifyResolved(this);
-        } catch(Exception exc) {
-            status = STATUS_ERROR;
+        } cbtch(Exception exc) {
+            stbtus = STATUS_ERROR;
             specs.notifyError(this, exc);
         }
     }
 
     /**
-     * See if 'refType' matches and resolve.
+     * See if 'refType' mbtches bnd resolve.
      */
-    void attemptResolve(ReferenceType refType) {
-        if (!isResolved() && refSpec.matches(refType)) {
+    void bttemptResolve(ReferenceType refType) {
+        if (!isResolved() && refSpec.mbtches(refType)) {
             resolveNotify(refType);
         }
     }
 
-    void attemptImmediateResolve(VirtualMachine vm) {
-        // try to resolve immediately
-        for (ReferenceType refType : vm.allClasses()) {
-            if (refSpec.matches(refType)) {
+    void bttemptImmedibteResolve(VirtublMbchine vm) {
+        // try to resolve immedibtely
+        for (ReferenceType refType : vm.bllClbsses()) {
+            if (refSpec.mbtches(refType)) {
                 try {
                     resolve(refType);
-                    status = STATUS_RESOLVED;
+                    stbtus = STATUS_RESOLVED;
                     specs.notifySet(this);
-                } catch(Exception exc) {
-                    status = STATUS_ERROR;
+                } cbtch(Exception exc) {
+                    stbtus = STATUS_ERROR;
                     specs.notifyError(this, exc);
                 }
                 return;
@@ -119,50 +119,50 @@ abstract public class EventRequestSpec {
     }
 
     /**
-     * @return true if this spec has been resolved.
+     * @return true if this spec hbs been resolved.
      */
-    public boolean isResolved() {
-        return status == STATUS_RESOLVED;
+    public boolebn isResolved() {
+        return stbtus == STATUS_RESOLVED;
     }
 
     /**
-     * @return true if this spec has not yet been resolved.
+     * @return true if this spec hbs not yet been resolved.
      */
-    public boolean isUnresolved() {
-        return status == STATUS_UNRESOLVED;
+    public boolebn isUnresolved() {
+        return stbtus == STATUS_UNRESOLVED;
     }
 
     /**
-     * @return true if this spec is unresolvable due to error.
+     * @return true if this spec is unresolvbble due to error.
      */
-    public boolean isErroneous() {
-        return status == STATUS_ERROR;
+    public boolebn isErroneous() {
+        return stbtus == STATUS_ERROR;
     }
 
-    public String getStatusString() {
-        switch (status) {
-            case STATUS_RESOLVED:
+    public String getStbtusString() {
+        switch (stbtus) {
+            cbse STATUS_RESOLVED:
                 return "resolved";
-            case STATUS_UNRESOLVED:
+            cbse STATUS_UNRESOLVED:
                 return "deferred";
-            case STATUS_ERROR:
+            cbse STATUS_ERROR:
                 return "erroneous";
         }
         return "unknown";
     }
 
-    boolean isJavaIdentifier(String s) {
-        return Utils.isJavaIdentifier(s);
+    boolebn isJbvbIdentifier(String s) {
+        return Utils.isJbvbIdentifier(s);
     }
 
-    public String errorMessageFor(Exception e) {
-        if (e instanceof IllegalArgumentException) {
-            return ("Invalid command syntax");
-        } else if (e instanceof RuntimeException) {
-            // A runtime exception that we were not expecting
+    public String errorMessbgeFor(Exception e) {
+        if (e instbnceof IllegblArgumentException) {
+            return ("Invblid commbnd syntbx");
+        } else if (e instbnceof RuntimeException) {
+            // A runtime exception thbt we were not expecting
             throw (RuntimeException)e;
         } else {
-            return ("Internal error; unable to set" + this);
+            return ("Internbl error; unbble to set" + this);
         }
     }
 }

@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbckbge com.sun.jmx.snmp.IPAcl;
 
 
 
-import java.security.Principal;
-import java.security.acl.Acl;
-import java.security.acl.AclEntry;
-import java.security.acl.NotOwnerException;
+import jbvb.security.Principbl;
+import jbvb.security.bcl.Acl;
+import jbvb.security.bcl.AclEntry;
+import jbvb.security.bcl.NotOwnerException;
 
-import java.io.Serializable;
-import java.security.acl.Permission;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.io.Seriblizbble;
+import jbvb.security.bcl.Permission;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
 
 /**
- * Represent an Access Control List (ACL) which is used to guard access to http adaptor.
+ * Represent bn Access Control List (ACL) which is used to gubrd bccess to http bdbptor.
  * <P>
- * It is a data structure with multiple ACL entries. Each ACL entry, of interface type
- * AclEntry, contains a set of permissions and a set of communities associated with a
- * particular principal. (A principal represents an entity such as a host or a group of host).
- * Additionally, each ACL entry is specified as being either positive or negative.
- * If positive, the permissions are to be granted to the associated principal.
- * If negative, the permissions are to be denied.
+ * It is b dbtb structure with multiple ACL entries. Ebch ACL entry, of interfbce type
+ * AclEntry, contbins b set of permissions bnd b set of communities bssocibted with b
+ * pbrticulbr principbl. (A principbl represents bn entity such bs b host or b group of host).
+ * Additionblly, ebch ACL entry is specified bs being either positive or negbtive.
+ * If positive, the permissions bre to be grbnted to the bssocibted principbl.
+ * If negbtive, the permissions bre to be denied.
  *
- * @see java.security.acl.Acl
+ * @see jbvb.security.bcl.Acl
  */
 
-class AclImpl extends OwnerImpl implements Acl, Serializable {
-  private static final long serialVersionUID = -2250957591085270029L;
+clbss AclImpl extends OwnerImpl implements Acl, Seriblizbble {
+  privbte stbtic finbl long seriblVersionUID = -2250957591085270029L;
 
-  private Vector<AclEntry> entryList = null;
-  private String aclName = null;
+  privbte Vector<AclEntry> entryList = null;
+  privbte String bclNbme = null;
 
   /**
-   * Constructs the ACL with a specified owner
+   * Constructs the ACL with b specified owner
    *
-   * @param owner owner of the ACL.
-   * @param name  name of this ACL.
+   * @pbrbm owner owner of the ACL.
+   * @pbrbm nbme  nbme of this ACL.
    */
-  public AclImpl (PrincipalImpl owner, String name) {
+  public AclImpl (PrincipblImpl owner, String nbme) {
         super(owner);
         entryList = new Vector<>();
-        aclName = name;
+        bclNbme = nbme;
   }
 
   /**
-   * Sets the name of this ACL.
+   * Sets the nbme of this ACL.
    *
-   * @param caller the principal invoking this method. It must be an owner
+   * @pbrbm cbller the principbl invoking this method. It must be bn owner
    *        of this ACL.
-   * @param name the name to be given to this ACL.
+   * @pbrbm nbme the nbme to be given to this ACL.
    *
-   * @exception NotOwnerException if the caller principal is not an owner
+   * @exception NotOwnerException if the cbller principbl is not bn owner
    *            of this ACL.
-   * @see java.security.Principal
+   * @see jbvb.security.Principbl
    */
   @Override
-  public void setName(Principal caller, String name)
+  public void setNbme(Principbl cbller, String nbme)
         throws NotOwnerException {
-          if (!isOwner(caller))
+          if (!isOwner(cbller))
                 throw new NotOwnerException();
-          aclName = name;
+          bclNbme = nbme;
   }
 
   /**
-   * Returns the name of this ACL.
+   * Returns the nbme of this ACL.
    *
-   * @return the name of this ACL.
+   * @return the nbme of this ACL.
    */
   @Override
-  public String getName(){
-        return aclName;
+  public String getNbme(){
+        return bclNbme;
   }
 
   /**
-   * Adds an ACL entry to this ACL. An entry associates a principal (e.g., an individual or a group)
-   * with a set of permissions. Each principal can have at most one positive ACL entry
-   * (specifying permissions to be granted to the principal) and one negative ACL entry
-   * (specifying permissions to be denied). If there is already an ACL entry
-   * of the same type (negative or positive) already in the ACL, false is returned.
+   * Adds bn ACL entry to this ACL. An entry bssocibtes b principbl (e.g., bn individubl or b group)
+   * with b set of permissions. Ebch principbl cbn hbve bt most one positive ACL entry
+   * (specifying permissions to be grbnted to the principbl) bnd one negbtive ACL entry
+   * (specifying permissions to be denied). If there is blrebdy bn ACL entry
+   * of the sbme type (negbtive or positive) blrebdy in the ACL, fblse is returned.
    *
-   * @param caller the principal invoking this method. It must be an owner
+   * @pbrbm cbller the principbl invoking this method. It must be bn owner
    *        of this ACL.
-   * @param entry the ACL entry to be added to this ACL.
-   * @return true on success, false if an entry of the same type (positive
-   *       or negative) for the same principal is already present in this ACL.
-   * @exception NotOwnerException if the caller principal is not an owner of
+   * @pbrbm entry the ACL entry to be bdded to this ACL.
+   * @return true on success, fblse if bn entry of the sbme type (positive
+   *       or negbtive) for the sbme principbl is blrebdy present in this ACL.
+   * @exception NotOwnerException if the cbller principbl is not bn owner of
    *       this ACL.
-   * @see java.security.Principal
+   * @see jbvb.security.Principbl
    */
   @Override
-  public boolean addEntry(Principal caller, AclEntry entry)
+  public boolebn bddEntry(Principbl cbller, AclEntry entry)
         throws NotOwnerException {
-          if (!isOwner(caller))
+          if (!isOwner(cbller))
                 throw new NotOwnerException();
 
-          if (entryList.contains(entry))
-                return false;
+          if (entryList.contbins(entry))
+                return fblse;
           /*
-                 for (Enumeration e = entryList.elements();e.hasMoreElements();){
+                 for (Enumerbtion e = entryList.elements();e.hbsMoreElements();){
                  AclEntry ent = (AclEntry) e.nextElement();
-                 if (ent.getPrincipal().equals(entry.getPrincipal()))
-                 return false;
+                 if (ent.getPrincipbl().equbls(entry.getPrincipbl()))
+                 return fblse;
                  }
                  */
 
-          entryList.addElement(entry);
+          entryList.bddElement(entry);
           return true;
   }
 
   /**
-   * Removes an ACL entry from this ACL.
+   * Removes bn ACL entry from this ACL.
    *
-   * @param caller the principal invoking this method. It must be an owner
+   * @pbrbm cbller the principbl invoking this method. It must be bn owner
    *        of this ACL.
-   * @param entry the ACL entry to be removed from this ACL.
-   * @return true on success, false if the entry is not part of this ACL.
-   * @exception NotOwnerException if the caller principal is not an owner
+   * @pbrbm entry the ACL entry to be removed from this ACL.
+   * @return true on success, fblse if the entry is not pbrt of this ACL.
+   * @exception NotOwnerException if the cbller principbl is not bn owner
    *   of this Acl.
-   * @see java.security.Principal
-   * @see java.security.acl.AclEntry
+   * @see jbvb.security.Principbl
+   * @see jbvb.security.bcl.AclEntry
    */
   @Override
-  public boolean removeEntry(Principal caller, AclEntry entry)
+  public boolebn removeEntry(Principbl cbller, AclEntry entry)
         throws NotOwnerException {
-          if (!isOwner(caller))
+          if (!isOwner(cbller))
                 throw new NotOwnerException();
 
           return (entryList.removeElement(entry));
   }
 
   /**
-   * Removes all ACL entries from this ACL.
+   * Removes bll ACL entries from this ACL.
    *
-   * @param caller the principal invoking this method. It must be an owner
+   * @pbrbm cbller the principbl invoking this method. It must be bn owner
    *        of this ACL.
-   * @exception NotOwnerException if the caller principal is not an owner of
+   * @exception NotOwnerException if the cbller principbl is not bn owner of
    *        this Acl.
-   * @see java.security.Principal
+   * @see jbvb.security.Principbl
    */
-  public void removeAll(Principal caller)
+  public void removeAll(Principbl cbller)
         throws NotOwnerException {
-          if (!isOwner(caller))
+          if (!isOwner(cbller))
                 throw new NotOwnerException();
         entryList.removeAllElements();
   }
 
   /**
-   * Returns an enumeration for the set of allowed permissions for
-   * the specified principal
-   * (representing an entity such as an individual or a group).
-   * This set of allowed permissions is calculated as follows:
+   * Returns bn enumerbtion for the set of bllowed permissions for
+   * the specified principbl
+   * (representing bn entity such bs bn individubl or b group).
+   * This set of bllowed permissions is cblculbted bs follows:
    * <UL>
    * <LI>If there is no entry in this Access Control List for the specified
-   * principal, an empty permission set is returned.</LI>
-   * <LI>Otherwise, the principal's group permission sets are determined.
-   * (A principal can belong to one or more groups, where a group is a group
-   * of principals, represented by the Group interface.)</LI>
+   * principbl, bn empty permission set is returned.</LI>
+   * <LI>Otherwise, the principbl's group permission sets bre determined.
+   * (A principbl cbn belong to one or more groups, where b group is b group
+   * of principbls, represented by the Group interfbce.)</LI>
    * </UL>
-   * @param user the principal whose permission set is to be returned.
-   * @return the permission set specifying the permissions the principal
-   *     is allowed.
-   * @see java.security.Principal
+   * @pbrbm user the principbl whose permission set is to be returned.
+   * @return the permission set specifying the permissions the principbl
+   *     is bllowed.
+   * @see jbvb.security.Principbl
    */
   @Override
-  public Enumeration<Permission> getPermissions(Principal user){
+  public Enumerbtion<Permission> getPermissions(Principbl user){
         Vector<Permission> empty = new Vector<>();
-        for (Enumeration<AclEntry> e = entryList.elements();e.hasMoreElements();){
+        for (Enumerbtion<AclEntry> e = entryList.elements();e.hbsMoreElements();){
           AclEntry ent = e.nextElement();
-          if (ent.getPrincipal().equals(user))
+          if (ent.getPrincipbl().equbls(user))
                 return ent.permissions();
         }
         return empty.elements();
   }
 
   /**
-   * Returns an enumeration of the entries in this ACL. Each element in the
-   * enumeration is of type AclEntry.
+   * Returns bn enumerbtion of the entries in this ACL. Ebch element in the
+   * enumerbtion is of type AclEntry.
    *
-   * @return an enumeration of the entries in this ACL.
+   * @return bn enumerbtion of the entries in this ACL.
    */
   @Override
-  public Enumeration<AclEntry> entries(){
+  public Enumerbtion<AclEntry> entries(){
         return entryList.elements();
   }
 
   /**
-   * Checks whether or not the specified principal has the specified
+   * Checks whether or not the specified principbl hbs the specified
    * permission.
-   * If it does, true is returned, otherwise false is returned.
-   * More specifically, this method checks whether the passed permission
-   * is a member of the allowed permission set of the specified principal.
-   * The allowed permission set is determined by the same algorithm as is
+   * If it does, true is returned, otherwise fblse is returned.
+   * More specificblly, this method checks whether the pbssed permission
+   * is b member of the bllowed permission set of the specified principbl.
+   * The bllowed permission set is determined by the sbme blgorithm bs is
    * used by the getPermissions method.
    *
-   * @param user the principal, assumed to be a valid authenticated Principal.
-   * @param perm the permission to be checked for.
-   * @return true if the principal has the specified permission,
-   *         false otherwise.
-   * @see java.security.Principal
-   * @see java.security.Permission
+   * @pbrbm user the principbl, bssumed to be b vblid buthenticbted Principbl.
+   * @pbrbm perm the permission to be checked for.
+   * @return true if the principbl hbs the specified permission,
+   *         fblse otherwise.
+   * @see jbvb.security.Principbl
+   * @see jbvb.security.Permission
    */
   @Override
-  public boolean checkPermission(Principal user,
-                                 java.security.acl.Permission perm) {
-        for (Enumeration<AclEntry> e = entryList.elements();e.hasMoreElements();){
+  public boolebn checkPermission(Principbl user,
+                                 jbvb.security.bcl.Permission perm) {
+        for (Enumerbtion<AclEntry> e = entryList.elements();e.hbsMoreElements();){
           AclEntry ent = e.nextElement();
-          if (ent.getPrincipal().equals(user))
+          if (ent.getPrincipbl().equbls(user))
                 if (ent.checkPermission(perm)) return true;
         }
-        return false;
+        return fblse;
   }
 
   /**
-   * Checks whether or not the specified principal has the specified
+   * Checks whether or not the specified principbl hbs the specified
    * permission.
-   * If it does, true is returned, otherwise false is returned.
-   * More specifically, this method checks whether the passed permission
-   * is a member of the allowed permission set of the specified principal.
-   * The allowed permission set is determined by the same algorithm as is
+   * If it does, true is returned, otherwise fblse is returned.
+   * More specificblly, this method checks whether the pbssed permission
+   * is b member of the bllowed permission set of the specified principbl.
+   * The bllowed permission set is determined by the sbme blgorithm bs is
    * used by the getPermissions method.
    *
-   * @param user the principal, assumed to be a valid authenticated Principal.
-   * @param community the community name associated with the principal.
-   * @param perm the permission to be checked for.
-   * @return true if the principal has the specified permission, false
+   * @pbrbm user the principbl, bssumed to be b vblid buthenticbted Principbl.
+   * @pbrbm community the community nbme bssocibted with the principbl.
+   * @pbrbm perm the permission to be checked for.
+   * @return true if the principbl hbs the specified permission, fblse
    *        otherwise.
-   * @see java.security.Principal
-   * @see java.security.Permission
+   * @see jbvb.security.Principbl
+   * @see jbvb.security.Permission
    */
-  public boolean checkPermission(Principal user, String community,
-                                 java.security.acl.Permission perm) {
-        for (Enumeration<AclEntry> e = entryList.elements();e.hasMoreElements();){
+  public boolebn checkPermission(Principbl user, String community,
+                                 jbvb.security.bcl.Permission perm) {
+        for (Enumerbtion<AclEntry> e = entryList.elements();e.hbsMoreElements();){
           AclEntryImpl ent = (AclEntryImpl) e.nextElement();
-          if (ent.getPrincipal().equals(user))
+          if (ent.getPrincipbl().equbls(user))
                 if (ent.checkPermission(perm) && ent.checkCommunity(community)) return true;
         }
-        return false;
+        return fblse;
   }
 
   /**
    * Checks whether or not the specified community string is defined.
    *
-   * @param community the community name associated with the principal.
+   * @pbrbm community the community nbme bssocibted with the principbl.
    *
-   * @return true if the specified community string is defined, false
+   * @return true if the specified community string is defined, fblse
    *      otherwise.
-   * @see java.security.Principal
-   * @see java.security.Permission
+   * @see jbvb.security.Principbl
+   * @see jbvb.security.Permission
    */
-  public boolean checkCommunity(String community) {
-        for (Enumeration<AclEntry> e = entryList.elements();e.hasMoreElements();){
+  public boolebn checkCommunity(String community) {
+        for (Enumerbtion<AclEntry> e = entryList.elements();e.hbsMoreElements();){
           AclEntryImpl ent = (AclEntryImpl) e.nextElement();
           if (ent.checkCommunity(community)) return true;
         }
-        return false;
+        return fblse;
   }
 
   /**
-   * Returns a string representation of the ACL contents.
+   * Returns b string representbtion of the ACL contents.
    *
-   * @return a string representation of the ACL contents.
+   * @return b string representbtion of the ACL contents.
    */
   @Override
   public String toString(){
-        return ("AclImpl: "+ getName());
+        return ("AclImpl: "+ getNbme());
   }
 }

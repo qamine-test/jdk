@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: CanonicalizationMethod.java,v 1.6 2005/05/10 16:03:45 mullan Exp $
+ * $Id: CbnonicblizbtionMethod.jbvb,v 1.6 2005/05/10 16:03:45 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbckbge jbvbx.xml.crypto.dsig;
 
-import java.security.spec.AlgorithmParameterSpec;
-import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvbx.xml.crypto.dsig.spec.C14NMethodPbrbmeterSpec;
 
 /**
- * A representation of the XML <code>CanonicalizationMethod</code>
- * element as defined in the
- * <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>. The XML
- * Schema Definition is defined as:
+ * A representbtion of the XML <code>CbnonicblizbtionMethod</code>
+ * element bs defined in the
+ * <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>. The XML
+ * Schemb Definition is defined bs:
  * <pre>
- *   &lt;element name="CanonicalizationMethod" type="ds:CanonicalizationMethodType"/&gt;
- *     &lt;complexType name="CanonicalizationMethodType" mixed="true"&gt;
+ *   &lt;element nbme="CbnonicblizbtionMethod" type="ds:CbnonicblizbtionMethodType"/&gt;
+ *     &lt;complexType nbme="CbnonicblizbtionMethodType" mixed="true"&gt;
  *       &lt;sequence&gt;
- *         &lt;any namespace="##any" minOccurs="0" maxOccurs="unbounded"/&gt;
- *           &lt;!-- (0,unbounded) elements from (1,1) namespace --&gt;
+ *         &lt;bny nbmespbce="##bny" minOccurs="0" mbxOccurs="unbounded"/&gt;
+ *           &lt;!-- (0,unbounded) elements from (1,1) nbmespbce --&gt;
  *       &lt;/sequence&gt;
- *       &lt;attribute name="Algorithm" type="anyURI" use="required"/&gt;
+ *       &lt;bttribute nbme="Algorithm" type="bnyURI" use="required"/&gt;
  *     &lt;/complexType&gt;
  * </pre>
  *
- * A <code>CanonicalizationMethod</code> instance may be created by invoking
- * the {@link XMLSignatureFactory#newCanonicalizationMethod
- * newCanonicalizationMethod} method of the {@link XMLSignatureFactory} class.
+ * A <code>CbnonicblizbtionMethod</code> instbnce mby be crebted by invoking
+ * the {@link XMLSignbtureFbctory#newCbnonicblizbtionMethod
+ * newCbnonicblizbtionMethod} method of the {@link XMLSignbtureFbctory} clbss.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see XMLSignatureFactory#newCanonicalizationMethod(String, C14NMethodParameterSpec)
+ * @see XMLSignbtureFbctory#newCbnonicblizbtionMethod(String, C14NMethodPbrbmeterSpec)
  */
-public interface CanonicalizationMethod extends Transform {
+public interfbce CbnonicblizbtionMethod extends Trbnsform {
 
     /**
-     * The <a href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">Canonical
-     * XML (without comments)</a> canonicalization method algorithm URI.
+     * The <b href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">Cbnonicbl
+     * XML (without comments)</b> cbnonicblizbtion method blgorithm URI.
      */
-    final static String INCLUSIVE =
+    finbl stbtic String INCLUSIVE =
         "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
 
     /**
      * The
-     * <a href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments">
-     * Canonical XML with comments</a> canonicalization method algorithm URI.
+     * <b href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments">
+     * Cbnonicbl XML with comments</b> cbnonicblizbtion method blgorithm URI.
      */
-    final static String INCLUSIVE_WITH_COMMENTS =
+    finbl stbtic String INCLUSIVE_WITH_COMMENTS =
         "http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments";
 
     /**
-     * The <a href="http://www.w3.org/2001/10/xml-exc-c14n#">Exclusive
-     * Canonical XML (without comments)</a> canonicalization method algorithm
+     * The <b href="http://www.w3.org/2001/10/xml-exc-c14n#">Exclusive
+     * Cbnonicbl XML (without comments)</b> cbnonicblizbtion method blgorithm
      * URI.
      */
-    final static String EXCLUSIVE =
+    finbl stbtic String EXCLUSIVE =
         "http://www.w3.org/2001/10/xml-exc-c14n#";
 
     /**
-     * The <a href="http://www.w3.org/2001/10/xml-exc-c14n#WithComments">
-     * Exclusive Canonical XML with comments</a> canonicalization method
-     * algorithm URI.
+     * The <b href="http://www.w3.org/2001/10/xml-exc-c14n#WithComments">
+     * Exclusive Cbnonicbl XML with comments</b> cbnonicblizbtion method
+     * blgorithm URI.
      */
-    final static String EXCLUSIVE_WITH_COMMENTS =
+    finbl stbtic String EXCLUSIVE_WITH_COMMENTS =
         "http://www.w3.org/2001/10/xml-exc-c14n#WithComments";
 
     /**
-     * Returns the algorithm-specific input parameters associated with this
-     * <code>CanonicalizationMethod</code>.
+     * Returns the blgorithm-specific input pbrbmeters bssocibted with this
+     * <code>CbnonicblizbtionMethod</code>.
      *
-     * <p>The returned parameters can be typecast to a
-     * {@link C14NMethodParameterSpec} object.
+     * <p>The returned pbrbmeters cbn be typecbst to b
+     * {@link C14NMethodPbrbmeterSpec} object.
      *
-     * @return the algorithm-specific input parameters (may be
+     * @return the blgorithm-specific input pbrbmeters (mby be
      *    <code>null</code> if not specified)
      */
-    AlgorithmParameterSpec getParameterSpec();
+    AlgorithmPbrbmeterSpec getPbrbmeterSpec();
 }

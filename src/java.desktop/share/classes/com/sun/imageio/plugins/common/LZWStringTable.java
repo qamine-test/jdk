@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.common;
+pbckbge com.sun.imbgeio.plugins.common;
 
-import java.io.PrintStream;
+import jbvb.io.PrintStrebm;
 
 /**
- * General purpose LZW String Table.
- * Extracted from GIFEncoder by Adam Doppelt
- * Comments added by Robin Luiten
- * <code>expandCode</code> added by Robin Luiten
- * The strLen table to give quick access to the lenght of an expanded
- * code for use by the <code>expandCode</code> method added by Robin.
+ * Generbl purpose LZW String Tbble.
+ * Extrbcted from GIFEncoder by Adbm Doppelt
+ * Comments bdded by Robin Luiten
+ * <code>expbndCode</code> bdded by Robin Luiten
+ * The strLen tbble to give quick bccess to the lenght of bn expbnded
+ * code for use by the <code>expbndCode</code> method bdded by Robin.
  **/
-public class LZWStringTable {
+public clbss LZWStringTbble {
     /** codesize + Reserved Codes */
-    private final static int RES_CODES = 2;
+    privbte finbl stbtic int RES_CODES = 2;
 
-    private final static short HASH_FREE = (short)0xFFFF;
-    private final static short NEXT_FIRST = (short)0xFFFF;
+    privbte finbl stbtic short HASH_FREE = (short)0xFFFF;
+    privbte finbl stbtic short NEXT_FIRST = (short)0xFFFF;
 
-    private final static int MAXBITS = 12;
-    private final static int MAXSTR = (1 << MAXBITS);
+    privbte finbl stbtic int MAXBITS = 12;
+    privbte finbl stbtic int MAXSTR = (1 << MAXBITS);
 
-    private final static short HASHSIZE = 9973;
-    private final static short HASHSTEP = 2039;
+    privbte finbl stbtic short HASHSIZE = 9973;
+    privbte finbl stbtic short HASHSTEP = 2039;
 
-    byte[]  strChr;  // after predecessor character
+    byte[]  strChr;  // bfter predecessor chbrbcter
     short[] strNxt;  // predecessor string
-    short[] strHsh;  // hash table to find  predecessor + char pairs
-    short numStrings;  // next code if adding new prestring + char
+    short[] strHsh;  // hbsh tbble to find  predecessor + chbr pbirs
+    short numStrings;  // next code if bdding new prestring + chbr
 
     /*
-     * each entry corresponds to a code and contains the length of data
-     * that the code expands to when decoded.
+     * ebch entry corresponds to b code bnd contbins the length of dbtb
+     * thbt the code expbnds to when decoded.
      */
     int[] strLen;
 
     /*
-     * Constructor allocate memory for string store data
+     * Constructor bllocbte memory for string store dbtb
      */
-    public LZWStringTable() {
+    public LZWStringTbble() {
         strChr = new byte[MAXSTR];
         strNxt = new short[MAXSTR];
         strLen = new int[MAXSTR];
@@ -70,20 +70,20 @@ public class LZWStringTable {
     }
 
     /*
-     * @param index value of -1 indicates no predecessor [used in initialisation]
-     * @param b the byte [character] to add to the string store which follows
+     * @pbrbm index vblue of -1 indicbtes no predecessor [used in initiblisbtion]
+     * @pbrbm b the byte [chbrbcter] to bdd to the string store which follows
      * the predecessor string specified the index.
-     * @return 0xFFFF if no space in table left for addition of predecesor
-     * index and byte b. Else return the code allocated for combination index + b.
+     * @return 0xFFFF if no spbce in tbble left for bddition of predecesor
+     * index bnd byte b. Else return the code bllocbted for combinbtion index + b.
      */
-    public int addCharString(short index, byte b) {
+    public int bddChbrString(short index, byte b) {
         int hshidx;
 
-        if (numStrings >= MAXSTR) { // if used up all codes
+        if (numStrings >= MAXSTR) { // if used up bll codes
             return 0xFFFF;
         }
 
-        hshidx = hash(index, b);
+        hshidx = hbsh(index, b);
         while (strHsh[hshidx] != HASH_FREE) {
             hshidx = (hshidx + HASHSTEP) % HASHSIZE;
         }
@@ -98,24 +98,24 @@ public class LZWStringTable {
             strLen[numStrings] = strLen[index] + 1;
         }
 
-        return numStrings++; // return the code and inc for next code
+        return numStrings++; // return the code bnd inc for next code
     }
 
     /*
-     * @param index index to prefix string
-     * @param b the character that follws the index prefix
-     * @return b if param index is HASH_FREE. Else return the code
-     * for this prefix and byte successor
+     * @pbrbm index index to prefix string
+     * @pbrbm b the chbrbcter thbt follws the index prefix
+     * @return b if pbrbm index is HASH_FREE. Else return the code
+     * for this prefix bnd byte successor
      */
-    public short findCharString(short index, byte b) {
+    public short findChbrString(short index, byte b) {
         int hshidx, nxtidx;
 
         if (index == HASH_FREE) {
             return (short)(b & 0xFF);    // Rob fixed used to sign extend
         }
 
-        hshidx = hash(index, b);
-        while ((nxtidx = strHsh[hshidx]) != HASH_FREE) { // search
+        hshidx = hbsh(index, b);
+        while ((nxtidx = strHsh[hshidx]) != HASH_FREE) { // sebrch
             if (strNxt[nxtidx] == index && strChr[nxtidx] == b) {
                 return (short)nxtidx;
             }
@@ -126,10 +126,10 @@ public class LZWStringTable {
     }
 
     /*
-     * @param codesize the size of code to be preallocated for the
+     * @pbrbm codesize the size of code to be prebllocbted for the
      * string store.
      */
-    public void clearTable(int codesize) {
+    public void clebrTbble(int codesize) {
         numStrings = 0;
 
         for (int q = 0; q < HASHSIZE; q++) {
@@ -138,76 +138,76 @@ public class LZWStringTable {
 
         int w = (1 << codesize) + RES_CODES;
         for (int q = 0; q < w; q++) {
-            addCharString((short)0xFFFF, (byte)q); // init with no prefix
+            bddChbrString((short)0xFFFF, (byte)q); // init with no prefix
         }
     }
 
-    static public int hash(short index, byte lastbyte) {
-        return (((short)(lastbyte << 8) ^ index) & 0xFFFF) % HASHSIZE;
+    stbtic public int hbsh(short index, byte lbstbyte) {
+        return (((short)(lbstbyte << 8) ^ index) & 0xFFFF) % HASHSIZE;
     }
 
     /*
-     * If expanded data doesn't fit into array only what will fit is written
-     * to buf and the return value indicates how much of the expanded code has
-     * been written to the buf. The next call to expandCode() should be with
-     * the same code and have the skip parameter set the negated value of the
-     * previous return. Succesive negative return values should be negated and
-     * added together for next skip parameter value with same code.
+     * If expbnded dbtb doesn't fit into brrby only whbt will fit is written
+     * to buf bnd the return vblue indicbtes how much of the expbnded code hbs
+     * been written to the buf. The next cbll to expbndCode() should be with
+     * the sbme code bnd hbve the skip pbrbmeter set the negbted vblue of the
+     * previous return. Succesive negbtive return vblues should be negbted bnd
+     * bdded together for next skip pbrbmeter vblue with sbme code.
      *
-     * @param buf buffer to place expanded data into
-     * @param offset offset to place expanded data
-     * @param code the code to expand to the byte array it represents.
-     * PRECONDITION This code must already be in the LZSS
-     * @param skipHead is the number of bytes at the start of the expanded code to
-     * be skipped before data is written to buf. It is possible that skipHead is
-     * equal to codeLen.
-     * @return the length of data expanded into buf. If the expanded code is longer
-     * than space left in buf then the value returned is a negative number which when
-     * negated is equal to the number of bytes that were used of the code being expanded.
-     * This negative value also indicates the buffer is full.
+     * @pbrbm buf buffer to plbce expbnded dbtb into
+     * @pbrbm offset offset to plbce expbnded dbtb
+     * @pbrbm code the code to expbnd to the byte brrby it represents.
+     * PRECONDITION This code must blrebdy be in the LZSS
+     * @pbrbm skipHebd is the number of bytes bt the stbrt of the expbnded code to
+     * be skipped before dbtb is written to buf. It is possible thbt skipHebd is
+     * equbl to codeLen.
+     * @return the length of dbtb expbnded into buf. If the expbnded code is longer
+     * thbn spbce left in buf then the vblue returned is b negbtive number which when
+     * negbted is equbl to the number of bytes thbt were used of the code being expbnded.
+     * This negbtive vblue blso indicbtes the buffer is full.
      */
-    public int expandCode(byte[] buf, int offset, short code, int skipHead) {
+    public int expbndCode(byte[] buf, int offset, short code, int skipHebd) {
         if (offset == -2) {
-            if (skipHead == 1) {
-                skipHead = 0;
+            if (skipHebd == 1) {
+                skipHebd = 0;
             }
         }
-        if (code == (short)0xFFFF ||    // just in case
-            skipHead == strLen[code])  // DONE no more unpacked
+        if (code == (short)0xFFFF ||    // just in cbse
+            skipHebd == strLen[code])  // DONE no more unpbcked
         {
             return 0;
         }
 
-        int expandLen;  // how much data we are actually expanding
-        int codeLen = strLen[code] - skipHead; // length of expanded code left
-        int bufSpace = buf.length - offset;  // how much space left
-        if (bufSpace > codeLen) {
-            expandLen = codeLen; // only got this many to unpack
+        int expbndLen;  // how much dbtb we bre bctublly expbnding
+        int codeLen = strLen[code] - skipHebd; // length of expbnded code left
+        int bufSpbce = buf.length - offset;  // how much spbce left
+        if (bufSpbce > codeLen) {
+            expbndLen = codeLen; // only got this mbny to unpbck
         } else {
-            expandLen = bufSpace;
+            expbndLen = bufSpbce;
         }
 
-        int skipTail = codeLen - expandLen;  // only > 0 if codeLen > bufSpace [left overs]
+        int skipTbil = codeLen - expbndLen;  // only > 0 if codeLen > bufSpbce [left overs]
 
-        int idx = offset + expandLen;   // initialise to exclusive end address of buffer area
+        int idx = offset + expbndLen;   // initiblise to exclusive end bddress of buffer breb
 
-        // NOTE: data unpacks in reverse direction and we are placing the
-        // unpacked data directly into the array in the correct location.
+        // NOTE: dbtb unpbcks in reverse direction bnd we bre plbcing the
+        // unpbcked dbtb directly into the brrby in the correct locbtion.
         while ((idx > offset) && (code != (short)0xFFFF)) {
-            if (--skipTail < 0) { // skip required of expanded data
+            if (--skipTbil < 0) { // skip required of expbnded dbtb
                 buf[--idx] = strChr[code];
             }
             code = strNxt[code];    // to predecessor code
         }
 
-        if (codeLen > expandLen) {
-            return -expandLen; // indicate what part of codeLen used
+        if (codeLen > expbndLen) {
+            return -expbndLen; // indicbte whbt pbrt of codeLen used
         } else {
-            return expandLen;     // indicate length of dat unpacked
+            return expbndLen;     // indicbte length of dbt unpbcked
         }
     }
 
-    public void dump(PrintStream out) {
+    public void dump(PrintStrebm out) {
         int i;
         for (i = 258; i < numStrings; ++i) {
             out.println(" strNxt[" + i + "] = " + strNxt[i]

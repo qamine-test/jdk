@@ -1,517 +1,517 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbckbge com.sun.jbvb.swing.plbf.gtk;
 
 import sun.swing.SwingUtilities2;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ArrowType;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ShadowType;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ArrowType;
+import com.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ShbdowType;
 
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.synth.*;
+import jbvbx.swing.plbf.ColorUIResource;
+import jbvbx.swing.plbf.synth.*;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.*;
+import jbvb.bwt.imbge.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.security.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
 
-import javax.xml.parsers.*;
-import org.xml.sax.SAXException;
+import jbvbx.xml.pbrsers.*;
+import org.xml.sbx.SAXException;
 import org.w3c.dom.*;
 
 /**
  */
-class Metacity implements SynthConstants {
-    // Tutorial:
-    // http://developer.gnome.org/doc/tutorials/metacity/metacity-themes.html
+clbss Metbcity implements SynthConstbnts {
+    // Tutoribl:
+    // http://developer.gnome.org/doc/tutoribls/metbcity/metbcity-themes.html
 
     // Themes:
-    // http://art.gnome.org/theme_list.php?category=metacity
+    // http://brt.gnome.org/theme_list.php?cbtegory=metbcity
 
-    static Metacity INSTANCE;
+    stbtic Metbcity INSTANCE;
 
-    private static final String[] themeNames = {
+    privbte stbtic finbl String[] themeNbmes = {
         getUserTheme(),
         "blueprint",
         "Bluecurve",
         "Crux",
-        "SwingFallbackTheme"
+        "SwingFbllbbckTheme"
     };
 
-    static {
-        for (String themeName : themeNames) {
-            if (themeName != null) {
+    stbtic {
+        for (String themeNbme : themeNbmes) {
+            if (themeNbme != null) {
             try {
-                INSTANCE = new Metacity(themeName);
-            } catch (FileNotFoundException ex) {
-            } catch (IOException ex) {
-                logError(themeName, ex);
-            } catch (ParserConfigurationException ex) {
-                logError(themeName, ex);
-            } catch (SAXException ex) {
-                logError(themeName, ex);
+                INSTANCE = new Metbcity(themeNbme);
+            } cbtch (FileNotFoundException ex) {
+            } cbtch (IOException ex) {
+                logError(themeNbme, ex);
+            } cbtch (PbrserConfigurbtionException ex) {
+                logError(themeNbme, ex);
+            } cbtch (SAXException ex) {
+                logError(themeNbme, ex);
             }
             }
             if (INSTANCE != null) {
-            break;
+            brebk;
             }
         }
         if (INSTANCE == null) {
-            throw new Error("Could not find any installed metacity theme, and fallback failed");
+            throw new Error("Could not find bny instblled metbcity theme, bnd fbllbbck fbiled");
         }
     }
 
-    private static boolean errorLogged = false;
-    private static DocumentBuilder documentBuilder;
-    private static Document xmlDoc;
-    private static String userHome;
+    privbte stbtic boolebn errorLogged = fblse;
+    privbte stbtic DocumentBuilder documentBuilder;
+    privbte stbtic Document xmlDoc;
+    privbte stbtic String userHome;
 
-    private Node frame_style_set;
-    private Map<String, Object> frameGeometry;
-    private Map<String, Map<String, Object>> frameGeometries;
+    privbte Node frbme_style_set;
+    privbte Mbp<String, Object> frbmeGeometry;
+    privbte Mbp<String, Mbp<String, Object>> frbmeGeometries;
 
-    private LayoutManager titlePaneLayout = new TitlePaneLayout();
+    privbte LbyoutMbnbger titlePbneLbyout = new TitlePbneLbyout();
 
-    private ColorizeImageFilter imageFilter = new ColorizeImageFilter();
-    private URL themeDir = null;
-    private SynthContext context;
-    private String themeName;
+    privbte ColorizeImbgeFilter imbgeFilter = new ColorizeImbgeFilter();
+    privbte URL themeDir = null;
+    privbte SynthContext context;
+    privbte String themeNbme;
 
-    private ArithmeticExpressionEvaluator aee = new ArithmeticExpressionEvaluator();
-    private Map<String, Integer> variables;
+    privbte ArithmeticExpressionEvblubtor bee = new ArithmeticExpressionEvblubtor();
+    privbte Mbp<String, Integer> vbribbles;
 
-    // Reusable clip shape object
-    private RoundRectClipShape roundedClipShape;
+    // Reusbble clip shbpe object
+    privbte RoundRectClipShbpe roundedClipShbpe;
 
-    protected Metacity(String themeName) throws IOException, ParserConfigurationException, SAXException {
-        this.themeName = themeName;
-        themeDir = getThemeDir(themeName);
+    protected Metbcity(String themeNbme) throws IOException, PbrserConfigurbtionException, SAXException {
+        this.themeNbme = themeNbme;
+        themeDir = getThemeDir(themeNbme);
         if (themeDir != null) {
-            URL themeURL = new URL(themeDir, "metacity-theme-1.xml");
+            URL themeURL = new URL(themeDir, "metbcity-theme-1.xml");
             xmlDoc = getXMLDoc(themeURL);
             if (xmlDoc == null) {
                 throw new IOException(themeURL.toString());
             }
         } else {
-            throw new FileNotFoundException(themeName);
+            throw new FileNotFoundException(themeNbme);
         }
 
-        // Initialize constants
-        variables = new HashMap<String, Integer>();
-        NodeList nodes = xmlDoc.getElementsByTagName("constant");
+        // Initiblize constbnts
+        vbribbles = new HbshMbp<String, Integer>();
+        NodeList nodes = xmlDoc.getElementsByTbgNbme("constbnt");
         int n = nodes.getLength();
         for (int i = 0; i < n; i++) {
             Node node = nodes.item(i);
-            String name = getStringAttr(node, "name");
-            if (name != null) {
-                String value = getStringAttr(node, "value");
-                if (value != null) {
+            String nbme = getStringAttr(node, "nbme");
+            if (nbme != null) {
+                String vblue = getStringAttr(node, "vblue");
+                if (vblue != null) {
                     try {
-                        variables.put(name, Integer.parseInt(value));
-                    } catch (NumberFormatException ex) {
-                        logError(themeName, ex);
-                        // Ignore bad value
+                        vbribbles.put(nbme, Integer.pbrseInt(vblue));
+                    } cbtch (NumberFormbtException ex) {
+                        logError(themeNbme, ex);
+                        // Ignore bbd vblue
                     }
                 }
             }
         }
 
-        // Cache frame geometries
-        frameGeometries = new HashMap<String, Map<String, Object>>();
-        nodes = xmlDoc.getElementsByTagName("frame_geometry");
+        // Cbche frbme geometries
+        frbmeGeometries = new HbshMbp<String, Mbp<String, Object>>();
+        nodes = xmlDoc.getElementsByTbgNbme("frbme_geometry");
         n = nodes.getLength();
         for (int i = 0; i < n; i++) {
             Node node = nodes.item(i);
-            String name = getStringAttr(node, "name");
-            if (name != null) {
-                HashMap<String, Object> gm = new HashMap<String, Object>();
-                frameGeometries.put(name, gm);
+            String nbme = getStringAttr(node, "nbme");
+            if (nbme != null) {
+                HbshMbp<String, Object> gm = new HbshMbp<String, Object>();
+                frbmeGeometries.put(nbme, gm);
 
-                String parentGM = getStringAttr(node, "parent");
-                if (parentGM != null) {
-                    gm.putAll(frameGeometries.get(parentGM));
+                String pbrentGM = getStringAttr(node, "pbrent");
+                if (pbrentGM != null) {
+                    gm.putAll(frbmeGeometries.get(pbrentGM));
                 }
 
-                gm.put("has_title",
-                       Boolean.valueOf(getBooleanAttr(node, "has_title",            true)));
+                gm.put("hbs_title",
+                       Boolebn.vblueOf(getBoolebnAttr(node, "hbs_title",            true)));
                 gm.put("rounded_top_left",
-                       Boolean.valueOf(getBooleanAttr(node, "rounded_top_left",     false)));
+                       Boolebn.vblueOf(getBoolebnAttr(node, "rounded_top_left",     fblse)));
                 gm.put("rounded_top_right",
-                       Boolean.valueOf(getBooleanAttr(node, "rounded_top_right",    false)));
+                       Boolebn.vblueOf(getBoolebnAttr(node, "rounded_top_right",    fblse)));
                 gm.put("rounded_bottom_left",
-                       Boolean.valueOf(getBooleanAttr(node, "rounded_bottom_left",  false)));
+                       Boolebn.vblueOf(getBoolebnAttr(node, "rounded_bottom_left",  fblse)));
                 gm.put("rounded_bottom_right",
-                       Boolean.valueOf(getBooleanAttr(node, "rounded_bottom_right", false)));
+                       Boolebn.vblueOf(getBoolebnAttr(node, "rounded_bottom_right", fblse)));
 
                 NodeList childNodes = node.getChildNodes();
                 int nc = childNodes.getLength();
                 for (int j = 0; j < nc; j++) {
                     Node child = childNodes.item(j);
                     if (child.getNodeType() == Node.ELEMENT_NODE) {
-                        name = child.getNodeName();
-                        Object value = null;
-                        if ("distance".equals(name)) {
-                            value = Integer.valueOf(getIntAttr(child, "value", 0));
-                        } else if ("border".equals(name)) {
-                            value = new Insets(getIntAttr(child, "top", 0),
+                        nbme = child.getNodeNbme();
+                        Object vblue = null;
+                        if ("distbnce".equbls(nbme)) {
+                            vblue = Integer.vblueOf(getIntAttr(child, "vblue", 0));
+                        } else if ("border".equbls(nbme)) {
+                            vblue = new Insets(getIntAttr(child, "top", 0),
                                                getIntAttr(child, "left", 0),
                                                getIntAttr(child, "bottom", 0),
                                                getIntAttr(child, "right", 0));
-                        } else if ("aspect_ratio".equals(name)) {
-                            value = new Float(getFloatAttr(child, "value", 1.0F));
+                        } else if ("bspect_rbtio".equbls(nbme)) {
+                            vblue = new Flobt(getFlobtAttr(child, "vblue", 1.0F));
                         } else {
-                            logError(themeName, "Unknown Metacity frame geometry value type: "+name);
+                            logError(themeNbme, "Unknown Metbcity frbme geometry vblue type: "+nbme);
                         }
-                        String childName = getStringAttr(child, "name");
-                        if (childName != null && value != null) {
-                            gm.put(childName, value);
+                        String childNbme = getStringAttr(child, "nbme");
+                        if (childNbme != null && vblue != null) {
+                            gm.put(childNbme, vblue);
                         }
                     }
                 }
             }
         }
-        frameGeometry = frameGeometries.get("normal");
+        frbmeGeometry = frbmeGeometries.get("normbl");
     }
 
 
-    public static LayoutManager getTitlePaneLayout() {
-        return INSTANCE.titlePaneLayout;
+    public stbtic LbyoutMbnbger getTitlePbneLbyout() {
+        return INSTANCE.titlePbneLbyout;
     }
 
-    private Shape getRoundedClipShape(int x, int y, int w, int h,
-                                      int arcw, int arch, int corners) {
-        if (roundedClipShape == null) {
-            roundedClipShape = new RoundRectClipShape();
+    privbte Shbpe getRoundedClipShbpe(int x, int y, int w, int h,
+                                      int brcw, int brch, int corners) {
+        if (roundedClipShbpe == null) {
+            roundedClipShbpe = new RoundRectClipShbpe();
         }
-        roundedClipShape.setRoundedRect(x, y, w, h, arcw, arch, corners);
+        roundedClipShbpe.setRoundedRect(x, y, w, h, brcw, brch, corners);
 
-        return roundedClipShape;
+        return roundedClipShbpe;
     }
 
-    void paintButtonBackground(SynthContext context, Graphics g, int x, int y, int w, int h) {
-        updateFrameGeometry(context);
+    void pbintButtonBbckground(SynthContext context, Grbphics g, int x, int y, int w, int h) {
+        updbteFrbmeGeometry(context);
 
         this.context = context;
         JButton button = (JButton)context.getComponent();
-        String buttonName = button.getName();
-        int buttonState = context.getComponentState();
+        String buttonNbme = button.getNbme();
+        int buttonStbte = context.getComponentStbte();
 
-        JComponent titlePane = (JComponent)button.getParent();
-        Container titlePaneParent = titlePane.getParent();
+        JComponent titlePbne = (JComponent)button.getPbrent();
+        Contbiner titlePbnePbrent = titlePbne.getPbrent();
 
-        JInternalFrame jif;
-        if (titlePaneParent instanceof JInternalFrame) {
-            jif = (JInternalFrame)titlePaneParent;
-        } else if (titlePaneParent instanceof JInternalFrame.JDesktopIcon) {
-            jif = ((JInternalFrame.JDesktopIcon)titlePaneParent).getInternalFrame();
+        JInternblFrbme jif;
+        if (titlePbnePbrent instbnceof JInternblFrbme) {
+            jif = (JInternblFrbme)titlePbnePbrent;
+        } else if (titlePbnePbrent instbnceof JInternblFrbme.JDesktopIcon) {
+            jif = ((JInternblFrbme.JDesktopIcon)titlePbnePbrent).getInternblFrbme();
         } else {
             return;
         }
 
-        boolean active = jif.isSelected();
-        button.setOpaque(false);
+        boolebn bctive = jif.isSelected();
+        button.setOpbque(fblse);
 
-        String state = "normal";
-        if ((buttonState & PRESSED) != 0) {
-            state = "pressed";
-        } else if ((buttonState & MOUSE_OVER) != 0) {
-            state = "prelight";
+        String stbte = "normbl";
+        if ((buttonStbte & PRESSED) != 0) {
+            stbte = "pressed";
+        } else if ((buttonStbte & MOUSE_OVER) != 0) {
+            stbte = "prelight";
         }
 
         String function = null;
-        String location = null;
-        boolean left_corner  = false;
-        boolean right_corner = false;
+        String locbtion = null;
+        boolebn left_corner  = fblse;
+        boolebn right_corner = fblse;
 
 
-        if (buttonName == "InternalFrameTitlePane.menuButton") {
+        if (buttonNbme == "InternblFrbmeTitlePbne.menuButton") {
             function = "menu";
-            location = "left_left";
+            locbtion = "left_left";
             left_corner = true;
-        } else if (buttonName == "InternalFrameTitlePane.iconifyButton") {
+        } else if (buttonNbme == "InternblFrbmeTitlePbne.iconifyButton") {
             function = "minimize";
-            int nButtons = ((jif.isIconifiable() ? 1 : 0) +
-                            (jif.isMaximizable() ? 1 : 0) +
-                            (jif.isClosable() ? 1 : 0));
+            int nButtons = ((jif.isIconifibble() ? 1 : 0) +
+                            (jif.isMbximizbble() ? 1 : 0) +
+                            (jif.isClosbble() ? 1 : 0));
             right_corner = (nButtons == 1);
             switch (nButtons) {
-              case 1: location = "right_right"; break;
-              case 2: location = "right_middle"; break;
-              case 3: location = "right_left"; break;
+              cbse 1: locbtion = "right_right"; brebk;
+              cbse 2: locbtion = "right_middle"; brebk;
+              cbse 3: locbtion = "right_left"; brebk;
             }
-        } else if (buttonName == "InternalFrameTitlePane.maximizeButton") {
-            function = "maximize";
-            right_corner = !jif.isClosable();
-            location = jif.isClosable() ? "right_middle" : "right_right";
-        } else if (buttonName == "InternalFrameTitlePane.closeButton") {
+        } else if (buttonNbme == "InternblFrbmeTitlePbne.mbximizeButton") {
+            function = "mbximize";
+            right_corner = !jif.isClosbble();
+            locbtion = jif.isClosbble() ? "right_middle" : "right_right";
+        } else if (buttonNbme == "InternblFrbmeTitlePbne.closeButton") {
             function = "close";
             right_corner = true;
-            location = "right_right";
+            locbtion = "right_right";
         }
 
-        Node frame = getNode(frame_style_set, "frame", new String[] {
-            "focus", (active ? "yes" : "no"),
-            "state", (jif.isMaximum() ? "maximized" : "normal")
+        Node frbme = getNode(frbme_style_set, "frbme", new String[] {
+            "focus", (bctive ? "yes" : "no"),
+            "stbte", (jif.isMbximum() ? "mbximized" : "normbl")
         });
 
-        if (function != null && frame != null) {
-            Node frame_style = getNode("frame_style", new String[] {
-                "name", getStringAttr(frame, "style")
+        if (function != null && frbme != null) {
+            Node frbme_style = getNode("frbme_style", new String[] {
+                "nbme", getStringAttr(frbme, "style")
             });
-            if (frame_style != null) {
-                Shape oldClip = g.getClip();
-                if ((right_corner && getBoolean("rounded_top_right", false)) ||
-                    (left_corner  && getBoolean("rounded_top_left", false))) {
+            if (frbme_style != null) {
+                Shbpe oldClip = g.getClip();
+                if ((right_corner && getBoolebn("rounded_top_right", fblse)) ||
+                    (left_corner  && getBoolebn("rounded_top_left", fblse))) {
 
-                    Point buttonLoc = button.getLocation();
+                    Point buttonLoc = button.getLocbtion();
                     if (right_corner) {
-                        g.setClip(getRoundedClipShape(0, 0, w, h,
-                                                      12, 12, RoundRectClipShape.TOP_RIGHT));
+                        g.setClip(getRoundedClipShbpe(0, 0, w, h,
+                                                      12, 12, RoundRectClipShbpe.TOP_RIGHT));
                     } else {
-                        g.setClip(getRoundedClipShape(0, 0, w, h,
-                                                      11, 11, RoundRectClipShape.TOP_LEFT));
+                        g.setClip(getRoundedClipShbpe(0, 0, w, h,
+                                                      11, 11, RoundRectClipShbpe.TOP_LEFT));
                     }
 
-                    Rectangle clipBounds = oldClip.getBounds();
+                    Rectbngle clipBounds = oldClip.getBounds();
                     g.clipRect(clipBounds.x, clipBounds.y,
                                clipBounds.width, clipBounds.height);
                 }
-                drawButton(frame_style, location+"_background", state, g, w, h, jif);
-                drawButton(frame_style, function, state, g, w, h, jif);
+                drbwButton(frbme_style, locbtion+"_bbckground", stbte, g, w, h, jif);
+                drbwButton(frbme_style, function, stbte, g, w, h, jif);
                 g.setClip(oldClip);
             }
         }
     }
 
-    protected void drawButton(Node frame_style, String function, String state,
-                            Graphics g, int w, int h, JInternalFrame jif) {
-        Node buttonNode = getNode(frame_style, "button",
-                                  new String[] { "function", function, "state", state });
-        if (buttonNode == null && !state.equals("normal")) {
-            buttonNode = getNode(frame_style, "button",
-                                 new String[] { "function", function, "state", "normal" });
+    protected void drbwButton(Node frbme_style, String function, String stbte,
+                            Grbphics g, int w, int h, JInternblFrbme jif) {
+        Node buttonNode = getNode(frbme_style, "button",
+                                  new String[] { "function", function, "stbte", stbte });
+        if (buttonNode == null && !stbte.equbls("normbl")) {
+            buttonNode = getNode(frbme_style, "button",
+                                 new String[] { "function", function, "stbte", "normbl" });
         }
         if (buttonNode != null) {
-            Node draw_ops;
-            String draw_ops_name = getStringAttr(buttonNode, "draw_ops");
-            if (draw_ops_name != null) {
-                draw_ops = getNode("draw_ops", new String[] { "name", draw_ops_name });
+            Node drbw_ops;
+            String drbw_ops_nbme = getStringAttr(buttonNode, "drbw_ops");
+            if (drbw_ops_nbme != null) {
+                drbw_ops = getNode("drbw_ops", new String[] { "nbme", drbw_ops_nbme });
             } else {
-                draw_ops = getNode(buttonNode, "draw_ops", null);
+                drbw_ops = getNode(buttonNode, "drbw_ops", null);
             }
-            variables.put("width",  w);
-            variables.put("height", h);
-            draw(draw_ops, g, jif);
+            vbribbles.put("width",  w);
+            vbribbles.put("height", h);
+            drbw(drbw_ops, g, jif);
         }
     }
 
-    void paintFrameBorder(SynthContext context, Graphics g, int x0, int y0, int width, int height) {
-        updateFrameGeometry(context);
+    void pbintFrbmeBorder(SynthContext context, Grbphics g, int x0, int y0, int width, int height) {
+        updbteFrbmeGeometry(context);
 
         this.context = context;
         JComponent comp = context.getComponent();
-        JComponent titlePane = findChild(comp, "InternalFrame.northPane");
+        JComponent titlePbne = findChild(comp, "InternblFrbme.northPbne");
 
-        if (titlePane == null) {
+        if (titlePbne == null) {
             return;
         }
 
-        JInternalFrame jif = null;
-        if (comp instanceof JInternalFrame) {
-            jif = (JInternalFrame)comp;
-        } else if (comp instanceof JInternalFrame.JDesktopIcon) {
-            jif = ((JInternalFrame.JDesktopIcon)comp).getInternalFrame();
+        JInternblFrbme jif = null;
+        if (comp instbnceof JInternblFrbme) {
+            jif = (JInternblFrbme)comp;
+        } else if (comp instbnceof JInternblFrbme.JDesktopIcon) {
+            jif = ((JInternblFrbme.JDesktopIcon)comp).getInternblFrbme();
         } else {
-            assert false : "component is not JInternalFrame or JInternalFrame.JDesktopIcon";
+            bssert fblse : "component is not JInternblFrbme or JInternblFrbme.JDesktopIcon";
             return;
         }
 
-        boolean active = jif.isSelected();
+        boolebn bctive = jif.isSelected();
         Font oldFont = g.getFont();
-        g.setFont(titlePane.getFont());
-        g.translate(x0, y0);
+        g.setFont(titlePbne.getFont());
+        g.trbnslbte(x0, y0);
 
-        Rectangle titleRect = calculateTitleArea(jif);
-        JComponent menuButton = findChild(titlePane, "InternalFrameTitlePane.menuButton");
+        Rectbngle titleRect = cblculbteTitleAreb(jif);
+        JComponent menuButton = findChild(titlePbne, "InternblFrbmeTitlePbne.menuButton");
 
-        Icon frameIcon = jif.getFrameIcon();
-        variables.put("mini_icon_width",
-                      (frameIcon != null) ? frameIcon.getIconWidth()  : 0);
-        variables.put("mini_icon_height",
-                      (frameIcon != null) ? frameIcon.getIconHeight() : 0);
-        variables.put("title_width",  calculateTitleTextWidth(g, jif));
+        Icon frbmeIcon = jif.getFrbmeIcon();
+        vbribbles.put("mini_icon_width",
+                      (frbmeIcon != null) ? frbmeIcon.getIconWidth()  : 0);
+        vbribbles.put("mini_icon_height",
+                      (frbmeIcon != null) ? frbmeIcon.getIconHeight() : 0);
+        vbribbles.put("title_width",  cblculbteTitleTextWidth(g, jif));
         FontMetrics fm = SwingUtilities2.getFontMetrics(jif, g);
-        variables.put("title_height", fm.getAscent() + fm.getDescent());
+        vbribbles.put("title_height", fm.getAscent() + fm.getDescent());
 
-        // These don't seem to apply here, but the Galaxy theme uses them. Not sure why.
-        variables.put("icon_width",  32);
-        variables.put("icon_height", 32);
+        // These don't seem to bpply here, but the Gblbxy theme uses them. Not sure why.
+        vbribbles.put("icon_width",  32);
+        vbribbles.put("icon_height", 32);
 
-        if (frame_style_set != null) {
-            Node frame = getNode(frame_style_set, "frame", new String[] {
-                "focus", (active ? "yes" : "no"),
-                "state", (jif.isMaximum() ? "maximized" : "normal")
+        if (frbme_style_set != null) {
+            Node frbme = getNode(frbme_style_set, "frbme", new String[] {
+                "focus", (bctive ? "yes" : "no"),
+                "stbte", (jif.isMbximum() ? "mbximized" : "normbl")
             });
 
-            if (frame != null) {
-                Node frame_style = getNode("frame_style", new String[] {
-                    "name", getStringAttr(frame, "style")
+            if (frbme != null) {
+                Node frbme_style = getNode("frbme_style", new String[] {
+                    "nbme", getStringAttr(frbme, "style")
                 });
-                if (frame_style != null) {
-                    Shape oldClip = g.getClip();
-                    boolean roundTopLeft     = getBoolean("rounded_top_left",     false);
-                    boolean roundTopRight    = getBoolean("rounded_top_right",    false);
-                    boolean roundBottomLeft  = getBoolean("rounded_bottom_left",  false);
-                    boolean roundBottomRight = getBoolean("rounded_bottom_right", false);
+                if (frbme_style != null) {
+                    Shbpe oldClip = g.getClip();
+                    boolebn roundTopLeft     = getBoolebn("rounded_top_left",     fblse);
+                    boolebn roundTopRight    = getBoolebn("rounded_top_right",    fblse);
+                    boolebn roundBottomLeft  = getBoolebn("rounded_bottom_left",  fblse);
+                    boolebn roundBottomRight = getBoolebn("rounded_bottom_right", fblse);
 
                     if (roundTopLeft || roundTopRight || roundBottomLeft || roundBottomRight) {
-                        jif.setOpaque(false);
+                        jif.setOpbque(fblse);
 
-                        g.setClip(getRoundedClipShape(0, 0, width, height, 12, 12,
-                                        (roundTopLeft     ? RoundRectClipShape.TOP_LEFT     : 0) |
-                                        (roundTopRight    ? RoundRectClipShape.TOP_RIGHT    : 0) |
-                                        (roundBottomLeft  ? RoundRectClipShape.BOTTOM_LEFT  : 0) |
-                                        (roundBottomRight ? RoundRectClipShape.BOTTOM_RIGHT : 0)));
+                        g.setClip(getRoundedClipShbpe(0, 0, width, height, 12, 12,
+                                        (roundTopLeft     ? RoundRectClipShbpe.TOP_LEFT     : 0) |
+                                        (roundTopRight    ? RoundRectClipShbpe.TOP_RIGHT    : 0) |
+                                        (roundBottomLeft  ? RoundRectClipShbpe.BOTTOM_LEFT  : 0) |
+                                        (roundBottomRight ? RoundRectClipShbpe.BOTTOM_RIGHT : 0)));
                     }
 
-                    Rectangle clipBounds = oldClip.getBounds();
+                    Rectbngle clipBounds = oldClip.getBounds();
                     g.clipRect(clipBounds.x, clipBounds.y,
                                clipBounds.width, clipBounds.height);
 
-                    int titleHeight = titlePane.getHeight();
+                    int titleHeight = titlePbne.getHeight();
 
-                    boolean minimized = jif.isIcon();
+                    boolebn minimized = jif.isIcon();
                     Insets insets = getBorderInsets(context, null);
 
-                    int leftTitlebarEdge   = getInt("left_titlebar_edge");
-                    int rightTitlebarEdge  = getInt("right_titlebar_edge");
-                    int topTitlebarEdge    = getInt("top_titlebar_edge");
-                    int bottomTitlebarEdge = getInt("bottom_titlebar_edge");
+                    int leftTitlebbrEdge   = getInt("left_titlebbr_edge");
+                    int rightTitlebbrEdge  = getInt("right_titlebbr_edge");
+                    int topTitlebbrEdge    = getInt("top_titlebbr_edge");
+                    int bottomTitlebbrEdge = getInt("bottom_titlebbr_edge");
 
                     if (!minimized) {
-                        drawPiece(frame_style, g, "entire_background",
+                        drbwPiece(frbme_style, g, "entire_bbckground",
                                   0, 0, width, height, jif);
                     }
-                    drawPiece(frame_style, g, "titlebar",
+                    drbwPiece(frbme_style, g, "titlebbr",
                               0, 0, width, titleHeight, jif);
-                    drawPiece(frame_style, g, "titlebar_middle",
-                              leftTitlebarEdge, topTitlebarEdge,
-                              width - leftTitlebarEdge - rightTitlebarEdge,
-                              titleHeight - topTitlebarEdge - bottomTitlebarEdge,
+                    drbwPiece(frbme_style, g, "titlebbr_middle",
+                              leftTitlebbrEdge, topTitlebbrEdge,
+                              width - leftTitlebbrEdge - rightTitlebbrEdge,
+                              titleHeight - topTitlebbrEdge - bottomTitlebbrEdge,
                               jif);
-                    drawPiece(frame_style, g, "left_titlebar_edge",
-                              0, 0, leftTitlebarEdge, titleHeight, jif);
-                    drawPiece(frame_style, g, "right_titlebar_edge",
-                              width - rightTitlebarEdge, 0,
-                              rightTitlebarEdge, titleHeight, jif);
-                    drawPiece(frame_style, g, "top_titlebar_edge",
-                              0, 0, width, topTitlebarEdge, jif);
-                    drawPiece(frame_style, g, "bottom_titlebar_edge",
-                              0, titleHeight - bottomTitlebarEdge,
-                              width, bottomTitlebarEdge, jif);
-                    drawPiece(frame_style, g, "title",
+                    drbwPiece(frbme_style, g, "left_titlebbr_edge",
+                              0, 0, leftTitlebbrEdge, titleHeight, jif);
+                    drbwPiece(frbme_style, g, "right_titlebbr_edge",
+                              width - rightTitlebbrEdge, 0,
+                              rightTitlebbrEdge, titleHeight, jif);
+                    drbwPiece(frbme_style, g, "top_titlebbr_edge",
+                              0, 0, width, topTitlebbrEdge, jif);
+                    drbwPiece(frbme_style, g, "bottom_titlebbr_edge",
+                              0, titleHeight - bottomTitlebbrEdge,
+                              width, bottomTitlebbrEdge, jif);
+                    drbwPiece(frbme_style, g, "title",
                               titleRect.x, titleRect.y, titleRect.width, titleRect.height, jif);
                     if (!minimized) {
-                        drawPiece(frame_style, g, "left_edge",
+                        drbwPiece(frbme_style, g, "left_edge",
                                   0, titleHeight, insets.left, height-titleHeight, jif);
-                        drawPiece(frame_style, g, "right_edge",
+                        drbwPiece(frbme_style, g, "right_edge",
                                   width-insets.right, titleHeight, insets.right, height-titleHeight, jif);
-                        drawPiece(frame_style, g, "bottom_edge",
+                        drbwPiece(frbme_style, g, "bottom_edge",
                                   0, height - insets.bottom, width, insets.bottom, jif);
-                        drawPiece(frame_style, g, "overlay",
+                        drbwPiece(frbme_style, g, "overlby",
                                   0, 0, width, height, jif);
                     }
                     g.setClip(oldClip);
                 }
             }
         }
-        g.translate(-x0, -y0);
+        g.trbnslbte(-x0, -y0);
         g.setFont(oldFont);
     }
 
 
 
-    private static class Privileged implements PrivilegedAction<Object> {
-        private static int GET_THEME_DIR  = 0;
-        private static int GET_USER_THEME = 1;
-        private static int GET_IMAGE      = 2;
-        private int type;
-        private Object arg;
+    privbte stbtic clbss Privileged implements PrivilegedAction<Object> {
+        privbte stbtic int GET_THEME_DIR  = 0;
+        privbte stbtic int GET_USER_THEME = 1;
+        privbte stbtic int GET_IMAGE      = 2;
+        privbte int type;
+        privbte Object brg;
 
-        public Object doPrivileged(int type, Object arg) {
+        public Object doPrivileged(int type, Object brg) {
             this.type = type;
-            this.arg = arg;
+            this.brg = brg;
             return AccessController.doPrivileged(this);
         }
 
         public Object run() {
             if (type == GET_THEME_DIR) {
-                String sep = File.separator;
+                String sep = File.sepbrbtor;
                 String[] dirs = new String[] {
                     userHome + sep + ".themes",
-                    System.getProperty("swing.metacitythemedir"),
-                    "/usr/X11R6/share/themes",
-                    "/usr/X11R6/share/gnome/themes",
-                    "/usr/local/share/themes",
-                    "/usr/local/share/gnome/themes",
-                    "/usr/share/themes",
-                    "/usr/gnome/share/themes",  // Debian/Redhat/Solaris
-                    "/opt/gnome2/share/themes"  // SuSE
+                    System.getProperty("swing.metbcitythemedir"),
+                    "/usr/X11R6/shbre/themes",
+                    "/usr/X11R6/shbre/gnome/themes",
+                    "/usr/locbl/shbre/themes",
+                    "/usr/locbl/shbre/gnome/themes",
+                    "/usr/shbre/themes",
+                    "/usr/gnome/shbre/themes",  // Debibn/Redhbt/Solbris
+                    "/opt/gnome2/shbre/themes"  // SuSE
                 };
 
                 URL themeDir = null;
                 for (int i = 0; i < dirs.length; i++) {
-                    // System property may not be set so skip null directories.
+                    // System property mby not be set so skip null directories.
                     if (dirs[i] == null) {
                         continue;
                     }
                     File dir =
-                        new File(dirs[i] + sep + arg + sep + "metacity-1");
-                    if (new File(dir, "metacity-theme-1.xml").canRead()) {
+                        new File(dirs[i] + sep + brg + sep + "metbcity-1");
+                    if (new File(dir, "metbcity-theme-1.xml").cbnRebd()) {
                         try {
                             themeDir = dir.toURI().toURL();
-                        } catch (MalformedURLException ex) {
+                        } cbtch (MblformedURLException ex) {
                             themeDir = null;
                         }
-                        break;
+                        brebk;
                     }
                 }
                 if (themeDir == null) {
-                    String filename = "resources/metacity/" + arg +
-                        "/metacity-1/metacity-theme-1.xml";
-                    URL url = getClass().getResource(filename);
+                    String filenbme = "resources/metbcity/" + brg +
+                        "/metbcity-1/metbcity-theme-1.xml";
+                    URL url = getClbss().getResource(filenbme);
                     if (url != null) {
                         String str = url.toString();
                         try {
-                            themeDir = new URL(str.substring(0, str.lastIndexOf('/'))+"/");
-                        } catch (MalformedURLException ex) {
+                            themeDir = new URL(str.substring(0, str.lbstIndexOf('/'))+"/");
+                        } cbtch (MblformedURLException ex) {
                             themeDir = null;
                         }
                     }
@@ -519,82 +519,82 @@ class Metacity implements SynthConstants {
                 return themeDir;
             } else if (type == GET_USER_THEME) {
                 try {
-                    // Set userHome here because we need the privilege
+                    // Set userHome here becbuse we need the privilege
                     userHome = System.getProperty("user.home");
 
-                    String theme = System.getProperty("swing.metacitythemename");
+                    String theme = System.getProperty("swing.metbcitythemenbme");
                     if (theme != null) {
                         return theme;
                     }
-                    // Note: this is a small file (< 1024 bytes) so it's not worth
-                    // starting an XML parser or even to use a buffered reader.
+                    // Note: this is b smbll file (< 1024 bytes) so it's not worth
+                    // stbrting bn XML pbrser or even to use b buffered rebder.
                     URL url = new URL(new File(userHome).toURI().toURL(),
-                                      ".gconf/apps/metacity/general/%25gconf.xml");
-                    // Pending: verify character encoding spec for gconf
-                    Reader reader = new InputStreamReader(url.openStream(), "ISO-8859-1");
-                    char[] buf = new char[1024];
+                                      ".gconf/bpps/metbcity/generbl/%25gconf.xml");
+                    // Pending: verify chbrbcter encoding spec for gconf
+                    Rebder rebder = new InputStrebmRebder(url.openStrebm(), "ISO-8859-1");
+                    chbr[] buf = new chbr[1024];
                     StringBuilder sb = new StringBuilder();
                     int n;
-                    while ((n = reader.read(buf)) >= 0) {
-                        sb.append(buf, 0, n);
+                    while ((n = rebder.rebd(buf)) >= 0) {
+                        sb.bppend(buf, 0, n);
                     }
-                    reader.close();
+                    rebder.close();
                     String str = sb.toString();
                     if (str != null) {
-                        String strLowerCase = str.toLowerCase();
-                        int i = strLowerCase.indexOf("<entry name=\"theme\"");
+                        String strLowerCbse = str.toLowerCbse();
+                        int i = strLowerCbse.indexOf("<entry nbme=\"theme\"");
                         if (i >= 0) {
-                            i = strLowerCase.indexOf("<stringvalue>", i);
+                            i = strLowerCbse.indexOf("<stringvblue>", i);
                             if (i > 0) {
-                                i += "<stringvalue>".length();
+                                i += "<stringvblue>".length();
                                 int i2 = str.indexOf('<', i);
                                 return str.substring(i, i2);
                             }
                         }
                     }
-                } catch (MalformedURLException ex) {
-                    // OK to just ignore. We'll use a fallback theme.
-                } catch (IOException ex) {
-                    // OK to just ignore. We'll use a fallback theme.
+                } cbtch (MblformedURLException ex) {
+                    // OK to just ignore. We'll use b fbllbbck theme.
+                } cbtch (IOException ex) {
+                    // OK to just ignore. We'll use b fbllbbck theme.
                 }
                 return null;
             } else if (type == GET_IMAGE) {
-                return new ImageIcon((URL)arg).getImage();
+                return new ImbgeIcon((URL)brg).getImbge();
             } else {
                 return null;
             }
         }
     }
 
-    private static URL getThemeDir(String themeName) {
-        return (URL)new Privileged().doPrivileged(Privileged.GET_THEME_DIR, themeName);
+    privbte stbtic URL getThemeDir(String themeNbme) {
+        return (URL)new Privileged().doPrivileged(Privileged.GET_THEME_DIR, themeNbme);
     }
 
-    private static String getUserTheme() {
+    privbte stbtic String getUserTheme() {
         return (String)new Privileged().doPrivileged(Privileged.GET_USER_THEME, null);
     }
 
-    protected void tileImage(Graphics g, Image image, int x0, int y0, int w, int h, float[] alphas) {
-        Graphics2D g2 = (Graphics2D)g;
+    protected void tileImbge(Grbphics g, Imbge imbge, int x0, int y0, int w, int h, flobt[] blphbs) {
+        Grbphics2D g2 = (Grbphics2D)g;
         Composite oldComp = g2.getComposite();
 
-        int sw = image.getWidth(null);
-        int sh = image.getHeight(null);
+        int sw = imbge.getWidth(null);
+        int sh = imbge.getHeight(null);
         int y = y0;
         while (y < y0 + h) {
-            sh = Math.min(sh, y0 + h - y);
+            sh = Mbth.min(sh, y0 + h - y);
             int x = x0;
             while (x < x0 + w) {
-                float f = (alphas.length - 1.0F) * x / (x0 + w);
+                flobt f = (blphbs.length - 1.0F) * x / (x0 + w);
                 int i = (int)f;
                 f -= (int)f;
-                float alpha = (1-f) * alphas[i];
-                if (i+1 < alphas.length) {
-                    alpha += f * alphas[i+1];
+                flobt blphb = (1-f) * blphbs[i];
+                if (i+1 < blphbs.length) {
+                    blphb += f * blphbs[i+1];
                 }
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-                int swm = Math.min(sw, x0 + w - x);
-                g.drawImage(image, x, y, x+swm, y+sh, 0, 0, swm, sh, null);
+                g2.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, blphb));
+                int swm = Mbth.min(sw, x0 + w - x);
+                g.drbwImbge(imbge, x, y, x+swm, y+sh, 0, 0, swm, sh, null);
                 x += swm;
             }
             y += sh;
@@ -602,42 +602,42 @@ class Metacity implements SynthConstants {
         g2.setComposite(oldComp);
     }
 
-    private HashMap<String, Image> images = new HashMap<String, Image>();
+    privbte HbshMbp<String, Imbge> imbges = new HbshMbp<String, Imbge>();
 
-    protected Image getImage(String key, Color c) {
-        Image image = images.get(key+"-"+c.getRGB());
-        if (image == null) {
-            image = imageFilter.colorize(getImage(key), c);
-            if (image != null) {
-                images.put(key+"-"+c.getRGB(), image);
+    protected Imbge getImbge(String key, Color c) {
+        Imbge imbge = imbges.get(key+"-"+c.getRGB());
+        if (imbge == null) {
+            imbge = imbgeFilter.colorize(getImbge(key), c);
+            if (imbge != null) {
+                imbges.put(key+"-"+c.getRGB(), imbge);
             }
         }
-        return image;
+        return imbge;
     }
 
-    protected Image getImage(String key) {
-        Image image = images.get(key);
-        if (image == null) {
+    protected Imbge getImbge(String key) {
+        Imbge imbge = imbges.get(key);
+        if (imbge == null) {
             if (themeDir != null) {
                 try {
                     URL url = new URL(themeDir, key);
-                    image = (Image)new Privileged().doPrivileged(Privileged.GET_IMAGE, url);
-                } catch (MalformedURLException ex) {
-                    //log("Bad image url: "+ themeDir + "/" + key);
+                    imbge = (Imbge)new Privileged().doPrivileged(Privileged.GET_IMAGE, url);
+                } cbtch (MblformedURLException ex) {
+                    //log("Bbd imbge url: "+ themeDir + "/" + key);
                 }
             }
-            if (image != null) {
-                images.put(key, image);
+            if (imbge != null) {
+                imbges.put(key, imbge);
             }
         }
-        return image;
+        return imbge;
     }
 
-    private class ColorizeImageFilter extends RGBImageFilter {
+    privbte clbss ColorizeImbgeFilter extends RGBImbgeFilter {
         double cr, cg, cb;
 
-        public ColorizeImageFilter() {
-            canFilterIndexColorModel = true;
+        public ColorizeImbgeFilter() {
+            cbnFilterIndexColorModel = true;
         }
 
         public void setColor(Color color) {
@@ -646,26 +646,26 @@ class Metacity implements SynthConstants {
             cb = color.getBlue()  / 255.0;
         }
 
-        public Image colorize(Image fromImage, Color c) {
+        public Imbge colorize(Imbge fromImbge, Color c) {
             setColor(c);
-            ImageProducer producer = new FilteredImageSource(fromImage.getSource(), this);
-            return new ImageIcon(context.getComponent().createImage(producer)).getImage();
+            ImbgeProducer producer = new FilteredImbgeSource(fromImbge.getSource(), this);
+            return new ImbgeIcon(context.getComponent().crebteImbge(producer)).getImbge();
         }
 
         public int filterRGB(int x, int y, int rgb) {
-            // Assume all rgb values are shades of gray
-            double grayLevel = 2 * (rgb & 0xff) / 255.0;
+            // Assume bll rgb vblues bre shbdes of grby
+            double grbyLevel = 2 * (rgb & 0xff) / 255.0;
             double r, g, b;
 
-            if (grayLevel <= 1.0) {
-                r = cr * grayLevel;
-                g = cg * grayLevel;
-                b = cb * grayLevel;
+            if (grbyLevel <= 1.0) {
+                r = cr * grbyLevel;
+                g = cg * grbyLevel;
+                b = cb * grbyLevel;
             } else {
-                grayLevel -= 1.0;
-                r = cr + (1.0 - cr) * grayLevel;
-                g = cg + (1.0 - cg) * grayLevel;
-                b = cb + (1.0 - cb) * grayLevel;
+                grbyLevel -= 1.0;
+                r = cr + (1.0 - cr) * grbyLevel;
+                g = cg + (1.0 - cg) * grbyLevel;
+                b = cb + (1.0 - cb) * grbyLevel;
             }
 
             return ((rgb & 0xff000000) +
@@ -675,11 +675,11 @@ class Metacity implements SynthConstants {
         }
     }
 
-    protected static JComponent findChild(JComponent parent, String name) {
-        int n = parent.getComponentCount();
+    protected stbtic JComponent findChild(JComponent pbrent, String nbme) {
+        int n = pbrent.getComponentCount();
         for (int i = 0; i < n; i++) {
-            JComponent c = (JComponent)parent.getComponent(i);
-            if (name.equals(c.getName())) {
+            JComponent c = (JComponent)pbrent.getComponent(i);
+            if (nbme.equbls(c.getNbme())) {
                 return c;
             }
         }
@@ -687,60 +687,60 @@ class Metacity implements SynthConstants {
     }
 
 
-    protected class TitlePaneLayout implements LayoutManager {
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c)  {
-            return minimumLayoutSize(c);
+    protected clbss TitlePbneLbyout implements LbyoutMbnbger {
+        public void bddLbyoutComponent(String nbme, Component c) {}
+        public void removeLbyoutComponent(Component c) {}
+        public Dimension preferredLbyoutSize(Contbiner c)  {
+            return minimumLbyoutSize(c);
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            JComponent titlePane = (JComponent)c;
-            Container titlePaneParent = titlePane.getParent();
-            JInternalFrame frame;
-            if (titlePaneParent instanceof JInternalFrame) {
-                frame = (JInternalFrame)titlePaneParent;
-            } else if (titlePaneParent instanceof JInternalFrame.JDesktopIcon) {
-                frame = ((JInternalFrame.JDesktopIcon)titlePaneParent).getInternalFrame();
+        public Dimension minimumLbyoutSize(Contbiner c) {
+            JComponent titlePbne = (JComponent)c;
+            Contbiner titlePbnePbrent = titlePbne.getPbrent();
+            JInternblFrbme frbme;
+            if (titlePbnePbrent instbnceof JInternblFrbme) {
+                frbme = (JInternblFrbme)titlePbnePbrent;
+            } else if (titlePbnePbrent instbnceof JInternblFrbme.JDesktopIcon) {
+                frbme = ((JInternblFrbme.JDesktopIcon)titlePbnePbrent).getInternblFrbme();
             } else {
                 return null;
             }
 
-            Dimension buttonDim = calculateButtonSize(titlePane);
-            Insets title_border  = (Insets)getFrameGeometry().get("title_border");
-            Insets button_border = (Insets)getFrameGeometry().get("button_border");
+            Dimension buttonDim = cblculbteButtonSize(titlePbne);
+            Insets title_border  = (Insets)getFrbmeGeometry().get("title_border");
+            Insets button_border = (Insets)getFrbmeGeometry().get("button_border");
 
-            // Calculate width.
-            int width = getInt("left_titlebar_edge") + buttonDim.width + getInt("right_titlebar_edge");
+            // Cblculbte width.
+            int width = getInt("left_titlebbr_edge") + buttonDim.width + getInt("right_titlebbr_edge");
             if (title_border != null) {
                 width += title_border.left + title_border.right;
             }
-            if (frame.isClosable()) {
+            if (frbme.isClosbble()) {
                 width += buttonDim.width;
             }
-            if (frame.isMaximizable()) {
+            if (frbme.isMbximizbble()) {
                 width += buttonDim.width;
             }
-            if (frame.isIconifiable()) {
+            if (frbme.isIconifibble()) {
                 width += buttonDim.width;
             }
-            FontMetrics fm = frame.getFontMetrics(titlePane.getFont());
-            String frameTitle = frame.getTitle();
-            int title_w = frameTitle != null ? SwingUtilities2.stringWidth(
-                               frame, fm, frameTitle) : 0;
-            int title_length = frameTitle != null ? frameTitle.length() : 0;
+            FontMetrics fm = frbme.getFontMetrics(titlePbne.getFont());
+            String frbmeTitle = frbme.getTitle();
+            int title_w = frbmeTitle != null ? SwingUtilities2.stringWidth(
+                               frbme, fm, frbmeTitle) : 0;
+            int title_length = frbmeTitle != null ? frbmeTitle.length() : 0;
 
-            // Leave room for three characters in the title.
+            // Lebve room for three chbrbcters in the title.
             if (title_length > 3) {
                 int subtitle_w = SwingUtilities2.stringWidth(
-                    frame, fm, frameTitle.substring(0, 3) + "...");
+                    frbme, fm, frbmeTitle.substring(0, 3) + "...");
                 width += (title_w < subtitle_w) ? title_w : subtitle_w;
             } else {
                 width += title_w;
             }
 
-            // Calculate height.
-            int titleHeight = fm.getHeight() + getInt("title_vertical_pad");
+            // Cblculbte height.
+            int titleHeight = fm.getHeight() + getInt("title_verticbl_pbd");
             if (title_border != null) {
                 titleHeight += title_border.top + title_border.bottom;
             }
@@ -748,121 +748,121 @@ class Metacity implements SynthConstants {
             if (button_border != null) {
                 buttonHeight += button_border.top + button_border.bottom;
             }
-            int height = Math.max(buttonHeight, titleHeight);
+            int height = Mbth.mbx(buttonHeight, titleHeight);
 
             return new Dimension(width, height);
         }
 
-        public void layoutContainer(Container c) {
-            JComponent titlePane = (JComponent)c;
-            Container titlePaneParent = titlePane.getParent();
-            JInternalFrame frame;
-            if (titlePaneParent instanceof JInternalFrame) {
-                frame = (JInternalFrame)titlePaneParent;
-            } else if (titlePaneParent instanceof JInternalFrame.JDesktopIcon) {
-                frame = ((JInternalFrame.JDesktopIcon)titlePaneParent).getInternalFrame();
+        public void lbyoutContbiner(Contbiner c) {
+            JComponent titlePbne = (JComponent)c;
+            Contbiner titlePbnePbrent = titlePbne.getPbrent();
+            JInternblFrbme frbme;
+            if (titlePbnePbrent instbnceof JInternblFrbme) {
+                frbme = (JInternblFrbme)titlePbnePbrent;
+            } else if (titlePbnePbrent instbnceof JInternblFrbme.JDesktopIcon) {
+                frbme = ((JInternblFrbme.JDesktopIcon)titlePbnePbrent).getInternblFrbme();
             } else {
                 return;
             }
-            Map<String, Object> gm = getFrameGeometry();
+            Mbp<String, Object> gm = getFrbmeGeometry();
 
-            int w = titlePane.getWidth();
-            int h = titlePane.getHeight();
+            int w = titlePbne.getWidth();
+            int h = titlePbne.getHeight();
 
-            JComponent menuButton     = findChild(titlePane, "InternalFrameTitlePane.menuButton");
-            JComponent minimizeButton = findChild(titlePane, "InternalFrameTitlePane.iconifyButton");
-            JComponent maximizeButton = findChild(titlePane, "InternalFrameTitlePane.maximizeButton");
-            JComponent closeButton    = findChild(titlePane, "InternalFrameTitlePane.closeButton");
+            JComponent menuButton     = findChild(titlePbne, "InternblFrbmeTitlePbne.menuButton");
+            JComponent minimizeButton = findChild(titlePbne, "InternblFrbmeTitlePbne.iconifyButton");
+            JComponent mbximizeButton = findChild(titlePbne, "InternblFrbmeTitlePbne.mbximizeButton");
+            JComponent closeButton    = findChild(titlePbne, "InternblFrbmeTitlePbne.closeButton");
 
             Insets button_border = (Insets)gm.get("button_border");
-            Dimension buttonDim = calculateButtonSize(titlePane);
+            Dimension buttonDim = cblculbteButtonSize(titlePbne);
 
             int y = (button_border != null) ? button_border.top : 0;
-            if (titlePaneParent.getComponentOrientation().isLeftToRight()) {
-                int x = getInt("left_titlebar_edge");
+            if (titlePbnePbrent.getComponentOrientbtion().isLeftToRight()) {
+                int x = getInt("left_titlebbr_edge");
 
                 menuButton.setBounds(x, y, buttonDim.width, buttonDim.height);
 
-                x = w - buttonDim.width - getInt("right_titlebar_edge");
+                x = w - buttonDim.width - getInt("right_titlebbr_edge");
                 if (button_border != null) {
                     x -= button_border.right;
                 }
 
-                if (frame.isClosable()) {
+                if (frbme.isClosbble()) {
                     closeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
                     x -= buttonDim.width;
                 }
 
-                if (frame.isMaximizable()) {
-                    maximizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
+                if (frbme.isMbximizbble()) {
+                    mbximizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
                     x -= buttonDim.width;
                 }
 
-                if (frame.isIconifiable()) {
+                if (frbme.isIconifibble()) {
                     minimizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
                 }
             } else {
-                int x = w - buttonDim.width - getInt("right_titlebar_edge");
+                int x = w - buttonDim.width - getInt("right_titlebbr_edge");
 
                 menuButton.setBounds(x, y, buttonDim.width, buttonDim.height);
 
-                x = getInt("left_titlebar_edge");
+                x = getInt("left_titlebbr_edge");
                 if (button_border != null) {
                     x += button_border.left;
                 }
 
-                if (frame.isClosable()) {
+                if (frbme.isClosbble()) {
                     closeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
                     x += buttonDim.width;
                 }
 
-                if (frame.isMaximizable()) {
-                    maximizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
+                if (frbme.isMbximizbble()) {
+                    mbximizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
                     x += buttonDim.width;
                 }
 
-                if (frame.isIconifiable()) {
+                if (frbme.isIconifibble()) {
                     minimizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
                 }
             }
         }
-    } // end TitlePaneLayout
+    } // end TitlePbneLbyout
 
-    protected Map<String, Object> getFrameGeometry() {
-        return frameGeometry;
+    protected Mbp<String, Object> getFrbmeGeometry() {
+        return frbmeGeometry;
     }
 
-    protected void setFrameGeometry(JComponent titlePane, Map<String, Object> gm) {
-        this.frameGeometry = gm;
-        if (getInt("top_height") == 0 && titlePane != null) {
-            gm.put("top_height", Integer.valueOf(titlePane.getHeight()));
+    protected void setFrbmeGeometry(JComponent titlePbne, Mbp<String, Object> gm) {
+        this.frbmeGeometry = gm;
+        if (getInt("top_height") == 0 && titlePbne != null) {
+            gm.put("top_height", Integer.vblueOf(titlePbne.getHeight()));
         }
     }
 
     protected int getInt(String key) {
-        Integer i = (Integer)frameGeometry.get(key);
+        Integer i = (Integer)frbmeGeometry.get(key);
         if (i == null) {
-            i = variables.get(key);
+            i = vbribbles.get(key);
         }
-        return (i != null) ? i.intValue() : 0;
+        return (i != null) ? i.intVblue() : 0;
     }
 
-    protected boolean getBoolean(String key, boolean fallback) {
-        Boolean b = (Boolean)frameGeometry.get(key);
-        return (b != null) ? b.booleanValue() : fallback;
+    protected boolebn getBoolebn(String key, boolebn fbllbbck) {
+        Boolebn b = (Boolebn)frbmeGeometry.get(key);
+        return (b != null) ? b.boolebnVblue() : fbllbbck;
     }
 
 
-    protected void drawArc(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        Color color = parseColor(getStringAttr(attrs, "color"));
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        int start_angle = aee.evaluate(getStringAttr(attrs, "start_angle"));
-        int extent_angle = aee.evaluate(getStringAttr(attrs, "extent_angle"));
-        boolean filled = getBooleanAttr(node, "filled", false);
+    protected void drbwArc(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        Color color = pbrseColor(getStringAttr(bttrs, "color"));
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
+        int stbrt_bngle = bee.evblubte(getStringAttr(bttrs, "stbrt_bngle"));
+        int extent_bngle = bee.evblubte(getStringAttr(bttrs, "extent_bngle"));
+        boolebn filled = getBoolebnAttr(node, "filled", fblse);
         if (getInt("width") == -1) {
             x -= w;
         }
@@ -871,40 +871,40 @@ class Metacity implements SynthConstants {
         }
         g.setColor(color);
         if (filled) {
-            g.fillArc(x, y, w, h, start_angle, extent_angle);
+            g.fillArc(x, y, w, h, stbrt_bngle, extent_bngle);
         } else {
-            g.drawArc(x, y, w, h, start_angle, extent_angle);
+            g.drbwArc(x, y, w, h, stbrt_bngle, extent_bngle);
         }
     }
 
-    protected void drawLine(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        Color color = parseColor(getStringAttr(attrs, "color"));
-        int x1 = aee.evaluate(getStringAttr(attrs, "x1"));
-        int y1 = aee.evaluate(getStringAttr(attrs, "y1"));
-        int x2 = aee.evaluate(getStringAttr(attrs, "x2"));
-        int y2 = aee.evaluate(getStringAttr(attrs, "y2"));
-        int lineWidth = aee.evaluate(getStringAttr(attrs, "width"), 1);
+    protected void drbwLine(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        Color color = pbrseColor(getStringAttr(bttrs, "color"));
+        int x1 = bee.evblubte(getStringAttr(bttrs, "x1"));
+        int y1 = bee.evblubte(getStringAttr(bttrs, "y1"));
+        int x2 = bee.evblubte(getStringAttr(bttrs, "x2"));
+        int y2 = bee.evblubte(getStringAttr(bttrs, "y2"));
+        int lineWidth = bee.evblubte(getStringAttr(bttrs, "width"), 1);
         g.setColor(color);
         if (lineWidth != 1) {
-            Graphics2D g2d = (Graphics2D)g;
+            Grbphics2D g2d = (Grbphics2D)g;
             Stroke stroke = g2d.getStroke();
-            g2d.setStroke(new BasicStroke((float)lineWidth));
-            g2d.drawLine(x1, y1, x2, y2);
+            g2d.setStroke(new BbsicStroke((flobt)lineWidth));
+            g2d.drbwLine(x1, y1, x2, y2);
             g2d.setStroke(stroke);
         } else {
-            g.drawLine(x1, y1, x2, y2);
+            g.drbwLine(x1, y1, x2, y2);
         }
     }
 
-    protected void drawRectangle(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        Color color = parseColor(getStringAttr(attrs, "color"));
-        boolean filled = getBooleanAttr(node, "filled", false);
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protected void drbwRectbngle(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        Color color = pbrseColor(getStringAttr(bttrs, "color"));
+        boolebn filled = getBoolebnAttr(node, "filled", fblse);
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
         g.setColor(color);
         if (getInt("width") == -1) {
             x -= w;
@@ -915,18 +915,18 @@ class Metacity implements SynthConstants {
         if (filled) {
             g.fillRect(x, y, w, h);
         } else {
-            g.drawRect(x, y, w, h);
+            g.drbwRect(x, y, w, h);
         }
     }
 
-    protected void drawTile(Node node, Graphics g, JInternalFrame jif) {
-        NamedNodeMap attrs = node.getAttributes();
-        int x0 = aee.evaluate(getStringAttr(attrs, "x"));
-        int y0 = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        int tw = aee.evaluate(getStringAttr(attrs, "tile_width"));
-        int th = aee.evaluate(getStringAttr(attrs, "tile_height"));
+    protected void drbwTile(Node node, Grbphics g, JInternblFrbme jif) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        int x0 = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y0 = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
+        int tw = bee.evblubte(getStringAttr(bttrs, "tile_width"));
+        int th = bee.evblubte(getStringAttr(bttrs, "tile_height"));
         int width  = getInt("width");
         int height = getInt("height");
         if (width == -1) {
@@ -935,86 +935,86 @@ class Metacity implements SynthConstants {
         if (height == -1) {
             y0 -= h;
         }
-        Shape oldClip = g.getClip();
-        if (g instanceof Graphics2D) {
-            ((Graphics2D)g).clip(new Rectangle(x0, y0, w, h));
+        Shbpe oldClip = g.getClip();
+        if (g instbnceof Grbphics2D) {
+            ((Grbphics2D)g).clip(new Rectbngle(x0, y0, w, h));
         }
-        variables.put("width",  tw);
-        variables.put("height", th);
+        vbribbles.put("width",  tw);
+        vbribbles.put("height", th);
 
-        Node draw_ops = getNode("draw_ops", new String[] { "name", getStringAttr(node, "name") });
+        Node drbw_ops = getNode("drbw_ops", new String[] { "nbme", getStringAttr(node, "nbme") });
 
         int y = y0;
         while (y < y0 + h) {
             int x = x0;
             while (x < x0 + w) {
-                g.translate(x, y);
-                draw(draw_ops, g, jif);
-                g.translate(-x, -y);
+                g.trbnslbte(x, y);
+                drbw(drbw_ops, g, jif);
+                g.trbnslbte(-x, -y);
                 x += tw;
             }
             y += th;
         }
 
-        variables.put("width",  width);
-        variables.put("height", height);
+        vbribbles.put("width",  width);
+        vbribbles.put("height", height);
         g.setClip(oldClip);
     }
 
-    protected void drawTint(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        Color color = parseColor(getStringAttr(attrs, "color"));
-        float alpha = Float.parseFloat(getStringAttr(attrs, "alpha"));
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protected void drbwTint(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        Color color = pbrseColor(getStringAttr(bttrs, "color"));
+        flobt blphb = Flobt.pbrseFlobt(getStringAttr(bttrs, "blphb"));
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
         if (getInt("width") == -1) {
             x -= w;
         }
         if (getInt("height") == -1) {
             y -= h;
         }
-        if (g instanceof Graphics2D) {
-            Graphics2D g2 = (Graphics2D)g;
+        if (g instbnceof Grbphics2D) {
+            Grbphics2D g2 = (Grbphics2D)g;
             Composite oldComp = g2.getComposite();
-            AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
-            g2.setComposite(ac);
+            AlphbComposite bc = AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, blphb);
+            g2.setComposite(bc);
             g2.setColor(color);
             g2.fillRect(x, y, w, h);
             g2.setComposite(oldComp);
         }
     }
 
-    protected void drawTitle(Node node, Graphics g, JInternalFrame jif) {
-        NamedNodeMap attrs = node.getAttributes();
-        String colorStr = getStringAttr(attrs, "color");
+    protected void drbwTitle(Node node, Grbphics g, JInternblFrbme jif) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        String colorStr = getStringAttr(bttrs, "color");
         int i = colorStr.indexOf("gtk:fg[");
         if (i > 0) {
             colorStr = colorStr.substring(0, i) + "gtk:text[" + colorStr.substring(i+7);
         }
-        Color color = parseColor(colorStr);
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
+        Color color = pbrseColor(colorStr);
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
 
         String title = jif.getTitle();
         if (title != null) {
             FontMetrics fm = SwingUtilities2.getFontMetrics(jif, g);
-            title = SwingUtilities2.clipStringIfNecessary(jif, fm, title,
-                         calculateTitleArea(jif).width);
+            title = SwingUtilities2.clipStringIfNecessbry(jif, fm, title,
+                         cblculbteTitleAreb(jif).width);
             g.setColor(color);
-            SwingUtilities2.drawString(jif, g, title, x, y + fm.getAscent());
+            SwingUtilities2.drbwString(jif, g, title, x, y + fm.getAscent());
         }
     }
 
-    protected Dimension calculateButtonSize(JComponent titlePane) {
+    protected Dimension cblculbteButtonSize(JComponent titlePbne) {
         int buttonHeight = getInt("button_height");
         if (buttonHeight == 0) {
-            buttonHeight = titlePane.getHeight();
+            buttonHeight = titlePbne.getHeight();
             if (buttonHeight == 0) {
                 buttonHeight = 13;
             } else {
-                Insets button_border = (Insets)frameGeometry.get("button_border");
+                Insets button_border = (Insets)frbmeGeometry.get("button_border");
                 if (button_border != null) {
                     buttonHeight -= (button_border.top + button_border.bottom);
                 }
@@ -1023,56 +1023,56 @@ class Metacity implements SynthConstants {
         int buttonWidth = getInt("button_width");
         if (buttonWidth == 0) {
             buttonWidth = buttonHeight;
-            Float aspect_ratio = (Float)frameGeometry.get("aspect_ratio");
-            if (aspect_ratio != null) {
-                buttonWidth = (int)(buttonHeight / aspect_ratio.floatValue());
+            Flobt bspect_rbtio = (Flobt)frbmeGeometry.get("bspect_rbtio");
+            if (bspect_rbtio != null) {
+                buttonWidth = (int)(buttonHeight / bspect_rbtio.flobtVblue());
             }
         }
         return new Dimension(buttonWidth, buttonHeight);
     }
 
-    protected Rectangle calculateTitleArea(JInternalFrame jif) {
-        JComponent titlePane = findChild(jif, "InternalFrame.northPane");
-        Dimension buttonDim = calculateButtonSize(titlePane);
-        Insets title_border = (Insets)frameGeometry.get("title_border");
-        Insets button_border = (Insets)getFrameGeometry().get("button_border");
+    protected Rectbngle cblculbteTitleAreb(JInternblFrbme jif) {
+        JComponent titlePbne = findChild(jif, "InternblFrbme.northPbne");
+        Dimension buttonDim = cblculbteButtonSize(titlePbne);
+        Insets title_border = (Insets)frbmeGeometry.get("title_border");
+        Insets button_border = (Insets)getFrbmeGeometry().get("button_border");
 
-        Rectangle r = new Rectangle();
-        r.x = getInt("left_titlebar_edge");
+        Rectbngle r = new Rectbngle();
+        r.x = getInt("left_titlebbr_edge");
         r.y = 0;
-        r.height = titlePane.getHeight();
+        r.height = titlePbne.getHeight();
         if (title_border != null) {
             r.x += title_border.left;
             r.y += title_border.top;
             r.height -= (title_border.top + title_border.bottom);
         }
 
-        if (titlePane.getParent().getComponentOrientation().isLeftToRight()) {
+        if (titlePbne.getPbrent().getComponentOrientbtion().isLeftToRight()) {
             r.x += buttonDim.width;
             if (button_border != null) {
                 r.x += button_border.left;
             }
-            r.width = titlePane.getWidth() - r.x - getInt("right_titlebar_edge");
-            if (jif.isClosable()) {
+            r.width = titlePbne.getWidth() - r.x - getInt("right_titlebbr_edge");
+            if (jif.isClosbble()) {
                 r.width -= buttonDim.width;
             }
-            if (jif.isMaximizable()) {
+            if (jif.isMbximizbble()) {
                 r.width -= buttonDim.width;
             }
-            if (jif.isIconifiable()) {
+            if (jif.isIconifibble()) {
                 r.width -= buttonDim.width;
             }
         } else {
-            if (jif.isClosable()) {
+            if (jif.isClosbble()) {
                 r.x += buttonDim.width;
             }
-            if (jif.isMaximizable()) {
+            if (jif.isMbximizbble()) {
                 r.x += buttonDim.width;
             }
-            if (jif.isIconifiable()) {
+            if (jif.isIconifibble()) {
                 r.x += buttonDim.width;
             }
-            r.width = titlePane.getWidth() - r.x - getInt("right_titlebar_edge")
+            r.width = titlePbne.getWidth() - r.x - getInt("right_titlebbr_edge")
                     - buttonDim.width;
             if (button_border != null) {
                 r.x -= button_border.right;
@@ -1085,149 +1085,149 @@ class Metacity implements SynthConstants {
     }
 
 
-    protected int calculateTitleTextWidth(Graphics g, JInternalFrame jif) {
+    protected int cblculbteTitleTextWidth(Grbphics g, JInternblFrbme jif) {
         String title = jif.getTitle();
         if (title != null) {
-            Rectangle r = calculateTitleArea(jif);
-            return Math.min(SwingUtilities2.stringWidth(jif,
+            Rectbngle r = cblculbteTitleAreb(jif);
+            return Mbth.min(SwingUtilities2.stringWidth(jif,
                      SwingUtilities2.getFontMetrics(jif, g), title), r.width);
         }
         return 0;
     }
 
-    protected void setClip(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protected void setClip(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
         if (getInt("width") == -1) {
             x -= w;
         }
         if (getInt("height") == -1) {
             y -= h;
         }
-        if (g instanceof Graphics2D) {
-            ((Graphics2D)g).clip(new Rectangle(x, y, w, h));
+        if (g instbnceof Grbphics2D) {
+            ((Grbphics2D)g).clip(new Rectbngle(x, y, w, h));
         }
     }
 
-    protected void drawGTKArrow(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String arrow    = getStringAttr(attrs, "arrow");
-        String shadow   = getStringAttr(attrs, "shadow");
-        String stateStr = getStringAttr(attrs, "state").toUpperCase();
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protected void drbwGTKArrow(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        String brrow    = getStringAttr(bttrs, "brrow");
+        String shbdow   = getStringAttr(bttrs, "shbdow");
+        String stbteStr = getStringAttr(bttrs, "stbte").toUpperCbse();
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
 
-        int state = -1;
-        if ("NORMAL".equals(stateStr)) {
-            state = ENABLED;
-        } else if ("SELECTED".equals(stateStr)) {
-            state = SELECTED;
-        } else if ("INSENSITIVE".equals(stateStr)) {
-            state = DISABLED;
-        } else if ("PRELIGHT".equals(stateStr)) {
-            state = MOUSE_OVER;
+        int stbte = -1;
+        if ("NORMAL".equbls(stbteStr)) {
+            stbte = ENABLED;
+        } else if ("SELECTED".equbls(stbteStr)) {
+            stbte = SELECTED;
+        } else if ("INSENSITIVE".equbls(stbteStr)) {
+            stbte = DISABLED;
+        } else if ("PRELIGHT".equbls(stbteStr)) {
+            stbte = MOUSE_OVER;
         }
 
-        ShadowType shadowType = null;
-        if ("in".equals(shadow)) {
-            shadowType = ShadowType.IN;
-        } else if ("out".equals(shadow)) {
-            shadowType = ShadowType.OUT;
-        } else if ("etched_in".equals(shadow)) {
-            shadowType = ShadowType.ETCHED_IN;
-        } else if ("etched_out".equals(shadow)) {
-            shadowType = ShadowType.ETCHED_OUT;
-        } else if ("none".equals(shadow)) {
-            shadowType = ShadowType.NONE;
+        ShbdowType shbdowType = null;
+        if ("in".equbls(shbdow)) {
+            shbdowType = ShbdowType.IN;
+        } else if ("out".equbls(shbdow)) {
+            shbdowType = ShbdowType.OUT;
+        } else if ("etched_in".equbls(shbdow)) {
+            shbdowType = ShbdowType.ETCHED_IN;
+        } else if ("etched_out".equbls(shbdow)) {
+            shbdowType = ShbdowType.ETCHED_OUT;
+        } else if ("none".equbls(shbdow)) {
+            shbdowType = ShbdowType.NONE;
         }
 
         ArrowType direction = null;
-        if ("up".equals(arrow)) {
+        if ("up".equbls(brrow)) {
             direction = ArrowType.UP;
-        } else if ("down".equals(arrow)) {
+        } else if ("down".equbls(brrow)) {
             direction = ArrowType.DOWN;
-        } else if ("left".equals(arrow)) {
+        } else if ("left".equbls(brrow)) {
             direction = ArrowType.LEFT;
-        } else if ("right".equals(arrow)) {
+        } else if ("right".equbls(brrow)) {
             direction = ArrowType.RIGHT;
         }
 
-        GTKPainter.INSTANCE.paintMetacityElement(context, g, state,
-                "metacity-arrow", x, y, w, h, shadowType, direction);
+        GTKPbinter.INSTANCE.pbintMetbcityElement(context, g, stbte,
+                "metbcity-brrow", x, y, w, h, shbdowType, direction);
     }
 
-    protected void drawGTKBox(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String shadow   = getStringAttr(attrs, "shadow");
-        String stateStr = getStringAttr(attrs, "state").toUpperCase();
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protected void drbwGTKBox(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        String shbdow   = getStringAttr(bttrs, "shbdow");
+        String stbteStr = getStringAttr(bttrs, "stbte").toUpperCbse();
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
 
-        int state = -1;
-        if ("NORMAL".equals(stateStr)) {
-            state = ENABLED;
-        } else if ("SELECTED".equals(stateStr)) {
-            state = SELECTED;
-        } else if ("INSENSITIVE".equals(stateStr)) {
-            state = DISABLED;
-        } else if ("PRELIGHT".equals(stateStr)) {
-            state = MOUSE_OVER;
+        int stbte = -1;
+        if ("NORMAL".equbls(stbteStr)) {
+            stbte = ENABLED;
+        } else if ("SELECTED".equbls(stbteStr)) {
+            stbte = SELECTED;
+        } else if ("INSENSITIVE".equbls(stbteStr)) {
+            stbte = DISABLED;
+        } else if ("PRELIGHT".equbls(stbteStr)) {
+            stbte = MOUSE_OVER;
         }
 
-        ShadowType shadowType = null;
-        if ("in".equals(shadow)) {
-            shadowType = ShadowType.IN;
-        } else if ("out".equals(shadow)) {
-            shadowType = ShadowType.OUT;
-        } else if ("etched_in".equals(shadow)) {
-            shadowType = ShadowType.ETCHED_IN;
-        } else if ("etched_out".equals(shadow)) {
-            shadowType = ShadowType.ETCHED_OUT;
-        } else if ("none".equals(shadow)) {
-            shadowType = ShadowType.NONE;
+        ShbdowType shbdowType = null;
+        if ("in".equbls(shbdow)) {
+            shbdowType = ShbdowType.IN;
+        } else if ("out".equbls(shbdow)) {
+            shbdowType = ShbdowType.OUT;
+        } else if ("etched_in".equbls(shbdow)) {
+            shbdowType = ShbdowType.ETCHED_IN;
+        } else if ("etched_out".equbls(shbdow)) {
+            shbdowType = ShbdowType.ETCHED_OUT;
+        } else if ("none".equbls(shbdow)) {
+            shbdowType = ShbdowType.NONE;
         }
-        GTKPainter.INSTANCE.paintMetacityElement(context, g, state,
-                "metacity-box", x, y, w, h, shadowType, null);
+        GTKPbinter.INSTANCE.pbintMetbcityElement(context, g, stbte,
+                "metbcity-box", x, y, w, h, shbdowType, null);
     }
 
-    protected void drawGTKVLine(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String stateStr = getStringAttr(attrs, "state").toUpperCase();
+    protected void drbwGTKVLine(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        String stbteStr = getStringAttr(bttrs, "stbte").toUpperCbse();
 
-        int x  = aee.evaluate(getStringAttr(attrs, "x"));
-        int y1 = aee.evaluate(getStringAttr(attrs, "y1"));
-        int y2 = aee.evaluate(getStringAttr(attrs, "y2"));
+        int x  = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y1 = bee.evblubte(getStringAttr(bttrs, "y1"));
+        int y2 = bee.evblubte(getStringAttr(bttrs, "y2"));
 
-        int state = -1;
-        if ("NORMAL".equals(stateStr)) {
-            state = ENABLED;
-        } else if ("SELECTED".equals(stateStr)) {
-            state = SELECTED;
-        } else if ("INSENSITIVE".equals(stateStr)) {
-            state = DISABLED;
-        } else if ("PRELIGHT".equals(stateStr)) {
-            state = MOUSE_OVER;
+        int stbte = -1;
+        if ("NORMAL".equbls(stbteStr)) {
+            stbte = ENABLED;
+        } else if ("SELECTED".equbls(stbteStr)) {
+            stbte = SELECTED;
+        } else if ("INSENSITIVE".equbls(stbteStr)) {
+            stbte = DISABLED;
+        } else if ("PRELIGHT".equbls(stbteStr)) {
+            stbte = MOUSE_OVER;
         }
 
-        GTKPainter.INSTANCE.paintMetacityElement(context, g, state,
-                "metacity-vline", x, y1, 1, y2 - y1, null, null);
+        GTKPbinter.INSTANCE.pbintMetbcityElement(context, g, stbte,
+                "metbcity-vline", x, y1, 1, y2 - y1, null, null);
     }
 
-    protected void drawGradient(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String type = getStringAttr(attrs, "type");
-        float alpha = getFloatAttr(node, "alpha", -1F);
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protected void drbwGrbdient(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        String type = getStringAttr(bttrs, "type");
+        flobt blphb = getFlobtAttr(node, "blphb", -1F);
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
         if (getInt("width") == -1) {
             x -= w;
         }
@@ -1236,52 +1236,52 @@ class Metacity implements SynthConstants {
         }
 
         // Get colors from child nodes
-        Node[] colorNodes = getNodesByName(node, "color");
+        Node[] colorNodes = getNodesByNbme(node, "color");
         Color[] colors = new Color[colorNodes.length];
         for (int i = 0; i < colorNodes.length; i++) {
-            colors[i] = parseColor(getStringAttr(colorNodes[i], "value"));
+            colors[i] = pbrseColor(getStringAttr(colorNodes[i], "vblue"));
         }
 
-        boolean horizontal = ("diagonal".equals(type) || "horizontal".equals(type));
-        boolean vertical   = ("diagonal".equals(type) || "vertical".equals(type));
+        boolebn horizontbl = ("dibgonbl".equbls(type) || "horizontbl".equbls(type));
+        boolebn verticbl   = ("dibgonbl".equbls(type) || "verticbl".equbls(type));
 
-        if (g instanceof Graphics2D) {
-            Graphics2D g2 = (Graphics2D)g;
+        if (g instbnceof Grbphics2D) {
+            Grbphics2D g2 = (Grbphics2D)g;
             Composite oldComp = g2.getComposite();
-            if (alpha >= 0F) {
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+            if (blphb >= 0F) {
+                g2.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, blphb));
             }
             int n = colors.length - 1;
             for (int i = 0; i < n; i++) {
-                g2.setPaint(new GradientPaint(x + (horizontal ? (i*w/n) : 0),
-                                              y + (vertical   ? (i*h/n) : 0),
+                g2.setPbint(new GrbdientPbint(x + (horizontbl ? (i*w/n) : 0),
+                                              y + (verticbl   ? (i*h/n) : 0),
                                               colors[i],
-                                              x + (horizontal ? ((i+1)*w/n) : 0),
-                                              y + (vertical   ? ((i+1)*h/n) : 0),
+                                              x + (horizontbl ? ((i+1)*w/n) : 0),
+                                              y + (verticbl   ? ((i+1)*h/n) : 0),
                                               colors[i+1]));
-                g2.fillRect(x + (horizontal ? (i*w/n) : 0),
-                            y + (vertical   ? (i*h/n) : 0),
-                            (horizontal ? (w/n) : w),
-                            (vertical   ? (h/n) : h));
+                g2.fillRect(x + (horizontbl ? (i*w/n) : 0),
+                            y + (verticbl   ? (i*h/n) : 0),
+                            (horizontbl ? (w/n) : w),
+                            (verticbl   ? (h/n) : h));
             }
             g2.setComposite(oldComp);
         }
     }
 
-    protected void drawImage(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String filename = getStringAttr(attrs, "filename");
-        String colorizeStr = getStringAttr(attrs, "colorize");
-        Color colorize = (colorizeStr != null) ? parseColor(colorizeStr) : null;
-        String alpha = getStringAttr(attrs, "alpha");
-        Image object = (colorize != null) ? getImage(filename, colorize) : getImage(filename);
-        variables.put("object_width",  object.getWidth(null));
-        variables.put("object_height", object.getHeight(null));
-        String fill_type = getStringAttr(attrs, "fill_type");
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protected void drbwImbge(Node node, Grbphics g) {
+        NbmedNodeMbp bttrs = node.getAttributes();
+        String filenbme = getStringAttr(bttrs, "filenbme");
+        String colorizeStr = getStringAttr(bttrs, "colorize");
+        Color colorize = (colorizeStr != null) ? pbrseColor(colorizeStr) : null;
+        String blphb = getStringAttr(bttrs, "blphb");
+        Imbge object = (colorize != null) ? getImbge(filenbme, colorize) : getImbge(filenbme);
+        vbribbles.put("object_width",  object.getWidth(null));
+        vbribbles.put("object_height", object.getHeight(null));
+        String fill_type = getStringAttr(bttrs, "fill_type");
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
         if (getInt("width") == -1) {
             x -= w;
         }
@@ -1289,41 +1289,41 @@ class Metacity implements SynthConstants {
             y -= h;
         }
 
-        if (alpha != null) {
-            if ("tile".equals(fill_type)) {
-                StringTokenizer tokenizer = new StringTokenizer(alpha, ":");
-                float[] alphas = new float[tokenizer.countTokens()];
-                for (int i = 0; i < alphas.length; i++) {
-                    alphas[i] = Float.parseFloat(tokenizer.nextToken());
+        if (blphb != null) {
+            if ("tile".equbls(fill_type)) {
+                StringTokenizer tokenizer = new StringTokenizer(blphb, ":");
+                flobt[] blphbs = new flobt[tokenizer.countTokens()];
+                for (int i = 0; i < blphbs.length; i++) {
+                    blphbs[i] = Flobt.pbrseFlobt(tokenizer.nextToken());
                 }
-                tileImage(g, object, x, y, w, h, alphas);
+                tileImbge(g, object, x, y, w, h, blphbs);
             } else {
-                float a = Float.parseFloat(alpha);
-                if (g instanceof Graphics2D) {
-                    Graphics2D g2 = (Graphics2D)g;
+                flobt b = Flobt.pbrseFlobt(blphb);
+                if (g instbnceof Grbphics2D) {
+                    Grbphics2D g2 = (Grbphics2D)g;
                     Composite oldComp = g2.getComposite();
-                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, a));
-                    g2.drawImage(object, x, y, w, h, null);
+                    g2.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, b));
+                    g2.drbwImbge(object, x, y, w, h, null);
                     g2.setComposite(oldComp);
                 }
             }
         } else {
-            g.drawImage(object, x, y, w, h, null);
+            g.drbwImbge(object, x, y, w, h, null);
         }
     }
 
-    protected void drawIcon(Node node, Graphics g, JInternalFrame jif) {
-        Icon icon = jif.getFrameIcon();
+    protected void drbwIcon(Node node, Grbphics g, JInternblFrbme jif) {
+        Icon icon = jif.getFrbmeIcon();
         if (icon == null) {
             return;
         }
 
-        NamedNodeMap attrs = node.getAttributes();
-        String alpha = getStringAttr(attrs, "alpha");
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+        NbmedNodeMbp bttrs = node.getAttributes();
+        String blphb = getStringAttr(bttrs, "blphb");
+        int x = bee.evblubte(getStringAttr(bttrs, "x"));
+        int y = bee.evblubte(getStringAttr(bttrs, "y"));
+        int w = bee.evblubte(getStringAttr(bttrs, "width"));
+        int h = bee.evblubte(getStringAttr(bttrs, "height"));
         if (getInt("width") == -1) {
             x -= w;
         }
@@ -1331,95 +1331,95 @@ class Metacity implements SynthConstants {
             y -= h;
         }
 
-        if (alpha != null) {
-            float a = Float.parseFloat(alpha);
-            if (g instanceof Graphics2D) {
-                Graphics2D g2 = (Graphics2D)g;
+        if (blphb != null) {
+            flobt b = Flobt.pbrseFlobt(blphb);
+            if (g instbnceof Grbphics2D) {
+                Grbphics2D g2 = (Grbphics2D)g;
                 Composite oldComp = g2.getComposite();
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, a));
-                icon.paintIcon(jif, g, x, y);
+                g2.setComposite(AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, b));
+                icon.pbintIcon(jif, g, x, y);
                 g2.setComposite(oldComp);
             }
         } else {
-            icon.paintIcon(jif, g, x, y);
+            icon.pbintIcon(jif, g, x, y);
         }
     }
 
-    protected void drawInclude(Node node, Graphics g, JInternalFrame jif) {
+    protected void drbwInclude(Node node, Grbphics g, JInternblFrbme jif) {
         int oldWidth  = getInt("width");
         int oldHeight = getInt("height");
 
-        NamedNodeMap attrs = node.getAttributes();
-        int x = aee.evaluate(getStringAttr(attrs, "x"),       0);
-        int y = aee.evaluate(getStringAttr(attrs, "y"),       0);
-        int w = aee.evaluate(getStringAttr(attrs, "width"),  -1);
-        int h = aee.evaluate(getStringAttr(attrs, "height"), -1);
+        NbmedNodeMbp bttrs = node.getAttributes();
+        int x = bee.evblubte(getStringAttr(bttrs, "x"),       0);
+        int y = bee.evblubte(getStringAttr(bttrs, "y"),       0);
+        int w = bee.evblubte(getStringAttr(bttrs, "width"),  -1);
+        int h = bee.evblubte(getStringAttr(bttrs, "height"), -1);
 
         if (w != -1) {
-            variables.put("width",  w);
+            vbribbles.put("width",  w);
         }
         if (h != -1) {
-            variables.put("height", h);
+            vbribbles.put("height", h);
         }
 
-        Node draw_ops = getNode("draw_ops", new String[] {
-            "name", getStringAttr(node, "name")
+        Node drbw_ops = getNode("drbw_ops", new String[] {
+            "nbme", getStringAttr(node, "nbme")
         });
-        g.translate(x, y);
-        draw(draw_ops, g, jif);
-        g.translate(-x, -y);
+        g.trbnslbte(x, y);
+        drbw(drbw_ops, g, jif);
+        g.trbnslbte(-x, -y);
 
         if (w != -1) {
-            variables.put("width",  oldWidth);
+            vbribbles.put("width",  oldWidth);
         }
         if (h != -1) {
-            variables.put("height", oldHeight);
+            vbribbles.put("height", oldHeight);
         }
     }
 
-    protected void draw(Node draw_ops, Graphics g, JInternalFrame jif) {
-        if (draw_ops != null) {
-            NodeList nodes = draw_ops.getChildNodes();
+    protected void drbw(Node drbw_ops, Grbphics g, JInternblFrbme jif) {
+        if (drbw_ops != null) {
+            NodeList nodes = drbw_ops.getChildNodes();
             if (nodes != null) {
-                Shape oldClip = g.getClip();
+                Shbpe oldClip = g.getClip();
                 for (int i = 0; i < nodes.getLength(); i++) {
                     Node child = nodes.item(i);
                     if (child.getNodeType() == Node.ELEMENT_NODE) {
                         try {
-                            String name = child.getNodeName();
-                            if ("include".equals(name)) {
-                                drawInclude(child, g, jif);
-                            } else if ("arc".equals(name)) {
-                                drawArc(child, g);
-                            } else if ("clip".equals(name)) {
+                            String nbme = child.getNodeNbme();
+                            if ("include".equbls(nbme)) {
+                                drbwInclude(child, g, jif);
+                            } else if ("brc".equbls(nbme)) {
+                                drbwArc(child, g);
+                            } else if ("clip".equbls(nbme)) {
                                 setClip(child, g);
-                            } else if ("gradient".equals(name)) {
-                                drawGradient(child, g);
-                            } else if ("gtk_arrow".equals(name)) {
-                                drawGTKArrow(child, g);
-                            } else if ("gtk_box".equals(name)) {
-                                drawGTKBox(child, g);
-                            } else if ("gtk_vline".equals(name)) {
-                                drawGTKVLine(child, g);
-                            } else if ("image".equals(name)) {
-                                drawImage(child, g);
-                            } else if ("icon".equals(name)) {
-                                drawIcon(child, g, jif);
-                            } else if ("line".equals(name)) {
-                                drawLine(child, g);
-                            } else if ("rectangle".equals(name)) {
-                                drawRectangle(child, g);
-                            } else if ("tint".equals(name)) {
-                                drawTint(child, g);
-                            } else if ("tile".equals(name)) {
-                                drawTile(child, g, jif);
-                            } else if ("title".equals(name)) {
-                                drawTitle(child, g, jif);
+                            } else if ("grbdient".equbls(nbme)) {
+                                drbwGrbdient(child, g);
+                            } else if ("gtk_brrow".equbls(nbme)) {
+                                drbwGTKArrow(child, g);
+                            } else if ("gtk_box".equbls(nbme)) {
+                                drbwGTKBox(child, g);
+                            } else if ("gtk_vline".equbls(nbme)) {
+                                drbwGTKVLine(child, g);
+                            } else if ("imbge".equbls(nbme)) {
+                                drbwImbge(child, g);
+                            } else if ("icon".equbls(nbme)) {
+                                drbwIcon(child, g, jif);
+                            } else if ("line".equbls(nbme)) {
+                                drbwLine(child, g);
+                            } else if ("rectbngle".equbls(nbme)) {
+                                drbwRectbngle(child, g);
+                            } else if ("tint".equbls(nbme)) {
+                                drbwTint(child, g);
+                            } else if ("tile".equbls(nbme)) {
+                                drbwTile(child, g, jif);
+                            } else if ("title".equbls(nbme)) {
+                                drbwTitle(child, g, jif);
                             } else {
-                                System.err.println("Unknown Metacity drawing op: "+child);
+                                System.err.println("Unknown Metbcity drbwing op: "+child);
                             }
-                        } catch (NumberFormatException ex) {
-                            logError(themeName, ex);
+                        } cbtch (NumberFormbtException ex) {
+                            logError(themeNbme, ex);
                         }
                     }
                 }
@@ -1428,33 +1428,33 @@ class Metacity implements SynthConstants {
         }
     }
 
-    protected void drawPiece(Node frame_style, Graphics g, String position, int x, int y,
-                             int width, int height, JInternalFrame jif) {
-        Node piece = getNode(frame_style, "piece", new String[] { "position", position });
+    protected void drbwPiece(Node frbme_style, Grbphics g, String position, int x, int y,
+                             int width, int height, JInternblFrbme jif) {
+        Node piece = getNode(frbme_style, "piece", new String[] { "position", position });
         if (piece != null) {
-            Node draw_ops;
-            String draw_ops_name = getStringAttr(piece, "draw_ops");
-            if (draw_ops_name != null) {
-                draw_ops = getNode("draw_ops", new String[] { "name", draw_ops_name });
+            Node drbw_ops;
+            String drbw_ops_nbme = getStringAttr(piece, "drbw_ops");
+            if (drbw_ops_nbme != null) {
+                drbw_ops = getNode("drbw_ops", new String[] { "nbme", drbw_ops_nbme });
             } else {
-                draw_ops = getNode(piece, "draw_ops", null);
+                drbw_ops = getNode(piece, "drbw_ops", null);
             }
-            variables.put("width",  width);
-            variables.put("height", height);
-            g.translate(x, y);
-            draw(draw_ops, g, jif);
-            g.translate(-x, -y);
+            vbribbles.put("width",  width);
+            vbribbles.put("height", height);
+            g.trbnslbte(x, y);
+            drbw(drbw_ops, g, jif);
+            g.trbnslbte(-x, -y);
         }
     }
 
 
     Insets getBorderInsets(SynthContext context, Insets insets) {
-        updateFrameGeometry(context);
+        updbteFrbmeGeometry(context);
 
         if (insets == null) {
             insets = new Insets(0, 0, 0, 0);
         }
-        insets.top    = ((Insets)frameGeometry.get("title_border")).top;
+        insets.top    = ((Insets)frbmeGeometry.get("title_border")).top;
         insets.bottom = getInt("bottom_height");
         insets.left   = getInt("left_width");
         insets.right  = getInt("right_width");
@@ -1462,157 +1462,157 @@ class Metacity implements SynthConstants {
     }
 
 
-    private void updateFrameGeometry(SynthContext context) {
+    privbte void updbteFrbmeGeometry(SynthContext context) {
         this.context = context;
         JComponent comp = context.getComponent();
-        JComponent titlePane = findChild(comp, "InternalFrame.northPane");
+        JComponent titlePbne = findChild(comp, "InternblFrbme.northPbne");
 
-        JInternalFrame jif = null;
-        if (comp instanceof JInternalFrame) {
-            jif = (JInternalFrame)comp;
-        } else if (comp instanceof JInternalFrame.JDesktopIcon) {
-            jif = ((JInternalFrame.JDesktopIcon)comp).getInternalFrame();
+        JInternblFrbme jif = null;
+        if (comp instbnceof JInternblFrbme) {
+            jif = (JInternblFrbme)comp;
+        } else if (comp instbnceof JInternblFrbme.JDesktopIcon) {
+            jif = ((JInternblFrbme.JDesktopIcon)comp).getInternblFrbme();
         } else {
-            assert false : "component is not JInternalFrame or JInternalFrame.JDesktopIcon";
+            bssert fblse : "component is not JInternblFrbme or JInternblFrbme.JDesktopIcon";
             return;
         }
 
-        if (frame_style_set == null) {
-            Node window = getNode("window", new String[]{"type", "normal"});
+        if (frbme_style_set == null) {
+            Node window = getNode("window", new String[]{"type", "normbl"});
 
             if (window != null) {
-                frame_style_set = getNode("frame_style_set",
-                        new String[] {"name", getStringAttr(window, "style_set")});
+                frbme_style_set = getNode("frbme_style_set",
+                        new String[] {"nbme", getStringAttr(window, "style_set")});
             }
 
-            if (frame_style_set == null) {
-                frame_style_set = getNode("frame_style_set", new String[] {"name", "normal"});
+            if (frbme_style_set == null) {
+                frbme_style_set = getNode("frbme_style_set", new String[] {"nbme", "normbl"});
             }
         }
 
-        if (frame_style_set != null) {
-            Node frame = getNode(frame_style_set, "frame", new String[] {
+        if (frbme_style_set != null) {
+            Node frbme = getNode(frbme_style_set, "frbme", new String[] {
                 "focus", (jif.isSelected() ? "yes" : "no"),
-                "state", (jif.isMaximum() ? "maximized" : "normal")
+                "stbte", (jif.isMbximum() ? "mbximized" : "normbl")
             });
 
-            if (frame != null) {
-                Node frame_style = getNode("frame_style", new String[] {
-                    "name", getStringAttr(frame, "style")
+            if (frbme != null) {
+                Node frbme_style = getNode("frbme_style", new String[] {
+                    "nbme", getStringAttr(frbme, "style")
                 });
-                if (frame_style != null) {
-                    Map<String, Object> gm = frameGeometries.get(getStringAttr(frame_style, "geometry"));
+                if (frbme_style != null) {
+                    Mbp<String, Object> gm = frbmeGeometries.get(getStringAttr(frbme_style, "geometry"));
 
-                    setFrameGeometry(titlePane, gm);
+                    setFrbmeGeometry(titlePbne, gm);
                 }
             }
         }
     }
 
 
-    protected static void logError(String themeName, Exception ex) {
-        logError(themeName, ex.toString());
+    protected stbtic void logError(String themeNbme, Exception ex) {
+        logError(themeNbme, ex.toString());
     }
 
-    protected static void logError(String themeName, String msg) {
+    protected stbtic void logError(String themeNbme, String msg) {
         if (!errorLogged) {
-            System.err.println("Exception in Metacity for theme \""+themeName+"\": "+msg);
+            System.err.println("Exception in Metbcity for theme \""+themeNbme+"\": "+msg);
             errorLogged = true;
         }
     }
 
 
-    // XML Parsing
+    // XML Pbrsing
 
 
-    protected static Document getXMLDoc(final URL xmlFile)
+    protected stbtic Document getXMLDoc(finbl URL xmlFile)
                                 throws IOException,
-                                       ParserConfigurationException,
+                                       PbrserConfigurbtionException,
                                        SAXException {
         if (documentBuilder == null) {
             documentBuilder =
-                DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                DocumentBuilderFbctory.newInstbnce().newDocumentBuilder();
         }
-        InputStream inputStream =
-            AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-                public InputStream run() {
+        InputStrebm inputStrebm =
+            AccessController.doPrivileged(new PrivilegedAction<InputStrebm>() {
+                public InputStrebm run() {
                     try {
-                        return new BufferedInputStream(xmlFile.openStream());
-                    } catch (IOException ex) {
+                        return new BufferedInputStrebm(xmlFile.openStrebm());
+                    } cbtch (IOException ex) {
                         return null;
                     }
                 }
             });
 
         Document doc = null;
-        if (inputStream != null) {
-            doc = documentBuilder.parse(inputStream);
+        if (inputStrebm != null) {
+            doc = documentBuilder.pbrse(inputStrebm);
         }
         return doc;
     }
 
 
-    protected Node[] getNodesByName(Node parent, String name) {
-        NodeList nodes = parent.getChildNodes(); // ElementNode
+    protected Node[] getNodesByNbme(Node pbrent, String nbme) {
+        NodeList nodes = pbrent.getChildNodes(); // ElementNode
         int n = nodes.getLength();
-        ArrayList<Node> list = new ArrayList<Node>();
+        ArrbyList<Node> list = new ArrbyList<Node>();
         for (int i=0; i < n; i++) {
             Node node = nodes.item(i);
-            if (name.equals(node.getNodeName())) {
-                list.add(node);
+            if (nbme.equbls(node.getNodeNbme())) {
+                list.bdd(node);
             }
         }
-        return list.toArray(new Node[list.size()]);
+        return list.toArrby(new Node[list.size()]);
     }
 
 
 
-    protected Node getNode(String tagName, String[] attrs) {
-        NodeList nodes = xmlDoc.getElementsByTagName(tagName);
-        return (nodes != null) ? getNode(nodes, tagName, attrs) : null;
+    protected Node getNode(String tbgNbme, String[] bttrs) {
+        NodeList nodes = xmlDoc.getElementsByTbgNbme(tbgNbme);
+        return (nodes != null) ? getNode(nodes, tbgNbme, bttrs) : null;
     }
 
-    protected Node getNode(Node parent, String name, String[] attrs) {
+    protected Node getNode(Node pbrent, String nbme, String[] bttrs) {
         Node node = null;
-        NodeList nodes = parent.getChildNodes();
+        NodeList nodes = pbrent.getChildNodes();
         if (nodes != null) {
-            node = getNode(nodes, name, attrs);
+            node = getNode(nodes, nbme, bttrs);
         }
         if (node == null) {
-            String inheritFrom = getStringAttr(parent, "parent");
+            String inheritFrom = getStringAttr(pbrent, "pbrent");
             if (inheritFrom != null) {
-                Node inheritFromNode = getNode(parent.getParentNode(),
-                                               parent.getNodeName(),
-                                               new String[] { "name", inheritFrom });
+                Node inheritFromNode = getNode(pbrent.getPbrentNode(),
+                                               pbrent.getNodeNbme(),
+                                               new String[] { "nbme", inheritFrom });
                 if (inheritFromNode != null) {
-                    node = getNode(inheritFromNode, name, attrs);
+                    node = getNode(inheritFromNode, nbme, bttrs);
                 }
             }
         }
         return node;
     }
 
-    protected Node getNode(NodeList nodes, String name, String[] attrs) {
+    protected Node getNode(NodeList nodes, String nbme, String[] bttrs) {
         int n = nodes.getLength();
         for (int i=0; i < n; i++) {
             Node node = nodes.item(i);
-            if (name.equals(node.getNodeName())) {
-                if (attrs != null) {
-                    NamedNodeMap nodeAttrs = node.getAttributes();
+            if (nbme.equbls(node.getNodeNbme())) {
+                if (bttrs != null) {
+                    NbmedNodeMbp nodeAttrs = node.getAttributes();
                     if (nodeAttrs != null) {
-                        boolean matches = true;
-                        int nAttrs = attrs.length / 2;
-                        for (int a = 0; a < nAttrs; a++) {
-                            String aName  = attrs[a * 2];
-                            String aValue = attrs[a * 2 + 1];
-                            Node attr = nodeAttrs.getNamedItem(aName);
-                            if (attr == null ||
-                                aValue != null && !aValue.equals(attr.getNodeValue())) {
-                                matches = false;
-                                break;
+                        boolebn mbtches = true;
+                        int nAttrs = bttrs.length / 2;
+                        for (int b = 0; b < nAttrs; b++) {
+                            String bNbme  = bttrs[b * 2];
+                            String bVblue = bttrs[b * 2 + 1];
+                            Node bttr = nodeAttrs.getNbmedItem(bNbme);
+                            if (bttr == null ||
+                                bVblue != null && !bVblue.equbls(bttr.getNodeVblue())) {
+                                mbtches = fblse;
+                                brebk;
                             }
                         }
-                        if (matches) {
+                        if (mbtches) {
                             return node;
                         }
                     }
@@ -1624,147 +1624,147 @@ class Metacity implements SynthConstants {
         return null;
     }
 
-    protected String getStringAttr(Node node, String name) {
-        String value = null;
-        NamedNodeMap attrs = node.getAttributes();
-        if (attrs != null) {
-            value = getStringAttr(attrs, name);
-            if (value == null) {
-                String inheritFrom = getStringAttr(attrs, "parent");
+    protected String getStringAttr(Node node, String nbme) {
+        String vblue = null;
+        NbmedNodeMbp bttrs = node.getAttributes();
+        if (bttrs != null) {
+            vblue = getStringAttr(bttrs, nbme);
+            if (vblue == null) {
+                String inheritFrom = getStringAttr(bttrs, "pbrent");
                 if (inheritFrom != null) {
-                    Node inheritFromNode = getNode(node.getParentNode(),
-                                                   node.getNodeName(),
-                                                   new String[] { "name", inheritFrom });
+                    Node inheritFromNode = getNode(node.getPbrentNode(),
+                                                   node.getNodeNbme(),
+                                                   new String[] { "nbme", inheritFrom });
                     if (inheritFromNode != null) {
-                        value = getStringAttr(inheritFromNode, name);
+                        vblue = getStringAttr(inheritFromNode, nbme);
                     }
                 }
             }
         }
-        return value;
+        return vblue;
     }
 
-    protected String getStringAttr(NamedNodeMap attrs, String name) {
-        Node item = attrs.getNamedItem(name);
-        return (item != null) ? item.getNodeValue() : null;
+    protected String getStringAttr(NbmedNodeMbp bttrs, String nbme) {
+        Node item = bttrs.getNbmedItem(nbme);
+        return (item != null) ? item.getNodeVblue() : null;
     }
 
-    protected boolean getBooleanAttr(Node node, String name, boolean fallback) {
-        String str = getStringAttr(node, name);
+    protected boolebn getBoolebnAttr(Node node, String nbme, boolebn fbllbbck) {
+        String str = getStringAttr(node, nbme);
         if (str != null) {
-            return Boolean.valueOf(str).booleanValue();
+            return Boolebn.vblueOf(str).boolebnVblue();
         }
-        return fallback;
+        return fbllbbck;
     }
 
-    protected int getIntAttr(Node node, String name, int fallback) {
-        String str = getStringAttr(node, name);
-        int value = fallback;
-        if (str != null) {
-            try {
-                value = Integer.parseInt(str);
-            } catch (NumberFormatException ex) {
-                logError(themeName, ex);
-            }
-        }
-        return value;
-    }
-
-    protected float getFloatAttr(Node node, String name, float fallback) {
-        String str = getStringAttr(node, name);
-        float value = fallback;
+    protected int getIntAttr(Node node, String nbme, int fbllbbck) {
+        String str = getStringAttr(node, nbme);
+        int vblue = fbllbbck;
         if (str != null) {
             try {
-                value = Float.parseFloat(str);
-            } catch (NumberFormatException ex) {
-                logError(themeName, ex);
+                vblue = Integer.pbrseInt(str);
+            } cbtch (NumberFormbtException ex) {
+                logError(themeNbme, ex);
             }
         }
-        return value;
+        return vblue;
+    }
+
+    protected flobt getFlobtAttr(Node node, String nbme, flobt fbllbbck) {
+        String str = getStringAttr(node, nbme);
+        flobt vblue = fbllbbck;
+        if (str != null) {
+            try {
+                vblue = Flobt.pbrseFlobt(str);
+            } cbtch (NumberFormbtException ex) {
+                logError(themeNbme, ex);
+            }
+        }
+        return vblue;
     }
 
 
 
-    protected Color parseColor(String str) {
+    protected Color pbrseColor(String str) {
         StringTokenizer tokenizer = new StringTokenizer(str, "/");
         int n = tokenizer.countTokens();
         if (n > 1) {
             String function = tokenizer.nextToken();
-            if ("shade".equals(function)) {
-                assert (n == 3);
-                Color c = parseColor2(tokenizer.nextToken());
-                float alpha = Float.parseFloat(tokenizer.nextToken());
-                return GTKColorType.adjustColor(c, 1.0F, alpha, alpha);
-            } else if ("blend".equals(function)) {
-                assert (n == 4);
-                Color  bg = parseColor2(tokenizer.nextToken());
-                Color  fg = parseColor2(tokenizer.nextToken());
-                float alpha = Float.parseFloat(tokenizer.nextToken());
-                if (alpha > 1.0f) {
-                    alpha = 1.0f / alpha;
+            if ("shbde".equbls(function)) {
+                bssert (n == 3);
+                Color c = pbrseColor2(tokenizer.nextToken());
+                flobt blphb = Flobt.pbrseFlobt(tokenizer.nextToken());
+                return GTKColorType.bdjustColor(c, 1.0F, blphb, blphb);
+            } else if ("blend".equbls(function)) {
+                bssert (n == 4);
+                Color  bg = pbrseColor2(tokenizer.nextToken());
+                Color  fg = pbrseColor2(tokenizer.nextToken());
+                flobt blphb = Flobt.pbrseFlobt(tokenizer.nextToken());
+                if (blphb > 1.0f) {
+                    blphb = 1.0f / blphb;
                 }
 
-                return new Color((int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * alpha)),
-                                 (int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * alpha)),
-                                 (int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * alpha)));
+                return new Color((int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * blphb)),
+                                 (int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * blphb)),
+                                 (int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * blphb)));
             } else {
-                System.err.println("Unknown Metacity color function="+str);
+                System.err.println("Unknown Metbcity color function="+str);
                 return null;
             }
         } else {
-            return parseColor2(str);
+            return pbrseColor2(str);
         }
     }
 
-    protected Color parseColor2(String str) {
+    protected Color pbrseColor2(String str) {
         Color c = null;
-        if (str.startsWith("gtk:")) {
+        if (str.stbrtsWith("gtk:")) {
             int i1 = str.indexOf('[');
             if (i1 > 3) {
-                String typeStr = str.substring(4, i1).toLowerCase();
+                String typeStr = str.substring(4, i1).toLowerCbse();
                 int i2 = str.indexOf(']');
                 if (i2 > i1+1) {
-                    String stateStr = str.substring(i1+1, i2).toUpperCase();
-                    int state = -1;
-                    if ("ACTIVE".equals(stateStr)) {
-                        state = PRESSED;
-                    } else if ("INSENSITIVE".equals(stateStr)) {
-                        state = DISABLED;
-                    } else if ("NORMAL".equals(stateStr)) {
-                        state = ENABLED;
-                    } else if ("PRELIGHT".equals(stateStr)) {
-                        state = MOUSE_OVER;
-                    } else if ("SELECTED".equals(stateStr)) {
-                        state = SELECTED;
+                    String stbteStr = str.substring(i1+1, i2).toUpperCbse();
+                    int stbte = -1;
+                    if ("ACTIVE".equbls(stbteStr)) {
+                        stbte = PRESSED;
+                    } else if ("INSENSITIVE".equbls(stbteStr)) {
+                        stbte = DISABLED;
+                    } else if ("NORMAL".equbls(stbteStr)) {
+                        stbte = ENABLED;
+                    } else if ("PRELIGHT".equbls(stbteStr)) {
+                        stbte = MOUSE_OVER;
+                    } else if ("SELECTED".equbls(stbteStr)) {
+                        stbte = SELECTED;
                     }
                     ColorType type = null;
-                    if ("fg".equals(typeStr)) {
+                    if ("fg".equbls(typeStr)) {
                         type = GTKColorType.FOREGROUND;
-                    } else if ("bg".equals(typeStr)) {
+                    } else if ("bg".equbls(typeStr)) {
                         type = GTKColorType.BACKGROUND;
-                    } else if ("base".equals(typeStr)) {
+                    } else if ("bbse".equbls(typeStr)) {
                         type = GTKColorType.TEXT_BACKGROUND;
-                    } else if ("text".equals(typeStr)) {
+                    } else if ("text".equbls(typeStr)) {
                         type = GTKColorType.TEXT_FOREGROUND;
-                    } else if ("dark".equals(typeStr)) {
+                    } else if ("dbrk".equbls(typeStr)) {
                         type = GTKColorType.DARK;
-                    } else if ("light".equals(typeStr)) {
+                    } else if ("light".equbls(typeStr)) {
                         type = GTKColorType.LIGHT;
                     }
-                    if (state >= 0 && type != null) {
-                        c = ((GTKStyle)context.getStyle()).getGTKColor(context, state, type);
+                    if (stbte >= 0 && type != null) {
+                        c = ((GTKStyle)context.getStyle()).getGTKColor(context, stbte, type);
                     }
                 }
             }
         }
         if (c == null) {
-            c = parseColorString(str);
+            c = pbrseColorString(str);
         }
         return c;
     }
 
-    private static Color parseColorString(String str) {
-        if (str.charAt(0) == '#') {
+    privbte stbtic Color pbrseColorString(String str) {
+        if (str.chbrAt(0) == '#') {
             str = str.substring(1);
 
             int i = str.length();
@@ -1780,10 +1780,10 @@ class Metacity implements SynthConstants {
             int b;
 
             try {
-                r = Integer.parseInt(str.substring(0, i), 16);
-                g = Integer.parseInt(str.substring(i, i * 2), 16);
-                b = Integer.parseInt(str.substring(i * 2, i * 3), 16);
-            } catch (NumberFormatException nfe) {
+                r = Integer.pbrseInt(str.substring(0, i), 16);
+                g = Integer.pbrseInt(str.substring(i, i * 2), 16);
+                b = Integer.pbrseInt(str.substring(i * 2, i * 3), 16);
+            } cbtch (NumberFormbtException nfe) {
                 return null;
             }
 
@@ -1801,100 +1801,100 @@ class Metacity implements SynthConstants {
         }
     }
 
-    class ArithmeticExpressionEvaluator {
-        private PeekableStringTokenizer tokenizer;
+    clbss ArithmeticExpressionEvblubtor {
+        privbte PeekbbleStringTokenizer tokenizer;
 
-        int evaluate(String expr) {
-            tokenizer = new PeekableStringTokenizer(expr, " \t+-*/%()", true);
-            return Math.round(expression());
+        int evblubte(String expr) {
+            tokenizer = new PeekbbleStringTokenizer(expr, " \t+-*/%()", true);
+            return Mbth.round(expression());
         }
 
-        int evaluate(String expr, int fallback) {
-            return (expr != null) ? evaluate(expr) : fallback;
+        int evblubte(String expr, int fbllbbck) {
+            return (expr != null) ? evblubte(expr) : fbllbbck;
         }
 
-        public float expression() {
-            float value = getTermValue();
-            boolean done = false;
-            while (!done && tokenizer.hasMoreTokens()) {
+        public flobt expression() {
+            flobt vblue = getTermVblue();
+            boolebn done = fblse;
+            while (!done && tokenizer.hbsMoreTokens()) {
                 String next = tokenizer.peek();
-                if ("+".equals(next) ||
-                    "-".equals(next) ||
-                    "`max`".equals(next) ||
-                    "`min`".equals(next)) {
+                if ("+".equbls(next) ||
+                    "-".equbls(next) ||
+                    "`mbx`".equbls(next) ||
+                    "`min`".equbls(next)) {
                     tokenizer.nextToken();
-                    float value2 = getTermValue();
-                    if ("+".equals(next)) {
-                        value += value2;
-                    } else if ("-".equals(next)) {
-                        value -= value2;
-                    } else if ("`max`".equals(next)) {
-                        value = Math.max(value, value2);
-                    } else if ("`min`".equals(next)) {
-                        value = Math.min(value, value2);
+                    flobt vblue2 = getTermVblue();
+                    if ("+".equbls(next)) {
+                        vblue += vblue2;
+                    } else if ("-".equbls(next)) {
+                        vblue -= vblue2;
+                    } else if ("`mbx`".equbls(next)) {
+                        vblue = Mbth.mbx(vblue, vblue2);
+                    } else if ("`min`".equbls(next)) {
+                        vblue = Mbth.min(vblue, vblue2);
                     }
                 } else {
                     done = true;
                 }
             }
-            return value;
+            return vblue;
         }
 
-        public float getTermValue() {
-            float value = getFactorValue();
-            boolean done = false;
-            while (!done && tokenizer.hasMoreTokens()) {
+        public flobt getTermVblue() {
+            flobt vblue = getFbctorVblue();
+            boolebn done = fblse;
+            while (!done && tokenizer.hbsMoreTokens()) {
                 String next = tokenizer.peek();
-                if ("*".equals(next) || "/".equals(next) || "%".equals(next)) {
+                if ("*".equbls(next) || "/".equbls(next) || "%".equbls(next)) {
                     tokenizer.nextToken();
-                    float value2 = getFactorValue();
-                    if ("*".equals(next)) {
-                        value *= value2;
-                    } else if ("/".equals(next)) {
-                        value /= value2;
+                    flobt vblue2 = getFbctorVblue();
+                    if ("*".equbls(next)) {
+                        vblue *= vblue2;
+                    } else if ("/".equbls(next)) {
+                        vblue /= vblue2;
                     } else {
-                        value %= value2;
+                        vblue %= vblue2;
                     }
                 } else {
                     done = true;
                 }
             }
-            return value;
+            return vblue;
         }
 
-        public float getFactorValue() {
-            float value;
-            if ("(".equals(tokenizer.peek())) {
+        public flobt getFbctorVblue() {
+            flobt vblue;
+            if ("(".equbls(tokenizer.peek())) {
                 tokenizer.nextToken();
-                value = expression();
-                tokenizer.nextToken(); // skip right paren
+                vblue = expression();
+                tokenizer.nextToken(); // skip right pbren
             } else {
                 String token = tokenizer.nextToken();
-                if (Character.isDigit(token.charAt(0))) {
-                    value = Float.parseFloat(token);
+                if (Chbrbcter.isDigit(token.chbrAt(0))) {
+                    vblue = Flobt.pbrseFlobt(token);
                 } else {
-                    Integer i = variables.get(token);
+                    Integer i = vbribbles.get(token);
                     if (i == null) {
-                        i = (Integer)getFrameGeometry().get(token);
+                        i = (Integer)getFrbmeGeometry().get(token);
                     }
                     if (i == null) {
-                        logError(themeName, "Variable \"" + token + "\" not defined");
+                        logError(themeNbme, "Vbribble \"" + token + "\" not defined");
                         return 0;
                     }
-                    value = (i != null) ? i.intValue() : 0F;
+                    vblue = (i != null) ? i.intVblue() : 0F;
                 }
             }
-            return value;
+            return vblue;
         }
 
 
     }
 
-    static class PeekableStringTokenizer extends StringTokenizer {
+    stbtic clbss PeekbbleStringTokenizer extends StringTokenizer {
         String token = null;
 
-        public PeekableStringTokenizer(String str, String delim,
-                                       boolean returnDelims) {
+        public PeekbbleStringTokenizer(String str, String delim,
+                                       boolebn returnDelims) {
             super(str, delim, returnDelims);
             peek();
         }
@@ -1906,22 +1906,22 @@ class Metacity implements SynthConstants {
             return token;
         }
 
-        public boolean hasMoreTokens() {
-            return (token != null || super.hasMoreTokens());
+        public boolebn hbsMoreTokens() {
+            return (token != null || super.hbsMoreTokens());
         }
 
         public String nextToken() {
             if (token != null) {
                 String t = token;
                 token = null;
-                if (hasMoreTokens()) {
+                if (hbsMoreTokens()) {
                     peek();
                 }
                 return t;
             } else {
                 String token = super.nextToken();
-                while ((token.equals(" ") || token.equals("\t"))
-                       && hasMoreTokens()) {
+                while ((token.equbls(" ") || token.equbls("\t"))
+                       && hbsMoreTokens()) {
                     token = super.nextToken();
                 }
                 return token;
@@ -1930,37 +1930,37 @@ class Metacity implements SynthConstants {
     }
 
 
-    static class RoundRectClipShape extends RectangularShape {
-        static final int TOP_LEFT = 1;
-        static final int TOP_RIGHT = 2;
-        static final int BOTTOM_LEFT = 4;
-        static final int BOTTOM_RIGHT = 8;
+    stbtic clbss RoundRectClipShbpe extends RectbngulbrShbpe {
+        stbtic finbl int TOP_LEFT = 1;
+        stbtic finbl int TOP_RIGHT = 2;
+        stbtic finbl int BOTTOM_LEFT = 4;
+        stbtic finbl int BOTTOM_RIGHT = 8;
 
         int x;
         int y;
         int width;
         int height;
-        int arcwidth;
-        int archeight;
+        int brcwidth;
+        int brcheight;
         int corners;
 
-        public RoundRectClipShape() {
+        public RoundRectClipShbpe() {
         }
 
-        public RoundRectClipShape(int x, int y, int w, int h,
-                                  int arcw, int arch, int corners) {
-            setRoundedRect(x, y, w, h, arcw, arch, corners);
+        public RoundRectClipShbpe(int x, int y, int w, int h,
+                                  int brcw, int brch, int corners) {
+            setRoundedRect(x, y, w, h, brcw, brch, corners);
         }
 
         public void setRoundedRect(int x, int y, int w, int h,
-                                   int arcw, int arch, int corners) {
+                                   int brcw, int brch, int corners) {
             this.corners = corners;
             this.x = x;
             this.y = y;
             this.width = w;
             this.height = h;
-            this.arcwidth = arcw;
-            this.archeight = arch;
+            this.brcwidth = brcw;
+            this.brcheight = brch;
         }
 
         public double getX() {
@@ -1980,116 +1980,116 @@ class Metacity implements SynthConstants {
         }
 
         public double getArcWidth() {
-            return (double)arcwidth;
+            return (double)brcwidth;
         }
 
         public double getArcHeight() {
-            return (double)archeight;
+            return (double)brcheight;
         }
 
-        public boolean isEmpty() {
-            return false;  // Not called
+        public boolebn isEmpty() {
+            return fblse;  // Not cblled
         }
 
-        public Rectangle2D getBounds2D() {
-            return null;  // Not called
+        public Rectbngle2D getBounds2D() {
+            return null;  // Not cblled
         }
 
-        public int getCornerFlags() {
+        public int getCornerFlbgs() {
             return corners;
         }
 
-        public void setFrame(double x, double y, double w, double h) {
-            // Not called
+        public void setFrbme(double x, double y, double w, double h) {
+            // Not cblled
         }
 
-        public boolean contains(double x, double y) {
-            return false;  // Not called
+        public boolebn contbins(double x, double y) {
+            return fblse;  // Not cblled
         }
 
-        private int classify(double coord, double left, double right, double arcsize) {
-            return 0;  // Not called
+        privbte int clbssify(double coord, double left, double right, double brcsize) {
+            return 0;  // Not cblled
         }
 
-        public boolean intersects(double x, double y, double w, double h) {
-            return false;  // Not called
+        public boolebn intersects(double x, double y, double w, double h) {
+            return fblse;  // Not cblled
         }
 
-        public boolean contains(double x, double y, double w, double h) {
-            return false;  // Not called
+        public boolebn contbins(double x, double y, double w, double h) {
+            return fblse;  // Not cblled
         }
 
-        public PathIterator getPathIterator(AffineTransform at) {
-            return new RoundishRectIterator(this, at);
+        public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt) {
+            return new RoundishRectIterbtor(this, bt);
         }
 
 
-        static class RoundishRectIterator implements PathIterator {
-            double x, y, w, h, aw, ah;
-            AffineTransform affine;
+        stbtic clbss RoundishRectIterbtor implements PbthIterbtor {
+            double x, y, w, h, bw, bh;
+            AffineTrbnsform bffine;
             int index;
 
             double ctrlpts[][];
             int types[];
 
-            private static final double angle = Math.PI / 4.0;
-            private static final double a = 1.0 - Math.cos(angle);
-            private static final double b = Math.tan(angle);
-            private static final double c = Math.sqrt(1.0 + b * b) - 1 + a;
-            private static final double cv = 4.0 / 3.0 * a * b / c;
-            private static final double acv = (1.0 - cv) / 2.0;
+            privbte stbtic finbl double bngle = Mbth.PI / 4.0;
+            privbte stbtic finbl double b = 1.0 - Mbth.cos(bngle);
+            privbte stbtic finbl double b = Mbth.tbn(bngle);
+            privbte stbtic finbl double c = Mbth.sqrt(1.0 + b * b) - 1 + b;
+            privbte stbtic finbl double cv = 4.0 / 3.0 * b * b / c;
+            privbte stbtic finbl double bcv = (1.0 - cv) / 2.0;
 
-            // For each array:
-            //     4 values for each point {v0, v1, v2, v3}:
-            //         point = (x + v0 * w + v1 * arcWidth,
-            //                  y + v2 * h + v3 * arcHeight);
-            private static final double CtrlPtTemplate[][] = {
+            // For ebch brrby:
+            //     4 vblues for ebch point {v0, v1, v2, v3}:
+            //         point = (x + v0 * w + v1 * brcWidth,
+            //                  y + v2 * h + v3 * brcHeight);
+            privbte stbtic finbl double CtrlPtTemplbte[][] = {
                 {  0.0,  0.0,  1.0,  0.0 },     /* BOTTOM LEFT corner */
-                {  0.0,  0.0,  1.0, -0.5 },     /* BOTTOM LEFT arc start */
-                {  0.0,  0.0,  1.0, -acv,       /* BOTTOM LEFT arc curve */
-                   0.0,  acv,  1.0,  0.0,
+                {  0.0,  0.0,  1.0, -0.5 },     /* BOTTOM LEFT brc stbrt */
+                {  0.0,  0.0,  1.0, -bcv,       /* BOTTOM LEFT brc curve */
+                   0.0,  bcv,  1.0,  0.0,
                    0.0,  0.5,  1.0,  0.0 },
                 {  1.0,  0.0,  1.0,  0.0 },     /* BOTTOM RIGHT corner */
-                {  1.0, -0.5,  1.0,  0.0 },     /* BOTTOM RIGHT arc start */
-                {  1.0, -acv,  1.0,  0.0,       /* BOTTOM RIGHT arc curve */
-                   1.0,  0.0,  1.0, -acv,
+                {  1.0, -0.5,  1.0,  0.0 },     /* BOTTOM RIGHT brc stbrt */
+                {  1.0, -bcv,  1.0,  0.0,       /* BOTTOM RIGHT brc curve */
+                   1.0,  0.0,  1.0, -bcv,
                    1.0,  0.0,  1.0, -0.5 },
                 {  1.0,  0.0,  0.0,  0.0 },     /* TOP RIGHT corner */
-                {  1.0,  0.0,  0.0,  0.5 },     /* TOP RIGHT arc start */
-                {  1.0,  0.0,  0.0,  acv,       /* TOP RIGHT arc curve */
-                   1.0, -acv,  0.0,  0.0,
+                {  1.0,  0.0,  0.0,  0.5 },     /* TOP RIGHT brc stbrt */
+                {  1.0,  0.0,  0.0,  bcv,       /* TOP RIGHT brc curve */
+                   1.0, -bcv,  0.0,  0.0,
                    1.0, -0.5,  0.0,  0.0 },
                 {  0.0,  0.0,  0.0,  0.0 },     /* TOP LEFT corner */
-                {  0.0,  0.5,  0.0,  0.0 },     /* TOP LEFT arc start */
-                {  0.0,  acv,  0.0,  0.0,       /* TOP LEFT arc curve */
-                   0.0,  0.0,  0.0,  acv,
+                {  0.0,  0.5,  0.0,  0.0 },     /* TOP LEFT brc stbrt */
+                {  0.0,  bcv,  0.0,  0.0,       /* TOP LEFT brc curve */
+                   0.0,  0.0,  0.0,  bcv,
                    0.0,  0.0,  0.0,  0.5 },
-                {},                             /* Closing path element */
+                {},                             /* Closing pbth element */
             };
-            private static final int CornerFlags[] = {
-                RoundRectClipShape.BOTTOM_LEFT,
-                RoundRectClipShape.BOTTOM_RIGHT,
-                RoundRectClipShape.TOP_RIGHT,
-                RoundRectClipShape.TOP_LEFT,
+            privbte stbtic finbl int CornerFlbgs[] = {
+                RoundRectClipShbpe.BOTTOM_LEFT,
+                RoundRectClipShbpe.BOTTOM_RIGHT,
+                RoundRectClipShbpe.TOP_RIGHT,
+                RoundRectClipShbpe.TOP_LEFT,
             };
 
-            RoundishRectIterator(RoundRectClipShape rr, AffineTransform at) {
+            RoundishRectIterbtor(RoundRectClipShbpe rr, AffineTrbnsform bt) {
                 this.x = rr.getX();
                 this.y = rr.getY();
                 this.w = rr.getWidth();
                 this.h = rr.getHeight();
-                this.aw = Math.min(w, Math.abs(rr.getArcWidth()));
-                this.ah = Math.min(h, Math.abs(rr.getArcHeight()));
-                this.affine = at;
+                this.bw = Mbth.min(w, Mbth.bbs(rr.getArcWidth()));
+                this.bh = Mbth.min(h, Mbth.bbs(rr.getArcHeight()));
+                this.bffine = bt;
                 if (w < 0 || h < 0) {
-                    // Don't draw anything...
+                    // Don't drbw bnything...
                     ctrlpts = new double[0][];
                     types = new int[0];
                 } else {
-                    int corners = rr.getCornerFlags();
+                    int corners = rr.getCornerFlbgs();
                     int numedges = 5;  // 4xCORNER_POINT, CLOSE
                     for (int i = 1; i < 0x10; i <<= 1) {
-                        // Add one for each corner that has a curve
+                        // Add one for ebch corner thbt hbs b curve
                         if ((corners & i) != 0) numedges++;
                     }
                     ctrlpts = new double[numedges][];
@@ -2097,16 +2097,16 @@ class Metacity implements SynthConstants {
                     int j = 0;
                     for (int i = 0; i < 4; i++) {
                         types[j] = SEG_LINETO;
-                        if ((corners & CornerFlags[i]) == 0) {
-                            ctrlpts[j++] = CtrlPtTemplate[i*3+0];
+                        if ((corners & CornerFlbgs[i]) == 0) {
+                            ctrlpts[j++] = CtrlPtTemplbte[i*3+0];
                         } else {
-                            ctrlpts[j++] = CtrlPtTemplate[i*3+1];
+                            ctrlpts[j++] = CtrlPtTemplbte[i*3+1];
                             types[j] = SEG_CUBICTO;
-                            ctrlpts[j++] = CtrlPtTemplate[i*3+2];
+                            ctrlpts[j++] = CtrlPtTemplbte[i*3+2];
                         }
                     }
                     types[j] = SEG_CLOSE;
-                    ctrlpts[j++] = CtrlPtTemplate[12];
+                    ctrlpts[j++] = CtrlPtTemplbte[12];
                     types[0] = SEG_MOVETO;
                 }
             }
@@ -2115,7 +2115,7 @@ class Metacity implements SynthConstants {
                 return WIND_NON_ZERO;
             }
 
-            public boolean isDone() {
+            public boolebn isDone() {
                 return index >= ctrlpts.length;
             }
 
@@ -2123,34 +2123,34 @@ class Metacity implements SynthConstants {
                 index++;
             }
 
-            public int currentSegment(float[] coords) {
+            public int currentSegment(flobt[] coords) {
                 if (isDone()) {
-                    throw new NoSuchElementException("roundrect iterator out of bounds");
+                    throw new NoSuchElementException("roundrect iterbtor out of bounds");
                 }
                 double ctrls[] = ctrlpts[index];
                 int nc = 0;
                 for (int i = 0; i < ctrls.length; i += 4) {
-                    coords[nc++] = (float) (x + ctrls[i + 0] * w + ctrls[i + 1] * aw);
-                    coords[nc++] = (float) (y + ctrls[i + 2] * h + ctrls[i + 3] * ah);
+                    coords[nc++] = (flobt) (x + ctrls[i + 0] * w + ctrls[i + 1] * bw);
+                    coords[nc++] = (flobt) (y + ctrls[i + 2] * h + ctrls[i + 3] * bh);
                 }
-                if (affine != null) {
-                    affine.transform(coords, 0, coords, 0, nc / 2);
+                if (bffine != null) {
+                    bffine.trbnsform(coords, 0, coords, 0, nc / 2);
                 }
                 return types[index];
             }
 
             public int currentSegment(double[] coords) {
                 if (isDone()) {
-                    throw new NoSuchElementException("roundrect iterator out of bounds");
+                    throw new NoSuchElementException("roundrect iterbtor out of bounds");
                 }
                 double ctrls[] = ctrlpts[index];
                 int nc = 0;
                 for (int i = 0; i < ctrls.length; i += 4) {
-                    coords[nc++] = x + ctrls[i + 0] * w + ctrls[i + 1] * aw;
-                    coords[nc++] = y + ctrls[i + 2] * h + ctrls[i + 3] * ah;
+                    coords[nc++] = x + ctrls[i + 0] * w + ctrls[i + 1] * bw;
+                    coords[nc++] = y + ctrls[i + 2] * h + ctrls[i + 3] * bh;
                 }
-                if (affine != null) {
-                    affine.transform(coords, 0, coords, 0, nc / 2);
+                if (bffine != null) {
+                    bffine.trbnsform(coords, 0, coords, 0, nc / 2);
                 }
                 return types[index];
             }

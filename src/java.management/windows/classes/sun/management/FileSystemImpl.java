@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.io.File;
-import java.io.IOException;
+import jbvb.io.File;
+import jbvb.io.IOException;
 
 /*
- * Windows implementation of sun.management.FileSystem
+ * Windows implementbtion of sun.mbnbgement.FileSystem
  */
-public class FileSystemImpl extends FileSystem {
+public clbss FileSystemImpl extends FileSystem {
 
-    public boolean supportsFileSecurity(File f) throws IOException {
-        return isSecuritySupported0(f.getAbsolutePath());
+    public boolebn supportsFileSecurity(File f) throws IOException {
+        return isSecuritySupported0(f.getAbsolutePbth());
     }
 
-    public boolean isAccessUserOnly(File f) throws IOException {
-        String path = f.getAbsolutePath();
-        if (!isSecuritySupported0(path)) {
-            throw new UnsupportedOperationException("File system does not support file security");
+    public boolebn isAccessUserOnly(File f) throws IOException {
+        String pbth = f.getAbsolutePbth();
+        if (!isSecuritySupported0(pbth)) {
+            throw new UnsupportedOperbtionException("File system does not support file security");
         }
-        return isAccessUserOnly0(path);
+        return isAccessUserOnly0(pbth);
     }
 
-    // Native methods
+    // Nbtive methods
 
-    static native void init0();
+    stbtic nbtive void init0();
 
-    static native boolean isSecuritySupported0(String path) throws IOException;
+    stbtic nbtive boolebn isSecuritySupported0(String pbth) throws IOException;
 
-    static native boolean isAccessUserOnly0(String path) throws IOException;
+    stbtic nbtive boolebn isAccessUserOnly0(String pbth) throws IOException;
 
-    // Initialization
+    // Initiblizbtion
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("management");
+                    System.lobdLibrbry("mbnbgement");
                     return null;
                 }
             });

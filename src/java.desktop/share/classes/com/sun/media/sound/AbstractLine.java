@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.Map;
-import java.util.Vector;
-import java.util.WeakHashMap;
+import jbvb.util.Mbp;
+import jbvb.util.Vector;
+import jbvb.util.WebkHbshMbp;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Control;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.Control;
+import jbvbx.sound.sbmpled.Line;
+import jbvbx.sound.sbmpled.LineEvent;
+import jbvbx.sound.sbmpled.LineListener;
+import jbvbx.sound.sbmpled.LineUnbvbilbbleException;
 
 
 /**
- * AbstractLine
+ * AbstrbctLine
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-abstract class AbstractLine implements Line {
+bbstrbct clbss AbstrbctLine implements Line {
 
-    protected final Line.Info info;
+    protected finbl Line.Info info;
     protected Control[] controls;
-    AbstractMixer mixer;
-    private boolean open     = false;
-    private final Vector<Object> listeners = new Vector<>();
+    AbstrbctMixer mixer;
+    privbte boolebn open     = fblse;
+    privbte finbl Vector<Object> listeners = new Vector<>();
 
     /**
-     * Contains event dispatcher per thread group.
+     * Contbins event dispbtcher per threbd group.
      */
-    private static final Map<ThreadGroup, EventDispatcher> dispatchers =
-            new WeakHashMap<>();
+    privbte stbtic finbl Mbp<ThrebdGroup, EventDispbtcher> dispbtchers =
+            new WebkHbshMbp<>();
 
     /**
-     * Constructs a new AbstractLine.
-     * @param mixer the mixer with which this line is associated
-     * @param controls set of supported controls
+     * Constructs b new AbstrbctLine.
+     * @pbrbm mixer the mixer with which this line is bssocibted
+     * @pbrbm controls set of supported controls
      */
-    protected AbstractLine(Line.Info info, AbstractMixer mixer, Control[] controls) {
+    protected AbstrbctLine(Line.Info info, AbstrbctMixer mixer, Control[] controls) {
 
         if (controls == null) {
             controls = new Control[0];
@@ -75,55 +75,55 @@ abstract class AbstractLine implements Line {
 
     // LINE METHODS
 
-    public final Line.Info getLineInfo() {
+    public finbl Line.Info getLineInfo() {
         return info;
     }
 
 
-    public final boolean isOpen() {
+    public finbl boolebn isOpen() {
         return open;
     }
 
 
-    public final void addLineListener(LineListener listener) {
+    public finbl void bddLineListener(LineListener listener) {
         synchronized(listeners) {
-            if ( ! (listeners.contains(listener)) ) {
-                listeners.addElement(listener);
+            if ( ! (listeners.contbins(listener)) ) {
+                listeners.bddElement(listener);
             }
         }
     }
 
 
     /**
-     * Removes an audio listener.
-     * @param listener listener to remove
+     * Removes bn budio listener.
+     * @pbrbm listener listener to remove
      */
-    public final void removeLineListener(LineListener listener) {
+    public finbl void removeLineListener(LineListener listener) {
         listeners.removeElement(listener);
     }
 
 
     /**
-     * Obtains the set of controls supported by the
-     * line.  If no controls are supported, returns an
-     * array of length 0.
+     * Obtbins the set of controls supported by the
+     * line.  If no controls bre supported, returns bn
+     * brrby of length 0.
      * @return control set
      */
-    public final Control[] getControls() {
-        Control[] returnedArray = new Control[controls.length];
+    public finbl Control[] getControls() {
+        Control[] returnedArrby = new Control[controls.length];
 
         for (int i = 0; i < controls.length; i++) {
-            returnedArray[i] = controls[i];
+            returnedArrby[i] = controls[i];
         }
 
-        return returnedArray;
+        return returnedArrby;
     }
 
 
-    public final boolean isControlSupported(Control.Type controlType) {
-        // protect against a NullPointerException
+    public finbl boolebn isControlSupported(Control.Type controlType) {
+        // protect bgbinst b NullPointerException
         if (controlType == null) {
-            return false;
+            return fblse;
         }
 
         for (int i = 0; i < controls.length; i++) {
@@ -132,12 +132,12 @@ abstract class AbstractLine implements Line {
             }
         }
 
-        return false;
+        return fblse;
     }
 
 
-    public final Control getControl(Control.Type controlType) {
-        // protect against a NullPointerException
+    public finbl Control getControl(Control.Type controlType) {
+        // protect bgbinst b NullPointerException
         if (controlType != null) {
 
             for (int i = 0; i < controls.length; i++) {
@@ -147,7 +147,7 @@ abstract class AbstractLine implements Line {
             }
         }
 
-        throw new IllegalArgumentException("Unsupported control type: " + controlType);
+        throw new IllegblArgumentException("Unsupported control type: " + controlType);
     }
 
 
@@ -155,15 +155,15 @@ abstract class AbstractLine implements Line {
 
 
     /**
-     * This method sets the open state and generates
-     * events if it changes.
+     * This method sets the open stbte bnd generbtes
+     * events if it chbnges.
      */
-    final void setOpen(boolean open) {
+    finbl void setOpen(boolebn open) {
 
-        if (Printer.trace) Printer.trace("> "+getClass().getName()+" (AbstractLine): setOpen(" + open + ")  this.open: " + this.open);
+        if (Printer.trbce) Printer.trbce("> "+getClbss().getNbme()+" (AbstrbctLine): setOpen(" + open + ")  this.open: " + this.open);
 
-        boolean sendEvents = false;
-        long position = getLongFramePosition();
+        boolebn sendEvents = fblse;
+        long position = getLongFrbmePosition();
 
         synchronized (this) {
             if (this.open != open) {
@@ -179,61 +179,61 @@ abstract class AbstractLine implements Line {
                 sendEvents(new LineEvent(this, LineEvent.Type.CLOSE, position));
             }
         }
-        if (Printer.trace) Printer.trace("< "+getClass().getName()+" (AbstractLine): setOpen(" + open + ")  this.open: " + this.open);
+        if (Printer.trbce) Printer.trbce("< "+getClbss().getNbme()+" (AbstrbctLine): setOpen(" + open + ")  this.open: " + this.open);
     }
 
 
     /**
      * Send line events.
      */
-    final void sendEvents(LineEvent event) {
-        getEventDispatcher().sendAudioEvents(event, listeners);
+    finbl void sendEvents(LineEvent event) {
+        getEventDispbtcher().sendAudioEvents(event, listeners);
     }
 
 
     /**
-     * This is an error in the API: getFramePosition
-     * should return a long value. At CD quality,
-     * the int value wraps around after 13 hours.
+     * This is bn error in the API: getFrbmePosition
+     * should return b long vblue. At CD qublity,
+     * the int vblue wrbps bround bfter 13 hours.
      */
-    public final int getFramePosition() {
-        return (int) getLongFramePosition();
+    public finbl int getFrbmePosition() {
+        return (int) getLongFrbmePosition();
     }
 
 
     /**
-     * Return the frame position in a long value
-     * This implementation returns AudioSystem.NOT_SPECIFIED.
+     * Return the frbme position in b long vblue
+     * This implementbtion returns AudioSystem.NOT_SPECIFIED.
      */
-    public long getLongFramePosition() {
+    public long getLongFrbmePosition() {
         return AudioSystem.NOT_SPECIFIED;
     }
 
 
     // $$kk: 06.03.99: returns the mixer used in construction.
-    // this is a hold-over from when there was a public method like
-    // this on line and should be fixed!!
-    final AbstractMixer getMixer() {
+    // this is b hold-over from when there wbs b public method like
+    // this on line bnd should be fixed!!
+    finbl AbstrbctMixer getMixer() {
         return mixer;
     }
 
-    final EventDispatcher getEventDispatcher() {
-        // create and start the global event thread
-        //TODO  need a way to stop this thread when the engine is done
-        final ThreadGroup tg = Thread.currentThread().getThreadGroup();
-        synchronized (dispatchers) {
-            EventDispatcher eventDispatcher = dispatchers.get(tg);
-            if (eventDispatcher == null) {
-                eventDispatcher = new EventDispatcher();
-                dispatchers.put(tg, eventDispatcher);
-                eventDispatcher.start();
+    finbl EventDispbtcher getEventDispbtcher() {
+        // crebte bnd stbrt the globbl event threbd
+        //TODO  need b wby to stop this threbd when the engine is done
+        finbl ThrebdGroup tg = Threbd.currentThrebd().getThrebdGroup();
+        synchronized (dispbtchers) {
+            EventDispbtcher eventDispbtcher = dispbtchers.get(tg);
+            if (eventDispbtcher == null) {
+                eventDispbtcher = new EventDispbtcher();
+                dispbtchers.put(tg, eventDispbtcher);
+                eventDispbtcher.stbrt();
             }
-            return eventDispatcher;
+            return eventDispbtcher;
         }
     }
 
     // ABSTRACT METHODS
 
-    public abstract void open() throws LineUnavailableException;
-    public abstract void close();
+    public bbstrbct void open() throws LineUnbvbilbbleException;
+    public bbstrbct void close();
 }

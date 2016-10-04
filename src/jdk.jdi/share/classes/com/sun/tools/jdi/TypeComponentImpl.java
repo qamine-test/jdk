@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.List;
+import jbvb.util.List;
 
-abstract public class TypeComponentImpl extends MirrorImpl
+bbstrbct public clbss TypeComponentImpl extends MirrorImpl
     implements TypeComponent
 {
-    protected final long ref;
-    protected final String name;
-    protected final String signature;
-    protected final String genericSignature;
-    protected final ReferenceTypeImpl declaringType;
-    private final int modifiers;
+    protected finbl long ref;
+    protected finbl String nbme;
+    protected finbl String signbture;
+    protected finbl String genericSignbture;
+    protected finbl ReferenceTypeImpl declbringType;
+    privbte finbl int modifiers;
 
-    TypeComponentImpl(VirtualMachine vm, ReferenceTypeImpl declaringType,
+    TypeComponentImpl(VirtublMbchine vm, ReferenceTypeImpl declbringType,
                       long ref,
-                      String name, String signature,
-                      String genericSignature, int modifiers) {
-        // The generic signature is set when this is created.
+                      String nbme, String signbture,
+                      String genericSignbture, int modifiers) {
+        // The generic signbture is set when this is crebted.
         super(vm);
-        this.declaringType = declaringType;
+        this.declbringType = declbringType;
         this.ref = ref;
-        this.name = name;
-        this.signature = signature;
-        if (genericSignature != null && genericSignature.length() != 0) {
-            this.genericSignature = genericSignature;
+        this.nbme = nbme;
+        this.signbture = signbture;
+        if (genericSignbture != null && genericSignbture.length() != 0) {
+            this.genericSignbture = genericSignbture;
         } else {
-            this.genericSignature = null;
+            this.genericSignbture = null;
         }
         this.modifiers = modifiers;
     }
 
-    public String name() {
-        return name;
+    public String nbme() {
+        return nbme;
     }
 
-    public String signature() {
-        return signature;
+    public String signbture() {
+        return signbture;
     }
-    public String genericSignature() {
-        return genericSignature;
+    public String genericSignbture() {
+        return genericSignbture;
     }
 
     public int modifiers() {
         return modifiers;
     }
 
-    public ReferenceType declaringType() {
-        return declaringType;
+    public ReferenceType declbringType() {
+        return declbringType;
     }
 
-    public boolean isStatic() {
+    public boolebn isStbtic() {
         return isModifierSet(VMModifiers.STATIC);
     }
 
-    public boolean isFinal() {
+    public boolebn isFinbl() {
         return isModifierSet(VMModifiers.FINAL);
     }
 
-    public boolean isPrivate() {
+    public boolebn isPrivbte() {
         return isModifierSet(VMModifiers.PRIVATE);
     }
 
-    public boolean isPackagePrivate() {
+    public boolebn isPbckbgePrivbte() {
         return !isModifierSet(VMModifiers.PRIVATE
                               | VMModifiers.PROTECTED
                               | VMModifiers.PUBLIC);
     }
 
-    public boolean isProtected() {
+    public boolebn isProtected() {
         return isModifierSet(VMModifiers.PROTECTED);
     }
 
-    public boolean isPublic() {
+    public boolebn isPublic() {
         return isModifierSet(VMModifiers.PUBLIC);
     }
 
-    public boolean isSynthetic() {
+    public boolebn isSynthetic() {
         return isModifierSet(VMModifiers.SYNTHETIC);
     }
 
@@ -110,7 +110,7 @@ abstract public class TypeComponentImpl extends MirrorImpl
         return ref;
     }
 
-    boolean isModifierSet(int compareBits) {
-        return (modifiers & compareBits) != 0;
+    boolebn isModifierSet(int compbreBits) {
+        return (modifiers & compbreBits) != 0;
     }
 }

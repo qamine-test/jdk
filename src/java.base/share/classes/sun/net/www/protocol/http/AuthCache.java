@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http;
+pbckbge sun.net.www.protocol.http;
 
 /**
- * @author Michael McMahon
+ * @buthor Michbel McMbhon
  *
- * Interface provided by internal http authentication cache.
- * NB. This API will be replaced in a future release, and should
- * not be made public.
+ * Interfbce provided by internbl http buthenticbtion cbche.
+ * NB. This API will be replbced in b future relebse, bnd should
+ * not be mbde public.
  */
 
-public interface AuthCache {
+public interfbce AuthCbche {
 
     /**
-     * Put an entry in the cache. pkey is a string specified as follows:
+     * Put bn entry in the cbche. pkey is b string specified bs follows:
      *
-     * A:[B:]C:D:E[:F]   Between 4 and 6 fields separated by ":"
-     *          where the fields have the following meaning:
-     * A is "s" or "p" for server or proxy authentication respectively
-     * B is optional and is the {@link AuthScheme}, e.g. BASIC, DIGEST, NTLM, etc
+     * A:[B:]C:D:E[:F]   Between 4 bnd 6 fields sepbrbted by ":"
+     *          where the fields hbve the following mebning:
+     * A is "s" or "p" for server or proxy buthenticbtion respectively
+     * B is optionbl bnd is the {@link AuthScheme}, e.g. BASIC, DIGEST, NTLM, etc
      * C is either "http" or "https"
-     * D is the hostname
+     * D is the hostnbme
      * E is the port number
-     * F is optional and if present is the realm
+     * F is optionbl bnd if present is the reblm
      *
-     * Generally, two entries are created for each AuthCacheValue,
-     * one including the realm and one without the realm.
-     * Also, for some schemes (digest) multiple entries may be created
-     * with the same pkey, but with a different path value in
-     * the AuthCacheValue.
+     * Generblly, two entries bre crebted for ebch AuthCbcheVblue,
+     * one including the reblm bnd one without the reblm.
+     * Also, for some schemes (digest) multiple entries mby be crebted
+     * with the sbme pkey, but with b different pbth vblue in
+     * the AuthCbcheVblue.
      */
-    public void put (String pkey, AuthCacheValue value);
+    public void put (String pkey, AuthCbcheVblue vblue);
 
     /**
-     * Get an entry from the cache based on pkey as described above, but also
-     * using a pathname (skey) and the cache must return an entry
-     * if skey is a sub-path of the AuthCacheValue.path field.
+     * Get bn entry from the cbche bbsed on pkey bs described bbove, but blso
+     * using b pbthnbme (skey) bnd the cbche must return bn entry
+     * if skey is b sub-pbth of the AuthCbcheVblue.pbth field.
      */
-    public AuthCacheValue get (String pkey, String skey);
+    public AuthCbcheVblue get (String pkey, String skey);
 
     /**
-     * remove the entry from the cache whose pkey is specified and
-     * whose path is equal to entry.path. If entry is null then
-     * all entries with the same pkey should be removed.
+     * remove the entry from the cbche whose pkey is specified bnd
+     * whose pbth is equbl to entry.pbth. If entry is null then
+     * bll entries with the sbme pkey should be removed.
      */
-    public void remove (String pkey, AuthCacheValue entry);
+    public void remove (String pkey, AuthCbcheVblue entry);
 }

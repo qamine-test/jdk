@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map.Entry;
-import java.util.Set;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Set;
 
 
 
 /**
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class MultiUIDefaults extends UIDefaults
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss MultiUIDefbults extends UIDefbults
 {
-    private UIDefaults[] tables;
+    privbte UIDefbults[] tbbles;
 
-    public MultiUIDefaults(UIDefaults[] defaults) {
+    public MultiUIDefbults(UIDefbults[] defbults) {
         super();
-        tables = defaults;
+        tbbles = defbults;
     }
 
-    public MultiUIDefaults() {
+    public MultiUIDefbults() {
         super();
-        tables = new UIDefaults[0];
+        tbbles = new UIDefbults[0];
     }
 
     @Override
     public Object get(Object key)
     {
-        Object value = super.get(key);
-        if (value != null) {
-            return value;
+        Object vblue = super.get(key);
+        if (vblue != null) {
+            return vblue;
         }
 
-        for (UIDefaults table : tables) {
-            value = (table != null) ? table.get(key) : null;
-            if (value != null) {
-                return value;
+        for (UIDefbults tbble : tbbles) {
+            vblue = (tbble != null) ? tbble.get(key) : null;
+            if (vblue != null) {
+                return vblue;
             }
         }
 
@@ -72,17 +72,17 @@ class MultiUIDefaults extends UIDefaults
     }
 
     @Override
-    public Object get(Object key, Locale l)
+    public Object get(Object key, Locble l)
     {
-        Object value = super.get(key,l);
-        if (value != null) {
-            return value;
+        Object vblue = super.get(key,l);
+        if (vblue != null) {
+            return vblue;
         }
 
-        for (UIDefaults table : tables) {
-            value = (table != null) ? table.get(key,l) : null;
-            if (value != null) {
-                return value;
+        for (UIDefbults tbble : tbbles) {
+            vblue = (tbble != null) ? tbble.get(key,l) : null;
+            if (vblue != null) {
+                return vblue;
             }
         }
 
@@ -95,65 +95,65 @@ class MultiUIDefaults extends UIDefaults
     }
 
     @Override
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return size() == 0;
     }
 
     @Override
-    public Enumeration<Object> keys()
+    public Enumerbtion<Object> keys()
     {
-        return new MultiUIDefaultsEnumerator(
-                MultiUIDefaultsEnumerator.Type.KEYS, entrySet());
+        return new MultiUIDefbultsEnumerbtor(
+                MultiUIDefbultsEnumerbtor.Type.KEYS, entrySet());
     }
 
     @Override
-    public Enumeration<Object> elements()
+    public Enumerbtion<Object> elements()
     {
-        return new MultiUIDefaultsEnumerator(
-                MultiUIDefaultsEnumerator.Type.ELEMENTS, entrySet());
+        return new MultiUIDefbultsEnumerbtor(
+                MultiUIDefbultsEnumerbtor.Type.ELEMENTS, entrySet());
     }
 
     @Override
     public Set<Entry<Object, Object>> entrySet() {
-        Set<Entry<Object, Object>> set = new HashSet<Entry<Object, Object>>();
-        for (int i = tables.length - 1; i >= 0; i--) {
-            if (tables[i] != null) {
-                set.addAll(tables[i].entrySet());
+        Set<Entry<Object, Object>> set = new HbshSet<Entry<Object, Object>>();
+        for (int i = tbbles.length - 1; i >= 0; i--) {
+            if (tbbles[i] != null) {
+                set.bddAll(tbbles[i].entrySet());
             }
         }
-        set.addAll(super.entrySet());
+        set.bddAll(super.entrySet());
         return set;
     }
 
     @Override
     protected void getUIError(String msg) {
-        if (tables.length > 0) {
-            tables[0].getUIError(msg);
+        if (tbbles.length > 0) {
+            tbbles[0].getUIError(msg);
         } else {
             super.getUIError(msg);
         }
     }
 
-    private static class MultiUIDefaultsEnumerator implements Enumeration<Object>
+    privbte stbtic clbss MultiUIDefbultsEnumerbtor implements Enumerbtion<Object>
     {
-        public static enum Type { KEYS, ELEMENTS };
-        private Iterator<Entry<Object, Object>> iterator;
-        private Type type;
+        public stbtic enum Type { KEYS, ELEMENTS };
+        privbte Iterbtor<Entry<Object, Object>> iterbtor;
+        privbte Type type;
 
-        MultiUIDefaultsEnumerator(Type type, Set<Entry<Object, Object>> entries) {
+        MultiUIDefbultsEnumerbtor(Type type, Set<Entry<Object, Object>> entries) {
             this.type = type;
-            this.iterator = entries.iterator();
+            this.iterbtor = entries.iterbtor();
         }
 
-        public boolean hasMoreElements() {
-            return iterator.hasNext();
+        public boolebn hbsMoreElements() {
+            return iterbtor.hbsNext();
         }
 
         public Object nextElement() {
             switch (type) {
-                case KEYS: return iterator.next().getKey();
-                case ELEMENTS: return iterator.next().getValue();
-                default: return null;
+                cbse KEYS: return iterbtor.next().getKey();
+                cbse ELEMENTS: return iterbtor.next().getVblue();
+                defbult: return null;
             }
         }
     }
@@ -161,29 +161,29 @@ class MultiUIDefaults extends UIDefaults
     @Override
     public Object remove(Object key)
     {
-        Object value = null;
-        for (int i = tables.length - 1; i >= 0; i--) {
-            if (tables[i] != null) {
-                Object v = tables[i].remove(key);
+        Object vblue = null;
+        for (int i = tbbles.length - 1; i >= 0; i--) {
+            if (tbbles[i] != null) {
+                Object v = tbbles[i].remove(key);
                 if (v != null) {
-                    value = v;
+                    vblue = v;
                 }
             }
         }
         Object v = super.remove(key);
         if (v != null) {
-            value = v;
+            vblue = v;
         }
 
-        return value;
+        return vblue;
     }
 
     @Override
-    public void clear() {
-        super.clear();
-        for (UIDefaults table : tables) {
-            if (table != null) {
-                table.clear();
+    public void clebr() {
+        super.clebr();
+        for (UIDefbults tbble : tbbles) {
+            if (tbble != null) {
+                tbble.clebr();
             }
         }
     }
@@ -191,17 +191,17 @@ class MultiUIDefaults extends UIDefaults
     @Override
     public synchronized String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        Enumeration<?> keys = keys();
-        while (keys.hasMoreElements()) {
+        sb.bppend("{");
+        Enumerbtion<?> keys = keys();
+        while (keys.hbsMoreElements()) {
             Object key = keys.nextElement();
-            sb.append(key + "=" + get(key) + ", ");
+            sb.bppend(key + "=" + get(key) + ", ");
         }
         int length = sb.length();
         if (length > 1) {
             sb.delete(length-2, length);
         }
-        sb.append("}");
+        sb.bppend("}");
         return sb.toString();
     }
 }

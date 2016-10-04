@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.lang.ref.SoftReference;
-import java.text.spi.BreakIteratorProvider;
-import java.util.Locale;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.text.spi.BrebkIterbtorProvider;
+import jbvb.util.Locble;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleServiceProviderPool;
 
 
 /**
- * The <code>BreakIterator</code> class implements methods for finding
- * the location of boundaries in text. Instances of <code>BreakIterator</code>
- * maintain a current position and scan over text
- * returning the index of characters where boundaries occur.
- * Internally, <code>BreakIterator</code> scans text using a
- * <code>CharacterIterator</code>, and is thus able to scan text held
- * by any object implementing that protocol. A <code>StringCharacterIterator</code>
- * is used to scan <code>String</code> objects passed to <code>setText</code>.
+ * The <code>BrebkIterbtor</code> clbss implements methods for finding
+ * the locbtion of boundbries in text. Instbnces of <code>BrebkIterbtor</code>
+ * mbintbin b current position bnd scbn over text
+ * returning the index of chbrbcters where boundbries occur.
+ * Internblly, <code>BrebkIterbtor</code> scbns text using b
+ * <code>ChbrbcterIterbtor</code>, bnd is thus bble to scbn text held
+ * by bny object implementing thbt protocol. A <code>StringChbrbcterIterbtor</code>
+ * is used to scbn <code>String</code> objects pbssed to <code>setText</code>.
  *
  * <p>
- * You use the factory methods provided by this class to create
- * instances of various types of break iterators. In particular,
- * use <code>getWordInstance</code>, <code>getLineInstance</code>,
- * <code>getSentenceInstance</code>, and <code>getCharacterInstance</code>
- * to create <code>BreakIterator</code>s that perform
- * word, line, sentence, and character boundary analysis respectively.
- * A single <code>BreakIterator</code> can work only on one unit
- * (word, line, sentence, and so on). You must use a different iterator
- * for each unit boundary analysis you wish to perform.
+ * You use the fbctory methods provided by this clbss to crebte
+ * instbnces of vbrious types of brebk iterbtors. In pbrticulbr,
+ * use <code>getWordInstbnce</code>, <code>getLineInstbnce</code>,
+ * <code>getSentenceInstbnce</code>, bnd <code>getChbrbcterInstbnce</code>
+ * to crebte <code>BrebkIterbtor</code>s thbt perform
+ * word, line, sentence, bnd chbrbcter boundbry bnblysis respectively.
+ * A single <code>BrebkIterbtor</code> cbn work only on one unit
+ * (word, line, sentence, bnd so on). You must use b different iterbtor
+ * for ebch unit boundbry bnblysis you wish to perform.
  *
- * <p><a name="line"></a>
- * Line boundary analysis determines where a text string can be
- * broken when line-wrapping. The mechanism correctly handles
- * punctuation and hyphenated words. Actual line breaking needs
- * to also consider the available line width and is handled by
- * higher-level software.
+ * <p><b nbme="line"></b>
+ * Line boundbry bnblysis determines where b text string cbn be
+ * broken when line-wrbpping. The mechbnism correctly hbndles
+ * punctubtion bnd hyphenbted words. Actubl line brebking needs
+ * to blso consider the bvbilbble line width bnd is hbndled by
+ * higher-level softwbre.
  *
- * <p><a name="sentence"></a>
- * Sentence boundary analysis allows selection with correct interpretation
- * of periods within numbers and abbreviations, and trailing punctuation
- * marks such as quotation marks and parentheses.
+ * <p><b nbme="sentence"></b>
+ * Sentence boundbry bnblysis bllows selection with correct interpretbtion
+ * of periods within numbers bnd bbbrevibtions, bnd trbiling punctubtion
+ * mbrks such bs quotbtion mbrks bnd pbrentheses.
  *
- * <p><a name="word"></a>
- * Word boundary analysis is used by search and replace functions, as
- * well as within text editing applications that allow the user to
- * select words with a double click. Word selection provides correct
- * interpretation of punctuation marks within and following
- * words. Characters that are not part of a word, such as symbols
- * or punctuation marks, have word-breaks on both sides.
+ * <p><b nbme="word"></b>
+ * Word boundbry bnblysis is used by sebrch bnd replbce functions, bs
+ * well bs within text editing bpplicbtions thbt bllow the user to
+ * select words with b double click. Word selection provides correct
+ * interpretbtion of punctubtion mbrks within bnd following
+ * words. Chbrbcters thbt bre not pbrt of b word, such bs symbols
+ * or punctubtion mbrks, hbve word-brebks on both sides.
  *
- * <p><a name="character"></a>
- * Character boundary analysis allows users to interact with characters
- * as they expect to, for example, when moving the cursor through a text
- * string. Character boundary analysis provides correct navigation
- * through character strings, regardless of how the character is stored.
- * The boundaries returned may be those of supplementary characters,
- * combining character sequences, or ligature clusters.
- * For example, an accented character might be stored as a base character
- * and a diacritical mark. What users consider to be a character can
- * differ between languages.
+ * <p><b nbme="chbrbcter"></b>
+ * Chbrbcter boundbry bnblysis bllows users to interbct with chbrbcters
+ * bs they expect to, for exbmple, when moving the cursor through b text
+ * string. Chbrbcter boundbry bnblysis provides correct nbvigbtion
+ * through chbrbcter strings, regbrdless of how the chbrbcter is stored.
+ * The boundbries returned mby be those of supplementbry chbrbcters,
+ * combining chbrbcter sequences, or ligbture clusters.
+ * For exbmple, bn bccented chbrbcter might be stored bs b bbse chbrbcter
+ * bnd b dibcriticbl mbrk. Whbt users consider to be b chbrbcter cbn
+ * differ between lbngubges.
  *
  * <p>
- * The <code>BreakIterator</code> instances returned by the factory methods
- * of this class are intended for use with natural languages only, not for
- * programming language text. It is however possible to define subclasses
- * that tokenize a programming language.
+ * The <code>BrebkIterbtor</code> instbnces returned by the fbctory methods
+ * of this clbss bre intended for use with nbturbl lbngubges only, not for
+ * progrbmming lbngubge text. It is however possible to define subclbsses
+ * thbt tokenize b progrbmming lbngubge.
  *
  * <P>
- * <strong>Examples</strong>:<P>
- * Creating and using text boundaries:
+ * <strong>Exbmples</strong>:<P>
+ * Crebting bnd using text boundbries:
  * <blockquote>
  * <pre>
- * public static void main(String args[]) {
- *      if (args.length == 1) {
- *          String stringToExamine = args[0];
- *          //print each word in order
- *          BreakIterator boundary = BreakIterator.getWordInstance();
- *          boundary.setText(stringToExamine);
- *          printEachForward(boundary, stringToExamine);
- *          //print each sentence in reverse order
- *          boundary = BreakIterator.getSentenceInstance(Locale.US);
- *          boundary.setText(stringToExamine);
- *          printEachBackward(boundary, stringToExamine);
- *          printFirst(boundary, stringToExamine);
- *          printLast(boundary, stringToExamine);
+ * public stbtic void mbin(String brgs[]) {
+ *      if (brgs.length == 1) {
+ *          String stringToExbmine = brgs[0];
+ *          //print ebch word in order
+ *          BrebkIterbtor boundbry = BrebkIterbtor.getWordInstbnce();
+ *          boundbry.setText(stringToExbmine);
+ *          printEbchForwbrd(boundbry, stringToExbmine);
+ *          //print ebch sentence in reverse order
+ *          boundbry = BrebkIterbtor.getSentenceInstbnce(Locble.US);
+ *          boundbry.setText(stringToExbmine);
+ *          printEbchBbckwbrd(boundbry, stringToExbmine);
+ *          printFirst(boundbry, stringToExbmine);
+ *          printLbst(boundbry, stringToExbmine);
  *      }
  * }
  * </pre>
  * </blockquote>
  *
- * Print each element in order:
+ * Print ebch element in order:
  * <blockquote>
  * <pre>
- * public static void printEachForward(BreakIterator boundary, String source) {
- *     int start = boundary.first();
- *     for (int end = boundary.next();
- *          end != BreakIterator.DONE;
- *          start = end, end = boundary.next()) {
- *          System.out.println(source.substring(start,end));
+ * public stbtic void printEbchForwbrd(BrebkIterbtor boundbry, String source) {
+ *     int stbrt = boundbry.first();
+ *     for (int end = boundbry.next();
+ *          end != BrebkIterbtor.DONE;
+ *          stbrt = end, end = boundbry.next()) {
+ *          System.out.println(source.substring(stbrt,end));
  *     }
  * }
  * </pre>
  * </blockquote>
  *
- * Print each element in reverse order:
+ * Print ebch element in reverse order:
  * <blockquote>
  * <pre>
- * public static void printEachBackward(BreakIterator boundary, String source) {
- *     int end = boundary.last();
- *     for (int start = boundary.previous();
- *          start != BreakIterator.DONE;
- *          end = start, start = boundary.previous()) {
- *         System.out.println(source.substring(start,end));
+ * public stbtic void printEbchBbckwbrd(BrebkIterbtor boundbry, String source) {
+ *     int end = boundbry.lbst();
+ *     for (int stbrt = boundbry.previous();
+ *          stbrt != BrebkIterbtor.DONE;
+ *          end = stbrt, stbrt = boundbry.previous()) {
+ *         System.out.println(source.substring(stbrt,end));
  *     }
  * }
  * </pre>
@@ -159,32 +159,32 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * Print first element:
  * <blockquote>
  * <pre>
- * public static void printFirst(BreakIterator boundary, String source) {
- *     int start = boundary.first();
- *     int end = boundary.next();
- *     System.out.println(source.substring(start,end));
+ * public stbtic void printFirst(BrebkIterbtor boundbry, String source) {
+ *     int stbrt = boundbry.first();
+ *     int end = boundbry.next();
+ *     System.out.println(source.substring(stbrt,end));
  * }
  * </pre>
  * </blockquote>
  *
- * Print last element:
+ * Print lbst element:
  * <blockquote>
  * <pre>
- * public static void printLast(BreakIterator boundary, String source) {
- *     int end = boundary.last();
- *     int start = boundary.previous();
- *     System.out.println(source.substring(start,end));
+ * public stbtic void printLbst(BrebkIterbtor boundbry, String source) {
+ *     int end = boundbry.lbst();
+ *     int stbrt = boundbry.previous();
+ *     System.out.println(source.substring(stbrt,end));
  * }
  * </pre>
  * </blockquote>
  *
- * Print the element at a specified position:
+ * Print the element bt b specified position:
  * <blockquote>
  * <pre>
- * public static void printAt(BreakIterator boundary, int pos, String source) {
- *     int end = boundary.following(pos);
- *     int start = boundary.previous();
- *     System.out.println(source.substring(start,end));
+ * public stbtic void printAt(BrebkIterbtor boundbry, int pos, String source) {
+ *     int end = boundbry.following(pos);
+ *     int stbrt = boundbry.previous();
+ *     System.out.println(source.substring(stbrt,end));
  * }
  * </pre>
  * </blockquote>
@@ -192,50 +192,50 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * Find the next word:
  * <blockquote>
  * <pre>{@code
- * public static int nextWordStartAfter(int pos, String text) {
- *     BreakIterator wb = BreakIterator.getWordInstance();
+ * public stbtic int nextWordStbrtAfter(int pos, String text) {
+ *     BrebkIterbtor wb = BrebkIterbtor.getWordInstbnce();
  *     wb.setText(text);
- *     int last = wb.following(pos);
+ *     int lbst = wb.following(pos);
  *     int current = wb.next();
- *     while (current != BreakIterator.DONE) {
- *         for (int p = last; p < current; p++) {
- *             if (Character.isLetter(text.codePointAt(p)))
- *                 return last;
+ *     while (current != BrebkIterbtor.DONE) {
+ *         for (int p = lbst; p < current; p++) {
+ *             if (Chbrbcter.isLetter(text.codePointAt(p)))
+ *                 return lbst;
  *         }
- *         last = current;
+ *         lbst = current;
  *         current = wb.next();
  *     }
- *     return BreakIterator.DONE;
+ *     return BrebkIterbtor.DONE;
  * }
  * }</pre>
- * (The iterator returned by BreakIterator.getWordInstance() is unique in that
- * the break positions it returns don't represent both the start and end of the
- * thing being iterated over.  That is, a sentence-break iterator returns breaks
- * that each represent the end of one sentence and the beginning of the next.
- * With the word-break iterator, the characters between two boundaries might be a
- * word, or they might be the punctuation or whitespace between two words.  The
- * above code uses a simple heuristic to determine which boundary is the beginning
- * of a word: If the characters between this boundary and the next boundary
- * include at least one letter (this can be an alphabetical letter, a CJK ideograph,
- * a Hangul syllable, a Kana character, etc.), then the text between this boundary
- * and the next is a word; otherwise, it's the material between words.)
+ * (The iterbtor returned by BrebkIterbtor.getWordInstbnce() is unique in thbt
+ * the brebk positions it returns don't represent both the stbrt bnd end of the
+ * thing being iterbted over.  Thbt is, b sentence-brebk iterbtor returns brebks
+ * thbt ebch represent the end of one sentence bnd the beginning of the next.
+ * With the word-brebk iterbtor, the chbrbcters between two boundbries might be b
+ * word, or they might be the punctubtion or whitespbce between two words.  The
+ * bbove code uses b simple heuristic to determine which boundbry is the beginning
+ * of b word: If the chbrbcters between this boundbry bnd the next boundbry
+ * include bt lebst one letter (this cbn be bn blphbbeticbl letter, b CJK ideogrbph,
+ * b Hbngul syllbble, b Kbnb chbrbcter, etc.), then the text between this boundbry
+ * bnd the next is b word; otherwise, it's the mbteribl between words.)
  * </blockquote>
  *
- * @see CharacterIterator
+ * @see ChbrbcterIterbtor
  *
  */
 
-public abstract class BreakIterator implements Cloneable
+public bbstrbct clbss BrebkIterbtor implements Clonebble
 {
     /**
-     * Constructor. BreakIterator is stateless and has no default behavior.
+     * Constructor. BrebkIterbtor is stbteless bnd hbs no defbult behbvior.
      */
-    protected BreakIterator()
+    protected BrebkIterbtor()
     {
     }
 
     /**
-     * Create a copy of this iterator
+     * Crebte b copy of this iterbtor
      * @return A copy of this
      */
     @Override
@@ -244,112 +244,112 @@ public abstract class BreakIterator implements Cloneable
         try {
             return super.clone();
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 
     /**
      * DONE is returned by previous(), next(), next(int), preceding(int)
-     * and following(int) when either the first or last text boundary has been
-     * reached.
+     * bnd following(int) when either the first or lbst text boundbry hbs been
+     * rebched.
      */
-    public static final int DONE = -1;
+    public stbtic finbl int DONE = -1;
 
     /**
-     * Returns the first boundary. The iterator's current position is set
-     * to the first text boundary.
-     * @return The character index of the first text boundary.
+     * Returns the first boundbry. The iterbtor's current position is set
+     * to the first text boundbry.
+     * @return The chbrbcter index of the first text boundbry.
      */
-    public abstract int first();
+    public bbstrbct int first();
 
     /**
-     * Returns the last boundary. The iterator's current position is set
-     * to the last text boundary.
-     * @return The character index of the last text boundary.
+     * Returns the lbst boundbry. The iterbtor's current position is set
+     * to the lbst text boundbry.
+     * @return The chbrbcter index of the lbst text boundbry.
      */
-    public abstract int last();
+    public bbstrbct int lbst();
 
     /**
-     * Returns the nth boundary from the current boundary. If either
-     * the first or last text boundary has been reached, it returns
-     * <code>BreakIterator.DONE</code> and the current position is set to either
-     * the first or last text boundary depending on which one is reached. Otherwise,
-     * the iterator's current position is set to the new boundary.
-     * For example, if the iterator's current position is the mth text boundary
-     * and three more boundaries exist from the current boundary to the last text
-     * boundary, the next(2) call will return m + 2. The new text position is set
-     * to the (m + 2)th text boundary. A next(4) call would return
-     * <code>BreakIterator.DONE</code> and the last text boundary would become the
+     * Returns the nth boundbry from the current boundbry. If either
+     * the first or lbst text boundbry hbs been rebched, it returns
+     * <code>BrebkIterbtor.DONE</code> bnd the current position is set to either
+     * the first or lbst text boundbry depending on which one is rebched. Otherwise,
+     * the iterbtor's current position is set to the new boundbry.
+     * For exbmple, if the iterbtor's current position is the mth text boundbry
+     * bnd three more boundbries exist from the current boundbry to the lbst text
+     * boundbry, the next(2) cbll will return m + 2. The new text position is set
+     * to the (m + 2)th text boundbry. A next(4) cbll would return
+     * <code>BrebkIterbtor.DONE</code> bnd the lbst text boundbry would become the
      * new text position.
-     * @param n which boundary to return.  A value of 0
-     * does nothing.  Negative values move to previous boundaries
-     * and positive values move to later boundaries.
-     * @return The character index of the nth boundary from the current position
-     * or <code>BreakIterator.DONE</code> if either first or last text boundary
-     * has been reached.
+     * @pbrbm n which boundbry to return.  A vblue of 0
+     * does nothing.  Negbtive vblues move to previous boundbries
+     * bnd positive vblues move to lbter boundbries.
+     * @return The chbrbcter index of the nth boundbry from the current position
+     * or <code>BrebkIterbtor.DONE</code> if either first or lbst text boundbry
+     * hbs been rebched.
      */
-    public abstract int next(int n);
+    public bbstrbct int next(int n);
 
     /**
-     * Returns the boundary following the current boundary. If the current boundary
-     * is the last text boundary, it returns <code>BreakIterator.DONE</code> and
-     * the iterator's current position is unchanged. Otherwise, the iterator's
-     * current position is set to the boundary following the current boundary.
-     * @return The character index of the next text boundary or
-     * <code>BreakIterator.DONE</code> if the current boundary is the last text
-     * boundary.
-     * Equivalent to next(1).
+     * Returns the boundbry following the current boundbry. If the current boundbry
+     * is the lbst text boundbry, it returns <code>BrebkIterbtor.DONE</code> bnd
+     * the iterbtor's current position is unchbnged. Otherwise, the iterbtor's
+     * current position is set to the boundbry following the current boundbry.
+     * @return The chbrbcter index of the next text boundbry or
+     * <code>BrebkIterbtor.DONE</code> if the current boundbry is the lbst text
+     * boundbry.
+     * Equivblent to next(1).
      * @see #next(int)
      */
-    public abstract int next();
+    public bbstrbct int next();
 
     /**
-     * Returns the boundary preceding the current boundary. If the current boundary
-     * is the first text boundary, it returns <code>BreakIterator.DONE</code> and
-     * the iterator's current position is unchanged. Otherwise, the iterator's
-     * current position is set to the boundary preceding the current boundary.
-     * @return The character index of the previous text boundary or
-     * <code>BreakIterator.DONE</code> if the current boundary is the first text
-     * boundary.
+     * Returns the boundbry preceding the current boundbry. If the current boundbry
+     * is the first text boundbry, it returns <code>BrebkIterbtor.DONE</code> bnd
+     * the iterbtor's current position is unchbnged. Otherwise, the iterbtor's
+     * current position is set to the boundbry preceding the current boundbry.
+     * @return The chbrbcter index of the previous text boundbry or
+     * <code>BrebkIterbtor.DONE</code> if the current boundbry is the first text
+     * boundbry.
      */
-    public abstract int previous();
+    public bbstrbct int previous();
 
     /**
-     * Returns the first boundary following the specified character offset. If the
-     * specified offset equals to the last text boundary, it returns
-     * <code>BreakIterator.DONE</code> and the iterator's current position is unchanged.
-     * Otherwise, the iterator's current position is set to the returned boundary.
-     * The value returned is always greater than the offset or the value
-     * <code>BreakIterator.DONE</code>.
-     * @param offset the character offset to begin scanning.
-     * @return The first boundary after the specified offset or
-     * <code>BreakIterator.DONE</code> if the last text boundary is passed in
-     * as the offset.
-     * @exception  IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
+     * Returns the first boundbry following the specified chbrbcter offset. If the
+     * specified offset equbls to the lbst text boundbry, it returns
+     * <code>BrebkIterbtor.DONE</code> bnd the iterbtor's current position is unchbnged.
+     * Otherwise, the iterbtor's current position is set to the returned boundbry.
+     * The vblue returned is blwbys grebter thbn the offset or the vblue
+     * <code>BrebkIterbtor.DONE</code>.
+     * @pbrbm offset the chbrbcter offset to begin scbnning.
+     * @return The first boundbry bfter the specified offset or
+     * <code>BrebkIterbtor.DONE</code> if the lbst text boundbry is pbssed in
+     * bs the offset.
+     * @exception  IllegblArgumentException if the specified offset is less thbn
+     * the first text boundbry or grebter thbn the lbst text boundbry.
      */
-    public abstract int following(int offset);
+    public bbstrbct int following(int offset);
 
     /**
-     * Returns the last boundary preceding the specified character offset. If the
-     * specified offset equals to the first text boundary, it returns
-     * <code>BreakIterator.DONE</code> and the iterator's current position is unchanged.
-     * Otherwise, the iterator's current position is set to the returned boundary.
-     * The value returned is always less than the offset or the value
-     * <code>BreakIterator.DONE</code>.
-     * @param offset the character offset to begin scanning.
-     * @return The last boundary before the specified offset or
-     * <code>BreakIterator.DONE</code> if the first text boundary is passed in
-     * as the offset.
-     * @exception   IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
+     * Returns the lbst boundbry preceding the specified chbrbcter offset. If the
+     * specified offset equbls to the first text boundbry, it returns
+     * <code>BrebkIterbtor.DONE</code> bnd the iterbtor's current position is unchbnged.
+     * Otherwise, the iterbtor's current position is set to the returned boundbry.
+     * The vblue returned is blwbys less thbn the offset or the vblue
+     * <code>BrebkIterbtor.DONE</code>.
+     * @pbrbm offset the chbrbcter offset to begin scbnning.
+     * @return The lbst boundbry before the specified offset or
+     * <code>BrebkIterbtor.DONE</code> if the first text boundbry is pbssed in
+     * bs the offset.
+     * @exception   IllegblArgumentException if the specified offset is less thbn
+     * the first text boundbry or grebter thbn the lbst text boundbry.
      * @since 1.2
      */
     public int preceding(int offset) {
-        // NOTE:  This implementation is here solely because we can't add new
-        // abstract methods to an existing class.  There is almost ALWAYS a
-        // better, faster way to do this.
+        // NOTE:  This implementbtion is here solely becbuse we cbn't bdd new
+        // bbstrbct methods to bn existing clbss.  There is blmost ALWAYS b
+        // better, fbster wby to do this.
         int pos = following(offset);
         while (pos >= offset && pos != DONE) {
             pos = previous();
@@ -358,261 +358,261 @@ public abstract class BreakIterator implements Cloneable
     }
 
     /**
-     * Returns true if the specified character offset is a text boundary.
-     * @param offset the character offset to check.
-     * @return <code>true</code> if "offset" is a boundary position,
-     * <code>false</code> otherwise.
-     * @exception   IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
+     * Returns true if the specified chbrbcter offset is b text boundbry.
+     * @pbrbm offset the chbrbcter offset to check.
+     * @return <code>true</code> if "offset" is b boundbry position,
+     * <code>fblse</code> otherwise.
+     * @exception   IllegblArgumentException if the specified offset is less thbn
+     * the first text boundbry or grebter thbn the lbst text boundbry.
      * @since 1.2
      */
-    public boolean isBoundary(int offset) {
-        // NOTE: This implementation probably is wrong for most situations
-        // because it fails to take into account the possibility that a
-        // CharacterIterator passed to setText() may not have a begin offset
-        // of 0.  But since the abstract BreakIterator doesn't have that
-        // knowledge, it assumes the begin offset is 0.  If you subclass
-        // BreakIterator, copy the SimpleTextBoundary implementation of this
-        // function into your subclass.  [This should have been abstract at
-        // this level, but it's too late to fix that now.]
+    public boolebn isBoundbry(int offset) {
+        // NOTE: This implementbtion probbbly is wrong for most situbtions
+        // becbuse it fbils to tbke into bccount the possibility thbt b
+        // ChbrbcterIterbtor pbssed to setText() mby not hbve b begin offset
+        // of 0.  But since the bbstrbct BrebkIterbtor doesn't hbve thbt
+        // knowledge, it bssumes the begin offset is 0.  If you subclbss
+        // BrebkIterbtor, copy the SimpleTextBoundbry implementbtion of this
+        // function into your subclbss.  [This should hbve been bbstrbct bt
+        // this level, but it's too lbte to fix thbt now.]
         if (offset == 0) {
             return true;
         }
-        int boundary = following(offset - 1);
-        if (boundary == DONE) {
-            throw new IllegalArgumentException();
+        int boundbry = following(offset - 1);
+        if (boundbry == DONE) {
+            throw new IllegblArgumentException();
         }
-        return boundary == offset;
+        return boundbry == offset;
     }
 
     /**
-     * Returns character index of the text boundary that was most
-     * recently returned by next(), next(int), previous(), first(), last(),
-     * following(int) or preceding(int). If any of these methods returns
-     * <code>BreakIterator.DONE</code> because either first or last text boundary
-     * has been reached, it returns the first or last text boundary depending on
-     * which one is reached.
-     * @return The text boundary returned from the above methods, first or last
-     * text boundary.
+     * Returns chbrbcter index of the text boundbry thbt wbs most
+     * recently returned by next(), next(int), previous(), first(), lbst(),
+     * following(int) or preceding(int). If bny of these methods returns
+     * <code>BrebkIterbtor.DONE</code> becbuse either first or lbst text boundbry
+     * hbs been rebched, it returns the first or lbst text boundbry depending on
+     * which one is rebched.
+     * @return The text boundbry returned from the bbove methods, first or lbst
+     * text boundbry.
      * @see #next()
      * @see #next(int)
      * @see #previous()
      * @see #first()
-     * @see #last()
+     * @see #lbst()
      * @see #following(int)
      * @see #preceding(int)
      */
-    public abstract int current();
+    public bbstrbct int current();
 
     /**
-     * Get the text being scanned
-     * @return the text being scanned
+     * Get the text being scbnned
+     * @return the text being scbnned
      */
-    public abstract CharacterIterator getText();
+    public bbstrbct ChbrbcterIterbtor getText();
 
     /**
-     * Set a new text string to be scanned.  The current scan
+     * Set b new text string to be scbnned.  The current scbn
      * position is reset to first().
-     * @param newText new text to scan.
+     * @pbrbm newText new text to scbn.
      */
     public void setText(String newText)
     {
-        setText(new StringCharacterIterator(newText));
+        setText(new StringChbrbcterIterbtor(newText));
     }
 
     /**
-     * Set a new text for scanning.  The current scan
+     * Set b new text for scbnning.  The current scbn
      * position is reset to first().
-     * @param newText new text to scan.
+     * @pbrbm newText new text to scbn.
      */
-    public abstract void setText(CharacterIterator newText);
+    public bbstrbct void setText(ChbrbcterIterbtor newText);
 
-    private static final int CHARACTER_INDEX = 0;
-    private static final int WORD_INDEX = 1;
-    private static final int LINE_INDEX = 2;
-    private static final int SENTENCE_INDEX = 3;
+    privbte stbtic finbl int CHARACTER_INDEX = 0;
+    privbte stbtic finbl int WORD_INDEX = 1;
+    privbte stbtic finbl int LINE_INDEX = 2;
+    privbte stbtic finbl int SENTENCE_INDEX = 3;
 
-    @SuppressWarnings("unchecked")
-    private static final SoftReference<BreakIteratorCache>[] iterCache = (SoftReference<BreakIteratorCache>[]) new SoftReference<?>[4];
+    @SuppressWbrnings("unchecked")
+    privbte stbtic finbl SoftReference<BrebkIterbtorCbche>[] iterCbche = (SoftReference<BrebkIterbtorCbche>[]) new SoftReference<?>[4];
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#word">word breaks</a>
-     * for the {@linkplain Locale#getDefault() default locale}.
-     * @return A break iterator for word breaks
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="BrebkIterbtor.html#word">word brebks</b>
+     * for the {@linkplbin Locble#getDefbult() defbult locble}.
+     * @return A brebk iterbtor for word brebks
      */
-    public static BreakIterator getWordInstance()
+    public stbtic BrebkIterbtor getWordInstbnce()
     {
-        return getWordInstance(Locale.getDefault());
+        return getWordInstbnce(Locble.getDefbult());
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#word">word breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for word breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="BrebkIterbtor.html#word">word brebks</b>
+     * for the given locble.
+     * @pbrbm locble the desired locble
+     * @return A brebk iterbtor for word brebks
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public static BreakIterator getWordInstance(Locale locale)
+    public stbtic BrebkIterbtor getWordInstbnce(Locble locble)
     {
-        return getBreakInstance(locale, WORD_INDEX);
+        return getBrebkInstbnce(locble, WORD_INDEX);
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#line">line breaks</a>
-     * for the {@linkplain Locale#getDefault() default locale}.
-     * @return A break iterator for line breaks
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="BrebkIterbtor.html#line">line brebks</b>
+     * for the {@linkplbin Locble#getDefbult() defbult locble}.
+     * @return A brebk iterbtor for line brebks
      */
-    public static BreakIterator getLineInstance()
+    public stbtic BrebkIterbtor getLineInstbnce()
     {
-        return getLineInstance(Locale.getDefault());
+        return getLineInstbnce(Locble.getDefbult());
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#line">line breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for line breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="BrebkIterbtor.html#line">line brebks</b>
+     * for the given locble.
+     * @pbrbm locble the desired locble
+     * @return A brebk iterbtor for line brebks
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public static BreakIterator getLineInstance(Locale locale)
+    public stbtic BrebkIterbtor getLineInstbnce(Locble locble)
     {
-        return getBreakInstance(locale, LINE_INDEX);
+        return getBrebkInstbnce(locble, LINE_INDEX);
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#character">character breaks</a>
-     * for the {@linkplain Locale#getDefault() default locale}.
-     * @return A break iterator for character breaks
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="BrebkIterbtor.html#chbrbcter">chbrbcter brebks</b>
+     * for the {@linkplbin Locble#getDefbult() defbult locble}.
+     * @return A brebk iterbtor for chbrbcter brebks
      */
-    public static BreakIterator getCharacterInstance()
+    public stbtic BrebkIterbtor getChbrbcterInstbnce()
     {
-        return getCharacterInstance(Locale.getDefault());
+        return getChbrbcterInstbnce(Locble.getDefbult());
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#character">character breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for character breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="BrebkIterbtor.html#chbrbcter">chbrbcter brebks</b>
+     * for the given locble.
+     * @pbrbm locble the desired locble
+     * @return A brebk iterbtor for chbrbcter brebks
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public static BreakIterator getCharacterInstance(Locale locale)
+    public stbtic BrebkIterbtor getChbrbcterInstbnce(Locble locble)
     {
-        return getBreakInstance(locale, CHARACTER_INDEX);
+        return getBrebkInstbnce(locble, CHARACTER_INDEX);
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#sentence">sentence breaks</a>
-     * for the {@linkplain Locale#getDefault() default locale}.
-     * @return A break iterator for sentence breaks
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="BrebkIterbtor.html#sentence">sentence brebks</b>
+     * for the {@linkplbin Locble#getDefbult() defbult locble}.
+     * @return A brebk iterbtor for sentence brebks
      */
-    public static BreakIterator getSentenceInstance()
+    public stbtic BrebkIterbtor getSentenceInstbnce()
     {
-        return getSentenceInstance(Locale.getDefault());
+        return getSentenceInstbnce(Locble.getDefbult());
     }
 
     /**
-     * Returns a new <code>BreakIterator</code> instance
-     * for <a href="BreakIterator.html#sentence">sentence breaks</a>
-     * for the given locale.
-     * @param locale the desired locale
-     * @return A break iterator for sentence breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * Returns b new <code>BrebkIterbtor</code> instbnce
+     * for <b href="BrebkIterbtor.html#sentence">sentence brebks</b>
+     * for the given locble.
+     * @pbrbm locble the desired locble
+     * @return A brebk iterbtor for sentence brebks
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public static BreakIterator getSentenceInstance(Locale locale)
+    public stbtic BrebkIterbtor getSentenceInstbnce(Locble locble)
     {
-        return getBreakInstance(locale, SENTENCE_INDEX);
+        return getBrebkInstbnce(locble, SENTENCE_INDEX);
     }
 
-    private static BreakIterator getBreakInstance(Locale locale, int type) {
-        if (iterCache[type] != null) {
-            BreakIteratorCache cache = iterCache[type].get();
-            if (cache != null) {
-                if (cache.getLocale().equals(locale)) {
-                    return cache.createBreakInstance();
+    privbte stbtic BrebkIterbtor getBrebkInstbnce(Locble locble, int type) {
+        if (iterCbche[type] != null) {
+            BrebkIterbtorCbche cbche = iterCbche[type].get();
+            if (cbche != null) {
+                if (cbche.getLocble().equbls(locble)) {
+                    return cbche.crebteBrebkInstbnce();
                 }
             }
         }
 
-        BreakIterator result = createBreakInstance(locale, type);
-        BreakIteratorCache cache = new BreakIteratorCache(locale, result);
-        iterCache[type] = new SoftReference<>(cache);
+        BrebkIterbtor result = crebteBrebkInstbnce(locble, type);
+        BrebkIterbtorCbche cbche = new BrebkIterbtorCbche(locble, result);
+        iterCbche[type] = new SoftReference<>(cbche);
         return result;
     }
 
-    private static BreakIterator createBreakInstance(Locale locale,
+    privbte stbtic BrebkIterbtor crebteBrebkInstbnce(Locble locble,
                                                      int type) {
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(BreakIteratorProvider.class, locale);
-        BreakIterator iterator = createBreakInstance(adapter, locale, type);
-        if (iterator == null) {
-            iterator = createBreakInstance(LocaleProviderAdapter.forJRE(), locale, type);
+        LocbleProviderAdbpter bdbpter = LocbleProviderAdbpter.getAdbpter(BrebkIterbtorProvider.clbss, locble);
+        BrebkIterbtor iterbtor = crebteBrebkInstbnce(bdbpter, locble, type);
+        if (iterbtor == null) {
+            iterbtor = crebteBrebkInstbnce(LocbleProviderAdbpter.forJRE(), locble, type);
         }
-        return iterator;
+        return iterbtor;
     }
 
-    private static BreakIterator createBreakInstance(LocaleProviderAdapter adapter, Locale locale, int type) {
-        BreakIteratorProvider breakIteratorProvider = adapter.getBreakIteratorProvider();
-        BreakIterator iterator = null;
+    privbte stbtic BrebkIterbtor crebteBrebkInstbnce(LocbleProviderAdbpter bdbpter, Locble locble, int type) {
+        BrebkIterbtorProvider brebkIterbtorProvider = bdbpter.getBrebkIterbtorProvider();
+        BrebkIterbtor iterbtor = null;
         switch (type) {
-        case CHARACTER_INDEX:
-            iterator = breakIteratorProvider.getCharacterInstance(locale);
-            break;
-        case WORD_INDEX:
-            iterator = breakIteratorProvider.getWordInstance(locale);
-            break;
-        case LINE_INDEX:
-            iterator = breakIteratorProvider.getLineInstance(locale);
-            break;
-        case SENTENCE_INDEX:
-            iterator = breakIteratorProvider.getSentenceInstance(locale);
-            break;
+        cbse CHARACTER_INDEX:
+            iterbtor = brebkIterbtorProvider.getChbrbcterInstbnce(locble);
+            brebk;
+        cbse WORD_INDEX:
+            iterbtor = brebkIterbtorProvider.getWordInstbnce(locble);
+            brebk;
+        cbse LINE_INDEX:
+            iterbtor = brebkIterbtorProvider.getLineInstbnce(locble);
+            brebk;
+        cbse SENTENCE_INDEX:
+            iterbtor = brebkIterbtorProvider.getSentenceInstbnce(locble);
+            brebk;
         }
-        return iterator;
+        return iterbtor;
     }
 
     /**
-     * Returns an array of all locales for which the
-     * <code>get*Instance</code> methods of this class can return
-     * localized instances.
-     * The returned array represents the union of locales supported by the Java
-     * runtime and by installed
-     * {@link java.text.spi.BreakIteratorProvider BreakIteratorProvider} implementations.
-     * It must contain at least a <code>Locale</code>
-     * instance equal to {@link java.util.Locale#US Locale.US}.
+     * Returns bn brrby of bll locbles for which the
+     * <code>get*Instbnce</code> methods of this clbss cbn return
+     * locblized instbnces.
+     * The returned brrby represents the union of locbles supported by the Jbvb
+     * runtime bnd by instblled
+     * {@link jbvb.text.spi.BrebkIterbtorProvider BrebkIterbtorProvider} implementbtions.
+     * It must contbin bt lebst b <code>Locble</code>
+     * instbnce equbl to {@link jbvb.util.Locble#US Locble.US}.
      *
-     * @return An array of locales for which localized
-     *         <code>BreakIterator</code> instances are available.
+     * @return An brrby of locbles for which locblized
+     *         <code>BrebkIterbtor</code> instbnces bre bvbilbble.
      */
-    public static synchronized Locale[] getAvailableLocales()
+    public stbtic synchronized Locble[] getAvbilbbleLocbles()
     {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(BreakIteratorProvider.class);
-        return pool.getAvailableLocales();
+        LocbleServiceProviderPool pool =
+            LocbleServiceProviderPool.getPool(BrebkIterbtorProvider.clbss);
+        return pool.getAvbilbbleLocbles();
     }
 
-    private static final class BreakIteratorCache {
+    privbte stbtic finbl clbss BrebkIterbtorCbche {
 
-        private BreakIterator iter;
-        private Locale locale;
+        privbte BrebkIterbtor iter;
+        privbte Locble locble;
 
-        BreakIteratorCache(Locale locale, BreakIterator iter) {
-            this.locale = locale;
-            this.iter = (BreakIterator) iter.clone();
+        BrebkIterbtorCbche(Locble locble, BrebkIterbtor iter) {
+            this.locble = locble;
+            this.iter = (BrebkIterbtor) iter.clone();
         }
 
-        Locale getLocale() {
-            return locale;
+        Locble getLocble() {
+            return locble;
         }
 
-        BreakIterator createBreakInstance() {
-            return (BreakIterator) iter.clone();
+        BrebkIterbtor crebteBrebkInstbnce() {
+            return (BrebkIterbtor) iter.clone();
         }
     }
 }

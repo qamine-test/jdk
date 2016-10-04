@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.peer;
+pbckbge jbvb.bwt.peer;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import sun.awt.EmbeddedFrame;
+import sun.bwt.EmbeddedFrbme;
 
 /**
- * The peer interface for {@link Frame}. This adds a couple of frame specific
- * methods to the {@link WindowPeer} interface.
+ * The peer interfbce for {@link Frbme}. This bdds b couple of frbme specific
+ * methods to the {@link WindowPeer} interfbce.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * The peer interfbces bre intended only for use in porting
+ * the AWT. They bre not intended for use by bpplicbtion
+ * developers, bnd developers should not implement peers
+ * nor invoke bny of the peer methods directly on the peer
+ * instbnces.
  */
-public interface FramePeer extends WindowPeer {
+public interfbce FrbmePeer extends WindowPeer {
 
     /**
-     * Sets the title on the frame.
+     * Sets the title on the frbme.
      *
-     * @param title the title to set
+     * @pbrbm title the title to set
      *
-     * @see Frame#setTitle(String)
+     * @see Frbme#setTitle(String)
      */
     void setTitle(String title);
 
     /**
-     * Sets the menu bar for the frame.
+     * Sets the menu bbr for the frbme.
      *
-     * @param mb the menu bar to set
+     * @pbrbm mb the menu bbr to set
      *
-     * @see Frame#setMenuBar(MenuBar)
+     * @see Frbme#setMenuBbr(MenuBbr)
      */
-    void setMenuBar(MenuBar mb);
+    void setMenuBbr(MenuBbr mb);
 
     /**
-     * Sets if the frame should be resizable or not.
+     * Sets if the frbme should be resizbble or not.
      *
-     * @param resizeable {@code true} when the frame should be resizable,
-     *        {@code false} if not
+     * @pbrbm resizebble {@code true} when the frbme should be resizbble,
+     *        {@code fblse} if not
      *
-     * @see Frame#setResizable(boolean)
+     * @see Frbme#setResizbble(boolebn)
      */
-    void setResizable(boolean resizeable);
+    void setResizbble(boolebn resizebble);
 
     /**
-     * Changes the state of the frame.
+     * Chbnges the stbte of the frbme.
      *
-     * @param state the new state
+     * @pbrbm stbte the new stbte
      *
-     * @see Frame#setExtendedState(int)
+     * @see Frbme#setExtendedStbte(int)
      */
-    void setState(int state);
+    void setStbte(int stbte);
 
     /**
-     * Returns the current state of the frame.
+     * Returns the current stbte of the frbme.
      *
-     * @return the current state of the frame
+     * @return the current stbte of the frbme
      *
-     * @see Frame#getExtendedState()
+     * @see Frbme#getExtendedStbte()
      */
-    int getState();
+    int getStbte();
 
     /**
-     * Sets the bounds of the frame when it becomes maximized.
+     * Sets the bounds of the frbme when it becomes mbximized.
      *
-     * @param bounds the maximized bounds of the frame
+     * @pbrbm bounds the mbximized bounds of the frbme
      *
-     * @see Frame#setMaximizedBounds(Rectangle)
+     * @see Frbme#setMbximizedBounds(Rectbngle)
      */
-    void setMaximizedBounds(Rectangle bounds);
+    void setMbximizedBounds(Rectbngle bounds);
 
     /**
-     * Sets the size and location for embedded frames. (On embedded frames,
-     * setLocation() and setBounds() always set the frame to (0,0) for
-     * backwards compatibility.
+     * Sets the size bnd locbtion for embedded frbmes. (On embedded frbmes,
+     * setLocbtion() bnd setBounds() blwbys set the frbme to (0,0) for
+     * bbckwbrds compbtibility.
      *
-     * @param x the X location
-     * @param y the Y location
-     * @param width the width of the frame
-     * @param height the height of the frame
+     * @pbrbm x the X locbtion
+     * @pbrbm y the Y locbtion
+     * @pbrbm width the width of the frbme
+     * @pbrbm height the height of the frbme
      *
-     * @see EmbeddedFrame#setBoundsPrivate(int, int, int, int)
+     * @see EmbeddedFrbme#setBoundsPrivbte(int, int, int, int)
      */
-    // TODO: This is only used in EmbeddedFrame, and should probably be moved
-    // into an EmbeddedFramePeer which would extend FramePeer
-    void setBoundsPrivate(int x, int y, int width, int height);
+    // TODO: This is only used in EmbeddedFrbme, bnd should probbbly be moved
+    // into bn EmbeddedFrbmePeer which would extend FrbmePeer
+    void setBoundsPrivbte(int x, int y, int width, int height);
 
     /**
-     * Returns the size and location for embedded frames. (On embedded frames,
-     * setLocation() and setBounds() always set the frame to (0,0) for
-     * backwards compatibility.
+     * Returns the size bnd locbtion for embedded frbmes. (On embedded frbmes,
+     * setLocbtion() bnd setBounds() blwbys set the frbme to (0,0) for
+     * bbckwbrds compbtibility.
      *
-     * @return the bounds of an embedded frame
+     * @return the bounds of bn embedded frbme
      *
-     * @see EmbeddedFrame#getBoundsPrivate()
+     * @see EmbeddedFrbme#getBoundsPrivbte()
      */
-    // TODO: This is only used in EmbeddedFrame, and should probably be moved
-    // into an EmbeddedFramePeer which would extend FramePeer
-    Rectangle getBoundsPrivate();
+    // TODO: This is only used in EmbeddedFrbme, bnd should probbbly be moved
+    // into bn EmbeddedFrbmePeer which would extend FrbmePeer
+    Rectbngle getBoundsPrivbte();
 
     /**
-     * Requests the peer to emulate window activation.
+     * Requests the peer to emulbte window bctivbtion.
      *
-     * @param activate activate or deactivate the window
+     * @pbrbm bctivbte bctivbte or debctivbte the window
      */
-    void emulateActivation(boolean activate);
+    void emulbteActivbtion(boolebn bctivbte);
 }

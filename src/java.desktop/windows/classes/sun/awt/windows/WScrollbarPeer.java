@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.AdjustmentEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.AdjustmentEvent;
 
-final class WScrollbarPeer extends WComponentPeer implements ScrollbarPeer {
+finbl clbss WScrollbbrPeer extends WComponentPeer implements ScrollbbrPeer {
 
-    // Returns width for vertial scrollbar as SM_CXHSCROLL,
-    // height for horizontal scrollbar as SM_CYVSCROLL
-    static native int getScrollbarSize(int orientation);
+    // Returns width for vertibl scrollbbr bs SM_CXHSCROLL,
+    // height for horizontbl scrollbbr bs SM_CYVSCROLL
+    stbtic nbtive int getScrollbbrSize(int orientbtion);
 
     // ComponentPeer overrides
     public Dimension getMinimumSize() {
-        if (((Scrollbar)target).getOrientation() == Scrollbar.VERTICAL) {
-            return new Dimension(getScrollbarSize(Scrollbar.VERTICAL), 50);
+        if (((Scrollbbr)tbrget).getOrientbtion() == Scrollbbr.VERTICAL) {
+            return new Dimension(getScrollbbrSize(Scrollbbr.VERTICAL), 50);
         }
         else {
-            return new Dimension(50, getScrollbarSize(Scrollbar.HORIZONTAL));
+            return new Dimension(50, getScrollbbrSize(Scrollbbr.HORIZONTAL));
         }
     }
 
-    // ScrollbarPeer implementation
+    // ScrollbbrPeer implementbtion
 
-    public native void setValues(int value, int visible,
-                                 int minimum, int maximum);
-    public native void setLineIncrement(int l);
-    public native void setPageIncrement(int l);
+    public nbtive void setVblues(int vblue, int visible,
+                                 int minimum, int mbximum);
+    public nbtive void setLineIncrement(int l);
+    public nbtive void setPbgeIncrement(int l);
 
 
-    // Toolkit & peer internals
+    // Toolkit & peer internbls
 
-    WScrollbarPeer(Scrollbar target) {
-        super(target);
+    WScrollbbrPeer(Scrollbbr tbrget) {
+        super(tbrget);
     }
 
-    native void create(WComponentPeer parent);
+    nbtive void crebte(WComponentPeer pbrent);
 
-    void initialize() {
-        Scrollbar sb = (Scrollbar)target;
-        setValues(sb.getValue(), sb.getVisibleAmount(),
-                  sb.getMinimum(), sb.getMaximum());
-        super.initialize();
+    void initiblize() {
+        Scrollbbr sb = (Scrollbbr)tbrget;
+        setVblues(sb.getVblue(), sb.getVisibleAmount(),
+                  sb.getMinimum(), sb.getMbximum());
+        super.initiblize();
     }
 
 
-    // NOTE: Callback methods are called by privileged threads.
+    // NOTE: Cbllbbck methods bre cblled by privileged threbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
 
-    private void postAdjustmentEvent(final int type, final int value,
-                                     final boolean isAdjusting)
+    privbte void postAdjustmentEvent(finbl int type, finbl int vblue,
+                                     finbl boolebn isAdjusting)
     {
-        final Scrollbar sb = (Scrollbar)target;
-        WToolkit.executeOnEventHandlerThread(sb, new Runnable() {
+        finbl Scrollbbr sb = (Scrollbbr)tbrget;
+        WToolkit.executeOnEventHbndlerThrebd(sb, new Runnbble() {
             public void run() {
-                sb.setValueIsAdjusting(isAdjusting);
-                sb.setValue(value);
+                sb.setVblueIsAdjusting(isAdjusting);
+                sb.setVblue(vblue);
                 postEvent(new AdjustmentEvent(sb,
                                 AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED,
-                                type, value, isAdjusting));
+                                type, vblue, isAdjusting));
             }
         });
     }
 
-    void lineUp(int value) {
-        postAdjustmentEvent(AdjustmentEvent.UNIT_DECREMENT, value, false);
+    void lineUp(int vblue) {
+        postAdjustmentEvent(AdjustmentEvent.UNIT_DECREMENT, vblue, fblse);
     }
 
-    void lineDown(int value) {
-        postAdjustmentEvent(AdjustmentEvent.UNIT_INCREMENT, value, false);
+    void lineDown(int vblue) {
+        postAdjustmentEvent(AdjustmentEvent.UNIT_INCREMENT, vblue, fblse);
     }
 
-    void pageUp(int value) {
-        postAdjustmentEvent(AdjustmentEvent.BLOCK_DECREMENT, value, false);
+    void pbgeUp(int vblue) {
+        postAdjustmentEvent(AdjustmentEvent.BLOCK_DECREMENT, vblue, fblse);
     }
 
-    void pageDown(int value) {
-        postAdjustmentEvent(AdjustmentEvent.BLOCK_INCREMENT, value, false);
+    void pbgeDown(int vblue) {
+        postAdjustmentEvent(AdjustmentEvent.BLOCK_INCREMENT, vblue, fblse);
     }
 
-    // SB_TOP/BOTTOM are mapped to tracking
-    void warp(int value) {
-        postAdjustmentEvent(AdjustmentEvent.TRACK, value, false);
+    // SB_TOP/BOTTOM bre mbpped to trbcking
+    void wbrp(int vblue) {
+        postAdjustmentEvent(AdjustmentEvent.TRACK, vblue, fblse);
     }
 
-    private boolean dragInProgress = false;
+    privbte boolebn drbgInProgress = fblse;
 
-    void drag(final int value) {
-        if (!dragInProgress) {
-            dragInProgress = true;
+    void drbg(finbl int vblue) {
+        if (!drbgInProgress) {
+            drbgInProgress = true;
         }
-        postAdjustmentEvent(AdjustmentEvent.TRACK, value, true);
+        postAdjustmentEvent(AdjustmentEvent.TRACK, vblue, true);
     }
 
-    void dragEnd(final int value) {
-        final Scrollbar sb = (Scrollbar)target;
+    void drbgEnd(finbl int vblue) {
+        finbl Scrollbbr sb = (Scrollbbr)tbrget;
 
-        if (!dragInProgress) {
+        if (!drbgInProgress) {
             return;
         }
 
-        dragInProgress = false;
-        WToolkit.executeOnEventHandlerThread(sb, new Runnable() {
+        drbgInProgress = fblse;
+        WToolkit.executeOnEventHbndlerThrebd(sb, new Runnbble() {
             public void run() {
-                // NB: notification only, no sb.setValue()
-                // last TRACK event will have done it already
-                sb.setValueIsAdjusting(false);
+                // NB: notificbtion only, no sb.setVblue()
+                // lbst TRACK event will hbve done it blrebdy
+                sb.setVblueIsAdjusting(fblse);
                 postEvent(new AdjustmentEvent(sb,
                                 AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED,
-                                AdjustmentEvent.TRACK, value, false));
+                                AdjustmentEvent.TRACK, vblue, fblse));
             }
         });
     }
 
-    public boolean shouldClearRectBeforePaint() {
-        return false;
+    public boolebn shouldClebrRectBeforePbint() {
+        return fblse;
     }
 }

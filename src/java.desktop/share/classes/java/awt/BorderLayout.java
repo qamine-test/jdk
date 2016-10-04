@@ -1,485 +1,485 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
 /**
- * A border layout lays out a container, arranging and resizing
+ * A border lbyout lbys out b contbiner, brrbnging bnd resizing
  * its components to fit in five regions:
- * north, south, east, west, and center.
- * Each region may contain no more than one component, and
- * is identified by a corresponding constant:
+ * north, south, ebst, west, bnd center.
+ * Ebch region mby contbin no more thbn one component, bnd
+ * is identified by b corresponding constbnt:
  * <code>NORTH</code>, <code>SOUTH</code>, <code>EAST</code>,
- * <code>WEST</code>, and <code>CENTER</code>.  When adding a
- * component to a container with a border layout, use one of these
- * five constants, for example:
+ * <code>WEST</code>, bnd <code>CENTER</code>.  When bdding b
+ * component to b contbiner with b border lbyout, use one of these
+ * five constbnts, for exbmple:
  * <pre>
- *    Panel p = new Panel();
- *    p.setLayout(new BorderLayout());
- *    p.add(new Button("Okay"), BorderLayout.SOUTH);
+ *    Pbnel p = new Pbnel();
+ *    p.setLbyout(new BorderLbyout());
+ *    p.bdd(new Button("Okby"), BorderLbyout.SOUTH);
  * </pre>
- * As a convenience, <code>BorderLayout</code> interprets the
- * absence of a string specification the same as the constant
+ * As b convenience, <code>BorderLbyout</code> interprets the
+ * bbsence of b string specificbtion the sbme bs the constbnt
  * <code>CENTER</code>:
  * <pre>
- *    Panel p2 = new Panel();
- *    p2.setLayout(new BorderLayout());
- *    p2.add(new TextArea());  // Same as p.add(new TextArea(), BorderLayout.CENTER);
+ *    Pbnel p2 = new Pbnel();
+ *    p2.setLbyout(new BorderLbyout());
+ *    p2.bdd(new TextAreb());  // Sbme bs p.bdd(new TextAreb(), BorderLbyout.CENTER);
  * </pre>
  * <p>
- * In addition, <code>BorderLayout</code> supports the relative
- * positioning constants, <code>PAGE_START</code>, <code>PAGE_END</code>,
- * <code>LINE_START</code>, and <code>LINE_END</code>.
- * In a container whose <code>ComponentOrientation</code> is set to
- * <code>ComponentOrientation.LEFT_TO_RIGHT</code>, these constants map to
- * <code>NORTH</code>, <code>SOUTH</code>, <code>WEST</code>, and
+ * In bddition, <code>BorderLbyout</code> supports the relbtive
+ * positioning constbnts, <code>PAGE_START</code>, <code>PAGE_END</code>,
+ * <code>LINE_START</code>, bnd <code>LINE_END</code>.
+ * In b contbiner whose <code>ComponentOrientbtion</code> is set to
+ * <code>ComponentOrientbtion.LEFT_TO_RIGHT</code>, these constbnts mbp to
+ * <code>NORTH</code>, <code>SOUTH</code>, <code>WEST</code>, bnd
  * <code>EAST</code>, respectively.
  * <p>
- * For compatibility with previous releases, <code>BorderLayout</code>
- * also includes the relative positioning constants <code>BEFORE_FIRST_LINE</code>,
- * <code>AFTER_LAST_LINE</code>, <code>BEFORE_LINE_BEGINS</code> and
- * <code>AFTER_LINE_ENDS</code>.  These are equivalent to
+ * For compbtibility with previous relebses, <code>BorderLbyout</code>
+ * blso includes the relbtive positioning constbnts <code>BEFORE_FIRST_LINE</code>,
+ * <code>AFTER_LAST_LINE</code>, <code>BEFORE_LINE_BEGINS</code> bnd
+ * <code>AFTER_LINE_ENDS</code>.  These bre equivblent to
  * <code>PAGE_START</code>, <code>PAGE_END</code>, <code>LINE_START</code>
- * and <code>LINE_END</code> respectively.  For
- * consistency with the relative positioning constants used by other
- * components, the latter constants are preferred.
+ * bnd <code>LINE_END</code> respectively.  For
+ * consistency with the relbtive positioning constbnts used by other
+ * components, the lbtter constbnts bre preferred.
  * <p>
- * Mixing both absolute and relative positioning constants can lead to
- * unpredictable results.  If
- * you use both types, the relative constants will take precedence.
- * For example, if you add components using both the <code>NORTH</code>
- * and <code>PAGE_START</code> constants in a container whose
- * orientation is <code>LEFT_TO_RIGHT</code>, only the
- * <code>PAGE_START</code> will be layed out.
+ * Mixing both bbsolute bnd relbtive positioning constbnts cbn lebd to
+ * unpredictbble results.  If
+ * you use both types, the relbtive constbnts will tbke precedence.
+ * For exbmple, if you bdd components using both the <code>NORTH</code>
+ * bnd <code>PAGE_START</code> constbnts in b contbiner whose
+ * orientbtion is <code>LEFT_TO_RIGHT</code>, only the
+ * <code>PAGE_START</code> will be lbyed out.
  * <p>
- * NOTE: Currently (in the Java 2 platform v1.2),
- * <code>BorderLayout</code> does not support vertical
- * orientations.  The <code>isVertical</code> setting on the container's
- * <code>ComponentOrientation</code> is not respected.
+ * NOTE: Currently (in the Jbvb 2 plbtform v1.2),
+ * <code>BorderLbyout</code> does not support verticbl
+ * orientbtions.  The <code>isVerticbl</code> setting on the contbiner's
+ * <code>ComponentOrientbtion</code> is not respected.
  * <p>
- * The components are laid out according to their
- * preferred sizes and the constraints of the container's size.
- * The <code>NORTH</code> and <code>SOUTH</code> components may
- * be stretched horizontally; the <code>EAST</code> and
- * <code>WEST</code> components may be stretched vertically;
- * the <code>CENTER</code> component may stretch both horizontally
- * and vertically to fill any space left over.
+ * The components bre lbid out bccording to their
+ * preferred sizes bnd the constrbints of the contbiner's size.
+ * The <code>NORTH</code> bnd <code>SOUTH</code> components mby
+ * be stretched horizontblly; the <code>EAST</code> bnd
+ * <code>WEST</code> components mby be stretched verticblly;
+ * the <code>CENTER</code> component mby stretch both horizontblly
+ * bnd verticblly to fill bny spbce left over.
  * <p>
- * Here is an example of five buttons in an applet laid out using
- * the <code>BorderLayout</code> layout manager:
+ * Here is bn exbmple of five buttons in bn bpplet lbid out using
+ * the <code>BorderLbyout</code> lbyout mbnbger:
  * <p>
- * <img src="doc-files/BorderLayout-1.gif"
- * alt="Diagram of an applet demonstrating BorderLayout.
- *      Each section of the BorderLayout contains a Button corresponding to its position in the layout, one of:
- *      North, West, Center, East, or South."
- * style="float:center; margin: 7px 10px;">
+ * <img src="doc-files/BorderLbyout-1.gif"
+ * blt="Dibgrbm of bn bpplet demonstrbting BorderLbyout.
+ *      Ebch section of the BorderLbyout contbins b Button corresponding to its position in the lbyout, one of:
+ *      North, West, Center, Ebst, or South."
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * The code for this applet is as follows:
+ * The code for this bpplet is bs follows:
  *
  * <hr><blockquote><pre>
- * import java.awt.*;
- * import java.applet.Applet;
+ * import jbvb.bwt.*;
+ * import jbvb.bpplet.Applet;
  *
- * public class buttonDir extends Applet {
+ * public clbss buttonDir extends Applet {
  *   public void init() {
- *     setLayout(new BorderLayout());
- *     add(new Button("North"), BorderLayout.NORTH);
- *     add(new Button("South"), BorderLayout.SOUTH);
- *     add(new Button("East"), BorderLayout.EAST);
- *     add(new Button("West"), BorderLayout.WEST);
- *     add(new Button("Center"), BorderLayout.CENTER);
+ *     setLbyout(new BorderLbyout());
+ *     bdd(new Button("North"), BorderLbyout.NORTH);
+ *     bdd(new Button("South"), BorderLbyout.SOUTH);
+ *     bdd(new Button("Ebst"), BorderLbyout.EAST);
+ *     bdd(new Button("West"), BorderLbyout.WEST);
+ *     bdd(new Button("Center"), BorderLbyout.CENTER);
  *   }
  * }
  * </pre></blockquote><hr>
  *
- * @author      Arthur van Hoff
- * @see         java.awt.Container#add(String, Component)
- * @see         java.awt.ComponentOrientation
+ * @buthor      Arthur vbn Hoff
+ * @see         jbvb.bwt.Contbiner#bdd(String, Component)
+ * @see         jbvb.bwt.ComponentOrientbtion
  * @since       1.0
  */
-public class BorderLayout implements LayoutManager2,
-                                     java.io.Serializable {
+public clbss BorderLbyout implements LbyoutMbnbger2,
+                                     jbvb.io.Seriblizbble {
     /**
-     * Constructs a border layout with the horizontal gaps
+     * Constructs b border lbyout with the horizontbl gbps
      * between components.
-     * The horizontal gap is specified by <code>hgap</code>.
+     * The horizontbl gbp is specified by <code>hgbp</code>.
      *
-     * @see #getHgap()
-     * @see #setHgap(int)
+     * @see #getHgbp()
+     * @see #setHgbp(int)
      *
-     * @serial
+     * @seribl
      */
-        int hgap;
+        int hgbp;
 
     /**
-     * Constructs a border layout with the vertical gaps
+     * Constructs b border lbyout with the verticbl gbps
      * between components.
-     * The vertical gap is specified by <code>vgap</code>.
+     * The verticbl gbp is specified by <code>vgbp</code>.
      *
-     * @see #getVgap()
-     * @see #setVgap(int)
-     * @serial
+     * @see #getVgbp()
+     * @see #setVgbp(int)
+     * @seribl
      */
-        int vgap;
+        int vgbp;
 
     /**
-     * Constant to specify components location to be the
-     *      north portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to specify components locbtion to be the
+     *      north portion of the border lbyout.
+     * @seribl
+     * @see #getChild(String, boolebn)
+     * @see #bddLbyoutComponent
+     * @see #getLbyoutAlignmentX
+     * @see #getLbyoutAlignmentY
+     * @see #removeLbyoutComponent
      */
         Component north;
      /**
-     * Constant to specify components location to be the
-     *      west portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to specify components locbtion to be the
+     *      west portion of the border lbyout.
+     * @seribl
+     * @see #getChild(String, boolebn)
+     * @see #bddLbyoutComponent
+     * @see #getLbyoutAlignmentX
+     * @see #getLbyoutAlignmentY
+     * @see #removeLbyoutComponent
      */
         Component west;
     /**
-     * Constant to specify components location to be the
-     *      east portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to specify components locbtion to be the
+     *      ebst portion of the border lbyout.
+     * @seribl
+     * @see #getChild(String, boolebn)
+     * @see #bddLbyoutComponent
+     * @see #getLbyoutAlignmentX
+     * @see #getLbyoutAlignmentY
+     * @see #removeLbyoutComponent
      */
-        Component east;
+        Component ebst;
     /**
-     * Constant to specify components location to be the
-     *      south portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to specify components locbtion to be the
+     *      south portion of the border lbyout.
+     * @seribl
+     * @see #getChild(String, boolebn)
+     * @see #bddLbyoutComponent
+     * @see #getLbyoutAlignmentX
+     * @see #getLbyoutAlignmentY
+     * @see #removeLbyoutComponent
      */
     Component south;
     /**
-     * Constant to specify components location to be the
-     *      center portion of the border layout.
-     * @serial
-     * @see #getChild(String, boolean)
-     * @see #addLayoutComponent
-     * @see #getLayoutAlignmentX
-     * @see #getLayoutAlignmentY
-     * @see #removeLayoutComponent
+     * Constbnt to specify components locbtion to be the
+     *      center portion of the border lbyout.
+     * @seribl
+     * @see #getChild(String, boolebn)
+     * @see #bddLbyoutComponent
+     * @see #getLbyoutAlignmentX
+     * @see #getLbyoutAlignmentY
+     * @see #removeLbyoutComponent
      */
         Component center;
 
     /**
      *
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * mixing the two types of constants can lead to unpredictable results.  If
-     * you use both types, the relative constants will take precedence.
-     * For example, if you add components using both the <code>NORTH</code>
-     * and <code>BEFORE_FIRST_LINE</code> constants in a container whose
-     * orientation is <code>LEFT_TO_RIGHT</code>, only the
-     * <code>BEFORE_FIRST_LINE</code> will be layed out.
-     * This will be the same for lastLine, firstItem, lastItem.
-     * @serial
+     * A relbtive positioning constbnt, thbt cbn be used instebd of
+     * north, south, ebst, west or center.
+     * mixing the two types of constbnts cbn lebd to unpredictbble results.  If
+     * you use both types, the relbtive constbnts will tbke precedence.
+     * For exbmple, if you bdd components using both the <code>NORTH</code>
+     * bnd <code>BEFORE_FIRST_LINE</code> constbnts in b contbiner whose
+     * orientbtion is <code>LEFT_TO_RIGHT</code>, only the
+     * <code>BEFORE_FIRST_LINE</code> will be lbyed out.
+     * This will be the sbme for lbstLine, firstItem, lbstItem.
+     * @seribl
      */
     Component firstLine;
      /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
-     * @serial
+     * A relbtive positioning constbnt, thbt cbn be used instebd of
+     * north, south, ebst, west or center.
+     * Plebse rebd Description for firstLine.
+     * @seribl
      */
-        Component lastLine;
+        Component lbstLine;
      /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
-     * @serial
+     * A relbtive positioning constbnt, thbt cbn be used instebd of
+     * north, south, ebst, west or center.
+     * Plebse rebd Description for firstLine.
+     * @seribl
      */
         Component firstItem;
     /**
-     * A relative positioning constant, that can be used instead of
-     * north, south, east, west or center.
-     * Please read Description for firstLine.
-     * @serial
+     * A relbtive positioning constbnt, thbt cbn be used instebd of
+     * north, south, ebst, west or center.
+     * Plebse rebd Description for firstLine.
+     * @seribl
      */
-        Component lastItem;
+        Component lbstItem;
 
     /**
-     * The north layout constraint (top of container).
+     * The north lbyout constrbint (top of contbiner).
      */
-    public static final String NORTH  = "North";
+    public stbtic finbl String NORTH  = "North";
 
     /**
-     * The south layout constraint (bottom of container).
+     * The south lbyout constrbint (bottom of contbiner).
      */
-    public static final String SOUTH  = "South";
+    public stbtic finbl String SOUTH  = "South";
 
     /**
-     * The east layout constraint (right side of container).
+     * The ebst lbyout constrbint (right side of contbiner).
      */
-    public static final String EAST   = "East";
+    public stbtic finbl String EAST   = "Ebst";
 
     /**
-     * The west layout constraint (left side of container).
+     * The west lbyout constrbint (left side of contbiner).
      */
-    public static final String WEST   = "West";
+    public stbtic finbl String WEST   = "West";
 
     /**
-     * The center layout constraint (middle of container).
+     * The center lbyout constrbint (middle of contbiner).
      */
-    public static final String CENTER = "Center";
+    public stbtic finbl String CENTER = "Center";
 
     /**
-     * Synonym for PAGE_START.  Exists for compatibility with previous
+     * Synonym for PAGE_START.  Exists for compbtibility with previous
      * versions.  PAGE_START is preferred.
      *
      * @see #PAGE_START
      * @since 1.2
      */
-    public static final String BEFORE_FIRST_LINE = "First";
+    public stbtic finbl String BEFORE_FIRST_LINE = "First";
 
     /**
-     * Synonym for PAGE_END.  Exists for compatibility with previous
+     * Synonym for PAGE_END.  Exists for compbtibility with previous
      * versions.  PAGE_END is preferred.
      *
      * @see #PAGE_END
      * @since 1.2
      */
-    public static final String AFTER_LAST_LINE = "Last";
+    public stbtic finbl String AFTER_LAST_LINE = "Lbst";
 
     /**
-     * Synonym for LINE_START.  Exists for compatibility with previous
+     * Synonym for LINE_START.  Exists for compbtibility with previous
      * versions.  LINE_START is preferred.
      *
      * @see #LINE_START
      * @since 1.2
      */
-    public static final String BEFORE_LINE_BEGINS = "Before";
+    public stbtic finbl String BEFORE_LINE_BEGINS = "Before";
 
     /**
-     * Synonym for LINE_END.  Exists for compatibility with previous
+     * Synonym for LINE_END.  Exists for compbtibility with previous
      * versions.  LINE_END is preferred.
      *
      * @see #LINE_END
      * @since 1.2
      */
-    public static final String AFTER_LINE_ENDS = "After";
+    public stbtic finbl String AFTER_LINE_ENDS = "After";
 
     /**
-     * The component comes before the first line of the layout's content.
-     * For Western, left-to-right and top-to-bottom orientations, this is
-     * equivalent to NORTH.
+     * The component comes before the first line of the lbyout's content.
+     * For Western, left-to-right bnd top-to-bottom orientbtions, this is
+     * equivblent to NORTH.
      *
-     * @see java.awt.Component#getComponentOrientation
+     * @see jbvb.bwt.Component#getComponentOrientbtion
      * @since 1.4
      */
-    public static final String PAGE_START = BEFORE_FIRST_LINE;
+    public stbtic finbl String PAGE_START = BEFORE_FIRST_LINE;
 
     /**
-     * The component comes after the last line of the layout's content.
-     * For Western, left-to-right and top-to-bottom orientations, this is
-     * equivalent to SOUTH.
+     * The component comes bfter the lbst line of the lbyout's content.
+     * For Western, left-to-right bnd top-to-bottom orientbtions, this is
+     * equivblent to SOUTH.
      *
-     * @see java.awt.Component#getComponentOrientation
+     * @see jbvb.bwt.Component#getComponentOrientbtion
      * @since 1.4
      */
-    public static final String PAGE_END = AFTER_LAST_LINE;
+    public stbtic finbl String PAGE_END = AFTER_LAST_LINE;
 
     /**
-     * The component goes at the beginning of the line direction for the
-     * layout. For Western, left-to-right and top-to-bottom orientations,
-     * this is equivalent to WEST.
+     * The component goes bt the beginning of the line direction for the
+     * lbyout. For Western, left-to-right bnd top-to-bottom orientbtions,
+     * this is equivblent to WEST.
      *
-     * @see java.awt.Component#getComponentOrientation
+     * @see jbvb.bwt.Component#getComponentOrientbtion
      * @since 1.4
      */
-    public static final String LINE_START = BEFORE_LINE_BEGINS;
+    public stbtic finbl String LINE_START = BEFORE_LINE_BEGINS;
 
     /**
-     * The component goes at the end of the line direction for the
-     * layout. For Western, left-to-right and top-to-bottom orientations,
-     * this is equivalent to EAST.
+     * The component goes bt the end of the line direction for the
+     * lbyout. For Western, left-to-right bnd top-to-bottom orientbtions,
+     * this is equivblent to EAST.
      *
-     * @see java.awt.Component#getComponentOrientation
+     * @see jbvb.bwt.Component#getComponentOrientbtion
      * @since 1.4
      */
-    public static final String LINE_END = AFTER_LINE_ENDS;
+    public stbtic finbl String LINE_END = AFTER_LINE_ENDS;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = -8658291919501921765L;
+     privbte stbtic finbl long seriblVersionUID = -8658291919501921765L;
 
     /**
-     * Constructs a new border layout with
-     * no gaps between components.
+     * Constructs b new border lbyout with
+     * no gbps between components.
      */
-    public BorderLayout() {
+    public BorderLbyout() {
         this(0, 0);
     }
 
     /**
-     * Constructs a border layout with the specified gaps
+     * Constructs b border lbyout with the specified gbps
      * between components.
-     * The horizontal gap is specified by <code>hgap</code>
-     * and the vertical gap is specified by <code>vgap</code>.
-     * @param   hgap   the horizontal gap.
-     * @param   vgap   the vertical gap.
+     * The horizontbl gbp is specified by <code>hgbp</code>
+     * bnd the verticbl gbp is specified by <code>vgbp</code>.
+     * @pbrbm   hgbp   the horizontbl gbp.
+     * @pbrbm   vgbp   the verticbl gbp.
      */
-    public BorderLayout(int hgap, int vgap) {
-        this.hgap = hgap;
-        this.vgap = vgap;
+    public BorderLbyout(int hgbp, int vgbp) {
+        this.hgbp = hgbp;
+        this.vgbp = vgbp;
     }
 
     /**
-     * Returns the horizontal gap between components.
+     * Returns the horizontbl gbp between components.
      *
-     * @return the horizontal gap between components
+     * @return the horizontbl gbp between components
      * @since   1.1
      */
-    public int getHgap() {
-        return hgap;
+    public int getHgbp() {
+        return hgbp;
     }
 
     /**
-     * Sets the horizontal gap between components.
+     * Sets the horizontbl gbp between components.
      *
-     * @param hgap the horizontal gap between components
+     * @pbrbm hgbp the horizontbl gbp between components
      * @since   1.1
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    public void setHgbp(int hgbp) {
+        this.hgbp = hgbp;
     }
 
     /**
-     * Returns the vertical gap between components.
+     * Returns the verticbl gbp between components.
      *
-     * @return the vertical gap between components
+     * @return the verticbl gbp between components
      * @since   1.1
      */
-    public int getVgap() {
-        return vgap;
+    public int getVgbp() {
+        return vgbp;
     }
 
     /**
-     * Sets the vertical gap between components.
+     * Sets the verticbl gbp between components.
      *
-     * @param vgap the vertical gap between components
+     * @pbrbm vgbp the verticbl gbp between components
      * @since   1.1
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    public void setVgbp(int vgbp) {
+        this.vgbp = vgbp;
     }
 
     /**
-     * Adds the specified component to the layout, using the specified
-     * constraint object.  For border layouts, the constraint must be
-     * one of the following constants:  <code>NORTH</code>,
+     * Adds the specified component to the lbyout, using the specified
+     * constrbint object.  For border lbyouts, the constrbint must be
+     * one of the following constbnts:  <code>NORTH</code>,
      * <code>SOUTH</code>, <code>EAST</code>,
      * <code>WEST</code>, or <code>CENTER</code>.
      * <p>
-     * Most applications do not call this method directly. This method
-     * is called when a component is added to a container using the
-     * <code>Container.add</code> method with the same argument types.
-     * @param   comp         the component to be added.
-     * @param   constraints  an object that specifies how and where
-     *                       the component is added to the layout.
-     * @see     java.awt.Container#add(java.awt.Component, java.lang.Object)
-     * @exception   IllegalArgumentException  if the constraint object is not
-     *              a string, or if it not one of the five specified constants.
+     * Most bpplicbtions do not cbll this method directly. This method
+     * is cblled when b component is bdded to b contbiner using the
+     * <code>Contbiner.bdd</code> method with the sbme brgument types.
+     * @pbrbm   comp         the component to be bdded.
+     * @pbrbm   constrbints  bn object thbt specifies how bnd where
+     *                       the component is bdded to the lbyout.
+     * @see     jbvb.bwt.Contbiner#bdd(jbvb.bwt.Component, jbvb.lbng.Object)
+     * @exception   IllegblArgumentException  if the constrbint object is not
+     *              b string, or if it not one of the five specified constbnts.
      * @since   1.1
      */
-    public void addLayoutComponent(Component comp, Object constraints) {
+    public void bddLbyoutComponent(Component comp, Object constrbints) {
       synchronized (comp.getTreeLock()) {
-        if ((constraints == null) || (constraints instanceof String)) {
-            addLayoutComponent((String)constraints, comp);
+        if ((constrbints == null) || (constrbints instbnceof String)) {
+            bddLbyoutComponent((String)constrbints, comp);
         } else {
-            throw new IllegalArgumentException("cannot add to layout: constraint must be a string (or null)");
+            throw new IllegblArgumentException("cbnnot bdd to lbyout: constrbint must be b string (or null)");
         }
       }
     }
 
     /**
-     * @deprecated  replaced by <code>addLayoutComponent(Component, Object)</code>.
+     * @deprecbted  replbced by <code>bddLbyoutComponent(Component, Object)</code>.
      */
-    @Deprecated
-    public void addLayoutComponent(String name, Component comp) {
+    @Deprecbted
+    public void bddLbyoutComponent(String nbme, Component comp) {
       synchronized (comp.getTreeLock()) {
-        /* Special case:  treat null the same as "Center". */
-        if (name == null) {
-            name = "Center";
+        /* Specibl cbse:  trebt null the sbme bs "Center". */
+        if (nbme == null) {
+            nbme = "Center";
         }
 
-        /* Assign the component to one of the known regions of the layout.
+        /* Assign the component to one of the known regions of the lbyout.
          */
-        if ("Center".equals(name)) {
+        if ("Center".equbls(nbme)) {
             center = comp;
-        } else if ("North".equals(name)) {
+        } else if ("North".equbls(nbme)) {
             north = comp;
-        } else if ("South".equals(name)) {
+        } else if ("South".equbls(nbme)) {
             south = comp;
-        } else if ("East".equals(name)) {
-            east = comp;
-        } else if ("West".equals(name)) {
+        } else if ("Ebst".equbls(nbme)) {
+            ebst = comp;
+        } else if ("West".equbls(nbme)) {
             west = comp;
-        } else if (BEFORE_FIRST_LINE.equals(name)) {
+        } else if (BEFORE_FIRST_LINE.equbls(nbme)) {
             firstLine = comp;
-        } else if (AFTER_LAST_LINE.equals(name)) {
-            lastLine = comp;
-        } else if (BEFORE_LINE_BEGINS.equals(name)) {
+        } else if (AFTER_LAST_LINE.equbls(nbme)) {
+            lbstLine = comp;
+        } else if (BEFORE_LINE_BEGINS.equbls(nbme)) {
             firstItem = comp;
-        } else if (AFTER_LINE_ENDS.equals(name)) {
-            lastItem = comp;
+        } else if (AFTER_LINE_ENDS.equbls(nbme)) {
+            lbstItem = comp;
         } else {
-            throw new IllegalArgumentException("cannot add to layout: unknown constraint: " + name);
+            throw new IllegblArgumentException("cbnnot bdd to lbyout: unknown constrbint: " + nbme);
         }
       }
     }
 
     /**
-     * Removes the specified component from this border layout. This
-     * method is called when a container calls its <code>remove</code> or
-     * <code>removeAll</code> methods. Most applications do not call this
+     * Removes the specified component from this border lbyout. This
+     * method is cblled when b contbiner cblls its <code>remove</code> or
+     * <code>removeAll</code> methods. Most bpplicbtions do not cbll this
      * method directly.
-     * @param   comp   the component to be removed.
-     * @see     java.awt.Container#remove(java.awt.Component)
-     * @see     java.awt.Container#removeAll()
+     * @pbrbm   comp   the component to be removed.
+     * @see     jbvb.bwt.Contbiner#remove(jbvb.bwt.Component)
+     * @see     jbvb.bwt.Contbiner#removeAll()
      */
-    public void removeLayoutComponent(Component comp) {
+    public void removeLbyoutComponent(Component comp) {
       synchronized (comp.getTreeLock()) {
         if (comp == center) {
             center = null;
@@ -487,109 +487,109 @@ public class BorderLayout implements LayoutManager2,
             north = null;
         } else if (comp == south) {
             south = null;
-        } else if (comp == east) {
-            east = null;
+        } else if (comp == ebst) {
+            ebst = null;
         } else if (comp == west) {
             west = null;
         }
         if (comp == firstLine) {
             firstLine = null;
-        } else if (comp == lastLine) {
-            lastLine = null;
+        } else if (comp == lbstLine) {
+            lbstLine = null;
         } else if (comp == firstItem) {
             firstItem = null;
-        } else if (comp == lastItem) {
-            lastItem = null;
+        } else if (comp == lbstItem) {
+            lbstItem = null;
         }
       }
     }
 
     /**
-     * Gets the component that was added using the given constraint
+     * Gets the component thbt wbs bdded using the given constrbint
      *
-     * @param   constraints  the desired constraint, one of <code>CENTER</code>,
+     * @pbrbm   constrbints  the desired constrbint, one of <code>CENTER</code>,
      *                       <code>NORTH</code>, <code>SOUTH</code>,
      *                       <code>WEST</code>, <code>EAST</code>,
      *                       <code>PAGE_START</code>, <code>PAGE_END</code>,
      *                       <code>LINE_START</code>, <code>LINE_END</code>
-     * @return  the component at the given location, or <code>null</code> if
-     *          the location is empty
-     * @exception   IllegalArgumentException  if the constraint object is
-     *              not one of the nine specified constants
-     * @see     #addLayoutComponent(java.awt.Component, java.lang.Object)
+     * @return  the component bt the given locbtion, or <code>null</code> if
+     *          the locbtion is empty
+     * @exception   IllegblArgumentException  if the constrbint object is
+     *              not one of the nine specified constbnts
+     * @see     #bddLbyoutComponent(jbvb.bwt.Component, jbvb.lbng.Object)
      * @since 1.5
      */
-    public Component getLayoutComponent(Object constraints) {
-        if (CENTER.equals(constraints)) {
+    public Component getLbyoutComponent(Object constrbints) {
+        if (CENTER.equbls(constrbints)) {
             return center;
-        } else if (NORTH.equals(constraints)) {
+        } else if (NORTH.equbls(constrbints)) {
             return north;
-        } else if (SOUTH.equals(constraints)) {
+        } else if (SOUTH.equbls(constrbints)) {
             return south;
-        } else if (WEST.equals(constraints)) {
+        } else if (WEST.equbls(constrbints)) {
             return west;
-        } else if (EAST.equals(constraints)) {
-            return east;
-        } else if (PAGE_START.equals(constraints)) {
+        } else if (EAST.equbls(constrbints)) {
+            return ebst;
+        } else if (PAGE_START.equbls(constrbints)) {
             return firstLine;
-        } else if (PAGE_END.equals(constraints)) {
-            return lastLine;
-        } else if (LINE_START.equals(constraints)) {
+        } else if (PAGE_END.equbls(constrbints)) {
+            return lbstLine;
+        } else if (LINE_START.equbls(constrbints)) {
             return firstItem;
-        } else if (LINE_END.equals(constraints)) {
-            return lastItem;
+        } else if (LINE_END.equbls(constrbints)) {
+            return lbstItem;
         } else {
-            throw new IllegalArgumentException("cannot get component: unknown constraint: " + constraints);
+            throw new IllegblArgumentException("cbnnot get component: unknown constrbint: " + constrbints);
         }
     }
 
 
     /**
-     * Returns the component that corresponds to the given constraint location
-     * based on the target <code>Container</code>'s component orientation.
-     * Components added with the relative constraints <code>PAGE_START</code>,
-     * <code>PAGE_END</code>, <code>LINE_START</code>, and <code>LINE_END</code>
-     * take precedence over components added with the explicit constraints
-     * <code>NORTH</code>, <code>SOUTH</code>, <code>WEST</code>, and <code>EAST</code>.
-     * The <code>Container</code>'s component orientation is used to determine the location of components
-     * added with <code>LINE_START</code> and <code>LINE_END</code>.
+     * Returns the component thbt corresponds to the given constrbint locbtion
+     * bbsed on the tbrget <code>Contbiner</code>'s component orientbtion.
+     * Components bdded with the relbtive constrbints <code>PAGE_START</code>,
+     * <code>PAGE_END</code>, <code>LINE_START</code>, bnd <code>LINE_END</code>
+     * tbke precedence over components bdded with the explicit constrbints
+     * <code>NORTH</code>, <code>SOUTH</code>, <code>WEST</code>, bnd <code>EAST</code>.
+     * The <code>Contbiner</code>'s component orientbtion is used to determine the locbtion of components
+     * bdded with <code>LINE_START</code> bnd <code>LINE_END</code>.
      *
-     * @param   constraints     the desired absolute position, one of <code>CENTER</code>,
+     * @pbrbm   constrbints     the desired bbsolute position, one of <code>CENTER</code>,
      *                          <code>NORTH</code>, <code>SOUTH</code>,
      *                          <code>EAST</code>, <code>WEST</code>
-     * @param   target     the {@code Container} used to obtain
-     *                     the constraint location based on the target
-     *                     {@code Container}'s component orientation.
-     * @return  the component at the given location, or <code>null</code> if
-     *          the location is empty
-     * @exception   IllegalArgumentException  if the constraint object is
-     *              not one of the five specified constants
-     * @exception   NullPointerException  if the target parameter is null
-     * @see     #addLayoutComponent(java.awt.Component, java.lang.Object)
+     * @pbrbm   tbrget     the {@code Contbiner} used to obtbin
+     *                     the constrbint locbtion bbsed on the tbrget
+     *                     {@code Contbiner}'s component orientbtion.
+     * @return  the component bt the given locbtion, or <code>null</code> if
+     *          the locbtion is empty
+     * @exception   IllegblArgumentException  if the constrbint object is
+     *              not one of the five specified constbnts
+     * @exception   NullPointerException  if the tbrget pbrbmeter is null
+     * @see     #bddLbyoutComponent(jbvb.bwt.Component, jbvb.lbng.Object)
      * @since 1.5
      */
-    public Component getLayoutComponent(Container target, Object constraints) {
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
+    public Component getLbyoutComponent(Contbiner tbrget, Object constrbints) {
+        boolebn ltr = tbrget.getComponentOrientbtion().isLeftToRight();
         Component result = null;
 
-        if (NORTH.equals(constraints)) {
+        if (NORTH.equbls(constrbints)) {
             result = (firstLine != null) ? firstLine : north;
-        } else if (SOUTH.equals(constraints)) {
-            result = (lastLine != null) ? lastLine : south;
-        } else if (WEST.equals(constraints)) {
-            result = ltr ? firstItem : lastItem;
+        } else if (SOUTH.equbls(constrbints)) {
+            result = (lbstLine != null) ? lbstLine : south;
+        } else if (WEST.equbls(constrbints)) {
+            result = ltr ? firstItem : lbstItem;
             if (result == null) {
                 result = west;
             }
-        } else if (EAST.equals(constraints)) {
-            result = ltr ? lastItem : firstItem;
+        } else if (EAST.equbls(constrbints)) {
+            result = ltr ? lbstItem : firstItem;
             if (result == null) {
-                result = east;
+                result = ebst;
             }
-        } else if (CENTER.equals(constraints)) {
+        } else if (CENTER.equbls(constrbints)) {
             result = center;
         } else {
-            throw new IllegalArgumentException("cannot get component: invalid constraint: " + constraints);
+            throw new IllegblArgumentException("cbnnot get component: invblid constrbint: " + constrbints);
         }
 
         return result;
@@ -597,17 +597,17 @@ public class BorderLayout implements LayoutManager2,
 
 
     /**
-     * Gets the constraints for the specified component
+     * Gets the constrbints for the specified component
      *
-     * @param   comp the component to be queried
-     * @return  the constraint for the specified component,
+     * @pbrbm   comp the component to be queried
+     * @return  the constrbint for the specified component,
      *          or null if component is null or is not present
-     *          in this layout
-     * @see #addLayoutComponent(java.awt.Component, java.lang.Object)
+     *          in this lbyout
+     * @see #bddLbyoutComponent(jbvb.bwt.Component, jbvb.lbng.Object)
      * @since 1.5
      */
-    public Object getConstraints(Component comp) {
-        //fix for 6242148 : API method java.awt.BorderLayout.getConstraints(null) should return null
+    public Object getConstrbints(Component comp) {
+        //fix for 6242148 : API method jbvb.bwt.BorderLbyout.getConstrbints(null) should return null
         if (comp == null){
             return null;
         }
@@ -619,68 +619,68 @@ public class BorderLayout implements LayoutManager2,
             return SOUTH;
         } else if (comp == west) {
             return WEST;
-        } else if (comp == east) {
+        } else if (comp == ebst) {
             return EAST;
         } else if (comp == firstLine) {
             return PAGE_START;
-        } else if (comp == lastLine) {
+        } else if (comp == lbstLine) {
             return PAGE_END;
         } else if (comp == firstItem) {
             return LINE_START;
-        } else if (comp == lastItem) {
+        } else if (comp == lbstItem) {
             return LINE_END;
         }
         return null;
     }
 
     /**
-     * Determines the minimum size of the <code>target</code> container
-     * using this layout manager.
+     * Determines the minimum size of the <code>tbrget</code> contbiner
+     * using this lbyout mbnbger.
      * <p>
-     * This method is called when a container calls its
-     * <code>getMinimumSize</code> method. Most applications do not call
+     * This method is cblled when b contbiner cblls its
+     * <code>getMinimumSize</code> method. Most bpplicbtions do not cbll
      * this method directly.
-     * @param   target   the container in which to do the layout.
-     * @return  the minimum dimensions needed to lay out the subcomponents
-     *          of the specified container.
-     * @see     java.awt.Container
-     * @see     java.awt.BorderLayout#preferredLayoutSize
-     * @see     java.awt.Container#getMinimumSize()
+     * @pbrbm   tbrget   the contbiner in which to do the lbyout.
+     * @return  the minimum dimensions needed to lby out the subcomponents
+     *          of the specified contbiner.
+     * @see     jbvb.bwt.Contbiner
+     * @see     jbvb.bwt.BorderLbyout#preferredLbyoutSize
+     * @see     jbvb.bwt.Contbiner#getMinimumSize()
      */
-    public Dimension minimumLayoutSize(Container target) {
-      synchronized (target.getTreeLock()) {
+    public Dimension minimumLbyoutSize(Contbiner tbrget) {
+      synchronized (tbrget.getTreeLock()) {
         Dimension dim = new Dimension(0, 0);
 
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
+        boolebn ltr = tbrget.getComponentOrientbtion().isLeftToRight();
         Component c = null;
 
         if ((c=getChild(EAST,ltr)) != null) {
             Dimension d = c.getMinimumSize();
-            dim.width += d.width + hgap;
-            dim.height = Math.max(d.height, dim.height);
+            dim.width += d.width + hgbp;
+            dim.height = Mbth.mbx(d.height, dim.height);
         }
         if ((c=getChild(WEST,ltr)) != null) {
             Dimension d = c.getMinimumSize();
-            dim.width += d.width + hgap;
-            dim.height = Math.max(d.height, dim.height);
+            dim.width += d.width + hgbp;
+            dim.height = Mbth.mbx(d.height, dim.height);
         }
         if ((c=getChild(CENTER,ltr)) != null) {
             Dimension d = c.getMinimumSize();
             dim.width += d.width;
-            dim.height = Math.max(d.height, dim.height);
+            dim.height = Mbth.mbx(d.height, dim.height);
         }
         if ((c=getChild(NORTH,ltr)) != null) {
             Dimension d = c.getMinimumSize();
-            dim.width = Math.max(d.width, dim.width);
-            dim.height += d.height + vgap;
+            dim.width = Mbth.mbx(d.width, dim.width);
+            dim.height += d.height + vgbp;
         }
         if ((c=getChild(SOUTH,ltr)) != null) {
             Dimension d = c.getMinimumSize();
-            dim.width = Math.max(d.width, dim.width);
-            dim.height += d.height + vgap;
+            dim.width = Mbth.mbx(d.width, dim.width);
+            dim.height += d.height + vgbp;
         }
 
-        Insets insets = target.getInsets();
+        Insets insets = tbrget.getInsets();
         dim.width += insets.left + insets.right;
         dim.height += insets.top + insets.bottom;
 
@@ -689,54 +689,54 @@ public class BorderLayout implements LayoutManager2,
     }
 
     /**
-     * Determines the preferred size of the <code>target</code>
-     * container using this layout manager, based on the components
-     * in the container.
+     * Determines the preferred size of the <code>tbrget</code>
+     * contbiner using this lbyout mbnbger, bbsed on the components
+     * in the contbiner.
      * <p>
-     * Most applications do not call this method directly. This method
-     * is called when a container calls its <code>getPreferredSize</code>
+     * Most bpplicbtions do not cbll this method directly. This method
+     * is cblled when b contbiner cblls its <code>getPreferredSize</code>
      * method.
-     * @param   target   the container in which to do the layout.
-     * @return  the preferred dimensions to lay out the subcomponents
-     *          of the specified container.
-     * @see     java.awt.Container
-     * @see     java.awt.BorderLayout#minimumLayoutSize
-     * @see     java.awt.Container#getPreferredSize()
+     * @pbrbm   tbrget   the contbiner in which to do the lbyout.
+     * @return  the preferred dimensions to lby out the subcomponents
+     *          of the specified contbiner.
+     * @see     jbvb.bwt.Contbiner
+     * @see     jbvb.bwt.BorderLbyout#minimumLbyoutSize
+     * @see     jbvb.bwt.Contbiner#getPreferredSize()
      */
-    public Dimension preferredLayoutSize(Container target) {
-      synchronized (target.getTreeLock()) {
+    public Dimension preferredLbyoutSize(Contbiner tbrget) {
+      synchronized (tbrget.getTreeLock()) {
         Dimension dim = new Dimension(0, 0);
 
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
+        boolebn ltr = tbrget.getComponentOrientbtion().isLeftToRight();
         Component c = null;
 
         if ((c=getChild(EAST,ltr)) != null) {
             Dimension d = c.getPreferredSize();
-            dim.width += d.width + hgap;
-            dim.height = Math.max(d.height, dim.height);
+            dim.width += d.width + hgbp;
+            dim.height = Mbth.mbx(d.height, dim.height);
         }
         if ((c=getChild(WEST,ltr)) != null) {
             Dimension d = c.getPreferredSize();
-            dim.width += d.width + hgap;
-            dim.height = Math.max(d.height, dim.height);
+            dim.width += d.width + hgbp;
+            dim.height = Mbth.mbx(d.height, dim.height);
         }
         if ((c=getChild(CENTER,ltr)) != null) {
             Dimension d = c.getPreferredSize();
             dim.width += d.width;
-            dim.height = Math.max(d.height, dim.height);
+            dim.height = Mbth.mbx(d.height, dim.height);
         }
         if ((c=getChild(NORTH,ltr)) != null) {
             Dimension d = c.getPreferredSize();
-            dim.width = Math.max(d.width, dim.width);
-            dim.height += d.height + vgap;
+            dim.width = Mbth.mbx(d.width, dim.width);
+            dim.height += d.height + vgbp;
         }
         if ((c=getChild(SOUTH,ltr)) != null) {
             Dimension d = c.getPreferredSize();
-            dim.width = Math.max(d.width, dim.width);
-            dim.height += d.height + vgap;
+            dim.width = Mbth.mbx(d.width, dim.width);
+            dim.height += d.height + vgbp;
         }
 
-        Insets insets = target.getInsets();
+        Insets insets = tbrget.getInsets();
         dim.width += insets.left + insets.right;
         dim.height += insets.top + insets.bottom;
 
@@ -745,99 +745,99 @@ public class BorderLayout implements LayoutManager2,
     }
 
     /**
-     * Returns the maximum dimensions for this layout given the components
-     * in the specified target container.
-     * @param target the component which needs to be laid out
-     * @see Container
-     * @see #minimumLayoutSize
-     * @see #preferredLayoutSize
+     * Returns the mbximum dimensions for this lbyout given the components
+     * in the specified tbrget contbiner.
+     * @pbrbm tbrget the component which needs to be lbid out
+     * @see Contbiner
+     * @see #minimumLbyoutSize
+     * @see #preferredLbyoutSize
      */
-    public Dimension maximumLayoutSize(Container target) {
+    public Dimension mbximumLbyoutSize(Contbiner tbrget) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
     /**
-     * Returns the alignment along the x axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the blignment blong the x bxis.  This specifies how
+     * the component would like to be bligned relbtive to other
+     * components.  The vblue should be b number between 0 bnd 1
+     * where 0 represents blignment blong the origin, 1 is bligned
+     * the furthest bwby from the origin, 0.5 is centered, etc.
      */
-    public float getLayoutAlignmentX(Container parent) {
+    public flobt getLbyoutAlignmentX(Contbiner pbrent) {
         return 0.5f;
     }
 
     /**
-     * Returns the alignment along the y axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the blignment blong the y bxis.  This specifies how
+     * the component would like to be bligned relbtive to other
+     * components.  The vblue should be b number between 0 bnd 1
+     * where 0 represents blignment blong the origin, 1 is bligned
+     * the furthest bwby from the origin, 0.5 is centered, etc.
      */
-    public float getLayoutAlignmentY(Container parent) {
+    public flobt getLbyoutAlignmentY(Contbiner pbrent) {
         return 0.5f;
     }
 
     /**
-     * Invalidates the layout, indicating that if the layout manager
-     * has cached information it should be discarded.
+     * Invblidbtes the lbyout, indicbting thbt if the lbyout mbnbger
+     * hbs cbched informbtion it should be discbrded.
      */
-    public void invalidateLayout(Container target) {
+    public void invblidbteLbyout(Contbiner tbrget) {
     }
 
     /**
-     * Lays out the container argument using this border layout.
+     * Lbys out the contbiner brgument using this border lbyout.
      * <p>
-     * This method actually reshapes the components in the specified
-     * container in order to satisfy the constraints of this
-     * <code>BorderLayout</code> object. The <code>NORTH</code>
-     * and <code>SOUTH</code> components, if any, are placed at
-     * the top and bottom of the container, respectively. The
-     * <code>WEST</code> and <code>EAST</code> components are
-     * then placed on the left and right, respectively. Finally,
-     * the <code>CENTER</code> object is placed in any remaining
-     * space in the middle.
+     * This method bctublly reshbpes the components in the specified
+     * contbiner in order to sbtisfy the constrbints of this
+     * <code>BorderLbyout</code> object. The <code>NORTH</code>
+     * bnd <code>SOUTH</code> components, if bny, bre plbced bt
+     * the top bnd bottom of the contbiner, respectively. The
+     * <code>WEST</code> bnd <code>EAST</code> components bre
+     * then plbced on the left bnd right, respectively. Finblly,
+     * the <code>CENTER</code> object is plbced in bny rembining
+     * spbce in the middle.
      * <p>
-     * Most applications do not call this method directly. This method
-     * is called when a container calls its <code>doLayout</code> method.
-     * @param   target   the container in which to do the layout.
-     * @see     java.awt.Container
-     * @see     java.awt.Container#doLayout()
+     * Most bpplicbtions do not cbll this method directly. This method
+     * is cblled when b contbiner cblls its <code>doLbyout</code> method.
+     * @pbrbm   tbrget   the contbiner in which to do the lbyout.
+     * @see     jbvb.bwt.Contbiner
+     * @see     jbvb.bwt.Contbiner#doLbyout()
      */
-    public void layoutContainer(Container target) {
-      synchronized (target.getTreeLock()) {
-        Insets insets = target.getInsets();
+    public void lbyoutContbiner(Contbiner tbrget) {
+      synchronized (tbrget.getTreeLock()) {
+        Insets insets = tbrget.getInsets();
         int top = insets.top;
-        int bottom = target.height - insets.bottom;
+        int bottom = tbrget.height - insets.bottom;
         int left = insets.left;
-        int right = target.width - insets.right;
+        int right = tbrget.width - insets.right;
 
-        boolean ltr = target.getComponentOrientation().isLeftToRight();
+        boolebn ltr = tbrget.getComponentOrientbtion().isLeftToRight();
         Component c = null;
 
         if ((c=getChild(NORTH,ltr)) != null) {
             c.setSize(right - left, c.height);
             Dimension d = c.getPreferredSize();
             c.setBounds(left, top, right - left, d.height);
-            top += d.height + vgap;
+            top += d.height + vgbp;
         }
         if ((c=getChild(SOUTH,ltr)) != null) {
             c.setSize(right - left, c.height);
             Dimension d = c.getPreferredSize();
             c.setBounds(left, bottom - d.height, right - left, d.height);
-            bottom -= d.height + vgap;
+            bottom -= d.height + vgbp;
         }
         if ((c=getChild(EAST,ltr)) != null) {
             c.setSize(c.width, bottom - top);
             Dimension d = c.getPreferredSize();
             c.setBounds(right - d.width, top, d.width, bottom - top);
-            right -= d.width + hgap;
+            right -= d.width + hgbp;
         }
         if ((c=getChild(WEST,ltr)) != null) {
             c.setSize(c.width, bottom - top);
             Dimension d = c.getPreferredSize();
             c.setBounds(left, top, d.width, bottom - top);
-            left += d.width + hgap;
+            left += d.width + hgbp;
         }
         if ((c=getChild(CENTER,ltr)) != null) {
             c.setBounds(left, top, right - left, bottom - top);
@@ -846,31 +846,31 @@ public class BorderLayout implements LayoutManager2,
     }
 
     /**
-     * Get the component that corresponds to the given constraint location
+     * Get the component thbt corresponds to the given constrbint locbtion
      *
-     * @param   key     The desired absolute position,
+     * @pbrbm   key     The desired bbsolute position,
      *                  either NORTH, SOUTH, EAST, or WEST.
-     * @param   ltr     Is the component line direction left-to-right?
+     * @pbrbm   ltr     Is the component line direction left-to-right?
      */
-    private Component getChild(String key, boolean ltr) {
+    privbte Component getChild(String key, boolebn ltr) {
         Component result = null;
 
         if (key == NORTH) {
             result = (firstLine != null) ? firstLine : north;
         }
         else if (key == SOUTH) {
-            result = (lastLine != null) ? lastLine : south;
+            result = (lbstLine != null) ? lbstLine : south;
         }
         else if (key == WEST) {
-            result = ltr ? firstItem : lastItem;
+            result = ltr ? firstItem : lbstItem;
             if (result == null) {
                 result = west;
             }
         }
         else if (key == EAST) {
-            result = ltr ? lastItem : firstItem;
+            result = ltr ? lbstItem : firstItem;
             if (result == null) {
-                result = east;
+                result = ebst;
             }
         }
         else if (key == CENTER) {
@@ -883,10 +883,10 @@ public class BorderLayout implements LayoutManager2,
     }
 
     /**
-     * Returns a string representation of the state of this border layout.
-     * @return    a string representation of this border layout.
+     * Returns b string representbtion of the stbte of this border lbyout.
+     * @return    b string representbtion of this border lbyout.
      */
     public String toString() {
-        return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + "]";
+        return getClbss().getNbme() + "[hgbp=" + hgbp + ",vgbp=" + vgbp + "]";
     }
 }

@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
 
 
 import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpVarBind;
+import com.sun.jmx.snmp.SnmpVbrBind;
 import com.sun.jmx.snmp.SnmpEngine;
 
 /**
- * This class implements the SnmpMibRequest interface.
- * It represents the part of a SNMP request that involves a specific
- * MIB. One instance of this class will be created for every MIB
- * involved in a SNMP request, and will be passed to the SnmpMibAgent
- * in charge of handling that MIB.
+ * This clbss implements the SnmpMibRequest interfbce.
+ * It represents the pbrt of b SNMP request thbt involves b specific
+ * MIB. One instbnce of this clbss will be crebted for every MIB
+ * involved in b SNMP request, bnd will be pbssed to the SnmpMibAgent
+ * in chbrge of hbndling thbt MIB.
  *
- * Instances of this class are allocated by the SNMP engine. You will
- * never need to use this class directly. You will only access
- * instances of this class through their SnmpMibRequest interface.
+ * Instbnces of this clbss bre bllocbted by the SNMP engine. You will
+ * never need to use this clbss directly. You will only bccess
+ * instbnces of this clbss through their SnmpMibRequest interfbce.
  *
  */
-final class SnmpMibRequestImpl implements SnmpMibRequest {
+finbl clbss SnmpMibRequestImpl implements SnmpMibRequest {
 
     /**
-     * @param engine The local engine.
-     * @param reqPdu The received pdu.
-     * @param vblist The vector of SnmpVarBind objects in which the
+     * @pbrbm engine The locbl engine.
+     * @pbrbm reqPdu The received pdu.
+     * @pbrbm vblist The vector of SnmpVbrBind objects in which the
      *        MIB concerned by this request is involved.
-     * @param protocolVersion  The protocol version of the SNMP request.
-     * @param userData     User allocated contextual data. This object must
-     *        be allocated on a per SNMP request basis through the
-     *        SnmpUserDataFactory registered with the SnmpAdaptorServer,
-     *        and is handed back to the user through SnmpMibRequest objects.
+     * @pbrbm protocolVersion  The protocol version of the SNMP request.
+     * @pbrbm userDbtb     User bllocbted contextubl dbtb. This object must
+     *        be bllocbted on b per SNMP request bbsis through the
+     *        SnmpUserDbtbFbctory registered with the SnmpAdbptorServer,
+     *        bnd is hbnded bbck to the user through SnmpMibRequest objects.
      */
     public SnmpMibRequestImpl(SnmpEngine engine,
                               SnmpPdu reqPdu,
-                              Vector<SnmpVarBind> vblist,
+                              Vector<SnmpVbrBind> vblist,
                               int protocolVersion,
-                              Object userData,
-                              String principal,
+                              Object userDbtb,
+                              String principbl,
                               int securityLevel,
                               int securityModel,
-                              byte[] contextName,
-                              byte[] accessContextName) {
-        varbinds   = vblist;
+                              byte[] contextNbme,
+                              byte[] bccessContextNbme) {
+        vbrbinds   = vblist;
         version    = protocolVersion;
-        data       = userData;
+        dbtb       = userDbtb;
         this.reqPdu = reqPdu;
         this.engine = engine;
-        this.principal = principal;
+        this.principbl = principbl;
         this.securityLevel = securityLevel;
         this.securityModel = securityModel;
-        this.contextName = contextName;
-        this.accessContextName = accessContextName;
+        this.contextNbme = contextNbme;
+        this.bccessContextNbme = bccessContextNbme;
     }
     // -------------------------------------------------------------------
     // PUBLIC METHODS from SnmpMibRequest
     // -------------------------------------------------------------------
 
     /**
-     * Returns the local engine. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return the local engine.
+     * Returns the locbl engine. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise null is returned.
+     * @return the locbl engine.
      */
     @Override
     public SnmpEngine getEngine() {
@@ -93,16 +93,16 @@ final class SnmpMibRequestImpl implements SnmpMibRequest {
     }
 
     /**
-     * Gets the incoming request principal. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The request principal.
+     * Gets the incoming request principbl. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise null is returned.
+     * @return The request principbl.
      **/
     @Override
-    public String getPrincipal() {
-        return principal;
+    public String getPrincipbl() {
+        return principbl;
     }
 
     /**
-     * Gets the incoming request security level. This level is defined in {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise -1 is returned.
+     * Gets the incoming request security level. This level is defined in {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise -1 is returned.
      * @return The security level.
      */
     @Override
@@ -110,7 +110,7 @@ final class SnmpMibRequestImpl implements SnmpMibRequest {
         return securityLevel;
     }
     /**
-     * Gets the incoming request security model. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise -1 is returned.
+     * Gets the incoming request security model. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise -1 is returned.
      * @return The security model.
      */
     @Override
@@ -118,93 +118,93 @@ final class SnmpMibRequestImpl implements SnmpMibRequest {
         return securityModel;
     }
     /**
-     * Gets the incoming request context name. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
-     * @return The context name.
+     * Gets the incoming request context nbme. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise null is returned.
+     * @return The context nbme.
      */
     @Override
-    public byte[] getContextName() {
-        return contextName;
+    public byte[] getContextNbme() {
+        return contextNbme;
     }
 
     /**
-     * Gets the incoming request context name used by Access Control Model in order to allow or deny the access to OIDs. This parameter is returned only if <CODE> SnmpV3AdaptorServer </CODE> is the adaptor receiving this request. Otherwise null is returned.
+     * Gets the incoming request context nbme used by Access Control Model in order to bllow or deny the bccess to OIDs. This pbrbmeter is returned only if <CODE> SnmpV3AdbptorServer </CODE> is the bdbptor receiving this request. Otherwise null is returned.
      * @return The checked context.
      */
     @Override
-    public byte[] getAccessContextName() {
-        return accessContextName;
+    public byte[] getAccessContextNbme() {
+        return bccessContextNbme;
     }
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public final SnmpPdu getPdu() {
+    public finbl SnmpPdu getPdu() {
         return reqPdu;
     }
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public final Enumeration<SnmpVarBind> getElements()  {return varbinds.elements();}
+    public finbl Enumerbtion<SnmpVbrBind> getElements()  {return vbrbinds.elements();}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public final Vector<SnmpVarBind> getSubList()  {return varbinds;}
+    public finbl Vector<SnmpVbrBind> getSubList()  {return vbrbinds;}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public final int getSize()  {
-        if (varbinds == null) return 0;
-        return varbinds.size();
+    public finbl int getSize()  {
+        if (vbrbinds == null) return 0;
+        return vbrbinds.size();
     }
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public final int         getVersion()  {return version;}
+    public finbl int         getVersion()  {return version;}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public final int         getRequestPduVersion()  {return reqPdu.version;}
+    public finbl int         getRequestPduVersion()  {return reqPdu.version;}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public final Object      getUserData() {return data;}
+    public finbl Object      getUserDbtb() {return dbtb;}
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public final int getVarIndex(SnmpVarBind varbind) {
-        return varbinds.indexOf(varbind);
+    public finbl int getVbrIndex(SnmpVbrBind vbrbind) {
+        return vbrbinds.indexOf(vbrbind);
     }
 
     // -------------------------------------------------------------------
-    // Implements the method defined in SnmpMibRequest interface.
-    // See SnmpMibRequest for the java doc.
+    // Implements the method defined in SnmpMibRequest interfbce.
+    // See SnmpMibRequest for the jbvb doc.
     // -------------------------------------------------------------------
     @Override
-    public void addVarBind(SnmpVarBind varbind) {
-        varbinds.addElement(varbind);
+    public void bddVbrBind(SnmpVbrBind vbrbind) {
+        vbrbinds.bddElement(vbrbind);
     }
 
     // -------------------------------------------------------------------
@@ -212,46 +212,46 @@ final class SnmpMibRequestImpl implements SnmpMibRequest {
     // -------------------------------------------------------------------
 
     // -------------------------------------------------------------------
-    // Allow to pass the request tree built during the check() phase
+    // Allow to pbss the request tree built during the check() phbse
     // to the set() method. Note: the if the tree is `null', then the
-    // set() method will rebuild a new tree identical to the tree built
+    // set() method will rebuild b new tree identicbl to the tree built
     // in the check() method.
     //
-    // Passing this tree in the SnmpMibRequestImpl object allows to
+    // Pbssing this tree in the SnmpMibRequestImpl object bllows to
     // optimize the SET requests.
     //
     // -------------------------------------------------------------------
-    final void setRequestTree(SnmpRequestTree tree) {this.tree = tree;}
+    finbl void setRequestTree(SnmpRequestTree tree) {this.tree = tree;}
 
     // -------------------------------------------------------------------
-    // Returns the SnmpRequestTree object built in the first operation
-    // phase for two-phase SNMP requests (like SET).
+    // Returns the SnmpRequestTree object built in the first operbtion
+    // phbse for two-phbse SNMP requests (like SET).
     // -------------------------------------------------------------------
-    final SnmpRequestTree getRequestTree() {return tree;}
+    finbl SnmpRequestTree getRequestTree() {return tree;}
 
     // -------------------------------------------------------------------
-    // Returns the underlying vector of SNMP varbinds (used for algorithm
-    // optimization).
+    // Returns the underlying vector of SNMP vbrbinds (used for blgorithm
+    // optimizbtion).
     // -------------------------------------------------------------------
-    final Vector<SnmpVarBind> getVarbinds() {return varbinds;}
+    finbl Vector<SnmpVbrBind> getVbrbinds() {return vbrbinds;}
 
     // -------------------------------------------------------------------
-    // Private variables
+    // Privbte vbribbles
     // -------------------------------------------------------------------
 
-    // Ideally these variables should be declared final but it makes
-    // the jdk1.1.x compiler complain (seems to be a compiler bug, jdk1.2
+    // Ideblly these vbribbles should be declbred finbl but it mbkes
+    // the jdk1.1.x compiler complbin (seems to be b compiler bug, jdk1.2
     // is OK).
-    private Vector<SnmpVarBind> varbinds;
-    private int    version;
-    private Object data;
-    private SnmpPdu reqPdu = null;
-    // Non final variable.
-    private SnmpRequestTree tree = null;
-    private SnmpEngine engine = null;
-    private String principal = null;
-    private int securityLevel = -1;
-    private int securityModel = -1;
-    private byte[] contextName = null;
-    private byte[] accessContextName = null;
+    privbte Vector<SnmpVbrBind> vbrbinds;
+    privbte int    version;
+    privbte Object dbtb;
+    privbte SnmpPdu reqPdu = null;
+    // Non finbl vbribble.
+    privbte SnmpRequestTree tree = null;
+    privbte SnmpEngine engine = null;
+    privbte String principbl = null;
+    privbte int securityLevel = -1;
+    privbte int securityModel = -1;
+    privbte byte[] contextNbme = null;
+    privbte byte[] bccessContextNbme = null;
 }

@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss;
+pbckbge sun.security.jgss;
 
 import org.ietf.jgss.*;
 
 /**
- * This class helps overcome a limitation of the org.ietf.jgss.GSSException
- * class that does not allow the thrower to set a string corresponding to
- * the major code.
+ * This clbss helps overcome b limitbtion of the org.ietf.jgss.GSSException
+ * clbss thbt does not bllow the thrower to set b string corresponding to
+ * the mbjor code.
  */
-public class GSSExceptionImpl extends GSSException {
+public clbss GSSExceptionImpl extends GSSException {
 
-    private static final long serialVersionUID = 4251197939069005575L;
+    privbte stbtic finbl long seriblVersionUID = 4251197939069005575L;
 
-    private String majorMessage;
+    privbte String mbjorMessbge;
 
     /**
-     * A constructor that takes the majorCode as well as the mech oid that
-     * will be appended to the standard message defined in its super class.
+     * A constructor thbt tbkes the mbjorCode bs well bs the mech oid thbt
+     * will be bppended to the stbndbrd messbge defined in its super clbss.
      */
-    GSSExceptionImpl(int majorCode, Oid mech) {
-        super(majorCode);
-        this.majorMessage = super.getMajorString() + ": " + mech;
+    GSSExceptionImpl(int mbjorCode, Oid mech) {
+        super(mbjorCode);
+        this.mbjorMessbge = super.getMbjorString() + ": " + mech;
     }
 
     /**
-     * A constructor that takes the majorCode as well as the message that
+     * A constructor thbt tbkes the mbjorCode bs well bs the messbge thbt
      * corresponds to it.
      */
-    public GSSExceptionImpl(int majorCode, String majorMessage) {
-        super(majorCode);
-        this.majorMessage = majorMessage;
+    public GSSExceptionImpl(int mbjorCode, String mbjorMessbge) {
+        super(mbjorCode);
+        this.mbjorMessbge = mbjorMessbge;
     }
 
     /**
-     * A constructor that takes the majorCode and the exception cause.
+     * A constructor thbt tbkes the mbjorCode bnd the exception cbuse.
      */
-    public GSSExceptionImpl(int majorCode, Exception cause) {
-        super(majorCode);
-        initCause(cause);
+    public GSSExceptionImpl(int mbjorCode, Exception cbuse) {
+        super(mbjorCode);
+        initCbuse(cbuse);
     }
 
     /**
-     * A constructor that takes the majorCode, the message that
-     * corresponds to it, and the exception cause.
+     * A constructor thbt tbkes the mbjorCode, the messbge thbt
+     * corresponds to it, bnd the exception cbuse.
      */
-    public GSSExceptionImpl(int majorCode, String majorMessage,
-        Exception cause) {
-        this(majorCode, majorMessage);
-        initCause(cause);
+    public GSSExceptionImpl(int mbjorCode, String mbjorMessbge,
+        Exception cbuse) {
+        this(mbjorCode, mbjorMessbge);
+        initCbuse(cbuse);
     }
 
     /**
-     * Returns the message that was embedded in this object, otherwise it
-     * returns the default message that an org.ietf.jgss.GSSException
-     * generates.
+     * Returns the messbge thbt wbs embedded in this object, otherwise it
+     * returns the defbult messbge thbt bn org.ietf.jgss.GSSException
+     * generbtes.
      */
-    public String getMessage() {
-        if (majorMessage != null)
-            return majorMessage;
+    public String getMessbge() {
+        if (mbjorMessbge != null)
+            return mbjorMessbge;
         else
-            return super.getMessage();
+            return super.getMessbge();
     }
 
 }

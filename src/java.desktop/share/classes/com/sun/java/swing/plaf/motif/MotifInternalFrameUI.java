@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
 
 
 /**
- * A Motif L&F implementation of InternalFrame.
+ * A Motif L&F implementbtion of InternblFrbme.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Tom Ball
+ * @buthor Tom Bbll
  */
-public class MotifInternalFrameUI extends BasicInternalFrameUI {
+public clbss MotifInternblFrbmeUI extends BbsicInternblFrbmeUI {
 
     Color color;
     Color highlight;
-    Color shadow;
-    MotifInternalFrameTitlePane titlePane;
+    Color shbdow;
+    MotifInternblFrbmeTitlePbne titlePbne;
 
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke closeMenuKey;
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ComponentUI Interface Implementation methods
+// ComponentUI Interfbce Implementbtion methods
 /////////////////////////////////////////////////////////////////////////////
-    public static ComponentUI createUI(JComponent w)    {
-        return new MotifInternalFrameUI((JInternalFrame)w);
+    public stbtic ComponentUI crebteUI(JComponent w)    {
+        return new MotifInternblFrbmeUI((JInternblFrbme)w);
     }
 
-    public MotifInternalFrameUI(JInternalFrame w)   {
+    public MotifInternblFrbmeUI(JInternblFrbme w)   {
         super(w);
     }
 
-    public void installUI(JComponent c)   {
-        super.installUI(c);
-        setColors((JInternalFrame)c);
+    public void instbllUI(JComponent c)   {
+        super.instbllUI(c);
+        setColors((JInternblFrbme)c);
     }
 
-    protected void installDefaults() {
-        Border frameBorder = frame.getBorder();
-        frame.setLayout(internalFrameLayout = createLayoutManager());
-        if (frameBorder == null || frameBorder instanceof UIResource) {
-            frame.setBorder(new MotifBorders.InternalFrameBorder(frame));
+    protected void instbllDefbults() {
+        Border frbmeBorder = frbme.getBorder();
+        frbme.setLbyout(internblFrbmeLbyout = crebteLbyoutMbnbger());
+        if (frbmeBorder == null || frbmeBorder instbnceof UIResource) {
+            frbme.setBorder(new MotifBorders.InternblFrbmeBorder(frbme));
         }
     }
 
 
-    protected void installKeyboardActions(){
-      super.installKeyboardActions();
-      // We replace the
-      // we use JPopup in our TitlePane so need escape support
+    protected void instbllKeybobrdActions(){
+      super.instbllKeybobrdActions();
+      // We replbce the
+      // we use JPopup in our TitlePbne so need escbpe support
       closeMenuKey = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     }
 
 
-    protected void uninstallDefaults() {
-        LookAndFeel.uninstallBorder(frame);
-        frame.setLayout(null);
-        internalFrameLayout = null;
+    protected void uninstbllDefbults() {
+        LookAndFeel.uninstbllBorder(frbme);
+        frbme.setLbyout(null);
+        internblFrbmeLbyout = null;
     }
 
-    private JInternalFrame getFrame(){
-      return frame;
+    privbte JInternblFrbme getFrbme(){
+      return frbme;
     }
 
-    public JComponent createNorthPane(JInternalFrame w) {
-        titlePane = new MotifInternalFrameTitlePane(w);
-        return titlePane;
+    public JComponent crebteNorthPbne(JInternblFrbme w) {
+        titlePbne = new MotifInternblFrbmeTitlePbne(w);
+        return titlePbne;
     }
 
-    public Dimension getMaximumSize(JComponent x) {
-        return Toolkit.getDefaultToolkit().getScreenSize();
+    public Dimension getMbximumSize(JComponent x) {
+        return Toolkit.getDefbultToolkit().getScreenSize();
     }
 
-    protected void uninstallKeyboardActions(){
-      super.uninstallKeyboardActions();
+    protected void uninstbllKeybobrdActions(){
+      super.uninstbllKeybobrdActions();
       if (isKeyBindingRegistered()){
-        JInternalFrame.JDesktopIcon di = frame.getDesktopIcon();
-        SwingUtilities.replaceUIActionMap(di, null);
-        SwingUtilities.replaceUIInputMap(di, JComponent.WHEN_IN_FOCUSED_WINDOW,
+        JInternblFrbme.JDesktopIcon di = frbme.getDesktopIcon();
+        SwingUtilities.replbceUIActionMbp(di, null);
+        SwingUtilities.replbceUIInputMbp(di, JComponent.WHEN_IN_FOCUSED_WINDOW,
                                          null);
       }
     }
 
-    @SuppressWarnings("serial") // anonymous class
+    @SuppressWbrnings("seribl") // bnonymous clbss
     protected void setupMenuOpenKey(){
         super.setupMenuOpenKey();
-        ActionMap map = SwingUtilities.getUIActionMap(frame);
-        if (map != null) {
-            // BasicInternalFrameUI creates an action with the same name, we override
-            // it as MotifInternalFrameTitlePane has a titlePane ivar that shadows the
-            // titlePane ivar in BasicInternalFrameUI, making supers action throw
-            // an NPE for us.
-            map.put("showSystemMenu", new AbstractAction(){
-                public void actionPerformed(ActionEvent e){
-                    titlePane.showSystemMenu();
+        ActionMbp mbp = SwingUtilities.getUIActionMbp(frbme);
+        if (mbp != null) {
+            // BbsicInternblFrbmeUI crebtes bn bction with the sbme nbme, we override
+            // it bs MotifInternblFrbmeTitlePbne hbs b titlePbne ivbr thbt shbdows the
+            // titlePbne ivbr in BbsicInternblFrbmeUI, mbking supers bction throw
+            // bn NPE for us.
+            mbp.put("showSystemMenu", new AbstrbctAction(){
+                public void bctionPerformed(ActionEvent e){
+                    titlePbne.showSystemMenu();
                 }
-                public boolean isEnabled(){
+                public boolebn isEnbbled(){
                     return isKeyBindingActive();
                 }
             });
         }
     }
 
-    @SuppressWarnings("serial") // anonymous class
+    @SuppressWbrnings("seribl") // bnonymous clbss
     protected void setupMenuCloseKey(){
-        ActionMap map = SwingUtilities.getUIActionMap(frame);
-        if (map != null) {
-            map.put("hideSystemMenu", new AbstractAction(){
-                public void actionPerformed(ActionEvent e){
-                    titlePane.hideSystemMenu();
+        ActionMbp mbp = SwingUtilities.getUIActionMbp(frbme);
+        if (mbp != null) {
+            mbp.put("hideSystemMenu", new AbstrbctAction(){
+                public void bctionPerformed(ActionEvent e){
+                    titlePbne.hideSystemMenu();
                 }
-                public boolean isEnabled(){
+                public boolebn isEnbbled(){
                     return isKeyBindingActive();
                 }
             });
         }
 
-        // Set up the bindings for the DesktopIcon, it is odd that
-        // we install them, and not the desktop icon.
-        JInternalFrame.JDesktopIcon di = frame.getDesktopIcon();
-        InputMap diInputMap = SwingUtilities.getUIInputMap
+        // Set up the bindings for the DesktopIcon, it is odd thbt
+        // we instbll them, bnd not the desktop icon.
+        JInternblFrbme.JDesktopIcon di = frbme.getDesktopIcon();
+        InputMbp diInputMbp = SwingUtilities.getUIInputMbp
                           (di, JComponent.WHEN_IN_FOCUSED_WINDOW);
-        if (diInputMap == null) {
-            Object[] bindings = (Object[])UIManager.get
+        if (diInputMbp == null) {
+            Object[] bindings = (Object[])UIMbnbger.get
                                           ("DesktopIcon.windowBindings");
             if (bindings != null) {
-                diInputMap = LookAndFeel.makeComponentInputMap(di, bindings);
+                diInputMbp = LookAndFeel.mbkeComponentInputMbp(di, bindings);
 
-                SwingUtilities.replaceUIInputMap(di, JComponent.
+                SwingUtilities.replbceUIInputMbp(di, JComponent.
                                                WHEN_IN_FOCUSED_WINDOW,
-                                               diInputMap);
+                                               diInputMbp);
             }
         }
-        ActionMap diActionMap = SwingUtilities.getUIActionMap(di);
-        if (diActionMap == null) {
-            diActionMap = new ActionMapUIResource();
-            diActionMap.put("hideSystemMenu", new AbstractAction(){
-                public void actionPerformed(ActionEvent e){
-                    JInternalFrame.JDesktopIcon icon = getFrame().
+        ActionMbp diActionMbp = SwingUtilities.getUIActionMbp(di);
+        if (diActionMbp == null) {
+            diActionMbp = new ActionMbpUIResource();
+            diActionMbp.put("hideSystemMenu", new AbstrbctAction(){
+                public void bctionPerformed(ActionEvent e){
+                    JInternblFrbme.JDesktopIcon icon = getFrbme().
                                      getDesktopIcon();
                     MotifDesktopIconUI micon = (MotifDesktopIconUI)icon.
                                                getUI();
                     micon.hideSystemMenu();
                 }
-                public boolean isEnabled(){
+                public boolebn isEnbbled(){
                     return isKeyBindingActive();
                 }
             });
-            SwingUtilities.replaceUIActionMap(di, diActionMap);
+            SwingUtilities.replbceUIActionMbp(di, diActionMbp);
         }
     }
 
-    /** This method is called when the frame becomes selected.
+    /** This method is cblled when the frbme becomes selected.
       */
-    protected void activateFrame(JInternalFrame f) {
-        super.activateFrame(f);
+    protected void bctivbteFrbme(JInternblFrbme f) {
+        super.bctivbteFrbme(f);
         setColors(f);
     }
-    /** This method is called when the frame is no longer selected.
+    /** This method is cblled when the frbme is no longer selected.
       */
-    protected void deactivateFrame(JInternalFrame f) {
+    protected void debctivbteFrbme(JInternblFrbme f) {
         setColors(f);
-        super.deactivateFrame(f);
+        super.debctivbteFrbme(f);
     }
 
-    void setColors(JInternalFrame frame) {
-        if (frame.isSelected()) {
-            color = UIManager.getColor("InternalFrame.activeTitleBackground");
+    void setColors(JInternblFrbme frbme) {
+        if (frbme.isSelected()) {
+            color = UIMbnbger.getColor("InternblFrbme.bctiveTitleBbckground");
         } else {
-            color = UIManager.getColor("InternalFrame.inactiveTitleBackground");
+            color = UIMbnbger.getColor("InternblFrbme.inbctiveTitleBbckground");
         }
         highlight = color.brighter();
-        shadow = color.darker().darker();
-        titlePane.setColors(color, highlight, shadow);
+        shbdow = color.dbrker().dbrker();
+        titlePbne.setColors(color, highlight, shbdow);
     }
 }

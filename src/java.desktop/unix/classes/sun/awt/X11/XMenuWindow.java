@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.*;
 
-import java.awt.image.BufferedImage;
-import java.awt.geom.Point2D;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.geom.Point2D;
 
-import java.util.Vector;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.Vector;
+import sun.util.logging.PlbtformLogger;
 
-public class XMenuWindow extends XBaseMenuWindow {
-
-    /************************************************
-     *
-     * Data members
-     *
-     ************************************************/
-
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XMenuWindow");
-
-    /*
-     * Primary members
-     */
-    private XMenuPeer menuPeer;
-
-    /*
-     * dimension constants
-     */
-    private final static int WINDOW_SPACING_LEFT = 2;
-    private final static int WINDOW_SPACING_RIGHT = 2;
-    private final static int WINDOW_SPACING_TOP = 2;
-    private final static int WINDOW_SPACING_BOTTOM = 2;
-    private final static int WINDOW_ITEM_INDENT = 15;
-    private final static int WINDOW_ITEM_MARGIN_LEFT = 2;
-    private final static int WINDOW_ITEM_MARGIN_RIGHT = 2;
-    private final static int WINDOW_ITEM_MARGIN_TOP = 2;
-    private final static int WINDOW_ITEM_MARGIN_BOTTOM = 2;
-    private final static int WINDOW_SHORTCUT_SPACING = 10;
-
-    /*
-     * Checkmark
-     */
-    private static final int CHECKMARK_SIZE = 128;
-    private static final int[] CHECKMARK_X = new int[] {1, 25,56,124,124,85, 64};  // X-coords
-    private static final int[] CHECKMARK_Y = new int[] {59,35,67,  0, 12,66,123};  // Y-coords
+public clbss XMenuWindow extends XBbseMenuWindow {
 
     /************************************************
      *
-     * Mapping data
+     * Dbtb members
      *
      ************************************************/
 
-    static class MappingData extends XBaseMenuWindow.MappingData {
+    privbte stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XMenuWindow");
+
+    /*
+     * Primbry members
+     */
+    privbte XMenuPeer menuPeer;
+
+    /*
+     * dimension constbnts
+     */
+    privbte finbl stbtic int WINDOW_SPACING_LEFT = 2;
+    privbte finbl stbtic int WINDOW_SPACING_RIGHT = 2;
+    privbte finbl stbtic int WINDOW_SPACING_TOP = 2;
+    privbte finbl stbtic int WINDOW_SPACING_BOTTOM = 2;
+    privbte finbl stbtic int WINDOW_ITEM_INDENT = 15;
+    privbte finbl stbtic int WINDOW_ITEM_MARGIN_LEFT = 2;
+    privbte finbl stbtic int WINDOW_ITEM_MARGIN_RIGHT = 2;
+    privbte finbl stbtic int WINDOW_ITEM_MARGIN_TOP = 2;
+    privbte finbl stbtic int WINDOW_ITEM_MARGIN_BOTTOM = 2;
+    privbte finbl stbtic int WINDOW_SHORTCUT_SPACING = 10;
+
+    /*
+     * Checkmbrk
+     */
+    privbte stbtic finbl int CHECKMARK_SIZE = 128;
+    privbte stbtic finbl int[] CHECKMARK_X = new int[] {1, 25,56,124,124,85, 64};  // X-coords
+    privbte stbtic finbl int[] CHECKMARK_Y = new int[] {59,35,67,  0, 12,66,123};  // Y-coords
+
+    /************************************************
+     *
+     * Mbpping dbtb
+     *
+     ************************************************/
+
+    stbtic clbss MbppingDbtb extends XBbseMenuWindow.MbppingDbtb {
         /**
-         * Rectangle for the caption
-         * Necessary to fix 6267144: PIT: Popup menu label is not shown, XToolkit
+         * Rectbngle for the cbption
+         * Necessbry to fix 6267144: PIT: Popup menu lbbel is not shown, XToolkit
          */
-        private Rectangle captionRect;
+        privbte Rectbngle cbptionRect;
 
         /**
          * Desired size of menu window
          */
-        private Dimension desiredSize;
+        privbte Dimension desiredSize;
 
         /**
-         * Width of largest checkmark
-         * At the same time the left origin
-         * of all item's text
+         * Width of lbrgest checkmbrk
+         * At the sbme time the left origin
+         * of bll item's text
          */
-        private int leftMarkWidth;
+        privbte int leftMbrkWidth;
 
         /**
-         * Left origin of all shortcut labels
+         * Left origin of bll shortcut lbbels
          */
-        private int shortcutOrigin;
+        privbte int shortcutOrigin;
 
         /**
-         * The origin of right mark
-         * (submenu's arrow)
+         * The origin of right mbrk
+         * (submenu's brrow)
          */
-        private int rightMarkOrigin;
+        privbte int rightMbrkOrigin;
 
-        MappingData(XMenuItemPeer[] items, Rectangle captionRect, Dimension desiredSize, int leftMarkWidth, int shortcutOrigin, int rightMarkOrigin) {
+        MbppingDbtb(XMenuItemPeer[] items, Rectbngle cbptionRect, Dimension desiredSize, int leftMbrkWidth, int shortcutOrigin, int rightMbrkOrigin) {
             super(items);
-            this.captionRect = captionRect;
+            this.cbptionRect = cbptionRect;
             this.desiredSize = desiredSize;
-            this.leftMarkWidth = leftMarkWidth;
+            this.leftMbrkWidth = leftMbrkWidth;
             this.shortcutOrigin = shortcutOrigin;
-            this.rightMarkOrigin = rightMarkOrigin;
+            this.rightMbrkOrigin = rightMbrkOrigin;
         }
 
         /**
-         * Constructs MappingData without items
-         * This constructor should be used in case of errors
+         * Constructs MbppingDbtb without items
+         * This constructor should be used in cbse of errors
          */
-        MappingData() {
+        MbppingDbtb() {
             this.desiredSize = new Dimension(0, 0);
-            this.leftMarkWidth = 0;
+            this.leftMbrkWidth = 0;
             this.shortcutOrigin = 0;
-            this.rightMarkOrigin = 0;
+            this.rightMbrkOrigin = 0;
         }
 
-        public Rectangle getCaptionRect() {
-            return this.captionRect;
+        public Rectbngle getCbptionRect() {
+            return this.cbptionRect;
         }
 
         public Dimension getDesiredSize() {
@@ -138,12 +138,12 @@ public class XMenuWindow extends XBaseMenuWindow {
             return this.shortcutOrigin;
         }
 
-        public int getLeftMarkWidth() {
-            return this.leftMarkWidth;
+        public int getLeftMbrkWidth() {
+            return this.leftMbrkWidth;
         }
 
-        public int getRightMarkOrigin() {
-            return this.rightMarkOrigin;
+        public int getRightMbrkOrigin() {
+            return this.rightMbrkOrigin;
         }
 
     }
@@ -162,137 +162,137 @@ public class XMenuWindow extends XBaseMenuWindow {
     XMenuWindow(XMenuPeer menuPeer) {
         if (menuPeer != null) {
             this.menuPeer = menuPeer;
-            this.target = menuPeer.getContainer().target;
-            // Get menus from the target.
-            Vector<MenuItem> targetItemVector = null;
-            targetItemVector = getMenuTargetItems();
-            reloadItems(targetItemVector);
+            this.tbrget = menuPeer.getContbiner().tbrget;
+            // Get menus from the tbrget.
+            Vector<MenuItem> tbrgetItemVector = null;
+            tbrgetItemVector = getMenuTbrgetItems();
+            relobdItems(tbrgetItemVector);
         }
     }
 
     /************************************************
      *
-     * Initialization
+     * Initiblizbtion
      *
      ************************************************/
     /*
-     * Overriden initialization
+     * Overriden initiblizbtion
      */
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        //Fixed 6267182: PIT: Menu is not visible after
-        //showing and disposing a file dialog, XToolkit
-        //toFront() is called on every show
+    void postInit(XCrebteWindowPbrbms pbrbms) {
+        super.postInit(pbrbms);
+        //Fixed 6267182: PIT: Menu is not visible bfter
+        //showing bnd disposing b file diblog, XToolkit
+        //toFront() is cblled on every show
     }
 
     /************************************************
      *
-     * Implementation of abstract methods
+     * Implementbtion of bbstrbct methods
      *
      ************************************************/
 
     /**
-     * @see XBaseMenuWindow.getParentMenuWindow()
+     * @see XBbseMenuWindow.getPbrentMenuWindow()
      */
-    protected XBaseMenuWindow getParentMenuWindow() {
-        return (menuPeer != null) ? menuPeer.getContainer() : null;
+    protected XBbseMenuWindow getPbrentMenuWindow() {
+        return (menuPeer != null) ? menuPeer.getContbiner() : null;
     }
 
     /**
-     * @see XBaseMenuWindow.map()
+     * @see XBbseMenuWindow.mbp()
      */
-    protected MappingData map() {
-        //TODO:Implement popup-menu caption mapping and painting and tear-off
+    protected MbppingDbtb mbp() {
+        //TODO:Implement popup-menu cbption mbpping bnd pbinting bnd tebr-off
         int itemCnt;
-        if (!isCreated()) {
-            MappingData mappingData = new MappingData(new XMenuItemPeer[0], new Rectangle(0, 0, 0, 0), new Dimension(0, 0), 0, 0, 0);
-            return mappingData;
+        if (!isCrebted()) {
+            MbppingDbtb mbppingDbtb = new MbppingDbtb(new XMenuItemPeer[0], new Rectbngle(0, 0, 0, 0), new Dimension(0, 0), 0, 0, 0);
+            return mbppingDbtb;
         }
         XMenuItemPeer[] itemVector = copyItems();
         itemCnt = itemVector.length;
-        //We need maximum width of components before calculating item's bounds
-        Dimension captionSize = getCaptionSize();
-        int maxWidth = (captionSize != null) ? captionSize.width : 0;
-        int maxLeftIndent = 0;
-        int maxRightIndent = 0;
-        int maxShortcutWidth = 0;
+        //We need mbximum width of components before cblculbting item's bounds
+        Dimension cbptionSize = getCbptionSize();
+        int mbxWidth = (cbptionSize != null) ? cbptionSize.width : 0;
+        int mbxLeftIndent = 0;
+        int mbxRightIndent = 0;
+        int mbxShortcutWidth = 0;
         XMenuItemPeer.TextMetrics[] itemMetrics = new XMenuItemPeer.TextMetrics[itemCnt];
         for (int i = 0; i < itemCnt; i++) {
             XMenuItemPeer item = itemVector[i];
             itemMetrics[i] = itemVector[i].getTextMetrics();
             Dimension dim = itemMetrics[i].getTextDimension();
             if (dim != null) {
-                if (itemVector[i] instanceof XCheckboxMenuItemPeer) {
-                    maxLeftIndent = Math.max(maxLeftIndent, dim.height);
-                } else if (itemVector[i] instanceof XMenuPeer) {
-                    maxRightIndent = Math.max(maxRightIndent, dim.height);
+                if (itemVector[i] instbnceof XCheckboxMenuItemPeer) {
+                    mbxLeftIndent = Mbth.mbx(mbxLeftIndent, dim.height);
+                } else if (itemVector[i] instbnceof XMenuPeer) {
+                    mbxRightIndent = Mbth.mbx(mbxRightIndent, dim.height);
                 }
-                maxWidth = Math.max(maxWidth, dim.width);
-                maxShortcutWidth = Math.max(maxShortcutWidth, itemMetrics[i].getShortcutWidth());
+                mbxWidth = Mbth.mbx(mbxWidth, dim.width);
+                mbxShortcutWidth = Mbth.mbx(mbxShortcutWidth, itemMetrics[i].getShortcutWidth());
             }
         }
-        //Calculate bounds
+        //Cblculbte bounds
         int nextOffset = WINDOW_SPACING_TOP;
-        int shortcutOrigin = WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + maxLeftIndent + maxWidth;
-        if (maxShortcutWidth > 0) {
+        int shortcutOrigin = WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + mbxLeftIndent + mbxWidth;
+        if (mbxShortcutWidth > 0) {
             shortcutOrigin = shortcutOrigin + WINDOW_SHORTCUT_SPACING;
         }
-        int rightMarkOrigin = shortcutOrigin + maxShortcutWidth;
-        int itemWidth = rightMarkOrigin + maxRightIndent + WINDOW_ITEM_MARGIN_RIGHT;
+        int rightMbrkOrigin = shortcutOrigin + mbxShortcutWidth;
+        int itemWidth = rightMbrkOrigin + mbxRightIndent + WINDOW_ITEM_MARGIN_RIGHT;
         int width = WINDOW_SPACING_LEFT + itemWidth + WINDOW_SPACING_RIGHT;
-        //Caption rectangle
-        Rectangle captionRect = null;
-        if (captionSize != null) {
-            captionRect = new Rectangle(WINDOW_SPACING_LEFT, nextOffset, itemWidth, captionSize.height);
-            nextOffset += captionSize.height;
+        //Cbption rectbngle
+        Rectbngle cbptionRect = null;
+        if (cbptionSize != null) {
+            cbptionRect = new Rectbngle(WINDOW_SPACING_LEFT, nextOffset, itemWidth, cbptionSize.height);
+            nextOffset += cbptionSize.height;
         } else {
-            captionRect = new Rectangle(WINDOW_SPACING_LEFT, nextOffset, maxWidth, 0);
+            cbptionRect = new Rectbngle(WINDOW_SPACING_LEFT, nextOffset, mbxWidth, 0);
         }
-        //Item rectangles
+        //Item rectbngles
         for (int i = 0; i < itemCnt; i++) {
             XMenuItemPeer item = itemVector[i];
             XMenuItemPeer.TextMetrics metrics = itemMetrics[i];
             Dimension dim = metrics.getTextDimension();
             if (dim != null) {
                 int itemHeight = WINDOW_ITEM_MARGIN_TOP + dim.height + WINDOW_ITEM_MARGIN_BOTTOM;
-                Rectangle bounds = new Rectangle(WINDOW_SPACING_LEFT, nextOffset, itemWidth, itemHeight);
-                int y = (itemHeight + dim.height) / 2  - metrics.getTextBaseline();
-                Point textOrigin = new Point(WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + maxLeftIndent, nextOffset + y);
+                Rectbngle bounds = new Rectbngle(WINDOW_SPACING_LEFT, nextOffset, itemWidth, itemHeight);
+                int y = (itemHeight + dim.height) / 2  - metrics.getTextBbseline();
+                Point textOrigin = new Point(WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + mbxLeftIndent, nextOffset + y);
                 nextOffset += itemHeight;
-                item.map(bounds, textOrigin);
+                item.mbp(bounds, textOrigin);
             } else {
-                //Text metrics could not be determined because of errors
-                //Map item with empty rectangle
-                Rectangle bounds = new Rectangle(WINDOW_SPACING_LEFT, nextOffset, 0, 0);
-                Point textOrigin = new Point(WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + maxLeftIndent, nextOffset);
-                item.map(bounds, textOrigin);
+                //Text metrics could not be determined becbuse of errors
+                //Mbp item with empty rectbngle
+                Rectbngle bounds = new Rectbngle(WINDOW_SPACING_LEFT, nextOffset, 0, 0);
+                Point textOrigin = new Point(WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT + mbxLeftIndent, nextOffset);
+                item.mbp(bounds, textOrigin);
             }
         }
         int height = nextOffset + WINDOW_SPACING_BOTTOM;
-        MappingData mappingData = new MappingData(itemVector, captionRect, new Dimension(width, height), maxLeftIndent, shortcutOrigin, rightMarkOrigin);
-        return mappingData;
+        MbppingDbtb mbppingDbtb = new MbppingDbtb(itemVector, cbptionRect, new Dimension(width, height), mbxLeftIndent, shortcutOrigin, rightMbrkOrigin);
+        return mbppingDbtb;
     }
 
     /**
-     * @see XBaseMenuWindow.getSubmenuBounds()
+     * @see XBbseMenuWindow.getSubmenuBounds()
      */
-    protected Rectangle getSubmenuBounds(Rectangle itemBounds, Dimension windowSize) {
-        Rectangle globalBounds = toGlobal(itemBounds);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Rectangle res;
-        res = fitWindowRight(globalBounds, windowSize, screenSize);
+    protected Rectbngle getSubmenuBounds(Rectbngle itemBounds, Dimension windowSize) {
+        Rectbngle globblBounds = toGlobbl(itemBounds);
+        Dimension screenSize = Toolkit.getDefbultToolkit().getScreenSize();
+        Rectbngle res;
+        res = fitWindowRight(globblBounds, windowSize, screenSize);
         if (res != null) {
             return res;
         }
-        res = fitWindowBelow(globalBounds, windowSize, screenSize);
+        res = fitWindowBelow(globblBounds, windowSize, screenSize);
         if (res != null) {
             return res;
         }
-        res = fitWindowAbove(globalBounds, windowSize, screenSize);
+        res = fitWindowAbove(globblBounds, windowSize, screenSize);
         if (res != null) {
             return res;
         }
-        res = fitWindowLeft(globalBounds, windowSize, screenSize);
+        res = fitWindowLeft(globblBounds, windowSize, screenSize);
         if (res != null) {
             return res;
         }
@@ -300,16 +300,16 @@ public class XMenuWindow extends XBaseMenuWindow {
    }
 
     /**
-     * It's likely that size of items was changed
-     * invoke resizing of window on eventHandlerThread
+     * It's likely thbt size of items wbs chbnged
+     * invoke resizing of window on eventHbndlerThrebd
      */
-    protected void updateSize() {
-        resetMapping();
+    protected void updbteSize() {
+        resetMbpping();
         if (isShowing()) {
-            XToolkit.executeOnEventHandlerThread(target, new Runnable() {
+            XToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
                     public void run() {
                         Dimension dim = getDesiredSize();
-                        reshape(x, y, dim.width, dim.height);
+                        reshbpe(x, y, dim.width, dim.height);
                     }
                 });
         }
@@ -317,31 +317,31 @@ public class XMenuWindow extends XBaseMenuWindow {
 
     /************************************************
      *
-     * Overridable caption-painting functions
-     * Necessary to fix 6267144: PIT: Popup menu label is not shown, XToolkit
+     * Overridbble cbption-pbinting functions
+     * Necessbry to fix 6267144: PIT: Popup menu lbbel is not shown, XToolkit
      *
      ************************************************/
 
     /**
-     * Returns size of menu window's caption or null
-     * if window has no caption.
-     * Can be overriden for popup menus and tear-off menus
+     * Returns size of menu window's cbption or null
+     * if window hbs no cbption.
+     * Cbn be overriden for popup menus bnd tebr-off menus
      */
-    protected Dimension getCaptionSize() {
+    protected Dimension getCbptionSize() {
         return null;
     }
 
     /**
-     * Paints menu window's caption.
-     * Can be overriden for popup menus and tear-off menus.
-     * Default implementation does nothing
+     * Pbints menu window's cbption.
+     * Cbn be overriden for popup menus bnd tebr-off menus.
+     * Defbult implementbtion does nothing
      */
-    protected void paintCaption(Graphics g, Rectangle rect) {
+    protected void pbintCbption(Grbphics g, Rectbngle rect) {
     }
 
     /************************************************
      *
-     * General-purpose utility functions
+     * Generbl-purpose utility functions
      *
      ************************************************/
 
@@ -353,65 +353,65 @@ public class XMenuWindow extends XBaseMenuWindow {
     }
 
     /**
-     * Reads vector of items from target
+     * Rebds vector of items from tbrget
      * This function is overriden in XPopupMenuPeer
      */
-    Vector<MenuItem> getMenuTargetItems() {
-        return menuPeer.getTargetItems();
+    Vector<MenuItem> getMenuTbrgetItems() {
+        return menuPeer.getTbrgetItems();
     }
 
     /**
-     * Returns desired size calculated while mapping
+     * Returns desired size cblculbted while mbpping
      */
     Dimension getDesiredSize() {
-        MappingData mappingData = (MappingData)getMappingData();
-        return mappingData.getDesiredSize();
+        MbppingDbtb mbppingDbtb = (MbppingDbtb)getMbppingDbtb();
+        return mbppingDbtb.getDesiredSize();
     }
 
     /**
-     * Checks if menu window is created
+     * Checks if menu window is crebted
      */
-    boolean isCreated() {
+    boolebn isCrebted() {
         return getWindow() != 0;
     }
 
     /**
-     * Performs delayed creation of menu window if necessary
+     * Performs delbyed crebtion of menu window if necessbry
      */
-    boolean ensureCreated() {
-        if (!isCreated()) {
-            XCreateWindowParams params = getDelayedParams();
-            params.remove(DELAYED);
-            params.add(OVERRIDE_REDIRECT, Boolean.TRUE);
-            params.add(XWindow.TARGET, target);
-            init(params);
+    boolebn ensureCrebted() {
+        if (!isCrebted()) {
+            XCrebteWindowPbrbms pbrbms = getDelbyedPbrbms();
+            pbrbms.remove(DELAYED);
+            pbrbms.bdd(OVERRIDE_REDIRECT, Boolebn.TRUE);
+            pbrbms.bdd(XWindow.TARGET, tbrget);
+            init(pbrbms);
         }
         return true;
     }
 
     /**
      * Init window if it's not inited yet
-     * and show it at specified coordinates
-     * @param bounds bounding rectangle of window
-     * in global coordinates
+     * bnd show it bt specified coordinbtes
+     * @pbrbm bounds bounding rectbngle of window
+     * in globbl coordinbtes
      */
-    void show(Rectangle bounds) {
-        if (!isCreated()) {
+    void show(Rectbngle bounds) {
+        if (!isCrebted()) {
             return;
         }
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("showing menu window + " + getWindow() + " at " + bounds);
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
+            log.finer("showing menu window + " + getWindow() + " bt " + bounds);
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            reshape(bounds.x, bounds.y, bounds.width, bounds.height);
+            reshbpe(bounds.x, bounds.y, bounds.width, bounds.height);
             xSetVisible(true);
-            //Fixed 6267182: PIT: Menu is not visible after
-            //showing and disposing a file dialog, XToolkit
+            //Fixed 6267182: PIT: Menu is not visible bfter
+            //showing bnd disposing b file diblog, XToolkit
             toFront();
-            selectItem(getFirstSelectableItem(), false);
-        } finally {
-            XToolkit.awtUnlock();
+            selectItem(getFirstSelectbbleItem(), fblse);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
@@ -419,99 +419,99 @@ public class XMenuWindow extends XBaseMenuWindow {
      * Hides menu window
      */
     void hide() {
-        selectItem(null, false);
-        xSetVisible(false);
+        selectItem(null, fblse);
+        xSetVisible(fblse);
     }
 
     /************************************************
      *
-     * Painting
+     * Pbinting
      *
      ************************************************/
 
     /**
-     * Paints menu window
+     * Pbints menu window
      */
     @Override
-    public void paintPeer(Graphics g) {
+    public void pbintPeer(Grbphics g) {
         resetColors();
         int width = getWidth();
         int height = getHeight();
 
         flush();
-        //Fill background of rectangle
-        g.setColor(getBackgroundColor());
+        //Fill bbckground of rectbngle
+        g.setColor(getBbckgroundColor());
         g.fillRect(1, 1, width - 2, height - 2);
-        draw3DRect(g, 0, 0, width, height, true);
+        drbw3DRect(g, 0, 0, width, height, true);
 
-        //Mapping data
-        MappingData mappingData = (MappingData)getMappingData();
+        //Mbpping dbtb
+        MbppingDbtb mbppingDbtb = (MbppingDbtb)getMbppingDbtb();
 
-        //Paint caption
-        paintCaption(g, mappingData.getCaptionRect());
+        //Pbint cbption
+        pbintCbption(g, mbppingDbtb.getCbptionRect());
 
-        //Paint menus
-        XMenuItemPeer[] itemVector = mappingData.getItems();
-        Dimension windowSize =  mappingData.getDesiredSize();
+        //Pbint menus
+        XMenuItemPeer[] itemVector = mbppingDbtb.getItems();
+        Dimension windowSize =  mbppingDbtb.getDesiredSize();
         XMenuItemPeer selectedItem = getSelectedItem();
         for (int i = 0; i < itemVector.length; i++) {
             XMenuItemPeer item = itemVector[i];
             XMenuItemPeer.TextMetrics metrics = item.getTextMetrics();
-            Rectangle bounds = item.getBounds();
-            if (item.isSeparator()) {
-                draw3DRect(g, bounds.x, bounds.y + bounds.height / 2,  bounds.width, 2, false);
+            Rectbngle bounds = item.getBounds();
+            if (item.isSepbrbtor()) {
+                drbw3DRect(g, bounds.x, bounds.y + bounds.height / 2,  bounds.width, 2, fblse);
             } else {
-                //paint item
-                g.setFont(item.getTargetFont());
+                //pbint item
+                g.setFont(item.getTbrgetFont());
                 Point textOrigin = item.getTextOrigin();
                 Dimension textDim = metrics.getTextDimension();
                 if (item == selectedItem) {
                     g.setColor(getSelectedColor());
                     g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-                    draw3DRect(g, bounds.x, bounds.y, bounds.width, bounds.height, false);
+                    drbw3DRect(g, bounds.x, bounds.y, bounds.width, bounds.height, fblse);
                 }
-                g.setColor(item.isTargetItemEnabled() ? getForegroundColor() : getDisabledColor());
-                g.drawString(item.getTargetLabel(), textOrigin.x, textOrigin.y);
+                g.setColor(item.isTbrgetItemEnbbled() ? getForegroundColor() : getDisbbledColor());
+                g.drbwString(item.getTbrgetLbbel(), textOrigin.x, textOrigin.y);
                 String shortcutText = item.getShortcutText();
                 if (shortcutText != null) {
-                    g.drawString(shortcutText, mappingData.getShortcutOrigin(), textOrigin.y);
+                    g.drbwString(shortcutText, mbppingDbtb.getShortcutOrigin(), textOrigin.y);
                 }
-                if (item instanceof XMenuPeer) {
-                    //calculate arrow coordinates
-                    int markWidth = textDim.height * 4 / 5;
-                    int markHeight = textDim.height * 4 / 5;
-                    int markX = bounds.x + bounds.width - markWidth - WINDOW_SPACING_RIGHT - WINDOW_ITEM_MARGIN_RIGHT;
-                    int markY = bounds.y + (bounds.height - markHeight) / 2;
-                    //draw arrow
-                    g.setColor(item.isTargetItemEnabled() ? getDarkShadowColor() : getDisabledColor());
-                    g.drawLine(markX, markY + markHeight, markX + markWidth, markY + markHeight / 2);
-                    g.setColor(item.isTargetItemEnabled() ? getLightShadowColor() : getDisabledColor());
-                    g.drawLine(markX, markY, markX + markWidth, markY + markHeight / 2);
-                    g.drawLine(markX, markY, markX, markY + markHeight);
-                } else if (item instanceof XCheckboxMenuItemPeer) {
-                    //calculate checkmark coordinates
-                    int markWidth = textDim.height * 4 / 5;
-                    int markHeight = textDim.height * 4 / 5;
-                    int markX = WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT;
-                    int markY = bounds.y + (bounds.height - markHeight) / 2;
-                    boolean checkState = ((XCheckboxMenuItemPeer)item).getTargetState();
-                    //draw checkmark
-                    if (checkState) {
+                if (item instbnceof XMenuPeer) {
+                    //cblculbte brrow coordinbtes
+                    int mbrkWidth = textDim.height * 4 / 5;
+                    int mbrkHeight = textDim.height * 4 / 5;
+                    int mbrkX = bounds.x + bounds.width - mbrkWidth - WINDOW_SPACING_RIGHT - WINDOW_ITEM_MARGIN_RIGHT;
+                    int mbrkY = bounds.y + (bounds.height - mbrkHeight) / 2;
+                    //drbw brrow
+                    g.setColor(item.isTbrgetItemEnbbled() ? getDbrkShbdowColor() : getDisbbledColor());
+                    g.drbwLine(mbrkX, mbrkY + mbrkHeight, mbrkX + mbrkWidth, mbrkY + mbrkHeight / 2);
+                    g.setColor(item.isTbrgetItemEnbbled() ? getLightShbdowColor() : getDisbbledColor());
+                    g.drbwLine(mbrkX, mbrkY, mbrkX + mbrkWidth, mbrkY + mbrkHeight / 2);
+                    g.drbwLine(mbrkX, mbrkY, mbrkX, mbrkY + mbrkHeight);
+                } else if (item instbnceof XCheckboxMenuItemPeer) {
+                    //cblculbte checkmbrk coordinbtes
+                    int mbrkWidth = textDim.height * 4 / 5;
+                    int mbrkHeight = textDim.height * 4 / 5;
+                    int mbrkX = WINDOW_SPACING_LEFT + WINDOW_ITEM_MARGIN_LEFT;
+                    int mbrkY = bounds.y + (bounds.height - mbrkHeight) / 2;
+                    boolebn checkStbte = ((XCheckboxMenuItemPeer)item).getTbrgetStbte();
+                    //drbw checkmbrk
+                    if (checkStbte) {
                         g.setColor(getSelectedColor());
-                        g.fillRect(markX, markY, markWidth, markHeight);
-                        draw3DRect(g, markX, markY, markWidth, markHeight, false);
+                        g.fillRect(mbrkX, mbrkY, mbrkWidth, mbrkHeight);
+                        drbw3DRect(g, mbrkX, mbrkY, mbrkWidth, mbrkHeight, fblse);
                         int[] px = new int[CHECKMARK_X.length];
                         int[] py = new int[CHECKMARK_X.length];
                         for (int j = 0; j < CHECKMARK_X.length; j++) {
-                            px[j] = markX + CHECKMARK_X[j] * markWidth / CHECKMARK_SIZE;
-                            py[j] = markY + CHECKMARK_Y[j] * markHeight / CHECKMARK_SIZE;
+                            px[j] = mbrkX + CHECKMARK_X[j] * mbrkWidth / CHECKMARK_SIZE;
+                            py[j] = mbrkY + CHECKMARK_Y[j] * mbrkHeight / CHECKMARK_SIZE;
                         }
-                        g.setColor(item.isTargetItemEnabled() ? getForegroundColor() : getDisabledColor());
+                        g.setColor(item.isTbrgetItemEnbbled() ? getForegroundColor() : getDisbbledColor());
                         g.fillPolygon(px, py, CHECKMARK_X.length);
                     } else {
-                        g.setColor(getBackgroundColor());
-                        g.fillRect(markX, markY, markWidth, markHeight);
-                        draw3DRect(g, markX, markY, markWidth, markHeight, true);
+                        g.setColor(getBbckgroundColor());
+                        g.fillRect(mbrkX, mbrkY, mbrkWidth, mbrkHeight);
+                        drbw3DRect(g, mbrkX, mbrkY, mbrkWidth, mbrkHeight, true);
                     }
                 }
             }

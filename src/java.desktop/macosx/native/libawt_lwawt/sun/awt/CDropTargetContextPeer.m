@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "sun_lwawt_macosx_CDropTargetContextPeer.h"
+#import "sun_lwbwt_mbcosx_CDropTbrgetContextPeer.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "CDataTransferer.h"
-#import "CDropTarget.h"
+#import "CDbtbTrbnsferer.h"
+#import "CDropTbrget.h"
 #import "DnDUtilities.h"
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
-JNF_CLASS_CACHE(jc_CDropTargetContextPeer, "sun/lwawt/macosx/CDropTargetContextPeer");
+JNF_CLASS_CACHE(jc_CDropTbrgetContextPeer, "sun/lwbwt/mbcosx/CDropTbrgetContextPeer");
 
 
-static void TransferFailed(JNIEnv *env, jobject jthis, jlong jdroptarget, jlong jdroptransfer, jlong jformat) {
+stbtic void TrbnsferFbiled(JNIEnv *env, jobject jthis, jlong jdroptbrget, jlong jdroptrbnsfer, jlong jformbt) {
     AWT_ASSERT_NOT_APPKIT_THREAD;
-    JNF_MEMBER_CACHE(transferFailedMethod, jc_CDropTargetContextPeer, "transferFailed", "(J)V");
-    JNFCallVoidMethod(env, jthis, transferFailedMethod, jformat); // AWT_THREADING Safe (!appKit)
+    JNF_MEMBER_CACHE(trbnsferFbiledMethod, jc_CDropTbrgetContextPeer, "trbnsferFbiled", "(J)V");
+    JNFCbllVoidMethod(env, jthis, trbnsferFbiledMethod, jformbt); // AWT_THREADING Sbfe (!bppKit)
 }
 
-static CDropTarget* GetCDropTarget(jlong jdroptarget) {
-    CDropTarget* dropTarget = (CDropTarget*) jlong_to_ptr(jdroptarget);
+stbtic CDropTbrget* GetCDropTbrget(jlong jdroptbrget) {
+    CDropTbrget* dropTbrget = (CDropTbrget*) jlong_to_ptr(jdroptbrget);
 
-    // Make sure the drop target is of the right kind:
-    if ([dropTarget isKindOfClass:[CDropTarget class]]) {
-        return dropTarget;
+    // Mbke sure the drop tbrget is of the right kind:
+    if ([dropTbrget isKindOfClbss:[CDropTbrget clbss]]) {
+        return dropTbrget;
     }
 
     return nil;
@@ -54,96 +54,96 @@ static CDropTarget* GetCDropTarget(jlong jdroptarget) {
 
 
 /*
- * Class:     sun_lwawt_macosx_CDropTargetContextPeer
- * Method:    startTransfer
- * Signature: (JJ)J
+ * Clbss:     sun_lwbwt_mbcosx_CDropTbrgetContextPeer
+ * Method:    stbrtTrbnsfer
+ * Signbture: (JJ)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CDropTargetContextPeer_startTransfer
-  (JNIEnv *env, jobject jthis, jlong jdroptarget, jlong jformat)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CDropTbrgetContextPeer_stbrtTrbnsfer
+  (JNIEnv *env, jobject jthis, jlong jdroptbrget, jlong jformbt)
 {
 
     jlong result = (jlong) 0L;
 
-    // Currently startTransfer and endTransfer are synchronous since [CDropTarget copyDraggingDataForFormat]
-    // works off a data copy and doesn't have to go to the native event thread to get the data.
-    // We can have endTransfer just call startTransfer.
+    // Currently stbrtTrbnsfer bnd endTrbnsfer bre synchronous since [CDropTbrget copyDrbggingDbtbForFormbt]
+    // works off b dbtb copy bnd doesn't hbve to go to the nbtive event threbd to get the dbtb.
+    // We cbn hbve endTrbnsfer just cbll stbrtTrbnsfer.
 
 JNF_COCOA_ENTER(env);
-    // Get the drop target native object:
-    CDropTarget* dropTarget = GetCDropTarget(jdroptarget);
-    if (dropTarget == nil) {
-        DLog2(@"[CDropTargetContextPeer startTransfer]: GetCDropTarget failed for %d.\n", (NSInteger) jdroptarget);
-        TransferFailed(env, jthis, jdroptarget, (jlong) 0L, jformat);
+    // Get the drop tbrget nbtive object:
+    CDropTbrget* dropTbrget = GetCDropTbrget(jdroptbrget);
+    if (dropTbrget == nil) {
+        DLog2(@"[CDropTbrgetContextPeer stbrtTrbnsfer]: GetCDropTbrget fbiled for %d.\n", (NSInteger) jdroptbrget);
+        TrbnsferFbiled(env, jthis, jdroptbrget, (jlong) 0L, jformbt);
         return result;
     }
 
-    JNF_MEMBER_CACHE(newDataMethod, jc_CDropTargetContextPeer, "newData", "(J[B)V");
-    if ((*env)->ExceptionOccurred(env) || !newDataMethod) {
-        DLog2(@"[CDropTargetContextPeer startTransfer]: couldn't get newData method for %d.\n", (NSInteger) jdroptarget);
-        TransferFailed(env, jthis, jdroptarget, (jlong) 0L, jformat);
+    JNF_MEMBER_CACHE(newDbtbMethod, jc_CDropTbrgetContextPeer, "newDbtb", "(J[B)V");
+    if ((*env)->ExceptionOccurred(env) || !newDbtbMethod) {
+        DLog2(@"[CDropTbrgetContextPeer stbrtTrbnsfer]: couldn't get newDbtb method for %d.\n", (NSInteger) jdroptbrget);
+        TrbnsferFbiled(env, jthis, jdroptbrget, (jlong) 0L, jformbt);
         return result;
     }
 
-    // Get data from drop target:
-    jobject jdropdata = [dropTarget copyDraggingDataForFormat:jformat];
-    if (!jdropdata) {
-        DLog2(@"[CDropTargetContextPeer startTransfer]: copyDraggingDataForFormat failed for %d.\n", (NSInteger) jdroptarget);
-        TransferFailed(env, jthis, jdroptarget, (jlong) 0L, jformat);
+    // Get dbtb from drop tbrget:
+    jobject jdropdbtb = [dropTbrget copyDrbggingDbtbForFormbt:jformbt];
+    if (!jdropdbtb) {
+        DLog2(@"[CDropTbrgetContextPeer stbrtTrbnsfer]: copyDrbggingDbtbForFormbt fbiled for %d.\n", (NSInteger) jdroptbrget);
+        TrbnsferFbiled(env, jthis, jdroptbrget, (jlong) 0L, jformbt);
         return result;
     }
 
-    // Pass the data to drop target:
+    // Pbss the dbtb to drop tbrget:
     @try {
-        JNFCallVoidMethod(env, jthis, newDataMethod, jformat, jdropdata); // AWT_THREADING Safe (!appKit)
-    } @catch (NSException *ex) {
-        DLog2(@"[CDropTargetContextPeer startTransfer]: exception in newData() for %d.\n", (NSInteger) jdroptarget);
-        JNFDeleteGlobalRef(env, jdropdata);
-        TransferFailed(env, jthis, jdroptarget, (jlong) 0L, jformat);
+        JNFCbllVoidMethod(env, jthis, newDbtbMethod, jformbt, jdropdbtb); // AWT_THREADING Sbfe (!bppKit)
+    } @cbtch (NSException *ex) {
+        DLog2(@"[CDropTbrgetContextPeer stbrtTrbnsfer]: exception in newDbtb() for %d.\n", (NSInteger) jdroptbrget);
+        JNFDeleteGlobblRef(env, jdropdbtb);
+        TrbnsferFbiled(env, jthis, jdroptbrget, (jlong) 0L, jformbt);
         return result;
     }
 
-    // if no error return dropTarget's draggingSequence
-    result = [dropTarget getDraggingSequenceNumber];
+    // if no error return dropTbrget's drbggingSequence
+    result = [dropTbrget getDrbggingSequenceNumber];
 JNF_COCOA_EXIT(env);
 
     return result;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CDropTargetContextPeer
- * Method:    addTransfer
- * Signature: (JJJ)V
+ * Clbss:     sun_lwbwt_mbcosx_CDropTbrgetContextPeer
+ * Method:    bddTrbnsfer
+ * Signbture: (JJJ)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CDropTargetContextPeer_addTransfer
-  (JNIEnv *env, jobject jthis, jlong jdroptarget, jlong jdroptransfer, jlong jformat)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CDropTbrgetContextPeer_bddTrbnsfer
+  (JNIEnv *env, jobject jthis, jlong jdroptbrget, jlong jdroptrbnsfer, jlong jformbt)
 {
-    // Currently startTransfer and endTransfer are synchronous since [CDropTarget copyDraggingDataForFormat]
-    // works off a data copy and doesn't have to go to the native event thread to get the data.
-    // We can have endTransfer just call startTransfer.
+    // Currently stbrtTrbnsfer bnd endTrbnsfer bre synchronous since [CDropTbrget copyDrbggingDbtbForFormbt]
+    // works off b dbtb copy bnd doesn't hbve to go to the nbtive event threbd to get the dbtb.
+    // We cbn hbve endTrbnsfer just cbll stbrtTrbnsfer.
 
-    Java_sun_lwawt_macosx_CDropTargetContextPeer_startTransfer(env, jthis, jdroptarget, jformat);
+    Jbvb_sun_lwbwt_mbcosx_CDropTbrgetContextPeer_stbrtTrbnsfer(env, jthis, jdroptbrget, jformbt);
 
     return;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CDropTargetContextPeer
+ * Clbss:     sun_lwbwt_mbcosx_CDropTbrgetContextPeer
  * Method:    dropDone
- * Signature: (JJZZI)V
+ * Signbture: (JJZZI)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CDropTargetContextPeer_dropDone
-  (JNIEnv *env, jobject jthis, jlong jdroptarget, jlong jdroptransfer, jboolean jislocal, jboolean jsuccess, jint jdropaction)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CDropTbrgetContextPeer_dropDone
+  (JNIEnv *env, jobject jthis, jlong jdroptbrget, jlong jdroptrbnsfer, jboolebn jislocbl, jboolebn jsuccess, jint jdropbction)
 {
-    // Get the drop target native object:
+    // Get the drop tbrget nbtive object:
 JNF_COCOA_ENTER(env);
-    CDropTarget* dropTarget = GetCDropTarget(jdroptarget);
-    if (dropTarget == nil) {
-        DLog2(@"[CDropTargetContextPeer dropDone]: GetCDropTarget failed for %d.\n", (NSInteger) jdroptarget);
+    CDropTbrget* dropTbrget = GetCDropTbrget(jdroptbrget);
+    if (dropTbrget == nil) {
+        DLog2(@"[CDropTbrgetContextPeer dropDone]: GetCDropTbrget fbiled for %d.\n", (NSInteger) jdroptbrget);
         return;
     }
 
-    // Notify drop target Java is all done with this dragging sequence:
-    [dropTarget javaDraggingEnded:(jlong)jdroptransfer success:jsuccess action:jdropaction];
+    // Notify drop tbrget Jbvb is bll done with this drbgging sequence:
+    [dropTbrget jbvbDrbggingEnded:(jlong)jdroptrbnsfer success:jsuccess bction:jdropbction];
 JNF_COCOA_EXIT(env);
 
     return;

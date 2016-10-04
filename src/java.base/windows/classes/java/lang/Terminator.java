@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
+import sun.misc.Signbl;
+import sun.misc.SignblHbndler;
 
 
 /**
- * Package-private utility class for setting up and tearing down
- * platform-specific support for termination-triggered shutdowns.
+ * Pbckbge-privbte utility clbss for setting up bnd tebring down
+ * plbtform-specific support for terminbtion-triggered shutdowns.
  *
- * @author   Mark Reinhold
+ * @buthor   Mbrk Reinhold
  * @since    1.3
  */
 
-class Terminator {
+clbss Terminbtor {
 
-    private static SignalHandler handler = null;
+    privbte stbtic SignblHbndler hbndler = null;
 
-    /* Invocations of setup and teardown are already synchronized
-     * on the shutdown lock, so no further synchronization is needed here
+    /* Invocbtions of setup bnd tebrdown bre blrebdy synchronized
+     * on the shutdown lock, so no further synchronizbtion is needed here
      */
 
-    static void setup() {
-        if (handler != null) return;
-        SignalHandler sh = new SignalHandler() {
-            public void handle(Signal sig) {
+    stbtic void setup() {
+        if (hbndler != null) return;
+        SignblHbndler sh = new SignblHbndler() {
+            public void hbndle(Signbl sig) {
                 Shutdown.exit(sig.getNumber() + 0200);
             }
         };
-        handler = sh;
+        hbndler = sh;
 
         // When -Xrs is specified the user is responsible for
-        // ensuring that shutdown hooks are run by calling
+        // ensuring thbt shutdown hooks bre run by cblling
         // System.exit()
         try {
-            Signal.handle(new Signal("INT"), sh);
-        } catch (IllegalArgumentException e) {
+            Signbl.hbndle(new Signbl("INT"), sh);
+        } cbtch (IllegblArgumentException e) {
         }
         try {
-            Signal.handle(new Signal("TERM"), sh);
-        } catch (IllegalArgumentException e) {
+            Signbl.hbndle(new Signbl("TERM"), sh);
+        } cbtch (IllegblArgumentException e) {
         }
     }
 
-    static void teardown() {
-        /* The current sun.misc.Signal class does not support
-         * the cancellation of handlers
+    stbtic void tebrdown() {
+        /* The current sun.misc.Signbl clbss does not support
+         * the cbncellbtion of hbndlers
          */
     }
 

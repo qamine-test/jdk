@@ -1,806 +1,806 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 /**
- * The management interface for the thread system of
- * the Java virtual machine.
+ * The mbnbgement interfbce for the threbd system of
+ * the Jbvb virtubl mbchine.
  *
- * <p> A Java virtual machine has a single instance of the implementation
- * class of this interface.  This instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getThreadMXBean} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbchine hbs b single instbnce of the implementbtion
+ * clbss of this interfbce.  This instbnce implementing this interfbce is
+ * bn <b href="MbnbgementFbctory.html#MXBebn">MXBebn</b>
+ * thbt cbn be obtbined by cblling
+ * the {@link MbnbgementFbctory#getThrebdMXBebn} method or
+ * from the {@link MbnbgementFbctory#getPlbtformMBebnServer
+ * plbtform <tt>MBebnServer</tt>} method.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * the thread system within an MBeanServer is:
+ * <p>The <tt>ObjectNbme</tt> for uniquely identifying the MXBebn for
+ * the threbd system within bn MBebnServer is:
  * <blockquote>
- *    {@link ManagementFactory#THREAD_MXBEAN_NAME
- *           <tt>java.lang:type=Threading</tt>}
+ *    {@link MbnbgementFbctory#THREAD_MXBEAN_NAME
+ *           <tt>jbvb.lbng:type=Threbding</tt>}
  * </blockquote>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It cbn be obtbined by cblling the
+ * {@link PlbtformMbnbgedObject#getObjectNbme} method.
  *
- * <h3>Thread ID</h3>
- * Thread ID is a positive long value returned by calling the
- * {@link java.lang.Thread#getId} method for a thread.
- * The thread ID is unique during its lifetime.  When a thread
- * is terminated, this thread ID may be reused.
+ * <h3>Threbd ID</h3>
+ * Threbd ID is b positive long vblue returned by cblling the
+ * {@link jbvb.lbng.Threbd#getId} method for b threbd.
+ * The threbd ID is unique during its lifetime.  When b threbd
+ * is terminbted, this threbd ID mby be reused.
  *
- * <p> Some methods in this interface take a thread ID or an array
- * of thread IDs as the input parameter and return per-thread information.
+ * <p> Some methods in this interfbce tbke b threbd ID or bn brrby
+ * of threbd IDs bs the input pbrbmeter bnd return per-threbd informbtion.
  *
- * <h3>Thread CPU time</h3>
- * A Java virtual machine implementation may support measuring
- * the CPU time for the current thread, for any thread, or for no threads.
- *
- * <p>
- * The {@link #isThreadCpuTimeSupported} method can be used to determine
- * if a Java virtual machine supports measuring of the CPU time for any
- * thread.  The {@link #isCurrentThreadCpuTimeSupported} method can
- * be used to determine if a Java virtual machine supports measuring of
- * the CPU time for the current  thread.
- * A Java virtual machine implementation that supports CPU time measurement
- * for any thread will also support that for the current thread.
- *
- * <p> The CPU time provided by this interface has nanosecond precision
- * but not necessarily nanosecond accuracy.
+ * <h3>Threbd CPU time</h3>
+ * A Jbvb virtubl mbchine implementbtion mby support mebsuring
+ * the CPU time for the current threbd, for bny threbd, or for no threbds.
  *
  * <p>
- * A Java virtual machine may disable CPU time measurement
- * by default.
- * The {@link #isThreadCpuTimeEnabled} and {@link #setThreadCpuTimeEnabled}
- * methods can be used to test if CPU time measurement is enabled
- * and to enable/disable this support respectively.
- * Enabling thread CPU measurement could be expensive in some
- * Java virtual machine implementations.
+ * The {@link #isThrebdCpuTimeSupported} method cbn be used to determine
+ * if b Jbvb virtubl mbchine supports mebsuring of the CPU time for bny
+ * threbd.  The {@link #isCurrentThrebdCpuTimeSupported} method cbn
+ * be used to determine if b Jbvb virtubl mbchine supports mebsuring of
+ * the CPU time for the current  threbd.
+ * A Jbvb virtubl mbchine implementbtion thbt supports CPU time mebsurement
+ * for bny threbd will blso support thbt for the current threbd.
  *
- * <h3>Thread Contention Monitoring</h3>
- * Some Java virtual machines may support thread contention monitoring.
- * When thread contention monitoring is enabled, the accumulated elapsed
- * time that the thread has blocked for synchronization or waited for
- * notification will be collected and returned in the
- * <a href="ThreadInfo.html#SyncStats"><tt>ThreadInfo</tt></a> object.
+ * <p> The CPU time provided by this interfbce hbs nbnosecond precision
+ * but not necessbrily nbnosecond bccurbcy.
+ *
  * <p>
- * The {@link #isThreadContentionMonitoringSupported} method can be used to
- * determine if a Java virtual machine supports thread contention monitoring.
- * The thread contention monitoring is disabled by default.  The
- * {@link #setThreadContentionMonitoringEnabled} method can be used to enable
- * thread contention monitoring.
+ * A Jbvb virtubl mbchine mby disbble CPU time mebsurement
+ * by defbult.
+ * The {@link #isThrebdCpuTimeEnbbled} bnd {@link #setThrebdCpuTimeEnbbled}
+ * methods cbn be used to test if CPU time mebsurement is enbbled
+ * bnd to enbble/disbble this support respectively.
+ * Enbbling threbd CPU mebsurement could be expensive in some
+ * Jbvb virtubl mbchine implementbtions.
  *
- * <h3>Synchronization Information and Deadlock Detection</h3>
- * Some Java virtual machines may support monitoring of
- * {@linkplain #isObjectMonitorUsageSupported object monitor usage} and
- * {@linkplain #isSynchronizerUsageSupported ownable synchronizer usage}.
- * The {@link #getThreadInfo(long[], boolean, boolean)} and
- * {@link #dumpAllThreads} methods can be used to obtain the thread stack trace
- * and synchronization information including which
- * {@linkplain LockInfo <i>lock</i>} a thread is blocked to
- * acquire or waiting on and which locks the thread currently owns.
+ * <h3>Threbd Contention Monitoring</h3>
+ * Some Jbvb virtubl mbchines mby support threbd contention monitoring.
+ * When threbd contention monitoring is enbbled, the bccumulbted elbpsed
+ * time thbt the threbd hbs blocked for synchronizbtion or wbited for
+ * notificbtion will be collected bnd returned in the
+ * <b href="ThrebdInfo.html#SyncStbts"><tt>ThrebdInfo</tt></b> object.
  * <p>
- * The <tt>ThreadMXBean</tt> interface provides the
- * {@link #findMonitorDeadlockedThreads} and
- * {@link #findDeadlockedThreads} methods to find deadlocks in
- * the running application.
+ * The {@link #isThrebdContentionMonitoringSupported} method cbn be used to
+ * determine if b Jbvb virtubl mbchine supports threbd contention monitoring.
+ * The threbd contention monitoring is disbbled by defbult.  The
+ * {@link #setThrebdContentionMonitoringEnbbled} method cbn be used to enbble
+ * threbd contention monitoring.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * <h3>Synchronizbtion Informbtion bnd Debdlock Detection</h3>
+ * Some Jbvb virtubl mbchines mby support monitoring of
+ * {@linkplbin #isObjectMonitorUsbgeSupported object monitor usbge} bnd
+ * {@linkplbin #isSynchronizerUsbgeSupported ownbble synchronizer usbge}.
+ * The {@link #getThrebdInfo(long[], boolebn, boolebn)} bnd
+ * {@link #dumpAllThrebds} methods cbn be used to obtbin the threbd stbck trbce
+ * bnd synchronizbtion informbtion including which
+ * {@linkplbin LockInfo <i>lock</i>} b threbd is blocked to
+ * bcquire or wbiting on bnd which locks the threbd currently owns.
+ * <p>
+ * The <tt>ThrebdMXBebn</tt> interfbce provides the
+ * {@link #findMonitorDebdlockedThrebds} bnd
+ * {@link #findDebdlockedThrebds} methods to find debdlocks in
+ * the running bpplicbtion.
  *
- * @author  Mandy Chung
+ * @see MbnbgementFbctory#getPlbtformMXBebns(Clbss)
+ * @see <b href="../../../jbvbx/mbnbgement/pbckbge-summbry.html">
+ *      JMX Specificbtion.</b>
+ * @see <b href="pbckbge-summbry.html#exbmples">
+ *      Wbys to Access MXBebns</b>
+ *
+ * @buthor  Mbndy Chung
  * @since   1.5
  */
 
-public interface ThreadMXBean extends PlatformManagedObject {
+public interfbce ThrebdMXBebn extends PlbtformMbnbgedObject {
     /**
-     * Returns the current number of live threads including both
-     * daemon and non-daemon threads.
+     * Returns the current number of live threbds including both
+     * dbemon bnd non-dbemon threbds.
      *
-     * @return the current number of live threads.
+     * @return the current number of live threbds.
      */
-    public int getThreadCount();
+    public int getThrebdCount();
 
     /**
-     * Returns the peak live thread count since the Java virtual machine
-     * started or peak was reset.
+     * Returns the pebk live threbd count since the Jbvb virtubl mbchine
+     * stbrted or pebk wbs reset.
      *
-     * @return the peak live thread count.
+     * @return the pebk live threbd count.
      */
-    public int getPeakThreadCount();
+    public int getPebkThrebdCount();
 
     /**
-     * Returns the total number of threads created and also started
-     * since the Java virtual machine started.
+     * Returns the totbl number of threbds crebted bnd blso stbrted
+     * since the Jbvb virtubl mbchine stbrted.
      *
-     * @return the total number of threads started.
+     * @return the totbl number of threbds stbrted.
      */
-    public long getTotalStartedThreadCount();
+    public long getTotblStbrtedThrebdCount();
 
     /**
-     * Returns the current number of live daemon threads.
+     * Returns the current number of live dbemon threbds.
      *
-     * @return the current number of live daemon threads.
+     * @return the current number of live dbemon threbds.
      */
-    public int getDaemonThreadCount();
+    public int getDbemonThrebdCount();
 
     /**
-     * Returns all live thread IDs.
-     * Some threads included in the returned array
-     * may have been terminated when this method returns.
+     * Returns bll live threbd IDs.
+     * Some threbds included in the returned brrby
+     * mby hbve been terminbted when this method returns.
      *
-     * @return an array of <tt>long</tt>, each is a thread ID.
+     * @return bn brrby of <tt>long</tt>, ebch is b threbd ID.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
      */
-    public long[] getAllThreadIds();
+    public long[] getAllThrebdIds();
 
     /**
-     * Returns the thread info for a thread of the specified
-     * <tt>id</tt> with no stack trace.
-     * This method is equivalent to calling:
+     * Returns the threbd info for b threbd of the specified
+     * <tt>id</tt> with no stbck trbce.
+     * This method is equivblent to cblling:
      * <blockquote>
-     *   {@link #getThreadInfo(long, int) getThreadInfo(id, 0);}
+     *   {@link #getThrebdInfo(long, int) getThrebdInfo(id, 0);}
      * </blockquote>
      *
      * <p>
-     * This method returns a <tt>ThreadInfo</tt> object representing
-     * the thread information for the thread of the specified ID.
-     * The stack trace, locked monitors, and locked synchronizers
-     * in the returned <tt>ThreadInfo</tt> object will
+     * This method returns b <tt>ThrebdInfo</tt> object representing
+     * the threbd informbtion for the threbd of the specified ID.
+     * The stbck trbce, locked monitors, bnd locked synchronizers
+     * in the returned <tt>ThrebdInfo</tt> object will
      * be empty.
      *
-     * If a thread of the given ID is not alive or does not exist,
-     * this method will return <tt>null</tt>.  A thread is alive if
-     * it has been started and has not yet died.
+     * If b threbd of the given ID is not blive or does not exist,
+     * this method will return <tt>null</tt>.  A threbd is blive if
+     * it hbs been stbrted bnd hbs not yet died.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>ThreadInfo</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in the
-     * {@link ThreadInfo#from ThreadInfo.from} method.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>ThrebdInfo</tt> is
+     * <tt>CompositeDbtb</tt> with bttributes bs specified in the
+     * {@link ThrebdInfo#from ThrebdInfo.from} method.
      *
-     * @param id the thread ID of the thread. Must be positive.
+     * @pbrbm id the threbd ID of the threbd. Must be positive.
      *
-     * @return a {@link ThreadInfo} object for the thread of the given ID
-     * with no stack trace, no locked monitor and no synchronizer info;
-     * <tt>null</tt> if the thread of the given ID is not alive or
+     * @return b {@link ThrebdInfo} object for the threbd of the given ID
+     * with no stbck trbce, no locked monitor bnd no synchronizer info;
+     * <tt>null</tt> if the threbd of the given ID is not blive or
      * it does not exist.
      *
-     * @throws IllegalArgumentException if {@code id <= 0}.
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
+     * @throws IllegblArgumentException if {@code id <= 0}.
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
      */
-    public ThreadInfo getThreadInfo(long id);
+    public ThrebdInfo getThrebdInfo(long id);
 
     /**
-     * Returns the thread info for each thread
-     * whose ID is in the input array <tt>ids</tt> with no stack trace.
-     * This method is equivalent to calling:
+     * Returns the threbd info for ebch threbd
+     * whose ID is in the input brrby <tt>ids</tt> with no stbck trbce.
+     * This method is equivblent to cblling:
      * <blockquote><pre>
-     *   {@link #getThreadInfo(long[], int) getThreadInfo}(ids, 0);
+     *   {@link #getThrebdInfo(long[], int) getThrebdInfo}(ids, 0);
      * </pre></blockquote>
      *
      * <p>
-     * This method returns an array of the <tt>ThreadInfo</tt> objects.
-     * The stack trace, locked monitors, and locked synchronizers
-     * in each <tt>ThreadInfo</tt> object will be empty.
+     * This method returns bn brrby of the <tt>ThrebdInfo</tt> objects.
+     * The stbck trbce, locked monitors, bnd locked synchronizers
+     * in ebch <tt>ThrebdInfo</tt> object will be empty.
      *
-     * If a thread of a given ID is not alive or does not exist,
-     * the corresponding element in the returned array will
-     * contain <tt>null</tt>.  A thread is alive if
-     * it has been started and has not yet died.
+     * If b threbd of b given ID is not blive or does not exist,
+     * the corresponding element in the returned brrby will
+     * contbin <tt>null</tt>.  A threbd is blive if
+     * it hbs been stbrted bnd hbs not yet died.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>ThreadInfo</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in the
-     * {@link ThreadInfo#from ThreadInfo.from} method.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>ThrebdInfo</tt> is
+     * <tt>CompositeDbtb</tt> with bttributes bs specified in the
+     * {@link ThrebdInfo#from ThrebdInfo.from} method.
      *
-     * @param ids an array of thread IDs.
-     * @return an array of the {@link ThreadInfo} objects, each containing
-     * information about a thread whose ID is in the corresponding
-     * element of the input array of IDs
-     * with no stack trace, no locked monitor and no synchronizer info.
+     * @pbrbm ids bn brrby of threbd IDs.
+     * @return bn brrby of the {@link ThrebdInfo} objects, ebch contbining
+     * informbtion bbout b threbd whose ID is in the corresponding
+     * element of the input brrby of IDs
+     * with no stbck trbce, no locked monitor bnd no synchronizer info.
      *
-     * @throws IllegalArgumentException if any element in the input array
+     * @throws IllegblArgumentException if bny element in the input brrby
      *         <tt>ids</tt> is {@code <= 0}.
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
      */
-    public ThreadInfo[] getThreadInfo(long[] ids);
+    public ThrebdInfo[] getThrebdInfo(long[] ids);
 
     /**
-     * Returns a thread info for a thread of the specified <tt>id</tt>,
-     * with stack trace of a specified number of stack trace elements.
-     * The <tt>maxDepth</tt> parameter indicates the maximum number of
-     * {@link StackTraceElement} to be retrieved from the stack trace.
-     * If <tt>maxDepth == Integer.MAX_VALUE</tt>, the entire stack trace of
-     * the thread will be dumped.
-     * If <tt>maxDepth == 0</tt>, no stack trace of the thread
+     * Returns b threbd info for b threbd of the specified <tt>id</tt>,
+     * with stbck trbce of b specified number of stbck trbce elements.
+     * The <tt>mbxDepth</tt> pbrbmeter indicbtes the mbximum number of
+     * {@link StbckTrbceElement} to be retrieved from the stbck trbce.
+     * If <tt>mbxDepth == Integer.MAX_VALUE</tt>, the entire stbck trbce of
+     * the threbd will be dumped.
+     * If <tt>mbxDepth == 0</tt>, no stbck trbce of the threbd
      * will be dumped.
-     * This method does not obtain the locked monitors and locked
-     * synchronizers of the thread.
+     * This method does not obtbin the locked monitors bnd locked
+     * synchronizers of the threbd.
      * <p>
-     * When the Java virtual machine has no stack trace information
-     * about a thread or <tt>maxDepth == 0</tt>,
-     * the stack trace in the
-     * <tt>ThreadInfo</tt> object will be an empty array of
-     * <tt>StackTraceElement</tt>.
+     * When the Jbvb virtubl mbchine hbs no stbck trbce informbtion
+     * bbout b threbd or <tt>mbxDepth == 0</tt>,
+     * the stbck trbce in the
+     * <tt>ThrebdInfo</tt> object will be bn empty brrby of
+     * <tt>StbckTrbceElement</tt>.
      *
      * <p>
-     * If a thread of the given ID is not alive or does not exist,
-     * this method will return <tt>null</tt>.  A thread is alive if
-     * it has been started and has not yet died.
+     * If b threbd of the given ID is not blive or does not exist,
+     * this method will return <tt>null</tt>.  A threbd is blive if
+     * it hbs been stbrted bnd hbs not yet died.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>ThreadInfo</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in the
-     * {@link ThreadInfo#from ThreadInfo.from} method.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>ThrebdInfo</tt> is
+     * <tt>CompositeDbtb</tt> with bttributes bs specified in the
+     * {@link ThrebdInfo#from ThrebdInfo.from} method.
      *
-     * @param id the thread ID of the thread. Must be positive.
-     * @param maxDepth the maximum number of entries in the stack trace
+     * @pbrbm id the threbd ID of the threbd. Must be positive.
+     * @pbrbm mbxDepth the mbximum number of entries in the stbck trbce
      * to be dumped. <tt>Integer.MAX_VALUE</tt> could be used to request
-     * the entire stack to be dumped.
+     * the entire stbck to be dumped.
      *
-     * @return a {@link ThreadInfo} of the thread of the given ID
-     * with no locked monitor and synchronizer info.
-     * <tt>null</tt> if the thread of the given ID is not alive or
+     * @return b {@link ThrebdInfo} of the threbd of the given ID
+     * with no locked monitor bnd synchronizer info.
+     * <tt>null</tt> if the threbd of the given ID is not blive or
      * it does not exist.
      *
-     * @throws IllegalArgumentException if {@code id <= 0}.
-     * @throws IllegalArgumentException if <tt>maxDepth is negative</tt>.
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
+     * @throws IllegblArgumentException if {@code id <= 0}.
+     * @throws IllegblArgumentException if <tt>mbxDepth is negbtive</tt>.
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
      *
      */
-    public ThreadInfo getThreadInfo(long id, int maxDepth);
+    public ThrebdInfo getThrebdInfo(long id, int mbxDepth);
 
     /**
-     * Returns the thread info for each thread
-     * whose ID is in the input array <tt>ids</tt>,
-     * with stack trace of a specified number of stack trace elements.
-     * The <tt>maxDepth</tt> parameter indicates the maximum number of
-     * {@link StackTraceElement} to be retrieved from the stack trace.
-     * If <tt>maxDepth == Integer.MAX_VALUE</tt>, the entire stack trace of
-     * the thread will be dumped.
-     * If <tt>maxDepth == 0</tt>, no stack trace of the thread
+     * Returns the threbd info for ebch threbd
+     * whose ID is in the input brrby <tt>ids</tt>,
+     * with stbck trbce of b specified number of stbck trbce elements.
+     * The <tt>mbxDepth</tt> pbrbmeter indicbtes the mbximum number of
+     * {@link StbckTrbceElement} to be retrieved from the stbck trbce.
+     * If <tt>mbxDepth == Integer.MAX_VALUE</tt>, the entire stbck trbce of
+     * the threbd will be dumped.
+     * If <tt>mbxDepth == 0</tt>, no stbck trbce of the threbd
      * will be dumped.
-     * This method does not obtain the locked monitors and locked
-     * synchronizers of the threads.
+     * This method does not obtbin the locked monitors bnd locked
+     * synchronizers of the threbds.
      * <p>
-     * When the Java virtual machine has no stack trace information
-     * about a thread or <tt>maxDepth == 0</tt>,
-     * the stack trace in the
-     * <tt>ThreadInfo</tt> object will be an empty array of
-     * <tt>StackTraceElement</tt>.
+     * When the Jbvb virtubl mbchine hbs no stbck trbce informbtion
+     * bbout b threbd or <tt>mbxDepth == 0</tt>,
+     * the stbck trbce in the
+     * <tt>ThrebdInfo</tt> object will be bn empty brrby of
+     * <tt>StbckTrbceElement</tt>.
      * <p>
-     * This method returns an array of the <tt>ThreadInfo</tt> objects,
-     * each is the thread information about the thread with the same index
-     * as in the <tt>ids</tt> array.
-     * If a thread of the given ID is not alive or does not exist,
+     * This method returns bn brrby of the <tt>ThrebdInfo</tt> objects,
+     * ebch is the threbd informbtion bbout the threbd with the sbme index
+     * bs in the <tt>ids</tt> brrby.
+     * If b threbd of the given ID is not blive or does not exist,
      * <tt>null</tt> will be set in the corresponding element
-     * in the returned array.  A thread is alive if
-     * it has been started and has not yet died.
+     * in the returned brrby.  A threbd is blive if
+     * it hbs been stbrted bnd hbs not yet died.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>ThreadInfo</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in the
-     * {@link ThreadInfo#from ThreadInfo.from} method.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>ThrebdInfo</tt> is
+     * <tt>CompositeDbtb</tt> with bttributes bs specified in the
+     * {@link ThrebdInfo#from ThrebdInfo.from} method.
      *
-     * @param ids an array of thread IDs
-     * @param maxDepth the maximum number of entries in the stack trace
+     * @pbrbm ids bn brrby of threbd IDs
+     * @pbrbm mbxDepth the mbximum number of entries in the stbck trbce
      * to be dumped. <tt>Integer.MAX_VALUE</tt> could be used to request
-     * the entire stack to be dumped.
+     * the entire stbck to be dumped.
      *
-     * @return an array of the {@link ThreadInfo} objects, each containing
-     * information about a thread whose ID is in the corresponding
-     * element of the input array of IDs with no locked monitor and
+     * @return bn brrby of the {@link ThrebdInfo} objects, ebch contbining
+     * informbtion bbout b threbd whose ID is in the corresponding
+     * element of the input brrby of IDs with no locked monitor bnd
      * synchronizer info.
      *
-     * @throws IllegalArgumentException if <tt>maxDepth is negative</tt>.
-     * @throws IllegalArgumentException if any element in the input array
+     * @throws IllegblArgumentException if <tt>mbxDepth is negbtive</tt>.
+     * @throws IllegblArgumentException if bny element in the input brrby
      *      <tt>ids</tt> is {@code <= 0}.
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
      *
      */
-    public ThreadInfo[] getThreadInfo(long[] ids, int maxDepth);
+    public ThrebdInfo[] getThrebdInfo(long[] ids, int mbxDepth);
 
     /**
-     * Tests if the Java virtual machine supports thread contention monitoring.
+     * Tests if the Jbvb virtubl mbchine supports threbd contention monitoring.
      *
      * @return
      *   <tt>true</tt>
-     *     if the Java virtual machine supports thread contention monitoring;
-     *   <tt>false</tt> otherwise.
+     *     if the Jbvb virtubl mbchine supports threbd contention monitoring;
+     *   <tt>fblse</tt> otherwise.
      */
-    public boolean isThreadContentionMonitoringSupported();
+    public boolebn isThrebdContentionMonitoringSupported();
 
     /**
-     * Tests if thread contention monitoring is enabled.
+     * Tests if threbd contention monitoring is enbbled.
      *
-     * @return <tt>true</tt> if thread contention monitoring is enabled;
-     *         <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if threbd contention monitoring is enbbled;
+     *         <tt>fblse</tt> otherwise.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     * machine does not support thread contention monitoring.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb virtubl
+     * mbchine does not support threbd contention monitoring.
      *
-     * @see #isThreadContentionMonitoringSupported
+     * @see #isThrebdContentionMonitoringSupported
      */
-    public boolean isThreadContentionMonitoringEnabled();
+    public boolebn isThrebdContentionMonitoringEnbbled();
 
     /**
-     * Enables or disables thread contention monitoring.
-     * Thread contention monitoring is disabled by default.
+     * Enbbles or disbbles threbd contention monitoring.
+     * Threbd contention monitoring is disbbled by defbult.
      *
-     * @param enable <tt>true</tt> to enable;
-     *               <tt>false</tt> to disable.
+     * @pbrbm enbble <tt>true</tt> to enbble;
+     *               <tt>fblse</tt> to disbble.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support thread contention monitoring.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     * virtubl mbchine does not support threbd contention monitoring.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("control").
      *
-     * @see #isThreadContentionMonitoringSupported
+     * @see #isThrebdContentionMonitoringSupported
      */
-    public void setThreadContentionMonitoringEnabled(boolean enable);
+    public void setThrebdContentionMonitoringEnbbled(boolebn enbble);
 
     /**
-     * Returns the total CPU time for the current thread in nanoseconds.
-     * The returned value is of nanoseconds precision but
-     * not necessarily nanoseconds accuracy.
-     * If the implementation distinguishes between user mode time and system
-     * mode time, the returned CPU time is the amount of time that
-     * the current thread has executed in user mode or system mode.
+     * Returns the totbl CPU time for the current threbd in nbnoseconds.
+     * The returned vblue is of nbnoseconds precision but
+     * not necessbrily nbnoseconds bccurbcy.
+     * If the implementbtion distinguishes between user mode time bnd system
+     * mode time, the returned CPU time is the bmount of time thbt
+     * the current threbd hbs executed in user mode or system mode.
      *
      * <p>
-     * This is a convenient method for local management use and is
-     * equivalent to calling:
+     * This is b convenient method for locbl mbnbgement use bnd is
+     * equivblent to cblling:
      * <blockquote><pre>
-     *   {@link #getThreadCpuTime getThreadCpuTime}(Thread.currentThread().getId());
+     *   {@link #getThrebdCpuTime getThrebdCpuTime}(Threbd.currentThrebd().getId());
      * </pre></blockquote>
      *
-     * @return the total CPU time for the current thread if CPU time
-     * measurement is enabled; <tt>-1</tt> otherwise.
+     * @return the totbl CPU time for the current threbd if CPU time
+     * mebsurement is enbbled; <tt>-1</tt> otherwise.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support CPU time measurement for
-     * the current thread.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     * virtubl mbchine does not support CPU time mebsurement for
+     * the current threbd.
      *
-     * @see #getCurrentThreadUserTime
-     * @see #isCurrentThreadCpuTimeSupported
-     * @see #isThreadCpuTimeEnabled
-     * @see #setThreadCpuTimeEnabled
+     * @see #getCurrentThrebdUserTime
+     * @see #isCurrentThrebdCpuTimeSupported
+     * @see #isThrebdCpuTimeEnbbled
+     * @see #setThrebdCpuTimeEnbbled
      */
-    public long getCurrentThreadCpuTime();
+    public long getCurrentThrebdCpuTime();
 
     /**
-     * Returns the CPU time that the current thread has executed
-     * in user mode in nanoseconds.
-     * The returned value is of nanoseconds precision but
-     * not necessarily nanoseconds accuracy.
+     * Returns the CPU time thbt the current threbd hbs executed
+     * in user mode in nbnoseconds.
+     * The returned vblue is of nbnoseconds precision but
+     * not necessbrily nbnoseconds bccurbcy.
      *
      * <p>
-     * This is a convenient method for local management use and is
-     * equivalent to calling:
+     * This is b convenient method for locbl mbnbgement use bnd is
+     * equivblent to cblling:
      * <blockquote><pre>
-     *   {@link #getThreadUserTime getThreadUserTime}(Thread.currentThread().getId());
+     *   {@link #getThrebdUserTime getThrebdUserTime}(Threbd.currentThrebd().getId());
      * </pre></blockquote>
      *
-     * @return the user-level CPU time for the current thread if CPU time
-     * measurement is enabled; <tt>-1</tt> otherwise.
+     * @return the user-level CPU time for the current threbd if CPU time
+     * mebsurement is enbbled; <tt>-1</tt> otherwise.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support CPU time measurement for
-     * the current thread.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     * virtubl mbchine does not support CPU time mebsurement for
+     * the current threbd.
      *
-     * @see #getCurrentThreadCpuTime
-     * @see #isCurrentThreadCpuTimeSupported
-     * @see #isThreadCpuTimeEnabled
-     * @see #setThreadCpuTimeEnabled
+     * @see #getCurrentThrebdCpuTime
+     * @see #isCurrentThrebdCpuTimeSupported
+     * @see #isThrebdCpuTimeEnbbled
+     * @see #setThrebdCpuTimeEnbbled
      */
-    public long getCurrentThreadUserTime();
+    public long getCurrentThrebdUserTime();
 
     /**
-     * Returns the total CPU time for a thread of the specified ID in nanoseconds.
-     * The returned value is of nanoseconds precision but
-     * not necessarily nanoseconds accuracy.
-     * If the implementation distinguishes between user mode time and system
-     * mode time, the returned CPU time is the amount of time that
-     * the thread has executed in user mode or system mode.
+     * Returns the totbl CPU time for b threbd of the specified ID in nbnoseconds.
+     * The returned vblue is of nbnoseconds precision but
+     * not necessbrily nbnoseconds bccurbcy.
+     * If the implementbtion distinguishes between user mode time bnd system
+     * mode time, the returned CPU time is the bmount of time thbt
+     * the threbd hbs executed in user mode or system mode.
      *
      * <p>
-     * If the thread of the specified ID is not alive or does not exist,
-     * this method returns <tt>-1</tt>. If CPU time measurement
-     * is disabled, this method returns <tt>-1</tt>.
-     * A thread is alive if it has been started and has not yet died.
+     * If the threbd of the specified ID is not blive or does not exist,
+     * this method returns <tt>-1</tt>. If CPU time mebsurement
+     * is disbbled, this method returns <tt>-1</tt>.
+     * A threbd is blive if it hbs been stbrted bnd hbs not yet died.
      * <p>
-     * If CPU time measurement is enabled after the thread has started,
-     * the Java virtual machine implementation may choose any time up to
-     * and including the time that the capability is enabled as the point
-     * where CPU time measurement starts.
+     * If CPU time mebsurement is enbbled bfter the threbd hbs stbrted,
+     * the Jbvb virtubl mbchine implementbtion mby choose bny time up to
+     * bnd including the time thbt the cbpbbility is enbbled bs the point
+     * where CPU time mebsurement stbrts.
      *
-     * @param id the thread ID of a thread
-     * @return the total CPU time for a thread of the specified ID
-     * if the thread of the specified ID exists, the thread is alive,
-     * and CPU time measurement is enabled;
+     * @pbrbm id the threbd ID of b threbd
+     * @return the totbl CPU time for b threbd of the specified ID
+     * if the threbd of the specified ID exists, the threbd is blive,
+     * bnd CPU time mebsurement is enbbled;
      * <tt>-1</tt> otherwise.
      *
-     * @throws IllegalArgumentException if {@code id <= 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support CPU time measurement for
-     * other threads.
+     * @throws IllegblArgumentException if {@code id <= 0}.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     * virtubl mbchine does not support CPU time mebsurement for
+     * other threbds.
      *
-     * @see #getThreadUserTime
-     * @see #isThreadCpuTimeSupported
-     * @see #isThreadCpuTimeEnabled
-     * @see #setThreadCpuTimeEnabled
+     * @see #getThrebdUserTime
+     * @see #isThrebdCpuTimeSupported
+     * @see #isThrebdCpuTimeEnbbled
+     * @see #setThrebdCpuTimeEnbbled
      */
-    public long getThreadCpuTime(long id);
+    public long getThrebdCpuTime(long id);
 
     /**
-     * Returns the CPU time that a thread of the specified ID
-     * has executed in user mode in nanoseconds.
-     * The returned value is of nanoseconds precision but
-     * not necessarily nanoseconds accuracy.
+     * Returns the CPU time thbt b threbd of the specified ID
+     * hbs executed in user mode in nbnoseconds.
+     * The returned vblue is of nbnoseconds precision but
+     * not necessbrily nbnoseconds bccurbcy.
      *
      * <p>
-     * If the thread of the specified ID is not alive or does not exist,
-     * this method returns <tt>-1</tt>. If CPU time measurement
-     * is disabled, this method returns <tt>-1</tt>.
-     * A thread is alive if it has been started and has not yet died.
+     * If the threbd of the specified ID is not blive or does not exist,
+     * this method returns <tt>-1</tt>. If CPU time mebsurement
+     * is disbbled, this method returns <tt>-1</tt>.
+     * A threbd is blive if it hbs been stbrted bnd hbs not yet died.
      * <p>
-     * If CPU time measurement is enabled after the thread has started,
-     * the Java virtual machine implementation may choose any time up to
-     * and including the time that the capability is enabled as the point
-     * where CPU time measurement starts.
+     * If CPU time mebsurement is enbbled bfter the threbd hbs stbrted,
+     * the Jbvb virtubl mbchine implementbtion mby choose bny time up to
+     * bnd including the time thbt the cbpbbility is enbbled bs the point
+     * where CPU time mebsurement stbrts.
      *
-     * @param id the thread ID of a thread
-     * @return the user-level CPU time for a thread of the specified ID
-     * if the thread of the specified ID exists, the thread is alive,
-     * and CPU time measurement is enabled;
+     * @pbrbm id the threbd ID of b threbd
+     * @return the user-level CPU time for b threbd of the specified ID
+     * if the threbd of the specified ID exists, the threbd is blive,
+     * bnd CPU time mebsurement is enbbled;
      * <tt>-1</tt> otherwise.
      *
-     * @throws IllegalArgumentException if {@code id <= 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support CPU time measurement for
-     * other threads.
+     * @throws IllegblArgumentException if {@code id <= 0}.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     * virtubl mbchine does not support CPU time mebsurement for
+     * other threbds.
      *
-     * @see #getThreadCpuTime
-     * @see #isThreadCpuTimeSupported
-     * @see #isThreadCpuTimeEnabled
-     * @see #setThreadCpuTimeEnabled
+     * @see #getThrebdCpuTime
+     * @see #isThrebdCpuTimeSupported
+     * @see #isThrebdCpuTimeEnbbled
+     * @see #setThrebdCpuTimeEnbbled
      */
-    public long getThreadUserTime(long id);
+    public long getThrebdUserTime(long id);
 
     /**
-     * Tests if the Java virtual machine implementation supports CPU time
-     * measurement for any thread.
-     * A Java virtual machine implementation that supports CPU time
-     * measurement for any thread will also support CPU time
-     * measurement for the current thread.
+     * Tests if the Jbvb virtubl mbchine implementbtion supports CPU time
+     * mebsurement for bny threbd.
+     * A Jbvb virtubl mbchine implementbtion thbt supports CPU time
+     * mebsurement for bny threbd will blso support CPU time
+     * mebsurement for the current threbd.
      *
      * @return
      *   <tt>true</tt>
-     *     if the Java virtual machine supports CPU time
-     *     measurement for any thread;
-     *   <tt>false</tt> otherwise.
+     *     if the Jbvb virtubl mbchine supports CPU time
+     *     mebsurement for bny threbd;
+     *   <tt>fblse</tt> otherwise.
      */
-    public boolean isThreadCpuTimeSupported();
+    public boolebn isThrebdCpuTimeSupported();
 
     /**
-     * Tests if the Java virtual machine supports CPU time
-     * measurement for the current thread.
-     * This method returns <tt>true</tt> if {@link #isThreadCpuTimeSupported}
+     * Tests if the Jbvb virtubl mbchine supports CPU time
+     * mebsurement for the current threbd.
+     * This method returns <tt>true</tt> if {@link #isThrebdCpuTimeSupported}
      * returns <tt>true</tt>.
      *
      * @return
      *   <tt>true</tt>
-     *     if the Java virtual machine supports CPU time
-     *     measurement for current thread;
-     *   <tt>false</tt> otherwise.
+     *     if the Jbvb virtubl mbchine supports CPU time
+     *     mebsurement for current threbd;
+     *   <tt>fblse</tt> otherwise.
      */
-    public boolean isCurrentThreadCpuTimeSupported();
+    public boolebn isCurrentThrebdCpuTimeSupported();
 
     /**
-     * Tests if thread CPU time measurement is enabled.
+     * Tests if threbd CPU time mebsurement is enbbled.
      *
-     * @return <tt>true</tt> if thread CPU time measurement is enabled;
-     *         <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if threbd CPU time mebsurement is enbbled;
+     *         <tt>fblse</tt> otherwise.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     * machine does not support CPU time measurement for other threads
-     * nor for the current thread.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb virtubl
+     * mbchine does not support CPU time mebsurement for other threbds
+     * nor for the current threbd.
      *
-     * @see #isThreadCpuTimeSupported
-     * @see #isCurrentThreadCpuTimeSupported
+     * @see #isThrebdCpuTimeSupported
+     * @see #isCurrentThrebdCpuTimeSupported
      */
-    public boolean isThreadCpuTimeEnabled();
+    public boolebn isThrebdCpuTimeEnbbled();
 
     /**
-     * Enables or disables thread CPU time measurement.  The default
-     * is platform dependent.
+     * Enbbles or disbbles threbd CPU time mebsurement.  The defbult
+     * is plbtform dependent.
      *
-     * @param enable <tt>true</tt> to enable;
-     *               <tt>false</tt> to disable.
+     * @pbrbm enbble <tt>true</tt> to enbble;
+     *               <tt>fblse</tt> to disbble.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support CPU time measurement for
-     * any threads nor for the current thread.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb
+     * virtubl mbchine does not support CPU time mebsurement for
+     * bny threbds nor for the current threbd.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("control").
      *
-     * @see #isThreadCpuTimeSupported
-     * @see #isCurrentThreadCpuTimeSupported
+     * @see #isThrebdCpuTimeSupported
+     * @see #isCurrentThrebdCpuTimeSupported
      */
-    public void setThreadCpuTimeEnabled(boolean enable);
+    public void setThrebdCpuTimeEnbbled(boolebn enbble);
 
     /**
-     * Finds cycles of threads that are in deadlock waiting to acquire
-     * object monitors. That is, threads that are blocked waiting to enter a
-     * synchronization block or waiting to reenter a synchronization block
-     * after an {@link Object#wait Object.wait} call,
-     * where each thread owns one monitor while
-     * trying to obtain another monitor already held by another thread
-     * in a cycle.
+     * Finds cycles of threbds thbt bre in debdlock wbiting to bcquire
+     * object monitors. Thbt is, threbds thbt bre blocked wbiting to enter b
+     * synchronizbtion block or wbiting to reenter b synchronizbtion block
+     * bfter bn {@link Object#wbit Object.wbit} cbll,
+     * where ebch threbd owns one monitor while
+     * trying to obtbin bnother monitor blrebdy held by bnother threbd
+     * in b cycle.
      * <p>
-     * More formally, a thread is <em>monitor deadlocked</em> if it is
-     * part of a cycle in the relation "is waiting for an object monitor
-     * owned by".  In the simplest case, thread A is blocked waiting
-     * for a monitor owned by thread B, and thread B is blocked waiting
-     * for a monitor owned by thread A.
+     * More formblly, b threbd is <em>monitor debdlocked</em> if it is
+     * pbrt of b cycle in the relbtion "is wbiting for bn object monitor
+     * owned by".  In the simplest cbse, threbd A is blocked wbiting
+     * for b monitor owned by threbd B, bnd threbd B is blocked wbiting
+     * for b monitor owned by threbd A.
      * <p>
      * This method is designed for troubleshooting use, but not for
-     * synchronization control.  It might be an expensive operation.
+     * synchronizbtion control.  It might be bn expensive operbtion.
      * <p>
-     * This method finds deadlocks involving only object monitors.
-     * To find deadlocks involving both object monitors and
-     * <a href="LockInfo.html#OwnableSynchronizer">ownable synchronizers</a>,
-     * the {@link #findDeadlockedThreads findDeadlockedThreads} method
+     * This method finds debdlocks involving only object monitors.
+     * To find debdlocks involving both object monitors bnd
+     * <b href="LockInfo.html#OwnbbleSynchronizer">ownbble synchronizers</b>,
+     * the {@link #findDebdlockedThrebds findDebdlockedThrebds} method
      * should be used.
      *
-     * @return an array of IDs of the threads that are monitor
-     * deadlocked, if any; <tt>null</tt> otherwise.
+     * @return bn brrby of IDs of the threbds thbt bre monitor
+     * debdlocked, if bny; <tt>null</tt> otherwise.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
      *
-     * @see #findDeadlockedThreads
+     * @see #findDebdlockedThrebds
      */
-    public long[] findMonitorDeadlockedThreads();
+    public long[] findMonitorDebdlockedThrebds();
 
     /**
-     * Resets the peak thread count to the current number of
-     * live threads.
+     * Resets the pebk threbd count to the current number of
+     * live threbds.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("control").
      *
-     * @see #getPeakThreadCount
-     * @see #getThreadCount
+     * @see #getPebkThrebdCount
+     * @see #getThrebdCount
      */
-    public void resetPeakThreadCount();
+    public void resetPebkThrebdCount();
 
     /**
-     * Finds cycles of threads that are in deadlock waiting to acquire
+     * Finds cycles of threbds thbt bre in debdlock wbiting to bcquire
      * object monitors or
-     * <a href="LockInfo.html#OwnableSynchronizer">ownable synchronizers</a>.
+     * <b href="LockInfo.html#OwnbbleSynchronizer">ownbble synchronizers</b>.
      *
-     * Threads are <em>deadlocked</em> in a cycle waiting for a lock of
-     * these two types if each thread owns one lock while
-     * trying to acquire another lock already held
-     * by another thread in the cycle.
+     * Threbds bre <em>debdlocked</em> in b cycle wbiting for b lock of
+     * these two types if ebch threbd owns one lock while
+     * trying to bcquire bnother lock blrebdy held
+     * by bnother threbd in the cycle.
      * <p>
      * This method is designed for troubleshooting use, but not for
-     * synchronization control.  It might be an expensive operation.
+     * synchronizbtion control.  It might be bn expensive operbtion.
      *
-     * @return an array of IDs of the threads that are
-     * deadlocked waiting for object monitors or ownable synchronizers, if any;
+     * @return bn brrby of IDs of the threbds thbt bre
+     * debdlocked wbiting for object monitors or ownbble synchronizers, if bny;
      * <tt>null</tt> otherwise.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     * machine does not support monitoring of ownable synchronizer usage.
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the Jbvb virtubl
+     * mbchine does not support monitoring of ownbble synchronizer usbge.
      *
-     * @see #isSynchronizerUsageSupported
-     * @see #findMonitorDeadlockedThreads
+     * @see #isSynchronizerUsbgeSupported
+     * @see #findMonitorDebdlockedThrebds
      * @since 1.6
      */
-    public long[] findDeadlockedThreads();
+    public long[] findDebdlockedThrebds();
 
     /**
-     * Tests if the Java virtual machine supports monitoring of
-     * object monitor usage.
+     * Tests if the Jbvb virtubl mbchine supports monitoring of
+     * object monitor usbge.
      *
      * @return
      *   <tt>true</tt>
-     *     if the Java virtual machine supports monitoring of
-     *     object monitor usage;
-     *   <tt>false</tt> otherwise.
+     *     if the Jbvb virtubl mbchine supports monitoring of
+     *     object monitor usbge;
+     *   <tt>fblse</tt> otherwise.
      *
-     * @see #dumpAllThreads
+     * @see #dumpAllThrebds
      * @since 1.6
      */
-    public boolean isObjectMonitorUsageSupported();
+    public boolebn isObjectMonitorUsbgeSupported();
 
     /**
-     * Tests if the Java virtual machine supports monitoring of
-     * <a href="LockInfo.html#OwnableSynchronizer">
-     * ownable synchronizer</a> usage.
+     * Tests if the Jbvb virtubl mbchine supports monitoring of
+     * <b href="LockInfo.html#OwnbbleSynchronizer">
+     * ownbble synchronizer</b> usbge.
      *
      * @return
      *   <tt>true</tt>
-     *     if the Java virtual machine supports monitoring of ownable
-     *     synchronizer usage;
-     *   <tt>false</tt> otherwise.
+     *     if the Jbvb virtubl mbchine supports monitoring of ownbble
+     *     synchronizer usbge;
+     *   <tt>fblse</tt> otherwise.
      *
-     * @see #dumpAllThreads
+     * @see #dumpAllThrebds
      * @since 1.6
      */
-    public boolean isSynchronizerUsageSupported();
+    public boolebn isSynchronizerUsbgeSupported();
 
     /**
-     * Returns the thread info for each thread
-     * whose ID is in the input array <tt>ids</tt>, with stack trace
-     * and synchronization information.
+     * Returns the threbd info for ebch threbd
+     * whose ID is in the input brrby <tt>ids</tt>, with stbck trbce
+     * bnd synchronizbtion informbtion.
      *
      * <p>
-     * This method obtains a snapshot of the thread information
-     * for each thread including:
+     * This method obtbins b snbpshot of the threbd informbtion
+     * for ebch threbd including:
      * <ul>
-     *    <li>the entire stack trace,</li>
-     *    <li>the object monitors currently locked by the thread
-     *        if <tt>lockedMonitors</tt> is <tt>true</tt>, and</li>
-     *    <li>the <a href="LockInfo.html#OwnableSynchronizer">
-     *        ownable synchronizers</a> currently locked by the thread
+     *    <li>the entire stbck trbce,</li>
+     *    <li>the object monitors currently locked by the threbd
+     *        if <tt>lockedMonitors</tt> is <tt>true</tt>, bnd</li>
+     *    <li>the <b href="LockInfo.html#OwnbbleSynchronizer">
+     *        ownbble synchronizers</b> currently locked by the threbd
      *        if <tt>lockedSynchronizers</tt> is <tt>true</tt>.</li>
      * </ul>
      * <p>
-     * This method returns an array of the <tt>ThreadInfo</tt> objects,
-     * each is the thread information about the thread with the same index
-     * as in the <tt>ids</tt> array.
-     * If a thread of the given ID is not alive or does not exist,
+     * This method returns bn brrby of the <tt>ThrebdInfo</tt> objects,
+     * ebch is the threbd informbtion bbout the threbd with the sbme index
+     * bs in the <tt>ids</tt> brrby.
+     * If b threbd of the given ID is not blive or does not exist,
      * <tt>null</tt> will be set in the corresponding element
-     * in the returned array.  A thread is alive if
-     * it has been started and has not yet died.
+     * in the returned brrby.  A threbd is blive if
+     * it hbs been stbrted bnd hbs not yet died.
      * <p>
-     * If a thread does not lock any object monitor or <tt>lockedMonitors</tt>
-     * is <tt>false</tt>, the returned <tt>ThreadInfo</tt> object will have an
-     * empty <tt>MonitorInfo</tt> array.  Similarly, if a thread does not
-     * lock any synchronizer or <tt>lockedSynchronizers</tt> is <tt>false</tt>,
-     * the returned <tt>ThreadInfo</tt> object
-     * will have an empty <tt>LockInfo</tt> array.
+     * If b threbd does not lock bny object monitor or <tt>lockedMonitors</tt>
+     * is <tt>fblse</tt>, the returned <tt>ThrebdInfo</tt> object will hbve bn
+     * empty <tt>MonitorInfo</tt> brrby.  Similbrly, if b threbd does not
+     * lock bny synchronizer or <tt>lockedSynchronizers</tt> is <tt>fblse</tt>,
+     * the returned <tt>ThrebdInfo</tt> object
+     * will hbve bn empty <tt>LockInfo</tt> brrby.
      *
      * <p>
-     * When both <tt>lockedMonitors</tt> and <tt>lockedSynchronizers</tt>
-     * parameters are <tt>false</tt>, it is equivalent to calling:
+     * When both <tt>lockedMonitors</tt> bnd <tt>lockedSynchronizers</tt>
+     * pbrbmeters bre <tt>fblse</tt>, it is equivblent to cblling:
      * <blockquote><pre>
-     *     {@link #getThreadInfo(long[], int)  getThreadInfo(ids, Integer.MAX_VALUE)}
+     *     {@link #getThrebdInfo(long[], int)  getThrebdInfo(ids, Integer.MAX_VALUE)}
      * </pre></blockquote>
      *
      * <p>
      * This method is designed for troubleshooting use, but not for
-     * synchronization control.  It might be an expensive operation.
+     * synchronizbtion control.  It might be bn expensive operbtion.
      *
      * <p>
-     * <b>MBeanServer access</b>:<br>
-     * The mapped type of <tt>ThreadInfo</tt> is
-     * <tt>CompositeData</tt> with attributes as specified in the
-     * {@link ThreadInfo#from ThreadInfo.from} method.
+     * <b>MBebnServer bccess</b>:<br>
+     * The mbpped type of <tt>ThrebdInfo</tt> is
+     * <tt>CompositeDbtb</tt> with bttributes bs specified in the
+     * {@link ThrebdInfo#from ThrebdInfo.from} method.
      *
-     * @param  ids an array of thread IDs.
-     * @param  lockedMonitors if <tt>true</tt>, retrieves all locked monitors.
-     * @param  lockedSynchronizers if <tt>true</tt>, retrieves all locked
-     *             ownable synchronizers.
+     * @pbrbm  ids bn brrby of threbd IDs.
+     * @pbrbm  lockedMonitors if <tt>true</tt>, retrieves bll locked monitors.
+     * @pbrbm  lockedSynchronizers if <tt>true</tt>, retrieves bll locked
+     *             ownbble synchronizers.
      *
-     * @return an array of the {@link ThreadInfo} objects, each containing
-     * information about a thread whose ID is in the corresponding
-     * element of the input array of IDs.
+     * @return bn brrby of the {@link ThrebdInfo} objects, ebch contbining
+     * informbtion bbout b threbd whose ID is in the corresponding
+     * element of the input brrby of IDs.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
-     * @throws java.lang.UnsupportedOperationException
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
+     * @throws jbvb.lbng.UnsupportedOperbtionException
      *         <ul>
      *           <li>if <tt>lockedMonitors</tt> is <tt>true</tt> but
-     *               the Java virtual machine does not support monitoring
-     *               of {@linkplain #isObjectMonitorUsageSupported
-     *               object monitor usage}; or</li>
+     *               the Jbvb virtubl mbchine does not support monitoring
+     *               of {@linkplbin #isObjectMonitorUsbgeSupported
+     *               object monitor usbge}; or</li>
      *           <li>if <tt>lockedSynchronizers</tt> is <tt>true</tt> but
-     *               the Java virtual machine does not support monitoring
-     *               of {@linkplain #isSynchronizerUsageSupported
-     *               ownable synchronizer usage}.</li>
+     *               the Jbvb virtubl mbchine does not support monitoring
+     *               of {@linkplbin #isSynchronizerUsbgeSupported
+     *               ownbble synchronizer usbge}.</li>
      *         </ul>
      *
-     * @see #isObjectMonitorUsageSupported
-     * @see #isSynchronizerUsageSupported
+     * @see #isObjectMonitorUsbgeSupported
+     * @see #isSynchronizerUsbgeSupported
      *
      * @since 1.6
      */
-    public ThreadInfo[] getThreadInfo(long[] ids, boolean lockedMonitors, boolean lockedSynchronizers);
+    public ThrebdInfo[] getThrebdInfo(long[] ids, boolebn lockedMonitors, boolebn lockedSynchronizers);
 
     /**
-     * Returns the thread info for all live threads with stack trace
-     * and synchronization information.
-     * Some threads included in the returned array
-     * may have been terminated when this method returns.
+     * Returns the threbd info for bll live threbds with stbck trbce
+     * bnd synchronizbtion informbtion.
+     * Some threbds included in the returned brrby
+     * mby hbve been terminbted when this method returns.
      *
      * <p>
-     * This method returns an array of {@link ThreadInfo} objects
-     * as specified in the {@link #getThreadInfo(long[], boolean, boolean)}
+     * This method returns bn brrby of {@link ThrebdInfo} objects
+     * bs specified in the {@link #getThrebdInfo(long[], boolebn, boolebn)}
      * method.
      *
-     * @param  lockedMonitors if <tt>true</tt>, dump all locked monitors.
-     * @param  lockedSynchronizers if <tt>true</tt>, dump all locked
-     *             ownable synchronizers.
+     * @pbrbm  lockedMonitors if <tt>true</tt>, dump bll locked monitors.
+     * @pbrbm  lockedSynchronizers if <tt>true</tt>, dump bll locked
+     *             ownbble synchronizers.
      *
-     * @return an array of {@link ThreadInfo} for all live threads.
+     * @return bn brrby of {@link ThrebdInfo} for bll live threbds.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("monitor").
-     * @throws java.lang.UnsupportedOperationException
+     * @throws jbvb.lbng.SecurityException if b security mbnbger
+     *         exists bnd the cbller does not hbve
+     *         MbnbgementPermission("monitor").
+     * @throws jbvb.lbng.UnsupportedOperbtionException
      *         <ul>
      *           <li>if <tt>lockedMonitors</tt> is <tt>true</tt> but
-     *               the Java virtual machine does not support monitoring
-     *               of {@linkplain #isObjectMonitorUsageSupported
-     *               object monitor usage}; or</li>
+     *               the Jbvb virtubl mbchine does not support monitoring
+     *               of {@linkplbin #isObjectMonitorUsbgeSupported
+     *               object monitor usbge}; or</li>
      *           <li>if <tt>lockedSynchronizers</tt> is <tt>true</tt> but
-     *               the Java virtual machine does not support monitoring
-     *               of {@linkplain #isSynchronizerUsageSupported
-     *               ownable synchronizer usage}.</li>
+     *               the Jbvb virtubl mbchine does not support monitoring
+     *               of {@linkplbin #isSynchronizerUsbgeSupported
+     *               ownbble synchronizer usbge}.</li>
      *         </ul>
      *
-     * @see #isObjectMonitorUsageSupported
-     * @see #isSynchronizerUsageSupported
+     * @see #isObjectMonitorUsbgeSupported
+     * @see #isSynchronizerUsbgeSupported
      *
      * @since 1.6
      */
-    public ThreadInfo[] dumpAllThreads(boolean lockedMonitors, boolean lockedSynchronizers);
+    public ThrebdInfo[] dumpAllThrebds(boolebn lockedMonitors, boolebn lockedSynchronizers);
 }

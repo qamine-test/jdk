@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011 Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,57 +30,57 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
 /**
- * Writes all messages in our buffer to the other clients
- * and appends new data read from the socket to our buffer
+ * Writes bll messbges in our buffer to the other clients
+ * bnd bppends new dbtb rebd from the socket to our buffer
  */
-class MessageReader implements DataReader {
-    private final ChatServer chatServer;
+clbss MessbgeRebder implements DbtbRebder {
+    privbte finbl ChbtServer chbtServer;
 
-    public MessageReader(ChatServer chatServer) {
-        this.chatServer = chatServer;
+    public MessbgeRebder(ChbtServer chbtServer) {
+        this.chbtServer = chbtServer;
     }
 
-    public boolean acceptsMessages() {
+    public boolebn bcceptsMessbges() {
         return true;
     }
 
     /**
-     * Write all full messages in our buffer to
+     * Write bll full messbges in our buffer to
      * the other clients
      *
-     * @param client the client to read messages from
+     * @pbrbm client the client to rebd messbges from
      */
     @Override
-    public void beforeRead(Client client) {
-        // Check if we have any messages buffered and send them
-        String message = client.nextMessage();
-        while (message != null) {
-            chatServer.writeMessageToClients(client, message);
-            message = client.nextMessage();
+    public void beforeRebd(Client client) {
+        // Check if we hbve bny messbges buffered bnd send them
+        String messbge = client.nextMessbge();
+        while (messbge != null) {
+            chbtServer.writeMessbgeToClients(client, messbge);
+            messbge = client.nextMessbge();
         }
     }
 
     /**
-     * Append the read buffer to the clients message buffer
-     * @param client the client to append messages to
-     * @param buffer the buffer we received from the socket
-     * @param bytes the number of bytes read into the buffer
+     * Append the rebd buffer to the clients messbge buffer
+     * @pbrbm client the client to bppend messbges to
+     * @pbrbm buffer the buffer we received from the socket
+     * @pbrbm bytes the number of bytes rebd into the buffer
      */
     @Override
-    public void onData(Client client, ByteBuffer buffer, int bytes) {
+    public void onDbtb(Client client, ByteBuffer buffer, int bytes) {
         buffer.flip();
-        // Just append the message on the buffer
-        client.appendMessage(new String(buffer.array(), 0, bytes));
+        // Just bppend the messbge on the buffer
+        client.bppendMessbge(new String(buffer.brrby(), 0, bytes));
     }
 }

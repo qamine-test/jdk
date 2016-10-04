@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.lbng.ref.WebkReference;
 
-/* This is Freetype based implementation of FontScaler.
+/* This is Freetype bbsed implementbtion of FontScbler.
  *
- * Note that in case of runtime error it is expected that
- * native code will release all native resources and
- * call invalidateScaler() (that will throw FontScalerException).
+ * Note thbt in cbse of runtime error it is expected thbt
+ * nbtive code will relebse bll nbtive resources bnd
+ * cbll invblidbteScbler() (thbt will throw FontScblerException).
  *
- * Note that callee is responsible for releasing native scaler context.
+ * Note thbt cbllee is responsible for relebsing nbtive scbler context.
  */
-class FreetypeFontScaler extends FontScaler {
-    /* constants aligned with native code */
-    private static final int TRUETYPE_FONT = 1;
-    private static final int TYPE1_FONT = 2;
+clbss FreetypeFontScbler extends FontScbler {
+    /* constbnts bligned with nbtive code */
+    privbte stbtic finbl int TRUETYPE_FONT = 1;
+    privbte stbtic finbl int TYPE1_FONT = 2;
 
-    static {
-        /* At the moment fontmanager library depends on freetype library
-           and therefore no need to load it explicitly here */
-        FontManagerNativeLibrary.load();
-        initIDs(FreetypeFontScaler.class);
+    stbtic {
+        /* At the moment fontmbnbger librbry depends on freetype librbry
+           bnd therefore no need to lobd it explicitly here */
+        FontMbnbgerNbtiveLibrbry.lobd();
+        initIDs(FreetypeFontScbler.clbss);
     }
 
-    private static native void initIDs(Class<?> FFS);
+    privbte stbtic nbtive void initIDs(Clbss<?> FFS);
 
-    private void invalidateScaler() throws FontScalerException {
-        nativeScaler = 0;
+    privbte void invblidbteScbler() throws FontScblerException {
+        nbtiveScbler = 0;
         font = null;
-        throw new FontScalerException();
+        throw new FontScblerException();
     }
 
-    public FreetypeFontScaler(Font2D font, int indexInCollection,
-                     boolean supportsCJK, int filesize) {
+    public FreetypeFontScbler(Font2D font, int indexInCollection,
+                     boolebn supportsCJK, int filesize) {
         int fonttype = TRUETYPE_FONT;
-        if (font instanceof Type1Font) {
+        if (font instbnceof Type1Font) {
             fonttype = TYPE1_FONT;
         }
-        nativeScaler = initNativeScaler(font,
+        nbtiveScbler = initNbtiveScbler(font,
                                         fonttype,
                                         indexInCollection,
                                         supportsCJK,
                                         filesize);
-        this.font = new WeakReference<>(font);
+        this.font = new WebkReference<>(font);
     }
 
-    synchronized StrikeMetrics getFontMetrics(long pScalerContext)
-                     throws FontScalerException {
-        if (nativeScaler != 0L) {
-                return getFontMetricsNative(font.get(),
-                                            pScalerContext,
-                                            nativeScaler);
+    synchronized StrikeMetrics getFontMetrics(long pScblerContext)
+                     throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+                return getFontMetricsNbtive(font.get(),
+                                            pScblerContext,
+                                            nbtiveScbler);
         }
-        return FontScaler.getNullScaler().getFontMetrics(0L);
+        return FontScbler.getNullScbler().getFontMetrics(0L);
     }
 
-    synchronized float getGlyphAdvance(long pScalerContext, int glyphCode)
-                     throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getGlyphAdvanceNative(font.get(),
-                                         pScalerContext,
-                                         nativeScaler,
+    synchronized flobt getGlyphAdvbnce(long pScblerContext, int glyphCode)
+                     throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getGlyphAdvbnceNbtive(font.get(),
+                                         pScblerContext,
+                                         nbtiveScbler,
                                          glyphCode);
         }
-        return FontScaler.getNullScaler().
-            getGlyphAdvance(0L, glyphCode);
+        return FontScbler.getNullScbler().
+            getGlyphAdvbnce(0L, glyphCode);
     }
 
-    synchronized void getGlyphMetrics(long pScalerContext,
-                     int glyphCode, Point2D.Float metrics)
-                     throws FontScalerException {
-        if (nativeScaler != 0L) {
-            getGlyphMetricsNative(font.get(),
-                                  pScalerContext,
-                                  nativeScaler,
+    synchronized void getGlyphMetrics(long pScblerContext,
+                     int glyphCode, Point2D.Flobt metrics)
+                     throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            getGlyphMetricsNbtive(font.get(),
+                                  pScblerContext,
+                                  nbtiveScbler,
                                   glyphCode,
                                   metrics);
             return;
         }
-        FontScaler.getNullScaler().
+        FontScbler.getNullScbler().
             getGlyphMetrics(0L, glyphCode, metrics);
     }
 
-    synchronized long getGlyphImage(long pScalerContext, int glyphCode)
-                     throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getGlyphImageNative(font.get(),
-                                       pScalerContext,
-                                       nativeScaler,
+    synchronized long getGlyphImbge(long pScblerContext, int glyphCode)
+                     throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getGlyphImbgeNbtive(font.get(),
+                                       pScblerContext,
+                                       nbtiveScbler,
                                        glyphCode);
         }
-        return FontScaler.getNullScaler().
-            getGlyphImage(0L, glyphCode);
+        return FontScbler.getNullScbler().
+            getGlyphImbge(0L, glyphCode);
     }
 
-    synchronized Rectangle2D.Float getGlyphOutlineBounds(
-                     long pScalerContext, int glyphCode)
-                     throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getGlyphOutlineBoundsNative(font.get(),
-                                               pScalerContext,
-                                               nativeScaler,
+    synchronized Rectbngle2D.Flobt getGlyphOutlineBounds(
+                     long pScblerContext, int glyphCode)
+                     throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getGlyphOutlineBoundsNbtive(font.get(),
+                                               pScblerContext,
+                                               nbtiveScbler,
                                                glyphCode);
         }
-        return FontScaler.getNullScaler().
+        return FontScbler.getNullScbler().
             getGlyphOutlineBounds(0L,glyphCode);
     }
 
-    synchronized GeneralPath getGlyphOutline(
-                     long pScalerContext, int glyphCode, float x, float y)
-                     throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getGlyphOutlineNative(font.get(),
-                                         pScalerContext,
-                                         nativeScaler,
+    synchronized GenerblPbth getGlyphOutline(
+                     long pScblerContext, int glyphCode, flobt x, flobt y)
+                     throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getGlyphOutlineNbtive(font.get(),
+                                         pScblerContext,
+                                         nbtiveScbler,
                                          glyphCode,
                                          x, y);
         }
-        return FontScaler.getNullScaler().
+        return FontScbler.getNullScbler().
             getGlyphOutline(0L, glyphCode, x,y);
     }
 
-    synchronized GeneralPath getGlyphVectorOutline(
-                     long pScalerContext, int[] glyphs, int numGlyphs,
-                     float x, float y) throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getGlyphVectorOutlineNative(font.get(),
-                                               pScalerContext,
-                                               nativeScaler,
+    synchronized GenerblPbth getGlyphVectorOutline(
+                     long pScblerContext, int[] glyphs, int numGlyphs,
+                     flobt x, flobt y) throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getGlyphVectorOutlineNbtive(font.get(),
+                                               pScblerContext,
+                                               nbtiveScbler,
                                                glyphs,
                                                numGlyphs,
                                                x, y);
         }
-        return FontScaler
-            .getNullScaler().getGlyphVectorOutline(0L, glyphs, numGlyphs, x, y);
+        return FontScbler
+            .getNullScbler().getGlyphVectorOutline(0L, glyphs, numGlyphs, x, y);
     }
 
-    synchronized long getLayoutTableCache() throws FontScalerException {
-        return getLayoutTableCacheNative(nativeScaler);
+    synchronized long getLbyoutTbbleCbche() throws FontScblerException {
+        return getLbyoutTbbleCbcheNbtive(nbtiveScbler);
     }
 
     public synchronized void dispose() {
-        if (nativeScaler != 0L) {
-            disposeNativeScaler(font.get(), nativeScaler);
-            nativeScaler = 0L;
+        if (nbtiveScbler != 0L) {
+            disposeNbtiveScbler(font.get(), nbtiveScbler);
+            nbtiveScbler = 0L;
         }
     }
 
-    synchronized int getNumGlyphs() throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getNumGlyphsNative(nativeScaler);
+    synchronized int getNumGlyphs() throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getNumGlyphsNbtive(nbtiveScbler);
         }
-        return FontScaler.getNullScaler().getNumGlyphs();
+        return FontScbler.getNullScbler().getNumGlyphs();
     }
 
-    synchronized int getMissingGlyphCode()  throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getMissingGlyphCodeNative(nativeScaler);
+    synchronized int getMissingGlyphCode()  throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getMissingGlyphCodeNbtive(nbtiveScbler);
         }
-        return FontScaler.getNullScaler().getMissingGlyphCode();
+        return FontScbler.getNullScbler().getMissingGlyphCode();
     }
 
-    synchronized int getGlyphCode(char charCode) throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getGlyphCodeNative(font.get(), nativeScaler, charCode);
+    synchronized int getGlyphCode(chbr chbrCode) throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getGlyphCodeNbtive(font.get(), nbtiveScbler, chbrCode);
         }
-        return FontScaler.getNullScaler().getGlyphCode(charCode);
+        return FontScbler.getNullScbler().getGlyphCode(chbrCode);
     }
 
-    synchronized Point2D.Float getGlyphPoint(long pScalerContext,
+    synchronized Point2D.Flobt getGlyphPoint(long pScblerContext,
                                        int glyphCode, int ptNumber)
-                               throws FontScalerException {
-        if (nativeScaler != 0L) {
-            return getGlyphPointNative(font.get(), pScalerContext,
-                                      nativeScaler, glyphCode, ptNumber);
+                               throws FontScblerException {
+        if (nbtiveScbler != 0L) {
+            return getGlyphPointNbtive(font.get(), pScblerContext,
+                                      nbtiveScbler, glyphCode, ptNumber);
         }
-        return FontScaler.getNullScaler().getGlyphPoint(
-                   pScalerContext, glyphCode,  ptNumber);
+        return FontScbler.getNullScbler().getGlyphPoint(
+                   pScblerContext, glyphCode,  ptNumber);
     }
 
     synchronized long getUnitsPerEm() {
-        return getUnitsPerEMNative(nativeScaler);
+        return getUnitsPerEMNbtive(nbtiveScbler);
     }
 
-    long createScalerContext(double[] matrix,
-            int aa, int fm, float boldness, float italic,
-            boolean disableHinting) {
-        if (nativeScaler != 0L) {
-            return createScalerContextNative(nativeScaler, matrix,
-                                             aa, fm, boldness, italic);
+    long crebteScblerContext(double[] mbtrix,
+            int bb, int fm, flobt boldness, flobt itblic,
+            boolebn disbbleHinting) {
+        if (nbtiveScbler != 0L) {
+            return crebteScblerContextNbtive(nbtiveScbler, mbtrix,
+                                             bb, fm, boldness, itblic);
         }
-        return NullFontScaler.getNullScalerContext();
+        return NullFontScbler.getNullScblerContext();
     }
 
-    //Note: native methods can throw RuntimeException if processing fails
-    private native long initNativeScaler(Font2D font, int type,
-            int indexInCollection, boolean supportsCJK, int filesize);
-    private native StrikeMetrics getFontMetricsNative(Font2D font,
-            long pScalerContext, long pScaler);
-    private native float getGlyphAdvanceNative(Font2D font,
-            long pScalerContext, long pScaler, int glyphCode);
-    private native void getGlyphMetricsNative(Font2D font,
-            long pScalerContext, long pScaler,
-            int glyphCode, Point2D.Float metrics);
-    private native long getGlyphImageNative(Font2D font,
-            long pScalerContext, long pScaler, int glyphCode);
-    private native Rectangle2D.Float getGlyphOutlineBoundsNative(Font2D font,
-            long pScalerContext, long pScaler, int glyphCode);
-    private native GeneralPath getGlyphOutlineNative(Font2D font,
-            long pScalerContext, long pScaler,
-            int glyphCode, float x, float y);
-    private native GeneralPath getGlyphVectorOutlineNative(Font2D font,
-            long pScalerContext, long pScaler,
-            int[] glyphs, int numGlyphs, float x, float y);
-    native Point2D.Float getGlyphPointNative(Font2D font,
-            long pScalerContext, long pScaler, int glyphCode, int ptNumber);
+    //Note: nbtive methods cbn throw RuntimeException if processing fbils
+    privbte nbtive long initNbtiveScbler(Font2D font, int type,
+            int indexInCollection, boolebn supportsCJK, int filesize);
+    privbte nbtive StrikeMetrics getFontMetricsNbtive(Font2D font,
+            long pScblerContext, long pScbler);
+    privbte nbtive flobt getGlyphAdvbnceNbtive(Font2D font,
+            long pScblerContext, long pScbler, int glyphCode);
+    privbte nbtive void getGlyphMetricsNbtive(Font2D font,
+            long pScblerContext, long pScbler,
+            int glyphCode, Point2D.Flobt metrics);
+    privbte nbtive long getGlyphImbgeNbtive(Font2D font,
+            long pScblerContext, long pScbler, int glyphCode);
+    privbte nbtive Rectbngle2D.Flobt getGlyphOutlineBoundsNbtive(Font2D font,
+            long pScblerContext, long pScbler, int glyphCode);
+    privbte nbtive GenerblPbth getGlyphOutlineNbtive(Font2D font,
+            long pScblerContext, long pScbler,
+            int glyphCode, flobt x, flobt y);
+    privbte nbtive GenerblPbth getGlyphVectorOutlineNbtive(Font2D font,
+            long pScblerContext, long pScbler,
+            int[] glyphs, int numGlyphs, flobt x, flobt y);
+    nbtive Point2D.Flobt getGlyphPointNbtive(Font2D font,
+            long pScblerContext, long pScbler, int glyphCode, int ptNumber);
 
-    private native long getLayoutTableCacheNative(long pScaler);
+    privbte nbtive long getLbyoutTbbleCbcheNbtive(long pScbler);
 
-    private native void disposeNativeScaler(Font2D font2D, long pScaler);
+    privbte nbtive void disposeNbtiveScbler(Font2D font2D, long pScbler);
 
-    private native int getGlyphCodeNative(Font2D font, long pScaler, char charCode);
-    private native int getNumGlyphsNative(long pScaler);
-    private native int getMissingGlyphCodeNative(long pScaler);
+    privbte nbtive int getGlyphCodeNbtive(Font2D font, long pScbler, chbr chbrCode);
+    privbte nbtive int getNumGlyphsNbtive(long pScbler);
+    privbte nbtive int getMissingGlyphCodeNbtive(long pScbler);
 
-    private native long getUnitsPerEMNative(long pScaler);
+    privbte nbtive long getUnitsPerEMNbtive(long pScbler);
 
-    native long createScalerContextNative(long pScaler, double[] matrix,
-            int aa, int fm, float boldness, float italic);
+    nbtive long crebteScblerContextNbtive(long pScbler, double[] mbtrix,
+            int bb, int fm, flobt boldness, flobt itblic);
 
-    /* Freetype scaler context does not contain any pointers that
-       has to be invalidated if native scaler is bad */
-    void invalidateScalerContext(long pScalerContext) {}
+    /* Freetype scbler context does not contbin bny pointers thbt
+       hbs to be invblidbted if nbtive scbler is bbd */
+    void invblidbteScblerContext(long pScblerContext) {}
 }

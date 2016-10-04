@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbNode;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
+import jbvbx.imbgeio.plugins.jpeg.JPEGHuffmbnTbble;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import jbvb.io.IOException;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 
 /**
- * A DHT (Define Huffman Table) marker segment.
+ * A DHT (Define Huffmbn Tbble) mbrker segment.
  */
-class DHTMarkerSegment extends MarkerSegment {
-    List<Htable> tables = new ArrayList<>();
+clbss DHTMbrkerSegment extends MbrkerSegment {
+    List<Htbble> tbbles = new ArrbyList<>();
 
-    DHTMarkerSegment(boolean needFour) {
+    DHTMbrkerSegment(boolebn needFour) {
         super(JPEG.DHT);
-        tables.add(new Htable(JPEGHuffmanTable.StdDCLuminance, true, 0));
+        tbbles.bdd(new Htbble(JPEGHuffmbnTbble.StdDCLuminbnce, true, 0));
         if (needFour) {
-            tables.add(new Htable(JPEGHuffmanTable.StdDCChrominance, true, 1));
+            tbbles.bdd(new Htbble(JPEGHuffmbnTbble.StdDCChrominbnce, true, 1));
         }
-        tables.add(new Htable(JPEGHuffmanTable.StdACLuminance, false, 0));
+        tbbles.bdd(new Htbble(JPEGHuffmbnTbble.StdACLuminbnce, fblse, 0));
         if (needFour) {
-            tables.add(new Htable(JPEGHuffmanTable.StdACChrominance, false, 1));
+            tbbles.bdd(new Htbble(JPEGHuffmbnTbble.StdACChrominbnce, fblse, 1));
         }
     }
 
-    DHTMarkerSegment(JPEGBuffer buffer) throws IOException {
+    DHTMbrkerSegment(JPEGBuffer buffer) throws IOException {
         super(buffer);
         int count = length;
         while (count > 0) {
-            Htable newGuy = new Htable(buffer);
-            tables.add(newGuy);
-            count -= 1 + 16 + newGuy.values.length;
+            Htbble newGuy = new Htbble(buffer);
+            tbbles.bdd(newGuy);
+            count -= 1 + 16 + newGuy.vblues.length;
         }
-        buffer.bufAvail -= length;
+        buffer.bufAvbil -= length;
     }
 
-    DHTMarkerSegment(JPEGHuffmanTable[] dcTables,
-                     JPEGHuffmanTable[] acTables) {
+    DHTMbrkerSegment(JPEGHuffmbnTbble[] dcTbbles,
+                     JPEGHuffmbnTbble[] bcTbbles) {
         super(JPEG.DHT);
-        for (int i = 0; i < dcTables.length; i++) {
-            tables.add(new Htable(dcTables[i], true, i));
+        for (int i = 0; i < dcTbbles.length; i++) {
+            tbbles.bdd(new Htbble(dcTbbles[i], true, i));
         }
-        for (int i = 0; i < acTables.length; i++) {
-            tables.add(new Htable(acTables[i], false, i));
+        for (int i = 0; i < bcTbbles.length; i++) {
+            tbbles.bdd(new Htbble(bcTbbles[i], fblse, i));
         }
     }
 
-    DHTMarkerSegment(Node node) throws IIOInvalidTreeException {
+    DHTMbrkerSegment(Node node) throws IIOInvblidTreeException {
         super(JPEG.DHT);
         NodeList children = node.getChildNodes();
         int size = children.getLength();
         if ((size < 1) || (size > 4)) {
-            throw new IIOInvalidTreeException("Invalid DHT node", node);
+            throw new IIOInvblidTreeException("Invblid DHT node", node);
         }
         for (int i = 0; i < size; i++) {
-            tables.add(new Htable(children.item(i)));
+            tbbles.bdd(new Htbble(children.item(i)));
         }
     }
 
     protected Object clone() {
-        DHTMarkerSegment newGuy = (DHTMarkerSegment) super.clone();
-        newGuy.tables = new ArrayList<>(tables.size());
-        Iterator<Htable> iter = tables.iterator();
-        while (iter.hasNext()) {
-            Htable table = iter.next();
-            newGuy.tables.add((Htable) table.clone());
+        DHTMbrkerSegment newGuy = (DHTMbrkerSegment) super.clone();
+        newGuy.tbbles = new ArrbyList<>(tbbles.size());
+        Iterbtor<Htbble> iter = tbbles.iterbtor();
+        while (iter.hbsNext()) {
+            Htbble tbble = iter.next();
+            newGuy.tbbles.bdd((Htbble) tbble.clone());
         }
         return newGuy;
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("dht");
-        for (int i= 0; i<tables.size(); i++) {
-            Htable table = tables.get(i);
-            node.appendChild(table.getNativeNode());
+    IIOMetbdbtbNode getNbtiveNode() {
+        IIOMetbdbtbNode node = new IIOMetbdbtbNode("dht");
+        for (int i= 0; i<tbbles.size(); i++) {
+            Htbble tbble = tbbles.get(i);
+            node.bppendChild(tbble.getNbtiveNode());
         }
         return node;
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writes the dbtb for this segment to the strebm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        // We don't write DHT segments; the IJG library does.
+    void write(ImbgeOutputStrebm ios) throws IOException {
+        // We don't write DHT segments; the IJG librbry does.
     }
 
     void print() {
-        printTag("DHT");
-        System.out.println("Num tables: "
-                           + Integer.toString(tables.size()));
-        for (int i= 0; i<tables.size(); i++) {
-            Htable table = tables.get(i);
-            table.print();
+        printTbg("DHT");
+        System.out.println("Num tbbles: "
+                           + Integer.toString(tbbles.size()));
+        for (int i= 0; i<tbbles.size(); i++) {
+            Htbble tbble = tbbles.get(i);
+            tbble.print();
         }
         System.out.println();
 
     }
 
-    Htable getHtableFromNode(Node node) throws IIOInvalidTreeException {
-        return new Htable(node);
+    Htbble getHtbbleFromNode(Node node) throws IIOInvblidTreeException {
+        return new Htbble(node);
     }
 
-    void addHtable(JPEGHuffmanTable table, boolean isDC, int id) {
-        tables.add(new Htable(table, isDC, id));
+    void bddHtbble(JPEGHuffmbnTbble tbble, boolebn isDC, int id) {
+        tbbles.bdd(new Htbble(tbble, isDC, id));
     }
 
     /**
-     * A Huffman table within a DHT marker segment.
+     * A Huffmbn tbble within b DHT mbrker segment.
      */
-    class Htable implements Cloneable {
-        int tableClass;  // 0 == DC, 1 == AC
-        int tableID; // 0 - 4
-        private static final int NUM_LENGTHS = 16;
-        // # of codes of each length
+    clbss Htbble implements Clonebble {
+        int tbbleClbss;  // 0 == DC, 1 == AC
+        int tbbleID; // 0 - 4
+        privbte stbtic finbl int NUM_LENGTHS = 16;
+        // # of codes of ebch length
         short [] numCodes = new short[NUM_LENGTHS];
-        short [] values;
+        short [] vblues;
 
-        Htable(JPEGBuffer buffer) {
-            tableClass = buffer.buf[buffer.bufPtr] >>> 4;
-            tableID = buffer.buf[buffer.bufPtr++] & 0xf;
+        Htbble(JPEGBuffer buffer) {
+            tbbleClbss = buffer.buf[buffer.bufPtr] >>> 4;
+            tbbleID = buffer.buf[buffer.bufPtr++] & 0xf;
             for (int i = 0; i < NUM_LENGTHS; i++) {
                 numCodes[i] = (short) (buffer.buf[buffer.bufPtr++] & 0xff);
             }
 
-            int numValues = 0;
+            int numVblues = 0;
             for (int i = 0; i < NUM_LENGTHS; i++) {
-                numValues += numCodes[i];
+                numVblues += numCodes[i];
             }
-            values = new short[numValues];
-            for (int i = 0; i < numValues; i++) {
-                values[i] = (short) (buffer.buf[buffer.bufPtr++] & 0xff);
+            vblues = new short[numVblues];
+            for (int i = 0; i < numVblues; i++) {
+                vblues[i] = (short) (buffer.buf[buffer.bufPtr++] & 0xff);
             }
         }
 
-        Htable(JPEGHuffmanTable table, boolean isDC, int id) {
-            tableClass = isDC ? 0 : 1;
-            tableID = id;
-            numCodes = table.getLengths();
-            values = table.getValues();
+        Htbble(JPEGHuffmbnTbble tbble, boolebn isDC, int id) {
+            tbbleClbss = isDC ? 0 : 1;
+            tbbleID = id;
+            numCodes = tbble.getLengths();
+            vblues = tbble.getVblues();
         }
 
-        Htable(Node node) throws IIOInvalidTreeException {
-            if (node.getNodeName().equals("dhtable")) {
-                NamedNodeMap attrs = node.getAttributes();
-                int count = attrs.getLength();
+        Htbble(Node node) throws IIOInvblidTreeException {
+            if (node.getNodeNbme().equbls("dhtbble")) {
+                NbmedNodeMbp bttrs = node.getAttributes();
+                int count = bttrs.getLength();
                 if (count != 2) {
-                    throw new IIOInvalidTreeException
-                        ("dhtable node must have 2 attributes", node);
+                    throw new IIOInvblidTreeException
+                        ("dhtbble node must hbve 2 bttributes", node);
                 }
-                tableClass = getAttributeValue(node, attrs, "class", 0, 1, true);
-                tableID = getAttributeValue(node, attrs, "htableId", 0, 3, true);
-                if (node instanceof IIOMetadataNode) {
-                    IIOMetadataNode ourNode = (IIOMetadataNode) node;
-                    JPEGHuffmanTable table =
-                        (JPEGHuffmanTable) ourNode.getUserObject();
-                    if (table == null) {
-                        throw new IIOInvalidTreeException
-                            ("dhtable node must have user object", node);
+                tbbleClbss = getAttributeVblue(node, bttrs, "clbss", 0, 1, true);
+                tbbleID = getAttributeVblue(node, bttrs, "htbbleId", 0, 3, true);
+                if (node instbnceof IIOMetbdbtbNode) {
+                    IIOMetbdbtbNode ourNode = (IIOMetbdbtbNode) node;
+                    JPEGHuffmbnTbble tbble =
+                        (JPEGHuffmbnTbble) ourNode.getUserObject();
+                    if (tbble == null) {
+                        throw new IIOInvblidTreeException
+                            ("dhtbble node must hbve user object", node);
                     }
-                    numCodes = table.getLengths();
-                    values = table.getValues();
+                    numCodes = tbble.getLengths();
+                    vblues = tbble.getVblues();
                 } else {
-                    throw new IIOInvalidTreeException
-                        ("dhtable node must have user object", node);
+                    throw new IIOInvblidTreeException
+                        ("dhtbble node must hbve user object", node);
                 }
             } else {
-                throw new IIOInvalidTreeException
-                    ("Invalid node, expected dqtable", node);
+                throw new IIOInvblidTreeException
+                    ("Invblid node, expected dqtbble", node);
             }
 
         }
 
         protected Object clone() {
-            Htable newGuy = null;
+            Htbble newGuy = null;
             try {
-                newGuy = (Htable) super.clone();
-            } catch (CloneNotSupportedException e) {} // won't happen
+                newGuy = (Htbble) super.clone();
+            } cbtch (CloneNotSupportedException e) {} // won't hbppen
             if (numCodes != null) {
                 newGuy.numCodes = numCodes.clone();
             }
-            if (values != null) {
-                newGuy.values = values.clone();
+            if (vblues != null) {
+                newGuy.vblues = vblues.clone();
             }
             return newGuy;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode("dhtable");
-            node.setAttribute("class", Integer.toString(tableClass));
-            node.setAttribute("htableId", Integer.toString(tableID));
+        IIOMetbdbtbNode getNbtiveNode() {
+            IIOMetbdbtbNode node = new IIOMetbdbtbNode("dhtbble");
+            node.setAttribute("clbss", Integer.toString(tbbleClbss));
+            node.setAttribute("htbbleId", Integer.toString(tbbleID));
 
-            node.setUserObject(new JPEGHuffmanTable(numCodes, values));
+            node.setUserObject(new JPEGHuffmbnTbble(numCodes, vblues));
 
             return node;
         }
 
 
         void print() {
-            System.out.println("Huffman Table");
-            System.out.println("table class: "
-                               + ((tableClass == 0) ? "DC":"AC"));
-            System.out.println("table id: " + Integer.toString(tableID));
+            System.out.println("Huffmbn Tbble");
+            System.out.println("tbble clbss: "
+                               + ((tbbleClbss == 0) ? "DC":"AC"));
+            System.out.println("tbble id: " + Integer.toString(tbbleID));
 
-            (new JPEGHuffmanTable(numCodes, values)).toString();
+            (new JPEGHuffmbnTbble(numCodes, vblues)).toString();
             /*
               System.out.print("Lengths:");
               for (int i=0; i<16; i++) {
               System.out.print(" " + Integer.toString(numCodes[i]));
               }
               int count = 0;
-              if (values.length > 16) {
-              System.out.println("\nFirst 16 Values:");
+              if (vblues.length > 16) {
+              System.out.println("\nFirst 16 Vblues:");
               count = 16;
               } else {
-              System.out.println("\nValues:");
-              count = values.length;
+              System.out.println("\nVblues:");
+              count = vblues.length;
               }
               for (int i=0; i<count; i++) {
-              System.out.println(Integer.toString(values[i]&0xff));
+              System.out.println(Integer.toString(vblues[i]&0xff));
               }
             */
         }

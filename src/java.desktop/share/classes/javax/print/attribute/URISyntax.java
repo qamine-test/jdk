@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.Serializable;
-import java.net.URI;
+import jbvb.io.Seriblizbble;
+import jbvb.net.URI;
 
 /**
- * Class URISyntax is an abstract base class providing the common
- * implementation of all attributes whose value is a Uniform Resource
- * Identifier (URI). Once constructed, a URI attribute's value is immutable.
+ * Clbss URISyntbx is bn bbstrbct bbse clbss providing the common
+ * implementbtion of bll bttributes whose vblue is b Uniform Resource
+ * Identifier (URI). Once constructed, b URI bttribute's vblue is immutbble.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public abstract class URISyntax implements Serializable, Cloneable {
+public bbstrbct clbss URISyntbx implements Seriblizbble, Clonebble {
 
-    private static final long serialVersionUID = -7842661210486401678L;
+    privbte stbtic finbl long seriblVersionUID = -7842661210486401678L;
 
     /**
-     * URI value of this URI attribute.
-     * @serial
+     * URI vblue of this URI bttribute.
+     * @seribl
      */
-    private URI uri;
+    privbte URI uri;
 
     /**
-     * Constructs a URI attribute with the specified URI.
+     * Constructs b URI bttribute with the specified URI.
      *
-     * @param  uri  URI.
+     * @pbrbm  uri  URI.
      *
      * @exception  NullPointerException
      *     (unchecked exception) Thrown if <CODE>uri</CODE> is null.
      */
-    protected URISyntax(URI uri) {
+    protected URISyntbx(URI uri) {
         this.uri = verify (uri);
     }
 
-    private static URI verify(URI uri) {
+    privbte stbtic URI verify(URI uri) {
         if (uri == null) {
             throw new NullPointerException(" uri is null");
         }
@@ -66,7 +66,7 @@ public abstract class URISyntax implements Serializable, Cloneable {
     }
 
     /**
-     * Returns this URI attribute's URI value.
+     * Returns this URI bttribute's URI vblue.
      * @return the URI.
      */
     public URI getURI()  {
@@ -74,42 +74,42 @@ public abstract class URISyntax implements Serializable, Cloneable {
     }
 
     /**
-     * Returns a hashcode for this URI attribute.
+     * Returns b hbshcode for this URI bttribute.
      *
-     * @return  A hashcode value for this object.
+     * @return  A hbshcode vblue for this object.
      */
-    public int hashCode() {
-        return uri.hashCode();
+    public int hbshCode() {
+        return uri.hbshCode();
     }
 
     /**
-     * Returns whether this URI attribute is equivalent to the passed in
+     * Returns whether this URI bttribute is equivblent to the pbssed in
      * object.
-     * To be equivalent, all of the following conditions must be true:
+     * To be equivblent, bll of the following conditions must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class URISyntax.
+     * <CODE>object</CODE> is bn instbnce of clbss URISyntbx.
      * <LI>
-     * This URI attribute's underlying URI and <CODE>object</CODE>'s
-     * underlying URI are equal.
+     * This URI bttribute's underlying URI bnd <CODE>object</CODE>'s
+     * underlying URI bre equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this URI
-     *          attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this URI
+     *          bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
         return(object != null &&
-               object instanceof URISyntax &&
-               this.uri.equals (((URISyntax) object).uri));
+               object instbnceof URISyntbx &&
+               this.uri.equbls (((URISyntbx) object).uri));
     }
 
     /**
-     * Returns a String identifying this URI attribute. The String is the
-     * string representation of the attribute's underlying URI.
+     * Returns b String identifying this URI bttribute. The String is the
+     * string representbtion of the bttribute's underlying URI.
      *
      * @return  A String identifying this object.
      */

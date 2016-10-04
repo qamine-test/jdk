@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.SortedSet;
+import jbvb.util.TreeSet;
 
 
 /**
- * Support for garbage-collection latency requests.
+ * Support for gbrbbge-collection lbtency requests.
  *
- * @author   Mark Reinhold
+ * @buthor   Mbrk Reinhold
  * @since    1.2
  */
 
-public class GC {
+public clbss GC {
 
-    private GC() { }            /* To prevent instantiation */
+    privbte GC() { }            /* To prevent instbntibtion */
 
 
-    /* Latency-target value indicating that there's no active target
+    /* Lbtency-tbrget vblue indicbting thbt there's no bctive tbrget
      */
-    private static final long NO_TARGET = Long.MAX_VALUE;
+    privbte stbtic finbl long NO_TARGET = Long.MAX_VALUE;
 
-    /* The current latency target, or NO_TARGET if there is no target
+    /* The current lbtency tbrget, or NO_TARGET if there is no tbrget
      */
-    private static long latencyTarget = NO_TARGET;
+    privbte stbtic long lbtencyTbrget = NO_TARGET;
 
-    /* The daemon thread that implements the latency-target mechanism,
-     * or null if there is presently no daemon thread
+    /* The dbemon threbd thbt implements the lbtency-tbrget mechbnism,
+     * or null if there is presently no dbemon threbd
      */
-    private static Thread daemon = null;
+    privbte stbtic Threbd dbemon = null;
 
-    /* The lock object for the latencyTarget and daemon fields.  The daemon
-     * thread, if it exists, waits on this lock for notification that the
-     * latency target has changed.
+    /* The lock object for the lbtencyTbrget bnd dbemon fields.  The dbemon
+     * threbd, if it exists, wbits on this lock for notificbtion thbt the
+     * lbtency tbrget hbs chbnged.
      */
-    private static class LatencyLock extends Object { };
-    private static Object lock = new LatencyLock();
+    privbte stbtic clbss LbtencyLock extends Object { };
+    privbte stbtic Object lock = new LbtencyLock();
 
 
     /**
-     * Returns the maximum <em>object-inspection age</em>, which is the number
-     * of real-time milliseconds that have elapsed since the
-     * least-recently-inspected heap object was last inspected by the garbage
+     * Returns the mbximum <em>object-inspection bge</em>, which is the number
+     * of rebl-time milliseconds thbt hbve elbpsed since the
+     * lebst-recently-inspected hebp object wbs lbst inspected by the gbrbbge
      * collector.
      *
-     * <p> For simple stop-the-world collectors this value is just the time
-     * since the most recent collection.  For generational collectors it is the
-     * time since the oldest generation was most recently collected.  Other
-     * collectors are free to return a pessimistic estimate of the elapsed
-     * time, or simply the time since the last full collection was performed.
+     * <p> For simple stop-the-world collectors this vblue is just the time
+     * since the most recent collection.  For generbtionbl collectors it is the
+     * time since the oldest generbtion wbs most recently collected.  Other
+     * collectors bre free to return b pessimistic estimbte of the elbpsed
+     * time, or simply the time since the lbst full collection wbs performed.
      *
-     * <p> Note that in the presence of reference objects, a given object that
-     * is no longer strongly reachable may have to be inspected multiple times
-     * before it can be reclaimed.
+     * <p> Note thbt in the presence of reference objects, b given object thbt
+     * is no longer strongly rebchbble mby hbve to be inspected multiple times
+     * before it cbn be reclbimed.
      */
-    public static native long maxObjectInspectionAge();
+    public stbtic nbtive long mbxObjectInspectionAge();
 
 
-    private static class Daemon extends Thread {
+    privbte stbtic clbss Dbemon extends Threbd {
 
         public void run() {
             for (;;) {
                 long l;
                 synchronized (lock) {
 
-                    l = latencyTarget;
+                    l = lbtencyTbrget;
                     if (l == NO_TARGET) {
-                        /* No latency target, so exit */
-                        GC.daemon = null;
+                        /* No lbtency tbrget, so exit */
+                        GC.dbemon = null;
                         return;
                     }
 
-                    long d = maxObjectInspectionAge();
+                    long d = mbxObjectInspectionAge();
                     if (d >= l) {
-                        /* Do a full collection.  There is a remote possibility
-                         * that a full collection will occurr between the time
-                         * we sample the inspection age and the time the GC
-                         * actually starts, but this is sufficiently unlikely
-                         * that it doesn't seem worth the more expensive JVM
-                         * interface that would be required.
+                        /* Do b full collection.  There is b remote possibility
+                         * thbt b full collection will occurr between the time
+                         * we sbmple the inspection bge bnd the time the GC
+                         * bctublly stbrts, but this is sufficiently unlikely
+                         * thbt it doesn't seem worth the more expensive JVM
+                         * interfbce thbt would be required.
                          */
                         System.gc();
                         d = 0;
                     }
 
-                    /* Wait for the latency period to expire,
-                     * or for notification that the period has changed
+                    /* Wbit for the lbtency period to expire,
+                     * or for notificbtion thbt the period hbs chbnged
                      */
                     try {
-                        lock.wait(l - d);
-                    } catch (InterruptedException x) {
+                        lock.wbit(l - d);
+                    } cbtch (InterruptedException x) {
                         continue;
                     }
                 }
             }
         }
 
-        private Daemon(ThreadGroup tg) {
-            super(tg, "GC Daemon");
+        privbte Dbemon(ThrebdGroup tg) {
+            super(tg, "GC Dbemon");
         }
 
-        /* Create a new daemon thread in the root thread group */
-        public static void create() {
-            PrivilegedAction<Void> pa = new PrivilegedAction<Void>() {
+        /* Crebte b new dbemon threbd in the root threbd group */
+        public stbtic void crebte() {
+            PrivilegedAction<Void> pb = new PrivilegedAction<Void>() {
                 public Void run() {
-                    ThreadGroup tg = Thread.currentThread().getThreadGroup();
-                    for (ThreadGroup tgn = tg;
+                    ThrebdGroup tg = Threbd.currentThrebd().getThrebdGroup();
+                    for (ThrebdGroup tgn = tg;
                          tgn != null;
-                         tg = tgn, tgn = tg.getParent());
-                    Daemon d = new Daemon(tg);
-                    d.setDaemon(true);
-                    d.setPriority(Thread.MIN_PRIORITY + 1);
-                    d.start();
-                    GC.daemon = d;
+                         tg = tgn, tgn = tg.getPbrent());
+                    Dbemon d = new Dbemon(tg);
+                    d.setDbemon(true);
+                    d.setPriority(Threbd.MIN_PRIORITY + 1);
+                    d.stbrt();
+                    GC.dbemon = d;
                     return null;
                 }};
-            AccessController.doPrivileged(pa);
+            AccessController.doPrivileged(pb);
         }
 
     }
 
 
-    /* Sets the latency target to the given value.
+    /* Sets the lbtency tbrget to the given vblue.
      * Must be invoked while holding the lock.
      */
-    private static void setLatencyTarget(long ms) {
-        latencyTarget = ms;
-        if (daemon == null) {
-            /* Create a new daemon thread */
-            Daemon.create();
+    privbte stbtic void setLbtencyTbrget(long ms) {
+        lbtencyTbrget = ms;
+        if (dbemon == null) {
+            /* Crebte b new dbemon threbd */
+            Dbemon.crebte();
         } else {
-            /* Notify the existing daemon thread
-             * that the lateency target has changed
+            /* Notify the existing dbemon threbd
+             * thbt the lbteency tbrget hbs chbnged
              */
             lock.notify();
         }
@@ -165,119 +165,119 @@ public class GC {
 
 
     /**
-     * Represents an active garbage-collection latency request.  Instances of
-     * this class are created by the <code>{@link #requestLatency}</code>
-     * method.  Given a request, the only interesting operation is that of
-     * cancellation.
+     * Represents bn bctive gbrbbge-collection lbtency request.  Instbnces of
+     * this clbss bre crebted by the <code>{@link #requestLbtency}</code>
+     * method.  Given b request, the only interesting operbtion is thbt of
+     * cbncellbtion.
      */
-    public static class LatencyRequest
-        implements Comparable<LatencyRequest> {
+    public stbtic clbss LbtencyRequest
+        implements Compbrbble<LbtencyRequest> {
 
-        /* Instance counter, used to generate unique identifers */
-        private static long counter = 0;
+        /* Instbnce counter, used to generbte unique identifers */
+        privbte stbtic long counter = 0;
 
-        /* Sorted set of active latency requests */
-        private static SortedSet<LatencyRequest> requests = null;
+        /* Sorted set of bctive lbtency requests */
+        privbte stbtic SortedSet<LbtencyRequest> requests = null;
 
-        /* Examine the request set and reset the latency target if necessary.
+        /* Exbmine the request set bnd reset the lbtency tbrget if necessbry.
          * Must be invoked while holding the lock.
          */
-        private static void adjustLatencyIfNeeded() {
+        privbte stbtic void bdjustLbtencyIfNeeded() {
             if ((requests == null) || requests.isEmpty()) {
-                if (latencyTarget != NO_TARGET) {
-                    setLatencyTarget(NO_TARGET);
+                if (lbtencyTbrget != NO_TARGET) {
+                    setLbtencyTbrget(NO_TARGET);
                 }
             } else {
-                LatencyRequest r = requests.first();
-                if (r.latency != latencyTarget) {
-                    setLatencyTarget(r.latency);
+                LbtencyRequest r = requests.first();
+                if (r.lbtency != lbtencyTbrget) {
+                    setLbtencyTbrget(r.lbtency);
                 }
             }
         }
 
-        /* The requested latency, or NO_TARGET
-         * if this request has been cancelled
+        /* The requested lbtency, or NO_TARGET
+         * if this request hbs been cbncelled
          */
-        private long latency;
+        privbte long lbtency;
 
         /* Unique identifier for this request */
-        private long id;
+        privbte long id;
 
-        private LatencyRequest(long ms) {
+        privbte LbtencyRequest(long ms) {
             if (ms <= 0) {
-                throw new IllegalArgumentException("Non-positive latency: "
+                throw new IllegblArgumentException("Non-positive lbtency: "
                                                    + ms);
             }
-            this.latency = ms;
+            this.lbtency = ms;
             synchronized (lock) {
                 this.id = ++counter;
                 if (requests == null) {
-                    requests = new TreeSet<LatencyRequest>();
+                    requests = new TreeSet<LbtencyRequest>();
                 }
-                requests.add(this);
-                adjustLatencyIfNeeded();
+                requests.bdd(this);
+                bdjustLbtencyIfNeeded();
             }
         }
 
         /**
-         * Cancels this latency request.
+         * Cbncels this lbtency request.
          *
-         * @throws  IllegalStateException
-         *          If this request has already been cancelled
+         * @throws  IllegblStbteException
+         *          If this request hbs blrebdy been cbncelled
          */
-        public void cancel() {
+        public void cbncel() {
             synchronized (lock) {
-                if (this.latency == NO_TARGET) {
-                    throw new IllegalStateException("Request already"
-                                                    + " cancelled");
+                if (this.lbtency == NO_TARGET) {
+                    throw new IllegblStbteException("Request blrebdy"
+                                                    + " cbncelled");
                 }
                 if (!requests.remove(this)) {
-                    throw new InternalError("Latency request "
+                    throw new InternblError("Lbtency request "
                                             + this + " not found");
                 }
                 if (requests.isEmpty()) requests = null;
-                this.latency = NO_TARGET;
-                adjustLatencyIfNeeded();
+                this.lbtency = NO_TARGET;
+                bdjustLbtencyIfNeeded();
             }
         }
 
-        public int compareTo(LatencyRequest r) {
-            long d = this.latency - r.latency;
+        public int compbreTo(LbtencyRequest r) {
+            long d = this.lbtency - r.lbtency;
             if (d == 0) d = this.id - r.id;
             return (d < 0) ? -1 : ((d > 0) ? +1 : 0);
         }
 
         public String toString() {
-            return (LatencyRequest.class.getName()
-                    + "[" + latency + "," + id + "]");
+            return (LbtencyRequest.clbss.getNbme()
+                    + "[" + lbtency + "," + id + "]");
         }
 
     }
 
 
     /**
-     * Makes a new request for a garbage-collection latency of the given
-     * number of real-time milliseconds.  A low-priority daemon thread makes a
-     * best effort to ensure that the maximum object-inspection age never
-     * exceeds the smallest of the currently active requests.
+     * Mbkes b new request for b gbrbbge-collection lbtency of the given
+     * number of rebl-time milliseconds.  A low-priority dbemon threbd mbkes b
+     * best effort to ensure thbt the mbximum object-inspection bge never
+     * exceeds the smbllest of the currently bctive requests.
      *
-     * @param   latency
-     *          The requested latency
+     * @pbrbm   lbtency
+     *          The requested lbtency
      *
-     * @throws  IllegalArgumentException
-     *          If the given <code>latency</code> is non-positive
+     * @throws  IllegblArgumentException
+     *          If the given <code>lbtency</code> is non-positive
      */
-    public static LatencyRequest requestLatency(long latency) {
-        return new LatencyRequest(latency);
+    public stbtic LbtencyRequest requestLbtency(long lbtency) {
+        return new LbtencyRequest(lbtency);
     }
 
 
     /**
-     * Returns the current smallest garbage-collection latency request, or zero
-     * if there are no active requests.
+     * Returns the current smbllest gbrbbge-collection lbtency request, or zero
+     * if there bre no bctive requests.
      */
-    public static long currentLatencyTarget() {
-        long t = latencyTarget;
+    public stbtic long currentLbtencyTbrget() {
+        long t = lbtencyTbrget;
         return (t == NO_TARGET) ? 0 : t;
     }
 

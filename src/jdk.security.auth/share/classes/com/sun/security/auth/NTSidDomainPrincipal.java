@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth;
+pbckbge com.sun.security.buth;
 
 /**
- * <p> This class extends <code>NTSid</code>
- * and represents a Windows NT user's domain SID.
+ * <p> This clbss extends <code>NTSid</code>
+ * bnd represents b Windows NT user's dombin SID.
  *
- * <p> An NT user only has a domain SID if in fact they are logged
- * into an NT domain.  If the user is logged into a workgroup or
- * just a standalone configuration, they will NOT have a domain SID.
+ * <p> An NT user only hbs b dombin SID if in fbct they bre logged
+ * into bn NT dombin.  If the user is logged into b workgroup or
+ * just b stbndblone configurbtion, they will NOT hbve b dombin SID.
  *
- * <p> Principals such as this <code>NTSidDomainPrincipal</code>
- * may be associated with a particular <code>Subject</code>
- * to augment that <code>Subject</code> with an additional
- * identity.  Refer to the <code>Subject</code> class for more information
- * on how to achieve this.  Authorization decisions can then be based upon
- * the Principals associated with a <code>Subject</code>.
+ * <p> Principbls such bs this <code>NTSidDombinPrincipbl</code>
+ * mby be bssocibted with b pbrticulbr <code>Subject</code>
+ * to bugment thbt <code>Subject</code> with bn bdditionbl
+ * identity.  Refer to the <code>Subject</code> clbss for more informbtion
+ * on how to bchieve this.  Authorizbtion decisions cbn then be bbsed upon
+ * the Principbls bssocibted with b <code>Subject</code>.
  *
- * @see java.security.Principal
- * @see javax.security.auth.Subject
+ * @see jbvb.security.Principbl
+ * @see jbvbx.security.buth.Subject
  */
 @jdk.Exported
-public class NTSidDomainPrincipal extends NTSid {
+public clbss NTSidDombinPrincipbl extends NTSid {
 
-    private static final long serialVersionUID = 5247810785821650912L;
+    privbte stbtic finbl long seriblVersionUID = 5247810785821650912L;
 
     /**
-     * Create an <code>NTSidDomainPrincipal</code> with a Windows NT SID.
+     * Crebte bn <code>NTSidDombinPrincipbl</code> with b Windows NT SID.
      *
      * <p>
      *
-     * @param name a string version of the Windows NT SID for this
-     *                  user's domain.<p>
+     * @pbrbm nbme b string version of the Windows NT SID for this
+     *                  user's dombin.<p>
      *
-     * @exception NullPointerException if the <code>name</code>
+     * @exception NullPointerException if the <code>nbme</code>
      *                  is <code>null</code>.
      */
-    public NTSidDomainPrincipal(String name) {
-        super(name);
+    public NTSidDombinPrincipbl(String nbme) {
+        super(nbme);
     }
 
     /**
-     * Return a string representation of this <code>NTSidDomainPrincipal</code>.
+     * Return b string representbtion of this <code>NTSidDombinPrincipbl</code>.
      *
      * <p>
      *
-     * @return a string representation of this
-     *          <code>NTSidDomainPrincipal</code>.
+     * @return b string representbtion of this
+     *          <code>NTSidDombinPrincipbl</code>.
      */
     public String toString() {
-        java.text.MessageFormat form = new java.text.MessageFormat
+        jbvb.text.MessbgeFormbt form = new jbvb.text.MessbgeFormbt
                 (sun.security.util.ResourcesMgr.getString
-                        ("NTSidDomainPrincipal.name",
+                        ("NTSidDombinPrincipbl.nbme",
                         "sun.security.util.AuthResources"));
-        Object[] source = {getName()};
-        return form.format(source);
+        Object[] source = {getNbme()};
+        return form.formbt(source);
     }
 
     /**
-     * Compares the specified Object with this <code>NTSidDomainPrincipal</code>
-     * for equality.  Returns true if the given object is also a
-     * <code>NTSidDomainPrincipal</code> and the two NTSidDomainPrincipals
-     * have the same SID.
+     * Compbres the specified Object with this <code>NTSidDombinPrincipbl</code>
+     * for equblity.  Returns true if the given object is blso b
+     * <code>NTSidDombinPrincipbl</code> bnd the two NTSidDombinPrincipbls
+     * hbve the sbme SID.
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          <code>NTSidDomainPrincipal</code>.
+     * @pbrbm o Object to be compbred for equblity with this
+     *          <code>NTSidDombinPrincipbl</code>.
      *
-     * @return true if the specified Object is equal equal to this
-     *          <code>NTSidDomainPrincipal</code>.
+     * @return true if the specified Object is equbl equbl to this
+     *          <code>NTSidDombinPrincipbl</code>.
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
             if (o == null)
-                return false;
+                return fblse;
 
         if (this == o)
             return true;
 
-        if (!(o instanceof NTSidDomainPrincipal))
-            return false;
+        if (!(o instbnceof NTSidDombinPrincipbl))
+            return fblse;
 
-        return super.equals(o);
+        return super.equbls(o);
     }
 }

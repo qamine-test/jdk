@@ -1,47 +1,47 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2011 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -54,51 +54,51 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
 
 //----------------------------------------------------------------------------------
 
-// Optimization for 8 bits, Shaper-CLUT (3 inputs only)
+// Optimizbtion for 8 bits, Shbper-CLUT (3 inputs only)
 typedef struct {
 
     cmsContext ContextID;
 
-    const cmsInterpParams* p;   // Tetrahedrical interpolation parameters. This is a not-owned pointer.
+    const cmsInterpPbrbms* p;   // Tetrbhedricbl interpolbtion pbrbmeters. This is b not-owned pointer.
 
     cmsUInt16Number rx[256], ry[256], rz[256];
-    cmsUInt32Number X0[256], Y0[256], Z0[256];  // Precomputed nodes and offsets for 8-bit input data
+    cmsUInt32Number X0[256], Y0[256], Z0[256];  // Precomputed nodes bnd offsets for 8-bit input dbtb
 
 
-} Prelin8Data;
+} Prelin8Dbtb;
 
 
-// Generic optimization for 16 bits Shaper-CLUT-Shaper (any inputs)
+// Generic optimizbtion for 16 bits Shbper-CLUT-Shbper (bny inputs)
 typedef struct {
 
     cmsContext ContextID;
 
-    // Number of channels
+    // Number of chbnnels
     int nInputs;
     int nOutputs;
 
-    _cmsInterpFn16 EvalCurveIn16[MAX_INPUT_DIMENSIONS];       // The maximum number of input channels is known in advance
-    cmsInterpParams*  ParamsCurveIn16[MAX_INPUT_DIMENSIONS];
+    _cmsInterpFn16 EvblCurveIn16[MAX_INPUT_DIMENSIONS];       // The mbximum number of input chbnnels is known in bdvbnce
+    cmsInterpPbrbms*  PbrbmsCurveIn16[MAX_INPUT_DIMENSIONS];
 
-    _cmsInterpFn16 EvalCLUT;            // The evaluator for 3D grid
-    const cmsInterpParams* CLUTparams;  // (not-owned pointer)
-
-
-    _cmsInterpFn16* EvalCurveOut16;       // Points to an array of curve evaluators in 16 bits (not-owned pointer)
-    cmsInterpParams**  ParamsCurveOut16;  // Points to an array of references to interpolation params (not-owned pointer)
+    _cmsInterpFn16 EvblCLUT;            // The evblubtor for 3D grid
+    const cmsInterpPbrbms* CLUTpbrbms;  // (not-owned pointer)
 
 
-} Prelin16Data;
+    _cmsInterpFn16* EvblCurveOut16;       // Points to bn brrby of curve evblubtors in 16 bits (not-owned pointer)
+    cmsInterpPbrbms**  PbrbmsCurveOut16;  // Points to bn brrby of references to interpolbtion pbrbms (not-owned pointer)
 
 
-// Optimization for matrix-shaper in 8 bits. Numbers are operated in n.14 signed, tables are stored in 1.14 fixed
+} Prelin16Dbtb;
 
-typedef cmsInt32Number cmsS1Fixed14Number;   // Note that this may hold more than 16 bits!
+
+// Optimizbtion for mbtrix-shbper in 8 bits. Numbers bre operbted in n.14 signed, tbbles bre stored in 1.14 fixed
+
+typedef cmsInt32Number cmsS1Fixed14Number;   // Note thbt this mby hold more thbn 16 bits!
 
 #define DOUBLE_TO_1FIXED14(x) ((cmsS1Fixed14Number) floor((x) * 16384.0 + 0.5))
 
@@ -106,54 +106,54 @@ typedef struct {
 
     cmsContext ContextID;
 
-    cmsS1Fixed14Number Shaper1R[256];  // from 0..255 to 1.14  (0.0...1.0)
-    cmsS1Fixed14Number Shaper1G[256];
-    cmsS1Fixed14Number Shaper1B[256];
+    cmsS1Fixed14Number Shbper1R[256];  // from 0..255 to 1.14  (0.0...1.0)
+    cmsS1Fixed14Number Shbper1G[256];
+    cmsS1Fixed14Number Shbper1B[256];
 
-    cmsS1Fixed14Number Mat[3][3];     // n.14 to n.14 (needs a saturation after that)
+    cmsS1Fixed14Number Mbt[3][3];     // n.14 to n.14 (needs b sbturbtion bfter thbt)
     cmsS1Fixed14Number Off[3];
 
-    cmsUInt16Number Shaper2R[16385];    // 1.14 to 0..255
-    cmsUInt16Number Shaper2G[16385];
-    cmsUInt16Number Shaper2B[16385];
+    cmsUInt16Number Shbper2R[16385];    // 1.14 to 0..255
+    cmsUInt16Number Shbper2G[16385];
+    cmsUInt16Number Shbper2B[16385];
 
-} MatShaper8Data;
+} MbtShbper8Dbtb;
 
-// Curves, optimization is shared between 8 and 16 bits
+// Curves, optimizbtion is shbred between 8 bnd 16 bits
 typedef struct {
 
     cmsContext ContextID;
 
     int nCurves;                  // Number of curves
     int nElements;                // Elements in curves
-    cmsUInt16Number** Curves;     // Points to a dynamically  allocated array
+    cmsUInt16Number** Curves;     // Points to b dynbmicblly  bllocbted brrby
 
-} Curves16Data;
-
-
-// Simple optimizations ----------------------------------------------------------------------------------------------------------
+} Curves16Dbtb;
 
 
-// Remove an element in linked chain
-static
-void _RemoveElement(cmsStage** head)
+// Simple optimizbtions ----------------------------------------------------------------------------------------------------------
+
+
+// Remove bn element in linked chbin
+stbtic
+void _RemoveElement(cmsStbge** hebd)
 {
-    cmsStage* mpe = *head;
-    cmsStage* next = mpe ->Next;
-    *head = next;
-    cmsStageFree(mpe);
+    cmsStbge* mpe = *hebd;
+    cmsStbge* next = mpe ->Next;
+    *hebd = next;
+    cmsStbgeFree(mpe);
 }
 
-// Remove all identities in chain. Note that pt actually is a double pointer to the element that holds the pointer.
-static
-cmsBool _Remove1Op(cmsPipeline* Lut, cmsStageSignature UnaryOp)
+// Remove bll identities in chbin. Note thbt pt bctublly is b double pointer to the element thbt holds the pointer.
+stbtic
+cmsBool _Remove1Op(cmsPipeline* Lut, cmsStbgeSignbture UnbryOp)
 {
-    cmsStage** pt = &Lut ->Elements;
+    cmsStbge** pt = &Lut ->Elements;
     cmsBool AnyOpt = FALSE;
 
     while (*pt != NULL) {
 
-        if ((*pt) ->Implements == UnaryOp) {
+        if ((*pt) ->Implements == UnbryOp) {
             _RemoveElement(pt);
             AnyOpt = TRUE;
         }
@@ -164,12 +164,12 @@ cmsBool _Remove1Op(cmsPipeline* Lut, cmsStageSignature UnaryOp)
     return AnyOpt;
 }
 
-// Same, but only if two adjacent elements are found
-static
-cmsBool _Remove2Op(cmsPipeline* Lut, cmsStageSignature Op1, cmsStageSignature Op2)
+// Sbme, but only if two bdjbcent elements bre found
+stbtic
+cmsBool _Remove2Op(cmsPipeline* Lut, cmsStbgeSignbture Op1, cmsStbgeSignbture Op2)
 {
-    cmsStage** pt1;
-    cmsStage** pt2;
+    cmsStbge** pt1;
+    cmsStbge** pt2;
     cmsBool AnyOpt = FALSE;
 
     pt1 = &Lut ->Elements;
@@ -192,9 +192,9 @@ cmsBool _Remove2Op(cmsPipeline* Lut, cmsStageSignature Op1, cmsStageSignature Op
     return AnyOpt;
 }
 
-// Preoptimize just gets rif of no-ops coming paired. Conversion from v2 to v4 followed
-// by a v4 to v2 and vice-versa. The elements are then discarded.
-static
+// Preoptimize just gets rif of no-ops coming pbired. Conversion from v2 to v4 followed
+// by b v4 to v2 bnd vice-versb. The elements bre then discbrded.
+stbtic
 cmsBool PreOptimize(cmsPipeline* Lut)
 {
     cmsBool AnyOpt = FALSE, Opt;
@@ -203,26 +203,26 @@ cmsBool PreOptimize(cmsPipeline* Lut)
 
         Opt = FALSE;
 
-        // Remove all identities
+        // Remove bll identities
         Opt |= _Remove1Op(Lut, cmsSigIdentityElemType);
 
-        // Remove XYZ2Lab followed by Lab2XYZ
-        Opt |= _Remove2Op(Lut, cmsSigXYZ2LabElemType, cmsSigLab2XYZElemType);
+        // Remove XYZ2Lbb followed by Lbb2XYZ
+        Opt |= _Remove2Op(Lut, cmsSigXYZ2LbbElemType, cmsSigLbb2XYZElemType);
 
-        // Remove Lab2XYZ followed by XYZ2Lab
-        Opt |= _Remove2Op(Lut, cmsSigLab2XYZElemType, cmsSigXYZ2LabElemType);
+        // Remove Lbb2XYZ followed by XYZ2Lbb
+        Opt |= _Remove2Op(Lut, cmsSigLbb2XYZElemType, cmsSigXYZ2LbbElemType);
 
         // Remove V4 to V2 followed by V2 to V4
-        Opt |= _Remove2Op(Lut, cmsSigLabV4toV2, cmsSigLabV2toV4);
+        Opt |= _Remove2Op(Lut, cmsSigLbbV4toV2, cmsSigLbbV2toV4);
 
         // Remove V2 to V4 followed by V4 to V2
-        Opt |= _Remove2Op(Lut, cmsSigLabV2toV4, cmsSigLabV4toV2);
+        Opt |= _Remove2Op(Lut, cmsSigLbbV2toV4, cmsSigLbbV4toV2);
 
-        // Remove float pcs Lab conversions
-        Opt |= _Remove2Op(Lut, cmsSigLab2FloatPCS, cmsSigFloatPCS2Lab);
+        // Remove flobt pcs Lbb conversions
+        Opt |= _Remove2Op(Lut, cmsSigLbb2FlobtPCS, cmsSigFlobtPCS2Lbb);
 
-        // Remove float pcs Lab conversions
-        Opt |= _Remove2Op(Lut, cmsSigXYZ2FloatPCS, cmsSigFloatPCS2XYZ);
+        // Remove flobt pcs Lbb conversions
+        Opt |= _Remove2Op(Lut, cmsSigXYZ2FlobtPCS, cmsSigFlobtPCS2XYZ);
 
         if (Opt) AnyOpt = TRUE;
 
@@ -231,8 +231,8 @@ cmsBool PreOptimize(cmsPipeline* Lut)
     return AnyOpt;
 }
 
-static
-void Eval16nop1D(register const cmsUInt16Number Input[],
+stbtic
+void Evbl16nop1D(register const cmsUInt16Number Input[],
                  register cmsUInt16Number Output[],
                  register const struct _cms_interp_struc* p)
 {
@@ -241,64 +241,64 @@ void Eval16nop1D(register const cmsUInt16Number Input[],
     cmsUNUSED_PARAMETER(p);
 }
 
-static
-void PrelinEval16(register const cmsUInt16Number Input[],
+stbtic
+void PrelinEvbl16(register const cmsUInt16Number Input[],
                   register cmsUInt16Number Output[],
                   register const void* D)
 {
-    Prelin16Data* p16 = (Prelin16Data*) D;
-    cmsUInt16Number  StageABC[MAX_INPUT_DIMENSIONS];
-    cmsUInt16Number  StageDEF[cmsMAXCHANNELS];
+    Prelin16Dbtb* p16 = (Prelin16Dbtb*) D;
+    cmsUInt16Number  StbgeABC[MAX_INPUT_DIMENSIONS];
+    cmsUInt16Number  StbgeDEF[cmsMAXCHANNELS];
     int i;
 
     for (i=0; i < p16 ->nInputs; i++) {
 
-        p16 ->EvalCurveIn16[i](&Input[i], &StageABC[i], p16 ->ParamsCurveIn16[i]);
+        p16 ->EvblCurveIn16[i](&Input[i], &StbgeABC[i], p16 ->PbrbmsCurveIn16[i]);
     }
 
-    p16 ->EvalCLUT(StageABC, StageDEF, p16 ->CLUTparams);
+    p16 ->EvblCLUT(StbgeABC, StbgeDEF, p16 ->CLUTpbrbms);
 
     for (i=0; i < p16 ->nOutputs; i++) {
 
-        p16 ->EvalCurveOut16[i](&StageDEF[i], &Output[i], p16 ->ParamsCurveOut16[i]);
+        p16 ->EvblCurveOut16[i](&StbgeDEF[i], &Output[i], p16 ->PbrbmsCurveOut16[i]);
     }
 }
 
 
-static
+stbtic
 void PrelinOpt16free(cmsContext ContextID, void* ptr)
 {
-    Prelin16Data* p16 = (Prelin16Data*) ptr;
+    Prelin16Dbtb* p16 = (Prelin16Dbtb*) ptr;
 
-    _cmsFree(ContextID, p16 ->EvalCurveOut16);
-    _cmsFree(ContextID, p16 ->ParamsCurveOut16);
+    _cmsFree(ContextID, p16 ->EvblCurveOut16);
+    _cmsFree(ContextID, p16 ->PbrbmsCurveOut16);
 
     _cmsFree(ContextID, p16);
 }
 
-static
+stbtic
 void* Prelin16dup(cmsContext ContextID, const void* ptr)
 {
-    Prelin16Data* p16 = (Prelin16Data*) ptr;
-    Prelin16Data* Duped = _cmsDupMem(ContextID, p16, sizeof(Prelin16Data));
+    Prelin16Dbtb* p16 = (Prelin16Dbtb*) ptr;
+    Prelin16Dbtb* Duped = _cmsDupMem(ContextID, p16, sizeof(Prelin16Dbtb));
 
     if (Duped == NULL) return NULL;
 
-    Duped ->EvalCurveOut16   = _cmsDupMem(ContextID, p16 ->EvalCurveOut16, p16 ->nOutputs * sizeof(_cmsInterpFn16));
-    Duped ->ParamsCurveOut16 = _cmsDupMem(ContextID, p16 ->ParamsCurveOut16, p16 ->nOutputs * sizeof(cmsInterpParams* ));
+    Duped ->EvblCurveOut16   = _cmsDupMem(ContextID, p16 ->EvblCurveOut16, p16 ->nOutputs * sizeof(_cmsInterpFn16));
+    Duped ->PbrbmsCurveOut16 = _cmsDupMem(ContextID, p16 ->PbrbmsCurveOut16, p16 ->nOutputs * sizeof(cmsInterpPbrbms* ));
 
     return Duped;
 }
 
 
-static
-Prelin16Data* PrelinOpt16alloc(cmsContext ContextID,
-                               const cmsInterpParams* ColorMap,
+stbtic
+Prelin16Dbtb* PrelinOpt16blloc(cmsContext ContextID,
+                               const cmsInterpPbrbms* ColorMbp,
                                int nInputs, cmsToneCurve** In,
                                int nOutputs, cmsToneCurve** Out )
 {
     int i;
-    Prelin16Data* p16 = _cmsMallocZero(ContextID, sizeof(Prelin16Data));
+    Prelin16Dbtb* p16 = _cmsMbllocZero(ContextID, sizeof(Prelin16Dbtb));
     if (p16 == NULL) return NULL;
 
     p16 ->nInputs = nInputs;
@@ -308,33 +308,33 @@ Prelin16Data* PrelinOpt16alloc(cmsContext ContextID,
     for (i=0; i < nInputs; i++) {
 
         if (In == NULL) {
-            p16 -> ParamsCurveIn16[i] = NULL;
-            p16 -> EvalCurveIn16[i] = Eval16nop1D;
+            p16 -> PbrbmsCurveIn16[i] = NULL;
+            p16 -> EvblCurveIn16[i] = Evbl16nop1D;
 
         }
         else {
-            p16 -> ParamsCurveIn16[i] = In[i] ->InterpParams;
-            p16 -> EvalCurveIn16[i] = p16 ->ParamsCurveIn16[i]->Interpolation.Lerp16;
+            p16 -> PbrbmsCurveIn16[i] = In[i] ->InterpPbrbms;
+            p16 -> EvblCurveIn16[i] = p16 ->PbrbmsCurveIn16[i]->Interpolbtion.Lerp16;
         }
     }
 
-    p16 ->CLUTparams = ColorMap;
-    p16 ->EvalCLUT   = ColorMap ->Interpolation.Lerp16;
+    p16 ->CLUTpbrbms = ColorMbp;
+    p16 ->EvblCLUT   = ColorMbp ->Interpolbtion.Lerp16;
 
 
-    p16 -> EvalCurveOut16 = (_cmsInterpFn16*) _cmsCalloc(ContextID, nOutputs, sizeof(_cmsInterpFn16));
-    p16 -> ParamsCurveOut16 = (cmsInterpParams**) _cmsCalloc(ContextID, nOutputs, sizeof(cmsInterpParams* ));
+    p16 -> EvblCurveOut16 = (_cmsInterpFn16*) _cmsCblloc(ContextID, nOutputs, sizeof(_cmsInterpFn16));
+    p16 -> PbrbmsCurveOut16 = (cmsInterpPbrbms**) _cmsCblloc(ContextID, nOutputs, sizeof(cmsInterpPbrbms* ));
 
     for (i=0; i < nOutputs; i++) {
 
         if (Out == NULL) {
-            p16 ->ParamsCurveOut16[i] = NULL;
-            p16 -> EvalCurveOut16[i] = Eval16nop1D;
+            p16 ->PbrbmsCurveOut16[i] = NULL;
+            p16 -> EvblCurveOut16[i] = Evbl16nop1D;
         }
         else {
 
-            p16 ->ParamsCurveOut16[i] = Out[i] ->InterpParams;
-            p16 -> EvalCurveOut16[i] = p16 ->ParamsCurveOut16[i]->Interpolation.Lerp16;
+            p16 ->PbrbmsCurveOut16[i] = Out[i] ->InterpPbrbms;
+            p16 -> EvblCurveOut16[i] = p16 ->PbrbmsCurveOut16[i]->Interpolbtion.Lerp16;
         }
     }
 
@@ -343,79 +343,79 @@ Prelin16Data* PrelinOpt16alloc(cmsContext ContextID,
 
 
 
-// Resampling ---------------------------------------------------------------------------------
+// Resbmpling ---------------------------------------------------------------------------------
 
 #define PRELINEARIZATION_POINTS 4096
 
-// Sampler implemented by another LUT. This is a clean way to precalculate the devicelink 3D CLUT for
-// almost any transform. We use floating point precision and then convert from floating point to 16 bits.
-static
-int XFormSampler16(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cargo)
+// Sbmpler implemented by bnother LUT. This is b clebn wby to precblculbte the devicelink 3D CLUT for
+// blmost bny trbnsform. We use flobting point precision bnd then convert from flobting point to 16 bits.
+stbtic
+int XFormSbmpler16(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cbrgo)
 {
-    cmsPipeline* Lut = (cmsPipeline*) Cargo;
-    cmsFloat32Number InFloat[cmsMAXCHANNELS], OutFloat[cmsMAXCHANNELS];
+    cmsPipeline* Lut = (cmsPipeline*) Cbrgo;
+    cmsFlobt32Number InFlobt[cmsMAXCHANNELS], OutFlobt[cmsMAXCHANNELS];
     cmsUInt32Number i;
 
-    _cmsAssert(Lut -> InputChannels < cmsMAXCHANNELS);
-    _cmsAssert(Lut -> OutputChannels < cmsMAXCHANNELS);
+    _cmsAssert(Lut -> InputChbnnels < cmsMAXCHANNELS);
+    _cmsAssert(Lut -> OutputChbnnels < cmsMAXCHANNELS);
 
-    // From 16 bit to floating point
-    for (i=0; i < Lut ->InputChannels; i++)
-        InFloat[i] = (cmsFloat32Number) (In[i] / 65535.0);
+    // From 16 bit to flobting point
+    for (i=0; i < Lut ->InputChbnnels; i++)
+        InFlobt[i] = (cmsFlobt32Number) (In[i] / 65535.0);
 
-    // Evaluate in floating point
-    cmsPipelineEvalFloat(InFloat, OutFloat, Lut);
+    // Evblubte in flobting point
+    cmsPipelineEvblFlobt(InFlobt, OutFlobt, Lut);
 
-    // Back to 16 bits representation
-    for (i=0; i < Lut ->OutputChannels; i++)
-        Out[i] = _cmsQuickSaturateWord(OutFloat[i] * 65535.0);
+    // Bbck to 16 bits representbtion
+    for (i=0; i < Lut ->OutputChbnnels; i++)
+        Out[i] = _cmsQuickSbturbteWord(OutFlobt[i] * 65535.0);
 
-    // Always succeed
+    // Alwbys succeed
     return TRUE;
 }
 
-// Try to see if the curves of a given MPE are linear
-static
-cmsBool AllCurvesAreLinear(cmsStage* mpe)
+// Try to see if the curves of b given MPE bre linebr
+stbtic
+cmsBool AllCurvesAreLinebr(cmsStbge* mpe)
 {
     cmsToneCurve** Curves;
     cmsUInt32Number i, n;
 
-    Curves = _cmsStageGetPtrToCurveSet(mpe);
+    Curves = _cmsStbgeGetPtrToCurveSet(mpe);
     if (Curves == NULL) return FALSE;
 
-    n = cmsStageOutputChannels(mpe);
+    n = cmsStbgeOutputChbnnels(mpe);
 
     for (i=0; i < n; i++) {
-        if (!cmsIsToneCurveLinear(Curves[i])) return FALSE;
+        if (!cmsIsToneCurveLinebr(Curves[i])) return FALSE;
     }
 
     return TRUE;
 }
 
-// This function replaces a specific node placed in "At" by the "Value" numbers. Its purpose
-// is to fix scum dot on broken profiles/transforms. Works on 1, 3 and 4 channels
-static
-cmsBool  PatchLUT(cmsStage* CLUT, cmsUInt16Number At[], cmsUInt16Number Value[],
-                  int nChannelsOut, int nChannelsIn)
+// This function replbces b specific node plbced in "At" by the "Vblue" numbers. Its purpose
+// is to fix scum dot on broken profiles/trbnsforms. Works on 1, 3 bnd 4 chbnnels
+stbtic
+cmsBool  PbtchLUT(cmsStbge* CLUT, cmsUInt16Number At[], cmsUInt16Number Vblue[],
+                  int nChbnnelsOut, int nChbnnelsIn)
 {
-    _cmsStageCLutData* Grid = (_cmsStageCLutData*) CLUT ->Data;
-    cmsInterpParams* p16  = Grid ->Params;
-    cmsFloat64Number px, py, pz, pw;
+    _cmsStbgeCLutDbtb* Grid = (_cmsStbgeCLutDbtb*) CLUT ->Dbtb;
+    cmsInterpPbrbms* p16  = Grid ->Pbrbms;
+    cmsFlobt64Number px, py, pz, pw;
     int        x0, y0, z0, w0;
     int        i, index;
 
     if (CLUT -> Type != cmsSigCLutElemType) {
-        cmsSignalError(CLUT->ContextID, cmsERROR_INTERNAL, "(internal) Attempt to PatchLUT on non-lut stage");
+        cmsSignblError(CLUT->ContextID, cmsERROR_INTERNAL, "(internbl) Attempt to PbtchLUT on non-lut stbge");
         return FALSE;
     }
 
-    if (nChannelsIn == 4) {
+    if (nChbnnelsIn == 4) {
 
-        px = ((cmsFloat64Number) At[0] * (p16->Domain[0])) / 65535.0;
-        py = ((cmsFloat64Number) At[1] * (p16->Domain[1])) / 65535.0;
-        pz = ((cmsFloat64Number) At[2] * (p16->Domain[2])) / 65535.0;
-        pw = ((cmsFloat64Number) At[3] * (p16->Domain[3])) / 65535.0;
+        px = ((cmsFlobt64Number) At[0] * (p16->Dombin[0])) / 65535.0;
+        py = ((cmsFlobt64Number) At[1] * (p16->Dombin[1])) / 65535.0;
+        pz = ((cmsFlobt64Number) At[2] * (p16->Dombin[2])) / 65535.0;
+        pw = ((cmsFlobt64Number) At[3] * (p16->Dombin[3])) / 65535.0;
 
         x0 = (int) floor(px);
         y0 = (int) floor(py);
@@ -425,19 +425,19 @@ cmsBool  PatchLUT(cmsStage* CLUT, cmsUInt16Number At[], cmsUInt16Number Value[],
         if (((px - x0) != 0) ||
             ((py - y0) != 0) ||
             ((pz - z0) != 0) ||
-            ((pw - w0) != 0)) return FALSE; // Not on exact node
+            ((pw - w0) != 0)) return FALSE; // Not on exbct node
 
-        index = p16 -> opta[3] * x0 +
-                p16 -> opta[2] * y0 +
-                p16 -> opta[1] * z0 +
-                p16 -> opta[0] * w0;
+        index = p16 -> optb[3] * x0 +
+                p16 -> optb[2] * y0 +
+                p16 -> optb[1] * z0 +
+                p16 -> optb[0] * w0;
     }
     else
-        if (nChannelsIn == 3) {
+        if (nChbnnelsIn == 3) {
 
-            px = ((cmsFloat64Number) At[0] * (p16->Domain[0])) / 65535.0;
-            py = ((cmsFloat64Number) At[1] * (p16->Domain[1])) / 65535.0;
-            pz = ((cmsFloat64Number) At[2] * (p16->Domain[2])) / 65535.0;
+            px = ((cmsFlobt64Number) At[0] * (p16->Dombin[0])) / 65535.0;
+            py = ((cmsFlobt64Number) At[1] * (p16->Dombin[1])) / 65535.0;
+            pz = ((cmsFlobt64Number) At[2] * (p16->Dombin[2])) / 65535.0;
 
             x0 = (int) floor(px);
             y0 = (int) floor(py);
@@ -445,86 +445,86 @@ cmsBool  PatchLUT(cmsStage* CLUT, cmsUInt16Number At[], cmsUInt16Number Value[],
 
             if (((px - x0) != 0) ||
                 ((py - y0) != 0) ||
-                ((pz - z0) != 0)) return FALSE;  // Not on exact node
+                ((pz - z0) != 0)) return FALSE;  // Not on exbct node
 
-            index = p16 -> opta[2] * x0 +
-                    p16 -> opta[1] * y0 +
-                    p16 -> opta[0] * z0;
+            index = p16 -> optb[2] * x0 +
+                    p16 -> optb[1] * y0 +
+                    p16 -> optb[0] * z0;
         }
         else
-            if (nChannelsIn == 1) {
+            if (nChbnnelsIn == 1) {
 
-                px = ((cmsFloat64Number) At[0] * (p16->Domain[0])) / 65535.0;
+                px = ((cmsFlobt64Number) At[0] * (p16->Dombin[0])) / 65535.0;
 
                 x0 = (int) floor(px);
 
-                if (((px - x0) != 0)) return FALSE; // Not on exact node
+                if (((px - x0) != 0)) return FALSE; // Not on exbct node
 
-                index = p16 -> opta[0] * x0;
+                index = p16 -> optb[0] * x0;
             }
             else {
-                cmsSignalError(CLUT->ContextID, cmsERROR_INTERNAL, "(internal) %d Channels are not supported on PatchLUT", nChannelsIn);
+                cmsSignblError(CLUT->ContextID, cmsERROR_INTERNAL, "(internbl) %d Chbnnels bre not supported on PbtchLUT", nChbnnelsIn);
                 return FALSE;
             }
 
-            for (i=0; i < nChannelsOut; i++)
-                Grid -> Tab.T[index + i] = Value[i];
+            for (i=0; i < nChbnnelsOut; i++)
+                Grid -> Tbb.T[index + i] = Vblue[i];
 
             return TRUE;
 }
 
-// Auxiliar, to see if two values are equal or very different
-static
-cmsBool WhitesAreEqual(int n, cmsUInt16Number White1[], cmsUInt16Number White2[] )
+// Auxilibr, to see if two vblues bre equbl or very different
+stbtic
+cmsBool WhitesAreEqubl(int n, cmsUInt16Number White1[], cmsUInt16Number White2[] )
 {
     int i;
 
     for (i=0; i < n; i++) {
 
-        if (abs(White1[i] - White2[i]) > 0xf000) return TRUE;  // Values are so extremly different that the fixup should be avoided
+        if (bbs(White1[i] - White2[i]) > 0xf000) return TRUE;  // Vblues bre so extremly different thbt the fixup should be bvoided
         if (White1[i] != White2[i]) return FALSE;
     }
     return TRUE;
 }
 
 
-// Locate the node for the white point and fix it to pure white in order to avoid scum dot.
-static
-cmsBool FixWhiteMisalignment(cmsPipeline* Lut, cmsColorSpaceSignature EntryColorSpace, cmsColorSpaceSignature ExitColorSpace)
+// Locbte the node for the white point bnd fix it to pure white in order to bvoid scum dot.
+stbtic
+cmsBool FixWhiteMisblignment(cmsPipeline* Lut, cmsColorSpbceSignbture EntryColorSpbce, cmsColorSpbceSignbture ExitColorSpbce)
 {
     cmsUInt16Number *WhitePointIn, *WhitePointOut;
-    cmsUInt16Number  WhiteIn[cmsMAXCHANNELS], WhiteOut[cmsMAXCHANNELS], ObtainedOut[cmsMAXCHANNELS];
+    cmsUInt16Number  WhiteIn[cmsMAXCHANNELS], WhiteOut[cmsMAXCHANNELS], ObtbinedOut[cmsMAXCHANNELS];
     cmsUInt32Number i, nOuts, nIns;
-    cmsStage *PreLin = NULL, *CLUT = NULL, *PostLin = NULL;
+    cmsStbge *PreLin = NULL, *CLUT = NULL, *PostLin = NULL;
 
-    if (!_cmsEndPointsBySpace(EntryColorSpace,
+    if (!_cmsEndPointsBySpbce(EntryColorSpbce,
         &WhitePointIn, NULL, &nIns)) return FALSE;
 
-    if (!_cmsEndPointsBySpace(ExitColorSpace,
+    if (!_cmsEndPointsBySpbce(ExitColorSpbce,
         &WhitePointOut, NULL, &nOuts)) return FALSE;
 
     // It needs to be fixed?
-    if (Lut ->InputChannels != nIns) return FALSE;
-    if (Lut ->OutputChannels != nOuts) return FALSE;
+    if (Lut ->InputChbnnels != nIns) return FALSE;
+    if (Lut ->OutputChbnnels != nOuts) return FALSE;
 
-    cmsPipelineEval16(WhitePointIn, ObtainedOut, Lut);
+    cmsPipelineEvbl16(WhitePointIn, ObtbinedOut, Lut);
 
-    if (WhitesAreEqual(nOuts, WhitePointOut, ObtainedOut)) return TRUE; // whites already match
+    if (WhitesAreEqubl(nOuts, WhitePointOut, ObtbinedOut)) return TRUE; // whites blrebdy mbtch
 
-    // Check if the LUT comes as Prelin, CLUT or Postlin. We allow all combinations
-    if (!cmsPipelineCheckAndRetreiveStages(Lut, 3, cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType, &PreLin, &CLUT, &PostLin))
-        if (!cmsPipelineCheckAndRetreiveStages(Lut, 2, cmsSigCurveSetElemType, cmsSigCLutElemType, &PreLin, &CLUT))
-            if (!cmsPipelineCheckAndRetreiveStages(Lut, 2, cmsSigCLutElemType, cmsSigCurveSetElemType, &CLUT, &PostLin))
-                if (!cmsPipelineCheckAndRetreiveStages(Lut, 1, cmsSigCLutElemType, &CLUT))
+    // Check if the LUT comes bs Prelin, CLUT or Postlin. We bllow bll combinbtions
+    if (!cmsPipelineCheckAndRetreiveStbges(Lut, 3, cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType, &PreLin, &CLUT, &PostLin))
+        if (!cmsPipelineCheckAndRetreiveStbges(Lut, 2, cmsSigCurveSetElemType, cmsSigCLutElemType, &PreLin, &CLUT))
+            if (!cmsPipelineCheckAndRetreiveStbges(Lut, 2, cmsSigCLutElemType, cmsSigCurveSetElemType, &CLUT, &PostLin))
+                if (!cmsPipelineCheckAndRetreiveStbges(Lut, 1, cmsSigCLutElemType, &CLUT))
                     return FALSE;
 
-    // We need to interpolate white points of both, pre and post curves
+    // We need to interpolbte white points of both, pre bnd post curves
     if (PreLin) {
 
-        cmsToneCurve** Curves = _cmsStageGetPtrToCurveSet(PreLin);
+        cmsToneCurve** Curves = _cmsStbgeGetPtrToCurveSet(PreLin);
 
         for (i=0; i < nIns; i++) {
-            WhiteIn[i] = cmsEvalToneCurve16(Curves[i], WhitePointIn[i]);
+            WhiteIn[i] = cmsEvblToneCurve16(Curves[i], WhitePointIn[i]);
         }
     }
     else {
@@ -532,11 +532,11 @@ cmsBool FixWhiteMisalignment(cmsPipeline* Lut, cmsColorSpaceSignature EntryColor
             WhiteIn[i] = WhitePointIn[i];
     }
 
-    // If any post-linearization, we need to find how is represented white before the curve, do
-    // a reverse interpolation in this case.
+    // If bny post-linebrizbtion, we need to find how is represented white before the curve, do
+    // b reverse interpolbtion in this cbse.
     if (PostLin) {
 
-        cmsToneCurve** Curves = _cmsStageGetPtrToCurveSet(PostLin);
+        cmsToneCurve** Curves = _cmsStbgeGetPtrToCurveSet(PostLin);
 
         for (i=0; i < nOuts; i++) {
 
@@ -545,7 +545,7 @@ cmsBool FixWhiteMisalignment(cmsPipeline* Lut, cmsColorSpaceSignature EntryColor
                 WhiteOut[i] = 0;
                 continue;
             }
-            WhiteOut[i] = cmsEvalToneCurve16(InversePostLin, WhitePointOut[i]);
+            WhiteOut[i] = cmsEvblToneCurve16(InversePostLin, WhitePointOut[i]);
             cmsFreeToneCurve(InversePostLin);
         }
     }
@@ -554,131 +554,131 @@ cmsBool FixWhiteMisalignment(cmsPipeline* Lut, cmsColorSpaceSignature EntryColor
             WhiteOut[i] = WhitePointOut[i];
     }
 
-    // Ok, proceed with patching. May fail and we don't care if it fails
-    PatchLUT(CLUT, WhiteIn, WhiteOut, nOuts, nIns);
+    // Ok, proceed with pbtching. Mby fbil bnd we don't cbre if it fbils
+    PbtchLUT(CLUT, WhiteIn, WhiteOut, nOuts, nIns);
 
     return TRUE;
 }
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------
-// This function creates simple LUT from complex ones. The generated LUT has an optional set of
-// prelinearization curves, a CLUT of nGridPoints and optional postlinearization tables.
-// These curves have to exist in the original LUT in order to be used in the simplified output.
-// Caller may also use the flags to allow this feature.
-// LUTS with all curves will be simplified to a single curve. Parametric curves are lost.
-// This function should be used on 16-bits LUTS only, as floating point losses precision when simplified
+// This function crebtes simple LUT from complex ones. The generbted LUT hbs bn optionbl set of
+// prelinebrizbtion curves, b CLUT of nGridPoints bnd optionbl postlinebrizbtion tbbles.
+// These curves hbve to exist in the originbl LUT in order to be used in the simplified output.
+// Cbller mby blso use the flbgs to bllow this febture.
+// LUTS with bll curves will be simplified to b single curve. Pbrbmetric curves bre lost.
+// This function should be used on 16-bits LUTS only, bs flobting point losses precision when simplified
 // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-static
-cmsBool OptimizeByResampling(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt32Number* InputFormat, cmsUInt32Number* OutputFormat, cmsUInt32Number* dwFlags)
+stbtic
+cmsBool OptimizeByResbmpling(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt32Number* InputFormbt, cmsUInt32Number* OutputFormbt, cmsUInt32Number* dwFlbgs)
 {
     cmsPipeline* Src = NULL;
     cmsPipeline* Dest = NULL;
-    cmsStage* mpe;
-    cmsStage* CLUT;
-    cmsStage *KeepPreLin = NULL, *KeepPostLin = NULL;
+    cmsStbge* mpe;
+    cmsStbge* CLUT;
+    cmsStbge *KeepPreLin = NULL, *KeepPostLin = NULL;
     int nGridPoints;
-    cmsColorSpaceSignature ColorSpace, OutputColorSpace;
-    cmsStage *NewPreLin = NULL;
-    cmsStage *NewPostLin = NULL;
-    _cmsStageCLutData* DataCLUT;
-    cmsToneCurve** DataSetIn;
-    cmsToneCurve** DataSetOut;
-    Prelin16Data* p16;
+    cmsColorSpbceSignbture ColorSpbce, OutputColorSpbce;
+    cmsStbge *NewPreLin = NULL;
+    cmsStbge *NewPostLin = NULL;
+    _cmsStbgeCLutDbtb* DbtbCLUT;
+    cmsToneCurve** DbtbSetIn;
+    cmsToneCurve** DbtbSetOut;
+    Prelin16Dbtb* p16;
 
-    // This is a loosy optimization! does not apply in floating-point cases
-    if (_cmsFormatterIsFloat(*InputFormat) || _cmsFormatterIsFloat(*OutputFormat)) return FALSE;
+    // This is b loosy optimizbtion! does not bpply in flobting-point cbses
+    if (_cmsFormbtterIsFlobt(*InputFormbt) || _cmsFormbtterIsFlobt(*OutputFormbt)) return FALSE;
 
-    ColorSpace       = _cmsICCcolorSpace(T_COLORSPACE(*InputFormat));
-    OutputColorSpace = _cmsICCcolorSpace(T_COLORSPACE(*OutputFormat));
-    nGridPoints      = _cmsReasonableGridpointsByColorspace(ColorSpace, *dwFlags);
+    ColorSpbce       = _cmsICCcolorSpbce(T_COLORSPACE(*InputFormbt));
+    OutputColorSpbce = _cmsICCcolorSpbce(T_COLORSPACE(*OutputFormbt));
+    nGridPoints      = _cmsRebsonbbleGridpointsByColorspbce(ColorSpbce, *dwFlbgs);
 
-    // For empty LUTs, 2 points are enough
-    if (cmsPipelineStageCount(*Lut) == 0)
+    // For empty LUTs, 2 points bre enough
+    if (cmsPipelineStbgeCount(*Lut) == 0)
         nGridPoints = 2;
 
     Src = *Lut;
 
-    // Named color pipelines cannot be optimized either
-    for (mpe = cmsPipelineGetPtrToFirstStage(Src);
+    // Nbmed color pipelines cbnnot be optimized either
+    for (mpe = cmsPipelineGetPtrToFirstStbge(Src);
         mpe != NULL;
-        mpe = cmsStageNext(mpe)) {
-            if (cmsStageType(mpe) == cmsSigNamedColorElemType) return FALSE;
+        mpe = cmsStbgeNext(mpe)) {
+            if (cmsStbgeType(mpe) == cmsSigNbmedColorElemType) return FALSE;
     }
 
-    // Allocate an empty LUT
-    Dest =  cmsPipelineAlloc(Src ->ContextID, Src ->InputChannels, Src ->OutputChannels);
+    // Allocbte bn empty LUT
+    Dest =  cmsPipelineAlloc(Src ->ContextID, Src ->InputChbnnels, Src ->OutputChbnnels);
     if (!Dest) return FALSE;
 
-    // Prelinearization tables are kept unless indicated by flags
-    if (*dwFlags & cmsFLAGS_CLUT_PRE_LINEARIZATION) {
+    // Prelinebrizbtion tbbles bre kept unless indicbted by flbgs
+    if (*dwFlbgs & cmsFLAGS_CLUT_PRE_LINEARIZATION) {
 
-        // Get a pointer to the prelinearization element
-        cmsStage* PreLin = cmsPipelineGetPtrToFirstStage(Src);
+        // Get b pointer to the prelinebrizbtion element
+        cmsStbge* PreLin = cmsPipelineGetPtrToFirstStbge(Src);
 
-        // Check if suitable
+        // Check if suitbble
         if (PreLin ->Type == cmsSigCurveSetElemType) {
 
-            // Maybe this is a linear tram, so we can avoid the whole stuff
-            if (!AllCurvesAreLinear(PreLin)) {
+            // Mbybe this is b linebr trbm, so we cbn bvoid the whole stuff
+            if (!AllCurvesAreLinebr(PreLin)) {
 
                 // All seems ok, proceed.
-                NewPreLin = cmsStageDup(PreLin);
-                if(!cmsPipelineInsertStage(Dest, cmsAT_BEGIN, NewPreLin))
+                NewPreLin = cmsStbgeDup(PreLin);
+                if(!cmsPipelineInsertStbge(Dest, cmsAT_BEGIN, NewPreLin))
                     goto Error;
 
-                // Remove prelinearization. Since we have duplicated the curve
-                // in destination LUT, the sampling shoud be applied after this stage.
-                cmsPipelineUnlinkStage(Src, cmsAT_BEGIN, &KeepPreLin);
+                // Remove prelinebrizbtion. Since we hbve duplicbted the curve
+                // in destinbtion LUT, the sbmpling shoud be bpplied bfter this stbge.
+                cmsPipelineUnlinkStbge(Src, cmsAT_BEGIN, &KeepPreLin);
             }
         }
     }
 
-    // Allocate the CLUT
-    CLUT = cmsStageAllocCLut16bit(Src ->ContextID, nGridPoints, Src ->InputChannels, Src->OutputChannels, NULL);
+    // Allocbte the CLUT
+    CLUT = cmsStbgeAllocCLut16bit(Src ->ContextID, nGridPoints, Src ->InputChbnnels, Src->OutputChbnnels, NULL);
     if (CLUT == NULL) return FALSE;
 
-    // Add the CLUT to the destination LUT
-    if (!cmsPipelineInsertStage(Dest, cmsAT_END, CLUT)) {
+    // Add the CLUT to the destinbtion LUT
+    if (!cmsPipelineInsertStbge(Dest, cmsAT_END, CLUT)) {
         goto Error;
     }
 
-    // Postlinearization tables are kept unless indicated by flags
-    if (*dwFlags & cmsFLAGS_CLUT_POST_LINEARIZATION) {
+    // Postlinebrizbtion tbbles bre kept unless indicbted by flbgs
+    if (*dwFlbgs & cmsFLAGS_CLUT_POST_LINEARIZATION) {
 
-        // Get a pointer to the postlinearization if present
-        cmsStage* PostLin = cmsPipelineGetPtrToLastStage(Src);
+        // Get b pointer to the postlinebrizbtion if present
+        cmsStbge* PostLin = cmsPipelineGetPtrToLbstStbge(Src);
 
-        // Check if suitable
-        if (cmsStageType(PostLin) == cmsSigCurveSetElemType) {
+        // Check if suitbble
+        if (cmsStbgeType(PostLin) == cmsSigCurveSetElemType) {
 
-            // Maybe this is a linear tram, so we can avoid the whole stuff
-            if (!AllCurvesAreLinear(PostLin)) {
+            // Mbybe this is b linebr trbm, so we cbn bvoid the whole stuff
+            if (!AllCurvesAreLinebr(PostLin)) {
 
                 // All seems ok, proceed.
-                NewPostLin = cmsStageDup(PostLin);
-                if (!cmsPipelineInsertStage(Dest, cmsAT_END, NewPostLin))
+                NewPostLin = cmsStbgeDup(PostLin);
+                if (!cmsPipelineInsertStbge(Dest, cmsAT_END, NewPostLin))
                     goto Error;
 
-                // In destination LUT, the sampling shoud be applied after this stage.
-                cmsPipelineUnlinkStage(Src, cmsAT_END, &KeepPostLin);
+                // In destinbtion LUT, the sbmpling shoud be bpplied bfter this stbge.
+                cmsPipelineUnlinkStbge(Src, cmsAT_END, &KeepPostLin);
             }
         }
     }
 
-    // Now its time to do the sampling. We have to ignore pre/post linearization
-    // The source LUT whithout pre/post curves is passed as parameter.
-    if (!cmsStageSampleCLut16bit(CLUT, XFormSampler16, (void*) Src, 0)) {
+    // Now its time to do the sbmpling. We hbve to ignore pre/post linebrizbtion
+    // The source LUT whithout pre/post curves is pbssed bs pbrbmeter.
+    if (!cmsStbgeSbmpleCLut16bit(CLUT, XFormSbmpler16, (void*) Src, 0)) {
 Error:
-        // Ops, something went wrong, Restore stages
+        // Ops, something went wrong, Restore stbges
         if (KeepPreLin != NULL) {
-            if (!cmsPipelineInsertStage(Src, cmsAT_BEGIN, KeepPreLin)) {
-                _cmsAssert(0); // This never happens
+            if (!cmsPipelineInsertStbge(Src, cmsAT_BEGIN, KeepPreLin)) {
+                _cmsAssert(0); // This never hbppens
             }
         }
         if (KeepPostLin != NULL) {
-            if (!cmsPipelineInsertStage(Src, cmsAT_END,   KeepPostLin)) {
-                _cmsAssert(0); // This never happens
+            if (!cmsPipelineInsertStbge(Src, cmsAT_END,   KeepPostLin)) {
+                _cmsAssert(0); // This never hbppens
             }
         }
         cmsPipelineFree(Dest);
@@ -687,43 +687,43 @@ Error:
 
     // Done.
 
-    if (KeepPreLin != NULL) cmsStageFree(KeepPreLin);
-    if (KeepPostLin != NULL) cmsStageFree(KeepPostLin);
+    if (KeepPreLin != NULL) cmsStbgeFree(KeepPreLin);
+    if (KeepPostLin != NULL) cmsStbgeFree(KeepPostLin);
     cmsPipelineFree(Src);
 
-    DataCLUT = (_cmsStageCLutData*) CLUT ->Data;
+    DbtbCLUT = (_cmsStbgeCLutDbtb*) CLUT ->Dbtb;
 
-    if (NewPreLin == NULL) DataSetIn = NULL;
-    else DataSetIn = ((_cmsStageToneCurvesData*) NewPreLin ->Data) ->TheCurves;
+    if (NewPreLin == NULL) DbtbSetIn = NULL;
+    else DbtbSetIn = ((_cmsStbgeToneCurvesDbtb*) NewPreLin ->Dbtb) ->TheCurves;
 
-    if (NewPostLin == NULL) DataSetOut = NULL;
-    else  DataSetOut = ((_cmsStageToneCurvesData*) NewPostLin ->Data) ->TheCurves;
+    if (NewPostLin == NULL) DbtbSetOut = NULL;
+    else  DbtbSetOut = ((_cmsStbgeToneCurvesDbtb*) NewPostLin ->Dbtb) ->TheCurves;
 
 
-    if (DataSetIn == NULL && DataSetOut == NULL) {
+    if (DbtbSetIn == NULL && DbtbSetOut == NULL) {
 
-        _cmsPipelineSetOptimizationParameters(Dest, (_cmsOPTeval16Fn) DataCLUT->Params->Interpolation.Lerp16, DataCLUT->Params, NULL, NULL);
+        _cmsPipelineSetOptimizbtionPbrbmeters(Dest, (_cmsOPTevbl16Fn) DbtbCLUT->Pbrbms->Interpolbtion.Lerp16, DbtbCLUT->Pbrbms, NULL, NULL);
     }
     else {
 
-        p16 = PrelinOpt16alloc(Dest ->ContextID,
-            DataCLUT ->Params,
-            Dest ->InputChannels,
-            DataSetIn,
-            Dest ->OutputChannels,
-            DataSetOut);
+        p16 = PrelinOpt16blloc(Dest ->ContextID,
+            DbtbCLUT ->Pbrbms,
+            Dest ->InputChbnnels,
+            DbtbSetIn,
+            Dest ->OutputChbnnels,
+            DbtbSetOut);
 
-        _cmsPipelineSetOptimizationParameters(Dest, PrelinEval16, (void*) p16, PrelinOpt16free, Prelin16dup);
+        _cmsPipelineSetOptimizbtionPbrbmeters(Dest, PrelinEvbl16, (void*) p16, PrelinOpt16free, Prelin16dup);
     }
 
 
-    // Don't fix white on absolute colorimetric
+    // Don't fix white on bbsolute colorimetric
     if (Intent == INTENT_ABSOLUTE_COLORIMETRIC)
-        *dwFlags |= cmsFLAGS_NOWHITEONWHITEFIXUP;
+        *dwFlbgs |= cmsFLAGS_NOWHITEONWHITEFIXUP;
 
-    if (!(*dwFlags & cmsFLAGS_NOWHITEONWHITEFIXUP)) {
+    if (!(*dwFlbgs & cmsFLAGS_NOWHITEONWHITEFIXUP)) {
 
-        FixWhiteMisalignment(Dest, ColorSpace, OutputColorSpace);
+        FixWhiteMisblignment(Dest, ColorSpbce, OutputColorSpbce);
     }
 
     *Lut = Dest;
@@ -734,71 +734,71 @@ Error:
 
 
 // -----------------------------------------------------------------------------------------------------------------------------------------------
-// Fixes the gamma balancing of transform. This is described in my paper "Prelinearization Stages on
-// Color-Management Application-Specific Integrated Circuits (ASICs)" presented at NIP24. It only works
-// for RGB transforms. See the paper for more details
+// Fixes the gbmmb bblbncing of trbnsform. This is described in my pbper "Prelinebrizbtion Stbges on
+// Color-Mbnbgement Applicbtion-Specific Integrbted Circuits (ASICs)" presented bt NIP24. It only works
+// for RGB trbnsforms. See the pbper for more detbils
 // -----------------------------------------------------------------------------------------------------------------------------------------------
 
 
-// Normalize endpoints by slope limiting max and min. This assures endpoints as well.
-// Descending curves are handled as well.
-static
+// Normblize endpoints by slope limiting mbx bnd min. This bssures endpoints bs well.
+// Descending curves bre hbndled bs well.
+stbtic
 void SlopeLimiting(cmsToneCurve* g)
 {
-    int BeginVal, EndVal;
-    int AtBegin = (int) floor((cmsFloat64Number) g ->nEntries * 0.02 + 0.5);   // Cutoff at 2%
+    int BeginVbl, EndVbl;
+    int AtBegin = (int) floor((cmsFlobt64Number) g ->nEntries * 0.02 + 0.5);   // Cutoff bt 2%
     int AtEnd   = g ->nEntries - AtBegin - 1;                                  // And 98%
-    cmsFloat64Number Val, Slope, beta;
+    cmsFlobt64Number Vbl, Slope, betb;
     int i;
 
     if (cmsIsToneCurveDescending(g)) {
-        BeginVal = 0xffff; EndVal = 0;
+        BeginVbl = 0xffff; EndVbl = 0;
     }
     else {
-        BeginVal = 0; EndVal = 0xffff;
+        BeginVbl = 0; EndVbl = 0xffff;
     }
 
-    // Compute slope and offset for begin of curve
-    Val   = g ->Table16[AtBegin];
-    Slope = (Val - BeginVal) / AtBegin;
-    beta  = Val - Slope * AtBegin;
+    // Compute slope bnd offset for begin of curve
+    Vbl   = g ->Tbble16[AtBegin];
+    Slope = (Vbl - BeginVbl) / AtBegin;
+    betb  = Vbl - Slope * AtBegin;
 
     for (i=0; i < AtBegin; i++)
-        g ->Table16[i] = _cmsQuickSaturateWord(i * Slope + beta);
+        g ->Tbble16[i] = _cmsQuickSbturbteWord(i * Slope + betb);
 
-    // Compute slope and offset for the end
-    Val   = g ->Table16[AtEnd];
-    Slope = (EndVal - Val) / AtBegin;   // AtBegin holds the X interval, which is same in both cases
-    beta  = Val - Slope * AtEnd;
+    // Compute slope bnd offset for the end
+    Vbl   = g ->Tbble16[AtEnd];
+    Slope = (EndVbl - Vbl) / AtBegin;   // AtBegin holds the X intervbl, which is sbme in both cbses
+    betb  = Vbl - Slope * AtEnd;
 
     for (i = AtEnd; i < (int) g ->nEntries; i++)
-        g ->Table16[i] = _cmsQuickSaturateWord(i * Slope + beta);
+        g ->Tbble16[i] = _cmsQuickSbturbteWord(i * Slope + betb);
 }
 
 
-// Precomputes tables for 8-bit on input devicelink.
-static
-Prelin8Data* PrelinOpt8alloc(cmsContext ContextID, const cmsInterpParams* p, cmsToneCurve* G[3])
+// Precomputes tbbles for 8-bit on input devicelink.
+stbtic
+Prelin8Dbtb* PrelinOpt8blloc(cmsContext ContextID, const cmsInterpPbrbms* p, cmsToneCurve* G[3])
 {
     int i;
     cmsUInt16Number Input[3];
     cmsS15Fixed16Number v1, v2, v3;
-    Prelin8Data* p8;
+    Prelin8Dbtb* p8;
 
-    p8 = _cmsMallocZero(ContextID, sizeof(Prelin8Data));
+    p8 = _cmsMbllocZero(ContextID, sizeof(Prelin8Dbtb));
     if (p8 == NULL) return NULL;
 
-    // Since this only works for 8 bit input, values comes always as x * 257,
-    // we can safely take msb byte (x << 8 + x)
+    // Since this only works for 8 bit input, vblues comes blwbys bs x * 257,
+    // we cbn sbfely tbke msb byte (x << 8 + x)
 
     for (i=0; i < 256; i++) {
 
         if (G != NULL) {
 
-            // Get 16-bit representation
-            Input[0] = cmsEvalToneCurve16(G[0], FROM_8_TO_16(i));
-            Input[1] = cmsEvalToneCurve16(G[1], FROM_8_TO_16(i));
-            Input[2] = cmsEvalToneCurve16(G[2], FROM_8_TO_16(i));
+            // Get 16-bit representbtion
+            Input[0] = cmsEvblToneCurve16(G[0], FROM_8_TO_16(i));
+            Input[1] = cmsEvblToneCurve16(G[1], FROM_8_TO_16(i));
+            Input[2] = cmsEvblToneCurve16(G[2], FROM_8_TO_16(i));
         }
         else {
             Input[0] = FROM_8_TO_16(i);
@@ -807,17 +807,17 @@ Prelin8Data* PrelinOpt8alloc(cmsContext ContextID, const cmsInterpParams* p, cms
         }
 
 
-        // Move to 0..1.0 in fixed domain
-        v1 = _cmsToFixedDomain(Input[0] * p -> Domain[0]);
-        v2 = _cmsToFixedDomain(Input[1] * p -> Domain[1]);
-        v3 = _cmsToFixedDomain(Input[2] * p -> Domain[2]);
+        // Move to 0..1.0 in fixed dombin
+        v1 = _cmsToFixedDombin(Input[0] * p -> Dombin[0]);
+        v2 = _cmsToFixedDombin(Input[1] * p -> Dombin[1]);
+        v3 = _cmsToFixedDombin(Input[2] * p -> Dombin[2]);
 
-        // Store the precalculated table of nodes
-        p8 ->X0[i] = (p->opta[2] * FIXED_TO_INT(v1));
-        p8 ->Y0[i] = (p->opta[1] * FIXED_TO_INT(v2));
-        p8 ->Z0[i] = (p->opta[0] * FIXED_TO_INT(v3));
+        // Store the precblculbted tbble of nodes
+        p8 ->X0[i] = (p->optb[2] * FIXED_TO_INT(v1));
+        p8 ->Y0[i] = (p->optb[1] * FIXED_TO_INT(v2));
+        p8 ->Z0[i] = (p->optb[0] * FIXED_TO_INT(v3));
 
-        // Store the precalculated table of offsets
+        // Store the precblculbted tbble of offsets
         p8 ->rx[i] = (cmsUInt16Number) FIXED_REST_TO_INT(v1);
         p8 ->ry[i] = (cmsUInt16Number) FIXED_REST_TO_INT(v2);
         p8 ->rz[i] = (cmsUInt16Number) FIXED_REST_TO_INT(v3);
@@ -829,24 +829,24 @@ Prelin8Data* PrelinOpt8alloc(cmsContext ContextID, const cmsInterpParams* p, cms
     return p8;
 }
 
-static
+stbtic
 void Prelin8free(cmsContext ContextID, void* ptr)
 {
     _cmsFree(ContextID, ptr);
 }
 
-static
+stbtic
 void* Prelin8dup(cmsContext ContextID, const void* ptr)
 {
-    return _cmsDupMem(ContextID, ptr, sizeof(Prelin8Data));
+    return _cmsDupMem(ContextID, ptr, sizeof(Prelin8Dbtb));
 }
 
 
 
-// A optimized interpolation for 8-bit input.
-#define DENS(i,j,k) (LutTable[(i)+(j)+(k)+OutChan])
-static
-void PrelinEval8(register const cmsUInt16Number Input[],
+// A optimized interpolbtion for 8-bit input.
+#define DENS(i,j,k) (LutTbble[(i)+(j)+(k)+OutChbn])
+stbtic
+void PrelinEvbl8(register const cmsUInt16Number Input[],
                   register cmsUInt16Number Output[],
                   register const void* D)
 {
@@ -854,12 +854,12 @@ void PrelinEval8(register const cmsUInt16Number Input[],
     cmsUInt8Number         r, g, b;
     cmsS15Fixed16Number    rx, ry, rz;
     cmsS15Fixed16Number    c0, c1, c2, c3, Rest;
-    int                    OutChan;
+    int                    OutChbn;
     register cmsS15Fixed16Number    X0, X1, Y0, Y1, Z0, Z1;
-    Prelin8Data* p8 = (Prelin8Data*) D;
-    register const cmsInterpParams* p = p8 ->p;
-    int                    TotalOut = p -> nOutputs;
-    const cmsUInt16Number* LutTable = p -> Table;
+    Prelin8Dbtb* p8 = (Prelin8Dbtb*) D;
+    register const cmsInterpPbrbms* p = p8 ->p;
+    int                    TotblOut = p -> nOutputs;
+    const cmsUInt16Number* LutTbble = p -> Tbble;
 
     r = Input[0] >> 8;
     g = Input[1] >> 8;
@@ -873,13 +873,13 @@ void PrelinEval8(register const cmsUInt16Number Input[],
     ry = p8 ->ry[g];
     rz = p8 ->rz[b];
 
-    X1 = X0 + ((rx == 0) ? 0 : p ->opta[2]);
-    Y1 = Y0 + ((ry == 0) ? 0 : p ->opta[1]);
-    Z1 = Z0 + ((rz == 0) ? 0 : p ->opta[0]);
+    X1 = X0 + ((rx == 0) ? 0 : p ->optb[2]);
+    Y1 = Y0 + ((ry == 0) ? 0 : p ->optb[1]);
+    Z1 = Z0 + ((rz == 0) ? 0 : p ->optb[0]);
 
 
-    // These are the 6 Tetrahedral
-    for (OutChan=0; OutChan < TotalOut; OutChan++) {
+    // These bre the 6 Tetrbhedrbl
+    for (OutChbn=0; OutChbn < TotblOut; OutChbn++) {
 
         c0 = DENS(X0, Y0, Z0);
 
@@ -930,7 +930,7 @@ void PrelinEval8(register const cmsUInt16Number Input[],
 
 
                             Rest = c1 * rx + c2 * ry + c3 * rz + 0x8001;
-                            Output[OutChan] = (cmsUInt16Number)c0 + ((Rest + (Rest>>16))>>16);
+                            Output[OutChbn] = (cmsUInt16Number)c0 + ((Rest + (Rest>>16))>>16);
 
     }
 }
@@ -938,22 +938,22 @@ void PrelinEval8(register const cmsUInt16Number Input[],
 #undef DENS
 
 
-// Curves that contain wide empty areas are not optimizeable
-static
-cmsBool IsDegenerated(const cmsToneCurve* g)
+// Curves thbt contbin wide empty brebs bre not optimizebble
+stbtic
+cmsBool IsDegenerbted(const cmsToneCurve* g)
 {
     int i, Zeros = 0, Poles = 0;
     int nEntries = g ->nEntries;
 
     for (i=0; i < nEntries; i++) {
 
-        if (g ->Table16[i] == 0x0000) Zeros++;
-        if (g ->Table16[i] == 0xffff) Poles++;
+        if (g ->Tbble16[i] == 0x0000) Zeros++;
+        if (g ->Tbble16[i] == 0xffff) Poles++;
     }
 
-    if (Zeros == 1 && Poles == 1) return FALSE;  // For linear tables
-    if (Zeros > (nEntries / 4)) return TRUE;  // Degenerated, mostly zeros
-    if (Poles > (nEntries / 4)) return TRUE;  // Degenerated, mostly poles
+    if (Zeros == 1 && Poles == 1) return FALSE;  // For linebr tbbles
+    if (Zeros > (nEntries / 4)) return TRUE;  // Degenerbted, mostly zeros
+    if (Poles > (nEntries / 4)) return TRUE;  // Degenerbted, mostly poles
 
     return FALSE;
 }
@@ -961,192 +961,192 @@ cmsBool IsDegenerated(const cmsToneCurve* g)
 // --------------------------------------------------------------------------------------------------------------
 // We need xput over here
 
-static
-cmsBool OptimizeByComputingLinearization(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt32Number* InputFormat, cmsUInt32Number* OutputFormat, cmsUInt32Number* dwFlags)
+stbtic
+cmsBool OptimizeByComputingLinebrizbtion(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt32Number* InputFormbt, cmsUInt32Number* OutputFormbt, cmsUInt32Number* dwFlbgs)
 {
-    cmsPipeline* OriginalLut;
+    cmsPipeline* OriginblLut;
     int nGridPoints;
-    cmsToneCurve *Trans[cmsMAXCHANNELS], *TransReverse[cmsMAXCHANNELS];
+    cmsToneCurve *Trbns[cmsMAXCHANNELS], *TrbnsReverse[cmsMAXCHANNELS];
     cmsUInt32Number t, i;
-    cmsFloat32Number v, In[cmsMAXCHANNELS], Out[cmsMAXCHANNELS];
-    cmsBool lIsSuitable, lIsLinear;
+    cmsFlobt32Number v, In[cmsMAXCHANNELS], Out[cmsMAXCHANNELS];
+    cmsBool lIsSuitbble, lIsLinebr;
     cmsPipeline* OptimizedLUT = NULL, *LutPlusCurves = NULL;
-    cmsStage* OptimizedCLUTmpe;
-    cmsColorSpaceSignature ColorSpace, OutputColorSpace;
-    cmsStage* OptimizedPrelinMpe;
-    cmsStage* mpe;
+    cmsStbge* OptimizedCLUTmpe;
+    cmsColorSpbceSignbture ColorSpbce, OutputColorSpbce;
+    cmsStbge* OptimizedPrelinMpe;
+    cmsStbge* mpe;
     cmsToneCurve**   OptimizedPrelinCurves;
-    _cmsStageCLutData*     OptimizedPrelinCLUT;
+    _cmsStbgeCLutDbtb*     OptimizedPrelinCLUT;
 
 
-    // This is a loosy optimization! does not apply in floating-point cases
-    if (_cmsFormatterIsFloat(*InputFormat) || _cmsFormatterIsFloat(*OutputFormat)) return FALSE;
+    // This is b loosy optimizbtion! does not bpply in flobting-point cbses
+    if (_cmsFormbtterIsFlobt(*InputFormbt) || _cmsFormbtterIsFlobt(*OutputFormbt)) return FALSE;
 
     // Only on RGB
-    if (T_COLORSPACE(*InputFormat)  != PT_RGB) return FALSE;
-    if (T_COLORSPACE(*OutputFormat) != PT_RGB) return FALSE;
+    if (T_COLORSPACE(*InputFormbt)  != PT_RGB) return FALSE;
+    if (T_COLORSPACE(*OutputFormbt) != PT_RGB) return FALSE;
 
 
-    // On 16 bits, user has to specify the feature
-    if (!_cmsFormatterIs8bit(*InputFormat)) {
-        if (!(*dwFlags & cmsFLAGS_CLUT_PRE_LINEARIZATION)) return FALSE;
+    // On 16 bits, user hbs to specify the febture
+    if (!_cmsFormbtterIs8bit(*InputFormbt)) {
+        if (!(*dwFlbgs & cmsFLAGS_CLUT_PRE_LINEARIZATION)) return FALSE;
     }
 
-    OriginalLut = *Lut;
+    OriginblLut = *Lut;
 
-   // Named color pipelines cannot be optimized either
-   for (mpe = cmsPipelineGetPtrToFirstStage(OriginalLut);
+   // Nbmed color pipelines cbnnot be optimized either
+   for (mpe = cmsPipelineGetPtrToFirstStbge(OriginblLut);
          mpe != NULL;
-         mpe = cmsStageNext(mpe)) {
-            if (cmsStageType(mpe) == cmsSigNamedColorElemType) return FALSE;
+         mpe = cmsStbgeNext(mpe)) {
+            if (cmsStbgeType(mpe) == cmsSigNbmedColorElemType) return FALSE;
     }
 
-    ColorSpace       = _cmsICCcolorSpace(T_COLORSPACE(*InputFormat));
-    OutputColorSpace = _cmsICCcolorSpace(T_COLORSPACE(*OutputFormat));
-    nGridPoints      = _cmsReasonableGridpointsByColorspace(ColorSpace, *dwFlags);
+    ColorSpbce       = _cmsICCcolorSpbce(T_COLORSPACE(*InputFormbt));
+    OutputColorSpbce = _cmsICCcolorSpbce(T_COLORSPACE(*OutputFormbt));
+    nGridPoints      = _cmsRebsonbbleGridpointsByColorspbce(ColorSpbce, *dwFlbgs);
 
-    // Empty gamma containers
-    memset(Trans, 0, sizeof(Trans));
-    memset(TransReverse, 0, sizeof(TransReverse));
+    // Empty gbmmb contbiners
+    memset(Trbns, 0, sizeof(Trbns));
+    memset(TrbnsReverse, 0, sizeof(TrbnsReverse));
 
-    for (t = 0; t < OriginalLut ->InputChannels; t++) {
-        Trans[t] = cmsBuildTabulatedToneCurve16(OriginalLut ->ContextID, PRELINEARIZATION_POINTS, NULL);
-        if (Trans[t] == NULL) goto Error;
+    for (t = 0; t < OriginblLut ->InputChbnnels; t++) {
+        Trbns[t] = cmsBuildTbbulbtedToneCurve16(OriginblLut ->ContextID, PRELINEARIZATION_POINTS, NULL);
+        if (Trbns[t] == NULL) goto Error;
     }
 
-    // Populate the curves
+    // Populbte the curves
     for (i=0; i < PRELINEARIZATION_POINTS; i++) {
 
-        v = (cmsFloat32Number) ((cmsFloat64Number) i / (PRELINEARIZATION_POINTS - 1));
+        v = (cmsFlobt32Number) ((cmsFlobt64Number) i / (PRELINEARIZATION_POINTS - 1));
 
-        // Feed input with a gray ramp
-        for (t=0; t < OriginalLut ->InputChannels; t++)
+        // Feed input with b grby rbmp
+        for (t=0; t < OriginblLut ->InputChbnnels; t++)
             In[t] = v;
 
-        // Evaluate the gray value
-        cmsPipelineEvalFloat(In, Out, OriginalLut);
+        // Evblubte the grby vblue
+        cmsPipelineEvblFlobt(In, Out, OriginblLut);
 
         // Store result in curve
-        for (t=0; t < OriginalLut ->InputChannels; t++)
-            Trans[t] ->Table16[i] = _cmsQuickSaturateWord(Out[t] * 65535.0);
+        for (t=0; t < OriginblLut ->InputChbnnels; t++)
+            Trbns[t] ->Tbble16[i] = _cmsQuickSbturbteWord(Out[t] * 65535.0);
     }
 
-    // Slope-limit the obtained curves
-    for (t = 0; t < OriginalLut ->InputChannels; t++)
-        SlopeLimiting(Trans[t]);
+    // Slope-limit the obtbined curves
+    for (t = 0; t < OriginblLut ->InputChbnnels; t++)
+        SlopeLimiting(Trbns[t]);
 
-    // Check for validity
-    lIsSuitable = TRUE;
-    lIsLinear   = TRUE;
-    for (t=0; (lIsSuitable && (t < OriginalLut ->InputChannels)); t++) {
+    // Check for vblidity
+    lIsSuitbble = TRUE;
+    lIsLinebr   = TRUE;
+    for (t=0; (lIsSuitbble && (t < OriginblLut ->InputChbnnels)); t++) {
 
-        // Exclude if already linear
-        if (!cmsIsToneCurveLinear(Trans[t]))
-            lIsLinear = FALSE;
+        // Exclude if blrebdy linebr
+        if (!cmsIsToneCurveLinebr(Trbns[t]))
+            lIsLinebr = FALSE;
 
         // Exclude if non-monotonic
-        if (!cmsIsToneCurveMonotonic(Trans[t]))
-            lIsSuitable = FALSE;
+        if (!cmsIsToneCurveMonotonic(Trbns[t]))
+            lIsSuitbble = FALSE;
 
-        if (IsDegenerated(Trans[t]))
-            lIsSuitable = FALSE;
+        if (IsDegenerbted(Trbns[t]))
+            lIsSuitbble = FALSE;
     }
 
-    // If it is not suitable, just quit
-    if (!lIsSuitable) goto Error;
+    // If it is not suitbble, just quit
+    if (!lIsSuitbble) goto Error;
 
     // Invert curves if possible
-    for (t = 0; t < OriginalLut ->InputChannels; t++) {
-        TransReverse[t] = cmsReverseToneCurveEx(PRELINEARIZATION_POINTS, Trans[t]);
-        if (TransReverse[t] == NULL) goto Error;
+    for (t = 0; t < OriginblLut ->InputChbnnels; t++) {
+        TrbnsReverse[t] = cmsReverseToneCurveEx(PRELINEARIZATION_POINTS, Trbns[t]);
+        if (TrbnsReverse[t] == NULL) goto Error;
     }
 
-    // Now inset the reversed curves at the begin of transform
-    LutPlusCurves = cmsPipelineDup(OriginalLut);
+    // Now inset the reversed curves bt the begin of trbnsform
+    LutPlusCurves = cmsPipelineDup(OriginblLut);
     if (LutPlusCurves == NULL) goto Error;
 
-    if (!cmsPipelineInsertStage(LutPlusCurves, cmsAT_BEGIN, cmsStageAllocToneCurves(OriginalLut ->ContextID, OriginalLut ->InputChannels, TransReverse)))
+    if (!cmsPipelineInsertStbge(LutPlusCurves, cmsAT_BEGIN, cmsStbgeAllocToneCurves(OriginblLut ->ContextID, OriginblLut ->InputChbnnels, TrbnsReverse)))
         goto Error;
 
-    // Create the result LUT
-    OptimizedLUT = cmsPipelineAlloc(OriginalLut ->ContextID, OriginalLut ->InputChannels, OriginalLut ->OutputChannels);
+    // Crebte the result LUT
+    OptimizedLUT = cmsPipelineAlloc(OriginblLut ->ContextID, OriginblLut ->InputChbnnels, OriginblLut ->OutputChbnnels);
     if (OptimizedLUT == NULL) goto Error;
 
-    OptimizedPrelinMpe = cmsStageAllocToneCurves(OriginalLut ->ContextID, OriginalLut ->InputChannels, Trans);
+    OptimizedPrelinMpe = cmsStbgeAllocToneCurves(OriginblLut ->ContextID, OriginblLut ->InputChbnnels, Trbns);
 
-    // Create and insert the curves at the beginning
-    if (!cmsPipelineInsertStage(OptimizedLUT, cmsAT_BEGIN, OptimizedPrelinMpe))
+    // Crebte bnd insert the curves bt the beginning
+    if (!cmsPipelineInsertStbge(OptimizedLUT, cmsAT_BEGIN, OptimizedPrelinMpe))
         goto Error;
 
-    // Allocate the CLUT for result
-    OptimizedCLUTmpe = cmsStageAllocCLut16bit(OriginalLut ->ContextID, nGridPoints, OriginalLut ->InputChannels, OriginalLut ->OutputChannels, NULL);
+    // Allocbte the CLUT for result
+    OptimizedCLUTmpe = cmsStbgeAllocCLut16bit(OriginblLut ->ContextID, nGridPoints, OriginblLut ->InputChbnnels, OriginblLut ->OutputChbnnels, NULL);
 
-    // Add the CLUT to the destination LUT
-    if (!cmsPipelineInsertStage(OptimizedLUT, cmsAT_END, OptimizedCLUTmpe))
+    // Add the CLUT to the destinbtion LUT
+    if (!cmsPipelineInsertStbge(OptimizedLUT, cmsAT_END, OptimizedCLUTmpe))
         goto Error;
 
-    // Resample the LUT
-    if (!cmsStageSampleCLut16bit(OptimizedCLUTmpe, XFormSampler16, (void*) LutPlusCurves, 0)) goto Error;
+    // Resbmple the LUT
+    if (!cmsStbgeSbmpleCLut16bit(OptimizedCLUTmpe, XFormSbmpler16, (void*) LutPlusCurves, 0)) goto Error;
 
     // Free resources
-    for (t = 0; t < OriginalLut ->InputChannels; t++) {
+    for (t = 0; t < OriginblLut ->InputChbnnels; t++) {
 
-        if (Trans[t]) cmsFreeToneCurve(Trans[t]);
-        if (TransReverse[t]) cmsFreeToneCurve(TransReverse[t]);
+        if (Trbns[t]) cmsFreeToneCurve(Trbns[t]);
+        if (TrbnsReverse[t]) cmsFreeToneCurve(TrbnsReverse[t]);
     }
 
     cmsPipelineFree(LutPlusCurves);
 
 
-    OptimizedPrelinCurves = _cmsStageGetPtrToCurveSet(OptimizedPrelinMpe);
-    OptimizedPrelinCLUT   = (_cmsStageCLutData*) OptimizedCLUTmpe ->Data;
+    OptimizedPrelinCurves = _cmsStbgeGetPtrToCurveSet(OptimizedPrelinMpe);
+    OptimizedPrelinCLUT   = (_cmsStbgeCLutDbtb*) OptimizedCLUTmpe ->Dbtb;
 
-    // Set the evaluator if 8-bit
-    if (_cmsFormatterIs8bit(*InputFormat)) {
+    // Set the evblubtor if 8-bit
+    if (_cmsFormbtterIs8bit(*InputFormbt)) {
 
-        Prelin8Data* p8 = PrelinOpt8alloc(OptimizedLUT ->ContextID,
-                                                OptimizedPrelinCLUT ->Params,
+        Prelin8Dbtb* p8 = PrelinOpt8blloc(OptimizedLUT ->ContextID,
+                                                OptimizedPrelinCLUT ->Pbrbms,
                                                 OptimizedPrelinCurves);
         if (p8 == NULL) return FALSE;
 
-        _cmsPipelineSetOptimizationParameters(OptimizedLUT, PrelinEval8, (void*) p8, Prelin8free, Prelin8dup);
+        _cmsPipelineSetOptimizbtionPbrbmeters(OptimizedLUT, PrelinEvbl8, (void*) p8, Prelin8free, Prelin8dup);
 
     }
     else
     {
-        Prelin16Data* p16 = PrelinOpt16alloc(OptimizedLUT ->ContextID,
-            OptimizedPrelinCLUT ->Params,
+        Prelin16Dbtb* p16 = PrelinOpt16blloc(OptimizedLUT ->ContextID,
+            OptimizedPrelinCLUT ->Pbrbms,
             3, OptimizedPrelinCurves, 3, NULL);
         if (p16 == NULL) return FALSE;
 
-        _cmsPipelineSetOptimizationParameters(OptimizedLUT, PrelinEval16, (void*) p16, PrelinOpt16free, Prelin16dup);
+        _cmsPipelineSetOptimizbtionPbrbmeters(OptimizedLUT, PrelinEvbl16, (void*) p16, PrelinOpt16free, Prelin16dup);
 
     }
 
-    // Don't fix white on absolute colorimetric
+    // Don't fix white on bbsolute colorimetric
     if (Intent == INTENT_ABSOLUTE_COLORIMETRIC)
-        *dwFlags |= cmsFLAGS_NOWHITEONWHITEFIXUP;
+        *dwFlbgs |= cmsFLAGS_NOWHITEONWHITEFIXUP;
 
-    if (!(*dwFlags & cmsFLAGS_NOWHITEONWHITEFIXUP)) {
+    if (!(*dwFlbgs & cmsFLAGS_NOWHITEONWHITEFIXUP)) {
 
-        if (!FixWhiteMisalignment(OptimizedLUT, ColorSpace, OutputColorSpace)) {
+        if (!FixWhiteMisblignment(OptimizedLUT, ColorSpbce, OutputColorSpbce)) {
 
             return FALSE;
         }
     }
 
-    // And return the obtained LUT
+    // And return the obtbined LUT
 
-    cmsPipelineFree(OriginalLut);
+    cmsPipelineFree(OriginblLut);
     *Lut = OptimizedLUT;
     return TRUE;
 
 Error:
 
-    for (t = 0; t < OriginalLut ->InputChannels; t++) {
+    for (t = 0; t < OriginblLut ->InputChbnnels; t++) {
 
-        if (Trans[t]) cmsFreeToneCurve(Trans[t]);
-        if (TransReverse[t]) cmsFreeToneCurve(TransReverse[t]);
+        if (Trbns[t]) cmsFreeToneCurve(Trbns[t]);
+        if (TrbnsReverse[t]) cmsFreeToneCurve(TrbnsReverse[t]);
     }
 
     if (LutPlusCurves != NULL) cmsPipelineFree(LutPlusCurves);
@@ -1160,57 +1160,57 @@ Error:
 
 // Curves optimizer ------------------------------------------------------------------------------------------------------------------
 
-static
+stbtic
 void CurvesFree(cmsContext ContextID, void* ptr)
 {
-     Curves16Data* Data = (Curves16Data*) ptr;
+     Curves16Dbtb* Dbtb = (Curves16Dbtb*) ptr;
      int i;
 
-     for (i=0; i < Data -> nCurves; i++) {
+     for (i=0; i < Dbtb -> nCurves; i++) {
 
-         _cmsFree(ContextID, Data ->Curves[i]);
+         _cmsFree(ContextID, Dbtb ->Curves[i]);
      }
 
-     _cmsFree(ContextID, Data ->Curves);
+     _cmsFree(ContextID, Dbtb ->Curves);
      _cmsFree(ContextID, ptr);
 }
 
-static
+stbtic
 void* CurvesDup(cmsContext ContextID, const void* ptr)
 {
-    Curves16Data* Data = _cmsDupMem(ContextID, ptr, sizeof(Curves16Data));
+    Curves16Dbtb* Dbtb = _cmsDupMem(ContextID, ptr, sizeof(Curves16Dbtb));
     int i;
 
-    if (Data == NULL) return NULL;
+    if (Dbtb == NULL) return NULL;
 
-    Data ->Curves = _cmsDupMem(ContextID, Data ->Curves, Data ->nCurves * sizeof(cmsUInt16Number*));
+    Dbtb ->Curves = _cmsDupMem(ContextID, Dbtb ->Curves, Dbtb ->nCurves * sizeof(cmsUInt16Number*));
 
-    for (i=0; i < Data -> nCurves; i++) {
-        Data ->Curves[i] = _cmsDupMem(ContextID, Data ->Curves[i], Data -> nElements * sizeof(cmsUInt16Number));
+    for (i=0; i < Dbtb -> nCurves; i++) {
+        Dbtb ->Curves[i] = _cmsDupMem(ContextID, Dbtb ->Curves[i], Dbtb -> nElements * sizeof(cmsUInt16Number));
     }
 
-    return (void*) Data;
+    return (void*) Dbtb;
 }
 
-// Precomputes tables for 8-bit on input devicelink.
-static
-Curves16Data* CurvesAlloc(cmsContext ContextID, int nCurves, int nElements, cmsToneCurve** G)
+// Precomputes tbbles for 8-bit on input devicelink.
+stbtic
+Curves16Dbtb* CurvesAlloc(cmsContext ContextID, int nCurves, int nElements, cmsToneCurve** G)
 {
     int i, j;
-    Curves16Data* c16;
+    Curves16Dbtb* c16;
 
-    c16 = _cmsMallocZero(ContextID, sizeof(Curves16Data));
+    c16 = _cmsMbllocZero(ContextID, sizeof(Curves16Dbtb));
     if (c16 == NULL) return NULL;
 
     c16 ->nCurves = nCurves;
     c16 ->nElements = nElements;
 
-    c16 ->Curves = _cmsCalloc(ContextID, nCurves, sizeof(cmsUInt16Number*));
+    c16 ->Curves = _cmsCblloc(ContextID, nCurves, sizeof(cmsUInt16Number*));
     if (c16 ->Curves == NULL) return NULL;
 
     for (i=0; i < nCurves; i++) {
 
-        c16->Curves[i] = _cmsCalloc(ContextID, nElements, sizeof(cmsUInt16Number));
+        c16->Curves[i] = _cmsCblloc(ContextID, nElements, sizeof(cmsUInt16Number));
 
         if (c16->Curves[i] == NULL) {
 
@@ -1226,13 +1226,13 @@ Curves16Data* CurvesAlloc(cmsContext ContextID, int nCurves, int nElements, cmsT
 
             for (j=0; j < nElements; j++) {
 
-                c16 ->Curves[i][j] = cmsEvalToneCurve16(G[i], FROM_8_TO_16(j));
+                c16 ->Curves[i][j] = cmsEvblToneCurve16(G[i], FROM_8_TO_16(j));
             }
         }
         else {
 
             for (j=0; j < nElements; j++) {
-                c16 ->Curves[i][j] = cmsEvalToneCurve16(G[i], (cmsUInt16Number) j);
+                c16 ->Curves[i][j] = cmsEvblToneCurve16(G[i], (cmsUInt16Number) j);
             }
         }
     }
@@ -1240,301 +1240,301 @@ Curves16Data* CurvesAlloc(cmsContext ContextID, int nCurves, int nElements, cmsT
     return c16;
 }
 
-static
-void FastEvaluateCurves8(register const cmsUInt16Number In[],
+stbtic
+void FbstEvblubteCurves8(register const cmsUInt16Number In[],
                           register cmsUInt16Number Out[],
                           register const void* D)
 {
-    Curves16Data* Data = (Curves16Data*) D;
+    Curves16Dbtb* Dbtb = (Curves16Dbtb*) D;
     cmsUInt8Number x;
     int i;
 
-    for (i=0; i < Data ->nCurves; i++) {
+    for (i=0; i < Dbtb ->nCurves; i++) {
 
          x = (In[i] >> 8);
-         Out[i] = Data -> Curves[i][x];
+         Out[i] = Dbtb -> Curves[i][x];
     }
 }
 
 
-static
-void FastEvaluateCurves16(register const cmsUInt16Number In[],
+stbtic
+void FbstEvblubteCurves16(register const cmsUInt16Number In[],
                           register cmsUInt16Number Out[],
                           register const void* D)
 {
-    Curves16Data* Data = (Curves16Data*) D;
+    Curves16Dbtb* Dbtb = (Curves16Dbtb*) D;
     int i;
 
-    for (i=0; i < Data ->nCurves; i++) {
-         Out[i] = Data -> Curves[i][In[i]];
+    for (i=0; i < Dbtb ->nCurves; i++) {
+         Out[i] = Dbtb -> Curves[i][In[i]];
     }
 }
 
 
-static
-void FastIdentity16(register const cmsUInt16Number In[],
+stbtic
+void FbstIdentity16(register const cmsUInt16Number In[],
                     register cmsUInt16Number Out[],
                     register const void* D)
 {
     cmsPipeline* Lut = (cmsPipeline*) D;
     cmsUInt32Number i;
 
-    for (i=0; i < Lut ->InputChannels; i++) {
+    for (i=0; i < Lut ->InputChbnnels; i++) {
          Out[i] = In[i];
     }
 }
 
 
-// If the target LUT holds only curves, the optimization procedure is to join all those
-// curves together. That only works on curves and does not work on matrices.
-static
-cmsBool OptimizeByJoiningCurves(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt32Number* InputFormat, cmsUInt32Number* OutputFormat, cmsUInt32Number* dwFlags)
+// If the tbrget LUT holds only curves, the optimizbtion procedure is to join bll those
+// curves together. Thbt only works on curves bnd does not work on mbtrices.
+stbtic
+cmsBool OptimizeByJoiningCurves(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt32Number* InputFormbt, cmsUInt32Number* OutputFormbt, cmsUInt32Number* dwFlbgs)
 {
-    cmsToneCurve** GammaTables = NULL;
-    cmsFloat32Number InFloat[cmsMAXCHANNELS], OutFloat[cmsMAXCHANNELS];
+    cmsToneCurve** GbmmbTbbles = NULL;
+    cmsFlobt32Number InFlobt[cmsMAXCHANNELS], OutFlobt[cmsMAXCHANNELS];
     cmsUInt32Number i, j;
     cmsPipeline* Src = *Lut;
     cmsPipeline* Dest = NULL;
-    cmsStage* mpe;
-    cmsStage* ObtainedCurves = NULL;
+    cmsStbge* mpe;
+    cmsStbge* ObtbinedCurves = NULL;
 
 
-    // This is a loosy optimization! does not apply in floating-point cases
-    if (_cmsFormatterIsFloat(*InputFormat) || _cmsFormatterIsFloat(*OutputFormat)) return FALSE;
+    // This is b loosy optimizbtion! does not bpply in flobting-point cbses
+    if (_cmsFormbtterIsFlobt(*InputFormbt) || _cmsFormbtterIsFlobt(*OutputFormbt)) return FALSE;
 
     //  Only curves in this LUT?
-    for (mpe = cmsPipelineGetPtrToFirstStage(Src);
+    for (mpe = cmsPipelineGetPtrToFirstStbge(Src);
          mpe != NULL;
-         mpe = cmsStageNext(mpe)) {
-            if (cmsStageType(mpe) != cmsSigCurveSetElemType) return FALSE;
+         mpe = cmsStbgeNext(mpe)) {
+            if (cmsStbgeType(mpe) != cmsSigCurveSetElemType) return FALSE;
     }
 
-    // Allocate an empty LUT
-    Dest =  cmsPipelineAlloc(Src ->ContextID, Src ->InputChannels, Src ->OutputChannels);
+    // Allocbte bn empty LUT
+    Dest =  cmsPipelineAlloc(Src ->ContextID, Src ->InputChbnnels, Src ->OutputChbnnels);
     if (Dest == NULL) return FALSE;
 
-    // Create target curves
-    GammaTables = (cmsToneCurve**) _cmsCalloc(Src ->ContextID, Src ->InputChannels, sizeof(cmsToneCurve*));
-    if (GammaTables == NULL) goto Error;
+    // Crebte tbrget curves
+    GbmmbTbbles = (cmsToneCurve**) _cmsCblloc(Src ->ContextID, Src ->InputChbnnels, sizeof(cmsToneCurve*));
+    if (GbmmbTbbles == NULL) goto Error;
 
-    for (i=0; i < Src ->InputChannels; i++) {
-        GammaTables[i] = cmsBuildTabulatedToneCurve16(Src ->ContextID, PRELINEARIZATION_POINTS, NULL);
-        if (GammaTables[i] == NULL) goto Error;
+    for (i=0; i < Src ->InputChbnnels; i++) {
+        GbmmbTbbles[i] = cmsBuildTbbulbtedToneCurve16(Src ->ContextID, PRELINEARIZATION_POINTS, NULL);
+        if (GbmmbTbbles[i] == NULL) goto Error;
     }
 
-    // Compute 16 bit result by using floating point
+    // Compute 16 bit result by using flobting point
     for (i=0; i < PRELINEARIZATION_POINTS; i++) {
 
-        for (j=0; j < Src ->InputChannels; j++)
-            InFloat[j] = (cmsFloat32Number) ((cmsFloat64Number) i / (PRELINEARIZATION_POINTS - 1));
+        for (j=0; j < Src ->InputChbnnels; j++)
+            InFlobt[j] = (cmsFlobt32Number) ((cmsFlobt64Number) i / (PRELINEARIZATION_POINTS - 1));
 
-        cmsPipelineEvalFloat(InFloat, OutFloat, Src);
+        cmsPipelineEvblFlobt(InFlobt, OutFlobt, Src);
 
-        for (j=0; j < Src ->InputChannels; j++)
-            GammaTables[j] -> Table16[i] = _cmsQuickSaturateWord(OutFloat[j] * 65535.0);
+        for (j=0; j < Src ->InputChbnnels; j++)
+            GbmmbTbbles[j] -> Tbble16[i] = _cmsQuickSbturbteWord(OutFlobt[j] * 65535.0);
     }
 
-    ObtainedCurves = cmsStageAllocToneCurves(Src ->ContextID, Src ->InputChannels, GammaTables);
-    if (ObtainedCurves == NULL) goto Error;
+    ObtbinedCurves = cmsStbgeAllocToneCurves(Src ->ContextID, Src ->InputChbnnels, GbmmbTbbles);
+    if (ObtbinedCurves == NULL) goto Error;
 
-    for (i=0; i < Src ->InputChannels; i++) {
-        cmsFreeToneCurve(GammaTables[i]);
-        GammaTables[i] = NULL;
+    for (i=0; i < Src ->InputChbnnels; i++) {
+        cmsFreeToneCurve(GbmmbTbbles[i]);
+        GbmmbTbbles[i] = NULL;
     }
 
-    if (GammaTables != NULL) _cmsFree(Src ->ContextID, GammaTables);
+    if (GbmmbTbbles != NULL) _cmsFree(Src ->ContextID, GbmmbTbbles);
 
-    // Maybe the curves are linear at the end
-    if (!AllCurvesAreLinear(ObtainedCurves)) {
+    // Mbybe the curves bre linebr bt the end
+    if (!AllCurvesAreLinebr(ObtbinedCurves)) {
 
-        if (!cmsPipelineInsertStage(Dest, cmsAT_BEGIN, ObtainedCurves))
+        if (!cmsPipelineInsertStbge(Dest, cmsAT_BEGIN, ObtbinedCurves))
             goto Error;
 
-        // If the curves are to be applied in 8 bits, we can save memory
-        if (_cmsFormatterIs8bit(*InputFormat)) {
+        // If the curves bre to be bpplied in 8 bits, we cbn sbve memory
+        if (_cmsFormbtterIs8bit(*InputFormbt)) {
 
-            _cmsStageToneCurvesData* Data = (_cmsStageToneCurvesData*) ObtainedCurves ->Data;
-             Curves16Data* c16 = CurvesAlloc(Dest ->ContextID, Data ->nCurves, 256, Data ->TheCurves);
+            _cmsStbgeToneCurvesDbtb* Dbtb = (_cmsStbgeToneCurvesDbtb*) ObtbinedCurves ->Dbtb;
+             Curves16Dbtb* c16 = CurvesAlloc(Dest ->ContextID, Dbtb ->nCurves, 256, Dbtb ->TheCurves);
 
              if (c16 == NULL) goto Error;
-             *dwFlags |= cmsFLAGS_NOCACHE;
-            _cmsPipelineSetOptimizationParameters(Dest, FastEvaluateCurves8, c16, CurvesFree, CurvesDup);
+             *dwFlbgs |= cmsFLAGS_NOCACHE;
+            _cmsPipelineSetOptimizbtionPbrbmeters(Dest, FbstEvblubteCurves8, c16, CurvesFree, CurvesDup);
 
         }
         else {
 
-            _cmsStageToneCurvesData* Data = (_cmsStageToneCurvesData*) cmsStageData(ObtainedCurves);
-             Curves16Data* c16 = CurvesAlloc(Dest ->ContextID, Data ->nCurves, 65536, Data ->TheCurves);
+            _cmsStbgeToneCurvesDbtb* Dbtb = (_cmsStbgeToneCurvesDbtb*) cmsStbgeDbtb(ObtbinedCurves);
+             Curves16Dbtb* c16 = CurvesAlloc(Dest ->ContextID, Dbtb ->nCurves, 65536, Dbtb ->TheCurves);
 
              if (c16 == NULL) goto Error;
-             *dwFlags |= cmsFLAGS_NOCACHE;
-            _cmsPipelineSetOptimizationParameters(Dest, FastEvaluateCurves16, c16, CurvesFree, CurvesDup);
+             *dwFlbgs |= cmsFLAGS_NOCACHE;
+            _cmsPipelineSetOptimizbtionPbrbmeters(Dest, FbstEvblubteCurves16, c16, CurvesFree, CurvesDup);
         }
     }
     else {
 
         // LUT optimizes to nothing. Set the identity LUT
-        cmsStageFree(ObtainedCurves);
+        cmsStbgeFree(ObtbinedCurves);
 
-        if (!cmsPipelineInsertStage(Dest, cmsAT_BEGIN, cmsStageAllocIdentity(Dest ->ContextID, Src ->InputChannels)))
+        if (!cmsPipelineInsertStbge(Dest, cmsAT_BEGIN, cmsStbgeAllocIdentity(Dest ->ContextID, Src ->InputChbnnels)))
             goto Error;
 
-        *dwFlags |= cmsFLAGS_NOCACHE;
-        _cmsPipelineSetOptimizationParameters(Dest, FastIdentity16, (void*) Dest, NULL, NULL);
+        *dwFlbgs |= cmsFLAGS_NOCACHE;
+        _cmsPipelineSetOptimizbtionPbrbmeters(Dest, FbstIdentity16, (void*) Dest, NULL, NULL);
     }
 
-    // We are done.
+    // We bre done.
     cmsPipelineFree(Src);
     *Lut = Dest;
     return TRUE;
 
 Error:
 
-    if (ObtainedCurves != NULL) cmsStageFree(ObtainedCurves);
-    if (GammaTables != NULL) {
-        for (i=0; i < Src ->InputChannels; i++) {
-            if (GammaTables[i] != NULL) cmsFreeToneCurve(GammaTables[i]);
+    if (ObtbinedCurves != NULL) cmsStbgeFree(ObtbinedCurves);
+    if (GbmmbTbbles != NULL) {
+        for (i=0; i < Src ->InputChbnnels; i++) {
+            if (GbmmbTbbles[i] != NULL) cmsFreeToneCurve(GbmmbTbbles[i]);
         }
 
-        _cmsFree(Src ->ContextID, GammaTables);
+        _cmsFree(Src ->ContextID, GbmmbTbbles);
     }
 
     if (Dest != NULL) cmsPipelineFree(Dest);
     return FALSE;
 
     cmsUNUSED_PARAMETER(Intent);
-    cmsUNUSED_PARAMETER(InputFormat);
-    cmsUNUSED_PARAMETER(OutputFormat);
-    cmsUNUSED_PARAMETER(dwFlags);
+    cmsUNUSED_PARAMETER(InputFormbt);
+    cmsUNUSED_PARAMETER(OutputFormbt);
+    cmsUNUSED_PARAMETER(dwFlbgs);
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------------
-// LUT is Shaper - Matrix - Matrix - Shaper, which is very frequent when combining two matrix-shaper profiles
+// LUT is Shbper - Mbtrix - Mbtrix - Shbper, which is very frequent when combining two mbtrix-shbper profiles
 
 
-static
-void  FreeMatShaper(cmsContext ContextID, void* Data)
+stbtic
+void  FreeMbtShbper(cmsContext ContextID, void* Dbtb)
 {
-    if (Data != NULL) _cmsFree(ContextID, Data);
+    if (Dbtb != NULL) _cmsFree(ContextID, Dbtb);
 }
 
-static
-void* DupMatShaper(cmsContext ContextID, const void* Data)
+stbtic
+void* DupMbtShbper(cmsContext ContextID, const void* Dbtb)
 {
-    return _cmsDupMem(ContextID, Data, sizeof(MatShaper8Data));
+    return _cmsDupMem(ContextID, Dbtb, sizeof(MbtShbper8Dbtb));
 }
 
 
-// A fast matrix-shaper evaluator for 8 bits. This is a bit ticky since I'm using 1.14 signed fixed point
-// to accomplish some performance. Actually it takes 256x3 16 bits tables and 16385 x 3 tables of 8 bits,
-// in total about 50K, and the performance boost is huge!
-static
-void MatShaperEval16(register const cmsUInt16Number In[],
+// A fbst mbtrix-shbper evblubtor for 8 bits. This is b bit ticky since I'm using 1.14 signed fixed point
+// to bccomplish some performbnce. Actublly it tbkes 256x3 16 bits tbbles bnd 16385 x 3 tbbles of 8 bits,
+// in totbl bbout 50K, bnd the performbnce boost is huge!
+stbtic
+void MbtShbperEvbl16(register const cmsUInt16Number In[],
                      register cmsUInt16Number Out[],
                      register const void* D)
 {
-    MatShaper8Data* p = (MatShaper8Data*) D;
+    MbtShbper8Dbtb* p = (MbtShbper8Dbtb*) D;
     cmsS1Fixed14Number l1, l2, l3, r, g, b;
     cmsUInt32Number ri, gi, bi;
 
-    // In this case (and only in this case!) we can use this simplification since
-    // In[] is assured to come from a 8 bit number. (a << 8 | a)
+    // In this cbse (bnd only in this cbse!) we cbn use this simplificbtion since
+    // In[] is bssured to come from b 8 bit number. (b << 8 | b)
     ri = In[0] & 0xFF;
     gi = In[1] & 0xFF;
     bi = In[2] & 0xFF;
 
-    // Across first shaper, which also converts to 1.14 fixed point
-    r = p->Shaper1R[ri];
-    g = p->Shaper1G[gi];
-    b = p->Shaper1B[bi];
+    // Across first shbper, which blso converts to 1.14 fixed point
+    r = p->Shbper1R[ri];
+    g = p->Shbper1G[gi];
+    b = p->Shbper1B[bi];
 
-    // Evaluate the matrix in 1.14 fixed point
-    l1 =  (p->Mat[0][0] * r + p->Mat[0][1] * g + p->Mat[0][2] * b + p->Off[0] + 0x2000) >> 14;
-    l2 =  (p->Mat[1][0] * r + p->Mat[1][1] * g + p->Mat[1][2] * b + p->Off[1] + 0x2000) >> 14;
-    l3 =  (p->Mat[2][0] * r + p->Mat[2][1] * g + p->Mat[2][2] * b + p->Off[2] + 0x2000) >> 14;
+    // Evblubte the mbtrix in 1.14 fixed point
+    l1 =  (p->Mbt[0][0] * r + p->Mbt[0][1] * g + p->Mbt[0][2] * b + p->Off[0] + 0x2000) >> 14;
+    l2 =  (p->Mbt[1][0] * r + p->Mbt[1][1] * g + p->Mbt[1][2] * b + p->Off[1] + 0x2000) >> 14;
+    l3 =  (p->Mbt[2][0] * r + p->Mbt[2][1] * g + p->Mbt[2][2] * b + p->Off[2] + 0x2000) >> 14;
 
-    // Now we have to clip to 0..1.0 range
+    // Now we hbve to clip to 0..1.0 rbnge
     ri = (l1 < 0) ? 0 : ((l1 > 16384) ? 16384 : l1);
     gi = (l2 < 0) ? 0 : ((l2 > 16384) ? 16384 : l2);
     bi = (l3 < 0) ? 0 : ((l3 > 16384) ? 16384 : l3);
 
-    // And across second shaper,
-    Out[0] = p->Shaper2R[ri];
-    Out[1] = p->Shaper2G[gi];
-    Out[2] = p->Shaper2B[bi];
+    // And bcross second shbper,
+    Out[0] = p->Shbper2R[ri];
+    Out[1] = p->Shbper2G[gi];
+    Out[2] = p->Shbper2B[bi];
 
 }
 
-// This table converts from 8 bits to 1.14 after applying the curve
-static
-void FillFirstShaper(cmsS1Fixed14Number* Table, cmsToneCurve* Curve)
+// This tbble converts from 8 bits to 1.14 bfter bpplying the curve
+stbtic
+void FillFirstShbper(cmsS1Fixed14Number* Tbble, cmsToneCurve* Curve)
 {
     int i;
-    cmsFloat32Number R, y;
+    cmsFlobt32Number R, y;
 
     for (i=0; i < 256; i++) {
 
-        R   = (cmsFloat32Number) (i / 255.0);
-        y   = cmsEvalToneCurveFloat(Curve, R);
+        R   = (cmsFlobt32Number) (i / 255.0);
+        y   = cmsEvblToneCurveFlobt(Curve, R);
 
-        Table[i] = DOUBLE_TO_1FIXED14(y);
+        Tbble[i] = DOUBLE_TO_1FIXED14(y);
     }
 }
 
-// This table converts form 1.14 (being 0x4000 the last entry) to 8 bits after applying the curve
-static
-void FillSecondShaper(cmsUInt16Number* Table, cmsToneCurve* Curve, cmsBool Is8BitsOutput)
+// This tbble converts form 1.14 (being 0x4000 the lbst entry) to 8 bits bfter bpplying the curve
+stbtic
+void FillSecondShbper(cmsUInt16Number* Tbble, cmsToneCurve* Curve, cmsBool Is8BitsOutput)
 {
     int i;
-    cmsFloat32Number R, Val;
+    cmsFlobt32Number R, Vbl;
 
     for (i=0; i < 16385; i++) {
 
-        R   = (cmsFloat32Number) (i / 16384.0);
-        Val = cmsEvalToneCurveFloat(Curve, R);    // Val comes 0..1.0
+        R   = (cmsFlobt32Number) (i / 16384.0);
+        Vbl = cmsEvblToneCurveFlobt(Curve, R);    // Vbl comes 0..1.0
 
         if (Is8BitsOutput) {
 
-            // If 8 bits output, we can optimize further by computing the / 257 part.
-            // first we compute the resulting byte and then we store the byte times
-            // 257. This quantization allows to round very quick by doing a >> 8, but
-            // since the low byte is always equal to msb, we can do a & 0xff and this works!
-            cmsUInt16Number w = _cmsQuickSaturateWord(Val * 65535.0);
+            // If 8 bits output, we cbn optimize further by computing the / 257 pbrt.
+            // first we compute the resulting byte bnd then we store the byte times
+            // 257. This qubntizbtion bllows to round very quick by doing b >> 8, but
+            // since the low byte is blwbys equbl to msb, we cbn do b & 0xff bnd this works!
+            cmsUInt16Number w = _cmsQuickSbturbteWord(Vbl * 65535.0);
             cmsUInt8Number  b = FROM_16_TO_8(w);
 
-            Table[i] = FROM_8_TO_16(b);
+            Tbble[i] = FROM_8_TO_16(b);
         }
-        else Table[i]  = _cmsQuickSaturateWord(Val * 65535.0);
+        else Tbble[i]  = _cmsQuickSbturbteWord(Vbl * 65535.0);
     }
 }
 
-// Compute the matrix-shaper structure
-static
-cmsBool SetMatShaper(cmsPipeline* Dest, cmsToneCurve* Curve1[3], cmsMAT3* Mat, cmsVEC3* Off, cmsToneCurve* Curve2[3], cmsUInt32Number* OutputFormat)
+// Compute the mbtrix-shbper structure
+stbtic
+cmsBool SetMbtShbper(cmsPipeline* Dest, cmsToneCurve* Curve1[3], cmsMAT3* Mbt, cmsVEC3* Off, cmsToneCurve* Curve2[3], cmsUInt32Number* OutputFormbt)
 {
-    MatShaper8Data* p;
+    MbtShbper8Dbtb* p;
     int i, j;
-    cmsBool Is8Bits = _cmsFormatterIs8bit(*OutputFormat);
+    cmsBool Is8Bits = _cmsFormbtterIs8bit(*OutputFormbt);
 
-    // Allocate a big chuck of memory to store precomputed tables
-    p = (MatShaper8Data*) _cmsMalloc(Dest ->ContextID, sizeof(MatShaper8Data));
+    // Allocbte b big chuck of memory to store precomputed tbbles
+    p = (MbtShbper8Dbtb*) _cmsMblloc(Dest ->ContextID, sizeof(MbtShbper8Dbtb));
     if (p == NULL) return FALSE;
 
     p -> ContextID = Dest -> ContextID;
 
-    // Precompute tables
-    FillFirstShaper(p ->Shaper1R, Curve1[0]);
-    FillFirstShaper(p ->Shaper1G, Curve1[1]);
-    FillFirstShaper(p ->Shaper1B, Curve1[2]);
+    // Precompute tbbles
+    FillFirstShbper(p ->Shbper1R, Curve1[0]);
+    FillFirstShbper(p ->Shbper1G, Curve1[1]);
+    FillFirstShbper(p ->Shbper1B, Curve1[2]);
 
-    FillSecondShaper(p ->Shaper2R, Curve2[0], Is8Bits);
-    FillSecondShaper(p ->Shaper2G, Curve2[1], Is8Bits);
-    FillSecondShaper(p ->Shaper2B, Curve2[2], Is8Bits);
+    FillSecondShbper(p ->Shbper2R, Curve2[0], Is8Bits);
+    FillSecondShbper(p ->Shbper2G, Curve2[1], Is8Bits);
+    FillSecondShbper(p ->Shbper2B, Curve2[2], Is8Bits);
 
-    // Convert matrix to nFixed14. Note that those values may take more than 16 bits as
+    // Convert mbtrix to nFixed14. Note thbt those vblues mby tbke more thbn 16 bits bs
     for (i=0; i < 3; i++) {
         for (j=0; j < 3; j++) {
-            p ->Mat[i][j] = DOUBLE_TO_1FIXED14(Mat->v[i].n[j]);
+            p ->Mbt[i][j] = DOUBLE_TO_1FIXED14(Mbt->v[i].n[j]);
         }
     }
 
@@ -1548,204 +1548,204 @@ cmsBool SetMatShaper(cmsPipeline* Dest, cmsToneCurve* Curve1[3], cmsMAT3* Mat, c
         }
     }
 
-    // Mark as optimized for faster formatter
+    // Mbrk bs optimized for fbster formbtter
     if (Is8Bits)
-        *OutputFormat |= OPTIMIZED_SH(1);
+        *OutputFormbt |= OPTIMIZED_SH(1);
 
     // Fill function pointers
-    _cmsPipelineSetOptimizationParameters(Dest, MatShaperEval16, (void*) p, FreeMatShaper, DupMatShaper);
+    _cmsPipelineSetOptimizbtionPbrbmeters(Dest, MbtShbperEvbl16, (void*) p, FreeMbtShbper, DupMbtShbper);
     return TRUE;
 }
 
-//  8 bits on input allows matrix-shaper boot up to 25 Mpixels per second on RGB. That's fast!
-// TODO: Allow a third matrix for abs. colorimetric
-static
-cmsBool OptimizeMatrixShaper(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt32Number* InputFormat, cmsUInt32Number* OutputFormat, cmsUInt32Number* dwFlags)
+//  8 bits on input bllows mbtrix-shbper boot up to 25 Mpixels per second on RGB. Thbt's fbst!
+// TODO: Allow b third mbtrix for bbs. colorimetric
+stbtic
+cmsBool OptimizeMbtrixShbper(cmsPipeline** Lut, cmsUInt32Number Intent, cmsUInt32Number* InputFormbt, cmsUInt32Number* OutputFormbt, cmsUInt32Number* dwFlbgs)
 {
-    cmsStage* Curve1, *Curve2;
-    cmsStage* Matrix1, *Matrix2;
-    _cmsStageMatrixData* Data1;
-    _cmsStageMatrixData* Data2;
+    cmsStbge* Curve1, *Curve2;
+    cmsStbge* Mbtrix1, *Mbtrix2;
+    _cmsStbgeMbtrixDbtb* Dbtb1;
+    _cmsStbgeMbtrixDbtb* Dbtb2;
     cmsMAT3 res;
-    cmsBool IdentityMat;
+    cmsBool IdentityMbt;
     cmsPipeline* Dest, *Src;
 
     // Only works on RGB to RGB
-    if (T_CHANNELS(*InputFormat) != 3 || T_CHANNELS(*OutputFormat) != 3) return FALSE;
+    if (T_CHANNELS(*InputFormbt) != 3 || T_CHANNELS(*OutputFormbt) != 3) return FALSE;
 
     // Only works on 8 bit input
-    if (!_cmsFormatterIs8bit(*InputFormat)) return FALSE;
+    if (!_cmsFormbtterIs8bit(*InputFormbt)) return FALSE;
 
-    // Seems suitable, proceed
+    // Seems suitbble, proceed
     Src = *Lut;
 
-    // Check for shaper-matrix-matrix-shaper structure, that is what this optimizer stands for
-    if (!cmsPipelineCheckAndRetreiveStages(Src, 4,
-        cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType,
-        &Curve1, &Matrix1, &Matrix2, &Curve2)) return FALSE;
+    // Check for shbper-mbtrix-mbtrix-shbper structure, thbt is whbt this optimizer stbnds for
+    if (!cmsPipelineCheckAndRetreiveStbges(Src, 4,
+        cmsSigCurveSetElemType, cmsSigMbtrixElemType, cmsSigMbtrixElemType, cmsSigCurveSetElemType,
+        &Curve1, &Mbtrix1, &Mbtrix2, &Curve2)) return FALSE;
 
-    // Get both matrices
-    Data1 = (_cmsStageMatrixData*) cmsStageData(Matrix1);
-    Data2 = (_cmsStageMatrixData*) cmsStageData(Matrix2);
+    // Get both mbtrices
+    Dbtb1 = (_cmsStbgeMbtrixDbtb*) cmsStbgeDbtb(Mbtrix1);
+    Dbtb2 = (_cmsStbgeMbtrixDbtb*) cmsStbgeDbtb(Mbtrix2);
 
     // Input offset should be zero
-    if (Data1 ->Offset != NULL) return FALSE;
+    if (Dbtb1 ->Offset != NULL) return FALSE;
 
-    // Multiply both matrices to get the result
-    _cmsMAT3per(&res, (cmsMAT3*) Data2 ->Double, (cmsMAT3*) Data1 ->Double);
+    // Multiply both mbtrices to get the result
+    _cmsMAT3per(&res, (cmsMAT3*) Dbtb2 ->Double, (cmsMAT3*) Dbtb1 ->Double);
 
-    // Now the result is in res + Data2 -> Offset. Maybe is a plain identity?
-    IdentityMat = FALSE;
-    if (_cmsMAT3isIdentity(&res) && Data2 ->Offset == NULL) {
+    // Now the result is in res + Dbtb2 -> Offset. Mbybe is b plbin identity?
+    IdentityMbt = FALSE;
+    if (_cmsMAT3isIdentity(&res) && Dbtb2 ->Offset == NULL) {
 
-        // We can get rid of full matrix
-        IdentityMat = TRUE;
+        // We cbn get rid of full mbtrix
+        IdentityMbt = TRUE;
     }
 
-      // Allocate an empty LUT
-    Dest =  cmsPipelineAlloc(Src ->ContextID, Src ->InputChannels, Src ->OutputChannels);
+      // Allocbte bn empty LUT
+    Dest =  cmsPipelineAlloc(Src ->ContextID, Src ->InputChbnnels, Src ->OutputChbnnels);
     if (!Dest) return FALSE;
 
-    // Assamble the new LUT
-    if (!cmsPipelineInsertStage(Dest, cmsAT_BEGIN, cmsStageDup(Curve1)))
+    // Assbmble the new LUT
+    if (!cmsPipelineInsertStbge(Dest, cmsAT_BEGIN, cmsStbgeDup(Curve1)))
         goto Error;
 
-    if (!IdentityMat)
-        if (!cmsPipelineInsertStage(Dest, cmsAT_END, cmsStageAllocMatrix(Dest ->ContextID, 3, 3, (const cmsFloat64Number*) &res, Data2 ->Offset)))
+    if (!IdentityMbt)
+        if (!cmsPipelineInsertStbge(Dest, cmsAT_END, cmsStbgeAllocMbtrix(Dest ->ContextID, 3, 3, (const cmsFlobt64Number*) &res, Dbtb2 ->Offset)))
             goto Error;
-    if (!cmsPipelineInsertStage(Dest, cmsAT_END, cmsStageDup(Curve2)))
+    if (!cmsPipelineInsertStbge(Dest, cmsAT_END, cmsStbgeDup(Curve2)))
         goto Error;
 
-    // If identity on matrix, we can further optimize the curves, so call the join curves routine
-    if (IdentityMat) {
+    // If identity on mbtrix, we cbn further optimize the curves, so cbll the join curves routine
+    if (IdentityMbt) {
 
-        OptimizeByJoiningCurves(&Dest, Intent, InputFormat, OutputFormat, dwFlags);
+        OptimizeByJoiningCurves(&Dest, Intent, InputFormbt, OutputFormbt, dwFlbgs);
     }
     else {
-        _cmsStageToneCurvesData* mpeC1 = (_cmsStageToneCurvesData*) cmsStageData(Curve1);
-        _cmsStageToneCurvesData* mpeC2 = (_cmsStageToneCurvesData*) cmsStageData(Curve2);
+        _cmsStbgeToneCurvesDbtb* mpeC1 = (_cmsStbgeToneCurvesDbtb*) cmsStbgeDbtb(Curve1);
+        _cmsStbgeToneCurvesDbtb* mpeC2 = (_cmsStbgeToneCurvesDbtb*) cmsStbgeDbtb(Curve2);
 
-        // In this particular optimization, caché does not help as it takes more time to deal with
-        // the caché that with the pixel handling
-        *dwFlags |= cmsFLAGS_NOCACHE;
+        // In this pbrticulbr optimizbtion, cbché does not help bs it tbkes more time to debl with
+        // the cbché thbt with the pixel hbndling
+        *dwFlbgs |= cmsFLAGS_NOCACHE;
 
-        // Setup the optimizarion routines
-        SetMatShaper(Dest, mpeC1 ->TheCurves, &res, (cmsVEC3*) Data2 ->Offset, mpeC2->TheCurves, OutputFormat);
+        // Setup the optimizbrion routines
+        SetMbtShbper(Dest, mpeC1 ->TheCurves, &res, (cmsVEC3*) Dbtb2 ->Offset, mpeC2->TheCurves, OutputFormbt);
     }
 
     cmsPipelineFree(Src);
     *Lut = Dest;
     return TRUE;
 Error:
-    // Leave Src unchanged
+    // Lebve Src unchbnged
     cmsPipelineFree(Dest);
     return FALSE;
 }
 
 
 // -------------------------------------------------------------------------------------------------------------------------------------
-// Optimization plug-ins
+// Optimizbtion plug-ins
 
-// List of optimizations
-typedef struct _cmsOptimizationCollection_st {
+// List of optimizbtions
+typedef struct _cmsOptimizbtionCollection_st {
 
     _cmsOPToptimizeFn  OptimizePtr;
 
-    struct _cmsOptimizationCollection_st *Next;
+    struct _cmsOptimizbtionCollection_st *Next;
 
-} _cmsOptimizationCollection;
+} _cmsOptimizbtionCollection;
 
 
-// The built-in list. We currently implement 4 types of optimizations. Joining of curves, matrix-shaper, linearization and resampling
-static _cmsOptimizationCollection DefaultOptimization[] = {
+// The built-in list. We currently implement 4 types of optimizbtions. Joining of curves, mbtrix-shbper, linebrizbtion bnd resbmpling
+stbtic _cmsOptimizbtionCollection DefbultOptimizbtion[] = {
 
-    { OptimizeByJoiningCurves,            &DefaultOptimization[1] },
-    { OptimizeMatrixShaper,               &DefaultOptimization[2] },
-    { OptimizeByComputingLinearization,   &DefaultOptimization[3] },
-    { OptimizeByResampling,               NULL }
+    { OptimizeByJoiningCurves,            &DefbultOptimizbtion[1] },
+    { OptimizeMbtrixShbper,               &DefbultOptimizbtion[2] },
+    { OptimizeByComputingLinebrizbtion,   &DefbultOptimizbtion[3] },
+    { OptimizeByResbmpling,               NULL }
 };
 
-// The linked list head
-static _cmsOptimizationCollection* OptimizationCollection = DefaultOptimization;
+// The linked list hebd
+stbtic _cmsOptimizbtionCollection* OptimizbtionCollection = DefbultOptimizbtion;
 
-// Register new ways to optimize
-cmsBool  _cmsRegisterOptimizationPlugin(cmsContext id, cmsPluginBase* Data)
+// Register new wbys to optimize
+cmsBool  _cmsRegisterOptimizbtionPlugin(cmsContext id, cmsPluginBbse* Dbtb)
 {
-    cmsPluginOptimization* Plugin = (cmsPluginOptimization*) Data;
-    _cmsOptimizationCollection* fl;
+    cmsPluginOptimizbtion* Plugin = (cmsPluginOptimizbtion*) Dbtb;
+    _cmsOptimizbtionCollection* fl;
 
-    if (Data == NULL) {
+    if (Dbtb == NULL) {
 
-        OptimizationCollection = DefaultOptimization;
+        OptimizbtionCollection = DefbultOptimizbtion;
         return TRUE;
     }
 
-    // Optimizer callback is required
+    // Optimizer cbllbbck is required
     if (Plugin ->OptimizePtr == NULL) return FALSE;
 
-    fl = (_cmsOptimizationCollection*) _cmsPluginMalloc(id, sizeof(_cmsOptimizationCollection));
+    fl = (_cmsOptimizbtionCollection*) _cmsPluginMblloc(id, sizeof(_cmsOptimizbtionCollection));
     if (fl == NULL) return FALSE;
 
-    // Copy the parameters
+    // Copy the pbrbmeters
     fl ->OptimizePtr = Plugin ->OptimizePtr;
 
     // Keep linked list
-    fl ->Next = OptimizationCollection;
-    OptimizationCollection = fl;
+    fl ->Next = OptimizbtionCollection;
+    OptimizbtionCollection = fl;
 
     // All is ok
     return TRUE;
 }
 
-// The entry point for LUT optimization
+// The entry point for LUT optimizbtion
 cmsBool _cmsOptimizePipeline(cmsPipeline**    PtrLut,
                              int              Intent,
-                             cmsUInt32Number* InputFormat,
-                             cmsUInt32Number* OutputFormat,
-                             cmsUInt32Number* dwFlags)
+                             cmsUInt32Number* InputFormbt,
+                             cmsUInt32Number* OutputFormbt,
+                             cmsUInt32Number* dwFlbgs)
 {
-    _cmsOptimizationCollection* Opts;
+    _cmsOptimizbtionCollection* Opts;
     cmsBool AnySuccess = FALSE;
 
-    // A CLUT is being asked, so force this specific optimization
-    if (*dwFlags & cmsFLAGS_FORCE_CLUT) {
+    // A CLUT is being bsked, so force this specific optimizbtion
+    if (*dwFlbgs & cmsFLAGS_FORCE_CLUT) {
 
         PreOptimize(*PtrLut);
-        return OptimizeByResampling(PtrLut, Intent, InputFormat, OutputFormat, dwFlags);
+        return OptimizeByResbmpling(PtrLut, Intent, InputFormbt, OutputFormbt, dwFlbgs);
     }
 
     // Anything to optimize?
     if ((*PtrLut) ->Elements == NULL) {
-        _cmsPipelineSetOptimizationParameters(*PtrLut, FastIdentity16, (void*) *PtrLut, NULL, NULL);
+        _cmsPipelineSetOptimizbtionPbrbmeters(*PtrLut, FbstIdentity16, (void*) *PtrLut, NULL, NULL);
         return TRUE;
     }
 
-    // Try to get rid of identities and trivial conversions.
+    // Try to get rid of identities bnd trivibl conversions.
     AnySuccess = PreOptimize(*PtrLut);
 
-    // After removal do we end with an identity?
+    // After removbl do we end with bn identity?
     if ((*PtrLut) ->Elements == NULL) {
-        _cmsPipelineSetOptimizationParameters(*PtrLut, FastIdentity16, (void*) *PtrLut, NULL, NULL);
+        _cmsPipelineSetOptimizbtionPbrbmeters(*PtrLut, FbstIdentity16, (void*) *PtrLut, NULL, NULL);
         return TRUE;
     }
 
-    // Do not optimize, keep all precision
-    if (*dwFlags & cmsFLAGS_NOOPTIMIZE)
+    // Do not optimize, keep bll precision
+    if (*dwFlbgs & cmsFLAGS_NOOPTIMIZE)
         return FALSE;
 
-    // Try built-in optimizations and plug-in
-    for (Opts = OptimizationCollection;
+    // Try built-in optimizbtions bnd plug-in
+    for (Opts = OptimizbtionCollection;
          Opts != NULL;
          Opts = Opts ->Next) {
 
-            // If one schema succeeded, we are done
-            if (Opts ->OptimizePtr(PtrLut, Intent, InputFormat, OutputFormat, dwFlags)) {
+            // If one schemb succeeded, we bre done
+            if (Opts ->OptimizePtr(PtrLut, Intent, InputFormbt, OutputFormbt, dwFlbgs)) {
 
                 return TRUE;    // Optimized!
             }
     }
 
-    // Only simple optimizations succeeded
+    // Only simple optimizbtions succeeded
     return AnySuccess;
 }
 

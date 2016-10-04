@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import java.awt.Composite;
-import java.awt.Transparency;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.lang.ref.WeakReference;
-import java.lang.annotation.Native;
-import sun.java2d.ScreenUpdateManager;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.GraphicsPrimitiveMgr;
-import sun.java2d.loops.ScaledBlit;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.TransformBlit;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.RenderQueue;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import sun.java2d.windows.GDIWindowSurfaceData;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.AffineTrbnsformOp;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.bnnotbtion.Nbtive;
+import sun.jbvb2d.ScreenUpdbteMbnbger;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.loops.GrbphicsPrimitiveMgr;
+import sun.jbvb2d.loops.ScbledBlit;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.TrbnsformBlit;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.RenderBuffer;
+import sun.jbvb2d.pipe.RenderQueue;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
+import sun.jbvb2d.windows.GDIWindowSurfbceDbtb;
 
-class D3DBlitLoops {
+clbss D3DBlitLoops {
 
-    static void register() {
-        Blit blitIntArgbPreToSurface =
-            new D3DSwToSurfaceBlit(SurfaceType.IntArgbPre,
-                                   D3DSurfaceData.ST_INT_ARGB_PRE);
+    stbtic void register() {
+        Blit blitIntArgbPreToSurfbce =
+            new D3DSwToSurfbceBlit(SurfbceType.IntArgbPre,
+                                   D3DSurfbceDbtb.ST_INT_ARGB_PRE);
         Blit blitIntArgbPreToTexture =
-            new D3DSwToTextureBlit(SurfaceType.IntArgbPre,
-                                   D3DSurfaceData.ST_INT_ARGB_PRE);
+            new D3DSwToTextureBlit(SurfbceType.IntArgbPre,
+                                   D3DSurfbceDbtb.ST_INT_ARGB_PRE);
 
-        GraphicsPrimitive[] primitives = {
-            // prevent D3DSurface -> Screen blits
-            new D3DSurfaceToGDIWindowSurfaceBlit(),
-            new D3DSurfaceToGDIWindowSurfaceScale(),
-            new D3DSurfaceToGDIWindowSurfaceTransform(),
+        GrbphicsPrimitive[] primitives = {
+            // prevent D3DSurfbce -> Screen blits
+            new D3DSurfbceToGDIWindowSurfbceBlit(),
+            new D3DSurfbceToGDIWindowSurfbceScble(),
+            new D3DSurfbceToGDIWindowSurfbceTrbnsform(),
 
-            // surface->surface ops
-            new D3DSurfaceToSurfaceBlit(),
-            new D3DSurfaceToSurfaceScale(),
-            new D3DSurfaceToSurfaceTransform(),
+            // surfbce->surfbce ops
+            new D3DSurfbceToSurfbceBlit(),
+            new D3DSurfbceToSurfbceScble(),
+            new D3DSurfbceToSurfbceTrbnsform(),
 
-            // render-to-texture surface->surface ops
-            new D3DRTTSurfaceToSurfaceBlit(),
-            new D3DRTTSurfaceToSurfaceScale(),
-            new D3DRTTSurfaceToSurfaceTransform(),
+            // render-to-texture surfbce->surfbce ops
+            new D3DRTTSurfbceToSurfbceBlit(),
+            new D3DRTTSurfbceToSurfbceScble(),
+            new D3DRTTSurfbceToSurfbceTrbnsform(),
 
-            // surface->sw ops
-            new D3DSurfaceToSwBlit(SurfaceType.IntArgb,
-                                   D3DSurfaceData.ST_INT_ARGB),
+            // surfbce->sw ops
+            new D3DSurfbceToSwBlit(SurfbceType.IntArgb,
+                                   D3DSurfbceDbtb.ST_INT_ARGB),
 
-            // sw->surface ops
-            blitIntArgbPreToSurface,
-            new D3DSwToSurfaceBlit(SurfaceType.IntArgb,
-                                   D3DSurfaceData.ST_INT_ARGB),
-            new D3DSwToSurfaceBlit(SurfaceType.IntRgb,
-                                   D3DSurfaceData.ST_INT_RGB),
-            new D3DSwToSurfaceBlit(SurfaceType.IntBgr,
-                                   D3DSurfaceData.ST_INT_BGR),
-            new D3DSwToSurfaceBlit(SurfaceType.ThreeByteBgr,
-                                   D3DSurfaceData.ST_3BYTE_BGR),
-            new D3DSwToSurfaceBlit(SurfaceType.Ushort565Rgb,
-                                   D3DSurfaceData.ST_USHORT_565_RGB),
-            new D3DSwToSurfaceBlit(SurfaceType.Ushort555Rgb,
-                                   D3DSurfaceData.ST_USHORT_555_RGB),
-            new D3DSwToSurfaceBlit(SurfaceType.ByteIndexed,
-                                   D3DSurfaceData.ST_BYTE_INDEXED),
-            // REMIND: we don't have a native sw loop to back this loop up
-//            new D3DSwToSurfaceBlit(SurfaceType.ByteIndexedBm,
-//                                   D3DSurfaceData.ST_BYTE_INDEXED_BM),
-            new D3DGeneralBlit(D3DSurfaceData.D3DSurface,
-                               CompositeType.AnyAlpha,
-                               blitIntArgbPreToSurface),
+            // sw->surfbce ops
+            blitIntArgbPreToSurfbce,
+            new D3DSwToSurfbceBlit(SurfbceType.IntArgb,
+                                   D3DSurfbceDbtb.ST_INT_ARGB),
+            new D3DSwToSurfbceBlit(SurfbceType.IntRgb,
+                                   D3DSurfbceDbtb.ST_INT_RGB),
+            new D3DSwToSurfbceBlit(SurfbceType.IntBgr,
+                                   D3DSurfbceDbtb.ST_INT_BGR),
+            new D3DSwToSurfbceBlit(SurfbceType.ThreeByteBgr,
+                                   D3DSurfbceDbtb.ST_3BYTE_BGR),
+            new D3DSwToSurfbceBlit(SurfbceType.Ushort565Rgb,
+                                   D3DSurfbceDbtb.ST_USHORT_565_RGB),
+            new D3DSwToSurfbceBlit(SurfbceType.Ushort555Rgb,
+                                   D3DSurfbceDbtb.ST_USHORT_555_RGB),
+            new D3DSwToSurfbceBlit(SurfbceType.ByteIndexed,
+                                   D3DSurfbceDbtb.ST_BYTE_INDEXED),
+            // REMIND: we don't hbve b nbtive sw loop to bbck this loop up
+//            new D3DSwToSurfbceBlit(SurfbceType.ByteIndexedBm,
+//                                   D3DSurfbceDbtb.ST_BYTE_INDEXED_BM),
+            new D3DGenerblBlit(D3DSurfbceDbtb.D3DSurfbce,
+                               CompositeType.AnyAlphb,
+                               blitIntArgbPreToSurfbce),
 
-            new D3DSwToSurfaceScale(SurfaceType.IntArgb,
-                                    D3DSurfaceData.ST_INT_ARGB),
-            new D3DSwToSurfaceScale(SurfaceType.IntArgbPre,
-                                    D3DSurfaceData.ST_INT_ARGB_PRE),
-            new D3DSwToSurfaceScale(SurfaceType.IntRgb,
-                                    D3DSurfaceData.ST_INT_RGB),
-            new D3DSwToSurfaceScale(SurfaceType.IntBgr,
-                                    D3DSurfaceData.ST_INT_BGR),
-            new D3DSwToSurfaceScale(SurfaceType.ThreeByteBgr,
-                                    D3DSurfaceData.ST_3BYTE_BGR),
-            new D3DSwToSurfaceScale(SurfaceType.Ushort565Rgb,
-                                    D3DSurfaceData.ST_USHORT_565_RGB),
-            new D3DSwToSurfaceScale(SurfaceType.Ushort555Rgb,
-                                    D3DSurfaceData.ST_USHORT_555_RGB),
-            new D3DSwToSurfaceScale(SurfaceType.ByteIndexed,
-                                    D3DSurfaceData.ST_BYTE_INDEXED),
-            // REMIND: we don't have a native sw loop to back this loop up
-//            new D3DSwToSurfaceScale(SurfaceType.ByteIndexedBm,
-//                                    D3DSurfaceData.ST_BYTE_INDEXED_BM),
+            new D3DSwToSurfbceScble(SurfbceType.IntArgb,
+                                    D3DSurfbceDbtb.ST_INT_ARGB),
+            new D3DSwToSurfbceScble(SurfbceType.IntArgbPre,
+                                    D3DSurfbceDbtb.ST_INT_ARGB_PRE),
+            new D3DSwToSurfbceScble(SurfbceType.IntRgb,
+                                    D3DSurfbceDbtb.ST_INT_RGB),
+            new D3DSwToSurfbceScble(SurfbceType.IntBgr,
+                                    D3DSurfbceDbtb.ST_INT_BGR),
+            new D3DSwToSurfbceScble(SurfbceType.ThreeByteBgr,
+                                    D3DSurfbceDbtb.ST_3BYTE_BGR),
+            new D3DSwToSurfbceScble(SurfbceType.Ushort565Rgb,
+                                    D3DSurfbceDbtb.ST_USHORT_565_RGB),
+            new D3DSwToSurfbceScble(SurfbceType.Ushort555Rgb,
+                                    D3DSurfbceDbtb.ST_USHORT_555_RGB),
+            new D3DSwToSurfbceScble(SurfbceType.ByteIndexed,
+                                    D3DSurfbceDbtb.ST_BYTE_INDEXED),
+            // REMIND: we don't hbve b nbtive sw loop to bbck this loop up
+//            new D3DSwToSurfbceScble(SurfbceType.ByteIndexedBm,
+//                                    D3DSurfbceDbtb.ST_BYTE_INDEXED_BM),
 
-            new D3DSwToSurfaceTransform(SurfaceType.IntArgb,
-                                        D3DSurfaceData.ST_INT_ARGB),
-            new D3DSwToSurfaceTransform(SurfaceType.IntArgbPre,
-                                        D3DSurfaceData.ST_INT_ARGB_PRE),
-            new D3DSwToSurfaceTransform(SurfaceType.IntRgb,
-                                        D3DSurfaceData.ST_INT_RGB),
-            new D3DSwToSurfaceTransform(SurfaceType.IntBgr,
-                                        D3DSurfaceData.ST_INT_BGR),
-            new D3DSwToSurfaceTransform(SurfaceType.ThreeByteBgr,
-                                        D3DSurfaceData.ST_3BYTE_BGR),
-            new D3DSwToSurfaceTransform(SurfaceType.Ushort565Rgb,
-                                        D3DSurfaceData.ST_USHORT_565_RGB),
-            new D3DSwToSurfaceTransform(SurfaceType.Ushort555Rgb,
-                                        D3DSurfaceData.ST_USHORT_555_RGB),
-            new D3DSwToSurfaceTransform(SurfaceType.ByteIndexed,
-                                        D3DSurfaceData.ST_BYTE_INDEXED),
-            // REMIND: we don't have a native sw loop to back this loop up
-//            new D3DSwToSurfaceTransform(SurfaceType.ByteIndexedBm,
-//                                        D3DSurfaceData.ST_BYTE_INDEXED_BM),
+            new D3DSwToSurfbceTrbnsform(SurfbceType.IntArgb,
+                                        D3DSurfbceDbtb.ST_INT_ARGB),
+            new D3DSwToSurfbceTrbnsform(SurfbceType.IntArgbPre,
+                                        D3DSurfbceDbtb.ST_INT_ARGB_PRE),
+            new D3DSwToSurfbceTrbnsform(SurfbceType.IntRgb,
+                                        D3DSurfbceDbtb.ST_INT_RGB),
+            new D3DSwToSurfbceTrbnsform(SurfbceType.IntBgr,
+                                        D3DSurfbceDbtb.ST_INT_BGR),
+            new D3DSwToSurfbceTrbnsform(SurfbceType.ThreeByteBgr,
+                                        D3DSurfbceDbtb.ST_3BYTE_BGR),
+            new D3DSwToSurfbceTrbnsform(SurfbceType.Ushort565Rgb,
+                                        D3DSurfbceDbtb.ST_USHORT_565_RGB),
+            new D3DSwToSurfbceTrbnsform(SurfbceType.Ushort555Rgb,
+                                        D3DSurfbceDbtb.ST_USHORT_555_RGB),
+            new D3DSwToSurfbceTrbnsform(SurfbceType.ByteIndexed,
+                                        D3DSurfbceDbtb.ST_BYTE_INDEXED),
+            // REMIND: we don't hbve b nbtive sw loop to bbck this loop up
+//            new D3DSwToSurfbceTrbnsform(SurfbceType.ByteIndexedBm,
+//                                        D3DSurfbceDbtb.ST_BYTE_INDEXED_BM),
 
-            // texture->surface ops
-            new D3DTextureToSurfaceBlit(),
-            new D3DTextureToSurfaceScale(),
-            new D3DTextureToSurfaceTransform(),
+            // texture->surfbce ops
+            new D3DTextureToSurfbceBlit(),
+            new D3DTextureToSurfbceScble(),
+            new D3DTextureToSurfbceTrbnsform(),
 
             // sw->texture ops
             blitIntArgbPreToTexture,
-            new D3DSwToTextureBlit(SurfaceType.IntRgb,
-                                   D3DSurfaceData.ST_INT_RGB),
-            new D3DSwToTextureBlit(SurfaceType.IntArgb,
-                                   D3DSurfaceData.ST_INT_ARGB),
-            new D3DSwToTextureBlit(SurfaceType.IntBgr,
-                                   D3DSurfaceData.ST_INT_BGR),
-            new D3DSwToTextureBlit(SurfaceType.ThreeByteBgr,
-                                   D3DSurfaceData.ST_3BYTE_BGR),
-            new D3DSwToTextureBlit(SurfaceType.Ushort565Rgb,
-                                   D3DSurfaceData.ST_USHORT_565_RGB),
-            new D3DSwToTextureBlit(SurfaceType.Ushort555Rgb,
-                                   D3DSurfaceData.ST_USHORT_555_RGB),
-            new D3DSwToTextureBlit(SurfaceType.ByteIndexed,
-                                   D3DSurfaceData.ST_BYTE_INDEXED),
-            // REMIND: we don't have a native sw loop to back this loop up
-//            new D3DSwToTextureBlit(SurfaceType.ByteIndexedBm,
-//                                   D3DSurfaceData.ST_BYTE_INDEXED_BM),
-            new D3DGeneralBlit(D3DSurfaceData.D3DTexture,
-                               CompositeType.SrcNoEa,
+            new D3DSwToTextureBlit(SurfbceType.IntRgb,
+                                   D3DSurfbceDbtb.ST_INT_RGB),
+            new D3DSwToTextureBlit(SurfbceType.IntArgb,
+                                   D3DSurfbceDbtb.ST_INT_ARGB),
+            new D3DSwToTextureBlit(SurfbceType.IntBgr,
+                                   D3DSurfbceDbtb.ST_INT_BGR),
+            new D3DSwToTextureBlit(SurfbceType.ThreeByteBgr,
+                                   D3DSurfbceDbtb.ST_3BYTE_BGR),
+            new D3DSwToTextureBlit(SurfbceType.Ushort565Rgb,
+                                   D3DSurfbceDbtb.ST_USHORT_565_RGB),
+            new D3DSwToTextureBlit(SurfbceType.Ushort555Rgb,
+                                   D3DSurfbceDbtb.ST_USHORT_555_RGB),
+            new D3DSwToTextureBlit(SurfbceType.ByteIndexed,
+                                   D3DSurfbceDbtb.ST_BYTE_INDEXED),
+            // REMIND: we don't hbve b nbtive sw loop to bbck this loop up
+//            new D3DSwToTextureBlit(SurfbceType.ByteIndexedBm,
+//                                   D3DSurfbceDbtb.ST_BYTE_INDEXED_BM),
+            new D3DGenerblBlit(D3DSurfbceDbtb.D3DTexture,
+                               CompositeType.SrcNoEb,
                                blitIntArgbPreToTexture),
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
     /**
-     * The following offsets are used to pack the parameters in
-     * createPackedParams().  (They are also used at the native level when
-     * unpacking the params.)
+     * The following offsets bre used to pbck the pbrbmeters in
+     * crebtePbckedPbrbms().  (They bre blso used bt the nbtive level when
+     * unpbcking the pbrbms.)
      */
-    @Native private static final int OFFSET_SRCTYPE = 16;
-    @Native private static final int OFFSET_HINT    =  8;
-    @Native private static final int OFFSET_TEXTURE =  3;
-    @Native private static final int OFFSET_RTT     =  2;
-    @Native private static final int OFFSET_XFORM   =  1;
-    @Native private static final int OFFSET_ISOBLIT =  0;
+    @Nbtive privbte stbtic finbl int OFFSET_SRCTYPE = 16;
+    @Nbtive privbte stbtic finbl int OFFSET_HINT    =  8;
+    @Nbtive privbte stbtic finbl int OFFSET_TEXTURE =  3;
+    @Nbtive privbte stbtic finbl int OFFSET_RTT     =  2;
+    @Nbtive privbte stbtic finbl int OFFSET_XFORM   =  1;
+    @Nbtive privbte stbtic finbl int OFFSET_ISOBLIT =  0;
 
     /**
-     * Packs the given parameters into a single int value in order to save
-     * space on the rendering queue.
+     * Pbcks the given pbrbmeters into b single int vblue in order to sbve
+     * spbce on the rendering queue.
      */
-    private static int createPackedParams(boolean isoblit, boolean texture,
-                                          boolean rtt, boolean xform,
+    privbte stbtic int crebtePbckedPbrbms(boolebn isoblit, boolebn texture,
+                                          boolebn rtt, boolebn xform,
                                           int hint, int srctype)
     {
         return
@@ -202,190 +202,190 @@ class D3DBlitLoops {
     }
 
     /**
-     * Enqueues a BLIT operation with the given parameters.  Note that the
-     * RenderQueue lock must be held before calling this method.
+     * Enqueues b BLIT operbtion with the given pbrbmeters.  Note thbt the
+     * RenderQueue lock must be held before cblling this method.
      */
-    private static void enqueueBlit(RenderQueue rq,
-                                    SurfaceData src, SurfaceData dst,
-                                    int packedParams,
+    privbte stbtic void enqueueBlit(RenderQueue rq,
+                                    SurfbceDbtb src, SurfbceDbtb dst,
+                                    int pbckedPbrbms,
                                     int sx1, int sy1,
                                     int sx2, int sy2,
                                     double dx1, double dy1,
                                     double dx2, double dy2)
     {
-        // assert rq.lock.isHeldByCurrentThread();
+        // bssert rq.lock.isHeldByCurrentThrebd();
         RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacityAndAlignment(72, 24);
+        rq.ensureCbpbcityAndAlignment(72, 24);
         buf.putInt(BLIT);
-        buf.putInt(packedParams);
+        buf.putInt(pbckedPbrbms);
         buf.putInt(sx1).putInt(sy1);
         buf.putInt(sx2).putInt(sy2);
         buf.putDouble(dx1).putDouble(dy1);
         buf.putDouble(dx2).putDouble(dy2);
-        buf.putLong(src.getNativeOps());
-        buf.putLong(dst.getNativeOps());
+        buf.putLong(src.getNbtiveOps());
+        buf.putLong(dst.getNbtiveOps());
     }
 
-    static void Blit(SurfaceData srcData, SurfaceData dstData,
+    stbtic void Blit(SurfbceDbtb srcDbtb, SurfbceDbtb dstDbtb,
                      Composite comp, Region clip,
-                     AffineTransform xform, int hint,
+                     AffineTrbnsform xform, int hint,
                      int sx1, int sy1,
                      int sx2, int sy2,
                      double dx1, double dy1,
                      double dx2, double dy2,
-                     int srctype, boolean texture)
+                     int srctype, boolebn texture)
     {
-        int ctxflags = 0;
-        if (srcData.getTransparency() == Transparency.OPAQUE) {
-            ctxflags |= D3DContext.SRC_IS_OPAQUE;
+        int ctxflbgs = 0;
+        if (srcDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE) {
+            ctxflbgs |= D3DContext.SRC_IS_OPAQUE;
         }
 
-        D3DSurfaceData d3dDst = (D3DSurfaceData)dstData;
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+        D3DSurfbceDbtb d3dDst = (D3DSurfbceDbtb)dstDbtb;
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            // make sure the RenderQueue keeps a hard reference to the
-            // source (sysmem) SurfaceData to prevent it from being
-            // disposed while the operation is processed on the QFT
-            rq.addReference(srcData);
+            // mbke sure the RenderQueue keeps b hbrd reference to the
+            // source (sysmem) SurfbceDbtb to prevent it from being
+            // disposed while the operbtion is processed on the QFT
+            rq.bddReference(srcDbtb);
 
             if (texture) {
-                // make sure we have a current context before uploading
-                // the sysmem data to the texture object
-                D3DContext.setScratchSurface(d3dDst.getContext());
+                // mbke sure we hbve b current context before uplobding
+                // the sysmem dbtb to the texture object
+                D3DContext.setScrbtchSurfbce(d3dDst.getContext());
             } else {
-                D3DContext.validateContext(d3dDst, d3dDst,
+                D3DContext.vblidbteContext(d3dDst, d3dDst,
                                            clip, comp, xform, null, null,
-                                           ctxflags);
+                                           ctxflbgs);
             }
 
-            int packedParams = createPackedParams(false, texture,
-                                                  false, xform != null,
+            int pbckedPbrbms = crebtePbckedPbrbms(fblse, texture,
+                                                  fblse, xform != null,
                                                   hint, srctype);
-            enqueueBlit(rq, srcData, dstData,
-                        packedParams,
+            enqueueBlit(rq, srcDbtb, dstDbtb,
+                        pbckedPbrbms,
                         sx1, sy1, sx2, sy2,
                         dx1, dy1, dx2, dy2);
 
-            // always flush immediately, since we (currently) have no means
-            // of tracking changes to the system memory surface
+            // blwbys flush immedibtely, since we (currently) hbve no mebns
+            // of trbcking chbnges to the system memory surfbce
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
 
-        if (d3dDst.getType() == D3DSurfaceData.WINDOW) {
-            // flush immediately when copying to the screen to improve
-            // responsiveness of applications using VI or BI backbuffers
-            D3DScreenUpdateManager mgr =
-                (D3DScreenUpdateManager)ScreenUpdateManager.getInstance();
-            mgr.runUpdateNow();
+        if (d3dDst.getType() == D3DSurfbceDbtb.WINDOW) {
+            // flush immedibtely when copying to the screen to improve
+            // responsiveness of bpplicbtions using VI or BI bbckbuffers
+            D3DScreenUpdbteMbnbger mgr =
+                (D3DScreenUpdbteMbnbger)ScreenUpdbteMbnbger.getInstbnce();
+            mgr.runUpdbteNow();
         }
     }
 
     /**
-     * Note: The srcImg and biop parameters are only used when invoked
-     * from the D3DBufImgOps.renderImageWithOp() method; in all other cases,
-     * this method can be called with null values for those two parameters,
-     * and they will be effectively ignored.
+     * Note: The srcImg bnd biop pbrbmeters bre only used when invoked
+     * from the D3DBufImgOps.renderImbgeWithOp() method; in bll other cbses,
+     * this method cbn be cblled with null vblues for those two pbrbmeters,
+     * bnd they will be effectively ignored.
      */
-    static void IsoBlit(SurfaceData srcData, SurfaceData dstData,
-                        BufferedImage srcImg, BufferedImageOp biop,
+    stbtic void IsoBlit(SurfbceDbtb srcDbtb, SurfbceDbtb dstDbtb,
+                        BufferedImbge srcImg, BufferedImbgeOp biop,
                         Composite comp, Region clip,
-                        AffineTransform xform, int hint,
+                        AffineTrbnsform xform, int hint,
                         int sx1, int sy1,
                         int sx2, int sy2,
                         double dx1, double dy1,
                         double dx2, double dy2,
-                        boolean texture)
+                        boolebn texture)
     {
-        int ctxflags = 0;
-        if (srcData.getTransparency() == Transparency.OPAQUE) {
-            ctxflags |= D3DContext.SRC_IS_OPAQUE;
+        int ctxflbgs = 0;
+        if (srcDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE) {
+            ctxflbgs |= D3DContext.SRC_IS_OPAQUE;
         }
 
-        D3DSurfaceData d3dDst = (D3DSurfaceData)dstData;
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
-        boolean rtt = false;
+        D3DSurfbceDbtb d3dDst = (D3DSurfbceDbtb)dstDbtb;
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
+        boolebn rtt = fblse;
         rq.lock();
         try {
-            D3DSurfaceData d3dSrc = (D3DSurfaceData)srcData;
+            D3DSurfbceDbtb d3dSrc = (D3DSurfbceDbtb)srcDbtb;
             int srctype = d3dSrc.getType();
-            D3DSurfaceData srcCtxData = d3dSrc;
-            if (srctype == D3DSurfaceData.TEXTURE) {
-                rtt = false;
+            D3DSurfbceDbtb srcCtxDbtb = d3dSrc;
+            if (srctype == D3DSurfbceDbtb.TEXTURE) {
+                rtt = fblse;
             } else {
-                // the source is a backbuffer, or render-to-texture
-                // surface; we set rtt to true to differentiate this kind
-                // of surface from a regular texture object
+                // the source is b bbckbuffer, or render-to-texture
+                // surfbce; we set rtt to true to differentibte this kind
+                // of surfbce from b regulbr texture object
                 rtt = true;
             }
 
-            D3DContext.validateContext(srcCtxData, d3dDst,
+            D3DContext.vblidbteContext(srcCtxDbtb, d3dDst,
                                        clip, comp, xform, null, null,
-                                       ctxflags);
+                                       ctxflbgs);
 
             if (biop != null) {
-                D3DBufImgOps.enableBufImgOp(rq, d3dSrc, srcImg, biop);
+                D3DBufImgOps.enbbleBufImgOp(rq, d3dSrc, srcImg, biop);
             }
 
-            int packedParams = createPackedParams(true, texture,
+            int pbckedPbrbms = crebtePbckedPbrbms(true, texture,
                                                   rtt, xform != null,
                                                   hint, 0 /*unused*/);
-            enqueueBlit(rq, srcData, dstData,
-                        packedParams,
+            enqueueBlit(rq, srcDbtb, dstDbtb,
+                        pbckedPbrbms,
                         sx1, sy1, sx2, sy2,
                         dx1, dy1, dx2, dy2);
 
             if (biop != null) {
-                D3DBufImgOps.disableBufImgOp(rq, biop);
+                D3DBufImgOps.disbbleBufImgOp(rq, biop);
             }
-        } finally {
+        } finblly {
             rq.unlock();
         }
 
-        if (rtt && (d3dDst.getType() == D3DSurfaceData.WINDOW)) {
-            // we only have to flush immediately when copying from a
-            // (non-texture) surface to the screen; otherwise Swing apps
-            // might appear unresponsive until the auto-flush completes
-            D3DScreenUpdateManager mgr =
-                (D3DScreenUpdateManager)ScreenUpdateManager.getInstance();
-            mgr.runUpdateNow();
+        if (rtt && (d3dDst.getType() == D3DSurfbceDbtb.WINDOW)) {
+            // we only hbve to flush immedibtely when copying from b
+            // (non-texture) surfbce to the screen; otherwise Swing bpps
+            // might bppebr unresponsive until the buto-flush completes
+            D3DScreenUpdbteMbnbger mgr =
+                (D3DScreenUpdbteMbnbger)ScreenUpdbteMbnbger.getInstbnce();
+            mgr.runUpdbteNow();
         }
     }
 }
 
-class D3DSurfaceToSurfaceBlit extends Blit {
+clbss D3DSurfbceToSurfbceBlit extends Blit {
 
-    D3DSurfaceToSurfaceBlit() {
-        super(D3DSurfaceData.D3DSurface,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DSurfbceToSurfbceBlit() {
+        super(D3DSurfbceDbtb.D3DSurfbce,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
-                             false);
+                             fblse);
     }
 }
 
-class D3DSurfaceToSurfaceScale extends ScaledBlit {
+clbss D3DSurfbceToSurfbceScble extends ScbledBlit {
 
-    D3DSurfaceToSurfaceScale() {
-        super(D3DSurfaceData.D3DSurface,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DSurfbceToSurfbceScble() {
+        super(D3DSurfbceDbtb.D3DSurfbce,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
@@ -395,67 +395,67 @@ class D3DSurfaceToSurfaceScale extends ScaledBlit {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx1, sy1, sx2, sy2,
                              dx1, dy1, dx2, dy2,
-                             false);
+                             fblse);
     }
 }
 
-class D3DSurfaceToSurfaceTransform extends TransformBlit {
+clbss D3DSurfbceToSurfbceTrbnsform extends TrbnsformBlit {
 
-    D3DSurfaceToSurfaceTransform() {
-        super(D3DSurfaceData.D3DSurface,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DSurfbceToSurfbceTrbnsform() {
+        super(D3DSurfbceDbtb.D3DSurfbce,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy,
                           int w, int h)
     {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
-                             comp, clip, at, hint,
+                             comp, clip, bt, hint,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
-                             false);
+                             fblse);
     }
 }
 
-class D3DRTTSurfaceToSurfaceBlit extends Blit {
+clbss D3DRTTSurfbceToSurfbceBlit extends Blit {
 
-    D3DRTTSurfaceToSurfaceBlit() {
-        super(D3DSurfaceData.D3DSurfaceRTT,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DRTTSurfbceToSurfbceBlit() {
+        super(D3DSurfbceDbtb.D3DSurfbceRTT,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
                              true);
     }
 }
 
-class D3DRTTSurfaceToSurfaceScale extends ScaledBlit {
+clbss D3DRTTSurfbceToSurfbceScble extends ScbledBlit {
 
-    D3DRTTSurfaceToSurfaceScale() {
-        super(D3DSurfaceData.D3DSurfaceRTT,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DRTTSurfbceToSurfbceScble() {
+        super(D3DSurfbceDbtb.D3DSurfbceRTT,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
@@ -465,116 +465,116 @@ class D3DRTTSurfaceToSurfaceScale extends ScaledBlit {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx1, sy1, sx2, sy2,
                              dx1, dy1, dx2, dy2,
                              true);
     }
 }
 
-class D3DRTTSurfaceToSurfaceTransform extends TransformBlit {
+clbss D3DRTTSurfbceToSurfbceTrbnsform extends TrbnsformBlit {
 
-    D3DRTTSurfaceToSurfaceTransform() {
-        super(D3DSurfaceData.D3DSurfaceRTT,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DRTTSurfbceToSurfbceTrbnsform() {
+        super(D3DSurfbceDbtb.D3DSurfbceRTT,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy, int w, int h)
     {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
-                             comp, clip, at, hint,
+                             comp, clip, bt, hint,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
                              true);
     }
 }
 
-class D3DSurfaceToSwBlit extends Blit {
+clbss D3DSurfbceToSwBlit extends Blit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    // REMIND: destination will actually be opaque/premultiplied...
-    D3DSurfaceToSwBlit(SurfaceType dstType, int typeval) {
-        super(D3DSurfaceData.D3DSurface,
-              CompositeType.SrcNoEa,
+    // REMIND: destinbtion will bctublly be opbque/premultiplied...
+    D3DSurfbceToSwBlit(SurfbceType dstType, int typevbl) {
+        super(D3DSurfbceDbtb.D3DSurfbce,
+              CompositeType.SrcNoEb,
               dstType);
-        this.typeval = typeval;
+        this.typevbl = typevbl;
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy,
                      int w, int h)
     {
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         rq.lock();
         try {
-            // make sure the RenderQueue keeps a hard reference to the
-            // destination (sysmem) SurfaceData to prevent it from being
-            // disposed while the operation is processed on the QFT
-            rq.addReference(dst);
+            // mbke sure the RenderQueue keeps b hbrd reference to the
+            // destinbtion (sysmem) SurfbceDbtb to prevent it from being
+            // disposed while the operbtion is processed on the QFT
+            rq.bddReference(dst);
 
             RenderBuffer buf = rq.getBuffer();
-            D3DContext.setScratchSurface(((D3DSurfaceData)src).getContext());
+            D3DContext.setScrbtchSurfbce(((D3DSurfbceDbtb)src).getContext());
 
-            rq.ensureCapacityAndAlignment(48, 32);
+            rq.ensureCbpbcityAndAlignment(48, 32);
             buf.putInt(SURFACE_TO_SW_BLIT);
             buf.putInt(sx).putInt(sy);
             buf.putInt(dx).putInt(dy);
             buf.putInt(w).putInt(h);
-            buf.putInt(typeval);
-            buf.putLong(src.getNativeOps());
-            buf.putLong(dst.getNativeOps());
+            buf.putInt(typevbl);
+            buf.putLong(src.getNbtiveOps());
+            buf.putLong(dst.getNbtiveOps());
 
-            // always flush immediately
+            // blwbys flush immedibtely
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 }
 
-class D3DSwToSurfaceBlit extends Blit {
+clbss D3DSwToSurfbceBlit extends Blit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    D3DSwToSurfaceBlit(SurfaceType srcType, int typeval) {
+    D3DSwToSurfbceBlit(SurfbceType srcType, int typevbl) {
         super(srcType,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
-        this.typeval = typeval;
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
+        this.typevbl = typevbl;
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         D3DBlitLoops.Blit(src, dst,
                           comp, clip, null,
-                          AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                          AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                           sx, sy, sx+w, sy+h,
                           dx, dy, dx+w, dy+h,
-                          typeval, false);
+                          typevbl, fblse);
     }
 }
 
-class D3DSwToSurfaceScale extends ScaledBlit {
+clbss D3DSwToSurfbceScble extends ScbledBlit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    D3DSwToSurfaceScale(SurfaceType srcType, int typeval) {
+    D3DSwToSurfbceScble(SurfbceType srcType, int typevbl) {
         super(srcType,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
-        this.typeval = typeval;
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
+        this.typevbl = typevbl;
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
@@ -583,92 +583,92 @@ class D3DSwToSurfaceScale extends ScaledBlit {
     {
         D3DBlitLoops.Blit(src, dst,
                           comp, clip, null,
-                          AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                          AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                           sx1, sy1, sx2, sy2,
                           dx1, dy1, dx2, dy2,
-                          typeval, false);
+                          typevbl, fblse);
     }
 }
 
-class D3DSwToSurfaceTransform extends TransformBlit {
+clbss D3DSwToSurfbceTrbnsform extends TrbnsformBlit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    D3DSwToSurfaceTransform(SurfaceType srcType, int typeval) {
+    D3DSwToSurfbceTrbnsform(SurfbceType srcType, int typevbl) {
         super(srcType,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
-        this.typeval = typeval;
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
+        this.typevbl = typevbl;
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy, int w, int h)
     {
         D3DBlitLoops.Blit(src, dst,
-                          comp, clip, at, hint,
+                          comp, clip, bt, hint,
                           sx, sy, sx+w, sy+h,
                           dx, dy, dx+w, dy+h,
-                          typeval, false);
+                          typevbl, fblse);
     }
 }
 
-class D3DSwToTextureBlit extends Blit {
+clbss D3DSwToTextureBlit extends Blit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    D3DSwToTextureBlit(SurfaceType srcType, int typeval) {
+    D3DSwToTextureBlit(SurfbceType srcType, int typevbl) {
         super(srcType,
-              CompositeType.SrcNoEa,
-              D3DSurfaceData.D3DTexture);
-        this.typeval = typeval;
+              CompositeType.SrcNoEb,
+              D3DSurfbceDbtb.D3DTexture);
+        this.typevbl = typevbl;
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         D3DBlitLoops.Blit(src, dst,
                           comp, clip, null,
-                          AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                          AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                           sx, sy, sx+w, sy+h,
                           dx, dy, dx+w, dy+h,
-                          typeval, true);
+                          typevbl, true);
     }
 }
 
-class D3DTextureToSurfaceBlit extends Blit {
+clbss D3DTextureToSurfbceBlit extends Blit {
 
-    D3DTextureToSurfaceBlit() {
-        super(D3DSurfaceData.D3DTexture,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DTextureToSurfbceBlit() {
+        super(D3DSurfbceDbtb.D3DTexture,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
                              true);
     }
 }
 
-class D3DTextureToSurfaceScale extends ScaledBlit {
+clbss D3DTextureToSurfbceScble extends ScbledBlit {
 
-    D3DTextureToSurfaceScale() {
-        super(D3DSurfaceData.D3DTexture,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DTextureToSurfbceScble() {
+        super(D3DSurfbceDbtb.D3DTexture,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
@@ -678,30 +678,30 @@ class D3DTextureToSurfaceScale extends ScaledBlit {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx1, sy1, sx2, sy2,
                              dx1, dy1, dx2, dy2,
                              true);
     }
 }
 
-class D3DTextureToSurfaceTransform extends TransformBlit {
+clbss D3DTextureToSurfbceTrbnsform extends TrbnsformBlit {
 
-    D3DTextureToSurfaceTransform() {
-        super(D3DSurfaceData.D3DTexture,
-              CompositeType.AnyAlpha,
-              D3DSurfaceData.D3DSurface);
+    D3DTextureToSurfbceTrbnsform() {
+        super(D3DSurfbceDbtb.D3DTexture,
+              CompositeType.AnyAlphb,
+              D3DSurfbceDbtb.D3DSurfbce);
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy,
                           int w, int h)
     {
         D3DBlitLoops.IsoBlit(src, dst,
                              null, null,
-                             comp, clip, at, hint,
+                             comp, clip, bt, hint,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
                              true);
@@ -709,134 +709,134 @@ class D3DTextureToSurfaceTransform extends TransformBlit {
 }
 
 /**
- * This general Blit implementation converts any source surface to an
- * intermediate IntArgbPre surface, and then uses the more specific
- * IntArgbPre->D3DSurface/Texture loop to get the intermediate
- * (premultiplied) surface down to D3D.
+ * This generbl Blit implementbtion converts bny source surfbce to bn
+ * intermedibte IntArgbPre surfbce, bnd then uses the more specific
+ * IntArgbPre->D3DSurfbce/Texture loop to get the intermedibte
+ * (premultiplied) surfbce down to D3D.
  */
-class D3DGeneralBlit extends Blit {
+clbss D3DGenerblBlit extends Blit {
 
-    private Blit performop;
-    private WeakReference<SurfaceData> srcTmp;
+    privbte Blit performop;
+    privbte WebkReference<SurfbceDbtb> srcTmp;
 
-    D3DGeneralBlit(SurfaceType dstType,
+    D3DGenerblBlit(SurfbceType dstType,
                    CompositeType compType,
                    Blit performop)
     {
-        super(SurfaceType.Any, compType, dstType);
+        super(SurfbceType.Any, compType, dstType);
         this.performop = performop;
     }
 
-    public synchronized void Blit(SurfaceData src, SurfaceData dst,
+    public synchronized void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                                   Composite comp, Region clip,
                                   int sx, int sy, int dx, int dy,
                                   int w, int h)
     {
-        Blit convertsrc = Blit.getFromCache(src.getSurfaceType(),
-                                            CompositeType.SrcNoEa,
-                                            SurfaceType.IntArgbPre);
+        Blit convertsrc = Blit.getFromCbche(src.getSurfbceType(),
+                                            CompositeType.SrcNoEb,
+                                            SurfbceType.IntArgbPre);
 
-        SurfaceData cachedSrc = null;
+        SurfbceDbtb cbchedSrc = null;
         if (srcTmp != null) {
-            // use cached intermediate surface, if available
-            cachedSrc = srcTmp.get();
+            // use cbched intermedibte surfbce, if bvbilbble
+            cbchedSrc = srcTmp.get();
         }
 
         // convert source to IntArgbPre
         src = convertFrom(convertsrc, src, sx, sy, w, h,
-                          cachedSrc, BufferedImage.TYPE_INT_ARGB_PRE);
+                          cbchedSrc, BufferedImbge.TYPE_INT_ARGB_PRE);
 
-        // copy IntArgbPre intermediate surface to D3D surface
+        // copy IntArgbPre intermedibte surfbce to D3D surfbce
         performop.Blit(src, dst, comp, clip,
                        0, 0, dx, dy, w, h);
 
-        if (src != cachedSrc) {
-            // cache the intermediate surface
-            srcTmp = new WeakReference<>(src);
+        if (src != cbchedSrc) {
+            // cbche the intermedibte surfbce
+            srcTmp = new WebkReference<>(src);
         }
     }
 }
 
 /*
- * The following classes prohibit copying D3DSurfaces to the screen
- * (the D3D->sysmem->GDI path is known to be very very slow).
+ * The following clbsses prohibit copying D3DSurfbces to the screen
+ * (the D3D->sysmem->GDI pbth is known to be very very slow).
  *
- * Note: we used to disable hw acceleration for the surafce manager associated
- * with the source surface in these loops but it proved to be too cautious.
+ * Note: we used to disbble hw bccelerbtion for the surbfce mbnbger bssocibted
+ * with the source surfbce in these loops but it proved to be too cbutious.
  *
- * In most cases d3d->screen copy happens only during some transitional
- * period where the accelerated destination surface is being recreated or
- * restored (for example, when Swing's backbuffer VI is copied to the screen
- * but the D3DScreenSurfaceManager couldn't restore its surface).
+ * In most cbses d3d->screen copy hbppens only during some trbnsitionbl
+ * period where the bccelerbted destinbtion surfbce is being recrebted or
+ * restored (for exbmple, when Swing's bbckbuffer VI is copied to the screen
+ * but the D3DScreenSurfbceMbnbger couldn't restore its surfbce).
  *
- * An exception is if for some reason we could not enable accelerated on-screen
- * rendering for this window for some permanent reason (like window being too
- * small, or a present BufferStrategy).
+ * An exception is if for some rebson we could not enbble bccelerbted on-screen
+ * rendering for this window for some permbnent rebson (like window being too
+ * smbll, or b present BufferStrbtegy).
  *
- * This meant that we'd disable hw acceleration after the first failure
- * completely (at least until the src image is recreated which in case of
- * Swing back-buffer happens only after resize).
+ * This mebnt thbt we'd disbble hw bccelerbtion bfter the first fbilure
+ * completely (bt lebst until the src imbge is recrebted which in cbse of
+ * Swing bbck-buffer hbppens only bfter resize).
  *
- * Now we delegate to the VISM to figure out if the acceleration needs to
- * be disabled or if we can wait for a while until the onscreen accelerated
- * can resume (by marking the source surface lost and making sure the
- * VISM has a chance to use the backup surface).
+ * Now we delegbte to the VISM to figure out if the bccelerbtion needs to
+ * be disbbled or if we cbn wbit for b while until the onscreen bccelerbted
+ * cbn resume (by mbrking the source surfbce lost bnd mbking sure the
+ * VISM hbs b chbnce to use the bbckup surfbce).
  *
  */
 
-class D3DSurfaceToGDIWindowSurfaceBlit extends Blit {
+clbss D3DSurfbceToGDIWindowSurfbceBlit extends Blit {
 
-    D3DSurfaceToGDIWindowSurfaceBlit() {
-        super(D3DSurfaceData.D3DSurface,
-              CompositeType.AnyAlpha,
-              GDIWindowSurfaceData.AnyGdi);
+    D3DSurfbceToGDIWindowSurfbceBlit() {
+        super(D3DSurfbceDbtb.D3DSurfbce,
+              CompositeType.AnyAlphb,
+              GDIWindowSurfbceDbtb.AnyGdi);
     }
     @Override
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
-        // see comment above
-        D3DVolatileSurfaceManager.handleVItoScreenOp(src, dst);
+        // see comment bbove
+        D3DVolbtileSurfbceMbnbger.hbndleVItoScreenOp(src, dst);
     }
 
 }
 
-class D3DSurfaceToGDIWindowSurfaceScale extends ScaledBlit {
+clbss D3DSurfbceToGDIWindowSurfbceScble extends ScbledBlit {
 
-    D3DSurfaceToGDIWindowSurfaceScale() {
-        super(D3DSurfaceData.D3DSurface,
-              CompositeType.AnyAlpha,
-              GDIWindowSurfaceData.AnyGdi);
+    D3DSurfbceToGDIWindowSurfbceScble() {
+        super(D3DSurfbceDbtb.D3DSurfbce,
+              CompositeType.AnyAlphb,
+              GDIWindowSurfbceDbtb.AnyGdi);
     }
     @Override
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
                       double dx1, double dy1,
                       double dx2, double dy2)
     {
-        // see comment above
-        D3DVolatileSurfaceManager.handleVItoScreenOp(src, dst);
+        // see comment bbove
+        D3DVolbtileSurfbceMbnbger.hbndleVItoScreenOp(src, dst);
     }
 }
 
-class D3DSurfaceToGDIWindowSurfaceTransform extends TransformBlit {
+clbss D3DSurfbceToGDIWindowSurfbceTrbnsform extends TrbnsformBlit {
 
-    D3DSurfaceToGDIWindowSurfaceTransform() {
-        super(D3DSurfaceData.D3DSurface,
-              CompositeType.AnyAlpha,
-              GDIWindowSurfaceData.AnyGdi);
+    D3DSurfbceToGDIWindowSurfbceTrbnsform() {
+        super(D3DSurfbceDbtb.D3DSurfbce,
+              CompositeType.AnyAlphb,
+              GDIWindowSurfbceDbtb.AnyGdi);
     }
     @Override
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy,
                           int w, int h)
     {
-        // see comment above
-        D3DVolatileSurfaceManager.handleVItoScreenOp(src, dst);
+        // see comment bbove
+        D3DVolbtileSurfbceMbnbger.hbndleVItoScreenOp(src, dst);
     }
 }

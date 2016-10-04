@@ -1,387 +1,387 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.*;
-import java.io.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.util.*;
+import jbvb.io.*;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
-import sun.security.jca.JCAUtil;
+import sun.security.jcb.JCAUtil;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code Signature} class, which is used to provide the
- * functionality of a digital signature algorithm. Digital signatures are used
- * for authentication and integrity assurance of digital data.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the {@code Signbture} clbss, which is used to provide the
+ * functionblity of b digitbl signbture blgorithm. Digitbl signbtures bre used
+ * for buthenticbtion bnd integrity bssurbnce of digitbl dbtb.
  *.
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular signature algorithm.
+ * <p> All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b pbrticulbr signbture blgorithm.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  *
  *
- * @see Signature
+ * @see Signbture
  */
 
-public abstract class SignatureSpi {
+public bbstrbct clbss SignbtureSpi {
 
     /**
-     * Application-specified source of randomness.
+     * Applicbtion-specified source of rbndomness.
      */
-    protected SecureRandom appRandom = null;
+    protected SecureRbndom bppRbndom = null;
 
     /**
-     * Initializes this signature object with the specified
-     * public key for verification operations.
+     * Initiblizes this signbture object with the specified
+     * public key for verificbtion operbtions.
      *
-     * @param publicKey the public key of the identity whose signature is
+     * @pbrbm publicKey the public key of the identity whose signbture is
      * going to be verified.
      *
-     * @exception InvalidKeyException if the key is improperly
-     * encoded, parameters are missing, and so on.
+     * @exception InvblidKeyException if the key is improperly
+     * encoded, pbrbmeters bre missing, bnd so on.
      */
-    protected abstract void engineInitVerify(PublicKey publicKey)
-        throws InvalidKeyException;
+    protected bbstrbct void engineInitVerify(PublicKey publicKey)
+        throws InvblidKeyException;
 
     /**
-     * Initializes this signature object with the specified
-     * private key for signing operations.
+     * Initiblizes this signbture object with the specified
+     * privbte key for signing operbtions.
      *
-     * @param privateKey the private key of the identity whose signature
-     * will be generated.
+     * @pbrbm privbteKey the privbte key of the identity whose signbture
+     * will be generbted.
      *
-     * @exception InvalidKeyException if the key is improperly
-     * encoded, parameters are missing, and so on.
+     * @exception InvblidKeyException if the key is improperly
+     * encoded, pbrbmeters bre missing, bnd so on.
      */
-    protected abstract void engineInitSign(PrivateKey privateKey)
-        throws InvalidKeyException;
+    protected bbstrbct void engineInitSign(PrivbteKey privbteKey)
+        throws InvblidKeyException;
 
     /**
-     * Initializes this signature object with the specified
-     * private key and source of randomness for signing operations.
+     * Initiblizes this signbture object with the specified
+     * privbte key bnd source of rbndomness for signing operbtions.
      *
-     * <p>This concrete method has been added to this previously-defined
-     * abstract class. (For backwards compatibility, it cannot be abstract.)
+     * <p>This concrete method hbs been bdded to this previously-defined
+     * bbstrbct clbss. (For bbckwbrds compbtibility, it cbnnot be bbstrbct.)
      *
-     * @param privateKey the private key of the identity whose signature
-     * will be generated.
-     * @param random the source of randomness
+     * @pbrbm privbteKey the privbte key of the identity whose signbture
+     * will be generbted.
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the key is improperly
-     * encoded, parameters are missing, and so on.
+     * @exception InvblidKeyException if the key is improperly
+     * encoded, pbrbmeters bre missing, bnd so on.
      */
-    protected void engineInitSign(PrivateKey privateKey,
-                                  SecureRandom random)
-        throws InvalidKeyException {
-            this.appRandom = random;
-            engineInitSign(privateKey);
+    protected void engineInitSign(PrivbteKey privbteKey,
+                                  SecureRbndom rbndom)
+        throws InvblidKeyException {
+            this.bppRbndom = rbndom;
+            engineInitSign(privbteKey);
     }
 
     /**
-     * Updates the data to be signed or verified
+     * Updbtes the dbtb to be signed or verified
      * using the specified byte.
      *
-     * @param b the byte to use for the update.
+     * @pbrbm b the byte to use for the updbte.
      *
-     * @exception SignatureException if the engine is not initialized
+     * @exception SignbtureException if the engine is not initiblized
      * properly.
      */
-    protected abstract void engineUpdate(byte b) throws SignatureException;
+    protected bbstrbct void engineUpdbte(byte b) throws SignbtureException;
 
     /**
-     * Updates the data to be signed or verified, using the
-     * specified array of bytes, starting at the specified offset.
+     * Updbtes the dbtb to be signed or verified, using the
+     * specified brrby of bytes, stbrting bt the specified offset.
      *
-     * @param b the array of bytes
-     * @param off the offset to start from in the array of bytes
-     * @param len the number of bytes to use, starting at offset
+     * @pbrbm b the brrby of bytes
+     * @pbrbm off the offset to stbrt from in the brrby of bytes
+     * @pbrbm len the number of bytes to use, stbrting bt offset
      *
-     * @exception SignatureException if the engine is not initialized
+     * @exception SignbtureException if the engine is not initiblized
      * properly
      */
-    protected abstract void engineUpdate(byte[] b, int off, int len)
-        throws SignatureException;
+    protected bbstrbct void engineUpdbte(byte[] b, int off, int len)
+        throws SignbtureException;
 
     /**
-     * Updates the data to be signed or verified using the specified
-     * ByteBuffer. Processes the {@code data.remaining()} bytes
-     * starting at at {@code data.position()}.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Updbtes the dbtb to be signed or verified using the specified
+     * ByteBuffer. Processes the {@code dbtb.rembining()} bytes
+     * stbrting bt bt {@code dbtb.position()}.
+     * Upon return, the buffer's position will be equbl to its limit;
+     * its limit will not hbve chbnged.
      *
-     * @param input the ByteBuffer
+     * @pbrbm input the ByteBuffer
      * @since 1.5
      */
-    protected void engineUpdate(ByteBuffer input) {
-        if (input.hasRemaining() == false) {
+    protected void engineUpdbte(ByteBuffer input) {
+        if (input.hbsRembining() == fblse) {
             return;
         }
         try {
-            if (input.hasArray()) {
-                byte[] b = input.array();
-                int ofs = input.arrayOffset();
+            if (input.hbsArrby()) {
+                byte[] b = input.brrby();
+                int ofs = input.brrbyOffset();
                 int pos = input.position();
                 int lim = input.limit();
-                engineUpdate(b, ofs + pos, lim - pos);
+                engineUpdbte(b, ofs + pos, lim - pos);
                 input.position(lim);
             } else {
-                int len = input.remaining();
-                byte[] b = new byte[JCAUtil.getTempArraySize(len)];
+                int len = input.rembining();
+                byte[] b = new byte[JCAUtil.getTempArrbySize(len)];
                 while (len > 0) {
-                    int chunk = Math.min(len, b.length);
+                    int chunk = Mbth.min(len, b.length);
                     input.get(b, 0, chunk);
-                    engineUpdate(b, 0, chunk);
+                    engineUpdbte(b, 0, chunk);
                     len -= chunk;
                 }
             }
-        } catch (SignatureException e) {
-            // is specified to only occur when the engine is not initialized
-            // this case should never occur as it is caught in Signature.java
-            throw new ProviderException("update() failed", e);
+        } cbtch (SignbtureException e) {
+            // is specified to only occur when the engine is not initiblized
+            // this cbse should never occur bs it is cbught in Signbture.jbvb
+            throw new ProviderException("updbte() fbiled", e);
         }
     }
 
     /**
-     * Returns the signature bytes of all the data
-     * updated so far.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * Returns the signbture bytes of bll the dbtb
+     * updbted so fbr.
+     * The formbt of the signbture depends on the underlying
+     * signbture scheme.
      *
-     * @return the signature bytes of the signing operation's result.
+     * @return the signbture bytes of the signing operbtion's result.
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly or if this signature algorithm is unable to
-     * process the input data provided.
+     * @exception SignbtureException if the engine is not
+     * initiblized properly or if this signbture blgorithm is unbble to
+     * process the input dbtb provided.
      */
-    protected abstract byte[] engineSign() throws SignatureException;
+    protected bbstrbct byte[] engineSign() throws SignbtureException;
 
     /**
-     * Finishes this signature operation and stores the resulting signature
-     * bytes in the provided buffer {@code outbuf}, starting at
+     * Finishes this signbture operbtion bnd stores the resulting signbture
+     * bytes in the provided buffer {@code outbuf}, stbrting bt
      * {@code offset}.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * The formbt of the signbture depends on the underlying
+     * signbture scheme.
      *
-     * <p>The signature implementation is reset to its initial state
-     * (the state it was in after a call to one of the
+     * <p>The signbture implementbtion is reset to its initibl stbte
+     * (the stbte it wbs in bfter b cbll to one of the
      * {@code engineInitSign} methods)
-     * and can be reused to generate further signatures with the same private
+     * bnd cbn be reused to generbte further signbtures with the sbme privbte
      * key.
      *
-     * This method should be abstract, but we leave it concrete for
-     * binary compatibility.  Knowledgeable providers should override this
+     * This method should be bbstrbct, but we lebve it concrete for
+     * binbry compbtibility.  Knowledgebble providers should override this
      * method.
      *
-     * @param outbuf buffer for the signature result.
+     * @pbrbm outbuf buffer for the signbture result.
      *
-     * @param offset offset into {@code outbuf} where the signature is
+     * @pbrbm offset offset into {@code outbuf} where the signbture is
      * stored.
      *
-     * @param len number of bytes within {@code outbuf} allotted for the
-     * signature.
-     * Both this default implementation and the SUN provider do not
-     * return partial digests. If the value of this parameter is less
-     * than the actual signature length, this method will throw a
-     * SignatureException.
-     * This parameter is ignored if its value is greater than or equal to
-     * the actual signature length.
+     * @pbrbm len number of bytes within {@code outbuf} bllotted for the
+     * signbture.
+     * Both this defbult implementbtion bnd the SUN provider do not
+     * return pbrtibl digests. If the vblue of this pbrbmeter is less
+     * thbn the bctubl signbture length, this method will throw b
+     * SignbtureException.
+     * This pbrbmeter is ignored if its vblue is grebter thbn or equbl to
+     * the bctubl signbture length.
      *
-     * @return the number of bytes placed into {@code outbuf}
+     * @return the number of bytes plbced into {@code outbuf}
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly, if this signature algorithm is unable to
-     * process the input data provided, or if {@code len} is less
-     * than the actual signature length.
+     * @exception SignbtureException if the engine is not
+     * initiblized properly, if this signbture blgorithm is unbble to
+     * process the input dbtb provided, or if {@code len} is less
+     * thbn the bctubl signbture length.
      *
      * @since 1.2
      */
     protected int engineSign(byte[] outbuf, int offset, int len)
-                        throws SignatureException {
+                        throws SignbtureException {
         byte[] sig = engineSign();
         if (len < sig.length) {
-                throw new SignatureException
-                    ("partial signatures not returned");
+                throw new SignbtureException
+                    ("pbrtibl signbtures not returned");
         }
         if (outbuf.length - offset < sig.length) {
-                throw new SignatureException
-                    ("insufficient space in the output buffer to store the "
-                     + "signature");
+                throw new SignbtureException
+                    ("insufficient spbce in the output buffer to store the "
+                     + "signbture");
         }
-        System.arraycopy(sig, 0, outbuf, offset, sig.length);
+        System.brrbycopy(sig, 0, outbuf, offset, sig.length);
         return sig.length;
     }
 
     /**
-     * Verifies the passed-in signature.
+     * Verifies the pbssed-in signbture.
      *
-     * @param sigBytes the signature bytes to be verified.
+     * @pbrbm sigBytes the signbture bytes to be verified.
      *
-     * @return true if the signature was verified, false if not.
+     * @return true if the signbture wbs verified, fblse if not.
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
+     * @exception SignbtureException if the engine is not
+     * initiblized properly, the pbssed-in signbture is improperly
+     * encoded or of the wrong type, if this signbture blgorithm is unbble to
+     * process the input dbtb provided, etc.
      */
-    protected abstract boolean engineVerify(byte[] sigBytes)
-        throws SignatureException;
+    protected bbstrbct boolebn engineVerify(byte[] sigBytes)
+        throws SignbtureException;
 
     /**
-     * Verifies the passed-in signature in the specified array
-     * of bytes, starting at the specified offset.
+     * Verifies the pbssed-in signbture in the specified brrby
+     * of bytes, stbrting bt the specified offset.
      *
-     * <p> Note: Subclasses should overwrite the default implementation.
+     * <p> Note: Subclbsses should overwrite the defbult implementbtion.
      *
      *
-     * @param sigBytes the signature bytes to be verified.
-     * @param offset the offset to start from in the array of bytes.
-     * @param length the number of bytes to use, starting at offset.
+     * @pbrbm sigBytes the signbture bytes to be verified.
+     * @pbrbm offset the offset to stbrt from in the brrby of bytes.
+     * @pbrbm length the number of bytes to use, stbrting bt offset.
      *
-     * @return true if the signature was verified, false if not.
+     * @return true if the signbture wbs verified, fblse if not.
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
+     * @exception SignbtureException if the engine is not
+     * initiblized properly, the pbssed-in signbture is improperly
+     * encoded or of the wrong type, if this signbture blgorithm is unbble to
+     * process the input dbtb provided, etc.
      * @since 1.4
      */
-    protected boolean engineVerify(byte[] sigBytes, int offset, int length)
-        throws SignatureException {
+    protected boolebn engineVerify(byte[] sigBytes, int offset, int length)
+        throws SignbtureException {
         byte[] sigBytesCopy = new byte[length];
-        System.arraycopy(sigBytes, offset, sigBytesCopy, 0, length);
+        System.brrbycopy(sigBytes, offset, sigBytesCopy, 0, length);
         return engineVerify(sigBytesCopy);
     }
 
     /**
-     * Sets the specified algorithm parameter to the specified
-     * value. This method supplies a general-purpose mechanism through
-     * which it is possible to set the various parameters of this object.
-     * A parameter may be any settable parameter for the algorithm, such as
-     * a parameter size, or a source of random bits for signature generation
-     * (if appropriate), or an indication of whether or not to perform
-     * a specific but optional computation. A uniform algorithm-specific
-     * naming scheme for each parameter is desirable but left unspecified
-     * at this time.
+     * Sets the specified blgorithm pbrbmeter to the specified
+     * vblue. This method supplies b generbl-purpose mechbnism through
+     * which it is possible to set the vbrious pbrbmeters of this object.
+     * A pbrbmeter mby be bny settbble pbrbmeter for the blgorithm, such bs
+     * b pbrbmeter size, or b source of rbndom bits for signbture generbtion
+     * (if bppropribte), or bn indicbtion of whether or not to perform
+     * b specific but optionbl computbtion. A uniform blgorithm-specific
+     * nbming scheme for ebch pbrbmeter is desirbble but left unspecified
+     * bt this time.
      *
-     * @param param the string identifier of the parameter.
+     * @pbrbm pbrbm the string identifier of the pbrbmeter.
      *
-     * @param value the parameter value.
+     * @pbrbm vblue the pbrbmeter vblue.
      *
-     * @exception InvalidParameterException if {@code param} is an
-     * invalid parameter for this signature algorithm engine,
-     * the parameter is already set
-     * and cannot be set again, a security exception occurs, and so on.
+     * @exception InvblidPbrbmeterException if {@code pbrbm} is bn
+     * invblid pbrbmeter for this signbture blgorithm engine,
+     * the pbrbmeter is blrebdy set
+     * bnd cbnnot be set bgbin, b security exception occurs, bnd so on.
      *
-     * @deprecated Replaced by {@link
-     * #engineSetParameter(java.security.spec.AlgorithmParameterSpec)
-     * engineSetParameter}.
+     * @deprecbted Replbced by {@link
+     * #engineSetPbrbmeter(jbvb.security.spec.AlgorithmPbrbmeterSpec)
+     * engineSetPbrbmeter}.
      */
-    @Deprecated
-    protected abstract void engineSetParameter(String param, Object value)
-        throws InvalidParameterException;
+    @Deprecbted
+    protected bbstrbct void engineSetPbrbmeter(String pbrbm, Object vblue)
+        throws InvblidPbrbmeterException;
 
     /**
-     * <p>This method is overridden by providers to initialize
-     * this signature engine with the specified parameter set.
+     * <p>This method is overridden by providers to initiblize
+     * this signbture engine with the specified pbrbmeter set.
      *
-     * @param params the parameters
+     * @pbrbm pbrbms the pbrbmeters
      *
-     * @exception UnsupportedOperationException if this method is not
-     * overridden by a provider
+     * @exception UnsupportedOperbtionException if this method is not
+     * overridden by b provider
      *
-     * @exception InvalidAlgorithmParameterException if this method is
-     * overridden by a provider and the given parameters
-     * are inappropriate for this signature engine
+     * @exception InvblidAlgorithmPbrbmeterException if this method is
+     * overridden by b provider bnd the given pbrbmeters
+     * bre inbppropribte for this signbture engine
      */
-    protected void engineSetParameter(AlgorithmParameterSpec params)
-        throws InvalidAlgorithmParameterException {
-            throw new UnsupportedOperationException();
+    protected void engineSetPbrbmeter(AlgorithmPbrbmeterSpec pbrbms)
+        throws InvblidAlgorithmPbrbmeterException {
+            throw new UnsupportedOperbtionException();
     }
 
     /**
      * <p>This method is overridden by providers to return the
-     * parameters used with this signature engine, or null
-     * if this signature engine does not use any parameters.
+     * pbrbmeters used with this signbture engine, or null
+     * if this signbture engine does not use bny pbrbmeters.
      *
-     * <p>The returned parameters may be the same that were used to initialize
-     * this signature engine, or may contain a combination of default and
-     * randomly generated parameter values used by the underlying signature
-     * implementation if this signature engine requires algorithm parameters
-     * but was not initialized with any.
+     * <p>The returned pbrbmeters mby be the sbme thbt were used to initiblize
+     * this signbture engine, or mby contbin b combinbtion of defbult bnd
+     * rbndomly generbted pbrbmeter vblues used by the underlying signbture
+     * implementbtion if this signbture engine requires blgorithm pbrbmeters
+     * but wbs not initiblized with bny.
      *
-     * @return the parameters used with this signature engine, or null if this
-     * signature engine does not use any parameters
+     * @return the pbrbmeters used with this signbture engine, or null if this
+     * signbture engine does not use bny pbrbmeters
      *
-     * @exception UnsupportedOperationException if this method is
-     * not overridden by a provider
+     * @exception UnsupportedOperbtionException if this method is
+     * not overridden by b provider
      * @since 1.4
      */
-    protected AlgorithmParameters engineGetParameters() {
-        throw new UnsupportedOperationException();
+    protected AlgorithmPbrbmeters engineGetPbrbmeters() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Gets the value of the specified algorithm parameter.
-     * This method supplies a general-purpose mechanism through which it
-     * is possible to get the various parameters of this object. A parameter
-     * may be any settable parameter for the algorithm, such as a parameter
-     * size, or  a source of random bits for signature generation (if
-     * appropriate), or an indication of whether or not to perform a
-     * specific but optional computation. A uniform algorithm-specific
-     * naming scheme for each parameter is desirable but left unspecified
-     * at this time.
+     * Gets the vblue of the specified blgorithm pbrbmeter.
+     * This method supplies b generbl-purpose mechbnism through which it
+     * is possible to get the vbrious pbrbmeters of this object. A pbrbmeter
+     * mby be bny settbble pbrbmeter for the blgorithm, such bs b pbrbmeter
+     * size, or  b source of rbndom bits for signbture generbtion (if
+     * bppropribte), or bn indicbtion of whether or not to perform b
+     * specific but optionbl computbtion. A uniform blgorithm-specific
+     * nbming scheme for ebch pbrbmeter is desirbble but left unspecified
+     * bt this time.
      *
-     * @param param the string name of the parameter.
+     * @pbrbm pbrbm the string nbme of the pbrbmeter.
      *
-     * @return the object that represents the parameter value, or null if
+     * @return the object thbt represents the pbrbmeter vblue, or null if
      * there is none.
      *
-     * @exception InvalidParameterException if {@code param} is an
-     * invalid parameter for this engine, or another exception occurs while
-     * trying to get this parameter.
+     * @exception InvblidPbrbmeterException if {@code pbrbm} is bn
+     * invblid pbrbmeter for this engine, or bnother exception occurs while
+     * trying to get this pbrbmeter.
      *
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    protected abstract Object engineGetParameter(String param)
-        throws InvalidParameterException;
+    @Deprecbted
+    protected bbstrbct Object engineGetPbrbmeter(String pbrbm)
+        throws InvblidPbrbmeterException;
 
     /**
-     * Returns a clone if the implementation is cloneable.
+     * Returns b clone if the implementbtion is clonebble.
      *
-     * @return a clone if the implementation is cloneable.
+     * @return b clone if the implementbtion is clonebble.
      *
-     * @exception CloneNotSupportedException if this is called
-     * on an implementation that does not support {@code Cloneable}.
+     * @exception CloneNotSupportedException if this is cblled
+     * on bn implementbtion thbt does not support {@code Clonebble}.
      */
     public Object clone() throws CloneNotSupportedException {
-        if (this instanceof Cloneable) {
+        if (this instbnceof Clonebble) {
             return super.clone();
         } else {
             throw new CloneNotSupportedException();

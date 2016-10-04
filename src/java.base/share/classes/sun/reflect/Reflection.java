@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect;
+pbckbge sun.reflect;
 
-import java.lang.reflect.*;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.lbng.reflect.*;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-/** Common utility routines used by both java.lang and
-    java.lang.reflect */
+/** Common utility routines used by both jbvb.lbng bnd
+    jbvb.lbng.reflect */
 
-public class Reflection {
+public clbss Reflection {
 
-    /** Used to filter out fields and methods from certain classes from public
-        view, where they are sensitive or they may contain VM-internal objects.
-        These Maps are updated very rarely. Rather than synchronize on
-        each access, we use copy-on-write */
-    private static volatile Map<Class<?>,String[]> fieldFilterMap;
-    private static volatile Map<Class<?>,String[]> methodFilterMap;
+    /** Used to filter out fields bnd methods from certbin clbsses from public
+        view, where they bre sensitive or they mby contbin VM-internbl objects.
+        These Mbps bre updbted very rbrely. Rbther thbn synchronize on
+        ebch bccess, we use copy-on-write */
+    privbte stbtic volbtile Mbp<Clbss<?>,String[]> fieldFilterMbp;
+    privbte stbtic volbtile Mbp<Clbss<?>,String[]> methodFilterMbp;
 
-    static {
-        Map<Class<?>,String[]> map = new HashMap<Class<?>,String[]>();
-        map.put(Reflection.class,
-            new String[] {"fieldFilterMap", "methodFilterMap"});
-        map.put(System.class, new String[] {"security"});
-        fieldFilterMap = map;
+    stbtic {
+        Mbp<Clbss<?>,String[]> mbp = new HbshMbp<Clbss<?>,String[]>();
+        mbp.put(Reflection.clbss,
+            new String[] {"fieldFilterMbp", "methodFilterMbp"});
+        mbp.put(System.clbss, new String[] {"security"});
+        fieldFilterMbp = mbp;
 
-        methodFilterMap = new HashMap<>();
+        methodFilterMbp = new HbshMbp<>();
     }
 
-    /** Returns the class of the caller of the method calling this method,
-        ignoring frames associated with java.lang.reflect.Method.invoke()
-        and its implementation. */
-    @CallerSensitive
-    public static native Class<?> getCallerClass();
+    /** Returns the clbss of the cbller of the method cblling this method,
+        ignoring frbmes bssocibted with jbvb.lbng.reflect.Method.invoke()
+        bnd its implementbtion. */
+    @CbllerSensitive
+    public stbtic nbtive Clbss<?> getCbllerClbss();
 
     /**
-     * @deprecated This method will be removed in JDK 9.
-     * This method is a private JDK API and retained temporarily for
-     * existing code to run until a replacement API is defined.
+     * @deprecbted This method will be removed in JDK 9.
+     * This method is b privbte JDK API bnd retbined temporbrily for
+     * existing code to run until b replbcement API is defined.
      */
-    @Deprecated
-    public static native Class<?> getCallerClass(int depth);
+    @Deprecbted
+    public stbtic nbtive Clbss<?> getCbllerClbss(int depth);
 
-    /** Retrieves the access flags written to the class file. For
-        inner classes these flags may differ from those returned by
-        Class.getModifiers(), which searches the InnerClasses
-        attribute to find the source-level access flags. This is used
-        instead of Class.getModifiers() for run-time access checks due
-        to compatibility reasons; see 4471811. Only the values of the
-        low 13 bits (i.e., a mask of 0x1FFF) are guaranteed to be
-        valid. */
-    public static native int getClassAccessFlags(Class<?> c);
+    /** Retrieves the bccess flbgs written to the clbss file. For
+        inner clbsses these flbgs mby differ from those returned by
+        Clbss.getModifiers(), which sebrches the InnerClbsses
+        bttribute to find the source-level bccess flbgs. This is used
+        instebd of Clbss.getModifiers() for run-time bccess checks due
+        to compbtibility rebsons; see 4471811. Only the vblues of the
+        low 13 bits (i.e., b mbsk of 0x1FFF) bre gubrbnteed to be
+        vblid. */
+    public stbtic nbtive int getClbssAccessFlbgs(Clbss<?> c);
 
-    /** A quick "fast-path" check to try to avoid getCallerClass()
-        calls. */
-    public static boolean quickCheckMemberAccess(Class<?> memberClass,
+    /** A quick "fbst-pbth" check to try to bvoid getCbllerClbss()
+        cblls. */
+    public stbtic boolebn quickCheckMemberAccess(Clbss<?> memberClbss,
                                                  int modifiers)
     {
-        return Modifier.isPublic(getClassAccessFlags(memberClass) & modifiers);
+        return Modifier.isPublic(getClbssAccessFlbgs(memberClbss) & modifiers);
     }
 
-    public static void ensureMemberAccess(Class<?> currentClass,
-                                          Class<?> memberClass,
-                                          Object target,
+    public stbtic void ensureMemberAccess(Clbss<?> currentClbss,
+                                          Clbss<?> memberClbss,
+                                          Object tbrget,
                                           int modifiers)
-        throws IllegalAccessException
+        throws IllegblAccessException
     {
-        if (currentClass == null || memberClass == null) {
-            throw new InternalError();
+        if (currentClbss == null || memberClbss == null) {
+            throw new InternblError();
         }
 
-        if (!verifyMemberAccess(currentClass, memberClass, target, modifiers)) {
-            throw new IllegalAccessException("Class " + currentClass.getName() +
-                                             " can not access a member of class " +
-                                             memberClass.getName() +
+        if (!verifyMemberAccess(currentClbss, memberClbss, tbrget, modifiers)) {
+            throw new IllegblAccessException("Clbss " + currentClbss.getNbme() +
+                                             " cbn not bccess b member of clbss " +
+                                             memberClbss.getNbme() +
                                              " with modifiers \"" +
                                              Modifier.toString(modifiers) +
                                              "\"");
         }
     }
 
-    public static boolean verifyMemberAccess(Class<?> currentClass,
-                                             // Declaring class of field
+    public stbtic boolebn verifyMemberAccess(Clbss<?> currentClbss,
+                                             // Declbring clbss of field
                                              // or method
-                                             Class<?> memberClass,
-                                             // May be NULL in case of statics
-                                             Object   target,
+                                             Clbss<?> memberClbss,
+                                             // Mby be NULL in cbse of stbtics
+                                             Object   tbrget,
                                              int      modifiers)
     {
-        // Verify that currentClass can access a field, method, or
-        // constructor of memberClass, where that member's access bits are
+        // Verify thbt currentClbss cbn bccess b field, method, or
+        // constructor of memberClbss, where thbt member's bccess bits bre
         // "modifiers".
 
-        boolean gotIsSameClassPackage = false;
-        boolean isSameClassPackage = false;
+        boolebn gotIsSbmeClbssPbckbge = fblse;
+        boolebn isSbmeClbssPbckbge = fblse;
 
-        if (currentClass == memberClass) {
-            // Always succeeds
+        if (currentClbss == memberClbss) {
+            // Alwbys succeeds
             return true;
         }
 
-        if (!Modifier.isPublic(getClassAccessFlags(memberClass))) {
-            isSameClassPackage = isSameClassPackage(currentClass, memberClass);
-            gotIsSameClassPackage = true;
-            if (!isSameClassPackage) {
-                return false;
+        if (!Modifier.isPublic(getClbssAccessFlbgs(memberClbss))) {
+            isSbmeClbssPbckbge = isSbmeClbssPbckbge(currentClbss, memberClbss);
+            gotIsSbmeClbssPbckbge = true;
+            if (!isSbmeClbssPbckbge) {
+                return fblse;
             }
         }
 
-        // At this point we know that currentClass can access memberClass.
+        // At this point we know thbt currentClbss cbn bccess memberClbss.
 
         if (Modifier.isPublic(modifiers)) {
             return true;
         }
 
-        boolean successSoFar = false;
+        boolebn successSoFbr = fblse;
 
         if (Modifier.isProtected(modifiers)) {
-            // See if currentClass is a subclass of memberClass
-            if (isSubclassOf(currentClass, memberClass)) {
-                successSoFar = true;
+            // See if currentClbss is b subclbss of memberClbss
+            if (isSubclbssOf(currentClbss, memberClbss)) {
+                successSoFbr = true;
             }
         }
 
-        if (!successSoFar && !Modifier.isPrivate(modifiers)) {
-            if (!gotIsSameClassPackage) {
-                isSameClassPackage = isSameClassPackage(currentClass,
-                                                        memberClass);
-                gotIsSameClassPackage = true;
+        if (!successSoFbr && !Modifier.isPrivbte(modifiers)) {
+            if (!gotIsSbmeClbssPbckbge) {
+                isSbmeClbssPbckbge = isSbmeClbssPbckbge(currentClbss,
+                                                        memberClbss);
+                gotIsSbmeClbssPbckbge = true;
             }
 
-            if (isSameClassPackage) {
-                successSoFar = true;
+            if (isSbmeClbssPbckbge) {
+                successSoFbr = true;
             }
         }
 
-        if (!successSoFar) {
-            return false;
+        if (!successSoFbr) {
+            return fblse;
         }
 
         if (Modifier.isProtected(modifiers)) {
-            // Additional test for protected members: JLS 6.6.2
-            Class<?> targetClass = (target == null ? memberClass : target.getClass());
-            if (targetClass != currentClass) {
-                if (!gotIsSameClassPackage) {
-                    isSameClassPackage = isSameClassPackage(currentClass, memberClass);
-                    gotIsSameClassPackage = true;
+            // Additionbl test for protected members: JLS 6.6.2
+            Clbss<?> tbrgetClbss = (tbrget == null ? memberClbss : tbrget.getClbss());
+            if (tbrgetClbss != currentClbss) {
+                if (!gotIsSbmeClbssPbckbge) {
+                    isSbmeClbssPbckbge = isSbmeClbssPbckbge(currentClbss, memberClbss);
+                    gotIsSbmeClbssPbckbge = true;
                 }
-                if (!isSameClassPackage) {
-                    if (!isSubclassOf(targetClass, currentClass)) {
-                        return false;
+                if (!isSbmeClbssPbckbge) {
+                    if (!isSubclbssOf(tbrgetClbss, currentClbss)) {
+                        return fblse;
                     }
                 }
             }
@@ -181,126 +181,126 @@ public class Reflection {
         return true;
     }
 
-    private static boolean isSameClassPackage(Class<?> c1, Class<?> c2) {
-        return isSameClassPackage(c1.getClassLoader(), c1.getName(),
-                                  c2.getClassLoader(), c2.getName());
+    privbte stbtic boolebn isSbmeClbssPbckbge(Clbss<?> c1, Clbss<?> c2) {
+        return isSbmeClbssPbckbge(c1.getClbssLobder(), c1.getNbme(),
+                                  c2.getClbssLobder(), c2.getNbme());
     }
 
-    /** Returns true if two classes are in the same package; classloader
-        and classname information is enough to determine a class's package */
-    private static boolean isSameClassPackage(ClassLoader loader1, String name1,
-                                              ClassLoader loader2, String name2)
+    /** Returns true if two clbsses bre in the sbme pbckbge; clbsslobder
+        bnd clbssnbme informbtion is enough to determine b clbss's pbckbge */
+    privbte stbtic boolebn isSbmeClbssPbckbge(ClbssLobder lobder1, String nbme1,
+                                              ClbssLobder lobder2, String nbme2)
     {
-        if (loader1 != loader2) {
-            return false;
+        if (lobder1 != lobder2) {
+            return fblse;
         } else {
-            int lastDot1 = name1.lastIndexOf('.');
-            int lastDot2 = name2.lastIndexOf('.');
-            if ((lastDot1 == -1) || (lastDot2 == -1)) {
-                // One of the two doesn't have a package.  Only return true
-                // if the other one also doesn't have a package.
-                return (lastDot1 == lastDot2);
+            int lbstDot1 = nbme1.lbstIndexOf('.');
+            int lbstDot2 = nbme2.lbstIndexOf('.');
+            if ((lbstDot1 == -1) || (lbstDot2 == -1)) {
+                // One of the two doesn't hbve b pbckbge.  Only return true
+                // if the other one blso doesn't hbve b pbckbge.
+                return (lbstDot1 == lbstDot2);
             } else {
                 int idx1 = 0;
                 int idx2 = 0;
 
                 // Skip over '['s
-                if (name1.charAt(idx1) == '[') {
+                if (nbme1.chbrAt(idx1) == '[') {
                     do {
                         idx1++;
-                    } while (name1.charAt(idx1) == '[');
-                    if (name1.charAt(idx1) != 'L') {
+                    } while (nbme1.chbrAt(idx1) == '[');
+                    if (nbme1.chbrAt(idx1) != 'L') {
                         // Something is terribly wrong.  Shouldn't be here.
-                        throw new InternalError("Illegal class name " + name1);
+                        throw new InternblError("Illegbl clbss nbme " + nbme1);
                     }
                 }
-                if (name2.charAt(idx2) == '[') {
+                if (nbme2.chbrAt(idx2) == '[') {
                     do {
                         idx2++;
-                    } while (name2.charAt(idx2) == '[');
-                    if (name2.charAt(idx2) != 'L') {
+                    } while (nbme2.chbrAt(idx2) == '[');
+                    if (nbme2.chbrAt(idx2) != 'L') {
                         // Something is terribly wrong.  Shouldn't be here.
-                        throw new InternalError("Illegal class name " + name2);
+                        throw new InternblError("Illegbl clbss nbme " + nbme2);
                     }
                 }
 
-                // Check that package part is identical
-                int length1 = lastDot1 - idx1;
-                int length2 = lastDot2 - idx2;
+                // Check thbt pbckbge pbrt is identicbl
+                int length1 = lbstDot1 - idx1;
+                int length2 = lbstDot2 - idx2;
 
                 if (length1 != length2) {
-                    return false;
+                    return fblse;
                 }
-                return name1.regionMatches(false, idx1, name2, idx2, length1);
+                return nbme1.regionMbtches(fblse, idx1, nbme2, idx2, length1);
             }
         }
     }
 
-    static boolean isSubclassOf(Class<?> queryClass,
-                                Class<?> ofClass)
+    stbtic boolebn isSubclbssOf(Clbss<?> queryClbss,
+                                Clbss<?> ofClbss)
     {
-        while (queryClass != null) {
-            if (queryClass == ofClass) {
+        while (queryClbss != null) {
+            if (queryClbss == ofClbss) {
                 return true;
             }
-            queryClass = queryClass.getSuperclass();
+            queryClbss = queryClbss.getSuperclbss();
         }
-        return false;
+        return fblse;
     }
 
-    // fieldNames must contain only interned Strings
-    public static synchronized void registerFieldsToFilter(Class<?> containingClass,
-                                              String ... fieldNames) {
-        fieldFilterMap =
-            registerFilter(fieldFilterMap, containingClass, fieldNames);
+    // fieldNbmes must contbin only interned Strings
+    public stbtic synchronized void registerFieldsToFilter(Clbss<?> contbiningClbss,
+                                              String ... fieldNbmes) {
+        fieldFilterMbp =
+            registerFilter(fieldFilterMbp, contbiningClbss, fieldNbmes);
     }
 
-    // methodNames must contain only interned Strings
-    public static synchronized void registerMethodsToFilter(Class<?> containingClass,
-                                              String ... methodNames) {
-        methodFilterMap =
-            registerFilter(methodFilterMap, containingClass, methodNames);
+    // methodNbmes must contbin only interned Strings
+    public stbtic synchronized void registerMethodsToFilter(Clbss<?> contbiningClbss,
+                                              String ... methodNbmes) {
+        methodFilterMbp =
+            registerFilter(methodFilterMbp, contbiningClbss, methodNbmes);
     }
 
-    private static Map<Class<?>,String[]> registerFilter(Map<Class<?>,String[]> map,
-            Class<?> containingClass, String ... names) {
-        if (map.get(containingClass) != null) {
-            throw new IllegalArgumentException
-                            ("Filter already registered: " + containingClass);
+    privbte stbtic Mbp<Clbss<?>,String[]> registerFilter(Mbp<Clbss<?>,String[]> mbp,
+            Clbss<?> contbiningClbss, String ... nbmes) {
+        if (mbp.get(contbiningClbss) != null) {
+            throw new IllegblArgumentException
+                            ("Filter blrebdy registered: " + contbiningClbss);
         }
-        map = new HashMap<Class<?>,String[]>(map);
-        map.put(containingClass, names);
-        return map;
+        mbp = new HbshMbp<Clbss<?>,String[]>(mbp);
+        mbp.put(contbiningClbss, nbmes);
+        return mbp;
     }
 
-    public static Field[] filterFields(Class<?> containingClass,
+    public stbtic Field[] filterFields(Clbss<?> contbiningClbss,
                                        Field[] fields) {
-        if (fieldFilterMap == null) {
-            // Bootstrapping
+        if (fieldFilterMbp == null) {
+            // Bootstrbpping
             return fields;
         }
-        return (Field[])filter(fields, fieldFilterMap.get(containingClass));
+        return (Field[])filter(fields, fieldFilterMbp.get(contbiningClbss));
     }
 
-    public static Method[] filterMethods(Class<?> containingClass, Method[] methods) {
-        if (methodFilterMap == null) {
-            // Bootstrapping
+    public stbtic Method[] filterMethods(Clbss<?> contbiningClbss, Method[] methods) {
+        if (methodFilterMbp == null) {
+            // Bootstrbpping
             return methods;
         }
-        return (Method[])filter(methods, methodFilterMap.get(containingClass));
+        return (Method[])filter(methods, methodFilterMbp.get(contbiningClbss));
     }
 
-    private static Member[] filter(Member[] members, String[] filteredNames) {
-        if ((filteredNames == null) || (members.length == 0)) {
+    privbte stbtic Member[] filter(Member[] members, String[] filteredNbmes) {
+        if ((filteredNbmes == null) || (members.length == 0)) {
             return members;
         }
         int numNewMembers = 0;
         for (Member member : members) {
-            boolean shouldSkip = false;
-            for (String filteredName : filteredNames) {
-                if (member.getName() == filteredName) {
+            boolebn shouldSkip = fblse;
+            for (String filteredNbme : filteredNbmes) {
+                if (member.getNbme() == filteredNbme) {
                     shouldSkip = true;
-                    break;
+                    brebk;
                 }
             }
             if (!shouldSkip) {
@@ -308,14 +308,14 @@ public class Reflection {
             }
         }
         Member[] newMembers =
-            (Member[])Array.newInstance(members[0].getClass(), numNewMembers);
+            (Member[])Arrby.newInstbnce(members[0].getClbss(), numNewMembers);
         int destIdx = 0;
         for (Member member : members) {
-            boolean shouldSkip = false;
-            for (String filteredName : filteredNames) {
-                if (member.getName() == filteredName) {
+            boolebn shouldSkip = fblse;
+            for (String filteredNbme : filteredNbmes) {
+                if (member.getNbme() == filteredNbme) {
                     shouldSkip = true;
-                    break;
+                    brebk;
                 }
             }
             if (!shouldSkip) {
@@ -326,25 +326,25 @@ public class Reflection {
     }
 
     /**
-     * Tests if the given method is caller-sensitive and the declaring class
-     * is defined by either the bootstrap class loader or extension class loader.
+     * Tests if the given method is cbller-sensitive bnd the declbring clbss
+     * is defined by either the bootstrbp clbss lobder or extension clbss lobder.
      */
-    public static boolean isCallerSensitive(Method m) {
-        final ClassLoader loader = m.getDeclaringClass().getClassLoader();
-        if (sun.misc.VM.isSystemDomainLoader(loader) || isExtClassLoader(loader))  {
-            return m.isAnnotationPresent(CallerSensitive.class);
+    public stbtic boolebn isCbllerSensitive(Method m) {
+        finbl ClbssLobder lobder = m.getDeclbringClbss().getClbssLobder();
+        if (sun.misc.VM.isSystemDombinLobder(lobder) || isExtClbssLobder(lobder))  {
+            return m.isAnnotbtionPresent(CbllerSensitive.clbss);
         }
-        return false;
+        return fblse;
     }
 
-    private static boolean isExtClassLoader(ClassLoader loader) {
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
+    privbte stbtic boolebn isExtClbssLobder(ClbssLobder lobder) {
+        ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
         while (cl != null) {
-            if (cl.getParent() == null && cl == loader) {
+            if (cl.getPbrent() == null && cl == lobder) {
                 return true;
             }
-            cl = cl.getParent();
+            cl = cl.getPbrent();
         }
-        return false;
+        return fblse;
     }
 }

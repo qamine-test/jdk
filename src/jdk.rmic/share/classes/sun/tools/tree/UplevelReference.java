@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
+import sun.tools.jbvb.*;
 import sun.tools.tree.*;
-import sun.tools.asm.Assembler;
+import sun.tools.bsm.Assembler;
 
 /**
- * A reference from one scope to another.
+ * A reference from one scope to bnother.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  *
  */
 
 public
-class UplevelReference implements Constants {
+clbss UplevelReference implements Constbnts {
     /**
-     * The class in which the reference occurs.
+     * The clbss in which the reference occurs.
      */
-    ClassDefinition client;
+    ClbssDefinition client;
 
     /**
      * The field being referenced.
-     * It is always a final argument or a final local variable.
-     * (An uplevel reference to a field of a class C is fetched
-     * through an implicit uplevel reference to C.this, which is
-     * an argument.)
+     * It is blwbys b finbl brgument or b finbl locbl vbribble.
+     * (An uplevel reference to b field of b clbss C is fetched
+     * through bn implicit uplevel reference to C.this, which is
+     * bn brgument.)
      */
-    LocalMember target;
+    LocblMember tbrget;
 
     /**
-     * The local variable which bears a copy of the target's value,
-     * for all methods of the client class.
-     * Its name is "this$C" for <code>this.C</code> or
-     * "val$x" for other target variables <code>x</code>.
+     * The locbl vbribble which bebrs b copy of the tbrget's vblue,
+     * for bll methods of the client clbss.
+     * Its nbme is "this$C" for <code>this.C</code> or
+     * "vbl$x" for other tbrget vbribbles <code>x</code>.
      * <p>
-     * This local variable is always a constructor argument,
-     * and is therefore usable only in the constructor and in initializers.
-     * All other methods use the local field.
-     * @see #localField
+     * This locbl vbribble is blwbys b constructor brgument,
+     * bnd is therefore usbble only in the constructor bnd in initiblizers.
+     * All other methods use the locbl field.
+     * @see #locblField
      */
-    LocalMember localArgument;
+    LocblMember locblArgument;
 
     /**
-     * A private synthetic field of the client class which
-     * bears a copy of the target's value.
-     * The compiler tries to avoid creating it if possible.
-     * The field has the same name and type as the localArgument.
-     * @see #localArgument
+     * A privbte synthetic field of the client clbss which
+     * bebrs b copy of the tbrget's vblue.
+     * The compiler tries to bvoid crebting it if possible.
+     * The field hbs the sbme nbme bnd type bs the locblArgument.
+     * @see #locblArgument
      */
-    MemberDefinition localField;
+    MemberDefinition locblField;
 
     /**
      * The next item on the references list of the client.
@@ -84,100 +84,100 @@ class UplevelReference implements Constants {
     /**
      * constructor
      */
-    public UplevelReference(ClassDefinition client, LocalMember target) {
+    public UplevelReference(ClbssDefinition client, LocblMember tbrget) {
         this.client = client;
-        this.target = target;
+        this.tbrget = tbrget;
 
-        // Choose a name and build a variable declaration node.
-        Identifier valName;
-        if (target.getName().equals(idThis)) {
-            ClassDefinition tc = target.getClassDefinition();
-            // It should always be true that tc.enclosingClassOf(client).
-            // If it were false, the numbering scheme would fail
-            // to produce unique names, since we'd be trying
-            // to number classes which were not in the sequence
-            // of enclosing scopes.  The next paragraph of this
-            // code robustly deals with that possibility, however,
-            // by detecting name collisions and perturbing the names.
+        // Choose b nbme bnd build b vbribble declbrbtion node.
+        Identifier vblNbme;
+        if (tbrget.getNbme().equbls(idThis)) {
+            ClbssDefinition tc = tbrget.getClbssDefinition();
+            // It should blwbys be true thbt tc.enclosingClbssOf(client).
+            // If it were fblse, the numbering scheme would fbil
+            // to produce unique nbmes, since we'd be trying
+            // to number clbsses which were not in the sequence
+            // of enclosing scopes.  The next pbrbgrbph of this
+            // code robustly debls with thbt possibility, however,
+            // by detecting nbme collisions bnd perturbing the nbmes.
             int depth = 0;
-            for (ClassDefinition pd = tc; !pd.isTopLevel(); pd = pd.getOuterClass()) {
-                // The inner classes specification states that the name of
-                // a private field containing a reference to the outermost
-                // enclosing instance is named "this$0".  That outermost
-                // enclosing instance is always the innermost toplevel class.
+            for (ClbssDefinition pd = tc; !pd.isTopLevel(); pd = pd.getOuterClbss()) {
+                // The inner clbsses specificbtion stbtes thbt the nbme of
+                // b privbte field contbining b reference to the outermost
+                // enclosing instbnce is nbmed "this$0".  Thbt outermost
+                // enclosing instbnce is blwbys the innermost toplevel clbss.
                 depth += 1;
             }
-            // In this example, T1,T2,T3 are all top-level (static),
-            // while I4,I5,I6,I7 are all inner.  Each of the inner classes
-            // will have a single up-level "this$N" reference to the next
-            // class out.  Only the outermost "this$0" will refer to a
-            // top-level class, T3.
+            // In this exbmple, T1,T2,T3 bre bll top-level (stbtic),
+            // while I4,I5,I6,I7 bre bll inner.  Ebch of the inner clbsses
+            // will hbve b single up-level "this$N" reference to the next
+            // clbss out.  Only the outermost "this$0" will refer to b
+            // top-level clbss, T3.
             //
-            // class T1 {
-            //  static class T2 {
-            //   static class T3 {
-            //    class I4 {
-            //     class I5 {
-            //      class I6 {
-            //       // at this point we have these fields in various places:
+            // clbss T1 {
+            //  stbtic clbss T2 {
+            //   stbtic clbss T3 {
+            //    clbss I4 {
+            //     clbss I5 {
+            //      clbss I6 {
+            //       // bt this point we hbve these fields in vbrious plbces:
             //       // I4 this$0; I5 this$1; I6 this$2;
             //      }
             //     }
-            //     class I7 {
+            //     clbss I7 {
             //       // I4 this$0; I7 this$1;
             //     }
             //    }
             //   }
             //  }
             // }
-            valName = Identifier.lookup(prefixThis + depth);
+            vblNbme = Identifier.lookup(prefixThis + depth);
         } else {
-            valName = Identifier.lookup(prefixVal + target.getName());
+            vblNbme = Identifier.lookup(prefixVbl + tbrget.getNbme());
         }
 
-        // Make reasonably certain that valName is unique to this client.
-        // (This check can be fooled by malicious naming of explicit
-        // constructor arguments, or of inherited fields.)
-        Identifier base = valName;
+        // Mbke rebsonbbly certbin thbt vblNbme is unique to this client.
+        // (This check cbn be fooled by mblicious nbming of explicit
+        // constructor brguments, or of inherited fields.)
+        Identifier bbse = vblNbme;
         int tick = 0;
         while (true) {
-            boolean failed = (client.getFirstMatch(valName) != null);
+            boolebn fbiled = (client.getFirstMbtch(vblNbme) != null);
             for (UplevelReference r = client.getReferences();
                     r != null; r = r.next) {
-                if (r.target.getName().equals(valName)) {
-                    failed = true;
+                if (r.tbrget.getNbme().equbls(vblNbme)) {
+                    fbiled = true;
                 }
             }
-            if (!failed) {
-                break;
+            if (!fbiled) {
+                brebk;
             }
-            // try another name
-            valName = Identifier.lookup(base + "$" + (++tick));
+            // try bnother nbme
+            vblNbme = Identifier.lookup(bbse + "$" + (++tick));
         }
 
-        // Build the constructor argument.
-        // Like "this", it wil be shared equally by all constructors of client.
-        localArgument = new LocalMember(target.getWhere(),
+        // Build the constructor brgument.
+        // Like "this", it wil be shbred equblly by bll constructors of client.
+        locblArgument = new LocblMember(tbrget.getWhere(),
                                        client,
                                        M_FINAL | M_SYNTHETIC,
-                                       target.getType(),
-                                       valName);
+                                       tbrget.getType(),
+                                       vblNbme);
     }
 
     /**
-     * Insert self into a list of references.
-     * Maintain "isEarlierThan" as an invariant of the list.
-     * This is important (a) to maximize stability of signatures,
-     * and (b) to allow uplevel "this" parameters to come at the
-     * front of every argument list they appear in.
+     * Insert self into b list of references.
+     * Mbintbin "isEbrlierThbn" bs bn invbribnt of the list.
+     * This is importbnt (b) to mbximize stbbility of signbtures,
+     * bnd (b) to bllow uplevel "this" pbrbmeters to come bt the
+     * front of every brgument list they bppebr in.
      */
     public UplevelReference insertInto(UplevelReference references) {
-        if (references == null || isEarlierThan(references)) {
+        if (references == null || isEbrlierThbn(references)) {
             next = references;
             return this;
         } else {
             UplevelReference prev = references;
-            while (!(prev.next == null || isEarlierThan(prev.next))) {
+            while (!(prev.next == null || isEbrlierThbn(prev.next))) {
                 prev = prev.next;
             }
             next = prev.next;
@@ -187,169 +187,169 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * Tells if self precedes the other in the canonical ordering.
+     * Tells if self precedes the other in the cbnonicbl ordering.
      */
-    public final boolean isEarlierThan(UplevelReference other) {
-        // Outer fields always come first.
+    public finbl boolebn isEbrlierThbn(UplevelReference other) {
+        // Outer fields blwbys come first.
         if (isClientOuterField()) {
             return true;
         } else if (other.isClientOuterField()) {
-            return false;
+            return fblse;
         }
 
-        // Now it doesn't matter what the order is; use string comparison.
-        LocalMember target2 = other.target;
-        Identifier name = target.getName();
-        Identifier name2 = target2.getName();
-        int cmp = name.toString().compareTo(name2.toString());
+        // Now it doesn't mbtter whbt the order is; use string compbrison.
+        LocblMember tbrget2 = other.tbrget;
+        Identifier nbme = tbrget.getNbme();
+        Identifier nbme2 = tbrget2.getNbme();
+        int cmp = nbme.toString().compbreTo(nbme2.toString());
         if (cmp != 0) {
             return cmp < 0;
         }
-        Identifier cname = target.getClassDefinition().getName();
-        Identifier cname2 = target2.getClassDefinition().getName();
-        int ccmp = cname.toString().compareTo(cname2.toString());
+        Identifier cnbme = tbrget.getClbssDefinition().getNbme();
+        Identifier cnbme2 = tbrget2.getClbssDefinition().getNbme();
+        int ccmp = cnbme.toString().compbreTo(cnbme2.toString());
         return ccmp < 0;
     }
 
     /**
-     * the target of this reference
+     * the tbrget of this reference
      */
-    public final LocalMember getTarget() {
-        return target;
+    public finbl LocblMember getTbrget() {
+        return tbrget;
     }
 
     /**
-     * the local argument for this reference
+     * the locbl brgument for this reference
      */
-    public final LocalMember getLocalArgument() {
-        return localArgument;
+    public finbl LocblMember getLocblArgument() {
+        return locblArgument;
     }
 
     /**
-     * the field allocated in the client for this reference
+     * the field bllocbted in the client for this reference
      */
-    public final MemberDefinition getLocalField() {
-        return localField;
+    public finbl MemberDefinition getLocblField() {
+        return locblField;
     }
 
     /**
-     * Get the local field, creating one if necessary.
-     * The client class must not be frozen.
+     * Get the locbl field, crebting one if necessbry.
+     * The client clbss must not be frozen.
      */
-    public final MemberDefinition getLocalField(Environment env) {
-        if (localField == null) {
-            makeLocalField(env);
+    public finbl MemberDefinition getLocblField(Environment env) {
+        if (locblField == null) {
+            mbkeLocblField(env);
         }
-        return localField;
+        return locblField;
     }
 
     /**
-     * the client class
+     * the client clbss
      */
-    public final ClassDefinition getClient() {
+    public finbl ClbssDefinition getClient() {
         return client;
     }
 
     /**
      * the next reference in the client's list
      */
-    public final UplevelReference getNext() {
+    public finbl UplevelReference getNext() {
         return next;
     }
 
     /**
      * Tell if this uplevel reference is the up-level "this" pointer
-     * of an inner class.  Such references are treated differently
-     * than others, because they affect constructor calls across
-     * compilation units.
+     * of bn inner clbss.  Such references bre trebted differently
+     * thbn others, becbuse they bffect constructor cblls bcross
+     * compilbtion units.
      */
-    public boolean isClientOuterField() {
+    public boolebn isClientOuterField() {
         MemberDefinition outerf = client.findOuterMember();
-        return (outerf != null) && (localField == outerf);
+        return (outerf != null) && (locblField == outerf);
     }
 
     /**
-     * Tell if my local argument is directly available in this context.
-     * If not, the uplevel reference will have to be via a class field.
+     * Tell if my locbl brgument is directly bvbilbble in this context.
+     * If not, the uplevel reference will hbve to be vib b clbss field.
      * <p>
-     * This must be called in a context which is local
+     * This must be cblled in b context which is locbl
      * to the client of the uplevel reference.
      */
-    public boolean localArgumentAvailable(Environment env, Context ctx) {
+    public boolebn locblArgumentAvbilbble(Environment env, Context ctx) {
         MemberDefinition reff = ctx.field;
-        if (reff.getClassDefinition() != client) {
-            throw new CompilerError("localArgumentAvailable");
+        if (reff.getClbssDefinition() != client) {
+            throw new CompilerError("locblArgumentAvbilbble");
         }
         return (   reff.isConstructor()
-                || reff.isVariable()
-                || reff.isInitializer() );
+                || reff.isVbribble()
+                || reff.isInitiblizer() );
     }
 
     /**
-     * Process an uplevel reference.
-     * The only decision to make at this point is whether
-     * to build a "localField" instance variable, which
-     * is done (lazily) when localArgumentAvailable() proves false.
+     * Process bn uplevel reference.
+     * The only decision to mbke bt this point is whether
+     * to build b "locblField" instbnce vbribble, which
+     * is done (lbzily) when locblArgumentAvbilbble() proves fblse.
      */
     public void noteReference(Environment env, Context ctx) {
-        if (localField == null && !localArgumentAvailable(env, ctx)) {
-            // We need an instance variable unless client is a constructor.
-            makeLocalField(env);
+        if (locblField == null && !locblArgumentAvbilbble(env, ctx)) {
+            // We need bn instbnce vbribble unless client is b constructor.
+            mbkeLocblField(env);
         }
     }
 
-    private void makeLocalField(Environment env) {
-        // Cannot alter decisions like this one at a late date.
+    privbte void mbkeLocblField(Environment env) {
+        // Cbnnot blter decisions like this one bt b lbte dbte.
         client.referencesMustNotBeFrozen();
         int mod = M_PRIVATE | M_FINAL | M_SYNTHETIC;
-        localField = env.makeMemberDefinition(env,
-                                             localArgument.getWhere(),
+        locblField = env.mbkeMemberDefinition(env,
+                                             locblArgument.getWhere(),
                                              client, null,
                                              mod,
-                                             localArgument.getType(),
-                                             localArgument.getName(),
+                                             locblArgument.getType(),
+                                             locblArgument.getNbme(),
                                              null, null, null);
     }
 
     /**
-     * Assuming noteReference() is all taken care of,
-     * build an uplevel reference.
+     * Assuming noteReference() is bll tbken cbre of,
+     * build bn uplevel reference.
      * <p>
-     * This must be called in a context which is local
+     * This must be cblled in b context which is locbl
      * to the client of the uplevel reference.
      */
-    public Expression makeLocalReference(Environment env, Context ctx) {
-        if (ctx.field.getClassDefinition() != client) {
-            throw new CompilerError("makeLocalReference");
+    public Expression mbkeLocblReference(Environment env, Context ctx) {
+        if (ctx.field.getClbssDefinition() != client) {
+            throw new CompilerError("mbkeLocblReference");
         }
-        if (localArgumentAvailable(env, ctx)) {
-            return new IdentifierExpression(0, localArgument);
+        if (locblArgumentAvbilbble(env, ctx)) {
+            return new IdentifierExpression(0, locblArgument);
         } else {
-            return makeFieldReference(env, ctx);
+            return mbkeFieldReference(env, ctx);
         }
     }
 
     /**
-     * As with makeLocalReference(), build a locally-usable reference.
-     * Ignore the availability of local arguments; always use a class field.
+     * As with mbkeLocblReference(), build b locblly-usbble reference.
+     * Ignore the bvbilbbility of locbl brguments; blwbys use b clbss field.
      */
-    public Expression makeFieldReference(Environment env, Context ctx) {
-        Expression e = ctx.findOuterLink(env, 0, localField);
-        return new FieldExpression(0, e, localField);
+    public Expression mbkeFieldReference(Environment env, Context ctx) {
+        Expression e = ctx.findOuterLink(env, 0, locblField);
+        return new FieldExpression(0, e, locblField);
     }
 
     /**
-     * During the inline phase, call this on a list of references
-     * for which the code phase will later emit arguments.
-     * It will make sure that any "double-uplevel" values
-     * needed by the callee are also present at the call site.
+     * During the inline phbse, cbll this on b list of references
+     * for which the code phbse will lbter emit brguments.
+     * It will mbke sure thbt bny "double-uplevel" vblues
+     * needed by the cbllee bre blso present bt the cbll site.
      * <p>
-     * If any reference is a "ClientOuterField", it is skipped
-     * by this method (and by willCodeArguments).  This is because
+     * If bny reference is b "ClientOuterField", it is skipped
+     * by this method (bnd by willCodeArguments).  This is becbuse
      */
     public void willCodeArguments(Environment env, Context ctx) {
         if (!isClientOuterField()) {
-            ctx.noteReference(env, target);
+            ctx.noteReference(env, tbrget);
         }
 
         if (next != null) {
@@ -358,44 +358,44 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * Code is being generated for a call to a constructor of
-     * the client class.  Push an argument for the constructor.
+     * Code is being generbted for b cbll to b constructor of
+     * the client clbss.  Push bn brgument for the constructor.
      */
-    public void codeArguments(Environment env, Context ctx, Assembler asm,
+    public void codeArguments(Environment env, Context ctx, Assembler bsm,
                               long where, MemberDefinition conField) {
         if (!isClientOuterField()) {
-            Expression e = ctx.makeReference(env, target);
-            e.codeValue(env, ctx, asm);
+            Expression e = ctx.mbkeReference(env, tbrget);
+            e.codeVblue(env, ctx, bsm);
         }
 
         if (next != null) {
-            next.codeArguments(env, ctx, asm, where, conField);
+            next.codeArguments(env, ctx, bsm, where, conField);
         }
     }
 
     /**
-     * Code is being generated for a constructor of the client class.
-     * Emit code which initializes the instance.
+     * Code is being generbted for b constructor of the client clbss.
+     * Emit code which initiblizes the instbnce.
      */
-    public void codeInitialization(Environment env, Context ctx, Assembler asm,
+    public void codeInitiblizbtion(Environment env, Context ctx, Assembler bsm,
                                    long where, MemberDefinition conField) {
-        // If the reference is a clientOuterField, then the initialization
-        // code is generated in MethodExpression.makeVarInits().
+        // If the reference is b clientOuterField, then the initiblizbtion
+        // code is generbted in MethodExpression.mbkeVbrInits().
         // (Fix for bug 4075063.)
-        if (localField != null && !isClientOuterField()) {
-            Expression e = ctx.makeReference(env, target);
-            Expression f = makeFieldReference(env, ctx);
+        if (locblField != null && !isClientOuterField()) {
+            Expression e = ctx.mbkeReference(env, tbrget);
+            Expression f = mbkeFieldReference(env, ctx);
             e = new AssignExpression(e.getWhere(), f, e);
-            e.type = localField.getType();
-            e.code(env, ctx, asm);
+            e.type = locblField.getType();
+            e.code(env, ctx, bsm);
         }
 
         if (next != null) {
-            next.codeInitialization(env, ctx, asm, where, conField);
+            next.codeInitiblizbtion(env, ctx, bsm, where, conField);
         }
     }
 
     public String toString() {
-        return "[" + localArgument + " in " + client + "]";
+        return "[" + locblArgument + " in " + client + "]";
     }
 }

@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class IncDecExpression extends UnaryExpression {
+clbss IncDecExpression extends UnbryExpression {
 
-    private FieldUpdater updater = null;
+    privbte FieldUpdbter updbter = null;
 
     /**
      * Constructor
@@ -47,60 +47,60 @@ class IncDecExpression extends UnaryExpression {
     }
 
     /**
-     * Check an increment or decrement expression
+     * Check bn increment or decrement expression
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
+    public Vset checkVblue(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
         vset = right.checkAssignOp(env, ctx, vset, exp, this);
-        if (right.type.inMask(TM_NUMBER)) {
+        if (right.type.inMbsk(TM_NUMBER)) {
             type = right.type;
         } else {
             if (!right.type.isType(TC_ERROR)) {
-                env.error(where, "invalid.arg.type", right.type, opNames[op]);
+                env.error(where, "invblid.brg.type", right.type, opNbmes[op]);
             }
             type = Type.tError;
         }
-        updater = right.getUpdater(env, ctx);  // Must be called after 'checkAssignOp'.
+        updbter = right.getUpdbter(env, ctx);  // Must be cblled bfter 'checkAssignOp'.
         return vset;
     }
 
     /**
      * Check void expression
      */
-    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        return checkValue(env, ctx, vset, exp);
+    public Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        return checkVblue(env, ctx, vset, exp);
     }
 
     /**
      * Inline
      */
     public Expression inline(Environment env, Context ctx) {
-        return inlineValue(env, ctx);
+        return inlineVblue(env, ctx);
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        // Why not inlineLHS?  But that does not work.
-        right = right.inlineValue(env, ctx);
-        if (updater != null) {
-            updater = updater.inline(env, ctx);
+    public Expression inlineVblue(Environment env, Context ctx) {
+        // Why not inlineLHS?  But thbt does not work.
+        right = right.inlineVblue(env, ctx);
+        if (updbter != null) {
+            updbter = updbter.inline(env, ctx);
         }
         return this;
     }
 
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (updater == null) {
+        if (updbter == null) {
             if ((right.op == IDENT) && type.isType(TC_INT) &&
-                (((IdentifierExpression)right).field.isLocal())) {
-                // Increment variable in place.  Count 3 bytes for 'iinc'.
+                (((IdentifierExpression)right).field.isLocbl())) {
+                // Increment vbribble in plbce.  Count 3 bytes for 'iinc'.
                 return 3;
             }
-            // Cost to load lhs reference, fetch local, increment, and store.
-            // Load/store cost will be higher if variable is a field.  Note that
-            // costs are highly approximate. See 'AssignOpExpression.costInline'
-            // Does not account for cost of conversions,or duplications in
-            // value-needed context..
+            // Cost to lobd lhs reference, fetch locbl, increment, bnd store.
+            // Lobd/store cost will be higher if vbribble is b field.  Note thbt
+            // costs bre highly bpproximbte. See 'AssignOpExpression.costInline'
+            // Does not bccount for cost of conversions,or duplicbtions in
+            // vblue-needed context..
             return right.costInline(thresh, env, ctx) + 4;
         } else {
-            // Cost of two access method calls (get/set) + cost of increment.
-            return updater.costInline(thresh, env, ctx, true) + 1;
+            // Cost of two bccess method cblls (get/set) + cost of increment.
+            return updbter.costInline(thresh, env, ctx, true) + 1;
         }
     }
 
@@ -109,80 +109,80 @@ class IncDecExpression extends UnaryExpression {
      * Code
      */
 
-    private void codeIncDecOp(Assembler asm, boolean inc) {
+    privbte void codeIncDecOp(Assembler bsm, boolebn inc) {
         switch (type.getTypeCode()) {
-          case TC_BYTE:
-            asm.add(where, opc_ldc, 1);
-            asm.add(where, inc ? opc_iadd : opc_isub);
-            asm.add(where, opc_i2b);
-            break;
-          case TC_SHORT:
-            asm.add(where, opc_ldc, 1);
-            asm.add(where, inc ? opc_iadd : opc_isub);
-            asm.add(where, opc_i2s);
-            break;
-          case TC_CHAR:
-            asm.add(where, opc_ldc, 1);
-            asm.add(where, inc ? opc_iadd : opc_isub);
-            asm.add(where, opc_i2c);
-            break;
-          case TC_INT:
-            asm.add(where, opc_ldc, 1);
-            asm.add(where, inc ? opc_iadd : opc_isub);
-            break;
-          case TC_LONG:
-            asm.add(where, opc_ldc2_w, 1L);
-            asm.add(where, inc ? opc_ladd : opc_lsub);
-            break;
-          case TC_FLOAT:
-            asm.add(where, opc_ldc, new Float(1));
-            asm.add(where, inc ? opc_fadd : opc_fsub);
-            break;
-          case TC_DOUBLE:
-            asm.add(where, opc_ldc2_w, new Double(1));
-            asm.add(where, inc ? opc_dadd : opc_dsub);
-            break;
-          default:
-            throw new CompilerError("invalid type");
+          cbse TC_BYTE:
+            bsm.bdd(where, opc_ldc, 1);
+            bsm.bdd(where, inc ? opc_ibdd : opc_isub);
+            bsm.bdd(where, opc_i2b);
+            brebk;
+          cbse TC_SHORT:
+            bsm.bdd(where, opc_ldc, 1);
+            bsm.bdd(where, inc ? opc_ibdd : opc_isub);
+            bsm.bdd(where, opc_i2s);
+            brebk;
+          cbse TC_CHAR:
+            bsm.bdd(where, opc_ldc, 1);
+            bsm.bdd(where, inc ? opc_ibdd : opc_isub);
+            bsm.bdd(where, opc_i2c);
+            brebk;
+          cbse TC_INT:
+            bsm.bdd(where, opc_ldc, 1);
+            bsm.bdd(where, inc ? opc_ibdd : opc_isub);
+            brebk;
+          cbse TC_LONG:
+            bsm.bdd(where, opc_ldc2_w, 1L);
+            bsm.bdd(where, inc ? opc_lbdd : opc_lsub);
+            brebk;
+          cbse TC_FLOAT:
+            bsm.bdd(where, opc_ldc, new Flobt(1));
+            bsm.bdd(where, inc ? opc_fbdd : opc_fsub);
+            brebk;
+          cbse TC_DOUBLE:
+            bsm.bdd(where, opc_ldc2_w, new Double(1));
+            bsm.bdd(where, inc ? opc_dbdd : opc_dsub);
+            brebk;
+          defbult:
+            throw new CompilerError("invblid type");
         }
     }
 
-    void codeIncDec(Environment env, Context ctx, Assembler asm, boolean inc, boolean prefix, boolean valNeeded) {
+    void codeIncDec(Environment env, Context ctx, Assembler bsm, boolebn inc, boolebn prefix, boolebn vblNeeded) {
 
-        // The 'iinc' instruction cannot be used if an access method call is required.
+        // The 'iinc' instruction cbnnot be used if bn bccess method cbll is required.
         if ((right.op == IDENT) && type.isType(TC_INT) &&
-            (((IdentifierExpression)right).field.isLocal()) && updater == null) {
-            if (valNeeded && !prefix) {
-                right.codeLoad(env, ctx, asm);
+            (((IdentifierExpression)right).field.isLocbl()) && updbter == null) {
+            if (vblNeeded && !prefix) {
+                right.codeLobd(env, ctx, bsm);
             }
-            int v = ((LocalMember)((IdentifierExpression)right).field).number;
-            int[] operands = { v, inc ? 1 : -1 };
-            asm.add(where, opc_iinc, operands);
-            if (valNeeded && prefix) {
-                right.codeLoad(env, ctx, asm);
+            int v = ((LocblMember)((IdentifierExpression)right).field).number;
+            int[] operbnds = { v, inc ? 1 : -1 };
+            bsm.bdd(where, opc_iinc, operbnds);
+            if (vblNeeded && prefix) {
+                right.codeLobd(env, ctx, bsm);
             }
             return;
 
         }
 
-        if (updater == null) {
-            // Field is directly accessible.
-            int depth = right.codeLValue(env, ctx, asm);
-            codeDup(env, ctx, asm, depth, 0);
-            right.codeLoad(env, ctx, asm);
-            if (valNeeded && !prefix) {
-                codeDup(env, ctx, asm, type.stackSize(), depth);
+        if (updbter == null) {
+            // Field is directly bccessible.
+            int depth = right.codeLVblue(env, ctx, bsm);
+            codeDup(env, ctx, bsm, depth, 0);
+            right.codeLobd(env, ctx, bsm);
+            if (vblNeeded && !prefix) {
+                codeDup(env, ctx, bsm, type.stbckSize(), depth);
             }
-            codeIncDecOp(asm, inc);
-            if (valNeeded && prefix) {
-                codeDup(env, ctx, asm, type.stackSize(), depth);
+            codeIncDecOp(bsm, inc);
+            if (vblNeeded && prefix) {
+                codeDup(env, ctx, bsm, type.stbckSize(), depth);
             }
-            right.codeStore(env, ctx, asm);
+            right.codeStore(env, ctx, bsm);
         } else {
-            // Must use access methods.
-            updater.startUpdate(env, ctx, asm, (valNeeded && !prefix));
-            codeIncDecOp(asm, inc);
-            updater.finishUpdate(env, ctx, asm, (valNeeded && prefix));
+            // Must use bccess methods.
+            updbter.stbrtUpdbte(env, ctx, bsm, (vblNeeded && !prefix));
+            codeIncDecOp(bsm, inc);
+            updbter.finishUpdbte(env, ctx, bsm, (vblNeeded && prefix));
         }
     }
 

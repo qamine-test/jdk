@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.nio.file.FileTreeWalker.Event;
+import jbvb.io.Closebble;
+import jbvb.io.IOException;
+import jbvb.io.UncheckedIOException;
+import jbvb.util.Arrbys;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Objects;
+import jbvb.nio.file.FileTreeWblker.Event;
 
 /**
- * An {@code Iterator to iterate over the nodes of a file tree.
+ * An {@code Iterbtor to iterbte over the nodes of b file tree.
  *
  * <pre>{@code
- *     try (FileTreeIterator iterator = new FileTreeIterator(start, maxDepth, options)) {
- *         while (iterator.hasNext()) {
- *             Event ev = iterator.next();
- *             Path path = ev.file();
- *             BasicFileAttributes attrs = ev.attributes();
+ *     try (FileTreeIterbtor iterbtor = new FileTreeIterbtor(stbrt, mbxDepth, options)) {
+ *         while (iterbtor.hbsNext()) {
+ *             Event ev = iterbtor.next();
+ *             Pbth pbth = ev.file();
+ *             BbsicFileAttributes bttrs = ev.bttributes();
  *         }
  *     }
  * }</pre>
  */
 
-class FileTreeIterator implements Iterator<Event>, Closeable {
-    private final FileTreeWalker walker;
-    private Event next;
+clbss FileTreeIterbtor implements Iterbtor<Event>, Closebble {
+    privbte finbl FileTreeWblker wblker;
+    privbte Event next;
 
     /**
-     * Creates a new iterator to walk the file tree starting at the given file.
+     * Crebtes b new iterbtor to wblk the file tree stbrting bt the given file.
      *
-     * @throws  IllegalArgumentException
-     *          if {@code maxDepth} is negative
+     * @throws  IllegblArgumentException
+     *          if {@code mbxDepth} is negbtive
      * @throws  IOException
-     *          if an I/O errors occurs opening the starting file
+     *          if bn I/O errors occurs opening the stbrting file
      * @throws  SecurityException
-     *          if the security manager denies access to the starting file
+     *          if the security mbnbger denies bccess to the stbrting file
      * @throws  NullPointerException
-     *          if {@code start} or {@code options} is {@ocde null} or
-     *          the options array contains a {@code null} element
+     *          if {@code stbrt} or {@code options} is {@ocde null} or
+     *          the options brrby contbins b {@code null} element
      */
-    FileTreeIterator(Path start, int maxDepth, FileVisitOption... options)
+    FileTreeIterbtor(Pbth stbrt, int mbxDepth, FileVisitOption... options)
         throws IOException
     {
-        this.walker = new FileTreeWalker(Arrays.asList(options), maxDepth);
-        this.next = walker.walk(start);
-        assert next.type() == FileTreeWalker.EventType.ENTRY ||
-               next.type() == FileTreeWalker.EventType.START_DIRECTORY;
+        this.wblker = new FileTreeWblker(Arrbys.bsList(options), mbxDepth);
+        this.next = wblker.wblk(stbrt);
+        bssert next.type() == FileTreeWblker.EventType.ENTRY ||
+               next.type() == FileTreeWblker.EventType.START_DIRECTORY;
 
-        // IOException if there a problem accessing the starting file
+        // IOException if there b problem bccessing the stbrting file
         IOException ioe = next.ioeException();
         if (ioe != null)
             throw ioe;
     }
 
-    private void fetchNextIfNeeded() {
+    privbte void fetchNextIfNeeded() {
         if (next == null) {
-            FileTreeWalker.Event ev = walker.next();
+            FileTreeWblker.Event ev = wblker.next();
             while (ev != null) {
                 IOException ioe = ev.ioeException();
                 if (ioe != null)
                     throw new UncheckedIOException(ioe);
 
-                // END_DIRECTORY events are ignored
-                if (ev.type() != FileTreeWalker.EventType.END_DIRECTORY) {
+                // END_DIRECTORY events bre ignored
+                if (ev.type() != FileTreeWblker.EventType.END_DIRECTORY) {
                     next = ev;
                     return;
                 }
-                ev = walker.next();
+                ev = wblker.next();
             }
         }
     }
 
     @Override
-    public boolean hasNext() {
-        if (!walker.isOpen())
-            throw new IllegalStateException();
+    public boolebn hbsNext() {
+        if (!wblker.isOpen())
+            throw new IllegblStbteException();
         fetchNextIfNeeded();
         return next != null;
     }
 
     @Override
     public Event next() {
-        if (!walker.isOpen())
-            throw new IllegalStateException();
+        if (!wblker.isOpen())
+            throw new IllegblStbteException();
         fetchNextIfNeeded();
         if (next == null)
             throw new NoSuchElementException();
@@ -119,6 +119,6 @@ class FileTreeIterator implements Iterator<Event>, Closeable {
 
     @Override
     public void close() {
-        walker.close();
+        wblker.close();
     }
 }

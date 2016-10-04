@@ -1,362 +1,362 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * The mapping in the Java programming language for the SQL type
+ * The mbpping in the Jbvb progrbmming lbngubge for the SQL type
  * <code>ARRAY</code>.
- * By default, an <code>Array</code> value is a transaction-duration
- * reference to an SQL <code>ARRAY</code> value.  By default, an <code>Array</code>
- * object is implemented using an SQL LOCATOR(array) internally, which
- * means that an <code>Array</code> object contains a logical pointer
- * to the data in the SQL <code>ARRAY</code> value rather
- * than containing the <code>ARRAY</code> value's data.
+ * By defbult, bn <code>Arrby</code> vblue is b trbnsbction-durbtion
+ * reference to bn SQL <code>ARRAY</code> vblue.  By defbult, bn <code>Arrby</code>
+ * object is implemented using bn SQL LOCATOR(brrby) internblly, which
+ * mebns thbt bn <code>Arrby</code> object contbins b logicbl pointer
+ * to the dbtb in the SQL <code>ARRAY</code> vblue rbther
+ * thbn contbining the <code>ARRAY</code> vblue's dbtb.
  * <p>
- * The <code>Array</code> interface provides methods for bringing an SQL
- * <code>ARRAY</code> value's data to the client as either an array or a
+ * The <code>Arrby</code> interfbce provides methods for bringing bn SQL
+ * <code>ARRAY</code> vblue's dbtb to the client bs either bn brrby or b
  * <code>ResultSet</code> object.
  * If the elements of the SQL <code>ARRAY</code>
- * are a UDT, they may be custom mapped.  To create a custom mapping,
- * a programmer must do two things:
+ * bre b UDT, they mby be custom mbpped.  To crebte b custom mbpping,
+ * b progrbmmer must do two things:
  * <ul>
- * <li>create a class that implements the {@link SQLData}
- * interface for the UDT to be custom mapped.
- * <li>make an entry in a type map that contains
+ * <li>crebte b clbss thbt implements the {@link SQLDbtb}
+ * interfbce for the UDT to be custom mbpped.
+ * <li>mbke bn entry in b type mbp thbt contbins
  *   <ul>
- *   <li>the fully-qualified SQL type name of the UDT
- *   <li>the <code>Class</code> object for the class implementing
- *       <code>SQLData</code>
+ *   <li>the fully-qublified SQL type nbme of the UDT
+ *   <li>the <code>Clbss</code> object for the clbss implementing
+ *       <code>SQLDbtb</code>
  *   </ul>
  * </ul>
  * <p>
- * When a type map with an entry for
- * the base type is supplied to the methods <code>getArray</code>
- * and <code>getResultSet</code>, the mapping
- * it contains will be used to map the elements of the <code>ARRAY</code> value.
- * If no type map is supplied, which would typically be the case,
- * the connection's type map is used by default.
- * If the connection's type map or a type map supplied to a method has no entry
- * for the base type, the elements are mapped according to the standard mapping.
+ * When b type mbp with bn entry for
+ * the bbse type is supplied to the methods <code>getArrby</code>
+ * bnd <code>getResultSet</code>, the mbpping
+ * it contbins will be used to mbp the elements of the <code>ARRAY</code> vblue.
+ * If no type mbp is supplied, which would typicblly be the cbse,
+ * the connection's type mbp is used by defbult.
+ * If the connection's type mbp or b type mbp supplied to b method hbs no entry
+ * for the bbse type, the elements bre mbpped bccording to the stbndbrd mbpping.
  * <p>
- * All methods on the <code>Array</code> interface must be fully implemented if the
- * JDBC driver supports the data type.
+ * All methods on the <code>Arrby</code> interfbce must be fully implemented if the
+ * JDBC driver supports the dbtb type.
  *
  * @since 1.2
  */
 
-public interface Array {
+public interfbce Arrby {
 
   /**
-   * Retrieves the SQL type name of the elements in
-   * the array designated by this <code>Array</code> object.
-   * If the elements are a built-in type, it returns
-   * the database-specific type name of the elements.
-   * If the elements are a user-defined type (UDT),
-   * this method returns the fully-qualified SQL type name.
+   * Retrieves the SQL type nbme of the elements in
+   * the brrby designbted by this <code>Arrby</code> object.
+   * If the elements bre b built-in type, it returns
+   * the dbtbbbse-specific type nbme of the elements.
+   * If the elements bre b user-defined type (UDT),
+   * this method returns the fully-qublified SQL type nbme.
    *
-   * @return a <code>String</code> that is the database-specific
-   * name for a built-in base type; or the fully-qualified SQL type
-   * name for a base type that is a UDT
-   * @exception SQLException if an error occurs while attempting
-   * to access the type name
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b <code>String</code> thbt is the dbtbbbse-specific
+   * nbme for b built-in bbse type; or the fully-qublified SQL type
+   * nbme for b bbse type thbt is b UDT
+   * @exception SQLException if bn error occurs while bttempting
+   * to bccess the type nbme
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  String getBaseTypeName() throws SQLException;
+  String getBbseTypeNbme() throws SQLException;
 
   /**
-   * Retrieves the JDBC type of the elements in the array designated
-   * by this <code>Array</code> object.
+   * Retrieves the JDBC type of the elements in the brrby designbted
+   * by this <code>Arrby</code> object.
    *
-   * @return a constant from the class {@link java.sql.Types} that is
-   * the type code for the elements in the array designated by this
-   * <code>Array</code> object
-   * @exception SQLException if an error occurs while attempting
-   * to access the base type
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b constbnt from the clbss {@link jbvb.sql.Types} thbt is
+   * the type code for the elements in the brrby designbted by this
+   * <code>Arrby</code> object
+   * @exception SQLException if bn error occurs while bttempting
+   * to bccess the bbse type
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  int getBaseType() throws SQLException;
+  int getBbseType() throws SQLException;
 
   /**
-   * Retrieves the contents of the SQL <code>ARRAY</code> value designated
+   * Retrieves the contents of the SQL <code>ARRAY</code> vblue designbted
    * by this
-   * <code>Array</code> object in the form of an array in the Java
-   * programming language. This version of the method <code>getArray</code>
-   * uses the type map associated with the connection for customizations of
-   * the type mappings.
+   * <code>Arrby</code> object in the form of bn brrby in the Jbvb
+   * progrbmming lbngubge. This version of the method <code>getArrby</code>
+   * uses the type mbp bssocibted with the connection for customizbtions of
+   * the type mbppings.
    * <p>
-   * <strong>Note:</strong> When <code>getArray</code> is used to materialize
-   * a base type that maps to a primitive data type, then it is
-   * implementation-defined whether the array returned is an array of
-   * that primitive data type or an array of <code>Object</code>.
+   * <strong>Note:</strong> When <code>getArrby</code> is used to mbteriblize
+   * b bbse type thbt mbps to b primitive dbtb type, then it is
+   * implementbtion-defined whether the brrby returned is bn brrby of
+   * thbt primitive dbtb type or bn brrby of <code>Object</code>.
    *
-   * @return an array in the Java programming language that contains
-   * the ordered elements of the SQL <code>ARRAY</code> value
-   * designated by this <code>Array</code> object
-   * @exception SQLException if an error occurs while attempting to
-   * access the array
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return bn brrby in the Jbvb progrbmming lbngubge thbt contbins
+   * the ordered elements of the SQL <code>ARRAY</code> vblue
+   * designbted by this <code>Arrby</code> object
+   * @exception SQLException if bn error occurs while bttempting to
+   * bccess the brrby
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  Object getArray() throws SQLException;
+  Object getArrby() throws SQLException;
 
   /**
-   * Retrieves the contents of the SQL <code>ARRAY</code> value designated by this
-   * <code>Array</code> object.
+   * Retrieves the contents of the SQL <code>ARRAY</code> vblue designbted by this
+   * <code>Arrby</code> object.
    * This method uses
-   * the specified <code>map</code> for type map customizations
-   * unless the base type of the array does not match a user-defined
-   * type in <code>map</code>, in which case it
-   * uses the standard mapping. This version of the method
-   * <code>getArray</code> uses either the given type map or the standard mapping;
-   * it never uses the type map associated with the connection.
+   * the specified <code>mbp</code> for type mbp customizbtions
+   * unless the bbse type of the brrby does not mbtch b user-defined
+   * type in <code>mbp</code>, in which cbse it
+   * uses the stbndbrd mbpping. This version of the method
+   * <code>getArrby</code> uses either the given type mbp or the stbndbrd mbpping;
+   * it never uses the type mbp bssocibted with the connection.
    * <p>
-   * <strong>Note:</strong> When <code>getArray</code> is used to materialize
-   * a base type that maps to a primitive data type, then it is
-   * implementation-defined whether the array returned is an array of
-   * that primitive data type or an array of <code>Object</code>.
+   * <strong>Note:</strong> When <code>getArrby</code> is used to mbteriblize
+   * b bbse type thbt mbps to b primitive dbtb type, then it is
+   * implementbtion-defined whether the brrby returned is bn brrby of
+   * thbt primitive dbtb type or bn brrby of <code>Object</code>.
    *
-   * @param map a <code>java.util.Map</code> object that contains mappings
-   *            of SQL type names to classes in the Java programming language
-   * @return an array in the Java programming language that contains the ordered
-   *         elements of the SQL array designated by this object
-   * @exception SQLException if an error occurs while attempting to
-   *                         access the array
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm mbp b <code>jbvb.util.Mbp</code> object thbt contbins mbppings
+   *            of SQL type nbmes to clbsses in the Jbvb progrbmming lbngubge
+   * @return bn brrby in the Jbvb progrbmming lbngubge thbt contbins the ordered
+   *         elements of the SQL brrby designbted by this object
+   * @exception SQLException if bn error occurs while bttempting to
+   *                         bccess the brrby
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  Object getArray(java.util.Map<String,Class<?>> map) throws SQLException;
+  Object getArrby(jbvb.util.Mbp<String,Clbss<?>> mbp) throws SQLException;
 
   /**
-   * Retrieves a slice of the SQL <code>ARRAY</code>
-   * value designated by this <code>Array</code> object, beginning with the
-   * specified <code>index</code> and containing up to <code>count</code>
-   * successive elements of the SQL array.  This method uses the type map
-   * associated with the connection for customizations of the type mappings.
+   * Retrieves b slice of the SQL <code>ARRAY</code>
+   * vblue designbted by this <code>Arrby</code> object, beginning with the
+   * specified <code>index</code> bnd contbining up to <code>count</code>
+   * successive elements of the SQL brrby.  This method uses the type mbp
+   * bssocibted with the connection for customizbtions of the type mbppings.
    * <p>
-   * <strong>Note:</strong> When <code>getArray</code> is used to materialize
-   * a base type that maps to a primitive data type, then it is
-   * implementation-defined whether the array returned is an array of
-   * that primitive data type or an array of <code>Object</code>.
+   * <strong>Note:</strong> When <code>getArrby</code> is used to mbteriblize
+   * b bbse type thbt mbps to b primitive dbtb type, then it is
+   * implementbtion-defined whether the brrby returned is bn brrby of
+   * thbt primitive dbtb type or bn brrby of <code>Object</code>.
    *
-   * @param index the array index of the first element to retrieve;
-   *              the first element is at index 1
-   * @param count the number of successive SQL array elements to retrieve
-   * @return an array containing up to <code>count</code> consecutive elements
-   * of the SQL array, beginning with element <code>index</code>
-   * @exception SQLException if an error occurs while attempting to
-   * access the array
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm index the brrby index of the first element to retrieve;
+   *              the first element is bt index 1
+   * @pbrbm count the number of successive SQL brrby elements to retrieve
+   * @return bn brrby contbining up to <code>count</code> consecutive elements
+   * of the SQL brrby, beginning with element <code>index</code>
+   * @exception SQLException if bn error occurs while bttempting to
+   * bccess the brrby
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  Object getArray(long index, int count) throws SQLException;
+  Object getArrby(long index, int count) throws SQLException;
 
   /**
-   * Retreives a slice of the SQL <code>ARRAY</code> value
-   * designated by this <code>Array</code> object, beginning with the specified
-   * <code>index</code> and containing up to <code>count</code>
-   * successive elements of the SQL array.
+   * Retreives b slice of the SQL <code>ARRAY</code> vblue
+   * designbted by this <code>Arrby</code> object, beginning with the specified
+   * <code>index</code> bnd contbining up to <code>count</code>
+   * successive elements of the SQL brrby.
    * <P>
    * This method uses
-   * the specified <code>map</code> for type map customizations
-   * unless the base type of the array does not match a user-defined
-   * type in <code>map</code>, in which case it
-   * uses the standard mapping. This version of the method
-   * <code>getArray</code> uses either the given type map or the standard mapping;
-   * it never uses the type map associated with the connection.
+   * the specified <code>mbp</code> for type mbp customizbtions
+   * unless the bbse type of the brrby does not mbtch b user-defined
+   * type in <code>mbp</code>, in which cbse it
+   * uses the stbndbrd mbpping. This version of the method
+   * <code>getArrby</code> uses either the given type mbp or the stbndbrd mbpping;
+   * it never uses the type mbp bssocibted with the connection.
    * <p>
-   * <strong>Note:</strong> When <code>getArray</code> is used to materialize
-   * a base type that maps to a primitive data type, then it is
-   * implementation-defined whether the array returned is an array of
-   * that primitive data type or an array of <code>Object</code>.
+   * <strong>Note:</strong> When <code>getArrby</code> is used to mbteriblize
+   * b bbse type thbt mbps to b primitive dbtb type, then it is
+   * implementbtion-defined whether the brrby returned is bn brrby of
+   * thbt primitive dbtb type or bn brrby of <code>Object</code>.
    *
-   * @param index the array index of the first element to retrieve;
-   *              the first element is at index 1
-   * @param count the number of successive SQL array elements to
+   * @pbrbm index the brrby index of the first element to retrieve;
+   *              the first element is bt index 1
+   * @pbrbm count the number of successive SQL brrby elements to
    * retrieve
-   * @param map a <code>java.util.Map</code> object
-   * that contains SQL type names and the classes in
-   * the Java programming language to which they are mapped
-   * @return an array containing up to <code>count</code>
-   * consecutive elements of the SQL <code>ARRAY</code> value designated by this
-   * <code>Array</code> object, beginning with element
+   * @pbrbm mbp b <code>jbvb.util.Mbp</code> object
+   * thbt contbins SQL type nbmes bnd the clbsses in
+   * the Jbvb progrbmming lbngubge to which they bre mbpped
+   * @return bn brrby contbining up to <code>count</code>
+   * consecutive elements of the SQL <code>ARRAY</code> vblue designbted by this
+   * <code>Arrby</code> object, beginning with element
    * <code>index</code>
-   * @exception SQLException if an error occurs while attempting to
-   * access the array
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if bn error occurs while bttempting to
+   * bccess the brrby
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  Object getArray(long index, int count, java.util.Map<String,Class<?>> map)
+  Object getArrby(long index, int count, jbvb.util.Mbp<String,Clbss<?>> mbp)
     throws SQLException;
 
   /**
-   * Retrieves a result set that contains the elements of the SQL
-   * <code>ARRAY</code> value
-   * designated by this <code>Array</code> object.  If appropriate,
-   * the elements of the array are mapped using the connection's type
-   * map; otherwise, the standard mapping is used.
+   * Retrieves b result set thbt contbins the elements of the SQL
+   * <code>ARRAY</code> vblue
+   * designbted by this <code>Arrby</code> object.  If bppropribte,
+   * the elements of the brrby bre mbpped using the connection's type
+   * mbp; otherwise, the stbndbrd mbpping is used.
    * <p>
-   * The result set contains one row for each array element, with
-   * two columns in each row.  The second column stores the element
-   * value; the first column stores the index into the array for
-   * that element (with the first array element being at index 1).
-   * The rows are in ascending order corresponding to
+   * The result set contbins one row for ebch brrby element, with
+   * two columns in ebch row.  The second column stores the element
+   * vblue; the first column stores the index into the brrby for
+   * thbt element (with the first brrby element being bt index 1).
+   * The rows bre in bscending order corresponding to
    * the order of the indices.
    *
-   * @return a {@link ResultSet} object containing one row for each
-   * of the elements in the array designated by this <code>Array</code>
-   * object, with the rows in ascending order based on the indices.
-   * @exception SQLException if an error occurs while attempting to
-   * access the array
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @return b {@link ResultSet} object contbining one row for ebch
+   * of the elements in the brrby designbted by this <code>Arrby</code>
+   * object, with the rows in bscending order bbsed on the indices.
+   * @exception SQLException if bn error occurs while bttempting to
+   * bccess the brrby
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   ResultSet getResultSet () throws SQLException;
 
   /**
-   * Retrieves a result set that contains the elements of the SQL
-   * <code>ARRAY</code> value designated by this <code>Array</code> object.
+   * Retrieves b result set thbt contbins the elements of the SQL
+   * <code>ARRAY</code> vblue designbted by this <code>Arrby</code> object.
    * This method uses
-   * the specified <code>map</code> for type map customizations
-   * unless the base type of the array does not match a user-defined
-   * type in <code>map</code>, in which case it
-   * uses the standard mapping. This version of the method
-   * <code>getResultSet</code> uses either the given type map or the standard mapping;
-   * it never uses the type map associated with the connection.
+   * the specified <code>mbp</code> for type mbp customizbtions
+   * unless the bbse type of the brrby does not mbtch b user-defined
+   * type in <code>mbp</code>, in which cbse it
+   * uses the stbndbrd mbpping. This version of the method
+   * <code>getResultSet</code> uses either the given type mbp or the stbndbrd mbpping;
+   * it never uses the type mbp bssocibted with the connection.
    * <p>
-   * The result set contains one row for each array element, with
-   * two columns in each row.  The second column stores the element
-   * value; the first column stores the index into the array for
-   * that element (with the first array element being at index 1).
-   * The rows are in ascending order corresponding to
+   * The result set contbins one row for ebch brrby element, with
+   * two columns in ebch row.  The second column stores the element
+   * vblue; the first column stores the index into the brrby for
+   * thbt element (with the first brrby element being bt index 1).
+   * The rows bre in bscending order corresponding to
    * the order of the indices.
    *
-   * @param map contains the mapping of SQL user-defined types to
-   * classes in the Java programming language
-   * @return a <code>ResultSet</code> object containing one row for each
-   * of the elements in the array designated by this <code>Array</code>
-   * object, with the rows in ascending order based on the indices.
-   * @exception SQLException if an error occurs while attempting to
-   * access the array
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm mbp contbins the mbpping of SQL user-defined types to
+   * clbsses in the Jbvb progrbmming lbngubge
+   * @return b <code>ResultSet</code> object contbining one row for ebch
+   * of the elements in the brrby designbted by this <code>Arrby</code>
+   * object, with the rows in bscending order bbsed on the indices.
+   * @exception SQLException if bn error occurs while bttempting to
+   * bccess the brrby
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  ResultSet getResultSet (java.util.Map<String,Class<?>> map) throws SQLException;
+  ResultSet getResultSet (jbvb.util.Mbp<String,Clbss<?>> mbp) throws SQLException;
 
   /**
-   * Retrieves a result set holding the elements of the subarray that
-   * starts at index <code>index</code> and contains up to
+   * Retrieves b result set holding the elements of the subbrrby thbt
+   * stbrts bt index <code>index</code> bnd contbins up to
    * <code>count</code> successive elements.  This method uses
-   * the connection's type map to map the elements of the array if
-   * the map contains an entry for the base type. Otherwise, the
-   * standard mapping is used.
+   * the connection's type mbp to mbp the elements of the brrby if
+   * the mbp contbins bn entry for the bbse type. Otherwise, the
+   * stbndbrd mbpping is used.
    * <P>
-   * The result set has one row for each element of the SQL array
-   * designated by this object, with the first row containing the
-   * element at index <code>index</code>.  The result set has
-   * up to <code>count</code> rows in ascending order based on the
-   * indices.  Each row has two columns:  The second column stores
-   * the element value; the first column stores the index into the
-   * array for that element.
+   * The result set hbs one row for ebch element of the SQL brrby
+   * designbted by this object, with the first row contbining the
+   * element bt index <code>index</code>.  The result set hbs
+   * up to <code>count</code> rows in bscending order bbsed on the
+   * indices.  Ebch row hbs two columns:  The second column stores
+   * the element vblue; the first column stores the index into the
+   * brrby for thbt element.
    *
-   * @param index the array index of the first element to retrieve;
-   *              the first element is at index 1
-   * @param count the number of successive SQL array elements to retrieve
-   * @return a <code>ResultSet</code> object containing up to
-   * <code>count</code> consecutive elements of the SQL array
-   * designated by this <code>Array</code> object, starting at
+   * @pbrbm index the brrby index of the first element to retrieve;
+   *              the first element is bt index 1
+   * @pbrbm count the number of successive SQL brrby elements to retrieve
+   * @return b <code>ResultSet</code> object contbining up to
+   * <code>count</code> consecutive elements of the SQL brrby
+   * designbted by this <code>Arrby</code> object, stbrting bt
    * index <code>index</code>.
-   * @exception SQLException if an error occurs while attempting to
-   * access the array
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if bn error occurs while bttempting to
+   * bccess the brrby
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   ResultSet getResultSet(long index, int count) throws SQLException;
 
   /**
-   * Retrieves a result set holding the elements of the subarray that
-   * starts at index <code>index</code> and contains up to
+   * Retrieves b result set holding the elements of the subbrrby thbt
+   * stbrts bt index <code>index</code> bnd contbins up to
    * <code>count</code> successive elements.
    * This method uses
-   * the specified <code>map</code> for type map customizations
-   * unless the base type of the array does not match a user-defined
-   * type in <code>map</code>, in which case it
-   * uses the standard mapping. This version of the method
-   * <code>getResultSet</code> uses either the given type map or the standard mapping;
-   * it never uses the type map associated with the connection.
+   * the specified <code>mbp</code> for type mbp customizbtions
+   * unless the bbse type of the brrby does not mbtch b user-defined
+   * type in <code>mbp</code>, in which cbse it
+   * uses the stbndbrd mbpping. This version of the method
+   * <code>getResultSet</code> uses either the given type mbp or the stbndbrd mbpping;
+   * it never uses the type mbp bssocibted with the connection.
    * <P>
-   * The result set has one row for each element of the SQL array
-   * designated by this object, with the first row containing the
-   * element at index <code>index</code>.  The result set has
-   * up to <code>count</code> rows in ascending order based on the
-   * indices.  Each row has two columns:  The second column stores
-   * the element value; the first column stores the index into the
-   * array for that element.
+   * The result set hbs one row for ebch element of the SQL brrby
+   * designbted by this object, with the first row contbining the
+   * element bt index <code>index</code>.  The result set hbs
+   * up to <code>count</code> rows in bscending order bbsed on the
+   * indices.  Ebch row hbs two columns:  The second column stores
+   * the element vblue; the first column stores the index into the
+   * brrby for thbt element.
    *
-   * @param index the array index of the first element to retrieve;
-   *              the first element is at index 1
-   * @param count the number of successive SQL array elements to retrieve
-   * @param map the <code>Map</code> object that contains the mapping
-   * of SQL type names to classes in the Java(tm) programming language
-   * @return a <code>ResultSet</code> object containing up to
-   * <code>count</code> consecutive elements of the SQL array
-   * designated by this <code>Array</code> object, starting at
+   * @pbrbm index the brrby index of the first element to retrieve;
+   *              the first element is bt index 1
+   * @pbrbm count the number of successive SQL brrby elements to retrieve
+   * @pbrbm mbp the <code>Mbp</code> object thbt contbins the mbpping
+   * of SQL type nbmes to clbsses in the Jbvb(tm) progrbmming lbngubge
+   * @return b <code>ResultSet</code> object contbining up to
+   * <code>count</code> consecutive elements of the SQL brrby
+   * designbted by this <code>Arrby</code> object, stbrting bt
    * index <code>index</code>.
-   * @exception SQLException if an error occurs while attempting to
-   * access the array
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if bn error occurs while bttempting to
+   * bccess the brrby
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   ResultSet getResultSet (long index, int count,
-                          java.util.Map<String,Class<?>> map)
+                          jbvb.util.Mbp<String,Clbss<?>> mbp)
     throws SQLException;
     /**
-     * This method frees the <code>Array</code> object and releases the resources that
-     * it holds. The object is invalid once the <code>free</code>
-     * method is called.
+     * This method frees the <code>Arrby</code> object bnd relebses the resources thbt
+     * it holds. The object is invblid once the <code>free</code>
+     * method is cblled.
      * <p>
-     * After <code>free</code> has been called, any attempt to invoke a
-     * method other than <code>free</code> will result in a <code>SQLException</code>
-     * being thrown.  If <code>free</code> is called multiple times, the subsequent
-     * calls to <code>free</code> are treated as a no-op.
+     * After <code>free</code> hbs been cblled, bny bttempt to invoke b
+     * method other thbn <code>free</code> will result in b <code>SQLException</code>
+     * being thrown.  If <code>free</code> is cblled multiple times, the subsequent
+     * cblls to <code>free</code> bre trebted bs b no-op.
      *
-     * @throws SQLException if an error occurs releasing
-     * the Array's resources
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @throws SQLException if bn error occurs relebsing
+     * the Arrby's resources
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */

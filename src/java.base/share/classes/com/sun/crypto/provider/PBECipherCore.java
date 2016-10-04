@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.*;
-import java.security.spec.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.*;
 
 /**
- * This class represents password-based encryption as defined by the PKCS #5
- * standard.
+ * This clbss represents pbssword-bbsed encryption bs defined by the PKCS #5
+ * stbndbrd.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
- * @see javax.crypto.Cipher
+ * @see jbvbx.crypto.Cipher
  */
-final class PBECipherCore {
+finbl clbss PBECipherCore {
 
-    // the encapsulated DES cipher
-    private CipherCore cipher;
-    private MessageDigest md;
-    private int blkSize;
-    private String algo = null;
-    private byte[] salt = null;
-    private int iCount = 10;
+    // the encbpsulbted DES cipher
+    privbte CipherCore cipher;
+    privbte MessbgeDigest md;
+    privbte int blkSize;
+    privbte String blgo = null;
+    privbte byte[] sblt = null;
+    privbte int iCount = 10;
 
     /**
-     * Creates an instance of PBE Cipher using the specified CipherSpi
-     * instance.
+     * Crebtes bn instbnce of PBE Cipher using the specified CipherSpi
+     * instbnce.
      *
      */
     PBECipherCore(String cipherAlg) throws NoSuchAlgorithmException,
-        NoSuchPaddingException {
-        algo = cipherAlg;
-        if (algo.equals("DES")) {
+        NoSuchPbddingException {
+        blgo = cipherAlg;
+        if (blgo.equbls("DES")) {
             cipher = new CipherCore(new DESCrypt(),
-                                    DESConstants.DES_BLOCK_SIZE);
-        } else if (algo.equals("DESede")) {
+                                    DESConstbnts.DES_BLOCK_SIZE);
+        } else if (blgo.equbls("DESede")) {
 
             cipher = new CipherCore(new DESedeCrypt(),
-                                    DESConstants.DES_BLOCK_SIZE);
+                                    DESConstbnts.DES_BLOCK_SIZE);
         } else {
-            throw new NoSuchAlgorithmException("No Cipher implementation " +
-                                               "for PBEWithMD5And" + algo);
+            throw new NoSuchAlgorithmException("No Cipher implementbtion " +
+                                               "for PBEWithMD5And" + blgo);
         }
         cipher.setMode("CBC");
-        cipher.setPadding("PKCS5Padding");
-        // get instance of MD5
-        md = MessageDigest.getInstance("MD5");
+        cipher.setPbdding("PKCS5Pbdding");
+        // get instbnce of MD5
+        md = MessbgeDigest.getInstbnce("MD5");
     }
 
     /**
-     * Sets the mode of this cipher. This algorithm can only be run in CBC
+     * Sets the mode of this cipher. This blgorithm cbn only be run in CBC
      * mode.
      *
-     * @param mode the cipher mode
+     * @pbrbm mode the cipher mode
      *
      * @exception NoSuchAlgorithmException if the requested cipher mode is
-     * invalid
+     * invblid
      */
     void setMode(String mode) throws NoSuchAlgorithmException {
         cipher.setMode(mode);
     }
 
      /**
-     * Sets the padding mechanism of this cipher. This algorithm only uses
-     * PKCS #5 padding.
+     * Sets the pbdding mechbnism of this cipher. This blgorithm only uses
+     * PKCS #5 pbdding.
      *
-     * @param padding the padding mechanism
+     * @pbrbm pbdding the pbdding mechbnism
      *
-     * @exception NoSuchPaddingException if the requested padding mechanism
-     * is invalid
+     * @exception NoSuchPbddingException if the requested pbdding mechbnism
+     * is invblid
      */
-    void setPadding(String paddingScheme) throws NoSuchPaddingException {
-        cipher.setPadding(paddingScheme);
+    void setPbdding(String pbddingScheme) throws NoSuchPbddingException {
+        cipher.setPbdding(pbddingScheme);
     }
 
     /**
@@ -106,23 +106,23 @@ final class PBECipherCore {
      * @return the block size (in bytes)
      */
     int getBlockSize() {
-        return DESConstants.DES_BLOCK_SIZE;
+        return DESConstbnts.DES_BLOCK_SIZE;
     }
 
     /**
-     * Returns the length in bytes that an output buffer would need to be in
-     * order to hold the result of the next <code>update</code> or
-     * <code>doFinal</code> operation, given the input length
+     * Returns the length in bytes thbt bn output buffer would need to be in
+     * order to hold the result of the next <code>updbte</code> or
+     * <code>doFinbl</code> operbtion, given the input length
      * <code>inputLen</code> (in bytes).
      *
-     * <p>This call takes into account any unprocessed (buffered) data from a
-     * previous <code>update</code> call, and padding.
+     * <p>This cbll tbkes into bccount bny unprocessed (buffered) dbtb from b
+     * previous <code>updbte</code> cbll, bnd pbdding.
      *
-     * <p>The actual output length of the next <code>update</code> or
-     * <code>doFinal</code> call may be smaller than the length returned by
+     * <p>The bctubl output length of the next <code>updbte</code> or
+     * <code>doFinbl</code> cbll mby be smbller thbn the length returned by
      * this method.
      *
-     * @param inputLen the input length (in bytes)
+     * @pbrbm inputLen the input length (in bytes)
      *
      * @return the required output buffer size (in bytes)
      *
@@ -132,15 +132,15 @@ final class PBECipherCore {
     }
 
     /**
-     * Returns the initialization vector (IV) in a new buffer.
+     * Returns the initiblizbtion vector (IV) in b new buffer.
      *
-     * <p> This is useful in the case where a random IV has been created
-     * (see <a href = "#init">init</a>),
-     * or in the context of password-based encryption or
-     * decryption, where the IV is derived from a user-supplied password.
+     * <p> This is useful in the cbse where b rbndom IV hbs been crebted
+     * (see <b href = "#init">init</b>),
+     * or in the context of pbssword-bbsed encryption or
+     * decryption, where the IV is derived from b user-supplied pbssword.
      *
-     * @return the initialization vector in a new buffer, or null if the
-     * underlying algorithm does not use an IV, or if the IV has not yet
+     * @return the initiblizbtion vector in b new buffer, or null if the
+     * underlying blgorithm does not use bn IV, or if the IV hbs not yet
      * been set.
      */
     byte[] getIV() {
@@ -148,388 +148,388 @@ final class PBECipherCore {
     }
 
     /**
-     * Returns the parameters used with this cipher.
+     * Returns the pbrbmeters used with this cipher.
      *
-     * <p>The returned parameters may be the same that were used to initialize
-     * this cipher, or may contain the default set of parameters or a set of
-     * randomly generated parameters used by the underlying cipher
-     * implementation (provided that the underlying cipher implementation
-     * uses a default set of parameters or creates new parameters if it needs
-     * parameters but was not initialized with any).
+     * <p>The returned pbrbmeters mby be the sbme thbt were used to initiblize
+     * this cipher, or mby contbin the defbult set of pbrbmeters or b set of
+     * rbndomly generbted pbrbmeters used by the underlying cipher
+     * implementbtion (provided thbt the underlying cipher implementbtion
+     * uses b defbult set of pbrbmeters or crebtes new pbrbmeters if it needs
+     * pbrbmeters but wbs not initiblized with bny).
      *
-     * @return the parameters used with this cipher, or null if this cipher
-     * does not use any parameters.
+     * @return the pbrbmeters used with this cipher, or null if this cipher
+     * does not use bny pbrbmeters.
      */
-    AlgorithmParameters getParameters() {
-        AlgorithmParameters params = null;
-        if (salt == null) {
-            salt = new byte[8];
-            SunJCE.getRandom().nextBytes(salt);
+    AlgorithmPbrbmeters getPbrbmeters() {
+        AlgorithmPbrbmeters pbrbms = null;
+        if (sblt == null) {
+            sblt = new byte[8];
+            SunJCE.getRbndom().nextBytes(sblt);
         }
-        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt, iCount);
+        PBEPbrbmeterSpec pbeSpec = new PBEPbrbmeterSpec(sblt, iCount);
         try {
-            params = AlgorithmParameters.getInstance("PBEWithMD5And" +
-                (algo.equalsIgnoreCase("DES")? "DES":"TripleDES"),
-                    SunJCE.getInstance());
-            params.init(pbeSpec);
-        } catch (NoSuchAlgorithmException nsae) {
-            // should never happen
-            throw new RuntimeException("SunJCE called, but not configured");
-        } catch (InvalidParameterSpecException ipse) {
-            // should never happen
-            throw new RuntimeException("PBEParameterSpec not supported");
+            pbrbms = AlgorithmPbrbmeters.getInstbnce("PBEWithMD5And" +
+                (blgo.equblsIgnoreCbse("DES")? "DES":"TripleDES"),
+                    SunJCE.getInstbnce());
+            pbrbms.init(pbeSpec);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            // should never hbppen
+            throw new RuntimeException("SunJCE cblled, but not configured");
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
+            // should never hbppen
+            throw new RuntimeException("PBEPbrbmeterSpec not supported");
         }
-        return params;
+        return pbrbms;
     }
 
     /**
-     * Initializes this cipher with a key, a set of
-     * algorithm parameters, and a source of randomness.
-     * The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or key unwrapping, depending on
-     * the value of <code>opmode</code>.
+     * Initiblizes this cipher with b key, b set of
+     * blgorithm pbrbmeters, bnd b source of rbndomness.
+     * The cipher is initiblized for one of the following four operbtions:
+     * encryption, decryption, key wrbpping or key unwrbpping, depending on
+     * the vblue of <code>opmode</code>.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes, it will get them from <code>random</code>.
+     * <p>If this cipher (including its underlying feedbbck or pbdding scheme)
+     * requires bny rbndom bytes, it will get them from <code>rbndom</code>.
      *
-     * @param opmode the operation mode of this cipher (this is one of
+     * @pbrbm opmode the operbtion mode of this cipher (this is one of
      * the following:
      * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>),
      * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param key the encryption key
-     * @param params the algorithm parameters
-     * @param random the source of randomness
+     * @pbrbm key the encryption key
+     * @pbrbm pbrbms the blgorithm pbrbmeters
+     * @pbrbm rbndom the source of rbndomness
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this cipher
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this cipher
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this cipher
      */
-    void init(int opmode, Key key, AlgorithmParameterSpec params,
-              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
+    void init(int opmode, Key key, AlgorithmPbrbmeterSpec pbrbms,
+              SecureRbndom rbndom)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
         if (((opmode == Cipher.DECRYPT_MODE) ||
-             (opmode == Cipher.UNWRAP_MODE)) && (params == null)) {
-            throw new InvalidAlgorithmParameterException("Parameters "
+             (opmode == Cipher.UNWRAP_MODE)) && (pbrbms == null)) {
+            throw new InvblidAlgorithmPbrbmeterException("Pbrbmeters "
                                                          + "missing");
         }
         if ((key == null) ||
             (key.getEncoded() == null) ||
-            !(key.getAlgorithm().regionMatches(true, 0, "PBE", 0, 3))) {
-            throw new InvalidKeyException("Missing password");
+            !(key.getAlgorithm().regionMbtches(true, 0, "PBE", 0, 3))) {
+            throw new InvblidKeyException("Missing pbssword");
         }
 
-        if (params == null) {
-            // create random salt and use default iteration count
-            salt = new byte[8];
-            random.nextBytes(salt);
+        if (pbrbms == null) {
+            // crebte rbndom sblt bnd use defbult iterbtion count
+            sblt = new byte[8];
+            rbndom.nextBytes(sblt);
         } else {
-            if (!(params instanceof PBEParameterSpec)) {
-                throw new InvalidAlgorithmParameterException
-                    ("Wrong parameter type: PBE expected");
+            if (!(pbrbms instbnceof PBEPbrbmeterSpec)) {
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Wrong pbrbmeter type: PBE expected");
             }
-            salt = ((PBEParameterSpec) params).getSalt();
-            // salt must be 8 bytes long (by definition)
-            if (salt.length != 8) {
-                throw new InvalidAlgorithmParameterException
-                    ("Salt must be 8 bytes long");
+            sblt = ((PBEPbrbmeterSpec) pbrbms).getSblt();
+            // sblt must be 8 bytes long (by definition)
+            if (sblt.length != 8) {
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("Sblt must be 8 bytes long");
             }
-            iCount = ((PBEParameterSpec) params).getIterationCount();
+            iCount = ((PBEPbrbmeterSpec) pbrbms).getIterbtionCount();
             if (iCount <= 0) {
-                throw new InvalidAlgorithmParameterException
-                    ("IterationCount must be a positive number");
+                throw new InvblidAlgorithmPbrbmeterException
+                    ("IterbtionCount must be b positive number");
             }
         }
 
         byte[] derivedKey = deriveCipherKey(key);
-        // use all but the last 8 bytes as the key value
+        // use bll but the lbst 8 bytes bs the key vblue
         SecretKeySpec cipherKey = new SecretKeySpec(derivedKey, 0,
-                                                    derivedKey.length-8, algo);
-        // use the last 8 bytes as the IV
-        IvParameterSpec ivSpec = new IvParameterSpec(derivedKey,
+                                                    derivedKey.length-8, blgo);
+        // use the lbst 8 bytes bs the IV
+        IvPbrbmeterSpec ivSpec = new IvPbrbmeterSpec(derivedKey,
                                                      derivedKey.length-8,
                                                      8);
-        // initialize the underlying cipher
-        cipher.init(opmode, cipherKey, ivSpec, random);
+        // initiblize the underlying cipher
+        cipher.init(opmode, cipherKey, ivSpec, rbndom);
     }
 
-    private byte[] deriveCipherKey(Key key) {
+    privbte byte[] deriveCipherKey(Key key) {
 
         byte[] result = null;
-        byte[] passwdBytes = key.getEncoded();
+        byte[] pbsswdBytes = key.getEncoded();
 
-        if (algo.equals("DES")) {
-            // P || S (password concatenated with salt)
-            byte[] concat = new byte[passwdBytes.length + salt.length];
-            System.arraycopy(passwdBytes, 0, concat, 0, passwdBytes.length);
-            java.util.Arrays.fill(passwdBytes, (byte)0x00);
-            System.arraycopy(salt, 0, concat, passwdBytes.length, salt.length);
+        if (blgo.equbls("DES")) {
+            // P || S (pbssword concbtenbted with sblt)
+            byte[] concbt = new byte[pbsswdBytes.length + sblt.length];
+            System.brrbycopy(pbsswdBytes, 0, concbt, 0, pbsswdBytes.length);
+            jbvb.util.Arrbys.fill(pbsswdBytes, (byte)0x00);
+            System.brrbycopy(sblt, 0, concbt, pbsswdBytes.length, sblt.length);
 
-            // digest P || S with c iterations
-            byte[] toBeHashed = concat;
+            // digest P || S with c iterbtions
+            byte[] toBeHbshed = concbt;
             for (int i = 0; i < iCount; i++) {
-                md.update(toBeHashed);
-                toBeHashed = md.digest(); // this resets the digest
+                md.updbte(toBeHbshed);
+                toBeHbshed = md.digest(); // this resets the digest
             }
-            java.util.Arrays.fill(concat, (byte)0x00);
-            result = toBeHashed;
-        } else if (algo.equals("DESede")) {
-            // if the 2 salt halves are the same, invert one of them
+            jbvb.util.Arrbys.fill(concbt, (byte)0x00);
+            result = toBeHbshed;
+        } else if (blgo.equbls("DESede")) {
+            // if the 2 sblt hblves bre the sbme, invert one of them
             int i;
             for (i=0; i<4; i++) {
-                if (salt[i] != salt[i+4])
-                    break;
+                if (sblt[i] != sblt[i+4])
+                    brebk;
             }
-            if (i==4) { // same, invert 1st half
+            if (i==4) { // sbme, invert 1st hblf
                 for (i=0; i<2; i++) {
-                    byte tmp = salt[i];
-                    salt[i] = salt[3-i];
-                    salt[3-1] = tmp;
+                    byte tmp = sblt[i];
+                    sblt[i] = sblt[3-i];
+                    sblt[3-1] = tmp;
                 }
             }
 
-            // Now digest each half (concatenated with password). For each
-            // half, go through the loop as many times as specified by the
-            // iteration count parameter (inner for loop).
-            // Concatenate the output from each digest round with the
-            // password, and use the result as the input to the next digest
-            // operation.
+            // Now digest ebch hblf (concbtenbted with pbssword). For ebch
+            // hblf, go through the loop bs mbny times bs specified by the
+            // iterbtion count pbrbmeter (inner for loop).
+            // Concbtenbte the output from ebch digest round with the
+            // pbssword, bnd use the result bs the input to the next digest
+            // operbtion.
             byte[] kBytes = null;
-            IvParameterSpec iv = null;
-            byte[] toBeHashed = null;
+            IvPbrbmeterSpec iv = null;
+            byte[] toBeHbshed = null;
             result = new byte[DESedeKeySpec.DES_EDE_KEY_LEN +
-                              DESConstants.DES_BLOCK_SIZE];
+                              DESConstbnts.DES_BLOCK_SIZE];
             for (i = 0; i < 2; i++) {
-                toBeHashed = new byte[salt.length/2];
-                System.arraycopy(salt, i*(salt.length/2), toBeHashed, 0,
-                                 toBeHashed.length);
+                toBeHbshed = new byte[sblt.length/2];
+                System.brrbycopy(sblt, i*(sblt.length/2), toBeHbshed, 0,
+                                 toBeHbshed.length);
                 for (int j=0; j < iCount; j++) {
-                    md.update(toBeHashed);
-                    md.update(passwdBytes);
-                    toBeHashed = md.digest(); // this resets the digest
+                    md.updbte(toBeHbshed);
+                    md.updbte(pbsswdBytes);
+                    toBeHbshed = md.digest(); // this resets the digest
                 }
-                System.arraycopy(toBeHashed, 0, result, i*16,
-                                 toBeHashed.length);
+                System.brrbycopy(toBeHbshed, 0, result, i*16,
+                                 toBeHbshed.length);
             }
         }
         return result;
     }
 
-    void init(int opmode, Key key, AlgorithmParameters params,
-              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        PBEParameterSpec pbeSpec = null;
-        if (params != null) {
+    void init(int opmode, Key key, AlgorithmPbrbmeters pbrbms,
+              SecureRbndom rbndom)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        PBEPbrbmeterSpec pbeSpec = null;
+        if (pbrbms != null) {
             try {
-                pbeSpec = params.getParameterSpec(PBEParameterSpec.class);
-            } catch (InvalidParameterSpecException ipse) {
-                throw new InvalidAlgorithmParameterException("Wrong parameter "
+                pbeSpec = pbrbms.getPbrbmeterSpec(PBEPbrbmeterSpec.clbss);
+            } cbtch (InvblidPbrbmeterSpecException ipse) {
+                throw new InvblidAlgorithmPbrbmeterException("Wrong pbrbmeter "
                                                              + "type: PBE "
                                                              + "expected");
             }
         }
-        init(opmode, key, pbeSpec, random);
+        init(opmode, key, pbeSpec, rbndom);
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continues b multiple-pbrt encryption or decryption operbtion
+     * (depending on how this cipher wbs initiblized), processing bnother dbtb
+     * pbrt.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code>, are processed, and the
-     * result is stored in a new buffer.
+     * buffer, stbrting bt <code>inputOffset</code>, bre processed, bnd the
+     * result is stored in b new buffer.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
      *
      * @return the new buffer with the result
      *
      */
-    byte[] update(byte[] input, int inputOffset, int inputLen) {
-        return cipher.update(input, inputOffset, inputLen);
+    byte[] updbte(byte[] input, int inputOffset, int inputLen) {
+        return cipher.updbte(input, inputOffset, inputLen);
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continues b multiple-pbrt encryption or decryption operbtion
+     * (depending on how this cipher wbs initiblized), processing bnother dbtb
+     * pbrt.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code>, are processed, and the
-     * result is stored in the <code>output</code> buffer, starting at
+     * buffer, stbrting bt <code>inputOffset</code>, bre processed, bnd the
+     * result is stored in the <code>output</code> buffer, stbrting bt
      * <code>outputOffset</code>.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
+     * @pbrbm output the buffer for the result
+     * @pbrbm outputOffset the offset in <code>output</code> where the result
      * is stored
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result
      */
-    int update(byte[] input, int inputOffset, int inputLen,
+    int updbte(byte[] input, int inputOffset, int inputLen,
                byte[] output, int outputOffset)
         throws ShortBufferException {
-        return cipher.update(input, inputOffset, inputLen,
+        return cipher.updbte(input, inputOffset, inputLen,
                              output, outputOffset);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation,
-     * or finishes a multiple-part operation.
-     * The data is encrypted or decrypted, depending on how this cipher was
-     * initialized.
+     * Encrypts or decrypts dbtb in b single-pbrt operbtion,
+     * or finishes b multiple-pbrt operbtion.
+     * The dbtb is encrypted or decrypted, depending on how this cipher wbs
+     * initiblized.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code>, and any input bytes that
-     * may have been buffered during a previous <code>update</code> operation,
-     * are processed, with padding (if requested) being applied.
-     * The result is stored in a new buffer.
+     * buffer, stbrting bt <code>inputOffset</code>, bnd bny input bytes thbt
+     * mby hbve been buffered during b previous <code>updbte</code> operbtion,
+     * bre processed, with pbdding (if requested) being bpplied.
+     * The result is stored in b new buffer.
      *
-     * <p>The cipher is reset to its initial state (uninitialized) after this
-     * call.
+     * <p>The cipher is reset to its initibl stbte (uninitiblized) bfter this
+     * cbll.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
      *
      * @return the new buffer with the result
      *
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
      * block size
-     * @exception BadPaddingException if decrypting and padding is chosen,
-     * but the last input data does not have proper padding bytes.
+     * @exception BbdPbddingException if decrypting bnd pbdding is chosen,
+     * but the lbst input dbtb does not hbve proper pbdding bytes.
      */
-    byte[] doFinal(byte[] input, int inputOffset, int inputLen)
-        throws IllegalBlockSizeException, BadPaddingException {
-        return cipher.doFinal(input, inputOffset, inputLen);
+    byte[] doFinbl(byte[] input, int inputOffset, int inputLen)
+        throws IllegblBlockSizeException, BbdPbddingException {
+        return cipher.doFinbl(input, inputOffset, inputLen);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation,
-     * or finishes a multiple-part operation.
-     * The data is encrypted or decrypted, depending on how this cipher was
-     * initialized.
+     * Encrypts or decrypts dbtb in b single-pbrt operbtion,
+     * or finishes b multiple-pbrt operbtion.
+     * The dbtb is encrypted or decrypted, depending on how this cipher wbs
+     * initiblized.
      *
      * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code>, and any input bytes that
-     * may have been buffered during a previous <code>update</code> operation,
-     * are processed, with padding (if requested) being applied.
-     * The result is stored in the <code>output</code> buffer, starting at
+     * buffer, stbrting bt <code>inputOffset</code>, bnd bny input bytes thbt
+     * mby hbve been buffered during b previous <code>updbte</code> operbtion,
+     * bre processed, with pbdding (if requested) being bpplied.
+     * The result is stored in the <code>output</code> buffer, stbrting bt
      * <code>outputOffset</code>.
      *
-     * <p>The cipher is reset to its initial state (uninitialized) after this
-     * call.
+     * <p>The cipher is reset to its initibl stbte (uninitiblized) bfter this
+     * cbll.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
+     * @pbrbm input the input buffer
+     * @pbrbm inputOffset the offset in <code>input</code> where the input
+     * stbrts
+     * @pbrbm inputLen the input length
+     * @pbrbm output the buffer for the result
+     * @pbrbm outputOffset the offset in <code>output</code> where the result
      * is stored
      *
      * @return the number of bytes stored in <code>output</code>
      *
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
+     * @exception IllegblBlockSizeException if this cipher is b block cipher,
+     * no pbdding hbs been requested (only in encryption mode), bnd the totbl
+     * input length of the dbtb processed by this cipher is not b multiple of
      * block size
-     * @exception ShortBufferException if the given output buffer is too small
+     * @exception ShortBufferException if the given output buffer is too smbll
      * to hold the result
-     * @exception BadPaddingException if decrypting and padding is chosen,
-     * but the last input data does not have proper padding bytes.
+     * @exception BbdPbddingException if decrypting bnd pbdding is chosen,
+     * but the lbst input dbtb does not hbve proper pbdding bytes.
      */
-    int doFinal(byte[] input, int inputOffset, int inputLen,
+    int doFinbl(byte[] input, int inputOffset, int inputLen,
                 byte[] output, int outputOffset)
-        throws ShortBufferException, IllegalBlockSizeException,
-               BadPaddingException {
-        return cipher.doFinal(input, inputOffset, inputLen,
+        throws ShortBufferException, IllegblBlockSizeException,
+               BbdPbddingException {
+        return cipher.doFinbl(input, inputOffset, inputLen,
                                     output, outputOffset);
     }
 
     /**
-     * Wrap a key.
+     * Wrbp b key.
      *
-     * @param key the key to be wrapped.
+     * @pbrbm key the key to be wrbpped.
      *
-     * @return the wrapped key.
+     * @return the wrbpped key.
      *
-     * @exception IllegalBlockSizeException if this cipher is a block
-     * cipher, no padding has been requested, and the length of the
-     * encoding of the key to be wrapped is not a
+     * @exception IllegblBlockSizeException if this cipher is b block
+     * cipher, no pbdding hbs been requested, bnd the length of the
+     * encoding of the key to be wrbpped is not b
      * multiple of the block size.
      *
-     * @exception InvalidKeyException if it is impossible or unsafe to
-     * wrap the key with this cipher (e.g., a hardware protected key is
-     * being passed to a software only cipher).
+     * @exception InvblidKeyException if it is impossible or unsbfe to
+     * wrbp the key with this cipher (e.g., b hbrdwbre protected key is
+     * being pbssed to b softwbre only cipher).
      */
-    byte[] wrap(Key key)
-        throws IllegalBlockSizeException, InvalidKeyException {
+    byte[] wrbp(Key key)
+        throws IllegblBlockSizeException, InvblidKeyException {
         byte[] result = null;
 
         try {
             byte[] encodedKey = key.getEncoded();
             if ((encodedKey == null) || (encodedKey.length == 0)) {
-                throw new InvalidKeyException("Cannot get an encoding of " +
-                                              "the key to be wrapped");
+                throw new InvblidKeyException("Cbnnot get bn encoding of " +
+                                              "the key to be wrbpped");
             }
 
-            result = doFinal(encodedKey, 0, encodedKey.length);
-        } catch (BadPaddingException e) {
-            // Should never happen
+            result = doFinbl(encodedKey, 0, encodedKey.length);
+        } cbtch (BbdPbddingException e) {
+            // Should never hbppen
         }
 
         return result;
     }
 
     /**
-     * Unwrap a previously wrapped key.
+     * Unwrbp b previously wrbpped key.
      *
-     * @param wrappedKey the key to be unwrapped.
+     * @pbrbm wrbppedKey the key to be unwrbpped.
      *
-     * @param wrappedKeyAlgorithm the algorithm the wrapped key is for.
+     * @pbrbm wrbppedKeyAlgorithm the blgorithm the wrbpped key is for.
      *
-     * @param wrappedKeyType the type of the wrapped key.
+     * @pbrbm wrbppedKeyType the type of the wrbpped key.
      * This is one of <code>Cipher.SECRET_KEY</code>,
      * <code>Cipher.PRIVATE_KEY</code>, or <code>Cipher.PUBLIC_KEY</code>.
      *
-     * @return the unwrapped key.
+     * @return the unwrbpped key.
      *
-     * @exception NoSuchAlgorithmException if no installed providers
-     * can create keys of type <code>wrappedKeyType</code> for the
-     * <code>wrappedKeyAlgorithm</code>.
+     * @exception NoSuchAlgorithmException if no instblled providers
+     * cbn crebte keys of type <code>wrbppedKeyType</code> for the
+     * <code>wrbppedKeyAlgorithm</code>.
      *
-     * @exception InvalidKeyException if <code>wrappedKey</code> does not
-     * represent a wrapped key of type <code>wrappedKeyType</code> for
-     * the <code>wrappedKeyAlgorithm</code>.
+     * @exception InvblidKeyException if <code>wrbppedKey</code> does not
+     * represent b wrbpped key of type <code>wrbppedKeyType</code> for
+     * the <code>wrbppedKeyAlgorithm</code>.
      */
-    Key unwrap(byte[] wrappedKey,
-               String wrappedKeyAlgorithm,
-               int wrappedKeyType)
-        throws InvalidKeyException, NoSuchAlgorithmException {
+    Key unwrbp(byte[] wrbppedKey,
+               String wrbppedKeyAlgorithm,
+               int wrbppedKeyType)
+        throws InvblidKeyException, NoSuchAlgorithmException {
         byte[] encodedKey;
         try {
-            encodedKey = doFinal(wrappedKey, 0, wrappedKey.length);
-        } catch (BadPaddingException ePadding) {
-            throw new InvalidKeyException("The wrapped key is not padded " +
+            encodedKey = doFinbl(wrbppedKey, 0, wrbppedKey.length);
+        } cbtch (BbdPbddingException ePbdding) {
+            throw new InvblidKeyException("The wrbpped key is not pbdded " +
                                           "correctly");
-        } catch (IllegalBlockSizeException eBlockSize) {
-            throw new InvalidKeyException("The wrapped key does not have " +
+        } cbtch (IllegblBlockSizeException eBlockSize) {
+            throw new InvblidKeyException("The wrbpped key does not hbve " +
                                           "the correct length");
         }
-        return ConstructKeys.constructKey(encodedKey, wrappedKeyAlgorithm,
-                                          wrappedKeyType);
+        return ConstructKeys.constructKey(encodedKey, wrbppedKeyAlgorithm,
+                                          wrbppedKeyType);
     }
 }

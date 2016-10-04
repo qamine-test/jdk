@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "Hashtable.h"
+#include "Hbshtbble.h"
 
-Hashtable::Hashtable(const char* name, void (*deleteProc)(void*),
-                     int initialCapacity, float loadFactor) {
-    DASSERT ((initialCapacity > 0) && (loadFactor > 0.0));
+Hbshtbble::Hbshtbble(const chbr* nbme, void (*deleteProc)(void*),
+                     int initiblCbpbcity, flobt lobdFbctor) {
+    DASSERT ((initiblCbpbcity > 0) && (lobdFbctor > 0.0));
 
-    table = (HashtableEntry**)
-        safe_Calloc(initialCapacity, sizeof(HashtableEntry*));
+    tbble = (HbshtbbleEntry**)
+        sbfe_Cblloc(initiblCbpbcity, sizeof(HbshtbbleEntry*));
 
-    capacity = initialCapacity;
+    cbpbcity = initiblCbpbcity;
     count = 0;
-    threshold = (int)(capacity * loadFactor);
-    this->loadFactor = loadFactor;
+    threshold = (int)(cbpbcity * lobdFbctor);
+    this->lobdFbctor = lobdFbctor;
     m_deleteProc = deleteProc;
 
 #ifdef DEBUG
-    m_name = (char*)name;
-    m_max = 0;
+    m_nbme = (chbr*)nbme;
+    m_mbx = 0;
     m_collisions = 0;
 #else
-    name;  // suppress "unused parameter" warning
+    nbme;  // suppress "unused pbrbmeter" wbrning
 #endif
 }
 
-Hashtable::~Hashtable()
+Hbshtbble::~Hbshtbble()
 {
 #ifdef DEBUG
-    DTRACE_PRINTLN3("%s: %d entries, %d maximum entries\n", m_name, count, m_max);
+    DTRACE_PRINTLN3("%s: %d entries, %d mbximum entries\n", m_nbme, count, m_mbx);
 #endif
-    clear();
-    free(table);
+    clebr();
+    free(tbble);
 }
 
-BOOL Hashtable::contains(void* value) {
-    DASSERT(value != NULL);
+BOOL Hbshtbble::contbins(void* vblue) {
+    DASSERT(vblue != NULL);
 
-    CriticalSection::Lock l(lock);
+    CriticblSection::Lock l(lock);
 
-    for (int i = capacity; i-- > 0;) {
-        for (HashtableEntry* e = table[i] ; e != NULL ; e = e->next) {
-            if (e->value == value) {
+    for (int i = cbpbcity; i-- > 0;) {
+        for (HbshtbbleEntry* e = tbble[i] ; e != NULL ; e = e->next) {
+            if (e->vblue == vblue) {
                 return TRUE;
             }
         }
@@ -71,161 +71,161 @@ BOOL Hashtable::contains(void* value) {
     return FALSE;
 }
 
-BOOL Hashtable::containsKey(void* key) {
-    CriticalSection::Lock l(lock);
-    int index = static_cast<int>(((reinterpret_cast<INT_PTR>(key) << 1) >> 1)
-        % capacity);
-    for (HashtableEntry* e = table[index]; e != NULL; e = e->next) {
-        if (e->hash == (INT_PTR)key && e->key == key) {
+BOOL Hbshtbble::contbinsKey(void* key) {
+    CriticblSection::Lock l(lock);
+    int index = stbtic_cbst<int>(((reinterpret_cbst<INT_PTR>(key) << 1) >> 1)
+        % cbpbcity);
+    for (HbshtbbleEntry* e = tbble[index]; e != NULL; e = e->next) {
+        if (e->hbsh == (INT_PTR)key && e->key == key) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-void* Hashtable::get(void* key) {
-    CriticalSection::Lock l(lock);
-    int index = static_cast<int>(((reinterpret_cast<INT_PTR>(key) << 1) >> 1)
-        % capacity);
-    for (HashtableEntry* e = table[index]; e != NULL; e = e->next) {
-        if (e->hash == (INT_PTR)key && e->key == key) {
-            return e->value;
+void* Hbshtbble::get(void* key) {
+    CriticblSection::Lock l(lock);
+    int index = stbtic_cbst<int>(((reinterpret_cbst<INT_PTR>(key) << 1) >> 1)
+        % cbpbcity);
+    for (HbshtbbleEntry* e = tbble[index]; e != NULL; e = e->next) {
+        if (e->hbsh == (INT_PTR)key && e->key == key) {
+            return e->vblue;
         }
     }
     return NULL;
 }
 
-void Hashtable::rehash() {
-    int oldCapacity = capacity;
-    HashtableEntry** oldTable = table;
+void Hbshtbble::rehbsh() {
+    int oldCbpbcity = cbpbcity;
+    HbshtbbleEntry** oldTbble = tbble;
 
-    int newCapacity = oldCapacity * 2 + 1;
-    HashtableEntry** newTable = (HashtableEntry**)safe_Calloc(
-        newCapacity, sizeof(HashtableEntry*));
+    int newCbpbcity = oldCbpbcity * 2 + 1;
+    HbshtbbleEntry** newTbble = (HbshtbbleEntry**)sbfe_Cblloc(
+        newCbpbcity, sizeof(HbshtbbleEntry*));
 
-    threshold = (int)(newCapacity * loadFactor);
-    table = newTable;
-    capacity = newCapacity;
+    threshold = (int)(newCbpbcity * lobdFbctor);
+    tbble = newTbble;
+    cbpbcity = newCbpbcity;
 
-    for (int i = 0; i < oldCapacity; i++) {
-        for (HashtableEntry* old = oldTable[i] ; old != NULL ; ) {
-            HashtableEntry* e = old;
+    for (int i = 0; i < oldCbpbcity; i++) {
+        for (HbshtbbleEntry* old = oldTbble[i] ; old != NULL ; ) {
+            HbshtbbleEntry* e = old;
             old = old->next;
-            int index = static_cast<int>(((e->hash << 1) >> 1) % newCapacity);
-            e->next = newTable[index];
-            newTable[index] = e;
+            int index = stbtic_cbst<int>(((e->hbsh << 1) >> 1) % newCbpbcity);
+            e->next = newTbble[index];
+            newTbble[index] = e;
         }
     }
 
-    free(oldTable);
+    free(oldTbble);
 }
 
-void* Hashtable::put(void* key, void* value) {
-    DASSERT(value != NULL);
-    CriticalSection::Lock l(lock);
-    HashtableEntry* e;
+void* Hbshtbble::put(void* key, void* vblue) {
+    DASSERT(vblue != NULL);
+    CriticblSection::Lock l(lock);
+    HbshtbbleEntry* e;
 
-    // Makes sure the key is not already in the hashtable.
-    int index = (int)(((INT_PTR)key << 1) >> 1) % capacity;
-    for (e = table[index]; e != NULL; e = e->next) {
+    // Mbkes sure the key is not blrebdy in the hbshtbble.
+    int index = (int)(((INT_PTR)key << 1) >> 1) % cbpbcity;
+    for (e = tbble[index]; e != NULL; e = e->next) {
 #ifdef DEBUG
         m_collisions++;
 #endif
-        if (e->hash == (INT_PTR)key && e->key == key) {
-            void* old = e->value;
-            e->value = value;
+        if (e->hbsh == (INT_PTR)key && e->key == key) {
+            void* old = e->vblue;
+            e->vblue = vblue;
             return old;
         }
     }
 
     if (count >= threshold) {
-        // Rehash the table if the threshold is exceeded
-        rehash();
-        return put(key, value);
+        // Rehbsh the tbble if the threshold is exceeded
+        rehbsh();
+        return put(key, vblue);
     }
 
-    // Creates the new entry.
-    e = new HashtableEntry;
-    e->hash = (INT_PTR)key;
+    // Crebtes the new entry.
+    e = new HbshtbbleEntry;
+    e->hbsh = (INT_PTR)key;
     e->key = key;
-    e->value = value;
-    e->next = table[index];
-    table[index] = e;
+    e->vblue = vblue;
+    e->next = tbble[index];
+    tbble[index] = e;
     count++;
 #ifdef DEBUG
-    if (count > m_max) {
-        m_max = count;
+    if (count > m_mbx) {
+        m_mbx = count;
     }
 #endif
     return NULL;
 }
 
-void* Hashtable::remove(void* key) {
-    CriticalSection::Lock l(lock);
-    int index = (int)(((INT_PTR)key << 1) >> 1) % capacity;
-    HashtableEntry* prev = NULL;
-    for (HashtableEntry* e = table[index]; e != NULL ; prev = e, e = e->next) {
+void* Hbshtbble::remove(void* key) {
+    CriticblSection::Lock l(lock);
+    int index = (int)(((INT_PTR)key << 1) >> 1) % cbpbcity;
+    HbshtbbleEntry* prev = NULL;
+    for (HbshtbbleEntry* e = tbble[index]; e != NULL ; prev = e, e = e->next) {
         if (e->key == key) {
-            void* value = e->value;
+            void* vblue = e->vblue;
             if (prev != NULL) {
                 prev->next = e->next;
             } else {
-                table[index] = e->next;
+                tbble[index] = e->next;
             }
             count--;
             delete e;
-            return value;
+            return vblue;
         }
     }
     return NULL;
 }
 
-void Hashtable::clear() {
-    CriticalSection::Lock l(lock);
-    for (int index = capacity; --index >= 0; ) {
-        HashtableEntry* e = table[index];
+void Hbshtbble::clebr() {
+    CriticblSection::Lock l(lock);
+    for (int index = cbpbcity; --index >= 0; ) {
+        HbshtbbleEntry* e = tbble[index];
         while (e != NULL) {
-            HashtableEntry* next = e->next;
+            HbshtbbleEntry* next = e->next;
             if (m_deleteProc) {
-                (*m_deleteProc)(e->value);
+                (*m_deleteProc)(e->vblue);
             }
             delete e;
             e = next;
         }
-        table[index] = NULL;
+        tbble[index] = NULL;
     }
     count = 0;
 }
 
-HashtableEnumerator::HashtableEnumerator(HashtableEntry* table[], int size,
+HbshtbbleEnumerbtor::HbshtbbleEnumerbtor(HbshtbbleEntry* tbble[], int size,
                                          BOOL keys)
 {
-    this->table = table;
+    this->tbble = tbble;
     this->keys = keys;
     this->index = size;
     this->entry = NULL;
 }
 
-BOOL HashtableEnumerator::hasMoreElements() {
+BOOL HbshtbbleEnumerbtor::hbsMoreElements() {
     if (entry != NULL) {
         return TRUE;
     }
     while (index-- > 0) {
-        if ((entry = table[index]) != NULL) {
+        if ((entry = tbble[index]) != NULL) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-void* HashtableEnumerator::nextElement() {
+void* HbshtbbleEnumerbtor::nextElement() {
     if (entry == NULL) {
-        while ((index-- > 0) && ((entry = table[index]) == NULL));
+        while ((index-- > 0) && ((entry = tbble[index]) == NULL));
     }
     if (entry != NULL) {
-        HashtableEntry* e = entry;
+        HbshtbbleEntry* e = entry;
         entry = e->next;
-        return keys ? e->key : e->value;
+        return keys ? e->key : e->vblue;
     }
     DASSERT(FALSE);  // shouldn't get here
     return NULL;

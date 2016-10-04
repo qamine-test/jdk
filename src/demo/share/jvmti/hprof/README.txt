@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -32,86 +32,86 @@
 README
 ------
 
-Design and Implementation:
+Design bnd Implementbtion:
 
-    * The Tracker Class (Tracker.java & hprof_tracker.c)
-        It was added to the sun.tools.hprof.Tracker in JDK 5.0 FCS, then
-	moved to a package that didn't cause classload errors due to
-	the security manager not liking the sun.* package name.
-	5091195 detected that this class needs to be in com.sun.demo.jvmti.hprof.
-        The BCI code will call these static methods, which will in turn
-        (if engaged) call matching native methods in the hprof library,
-	with the additional current Thread argument (Thread.currentThread()).
-	Doing the currentThread call on the Java side was necessary due
-	to the difficulty of getting the current thread while inside one
-	of these Tracker native methods.  This class lives in rt.jar.
+    * The Trbcker Clbss (Trbcker.jbvb & hprof_trbcker.c)
+        It wbs bdded to the sun.tools.hprof.Trbcker in JDK 5.0 FCS, then
+	moved to b pbckbge thbt didn't cbuse clbsslobd errors due to
+	the security mbnbger not liking the sun.* pbckbge nbme.
+	5091195 detected thbt this clbss needs to be in com.sun.demo.jvmti.hprof.
+        The BCI code will cbll these stbtic methods, which will in turn
+        (if engbged) cbll mbtching nbtive methods in the hprof librbry,
+	with the bdditionbl current Threbd brgument (Threbd.currentThrebd()).
+	Doing the currentThrebd cbll on the Jbvb side wbs necessbry due
+	to the difficulty of getting the current threbd while inside one
+	of these Trbcker nbtive methods.  This clbss lives in rt.jbr.
 
-    * Byte Code Instrumentation (BCI)
-        Using the ClassFileLoadHook feature and a C language
-        implementation of a byte code injection transformer, the following
+    * Byte Code Instrumentbtion (BCI)
+        Using the ClbssFileLobdHook febture bnd b C lbngubge
+        implementbtion of b byte code injection trbnsformer, the following
         bytecodes get injections:
-	    - On entry to the java.lang.Object <init> method, 
-	      a invokestatic call to
-		Tracker.ObjectInit(this);
+	    - On entry to the jbvb.lbng.Object <init> method, 
+	      b invokestbtic cbll to
+		Trbcker.ObjectInit(this);
 	      is injected. 
-	    - On any newarray type opcode, immediately following it, 
-	      the array object is duplicated on the stack and an
-	      invokestatic call to
-		Tracker.NewArray(obj);
+	    - On bny newbrrby type opcode, immedibtely following it, 
+	      the brrby object is duplicbted on the stbck bnd bn
+	      invokestbtic cbll to
+		Trbcker.NewArrby(obj);
 	      is injected. 
-	    - On entry to all methods, a invokestatic call to 
-		Tracker.CallSite(cnum,mnum);
-	      is injected. The hprof agent can map the two integers
-	      (cnum,mnum) to a method in a class. This is the BCI based
+	    - On entry to bll methods, b invokestbtic cbll to 
+		Trbcker.CbllSite(cnum,mnum);
+	      is injected. The hprof bgent cbn mbp the two integers
+	      (cnum,mnum) to b method in b clbss. This is the BCI bbsed
 	      "method entry" event.
-	    - On return from any method (any return opcode),
-	      a invokestatic call to
-		Tracker.ReturnSite(cnum,mnum);
+	    - On return from bny method (bny return opcode),
+	      b invokestbtic cbll to
+		Trbcker.ReturnSite(cnum,mnum);
 	      is injected.  
-        All classes found via ClassFileLoadHook are injected with the
-        exception of some system class methods "<init>" and "finalize" 
-        whose length is 1 and system class methods with name "<clinit>",
-	and also java.lang.Thread.currentThread() which is used in the
-	class Tracker (preventing nasty recursion issue).
-        System classes are currently defined as any class seen by the
-	ClassFileLoadHook prior to VM_INIT. This does mean that
-	objects created in the system classes inside <clinit> might not
-	get tracked initially.
-	See the java_crw_demo source and documentation for more info.
-	The injections are based on what the hprof options
-	are requesting, e.g. if heap=sites or heap=all is requested, the
-	newarray and Object.<init> method injections happen.
-	If cpu=times is requested, all methods get their entries and
-	returns tracked. Options like cpu=samples or monitor=y
+        All clbsses found vib ClbssFileLobdHook bre injected with the
+        exception of some system clbss methods "<init>" bnd "finblize" 
+        whose length is 1 bnd system clbss methods with nbme "<clinit>",
+	bnd blso jbvb.lbng.Threbd.currentThrebd() which is used in the
+	clbss Trbcker (preventing nbsty recursion issue).
+        System clbsses bre currently defined bs bny clbss seen by the
+	ClbssFileLobdHook prior to VM_INIT. This does mebn thbt
+	objects crebted in the system clbsses inside <clinit> might not
+	get trbcked initiblly.
+	See the jbvb_crw_demo source bnd documentbtion for more info.
+	The injections bre bbsed on whbt the hprof options
+	bre requesting, e.g. if hebp=sites or hebp=bll is requested, the
+	newbrrby bnd Object.<init> method injections hbppen.
+	If cpu=times is requested, bll methods get their entries bnd
+	returns trbcked. Options like cpu=sbmples or monitor=y
 	do not require BCI.
 
-    * BCI Allocation Tags (hprof_tag.c)
-        The current jlong tag being used on allocated objects
-	is an ObjectIndex, or an index into the object table inside
-	the hprof code. Depending on whether heap=sites or heap=dump 
-	was asked for, these ObjectIndex's might represent unique
-	objects, or unique allocation sites for types of objects.
-	The heap=dump option requires considerable more space
-	due to the one jobject per ObjectIndex mapping.
+    * BCI Allocbtion Tbgs (hprof_tbg.c)
+        The current jlong tbg being used on bllocbted objects
+	is bn ObjectIndex, or bn index into the object tbble inside
+	the hprof code. Depending on whether hebp=sites or hebp=dump 
+	wbs bsked for, these ObjectIndex's might represent unique
+	objects, or unique bllocbtion sites for types of objects.
+	The hebp=dump option requires considerbble more spbce
+	due to the one jobject per ObjectIndex mbpping.
 
-    * BCI Performance
-        The cpu=times seems to have the most negative affect on
-	performance, this could be improved by not having the 
-	Tracker class methods call native code directly, but accumulate
-	the data in a file or memory somehow and letting it buffer down
-	to the agent. The cpu=samples is probably a better way to
-	measure cpu usage, varying the interval as needed.
-	The heap=dump seems to use memory like crazy, but that's 
-	partially the way it has always been. 
+    * BCI Performbnce
+        The cpu=times seems to hbve the most negbtive bffect on
+	performbnce, this could be improved by not hbving the 
+	Trbcker clbss methods cbll nbtive code directly, but bccumulbte
+	the dbtb in b file or memory somehow bnd letting it buffer down
+	to the bgent. The cpu=sbmples is probbbly b better wby to
+	mebsure cpu usbge, vbrying the intervbl bs needed.
+	The hebp=dump seems to use memory like crbzy, but thbt's 
+	pbrtiblly the wby it hbs blwbys been. 
 
-    * Sources in the JDK workspace
-        The sources and Makefiles live in:
-                src/share/classes/com/sun/demo/jvmti/hprof/*
-                src/share/demo/jvmti/hprof/*
-                src/share/demo/jvmti/java_crw_demo/*
-                src/solaris/demo/jvmti/hprof/*
+    * Sources in the JDK workspbce
+        The sources bnd Mbkefiles live in:
+                src/shbre/clbsses/com/sun/demo/jvmti/hprof/*
+                src/shbre/demo/jvmti/hprof/*
+                src/shbre/demo/jvmti/jbvb_crw_demo/*
+                src/solbris/demo/jvmti/hprof/*
                 src/windows/demo/jvmti/hprof/*
-                make/java/java_hprof_demo/*
-                make/java/java_crw_demo/*
+                mbke/jbvb/jbvb_hprof_demo/*
+                mbke/jbvb/jbvb_crw_demo/*
    
 --------

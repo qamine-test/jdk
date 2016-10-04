@@ -3,377 +3,377 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-05 08:22:55 +0900 (Tue, 05 Jul 2011) $"/>
-		<language type="sah"/>
+		<generbtion dbte="$Dbte: 2011-07-05 08:22:55 +0900 (Tue, 05 Jul 2011) $"/>
+		<lbngubge type="sbh"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ab" draft="unconfirmed">Абхаастыы</language>
-			<language type="af" draft="unconfirmed">Аппырыкааныстыы</language>
-			<language type="ar" draft="unconfirmed">Араабтыы</language>
-			<language type="az" draft="unconfirmed">Адьырбайдьаанныы</language>
-			<language type="be" draft="unconfirmed">Бөлөрүүстүү</language>
-			<language type="bg" draft="unconfirmed">Булҕаардыы</language>
-			<language type="bn" draft="unconfirmed">Бенгаллыы</language>
-			<language type="bo" draft="unconfirmed">Тибиэттии</language>
-			<language type="bs" draft="unconfirmed">Босныйалыы</language>
-			<language type="ca" draft="unconfirmed">Каталаанныы</language>
-			<language type="cs" draft="unconfirmed">Чиэскэйдии</language>
-			<language type="da" draft="unconfirmed">Даатскайдыы</language>
-			<language type="de" draft="unconfirmed">Ниэмэстии</language>
-			<language type="el" draft="unconfirmed">Гириэктии</language>
-			<language type="en" draft="unconfirmed">Аҥылычаанныы</language>
-			<language type="es" draft="unconfirmed">Ыспаанныы</language>
-			<language type="et" draft="unconfirmed">Эстиэнийэлии</language>
-			<language type="fa" draft="unconfirmed">Пиэрсийэлии</language>
-			<language type="fi" draft="unconfirmed">Пииннии</language>
-			<language type="fil" draft="unconfirmed">Пилипииннии</language>
-			<language type="fr" draft="unconfirmed">Пырансуустуу</language>
-			<language type="hu" draft="unconfirmed">Бэҥгиэрдии</language>
-			<language type="hy" draft="unconfirmed">Эрмээннии</language>
-			<language type="it" draft="unconfirmed">Ытаалыйалыы</language>
-			<language type="ja" draft="unconfirmed">Дьоппуоннуу</language>
-			<language type="ka" draft="unconfirmed">Гурусууннуу</language>
-			<language type="kk" draft="unconfirmed">Хаһаахтыы</language>
-			<language type="ko" draft="unconfirmed">Кэриэйдии</language>
-			<language type="ky" draft="unconfirmed">Кыргыстыы</language>
-			<language type="la" draft="unconfirmed">Латыынныы</language>
-			<language type="mn" draft="unconfirmed">Моҕуоллуу</language>
-			<language type="ne" draft="unconfirmed">Ньыпааллыы</language>
-			<language type="pa" draft="unconfirmed">Пандьаабтыы</language>
-			<language type="pt" draft="unconfirmed">Португааллыы</language>
-			<language type="ro" draft="unconfirmed">Румыынныы</language>
-			<language type="ru" draft="unconfirmed">Нууччалыы</language>
-			<language type="sah">саха тыла</language>
-			<language type="sk" draft="unconfirmed">Словаактыы</language>
-			<language type="sq" draft="unconfirmed">Албаанскайдыы</language>
-			<language type="ta" draft="unconfirmed">Тамыллыы</language>
-			<language type="te" draft="unconfirmed">Төлүгүлүү</language>
-			<language type="tg" draft="unconfirmed">Тадьыыктыы</language>
-			<language type="ug" draft="unconfirmed">Уйгуурдуу</language>
-			<language type="uk" draft="unconfirmed">Украйыыньыстыы</language>
-			<language type="uz" draft="unconfirmed">Үзбиэктии</language>
-			<language type="zh" draft="unconfirmed">Кытайдыы</language>
-			<language type="zu" draft="unconfirmed">Зуулулуу</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bb" drbft="unconfirmed">Абхаастыы</lbngubge>
+			<lbngubge type="bf" drbft="unconfirmed">Аппырыкааныстыы</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">Араабтыы</lbngubge>
+			<lbngubge type="bz" drbft="unconfirmed">Адьырбайдьаанныы</lbngubge>
+			<lbngubge type="be" drbft="unconfirmed">Бөлөрүүстүү</lbngubge>
+			<lbngubge type="bg" drbft="unconfirmed">Булҕаардыы</lbngubge>
+			<lbngubge type="bn" drbft="unconfirmed">Бенгаллыы</lbngubge>
+			<lbngubge type="bo" drbft="unconfirmed">Тибиэттии</lbngubge>
+			<lbngubge type="bs" drbft="unconfirmed">Босныйалыы</lbngubge>
+			<lbngubge type="cb" drbft="unconfirmed">Каталаанныы</lbngubge>
+			<lbngubge type="cs" drbft="unconfirmed">Чиэскэйдии</lbngubge>
+			<lbngubge type="db" drbft="unconfirmed">Даатскайдыы</lbngubge>
+			<lbngubge type="de" drbft="unconfirmed">Ниэмэстии</lbngubge>
+			<lbngubge type="el" drbft="unconfirmed">Гириэктии</lbngubge>
+			<lbngubge type="en" drbft="unconfirmed">Аҥылычаанныы</lbngubge>
+			<lbngubge type="es" drbft="unconfirmed">Ыспаанныы</lbngubge>
+			<lbngubge type="et" drbft="unconfirmed">Эстиэнийэлии</lbngubge>
+			<lbngubge type="fb" drbft="unconfirmed">Пиэрсийэлии</lbngubge>
+			<lbngubge type="fi" drbft="unconfirmed">Пииннии</lbngubge>
+			<lbngubge type="fil" drbft="unconfirmed">Пилипииннии</lbngubge>
+			<lbngubge type="fr" drbft="unconfirmed">Пырансуустуу</lbngubge>
+			<lbngubge type="hu" drbft="unconfirmed">Бэҥгиэрдии</lbngubge>
+			<lbngubge type="hy" drbft="unconfirmed">Эрмээннии</lbngubge>
+			<lbngubge type="it" drbft="unconfirmed">Ытаалыйалыы</lbngubge>
+			<lbngubge type="jb" drbft="unconfirmed">Дьоппуоннуу</lbngubge>
+			<lbngubge type="kb" drbft="unconfirmed">Гурусууннуу</lbngubge>
+			<lbngubge type="kk" drbft="unconfirmed">Хаһаахтыы</lbngubge>
+			<lbngubge type="ko" drbft="unconfirmed">Кэриэйдии</lbngubge>
+			<lbngubge type="ky" drbft="unconfirmed">Кыргыстыы</lbngubge>
+			<lbngubge type="lb" drbft="unconfirmed">Латыынныы</lbngubge>
+			<lbngubge type="mn" drbft="unconfirmed">Моҕуоллуу</lbngubge>
+			<lbngubge type="ne" drbft="unconfirmed">Ньыпааллыы</lbngubge>
+			<lbngubge type="pb" drbft="unconfirmed">Пандьаабтыы</lbngubge>
+			<lbngubge type="pt" drbft="unconfirmed">Португааллыы</lbngubge>
+			<lbngubge type="ro" drbft="unconfirmed">Румыынныы</lbngubge>
+			<lbngubge type="ru" drbft="unconfirmed">Нууччалыы</lbngubge>
+			<lbngubge type="sbh">саха тыла</lbngubge>
+			<lbngubge type="sk" drbft="unconfirmed">Словаактыы</lbngubge>
+			<lbngubge type="sq" drbft="unconfirmed">Албаанскайдыы</lbngubge>
+			<lbngubge type="tb" drbft="unconfirmed">Тамыллыы</lbngubge>
+			<lbngubge type="te" drbft="unconfirmed">Төлүгүлүү</lbngubge>
+			<lbngubge type="tg" drbft="unconfirmed">Тадьыыктыы</lbngubge>
+			<lbngubge type="ug" drbft="unconfirmed">Уйгуурдуу</lbngubge>
+			<lbngubge type="uk" drbft="unconfirmed">Украйыыньыстыы</lbngubge>
+			<lbngubge type="uz" drbft="unconfirmed">Үзбиэктии</lbngubge>
+			<lbngubge type="zh" drbft="unconfirmed">Кытайдыы</lbngubge>
+			<lbngubge type="zu" drbft="unconfirmed">Зуулулуу</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab" draft="unconfirmed">Арааптыы</script>
-			<script type="Armn" draft="unconfirmed">Эрмээннии</script>
-			<script type="Cyrl" draft="unconfirmed">Нууччалыы</script>
-			<script type="Grek" draft="unconfirmed">Кириэктии</script>
-			<script type="Jpan" draft="unconfirmed">Дьоппуоннуу</script>
-			<script type="Kore" draft="unconfirmed">Кэриэйдии</script>
-			<script type="Latn" draft="unconfirmed">Латыынныы</script>
-			<script type="Thai" draft="unconfirmed">Таайдыы</script>
-			<script type="Zxxx" draft="unconfirmed">Сурулла илик</script>
-			<script type="Zzzz" draft="unconfirmed">Биллибэт сурук</script>
+			<script type="Arbb" drbft="unconfirmed">Арааптыы</script>
+			<script type="Armn" drbft="unconfirmed">Эрмээннии</script>
+			<script type="Cyrl" drbft="unconfirmed">Нууччалыы</script>
+			<script type="Grek" drbft="unconfirmed">Кириэктии</script>
+			<script type="Jpbn" drbft="unconfirmed">Дьоппуоннуу</script>
+			<script type="Kore" drbft="unconfirmed">Кэриэйдии</script>
+			<script type="Lbtn" drbft="unconfirmed">Латыынныы</script>
+			<script type="Thbi" drbft="unconfirmed">Таайдыы</script>
+			<script type="Zxxx" drbft="unconfirmed">Сурулла илик</script>
+			<script type="Zzzz" drbft="unconfirmed">Биллибэт сурук</script>
 		</scripts>
 		<territories>
-			<territory type="001" draft="unconfirmed">Аан дойду</territory>
-			<territory type="002" draft="unconfirmed">Аапырыка</territory>
-			<territory type="003" draft="unconfirmed">Хотугу Эмиэрикэ</territory>
-			<territory type="005" draft="unconfirmed">Соҕуруу Эмиэрикэ</territory>
-			<territory type="CN" draft="unconfirmed">Кытай</territory>
+			<territory type="001" drbft="unconfirmed">Аан дойду</territory>
+			<territory type="002" drbft="unconfirmed">Аапырыка</territory>
+			<territory type="003" drbft="unconfirmed">Хотугу Эмиэрикэ</territory>
+			<territory type="005" drbft="unconfirmed">Соҕуруу Эмиэрикэ</territory>
+			<territory type="CN" drbft="unconfirmed">Кытай</territory>
 		</territories>
-		<measurementSystemNames>
-			<measurementSystemName type="metric" draft="unconfirmed">Мэтриичэскэй</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[а б г ҕ д {дь} и й к л м н {нь} ҥ о ө п р с т у ү х һ ч ы э]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[в е ё ж з ф ц ш щ ъ ь ю я]</exemplarCharacters>
-		<exemplarCharacters type="index">[А Б Г Ҕ Д {Дь} И Й К Л М Н {Нь} Ҥ О Ө П Р С Т У Ү Х Һ Ч Ы Э]</exemplarCharacters>
-		<exemplarCharacters type="punctuation" draft="unconfirmed">[\:]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric" drbft="unconfirmed">Мэтриичэскэй</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[а б г ҕ д {дь} и й к л м н {нь} ҥ о ө п р с т у ү х һ ч ы э]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[в е ё ж з ф ц ш щ ъ ь ю я]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[А Б Г Ҕ Д {Дь} И Й К Л М Н {Нь} Ҥ О Ө П Р С Т У Ү Х Һ Ч Ы Э]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="punctubtion" drbft="unconfirmed">[\:]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="unconfirmed">Тохс</month>
-							<month type="2" draft="unconfirmed">Олун</month>
-							<month type="3" draft="unconfirmed">Клн_ттр</month>
-							<month type="4" draft="unconfirmed">Мус_уст</month>
-							<month type="5" draft="unconfirmed">Ыам_йн</month>
-							<month type="6" draft="unconfirmed">Бэс_йн</month>
-							<month type="7" draft="unconfirmed">От_йн</month>
-							<month type="8" draft="unconfirmed">Атрдь_йн</month>
-							<month type="9" draft="unconfirmed">Блҕн_йн</month>
-							<month type="10" draft="unconfirmed">Алт</month>
-							<month type="11" draft="unconfirmed">Сэт</month>
-							<month type="12" draft="unconfirmed">Ахс</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1" drbft="unconfirmed">Тохс</month>
+							<month type="2" drbft="unconfirmed">Олун</month>
+							<month type="3" drbft="unconfirmed">Клн_ттр</month>
+							<month type="4" drbft="unconfirmed">Мус_уст</month>
+							<month type="5" drbft="unconfirmed">Ыам_йн</month>
+							<month type="6" drbft="unconfirmed">Бэс_йн</month>
+							<month type="7" drbft="unconfirmed">От_йн</month>
+							<month type="8" drbft="unconfirmed">Атрдь_йн</month>
+							<month type="9" drbft="unconfirmed">Блҕн_йн</month>
+							<month type="10" drbft="unconfirmed">Алт</month>
+							<month type="11" drbft="unconfirmed">Сэт</month>
+							<month type="12" drbft="unconfirmed">Ахс</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1" draft="unconfirmed">Тохсунньу</month>
-							<month type="2" draft="unconfirmed">Олунньу</month>
-							<month type="3" draft="unconfirmed">Кулун тутар</month>
-							<month type="4" draft="unconfirmed">Муус устар</month>
-							<month type="5" draft="unconfirmed">Ыам ыйын</month>
-							<month type="6" draft="unconfirmed">Бэс ыйын</month>
-							<month type="7" draft="unconfirmed">От ыйын</month>
-							<month type="8" draft="unconfirmed">Атырдьых ыйын</month>
-							<month type="9" draft="unconfirmed">Балаҕан ыйын</month>
-							<month type="10" draft="unconfirmed">Алтынньы</month>
-							<month type="11" draft="unconfirmed">Сэтинньи</month>
-							<month type="12" draft="unconfirmed">Ахсынньы</month>
+							<month type="1" drbft="unconfirmed">Тохсунньу</month>
+							<month type="2" drbft="unconfirmed">Олунньу</month>
+							<month type="3" drbft="unconfirmed">Кулун тутар</month>
+							<month type="4" drbft="unconfirmed">Муус устар</month>
+							<month type="5" drbft="unconfirmed">Ыам ыйын</month>
+							<month type="6" drbft="unconfirmed">Бэс ыйын</month>
+							<month type="7" drbft="unconfirmed">От ыйын</month>
+							<month type="8" drbft="unconfirmed">Атырдьых ыйын</month>
+							<month type="9" drbft="unconfirmed">Балаҕан ыйын</month>
+							<month type="10" drbft="unconfirmed">Алтынньы</month>
+							<month type="11" drbft="unconfirmed">Сэтинньи</month>
+							<month type="12" drbft="unconfirmed">Ахсынньы</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1" draft="unconfirmed">Т</month>
-							<month type="2" draft="unconfirmed">О</month>
-							<month type="3" draft="unconfirmed">К</month>
-							<month type="4" draft="unconfirmed">М</month>
-							<month type="5" draft="unconfirmed">Ы</month>
-							<month type="6" draft="unconfirmed">Б</month>
-							<month type="7" draft="unconfirmed">О</month>
-							<month type="8" draft="unconfirmed">А</month>
-							<month type="9" draft="unconfirmed">Б</month>
-							<month type="10" draft="unconfirmed">А</month>
-							<month type="11" draft="unconfirmed">С</month>
-							<month type="12" draft="unconfirmed">А</month>
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
+							<month type="1" drbft="unconfirmed">Т</month>
+							<month type="2" drbft="unconfirmed">О</month>
+							<month type="3" drbft="unconfirmed">К</month>
+							<month type="4" drbft="unconfirmed">М</month>
+							<month type="5" drbft="unconfirmed">Ы</month>
+							<month type="6" drbft="unconfirmed">Б</month>
+							<month type="7" drbft="unconfirmed">О</month>
+							<month type="8" drbft="unconfirmed">А</month>
+							<month type="9" drbft="unconfirmed">Б</month>
+							<month type="10" drbft="unconfirmed">А</month>
+							<month type="11" drbft="unconfirmed">С</month>
+							<month type="12" drbft="unconfirmed">А</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">Бс</day>
-							<day type="mon" draft="unconfirmed">Бн</day>
-							<day type="tue" draft="unconfirmed">Оп</day>
-							<day type="wed" draft="unconfirmed">Сэ</day>
-							<day type="thu" draft="unconfirmed">Чп</day>
-							<day type="fri" draft="unconfirmed">Бэ</day>
-							<day type="sat" draft="unconfirmed">Сб</day>
-						</dayWidth>
-						<dayWidth type="narrow">
-							<day type="sun" draft="unconfirmed">Б</day>
-							<day type="mon" draft="unconfirmed">Б</day>
-							<day type="tue" draft="unconfirmed">О</day>
-							<day type="wed" draft="unconfirmed">С</day>
-							<day type="thu" draft="unconfirmed">Ч</day>
-							<day type="fri" draft="unconfirmed">Б</day>
-							<day type="sat" draft="unconfirmed">С</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">Баскыһыанньа</day>
-							<day type="mon" draft="unconfirmed">Бэнидиэлинньик</day>
-							<day type="tue" draft="unconfirmed">Оптуорунньук</day>
-							<day type="wed" draft="unconfirmed">Сэрэдэ</day>
-							<day type="thu" draft="unconfirmed">Чэппиэр</day>
-							<day type="fri" draft="unconfirmed">Бээтиҥсэ</day>
-							<day type="sat" draft="unconfirmed">Субуота</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="abbreviated">
-							<day type="sun" draft="unconfirmed">Бс</day>
-							<day type="mon" draft="unconfirmed">Бн</day>
-							<day type="tue" draft="unconfirmed">Оп</day>
-							<day type="wed" draft="unconfirmed">Сэ</day>
-							<day type="thu" draft="unconfirmed">Чп</day>
-							<day type="fri" draft="unconfirmed">Бэ</day>
-							<day type="sat" draft="unconfirmed">Сб</day>
-						</dayWidth>
-						<dayWidth type="narrow">
-							<day type="sun" draft="unconfirmed">Б</day>
-							<day type="mon" draft="unconfirmed">Б</day>
-							<day type="tue" draft="unconfirmed">О</day>
-							<day type="wed" draft="unconfirmed">С</day>
-							<day type="thu" draft="unconfirmed">Ч</day>
-							<day type="fri" draft="unconfirmed">Б</day>
-							<day type="sat" draft="unconfirmed">С</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">Баскыһыанньа</day>
-							<day type="mon" draft="unconfirmed">Бэнидиэлинньик</day>
-							<day type="tue" draft="unconfirmed">Оптуорунньук</day>
-							<day type="wed" draft="unconfirmed">Сэрэдэ</day>
-							<day type="thu" draft="unconfirmed">Чэппиэр</day>
-							<day type="fri" draft="unconfirmed">Бээтиҥсэ</day>
-							<day type="sat" draft="unconfirmed">Субуота</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="unconfirmed">1-кы кб</quarter>
-							<quarter type="2" draft="unconfirmed">2-с кб</quarter>
-							<quarter type="3" draft="unconfirmed">3-с кб</quarter>
-							<quarter type="4" draft="unconfirmed">4-с кб</quarter>
-						</quarterWidth>
-						<quarterWidth type="narrow">
-							<quarter type="1" draft="unconfirmed">1</quarter>
-							<quarter type="2" draft="unconfirmed">2</quarter>
-							<quarter type="3" draft="unconfirmed">3</quarter>
-							<quarter type="4" draft="unconfirmed">4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="unconfirmed">1-кы кыбаартал</quarter>
-							<quarter type="2" draft="unconfirmed">2-с кыбаартал</quarter>
-							<quarter type="3" draft="unconfirmed">3-с кыбаартал</quarter>
-							<quarter type="4" draft="unconfirmed">4-с кыбаартал</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="unconfirmed">1-кы кб</quarter>
-							<quarter type="2" draft="unconfirmed">2-с кб</quarter>
-							<quarter type="3" draft="unconfirmed">3-с кб</quarter>
-							<quarter type="4" draft="unconfirmed">4-с кб</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="unconfirmed">1-кы кыбаартал</quarter>
-							<quarter type="2" draft="unconfirmed">2-с кыбаартал</quarter>
-							<quarter type="3" draft="unconfirmed">3-с кыбаартал</quarter>
-							<quarter type="4" draft="unconfirmed">4-с кыбаартал</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am" draft="unconfirmed">ЭИ</dayPeriod>
-							<dayPeriod type="pm" draft="unconfirmed">ЭК</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">б. э. и.</era>
-						<era type="1" draft="unconfirmed">б. э</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">y 'сыл' MMMM d 'күнэ', EEEE</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">y, MMMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">y, MMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">yy/M/d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun" drbft="unconfirmed">Бс</dby>
+							<dby type="mon" drbft="unconfirmed">Бн</dby>
+							<dby type="tue" drbft="unconfirmed">Оп</dby>
+							<dby type="wed" drbft="unconfirmed">Сэ</dby>
+							<dby type="thu" drbft="unconfirmed">Чп</dby>
+							<dby type="fri" drbft="unconfirmed">Бэ</dby>
+							<dby type="sbt" drbft="unconfirmed">Сб</dby>
+						</dbyWidth>
+						<dbyWidth type="nbrrow">
+							<dby type="sun" drbft="unconfirmed">Б</dby>
+							<dby type="mon" drbft="unconfirmed">Б</dby>
+							<dby type="tue" drbft="unconfirmed">О</dby>
+							<dby type="wed" drbft="unconfirmed">С</dby>
+							<dby type="thu" drbft="unconfirmed">Ч</dby>
+							<dby type="fri" drbft="unconfirmed">Б</dby>
+							<dby type="sbt" drbft="unconfirmed">С</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">Баскыһыанньа</dby>
+							<dby type="mon" drbft="unconfirmed">Бэнидиэлинньик</dby>
+							<dby type="tue" drbft="unconfirmed">Оптуорунньук</dby>
+							<dby type="wed" drbft="unconfirmed">Сэрэдэ</dby>
+							<dby type="thu" drbft="unconfirmed">Чэппиэр</dby>
+							<dby type="fri" drbft="unconfirmed">Бээтиҥсэ</dby>
+							<dby type="sbt" drbft="unconfirmed">Субуота</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun" drbft="unconfirmed">Бс</dby>
+							<dby type="mon" drbft="unconfirmed">Бн</dby>
+							<dby type="tue" drbft="unconfirmed">Оп</dby>
+							<dby type="wed" drbft="unconfirmed">Сэ</dby>
+							<dby type="thu" drbft="unconfirmed">Чп</dby>
+							<dby type="fri" drbft="unconfirmed">Бэ</dby>
+							<dby type="sbt" drbft="unconfirmed">Сб</dby>
+						</dbyWidth>
+						<dbyWidth type="nbrrow">
+							<dby type="sun" drbft="unconfirmed">Б</dby>
+							<dby type="mon" drbft="unconfirmed">Б</dby>
+							<dby type="tue" drbft="unconfirmed">О</dby>
+							<dby type="wed" drbft="unconfirmed">С</dby>
+							<dby type="thu" drbft="unconfirmed">Ч</dby>
+							<dby type="fri" drbft="unconfirmed">Б</dby>
+							<dby type="sbt" drbft="unconfirmed">С</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun" drbft="unconfirmed">Баскыһыанньа</dby>
+							<dby type="mon" drbft="unconfirmed">Бэнидиэлинньик</dby>
+							<dby type="tue" drbft="unconfirmed">Оптуорунньук</dby>
+							<dby type="wed" drbft="unconfirmed">Сэрэдэ</dby>
+							<dby type="thu" drbft="unconfirmed">Чэппиэр</dby>
+							<dby type="fri" drbft="unconfirmed">Бээтиҥсэ</dby>
+							<dby type="sbt" drbft="unconfirmed">Субуота</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1" drbft="unconfirmed">1-кы кб</qubrter>
+							<qubrter type="2" drbft="unconfirmed">2-с кб</qubrter>
+							<qubrter type="3" drbft="unconfirmed">3-с кб</qubrter>
+							<qubrter type="4" drbft="unconfirmed">4-с кб</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="nbrrow">
+							<qubrter type="1" drbft="unconfirmed">1</qubrter>
+							<qubrter type="2" drbft="unconfirmed">2</qubrter>
+							<qubrter type="3" drbft="unconfirmed">3</qubrter>
+							<qubrter type="4" drbft="unconfirmed">4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1" drbft="unconfirmed">1-кы кыбаартал</qubrter>
+							<qubrter type="2" drbft="unconfirmed">2-с кыбаартал</qubrter>
+							<qubrter type="3" drbft="unconfirmed">3-с кыбаартал</qubrter>
+							<qubrter type="4" drbft="unconfirmed">4-с кыбаартал</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+					<qubrterContext type="stbnd-blone">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1" drbft="unconfirmed">1-кы кб</qubrter>
+							<qubrter type="2" drbft="unconfirmed">2-с кб</qubrter>
+							<qubrter type="3" drbft="unconfirmed">3-с кб</qubrter>
+							<qubrter type="4" drbft="unconfirmed">4-с кб</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1" drbft="unconfirmed">1-кы кыбаартал</qubrter>
+							<qubrter type="2" drbft="unconfirmed">2-с кыбаартал</qubrter>
+							<qubrter type="3" drbft="unconfirmed">3-с кыбаартал</qubrter>
+							<qubrter type="4" drbft="unconfirmed">4-с кыбаартал</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm" drbft="unconfirmed">ЭИ</dbyPeriod>
+							<dbyPeriod type="pm" drbft="unconfirmed">ЭК</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbAbbr>
+						<erb type="0" drbft="unconfirmed">б. э. и.</erb>
+						<erb type="1" drbft="unconfirmed">б. э</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y 'сыл' MMMM d 'күнэ', EEEE</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y, MMMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y, MMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">yy/M/d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
 				<fields>
-					<field type="era">
-						<displayName draft="unconfirmed">Ээрэ</displayName>
+					<field type="erb">
+						<displbyNbme drbft="unconfirmed">Ээрэ</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName draft="unconfirmed">Сыл</displayName>
+					<field type="yebr">
+						<displbyNbme drbft="unconfirmed">Сыл</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName draft="unconfirmed">Ый</displayName>
+						<displbyNbme drbft="unconfirmed">Ый</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName draft="unconfirmed">Нэдиэлэ</displayName>
+						<displbyNbme drbft="unconfirmed">Нэдиэлэ</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName draft="unconfirmed">Күн</displayName>
-						<relative type="-2" draft="unconfirmed">Иллэрээ күн</relative>
-						<relative type="-1" draft="unconfirmed">Бэҕэһээ</relative>
-						<relative type="0" draft="unconfirmed">Бүгүн</relative>
-						<relative type="1" draft="unconfirmed">Сарсын</relative>
-						<relative type="2" draft="unconfirmed">Өйүүн</relative>
+					<field type="dby">
+						<displbyNbme drbft="unconfirmed">Күн</displbyNbme>
+						<relbtive type="-2" drbft="unconfirmed">Иллэрээ күн</relbtive>
+						<relbtive type="-1" drbft="unconfirmed">Бэҕэһээ</relbtive>
+						<relbtive type="0" drbft="unconfirmed">Бүгүн</relbtive>
+						<relbtive type="1" drbft="unconfirmed">Сарсын</relbtive>
+						<relbtive type="2" drbft="unconfirmed">Өйүүн</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName draft="unconfirmed">Нэдиэлэ күнэ</displayName>
+					<field type="weekdby">
+						<displbyNbme drbft="unconfirmed">Нэдиэлэ күнэ</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName draft="unconfirmed">ЭИ/ЭК</displayName>
+					<field type="dbyperiod">
+						<displbyNbme drbft="unconfirmed">ЭИ/ЭК</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName draft="unconfirmed">Чаас</displayName>
+						<displbyNbme drbft="unconfirmed">Чаас</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName draft="unconfirmed">Мүнүүтэ</displayName>
+						<displbyNbme drbft="unconfirmed">Мүнүүтэ</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName draft="unconfirmed">Сөкүүндэ</displayName>
+						<displbyNbme drbft="unconfirmed">Сөкүүндэ</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName draft="unconfirmed">Кэм балаһата</displayName>
+						<displbyNbme drbft="unconfirmed">Кэм балаһата</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<units>
-		<unit type="day">
-			<unitPattern count="other" draft="unconfirmed">{0} күн</unitPattern>
+		<unit type="dby">
+			<unitPbttern count="other" drbft="unconfirmed">{0} күн</unitPbttern>
 		</unit>
-		<unit type="day-future">
-			<unitPattern count="other" draft="unconfirmed">{0} күнүнэн</unitPattern>
+		<unit type="dby-future">
+			<unitPbttern count="other" drbft="unconfirmed">{0} күнүнэн</unitPbttern>
 		</unit>
-		<unit type="day-past">
-			<unitPattern count="other" draft="unconfirmed">{0} күн ынараа өттүгэр</unitPattern>
+		<unit type="dby-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">{0} күн ынараа өттүгэр</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="other" draft="unconfirmed">{0} чаас</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} чаас</unitPbttern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="other" draft="unconfirmed">{0} чааһынан</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} чааһынан</unitPbttern>
 		</unit>
-		<unit type="hour-past">
-			<unitPattern count="other" draft="unconfirmed">{0} чаас ынараа өттүгэр</unitPattern>
+		<unit type="hour-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">{0} чаас ынараа өттүгэр</unitPbttern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="other" draft="unconfirmed">{0} мүнүүтэ</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} мүнүүтэ</unitPbttern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="other" draft="unconfirmed">{0} мүнүүтэннэн</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} мүнүүтэннэн</unitPbttern>
 		</unit>
-		<unit type="minute-past">
-			<unitPattern count="other" draft="unconfirmed">{0} мүнүүтэ ынараа өттүгэр</unitPattern>
+		<unit type="minute-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">{0} мүнүүтэ ынараа өттүгэр</unitPbttern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="other" draft="unconfirmed">{0} ый</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} ый</unitPbttern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="other" draft="unconfirmed">{0} ыйынан</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} ыйынан</unitPbttern>
 		</unit>
-		<unit type="month-past">
-			<unitPattern count="other" draft="unconfirmed">{0} ый ынараа өттүгэр</unitPattern>
+		<unit type="month-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">{0} ый ынараа өттүгэр</unitPbttern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="other" draft="unconfirmed">{0} сөкүүндэ</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} сөкүүндэ</unitPbttern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="other" draft="unconfirmed">{0} сөкүүндэннэн</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} сөкүүндэннэн</unitPbttern>
 		</unit>
-		<unit type="second-past">
-			<unitPattern count="other" draft="unconfirmed">{0} сөкүүндэ ынараа өттүгэр</unitPattern>
+		<unit type="second-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">{0} сөкүүндэ ынараа өттүгэр</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="other" draft="unconfirmed">{0} нэдиэлэ</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} нэдиэлэ</unitPbttern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="other" draft="unconfirmed">{0} нэдиэлэннэн</unitPattern>
+			<unitPbttern count="other" drbft="unconfirmed">{0} нэдиэлэннэн</unitPbttern>
 		</unit>
-		<unit type="week-past">
-			<unitPattern count="other" draft="unconfirmed">{0} нэдиэлэ ынараа өттүгэр</unitPattern>
+		<unit type="week-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">{0} нэдиэлэ ынараа өттүгэр</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="other" draft="unconfirmed">{0} сыл</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="other" drbft="unconfirmed">{0} сыл</unitPbttern>
 		</unit>
-		<unit type="year-future">
-			<unitPattern count="other" draft="unconfirmed">{0} сылынан</unitPattern>
+		<unit type="yebr-future">
+			<unitPbttern count="other" drbft="unconfirmed">{0} сылынан</unitPbttern>
 		</unit>
-		<unit type="year-past">
-			<unitPattern count="other" draft="unconfirmed">{0} сыл ынараа өттүгэр</unitPattern>
+		<unit type="yebr-pbst">
+			<unitPbttern count="other" drbft="unconfirmed">{0} сыл ынараа өттүгэр</unitPbttern>
 		</unit>
 	</units>
 </ldml>

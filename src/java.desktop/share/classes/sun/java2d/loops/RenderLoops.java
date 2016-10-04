@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
 /*
- * This class stores the various loops that are used by the
- * standard rendering pipelines.  The loops for a given instance
- * of this class will all share the same destination type and the
- * same supported paint and composite operation.
- * Each instance of this class should be shared by all graphics
- * objects that render onto the same type of destination with the
- * same paint and composite combination to reduce the amount of
- * time spent looking up loops appropriate for the current fill
+ * This clbss stores the vbrious loops thbt bre used by the
+ * stbndbrd rendering pipelines.  The loops for b given instbnce
+ * of this clbss will bll shbre the sbme destinbtion type bnd the
+ * sbme supported pbint bnd composite operbtion.
+ * Ebch instbnce of this clbss should be shbred by bll grbphics
+ * objects thbt render onto the sbme type of destinbtion with the
+ * sbme pbint bnd composite combinbtion to reduce the bmount of
+ * time spent looking up loops bppropribte for the current fill
  * technique.
  */
-public class RenderLoops {
+public clbss RenderLoops {
 
-    public static final int primTypeID = GraphicsPrimitive.makePrimTypeID();
+    public stbtic finbl int primTypeID = GrbphicsPrimitive.mbkePrimTypeID();
 
-    public DrawLine             drawLineLoop;
+    public DrbwLine             drbwLineLoop;
     public FillRect             fillRectLoop;
-    public DrawRect             drawRectLoop;
-    public DrawPolygons         drawPolygonsLoop;
-    public DrawPath             drawPathLoop;
-    public FillPath             fillPathLoop;
-    public FillSpans            fillSpansLoop;
-    public FillParallelogram    fillParallelogramLoop;
-    public DrawParallelogram    drawParallelogramLoop;
-    public DrawGlyphList        drawGlyphListLoop;
-    public DrawGlyphListAA      drawGlyphListAALoop;
-    public DrawGlyphListLCD     drawGlyphListLCDLoop;
+    public DrbwRect             drbwRectLoop;
+    public DrbwPolygons         drbwPolygonsLoop;
+    public DrbwPbth             drbwPbthLoop;
+    public FillPbth             fillPbthLoop;
+    public FillSpbns            fillSpbnsLoop;
+    public FillPbrbllelogrbm    fillPbrbllelogrbmLoop;
+    public DrbwPbrbllelogrbm    drbwPbrbllelogrbmLoop;
+    public DrbwGlyphList        drbwGlyphListLoop;
+    public DrbwGlyphListAA      drbwGlyphListAALoop;
+    public DrbwGlyphListLCD     drbwGlyphListLCDLoop;
 }

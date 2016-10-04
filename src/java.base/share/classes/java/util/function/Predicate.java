@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.function;
+pbckbge jbvb.util.function;
 
-import java.util.Objects;
+import jbvb.util.Objects;
 
 /**
- * Represents a predicate (boolean-valued function) of one argument.
+ * Represents b predicbte (boolebn-vblued function) of one brgument.
  *
- * <p>This is a <a href="package-summary.html">functional interface</a>
- * whose functional method is {@link #test(Object)}.
+ * <p>This is b <b href="pbckbge-summbry.html">functionbl interfbce</b>
+ * whose functionbl method is {@link #test(Object)}.
  *
- * @param <T> the type of the input to the predicate
+ * @pbrbm <T> the type of the input to the predicbte
  *
  * @since 1.8
  */
-@FunctionalInterface
-public interface Predicate<T> {
+@FunctionblInterfbce
+public interfbce Predicbte<T> {
 
     /**
-     * Evaluates this predicate on the given argument.
+     * Evblubtes this predicbte on the given brgument.
      *
-     * @param t the input argument
-     * @return {@code true} if the input argument matches the predicate,
-     * otherwise {@code false}
+     * @pbrbm t the input brgument
+     * @return {@code true} if the input brgument mbtches the predicbte,
+     * otherwise {@code fblse}
      */
-    boolean test(T t);
+    boolebn test(T t);
 
     /**
-     * Returns a composed predicate that represents a short-circuiting logical
-     * AND of this predicate and another.  When evaluating the composed
-     * predicate, if this predicate is {@code false}, then the {@code other}
-     * predicate is not evaluated.
+     * Returns b composed predicbte thbt represents b short-circuiting logicbl
+     * AND of this predicbte bnd bnother.  When evblubting the composed
+     * predicbte, if this predicbte is {@code fblse}, then the {@code other}
+     * predicbte is not evblubted.
      *
-     * <p>Any exceptions thrown during evaluation of either predicate are relayed
-     * to the caller; if evaluation of this predicate throws an exception, the
-     * {@code other} predicate will not be evaluated.
+     * <p>Any exceptions thrown during evblubtion of either predicbte bre relbyed
+     * to the cbller; if evblubtion of this predicbte throws bn exception, the
+     * {@code other} predicbte will not be evblubted.
      *
-     * @param other a predicate that will be logically-ANDed with this
-     *              predicate
-     * @return a composed predicate that represents the short-circuiting logical
-     * AND of this predicate and the {@code other} predicate
+     * @pbrbm other b predicbte thbt will be logicblly-ANDed with this
+     *              predicbte
+     * @return b composed predicbte thbt represents the short-circuiting logicbl
+     * AND of this predicbte bnd the {@code other} predicbte
      * @throws NullPointerException if other is null
      */
-    default Predicate<T> and(Predicate<? super T> other) {
+    defbult Predicbte<T> bnd(Predicbte<? super T> other) {
         Objects.requireNonNull(other);
         return (t) -> test(t) && other.test(t);
     }
 
     /**
-     * Returns a predicate that represents the logical negation of this
-     * predicate.
+     * Returns b predicbte thbt represents the logicbl negbtion of this
+     * predicbte.
      *
-     * @return a predicate that represents the logical negation of this
-     * predicate
+     * @return b predicbte thbt represents the logicbl negbtion of this
+     * predicbte
      */
-    default Predicate<T> negate() {
+    defbult Predicbte<T> negbte() {
         return (t) -> !test(t);
     }
 
     /**
-     * Returns a composed predicate that represents a short-circuiting logical
-     * OR of this predicate and another.  When evaluating the composed
-     * predicate, if this predicate is {@code true}, then the {@code other}
-     * predicate is not evaluated.
+     * Returns b composed predicbte thbt represents b short-circuiting logicbl
+     * OR of this predicbte bnd bnother.  When evblubting the composed
+     * predicbte, if this predicbte is {@code true}, then the {@code other}
+     * predicbte is not evblubted.
      *
-     * <p>Any exceptions thrown during evaluation of either predicate are relayed
-     * to the caller; if evaluation of this predicate throws an exception, the
-     * {@code other} predicate will not be evaluated.
+     * <p>Any exceptions thrown during evblubtion of either predicbte bre relbyed
+     * to the cbller; if evblubtion of this predicbte throws bn exception, the
+     * {@code other} predicbte will not be evblubted.
      *
-     * @param other a predicate that will be logically-ORed with this
-     *              predicate
-     * @return a composed predicate that represents the short-circuiting logical
-     * OR of this predicate and the {@code other} predicate
+     * @pbrbm other b predicbte thbt will be logicblly-ORed with this
+     *              predicbte
+     * @return b composed predicbte thbt represents the short-circuiting logicbl
+     * OR of this predicbte bnd the {@code other} predicbte
      * @throws NullPointerException if other is null
      */
-    default Predicate<T> or(Predicate<? super T> other) {
+    defbult Predicbte<T> or(Predicbte<? super T> other) {
         Objects.requireNonNull(other);
         return (t) -> test(t) || other.test(t);
     }
 
     /**
-     * Returns a predicate that tests if two arguments are equal according
-     * to {@link Objects#equals(Object, Object)}.
+     * Returns b predicbte thbt tests if two brguments bre equbl bccording
+     * to {@link Objects#equbls(Object, Object)}.
      *
-     * @param <T> the type of arguments to the predicate
-     * @param targetRef the object reference with which to compare for equality,
-     *               which may be {@code null}
-     * @return a predicate that tests if two arguments are equal according
-     * to {@link Objects#equals(Object, Object)}
+     * @pbrbm <T> the type of brguments to the predicbte
+     * @pbrbm tbrgetRef the object reference with which to compbre for equblity,
+     *               which mby be {@code null}
+     * @return b predicbte thbt tests if two brguments bre equbl bccording
+     * to {@link Objects#equbls(Object, Object)}
      */
-    static <T> Predicate<T> isEqual(Object targetRef) {
-        return (null == targetRef)
+    stbtic <T> Predicbte<T> isEqubl(Object tbrgetRef) {
+        return (null == tbrgetRef)
                 ? Objects::isNull
-                : object -> targetRef.equals(object);
+                : object -> tbrgetRef.equbls(object);
     }
 }

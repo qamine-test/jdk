@@ -1,69 +1,69 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* pngdebug.h - Debugging macros for libpng, also used in pngtest.c
+/* pngdebug.h - Debugging mbcros for libpng, blso used in pngtest.c
  *
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file and, per its terms, should not be removed:
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
+ * file bnd, per its terms, should not be removed:
  *
- * Copyright (c) 1998-2011 Glenn Randers-Pehrson
- * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ * Copyright (c) 1998-2011 Glenn Rbnders-Pehrson
+ * (Version 0.96 Copyright (c) 1996, 1997 Andrebs Dilger)
+ * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schblnbt, Group 42, Inc.)
  *
- * Last changed in libpng 1.5.0 [January 6, 2011]
+ * Lbst chbnged in libpng 1.5.0 [Jbnubry 6, 2011]
  *
- * This code is released under the libpng license.
- * For conditions of distribution and use, see the disclaimer
- * and license in png.h
+ * This code is relebsed under the libpng license.
+ * For conditions of distribution bnd use, see the disclbimer
+ * bnd license in png.h
  */
 
-/* Define PNG_DEBUG at compile time for debugging information.  Higher
- * numbers for PNG_DEBUG mean more debugging information.  This has
- * only been added since version 0.95 so it is not implemented throughout
- * libpng yet, but more support will be added as needed.
+/* Define PNG_DEBUG bt compile time for debugging informbtion.  Higher
+ * numbers for PNG_DEBUG mebn more debugging informbtion.  This hbs
+ * only been bdded since version 0.95 so it is not implemented throughout
+ * libpng yet, but more support will be bdded bs needed.
  *
- * png_debug[1-2]?(level, message ,arg{0-2})
- *   Expands to a statement (either a simple expression or a compound
- *   do..while(0) statement) that outputs a message with parameter
+ * png_debug[1-2]?(level, messbge ,brg{0-2})
+ *   Expbnds to b stbtement (either b simple expression or b compound
+ *   do..while(0) stbtement) thbt outputs b messbge with pbrbmeter
  *   substitution if PNG_DEBUG is defined to 2 or more.  If PNG_DEBUG
- *   is undefined, 0 or 1 every png_debug expands to a simple expression
- *   (actually ((void)0)).
+ *   is undefined, 0 or 1 every png_debug expbnds to b simple expression
+ *   (bctublly ((void)0)).
  *
- *   level: level of detail of message, starting at 0.  A level 'n'
- *          message is preceded by 'n' tab characters (not implemented
- *          on Microsoft compilers unless PNG_DEBUG_FILE is also
- *          defined, to allow debug DLL compilation with no standard IO).
- *   message: a printf(3) style text string.  A trailing '\n' is added
- *            to the message.
- *   arg: 0 to 2 arguments for printf(3) style substitution in message.
+ *   level: level of detbil of messbge, stbrting bt 0.  A level 'n'
+ *          messbge is preceded by 'n' tbb chbrbcters (not implemented
+ *          on Microsoft compilers unless PNG_DEBUG_FILE is blso
+ *          defined, to bllow debug DLL compilbtion with no stbndbrd IO).
+ *   messbge: b printf(3) style text string.  A trbiling '\n' is bdded
+ *            to the messbge.
+ *   brg: 0 to 2 brguments for printf(3) style substitution in messbge.
  */
 #ifndef PNGDEBUG_H
 #define PNGDEBUG_H
-/* These settings control the formatting of messages in png.c and pngerror.c */
-/* Moved to pngdebug.h at 1.5.0 */
+/* These settings control the formbtting of messbges in png.c bnd pngerror.c */
+/* Moved to pngdebug.h bt 1.5.0 */
 #  ifndef PNG_LITERAL_SHARP
 #    define PNG_LITERAL_SHARP 0x23
 #  endif
@@ -105,66 +105,66 @@
 #      endif /* PNG_DEBUG_FILE */
 
 #      if (PNG_DEBUG > 1)
-/* Note: ["%s"m PNG_STRING_NEWLINE] probably does not work on
+/* Note: ["%s"m PNG_STRING_NEWLINE] probbbly does not work on
  * non-ISO compilers
  */
 #        ifdef __STDC__
 #          ifndef png_debug
 #            define png_debug(l,m) \
        do { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":"")))); \
+       int num_tbbs=l; \
+       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":"")))); \
        } while (0)
 #          endif
 #          ifndef png_debug1
 #            define png_debug1(l,m,p1) \
        do { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1); \
+       int num_tbbs=l; \
+       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))),p1); \
        } while (0)
 #          endif
 #          ifndef png_debug2
 #            define png_debug2(l,m,p1,p2) \
        do { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1,p2); \
+       int num_tbbs=l; \
+       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))),p1,p2); \
        } while (0)
 #          endif
 #        else /* __STDC __ */
 #          ifndef png_debug
 #            define png_debug(l,m) \
        do { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       int num_tbbs=l; \
+       chbr formbt[256]; \
+       snprintf(formbt,256,"%s%s%s",(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))), \
          m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format); \
+       fprintf(PNG_DEBUG_FILE,formbt); \
        } while (0)
 #          endif
 #          ifndef png_debug1
 #            define png_debug1(l,m,p1) \
        do { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       int num_tbbs=l; \
+       chbr formbt[256]; \
+       snprintf(formbt,256,"%s%s%s",(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))), \
          m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format,p1); \
+       fprintf(PNG_DEBUG_FILE,formbt,p1); \
        } while (0)
 #          endif
 #          ifndef png_debug2
 #            define png_debug2(l,m,p1,p2) \
        do { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       int num_tbbs=l; \
+       chbr formbt[256]; \
+       snprintf(formbt,256,"%s%s%s",(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))), \
          m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format,p1,p2); \
+       fprintf(PNG_DEBUG_FILE,formbt,p1,p2); \
        } while (0)
 #          endif
 #        endif /* __STDC __ */

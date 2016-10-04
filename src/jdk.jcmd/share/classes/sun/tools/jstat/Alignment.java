@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jstat;
+pbckbge sun.tools.jstbt;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A typesafe enumeration for describing data alignment semantics
+ * A typesbfe enumerbtion for describing dbtb blignment sembntics
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public abstract class Alignment {
+public bbstrbct clbss Alignment {
 
-    private static int nextOrdinal = 0;
-    private static HashMap<String, Alignment> map = new HashMap<String, Alignment>();
-    private static final String blanks = "                                                                                                                                                               ";
-    private final String name;
-    private final int value = nextOrdinal++;
+    privbte stbtic int nextOrdinbl = 0;
+    privbte stbtic HbshMbp<String, Alignment> mbp = new HbshMbp<String, Alignment>();
+    privbte stbtic finbl String blbnks = "                                                                                                                                                               ";
+    privbte finbl String nbme;
+    privbte finbl int vblue = nextOrdinbl++;
 
-    protected abstract String align(String s, int width);
+    protected bbstrbct String blign(String s, int width);
 
     /**
-     * Alignment representing a Centered alignment
+     * Alignment representing b Centered blignment
      */
-    public static final Alignment CENTER = new Alignment("center") {
-        protected String align(String s, int width) {
+    public stbtic finbl Alignment CENTER = new Alignment("center") {
+        protected String blign(String s, int width) {
             int length = s.length();
             if (length >= width) {
                 return s;
             }
 
-            int pad = width - length;
-            int pad2 = pad / 2;
-            int padr = pad % 2;
-            if (pad2 == 0) {
-              // only 0 or 1 character to pad
-              return s + blanks.substring(0, padr);
+            int pbd = width - length;
+            int pbd2 = pbd / 2;
+            int pbdr = pbd % 2;
+            if (pbd2 == 0) {
+              // only 0 or 1 chbrbcter to pbd
+              return s + blbnks.substring(0, pbdr);
             } else {
-              // pad on both sides
-              return  blanks.substring(0, pad2) + s +
-                      blanks.substring(0, pad2 + padr);
+              // pbd on both sides
+              return  blbnks.substring(0, pbd2) + s +
+                      blbnks.substring(0, pbd2 + pbdr);
             }
         }
     };
 
     /**
-     * Alignment representing a Left alignment
+     * Alignment representing b Left blignment
      */
-    public static final Alignment LEFT = new Alignment("left") {
-        protected String align(String s, int width) {
+    public stbtic finbl Alignment LEFT = new Alignment("left") {
+        protected String blign(String s, int width) {
             int length = s.length();
             if (length >= width) {
                 return s;
             }
-            int pad = width - length;
-            return s+blanks.substring(0, pad);
+            int pbd = width - length;
+            return s+blbnks.substring(0, pbd);
         }
     };
 
     /**
-     * Alignment representing a Right alignment
+     * Alignment representing b Right blignment
      */
-    public static final Alignment RIGHT = new Alignment("right") {
-        protected String align(String s, int width) {
+    public stbtic finbl Alignment RIGHT = new Alignment("right") {
+        protected String blign(String s, int width) {
             int length = s.length();
             if (length >= width) {
                 return s;
             }
-            int pad = width - length;
-            return blanks.substring(0, pad) + s;
+            int pbd = width - length;
+            return blbnks.substring(0, pbd) + s;
         }
     };
 
     /**
-     * Maps a string value to its corresponding Alignment object.
+     * Mbps b string vblue to its corresponding Alignment object.
      *
-     * @param   s  an string to match against Alignment objects.
-     * @return     The Alignment object matching the given string.
+     * @pbrbm   s  bn string to mbtch bgbinst Alignment objects.
+     * @return     The Alignment object mbtching the given string.
      */
-    public static Alignment toAlignment(String s) {
-        return map.get(s);
+    public stbtic Alignment toAlignment(String s) {
+        return mbp.get(s);
     }
 
     /**
-     * Returns an enumeration of the keys for this enumerated type
+     * Returns bn enumerbtion of the keys for this enumerbted type
      *
-     * @return     Set of Key Words for this enumeration.
+     * @return     Set of Key Words for this enumerbtion.
      */
-    public static Set<String> keySet() {
-        return map.keySet();
+    public stbtic Set<String> keySet() {
+        return mbp.keySet();
     }
 
     public String toString() {
-        return name;
+        return nbme;
     }
 
-    private Alignment(String name) {
-        this.name = name;
-        map.put(name, this);
+    privbte Alignment(String nbme) {
+        this.nbme = nbme;
+        mbp.put(nbme, this);
     }
 }

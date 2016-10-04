@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.awt.print.Pageable;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
+import jbvb.bwt.print.Pbgebble;
+import jbvb.bwt.print.PbgeFormbt;
+import jbvb.bwt.print.Printbble;
 
 /**
- * A Book with an unknown number of pages where each
- * page has the same format and painter. This class
- * is used by PrinterJob to print Pageable jobs.
+ * A Book with bn unknown number of pbges where ebch
+ * pbge hbs the sbme formbt bnd pbinter. This clbss
+ * is used by PrinterJob to print Pbgebble jobs.
  */
 
-class OpenBook implements Pageable {
+clbss OpenBook implements Pbgebble {
 
- /* Class Constants */
+ /* Clbss Constbnts */
 
- /* Class Variables */
+ /* Clbss Vbribbles */
 
- /* Instance Variables */
-
-    /**
-     * The format of all of the pages.
-     */
-    private PageFormat mFormat;
+ /* Instbnce Vbribbles */
 
     /**
-     * The object that will render all of the pages.
+     * The formbt of bll of the pbges.
      */
-    private Printable mPainter;
-
- /* Instance Methods */
+    privbte PbgeFormbt mFormbt;
 
     /**
-     * Create a  Pageable with an unknown number of pages
-     * where every page shares the same format and
-     * Printable.
+     * The object thbt will render bll of the pbges.
      */
-    OpenBook(PageFormat format, Printable painter) {
-        mFormat = format;
-        mPainter = painter;
+    privbte Printbble mPbinter;
+
+ /* Instbnce Methods */
+
+    /**
+     * Crebte b  Pbgebble with bn unknown number of pbges
+     * where every pbge shbres the sbme formbt bnd
+     * Printbble.
+     */
+    OpenBook(PbgeFormbt formbt, Printbble pbinter) {
+        mFormbt = formbt;
+        mPbinter = pbinter;
     }
 
     /**
-     * This object does not know the number of pages.
+     * This object does not know the number of pbges.
      */
-    public int getNumberOfPages(){
+    public int getNumberOfPbges(){
         return UNKNOWN_NUMBER_OF_PAGES;
     }
 
     /**
-     * Return the PageFormat of the page specified by 'pageIndex'.
-     * @param int The zero based index of the page whose
-     *            PageFormat is being requested.
-     * @return The PageFormat describing the size and orientation
+     * Return the PbgeFormbt of the pbge specified by 'pbgeIndex'.
+     * @pbrbm int The zero bbsed index of the pbge whose
+     *            PbgeFormbt is being requested.
+     * @return The PbgeFormbt describing the size bnd orientbtion
      */
-    public PageFormat getPageFormat(int pageIndex) {
-        return mFormat;
+    public PbgeFormbt getPbgeFormbt(int pbgeIndex) {
+        return mFormbt;
     }
 
     /**
-     * Return the Printable instance responsible for rendering
-     * the page specified by 'pageIndex'.
-     * @param int The zero based index of the page whose
-     *            Printable is being requested.
-     * @return The Printable that will draw the page.
+     * Return the Printbble instbnce responsible for rendering
+     * the pbge specified by 'pbgeIndex'.
+     * @pbrbm int The zero bbsed index of the pbge whose
+     *            Printbble is being requested.
+     * @return The Printbble thbt will drbw the pbge.
      */
-    public Printable getPrintable(int pageIndex)
+    public Printbble getPrintbble(int pbgeIndex)
         throws IndexOutOfBoundsException
     {
-        return mPainter;
+        return mPbinter;
     }
 }

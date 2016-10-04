@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.lang.Character;
-import java.util.Vector;
-import sun.text.CollatorUtilities;
-import sun.text.normalizer.NormalizerBase;
+import jbvb.lbng.Chbrbcter;
+import jbvb.util.Vector;
+import sun.text.CollbtorUtilities;
+import sun.text.normblizer.NormblizerBbse;
 
 /**
- * The <code>CollationElementIterator</code> class is used as an iterator
- * to walk through each character of an international string. Use the iterator
- * to return the ordering priority of the positioned character. The ordering
- * priority of a character, which we refer to as a key, defines how a character
- * is collated in the given collation object.
+ * The <code>CollbtionElementIterbtor</code> clbss is used bs bn iterbtor
+ * to wblk through ebch chbrbcter of bn internbtionbl string. Use the iterbtor
+ * to return the ordering priority of the positioned chbrbcter. The ordering
+ * priority of b chbrbcter, which we refer to bs b key, defines how b chbrbcter
+ * is collbted in the given collbtion object.
  *
  * <p>
- * For example, consider the following in Spanish:
+ * For exbmple, consider the following in Spbnish:
  * <blockquote>
  * <pre>
- * "ca" &rarr; the first key is key('c') and second key is key('a').
- * "cha" &rarr; the first key is key('ch') and second key is key('a').
+ * "cb" &rbrr; the first key is key('c') bnd second key is key('b').
+ * "chb" &rbrr; the first key is key('ch') bnd second key is key('b').
  * </pre>
  * </blockquote>
- * And in German,
+ * And in Germbn,
  * <blockquote>
  * <pre>
- * "\u00e4b" &rarr; the first key is key('a'), the second key is key('e'), and
+ * "\u00e4b" &rbrr; the first key is key('b'), the second key is key('e'), bnd
  * the third key is key('b').
  * </pre>
  * </blockquote>
- * The key of a character is an integer composed of primary order(short),
- * secondary order(byte), and tertiary order(byte). Java strictly defines
- * the size and signedness of its primitive data types. Therefore, the static
- * functions <code>primaryOrder</code>, <code>secondaryOrder</code>, and
- * <code>tertiaryOrder</code> return <code>int</code>, <code>short</code>,
- * and <code>short</code> respectively to ensure the correctness of the key
- * value.
+ * The key of b chbrbcter is bn integer composed of primbry order(short),
+ * secondbry order(byte), bnd tertibry order(byte). Jbvb strictly defines
+ * the size bnd signedness of its primitive dbtb types. Therefore, the stbtic
+ * functions <code>primbryOrder</code>, <code>secondbryOrder</code>, bnd
+ * <code>tertibryOrder</code> return <code>int</code>, <code>short</code>,
+ * bnd <code>short</code> respectively to ensure the correctness of the key
+ * vblue.
  *
  * <p>
- * Example of the iterator usage,
+ * Exbmple of the iterbtor usbge,
  * <blockquote>
  * <pre>
  *
- *  String testString = "This is a test";
- *  Collator col = Collator.getInstance();
- *  if (col instanceof RuleBasedCollator) {
- *      RuleBasedCollator ruleBasedCollator = (RuleBasedCollator)col;
- *      CollationElementIterator collationElementIterator = ruleBasedCollator.getCollationElementIterator(testString);
- *      int primaryOrder = CollationElementIterator.primaryOrder(collationElementIterator.next());
+ *  String testString = "This is b test";
+ *  Collbtor col = Collbtor.getInstbnce();
+ *  if (col instbnceof RuleBbsedCollbtor) {
+ *      RuleBbsedCollbtor ruleBbsedCollbtor = (RuleBbsedCollbtor)col;
+ *      CollbtionElementIterbtor collbtionElementIterbtor = ruleBbsedCollbtor.getCollbtionElementIterbtor(testString);
+ *      int primbryOrder = CollbtionElementIterbtor.primbryOrder(collbtionElementIterbtor.next());
  *          :
  *  }
  * </pre>
  * </blockquote>
  *
  * <p>
- * <code>CollationElementIterator.next</code> returns the collation order
- * of the next character. A collation order consists of primary order,
- * secondary order and tertiary order. The data type of the collation
- * order is <strong>int</strong>. The first 16 bits of a collation order
- * is its primary order; the next 8 bits is the secondary order and the
- * last 8 bits is the tertiary order.
+ * <code>CollbtionElementIterbtor.next</code> returns the collbtion order
+ * of the next chbrbcter. A collbtion order consists of primbry order,
+ * secondbry order bnd tertibry order. The dbtb type of the collbtion
+ * order is <strong>int</strong>. The first 16 bits of b collbtion order
+ * is its primbry order; the next 8 bits is the secondbry order bnd the
+ * lbst 8 bits is the tertibry order.
  *
- * <p><b>Note:</b> <code>CollationElementIterator</code> is a part of
- * <code>RuleBasedCollator</code> implementation. It is only usable
- * with <code>RuleBasedCollator</code> instances.
+ * <p><b>Note:</b> <code>CollbtionElementIterbtor</code> is b pbrt of
+ * <code>RuleBbsedCollbtor</code> implementbtion. It is only usbble
+ * with <code>RuleBbsedCollbtor</code> instbnces.
  *
- * @see                Collator
- * @see                RuleBasedCollator
- * @author             Helena Shih, Laura Werner, Richard Gillam
+ * @see                Collbtor
+ * @see                RuleBbsedCollbtor
+ * @buthor             Helenb Shih, Lburb Werner, Richbrd Gillbm
  */
-public final class CollationElementIterator
+public finbl clbss CollbtionElementIterbtor
 {
     /**
-     * Null order which indicates the end of string is reached by the
+     * Null order which indicbtes the end of string is rebched by the
      * cursor.
      */
-    public final static int NULLORDER = 0xffffffff;
+    public finbl stbtic int NULLORDER = 0xffffffff;
 
     /**
-     * CollationElementIterator constructor.  This takes the source string and
-     * the collation object.  The cursor will walk thru the source string based
-     * on the predefined collation rules.  If the source string is empty,
-     * NULLORDER will be returned on the calls to next().
-     * @param sourceText the source string.
-     * @param owner the collation object.
+     * CollbtionElementIterbtor constructor.  This tbkes the source string bnd
+     * the collbtion object.  The cursor will wblk thru the source string bbsed
+     * on the predefined collbtion rules.  If the source string is empty,
+     * NULLORDER will be returned on the cblls to next().
+     * @pbrbm sourceText the source string.
+     * @pbrbm owner the collbtion object.
      */
-    CollationElementIterator(String sourceText, RuleBasedCollator owner) {
+    CollbtionElementIterbtor(String sourceText, RuleBbsedCollbtor owner) {
         this.owner = owner;
-        ordering = owner.getTables();
+        ordering = owner.getTbbles();
         if ( sourceText.length() != 0 ) {
-            NormalizerBase.Mode mode =
-                CollatorUtilities.toNormalizerMode(owner.getDecomposition());
-            text = new NormalizerBase(sourceText, mode);
+            NormblizerBbse.Mode mode =
+                CollbtorUtilities.toNormblizerMode(owner.getDecomposition());
+            text = new NormblizerBbse(sourceText, mode);
         }
     }
 
     /**
-     * CollationElementIterator constructor.  This takes the source string and
-     * the collation object.  The cursor will walk thru the source string based
-     * on the predefined collation rules.  If the source string is empty,
-     * NULLORDER will be returned on the calls to next().
-     * @param sourceText the source string.
-     * @param owner the collation object.
+     * CollbtionElementIterbtor constructor.  This tbkes the source string bnd
+     * the collbtion object.  The cursor will wblk thru the source string bbsed
+     * on the predefined collbtion rules.  If the source string is empty,
+     * NULLORDER will be returned on the cblls to next().
+     * @pbrbm sourceText the source string.
+     * @pbrbm owner the collbtion object.
      */
-    CollationElementIterator(CharacterIterator sourceText, RuleBasedCollator owner) {
+    CollbtionElementIterbtor(ChbrbcterIterbtor sourceText, RuleBbsedCollbtor owner) {
         this.owner = owner;
-        ordering = owner.getTables();
-        NormalizerBase.Mode mode =
-            CollatorUtilities.toNormalizerMode(owner.getDecomposition());
-        text = new NormalizerBase(sourceText, mode);
+        ordering = owner.getTbbles();
+        NormblizerBbse.Mode mode =
+            CollbtorUtilities.toNormblizerMode(owner.getDecomposition());
+        text = new NormblizerBbse(sourceText, mode);
     }
 
     /**
-     * Resets the cursor to the beginning of the string.  The next call
-     * to next() will return the first collation element in the string.
+     * Resets the cursor to the beginning of the string.  The next cbll
+     * to next() will return the first collbtion element in the string.
      */
     public void reset()
     {
         if (text != null) {
             text.reset();
-            NormalizerBase.Mode mode =
-                CollatorUtilities.toNormalizerMode(owner.getDecomposition());
+            NormblizerBbse.Mode mode =
+                CollbtorUtilities.toNormblizerMode(owner.getDecomposition());
             text.setMode(mode);
         }
         buffer = null;
         expIndex = 0;
-        swapOrder = 0;
+        swbpOrder = 0;
     }
 
     /**
-     * Get the next collation element in the string.  <p>This iterator iterates
-     * over a sequence of collation elements that were built from the string.
-     * Because there isn't necessarily a one-to-one mapping from characters to
-     * collation elements, this doesn't mean the same thing as "return the
-     * collation element [or ordering priority] of the next character in the
+     * Get the next collbtion element in the string.  <p>This iterbtor iterbtes
+     * over b sequence of collbtion elements thbt were built from the string.
+     * Becbuse there isn't necessbrily b one-to-one mbpping from chbrbcters to
+     * collbtion elements, this doesn't mebn the sbme thing bs "return the
+     * collbtion element [or ordering priority] of the next chbrbcter in the
      * string".</p>
-     * <p>This function returns the collation element that the iterator is currently
-     * pointing to and then updates the internal pointer to point to the next element.
-     * previous() updates the pointer first and then returns the element.  This
-     * means that when you change direction while iterating (i.e., call next() and
-     * then call previous(), or call previous() and then call next()), you'll get
-     * back the same element twice.</p>
+     * <p>This function returns the collbtion element thbt the iterbtor is currently
+     * pointing to bnd then updbtes the internbl pointer to point to the next element.
+     * previous() updbtes the pointer first bnd then returns the element.  This
+     * mebns thbt when you chbnge direction while iterbting (i.e., cbll next() bnd
+     * then cbll previous(), or cbll previous() bnd then cbll next()), you'll get
+     * bbck the sbme element twice.</p>
      *
-     * @return the next collation element
+     * @return the next collbtion element
      */
     public int next()
     {
         if (text == null) {
             return NULLORDER;
         }
-        NormalizerBase.Mode textMode = text.getMode();
-        // convert the owner's mode to something the Normalizer understands
-        NormalizerBase.Mode ownerMode =
-            CollatorUtilities.toNormalizerMode(owner.getDecomposition());
+        NormblizerBbse.Mode textMode = text.getMode();
+        // convert the owner's mode to something the Normblizer understbnds
+        NormblizerBbse.Mode ownerMode =
+            CollbtorUtilities.toNormblizerMode(owner.getDecomposition());
         if (textMode != ownerMode) {
             text.setMode(ownerMode);
         }
 
-        // if buffer contains any decomposed char values
+        // if buffer contbins bny decomposed chbr vblues
         // return their strength orders before continuing in
-        // the Normalizer's CharacterIterator.
+        // the Normblizer's ChbrbcterIterbtor.
         if (buffer != null) {
             if (expIndex < buffer.length) {
                 return strengthOrder(buffer[expIndex++]);
@@ -203,79 +203,79 @@ public final class CollationElementIterator
                 buffer = null;
                 expIndex = 0;
             }
-        } else if (swapOrder != 0) {
-            if (Character.isSupplementaryCodePoint(swapOrder)) {
-                char[] chars = Character.toChars(swapOrder);
-                swapOrder = chars[1];
-                return chars[0] << 16;
+        } else if (swbpOrder != 0) {
+            if (Chbrbcter.isSupplementbryCodePoint(swbpOrder)) {
+                chbr[] chbrs = Chbrbcter.toChbrs(swbpOrder);
+                swbpOrder = chbrs[1];
+                return chbrs[0] << 16;
             }
-            int order = swapOrder << 16;
-            swapOrder = 0;
+            int order = swbpOrder << 16;
+            swbpOrder = 0;
             return order;
         }
         int ch  = text.next();
 
-        // are we at the end of Normalizer's text?
-        if (ch == NormalizerBase.DONE) {
+        // bre we bt the end of Normblizer's text?
+        if (ch == NormblizerBbse.DONE) {
             return NULLORDER;
         }
 
-        int value = ordering.getUnicodeOrder(ch);
-        if (value == RuleBasedCollator.UNMAPPED) {
-            swapOrder = ch;
+        int vblue = ordering.getUnicodeOrder(ch);
+        if (vblue == RuleBbsedCollbtor.UNMAPPED) {
+            swbpOrder = ch;
             return UNMAPPEDCHARVALUE;
         }
-        else if (value >= RuleBasedCollator.CONTRACTCHARINDEX) {
-            value = nextContractChar(ch);
+        else if (vblue >= RuleBbsedCollbtor.CONTRACTCHARINDEX) {
+            vblue = nextContrbctChbr(ch);
         }
-        if (value >= RuleBasedCollator.EXPANDCHARINDEX) {
-            buffer = ordering.getExpandValueList(value);
+        if (vblue >= RuleBbsedCollbtor.EXPANDCHARINDEX) {
+            buffer = ordering.getExpbndVblueList(vblue);
             expIndex = 0;
-            value = buffer[expIndex++];
+            vblue = buffer[expIndex++];
         }
 
-        if (ordering.isSEAsianSwapping()) {
-            int consonant;
-            if (isThaiPreVowel(ch)) {
-                consonant = text.next();
-                if (isThaiBaseConsonant(consonant)) {
-                    buffer = makeReorderedBuffer(consonant, value, buffer, true);
-                    value = buffer[0];
+        if (ordering.isSEAsibnSwbpping()) {
+            int consonbnt;
+            if (isThbiPreVowel(ch)) {
+                consonbnt = text.next();
+                if (isThbiBbseConsonbnt(consonbnt)) {
+                    buffer = mbkeReorderedBuffer(consonbnt, vblue, buffer, true);
+                    vblue = buffer[0];
                     expIndex = 1;
-                } else if (consonant != NormalizerBase.DONE) {
+                } else if (consonbnt != NormblizerBbse.DONE) {
                     text.previous();
                 }
             }
-            if (isLaoPreVowel(ch)) {
-                consonant = text.next();
-                if (isLaoBaseConsonant(consonant)) {
-                    buffer = makeReorderedBuffer(consonant, value, buffer, true);
-                    value = buffer[0];
+            if (isLboPreVowel(ch)) {
+                consonbnt = text.next();
+                if (isLboBbseConsonbnt(consonbnt)) {
+                    buffer = mbkeReorderedBuffer(consonbnt, vblue, buffer, true);
+                    vblue = buffer[0];
                     expIndex = 1;
-                } else if (consonant != NormalizerBase.DONE) {
+                } else if (consonbnt != NormblizerBbse.DONE) {
                     text.previous();
                 }
             }
         }
 
-        return strengthOrder(value);
+        return strengthOrder(vblue);
     }
 
     /**
-     * Get the previous collation element in the string.  <p>This iterator iterates
-     * over a sequence of collation elements that were built from the string.
-     * Because there isn't necessarily a one-to-one mapping from characters to
-     * collation elements, this doesn't mean the same thing as "return the
-     * collation element [or ordering priority] of the previous character in the
+     * Get the previous collbtion element in the string.  <p>This iterbtor iterbtes
+     * over b sequence of collbtion elements thbt were built from the string.
+     * Becbuse there isn't necessbrily b one-to-one mbpping from chbrbcters to
+     * collbtion elements, this doesn't mebn the sbme thing bs "return the
+     * collbtion element [or ordering priority] of the previous chbrbcter in the
      * string".</p>
-     * <p>This function updates the iterator's internal pointer to point to the
-     * collation element preceding the one it's currently pointing to and then
-     * returns that element, while next() returns the current element and then
-     * updates the pointer.  This means that when you change direction while
-     * iterating (i.e., call next() and then call previous(), or call previous()
-     * and then call next()), you'll get back the same element twice.</p>
+     * <p>This function updbtes the iterbtor's internbl pointer to point to the
+     * collbtion element preceding the one it's currently pointing to bnd then
+     * returns thbt element, while next() returns the current element bnd then
+     * updbtes the pointer.  This mebns thbt when you chbnge direction while
+     * iterbting (i.e., cbll next() bnd then cbll previous(), or cbll previous()
+     * bnd then cbll next()), you'll get bbck the sbme element twice.</p>
      *
-     * @return the previous collation element
+     * @return the previous collbtion element
      * @since 1.2
      */
     public int previous()
@@ -283,10 +283,10 @@ public final class CollationElementIterator
         if (text == null) {
             return NULLORDER;
         }
-        NormalizerBase.Mode textMode = text.getMode();
-        // convert the owner's mode to something the Normalizer understands
-        NormalizerBase.Mode ownerMode =
-            CollatorUtilities.toNormalizerMode(owner.getDecomposition());
+        NormblizerBbse.Mode textMode = text.getMode();
+        // convert the owner's mode to something the Normblizer understbnds
+        NormblizerBbse.Mode ownerMode =
+            CollbtorUtilities.toNormblizerMode(owner.getDecomposition());
         if (textMode != ownerMode) {
             text.setMode(ownerMode);
         }
@@ -297,126 +297,126 @@ public final class CollationElementIterator
                 buffer = null;
                 expIndex = 0;
             }
-        } else if (swapOrder != 0) {
-            if (Character.isSupplementaryCodePoint(swapOrder)) {
-                char[] chars = Character.toChars(swapOrder);
-                swapOrder = chars[1];
-                return chars[0] << 16;
+        } else if (swbpOrder != 0) {
+            if (Chbrbcter.isSupplementbryCodePoint(swbpOrder)) {
+                chbr[] chbrs = Chbrbcter.toChbrs(swbpOrder);
+                swbpOrder = chbrs[1];
+                return chbrs[0] << 16;
             }
-            int order = swapOrder << 16;
-            swapOrder = 0;
+            int order = swbpOrder << 16;
+            swbpOrder = 0;
             return order;
         }
         int ch = text.previous();
-        if (ch == NormalizerBase.DONE) {
+        if (ch == NormblizerBbse.DONE) {
             return NULLORDER;
         }
 
-        int value = ordering.getUnicodeOrder(ch);
+        int vblue = ordering.getUnicodeOrder(ch);
 
-        if (value == RuleBasedCollator.UNMAPPED) {
-            swapOrder = UNMAPPEDCHARVALUE;
+        if (vblue == RuleBbsedCollbtor.UNMAPPED) {
+            swbpOrder = UNMAPPEDCHARVALUE;
             return ch;
-        } else if (value >= RuleBasedCollator.CONTRACTCHARINDEX) {
-            value = prevContractChar(ch);
+        } else if (vblue >= RuleBbsedCollbtor.CONTRACTCHARINDEX) {
+            vblue = prevContrbctChbr(ch);
         }
-        if (value >= RuleBasedCollator.EXPANDCHARINDEX) {
-            buffer = ordering.getExpandValueList(value);
+        if (vblue >= RuleBbsedCollbtor.EXPANDCHARINDEX) {
+            buffer = ordering.getExpbndVblueList(vblue);
             expIndex = buffer.length;
-            value = buffer[--expIndex];
+            vblue = buffer[--expIndex];
         }
 
-        if (ordering.isSEAsianSwapping()) {
+        if (ordering.isSEAsibnSwbpping()) {
             int vowel;
-            if (isThaiBaseConsonant(ch)) {
+            if (isThbiBbseConsonbnt(ch)) {
                 vowel = text.previous();
-                if (isThaiPreVowel(vowel)) {
-                    buffer = makeReorderedBuffer(vowel, value, buffer, false);
+                if (isThbiPreVowel(vowel)) {
+                    buffer = mbkeReorderedBuffer(vowel, vblue, buffer, fblse);
                     expIndex = buffer.length - 1;
-                    value = buffer[expIndex];
+                    vblue = buffer[expIndex];
                 } else {
                     text.next();
                 }
             }
-            if (isLaoBaseConsonant(ch)) {
+            if (isLboBbseConsonbnt(ch)) {
                 vowel = text.previous();
-                if (isLaoPreVowel(vowel)) {
-                    buffer = makeReorderedBuffer(vowel, value, buffer, false);
+                if (isLboPreVowel(vowel)) {
+                    buffer = mbkeReorderedBuffer(vowel, vblue, buffer, fblse);
                     expIndex = buffer.length - 1;
-                    value = buffer[expIndex];
+                    vblue = buffer[expIndex];
                 } else {
                     text.next();
                 }
             }
         }
 
-        return strengthOrder(value);
+        return strengthOrder(vblue);
     }
 
     /**
-     * Return the primary component of a collation element.
-     * @param order the collation element
-     * @return the element's primary component
+     * Return the primbry component of b collbtion element.
+     * @pbrbm order the collbtion element
+     * @return the element's primbry component
      */
-    public final static int primaryOrder(int order)
+    public finbl stbtic int primbryOrder(int order)
     {
-        order &= RBCollationTables.PRIMARYORDERMASK;
-        return (order >>> RBCollationTables.PRIMARYORDERSHIFT);
+        order &= RBCollbtionTbbles.PRIMARYORDERMASK;
+        return (order >>> RBCollbtionTbbles.PRIMARYORDERSHIFT);
     }
     /**
-     * Return the secondary component of a collation element.
-     * @param order the collation element
-     * @return the element's secondary component
+     * Return the secondbry component of b collbtion element.
+     * @pbrbm order the collbtion element
+     * @return the element's secondbry component
      */
-    public final static short secondaryOrder(int order)
+    public finbl stbtic short secondbryOrder(int order)
     {
-        order = order & RBCollationTables.SECONDARYORDERMASK;
-        return ((short)(order >> RBCollationTables.SECONDARYORDERSHIFT));
+        order = order & RBCollbtionTbbles.SECONDARYORDERMASK;
+        return ((short)(order >> RBCollbtionTbbles.SECONDARYORDERSHIFT));
     }
     /**
-     * Return the tertiary component of a collation element.
-     * @param order the collation element
-     * @return the element's tertiary component
+     * Return the tertibry component of b collbtion element.
+     * @pbrbm order the collbtion element
+     * @return the element's tertibry component
      */
-    public final static short tertiaryOrder(int order)
+    public finbl stbtic short tertibryOrder(int order)
     {
-        return ((short)(order &= RBCollationTables.TERTIARYORDERMASK));
+        return ((short)(order &= RBCollbtionTbbles.TERTIARYORDERMASK));
     }
 
     /**
-     *  Get the comparison order in the desired strength.  Ignore the other
+     *  Get the compbrison order in the desired strength.  Ignore the other
      *  differences.
-     *  @param order The order value
+     *  @pbrbm order The order vblue
      */
-    final int strengthOrder(int order)
+    finbl int strengthOrder(int order)
     {
         int s = owner.getStrength();
-        if (s == Collator.PRIMARY)
+        if (s == Collbtor.PRIMARY)
         {
-            order &= RBCollationTables.PRIMARYDIFFERENCEONLY;
-        } else if (s == Collator.SECONDARY)
+            order &= RBCollbtionTbbles.PRIMARYDIFFERENCEONLY;
+        } else if (s == Collbtor.SECONDARY)
         {
-            order &= RBCollationTables.SECONDARYDIFFERENCEONLY;
+            order &= RBCollbtionTbbles.SECONDARYDIFFERENCEONLY;
         }
         return order;
     }
 
     /**
-     * Sets the iterator to point to the collation element corresponding to
-     * the specified character (the parameter is a CHARACTER offset in the
-     * original string, not an offset into its corresponding sequence of
-     * collation elements).  The value returned by the next call to next()
-     * will be the collation element corresponding to the specified position
-     * in the text.  If that position is in the middle of a contracting
-     * character sequence, the result of the next call to next() is the
-     * collation element for that sequence.  This means that getOffset()
-     * is not guaranteed to return the same value as was passed to a preceding
-     * call to setOffset().
+     * Sets the iterbtor to point to the collbtion element corresponding to
+     * the specified chbrbcter (the pbrbmeter is b CHARACTER offset in the
+     * originbl string, not bn offset into its corresponding sequence of
+     * collbtion elements).  The vblue returned by the next cbll to next()
+     * will be the collbtion element corresponding to the specified position
+     * in the text.  If thbt position is in the middle of b contrbcting
+     * chbrbcter sequence, the result of the next cbll to next() is the
+     * collbtion element for thbt sequence.  This mebns thbt getOffset()
+     * is not gubrbnteed to return the sbme vblue bs wbs pbssed to b preceding
+     * cbll to setOffset().
      *
-     * @param newOffset The new character offset into the original text.
+     * @pbrbm newOffset The new chbrbcter offset into the originbl text.
      * @since 1.2
      */
-    @SuppressWarnings("deprecation") // getBeginIndex, getEndIndex and setIndex are deprecated
+    @SuppressWbrnings("deprecbtion") // getBeginIndex, getEndIndex bnd setIndex bre deprecbted
     public void setOffset(int newOffset)
     {
         if (text != null) {
@@ -426,27 +426,27 @@ public final class CollationElementIterator
             } else {
                 int c = text.setIndex(newOffset);
 
-                // if the desired character isn't used in a contracting character
-                // sequence, bypass all the backing-up logic-- we're sitting on
-                // the right character already
-                if (ordering.usedInContractSeq(c)) {
-                    // walk backwards through the string until we see a character
-                    // that DOESN'T participate in a contracting character sequence
-                    while (ordering.usedInContractSeq(c)) {
+                // if the desired chbrbcter isn't used in b contrbcting chbrbcter
+                // sequence, bypbss bll the bbcking-up logic-- we're sitting on
+                // the right chbrbcter blrebdy
+                if (ordering.usedInContrbctSeq(c)) {
+                    // wblk bbckwbrds through the string until we see b chbrbcter
+                    // thbt DOESN'T pbrticipbte in b contrbcting chbrbcter sequence
+                    while (ordering.usedInContrbctSeq(c)) {
                         c = text.previous();
                     }
-                    // now walk forward using this object's next() method until
-                    // we pass the starting point and set our current position
-                    // to the beginning of the last "character" before or at
-                    // our starting position
-                    int last = text.getIndex();
+                    // now wblk forwbrd using this object's next() method until
+                    // we pbss the stbrting point bnd set our current position
+                    // to the beginning of the lbst "chbrbcter" before or bt
+                    // our stbrting position
+                    int lbst = text.getIndex();
                     while (text.getIndex() <= newOffset) {
-                        last = text.getIndex();
+                        lbst = text.getIndex();
                         next();
                     }
-                    text.setIndexOnly(last);
-                    // we don't need this, since last is the last index
-                    // that is the starting of the contraction which encompass
+                    text.setIndexOnly(lbst);
+                    // we don't need this, since lbst is the lbst index
+                    // thbt is the stbrting of the contrbction which encompbss
                     // newOffset
                     // text.previous();
                 }
@@ -454,21 +454,21 @@ public final class CollationElementIterator
         }
         buffer = null;
         expIndex = 0;
-        swapOrder = 0;
+        swbpOrder = 0;
     }
 
     /**
-     * Returns the character offset in the original text corresponding to the next
-     * collation element.  (That is, getOffset() returns the position in the text
-     * corresponding to the collation element that will be returned by the next
-     * call to next().)  This value will always be the index of the FIRST character
-     * corresponding to the collation element (a contracting character sequence is
-     * when two or more characters all correspond to the same collation element).
-     * This means if you do setOffset(x) followed immediately by getOffset(), getOffset()
-     * won't necessarily return x.
+     * Returns the chbrbcter offset in the originbl text corresponding to the next
+     * collbtion element.  (Thbt is, getOffset() returns the position in the text
+     * corresponding to the collbtion element thbt will be returned by the next
+     * cbll to next().)  This vblue will blwbys be the index of the FIRST chbrbcter
+     * corresponding to the collbtion element (b contrbcting chbrbcter sequence is
+     * when two or more chbrbcters bll correspond to the sbme collbtion element).
+     * This mebns if you do setOffset(x) followed immedibtely by getOffset(), getOffset()
+     * won't necessbrily return x.
      *
-     * @return The character offset in the original text corresponding to the collation
-     * element that will be returned by the next call to next().
+     * @return The chbrbcter offset in the originbl text corresponding to the collbtion
+     * element thbt will be returned by the next cbll to next().
      * @since 1.2
      */
     public int getOffset()
@@ -478,33 +478,33 @@ public final class CollationElementIterator
 
 
     /**
-     * Return the maximum length of any expansion sequences that end
-     * with the specified comparison order.
-     * @param order a collation order returned by previous or next.
-     * @return the maximum length of any expansion sequences ending
+     * Return the mbximum length of bny expbnsion sequences thbt end
+     * with the specified compbrison order.
+     * @pbrbm order b collbtion order returned by previous or next.
+     * @return the mbximum length of bny expbnsion sequences ending
      *         with the specified order.
      * @since 1.2
      */
-    public int getMaxExpansion(int order)
+    public int getMbxExpbnsion(int order)
     {
-        return ordering.getMaxExpansion(order);
+        return ordering.getMbxExpbnsion(order);
     }
 
     /**
-     * Set a new string over which to iterate.
+     * Set b new string over which to iterbte.
      *
-     * @param source  the new source text
+     * @pbrbm source  the new source text
      * @since 1.2
      */
     public void setText(String source)
     {
         buffer = null;
-        swapOrder = 0;
+        swbpOrder = 0;
         expIndex = 0;
-        NormalizerBase.Mode mode =
-            CollatorUtilities.toNormalizerMode(owner.getDecomposition());
+        NormblizerBbse.Mode mode =
+            CollbtorUtilities.toNormblizerMode(owner.getDecomposition());
         if (text == null) {
-            text = new NormalizerBase(source, mode);
+            text = new NormblizerBbse(source, mode);
         } else {
             text.setMode(mode);
             text.setText(source);
@@ -512,20 +512,20 @@ public final class CollationElementIterator
     }
 
     /**
-     * Set a new string over which to iterate.
+     * Set b new string over which to iterbte.
      *
-     * @param source  the new source text.
+     * @pbrbm source  the new source text.
      * @since 1.2
      */
-    public void setText(CharacterIterator source)
+    public void setText(ChbrbcterIterbtor source)
     {
         buffer = null;
-        swapOrder = 0;
+        swbpOrder = 0;
         expIndex = 0;
-        NormalizerBase.Mode mode =
-            CollatorUtilities.toNormalizerMode(owner.getDecomposition());
+        NormblizerBbse.Mode mode =
+            CollbtorUtilities.toNormblizerMode(owner.getDecomposition());
         if (text == null) {
-            text = new NormalizerBase(source, mode);
+            text = new NormblizerBbse(source, mode);
         } else {
             text.setMode(mode);
             text.setText(source);
@@ -533,97 +533,97 @@ public final class CollationElementIterator
     }
 
     //============================================================
-    // privates
+    // privbtes
     //============================================================
 
     /**
-     * Determine if a character is a Thai vowel (which sorts after
-     * its base consonant).
+     * Determine if b chbrbcter is b Thbi vowel (which sorts bfter
+     * its bbse consonbnt).
      */
-    private final static boolean isThaiPreVowel(int ch) {
+    privbte finbl stbtic boolebn isThbiPreVowel(int ch) {
         return (ch >= 0x0e40) && (ch <= 0x0e44);
     }
 
     /**
-     * Determine if a character is a Thai base consonant
+     * Determine if b chbrbcter is b Thbi bbse consonbnt
      */
-    private final static boolean isThaiBaseConsonant(int ch) {
+    privbte finbl stbtic boolebn isThbiBbseConsonbnt(int ch) {
         return (ch >= 0x0e01) && (ch <= 0x0e2e);
     }
 
     /**
-     * Determine if a character is a Lao vowel (which sorts after
-     * its base consonant).
+     * Determine if b chbrbcter is b Lbo vowel (which sorts bfter
+     * its bbse consonbnt).
      */
-    private final static boolean isLaoPreVowel(int ch) {
+    privbte finbl stbtic boolebn isLboPreVowel(int ch) {
         return (ch >= 0x0ec0) && (ch <= 0x0ec4);
     }
 
     /**
-     * Determine if a character is a Lao base consonant
+     * Determine if b chbrbcter is b Lbo bbse consonbnt
      */
-    private final static boolean isLaoBaseConsonant(int ch) {
-        return (ch >= 0x0e81) && (ch <= 0x0eae);
+    privbte finbl stbtic boolebn isLboBbseConsonbnt(int ch) {
+        return (ch >= 0x0e81) && (ch <= 0x0ebe);
     }
 
     /**
-     * This method produces a buffer which contains the collation
-     * elements for the two characters, with colFirst's values preceding
-     * another character's.  Presumably, the other character precedes colFirst
-     * in logical order (otherwise you wouldn't need this method would you?).
-     * The assumption is that the other char's value(s) have already been
-     * computed.  If this char has a single element it is passed to this
-     * method as lastValue, and lastExpansion is null.  If it has an
-     * expansion it is passed in lastExpansion, and colLastValue is ignored.
+     * This method produces b buffer which contbins the collbtion
+     * elements for the two chbrbcters, with colFirst's vblues preceding
+     * bnother chbrbcter's.  Presumbbly, the other chbrbcter precedes colFirst
+     * in logicbl order (otherwise you wouldn't need this method would you?).
+     * The bssumption is thbt the other chbr's vblue(s) hbve blrebdy been
+     * computed.  If this chbr hbs b single element it is pbssed to this
+     * method bs lbstVblue, bnd lbstExpbnsion is null.  If it hbs bn
+     * expbnsion it is pbssed in lbstExpbnsion, bnd colLbstVblue is ignored.
      */
-    private int[] makeReorderedBuffer(int colFirst,
-                                      int lastValue,
-                                      int[] lastExpansion,
-                                      boolean forward) {
+    privbte int[] mbkeReorderedBuffer(int colFirst,
+                                      int lbstVblue,
+                                      int[] lbstExpbnsion,
+                                      boolebn forwbrd) {
 
         int[] result;
 
-        int firstValue = ordering.getUnicodeOrder(colFirst);
-        if (firstValue >= RuleBasedCollator.CONTRACTCHARINDEX) {
-            firstValue = forward? nextContractChar(colFirst) : prevContractChar(colFirst);
+        int firstVblue = ordering.getUnicodeOrder(colFirst);
+        if (firstVblue >= RuleBbsedCollbtor.CONTRACTCHARINDEX) {
+            firstVblue = forwbrd? nextContrbctChbr(colFirst) : prevContrbctChbr(colFirst);
         }
 
-        int[] firstExpansion = null;
-        if (firstValue >= RuleBasedCollator.EXPANDCHARINDEX) {
-            firstExpansion = ordering.getExpandValueList(firstValue);
+        int[] firstExpbnsion = null;
+        if (firstVblue >= RuleBbsedCollbtor.EXPANDCHARINDEX) {
+            firstExpbnsion = ordering.getExpbndVblueList(firstVblue);
         }
 
-        if (!forward) {
-            int temp1 = firstValue;
-            firstValue = lastValue;
-            lastValue = temp1;
-            int[] temp2 = firstExpansion;
-            firstExpansion = lastExpansion;
-            lastExpansion = temp2;
+        if (!forwbrd) {
+            int temp1 = firstVblue;
+            firstVblue = lbstVblue;
+            lbstVblue = temp1;
+            int[] temp2 = firstExpbnsion;
+            firstExpbnsion = lbstExpbnsion;
+            lbstExpbnsion = temp2;
         }
 
-        if (firstExpansion == null && lastExpansion == null) {
+        if (firstExpbnsion == null && lbstExpbnsion == null) {
             result = new int [2];
-            result[0] = firstValue;
-            result[1] = lastValue;
+            result[0] = firstVblue;
+            result[1] = lbstVblue;
         }
         else {
-            int firstLength = firstExpansion==null? 1 : firstExpansion.length;
-            int lastLength = lastExpansion==null? 1 : lastExpansion.length;
-            result = new int[firstLength + lastLength];
+            int firstLength = firstExpbnsion==null? 1 : firstExpbnsion.length;
+            int lbstLength = lbstExpbnsion==null? 1 : lbstExpbnsion.length;
+            result = new int[firstLength + lbstLength];
 
-            if (firstExpansion == null) {
-                result[0] = firstValue;
+            if (firstExpbnsion == null) {
+                result[0] = firstVblue;
             }
             else {
-                System.arraycopy(firstExpansion, 0, result, 0, firstLength);
+                System.brrbycopy(firstExpbnsion, 0, result, 0, firstLength);
             }
 
-            if (lastExpansion == null) {
-                result[firstLength] = lastValue;
+            if (lbstExpbnsion == null) {
+                result[firstLength] = lbstVblue;
             }
             else {
-                System.arraycopy(lastExpansion, 0, result, firstLength, lastLength);
+                System.brrbycopy(lbstExpbnsion, 0, result, firstLength, lbstLength);
             }
         }
 
@@ -631,152 +631,152 @@ public final class CollationElementIterator
     }
 
     /**
-     *  Check if a comparison order is ignorable.
-     *  @return true if a character is ignorable, false otherwise.
+     *  Check if b compbrison order is ignorbble.
+     *  @return true if b chbrbcter is ignorbble, fblse otherwise.
      */
-    final static boolean isIgnorable(int order)
+    finbl stbtic boolebn isIgnorbble(int order)
     {
-        return ((primaryOrder(order) == 0) ? true : false);
+        return ((primbryOrder(order) == 0) ? true : fblse);
     }
 
     /**
-     * Get the ordering priority of the next contracting character in the
+     * Get the ordering priority of the next contrbcting chbrbcter in the
      * string.
-     * @param ch the starting character of a contracting character token
-     * @return the next contracting character's ordering.  Returns NULLORDER
-     * if the end of string is reached.
+     * @pbrbm ch the stbrting chbrbcter of b contrbcting chbrbcter token
+     * @return the next contrbcting chbrbcter's ordering.  Returns NULLORDER
+     * if the end of string is rebched.
      */
-    private int nextContractChar(int ch)
+    privbte int nextContrbctChbr(int ch)
     {
-        // First get the ordering of this single character,
-        // which is always the first element in the list
-        Vector<EntryPair> list = ordering.getContractValues(ch);
-        EntryPair pair = list.firstElement();
-        int order = pair.value;
+        // First get the ordering of this single chbrbcter,
+        // which is blwbys the first element in the list
+        Vector<EntryPbir> list = ordering.getContrbctVblues(ch);
+        EntryPbir pbir = list.firstElement();
+        int order = pbir.vblue;
 
-        // find out the length of the longest contracting character sequence in the list.
-        // There's logic in the builder code to make sure the longest sequence is always
-        // the last.
-        pair = list.lastElement();
-        int maxLength = pair.entryName.length();
+        // find out the length of the longest contrbcting chbrbcter sequence in the list.
+        // There's logic in the builder code to mbke sure the longest sequence is blwbys
+        // the lbst.
+        pbir = list.lbstElement();
+        int mbxLength = pbir.entryNbme.length();
 
-        // (the Normalizer is cloned here so that the seeking we do in the next loop
-        // won't affect our real position in the text)
-        NormalizerBase tempText = (NormalizerBase)text.clone();
+        // (the Normblizer is cloned here so thbt the seeking we do in the next loop
+        // won't bffect our rebl position in the text)
+        NormblizerBbse tempText = (NormblizerBbse)text.clone();
 
-        // extract the next maxLength characters in the string (we have to do this using the
-        // Normalizer to ensure that our offsets correspond to those the rest of the
-        // iterator is using) and store it in "fragment".
+        // extrbct the next mbxLength chbrbcters in the string (we hbve to do this using the
+        // Normblizer to ensure thbt our offsets correspond to those the rest of the
+        // iterbtor is using) bnd store it in "frbgment".
         tempText.previous();
         key.setLength(0);
         int c = tempText.next();
-        while (maxLength > 0 && c != NormalizerBase.DONE) {
-            if (Character.isSupplementaryCodePoint(c)) {
-                key.append(Character.toChars(c));
-                maxLength -= 2;
+        while (mbxLength > 0 && c != NormblizerBbse.DONE) {
+            if (Chbrbcter.isSupplementbryCodePoint(c)) {
+                key.bppend(Chbrbcter.toChbrs(c));
+                mbxLength -= 2;
             } else {
-                key.append((char)c);
-                --maxLength;
+                key.bppend((chbr)c);
+                --mbxLength;
             }
             c = tempText.next();
         }
-        String fragment = key.toString();
-        // now that we have that fragment, iterate through this list looking for the
-        // longest sequence that matches the characters in the actual text.  (maxLength
-        // is used here to keep track of the length of the longest sequence)
-        // Upon exit from this loop, maxLength will contain the length of the matching
-        // sequence and order will contain the collation-element value corresponding
+        String frbgment = key.toString();
+        // now thbt we hbve thbt frbgment, iterbte through this list looking for the
+        // longest sequence thbt mbtches the chbrbcters in the bctubl text.  (mbxLength
+        // is used here to keep trbck of the length of the longest sequence)
+        // Upon exit from this loop, mbxLength will contbin the length of the mbtching
+        // sequence bnd order will contbin the collbtion-element vblue corresponding
         // to this sequence
-        maxLength = 1;
+        mbxLength = 1;
         for (int i = list.size() - 1; i > 0; i--) {
-            pair = list.elementAt(i);
-            if (!pair.fwd)
+            pbir = list.elementAt(i);
+            if (!pbir.fwd)
                 continue;
 
-            if (fragment.startsWith(pair.entryName) && pair.entryName.length()
-                    > maxLength) {
-                maxLength = pair.entryName.length();
-                order = pair.value;
+            if (frbgment.stbrtsWith(pbir.entryNbme) && pbir.entryNbme.length()
+                    > mbxLength) {
+                mbxLength = pbir.entryNbme.length();
+                order = pbir.vblue;
             }
         }
 
-        // seek our current iteration position to the end of the matching sequence
-        // and return the appropriate collation-element value (if there was no matching
-        // sequence, we're already seeked to the right position and order already contains
-        // the correct collation-element value for the single character)
-        while (maxLength > 1) {
+        // seek our current iterbtion position to the end of the mbtching sequence
+        // bnd return the bppropribte collbtion-element vblue (if there wbs no mbtching
+        // sequence, we're blrebdy seeked to the right position bnd order blrebdy contbins
+        // the correct collbtion-element vblue for the single chbrbcter)
+        while (mbxLength > 1) {
             c = text.next();
-            maxLength -= Character.charCount(c);
+            mbxLength -= Chbrbcter.chbrCount(c);
         }
         return order;
     }
 
     /**
-     * Get the ordering priority of the previous contracting character in the
+     * Get the ordering priority of the previous contrbcting chbrbcter in the
      * string.
-     * @param ch the starting character of a contracting character token
-     * @return the next contracting character's ordering.  Returns NULLORDER
-     * if the end of string is reached.
+     * @pbrbm ch the stbrting chbrbcter of b contrbcting chbrbcter token
+     * @return the next contrbcting chbrbcter's ordering.  Returns NULLORDER
+     * if the end of string is rebched.
      */
-    private int prevContractChar(int ch)
+    privbte int prevContrbctChbr(int ch)
     {
-        // This function is identical to nextContractChar(), except that we've
-        // switched things so that the next() and previous() calls on the Normalizer
-        // are switched and so that we skip entry pairs with the fwd flag turned on
-        // rather than off.  Notice that we still use append() and startsWith() when
-        // working on the fragment.  This is because the entry pairs that are used
-        // in reverse iteration have their names reversed already.
-        Vector<EntryPair> list = ordering.getContractValues(ch);
-        EntryPair pair = list.firstElement();
-        int order = pair.value;
+        // This function is identicbl to nextContrbctChbr(), except thbt we've
+        // switched things so thbt the next() bnd previous() cblls on the Normblizer
+        // bre switched bnd so thbt we skip entry pbirs with the fwd flbg turned on
+        // rbther thbn off.  Notice thbt we still use bppend() bnd stbrtsWith() when
+        // working on the frbgment.  This is becbuse the entry pbirs thbt bre used
+        // in reverse iterbtion hbve their nbmes reversed blrebdy.
+        Vector<EntryPbir> list = ordering.getContrbctVblues(ch);
+        EntryPbir pbir = list.firstElement();
+        int order = pbir.vblue;
 
-        pair = list.lastElement();
-        int maxLength = pair.entryName.length();
+        pbir = list.lbstElement();
+        int mbxLength = pbir.entryNbme.length();
 
-        NormalizerBase tempText = (NormalizerBase)text.clone();
+        NormblizerBbse tempText = (NormblizerBbse)text.clone();
 
         tempText.next();
         key.setLength(0);
         int c = tempText.previous();
-        while (maxLength > 0 && c != NormalizerBase.DONE) {
-            if (Character.isSupplementaryCodePoint(c)) {
-                key.append(Character.toChars(c));
-                maxLength -= 2;
+        while (mbxLength > 0 && c != NormblizerBbse.DONE) {
+            if (Chbrbcter.isSupplementbryCodePoint(c)) {
+                key.bppend(Chbrbcter.toChbrs(c));
+                mbxLength -= 2;
             } else {
-                key.append((char)c);
-                --maxLength;
+                key.bppend((chbr)c);
+                --mbxLength;
             }
             c = tempText.previous();
         }
-        String fragment = key.toString();
+        String frbgment = key.toString();
 
-        maxLength = 1;
+        mbxLength = 1;
         for (int i = list.size() - 1; i > 0; i--) {
-            pair = list.elementAt(i);
-            if (pair.fwd)
+            pbir = list.elementAt(i);
+            if (pbir.fwd)
                 continue;
 
-            if (fragment.startsWith(pair.entryName) && pair.entryName.length()
-                    > maxLength) {
-                maxLength = pair.entryName.length();
-                order = pair.value;
+            if (frbgment.stbrtsWith(pbir.entryNbme) && pbir.entryNbme.length()
+                    > mbxLength) {
+                mbxLength = pbir.entryNbme.length();
+                order = pbir.vblue;
             }
         }
 
-        while (maxLength > 1) {
+        while (mbxLength > 1) {
             c = text.previous();
-            maxLength -= Character.charCount(c);
+            mbxLength -= Chbrbcter.chbrCount(c);
         }
         return order;
     }
 
-    final static int UNMAPPEDCHARVALUE = 0x7FFF0000;
+    finbl stbtic int UNMAPPEDCHARVALUE = 0x7FFF0000;
 
-    private NormalizerBase text = null;
-    private int[] buffer = null;
-    private int expIndex = 0;
-    private StringBuffer key = new StringBuffer(5);
-    private int swapOrder = 0;
-    private RBCollationTables ordering;
-    private RuleBasedCollator owner;
+    privbte NormblizerBbse text = null;
+    privbte int[] buffer = null;
+    privbte int expIndex = 0;
+    privbte StringBuffer key = new StringBuffer(5);
+    privbte int swbpOrder = 0;
+    privbte RBCollbtionTbbles ordering;
+    privbte RuleBbsedCollbtor owner;
 }

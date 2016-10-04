@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 /**
- * <p>An MBean whose management interface is determined by reflection
- * on a Java interface, and that emits notifications.</p>
+ * <p>An MBebn whose mbnbgement interfbce is determined by reflection
+ * on b Jbvb interfbce, bnd thbt emits notificbtions.</p>
  *
- * <p>The following example shows how to use the public constructor
- * {@link #StandardEmitterMBean(Object, Class, NotificationEmitter)
- * StandardEmitterMBean(implementation, mbeanInterface, emitter)} to
- * create an MBean emitting notifications with any
- * implementation class name <i>Impl</i>, with a management
- * interface defined (as for current Standard MBeans) by any interface
- * <i>Intf</i>, and with any implementation of the interface
- * {@link NotificationEmitter}. The example uses the class
- * {@link NotificationBroadcasterSupport} as an implementation
- * of the interface {@link NotificationEmitter}.</p>
+ * <p>The following exbmple shows how to use the public constructor
+ * {@link #StbndbrdEmitterMBebn(Object, Clbss, NotificbtionEmitter)
+ * StbndbrdEmitterMBebn(implementbtion, mbebnInterfbce, emitter)} to
+ * crebte bn MBebn emitting notificbtions with bny
+ * implementbtion clbss nbme <i>Impl</i>, with b mbnbgement
+ * interfbce defined (bs for current Stbndbrd MBebns) by bny interfbce
+ * <i>Intf</i>, bnd with bny implementbtion of the interfbce
+ * {@link NotificbtionEmitter}. The exbmple uses the clbss
+ * {@link NotificbtionBrobdcbsterSupport} bs bn implementbtion
+ * of the interfbce {@link NotificbtionEmitter}.</p>
  *
  *     <pre>
- *     MBeanServer mbs;
+ *     MBebnServer mbs;
  *     ...
- *     final String[] types = new String[] {"sun.disc.space","sun.disc.alarm"};
- *     final MBeanNotificationInfo info = new MBeanNotificationInfo(
+ *     finbl String[] types = new String[] {"sun.disc.spbce","sun.disc.blbrm"};
+ *     finbl MBebnNotificbtionInfo info = new MBebnNotificbtionInfo(
  *                                          types,
- *                                          Notification.class.getName(),
- *                                          "Notification about disc info.");
- *     final NotificationEmitter emitter =
- *                    new NotificationBroadcasterSupport(info);
+ *                                          Notificbtion.clbss.getNbme(),
+ *                                          "Notificbtion bbout disc info.");
+ *     finbl NotificbtionEmitter emitter =
+ *                    new NotificbtionBrobdcbsterSupport(info);
  *
- *     final Intf impl = new Impl(...);
- *     final Object mbean = new StandardEmitterMBean(
- *                                     impl, Intf.class, emitter);
- *     mbs.registerMBean(mbean, objectName);
+ *     finbl Intf impl = new Impl(...);
+ *     finbl Object mbebn = new StbndbrdEmitterMBebn(
+ *                                     impl, Intf.clbss, emitter);
+ *     mbs.registerMBebn(mbebn, objectNbme);
  *     </pre>
  *
- * @see StandardMBean
+ * @see StbndbrdMBebn
  *
  * @since 1.6
  */
-public class StandardEmitterMBean extends StandardMBean
-        implements NotificationEmitter {
+public clbss StbndbrdEmitterMBebn extends StbndbrdMBebn
+        implements NotificbtionEmitter {
 
-    private static final MBeanNotificationInfo[] NO_NOTIFICATION_INFO =
-        new MBeanNotificationInfo[0];
+    privbte stbtic finbl MBebnNotificbtionInfo[] NO_NOTIFICATION_INFO =
+        new MBebnNotificbtionInfo[0];
 
-    private final NotificationEmitter emitter;
-    private final MBeanNotificationInfo[] notificationInfo;
+    privbte finbl NotificbtionEmitter emitter;
+    privbte finbl MBebnNotificbtionInfo[] notificbtionInfo;
 
     /**
-     * <p>Make an MBean whose management interface is specified by
-     * {@code mbeanInterface}, with the given implementation and
-     * where notifications are handled by the given {@code NotificationEmitter}.
-     * The resultant MBean implements the {@code NotificationEmitter} interface
-     * by forwarding its methods to {@code emitter}.  It is legal and useful
-     * for {@code implementation} and {@code emitter} to be the same object.</p>
+     * <p>Mbke bn MBebn whose mbnbgement interfbce is specified by
+     * {@code mbebnInterfbce}, with the given implementbtion bnd
+     * where notificbtions bre hbndled by the given {@code NotificbtionEmitter}.
+     * The resultbnt MBebn implements the {@code NotificbtionEmitter} interfbce
+     * by forwbrding its methods to {@code emitter}.  It is legbl bnd useful
+     * for {@code implementbtion} bnd {@code emitter} to be the sbme object.</p>
      *
-     * <p>If {@code emitter} is an instance of {@code
-     * NotificationBroadcasterSupport} then the MBean's {@link #sendNotification
-     * sendNotification} method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification sendNotification}.</p>
+     * <p>If {@code emitter} is bn instbnce of {@code
+     * NotificbtionBrobdcbsterSupport} then the MBebn's {@link #sendNotificbtion
+     * sendNotificbtion} method will cbll {@code emitter.}{@link
+     * NotificbtionBrobdcbsterSupport#sendNotificbtion sendNotificbtion}.</p>
      *
-     * <p>The array returned by {@link #getNotificationInfo()} on the
-     * new MBean is a copy of the array returned by
-     * {@code emitter.}{@link NotificationBroadcaster#getNotificationInfo
-     * getNotificationInfo()} at the time of construction.  If the array
-     * returned by {@code emitter.getNotificationInfo()} later changes,
-     * that will have no effect on this object's
-     * {@code getNotificationInfo()}.</p>
+     * <p>The brrby returned by {@link #getNotificbtionInfo()} on the
+     * new MBebn is b copy of the brrby returned by
+     * {@code emitter.}{@link NotificbtionBrobdcbster#getNotificbtionInfo
+     * getNotificbtionInfo()} bt the time of construction.  If the brrby
+     * returned by {@code emitter.getNotificbtionInfo()} lbter chbnges,
+     * thbt will hbve no effect on this object's
+     * {@code getNotificbtionInfo()}.</p>
      *
-     * @param implementation the implementation of the MBean interface.
-     * @param mbeanInterface a Standard MBean interface.
-     * @param emitter the object that will handle notifications.
+     * @pbrbm implementbtion the implementbtion of the MBebn interfbce.
+     * @pbrbm mbebnInterfbce b Stbndbrd MBebn interfbce.
+     * @pbrbm emitter the object thbt will hbndle notificbtions.
      *
-     * @throws IllegalArgumentException if the {@code mbeanInterface}
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if the given {@code implementation} does not implement the
-     *    specified interface, or if {@code emitter} is null.
+     * @throws IllegblArgumentException if the {@code mbebnInterfbce}
+     *    does not follow JMX design pbtterns for Mbnbgement Interfbces, or
+     *    if the given {@code implementbtion} does not implement the
+     *    specified interfbce, or if {@code emitter} is null.
      */
-    public <T> StandardEmitterMBean(T implementation, Class<T> mbeanInterface,
-                                    NotificationEmitter emitter) {
-        this(implementation, mbeanInterface, false, emitter);
+    public <T> StbndbrdEmitterMBebn(T implementbtion, Clbss<T> mbebnInterfbce,
+                                    NotificbtionEmitter emitter) {
+        this(implementbtion, mbebnInterfbce, fblse, emitter);
     }
 
     /**
-     * <p>Make an MBean whose management interface is specified by
-     * {@code mbeanInterface}, with the given implementation and where
-     * notifications are handled by the given {@code
-     * NotificationEmitter}.  This constructor can be used to make
-     * either Standard MBeans or MXBeans.  The resultant MBean
-     * implements the {@code NotificationEmitter} interface by
-     * forwarding its methods to {@code emitter}.  It is legal and
-     * useful for {@code implementation} and {@code emitter} to be the
-     * same object.</p>
+     * <p>Mbke bn MBebn whose mbnbgement interfbce is specified by
+     * {@code mbebnInterfbce}, with the given implementbtion bnd where
+     * notificbtions bre hbndled by the given {@code
+     * NotificbtionEmitter}.  This constructor cbn be used to mbke
+     * either Stbndbrd MBebns or MXBebns.  The resultbnt MBebn
+     * implements the {@code NotificbtionEmitter} interfbce by
+     * forwbrding its methods to {@code emitter}.  It is legbl bnd
+     * useful for {@code implementbtion} bnd {@code emitter} to be the
+     * sbme object.</p>
      *
-     * <p>If {@code emitter} is an instance of {@code
-     * NotificationBroadcasterSupport} then the MBean's {@link #sendNotification
-     * sendNotification} method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification sendNotification}.</p>
+     * <p>If {@code emitter} is bn instbnce of {@code
+     * NotificbtionBrobdcbsterSupport} then the MBebn's {@link #sendNotificbtion
+     * sendNotificbtion} method will cbll {@code emitter.}{@link
+     * NotificbtionBrobdcbsterSupport#sendNotificbtion sendNotificbtion}.</p>
      *
-     * <p>The array returned by {@link #getNotificationInfo()} on the
-     * new MBean is a copy of the array returned by
-     * {@code emitter.}{@link NotificationBroadcaster#getNotificationInfo
-     * getNotificationInfo()} at the time of construction.  If the array
-     * returned by {@code emitter.getNotificationInfo()} later changes,
-     * that will have no effect on this object's
-     * {@code getNotificationInfo()}.</p>
+     * <p>The brrby returned by {@link #getNotificbtionInfo()} on the
+     * new MBebn is b copy of the brrby returned by
+     * {@code emitter.}{@link NotificbtionBrobdcbster#getNotificbtionInfo
+     * getNotificbtionInfo()} bt the time of construction.  If the brrby
+     * returned by {@code emitter.getNotificbtionInfo()} lbter chbnges,
+     * thbt will hbve no effect on this object's
+     * {@code getNotificbtionInfo()}.</p>
      *
-     * @param implementation the implementation of the MBean interface.
-     * @param mbeanInterface a Standard MBean interface.
-     * @param isMXBean If true, the {@code mbeanInterface} parameter
-     * names an MXBean interface and the resultant MBean is an MXBean.
-     * @param emitter the object that will handle notifications.
+     * @pbrbm implementbtion the implementbtion of the MBebn interfbce.
+     * @pbrbm mbebnInterfbce b Stbndbrd MBebn interfbce.
+     * @pbrbm isMXBebn If true, the {@code mbebnInterfbce} pbrbmeter
+     * nbmes bn MXBebn interfbce bnd the resultbnt MBebn is bn MXBebn.
+     * @pbrbm emitter the object thbt will hbndle notificbtions.
      *
-     * @throws IllegalArgumentException if the {@code mbeanInterface}
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if the given {@code implementation} does not implement the
-     *    specified interface, or if {@code emitter} is null.
+     * @throws IllegblArgumentException if the {@code mbebnInterfbce}
+     *    does not follow JMX design pbtterns for Mbnbgement Interfbces, or
+     *    if the given {@code implementbtion} does not implement the
+     *    specified interfbce, or if {@code emitter} is null.
      */
-    public <T> StandardEmitterMBean(T implementation, Class<T> mbeanInterface,
-                                    boolean isMXBean,
-                                    NotificationEmitter emitter) {
-        super(implementation, mbeanInterface, isMXBean);
+    public <T> StbndbrdEmitterMBebn(T implementbtion, Clbss<T> mbebnInterfbce,
+                                    boolebn isMXBebn,
+                                    NotificbtionEmitter emitter) {
+        super(implementbtion, mbebnInterfbce, isMXBebn);
         if (emitter == null)
-            throw new IllegalArgumentException("Null emitter");
+            throw new IllegblArgumentException("Null emitter");
         this.emitter = emitter;
-        MBeanNotificationInfo[] infos = emitter.getNotificationInfo();
+        MBebnNotificbtionInfo[] infos = emitter.getNotificbtionInfo();
         if (infos == null || infos.length == 0) {
-            this.notificationInfo = NO_NOTIFICATION_INFO;
+            this.notificbtionInfo = NO_NOTIFICATION_INFO;
         } else {
-            this.notificationInfo = infos.clone();
+            this.notificbtionInfo = infos.clone();
         }
     }
 
     /**
-     * <p>Make an MBean whose management interface is specified by
-     * {@code mbeanInterface}, and
-     * where notifications are handled by the given {@code NotificationEmitter}.
-     * The resultant MBean implements the {@code NotificationEmitter} interface
-     * by forwarding its methods to {@code emitter}.</p>
+     * <p>Mbke bn MBebn whose mbnbgement interfbce is specified by
+     * {@code mbebnInterfbce}, bnd
+     * where notificbtions bre hbndled by the given {@code NotificbtionEmitter}.
+     * The resultbnt MBebn implements the {@code NotificbtionEmitter} interfbce
+     * by forwbrding its methods to {@code emitter}.</p>
      *
-     * <p>If {@code emitter} is an instance of {@code
-     * NotificationBroadcasterSupport} then the MBean's {@link #sendNotification
-     * sendNotification} method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification sendNotification}.</p>
+     * <p>If {@code emitter} is bn instbnce of {@code
+     * NotificbtionBrobdcbsterSupport} then the MBebn's {@link #sendNotificbtion
+     * sendNotificbtion} method will cbll {@code emitter.}{@link
+     * NotificbtionBrobdcbsterSupport#sendNotificbtion sendNotificbtion}.</p>
      *
-     * <p>The array returned by {@link #getNotificationInfo()} on the
-     * new MBean is a copy of the array returned by
-     * {@code emitter.}{@link NotificationBroadcaster#getNotificationInfo
-     * getNotificationInfo()} at the time of construction.  If the array
-     * returned by {@code emitter.getNotificationInfo()} later changes,
-     * that will have no effect on this object's
-     * {@code getNotificationInfo()}.</p>
+     * <p>The brrby returned by {@link #getNotificbtionInfo()} on the
+     * new MBebn is b copy of the brrby returned by
+     * {@code emitter.}{@link NotificbtionBrobdcbster#getNotificbtionInfo
+     * getNotificbtionInfo()} bt the time of construction.  If the brrby
+     * returned by {@code emitter.getNotificbtionInfo()} lbter chbnges,
+     * thbt will hbve no effect on this object's
+     * {@code getNotificbtionInfo()}.</p>
      *
-     * <p>This constructor must be called from a subclass that implements
-     * the given {@code mbeanInterface}.</p>
+     * <p>This constructor must be cblled from b subclbss thbt implements
+     * the given {@code mbebnInterfbce}.</p>
      *
-     * @param mbeanInterface a StandardMBean interface.
-     * @param emitter the object that will handle notifications.
+     * @pbrbm mbebnInterfbce b StbndbrdMBebn interfbce.
+     * @pbrbm emitter the object thbt will hbndle notificbtions.
      *
-     * @throws IllegalArgumentException if the {@code mbeanInterface}
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if {@code this} does not implement the specified interface, or
+     * @throws IllegblArgumentException if the {@code mbebnInterfbce}
+     *    does not follow JMX design pbtterns for Mbnbgement Interfbces, or
+     *    if {@code this} does not implement the specified interfbce, or
      *    if {@code emitter} is null.
      */
-    protected StandardEmitterMBean(Class<?> mbeanInterface,
-                                   NotificationEmitter emitter) {
-        this(mbeanInterface, false, emitter);
+    protected StbndbrdEmitterMBebn(Clbss<?> mbebnInterfbce,
+                                   NotificbtionEmitter emitter) {
+        this(mbebnInterfbce, fblse, emitter);
     }
 
     /**
-     * <p>Make an MBean whose management interface is specified by
-     * {@code mbeanInterface}, and where notifications are handled by
-     * the given {@code NotificationEmitter}.  This constructor can be
-     * used to make either Standard MBeans or MXBeans.  The resultant
-     * MBean implements the {@code NotificationEmitter} interface by
-     * forwarding its methods to {@code emitter}.</p>
+     * <p>Mbke bn MBebn whose mbnbgement interfbce is specified by
+     * {@code mbebnInterfbce}, bnd where notificbtions bre hbndled by
+     * the given {@code NotificbtionEmitter}.  This constructor cbn be
+     * used to mbke either Stbndbrd MBebns or MXBebns.  The resultbnt
+     * MBebn implements the {@code NotificbtionEmitter} interfbce by
+     * forwbrding its methods to {@code emitter}.</p>
      *
-     * <p>If {@code emitter} is an instance of {@code
-     * NotificationBroadcasterSupport} then the MBean's {@link #sendNotification
-     * sendNotification} method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification sendNotification}.</p>
+     * <p>If {@code emitter} is bn instbnce of {@code
+     * NotificbtionBrobdcbsterSupport} then the MBebn's {@link #sendNotificbtion
+     * sendNotificbtion} method will cbll {@code emitter.}{@link
+     * NotificbtionBrobdcbsterSupport#sendNotificbtion sendNotificbtion}.</p>
      *
-     * <p>The array returned by {@link #getNotificationInfo()} on the
-     * new MBean is a copy of the array returned by
-     * {@code emitter.}{@link NotificationBroadcaster#getNotificationInfo
-     * getNotificationInfo()} at the time of construction.  If the array
-     * returned by {@code emitter.getNotificationInfo()} later changes,
-     * that will have no effect on this object's
-     * {@code getNotificationInfo()}.</p>
+     * <p>The brrby returned by {@link #getNotificbtionInfo()} on the
+     * new MBebn is b copy of the brrby returned by
+     * {@code emitter.}{@link NotificbtionBrobdcbster#getNotificbtionInfo
+     * getNotificbtionInfo()} bt the time of construction.  If the brrby
+     * returned by {@code emitter.getNotificbtionInfo()} lbter chbnges,
+     * thbt will hbve no effect on this object's
+     * {@code getNotificbtionInfo()}.</p>
      *
-     * <p>This constructor must be called from a subclass that implements
-     * the given {@code mbeanInterface}.</p>
+     * <p>This constructor must be cblled from b subclbss thbt implements
+     * the given {@code mbebnInterfbce}.</p>
      *
-     * @param mbeanInterface a StandardMBean interface.
-     * @param isMXBean If true, the {@code mbeanInterface} parameter
-     * names an MXBean interface and the resultant MBean is an MXBean.
-     * @param emitter the object that will handle notifications.
+     * @pbrbm mbebnInterfbce b StbndbrdMBebn interfbce.
+     * @pbrbm isMXBebn If true, the {@code mbebnInterfbce} pbrbmeter
+     * nbmes bn MXBebn interfbce bnd the resultbnt MBebn is bn MXBebn.
+     * @pbrbm emitter the object thbt will hbndle notificbtions.
      *
-     * @throws IllegalArgumentException if the {@code mbeanInterface}
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if {@code this} does not implement the specified interface, or
+     * @throws IllegblArgumentException if the {@code mbebnInterfbce}
+     *    does not follow JMX design pbtterns for Mbnbgement Interfbces, or
+     *    if {@code this} does not implement the specified interfbce, or
      *    if {@code emitter} is null.
      */
-    protected StandardEmitterMBean(Class<?> mbeanInterface, boolean isMXBean,
-                                   NotificationEmitter emitter) {
-        super(mbeanInterface, isMXBean);
+    protected StbndbrdEmitterMBebn(Clbss<?> mbebnInterfbce, boolebn isMXBebn,
+                                   NotificbtionEmitter emitter) {
+        super(mbebnInterfbce, isMXBebn);
         if (emitter == null)
-            throw new IllegalArgumentException("Null emitter");
+            throw new IllegblArgumentException("Null emitter");
         this.emitter = emitter;
-        MBeanNotificationInfo[] infos = emitter.getNotificationInfo();
+        MBebnNotificbtionInfo[] infos = emitter.getNotificbtionInfo();
         if (infos == null || infos.length == 0) {
-            this.notificationInfo = NO_NOTIFICATION_INFO;
+            this.notificbtionInfo = NO_NOTIFICATION_INFO;
         } else {
-            this.notificationInfo = infos.clone();
+            this.notificbtionInfo = infos.clone();
         }
     }
 
-    public void removeNotificationListener(NotificationListener listener)
+    public void removeNotificbtionListener(NotificbtionListener listener)
             throws ListenerNotFoundException {
-        emitter.removeNotificationListener(listener);
+        emitter.removeNotificbtionListener(listener);
     }
 
-    public void removeNotificationListener(NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
+    public void removeNotificbtionListener(NotificbtionListener listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
             throws ListenerNotFoundException {
-        emitter.removeNotificationListener(listener, filter, handback);
+        emitter.removeNotificbtionListener(listener, filter, hbndbbck);
     }
 
-    public void addNotificationListener(NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback) {
-        emitter.addNotificationListener(listener, filter, handback);
+    public void bddNotificbtionListener(NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck) {
+        emitter.bddNotificbtionListener(listener, filter, hbndbbck);
     }
 
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        // this getter might get called from the super constructor
-        // when the notificationInfo has not been properly set yet
-        if (notificationInfo == null) {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
+        // this getter might get cblled from the super constructor
+        // when the notificbtionInfo hbs not been properly set yet
+        if (notificbtionInfo == null) {
             return NO_NOTIFICATION_INFO;
         }
-        if (notificationInfo.length == 0) {
-            return notificationInfo;
+        if (notificbtionInfo.length == 0) {
+            return notificbtionInfo;
         } else {
-            return notificationInfo.clone();
+            return notificbtionInfo.clone();
         }
     }
 
     /**
-     * <p>Sends a notification.</p>
+     * <p>Sends b notificbtion.</p>
      *
-     * <p>If the {@code emitter} parameter to the constructor was an
-     * instance of {@code NotificationBroadcasterSupport} then this
-     * method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification
-     * sendNotification}.</p>
+     * <p>If the {@code emitter} pbrbmeter to the constructor wbs bn
+     * instbnce of {@code NotificbtionBrobdcbsterSupport} then this
+     * method will cbll {@code emitter.}{@link
+     * NotificbtionBrobdcbsterSupport#sendNotificbtion
+     * sendNotificbtion}.</p>
      *
-     * @param n the notification to send.
+     * @pbrbm n the notificbtion to send.
      *
-     * @throws ClassCastException if the {@code emitter} parameter to the
-     * constructor was not a {@code NotificationBroadcasterSupport}.
+     * @throws ClbssCbstException if the {@code emitter} pbrbmeter to the
+     * constructor wbs not b {@code NotificbtionBrobdcbsterSupport}.
      */
-    public void sendNotification(Notification n) {
-        if (emitter instanceof NotificationBroadcasterSupport)
-            ((NotificationBroadcasterSupport) emitter).sendNotification(n);
+    public void sendNotificbtion(Notificbtion n) {
+        if (emitter instbnceof NotificbtionBrobdcbsterSupport)
+            ((NotificbtionBrobdcbsterSupport) emitter).sendNotificbtion(n);
         else {
-            final String msg =
-                "Cannot sendNotification when emitter is not an " +
-                "instance of NotificationBroadcasterSupport: " +
-                emitter.getClass().getName();
-            throw new ClassCastException(msg);
+            finbl String msg =
+                "Cbnnot sendNotificbtion when emitter is not bn " +
+                "instbnce of NotificbtionBrobdcbsterSupport: " +
+                emitter.getClbss().getNbme();
+            throw new ClbssCbstException(msg);
         }
     }
 
     /**
-     * <p>Get the MBeanNotificationInfo[] that will be used in the
-     * MBeanInfo returned by this MBean.</p>
+     * <p>Get the MBebnNotificbtionInfo[] thbt will be used in the
+     * MBebnInfo returned by this MBebn.</p>
      *
-     * <p>The default implementation of this method returns
-     * {@link #getNotificationInfo()}.</p>
+     * <p>The defbult implementbtion of this method returns
+     * {@link #getNotificbtionInfo()}.</p>
      *
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the MBeanNotificationInfo[] for the new MBeanInfo.
+     * @pbrbm info The defbult MBebnInfo derived by reflection.
+     * @return the MBebnNotificbtionInfo[] for the new MBebnInfo.
      */
     @Override
-    MBeanNotificationInfo[] getNotifications(MBeanInfo info) {
-        return getNotificationInfo();
+    MBebnNotificbtionInfo[] getNotificbtions(MBebnInfo info) {
+        return getNotificbtionInfo();
     }
 }

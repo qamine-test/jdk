@@ -3,261 +3,261 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="af"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="bf"/>
 	</identity>
-	<fallback/>
-	<localeDisplayNames>
-		<localeDisplayPattern>
-			<localeSeparator>,</localeSeparator>
-		</localeDisplayPattern>
-		<languages>
-			<language type="ab">Abkasies</language>
-			<language type="af">Afrikaans</language>
-			<language type="afa" draft="contributed">Ander Afro-Asiaties</language>
-			<language type="ak">Akan</language>
-			<language type="am">Amharies</language>
-			<language type="ar">Arabies</language>
-			<language type="arc">Aramees</language>
-			<language type="art">Kunsmatige taal</language>
-			<language type="as">Assamees</language>
-			<language type="ay">Aymara</language>
-			<language type="az">Azerbeidjaans</language>
-			<language type="az" alt="short">Azeri</language>
-			<language type="bat" draft="unconfirmed">Baltiese taal</language>
-			<language type="be">Wit-Russies</language>
-			<language type="ber" draft="provisional">Berbers</language>
-			<language type="bg">Bulgaars</language>
-			<language type="bh" draft="unconfirmed">Biharise taal</language>
-			<language type="bn">Bengaals</language>
-			<language type="bnt" draft="provisional">Bantoe</language>
-			<language type="bo">Tibettaans</language>
-			<language type="br" draft="unconfirmed">Bretons</language>
-			<language type="bs">Bosnies</language>
-			<language type="ca">Katalaans</language>
-			<language type="cel">Keltiese taal</language>
-			<language type="chr" draft="unconfirmed">Cherokees</language>
-			<language type="cop" draft="unconfirmed">Kopties</language>
-			<language type="cs">Tsjeggies</language>
-			<language type="cu" draft="unconfirmed">Kerkslawies</language>
-			<language type="cy">Wallies</language>
-			<language type="da">Deens</language>
-			<language type="de">Duits</language>
-			<language type="de_AT">Oostenrykse Duits</language>
-			<language type="de_CH">Switserse hoog-Duits</language>
-			<language type="dv">Divehi</language>
-			<language type="dz">Dzongkha</language>
-			<language type="efi">Efik</language>
-			<language type="egy" draft="contributed">Antieke Egipties</language>
-			<language type="el">Grieks</language>
-			<language type="en">Engels</language>
-			<language type="en_AU">Australiese Engels</language>
-			<language type="en_CA">Kanadese Engels</language>
-			<language type="en_GB">Britse Engels</language>
-			<language type="en_US">Amerikaanse Engels</language>
-			<language type="eo">Esperanto</language>
-			<language type="es">Spaans</language>
-			<language type="es_419">Latyns-Amerikaanse Spaans</language>
-			<language type="es_ES">Iberiese Spaans</language>
-			<language type="et" draft="contributed">Estnies</language>
-			<language type="eu">Baskies</language>
-			<language type="fa">Persies</language>
-			<language type="fi">Fins</language>
-			<language type="fil">Filippyns</language>
-			<language type="fj">Fidjiaans</language>
-			<language type="fo">Faroees</language>
-			<language type="fr">Frans</language>
-			<language type="fr_CA">Kanadese Frans</language>
-			<language type="fr_CH">Switserse Frans</language>
-			<language type="fy">Wes-Fries</language>
-			<language type="ga">Iers</language>
-			<language type="gd">Skotse Gallies</language>
-			<language type="gem">Germaanse taal</language>
-			<language type="gl">Galisies</language>
-			<language type="gn">Guarani</language>
-			<language type="got">Goties</language>
-			<language type="grc" draft="contributed">Antieke Grieks</language>
-			<language type="gsw">Switserse Duits</language>
-			<language type="gu">Gudjarati</language>
-			<language type="gv" draft="unconfirmed">Manx</language>
-			<language type="ha">Hausa</language>
-			<language type="haw">Hawaies</language>
-			<language type="he">Hebreeus</language>
-			<language type="hi">Hindi</language>
-			<language type="hit" draft="unconfirmed">Hetities</language>
-			<language type="hr">Kroaties</language>
-			<language type="ht">Haïtiaans</language>
-			<language type="hu">Hongaars</language>
-			<language type="hy">Armeens</language>
-			<language type="ia" draft="provisional">Interlingua</language>
-			<language type="id">Indonesies</language>
-			<language type="ie" draft="provisional">Interlingue</language>
-			<language type="ig">Igbo</language>
-			<language type="ine">Indo-Europese taal</language>
-			<language type="is">Yslands</language>
-			<language type="it">Italiaans</language>
-			<language type="ja">Japannees</language>
-			<language type="jv">Javaans</language>
-			<language type="ka">Georgies</language>
-			<language type="khi" draft="unconfirmed">Khoi-San taal</language>
-			<language type="kk">Kazak</language>
-			<language type="km">Khmer</language>
-			<language type="kn">Kannada</language>
-			<language type="ko">Koreaans</language>
-			<language type="kru" draft="unconfirmed">Kurukh</language>
-			<language type="ks">Kasjmirs</language>
-			<language type="ku">Koerdies</language>
-			<language type="kw" draft="unconfirmed">Kornies</language>
-			<language type="ky">Kirgisies</language>
-			<language type="la">Latyn</language>
-			<language type="lb">Luxemburgs</language>
-			<language type="li" draft="unconfirmed">Limburgs</language>
-			<language type="ln">Lingaals</language>
-			<language type="lo">Lao</language>
-			<language type="lt">Litaus</language>
-			<language type="lv">Letties</language>
-			<language type="mas" draft="unconfirmed">Masai</language>
-			<language type="mg">Malgassies</language>
-			<language type="mi">Maori</language>
-			<language type="mk">Masedonies</language>
-			<language type="ml">Malabaars</language>
-			<language type="mn">Mongools</language>
-			<language type="mr">Marathi</language>
-			<language type="ms">Maleisies</language>
-			<language type="mt">Maltees</language>
-			<language type="mul">Veelvuldige tale</language>
-			<language type="my">Birmaans</language>
-			<language type="nb">Noorse Bokmål</language>
-			<language type="nd">Noord-Ndebele</language>
-			<language type="ne">Nepalees</language>
-			<language type="nl">Nederlands</language>
-			<language type="nl_BE">Vlaams</language>
-			<language type="nn" draft="contributed">Noorweegse Nynorsk</language>
-			<language type="no" draft="unconfirmed">Noors</language>
-			<language type="nr">Suid-Ndebele</language>
-			<language type="nso">Noord-Sotho</language>
-			<language type="ny">Nyanja</language>
-			<language type="oc" draft="unconfirmed">Occitaans</language>
-			<language type="or">Oriya</language>
-			<language type="os">Osseties</language>
-			<language type="pa">Pandjabi</language>
-			<language type="phn" draft="unconfirmed">Fenisies</language>
-			<language type="pl">Pools</language>
-			<language type="ps">Pasjto</language>
-			<language type="ps" alt="variant">Pushto</language>
-			<language type="pt">Portugees</language>
-			<language type="pt_BR">Brasiliaanse Portugees</language>
-			<language type="pt_PT">Iberiese Portugees</language>
-			<language type="qu">Quechua</language>
-			<language type="rm">Reto-Romaans</language>
-			<language type="rn">Rundi</language>
-			<language type="ro">Roemeens</language>
-			<language type="ru">Russies</language>
-			<language type="rw">Rwandees</language>
-			<language type="sa">Sanskrit</language>
-			<language type="sco" draft="unconfirmed">Skots</language>
-			<language type="sd">Sindhi</language>
-			<language type="se">Noordelike Sami</language>
-			<language type="sem" draft="unconfirmed">Semitiese taal</language>
-			<language type="sg">Sango</language>
-			<language type="sgn" draft="unconfirmed">Gebaretaal</language>
-			<language type="sh" draft="unconfirmed">Serwo-Kroaties</language>
-			<language type="si">Sinhala</language>
-			<language type="sk">Slowaaks</language>
-			<language type="sl">Sloweens</language>
-			<language type="sla">Slawiese taal</language>
-			<language type="sm">Samoaans</language>
-			<language type="sn">Shona</language>
-			<language type="so">Somalies</language>
-			<language type="sq">Albanees</language>
-			<language type="sr">Serwies</language>
-			<language type="ss">Swazi</language>
-			<language type="st">Suid-Sotho</language>
-			<language type="su">Sundanees</language>
-			<language type="sv">Sweeds</language>
-			<language type="sw">Swahili</language>
-			<language type="swb" draft="unconfirmed">Shimaorees</language>
-			<language type="ta">Tamil</language>
-			<language type="te">Telugu</language>
-			<language type="tet">Tetum</language>
-			<language type="tg">Tadjik</language>
-			<language type="th">Thais</language>
-			<language type="ti">Tigrinya</language>
-			<language type="tk">Turkmeens</language>
-			<language type="tlh" draft="unconfirmed">Klingon</language>
-			<language type="tn">Tswana</language>
-			<language type="to">Tonga</language>
-			<language type="tpi">Tok Pisin</language>
-			<language type="tr">Turks</language>
-			<language type="ts">Tsonga</language>
-			<language type="tt">Tataars</language>
-			<language type="tw" draft="unconfirmed">Twi</language>
-			<language type="ty">Tahities</language>
-			<language type="ug">Uighur</language>
-			<language type="ug" alt="variant">Uyghur</language>
-			<language type="uk">Oekraïens</language>
-			<language type="und">Onbekende of ongeldige taal</language>
-			<language type="ur">Oerdoe</language>
-			<language type="uz">Oezbeeks</language>
-			<language type="ve">Venda</language>
-			<language type="vi">Viëtnamees</language>
-			<language type="wo">Wolof</language>
-			<language type="xh">Xhosa</language>
-			<language type="yi" draft="unconfirmed">Jiddisj</language>
-			<language type="yo">Yoruba</language>
-			<language type="yue" draft="unconfirmed">Kantonees</language>
-			<language type="zh">Sjinees</language>
-			<language type="zh_Hans">Vereenvoudigde Chinees</language>
-			<language type="zh_Hant">Tradisionele Chinees</language>
-			<language type="zu">Zoeloe</language>
-			<language type="zxx">Geen linguistiese inhoud</language>
-		</languages>
+	<fbllbbck/>
+	<locbleDisplbyNbmes>
+		<locbleDisplbyPbttern>
+			<locbleSepbrbtor>,</locbleSepbrbtor>
+		</locbleDisplbyPbttern>
+		<lbngubges>
+			<lbngubge type="bb">Abkbsies</lbngubge>
+			<lbngubge type="bf">Afrikbbns</lbngubge>
+			<lbngubge type="bfb" drbft="contributed">Ander Afro-Asibties</lbngubge>
+			<lbngubge type="bk">Akbn</lbngubge>
+			<lbngubge type="bm">Amhbries</lbngubge>
+			<lbngubge type="br">Arbbies</lbngubge>
+			<lbngubge type="brc">Arbmees</lbngubge>
+			<lbngubge type="brt">Kunsmbtige tbbl</lbngubge>
+			<lbngubge type="bs">Assbmees</lbngubge>
+			<lbngubge type="by">Aymbrb</lbngubge>
+			<lbngubge type="bz">Azerbeidjbbns</lbngubge>
+			<lbngubge type="bz" blt="short">Azeri</lbngubge>
+			<lbngubge type="bbt" drbft="unconfirmed">Bbltiese tbbl</lbngubge>
+			<lbngubge type="be">Wit-Russies</lbngubge>
+			<lbngubge type="ber" drbft="provisionbl">Berbers</lbngubge>
+			<lbngubge type="bg">Bulgbbrs</lbngubge>
+			<lbngubge type="bh" drbft="unconfirmed">Bihbrise tbbl</lbngubge>
+			<lbngubge type="bn">Bengbbls</lbngubge>
+			<lbngubge type="bnt" drbft="provisionbl">Bbntoe</lbngubge>
+			<lbngubge type="bo">Tibettbbns</lbngubge>
+			<lbngubge type="br" drbft="unconfirmed">Bretons</lbngubge>
+			<lbngubge type="bs">Bosnies</lbngubge>
+			<lbngubge type="cb">Kbtblbbns</lbngubge>
+			<lbngubge type="cel">Keltiese tbbl</lbngubge>
+			<lbngubge type="chr" drbft="unconfirmed">Cherokees</lbngubge>
+			<lbngubge type="cop" drbft="unconfirmed">Kopties</lbngubge>
+			<lbngubge type="cs">Tsjeggies</lbngubge>
+			<lbngubge type="cu" drbft="unconfirmed">Kerkslbwies</lbngubge>
+			<lbngubge type="cy">Wbllies</lbngubge>
+			<lbngubge type="db">Deens</lbngubge>
+			<lbngubge type="de">Duits</lbngubge>
+			<lbngubge type="de_AT">Oostenrykse Duits</lbngubge>
+			<lbngubge type="de_CH">Switserse hoog-Duits</lbngubge>
+			<lbngubge type="dv">Divehi</lbngubge>
+			<lbngubge type="dz">Dzongkhb</lbngubge>
+			<lbngubge type="efi">Efik</lbngubge>
+			<lbngubge type="egy" drbft="contributed">Antieke Egipties</lbngubge>
+			<lbngubge type="el">Grieks</lbngubge>
+			<lbngubge type="en">Engels</lbngubge>
+			<lbngubge type="en_AU">Austrbliese Engels</lbngubge>
+			<lbngubge type="en_CA">Kbnbdese Engels</lbngubge>
+			<lbngubge type="en_GB">Britse Engels</lbngubge>
+			<lbngubge type="en_US">Amerikbbnse Engels</lbngubge>
+			<lbngubge type="eo">Esperbnto</lbngubge>
+			<lbngubge type="es">Spbbns</lbngubge>
+			<lbngubge type="es_419">Lbtyns-Amerikbbnse Spbbns</lbngubge>
+			<lbngubge type="es_ES">Iberiese Spbbns</lbngubge>
+			<lbngubge type="et" drbft="contributed">Estnies</lbngubge>
+			<lbngubge type="eu">Bbskies</lbngubge>
+			<lbngubge type="fb">Persies</lbngubge>
+			<lbngubge type="fi">Fins</lbngubge>
+			<lbngubge type="fil">Filippyns</lbngubge>
+			<lbngubge type="fj">Fidjibbns</lbngubge>
+			<lbngubge type="fo">Fbroees</lbngubge>
+			<lbngubge type="fr">Frbns</lbngubge>
+			<lbngubge type="fr_CA">Kbnbdese Frbns</lbngubge>
+			<lbngubge type="fr_CH">Switserse Frbns</lbngubge>
+			<lbngubge type="fy">Wes-Fries</lbngubge>
+			<lbngubge type="gb">Iers</lbngubge>
+			<lbngubge type="gd">Skotse Gbllies</lbngubge>
+			<lbngubge type="gem">Germbbnse tbbl</lbngubge>
+			<lbngubge type="gl">Gblisies</lbngubge>
+			<lbngubge type="gn">Gubrbni</lbngubge>
+			<lbngubge type="got">Goties</lbngubge>
+			<lbngubge type="grc" drbft="contributed">Antieke Grieks</lbngubge>
+			<lbngubge type="gsw">Switserse Duits</lbngubge>
+			<lbngubge type="gu">Gudjbrbti</lbngubge>
+			<lbngubge type="gv" drbft="unconfirmed">Mbnx</lbngubge>
+			<lbngubge type="hb">Hbusb</lbngubge>
+			<lbngubge type="hbw">Hbwbies</lbngubge>
+			<lbngubge type="he">Hebreeus</lbngubge>
+			<lbngubge type="hi">Hindi</lbngubge>
+			<lbngubge type="hit" drbft="unconfirmed">Hetities</lbngubge>
+			<lbngubge type="hr">Krobties</lbngubge>
+			<lbngubge type="ht">Hbïtibbns</lbngubge>
+			<lbngubge type="hu">Hongbbrs</lbngubge>
+			<lbngubge type="hy">Armeens</lbngubge>
+			<lbngubge type="ib" drbft="provisionbl">Interlingub</lbngubge>
+			<lbngubge type="id">Indonesies</lbngubge>
+			<lbngubge type="ie" drbft="provisionbl">Interlingue</lbngubge>
+			<lbngubge type="ig">Igbo</lbngubge>
+			<lbngubge type="ine">Indo-Europese tbbl</lbngubge>
+			<lbngubge type="is">Yslbnds</lbngubge>
+			<lbngubge type="it">Itblibbns</lbngubge>
+			<lbngubge type="jb">Jbpbnnees</lbngubge>
+			<lbngubge type="jv">Jbvbbns</lbngubge>
+			<lbngubge type="kb">Georgies</lbngubge>
+			<lbngubge type="khi" drbft="unconfirmed">Khoi-Sbn tbbl</lbngubge>
+			<lbngubge type="kk">Kbzbk</lbngubge>
+			<lbngubge type="km">Khmer</lbngubge>
+			<lbngubge type="kn">Kbnnbdb</lbngubge>
+			<lbngubge type="ko">Korebbns</lbngubge>
+			<lbngubge type="kru" drbft="unconfirmed">Kurukh</lbngubge>
+			<lbngubge type="ks">Kbsjmirs</lbngubge>
+			<lbngubge type="ku">Koerdies</lbngubge>
+			<lbngubge type="kw" drbft="unconfirmed">Kornies</lbngubge>
+			<lbngubge type="ky">Kirgisies</lbngubge>
+			<lbngubge type="lb">Lbtyn</lbngubge>
+			<lbngubge type="lb">Luxemburgs</lbngubge>
+			<lbngubge type="li" drbft="unconfirmed">Limburgs</lbngubge>
+			<lbngubge type="ln">Lingbbls</lbngubge>
+			<lbngubge type="lo">Lbo</lbngubge>
+			<lbngubge type="lt">Litbus</lbngubge>
+			<lbngubge type="lv">Letties</lbngubge>
+			<lbngubge type="mbs" drbft="unconfirmed">Mbsbi</lbngubge>
+			<lbngubge type="mg">Mblgbssies</lbngubge>
+			<lbngubge type="mi">Mbori</lbngubge>
+			<lbngubge type="mk">Mbsedonies</lbngubge>
+			<lbngubge type="ml">Mblbbbbrs</lbngubge>
+			<lbngubge type="mn">Mongools</lbngubge>
+			<lbngubge type="mr">Mbrbthi</lbngubge>
+			<lbngubge type="ms">Mbleisies</lbngubge>
+			<lbngubge type="mt">Mbltees</lbngubge>
+			<lbngubge type="mul">Veelvuldige tble</lbngubge>
+			<lbngubge type="my">Birmbbns</lbngubge>
+			<lbngubge type="nb">Noorse Bokmål</lbngubge>
+			<lbngubge type="nd">Noord-Ndebele</lbngubge>
+			<lbngubge type="ne">Nepblees</lbngubge>
+			<lbngubge type="nl">Nederlbnds</lbngubge>
+			<lbngubge type="nl_BE">Vlbbms</lbngubge>
+			<lbngubge type="nn" drbft="contributed">Noorweegse Nynorsk</lbngubge>
+			<lbngubge type="no" drbft="unconfirmed">Noors</lbngubge>
+			<lbngubge type="nr">Suid-Ndebele</lbngubge>
+			<lbngubge type="nso">Noord-Sotho</lbngubge>
+			<lbngubge type="ny">Nybnjb</lbngubge>
+			<lbngubge type="oc" drbft="unconfirmed">Occitbbns</lbngubge>
+			<lbngubge type="or">Oriyb</lbngubge>
+			<lbngubge type="os">Osseties</lbngubge>
+			<lbngubge type="pb">Pbndjbbi</lbngubge>
+			<lbngubge type="phn" drbft="unconfirmed">Fenisies</lbngubge>
+			<lbngubge type="pl">Pools</lbngubge>
+			<lbngubge type="ps">Pbsjto</lbngubge>
+			<lbngubge type="ps" blt="vbribnt">Pushto</lbngubge>
+			<lbngubge type="pt">Portugees</lbngubge>
+			<lbngubge type="pt_BR">Brbsilibbnse Portugees</lbngubge>
+			<lbngubge type="pt_PT">Iberiese Portugees</lbngubge>
+			<lbngubge type="qu">Quechub</lbngubge>
+			<lbngubge type="rm">Reto-Rombbns</lbngubge>
+			<lbngubge type="rn">Rundi</lbngubge>
+			<lbngubge type="ro">Roemeens</lbngubge>
+			<lbngubge type="ru">Russies</lbngubge>
+			<lbngubge type="rw">Rwbndees</lbngubge>
+			<lbngubge type="sb">Sbnskrit</lbngubge>
+			<lbngubge type="sco" drbft="unconfirmed">Skots</lbngubge>
+			<lbngubge type="sd">Sindhi</lbngubge>
+			<lbngubge type="se">Noordelike Sbmi</lbngubge>
+			<lbngubge type="sem" drbft="unconfirmed">Semitiese tbbl</lbngubge>
+			<lbngubge type="sg">Sbngo</lbngubge>
+			<lbngubge type="sgn" drbft="unconfirmed">Gebbretbbl</lbngubge>
+			<lbngubge type="sh" drbft="unconfirmed">Serwo-Krobties</lbngubge>
+			<lbngubge type="si">Sinhblb</lbngubge>
+			<lbngubge type="sk">Slowbbks</lbngubge>
+			<lbngubge type="sl">Sloweens</lbngubge>
+			<lbngubge type="slb">Slbwiese tbbl</lbngubge>
+			<lbngubge type="sm">Sbmobbns</lbngubge>
+			<lbngubge type="sn">Shonb</lbngubge>
+			<lbngubge type="so">Somblies</lbngubge>
+			<lbngubge type="sq">Albbnees</lbngubge>
+			<lbngubge type="sr">Serwies</lbngubge>
+			<lbngubge type="ss">Swbzi</lbngubge>
+			<lbngubge type="st">Suid-Sotho</lbngubge>
+			<lbngubge type="su">Sundbnees</lbngubge>
+			<lbngubge type="sv">Sweeds</lbngubge>
+			<lbngubge type="sw">Swbhili</lbngubge>
+			<lbngubge type="swb" drbft="unconfirmed">Shimborees</lbngubge>
+			<lbngubge type="tb">Tbmil</lbngubge>
+			<lbngubge type="te">Telugu</lbngubge>
+			<lbngubge type="tet">Tetum</lbngubge>
+			<lbngubge type="tg">Tbdjik</lbngubge>
+			<lbngubge type="th">Thbis</lbngubge>
+			<lbngubge type="ti">Tigrinyb</lbngubge>
+			<lbngubge type="tk">Turkmeens</lbngubge>
+			<lbngubge type="tlh" drbft="unconfirmed">Klingon</lbngubge>
+			<lbngubge type="tn">Tswbnb</lbngubge>
+			<lbngubge type="to">Tongb</lbngubge>
+			<lbngubge type="tpi">Tok Pisin</lbngubge>
+			<lbngubge type="tr">Turks</lbngubge>
+			<lbngubge type="ts">Tsongb</lbngubge>
+			<lbngubge type="tt">Tbtbbrs</lbngubge>
+			<lbngubge type="tw" drbft="unconfirmed">Twi</lbngubge>
+			<lbngubge type="ty">Tbhities</lbngubge>
+			<lbngubge type="ug">Uighur</lbngubge>
+			<lbngubge type="ug" blt="vbribnt">Uyghur</lbngubge>
+			<lbngubge type="uk">Oekrbïens</lbngubge>
+			<lbngubge type="und">Onbekende of ongeldige tbbl</lbngubge>
+			<lbngubge type="ur">Oerdoe</lbngubge>
+			<lbngubge type="uz">Oezbeeks</lbngubge>
+			<lbngubge type="ve">Vendb</lbngubge>
+			<lbngubge type="vi">Viëtnbmees</lbngubge>
+			<lbngubge type="wo">Wolof</lbngubge>
+			<lbngubge type="xh">Xhosb</lbngubge>
+			<lbngubge type="yi" drbft="unconfirmed">Jiddisj</lbngubge>
+			<lbngubge type="yo">Yorubb</lbngubge>
+			<lbngubge type="yue" drbft="unconfirmed">Kbntonees</lbngubge>
+			<lbngubge type="zh">Sjinees</lbngubge>
+			<lbngubge type="zh_Hbns">Vereenvoudigde Chinees</lbngubge>
+			<lbngubge type="zh_Hbnt">Trbdisionele Chinees</lbngubge>
+			<lbngubge type="zu">Zoeloe</lbngubge>
+			<lbngubge type="zxx">Geen linguistiese inhoud</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab">Arabies</script>
-			<script type="Arab" alt="variant">Perso-Arabies</script>
+			<script type="Arbb">Arbbies</script>
+			<script type="Arbb" blt="vbribnt">Perso-Arbbies</script>
 			<script type="Armn">Armeens</script>
-			<script type="Beng">Bengaals</script>
+			<script type="Beng">Bengbbls</script>
 			<script type="Bopo">Bopomofo</script>
-			<script type="Brai">Braille</script>
-			<script type="Copt" draft="unconfirmed">Koptieses</script>
+			<script type="Brbi">Brbille</script>
+			<script type="Copt" drbft="unconfirmed">Koptieses</script>
 			<script type="Cyrl">Sirillies</script>
-			<script type="Cyrs" draft="unconfirmed">Ou Kerkslawiese Sirillieses</script>
-			<script type="Deva">Devanagari</script>
-			<script type="Egyp" draft="unconfirmed">Egiptieses hiërogliewe</script>
+			<script type="Cyrs" drbft="unconfirmed">Ou Kerkslbwiese Sirillieses</script>
+			<script type="Devb">Devbnbgbri</script>
+			<script type="Egyp" drbft="unconfirmed">Egiptieses hiërogliewe</script>
 			<script type="Ethi">Etiopies</script>
 			<script type="Geor">Georgies</script>
-			<script type="Goth" draft="unconfirmed">Gotieses</script>
+			<script type="Goth" drbft="unconfirmed">Gotieses</script>
 			<script type="Grek">Grieks</script>
-			<script type="Gujr">Gudjarati</script>
+			<script type="Gujr">Gudjbrbti</script>
 			<script type="Guru">Gurmukhi</script>
-			<script type="Hang">Hangul</script>
-			<script type="Hani">Han</script>
-			<script type="Hans">Vereenvoudig</script>
-			<script type="Hans" alt="stand-alone">Vereenvoudigde Han</script>
-			<script type="Hant">Tradisioneel</script>
-			<script type="Hant" alt="stand-alone">Tradisionele Han</script>
+			<script type="Hbng">Hbngul</script>
+			<script type="Hbni">Hbn</script>
+			<script type="Hbns">Vereenvoudig</script>
+			<script type="Hbns" blt="stbnd-blone">Vereenvoudigde Hbn</script>
+			<script type="Hbnt">Trbdisioneel</script>
+			<script type="Hbnt" blt="stbnd-blone">Trbdisionele Hbn</script>
 			<script type="Hebr">Hebreeus</script>
-			<script type="Hira">Hiragana</script>
-			<script type="Jpan">Japannees</script>
-			<script type="Kana">Katakana</script>
+			<script type="Hirb">Hirbgbnb</script>
+			<script type="Jpbn">Jbpbnnees</script>
+			<script type="Kbnb">Kbtbkbnb</script>
 			<script type="Khmr">Khmer</script>
-			<script type="Knda">Kannada</script>
-			<script type="Kore">Koreaans</script>
-			<script type="Laoo">Lao</script>
-			<script type="Latn">Latyn</script>
-			<script type="Mlym">Malabaars</script>
+			<script type="Kndb">Kbnnbdb</script>
+			<script type="Kore">Korebbns</script>
+			<script type="Lboo">Lbo</script>
+			<script type="Lbtn">Lbtyn</script>
+			<script type="Mlym">Mblbbbbrs</script>
 			<script type="Mong">Mongools</script>
-			<script type="Mymr">Mianmar</script>
-			<script type="Orya">Oriya</script>
-			<script type="Phnx" draft="unconfirmed">Fenisieses</script>
-			<script type="Sinh">Sinhala</script>
-			<script type="Taml">Tamil</script>
+			<script type="Mymr">Mibnmbr</script>
+			<script type="Oryb">Oriyb</script>
+			<script type="Phnx" drbft="unconfirmed">Fenisieses</script>
+			<script type="Sinh">Sinhblb</script>
+			<script type="Tbml">Tbmil</script>
 			<script type="Telu">Telugu</script>
-			<script type="Thaa">Thaana</script>
-			<script type="Thai">Thai</script>
-			<script type="Tibt">Tibettaans</script>
-			<script type="Ugar" draft="unconfirmed">Ugaritieses</script>
-			<script type="Visp" draft="unconfirmed">Visible Speech-karakters</script>
+			<script type="Thbb">Thbbnb</script>
+			<script type="Thbi">Thbi</script>
+			<script type="Tibt">Tibettbbns</script>
+			<script type="Ugbr" drbft="unconfirmed">Ugbritieses</script>
+			<script type="Visp" drbft="unconfirmed">Visible Speech-kbrbkters</script>
 			<script type="Zsym">Simbole</script>
 			<script type="Zxxx">Ongeskrewe</script>
 			<script type="Zyyy">Algemeen</script>
@@ -265,420 +265,420 @@
 		</scripts>
 		<territories>
 			<territory type="001">Wêreld</territory>
-			<territory type="002">Afrika</territory>
-			<territory type="003">Noord-Amerika</territory>
-			<territory type="005">Suid-Amerika</territory>
-			<territory type="009">Oseanië</territory>
-			<territory type="011">Wes-Afrika</territory>
-			<territory type="013">Sentraal-Amerika</territory>
-			<territory type="014">Oos-Afrika</territory>
-			<territory type="015">Noord-Afrika</territory>
-			<territory type="017">Midde-Afrika</territory>
-			<territory type="018">Suider-Afrika</territory>
-			<territory type="019">Amerikas</territory>
-			<territory type="021">Noordelike Amerika</territory>
-			<territory type="029">Karibbies</territory>
+			<territory type="002">Afrikb</territory>
+			<territory type="003">Noord-Amerikb</territory>
+			<territory type="005">Suid-Amerikb</territory>
+			<territory type="009">Osebnië</territory>
+			<territory type="011">Wes-Afrikb</territory>
+			<territory type="013">Sentrbbl-Amerikb</territory>
+			<territory type="014">Oos-Afrikb</territory>
+			<territory type="015">Noord-Afrikb</territory>
+			<territory type="017">Midde-Afrikb</territory>
+			<territory type="018">Suider-Afrikb</territory>
+			<territory type="019">Amerikbs</territory>
+			<territory type="021">Noordelike Amerikb</territory>
+			<territory type="029">Kbribbies</territory>
 			<territory type="030">Oos-Asië</territory>
 			<territory type="034">Suid-Asië</territory>
 			<territory type="035">Suidoos-Asië</territory>
-			<territory type="039">Suid-Europa</territory>
-			<territory type="053">Australië en Nieu-Seeland</territory>
-			<territory type="054">Melanesië</territory>
+			<territory type="039">Suid-Europb</territory>
+			<territory type="053">Austrblië en Nieu-Seelbnd</territory>
+			<territory type="054">Melbnesië</territory>
 			<territory type="057">Mikronesiese streek</territory>
 			<territory type="061">Polinesië</territory>
 			<territory type="142">Asië</territory>
-			<territory type="143">Sentraal-Asië</territory>
+			<territory type="143">Sentrbbl-Asië</territory>
 			<territory type="145">Wes-Asië</territory>
-			<territory type="150">Europa</territory>
-			<territory type="151">Oos-Europa</territory>
-			<territory type="154">Noord-Europa</territory>
-			<territory type="155">Wes-Europa</territory>
-			<territory type="419">Latyns Amerika</territory>
-			<territory type="AC">Ascension-eiland</territory>
-			<territory type="AD">Andorra</territory>
-			<territory type="AE">Verenigde Arabiese Emirate</territory>
-			<territory type="AF">Afganistan</territory>
-			<territory type="AG">Antigua en Barbuda</territory>
-			<territory type="AI">Anguilla</territory>
-			<territory type="AL">Albanië</territory>
+			<territory type="150">Europb</territory>
+			<territory type="151">Oos-Europb</territory>
+			<territory type="154">Noord-Europb</territory>
+			<territory type="155">Wes-Europb</territory>
+			<territory type="419">Lbtyns Amerikb</territory>
+			<territory type="AC">Ascension-eilbnd</territory>
+			<territory type="AD">Andorrb</territory>
+			<territory type="AE">Verenigde Arbbiese Emirbte</territory>
+			<territory type="AF">Afgbnistbn</territory>
+			<territory type="AG">Antigub en Bbrbudb</territory>
+			<territory type="AI">Anguillb</territory>
+			<territory type="AL">Albbnië</territory>
 			<territory type="AM">Armenië</territory>
-			<territory type="AN">Nederlands-Antille</territory>
-			<territory type="AO">Angola</territory>
-			<territory type="AQ">Antarktika</territory>
+			<territory type="AN">Nederlbnds-Antille</territory>
+			<territory type="AO">Angolb</territory>
+			<territory type="AQ">Antbrktikb</territory>
 			<territory type="AR">Argentinië</territory>
-			<territory type="AS">Amerikaans Samoa</territory>
+			<territory type="AS">Amerikbbns Sbmob</territory>
 			<territory type="AT">Oostenryk</territory>
-			<territory type="AU">Australië</territory>
-			<territory type="AW">Aruba</territory>
-			<territory type="AX">Åland-eilande</territory>
-			<territory type="AZ">Aserbeidjan</territory>
-			<territory type="BA">Bosnië en Herzegowina</territory>
-			<territory type="BB">Barbados</territory>
-			<territory type="BD">Bangladesj</territory>
+			<territory type="AU">Austrblië</territory>
+			<territory type="AW">Arubb</territory>
+			<territory type="AX">Ålbnd-eilbnde</territory>
+			<territory type="AZ">Aserbeidjbn</territory>
+			<territory type="BA">Bosnië en Herzegowinb</territory>
+			<territory type="BB">Bbrbbdos</territory>
+			<territory type="BD">Bbnglbdesj</territory>
 			<territory type="BE">België</territory>
-			<territory type="BF">Boerkina Fasso</territory>
-			<territory type="BG">Bulgarye</territory>
-			<territory type="BH">Bahrein</territory>
+			<territory type="BF">Boerkinb Fbsso</territory>
+			<territory type="BG">Bulgbrye</territory>
+			<territory type="BH">Bbhrein</territory>
 			<territory type="BI">Burundi</territory>
 			<territory type="BJ">Benin</territory>
-			<territory type="BL">Sint Barthélemy</territory>
-			<territory type="BM">Bermuda</territory>
+			<territory type="BL">Sint Bbrthélemy</territory>
+			<territory type="BM">Bermudb</territory>
 			<territory type="BN">Broenei</territory>
 			<territory type="BO">Bolivië</territory>
-			<territory type="BR">Brasilië</territory>
-			<territory type="BS">Bahamas</territory>
-			<territory type="BT">Bhoetan</territory>
-			<territory type="BV">Bouveteiland</territory>
-			<territory type="BW">Botswana</territory>
-			<territory type="BY">Wit-Rusland</territory>
+			<territory type="BR">Brbsilië</territory>
+			<territory type="BS">Bbhbmbs</territory>
+			<territory type="BT">Bhoetbn</territory>
+			<territory type="BV">Bouveteilbnd</territory>
+			<territory type="BW">Botswbnb</territory>
+			<territory type="BY">Wit-Ruslbnd</territory>
 			<territory type="BZ">Belize</territory>
-			<territory type="CA">Kanada</territory>
-			<territory type="CC">Cocos- [Keeling] eilande</territory>
-			<territory type="CD">Demokratiese Republiek van die Kongo</territory>
-			<territory type="CD" alt="variant">Kongo (DRK)</territory>
-			<territory type="CF">Sentraal-Afrikaanse Republiek</territory>
+			<territory type="CA">Kbnbdb</territory>
+			<territory type="CC">Cocos- [Keeling] eilbnde</territory>
+			<territory type="CD">Demokrbtiese Republiek vbn die Kongo</territory>
+			<territory type="CD" blt="vbribnt">Kongo (DRK)</territory>
+			<territory type="CF">Sentrbbl-Afrikbbnse Republiek</territory>
 			<territory type="CG">Kongo</territory>
-			<territory type="CG" alt="variant">Kongo [Republiek]</territory>
-			<territory type="CH">Switserland</territory>
+			<territory type="CG" blt="vbribnt">Kongo [Republiek]</territory>
+			<territory type="CH">Switserlbnd</territory>
 			<territory type="CI">Ivoorkus</territory>
-			<territory type="CI" alt="variant">Ivoorkus</territory>
-			<territory type="CK">Cookeilande</territory>
+			<territory type="CI" blt="vbribnt">Ivoorkus</territory>
+			<territory type="CK">Cookeilbnde</territory>
 			<territory type="CL">Chili</territory>
-			<territory type="CM">Kameroen</territory>
-			<territory type="CN">Sjina</territory>
+			<territory type="CM">Kbmeroen</territory>
+			<territory type="CN">Sjinb</territory>
 			<territory type="CO">Kolombië</territory>
-			<territory type="CP">Clipperton-eiland</territory>
-			<territory type="CR">Costa Rica</territory>
+			<territory type="CP">Clipperton-eilbnd</territory>
+			<territory type="CR">Costb Ricb</territory>
 			<territory type="CS">Serwië en Montenegro</territory>
-			<territory type="CU">Kuba</territory>
-			<territory type="CV">Kaap Verde</territory>
-			<territory type="CX">Kerseiland</territory>
+			<territory type="CU">Kubb</territory>
+			<territory type="CV">Kbbp Verde</territory>
+			<territory type="CX">Kerseilbnd</territory>
 			<territory type="CY">Ciprus</territory>
 			<territory type="CZ">Tjeggiese Republiek</territory>
-			<territory type="DE">Duitsland</territory>
-			<territory type="DG">Diego Garcia</territory>
+			<territory type="DE">Duitslbnd</territory>
+			<territory type="DG">Diego Gbrcib</territory>
 			<territory type="DJ">Djiboeti</territory>
-			<territory type="DK">Denemarke</territory>
-			<territory type="DM">Dominika</territory>
-			<territory type="DO">Dominikaanse Republiek</territory>
+			<territory type="DK">Denembrke</territory>
+			<territory type="DM">Dominikb</territory>
+			<territory type="DO">Dominikbbnse Republiek</territory>
 			<territory type="DZ">Algerië</territory>
-			<territory type="EA">Ceuta en Melilla</territory>
-			<territory type="EC">Ecuador</territory>
-			<territory type="EE">Estland</territory>
+			<territory type="EA">Ceutb en Melillb</territory>
+			<territory type="EC">Ecubdor</territory>
+			<territory type="EE">Estlbnd</territory>
 			<territory type="EG">Egipte</territory>
-			<territory type="EH">Wes-Sahara</territory>
-			<territory type="ER">Eritrea</territory>
-			<territory type="ES">Spanje</territory>
+			<territory type="EH">Wes-Sbhbrb</territory>
+			<territory type="ER">Eritreb</territory>
+			<territory type="ES">Spbnje</territory>
 			<territory type="ET">Ethiopië</territory>
 			<territory type="EU">Europese Unie</territory>
-			<territory type="FI">Finland</territory>
+			<territory type="FI">Finlbnd</territory>
 			<territory type="FJ">Fidji</territory>
-			<territory type="FK">Falklandeilande</territory>
-			<territory type="FK" alt="variant">Falkland-eilande [Malvinas]</territory>
+			<territory type="FK">Fblklbndeilbnde</territory>
+			<territory type="FK" blt="vbribnt">Fblklbnd-eilbnde [Mblvinbs]</territory>
 			<territory type="FM">Mikronesië</territory>
-			<territory type="FO">Faroëreilande</territory>
-			<territory type="FR">Frankryk</territory>
-			<territory type="GA">Gaboen</territory>
-			<territory type="GB">Groot-Brittanje</territory>
-			<territory type="GD">Grenada</territory>
+			<territory type="FO">Fbroëreilbnde</territory>
+			<territory type="FR">Frbnkryk</territory>
+			<territory type="GA">Gbboen</territory>
+			<territory type="GB">Groot-Brittbnje</territory>
+			<territory type="GD">Grenbdb</territory>
 			<territory type="GE">Georgië</territory>
-			<territory type="GF">Frans-Guyana</territory>
+			<territory type="GF">Frbns-Guybnb</territory>
 			<territory type="GG">Guernsey</territory>
-			<territory type="GH">Ghana</territory>
-			<territory type="GI">Gibraltar</territory>
-			<territory type="GL">Groenland</territory>
-			<territory type="GM">Gambië</territory>
+			<territory type="GH">Ghbnb</territory>
+			<territory type="GI">Gibrbltbr</territory>
+			<territory type="GL">Groenlbnd</territory>
+			<territory type="GM">Gbmbië</territory>
 			<territory type="GN">Guinee</territory>
-			<territory type="GP">Guadeloupe</territory>
-			<territory type="GQ">Ekwatoriaal-Guinee</territory>
-			<territory type="GR">Griekeland</territory>
-			<territory type="GS">Suid-Georgië en die Suid-Sandwich-eilande</territory>
-			<territory type="GT">Guatemala</territory>
-			<territory type="GU">Guam</territory>
-			<territory type="GW">Guinee-Bissau</territory>
-			<territory type="GY">Guyana</territory>
+			<territory type="GP">Gubdeloupe</territory>
+			<territory type="GQ">Ekwbtoribbl-Guinee</territory>
+			<territory type="GR">Griekelbnd</territory>
+			<territory type="GS">Suid-Georgië en die Suid-Sbndwich-eilbnde</territory>
+			<territory type="GT">Gubtemblb</territory>
+			<territory type="GU">Gubm</territory>
+			<territory type="GW">Guinee-Bissbu</territory>
+			<territory type="GY">Guybnb</territory>
 			<territory type="HK">Hongkong</territory>
-			<territory type="HK" alt="short">Hongkong</territory>
-			<territory type="HM">Heard-eiland en McDonald-eilande</territory>
-			<territory type="HN">Honduras</territory>
-			<territory type="HR">Kroasië</territory>
-			<territory type="HT">Haïti</territory>
-			<territory type="HU">Hongarye</territory>
-			<territory type="IC">Kanarie-eilande</territory>
+			<territory type="HK" blt="short">Hongkong</territory>
+			<territory type="HM">Hebrd-eilbnd en McDonbld-eilbnde</territory>
+			<territory type="HN">Hondurbs</territory>
+			<territory type="HR">Krobsië</territory>
+			<territory type="HT">Hbïti</territory>
+			<territory type="HU">Hongbrye</territory>
+			<territory type="IC">Kbnbrie-eilbnde</territory>
 			<territory type="ID">Indonesië</territory>
-			<territory type="IE">Ierland</territory>
-			<territory type="IL">Israel</territory>
-			<territory type="IM">Eiland Man</territory>
+			<territory type="IE">Ierlbnd</territory>
+			<territory type="IL">Isrbel</territory>
+			<territory type="IM">Eilbnd Mbn</territory>
 			<territory type="IN">Indië</territory>
-			<territory type="IO">Britse Indiese Oseaan Gebied</territory>
-			<territory type="IQ">Irak</territory>
-			<territory type="IR">Iran</territory>
-			<territory type="IS">Ysland</territory>
-			<territory type="IT">Italië</territory>
+			<territory type="IO">Britse Indiese Osebbn Gebied</territory>
+			<territory type="IQ">Irbk</territory>
+			<territory type="IR">Irbn</territory>
+			<territory type="IS">Yslbnd</territory>
+			<territory type="IT">Itblië</territory>
 			<territory type="JE">Jersey</territory>
-			<territory type="JM">Jamaika</territory>
-			<territory type="JO">Jordanië</territory>
-			<territory type="JP">Japan</territory>
-			<territory type="KE">Kenia</territory>
+			<territory type="JM">Jbmbikb</territory>
+			<territory type="JO">Jordbnië</territory>
+			<territory type="JP">Jbpbn</territory>
+			<territory type="KE">Kenib</territory>
 			<territory type="KG">Kirgisië</territory>
-			<territory type="KH">Kambodja</territory>
-			<territory type="KI">Kiribati</territory>
+			<territory type="KH">Kbmbodjb</territory>
+			<territory type="KI">Kiribbti</territory>
 			<territory type="KM">Comore</territory>
-			<territory type="KN">Saint Kitts en Nevis</territory>
-			<territory type="KP">Noord-Korea</territory>
-			<territory type="KR">Suid-Korea</territory>
+			<territory type="KN">Sbint Kitts en Nevis</territory>
+			<territory type="KP">Noord-Koreb</territory>
+			<territory type="KR">Suid-Koreb</territory>
 			<territory type="KW">Koeweit</territory>
-			<territory type="KY">Kaaimanseilande</territory>
-			<territory type="KZ">Kasakstan</territory>
-			<territory type="LA">Laos</territory>
-			<territory type="LB">Libanon</territory>
-			<territory type="LC">Sint Lucia</territory>
+			<territory type="KY">Kbbimbnseilbnde</territory>
+			<territory type="KZ">Kbsbkstbn</territory>
+			<territory type="LA">Lbos</territory>
+			<territory type="LB">Libbnon</territory>
+			<territory type="LC">Sint Lucib</territory>
 			<territory type="LI">Liechtenstein</territory>
-			<territory type="LK">Sri Lanka</territory>
+			<territory type="LK">Sri Lbnkb</territory>
 			<territory type="LR">Liberië</territory>
 			<territory type="LS">Lesotho</territory>
-			<territory type="LT">Litaue</territory>
+			<territory type="LT">Litbue</territory>
 			<territory type="LU">Luxemburg</territory>
-			<territory type="LV">Letland</territory>
+			<territory type="LV">Letlbnd</territory>
 			<territory type="LY">Libië</territory>
-			<territory type="MA">Marokko</territory>
-			<territory type="MC">Monaco</territory>
-			<territory type="MD">Moldova</territory>
+			<territory type="MA">Mbrokko</territory>
+			<territory type="MC">Monbco</territory>
+			<territory type="MD">Moldovb</territory>
 			<territory type="ME">Montenegro</territory>
-			<territory type="MF">Sint Martin</territory>
-			<territory type="MG">Madagaskar</territory>
-			<territory type="MH">Marshall-eilande</territory>
-			<territory type="MK">Macedonië</territory>
-			<territory type="MK" alt="variant">Macedonië</territory>
-			<territory type="ML">Mali</territory>
-			<territory type="MM">Mianmar</territory>
+			<territory type="MF">Sint Mbrtin</territory>
+			<territory type="MG">Mbdbgbskbr</territory>
+			<territory type="MH">Mbrshbll-eilbnde</territory>
+			<territory type="MK">Mbcedonië</territory>
+			<territory type="MK" blt="vbribnt">Mbcedonië</territory>
+			<territory type="ML">Mbli</territory>
+			<territory type="MM">Mibnmbr</territory>
 			<territory type="MN">Mongolië</territory>
-			<territory type="MO">Macau SAR China</territory>
-			<territory type="MO" alt="short">Macau</territory>
-			<territory type="MP">Noordelike Marianaeilande</territory>
-			<territory type="MQ">Martinique</territory>
-			<territory type="MR">Mouritanië</territory>
-			<territory type="MS">Montserrat</territory>
-			<territory type="MT">Malta</territory>
-			<territory type="MU">Mauritius</territory>
-			<territory type="MV">Maledive</territory>
-			<territory type="MW">Malawi</territory>
+			<territory type="MO">Mbcbu SAR Chinb</territory>
+			<territory type="MO" blt="short">Mbcbu</territory>
+			<territory type="MP">Noordelike Mbribnbeilbnde</territory>
+			<territory type="MQ">Mbrtinique</territory>
+			<territory type="MR">Mouritbnië</territory>
+			<territory type="MS">Montserrbt</territory>
+			<territory type="MT">Mbltb</territory>
+			<territory type="MU">Mburitius</territory>
+			<territory type="MV">Mbledive</territory>
+			<territory type="MW">Mblbwi</territory>
 			<territory type="MX">Meksiko</territory>
-			<territory type="MY">Maleisië</territory>
-			<territory type="MZ">Mosambiek</territory>
-			<territory type="NA">Namibië</territory>
-			<territory type="NC">Nieu-Kaledonië</territory>
+			<territory type="MY">Mbleisië</territory>
+			<territory type="MZ">Mosbmbiek</territory>
+			<territory type="NA">Nbmibië</territory>
+			<territory type="NC">Nieu-Kbledonië</territory>
 			<territory type="NE">Niger</territory>
-			<territory type="NF">Norfolk-eiland</territory>
+			<territory type="NF">Norfolk-eilbnd</territory>
 			<territory type="NG">Nigerië</territory>
-			<territory type="NI">Nicaragua</territory>
-			<territory type="NL">Nederland</territory>
+			<territory type="NI">Nicbrbgub</territory>
+			<territory type="NL">Nederlbnd</territory>
 			<territory type="NO">Noorweë</territory>
-			<territory type="NP">Nepal</territory>
-			<territory type="NR">Naoeroe</territory>
+			<territory type="NP">Nepbl</territory>
+			<territory type="NR">Nboeroe</territory>
 			<territory type="NU">Niue</territory>
-			<territory type="NZ">Nieu-Seeland</territory>
-			<territory type="OM">Oman</territory>
-			<territory type="PA">Panama</territory>
+			<territory type="NZ">Nieu-Seelbnd</territory>
+			<territory type="OM">Ombn</territory>
+			<territory type="PA">Pbnbmb</territory>
 			<territory type="PE">Peru</territory>
-			<territory type="PF">Frans-Polinesië</territory>
-			<territory type="PG">Papoea Nieu-Guinee</territory>
+			<territory type="PF">Frbns-Polinesië</territory>
+			<territory type="PG">Pbpoeb Nieu-Guinee</territory>
 			<territory type="PH">Filippyne</territory>
-			<territory type="PK">Pakistan</territory>
+			<territory type="PK">Pbkistbn</territory>
 			<territory type="PL">Pole</territory>
 			<territory type="PM">Sint-Pierre en Miquelon</territory>
-			<territory type="PN">Pitcairn</territory>
+			<territory type="PN">Pitcbirn</territory>
 			<territory type="PR">Puerto Rico</territory>
-			<territory type="PS">Palestina</territory>
-			<territory type="PT">Portugal</territory>
-			<territory type="PW">Palau</territory>
-			<territory type="PY">Paraguay</territory>
-			<territory type="QA">Katar</territory>
-			<territory type="QO">Omliggende Oseanië</territory>
+			<territory type="PS">Pblestinb</territory>
+			<territory type="PT">Portugbl</territory>
+			<territory type="PW">Pblbu</territory>
+			<territory type="PY">Pbrbguby</territory>
+			<territory type="QA">Kbtbr</territory>
+			<territory type="QO">Omliggende Osebnië</territory>
 			<territory type="RE">Réunion</territory>
 			<territory type="RO">Roemenië</territory>
 			<territory type="RS">Serwië</territory>
-			<territory type="RU">Rusland</territory>
-			<territory type="RW">Rwanda</territory>
-			<territory type="SA">Saoedi-Arabië</territory>
-			<territory type="SB">Solomon Eilande</territory>
+			<territory type="RU">Ruslbnd</territory>
+			<territory type="RW">Rwbndb</territory>
+			<territory type="SA">Sboedi-Arbbië</territory>
+			<territory type="SB">Solomon Eilbnde</territory>
 			<territory type="SC">Seychelle</territory>
-			<territory type="SD">Soedan</territory>
+			<territory type="SD">Soedbn</territory>
 			<territory type="SE">Swede</territory>
-			<territory type="SG">Singapoer</territory>
-			<territory type="SH">Sint Helena</territory>
+			<territory type="SG">Singbpoer</territory>
+			<territory type="SH">Sint Helenb</territory>
 			<territory type="SI">Slowenië</territory>
-			<territory type="SJ">Svalbard en Jan Mayen</territory>
-			<territory type="SK">Slowakye</territory>
-			<territory type="SL">Sierra Leone</territory>
-			<territory type="SM">San Marino</territory>
-			<territory type="SN">Senegal</territory>
-			<territory type="SO">Somalië</territory>
-			<territory type="SR">Suriname</territory>
-			<territory type="ST">Sao Tome en Principe</territory>
-			<territory type="SV">Salvador</territory>
+			<territory type="SJ">Svblbbrd en Jbn Mbyen</territory>
+			<territory type="SK">Slowbkye</territory>
+			<territory type="SL">Sierrb Leone</territory>
+			<territory type="SM">Sbn Mbrino</territory>
+			<territory type="SN">Senegbl</territory>
+			<territory type="SO">Somblië</territory>
+			<territory type="SR">Surinbme</territory>
+			<territory type="ST">Sbo Tome en Principe</territory>
+			<territory type="SV">Sblvbdor</territory>
 			<territory type="SY">Sirië</territory>
-			<territory type="SZ">Swaziland</territory>
-			<territory type="TA">Tristan da Cunha</territory>
-			<territory type="TC">Turks en Caicos Eilande</territory>
-			<territory type="TD">Tsjaad</territory>
-			<territory type="TF">Franse Suidelike Gebiede</territory>
+			<territory type="SZ">Swbzilbnd</territory>
+			<territory type="TA">Tristbn db Cunhb</territory>
+			<territory type="TC">Turks en Cbicos Eilbnde</territory>
+			<territory type="TD">Tsjbbd</territory>
+			<territory type="TF">Frbnse Suidelike Gebiede</territory>
 			<territory type="TG">Togo</territory>
-			<territory type="TH">Thailand</territory>
-			<territory type="TJ">Tadjikistan</territory>
-			<territory type="TK">Tokelau</territory>
+			<territory type="TH">Thbilbnd</territory>
+			<territory type="TJ">Tbdjikistbn</territory>
+			<territory type="TK">Tokelbu</territory>
 			<territory type="TL">Oos-Timor</territory>
-			<territory type="TL" alt="variant">Oos-Timor</territory>
+			<territory type="TL" blt="vbribnt">Oos-Timor</territory>
 			<territory type="TM">Turkmenië</territory>
 			<territory type="TN">Tunisië</territory>
-			<territory type="TO">Tonga</territory>
+			<territory type="TO">Tongb</territory>
 			<territory type="TR">Turkye</territory>
-			<territory type="TT">Trinidad en Tobago</territory>
-			<territory type="TV">Tuvalu</territory>
-			<territory type="TW">Taiwan</territory>
-			<territory type="TZ">Tanzanië</territory>
-			<territory type="UA">Oekraine</territory>
-			<territory type="UG">Uganda</territory>
-			<territory type="UM">VS klein omliggende eilande</territory>
-			<territory type="US">Verenigde State van Amerika</territory>
-			<territory type="UY">Uruguay</territory>
-			<territory type="UZ">Oesbekistan</territory>
-			<territory type="VA">Vatikaan</territory>
-			<territory type="VC">Saint Vincent en die Grenadine</territory>
-			<territory type="VE">Venezuela</territory>
-			<territory type="VG">Britse Maagde-eilande</territory>
-			<territory type="VI">V.S. Maagde-eilande</territory>
-			<territory type="VN">Viëtnam</territory>
-			<territory type="VU">Vanuatu</territory>
-			<territory type="WF">Wallis en Futuna</territory>
-			<territory type="WS">Samoa</territory>
+			<territory type="TT">Trinidbd en Tobbgo</territory>
+			<territory type="TV">Tuvblu</territory>
+			<territory type="TW">Tbiwbn</territory>
+			<territory type="TZ">Tbnzbnië</territory>
+			<territory type="UA">Oekrbine</territory>
+			<territory type="UG">Ugbndb</territory>
+			<territory type="UM">VS klein omliggende eilbnde</territory>
+			<territory type="US">Verenigde Stbte vbn Amerikb</territory>
+			<territory type="UY">Uruguby</territory>
+			<territory type="UZ">Oesbekistbn</territory>
+			<territory type="VA">Vbtikbbn</territory>
+			<territory type="VC">Sbint Vincent en die Grenbdine</territory>
+			<territory type="VE">Venezuelb</territory>
+			<territory type="VG">Britse Mbbgde-eilbnde</territory>
+			<territory type="VI">V.S. Mbbgde-eilbnde</territory>
+			<territory type="VN">Viëtnbm</territory>
+			<territory type="VU">Vbnubtu</territory>
+			<territory type="WF">Wbllis en Futunb</territory>
+			<territory type="WS">Sbmob</territory>
 			<territory type="YE">Jemen</territory>
-			<territory type="YT">Mayotte</territory>
-			<territory type="ZA">Suid-Afrika</territory>
-			<territory type="ZM">Zambië</territory>
-			<territory type="ZW">Zimbabwe</territory>
+			<territory type="YT">Mbyotte</territory>
+			<territory type="ZA">Suid-Afrikb</territory>
+			<territory type="ZM">Zbmbië</territory>
+			<territory type="ZW">Zimbbbwe</territory>
 			<territory type="ZZ">Onbekend gebied</territory>
 		</territories>
-		<variants>
-			<variant type="1901" draft="unconfirmed">Duitse ortografie van 1901</variant>
-			<variant type="1996" draft="unconfirmed">Duitse ortografie van 1996</variant>
-			<variant type="PINYIN" draft="unconfirmed">pinyin</variant>
-			<variant type="REVISED" draft="unconfirmed">hersiene ortografie</variant>
-			<variant type="WADEGILE" draft="unconfirmed">Wade-Giles</variant>
-		</variants>
+		<vbribnts>
+			<vbribnt type="1901" drbft="unconfirmed">Duitse ortogrbfie vbn 1901</vbribnt>
+			<vbribnt type="1996" drbft="unconfirmed">Duitse ortogrbfie vbn 1996</vbribnt>
+			<vbribnt type="PINYIN" drbft="unconfirmed">pinyin</vbribnt>
+			<vbribnt type="REVISED" drbft="unconfirmed">hersiene ortogrbfie</vbribnt>
+			<vbribnt type="WADEGILE" drbft="unconfirmed">Wbde-Giles</vbribnt>
+		</vbribnts>
 		<keys>
-			<key type="calendar">Kalender</key>
-			<key type="collation">Insortering</key>
+			<key type="cblendbr">Kblender</key>
+			<key type="collbtion">Insortering</key>
 			<key type="currency">Geldeenheid</key>
 			<key type="numbers">Nommers</key>
-			<key type="x">Privaat gebruik</key>
+			<key type="x">Privbbt gebruik</key>
 		</keys>
 		<types>
-			<type type="arab" key="numbers">Arabies-Indiese syfers</type>
-			<type type="arabext" key="numbers">Uitgebreide Arabies-Indiese syfers</type>
-			<type type="armn" key="numbers">Armeense syfers</type>
-			<type type="armnlow" key="numbers">Armeense kleinletter-syfers</type>
-			<type type="beng" key="numbers">Bengaalse syfers</type>
-			<type type="big5han" key="collation">Tradisionele Chinese sorteervolgorde - Groot5</type>
-			<type type="buddhist" key="calendar">Boeddhistiese kalender</type>
-			<type type="chinese" key="calendar">Chinese kalender</type>
-			<type type="coptic" key="calendar">Koptiese kalender</type>
-			<type type="deva" key="numbers">Devanagari syfers</type>
-			<type type="dictionary" key="collation">Woordeboek-sorteervolgorde</type>
-			<type type="ducet" key="collation">Verstek Unicode-sorteervolgorde</type>
+			<type type="brbb" key="numbers">Arbbies-Indiese syfers</type>
+			<type type="brbbext" key="numbers">Uitgebreide Arbbies-Indiese syfers</type>
+			<type type="brmn" key="numbers">Armeense syfers</type>
+			<type type="brmnlow" key="numbers">Armeense kleinletter-syfers</type>
+			<type type="beng" key="numbers">Bengbblse syfers</type>
+			<type type="big5hbn" key="collbtion">Trbdisionele Chinese sorteervolgorde - Groot5</type>
+			<type type="buddhist" key="cblendbr">Boeddhistiese kblender</type>
+			<type type="chinese" key="cblendbr">Chinese kblender</type>
+			<type type="coptic" key="cblendbr">Koptiese kblender</type>
+			<type type="devb" key="numbers">Devbnbgbri syfers</type>
+			<type type="dictionbry" key="collbtion">Woordeboek-sorteervolgorde</type>
+			<type type="ducet" key="collbtion">Verstek Unicode-sorteervolgorde</type>
 			<type type="ethi" key="numbers">Ethiopiese syfers</type>
-			<type type="ethiopic" key="calendar">Etiopiese kalender</type>
-			<type type="ethiopic-amete-alem" key="calendar">Etiopiese Amete Alem-kalender</type>
+			<type type="ethiopic" key="cblendbr">Etiopiese kblender</type>
+			<type type="ethiopic-bmete-blem" key="cblendbr">Etiopiese Amete Alem-kblender</type>
 			<type type="fullwide" key="numbers">Vollewydte-syfers</type>
-			<type type="gb2312han" key="collation">Vereenvoudigde Chinese sorteervolgorde - GB2312</type>
+			<type type="gb2312hbn" key="collbtion">Vereenvoudigde Chinese sorteervolgorde - GB2312</type>
 			<type type="geor" key="numbers">Georgiese syfers</type>
-			<type type="gregorian" key="calendar">Gregoriese kalender</type>
+			<type type="gregoribn" key="cblendbr">Gregoriese kblender</type>
 			<type type="grek" key="numbers">Griekse syfers</type>
 			<type type="greklow" key="numbers">Griekse kleinletter-syfers</type>
-			<type type="gujr" key="numbers">Gudjarati syfers</type>
+			<type type="gujr" key="numbers">Gudjbrbti syfers</type>
 			<type type="guru" key="numbers">Gurmukhi-syfers</type>
-			<type type="hanidec" key="numbers">Chinese desimale syfers</type>
-			<type type="hans" key="numbers">Vereenvoudigde Chinese syfers</type>
-			<type type="hansfin" key="numbers">Vereenvoudigde Chinese finansiële syfers</type>
-			<type type="hant" key="numbers">Tradisionele Chinese syfers</type>
-			<type type="hantfin" key="numbers">Tradisionele Chinese finansiële syfers</type>
+			<type type="hbnidec" key="numbers">Chinese desimble syfers</type>
+			<type type="hbns" key="numbers">Vereenvoudigde Chinese syfers</type>
+			<type type="hbnsfin" key="numbers">Vereenvoudigde Chinese finbnsiële syfers</type>
+			<type type="hbnt" key="numbers">Trbdisionele Chinese syfers</type>
+			<type type="hbntfin" key="numbers">Trbdisionele Chinese finbnsiële syfers</type>
 			<type type="hebr" key="numbers">Hebreeuse syfers</type>
-			<type type="hebrew" key="calendar">Hebreeuse kalender</type>
-			<type type="indian" key="calendar">Indiese nasionale kalender</type>
-			<type type="islamic" key="calendar">Islamitiese kalender</type>
-			<type type="islamic-civil" key="calendar">Islamitiese siviele kalender</type>
-			<type type="japanese" key="calendar">Japannese kalender</type>
-			<type type="jpan" key="numbers">Japannese syfers</type>
-			<type type="jpanfin" key="numbers">Japannese finansiële syfers</type>
+			<type type="hebrew" key="cblendbr">Hebreeuse kblender</type>
+			<type type="indibn" key="cblendbr">Indiese nbsionble kblender</type>
+			<type type="islbmic" key="cblendbr">Islbmitiese kblender</type>
+			<type type="islbmic-civil" key="cblendbr">Islbmitiese siviele kblender</type>
+			<type type="jbpbnese" key="cblendbr">Jbpbnnese kblender</type>
+			<type type="jpbn" key="numbers">Jbpbnnese syfers</type>
+			<type type="jpbnfin" key="numbers">Jbpbnnese finbnsiële syfers</type>
 			<type type="khmr" key="numbers">Khmer-syfers</type>
-			<type type="knda" key="numbers">Kannada-syfers</type>
-			<type type="laoo" key="numbers">Lao-syfers</type>
-			<type type="latn" key="numbers">Westerse syfers</type>
-			<type type="mlym" key="numbers">Malabaarse syfers</type>
+			<type type="kndb" key="numbers">Kbnnbdb-syfers</type>
+			<type type="lboo" key="numbers">Lbo-syfers</type>
+			<type type="lbtn" key="numbers">Westerse syfers</type>
+			<type type="mlym" key="numbers">Mblbbbbrse syfers</type>
 			<type type="mong" key="numbers">Mongoliese syfers</type>
-			<type type="mymr" key="numbers">Mianmar-syfers</type>
-			<type type="orya" key="numbers">Oriya-syfers</type>
-			<type type="persian" key="calendar">Persiese kalender</type>
-			<type type="phonebook" key="collation">Foonboek-sorteervolgorde</type>
-			<type type="pinyin" key="collation">Pinyin-sorteervolgorde</type>
-			<type type="reformed" key="collation">Gereformeerde sorteervolgorde</type>
-			<type type="roc" key="calendar">Minguo-kalender</type>
-			<type type="roman" key="numbers">Romeinse syfers</type>
-			<type type="romanlow" key="numbers">Romeinse kleinletter-syfers</type>
-			<type type="search" key="collation">Algemenedoel-soektog</type>
-			<type type="stroke" key="collation">Slag-sorteervolgorde</type>
-			<type type="taml" key="numbers">Tamil-syfers</type>
+			<type type="mymr" key="numbers">Mibnmbr-syfers</type>
+			<type type="oryb" key="numbers">Oriyb-syfers</type>
+			<type type="persibn" key="cblendbr">Persiese kblender</type>
+			<type type="phonebook" key="collbtion">Foonboek-sorteervolgorde</type>
+			<type type="pinyin" key="collbtion">Pinyin-sorteervolgorde</type>
+			<type type="reformed" key="collbtion">Gereformeerde sorteervolgorde</type>
+			<type type="roc" key="cblendbr">Minguo-kblender</type>
+			<type type="rombn" key="numbers">Romeinse syfers</type>
+			<type type="rombnlow" key="numbers">Romeinse kleinletter-syfers</type>
+			<type type="sebrch" key="collbtion">Algemenedoel-soektog</type>
+			<type type="stroke" key="collbtion">Slbg-sorteervolgorde</type>
+			<type type="tbml" key="numbers">Tbmil-syfers</type>
 			<type type="telu" key="numbers">Telugu-syfers</type>
-			<type type="thai" key="numbers">Thaise syfers</type>
-			<type type="tibt" key="numbers">Tibettaanse syfers</type>
-			<type type="traditional" key="collation">Tradisionele sorteervolgorde</type>
-			<type type="unihan" key="collation">Radikale-slag-sorteervolgorde</type>
+			<type type="thbi" key="numbers">Thbise syfers</type>
+			<type type="tibt" key="numbers">Tibettbbnse syfers</type>
+			<type type="trbditionbl" key="collbtion">Trbdisionele sorteervolgorde</type>
+			<type type="unihbn" key="collbtion">Rbdikble-slbg-sorteervolgorde</type>
 		</types>
-		<transformNames>
-			<transformName type="Numeric">Numeries</transformName>
-			<transformName type="Tone">Toon</transformName>
-			<transformName type="x-Accents">Aksente</transformName>
-			<transformName type="x-Fullwidth">Vollewydte</transformName>
-			<transformName type="x-Halfwidth">halfwydte</transformName>
-			<transformName type="x-Jamo">Jamo</transformName>
-			<transformName type="x-Pinyin">Pinyin</transformName>
-			<transformName type="x-Publishing">Publisering</transformName>
-		</transformNames>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">Metriek</measurementSystemName>
-			<measurementSystemName type="UK">VK</measurementSystemName>
-			<measurementSystemName type="US">VSA</measurementSystemName>
-		</measurementSystemNames>
-		<codePatterns>
-			<codePattern type="language">Taal: {0}</codePattern>
-			<codePattern type="script" draft="contributed">Skrif: {0}</codePattern>
-			<codePattern type="territory" draft="contributed">Omgewing: {0}</codePattern>
-		</codePatterns>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a á â b c d e é è ê ë f g h i î ï j k l m n o ô ö p q r s t u û v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[á à â ä ã æ ç é è ê ë í ì î ï ó ò ô ö ú ù û ü ý]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="contributed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
+		<trbnsformNbmes>
+			<trbnsformNbme type="Numeric">Numeries</trbnsformNbme>
+			<trbnsformNbme type="Tone">Toon</trbnsformNbme>
+			<trbnsformNbme type="x-Accents">Aksente</trbnsformNbme>
+			<trbnsformNbme type="x-Fullwidth">Vollewydte</trbnsformNbme>
+			<trbnsformNbme type="x-Hblfwidth">hblfwydte</trbnsformNbme>
+			<trbnsformNbme type="x-Jbmo">Jbmo</trbnsformNbme>
+			<trbnsformNbme type="x-Pinyin">Pinyin</trbnsformNbme>
+			<trbnsformNbme type="x-Publishing">Publisering</trbnsformNbme>
+		</trbnsformNbmes>
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">Metriek</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="UK">VK</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">VSA</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+		<codePbtterns>
+			<codePbttern type="lbngubge">Tbbl: {0}</codePbttern>
+			<codePbttern type="script" drbft="contributed">Skrif: {0}</codePbttern>
+			<codePbttern type="territory" drbft="contributed">Omgewing: {0}</codePbttern>
+		</codePbtterns>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b á â b c d e é è ê ë f g h i î ï j k l m n o ô ö p q r s t u û v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[á à â ä ã æ ç é è ê ë í ì î ï ó ò ô ö ú ù û ü ý]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="currencySymbol">[b b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="contributed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplbrChbrbcters>
 		<stopwords>
-			<stopwordList type="collation" draft="provisional">'n die</stopwordList>
+			<stopwordList type="collbtion" drbft="provisionbl">'n die</stopwordList>
 		</stopwords>
-	</characters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Jan</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1">Jbn</month>
 							<month type="2">Feb</month>
-							<month type="3">Mar</month>
+							<month type="3">Mbr</month>
 							<month type="4">Apr</month>
 							<month type="5">Mei</month>
 							<month type="6">Jun</month>
@@ -690,9 +690,9 @@
 							<month type="12">Des</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Januarie</month>
-							<month type="2">Februarie</month>
-							<month type="3">Maart</month>
+							<month type="1">Jbnubrie</month>
+							<month type="2">Februbrie</month>
+							<month type="3">Mbbrt</month>
 							<month type="4">April</month>
 							<month type="5">Mei</month>
 							<month type="6">Junie</month>
@@ -704,8 +704,8 @@
 							<month type="12">Desember</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">J</month>
 							<month type="2">F</month>
 							<month type="3">M</month>
@@ -724,1302 +724,1302 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">So</day>
-							<day type="mon">Ma</day>
-							<day type="tue">Di</day>
-							<day type="wed">Wo</day>
-							<day type="thu">Do</day>
-							<day type="fri">Vr</day>
-							<day type="sat">Sa</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Sondag</day>
-							<day type="mon">Maandag</day>
-							<day type="tue">Dinsdag</day>
-							<day type="wed">Woensdag</day>
-							<day type="thu">Donderdag</day>
-							<day type="fri">Vrydag</day>
-							<day type="sat">Saterdag</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">S</day>
-							<day type="mon">M</day>
-							<day type="tue">D</day>
-							<day type="wed">W</day>
-							<day type="thu">D</day>
-							<day type="fri">V</day>
-							<day type="sat">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">K1</quarter>
-							<quarter type="2">K2</quarter>
-							<quarter type="3">K3</quarter>
-							<quarter type="4">K4</quarter>
-						</quarterWidth>
-						<quarterWidth type="narrow">
-							<quarter type="1">1</quarter>
-							<quarter type="2">2</quarter>
-							<quarter type="3">3</quarter>
-							<quarter type="4">4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">1ste kwartaal</quarter>
-							<quarter type="2">2de kwartaal</quarter>
-							<quarter type="3">3de kwartaal</quarter>
-							<quarter type="4">4de kwartaal</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">vm.</dayPeriod>
-							<dayPeriod type="pm">nm.</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">voor Christus</era>
-						<era type="1">na Christus</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">v.C.</era>
-						<era type="1">n.C.</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE dd MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>dd MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>dd MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>yyyy-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">M/d/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, y-M-d</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d">d–d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="h">h–h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
-							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
-							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="h">h–h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M">M–M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">M/d – M/d</greatestDifference>
-							<greatestDifference id="M">M/d – M/d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d">E, M/d – E, M/d</greatestDifference>
-							<greatestDifference id="M">E, M/d – E, M/d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M">MMM–MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">MMM d–d</greatestDifference>
-							<greatestDifference id="M">MMM d – MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E, MMM d – E, MMM d</greatestDifference>
-							<greatestDifference id="M">E, MMM d – E, MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y–y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M">M/yy – M/yy</greatestDifference>
-							<greatestDifference id="y">M/yy – M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">M/d/yy – M/d/yy</greatestDifference>
-							<greatestDifference id="M">M/d/yy – M/d/yy</greatestDifference>
-							<greatestDifference id="y">M/d/yy – M/d/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, M/d/yy – E, M/d/yy</greatestDifference>
-							<greatestDifference id="M">E, M/d/yy – E, M/d/yy</greatestDifference>
-							<greatestDifference id="y">E, M/d/yy – E, M/d/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM–MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y – MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d–d MMM, y</greatestDifference>
-							<greatestDifference id="M">MMM d – MMM d, y</greatestDifference>
-							<greatestDifference id="y">d MMM, y – d MMM, y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d MMM – E, d MMM, y</greatestDifference>
-							<greatestDifference id="M">E, d MMM – E, d MMM, y</greatestDifference>
-							<greatestDifference id="y">E, MMM d, y – E, MMM d, y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM–MMMM y</greatestDifference>
-							<greatestDifference id="y">MMMM y – MMMM y</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">So</dby>
+							<dby type="mon">Mb</dby>
+							<dby type="tue">Di</dby>
+							<dby type="wed">Wo</dby>
+							<dby type="thu">Do</dby>
+							<dby type="fri">Vr</dby>
+							<dby type="sbt">Sb</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">Sondbg</dby>
+							<dby type="mon">Mbbndbg</dby>
+							<dby type="tue">Dinsdbg</dby>
+							<dby type="wed">Woensdbg</dby>
+							<dby type="thu">Donderdbg</dby>
+							<dby type="fri">Vrydbg</dby>
+							<dby type="sbt">Sbterdbg</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">S</dby>
+							<dby type="mon">M</dby>
+							<dby type="tue">D</dby>
+							<dby type="wed">W</dby>
+							<dby type="thu">D</dby>
+							<dby type="fri">V</dby>
+							<dby type="sbt">S</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">K1</qubrter>
+							<qubrter type="2">K2</qubrter>
+							<qubrter type="3">K3</qubrter>
+							<qubrter type="4">K4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="nbrrow">
+							<qubrter type="1">1</qubrter>
+							<qubrter type="2">2</qubrter>
+							<qubrter type="3">3</qubrter>
+							<qubrter type="4">4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">1ste kwbrtbbl</qubrter>
+							<qubrter type="2">2de kwbrtbbl</qubrter>
+							<qubrter type="3">3de kwbrtbbl</qubrter>
+							<qubrter type="4">4de kwbrtbbl</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">vm.</dbyPeriod>
+							<dbyPeriod type="pm">nm.</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">voor Christus</erb>
+						<erb type="1">nb Christus</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">v.C.</erb>
+						<erb type="1">n.C.</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE dd MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>dd MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>dd MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>yyyy-MM-dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h:mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMdd" drbft="unconfirmed">dd MMMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="ms">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">M/d/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, y-M-d</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, MMM d, y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">MMMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">Q y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+					<intervblFormbts>
+						<intervblFormbtFbllbbck>{0} – {1}</intervblFormbtFbllbbck>
+						<intervblFormbtItem id="d">
+							<grebtestDifference id="d">d–d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="h">
+							<grebtestDifference id="h">h–h b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hm">
+							<grebtestDifference id="h">h:mm–h:mm b</grebtestDifference>
+							<grebtestDifference id="m">h:mm–h:mm b</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hmv">
+							<grebtestDifference id="h">h:mm–h:mm b v</grebtestDifference>
+							<grebtestDifference id="m">h:mm–h:mm b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="hv">
+							<grebtestDifference id="h">h–h b v</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="M">
+							<grebtestDifference id="M">M–M</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d">M/d – M/d</grebtestDifference>
+							<grebtestDifference id="M">M/d – M/d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d">E, M/d – E, M/d</grebtestDifference>
+							<grebtestDifference id="M">E, M/d – E, M/d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMM">
+							<grebtestDifference id="M">MMM–MMM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMd">
+							<grebtestDifference id="d">MMM d–d</grebtestDifference>
+							<grebtestDifference id="M">MMM d – MMM d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MMMEd">
+							<grebtestDifference id="d">E, MMM d – E, MMM d</grebtestDifference>
+							<grebtestDifference id="M">E, MMM d – E, MMM d</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="y">
+							<grebtestDifference id="y">y–y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M">M/yy – M/yy</grebtestDifference>
+							<grebtestDifference id="y">M/yy – M/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d">M/d/yy – M/d/yy</grebtestDifference>
+							<grebtestDifference id="M">M/d/yy – M/d/yy</grebtestDifference>
+							<grebtestDifference id="y">M/d/yy – M/d/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d">E, M/d/yy – E, M/d/yy</grebtestDifference>
+							<grebtestDifference id="M">E, M/d/yy – E, M/d/yy</grebtestDifference>
+							<grebtestDifference id="y">E, M/d/yy – E, M/d/yy</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMM">
+							<grebtestDifference id="M">MMM–MMM y</grebtestDifference>
+							<grebtestDifference id="y">MMM y – MMM y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMd">
+							<grebtestDifference id="d">d–d MMM, y</grebtestDifference>
+							<grebtestDifference id="M">MMM d – MMM d, y</grebtestDifference>
+							<grebtestDifference id="y">d MMM, y – d MMM, y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMEd">
+							<grebtestDifference id="d">E, d MMM – E, d MMM, y</grebtestDifference>
+							<grebtestDifference id="M">E, d MMM – E, d MMM, y</grebtestDifference>
+							<grebtestDifference id="y">E, MMM d, y – E, MMM d, y</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMMMM">
+							<grebtestDifference id="M">MMMM–MMMM y</grebtestDifference>
+							<grebtestDifference id="y">MMMM y – MMMM y</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>Era</displayName>
+					<field type="erb">
+						<displbyNbme>Erb</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>Jaar</displayName>
-						<relative type="-1">Verlede jaar</relative>
-						<relative type="0">Hierdie jaar</relative>
-						<relative type="1">Volgende jaar</relative>
+					<field type="yebr">
+						<displbyNbme>Jbbr</displbyNbme>
+						<relbtive type="-1">Verlede jbbr</relbtive>
+						<relbtive type="0">Hierdie jbbr</relbtive>
+						<relbtive type="1">Volgende jbbr</relbtive>
 					</field>
 					<field type="month">
-						<displayName>Maand</displayName>
-						<relative type="-1">Verlede maand</relative>
-						<relative type="0">Vandeesmaand</relative>
-						<relative type="1">Volgende maand</relative>
+						<displbyNbme>Mbbnd</displbyNbme>
+						<relbtive type="-1">Verlede mbbnd</relbtive>
+						<relbtive type="0">Vbndeesmbbnd</relbtive>
+						<relbtive type="1">Volgende mbbnd</relbtive>
 					</field>
 					<field type="week">
-						<displayName>Week</displayName>
-						<relative type="-1">Verlede week</relative>
-						<relative type="0">Vandeesweek</relative>
-						<relative type="1">Volgende week</relative>
+						<displbyNbme>Week</displbyNbme>
+						<relbtive type="-1">Verlede week</relbtive>
+						<relbtive type="0">Vbndeesweek</relbtive>
+						<relbtive type="1">Volgende week</relbtive>
 					</field>
-					<field type="day">
-						<displayName>Dag</displayName>
-						<relative type="-2">Die dag voor gister</relative>
-						<relative type="-1">Gister</relative>
-						<relative type="0">Vandag</relative>
-						<relative type="1">Môre</relative>
-						<relative type="2">Die dag na môre</relative>
+					<field type="dby">
+						<displbyNbme>Dbg</displbyNbme>
+						<relbtive type="-2">Die dbg voor gister</relbtive>
+						<relbtive type="-1">Gister</relbtive>
+						<relbtive type="0">Vbndbg</relbtive>
+						<relbtive type="1">Môre</relbtive>
+						<relbtive type="2">Die dbg nb môre</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>Weeksdag</displayName>
+					<field type="weekdby">
+						<displbyNbme>Weeksdbg</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>AM/PM</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>AM/PM</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>Uur</displayName>
+						<displbyNbme>Uur</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>Minuut</displayName>
+						<displbyNbme>Minuut</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>Sekonde</displayName>
+						<displbyNbme>Sekonde</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>Tydsone</displayName>
+						<displbyNbme>Tydsone</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<gmtFormat>MGT{0}</gmtFormat>
-			<gmtZeroFormat>MGT</gmtZeroFormat>
-			<regionFormat>{0}-tyd</regionFormat>
-			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat draft="contributed">{1}-tyd ({0})</fallbackRegionFormat>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity>Suidpool</exemplarCity>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<gmtFormbt>MGT{0}</gmtFormbt>
+			<gmtZeroFormbt>MGT</gmtZeroFormbt>
+			<regionFormbt>{0}-tyd</regionFormbt>
+			<fbllbbckFormbt>{1} ({0})</fbllbbckFormbt>
+			<fbllbbckRegionFormbt drbft="contributed">{1}-tyd ({0})</fbllbbckRegionFormbt>
+			<zone type="Antbrcticb/South_Pole">
+				<exemplbrCity>Suidpool</exemplbrCity>
 			</zone>
-			<zone type="Asia/Bahrain">
-				<exemplarCity>Bahrein</exemplarCity>
+			<zone type="Asib/Bbhrbin">
+				<exemplbrCity>Bbhrein</exemplbrCity>
 			</zone>
-			<zone type="Asia/Shanghai">
-				<exemplarCity>Shanghai</exemplarCity>
+			<zone type="Asib/Shbnghbi">
+				<exemplbrCity>Shbnghbi</exemplbrCity>
 			</zone>
-			<zone type="America/Mexico_City">
-				<exemplarCity>Meksiko</exemplarCity>
+			<zone type="Americb/Mexico_City">
+				<exemplbrCity>Meksiko</exemplbrCity>
 			</zone>
 			<zone type="Europe/Lisbon">
-				<exemplarCity>Lisbon</exemplarCity>
+				<exemplbrCity>Lisbon</exemplbrCity>
 			</zone>
 			<zone type="Europe/Moscow">
-				<exemplarCity>Moskou</exemplarCity>
+				<exemplbrCity>Moskou</exemplbrCity>
 			</zone>
-			<metazone type="Africa_Central">
+			<metbzone type="Africb_Centrbl">
 				<short>
-					<standard>CAT</standard>
+					<stbndbrd>CAT</stbndbrd>
 				</short>
-			</metazone>
-			<metazone type="Africa_Eastern">
+			</metbzone>
+			<metbzone type="Africb_Ebstern">
 				<short>
-					<standard>EAT</standard>
+					<stbndbrd>EAT</stbndbrd>
 				</short>
-			</metazone>
-			<metazone type="Africa_Southern">
+			</metbzone>
+			<metbzone type="Africb_Southern">
 				<short>
-					<standard>SAST</standard>
+					<stbndbrd>SAST</stbndbrd>
 				</short>
-			</metazone>
-			<metazone type="Africa_Western">
+			</metbzone>
+			<metbzone type="Africb_Western">
 				<short>
 					<generic>WAT</generic>
-					<standard>WAT</standard>
-					<daylight>WAST</daylight>
+					<stbndbrd>WAT</stbndbrd>
+					<dbylight>WAST</dbylight>
 				</short>
-			</metazone>
-			<metazone type="Alaska">
+			</metbzone>
+			<metbzone type="Albskb">
 				<long>
-					<generic>Alaska-tyd</generic>
-					<standard>Alaska-standaardtyd</standard>
-					<daylight>Alaska-dagligtyd</daylight>
+					<generic>Albskb-tyd</generic>
+					<stbndbrd>Albskb-stbndbbrdtyd</stbndbrd>
+					<dbylight>Albskb-dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Amazon">
+			</metbzone>
+			<metbzone type="Ambzon">
 				<long>
-					<generic>Amasone-tyd</generic>
-					<standard>Amasone-tyd</standard>
-					<daylight>Amasone-somertyd</daylight>
+					<generic>Ambsone-tyd</generic>
+					<stbndbrd>Ambsone-tyd</stbndbrd>
+					<dbylight>Ambsone-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Central">
+			</metbzone>
+			<metbzone type="Americb_Centrbl">
 				<long>
-					<generic>Sentrale tyd</generic>
-					<standard>Sentraal-standaardtyd</standard>
-					<daylight>Sentrale dagligtyd</daylight>
+					<generic>Sentrble tyd</generic>
+					<stbndbrd>Sentrbbl-stbndbbrdtyd</stbndbrd>
+					<dbylight>Sentrble dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Eastern">
+			</metbzone>
+			<metbzone type="Americb_Ebstern">
 				<long>
 					<generic>Oostelike tyd</generic>
-					<standard>Oostelike standaardtyd</standard>
-					<daylight>Oostelike dagligtyd</daylight>
+					<stbndbrd>Oostelike stbndbbrdtyd</stbndbrd>
+					<dbylight>Oostelike dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Mountain">
+			</metbzone>
+			<metbzone type="Americb_Mountbin">
 				<long>
 					<generic>Bergtyd</generic>
-					<standard>Berg-standaardtyd</standard>
-					<daylight>Berg-dagligtyd</daylight>
+					<stbndbrd>Berg-stbndbbrdtyd</stbndbrd>
+					<dbylight>Berg-dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="America_Pacific">
+			</metbzone>
+			<metbzone type="Americb_Pbcific">
 				<long>
-					<generic>Pasifiese tyd</generic>
-					<standard>Pasifiese standaardtyd</standard>
-					<daylight>Pasifiese dagligtyd</daylight>
+					<generic>Pbsifiese tyd</generic>
+					<stbndbrd>Pbsifiese stbndbbrdtyd</stbndbrd>
+					<dbylight>Pbsifiese dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Anadyr">
+			</metbzone>
+			<metbzone type="Anbdyr">
 				<long>
-					<generic>Anadyr-tyd</generic>
-					<standard>Anadyr-tyd</standard>
-					<daylight>Anadyr-somertyd</daylight>
+					<generic>Anbdyr-tyd</generic>
+					<stbndbrd>Anbdyr-tyd</stbndbrd>
+					<dbylight>Anbdyr-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Argentina">
+			</metbzone>
+			<metbzone type="Argentinb">
 				<long>
 					<generic>Argentinië-tyd</generic>
-					<standard>Argentinië-tyd</standard>
-					<daylight>Argentinië-somertyd</daylight>
+					<stbndbrd>Argentinië-tyd</stbndbrd>
+					<dbylight>Argentinië-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Argentina_Western">
+			</metbzone>
+			<metbzone type="Argentinb_Western">
 				<long>
 					<generic>Argentinië Westelike tyd</generic>
-					<standard>Westelike Argentinië-tyd</standard>
-					<daylight>Argentinië Westelike somertyd</daylight>
+					<stbndbrd>Westelike Argentinië-tyd</stbndbrd>
+					<dbylight>Argentinië Westelike somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Atlantic">
+			</metbzone>
+			<metbzone type="Atlbntic">
 				<long>
-					<generic>Atlantiese tyd</generic>
-					<standard>Atlantiese standaardtyd</standard>
-					<daylight>Atlantiese dagligtyd</daylight>
+					<generic>Atlbntiese tyd</generic>
+					<stbndbrd>Atlbntiese stbndbbrdtyd</stbndbrd>
+					<dbylight>Atlbntiese dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Central">
+			</metbzone>
+			<metbzone type="Austrblib_Centrbl">
 				<long>
-					<generic>Sentraal-Australië-tyd</generic>
-					<standard>Australiese sentraal-standaardtyd</standard>
-					<daylight>Australiese sentrale dagligtyd</daylight>
+					<generic>Sentrbbl-Austrblië-tyd</generic>
+					<stbndbrd>Austrbliese sentrbbl-stbndbbrdtyd</stbndbrd>
+					<dbylight>Austrbliese sentrble dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_CentralWestern">
+			</metbzone>
+			<metbzone type="Austrblib_CentrblWestern">
 				<long>
-					<generic>Australiese sentraal-Westelike tyd</generic>
-					<standard>Australiese sentraal-Westelike standaard-tyd</standard>
-					<daylight>Australiese sentraal-Westelike dagligtyd</daylight>
+					<generic>Austrbliese sentrbbl-Westelike tyd</generic>
+					<stbndbrd>Austrbliese sentrbbl-Westelike stbndbbrd-tyd</stbndbrd>
+					<dbylight>Austrbliese sentrbbl-Westelike dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Eastern">
+			</metbzone>
+			<metbzone type="Austrblib_Ebstern">
 				<long>
-					<generic>Oostelike Australiese tyd</generic>
-					<standard>Australiese Oostelike standaardtyd</standard>
-					<daylight>Australiese Oostelike dagligtyd</daylight>
+					<generic>Oostelike Austrbliese tyd</generic>
+					<stbndbrd>Austrbliese Oostelike stbndbbrdtyd</stbndbrd>
+					<dbylight>Austrbliese Oostelike dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Australia_Western">
+			</metbzone>
+			<metbzone type="Austrblib_Western">
 				<long>
-					<generic>Westelike Australië-tyd</generic>
-					<standard>Australiese Westelike standaardtyd</standard>
-					<daylight>Australiese Westelike dagligtyd</daylight>
+					<generic>Westelike Austrblië-tyd</generic>
+					<stbndbrd>Austrbliese Westelike stbndbbrdtyd</stbndbrd>
+					<dbylight>Austrbliese Westelike dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Brasilia">
+			</metbzone>
+			<metbzone type="Brbsilib">
 				<long>
-					<generic>Brasilië-tyd</generic>
-					<standard>Brasilië-tyd</standard>
-					<daylight>Brasilië somertyd</daylight>
+					<generic>Brbsilië-tyd</generic>
+					<stbndbrd>Brbsilië-tyd</stbndbrd>
+					<dbylight>Brbsilië somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Choibalsan">
+			</metbzone>
+			<metbzone type="Choibblsbn">
 				<long>
-					<generic>Choibalsan-tyd</generic>
-					<standard>Choibalsan-tyd</standard>
-					<daylight>Choibalsan-somertyd</daylight>
+					<generic>Choibblsbn-tyd</generic>
+					<stbndbrd>Choibblsbn-tyd</stbndbrd>
+					<dbylight>Choibblsbn-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
+			</metbzone>
+			<metbzone type="Hbwbii_Aleutibn">
 				<long>
-					<generic>Hawaii Aleutiese tyd</generic>
-					<standard>Hawaii Aleutiese standaardtyd</standard>
-					<daylight>Hawaii Aleutiese dagligtyd</daylight>
+					<generic>Hbwbii Aleutiese tyd</generic>
+					<stbndbrd>Hbwbii Aleutiese stbndbbrdtyd</stbndbrd>
+					<dbylight>Hbwbii Aleutiese dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Hovd">
+			</metbzone>
+			<metbzone type="Hovd">
 				<long>
 					<generic>Hovd-tyd</generic>
-					<standard>Hovd-tyd</standard>
-					<daylight>Hovd-somertyd</daylight>
+					<stbndbrd>Hovd-tyd</stbndbrd>
+					<dbylight>Hovd-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Central">
+			</metbzone>
+			<metbzone type="Indonesib_Centrbl">
 				<long>
-					<standard>Indonesië-sentraal-tyd</standard>
+					<stbndbrd>Indonesië-sentrbbl-tyd</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Eastern">
+			</metbzone>
+			<metbzone type="Indonesib_Ebstern">
 				<long>
-					<standard>Indonesiese Oostelike tyd</standard>
+					<stbndbrd>Indonesiese Oostelike tyd</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Indonesia_Western">
+			</metbzone>
+			<metbzone type="Indonesib_Western">
 				<long>
-					<standard>Indonesiese Westelike tyd</standard>
+					<stbndbrd>Indonesiese Westelike tyd</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Irkutsk">
+			</metbzone>
+			<metbzone type="Irkutsk">
 				<long>
 					<generic>Irkutsk-tyd</generic>
-					<standard>Irkutsk-tyd</standard>
-					<daylight>Irkutsk-somertyd</daylight>
+					<stbndbrd>Irkutsk-tyd</stbndbrd>
+					<dbylight>Irkutsk-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Kamchatka">
+			</metbzone>
+			<metbzone type="Kbmchbtkb">
 				<long>
-					<generic>Kamchatka-tyd</generic>
-					<standard>Petropavlovsk-Kamchatski-tyd</standard>
-					<daylight>Petropavlovsk-Kamchatski-somertyd</daylight>
+					<generic>Kbmchbtkb-tyd</generic>
+					<stbndbrd>Petropbvlovsk-Kbmchbtski-tyd</stbndbrd>
+					<dbylight>Petropbvlovsk-Kbmchbtski-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Eastern">
+			</metbzone>
+			<metbzone type="Kbzbkhstbn_Ebstern">
 				<long>
-					<generic>Oos-Kazakstan-tyd</generic>
-					<standard>Oos-Kazakstan-standaardtyd</standard>
-					<daylight>Kazakstan Oostelike somertyd</daylight>
+					<generic>Oos-Kbzbkstbn-tyd</generic>
+					<stbndbrd>Oos-Kbzbkstbn-stbndbbrdtyd</stbndbrd>
+					<dbylight>Kbzbkstbn Oostelike somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Kazakhstan_Western">
+			</metbzone>
+			<metbzone type="Kbzbkhstbn_Western">
 				<long>
-					<generic>Wes-Kazakstan-tyd</generic>
-					<standard>Wes-Kazakstan-standaardtyd</standard>
-					<daylight>Kazakstan Westelike somertyd</daylight>
+					<generic>Wes-Kbzbkstbn-tyd</generic>
+					<stbndbrd>Wes-Kbzbkstbn-stbndbbrdtyd</stbndbrd>
+					<dbylight>Kbzbkstbn Westelike somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Krasnoyarsk">
+			</metbzone>
+			<metbzone type="Krbsnoybrsk">
 				<long>
-					<generic>Krasnoyarsk-tyd</generic>
-					<standard>Krasnoyarsk-tyd</standard>
-					<daylight>Krasnoyarsk-somertyd</daylight>
+					<generic>Krbsnoybrsk-tyd</generic>
+					<stbndbrd>Krbsnoybrsk-tyd</stbndbrd>
+					<dbylight>Krbsnoybrsk-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Lord_Howe">
+			</metbzone>
+			<metbzone type="Lord_Howe">
 				<long>
 					<generic>Lord Howe-tyd</generic>
-					<standard>Lord Howe-standaardtyd</standard>
-					<daylight>Lord Howe-dagligtyd</daylight>
+					<stbndbrd>Lord Howe-stbndbbrdtyd</stbndbrd>
+					<dbylight>Lord Howe-dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Macquarie">
+			</metbzone>
+			<metbzone type="Mbcqubrie">
 				<long>
-					<standard>Macquarie-tyd</standard>
+					<stbndbrd>Mbcqubrie-tyd</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="Magadan">
+			</metbzone>
+			<metbzone type="Mbgbdbn">
 				<long>
-					<generic>Magadan-tyd</generic>
-					<standard>Magadan-tyd</standard>
-					<daylight>Magadan-somertyd</daylight>
+					<generic>Mbgbdbn-tyd</generic>
+					<stbndbrd>Mbgbdbn-tyd</stbndbrd>
+					<dbylight>Mbgbdbn-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Mongolia">
+			</metbzone>
+			<metbzone type="Mongolib">
 				<long>
 					<generic>Mongolië-tyd</generic>
-					<standard>Oelan Bator-tyd</standard>
-					<daylight>Oelan Bator-somertyd</daylight>
+					<stbndbrd>Oelbn Bbtor-tyd</stbndbrd>
+					<dbylight>Oelbn Bbtor-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Moscow">
+			</metbzone>
+			<metbzone type="Moscow">
 				<long>
 					<generic>Moskou-tyd</generic>
-					<standard>Moskou-standaardtyd</standard>
-					<daylight>Moskou-somertyd</daylight>
+					<stbndbrd>Moskou-stbndbbrdtyd</stbndbrd>
+					<dbylight>Moskou-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Newfoundland">
+			</metbzone>
+			<metbzone type="Newfoundlbnd">
 				<long>
-					<generic>Newfoundland-tyd</generic>
-					<standard>Newfoundland-standaard-tyd</standard>
-					<daylight>Newfoundland-dagligtyd</daylight>
+					<generic>Newfoundlbnd-tyd</generic>
+					<stbndbrd>Newfoundlbnd-stbndbbrd-tyd</stbndbrd>
+					<dbylight>Newfoundlbnd-dbgligtyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Noronha">
+			</metbzone>
+			<metbzone type="Noronhb">
 				<long>
-					<generic>Noronha-tyd</generic>
-					<standard>Fernando de Noronha-tyd</standard>
-					<daylight>Fernando de Noronha-somertyd</daylight>
+					<generic>Noronhb-tyd</generic>
+					<stbndbrd>Fernbndo de Noronhb-tyd</stbndbrd>
+					<dbylight>Fernbndo de Noronhb-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Novosibirsk">
+			</metbzone>
+			<metbzone type="Novosibirsk">
 				<long>
 					<generic>Novosibirsk-tyd</generic>
-					<standard>Novosibirsk-tyd</standard>
-					<daylight>Novosibirsk-somertyd</daylight>
+					<stbndbrd>Novosibirsk-tyd</stbndbrd>
+					<dbylight>Novosibirsk-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Omsk">
+			</metbzone>
+			<metbzone type="Omsk">
 				<long>
 					<generic>Omsk-tyd</generic>
-					<standard>Omsk-tyd</standard>
-					<daylight>Omsk-somertyd</daylight>
+					<stbndbrd>Omsk-tyd</stbndbrd>
+					<dbylight>Omsk-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Sakhalin">
+			</metbzone>
+			<metbzone type="Sbkhblin">
 				<long>
-					<generic>Sakhalin-tyd</generic>
-					<standard>Sakhalin-tyd</standard>
-					<daylight>Sakhalin-somertyd</daylight>
+					<generic>Sbkhblin-tyd</generic>
+					<stbndbrd>Sbkhblin-tyd</stbndbrd>
+					<dbylight>Sbkhblin-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Samara">
+			</metbzone>
+			<metbzone type="Sbmbrb">
 				<long>
-					<generic>Samara-tyd</generic>
-					<standard>Samara-tyd</standard>
-					<daylight>Samara-somertyd</daylight>
+					<generic>Sbmbrb-tyd</generic>
+					<stbndbrd>Sbmbrb-tyd</stbndbrd>
+					<dbylight>Sbmbrb-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Vladivostok">
+			</metbzone>
+			<metbzone type="Vlbdivostok">
 				<long>
-					<generic>Vladivostok-tyd</generic>
-					<standard>Vladivostok-tyd</standard>
-					<daylight>Vladivostok-somertyd</daylight>
+					<generic>Vlbdivostok-tyd</generic>
+					<stbndbrd>Vlbdivostok-tyd</stbndbrd>
+					<dbylight>Vlbdivostok-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Volgograd">
+			</metbzone>
+			<metbzone type="Volgogrbd">
 				<long>
-					<generic>Volgograd-tyd</generic>
-					<standard>Volgograd-tyd</standard>
-					<daylight>Volgograd-somertyd</daylight>
+					<generic>Volgogrbd-tyd</generic>
+					<stbndbrd>Volgogrbd-tyd</stbndbrd>
+					<dbylight>Volgogrbd-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Yakutsk">
+			</metbzone>
+			<metbzone type="Ybkutsk">
 				<long>
-					<generic>Yakutsk-tyd</generic>
-					<standard>Yakutsk-tyd</standard>
-					<daylight>Yakutsk-somertyd</daylight>
+					<generic>Ybkutsk-tyd</generic>
+					<stbndbrd>Ybkutsk-tyd</stbndbrd>
+					<dbylight>Ybkutsk-somertyd</dbylight>
 				</long>
-			</metazone>
-			<metazone type="Yekaterinburg">
+			</metbzone>
+			<metbzone type="Yekbterinburg">
 				<long>
-					<generic>Yekaterinburg-tyd</generic>
-					<standard>Yekaterinburg-tyd</standard>
-					<daylight>Yekaterinburg-somertyd</daylight>
+					<generic>Yekbterinburg-tyd</generic>
+					<stbndbrd>Yekbterinburg-tyd</stbndbrd>
+					<dbylight>Yekbterinburg-somertyd</dbylight>
 				</long>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
-			<list draft="unconfirmed">;</list>
+			<list drbft="unconfirmed">;</list>
 			<percentSign>%</percentSign>
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
-			<exponential>E</exponential>
+			<exponentibl>E</exponentibl>
 			<perMille>‰</perMille>
 			<infinity>∞</infinity>
-			<nan>NaN</nan>
+			<nbn>NbN</nbn>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-			<decimalFormatLength type="short">
-				<decimalFormat>
-					<pattern type="1000" draft="contributed">0000</pattern>
-					<pattern type="10000" draft="contributed">00000</pattern>
-					<pattern type="100000" draft="contributed">000000</pattern>
-					<pattern type="1000000" draft="contributed">0.0 mil</pattern>
-					<pattern type="10000000" draft="contributed">00 mil</pattern>
-					<pattern type="100000000" draft="contributed">000 mil</pattern>
-					<pattern type="1000000000" draft="contributed">0.0 mjd</pattern>
-					<pattern type="10000000000" draft="contributed">00 mjd</pattern>
-					<pattern type="100000000000" draft="contributed">000 mjd</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0 bil</pattern>
-					<pattern type="10000000000000" draft="contributed">00 bil</pattern>
-					<pattern type="100000000000000" draft="contributed">000 bil</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<scientificFormats numberSystem="latn">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern>#E0</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+			<decimblFormbtLength type="short">
+				<decimblFormbt>
+					<pbttern type="1000" drbft="contributed">0000</pbttern>
+					<pbttern type="10000" drbft="contributed">00000</pbttern>
+					<pbttern type="100000" drbft="contributed">000000</pbttern>
+					<pbttern type="1000000" drbft="contributed">0.0 mil</pbttern>
+					<pbttern type="10000000" drbft="contributed">00 mil</pbttern>
+					<pbttern type="100000000" drbft="contributed">000 mil</pbttern>
+					<pbttern type="1000000000" drbft="contributed">0.0 mjd</pbttern>
+					<pbttern type="10000000000" drbft="contributed">00 mjd</pbttern>
+					<pbttern type="100000000000" drbft="contributed">000 mjd</pbttern>
+					<pbttern type="1000000000000" drbft="contributed">0.0 bil</pbttern>
+					<pbttern type="10000000000000" drbft="contributed">00 bil</pbttern>
+					<pbttern type="100000000000000" drbft="contributed">000 bil</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<scientificFormbts numberSystem="lbtn">
+			<scientificFormbtLength>
+				<scientificFormbt>
+					<pbttern>#E0</pbttern>
+				</scientificFormbt>
+			</scientificFormbtLength>
+		</scientificFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AED">
-				<displayName>Verenigde Arabiese Emirate dirham</displayName>
+				<displbyNbme>Verenigde Arbbiese Emirbte dirhbm</displbyNbme>
 			</currency>
 			<currency type="AFN">
-				<displayName>Afgaanse afgani</displayName>
+				<displbyNbme>Afgbbnse bfgbni</displbyNbme>
 			</currency>
 			<currency type="ALL">
-				<displayName>Albanese lek</displayName>
+				<displbyNbme>Albbnese lek</displbyNbme>
 			</currency>
 			<currency type="AMD">
-				<displayName>Armeense dram</displayName>
+				<displbyNbme>Armeense drbm</displbyNbme>
 			</currency>
 			<currency type="ANG">
-				<displayName>Nederlands-Antilliaanse gulde</displayName>
+				<displbyNbme>Nederlbnds-Antillibbnse gulde</displbyNbme>
 			</currency>
 			<currency type="AOA">
-				<displayName>Angolese kwanza</displayName>
+				<displbyNbme>Angolese kwbnzb</displbyNbme>
 			</currency>
 			<currency type="ARS">
-				<displayName>Argentynse peso</displayName>
+				<displbyNbme>Argentynse peso</displbyNbme>
 			</currency>
 			<currency type="AUD">
-				<displayName>Australiese dollar</displayName>
+				<displbyNbme>Austrbliese dollbr</displbyNbme>
 			</currency>
 			<currency type="AWG">
-				<displayName>Arubaanse floryn</displayName>
+				<displbyNbme>Arubbbnse floryn</displbyNbme>
 			</currency>
 			<currency type="AZN">
-				<displayName>Azerbeidjaanse manat</displayName>
+				<displbyNbme>Azerbeidjbbnse mbnbt</displbyNbme>
 			</currency>
 			<currency type="BAM">
-				<displayName>Bosnië en Herzegowina omskakelbare marka</displayName>
+				<displbyNbme>Bosnië en Herzegowinb omskbkelbbre mbrkb</displbyNbme>
 			</currency>
 			<currency type="BBD">
-				<displayName>Barbados-dollar</displayName>
+				<displbyNbme>Bbrbbdos-dollbr</displbyNbme>
 			</currency>
 			<currency type="BDT">
-				<displayName>Bangladesjiese taka</displayName>
+				<displbyNbme>Bbnglbdesjiese tbkb</displbyNbme>
 			</currency>
 			<currency type="BGN">
-				<displayName>Bulgaarse lev</displayName>
+				<displbyNbme>Bulgbbrse lev</displbyNbme>
 			</currency>
 			<currency type="BHD">
-				<displayName>Bahrainse dinar</displayName>
+				<displbyNbme>Bbhrbinse dinbr</displbyNbme>
 			</currency>
 			<currency type="BIF">
-				<displayName>Burundiese frank</displayName>
+				<displbyNbme>Burundiese frbnk</displbyNbme>
 			</currency>
 			<currency type="BMD">
-				<displayName>Bermuda-dollar</displayName>
+				<displbyNbme>Bermudb-dollbr</displbyNbme>
 			</currency>
 			<currency type="BND">
-				<displayName>Broeneise dollar</displayName>
+				<displbyNbme>Broeneise dollbr</displbyNbme>
 			</currency>
 			<currency type="BOB">
-				<displayName>Boliviaanse boliviano</displayName>
+				<displbyNbme>Bolivibbnse bolivibno</displbyNbme>
 			</currency>
 			<currency type="BRL">
-				<displayName>Brasiliaanse real</displayName>
+				<displbyNbme>Brbsilibbnse rebl</displbyNbme>
 			</currency>
 			<currency type="BSD">
-				<displayName>Bahamiaanse dollar</displayName>
+				<displbyNbme>Bbhbmibbnse dollbr</displbyNbme>
 			</currency>
 			<currency type="BTN">
-				<displayName>Bhoetanese ngoeltroem</displayName>
+				<displbyNbme>Bhoetbnese ngoeltroem</displbyNbme>
 			</currency>
 			<currency type="BWP">
-				<displayName>Botswana pula</displayName>
+				<displbyNbme>Botswbnb pulb</displbyNbme>
 			</currency>
 			<currency type="BYR">
-				<displayName>Belo-Russiese roebel</displayName>
+				<displbyNbme>Belo-Russiese roebel</displbyNbme>
 			</currency>
 			<currency type="BZD">
-				<displayName>Beliziese dollar</displayName>
+				<displbyNbme>Beliziese dollbr</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName>Kanadese dollar</displayName>
+				<displbyNbme>Kbnbdese dollbr</displbyNbme>
 			</currency>
 			<currency type="CDF">
-				<displayName>Kongolese frank</displayName>
+				<displbyNbme>Kongolese frbnk</displbyNbme>
 			</currency>
 			<currency type="CHF">
-				<displayName>Switserse frank</displayName>
+				<displbyNbme>Switserse frbnk</displbyNbme>
 			</currency>
 			<currency type="CLP">
-				<displayName>Chileense peso</displayName>
+				<displbyNbme>Chileense peso</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>Sjinese joean renminbi</displayName>
+				<displbyNbme>Sjinese joebn renminbi</displbyNbme>
 			</currency>
 			<currency type="COP">
-				<displayName>Colombiaanse peso</displayName>
+				<displbyNbme>Colombibbnse peso</displbyNbme>
 			</currency>
 			<currency type="CRC">
-				<displayName>Costa Ricaanse colón</displayName>
+				<displbyNbme>Costb Ricbbnse colón</displbyNbme>
 			</currency>
 			<currency type="CUC">
-				<displayName>Kubaanse omskakelbare peso</displayName>
+				<displbyNbme>Kubbbnse omskbkelbbre peso</displbyNbme>
 			</currency>
 			<currency type="CUP">
-				<displayName>Kubaanse peso</displayName>
+				<displbyNbme>Kubbbnse peso</displbyNbme>
 			</currency>
 			<currency type="CVE">
-				<displayName>Kaap Verdiese escudo</displayName>
+				<displbyNbme>Kbbp Verdiese escudo</displbyNbme>
 			</currency>
 			<currency type="CZK">
-				<displayName>Tsjeggiese kroon</displayName>
+				<displbyNbme>Tsjeggiese kroon</displbyNbme>
 			</currency>
 			<currency type="DJF">
-				<displayName>Djiboeti frank</displayName>
+				<displbyNbme>Djiboeti frbnk</displbyNbme>
 			</currency>
 			<currency type="DKK">
-				<displayName>Deense kroon</displayName>
+				<displbyNbme>Deense kroon</displbyNbme>
 			</currency>
 			<currency type="DOP">
-				<displayName>Dominikaanse peso</displayName>
+				<displbyNbme>Dominikbbnse peso</displbyNbme>
 			</currency>
 			<currency type="DZD">
-				<displayName>Algeriese dinar</displayName>
+				<displbyNbme>Algeriese dinbr</displbyNbme>
 			</currency>
 			<currency type="EGP">
-				<displayName>Egiptiese pond</displayName>
+				<displbyNbme>Egiptiese pond</displbyNbme>
 			</currency>
 			<currency type="ERN">
-				<displayName>Eritrese nakfa</displayName>
+				<displbyNbme>Eritrese nbkfb</displbyNbme>
 			</currency>
 			<currency type="ETB">
-				<displayName>Etiopiese birr</displayName>
+				<displbyNbme>Etiopiese birr</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>Euro</displayName>
-				<displayName count="one" draft="unconfirmed">euro</displayName>
-				<displayName count="other" draft="unconfirmed">euro</displayName>
+				<displbyNbme>Euro</displbyNbme>
+				<displbyNbme count="one" drbft="unconfirmed">euro</displbyNbme>
+				<displbyNbme count="other" drbft="unconfirmed">euro</displbyNbme>
 			</currency>
 			<currency type="FJD">
-				<displayName>Fidjiaanse dollar</displayName>
+				<displbyNbme>Fidjibbnse dollbr</displbyNbme>
 			</currency>
 			<currency type="FKP">
-				<displayName>Falkland-eilande pond</displayName>
+				<displbyNbme>Fblklbnd-eilbnde pond</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>Britse pond</displayName>
+				<displbyNbme>Britse pond</displbyNbme>
 			</currency>
 			<currency type="GEL">
-				<displayName>Georgiese lari</displayName>
+				<displbyNbme>Georgiese lbri</displbyNbme>
 			</currency>
 			<currency type="GHC">
-				<displayName>Ghanese cedi (1979-2007)</displayName>
+				<displbyNbme>Ghbnese cedi (1979-2007)</displbyNbme>
 			</currency>
 			<currency type="GHS">
-				<displayName>Ghanese cedi</displayName>
+				<displbyNbme>Ghbnese cedi</displbyNbme>
 			</currency>
 			<currency type="GIP">
-				<displayName>Gibraltarese pond</displayName>
+				<displbyNbme>Gibrbltbrese pond</displbyNbme>
 			</currency>
 			<currency type="GMD">
-				<displayName>Gambiese dalasi</displayName>
+				<displbyNbme>Gbmbiese dblbsi</displbyNbme>
 			</currency>
 			<currency type="GNF">
-				<displayName>Guinese frank</displayName>
+				<displbyNbme>Guinese frbnk</displbyNbme>
 			</currency>
 			<currency type="GNS">
-				<displayName>Guinese syli</displayName>
+				<displbyNbme>Guinese syli</displbyNbme>
 			</currency>
 			<currency type="GTQ">
-				<displayName>Guatemalaanse quetzal</displayName>
+				<displbyNbme>Gubtemblbbnse quetzbl</displbyNbme>
 			</currency>
 			<currency type="GYD">
-				<displayName>Guyanese dollar</displayName>
+				<displbyNbme>Guybnese dollbr</displbyNbme>
 			</currency>
 			<currency type="HKD">
-				<displayName>Hong Kong dollar</displayName>
+				<displbyNbme>Hong Kong dollbr</displbyNbme>
 			</currency>
 			<currency type="HNL">
-				<displayName>Hondurese lempira</displayName>
+				<displbyNbme>Hondurese lempirb</displbyNbme>
 			</currency>
 			<currency type="HRK">
-				<displayName>Kroatiese kuna</displayName>
+				<displbyNbme>Krobtiese kunb</displbyNbme>
 			</currency>
 			<currency type="HTG">
-				<displayName>Haïtiaanse gourde</displayName>
+				<displbyNbme>Hbïtibbnse gourde</displbyNbme>
 			</currency>
 			<currency type="HUF">
-				<displayName>Hongaarse forint</displayName>
+				<displbyNbme>Hongbbrse forint</displbyNbme>
 			</currency>
 			<currency type="IDR">
-				<displayName>Indonesiese roepia</displayName>
+				<displbyNbme>Indonesiese roepib</displbyNbme>
 			</currency>
 			<currency type="ILS">
-				<displayName>Israeliese nuwe sikkel</displayName>
+				<displbyNbme>Isrbeliese nuwe sikkel</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>Indiese rupee</displayName>
+				<displbyNbme>Indiese rupee</displbyNbme>
 			</currency>
 			<currency type="IQD">
-				<displayName>Irakse dinar</displayName>
+				<displbyNbme>Irbkse dinbr</displbyNbme>
 			</currency>
 			<currency type="IRR">
-				<displayName>Iranse rial</displayName>
+				<displbyNbme>Irbnse ribl</displbyNbme>
 			</currency>
 			<currency type="ISK">
-				<displayName>Yslandse kroon</displayName>
+				<displbyNbme>Yslbndse kroon</displbyNbme>
 			</currency>
 			<currency type="ITL">
-				<displayName draft="contributed">Italiaanse lier</displayName>
+				<displbyNbme drbft="contributed">Itblibbnse lier</displbyNbme>
 			</currency>
 			<currency type="JMD">
-				<displayName>Jamaikaanse dollar</displayName>
+				<displbyNbme>Jbmbikbbnse dollbr</displbyNbme>
 			</currency>
 			<currency type="JOD">
-				<displayName>Jordaniese dinar</displayName>
+				<displbyNbme>Jordbniese dinbr</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>Japannese jen</displayName>
+				<displbyNbme>Jbpbnnese jen</displbyNbme>
 			</currency>
 			<currency type="KES">
-				<displayName>Keniaanse sjieling</displayName>
+				<displbyNbme>Kenibbnse sjieling</displbyNbme>
 			</currency>
 			<currency type="KGS">
-				<displayName>Kirgisiese som</displayName>
+				<displbyNbme>Kirgisiese som</displbyNbme>
 			</currency>
 			<currency type="KHR">
-				<displayName>Kambodjaanse riel</displayName>
+				<displbyNbme>Kbmbodjbbnse riel</displbyNbme>
 			</currency>
 			<currency type="KMF">
-				<displayName>Comoriese frank</displayName>
+				<displbyNbme>Comoriese frbnk</displbyNbme>
 			</currency>
 			<currency type="KPW">
-				<displayName>Noord-Koreaanse won</displayName>
+				<displbyNbme>Noord-Korebbnse won</displbyNbme>
 			</currency>
 			<currency type="KRW">
-				<displayName>Suid-Koreaanse won</displayName>
+				<displbyNbme>Suid-Korebbnse won</displbyNbme>
 			</currency>
 			<currency type="KWD">
-				<displayName>Koeweitse dinar</displayName>
+				<displbyNbme>Koeweitse dinbr</displbyNbme>
 			</currency>
 			<currency type="KYD">
-				<displayName>Cayman-eilande dollar</displayName>
+				<displbyNbme>Cbymbn-eilbnde dollbr</displbyNbme>
 			</currency>
 			<currency type="KZT">
-				<displayName>Kazakse tenge</displayName>
+				<displbyNbme>Kbzbkse tenge</displbyNbme>
 			</currency>
 			<currency type="LAK">
-				<displayName>Laosiaanse kip</displayName>
+				<displbyNbme>Lbosibbnse kip</displbyNbme>
 			</currency>
 			<currency type="LBP">
-				<displayName>Lebanese pond</displayName>
+				<displbyNbme>Lebbnese pond</displbyNbme>
 			</currency>
 			<currency type="LKR">
-				<displayName>Sri Lankaanse roepee</displayName>
+				<displbyNbme>Sri Lbnkbbnse roepee</displbyNbme>
 			</currency>
 			<currency type="LRD">
-				<displayName>Liberiese dollar</displayName>
+				<displbyNbme>Liberiese dollbr</displbyNbme>
 			</currency>
 			<currency type="LSL">
-				<displayName>Lesotho loti</displayName>
+				<displbyNbme>Lesotho loti</displbyNbme>
 			</currency>
 			<currency type="LTL">
-				<displayName>Litause litas</displayName>
+				<displbyNbme>Litbuse litbs</displbyNbme>
 			</currency>
 			<currency type="LVL">
-				<displayName>Lettiese lats</displayName>
+				<displbyNbme>Lettiese lbts</displbyNbme>
 			</currency>
 			<currency type="LYD">
-				<displayName>Libiese dinar</displayName>
+				<displbyNbme>Libiese dinbr</displbyNbme>
 			</currency>
 			<currency type="MAD">
-				<displayName>Marokkaanse dirham</displayName>
+				<displbyNbme>Mbrokkbbnse dirhbm</displbyNbme>
 			</currency>
 			<currency type="MDL">
-				<displayName>Moldowiese leu</displayName>
+				<displbyNbme>Moldowiese leu</displbyNbme>
 			</currency>
 			<currency type="MGA">
-				<displayName>Malgassiese ariary</displayName>
+				<displbyNbme>Mblgbssiese bribry</displbyNbme>
 			</currency>
 			<currency type="MKD">
-				<displayName>Macedoniese denar</displayName>
+				<displbyNbme>Mbcedoniese denbr</displbyNbme>
 			</currency>
 			<currency type="MMK">
-				<displayName>Myanma Kyat</displayName>
+				<displbyNbme>Mybnmb Kybt</displbyNbme>
 			</currency>
 			<currency type="MNT">
-				<displayName>Mongoolse toegrik</displayName>
+				<displbyNbme>Mongoolse toegrik</displbyNbme>
 			</currency>
 			<currency type="MOP">
-				<displayName>Macaose pataca</displayName>
+				<displbyNbme>Mbcbose pbtbcb</displbyNbme>
 			</currency>
 			<currency type="MRO">
-				<displayName>Mauritaniese ouguiya</displayName>
+				<displbyNbme>Mburitbniese ouguiyb</displbyNbme>
 			</currency>
 			<currency type="MUR">
-				<displayName>Mauritiaanse rupee</displayName>
+				<displbyNbme>Mburitibbnse rupee</displbyNbme>
 			</currency>
 			<currency type="MVR">
-				<displayName>Malediviese rufia</displayName>
+				<displbyNbme>Mblediviese rufib</displbyNbme>
 			</currency>
 			<currency type="MWK">
-				<displayName>Malawiese kwacha</displayName>
+				<displbyNbme>Mblbwiese kwbchb</displbyNbme>
 			</currency>
 			<currency type="MXN">
-				<displayName>Meksikaanse peso</displayName>
+				<displbyNbme>Meksikbbnse peso</displbyNbme>
 			</currency>
 			<currency type="MYR">
-				<displayName>Maleisiese ringgit</displayName>
+				<displbyNbme>Mbleisiese ringgit</displbyNbme>
 			</currency>
 			<currency type="MZM">
-				<displayName>Mosambiekse metical (1980-2006)</displayName>
+				<displbyNbme>Mosbmbiekse meticbl (1980-2006)</displbyNbme>
 			</currency>
 			<currency type="MZN">
-				<displayName>Mosambiekse metical</displayName>
+				<displbyNbme>Mosbmbiekse meticbl</displbyNbme>
 			</currency>
 			<currency type="NAD">
-				<displayName>Namibiese dollar</displayName>
+				<displbyNbme>Nbmibiese dollbr</displbyNbme>
 			</currency>
 			<currency type="NGN">
-				<displayName>Nigeriese naira</displayName>
+				<displbyNbme>Nigeriese nbirb</displbyNbme>
 			</currency>
 			<currency type="NIO">
-				<displayName>Nicaraguaanse córdoba</displayName>
+				<displbyNbme>Nicbrbgubbnse córdobb</displbyNbme>
 			</currency>
 			<currency type="NOK">
-				<displayName>Noorse kroon</displayName>
+				<displbyNbme>Noorse kroon</displbyNbme>
 			</currency>
 			<currency type="NPR">
-				<displayName>Nepalese roepee</displayName>
+				<displbyNbme>Nepblese roepee</displbyNbme>
 			</currency>
 			<currency type="NZD">
-				<displayName>Nieu-Seeland dollar</displayName>
+				<displbyNbme>Nieu-Seelbnd dollbr</displbyNbme>
 			</currency>
 			<currency type="OMR">
-				<displayName>Omaanse rial</displayName>
+				<displbyNbme>Ombbnse ribl</displbyNbme>
 			</currency>
 			<currency type="PAB">
-				<displayName>Panamese balboa</displayName>
+				<displbyNbme>Pbnbmese bblbob</displbyNbme>
 			</currency>
 			<currency type="PEN">
-				<displayName>Peruaanse nuwe sol</displayName>
+				<displbyNbme>Perubbnse nuwe sol</displbyNbme>
 			</currency>
 			<currency type="PGK">
-				<displayName>Papoease kina</displayName>
+				<displbyNbme>Pbpoebse kinb</displbyNbme>
 			</currency>
 			<currency type="PHP">
-				<displayName>Filippynse peso</displayName>
+				<displbyNbme>Filippynse peso</displbyNbme>
 			</currency>
 			<currency type="PKR">
-				<displayName>Pakistanse roepee</displayName>
+				<displbyNbme>Pbkistbnse roepee</displbyNbme>
 			</currency>
 			<currency type="PLN">
-				<displayName>Poolse zloty</displayName>
+				<displbyNbme>Poolse zloty</displbyNbme>
 			</currency>
 			<currency type="PYG">
-				<displayName>Paraguaanse guarani</displayName>
+				<displbyNbme>Pbrbgubbnse gubrbni</displbyNbme>
 			</currency>
 			<currency type="QAR">
-				<displayName>Katarese rial</displayName>
+				<displbyNbme>Kbtbrese ribl</displbyNbme>
 			</currency>
 			<currency type="RSD">
-				<displayName>Serbiese dinar</displayName>
+				<displbyNbme>Serbiese dinbr</displbyNbme>
 			</currency>
 			<currency type="RUB">
-				<displayName>Russiese roebel</displayName>
+				<displbyNbme>Russiese roebel</displbyNbme>
 			</currency>
 			<currency type="RWF">
-				<displayName>Rwandiese frank</displayName>
+				<displbyNbme>Rwbndiese frbnk</displbyNbme>
 			</currency>
 			<currency type="SAR">
-				<displayName>Saoedi-Arabiese riyal</displayName>
+				<displbyNbme>Sboedi-Arbbiese riybl</displbyNbme>
 			</currency>
 			<currency type="SBD">
-				<displayName>Salomons-eilande dollar</displayName>
+				<displbyNbme>Sblomons-eilbnde dollbr</displbyNbme>
 			</currency>
 			<currency type="SCR">
-				<displayName>Seychellese rupee</displayName>
+				<displbyNbme>Seychellese rupee</displbyNbme>
 			</currency>
 			<currency type="SDG">
-				<displayName>Soedannese pond</displayName>
+				<displbyNbme>Soedbnnese pond</displbyNbme>
 			</currency>
 			<currency type="SDP">
-				<displayName>Soedannese pond (1957-1998)</displayName>
+				<displbyNbme>Soedbnnese pond (1957-1998)</displbyNbme>
 			</currency>
 			<currency type="SEK">
-				<displayName>Sweedse kroon</displayName>
+				<displbyNbme>Sweedse kroon</displbyNbme>
 			</currency>
 			<currency type="SGD">
-				<displayName>Singapoer-dollar</displayName>
+				<displbyNbme>Singbpoer-dollbr</displbyNbme>
 			</currency>
 			<currency type="SHP">
-				<displayName>Sint Helena pond</displayName>
+				<displbyNbme>Sint Helenb pond</displbyNbme>
 			</currency>
 			<currency type="SLL">
-				<displayName>Sierra Leonese leone</displayName>
+				<displbyNbme>Sierrb Leonese leone</displbyNbme>
 			</currency>
 			<currency type="SOS">
-				<displayName>Somaliese sjieling</displayName>
+				<displbyNbme>Sombliese sjieling</displbyNbme>
 			</currency>
 			<currency type="SRD">
-				<displayName>Surinaamse dollar</displayName>
+				<displbyNbme>Surinbbmse dollbr</displbyNbme>
 			</currency>
 			<currency type="STD">
-				<displayName>São Tomé en Príncipe dobra</displayName>
+				<displbyNbme>São Tomé en Príncipe dobrb</displbyNbme>
 			</currency>
 			<currency type="SYP">
-				<displayName>Siriese pond</displayName>
+				<displbyNbme>Siriese pond</displbyNbme>
 			</currency>
 			<currency type="SZL">
-				<displayName>Swazilandse lilangeni</displayName>
+				<displbyNbme>Swbzilbndse lilbngeni</displbyNbme>
 			</currency>
 			<currency type="THB">
-				<displayName>Thaise baht</displayName>
+				<displbyNbme>Thbise bbht</displbyNbme>
 			</currency>
 			<currency type="TJS">
-				<displayName>Tadjikse roebel</displayName>
+				<displbyNbme>Tbdjikse roebel</displbyNbme>
 			</currency>
 			<currency type="TMT">
-				<displayName>Toerkmeense manat</displayName>
+				<displbyNbme>Toerkmeense mbnbt</displbyNbme>
 			</currency>
 			<currency type="TND">
-				<displayName>Tunisiese dinar</displayName>
+				<displbyNbme>Tunisiese dinbr</displbyNbme>
 			</currency>
 			<currency type="TOP">
-				<displayName>Tongaanse pa'anga</displayName>
+				<displbyNbme>Tongbbnse pb'bngb</displbyNbme>
 			</currency>
 			<currency type="TRL">
-				<displayName>Turkse lier (1922-2005)</displayName>
+				<displbyNbme>Turkse lier (1922-2005)</displbyNbme>
 			</currency>
 			<currency type="TRY">
-				<displayName>Turkse lier</displayName>
+				<displbyNbme>Turkse lier</displbyNbme>
 			</currency>
 			<currency type="TTD">
-				<displayName>Trinidad en Tobago dollar</displayName>
+				<displbyNbme>Trinidbd en Tobbgo dollbr</displbyNbme>
 			</currency>
 			<currency type="TWD">
-				<displayName>Nuwe Taiwanese dollar</displayName>
+				<displbyNbme>Nuwe Tbiwbnese dollbr</displbyNbme>
 			</currency>
 			<currency type="TZS">
-				<displayName>Tanzaniese sjieling</displayName>
+				<displbyNbme>Tbnzbniese sjieling</displbyNbme>
 			</currency>
 			<currency type="UAH">
-				<displayName>Oekraïnse hriwna</displayName>
+				<displbyNbme>Oekrbïnse hriwnb</displbyNbme>
 			</currency>
 			<currency type="UGX">
-				<displayName>Ugandese sjieling</displayName>
+				<displbyNbme>Ugbndese sjieling</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName>Amerikaanse dollar</displayName>
+				<displbyNbme>Amerikbbnse dollbr</displbyNbme>
 			</currency>
 			<currency type="UYU">
-				<displayName>Uruguaanse peso</displayName>
+				<displbyNbme>Urugubbnse peso</displbyNbme>
 			</currency>
 			<currency type="UZS">
-				<displayName>Oezbekiese som</displayName>
+				<displbyNbme>Oezbekiese som</displbyNbme>
 			</currency>
 			<currency type="VEF">
-				<displayName>Venezolaanse bolivar</displayName>
+				<displbyNbme>Venezolbbnse bolivbr</displbyNbme>
 			</currency>
 			<currency type="VND">
-				<displayName>Viëtnamese dong</displayName>
+				<displbyNbme>Viëtnbmese dong</displbyNbme>
 			</currency>
 			<currency type="VUV">
-				<displayName>Vanuatu vatu</displayName>
+				<displbyNbme>Vbnubtu vbtu</displbyNbme>
 			</currency>
 			<currency type="WST">
-				<displayName>Samoaanse tala</displayName>
+				<displbyNbme>Sbmobbnse tblb</displbyNbme>
 			</currency>
 			<currency type="XAF">
-				<displayName>CFA frank BEAC</displayName>
+				<displbyNbme>CFA frbnk BEAC</displbyNbme>
 			</currency>
 			<currency type="XCD">
-				<displayName>Oos-Karibbiese dollar</displayName>
+				<displbyNbme>Oos-Kbribbiese dollbr</displbyNbme>
 			</currency>
 			<currency type="XOF">
-				<displayName>CFA frank BCEAO</displayName>
+				<displbyNbme>CFA frbnk BCEAO</displbyNbme>
 			</currency>
 			<currency type="XPF">
-				<displayName>CFP-frank</displayName>
+				<displbyNbme>CFP-frbnk</displbyNbme>
 			</currency>
 			<currency type="XXX">
-				<displayName>Onbekende geldeenheid</displayName>
+				<displbyNbme>Onbekende geldeenheid</displbyNbme>
 			</currency>
 			<currency type="YER">
-				<displayName>Jemenitiese rial</displayName>
+				<displbyNbme>Jemenitiese ribl</displbyNbme>
 			</currency>
 			<currency type="ZAR">
-				<displayName>Suid-Afrikaanse rand</displayName>
+				<displbyNbme>Suid-Afrikbbnse rbnd</displbyNbme>
 				<symbol>R</symbol>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Zambiese kwacha</displayName>
+				<displbyNbme>Zbmbiese kwbchb</displbyNbme>
 			</currency>
 			<currency type="ZWD">
-				<displayName>Zimbabwiese dollar</displayName>
+				<displbyNbme>Zimbbbwiese dollbr</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="0" alt="short">0 dae</unitPattern>
-			<unitPattern count="1" alt="short">1 dag</unitPattern>
-			<unitPattern count="one">{0} dag</unitPattern>
-			<unitPattern count="other">{0} dae</unitPattern>
-			<unitPattern count="other" alt="short">{0} dae</unitPattern>
+		<unit type="dby">
+			<unitPbttern count="0" blt="short">0 dbe</unitPbttern>
+			<unitPbttern count="1" blt="short">1 dbg</unitPbttern>
+			<unitPbttern count="one">{0} dbg</unitPbttern>
+			<unitPbttern count="other">{0} dbe</unitPbttern>
+			<unitPbttern count="other" blt="short">{0} dbe</unitPbttern>
 		</unit>
-		<unit type="day-future">
-			<unitPattern count="0">In 0 dae</unitPattern>
-			<unitPattern count="1">In 1 dag</unitPattern>
-			<unitPattern count="other">In {0} dae</unitPattern>
+		<unit type="dby-future">
+			<unitPbttern count="0">In 0 dbe</unitPbttern>
+			<unitPbttern count="1">In 1 dbg</unitPbttern>
+			<unitPbttern count="other">In {0} dbe</unitPbttern>
 		</unit>
-		<unit type="day-past">
-			<unitPattern count="0">0 dae gelede</unitPattern>
-			<unitPattern count="1">1 dag gelede</unitPattern>
-			<unitPattern count="other">{0} dae gelede</unitPattern>
+		<unit type="dby-pbst">
+			<unitPbttern count="0">0 dbe gelede</unitPbttern>
+			<unitPbttern count="1">1 dbg gelede</unitPbttern>
+			<unitPbttern count="other">{0} dbe gelede</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="0">0 uur</unitPattern>
-			<unitPattern count="0" alt="short">0 uur</unitPattern>
-			<unitPattern count="1">1 uur</unitPattern>
-			<unitPattern count="1" alt="short">1 uur</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} uur</unitPattern>
-			<unitPattern count="other">{0} uur</unitPattern>
-			<unitPattern count="other" alt="short">{0} uur</unitPattern>
+			<unitPbttern count="0">0 uur</unitPbttern>
+			<unitPbttern count="0" blt="short">0 uur</unitPbttern>
+			<unitPbttern count="1">1 uur</unitPbttern>
+			<unitPbttern count="1" blt="short">1 uur</unitPbttern>
+			<unitPbttern count="one" drbft="unconfirmed">{0} uur</unitPbttern>
+			<unitPbttern count="other">{0} uur</unitPbttern>
+			<unitPbttern count="other" blt="short">{0} uur</unitPbttern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="0">In 0 uur</unitPattern>
-			<unitPattern count="1">In 1 uur</unitPattern>
-			<unitPattern count="other">In {0} uur</unitPattern>
+			<unitPbttern count="0">In 0 uur</unitPbttern>
+			<unitPbttern count="1">In 1 uur</unitPbttern>
+			<unitPbttern count="other">In {0} uur</unitPbttern>
 		</unit>
-		<unit type="hour-past">
-			<unitPattern count="0">0 uur gelede</unitPattern>
-			<unitPattern count="1">1 uur gelede</unitPattern>
-			<unitPattern count="other">{0} uur gelede</unitPattern>
+		<unit type="hour-pbst">
+			<unitPbttern count="0">0 uur gelede</unitPbttern>
+			<unitPbttern count="1">1 uur gelede</unitPbttern>
+			<unitPbttern count="other">{0} uur gelede</unitPbttern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="0">0 minute</unitPattern>
-			<unitPattern count="0" alt="short">0 min</unitPattern>
-			<unitPattern count="1">1 minuut</unitPattern>
-			<unitPattern count="1" alt="short">1 min</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} minuut</unitPattern>
-			<unitPattern count="other">{0} minute</unitPattern>
-			<unitPattern count="other" alt="short">{0} min</unitPattern>
+			<unitPbttern count="0">0 minute</unitPbttern>
+			<unitPbttern count="0" blt="short">0 min</unitPbttern>
+			<unitPbttern count="1">1 minuut</unitPbttern>
+			<unitPbttern count="1" blt="short">1 min</unitPbttern>
+			<unitPbttern count="one" drbft="unconfirmed">{0} minuut</unitPbttern>
+			<unitPbttern count="other">{0} minute</unitPbttern>
+			<unitPbttern count="other" blt="short">{0} min</unitPbttern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="0">In 0 minute</unitPattern>
-			<unitPattern count="1">In 1 minuut</unitPattern>
-			<unitPattern count="other">In {0} minute</unitPattern>
+			<unitPbttern count="0">In 0 minute</unitPbttern>
+			<unitPbttern count="1">In 1 minuut</unitPbttern>
+			<unitPbttern count="other">In {0} minute</unitPbttern>
 		</unit>
-		<unit type="minute-past">
-			<unitPattern count="0">0 minute gelede</unitPattern>
-			<unitPattern count="1">1 minuut gelede</unitPattern>
-			<unitPattern count="other">{0} minute gelede</unitPattern>
+		<unit type="minute-pbst">
+			<unitPbttern count="0">0 minute gelede</unitPbttern>
+			<unitPbttern count="1">1 minuut gelede</unitPbttern>
+			<unitPbttern count="other">{0} minute gelede</unitPbttern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="0">0 maande</unitPattern>
-			<unitPattern count="0" alt="short">0 mnde</unitPattern>
-			<unitPattern count="1">1 maand</unitPattern>
-			<unitPattern count="1" alt="short">1 mnd</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} maand</unitPattern>
-			<unitPattern count="other">{0} maande</unitPattern>
-			<unitPattern count="other" alt="short">{0} mnde</unitPattern>
+			<unitPbttern count="0">0 mbbnde</unitPbttern>
+			<unitPbttern count="0" blt="short">0 mnde</unitPbttern>
+			<unitPbttern count="1">1 mbbnd</unitPbttern>
+			<unitPbttern count="1" blt="short">1 mnd</unitPbttern>
+			<unitPbttern count="one" drbft="unconfirmed">{0} mbbnd</unitPbttern>
+			<unitPbttern count="other">{0} mbbnde</unitPbttern>
+			<unitPbttern count="other" blt="short">{0} mnde</unitPbttern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="0">In 0 maande</unitPattern>
-			<unitPattern count="1">In 1 maand</unitPattern>
-			<unitPattern count="other">In {0} maande</unitPattern>
+			<unitPbttern count="0">In 0 mbbnde</unitPbttern>
+			<unitPbttern count="1">In 1 mbbnd</unitPbttern>
+			<unitPbttern count="other">In {0} mbbnde</unitPbttern>
 		</unit>
-		<unit type="month-past">
-			<unitPattern count="0">0 maande gelede</unitPattern>
-			<unitPattern count="1">1 maand gelede</unitPattern>
-			<unitPattern count="other">{0} maande gelede</unitPattern>
+		<unit type="month-pbst">
+			<unitPbttern count="0">0 mbbnde gelede</unitPbttern>
+			<unitPbttern count="1">1 mbbnd gelede</unitPbttern>
+			<unitPbttern count="other">{0} mbbnde gelede</unitPbttern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="0">0 sekondes</unitPattern>
-			<unitPattern count="0" alt="short">0 sek</unitPattern>
-			<unitPattern count="1">1 sekonde</unitPattern>
-			<unitPattern count="1" alt="short">1 sek</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} sekonde</unitPattern>
-			<unitPattern count="other">{0} sekondes</unitPattern>
-			<unitPattern count="other" alt="short">{0} sek</unitPattern>
+			<unitPbttern count="0">0 sekondes</unitPbttern>
+			<unitPbttern count="0" blt="short">0 sek</unitPbttern>
+			<unitPbttern count="1">1 sekonde</unitPbttern>
+			<unitPbttern count="1" blt="short">1 sek</unitPbttern>
+			<unitPbttern count="one" drbft="unconfirmed">{0} sekonde</unitPbttern>
+			<unitPbttern count="other">{0} sekondes</unitPbttern>
+			<unitPbttern count="other" blt="short">{0} sek</unitPbttern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="0">In 0 sekondes</unitPattern>
-			<unitPattern count="1">In 1 sekond</unitPattern>
-			<unitPattern count="other">In {0} sekondes</unitPattern>
+			<unitPbttern count="0">In 0 sekondes</unitPbttern>
+			<unitPbttern count="1">In 1 sekond</unitPbttern>
+			<unitPbttern count="other">In {0} sekondes</unitPbttern>
 		</unit>
-		<unit type="second-past">
-			<unitPattern count="0">0 sekondes gelede</unitPattern>
-			<unitPattern count="1">1 sekonde gelede</unitPattern>
-			<unitPattern count="other">{0} sekondes gelede</unitPattern>
+		<unit type="second-pbst">
+			<unitPbttern count="0">0 sekondes gelede</unitPbttern>
+			<unitPbttern count="1">1 sekonde gelede</unitPbttern>
+			<unitPbttern count="other">{0} sekondes gelede</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="0">0 weke</unitPattern>
-			<unitPattern count="0" alt="short">0 weke</unitPattern>
-			<unitPattern count="1">1 week</unitPattern>
-			<unitPattern count="1" alt="short">1 week</unitPattern>
-			<unitPattern count="one">{0} week</unitPattern>
-			<unitPattern count="other">{0} weke</unitPattern>
-			<unitPattern count="other" alt="short">{0} weke</unitPattern>
+			<unitPbttern count="0">0 weke</unitPbttern>
+			<unitPbttern count="0" blt="short">0 weke</unitPbttern>
+			<unitPbttern count="1">1 week</unitPbttern>
+			<unitPbttern count="1" blt="short">1 week</unitPbttern>
+			<unitPbttern count="one">{0} week</unitPbttern>
+			<unitPbttern count="other">{0} weke</unitPbttern>
+			<unitPbttern count="other" blt="short">{0} weke</unitPbttern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="0">In 0 weke</unitPattern>
-			<unitPattern count="1">In 1 week</unitPattern>
-			<unitPattern count="other">In {0} weke</unitPattern>
+			<unitPbttern count="0">In 0 weke</unitPbttern>
+			<unitPbttern count="1">In 1 week</unitPbttern>
+			<unitPbttern count="other">In {0} weke</unitPbttern>
 		</unit>
-		<unit type="week-past">
-			<unitPattern count="0">0 weke gelede</unitPattern>
-			<unitPattern count="1">1 week gelede</unitPattern>
-			<unitPattern count="other">{0} weke gelede</unitPattern>
+		<unit type="week-pbst">
+			<unitPbttern count="0">0 weke gelede</unitPbttern>
+			<unitPbttern count="1">1 week gelede</unitPbttern>
+			<unitPbttern count="other">{0} weke gelede</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="0">0 jaar</unitPattern>
-			<unitPattern count="0" alt="short">0 jr</unitPattern>
-			<unitPattern count="1">1 jaar</unitPattern>
-			<unitPattern count="1" alt="short">1 jr</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} jaar</unitPattern>
-			<unitPattern count="other">{0} jaar</unitPattern>
-			<unitPattern count="other" alt="short">{0} jr</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="0">0 jbbr</unitPbttern>
+			<unitPbttern count="0" blt="short">0 jr</unitPbttern>
+			<unitPbttern count="1">1 jbbr</unitPbttern>
+			<unitPbttern count="1" blt="short">1 jr</unitPbttern>
+			<unitPbttern count="one" drbft="unconfirmed">{0} jbbr</unitPbttern>
+			<unitPbttern count="other">{0} jbbr</unitPbttern>
+			<unitPbttern count="other" blt="short">{0} jr</unitPbttern>
 		</unit>
-		<unit type="year-future">
-			<unitPattern count="0">In 0 jaar</unitPattern>
-			<unitPattern count="1">In 1 jaar</unitPattern>
-			<unitPattern count="other">In {0} jaar</unitPattern>
+		<unit type="yebr-future">
+			<unitPbttern count="0">In 0 jbbr</unitPbttern>
+			<unitPbttern count="1">In 1 jbbr</unitPbttern>
+			<unitPbttern count="other">In {0} jbbr</unitPbttern>
 		</unit>
-		<unit type="year-past">
-			<unitPattern count="0">0 jaar gelede</unitPattern>
-			<unitPattern count="1">1 jaar gelede</unitPattern>
-			<unitPattern count="other">{0} jaar gelede</unitPattern>
+		<unit type="yebr-pbst">
+			<unitPbttern count="0">0 jbbr gelede</unitPbttern>
+			<unitPbttern count="1">1 jbbr gelede</unitPbttern>
+			<unitPbttern count="other">{0} jbbr gelede</unitPbttern>
 		</unit>
 	</units>
-	<listPatterns>
-		<listPattern>
-			<listPatternPart type="2">{0} en {1}</listPatternPart>
-			<listPatternPart type="end">{0} en {1}</listPatternPart>
-		</listPattern>
-	</listPatterns>
+	<listPbtterns>
+		<listPbttern>
+			<listPbtternPbrt type="2">{0} en {1}</listPbtternPbrt>
+			<listPbtternPbrt type="end">{0} en {1}</listPbtternPbrt>
+		</listPbttern>
+	</listPbtterns>
 	<posix>
-		<messages>
-			<yesstr>ja:j</yesstr>
+		<messbges>
+			<yesstr>jb:j</yesstr>
 			<nostr>nee:n</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>
 

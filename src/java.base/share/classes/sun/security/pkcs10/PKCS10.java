@@ -1,248 +1,248 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.pkcs10;
+pbckbge sun.security.pkcs10;
 
-import java.io.PrintStream;
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.PrintStrebm;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
-import java.security.cert.CertificateException;
-import java.security.NoSuchAlgorithmException;
-import java.security.InvalidKeyException;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.PublicKey;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.Signbture;
+import jbvb.security.SignbtureException;
+import jbvb.security.PublicKey;
 
-import java.util.Base64;
+import jbvb.util.Bbse64;
 
 import sun.security.util.*;
 import sun.security.x509.AlgorithmId;
 import sun.security.x509.X509Key;
-import sun.security.x509.X500Name;
+import sun.security.x509.X500Nbme;
 
 /**
- * A PKCS #10 certificate request is created and sent to a Certificate
- * Authority, which then creates an X.509 certificate and returns it to
- * the entity that requested it. A certificate request basically consists
- * of the subject's X.500 name, public key, and optionally some attributes,
- * signed using the corresponding private key.
+ * A PKCS #10 certificbte request is crebted bnd sent to b Certificbte
+ * Authority, which then crebtes bn X.509 certificbte bnd returns it to
+ * the entity thbt requested it. A certificbte request bbsicblly consists
+ * of the subject's X.500 nbme, public key, bnd optionblly some bttributes,
+ * signed using the corresponding privbte key.
  *
- * The ASN.1 syntax for a Certification Request is:
+ * The ASN.1 syntbx for b Certificbtion Request is:
  * <pre>
- * CertificationRequest ::= SEQUENCE {
- *    certificationRequestInfo CertificationRequestInfo,
- *    signatureAlgorithm       SignatureAlgorithmIdentifier,
- *    signature                Signature
+ * CertificbtionRequest ::= SEQUENCE {
+ *    certificbtionRequestInfo CertificbtionRequestInfo,
+ *    signbtureAlgorithm       SignbtureAlgorithmIdentifier,
+ *    signbture                Signbture
  *  }
  *
- * SignatureAlgorithmIdentifier ::= AlgorithmIdentifier
- * Signature ::= BIT STRING
+ * SignbtureAlgorithmIdentifier ::= AlgorithmIdentifier
+ * Signbture ::= BIT STRING
  *
- * CertificationRequestInfo ::= SEQUENCE {
+ * CertificbtionRequestInfo ::= SEQUENCE {
  *    version                 Version,
- *    subject                 Name,
+ *    subject                 Nbme,
  *    subjectPublicKeyInfo    SubjectPublicKeyInfo,
- *    attributes [0] IMPLICIT Attributes
+ *    bttributes [0] IMPLICIT Attributes
  * }
  * Attributes ::= SET OF Attribute
  * </pre>
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Dbvid Brownell
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class PKCS10 {
+public clbss PKCS10 {
     /**
-     * Constructs an unsigned PKCS #10 certificate request.  Before this
-     * request may be used, it must be encoded and signed.  Then it
-     * must be retrieved in some conventional format (e.g. string).
+     * Constructs bn unsigned PKCS #10 certificbte request.  Before this
+     * request mby be used, it must be encoded bnd signed.  Then it
+     * must be retrieved in some conventionbl formbt (e.g. string).
      *
-     * @param publicKey the public key that should be placed
-     *          into the certificate generated by the CA.
+     * @pbrbm publicKey the public key thbt should be plbced
+     *          into the certificbte generbted by the CA.
      */
     public PKCS10(PublicKey publicKey) {
         subjectPublicKeyInfo = publicKey;
-        attributeSet = new PKCS10Attributes();
+        bttributeSet = new PKCS10Attributes();
     }
 
     /**
-     * Constructs an unsigned PKCS #10 certificate request.  Before this
-     * request may be used, it must be encoded and signed.  Then it
-     * must be retrieved in some conventional format (e.g. string).
+     * Constructs bn unsigned PKCS #10 certificbte request.  Before this
+     * request mby be used, it must be encoded bnd signed.  Then it
+     * must be retrieved in some conventionbl formbt (e.g. string).
      *
-     * @param publicKey the public key that should be placed
-     *          into the certificate generated by the CA.
-     * @param attributes additonal set of PKCS10 attributes requested
-     *          for in the certificate.
+     * @pbrbm publicKey the public key thbt should be plbced
+     *          into the certificbte generbted by the CA.
+     * @pbrbm bttributes bdditonbl set of PKCS10 bttributes requested
+     *          for in the certificbte.
      */
-    public PKCS10(PublicKey publicKey, PKCS10Attributes attributes) {
+    public PKCS10(PublicKey publicKey, PKCS10Attributes bttributes) {
         subjectPublicKeyInfo = publicKey;
-        attributeSet = attributes;
+        bttributeSet = bttributes;
     }
 
     /**
-     * Parses an encoded, signed PKCS #10 certificate request, verifying
-     * the request's signature as it does so.  This constructor would
-     * typically be used by a Certificate Authority, from which a new
-     * certificate would then be constructed.
+     * Pbrses bn encoded, signed PKCS #10 certificbte request, verifying
+     * the request's signbture bs it does so.  This constructor would
+     * typicblly be used by b Certificbte Authority, from which b new
+     * certificbte would then be constructed.
      *
-     * @param data the DER-encoded PKCS #10 request.
-     * @exception IOException for low level errors reading the data
-     * @exception SignatureException when the signature is invalid
-     * @exception NoSuchAlgorithmException when the signature
-     *  algorithm is not supported in this environment
+     * @pbrbm dbtb the DER-encoded PKCS #10 request.
+     * @exception IOException for low level errors rebding the dbtb
+     * @exception SignbtureException when the signbture is invblid
+     * @exception NoSuchAlgorithmException when the signbture
+     *  blgorithm is not supported in this environment
      */
-    public PKCS10(byte[] data)
-    throws IOException, SignatureException, NoSuchAlgorithmException {
-        DerInputStream  in;
-        DerValue[]      seq;
+    public PKCS10(byte[] dbtb)
+    throws IOException, SignbtureException, NoSuchAlgorithmException {
+        DerInputStrebm  in;
+        DerVblue[]      seq;
         AlgorithmId     id;
-        byte[]          sigData;
-        Signature       sig;
+        byte[]          sigDbtb;
+        Signbture       sig;
 
-        encoded = data;
+        encoded = dbtb;
 
         //
-        // Outer sequence:  request, signature algorithm, signature.
-        // Parse, and prepare to verify later.
+        // Outer sequence:  request, signbture blgorithm, signbture.
+        // Pbrse, bnd prepbre to verify lbter.
         //
-        in = new DerInputStream(data);
+        in = new DerInputStrebm(dbtb);
         seq = in.getSequence(3);
 
         if (seq.length != 3)
-            throw new IllegalArgumentException("not a PKCS #10 request");
+            throw new IllegblArgumentException("not b PKCS #10 request");
 
-        data = seq[0].toByteArray();            // reusing this variable
-        id = AlgorithmId.parse(seq[1]);
-        sigData = seq[2].getBitString();
+        dbtb = seq[0].toByteArrby();            // reusing this vbribble
+        id = AlgorithmId.pbrse(seq[1]);
+        sigDbtb = seq[2].getBitString();
 
         //
-        // Inner sequence:  version, name, key, attributes
+        // Inner sequence:  version, nbme, key, bttributes
         //
-        BigInteger      serial;
-        DerValue        val;
+        BigInteger      seribl;
+        DerVblue        vbl;
 
-        serial = seq[0].data.getBigInteger();
-        if (!serial.equals(BigInteger.ZERO))
-            throw new IllegalArgumentException("not PKCS #10 v1");
+        seribl = seq[0].dbtb.getBigInteger();
+        if (!seribl.equbls(BigInteger.ZERO))
+            throw new IllegblArgumentException("not PKCS #10 v1");
 
-        subject = new X500Name(seq[0].data);
-        subjectPublicKeyInfo = X509Key.parse(seq[0].data.getDerValue());
+        subject = new X500Nbme(seq[0].dbtb);
+        subjectPublicKeyInfo = X509Key.pbrse(seq[0].dbtb.getDerVblue());
 
-        // Cope with a somewhat common illegal PKCS #10 format
-        if (seq[0].data.available() != 0)
-            attributeSet = new PKCS10Attributes(seq[0].data);
+        // Cope with b somewhbt common illegbl PKCS #10 formbt
+        if (seq[0].dbtb.bvbilbble() != 0)
+            bttributeSet = new PKCS10Attributes(seq[0].dbtb);
         else
-            attributeSet = new PKCS10Attributes();
+            bttributeSet = new PKCS10Attributes();
 
-        if (seq[0].data.available() != 0)
-            throw new IllegalArgumentException("illegal PKCS #10 data");
+        if (seq[0].dbtb.bvbilbble() != 0)
+            throw new IllegblArgumentException("illegbl PKCS #10 dbtb");
 
         //
-        // OK, we parsed it all ... validate the signature using the
-        // key and signature algorithm we found.
+        // OK, we pbrsed it bll ... vblidbte the signbture using the
+        // key bnd signbture blgorithm we found.
         //
         try {
-            sig = Signature.getInstance(id.getName());
+            sig = Signbture.getInstbnce(id.getNbme());
             sig.initVerify(subjectPublicKeyInfo);
-            sig.update(data);
-            if (!sig.verify(sigData))
-                throw new SignatureException("Invalid PKCS #10 signature");
-        } catch (InvalidKeyException e) {
-            throw new SignatureException("invalid key");
+            sig.updbte(dbtb);
+            if (!sig.verify(sigDbtb))
+                throw new SignbtureException("Invblid PKCS #10 signbture");
+        } cbtch (InvblidKeyException e) {
+            throw new SignbtureException("invblid key");
         }
     }
 
     /**
-     * Create the signed certificate request.  This will later be
-     * retrieved in either string or binary format.
+     * Crebte the signed certificbte request.  This will lbter be
+     * retrieved in either string or binbry formbt.
      *
-     * @param subject identifies the signer (by X.500 name).
-     * @param signature private key and signing algorithm to use.
+     * @pbrbm subject identifies the signer (by X.500 nbme).
+     * @pbrbm signbture privbte key bnd signing blgorithm to use.
      * @exception IOException on errors.
-     * @exception CertificateException on certificate handling errors.
-     * @exception SignatureException on signature handling errors.
+     * @exception CertificbteException on certificbte hbndling errors.
+     * @exception SignbtureException on signbture hbndling errors.
      */
-    public void encodeAndSign(X500Name subject, Signature signature)
-    throws CertificateException, IOException, SignatureException {
-        DerOutputStream out, scratch;
-        byte[]          certificateRequestInfo;
+    public void encodeAndSign(X500Nbme subject, Signbture signbture)
+    throws CertificbteException, IOException, SignbtureException {
+        DerOutputStrebm out, scrbtch;
+        byte[]          certificbteRequestInfo;
         byte[]          sig;
 
         if (encoded != null)
-            throw new SignatureException("request is already signed");
+            throw new SignbtureException("request is blrebdy signed");
 
         this.subject = subject;
 
         /*
-         * Encode cert request info, wrap in a sequence for signing
+         * Encode cert request info, wrbp in b sequence for signing
          */
-        scratch = new DerOutputStream();
-        scratch.putInteger(BigInteger.ZERO);            // PKCS #10 v1.0
-        subject.encode(scratch);                        // X.500 name
-        scratch.write(subjectPublicKeyInfo.getEncoded()); // public key
-        attributeSet.encode(scratch);
+        scrbtch = new DerOutputStrebm();
+        scrbtch.putInteger(BigInteger.ZERO);            // PKCS #10 v1.0
+        subject.encode(scrbtch);                        // X.500 nbme
+        scrbtch.write(subjectPublicKeyInfo.getEncoded()); // public key
+        bttributeSet.encode(scrbtch);
 
-        out = new DerOutputStream();
-        out.write(DerValue.tag_Sequence, scratch);      // wrap it!
-        certificateRequestInfo = out.toByteArray();
-        scratch = out;
+        out = new DerOutputStrebm();
+        out.write(DerVblue.tbg_Sequence, scrbtch);      // wrbp it!
+        certificbteRequestInfo = out.toByteArrby();
+        scrbtch = out;
 
         /*
          * Sign it ...
          */
-        signature.update(certificateRequestInfo, 0,
-                certificateRequestInfo.length);
-        sig = signature.sign();
+        signbture.updbte(certificbteRequestInfo, 0,
+                certificbteRequestInfo.length);
+        sig = signbture.sign();
 
         /*
-         * Build guts of SIGNED macro
+         * Build guts of SIGNED mbcro
          */
-        AlgorithmId algId = null;
+        AlgorithmId blgId = null;
         try {
-            algId = AlgorithmId.get(signature.getAlgorithm());
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new SignatureException(nsae);
+            blgId = AlgorithmId.get(signbture.getAlgorithm());
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new SignbtureException(nsbe);
         }
-        algId.encode(scratch);     // sig algorithm
-        scratch.putBitString(sig);                      // sig
+        blgId.encode(scrbtch);     // sig blgorithm
+        scrbtch.putBitString(sig);                      // sig
 
         /*
-         * Wrap those guts in a sequence
+         * Wrbp those guts in b sequence
          */
-        out = new DerOutputStream();
-        out.write(DerValue.tag_Sequence, scratch);
-        encoded = out.toByteArray();
+        out = new DerOutputStrebm();
+        out.write(DerVblue.tbg_Sequence, scrbtch);
+        encoded = out.toByteArrby();
     }
 
     /**
-     * Returns the subject's name.
+     * Returns the subject's nbme.
      */
-    public X500Name getSubjectName() { return subject; }
+    public X500Nbme getSubjectNbme() { return subject; }
 
     /**
      * Returns the subject's public key.
@@ -251,17 +251,17 @@ public class PKCS10 {
         { return subjectPublicKeyInfo; }
 
     /**
-     * Returns the additional attributes requested.
+     * Returns the bdditionbl bttributes requested.
      */
     public PKCS10Attributes getAttributes()
-        { return attributeSet; }
+        { return bttributeSet; }
 
     /**
-     * Returns the encoded and signed certificate request as a
-     * DER-encoded byte array.
+     * Returns the encoded bnd signed certificbte request bs b
+     * DER-encoded byte brrby.
      *
-     * @return the certificate request, or null if encodeAndSign()
-     *          has not yet been called.
+     * @return the certificbte request, or null if encodeAndSign()
+     *          hbs not yet been cblled.
      */
     public byte[] getEncoded() {
         if (encoded != null)
@@ -271,82 +271,82 @@ public class PKCS10 {
     }
 
     /**
-     * Prints an E-Mailable version of the certificate request on the print
-     * stream passed.  The format is a common base64 encoded one, supported
-     * by most Certificate Authorities because Netscape web servers have
-     * used this for some time.  Some certificate authorities expect some
-     * more information, in particular contact information for the web
-     * server administrator.
+     * Prints bn E-Mbilbble version of the certificbte request on the print
+     * strebm pbssed.  The formbt is b common bbse64 encoded one, supported
+     * by most Certificbte Authorities becbuse Netscbpe web servers hbve
+     * used this for some time.  Some certificbte buthorities expect some
+     * more informbtion, in pbrticulbr contbct informbtion for the web
+     * server bdministrbtor.
      *
-     * @param out the print stream where the certificate request
+     * @pbrbm out the print strebm where the certificbte request
      *  will be printed.
-     * @exception IOException when an output operation failed
-     * @exception SignatureException when the certificate request was
+     * @exception IOException when bn output operbtion fbiled
+     * @exception SignbtureException when the certificbte request wbs
      *  not yet signed.
      */
-    public void print(PrintStream out)
-    throws IOException, SignatureException {
+    public void print(PrintStrebm out)
+    throws IOException, SignbtureException {
         if (encoded == null)
-            throw new SignatureException("Cert request was not signed");
+            throw new SignbtureException("Cert request wbs not signed");
 
 
         out.println("-----BEGIN NEW CERTIFICATE REQUEST-----");
-        out.println(Base64.getMimeEncoder().encodeToString(encoded));
+        out.println(Bbse64.getMimeEncoder().encodeToString(encoded));
         out.println("-----END NEW CERTIFICATE REQUEST-----");
     }
 
     /**
-     * Provides a short description of this request.
+     * Provides b short description of this request.
      */
     public String toString() {
-        return "[PKCS #10 certificate request:\n"
+        return "[PKCS #10 certificbte request:\n"
             + subjectPublicKeyInfo.toString()
             + " subject: <" + subject + ">" + "\n"
-            + " attributes: " + attributeSet.toString()
+            + " bttributes: " + bttributeSet.toString()
             + "\n]";
     }
 
     /**
-     * Compares this object for equality with the specified
-     * object. If the <code>other</code> object is an
-     * <code>instanceof</code> <code>PKCS10</code>, then
-     * its encoded form is retrieved and compared with the
-     * encoded form of this certificate request.
+     * Compbres this object for equblity with the specified
+     * object. If the <code>other</code> object is bn
+     * <code>instbnceof</code> <code>PKCS10</code>, then
+     * its encoded form is retrieved bnd compbred with the
+     * encoded form of this certificbte request.
      *
-     * @param other the object to test for equality with this object.
-     * @return true iff the encoded forms of the two certificate
-     * requests match, false otherwise.
+     * @pbrbm other the object to test for equblity with this object.
+     * @return true iff the encoded forms of the two certificbte
+     * requests mbtch, fblse otherwise.
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other)
             return true;
-        if (!(other instanceof PKCS10))
-            return false;
+        if (!(other instbnceof PKCS10))
+            return fblse;
         if (encoded == null) // not signed yet
-            return false;
+            return fblse;
         byte[] otherEncoded = ((PKCS10)other).getEncoded();
         if (otherEncoded == null)
-            return false;
+            return fblse;
 
-        return java.util.Arrays.equals(encoded, otherEncoded);
+        return jbvb.util.Arrbys.equbls(encoded, otherEncoded);
     }
 
     /**
-     * Returns a hashcode value for this certificate request from its
+     * Returns b hbshcode vblue for this certificbte request from its
      * encoded form.
      *
-     * @return the hashcode value.
+     * @return the hbshcode vblue.
      */
-    public int hashCode() {
-        int     retval = 0;
+    public int hbshCode() {
+        int     retvbl = 0;
         if (encoded != null)
             for (int i = 1; i < encoded.length; i++)
-             retval += encoded[i] * i;
-        return(retval);
+             retvbl += encoded[i] * i;
+        return(retvbl);
     }
 
-    private X500Name            subject;
-    private PublicKey           subjectPublicKeyInfo;
-    private PKCS10Attributes    attributeSet;
-    private byte[]              encoded;        // signed
+    privbte X500Nbme            subject;
+    privbte PublicKey           subjectPublicKeyInfo;
+    privbte PKCS10Attributes    bttributeSet;
+    privbte byte[]              encoded;        // signed
 }

@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.security.*;
+import jbvb.security.*;
 
-import sun.security.jca.GetInstance;
+import sun.security.jcb.GetInstbnce;
 
 /**
- * Instances of this class represent a secure socket protocol
- * implementation which acts as a factory for secure socket
- * factories or <code>SSLEngine</code>s. This class is initialized
- * with an optional set of key and trust managers and source of
- * secure random bytes.
+ * Instbnces of this clbss represent b secure socket protocol
+ * implementbtion which bcts bs b fbctory for secure socket
+ * fbctories or <code>SSLEngine</code>s. This clbss is initiblized
+ * with bn optionbl set of key bnd trust mbnbgers bnd source of
+ * secure rbndom bytes.
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard <code>SSLContext</code> protocol:
+ * <p> Every implementbtion of the Jbvb plbtform is required to support the
+ * following stbndbrd <code>SSLContext</code> protocol:
  * <ul>
  * <li><tt>TLSv1</tt></li>
  * </ul>
- * This protocol is described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#SSLContext">
- * SSLContext section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * This protocol is described in the <b href=
+ * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#SSLContext">
+ * SSLContext section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other blgorithms bre supported.
  *
  * @since 1.4
  */
-public class SSLContext {
-    private final Provider provider;
+public clbss SSLContext {
+    privbte finbl Provider provider;
 
-    private final SSLContextSpi contextSpi;
+    privbte finbl SSLContextSpi contextSpi;
 
-    private final String protocol;
+    privbte finbl String protocol;
 
     /**
-     * Creates an SSLContext object.
+     * Crebtes bn SSLContext object.
      *
-     * @param contextSpi the delegate
-     * @param provider the provider
-     * @param protocol the protocol
+     * @pbrbm contextSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm protocol the protocol
      */
     protected SSLContext(SSLContextSpi contextSpi, Provider provider,
             String protocol) {
@@ -71,183 +71,183 @@ public class SSLContext {
         this.protocol = protocol;
     }
 
-    private static SSLContext defaultContext;
+    privbte stbtic SSLContext defbultContext;
 
     /**
-     * Returns the default SSL context.
+     * Returns the defbult SSL context.
      *
-     * <p>If a default context was set using the {@link #setDefault
-     * SSLContext.setDefault()} method, it is returned. Otherwise, the first
-     * call of this method triggers the call
-     * <code>SSLContext.getInstance("Default")</code>.
-     * If successful, that object is made the default SSL context and returned.
+     * <p>If b defbult context wbs set using the {@link #setDefbult
+     * SSLContext.setDefbult()} method, it is returned. Otherwise, the first
+     * cbll of this method triggers the cbll
+     * <code>SSLContext.getInstbnce("Defbult")</code>.
+     * If successful, thbt object is mbde the defbult SSL context bnd returned.
      *
-     * <p>The default context is immediately
-     * usable and does not require {@linkplain #init initialization}.
+     * <p>The defbult context is immedibtely
+     * usbble bnd does not require {@linkplbin #init initiblizbtion}.
      *
-     * @return the default SSL context
+     * @return the defbult SSL context
      * @throws NoSuchAlgorithmException if the
-     *   {@link SSLContext#getInstance SSLContext.getInstance()} call fails
+     *   {@link SSLContext#getInstbnce SSLContext.getInstbnce()} cbll fbils
      * @since 1.6
      */
-    public static synchronized SSLContext getDefault()
+    public stbtic synchronized SSLContext getDefbult()
             throws NoSuchAlgorithmException {
-        if (defaultContext == null) {
-            defaultContext = SSLContext.getInstance("Default");
+        if (defbultContext == null) {
+            defbultContext = SSLContext.getInstbnce("Defbult");
         }
-        return defaultContext;
+        return defbultContext;
     }
 
     /**
-     * Sets the default SSL context. It will be returned by subsequent calls
-     * to {@link #getDefault}. The default context must be immediately usable
-     * and not require {@linkplain #init initialization}.
+     * Sets the defbult SSL context. It will be returned by subsequent cblls
+     * to {@link #getDefbult}. The defbult context must be immedibtely usbble
+     * bnd not require {@linkplbin #init initiblizbtion}.
      *
-     * @param context the SSLContext
+     * @pbrbm context the SSLContext
      * @throws  NullPointerException if context is null
-     * @throws  SecurityException if a security manager exists and its
-     *          <code>checkPermission</code> method does not allow
-     *          <code>SSLPermission("setDefaultSSLContext")</code>
+     * @throws  SecurityException if b security mbnbger exists bnd its
+     *          <code>checkPermission</code> method does not bllow
+     *          <code>SSLPermission("setDefbultSSLContext")</code>
      * @since 1.6
      */
-    public static synchronized void setDefault(SSLContext context) {
+    public stbtic synchronized void setDefbult(SSLContext context) {
         if (context == null) {
             throw new NullPointerException();
         }
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new SSLPermission("setDefaultSSLContext"));
+            sm.checkPermission(new SSLPermission("setDefbultSSLContext"));
         }
-        defaultContext = context;
+        defbultContext = context;
     }
 
     /**
-     * Returns a <code>SSLContext</code> object that implements the
+     * Returns b <code>SSLContext</code> object thbt implements the
      * specified secure socket protocol.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new SSLContext object encapsulating the
-     * SSLContextSpi implementation from the first
-     * Provider that supports the specified protocol is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new SSLContext object encbpsulbting the
+     * SSLContextSpi implementbtion from the first
+     * Provider thbt supports the specified protocol is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param protocol the standard name of the requested protocol.
-     *          See the SSLContext section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SSLContext">
-     *          Java Cryptography Architecture Standard Algorithm Name
-     *          Documentation</a>
-     *          for information about standard protocol names.
+     * @pbrbm protocol the stbndbrd nbme of the requested protocol.
+     *          See the SSLContext section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#SSLContext">
+     *          Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme
+     *          Documentbtion</b>
+     *          for informbtion bbout stbndbrd protocol nbmes.
      *
      * @return the new <code>SSLContext</code> object.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          SSLContextSpi implementation for the
+     * @exception NoSuchAlgorithmException if no Provider supports b
+     *          SSLContextSpi implementbtion for the
      *          specified protocol.
      * @exception NullPointerException if protocol is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static SSLContext getInstance(String protocol)
+    public stbtic SSLContext getInstbnce(String protocol)
             throws NoSuchAlgorithmException {
-        GetInstance.Instance instance = GetInstance.getInstance
-                ("SSLContext", SSLContextSpi.class, protocol);
-        return new SSLContext((SSLContextSpi)instance.impl, instance.provider,
+        GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                ("SSLContext", SSLContextSpi.clbss, protocol);
+        return new SSLContext((SSLContextSpi)instbnce.impl, instbnce.provider,
                 protocol);
     }
 
     /**
-     * Returns a <code>SSLContext</code> object that implements the
+     * Returns b <code>SSLContext</code> object thbt implements the
      * specified secure socket protocol.
      *
-     * <p> A new SSLContext object encapsulating the
-     * SSLContextSpi implementation from the specified provider
+     * <p> A new SSLContext object encbpsulbting the
+     * SSLContextSpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param protocol the standard name of the requested protocol.
-     *          See the SSLContext section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SSLContext">
-     *          Java Cryptography Architecture Standard Algorithm Name
-     *          Documentation</a>
-     *          for information about standard protocol names.
+     * @pbrbm protocol the stbndbrd nbme of the requested protocol.
+     *          See the SSLContext section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#SSLContext">
+     *          Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme
+     *          Documentbtion</b>
+     *          for informbtion bbout stbndbrd protocol nbmes.
      *
-     * @param provider the name of the provider.
+     * @pbrbm provider the nbme of the provider.
      *
      * @return the new <code>SSLContext</code> object.
      *
-     * @throws NoSuchAlgorithmException if a SSLContextSpi
-     *          implementation for the specified protocol is not
-     *          available from the specified provider.
+     * @throws NoSuchAlgorithmException if b SSLContextSpi
+     *          implementbtion for the specified protocol is not
+     *          bvbilbble from the specified provider.
      *
      * @throws NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @throws IllegalArgumentException if the provider name is null or empty.
+     * @throws IllegblArgumentException if the provider nbme is null or empty.
      * @throws NullPointerException if protocol is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static SSLContext getInstance(String protocol, String provider)
+    public stbtic SSLContext getInstbnce(String protocol, String provider)
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        GetInstance.Instance instance = GetInstance.getInstance
-                ("SSLContext", SSLContextSpi.class, protocol, provider);
-        return new SSLContext((SSLContextSpi)instance.impl, instance.provider,
+        GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                ("SSLContext", SSLContextSpi.clbss, protocol, provider);
+        return new SSLContext((SSLContextSpi)instbnce.impl, instbnce.provider,
                 protocol);
     }
 
     /**
-     * Returns a <code>SSLContext</code> object that implements the
+     * Returns b <code>SSLContext</code> object thbt implements the
      * specified secure socket protocol.
      *
-     * <p> A new SSLContext object encapsulating the
-     * SSLContextSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new SSLContext object encbpsulbting the
+     * SSLContextSpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param protocol the standard name of the requested protocol.
-     *          See the SSLContext section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SSLContext">
-     *          Java Cryptography Architecture Standard Algorithm Name
-     *          Documentation</a>
-     *          for information about standard protocol names.
+     * @pbrbm protocol the stbndbrd nbme of the requested protocol.
+     *          See the SSLContext section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#SSLContext">
+     *          Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme
+     *          Documentbtion</b>
+     *          for informbtion bbout stbndbrd protocol nbmes.
      *
-     * @param provider an instance of the provider.
+     * @pbrbm provider bn instbnce of the provider.
      *
      * @return the new <code>SSLContext</code> object.
      *
-     * @throws NoSuchAlgorithmException if a SSLContextSpi
-     *          implementation for the specified protocol is not available
+     * @throws NoSuchAlgorithmException if b SSLContextSpi
+     *          implementbtion for the specified protocol is not bvbilbble
      *          from the specified Provider object.
      *
-     * @throws IllegalArgumentException if the provider is null.
+     * @throws IllegblArgumentException if the provider is null.
      * @throws NullPointerException if protocol is null.
      *
-     * @see java.security.Provider
+     * @see jbvb.security.Provider
      */
-    public static SSLContext getInstance(String protocol, Provider provider)
+    public stbtic SSLContext getInstbnce(String protocol, Provider provider)
             throws NoSuchAlgorithmException {
-        GetInstance.Instance instance = GetInstance.getInstance
-                ("SSLContext", SSLContextSpi.class, protocol, provider);
-        return new SSLContext((SSLContextSpi)instance.impl, instance.provider,
+        GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                ("SSLContext", SSLContextSpi.clbss, protocol, provider);
+        return new SSLContext((SSLContextSpi)instbnce.impl, instbnce.provider,
                 protocol);
     }
 
     /**
-     * Returns the protocol name of this <code>SSLContext</code> object.
+     * Returns the protocol nbme of this <code>SSLContext</code> object.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
+     * <p>This is the sbme nbme thbt wbs specified in one of the
+     * <code>getInstbnce</code> cblls thbt crebted this
      * <code>SSLContext</code> object.
      *
-     * @return the protocol name of this <code>SSLContext</code> object.
+     * @return the protocol nbme of this <code>SSLContext</code> object.
      */
-    public final String getProtocol() {
+    public finbl String getProtocol() {
         return this.protocol;
     }
 
@@ -256,184 +256,184 @@ public class SSLContext {
      *
      * @return the provider of this <code>SSLContext</code> object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         return this.provider;
     }
 
     /**
-     * Initializes this context. Either of the first two parameters
-     * may be null in which case the installed security providers will
-     * be searched for the highest priority implementation of the
-     * appropriate factory. Likewise, the secure random parameter may
-     * be null in which case the default implementation will be used.
+     * Initiblizes this context. Either of the first two pbrbmeters
+     * mby be null in which cbse the instblled security providers will
+     * be sebrched for the highest priority implementbtion of the
+     * bppropribte fbctory. Likewise, the secure rbndom pbrbmeter mby
+     * be null in which cbse the defbult implementbtion will be used.
      * <P>
-     * Only the first instance of a particular key and/or trust manager
-     * implementation type in the array is used.  (For example, only
-     * the first javax.net.ssl.X509KeyManager in the array will be used.)
+     * Only the first instbnce of b pbrticulbr key bnd/or trust mbnbger
+     * implementbtion type in the brrby is used.  (For exbmple, only
+     * the first jbvbx.net.ssl.X509KeyMbnbger in the brrby will be used.)
      *
-     * @param km the sources of authentication keys or null
-     * @param tm the sources of peer authentication trust decisions or null
-     * @param random the source of randomness for this generator or null
-     * @throws KeyManagementException if this operation fails
+     * @pbrbm km the sources of buthenticbtion keys or null
+     * @pbrbm tm the sources of peer buthenticbtion trust decisions or null
+     * @pbrbm rbndom the source of rbndomness for this generbtor or null
+     * @throws KeyMbnbgementException if this operbtion fbils
      */
-    public final void init(KeyManager[] km, TrustManager[] tm,
-                                SecureRandom random)
-        throws KeyManagementException {
-        contextSpi.engineInit(km, tm, random);
+    public finbl void init(KeyMbnbger[] km, TrustMbnbger[] tm,
+                                SecureRbndom rbndom)
+        throws KeyMbnbgementException {
+        contextSpi.engineInit(km, tm, rbndom);
     }
 
     /**
-     * Returns a <code>SocketFactory</code> object for this
+     * Returns b <code>SocketFbctory</code> object for this
      * context.
      *
-     * @return the <code>SocketFactory</code> object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *          initialization and the <code>init()</code> has not been called
+     * @return the <code>SocketFbctory</code> object
+     * @throws IllegblStbteException if the SSLContextImpl requires
+     *          initiblizbtion bnd the <code>init()</code> hbs not been cblled
      */
-    public final SSLSocketFactory getSocketFactory() {
-        return contextSpi.engineGetSocketFactory();
+    public finbl SSLSocketFbctory getSocketFbctory() {
+        return contextSpi.engineGetSocketFbctory();
     }
 
     /**
-     * Returns a <code>ServerSocketFactory</code> object for
+     * Returns b <code>ServerSocketFbctory</code> object for
      * this context.
      *
-     * @return the <code>ServerSocketFactory</code> object
-     * @throws IllegalStateException if the SSLContextImpl requires
-     *          initialization and the <code>init()</code> has not been called
+     * @return the <code>ServerSocketFbctory</code> object
+     * @throws IllegblStbteException if the SSLContextImpl requires
+     *          initiblizbtion bnd the <code>init()</code> hbs not been cblled
      */
-    public final SSLServerSocketFactory getServerSocketFactory() {
-        return contextSpi.engineGetServerSocketFactory();
+    public finbl SSLServerSocketFbctory getServerSocketFbctory() {
+        return contextSpi.engineGetServerSocketFbctory();
     }
 
     /**
-     * Creates a new <code>SSLEngine</code> using this context.
+     * Crebtes b new <code>SSLEngine</code> using this context.
      * <P>
-     * Applications using this factory method are providing no hints
-     * for an internal session reuse strategy. If hints are desired,
-     * {@link #createSSLEngine(String, int)} should be used
-     * instead.
+     * Applicbtions using this fbctory method bre providing no hints
+     * for bn internbl session reuse strbtegy. If hints bre desired,
+     * {@link #crebteSSLEngine(String, int)} should be used
+     * instebd.
      * <P>
-     * Some cipher suites (such as Kerberos) require remote hostname
-     * information, in which case this factory method should not be used.
+     * Some cipher suites (such bs Kerberos) require remote hostnbme
+     * informbtion, in which cbse this fbctory method should not be used.
      *
      * @return  the <code>SSLEngine</code> object
-     * @throws  UnsupportedOperationException if the underlying provider
-     *          does not implement the operation.
-     * @throws  IllegalStateException if the SSLContextImpl requires
-     *          initialization and the <code>init()</code> has not been called
+     * @throws  UnsupportedOperbtionException if the underlying provider
+     *          does not implement the operbtion.
+     * @throws  IllegblStbteException if the SSLContextImpl requires
+     *          initiblizbtion bnd the <code>init()</code> hbs not been cblled
      * @since   1.5
      */
-    public final SSLEngine createSSLEngine() {
+    public finbl SSLEngine crebteSSLEngine() {
         try {
-            return contextSpi.engineCreateSSLEngine();
-        } catch (AbstractMethodError e) {
-            UnsupportedOperationException unsup =
-                new UnsupportedOperationException(
+            return contextSpi.engineCrebteSSLEngine();
+        } cbtch (AbstrbctMethodError e) {
+            UnsupportedOperbtionException unsup =
+                new UnsupportedOperbtionException(
                     "Provider: " + getProvider() +
-                    " doesn't support this operation");
-            unsup.initCause(e);
+                    " doesn't support this operbtion");
+            unsup.initCbuse(e);
             throw unsup;
         }
     }
 
     /**
-     * Creates a new <code>SSLEngine</code> using this context using
-     * advisory peer information.
+     * Crebtes b new <code>SSLEngine</code> using this context using
+     * bdvisory peer informbtion.
      * <P>
-     * Applications using this factory method are providing hints
-     * for an internal session reuse strategy.
+     * Applicbtions using this fbctory method bre providing hints
+     * for bn internbl session reuse strbtegy.
      * <P>
-     * Some cipher suites (such as Kerberos) require remote hostname
-     * information, in which case peerHost needs to be specified.
+     * Some cipher suites (such bs Kerberos) require remote hostnbme
+     * informbtion, in which cbse peerHost needs to be specified.
      *
-     * @param   peerHost the non-authoritative name of the host
-     * @param   peerPort the non-authoritative port
+     * @pbrbm   peerHost the non-buthoritbtive nbme of the host
+     * @pbrbm   peerPort the non-buthoritbtive port
      * @return  the new <code>SSLEngine</code> object
-     * @throws  UnsupportedOperationException if the underlying provider
-     *          does not implement the operation.
-     * @throws  IllegalStateException if the SSLContextImpl requires
-     *          initialization and the <code>init()</code> has not been called
+     * @throws  UnsupportedOperbtionException if the underlying provider
+     *          does not implement the operbtion.
+     * @throws  IllegblStbteException if the SSLContextImpl requires
+     *          initiblizbtion bnd the <code>init()</code> hbs not been cblled
      * @since   1.5
      */
-    public final SSLEngine createSSLEngine(String peerHost, int peerPort) {
+    public finbl SSLEngine crebteSSLEngine(String peerHost, int peerPort) {
         try {
-            return contextSpi.engineCreateSSLEngine(peerHost, peerPort);
-        } catch (AbstractMethodError e) {
-            UnsupportedOperationException unsup =
-                new UnsupportedOperationException(
+            return contextSpi.engineCrebteSSLEngine(peerHost, peerPort);
+        } cbtch (AbstrbctMethodError e) {
+            UnsupportedOperbtionException unsup =
+                new UnsupportedOperbtionException(
                     "Provider: " + getProvider() +
-                    " does not support this operation");
-            unsup.initCause(e);
+                    " does not support this operbtion");
+            unsup.initCbuse(e);
             throw unsup;
         }
     }
 
     /**
      * Returns the server session context, which represents the set of
-     * SSL sessions available for use during the handshake phase of
+     * SSL sessions bvbilbble for use during the hbndshbke phbse of
      * server-side SSL sockets.
      * <P>
-     * This context may be unavailable in some environments, in which
-     * case this method returns null. For example, when the underlying
-     * SSL provider does not provide an implementation of SSLSessionContext
-     * interface, this method returns null. A non-null session context
+     * This context mby be unbvbilbble in some environments, in which
+     * cbse this method returns null. For exbmple, when the underlying
+     * SSL provider does not provide bn implementbtion of SSLSessionContext
+     * interfbce, this method returns null. A non-null session context
      * is returned otherwise.
      *
      * @return server session context bound to this SSL context
      */
-    public final SSLSessionContext getServerSessionContext() {
+    public finbl SSLSessionContext getServerSessionContext() {
         return contextSpi.engineGetServerSessionContext();
     }
 
     /**
      * Returns the client session context, which represents the set of
-     * SSL sessions available for use during the handshake phase of
+     * SSL sessions bvbilbble for use during the hbndshbke phbse of
      * client-side SSL sockets.
      * <P>
-     * This context may be unavailable in some environments, in which
-     * case this method returns null. For example, when the underlying
-     * SSL provider does not provide an implementation of SSLSessionContext
-     * interface, this method returns null. A non-null session context
+     * This context mby be unbvbilbble in some environments, in which
+     * cbse this method returns null. For exbmple, when the underlying
+     * SSL provider does not provide bn implementbtion of SSLSessionContext
+     * interfbce, this method returns null. A non-null session context
      * is returned otherwise.
      *
      * @return client session context bound to this SSL context
      */
-    public final SSLSessionContext getClientSessionContext() {
+    public finbl SSLSessionContext getClientSessionContext() {
         return contextSpi.engineGetClientSessionContext();
     }
 
     /**
-     * Returns a copy of the SSLParameters indicating the default
+     * Returns b copy of the SSLPbrbmeters indicbting the defbult
      * settings for this SSL context.
      *
-     * <p>The parameters will always have the ciphersuites and protocols
-     * arrays set to non-null values.
+     * <p>The pbrbmeters will blwbys hbve the ciphersuites bnd protocols
+     * brrbys set to non-null vblues.
      *
-     * @return a copy of the SSLParameters object with the default settings
-     * @throws UnsupportedOperationException if the default SSL parameters
-     *   could not be obtained.
+     * @return b copy of the SSLPbrbmeters object with the defbult settings
+     * @throws UnsupportedOperbtionException if the defbult SSL pbrbmeters
+     *   could not be obtbined.
      * @since 1.6
      */
-    public final SSLParameters getDefaultSSLParameters() {
-        return contextSpi.engineGetDefaultSSLParameters();
+    public finbl SSLPbrbmeters getDefbultSSLPbrbmeters() {
+        return contextSpi.engineGetDefbultSSLPbrbmeters();
     }
 
     /**
-     * Returns a copy of the SSLParameters indicating the supported
+     * Returns b copy of the SSLPbrbmeters indicbting the supported
      * settings for this SSL context.
      *
-     * <p>The parameters will always have the ciphersuites and protocols
-     * arrays set to non-null values.
+     * <p>The pbrbmeters will blwbys hbve the ciphersuites bnd protocols
+     * brrbys set to non-null vblues.
      *
-     * @return a copy of the SSLParameters object with the supported
+     * @return b copy of the SSLPbrbmeters object with the supported
      *   settings
-     * @throws UnsupportedOperationException if the supported SSL parameters
-     *   could not be obtained.
+     * @throws UnsupportedOperbtionException if the supported SSL pbrbmeters
+     *   could not be obtbined.
      * @since 1.6
      */
-    public final SSLParameters getSupportedSSLParameters() {
-        return contextSpi.engineGetSupportedSSLParameters();
+    public finbl SSLPbrbmeters getSupportedSSLPbrbmeters() {
+        return contextSpi.engineGetSupportedSSLPbrbmeters();
     }
 
 }

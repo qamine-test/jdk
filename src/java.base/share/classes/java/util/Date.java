@@ -1,457 +1,457 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.lang.ref.SoftReference;
-import java.time.Instant;
-import sun.util.calendar.BaseCalendar;
-import sun.util.calendar.CalendarDate;
-import sun.util.calendar.CalendarSystem;
-import sun.util.calendar.CalendarUtils;
-import sun.util.calendar.Era;
-import sun.util.calendar.Gregorian;
-import sun.util.calendar.ZoneInfo;
+import jbvb.text.DbteFormbt;
+import jbvb.time.LocblDbte;
+import jbvb.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.time.Instbnt;
+import sun.util.cblendbr.BbseCblendbr;
+import sun.util.cblendbr.CblendbrDbte;
+import sun.util.cblendbr.CblendbrSystem;
+import sun.util.cblendbr.CblendbrUtils;
+import sun.util.cblendbr.Erb;
+import sun.util.cblendbr.Gregoribn;
+import sun.util.cblendbr.ZoneInfo;
 
 /**
- * The class {@code Date} represents a specific instant
+ * The clbss {@code Dbte} represents b specific instbnt
  * in time, with millisecond precision.
  * <p>
- * Prior to JDK&nbsp;1.1, the class {@code Date} had two additional
- * functions.  It allowed the interpretation of dates as year, month, day, hour,
- * minute, and second values.  It also allowed the formatting and parsing
- * of date strings.  Unfortunately, the API for these functions was not
- * amenable to internationalization.  As of JDK&nbsp;1.1, the
- * {@code Calendar} class should be used to convert between dates and time
- * fields and the {@code DateFormat} class should be used to format and
- * parse date strings.
- * The corresponding methods in {@code Date} are deprecated.
+ * Prior to JDK&nbsp;1.1, the clbss {@code Dbte} hbd two bdditionbl
+ * functions.  It bllowed the interpretbtion of dbtes bs yebr, month, dby, hour,
+ * minute, bnd second vblues.  It blso bllowed the formbtting bnd pbrsing
+ * of dbte strings.  Unfortunbtely, the API for these functions wbs not
+ * bmenbble to internbtionblizbtion.  As of JDK&nbsp;1.1, the
+ * {@code Cblendbr} clbss should be used to convert between dbtes bnd time
+ * fields bnd the {@code DbteFormbt} clbss should be used to formbt bnd
+ * pbrse dbte strings.
+ * The corresponding methods in {@code Dbte} bre deprecbted.
  * <p>
- * Although the {@code Date} class is intended to reflect
- * coordinated universal time (UTC), it may not do so exactly,
- * depending on the host environment of the Java Virtual Machine.
- * Nearly all modern operating systems assume that 1&nbsp;day&nbsp;=
+ * Although the {@code Dbte} clbss is intended to reflect
+ * coordinbted universbl time (UTC), it mby not do so exbctly,
+ * depending on the host environment of the Jbvb Virtubl Mbchine.
+ * Nebrly bll modern operbting systems bssume thbt 1&nbsp;dby&nbsp;=
  * 24&nbsp;&times;&nbsp;60&nbsp;&times;&nbsp;60&nbsp;= 86400 seconds
- * in all cases. In UTC, however, about once every year or two there
- * is an extra second, called a "leap second." The leap
- * second is always added as the last second of the day, and always
- * on December 31 or June 30. For example, the last minute of the
- * year 1995 was 61 seconds long, thanks to an added leap second.
- * Most computer clocks are not accurate enough to be able to reflect
- * the leap-second distinction.
+ * in bll cbses. In UTC, however, bbout once every yebr or two there
+ * is bn extrb second, cblled b "lebp second." The lebp
+ * second is blwbys bdded bs the lbst second of the dby, bnd blwbys
+ * on December 31 or June 30. For exbmple, the lbst minute of the
+ * yebr 1995 wbs 61 seconds long, thbnks to bn bdded lebp second.
+ * Most computer clocks bre not bccurbte enough to be bble to reflect
+ * the lebp-second distinction.
  * <p>
- * Some computer standards are defined in terms of Greenwich mean
- * time (GMT), which is equivalent to universal time (UT).  GMT is
- * the "civil" name for the standard; UT is the
- * "scientific" name for the same standard. The
- * distinction between UTC and UT is that UTC is based on an atomic
- * clock and UT is based on astronomical observations, which for all
- * practical purposes is an invisibly fine hair to split. Because the
- * earth's rotation is not uniform (it slows down and speeds up
- * in complicated ways), UT does not always flow uniformly. Leap
- * seconds are introduced as needed into UTC so as to keep UTC within
- * 0.9 seconds of UT1, which is a version of UT with certain
- * corrections applied. There are other time and date systems as
- * well; for example, the time scale used by the satellite-based
- * global positioning system (GPS) is synchronized to UTC but is
- * <i>not</i> adjusted for leap seconds. An interesting source of
- * further information is the U.S. Naval Observatory, particularly
- * the Directorate of Time at:
+ * Some computer stbndbrds bre defined in terms of Greenwich mebn
+ * time (GMT), which is equivblent to universbl time (UT).  GMT is
+ * the "civil" nbme for the stbndbrd; UT is the
+ * "scientific" nbme for the sbme stbndbrd. The
+ * distinction between UTC bnd UT is thbt UTC is bbsed on bn btomic
+ * clock bnd UT is bbsed on bstronomicbl observbtions, which for bll
+ * prbcticbl purposes is bn invisibly fine hbir to split. Becbuse the
+ * ebrth's rotbtion is not uniform (it slows down bnd speeds up
+ * in complicbted wbys), UT does not blwbys flow uniformly. Lebp
+ * seconds bre introduced bs needed into UTC so bs to keep UTC within
+ * 0.9 seconds of UT1, which is b version of UT with certbin
+ * corrections bpplied. There bre other time bnd dbte systems bs
+ * well; for exbmple, the time scble used by the sbtellite-bbsed
+ * globbl positioning system (GPS) is synchronized to UTC but is
+ * <i>not</i> bdjusted for lebp seconds. An interesting source of
+ * further informbtion is the U.S. Nbvbl Observbtory, pbrticulbrly
+ * the Directorbte of Time bt:
  * <blockquote><pre>
- *     <a href=http://tycho.usno.navy.mil>http://tycho.usno.navy.mil</a>
+ *     <b href=http://tycho.usno.nbvy.mil>http://tycho.usno.nbvy.mil</b>
  * </pre></blockquote>
  * <p>
- * and their definitions of "Systems of Time" at:
+ * bnd their definitions of "Systems of Time" bt:
  * <blockquote><pre>
- *     <a href=http://tycho.usno.navy.mil/systime.html>http://tycho.usno.navy.mil/systime.html</a>
+ *     <b href=http://tycho.usno.nbvy.mil/systime.html>http://tycho.usno.nbvy.mil/systime.html</b>
  * </pre></blockquote>
  * <p>
- * In all methods of class {@code Date} that accept or return
- * year, month, date, hours, minutes, and seconds values, the
- * following representations are used:
+ * In bll methods of clbss {@code Dbte} thbt bccept or return
+ * yebr, month, dbte, hours, minutes, bnd seconds vblues, the
+ * following representbtions bre used:
  * <ul>
- * <li>A year <i>y</i> is represented by the integer
+ * <li>A yebr <i>y</i> is represented by the integer
  *     <i>y</i>&nbsp;{@code - 1900}.
- * <li>A month is represented by an integer from 0 to 11; 0 is January,
- *     1 is February, and so forth; thus 11 is December.
- * <li>A date (day of month) is represented by an integer from 1 to 31
- *     in the usual manner.
- * <li>An hour is represented by an integer from 0 to 23. Thus, the hour
- *     from midnight to 1 a.m. is hour 0, and the hour from noon to 1
+ * <li>A month is represented by bn integer from 0 to 11; 0 is Jbnubry,
+ *     1 is Februbry, bnd so forth; thus 11 is December.
+ * <li>A dbte (dby of month) is represented by bn integer from 1 to 31
+ *     in the usubl mbnner.
+ * <li>An hour is represented by bn integer from 0 to 23. Thus, the hour
+ *     from midnight to 1 b.m. is hour 0, bnd the hour from noon to 1
  *     p.m. is hour 12.
- * <li>A minute is represented by an integer from 0 to 59 in the usual manner.
- * <li>A second is represented by an integer from 0 to 61; the values 60 and
- *     61 occur only for leap seconds and even then only in Java
- *     implementations that actually track leap seconds correctly. Because
- *     of the manner in which leap seconds are currently introduced, it is
- *     extremely unlikely that two leap seconds will occur in the same
- *     minute, but this specification follows the date and time conventions
+ * <li>A minute is represented by bn integer from 0 to 59 in the usubl mbnner.
+ * <li>A second is represented by bn integer from 0 to 61; the vblues 60 bnd
+ *     61 occur only for lebp seconds bnd even then only in Jbvb
+ *     implementbtions thbt bctublly trbck lebp seconds correctly. Becbuse
+ *     of the mbnner in which lebp seconds bre currently introduced, it is
+ *     extremely unlikely thbt two lebp seconds will occur in the sbme
+ *     minute, but this specificbtion follows the dbte bnd time conventions
  *     for ISO C.
  * </ul>
  * <p>
- * In all cases, arguments given to methods for these purposes need
- * not fall within the indicated ranges; for example, a date may be
- * specified as January 32 and is interpreted as meaning February 1.
+ * In bll cbses, brguments given to methods for these purposes need
+ * not fbll within the indicbted rbnges; for exbmple, b dbte mby be
+ * specified bs Jbnubry 32 bnd is interpreted bs mebning Februbry 1.
  *
- * @author  James Gosling
- * @author  Arthur van Hoff
- * @author  Alan Liu
- * @see     java.text.DateFormat
- * @see     java.util.Calendar
- * @see     java.util.TimeZone
+ * @buthor  Jbmes Gosling
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Albn Liu
+ * @see     jbvb.text.DbteFormbt
+ * @see     jbvb.util.Cblendbr
+ * @see     jbvb.util.TimeZone
  * @since   1.0
  */
-public class Date
-    implements java.io.Serializable, Cloneable, Comparable<Date>
+public clbss Dbte
+    implements jbvb.io.Seriblizbble, Clonebble, Compbrbble<Dbte>
 {
-    private static final BaseCalendar gcal =
-                                CalendarSystem.getGregorianCalendar();
-    private static BaseCalendar jcal;
+    privbte stbtic finbl BbseCblendbr gcbl =
+                                CblendbrSystem.getGregoribnCblendbr();
+    privbte stbtic BbseCblendbr jcbl;
 
-    private transient long fastTime;
+    privbte trbnsient long fbstTime;
 
     /*
-     * If cdate is null, then fastTime indicates the time in millis.
-     * If cdate.isNormalized() is true, then fastTime and cdate are in
-     * synch. Otherwise, fastTime is ignored, and cdate indicates the
+     * If cdbte is null, then fbstTime indicbtes the time in millis.
+     * If cdbte.isNormblized() is true, then fbstTime bnd cdbte bre in
+     * synch. Otherwise, fbstTime is ignored, bnd cdbte indicbtes the
      * time.
      */
-    private transient BaseCalendar.Date cdate;
+    privbte trbnsient BbseCblendbr.Dbte cdbte;
 
-    // Initialized just before the value is used. See parse().
-    private static int defaultCenturyStart;
+    // Initiblized just before the vblue is used. See pbrse().
+    privbte stbtic int defbultCenturyStbrt;
 
-    /* use serialVersionUID from modified java.util.Date for
-     * interoperability with JDK1.1. The Date was modified to write
-     * and read only the UTC time.
+    /* use seriblVersionUID from modified jbvb.util.Dbte for
+     * interoperbbility with JDK1.1. The Dbte wbs modified to write
+     * bnd rebd only the UTC time.
      */
-    private static final long serialVersionUID = 7523967970034938905L;
+    privbte stbtic finbl long seriblVersionUID = 7523967970034938905L;
 
     /**
-     * Allocates a {@code Date} object and initializes it so that
-     * it represents the time at which it was allocated, measured to the
-     * nearest millisecond.
+     * Allocbtes b {@code Dbte} object bnd initiblizes it so thbt
+     * it represents the time bt which it wbs bllocbted, mebsured to the
+     * nebrest millisecond.
      *
-     * @see     java.lang.System#currentTimeMillis()
+     * @see     jbvb.lbng.System#currentTimeMillis()
      */
-    public Date() {
+    public Dbte() {
         this(System.currentTimeMillis());
     }
 
     /**
-     * Allocates a {@code Date} object and initializes it to
+     * Allocbtes b {@code Dbte} object bnd initiblizes it to
      * represent the specified number of milliseconds since the
-     * standard base time known as "the epoch", namely January 1,
+     * stbndbrd bbse time known bs "the epoch", nbmely Jbnubry 1,
      * 1970, 00:00:00 GMT.
      *
-     * @param   date   the milliseconds since January 1, 1970, 00:00:00 GMT.
-     * @see     java.lang.System#currentTimeMillis()
+     * @pbrbm   dbte   the milliseconds since Jbnubry 1, 1970, 00:00:00 GMT.
+     * @see     jbvb.lbng.System#currentTimeMillis()
      */
-    public Date(long date) {
-        fastTime = date;
+    public Dbte(long dbte) {
+        fbstTime = dbte;
     }
 
     /**
-     * Allocates a {@code Date} object and initializes it so that
-     * it represents midnight, local time, at the beginning of the day
-     * specified by the {@code year}, {@code month}, and
-     * {@code date} arguments.
+     * Allocbtes b {@code Dbte} object bnd initiblizes it so thbt
+     * it represents midnight, locbl time, bt the beginning of the dby
+     * specified by the {@code yebr}, {@code month}, bnd
+     * {@code dbte} brguments.
      *
-     * @param   year    the year minus 1900.
-     * @param   month   the month between 0-11.
-     * @param   date    the day of the month between 1-31.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(year + 1900, month, date)}
-     * or {@code GregorianCalendar(year + 1900, month, date)}.
+     * @pbrbm   yebr    the yebr minus 1900.
+     * @pbrbm   month   the month between 0-11.
+     * @pbrbm   dbte    the dby of the month between 1-31.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(yebr + 1900, month, dbte)}
+     * or {@code GregoribnCblendbr(yebr + 1900, month, dbte)}.
      */
-    @Deprecated
-    public Date(int year, int month, int date) {
-        this(year, month, date, 0, 0, 0);
+    @Deprecbted
+    public Dbte(int yebr, int month, int dbte) {
+        this(yebr, month, dbte, 0, 0, 0);
     }
 
     /**
-     * Allocates a {@code Date} object and initializes it so that
-     * it represents the instant at the start of the minute specified by
-     * the {@code year}, {@code month}, {@code date},
-     * {@code hrs}, and {@code min} arguments, in the local
+     * Allocbtes b {@code Dbte} object bnd initiblizes it so thbt
+     * it represents the instbnt bt the stbrt of the minute specified by
+     * the {@code yebr}, {@code month}, {@code dbte},
+     * {@code hrs}, bnd {@code min} brguments, in the locbl
      * time zone.
      *
-     * @param   year    the year minus 1900.
-     * @param   month   the month between 0-11.
-     * @param   date    the day of the month between 1-31.
-     * @param   hrs     the hours between 0-23.
-     * @param   min     the minutes between 0-59.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(year + 1900, month, date, hrs, min)}
-     * or {@code GregorianCalendar(year + 1900, month, date, hrs, min)}.
+     * @pbrbm   yebr    the yebr minus 1900.
+     * @pbrbm   month   the month between 0-11.
+     * @pbrbm   dbte    the dby of the month between 1-31.
+     * @pbrbm   hrs     the hours between 0-23.
+     * @pbrbm   min     the minutes between 0-59.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(yebr + 1900, month, dbte, hrs, min)}
+     * or {@code GregoribnCblendbr(yebr + 1900, month, dbte, hrs, min)}.
      */
-    @Deprecated
-    public Date(int year, int month, int date, int hrs, int min) {
-        this(year, month, date, hrs, min, 0);
+    @Deprecbted
+    public Dbte(int yebr, int month, int dbte, int hrs, int min) {
+        this(yebr, month, dbte, hrs, min, 0);
     }
 
     /**
-     * Allocates a {@code Date} object and initializes it so that
-     * it represents the instant at the start of the second specified
-     * by the {@code year}, {@code month}, {@code date},
-     * {@code hrs}, {@code min}, and {@code sec} arguments,
-     * in the local time zone.
+     * Allocbtes b {@code Dbte} object bnd initiblizes it so thbt
+     * it represents the instbnt bt the stbrt of the second specified
+     * by the {@code yebr}, {@code month}, {@code dbte},
+     * {@code hrs}, {@code min}, bnd {@code sec} brguments,
+     * in the locbl time zone.
      *
-     * @param   year    the year minus 1900.
-     * @param   month   the month between 0-11.
-     * @param   date    the day of the month between 1-31.
-     * @param   hrs     the hours between 0-23.
-     * @param   min     the minutes between 0-59.
-     * @param   sec     the seconds between 0-59.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(year + 1900, month, date, hrs, min, sec)}
-     * or {@code GregorianCalendar(year + 1900, month, date, hrs, min, sec)}.
+     * @pbrbm   yebr    the yebr minus 1900.
+     * @pbrbm   month   the month between 0-11.
+     * @pbrbm   dbte    the dby of the month between 1-31.
+     * @pbrbm   hrs     the hours between 0-23.
+     * @pbrbm   min     the minutes between 0-59.
+     * @pbrbm   sec     the seconds between 0-59.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(yebr + 1900, month, dbte, hrs, min, sec)}
+     * or {@code GregoribnCblendbr(yebr + 1900, month, dbte, hrs, min, sec)}.
      */
-    @Deprecated
-    public Date(int year, int month, int date, int hrs, int min, int sec) {
-        int y = year + 1900;
-        // month is 0-based. So we have to normalize month to support Long.MAX_VALUE.
+    @Deprecbted
+    public Dbte(int yebr, int month, int dbte, int hrs, int min, int sec) {
+        int y = yebr + 1900;
+        // month is 0-bbsed. So we hbve to normblize month to support Long.MAX_VALUE.
         if (month >= 12) {
             y += month / 12;
             month %= 12;
         } else if (month < 0) {
-            y += CalendarUtils.floorDivide(month, 12);
-            month = CalendarUtils.mod(month, 12);
+            y += CblendbrUtils.floorDivide(month, 12);
+            month = CblendbrUtils.mod(month, 12);
         }
-        BaseCalendar cal = getCalendarSystem(y);
-        cdate = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.getDefaultRef());
-        cdate.setNormalizedDate(y, month + 1, date).setTimeOfDay(hrs, min, sec, 0);
+        BbseCblendbr cbl = getCblendbrSystem(y);
+        cdbte = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(TimeZone.getDefbultRef());
+        cdbte.setNormblizedDbte(y, month + 1, dbte).setTimeOfDby(hrs, min, sec, 0);
         getTimeImpl();
-        cdate = null;
+        cdbte = null;
     }
 
     /**
-     * Allocates a {@code Date} object and initializes it so that
-     * it represents the date and time indicated by the string
-     * {@code s}, which is interpreted as if by the
-     * {@link Date#parse} method.
+     * Allocbtes b {@code Dbte} object bnd initiblizes it so thbt
+     * it represents the dbte bnd time indicbted by the string
+     * {@code s}, which is interpreted bs if by the
+     * {@link Dbte#pbrse} method.
      *
-     * @param   s   a string representation of the date.
-     * @see     java.text.DateFormat
-     * @see     java.util.Date#parse(java.lang.String)
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code DateFormat.parse(String s)}.
+     * @pbrbm   s   b string representbtion of the dbte.
+     * @see     jbvb.text.DbteFormbt
+     * @see     jbvb.util.Dbte#pbrse(jbvb.lbng.String)
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code DbteFormbt.pbrse(String s)}.
      */
-    @Deprecated
-    public Date(String s) {
-        this(parse(s));
+    @Deprecbted
+    public Dbte(String s) {
+        this(pbrse(s));
     }
 
     /**
-     * Return a copy of this object.
+     * Return b copy of this object.
      */
     public Object clone() {
-        Date d = null;
+        Dbte d = null;
         try {
-            d = (Date)super.clone();
-            if (cdate != null) {
-                d.cdate = (BaseCalendar.Date) cdate.clone();
+            d = (Dbte)super.clone();
+            if (cdbte != null) {
+                d.cdbte = (BbseCblendbr.Dbte) cdbte.clone();
             }
-        } catch (CloneNotSupportedException e) {} // Won't happen
+        } cbtch (CloneNotSupportedException e) {} // Won't hbppen
         return d;
     }
 
     /**
-     * Determines the date and time based on the arguments. The
-     * arguments are interpreted as a year, month, day of the month,
-     * hour of the day, minute within the hour, and second within the
-     * minute, exactly as for the {@code Date} constructor with six
-     * arguments, except that the arguments are interpreted relative
-     * to UTC rather than to the local time zone. The time indicated is
-     * returned represented as the distance, measured in milliseconds,
-     * of that time from the epoch (00:00:00 GMT on January 1, 1970).
+     * Determines the dbte bnd time bbsed on the brguments. The
+     * brguments bre interpreted bs b yebr, month, dby of the month,
+     * hour of the dby, minute within the hour, bnd second within the
+     * minute, exbctly bs for the {@code Dbte} constructor with six
+     * brguments, except thbt the brguments bre interpreted relbtive
+     * to UTC rbther thbn to the locbl time zone. The time indicbted is
+     * returned represented bs the distbnce, mebsured in milliseconds,
+     * of thbt time from the epoch (00:00:00 GMT on Jbnubry 1, 1970).
      *
-     * @param   year    the year minus 1900.
-     * @param   month   the month between 0-11.
-     * @param   date    the day of the month between 1-31.
-     * @param   hrs     the hours between 0-23.
-     * @param   min     the minutes between 0-59.
-     * @param   sec     the seconds between 0-59.
-     * @return  the number of milliseconds since January 1, 1970, 00:00:00 GMT for
-     *          the date and time specified by the arguments.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(year + 1900, month, date, hrs, min, sec)}
-     * or {@code GregorianCalendar(year + 1900, month, date, hrs, min, sec)}, using a UTC
-     * {@code TimeZone}, followed by {@code Calendar.getTime().getTime()}.
+     * @pbrbm   yebr    the yebr minus 1900.
+     * @pbrbm   month   the month between 0-11.
+     * @pbrbm   dbte    the dby of the month between 1-31.
+     * @pbrbm   hrs     the hours between 0-23.
+     * @pbrbm   min     the minutes between 0-59.
+     * @pbrbm   sec     the seconds between 0-59.
+     * @return  the number of milliseconds since Jbnubry 1, 1970, 00:00:00 GMT for
+     *          the dbte bnd time specified by the brguments.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(yebr + 1900, month, dbte, hrs, min, sec)}
+     * or {@code GregoribnCblendbr(yebr + 1900, month, dbte, hrs, min, sec)}, using b UTC
+     * {@code TimeZone}, followed by {@code Cblendbr.getTime().getTime()}.
      */
-    @Deprecated
-    public static long UTC(int year, int month, int date,
+    @Deprecbted
+    public stbtic long UTC(int yebr, int month, int dbte,
                            int hrs, int min, int sec) {
-        int y = year + 1900;
-        // month is 0-based. So we have to normalize month to support Long.MAX_VALUE.
+        int y = yebr + 1900;
+        // month is 0-bbsed. So we hbve to normblize month to support Long.MAX_VALUE.
         if (month >= 12) {
             y += month / 12;
             month %= 12;
         } else if (month < 0) {
-            y += CalendarUtils.floorDivide(month, 12);
-            month = CalendarUtils.mod(month, 12);
+            y += CblendbrUtils.floorDivide(month, 12);
+            month = CblendbrUtils.mod(month, 12);
         }
         int m = month + 1;
-        BaseCalendar cal = getCalendarSystem(y);
-        BaseCalendar.Date udate = (BaseCalendar.Date) cal.newCalendarDate(null);
-        udate.setNormalizedDate(y, m, date).setTimeOfDay(hrs, min, sec, 0);
+        BbseCblendbr cbl = getCblendbrSystem(y);
+        BbseCblendbr.Dbte udbte = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(null);
+        udbte.setNormblizedDbte(y, m, dbte).setTimeOfDby(hrs, min, sec, 0);
 
-        // Use a Date instance to perform normalization. Its fastTime
-        // is the UTC value after the normalization.
-        Date d = new Date(0);
-        d.normalize(udate);
-        return d.fastTime;
+        // Use b Dbte instbnce to perform normblizbtion. Its fbstTime
+        // is the UTC vblue bfter the normblizbtion.
+        Dbte d = new Dbte(0);
+        d.normblize(udbte);
+        return d.fbstTime;
     }
 
     /**
-     * Attempts to interpret the string {@code s} as a representation
-     * of a date and time. If the attempt is successful, the time
-     * indicated is returned represented as the distance, measured in
-     * milliseconds, of that time from the epoch (00:00:00 GMT on
-     * January 1, 1970). If the attempt fails, an
-     * {@code IllegalArgumentException} is thrown.
+     * Attempts to interpret the string {@code s} bs b representbtion
+     * of b dbte bnd time. If the bttempt is successful, the time
+     * indicbted is returned represented bs the distbnce, mebsured in
+     * milliseconds, of thbt time from the epoch (00:00:00 GMT on
+     * Jbnubry 1, 1970). If the bttempt fbils, bn
+     * {@code IllegblArgumentException} is thrown.
      * <p>
-     * It accepts many syntaxes; in particular, it recognizes the IETF
-     * standard date syntax: "Sat, 12 Aug 1995 13:30:00 GMT". It also
-     * understands the continental U.S. time-zone abbreviations, but for
-     * general use, a time-zone offset should be used: "Sat, 12 Aug 1995
+     * It bccepts mbny syntbxes; in pbrticulbr, it recognizes the IETF
+     * stbndbrd dbte syntbx: "Sbt, 12 Aug 1995 13:30:00 GMT". It blso
+     * understbnds the continentbl U.S. time-zone bbbrevibtions, but for
+     * generbl use, b time-zone offset should be used: "Sbt, 12 Aug 1995
      * 13:30:00 GMT+0430" (4 hours, 30 minutes west of the Greenwich
-     * meridian). If no time zone is specified, the local time zone is
-     * assumed. GMT and UTC are considered equivalent.
+     * meridibn). If no time zone is specified, the locbl time zone is
+     * bssumed. GMT bnd UTC bre considered equivblent.
      * <p>
      * The string {@code s} is processed from left to right, looking for
-     * data of interest. Any material in {@code s} that is within the
-     * ASCII parenthesis characters {@code (} and {@code )} is ignored.
-     * Parentheses may be nested. Otherwise, the only characters permitted
-     * within {@code s} are these ASCII characters:
+     * dbtb of interest. Any mbteribl in {@code s} thbt is within the
+     * ASCII pbrenthesis chbrbcters {@code (} bnd {@code )} is ignored.
+     * Pbrentheses mby be nested. Otherwise, the only chbrbcters permitted
+     * within {@code s} bre these ASCII chbrbcters:
      * <blockquote><pre>
-     * abcdefghijklmnopqrstuvwxyz
+     * bbcdefghijklmnopqrstuvwxyz
      * ABCDEFGHIJKLMNOPQRSTUVWXYZ
      * 0123456789,+-:/</pre></blockquote>
-     * and whitespace characters.<p>
-     * A consecutive sequence of decimal digits is treated as a decimal
+     * bnd whitespbce chbrbcters.<p>
+     * A consecutive sequence of decimbl digits is trebted bs b decimbl
      * number:<ul>
-     * <li>If a number is preceded by {@code +} or {@code -} and a year
-     *     has already been recognized, then the number is a time-zone
-     *     offset. If the number is less than 24, it is an offset measured
-     *     in hours. Otherwise, it is regarded as an offset in minutes,
-     *     expressed in 24-hour time format without punctuation. A
-     *     preceding {@code -} means a westward offset. Time zone offsets
-     *     are always relative to UTC (Greenwich). Thus, for example,
-     *     {@code -5} occurring in the string would mean "five hours west
-     *     of Greenwich" and {@code +0430} would mean "four hours and
-     *     thirty minutes east of Greenwich." It is permitted for the
+     * <li>If b number is preceded by {@code +} or {@code -} bnd b yebr
+     *     hbs blrebdy been recognized, then the number is b time-zone
+     *     offset. If the number is less thbn 24, it is bn offset mebsured
+     *     in hours. Otherwise, it is regbrded bs bn offset in minutes,
+     *     expressed in 24-hour time formbt without punctubtion. A
+     *     preceding {@code -} mebns b westwbrd offset. Time zone offsets
+     *     bre blwbys relbtive to UTC (Greenwich). Thus, for exbmple,
+     *     {@code -5} occurring in the string would mebn "five hours west
+     *     of Greenwich" bnd {@code +0430} would mebn "four hours bnd
+     *     thirty minutes ebst of Greenwich." It is permitted for the
      *     string to specify {@code GMT}, {@code UT}, or {@code UTC}
-     *     redundantly-for example, {@code GMT-5} or {@code utc+0430}.
-     * <li>The number is regarded as a year number if one of the
+     *     redundbntly-for exbmple, {@code GMT-5} or {@code utc+0430}.
+     * <li>The number is regbrded bs b yebr number if one of the
      *     following conditions is true:
      * <ul>
-     *     <li>The number is equal to or greater than 70 and followed by a
-     *         space, comma, slash, or end of string
-     *     <li>The number is less than 70, and both a month and a day of
-     *         the month have already been recognized</li>
+     *     <li>The number is equbl to or grebter thbn 70 bnd followed by b
+     *         spbce, commb, slbsh, or end of string
+     *     <li>The number is less thbn 70, bnd both b month bnd b dby of
+     *         the month hbve blrebdy been recognized</li>
      * </ul>
-     *     If the recognized year number is less than 100, it is
-     *     interpreted as an abbreviated year relative to a century of
-     *     which dates are within 80 years before and 19 years after
-     *     the time when the Date class is initialized.
-     *     After adjusting the year number, 1900 is subtracted from
-     *     it. For example, if the current year is 1999 then years in
-     *     the range 19 to 99 are assumed to mean 1919 to 1999, while
-     *     years from 0 to 18 are assumed to mean 2000 to 2018.  Note
-     *     that this is slightly different from the interpretation of
-     *     years less than 100 that is used in {@link java.text.SimpleDateFormat}.
-     * <li>If the number is followed by a colon, it is regarded as an hour,
-     *     unless an hour has already been recognized, in which case it is
-     *     regarded as a minute.
-     * <li>If the number is followed by a slash, it is regarded as a month
-     *     (it is decreased by 1 to produce a number in the range {@code 0}
-     *     to {@code 11}), unless a month has already been recognized, in
-     *     which case it is regarded as a day of the month.
-     * <li>If the number is followed by whitespace, a comma, a hyphen, or
-     *     end of string, then if an hour has been recognized but not a
-     *     minute, it is regarded as a minute; otherwise, if a minute has
-     *     been recognized but not a second, it is regarded as a second;
-     *     otherwise, it is regarded as a day of the month. </ul><p>
-     * A consecutive sequence of letters is regarded as a word and treated
-     * as follows:<ul>
-     * <li>A word that matches {@code AM}, ignoring case, is ignored (but
-     *     the parse fails if an hour has not been recognized or is less
-     *     than {@code 1} or greater than {@code 12}).
-     * <li>A word that matches {@code PM}, ignoring case, adds {@code 12}
-     *     to the hour (but the parse fails if an hour has not been
-     *     recognized or is less than {@code 1} or greater than {@code 12}).
-     * <li>Any word that matches any prefix of {@code SUNDAY, MONDAY, TUESDAY,
+     *     If the recognized yebr number is less thbn 100, it is
+     *     interpreted bs bn bbbrevibted yebr relbtive to b century of
+     *     which dbtes bre within 80 yebrs before bnd 19 yebrs bfter
+     *     the time when the Dbte clbss is initiblized.
+     *     After bdjusting the yebr number, 1900 is subtrbcted from
+     *     it. For exbmple, if the current yebr is 1999 then yebrs in
+     *     the rbnge 19 to 99 bre bssumed to mebn 1919 to 1999, while
+     *     yebrs from 0 to 18 bre bssumed to mebn 2000 to 2018.  Note
+     *     thbt this is slightly different from the interpretbtion of
+     *     yebrs less thbn 100 thbt is used in {@link jbvb.text.SimpleDbteFormbt}.
+     * <li>If the number is followed by b colon, it is regbrded bs bn hour,
+     *     unless bn hour hbs blrebdy been recognized, in which cbse it is
+     *     regbrded bs b minute.
+     * <li>If the number is followed by b slbsh, it is regbrded bs b month
+     *     (it is decrebsed by 1 to produce b number in the rbnge {@code 0}
+     *     to {@code 11}), unless b month hbs blrebdy been recognized, in
+     *     which cbse it is regbrded bs b dby of the month.
+     * <li>If the number is followed by whitespbce, b commb, b hyphen, or
+     *     end of string, then if bn hour hbs been recognized but not b
+     *     minute, it is regbrded bs b minute; otherwise, if b minute hbs
+     *     been recognized but not b second, it is regbrded bs b second;
+     *     otherwise, it is regbrded bs b dby of the month. </ul><p>
+     * A consecutive sequence of letters is regbrded bs b word bnd trebted
+     * bs follows:<ul>
+     * <li>A word thbt mbtches {@code AM}, ignoring cbse, is ignored (but
+     *     the pbrse fbils if bn hour hbs not been recognized or is less
+     *     thbn {@code 1} or grebter thbn {@code 12}).
+     * <li>A word thbt mbtches {@code PM}, ignoring cbse, bdds {@code 12}
+     *     to the hour (but the pbrse fbils if bn hour hbs not been
+     *     recognized or is less thbn {@code 1} or grebter thbn {@code 12}).
+     * <li>Any word thbt mbtches bny prefix of {@code SUNDAY, MONDAY, TUESDAY,
      *     WEDNESDAY, THURSDAY, FRIDAY}, or {@code SATURDAY}, ignoring
-     *     case, is ignored. For example, {@code sat, Friday, TUE}, and
-     *     {@code Thurs} are ignored.
-     * <li>Otherwise, any word that matches any prefix of {@code JANUARY,
+     *     cbse, is ignored. For exbmple, {@code sbt, Fridby, TUE}, bnd
+     *     {@code Thurs} bre ignored.
+     * <li>Otherwise, bny word thbt mbtches bny prefix of {@code JANUARY,
      *     FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER,
-     *     OCTOBER, NOVEMBER}, or {@code DECEMBER}, ignoring case, and
-     *     considering them in the order given here, is recognized as
-     *     specifying a month and is converted to a number ({@code 0} to
-     *     {@code 11}). For example, {@code aug, Sept, april}, and
-     *     {@code NOV} are recognized as months. So is {@code Ma}, which
-     *     is recognized as {@code MARCH}, not {@code MAY}.
-     * <li>Any word that matches {@code GMT, UT}, or {@code UTC}, ignoring
-     *     case, is treated as referring to UTC.
-     * <li>Any word that matches {@code EST, CST, MST}, or {@code PST},
-     *     ignoring case, is recognized as referring to the time zone in
-     *     North America that is five, six, seven, or eight hours west of
-     *     Greenwich, respectively. Any word that matches {@code EDT, CDT,
-     *     MDT}, or {@code PDT}, ignoring case, is recognized as
-     *     referring to the same time zone, respectively, during daylight
-     *     saving time.</ul><p>
-     * Once the entire string s has been scanned, it is converted to a time
-     * result in one of two ways. If a time zone or time-zone offset has been
-     * recognized, then the year, month, day of month, hour, minute, and
-     * second are interpreted in UTC and then the time-zone offset is
-     * applied. Otherwise, the year, month, day of month, hour, minute, and
-     * second are interpreted in the local time zone.
+     *     OCTOBER, NOVEMBER}, or {@code DECEMBER}, ignoring cbse, bnd
+     *     considering them in the order given here, is recognized bs
+     *     specifying b month bnd is converted to b number ({@code 0} to
+     *     {@code 11}). For exbmple, {@code bug, Sept, bpril}, bnd
+     *     {@code NOV} bre recognized bs months. So is {@code Mb}, which
+     *     is recognized bs {@code MARCH}, not {@code MAY}.
+     * <li>Any word thbt mbtches {@code GMT, UT}, or {@code UTC}, ignoring
+     *     cbse, is trebted bs referring to UTC.
+     * <li>Any word thbt mbtches {@code EST, CST, MST}, or {@code PST},
+     *     ignoring cbse, is recognized bs referring to the time zone in
+     *     North Americb thbt is five, six, seven, or eight hours west of
+     *     Greenwich, respectively. Any word thbt mbtches {@code EDT, CDT,
+     *     MDT}, or {@code PDT}, ignoring cbse, is recognized bs
+     *     referring to the sbme time zone, respectively, during dbylight
+     *     sbving time.</ul><p>
+     * Once the entire string s hbs been scbnned, it is converted to b time
+     * result in one of two wbys. If b time zone or time-zone offset hbs been
+     * recognized, then the yebr, month, dby of month, hour, minute, bnd
+     * second bre interpreted in UTC bnd then the time-zone offset is
+     * bpplied. Otherwise, the yebr, month, dby of month, hour, minute, bnd
+     * second bre interpreted in the locbl time zone.
      *
-     * @param   s   a string to be parsed as a date.
-     * @return  the number of milliseconds since January 1, 1970, 00:00:00 GMT
-     *          represented by the string argument.
-     * @see     java.text.DateFormat
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code DateFormat.parse(String s)}.
+     * @pbrbm   s   b string to be pbrsed bs b dbte.
+     * @return  the number of milliseconds since Jbnubry 1, 1970, 00:00:00 GMT
+     *          represented by the string brgument.
+     * @see     jbvb.text.DbteFormbt
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code DbteFormbt.pbrse(String s)}.
      */
-    @Deprecated
-    public static long parse(String s) {
-        int year = Integer.MIN_VALUE;
+    @Deprecbted
+    public stbtic long pbrse(String s) {
+        int yebr = Integer.MIN_VALUE;
         int mon = -1;
-        int mday = -1;
+        int mdby = -1;
         int hour = -1;
         int min = -1;
         int sec = -1;
@@ -462,135 +462,135 @@ public class Date
         int wst = -1;
         int tzoffset = -1;
         int prevc = 0;
-    syntax:
+    syntbx:
         {
             if (s == null)
-                break syntax;
+                brebk syntbx;
             int limit = s.length();
             while (i < limit) {
-                c = s.charAt(i);
+                c = s.chbrAt(i);
                 i++;
                 if (c <= ' ' || c == ',')
                     continue;
                 if (c == '(') { // skip comments
                     int depth = 1;
                     while (i < limit) {
-                        c = s.charAt(i);
+                        c = s.chbrAt(i);
                         i++;
                         if (c == '(') depth++;
                         else if (c == ')')
                             if (--depth <= 0)
-                                break;
+                                brebk;
                     }
                     continue;
                 }
                 if ('0' <= c && c <= '9') {
                     n = c - '0';
-                    while (i < limit && '0' <= (c = s.charAt(i)) && c <= '9') {
+                    while (i < limit && '0' <= (c = s.chbrAt(i)) && c <= '9') {
                         n = n * 10 + c - '0';
                         i++;
                     }
-                    if (prevc == '+' || prevc == '-' && year != Integer.MIN_VALUE) {
+                    if (prevc == '+' || prevc == '-' && yebr != Integer.MIN_VALUE) {
                         // timezone offset
                         if (n < 24)
                             n = n * 60; // EG. "GMT-3"
                         else
                             n = n % 100 + n / 100 * 60; // eg "GMT-0430"
-                        if (prevc == '+')   // plus means east of GMT
+                        if (prevc == '+')   // plus mebns ebst of GMT
                             n = -n;
                         if (tzoffset != 0 && tzoffset != -1)
-                            break syntax;
+                            brebk syntbx;
                         tzoffset = n;
                     } else if (n >= 70)
-                        if (year != Integer.MIN_VALUE)
-                            break syntax;
+                        if (yebr != Integer.MIN_VALUE)
+                            brebk syntbx;
                         else if (c <= ' ' || c == ',' || c == '/' || i >= limit)
-                            // year = n < 1900 ? n : n - 1900;
-                            year = n;
+                            // yebr = n < 1900 ? n : n - 1900;
+                            yebr = n;
                         else
-                            break syntax;
+                            brebk syntbx;
                     else if (c == ':')
                         if (hour < 0)
                             hour = (byte) n;
                         else if (min < 0)
                             min = (byte) n;
                         else
-                            break syntax;
+                            brebk syntbx;
                     else if (c == '/')
                         if (mon < 0)
                             mon = (byte) (n - 1);
-                        else if (mday < 0)
-                            mday = (byte) n;
+                        else if (mdby < 0)
+                            mdby = (byte) n;
                         else
-                            break syntax;
+                            brebk syntbx;
                     else if (i < limit && c != ',' && c > ' ' && c != '-')
-                        break syntax;
+                        brebk syntbx;
                     else if (hour >= 0 && min < 0)
                         min = (byte) n;
                     else if (min >= 0 && sec < 0)
                         sec = (byte) n;
-                    else if (mday < 0)
-                        mday = (byte) n;
-                    // Handle two-digit years < 70 (70-99 handled above).
-                    else if (year == Integer.MIN_VALUE && mon >= 0 && mday >= 0)
-                        year = n;
+                    else if (mdby < 0)
+                        mdby = (byte) n;
+                    // Hbndle two-digit yebrs < 70 (70-99 hbndled bbove).
+                    else if (yebr == Integer.MIN_VALUE && mon >= 0 && mdby >= 0)
+                        yebr = n;
                     else
-                        break syntax;
+                        brebk syntbx;
                     prevc = 0;
                 } else if (c == '/' || c == ':' || c == '+' || c == '-')
                     prevc = c;
                 else {
                     int st = i - 1;
                     while (i < limit) {
-                        c = s.charAt(i);
-                        if (!('A' <= c && c <= 'Z' || 'a' <= c && c <= 'z'))
-                            break;
+                        c = s.chbrAt(i);
+                        if (!('A' <= c && c <= 'Z' || 'b' <= c && c <= 'z'))
+                            brebk;
                         i++;
                     }
                     if (i <= st + 1)
-                        break syntax;
+                        brebk syntbx;
                     int k;
                     for (k = wtb.length; --k >= 0;)
-                        if (wtb[k].regionMatches(true, 0, s, st, i - st)) {
-                            int action = ttb[k];
-                            if (action != 0) {
-                                if (action == 1) {  // pm
+                        if (wtb[k].regionMbtches(true, 0, s, st, i - st)) {
+                            int bction = ttb[k];
+                            if (bction != 0) {
+                                if (bction == 1) {  // pm
                                     if (hour > 12 || hour < 1)
-                                        break syntax;
+                                        brebk syntbx;
                                     else if (hour < 12)
                                         hour += 12;
-                                } else if (action == 14) {  // am
+                                } else if (bction == 14) {  // bm
                                     if (hour > 12 || hour < 1)
-                                        break syntax;
+                                        brebk syntbx;
                                     else if (hour == 12)
                                         hour = 0;
-                                } else if (action <= 13) {  // month!
+                                } else if (bction <= 13) {  // month!
                                     if (mon < 0)
-                                        mon = (byte) (action - 2);
+                                        mon = (byte) (bction - 2);
                                     else
-                                        break syntax;
+                                        brebk syntbx;
                                 } else {
-                                    tzoffset = action - 10000;
+                                    tzoffset = bction - 10000;
                                 }
                             }
-                            break;
+                            brebk;
                         }
                     if (k < 0)
-                        break syntax;
+                        brebk syntbx;
                     prevc = 0;
                 }
             }
-            if (year == Integer.MIN_VALUE || mon < 0 || mday < 0)
-                break syntax;
-            // Parse 2-digit years within the correct default century.
-            if (year < 100) {
-                synchronized (Date.class) {
-                    if (defaultCenturyStart == 0) {
-                        defaultCenturyStart = gcal.getCalendarDate().getYear() - 80;
+            if (yebr == Integer.MIN_VALUE || mon < 0 || mdby < 0)
+                brebk syntbx;
+            // Pbrse 2-digit yebrs within the correct defbult century.
+            if (yebr < 100) {
+                synchronized (Dbte.clbss) {
+                    if (defbultCenturyStbrt == 0) {
+                        defbultCenturyStbrt = gcbl.getCblendbrDbte().getYebr() - 80;
                     }
                 }
-                year += (defaultCenturyStart / 100) * 100;
-                if (year < defaultCenturyStart) year += 100;
+                yebr += (defbultCenturyStbrt / 100) * 100;
+                if (yebr < defbultCenturyStbrt) yebr += 100;
             }
             if (sec < 0)
                 sec = 0;
@@ -598,31 +598,31 @@ public class Date
                 min = 0;
             if (hour < 0)
                 hour = 0;
-            BaseCalendar cal = getCalendarSystem(year);
-            if (tzoffset == -1)  { // no time zone specified, have to use local
-                BaseCalendar.Date ldate = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.getDefaultRef());
-                ldate.setDate(year, mon + 1, mday);
-                ldate.setTimeOfDay(hour, min, sec, 0);
-                return cal.getTime(ldate);
+            BbseCblendbr cbl = getCblendbrSystem(yebr);
+            if (tzoffset == -1)  { // no time zone specified, hbve to use locbl
+                BbseCblendbr.Dbte ldbte = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(TimeZone.getDefbultRef());
+                ldbte.setDbte(yebr, mon + 1, mdby);
+                ldbte.setTimeOfDby(hour, min, sec, 0);
+                return cbl.getTime(ldbte);
             }
-            BaseCalendar.Date udate = (BaseCalendar.Date) cal.newCalendarDate(null); // no time zone
-            udate.setDate(year, mon + 1, mday);
-            udate.setTimeOfDay(hour, min, sec, 0);
-            return cal.getTime(udate) + tzoffset * (60 * 1000);
+            BbseCblendbr.Dbte udbte = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(null); // no time zone
+            udbte.setDbte(yebr, mon + 1, mdby);
+            udbte.setTimeOfDby(hour, min, sec, 0);
+            return cbl.getTime(udbte) + tzoffset * (60 * 1000);
         }
-        // syntax error
-        throw new IllegalArgumentException();
+        // syntbx error
+        throw new IllegblArgumentException();
     }
-    private final static String wtb[] = {
-        "am", "pm",
-        "monday", "tuesday", "wednesday", "thursday", "friday",
-        "saturday", "sunday",
-        "january", "february", "march", "april", "may", "june",
-        "july", "august", "september", "october", "november", "december",
+    privbte finbl stbtic String wtb[] = {
+        "bm", "pm",
+        "mondby", "tuesdby", "wednesdby", "thursdby", "fridby",
+        "sbturdby", "sundby",
+        "jbnubry", "februbry", "mbrch", "bpril", "mby", "june",
+        "july", "bugust", "september", "october", "november", "december",
         "gmt", "ut", "utc", "est", "edt", "cst", "cdt",
         "mst", "mdt", "pst", "pdt"
     };
-    private final static int ttb[] = {
+    privbte finbl stbtic int ttb[] = {
         14, 1, 0, 0, 0, 0, 0, 0, 0,
         2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
         10000 + 0, 10000 + 0, 10000 + 0,    // GMT/UT/UTC
@@ -633,741 +633,741 @@ public class Date
     };
 
     /**
-     * Returns a value that is the result of subtracting 1900 from the
-     * year that contains or begins with the instant in time represented
-     * by this {@code Date} object, as interpreted in the local
+     * Returns b vblue thbt is the result of subtrbcting 1900 from the
+     * yebr thbt contbins or begins with the instbnt in time represented
+     * by this {@code Dbte} object, bs interpreted in the locbl
      * time zone.
      *
-     * @return  the year represented by this date, minus 1900.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.get(Calendar.YEAR) - 1900}.
+     * @return  the yebr represented by this dbte, minus 1900.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.get(Cblendbr.YEAR) - 1900}.
      */
-    @Deprecated
-    public int getYear() {
-        return normalize().getYear() - 1900;
+    @Deprecbted
+    public int getYebr() {
+        return normblize().getYebr() - 1900;
     }
 
     /**
-     * Sets the year of this {@code Date} object to be the specified
-     * value plus 1900. This {@code Date} object is modified so
-     * that it represents a point in time within the specified year,
-     * with the month, date, hour, minute, and second the same as
-     * before, as interpreted in the local time zone. (Of course, if
-     * the date was February 29, for example, and the year is set to a
-     * non-leap year, then the new date will be treated as if it were
-     * on March 1.)
+     * Sets the yebr of this {@code Dbte} object to be the specified
+     * vblue plus 1900. This {@code Dbte} object is modified so
+     * thbt it represents b point in time within the specified yebr,
+     * with the month, dbte, hour, minute, bnd second the sbme bs
+     * before, bs interpreted in the locbl time zone. (Of course, if
+     * the dbte wbs Februbry 29, for exbmple, bnd the yebr is set to b
+     * non-lebp yebr, then the new dbte will be trebted bs if it were
+     * on Mbrch 1.)
      *
-     * @param   year    the year value.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(Calendar.YEAR, year + 1900)}.
+     * @pbrbm   yebr    the yebr vblue.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(Cblendbr.YEAR, yebr + 1900)}.
      */
-    @Deprecated
-    public void setYear(int year) {
-        getCalendarDate().setNormalizedYear(year + 1900);
+    @Deprecbted
+    public void setYebr(int yebr) {
+        getCblendbrDbte().setNormblizedYebr(yebr + 1900);
     }
 
     /**
-     * Returns a number representing the month that contains or begins
-     * with the instant in time represented by this {@code Date} object.
-     * The value returned is between {@code 0} and {@code 11},
-     * with the value {@code 0} representing January.
+     * Returns b number representing the month thbt contbins or begins
+     * with the instbnt in time represented by this {@code Dbte} object.
+     * The vblue returned is between {@code 0} bnd {@code 11},
+     * with the vblue {@code 0} representing Jbnubry.
      *
-     * @return  the month represented by this date.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.get(Calendar.MONTH)}.
+     * @return  the month represented by this dbte.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.get(Cblendbr.MONTH)}.
      */
-    @Deprecated
+    @Deprecbted
     public int getMonth() {
-        return normalize().getMonth() - 1; // adjust 1-based to 0-based
+        return normblize().getMonth() - 1; // bdjust 1-bbsed to 0-bbsed
     }
 
     /**
-     * Sets the month of this date to the specified value. This
-     * {@code Date} object is modified so that it represents a point
-     * in time within the specified month, with the year, date, hour,
-     * minute, and second the same as before, as interpreted in the
-     * local time zone. If the date was October 31, for example, and
-     * the month is set to June, then the new date will be treated as
-     * if it were on July 1, because June has only 30 days.
+     * Sets the month of this dbte to the specified vblue. This
+     * {@code Dbte} object is modified so thbt it represents b point
+     * in time within the specified month, with the yebr, dbte, hour,
+     * minute, bnd second the sbme bs before, bs interpreted in the
+     * locbl time zone. If the dbte wbs October 31, for exbmple, bnd
+     * the month is set to June, then the new dbte will be trebted bs
+     * if it were on July 1, becbuse June hbs only 30 dbys.
      *
-     * @param   month   the month value between 0-11.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(Calendar.MONTH, int month)}.
+     * @pbrbm   month   the month vblue between 0-11.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(Cblendbr.MONTH, int month)}.
      */
-    @Deprecated
+    @Deprecbted
     public void setMonth(int month) {
         int y = 0;
         if (month >= 12) {
             y = month / 12;
             month %= 12;
         } else if (month < 0) {
-            y = CalendarUtils.floorDivide(month, 12);
-            month = CalendarUtils.mod(month, 12);
+            y = CblendbrUtils.floorDivide(month, 12);
+            month = CblendbrUtils.mod(month, 12);
         }
-        BaseCalendar.Date d = getCalendarDate();
+        BbseCblendbr.Dbte d = getCblendbrDbte();
         if (y != 0) {
-            d.setNormalizedYear(d.getNormalizedYear() + y);
+            d.setNormblizedYebr(d.getNormblizedYebr() + y);
         }
-        d.setMonth(month + 1); // adjust 0-based to 1-based month numbering
+        d.setMonth(month + 1); // bdjust 0-bbsed to 1-bbsed month numbering
     }
 
     /**
-     * Returns the day of the month represented by this {@code Date} object.
-     * The value returned is between {@code 1} and {@code 31}
-     * representing the day of the month that contains or begins with the
-     * instant in time represented by this {@code Date} object, as
-     * interpreted in the local time zone.
+     * Returns the dby of the month represented by this {@code Dbte} object.
+     * The vblue returned is between {@code 1} bnd {@code 31}
+     * representing the dby of the month thbt contbins or begins with the
+     * instbnt in time represented by this {@code Dbte} object, bs
+     * interpreted in the locbl time zone.
      *
-     * @return  the day of the month represented by this date.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.get(Calendar.DAY_OF_MONTH)}.
-     * @deprecated
+     * @return  the dby of the month represented by this dbte.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.get(Cblendbr.DAY_OF_MONTH)}.
+     * @deprecbted
      */
-    @Deprecated
-    public int getDate() {
-        return normalize().getDayOfMonth();
+    @Deprecbted
+    public int getDbte() {
+        return normblize().getDbyOfMonth();
     }
 
     /**
-     * Sets the day of the month of this {@code Date} object to the
-     * specified value. This {@code Date} object is modified so that
-     * it represents a point in time within the specified day of the
-     * month, with the year, month, hour, minute, and second the same
-     * as before, as interpreted in the local time zone. If the date
-     * was April 30, for example, and the date is set to 31, then it
-     * will be treated as if it were on May 1, because April has only
-     * 30 days.
+     * Sets the dby of the month of this {@code Dbte} object to the
+     * specified vblue. This {@code Dbte} object is modified so thbt
+     * it represents b point in time within the specified dby of the
+     * month, with the yebr, month, hour, minute, bnd second the sbme
+     * bs before, bs interpreted in the locbl time zone. If the dbte
+     * wbs April 30, for exbmple, bnd the dbte is set to 31, then it
+     * will be trebted bs if it were on Mby 1, becbuse April hbs only
+     * 30 dbys.
      *
-     * @param   date   the day of the month value between 1-31.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(Calendar.DAY_OF_MONTH, int date)}.
+     * @pbrbm   dbte   the dby of the month vblue between 1-31.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(Cblendbr.DAY_OF_MONTH, int dbte)}.
      */
-    @Deprecated
-    public void setDate(int date) {
-        getCalendarDate().setDayOfMonth(date);
+    @Deprecbted
+    public void setDbte(int dbte) {
+        getCblendbrDbte().setDbyOfMonth(dbte);
     }
 
     /**
-     * Returns the day of the week represented by this date. The
-     * returned value ({@code 0} = Sunday, {@code 1} = Monday,
-     * {@code 2} = Tuesday, {@code 3} = Wednesday, {@code 4} =
-     * Thursday, {@code 5} = Friday, {@code 6} = Saturday)
-     * represents the day of the week that contains or begins with
-     * the instant in time represented by this {@code Date} object,
-     * as interpreted in the local time zone.
+     * Returns the dby of the week represented by this dbte. The
+     * returned vblue ({@code 0} = Sundby, {@code 1} = Mondby,
+     * {@code 2} = Tuesdby, {@code 3} = Wednesdby, {@code 4} =
+     * Thursdby, {@code 5} = Fridby, {@code 6} = Sbturdby)
+     * represents the dby of the week thbt contbins or begins with
+     * the instbnt in time represented by this {@code Dbte} object,
+     * bs interpreted in the locbl time zone.
      *
-     * @return  the day of the week represented by this date.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.get(Calendar.DAY_OF_WEEK)}.
+     * @return  the dby of the week represented by this dbte.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.get(Cblendbr.DAY_OF_WEEK)}.
      */
-    @Deprecated
-    public int getDay() {
-        return normalize().getDayOfWeek() - BaseCalendar.SUNDAY;
+    @Deprecbted
+    public int getDby() {
+        return normblize().getDbyOfWeek() - BbseCblendbr.SUNDAY;
     }
 
     /**
-     * Returns the hour represented by this {@code Date} object. The
-     * returned value is a number ({@code 0} through {@code 23})
-     * representing the hour within the day that contains or begins
-     * with the instant in time represented by this {@code Date}
-     * object, as interpreted in the local time zone.
+     * Returns the hour represented by this {@code Dbte} object. The
+     * returned vblue is b number ({@code 0} through {@code 23})
+     * representing the hour within the dby thbt contbins or begins
+     * with the instbnt in time represented by this {@code Dbte}
+     * object, bs interpreted in the locbl time zone.
      *
-     * @return  the hour represented by this date.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.get(Calendar.HOUR_OF_DAY)}.
+     * @return  the hour represented by this dbte.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.get(Cblendbr.HOUR_OF_DAY)}.
      */
-    @Deprecated
+    @Deprecbted
     public int getHours() {
-        return normalize().getHours();
+        return normblize().getHours();
     }
 
     /**
-     * Sets the hour of this {@code Date} object to the specified value.
-     * This {@code Date} object is modified so that it represents a point
-     * in time within the specified hour of the day, with the year, month,
-     * date, minute, and second the same as before, as interpreted in the
-     * local time zone.
+     * Sets the hour of this {@code Dbte} object to the specified vblue.
+     * This {@code Dbte} object is modified so thbt it represents b point
+     * in time within the specified hour of the dby, with the yebr, month,
+     * dbte, minute, bnd second the sbme bs before, bs interpreted in the
+     * locbl time zone.
      *
-     * @param   hours   the hour value.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(Calendar.HOUR_OF_DAY, int hours)}.
+     * @pbrbm   hours   the hour vblue.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(Cblendbr.HOUR_OF_DAY, int hours)}.
      */
-    @Deprecated
+    @Deprecbted
     public void setHours(int hours) {
-        getCalendarDate().setHours(hours);
+        getCblendbrDbte().setHours(hours);
     }
 
     /**
-     * Returns the number of minutes past the hour represented by this date,
-     * as interpreted in the local time zone.
-     * The value returned is between {@code 0} and {@code 59}.
+     * Returns the number of minutes pbst the hour represented by this dbte,
+     * bs interpreted in the locbl time zone.
+     * The vblue returned is between {@code 0} bnd {@code 59}.
      *
-     * @return  the number of minutes past the hour represented by this date.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.get(Calendar.MINUTE)}.
+     * @return  the number of minutes pbst the hour represented by this dbte.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.get(Cblendbr.MINUTE)}.
      */
-    @Deprecated
+    @Deprecbted
     public int getMinutes() {
-        return normalize().getMinutes();
+        return normblize().getMinutes();
     }
 
     /**
-     * Sets the minutes of this {@code Date} object to the specified value.
-     * This {@code Date} object is modified so that it represents a point
-     * in time within the specified minute of the hour, with the year, month,
-     * date, hour, and second the same as before, as interpreted in the
-     * local time zone.
+     * Sets the minutes of this {@code Dbte} object to the specified vblue.
+     * This {@code Dbte} object is modified so thbt it represents b point
+     * in time within the specified minute of the hour, with the yebr, month,
+     * dbte, hour, bnd second the sbme bs before, bs interpreted in the
+     * locbl time zone.
      *
-     * @param   minutes   the value of the minutes.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(Calendar.MINUTE, int minutes)}.
+     * @pbrbm   minutes   the vblue of the minutes.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(Cblendbr.MINUTE, int minutes)}.
      */
-    @Deprecated
+    @Deprecbted
     public void setMinutes(int minutes) {
-        getCalendarDate().setMinutes(minutes);
+        getCblendbrDbte().setMinutes(minutes);
     }
 
     /**
-     * Returns the number of seconds past the minute represented by this date.
-     * The value returned is between {@code 0} and {@code 61}. The
-     * values {@code 60} and {@code 61} can only occur on those
-     * Java Virtual Machines that take leap seconds into account.
+     * Returns the number of seconds pbst the minute represented by this dbte.
+     * The vblue returned is between {@code 0} bnd {@code 61}. The
+     * vblues {@code 60} bnd {@code 61} cbn only occur on those
+     * Jbvb Virtubl Mbchines thbt tbke lebp seconds into bccount.
      *
-     * @return  the number of seconds past the minute represented by this date.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.get(Calendar.SECOND)}.
+     * @return  the number of seconds pbst the minute represented by this dbte.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.get(Cblendbr.SECOND)}.
      */
-    @Deprecated
+    @Deprecbted
     public int getSeconds() {
-        return normalize().getSeconds();
+        return normblize().getSeconds();
     }
 
     /**
-     * Sets the seconds of this {@code Date} to the specified value.
-     * This {@code Date} object is modified so that it represents a
+     * Sets the seconds of this {@code Dbte} to the specified vblue.
+     * This {@code Dbte} object is modified so thbt it represents b
      * point in time within the specified second of the minute, with
-     * the year, month, date, hour, and minute the same as before, as
-     * interpreted in the local time zone.
+     * the yebr, month, dbte, hour, bnd minute the sbme bs before, bs
+     * interpreted in the locbl time zone.
      *
-     * @param   seconds   the seconds value.
-     * @see     java.util.Calendar
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code Calendar.set(Calendar.SECOND, int seconds)}.
+     * @pbrbm   seconds   the seconds vblue.
+     * @see     jbvb.util.Cblendbr
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code Cblendbr.set(Cblendbr.SECOND, int seconds)}.
      */
-    @Deprecated
+    @Deprecbted
     public void setSeconds(int seconds) {
-        getCalendarDate().setSeconds(seconds);
+        getCblendbrDbte().setSeconds(seconds);
     }
 
     /**
-     * Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
-     * represented by this {@code Date} object.
+     * Returns the number of milliseconds since Jbnubry 1, 1970, 00:00:00 GMT
+     * represented by this {@code Dbte} object.
      *
-     * @return  the number of milliseconds since January 1, 1970, 00:00:00 GMT
-     *          represented by this date.
+     * @return  the number of milliseconds since Jbnubry 1, 1970, 00:00:00 GMT
+     *          represented by this dbte.
      */
     public long getTime() {
         return getTimeImpl();
     }
 
-    private final long getTimeImpl() {
-        if (cdate != null && !cdate.isNormalized()) {
-            normalize();
+    privbte finbl long getTimeImpl() {
+        if (cdbte != null && !cdbte.isNormblized()) {
+            normblize();
         }
-        return fastTime;
+        return fbstTime;
     }
 
     /**
-     * Sets this {@code Date} object to represent a point in time that is
-     * {@code time} milliseconds after January 1, 1970 00:00:00 GMT.
+     * Sets this {@code Dbte} object to represent b point in time thbt is
+     * {@code time} milliseconds bfter Jbnubry 1, 1970 00:00:00 GMT.
      *
-     * @param   time   the number of milliseconds.
+     * @pbrbm   time   the number of milliseconds.
      */
     public void setTime(long time) {
-        fastTime = time;
-        cdate = null;
+        fbstTime = time;
+        cdbte = null;
     }
 
     /**
-     * Tests if this date is before the specified date.
+     * Tests if this dbte is before the specified dbte.
      *
-     * @param   when   a date.
-     * @return  {@code true} if and only if the instant of time
-     *            represented by this {@code Date} object is strictly
-     *            earlier than the instant represented by {@code when};
-     *          {@code false} otherwise.
+     * @pbrbm   when   b dbte.
+     * @return  {@code true} if bnd only if the instbnt of time
+     *            represented by this {@code Dbte} object is strictly
+     *            ebrlier thbn the instbnt represented by {@code when};
+     *          {@code fblse} otherwise.
      * @exception NullPointerException if {@code when} is null.
      */
-    public boolean before(Date when) {
+    public boolebn before(Dbte when) {
         return getMillisOf(this) < getMillisOf(when);
     }
 
     /**
-     * Tests if this date is after the specified date.
+     * Tests if this dbte is bfter the specified dbte.
      *
-     * @param   when   a date.
-     * @return  {@code true} if and only if the instant represented
-     *          by this {@code Date} object is strictly later than the
-     *          instant represented by {@code when};
-     *          {@code false} otherwise.
+     * @pbrbm   when   b dbte.
+     * @return  {@code true} if bnd only if the instbnt represented
+     *          by this {@code Dbte} object is strictly lbter thbn the
+     *          instbnt represented by {@code when};
+     *          {@code fblse} otherwise.
      * @exception NullPointerException if {@code when} is null.
      */
-    public boolean after(Date when) {
+    public boolebn bfter(Dbte when) {
         return getMillisOf(this) > getMillisOf(when);
     }
 
     /**
-     * Compares two dates for equality.
-     * The result is {@code true} if and only if the argument is
-     * not {@code null} and is a {@code Date} object that
-     * represents the same point in time, to the millisecond, as this object.
+     * Compbres two dbtes for equblity.
+     * The result is {@code true} if bnd only if the brgument is
+     * not {@code null} bnd is b {@code Dbte} object thbt
+     * represents the sbme point in time, to the millisecond, bs this object.
      * <p>
-     * Thus, two {@code Date} objects are equal if and only if the
-     * {@code getTime} method returns the same {@code long}
-     * value for both.
+     * Thus, two {@code Dbte} objects bre equbl if bnd only if the
+     * {@code getTime} method returns the sbme {@code long}
+     * vblue for both.
      *
-     * @param   obj   the object to compare with.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
-     * @see     java.util.Date#getTime()
+     * @pbrbm   obj   the object to compbre with.
+     * @return  {@code true} if the objects bre the sbme;
+     *          {@code fblse} otherwise.
+     * @see     jbvb.util.Dbte#getTime()
      */
-    public boolean equals(Object obj) {
-        return obj instanceof Date && getTime() == ((Date) obj).getTime();
+    public boolebn equbls(Object obj) {
+        return obj instbnceof Dbte && getTime() == ((Dbte) obj).getTime();
     }
 
     /**
-     * Returns the millisecond value of this {@code Date} object
-     * without affecting its internal state.
+     * Returns the millisecond vblue of this {@code Dbte} object
+     * without bffecting its internbl stbte.
      */
-    static final long getMillisOf(Date date) {
-        if (date.cdate == null || date.cdate.isNormalized()) {
-            return date.fastTime;
+    stbtic finbl long getMillisOf(Dbte dbte) {
+        if (dbte.cdbte == null || dbte.cdbte.isNormblized()) {
+            return dbte.fbstTime;
         }
-        BaseCalendar.Date d = (BaseCalendar.Date) date.cdate.clone();
-        return gcal.getTime(d);
+        BbseCblendbr.Dbte d = (BbseCblendbr.Dbte) dbte.cdbte.clone();
+        return gcbl.getTime(d);
     }
 
     /**
-     * Compares two Dates for ordering.
+     * Compbres two Dbtes for ordering.
      *
-     * @param   anotherDate   the {@code Date} to be compared.
-     * @return  the value {@code 0} if the argument Date is equal to
-     *          this Date; a value less than {@code 0} if this Date
-     *          is before the Date argument; and a value greater than
-     *      {@code 0} if this Date is after the Date argument.
+     * @pbrbm   bnotherDbte   the {@code Dbte} to be compbred.
+     * @return  the vblue {@code 0} if the brgument Dbte is equbl to
+     *          this Dbte; b vblue less thbn {@code 0} if this Dbte
+     *          is before the Dbte brgument; bnd b vblue grebter thbn
+     *      {@code 0} if this Dbte is bfter the Dbte brgument.
      * @since   1.2
-     * @exception NullPointerException if {@code anotherDate} is null.
+     * @exception NullPointerException if {@code bnotherDbte} is null.
      */
-    public int compareTo(Date anotherDate) {
+    public int compbreTo(Dbte bnotherDbte) {
         long thisTime = getMillisOf(this);
-        long anotherTime = getMillisOf(anotherDate);
-        return (thisTime<anotherTime ? -1 : (thisTime==anotherTime ? 0 : 1));
+        long bnotherTime = getMillisOf(bnotherDbte);
+        return (thisTime<bnotherTime ? -1 : (thisTime==bnotherTime ? 0 : 1));
     }
 
     /**
-     * Returns a hash code value for this object. The result is the
-     * exclusive OR of the two halves of the primitive {@code long}
-     * value returned by the {@link Date#getTime}
-     * method. That is, the hash code is the value of the expression:
+     * Returns b hbsh code vblue for this object. The result is the
+     * exclusive OR of the two hblves of the primitive {@code long}
+     * vblue returned by the {@link Dbte#getTime}
+     * method. Thbt is, the hbsh code is the vblue of the expression:
      * <blockquote><pre>{@code
      * (int)(this.getTime()^(this.getTime() >>> 32))
      * }</pre></blockquote>
      *
-     * @return  a hash code value for this object.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
+    public int hbshCode() {
         long ht = this.getTime();
         return (int) ht ^ (int) (ht >> 32);
     }
 
     /**
-     * Converts this {@code Date} object to a {@code String}
+     * Converts this {@code Dbte} object to b {@code String}
      * of the form:
      * <blockquote><pre>
      * dow mon dd hh:mm:ss zzz yyyy</pre></blockquote>
      * where:<ul>
-     * <li>{@code dow} is the day of the week ({@code Sun, Mon, Tue, Wed,
-     *     Thu, Fri, Sat}).
-     * <li>{@code mon} is the month ({@code Jan, Feb, Mar, Apr, May, Jun,
+     * <li>{@code dow} is the dby of the week ({@code Sun, Mon, Tue, Wed,
+     *     Thu, Fri, Sbt}).
+     * <li>{@code mon} is the month ({@code Jbn, Feb, Mbr, Apr, Mby, Jun,
      *     Jul, Aug, Sep, Oct, Nov, Dec}).
-     * <li>{@code dd} is the day of the month ({@code 01} through
-     *     {@code 31}), as two decimal digits.
-     * <li>{@code hh} is the hour of the day ({@code 00} through
-     *     {@code 23}), as two decimal digits.
+     * <li>{@code dd} is the dby of the month ({@code 01} through
+     *     {@code 31}), bs two decimbl digits.
+     * <li>{@code hh} is the hour of the dby ({@code 00} through
+     *     {@code 23}), bs two decimbl digits.
      * <li>{@code mm} is the minute within the hour ({@code 00} through
-     *     {@code 59}), as two decimal digits.
+     *     {@code 59}), bs two decimbl digits.
      * <li>{@code ss} is the second within the minute ({@code 00} through
-     *     {@code 61}, as two decimal digits.
-     * <li>{@code zzz} is the time zone (and may reflect daylight saving
-     *     time). Standard time zone abbreviations include those
-     *     recognized by the method {@code parse}. If time zone
-     *     information is not available, then {@code zzz} is empty -
-     *     that is, it consists of no characters at all.
-     * <li>{@code yyyy} is the year, as four decimal digits.
+     *     {@code 61}, bs two decimbl digits.
+     * <li>{@code zzz} is the time zone (bnd mby reflect dbylight sbving
+     *     time). Stbndbrd time zone bbbrevibtions include those
+     *     recognized by the method {@code pbrse}. If time zone
+     *     informbtion is not bvbilbble, then {@code zzz} is empty -
+     *     thbt is, it consists of no chbrbcters bt bll.
+     * <li>{@code yyyy} is the yebr, bs four decimbl digits.
      * </ul>
      *
-     * @return  a string representation of this date.
-     * @see     java.util.Date#toLocaleString()
-     * @see     java.util.Date#toGMTString()
+     * @return  b string representbtion of this dbte.
+     * @see     jbvb.util.Dbte#toLocbleString()
+     * @see     jbvb.util.Dbte#toGMTString()
      */
     public String toString() {
         // "EEE MMM dd HH:mm:ss zzz yyyy";
-        BaseCalendar.Date date = normalize();
+        BbseCblendbr.Dbte dbte = normblize();
         StringBuilder sb = new StringBuilder(28);
-        int index = date.getDayOfWeek();
-        if (index == BaseCalendar.SUNDAY) {
+        int index = dbte.getDbyOfWeek();
+        if (index == BbseCblendbr.SUNDAY) {
             index = 8;
         }
-        convertToAbbr(sb, wtb[index]).append(' ');                        // EEE
-        convertToAbbr(sb, wtb[date.getMonth() - 1 + 2 + 7]).append(' ');  // MMM
-        CalendarUtils.sprintf0d(sb, date.getDayOfMonth(), 2).append(' '); // dd
+        convertToAbbr(sb, wtb[index]).bppend(' ');                        // EEE
+        convertToAbbr(sb, wtb[dbte.getMonth() - 1 + 2 + 7]).bppend(' ');  // MMM
+        CblendbrUtils.sprintf0d(sb, dbte.getDbyOfMonth(), 2).bppend(' '); // dd
 
-        CalendarUtils.sprintf0d(sb, date.getHours(), 2).append(':');   // HH
-        CalendarUtils.sprintf0d(sb, date.getMinutes(), 2).append(':'); // mm
-        CalendarUtils.sprintf0d(sb, date.getSeconds(), 2).append(' '); // ss
-        TimeZone zi = date.getZone();
+        CblendbrUtils.sprintf0d(sb, dbte.getHours(), 2).bppend(':');   // HH
+        CblendbrUtils.sprintf0d(sb, dbte.getMinutes(), 2).bppend(':'); // mm
+        CblendbrUtils.sprintf0d(sb, dbte.getSeconds(), 2).bppend(' '); // ss
+        TimeZone zi = dbte.getZone();
         if (zi != null) {
-            sb.append(zi.getDisplayName(date.isDaylightTime(), TimeZone.SHORT, Locale.US)); // zzz
+            sb.bppend(zi.getDisplbyNbme(dbte.isDbylightTime(), TimeZone.SHORT, Locble.US)); // zzz
         } else {
-            sb.append("GMT");
+            sb.bppend("GMT");
         }
-        sb.append(' ').append(date.getYear());  // yyyy
+        sb.bppend(' ').bppend(dbte.getYebr());  // yyyy
         return sb.toString();
     }
 
     /**
-     * Converts the given name to its 3-letter abbreviation (e.g.,
-     * "monday" -> "Mon") and stored the abbreviation in the given
+     * Converts the given nbme to its 3-letter bbbrevibtion (e.g.,
+     * "mondby" -> "Mon") bnd stored the bbbrevibtion in the given
      * {@code StringBuilder}.
      */
-    private static final StringBuilder convertToAbbr(StringBuilder sb, String name) {
-        sb.append(Character.toUpperCase(name.charAt(0)));
-        sb.append(name.charAt(1)).append(name.charAt(2));
+    privbte stbtic finbl StringBuilder convertToAbbr(StringBuilder sb, String nbme) {
+        sb.bppend(Chbrbcter.toUpperCbse(nbme.chbrAt(0)));
+        sb.bppend(nbme.chbrAt(1)).bppend(nbme.chbrAt(2));
         return sb;
     }
 
     /**
-     * Creates a string representation of this {@code Date} object in an
-     * implementation-dependent form. The intent is that the form should
-     * be familiar to the user of the Java application, wherever it may
-     * happen to be running. The intent is comparable to that of the
-     * "{@code %c}" format supported by the {@code strftime()}
+     * Crebtes b string representbtion of this {@code Dbte} object in bn
+     * implementbtion-dependent form. The intent is thbt the form should
+     * be fbmilibr to the user of the Jbvb bpplicbtion, wherever it mby
+     * hbppen to be running. The intent is compbrbble to thbt of the
+     * "{@code %c}" formbt supported by the {@code strftime()}
      * function of ISO&nbsp;C.
      *
-     * @return  a string representation of this date, using the locale
+     * @return  b string representbtion of this dbte, using the locble
      *          conventions.
-     * @see     java.text.DateFormat
-     * @see     java.util.Date#toString()
-     * @see     java.util.Date#toGMTString()
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code DateFormat.format(Date date)}.
+     * @see     jbvb.text.DbteFormbt
+     * @see     jbvb.util.Dbte#toString()
+     * @see     jbvb.util.Dbte#toGMTString()
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code DbteFormbt.formbt(Dbte dbte)}.
      */
-    @Deprecated
-    public String toLocaleString() {
-        DateFormat formatter = DateFormat.getDateTimeInstance();
-        return formatter.format(this);
+    @Deprecbted
+    public String toLocbleString() {
+        DbteFormbt formbtter = DbteFormbt.getDbteTimeInstbnce();
+        return formbtter.formbt(this);
     }
 
     /**
-     * Creates a string representation of this {@code Date} object of
+     * Crebtes b string representbtion of this {@code Dbte} object of
      * the form:
      * <blockquote><pre>
      * d mon yyyy hh:mm:ss GMT</pre></blockquote>
      * where:<ul>
-     * <li><i>d</i> is the day of the month ({@code 1} through {@code 31}),
-     *     as one or two decimal digits.
-     * <li><i>mon</i> is the month ({@code Jan, Feb, Mar, Apr, May, Jun, Jul,
+     * <li><i>d</i> is the dby of the month ({@code 1} through {@code 31}),
+     *     bs one or two decimbl digits.
+     * <li><i>mon</i> is the month ({@code Jbn, Feb, Mbr, Apr, Mby, Jun, Jul,
      *     Aug, Sep, Oct, Nov, Dec}).
-     * <li><i>yyyy</i> is the year, as four decimal digits.
-     * <li><i>hh</i> is the hour of the day ({@code 00} through {@code 23}),
-     *     as two decimal digits.
+     * <li><i>yyyy</i> is the yebr, bs four decimbl digits.
+     * <li><i>hh</i> is the hour of the dby ({@code 00} through {@code 23}),
+     *     bs two decimbl digits.
      * <li><i>mm</i> is the minute within the hour ({@code 00} through
-     *     {@code 59}), as two decimal digits.
+     *     {@code 59}), bs two decimbl digits.
      * <li><i>ss</i> is the second within the minute ({@code 00} through
-     *     {@code 61}), as two decimal digits.
-     * <li><i>GMT</i> is exactly the ASCII letters "{@code GMT}" to indicate
-     *     Greenwich Mean Time.
+     *     {@code 61}), bs two decimbl digits.
+     * <li><i>GMT</i> is exbctly the ASCII letters "{@code GMT}" to indicbte
+     *     Greenwich Mebn Time.
      * </ul><p>
-     * The result does not depend on the local time zone.
+     * The result does not depend on the locbl time zone.
      *
-     * @return  a string representation of this date, using the Internet GMT
+     * @return  b string representbtion of this dbte, using the Internet GMT
      *          conventions.
-     * @see     java.text.DateFormat
-     * @see     java.util.Date#toString()
-     * @see     java.util.Date#toLocaleString()
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code DateFormat.format(Date date)}, using a
+     * @see     jbvb.text.DbteFormbt
+     * @see     jbvb.util.Dbte#toString()
+     * @see     jbvb.util.Dbte#toLocbleString()
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code DbteFormbt.formbt(Dbte dbte)}, using b
      * GMT {@code TimeZone}.
      */
-    @Deprecated
+    @Deprecbted
     public String toGMTString() {
         // d MMM yyyy HH:mm:ss 'GMT'
         long t = getTime();
-        BaseCalendar cal = getCalendarSystem(t);
-        BaseCalendar.Date date =
-            (BaseCalendar.Date) cal.getCalendarDate(getTime(), (TimeZone)null);
+        BbseCblendbr cbl = getCblendbrSystem(t);
+        BbseCblendbr.Dbte dbte =
+            (BbseCblendbr.Dbte) cbl.getCblendbrDbte(getTime(), (TimeZone)null);
         StringBuilder sb = new StringBuilder(32);
-        CalendarUtils.sprintf0d(sb, date.getDayOfMonth(), 1).append(' '); // d
-        convertToAbbr(sb, wtb[date.getMonth() - 1 + 2 + 7]).append(' ');  // MMM
-        sb.append(date.getYear()).append(' ');                            // yyyy
-        CalendarUtils.sprintf0d(sb, date.getHours(), 2).append(':');      // HH
-        CalendarUtils.sprintf0d(sb, date.getMinutes(), 2).append(':');    // mm
-        CalendarUtils.sprintf0d(sb, date.getSeconds(), 2);                // ss
-        sb.append(" GMT");                                                // ' GMT'
+        CblendbrUtils.sprintf0d(sb, dbte.getDbyOfMonth(), 1).bppend(' '); // d
+        convertToAbbr(sb, wtb[dbte.getMonth() - 1 + 2 + 7]).bppend(' ');  // MMM
+        sb.bppend(dbte.getYebr()).bppend(' ');                            // yyyy
+        CblendbrUtils.sprintf0d(sb, dbte.getHours(), 2).bppend(':');      // HH
+        CblendbrUtils.sprintf0d(sb, dbte.getMinutes(), 2).bppend(':');    // mm
+        CblendbrUtils.sprintf0d(sb, dbte.getSeconds(), 2);                // ss
+        sb.bppend(" GMT");                                                // ' GMT'
         return sb.toString();
     }
 
     /**
-     * Returns the offset, measured in minutes, for the local time zone
-     * relative to UTC that is appropriate for the time represented by
-     * this {@code Date} object.
+     * Returns the offset, mebsured in minutes, for the locbl time zone
+     * relbtive to UTC thbt is bppropribte for the time represented by
+     * this {@code Dbte} object.
      * <p>
-     * For example, in Massachusetts, five time zones west of Greenwich:
+     * For exbmple, in Mbssbchusetts, five time zones west of Greenwich:
      * <blockquote><pre>
-     * new Date(96, 1, 14).getTimezoneOffset() returns 300</pre></blockquote>
-     * because on February 14, 1996, standard time (Eastern Standard Time)
+     * new Dbte(96, 1, 14).getTimezoneOffset() returns 300</pre></blockquote>
+     * becbuse on Februbry 14, 1996, stbndbrd time (Ebstern Stbndbrd Time)
      * is in use, which is offset five hours from UTC; but:
      * <blockquote><pre>
-     * new Date(96, 5, 1).getTimezoneOffset() returns 240</pre></blockquote>
-     * because on June 1, 1996, daylight saving time (Eastern Daylight Time)
+     * new Dbte(96, 5, 1).getTimezoneOffset() returns 240</pre></blockquote>
+     * becbuse on June 1, 1996, dbylight sbving time (Ebstern Dbylight Time)
      * is in use, which is offset only four hours from UTC.<p>
-     * This method produces the same result as if it computed:
+     * This method produces the sbme result bs if it computed:
      * <blockquote><pre>
-     * (this.getTime() - UTC(this.getYear(),
+     * (this.getTime() - UTC(this.getYebr(),
      *                       this.getMonth(),
-     *                       this.getDate(),
+     *                       this.getDbte(),
      *                       this.getHours(),
      *                       this.getMinutes(),
      *                       this.getSeconds())) / (60 * 1000)
      * </pre></blockquote>
      *
      * @return  the time-zone offset, in minutes, for the current time zone.
-     * @see     java.util.Calendar#ZONE_OFFSET
-     * @see     java.util.Calendar#DST_OFFSET
-     * @see     java.util.TimeZone#getDefault
-     * @deprecated As of JDK version 1.1,
-     * replaced by {@code -(Calendar.get(Calendar.ZONE_OFFSET) +
-     * Calendar.get(Calendar.DST_OFFSET)) / (60 * 1000)}.
+     * @see     jbvb.util.Cblendbr#ZONE_OFFSET
+     * @see     jbvb.util.Cblendbr#DST_OFFSET
+     * @see     jbvb.util.TimeZone#getDefbult
+     * @deprecbted As of JDK version 1.1,
+     * replbced by {@code -(Cblendbr.get(Cblendbr.ZONE_OFFSET) +
+     * Cblendbr.get(Cblendbr.DST_OFFSET)) / (60 * 1000)}.
      */
-    @Deprecated
+    @Deprecbted
     public int getTimezoneOffset() {
         int zoneOffset;
-        if (cdate == null) {
-            TimeZone tz = TimeZone.getDefaultRef();
-            if (tz instanceof ZoneInfo) {
-                zoneOffset = ((ZoneInfo)tz).getOffsets(fastTime, null);
+        if (cdbte == null) {
+            TimeZone tz = TimeZone.getDefbultRef();
+            if (tz instbnceof ZoneInfo) {
+                zoneOffset = ((ZoneInfo)tz).getOffsets(fbstTime, null);
             } else {
-                zoneOffset = tz.getOffset(fastTime);
+                zoneOffset = tz.getOffset(fbstTime);
             }
         } else {
-            normalize();
-            zoneOffset = cdate.getZoneOffset();
+            normblize();
+            zoneOffset = cdbte.getZoneOffset();
         }
         return -zoneOffset/60000;  // convert to minutes
     }
 
-    private final BaseCalendar.Date getCalendarDate() {
-        if (cdate == null) {
-            BaseCalendar cal = getCalendarSystem(fastTime);
-            cdate = (BaseCalendar.Date) cal.getCalendarDate(fastTime,
-                                                            TimeZone.getDefaultRef());
+    privbte finbl BbseCblendbr.Dbte getCblendbrDbte() {
+        if (cdbte == null) {
+            BbseCblendbr cbl = getCblendbrSystem(fbstTime);
+            cdbte = (BbseCblendbr.Dbte) cbl.getCblendbrDbte(fbstTime,
+                                                            TimeZone.getDefbultRef());
         }
-        return cdate;
+        return cdbte;
     }
 
-    private final BaseCalendar.Date normalize() {
-        if (cdate == null) {
-            BaseCalendar cal = getCalendarSystem(fastTime);
-            cdate = (BaseCalendar.Date) cal.getCalendarDate(fastTime,
-                                                            TimeZone.getDefaultRef());
-            return cdate;
+    privbte finbl BbseCblendbr.Dbte normblize() {
+        if (cdbte == null) {
+            BbseCblendbr cbl = getCblendbrSystem(fbstTime);
+            cdbte = (BbseCblendbr.Dbte) cbl.getCblendbrDbte(fbstTime,
+                                                            TimeZone.getDefbultRef());
+            return cdbte;
         }
 
-        // Normalize cdate with the TimeZone in cdate first. This is
-        // required for the compatible behavior.
-        if (!cdate.isNormalized()) {
-            cdate = normalize(cdate);
+        // Normblize cdbte with the TimeZone in cdbte first. This is
+        // required for the compbtible behbvior.
+        if (!cdbte.isNormblized()) {
+            cdbte = normblize(cdbte);
         }
 
-        // If the default TimeZone has changed, then recalculate the
+        // If the defbult TimeZone hbs chbnged, then recblculbte the
         // fields with the new TimeZone.
-        TimeZone tz = TimeZone.getDefaultRef();
-        if (tz != cdate.getZone()) {
-            cdate.setZone(tz);
-            CalendarSystem cal = getCalendarSystem(cdate);
-            cal.getCalendarDate(fastTime, cdate);
+        TimeZone tz = TimeZone.getDefbultRef();
+        if (tz != cdbte.getZone()) {
+            cdbte.setZone(tz);
+            CblendbrSystem cbl = getCblendbrSystem(cdbte);
+            cbl.getCblendbrDbte(fbstTime, cdbte);
         }
-        return cdate;
+        return cdbte;
     }
 
-    // fastTime and the returned data are in sync upon return.
-    private final BaseCalendar.Date normalize(BaseCalendar.Date date) {
-        int y = date.getNormalizedYear();
-        int m = date.getMonth();
-        int d = date.getDayOfMonth();
-        int hh = date.getHours();
-        int mm = date.getMinutes();
-        int ss = date.getSeconds();
-        int ms = date.getMillis();
-        TimeZone tz = date.getZone();
+    // fbstTime bnd the returned dbtb bre in sync upon return.
+    privbte finbl BbseCblendbr.Dbte normblize(BbseCblendbr.Dbte dbte) {
+        int y = dbte.getNormblizedYebr();
+        int m = dbte.getMonth();
+        int d = dbte.getDbyOfMonth();
+        int hh = dbte.getHours();
+        int mm = dbte.getMinutes();
+        int ss = dbte.getSeconds();
+        int ms = dbte.getMillis();
+        TimeZone tz = dbte.getZone();
 
-        // If the specified year can't be handled using a long value
-        // in milliseconds, GregorianCalendar is used for full
-        // compatibility with underflow and overflow. This is required
-        // by some JCK tests. The limits are based max year values -
-        // years that can be represented by max values of d, hh, mm,
-        // ss and ms. Also, let GregorianCalendar handle the default
-        // cutover year so that we don't need to worry about the
-        // transition here.
+        // If the specified yebr cbn't be hbndled using b long vblue
+        // in milliseconds, GregoribnCblendbr is used for full
+        // compbtibility with underflow bnd overflow. This is required
+        // by some JCK tests. The limits bre bbsed mbx yebr vblues -
+        // yebrs thbt cbn be represented by mbx vblues of d, hh, mm,
+        // ss bnd ms. Also, let GregoribnCblendbr hbndle the defbult
+        // cutover yebr so thbt we don't need to worry bbout the
+        // trbnsition here.
         if (y == 1582 || y > 280000000 || y < -280000000) {
             if (tz == null) {
                 tz = TimeZone.getTimeZone("GMT");
             }
-            GregorianCalendar gc = new GregorianCalendar(tz);
-            gc.clear();
-            gc.set(GregorianCalendar.MILLISECOND, ms);
+            GregoribnCblendbr gc = new GregoribnCblendbr(tz);
+            gc.clebr();
+            gc.set(GregoribnCblendbr.MILLISECOND, ms);
             gc.set(y, m-1, d, hh, mm, ss);
-            fastTime = gc.getTimeInMillis();
-            BaseCalendar cal = getCalendarSystem(fastTime);
-            date = (BaseCalendar.Date) cal.getCalendarDate(fastTime, tz);
-            return date;
+            fbstTime = gc.getTimeInMillis();
+            BbseCblendbr cbl = getCblendbrSystem(fbstTime);
+            dbte = (BbseCblendbr.Dbte) cbl.getCblendbrDbte(fbstTime, tz);
+            return dbte;
         }
 
-        BaseCalendar cal = getCalendarSystem(y);
-        if (cal != getCalendarSystem(date)) {
-            date = (BaseCalendar.Date) cal.newCalendarDate(tz);
-            date.setNormalizedDate(y, m, d).setTimeOfDay(hh, mm, ss, ms);
+        BbseCblendbr cbl = getCblendbrSystem(y);
+        if (cbl != getCblendbrSystem(dbte)) {
+            dbte = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(tz);
+            dbte.setNormblizedDbte(y, m, d).setTimeOfDby(hh, mm, ss, ms);
         }
-        // Perform the GregorianCalendar-style normalization.
-        fastTime = cal.getTime(date);
+        // Perform the GregoribnCblendbr-style normblizbtion.
+        fbstTime = cbl.getTime(dbte);
 
-        // In case the normalized date requires the other calendar
-        // system, we need to recalculate it using the other one.
-        BaseCalendar ncal = getCalendarSystem(fastTime);
-        if (ncal != cal) {
-            date = (BaseCalendar.Date) ncal.newCalendarDate(tz);
-            date.setNormalizedDate(y, m, d).setTimeOfDay(hh, mm, ss, ms);
-            fastTime = ncal.getTime(date);
+        // In cbse the normblized dbte requires the other cblendbr
+        // system, we need to recblculbte it using the other one.
+        BbseCblendbr ncbl = getCblendbrSystem(fbstTime);
+        if (ncbl != cbl) {
+            dbte = (BbseCblendbr.Dbte) ncbl.newCblendbrDbte(tz);
+            dbte.setNormblizedDbte(y, m, d).setTimeOfDby(hh, mm, ss, ms);
+            fbstTime = ncbl.getTime(dbte);
         }
-        return date;
+        return dbte;
     }
 
     /**
-     * Returns the Gregorian or Julian calendar system to use with the
-     * given date. Use Gregorian from October 15, 1582.
+     * Returns the Gregoribn or Julibn cblendbr system to use with the
+     * given dbte. Use Gregoribn from October 15, 1582.
      *
-     * @param year normalized calendar year (not -1900)
-     * @return the CalendarSystem to use for the specified date
+     * @pbrbm yebr normblized cblendbr yebr (not -1900)
+     * @return the CblendbrSystem to use for the specified dbte
      */
-    private static final BaseCalendar getCalendarSystem(int year) {
-        if (year >= 1582) {
-            return gcal;
+    privbte stbtic finbl BbseCblendbr getCblendbrSystem(int yebr) {
+        if (yebr >= 1582) {
+            return gcbl;
         }
-        return getJulianCalendar();
+        return getJulibnCblendbr();
     }
 
-    private static final BaseCalendar getCalendarSystem(long utc) {
-        // Quickly check if the time stamp given by `utc' is the Epoch
-        // or later. If it's before 1970, we convert the cutover to
-        // local time to compare.
+    privbte stbtic finbl BbseCblendbr getCblendbrSystem(long utc) {
+        // Quickly check if the time stbmp given by `utc' is the Epoch
+        // or lbter. If it's before 1970, we convert the cutover to
+        // locbl time to compbre.
         if (utc >= 0
-            || utc >= GregorianCalendar.DEFAULT_GREGORIAN_CUTOVER
-                        - TimeZone.getDefaultRef().getOffset(utc)) {
-            return gcal;
+            || utc >= GregoribnCblendbr.DEFAULT_GREGORIAN_CUTOVER
+                        - TimeZone.getDefbultRef().getOffset(utc)) {
+            return gcbl;
         }
-        return getJulianCalendar();
+        return getJulibnCblendbr();
     }
 
-    private static final BaseCalendar getCalendarSystem(BaseCalendar.Date cdate) {
-        if (jcal == null) {
-            return gcal;
+    privbte stbtic finbl BbseCblendbr getCblendbrSystem(BbseCblendbr.Dbte cdbte) {
+        if (jcbl == null) {
+            return gcbl;
         }
-        if (cdate.getEra() != null) {
-            return jcal;
+        if (cdbte.getErb() != null) {
+            return jcbl;
         }
-        return gcal;
+        return gcbl;
     }
 
-    synchronized private static final BaseCalendar getJulianCalendar() {
-        if (jcal == null) {
-            jcal = (BaseCalendar) CalendarSystem.forName("julian");
+    synchronized privbte stbtic finbl BbseCblendbr getJulibnCblendbr() {
+        if (jcbl == null) {
+            jcbl = (BbseCblendbr) CblendbrSystem.forNbme("julibn");
         }
-        return jcal;
+        return jcbl;
     }
 
     /**
-     * Save the state of this object to a stream (i.e., serialize it).
+     * Sbve the stbte of this object to b strebm (i.e., seriblize it).
      *
-     * @serialData The value returned by {@code getTime()}
+     * @seriblDbtb The vblue returned by {@code getTime()}
      *             is emitted (long).  This represents the offset from
-     *             January 1, 1970, 00:00:00 GMT in milliseconds.
+     *             Jbnubry 1, 1970, 00:00:00 GMT in milliseconds.
      */
-    private void writeObject(ObjectOutputStream s)
+    privbte void writeObject(ObjectOutputStrebm s)
          throws IOException
     {
         s.writeLong(getTimeImpl());
     }
 
     /**
-     * Reconstitute this object from a stream (i.e., deserialize it).
+     * Reconstitute this object from b strebm (i.e., deseriblize it).
      */
-    private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        fastTime = s.readLong();
+        fbstTime = s.rebdLong();
     }
 
     /**
-     * Obtains an instance of {@code Date} from an {@code Instant} object.
+     * Obtbins bn instbnce of {@code Dbte} from bn {@code Instbnt} object.
      * <p>
-     * {@code Instant} uses a precision of nanoseconds, whereas {@code Date}
-     * uses a precision of milliseconds.  The conversion will truncate any
-     * excess precision information as though the amount in nanoseconds was
+     * {@code Instbnt} uses b precision of nbnoseconds, wherebs {@code Dbte}
+     * uses b precision of milliseconds.  The conversion will truncbte bny
+     * excess precision informbtion bs though the bmount in nbnoseconds wbs
      * subject to integer division by one million.
      * <p>
-     * {@code Instant} can store points on the time-line further in the future
-     * and further in the past than {@code Date}. In this scenario, this method
-     * will throw an exception.
+     * {@code Instbnt} cbn store points on the time-line further in the future
+     * bnd further in the pbst thbn {@code Dbte}. In this scenbrio, this method
+     * will throw bn exception.
      *
-     * @param instant  the instant to convert
-     * @return a {@code Date} representing the same point on the time-line as
-     *  the provided instant
-     * @exception NullPointerException if {@code instant} is null.
-     * @exception IllegalArgumentException if the instant is too large to
-     *  represent as a {@code Date}
+     * @pbrbm instbnt  the instbnt to convert
+     * @return b {@code Dbte} representing the sbme point on the time-line bs
+     *  the provided instbnt
+     * @exception NullPointerException if {@code instbnt} is null.
+     * @exception IllegblArgumentException if the instbnt is too lbrge to
+     *  represent bs b {@code Dbte}
      * @since 1.8
      */
-    public static Date from(Instant instant) {
+    public stbtic Dbte from(Instbnt instbnt) {
         try {
-            return new Date(instant.toEpochMilli());
-        } catch (ArithmeticException ex) {
-            throw new IllegalArgumentException(ex);
+            return new Dbte(instbnt.toEpochMilli());
+        } cbtch (ArithmeticException ex) {
+            throw new IllegblArgumentException(ex);
         }
     }
 
     /**
-     * Converts this {@code Date} object to an {@code Instant}.
+     * Converts this {@code Dbte} object to bn {@code Instbnt}.
      * <p>
-     * The conversion creates an {@code Instant} that represents the same
-     * point on the time-line as this {@code Date}.
+     * The conversion crebtes bn {@code Instbnt} thbt represents the sbme
+     * point on the time-line bs this {@code Dbte}.
      *
-     * @return an instant representing the same point on the time-line as
-     *  this {@code Date} object
+     * @return bn instbnt representing the sbme point on the time-line bs
+     *  this {@code Dbte} object
      * @since 1.8
      */
-    public Instant toInstant() {
-        return Instant.ofEpochMilli(getTime());
+    public Instbnt toInstbnt() {
+        return Instbnt.ofEpochMilli(getTime());
     }
 }

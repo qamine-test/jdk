@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.Raster;
-import sun.awt.image.IntegerComponentRaster;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.geom.Point2D;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.imbge.Rbster;
+import sun.bwt.imbge.IntegerComponentRbster;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.lbng.ref.WebkReference;
 
-class GradientPaintContext implements PaintContext {
-    static ColorModel xrgbmodel =
+clbss GrbdientPbintContext implements PbintContext {
+    stbtic ColorModel xrgbmodel =
         new DirectColorModel(24, 0x00ff0000, 0x0000ff00, 0x000000ff);
-    static ColorModel xbgrmodel =
+    stbtic ColorModel xbgrmodel =
         new DirectColorModel(24, 0x000000ff, 0x0000ff00, 0x00ff0000);
 
-    static ColorModel cachedModel;
-    static WeakReference<Raster> cached;
+    stbtic ColorModel cbchedModel;
+    stbtic WebkReference<Rbster> cbched;
 
-    static synchronized Raster getCachedRaster(ColorModel cm, int w, int h) {
-        if (cm == cachedModel) {
-            if (cached != null) {
-                Raster ras = cached.get();
-                if (ras != null &&
-                    ras.getWidth() >= w &&
-                    ras.getHeight() >= h)
+    stbtic synchronized Rbster getCbchedRbster(ColorModel cm, int w, int h) {
+        if (cm == cbchedModel) {
+            if (cbched != null) {
+                Rbster rbs = cbched.get();
+                if (rbs != null &&
+                    rbs.getWidth() >= w &&
+                    rbs.getHeight() >= h)
                 {
-                    cached = null;
-                    return ras;
+                    cbched = null;
+                    return rbs;
                 }
             }
         }
-        return cm.createCompatibleWritableRaster(w, h);
+        return cm.crebteCompbtibleWritbbleRbster(w, h);
     }
 
-    static synchronized void putCachedRaster(ColorModel cm, Raster ras) {
-        if (cached != null) {
-            Raster cras = cached.get();
-            if (cras != null) {
-                int cw = cras.getWidth();
-                int ch = cras.getHeight();
-                int iw = ras.getWidth();
-                int ih = ras.getHeight();
+    stbtic synchronized void putCbchedRbster(ColorModel cm, Rbster rbs) {
+        if (cbched != null) {
+            Rbster crbs = cbched.get();
+            if (crbs != null) {
+                int cw = crbs.getWidth();
+                int ch = crbs.getHeight();
+                int iw = rbs.getWidth();
+                int ih = rbs.getHeight();
                 if (cw >= iw && ch >= ih) {
                     return;
                 }
@@ -75,37 +75,37 @@ class GradientPaintContext implements PaintContext {
                 }
             }
         }
-        cachedModel = cm;
-        cached = new WeakReference<>(ras);
+        cbchedModel = cm;
+        cbched = new WebkReference<>(rbs);
     }
 
     double x1;
     double y1;
     double dx;
     double dy;
-    boolean cyclic;
+    boolebn cyclic;
     int interp[];
-    Raster saved;
+    Rbster sbved;
     ColorModel model;
 
-    public GradientPaintContext(ColorModel cm,
-                                Point2D p1, Point2D p2, AffineTransform xform,
-                                Color c1, Color c2, boolean cyclic) {
-        // First calculate the distance moved in user space when
-        // we move a single unit along the X & Y axes in device space.
+    public GrbdientPbintContext(ColorModel cm,
+                                Point2D p1, Point2D p2, AffineTrbnsform xform,
+                                Color c1, Color c2, boolebn cyclic) {
+        // First cblculbte the distbnce moved in user spbce when
+        // we move b single unit blong the X & Y bxes in device spbce.
         Point2D xvec = new Point2D.Double(1, 0);
         Point2D yvec = new Point2D.Double(0, 1);
         try {
-            AffineTransform inverse = xform.createInverse();
-            inverse.deltaTransform(xvec, xvec);
-            inverse.deltaTransform(yvec, yvec);
-        } catch (NoninvertibleTransformException e) {
-            xvec.setLocation(0, 0);
-            yvec.setLocation(0, 0);
+            AffineTrbnsform inverse = xform.crebteInverse();
+            inverse.deltbTrbnsform(xvec, xvec);
+            inverse.deltbTrbnsform(yvec, yvec);
+        } cbtch (NoninvertibleTrbnsformException e) {
+            xvec.setLocbtion(0, 0);
+            yvec.setLocbtion(0, 0);
         }
 
-        // Now calculate the (square of the) user space distance
-        // between the anchor points. This value equals:
+        // Now cblculbte the (squbre of the) user spbce distbnce
+        // between the bnchor points. This vblue equbls:
         //     (UserVec . UserVec)
         double udx = p2.getX() - p1.getX();
         double udy = p2.getY() - p1.getY();
@@ -115,21 +115,21 @@ class GradientPaintContext implements PaintContext {
             dx = 0;
             dy = 0;
         } else {
-            // Now calculate the proportional distance moved along the
-            // vector from p1 to p2 when we move a unit along X & Y in
-            // device space.
+            // Now cblculbte the proportionbl distbnce moved blong the
+            // vector from p1 to p2 when we move b unit blong X & Y in
+            // device spbce.
             //
             // The length of the projection of the Device Axis Vector is
             // its dot product with the Unit User Vector:
             //     (DevAxisVec . (UserVec / Len(UserVec))
             //
-            // The "proportional" length is that length divided again
+            // The "proportionbl" length is thbt length divided bgbin
             // by the length of the User Vector:
             //     (DevAxisVec . (UserVec / Len(UserVec))) / Len(UserVec)
             // which simplifies to:
             //     ((DevAxisVec . UserVec) / Len(UserVec)) / Len(UserVec)
             // which simplifies to:
-            //     (DevAxisVec . UserVec) / LenSquared(UserVec)
+            //     (DevAxisVec . UserVec) / LenSqubred(UserVec)
             dx = (xvec.getX() * udx + xvec.getY() * udy) / ulenSq;
             dy = (yvec.getX() * udx + yvec.getY() * udy) / ulenSq;
 
@@ -137,13 +137,13 @@ class GradientPaintContext implements PaintContext {
                 dx = dx % 1.0;
                 dy = dy % 1.0;
             } else {
-                // We are acyclic
+                // We bre bcyclic
                 if (dx < 0) {
-                    // If we are using the acyclic form below, we need
-                    // dx to be non-negative for simplicity of scanning
-                    // across the scan lines for the transition points.
-                    // To ensure that constraint, we negate the dx/dy
-                    // values and swap the points and colors.
+                    // If we bre using the bcyclic form below, we need
+                    // dx to be non-negbtive for simplicity of scbnning
+                    // bcross the scbn lines for the trbnsition points.
+                    // To ensure thbt constrbint, we negbte the dx/dy
+                    // vblues bnd swbp the points bnd colors.
                     Point2D p = p1; p1 = p2; p2 = p;
                     Color c = c1; c1 = c2; c2 = c;
                     dx = -dx;
@@ -152,30 +152,30 @@ class GradientPaintContext implements PaintContext {
             }
         }
 
-        Point2D dp1 = xform.transform(p1, null);
+        Point2D dp1 = xform.trbnsform(p1, null);
         this.x1 = dp1.getX();
         this.y1 = dp1.getY();
 
         this.cyclic = cyclic;
         int rgb1 = c1.getRGB();
         int rgb2 = c2.getRGB();
-        int a1 = (rgb1 >> 24) & 0xff;
+        int b1 = (rgb1 >> 24) & 0xff;
         int r1 = (rgb1 >> 16) & 0xff;
         int g1 = (rgb1 >>  8) & 0xff;
         int b1 = (rgb1      ) & 0xff;
-        int da = ((rgb2 >> 24) & 0xff) - a1;
+        int db = ((rgb2 >> 24) & 0xff) - b1;
         int dr = ((rgb2 >> 16) & 0xff) - r1;
         int dg = ((rgb2 >>  8) & 0xff) - g1;
         int db = ((rgb2      ) & 0xff) - b1;
-        if (a1 == 0xff && da == 0) {
+        if (b1 == 0xff && db == 0) {
             model = xrgbmodel;
-            if (cm instanceof DirectColorModel) {
+            if (cm instbnceof DirectColorModel) {
                 DirectColorModel dcm = (DirectColorModel) cm;
-                int tmp = dcm.getAlphaMask();
+                int tmp = dcm.getAlphbMbsk();
                 if ((tmp == 0 || tmp == 0xff) &&
-                    dcm.getRedMask() == 0xff &&
-                    dcm.getGreenMask() == 0xff00 &&
-                    dcm.getBlueMask() == 0xff0000)
+                    dcm.getRedMbsk() == 0xff &&
+                    dcm.getGreenMbsk() == 0xff00 &&
+                    dcm.getBlueMbsk() == 0xff0000)
                 {
                     model = xbgrmodel;
                     tmp = r1; r1 = b1; b1 = tmp;
@@ -183,13 +183,13 @@ class GradientPaintContext implements PaintContext {
                 }
             }
         } else {
-            model = ColorModel.getRGBdefault();
+            model = ColorModel.getRGBdefbult();
         }
         interp = new int[cyclic ? 513 : 257];
         for (int i = 0; i <= 256; i++) {
-            float rel = i / 256.0f;
+            flobt rel = i / 256.0f;
             int rgb =
-                (((int) (a1 + da * rel)) << 24) |
+                (((int) (b1 + db * rel)) << 24) |
                 (((int) (r1 + dr * rel)) << 16) |
                 (((int) (g1 + dg * rel)) <<  8) |
                 (((int) (b1 + db * rel))      );
@@ -201,12 +201,12 @@ class GradientPaintContext implements PaintContext {
     }
 
     /**
-     * Release the resources allocated for the operation.
+     * Relebse the resources bllocbted for the operbtion.
      */
     public void dispose() {
-        if (saved != null) {
-            putCachedRaster(model, saved);
-            saved = null;
+        if (sbved != null) {
+            putCbchedRbster(model, sbved);
+            sbved = null;
         }
     }
 
@@ -218,36 +218,36 @@ class GradientPaintContext implements PaintContext {
     }
 
     /**
-     * Return a Raster containing the colors generated for the graphics
-     * operation.
-     * @param x,y,w,h The area in device space for which colors are
-     * generated.
+     * Return b Rbster contbining the colors generbted for the grbphics
+     * operbtion.
+     * @pbrbm x,y,w,h The breb in device spbce for which colors bre
+     * generbted.
      */
-    public Raster getRaster(int x, int y, int w, int h) {
+    public Rbster getRbster(int x, int y, int w, int h) {
         double rowrel = (x - x1) * dx + (y - y1) * dy;
 
-        Raster rast = saved;
-        if (rast == null || rast.getWidth() < w || rast.getHeight() < h) {
-            rast = getCachedRaster(model, w, h);
-            saved = rast;
+        Rbster rbst = sbved;
+        if (rbst == null || rbst.getWidth() < w || rbst.getHeight() < h) {
+            rbst = getCbchedRbster(model, w, h);
+            sbved = rbst;
         }
-        IntegerComponentRaster irast = (IntegerComponentRaster) rast;
-        int off = irast.getDataOffset(0);
-        int adjust = irast.getScanlineStride() - w;
-        int[] pixels = irast.getDataStorage();
+        IntegerComponentRbster irbst = (IntegerComponentRbster) rbst;
+        int off = irbst.getDbtbOffset(0);
+        int bdjust = irbst.getScbnlineStride() - w;
+        int[] pixels = irbst.getDbtbStorbge();
 
         if (cyclic) {
-            cycleFillRaster(pixels, off, adjust, w, h, rowrel, dx, dy);
+            cycleFillRbster(pixels, off, bdjust, w, h, rowrel, dx, dy);
         } else {
-            clipFillRaster(pixels, off, adjust, w, h, rowrel, dx, dy);
+            clipFillRbster(pixels, off, bdjust, w, h, rowrel, dx, dy);
         }
 
-        irast.markDirty();
+        irbst.mbrkDirty();
 
-        return rast;
+        return rbst;
     }
 
-    void cycleFillRaster(int[] pixels, int off, int adjust, int w, int h,
+    void cycleFillRbster(int[] pixels, int off, int bdjust, int w, int h,
                          double rowrel, double dx, double dy) {
         rowrel = rowrel % 2.0;
         int irowrel = ((int) (rowrel * (1 << 30))) << 1;
@@ -260,12 +260,12 @@ class GradientPaintContext implements PaintContext {
                 icolrel += idx;
             }
 
-            off += adjust;
+            off += bdjust;
             irowrel += idy;
         }
     }
 
-    void clipFillRaster(int[] pixels, int off, int adjust, int w, int h,
+    void clipFillRbster(int[] pixels, int off, int bdjust, int w, int h,
                         double rowrel, double dx, double dy) {
         while (--h >= 0) {
             double colrel = rowrel;
@@ -288,7 +288,7 @@ class GradientPaintContext implements PaintContext {
                 } while (--j > 0);
             }
 
-            off += adjust;
+            off += bdjust;
             rowrel += dy;
         }
     }

@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Support for reading ZIP/JAR files.
+ * Support for rebding ZIP/JAR files.
  */
 
 #include <stdio.h>
@@ -35,7 +35,7 @@
 #include <limits.h>
 #include <time.h>
 #include <ctype.h>
-#include <assert.h>
+#include <bssert.h>
 
 #include "jni.h"
 #include "jni_util.h"
@@ -48,126 +48,126 @@
 
 #ifdef _ALLBSD_SOURCE
 #define off64_t off_t
-#define mmap64 mmap
+#define mmbp64 mmbp
 #endif
 
-/* USE_MMAP means mmap the CEN & ENDHDR part of the zip file. */
+/* USE_MMAP mebns mmbp the CEN & ENDHDR pbrt of the zip file. */
 #ifdef USE_MMAP
-#include <sys/mman.h>
+#include <sys/mmbn.h>
 #endif
 
-#define MAXREFS 0xFFFF  /* max number of open zip file references */
+#define MAXREFS 0xFFFF  /* mbx number of open zip file references */
 
-#define MCREATE()      JVM_RawMonitorCreate()
-#define MLOCK(lock)    JVM_RawMonitorEnter(lock)
-#define MUNLOCK(lock)  JVM_RawMonitorExit(lock)
-#define MDESTROY(lock) JVM_RawMonitorDestroy(lock)
+#define MCREATE()      JVM_RbwMonitorCrebte()
+#define MLOCK(lock)    JVM_RbwMonitorEnter(lock)
+#define MUNLOCK(lock)  JVM_RbwMonitorExit(lock)
+#define MDESTROY(lock) JVM_RbwMonitorDestroy(lock)
 
 #define CENSIZE(cen) (CENHDR + CENNAM(cen) + CENEXT(cen) + CENCOM(cen))
 
-static jzfile *zfiles = 0;      /* currently open zip files */
-static void *zfiles_lock = 0;
+stbtic jzfile *zfiles = 0;      /* currently open zip files */
+stbtic void *zfiles_lock = 0;
 
-static void freeCEN(jzfile *);
+stbtic void freeCEN(jzfile *);
 
 #ifndef PATH_MAX
 #define PATH_MAX 1024
 #endif
 
-static jint INITIAL_META_COUNT = 2;   /* initial number of entries in meta name array */
+stbtic jint INITIAL_META_COUNT = 2;   /* initibl number of entries in metb nbme brrby */
 
 /*
- * The ZFILE_* functions exist to provide some platform-independence with
- * respect to file access needs.
+ * The ZFILE_* functions exist to provide some plbtform-independence with
+ * respect to file bccess needs.
  */
 
 /*
- * Opens the named file for reading, returning a ZFILE.
+ * Opens the nbmed file for rebding, returning b ZFILE.
  *
- * Compare this with winFileHandleOpen in windows/native/java/io/io_util_md.c.
- * This function does not take JNIEnv* and uses CreateFile (instead of
- * CreateFileW).  The expectation is that this function will be called only
+ * Compbre this with winFileHbndleOpen in windows/nbtive/jbvb/io/io_util_md.c.
+ * This function does not tbke JNIEnv* bnd uses CrebteFile (instebd of
+ * CrebteFileW).  The expectbtion is thbt this function will be cblled only
  * from ZIP_Open_Generic, which in turn is used by the JVM, where we do not
- * need to concern ourselves with wide chars.
+ * need to concern ourselves with wide chbrs.
  */
-static ZFILE
-ZFILE_Open(const char *fname, int flags) {
+stbtic ZFILE
+ZFILE_Open(const chbr *fnbme, int flbgs) {
 #ifdef WIN32
-    const DWORD access =
-        (flags & O_RDWR)   ? (GENERIC_WRITE | GENERIC_READ) :
-        (flags & O_WRONLY) ?  GENERIC_WRITE :
+    const DWORD bccess =
+        (flbgs & O_RDWR)   ? (GENERIC_WRITE | GENERIC_READ) :
+        (flbgs & O_WRONLY) ?  GENERIC_WRITE :
         GENERIC_READ;
-    const DWORD sharing =
+    const DWORD shbring =
         FILE_SHARE_READ | FILE_SHARE_WRITE;
     const DWORD disposition =
         /* Note: O_TRUNC overrides O_CREAT */
-        (flags & O_TRUNC) ? CREATE_ALWAYS :
-        (flags & O_CREAT) ? OPEN_ALWAYS   :
+        (flbgs & O_TRUNC) ? CREATE_ALWAYS :
+        (flbgs & O_CREAT) ? OPEN_ALWAYS   :
         OPEN_EXISTING;
-    const DWORD  maybeWriteThrough =
-        (flags & (O_SYNC | O_DSYNC)) ?
+    const DWORD  mbybeWriteThrough =
+        (flbgs & (O_SYNC | O_DSYNC)) ?
         FILE_FLAG_WRITE_THROUGH :
         FILE_ATTRIBUTE_NORMAL;
-    const DWORD maybeDeleteOnClose =
-        (flags & O_TEMPORARY) ?
+    const DWORD mbybeDeleteOnClose =
+        (flbgs & O_TEMPORARY) ?
         FILE_FLAG_DELETE_ON_CLOSE :
         FILE_ATTRIBUTE_NORMAL;
-    const DWORD flagsAndAttributes = maybeWriteThrough | maybeDeleteOnClose;
+    const DWORD flbgsAndAttributes = mbybeWriteThrough | mbybeDeleteOnClose;
 
-    return (jlong) CreateFile(
-        fname,          /* Wide char path name */
-        access,         /* Read and/or write permission */
-        sharing,        /* File sharing flags */
-        NULL,           /* Security attributes */
-        disposition,        /* creation disposition */
-        flagsAndAttributes, /* flags and attributes */
+    return (jlong) CrebteFile(
+        fnbme,          /* Wide chbr pbth nbme */
+        bccess,         /* Rebd bnd/or write permission */
+        shbring,        /* File shbring flbgs */
+        NULL,           /* Security bttributes */
+        disposition,        /* crebtion disposition */
+        flbgsAndAttributes, /* flbgs bnd bttributes */
         NULL);
 #else
-    return JVM_Open(fname, flags, 0);
+    return JVM_Open(fnbme, flbgs, 0);
 #endif
 }
 
 /*
- * The io_util_md.h files do not provide IO_CLOSE, hence we use platform
+ * The io_util_md.h files do not provide IO_CLOSE, hence we use plbtform
  * specifics.
  */
-static void
+stbtic void
 ZFILE_Close(ZFILE zfd) {
 #ifdef WIN32
-    CloseHandle((HANDLE) zfd);
+    CloseHbndle((HANDLE) zfd);
 #else
     JVM_Close(zfd);
 #endif
 }
 
-static int
-ZFILE_read(ZFILE zfd, char *buf, jint nbytes) {
+stbtic int
+ZFILE_rebd(ZFILE zfd, chbr *buf, jint nbytes) {
 #ifdef WIN32
-    return (int) IO_Read(zfd, buf, nbytes);
+    return (int) IO_Rebd(zfd, buf, nbytes);
 #else
     /*
-     * Calling JVM_Read will return JVM_IO_INTR when Thread.interrupt is called
-     * only on Solaris. Continue reading jar file in this case is the best
-     * thing to do since zip file reading is relatively fast and it is very onerous
-     * for a interrupted thread to deal with this kind of hidden I/O. However, handling
-     * JVM_IO_INTR is tricky and could cause undesired side effect. So we decided
-     * to simply call "read" on Solaris/Linux. See details in bug 6304463.
+     * Cblling JVM_Rebd will return JVM_IO_INTR when Threbd.interrupt is cblled
+     * only on Solbris. Continue rebding jbr file in this cbse is the best
+     * thing to do since zip file rebding is relbtively fbst bnd it is very onerous
+     * for b interrupted threbd to debl with this kind of hidden I/O. However, hbndling
+     * JVM_IO_INTR is tricky bnd could cbuse undesired side effect. So we decided
+     * to simply cbll "rebd" on Solbris/Linux. See detbils in bug 6304463.
      */
-    return read(zfd, buf, nbytes);
+    return rebd(zfd, buf, nbytes);
 #endif
 }
 
 /*
- * Initialize zip file support. Return 0 if successful otherwise -1
- * if could not be initialized.
+ * Initiblize zip file support. Return 0 if successful otherwise -1
+ * if could not be initiblized.
  */
-static jint
-InitializeZip()
+stbtic jint
+InitiblizeZip()
 {
-    static jboolean inited = JNI_FALSE;
+    stbtic jboolebn inited = JNI_FALSE;
 
-    // Initialize errno to 0.  It may be set later (e.g. during memory
-    // allocation) but we can disregard previous values.
+    // Initiblize errno to 0.  It mby be set lbter (e.g. during memory
+    // bllocbtion) but we cbn disregbrd previous vblues.
     errno = 0;
 
     if (inited)
@@ -182,25 +182,25 @@ InitializeZip()
 }
 
 /*
- * Reads len bytes of data into buf.
- * Returns 0 if all bytes could be read, otherwise returns -1.
+ * Rebds len bytes of dbtb into buf.
+ * Returns 0 if bll bytes could be rebd, otherwise returns -1.
  */
-static int
-readFully(ZFILE zfd, void *buf, jlong len) {
-  char *bp = (char *) buf;
+stbtic int
+rebdFully(ZFILE zfd, void *buf, jlong len) {
+  chbr *bp = (chbr *) buf;
 
   while (len > 0) {
         jlong limit = ((((jlong) 1) << 31) - 1);
         jint count = (len < limit) ?
             (jint) len :
             (jint) limit;
-        jint n = ZFILE_read(zfd, bp, count);
+        jint n = ZFILE_rebd(zfd, bp, count);
         if (n > 0) {
             bp += n;
             len -= n;
         } else if (n == JVM_IO_ERR && errno == EINTR) {
-          /* Retry after EINTR (interrupted by signal).
-             We depend on the fact that JVM_IO_ERR == -1. */
+          /* Retry bfter EINTR (interrupted by signbl).
+             We depend on the fbct thbt JVM_IO_ERR == -1. */
             continue;
         } else { /* EOF or IO error */
             return -1;
@@ -210,61 +210,61 @@ readFully(ZFILE zfd, void *buf, jlong len) {
 }
 
 /*
- * Reads len bytes of data from the specified offset into buf.
- * Returns 0 if all bytes could be read, otherwise returns -1.
+ * Rebds len bytes of dbtb from the specified offset into buf.
+ * Returns 0 if bll bytes could be rebd, otherwise returns -1.
  */
-static int
-readFullyAt(ZFILE zfd, void *buf, jlong len, jlong offset)
+stbtic int
+rebdFullyAt(ZFILE zfd, void *buf, jlong len, jlong offset)
 {
     if (IO_Lseek(zfd, offset, SEEK_SET) == -1) {
-        return -1; /* lseek failure. */
+        return -1; /* lseek fbilure. */
     }
 
-    return readFully(zfd, buf, len);
+    return rebdFully(zfd, buf, len);
 }
 
 /*
- * Allocates a new zip file object for the specified file name.
+ * Allocbtes b new zip file object for the specified file nbme.
  * Returns the zip file object or NULL if not enough memory.
  */
-static jzfile *
-allocZip(const char *name)
+stbtic jzfile *
+bllocZip(const chbr *nbme)
 {
     jzfile *zip;
-    if (((zip = calloc(1, sizeof(jzfile))) != NULL) &&
-        ((zip->name = strdup(name))        != NULL) &&
+    if (((zip = cblloc(1, sizeof(jzfile))) != NULL) &&
+        ((zip->nbme = strdup(nbme))        != NULL) &&
         ((zip->lock = MCREATE())           != NULL)) {
         zip->zfd = -1;
         return zip;
     }
 
     if (zip != NULL) {
-        free(zip->name);
+        free(zip->nbme);
         free(zip);
     }
     return NULL;
 }
 
 /*
- * Frees all native resources owned by the specified zip file object.
+ * Frees bll nbtive resources owned by the specified zip file object.
  */
-static void
+stbtic void
 freeZip(jzfile *zip)
 {
-    /* First free any cached jzentry */
+    /* First free bny cbched jzentry */
     ZIP_FreeEntry(zip,0);
     if (zip->lock != NULL) MDESTROY(zip->lock);
-    free(zip->name);
+    free(zip->nbme);
     freeCEN(zip);
 
 #ifdef USE_MMAP
-    if (zip->usemmap) {
-        if (zip->maddr != NULL)
-            munmap((char *)zip->maddr, zip->mlen);
+    if (zip->usemmbp) {
+        if (zip->mbddr != NULL)
+            munmbp((chbr *)zip->mbddr, zip->mlen);
     } else
 #endif
     {
-        free(zip->cencache.data);
+        free(zip->cencbche.dbtb);
     }
     if (zip->comment != NULL)
         free(zip->comment);
@@ -272,39 +272,39 @@ freeZip(jzfile *zip)
     free(zip);
 }
 
-/* The END header is followed by a variable length comment of size < 64k. */
-static const jlong END_MAXLEN = 0xFFFF + ENDHDR;
+/* The END hebder is followed by b vbribble length comment of size < 64k. */
+stbtic const jlong END_MAXLEN = 0xFFFF + ENDHDR;
 
 #define READBLOCKSZ 128
 
-static jboolean verifyEND(jzfile *zip, jlong endpos, char *endbuf) {
-    /* ENDSIG matched, however the size of file comment in it does not
-       match the real size. One "common" cause for this problem is some
-       "extra" bytes are padded at the end of the zipfile.
-       Let's do some extra verification, we don't care about the performance
-       in this situation.
+stbtic jboolebn verifyEND(jzfile *zip, jlong endpos, chbr *endbuf) {
+    /* ENDSIG mbtched, however the size of file comment in it does not
+       mbtch the rebl size. One "common" cbuse for this problem is some
+       "extrb" bytes bre pbdded bt the end of the zipfile.
+       Let's do some extrb verificbtion, we don't cbre bbout the performbnce
+       in this situbtion.
      */
     jlong cenpos = endpos - ENDSIZ(endbuf);
     jlong locpos = cenpos - ENDOFF(endbuf);
-    char buf[4];
+    chbr buf[4];
     return (cenpos >= 0 &&
             locpos >= 0 &&
-            readFullyAt(zip->zfd, buf, sizeof(buf), cenpos) != -1 &&
+            rebdFullyAt(zip->zfd, buf, sizeof(buf), cenpos) != -1 &&
             GETSIG(buf) == CENSIG &&
-            readFullyAt(zip->zfd, buf, sizeof(buf), locpos) != -1 &&
+            rebdFullyAt(zip->zfd, buf, sizeof(buf), locpos) != -1 &&
             GETSIG(buf) == LOCSIG);
 }
 
 /*
- * Searches for end of central directory (END) header. The contents of
- * the END header will be read and placed in endbuf. Returns the file
- * position of the END header, otherwise returns -1 if the END header
- * was not found or an error occurred.
+ * Sebrches for end of centrbl directory (END) hebder. The contents of
+ * the END hebder will be rebd bnd plbced in endbuf. Returns the file
+ * position of the END hebder, otherwise returns -1 if the END hebder
+ * wbs not found or bn error occurred.
  */
-static jlong
+stbtic jlong
 findEND(jzfile *zip, void *endbuf)
 {
-    char buf[READBLOCKSZ];
+    chbr buf[READBLOCKSZ];
     jlong pos;
     const jlong len = zip->len;
     const ZFILE zfd = zip->zfd;
@@ -317,17 +317,17 @@ findEND(jzfile *zip, void *endbuf)
         int i;
         jlong off = 0;
         if (pos < 0) {
-            /* Pretend there are some NUL bytes before start of file */
+            /* Pretend there bre some NUL bytes before stbrt of file */
             off = -pos;
             memset(buf, '\0', (size_t)off);
         }
 
-        if (readFullyAt(zfd, buf + off, sizeof(buf) - off,
+        if (rebdFullyAt(zfd, buf + off, sizeof(buf) - off,
                         pos + off) == -1) {
             return -1;  /* System error */
         }
 
-        /* Now scan the block backwards for END header signature */
+        /* Now scbn the block bbckwbrds for END hebder signbture */
         for (i = sizeof(buf) - ENDHDR; i >= 0; i--) {
             if (buf[i+0] == 'P'    &&
                 buf[i+1] == 'K'    &&
@@ -335,16 +335,16 @@ findEND(jzfile *zip, void *endbuf)
                 buf[i+3] == '\006' &&
                 ((pos + i + ENDHDR + ENDCOM(buf + i) == len)
                  || verifyEND(zip, pos + i, buf + i))) {
-                /* Found END header */
+                /* Found END hebder */
                 memcpy(endbuf, buf + i, ENDHDR);
 
                 clen = ENDCOM(endbuf);
                 if (clen != 0) {
-                    zip->comment = malloc(clen + 1);
+                    zip->comment = mblloc(clen + 1);
                     if (zip->comment == NULL) {
                         return -1;
                     }
-                    if (readFullyAt(zfd, zip->comment, clen, pos + i + ENDHDR)
+                    if (rebdFullyAt(zfd, zip->comment, clen, pos + i + ENDHDR)
                         == -1) {
                         free(zip->comment);
                         zip->comment = NULL;
@@ -358,46 +358,46 @@ findEND(jzfile *zip, void *endbuf)
         }
     }
 
-    return -1; /* END header not found */
+    return -1; /* END hebder not found */
 }
 
 /*
- * Searches for the ZIP64 end of central directory (END) header. The
- * contents of the ZIP64 END header will be read and placed in end64buf.
- * Returns the file position of the ZIP64 END header, otherwise returns
- * -1 if the END header was not found or an error occurred.
+ * Sebrches for the ZIP64 end of centrbl directory (END) hebder. The
+ * contents of the ZIP64 END hebder will be rebd bnd plbced in end64buf.
+ * Returns the file position of the ZIP64 END hebder, otherwise returns
+ * -1 if the END hebder wbs not found or bn error occurred.
  *
- * The ZIP format specifies the "position" of each related record as
+ * The ZIP formbt specifies the "position" of ebch relbted record bs
  *   ...
- *   [central directory]
- *   [zip64 end of central directory record]
- *   [zip64 end of central directory locator]
- *   [end of central directory record]
+ *   [centrbl directory]
+ *   [zip64 end of centrbl directory record]
+ *   [zip64 end of centrbl directory locbtor]
+ *   [end of centrbl directory record]
  *
- * The offset of zip64 end locator can be calculated from endpos as
+ * The offset of zip64 end locbtor cbn be cblculbted from endpos bs
  * "endpos - ZIP64_LOCHDR".
- * The "offset" of zip64 end record is stored in zip64 end locator.
+ * The "offset" of zip64 end record is stored in zip64 end locbtor.
  */
-static jlong
+stbtic jlong
 findEND64(jzfile *zip, void *end64buf, jlong endpos)
 {
-    char loc64[ZIP64_LOCHDR];
+    chbr loc64[ZIP64_LOCHDR];
     jlong end64pos;
-    if (readFullyAt(zip->zfd, loc64, ZIP64_LOCHDR, endpos - ZIP64_LOCHDR) == -1) {
-        return -1;    // end64 locator not found
+    if (rebdFullyAt(zip->zfd, loc64, ZIP64_LOCHDR, endpos - ZIP64_LOCHDR) == -1) {
+        return -1;    // end64 locbtor not found
     }
     end64pos = ZIP64_LOCOFF(loc64);
-    if (readFullyAt(zip->zfd, end64buf, ZIP64_ENDHDR, end64pos) == -1) {
+    if (rebdFullyAt(zip->zfd, end64buf, ZIP64_ENDHDR, end64pos) == -1) {
         return -1;    // end64 record not found
     }
     return end64pos;
 }
 
 /*
- * Returns a hash code value for a C-style NUL-terminated string.
+ * Returns b hbsh code vblue for b C-style NUL-terminbted string.
  */
-static unsigned int
-hash(const char *s)
+stbtic unsigned int
+hbsh(const chbr *s)
 {
     int h = 0;
     while (*s != '\0')
@@ -406,10 +406,10 @@ hash(const char *s)
 }
 
 /*
- * Returns a hash code value for a string of a specified length.
+ * Returns b hbsh code vblue for b string of b specified length.
  */
-static unsigned int
-hashN(const char *s, int length)
+stbtic unsigned int
+hbshN(const chbr *s, int length)
 {
     int h = 0;
     while (length-- > 0)
@@ -417,26 +417,26 @@ hashN(const char *s, int length)
     return h;
 }
 
-static unsigned int
-hash_append(unsigned int hash, char c)
+stbtic unsigned int
+hbsh_bppend(unsigned int hbsh, chbr c)
 {
-    return ((int)hash)*31 + c;
+    return ((int)hbsh)*31 + c;
 }
 
 /*
- * Returns true if the specified entry's name begins with the string
- * "META-INF/" irrespective of case.
+ * Returns true if the specified entry's nbme begins with the string
+ * "META-INF/" irrespective of cbse.
  */
-static int
-isMetaName(const char *name, int length)
+stbtic int
+isMetbNbme(const chbr *nbme, int length)
 {
-    const char *s;
+    const chbr *s;
     if (length < (int)sizeof("META-INF/") - 1)
         return 0;
     for (s = "META-INF/"; *s != '\0'; s++) {
-        char c = *name++;
-        // Avoid toupper; it's locale-dependent
-        if (c >= 'a' && c <= 'z') c += 'A' - 'a';
+        chbr c = *nbme++;
+        // Avoid toupper; it's locble-dependent
+        if (c >= 'b' && c <= 'z') c += 'A' - 'b';
         if (*s != c)
             return 0;
     }
@@ -444,85 +444,85 @@ isMetaName(const char *name, int length)
 }
 
 /*
- * Increases the capacity of zip->metanames.
- * Returns non-zero in case of allocation error.
+ * Increbses the cbpbcity of zip->metbnbmes.
+ * Returns non-zero in cbse of bllocbtion error.
  */
-static int
-growMetaNames(jzfile *zip)
+stbtic int
+growMetbNbmes(jzfile *zip)
 {
     jint i;
-    /* double the meta names array */
-    const jint new_metacount = zip->metacount << 1;
-    zip->metanames =
-        realloc(zip->metanames, new_metacount * sizeof(zip->metanames[0]));
-    if (zip->metanames == NULL) return -1;
-    for (i = zip->metacount; i < new_metacount; i++)
-        zip->metanames[i] = NULL;
-    zip->metacurrent = zip->metacount;
-    zip->metacount = new_metacount;
+    /* double the metb nbmes brrby */
+    const jint new_metbcount = zip->metbcount << 1;
+    zip->metbnbmes =
+        reblloc(zip->metbnbmes, new_metbcount * sizeof(zip->metbnbmes[0]));
+    if (zip->metbnbmes == NULL) return -1;
+    for (i = zip->metbcount; i < new_metbcount; i++)
+        zip->metbnbmes[i] = NULL;
+    zip->metbcurrent = zip->metbcount;
+    zip->metbcount = new_metbcount;
     return 0;
 }
 
 /*
- * Adds name to zip->metanames.
- * Returns non-zero in case of allocation error.
+ * Adds nbme to zip->metbnbmes.
+ * Returns non-zero in cbse of bllocbtion error.
  */
-static int
-addMetaName(jzfile *zip, const char *name, int length)
+stbtic int
+bddMetbNbme(jzfile *zip, const chbr *nbme, int length)
 {
     jint i;
-    if (zip->metanames == NULL) {
-      zip->metacount = INITIAL_META_COUNT;
-      zip->metanames = calloc(zip->metacount, sizeof(zip->metanames[0]));
-      if (zip->metanames == NULL) return -1;
-      zip->metacurrent = 0;
+    if (zip->metbnbmes == NULL) {
+      zip->metbcount = INITIAL_META_COUNT;
+      zip->metbnbmes = cblloc(zip->metbcount, sizeof(zip->metbnbmes[0]));
+      if (zip->metbnbmes == NULL) return -1;
+      zip->metbcurrent = 0;
     }
 
-    i = zip->metacurrent;
+    i = zip->metbcurrent;
 
-    /* current meta name array isn't full yet. */
-    if (i < zip->metacount) {
-      zip->metanames[i] = (char *) malloc(length+1);
-      if (zip->metanames[i] == NULL) return -1;
-      memcpy(zip->metanames[i], name, length);
-      zip->metanames[i][length] = '\0';
-      zip->metacurrent++;
+    /* current metb nbme brrby isn't full yet. */
+    if (i < zip->metbcount) {
+      zip->metbnbmes[i] = (chbr *) mblloc(length+1);
+      if (zip->metbnbmes[i] == NULL) return -1;
+      memcpy(zip->metbnbmes[i], nbme, length);
+      zip->metbnbmes[i][length] = '\0';
+      zip->metbcurrent++;
       return 0;
     }
 
-    /* No free entries in zip->metanames? */
-    if (growMetaNames(zip) != 0) return -1;
-    return addMetaName(zip, name, length);
+    /* No free entries in zip->metbnbmes? */
+    if (growMetbNbmes(zip) != 0) return -1;
+    return bddMetbNbme(zip, nbme, length);
 }
 
-static void
-freeMetaNames(jzfile *zip)
+stbtic void
+freeMetbNbmes(jzfile *zip)
 {
-    if (zip->metanames) {
+    if (zip->metbnbmes) {
         jint i;
-        for (i = 0; i < zip->metacount; i++)
-            free(zip->metanames[i]);
-        free(zip->metanames);
-        zip->metanames = NULL;
+        for (i = 0; i < zip->metbcount; i++)
+            free(zip->metbnbmes[i]);
+        free(zip->metbnbmes);
+        zip->metbnbmes = NULL;
     }
 }
 
-/* Free Zip data allocated by readCEN() */
-static void
+/* Free Zip dbtb bllocbted by rebdCEN() */
+stbtic void
 freeCEN(jzfile *zip)
 {
     free(zip->entries); zip->entries = NULL;
-    free(zip->table);   zip->table   = NULL;
-    freeMetaNames(zip);
+    free(zip->tbble);   zip->tbble   = NULL;
+    freeMetbNbmes(zip);
 }
 
 /*
- * Counts the number of CEN headers in a central directory extending
- * from BEG to END.  Might return a bogus answer if the zip file is
- * corrupt, but will not crash.
+ * Counts the number of CEN hebders in b centrbl directory extending
+ * from BEG to END.  Might return b bogus bnswer if the zip file is
+ * corrupt, but will not crbsh.
  */
-static jint
-countCENHeaders(unsigned char *beg, unsigned char *end)
+stbtic jint
+countCENHebders(unsigned chbr *beg, unsigned chbr *end)
 {
     jint count = 0;
     ptrdiff_t i;
@@ -531,194 +531,194 @@ countCENHeaders(unsigned char *beg, unsigned char *end)
     return count;
 }
 
-#define ZIP_FORMAT_ERROR(message) \
-if (1) { zip->msg = message; goto Catch; } else ((void)0)
+#define ZIP_FORMAT_ERROR(messbge) \
+if (1) { zip->msg = messbge; goto Cbtch; } else ((void)0)
 
 /*
- * Reads zip file central directory. Returns the file position of first
- * CEN header, otherwise returns -1 if an error occurred. If zip->msg != NULL
- * then the error was a zip format error and zip->msg has the error text.
- * Always pass in -1 for knownTotal; it's used for a recursive call.
+ * Rebds zip file centrbl directory. Returns the file position of first
+ * CEN hebder, otherwise returns -1 if bn error occurred. If zip->msg != NULL
+ * then the error wbs b zip formbt error bnd zip->msg hbs the error text.
+ * Alwbys pbss in -1 for knownTotbl; it's used for b recursive cbll.
  */
-static jlong
-readCEN(jzfile *zip, jint knownTotal)
+stbtic jlong
+rebdCEN(jzfile *zip, jint knownTotbl)
 {
-    /* Following are unsigned 32-bit */
+    /* Following bre unsigned 32-bit */
     jlong endpos, end64pos, cenpos, cenlen, cenoff;
-    /* Following are unsigned 16-bit */
-    jint total, tablelen, i, j;
-    unsigned char *cenbuf = NULL;
-    unsigned char *cenend;
-    unsigned char *cp;
+    /* Following bre unsigned 16-bit */
+    jint totbl, tbblelen, i, j;
+    unsigned chbr *cenbuf = NULL;
+    unsigned chbr *cenend;
+    unsigned chbr *cp;
 #ifdef USE_MMAP
-    static jlong pagesize;
+    stbtic jlong pbgesize;
     jlong offset;
 #endif
-    unsigned char endbuf[ENDHDR];
+    unsigned chbr endbuf[ENDHDR];
     jint endhdrlen = ENDHDR;
     jzcell *entries;
-    jint *table;
+    jint *tbble;
 
-    /* Clear previous zip error */
+    /* Clebr previous zip error */
     zip->msg = NULL;
-    /* Get position of END header */
+    /* Get position of END hebder */
     if ((endpos = findEND(zip, endbuf)) == -1)
-        return -1; /* no END header or system error */
+        return -1; /* no END hebder or system error */
 
-    if (endpos == 0) return 0;  /* only END header present */
+    if (endpos == 0) return 0;  /* only END hebder present */
 
     freeCEN(zip);
-   /* Get position and length of central directory */
+   /* Get position bnd length of centrbl directory */
     cenlen = ENDSIZ(endbuf);
     cenoff = ENDOFF(endbuf);
-    total  = ENDTOT(endbuf);
+    totbl  = ENDTOT(endbuf);
     if (cenlen == ZIP64_MAGICVAL || cenoff == ZIP64_MAGICVAL ||
-        total == ZIP64_MAGICCOUNT) {
-        unsigned char end64buf[ZIP64_ENDHDR];
+        totbl == ZIP64_MAGICCOUNT) {
+        unsigned chbr end64buf[ZIP64_ENDHDR];
         if ((end64pos = findEND64(zip, end64buf, endpos)) != -1) {
             cenlen = ZIP64_ENDSIZ(end64buf);
             cenoff = ZIP64_ENDOFF(end64buf);
-            total = (jint)ZIP64_ENDTOT(end64buf);
+            totbl = (jint)ZIP64_ENDTOT(end64buf);
             endpos = end64pos;
             endhdrlen = ZIP64_ENDHDR;
         }
     }
 
     if (cenlen > endpos)
-        ZIP_FORMAT_ERROR("invalid END header (bad central directory size)");
+        ZIP_FORMAT_ERROR("invblid END hebder (bbd centrbl directory size)");
     cenpos = endpos - cenlen;
 
-    /* Get position of first local file (LOC) header, taking into
-     * account that there may be a stub prefixed to the zip file. */
+    /* Get position of first locbl file (LOC) hebder, tbking into
+     * bccount thbt there mby be b stub prefixed to the zip file. */
     zip->locpos = cenpos - cenoff;
     if (zip->locpos < 0)
-        ZIP_FORMAT_ERROR("invalid END header (bad central directory offset)");
+        ZIP_FORMAT_ERROR("invblid END hebder (bbd centrbl directory offset)");
 
 #ifdef USE_MMAP
-    if (zip->usemmap) {
-      /* On Solaris & Linux prior to JDK 6, we used to mmap the whole jar file to
-       * read the jar file contents. However, this greatly increased the perceived
-       * footprint numbers because the mmap'ed pages were adding into the totals shown
-       * by 'ps' and 'top'. We switched to mmaping only the central directory of jar
-       * file while calling 'read' to read the rest of jar file. Here are a list of
-       * reasons apart from above of why we are doing so:
-       * 1. Greatly reduces mmap overhead after startup complete;
-       * 2. Avoids dual path code maintainance;
-       * 3. Greatly reduces risk of address space (not virtual memory) exhaustion.
+    if (zip->usemmbp) {
+      /* On Solbris & Linux prior to JDK 6, we used to mmbp the whole jbr file to
+       * rebd the jbr file contents. However, this grebtly increbsed the perceived
+       * footprint numbers becbuse the mmbp'ed pbges were bdding into the totbls shown
+       * by 'ps' bnd 'top'. We switched to mmbping only the centrbl directory of jbr
+       * file while cblling 'rebd' to rebd the rest of jbr file. Here bre b list of
+       * rebsons bpbrt from bbove of why we bre doing so:
+       * 1. Grebtly reduces mmbp overhebd bfter stbrtup complete;
+       * 2. Avoids dubl pbth code mbintbinbnce;
+       * 3. Grebtly reduces risk of bddress spbce (not virtubl memory) exhbustion.
        */
-        if (pagesize == 0) {
-            pagesize = (jlong)sysconf(_SC_PAGESIZE);
-            if (pagesize == 0) goto Catch;
+        if (pbgesize == 0) {
+            pbgesize = (jlong)sysconf(_SC_PAGESIZE);
+            if (pbgesize == 0) goto Cbtch;
         }
-        if (cenpos > pagesize) {
-            offset = cenpos & ~(pagesize - 1);
+        if (cenpos > pbgesize) {
+            offset = cenpos & ~(pbgesize - 1);
         } else {
             offset = 0;
         }
-        /* When we are not calling recursively, knownTotal is -1. */
-        if (knownTotal == -1) {
-            void* mappedAddr;
-            /* Mmap the CEN and END part only. We have to figure
-               out the page size in order to make offset to be multiples of
-               page size.
+        /* When we bre not cblling recursively, knownTotbl is -1. */
+        if (knownTotbl == -1) {
+            void* mbppedAddr;
+            /* Mmbp the CEN bnd END pbrt only. We hbve to figure
+               out the pbge size in order to mbke offset to be multiples of
+               pbge size.
             */
             zip->mlen = cenpos - offset + cenlen + endhdrlen;
             zip->offset = offset;
-            mappedAddr = mmap64(0, zip->mlen, PROT_READ, MAP_SHARED, zip->zfd, (off64_t) offset);
-            zip->maddr = (mappedAddr == (void*) MAP_FAILED) ? NULL :
-                (unsigned char*)mappedAddr;
+            mbppedAddr = mmbp64(0, zip->mlen, PROT_READ, MAP_SHARED, zip->zfd, (off64_t) offset);
+            zip->mbddr = (mbppedAddr == (void*) MAP_FAILED) ? NULL :
+                (unsigned chbr*)mbppedAddr;
 
-            if (zip->maddr == NULL) {
-                jio_fprintf(stderr, "mmap failed for CEN and END part of zip file\n");
-                goto Catch;
+            if (zip->mbddr == NULL) {
+                jio_fprintf(stderr, "mmbp fbiled for CEN bnd END pbrt of zip file\n");
+                goto Cbtch;
             }
         }
-        cenbuf = zip->maddr + cenpos - offset;
+        cenbuf = zip->mbddr + cenpos - offset;
     } else
 #endif
     {
-        if ((cenbuf = malloc((size_t) cenlen)) == NULL ||
-            (readFullyAt(zip->zfd, cenbuf, cenlen, cenpos) == -1))
-        goto Catch;
+        if ((cenbuf = mblloc((size_t) cenlen)) == NULL ||
+            (rebdFullyAt(zip->zfd, cenbuf, cenlen, cenpos) == -1))
+        goto Cbtch;
     }
 
     cenend = cenbuf + cenlen;
 
-    /* Initialize zip file data structures based on the total number
-     * of central directory entries as stored in ENDTOT.  Since this
-     * is a 2-byte field, but we (and other zip implementations)
-     * support approx. 2**31 entries, we do not trust ENDTOT, but
-     * treat it only as a strong hint.  When we call ourselves
-     * recursively, knownTotal will have the "true" value.
+    /* Initiblize zip file dbtb structures bbsed on the totbl number
+     * of centrbl directory entries bs stored in ENDTOT.  Since this
+     * is b 2-byte field, but we (bnd other zip implementbtions)
+     * support bpprox. 2**31 entries, we do not trust ENDTOT, but
+     * trebt it only bs b strong hint.  When we cbll ourselves
+     * recursively, knownTotbl will hbve the "true" vblue.
      *
-     * Keep this path alive even with the Zip64 END support added, just
-     * for zip files that have more than 0xffff entries but don't have
-     * the Zip64 enabled.
+     * Keep this pbth blive even with the Zip64 END support bdded, just
+     * for zip files thbt hbve more thbn 0xffff entries but don't hbve
+     * the Zip64 enbbled.
      */
-    total = (knownTotal != -1) ? knownTotal : total;
-    entries  = zip->entries  = calloc(total, sizeof(entries[0]));
-    tablelen = zip->tablelen = ((total/2) | 1); // Odd -> fewer collisions
-    table    = zip->table    = malloc(tablelen * sizeof(table[0]));
-    /* According to ISO C it is perfectly legal for malloc to return zero
-     * if called with a zero argument. We check this for 'entries' but not
-     * for 'table' because 'tablelen' can't be zero (see computation above). */
-    if ((entries == NULL && total != 0) || table == NULL) goto Catch;
-    for (j = 0; j < tablelen; j++)
-        table[j] = ZIP_ENDCHAIN;
+    totbl = (knownTotbl != -1) ? knownTotbl : totbl;
+    entries  = zip->entries  = cblloc(totbl, sizeof(entries[0]));
+    tbblelen = zip->tbblelen = ((totbl/2) | 1); // Odd -> fewer collisions
+    tbble    = zip->tbble    = mblloc(tbblelen * sizeof(tbble[0]));
+    /* According to ISO C it is perfectly legbl for mblloc to return zero
+     * if cblled with b zero brgument. We check this for 'entries' but not
+     * for 'tbble' becbuse 'tbblelen' cbn't be zero (see computbtion bbove). */
+    if ((entries == NULL && totbl != 0) || tbble == NULL) goto Cbtch;
+    for (j = 0; j < tbblelen; j++)
+        tbble[j] = ZIP_ENDCHAIN;
 
-    /* Iterate through the entries in the central directory */
+    /* Iterbte through the entries in the centrbl directory */
     for (i = 0, cp = cenbuf; cp <= cenend - CENHDR; i++, cp += CENSIZE(cp)) {
-        /* Following are unsigned 16-bit */
+        /* Following bre unsigned 16-bit */
         jint method, nlen;
         unsigned int hsh;
 
-        if (i >= total) {
-            /* This will only happen if the zip file has an incorrect
-             * ENDTOT field, which usually means it contains more than
+        if (i >= totbl) {
+            /* This will only hbppen if the zip file hbs bn incorrect
+             * ENDTOT field, which usublly mebns it contbins more thbn
              * 65535 entries. */
-            cenpos = readCEN(zip, countCENHeaders(cenbuf, cenend));
-            goto Finally;
+            cenpos = rebdCEN(zip, countCENHebders(cenbuf, cenend));
+            goto Finblly;
         }
 
         method = CENHOW(cp);
         nlen   = CENNAM(cp);
 
         if (GETSIG(cp) != CENSIG)
-            ZIP_FORMAT_ERROR("invalid CEN header (bad signature)");
+            ZIP_FORMAT_ERROR("invblid CEN hebder (bbd signbture)");
         if (CENFLG(cp) & 1)
-            ZIP_FORMAT_ERROR("invalid CEN header (encrypted entry)");
+            ZIP_FORMAT_ERROR("invblid CEN hebder (encrypted entry)");
         if (method != STORED && method != DEFLATED)
-            ZIP_FORMAT_ERROR("invalid CEN header (bad compression method)");
+            ZIP_FORMAT_ERROR("invblid CEN hebder (bbd compression method)");
         if (cp + CENHDR + nlen > cenend)
-            ZIP_FORMAT_ERROR("invalid CEN header (bad header size)");
+            ZIP_FORMAT_ERROR("invblid CEN hebder (bbd hebder size)");
 
-        /* if the entry is metadata add it to our metadata names */
-        if (isMetaName((char *)cp+CENHDR, nlen))
-            if (addMetaName(zip, (char *)cp+CENHDR, nlen) != 0)
-                goto Catch;
+        /* if the entry is metbdbtb bdd it to our metbdbtb nbmes */
+        if (isMetbNbme((chbr *)cp+CENHDR, nlen))
+            if (bddMetbNbme(zip, (chbr *)cp+CENHDR, nlen) != 0)
+                goto Cbtch;
 
-        /* Record the CEN offset and the name hash in our hash cell. */
+        /* Record the CEN offset bnd the nbme hbsh in our hbsh cell. */
         entries[i].cenpos = cenpos + (cp - cenbuf);
-        entries[i].hash = hashN((char *)cp+CENHDR, nlen);
+        entries[i].hbsh = hbshN((chbr *)cp+CENHDR, nlen);
 
-        /* Add the entry to the hash table */
-        hsh = entries[i].hash % tablelen;
-        entries[i].next = table[hsh];
-        table[hsh] = i;
+        /* Add the entry to the hbsh tbble */
+        hsh = entries[i].hbsh % tbblelen;
+        entries[i].next = tbble[hsh];
+        tbble[hsh] = i;
     }
     if (cp != cenend)
-        ZIP_FORMAT_ERROR("invalid CEN header (bad header size)");
+        ZIP_FORMAT_ERROR("invblid CEN hebder (bbd hebder size)");
 
-    zip->total = i;
-    goto Finally;
+    zip->totbl = i;
+    goto Finblly;
 
- Catch:
+ Cbtch:
     freeCEN(zip);
     cenpos = -1;
 
- Finally:
+ Finblly:
 #ifdef USE_MMAP
-    if (!zip->usemmap)
+    if (!zip->usemmbp)
 #endif
         free(cenbuf);
 
@@ -726,69 +726,69 @@ readCEN(jzfile *zip, jint knownTotal)
 }
 
 /*
- * Opens a zip file with the specified mode. Returns the jzfile object
- * or NULL if an error occurred. If a zip error occurred then *pmsg will
- * be set to the error message text if pmsg != 0. Otherwise, *pmsg will be
- * set to NULL. Caller is responsible to free the error message.
+ * Opens b zip file with the specified mode. Returns the jzfile object
+ * or NULL if bn error occurred. If b zip error occurred then *pmsg will
+ * be set to the error messbge text if pmsg != 0. Otherwise, *pmsg will be
+ * set to NULL. Cbller is responsible to free the error messbge.
  */
 jzfile *
-ZIP_Open_Generic(const char *name, char **pmsg, int mode, jlong lastModified)
+ZIP_Open_Generic(const chbr *nbme, chbr **pmsg, int mode, jlong lbstModified)
 {
     jzfile *zip = NULL;
 
-    /* Clear zip error message */
+    /* Clebr zip error messbge */
     if (pmsg != 0) {
         *pmsg = NULL;
     }
 
-    zip = ZIP_Get_From_Cache(name, pmsg, lastModified);
+    zip = ZIP_Get_From_Cbche(nbme, pmsg, lbstModified);
 
     if (zip == NULL && *pmsg == NULL) {
-        ZFILE zfd = ZFILE_Open(name, mode);
-        zip = ZIP_Put_In_Cache(name, zfd, pmsg, lastModified);
+        ZFILE zfd = ZFILE_Open(nbme, mode);
+        zip = ZIP_Put_In_Cbche(nbme, zfd, pmsg, lbstModified);
     }
     return zip;
 }
 
 /*
- * Returns the jzfile corresponding to the given file name from the cache of
- * zip files, or NULL if the file is not in the cache.  If the name is longer
- * than PATH_MAX or a zip error occurred then *pmsg will be set to the error
- * message text if pmsg != 0. Otherwise, *pmsg will be set to NULL. Caller
- * is responsible to free the error message.
+ * Returns the jzfile corresponding to the given file nbme from the cbche of
+ * zip files, or NULL if the file is not in the cbche.  If the nbme is longer
+ * thbn PATH_MAX or b zip error occurred then *pmsg will be set to the error
+ * messbge text if pmsg != 0. Otherwise, *pmsg will be set to NULL. Cbller
+ * is responsible to free the error messbge.
  */
 jzfile *
-ZIP_Get_From_Cache(const char *name, char **pmsg, jlong lastModified)
+ZIP_Get_From_Cbche(const chbr *nbme, chbr **pmsg, jlong lbstModified)
 {
-    char buf[PATH_MAX];
+    chbr buf[PATH_MAX];
     jzfile *zip;
 
-    if (InitializeZip()) {
+    if (InitiblizeZip()) {
         return NULL;
     }
 
-    /* Clear zip error message */
+    /* Clebr zip error messbge */
     if (pmsg != 0) {
         *pmsg = NULL;
     }
 
-    if (strlen(name) >= PATH_MAX) {
+    if (strlen(nbme) >= PATH_MAX) {
         if (pmsg) {
-            *pmsg = strdup("zip file name too long");
+            *pmsg = strdup("zip file nbme too long");
         }
         return NULL;
     }
-    strcpy(buf, name);
-    JVM_NativePath(buf);
-    name = buf;
+    strcpy(buf, nbme);
+    JVM_NbtivePbth(buf);
+    nbme = buf;
 
     MLOCK(zfiles_lock);
     for (zip = zfiles; zip != NULL; zip = zip->next) {
-        if (strcmp(name, zip->name) == 0
-            && (zip->lastModified == lastModified || zip->lastModified == 0)
+        if (strcmp(nbme, zip->nbme) == 0
+            && (zip->lbstModified == lbstModified || zip->lbstModified == 0)
             && zip->refs < MAXREFS) {
             zip->refs++;
-            break;
+            brebk;
         }
     }
     MUNLOCK(zfiles_lock);
@@ -796,46 +796,46 @@ ZIP_Get_From_Cache(const char *name, char **pmsg, jlong lastModified)
 }
 
 /*
- * Reads data from the given file descriptor to create a jzfile, puts the
- * jzfile in a cache, and returns that jzfile.  Returns NULL in case of error.
- * If a zip error occurs, then *pmsg will be set to the error message text if
- * pmsg != 0. Otherwise, *pmsg will be set to NULL. Caller is responsible to
- * free the error message.
+ * Rebds dbtb from the given file descriptor to crebte b jzfile, puts the
+ * jzfile in b cbche, bnd returns thbt jzfile.  Returns NULL in cbse of error.
+ * If b zip error occurs, then *pmsg will be set to the error messbge text if
+ * pmsg != 0. Otherwise, *pmsg will be set to NULL. Cbller is responsible to
+ * free the error messbge.
  */
 
 jzfile *
-ZIP_Put_In_Cache(const char *name, ZFILE zfd, char **pmsg, jlong lastModified)
+ZIP_Put_In_Cbche(const chbr *nbme, ZFILE zfd, chbr **pmsg, jlong lbstModified)
 {
-    return ZIP_Put_In_Cache0(name, zfd, pmsg, lastModified, JNI_TRUE);
+    return ZIP_Put_In_Cbche0(nbme, zfd, pmsg, lbstModified, JNI_TRUE);
 }
 
 jzfile *
-ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,
-                 jboolean usemmap)
+ZIP_Put_In_Cbche0(const chbr *nbme, ZFILE zfd, chbr **pmsg, jlong lbstModified,
+                 jboolebn usemmbp)
 {
-    char errbuf[256];
+    chbr errbuf[256];
     jlong len;
     jzfile *zip;
 
-    if ((zip = allocZip(name)) == NULL) {
+    if ((zip = bllocZip(nbme)) == NULL) {
         return NULL;
     }
 
 #ifdef USE_MMAP
-    zip->usemmap = usemmap;
+    zip->usemmbp = usemmbp;
 #endif
     zip->refs = 1;
-    zip->lastModified = lastModified;
+    zip->lbstModified = lbstModified;
 
     if (zfd == -1) {
-        if (pmsg && JVM_GetLastErrorString(errbuf, sizeof(errbuf)) > 0)
+        if (pmsg && JVM_GetLbstErrorString(errbuf, sizeof(errbuf)) > 0)
             *pmsg = strdup(errbuf);
         freeZip(zip);
         return NULL;
     }
 
-    // Assumption, zfd refers to start of file. Trivially, reuse errbuf.
-    if (readFully(zfd, errbuf, 4) != -1) {  // errors will be handled later
+    // Assumption, zfd refers to stbrt of file. Triviblly, reuse errbuf.
+    if (rebdFully(zfd, errbuf, 4) != -1) {  // errors will be hbndled lbter
         if (GETSIG(errbuf) == LOCSIG)
             zip->locsig = JNI_TRUE;
         else
@@ -849,7 +849,7 @@ ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,
                 *pmsg = strdup("zip file is empty");
             }
         } else { /* error */
-            if (pmsg && JVM_GetLastErrorString(errbuf, sizeof(errbuf)) > 0)
+            if (pmsg && JVM_GetLbstErrorString(errbuf, sizeof(errbuf)) > 0)
                 *pmsg = strdup(errbuf);
         }
         ZFILE_Close(zfd);
@@ -858,10 +858,10 @@ ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,
     }
 
     zip->zfd = zfd;
-    if (readCEN(zip, -1) < 0) {
-        /* An error occurred while trying to read the zip file */
+    if (rebdCEN(zip, -1) < 0) {
+        /* An error occurred while trying to rebd the zip file */
         if (pmsg != 0) {
-            /* Set the zip error message */
+            /* Set the zip error messbge */
             if (zip->msg != NULL)
                 *pmsg = strdup(zip->msg);
         }
@@ -877,15 +877,15 @@ ZIP_Put_In_Cache0(const char *name, ZFILE zfd, char **pmsg, jlong lastModified,
 }
 
 /*
- * Opens a zip file for reading. Returns the jzfile object or NULL
- * if an error occurred. If a zip error occurred then *msg will be
- * set to the error message text if msg != 0. Otherwise, *msg will be
- * set to NULL. Caller doesn't need to free the error message.
+ * Opens b zip file for rebding. Returns the jzfile object or NULL
+ * if bn error occurred. If b zip error occurred then *msg will be
+ * set to the error messbge text if msg != 0. Otherwise, *msg will be
+ * set to NULL. Cbller doesn't need to free the error messbge.
  */
 jzfile * JNICALL
-ZIP_Open(const char *name, char **pmsg)
+ZIP_Open(const chbr *nbme, chbr **pmsg)
 {
-    jzfile *file = ZIP_Open_Generic(name, pmsg, O_RDONLY, 0);
+    jzfile *file = ZIP_Open_Generic(nbme, pmsg, O_RDONLY, 0);
     if (file == NULL && pmsg != NULL && *pmsg != NULL) {
         free(*pmsg);
         *pmsg = "Zip file open error";
@@ -905,7 +905,7 @@ ZIP_Close(jzfile *zip)
         MUNLOCK(zfiles_lock);
         return;
     }
-    /* No other references so close the file and remove from list */
+    /* No other references so close the file bnd remove from list */
     if (zfiles == zip) {
         zfiles = zfiles->next;
     } else {
@@ -913,7 +913,7 @@ ZIP_Close(jzfile *zip)
         for (zp = zfiles; zp->next != 0; zp = zp->next) {
             if (zp->next == zip) {
                 zp->next = zip->next;
-                break;
+                brebk;
             }
         }
     }
@@ -922,89 +922,89 @@ ZIP_Close(jzfile *zip)
     return;
 }
 
-/* Empirically, most CEN headers are smaller than this. */
+/* Empiricblly, most CEN hebders bre smbller thbn this. */
 #define AMPLE_CEN_HEADER_SIZE 160
 
-/* A good buffer size when we want to read CEN headers sequentially. */
+/* A good buffer size when we wbnt to rebd CEN hebders sequentiblly. */
 #define CENCACHE_PAGESIZE 8192
 
-static char *
-readCENHeader(jzfile *zip, jlong cenpos, jint bufsize)
+stbtic chbr *
+rebdCENHebder(jzfile *zip, jlong cenpos, jint bufsize)
 {
     jint censize;
     ZFILE zfd = zip->zfd;
-    char *cen;
+    chbr *cen;
     if (bufsize > zip->len - cenpos)
         bufsize = (jint)(zip->len - cenpos);
-    if ((cen = malloc(bufsize)) == NULL)       goto Catch;
-    if (readFullyAt(zfd, cen, bufsize, cenpos) == -1)     goto Catch;
+    if ((cen = mblloc(bufsize)) == NULL)       goto Cbtch;
+    if (rebdFullyAt(zfd, cen, bufsize, cenpos) == -1)     goto Cbtch;
     censize = CENSIZE(cen);
     if (censize <= bufsize) return cen;
-    if ((cen = realloc(cen, censize)) == NULL)              goto Catch;
-    if (readFully(zfd, cen+bufsize, censize-bufsize) == -1) goto Catch;
+    if ((cen = reblloc(cen, censize)) == NULL)              goto Cbtch;
+    if (rebdFully(zfd, cen+bufsize, censize-bufsize) == -1) goto Cbtch;
     return cen;
 
- Catch:
+ Cbtch:
     free(cen);
     return NULL;
 }
 
-static char *
-sequentialAccessReadCENHeader(jzfile *zip, jlong cenpos)
+stbtic chbr *
+sequentiblAccessRebdCENHebder(jzfile *zip, jlong cenpos)
 {
-    cencache *cache = &zip->cencache;
-    char *cen;
-    if (cache->data != NULL
-        && (cenpos >= cache->pos)
-        && (cenpos + CENHDR <= cache->pos + CENCACHE_PAGESIZE))
+    cencbche *cbche = &zip->cencbche;
+    chbr *cen;
+    if (cbche->dbtb != NULL
+        && (cenpos >= cbche->pos)
+        && (cenpos + CENHDR <= cbche->pos + CENCACHE_PAGESIZE))
     {
-        cen = cache->data + cenpos - cache->pos;
-        if (cenpos + CENSIZE(cen) <= cache->pos + CENCACHE_PAGESIZE)
-            /* A cache hit */
+        cen = cbche->dbtb + cenpos - cbche->pos;
+        if (cenpos + CENSIZE(cen) <= cbche->pos + CENCACHE_PAGESIZE)
+            /* A cbche hit */
             return cen;
     }
 
-    if ((cen = readCENHeader(zip, cenpos, CENCACHE_PAGESIZE)) == NULL)
+    if ((cen = rebdCENHebder(zip, cenpos, CENCACHE_PAGESIZE)) == NULL)
         return NULL;
-    free(cache->data);
-    cache->data = cen;
-    cache->pos  = cenpos;
+    free(cbche->dbtb);
+    cbche->dbtb = cen;
+    cbche->pos  = cenpos;
     return cen;
 }
 
 typedef enum { ACCESS_RANDOM, ACCESS_SEQUENTIAL } AccessHint;
 
 /*
- * Return a new initialized jzentry corresponding to a given hash cell.
- * In case of error, returns NULL.
- * We already sanity-checked all the CEN headers for ZIP format errors
- * in readCEN(), so we don't check them again here.
+ * Return b new initiblized jzentry corresponding to b given hbsh cell.
+ * In cbse of error, returns NULL.
+ * We blrebdy sbnity-checked bll the CEN hebders for ZIP formbt errors
+ * in rebdCEN(), so we don't check them bgbin here.
  * The ZIP lock should be held here.
  */
-static jzentry *
-newEntry(jzfile *zip, jzcell *zc, AccessHint accessHint)
+stbtic jzentry *
+newEntry(jzfile *zip, jzcell *zc, AccessHint bccessHint)
 {
     jlong locoff;
     jint nlen, elen, clen;
     jzentry *ze;
-    char *cen;
+    chbr *cen;
 
-    if ((ze = (jzentry *) malloc(sizeof(jzentry))) == NULL) return NULL;
-    ze->name    = NULL;
-    ze->extra   = NULL;
+    if ((ze = (jzentry *) mblloc(sizeof(jzentry))) == NULL) return NULL;
+    ze->nbme    = NULL;
+    ze->extrb   = NULL;
     ze->comment = NULL;
 
 #ifdef USE_MMAP
-    if (zip->usemmap) {
-        cen = (char*) zip->maddr + zc->cenpos - zip->offset;
+    if (zip->usemmbp) {
+        cen = (chbr*) zip->mbddr + zc->cenpos - zip->offset;
     } else
 #endif
     {
-        if (accessHint == ACCESS_RANDOM)
-            cen = readCENHeader(zip, zc->cenpos, AMPLE_CEN_HEADER_SIZE);
+        if (bccessHint == ACCESS_RANDOM)
+            cen = rebdCENHebder(zip, zc->cenpos, AMPLE_CEN_HEADER_SIZE);
         else
-            cen = sequentialAccessReadCENHeader(zip, zc->cenpos);
-        if (cen == NULL) goto Catch;
+            cen = sequentiblAccessRebdCENHebder(zip, zc->cenpos);
+        if (cen == NULL) goto Cbtch;
     }
 
     nlen      = CENNAM(cen);
@@ -1016,49 +1016,49 @@ newEntry(jzfile *zip, jzcell *zc, AccessHint accessHint)
     ze->crc   = CENCRC(cen);
     locoff    = CENOFF(cen);
     ze->pos   = -(zip->locpos + locoff);
-    ze->flag  = CENFLG(cen);
+    ze->flbg  = CENFLG(cen);
 
-    if ((ze->name = malloc(nlen + 1)) == NULL) goto Catch;
-    memcpy(ze->name, cen + CENHDR, nlen);
-    ze->name[nlen] = '\0';
+    if ((ze->nbme = mblloc(nlen + 1)) == NULL) goto Cbtch;
+    memcpy(ze->nbme, cen + CENHDR, nlen);
+    ze->nbme[nlen] = '\0';
     if (elen > 0) {
-        char *extra = cen + CENHDR + nlen;
+        chbr *extrb = cen + CENHDR + nlen;
 
-        /* This entry has "extra" data */
-        if ((ze->extra = malloc(elen + 2)) == NULL) goto Catch;
-        ze->extra[0] = (unsigned char) elen;
-        ze->extra[1] = (unsigned char) (elen >> 8);
-        memcpy(ze->extra+2, extra, elen);
+        /* This entry hbs "extrb" dbtb */
+        if ((ze->extrb = mblloc(elen + 2)) == NULL) goto Cbtch;
+        ze->extrb[0] = (unsigned chbr) elen;
+        ze->extrb[1] = (unsigned chbr) (elen >> 8);
+        memcpy(ze->extrb+2, extrb, elen);
         if (ze->csize == ZIP64_MAGICVAL || ze->size == ZIP64_MAGICVAL ||
             locoff == ZIP64_MAGICVAL) {
             jint off = 0;
-            while ((off + 4) < elen) {    // spec: HeaderID+DataSize+Data
-                jint sz = SH(extra, off + 2);
-                if (SH(extra, off) == ZIP64_EXTID) {
+            while ((off + 4) < elen) {    // spec: HebderID+DbtbSize+Dbtb
+                jint sz = SH(extrb, off + 2);
+                if (SH(extrb, off) == ZIP64_EXTID) {
                     off += 4;
                     if (ze->size == ZIP64_MAGICVAL) {
-                        // if invalid zip64 extra fields, just skip
+                        // if invblid zip64 extrb fields, just skip
                         if (sz < 8 || (off + 8) > elen)
-                            break;
-                        ze->size = LL(extra, off);
+                            brebk;
+                        ze->size = LL(extrb, off);
                         sz -= 8;
                         off += 8;
                     }
                     if (ze->csize == ZIP64_MAGICVAL) {
                         if (sz < 8 || (off + 8) > elen)
-                            break;
-                        ze->csize = LL(extra, off);
+                            brebk;
+                        ze->csize = LL(extrb, off);
                         sz -= 8;
                         off += 8;
                     }
                     if (locoff == ZIP64_MAGICVAL) {
                         if (sz < 8 || (off + 8) > elen)
-                            break;
-                        ze->pos = -(zip->locpos +  LL(extra, off));
+                            brebk;
+                        ze->pos = -(zip->locpos +  LL(extrb, off));
                         sz -= 8;
                         off += 8;
                     }
-                    break;
+                    brebk;
                 }
                 off += (sz + 4);
             }
@@ -1066,110 +1066,110 @@ newEntry(jzfile *zip, jzcell *zc, AccessHint accessHint)
     }
 
     if (clen > 0) {
-        /* This entry has a comment */
-        if ((ze->comment = malloc(clen + 1)) == NULL) goto Catch;
+        /* This entry hbs b comment */
+        if ((ze->comment = mblloc(clen + 1)) == NULL) goto Cbtch;
         memcpy(ze->comment, cen + CENHDR + nlen + elen, clen);
         ze->comment[clen] = '\0';
     }
-    goto Finally;
+    goto Finblly;
 
- Catch:
-    free(ze->name);
-    free(ze->extra);
+ Cbtch:
+    free(ze->nbme);
+    free(ze->extrb);
     free(ze->comment);
     free(ze);
     ze = NULL;
 
- Finally:
+ Finblly:
 #ifdef USE_MMAP
-    if (!zip->usemmap)
+    if (!zip->usemmbp)
 #endif
-        if (cen != NULL && accessHint == ACCESS_RANDOM) free(cen);
+        if (cen != NULL && bccessHint == ACCESS_RANDOM) free(cen);
     return ze;
 }
 
 /*
  * Free the given jzentry.
- * In fact we maintain a one-entry cache of the most recently used
- * jzentry for each zip.  This optimizes a common access pattern.
+ * In fbct we mbintbin b one-entry cbche of the most recently used
+ * jzentry for ebch zip.  This optimizes b common bccess pbttern.
  */
 
 void
 ZIP_FreeEntry(jzfile *jz, jzentry *ze)
 {
-    jzentry *last;
+    jzentry *lbst;
     ZIP_Lock(jz);
-    last = jz->cache;
-    jz->cache = ze;
+    lbst = jz->cbche;
+    jz->cbche = ze;
     ZIP_Unlock(jz);
-    if (last != NULL) {
-        /* Free the previously cached jzentry */
-        free(last->name);
-        if (last->extra)   free(last->extra);
-        if (last->comment) free(last->comment);
-        free(last);
+    if (lbst != NULL) {
+        /* Free the previously cbched jzentry */
+        free(lbst->nbme);
+        if (lbst->extrb)   free(lbst->extrb);
+        if (lbst->comment) free(lbst->comment);
+        free(lbst);
     }
 }
 
 /*
- * Returns the zip entry corresponding to the specified name, or
+ * Returns the zip entry corresponding to the specified nbme, or
  * NULL if not found.
  */
 jzentry *
-ZIP_GetEntry(jzfile *zip, char *name, jint ulen)
+ZIP_GetEntry(jzfile *zip, chbr *nbme, jint ulen)
 {
-    unsigned int hsh = hash(name);
+    unsigned int hsh = hbsh(nbme);
     jint idx;
     jzentry *ze = 0;
 
     ZIP_Lock(zip);
-    if (zip->total == 0) {
-        goto Finally;
+    if (zip->totbl == 0) {
+        goto Finblly;
     }
 
-    idx = zip->table[hsh % zip->tablelen];
+    idx = zip->tbble[hsh % zip->tbblelen];
 
     /*
-     * This while loop is an optimization where a double lookup
-     * for name and name+/ is being performed. The name char
-     * array has enough room at the end to try again with a
-     * slash appended if the first table lookup does not succeed.
+     * This while loop is bn optimizbtion where b double lookup
+     * for nbme bnd nbme+/ is being performed. The nbme chbr
+     * brrby hbs enough room bt the end to try bgbin with b
+     * slbsh bppended if the first tbble lookup does not succeed.
      */
     while(1) {
 
-        /* Check the cached entry first */
-        ze = zip->cache;
-        if (ze && strcmp(ze->name,name) == 0) {
-            /* Cache hit!  Remove and return the cached entry. */
-            zip->cache = 0;
+        /* Check the cbched entry first */
+        ze = zip->cbche;
+        if (ze && strcmp(ze->nbme,nbme) == 0) {
+            /* Cbche hit!  Remove bnd return the cbched entry. */
+            zip->cbche = 0;
             ZIP_Unlock(zip);
             return ze;
         }
         ze = 0;
 
         /*
-         * Search down the target hash chain for a cell whose
-         * 32 bit hash matches the hashed name.
+         * Sebrch down the tbrget hbsh chbin for b cell whose
+         * 32 bit hbsh mbtches the hbshed nbme.
          */
         while (idx != ZIP_ENDCHAIN) {
             jzcell *zc = &zip->entries[idx];
 
-            if (zc->hash == hsh) {
+            if (zc->hbsh == hsh) {
                 /*
-                 * OK, we've found a ZIP entry whose 32 bit hashcode
-                 * matches the name we're looking for.  Try to read
-                 * its entry information from the CEN.  If the CEN
-                 * name matches the name we're looking for, we're
+                 * OK, we've found b ZIP entry whose 32 bit hbshcode
+                 * mbtches the nbme we're looking for.  Try to rebd
+                 * its entry informbtion from the CEN.  If the CEN
+                 * nbme mbtches the nbme we're looking for, we're
                  * done.
-                 * If the names don't match (which should be very rare)
-                 * we keep searching.
+                 * If the nbmes don't mbtch (which should be very rbre)
+                 * we keep sebrching.
                  */
                 ze = newEntry(zip, zc, ACCESS_RANDOM);
-                if (ze && strcmp(ze->name, name)==0) {
-                    break;
+                if (ze && strcmp(ze->nbme, nbme)==0) {
+                    brebk;
                 }
                 if (ze != 0) {
-                    /* We need to release the lock across the free call */
+                    /* We need to relebse the lock bcross the free cbll */
                     ZIP_Unlock(zip);
                     ZIP_FreeEntry(zip, ze);
                     ZIP_Lock(zip);
@@ -1181,41 +1181,41 @@ ZIP_GetEntry(jzfile *zip, char *name, jint ulen)
 
         /* Entry found, return it */
         if (ze != 0) {
-            break;
+            brebk;
         }
 
-        /* If no real length was passed in, we are done */
+        /* If no rebl length wbs pbssed in, we bre done */
         if (ulen == 0) {
-            break;
+            brebk;
         }
 
-        /* Slash is already there? */
-        if (name[ulen-1] == '/') {
-            break;
+        /* Slbsh is blrebdy there? */
+        if (nbme[ulen-1] == '/') {
+            brebk;
         }
 
-        /* Add slash and try once more */
-        name[ulen] = '/';
-        name[ulen+1] = '\0';
-        hsh = hash_append(hsh, '/');
-        idx = zip->table[hsh % zip->tablelen];
+        /* Add slbsh bnd try once more */
+        nbme[ulen] = '/';
+        nbme[ulen+1] = '\0';
+        hsh = hbsh_bppend(hsh, '/');
+        idx = zip->tbble[hsh % zip->tbblelen];
         ulen = 0;
     }
 
-Finally:
+Finblly:
     ZIP_Unlock(zip);
     return ze;
 }
 
 /*
- * Returns the n'th (starting at zero) zip file entry, or NULL if the
- * specified index was out of range.
+ * Returns the n'th (stbrting bt zero) zip file entry, or NULL if the
+ * specified index wbs out of rbnge.
  */
 jzentry * JNICALL
 ZIP_GetNextEntry(jzfile *zip, jint n)
 {
     jzentry *result;
-    if (n < 0 || n >= zip->total) {
+    if (n < 0 || n >= zip->totbl) {
         return 0;
     }
     ZIP_Lock(zip);
@@ -1225,7 +1225,7 @@ ZIP_GetNextEntry(jzfile *zip, jint n)
 }
 
 /*
- * Locks the specified zip file for reading.
+ * Locks the specified zip file for rebding.
  */
 void
 ZIP_Lock(jzfile *zip)
@@ -1243,30 +1243,30 @@ ZIP_Unlock(jzfile *zip)
 }
 
 /*
- * Returns the offset of the entry data within the zip file.
- * Returns -1 if an error occurred, in which case zip->msg will
- * contain the error text.
+ * Returns the offset of the entry dbtb within the zip file.
+ * Returns -1 if bn error occurred, in which cbse zip->msg will
+ * contbin the error text.
  */
 jlong
-ZIP_GetEntryDataOffset(jzfile *zip, jzentry *entry)
+ZIP_GetEntryDbtbOffset(jzfile *zip, jzentry *entry)
 {
-    /* The Zip file spec explicitly allows the LOC extra data size to
-     * be different from the CEN extra data size, although the JDK
-     * never creates such zip files.  Since we cannot trust the CEN
-     * extra data size, we need to read the LOC to determine the entry
-     * data offset.  We do this lazily to avoid touching the virtual
-     * memory page containing the LOC when initializing jzentry
-     * objects.  (This speeds up javac by a factor of 10 when the JDK
-     * is installed on a very slow filesystem.)
+    /* The Zip file spec explicitly bllows the LOC extrb dbtb size to
+     * be different from the CEN extrb dbtb size, blthough the JDK
+     * never crebtes such zip files.  Since we cbnnot trust the CEN
+     * extrb dbtb size, we need to rebd the LOC to determine the entry
+     * dbtb offset.  We do this lbzily to bvoid touching the virtubl
+     * memory pbge contbining the LOC when initiblizing jzentry
+     * objects.  (This speeds up jbvbc by b fbctor of 10 when the JDK
+     * is instblled on b very slow filesystem.)
      */
     if (entry->pos <= 0) {
-        unsigned char loc[LOCHDR];
-        if (readFullyAt(zip->zfd, loc, LOCHDR, -(entry->pos)) == -1) {
-            zip->msg = "error reading zip file";
+        unsigned chbr loc[LOCHDR];
+        if (rebdFullyAt(zip->zfd, loc, LOCHDR, -(entry->pos)) == -1) {
+            zip->msg = "error rebding zip file";
             return -1;
         }
         if (GETSIG(loc) != LOCSIG) {
-            zip->msg = "invalid LOC header (bad signature)";
+            zip->msg = "invblid LOC hebder (bbd signbture)";
             return -1;
         }
         entry->pos = (- entry->pos) + LOCHDR + LOCNAM(loc) + LOCEXT(loc);
@@ -1275,26 +1275,26 @@ ZIP_GetEntryDataOffset(jzfile *zip, jzentry *entry)
 }
 
 /*
- * Reads bytes from the specified zip entry. Assumes that the zip
- * file had been previously locked with ZIP_Lock(). Returns the
- * number of bytes read, or -1 if an error occurred. If zip->msg != 0
- * then a zip error occurred and zip->msg contains the error text.
+ * Rebds bytes from the specified zip entry. Assumes thbt the zip
+ * file hbd been previously locked with ZIP_Lock(). Returns the
+ * number of bytes rebd, or -1 if bn error occurred. If zip->msg != 0
+ * then b zip error occurred bnd zip->msg contbins the error text.
  *
- * The current implementation does not support reading an entry that
- * has the size bigger than 2**32 bytes in ONE invocation.
+ * The current implementbtion does not support rebding bn entry thbt
+ * hbs the size bigger thbn 2**32 bytes in ONE invocbtion.
  */
 jint
-ZIP_Read(jzfile *zip, jzentry *entry, jlong pos, void *buf, jint len)
+ZIP_Rebd(jzfile *zip, jzentry *entry, jlong pos, void *buf, jint len)
 {
     jlong entry_size = (entry->csize != 0) ? entry->csize : entry->size;
-    jlong start;
+    jlong stbrt;
 
-    /* Clear previous zip error */
+    /* Clebr previous zip error */
     zip->msg = NULL;
 
     /* Check specified position */
     if (pos < 0 || pos > entry_size - 1) {
-        zip->msg = "ZIP_Read: specified offset out of range";
+        zip->msg = "ZIP_Rebd: specified offset out of rbnge";
         return -1;
     }
 
@@ -1304,125 +1304,125 @@ ZIP_Read(jzfile *zip, jzentry *entry, jlong pos, void *buf, jint len)
     if (len > entry_size - pos)
         len = (jint)(entry_size - pos);
 
-    /* Get file offset to start reading data */
-    start = ZIP_GetEntryDataOffset(zip, entry);
-    if (start < 0)
+    /* Get file offset to stbrt rebding dbtb */
+    stbrt = ZIP_GetEntryDbtbOffset(zip, entry);
+    if (stbrt < 0)
         return -1;
-    start += pos;
+    stbrt += pos;
 
-    if (start + len > zip->len) {
-        zip->msg = "ZIP_Read: corrupt zip file: invalid entry size";
+    if (stbrt + len > zip->len) {
+        zip->msg = "ZIP_Rebd: corrupt zip file: invblid entry size";
         return -1;
     }
 
-    if (readFullyAt(zip->zfd, buf, len, start) == -1) {
-        zip->msg = "ZIP_Read: error reading zip file";
+    if (rebdFullyAt(zip->zfd, buf, len, stbrt) == -1) {
+        zip->msg = "ZIP_Rebd: error rebding zip file";
         return -1;
     }
     return len;
 }
 
 
-/* The maximum size of a stack-allocated buffer.
+/* The mbximum size of b stbck-bllocbted buffer.
  */
 #define BUF_SIZE 4096
 
 /*
- * This function is used by the runtime system to load compressed entries
- * from ZIP/JAR files specified in the class path. It is defined here
- * so that it can be dynamically loaded by the runtime if the zip library
+ * This function is used by the runtime system to lobd compressed entries
+ * from ZIP/JAR files specified in the clbss pbth. It is defined here
+ * so thbt it cbn be dynbmicblly lobded by the runtime if the zip librbry
  * is found.
  *
- * The current implementation does not support reading an entry that
- * has the size bigger than 2**32 bytes in ONE invocation.
+ * The current implementbtion does not support rebding bn entry thbt
+ * hbs the size bigger thbn 2**32 bytes in ONE invocbtion.
  */
-jboolean
-InflateFully(jzfile *zip, jzentry *entry, void *buf, char **msg)
+jboolebn
+InflbteFully(jzfile *zip, jzentry *entry, void *buf, chbr **msg)
 {
-    z_stream strm;
-    char tmp[BUF_SIZE];
+    z_strebm strm;
+    chbr tmp[BUF_SIZE];
     jlong pos = 0;
     jlong count = entry->csize;
 
-    *msg = 0; /* Reset error message */
+    *msg = 0; /* Reset error messbge */
 
     if (count == 0) {
-        *msg = "inflateFully: entry not compressed";
+        *msg = "inflbteFully: entry not compressed";
         return JNI_FALSE;
     }
 
-    memset(&strm, 0, sizeof(z_stream));
-    if (inflateInit2(&strm, -MAX_WBITS) != Z_OK) {
+    memset(&strm, 0, sizeof(z_strebm));
+    if (inflbteInit2(&strm, -MAX_WBITS) != Z_OK) {
         *msg = strm.msg;
         return JNI_FALSE;
     }
 
     strm.next_out = buf;
-    strm.avail_out = (uInt)entry->size;
+    strm.bvbil_out = (uInt)entry->size;
 
     while (count > 0) {
         jint n = count > (jlong)sizeof(tmp) ? (jint)sizeof(tmp) : (jint)count;
         ZIP_Lock(zip);
-        n = ZIP_Read(zip, entry, pos, tmp, n);
+        n = ZIP_Rebd(zip, entry, pos, tmp, n);
         ZIP_Unlock(zip);
         if (n <= 0) {
             if (n == 0) {
-                *msg = "inflateFully: Unexpected end of file";
+                *msg = "inflbteFully: Unexpected end of file";
             }
-            inflateEnd(&strm);
+            inflbteEnd(&strm);
             return JNI_FALSE;
         }
         pos += n;
         count -= n;
         strm.next_in = (Bytef *)tmp;
-        strm.avail_in = n;
+        strm.bvbil_in = n;
         do {
-            switch (inflate(&strm, Z_PARTIAL_FLUSH)) {
-            case Z_OK:
-                break;
-            case Z_STREAM_END:
-                if (count != 0 || strm.total_out != entry->size) {
-                    *msg = "inflateFully: Unexpected end of stream";
-                    inflateEnd(&strm);
+            switch (inflbte(&strm, Z_PARTIAL_FLUSH)) {
+            cbse Z_OK:
+                brebk;
+            cbse Z_STREAM_END:
+                if (count != 0 || strm.totbl_out != entry->size) {
+                    *msg = "inflbteFully: Unexpected end of strebm";
+                    inflbteEnd(&strm);
                     return JNI_FALSE;
                 }
-                break;
-            default:
-                break;
+                brebk;
+            defbult:
+                brebk;
             }
-        } while (strm.avail_in > 0);
+        } while (strm.bvbil_in > 0);
     }
-    inflateEnd(&strm);
+    inflbteEnd(&strm);
     return JNI_TRUE;
 }
 
 /*
- * The current implementation does not support reading an entry that
- * has the size bigger than 2**32 bytes in ONE invocation.
+ * The current implementbtion does not support rebding bn entry thbt
+ * hbs the size bigger thbn 2**32 bytes in ONE invocbtion.
  */
 jzentry * JNICALL
-ZIP_FindEntry(jzfile *zip, char *name, jint *sizeP, jint *nameLenP)
+ZIP_FindEntry(jzfile *zip, chbr *nbme, jint *sizeP, jint *nbmeLenP)
 {
-    jzentry *entry = ZIP_GetEntry(zip, name, 0);
+    jzentry *entry = ZIP_GetEntry(zip, nbme, 0);
     if (entry) {
         *sizeP = (jint)entry->size;
-        *nameLenP = strlen(entry->name);
+        *nbmeLenP = strlen(entry->nbme);
     }
     return entry;
 }
 
 /*
- * Reads a zip file entry into the specified byte array
- * When the method completes, it releases the jzentry.
- * Note: this is called from the separately delivered VM (hotspot/classic)
- * so we have to be careful to maintain the expected behaviour.
+ * Rebds b zip file entry into the specified byte brrby
+ * When the method completes, it relebses the jzentry.
+ * Note: this is cblled from the sepbrbtely delivered VM (hotspot/clbssic)
+ * so we hbve to be cbreful to mbintbin the expected behbviour.
  */
-jboolean JNICALL
-ZIP_ReadEntry(jzfile *zip, jzentry *entry, unsigned char *buf, char *entryname)
+jboolebn JNICALL
+ZIP_RebdEntry(jzfile *zip, jzentry *entry, unsigned chbr *buf, chbr *entrynbme)
 {
-    char *msg;
+    chbr *msg;
 
-    strcpy(entryname, entry->name);
+    strcpy(entrynbme, entry->nbme);
     if (entry->csize == 0) {
         /* Entry is stored */
         jlong pos = 0;
@@ -1431,15 +1431,15 @@ ZIP_ReadEntry(jzfile *zip, jzentry *entry, unsigned char *buf, char *entryname)
             jint n;
             jlong limit = ((((jlong) 1) << 31) - 1);
             jint count = (size - pos < limit) ?
-                /* These casts suppress a VC++ Internal Compiler Error */
+                /* These cbsts suppress b VC++ Internbl Compiler Error */
                 (jint) (size - pos) :
                 (jint) limit;
             ZIP_Lock(zip);
-            n = ZIP_Read(zip, entry, pos, buf, count);
+            n = ZIP_Rebd(zip, entry, pos, buf, count);
             msg = zip->msg;
             ZIP_Unlock(zip);
             if (n == -1) {
-                jio_fprintf(stderr, "%s: %s\n", zip->name,
+                jio_fprintf(stderr, "%s: %s\n", zip->nbme,
                             msg != 0 ? msg : strerror(errno));
                 return JNI_FALSE;
             }
@@ -1448,12 +1448,12 @@ ZIP_ReadEntry(jzfile *zip, jzentry *entry, unsigned char *buf, char *entryname)
         }
     } else {
         /* Entry is compressed */
-        int ok = InflateFully(zip, entry, buf, &msg);
+        int ok = InflbteFully(zip, entry, buf, &msg);
         if (!ok) {
             if ((msg == NULL) || (*msg == 0)) {
                 msg = zip->msg;
             }
-            jio_fprintf(stderr, "%s: %s\n", zip->name,
+            jio_fprintf(stderr, "%s: %s\n", zip->nbme,
                         msg != 0 ? msg : strerror(errno));
             return JNI_FALSE;
         }

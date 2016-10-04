@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.spi;
+pbckbge jbvbx.imbgeio.spi;
 
-import java.util.AbstractSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedList;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
 /**
- * A set of <code>Object</code>s with pairwise orderings between them.
- * The <code>iterator</code> method provides the elements in
- * topologically sorted order.  Elements participating in a cycle
- * are not returned.
+ * A set of <code>Object</code>s with pbirwise orderings between them.
+ * The <code>iterbtor</code> method provides the elements in
+ * topologicblly sorted order.  Elements pbrticipbting in b cycle
+ * bre not returned.
  *
- * Unlike the <code>SortedSet</code> and <code>SortedMap</code>
- * interfaces, which require their elements to implement the
- * <code>Comparable</code> interface, this class receives ordering
- * information via its <code>setOrdering</code> and
+ * Unlike the <code>SortedSet</code> bnd <code>SortedMbp</code>
+ * interfbces, which require their elements to implement the
+ * <code>Compbrbble</code> interfbce, this clbss receives ordering
+ * informbtion vib its <code>setOrdering</code> bnd
  * <code>unsetPreference</code> methods.  This difference is due to
- * the fact that the relevant ordering between elements is unlikely to
- * be inherent in the elements themselves; rather, it is set
- * dynamically accoring to application policy.  For example, in a
- * service provider registry situation, an application might allow the
- * user to set a preference order for service provider objects
- * supplied by a trusted vendor over those supplied by another.
+ * the fbct thbt the relevbnt ordering between elements is unlikely to
+ * be inherent in the elements themselves; rbther, it is set
+ * dynbmicblly bccoring to bpplicbtion policy.  For exbmple, in b
+ * service provider registry situbtion, bn bpplicbtion might bllow the
+ * user to set b preference order for service provider objects
+ * supplied by b trusted vendor over those supplied by bnother.
  *
  */
-class PartiallyOrderedSet<E> extends AbstractSet<E> {
+clbss PbrtibllyOrderedSet<E> extends AbstrbctSet<E> {
 
-    // The topological sort (roughly) follows the algorithm described in
-    // Horowitz and Sahni, _Fundamentals of Data Structures_ (1976),
+    // The topologicbl sort (roughly) follows the blgorithm described in
+    // Horowitz bnd Sbhni, _Fundbmentbls of Dbtb Structures_ (1976),
     // p. 315.
 
-    // Maps Objects to DigraphNodes that contain them
-    private Map<E, DigraphNode<E>> poNodes = new HashMap<>();
+    // Mbps Objects to DigrbphNodes thbt contbin them
+    privbte Mbp<E, DigrbphNode<E>> poNodes = new HbshMbp<>();
 
     // The set of Objects
-    private Set<E> nodes = poNodes.keySet();
+    privbte Set<E> nodes = poNodes.keySet();
 
     /**
-     * Constructs a <code>PartiallyOrderedSet</code>.
+     * Constructs b <code>PbrtibllyOrderedSet</code>.
      */
-    public PartiallyOrderedSet() {}
+    public PbrtibllyOrderedSet() {}
 
     public int size() {
         return nodes.size();
     }
 
-    public boolean contains(Object o) {
-        return nodes.contains(o);
+    public boolebn contbins(Object o) {
+        return nodes.contbins(o);
     }
 
     /**
-     * Returns an iterator over the elements contained in this
-     * collection, with an ordering that respects the orderings set
+     * Returns bn iterbtor over the elements contbined in this
+     * collection, with bn ordering thbt respects the orderings set
      * by the <code>setOrdering</code> method.
      */
-    public Iterator<E> iterator() {
-        return new PartialOrderIterator<>(poNodes.values().iterator());
+    public Iterbtor<E> iterbtor() {
+        return new PbrtiblOrderIterbtor<>(poNodes.vblues().iterbtor());
     }
 
     /**
-     * Adds an <code>Object</code> to this
-     * <code>PartiallyOrderedSet</code>.
+     * Adds bn <code>Object</code> to this
+     * <code>PbrtibllyOrderedSet</code>.
      */
-    public boolean add(E o) {
-        if (nodes.contains(o)) {
-            return false;
+    public boolebn bdd(E o) {
+        if (nodes.contbins(o)) {
+            return fblse;
         }
 
-        DigraphNode<E> node = new DigraphNode<>(o);
+        DigrbphNode<E> node = new DigrbphNode<>(o);
         poNodes.put(o, node);
         return true;
     }
 
     /**
-     * Removes an <code>Object</code> from this
-     * <code>PartiallyOrderedSet</code>.
+     * Removes bn <code>Object</code> from this
+     * <code>PbrtibllyOrderedSet</code>.
      */
-    public boolean remove(Object o) {
-        DigraphNode<E> node = poNodes.get(o);
+    public boolebn remove(Object o) {
+        DigrbphNode<E> node = poNodes.get(o);
         if (node == null) {
-            return false;
+            return fblse;
         }
 
         poNodes.remove(o);
@@ -114,95 +114,95 @@ class PartiallyOrderedSet<E> extends AbstractSet<E> {
         return true;
     }
 
-    public void clear() {
-        poNodes.clear();
+    public void clebr() {
+        poNodes.clebr();
     }
 
     /**
-     * Sets an ordering between two nodes.  When an iterator is
-     * requested, the first node will appear earlier in the
-     * sequence than the second node.  If a prior ordering existed
+     * Sets bn ordering between two nodes.  When bn iterbtor is
+     * requested, the first node will bppebr ebrlier in the
+     * sequence thbn the second node.  If b prior ordering existed
      * between the nodes in the opposite order, it is removed.
      *
      * @return <code>true</code> if no prior ordering existed
-     * between the nodes, <code>false</code>otherwise.
+     * between the nodes, <code>fblse</code>otherwise.
      */
-    public boolean setOrdering(E first, E second) {
-        DigraphNode<E> firstPONode = poNodes.get(first);
-        DigraphNode<E> secondPONode = poNodes.get(second);
+    public boolebn setOrdering(E first, E second) {
+        DigrbphNode<E> firstPONode = poNodes.get(first);
+        DigrbphNode<E> secondPONode = poNodes.get(second);
 
         secondPONode.removeEdge(firstPONode);
-        return firstPONode.addEdge(secondPONode);
+        return firstPONode.bddEdge(secondPONode);
     }
 
     /**
-     * Removes any ordering between two nodes.
+     * Removes bny ordering between two nodes.
      *
-     * @return true if a prior prefence existed between the nodes.
+     * @return true if b prior prefence existed between the nodes.
      */
-    public boolean unsetOrdering(E first, E second) {
-        DigraphNode<E> firstPONode = poNodes.get(first);
-        DigraphNode<E> secondPONode = poNodes.get(second);
+    public boolebn unsetOrdering(E first, E second) {
+        DigrbphNode<E> firstPONode = poNodes.get(first);
+        DigrbphNode<E> secondPONode = poNodes.get(second);
 
         return firstPONode.removeEdge(secondPONode) ||
             secondPONode.removeEdge(firstPONode);
     }
 
     /**
-     * Returns <code>true</code> if an ordering exists between two
+     * Returns <code>true</code> if bn ordering exists between two
      * nodes.
      */
-    public boolean hasOrdering(E preferred, E other) {
-        DigraphNode<E> preferredPONode = poNodes.get(preferred);
-        DigraphNode<E> otherPONode = poNodes.get(other);
+    public boolebn hbsOrdering(E preferred, E other) {
+        DigrbphNode<E> preferredPONode = poNodes.get(preferred);
+        DigrbphNode<E> otherPONode = poNodes.get(other);
 
-        return preferredPONode.hasEdge(otherPONode);
+        return preferredPONode.hbsEdge(otherPONode);
     }
 }
 
-class PartialOrderIterator<E> implements Iterator<E> {
+clbss PbrtiblOrderIterbtor<E> implements Iterbtor<E> {
 
-    LinkedList<DigraphNode<E>> zeroList = new LinkedList<>();
-    Map<DigraphNode<E>, Integer> inDegrees = new HashMap<>();
+    LinkedList<DigrbphNode<E>> zeroList = new LinkedList<>();
+    Mbp<DigrbphNode<E>, Integer> inDegrees = new HbshMbp<>();
 
-    public PartialOrderIterator(Iterator<DigraphNode<E>> iter) {
-        // Initialize scratch in-degree values, zero list
-        while (iter.hasNext()) {
-            DigraphNode<E> node = iter.next();
+    public PbrtiblOrderIterbtor(Iterbtor<DigrbphNode<E>> iter) {
+        // Initiblize scrbtch in-degree vblues, zero list
+        while (iter.hbsNext()) {
+            DigrbphNode<E> node = iter.next();
             int inDegree = node.getInDegree();
             inDegrees.put(node, inDegree);
 
             // Add nodes with zero in-degree to the zero list
             if (inDegree == 0) {
-                zeroList.add(node);
+                zeroList.bdd(node);
             }
         }
     }
 
-    public boolean hasNext() {
+    public boolebn hbsNext() {
         return !zeroList.isEmpty();
     }
 
     public E next() {
-        DigraphNode<E> first = zeroList.removeFirst();
+        DigrbphNode<E> first = zeroList.removeFirst();
 
-        // For each out node of the output node, decrement its in-degree
-        Iterator<DigraphNode<E>> outNodes = first.getOutNodes();
-        while (outNodes.hasNext()) {
-            DigraphNode<E> node = outNodes.next();
-            int inDegree = inDegrees.get(node).intValue() - 1;
+        // For ebch out node of the output node, decrement its in-degree
+        Iterbtor<DigrbphNode<E>> outNodes = first.getOutNodes();
+        while (outNodes.hbsNext()) {
+            DigrbphNode<E> node = outNodes.next();
+            int inDegree = inDegrees.get(node).intVblue() - 1;
             inDegrees.put(node, inDegree);
 
-            // If the in-degree has fallen to 0, place the node on the list
+            // If the in-degree hbs fbllen to 0, plbce the node on the list
             if (inDegree == 0) {
-                zeroList.add(node);
+                zeroList.bdd(node);
             }
         }
 
-        return first.getData();
+        return first.getDbtb();
     }
 
     public void remove() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 }

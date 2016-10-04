@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.defaults;
+pbckbge com.sun.jmx.snmp.defbults;
 
 
-// java import
+// jbvb import
 //
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import jbvb.io.File;
+import jbvb.io.BufferedRebder;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.util.StringTokenizer;
 
 /**
- * This class represents a set of default directories used by Java DMK.
+ * This clbss represents b set of defbult directories used by Jbvb DMK.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
-public class DefaultPaths {
-    private static final String INSTALL_PATH_RESOURCE_NAME = "com/sun/jdmk/defaults/install.path";
-    // private constructor defined to "hide" the default public constructor
-    private DefaultPaths() {
+public clbss DefbultPbths {
+    privbte stbtic finbl String INSTALL_PATH_RESOURCE_NAME = "com/sun/jdmk/defbults/instbll.pbth";
+    // privbte constructor defined to "hide" the defbult public constructor
+    privbte DefbultPbths() {
 
     }
 
@@ -52,150 +52,150 @@ public class DefaultPaths {
     //----------------------
 
     /**
-     * Returns the installation directory for Java DMK.
+     * Returns the instbllbtion directory for Jbvb DMK.
      *
-     * The default value of the installation directory is:
-     * <CODE>&lt;base_dir&gt; + File.separator + SUNWjdmk + File.separator + jdmk5.0 </CODE>
+     * The defbult vblue of the instbllbtion directory is:
+     * <CODE>&lt;bbse_dir&gt; + File.sepbrbtor + SUNWjdmk + File.sepbrbtor + jdmk5.0 </CODE>
      *
-     * @return Java DMK installation directory.
+     * @return Jbvb DMK instbllbtion directory.
      */
-    public static String getInstallDir() {
-        if (installDir == null)
+    public stbtic String getInstbllDir() {
+        if (instbllDir == null)
             return useRessourceFile();
         else
-            return installDir;
+            return instbllDir;
     }
 
     /**
-     * Returns the installation directory for Java DMK concatenated with dirname.
+     * Returns the instbllbtion directory for Jbvb DMK concbtenbted with dirnbme.
      *
-     * The default value of the installation directory is:
-     * <CODE>&lt;base_dir&gt; + File.separator + SUNWjdmk + File.separator + jdmk5.0 </CODE>
+     * The defbult vblue of the instbllbtion directory is:
+     * <CODE>&lt;bbse_dir&gt; + File.sepbrbtor + SUNWjdmk + File.sepbrbtor + jdmk5.0 </CODE>
      *
-     * @param dirname The directory to be appended.
+     * @pbrbm dirnbme The directory to be bppended.
      *
-     * @return Java DMK installation directory + <CODE>File.separator</CODE> + <CODE>dirname</CODE>.
+     * @return Jbvb DMK instbllbtion directory + <CODE>File.sepbrbtor</CODE> + <CODE>dirnbme</CODE>.
      */
-    public static String getInstallDir(String dirname) {
-        if (installDir == null) {
-            if (dirname == null) {
-                return getInstallDir();
+    public stbtic String getInstbllDir(String dirnbme) {
+        if (instbllDir == null) {
+            if (dirnbme == null) {
+                return getInstbllDir();
             } else {
-                return getInstallDir() + File.separator + dirname;
+                return getInstbllDir() + File.sepbrbtor + dirnbme;
             }
         } else {
-            if (dirname == null) {
-                return installDir;
+            if (dirnbme == null) {
+                return instbllDir;
             } else {
-                return installDir + File.separator + dirname;
+                return instbllDir + File.sepbrbtor + dirnbme;
             }
         }
     }
 
     /**
-     * Sets the installation directory for Java DMK.
+     * Sets the instbllbtion directory for Jbvb DMK.
      *
-     * @param dirname The directory where Java DMK resides.
+     * @pbrbm dirnbme The directory where Jbvb DMK resides.
      */
-    public static void setInstallDir(String dirname) {
-        installDir = dirname;
+    public stbtic void setInstbllDir(String dirnbme) {
+        instbllDir = dirnbme;
     }
 
     /**
-     * Returns the <CODE>etc</CODE> directory for Java DMK.
+     * Returns the <CODE>etc</CODE> directory for Jbvb DMK.
      * <P>
-     * The default value of the <CODE>etc</CODE> directory is:
+     * The defbult vblue of the <CODE>etc</CODE> directory is:
      * <UL>
-     * <LI><CODE>DefaultPaths.getInstallDir("etc")</CODE>.
+     * <LI><CODE>DefbultPbths.getInstbllDir("etc")</CODE>.
      * </UL>
      *
-     * @return Java DMK <CODE>etc</CODE> directory.
+     * @return Jbvb DMK <CODE>etc</CODE> directory.
      */
-    public static String getEtcDir() {
+    public stbtic String getEtcDir() {
         if (etcDir == null)
-            return getInstallDir("etc");
+            return getInstbllDir("etc");
         else
             return etcDir;
     }
 
     /**
-     * Returns the <CODE>etc</CODE> directory for Java DMK concatenated with dirname.
+     * Returns the <CODE>etc</CODE> directory for Jbvb DMK concbtenbted with dirnbme.
      * <P>
-     * The default value of the <CODE>etc</CODE> directory is:
+     * The defbult vblue of the <CODE>etc</CODE> directory is:
      * <UL>
-     * <LI><CODE>DefaultPaths.getInstallDir("etc")</CODE>.
+     * <LI><CODE>DefbultPbths.getInstbllDir("etc")</CODE>.
      * </UL>
      *
-     * @param dirname The directory to be appended.
+     * @pbrbm dirnbme The directory to be bppended.
      *
-     * @return Java DMK <CODE>etc</CODE> directory + <CODE>File.separator</CODE> + <CODE>dirname</CODE>.
+     * @return Jbvb DMK <CODE>etc</CODE> directory + <CODE>File.sepbrbtor</CODE> + <CODE>dirnbme</CODE>.
      */
-    public static String getEtcDir(String dirname) {
+    public stbtic String getEtcDir(String dirnbme) {
         if (etcDir == null) {
-            if (dirname == null) {
+            if (dirnbme == null) {
                 return getEtcDir();
             } else {
-                return getEtcDir() + File.separator + dirname;
+                return getEtcDir() + File.sepbrbtor + dirnbme;
             }
         } else {
-            if (dirname == null) {
+            if (dirnbme == null) {
                 return etcDir;
             } else {
-                return etcDir + File.separator + dirname;
+                return etcDir + File.sepbrbtor + dirnbme;
             }
         }
     }
 
     /**
-     * Sets the <CODE>etc</CODE> directory for Java DMK.
+     * Sets the <CODE>etc</CODE> directory for Jbvb DMK.
      *
-     * @param dirname The <CODE>etc</CODE> directory for Java DMK.
+     * @pbrbm dirnbme The <CODE>etc</CODE> directory for Jbvb DMK.
      */
-    public static void setEtcDir(String dirname) {
-        etcDir = dirname;
+    public stbtic void setEtcDir(String dirnbme) {
+        etcDir = dirnbme;
     }
 
     /**
      * Returns the <CODE>tmp</CODE> directory for the product.
      * <P>
-     * The default value of the <CODE>tmp</CODE> directory is:
+     * The defbult vblue of the <CODE>tmp</CODE> directory is:
      * <UL>
-     * <LI><CODE>DefaultPaths.getInstallDir("tmp")</CODE>.
+     * <LI><CODE>DefbultPbths.getInstbllDir("tmp")</CODE>.
      * </UL>
      *
-     * @return Java DMK <CODE>tmp</CODE> directory.
+     * @return Jbvb DMK <CODE>tmp</CODE> directory.
      */
-    public static String getTmpDir() {
+    public stbtic String getTmpDir() {
          if (tmpDir == null)
-            return getInstallDir("tmp");
+            return getInstbllDir("tmp");
         else
             return tmpDir;
     }
 
     /**
-     * Returns the <CODE>tmp</CODE> directory for Java DMK concatenated with dirname.
+     * Returns the <CODE>tmp</CODE> directory for Jbvb DMK concbtenbted with dirnbme.
      * <P>
-     * The default value of the <CODE>tmp</CODE> directory is:
+     * The defbult vblue of the <CODE>tmp</CODE> directory is:
      * <UL>
-     * <LI><CODE>DefaultPaths.getInstallDir("tmp")</CODE>.
+     * <LI><CODE>DefbultPbths.getInstbllDir("tmp")</CODE>.
      * </UL>
      *
-     * @param dirname The directory to be appended.
+     * @pbrbm dirnbme The directory to be bppended.
      *
-     * @return Java DMK <CODE>tmp</CODE> directory + <CODE>File.separator</CODE> + <CODE>dirname</CODE>.
+     * @return Jbvb DMK <CODE>tmp</CODE> directory + <CODE>File.sepbrbtor</CODE> + <CODE>dirnbme</CODE>.
      */
-    public static String getTmpDir(String dirname) {
+    public stbtic String getTmpDir(String dirnbme) {
         if (tmpDir == null) {
-            if (dirname == null) {
+            if (dirnbme == null) {
                 return getTmpDir();
             } else {
-                return getTmpDir() + File.separator + dirname;
+                return getTmpDir() + File.sepbrbtor + dirnbme;
             }
         } else {
-            if (dirname == null) {
+            if (dirnbme == null) {
                 return tmpDir;
             } else {
-                return tmpDir + File.separator + dirname;
+                return tmpDir + File.sepbrbtor + dirnbme;
             }
         }
     }
@@ -203,43 +203,43 @@ public class DefaultPaths {
     /**
      * Sets the <CODE>tmp</CODE> directory for the product
      *
-     * @param dirname The <CODE>tmp</CODE> directory for Java DMK.
+     * @pbrbm dirnbme The <CODE>tmp</CODE> directory for Jbvb DMK.
      */
-    public static void setTmpDir(String dirname) {
-        tmpDir = dirname;
+    public stbtic void setTmpDir(String dirnbme) {
+        tmpDir = dirnbme;
     }
 
 
     // PRIVATE STATIC METHODS
     //-----------------------
 
-    private static String useRessourceFile() {
-        InputStream in = null;
-        BufferedReader r = null;
+    privbte stbtic String useRessourceFile() {
+        InputStrebm in = null;
+        BufferedRebder r = null;
         try {
             in =
-                DefaultPaths.class.getClassLoader().getResourceAsStream(INSTALL_PATH_RESOURCE_NAME);
+                DefbultPbths.clbss.getClbssLobder().getResourceAsStrebm(INSTALL_PATH_RESOURCE_NAME);
             if(in == null) return null;
-            r = new BufferedReader(new InputStreamReader(in));
-            installDir = r.readLine();
-        }catch(Exception e) {
+            r = new BufferedRebder(new InputStrebmRebder(in));
+            instbllDir = r.rebdLine();
+        }cbtch(Exception e) {
         }
-        finally {
+        finblly {
             try {
                 if(in != null) in.close();
                 if(r != null) r.close();
-            }catch(Exception e) {}
+            }cbtch(Exception e) {}
         }
-        return installDir;
+        return instbllDir;
     }
 
     // PRIVATE VARIABLES
     //------------------
 
     /**
-     * Directories used by Java DMK.
+     * Directories used by Jbvb DMK.
      */
-    private static String etcDir;
-    private static String tmpDir;
-    private static String installDir;
+    privbte stbtic String etcDir;
+    privbte stbtic String tmpDir;
+    privbte stbtic String instbllDir;
 }

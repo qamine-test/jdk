@@ -1,730 +1,730 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.Font;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
-import sun.awt.SunToolkit;
+import jbvb.bwt.Font;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.SystemColor;
+import jbvb.bwt.Toolkit;
+import sun.bwt.SunToolkit;
 
-import javax.swing.text.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
 
-import java.net.URL;
+import jbvb.net.URL;
 import sun.swing.SwingUtilities2;
-import sun.swing.DefaultLayoutStyle;
-import sun.swing.ImageIconUIResource;
+import sun.swing.DefbultLbyoutStyle;
+import sun.swing.ImbgeIconUIResource;
 
-import java.util.StringTokenizer;
+import jbvb.util.StringTokenizer;
 
 
 /**
- * {@code LookAndFeel}, as the name implies, encapsulates a look and
- * feel. Beyond installing a look and feel most developers never need to
- * interact directly with {@code LookAndFeel}. In general only developers
- * creating a custom look and feel need to concern themselves with this class.
+ * {@code LookAndFeel}, bs the nbme implies, encbpsulbtes b look bnd
+ * feel. Beyond instblling b look bnd feel most developers never need to
+ * interbct directly with {@code LookAndFeel}. In generbl only developers
+ * crebting b custom look bnd feel need to concern themselves with this clbss.
  * <p>
- * Swing is built upon the foundation that each {@code JComponent}
- * subclass has an implementation of a specific {@code ComponentUI}
- * subclass. The {@code ComponentUI} is often referred to as "the ui",
- * "component ui", or "look and feel delegate". The {@code ComponentUI}
- * subclass is responsible for providing the look and feel specific
- * functionality of the component. For example, {@code JTree} requires
- * an implementation of the {@code ComponentUI} subclass {@code
- * TreeUI}. The implementation of the specific {@code
- * ComponentUI} subclass is provided by the {@code LookAndFeel}. Each
- * {@code JComponent} subclass identifies the {@code ComponentUI}
- * subclass it requires by way of the {@code JComponent} method {@code
- * getUIClassID}.
+ * Swing is built upon the foundbtion thbt ebch {@code JComponent}
+ * subclbss hbs bn implementbtion of b specific {@code ComponentUI}
+ * subclbss. The {@code ComponentUI} is often referred to bs "the ui",
+ * "component ui", or "look bnd feel delegbte". The {@code ComponentUI}
+ * subclbss is responsible for providing the look bnd feel specific
+ * functionblity of the component. For exbmple, {@code JTree} requires
+ * bn implementbtion of the {@code ComponentUI} subclbss {@code
+ * TreeUI}. The implementbtion of the specific {@code
+ * ComponentUI} subclbss is provided by the {@code LookAndFeel}. Ebch
+ * {@code JComponent} subclbss identifies the {@code ComponentUI}
+ * subclbss it requires by wby of the {@code JComponent} method {@code
+ * getUIClbssID}.
  * <p>
- * Each {@code LookAndFeel} implementation must provide
- * an implementation of the appropriate {@code ComponentUI} subclass by
- * specifying a value for each of Swing's ui class ids in the {@code
- * UIDefaults} object returned from {@code getDefaults}. For example,
- * {@code BasicLookAndFeel} uses {@code BasicTreeUI} as the concrete
- * implementation for {@code TreeUI}. This is accomplished by {@code
- * BasicLookAndFeel} providing the key-value pair {@code
- * "TreeUI"-"javax.swing.plaf.basic.BasicTreeUI"}, in the
- * {@code UIDefaults} returned from {@code getDefaults}. Refer to
- * {@link UIDefaults#getUI(JComponent)} for details on how the implementation
- * of the {@code ComponentUI} subclass is obtained.
+ * Ebch {@code LookAndFeel} implementbtion must provide
+ * bn implementbtion of the bppropribte {@code ComponentUI} subclbss by
+ * specifying b vblue for ebch of Swing's ui clbss ids in the {@code
+ * UIDefbults} object returned from {@code getDefbults}. For exbmple,
+ * {@code BbsicLookAndFeel} uses {@code BbsicTreeUI} bs the concrete
+ * implementbtion for {@code TreeUI}. This is bccomplished by {@code
+ * BbsicLookAndFeel} providing the key-vblue pbir {@code
+ * "TreeUI"-"jbvbx.swing.plbf.bbsic.BbsicTreeUI"}, in the
+ * {@code UIDefbults} returned from {@code getDefbults}. Refer to
+ * {@link UIDefbults#getUI(JComponent)} for detbils on how the implementbtion
+ * of the {@code ComponentUI} subclbss is obtbined.
  * <p>
- * When a {@code LookAndFeel} is installed the {@code UIManager} does
- * not check that an entry exists for all ui class ids. As such,
- * random exceptions will occur if the current look and feel has not
- * provided a value for a particular ui class id and an instance of
- * the {@code JComponent} subclass is created.
+ * When b {@code LookAndFeel} is instblled the {@code UIMbnbger} does
+ * not check thbt bn entry exists for bll ui clbss ids. As such,
+ * rbndom exceptions will occur if the current look bnd feel hbs not
+ * provided b vblue for b pbrticulbr ui clbss id bnd bn instbnce of
+ * the {@code JComponent} subclbss is crebted.
  *
- * <h2>Recommendations for Look and Feels</h2>
+ * <h2>Recommendbtions for Look bnd Feels</h2>
  *
- * As noted in {@code UIManager} each {@code LookAndFeel} has the opportunity
- * to provide a set of defaults that are layered in with developer and
- * system defaults. Some of Swing's components require the look and feel
- * to provide a specific set of defaults. These are documented in the
- * classes that require the specific default.
+ * As noted in {@code UIMbnbger} ebch {@code LookAndFeel} hbs the opportunity
+ * to provide b set of defbults thbt bre lbyered in with developer bnd
+ * system defbults. Some of Swing's components require the look bnd feel
+ * to provide b specific set of defbults. These bre documented in the
+ * clbsses thbt require the specific defbult.
  *
- * <h3><a name="defaultRecommendation">ComponentUIs and defaults</a></h3>
+ * <h3><b nbme="defbultRecommendbtion">ComponentUIs bnd defbults</b></h3>
  *
- * All {@code ComponentUIs} typically need to set various properties
+ * All {@code ComponentUIs} typicblly need to set vbrious properties
  * on the {@code JComponent} the {@code ComponentUI} is providing the
- * look and feel for. This is typically done when the {@code
- * ComponentUI} is installed on the {@code JComponent}. Setting a
- * property should only be done if the developer has not set the
- * property. For non-primitive values it is recommended that the
- * {@code ComponentUI} only change the property on the {@code
- * JComponent} if the current value is {@code null} or implements
- * {@code UIResource}. If the current value is {@code null} or
- * implements {@code UIResource} it indicates the property has not
- * been set by the developer, and the ui is free to change it.  For
- * example, {@code BasicButtonUI.installDefaults} only changes the
- * font on the {@code JButton} if the return value from {@code
+ * look bnd feel for. This is typicblly done when the {@code
+ * ComponentUI} is instblled on the {@code JComponent}. Setting b
+ * property should only be done if the developer hbs not set the
+ * property. For non-primitive vblues it is recommended thbt the
+ * {@code ComponentUI} only chbnge the property on the {@code
+ * JComponent} if the current vblue is {@code null} or implements
+ * {@code UIResource}. If the current vblue is {@code null} or
+ * implements {@code UIResource} it indicbtes the property hbs not
+ * been set by the developer, bnd the ui is free to chbnge it.  For
+ * exbmple, {@code BbsicButtonUI.instbllDefbults} only chbnges the
+ * font on the {@code JButton} if the return vblue from {@code
  * button.getFont()} is {@code null} or implements {@code
- * UIResource}. On the other hand if {@code button.getFont()} returned
- * a {@code non-null} value that did not implement {@code UIResource}
- * then {@code BasicButtonUI.installDefaults} would not change the
+ * UIResource}. On the other hbnd if {@code button.getFont()} returned
+ * b {@code non-null} vblue thbt did not implement {@code UIResource}
+ * then {@code BbsicButtonUI.instbllDefbults} would not chbnge the
  * {@code JButton}'s font.
  * <p>
- * For primitive values, such as {@code opaque}, the method {@code
- * installProperty} should be invoked.  {@code installProperty} only changes
- * the corresponding property if the value has not been changed by the
+ * For primitive vblues, such bs {@code opbque}, the method {@code
+ * instbllProperty} should be invoked.  {@code instbllProperty} only chbnges
+ * the corresponding property if the vblue hbs not been chbnged by the
  * developer.
  * <p>
- * {@code ComponentUI} implementations should use the various install methods
- * provided by this class as they handle the necessary checking and install
+ * {@code ComponentUI} implementbtions should use the vbrious instbll methods
+ * provided by this clbss bs they hbndle the necessbry checking bnd instbll
  * the property using the recommended guidelines.
  *
- * <h3><a name="exceptions"></a>Exceptions</h3>
+ * <h3><b nbme="exceptions"></b>Exceptions</h3>
  *
- * All of the install methods provided by {@code LookAndFeel} need to
- * access the defaults if the value of the property being changed is
- * {@code null} or a {@code UIResource}. For example, installing the
+ * All of the instbll methods provided by {@code LookAndFeel} need to
+ * bccess the defbults if the vblue of the property being chbnged is
+ * {@code null} or b {@code UIResource}. For exbmple, instblling the
  * font does the following:
  * <pre>
  *   JComponent c;
  *   Font font = c.getFont();
- *   if (font == null || (font instanceof UIResource)) {
- *       c.setFont(UIManager.getFont("fontKey"));
+ *   if (font == null || (font instbnceof UIResource)) {
+ *       c.setFont(UIMbnbger.getFont("fontKey"));
  *   }
  * </pre>
- * If the font is {@code null} or a {@code UIResource}, the
- * defaults table is queried with the key {@code fontKey}. All of
- * {@code UIDefault's} get methods throw a {@code
- * NullPointerException} if passed in {@code null}. As such, unless
- * otherwise noted each of the various install methods of {@code
- * LookAndFeel} throw a {@code NullPointerException} if the current
- * value is {@code null} or a {@code UIResource} and the supplied
- * defaults key is {@code null}. In addition, unless otherwise specified
- * all of the {@code install} methods throw a {@code NullPointerException} if
- * a {@code null} component is passed in.
+ * If the font is {@code null} or b {@code UIResource}, the
+ * defbults tbble is queried with the key {@code fontKey}. All of
+ * {@code UIDefbult's} get methods throw b {@code
+ * NullPointerException} if pbssed in {@code null}. As such, unless
+ * otherwise noted ebch of the vbrious instbll methods of {@code
+ * LookAndFeel} throw b {@code NullPointerException} if the current
+ * vblue is {@code null} or b {@code UIResource} bnd the supplied
+ * defbults key is {@code null}. In bddition, unless otherwise specified
+ * bll of the {@code instbll} methods throw b {@code NullPointerException} if
+ * b {@code null} component is pbssed in.
  *
- * @author Tom Ball
- * @author Hans Muller
+ * @buthor Tom Bbll
+ * @buthor Hbns Muller
  * @since 1.2
  */
-public abstract class LookAndFeel
+public bbstrbct clbss LookAndFeel
 {
 
     /**
-     * Convenience method for setting a component's foreground
-     * and background color properties with values from the
-     * defaults.  The properties are only set if the current
-     * value is either {@code null} or a {@code UIResource}.
+     * Convenience method for setting b component's foreground
+     * bnd bbckground color properties with vblues from the
+     * defbults.  The properties bre only set if the current
+     * vblue is either {@code null} or b {@code UIResource}.
      *
-     * @param c component to set the colors on
-     * @param defaultBgName key for the background
-     * @param defaultFgName key for the foreground
+     * @pbrbm c component to set the colors on
+     * @pbrbm defbultBgNbme key for the bbckground
+     * @pbrbm defbultFgNbme key for the foreground
      *
-     * @see #installColorsAndFont
-     * @see UIManager#getColor
-     * @throws NullPointerException as described in
-     *         <a href="#exceptions">exceptions</a>
+     * @see #instbllColorsAndFont
+     * @see UIMbnbger#getColor
+     * @throws NullPointerException bs described in
+     *         <b href="#exceptions">exceptions</b>
      */
-    public static void installColors(JComponent c,
-                                     String defaultBgName,
-                                     String defaultFgName)
+    public stbtic void instbllColors(JComponent c,
+                                     String defbultBgNbme,
+                                     String defbultFgNbme)
     {
-        Color bg = c.getBackground();
-        if (bg == null || bg instanceof UIResource) {
-            c.setBackground(UIManager.getColor(defaultBgName));
+        Color bg = c.getBbckground();
+        if (bg == null || bg instbnceof UIResource) {
+            c.setBbckground(UIMbnbger.getColor(defbultBgNbme));
         }
 
         Color fg = c.getForeground();
-        if (fg == null || fg instanceof UIResource) {
-            c.setForeground(UIManager.getColor(defaultFgName));
+        if (fg == null || fg instbnceof UIResource) {
+            c.setForeground(UIMbnbger.getColor(defbultFgNbme));
         }
     }
 
 
     /**
-     * Convenience method for setting a component's foreground,
-     * background and font properties with values from the
-     * defaults.  The properties are only set if the current
-     * value is either {@code null} or a {@code UIResource}.
+     * Convenience method for setting b component's foreground,
+     * bbckground bnd font properties with vblues from the
+     * defbults.  The properties bre only set if the current
+     * vblue is either {@code null} or b {@code UIResource}.
      *
-     * @param c component set to the colors and font on
-     * @param defaultBgName key for the background
-     * @param defaultFgName key for the foreground
-     * @param defaultFontName key for the font
-     * @throws NullPointerException as described in
-     *         <a href="#exceptions">exceptions</a>
+     * @pbrbm c component set to the colors bnd font on
+     * @pbrbm defbultBgNbme key for the bbckground
+     * @pbrbm defbultFgNbme key for the foreground
+     * @pbrbm defbultFontNbme key for the font
+     * @throws NullPointerException bs described in
+     *         <b href="#exceptions">exceptions</b>
      *
-     * @see #installColors
-     * @see UIManager#getColor
-     * @see UIManager#getFont
+     * @see #instbllColors
+     * @see UIMbnbger#getColor
+     * @see UIMbnbger#getFont
      */
-    public static void installColorsAndFont(JComponent c,
-                                         String defaultBgName,
-                                         String defaultFgName,
-                                         String defaultFontName) {
+    public stbtic void instbllColorsAndFont(JComponent c,
+                                         String defbultBgNbme,
+                                         String defbultFgNbme,
+                                         String defbultFontNbme) {
         Font f = c.getFont();
-        if (f == null || f instanceof UIResource) {
-            c.setFont(UIManager.getFont(defaultFontName));
+        if (f == null || f instbnceof UIResource) {
+            c.setFont(UIMbnbger.getFont(defbultFontNbme));
         }
 
-        installColors(c, defaultBgName, defaultFgName);
+        instbllColors(c, defbultBgNbme, defbultFgNbme);
     }
 
 
     /**
-     * Convenience method for setting a component's border property with
-     * a value from the defaults. The border is only set if the border is
-     * {@code null} or an instance of {@code UIResource}.
+     * Convenience method for setting b component's border property with
+     * b vblue from the defbults. The border is only set if the border is
+     * {@code null} or bn instbnce of {@code UIResource}.
      *
-     * @param c component to set the border on
-     * @param defaultBorderName key specifying the border
-     * @throws NullPointerException as described in
-     *         <a href="#exceptions">exceptions</a>
+     * @pbrbm c component to set the border on
+     * @pbrbm defbultBorderNbme key specifying the border
+     * @throws NullPointerException bs described in
+     *         <b href="#exceptions">exceptions</b>
      */
-    public static void installBorder(JComponent c, String defaultBorderName) {
+    public stbtic void instbllBorder(JComponent c, String defbultBorderNbme) {
         Border b = c.getBorder();
-        if (b == null || b instanceof UIResource) {
-            c.setBorder(UIManager.getBorder(defaultBorderName));
+        if (b == null || b instbnceof UIResource) {
+            c.setBorder(UIMbnbger.getBorder(defbultBorderNbme));
         }
     }
 
 
     /**
-     * Convenience method for uninstalling a border. If the border of
-     * the component is a {@code UIResource}, it is set to {@code
+     * Convenience method for uninstblling b border. If the border of
+     * the component is b {@code UIResource}, it is set to {@code
      * null}.
      *
-     * @param c component to uninstall the border on
+     * @pbrbm c component to uninstbll the border on
      * @throws NullPointerException if {@code c} is {@code null}
      */
-    public static void uninstallBorder(JComponent c) {
-        if (c.getBorder() instanceof UIResource) {
+    public stbtic void uninstbllBorder(JComponent c) {
+        if (c.getBorder() instbnceof UIResource) {
             c.setBorder(null);
         }
     }
 
     /**
-     * Convenience method for installing a property with the specified name
-     * and value on a component if that property has not already been set
+     * Convenience method for instblling b property with the specified nbme
+     * bnd vblue on b component if thbt property hbs not blrebdy been set
      * by the developer.  This method is intended to be used by
-     * ui delegate instances that need to specify a default value for a
-     * property of primitive type (boolean, int, ..), but do not wish
-     * to override a value set by the client.  Since primitive property
-     * values cannot be wrapped with the {@code UIResource} marker, this method
-     * uses private state to determine whether the property has been set
+     * ui delegbte instbnces thbt need to specify b defbult vblue for b
+     * property of primitive type (boolebn, int, ..), but do not wish
+     * to override b vblue set by the client.  Since primitive property
+     * vblues cbnnot be wrbpped with the {@code UIResource} mbrker, this method
+     * uses privbte stbte to determine whether the property hbs been set
      * by the client.
      *
-     * @throws IllegalArgumentException if the specified property is not
-     *         one which can be set using this method
-     * @throws ClassCastException if the property value has not been set
-     *         by the developer and the type does not match the property's type
+     * @throws IllegblArgumentException if the specified property is not
+     *         one which cbn be set using this method
+     * @throws ClbssCbstException if the property vblue hbs not been set
+     *         by the developer bnd the type does not mbtch the property's type
      * @throws NullPointerException if {@code c} is {@code null}, or the
-     *         named property has not been set by the developer and
-     *         {@code propertyValue} is {@code null}
-     * @param c target component to set the property on
-     * @param propertyName name of the property to set
-     * @param propertyValue value of the property
+     *         nbmed property hbs not been set by the developer bnd
+     *         {@code propertyVblue} is {@code null}
+     * @pbrbm c tbrget component to set the property on
+     * @pbrbm propertyNbme nbme of the property to set
+     * @pbrbm propertyVblue vblue of the property
      * @since 1.5
      */
-    public static void installProperty(JComponent c,
-                                       String propertyName, Object propertyValue) {
-        // this is a special case because the JPasswordField's ancestor hierarchy
-        // includes a class outside of javax.swing, thus we cannot call setUIProperty
+    public stbtic void instbllProperty(JComponent c,
+                                       String propertyNbme, Object propertyVblue) {
+        // this is b specibl cbse becbuse the JPbsswordField's bncestor hierbrchy
+        // includes b clbss outside of jbvbx.swing, thus we cbnnot cbll setUIProperty
         // directly.
-        if (SunToolkit.isInstanceOf(c, "javax.swing.JPasswordField")) {
-            if (!((JPasswordField)c).customSetUIProperty(propertyName, propertyValue)) {
-                c.setUIProperty(propertyName, propertyValue);
+        if (SunToolkit.isInstbnceOf(c, "jbvbx.swing.JPbsswordField")) {
+            if (!((JPbsswordField)c).customSetUIProperty(propertyNbme, propertyVblue)) {
+                c.setUIProperty(propertyNbme, propertyVblue);
             }
         } else {
-            c.setUIProperty(propertyName, propertyValue);
+            c.setUIProperty(propertyNbme, propertyVblue);
         }
     }
 
     /**
-     * Convenience method for building an array of {@code
-     * KeyBindings}. While this method is not deprecated, developers
-     * should instead use {@code ActionMap} and {@code InputMap} for
+     * Convenience method for building bn brrby of {@code
+     * KeyBindings}. While this method is not deprecbted, developers
+     * should instebd use {@code ActionMbp} bnd {@code InputMbp} for
      * supplying key bindings.
      * <p>
-     * This method returns an array of {@code KeyBindings}, one for each
-     * alternating {@code key-action} pair in {@code keyBindingList}.
-     * A {@code key} can either be a {@code String} in the format
+     * This method returns bn brrby of {@code KeyBindings}, one for ebch
+     * blternbting {@code key-bction} pbir in {@code keyBindingList}.
+     * A {@code key} cbn either be b {@code String} in the formbt
      * specified by the <code>KeyStroke.getKeyStroke</code> method, or
-     * a {@code KeyStroke}. The {@code action} part of the pair is a
-     * {@code String} that corresponds to the name of the {@code
+     * b {@code KeyStroke}. The {@code bction} pbrt of the pbir is b
+     * {@code String} thbt corresponds to the nbme of the {@code
      * Action}.
      * <p>
-     * The following example illustrates creating a {@code KeyBinding} array
-     * from six alternating {@code key-action} pairs:
+     * The following exbmple illustrbtes crebting b {@code KeyBinding} brrby
+     * from six blternbting {@code key-bction} pbirs:
      * <pre>
-     *  JTextComponent.KeyBinding[] multilineBindings = makeKeyBindings( new Object[] {
-     *          "UP", DefaultEditorKit.upAction,
-     *        "DOWN", DefaultEditorKit.downAction,
-     *     "PAGE_UP", DefaultEditorKit.pageUpAction,
-     *   "PAGE_DOWN", DefaultEditorKit.pageDownAction,
-     *       "ENTER", DefaultEditorKit.insertBreakAction,
-     *         "TAB", DefaultEditorKit.insertTabAction
+     *  JTextComponent.KeyBinding[] multilineBindings = mbkeKeyBindings( new Object[] {
+     *          "UP", DefbultEditorKit.upAction,
+     *        "DOWN", DefbultEditorKit.downAction,
+     *     "PAGE_UP", DefbultEditorKit.pbgeUpAction,
+     *   "PAGE_DOWN", DefbultEditorKit.pbgeDownAction,
+     *       "ENTER", DefbultEditorKit.insertBrebkAction,
+     *         "TAB", DefbultEditorKit.insertTbbAction
      *  });
      * </pre>
-     * If {@code keyBindingList's} length is odd, the last element is
+     * If {@code keyBindingList's} length is odd, the lbst element is
      * ignored.
      * <p>
-     * Supplying a {@code null} value for either the {@code key} or
-     * {@code action} part of the {@code key-action} pair results in
-     * creating a {@code KeyBinding} with the corresponding value
-     * {@code null}. As other parts of Swing's expect {@code non-null} values
-     * in a {@code KeyBinding}, you should avoid supplying {@code null} as
-     * either the {@code key} or {@code action} part of the {@code key-action}
-     * pair.
+     * Supplying b {@code null} vblue for either the {@code key} or
+     * {@code bction} pbrt of the {@code key-bction} pbir results in
+     * crebting b {@code KeyBinding} with the corresponding vblue
+     * {@code null}. As other pbrts of Swing's expect {@code non-null} vblues
+     * in b {@code KeyBinding}, you should bvoid supplying {@code null} bs
+     * either the {@code key} or {@code bction} pbrt of the {@code key-bction}
+     * pbir.
      *
-     * @param keyBindingList an array of {@code key-action} pairs
-     * @return an array of {@code KeyBindings}
+     * @pbrbm keyBindingList bn brrby of {@code key-bction} pbirs
+     * @return bn brrby of {@code KeyBindings}
      * @throws NullPointerException if {@code keyBindingList} is {@code null}
-     * @throws ClassCastException if the {@code key} part of the pair is
-     *         not a {@code KeyStroke} or {@code String}, or the
-     *         {@code action} part of the pair is not a {@code String}
-     * @see ActionMap
-     * @see InputMap
+     * @throws ClbssCbstException if the {@code key} pbrt of the pbir is
+     *         not b {@code KeyStroke} or {@code String}, or the
+     *         {@code bction} pbrt of the pbir is not b {@code String}
+     * @see ActionMbp
+     * @see InputMbp
      * @see KeyStroke#getKeyStroke
      */
-    public static JTextComponent.KeyBinding[] makeKeyBindings(Object[] keyBindingList)
+    public stbtic JTextComponent.KeyBinding[] mbkeKeyBindings(Object[] keyBindingList)
     {
         JTextComponent.KeyBinding[] rv = new JTextComponent.KeyBinding[keyBindingList.length / 2];
 
         for(int i = 0; i < rv.length; i ++) {
             Object o = keyBindingList[2 * i];
-            KeyStroke keystroke = (o instanceof KeyStroke)
+            KeyStroke keystroke = (o instbnceof KeyStroke)
                 ? (KeyStroke) o
                 : KeyStroke.getKeyStroke((String) o);
-            String action = (String) keyBindingList[2 * i + 1];
-            rv[i] = new JTextComponent.KeyBinding(keystroke, action);
+            String bction = (String) keyBindingList[2 * i + 1];
+            rv[i] = new JTextComponent.KeyBinding(keystroke, bction);
         }
 
         return rv;
     }
 
     /**
-     * Creates a {@code InputMapUIResource} from <code>keys</code>. This is
-     * a convenience method for creating a new {@code InputMapUIResource},
-     * invoking {@code loadKeyBindings(map, keys)}, and returning the
-     * {@code InputMapUIResource}.
+     * Crebtes b {@code InputMbpUIResource} from <code>keys</code>. This is
+     * b convenience method for crebting b new {@code InputMbpUIResource},
+     * invoking {@code lobdKeyBindings(mbp, keys)}, bnd returning the
+     * {@code InputMbpUIResource}.
      *
-     * @param keys alternating pairs of {@code keystroke-action key}
-     *        pairs as described in {@link #loadKeyBindings}
-     * @return newly created and populated {@code InputMapUIResource}
-     * @see #loadKeyBindings
+     * @pbrbm keys blternbting pbirs of {@code keystroke-bction key}
+     *        pbirs bs described in {@link #lobdKeyBindings}
+     * @return newly crebted bnd populbted {@code InputMbpUIResource}
+     * @see #lobdKeyBindings
      *
      * @since 1.3
      */
-    public static InputMap makeInputMap(Object[] keys) {
-        InputMap retMap = new InputMapUIResource();
-        loadKeyBindings(retMap, keys);
-        return retMap;
+    public stbtic InputMbp mbkeInputMbp(Object[] keys) {
+        InputMbp retMbp = new InputMbpUIResource();
+        lobdKeyBindings(retMbp, keys);
+        return retMbp;
     }
 
     /**
-     * Creates a {@code ComponentInputMapUIResource} from
-     * <code>keys</code>. This is a convenience method for creating a
-     * new {@code ComponentInputMapUIResource}, invoking {@code
-     * loadKeyBindings(map, keys)}, and returning the {@code
-     * ComponentInputMapUIResource}.
+     * Crebtes b {@code ComponentInputMbpUIResource} from
+     * <code>keys</code>. This is b convenience method for crebting b
+     * new {@code ComponentInputMbpUIResource}, invoking {@code
+     * lobdKeyBindings(mbp, keys)}, bnd returning the {@code
+     * ComponentInputMbpUIResource}.
      *
-     * @param c component to create the {@code ComponentInputMapUIResource}
+     * @pbrbm c component to crebte the {@code ComponentInputMbpUIResource}
      *          with
-     * @param keys alternating pairs of {@code keystroke-action key}
-     *        pairs as described in {@link #loadKeyBindings}
-     * @return newly created and populated {@code InputMapUIResource}
-     * @throws IllegalArgumentException if {@code c} is {@code null}
+     * @pbrbm keys blternbting pbirs of {@code keystroke-bction key}
+     *        pbirs bs described in {@link #lobdKeyBindings}
+     * @return newly crebted bnd populbted {@code InputMbpUIResource}
+     * @throws IllegblArgumentException if {@code c} is {@code null}
      *
-     * @see #loadKeyBindings
-     * @see ComponentInputMapUIResource
+     * @see #lobdKeyBindings
+     * @see ComponentInputMbpUIResource
      *
      * @since 1.3
      */
-    public static ComponentInputMap makeComponentInputMap(JComponent c,
+    public stbtic ComponentInputMbp mbkeComponentInputMbp(JComponent c,
                                                           Object[] keys) {
-        ComponentInputMap retMap = new ComponentInputMapUIResource(c);
-        loadKeyBindings(retMap, keys);
-        return retMap;
+        ComponentInputMbp retMbp = new ComponentInputMbpUIResource(c);
+        lobdKeyBindings(retMbp, keys);
+        return retMbp;
     }
 
 
     /**
-     * Populates an {@code InputMap} with the specified bindings.
-     * The bindings are supplied as a list of alternating
-     * {@code keystroke-action key} pairs. The {@code keystroke} is either
-     * an instance of {@code KeyStroke}, or a {@code String}
-     * that identifies the {@code KeyStroke} for the binding. Refer
+     * Populbtes bn {@code InputMbp} with the specified bindings.
+     * The bindings bre supplied bs b list of blternbting
+     * {@code keystroke-bction key} pbirs. The {@code keystroke} is either
+     * bn instbnce of {@code KeyStroke}, or b {@code String}
+     * thbt identifies the {@code KeyStroke} for the binding. Refer
      * to {@code KeyStroke.getKeyStroke(String)} for the specific
-     * format. The {@code action key} part of the pair is the key
-     * registered in the {@code InputMap} for the {@code KeyStroke}.
+     * formbt. The {@code bction key} pbrt of the pbir is the key
+     * registered in the {@code InputMbp} for the {@code KeyStroke}.
      * <p>
-     * The following illustrates loading an {@code InputMap} with two
-     * {@code key-action} pairs:
+     * The following illustrbtes lobding bn {@code InputMbp} with two
+     * {@code key-bction} pbirs:
      * <pre>
-     *   LookAndFeel.loadKeyBindings(inputMap, new Object[] {
+     *   LookAndFeel.lobdKeyBindings(inputMbp, new Object[] {
      *     "control X", "cut",
-     *     "control V", "paste"
+     *     "control V", "pbste"
      *   });
      * </pre>
      * <p>
-     * Supplying a {@code null} list of bindings ({@code keys}) does not
-     * change {@code retMap} in any way.
+     * Supplying b {@code null} list of bindings ({@code keys}) does not
+     * chbnge {@code retMbp} in bny wby.
      * <p>
-     * Specifying a {@code null} {@code action key} results in
-     * removing the {@code keystroke's} entry from the {@code InputMap}.
+     * Specifying b {@code null} {@code bction key} results in
+     * removing the {@code keystroke's} entry from the {@code InputMbp}.
      * A {@code null} {@code keystroke} is ignored.
      *
-     * @param retMap {@code InputMap} to add the {@code key-action}
-     *               pairs to
-     * @param keys bindings to add to {@code retMap}
+     * @pbrbm retMbp {@code InputMbp} to bdd the {@code key-bction}
+     *               pbirs to
+     * @pbrbm keys bindings to bdd to {@code retMbp}
      * @throws NullPointerException if {@code keys} is
-     *         {@code non-null}, not empty, and {@code retMap} is
+     *         {@code non-null}, not empty, bnd {@code retMbp} is
      *         {@code null}
      *
      * @see KeyStroke#getKeyStroke(String)
-     * @see InputMap
+     * @see InputMbp
      *
      * @since 1.3
      */
-    public static void loadKeyBindings(InputMap retMap, Object[] keys) {
+    public stbtic void lobdKeyBindings(InputMbp retMbp, Object[] keys) {
         if (keys != null) {
-            for (int counter = 0, maxCounter = keys.length;
-                 counter < maxCounter; counter++) {
+            for (int counter = 0, mbxCounter = keys.length;
+                 counter < mbxCounter; counter++) {
                 Object keyStrokeO = keys[counter++];
-                KeyStroke ks = (keyStrokeO instanceof KeyStroke) ?
+                KeyStroke ks = (keyStrokeO instbnceof KeyStroke) ?
                                 (KeyStroke)keyStrokeO :
                                 KeyStroke.getKeyStroke((String)keyStrokeO);
-                retMap.put(ks, keys[counter]);
+                retMbp.put(ks, keys[counter]);
             }
         }
     }
 
     /**
-     * Creates and returns a {@code UIDefault.LazyValue} that loads an
-     * image. The returned value is an implementation of {@code
-     * UIDefaults.LazyValue}. When {@code createValue} is invoked on
-     * the returned object, the image is loaded. If the image is {@code
-     * non-null}, it is then wrapped in an {@code Icon} that implements {@code
-     * UIResource}. The image is loaded using {@code
-     * Class.getResourceAsStream(gifFile)}.
+     * Crebtes bnd returns b {@code UIDefbult.LbzyVblue} thbt lobds bn
+     * imbge. The returned vblue is bn implementbtion of {@code
+     * UIDefbults.LbzyVblue}. When {@code crebteVblue} is invoked on
+     * the returned object, the imbge is lobded. If the imbge is {@code
+     * non-null}, it is then wrbpped in bn {@code Icon} thbt implements {@code
+     * UIResource}. The imbge is lobded using {@code
+     * Clbss.getResourceAsStrebm(gifFile)}.
      * <p>
-     * This method does not check the arguments in any way. It is
-     * strongly recommended that {@code non-null} values are supplied else
-     * exceptions may occur when {@code createValue} is invoked on the
+     * This method does not check the brguments in bny wby. It is
+     * strongly recommended thbt {@code non-null} vblues bre supplied else
+     * exceptions mby occur when {@code crebteVblue} is invoked on the
      * returned object.
      *
-     * @param baseClass {@code Class} used to load the resource
-     * @param gifFile path to the image to load
-     * @return a {@code UIDefaults.LazyValue}; when resolved the
-     *         {@code LazyValue} loads the specified image
-     * @see UIDefaults.LazyValue
+     * @pbrbm bbseClbss {@code Clbss} used to lobd the resource
+     * @pbrbm gifFile pbth to the imbge to lobd
+     * @return b {@code UIDefbults.LbzyVblue}; when resolved the
+     *         {@code LbzyVblue} lobds the specified imbge
+     * @see UIDefbults.LbzyVblue
      * @see Icon
-     * @see Class#getResourceAsStream(String)
+     * @see Clbss#getResourceAsStrebm(String)
      */
-    public static Object makeIcon(final Class<?> baseClass, final String gifFile) {
-        return SwingUtilities2.makeIcon_Unprivileged(baseClass, baseClass, gifFile);
+    public stbtic Object mbkeIcon(finbl Clbss<?> bbseClbss, finbl String gifFile) {
+        return SwingUtilities2.mbkeIcon_Unprivileged(bbseClbss, bbseClbss, gifFile);
     }
 
     /**
-     * Returns the <code>LayoutStyle</code> for this look
-     * and feel.  This never returns {@code null}.
+     * Returns the <code>LbyoutStyle</code> for this look
+     * bnd feel.  This never returns {@code null}.
      * <p>
-     * You generally don't use the <code>LayoutStyle</code> from
-     * the look and feel, instead use the <code>LayoutStyle</code>
-     * method <code>getInstance</code>.
+     * You generblly don't use the <code>LbyoutStyle</code> from
+     * the look bnd feel, instebd use the <code>LbyoutStyle</code>
+     * method <code>getInstbnce</code>.
      *
-     * @see LayoutStyle#getInstance
-     * @return the <code>LayoutStyle</code> for this look and feel
+     * @see LbyoutStyle#getInstbnce
+     * @return the <code>LbyoutStyle</code> for this look bnd feel
      * @since 1.6
      */
-    public LayoutStyle getLayoutStyle() {
-        return DefaultLayoutStyle.getInstance();
+    public LbyoutStyle getLbyoutStyle() {
+        return DefbultLbyoutStyle.getInstbnce();
     }
 
     /**
-     * Invoked when the user attempts an invalid operation,
-     * such as pasting into an uneditable <code>JTextField</code>
-     * that has focus. The default implementation beeps. Subclasses
-     * that wish different behavior should override this and provide
-     * the additional feedback.
+     * Invoked when the user bttempts bn invblid operbtion,
+     * such bs pbsting into bn uneditbble <code>JTextField</code>
+     * thbt hbs focus. The defbult implementbtion beeps. Subclbsses
+     * thbt wish different behbvior should override this bnd provide
+     * the bdditionbl feedbbck.
      *
-     * @param component the <code>Component</code> the error occurred in,
-     *                  may be <code>null</code>
-     *                  indicating the error condition is not directly
-     *                  associated with a <code>Component</code>
+     * @pbrbm component the <code>Component</code> the error occurred in,
+     *                  mby be <code>null</code>
+     *                  indicbting the error condition is not directly
+     *                  bssocibted with b <code>Component</code>
      * @since 1.4
      */
-    public void provideErrorFeedback(Component component) {
+    public void provideErrorFeedbbck(Component component) {
         Toolkit toolkit = null;
         if (component != null) {
             toolkit = component.getToolkit();
         } else {
-            toolkit = Toolkit.getDefaultToolkit();
+            toolkit = Toolkit.getDefbultToolkit();
         }
         toolkit.beep();
-    } // provideErrorFeedback()
+    } // provideErrorFeedbbck()
 
     /**
-     * Returns the value of the specified system desktop property by
-     * invoking <code>Toolkit.getDefaultToolkit().getDesktopProperty()</code>.
-     * If the value of the specified property is {@code null},
-     * {@code fallbackValue} is returned.
+     * Returns the vblue of the specified system desktop property by
+     * invoking <code>Toolkit.getDefbultToolkit().getDesktopProperty()</code>.
+     * If the vblue of the specified property is {@code null},
+     * {@code fbllbbckVblue} is returned.
      *
-     * @param systemPropertyName the name of the system desktop property being queried
-     * @param fallbackValue the object to be returned as the value if the system value is null
-     * @return the current value of the desktop property
+     * @pbrbm systemPropertyNbme the nbme of the system desktop property being queried
+     * @pbrbm fbllbbckVblue the object to be returned bs the vblue if the system vblue is null
+     * @return the current vblue of the desktop property
      *
-     * @see java.awt.Toolkit#getDesktopProperty
+     * @see jbvb.bwt.Toolkit#getDesktopProperty
      *
      * @since 1.4
      */
-    public static Object getDesktopPropertyValue(String systemPropertyName, Object fallbackValue) {
-        Object value = Toolkit.getDefaultToolkit().getDesktopProperty(systemPropertyName);
-        if (value == null) {
-            return fallbackValue;
-        } else if (value instanceof Color) {
-            return new ColorUIResource((Color)value);
-        } else if (value instanceof Font) {
-            return new FontUIResource((Font)value);
+    public stbtic Object getDesktopPropertyVblue(String systemPropertyNbme, Object fbllbbckVblue) {
+        Object vblue = Toolkit.getDefbultToolkit().getDesktopProperty(systemPropertyNbme);
+        if (vblue == null) {
+            return fbllbbckVblue;
+        } else if (vblue instbnceof Color) {
+            return new ColorUIResource((Color)vblue);
+        } else if (vblue instbnceof Font) {
+            return new FontUIResource((Font)vblue);
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns an <code>Icon</code> with a disabled appearance.
-     * This method is used to generate a disabled <code>Icon</code> when
-     * one has not been specified.  For example, if you create a
-     * <code>JButton</code> and only specify an <code>Icon</code> via
-     * <code>setIcon</code> this method will be called to generate the
-     * disabled <code>Icon</code>. If {@code null} is passed as
+     * Returns bn <code>Icon</code> with b disbbled bppebrbnce.
+     * This method is used to generbte b disbbled <code>Icon</code> when
+     * one hbs not been specified.  For exbmple, if you crebte b
+     * <code>JButton</code> bnd only specify bn <code>Icon</code> vib
+     * <code>setIcon</code> this method will be cblled to generbte the
+     * disbbled <code>Icon</code>. If {@code null} is pbssed bs
      * <code>icon</code> this method returns {@code null}.
      * <p>
-     * Some look and feels might not render the disabled {@code Icon}, in which
-     * case they will ignore this.
+     * Some look bnd feels might not render the disbbled {@code Icon}, in which
+     * cbse they will ignore this.
      *
-     * @param component {@code JComponent} that will display the {@code Icon},
-     *         may be {@code null}
-     * @param icon {@code Icon} to generate the disabled icon from
-     * @return disabled {@code Icon}, or {@code null} if a suitable
-     *         {@code Icon} can not be generated
+     * @pbrbm component {@code JComponent} thbt will displby the {@code Icon},
+     *         mby be {@code null}
+     * @pbrbm icon {@code Icon} to generbte the disbbled icon from
+     * @return disbbled {@code Icon}, or {@code null} if b suitbble
+     *         {@code Icon} cbn not be generbted
      * @since 1.5
      */
-    public Icon getDisabledIcon(JComponent component, Icon icon) {
-        if (icon instanceof ImageIcon) {
-            return new ImageIconUIResource(GrayFilter.
-                   createDisabledImage(((ImageIcon)icon).getImage()));
+    public Icon getDisbbledIcon(JComponent component, Icon icon) {
+        if (icon instbnceof ImbgeIcon) {
+            return new ImbgeIconUIResource(GrbyFilter.
+                   crebteDisbbledImbge(((ImbgeIcon)icon).getImbge()));
         }
         return null;
     }
 
     /**
-     * Returns an <code>Icon</code> for use by disabled
-     * components that are also selected. This method is used to generate an
-     * <code>Icon</code> for components that are in both the disabled and
-     * selected states but do not have a specific <code>Icon</code> for this
-     * state.  For example, if you create a <code>JButton</code> and only
-     * specify an <code>Icon</code> via <code>setIcon</code> this method
-     * will be called to generate the disabled and selected
-     * <code>Icon</code>. If {@code null} is passed as <code>icon</code> this
+     * Returns bn <code>Icon</code> for use by disbbled
+     * components thbt bre blso selected. This method is used to generbte bn
+     * <code>Icon</code> for components thbt bre in both the disbbled bnd
+     * selected stbtes but do not hbve b specific <code>Icon</code> for this
+     * stbte.  For exbmple, if you crebte b <code>JButton</code> bnd only
+     * specify bn <code>Icon</code> vib <code>setIcon</code> this method
+     * will be cblled to generbte the disbbled bnd selected
+     * <code>Icon</code>. If {@code null} is pbssed bs <code>icon</code> this
      * methods returns {@code null}.
      * <p>
-     * Some look and feels might not render the disabled and selected
-     * {@code Icon}, in which case they will ignore this.
+     * Some look bnd feels might not render the disbbled bnd selected
+     * {@code Icon}, in which cbse they will ignore this.
      *
-     * @param component {@code JComponent} that will display the {@code Icon},
-     *        may be {@code null}
-     * @param icon {@code Icon} to generate disabled and selected icon from
-     * @return disabled and selected icon, or {@code null} if a suitable
-     *         {@code Icon} can not be generated.
+     * @pbrbm component {@code JComponent} thbt will displby the {@code Icon},
+     *        mby be {@code null}
+     * @pbrbm icon {@code Icon} to generbte disbbled bnd selected icon from
+     * @return disbbled bnd selected icon, or {@code null} if b suitbble
+     *         {@code Icon} cbn not be generbted.
      * @since 1.5
      */
-    public Icon getDisabledSelectedIcon(JComponent component, Icon icon) {
-        return getDisabledIcon(component, icon);
+    public Icon getDisbbledSelectedIcon(JComponent component, Icon icon) {
+        return getDisbbledIcon(component, icon);
     }
 
     /**
-     * Return a short string that identifies this look and feel, e.g.
-     * "CDE/Motif".  This string should be appropriate for a menu item.
-     * Distinct look and feels should have different names, e.g.
-     * a subclass of MotifLookAndFeel that changes the way a few components
-     * are rendered should be called "CDE/Motif My Way"; something
-     * that would be useful to a user trying to select a L&amp;F from a list
-     * of names.
+     * Return b short string thbt identifies this look bnd feel, e.g.
+     * "CDE/Motif".  This string should be bppropribte for b menu item.
+     * Distinct look bnd feels should hbve different nbmes, e.g.
+     * b subclbss of MotifLookAndFeel thbt chbnges the wby b few components
+     * bre rendered should be cblled "CDE/Motif My Wby"; something
+     * thbt would be useful to b user trying to select b L&bmp;F from b list
+     * of nbmes.
      *
-     * @return short identifier for the look and feel
+     * @return short identifier for the look bnd feel
      */
-    public abstract String getName();
+    public bbstrbct String getNbme();
 
 
     /**
-     * Return a string that identifies this look and feel.  This string
-     * will be used by applications/services that want to recognize
-     * well known look and feel implementations.  Presently
-     * the well known names are "Motif", "Windows", "Mac", "Metal".  Note
-     * that a LookAndFeel derived from a well known superclass
-     * that doesn't make any fundamental changes to the look or feel
+     * Return b string thbt identifies this look bnd feel.  This string
+     * will be used by bpplicbtions/services thbt wbnt to recognize
+     * well known look bnd feel implementbtions.  Presently
+     * the well known nbmes bre "Motif", "Windows", "Mbc", "Metbl".  Note
+     * thbt b LookAndFeel derived from b well known superclbss
+     * thbt doesn't mbke bny fundbmentbl chbnges to the look or feel
      * shouldn't override this method.
      *
-     * @return identifier for the look and feel
+     * @return identifier for the look bnd feel
      */
-    public abstract String getID();
+    public bbstrbct String getID();
 
 
     /**
-     * Return a one line description of this look and feel implementation,
-     * e.g. "The CDE/Motif Look and Feel".   This string is intended for
-     * the user, e.g. in the title of a window or in a ToolTip message.
+     * Return b one line description of this look bnd feel implementbtion,
+     * e.g. "The CDE/Motif Look bnd Feel".   This string is intended for
+     * the user, e.g. in the title of b window or in b ToolTip messbge.
      *
-     * @return short description for the look and feel
+     * @return short description for the look bnd feel
      */
-    public abstract String getDescription();
+    public bbstrbct String getDescription();
 
 
     /**
      * Returns {@code true} if the <code>LookAndFeel</code> returned
-     * <code>RootPaneUI</code> instances support providing {@code Window}
-     * decorations in a <code>JRootPane</code>.
+     * <code>RootPbneUI</code> instbnces support providing {@code Window}
+     * decorbtions in b <code>JRootPbne</code>.
      * <p>
-     * The default implementation returns {@code false}, subclasses that
-     * support {@code Window} decorations should override this and return
+     * The defbult implementbtion returns {@code fblse}, subclbsses thbt
+     * support {@code Window} decorbtions should override this bnd return
      * {@code true}.
      *
-     * @return {@code true} if the {@code RootPaneUI} instances created by
-     *         this look and feel support client side decorations
-     * @see JDialog#setDefaultLookAndFeelDecorated
-     * @see JFrame#setDefaultLookAndFeelDecorated
-     * @see JRootPane#setWindowDecorationStyle
+     * @return {@code true} if the {@code RootPbneUI} instbnces crebted by
+     *         this look bnd feel support client side decorbtions
+     * @see JDiblog#setDefbultLookAndFeelDecorbted
+     * @see JFrbme#setDefbultLookAndFeelDecorbted
+     * @see JRootPbne#setWindowDecorbtionStyle
      * @since 1.4
      */
-    public boolean getSupportsWindowDecorations() {
-        return false;
+    public boolebn getSupportsWindowDecorbtions() {
+        return fblse;
     }
 
     /**
-     * If the underlying platform has a "native" look and feel, and
-     * this is an implementation of it, return {@code true}.  For
-     * example, when the underlying platform is Solaris running CDE
-     * a CDE/Motif look and feel implementation would return {@code
+     * If the underlying plbtform hbs b "nbtive" look bnd feel, bnd
+     * this is bn implementbtion of it, return {@code true}.  For
+     * exbmple, when the underlying plbtform is Solbris running CDE
+     * b CDE/Motif look bnd feel implementbtion would return {@code
      * true}.
      *
-     * @return {@code true} if this look and feel represents the underlying
-     *         platform look and feel
+     * @return {@code true} if this look bnd feel represents the underlying
+     *         plbtform look bnd feel
      */
-    public abstract boolean isNativeLookAndFeel();
+    public bbstrbct boolebn isNbtiveLookAndFeel();
 
 
     /**
-     * Return {@code true} if the underlying platform supports and or permits
-     * this look and feel.  This method returns {@code false} if the look
-     * and feel depends on special resources or legal agreements that
-     * aren't defined for the current platform.
+     * Return {@code true} if the underlying plbtform supports bnd or permits
+     * this look bnd feel.  This method returns {@code fblse} if the look
+     * bnd feel depends on specibl resources or legbl bgreements thbt
+     * bren't defined for the current plbtform.
      *
      *
-     * @return {@code true} if this is a supported look and feel
-     * @see UIManager#setLookAndFeel
+     * @return {@code true} if this is b supported look bnd feel
+     * @see UIMbnbger#setLookAndFeel
      */
-    public abstract boolean isSupportedLookAndFeel();
+    public bbstrbct boolebn isSupportedLookAndFeel();
 
 
     /**
-     * Initializes the look and feel. While this method is public,
-     * it should only be invoked by the {@code UIManager} when a
-     * look and feel is installed as the current look and feel. This
-     * method is invoked before the {@code UIManager} invokes
-     * {@code getDefaults}. This method is intended to perform any
-     * initialization for the look and feel. Subclasses
-     * should do any one-time setup they need here, rather than
-     * in a static initializer, because look and feel class objects
-     * may be loaded just to discover that {@code isSupportedLookAndFeel()}
-     * returns {@code false}.
+     * Initiblizes the look bnd feel. While this method is public,
+     * it should only be invoked by the {@code UIMbnbger} when b
+     * look bnd feel is instblled bs the current look bnd feel. This
+     * method is invoked before the {@code UIMbnbger} invokes
+     * {@code getDefbults}. This method is intended to perform bny
+     * initiblizbtion for the look bnd feel. Subclbsses
+     * should do bny one-time setup they need here, rbther thbn
+     * in b stbtic initiblizer, becbuse look bnd feel clbss objects
+     * mby be lobded just to discover thbt {@code isSupportedLookAndFeel()}
+     * returns {@code fblse}.
      *
-     * @see #uninitialize
-     * @see UIManager#setLookAndFeel
+     * @see #uninitiblize
+     * @see UIMbnbger#setLookAndFeel
      */
-    public void initialize() {
+    public void initiblize() {
     }
 
 
     /**
-     * Uninitializes the look and feel. While this method is public,
-     * it should only be invoked by the {@code UIManager} when
-     * the look and feel is uninstalled. For example,
-     * {@code UIManager.setLookAndFeel} invokes this when the look and
-     * feel is changed.
+     * Uninitiblizes the look bnd feel. While this method is public,
+     * it should only be invoked by the {@code UIMbnbger} when
+     * the look bnd feel is uninstblled. For exbmple,
+     * {@code UIMbnbger.setLookAndFeel} invokes this when the look bnd
+     * feel is chbnged.
      * <p>
-     * Subclasses may choose to free up some resources here.
+     * Subclbsses mby choose to free up some resources here.
      *
-     * @see #initialize
-     * @see UIManager#setLookAndFeel
+     * @see #initiblize
+     * @see UIMbnbger#setLookAndFeel
      */
-    public void uninitialize() {
+    public void uninitiblize() {
     }
 
     /**
-     * Returns the look and feel defaults. While this method is public,
-     * it should only be invoked by the {@code UIManager} when the
-     * look and feel is set as the current look and feel and after
-     * {@code initialize} has been invoked.
+     * Returns the look bnd feel defbults. While this method is public,
+     * it should only be invoked by the {@code UIMbnbger} when the
+     * look bnd feel is set bs the current look bnd feel bnd bfter
+     * {@code initiblize} hbs been invoked.
      *
-     * @return the look and feel defaults
-     * @see #initialize
-     * @see #uninitialize
-     * @see UIManager#setLookAndFeel
+     * @return the look bnd feel defbults
+     * @see #initiblize
+     * @see #uninitiblize
+     * @see UIMbnbger#setLookAndFeel
      */
-    public UIDefaults getDefaults() {
+    public UIDefbults getDefbults() {
         return null;
     }
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
     public String toString() {
-        return "[" + getDescription() + " - " + getClass().getName() + "]";
+        return "[" + getDescription() + " - " + getClbss().getNbme() + "]";
     }
 }

@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.local;
+pbckbge sun.jvmstbt.perfdbtb.monitor.protocol.locbl;
 
-import java.util.*;
-import java.lang.reflect.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.lbng.reflect.*;
+import jbvb.io.*;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import sun.jvmstat.perfdata.monitor.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.event.*;
+import sun.jvmstbt.perfdbtb.monitor.*;
 
 /**
- * Concrete implementation of the AbstractMonitoredVm class for the
- * <em>local:</em> protocol for the HotSpot PerfData monitoring implementation.
+ * Concrete implementbtion of the AbstrbctMonitoredVm clbss for the
+ * <em>locbl:</em> protocol for the HotSpot PerfDbtb monitoring implementbtion.
  * <p>
- * This class provides the ability to attach to the instrumentation buffer
- * of a live target Java Virtual Machine through a HotSpot specific attach
- * mechanism.
+ * This clbss provides the bbility to bttbch to the instrumentbtion buffer
+ * of b live tbrget Jbvb Virtubl Mbchine through b HotSpot specific bttbch
+ * mechbnism.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class LocalMonitoredVm extends AbstractMonitoredVm {
+public clbss LocblMonitoredVm extends AbstrbctMonitoredVm {
 
     /**
      * List of registered listeners.
      */
-    private ArrayList<VmListener> listeners;
+    privbte ArrbyList<VmListener> listeners;
 
     /**
-     * Task performing listener notification.
+     * Tbsk performing listener notificbtion.
      */
-    private NotifierTask task;
+    privbte NotifierTbsk tbsk;
 
     /**
-     * Create a LocalMonitoredVm instance.
+     * Crebte b LocblMonitoredVm instbnce.
      *
-     * @param vmid the vm identifier specifying the target JVM
-     * @param interval the sampling interval
+     * @pbrbm vmid the vm identifier specifying the tbrget JVM
+     * @pbrbm intervbl the sbmpling intervbl
      */
-    public LocalMonitoredVm(VmIdentifier vmid, int interval)
+    public LocblMonitoredVm(VmIdentifier vmid, int intervbl)
            throws MonitorException {
-        super(vmid, interval);
-        this.pdb = new PerfDataBuffer(vmid);
-        listeners = new ArrayList<VmListener>();
+        super(vmid, intervbl);
+        this.pdb = new PerfDbtbBuffer(vmid);
+        listeners = new ArrbyList<VmListener>();
     }
 
     /**
      * {@inheritDoc}.
      */
-    public void detach() {
-        if (interval > 0) {
+    public void detbch() {
+        if (intervbl > 0) {
             /*
-             * if the notifier task is running, stop it, otherwise it can
-             * access non-existent memory once we've detached from the
+             * if the notifier tbsk is running, stop it, otherwise it cbn
+             * bccess non-existent memory once we've detbched from the
              * underlying buffer.
              */
-            if (task != null) {
-                task.cancel();
-                task = null;
+            if (tbsk != null) {
+                tbsk.cbncel();
+                tbsk = null;
             }
         }
-        super.detach();
+        super.detbch();
     }
 
     /**
      * {@inheritDoc}.
      */
-    public void addVmListener(VmListener l) {
+    public void bddVmListener(VmListener l) {
         synchronized(listeners) {
-            listeners.add(l);
-            if (task == null) {
-                task = new NotifierTask();
-                LocalEventTimer timer = LocalEventTimer.getInstance();
-                timer.schedule(task, interval, interval);
+            listeners.bdd(l);
+            if (tbsk == null) {
+                tbsk = new NotifierTbsk();
+                LocblEventTimer timer = LocblEventTimer.getInstbnce();
+                timer.schedule(tbsk, intervbl, intervbl);
             }
         }
     }
@@ -107,9 +107,9 @@ public class LocalMonitoredVm extends AbstractMonitoredVm {
     public void removeVmListener(VmListener l) {
         synchronized(listeners) {
             listeners.remove(l);
-            if (listeners.isEmpty() && task != null) {
-                task.cancel();
-                task = null;
+            if (listeners.isEmpty() && tbsk != null) {
+                tbsk.cbncel();
+                tbsk = null;
             }
         }
     }
@@ -117,98 +117,98 @@ public class LocalMonitoredVm extends AbstractMonitoredVm {
     /**
      * {@inheritDoc}.
      */
-    public void setInterval(int newInterval) {
+    public void setIntervbl(int newIntervbl) {
         synchronized(listeners) {
-            if (newInterval == interval) {
+            if (newIntervbl == intervbl) {
                 return;
             }
 
-            int oldInterval = interval;
-            super.setInterval(newInterval);
+            int oldIntervbl = intervbl;
+            super.setIntervbl(newIntervbl);
 
-            if (task != null) {
-                task.cancel();
-                NotifierTask oldTask = task;
-                task = new NotifierTask();
-                LocalEventTimer timer = LocalEventTimer.getInstance();
-                CountedTimerTaskUtils.reschedule(timer, oldTask, task,
-                                                 oldInterval, newInterval);
+            if (tbsk != null) {
+                tbsk.cbncel();
+                NotifierTbsk oldTbsk = tbsk;
+                tbsk = new NotifierTbsk();
+                LocblEventTimer timer = LocblEventTimer.getInstbnce();
+                CountedTimerTbskUtils.reschedule(timer, oldTbsk, tbsk,
+                                                 oldIntervbl, newIntervbl);
             }
         }
     }
 
     /**
-     * Fire MonitoredVmStructureChanged events.
+     * Fire MonitoredVmStructureChbnged events.
      *
-     * @param inserted List of Monitor objects inserted.
-     * @param removed List of Monitor objects removed.
+     * @pbrbm inserted List of Monitor objects inserted.
+     * @pbrbm removed List of Monitor objects removed.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    void fireMonitorStatusChangedEvents(List<Monitor> inserted, List<Monitor> removed) {
-        MonitorStatusChangeEvent ev = null;
-        ArrayList<VmListener> registered = null;
+    @SuppressWbrnings("unchecked") // Cbst of result of clone
+    void fireMonitorStbtusChbngedEvents(List<Monitor> inserted, List<Monitor> removed) {
+        MonitorStbtusChbngeEvent ev = null;
+        ArrbyList<VmListener> registered = null;
 
         synchronized (listeners) {
-            registered = (ArrayList)listeners.clone();
+            registered = (ArrbyList)listeners.clone();
         }
 
-        for (Iterator<VmListener> i = registered.iterator(); i.hasNext(); /* empty */) {
+        for (Iterbtor<VmListener> i = registered.iterbtor(); i.hbsNext(); /* empty */) {
             VmListener l = i.next();
-            // lazily create the event object;
+            // lbzily crebte the event object;
             if (ev == null) {
-                ev = new MonitorStatusChangeEvent(this, inserted, removed);
+                ev = new MonitorStbtusChbngeEvent(this, inserted, removed);
             }
-            l.monitorStatusChanged(ev);
+            l.monitorStbtusChbnged(ev);
         }
     }
 
     /**
-     * Fire MonitoredUpdated events.
+     * Fire MonitoredUpdbted events.
      */
-    void fireMonitorsUpdatedEvents() {
+    void fireMonitorsUpdbtedEvents() {
         VmEvent ev = null;
-        ArrayList<VmListener> registered = null;
+        ArrbyList<VmListener> registered = null;
 
         synchronized (listeners) {
-            registered = cast(listeners.clone());
+            registered = cbst(listeners.clone());
         }
 
         for (VmListener l :  registered) {
-            // lazily create the event object;
+            // lbzily crebte the event object;
             if (ev == null) {
                 ev = new VmEvent(this);
             }
-            l.monitorsUpdated(ev);
+            l.monitorsUpdbted(ev);
         }
     }
 
     /**
-     * Class to notify listeners of Monitor related events for
-     * the target JVM.
+     * Clbss to notify listeners of Monitor relbted events for
+     * the tbrget JVM.
      */
-    private class NotifierTask extends CountedTimerTask {
+    privbte clbss NotifierTbsk extends CountedTimerTbsk {
         public void run() {
             super.run();
             try {
-                MonitorStatus status = getMonitorStatus();
-                List<Monitor> inserted = status.getInserted();
-                List<Monitor> removed = status.getRemoved();
+                MonitorStbtus stbtus = getMonitorStbtus();
+                List<Monitor> inserted = stbtus.getInserted();
+                List<Monitor> removed = stbtus.getRemoved();
 
                 if (!inserted.isEmpty() || !removed.isEmpty()) {
-                    fireMonitorStatusChangedEvents(inserted, removed);
+                    fireMonitorStbtusChbngedEvents(inserted, removed);
                 }
-                fireMonitorsUpdatedEvents();
-            } catch (MonitorException e) {
-                // XXX: use logging api
-                System.err.println("Exception updating monitors for "
+                fireMonitorsUpdbtedEvents();
+            } cbtch (MonitorException e) {
+                // XXX: use logging bpi
+                System.err.println("Exception updbting monitors for "
                                    + getVmIdentifier());
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
         }
     }
-    // Suppress unchecked cast warning msg.
-    @SuppressWarnings("unchecked")
-    static <T> T cast(Object x) {
+    // Suppress unchecked cbst wbrning msg.
+    @SuppressWbrnings("unchecked")
+    stbtic <T> T cbst(Object x) {
         return (T) x;
     }
 }

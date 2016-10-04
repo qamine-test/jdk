@@ -1,363 +1,363 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
-import java.io.*;
-import java.beans.ConstructorProperties;
+import jbvb.io.*;
+import jbvb.bebns.ConstructorProperties;
 
 /**
- * {@code TreePath} represents an array of objects that uniquely
- * identify the path to a node in a tree. The elements of the array
- * are ordered with the root as the first element of the array. For
- * example, a file on the file system is uniquely identified based on
- * the array of parent directories and the name of the file. The path
- * {@code /tmp/foo/bar} could be represented by a {@code TreePath} as
- * {@code new TreePath(new Object[] {"tmp", "foo", "bar"})}.
+ * {@code TreePbth} represents bn brrby of objects thbt uniquely
+ * identify the pbth to b node in b tree. The elements of the brrby
+ * bre ordered with the root bs the first element of the brrby. For
+ * exbmple, b file on the file system is uniquely identified bbsed on
+ * the brrby of pbrent directories bnd the nbme of the file. The pbth
+ * {@code /tmp/foo/bbr} could be represented by b {@code TreePbth} bs
+ * {@code new TreePbth(new Object[] {"tmp", "foo", "bbr"})}.
  * <p>
- * {@code TreePath} is used extensively by {@code JTree} and related classes.
- * For example, {@code JTree} represents the selection as an array of
- * {@code TreePath}s. When used with {@code JTree}, the elements of the
- * path are the objects returned from the {@code TreeModel}. When {@code JTree}
- * is paired with {@code DefaultTreeModel}, the elements of the
- * path are {@code TreeNode}s. The following example illustrates extracting
- * the user object from the selection of a {@code JTree}:
+ * {@code TreePbth} is used extensively by {@code JTree} bnd relbted clbsses.
+ * For exbmple, {@code JTree} represents the selection bs bn brrby of
+ * {@code TreePbth}s. When used with {@code JTree}, the elements of the
+ * pbth bre the objects returned from the {@code TreeModel}. When {@code JTree}
+ * is pbired with {@code DefbultTreeModel}, the elements of the
+ * pbth bre {@code TreeNode}s. The following exbmple illustrbtes extrbcting
+ * the user object from the selection of b {@code JTree}:
  * <pre>
- *   DefaultMutableTreeNode root = ...;
- *   DefaultTreeModel model = new DefaultTreeModel(root);
+ *   DefbultMutbbleTreeNode root = ...;
+ *   DefbultTreeModel model = new DefbultTreeModel(root);
  *   JTree tree = new JTree(model);
  *   ...
- *   TreePath selectedPath = tree.getSelectionPath();
- *   DefaultMutableTreeNode selectedNode =
- *       ((DefaultMutableTreeNode)selectedPath.getLastPathComponent()).
+ *   TreePbth selectedPbth = tree.getSelectionPbth();
+ *   DefbultMutbbleTreeNode selectedNode =
+ *       ((DefbultMutbbleTreeNode)selectedPbth.getLbstPbthComponent()).
  *       getUserObject();
  * </pre>
- * Subclasses typically need override only {@code
- * getLastPathComponent}, and {@code getParentPath}. As {@code JTree}
- * internally creates {@code TreePath}s at various points, it's
- * generally not useful to subclass {@code TreePath} and use with
+ * Subclbsses typicblly need override only {@code
+ * getLbstPbthComponent}, bnd {@code getPbrentPbth}. As {@code JTree}
+ * internblly crebtes {@code TreePbth}s bt vbrious points, it's
+ * generblly not useful to subclbss {@code TreePbth} bnd use with
  * {@code JTree}.
  * <p>
- * While {@code TreePath} is serializable, a {@code
- * NotSerializableException} is thrown if any elements of the path are
- * not serializable.
+ * While {@code TreePbth} is seriblizbble, b {@code
+ * NotSeriblizbbleException} is thrown if bny elements of the pbth bre
+ * not seriblizbble.
  * <p>
- * For further information and examples of using tree paths,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
- * in <em>The Java Tutorial.</em>
+ * For further informbtion bnd exbmples of using tree pbths,
+ * see <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tree.html">How to Use Trees</b>
+ * in <em>The Jbvb Tutoribl.</em>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Scott Violet
- * @author Philip Milne
+ * @buthor Scott Violet
+ * @buthor Philip Milne
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TreePath extends Object implements Serializable {
-    /** Path representing the parent, null if lastPathComponent represents
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss TreePbth extends Object implements Seriblizbble {
+    /** Pbth representing the pbrent, null if lbstPbthComponent represents
      * the root. */
-    private TreePath           parentPath;
-    /** Last path component. */
-    private Object lastPathComponent;
+    privbte TreePbth           pbrentPbth;
+    /** Lbst pbth component. */
+    privbte Object lbstPbthComponent;
 
     /**
-     * Creates a {@code TreePath} from an array. The array uniquely
-     * identifies the path to a node.
+     * Crebtes b {@code TreePbth} from bn brrby. The brrby uniquely
+     * identifies the pbth to b node.
      *
-     * @param path an array of objects representing the path to a node
-     * @throws IllegalArgumentException if {@code path} is {@code null},
-     *         empty, or contains a {@code null} value
+     * @pbrbm pbth bn brrby of objects representing the pbth to b node
+     * @throws IllegblArgumentException if {@code pbth} is {@code null},
+     *         empty, or contbins b {@code null} vblue
      */
-    @ConstructorProperties({"path"})
-    public TreePath(Object[] path) {
-        if(path == null || path.length == 0)
-            throw new IllegalArgumentException("path in TreePath must be non null and not empty.");
-        lastPathComponent = path[path.length - 1];
-        if (lastPathComponent == null) {
-            throw new IllegalArgumentException(
-                "Last path component must be non-null");
+    @ConstructorProperties({"pbth"})
+    public TreePbth(Object[] pbth) {
+        if(pbth == null || pbth.length == 0)
+            throw new IllegblArgumentException("pbth in TreePbth must be non null bnd not empty.");
+        lbstPbthComponent = pbth[pbth.length - 1];
+        if (lbstPbthComponent == null) {
+            throw new IllegblArgumentException(
+                "Lbst pbth component must be non-null");
         }
-        if(path.length > 1)
-            parentPath = new TreePath(path, path.length - 1);
+        if(pbth.length > 1)
+            pbrentPbth = new TreePbth(pbth, pbth.length - 1);
     }
 
     /**
-     * Creates a {@code TreePath} containing a single element. This is
-     * used to construct a {@code TreePath} identifying the root.
+     * Crebtes b {@code TreePbth} contbining b single element. This is
+     * used to construct b {@code TreePbth} identifying the root.
      *
-     * @param lastPathComponent the root
-     * @see #TreePath(Object[])
-     * @throws IllegalArgumentException if {@code lastPathComponent} is
+     * @pbrbm lbstPbthComponent the root
+     * @see #TreePbth(Object[])
+     * @throws IllegblArgumentException if {@code lbstPbthComponent} is
      *         {@code null}
      */
-    public TreePath(Object lastPathComponent) {
-        if(lastPathComponent == null)
-            throw new IllegalArgumentException("path in TreePath must be non null.");
-        this.lastPathComponent = lastPathComponent;
-        parentPath = null;
+    public TreePbth(Object lbstPbthComponent) {
+        if(lbstPbthComponent == null)
+            throw new IllegblArgumentException("pbth in TreePbth must be non null.");
+        this.lbstPbthComponent = lbstPbthComponent;
+        pbrentPbth = null;
     }
 
     /**
-     * Creates a {@code TreePath} with the specified parent and element.
+     * Crebtes b {@code TreePbth} with the specified pbrent bnd element.
      *
-     * @param parent the path to the parent, or {@code null} to indicate
+     * @pbrbm pbrent the pbth to the pbrent, or {@code null} to indicbte
      *        the root
-     * @param lastPathComponent the last path element
-     * @throws IllegalArgumentException if {@code lastPathComponent} is
+     * @pbrbm lbstPbthComponent the lbst pbth element
+     * @throws IllegblArgumentException if {@code lbstPbthComponent} is
      *         {@code null}
      */
-    protected TreePath(TreePath parent, Object lastPathComponent) {
-        if(lastPathComponent == null)
-            throw new IllegalArgumentException("path in TreePath must be non null.");
-        parentPath = parent;
-        this.lastPathComponent = lastPathComponent;
+    protected TreePbth(TreePbth pbrent, Object lbstPbthComponent) {
+        if(lbstPbthComponent == null)
+            throw new IllegblArgumentException("pbth in TreePbth must be non null.");
+        pbrentPbth = pbrent;
+        this.lbstPbthComponent = lbstPbthComponent;
     }
 
     /**
-     * Creates a {@code TreePath} from an array. The returned
-     * {@code TreePath} represents the elements of the array from
+     * Crebtes b {@code TreePbth} from bn brrby. The returned
+     * {@code TreePbth} represents the elements of the brrby from
      * {@code 0} to {@code length - 1}.
      * <p>
-     * This constructor is used internally, and generally not useful outside
-     * of subclasses.
+     * This constructor is used internblly, bnd generblly not useful outside
+     * of subclbsses.
      *
-     * @param path the array to create the {@code TreePath} from
-     * @param length identifies the number of elements in {@code path} to
-     *        create the {@code TreePath} from
-     * @throws NullPointerException if {@code path} is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code length - 1} is
-     *         outside the range of the array
-     * @throws IllegalArgumentException if any of the elements from
-     *         {@code 0} to {@code length - 1} are {@code null}
+     * @pbrbm pbth the brrby to crebte the {@code TreePbth} from
+     * @pbrbm length identifies the number of elements in {@code pbth} to
+     *        crebte the {@code TreePbth} from
+     * @throws NullPointerException if {@code pbth} is {@code null}
+     * @throws ArrbyIndexOutOfBoundsException if {@code length - 1} is
+     *         outside the rbnge of the brrby
+     * @throws IllegblArgumentException if bny of the elements from
+     *         {@code 0} to {@code length - 1} bre {@code null}
      */
-    protected TreePath(Object[] path, int length) {
-        lastPathComponent = path[length - 1];
-        if (lastPathComponent == null) {
-            throw new IllegalArgumentException(
-                "Path elements must be non-null");
+    protected TreePbth(Object[] pbth, int length) {
+        lbstPbthComponent = pbth[length - 1];
+        if (lbstPbthComponent == null) {
+            throw new IllegblArgumentException(
+                "Pbth elements must be non-null");
         }
         if(length > 1)
-            parentPath = new TreePath(path, length - 1);
+            pbrentPbth = new TreePbth(pbth, length - 1);
     }
 
     /**
-     * Creates an empty {@code TreePath}.  This is provided for
-     * subclasses that represent paths in a different
-     * manner. Subclasses that use this constructor must override
-     * {@code getLastPathComponent}, and {@code getParentPath}.
+     * Crebtes bn empty {@code TreePbth}.  This is provided for
+     * subclbsses thbt represent pbths in b different
+     * mbnner. Subclbsses thbt use this constructor must override
+     * {@code getLbstPbthComponent}, bnd {@code getPbrentPbth}.
      */
-    protected TreePath() {
+    protected TreePbth() {
     }
 
     /**
-     * Returns an ordered array of the elements of this {@code TreePath}.
+     * Returns bn ordered brrby of the elements of this {@code TreePbth}.
      * The first element is the root.
      *
-     * @return an array of the elements in this {@code TreePath}
+     * @return bn brrby of the elements in this {@code TreePbth}
      */
-    public Object[] getPath() {
-        int            i = getPathCount();
+    public Object[] getPbth() {
+        int            i = getPbthCount();
         Object[]       result = new Object[i--];
 
-        for(TreePath path = this; path != null; path = path.getParentPath()) {
-            result[i--] = path.getLastPathComponent();
+        for(TreePbth pbth = this; pbth != null; pbth = pbth.getPbrentPbth()) {
+            result[i--] = pbth.getLbstPbthComponent();
         }
         return result;
     }
 
     /**
-     * Returns the last element of this path.
+     * Returns the lbst element of this pbth.
      *
-     * @return the last element in the path
+     * @return the lbst element in the pbth
      */
-    public Object getLastPathComponent() {
-        return lastPathComponent;
+    public Object getLbstPbthComponent() {
+        return lbstPbthComponent;
     }
 
     /**
-     * Returns the number of elements in the path.
+     * Returns the number of elements in the pbth.
      *
-     * @return the number of elements in the path
+     * @return the number of elements in the pbth
      */
-    public int getPathCount() {
+    public int getPbthCount() {
         int        result = 0;
-        for(TreePath path = this; path != null; path = path.getParentPath()) {
+        for(TreePbth pbth = this; pbth != null; pbth = pbth.getPbrentPbth()) {
             result++;
         }
         return result;
     }
 
     /**
-     * Returns the path element at the specified index.
+     * Returns the pbth element bt the specified index.
      *
-     * @param index the index of the element requested
-     * @return the element at the specified index
-     * @throws IllegalArgumentException if the index is outside the
-     *         range of this path
+     * @pbrbm index the index of the element requested
+     * @return the element bt the specified index
+     * @throws IllegblArgumentException if the index is outside the
+     *         rbnge of this pbth
      */
-    public Object getPathComponent(int index) {
-        int          pathLength = getPathCount();
+    public Object getPbthComponent(int index) {
+        int          pbthLength = getPbthCount();
 
-        if(index < 0 || index >= pathLength)
-            throw new IllegalArgumentException("Index " + index +
-                                           " is out of the specified range");
+        if(index < 0 || index >= pbthLength)
+            throw new IllegblArgumentException("Index " + index +
+                                           " is out of the specified rbnge");
 
-        TreePath         path = this;
+        TreePbth         pbth = this;
 
-        for(int i = pathLength-1; i != index; i--) {
-            path = path.getParentPath();
+        for(int i = pbthLength-1; i != index; i--) {
+            pbth = pbth.getPbrentPbth();
         }
-        return path.getLastPathComponent();
+        return pbth.getLbstPbthComponent();
     }
 
     /**
-     * Compares this {@code TreePath} to the specified object. This returns
-     * {@code true} if {@code o} is a {@code TreePath} with the exact
-     * same elements (as determined by using {@code equals} on each
-     * element of the path).
+     * Compbres this {@code TreePbth} to the specified object. This returns
+     * {@code true} if {@code o} is b {@code TreePbth} with the exbct
+     * sbme elements (bs determined by using {@code equbls} on ebch
+     * element of the pbth).
      *
-     * @param o the object to compare
+     * @pbrbm o the object to compbre
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if(o == this)
             return true;
-        if(o instanceof TreePath) {
-            TreePath            oTreePath = (TreePath)o;
+        if(o instbnceof TreePbth) {
+            TreePbth            oTreePbth = (TreePbth)o;
 
-            if(getPathCount() != oTreePath.getPathCount())
-                return false;
-            for(TreePath path = this; path != null;
-                    path = path.getParentPath()) {
-                if (!(path.getLastPathComponent().equals
-                      (oTreePath.getLastPathComponent()))) {
-                    return false;
+            if(getPbthCount() != oTreePbth.getPbthCount())
+                return fblse;
+            for(TreePbth pbth = this; pbth != null;
+                    pbth = pbth.getPbrentPbth()) {
+                if (!(pbth.getLbstPbthComponent().equbls
+                      (oTreePbth.getLbstPbthComponent()))) {
+                    return fblse;
                 }
-                oTreePath = oTreePath.getParentPath();
+                oTreePbth = oTreePbth.getPbrentPbth();
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the hash code of this {@code TreePath}. The hash code of a
-     * {@code TreePath} is the hash code of the last element in the path.
+     * Returns the hbsh code of this {@code TreePbth}. The hbsh code of b
+     * {@code TreePbth} is the hbsh code of the lbst element in the pbth.
      *
-     * @return the hashCode for the object
+     * @return the hbshCode for the object
      */
-    public int hashCode() {
-        return getLastPathComponent().hashCode();
+    public int hbshCode() {
+        return getLbstPbthComponent().hbshCode();
     }
 
     /**
-     * Returns true if <code>aTreePath</code> is a
-     * descendant of this
-     * {@code TreePath}. A {@code TreePath} {@code P1} is a descendant of a
-     * {@code TreePath} {@code P2}
-     * if {@code P1} contains all of the elements that make up
-     * {@code P2's} path.
-     * For example, if this object has the path {@code [a, b]},
-     * and <code>aTreePath</code> has the path {@code [a, b, c]},
-     * then <code>aTreePath</code> is a descendant of this object.
-     * However, if <code>aTreePath</code> has the path {@code [a]},
-     * then it is not a descendant of this object.  By this definition
-     * a {@code TreePath} is always considered a descendant of itself.
-     * That is, <code>aTreePath.isDescendant(aTreePath)</code> returns
+     * Returns true if <code>bTreePbth</code> is b
+     * descendbnt of this
+     * {@code TreePbth}. A {@code TreePbth} {@code P1} is b descendbnt of b
+     * {@code TreePbth} {@code P2}
+     * if {@code P1} contbins bll of the elements thbt mbke up
+     * {@code P2's} pbth.
+     * For exbmple, if this object hbs the pbth {@code [b, b]},
+     * bnd <code>bTreePbth</code> hbs the pbth {@code [b, b, c]},
+     * then <code>bTreePbth</code> is b descendbnt of this object.
+     * However, if <code>bTreePbth</code> hbs the pbth {@code [b]},
+     * then it is not b descendbnt of this object.  By this definition
+     * b {@code TreePbth} is blwbys considered b descendbnt of itself.
+     * Thbt is, <code>bTreePbth.isDescendbnt(bTreePbth)</code> returns
      * {@code true}.
      *
-     * @param aTreePath the {@code TreePath} to check
-     * @return true if <code>aTreePath</code> is a descendant of this path
+     * @pbrbm bTreePbth the {@code TreePbth} to check
+     * @return true if <code>bTreePbth</code> is b descendbnt of this pbth
      */
-    public boolean isDescendant(TreePath aTreePath) {
-        if(aTreePath == this)
+    public boolebn isDescendbnt(TreePbth bTreePbth) {
+        if(bTreePbth == this)
             return true;
 
-        if(aTreePath != null) {
-            int                 pathLength = getPathCount();
-            int                 oPathLength = aTreePath.getPathCount();
+        if(bTreePbth != null) {
+            int                 pbthLength = getPbthCount();
+            int                 oPbthLength = bTreePbth.getPbthCount();
 
-            if(oPathLength < pathLength)
-                // Can't be a descendant, has fewer components in the path.
-                return false;
-            while(oPathLength-- > pathLength)
-                aTreePath = aTreePath.getParentPath();
-            return equals(aTreePath);
+            if(oPbthLength < pbthLength)
+                // Cbn't be b descendbnt, hbs fewer components in the pbth.
+                return fblse;
+            while(oPbthLength-- > pbthLength)
+                bTreePbth = bTreePbth.getPbrentPbth();
+            return equbls(bTreePbth);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a new path containing all the elements of this path
-     * plus <code>child</code>. <code>child</code> is the last element
-     * of the newly created {@code TreePath}.
+     * Returns b new pbth contbining bll the elements of this pbth
+     * plus <code>child</code>. <code>child</code> is the lbst element
+     * of the newly crebted {@code TreePbth}.
      *
-     * @param   child   the path element to add
+     * @pbrbm   child   the pbth element to bdd
      * @throws          NullPointerException if {@code child} is {@code null}
-     * @return          a new path containing all the elements of this path
+     * @return          b new pbth contbining bll the elements of this pbth
      *                  plus {@code child}
      */
-    public TreePath pathByAddingChild(Object child) {
+    public TreePbth pbthByAddingChild(Object child) {
         if(child == null)
-            throw new NullPointerException("Null child not allowed");
+            throw new NullPointerException("Null child not bllowed");
 
-        return new TreePath(this, child);
+        return new TreePbth(this, child);
     }
 
     /**
-     * Returns the {@code TreePath} of the parent. A return value of
-     * {@code null} indicates this is the root node.
+     * Returns the {@code TreePbth} of the pbrent. A return vblue of
+     * {@code null} indicbtes this is the root node.
      *
-     * @return the parent path
+     * @return the pbrent pbth
      */
-    public TreePath getParentPath() {
-        return parentPath;
+    public TreePbth getPbrentPbth() {
+        return pbrentPbth;
     }
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a String representation of this object
+     * @return b String representbtion of this object
      */
     public String toString() {
         StringBuilder tempSpot = new StringBuilder("[");
 
-        for(int counter = 0, maxCounter = getPathCount();counter < maxCounter;
+        for(int counter = 0, mbxCounter = getPbthCount();counter < mbxCounter;
             counter++) {
             if(counter > 0)
-                tempSpot.append(", ");
-            tempSpot.append(getPathComponent(counter));
+                tempSpot.bppend(", ");
+            tempSpot.bppend(getPbthComponent(counter));
         }
-        tempSpot.append("]");
+        tempSpot.bppend("]");
         return tempSpot.toString();
     }
 }

@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.util.logging;
+pbckbge sun.util.logging;
 
-import java.lang.ref.WeakReference;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import sun.misc.JavaLangAccess;
-import sun.misc.SharedSecrets;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.io.PrintStrebm;
+import jbvb.io.PrintWriter;
+import jbvb.io.StringWriter;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbte;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.misc.JbvbLbngAccess;
+import sun.misc.ShbredSecrets;
 
 /**
- * Platform logger provides an API for the JRE components to log
- * messages.  This enables the runtime components to eliminate the
- * static dependency of the logging facility and also defers the
- * java.util.logging initialization until it is enabled.
- * In addition, the PlatformLogger API can be used if the logging
+ * Plbtform logger provides bn API for the JRE components to log
+ * messbges.  This enbbles the runtime components to eliminbte the
+ * stbtic dependency of the logging fbcility bnd blso defers the
+ * jbvb.util.logging initiblizbtion until it is enbbled.
+ * In bddition, the PlbtformLogger API cbn be used if the logging
  * module does not exist.
  *
- * If the logging facility is not enabled, the platform loggers
- * will output log messages per the default logging configuration
- * (see below). In this implementation, it does not log the
- * the stack frame information issuing the log message.
+ * If the logging fbcility is not enbbled, the plbtform loggers
+ * will output log messbges per the defbult logging configurbtion
+ * (see below). In this implementbtion, it does not log the
+ * the stbck frbme informbtion issuing the log messbge.
  *
- * When the logging facility is enabled (at startup or runtime),
- * the java.util.logging.Logger will be created for each platform
- * logger and all log messages will be forwarded to the Logger
- * to handle.
+ * When the logging fbcility is enbbled (bt stbrtup or runtime),
+ * the jbvb.util.logging.Logger will be crebted for ebch plbtform
+ * logger bnd bll log messbges will be forwbrded to the Logger
+ * to hbndle.
  *
- * Logging facility is "enabled" when one of the following
+ * Logging fbcility is "enbbled" when one of the following
  * conditions is met:
- * 1) a system property "java.util.logging.config.class" or
- *    "java.util.logging.config.file" is set
- * 2) java.util.logging.LogManager or java.util.logging.Logger
- *    is referenced that will trigger the logging initialization.
+ * 1) b system property "jbvb.util.logging.config.clbss" or
+ *    "jbvb.util.logging.config.file" is set
+ * 2) jbvb.util.logging.LogMbnbger or jbvb.util.logging.Logger
+ *    is referenced thbt will trigger the logging initiblizbtion.
  *
- * Default logging configuration:
- *   global logging level = INFO
- *   handlers = java.util.logging.ConsoleHandler
- *   java.util.logging.ConsoleHandler.level = INFO
- *   java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
+ * Defbult logging configurbtion:
+ *   globbl logging level = INFO
+ *   hbndlers = jbvb.util.logging.ConsoleHbndler
+ *   jbvb.util.logging.ConsoleHbndler.level = INFO
+ *   jbvb.util.logging.ConsoleHbndler.formbtter = jbvb.util.logging.SimpleFormbtter
  *
- * Limitation:
+ * Limitbtion:
  * <JAVA_HOME>/lib/logging.properties is the system-wide logging
- * configuration defined in the specification and read in the
- * default case to configure any java.util.logging.Logger instances.
- * Platform loggers will not detect if <JAVA_HOME>/lib/logging.properties
- * is modified. In other words, unless the java.util.logging API
- * is used at runtime or the logging system properties is set,
- * the platform loggers will use the default setting described above.
- * The platform loggers are designed for JDK developers use and
- * this limitation can be workaround with setting
- * -Djava.util.logging.config.file system property.
+ * configurbtion defined in the specificbtion bnd rebd in the
+ * defbult cbse to configure bny jbvb.util.logging.Logger instbnces.
+ * Plbtform loggers will not detect if <JAVA_HOME>/lib/logging.properties
+ * is modified. In other words, unless the jbvb.util.logging API
+ * is used bt runtime or the logging system properties is set,
+ * the plbtform loggers will use the defbult setting described bbove.
+ * The plbtform loggers bre designed for JDK developers use bnd
+ * this limitbtion cbn be workbround with setting
+ * -Djbvb.util.logging.config.file system property.
  *
  * @since 1.7
  */
-public class PlatformLogger {
+public clbss PlbtformLogger {
 
-    // The integer values must match that of {@code java.util.logging.Level}
+    // The integer vblues must mbtch thbt of {@code jbvb.util.logging.Level}
     // objects.
-    private static final int OFF     = Integer.MAX_VALUE;
-    private static final int SEVERE  = 1000;
-    private static final int WARNING = 900;
-    private static final int INFO    = 800;
-    private static final int CONFIG  = 700;
-    private static final int FINE    = 500;
-    private static final int FINER   = 400;
-    private static final int FINEST  = 300;
-    private static final int ALL     = Integer.MIN_VALUE;
+    privbte stbtic finbl int OFF     = Integer.MAX_VALUE;
+    privbte stbtic finbl int SEVERE  = 1000;
+    privbte stbtic finbl int WARNING = 900;
+    privbte stbtic finbl int INFO    = 800;
+    privbte stbtic finbl int CONFIG  = 700;
+    privbte stbtic finbl int FINE    = 500;
+    privbte stbtic finbl int FINER   = 400;
+    privbte stbtic finbl int FINEST  = 300;
+    privbte stbtic finbl int ALL     = Integer.MIN_VALUE;
 
     /**
-     * PlatformLogger logging levels.
+     * PlbtformLogger logging levels.
      */
-    public static enum Level {
-        // The name and value must match that of {@code java.util.logging.Level}s.
-        // Declare in ascending order of the given value for binary search.
+    public stbtic enum Level {
+        // The nbme bnd vblue must mbtch thbt of {@code jbvb.util.logging.Level}s.
+        // Declbre in bscending order of the given vblue for binbry sebrch.
         ALL,
         FINEST,
         FINER,
@@ -115,130 +115,130 @@ public class PlatformLogger {
         OFF;
 
         /**
-         * Associated java.util.logging.Level lazily initialized in
-         * JavaLoggerProxy's static initializer only once
-         * when java.util.logging is available and enabled.
-         * Only accessed by JavaLoggerProxy.
+         * Associbted jbvb.util.logging.Level lbzily initiblized in
+         * JbvbLoggerProxy's stbtic initiblizer only once
+         * when jbvb.util.logging is bvbilbble bnd enbbled.
+         * Only bccessed by JbvbLoggerProxy.
          */
-        /* java.util.logging.Level */ Object javaLevel;
+        /* jbvb.util.logging.Level */ Object jbvbLevel;
 
-        // ascending order for binary search matching the list of enum constants
-        private static final int[] LEVEL_VALUES = new int[] {
-            PlatformLogger.ALL, PlatformLogger.FINEST, PlatformLogger.FINER,
-            PlatformLogger.FINE, PlatformLogger.CONFIG, PlatformLogger.INFO,
-            PlatformLogger.WARNING, PlatformLogger.SEVERE, PlatformLogger.OFF
+        // bscending order for binbry sebrch mbtching the list of enum constbnts
+        privbte stbtic finbl int[] LEVEL_VALUES = new int[] {
+            PlbtformLogger.ALL, PlbtformLogger.FINEST, PlbtformLogger.FINER,
+            PlbtformLogger.FINE, PlbtformLogger.CONFIG, PlbtformLogger.INFO,
+            PlbtformLogger.WARNING, PlbtformLogger.SEVERE, PlbtformLogger.OFF
         };
 
-        public int intValue() {
-            return LEVEL_VALUES[this.ordinal()];
+        public int intVblue() {
+            return LEVEL_VALUES[this.ordinbl()];
         }
 
-        static Level valueOf(int level) {
+        stbtic Level vblueOf(int level) {
             switch (level) {
                 // ordering per the highest occurrences in the jdk source
                 // finest, fine, finer, info first
-                case PlatformLogger.FINEST  : return Level.FINEST;
-                case PlatformLogger.FINE    : return Level.FINE;
-                case PlatformLogger.FINER   : return Level.FINER;
-                case PlatformLogger.INFO    : return Level.INFO;
-                case PlatformLogger.WARNING : return Level.WARNING;
-                case PlatformLogger.CONFIG  : return Level.CONFIG;
-                case PlatformLogger.SEVERE  : return Level.SEVERE;
-                case PlatformLogger.OFF     : return Level.OFF;
-                case PlatformLogger.ALL     : return Level.ALL;
+                cbse PlbtformLogger.FINEST  : return Level.FINEST;
+                cbse PlbtformLogger.FINE    : return Level.FINE;
+                cbse PlbtformLogger.FINER   : return Level.FINER;
+                cbse PlbtformLogger.INFO    : return Level.INFO;
+                cbse PlbtformLogger.WARNING : return Level.WARNING;
+                cbse PlbtformLogger.CONFIG  : return Level.CONFIG;
+                cbse PlbtformLogger.SEVERE  : return Level.SEVERE;
+                cbse PlbtformLogger.OFF     : return Level.OFF;
+                cbse PlbtformLogger.ALL     : return Level.ALL;
             }
-            // return the nearest Level value >= the given level,
-            // for level > SEVERE, return SEVERE and exclude OFF
-            int i = Arrays.binarySearch(LEVEL_VALUES, 0, LEVEL_VALUES.length-2, level);
-            return values()[i >= 0 ? i : (-i-1)];
+            // return the nebrest Level vblue >= the given level,
+            // for level > SEVERE, return SEVERE bnd exclude OFF
+            int i = Arrbys.binbrySebrch(LEVEL_VALUES, 0, LEVEL_VALUES.length-2, level);
+            return vblues()[i >= 0 ? i : (-i-1)];
         }
     }
 
-    private static final Level DEFAULT_LEVEL = Level.INFO;
-    private static boolean loggingEnabled;
-    static {
-        loggingEnabled = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String cname = System.getProperty("java.util.logging.config.class");
-                    String fname = System.getProperty("java.util.logging.config.file");
-                    return (cname != null || fname != null);
+    privbte stbtic finbl Level DEFAULT_LEVEL = Level.INFO;
+    privbte stbtic boolebn loggingEnbbled;
+    stbtic {
+        loggingEnbbled = AccessController.doPrivileged(
+            new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    String cnbme = System.getProperty("jbvb.util.logging.config.clbss");
+                    String fnbme = System.getProperty("jbvb.util.logging.config.file");
+                    return (cnbme != null || fnbme != null);
                 }
             });
 
-        // force loading of all JavaLoggerProxy (sub)classes to make JIT de-optimizations
-        // less probable.  Don't initialize JavaLoggerProxy class since
-        // java.util.logging may not be enabled.
+        // force lobding of bll JbvbLoggerProxy (sub)clbsses to mbke JIT de-optimizbtions
+        // less probbble.  Don't initiblize JbvbLoggerProxy clbss since
+        // jbvb.util.logging mby not be enbbled.
         try {
-            Class.forName("sun.util.logging.PlatformLogger$DefaultLoggerProxy",
-                          false,
-                          PlatformLogger.class.getClassLoader());
-            Class.forName("sun.util.logging.PlatformLogger$JavaLoggerProxy",
-                          false,   // do not invoke class initializer
-                          PlatformLogger.class.getClassLoader());
-        } catch (ClassNotFoundException ex) {
-            throw new InternalError(ex);
+            Clbss.forNbme("sun.util.logging.PlbtformLogger$DefbultLoggerProxy",
+                          fblse,
+                          PlbtformLogger.clbss.getClbssLobder());
+            Clbss.forNbme("sun.util.logging.PlbtformLogger$JbvbLoggerProxy",
+                          fblse,   // do not invoke clbss initiblizer
+                          PlbtformLogger.clbss.getClbssLobder());
+        } cbtch (ClbssNotFoundException ex) {
+            throw new InternblError(ex);
         }
     }
 
-    // Table of known loggers.  Maps names to PlatformLoggers.
-    private static Map<String,WeakReference<PlatformLogger>> loggers =
-        new HashMap<>();
+    // Tbble of known loggers.  Mbps nbmes to PlbtformLoggers.
+    privbte stbtic Mbp<String,WebkReference<PlbtformLogger>> loggers =
+        new HbshMbp<>();
 
     /**
-     * Returns a PlatformLogger of a given name.
+     * Returns b PlbtformLogger of b given nbme.
      */
-    public static synchronized PlatformLogger getLogger(String name) {
-        PlatformLogger log = null;
-        WeakReference<PlatformLogger> ref = loggers.get(name);
+    public stbtic synchronized PlbtformLogger getLogger(String nbme) {
+        PlbtformLogger log = null;
+        WebkReference<PlbtformLogger> ref = loggers.get(nbme);
         if (ref != null) {
             log = ref.get();
         }
         if (log == null) {
-            log = new PlatformLogger(name);
-            loggers.put(name, new WeakReference<>(log));
+            log = new PlbtformLogger(nbme);
+            loggers.put(nbme, new WebkReference<>(log));
         }
         return log;
     }
 
     /**
-     * Initialize java.util.logging.Logger objects for all platform loggers.
-     * This method is called from LogManager.readPrimordialConfiguration().
+     * Initiblize jbvb.util.logging.Logger objects for bll plbtform loggers.
+     * This method is cblled from LogMbnbger.rebdPrimordiblConfigurbtion().
      */
-    public static synchronized void redirectPlatformLoggers() {
-        if (loggingEnabled || !LoggingSupport.isAvailable()) return;
+    public stbtic synchronized void redirectPlbtformLoggers() {
+        if (loggingEnbbled || !LoggingSupport.isAvbilbble()) return;
 
-        loggingEnabled = true;
-        for (Map.Entry<String, WeakReference<PlatformLogger>> entry : loggers.entrySet()) {
-            WeakReference<PlatformLogger> ref = entry.getValue();
-            PlatformLogger plog = ref.get();
+        loggingEnbbled = true;
+        for (Mbp.Entry<String, WebkReference<PlbtformLogger>> entry : loggers.entrySet()) {
+            WebkReference<PlbtformLogger> ref = entry.getVblue();
+            PlbtformLogger plog = ref.get();
             if (plog != null) {
-                plog.redirectToJavaLoggerProxy();
+                plog.redirectToJbvbLoggerProxy();
             }
         }
     }
 
     /**
-     * Creates a new JavaLoggerProxy and redirects the platform logger to it
+     * Crebtes b new JbvbLoggerProxy bnd redirects the plbtform logger to it
      */
-    private void redirectToJavaLoggerProxy() {
-        DefaultLoggerProxy lp = DefaultLoggerProxy.class.cast(this.loggerProxy);
-        JavaLoggerProxy jlp = new JavaLoggerProxy(lp.name, lp.level);
-        // the order of assignments is important
-        this.javaLoggerProxy = jlp;   // isLoggable checks javaLoggerProxy if set
+    privbte void redirectToJbvbLoggerProxy() {
+        DefbultLoggerProxy lp = DefbultLoggerProxy.clbss.cbst(this.loggerProxy);
+        JbvbLoggerProxy jlp = new JbvbLoggerProxy(lp.nbme, lp.level);
+        // the order of bssignments is importbnt
+        this.jbvbLoggerProxy = jlp;   // isLoggbble checks jbvbLoggerProxy if set
         this.loggerProxy = jlp;
     }
 
-    // DefaultLoggerProxy may be replaced with a JavaLoggerProxy object
-    // when the java.util.logging facility is enabled
-    private volatile LoggerProxy loggerProxy;
-    // javaLoggerProxy is only set when the java.util.logging facility is enabled
-    private volatile JavaLoggerProxy javaLoggerProxy;
-    private PlatformLogger(String name) {
-        if (loggingEnabled) {
-            this.loggerProxy = this.javaLoggerProxy = new JavaLoggerProxy(name);
+    // DefbultLoggerProxy mby be replbced with b JbvbLoggerProxy object
+    // when the jbvb.util.logging fbcility is enbbled
+    privbte volbtile LoggerProxy loggerProxy;
+    // jbvbLoggerProxy is only set when the jbvb.util.logging fbcility is enbbled
+    privbte volbtile JbvbLoggerProxy jbvbLoggerProxy;
+    privbte PlbtformLogger(String nbme) {
+        if (loggingEnbbled) {
+            this.loggerProxy = this.jbvbLoggerProxy = new JbvbLoggerProxy(nbme);
         } else {
-            this.loggerProxy = new DefaultLoggerProxy(name);
+            this.loggerProxy = new DefbultLoggerProxy(nbme);
         }
     }
 
@@ -246,204 +246,204 @@ public class PlatformLogger {
      * A convenience method to test if the logger is turned off.
      * (i.e. its level is OFF).
      */
-    public boolean isEnabled() {
-        return loggerProxy.isEnabled();
+    public boolebn isEnbbled() {
+        return loggerProxy.isEnbbled();
     }
 
     /**
-     * Gets the name for this platform logger.
+     * Gets the nbme for this plbtform logger.
      */
-    public String getName() {
-        return loggerProxy.name;
+    public String getNbme() {
+        return loggerProxy.nbme;
     }
 
     /**
-     * Returns true if a message of the given level would actually
+     * Returns true if b messbge of the given level would bctublly
      * be logged by this logger.
      */
-    public boolean isLoggable(Level level) {
+    public boolebn isLoggbble(Level level) {
         if (level == null) {
             throw new NullPointerException();
         }
-        // performance-sensitive method: use two monomorphic call-sites
-        JavaLoggerProxy jlp = javaLoggerProxy;
-        return jlp != null ? jlp.isLoggable(level) : loggerProxy.isLoggable(level);
+        // performbnce-sensitive method: use two monomorphic cbll-sites
+        JbvbLoggerProxy jlp = jbvbLoggerProxy;
+        return jlp != null ? jlp.isLoggbble(level) : loggerProxy.isLoggbble(level);
     }
 
     /**
-     * Get the log level that has been specified for this PlatformLogger.
-     * The result may be null, which means that this logger's
-     * effective level will be inherited from its parent.
+     * Get the log level thbt hbs been specified for this PlbtformLogger.
+     * The result mby be null, which mebns thbt this logger's
+     * effective level will be inherited from its pbrent.
      *
-     * @return  this PlatformLogger's level
+     * @return  this PlbtformLogger's level
      */
     public Level level() {
         return loggerProxy.getLevel();
     }
 
     /**
-     * Set the log level specifying which message levels will be
-     * logged by this logger.  Message levels lower than this
-     * value will be discarded.  The level value {@link #OFF}
-     * can be used to turn off logging.
+     * Set the log level specifying which messbge levels will be
+     * logged by this logger.  Messbge levels lower thbn this
+     * vblue will be discbrded.  The level vblue {@link #OFF}
+     * cbn be used to turn off logging.
      * <p>
-     * If the new level is null, it means that this node should
-     * inherit its level from its nearest ancestor with a specific
-     * (non-null) level value.
+     * If the new level is null, it mebns thbt this node should
+     * inherit its level from its nebrest bncestor with b specific
+     * (non-null) level vblue.
      *
-     * @param newLevel the new value for the log level (may be null)
+     * @pbrbm newLevel the new vblue for the log level (mby be null)
      */
     public void setLevel(Level newLevel) {
         loggerProxy.setLevel(newLevel);
     }
 
     /**
-     * Logs a SEVERE message.
+     * Logs b SEVERE messbge.
      */
     public void severe(String msg) {
         loggerProxy.doLog(Level.SEVERE, msg);
     }
 
-    public void severe(String msg, Throwable t) {
+    public void severe(String msg, Throwbble t) {
         loggerProxy.doLog(Level.SEVERE, msg, t);
     }
 
-    public void severe(String msg, Object... params) {
-        loggerProxy.doLog(Level.SEVERE, msg, params);
+    public void severe(String msg, Object... pbrbms) {
+        loggerProxy.doLog(Level.SEVERE, msg, pbrbms);
     }
 
     /**
-     * Logs a WARNING message.
+     * Logs b WARNING messbge.
      */
-    public void warning(String msg) {
+    public void wbrning(String msg) {
         loggerProxy.doLog(Level.WARNING, msg);
     }
 
-    public void warning(String msg, Throwable t) {
+    public void wbrning(String msg, Throwbble t) {
         loggerProxy.doLog(Level.WARNING, msg, t);
     }
 
-    public void warning(String msg, Object... params) {
-        loggerProxy.doLog(Level.WARNING, msg, params);
+    public void wbrning(String msg, Object... pbrbms) {
+        loggerProxy.doLog(Level.WARNING, msg, pbrbms);
     }
 
     /**
-     * Logs an INFO message.
+     * Logs bn INFO messbge.
      */
     public void info(String msg) {
         loggerProxy.doLog(Level.INFO, msg);
     }
 
-    public void info(String msg, Throwable t) {
+    public void info(String msg, Throwbble t) {
         loggerProxy.doLog(Level.INFO, msg, t);
     }
 
-    public void info(String msg, Object... params) {
-        loggerProxy.doLog(Level.INFO, msg, params);
+    public void info(String msg, Object... pbrbms) {
+        loggerProxy.doLog(Level.INFO, msg, pbrbms);
     }
 
     /**
-     * Logs a CONFIG message.
+     * Logs b CONFIG messbge.
      */
     public void config(String msg) {
         loggerProxy.doLog(Level.CONFIG, msg);
     }
 
-    public void config(String msg, Throwable t) {
+    public void config(String msg, Throwbble t) {
         loggerProxy.doLog(Level.CONFIG, msg, t);
     }
 
-    public void config(String msg, Object... params) {
-        loggerProxy.doLog(Level.CONFIG, msg, params);
+    public void config(String msg, Object... pbrbms) {
+        loggerProxy.doLog(Level.CONFIG, msg, pbrbms);
     }
 
     /**
-     * Logs a FINE message.
+     * Logs b FINE messbge.
      */
     public void fine(String msg) {
         loggerProxy.doLog(Level.FINE, msg);
     }
 
-    public void fine(String msg, Throwable t) {
+    public void fine(String msg, Throwbble t) {
         loggerProxy.doLog(Level.FINE, msg, t);
     }
 
-    public void fine(String msg, Object... params) {
-        loggerProxy.doLog(Level.FINE, msg, params);
+    public void fine(String msg, Object... pbrbms) {
+        loggerProxy.doLog(Level.FINE, msg, pbrbms);
     }
 
     /**
-     * Logs a FINER message.
+     * Logs b FINER messbge.
      */
     public void finer(String msg) {
         loggerProxy.doLog(Level.FINER, msg);
     }
 
-    public void finer(String msg, Throwable t) {
+    public void finer(String msg, Throwbble t) {
         loggerProxy.doLog(Level.FINER, msg, t);
     }
 
-    public void finer(String msg, Object... params) {
-        loggerProxy.doLog(Level.FINER, msg, params);
+    public void finer(String msg, Object... pbrbms) {
+        loggerProxy.doLog(Level.FINER, msg, pbrbms);
     }
 
     /**
-     * Logs a FINEST message.
+     * Logs b FINEST messbge.
      */
     public void finest(String msg) {
         loggerProxy.doLog(Level.FINEST, msg);
     }
 
-    public void finest(String msg, Throwable t) {
+    public void finest(String msg, Throwbble t) {
         loggerProxy.doLog(Level.FINEST, msg, t);
     }
 
-    public void finest(String msg, Object... params) {
-        loggerProxy.doLog(Level.FINEST, msg, params);
+    public void finest(String msg, Object... pbrbms) {
+        loggerProxy.doLog(Level.FINEST, msg, pbrbms);
     }
 
     /**
-     * Abstract base class for logging support, defining the API and common field.
+     * Abstrbct bbse clbss for logging support, defining the API bnd common field.
      */
-    private static abstract class LoggerProxy {
-        final String name;
+    privbte stbtic bbstrbct clbss LoggerProxy {
+        finbl String nbme;
 
-        protected LoggerProxy(String name) {
-            this.name = name;
+        protected LoggerProxy(String nbme) {
+            this.nbme = nbme;
         }
 
-        abstract boolean isEnabled();
+        bbstrbct boolebn isEnbbled();
 
-        abstract Level getLevel();
-        abstract void setLevel(Level newLevel);
+        bbstrbct Level getLevel();
+        bbstrbct void setLevel(Level newLevel);
 
-        abstract void doLog(Level level, String msg);
-        abstract void doLog(Level level, String msg, Throwable thrown);
-        abstract void doLog(Level level, String msg, Object... params);
+        bbstrbct void doLog(Level level, String msg);
+        bbstrbct void doLog(Level level, String msg, Throwbble thrown);
+        bbstrbct void doLog(Level level, String msg, Object... pbrbms);
 
-        abstract boolean isLoggable(Level level);
+        bbstrbct boolebn isLoggbble(Level level);
     }
 
 
-    private static final class DefaultLoggerProxy extends LoggerProxy {
+    privbte stbtic finbl clbss DefbultLoggerProxy extends LoggerProxy {
         /**
-         * Default platform logging support - output messages to System.err -
-         * equivalent to ConsoleHandler with SimpleFormatter.
+         * Defbult plbtform logging support - output messbges to System.err -
+         * equivblent to ConsoleHbndler with SimpleFormbtter.
          */
-        private static PrintStream outputStream() {
+        privbte stbtic PrintStrebm outputStrebm() {
             return System.err;
         }
 
-        volatile Level effectiveLevel; // effective level (never null)
-        volatile Level level;          // current level set for this node (may be null)
+        volbtile Level effectiveLevel; // effective level (never null)
+        volbtile Level level;          // current level set for this node (mby be null)
 
-        DefaultLoggerProxy(String name) {
-            super(name);
+        DefbultLoggerProxy(String nbme) {
+            super(nbme);
             this.effectiveLevel = deriveEffectiveLevel(null);
             this.level = null;
         }
 
-        boolean isEnabled() {
+        boolebn isEnbbled() {
             return effectiveLevel != Level.OFF;
         }
 
@@ -460,200 +460,200 @@ public class PlatformLogger {
         }
 
         void doLog(Level level, String msg) {
-            if (isLoggable(level)) {
-                outputStream().print(format(level, msg, null));
+            if (isLoggbble(level)) {
+                outputStrebm().print(formbt(level, msg, null));
             }
         }
 
-        void doLog(Level level, String msg, Throwable thrown) {
-            if (isLoggable(level)) {
-                outputStream().print(format(level, msg, thrown));
+        void doLog(Level level, String msg, Throwbble thrown) {
+            if (isLoggbble(level)) {
+                outputStrebm().print(formbt(level, msg, thrown));
             }
         }
 
-        void doLog(Level level, String msg, Object... params) {
-            if (isLoggable(level)) {
-                String newMsg = formatMessage(msg, params);
-                outputStream().print(format(level, newMsg, null));
+        void doLog(Level level, String msg, Object... pbrbms) {
+            if (isLoggbble(level)) {
+                String newMsg = formbtMessbge(msg, pbrbms);
+                outputStrebm().print(formbt(level, newMsg, null));
             }
         }
 
-        boolean isLoggable(Level level) {
+        boolebn isLoggbble(Level level) {
             Level effectiveLevel = this.effectiveLevel;
-            return level.intValue() >= effectiveLevel.intValue() && effectiveLevel != Level.OFF;
+            return level.intVblue() >= effectiveLevel.intVblue() && effectiveLevel != Level.OFF;
         }
 
-        // derive effective level (could do inheritance search like j.u.l.Logger)
-        private Level deriveEffectiveLevel(Level level) {
+        // derive effective level (could do inheritbnce sebrch like j.u.l.Logger)
+        privbte Level deriveEffectiveLevel(Level level) {
             return level == null ? DEFAULT_LEVEL : level;
         }
 
-        // Copied from java.util.logging.Formatter.formatMessage
-        private String formatMessage(String format, Object... parameters) {
-            // Do the formatting.
+        // Copied from jbvb.util.logging.Formbtter.formbtMessbge
+        privbte String formbtMessbge(String formbt, Object... pbrbmeters) {
+            // Do the formbtting.
             try {
-                if (parameters == null || parameters.length == 0) {
-                    // No parameters.  Just return format string.
-                    return format;
+                if (pbrbmeters == null || pbrbmeters.length == 0) {
+                    // No pbrbmeters.  Just return formbt string.
+                    return formbt;
                 }
-                // Is it a java.text style format?
-                // Ideally we could match with
-                // Pattern.compile("\\{\\d").matcher(format).find())
-                // However the cost is 14% higher, so we cheaply check for
-                // 1 of the first 4 parameters
-                if (format.indexOf("{0") >= 0 || format.indexOf("{1") >=0 ||
-                            format.indexOf("{2") >=0|| format.indexOf("{3") >=0) {
-                    return java.text.MessageFormat.format(format, parameters);
+                // Is it b jbvb.text style formbt?
+                // Ideblly we could mbtch with
+                // Pbttern.compile("\\{\\d").mbtcher(formbt).find())
+                // However the cost is 14% higher, so we chebply check for
+                // 1 of the first 4 pbrbmeters
+                if (formbt.indexOf("{0") >= 0 || formbt.indexOf("{1") >=0 ||
+                            formbt.indexOf("{2") >=0|| formbt.indexOf("{3") >=0) {
+                    return jbvb.text.MessbgeFormbt.formbt(formbt, pbrbmeters);
                 }
-                return format;
-            } catch (Exception ex) {
-                // Formatting failed: use format string.
-                return format;
+                return formbt;
+            } cbtch (Exception ex) {
+                // Formbtting fbiled: use formbt string.
+                return formbt;
             }
         }
 
-        private static final String formatString =
-            LoggingSupport.getSimpleFormat(false); // don't check logging.properties
+        privbte stbtic finbl String formbtString =
+            LoggingSupport.getSimpleFormbt(fblse); // don't check logging.properties
 
-        // minimize memory allocation
-        private Date date = new Date();
-        private synchronized String format(Level level, String msg, Throwable thrown) {
-            date.setTime(System.currentTimeMillis());
-            String throwable = "";
+        // minimize memory bllocbtion
+        privbte Dbte dbte = new Dbte();
+        privbte synchronized String formbt(Level level, String msg, Throwbble thrown) {
+            dbte.setTime(System.currentTimeMillis());
+            String throwbble = "";
             if (thrown != null) {
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 pw.println();
-                thrown.printStackTrace(pw);
+                thrown.printStbckTrbce(pw);
                 pw.close();
-                throwable = sw.toString();
+                throwbble = sw.toString();
             }
 
-            return String.format(formatString,
-                                 date,
-                                 getCallerInfo(),
-                                 name,
-                                 level.name(),
+            return String.formbt(formbtString,
+                                 dbte,
+                                 getCbllerInfo(),
+                                 nbme,
+                                 level.nbme(),
                                  msg,
-                                 throwable);
+                                 throwbble);
         }
 
-        // Returns the caller's class and method's name; best effort
-        // if cannot infer, return the logger's name.
-        private String getCallerInfo() {
-            String sourceClassName = null;
-            String sourceMethodName = null;
+        // Returns the cbller's clbss bnd method's nbme; best effort
+        // if cbnnot infer, return the logger's nbme.
+        privbte String getCbllerInfo() {
+            String sourceClbssNbme = null;
+            String sourceMethodNbme = null;
 
-            JavaLangAccess access = SharedSecrets.getJavaLangAccess();
-            Throwable throwable = new Throwable();
-            int depth = access.getStackTraceDepth(throwable);
+            JbvbLbngAccess bccess = ShbredSecrets.getJbvbLbngAccess();
+            Throwbble throwbble = new Throwbble();
+            int depth = bccess.getStbckTrbceDepth(throwbble);
 
-            String logClassName = "sun.util.logging.PlatformLogger";
-            boolean lookingForLogger = true;
+            String logClbssNbme = "sun.util.logging.PlbtformLogger";
+            boolebn lookingForLogger = true;
             for (int ix = 0; ix < depth; ix++) {
-                // Calling getStackTraceElement directly prevents the VM
-                // from paying the cost of building the entire stack frame.
-                StackTraceElement frame =
-                    access.getStackTraceElement(throwable, ix);
-                String cname = frame.getClassName();
+                // Cblling getStbckTrbceElement directly prevents the VM
+                // from pbying the cost of building the entire stbck frbme.
+                StbckTrbceElement frbme =
+                    bccess.getStbckTrbceElement(throwbble, ix);
+                String cnbme = frbme.getClbssNbme();
                 if (lookingForLogger) {
-                    // Skip all frames until we have found the first logger frame.
-                    if (cname.equals(logClassName)) {
-                        lookingForLogger = false;
+                    // Skip bll frbmes until we hbve found the first logger frbme.
+                    if (cnbme.equbls(logClbssNbme)) {
+                        lookingForLogger = fblse;
                     }
                 } else {
-                    if (!cname.equals(logClassName)) {
-                        // We've found the relevant frame.
-                        sourceClassName = cname;
-                        sourceMethodName = frame.getMethodName();
-                        break;
+                    if (!cnbme.equbls(logClbssNbme)) {
+                        // We've found the relevbnt frbme.
+                        sourceClbssNbme = cnbme;
+                        sourceMethodNbme = frbme.getMethodNbme();
+                        brebk;
                     }
                 }
             }
 
-            if (sourceClassName != null) {
-                return sourceClassName + " " + sourceMethodName;
+            if (sourceClbssNbme != null) {
+                return sourceClbssNbme + " " + sourceMethodNbme;
             } else {
-                return name;
+                return nbme;
             }
         }
     }
 
     /**
-     * JavaLoggerProxy forwards all the calls to its corresponding
-     * java.util.logging.Logger object.
+     * JbvbLoggerProxy forwbrds bll the cblls to its corresponding
+     * jbvb.util.logging.Logger object.
      */
-    private static final class JavaLoggerProxy extends LoggerProxy {
-        // initialize javaLevel fields for mapping from Level enum -> j.u.l.Level object
-        static {
-            for (Level level : Level.values()) {
-                level.javaLevel = LoggingSupport.parseLevel(level.name());
+    privbte stbtic finbl clbss JbvbLoggerProxy extends LoggerProxy {
+        // initiblize jbvbLevel fields for mbpping from Level enum -> j.u.l.Level object
+        stbtic {
+            for (Level level : Level.vblues()) {
+                level.jbvbLevel = LoggingSupport.pbrseLevel(level.nbme());
             }
         }
 
-        private final /* java.util.logging.Logger */ Object javaLogger;
+        privbte finbl /* jbvb.util.logging.Logger */ Object jbvbLogger;
 
-        JavaLoggerProxy(String name) {
-            this(name, null);
+        JbvbLoggerProxy(String nbme) {
+            this(nbme, null);
         }
 
-        JavaLoggerProxy(String name, Level level) {
-            super(name);
-            this.javaLogger = LoggingSupport.getLogger(name);
+        JbvbLoggerProxy(String nbme, Level level) {
+            super(nbme);
+            this.jbvbLogger = LoggingSupport.getLogger(nbme);
             if (level != null) {
-                // level has been updated and so set the Logger's level
-                LoggingSupport.setLevel(javaLogger, level.javaLevel);
+                // level hbs been updbted bnd so set the Logger's level
+                LoggingSupport.setLevel(jbvbLogger, level.jbvbLevel);
             }
         }
 
         void doLog(Level level, String msg) {
-            LoggingSupport.log(javaLogger, level.javaLevel, msg);
+            LoggingSupport.log(jbvbLogger, level.jbvbLevel, msg);
         }
 
-        void doLog(Level level, String msg, Throwable t) {
-            LoggingSupport.log(javaLogger, level.javaLevel, msg, t);
+        void doLog(Level level, String msg, Throwbble t) {
+            LoggingSupport.log(jbvbLogger, level.jbvbLevel, msg, t);
         }
 
-        void doLog(Level level, String msg, Object... params) {
-            if (!isLoggable(level)) {
+        void doLog(Level level, String msg, Object... pbrbms) {
+            if (!isLoggbble(level)) {
                 return;
             }
-            // only pass String objects to the j.u.l.Logger which may
-            // be created by untrusted code
-            int len = (params != null) ? params.length : 0;
-            Object[] sparams = new String[len];
+            // only pbss String objects to the j.u.l.Logger which mby
+            // be crebted by untrusted code
+            int len = (pbrbms != null) ? pbrbms.length : 0;
+            Object[] spbrbms = new String[len];
             for (int i = 0; i < len; i++) {
-                sparams [i] = String.valueOf(params[i]);
+                spbrbms [i] = String.vblueOf(pbrbms[i]);
             }
-            LoggingSupport.log(javaLogger, level.javaLevel, msg, sparams);
+            LoggingSupport.log(jbvbLogger, level.jbvbLevel, msg, spbrbms);
         }
 
-        boolean isEnabled() {
-            return LoggingSupport.isLoggable(javaLogger, Level.OFF.javaLevel);
+        boolebn isEnbbled() {
+            return LoggingSupport.isLoggbble(jbvbLogger, Level.OFF.jbvbLevel);
         }
 
         /**
-         * Returns the PlatformLogger.Level mapped from j.u.l.Level
-         * set in the logger.  If the j.u.l.Logger is set to a custom Level,
-         * this method will return the nearest Level.
+         * Returns the PlbtformLogger.Level mbpped from j.u.l.Level
+         * set in the logger.  If the j.u.l.Logger is set to b custom Level,
+         * this method will return the nebrest Level.
          */
         Level getLevel() {
-            Object javaLevel = LoggingSupport.getLevel(javaLogger);
-            if (javaLevel == null) return null;
+            Object jbvbLevel = LoggingSupport.getLevel(jbvbLogger);
+            if (jbvbLevel == null) return null;
 
             try {
-                return Level.valueOf(LoggingSupport.getLevelName(javaLevel));
-            } catch (IllegalArgumentException e) {
-                return Level.valueOf(LoggingSupport.getLevelValue(javaLevel));
+                return Level.vblueOf(LoggingSupport.getLevelNbme(jbvbLevel));
+            } cbtch (IllegblArgumentException e) {
+                return Level.vblueOf(LoggingSupport.getLevelVblue(jbvbLevel));
             }
         }
 
         void setLevel(Level level) {
-            LoggingSupport.setLevel(javaLogger, level == null ? null : level.javaLevel);
+            LoggingSupport.setLevel(jbvbLogger, level == null ? null : level.jbvbLevel);
         }
 
-        boolean isLoggable(Level level) {
-            return LoggingSupport.isLoggable(javaLogger, level.javaLevel);
+        boolebn isLoggbble(Level level) {
+            return LoggingSupport.isLoggbble(jbvbLogger, level.jbvbLevel);
         }
     }
 }

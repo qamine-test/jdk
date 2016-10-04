@@ -1,625 +1,625 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Set;
-import javax.management.Descriptor;
-import javax.management.DescriptorRead;  // for Javadoc
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanParameterInfo;
+import jbvb.util.Set;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.DescriptorRebd;  // for Jbvbdoc
+import jbvbx.mbnbgement.ImmutbbleDescriptor;
+import jbvbx.mbnbgement.MBebnPbrbmeterInfo;
 
-// OpenMBeanAttributeInfoSupport and this class are very similar
-// but can't easily be refactored because there's no multiple inheritance.
-// The best we can do for refactoring is to put a bunch of static methods
-// in OpenMBeanAttributeInfoSupport and import them here.
-import static javax.management.openmbean.OpenMBeanAttributeInfoSupport.*;
+// OpenMBebnAttributeInfoSupport bnd this clbss bre very similbr
+// but cbn't ebsily be refbctored becbuse there's no multiple inheritbnce.
+// The best we cbn do for refbctoring is to put b bunch of stbtic methods
+// in OpenMBebnAttributeInfoSupport bnd import them here.
+import stbtic jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfoSupport.*;
 
 /**
- * Describes a parameter used in one or more operations or
- * constructors of an open MBean.
+ * Describes b pbrbmeter used in one or more operbtions or
+ * constructors of bn open MBebn.
  *
  *
  * @since 1.5
  */
-public class OpenMBeanParameterInfoSupport
-    extends MBeanParameterInfo
-    implements OpenMBeanParameterInfo {
+public clbss OpenMBebnPbrbmeterInfoSupport
+    extends MBebnPbrbmeterInfo
+    implements OpenMBebnPbrbmeterInfo {
 
-    /* Serial version */
-    static final long serialVersionUID = -7235016873758443122L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = -7235016873758443122L;
 
     /**
-     * @serial The open mbean parameter's <i>open type</i>
+     * @seribl The open mbebn pbrbmeter's <i>open type</i>
      */
-    private OpenType<?>    openType;
+    privbte OpenType<?>    openType;
 
     /**
-     * @serial The open mbean parameter's default value
+     * @seribl The open mbebn pbrbmeter's defbult vblue
      */
-    private Object      defaultValue    = null;
+    privbte Object      defbultVblue    = null;
 
     /**
-     * @serial The open mbean parameter's legal values. This {@link
-     * Set} is unmodifiable
+     * @seribl The open mbebn pbrbmeter's legbl vblues. This {@link
+     * Set} is unmodifibble
      */
-    private Set<?> legalValues     = null;  // to be constructed unmodifiable
+    privbte Set<?> legblVblues     = null;  // to be constructed unmodifibble
 
     /**
-     * @serial The open mbean parameter's min value
+     * @seribl The open mbebn pbrbmeter's min vblue
      */
-    private Comparable<?> minValue        = null;
+    privbte Compbrbble<?> minVblue        = null;
 
     /**
-     * @serial The open mbean parameter's max value
+     * @seribl The open mbebn pbrbmeter's mbx vblue
      */
-    private Comparable<?> maxValue        = null;
+    privbte Compbrbble<?> mbxVblue        = null;
 
 
-    // As this instance is immutable, these two values need only
-    // be calculated once.
-    private transient Integer myHashCode = null;        // As this instance is immutable, these two values
-    private transient String  myToString = null;        // need only be calculated once.
+    // As this instbnce is immutbble, these two vblues need only
+    // be cblculbted once.
+    privbte trbnsient Integer myHbshCode = null;        // As this instbnce is immutbble, these two vblues
+    privbte trbnsient String  myToString = null;        // need only be cblculbted once.
 
 
     /**
-     * Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType} and {@code description}.
+     * Constructs bn {@code OpenMBebnPbrbmeterInfoSupport} instbnce,
+     * which describes the pbrbmeter used in one or more operbtions or
+     * constructors of b clbss of open MBebns, with the specified
+     * {@code nbme}, {@code openType} bnd {@code description}.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
      * null.
      */
-    public OpenMBeanParameterInfoSupport(String name,
+    public OpenMBebnPbrbmeterInfoSupport(String nbme,
                                          String description,
                                          OpenType<?> openType) {
-        this(name, description, openType, (Descriptor) null);
+        this(nbme, description, openType, (Descriptor) null);
     }
 
     /**
-     * Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType}, {@code description},
-     * and {@code descriptor}.
+     * Constructs bn {@code OpenMBebnPbrbmeterInfoSupport} instbnce,
+     * which describes the pbrbmeter used in one or more operbtions or
+     * constructors of b clbss of open MBebns, with the specified
+     * {@code nbme}, {@code openType}, {@code description},
+     * bnd {@code descriptor}.
      *
-     * <p>The {@code descriptor} can contain entries that will define
-     * the values returned by certain methods of this class, as
-     * explained in the <a href="package-summary.html#constraints">
-     * package description</a>.
+     * <p>The {@code descriptor} cbn contbin entries thbt will define
+     * the vblues returned by certbin methods of this clbss, bs
+     * explbined in the <b href="pbckbge-summbry.html#constrbints">
+     * pbckbge description</b>.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param descriptor The descriptor for the parameter.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm descriptor The descriptor for the pbrbmeter.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
-     * null, or the descriptor entries are invalid as described in the
-     * <a href="package-summary.html#constraints">package
-     * description</a>.
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
+     * null, or the descriptor entries bre invblid bs described in the
+     * <b href="pbckbge-summbry.html#constrbints">pbckbge
+     * description</b>.
      *
      * @since 1.6
      */
-    public OpenMBeanParameterInfoSupport(String name,
+    public OpenMBebnPbrbmeterInfoSupport(String nbme,
                                          String description,
                                          OpenType<?> openType,
                                          Descriptor descriptor) {
 
 
-        // Construct parent's state
+        // Construct pbrent's stbte
         //
-        super(name,
-              (openType==null) ? null : openType.getClassName(),
+        super(nbme,
+              (openType==null) ? null : openType.getClbssNbme(),
               description,
-              ImmutableDescriptor.union(descriptor,(openType==null)?null:
+              ImmutbbleDescriptor.union(descriptor,(openType==null)?null:
                 openType.getDescriptor()));
 
-        // Initialize this instance's specific state
+        // Initiblize this instbnce's specific stbte
         //
         this.openType = openType;
 
-        descriptor = getDescriptor();  // replace null by empty
-        this.defaultValue = valueFrom(descriptor, "defaultValue", openType);
-        this.legalValues = valuesFrom(descriptor, "legalValues", openType);
-        this.minValue = comparableValueFrom(descriptor, "minValue", openType);
-        this.maxValue = comparableValueFrom(descriptor, "maxValue", openType);
+        descriptor = getDescriptor();  // replbce null by empty
+        this.defbultVblue = vblueFrom(descriptor, "defbultVblue", openType);
+        this.legblVblues = vbluesFrom(descriptor, "legblVblues", openType);
+        this.minVblue = compbrbbleVblueFrom(descriptor, "minVblue", openType);
+        this.mbxVblue = compbrbbleVblueFrom(descriptor, "mbxVblue", openType);
 
         try {
             check(this);
-        } catch (OpenDataException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+        } cbtch (OpenDbtbException e) {
+            throw new IllegblArgumentException(e.getMessbge(), e);
         }
     }
 
 
     /**
-     * Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType}, {@code description} and {@code
-     * defaultValue}.
+     * Constructs bn {@code OpenMBebnPbrbmeterInfoSupport} instbnce,
+     * which describes the pbrbmeter used in one or more operbtions or
+     * constructors of b clbss of open MBebns, with the specified
+     * {@code nbme}, {@code openType}, {@code description} bnd {@code
+     * defbultVblue}.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this parameter; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null, in which case it means that no default value is set.
+     * @pbrbm defbultVblue must be b vblid vblue for the {@code
+     * openType} specified for this pbrbmeter; defbult vblue not
+     * supported for {@code ArrbyType} bnd {@code TbbulbrType}; cbn be
+     * null, in which cbse it mebns thbt no defbult vblue is set.
      *
-     * @param <T> allows the compiler to check that the {@code defaultValue},
-     * if non-null, has the correct Java type for the given {@code openType}.
+     * @pbrbm <T> bllows the compiler to check thbt the {@code defbultVblue},
+     * if non-null, hbs the correct Jbvb type for the given {@code openType}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue} is not a
-     * valid value for the specified {@code openType}, or {@code
-     * defaultValue} is non null and {@code openType} is an {@code
-     * ArrayType} or a {@code TabularType}.
+     * @throws OpenDbtbException if {@code defbultVblue} is not b
+     * vblid vblue for the specified {@code openType}, or {@code
+     * defbultVblue} is non null bnd {@code openType} is bn {@code
+     * ArrbyType} or b {@code TbbulbrType}.
      */
-    public <T> OpenMBeanParameterInfoSupport(String   name,
+    public <T> OpenMBebnPbrbmeterInfoSupport(String   nbme,
                                              String   description,
                                              OpenType<T> openType,
-                                             T        defaultValue)
-            throws OpenDataException {
-        this(name, description, openType, defaultValue, (T[]) null);
+                                             T        defbultVblue)
+            throws OpenDbtbException {
+        this(nbme, description, openType, defbultVblue, (T[]) null);
     }
 
     /**
-     * <p>Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType}, {@code description}, {@code
-     * defaultValue} and {@code legalValues}.</p>
+     * <p>Constructs bn {@code OpenMBebnPbrbmeterInfoSupport} instbnce,
+     * which describes the pbrbmeter used in one or more operbtions or
+     * constructors of b clbss of open MBebns, with the specified
+     * {@code nbme}, {@code openType}, {@code description}, {@code
+     * defbultVblue} bnd {@code legblVblues}.</p>
      *
-     * <p>The contents of {@code legalValues} are copied, so subsequent
-     * modifications of the array referenced by {@code legalValues}
-     * have no impact on this {@code OpenMBeanParameterInfoSupport}
-     * instance.</p>
+     * <p>The contents of {@code legblVblues} bre copied, so subsequent
+     * modificbtions of the brrby referenced by {@code legblVblues}
+     * hbve no impbct on this {@code OpenMBebnPbrbmeterInfoSupport}
+     * instbnce.</p>
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this parameter; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null, in which case it means that no default value is set.
+     * @pbrbm defbultVblue must be b vblid vblue for the {@code
+     * openType} specified for this pbrbmeter; defbult vblue not
+     * supported for {@code ArrbyType} bnd {@code TbbulbrType}; cbn be
+     * null, in which cbse it mebns thbt no defbult vblue is set.
      *
-     * @param legalValues each contained value must be valid for the
-     * {@code openType} specified for this parameter; legal values not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
+     * @pbrbm legblVblues ebch contbined vblue must be vblid for the
+     * {@code openType} specified for this pbrbmeter; legbl vblues not
+     * supported for {@code ArrbyType} bnd {@code TbbulbrType}; cbn be
      * null or empty.
      *
-     * @param <T> allows the compiler to check that the {@code
-     * defaultValue} and {@code legalValues}, if non-null, have the
-     * correct Java type for the given {@code openType}.
+     * @pbrbm <T> bllows the compiler to check thbt the {@code
+     * defbultVblue} bnd {@code legblVblues}, if non-null, hbve the
+     * correct Jbvb type for the given {@code openType}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue} is not a
-     * valid value for the specified {@code openType}, or one value in
-     * {@code legalValues} is not valid for the specified {@code
-     * openType}, or {@code defaultValue} is non null and {@code
-     * openType} is an {@code ArrayType} or a {@code TabularType}, or
-     * {@code legalValues} is non null and non empty and {@code
-     * openType} is an {@code ArrayType} or a {@code TabularType}, or
-     * {@code legalValues} is non null and non empty and {@code
-     * defaultValue} is not contained in {@code legalValues}.
+     * @throws OpenDbtbException if {@code defbultVblue} is not b
+     * vblid vblue for the specified {@code openType}, or one vblue in
+     * {@code legblVblues} is not vblid for the specified {@code
+     * openType}, or {@code defbultVblue} is non null bnd {@code
+     * openType} is bn {@code ArrbyType} or b {@code TbbulbrType}, or
+     * {@code legblVblues} is non null bnd non empty bnd {@code
+     * openType} is bn {@code ArrbyType} or b {@code TbbulbrType}, or
+     * {@code legblVblues} is non null bnd non empty bnd {@code
+     * defbultVblue} is not contbined in {@code legblVblues}.
      */
-    public <T> OpenMBeanParameterInfoSupport(String   name,
+    public <T> OpenMBebnPbrbmeterInfoSupport(String   nbme,
                                              String   description,
                                              OpenType<T> openType,
-                                             T        defaultValue,
-                                             T[]      legalValues)
-            throws OpenDataException {
-        this(name, description, openType,
-             defaultValue, legalValues, null, null);
+                                             T        defbultVblue,
+                                             T[]      legblVblues)
+            throws OpenDbtbException {
+        this(nbme, description, openType,
+             defbultVblue, legblVblues, null, null);
     }
 
 
     /**
-     * Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType}, {@code description}, {@code
-     * defaultValue}, {@code minValue} and {@code maxValue}.
+     * Constructs bn {@code OpenMBebnPbrbmeterInfoSupport} instbnce,
+     * which describes the pbrbmeter used in one or more operbtions or
+     * constructors of b clbss of open MBebns, with the specified
+     * {@code nbme}, {@code openType}, {@code description}, {@code
+     * defbultVblue}, {@code minVblue} bnd {@code mbxVblue}.
      *
-     * It is possible to specify minimal and maximal values only for
-     * an open type whose values are {@code Comparable}.
+     * It is possible to specify minimbl bnd mbximbl vblues only for
+     * bn open type whose vblues bre {@code Compbrbble}.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this parameter; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null, in which case it means that no default value is set.
+     * @pbrbm defbultVblue must be b vblid vblue for the {@code
+     * openType} specified for this pbrbmeter; defbult vblue not
+     * supported for {@code ArrbyType} bnd {@code TbbulbrType}; cbn be
+     * null, in which cbse it mebns thbt no defbult vblue is set.
      *
-     * @param minValue must be valid for the {@code openType}
-     * specified for this parameter; can be null, in which case it
-     * means that no minimal value is set.
+     * @pbrbm minVblue must be vblid for the {@code openType}
+     * specified for this pbrbmeter; cbn be null, in which cbse it
+     * mebns thbt no minimbl vblue is set.
      *
-     * @param maxValue must be valid for the {@code openType}
-     * specified for this parameter; can be null, in which case it
-     * means that no maximal value is set.
+     * @pbrbm mbxVblue must be vblid for the {@code openType}
+     * specified for this pbrbmeter; cbn be null, in which cbse it
+     * mebns thbt no mbximbl vblue is set.
      *
-     * @param <T> allows the compiler to check that the {@code
-     * defaultValue}, {@code minValue}, and {@code maxValue}, if
-     * non-null, have the correct Java type for the given {@code
+     * @pbrbm <T> bllows the compiler to check thbt the {@code
+     * defbultVblue}, {@code minVblue}, bnd {@code mbxVblue}, if
+     * non-null, hbve the correct Jbvb type for the given {@code
      * openType}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue}, {@code
-     * minValue} or {@code maxValue} is not a valid value for the
-     * specified {@code openType}, or {@code defaultValue} is non null
-     * and {@code openType} is an {@code ArrayType} or a {@code
-     * TabularType}, or both {@code minValue} and {@code maxValue} are
-     * non-null and {@code minValue.compareTo(maxValue) > 0} is {@code
-     * true}, or both {@code defaultValue} and {@code minValue} are
-     * non-null and {@code minValue.compareTo(defaultValue) > 0} is
-     * {@code true}, or both {@code defaultValue} and {@code maxValue}
-     * are non-null and {@code defaultValue.compareTo(maxValue) > 0}
+     * @throws OpenDbtbException if {@code defbultVblue}, {@code
+     * minVblue} or {@code mbxVblue} is not b vblid vblue for the
+     * specified {@code openType}, or {@code defbultVblue} is non null
+     * bnd {@code openType} is bn {@code ArrbyType} or b {@code
+     * TbbulbrType}, or both {@code minVblue} bnd {@code mbxVblue} bre
+     * non-null bnd {@code minVblue.compbreTo(mbxVblue) > 0} is {@code
+     * true}, or both {@code defbultVblue} bnd {@code minVblue} bre
+     * non-null bnd {@code minVblue.compbreTo(defbultVblue) > 0} is
+     * {@code true}, or both {@code defbultVblue} bnd {@code mbxVblue}
+     * bre non-null bnd {@code defbultVblue.compbreTo(mbxVblue) > 0}
      * is {@code true}.
      */
-    public <T> OpenMBeanParameterInfoSupport(String     name,
+    public <T> OpenMBebnPbrbmeterInfoSupport(String     nbme,
                                              String     description,
                                              OpenType<T>   openType,
-                                             T          defaultValue,
-                                             Comparable<T> minValue,
-                                             Comparable<T> maxValue)
-            throws OpenDataException {
-        this(name, description, openType,
-             defaultValue, null, minValue, maxValue);
+                                             T          defbultVblue,
+                                             Compbrbble<T> minVblue,
+                                             Compbrbble<T> mbxVblue)
+            throws OpenDbtbException {
+        this(nbme, description, openType,
+             defbultVblue, null, minVblue, mbxVblue);
     }
 
-    private <T> OpenMBeanParameterInfoSupport(String name,
+    privbte <T> OpenMBebnPbrbmeterInfoSupport(String nbme,
                                               String description,
                                               OpenType<T> openType,
-                                              T defaultValue,
-                                              T[] legalValues,
-                                              Comparable<T> minValue,
-                                              Comparable<T> maxValue)
-            throws OpenDataException {
-        super(name,
-              (openType == null) ? null : openType.getClassName(),
+                                              T defbultVblue,
+                                              T[] legblVblues,
+                                              Compbrbble<T> minVblue,
+                                              Compbrbble<T> mbxVblue)
+            throws OpenDbtbException {
+        super(nbme,
+              (openType == null) ? null : openType.getClbssNbme(),
               description,
-              makeDescriptor(openType,
-                             defaultValue, legalValues, minValue, maxValue));
+              mbkeDescriptor(openType,
+                             defbultVblue, legblVblues, minVblue, mbxVblue));
 
         this.openType = openType;
 
         Descriptor d = getDescriptor();
-        this.defaultValue = defaultValue;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        // We already converted the array into an unmodifiable Set
+        this.defbultVblue = defbultVblue;
+        this.minVblue = minVblue;
+        this.mbxVblue = mbxVblue;
+        // We blrebdy converted the brrby into bn unmodifibble Set
         // in the descriptor.
-        this.legalValues = (Set<?>) d.getFieldValue("legalValues");
+        this.legblVblues = (Set<?>) d.getFieldVblue("legblVblues");
 
         check(this);
     }
 
     /**
-     * An object serialized in a version of the API before Descriptors were
-     * added to this class will have an empty or null Descriptor.
+     * An object seriblized in b version of the API before Descriptors were
+     * bdded to this clbss will hbve bn empty or null Descriptor.
      * For consistency with our
-     * behavior in this version, we must replace the object with one
-     * where the Descriptors reflect the same values of openType, defaultValue,
+     * behbvior in this version, we must replbce the object with one
+     * where the Descriptors reflect the sbme vblues of openType, defbultVblue,
      * etc.
      **/
-    private Object readResolve() {
-        if (getDescriptor().getFieldNames().length == 0) {
-            // This noise allows us to avoid "unchecked" warnings without
-            // having to suppress them explicitly.
-            OpenType<Object> xopenType = cast(openType);
-            Set<Object> xlegalValues = cast(legalValues);
-            Comparable<Object> xminValue = cast(minValue);
-            Comparable<Object> xmaxValue = cast(maxValue);
-            return new OpenMBeanParameterInfoSupport(
-                    name, description, openType,
-                    makeDescriptor(xopenType, defaultValue, xlegalValues,
-                                   xminValue, xmaxValue));
+    privbte Object rebdResolve() {
+        if (getDescriptor().getFieldNbmes().length == 0) {
+            // This noise bllows us to bvoid "unchecked" wbrnings without
+            // hbving to suppress them explicitly.
+            OpenType<Object> xopenType = cbst(openType);
+            Set<Object> xlegblVblues = cbst(legblVblues);
+            Compbrbble<Object> xminVblue = cbst(minVblue);
+            Compbrbble<Object> xmbxVblue = cbst(mbxVblue);
+            return new OpenMBebnPbrbmeterInfoSupport(
+                    nbme, description, openType,
+                    mbkeDescriptor(xopenType, defbultVblue, xlegblVblues,
+                                   xminVblue, xmbxVblue));
         } else
             return this;
     }
 
     /**
-     * Returns the open type for the values of the parameter described
-     * by this {@code OpenMBeanParameterInfoSupport} instance.
+     * Returns the open type for the vblues of the pbrbmeter described
+     * by this {@code OpenMBebnPbrbmeterInfoSupport} instbnce.
      */
     public OpenType<?> getOpenType() {
         return openType;
     }
 
     /**
-     * Returns the default value for the parameter described by this
-     * {@code OpenMBeanParameterInfoSupport} instance, if specified,
+     * Returns the defbult vblue for the pbrbmeter described by this
+     * {@code OpenMBebnPbrbmeterInfoSupport} instbnce, if specified,
      * or {@code null} otherwise.
      */
-    public Object getDefaultValue() {
+    public Object getDefbultVblue() {
 
-        // Special case for ArrayType and TabularType
-        // [JF] TODO: clone it so that it cannot be altered,
-        // [JF] TODO: if we decide to support defaultValue as an array itself.
-        // [JF] As of today (oct 2000) it is not supported so
-        // defaultValue is null for arrays. Nothing to do.
+        // Specibl cbse for ArrbyType bnd TbbulbrType
+        // [JF] TODO: clone it so thbt it cbnnot be bltered,
+        // [JF] TODO: if we decide to support defbultVblue bs bn brrby itself.
+        // [JF] As of todby (oct 2000) it is not supported so
+        // defbultVblue is null for brrbys. Nothing to do.
 
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Returns an unmodifiable Set of legal values for the parameter
-     * described by this {@code OpenMBeanParameterInfoSupport}
-     * instance, if specified, or {@code null} otherwise.
+     * Returns bn unmodifibble Set of legbl vblues for the pbrbmeter
+     * described by this {@code OpenMBebnPbrbmeterInfoSupport}
+     * instbnce, if specified, or {@code null} otherwise.
      */
-    public Set<?> getLegalValues() {
+    public Set<?> getLegblVblues() {
 
-        // Special case for ArrayType and TabularType
-        // [JF] TODO: clone values so that they cannot be altered,
-        // [JF] TODO: if we decide to support LegalValues as an array itself.
-        // [JF] As of today (oct 2000) it is not supported so
-        // legalValues is null for arrays. Nothing to do.
+        // Specibl cbse for ArrbyType bnd TbbulbrType
+        // [JF] TODO: clone vblues so thbt they cbnnot be bltered,
+        // [JF] TODO: if we decide to support LegblVblues bs bn brrby itself.
+        // [JF] As of todby (oct 2000) it is not supported so
+        // legblVblues is null for brrbys. Nothing to do.
 
-        // Returns our legalValues Set (set was constructed unmodifiable)
-        return (legalValues);
+        // Returns our legblVblues Set (set wbs constructed unmodifibble)
+        return (legblVblues);
     }
 
     /**
-     * Returns the minimal value for the parameter described by this
-     * {@code OpenMBeanParameterInfoSupport} instance, if specified,
+     * Returns the minimbl vblue for the pbrbmeter described by this
+     * {@code OpenMBebnPbrbmeterInfoSupport} instbnce, if specified,
      * or {@code null} otherwise.
      */
-    public Comparable<?> getMinValue() {
+    public Compbrbble<?> getMinVblue() {
 
-        // Note: only comparable values have a minValue, so that's not
-        // the case of arrays and tabulars (always null).
+        // Note: only compbrbble vblues hbve b minVblue, so thbt's not
+        // the cbse of brrbys bnd tbbulbrs (blwbys null).
 
-        return minValue;
+        return minVblue;
     }
 
     /**
-     * Returns the maximal value for the parameter described by this
-     * {@code OpenMBeanParameterInfoSupport} instance, if specified,
+     * Returns the mbximbl vblue for the pbrbmeter described by this
+     * {@code OpenMBebnPbrbmeterInfoSupport} instbnce, if specified,
      * or {@code null} otherwise.
      */
-    public Comparable<?> getMaxValue() {
+    public Compbrbble<?> getMbxVblue() {
 
-        // Note: only comparable values have a maxValue, so that's not
-        // the case of arrays and tabulars (always null).
+        // Note: only compbrbble vblues hbve b mbxVblue, so thbt's not
+        // the cbse of brrbys bnd tbbulbrs (blwbys null).
 
-        return maxValue;
+        return mbxVblue;
     }
 
     /**
      * Returns {@code true} if this {@code
-     * OpenMBeanParameterInfoSupport} instance specifies a non-null
-     * default value for the described parameter, {@code false}
+     * OpenMBebnPbrbmeterInfoSupport} instbnce specifies b non-null
+     * defbult vblue for the described pbrbmeter, {@code fblse}
      * otherwise.
      */
-    public boolean hasDefaultValue() {
+    public boolebn hbsDefbultVblue() {
 
-        return (defaultValue != null);
+        return (defbultVblue != null);
     }
 
     /**
      * Returns {@code true} if this {@code
-     * OpenMBeanParameterInfoSupport} instance specifies a non-null
-     * set of legal values for the described parameter, {@code false}
+     * OpenMBebnPbrbmeterInfoSupport} instbnce specifies b non-null
+     * set of legbl vblues for the described pbrbmeter, {@code fblse}
      * otherwise.
      */
-    public boolean hasLegalValues() {
+    public boolebn hbsLegblVblues() {
 
-        return (legalValues != null);
+        return (legblVblues != null);
     }
 
     /**
      * Returns {@code true} if this {@code
-     * OpenMBeanParameterInfoSupport} instance specifies a non-null
-     * minimal value for the described parameter, {@code false}
+     * OpenMBebnPbrbmeterInfoSupport} instbnce specifies b non-null
+     * minimbl vblue for the described pbrbmeter, {@code fblse}
      * otherwise.
      */
-    public boolean hasMinValue() {
+    public boolebn hbsMinVblue() {
 
-        return (minValue != null);
+        return (minVblue != null);
     }
 
     /**
      * Returns {@code true} if this {@code
-     * OpenMBeanParameterInfoSupport} instance specifies a non-null
-     * maximal value for the described parameter, {@code false}
+     * OpenMBebnPbrbmeterInfoSupport} instbnce specifies b non-null
+     * mbximbl vblue for the described pbrbmeter, {@code fblse}
      * otherwise.
      */
-    public boolean hasMaxValue() {
+    public boolebn hbsMbxVblue() {
 
-        return (maxValue != null);
+        return (mbxVblue != null);
     }
 
 
     /**
-     * Tests whether {@code obj} is a valid value for the parameter
-     * described by this {@code OpenMBeanParameterInfo} instance.
+     * Tests whether {@code obj} is b vblid vblue for the pbrbmeter
+     * described by this {@code OpenMBebnPbrbmeterInfo} instbnce.
      *
-     * @param obj the object to be tested.
+     * @pbrbm obj the object to be tested.
      *
-     * @return {@code true} if {@code obj} is a valid value
-     * for the parameter described by this
-     * {@code OpenMBeanParameterInfo} instance,
-     * {@code false} otherwise.
+     * @return {@code true} if {@code obj} is b vblid vblue
+     * for the pbrbmeter described by this
+     * {@code OpenMBebnPbrbmeterInfo} instbnce,
+     * {@code fblse} otherwise.
      */
-    public boolean isValue(Object obj) {
-        return OpenMBeanAttributeInfoSupport.isValue(this, obj);
-        // compiler bug? should be able to omit class name here
-        // also below in toString and hashCode
+    public boolebn isVblue(Object obj) {
+        return OpenMBebnAttributeInfoSupport.isVblue(this, obj);
+        // compiler bug? should be bble to omit clbss nbme here
+        // blso below in toString bnd hbshCode
     }
 
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity methods from jbvb.lbng.Object  *** */
 
 
     /**
-     * <p>Compares the specified {@code obj} parameter with this {@code
-     * OpenMBeanParameterInfoSupport} instance for equality.</p>
+     * <p>Compbres the specified {@code obj} pbrbmeter with this {@code
+     * OpenMBebnPbrbmeterInfoSupport} instbnce for equblity.</p>
      *
-     * <p>Returns {@code true} if and only if all of the following
-     * statements are true:
+     * <p>Returns {@code true} if bnd only if bll of the following
+     * stbtements bre true:
      *
      * <ul>
      * <li>{@code obj} is non null,</li>
-     * <li>{@code obj} also implements the {@code OpenMBeanParameterInfo}
-     * interface,</li>
-     * <li>their names are equal</li>
-     * <li>their open types are equal</li>
-     * <li>their default, min, max and legal values are equal.</li>
+     * <li>{@code obj} blso implements the {@code OpenMBebnPbrbmeterInfo}
+     * interfbce,</li>
+     * <li>their nbmes bre equbl</li>
+     * <li>their open types bre equbl</li>
+     * <li>their defbult, min, mbx bnd legbl vblues bre equbl.</li>
      * </ul>
-     * This ensures that this {@code equals} method works properly for
-     * {@code obj} parameters which are different implementations of
-     * the {@code OpenMBeanParameterInfo} interface.
+     * This ensures thbt this {@code equbls} method works properly for
+     * {@code obj} pbrbmeters which bre different implementbtions of
+     * the {@code OpenMBebnPbrbmeterInfo} interfbce.
      *
-     * <p>If {@code obj} also implements {@link DescriptorRead}, then its
-     * {@link DescriptorRead#getDescriptor() getDescriptor()} method must
-     * also return the same value as for this object.</p>
+     * <p>If {@code obj} blso implements {@link DescriptorRebd}, then its
+     * {@link DescriptorRebd#getDescriptor() getDescriptor()} method must
+     * blso return the sbme vblue bs for this object.</p>
      *
-     * @param obj the object to be compared for equality with this
-     * {@code OpenMBeanParameterInfoSupport} instance.
+     * @pbrbm obj the object to be compbred for equblity with this
+     * {@code OpenMBebnPbrbmeterInfoSupport} instbnce.
      *
-     * @return {@code true} if the specified object is equal to this
-     * {@code OpenMBeanParameterInfoSupport} instance.
+     * @return {@code true} if the specified object is equbl to this
+     * {@code OpenMBebnPbrbmeterInfoSupport} instbnce.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof OpenMBeanParameterInfo))
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof OpenMBebnPbrbmeterInfo))
+            return fblse;
 
-        OpenMBeanParameterInfo other = (OpenMBeanParameterInfo) obj;
+        OpenMBebnPbrbmeterInfo other = (OpenMBebnPbrbmeterInfo) obj;
 
-        return equal(this, other);
+        return equbl(this, other);
     }
 
     /**
-     * <p>Returns the hash code value for this {@code
-     * OpenMBeanParameterInfoSupport} instance.</p>
+     * <p>Returns the hbsh code vblue for this {@code
+     * OpenMBebnPbrbmeterInfoSupport} instbnce.</p>
      *
-     * <p>The hash code of an {@code OpenMBeanParameterInfoSupport}
-     * instance is the sum of the hash codes of all elements of
-     * information used in {@code equals} comparisons (ie: its name,
-     * its <i>open type</i>, its default, min, max and legal
-     * values, and its Descriptor).
+     * <p>The hbsh code of bn {@code OpenMBebnPbrbmeterInfoSupport}
+     * instbnce is the sum of the hbsh codes of bll elements of
+     * informbtion used in {@code equbls} compbrisons (ie: its nbme,
+     * its <i>open type</i>, its defbult, min, mbx bnd legbl
+     * vblues, bnd its Descriptor).
      *
-     * <p>This ensures that {@code t1.equals(t2)} implies that {@code
-     * t1.hashCode()==t2.hashCode()} for any two {@code
-     * OpenMBeanParameterInfoSupport} instances {@code t1} and {@code
-     * t2}, as required by the general contract of the method {@link
-     * Object#hashCode() Object.hashCode()}.
+     * <p>This ensures thbt {@code t1.equbls(t2)} implies thbt {@code
+     * t1.hbshCode()==t2.hbshCode()} for bny two {@code
+     * OpenMBebnPbrbmeterInfoSupport} instbnces {@code t1} bnd {@code
+     * t2}, bs required by the generbl contrbct of the method {@link
+     * Object#hbshCode() Object.hbshCode()}.
      *
-     * <p>However, note that another instance of a class implementing
-     * the {@code OpenMBeanParameterInfo} interface may be equal to
-     * this {@code OpenMBeanParameterInfoSupport} instance as defined
-     * by {@link #equals(java.lang.Object)}, but may have a different
-     * hash code if it is calculated differently.
+     * <p>However, note thbt bnother instbnce of b clbss implementing
+     * the {@code OpenMBebnPbrbmeterInfo} interfbce mby be equbl to
+     * this {@code OpenMBebnPbrbmeterInfoSupport} instbnce bs defined
+     * by {@link #equbls(jbvb.lbng.Object)}, but mby hbve b different
+     * hbsh code if it is cblculbted differently.
      *
-     * <p>As {@code OpenMBeanParameterInfoSupport} instances are
-     * immutable, the hash code for this instance is calculated once,
-     * on the first call to {@code hashCode}, and then the same value
-     * is returned for subsequent calls.
+     * <p>As {@code OpenMBebnPbrbmeterInfoSupport} instbnces bre
+     * immutbble, the hbsh code for this instbnce is cblculbted once,
+     * on the first cbll to {@code hbshCode}, bnd then the sbme vblue
+     * is returned for subsequent cblls.
      *
-     * @return the hash code value for this {@code
-     * OpenMBeanParameterInfoSupport} instance
+     * @return the hbsh code vblue for this {@code
+     * OpenMBebnPbrbmeterInfoSupport} instbnce
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to hashCode())
+        // Cblculbte the hbsh code vblue if it hbs not yet been done
+        // (ie 1st cbll to hbshCode())
         //
-        if (myHashCode == null)
-            myHashCode = OpenMBeanAttributeInfoSupport.hashCode(this);
+        if (myHbshCode == null)
+            myHbshCode = OpenMBebnAttributeInfoSupport.hbshCode(this);
 
-        // return always the same hash code for this instance (immutable)
+        // return blwbys the sbme hbsh code for this instbnce (immutbble)
         //
-        return myHashCode.intValue();
+        return myHbshCode.intVblue();
     }
 
     /**
-     * Returns a string representation of this
-     * {@code OpenMBeanParameterInfoSupport} instance.
+     * Returns b string representbtion of this
+     * {@code OpenMBebnPbrbmeterInfoSupport} instbnce.
      * <p>
-     * The string representation consists of the name of this class (i.e.
-     * {@code javax.management.openmbean.OpenMBeanParameterInfoSupport}),
-     * the string representation of the name and open type of the described
-     * parameter, the string representation of its default, min, max and legal
-     * values and the string representation of its descriptor.
+     * The string representbtion consists of the nbme of this clbss (i.e.
+     * {@code jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfoSupport}),
+     * the string representbtion of the nbme bnd open type of the described
+     * pbrbmeter, the string representbtion of its defbult, min, mbx bnd legbl
+     * vblues bnd the string representbtion of its descriptor.
      * <p>
-     * As {@code OpenMBeanParameterInfoSupport} instances are immutable,
-     * the string representation for this instance is calculated once,
-     * on the first call to {@code toString}, and then the same value
-     * is returned for subsequent calls.
+     * As {@code OpenMBebnPbrbmeterInfoSupport} instbnces bre immutbble,
+     * the string representbtion for this instbnce is cblculbted once,
+     * on the first cbll to {@code toString}, bnd then the sbme vblue
+     * is returned for subsequent cblls.
      *
-     * @return a string representation of this
-     * {@code OpenMBeanParameterInfoSupport} instance.
+     * @return b string representbtion of this
+     * {@code OpenMBebnPbrbmeterInfoSupport} instbnce.
      */
     public String toString() {
 
-        // Calculate the string value if it has not yet been done (ie
-        // 1st call to toString())
+        // Cblculbte the string vblue if it hbs not yet been done (ie
+        // 1st cbll to toString())
         //
         if (myToString == null)
-            myToString = OpenMBeanAttributeInfoSupport.toString(this);
+            myToString = OpenMBebnAttributeInfoSupport.toString(this);
 
-        // return always the same string representation for this
-        // instance (immutable)
+        // return blwbys the sbme string representbtion for this
+        // instbnce (immutbble)
         //
         return myToString;
     }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,15 +31,15 @@ extern "C" {
 
 /**
  * bitsPerPixel must be 32 for now.
- * outBuf must be large enough to conatin all the rectangles.
+ * outBuf must be lbrge enough to conbtin bll the rectbngles.
  */
-int BitmapToYXBandedRectangles(int bitsPerPixel, int width, int height, unsigned char * buf, RECT_T * outBuf)
+int BitmbpToYXBbndedRectbngles(int bitsPerPixel, int width, int height, unsigned chbr * buf, RECT_T * outBuf)
 {
-    //XXX: we might want to reuse the code in the splashscreen library,
-    // though we'd have to deal with the ALPHA_THRESHOLD and different
-    // image formats in this case.
+    //XXX: we might wbnt to reuse the code in the splbshscreen librbry,
+    // though we'd hbve to debl with the ALPHA_THRESHOLD bnd different
+    // imbge formbts in this cbse.
     int widthBytes = width * bitsPerPixel / 8;
-    int alignedWidth = (((widthBytes - 1) / 4) + 1) * 4;
+    int blignedWidth = (((widthBytes - 1) / 4) + 1) * 4;
 
     RECT_T * out = outBuf;
 
@@ -48,21 +48,21 @@ int BitmapToYXBandedRectangles(int bitsPerPixel, int width, int height, unsigned
     int length;
 
     for (j = 0; j < height; j++) {
-        /* generate data for a scanline */
+        /* generbte dbtb for b scbnline */
 
-        unsigned char *pSrc = (unsigned char *) buf + j * alignedWidth;
+        unsigned chbr *pSrc = (unsigned chbr *) buf + j * blignedWidth;
         RECT_T *pLine = pThis;
 
         i = 0;
 
         do {
-            // pSrc[0,1,2] == B,G,R; pSrc[3] == Alpha
+            // pSrc[0,1,2] == B,G,R; pSrc[3] == Alphb
             while (i < width && !pSrc[3]) {
                 pSrc += 4;
                 ++i;
             }
             if (i >= width)
-                break;
+                brebk;
             i0 = i;
             while (i < width && pSrc[3]) {
                 pSrc += 4;
@@ -72,9 +72,9 @@ int BitmapToYXBandedRectangles(int bitsPerPixel, int width, int height, unsigned
             ++pThis;
         } while (i < width);
 
-        /*  check if the previous scanline is exactly the same, merge if so
-            (this is the only optimization we can use for YXBanded rectangles,
-            and win32 supports YXBanded only */
+        /*  check if the previous scbnline is exbctly the sbme, merge if so
+            (this is the only optimizbtion we cbn use for YXBbnded rectbngles,
+            bnd win32 supports YXBbnded only */
 
         length = pThis - pLine;
         if (pPrevLine && pLine - pPrevLine == length) {
@@ -89,7 +89,7 @@ int BitmapToYXBandedRectangles(int bitsPerPixel, int width, int height, unsigned
                 continue;
             }
         }
-        /* or else use the generated scanline */
+        /* or else use the generbted scbnline */
 
         pPrevLine = pLine;
     }

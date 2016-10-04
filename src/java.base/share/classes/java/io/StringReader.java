@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * A character stream whose source is a string.
+ * A chbrbcter strebm whose source is b string.
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public class StringReader extends Reader {
+public clbss StringRebder extends Rebder {
 
-    private String str;
-    private int length;
-    private int next = 0;
-    private int mark = 0;
+    privbte String str;
+    privbte int length;
+    privbte int next = 0;
+    privbte int mbrk = 0;
 
     /**
-     * Creates a new string reader.
+     * Crebtes b new string rebder.
      *
-     * @param s  String providing the character stream.
+     * @pbrbm s  String providing the chbrbcter strebm.
      */
-    public StringReader(String s) {
+    public StringRebder(String s) {
         this.str = s;
         this.length = s.length();
     }
 
-    /** Check to make sure that the stream has not been closed */
-    private void ensureOpen() throws IOException {
+    /** Check to mbke sure thbt the strebm hbs not been closed */
+    privbte void ensureOpen() throws IOException {
         if (str == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
     /**
-     * Reads a single character.
+     * Rebds b single chbrbcter.
      *
-     * @return     The character read, or -1 if the end of the stream has been
-     *             reached
+     * @return     The chbrbcter rebd, or -1 if the end of the strebm hbs been
+     *             rebched
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         synchronized (lock) {
             ensureOpen();
             if (next >= length)
                 return -1;
-            return str.charAt(next++);
+            return str.chbrAt(next++);
         }
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rebds chbrbcters into b portion of bn brrby.
      *
-     * @param      cbuf  Destination buffer
-     * @param      off   Offset at which to start writing characters
-     * @param      len   Maximum number of characters to read
+     * @pbrbm      cbuf  Destinbtion buffer
+     * @pbrbm      off   Offset bt which to stbrt writing chbrbcters
+     * @pbrbm      len   Mbximum number of chbrbcters to rebd
      *
-     * @return     The number of characters read, or -1 if the end of the
-     *             stream has been reached
+     * @return     The number of chbrbcters rebd, or -1 if the end of the
+     *             strebm hbs been rebched
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public int read(char cbuf[], int off, int len) throws IOException {
+    public int rebd(chbr cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
             if ((off < 0) || (off > cbuf.length) || (len < 0) ||
@@ -96,50 +96,50 @@ public class StringReader extends Reader {
             }
             if (next >= length)
                 return -1;
-            int n = Math.min(length - next, len);
-            str.getChars(next, next + n, cbuf, off);
+            int n = Mbth.min(length - next, len);
+            str.getChbrs(next, next + n, cbuf, off);
             next += n;
             return n;
         }
     }
 
     /**
-     * Skips the specified number of characters in the stream. Returns
-     * the number of characters that were skipped.
+     * Skips the specified number of chbrbcters in the strebm. Returns
+     * the number of chbrbcters thbt were skipped.
      *
-     * <p>The <code>ns</code> parameter may be negative, even though the
-     * <code>skip</code> method of the {@link Reader} superclass throws
-     * an exception in this case. Negative values of <code>ns</code> cause the
-     * stream to skip backwards. Negative return values indicate a skip
-     * backwards. It is not possible to skip backwards past the beginning of
+     * <p>The <code>ns</code> pbrbmeter mby be negbtive, even though the
+     * <code>skip</code> method of the {@link Rebder} superclbss throws
+     * bn exception in this cbse. Negbtive vblues of <code>ns</code> cbuse the
+     * strebm to skip bbckwbrds. Negbtive return vblues indicbte b skip
+     * bbckwbrds. It is not possible to skip bbckwbrds pbst the beginning of
      * the string.
      *
-     * <p>If the entire string has been read or skipped, then this method has
-     * no effect and always returns 0.
+     * <p>If the entire string hbs been rebd or skipped, then this method hbs
+     * no effect bnd blwbys returns 0.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public long skip(long ns) throws IOException {
         synchronized (lock) {
             ensureOpen();
             if (next >= length)
                 return 0;
-            // Bound skip by beginning and end of the source
-            long n = Math.min(length - next, ns);
-            n = Math.max(-next, n);
+            // Bound skip by beginning bnd end of the source
+            long n = Mbth.min(length - next, ns);
+            n = Mbth.mbx(-next, n);
             next += n;
             return n;
         }
     }
 
     /**
-     * Tells whether this stream is ready to be read.
+     * Tells whether this strebm is rebdy to be rebd.
      *
-     * @return True if the next read() is guaranteed not to block for input
+     * @return True if the next rebd() is gubrbnteed not to block for input
      *
-     * @exception  IOException  If the stream is closed
+     * @exception  IOException  If the strebm is closed
      */
-    public boolean ready() throws IOException {
+    public boolebn rebdy() throws IOException {
         synchronized (lock) {
         ensureOpen();
         return true;
@@ -147,53 +147,53 @@ public class StringReader extends Reader {
     }
 
     /**
-     * Tells whether this stream supports the mark() operation, which it does.
+     * Tells whether this strebm supports the mbrk() operbtion, which it does.
      */
-    public boolean markSupported() {
+    public boolebn mbrkSupported() {
         return true;
     }
 
     /**
-     * Marks the present position in the stream.  Subsequent calls to reset()
-     * will reposition the stream to this point.
+     * Mbrks the present position in the strebm.  Subsequent cblls to reset()
+     * will reposition the strebm to this point.
      *
-     * @param  readAheadLimit  Limit on the number of characters that may be
-     *                         read while still preserving the mark.  Because
-     *                         the stream's input comes from a string, there
-     *                         is no actual limit, so this argument must not
-     *                         be negative, but is otherwise ignored.
+     * @pbrbm  rebdAhebdLimit  Limit on the number of chbrbcters thbt mby be
+     *                         rebd while still preserving the mbrk.  Becbuse
+     *                         the strebm's input comes from b string, there
+     *                         is no bctubl limit, so this brgument must not
+     *                         be negbtive, but is otherwise ignored.
      *
-     * @exception  IllegalArgumentException  If {@code readAheadLimit < 0}
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IllegblArgumentException  If {@code rebdAhebdLimit < 0}
+     * @exception  IOException  If bn I/O error occurs
      */
-    public void mark(int readAheadLimit) throws IOException {
-        if (readAheadLimit < 0){
-            throw new IllegalArgumentException("Read-ahead limit < 0");
+    public void mbrk(int rebdAhebdLimit) throws IOException {
+        if (rebdAhebdLimit < 0){
+            throw new IllegblArgumentException("Rebd-bhebd limit < 0");
         }
         synchronized (lock) {
             ensureOpen();
-            mark = next;
+            mbrk = next;
         }
     }
 
     /**
-     * Resets the stream to the most recent mark, or to the beginning of the
-     * string if it has never been marked.
+     * Resets the strebm to the most recent mbrk, or to the beginning of the
+     * string if it hbs never been mbrked.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void reset() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            next = mark;
+            next = mbrk;
         }
     }
 
     /**
-     * Closes the stream and releases any system resources associated with
-     * it. Once the stream has been closed, further read(),
-     * ready(), mark(), or reset() invocations will throw an IOException.
-     * Closing a previously closed stream has no effect.
+     * Closes the strebm bnd relebses bny system resources bssocibted with
+     * it. Once the strebm hbs been closed, further rebd(),
+     * rebdy(), mbrk(), or reset() invocbtions will throw bn IOException.
+     * Closing b previously closed strebm hbs no effect.
      */
     public void close() {
         str = null;

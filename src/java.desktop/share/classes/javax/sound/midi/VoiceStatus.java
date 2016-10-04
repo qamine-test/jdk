@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1998, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
 
 /**
- * A <code>VoiceStatus</code> object contains information about the current
- * status of one of the voices produced by a {@link Synthesizer}.
+ * A <code>VoiceStbtus</code> object contbins informbtion bbout the current
+ * stbtus of one of the voices produced by b {@link Synthesizer}.
  * <p>
- * MIDI synthesizers are generally capable of producing some maximum number of
- * simultaneous notes, also referred to as voices.  A voice is a stream
- * of successive single notes, and the process of assigning incoming MIDI notes to
- * specific voices is known as voice allocation.
- * However, the voice-allocation algorithm and the contents of each voice are
- * normally internal to a MIDI synthesizer and hidden from outside view.  One can, of
- * course, learn from MIDI messages which notes the synthesizer is playing, and
- * one might be able deduce something about the assignment of notes to voices.
- * But MIDI itself does not provide a means to report which notes a
- * synthesizer has assigned to which voice, nor even to report how many voices
- * the synthesizer is capable of synthesizing.
+ * MIDI synthesizers bre generblly cbpbble of producing some mbximum number of
+ * simultbneous notes, blso referred to bs voices.  A voice is b strebm
+ * of successive single notes, bnd the process of bssigning incoming MIDI notes to
+ * specific voices is known bs voice bllocbtion.
+ * However, the voice-bllocbtion blgorithm bnd the contents of ebch voice bre
+ * normblly internbl to b MIDI synthesizer bnd hidden from outside view.  One cbn, of
+ * course, lebrn from MIDI messbges which notes the synthesizer is plbying, bnd
+ * one might be bble deduce something bbout the bssignment of notes to voices.
+ * But MIDI itself does not provide b mebns to report which notes b
+ * synthesizer hbs bssigned to which voice, nor even to report how mbny voices
+ * the synthesizer is cbpbble of synthesizing.
  * <p>
- * In Java Sound, however, a
- * <code>Synthesizer</code> class can expose the contents of its voices through its
- * {@link Synthesizer#getVoiceStatus() getVoiceStatus()} method.
- * This behavior is recommended but optional;
- * synthesizers that don't expose their voice allocation simply return a
- * zero-length array. A <code>Synthesizer</code> that does report its voice status
- * should maintain this information at
- * all times for all of its voices, whether they are currently sounding or
- * not.  In other words, a given type of <code>Synthesizer</code> always has a fixed
- * number of voices, equal to the maximum number of simultaneous notes it is
- * capable of sounding.
+ * In Jbvb Sound, however, b
+ * <code>Synthesizer</code> clbss cbn expose the contents of its voices through its
+ * {@link Synthesizer#getVoiceStbtus() getVoiceStbtus()} method.
+ * This behbvior is recommended but optionbl;
+ * synthesizers thbt don't expose their voice bllocbtion simply return b
+ * zero-length brrby. A <code>Synthesizer</code> thbt does report its voice stbtus
+ * should mbintbin this informbtion bt
+ * bll times for bll of its voices, whether they bre currently sounding or
+ * not.  In other words, b given type of <code>Synthesizer</code> blwbys hbs b fixed
+ * number of voices, equbl to the mbximum number of simultbneous notes it is
+ * cbpbble of sounding.
  * <p>
- * <A NAME="description_of_active"></A>
- * If the voice is not currently processing a MIDI note, it
- * is considered inactive.  A voice is inactive when it has
- * been given no note-on commands, or when every note-on command received has
- * been terminated by a corresponding note-off (or by an "all notes off"
- * message).  For example, this happens when a synthesizer capable of playing 16
- * simultaneous notes is told to play a four-note chord; only
- * four voices are active in this case (assuming no earlier notes are still playing).
- * Usually, a voice whose status is reported as active is producing audible sound, but this
- * is not always true; it depends on the details of the instrument (that
- * is, the synthesis algorithm) and how long the note has been going on.
- * For example, a voice may be synthesizing the sound of a single hand-clap.  Because
- * this sound dies away so quickly, it may become inaudible before a note-off
- * message is received.  In such a situation, the voice is still considered active
+ * <A NAME="description_of_bctive"></A>
+ * If the voice is not currently processing b MIDI note, it
+ * is considered inbctive.  A voice is inbctive when it hbs
+ * been given no note-on commbnds, or when every note-on commbnd received hbs
+ * been terminbted by b corresponding note-off (or by bn "bll notes off"
+ * messbge).  For exbmple, this hbppens when b synthesizer cbpbble of plbying 16
+ * simultbneous notes is told to plby b four-note chord; only
+ * four voices bre bctive in this cbse (bssuming no ebrlier notes bre still plbying).
+ * Usublly, b voice whose stbtus is reported bs bctive is producing budible sound, but this
+ * is not blwbys true; it depends on the detbils of the instrument (thbt
+ * is, the synthesis blgorithm) bnd how long the note hbs been going on.
+ * For exbmple, b voice mby be synthesizing the sound of b single hbnd-clbp.  Becbuse
+ * this sound dies bwby so quickly, it mby become inbudible before b note-off
+ * messbge is received.  In such b situbtion, the voice is still considered bctive
  * even though no sound is currently being produced.
  * <p>
- * Besides its active or inactive status, the <code>VoiceStatus</code> class
- * provides fields that reveal the voice's current MIDI channel, bank and
- * program number, MIDI note number, and MIDI volume.  All of these can
- * change during the course of a voice.  While the voice is inactive, each
- * of these fields has an unspecified value, so you should check the active
+ * Besides its bctive or inbctive stbtus, the <code>VoiceStbtus</code> clbss
+ * provides fields thbt revebl the voice's current MIDI chbnnel, bbnk bnd
+ * progrbm number, MIDI note number, bnd MIDI volume.  All of these cbn
+ * chbnge during the course of b voice.  While the voice is inbctive, ebch
+ * of these fields hbs bn unspecified vblue, so you should check the bctive
  * field first.
  *
- * @see Synthesizer#getMaxPolyphony
- * @see Synthesizer#getVoiceStatus
+ * @see Synthesizer#getMbxPolyphony
+ * @see Synthesizer#getVoiceStbtus
  *
- * @author David Rivas
- * @author Kara Kytle
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
  */
 
-public class VoiceStatus {
+public clbss VoiceStbtus {
 
 
     /**
-     * Indicates whether the voice is currently processing a MIDI note.
-     * See the explanation of
-     * <A HREF="#description_of_active">active and inactive voices</A>.
+     * Indicbtes whether the voice is currently processing b MIDI note.
+     * See the explbnbtion of
+     * <A HREF="#description_of_bctive">bctive bnd inbctive voices</A>.
      */
-    public boolean active = false;
+    public boolebn bctive = fblse;
 
 
     /**
-     * The MIDI channel on which this voice is playing.  The value is a
-     * zero-based channel number if the voice is active, or
-     * unspecified if the voice is inactive.
+     * The MIDI chbnnel on which this voice is plbying.  The vblue is b
+     * zero-bbsed chbnnel number if the voice is bctive, or
+     * unspecified if the voice is inbctive.
      *
-     * @see MidiChannel
-     * @see #active
+     * @see MidiChbnnel
+     * @see #bctive
      */
-    public int channel = 0;
+    public int chbnnel = 0;
 
 
     /**
-     * The bank number of the instrument that this voice is currently using.
-     * This is a number dictated by the MIDI bank-select message; it does not
-     * refer to a <code>SoundBank</code> object.
-     * The value ranges from 0 to 16383 if the voice is active, and is
-     * unspecified if the voice is inactive.
-     * @see Patch
-     * @see Soundbank
-     * @see #active
-     * @see MidiChannel#programChange(int, int)
+     * The bbnk number of the instrument thbt this voice is currently using.
+     * This is b number dictbted by the MIDI bbnk-select messbge; it does not
+     * refer to b <code>SoundBbnk</code> object.
+     * The vblue rbnges from 0 to 16383 if the voice is bctive, bnd is
+     * unspecified if the voice is inbctive.
+     * @see Pbtch
+     * @see Soundbbnk
+     * @see #bctive
+     * @see MidiChbnnel#progrbmChbnge(int, int)
      */
-    public int bank = 0;
+    public int bbnk = 0;
 
 
     /**
-     * The program number of the instrument that this voice is currently using.
-     * The value ranges from 0 to 127 if the voice is active, and is
-     * unspecified if the voice is inactive.
+     * The progrbm number of the instrument thbt this voice is currently using.
+     * The vblue rbnges from 0 to 127 if the voice is bctive, bnd is
+     * unspecified if the voice is inbctive.
      *
-     * @see MidiChannel#getProgram
-     * @see Patch
-     * @see #active
+     * @see MidiChbnnel#getProgrbm
+     * @see Pbtch
+     * @see #bctive
      */
-    public int program = 0;
+    public int progrbm = 0;
 
 
     /**
-     * The MIDI note that this voice is playing.  The range for an active voice
+     * The MIDI note thbt this voice is plbying.  The rbnge for bn bctive voice
      * is from 0 to 127 in semitones, with 60 referring to Middle C.
-     * The value is unspecified if the voice is inactive.
+     * The vblue is unspecified if the voice is inbctive.
      *
-     * @see MidiChannel#noteOn
-     * @see #active
+     * @see MidiChbnnel#noteOn
+     * @see #bctive
      */
     public int note = 0;
 
 
     /**
      * The current MIDI volume level for the voice.
-     * The value ranges from 0 to 127 if the voice is active, and is
-     * unspecified if the voice is inactive.
+     * The vblue rbnges from 0 to 127 if the voice is bctive, bnd is
+     * unspecified if the voice is inbctive.
      * <p>
-     * Note that this value does not necessarily reflect
-     * the instantaneous level of the sound produced by this
-     * voice; that level is the result of  many contributing
-     * factors, including the current instrument and the
-     * shape of the amplitude envelope it produces.
+     * Note thbt this vblue does not necessbrily reflect
+     * the instbntbneous level of the sound produced by this
+     * voice; thbt level is the result of  mbny contributing
+     * fbctors, including the current instrument bnd the
+     * shbpe of the bmplitude envelope it produces.
      *
-     * @see #active
+     * @see #bctive
      */
     public int volume = 0;
 }

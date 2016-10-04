@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.*;
-import java.util.ArrayList;
+import jbvbx.sound.midi.*;
+import jbvb.util.ArrbyList;
 
 // TODO:
-// - define and use a global symbolic constant for 60000000 (see convertTempo)
+// - define bnd use b globbl symbolic constbnt for 60000000 (see convertTempo)
 
 /**
- * Some utilities for MIDI (some stuff is used from javax.sound.midi)
+ * Some utilities for MIDI (some stuff is used from jbvbx.sound.midi)
  *
- * @author Florian Bomers
+ * @buthor Floribn Bomers
  */
-public final class MidiUtils {
+public finbl clbss MidiUtils {
 
-    public final static int DEFAULT_TEMPO_MPQ = 500000; // 120bpm
-    public final static int META_END_OF_TRACK_TYPE = 0x2F;
-    public final static int META_TEMPO_TYPE = 0x51;
+    public finbl stbtic int DEFAULT_TEMPO_MPQ = 500000; // 120bpm
+    public finbl stbtic int META_END_OF_TRACK_TYPE = 0x2F;
+    public finbl stbtic int META_TEMPO_TYPE = 0x51;
 
     /**
-     * Suppresses default constructor, ensuring non-instantiability.
+     * Suppresses defbult constructor, ensuring non-instbntibbility.
      */
-    private MidiUtils() {
+    privbte MidiUtils() {
     }
 
-    /** return true if the passed message is Meta End Of Track */
-    public static boolean isMetaEndOfTrack(MidiMessage midiMsg) {
-        // first check if it is a META message at all
+    /** return true if the pbssed messbge is Metb End Of Trbck */
+    public stbtic boolebn isMetbEndOfTrbck(MidiMessbge midiMsg) {
+        // first check if it is b META messbge bt bll
         if (midiMsg.getLength() != 3
-            || midiMsg.getStatus() != MetaMessage.META) {
-            return false;
+            || midiMsg.getStbtus() != MetbMessbge.META) {
+            return fblse;
         }
-        // now get message and check for end of track
-        byte[] msg = midiMsg.getMessage();
+        // now get messbge bnd check for end of trbck
+        byte[] msg = midiMsg.getMessbge();
         return ((msg[1] & 0xFF) == META_END_OF_TRACK_TYPE) && (msg[2] == 0);
     }
 
 
-    /** return if the given message is a meta tempo message */
-    public static boolean isMetaTempo(MidiMessage midiMsg) {
-        // first check if it is a META message at all
+    /** return if the given messbge is b metb tempo messbge */
+    public stbtic boolebn isMetbTempo(MidiMessbge midiMsg) {
+        // first check if it is b META messbge bt bll
         if (midiMsg.getLength() != 6
-            || midiMsg.getStatus() != MetaMessage.META) {
-            return false;
+            || midiMsg.getStbtus() != MetbMessbge.META) {
+            return fblse;
         }
-        // now get message and check for tempo
-        byte[] msg = midiMsg.getMessage();
-        // meta type must be 0x51, and data length must be 3
+        // now get messbge bnd check for tempo
+        byte[] msg = midiMsg.getMessbge();
+        // metb type must be 0x51, bnd dbtb length must be 3
         return ((msg[1] & 0xFF) == META_TEMPO_TYPE) && (msg[2] == 3);
     }
 
 
-    /** parses this message for a META tempo message and returns
-     * the tempo in MPQ, or -1 if this isn't a tempo message
+    /** pbrses this messbge for b META tempo messbge bnd returns
+     * the tempo in MPQ, or -1 if this isn't b tempo messbge
      */
-    public static int getTempoMPQ(MidiMessage midiMsg) {
-        // first check if it is a META message at all
+    public stbtic int getTempoMPQ(MidiMessbge midiMsg) {
+        // first check if it is b META messbge bt bll
         if (midiMsg.getLength() != 6
-            || midiMsg.getStatus() != MetaMessage.META) {
+            || midiMsg.getStbtus() != MetbMessbge.META) {
             return -1;
         }
-        byte[] msg = midiMsg.getMessage();
+        byte[] msg = midiMsg.getMessbge();
         if (((msg[1] & 0xFF) != META_TEMPO_TYPE) || (msg[2] != 3)) {
             return -1;
         }
@@ -100,7 +100,7 @@ public final class MidiUtils {
      * 1 - MPQ-Tempo to BPM tempo<br>
      * 2 - BPM tempo to MPQ tempo<br>
      */
-    public static double convertTempo(double tempo) {
+    public stbtic double convertTempo(double tempo) {
         if (tempo <= 0) {
             tempo = 1;
         }
@@ -110,155 +110,155 @@ public final class MidiUtils {
 
     /**
      * convert tick to microsecond with given tempo.
-     * Does not take tempo changes into account.
+     * Does not tbke tempo chbnges into bccount.
      * Does not work for SMPTE timing!
      */
-    public static long ticks2microsec(long tick, double tempoMPQ, int resolution) {
+    public stbtic long ticks2microsec(long tick, double tempoMPQ, int resolution) {
         return (long) (((double) tick) * tempoMPQ / resolution);
     }
 
     /**
      * convert tempo to microsecond with given tempo
-     * Does not take tempo changes into account.
+     * Does not tbke tempo chbnges into bccount.
      * Does not work for SMPTE timing!
      */
-    public static long microsec2ticks(long us, double tempoMPQ, int resolution) {
-        // do not round to nearest tick
-        //return (long) Math.round((((double)us) * resolution) / tempoMPQ);
+    public stbtic long microsec2ticks(long us, double tempoMPQ, int resolution) {
+        // do not round to nebrest tick
+        //return (long) Mbth.round((((double)us) * resolution) / tempoMPQ);
         return (long) ((((double)us) * resolution) / tempoMPQ);
     }
 
 
     /**
-     * Given a tick, convert to microsecond
-     * @param cache tempo info and current tempo
+     * Given b tick, convert to microsecond
+     * @pbrbm cbche tempo info bnd current tempo
      */
-    public static long tick2microsecond(Sequence seq, long tick, TempoCache cache) {
+    public stbtic long tick2microsecond(Sequence seq, long tick, TempoCbche cbche) {
         if (seq.getDivisionType() != Sequence.PPQ ) {
             double seconds = ((double)tick / (double)(seq.getDivisionType() * seq.getResolution()));
             return (long) (1000000 * seconds);
         }
 
-        if (cache == null) {
-            cache = new TempoCache(seq);
+        if (cbche == null) {
+            cbche = new TempoCbche(seq);
         }
 
         int resolution = seq.getResolution();
 
-        long[] ticks = cache.ticks;
-        int[] tempos = cache.tempos; // in MPQ
-        int cacheCount = tempos.length;
+        long[] ticks = cbche.ticks;
+        int[] tempos = cbche.tempos; // in MPQ
+        int cbcheCount = tempos.length;
 
-        // optimization to not always go through entire list of tempo events
-        int snapshotIndex = cache.snapshotIndex;
-        int snapshotMicro = cache.snapshotMicro;
+        // optimizbtion to not blwbys go through entire list of tempo events
+        int snbpshotIndex = cbche.snbpshotIndex;
+        int snbpshotMicro = cbche.snbpshotMicro;
 
-        // walk through all tempo changes and add time for the respective blocks
+        // wblk through bll tempo chbnges bnd bdd time for the respective blocks
         long us = 0; // microsecond
 
-        if (snapshotIndex <= 0
-            || snapshotIndex >= cacheCount
-            || ticks[snapshotIndex] > tick) {
-            snapshotMicro = 0;
-            snapshotIndex = 0;
+        if (snbpshotIndex <= 0
+            || snbpshotIndex >= cbcheCount
+            || ticks[snbpshotIndex] > tick) {
+            snbpshotMicro = 0;
+            snbpshotIndex = 0;
         }
-        if (cacheCount > 0) {
-            // this implementation needs a tempo event at tick 0!
-            int i = snapshotIndex + 1;
-            while (i < cacheCount && ticks[i] <= tick) {
-                snapshotMicro += ticks2microsec(ticks[i] - ticks[i - 1], tempos[i - 1], resolution);
-                snapshotIndex = i;
+        if (cbcheCount > 0) {
+            // this implementbtion needs b tempo event bt tick 0!
+            int i = snbpshotIndex + 1;
+            while (i < cbcheCount && ticks[i] <= tick) {
+                snbpshotMicro += ticks2microsec(ticks[i] - ticks[i - 1], tempos[i - 1], resolution);
+                snbpshotIndex = i;
                 i++;
             }
-            us = snapshotMicro
-                + ticks2microsec(tick - ticks[snapshotIndex],
-                                 tempos[snapshotIndex],
+            us = snbpshotMicro
+                + ticks2microsec(tick - ticks[snbpshotIndex],
+                                 tempos[snbpshotIndex],
                                  resolution);
         }
-        cache.snapshotIndex = snapshotIndex;
-        cache.snapshotMicro = snapshotMicro;
+        cbche.snbpshotIndex = snbpshotIndex;
+        cbche.snbpshotMicro = snbpshotMicro;
         return us;
     }
 
     /**
-     * Given a microsecond time, convert to tick.
-     * returns tempo at the given time in cache.getCurrTempoMPQ
+     * Given b microsecond time, convert to tick.
+     * returns tempo bt the given time in cbche.getCurrTempoMPQ
      */
-    public static long microsecond2tick(Sequence seq, long micros, TempoCache cache) {
+    public stbtic long microsecond2tick(Sequence seq, long micros, TempoCbche cbche) {
         if (seq.getDivisionType() != Sequence.PPQ ) {
             double dTick = ( ((double) micros)
                            * ((double) seq.getDivisionType())
                            * ((double) seq.getResolution()))
                            / ((double) 1000000);
             long tick = (long) dTick;
-            if (cache != null) {
-                cache.currTempo = (int) cache.getTempoMPQAt(tick);
+            if (cbche != null) {
+                cbche.currTempo = (int) cbche.getTempoMPQAt(tick);
             }
             return tick;
         }
 
-        if (cache == null) {
-            cache = new TempoCache(seq);
+        if (cbche == null) {
+            cbche = new TempoCbche(seq);
         }
-        long[] ticks = cache.ticks;
-        int[] tempos = cache.tempos; // in MPQ
-        int cacheCount = tempos.length;
+        long[] ticks = cbche.ticks;
+        int[] tempos = cbche.tempos; // in MPQ
+        int cbcheCount = tempos.length;
 
         int resolution = seq.getResolution();
 
-        long us = 0; long tick = 0; int newReadPos = 0; int i = 1;
+        long us = 0; long tick = 0; int newRebdPos = 0; int i = 1;
 
-        // walk through all tempo changes and add time for the respective blocks
+        // wblk through bll tempo chbnges bnd bdd time for the respective blocks
         // to find the right tick
-        if (micros > 0 && cacheCount > 0) {
-            // this loop requires that the first tempo Event is at time 0
-            while (i < cacheCount) {
+        if (micros > 0 && cbcheCount > 0) {
+            // this loop requires thbt the first tempo Event is bt time 0
+            while (i < cbcheCount) {
                 long nextTime = us + ticks2microsec(ticks[i] - ticks[i - 1],
                                                     tempos[i - 1], resolution);
                 if (nextTime > micros) {
-                    break;
+                    brebk;
                 }
                 us = nextTime;
                 i++;
             }
             tick = ticks[i - 1] + microsec2ticks(micros - us, tempos[i - 1], resolution);
             if (Printer.debug) Printer.debug("microsecond2tick(" + (micros / 1000)+") = "+tick+" ticks.");
-            //if (Printer.debug) Printer.debug("   -> convert back = " + (tick2microsecond(seq, tick, null) / 1000)+" microseconds");
+            //if (Printer.debug) Printer.debug("   -> convert bbck = " + (tick2microsecond(seq, tick, null) / 1000)+" microseconds");
         }
-        cache.currTempo = tempos[i - 1];
+        cbche.currTempo = tempos[i - 1];
         return tick;
     }
 
 
     /**
-     * Binary search for the event indexes of the track
+     * Binbry sebrch for the event indexes of the trbck
      *
-     * @param tick - tick number of index to be found in array
-     * @return index in track which is on or after "tick".
-     *   if no entries are found that follow after tick, track.size() is returned
+     * @pbrbm tick - tick number of index to be found in brrby
+     * @return index in trbck which is on or bfter "tick".
+     *   if no entries bre found thbt follow bfter tick, trbck.size() is returned
      */
-    public static int tick2index(Track track, long tick) {
+    public stbtic int tick2index(Trbck trbck, long tick) {
         int ret = 0;
         if (tick > 0) {
             int low = 0;
-            int high = track.size() - 1;
+            int high = trbck.size() - 1;
             while (low < high) {
-                // take the middle event as estimate
+                // tbke the middle event bs estimbte
                 ret = (low + high) >> 1;
-                // tick of estimate
-                long t = track.get(ret).getTick();
+                // tick of estimbte
+                long t = trbck.get(ret).getTick();
                 if (t == tick) {
-                    break;
+                    brebk;
                 } else if (t < tick) {
-                    // estimate too low
+                    // estimbte too low
                     if (low == high - 1) {
-                        // "or after tick"
+                        // "or bfter tick"
                         ret++;
-                        break;
+                        brebk;
                     }
                     low = ret;
                 } else { // if (t>tick)
-                    // estimate too high
+                    // estimbte too high
                     high = ret;
                 }
             }
@@ -267,62 +267,62 @@ public final class MidiUtils {
     }
 
 
-    public static final class TempoCache {
+    public stbtic finbl clbss TempoCbche {
         long[] ticks;
         int[] tempos; // in MPQ
-        // index in ticks/tempos at the snapshot
-        int snapshotIndex = 0;
-        // microsecond at the snapshot
-        int snapshotMicro = 0;
+        // index in ticks/tempos bt the snbpshot
+        int snbpshotIndex = 0;
+        // microsecond bt the snbpshot
+        int snbpshotMicro = 0;
 
-        int currTempo; // MPQ, used as return value for microsecond2tick
+        int currTempo; // MPQ, used bs return vblue for microsecond2tick
 
-        private boolean firstTempoIsFake = false;
+        privbte boolebn firstTempoIsFbke = fblse;
 
-        public TempoCache() {
-            // just some defaults, to prevents weird stuff
+        public TempoCbche() {
+            // just some defbults, to prevents weird stuff
             ticks = new long[1];
             tempos = new int[1];
             tempos[0] = DEFAULT_TEMPO_MPQ;
-            snapshotIndex = 0;
-            snapshotMicro = 0;
+            snbpshotIndex = 0;
+            snbpshotMicro = 0;
         }
 
-        public TempoCache(Sequence seq) {
+        public TempoCbche(Sequence seq) {
             this();
             refresh(seq);
         }
 
 
         public synchronized void refresh(Sequence seq) {
-            ArrayList<MidiEvent> list = new ArrayList<>();
-            Track[] tracks = seq.getTracks();
-            if (tracks.length > 0) {
-                // tempo events only occur in track 0
-                Track track = tracks[0];
-                int c = track.size();
+            ArrbyList<MidiEvent> list = new ArrbyList<>();
+            Trbck[] trbcks = seq.getTrbcks();
+            if (trbcks.length > 0) {
+                // tempo events only occur in trbck 0
+                Trbck trbck = trbcks[0];
+                int c = trbck.size();
                 for (int i = 0; i < c; i++) {
-                    MidiEvent ev = track.get(i);
-                    MidiMessage msg = ev.getMessage();
-                    if (isMetaTempo(msg)) {
-                        // found a tempo event. Add it to the list
-                        list.add(ev);
+                    MidiEvent ev = trbck.get(i);
+                    MidiMessbge msg = ev.getMessbge();
+                    if (isMetbTempo(msg)) {
+                        // found b tempo event. Add it to the list
+                        list.bdd(ev);
                     }
                 }
             }
             int size = list.size() + 1;
-            firstTempoIsFake = true;
+            firstTempoIsFbke = true;
             if ((size > 1)
                 && (list.get(0).getTick() == 0)) {
-                // do not need to add an initial tempo event at the beginning
+                // do not need to bdd bn initibl tempo event bt the beginning
                 size--;
-                firstTempoIsFake = false;
+                firstTempoIsFbke = fblse;
             }
             ticks  = new long[size];
             tempos = new int[size];
             int e = 0;
-            if (firstTempoIsFake) {
-                // add tempo 120 at beginning
+            if (firstTempoIsFbke) {
+                // bdd tempo 120 bt beginning
                 ticks[0] = 0;
                 tempos[0] = DEFAULT_TEMPO_MPQ;
                 e++;
@@ -330,28 +330,28 @@ public final class MidiUtils {
             for (int i = 0; i < list.size(); i++, e++) {
                 MidiEvent evt = list.get(i);
                 ticks[e] = evt.getTick();
-                tempos[e] = getTempoMPQ(evt.getMessage());
+                tempos[e] = getTempoMPQ(evt.getMessbge());
             }
-            snapshotIndex = 0;
-            snapshotMicro = 0;
+            snbpshotIndex = 0;
+            snbpshotMicro = 0;
         }
 
         public int getCurrTempoMPQ() {
             return currTempo;
         }
 
-        float getTempoMPQAt(long tick) {
+        flobt getTempoMPQAt(long tick) {
             return getTempoMPQAt(tick, -1.0f);
         }
 
-        synchronized float getTempoMPQAt(long tick, float startTempoMPQ) {
+        synchronized flobt getTempoMPQAt(long tick, flobt stbrtTempoMPQ) {
             for (int i = 0; i < ticks.length; i++) {
                 if (ticks[i] > tick) {
                     if (i > 0) i--;
-                    if (startTempoMPQ > 0 && i == 0 && firstTempoIsFake) {
-                        return startTempoMPQ;
+                    if (stbrtTempoMPQ > 0 && i == 0 && firstTempoIsFbke) {
+                        return stbrtTempoMPQ;
                     }
-                    return (float) tempos[i];
+                    return (flobt) tempos[i];
                 }
             }
             return tempos[tempos.length - 1];

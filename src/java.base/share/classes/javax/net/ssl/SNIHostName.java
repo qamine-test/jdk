@@ -1,396 +1,396 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.net.ssl;
+pbckbge jbvbx.net.ssl;
 
-import java.net.IDN;
-import java.nio.ByteBuffer;
-import java.nio.charset.CodingErrorAction;
-import java.nio.charset.StandardCharsets;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharacterCodingException;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.regex.Pattern;
+import jbvb.net.IDN;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbrset.CodingErrorAction;
+import jbvb.nio.chbrset.StbndbrdChbrsets;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrbcterCodingException;
+import jbvb.util.Locble;
+import jbvb.util.Objects;
+import jbvb.util.regex.Pbttern;
 
 /**
- * Instances of this class represent a server name of type
- * {@link StandardConstants#SNI_HOST_NAME host_name} in a Server Name
- * Indication (SNI) extension.
+ * Instbnces of this clbss represent b server nbme of type
+ * {@link StbndbrdConstbnts#SNI_HOST_NAME host_nbme} in b Server Nbme
+ * Indicbtion (SNI) extension.
  * <P>
- * As described in section 3, "Server Name Indication", of
+ * As described in section 3, "Server Nbme Indicbtion", of
  * <A HREF="http://www.ietf.org/rfc/rfc6066.txt">TLS Extensions (RFC 6066)</A>,
- * "HostName" contains the fully qualified DNS hostname of the server, as
- * understood by the client.  The encoded server name value of a hostname is
- * represented as a byte string using ASCII encoding without a trailing dot.
- * This allows the support of Internationalized Domain Names (IDN) through
- * the use of A-labels (the ASCII-Compatible Encoding (ACE) form of a valid
- * string of Internationalized Domain Names for Applications (IDNA)) defined
+ * "HostNbme" contbins the fully qublified DNS hostnbme of the server, bs
+ * understood by the client.  The encoded server nbme vblue of b hostnbme is
+ * represented bs b byte string using ASCII encoding without b trbiling dot.
+ * This bllows the support of Internbtionblized Dombin Nbmes (IDN) through
+ * the use of A-lbbels (the ASCII-Compbtible Encoding (ACE) form of b vblid
+ * string of Internbtionblized Dombin Nbmes for Applicbtions (IDNA)) defined
  * in <A HREF="http://www.ietf.org/rfc/rfc5890.txt">RFC 5890</A>.
  * <P>
- * Note that {@code SNIHostName} objects are immutable.
+ * Note thbt {@code SNIHostNbme} objects bre immutbble.
  *
- * @see SNIServerName
- * @see StandardConstants#SNI_HOST_NAME
+ * @see SNIServerNbme
+ * @see StbndbrdConstbnts#SNI_HOST_NAME
  *
  * @since 1.8
  */
-public final class SNIHostName extends SNIServerName {
+public finbl clbss SNIHostNbme extends SNIServerNbme {
 
-    // the decoded string value of the server name
-    private final String hostname;
+    // the decoded string vblue of the server nbme
+    privbte finbl String hostnbme;
 
     /**
-     * Creates an {@code SNIHostName} using the specified hostname.
+     * Crebtes bn {@code SNIHostNbme} using the specified hostnbme.
      * <P>
-     * Note that per <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>,
-     * the encoded server name value of a hostname is
-     * {@link StandardCharsets#US_ASCII}-compliant.  In this method,
-     * {@code hostname} can be a user-friendly Internationalized Domain Name
+     * Note thbt per <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>,
+     * the encoded server nbme vblue of b hostnbme is
+     * {@link StbndbrdChbrsets#US_ASCII}-complibnt.  In this method,
+     * {@code hostnbme} cbn be b user-friendly Internbtionblized Dombin Nbme
      * (IDN).  {@link IDN#toASCII(String, int)} is used to enforce the
-     * restrictions on ASCII characters in hostnames (see
+     * restrictions on ASCII chbrbcters in hostnbmes (see
      * <A HREF="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</A>,
      * <A HREF="http://www.ietf.org/rfc/rfc1122.txt">RFC 1122</A>,
-     * <A HREF="http://www.ietf.org/rfc/rfc1123.txt">RFC 1123</A>) and
-     * translate the {@code hostname} into ASCII Compatible Encoding (ACE), as:
+     * <A HREF="http://www.ietf.org/rfc/rfc1123.txt">RFC 1123</A>) bnd
+     * trbnslbte the {@code hostnbme} into ASCII Compbtible Encoding (ACE), bs:
      * <pre>
-     *     IDN.toASCII(hostname, IDN.USE_STD3_ASCII_RULES);
+     *     IDN.toASCII(hostnbme, IDN.USE_STD3_ASCII_RULES);
      * </pre>
      * <P>
-     * The {@code hostname} argument is illegal if it:
+     * The {@code hostnbme} brgument is illegbl if it:
      * <ul>
-     * <li> {@code hostname} is empty,</li>
-     * <li> {@code hostname} ends with a trailing dot,</li>
-     * <li> {@code hostname} is not a valid Internationalized
-     *      Domain Name (IDN) compliant with the RFC 3490 specification.</li>
+     * <li> {@code hostnbme} is empty,</li>
+     * <li> {@code hostnbme} ends with b trbiling dot,</li>
+     * <li> {@code hostnbme} is not b vblid Internbtionblized
+     *      Dombin Nbme (IDN) complibnt with the RFC 3490 specificbtion.</li>
      * </ul>
-     * @param  hostname
-     *         the hostname of this server name
+     * @pbrbm  hostnbme
+     *         the hostnbme of this server nbme
      *
-     * @throws NullPointerException if {@code hostname} is {@code null}
-     * @throws IllegalArgumentException if {@code hostname} is illegal
+     * @throws NullPointerException if {@code hostnbme} is {@code null}
+     * @throws IllegblArgumentException if {@code hostnbme} is illegbl
      */
-    public SNIHostName(String hostname) {
-        // IllegalArgumentException will be thrown if {@code hostname} is
-        // not a valid IDN.
-        super(StandardConstants.SNI_HOST_NAME,
-                (hostname = IDN.toASCII(
-                    Objects.requireNonNull(hostname,
-                        "Server name value of host_name cannot be null"),
+    public SNIHostNbme(String hostnbme) {
+        // IllegblArgumentException will be thrown if {@code hostnbme} is
+        // not b vblid IDN.
+        super(StbndbrdConstbnts.SNI_HOST_NAME,
+                (hostnbme = IDN.toASCII(
+                    Objects.requireNonNull(hostnbme,
+                        "Server nbme vblue of host_nbme cbnnot be null"),
                     IDN.USE_STD3_ASCII_RULES))
-                .getBytes(StandardCharsets.US_ASCII));
+                .getBytes(StbndbrdChbrsets.US_ASCII));
 
-        this.hostname = hostname;
+        this.hostnbme = hostnbme;
 
-        // check the validity of the string hostname
-        checkHostName();
+        // check the vblidity of the string hostnbme
+        checkHostNbme();
     }
 
     /**
-     * Creates an {@code SNIHostName} using the specified encoded value.
+     * Crebtes bn {@code SNIHostNbme} using the specified encoded vblue.
      * <P>
-     * This method is normally used to parse the encoded name value in a
+     * This method is normblly used to pbrse the encoded nbme vblue in b
      * requested SNI extension.
      * <P>
      * Per <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>,
-     * the encoded name value of a hostname is
-     * {@link StandardCharsets#US_ASCII}-compliant.  However, in the previous
+     * the encoded nbme vblue of b hostnbme is
+     * {@link StbndbrdChbrsets#US_ASCII}-complibnt.  However, in the previous
      * version of the SNI extension (
      * <A HREF="http://www.ietf.org/rfc/rfc4366.txt">RFC 4366</A>),
-     * the encoded hostname is represented as a byte string using UTF-8
-     * encoding.  For the purpose of version tolerance, this method allows
-     * that the charset of {@code encoded} argument can be
-     * {@link StandardCharsets#UTF_8}, as well as
-     * {@link StandardCharsets#US_ASCII}.  {@link IDN#toASCII(String)} is used
-     * to translate the {@code encoded} argument into ASCII Compatible
-     * Encoding (ACE) hostname.
+     * the encoded hostnbme is represented bs b byte string using UTF-8
+     * encoding.  For the purpose of version tolerbnce, this method bllows
+     * thbt the chbrset of {@code encoded} brgument cbn be
+     * {@link StbndbrdChbrsets#UTF_8}, bs well bs
+     * {@link StbndbrdChbrsets#US_ASCII}.  {@link IDN#toASCII(String)} is used
+     * to trbnslbte the {@code encoded} brgument into ASCII Compbtible
+     * Encoding (ACE) hostnbme.
      * <P>
-     * It is strongly recommended that this constructor is only used to parse
-     * the encoded name value in a requested SNI extension.  Otherwise, to
+     * It is strongly recommended thbt this constructor is only used to pbrse
+     * the encoded nbme vblue in b requested SNI extension.  Otherwise, to
      * comply with <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>,
-     * please always use {@link StandardCharsets#US_ASCII}-compliant charset
-     * and enforce the restrictions on ASCII characters in hostnames (see
+     * plebse blwbys use {@link StbndbrdChbrsets#US_ASCII}-complibnt chbrset
+     * bnd enforce the restrictions on ASCII chbrbcters in hostnbmes (see
      * <A HREF="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</A>,
      * <A HREF="http://www.ietf.org/rfc/rfc1122.txt">RFC 1122</A>,
      * <A HREF="http://www.ietf.org/rfc/rfc1123.txt">RFC 1123</A>)
-     * for {@code encoded} argument, or use
-     * {@link SNIHostName#SNIHostName(String)} instead.
+     * for {@code encoded} brgument, or use
+     * {@link SNIHostNbme#SNIHostNbme(String)} instebd.
      * <P>
-     * The {@code encoded} argument is illegal if it:
+     * The {@code encoded} brgument is illegbl if it:
      * <ul>
      * <li> {@code encoded} is empty,</li>
-     * <li> {@code encoded} ends with a trailing dot,</li>
+     * <li> {@code encoded} ends with b trbiling dot,</li>
      * <li> {@code encoded} is not encoded in
-     *      {@link StandardCharsets#US_ASCII} or
-     *      {@link StandardCharsets#UTF_8}-compliant charset,</li>
-     * <li> {@code encoded} is not a valid Internationalized
-     *      Domain Name (IDN) compliant with the RFC 3490 specification.</li>
+     *      {@link StbndbrdChbrsets#US_ASCII} or
+     *      {@link StbndbrdChbrsets#UTF_8}-complibnt chbrset,</li>
+     * <li> {@code encoded} is not b vblid Internbtionblized
+     *      Dombin Nbme (IDN) complibnt with the RFC 3490 specificbtion.</li>
      * </ul>
      *
      * <P>
-     * Note that the {@code encoded} byte array is cloned
-     * to protect against subsequent modification.
+     * Note thbt the {@code encoded} byte brrby is cloned
+     * to protect bgbinst subsequent modificbtion.
      *
-     * @param  encoded
-     *         the encoded hostname of this server name
+     * @pbrbm  encoded
+     *         the encoded hostnbme of this server nbme
      *
      * @throws NullPointerException if {@code encoded} is {@code null}
-     * @throws IllegalArgumentException if {@code encoded} is illegal
+     * @throws IllegblArgumentException if {@code encoded} is illegbl
      */
-    public SNIHostName(byte[] encoded) {
+    public SNIHostNbme(byte[] encoded) {
         // NullPointerException will be thrown if {@code encoded} is null
-        super(StandardConstants.SNI_HOST_NAME, encoded);
+        super(StbndbrdConstbnts.SNI_HOST_NAME, encoded);
 
-        // Compliance: RFC 4366 requires that the hostname is represented
-        // as a byte string using UTF_8 encoding [UTF8]
+        // Complibnce: RFC 4366 requires thbt the hostnbme is represented
+        // bs b byte string using UTF_8 encoding [UTF8]
         try {
-            // Please don't use {@link String} constructors because they
+            // Plebse don't use {@link String} constructors becbuse they
             // do not report coding errors.
-            CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder()
-                    .onMalformedInput(CodingErrorAction.REPORT)
-                    .onUnmappableCharacter(CodingErrorAction.REPORT);
+            ChbrsetDecoder decoder = StbndbrdChbrsets.UTF_8.newDecoder()
+                    .onMblformedInput(CodingErrorAction.REPORT)
+                    .onUnmbppbbleChbrbcter(CodingErrorAction.REPORT);
 
-            this.hostname = IDN.toASCII(
-                    decoder.decode(ByteBuffer.wrap(encoded)).toString());
-        } catch (RuntimeException | CharacterCodingException e) {
-            throw new IllegalArgumentException(
-                        "The encoded server name value is invalid", e);
+            this.hostnbme = IDN.toASCII(
+                    decoder.decode(ByteBuffer.wrbp(encoded)).toString());
+        } cbtch (RuntimeException | ChbrbcterCodingException e) {
+            throw new IllegblArgumentException(
+                        "The encoded server nbme vblue is invblid", e);
         }
 
-        // check the validity of the string hostname
-        checkHostName();
+        // check the vblidity of the string hostnbme
+        checkHostNbme();
     }
 
     /**
-     * Returns the {@link StandardCharsets#US_ASCII}-compliant hostname of
-     * this {@code SNIHostName} object.
+     * Returns the {@link StbndbrdChbrsets#US_ASCII}-complibnt hostnbme of
+     * this {@code SNIHostNbme} object.
      * <P>
-     * Note that, per
+     * Note thbt, per
      * <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>, the
-     * returned hostname may be an internationalized domain name that
-     * contains A-labels. See
+     * returned hostnbme mby be bn internbtionblized dombin nbme thbt
+     * contbins A-lbbels. See
      * <A HREF="http://www.ietf.org/rfc/rfc5890.txt">RFC 5890</A>
-     * for more information about the detailed A-label specification.
+     * for more informbtion bbout the detbiled A-lbbel specificbtion.
      *
-     * @return the {@link StandardCharsets#US_ASCII}-compliant hostname
-     *         of this {@code SNIHostName} object
+     * @return the {@link StbndbrdChbrsets#US_ASCII}-complibnt hostnbme
+     *         of this {@code SNIHostNbme} object
      */
-    public String getAsciiName() {
-        return hostname;
+    public String getAsciiNbme() {
+        return hostnbme;
     }
 
     /**
-     * Compares this server name to the specified object.
+     * Compbres this server nbme to the specified object.
      * <P>
      * Per <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>, DNS
-     * hostnames are case-insensitive.  Two server hostnames are equal if,
-     * and only if, they have the same name type, and the hostnames are
-     * equal in a case-independent comparison.
+     * hostnbmes bre cbse-insensitive.  Two server hostnbmes bre equbl if,
+     * bnd only if, they hbve the sbme nbme type, bnd the hostnbmes bre
+     * equbl in b cbse-independent compbrison.
      *
-     * @param  other
-     *         the other server name object to compare with.
-     * @return true if, and only if, the {@code other} is considered
-     *         equal to this instance
+     * @pbrbm  other
+     *         the other server nbme object to compbre with.
+     * @return true if, bnd only if, the {@code other} is considered
+     *         equbl to this instbnce
      */
     @Override
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other) {
             return true;
         }
 
-        if (other instanceof SNIHostName) {
-            return hostname.equalsIgnoreCase(((SNIHostName)other).hostname);
+        if (other instbnceof SNIHostNbme) {
+            return hostnbme.equblsIgnoreCbse(((SNIHostNbme)other).hostnbme);
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code value for this {@code SNIHostName}.
+     * Returns b hbsh code vblue for this {@code SNIHostNbme}.
      * <P>
-     * The hash code value is generated using the case-insensitive hostname
-     * of this {@code SNIHostName}.
+     * The hbsh code vblue is generbted using the cbse-insensitive hostnbme
+     * of this {@code SNIHostNbme}.
      *
-     * @return a hash code value for this {@code SNIHostName}.
+     * @return b hbsh code vblue for this {@code SNIHostNbme}.
      */
     @Override
-    public int hashCode() {
-        int result = 17;        // 17/31: prime number to decrease collisions
-        result = 31 * result + hostname.toUpperCase(Locale.ENGLISH).hashCode();
+    public int hbshCode() {
+        int result = 17;        // 17/31: prime number to decrebse collisions
+        result = 31 * result + hostnbme.toUpperCbse(Locble.ENGLISH).hbshCode();
 
         return result;
     }
 
     /**
-     * Returns a string representation of the object, including the DNS
-     * hostname in this {@code SNIHostName} object.
+     * Returns b string representbtion of the object, including the DNS
+     * hostnbme in this {@code SNIHostNbme} object.
      * <P>
-     * The exact details of the representation are unspecified and subject
-     * to change, but the following may be regarded as typical:
+     * The exbct detbils of the representbtion bre unspecified bnd subject
+     * to chbnge, but the following mby be regbrded bs typicbl:
      * <pre>
-     *     "type=host_name (0), value={@literal <hostname>}"
+     *     "type=host_nbme (0), vblue={@literbl <hostnbme>}"
      * </pre>
-     * The "{@literal <hostname>}" is an ASCII representation of the hostname,
-     * which may contains A-labels.  For example, a returned value of an pseudo
-     * hostname may look like:
+     * The "{@literbl <hostnbme>}" is bn ASCII representbtion of the hostnbme,
+     * which mby contbins A-lbbels.  For exbmple, b returned vblue of bn pseudo
+     * hostnbme mby look like:
      * <pre>
-     *     "type=host_name (0), value=www.example.com"
+     *     "type=host_nbme (0), vblue=www.exbmple.com"
      * </pre>
      * or
      * <pre>
-     *     "type=host_name (0), value=xn--fsqu00a.xn--0zwm56d"
+     *     "type=host_nbme (0), vblue=xn--fsqu00b.xn--0zwm56d"
      * </pre>
      * <P>
-     * Please NOTE that the exact details of the representation are unspecified
-     * and subject to change.
+     * Plebse NOTE thbt the exbct detbils of the representbtion bre unspecified
+     * bnd subject to chbnge.
      *
-     * @return a string representation of the object.
+     * @return b string representbtion of the object.
      */
     @Override
     public String toString() {
-        return "type=host_name (0), value=" + hostname;
+        return "type=host_nbme (0), vblue=" + hostnbme;
     }
 
     /**
-     * Creates an {@link SNIMatcher} object for {@code SNIHostName}s.
+     * Crebtes bn {@link SNIMbtcher} object for {@code SNIHostNbme}s.
      * <P>
-     * This method can be used by a server to verify the acceptable
-     * {@code SNIHostName}s.  For example,
+     * This method cbn be used by b server to verify the bcceptbble
+     * {@code SNIHostNbme}s.  For exbmple,
      * <pre>
-     *     SNIMatcher matcher =
-     *         SNIHostName.createSNIMatcher("www\\.example\\.com");
+     *     SNIMbtcher mbtcher =
+     *         SNIHostNbme.crebteSNIMbtcher("www\\.exbmple\\.com");
      * </pre>
-     * will accept the hostname "www.example.com".
+     * will bccept the hostnbme "www.exbmple.com".
      * <pre>
-     *     SNIMatcher matcher =
-     *         SNIHostName.createSNIMatcher("www\\.example\\.(com|org)");
+     *     SNIMbtcher mbtcher =
+     *         SNIHostNbme.crebteSNIMbtcher("www\\.exbmple\\.(com|org)");
      * </pre>
-     * will accept hostnames "www.example.com" and "www.example.org".
+     * will bccept hostnbmes "www.exbmple.com" bnd "www.exbmple.org".
      *
-     * @param  regex
-     *         the <a href="{@docRoot}/java/util/regex/Pattern.html#sum">
-     *         regular expression pattern</a>
-     *         representing the hostname(s) to match
-     * @return a {@code SNIMatcher} object for {@code SNIHostName}s
+     * @pbrbm  regex
+     *         the <b href="{@docRoot}/jbvb/util/regex/Pbttern.html#sum">
+     *         regulbr expression pbttern</b>
+     *         representing the hostnbme(s) to mbtch
+     * @return b {@code SNIMbtcher} object for {@code SNIHostNbme}s
      * @throws NullPointerException if {@code regex} is
      *         {@code null}
-     * @throws java.util.regex.PatternSyntaxException if the regular expression's
-     *         syntax is invalid
+     * @throws jbvb.util.regex.PbtternSyntbxException if the regulbr expression's
+     *         syntbx is invblid
      */
-    public static SNIMatcher createSNIMatcher(String regex) {
+    public stbtic SNIMbtcher crebteSNIMbtcher(String regex) {
         if (regex == null) {
             throw new NullPointerException(
-                "The regular expression cannot be null");
+                "The regulbr expression cbnnot be null");
         }
 
-        return new SNIHostNameMatcher(regex);
+        return new SNIHostNbmeMbtcher(regex);
     }
 
-    // check the validity of the string hostname
-    private void checkHostName() {
-        if (hostname.isEmpty()) {
-            throw new IllegalArgumentException(
-                "Server name value of host_name cannot be empty");
+    // check the vblidity of the string hostnbme
+    privbte void checkHostNbme() {
+        if (hostnbme.isEmpty()) {
+            throw new IllegblArgumentException(
+                "Server nbme vblue of host_nbme cbnnot be empty");
         }
 
-        if (hostname.endsWith(".")) {
-            throw new IllegalArgumentException(
-                "Server name value of host_name cannot have the trailing dot");
+        if (hostnbme.endsWith(".")) {
+            throw new IllegblArgumentException(
+                "Server nbme vblue of host_nbme cbnnot hbve the trbiling dot");
         }
     }
 
-    private final static class SNIHostNameMatcher extends SNIMatcher {
+    privbte finbl stbtic clbss SNIHostNbmeMbtcher extends SNIMbtcher {
 
-        // the compiled representation of a regular expression.
-        private final Pattern pattern;
+        // the compiled representbtion of b regulbr expression.
+        privbte finbl Pbttern pbttern;
 
         /**
-         * Creates an SNIHostNameMatcher object.
+         * Crebtes bn SNIHostNbmeMbtcher object.
          *
-         * @param  regex
-         *         the <a href="{@docRoot}/java/util/regex/Pattern.html#sum">
-         *         regular expression pattern</a>
-         *         representing the hostname(s) to match
+         * @pbrbm  regex
+         *         the <b href="{@docRoot}/jbvb/util/regex/Pbttern.html#sum">
+         *         regulbr expression pbttern</b>
+         *         representing the hostnbme(s) to mbtch
          * @throws NullPointerException if {@code regex} is
          *         {@code null}
-         * @throws PatternSyntaxException if the regular expression's syntax
-         *         is invalid
+         * @throws PbtternSyntbxException if the regulbr expression's syntbx
+         *         is invblid
          */
-        SNIHostNameMatcher(String regex) {
-            super(StandardConstants.SNI_HOST_NAME);
-            pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        SNIHostNbmeMbtcher(String regex) {
+            super(StbndbrdConstbnts.SNI_HOST_NAME);
+            pbttern = Pbttern.compile(regex, Pbttern.CASE_INSENSITIVE);
         }
 
         /**
-         * Attempts to match the given {@link SNIServerName}.
+         * Attempts to mbtch the given {@link SNIServerNbme}.
          *
-         * @param  serverName
-         *         the {@link SNIServerName} instance on which this matcher
-         *         performs match operations
+         * @pbrbm  serverNbme
+         *         the {@link SNIServerNbme} instbnce on which this mbtcher
+         *         performs mbtch operbtions
          *
-         * @return {@code true} if, and only if, the matcher matches the
-         *         given {@code serverName}
+         * @return {@code true} if, bnd only if, the mbtcher mbtches the
+         *         given {@code serverNbme}
          *
-         * @throws NullPointerException if {@code serverName} is {@code null}
-         * @throws IllegalArgumentException if {@code serverName} is
-         *         not of {@code StandardConstants#SNI_HOST_NAME} type
+         * @throws NullPointerException if {@code serverNbme} is {@code null}
+         * @throws IllegblArgumentException if {@code serverNbme} is
+         *         not of {@code StbndbrdConstbnts#SNI_HOST_NAME} type
          *
-         * @see SNIServerName
+         * @see SNIServerNbme
          */
         @Override
-        public boolean matches(SNIServerName serverName) {
-            if (serverName == null) {
+        public boolebn mbtches(SNIServerNbme serverNbme) {
+            if (serverNbme == null) {
                 throw new NullPointerException(
-                    "The SNIServerName argument cannot be null");
+                    "The SNIServerNbme brgument cbnnot be null");
             }
 
-            SNIHostName hostname;
-            if (!(serverName instanceof SNIHostName)) {
-                if (serverName.getType() != StandardConstants.SNI_HOST_NAME) {
-                    throw new IllegalArgumentException(
-                        "The server name type is not host_name");
+            SNIHostNbme hostnbme;
+            if (!(serverNbme instbnceof SNIHostNbme)) {
+                if (serverNbme.getType() != StbndbrdConstbnts.SNI_HOST_NAME) {
+                    throw new IllegblArgumentException(
+                        "The server nbme type is not host_nbme");
                 }
 
                 try {
-                    hostname = new SNIHostName(serverName.getEncoded());
-                } catch (NullPointerException | IllegalArgumentException e) {
-                    return false;
+                    hostnbme = new SNIHostNbme(serverNbme.getEncoded());
+                } cbtch (NullPointerException | IllegblArgumentException e) {
+                    return fblse;
                 }
             } else {
-                hostname = (SNIHostName)serverName;
+                hostnbme = (SNIHostNbme)serverNbme;
             }
 
-            // Let's first try the ascii name matching
-            String asciiName = hostname.getAsciiName();
-            if (pattern.matcher(asciiName).matches()) {
+            // Let's first try the bscii nbme mbtching
+            String bsciiNbme = hostnbme.getAsciiNbme();
+            if (pbttern.mbtcher(bsciiNbme).mbtches()) {
                 return true;
             }
 
-            // May be an internationalized domain name, check the Unicode
-            // representations.
-            return pattern.matcher(IDN.toUnicode(asciiName)).matches();
+            // Mby be bn internbtionblized dombin nbme, check the Unicode
+            // representbtions.
+            return pbttern.mbtcher(IDN.toUnicode(bsciiNbme)).mbtches();
         }
     }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,29 +29,29 @@
 #include <dlfcn.h>
 
 #include <jni.h>
-#include <sizecalc.h>
-#include "sun_awt_UNIXToolkit.h"
+#include <sizecblc.h>
+#include "sun_bwt_UNIXToolkit.h"
 
 #ifndef HEADLESS
-#include "awt.h"
-#include "gtk2_interface.h"
+#include "bwt.h"
+#include "gtk2_interfbce.h"
 #endif /* !HEADLESS */
 
 
-static jclass this_class = NULL;
-static jmethodID icon_upcall_method = NULL;
+stbtic jclbss this_clbss = NULL;
+stbtic jmethodID icon_upcbll_method = NULL;
 
 
 /*
- * Class:     sun_awt_UNIXToolkit
+ * Clbss:     sun_bwt_UNIXToolkit
  * Method:    check_gtk
- * Signature: ()Z
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_UNIXToolkit_check_1gtk(JNIEnv *env, jclass klass)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_UNIXToolkit_check_1gtk(JNIEnv *env, jclbss klbss)
 {
 #ifndef HEADLESS
-    return (jboolean)gtk2_check_version();
+    return (jboolebn)gtk2_check_version();
 #else
     return JNI_FALSE;
 #endif /* !HEADLESS */
@@ -59,15 +59,15 @@ Java_sun_awt_UNIXToolkit_check_1gtk(JNIEnv *env, jclass klass)
 
 
 /*
- * Class:     sun_awt_UNIXToolkit
- * Method:    load_gtk
- * Signature: ()Z
+ * Clbss:     sun_bwt_UNIXToolkit
+ * Method:    lobd_gtk
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_UNIXToolkit_load_1gtk(JNIEnv *env, jclass klass)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_UNIXToolkit_lobd_1gtk(JNIEnv *env, jclbss klbss)
 {
 #ifndef HEADLESS
-    return (jboolean)gtk2_load(env);
+    return (jboolebn)gtk2_lobd(env);
 #else
     return JNI_FALSE;
 #endif /* !HEADLESS */
@@ -75,117 +75,117 @@ Java_sun_awt_UNIXToolkit_load_1gtk(JNIEnv *env, jclass klass)
 
 
 /*
- * Class:     sun_awt_UNIXToolkit
- * Method:    unload_gtk
- * Signature: ()Z
+ * Clbss:     sun_bwt_UNIXToolkit
+ * Method:    unlobd_gtk
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_UNIXToolkit_unload_1gtk(JNIEnv *env, jclass klass)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_UNIXToolkit_unlobd_1gtk(JNIEnv *env, jclbss klbss)
 {
 #ifndef HEADLESS
-    return (jboolean)gtk2_unload();
+    return (jboolebn)gtk2_unlobd();
 #else
     return JNI_FALSE;
 #endif /* !HEADLESS */
 }
 
-jboolean _icon_upcall(JNIEnv *env, jobject this, GdkPixbuf *pixbuf)
+jboolebn _icon_upcbll(JNIEnv *env, jobject this, GdkPixbuf *pixbuf)
 {
-    jboolean result = JNI_FALSE;
+    jboolebn result = JNI_FALSE;
 
-    if (this_class == NULL) {
-        this_class = (*env)->NewGlobalRef(env,
-                                          (*env)->GetObjectClass(env, this));
-        icon_upcall_method = (*env)->GetMethodID(env, this_class,
-                                 "loadIconCallback", "([BIIIIIZ)V");
-        CHECK_NULL_RETURN(icon_upcall_method, JNI_FALSE);
+    if (this_clbss == NULL) {
+        this_clbss = (*env)->NewGlobblRef(env,
+                                          (*env)->GetObjectClbss(env, this));
+        icon_upcbll_method = (*env)->GetMethodID(env, this_clbss,
+                                 "lobdIconCbllbbck", "([BIIIIIZ)V");
+        CHECK_NULL_RETURN(icon_upcbll_method, JNI_FALSE);
     }
 
     if (pixbuf != NULL)
     {
-        guchar *pixbuf_data = (*fp_gdk_pixbuf_get_pixels)(pixbuf);
+        guchbr *pixbuf_dbtb = (*fp_gdk_pixbuf_get_pixels)(pixbuf);
         int row_stride = (*fp_gdk_pixbuf_get_rowstride)(pixbuf);
         int width = (*fp_gdk_pixbuf_get_width)(pixbuf);
         int height = (*fp_gdk_pixbuf_get_height)(pixbuf);
-        int bps = (*fp_gdk_pixbuf_get_bits_per_sample)(pixbuf);
-        int channels = (*fp_gdk_pixbuf_get_n_channels)(pixbuf);
-        gboolean alpha = (*fp_gdk_pixbuf_get_has_alpha)(pixbuf);
+        int bps = (*fp_gdk_pixbuf_get_bits_per_sbmple)(pixbuf);
+        int chbnnels = (*fp_gdk_pixbuf_get_n_chbnnels)(pixbuf);
+        gboolebn blphb = (*fp_gdk_pixbuf_get_hbs_blphb)(pixbuf);
 
-        /* Copy the data array into a Java structure so we can pass it back. */
-        jbyteArray data = (*env)->NewByteArray(env, (row_stride * height));
+        /* Copy the dbtb brrby into b Jbvb structure so we cbn pbss it bbck. */
+        jbyteArrby dbtb = (*env)->NewByteArrby(env, (row_stride * height));
         JNU_CHECK_EXCEPTION_RETURN(env, JNI_FALSE);
 
-        (*env)->SetByteArrayRegion(env, data, 0, (row_stride * height),
-                                   (jbyte *)pixbuf_data);
+        (*env)->SetByteArrbyRegion(env, dbtb, 0, (row_stride * height),
+                                   (jbyte *)pixbuf_dbtb);
 
-        /* Release the pixbuf. */
+        /* Relebse the pixbuf. */
         (*fp_g_object_unref)(pixbuf);
 
-        /* Call the callback method to create the image on the Java side. */
-        (*env)->CallVoidMethod(env, this, icon_upcall_method, data,
-                width, height, row_stride, bps, channels, alpha);
+        /* Cbll the cbllbbck method to crebte the imbge on the Jbvb side. */
+        (*env)->CbllVoidMethod(env, this, icon_upcbll_method, dbtb,
+                width, height, row_stride, bps, chbnnels, blphb);
         result = JNI_TRUE;
     }
     return result;
 }
 
 /*
- * Class:     sun_awt_UNIXToolkit
- * Method:    load_gtk_icon
- * Signature: (Ljava/lang/String)Z
+ * Clbss:     sun_bwt_UNIXToolkit
+ * Method:    lobd_gtk_icon
+ * Signbture: (Ljbvb/lbng/String)Z
  *
- * This method assumes that GTK libs are present.
+ * This method bssumes thbt GTK libs bre present.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_UNIXToolkit_load_1gtk_1icon(JNIEnv *env, jobject this,
-        jstring filename)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_UNIXToolkit_lobd_1gtk_1icon(JNIEnv *env, jobject this,
+        jstring filenbme)
 {
 #ifndef HEADLESS
     int len;
-    char *filename_str = NULL;
+    chbr *filenbme_str = NULL;
     GError **error = NULL;
     GdkPixbuf *pixbuf;
 
-    if (filename == NULL)
+    if (filenbme == NULL)
     {
         return JNI_FALSE;
     }
 
-    len = (*env)->GetStringUTFLength(env, filename);
-    filename_str = (char *)SAFE_SIZE_ARRAY_ALLOC(malloc,
-            sizeof(char), len + 1);
-    if (filename_str == NULL) {
+    len = (*env)->GetStringUTFLength(env, filenbme);
+    filenbme_str = (chbr *)SAFE_SIZE_ARRAY_ALLOC(mblloc,
+            sizeof(chbr), len + 1);
+    if (filenbme_str == NULL) {
         JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
         return JNI_FALSE;
     }
-    (*env)->GetStringUTFRegion(env, filename, 0, len, filename_str);
-    pixbuf = (*fp_gdk_pixbuf_new_from_file)(filename_str, error);
+    (*env)->GetStringUTFRegion(env, filenbme, 0, len, filenbme_str);
+    pixbuf = (*fp_gdk_pixbuf_new_from_file)(filenbme_str, error);
 
-    /* Release the strings we've allocated. */
-    free(filename_str);
+    /* Relebse the strings we've bllocbted. */
+    free(filenbme_str);
 
-    return _icon_upcall(env, this, pixbuf);
+    return _icon_upcbll(env, this, pixbuf);
 #else /* HEADLESS */
     return JNI_FALSE;
 #endif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_UNIXToolkit
- * Method:    load_stock_icon
- * Signature: (ILjava/lang/String;IILjava/lang/String;)Z
+ * Clbss:     sun_bwt_UNIXToolkit
+ * Method:    lobd_stock_icon
+ * Signbture: (ILjbvb/lbng/String;IILjbvb/lbng/String;)Z
  *
- * This method assumes that GTK libs are present.
+ * This method bssumes thbt GTK libs bre present.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_UNIXToolkit_load_1stock_1icon(JNIEnv *env, jobject this,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_UNIXToolkit_lobd_1stock_1icon(JNIEnv *env, jobject this,
         jint widget_type, jstring stock_id, jint icon_size,
-        jint text_direction, jstring detail)
+        jint text_direction, jstring detbil)
 {
 #ifndef HEADLESS
     int len;
-    char *stock_id_str = NULL;
-    char *detail_str = NULL;
+    chbr *stock_id_str = NULL;
+    chbr *detbil_str = NULL;
     GdkPixbuf *pixbuf;
 
     if (stock_id == NULL)
@@ -194,92 +194,92 @@ Java_sun_awt_UNIXToolkit_load_1stock_1icon(JNIEnv *env, jobject this,
     }
 
     len = (*env)->GetStringUTFLength(env, stock_id);
-    stock_id_str = (char *)SAFE_SIZE_ARRAY_ALLOC(malloc,
-            sizeof(char), len + 1);
+    stock_id_str = (chbr *)SAFE_SIZE_ARRAY_ALLOC(mblloc,
+            sizeof(chbr), len + 1);
     if (stock_id_str == NULL) {
         JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
         return JNI_FALSE;
     }
     (*env)->GetStringUTFRegion(env, stock_id, 0, len, stock_id_str);
 
-    /* Detail isn't required so check for NULL. */
-    if (detail != NULL)
+    /* Detbil isn't required so check for NULL. */
+    if (detbil != NULL)
     {
-        len = (*env)->GetStringUTFLength(env, detail);
-        detail_str = (char *)SAFE_SIZE_ARRAY_ALLOC(malloc,
-                sizeof(char), len + 1);
-        if (detail_str == NULL) {
+        len = (*env)->GetStringUTFLength(env, detbil);
+        detbil_str = (chbr *)SAFE_SIZE_ARRAY_ALLOC(mblloc,
+                sizeof(chbr), len + 1);
+        if (detbil_str == NULL) {
             JNU_ThrowOutOfMemoryError(env, "OutOfMemoryError");
             return JNI_FALSE;
         }
-        (*env)->GetStringUTFRegion(env, detail, 0, len, detail_str);
+        (*env)->GetStringUTFRegion(env, detbil, 0, len, detbil_str);
     }
 
     pixbuf = gtk2_get_stock_icon(widget_type, stock_id_str, icon_size,
-                                 text_direction, detail_str);
+                                 text_direction, detbil_str);
 
-    /* Release the strings we've allocated. */
+    /* Relebse the strings we've bllocbted. */
     free(stock_id_str);
-    if (detail_str != NULL)
+    if (detbil_str != NULL)
     {
-        free(detail_str);
+        free(detbil_str);
     }
 
-    return _icon_upcall(env, this, pixbuf);
+    return _icon_upcbll(env, this, pixbuf);
 #else /* HEADLESS */
     return JNI_FALSE;
 #endif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_UNIXToolkit
- * Method:    nativeSync
- * Signature: ()V
+ * Clbss:     sun_bwt_UNIXToolkit
+ * Method:    nbtiveSync
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_UNIXToolkit_nativeSync(JNIEnv *env, jobject this)
+Jbvb_sun_bwt_UNIXToolkit_nbtiveSync(JNIEnv *env, jobject this)
 {
 #ifndef HEADLESS
     AWT_LOCK();
-    XSync(awt_display, False);
+    XSync(bwt_displby, Fblse);
     AWT_UNLOCK();
 #endif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_SunToolkit
- * Method:    closeSplashScreen
- * Signature: ()V
+ * Clbss:     sun_bwt_SunToolkit
+ * Method:    closeSplbshScreen
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_SunToolkit_closeSplashScreen(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_SunToolkit_closeSplbshScreen(JNIEnv *env, jclbss cls)
 {
-    typedef void (*SplashClose_t)();
-    SplashClose_t splashClose;
-    void* hSplashLib = dlopen(0, RTLD_LAZY);
-    if (!hSplashLib) {
+    typedef void (*SplbshClose_t)();
+    SplbshClose_t splbshClose;
+    void* hSplbshLib = dlopen(0, RTLD_LAZY);
+    if (!hSplbshLib) {
         return;
     }
-    splashClose = (SplashClose_t)dlsym(hSplashLib,
-        "SplashClose");
-    if (splashClose) {
-        splashClose();
+    splbshClose = (SplbshClose_t)dlsym(hSplbshLib,
+        "SplbshClose");
+    if (splbshClose) {
+        splbshClose();
     }
-    dlclose(hSplashLib);
+    dlclose(hSplbshLib);
 }
 
 /*
- * Class:     sun_awt_UNIXToolkit
+ * Clbss:     sun_bwt_UNIXToolkit
  * Method:    gtkCheckVersionImpl
- * Signature: (III)Ljava/lang/String;
+ * Signbture: (III)Ljbvb/lbng/String;
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_UNIXToolkit_gtkCheckVersionImpl(JNIEnv *env, jobject this,
-        jint major, jint minor, jint micro)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_UNIXToolkit_gtkCheckVersionImpl(JNIEnv *env, jobject this,
+        jint mbjor, jint minor, jint micro)
 {
-    char *ret;
+    chbr *ret;
 
-    ret = fp_gtk_check_version(major, minor, micro);
+    ret = fp_gtk_check_version(mbjor, minor, micro);
     if (ret == NULL) {
         return TRUE;
     }

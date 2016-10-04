@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 #import "PrintModel.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 #import "PrinterView.h"
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
-@implementation PrintModel
+@implementbtion PrintModel
 
 - (id)initWithPrintInfo:(NSPrintInfo*)printInfo {
     self = [super init];
     if (self) {
-        fPrintInfo = [printInfo retain];
+        fPrintInfo = [printInfo retbin];
     }
 
     return self;
 }
 
-- (void)dealloc {
-    [fPrintInfo release];
+- (void)deblloc {
+    [fPrintInfo relebse];
     fPrintInfo = nil;
 
-    [super dealloc];
+    [super deblloc];
 }
 
-- (BOOL)runPageSetup {
+- (BOOL)runPbgeSetup {
     __block BOOL fResult = NO;
 
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        NSPageLayout* pageLayout = [NSPageLayout pageLayout];
-        fResult = ([pageLayout runModalWithPrintInfo:fPrintInfo] == NSOKButton);
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
+        NSPbgeLbyout* pbgeLbyout = [NSPbgeLbyout pbgeLbyout];
+        fResult = ([pbgeLbyout runModblWithPrintInfo:fPrintInfo] == NSOKButton);
     }];
 
     return fResult;
@@ -63,53 +63,53 @@
 - (BOOL)runJobSetup {
     __block BOOL fResult = NO;
 
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^(){
-        NSPrintPanel* printPanel = [NSPrintPanel printPanel];
-        fResult = ([printPanel runModalWithPrintInfo:fPrintInfo] == NSOKButton);
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^(){
+        NSPrintPbnel* printPbnel = [NSPrintPbnel printPbnel];
+        fResult = ([printPbnel runModblWithPrintInfo:fPrintInfo] == NSOKButton);
     }];
 
     return fResult;
 }
 
-- (BOOL)runPrintLoopWithView:(NSView*)printerView waitUntilDone:(BOOL)wait withEnv:(JNIEnv *)env
+- (BOOL)runPrintLoopWithView:(NSView*)printerView wbitUntilDone:(BOOL)wbit withEnv:(JNIEnv *)env
 {
 AWT_ASSERT_NOT_APPKIT_THREAD;
 
     BOOL fResult = NO;
 
-    // <rdar://problem/4310184> Because people like to put up modal dialogs during print operations,
-    // we have to run the print operation on a non-AppKit thread or else we get a deadlock and errors
-    // the AppKit team believes it's OK for us to call runOperation from non-AppKit threads,
-    // as long as we don't show any panels, and we don't touch the NSPrintInfo or the NSView from other threads.
-    if (wait) {
-        fResult = [self safePrintLoop:printerView withEnv:env];
+    // <rdbr://problem/4310184> Becbuse people like to put up modbl diblogs during print operbtions,
+    // we hbve to run the print operbtion on b non-AppKit threbd or else we get b debdlock bnd errors
+    // the AppKit tebm believes it's OK for us to cbll runOperbtion from non-AppKit threbds,
+    // bs long bs we don't show bny pbnels, bnd we don't touch the NSPrintInfo or the NSView from other threbds.
+    if (wbit) {
+        fResult = [self sbfePrintLoop:printerView withEnv:env];
     } else {
-        // Retain these so they don't go away while we're in Java
-        [self retain];
-        [printerView retain];
+        // Retbin these so they don't go bwby while we're in Jbvb
+        [self retbin];
+        [printerView retbin];
 
-        static JNF_CLASS_CACHE(jc_CPrinterJob, "sun/lwawt/macosx/CPrinterJob");
-        static JNF_STATIC_MEMBER_CACHE(jm_detachPrintLoop, jc_CPrinterJob, "detachPrintLoop", "(JJ)V");
-        JNFCallStaticVoidMethod(env, jm_detachPrintLoop, ptr_to_jlong(self), ptr_to_jlong(printerView)); // AWT_THREADING Safe (known object)
+        stbtic JNF_CLASS_CACHE(jc_CPrinterJob, "sun/lwbwt/mbcosx/CPrinterJob");
+        stbtic JNF_STATIC_MEMBER_CACHE(jm_detbchPrintLoop, jc_CPrinterJob, "detbchPrintLoop", "(JJ)V");
+        JNFCbllStbticVoidMethod(env, jm_detbchPrintLoop, ptr_to_jlong(self), ptr_to_jlong(printerView)); // AWT_THREADING Sbfe (known object)
     }
 
     return fResult;
 }
 
-- (BOOL) safePrintLoop:(id)arg withEnv:(JNIEnv *)env
+- (BOOL) sbfePrintLoop:(id)brg withEnv:(JNIEnv *)env
 {
 AWT_ASSERT_NOT_APPKIT_THREAD;
 
-    PrinterView* printerView = (PrinterView*)arg;
+    PrinterView* printerView = (PrinterView*)brg;
     BOOL fResult;
     @try {
-        NSPrintOperation* printLoop = [NSPrintOperation printOperationWithView:printerView printInfo:fPrintInfo];
-        [printLoop setShowPanels:NO];    //+++gdb Problem: This will avoid progress bars...
-        //[printLoop setCanSpawnSeparateThread:YES]; //+++gdb Need to check this...
+        NSPrintOperbtion* printLoop = [NSPrintOperbtion printOperbtionWithView:printerView printInfo:fPrintInfo];
+        [printLoop setShowPbnels:NO];    //+++gdb Problem: This will bvoid progress bbrs...
+        //[printLoop setCbnSpbwnSepbrbteThrebd:YES]; //+++gdb Need to check this...
 
-        fResult = [printLoop runOperation];
-    } @finally {
-        // Tell CPrinterJob that things are done.
+        fResult = [printLoop runOperbtion];
+    } @finblly {
+        // Tell CPrinterJob thbt things bre done.
         [printerView complete:env];
     }
     return fResult;
@@ -118,23 +118,23 @@ AWT_ASSERT_NOT_APPKIT_THREAD;
 @end
 
 /*
- * Class:     sun_lwawt_macosx_CPrinterJob
- * Method:    _safePrintLoop
- * Signature: (JJ)V
+ * Clbss:     sun_lwbwt_mbcosx_CPrinterJob
+ * Method:    _sbfePrintLoop
+ * Signbture: (JJ)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPrinterJob__1safePrintLoop
-(JNIEnv *env, jclass clz, jlong target, jlong view)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CPrinterJob__1sbfePrintLoop
+(JNIEnv *env, jclbss clz, jlong tbrget, jlong view)
 {
 JNF_COCOA_ENTER(env);
 
-    PrintModel *model = (PrintModel *)jlong_to_ptr(target);
-    PrinterView *arg = (PrinterView *)jlong_to_ptr(view);
+    PrintModel *model = (PrintModel *)jlong_to_ptr(tbrget);
+    PrinterView *brg = (PrinterView *)jlong_to_ptr(view);
 
-    [model safePrintLoop:arg withEnv:env];
+    [model sbfePrintLoop:brg withEnv:env];
 
-    // These are to match the retains in runPrintLoopWithView:
-    [model release];
-    [arg release];
+    // These bre to mbtch the retbins in runPrintLoopWithView:
+    [model relebse];
+    [brg relebse];
 
 JNF_COCOA_EXIT(env);
 }

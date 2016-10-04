@@ -1,576 +1,576 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.toolkit.ctx;
+pbckbge com.sun.jndi.toolkit.ctx;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.DirectoryManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.DirectoryMbnbger;
 
 /*
- * Inherit from AtomicContext so that subclasses of PartialCompositeDirContext
- * can get the ns methods defined in subclasses of PartialCompositeContext.
+ * Inherit from AtomicContext so thbt subclbsses of PbrtiblCompositeDirContext
+ * cbn get the ns methods defined in subclbsses of PbrtiblCompositeContext.
  *
- * Direct subclasses of DirContext should provide implementations for
- * the p_ abstract DirContext methods and override the p_ Context methods
- * (not abstract anymore because they are overridden by ComponentContext
- * (the superclass of AtomicContext)).
+ * Direct subclbsses of DirContext should provide implementbtions for
+ * the p_ bbstrbct DirContext methods bnd override the p_ Context methods
+ * (not bbstrbct bnymore becbuse they bre overridden by ComponentContext
+ * (the superclbss of AtomicContext)).
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
 
-public abstract class PartialCompositeDirContext
+public bbstrbct clbss PbrtiblCompositeDirContext
         extends AtomicContext implements DirContext {
 
-    protected PartialCompositeDirContext() {
+    protected PbrtiblCompositeDirContext() {
         _contextType = _PARTIAL;
     }
 
-// ------ Abstract methods whose implementation come from subclasses
+// ------ Abstrbct methods whose implementbtion come from subclbsses
 
-     /* Equivalent to DirContext methods */
-     protected abstract Attributes p_getAttributes(Name name, String[] attrIds,
-                                                     Continuation cont)
-         throws NamingException;
+     /* Equivblent to DirContext methods */
+     protected bbstrbct Attributes p_getAttributes(Nbme nbme, String[] bttrIds,
+                                                     Continubtion cont)
+         throws NbmingException;
 
-     protected abstract void p_modifyAttributes(Name name, int mod_op,
-                                                Attributes attrs,
-                                                Continuation cont)
-         throws NamingException;
+     protected bbstrbct void p_modifyAttributes(Nbme nbme, int mod_op,
+                                                Attributes bttrs,
+                                                Continubtion cont)
+         throws NbmingException;
 
-     protected abstract void p_modifyAttributes(Name name,
-                                                ModificationItem[] mods,
-                                                Continuation cont)
-         throws NamingException;
+     protected bbstrbct void p_modifyAttributes(Nbme nbme,
+                                                ModificbtionItem[] mods,
+                                                Continubtion cont)
+         throws NbmingException;
 
-     protected abstract void p_bind(Name name, Object obj,
-                                    Attributes attrs,
-                                    Continuation cont)
-         throws NamingException;
+     protected bbstrbct void p_bind(Nbme nbme, Object obj,
+                                    Attributes bttrs,
+                                    Continubtion cont)
+         throws NbmingException;
 
-     protected abstract void p_rebind(Name name, Object obj,
-                                      Attributes attrs,
-                                      Continuation cont)
-         throws NamingException;
+     protected bbstrbct void p_rebind(Nbme nbme, Object obj,
+                                      Attributes bttrs,
+                                      Continubtion cont)
+         throws NbmingException;
 
-     protected abstract DirContext p_createSubcontext(Name name,
-                                                     Attributes attrs,
-                                                     Continuation cont)
-         throws NamingException;
+     protected bbstrbct DirContext p_crebteSubcontext(Nbme nbme,
+                                                     Attributes bttrs,
+                                                     Continubtion cont)
+         throws NbmingException;
 
-     protected abstract NamingEnumeration<SearchResult> p_search(
-                            Name name,
-                            Attributes matchingAttributes,
-                            String[] attributesToReturn,
-                            Continuation cont)
-         throws NamingException;
+     protected bbstrbct NbmingEnumerbtion<SebrchResult> p_sebrch(
+                            Nbme nbme,
+                            Attributes mbtchingAttributes,
+                            String[] bttributesToReturn,
+                            Continubtion cont)
+         throws NbmingException;
 
-     protected abstract NamingEnumeration<SearchResult> p_search(
-                            Name name,
+     protected bbstrbct NbmingEnumerbtion<SebrchResult> p_sebrch(
+                            Nbme nbme,
                             String filter,
-                            SearchControls cons,
-                            Continuation cont)
-         throws NamingException;
+                            SebrchControls cons,
+                            Continubtion cont)
+         throws NbmingException;
 
-     protected abstract NamingEnumeration<SearchResult> p_search(
-                            Name name,
+     protected bbstrbct NbmingEnumerbtion<SebrchResult> p_sebrch(
+                            Nbme nbme,
                             String filterExpr,
                             Object[] filterArgs,
-                            SearchControls cons,
-                            Continuation cont)
-         throws NamingException;
+                            SebrchControls cons,
+                            Continubtion cont)
+         throws NbmingException;
 
-     protected abstract DirContext p_getSchema(Name name, Continuation cont)
-         throws NamingException;
+     protected bbstrbct DirContext p_getSchemb(Nbme nbme, Continubtion cont)
+         throws NbmingException;
 
-     protected abstract DirContext p_getSchemaClassDefinition(Name name,
-                                                             Continuation cont)
-         throws NamingException;
+     protected bbstrbct DirContext p_getSchembClbssDefinition(Nbme nbme,
+                                                             Continubtion cont)
+         throws NbmingException;
 
-// ------ implementation for DirContext methods using
+// ------ implementbtion for DirContext methods using
 // ------ corresponding p_ methods
 
-    public Attributes getAttributes(String name)
-            throws NamingException {
-        return getAttributes(name, null);
+    public Attributes getAttributes(String nbme)
+            throws NbmingException {
+        return getAttributes(nbme, null);
     }
 
-    public Attributes getAttributes(Name name)
-            throws NamingException {
-        return getAttributes(name, null);
+    public Attributes getAttributes(Nbme nbme)
+            throws NbmingException {
+        return getAttributes(nbme, null);
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-            throws NamingException {
-        return getAttributes(new CompositeName(name), attrIds);
+    public Attributes getAttributes(String nbme, String[] bttrIds)
+            throws NbmingException {
+        return getAttributes(new CompositeNbme(nbme), bttrIds);
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Attributes answer;
-        Name nm = name;
+    public Attributes getAttributes(Nbme nbme, String[] bttrIds)
+            throws NbmingException {
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        Attributes bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_getAttributes(nm, attrIds, cont);
+            bnswer = ctx.p_getAttributes(nm, bttrIds, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                answer = ctx.p_getAttributes(nm, attrIds, cont);
+                bnswer = ctx.p_getAttributes(nm, bttrIds, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.getAttributes(e.getRemainingName(), attrIds);
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            bnswer = cctx.getAttributes(e.getRembiningNbme(), bttrIds);
         }
-        return answer;
+        return bnswer;
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-            throws NamingException {
-        modifyAttributes(new CompositeName(name), mod_op, attrs);
+    public void modifyAttributes(String nbme, int mod_op, Attributes bttrs)
+            throws NbmingException {
+        modifyAttributes(new CompositeNbme(nbme), mod_op, bttrs);
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Name nm = name;
+    public void modifyAttributes(Nbme nbme, int mod_op, Attributes bttrs)
+            throws NbmingException {
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        Nbme nm = nbme;
 
         try {
-            ctx.p_modifyAttributes(nm, mod_op, attrs, cont);
+            ctx.p_modifyAttributes(nm, mod_op, bttrs, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                ctx.p_modifyAttributes(nm, mod_op, attrs, cont);
+                ctx.p_modifyAttributes(nm, mod_op, bttrs, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            cctx.modifyAttributes(e.getRemainingName(), mod_op, attrs);
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            cctx.modifyAttributes(e.getRembiningNbme(), mod_op, bttrs);
         }
     }
 
-    public void modifyAttributes(String name, ModificationItem[] mods)
-            throws NamingException {
-        modifyAttributes(new CompositeName(name), mods);
+    public void modifyAttributes(String nbme, ModificbtionItem[] mods)
+            throws NbmingException {
+        modifyAttributes(new CompositeNbme(nbme), mods);
     }
 
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Name nm = name;
+    public void modifyAttributes(Nbme nbme, ModificbtionItem[] mods)
+            throws NbmingException {
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        Nbme nm = nbme;
 
         try {
             ctx.p_modifyAttributes(nm, mods, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
                 ctx.p_modifyAttributes(nm, mods, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            cctx.modifyAttributes(e.getRemainingName(), mods);
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            cctx.modifyAttributes(e.getRembiningNbme(), mods);
         }
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-            throws NamingException {
-        bind(new CompositeName(name), obj, attrs);
+    public void bind(String nbme, Object obj, Attributes bttrs)
+            throws NbmingException {
+        bind(new CompositeNbme(nbme), obj, bttrs);
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Name nm = name;
+    public void bind(Nbme nbme, Object obj, Attributes bttrs)
+            throws NbmingException {
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        Nbme nm = nbme;
 
         try {
-            ctx.p_bind(nm, obj, attrs, cont);
+            ctx.p_bind(nm, obj, bttrs, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                ctx.p_bind(nm, obj, attrs, cont);
+                ctx.p_bind(nm, obj, bttrs, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            cctx.bind(e.getRemainingName(), obj, attrs);
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            cctx.bind(e.getRembiningNbme(), obj, bttrs);
         }
     }
 
-    public void rebind(String name, Object obj, Attributes attrs)
-            throws NamingException {
-        rebind(new CompositeName(name), obj, attrs);
+    public void rebind(String nbme, Object obj, Attributes bttrs)
+            throws NbmingException {
+        rebind(new CompositeNbme(nbme), obj, bttrs);
     }
 
-    public void rebind(Name name, Object obj, Attributes attrs)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        Name nm = name;
+    public void rebind(Nbme nbme, Object obj, Attributes bttrs)
+            throws NbmingException {
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        Nbme nm = nbme;
 
         try {
-            ctx.p_rebind(nm, obj, attrs, cont);
+            ctx.p_rebind(nm, obj, bttrs, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                ctx.p_rebind(nm, obj, attrs, cont);
+                ctx.p_rebind(nm, obj, bttrs, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            cctx.rebind(e.getRemainingName(), obj, attrs);
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            cctx.rebind(e.getRembiningNbme(), obj, bttrs);
         }
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-            throws NamingException {
-        return createSubcontext(new CompositeName(name), attrs);
+    public DirContext crebteSubcontext(String nbme, Attributes bttrs)
+            throws NbmingException {
+        return crebteSubcontext(new CompositeNbme(nbme), bttrs);
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        DirContext answer;
-        Name nm = name;
+    public DirContext crebteSubcontext(Nbme nbme, Attributes bttrs)
+            throws NbmingException {
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        DirContext bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_createSubcontext(nm, attrs, cont);
+            bnswer = ctx.p_crebteSubcontext(nm, bttrs, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                answer = ctx.p_createSubcontext(nm, attrs, cont);
+                bnswer = ctx.p_crebteSubcontext(nm, bttrs, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.createSubcontext(e.getRemainingName(), attrs);
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            bnswer = cctx.crebteSubcontext(e.getRembiningNbme(), bttrs);
         }
-        return answer;
+        return bnswer;
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name, Attributes matchingAttributes)
-        throws NamingException
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme, Attributes mbtchingAttributes)
+        throws NbmingException
     {
-        return search(name, matchingAttributes, null);
+        return sebrch(nbme, mbtchingAttributes, null);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name, Attributes matchingAttributes)
-        throws NamingException
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme, Attributes mbtchingAttributes)
+        throws NbmingException
     {
-        return search(name, matchingAttributes, null);
+        return sebrch(nbme, mbtchingAttributes, null);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
+               Attributes mbtchingAttributes,
+               String[] bttributesToReturn)
+        throws NbmingException
     {
-        return search(new CompositeName(name),
-                      matchingAttributes, attributesToReturn);
+        return sebrch(new CompositeNbme(nbme),
+                      mbtchingAttributes, bttributesToReturn);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
-               Attributes matchingAttributes,
-               String[] attributesToReturn)
-        throws NamingException
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
+               Attributes mbtchingAttributes,
+               String[] bttributesToReturn)
+        throws NbmingException
     {
 
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        NamingEnumeration<SearchResult> answer;
-        Name nm = name;
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        NbmingEnumerbtion<SebrchResult> bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_search(nm, matchingAttributes,
-                                  attributesToReturn, cont);
+            bnswer = ctx.p_sebrch(nm, mbtchingAttributes,
+                                  bttributesToReturn, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                answer = ctx.p_search(nm, matchingAttributes,
-                                      attributesToReturn, cont);
+                bnswer = ctx.p_sebrch(nm, mbtchingAttributes,
+                                      bttributesToReturn, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.search(e.getRemainingName(), matchingAttributes,
-                                 attributesToReturn);
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            bnswer = cctx.sebrch(e.getRembiningNbme(), mbtchingAttributes,
+                                 bttributesToReturn);
         }
-        return answer;
+        return bnswer;
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
                String filter,
-               SearchControls cons)
-        throws NamingException
+               SebrchControls cons)
+        throws NbmingException
     {
-        return search(new CompositeName(name), filter, cons);
+        return sebrch(new CompositeNbme(nbme), filter, cons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
                String filter,
-               SearchControls cons)
-        throws NamingException
+               SebrchControls cons)
+        throws NbmingException
     {
 
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        NamingEnumeration<SearchResult> answer;
-        Name nm = name;
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        NbmingEnumerbtion<SebrchResult> bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_search(nm, filter, cons, cont);
+            bnswer = ctx.p_sebrch(nm, filter, cons, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                answer = ctx.p_search(nm, filter, cons, cont);
+                bnswer = ctx.p_sebrch(nm, filter, cons, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.search(e.getRemainingName(), filter, cons);
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            bnswer = cctx.sebrch(e.getRembiningNbme(), filter, cons);
         }
-        return answer;
+        return bnswer;
     }
 
-    public NamingEnumeration<SearchResult>
-        search(String name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(String nbme,
                String filterExpr,
                Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException
+               SebrchControls cons)
+        throws NbmingException
     {
-        return search(new CompositeName(name), filterExpr, filterArgs, cons);
+        return sebrch(new CompositeNbme(nbme), filterExpr, filterArgs, cons);
     }
 
-    public NamingEnumeration<SearchResult>
-        search(Name name,
+    public NbmingEnumerbtion<SebrchResult>
+        sebrch(Nbme nbme,
                String filterExpr,
                Object[] filterArgs,
-               SearchControls cons)
-        throws NamingException
+               SebrchControls cons)
+        throws NbmingException
     {
 
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        NamingEnumeration<SearchResult> answer;
-        Name nm = name;
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        NbmingEnumerbtion<SebrchResult> bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_search(nm, filterExpr, filterArgs, cons, cont);
+            bnswer = ctx.p_sebrch(nm, filterExpr, filterArgs, cons, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                answer = ctx.p_search(nm, filterExpr, filterArgs, cons, cont);
+                bnswer = ctx.p_sebrch(nm, filterExpr, filterArgs, cons, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.search(e.getRemainingName(), filterExpr, filterArgs,
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            bnswer = cctx.sebrch(e.getRembiningNbme(), filterExpr, filterArgs,
                                  cons);
         }
-        return answer;
+        return bnswer;
     }
 
-    public DirContext getSchema(String name) throws NamingException {
-        return getSchema(new CompositeName(name));
+    public DirContext getSchemb(String nbme) throws NbmingException {
+        return getSchemb(new CompositeNbme(nbme));
     }
 
-    public DirContext getSchema(Name name) throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        DirContext answer;
-        Name nm = name;
+    public DirContext getSchemb(Nbme nbme) throws NbmingException {
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        DirContext bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_getSchema(nm, cont);
+            bnswer = ctx.p_getSchemb(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                answer = ctx.p_getSchema(nm, cont);
+                bnswer = ctx.p_getSchemb(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.getSchema(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            bnswer = cctx.getSchemb(e.getRembiningNbme());
         }
-        return answer;
+        return bnswer;
     }
 
-    public DirContext getSchemaClassDefinition(String name)
-            throws NamingException {
-        return getSchemaClassDefinition(new CompositeName(name));
+    public DirContext getSchembClbssDefinition(String nbme)
+            throws NbmingException {
+        return getSchembClbssDefinition(new CompositeNbme(nbme));
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-            throws NamingException {
-        PartialCompositeDirContext ctx = this;
-        Hashtable<?,?> env = p_getEnvironment();
-        Continuation cont = new Continuation(name, env);
-        DirContext answer;
-        Name nm = name;
+    public DirContext getSchembClbssDefinition(Nbme nbme)
+            throws NbmingException {
+        PbrtiblCompositeDirContext ctx = this;
+        Hbshtbble<?,?> env = p_getEnvironment();
+        Continubtion cont = new Continubtion(nbme, env);
+        DirContext bnswer;
+        Nbme nm = nbme;
 
         try {
-            answer = ctx.p_getSchemaClassDefinition(nm, cont);
+            bnswer = ctx.p_getSchembClbssDefinition(nm, cont);
             while (cont.isContinue()) {
-                nm = cont.getRemainingName();
+                nm = cont.getRembiningNbme();
                 ctx = getPCDirContext(cont);
-                answer = ctx.p_getSchemaClassDefinition(nm, cont);
+                bnswer = ctx.p_getSchembClbssDefinition(nm, cont);
             }
-        } catch (CannotProceedException e) {
-            DirContext cctx = DirectoryManager.getContinuationDirContext(e);
-            answer = cctx.getSchemaClassDefinition(e.getRemainingName());
+        } cbtch (CbnnotProceedException e) {
+            DirContext cctx = DirectoryMbnbger.getContinubtionDirContext(e);
+            bnswer = cctx.getSchembClbssDefinition(e.getRembiningNbme());
         }
-        return answer;
+        return bnswer;
     }
 
-// ------ internal method used by PartialCompositeDirContext
+// ------ internbl method used by PbrtiblCompositeDirContext
 
     /**
-     * Retrieves a PartialCompositeDirContext for the resolved object in
-     * cont.  Throws CannotProceedException if not successful.
+     * Retrieves b PbrtiblCompositeDirContext for the resolved object in
+     * cont.  Throws CbnnotProceedException if not successful.
      */
-    protected static PartialCompositeDirContext getPCDirContext(Continuation cont)
-            throws NamingException {
+    protected stbtic PbrtiblCompositeDirContext getPCDirContext(Continubtion cont)
+            throws NbmingException {
 
-        PartialCompositeContext pctx =
-            PartialCompositeContext.getPCContext(cont);
+        PbrtiblCompositeContext pctx =
+            PbrtiblCompositeContext.getPCContext(cont);
 
-        if (!(pctx instanceof PartialCompositeDirContext)) {
+        if (!(pctx instbnceof PbrtiblCompositeDirContext)) {
             throw cont.fillInException(
                     new NotContextException(
-                            "Resolved object is not a DirContext."));
+                            "Resolved object is not b DirContext."));
         }
 
-        return (PartialCompositeDirContext)pctx;
+        return (PbrtiblCompositeDirContext)pctx;
     }
 
 
-//------ Compensation for inheriting from AtomicContext
+//------ Compensbtion for inheriting from AtomicContext
 
     /*
-     * Dummy implementations defined here so that direct subclasses
-     * of PartialCompositeDirContext or ComponentDirContext do not
-     * have to provide dummy implementations for these.
-     * Override these for subclasses of AtomicDirContext.
+     * Dummy implementbtions defined here so thbt direct subclbsses
+     * of PbrtiblCompositeDirContext or ComponentDirContext do not
+     * hbve to provide dummy implementbtions for these.
+     * Override these for subclbsses of AtomicDirContext.
      */
 
-    protected StringHeadTail c_parseComponent(String inputName,
-        Continuation cont) throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected StringHebdTbil c_pbrseComponent(String inputNbme,
+        Continubtion cont) throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected Object a_lookup(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected Object b_lookup(String nbme, Continubtion cont)
+        throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected Object a_lookupLink(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected Object b_lookupLink(String nbme, Continubtion cont)
+        throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected NamingEnumeration<NameClassPair> a_list(
-        Continuation cont) throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected NbmingEnumerbtion<NbmeClbssPbir> b_list(
+        Continubtion cont) throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected NamingEnumeration<Binding> a_listBindings(
-        Continuation cont) throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected NbmingEnumerbtion<Binding> b_listBindings(
+        Continubtion cont) throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected void a_bind(String name, Object obj, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected void b_bind(String nbme, Object obj, Continubtion cont)
+        throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected void a_rebind(String name, Object obj, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected void b_rebind(String nbme, Object obj, Continubtion cont)
+        throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected void a_unbind(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected void b_unbind(String nbme, Continubtion cont)
+        throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected void a_destroySubcontext(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected void b_destroySubcontext(String nbme, Continubtion cont)
+        throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected Context a_createSubcontext(String name, Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected Context b_crebteSubcontext(String nbme, Continubtion cont)
+        throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected void a_rename(String oldname, Name newname,
-        Continuation cont) throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected void b_renbme(String oldnbme, Nbme newnbme,
+        Continubtion cont) throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 
-    protected NameParser a_getNameParser(Continuation cont)
-        throws NamingException {
-            OperationNotSupportedException e = new
-                OperationNotSupportedException();
+    protected NbmePbrser b_getNbmePbrser(Continubtion cont)
+        throws NbmingException {
+            OperbtionNotSupportedException e = new
+                OperbtionNotSupportedException();
             throw cont.fillInException(e);
         }
 }

@@ -1,353 +1,353 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.ImageProducer;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageFilter;
-import java.awt.image.FilteredImageSource;
-import java.awt.image.AreaAveragingScaleFilter;
-import java.awt.image.ReplicateScaleFilter;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.ImbgeFilter;
+import jbvb.bwt.imbge.FilteredImbgeSource;
+import jbvb.bwt.imbge.ArebAverbgingScbleFilter;
+import jbvb.bwt.imbge.ReplicbteScbleFilter;
 
-import sun.awt.image.SurfaceManager;
+import sun.bwt.imbge.SurfbceMbnbger;
 
 
 /**
- * The abstract class <code>Image</code> is the superclass of all
- * classes that represent graphical images. The image must be
- * obtained in a platform-specific manner.
+ * The bbstrbct clbss <code>Imbge</code> is the superclbss of bll
+ * clbsses thbt represent grbphicbl imbges. The imbge must be
+ * obtbined in b plbtform-specific mbnner.
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
  * @since       1.0
  */
-public abstract class Image {
+public bbstrbct clbss Imbge {
 
     /**
-     * convenience object; we can use this single static object for
-     * all images that do not create their own image caps; it holds the
-     * default (unaccelerated) properties.
+     * convenience object; we cbn use this single stbtic object for
+     * bll imbges thbt do not crebte their own imbge cbps; it holds the
+     * defbult (unbccelerbted) properties.
      */
-    private static ImageCapabilities defaultImageCaps =
-        new ImageCapabilities(false);
+    privbte stbtic ImbgeCbpbbilities defbultImbgeCbps =
+        new ImbgeCbpbbilities(fblse);
 
     /**
-     * Priority for accelerating this image.  Subclasses are free to
-     * set different default priorities and applications are free to
-     * set the priority for specific images via the
-     * <code>setAccelerationPriority(float)</code> method.
+     * Priority for bccelerbting this imbge.  Subclbsses bre free to
+     * set different defbult priorities bnd bpplicbtions bre free to
+     * set the priority for specific imbges vib the
+     * <code>setAccelerbtionPriority(flobt)</code> method.
      * @since 1.5
      */
-    protected float accelerationPriority = .5f;
+    protected flobt bccelerbtionPriority = .5f;
 
     /**
-     * Determines the width of the image. If the width is not yet known,
-     * this method returns <code>-1</code> and the specified
-     * <code>ImageObserver</code> object is notified later.
-     * @param     observer   an object waiting for the image to be loaded.
-     * @return    the width of this image, or <code>-1</code>
+     * Determines the width of the imbge. If the width is not yet known,
+     * this method returns <code>-1</code> bnd the specified
+     * <code>ImbgeObserver</code> object is notified lbter.
+     * @pbrbm     observer   bn object wbiting for the imbge to be lobded.
+     * @return    the width of this imbge, or <code>-1</code>
      *                   if the width is not yet known.
-     * @see       java.awt.Image#getHeight
-     * @see       java.awt.image.ImageObserver
+     * @see       jbvb.bwt.Imbge#getHeight
+     * @see       jbvb.bwt.imbge.ImbgeObserver
      */
-    public abstract int getWidth(ImageObserver observer);
+    public bbstrbct int getWidth(ImbgeObserver observer);
 
     /**
-     * Determines the height of the image. If the height is not yet known,
-     * this method returns <code>-1</code> and the specified
-     * <code>ImageObserver</code> object is notified later.
-     * @param     observer   an object waiting for the image to be loaded.
-     * @return    the height of this image, or <code>-1</code>
+     * Determines the height of the imbge. If the height is not yet known,
+     * this method returns <code>-1</code> bnd the specified
+     * <code>ImbgeObserver</code> object is notified lbter.
+     * @pbrbm     observer   bn object wbiting for the imbge to be lobded.
+     * @return    the height of this imbge, or <code>-1</code>
      *                   if the height is not yet known.
-     * @see       java.awt.Image#getWidth
-     * @see       java.awt.image.ImageObserver
+     * @see       jbvb.bwt.Imbge#getWidth
+     * @see       jbvb.bwt.imbge.ImbgeObserver
      */
-    public abstract int getHeight(ImageObserver observer);
+    public bbstrbct int getHeight(ImbgeObserver observer);
 
     /**
-     * Gets the object that produces the pixels for the image.
-     * This method is called by the image filtering classes and by
-     * methods that perform image conversion and scaling.
-     * @return     the image producer that produces the pixels
-     *                                  for this image.
-     * @see        java.awt.image.ImageProducer
+     * Gets the object thbt produces the pixels for the imbge.
+     * This method is cblled by the imbge filtering clbsses bnd by
+     * methods thbt perform imbge conversion bnd scbling.
+     * @return     the imbge producer thbt produces the pixels
+     *                                  for this imbge.
+     * @see        jbvb.bwt.imbge.ImbgeProducer
      */
-    public abstract ImageProducer getSource();
+    public bbstrbct ImbgeProducer getSource();
 
     /**
-     * Creates a graphics context for drawing to an off-screen image.
-     * This method can only be called for off-screen images.
-     * @return  a graphics context to draw to the off-screen image.
-     * @exception UnsupportedOperationException if called for a
-     *            non-off-screen image.
-     * @see     java.awt.Graphics
-     * @see     java.awt.Component#createImage(int, int)
+     * Crebtes b grbphics context for drbwing to bn off-screen imbge.
+     * This method cbn only be cblled for off-screen imbges.
+     * @return  b grbphics context to drbw to the off-screen imbge.
+     * @exception UnsupportedOperbtionException if cblled for b
+     *            non-off-screen imbge.
+     * @see     jbvb.bwt.Grbphics
+     * @see     jbvb.bwt.Component#crebteImbge(int, int)
      */
-    public abstract Graphics getGraphics();
+    public bbstrbct Grbphics getGrbphics();
 
     /**
-     * Gets a property of this image by name.
+     * Gets b property of this imbge by nbme.
      * <p>
-     * Individual property names are defined by the various image
-     * formats. If a property is not defined for a particular image, this
+     * Individubl property nbmes bre defined by the vbrious imbge
+     * formbts. If b property is not defined for b pbrticulbr imbge, this
      * method returns the <code>UndefinedProperty</code> object.
      * <p>
-     * If the properties for this image are not yet known, this method
-     * returns <code>null</code>, and the <code>ImageObserver</code>
-     * object is notified later.
+     * If the properties for this imbge bre not yet known, this method
+     * returns <code>null</code>, bnd the <code>ImbgeObserver</code>
+     * object is notified lbter.
      * <p>
-     * The property name <code>"comment"</code> should be used to store
-     * an optional comment which can be presented to the application as a
-     * description of the image, its source, or its author.
-     * @param       name   a property name.
-     * @param       observer   an object waiting for this image to be loaded.
-     * @return      the value of the named property.
-     * @throws      NullPointerException if the property name is null.
-     * @see         java.awt.image.ImageObserver
-     * @see         java.awt.Image#UndefinedProperty
+     * The property nbme <code>"comment"</code> should be used to store
+     * bn optionbl comment which cbn be presented to the bpplicbtion bs b
+     * description of the imbge, its source, or its buthor.
+     * @pbrbm       nbme   b property nbme.
+     * @pbrbm       observer   bn object wbiting for this imbge to be lobded.
+     * @return      the vblue of the nbmed property.
+     * @throws      NullPointerException if the property nbme is null.
+     * @see         jbvb.bwt.imbge.ImbgeObserver
+     * @see         jbvb.bwt.Imbge#UndefinedProperty
      */
-    public abstract Object getProperty(String name, ImageObserver observer);
+    public bbstrbct Object getProperty(String nbme, ImbgeObserver observer);
 
     /**
-     * The <code>UndefinedProperty</code> object should be returned whenever a
-     * property which was not defined for a particular image is fetched.
+     * The <code>UndefinedProperty</code> object should be returned whenever b
+     * property which wbs not defined for b pbrticulbr imbge is fetched.
      */
-    public static final Object UndefinedProperty = new Object();
+    public stbtic finbl Object UndefinedProperty = new Object();
 
     /**
-     * Creates a scaled version of this image.
-     * A new <code>Image</code> object is returned which will render
-     * the image at the specified <code>width</code> and
-     * <code>height</code> by default.  The new <code>Image</code> object
-     * may be loaded asynchronously even if the original source image
-     * has already been loaded completely.
+     * Crebtes b scbled version of this imbge.
+     * A new <code>Imbge</code> object is returned which will render
+     * the imbge bt the specified <code>width</code> bnd
+     * <code>height</code> by defbult.  The new <code>Imbge</code> object
+     * mby be lobded bsynchronously even if the originbl source imbge
+     * hbs blrebdy been lobded completely.
      *
      * <p>
      *
      * If either <code>width</code>
-     * or <code>height</code> is a negative number then a value is
-     * substituted to maintain the aspect ratio of the original image
-     * dimensions. If both <code>width</code> and <code>height</code>
-     * are negative, then the original image dimensions are used.
+     * or <code>height</code> is b negbtive number then b vblue is
+     * substituted to mbintbin the bspect rbtio of the originbl imbge
+     * dimensions. If both <code>width</code> bnd <code>height</code>
+     * bre negbtive, then the originbl imbge dimensions bre used.
      *
-     * @param width the width to which to scale the image.
-     * @param height the height to which to scale the image.
-     * @param hints flags to indicate the type of algorithm to use
-     * for image resampling.
-     * @return     a scaled version of the image.
-     * @exception IllegalArgumentException if <code>width</code>
+     * @pbrbm width the width to which to scble the imbge.
+     * @pbrbm height the height to which to scble the imbge.
+     * @pbrbm hints flbgs to indicbte the type of blgorithm to use
+     * for imbge resbmpling.
+     * @return     b scbled version of the imbge.
+     * @exception IllegblArgumentException if <code>width</code>
      *             or <code>height</code> is zero.
-     * @see        java.awt.Image#SCALE_DEFAULT
-     * @see        java.awt.Image#SCALE_FAST
-     * @see        java.awt.Image#SCALE_SMOOTH
-     * @see        java.awt.Image#SCALE_REPLICATE
-     * @see        java.awt.Image#SCALE_AREA_AVERAGING
+     * @see        jbvb.bwt.Imbge#SCALE_DEFAULT
+     * @see        jbvb.bwt.Imbge#SCALE_FAST
+     * @see        jbvb.bwt.Imbge#SCALE_SMOOTH
+     * @see        jbvb.bwt.Imbge#SCALE_REPLICATE
+     * @see        jbvb.bwt.Imbge#SCALE_AREA_AVERAGING
      * @since      1.1
      */
-    public Image getScaledInstance(int width, int height, int hints) {
-        ImageFilter filter;
+    public Imbge getScbledInstbnce(int width, int height, int hints) {
+        ImbgeFilter filter;
         if ((hints & (SCALE_SMOOTH | SCALE_AREA_AVERAGING)) != 0) {
-            filter = new AreaAveragingScaleFilter(width, height);
+            filter = new ArebAverbgingScbleFilter(width, height);
         } else {
-            filter = new ReplicateScaleFilter(width, height);
+            filter = new ReplicbteScbleFilter(width, height);
         }
-        ImageProducer prod;
-        prod = new FilteredImageSource(getSource(), filter);
-        return Toolkit.getDefaultToolkit().createImage(prod);
+        ImbgeProducer prod;
+        prod = new FilteredImbgeSource(getSource(), filter);
+        return Toolkit.getDefbultToolkit().crebteImbge(prod);
     }
 
     /**
-     * Use the default image-scaling algorithm.
+     * Use the defbult imbge-scbling blgorithm.
      * @since 1.1
      */
-    public static final int SCALE_DEFAULT = 1;
+    public stbtic finbl int SCALE_DEFAULT = 1;
 
     /**
-     * Choose an image-scaling algorithm that gives higher priority
-     * to scaling speed than smoothness of the scaled image.
+     * Choose bn imbge-scbling blgorithm thbt gives higher priority
+     * to scbling speed thbn smoothness of the scbled imbge.
      * @since 1.1
      */
-    public static final int SCALE_FAST = 2;
+    public stbtic finbl int SCALE_FAST = 2;
 
     /**
-     * Choose an image-scaling algorithm that gives higher priority
-     * to image smoothness than scaling speed.
+     * Choose bn imbge-scbling blgorithm thbt gives higher priority
+     * to imbge smoothness thbn scbling speed.
      * @since 1.1
      */
-    public static final int SCALE_SMOOTH = 4;
+    public stbtic finbl int SCALE_SMOOTH = 4;
 
     /**
-     * Use the image scaling algorithm embodied in the
-     * <code>ReplicateScaleFilter</code> class.
-     * The <code>Image</code> object is free to substitute a different filter
-     * that performs the same algorithm yet integrates more efficiently
-     * into the imaging infrastructure supplied by the toolkit.
-     * @see        java.awt.image.ReplicateScaleFilter
+     * Use the imbge scbling blgorithm embodied in the
+     * <code>ReplicbteScbleFilter</code> clbss.
+     * The <code>Imbge</code> object is free to substitute b different filter
+     * thbt performs the sbme blgorithm yet integrbtes more efficiently
+     * into the imbging infrbstructure supplied by the toolkit.
+     * @see        jbvb.bwt.imbge.ReplicbteScbleFilter
      * @since      1.1
      */
-    public static final int SCALE_REPLICATE = 8;
+    public stbtic finbl int SCALE_REPLICATE = 8;
 
     /**
-     * Use the Area Averaging image scaling algorithm.  The
-     * image object is free to substitute a different filter that
-     * performs the same algorithm yet integrates more efficiently
-     * into the image infrastructure supplied by the toolkit.
-     * @see java.awt.image.AreaAveragingScaleFilter
+     * Use the Areb Averbging imbge scbling blgorithm.  The
+     * imbge object is free to substitute b different filter thbt
+     * performs the sbme blgorithm yet integrbtes more efficiently
+     * into the imbge infrbstructure supplied by the toolkit.
+     * @see jbvb.bwt.imbge.ArebAverbgingScbleFilter
      * @since 1.1
      */
-    public static final int SCALE_AREA_AVERAGING = 16;
+    public stbtic finbl int SCALE_AREA_AVERAGING = 16;
 
     /**
-     * Flushes all reconstructable resources being used by this Image object.
-     * This includes any pixel data that is being cached for rendering to
-     * the screen as well as any system resources that are being used
-     * to store data or pixels for the image if they can be recreated.
-     * The image is reset to a state similar to when it was first created
-     * so that if it is again rendered, the image data will have to be
-     * recreated or fetched again from its source.
+     * Flushes bll reconstructbble resources being used by this Imbge object.
+     * This includes bny pixel dbtb thbt is being cbched for rendering to
+     * the screen bs well bs bny system resources thbt bre being used
+     * to store dbtb or pixels for the imbge if they cbn be recrebted.
+     * The imbge is reset to b stbte similbr to when it wbs first crebted
+     * so thbt if it is bgbin rendered, the imbge dbtb will hbve to be
+     * recrebted or fetched bgbin from its source.
      * <p>
-     * Examples of how this method affects specific types of Image object:
+     * Exbmples of how this method bffects specific types of Imbge object:
      * <ul>
      * <li>
-     * BufferedImage objects leave the primary Raster which stores their
-     * pixels untouched, but flush any information cached about those
-     * pixels such as copies uploaded to the display hardware for
-     * accelerated blits.
+     * BufferedImbge objects lebve the primbry Rbster which stores their
+     * pixels untouched, but flush bny informbtion cbched bbout those
+     * pixels such bs copies uplobded to the displby hbrdwbre for
+     * bccelerbted blits.
      * <li>
-     * Image objects created by the Component methods which take a
-     * width and height leave their primary buffer of pixels untouched,
-     * but have all cached information released much like is done for
-     * BufferedImage objects.
+     * Imbge objects crebted by the Component methods which tbke b
+     * width bnd height lebve their primbry buffer of pixels untouched,
+     * but hbve bll cbched informbtion relebsed much like is done for
+     * BufferedImbge objects.
      * <li>
-     * VolatileImage objects release all of their pixel resources
-     * including their primary copy which is typically stored on
-     * the display hardware where resources are scarce.
-     * These objects can later be restored using their
-     * {@link java.awt.image.VolatileImage#validate validate}
+     * VolbtileImbge objects relebse bll of their pixel resources
+     * including their primbry copy which is typicblly stored on
+     * the displby hbrdwbre where resources bre scbrce.
+     * These objects cbn lbter be restored using their
+     * {@link jbvb.bwt.imbge.VolbtileImbge#vblidbte vblidbte}
      * method.
      * <li>
-     * Image objects created by the Toolkit and Component classes which are
-     * loaded from files, URLs or produced by an {@link ImageProducer}
-     * are unloaded and all local resources are released.
-     * These objects can later be reloaded from their original source
-     * as needed when they are rendered, just as when they were first
-     * created.
+     * Imbge objects crebted by the Toolkit bnd Component clbsses which bre
+     * lobded from files, URLs or produced by bn {@link ImbgeProducer}
+     * bre unlobded bnd bll locbl resources bre relebsed.
+     * These objects cbn lbter be relobded from their originbl source
+     * bs needed when they bre rendered, just bs when they were first
+     * crebted.
      * </ul>
      */
     public void flush() {
-        if (surfaceManager != null) {
-            surfaceManager.flush();
+        if (surfbceMbnbger != null) {
+            surfbceMbnbger.flush();
         }
     }
 
     /**
-     * Returns an ImageCapabilities object which can be
-     * inquired as to the capabilities of this
-     * Image on the specified GraphicsConfiguration.
-     * This allows programmers to find
-     * out more runtime information on the specific Image
-     * object that they have created.  For example, the user
-     * might create a BufferedImage but the system may have
-     * no video memory left for creating an image of that
-     * size on the given GraphicsConfiguration, so although the object
-     * may be acceleratable in general, it
-     * does not have that capability on this GraphicsConfiguration.
-     * @param gc a <code>GraphicsConfiguration</code> object.  A value of null
-     * for this parameter will result in getting the image capabilities
-     * for the default <code>GraphicsConfiguration</code>.
-     * @return an <code>ImageCapabilities</code> object that contains
-     * the capabilities of this <code>Image</code> on the specified
-     * GraphicsConfiguration.
-     * @see java.awt.image.VolatileImage#getCapabilities()
-     * VolatileImage.getCapabilities()
+     * Returns bn ImbgeCbpbbilities object which cbn be
+     * inquired bs to the cbpbbilities of this
+     * Imbge on the specified GrbphicsConfigurbtion.
+     * This bllows progrbmmers to find
+     * out more runtime informbtion on the specific Imbge
+     * object thbt they hbve crebted.  For exbmple, the user
+     * might crebte b BufferedImbge but the system mby hbve
+     * no video memory left for crebting bn imbge of thbt
+     * size on the given GrbphicsConfigurbtion, so blthough the object
+     * mby be bccelerbtbble in generbl, it
+     * does not hbve thbt cbpbbility on this GrbphicsConfigurbtion.
+     * @pbrbm gc b <code>GrbphicsConfigurbtion</code> object.  A vblue of null
+     * for this pbrbmeter will result in getting the imbge cbpbbilities
+     * for the defbult <code>GrbphicsConfigurbtion</code>.
+     * @return bn <code>ImbgeCbpbbilities</code> object thbt contbins
+     * the cbpbbilities of this <code>Imbge</code> on the specified
+     * GrbphicsConfigurbtion.
+     * @see jbvb.bwt.imbge.VolbtileImbge#getCbpbbilities()
+     * VolbtileImbge.getCbpbbilities()
      * @since 1.5
      */
-    public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
-        if (surfaceManager != null) {
-            return surfaceManager.getCapabilities(gc);
+    public ImbgeCbpbbilities getCbpbbilities(GrbphicsConfigurbtion gc) {
+        if (surfbceMbnbger != null) {
+            return surfbceMbnbger.getCbpbbilities(gc);
         }
-        // Note: this is just a default object that gets returned in the
-        // absence of any more specific information from a surfaceManager.
-        // Subclasses of Image should either override this method or
-        // make sure that they always have a non-null SurfaceManager
-        // to return an ImageCapabilities object that is appropriate
-        // for their given subclass type.
-        return defaultImageCaps;
+        // Note: this is just b defbult object thbt gets returned in the
+        // bbsence of bny more specific informbtion from b surfbceMbnbger.
+        // Subclbsses of Imbge should either override this method or
+        // mbke sure thbt they blwbys hbve b non-null SurfbceMbnbger
+        // to return bn ImbgeCbpbbilities object thbt is bppropribte
+        // for their given subclbss type.
+        return defbultImbgeCbps;
     }
 
     /**
-     * Sets a hint for this image about how important acceleration is.
-     * This priority hint is used to compare to the priorities of other
-     * Image objects when determining how to use scarce acceleration
-     * resources such as video memory.  When and if it is possible to
-     * accelerate this Image, if there are not enough resources available
-     * to provide that acceleration but enough can be freed up by
-     * de-accelerating some other image of lower priority, then that other
-     * Image may be de-accelerated in deference to this one.  Images
-     * that have the same priority take up resources on a first-come,
-     * first-served basis.
-     * @param priority a value between 0 and 1, inclusive, where higher
-     * values indicate more importance for acceleration.  A value of 0
-     * means that this Image should never be accelerated.  Other values
-     * are used simply to determine acceleration priority relative to other
-     * Images.
-     * @throws IllegalArgumentException if <code>priority</code> is less
-     * than zero or greater than 1.
+     * Sets b hint for this imbge bbout how importbnt bccelerbtion is.
+     * This priority hint is used to compbre to the priorities of other
+     * Imbge objects when determining how to use scbrce bccelerbtion
+     * resources such bs video memory.  When bnd if it is possible to
+     * bccelerbte this Imbge, if there bre not enough resources bvbilbble
+     * to provide thbt bccelerbtion but enough cbn be freed up by
+     * de-bccelerbting some other imbge of lower priority, then thbt other
+     * Imbge mby be de-bccelerbted in deference to this one.  Imbges
+     * thbt hbve the sbme priority tbke up resources on b first-come,
+     * first-served bbsis.
+     * @pbrbm priority b vblue between 0 bnd 1, inclusive, where higher
+     * vblues indicbte more importbnce for bccelerbtion.  A vblue of 0
+     * mebns thbt this Imbge should never be bccelerbted.  Other vblues
+     * bre used simply to determine bccelerbtion priority relbtive to other
+     * Imbges.
+     * @throws IllegblArgumentException if <code>priority</code> is less
+     * thbn zero or grebter thbn 1.
      * @since 1.5
      */
-    public void setAccelerationPriority(float priority) {
+    public void setAccelerbtionPriority(flobt priority) {
         if (priority < 0 || priority > 1) {
-            throw new IllegalArgumentException("Priority must be a value " +
-                                               "between 0 and 1, inclusive");
+            throw new IllegblArgumentException("Priority must be b vblue " +
+                                               "between 0 bnd 1, inclusive");
         }
-        accelerationPriority = priority;
-        if (surfaceManager != null) {
-            surfaceManager.setAccelerationPriority(accelerationPriority);
+        bccelerbtionPriority = priority;
+        if (surfbceMbnbger != null) {
+            surfbceMbnbger.setAccelerbtionPriority(bccelerbtionPriority);
         }
     }
 
     /**
-     * Returns the current value of the acceleration priority hint.
-     * @see #setAccelerationPriority(float priority) setAccelerationPriority
-     * @return value between 0 and 1, inclusive, which represents the current
-     * priority value
+     * Returns the current vblue of the bccelerbtion priority hint.
+     * @see #setAccelerbtionPriority(flobt priority) setAccelerbtionPriority
+     * @return vblue between 0 bnd 1, inclusive, which represents the current
+     * priority vblue
      * @since 1.5
      */
-    public float getAccelerationPriority() {
-        return accelerationPriority;
+    public flobt getAccelerbtionPriority() {
+        return bccelerbtionPriority;
     }
 
-    SurfaceManager surfaceManager;
+    SurfbceMbnbger surfbceMbnbger;
 
-    static {
-        SurfaceManager.setImageAccessor(new SurfaceManager.ImageAccessor() {
-            public SurfaceManager getSurfaceManager(Image img) {
-                return img.surfaceManager;
+    stbtic {
+        SurfbceMbnbger.setImbgeAccessor(new SurfbceMbnbger.ImbgeAccessor() {
+            public SurfbceMbnbger getSurfbceMbnbger(Imbge img) {
+                return img.surfbceMbnbger;
             }
-            public void setSurfaceManager(Image img, SurfaceManager mgr) {
-                img.surfaceManager = mgr;
+            public void setSurfbceMbnbger(Imbge img, SurfbceMbnbger mgr) {
+                img.surfbceMbnbger = mgr;
             }
         });
     }

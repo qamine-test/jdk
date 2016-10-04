@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.GraphicsEnvironment;
-import java.awt.color.ICC_Profile;
-import java.awt.geom.Rectangle2D;
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
-import java.awt.RenderingHints;
-import sun.awt.image.ImagingLib;
-import java.util.Arrays;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.color.ICC_Profile;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.RenderingHints;
+import sun.bwt.imbge.ImbgingLib;
+import jbvb.util.Arrbys;
 
 /**
- * This class performs an arbitrary linear combination of the bands
- * in a <CODE>Raster</CODE>, using a specified matrix.
+ * This clbss performs bn brbitrbry linebr combinbtion of the bbnds
+ * in b <CODE>Rbster</CODE>, using b specified mbtrix.
  * <p>
- * The width of the matrix must be equal to the number of bands in the
- * source <CODE>Raster</CODE>, optionally plus one.  If there is one more
- * column in the matrix than the number of bands, there is an implied 1 at the
- * end of the vector of band samples representing a pixel.  The height
- * of the matrix must be equal to the number of bands in the destination.
+ * The width of the mbtrix must be equbl to the number of bbnds in the
+ * source <CODE>Rbster</CODE>, optionblly plus one.  If there is one more
+ * column in the mbtrix thbn the number of bbnds, there is bn implied 1 bt the
+ * end of the vector of bbnd sbmples representing b pixel.  The height
+ * of the mbtrix must be equbl to the number of bbnds in the destinbtion.
  * <p>
- * For example, a 3-banded <CODE>Raster</CODE> might have the following
- * transformation applied to each pixel in order to invert the second band of
- * the <CODE>Raster</CODE>.
+ * For exbmple, b 3-bbnded <CODE>Rbster</CODE> might hbve the following
+ * trbnsformbtion bpplied to ebch pixel in order to invert the second bbnd of
+ * the <CODE>Rbster</CODE>.
  * <pre>
  *   [ 1.0   0.0   0.0    0.0  ]     [ b1 ]
  *   [ 0.0  -1.0   0.0  255.0  ]  x  [ b2 ]
@@ -55,145 +55,145 @@ import java.util.Arrays;
  * </pre>
  *
  * <p>
- * Note that the source and destination can be the same object.
+ * Note thbt the source bnd destinbtion cbn be the sbme object.
  */
-public class BandCombineOp implements  RasterOp {
-    float[][] matrix;
+public clbss BbndCombineOp implements  RbsterOp {
+    flobt[][] mbtrix;
     int nrows = 0;
     int ncols = 0;
     RenderingHints hints;
 
     /**
-     * Constructs a <CODE>BandCombineOp</CODE> with the specified matrix.
-     * The width of the matrix must be equal to the number of bands in
-     * the source <CODE>Raster</CODE>, optionally plus one.  If there is one
-     * more column in the matrix than the number of bands, there is an implied
-     * 1 at the end of the vector of band samples representing a pixel.  The
-     * height of the matrix must be equal to the number of bands in the
-     * destination.
+     * Constructs b <CODE>BbndCombineOp</CODE> with the specified mbtrix.
+     * The width of the mbtrix must be equbl to the number of bbnds in
+     * the source <CODE>Rbster</CODE>, optionblly plus one.  If there is one
+     * more column in the mbtrix thbn the number of bbnds, there is bn implied
+     * 1 bt the end of the vector of bbnd sbmples representing b pixel.  The
+     * height of the mbtrix must be equbl to the number of bbnds in the
+     * destinbtion.
      * <p>
-     * The first subscript is the row index and the second
-     * is the column index.  This operation uses none of the currently
-     * defined rendering hints; the <CODE>RenderingHints</CODE> argument can be
+     * The first subscript is the row index bnd the second
+     * is the column index.  This operbtion uses none of the currently
+     * defined rendering hints; the <CODE>RenderingHints</CODE> brgument cbn be
      * null.
      *
-     * @param matrix The matrix to use for the band combine operation.
-     * @param hints The <CODE>RenderingHints</CODE> object for this operation.
-     * Not currently used so it can be null.
+     * @pbrbm mbtrix The mbtrix to use for the bbnd combine operbtion.
+     * @pbrbm hints The <CODE>RenderingHints</CODE> object for this operbtion.
+     * Not currently used so it cbn be null.
      */
-    public BandCombineOp (float[][] matrix, RenderingHints hints) {
-        nrows = matrix.length;
-        ncols = matrix[0].length;
-        this.matrix = new float[nrows][];
+    public BbndCombineOp (flobt[][] mbtrix, RenderingHints hints) {
+        nrows = mbtrix.length;
+        ncols = mbtrix[0].length;
+        this.mbtrix = new flobt[nrows][];
         for (int i=0; i < nrows; i++) {
-            /* Arrays.copyOf is forgiving of the source array being
-             * too short, but it is also faster than other cloning
+            /* Arrbys.copyOf is forgiving of the source brrby being
+             * too short, but it is blso fbster thbn other cloning
              * methods, so we provide our own protection for short
-             * matrix rows.
+             * mbtrix rows.
              */
-            if (ncols > matrix[i].length) {
+            if (ncols > mbtrix[i].length) {
                 throw new IndexOutOfBoundsException("row "+i+" too short");
             }
-            this.matrix[i] = Arrays.copyOf(matrix[i], ncols);
+            this.mbtrix[i] = Arrbys.copyOf(mbtrix[i], ncols);
         }
         this.hints  = hints;
     }
 
     /**
-     * Returns a copy of the linear combination matrix.
+     * Returns b copy of the linebr combinbtion mbtrix.
      *
-     * @return The matrix associated with this band combine operation.
+     * @return The mbtrix bssocibted with this bbnd combine operbtion.
      */
-    public final float[][] getMatrix() {
-        float[][] ret = new float[nrows][];
+    public finbl flobt[][] getMbtrix() {
+        flobt[][] ret = new flobt[nrows][];
         for (int i = 0; i < nrows; i++) {
-            ret[i] = Arrays.copyOf(matrix[i], ncols);
+            ret[i] = Arrbys.copyOf(mbtrix[i], ncols);
         }
         return ret;
     }
 
     /**
-     * Transforms the <CODE>Raster</CODE> using the matrix specified in the
-     * constructor. An <CODE>IllegalArgumentException</CODE> may be thrown if
-     * the number of bands in the source or destination is incompatible with
-     * the matrix.  See the class comments for more details.
+     * Trbnsforms the <CODE>Rbster</CODE> using the mbtrix specified in the
+     * constructor. An <CODE>IllegblArgumentException</CODE> mby be thrown if
+     * the number of bbnds in the source or destinbtion is incompbtible with
+     * the mbtrix.  See the clbss comments for more detbils.
      * <p>
-     * If the destination is null, it will be created with a number of bands
-     * equalling the number of rows in the matrix. No exception is thrown
-     * if the operation causes a data overflow.
+     * If the destinbtion is null, it will be crebted with b number of bbnds
+     * equblling the number of rows in the mbtrix. No exception is thrown
+     * if the operbtion cbuses b dbtb overflow.
      *
-     * @param src The <CODE>Raster</CODE> to be filtered.
-     * @param dst The <CODE>Raster</CODE> in which to store the results
-     * of the filter operation.
+     * @pbrbm src The <CODE>Rbster</CODE> to be filtered.
+     * @pbrbm dst The <CODE>Rbster</CODE> in which to store the results
+     * of the filter operbtion.
      *
-     * @return The filtered <CODE>Raster</CODE>.
+     * @return The filtered <CODE>Rbster</CODE>.
      *
-     * @throws IllegalArgumentException If the number of bands in the
-     * source or destination is incompatible with the matrix.
+     * @throws IllegblArgumentException If the number of bbnds in the
+     * source or destinbtion is incompbtible with the mbtrix.
      */
-    public WritableRaster filter(Raster src, WritableRaster dst) {
-        int nBands = src.getNumBands();
-        if (ncols != nBands && ncols != (nBands+1)) {
-            throw new IllegalArgumentException("Number of columns in the "+
-                                               "matrix ("+ncols+
-                                               ") must be equal to the number"+
-                                               " of bands ([+1]) in src ("+
-                                               nBands+").");
+    public WritbbleRbster filter(Rbster src, WritbbleRbster dst) {
+        int nBbnds = src.getNumBbnds();
+        if (ncols != nBbnds && ncols != (nBbnds+1)) {
+            throw new IllegblArgumentException("Number of columns in the "+
+                                               "mbtrix ("+ncols+
+                                               ") must be equbl to the number"+
+                                               " of bbnds ([+1]) in src ("+
+                                               nBbnds+").");
         }
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = crebteCompbtibleDestRbster(src);
         }
-        else if (nrows != dst.getNumBands()) {
-            throw new IllegalArgumentException("Number of rows in the "+
-                                               "matrix ("+nrows+
-                                               ") must be equal to the number"+
-                                               " of bands ([+1]) in dst ("+
-                                               nBands+").");
+        else if (nrows != dst.getNumBbnds()) {
+            throw new IllegblArgumentException("Number of rows in the "+
+                                               "mbtrix ("+nrows+
+                                               ") must be equbl to the number"+
+                                               " of bbnds ([+1]) in dst ("+
+                                               nBbnds+").");
         }
 
-        if (ImagingLib.filter(this, src, dst) != null) {
+        if (ImbgingLib.filter(this, src, dst) != null) {
             return dst;
         }
 
         int[] pixel = null;
-        int[] dstPixel = new int[dst.getNumBands()];
-        float accum;
+        int[] dstPixel = new int[dst.getNumBbnds()];
+        flobt bccum;
         int sminX = src.getMinX();
         int sY = src.getMinY();
         int dminX = dst.getMinX();
         int dY = dst.getMinY();
         int sX;
         int dX;
-        if (ncols == nBands) {
+        if (ncols == nBbnds) {
             for (int y=0; y < src.getHeight(); y++, sY++, dY++) {
                 dX = dminX;
                 sX = sminX;
                 for (int x=0; x < src.getWidth(); x++, sX++, dX++) {
                     pixel = src.getPixel(sX, sY, pixel);
                     for (int r=0; r < nrows; r++) {
-                        accum = 0.f;
+                        bccum = 0.f;
                         for (int c=0; c < ncols; c++) {
-                            accum += matrix[r][c]*pixel[c];
+                            bccum += mbtrix[r][c]*pixel[c];
                         }
-                        dstPixel[r] = (int) accum;
+                        dstPixel[r] = (int) bccum;
                     }
                     dst.setPixel(dX, dY, dstPixel);
                 }
             }
         }
         else {
-            // Need to add constant
+            // Need to bdd constbnt
             for (int y=0; y < src.getHeight(); y++, sY++, dY++) {
                 dX = dminX;
                 sX = sminX;
                 for (int x=0; x < src.getWidth(); x++, sX++, dX++) {
                     pixel = src.getPixel(sX, sY, pixel);
                     for (int r=0; r < nrows; r++) {
-                        accum = 0.f;
-                        for (int c=0; c < nBands; c++) {
-                            accum += matrix[r][c]*pixel[c];
+                        bccum = 0.f;
+                        for (int c=0; c < nBbnds; c++) {
+                            bccum += mbtrix[r][c]*pixel[c];
                         }
-                        dstPixel[r] = (int) (accum+matrix[r][nBands]);
+                        dstPixel[r] = (int) (bccum+mbtrix[r][nBbnds]);
                     }
                     dst.setPixel(dX, dY, dstPixel);
                 }
@@ -204,86 +204,86 @@ public class BandCombineOp implements  RasterOp {
     }
 
     /**
-     * Returns the bounding box of the transformed destination.  Since
-     * this is not a geometric operation, the bounding box is the same for
-     * the source and destination.
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the number of
-     * bands in the source is incompatible with the matrix.  See
-     * the class comments for more details.
+     * Returns the bounding box of the trbnsformed destinbtion.  Since
+     * this is not b geometric operbtion, the bounding box is the sbme for
+     * the source bnd destinbtion.
+     * An <CODE>IllegblArgumentException</CODE> mby be thrown if the number of
+     * bbnds in the source is incompbtible with the mbtrix.  See
+     * the clbss comments for more detbils.
      *
-     * @param src The <CODE>Raster</CODE> to be filtered.
+     * @pbrbm src The <CODE>Rbster</CODE> to be filtered.
      *
-     * @return The <CODE>Rectangle2D</CODE> representing the destination
-     * image's bounding box.
+     * @return The <CODE>Rectbngle2D</CODE> representing the destinbtion
+     * imbge's bounding box.
      *
-     * @throws IllegalArgumentException If the number of bands in the source
-     * is incompatible with the matrix.
+     * @throws IllegblArgumentException If the number of bbnds in the source
+     * is incompbtible with the mbtrix.
      */
-    public final Rectangle2D getBounds2D (Raster src) {
+    public finbl Rectbngle2D getBounds2D (Rbster src) {
         return src.getBounds();
     }
 
 
     /**
-     * Creates a zeroed destination <CODE>Raster</CODE> with the correct size
-     * and number of bands.
-     * An <CODE>IllegalArgumentException</CODE> may be thrown if the number of
-     * bands in the source is incompatible with the matrix.  See
-     * the class comments for more details.
+     * Crebtes b zeroed destinbtion <CODE>Rbster</CODE> with the correct size
+     * bnd number of bbnds.
+     * An <CODE>IllegblArgumentException</CODE> mby be thrown if the number of
+     * bbnds in the source is incompbtible with the mbtrix.  See
+     * the clbss comments for more detbils.
      *
-     * @param src The <CODE>Raster</CODE> to be filtered.
+     * @pbrbm src The <CODE>Rbster</CODE> to be filtered.
      *
-     * @return The zeroed destination <CODE>Raster</CODE>.
+     * @return The zeroed destinbtion <CODE>Rbster</CODE>.
      */
-    public WritableRaster createCompatibleDestRaster (Raster src) {
-        int nBands = src.getNumBands();
-        if ((ncols != nBands) && (ncols != (nBands+1))) {
-            throw new IllegalArgumentException("Number of columns in the "+
-                                               "matrix ("+ncols+
-                                               ") must be equal to the number"+
-                                               " of bands ([+1]) in src ("+
-                                               nBands+").");
+    public WritbbleRbster crebteCompbtibleDestRbster (Rbster src) {
+        int nBbnds = src.getNumBbnds();
+        if ((ncols != nBbnds) && (ncols != (nBbnds+1))) {
+            throw new IllegblArgumentException("Number of columns in the "+
+                                               "mbtrix ("+ncols+
+                                               ") must be equbl to the number"+
+                                               " of bbnds ([+1]) in src ("+
+                                               nBbnds+").");
         }
-        if (src.getNumBands() == nrows) {
-            return src.createCompatibleWritableRaster();
+        if (src.getNumBbnds() == nrows) {
+            return src.crebteCompbtibleWritbbleRbster();
         }
         else {
-            throw new IllegalArgumentException("Don't know how to create a "+
-                                               " compatible Raster with "+
-                                               nrows+" bands.");
+            throw new IllegblArgumentException("Don't know how to crebte b "+
+                                               " compbtible Rbster with "+
+                                               nrows+" bbnds.");
         }
     }
 
     /**
-     * Returns the location of the corresponding destination point given a
-     * point in the source <CODE>Raster</CODE>.  If <CODE>dstPt</CODE> is
-     * specified, it is used to hold the return value.
-     * Since this is not a geometric operation, the point returned
-     * is the same as the specified <CODE>srcPt</CODE>.
+     * Returns the locbtion of the corresponding destinbtion point given b
+     * point in the source <CODE>Rbster</CODE>.  If <CODE>dstPt</CODE> is
+     * specified, it is used to hold the return vblue.
+     * Since this is not b geometric operbtion, the point returned
+     * is the sbme bs the specified <CODE>srcPt</CODE>.
      *
-     * @param srcPt The <code>Point2D</code> that represents the point in
-     *              the source <code>Raster</code>
-     * @param dstPt The <CODE>Point2D</CODE> in which to store the result.
+     * @pbrbm srcPt The <code>Point2D</code> thbt represents the point in
+     *              the source <code>Rbster</code>
+     * @pbrbm dstPt The <CODE>Point2D</CODE> in which to store the result.
      *
-     * @return The <CODE>Point2D</CODE> in the destination image that
-     * corresponds to the specified point in the source image.
+     * @return The <CODE>Point2D</CODE> in the destinbtion imbge thbt
+     * corresponds to the specified point in the source imbge.
      */
-    public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
+    public finbl Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
-            dstPt = new Point2D.Float();
+            dstPt = new Point2D.Flobt();
         }
-        dstPt.setLocation(srcPt.getX(), srcPt.getY());
+        dstPt.setLocbtion(srcPt.getX(), srcPt.getY());
 
         return dstPt;
     }
 
     /**
-     * Returns the rendering hints for this operation.
+     * Returns the rendering hints for this operbtion.
      *
-     * @return The <CODE>RenderingHints</CODE> object associated with this
-     * operation.  Returns null if no hints have been set.
+     * @return The <CODE>RenderingHints</CODE> object bssocibted with this
+     * operbtion.  Returns null if no hints hbve been set.
      */
-    public final RenderingHints getRenderingHints() {
+    public finbl RenderingHints getRenderingHints() {
         return hints;
     }
 }

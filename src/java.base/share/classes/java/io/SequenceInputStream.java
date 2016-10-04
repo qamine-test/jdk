@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.io.InputStrebm;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
 
 /**
- * A <code>SequenceInputStream</code> represents
- * the logical concatenation of other input
- * streams. It starts out with an ordered
- * collection of input streams and reads from
- * the first one until end of file is reached,
- * whereupon it reads from the second one,
- * and so on, until end of file is reached
- * on the last of the contained input streams.
+ * A <code>SequenceInputStrebm</code> represents
+ * the logicbl concbtenbtion of other input
+ * strebms. It stbrts out with bn ordered
+ * collection of input strebms bnd rebds from
+ * the first one until end of file is rebched,
+ * whereupon it rebds from the second one,
+ * bnd so on, until end of file is rebched
+ * on the lbst of the contbined input strebms.
  *
- * @author  Author van Hoff
+ * @buthor  Author vbn Hoff
  * @since   1.0
  */
 public
-class SequenceInputStream extends InputStream {
-    Enumeration<? extends InputStream> e;
-    InputStream in;
+clbss SequenceInputStrebm extends InputStrebm {
+    Enumerbtion<? extends InputStrebm> e;
+    InputStrebm in;
 
     /**
-     * Initializes a newly created <code>SequenceInputStream</code>
-     * by remembering the argument, which must
-     * be an <code>Enumeration</code>  that produces
-     * objects whose run-time type is <code>InputStream</code>.
-     * The input streams that are  produced by
-     * the enumeration will be read, in order,
-     * to provide the bytes to be read  from this
-     * <code>SequenceInputStream</code>. After
-     * each input stream from the enumeration
-     * is exhausted, it is closed by calling its
+     * Initiblizes b newly crebted <code>SequenceInputStrebm</code>
+     * by remembering the brgument, which must
+     * be bn <code>Enumerbtion</code>  thbt produces
+     * objects whose run-time type is <code>InputStrebm</code>.
+     * The input strebms thbt bre  produced by
+     * the enumerbtion will be rebd, in order,
+     * to provide the bytes to be rebd  from this
+     * <code>SequenceInputStrebm</code>. After
+     * ebch input strebm from the enumerbtion
+     * is exhbusted, it is closed by cblling its
      * <code>close</code> method.
      *
-     * @param   e   an enumeration of input streams.
-     * @see     java.util.Enumeration
+     * @pbrbm   e   bn enumerbtion of input strebms.
+     * @see     jbvb.util.Enumerbtion
      */
-    public SequenceInputStream(Enumeration<? extends InputStream> e) {
+    public SequenceInputStrebm(Enumerbtion<? extends InputStrebm> e) {
         this.e = e;
         try {
-            nextStream();
-        } catch (IOException ex) {
-            // This should never happen
-            throw new Error("panic");
+            nextStrebm();
+        } cbtch (IOException ex) {
+            // This should never hbppen
+            throw new Error("pbnic");
         }
     }
 
     /**
-     * Initializes a newly
-     * created <code>SequenceInputStream</code>
-     * by remembering the two arguments, which
-     * will be read in order, first <code>s1</code>
-     * and then <code>s2</code>, to provide the
-     * bytes to be read from this <code>SequenceInputStream</code>.
+     * Initiblizes b newly
+     * crebted <code>SequenceInputStrebm</code>
+     * by remembering the two brguments, which
+     * will be rebd in order, first <code>s1</code>
+     * bnd then <code>s2</code>, to provide the
+     * bytes to be rebd from this <code>SequenceInputStrebm</code>.
      *
-     * @param   s1   the first input stream to read.
-     * @param   s2   the second input stream to read.
+     * @pbrbm   s1   the first input strebm to rebd.
+     * @pbrbm   s2   the second input strebm to rebd.
      */
-    public SequenceInputStream(InputStream s1, InputStream s2) {
-        Vector<InputStream> v = new Vector<>(2);
+    public SequenceInputStrebm(InputStrebm s1, InputStrebm s2) {
+        Vector<InputStrebm> v = new Vector<>(2);
 
-        v.addElement(s1);
-        v.addElement(s2);
+        v.bddElement(s1);
+        v.bddElement(s2);
         e = v.elements();
         try {
-            nextStream();
-        } catch (IOException ex) {
-            // This should never happen
-            throw new Error("panic");
+            nextStrebm();
+        } cbtch (IOException ex) {
+            // This should never hbppen
+            throw new Error("pbnic");
         }
     }
 
     /**
-     *  Continues reading in the next stream if an EOF is reached.
+     *  Continues rebding in the next strebm if bn EOF is rebched.
      */
-    final void nextStream() throws IOException {
+    finbl void nextStrebm() throws IOException {
         if (in != null) {
             in.close();
         }
 
-        if (e.hasMoreElements()) {
-            in = (InputStream) e.nextElement();
+        if (e.hbsMoreElements()) {
+            in = (InputStrebm) e.nextElement();
             if (in == null)
                 throw new NullPointerException();
         }
@@ -116,84 +116,84 @@ class SequenceInputStream extends InputStream {
     }
 
     /**
-     * Returns an estimate of the number of bytes that can be read (or
-     * skipped over) from the current underlying input stream without
-     * blocking by the next invocation of a method for the current
-     * underlying input stream. The next invocation might be
-     * the same thread or another thread.  A single read or skip of this
-     * many bytes will not block, but may read or skip fewer bytes.
+     * Returns bn estimbte of the number of bytes thbt cbn be rebd (or
+     * skipped over) from the current underlying input strebm without
+     * blocking by the next invocbtion of b method for the current
+     * underlying input strebm. The next invocbtion might be
+     * the sbme threbd or bnother threbd.  A single rebd or skip of this
+     * mbny bytes will not block, but mby rebd or skip fewer bytes.
      * <p>
-     * This method simply calls {@code available} of the current underlying
-     * input stream and returns the result.
+     * This method simply cblls {@code bvbilbble} of the current underlying
+     * input strebm bnd returns the result.
      *
-     * @return an estimate of the number of bytes that can be read (or
-     *         skipped over) from the current underlying input stream
-     *         without blocking or {@code 0} if this input stream
-     *         has been closed by invoking its {@link #close()} method
-     * @exception  IOException  if an I/O error occurs.
+     * @return bn estimbte of the number of bytes thbt cbn be rebd (or
+     *         skipped over) from the current underlying input strebm
+     *         without blocking or {@code 0} if this input strebm
+     *         hbs been closed by invoking its {@link #close()} method
+     * @exception  IOException  if bn I/O error occurs.
      *
      * @since   1.1
      */
-    public int available() throws IOException {
+    public int bvbilbble() throws IOException {
         if (in == null) {
-            return 0; // no way to signal EOF from available()
+            return 0; // no wby to signbl EOF from bvbilbble()
         }
-        return in.available();
+        return in.bvbilbble();
     }
 
     /**
-     * Reads the next byte of data from this input stream. The byte is
-     * returned as an <code>int</code> in the range <code>0</code> to
-     * <code>255</code>. If no byte is available because the end of the
-     * stream has been reached, the value <code>-1</code> is returned.
-     * This method blocks until input data is available, the end of the
-     * stream is detected, or an exception is thrown.
+     * Rebds the next byte of dbtb from this input strebm. The byte is
+     * returned bs bn <code>int</code> in the rbnge <code>0</code> to
+     * <code>255</code>. If no byte is bvbilbble becbuse the end of the
+     * strebm hbs been rebched, the vblue <code>-1</code> is returned.
+     * This method blocks until input dbtb is bvbilbble, the end of the
+     * strebm is detected, or bn exception is thrown.
      * <p>
      * This method
-     * tries to read one character from the current substream. If it
-     * reaches the end of the stream, it calls the <code>close</code>
-     * method of the current substream and begins reading from the next
-     * substream.
+     * tries to rebd one chbrbcter from the current substrebm. If it
+     * rebches the end of the strebm, it cblls the <code>close</code>
+     * method of the current substrebm bnd begins rebding from the next
+     * substrebm.
      *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream is reached.
-     * @exception  IOException  if an I/O error occurs.
+     * @return     the next byte of dbtb, or <code>-1</code> if the end of the
+     *             strebm is rebched.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         while (in != null) {
-            int c = in.read();
+            int c = in.rebd();
             if (c != -1) {
                 return c;
             }
-            nextStream();
+            nextStrebm();
         }
         return -1;
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data from this input stream
-     * into an array of bytes.  If <code>len</code> is not zero, the method
-     * blocks until at least 1 byte of input is available; otherwise, no
-     * bytes are read and <code>0</code> is returned.
+     * Rebds up to <code>len</code> bytes of dbtb from this input strebm
+     * into bn brrby of bytes.  If <code>len</code> is not zero, the method
+     * blocks until bt lebst 1 byte of input is bvbilbble; otherwise, no
+     * bytes bre rebd bnd <code>0</code> is returned.
      * <p>
-     * The <code>read</code> method of <code>SequenceInputStream</code>
-     * tries to read the data from the current substream. If it fails to
-     * read any characters because the substream has reached the end of
-     * the stream, it calls the <code>close</code> method of the current
-     * substream and begins reading from the next substream.
+     * The <code>rebd</code> method of <code>SequenceInputStrebm</code>
+     * tries to rebd the dbtb from the current substrebm. If it fbils to
+     * rebd bny chbrbcters becbuse the substrebm hbs rebched the end of
+     * the strebm, it cblls the <code>close</code> method of the current
+     * substrebm bnd begins rebding from the next substrebm.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset in array <code>b</code>
-     *                   at which the data is written.
-     * @param      len   the maximum number of bytes read.
-     * @return     int   the number of bytes read.
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset in brrby <code>b</code>
+     *                   bt which the dbtb is written.
+     * @pbrbm      len   the mbximum number of bytes rebd.
+     * @return     int   the number of bytes rebd.
      * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public int read(byte b[], int off, int len) throws IOException {
+    public int rebd(byte b[], int off, int len) throws IOException {
         if (in == null) {
             return -1;
         } else if (b == null) {
@@ -204,32 +204,32 @@ class SequenceInputStream extends InputStream {
             return 0;
         }
         do {
-            int n = in.read(b, off, len);
+            int n = in.rebd(b, off, len);
             if (n > 0) {
                 return n;
             }
-            nextStream();
+            nextStrebm();
         } while (in != null);
         return -1;
     }
 
     /**
-     * Closes this input stream and releases any system resources
-     * associated with the stream.
-     * A closed <code>SequenceInputStream</code>
-     * cannot  perform input operations and cannot
+     * Closes this input strebm bnd relebses bny system resources
+     * bssocibted with the strebm.
+     * A closed <code>SequenceInputStrebm</code>
+     * cbnnot  perform input operbtions bnd cbnnot
      * be reopened.
      * <p>
-     * If this stream was created
-     * from an enumeration, all remaining elements
-     * are requested from the enumeration and closed
+     * If this strebm wbs crebted
+     * from bn enumerbtion, bll rembining elements
+     * bre requested from the enumerbtion bnd closed
      * before the <code>close</code> method returns.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void close() throws IOException {
         do {
-            nextStream();
+            nextStrebm();
         } while (in != null);
     }
 }

@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.DoubleSummaryStatistics;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.IntSummaryStatistics;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LongSummaryStatistics;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.StringJoiner;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import jbvb.util.AbstrbctMbp;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.DoubleSummbryStbtistics;
+import jbvb.util.EnumSet;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.IntSummbryStbtistics;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.LongSummbryStbtistics;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import jbvb.util.Optionbl;
+import jbvb.util.Set;
+import jbvb.util.StringJoiner;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.Function;
+import jbvb.util.function.Predicbte;
+import jbvb.util.function.Supplier;
+import jbvb.util.function.ToDoubleFunction;
+import jbvb.util.function.ToIntFunction;
+import jbvb.util.function.ToLongFunction;
 
 /**
- * Implementations of {@link Collector} that implement various useful reduction
- * operations, such as accumulating elements into collections, summarizing
- * elements according to various criteria, etc.
+ * Implementbtions of {@link Collector} thbt implement vbrious useful reduction
+ * operbtions, such bs bccumulbting elements into collections, summbrizing
+ * elements bccording to vbrious criterib, etc.
  *
- * <p>The following are examples of using the predefined collectors to perform
- * common mutable reduction tasks:
+ * <p>The following bre exbmples of using the predefined collectors to perform
+ * common mutbble reduction tbsks:
  *
  * <pre>{@code
- *     // Accumulate names into a List
- *     List<String> list = people.stream().map(Person::getName).collect(Collectors.toList());
+ *     // Accumulbte nbmes into b List
+ *     List<String> list = people.strebm().mbp(Person::getNbme).collect(Collectors.toList());
  *
- *     // Accumulate names into a TreeSet
- *     Set<String> set = people.stream().map(Person::getName).collect(Collectors.toCollection(TreeSet::new));
+ *     // Accumulbte nbmes into b TreeSet
+ *     Set<String> set = people.strebm().mbp(Person::getNbme).collect(Collectors.toCollection(TreeSet::new));
  *
- *     // Convert elements to strings and concatenate them, separated by commas
- *     String joined = things.stream()
- *                           .map(Object::toString)
+ *     // Convert elements to strings bnd concbtenbte them, sepbrbted by commbs
+ *     String joined = things.strebm()
+ *                           .mbp(Object::toString)
  *                           .collect(Collectors.joining(", "));
  *
- *     // Compute sum of salaries of employee
- *     int total = employees.stream()
- *                          .collect(Collectors.summingInt(Employee::getSalary)));
+ *     // Compute sum of sblbries of employee
+ *     int totbl = employees.strebm()
+ *                          .collect(Collectors.summingInt(Employee::getSblbry)));
  *
- *     // Group employees by department
- *     Map<Department, List<Employee>> byDept
- *         = employees.stream()
- *                    .collect(Collectors.groupingBy(Employee::getDepartment));
+ *     // Group employees by depbrtment
+ *     Mbp<Depbrtment, List<Employee>> byDept
+ *         = employees.strebm()
+ *                    .collect(Collectors.groupingBy(Employee::getDepbrtment));
  *
- *     // Compute sum of salaries by department
- *     Map<Department, Integer> totalByDept
- *         = employees.stream()
- *                    .collect(Collectors.groupingBy(Employee::getDepartment,
- *                                                   Collectors.summingInt(Employee::getSalary)));
+ *     // Compute sum of sblbries by depbrtment
+ *     Mbp<Depbrtment, Integer> totblByDept
+ *         = employees.strebm()
+ *                    .collect(Collectors.groupingBy(Employee::getDepbrtment,
+ *                                                   Collectors.summingInt(Employee::getSblbry)));
  *
- *     // Partition students into passing and failing
- *     Map<Boolean, List<Student>> passingFailing =
- *         students.stream()
- *                 .collect(Collectors.partitioningBy(s -> s.getGrade() >= PASS_THRESHOLD));
+ *     // Pbrtition students into pbssing bnd fbiling
+ *     Mbp<Boolebn, List<Student>> pbssingFbiling =
+ *         students.strebm()
+ *                 .collect(Collectors.pbrtitioningBy(s -> s.getGrbde() >= PASS_THRESHOLD));
  *
  * }</pre>
  *
  * @since 1.8
  */
-public final class Collectors {
+public finbl clbss Collectors {
 
-    static final Set<Collector.Characteristics> CH_CONCURRENT_ID
-            = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.CONCURRENT,
-                                                     Collector.Characteristics.UNORDERED,
-                                                     Collector.Characteristics.IDENTITY_FINISH));
-    static final Set<Collector.Characteristics> CH_CONCURRENT_NOID
-            = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.CONCURRENT,
-                                                     Collector.Characteristics.UNORDERED));
-    static final Set<Collector.Characteristics> CH_ID
-            = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.IDENTITY_FINISH));
-    static final Set<Collector.Characteristics> CH_UNORDERED_ID
-            = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.UNORDERED,
-                                                     Collector.Characteristics.IDENTITY_FINISH));
-    static final Set<Collector.Characteristics> CH_NOID = Collections.emptySet();
+    stbtic finbl Set<Collector.Chbrbcteristics> CH_CONCURRENT_ID
+            = Collections.unmodifibbleSet(EnumSet.of(Collector.Chbrbcteristics.CONCURRENT,
+                                                     Collector.Chbrbcteristics.UNORDERED,
+                                                     Collector.Chbrbcteristics.IDENTITY_FINISH));
+    stbtic finbl Set<Collector.Chbrbcteristics> CH_CONCURRENT_NOID
+            = Collections.unmodifibbleSet(EnumSet.of(Collector.Chbrbcteristics.CONCURRENT,
+                                                     Collector.Chbrbcteristics.UNORDERED));
+    stbtic finbl Set<Collector.Chbrbcteristics> CH_ID
+            = Collections.unmodifibbleSet(EnumSet.of(Collector.Chbrbcteristics.IDENTITY_FINISH));
+    stbtic finbl Set<Collector.Chbrbcteristics> CH_UNORDERED_ID
+            = Collections.unmodifibbleSet(EnumSet.of(Collector.Chbrbcteristics.UNORDERED,
+                                                     Collector.Chbrbcteristics.IDENTITY_FINISH));
+    stbtic finbl Set<Collector.Chbrbcteristics> CH_NOID = Collections.emptySet();
 
-    private Collectors() { }
+    privbte Collectors() { }
 
     /**
-     * Construct an {@code IllegalStateException} with appropriate message.
+     * Construct bn {@code IllegblStbteException} with bppropribte messbge.
      *
-     * @param k the duplicate key
-     * @param u 1st value to be accumulated/merged
-     * @param v 2nd value to be accumulated/merged
+     * @pbrbm k the duplicbte key
+     * @pbrbm u 1st vblue to be bccumulbted/merged
+     * @pbrbm v 2nd vblue to be bccumulbted/merged
      */
-    private static IllegalStateException duplicateKeyException(
+    privbte stbtic IllegblStbteException duplicbteKeyException(
             Object k, Object u, Object v) {
-        return new IllegalStateException(String.format(
-            "Duplicate key %s (attempted merging values %s and %s)",
+        return new IllegblStbteException(String.formbt(
+            "Duplicbte key %s (bttempted merging vblues %s bnd %s)",
             k, u, v));
     }
 
     /**
-     * {@code BinaryOperator<Map>} that merges the contents of its right
-     * argument into its left argument, throwing {@code IllegalStateException}
-     * if duplicate keys are encountered.
+     * {@code BinbryOperbtor<Mbp>} thbt merges the contents of its right
+     * brgument into its left brgument, throwing {@code IllegblStbteException}
+     * if duplicbte keys bre encountered.
      *
-     * @param <K> type of the map keys
-     * @param <V> type of the map values
-     * @param <M> type of the map
-     * @return a merge function for two maps
+     * @pbrbm <K> type of the mbp keys
+     * @pbrbm <V> type of the mbp vblues
+     * @pbrbm <M> type of the mbp
+     * @return b merge function for two mbps
      */
-    private static <K, V, M extends Map<K,V>>
-    BinaryOperator<M> uniqKeysMapMerger() {
+    privbte stbtic <K, V, M extends Mbp<K,V>>
+    BinbryOperbtor<M> uniqKeysMbpMerger() {
         return (m1, m2) -> {
-            for (Map.Entry<K,V> e : m2.entrySet()) {
+            for (Mbp.Entry<K,V> e : m2.entrySet()) {
                 K k = e.getKey();
-                V v = Objects.requireNonNull(e.getValue());
+                V v = Objects.requireNonNull(e.getVblue());
                 V u = m1.putIfAbsent(k, v);
-                if (u != null) throw duplicateKeyException(k, u, v);
+                if (u != null) throw duplicbteKeyException(k, u, v);
             }
             return m1;
         };
     }
 
     /**
-     * {@code BiConsumer<Map, T>} that accumulates (key, value) pairs
-     * extracted from elements into the map, throwing {@code IllegalStateException}
-     * if duplicate keys are encountered.
+     * {@code BiConsumer<Mbp, T>} thbt bccumulbtes (key, vblue) pbirs
+     * extrbcted from elements into the mbp, throwing {@code IllegblStbteException}
+     * if duplicbte keys bre encountered.
      *
-     * @param keyMapper a function that maps an element into a key
-     * @param valueMapper a function that maps an element into a value
-     * @param <T> type of elements
-     * @param <K> type of map keys
-     * @param <V> type of map values
-     * @return an accumulating consumer
+     * @pbrbm keyMbpper b function thbt mbps bn element into b key
+     * @pbrbm vblueMbpper b function thbt mbps bn element into b vblue
+     * @pbrbm <T> type of elements
+     * @pbrbm <K> type of mbp keys
+     * @pbrbm <V> type of mbp vblues
+     * @return bn bccumulbting consumer
      */
-    private static <T, K, V>
-    BiConsumer<Map<K, V>, T> uniqKeysMapAccumulator(Function<? super T, ? extends K> keyMapper,
-                                                    Function<? super T, ? extends V> valueMapper) {
-        return (map, element) -> {
-            K k = keyMapper.apply(element);
-            V v = Objects.requireNonNull(valueMapper.apply(element));
-            V u = map.putIfAbsent(k, v);
-            if (u != null) throw duplicateKeyException(k, u, v);
+    privbte stbtic <T, K, V>
+    BiConsumer<Mbp<K, V>, T> uniqKeysMbpAccumulbtor(Function<? super T, ? extends K> keyMbpper,
+                                                    Function<? super T, ? extends V> vblueMbpper) {
+        return (mbp, element) -> {
+            K k = keyMbpper.bpply(element);
+            V v = Objects.requireNonNull(vblueMbpper.bpply(element));
+            V u = mbp.putIfAbsent(k, v);
+            if (u != null) throw duplicbteKeyException(k, u, v);
         };
     }
 
-    @SuppressWarnings("unchecked")
-    private static <I, R> Function<I, R> castingIdentity() {
+    @SuppressWbrnings("unchecked")
+    privbte stbtic <I, R> Function<I, R> cbstingIdentity() {
         return i -> (R) i;
     }
 
     /**
-     * Simple implementation class for {@code Collector}.
+     * Simple implementbtion clbss for {@code Collector}.
      *
-     * @param <T> the type of elements to be collected
-     * @param <R> the type of the result
+     * @pbrbm <T> the type of elements to be collected
+     * @pbrbm <R> the type of the result
      */
-    static class CollectorImpl<T, A, R> implements Collector<T, A, R> {
-        private final Supplier<A> supplier;
-        private final BiConsumer<A, T> accumulator;
-        private final BinaryOperator<A> combiner;
-        private final Function<A, R> finisher;
-        private final Set<Characteristics> characteristics;
+    stbtic clbss CollectorImpl<T, A, R> implements Collector<T, A, R> {
+        privbte finbl Supplier<A> supplier;
+        privbte finbl BiConsumer<A, T> bccumulbtor;
+        privbte finbl BinbryOperbtor<A> combiner;
+        privbte finbl Function<A, R> finisher;
+        privbte finbl Set<Chbrbcteristics> chbrbcteristics;
 
         CollectorImpl(Supplier<A> supplier,
-                      BiConsumer<A, T> accumulator,
-                      BinaryOperator<A> combiner,
+                      BiConsumer<A, T> bccumulbtor,
+                      BinbryOperbtor<A> combiner,
                       Function<A,R> finisher,
-                      Set<Characteristics> characteristics) {
+                      Set<Chbrbcteristics> chbrbcteristics) {
             this.supplier = supplier;
-            this.accumulator = accumulator;
+            this.bccumulbtor = bccumulbtor;
             this.combiner = combiner;
             this.finisher = finisher;
-            this.characteristics = characteristics;
+            this.chbrbcteristics = chbrbcteristics;
         }
 
         CollectorImpl(Supplier<A> supplier,
-                      BiConsumer<A, T> accumulator,
-                      BinaryOperator<A> combiner,
-                      Set<Characteristics> characteristics) {
-            this(supplier, accumulator, combiner, castingIdentity(), characteristics);
+                      BiConsumer<A, T> bccumulbtor,
+                      BinbryOperbtor<A> combiner,
+                      Set<Chbrbcteristics> chbrbcteristics) {
+            this(supplier, bccumulbtor, combiner, cbstingIdentity(), chbrbcteristics);
         }
 
         @Override
-        public BiConsumer<A, T> accumulator() {
-            return accumulator;
+        public BiConsumer<A, T> bccumulbtor() {
+            return bccumulbtor;
         }
 
         @Override
@@ -227,7 +227,7 @@ public final class Collectors {
         }
 
         @Override
-        public BinaryOperator<A> combiner() {
+        public BinbryOperbtor<A> combiner() {
             return combiner;
         }
 
@@ -237,1377 +237,1377 @@ public final class Collectors {
         }
 
         @Override
-        public Set<Characteristics> characteristics() {
-            return characteristics;
+        public Set<Chbrbcteristics> chbrbcteristics() {
+            return chbrbcteristics;
         }
     }
 
     /**
-     * Returns a {@code Collector} that accumulates the input elements into a
+     * Returns b {@code Collector} thbt bccumulbtes the input elements into b
      * new {@code Collection}, in encounter order.  The {@code Collection} is
-     * created by the provided factory.
+     * crebted by the provided fbctory.
      *
-     * @param <T> the type of the input elements
-     * @param <C> the type of the resulting {@code Collection}
-     * @param collectionFactory a {@code Supplier} which returns a new, empty
-     * {@code Collection} of the appropriate type
-     * @return a {@code Collector} which collects all the input elements into a
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <C> the type of the resulting {@code Collection}
+     * @pbrbm collectionFbctory b {@code Supplier} which returns b new, empty
+     * {@code Collection} of the bppropribte type
+     * @return b {@code Collector} which collects bll the input elements into b
      * {@code Collection}, in encounter order
      */
-    public static <T, C extends Collection<T>>
-    Collector<T, ?, C> toCollection(Supplier<C> collectionFactory) {
-        return new CollectorImpl<>(collectionFactory, Collection<T>::add,
-                                   (r1, r2) -> { r1.addAll(r2); return r1; },
+    public stbtic <T, C extends Collection<T>>
+    Collector<T, ?, C> toCollection(Supplier<C> collectionFbctory) {
+        return new CollectorImpl<>(collectionFbctory, Collection<T>::bdd,
+                                   (r1, r2) -> { r1.bddAll(r2); return r1; },
                                    CH_ID);
     }
 
     /**
-     * Returns a {@code Collector} that accumulates the input elements into a
-     * new {@code List}. There are no guarantees on the type, mutability,
-     * serializability, or thread-safety of the {@code List} returned; if more
+     * Returns b {@code Collector} thbt bccumulbtes the input elements into b
+     * new {@code List}. There bre no gubrbntees on the type, mutbbility,
+     * seriblizbbility, or threbd-sbfety of the {@code List} returned; if more
      * control over the returned {@code List} is required, use {@link #toCollection(Supplier)}.
      *
-     * @param <T> the type of the input elements
-     * @return a {@code Collector} which collects all the input elements into a
+     * @pbrbm <T> the type of the input elements
+     * @return b {@code Collector} which collects bll the input elements into b
      * {@code List}, in encounter order
      */
-    public static <T>
+    public stbtic <T>
     Collector<T, ?, List<T>> toList() {
-        return new CollectorImpl<>((Supplier<List<T>>) ArrayList::new, List::add,
-                                   (left, right) -> { left.addAll(right); return left; },
+        return new CollectorImpl<>((Supplier<List<T>>) ArrbyList::new, List::bdd,
+                                   (left, right) -> { left.bddAll(right); return left; },
                                    CH_ID);
     }
 
     /**
-     * Returns a {@code Collector} that accumulates the input elements into a
-     * new {@code Set}. There are no guarantees on the type, mutability,
-     * serializability, or thread-safety of the {@code Set} returned; if more
+     * Returns b {@code Collector} thbt bccumulbtes the input elements into b
+     * new {@code Set}. There bre no gubrbntees on the type, mutbbility,
+     * seriblizbbility, or threbd-sbfety of the {@code Set} returned; if more
      * control over the returned {@code Set} is required, use
      * {@link #toCollection(Supplier)}.
      *
-     * <p>This is an {@link Collector.Characteristics#UNORDERED unordered}
+     * <p>This is bn {@link Collector.Chbrbcteristics#UNORDERED unordered}
      * Collector.
      *
-     * @param <T> the type of the input elements
-     * @return a {@code Collector} which collects all the input elements into a
+     * @pbrbm <T> the type of the input elements
+     * @return b {@code Collector} which collects bll the input elements into b
      * {@code Set}
      */
-    public static <T>
+    public stbtic <T>
     Collector<T, ?, Set<T>> toSet() {
-        return new CollectorImpl<>((Supplier<Set<T>>) HashSet::new, Set::add,
-                                   (left, right) -> { left.addAll(right); return left; },
+        return new CollectorImpl<>((Supplier<Set<T>>) HbshSet::new, Set::bdd,
+                                   (left, right) -> { left.bddAll(right); return left; },
                                    CH_UNORDERED_ID);
     }
 
     /**
-     * Returns a {@code Collector} that concatenates the input elements into a
+     * Returns b {@code Collector} thbt concbtenbtes the input elements into b
      * {@code String}, in encounter order.
      *
-     * @return a {@code Collector} that concatenates the input elements into a
+     * @return b {@code Collector} thbt concbtenbtes the input elements into b
      * {@code String}, in encounter order
      */
-    public static Collector<CharSequence, ?, String> joining() {
-        return new CollectorImpl<CharSequence, StringBuilder, String>(
-                StringBuilder::new, StringBuilder::append,
-                (r1, r2) -> { r1.append(r2); return r1; },
+    public stbtic Collector<ChbrSequence, ?, String> joining() {
+        return new CollectorImpl<ChbrSequence, StringBuilder, String>(
+                StringBuilder::new, StringBuilder::bppend,
+                (r1, r2) -> { r1.bppend(r2); return r1; },
                 StringBuilder::toString, CH_NOID);
     }
 
     /**
-     * Returns a {@code Collector} that concatenates the input elements,
-     * separated by the specified delimiter, in encounter order.
+     * Returns b {@code Collector} thbt concbtenbtes the input elements,
+     * sepbrbted by the specified delimiter, in encounter order.
      *
-     * @param delimiter the delimiter to be used between each element
-     * @return A {@code Collector} which concatenates CharSequence elements,
-     * separated by the specified delimiter, in encounter order
+     * @pbrbm delimiter the delimiter to be used between ebch element
+     * @return A {@code Collector} which concbtenbtes ChbrSequence elements,
+     * sepbrbted by the specified delimiter, in encounter order
      */
-    public static Collector<CharSequence, ?, String> joining(CharSequence delimiter) {
+    public stbtic Collector<ChbrSequence, ?, String> joining(ChbrSequence delimiter) {
         return joining(delimiter, "", "");
     }
 
     /**
-     * Returns a {@code Collector} that concatenates the input elements,
-     * separated by the specified delimiter, with the specified prefix and
+     * Returns b {@code Collector} thbt concbtenbtes the input elements,
+     * sepbrbted by the specified delimiter, with the specified prefix bnd
      * suffix, in encounter order.
      *
-     * @param delimiter the delimiter to be used between each element
-     * @param  prefix the sequence of characters to be used at the beginning
+     * @pbrbm delimiter the delimiter to be used between ebch element
+     * @pbrbm  prefix the sequence of chbrbcters to be used bt the beginning
      *                of the joined result
-     * @param  suffix the sequence of characters to be used at the end
+     * @pbrbm  suffix the sequence of chbrbcters to be used bt the end
      *                of the joined result
-     * @return A {@code Collector} which concatenates CharSequence elements,
-     * separated by the specified delimiter, in encounter order
+     * @return A {@code Collector} which concbtenbtes ChbrSequence elements,
+     * sepbrbted by the specified delimiter, in encounter order
      */
-    public static Collector<CharSequence, ?, String> joining(CharSequence delimiter,
-                                                             CharSequence prefix,
-                                                             CharSequence suffix) {
+    public stbtic Collector<ChbrSequence, ?, String> joining(ChbrSequence delimiter,
+                                                             ChbrSequence prefix,
+                                                             ChbrSequence suffix) {
         return new CollectorImpl<>(
                 () -> new StringJoiner(delimiter, prefix, suffix),
-                StringJoiner::add, StringJoiner::merge,
+                StringJoiner::bdd, StringJoiner::merge,
                 StringJoiner::toString, CH_NOID);
     }
 
     /**
-     * {@code BinaryOperator<Map>} that merges the contents of its right
-     * argument into its left argument, using the provided merge function to
-     * handle duplicate keys.
+     * {@code BinbryOperbtor<Mbp>} thbt merges the contents of its right
+     * brgument into its left brgument, using the provided merge function to
+     * hbndle duplicbte keys.
      *
-     * @param <K> type of the map keys
-     * @param <V> type of the map values
-     * @param <M> type of the map
-     * @param mergeFunction A merge function suitable for
-     * {@link Map#merge(Object, Object, BiFunction) Map.merge()}
-     * @return a merge function for two maps
+     * @pbrbm <K> type of the mbp keys
+     * @pbrbm <V> type of the mbp vblues
+     * @pbrbm <M> type of the mbp
+     * @pbrbm mergeFunction A merge function suitbble for
+     * {@link Mbp#merge(Object, Object, BiFunction) Mbp.merge()}
+     * @return b merge function for two mbps
      */
-    private static <K, V, M extends Map<K,V>>
-    BinaryOperator<M> mapMerger(BinaryOperator<V> mergeFunction) {
+    privbte stbtic <K, V, M extends Mbp<K,V>>
+    BinbryOperbtor<M> mbpMerger(BinbryOperbtor<V> mergeFunction) {
         return (m1, m2) -> {
-            for (Map.Entry<K,V> e : m2.entrySet())
-                m1.merge(e.getKey(), e.getValue(), mergeFunction);
+            for (Mbp.Entry<K,V> e : m2.entrySet())
+                m1.merge(e.getKey(), e.getVblue(), mergeFunction);
             return m1;
         };
     }
 
     /**
-     * Adapts a {@code Collector} accepting elements of type {@code U} to one
-     * accepting elements of type {@code T} by applying a mapping function to
-     * each input element before accumulation.
+     * Adbpts b {@code Collector} bccepting elements of type {@code U} to one
+     * bccepting elements of type {@code T} by bpplying b mbpping function to
+     * ebch input element before bccumulbtion.
      *
-     * @apiNote
-     * The {@code mapping()} collectors are most useful when used in a
-     * multi-level reduction, such as downstream of a {@code groupingBy} or
-     * {@code partitioningBy}.  For example, given a stream of
-     * {@code Person}, to accumulate the set of last names in each city:
+     * @bpiNote
+     * The {@code mbpping()} collectors bre most useful when used in b
+     * multi-level reduction, such bs downstrebm of b {@code groupingBy} or
+     * {@code pbrtitioningBy}.  For exbmple, given b strebm of
+     * {@code Person}, to bccumulbte the set of lbst nbmes in ebch city:
      * <pre>{@code
-     *     Map<City, Set<String>> lastNamesByCity
-     *         = people.stream().collect(groupingBy(Person::getCity,
-     *                                              mapping(Person::getLastName, toSet())));
+     *     Mbp<City, Set<String>> lbstNbmesByCity
+     *         = people.strebm().collect(groupingBy(Person::getCity,
+     *                                              mbpping(Person::getLbstNbme, toSet())));
      * }</pre>
      *
-     * @param <T> the type of the input elements
-     * @param <U> type of elements accepted by downstream collector
-     * @param <A> intermediate accumulation type of the downstream collector
-     * @param <R> result type of collector
-     * @param mapper a function to be applied to the input elements
-     * @param downstream a collector which will accept mapped values
-     * @return a collector which applies the mapping function to the input
-     * elements and provides the mapped results to the downstream collector
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <U> type of elements bccepted by downstrebm collector
+     * @pbrbm <A> intermedibte bccumulbtion type of the downstrebm collector
+     * @pbrbm <R> result type of collector
+     * @pbrbm mbpper b function to be bpplied to the input elements
+     * @pbrbm downstrebm b collector which will bccept mbpped vblues
+     * @return b collector which bpplies the mbpping function to the input
+     * elements bnd provides the mbpped results to the downstrebm collector
      */
-    public static <T, U, A, R>
-    Collector<T, ?, R> mapping(Function<? super T, ? extends U> mapper,
-                               Collector<? super U, A, R> downstream) {
-        BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
-        return new CollectorImpl<>(downstream.supplier(),
-                                   (r, t) -> downstreamAccumulator.accept(r, mapper.apply(t)),
-                                   downstream.combiner(), downstream.finisher(),
-                                   downstream.characteristics());
+    public stbtic <T, U, A, R>
+    Collector<T, ?, R> mbpping(Function<? super T, ? extends U> mbpper,
+                               Collector<? super U, A, R> downstrebm) {
+        BiConsumer<A, ? super U> downstrebmAccumulbtor = downstrebm.bccumulbtor();
+        return new CollectorImpl<>(downstrebm.supplier(),
+                                   (r, t) -> downstrebmAccumulbtor.bccept(r, mbpper.bpply(t)),
+                                   downstrebm.combiner(), downstrebm.finisher(),
+                                   downstrebm.chbrbcteristics());
     }
 
     /**
-     * Adapts a {@code Collector} to perform an additional finishing
-     * transformation.  For example, one could adapt the {@link #toList()}
-     * collector to always produce an immutable list with:
+     * Adbpts b {@code Collector} to perform bn bdditionbl finishing
+     * trbnsformbtion.  For exbmple, one could bdbpt the {@link #toList()}
+     * collector to blwbys produce bn immutbble list with:
      * <pre>{@code
      *     List<String> people
-     *         = people.stream().collect(collectingAndThen(toList(), Collections::unmodifiableList));
+     *         = people.strebm().collect(collectingAndThen(toList(), Collections::unmodifibbleList));
      * }</pre>
      *
-     * @param <T> the type of the input elements
-     * @param <A> intermediate accumulation type of the downstream collector
-     * @param <R> result type of the downstream collector
-     * @param <RR> result type of the resulting collector
-     * @param downstream a collector
-     * @param finisher a function to be applied to the final result of the downstream collector
-     * @return a collector which performs the action of the downstream collector,
-     * followed by an additional finishing step
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <A> intermedibte bccumulbtion type of the downstrebm collector
+     * @pbrbm <R> result type of the downstrebm collector
+     * @pbrbm <RR> result type of the resulting collector
+     * @pbrbm downstrebm b collector
+     * @pbrbm finisher b function to be bpplied to the finbl result of the downstrebm collector
+     * @return b collector which performs the bction of the downstrebm collector,
+     * followed by bn bdditionbl finishing step
      */
-    public static<T,A,R,RR> Collector<T,A,RR> collectingAndThen(Collector<T,A,R> downstream,
+    public stbtic<T,A,R,RR> Collector<T,A,RR> collectingAndThen(Collector<T,A,R> downstrebm,
                                                                 Function<R,RR> finisher) {
-        Set<Collector.Characteristics> characteristics = downstream.characteristics();
-        if (characteristics.contains(Collector.Characteristics.IDENTITY_FINISH)) {
-            if (characteristics.size() == 1)
-                characteristics = Collectors.CH_NOID;
+        Set<Collector.Chbrbcteristics> chbrbcteristics = downstrebm.chbrbcteristics();
+        if (chbrbcteristics.contbins(Collector.Chbrbcteristics.IDENTITY_FINISH)) {
+            if (chbrbcteristics.size() == 1)
+                chbrbcteristics = Collectors.CH_NOID;
             else {
-                characteristics = EnumSet.copyOf(characteristics);
-                characteristics.remove(Collector.Characteristics.IDENTITY_FINISH);
-                characteristics = Collections.unmodifiableSet(characteristics);
+                chbrbcteristics = EnumSet.copyOf(chbrbcteristics);
+                chbrbcteristics.remove(Collector.Chbrbcteristics.IDENTITY_FINISH);
+                chbrbcteristics = Collections.unmodifibbleSet(chbrbcteristics);
             }
         }
-        return new CollectorImpl<>(downstream.supplier(),
-                                   downstream.accumulator(),
-                                   downstream.combiner(),
-                                   downstream.finisher().andThen(finisher),
-                                   characteristics);
+        return new CollectorImpl<>(downstrebm.supplier(),
+                                   downstrebm.bccumulbtor(),
+                                   downstrebm.combiner(),
+                                   downstrebm.finisher().bndThen(finisher),
+                                   chbrbcteristics);
     }
 
     /**
-     * Returns a {@code Collector} accepting elements of type {@code T} that
-     * counts the number of input elements.  If no elements are present, the
+     * Returns b {@code Collector} bccepting elements of type {@code T} thbt
+     * counts the number of input elements.  If no elements bre present, the
      * result is 0.
      *
      * @implSpec
-     * This produces a result equivalent to:
+     * This produces b result equivblent to:
      * <pre>{@code
      *     reducing(0L, e -> 1L, Long::sum)
      * }</pre>
      *
-     * @param <T> the type of the input elements
-     * @return a {@code Collector} that counts the input elements
+     * @pbrbm <T> the type of the input elements
+     * @return b {@code Collector} thbt counts the input elements
      */
-    public static <T> Collector<T, ?, Long>
+    public stbtic <T> Collector<T, ?, Long>
     counting() {
         return reducing(0L, e -> 1L, Long::sum);
     }
 
     /**
-     * Returns a {@code Collector} that produces the minimal element according
-     * to a given {@code Comparator}, described as an {@code Optional<T>}.
+     * Returns b {@code Collector} thbt produces the minimbl element bccording
+     * to b given {@code Compbrbtor}, described bs bn {@code Optionbl<T>}.
      *
      * @implSpec
-     * This produces a result equivalent to:
+     * This produces b result equivblent to:
      * <pre>{@code
-     *     reducing(BinaryOperator.minBy(comparator))
+     *     reducing(BinbryOperbtor.minBy(compbrbtor))
      * }</pre>
      *
-     * @param <T> the type of the input elements
-     * @param comparator a {@code Comparator} for comparing elements
-     * @return a {@code Collector} that produces the minimal value
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm compbrbtor b {@code Compbrbtor} for compbring elements
+     * @return b {@code Collector} thbt produces the minimbl vblue
      */
-    public static <T> Collector<T, ?, Optional<T>>
-    minBy(Comparator<? super T> comparator) {
-        return reducing(BinaryOperator.minBy(comparator));
+    public stbtic <T> Collector<T, ?, Optionbl<T>>
+    minBy(Compbrbtor<? super T> compbrbtor) {
+        return reducing(BinbryOperbtor.minBy(compbrbtor));
     }
 
     /**
-     * Returns a {@code Collector} that produces the maximal element according
-     * to a given {@code Comparator}, described as an {@code Optional<T>}.
+     * Returns b {@code Collector} thbt produces the mbximbl element bccording
+     * to b given {@code Compbrbtor}, described bs bn {@code Optionbl<T>}.
      *
      * @implSpec
-     * This produces a result equivalent to:
+     * This produces b result equivblent to:
      * <pre>{@code
-     *     reducing(BinaryOperator.maxBy(comparator))
+     *     reducing(BinbryOperbtor.mbxBy(compbrbtor))
      * }</pre>
      *
-     * @param <T> the type of the input elements
-     * @param comparator a {@code Comparator} for comparing elements
-     * @return a {@code Collector} that produces the maximal value
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm compbrbtor b {@code Compbrbtor} for compbring elements
+     * @return b {@code Collector} thbt produces the mbximbl vblue
      */
-    public static <T> Collector<T, ?, Optional<T>>
-    maxBy(Comparator<? super T> comparator) {
-        return reducing(BinaryOperator.maxBy(comparator));
+    public stbtic <T> Collector<T, ?, Optionbl<T>>
+    mbxBy(Compbrbtor<? super T> compbrbtor) {
+        return reducing(BinbryOperbtor.mbxBy(compbrbtor));
     }
 
     /**
-     * Returns a {@code Collector} that produces the sum of a integer-valued
-     * function applied to the input elements.  If no elements are present,
+     * Returns b {@code Collector} thbt produces the sum of b integer-vblued
+     * function bpplied to the input elements.  If no elements bre present,
      * the result is 0.
      *
-     * @param <T> the type of the input elements
-     * @param mapper a function extracting the property to be summed
-     * @return a {@code Collector} that produces the sum of a derived property
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper b function extrbcting the property to be summed
+     * @return b {@code Collector} thbt produces the sum of b derived property
      */
-    public static <T> Collector<T, ?, Integer>
-    summingInt(ToIntFunction<? super T> mapper) {
+    public stbtic <T> Collector<T, ?, Integer>
+    summingInt(ToIntFunction<? super T> mbpper) {
         return new CollectorImpl<>(
                 () -> new int[1],
-                (a, t) -> { a[0] += mapper.applyAsInt(t); },
-                (a, b) -> { a[0] += b[0]; return a; },
-                a -> a[0], CH_NOID);
+                (b, t) -> { b[0] += mbpper.bpplyAsInt(t); },
+                (b, b) -> { b[0] += b[0]; return b; },
+                b -> b[0], CH_NOID);
     }
 
     /**
-     * Returns a {@code Collector} that produces the sum of a long-valued
-     * function applied to the input elements.  If no elements are present,
+     * Returns b {@code Collector} thbt produces the sum of b long-vblued
+     * function bpplied to the input elements.  If no elements bre present,
      * the result is 0.
      *
-     * @param <T> the type of the input elements
-     * @param mapper a function extracting the property to be summed
-     * @return a {@code Collector} that produces the sum of a derived property
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper b function extrbcting the property to be summed
+     * @return b {@code Collector} thbt produces the sum of b derived property
      */
-    public static <T> Collector<T, ?, Long>
-    summingLong(ToLongFunction<? super T> mapper) {
+    public stbtic <T> Collector<T, ?, Long>
+    summingLong(ToLongFunction<? super T> mbpper) {
         return new CollectorImpl<>(
                 () -> new long[1],
-                (a, t) -> { a[0] += mapper.applyAsLong(t); },
-                (a, b) -> { a[0] += b[0]; return a; },
-                a -> a[0], CH_NOID);
+                (b, t) -> { b[0] += mbpper.bpplyAsLong(t); },
+                (b, b) -> { b[0] += b[0]; return b; },
+                b -> b[0], CH_NOID);
     }
 
     /**
-     * Returns a {@code Collector} that produces the sum of a double-valued
-     * function applied to the input elements.  If no elements are present,
+     * Returns b {@code Collector} thbt produces the sum of b double-vblued
+     * function bpplied to the input elements.  If no elements bre present,
      * the result is 0.
      *
-     * <p>The sum returned can vary depending upon the order in which
-     * values are recorded, due to accumulated rounding error in
-     * addition of values of differing magnitudes. Values sorted by increasing
-     * absolute magnitude tend to yield more accurate results.  If any recorded
-     * value is a {@code NaN} or the sum is at any point a {@code NaN} then the
-     * sum will be {@code NaN}.
+     * <p>The sum returned cbn vbry depending upon the order in which
+     * vblues bre recorded, due to bccumulbted rounding error in
+     * bddition of vblues of differing mbgnitudes. Vblues sorted by increbsing
+     * bbsolute mbgnitude tend to yield more bccurbte results.  If bny recorded
+     * vblue is b {@code NbN} or the sum is bt bny point b {@code NbN} then the
+     * sum will be {@code NbN}.
      *
-     * @param <T> the type of the input elements
-     * @param mapper a function extracting the property to be summed
-     * @return a {@code Collector} that produces the sum of a derived property
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper b function extrbcting the property to be summed
+     * @return b {@code Collector} thbt produces the sum of b derived property
      */
-    public static <T> Collector<T, ?, Double>
-    summingDouble(ToDoubleFunction<? super T> mapper) {
+    public stbtic <T> Collector<T, ?, Double>
+    summingDouble(ToDoubleFunction<? super T> mbpper) {
         /*
-         * In the arrays allocated for the collect operation, index 0
+         * In the brrbys bllocbted for the collect operbtion, index 0
          * holds the high-order bits of the running sum, index 1 holds
-         * the low-order bits of the sum computed via compensated
-         * summation, and index 2 holds the simple sum used to compute
-         * the proper result if the stream contains infinite values of
-         * the same sign.
+         * the low-order bits of the sum computed vib compensbted
+         * summbtion, bnd index 2 holds the simple sum used to compute
+         * the proper result if the strebm contbins infinite vblues of
+         * the sbme sign.
          */
         return new CollectorImpl<>(
                 () -> new double[3],
-                (a, t) -> { sumWithCompensation(a, mapper.applyAsDouble(t));
-                            a[2] += mapper.applyAsDouble(t);},
-                (a, b) -> { sumWithCompensation(a, b[0]);
-                            a[2] += b[2];
-                            return sumWithCompensation(a, b[1]); },
-                a -> computeFinalSum(a),
+                (b, t) -> { sumWithCompensbtion(b, mbpper.bpplyAsDouble(t));
+                            b[2] += mbpper.bpplyAsDouble(t);},
+                (b, b) -> { sumWithCompensbtion(b, b[0]);
+                            b[2] += b[2];
+                            return sumWithCompensbtion(b, b[1]); },
+                b -> computeFinblSum(b),
                 CH_NOID);
     }
 
     /**
-     * Incorporate a new double value using Kahan summation /
-     * compensation summation.
+     * Incorporbte b new double vblue using Kbhbn summbtion /
+     * compensbtion summbtion.
      *
-     * High-order bits of the sum are in intermediateSum[0], low-order
-     * bits of the sum are in intermediateSum[1], any additional
-     * elements are application-specific.
+     * High-order bits of the sum bre in intermedibteSum[0], low-order
+     * bits of the sum bre in intermedibteSum[1], bny bdditionbl
+     * elements bre bpplicbtion-specific.
      *
-     * @param intermediateSum the high-order and low-order words of the intermediate sum
-     * @param value the name value to be included in the running sum
+     * @pbrbm intermedibteSum the high-order bnd low-order words of the intermedibte sum
+     * @pbrbm vblue the nbme vblue to be included in the running sum
      */
-    static double[] sumWithCompensation(double[] intermediateSum, double value) {
-        double tmp = value - intermediateSum[1];
-        double sum = intermediateSum[0];
+    stbtic double[] sumWithCompensbtion(double[] intermedibteSum, double vblue) {
+        double tmp = vblue - intermedibteSum[1];
+        double sum = intermedibteSum[0];
         double velvel = sum + tmp; // Little wolf of rounding error
-        intermediateSum[1] = (velvel - sum) - tmp;
-        intermediateSum[0] = velvel;
-        return intermediateSum;
+        intermedibteSum[1] = (velvel - sum) - tmp;
+        intermedibteSum[0] = velvel;
+        return intermedibteSum;
     }
 
     /**
-     * If the compensated sum is spuriously NaN from accumulating one
-     * or more same-signed infinite values, return the
+     * If the compensbted sum is spuriously NbN from bccumulbting one
+     * or more sbme-signed infinite vblues, return the
      * correctly-signed infinity stored in the simple sum.
      */
-    static double computeFinalSum(double[] summands) {
-        // Better error bounds to add both terms as the final sum
-        double tmp = summands[0] + summands[1];
-        double simpleSum = summands[summands.length - 1];
-        if (Double.isNaN(tmp) && Double.isInfinite(simpleSum))
+    stbtic double computeFinblSum(double[] summbnds) {
+        // Better error bounds to bdd both terms bs the finbl sum
+        double tmp = summbnds[0] + summbnds[1];
+        double simpleSum = summbnds[summbnds.length - 1];
+        if (Double.isNbN(tmp) && Double.isInfinite(simpleSum))
             return simpleSum;
         else
             return tmp;
     }
 
     /**
-     * Returns a {@code Collector} that produces the arithmetic mean of an integer-valued
-     * function applied to the input elements.  If no elements are present,
+     * Returns b {@code Collector} thbt produces the brithmetic mebn of bn integer-vblued
+     * function bpplied to the input elements.  If no elements bre present,
      * the result is 0.
      *
-     * @param <T> the type of the input elements
-     * @param mapper a function extracting the property to be summed
-     * @return a {@code Collector} that produces the sum of a derived property
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper b function extrbcting the property to be summed
+     * @return b {@code Collector} thbt produces the sum of b derived property
      */
-    public static <T> Collector<T, ?, Double>
-    averagingInt(ToIntFunction<? super T> mapper) {
+    public stbtic <T> Collector<T, ?, Double>
+    bverbgingInt(ToIntFunction<? super T> mbpper) {
         return new CollectorImpl<>(
                 () -> new long[2],
-                (a, t) -> { a[0] += mapper.applyAsInt(t); a[1]++; },
-                (a, b) -> { a[0] += b[0]; a[1] += b[1]; return a; },
-                a -> (a[1] == 0) ? 0.0d : (double) a[0] / a[1], CH_NOID);
+                (b, t) -> { b[0] += mbpper.bpplyAsInt(t); b[1]++; },
+                (b, b) -> { b[0] += b[0]; b[1] += b[1]; return b; },
+                b -> (b[1] == 0) ? 0.0d : (double) b[0] / b[1], CH_NOID);
     }
 
     /**
-     * Returns a {@code Collector} that produces the arithmetic mean of a long-valued
-     * function applied to the input elements.  If no elements are present,
+     * Returns b {@code Collector} thbt produces the brithmetic mebn of b long-vblued
+     * function bpplied to the input elements.  If no elements bre present,
      * the result is 0.
      *
-     * @param <T> the type of the input elements
-     * @param mapper a function extracting the property to be summed
-     * @return a {@code Collector} that produces the sum of a derived property
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper b function extrbcting the property to be summed
+     * @return b {@code Collector} thbt produces the sum of b derived property
      */
-    public static <T> Collector<T, ?, Double>
-    averagingLong(ToLongFunction<? super T> mapper) {
+    public stbtic <T> Collector<T, ?, Double>
+    bverbgingLong(ToLongFunction<? super T> mbpper) {
         return new CollectorImpl<>(
                 () -> new long[2],
-                (a, t) -> { a[0] += mapper.applyAsLong(t); a[1]++; },
-                (a, b) -> { a[0] += b[0]; a[1] += b[1]; return a; },
-                a -> (a[1] == 0) ? 0.0d : (double) a[0] / a[1], CH_NOID);
+                (b, t) -> { b[0] += mbpper.bpplyAsLong(t); b[1]++; },
+                (b, b) -> { b[0] += b[0]; b[1] += b[1]; return b; },
+                b -> (b[1] == 0) ? 0.0d : (double) b[0] / b[1], CH_NOID);
     }
 
     /**
-     * Returns a {@code Collector} that produces the arithmetic mean of a double-valued
-     * function applied to the input elements.  If no elements are present,
+     * Returns b {@code Collector} thbt produces the brithmetic mebn of b double-vblued
+     * function bpplied to the input elements.  If no elements bre present,
      * the result is 0.
      *
-     * <p>The average returned can vary depending upon the order in which
-     * values are recorded, due to accumulated rounding error in
-     * addition of values of differing magnitudes. Values sorted by increasing
-     * absolute magnitude tend to yield more accurate results.  If any recorded
-     * value is a {@code NaN} or the sum is at any point a {@code NaN} then the
-     * average will be {@code NaN}.
+     * <p>The bverbge returned cbn vbry depending upon the order in which
+     * vblues bre recorded, due to bccumulbted rounding error in
+     * bddition of vblues of differing mbgnitudes. Vblues sorted by increbsing
+     * bbsolute mbgnitude tend to yield more bccurbte results.  If bny recorded
+     * vblue is b {@code NbN} or the sum is bt bny point b {@code NbN} then the
+     * bverbge will be {@code NbN}.
      *
-     * @implNote The {@code double} format can represent all
-     * consecutive integers in the range -2<sup>53</sup> to
-     * 2<sup>53</sup>. If the pipeline has more than 2<sup>53</sup>
-     * values, the divisor in the average computation will saturate at
-     * 2<sup>53</sup>, leading to additional numerical errors.
+     * @implNote The {@code double} formbt cbn represent bll
+     * consecutive integers in the rbnge -2<sup>53</sup> to
+     * 2<sup>53</sup>. If the pipeline hbs more thbn 2<sup>53</sup>
+     * vblues, the divisor in the bverbge computbtion will sbturbte bt
+     * 2<sup>53</sup>, lebding to bdditionbl numericbl errors.
      *
-     * @param <T> the type of the input elements
-     * @param mapper a function extracting the property to be summed
-     * @return a {@code Collector} that produces the sum of a derived property
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper b function extrbcting the property to be summed
+     * @return b {@code Collector} thbt produces the sum of b derived property
      */
-    public static <T> Collector<T, ?, Double>
-    averagingDouble(ToDoubleFunction<? super T> mapper) {
+    public stbtic <T> Collector<T, ?, Double>
+    bverbgingDouble(ToDoubleFunction<? super T> mbpper) {
         /*
-         * In the arrays allocated for the collect operation, index 0
+         * In the brrbys bllocbted for the collect operbtion, index 0
          * holds the high-order bits of the running sum, index 1 holds
-         * the low-order bits of the sum computed via compensated
-         * summation, and index 2 holds the number of values seen.
+         * the low-order bits of the sum computed vib compensbted
+         * summbtion, bnd index 2 holds the number of vblues seen.
          */
         return new CollectorImpl<>(
                 () -> new double[4],
-                (a, t) -> { sumWithCompensation(a, mapper.applyAsDouble(t)); a[2]++; a[3]+= mapper.applyAsDouble(t);},
-                (a, b) -> { sumWithCompensation(a, b[0]); sumWithCompensation(a, b[1]); a[2] += b[2]; a[3] += b[3]; return a; },
-                a -> (a[2] == 0) ? 0.0d : (computeFinalSum(a) / a[2]),
+                (b, t) -> { sumWithCompensbtion(b, mbpper.bpplyAsDouble(t)); b[2]++; b[3]+= mbpper.bpplyAsDouble(t);},
+                (b, b) -> { sumWithCompensbtion(b, b[0]); sumWithCompensbtion(b, b[1]); b[2] += b[2]; b[3] += b[3]; return b; },
+                b -> (b[2] == 0) ? 0.0d : (computeFinblSum(b) / b[2]),
                 CH_NOID);
     }
 
     /**
-     * Returns a {@code Collector} which performs a reduction of its
-     * input elements under a specified {@code BinaryOperator} using the
+     * Returns b {@code Collector} which performs b reduction of its
+     * input elements under b specified {@code BinbryOperbtor} using the
      * provided identity.
      *
-     * @apiNote
-     * The {@code reducing()} collectors are most useful when used in a
-     * multi-level reduction, downstream of {@code groupingBy} or
-     * {@code partitioningBy}.  To perform a simple reduction on a stream,
-     * use {@link Stream#reduce(Object, BinaryOperator)}} instead.
+     * @bpiNote
+     * The {@code reducing()} collectors bre most useful when used in b
+     * multi-level reduction, downstrebm of {@code groupingBy} or
+     * {@code pbrtitioningBy}.  To perform b simple reduction on b strebm,
+     * use {@link Strebm#reduce(Object, BinbryOperbtor)}} instebd.
      *
-     * @param <T> element type for the input and output of the reduction
-     * @param identity the identity value for the reduction (also, the value
-     *                 that is returned when there are no input elements)
-     * @param op a {@code BinaryOperator<T>} used to reduce the input elements
-     * @return a {@code Collector} which implements the reduction operation
+     * @pbrbm <T> element type for the input bnd output of the reduction
+     * @pbrbm identity the identity vblue for the reduction (blso, the vblue
+     *                 thbt is returned when there bre no input elements)
+     * @pbrbm op b {@code BinbryOperbtor<T>} used to reduce the input elements
+     * @return b {@code Collector} which implements the reduction operbtion
      *
-     * @see #reducing(BinaryOperator)
-     * @see #reducing(Object, Function, BinaryOperator)
+     * @see #reducing(BinbryOperbtor)
+     * @see #reducing(Object, Function, BinbryOperbtor)
      */
-    public static <T> Collector<T, ?, T>
-    reducing(T identity, BinaryOperator<T> op) {
+    public stbtic <T> Collector<T, ?, T>
+    reducing(T identity, BinbryOperbtor<T> op) {
         return new CollectorImpl<>(
                 boxSupplier(identity),
-                (a, t) -> { a[0] = op.apply(a[0], t); },
-                (a, b) -> { a[0] = op.apply(a[0], b[0]); return a; },
-                a -> a[0],
+                (b, t) -> { b[0] = op.bpply(b[0], t); },
+                (b, b) -> { b[0] = op.bpply(b[0], b[0]); return b; },
+                b -> b[0],
                 CH_NOID);
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T> Supplier<T[]> boxSupplier(T identity) {
+    @SuppressWbrnings("unchecked")
+    privbte stbtic <T> Supplier<T[]> boxSupplier(T identity) {
         return () -> (T[]) new Object[] { identity };
     }
 
     /**
-     * Returns a {@code Collector} which performs a reduction of its
-     * input elements under a specified {@code BinaryOperator}.  The result
-     * is described as an {@code Optional<T>}.
+     * Returns b {@code Collector} which performs b reduction of its
+     * input elements under b specified {@code BinbryOperbtor}.  The result
+     * is described bs bn {@code Optionbl<T>}.
      *
-     * @apiNote
-     * The {@code reducing()} collectors are most useful when used in a
-     * multi-level reduction, downstream of {@code groupingBy} or
-     * {@code partitioningBy}.  To perform a simple reduction on a stream,
-     * use {@link Stream#reduce(BinaryOperator)} instead.
+     * @bpiNote
+     * The {@code reducing()} collectors bre most useful when used in b
+     * multi-level reduction, downstrebm of {@code groupingBy} or
+     * {@code pbrtitioningBy}.  To perform b simple reduction on b strebm,
+     * use {@link Strebm#reduce(BinbryOperbtor)} instebd.
      *
-     * <p>For example, given a stream of {@code Person}, to calculate tallest
-     * person in each city:
+     * <p>For exbmple, given b strebm of {@code Person}, to cblculbte tbllest
+     * person in ebch city:
      * <pre>{@code
-     *     Comparator<Person> byHeight = Comparator.comparing(Person::getHeight);
-     *     Map<City, Optional<Person>> tallestByCity
-     *         = people.stream().collect(groupingBy(Person::getCity, reducing(BinaryOperator.maxBy(byHeight))));
+     *     Compbrbtor<Person> byHeight = Compbrbtor.compbring(Person::getHeight);
+     *     Mbp<City, Optionbl<Person>> tbllestByCity
+     *         = people.strebm().collect(groupingBy(Person::getCity, reducing(BinbryOperbtor.mbxBy(byHeight))));
      * }</pre>
      *
-     * @param <T> element type for the input and output of the reduction
-     * @param op a {@code BinaryOperator<T>} used to reduce the input elements
-     * @return a {@code Collector} which implements the reduction operation
+     * @pbrbm <T> element type for the input bnd output of the reduction
+     * @pbrbm op b {@code BinbryOperbtor<T>} used to reduce the input elements
+     * @return b {@code Collector} which implements the reduction operbtion
      *
-     * @see #reducing(Object, BinaryOperator)
-     * @see #reducing(Object, Function, BinaryOperator)
+     * @see #reducing(Object, BinbryOperbtor)
+     * @see #reducing(Object, Function, BinbryOperbtor)
      */
-    public static <T> Collector<T, ?, Optional<T>>
-    reducing(BinaryOperator<T> op) {
-        class OptionalBox implements Consumer<T> {
-            T value = null;
-            boolean present = false;
+    public stbtic <T> Collector<T, ?, Optionbl<T>>
+    reducing(BinbryOperbtor<T> op) {
+        clbss OptionblBox implements Consumer<T> {
+            T vblue = null;
+            boolebn present = fblse;
 
             @Override
-            public void accept(T t) {
+            public void bccept(T t) {
                 if (present) {
-                    value = op.apply(value, t);
+                    vblue = op.bpply(vblue, t);
                 }
                 else {
-                    value = t;
+                    vblue = t;
                     present = true;
                 }
             }
         }
 
-        return new CollectorImpl<T, OptionalBox, Optional<T>>(
-                OptionalBox::new, OptionalBox::accept,
-                (a, b) -> { if (b.present) a.accept(b.value); return a; },
-                a -> Optional.ofNullable(a.value), CH_NOID);
+        return new CollectorImpl<T, OptionblBox, Optionbl<T>>(
+                OptionblBox::new, OptionblBox::bccept,
+                (b, b) -> { if (b.present) b.bccept(b.vblue); return b; },
+                b -> Optionbl.ofNullbble(b.vblue), CH_NOID);
     }
 
     /**
-     * Returns a {@code Collector} which performs a reduction of its
-     * input elements under a specified mapping function and
-     * {@code BinaryOperator}. This is a generalization of
-     * {@link #reducing(Object, BinaryOperator)} which allows a transformation
+     * Returns b {@code Collector} which performs b reduction of its
+     * input elements under b specified mbpping function bnd
+     * {@code BinbryOperbtor}. This is b generblizbtion of
+     * {@link #reducing(Object, BinbryOperbtor)} which bllows b trbnsformbtion
      * of the elements before reduction.
      *
-     * @apiNote
-     * The {@code reducing()} collectors are most useful when used in a
-     * multi-level reduction, downstream of {@code groupingBy} or
-     * {@code partitioningBy}.  To perform a simple map-reduce on a stream,
-     * use {@link Stream#map(Function)} and {@link Stream#reduce(Object, BinaryOperator)}
-     * instead.
+     * @bpiNote
+     * The {@code reducing()} collectors bre most useful when used in b
+     * multi-level reduction, downstrebm of {@code groupingBy} or
+     * {@code pbrtitioningBy}.  To perform b simple mbp-reduce on b strebm,
+     * use {@link Strebm#mbp(Function)} bnd {@link Strebm#reduce(Object, BinbryOperbtor)}
+     * instebd.
      *
-     * <p>For example, given a stream of {@code Person}, to calculate the longest
-     * last name of residents in each city:
+     * <p>For exbmple, given b strebm of {@code Person}, to cblculbte the longest
+     * lbst nbme of residents in ebch city:
      * <pre>{@code
-     *     Comparator<String> byLength = Comparator.comparing(String::length);
-     *     Map<City, String> longestLastNameByCity
-     *         = people.stream().collect(groupingBy(Person::getCity,
-     *                                              reducing("", Person::getLastName, BinaryOperator.maxBy(byLength))));
+     *     Compbrbtor<String> byLength = Compbrbtor.compbring(String::length);
+     *     Mbp<City, String> longestLbstNbmeByCity
+     *         = people.strebm().collect(groupingBy(Person::getCity,
+     *                                              reducing("", Person::getLbstNbme, BinbryOperbtor.mbxBy(byLength))));
      * }</pre>
      *
-     * @param <T> the type of the input elements
-     * @param <U> the type of the mapped values
-     * @param identity the identity value for the reduction (also, the value
-     *                 that is returned when there are no input elements)
-     * @param mapper a mapping function to apply to each input value
-     * @param op a {@code BinaryOperator<U>} used to reduce the mapped values
-     * @return a {@code Collector} implementing the map-reduce operation
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <U> the type of the mbpped vblues
+     * @pbrbm identity the identity vblue for the reduction (blso, the vblue
+     *                 thbt is returned when there bre no input elements)
+     * @pbrbm mbpper b mbpping function to bpply to ebch input vblue
+     * @pbrbm op b {@code BinbryOperbtor<U>} used to reduce the mbpped vblues
+     * @return b {@code Collector} implementing the mbp-reduce operbtion
      *
-     * @see #reducing(Object, BinaryOperator)
-     * @see #reducing(BinaryOperator)
+     * @see #reducing(Object, BinbryOperbtor)
+     * @see #reducing(BinbryOperbtor)
      */
-    public static <T, U>
+    public stbtic <T, U>
     Collector<T, ?, U> reducing(U identity,
-                                Function<? super T, ? extends U> mapper,
-                                BinaryOperator<U> op) {
+                                Function<? super T, ? extends U> mbpper,
+                                BinbryOperbtor<U> op) {
         return new CollectorImpl<>(
                 boxSupplier(identity),
-                (a, t) -> { a[0] = op.apply(a[0], mapper.apply(t)); },
-                (a, b) -> { a[0] = op.apply(a[0], b[0]); return a; },
-                a -> a[0], CH_NOID);
+                (b, t) -> { b[0] = op.bpply(b[0], mbpper.bpply(t)); },
+                (b, b) -> { b[0] = op.bpply(b[0], b[0]); return b; },
+                b -> b[0], CH_NOID);
     }
 
     /**
-     * Returns a {@code Collector} implementing a "group by" operation on
-     * input elements of type {@code T}, grouping elements according to a
-     * classification function, and returning the results in a {@code Map}.
+     * Returns b {@code Collector} implementing b "group by" operbtion on
+     * input elements of type {@code T}, grouping elements bccording to b
+     * clbssificbtion function, bnd returning the results in b {@code Mbp}.
      *
-     * <p>The classification function maps elements to some key type {@code K}.
-     * The collector produces a {@code Map<K, List<T>>} whose keys are the
-     * values resulting from applying the classification function to the input
-     * elements, and whose corresponding values are {@code List}s containing the
-     * input elements which map to the associated key under the classification
+     * <p>The clbssificbtion function mbps elements to some key type {@code K}.
+     * The collector produces b {@code Mbp<K, List<T>>} whose keys bre the
+     * vblues resulting from bpplying the clbssificbtion function to the input
+     * elements, bnd whose corresponding vblues bre {@code List}s contbining the
+     * input elements which mbp to the bssocibted key under the clbssificbtion
      * function.
      *
-     * <p>There are no guarantees on the type, mutability, serializability, or
-     * thread-safety of the {@code Map} or {@code List} objects returned.
+     * <p>There bre no gubrbntees on the type, mutbbility, seriblizbbility, or
+     * threbd-sbfety of the {@code Mbp} or {@code List} objects returned.
      * @implSpec
-     * This produces a result similar to:
+     * This produces b result similbr to:
      * <pre>{@code
-     *     groupingBy(classifier, toList());
+     *     groupingBy(clbssifier, toList());
      * }</pre>
      *
      * @implNote
-     * The returned {@code Collector} is not concurrent.  For parallel stream
-     * pipelines, the {@code combiner} function operates by merging the keys
-     * from one map into another, which can be an expensive operation.  If
-     * preservation of the order in which elements appear in the resulting {@code Map}
+     * The returned {@code Collector} is not concurrent.  For pbrbllel strebm
+     * pipelines, the {@code combiner} function operbtes by merging the keys
+     * from one mbp into bnother, which cbn be bn expensive operbtion.  If
+     * preservbtion of the order in which elements bppebr in the resulting {@code Mbp}
      * collector is not required, using {@link #groupingByConcurrent(Function)}
-     * may offer better parallel performance.
+     * mby offer better pbrbllel performbnce.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the type of the keys
-     * @param classifier the classifier function mapping input elements to keys
-     * @return a {@code Collector} implementing the group-by operation
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the type of the keys
+     * @pbrbm clbssifier the clbssifier function mbpping input elements to keys
+     * @return b {@code Collector} implementing the group-by operbtion
      *
      * @see #groupingBy(Function, Collector)
      * @see #groupingBy(Function, Supplier, Collector)
      * @see #groupingByConcurrent(Function)
      */
-    public static <T, K> Collector<T, ?, Map<K, List<T>>>
-    groupingBy(Function<? super T, ? extends K> classifier) {
-        return groupingBy(classifier, toList());
+    public stbtic <T, K> Collector<T, ?, Mbp<K, List<T>>>
+    groupingBy(Function<? super T, ? extends K> clbssifier) {
+        return groupingBy(clbssifier, toList());
     }
 
     /**
-     * Returns a {@code Collector} implementing a cascaded "group by" operation
-     * on input elements of type {@code T}, grouping elements according to a
-     * classification function, and then performing a reduction operation on
-     * the values associated with a given key using the specified downstream
+     * Returns b {@code Collector} implementing b cbscbded "group by" operbtion
+     * on input elements of type {@code T}, grouping elements bccording to b
+     * clbssificbtion function, bnd then performing b reduction operbtion on
+     * the vblues bssocibted with b given key using the specified downstrebm
      * {@code Collector}.
      *
-     * <p>The classification function maps elements to some key type {@code K}.
-     * The downstream collector operates on elements of type {@code T} and
-     * produces a result of type {@code D}. The resulting collector produces a
-     * {@code Map<K, D>}.
+     * <p>The clbssificbtion function mbps elements to some key type {@code K}.
+     * The downstrebm collector operbtes on elements of type {@code T} bnd
+     * produces b result of type {@code D}. The resulting collector produces b
+     * {@code Mbp<K, D>}.
      *
-     * <p>There are no guarantees on the type, mutability,
-     * serializability, or thread-safety of the {@code Map} returned.
+     * <p>There bre no gubrbntees on the type, mutbbility,
+     * seriblizbbility, or threbd-sbfety of the {@code Mbp} returned.
      *
-     * <p>For example, to compute the set of last names of people in each city:
+     * <p>For exbmple, to compute the set of lbst nbmes of people in ebch city:
      * <pre>{@code
-     *     Map<City, Set<String>> namesByCity
-     *         = people.stream().collect(groupingBy(Person::getCity,
-     *                                              mapping(Person::getLastName, toSet())));
+     *     Mbp<City, Set<String>> nbmesByCity
+     *         = people.strebm().collect(groupingBy(Person::getCity,
+     *                                              mbpping(Person::getLbstNbme, toSet())));
      * }</pre>
      *
      * @implNote
-     * The returned {@code Collector} is not concurrent.  For parallel stream
-     * pipelines, the {@code combiner} function operates by merging the keys
-     * from one map into another, which can be an expensive operation.  If
-     * preservation of the order in which elements are presented to the downstream
+     * The returned {@code Collector} is not concurrent.  For pbrbllel strebm
+     * pipelines, the {@code combiner} function operbtes by merging the keys
+     * from one mbp into bnother, which cbn be bn expensive operbtion.  If
+     * preservbtion of the order in which elements bre presented to the downstrebm
      * collector is not required, using {@link #groupingByConcurrent(Function, Collector)}
-     * may offer better parallel performance.
+     * mby offer better pbrbllel performbnce.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the type of the keys
-     * @param <A> the intermediate accumulation type of the downstream collector
-     * @param <D> the result type of the downstream reduction
-     * @param classifier a classifier function mapping input elements to keys
-     * @param downstream a {@code Collector} implementing the downstream reduction
-     * @return a {@code Collector} implementing the cascaded group-by operation
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the type of the keys
+     * @pbrbm <A> the intermedibte bccumulbtion type of the downstrebm collector
+     * @pbrbm <D> the result type of the downstrebm reduction
+     * @pbrbm clbssifier b clbssifier function mbpping input elements to keys
+     * @pbrbm downstrebm b {@code Collector} implementing the downstrebm reduction
+     * @return b {@code Collector} implementing the cbscbded group-by operbtion
      * @see #groupingBy(Function)
      *
      * @see #groupingBy(Function, Supplier, Collector)
      * @see #groupingByConcurrent(Function, Collector)
      */
-    public static <T, K, A, D>
-    Collector<T, ?, Map<K, D>> groupingBy(Function<? super T, ? extends K> classifier,
-                                          Collector<? super T, A, D> downstream) {
-        return groupingBy(classifier, HashMap::new, downstream);
+    public stbtic <T, K, A, D>
+    Collector<T, ?, Mbp<K, D>> groupingBy(Function<? super T, ? extends K> clbssifier,
+                                          Collector<? super T, A, D> downstrebm) {
+        return groupingBy(clbssifier, HbshMbp::new, downstrebm);
     }
 
     /**
-     * Returns a {@code Collector} implementing a cascaded "group by" operation
-     * on input elements of type {@code T}, grouping elements according to a
-     * classification function, and then performing a reduction operation on
-     * the values associated with a given key using the specified downstream
-     * {@code Collector}.  The {@code Map} produced by the Collector is created
-     * with the supplied factory function.
+     * Returns b {@code Collector} implementing b cbscbded "group by" operbtion
+     * on input elements of type {@code T}, grouping elements bccording to b
+     * clbssificbtion function, bnd then performing b reduction operbtion on
+     * the vblues bssocibted with b given key using the specified downstrebm
+     * {@code Collector}.  The {@code Mbp} produced by the Collector is crebted
+     * with the supplied fbctory function.
      *
-     * <p>The classification function maps elements to some key type {@code K}.
-     * The downstream collector operates on elements of type {@code T} and
-     * produces a result of type {@code D}. The resulting collector produces a
-     * {@code Map<K, D>}.
+     * <p>The clbssificbtion function mbps elements to some key type {@code K}.
+     * The downstrebm collector operbtes on elements of type {@code T} bnd
+     * produces b result of type {@code D}. The resulting collector produces b
+     * {@code Mbp<K, D>}.
      *
-     * <p>For example, to compute the set of last names of people in each city,
-     * where the city names are sorted:
+     * <p>For exbmple, to compute the set of lbst nbmes of people in ebch city,
+     * where the city nbmes bre sorted:
      * <pre>{@code
-     *     Map<City, Set<String>> namesByCity
-     *         = people.stream().collect(groupingBy(Person::getCity, TreeMap::new,
-     *                                              mapping(Person::getLastName, toSet())));
+     *     Mbp<City, Set<String>> nbmesByCity
+     *         = people.strebm().collect(groupingBy(Person::getCity, TreeMbp::new,
+     *                                              mbpping(Person::getLbstNbme, toSet())));
      * }</pre>
      *
      * @implNote
-     * The returned {@code Collector} is not concurrent.  For parallel stream
-     * pipelines, the {@code combiner} function operates by merging the keys
-     * from one map into another, which can be an expensive operation.  If
-     * preservation of the order in which elements are presented to the downstream
+     * The returned {@code Collector} is not concurrent.  For pbrbllel strebm
+     * pipelines, the {@code combiner} function operbtes by merging the keys
+     * from one mbp into bnother, which cbn be bn expensive operbtion.  If
+     * preservbtion of the order in which elements bre presented to the downstrebm
      * collector is not required, using {@link #groupingByConcurrent(Function, Supplier, Collector)}
-     * may offer better parallel performance.
+     * mby offer better pbrbllel performbnce.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the type of the keys
-     * @param <A> the intermediate accumulation type of the downstream collector
-     * @param <D> the result type of the downstream reduction
-     * @param <M> the type of the resulting {@code Map}
-     * @param classifier a classifier function mapping input elements to keys
-     * @param downstream a {@code Collector} implementing the downstream reduction
-     * @param mapFactory a function which, when called, produces a new empty
-     *                   {@code Map} of the desired type
-     * @return a {@code Collector} implementing the cascaded group-by operation
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the type of the keys
+     * @pbrbm <A> the intermedibte bccumulbtion type of the downstrebm collector
+     * @pbrbm <D> the result type of the downstrebm reduction
+     * @pbrbm <M> the type of the resulting {@code Mbp}
+     * @pbrbm clbssifier b clbssifier function mbpping input elements to keys
+     * @pbrbm downstrebm b {@code Collector} implementing the downstrebm reduction
+     * @pbrbm mbpFbctory b function which, when cblled, produces b new empty
+     *                   {@code Mbp} of the desired type
+     * @return b {@code Collector} implementing the cbscbded group-by operbtion
      *
      * @see #groupingBy(Function, Collector)
      * @see #groupingBy(Function)
      * @see #groupingByConcurrent(Function, Supplier, Collector)
      */
-    public static <T, K, D, A, M extends Map<K, D>>
-    Collector<T, ?, M> groupingBy(Function<? super T, ? extends K> classifier,
-                                  Supplier<M> mapFactory,
-                                  Collector<? super T, A, D> downstream) {
-        Supplier<A> downstreamSupplier = downstream.supplier();
-        BiConsumer<A, ? super T> downstreamAccumulator = downstream.accumulator();
-        BiConsumer<Map<K, A>, T> accumulator = (m, t) -> {
-            K key = Objects.requireNonNull(classifier.apply(t), "element cannot be mapped to a null key");
-            A container = m.computeIfAbsent(key, k -> downstreamSupplier.get());
-            downstreamAccumulator.accept(container, t);
+    public stbtic <T, K, D, A, M extends Mbp<K, D>>
+    Collector<T, ?, M> groupingBy(Function<? super T, ? extends K> clbssifier,
+                                  Supplier<M> mbpFbctory,
+                                  Collector<? super T, A, D> downstrebm) {
+        Supplier<A> downstrebmSupplier = downstrebm.supplier();
+        BiConsumer<A, ? super T> downstrebmAccumulbtor = downstrebm.bccumulbtor();
+        BiConsumer<Mbp<K, A>, T> bccumulbtor = (m, t) -> {
+            K key = Objects.requireNonNull(clbssifier.bpply(t), "element cbnnot be mbpped to b null key");
+            A contbiner = m.computeIfAbsent(key, k -> downstrebmSupplier.get());
+            downstrebmAccumulbtor.bccept(contbiner, t);
         };
-        BinaryOperator<Map<K, A>> merger = Collectors.<K, A, Map<K, A>>mapMerger(downstream.combiner());
-        @SuppressWarnings("unchecked")
-        Supplier<Map<K, A>> mangledFactory = (Supplier<Map<K, A>>) mapFactory;
+        BinbryOperbtor<Mbp<K, A>> merger = Collectors.<K, A, Mbp<K, A>>mbpMerger(downstrebm.combiner());
+        @SuppressWbrnings("unchecked")
+        Supplier<Mbp<K, A>> mbngledFbctory = (Supplier<Mbp<K, A>>) mbpFbctory;
 
-        if (downstream.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
-            return new CollectorImpl<>(mangledFactory, accumulator, merger, CH_ID);
+        if (downstrebm.chbrbcteristics().contbins(Collector.Chbrbcteristics.IDENTITY_FINISH)) {
+            return new CollectorImpl<>(mbngledFbctory, bccumulbtor, merger, CH_ID);
         }
         else {
-            @SuppressWarnings("unchecked")
-            Function<A, A> downstreamFinisher = (Function<A, A>) downstream.finisher();
-            Function<Map<K, A>, M> finisher = intermediate -> {
-                intermediate.replaceAll((k, v) -> downstreamFinisher.apply(v));
-                @SuppressWarnings("unchecked")
-                M castResult = (M) intermediate;
-                return castResult;
+            @SuppressWbrnings("unchecked")
+            Function<A, A> downstrebmFinisher = (Function<A, A>) downstrebm.finisher();
+            Function<Mbp<K, A>, M> finisher = intermedibte -> {
+                intermedibte.replbceAll((k, v) -> downstrebmFinisher.bpply(v));
+                @SuppressWbrnings("unchecked")
+                M cbstResult = (M) intermedibte;
+                return cbstResult;
             };
-            return new CollectorImpl<>(mangledFactory, accumulator, merger, finisher, CH_NOID);
+            return new CollectorImpl<>(mbngledFbctory, bccumulbtor, merger, finisher, CH_NOID);
         }
     }
 
     /**
-     * Returns a concurrent {@code Collector} implementing a "group by"
-     * operation on input elements of type {@code T}, grouping elements
-     * according to a classification function.
+     * Returns b concurrent {@code Collector} implementing b "group by"
+     * operbtion on input elements of type {@code T}, grouping elements
+     * bccording to b clbssificbtion function.
      *
-     * <p>This is a {@link Collector.Characteristics#CONCURRENT concurrent} and
-     * {@link Collector.Characteristics#UNORDERED unordered} Collector.
+     * <p>This is b {@link Collector.Chbrbcteristics#CONCURRENT concurrent} bnd
+     * {@link Collector.Chbrbcteristics#UNORDERED unordered} Collector.
      *
-     * <p>The classification function maps elements to some key type {@code K}.
-     * The collector produces a {@code ConcurrentMap<K, List<T>>} whose keys are the
-     * values resulting from applying the classification function to the input
-     * elements, and whose corresponding values are {@code List}s containing the
-     * input elements which map to the associated key under the classification
+     * <p>The clbssificbtion function mbps elements to some key type {@code K}.
+     * The collector produces b {@code ConcurrentMbp<K, List<T>>} whose keys bre the
+     * vblues resulting from bpplying the clbssificbtion function to the input
+     * elements, bnd whose corresponding vblues bre {@code List}s contbining the
+     * input elements which mbp to the bssocibted key under the clbssificbtion
      * function.
      *
-     * <p>There are no guarantees on the type, mutability, or serializability
-     * of the {@code Map} or {@code List} objects returned, or of the
-     * thread-safety of the {@code List} objects returned.
+     * <p>There bre no gubrbntees on the type, mutbbility, or seriblizbbility
+     * of the {@code Mbp} or {@code List} objects returned, or of the
+     * threbd-sbfety of the {@code List} objects returned.
      * @implSpec
-     * This produces a result similar to:
+     * This produces b result similbr to:
      * <pre>{@code
-     *     groupingByConcurrent(classifier, toList());
+     *     groupingByConcurrent(clbssifier, toList());
      * }</pre>
      *
-     * @param <T> the type of the input elements
-     * @param <K> the type of the keys
-     * @param classifier a classifier function mapping input elements to keys
-     * @return a concurrent, unordered {@code Collector} implementing the group-by operation
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the type of the keys
+     * @pbrbm clbssifier b clbssifier function mbpping input elements to keys
+     * @return b concurrent, unordered {@code Collector} implementing the group-by operbtion
      *
      * @see #groupingBy(Function)
      * @see #groupingByConcurrent(Function, Collector)
      * @see #groupingByConcurrent(Function, Supplier, Collector)
      */
-    public static <T, K>
-    Collector<T, ?, ConcurrentMap<K, List<T>>>
-    groupingByConcurrent(Function<? super T, ? extends K> classifier) {
-        return groupingByConcurrent(classifier, ConcurrentHashMap::new, toList());
+    public stbtic <T, K>
+    Collector<T, ?, ConcurrentMbp<K, List<T>>>
+    groupingByConcurrent(Function<? super T, ? extends K> clbssifier) {
+        return groupingByConcurrent(clbssifier, ConcurrentHbshMbp::new, toList());
     }
 
     /**
-     * Returns a concurrent {@code Collector} implementing a cascaded "group by"
-     * operation on input elements of type {@code T}, grouping elements
-     * according to a classification function, and then performing a reduction
-     * operation on the values associated with a given key using the specified
-     * downstream {@code Collector}.
+     * Returns b concurrent {@code Collector} implementing b cbscbded "group by"
+     * operbtion on input elements of type {@code T}, grouping elements
+     * bccording to b clbssificbtion function, bnd then performing b reduction
+     * operbtion on the vblues bssocibted with b given key using the specified
+     * downstrebm {@code Collector}.
      *
-     * <p>This is a {@link Collector.Characteristics#CONCURRENT concurrent} and
-     * {@link Collector.Characteristics#UNORDERED unordered} Collector.
+     * <p>This is b {@link Collector.Chbrbcteristics#CONCURRENT concurrent} bnd
+     * {@link Collector.Chbrbcteristics#UNORDERED unordered} Collector.
      *
-     * <p>The classification function maps elements to some key type {@code K}.
-     * The downstream collector operates on elements of type {@code T} and
-     * produces a result of type {@code D}. The resulting collector produces a
-     * {@code Map<K, D>}.
+     * <p>The clbssificbtion function mbps elements to some key type {@code K}.
+     * The downstrebm collector operbtes on elements of type {@code T} bnd
+     * produces b result of type {@code D}. The resulting collector produces b
+     * {@code Mbp<K, D>}.
      *
-     * <p>For example, to compute the set of last names of people in each city,
-     * where the city names are sorted:
+     * <p>For exbmple, to compute the set of lbst nbmes of people in ebch city,
+     * where the city nbmes bre sorted:
      * <pre>{@code
-     *     ConcurrentMap<City, Set<String>> namesByCity
-     *         = people.stream().collect(groupingByConcurrent(Person::getCity,
-     *                                                        mapping(Person::getLastName, toSet())));
+     *     ConcurrentMbp<City, Set<String>> nbmesByCity
+     *         = people.strebm().collect(groupingByConcurrent(Person::getCity,
+     *                                                        mbpping(Person::getLbstNbme, toSet())));
      * }</pre>
      *
-     * @param <T> the type of the input elements
-     * @param <K> the type of the keys
-     * @param <A> the intermediate accumulation type of the downstream collector
-     * @param <D> the result type of the downstream reduction
-     * @param classifier a classifier function mapping input elements to keys
-     * @param downstream a {@code Collector} implementing the downstream reduction
-     * @return a concurrent, unordered {@code Collector} implementing the cascaded group-by operation
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the type of the keys
+     * @pbrbm <A> the intermedibte bccumulbtion type of the downstrebm collector
+     * @pbrbm <D> the result type of the downstrebm reduction
+     * @pbrbm clbssifier b clbssifier function mbpping input elements to keys
+     * @pbrbm downstrebm b {@code Collector} implementing the downstrebm reduction
+     * @return b concurrent, unordered {@code Collector} implementing the cbscbded group-by operbtion
      *
      * @see #groupingBy(Function, Collector)
      * @see #groupingByConcurrent(Function)
      * @see #groupingByConcurrent(Function, Supplier, Collector)
      */
-    public static <T, K, A, D>
-    Collector<T, ?, ConcurrentMap<K, D>> groupingByConcurrent(Function<? super T, ? extends K> classifier,
-                                                              Collector<? super T, A, D> downstream) {
-        return groupingByConcurrent(classifier, ConcurrentHashMap::new, downstream);
+    public stbtic <T, K, A, D>
+    Collector<T, ?, ConcurrentMbp<K, D>> groupingByConcurrent(Function<? super T, ? extends K> clbssifier,
+                                                              Collector<? super T, A, D> downstrebm) {
+        return groupingByConcurrent(clbssifier, ConcurrentHbshMbp::new, downstrebm);
     }
 
     /**
-     * Returns a concurrent {@code Collector} implementing a cascaded "group by"
-     * operation on input elements of type {@code T}, grouping elements
-     * according to a classification function, and then performing a reduction
-     * operation on the values associated with a given key using the specified
-     * downstream {@code Collector}.  The {@code ConcurrentMap} produced by the
-     * Collector is created with the supplied factory function.
+     * Returns b concurrent {@code Collector} implementing b cbscbded "group by"
+     * operbtion on input elements of type {@code T}, grouping elements
+     * bccording to b clbssificbtion function, bnd then performing b reduction
+     * operbtion on the vblues bssocibted with b given key using the specified
+     * downstrebm {@code Collector}.  The {@code ConcurrentMbp} produced by the
+     * Collector is crebted with the supplied fbctory function.
      *
-     * <p>This is a {@link Collector.Characteristics#CONCURRENT concurrent} and
-     * {@link Collector.Characteristics#UNORDERED unordered} Collector.
+     * <p>This is b {@link Collector.Chbrbcteristics#CONCURRENT concurrent} bnd
+     * {@link Collector.Chbrbcteristics#UNORDERED unordered} Collector.
      *
-     * <p>The classification function maps elements to some key type {@code K}.
-     * The downstream collector operates on elements of type {@code T} and
-     * produces a result of type {@code D}. The resulting collector produces a
-     * {@code Map<K, D>}.
+     * <p>The clbssificbtion function mbps elements to some key type {@code K}.
+     * The downstrebm collector operbtes on elements of type {@code T} bnd
+     * produces b result of type {@code D}. The resulting collector produces b
+     * {@code Mbp<K, D>}.
      *
-     * <p>For example, to compute the set of last names of people in each city,
-     * where the city names are sorted:
+     * <p>For exbmple, to compute the set of lbst nbmes of people in ebch city,
+     * where the city nbmes bre sorted:
      * <pre>{@code
-     *     ConcurrentMap<City, Set<String>> namesByCity
-     *         = people.stream().collect(groupingBy(Person::getCity, ConcurrentSkipListMap::new,
-     *                                              mapping(Person::getLastName, toSet())));
+     *     ConcurrentMbp<City, Set<String>> nbmesByCity
+     *         = people.strebm().collect(groupingBy(Person::getCity, ConcurrentSkipListMbp::new,
+     *                                              mbpping(Person::getLbstNbme, toSet())));
      * }</pre>
      *
      *
-     * @param <T> the type of the input elements
-     * @param <K> the type of the keys
-     * @param <A> the intermediate accumulation type of the downstream collector
-     * @param <D> the result type of the downstream reduction
-     * @param <M> the type of the resulting {@code ConcurrentMap}
-     * @param classifier a classifier function mapping input elements to keys
-     * @param downstream a {@code Collector} implementing the downstream reduction
-     * @param mapFactory a function which, when called, produces a new empty
-     *                   {@code ConcurrentMap} of the desired type
-     * @return a concurrent, unordered {@code Collector} implementing the cascaded group-by operation
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the type of the keys
+     * @pbrbm <A> the intermedibte bccumulbtion type of the downstrebm collector
+     * @pbrbm <D> the result type of the downstrebm reduction
+     * @pbrbm <M> the type of the resulting {@code ConcurrentMbp}
+     * @pbrbm clbssifier b clbssifier function mbpping input elements to keys
+     * @pbrbm downstrebm b {@code Collector} implementing the downstrebm reduction
+     * @pbrbm mbpFbctory b function which, when cblled, produces b new empty
+     *                   {@code ConcurrentMbp} of the desired type
+     * @return b concurrent, unordered {@code Collector} implementing the cbscbded group-by operbtion
      *
      * @see #groupingByConcurrent(Function)
      * @see #groupingByConcurrent(Function, Collector)
      * @see #groupingBy(Function, Supplier, Collector)
      */
-    public static <T, K, A, D, M extends ConcurrentMap<K, D>>
-    Collector<T, ?, M> groupingByConcurrent(Function<? super T, ? extends K> classifier,
-                                            Supplier<M> mapFactory,
-                                            Collector<? super T, A, D> downstream) {
-        Supplier<A> downstreamSupplier = downstream.supplier();
-        BiConsumer<A, ? super T> downstreamAccumulator = downstream.accumulator();
-        BinaryOperator<ConcurrentMap<K, A>> merger = Collectors.<K, A, ConcurrentMap<K, A>>mapMerger(downstream.combiner());
-        @SuppressWarnings("unchecked")
-        Supplier<ConcurrentMap<K, A>> mangledFactory = (Supplier<ConcurrentMap<K, A>>) mapFactory;
-        BiConsumer<ConcurrentMap<K, A>, T> accumulator;
-        if (downstream.characteristics().contains(Collector.Characteristics.CONCURRENT)) {
-            accumulator = (m, t) -> {
-                K key = Objects.requireNonNull(classifier.apply(t), "element cannot be mapped to a null key");
-                A resultContainer = m.computeIfAbsent(key, k -> downstreamSupplier.get());
-                downstreamAccumulator.accept(resultContainer, t);
+    public stbtic <T, K, A, D, M extends ConcurrentMbp<K, D>>
+    Collector<T, ?, M> groupingByConcurrent(Function<? super T, ? extends K> clbssifier,
+                                            Supplier<M> mbpFbctory,
+                                            Collector<? super T, A, D> downstrebm) {
+        Supplier<A> downstrebmSupplier = downstrebm.supplier();
+        BiConsumer<A, ? super T> downstrebmAccumulbtor = downstrebm.bccumulbtor();
+        BinbryOperbtor<ConcurrentMbp<K, A>> merger = Collectors.<K, A, ConcurrentMbp<K, A>>mbpMerger(downstrebm.combiner());
+        @SuppressWbrnings("unchecked")
+        Supplier<ConcurrentMbp<K, A>> mbngledFbctory = (Supplier<ConcurrentMbp<K, A>>) mbpFbctory;
+        BiConsumer<ConcurrentMbp<K, A>, T> bccumulbtor;
+        if (downstrebm.chbrbcteristics().contbins(Collector.Chbrbcteristics.CONCURRENT)) {
+            bccumulbtor = (m, t) -> {
+                K key = Objects.requireNonNull(clbssifier.bpply(t), "element cbnnot be mbpped to b null key");
+                A resultContbiner = m.computeIfAbsent(key, k -> downstrebmSupplier.get());
+                downstrebmAccumulbtor.bccept(resultContbiner, t);
             };
         }
         else {
-            accumulator = (m, t) -> {
-                K key = Objects.requireNonNull(classifier.apply(t), "element cannot be mapped to a null key");
-                A resultContainer = m.computeIfAbsent(key, k -> downstreamSupplier.get());
-                synchronized (resultContainer) {
-                    downstreamAccumulator.accept(resultContainer, t);
+            bccumulbtor = (m, t) -> {
+                K key = Objects.requireNonNull(clbssifier.bpply(t), "element cbnnot be mbpped to b null key");
+                A resultContbiner = m.computeIfAbsent(key, k -> downstrebmSupplier.get());
+                synchronized (resultContbiner) {
+                    downstrebmAccumulbtor.bccept(resultContbiner, t);
                 }
             };
         }
 
-        if (downstream.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
-            return new CollectorImpl<>(mangledFactory, accumulator, merger, CH_CONCURRENT_ID);
+        if (downstrebm.chbrbcteristics().contbins(Collector.Chbrbcteristics.IDENTITY_FINISH)) {
+            return new CollectorImpl<>(mbngledFbctory, bccumulbtor, merger, CH_CONCURRENT_ID);
         }
         else {
-            @SuppressWarnings("unchecked")
-            Function<A, A> downstreamFinisher = (Function<A, A>) downstream.finisher();
-            Function<ConcurrentMap<K, A>, M> finisher = intermediate -> {
-                intermediate.replaceAll((k, v) -> downstreamFinisher.apply(v));
-                @SuppressWarnings("unchecked")
-                M castResult = (M) intermediate;
-                return castResult;
+            @SuppressWbrnings("unchecked")
+            Function<A, A> downstrebmFinisher = (Function<A, A>) downstrebm.finisher();
+            Function<ConcurrentMbp<K, A>, M> finisher = intermedibte -> {
+                intermedibte.replbceAll((k, v) -> downstrebmFinisher.bpply(v));
+                @SuppressWbrnings("unchecked")
+                M cbstResult = (M) intermedibte;
+                return cbstResult;
             };
-            return new CollectorImpl<>(mangledFactory, accumulator, merger, finisher, CH_CONCURRENT_NOID);
+            return new CollectorImpl<>(mbngledFbctory, bccumulbtor, merger, finisher, CH_CONCURRENT_NOID);
         }
     }
 
     /**
-     * Returns a {@code Collector} which partitions the input elements according
-     * to a {@code Predicate}, and organizes them into a
-     * {@code Map<Boolean, List<T>>}.
+     * Returns b {@code Collector} which pbrtitions the input elements bccording
+     * to b {@code Predicbte}, bnd orgbnizes them into b
+     * {@code Mbp<Boolebn, List<T>>}.
      *
-     * There are no guarantees on the type, mutability,
-     * serializability, or thread-safety of the {@code Map} returned.
+     * There bre no gubrbntees on the type, mutbbility,
+     * seriblizbbility, or threbd-sbfety of the {@code Mbp} returned.
      *
-     * @param <T> the type of the input elements
-     * @param predicate a predicate used for classifying input elements
-     * @return a {@code Collector} implementing the partitioning operation
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm predicbte b predicbte used for clbssifying input elements
+     * @return b {@code Collector} implementing the pbrtitioning operbtion
      *
-     * @see #partitioningBy(Predicate, Collector)
+     * @see #pbrtitioningBy(Predicbte, Collector)
      */
-    public static <T>
-    Collector<T, ?, Map<Boolean, List<T>>> partitioningBy(Predicate<? super T> predicate) {
-        return partitioningBy(predicate, toList());
+    public stbtic <T>
+    Collector<T, ?, Mbp<Boolebn, List<T>>> pbrtitioningBy(Predicbte<? super T> predicbte) {
+        return pbrtitioningBy(predicbte, toList());
     }
 
     /**
-     * Returns a {@code Collector} which partitions the input elements according
-     * to a {@code Predicate}, reduces the values in each partition according to
-     * another {@code Collector}, and organizes them into a
-     * {@code Map<Boolean, D>} whose values are the result of the downstream
+     * Returns b {@code Collector} which pbrtitions the input elements bccording
+     * to b {@code Predicbte}, reduces the vblues in ebch pbrtition bccording to
+     * bnother {@code Collector}, bnd orgbnizes them into b
+     * {@code Mbp<Boolebn, D>} whose vblues bre the result of the downstrebm
      * reduction.
      *
-     * <p>There are no guarantees on the type, mutability,
-     * serializability, or thread-safety of the {@code Map} returned.
+     * <p>There bre no gubrbntees on the type, mutbbility,
+     * seriblizbbility, or threbd-sbfety of the {@code Mbp} returned.
      *
-     * @param <T> the type of the input elements
-     * @param <A> the intermediate accumulation type of the downstream collector
-     * @param <D> the result type of the downstream reduction
-     * @param predicate a predicate used for classifying input elements
-     * @param downstream a {@code Collector} implementing the downstream
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <A> the intermedibte bccumulbtion type of the downstrebm collector
+     * @pbrbm <D> the result type of the downstrebm reduction
+     * @pbrbm predicbte b predicbte used for clbssifying input elements
+     * @pbrbm downstrebm b {@code Collector} implementing the downstrebm
      *                   reduction
-     * @return a {@code Collector} implementing the cascaded partitioning
-     *         operation
+     * @return b {@code Collector} implementing the cbscbded pbrtitioning
+     *         operbtion
      *
-     * @see #partitioningBy(Predicate)
+     * @see #pbrtitioningBy(Predicbte)
      */
-    public static <T, D, A>
-    Collector<T, ?, Map<Boolean, D>> partitioningBy(Predicate<? super T> predicate,
-                                                    Collector<? super T, A, D> downstream) {
-        BiConsumer<A, ? super T> downstreamAccumulator = downstream.accumulator();
-        BiConsumer<Partition<A>, T> accumulator = (result, t) ->
-                downstreamAccumulator.accept(predicate.test(t) ? result.forTrue : result.forFalse, t);
-        BinaryOperator<A> op = downstream.combiner();
-        BinaryOperator<Partition<A>> merger = (left, right) ->
-                new Partition<>(op.apply(left.forTrue, right.forTrue),
-                                op.apply(left.forFalse, right.forFalse));
-        Supplier<Partition<A>> supplier = () ->
-                new Partition<>(downstream.supplier().get(),
-                                downstream.supplier().get());
-        if (downstream.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
-            return new CollectorImpl<>(supplier, accumulator, merger, CH_ID);
+    public stbtic <T, D, A>
+    Collector<T, ?, Mbp<Boolebn, D>> pbrtitioningBy(Predicbte<? super T> predicbte,
+                                                    Collector<? super T, A, D> downstrebm) {
+        BiConsumer<A, ? super T> downstrebmAccumulbtor = downstrebm.bccumulbtor();
+        BiConsumer<Pbrtition<A>, T> bccumulbtor = (result, t) ->
+                downstrebmAccumulbtor.bccept(predicbte.test(t) ? result.forTrue : result.forFblse, t);
+        BinbryOperbtor<A> op = downstrebm.combiner();
+        BinbryOperbtor<Pbrtition<A>> merger = (left, right) ->
+                new Pbrtition<>(op.bpply(left.forTrue, right.forTrue),
+                                op.bpply(left.forFblse, right.forFblse));
+        Supplier<Pbrtition<A>> supplier = () ->
+                new Pbrtition<>(downstrebm.supplier().get(),
+                                downstrebm.supplier().get());
+        if (downstrebm.chbrbcteristics().contbins(Collector.Chbrbcteristics.IDENTITY_FINISH)) {
+            return new CollectorImpl<>(supplier, bccumulbtor, merger, CH_ID);
         }
         else {
-            Function<Partition<A>, Map<Boolean, D>> finisher = par ->
-                    new Partition<>(downstream.finisher().apply(par.forTrue),
-                                    downstream.finisher().apply(par.forFalse));
-            return new CollectorImpl<>(supplier, accumulator, merger, finisher, CH_NOID);
+            Function<Pbrtition<A>, Mbp<Boolebn, D>> finisher = pbr ->
+                    new Pbrtition<>(downstrebm.finisher().bpply(pbr.forTrue),
+                                    downstrebm.finisher().bpply(pbr.forFblse));
+            return new CollectorImpl<>(supplier, bccumulbtor, merger, finisher, CH_NOID);
         }
     }
 
     /**
-     * Returns a {@code Collector} that accumulates elements into a
-     * {@code Map} whose keys and values are the result of applying the provided
-     * mapping functions to the input elements.
+     * Returns b {@code Collector} thbt bccumulbtes elements into b
+     * {@code Mbp} whose keys bnd vblues bre the result of bpplying the provided
+     * mbpping functions to the input elements.
      *
-     * <p>If the mapped keys contains duplicates (according to
-     * {@link Object#equals(Object)}), an {@code IllegalStateException} is
-     * thrown when the collection operation is performed.  If the mapped keys
-     * may have duplicates, use {@link #toMap(Function, Function, BinaryOperator)}
-     * instead.
+     * <p>If the mbpped keys contbins duplicbtes (bccording to
+     * {@link Object#equbls(Object)}), bn {@code IllegblStbteException} is
+     * thrown when the collection operbtion is performed.  If the mbpped keys
+     * mby hbve duplicbtes, use {@link #toMbp(Function, Function, BinbryOperbtor)}
+     * instebd.
      *
-     * @apiNote
-     * It is common for either the key or the value to be the input elements.
-     * In this case, the utility method
-     * {@link java.util.function.Function#identity()} may be helpful.
-     * For example, the following produces a {@code Map} mapping
-     * students to their grade point average:
+     * @bpiNote
+     * It is common for either the key or the vblue to be the input elements.
+     * In this cbse, the utility method
+     * {@link jbvb.util.function.Function#identity()} mby be helpful.
+     * For exbmple, the following produces b {@code Mbp} mbpping
+     * students to their grbde point bverbge:
      * <pre>{@code
-     *     Map<Student, Double> studentToGPA
-     *         students.stream().collect(toMap(Function.identity(),
+     *     Mbp<Student, Double> studentToGPA
+     *         students.strebm().collect(toMbp(Function.identity(),
      *                                         student -> computeGPA(student)));
      * }</pre>
-     * And the following produces a {@code Map} mapping a unique identifier to
+     * And the following produces b {@code Mbp} mbpping b unique identifier to
      * students:
      * <pre>{@code
-     *     Map<String, Student> studentIdToStudent
-     *         students.stream().collect(toMap(Student::getId,
+     *     Mbp<String, Student> studentIdToStudent
+     *         students.strebm().collect(toMbp(Student::getId,
      *                                         Function.identity());
      * }</pre>
      *
      * @implNote
-     * The returned {@code Collector} is not concurrent.  For parallel stream
-     * pipelines, the {@code combiner} function operates by merging the keys
-     * from one map into another, which can be an expensive operation.  If it is
-     * not required that results are inserted into the {@code Map} in encounter
-     * order, using {@link #toConcurrentMap(Function, Function)}
-     * may offer better parallel performance.
+     * The returned {@code Collector} is not concurrent.  For pbrbllel strebm
+     * pipelines, the {@code combiner} function operbtes by merging the keys
+     * from one mbp into bnother, which cbn be bn expensive operbtion.  If it is
+     * not required thbt results bre inserted into the {@code Mbp} in encounter
+     * order, using {@link #toConcurrentMbp(Function, Function)}
+     * mby offer better pbrbllel performbnce.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the output type of the key mapping function
-     * @param <U> the output type of the value mapping function
-     * @param keyMapper a mapping function to produce keys
-     * @param valueMapper a mapping function to produce values
-     * @return a {@code Collector} which collects elements into a {@code Map}
-     * whose keys and values are the result of applying mapping functions to
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the output type of the key mbpping function
+     * @pbrbm <U> the output type of the vblue mbpping function
+     * @pbrbm keyMbpper b mbpping function to produce keys
+     * @pbrbm vblueMbpper b mbpping function to produce vblues
+     * @return b {@code Collector} which collects elements into b {@code Mbp}
+     * whose keys bnd vblues bre the result of bpplying mbpping functions to
      * the input elements
      *
-     * @see #toMap(Function, Function, BinaryOperator)
-     * @see #toMap(Function, Function, BinaryOperator, Supplier)
-     * @see #toConcurrentMap(Function, Function)
+     * @see #toMbp(Function, Function, BinbryOperbtor)
+     * @see #toMbp(Function, Function, BinbryOperbtor, Supplier)
+     * @see #toConcurrentMbp(Function, Function)
      */
-    public static <T, K, U>
-    Collector<T, ?, Map<K,U>> toMap(Function<? super T, ? extends K> keyMapper,
-                                    Function<? super T, ? extends U> valueMapper) {
-        return new CollectorImpl<>(HashMap::new,
-                                   uniqKeysMapAccumulator(keyMapper, valueMapper),
-                                   uniqKeysMapMerger(),
+    public stbtic <T, K, U>
+    Collector<T, ?, Mbp<K,U>> toMbp(Function<? super T, ? extends K> keyMbpper,
+                                    Function<? super T, ? extends U> vblueMbpper) {
+        return new CollectorImpl<>(HbshMbp::new,
+                                   uniqKeysMbpAccumulbtor(keyMbpper, vblueMbpper),
+                                   uniqKeysMbpMerger(),
                                    CH_ID);
     }
 
     /**
-     * Returns a {@code Collector} that accumulates elements into a
-     * {@code Map} whose keys and values are the result of applying the provided
-     * mapping functions to the input elements.
+     * Returns b {@code Collector} thbt bccumulbtes elements into b
+     * {@code Mbp} whose keys bnd vblues bre the result of bpplying the provided
+     * mbpping functions to the input elements.
      *
-     * <p>If the mapped
-     * keys contains duplicates (according to {@link Object#equals(Object)}),
-     * the value mapping function is applied to each equal element, and the
-     * results are merged using the provided merging function.
+     * <p>If the mbpped
+     * keys contbins duplicbtes (bccording to {@link Object#equbls(Object)}),
+     * the vblue mbpping function is bpplied to ebch equbl element, bnd the
+     * results bre merged using the provided merging function.
      *
-     * @apiNote
-     * There are multiple ways to deal with collisions between multiple elements
-     * mapping to the same key.  The other forms of {@code toMap} simply use
-     * a merge function that throws unconditionally, but you can easily write
-     * more flexible merge policies.  For example, if you have a stream
-     * of {@code Person}, and you want to produce a "phone book" mapping name to
-     * address, but it is possible that two persons have the same name, you can
-     * do as follows to gracefully deals with these collisions, and produce a
-     * {@code Map} mapping names to a concatenated list of addresses:
+     * @bpiNote
+     * There bre multiple wbys to debl with collisions between multiple elements
+     * mbpping to the sbme key.  The other forms of {@code toMbp} simply use
+     * b merge function thbt throws unconditionblly, but you cbn ebsily write
+     * more flexible merge policies.  For exbmple, if you hbve b strebm
+     * of {@code Person}, bnd you wbnt to produce b "phone book" mbpping nbme to
+     * bddress, but it is possible thbt two persons hbve the sbme nbme, you cbn
+     * do bs follows to grbcefully debls with these collisions, bnd produce b
+     * {@code Mbp} mbpping nbmes to b concbtenbted list of bddresses:
      * <pre>{@code
-     *     Map<String, String> phoneBook
-     *         people.stream().collect(toMap(Person::getName,
+     *     Mbp<String, String> phoneBook
+     *         people.strebm().collect(toMbp(Person::getNbme,
      *                                       Person::getAddress,
-     *                                       (s, a) -> s + ", " + a));
+     *                                       (s, b) -> s + ", " + b));
      * }</pre>
      *
      * @implNote
-     * The returned {@code Collector} is not concurrent.  For parallel stream
-     * pipelines, the {@code combiner} function operates by merging the keys
-     * from one map into another, which can be an expensive operation.  If it is
-     * not required that results are merged into the {@code Map} in encounter
-     * order, using {@link #toConcurrentMap(Function, Function, BinaryOperator)}
-     * may offer better parallel performance.
+     * The returned {@code Collector} is not concurrent.  For pbrbllel strebm
+     * pipelines, the {@code combiner} function operbtes by merging the keys
+     * from one mbp into bnother, which cbn be bn expensive operbtion.  If it is
+     * not required thbt results bre merged into the {@code Mbp} in encounter
+     * order, using {@link #toConcurrentMbp(Function, Function, BinbryOperbtor)}
+     * mby offer better pbrbllel performbnce.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the output type of the key mapping function
-     * @param <U> the output type of the value mapping function
-     * @param keyMapper a mapping function to produce keys
-     * @param valueMapper a mapping function to produce values
-     * @param mergeFunction a merge function, used to resolve collisions between
-     *                      values associated with the same key, as supplied
-     *                      to {@link Map#merge(Object, Object, BiFunction)}
-     * @return a {@code Collector} which collects elements into a {@code Map}
-     * whose keys are the result of applying a key mapping function to the input
-     * elements, and whose values are the result of applying a value mapping
-     * function to all input elements equal to the key and combining them
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the output type of the key mbpping function
+     * @pbrbm <U> the output type of the vblue mbpping function
+     * @pbrbm keyMbpper b mbpping function to produce keys
+     * @pbrbm vblueMbpper b mbpping function to produce vblues
+     * @pbrbm mergeFunction b merge function, used to resolve collisions between
+     *                      vblues bssocibted with the sbme key, bs supplied
+     *                      to {@link Mbp#merge(Object, Object, BiFunction)}
+     * @return b {@code Collector} which collects elements into b {@code Mbp}
+     * whose keys bre the result of bpplying b key mbpping function to the input
+     * elements, bnd whose vblues bre the result of bpplying b vblue mbpping
+     * function to bll input elements equbl to the key bnd combining them
      * using the merge function
      *
-     * @see #toMap(Function, Function)
-     * @see #toMap(Function, Function, BinaryOperator, Supplier)
-     * @see #toConcurrentMap(Function, Function, BinaryOperator)
+     * @see #toMbp(Function, Function)
+     * @see #toMbp(Function, Function, BinbryOperbtor, Supplier)
+     * @see #toConcurrentMbp(Function, Function, BinbryOperbtor)
      */
-    public static <T, K, U>
-    Collector<T, ?, Map<K,U>> toMap(Function<? super T, ? extends K> keyMapper,
-                                    Function<? super T, ? extends U> valueMapper,
-                                    BinaryOperator<U> mergeFunction) {
-        return toMap(keyMapper, valueMapper, mergeFunction, HashMap::new);
+    public stbtic <T, K, U>
+    Collector<T, ?, Mbp<K,U>> toMbp(Function<? super T, ? extends K> keyMbpper,
+                                    Function<? super T, ? extends U> vblueMbpper,
+                                    BinbryOperbtor<U> mergeFunction) {
+        return toMbp(keyMbpper, vblueMbpper, mergeFunction, HbshMbp::new);
     }
 
     /**
-     * Returns a {@code Collector} that accumulates elements into a
-     * {@code Map} whose keys and values are the result of applying the provided
-     * mapping functions to the input elements.
+     * Returns b {@code Collector} thbt bccumulbtes elements into b
+     * {@code Mbp} whose keys bnd vblues bre the result of bpplying the provided
+     * mbpping functions to the input elements.
      *
-     * <p>If the mapped
-     * keys contains duplicates (according to {@link Object#equals(Object)}),
-     * the value mapping function is applied to each equal element, and the
-     * results are merged using the provided merging function.  The {@code Map}
-     * is created by a provided supplier function.
+     * <p>If the mbpped
+     * keys contbins duplicbtes (bccording to {@link Object#equbls(Object)}),
+     * the vblue mbpping function is bpplied to ebch equbl element, bnd the
+     * results bre merged using the provided merging function.  The {@code Mbp}
+     * is crebted by b provided supplier function.
      *
      * @implNote
-     * The returned {@code Collector} is not concurrent.  For parallel stream
-     * pipelines, the {@code combiner} function operates by merging the keys
-     * from one map into another, which can be an expensive operation.  If it is
-     * not required that results are merged into the {@code Map} in encounter
-     * order, using {@link #toConcurrentMap(Function, Function, BinaryOperator, Supplier)}
-     * may offer better parallel performance.
+     * The returned {@code Collector} is not concurrent.  For pbrbllel strebm
+     * pipelines, the {@code combiner} function operbtes by merging the keys
+     * from one mbp into bnother, which cbn be bn expensive operbtion.  If it is
+     * not required thbt results bre merged into the {@code Mbp} in encounter
+     * order, using {@link #toConcurrentMbp(Function, Function, BinbryOperbtor, Supplier)}
+     * mby offer better pbrbllel performbnce.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the output type of the key mapping function
-     * @param <U> the output type of the value mapping function
-     * @param <M> the type of the resulting {@code Map}
-     * @param keyMapper a mapping function to produce keys
-     * @param valueMapper a mapping function to produce values
-     * @param mergeFunction a merge function, used to resolve collisions between
-     *                      values associated with the same key, as supplied
-     *                      to {@link Map#merge(Object, Object, BiFunction)}
-     * @param mapSupplier a function which returns a new, empty {@code Map} into
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the output type of the key mbpping function
+     * @pbrbm <U> the output type of the vblue mbpping function
+     * @pbrbm <M> the type of the resulting {@code Mbp}
+     * @pbrbm keyMbpper b mbpping function to produce keys
+     * @pbrbm vblueMbpper b mbpping function to produce vblues
+     * @pbrbm mergeFunction b merge function, used to resolve collisions between
+     *                      vblues bssocibted with the sbme key, bs supplied
+     *                      to {@link Mbp#merge(Object, Object, BiFunction)}
+     * @pbrbm mbpSupplier b function which returns b new, empty {@code Mbp} into
      *                    which the results will be inserted
-     * @return a {@code Collector} which collects elements into a {@code Map}
-     * whose keys are the result of applying a key mapping function to the input
-     * elements, and whose values are the result of applying a value mapping
-     * function to all input elements equal to the key and combining them
+     * @return b {@code Collector} which collects elements into b {@code Mbp}
+     * whose keys bre the result of bpplying b key mbpping function to the input
+     * elements, bnd whose vblues bre the result of bpplying b vblue mbpping
+     * function to bll input elements equbl to the key bnd combining them
      * using the merge function
      *
-     * @see #toMap(Function, Function)
-     * @see #toMap(Function, Function, BinaryOperator)
-     * @see #toConcurrentMap(Function, Function, BinaryOperator, Supplier)
+     * @see #toMbp(Function, Function)
+     * @see #toMbp(Function, Function, BinbryOperbtor)
+     * @see #toConcurrentMbp(Function, Function, BinbryOperbtor, Supplier)
      */
-    public static <T, K, U, M extends Map<K, U>>
-    Collector<T, ?, M> toMap(Function<? super T, ? extends K> keyMapper,
-                                Function<? super T, ? extends U> valueMapper,
-                                BinaryOperator<U> mergeFunction,
-                                Supplier<M> mapSupplier) {
-        BiConsumer<M, T> accumulator
-                = (map, element) -> map.merge(keyMapper.apply(element),
-                                              valueMapper.apply(element), mergeFunction);
-        return new CollectorImpl<>(mapSupplier, accumulator, mapMerger(mergeFunction), CH_ID);
+    public stbtic <T, K, U, M extends Mbp<K, U>>
+    Collector<T, ?, M> toMbp(Function<? super T, ? extends K> keyMbpper,
+                                Function<? super T, ? extends U> vblueMbpper,
+                                BinbryOperbtor<U> mergeFunction,
+                                Supplier<M> mbpSupplier) {
+        BiConsumer<M, T> bccumulbtor
+                = (mbp, element) -> mbp.merge(keyMbpper.bpply(element),
+                                              vblueMbpper.bpply(element), mergeFunction);
+        return new CollectorImpl<>(mbpSupplier, bccumulbtor, mbpMerger(mergeFunction), CH_ID);
     }
 
     /**
-     * Returns a concurrent {@code Collector} that accumulates elements into a
-     * {@code ConcurrentMap} whose keys and values are the result of applying
-     * the provided mapping functions to the input elements.
+     * Returns b concurrent {@code Collector} thbt bccumulbtes elements into b
+     * {@code ConcurrentMbp} whose keys bnd vblues bre the result of bpplying
+     * the provided mbpping functions to the input elements.
      *
-     * <p>If the mapped keys contains duplicates (according to
-     * {@link Object#equals(Object)}), an {@code IllegalStateException} is
-     * thrown when the collection operation is performed.  If the mapped keys
-     * may have duplicates, use
-     * {@link #toConcurrentMap(Function, Function, BinaryOperator)} instead.
+     * <p>If the mbpped keys contbins duplicbtes (bccording to
+     * {@link Object#equbls(Object)}), bn {@code IllegblStbteException} is
+     * thrown when the collection operbtion is performed.  If the mbpped keys
+     * mby hbve duplicbtes, use
+     * {@link #toConcurrentMbp(Function, Function, BinbryOperbtor)} instebd.
      *
-     * @apiNote
-     * It is common for either the key or the value to be the input elements.
-     * In this case, the utility method
-     * {@link java.util.function.Function#identity()} may be helpful.
-     * For example, the following produces a {@code Map} mapping
-     * students to their grade point average:
+     * @bpiNote
+     * It is common for either the key or the vblue to be the input elements.
+     * In this cbse, the utility method
+     * {@link jbvb.util.function.Function#identity()} mby be helpful.
+     * For exbmple, the following produces b {@code Mbp} mbpping
+     * students to their grbde point bverbge:
      * <pre>{@code
-     *     Map<Student, Double> studentToGPA
-     *         students.stream().collect(toMap(Function.identity(),
+     *     Mbp<Student, Double> studentToGPA
+     *         students.strebm().collect(toMbp(Function.identity(),
      *                                         student -> computeGPA(student)));
      * }</pre>
-     * And the following produces a {@code Map} mapping a unique identifier to
+     * And the following produces b {@code Mbp} mbpping b unique identifier to
      * students:
      * <pre>{@code
-     *     Map<String, Student> studentIdToStudent
-     *         students.stream().collect(toConcurrentMap(Student::getId,
+     *     Mbp<String, Student> studentIdToStudent
+     *         students.strebm().collect(toConcurrentMbp(Student::getId,
      *                                                   Function.identity());
      * }</pre>
      *
-     * <p>This is a {@link Collector.Characteristics#CONCURRENT concurrent} and
-     * {@link Collector.Characteristics#UNORDERED unordered} Collector.
+     * <p>This is b {@link Collector.Chbrbcteristics#CONCURRENT concurrent} bnd
+     * {@link Collector.Chbrbcteristics#UNORDERED unordered} Collector.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the output type of the key mapping function
-     * @param <U> the output type of the value mapping function
-     * @param keyMapper the mapping function to produce keys
-     * @param valueMapper the mapping function to produce values
-     * @return a concurrent, unordered {@code Collector} which collects elements into a
-     * {@code ConcurrentMap} whose keys are the result of applying a key mapping
-     * function to the input elements, and whose values are the result of
-     * applying a value mapping function to the input elements
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the output type of the key mbpping function
+     * @pbrbm <U> the output type of the vblue mbpping function
+     * @pbrbm keyMbpper the mbpping function to produce keys
+     * @pbrbm vblueMbpper the mbpping function to produce vblues
+     * @return b concurrent, unordered {@code Collector} which collects elements into b
+     * {@code ConcurrentMbp} whose keys bre the result of bpplying b key mbpping
+     * function to the input elements, bnd whose vblues bre the result of
+     * bpplying b vblue mbpping function to the input elements
      *
-     * @see #toMap(Function, Function)
-     * @see #toConcurrentMap(Function, Function, BinaryOperator)
-     * @see #toConcurrentMap(Function, Function, BinaryOperator, Supplier)
+     * @see #toMbp(Function, Function)
+     * @see #toConcurrentMbp(Function, Function, BinbryOperbtor)
+     * @see #toConcurrentMbp(Function, Function, BinbryOperbtor, Supplier)
      */
-    public static <T, K, U>
-    Collector<T, ?, ConcurrentMap<K,U>> toConcurrentMap(Function<? super T, ? extends K> keyMapper,
-                                                        Function<? super T, ? extends U> valueMapper) {
-        return new CollectorImpl<>(ConcurrentHashMap::new,
-                                   uniqKeysMapAccumulator(keyMapper, valueMapper),
-                                   uniqKeysMapMerger(),
+    public stbtic <T, K, U>
+    Collector<T, ?, ConcurrentMbp<K,U>> toConcurrentMbp(Function<? super T, ? extends K> keyMbpper,
+                                                        Function<? super T, ? extends U> vblueMbpper) {
+        return new CollectorImpl<>(ConcurrentHbshMbp::new,
+                                   uniqKeysMbpAccumulbtor(keyMbpper, vblueMbpper),
+                                   uniqKeysMbpMerger(),
                                    CH_CONCURRENT_ID);
     }
 
     /**
-     * Returns a concurrent {@code Collector} that accumulates elements into a
-     * {@code ConcurrentMap} whose keys and values are the result of applying
-     * the provided mapping functions to the input elements.
+     * Returns b concurrent {@code Collector} thbt bccumulbtes elements into b
+     * {@code ConcurrentMbp} whose keys bnd vblues bre the result of bpplying
+     * the provided mbpping functions to the input elements.
      *
-     * <p>If the mapped keys contains duplicates (according to {@link Object#equals(Object)}),
-     * the value mapping function is applied to each equal element, and the
-     * results are merged using the provided merging function.
+     * <p>If the mbpped keys contbins duplicbtes (bccording to {@link Object#equbls(Object)}),
+     * the vblue mbpping function is bpplied to ebch equbl element, bnd the
+     * results bre merged using the provided merging function.
      *
-     * @apiNote
-     * There are multiple ways to deal with collisions between multiple elements
-     * mapping to the same key.  The other forms of {@code toConcurrentMap} simply use
-     * a merge function that throws unconditionally, but you can easily write
-     * more flexible merge policies.  For example, if you have a stream
-     * of {@code Person}, and you want to produce a "phone book" mapping name to
-     * address, but it is possible that two persons have the same name, you can
-     * do as follows to gracefully deals with these collisions, and produce a
-     * {@code Map} mapping names to a concatenated list of addresses:
+     * @bpiNote
+     * There bre multiple wbys to debl with collisions between multiple elements
+     * mbpping to the sbme key.  The other forms of {@code toConcurrentMbp} simply use
+     * b merge function thbt throws unconditionblly, but you cbn ebsily write
+     * more flexible merge policies.  For exbmple, if you hbve b strebm
+     * of {@code Person}, bnd you wbnt to produce b "phone book" mbpping nbme to
+     * bddress, but it is possible thbt two persons hbve the sbme nbme, you cbn
+     * do bs follows to grbcefully debls with these collisions, bnd produce b
+     * {@code Mbp} mbpping nbmes to b concbtenbted list of bddresses:
      * <pre>{@code
-     *     Map<String, String> phoneBook
-     *         people.stream().collect(toConcurrentMap(Person::getName,
+     *     Mbp<String, String> phoneBook
+     *         people.strebm().collect(toConcurrentMbp(Person::getNbme,
      *                                                 Person::getAddress,
-     *                                                 (s, a) -> s + ", " + a));
+     *                                                 (s, b) -> s + ", " + b));
      * }</pre>
      *
-     * <p>This is a {@link Collector.Characteristics#CONCURRENT concurrent} and
-     * {@link Collector.Characteristics#UNORDERED unordered} Collector.
+     * <p>This is b {@link Collector.Chbrbcteristics#CONCURRENT concurrent} bnd
+     * {@link Collector.Chbrbcteristics#UNORDERED unordered} Collector.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the output type of the key mapping function
-     * @param <U> the output type of the value mapping function
-     * @param keyMapper a mapping function to produce keys
-     * @param valueMapper a mapping function to produce values
-     * @param mergeFunction a merge function, used to resolve collisions between
-     *                      values associated with the same key, as supplied
-     *                      to {@link Map#merge(Object, Object, BiFunction)}
-     * @return a concurrent, unordered {@code Collector} which collects elements into a
-     * {@code ConcurrentMap} whose keys are the result of applying a key mapping
-     * function to the input elements, and whose values are the result of
-     * applying a value mapping function to all input elements equal to the key
-     * and combining them using the merge function
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the output type of the key mbpping function
+     * @pbrbm <U> the output type of the vblue mbpping function
+     * @pbrbm keyMbpper b mbpping function to produce keys
+     * @pbrbm vblueMbpper b mbpping function to produce vblues
+     * @pbrbm mergeFunction b merge function, used to resolve collisions between
+     *                      vblues bssocibted with the sbme key, bs supplied
+     *                      to {@link Mbp#merge(Object, Object, BiFunction)}
+     * @return b concurrent, unordered {@code Collector} which collects elements into b
+     * {@code ConcurrentMbp} whose keys bre the result of bpplying b key mbpping
+     * function to the input elements, bnd whose vblues bre the result of
+     * bpplying b vblue mbpping function to bll input elements equbl to the key
+     * bnd combining them using the merge function
      *
-     * @see #toConcurrentMap(Function, Function)
-     * @see #toConcurrentMap(Function, Function, BinaryOperator, Supplier)
-     * @see #toMap(Function, Function, BinaryOperator)
+     * @see #toConcurrentMbp(Function, Function)
+     * @see #toConcurrentMbp(Function, Function, BinbryOperbtor, Supplier)
+     * @see #toMbp(Function, Function, BinbryOperbtor)
      */
-    public static <T, K, U>
-    Collector<T, ?, ConcurrentMap<K,U>>
-    toConcurrentMap(Function<? super T, ? extends K> keyMapper,
-                    Function<? super T, ? extends U> valueMapper,
-                    BinaryOperator<U> mergeFunction) {
-        return toConcurrentMap(keyMapper, valueMapper, mergeFunction, ConcurrentHashMap::new);
+    public stbtic <T, K, U>
+    Collector<T, ?, ConcurrentMbp<K,U>>
+    toConcurrentMbp(Function<? super T, ? extends K> keyMbpper,
+                    Function<? super T, ? extends U> vblueMbpper,
+                    BinbryOperbtor<U> mergeFunction) {
+        return toConcurrentMbp(keyMbpper, vblueMbpper, mergeFunction, ConcurrentHbshMbp::new);
     }
 
     /**
-     * Returns a concurrent {@code Collector} that accumulates elements into a
-     * {@code ConcurrentMap} whose keys and values are the result of applying
-     * the provided mapping functions to the input elements.
+     * Returns b concurrent {@code Collector} thbt bccumulbtes elements into b
+     * {@code ConcurrentMbp} whose keys bnd vblues bre the result of bpplying
+     * the provided mbpping functions to the input elements.
      *
-     * <p>If the mapped keys contains duplicates (according to {@link Object#equals(Object)}),
-     * the value mapping function is applied to each equal element, and the
-     * results are merged using the provided merging function.  The
-     * {@code ConcurrentMap} is created by a provided supplier function.
+     * <p>If the mbpped keys contbins duplicbtes (bccording to {@link Object#equbls(Object)}),
+     * the vblue mbpping function is bpplied to ebch equbl element, bnd the
+     * results bre merged using the provided merging function.  The
+     * {@code ConcurrentMbp} is crebted by b provided supplier function.
      *
-     * <p>This is a {@link Collector.Characteristics#CONCURRENT concurrent} and
-     * {@link Collector.Characteristics#UNORDERED unordered} Collector.
+     * <p>This is b {@link Collector.Chbrbcteristics#CONCURRENT concurrent} bnd
+     * {@link Collector.Chbrbcteristics#UNORDERED unordered} Collector.
      *
-     * @param <T> the type of the input elements
-     * @param <K> the output type of the key mapping function
-     * @param <U> the output type of the value mapping function
-     * @param <M> the type of the resulting {@code ConcurrentMap}
-     * @param keyMapper a mapping function to produce keys
-     * @param valueMapper a mapping function to produce values
-     * @param mergeFunction a merge function, used to resolve collisions between
-     *                      values associated with the same key, as supplied
-     *                      to {@link Map#merge(Object, Object, BiFunction)}
-     * @param mapSupplier a function which returns a new, empty {@code Map} into
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm <K> the output type of the key mbpping function
+     * @pbrbm <U> the output type of the vblue mbpping function
+     * @pbrbm <M> the type of the resulting {@code ConcurrentMbp}
+     * @pbrbm keyMbpper b mbpping function to produce keys
+     * @pbrbm vblueMbpper b mbpping function to produce vblues
+     * @pbrbm mergeFunction b merge function, used to resolve collisions between
+     *                      vblues bssocibted with the sbme key, bs supplied
+     *                      to {@link Mbp#merge(Object, Object, BiFunction)}
+     * @pbrbm mbpSupplier b function which returns b new, empty {@code Mbp} into
      *                    which the results will be inserted
-     * @return a concurrent, unordered {@code Collector} which collects elements into a
-     * {@code ConcurrentMap} whose keys are the result of applying a key mapping
-     * function to the input elements, and whose values are the result of
-     * applying a value mapping function to all input elements equal to the key
-     * and combining them using the merge function
+     * @return b concurrent, unordered {@code Collector} which collects elements into b
+     * {@code ConcurrentMbp} whose keys bre the result of bpplying b key mbpping
+     * function to the input elements, bnd whose vblues bre the result of
+     * bpplying b vblue mbpping function to bll input elements equbl to the key
+     * bnd combining them using the merge function
      *
-     * @see #toConcurrentMap(Function, Function)
-     * @see #toConcurrentMap(Function, Function, BinaryOperator)
-     * @see #toMap(Function, Function, BinaryOperator, Supplier)
+     * @see #toConcurrentMbp(Function, Function)
+     * @see #toConcurrentMbp(Function, Function, BinbryOperbtor)
+     * @see #toMbp(Function, Function, BinbryOperbtor, Supplier)
      */
-    public static <T, K, U, M extends ConcurrentMap<K, U>>
-    Collector<T, ?, M> toConcurrentMap(Function<? super T, ? extends K> keyMapper,
-                                       Function<? super T, ? extends U> valueMapper,
-                                       BinaryOperator<U> mergeFunction,
-                                       Supplier<M> mapSupplier) {
-        BiConsumer<M, T> accumulator
-                = (map, element) -> map.merge(keyMapper.apply(element),
-                                              valueMapper.apply(element), mergeFunction);
-        return new CollectorImpl<>(mapSupplier, accumulator, mapMerger(mergeFunction), CH_CONCURRENT_ID);
+    public stbtic <T, K, U, M extends ConcurrentMbp<K, U>>
+    Collector<T, ?, M> toConcurrentMbp(Function<? super T, ? extends K> keyMbpper,
+                                       Function<? super T, ? extends U> vblueMbpper,
+                                       BinbryOperbtor<U> mergeFunction,
+                                       Supplier<M> mbpSupplier) {
+        BiConsumer<M, T> bccumulbtor
+                = (mbp, element) -> mbp.merge(keyMbpper.bpply(element),
+                                              vblueMbpper.bpply(element), mergeFunction);
+        return new CollectorImpl<>(mbpSupplier, bccumulbtor, mbpMerger(mergeFunction), CH_CONCURRENT_ID);
     }
 
     /**
-     * Returns a {@code Collector} which applies an {@code int}-producing
-     * mapping function to each input element, and returns summary statistics
-     * for the resulting values.
+     * Returns b {@code Collector} which bpplies bn {@code int}-producing
+     * mbpping function to ebch input element, bnd returns summbry stbtistics
+     * for the resulting vblues.
      *
-     * @param <T> the type of the input elements
-     * @param mapper a mapping function to apply to each element
-     * @return a {@code Collector} implementing the summary-statistics reduction
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper b mbpping function to bpply to ebch element
+     * @return b {@code Collector} implementing the summbry-stbtistics reduction
      *
-     * @see #summarizingDouble(ToDoubleFunction)
-     * @see #summarizingLong(ToLongFunction)
+     * @see #summbrizingDouble(ToDoubleFunction)
+     * @see #summbrizingLong(ToLongFunction)
      */
-    public static <T>
-    Collector<T, ?, IntSummaryStatistics> summarizingInt(ToIntFunction<? super T> mapper) {
-        return new CollectorImpl<T, IntSummaryStatistics, IntSummaryStatistics>(
-                IntSummaryStatistics::new,
-                (r, t) -> r.accept(mapper.applyAsInt(t)),
+    public stbtic <T>
+    Collector<T, ?, IntSummbryStbtistics> summbrizingInt(ToIntFunction<? super T> mbpper) {
+        return new CollectorImpl<T, IntSummbryStbtistics, IntSummbryStbtistics>(
+                IntSummbryStbtistics::new,
+                (r, t) -> r.bccept(mbpper.bpplyAsInt(t)),
                 (l, r) -> { l.combine(r); return l; }, CH_ID);
     }
 
     /**
-     * Returns a {@code Collector} which applies an {@code long}-producing
-     * mapping function to each input element, and returns summary statistics
-     * for the resulting values.
+     * Returns b {@code Collector} which bpplies bn {@code long}-producing
+     * mbpping function to ebch input element, bnd returns summbry stbtistics
+     * for the resulting vblues.
      *
-     * @param <T> the type of the input elements
-     * @param mapper the mapping function to apply to each element
-     * @return a {@code Collector} implementing the summary-statistics reduction
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper the mbpping function to bpply to ebch element
+     * @return b {@code Collector} implementing the summbry-stbtistics reduction
      *
-     * @see #summarizingDouble(ToDoubleFunction)
-     * @see #summarizingInt(ToIntFunction)
+     * @see #summbrizingDouble(ToDoubleFunction)
+     * @see #summbrizingInt(ToIntFunction)
      */
-    public static <T>
-    Collector<T, ?, LongSummaryStatistics> summarizingLong(ToLongFunction<? super T> mapper) {
-        return new CollectorImpl<T, LongSummaryStatistics, LongSummaryStatistics>(
-                LongSummaryStatistics::new,
-                (r, t) -> r.accept(mapper.applyAsLong(t)),
+    public stbtic <T>
+    Collector<T, ?, LongSummbryStbtistics> summbrizingLong(ToLongFunction<? super T> mbpper) {
+        return new CollectorImpl<T, LongSummbryStbtistics, LongSummbryStbtistics>(
+                LongSummbryStbtistics::new,
+                (r, t) -> r.bccept(mbpper.bpplyAsLong(t)),
                 (l, r) -> { l.combine(r); return l; }, CH_ID);
     }
 
     /**
-     * Returns a {@code Collector} which applies an {@code double}-producing
-     * mapping function to each input element, and returns summary statistics
-     * for the resulting values.
+     * Returns b {@code Collector} which bpplies bn {@code double}-producing
+     * mbpping function to ebch input element, bnd returns summbry stbtistics
+     * for the resulting vblues.
      *
-     * @param <T> the type of the input elements
-     * @param mapper a mapping function to apply to each element
-     * @return a {@code Collector} implementing the summary-statistics reduction
+     * @pbrbm <T> the type of the input elements
+     * @pbrbm mbpper b mbpping function to bpply to ebch element
+     * @return b {@code Collector} implementing the summbry-stbtistics reduction
      *
-     * @see #summarizingLong(ToLongFunction)
-     * @see #summarizingInt(ToIntFunction)
+     * @see #summbrizingLong(ToLongFunction)
+     * @see #summbrizingInt(ToIntFunction)
      */
-    public static <T>
-    Collector<T, ?, DoubleSummaryStatistics> summarizingDouble(ToDoubleFunction<? super T> mapper) {
-        return new CollectorImpl<T, DoubleSummaryStatistics, DoubleSummaryStatistics>(
-                DoubleSummaryStatistics::new,
-                (r, t) -> r.accept(mapper.applyAsDouble(t)),
+    public stbtic <T>
+    Collector<T, ?, DoubleSummbryStbtistics> summbrizingDouble(ToDoubleFunction<? super T> mbpper) {
+        return new CollectorImpl<T, DoubleSummbryStbtistics, DoubleSummbryStbtistics>(
+                DoubleSummbryStbtistics::new,
+                (r, t) -> r.bccept(mbpper.bpplyAsDouble(t)),
                 (l, r) -> { l.combine(r); return l; }, CH_ID);
     }
 
     /**
-     * Implementation class used by partitioningBy.
+     * Implementbtion clbss used by pbrtitioningBy.
      */
-    private static final class Partition<T>
-            extends AbstractMap<Boolean, T>
-            implements Map<Boolean, T> {
-        final T forTrue;
-        final T forFalse;
+    privbte stbtic finbl clbss Pbrtition<T>
+            extends AbstrbctMbp<Boolebn, T>
+            implements Mbp<Boolebn, T> {
+        finbl T forTrue;
+        finbl T forFblse;
 
-        Partition(T forTrue, T forFalse) {
+        Pbrtition(T forTrue, T forFblse) {
             this.forTrue = forTrue;
-            this.forFalse = forFalse;
+            this.forFblse = forFblse;
         }
 
         @Override
-        public Set<Map.Entry<Boolean, T>> entrySet() {
-            return new AbstractSet<Map.Entry<Boolean, T>>() {
+        public Set<Mbp.Entry<Boolebn, T>> entrySet() {
+            return new AbstrbctSet<Mbp.Entry<Boolebn, T>>() {
                 @Override
-                public Iterator<Map.Entry<Boolean, T>> iterator() {
-                    Map.Entry<Boolean, T> falseEntry = new SimpleImmutableEntry<>(false, forFalse);
-                    Map.Entry<Boolean, T> trueEntry = new SimpleImmutableEntry<>(true, forTrue);
-                    return Arrays.asList(falseEntry, trueEntry).iterator();
+                public Iterbtor<Mbp.Entry<Boolebn, T>> iterbtor() {
+                    Mbp.Entry<Boolebn, T> fblseEntry = new SimpleImmutbbleEntry<>(fblse, forFblse);
+                    Mbp.Entry<Boolebn, T> trueEntry = new SimpleImmutbbleEntry<>(true, forTrue);
+                    return Arrbys.bsList(fblseEntry, trueEntry).iterbtor();
                 }
 
                 @Override

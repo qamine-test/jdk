@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.InetAddress;
+import jbvb.net.NetworkInterfbce;
+import jbvb.util.*;
 
 /**
- * Simple registry of membership keys for a MulticastChannel.
+ * Simple registry of membership keys for b MulticbstChbnnel.
  *
- * Instances of this object are not safe by multiple concurrent threads.
+ * Instbnces of this object bre not sbfe by multiple concurrent threbds.
  */
 
-class MembershipRegistry {
+clbss MembershipRegistry {
 
-    // map multicast group to keys
-    private Map<InetAddress,List<MembershipKeyImpl>> groups = null;
+    // mbp multicbst group to keys
+    privbte Mbp<InetAddress,List<MembershipKeyImpl>> groups = null;
 
     MembershipRegistry() {
     }
 
     /**
      * Checks registry for membership of the group on the given
-     * network interface.
+     * network interfbce.
      */
-    MembershipKey checkMembership(InetAddress group, NetworkInterface interf,
+    MembershipKey checkMembership(InetAddress group, NetworkInterfbce interf,
                                   InetAddress source)
     {
         if (groups != null) {
             List<MembershipKeyImpl> keys = groups.get(group);
             if (keys != null) {
                 for (MembershipKeyImpl key: keys) {
-                    if (key.networkInterface().equals(interf)) {
-                        // already a member to receive all packets so return
+                    if (key.networkInterfbce().equbls(interf)) {
+                        // blrebdy b member to receive bll pbckets so return
                         // existing key or detect conflict
                         if (source == null) {
                             if (key.sourceAddress() == null)
                                 return key;
-                            throw new IllegalStateException("Already a member to receive all packets");
+                            throw new IllegblStbteException("Alrebdy b member to receive bll pbckets");
                         }
 
-                        // already have source-specific membership so return key
+                        // blrebdy hbve source-specific membership so return key
                         // or detect conflict
                         if (key.sourceAddress() == null)
-                            throw new IllegalStateException("Already have source-specific membership");
-                        if (source.equals(key.sourceAddress()))
+                            throw new IllegblStbteException("Alrebdy hbve source-specific membership");
+                        if (source.equbls(key.sourceAddress()))
                             return key;
                     }
                 }
@@ -78,13 +78,13 @@ class MembershipRegistry {
     }
 
     /**
-     * Add membership to the registry, returning a new membership key.
+     * Add membership to the registry, returning b new membership key.
      */
-    void add(MembershipKeyImpl key) {
+    void bdd(MembershipKeyImpl key) {
         InetAddress group = key.group();
         List<MembershipKeyImpl> keys;
         if (groups == null) {
-            groups = new HashMap<InetAddress,List<MembershipKeyImpl>>();
+            groups = new HbshMbp<InetAddress,List<MembershipKeyImpl>>();
             keys = null;
         } else {
             keys = groups.get(group);
@@ -93,21 +93,21 @@ class MembershipRegistry {
             keys = new LinkedList<MembershipKeyImpl>();
             groups.put(group, keys);
         }
-        keys.add(key);
+        keys.bdd(key);
     }
 
     /**
-     * Remove a key from the registry
+     * Remove b key from the registry
      */
     void remove(MembershipKeyImpl key) {
         InetAddress group = key.group();
         List<MembershipKeyImpl> keys = groups.get(group);
         if (keys != null) {
-            Iterator<MembershipKeyImpl> i = keys.iterator();
-            while (i.hasNext()) {
+            Iterbtor<MembershipKeyImpl> i = keys.iterbtor();
+            while (i.hbsNext()) {
                 if (i.next() == key) {
                     i.remove();
-                    break;
+                    brebk;
                 }
             }
             if (keys.isEmpty()) {
@@ -117,13 +117,13 @@ class MembershipRegistry {
     }
 
     /**
-     * Invalidate all keys in the registry
+     * Invblidbte bll keys in the registry
      */
-    void invalidateAll() {
+    void invblidbteAll() {
         if (groups != null) {
             for (InetAddress group: groups.keySet()) {
                 for (MembershipKeyImpl key: groups.get(group)) {
-                    key.invalidate();
+                    key.invblidbte();
                 }
             }
         }

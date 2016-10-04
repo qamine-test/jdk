@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.io.File;
-import java.net.URI;
-import java.util.*;
-import java.awt.Window;
+import jbvb.io.File;
+import jbvb.net.URI;
+import jbvb.util.*;
+import jbvb.bwt.Window;
 
 /**
- * AppEvents are sent to listeners and handlers installed on the {@link Application}.
+ * AppEvents bre sent to listeners bnd hbndlers instblled on the {@link Applicbtion}.
  *
- * @since Java for Mac OS X 10.6 Update 3
- * @since Java for Mac OS X 10.5 Update 8
+ * @since Jbvb for Mbc OS X 10.6 Updbte 3
+ * @since Jbvb for Mbc OS X 10.5 Updbte 8
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class AppEvent extends EventObject {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss AppEvent extends EventObject {
     AppEvent() {
-        super(Application.getApplication());
+        super(Applicbtion.getApplicbtion());
     }
 
     /**
-     * Contains a list of files.
+     * Contbins b list of files.
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public abstract static class FilesEvent extends AppEvent {
-        final List<File> files;
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public bbstrbct stbtic clbss FilesEvent extends AppEvent {
+        finbl List<File> files;
 
-        FilesEvent(final List<File> files) {
+        FilesEvent(finbl List<File> files) {
             this.files = files;
         }
 
@@ -62,56 +62,56 @@ public abstract class AppEvent extends EventObject {
     }
 
     /**
-     * Event sent when the app is asked to open a list of files.
+     * Event sent when the bpp is bsked to open b list of files.
      *
-     * @see OpenFilesHandler#openFiles(OpenFilesEvent)
+     * @see OpenFilesHbndler#openFiles(OpenFilesEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class OpenFilesEvent extends FilesEvent {
-        final String searchTerm;
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss OpenFilesEvent extends FilesEvent {
+        finbl String sebrchTerm;
 
-        OpenFilesEvent(final List<File> files, final String searchTerm) {
+        OpenFilesEvent(finbl List<File> files, finbl String sebrchTerm) {
             super(files);
-            this.searchTerm = searchTerm;
+            this.sebrchTerm = sebrchTerm;
         }
 
         /**
-         * If the files were opened using the Spotlight search menu or a Finder search window, this method obtains the search term used to find the files.
-         * This is useful for highlighting the search term in the documents when they are opened.
-         * @return the search term used to find the files
+         * If the files were opened using the Spotlight sebrch menu or b Finder sebrch window, this method obtbins the sebrch term used to find the files.
+         * This is useful for highlighting the sebrch term in the documents when they bre opened.
+         * @return the sebrch term used to find the files
          */
-        public String getSearchTerm() {
-            return searchTerm;
+        public String getSebrchTerm() {
+            return sebrchTerm;
         }
     }
 
     /**
-     * Event sent when the app is asked to print a list of files.
+     * Event sent when the bpp is bsked to print b list of files.
      *
-     * @see PrintFilesHandler#printFiles(PrintFilesEvent)
+     * @see PrintFilesHbndler#printFiles(PrintFilesEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class PrintFilesEvent extends FilesEvent {
-        PrintFilesEvent(final List<File> files) {
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss PrintFilesEvent extends FilesEvent {
+        PrintFilesEvent(finbl List<File> files) {
             super(files);
         }
     }
 
     /**
-     * Event sent when the app is asked to open a URI.
+     * Event sent when the bpp is bsked to open b URI.
      *
-     * @see OpenURIHandler#openURI(OpenURIEvent)
+     * @see OpenURIHbndler#openURI(OpenURIEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class OpenURIEvent extends AppEvent {
-        final URI uri;
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss OpenURIEvent extends AppEvent {
+        finbl URI uri;
 
-        OpenURIEvent(final URI uri) {
+        OpenURIEvent(finbl URI uri) {
             this.uri = uri;
         }
 
         /**
-         * @return the URI the app was asked to open
+         * @return the URI the bpp wbs bsked to open
          */
         public URI getURI() {
             return uri;
@@ -119,99 +119,99 @@ public abstract class AppEvent extends EventObject {
     }
 
     /**
-     * Event sent when the application is asked to open it's about window.
+     * Event sent when the bpplicbtion is bsked to open it's bbout window.
      *
-     * @see AboutHandler#handleAbout()
+     * @see AboutHbndler#hbndleAbout()
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class AboutEvent extends AppEvent { AboutEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss AboutEvent extends AppEvent { AboutEvent() { } }
 
     /**
-     * Event sent when the application is asked to open it's preferences window.
+     * Event sent when the bpplicbtion is bsked to open it's preferences window.
      *
-     * @see PreferencesHandler#handlePreferences()
+     * @see PreferencesHbndler#hbndlePreferences()
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class PreferencesEvent extends AppEvent { PreferencesEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss PreferencesEvent extends AppEvent { PreferencesEvent() { } }
 
     /**
-     * Event sent when the application is asked to quit.
+     * Event sent when the bpplicbtion is bsked to quit.
      *
-     * @see QuitHandler#handleQuitRequestWith(QuitEvent, QuitResponse)
+     * @see QuitHbndler#hbndleQuitRequestWith(QuitEvent, QuitResponse)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class QuitEvent extends AppEvent { QuitEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss QuitEvent extends AppEvent { QuitEvent() { } }
 
     /**
-     * Event sent when the application is asked to re-open itself.
+     * Event sent when the bpplicbtion is bsked to re-open itself.
      *
-     * @see AppReOpenedListener#appReOpened(AppReOpenedEvent)
+     * @see AppReOpenedListener#bppReOpened(AppReOpenedEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class AppReOpenedEvent extends AppEvent { AppReOpenedEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss AppReOpenedEvent extends AppEvent { AppReOpenedEvent() { } }
 
     /**
-     * Event sent when the application has become the foreground app, and when it has resigned being the foreground app.
+     * Event sent when the bpplicbtion hbs become the foreground bpp, bnd when it hbs resigned being the foreground bpp.
      *
-     * @see AppForegroundListener#appRaisedToForeground(AppForegroundEvent)
-     * @see AppForegroundListener#appMovedToBackground(AppForegroundEvent)
+     * @see AppForegroundListener#bppRbisedToForeground(AppForegroundEvent)
+     * @see AppForegroundListener#bppMovedToBbckground(AppForegroundEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class AppForegroundEvent extends AppEvent { AppForegroundEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss AppForegroundEvent extends AppEvent { AppForegroundEvent() { } }
 
     /**
-     * Event sent when the application has been hidden or shown.
+     * Event sent when the bpplicbtion hbs been hidden or shown.
      *
-     * @see AppHiddenListener#appHidden(AppHiddenEvent)
-     * @see AppHiddenListener#appUnhidden(AppHiddenEvent)
+     * @see AppHiddenListener#bppHidden(AppHiddenEvent)
+     * @see AppHiddenListener#bppUnhidden(AppHiddenEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class AppHiddenEvent extends AppEvent { AppHiddenEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss AppHiddenEvent extends AppEvent { AppHiddenEvent() { } }
 
     /**
-     * Event sent when the user session has been changed via Fast User Switching.
+     * Event sent when the user session hbs been chbnged vib Fbst User Switching.
      *
-     * @see UserSessionListener#userSessionActivated(UserSessionEvent)
-     * @see UserSessionListener#userSessionDeactivated(UserSessionEvent)
+     * @see UserSessionListener#userSessionActivbted(UserSessionEvent)
+     * @see UserSessionListener#userSessionDebctivbted(UserSessionEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class UserSessionEvent extends AppEvent { UserSessionEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss UserSessionEvent extends AppEvent { UserSessionEvent() { } }
 
     /**
-     * Event sent when the displays attached to the system enter and exit power save sleep.
+     * Event sent when the displbys bttbched to the system enter bnd exit power sbve sleep.
      *
      * @see ScreenSleepListener#screenAboutToSleep(ScreenSleepEvent)
      * @see ScreenSleepListener#screenAwoke(ScreenSleepEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class ScreenSleepEvent extends AppEvent { ScreenSleepEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss ScreenSleepEvent extends AppEvent { ScreenSleepEvent() { } }
 
     /**
-     * Event sent when the system enters and exits power save sleep.
+     * Event sent when the system enters bnd exits power sbve sleep.
      *
      * @see SystemSleepListener#systemAboutToSleep(SystemSleepEvent)
      * @see SystemSleepListener#systemAwoke(SystemSleepEvent)
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class SystemSleepEvent extends AppEvent { SystemSleepEvent() { } }
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss SystemSleepEvent extends AppEvent { SystemSleepEvent() { } }
 
     /**
-     * Event sent when a window is entering/exiting or has entered/exited full screen state.
+     * Event sent when b window is entering/exiting or hbs entered/exited full screen stbte.
      *
      * @see FullScreenUtilities
      *
-     * @since Java for Mac OS X 10.7 Update 1
+     * @since Jbvb for Mbc OS X 10.7 Updbte 1
      */
-    @SuppressWarnings("serial") // JDK implementation class
-    public static class FullScreenEvent extends AppEvent {
-        final Window window;
+    @SuppressWbrnings("seribl") // JDK implementbtion clbss
+    public stbtic clbss FullScreenEvent extends AppEvent {
+        finbl Window window;
 
-        FullScreenEvent(final Window window) {
+        FullScreenEvent(finbl Window window) {
             this.window = window;
         }
 
         /**
-         * @return window transitioning between full screen states
+         * @return window trbnsitioning between full screen stbtes
          */
         public Window getWindow() {
             return window;

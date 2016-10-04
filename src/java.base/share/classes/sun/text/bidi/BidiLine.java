@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
-/* Written by Simon Montagu, Matitiahu Allouche
- * (ported from C code written by Markus W. Scherer)
+/* Written by Simon Montbgu, Mbtitibhu Allouche
+ * (ported from C code written by Mbrkus W. Scherer)
  */
 
-package sun.text.bidi;
+pbckbge sun.text.bidi;
 
-import java.text.Bidi;
-import java.util.Arrays;
+import jbvb.text.Bidi;
+import jbvb.util.Arrbys;
 
-public final class BidiLine {
+public finbl clbss BidiLine {
 
     /*
-     * General remarks about the functions in this file:
+     * Generbl rembrks bbout the functions in this file:
      *
-     * These functions deal with the aspects of potentially mixed-directional
-     * text in a single paragraph or in a line of a single paragraph
-     * which has already been processed according to
-     * the Unicode 3.0 Bidi algorithm as defined in
+     * These functions debl with the bspects of potentiblly mixed-directionbl
+     * text in b single pbrbgrbph or in b line of b single pbrbgrbph
+     * which hbs blrebdy been processed bccording to
+     * the Unicode 3.0 Bidi blgorithm bs defined in
      * http://www.unicode.org/unicode/reports/tr9/ , version 13,
-     * also described in The Unicode Standard, Version 4.0.1 .
+     * blso described in The Unicode Stbndbrd, Version 4.0.1 .
      *
-     * This means that there is a Bidi object with a levels
-     * and a dirProps array.
-     * paraLevel and direction are also set.
+     * This mebns thbt there is b Bidi object with b levels
+     * bnd b dirProps brrby.
+     * pbrbLevel bnd direction bre blso set.
      * Only if the length of the text is zero, then levels==dirProps==NULL.
      *
-     * The overall directionality of the paragraph
-     * or line is used to bypass the reordering steps if possible.
-     * Even purely RTL text does not need reordering there because
-     * the getLogical/VisualIndex() methods can compute the
-     * index on the fly in such a case.
+     * The overbll directionblity of the pbrbgrbph
+     * or line is used to bypbss the reordering steps if possible.
+     * Even purely RTL text does not need reordering there becbuse
+     * the getLogicbl/VisublIndex() methods cbn compute the
+     * index on the fly in such b cbse.
      *
-     * The implementation of the access to same-level-runs and of the reordering
-     * do attempt to provide better performance and less memory usage compared to
-     * a direct implementation of especially rule (L2) with an array of
-     * one (32-bit) integer per text character.
+     * The implementbtion of the bccess to sbme-level-runs bnd of the reordering
+     * do bttempt to provide better performbnce bnd less memory usbge compbred to
+     * b direct implementbtion of especiblly rule (L2) with bn brrby of
+     * one (32-bit) integer per text chbrbcter.
      *
-     * Here, the levels array is scanned as soon as necessary, and a vector of
-     * same-level-runs is created. Reordering then is done on this vector.
-     * For each run of text positions that were resolved to the same level,
-     * only 8 bytes are stored: the first text position of the run and the visual
-     * position behind the run after reordering.
-     * One sign bit is used to hold the directionality of the run.
-     * This is inefficient if there are many very short runs. If the average run
+     * Here, the levels brrby is scbnned bs soon bs necessbry, bnd b vector of
+     * sbme-level-runs is crebted. Reordering then is done on this vector.
+     * For ebch run of text positions thbt were resolved to the sbme level,
+     * only 8 bytes bre stored: the first text position of the run bnd the visubl
+     * position behind the run bfter reordering.
+     * One sign bit is used to hold the directionblity of the run.
+     * This is inefficient if there bre mbny very short runs. If the bverbge run
      * length is <2, then this uses more memory.
      *
-     * In a further attempt to save memory, the levels array is never changed
-     * after all the resolution rules (Xn, Wn, Nn, In).
-     * Many methods have to consider the field trailingWSStart:
-     * if it is less than length, then there is an implicit trailing run
-     * at the paraLevel,
-     * which is not reflected in the levels array.
-     * This allows a line Bidi object to use the same levels array as
-     * its paragraph parent object.
+     * In b further bttempt to sbve memory, the levels brrby is never chbnged
+     * bfter bll the resolution rules (Xn, Wn, Nn, In).
+     * Mbny methods hbve to consider the field trbilingWSStbrt:
+     * if it is less thbn length, then there is bn implicit trbiling run
+     * bt the pbrbLevel,
+     * which is not reflected in the levels brrby.
+     * This bllows b line Bidi object to use the sbme levels brrby bs
+     * its pbrbgrbph pbrent object.
      *
-     * When a Bidi object is created for a line of a paragraph, then the
-     * paragraph's levels and dirProps arrays are reused by way of setting
-     * a pointer into them, not by copying. This again saves memory and forbids to
-     * change the now shared levels for (L1).
+     * When b Bidi object is crebted for b line of b pbrbgrbph, then the
+     * pbrbgrbph's levels bnd dirProps brrbys bre reused by wby of setting
+     * b pointer into them, not by copying. This bgbin sbves memory bnd forbids to
+     * chbnge the now shbred levels for (L1).
      */
 
-    /* handle trailing WS (L1) -------------------------------------------------- */
+    /* hbndle trbiling WS (L1) -------------------------------------------------- */
 
     /*
-     * setTrailingWSStart() sets the start index for a trailing
-     * run of WS in the line. This is necessary because we do not modify
-     * the paragraph's levels array that we just point into.
-     * Using trailingWSStart is another form of performing (L1).
+     * setTrbilingWSStbrt() sets the stbrt index for b trbiling
+     * run of WS in the line. This is necessbry becbuse we do not modify
+     * the pbrbgrbph's levels brrby thbt we just point into.
+     * Using trbilingWSStbrt is bnother form of performing (L1).
      *
-     * To make subsequent operations easier, we also include the run
-     * before the WS if it is at the paraLevel - we merge the two here.
+     * To mbke subsequent operbtions ebsier, we blso include the run
+     * before the WS if it is bt the pbrbLevel - we merge the two here.
      *
-     * This method is called only from setLine(), so paraLevel is
-     * set correctly for the line even when contextual multiple paragraphs.
+     * This method is cblled only from setLine(), so pbrbLevel is
+     * set correctly for the line even when contextubl multiple pbrbgrbphs.
      */
 
-    static void setTrailingWSStart(BidiBase bidiBase)
+    stbtic void setTrbilingWSStbrt(BidiBbse bidiBbse)
     {
-        byte[] dirProps = bidiBase.dirProps;
-        byte[] levels = bidiBase.levels;
-        int start = bidiBase.length;
-        byte paraLevel = bidiBase.paraLevel;
+        byte[] dirProps = bidiBbse.dirProps;
+        byte[] levels = bidiBbse.levels;
+        int stbrt = bidiBbse.length;
+        byte pbrbLevel = bidiBbse.pbrbLevel;
 
-        /* If the line is terminated by a block separator, all preceding WS etc...
-           are already set to paragraph level.
-           Setting trailingWSStart to pBidi->length will avoid changing the
-           level of B chars from 0 to paraLevel in getLevels when
-           orderParagraphsLTR==TRUE
+        /* If the line is terminbted by b block sepbrbtor, bll preceding WS etc...
+           bre blrebdy set to pbrbgrbph level.
+           Setting trbilingWSStbrt to pBidi->length will bvoid chbnging the
+           level of B chbrs from 0 to pbrbLevel in getLevels when
+           orderPbrbgrbphsLTR==TRUE
         */
-        if (BidiBase.NoContextRTL(dirProps[start - 1]) == BidiBase.B) {
-            bidiBase.trailingWSStart = start;   /* currently == bidiBase.length */
+        if (BidiBbse.NoContextRTL(dirProps[stbrt - 1]) == BidiBbse.B) {
+            bidiBbse.trbilingWSStbrt = stbrt;   /* currently == bidiBbse.length */
             return;
         }
-        /* go backwards across all WS, BN, explicit codes */
-        while (start > 0 &&
-                (BidiBase.DirPropFlagNC(dirProps[start - 1]) & BidiBase.MASK_WS) != 0) {
-            --start;
+        /* go bbckwbrds bcross bll WS, BN, explicit codes */
+        while (stbrt > 0 &&
+                (BidiBbse.DirPropFlbgNC(dirProps[stbrt - 1]) & BidiBbse.MASK_WS) != 0) {
+            --stbrt;
         }
 
-        /* if the WS run can be merged with the previous run then do so here */
-        while (start > 0 && levels[start - 1] == paraLevel) {
-            --start;
+        /* if the WS run cbn be merged with the previous run then do so here */
+        while (stbrt > 0 && levels[stbrt - 1] == pbrbLevel) {
+            --stbrt;
         }
 
-        bidiBase.trailingWSStart=start;
+        bidiBbse.trbilingWSStbrt=stbrt;
     }
 
-    public static Bidi setLine(Bidi bidi, BidiBase paraBidi,
-                               Bidi newBidi, BidiBase newBidiBase,
-                               int start, int limit) {
+    public stbtic Bidi setLine(Bidi bidi, BidiBbse pbrbBidi,
+                               Bidi newBidi, BidiBbse newBidiBbse,
+                               int stbrt, int limit) {
         int length;
 
-        BidiBase lineBidi = newBidiBase;
+        BidiBbse lineBidi = newBidiBbse;
 
-        /* set the values in lineBidi from its paraBidi parent */
-        /* class members are already initialized to 0 */
-        // lineBidi.paraBidi = null;        /* mark unfinished setLine */
-        // lineBidi.flags = 0;
+        /* set the vblues in lineBidi from its pbrbBidi pbrent */
+        /* clbss members bre blrebdy initiblized to 0 */
+        // lineBidi.pbrbBidi = null;        /* mbrk unfinished setLine */
+        // lineBidi.flbgs = 0;
         // lineBidi.controlCount = 0;
 
-        length = lineBidi.length = lineBidi.originalLength =
-                lineBidi.resultLength = limit - start;
+        length = lineBidi.length = lineBidi.originblLength =
+                lineBidi.resultLength = limit - stbrt;
 
-        lineBidi.text = new char[length];
-        System.arraycopy(paraBidi.text, start, lineBidi.text, 0, length);
-        lineBidi.paraLevel = paraBidi.GetParaLevelAt(start);
-        lineBidi.paraCount = paraBidi.paraCount;
+        lineBidi.text = new chbr[length];
+        System.brrbycopy(pbrbBidi.text, stbrt, lineBidi.text, 0, length);
+        lineBidi.pbrbLevel = pbrbBidi.GetPbrbLevelAt(stbrt);
+        lineBidi.pbrbCount = pbrbBidi.pbrbCount;
         lineBidi.runs = new BidiRun[0];
-        if (paraBidi.controlCount > 0) {
+        if (pbrbBidi.controlCount > 0) {
             int j;
-            for (j = start; j < limit; j++) {
-                if (BidiBase.IsBidiControlChar(paraBidi.text[j])) {
+            for (j = stbrt; j < limit; j++) {
+                if (BidiBbse.IsBidiControlChbr(pbrbBidi.text[j])) {
                     lineBidi.controlCount++;
                 }
             }
@@ -173,209 +173,209 @@ public final class BidiLine {
         /* copy proper subset of DirProps */
         lineBidi.getDirPropsMemory(length);
         lineBidi.dirProps = lineBidi.dirPropsMemory;
-        System.arraycopy(paraBidi.dirProps, start, lineBidi.dirProps, 0,
+        System.brrbycopy(pbrbBidi.dirProps, stbrt, lineBidi.dirProps, 0,
                          length);
         /* copy proper subset of Levels */
         lineBidi.getLevelsMemory(length);
         lineBidi.levels = lineBidi.levelsMemory;
-        System.arraycopy(paraBidi.levels, start, lineBidi.levels, 0,
+        System.brrbycopy(pbrbBidi.levels, stbrt, lineBidi.levels, 0,
                          length);
         lineBidi.runCount = -1;
 
-        if (paraBidi.direction != BidiBase.MIXED) {
-            /* the parent is already trivial */
-            lineBidi.direction = paraBidi.direction;
+        if (pbrbBidi.direction != BidiBbse.MIXED) {
+            /* the pbrent is blrebdy trivibl */
+            lineBidi.direction = pbrbBidi.direction;
 
             /*
-             * The parent's levels are all either
-             * implicitly or explicitly ==paraLevel;
-             * do the same here.
+             * The pbrent's levels bre bll either
+             * implicitly or explicitly ==pbrbLevel;
+             * do the sbme here.
              */
-            if (paraBidi.trailingWSStart <= start) {
-                lineBidi.trailingWSStart = 0;
-            } else if (paraBidi.trailingWSStart < limit) {
-                lineBidi.trailingWSStart = paraBidi.trailingWSStart - start;
+            if (pbrbBidi.trbilingWSStbrt <= stbrt) {
+                lineBidi.trbilingWSStbrt = 0;
+            } else if (pbrbBidi.trbilingWSStbrt < limit) {
+                lineBidi.trbilingWSStbrt = pbrbBidi.trbilingWSStbrt - stbrt;
             } else {
-                lineBidi.trailingWSStart = length;
+                lineBidi.trbilingWSStbrt = length;
             }
         } else {
             byte[] levels = lineBidi.levels;
-            int i, trailingWSStart;
+            int i, trbilingWSStbrt;
             byte level;
 
-            setTrailingWSStart(lineBidi);
-            trailingWSStart = lineBidi.trailingWSStart;
+            setTrbilingWSStbrt(lineBidi);
+            trbilingWSStbrt = lineBidi.trbilingWSStbrt;
 
-            /* recalculate lineBidi.direction */
-            if (trailingWSStart == 0) {
-                /* all levels are at paraLevel */
-                lineBidi.direction = (byte)(lineBidi.paraLevel & 1);
+            /* recblculbte lineBidi.direction */
+            if (trbilingWSStbrt == 0) {
+                /* bll levels bre bt pbrbLevel */
+                lineBidi.direction = (byte)(lineBidi.pbrbLevel & 1);
             } else {
-                /* get the level of the first character */
+                /* get the level of the first chbrbcter */
                 level = (byte)(levels[0] & 1);
 
-                /* if there is anything of a different level, then the line
+                /* if there is bnything of b different level, then the line
                    is mixed */
-                if (trailingWSStart < length &&
-                    (lineBidi.paraLevel & 1) != level) {
-                    /* the trailing WS is at paraLevel, which differs from
+                if (trbilingWSStbrt < length &&
+                    (lineBidi.pbrbLevel & 1) != level) {
+                    /* the trbiling WS is bt pbrbLevel, which differs from
                        levels[0] */
-                    lineBidi.direction = BidiBase.MIXED;
+                    lineBidi.direction = BidiBbse.MIXED;
                 } else {
-                    /* see if levels[1..trailingWSStart-1] have the same
-                       direction as levels[0] and paraLevel */
+                    /* see if levels[1..trbilingWSStbrt-1] hbve the sbme
+                       direction bs levels[0] bnd pbrbLevel */
                     for (i = 1; ; i++) {
-                        if (i == trailingWSStart) {
-                            /* the direction values match those in level */
+                        if (i == trbilingWSStbrt) {
+                            /* the direction vblues mbtch those in level */
                             lineBidi.direction = level;
-                            break;
+                            brebk;
                         } else if ((levels[i] & 1) != level) {
-                            lineBidi.direction = BidiBase.MIXED;
-                            break;
+                            lineBidi.direction = BidiBbse.MIXED;
+                            brebk;
                         }
                     }
                 }
             }
 
             switch(lineBidi.direction) {
-                case Bidi.DIRECTION_LEFT_TO_RIGHT:
-                    /* make sure paraLevel is even */
-                    lineBidi.paraLevel = (byte)
-                        ((lineBidi.paraLevel + 1) & ~1);
+                cbse Bidi.DIRECTION_LEFT_TO_RIGHT:
+                    /* mbke sure pbrbLevel is even */
+                    lineBidi.pbrbLevel = (byte)
+                        ((lineBidi.pbrbLevel + 1) & ~1);
 
-                    /* all levels are implicitly at paraLevel (important for
+                    /* bll levels bre implicitly bt pbrbLevel (importbnt for
                        getLevels()) */
-                    lineBidi.trailingWSStart = 0;
-                    break;
-                case Bidi.DIRECTION_RIGHT_TO_LEFT:
-                    /* make sure paraLevel is odd */
-                    lineBidi.paraLevel |= 1;
+                    lineBidi.trbilingWSStbrt = 0;
+                    brebk;
+                cbse Bidi.DIRECTION_RIGHT_TO_LEFT:
+                    /* mbke sure pbrbLevel is odd */
+                    lineBidi.pbrbLevel |= 1;
 
-                    /* all levels are implicitly at paraLevel (important for
+                    /* bll levels bre implicitly bt pbrbLevel (importbnt for
                        getLevels()) */
-                    lineBidi.trailingWSStart = 0;
-                    break;
-                default:
-                    break;
+                    lineBidi.trbilingWSStbrt = 0;
+                    brebk;
+                defbult:
+                    brebk;
             }
         }
 
-        newBidiBase.paraBidi = paraBidi; /* mark successful setLine */
+        newBidiBbse.pbrbBidi = pbrbBidi; /* mbrk successful setLine */
         return newBidi;
     }
 
-    static byte getLevelAt(BidiBase bidiBase, int charIndex)
+    stbtic byte getLevelAt(BidiBbse bidiBbse, int chbrIndex)
     {
-        /* return paraLevel if in the trailing WS run, otherwise the real level */
-        if (bidiBase.direction != BidiBase.MIXED || charIndex >= bidiBase.trailingWSStart) {
-            return bidiBase.GetParaLevelAt(charIndex);
+        /* return pbrbLevel if in the trbiling WS run, otherwise the rebl level */
+        if (bidiBbse.direction != BidiBbse.MIXED || chbrIndex >= bidiBbse.trbilingWSStbrt) {
+            return bidiBbse.GetPbrbLevelAt(chbrIndex);
         } else {
-            return bidiBase.levels[charIndex];
+            return bidiBbse.levels[chbrIndex];
         }
     }
 
-    static byte[] getLevels(BidiBase bidiBase)
+    stbtic byte[] getLevels(BidiBbse bidiBbse)
     {
-        int start = bidiBase.trailingWSStart;
-        int length = bidiBase.length;
+        int stbrt = bidiBbse.trbilingWSStbrt;
+        int length = bidiBbse.length;
 
-        if (start != length) {
-            /* the current levels array does not reflect the WS run */
+        if (stbrt != length) {
+            /* the current levels brrby does not reflect the WS run */
             /*
-             * After the previous if(), we know that the levels array
-             * has an implicit trailing WS run and therefore does not fully
-             * reflect itself all the levels.
-             * This must be a Bidi object for a line, and
-             * we need to create a new levels array.
+             * After the previous if(), we know thbt the levels brrby
+             * hbs bn implicit trbiling WS run bnd therefore does not fully
+             * reflect itself bll the levels.
+             * This must be b Bidi object for b line, bnd
+             * we need to crebte b new levels brrby.
              */
-            /* bidiBase.paraLevel is ok even if contextual multiple paragraphs,
-               since bidiBase is a line object                                     */
-            Arrays.fill(bidiBase.levels, start, length, bidiBase.paraLevel);
+            /* bidiBbse.pbrbLevel is ok even if contextubl multiple pbrbgrbphs,
+               since bidiBbse is b line object                                     */
+            Arrbys.fill(bidiBbse.levels, stbrt, length, bidiBbse.pbrbLevel);
 
-            /* this new levels array is set for the line and reflects the WS run */
-            bidiBase.trailingWSStart = length;
+            /* this new levels brrby is set for the line bnd reflects the WS run */
+            bidiBbse.trbilingWSStbrt = length;
         }
-        if (length < bidiBase.levels.length) {
+        if (length < bidiBbse.levels.length) {
             byte[] levels = new byte[length];
-            System.arraycopy(bidiBase.levels, 0, levels, 0, length);
+            System.brrbycopy(bidiBbse.levels, 0, levels, 0, length);
             return levels;
         }
-        return bidiBase.levels;
+        return bidiBbse.levels;
     }
 
-    static BidiRun getLogicalRun(BidiBase bidiBase, int logicalPosition)
+    stbtic BidiRun getLogicblRun(BidiBbse bidiBbse, int logicblPosition)
     {
-        /* this is done based on runs rather than on levels since levels have
-           a special interpretation when REORDER_RUNS_ONLY
+        /* this is done bbsed on runs rbther thbn on levels since levels hbve
+           b specibl interpretbtion when REORDER_RUNS_ONLY
          */
         BidiRun newRun = new BidiRun(), iRun;
-        getRuns(bidiBase);
-        int runCount = bidiBase.runCount;
-        int visualStart = 0, logicalLimit = 0;
-        iRun = bidiBase.runs[0];
+        getRuns(bidiBbse);
+        int runCount = bidiBbse.runCount;
+        int visublStbrt = 0, logicblLimit = 0;
+        iRun = bidiBbse.runs[0];
 
         for (int i = 0; i < runCount; i++) {
-            iRun = bidiBase.runs[i];
-            logicalLimit = iRun.start + iRun.limit - visualStart;
-            if ((logicalPosition >= iRun.start) &&
-                (logicalPosition < logicalLimit)) {
-                break;
+            iRun = bidiBbse.runs[i];
+            logicblLimit = iRun.stbrt + iRun.limit - visublStbrt;
+            if ((logicblPosition >= iRun.stbrt) &&
+                (logicblPosition < logicblLimit)) {
+                brebk;
             }
-            visualStart = iRun.limit;
+            visublStbrt = iRun.limit;
         }
-        newRun.start = iRun.start;
-        newRun.limit = logicalLimit;
+        newRun.stbrt = iRun.stbrt;
+        newRun.limit = logicblLimit;
         newRun.level = iRun.level;
         return newRun;
     }
 
-    /* in trivial cases there is only one trivial run; called by getRuns() */
-    private static void getSingleRun(BidiBase bidiBase, byte level) {
-        /* simple, single-run case */
-        bidiBase.runs = bidiBase.simpleRuns;
-        bidiBase.runCount = 1;
+    /* in trivibl cbses there is only one trivibl run; cblled by getRuns() */
+    privbte stbtic void getSingleRun(BidiBbse bidiBbse, byte level) {
+        /* simple, single-run cbse */
+        bidiBbse.runs = bidiBbse.simpleRuns;
+        bidiBbse.runCount = 1;
 
-        /* fill and reorder the single run */
-        bidiBase.runs[0] = new BidiRun(0, bidiBase.length, level);
+        /* fill bnd reorder the single run */
+        bidiBbse.runs[0] = new BidiRun(0, bidiBbse.length, level);
     }
 
-    /* reorder the runs array (L2) ---------------------------------------------- */
+    /* reorder the runs brrby (L2) ---------------------------------------------- */
 
     /*
-     * Reorder the same-level runs in the runs array.
-     * Here, runCount>1 and maxLevel>=minLevel>=paraLevel.
-     * All the visualStart fields=logical start before reordering.
-     * The "odd" bits are not set yet.
+     * Reorder the sbme-level runs in the runs brrby.
+     * Here, runCount>1 bnd mbxLevel>=minLevel>=pbrbLevel.
+     * All the visublStbrt fields=logicbl stbrt before reordering.
+     * The "odd" bits bre not set yet.
      *
-     * Reordering with this data structure lends itself to some handy shortcuts:
+     * Reordering with this dbtb structure lends itself to some hbndy shortcuts:
      *
-     * Since each run is moved but not modified, and since at the initial maxLevel
-     * each sequence of same-level runs consists of only one run each, we
-     * don't need to do anything there and can predecrement maxLevel.
-     * In many simple cases, the reordering is thus done entirely in the
-     * index mapping.
-     * Also, reordering occurs only down to the lowest odd level that occurs,
+     * Since ebch run is moved but not modified, bnd since bt the initibl mbxLevel
+     * ebch sequence of sbme-level runs consists of only one run ebch, we
+     * don't need to do bnything there bnd cbn predecrement mbxLevel.
+     * In mbny simple cbses, the reordering is thus done entirely in the
+     * index mbpping.
+     * Also, reordering occurs only down to the lowest odd level thbt occurs,
      * which is minLevel|1. However, if the lowest level itself is odd, then
-     * in the last reordering the sequence of the runs at this level or higher
-     * will be all runs, and we don't need the elaborate loop to search for them.
-     * This is covered by ++minLevel instead of minLevel|=1 followed
-     * by an extra reorder-all after the reorder-some loop.
-     * About a trailing WS run:
-     * Such a run would need special treatment because its level is not
-     * reflected in levels[] if this is not a paragraph object.
-     * Instead, all characters from trailingWSStart on are implicitly at
-     * paraLevel.
-     * However, for all maxLevel>paraLevel, this run will never be reordered
-     * and does not need to be taken into account. maxLevel==paraLevel is only reordered
-     * if minLevel==paraLevel is odd, which is done in the extra segment.
-     * This means that for the main reordering loop we don't need to consider
-     * this run and can --runCount. If it is later part of the all-runs
-     * reordering, then runCount is adjusted accordingly.
+     * in the lbst reordering the sequence of the runs bt this level or higher
+     * will be bll runs, bnd we don't need the elbborbte loop to sebrch for them.
+     * This is covered by ++minLevel instebd of minLevel|=1 followed
+     * by bn extrb reorder-bll bfter the reorder-some loop.
+     * About b trbiling WS run:
+     * Such b run would need specibl trebtment becbuse its level is not
+     * reflected in levels[] if this is not b pbrbgrbph object.
+     * Instebd, bll chbrbcters from trbilingWSStbrt on bre implicitly bt
+     * pbrbLevel.
+     * However, for bll mbxLevel>pbrbLevel, this run will never be reordered
+     * bnd does not need to be tbken into bccount. mbxLevel==pbrbLevel is only reordered
+     * if minLevel==pbrbLevel is odd, which is done in the extrb segment.
+     * This mebns thbt for the mbin reordering loop we don't need to consider
+     * this run bnd cbn --runCount. If it is lbter pbrt of the bll-runs
+     * reordering, then runCount is bdjusted bccordingly.
      */
-    private static void reorderLine(BidiBase bidiBase, byte minLevel, byte maxLevel) {
+    privbte stbtic void reorderLine(BidiBbse bidiBbse, byte minLevel, byte mbxLevel) {
 
         /* nothing to do? */
-        if (maxLevel<=(minLevel|1)) {
+        if (mbxLevel<=(minLevel|1)) {
             return;
         }
 
@@ -386,39 +386,39 @@ public final class BidiLine {
 
         /*
          * Reorder only down to the lowest odd level
-         * and reorder at an odd minLevel in a separate, simpler loop.
-         * See comments above for why minLevel is always incremented.
+         * bnd reorder bt bn odd minLevel in b sepbrbte, simpler loop.
+         * See comments bbove for why minLevel is blwbys incremented.
          */
         ++minLevel;
 
-        runs = bidiBase.runs;
-        levels = bidiBase.levels;
-        runCount = bidiBase.runCount;
+        runs = bidiBbse.runs;
+        levels = bidiBbse.levels;
+        runCount = bidiBbse.runCount;
 
-        /* do not include the WS run at paraLevel<=old minLevel except in the simple loop */
-        if (bidiBase.trailingWSStart < bidiBase.length) {
+        /* do not include the WS run bt pbrbLevel<=old minLevel except in the simple loop */
+        if (bidiBbse.trbilingWSStbrt < bidiBbse.length) {
             --runCount;
         }
 
-        while (--maxLevel >= minLevel) {
+        while (--mbxLevel >= minLevel) {
             firstRun = 0;
 
-            /* loop for all sequences of runs */
+            /* loop for bll sequences of runs */
             for ( ; ; ) {
-                /* look for a sequence of runs that are all at >=maxLevel */
-                /* look for the first run of such a sequence */
-                while (firstRun < runCount && levels[runs[firstRun].start] < maxLevel) {
+                /* look for b sequence of runs thbt bre bll bt >=mbxLevel */
+                /* look for the first run of such b sequence */
+                while (firstRun < runCount && levels[runs[firstRun].stbrt] < mbxLevel) {
                     ++firstRun;
                 }
                 if (firstRun >= runCount) {
-                    break;  /* no more such runs */
+                    brebk;  /* no more such runs */
                 }
 
-                /* look for the limit run of such a sequence (the run behind it) */
+                /* look for the limit run of such b sequence (the run behind it) */
                 for (limitRun = firstRun; ++limitRun < runCount &&
-                      levels[runs[limitRun].start]>=maxLevel; ) {}
+                      levels[runs[limitRun].stbrt]>=mbxLevel; ) {}
 
-                /* Swap the entire sequence of runs from firstRun to limitRun-1. */
+                /* Swbp the entire sequence of runs from firstRun to limitRun-1. */
                 endRun = limitRun - 1;
                 while (firstRun < endRun) {
                     tempRun = runs[firstRun];
@@ -429,23 +429,23 @@ public final class BidiLine {
                 }
 
                 if (limitRun == runCount) {
-                    break;  /* no more such runs */
+                    brebk;  /* no more such runs */
                 } else {
                     firstRun = limitRun + 1;
                 }
             }
         }
 
-        /* now do maxLevel==old minLevel (==odd!), see above */
+        /* now do mbxLevel==old minLevel (==odd!), see bbove */
         if ((minLevel & 1) == 0) {
             firstRun = 0;
 
-            /* include the trailing WS run in this complete reordering */
-            if (bidiBase.trailingWSStart == bidiBase.length) {
+            /* include the trbiling WS run in this complete reordering */
+            if (bidiBbse.trbilingWSStbrt == bidiBbse.length) {
                 --runCount;
             }
 
-            /* Swap the entire sequence of all runs. (endRun==runCount) */
+            /* Swbp the entire sequence of bll runs. (endRun==runCount) */
             while (firstRun < runCount) {
                 tempRun = runs[firstRun];
                 runs[firstRun] = runs[runCount];
@@ -456,69 +456,69 @@ public final class BidiLine {
         }
     }
 
-    /* compute the runs array --------------------------------------------------- */
+    /* compute the runs brrby --------------------------------------------------- */
 
-    static int getRunFromLogicalIndex(BidiBase bidiBase, int logicalIndex) {
-        BidiRun[] runs = bidiBase.runs;
-        int runCount = bidiBase.runCount, visualStart = 0, i, length, logicalStart;
+    stbtic int getRunFromLogicblIndex(BidiBbse bidiBbse, int logicblIndex) {
+        BidiRun[] runs = bidiBbse.runs;
+        int runCount = bidiBbse.runCount, visublStbrt = 0, i, length, logicblStbrt;
 
         for (i = 0; i < runCount; i++) {
-            length = runs[i].limit - visualStart;
-            logicalStart = runs[i].start;
-            if ((logicalIndex >= logicalStart) && (logicalIndex < (logicalStart+length))) {
+            length = runs[i].limit - visublStbrt;
+            logicblStbrt = runs[i].stbrt;
+            if ((logicblIndex >= logicblStbrt) && (logicblIndex < (logicblStbrt+length))) {
                 return i;
             }
-            visualStart += length;
+            visublStbrt += length;
         }
         /* we should never get here */
-        throw new IllegalStateException("Internal ICU error in getRunFromLogicalIndex");
+        throw new IllegblStbteException("Internbl ICU error in getRunFromLogicblIndex");
     }
 
     /*
-     * Compute the runs array from the levels array.
-     * After getRuns() returns true, runCount is guaranteed to be >0
-     * and the runs are reordered.
-     * Odd-level runs have visualStart on their visual right edge and
-     * they progress visually to the left.
-     * If option OPTION_INSERT_MARKS is set, insertRemove will contain the
-     * sum of appropriate LRM/RLM_BEFORE/AFTER flags.
-     * If option OPTION_REMOVE_CONTROLS is set, insertRemove will contain the
-     * negative number of BiDi control characters within this run.
+     * Compute the runs brrby from the levels brrby.
+     * After getRuns() returns true, runCount is gubrbnteed to be >0
+     * bnd the runs bre reordered.
+     * Odd-level runs hbve visublStbrt on their visubl right edge bnd
+     * they progress visublly to the left.
+     * If option OPTION_INSERT_MARKS is set, insertRemove will contbin the
+     * sum of bppropribte LRM/RLM_BEFORE/AFTER flbgs.
+     * If option OPTION_REMOVE_CONTROLS is set, insertRemove will contbin the
+     * negbtive number of BiDi control chbrbcters within this run.
      */
-    static void getRuns(BidiBase bidiBase) {
+    stbtic void getRuns(BidiBbse bidiBbse) {
         /*
-         * This method returns immediately if the runs are already set. This
-         * includes the case of length==0 (handled in setPara)..
+         * This method returns immedibtely if the runs bre blrebdy set. This
+         * includes the cbse of length==0 (hbndled in setPbrb)..
          */
-        if (bidiBase.runCount >= 0) {
+        if (bidiBbse.runCount >= 0) {
             return;
         }
-        if (bidiBase.direction != BidiBase.MIXED) {
-            /* simple, single-run case - this covers length==0 */
-            /* bidiBase.paraLevel is ok even for contextual multiple paragraphs */
-            getSingleRun(bidiBase, bidiBase.paraLevel);
-        } else /* BidiBase.MIXED, length>0 */ {
-            /* mixed directionality */
-            int length = bidiBase.length, limit;
-            byte[] levels = bidiBase.levels;
+        if (bidiBbse.direction != BidiBbse.MIXED) {
+            /* simple, single-run cbse - this covers length==0 */
+            /* bidiBbse.pbrbLevel is ok even for contextubl multiple pbrbgrbphs */
+            getSingleRun(bidiBbse, bidiBbse.pbrbLevel);
+        } else /* BidiBbse.MIXED, length>0 */ {
+            /* mixed directionblity */
+            int length = bidiBbse.length, limit;
+            byte[] levels = bidiBbse.levels;
             int i, runCount;
-            byte level = BidiBase.INTERNAL_LEVEL_DEFAULT_LTR;   /* initialize with no valid level */
+            byte level = BidiBbse.INTERNAL_LEVEL_DEFAULT_LTR;   /* initiblize with no vblid level */
             /*
-             * If there are WS characters at the end of the line
-             * and the run preceding them has a level different from
-             * paraLevel, then they will form their own run at paraLevel (L1).
-             * Count them separately.
-             * We need some special treatment for this in order to not
-             * modify the levels array which a line Bidi object shares
-             * with its paragraph parent and its other line siblings.
-             * In other words, for the trailing WS, it may be
-             * levels[]!=paraLevel but we have to treat it like it were so.
+             * If there bre WS chbrbcters bt the end of the line
+             * bnd the run preceding them hbs b level different from
+             * pbrbLevel, then they will form their own run bt pbrbLevel (L1).
+             * Count them sepbrbtely.
+             * We need some specibl trebtment for this in order to not
+             * modify the levels brrby which b line Bidi object shbres
+             * with its pbrbgrbph pbrent bnd its other line siblings.
+             * In other words, for the trbiling WS, it mby be
+             * levels[]!=pbrbLevel but we hbve to trebt it like it were so.
              */
-            limit = bidiBase.trailingWSStart;
-            /* count the runs, there is at least one non-WS run, and limit>0 */
+            limit = bidiBbse.trbilingWSStbrt;
+            /* count the runs, there is bt lebst one non-WS run, bnd limit>0 */
             runCount = 0;
             for (i = 0; i < limit; ++i) {
-                /* increment runCount at the start of each run */
+                /* increment runCount bt the stbrt of ebch run */
                 if (levels[i] != level) {
                     ++runCount;
                     level = levels[i];
@@ -526,324 +526,324 @@ public final class BidiLine {
             }
 
             /*
-             * We don't need to see if the last run can be merged with a trailing
-             * WS run because setTrailingWSStart() would have done that.
+             * We don't need to see if the lbst run cbn be merged with b trbiling
+             * WS run becbuse setTrbilingWSStbrt() would hbve done thbt.
              */
             if (runCount == 1 && limit == length) {
-                /* There is only one non-WS run and no trailing WS-run. */
-                getSingleRun(bidiBase, levels[0]);
+                /* There is only one non-WS run bnd no trbiling WS-run. */
+                getSingleRun(bidiBbse, levels[0]);
             } else /* runCount>1 || limit<length */ {
-                /* allocate and set the runs */
+                /* bllocbte bnd set the runs */
                 BidiRun[] runs;
-                int runIndex, start;
-                byte minLevel = BidiBase.MAX_EXPLICIT_LEVEL + 1;
-                byte maxLevel=0;
+                int runIndex, stbrt;
+                byte minLevel = BidiBbse.MAX_EXPLICIT_LEVEL + 1;
+                byte mbxLevel=0;
 
-                /* now, count a (non-mergeable) WS run */
+                /* now, count b (non-mergebble) WS run */
                 if (limit < length) {
                     ++runCount;
                 }
 
                 /* runCount > 1 */
-                bidiBase.getRunsMemory(runCount);
-                runs = bidiBase.runsMemory;
+                bidiBbse.getRunsMemory(runCount);
+                runs = bidiBbse.runsMemory;
 
                 /* set the runs */
                 /* FOOD FOR THOUGHT: this could be optimized, e.g.:
                  * 464->444, 484->444, 575->555, 595->555
-                 * However, that would take longer. Check also how it would
-                 * interact with BiDi control removal and inserting Marks.
+                 * However, thbt would tbke longer. Check blso how it would
+                 * interbct with BiDi control removbl bnd inserting Mbrks.
                  */
                 runIndex = 0;
 
-                /* search for the run limits and initialize visualLimit values with the run lengths */
+                /* sebrch for the run limits bnd initiblize visublLimit vblues with the run lengths */
                 i = 0;
                 do {
-                    /* prepare this run */
-                    start = i;
+                    /* prepbre this run */
+                    stbrt = i;
                     level = levels[i];
                     if (level < minLevel) {
                         minLevel = level;
                     }
-                    if (level > maxLevel) {
-                        maxLevel = level;
+                    if (level > mbxLevel) {
+                        mbxLevel = level;
                     }
 
                     /* look for the run limit */
                     while (++i < limit && levels[i] == level) {}
 
-                    /* i is another run limit */
-                    runs[runIndex] = new BidiRun(start, i - start, level);
+                    /* i is bnother run limit */
+                    runs[runIndex] = new BidiRun(stbrt, i - stbrt, level);
                     ++runIndex;
                 } while (i < limit);
 
                 if (limit < length) {
-                    /* there is a separate WS run */
-                    runs[runIndex] = new BidiRun(limit, length - limit, bidiBase.paraLevel);
-                    /* For the trailing WS run, bidiBase.paraLevel is ok even
-                       if contextual multiple paragraphs.                   */
-                    if (bidiBase.paraLevel < minLevel) {
-                        minLevel = bidiBase.paraLevel;
+                    /* there is b sepbrbte WS run */
+                    runs[runIndex] = new BidiRun(limit, length - limit, bidiBbse.pbrbLevel);
+                    /* For the trbiling WS run, bidiBbse.pbrbLevel is ok even
+                       if contextubl multiple pbrbgrbphs.                   */
+                    if (bidiBbse.pbrbLevel < minLevel) {
+                        minLevel = bidiBbse.pbrbLevel;
                     }
                 }
 
                 /* set the object fields */
-                bidiBase.runs = runs;
-                bidiBase.runCount = runCount;
+                bidiBbse.runs = runs;
+                bidiBbse.runCount = runCount;
 
-                reorderLine(bidiBase, minLevel, maxLevel);
+                reorderLine(bidiBbse, minLevel, mbxLevel);
 
-                /* now add the direction flags and adjust the visualLimit's to be just that */
-                /* this loop will also handle the trailing WS run */
+                /* now bdd the direction flbgs bnd bdjust the visublLimit's to be just thbt */
+                /* this loop will blso hbndle the trbiling WS run */
                 limit = 0;
                 for (i = 0; i < runCount; ++i) {
-                    runs[i].level = levels[runs[i].start];
+                    runs[i].level = levels[runs[i].stbrt];
                     limit = (runs[i].limit += limit);
                 }
 
-                /* Set the embedding level for the trailing WS run. */
-                /* For a RTL paragraph, it will be the *first* run in visual order. */
-                /* For the trailing WS run, bidiBase.paraLevel is ok even if
-                   contextual multiple paragraphs.                          */
+                /* Set the embedding level for the trbiling WS run. */
+                /* For b RTL pbrbgrbph, it will be the *first* run in visubl order. */
+                /* For the trbiling WS run, bidiBbse.pbrbLevel is ok even if
+                   contextubl multiple pbrbgrbphs.                          */
                 if (runIndex < runCount) {
-                    int trailingRun = ((bidiBase.paraLevel & 1) != 0)? 0 : runIndex;
-                    runs[trailingRun].level = bidiBase.paraLevel;
+                    int trbilingRun = ((bidiBbse.pbrbLevel & 1) != 0)? 0 : runIndex;
+                    runs[trbilingRun].level = bidiBbse.pbrbLevel;
                 }
             }
         }
 
-        /* handle insert LRM/RLM BEFORE/AFTER run */
-        if (bidiBase.insertPoints.size > 0) {
-            BidiBase.Point point;
+        /* hbndle insert LRM/RLM BEFORE/AFTER run */
+        if (bidiBbse.insertPoints.size > 0) {
+            BidiBbse.Point point;
             int runIndex, ip;
-            for (ip = 0; ip < bidiBase.insertPoints.size; ip++) {
-                point = bidiBase.insertPoints.points[ip];
-                runIndex = getRunFromLogicalIndex(bidiBase, point.pos);
-                bidiBase.runs[runIndex].insertRemove |= point.flag;
+            for (ip = 0; ip < bidiBbse.insertPoints.size; ip++) {
+                point = bidiBbse.insertPoints.points[ip];
+                runIndex = getRunFromLogicblIndex(bidiBbse, point.pos);
+                bidiBbse.runs[runIndex].insertRemove |= point.flbg;
             }
         }
 
-        /* handle remove BiDi control characters */
-        if (bidiBase.controlCount > 0) {
+        /* hbndle remove BiDi control chbrbcters */
+        if (bidiBbse.controlCount > 0) {
             int runIndex, ic;
-            char c;
-            for (ic = 0; ic < bidiBase.length; ic++) {
-                c = bidiBase.text[ic];
-                if (BidiBase.IsBidiControlChar(c)) {
-                    runIndex = getRunFromLogicalIndex(bidiBase, ic);
-                    bidiBase.runs[runIndex].insertRemove--;
+            chbr c;
+            for (ic = 0; ic < bidiBbse.length; ic++) {
+                c = bidiBbse.text[ic];
+                if (BidiBbse.IsBidiControlChbr(c)) {
+                    runIndex = getRunFromLogicblIndex(bidiBbse, ic);
+                    bidiBbse.runs[runIndex].insertRemove--;
                 }
             }
         }
     }
 
-    static int[] prepareReorder(byte[] levels, byte[] pMinLevel, byte[] pMaxLevel)
+    stbtic int[] prepbreReorder(byte[] levels, byte[] pMinLevel, byte[] pMbxLevel)
     {
-        int start;
-        byte level, minLevel, maxLevel;
+        int stbrt;
+        byte level, minLevel, mbxLevel;
 
         if (levels == null || levels.length <= 0) {
             return null;
         }
 
-        /* determine minLevel and maxLevel */
-        minLevel = BidiBase.MAX_EXPLICIT_LEVEL + 1;
-        maxLevel = 0;
-        for (start = levels.length; start>0; ) {
-            level = levels[--start];
-            if (level > BidiBase.MAX_EXPLICIT_LEVEL + 1) {
+        /* determine minLevel bnd mbxLevel */
+        minLevel = BidiBbse.MAX_EXPLICIT_LEVEL + 1;
+        mbxLevel = 0;
+        for (stbrt = levels.length; stbrt>0; ) {
+            level = levels[--stbrt];
+            if (level > BidiBbse.MAX_EXPLICIT_LEVEL + 1) {
                 return null;
             }
             if (level < minLevel) {
                 minLevel = level;
             }
-            if (level > maxLevel) {
-                maxLevel = level;
+            if (level > mbxLevel) {
+                mbxLevel = level;
             }
         }
         pMinLevel[0] = minLevel;
-        pMaxLevel[0] = maxLevel;
+        pMbxLevel[0] = mbxLevel;
 
-        /* initialize the index map */
-        int[] indexMap = new int[levels.length];
-        for (start = levels.length; start > 0; ) {
-            --start;
-            indexMap[start] = start;
+        /* initiblize the index mbp */
+        int[] indexMbp = new int[levels.length];
+        for (stbrt = levels.length; stbrt > 0; ) {
+            --stbrt;
+            indexMbp[stbrt] = stbrt;
         }
 
-        return indexMap;
+        return indexMbp;
     }
 
-    static int[] reorderVisual(byte[] levels)
+    stbtic int[] reorderVisubl(byte[] levels)
     {
-        byte[] aMinLevel = new byte[1];
-        byte[] aMaxLevel = new byte[1];
-        int start, end, limit, temp;
-        byte minLevel, maxLevel;
+        byte[] bMinLevel = new byte[1];
+        byte[] bMbxLevel = new byte[1];
+        int stbrt, end, limit, temp;
+        byte minLevel, mbxLevel;
 
-        int[] indexMap = prepareReorder(levels, aMinLevel, aMaxLevel);
-        if (indexMap == null) {
+        int[] indexMbp = prepbreReorder(levels, bMinLevel, bMbxLevel);
+        if (indexMbp == null) {
             return null;
         }
 
-        minLevel = aMinLevel[0];
-        maxLevel = aMaxLevel[0];
+        minLevel = bMinLevel[0];
+        mbxLevel = bMbxLevel[0];
 
         /* nothing to do? */
-        if (minLevel == maxLevel && (minLevel & 1) == 0) {
-            return indexMap;
+        if (minLevel == mbxLevel && (minLevel & 1) == 0) {
+            return indexMbp;
         }
 
         /* reorder only down to the lowest odd level */
         minLevel |= 1;
 
-        /* loop maxLevel..minLevel */
+        /* loop mbxLevel..minLevel */
         do {
-            start = 0;
+            stbrt = 0;
 
-            /* loop for all sequences of levels to reorder at the current maxLevel */
+            /* loop for bll sequences of levels to reorder bt the current mbxLevel */
             for ( ; ; ) {
-                /* look for a sequence of levels that are all at >=maxLevel */
-                /* look for the first index of such a sequence */
-                while (start < levels.length && levels[start] < maxLevel) {
-                    ++start;
+                /* look for b sequence of levels thbt bre bll bt >=mbxLevel */
+                /* look for the first index of such b sequence */
+                while (stbrt < levels.length && levels[stbrt] < mbxLevel) {
+                    ++stbrt;
                 }
-                if (start >= levels.length) {
-                    break;  /* no more such runs */
+                if (stbrt >= levels.length) {
+                    brebk;  /* no more such runs */
                 }
 
-                /* look for the limit of such a sequence (the index behind it) */
-                for (limit = start; ++limit < levels.length && levels[limit] >= maxLevel; ) {}
+                /* look for the limit of such b sequence (the index behind it) */
+                for (limit = stbrt; ++limit < levels.length && levels[limit] >= mbxLevel; ) {}
 
                 /*
-                 * Swap the entire interval of indexes from start to limit-1.
-                 * We don't need to swap the levels for the purpose of this
-                 * algorithm: the sequence of levels that we look at does not
-                 * move anyway.
+                 * Swbp the entire intervbl of indexes from stbrt to limit-1.
+                 * We don't need to swbp the levels for the purpose of this
+                 * blgorithm: the sequence of levels thbt we look bt does not
+                 * move bnywby.
                  */
                 end = limit - 1;
-                while (start < end) {
-                    temp = indexMap[start];
-                    indexMap[start] = indexMap[end];
-                    indexMap[end] = temp;
+                while (stbrt < end) {
+                    temp = indexMbp[stbrt];
+                    indexMbp[stbrt] = indexMbp[end];
+                    indexMbp[end] = temp;
 
-                    ++start;
+                    ++stbrt;
                     --end;
                 }
 
                 if (limit == levels.length) {
-                    break;  /* no more such sequences */
+                    brebk;  /* no more such sequences */
                 } else {
-                    start = limit + 1;
+                    stbrt = limit + 1;
                 }
             }
-        } while (--maxLevel >= minLevel);
+        } while (--mbxLevel >= minLevel);
 
-        return indexMap;
+        return indexMbp;
     }
 
-    static int[] getVisualMap(BidiBase bidiBase)
+    stbtic int[] getVisublMbp(BidiBbse bidiBbse)
     {
-        /* fill a visual-to-logical index map using the runs[] */
-        BidiRun[] runs = bidiBase.runs;
-        int logicalStart, visualStart, visualLimit;
-        int allocLength = bidiBase.length > bidiBase.resultLength ? bidiBase.length
-                                                          : bidiBase.resultLength;
-        int[] indexMap = new int[allocLength];
+        /* fill b visubl-to-logicbl index mbp using the runs[] */
+        BidiRun[] runs = bidiBbse.runs;
+        int logicblStbrt, visublStbrt, visublLimit;
+        int bllocLength = bidiBbse.length > bidiBbse.resultLength ? bidiBbse.length
+                                                          : bidiBbse.resultLength;
+        int[] indexMbp = new int[bllocLength];
 
-        visualStart = 0;
+        visublStbrt = 0;
         int idx = 0;
-        for (int j = 0; j < bidiBase.runCount; ++j) {
-            logicalStart = runs[j].start;
-            visualLimit = runs[j].limit;
+        for (int j = 0; j < bidiBbse.runCount; ++j) {
+            logicblStbrt = runs[j].stbrt;
+            visublLimit = runs[j].limit;
             if (runs[j].isEvenRun()) {
                 do { /* LTR */
-                    indexMap[idx++] = logicalStart++;
-                } while (++visualStart < visualLimit);
+                    indexMbp[idx++] = logicblStbrt++;
+                } while (++visublStbrt < visublLimit);
             } else {
-                logicalStart += visualLimit - visualStart;  /* logicalLimit */
+                logicblStbrt += visublLimit - visublStbrt;  /* logicblLimit */
                 do { /* RTL */
-                    indexMap[idx++] = --logicalStart;
-                } while (++visualStart < visualLimit);
+                    indexMbp[idx++] = --logicblStbrt;
+                } while (++visublStbrt < visublLimit);
             }
-            /* visualStart==visualLimit; */
+            /* visublStbrt==visublLimit; */
         }
 
-        if (bidiBase.insertPoints.size > 0) {
-            int markFound = 0, runCount = bidiBase.runCount;
+        if (bidiBbse.insertPoints.size > 0) {
+            int mbrkFound = 0, runCount = bidiBbse.runCount;
             int insertRemove, i, j, k;
-            runs = bidiBase.runs;
-            /* count all inserted marks */
+            runs = bidiBbse.runs;
+            /* count bll inserted mbrks */
             for (i = 0; i < runCount; i++) {
                 insertRemove = runs[i].insertRemove;
-                if ((insertRemove & (BidiBase.LRM_BEFORE|BidiBase.RLM_BEFORE)) > 0) {
-                    markFound++;
+                if ((insertRemove & (BidiBbse.LRM_BEFORE|BidiBbse.RLM_BEFORE)) > 0) {
+                    mbrkFound++;
                 }
-                if ((insertRemove & (BidiBase.LRM_AFTER|BidiBase.RLM_AFTER)) > 0) {
-                    markFound++;
+                if ((insertRemove & (BidiBbse.LRM_AFTER|BidiBbse.RLM_AFTER)) > 0) {
+                    mbrkFound++;
                 }
             }
-            /* move back indexes by number of preceding marks */
-            k = bidiBase.resultLength;
-            for (i = runCount - 1; i >= 0 && markFound > 0; i--) {
+            /* move bbck indexes by number of preceding mbrks */
+            k = bidiBbse.resultLength;
+            for (i = runCount - 1; i >= 0 && mbrkFound > 0; i--) {
                 insertRemove = runs[i].insertRemove;
-                if ((insertRemove & (BidiBase.LRM_AFTER|BidiBase.RLM_AFTER)) > 0) {
-                    indexMap[--k] = BidiBase.MAP_NOWHERE;
-                    markFound--;
+                if ((insertRemove & (BidiBbse.LRM_AFTER|BidiBbse.RLM_AFTER)) > 0) {
+                    indexMbp[--k] = BidiBbse.MAP_NOWHERE;
+                    mbrkFound--;
                 }
-                visualStart = i > 0 ? runs[i-1].limit : 0;
-                for (j = runs[i].limit - 1; j >= visualStart && markFound > 0; j--) {
-                    indexMap[--k] = indexMap[j];
+                visublStbrt = i > 0 ? runs[i-1].limit : 0;
+                for (j = runs[i].limit - 1; j >= visublStbrt && mbrkFound > 0; j--) {
+                    indexMbp[--k] = indexMbp[j];
                 }
-                if ((insertRemove & (BidiBase.LRM_BEFORE|BidiBase.RLM_BEFORE)) > 0) {
-                    indexMap[--k] = BidiBase.MAP_NOWHERE;
-                    markFound--;
+                if ((insertRemove & (BidiBbse.LRM_BEFORE|BidiBbse.RLM_BEFORE)) > 0) {
+                    indexMbp[--k] = BidiBbse.MAP_NOWHERE;
+                    mbrkFound--;
                 }
             }
         }
-        else if (bidiBase.controlCount > 0) {
-            int runCount = bidiBase.runCount, logicalEnd;
+        else if (bidiBbse.controlCount > 0) {
+            int runCount = bidiBbse.runCount, logicblEnd;
             int insertRemove, length, i, j, k, m;
-            char uchar;
-            boolean evenRun;
-            runs = bidiBase.runs;
-            visualStart = 0;
-            /* move forward indexes by number of preceding controls */
+            chbr uchbr;
+            boolebn evenRun;
+            runs = bidiBbse.runs;
+            visublStbrt = 0;
+            /* move forwbrd indexes by number of preceding controls */
             k = 0;
-            for (i = 0; i < runCount; i++, visualStart += length) {
-                length = runs[i].limit - visualStart;
+            for (i = 0; i < runCount; i++, visublStbrt += length) {
+                length = runs[i].limit - visublStbrt;
                 insertRemove = runs[i].insertRemove;
                 /* if no control found yet, nothing to do in this run */
-                if ((insertRemove == 0) && (k == visualStart)) {
+                if ((insertRemove == 0) && (k == visublStbrt)) {
                     k += length;
                     continue;
                 }
                 /* if no control in this run */
                 if (insertRemove == 0) {
-                    visualLimit = runs[i].limit;
-                    for (j = visualStart; j < visualLimit; j++) {
-                        indexMap[k++] = indexMap[j];
+                    visublLimit = runs[i].limit;
+                    for (j = visublStbrt; j < visublLimit; j++) {
+                        indexMbp[k++] = indexMbp[j];
                     }
                     continue;
                 }
-                logicalStart = runs[i].start;
+                logicblStbrt = runs[i].stbrt;
                 evenRun = runs[i].isEvenRun();
-                logicalEnd = logicalStart + length - 1;
+                logicblEnd = logicblStbrt + length - 1;
                 for (j = 0; j < length; j++) {
-                    m = evenRun ? logicalStart + j : logicalEnd - j;
-                    uchar = bidiBase.text[m];
-                    if (!BidiBase.IsBidiControlChar(uchar)) {
-                        indexMap[k++] = m;
+                    m = evenRun ? logicblStbrt + j : logicblEnd - j;
+                    uchbr = bidiBbse.text[m];
+                    if (!BidiBbse.IsBidiControlChbr(uchbr)) {
+                        indexMbp[k++] = m;
                     }
                 }
             }
         }
-        if (allocLength == bidiBase.resultLength) {
-            return indexMap;
+        if (bllocLength == bidiBbse.resultLength) {
+            return indexMbp;
         }
-        int[] newMap = new int[bidiBase.resultLength];
-        System.arraycopy(indexMap, 0, newMap, 0, bidiBase.resultLength);
-        return newMap;
+        int[] newMbp = new int[bidiBbse.resultLength];
+        System.brrbycopy(indexMbp, 0, newMbp, 0, bidiBbse.resultLength);
+        return newMbp;
     }
 
 }

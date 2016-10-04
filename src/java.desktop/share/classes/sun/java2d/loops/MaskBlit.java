@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.Composite;
-import java.lang.ref.WeakReference;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Composite;
+import jbvb.lbng.ref.WebkReference;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.pipe.Region;
 
 /**
- * MaskBlit
- * 1) copies rectangle of pixels from one surface to another
- * 2) performs compositing of colors based upon a Composite
- *    parameter
- * 3) blends result of composite with destination using an
- *    alpha coverage mask
- * 4) the mask may be null in which case it should be treated
- *    as if it were an array of all opaque values (0xff)
+ * MbskBlit
+ * 1) copies rectbngle of pixels from one surfbce to bnother
+ * 2) performs compositing of colors bbsed upon b Composite
+ *    pbrbmeter
+ * 3) blends result of composite with destinbtion using bn
+ *    blphb coverbge mbsk
+ * 4) the mbsk mby be null in which cbse it should be trebted
+ *    bs if it were bn brrby of bll opbque vblues (0xff)
  *
- * precise behavior is undefined if the source surface
- * and the destination surface are the same surface
- * with overlapping regions of pixels
+ * precise behbvior is undefined if the source surfbce
+ * bnd the destinbtion surfbce bre the sbme surfbce
+ * with overlbpping regions of pixels
  */
 
-public class MaskBlit extends GraphicsPrimitive
+public clbss MbskBlit extends GrbphicsPrimitive
 {
-    public static final String methodSignature = "MaskBlit(...)".toString();
+    public stbtic finbl String methodSignbture = "MbskBlit(...)".toString();
 
-    public static final int primTypeID = makePrimTypeID();
+    public stbtic finbl int primTypeID = mbkePrimTypeID();
 
-    private static RenderCache blitcache = new RenderCache(20);
+    privbte stbtic RenderCbche blitcbche = new RenderCbche(20);
 
-    public static MaskBlit locate(SurfaceType srctype,
+    public stbtic MbskBlit locbte(SurfbceType srctype,
                                   CompositeType comptype,
-                                  SurfaceType dsttype)
+                                  SurfbceType dsttype)
     {
-        return (MaskBlit)
-            GraphicsPrimitiveMgr.locate(primTypeID,
+        return (MbskBlit)
+            GrbphicsPrimitiveMgr.locbte(primTypeID,
                                         srctype, comptype, dsttype);
     }
 
-    public static MaskBlit getFromCache(SurfaceType src,
+    public stbtic MbskBlit getFromCbche(SurfbceType src,
                                         CompositeType comp,
-                                        SurfaceType dst)
+                                        SurfbceType dst)
     {
-        Object o = blitcache.get(src, comp, dst);
+        Object o = blitcbche.get(src, comp, dst);
         if (o != null) {
-            return (MaskBlit) o;
+            return (MbskBlit) o;
         }
-        MaskBlit blit = locate(src, comp, dst);
+        MbskBlit blit = locbte(src, comp, dst);
         if (blit == null) {
-            System.out.println("mask blit loop not found for:");
+            System.out.println("mbsk blit loop not found for:");
             System.out.println("src:  "+src);
             System.out.println("comp: "+comp);
             System.out.println("dst:  "+dst);
         } else {
-            blitcache.put(src, comp, dst, blit);
+            blitcbche.put(src, comp, dst, blit);
         }
         return blit;
     }
 
-    protected MaskBlit(SurfaceType srctype,
+    protected MbskBlit(SurfbceType srctype,
                        CompositeType comptype,
-                       SurfaceType dsttype)
+                       SurfbceType dsttype)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
-    public MaskBlit(long pNativePrim,
-                    SurfaceType srctype,
+    public MbskBlit(long pNbtivePrim,
+                    SurfbceType srctype,
                     CompositeType comptype,
-                    SurfaceType dsttype)
+                    SurfbceType dsttype)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        super(pNbtivePrim, methodSignbture, primTypeID, srctype, comptype, dsttype);
     }
 
     /**
-     * All MaskBlit implementors must have this invoker method
+     * All MbskBlit implementors must hbve this invoker method
      */
-    public native void MaskBlit(SurfaceData src, SurfaceData dst,
+    public nbtive void MbskBlit(SurfbceDbtb src, SurfbceDbtb dst,
                                 Composite comp, Region clip,
                                 int srcx, int srcy,
                                 int dstx, int dsty,
                                 int width, int height,
-                                byte[] mask, int maskoff, int maskscan);
+                                byte[] mbsk, int mbskoff, int mbskscbn);
 
-    static {
-        GraphicsPrimitiveMgr.registerGeneral(new MaskBlit(null, null, null));
+    stbtic {
+        GrbphicsPrimitiveMgr.registerGenerbl(new MbskBlit(null, null, null));
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
+    public GrbphicsPrimitive mbkePrimitive(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype)
+                                           SurfbceType dsttype)
     {
         /*
-        new Throwable().printStackTrace();
-        System.out.println("Constructing general maskblit for:");
+        new Throwbble().printStbckTrbce();
+        System.out.println("Constructing generbl mbskblit for:");
         System.out.println("src:  "+srctype);
         System.out.println("comp: "+comptype);
         System.out.println("dst:  "+dsttype);
         */
 
-        if (CompositeType.Xor.equals(comptype)) {
-            throw new InternalError("Cannot construct MaskBlit for " +
+        if (CompositeType.Xor.equbls(comptype)) {
+            throw new InternblError("Cbnnot construct MbskBlit for " +
                                     "XOR mode");
         }
 
-        General ob = new General(srctype, comptype, dsttype);
-        setupGeneralBinaryOp(ob);
+        Generbl ob = new Generbl(srctype, comptype, dsttype);
+        setupGenerblBinbryOp(ob);
         return ob;
     }
 
-    private static class General
-        extends MaskBlit
-        implements GeneralBinaryOp
+    privbte stbtic clbss Generbl
+        extends MbskBlit
+        implements GenerblBinbryOp
     {
         Blit convertsrc;
         Blit convertdst;
-        MaskBlit performop;
+        MbskBlit performop;
         Blit convertresult;
 
-        WeakReference<SurfaceData> srcTmp;
-        WeakReference<SurfaceData> dstTmp;
+        WebkReference<SurfbceDbtb> srcTmp;
+        WebkReference<SurfbceDbtb> dstTmp;
 
-        public General(SurfaceType srctype,
+        public Generbl(SurfbceType srctype,
                        CompositeType comptype,
-                       SurfaceType dsttype)
+                       SurfbceType dsttype)
         {
             super(srctype, comptype, dsttype);
         }
 
         public void setPrimitives(Blit srcconverter,
                                   Blit dstconverter,
-                                  GraphicsPrimitive genericop,
+                                  GrbphicsPrimitive genericop,
                                   Blit resconverter)
         {
             this.convertsrc = srcconverter;
             this.convertdst = dstconverter;
-            this.performop = (MaskBlit) genericop;
+            this.performop = (MbskBlit) genericop;
             this.convertresult = resconverter;
         }
 
-        public synchronized void MaskBlit(SurfaceData srcData,
-                                          SurfaceData dstData,
+        public synchronized void MbskBlit(SurfbceDbtb srcDbtb,
+                                          SurfbceDbtb dstDbtb,
                                           Composite comp,
                                           Region clip,
                                           int srcx, int srcy,
                                           int dstx, int dsty,
                                           int width, int height,
-                                          byte mask[], int offset, int scan)
+                                          byte mbsk[], int offset, int scbn)
         {
-            SurfaceData src, dst;
+            SurfbceDbtb src, dst;
             Region opclip;
             int sx, sy, dx, dy;
 
             if (convertsrc == null) {
-                src = srcData;
+                src = srcDbtb;
                 sx = srcx;
                 sy = srcy;
             } else {
-                SurfaceData cachedSrc = null;
+                SurfbceDbtb cbchedSrc = null;
                 if (srcTmp != null) {
-                    cachedSrc = srcTmp.get();
+                    cbchedSrc = srcTmp.get();
                 }
-                src = convertFrom(convertsrc, srcData, srcx, srcy,
-                                  width, height, cachedSrc);
+                src = convertFrom(convertsrc, srcDbtb, srcx, srcy,
+                                  width, height, cbchedSrc);
                 sx = 0;
                 sy = 0;
-                if (src != cachedSrc) {
-                    srcTmp = new WeakReference<>(src);
+                if (src != cbchedSrc) {
+                    srcTmp = new WebkReference<>(src);
                 }
             }
 
             if (convertdst == null) {
-                dst = dstData;
+                dst = dstDbtb;
                 dx = dstx;
                 dy = dsty;
                 opclip = clip;
             } else {
-                // assert: convertresult != null
-                SurfaceData cachedDst = null;
+                // bssert: convertresult != null
+                SurfbceDbtb cbchedDst = null;
                 if (dstTmp != null) {
-                    cachedDst = dstTmp.get();
+                    cbchedDst = dstTmp.get();
                 }
-                dst = convertFrom(convertdst, dstData, dstx, dsty,
-                                  width, height, cachedDst);
+                dst = convertFrom(convertdst, dstDbtb, dstx, dsty,
+                                  width, height, cbchedDst);
                 dx = 0;
                 dy = 0;
                 opclip = null;
-                if (dst != cachedDst) {
-                    dstTmp = new WeakReference<>(dst);
+                if (dst != cbchedDst) {
+                    dstTmp = new WebkReference<>(dst);
                 }
             }
 
-            performop.MaskBlit(src, dst, comp, opclip,
+            performop.MbskBlit(src, dst, comp, opclip,
                                sx, sy, dx, dy, width, height,
-                               mask, offset, scan);
+                               mbsk, offset, scbn);
 
             if (convertresult != null) {
-                // assert: convertdst != null
-                convertTo(convertresult, dst, dstData, clip,
+                // bssert: convertdst != null
+                convertTo(convertresult, dst, dstDbtb, clip,
                           dstx, dsty, width, height);
             }
         }
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceMaskBlit(this);
+    public GrbphicsPrimitive trbceWrbp() {
+        return new TrbceMbskBlit(this);
     }
 
-    private static class TraceMaskBlit extends MaskBlit {
-        MaskBlit target;
+    privbte stbtic clbss TrbceMbskBlit extends MbskBlit {
+        MbskBlit tbrget;
 
-        public TraceMaskBlit(MaskBlit target) {
-            // We need to have the same NativePrim as our
-            // target in case we are used with a TransformHelper
-            super(target.getNativePrim(),
-                  target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        public TrbceMbskBlit(MbskBlit tbrget) {
+            // We need to hbve the sbme NbtivePrim bs our
+            // tbrget in cbse we bre used with b TrbnsformHelper
+            super(tbrget.getNbtivePrim(),
+                  tbrget.getSourceType(),
+                  tbrget.getCompositeType(),
+                  tbrget.getDestType());
+            this.tbrget = tbrget;
         }
 
-        public GraphicsPrimitive traceWrap() {
+        public GrbphicsPrimitive trbceWrbp() {
             return this;
         }
 
-        public void MaskBlit(SurfaceData src, SurfaceData dst,
+        public void MbskBlit(SurfbceDbtb src, SurfbceDbtb dst,
                              Composite comp, Region clip,
                              int srcx, int srcy, int dstx, int dsty,
                              int width, int height,
-                             byte[] mask, int maskoff, int maskscan)
+                             byte[] mbsk, int mbskoff, int mbskscbn)
         {
-            tracePrimitive(target);
-            target.MaskBlit(src, dst, comp, clip,
+            trbcePrimitive(tbrget);
+            tbrget.MbskBlit(src, dst, comp, clip,
                             srcx, srcy, dstx, dsty, width, height,
-                            mask, maskoff, maskscan);
+                            mbsk, mbskoff, mbskscbn);
         }
     }
 }

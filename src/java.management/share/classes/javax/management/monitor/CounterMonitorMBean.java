@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.monitor;
+pbckbge jbvbx.mbnbgement.monitor;
 
 // jmx imports
 //
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Exposes the remote management interface of the counter monitor MBean.
+ * Exposes the remote mbnbgement interfbce of the counter monitor MBebn.
  *
  *
  * @since 1.5
  */
-public interface CounterMonitorMBean extends MonitorMBean {
+public interfbce CounterMonitorMBebn extends MonitorMBebn {
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Gets the derived gauge.
+     * Gets the derived gbuge.
      *
-     * @return The derived gauge.
-     * @deprecated As of JMX 1.2, replaced by {@link #getDerivedGauge(ObjectName)}
+     * @return The derived gbuge.
+     * @deprecbted As of JMX 1.2, replbced by {@link #getDerivedGbuge(ObjectNbme)}
      */
-    @Deprecated
-    public Number getDerivedGauge();
+    @Deprecbted
+    public Number getDerivedGbuge();
 
     /**
-     * Gets the derived gauge timestamp.
+     * Gets the derived gbuge timestbmp.
      *
-     * @return The derived gauge timestamp.
-     * @deprecated As of JMX 1.2, replaced by {@link #getDerivedGaugeTimeStamp(ObjectName)}
+     * @return The derived gbuge timestbmp.
+     * @deprecbted As of JMX 1.2, replbced by {@link #getDerivedGbugeTimeStbmp(ObjectNbme)}
      */
-    @Deprecated
-    public long getDerivedGaugeTimeStamp();
+    @Deprecbted
+    public long getDerivedGbugeTimeStbmp();
 
     /**
-     * Gets the threshold value.
+     * Gets the threshold vblue.
      *
-     * @return The threshold value.
+     * @return The threshold vblue.
      *
      * @see #setThreshold(Number)
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #getThreshold(ObjectName)}
+     * @deprecbted As of JMX 1.2, replbced by {@link #getThreshold(ObjectNbme)}
      */
-    @Deprecated
+    @Deprecbted
     public Number getThreshold();
 
     /**
-     * Sets the threshold value.
+     * Sets the threshold vblue.
      *
      * @see #getThreshold()
      *
-     * @param value The threshold value.
-     * @exception java.lang.IllegalArgumentException The specified threshold is null or the threshold value is less than zero.
-     * @deprecated As of JMX 1.2, replaced by {@link #setInitThreshold}
+     * @pbrbm vblue The threshold vblue.
+     * @exception jbvb.lbng.IllegblArgumentException The specified threshold is null or the threshold vblue is less thbn zero.
+     * @deprecbted As of JMX 1.2, replbced by {@link #setInitThreshold}
      */
-    @Deprecated
-    public void setThreshold(Number value) throws java.lang.IllegalArgumentException;
+    @Deprecbted
+    public void setThreshold(Number vblue) throws jbvb.lbng.IllegblArgumentException;
 
     /**
-     * Gets the derived gauge for the specified MBean.
+     * Gets the derived gbuge for the specified MBebn.
      *
-     * @param object the MBean for which the derived gauge is to be returned
-     * @return The derived gauge for the specified MBean if this MBean is in the
-     *         set of observed MBeans, or <code>null</code> otherwise.
-     *
-     */
-    public Number getDerivedGauge(ObjectName object);
-
-    /**
-     * Gets the derived gauge timestamp for the specified MBean.
-     *
-     * @param object the MBean for which the derived gauge timestamp is to be returned
-     * @return The derived gauge timestamp for the specified MBean if this MBean
-     *         is in the set of observed MBeans, or <code>null</code> otherwise.
+     * @pbrbm object the MBebn for which the derived gbuge is to be returned
+     * @return The derived gbuge for the specified MBebn if this MBebn is in the
+     *         set of observed MBebns, or <code>null</code> otherwise.
      *
      */
-    public long getDerivedGaugeTimeStamp(ObjectName object);
+    public Number getDerivedGbuge(ObjectNbme object);
 
     /**
-     * Gets the threshold value for the specified MBean.
+     * Gets the derived gbuge timestbmp for the specified MBebn.
      *
-     * @param object the MBean for which the threshold value is to be returned
-     * @return The threshold value for the specified MBean if this MBean
-     *         is in the set of observed MBeans, or <code>null</code> otherwise.
+     * @pbrbm object the MBebn for which the derived gbuge timestbmp is to be returned
+     * @return The derived gbuge timestbmp for the specified MBebn if this MBebn
+     *         is in the set of observed MBebns, or <code>null</code> otherwise.
+     *
+     */
+    public long getDerivedGbugeTimeStbmp(ObjectNbme object);
+
+    /**
+     * Gets the threshold vblue for the specified MBebn.
+     *
+     * @pbrbm object the MBebn for which the threshold vblue is to be returned
+     * @return The threshold vblue for the specified MBebn if this MBebn
+     *         is in the set of observed MBebns, or <code>null</code> otherwise.
      *
      * @see #setThreshold
      *
      */
-    public Number getThreshold(ObjectName object);
+    public Number getThreshold(ObjectNbme object);
 
     /**
-     * Gets the initial threshold value common to all observed objects.
+     * Gets the initibl threshold vblue common to bll observed objects.
      *
-     * @return The initial threshold value.
+     * @return The initibl threshold vblue.
      *
      * @see #setInitThreshold
      *
@@ -125,92 +125,92 @@ public interface CounterMonitorMBean extends MonitorMBean {
     public Number getInitThreshold();
 
     /**
-     * Sets the initial threshold value common to all observed MBeans.
+     * Sets the initibl threshold vblue common to bll observed MBebns.
      *
-     * @param value The initial threshold value.
-     * @exception java.lang.IllegalArgumentException The specified
-     * threshold is null or the threshold value is less than zero.
+     * @pbrbm vblue The initibl threshold vblue.
+     * @exception jbvb.lbng.IllegblArgumentException The specified
+     * threshold is null or the threshold vblue is less thbn zero.
      *
      * @see #getInitThreshold
      *
      */
-    public void setInitThreshold(Number value) throws java.lang.IllegalArgumentException;
+    public void setInitThreshold(Number vblue) throws jbvb.lbng.IllegblArgumentException;
 
     /**
-     * Gets the offset value.
+     * Gets the offset vblue.
      *
      * @see #setOffset(Number)
      *
-     * @return The offset value.
+     * @return The offset vblue.
      */
     public Number getOffset();
 
     /**
-     * Sets the offset value.
+     * Sets the offset vblue.
      *
-     * @param value The offset value.
-     * @exception java.lang.IllegalArgumentException The specified
-     * offset is null or the offset value is less than zero.
+     * @pbrbm vblue The offset vblue.
+     * @exception jbvb.lbng.IllegblArgumentException The specified
+     * offset is null or the offset vblue is less thbn zero.
      *
      * @see #getOffset()
      */
-    public void setOffset(Number value) throws java.lang.IllegalArgumentException;
+    public void setOffset(Number vblue) throws jbvb.lbng.IllegblArgumentException;
 
     /**
-     * Gets the modulus value.
+     * Gets the modulus vblue.
      *
-     * @return The modulus value.
+     * @return The modulus vblue.
      *
      * @see #setModulus
      */
     public Number getModulus();
 
     /**
-     * Sets the modulus value.
+     * Sets the modulus vblue.
      *
-     * @param value The modulus value.
-     * @exception java.lang.IllegalArgumentException The specified
-     * modulus is null or the modulus value is less than zero.
+     * @pbrbm vblue The modulus vblue.
+     * @exception jbvb.lbng.IllegblArgumentException The specified
+     * modulus is null or the modulus vblue is less thbn zero.
      *
      * @see #getModulus
      */
-    public void setModulus(Number value) throws java.lang.IllegalArgumentException;
+    public void setModulus(Number vblue) throws jbvb.lbng.IllegblArgumentException;
 
     /**
-     * Gets the notification's on/off switch value.
+     * Gets the notificbtion's on/off switch vblue.
      *
      * @return <CODE>true</CODE> if the counter monitor notifies when
-     * exceeding the threshold, <CODE>false</CODE> otherwise.
+     * exceeding the threshold, <CODE>fblse</CODE> otherwise.
      *
      * @see #setNotify
      */
-    public boolean getNotify();
+    public boolebn getNotify();
 
     /**
-     * Sets the notification's on/off switch value.
+     * Sets the notificbtion's on/off switch vblue.
      *
-     * @param value The notification's on/off switch value.
+     * @pbrbm vblue The notificbtion's on/off switch vblue.
      *
      * @see #getNotify
      */
-    public void setNotify(boolean value);
+    public void setNotify(boolebn vblue);
 
     /**
-     * Gets the difference mode flag value.
+     * Gets the difference mode flbg vblue.
      *
      * @return <CODE>true</CODE> if the difference mode is used,
-     * <CODE>false</CODE> otherwise.
+     * <CODE>fblse</CODE> otherwise.
      *
      * @see #setDifferenceMode
      */
-    public boolean getDifferenceMode();
+    public boolebn getDifferenceMode();
 
     /**
-     * Sets the difference mode flag value.
+     * Sets the difference mode flbg vblue.
      *
-     * @param value The difference mode flag value.
+     * @pbrbm vblue The difference mode flbg vblue.
      *
      * @see #getDifferenceMode
      */
-    public void setDifferenceMode(boolean value);
+    public void setDifferenceMode(boolebn vblue);
 }

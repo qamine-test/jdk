@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.Image;
-import java.awt.Graphics2D;
-import java.awt.Transparency;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Trbnspbrency;
 
-import java.awt.color.ColorSpace;
+import jbvb.bwt.color.ColorSpbce;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.FlavorTable;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.FlbvorTbble;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.UnsupportedFlbvorException;
 
-import java.awt.geom.AffineTransform;
+import jbvb.bwt.geom.AffineTrbnsform;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.ImageObserver;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.ComponentColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.io.File;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.BufferedRebder;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.io.File;
 
-import java.net.URL;
+import jbvb.net.URL;
 
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.SortedMbp;
 
-import sun.awt.Mutex;
-import sun.awt.datatransfer.DataTransferer;
-import sun.awt.datatransfer.ToolkitThreadBlockedHandler;
+import sun.bwt.Mutex;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
+import sun.bwt.dbtbtrbnsfer.ToolkitThrebdBlockedHbndler;
 
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.ToolkitImage;
+import sun.bwt.imbge.ImbgeRepresentbtion;
+import sun.bwt.imbge.ToolkitImbge;
 
-import java.util.ArrayList;
+import jbvb.util.ArrbyList;
 
-import java.io.ByteArrayOutputStream;
+import jbvb.io.ByteArrbyOutputStrebm;
 
 /**
- * Platform-specific support for the data transfer subsystem.
+ * Plbtform-specific support for the dbtb trbnsfer subsystem.
  *
- * @author David Mendenhall
- * @author Danila Sinopalnikov
+ * @buthor Dbvid Mendenhbll
+ * @buthor Dbnilb Sinopblnikov
  *
  * @since 1.3.1
  */
-final class WDataTransferer extends DataTransferer {
-    private static final String[] predefinedClipboardNames = {
+finbl clbss WDbtbTrbnsferer extends DbtbTrbnsferer {
+    privbte stbtic finbl String[] predefinedClipbobrdNbmes = {
             "",
             "TEXT",
             "BITMAP",
@@ -107,433 +107,433 @@ final class WDataTransferer extends DataTransferer {
             "DIBV5"
     };
 
-    private static final Map <String, Long> predefinedClipboardNameMap;
-    static {
-        Map <String,Long> tempMap =
-                new HashMap <> (predefinedClipboardNames.length, 1.0f);
-        for (int i = 1; i < predefinedClipboardNames.length; i++) {
-            tempMap.put(predefinedClipboardNames[i], Long.valueOf(i));
+    privbte stbtic finbl Mbp <String, Long> predefinedClipbobrdNbmeMbp;
+    stbtic {
+        Mbp <String,Long> tempMbp =
+                new HbshMbp <> (predefinedClipbobrdNbmes.length, 1.0f);
+        for (int i = 1; i < predefinedClipbobrdNbmes.length; i++) {
+            tempMbp.put(predefinedClipbobrdNbmes[i], Long.vblueOf(i));
         }
-        predefinedClipboardNameMap =
-                Collections.synchronizedMap(tempMap);
+        predefinedClipbobrdNbmeMbp =
+                Collections.synchronizedMbp(tempMbp);
     }
 
     /**
      * from winuser.h
      */
-    public static final int CF_TEXT = 1;
-    public static final int CF_METAFILEPICT = 3;
-    public static final int CF_DIB = 8;
-    public static final int CF_ENHMETAFILE = 14;
-    public static final int CF_HDROP = 15;
-    public static final int CF_LOCALE = 16;
+    public stbtic finbl int CF_TEXT = 1;
+    public stbtic finbl int CF_METAFILEPICT = 3;
+    public stbtic finbl int CF_DIB = 8;
+    public stbtic finbl int CF_ENHMETAFILE = 14;
+    public stbtic finbl int CF_HDROP = 15;
+    public stbtic finbl int CF_LOCALE = 16;
 
-    public static final long CF_HTML = registerClipboardFormat("HTML Format");
-    public static final long CFSTR_INETURL = registerClipboardFormat("UniformResourceLocator");
-    public static final long CF_PNG = registerClipboardFormat("PNG");
-    public static final long CF_JFIF = registerClipboardFormat("JFIF");
+    public stbtic finbl long CF_HTML = registerClipbobrdFormbt("HTML Formbt");
+    public stbtic finbl long CFSTR_INETURL = registerClipbobrdFormbt("UniformResourceLocbtor");
+    public stbtic finbl long CF_PNG = registerClipbobrdFormbt("PNG");
+    public stbtic finbl long CF_JFIF = registerClipbobrdFormbt("JFIF");
 
-    public static final long CF_FILEGROUPDESCRIPTORW = registerClipboardFormat("FileGroupDescriptorW");
-    public static final long CF_FILEGROUPDESCRIPTORA = registerClipboardFormat("FileGroupDescriptor");
-    //CF_FILECONTENTS supported as mandatory associated clipboard
+    public stbtic finbl long CF_FILEGROUPDESCRIPTORW = registerClipbobrdFormbt("FileGroupDescriptorW");
+    public stbtic finbl long CF_FILEGROUPDESCRIPTORA = registerClipbobrdFormbt("FileGroupDescriptor");
+    //CF_FILECONTENTS supported bs mbndbtory bssocibted clipbobrd
 
-    private static final Long L_CF_LOCALE =
-            predefinedClipboardNameMap.get(predefinedClipboardNames[CF_LOCALE]);
+    privbte stbtic finbl Long L_CF_LOCALE =
+            predefinedClipbobrdNbmeMbp.get(predefinedClipbobrdNbmes[CF_LOCALE]);
 
-    private static final DirectColorModel directColorModel =
+    privbte stbtic finbl DirectColorModel directColorModel =
             new DirectColorModel(24,
-                    0x00FF0000,  /* red mask   */
-                    0x0000FF00,  /* green mask */
-                    0x000000FF); /* blue mask  */
+                    0x00FF0000,  /* red mbsk   */
+                    0x0000FF00,  /* green mbsk */
+                    0x000000FF); /* blue mbsk  */
 
-    private static final int[] bandmasks = new int[] {
-            directColorModel.getRedMask(),
-            directColorModel.getGreenMask(),
-            directColorModel.getBlueMask() };
+    privbte stbtic finbl int[] bbndmbsks = new int[] {
+            directColorModel.getRedMbsk(),
+            directColorModel.getGreenMbsk(),
+            directColorModel.getBlueMbsk() };
 
     /**
      * Singleton constructor
      */
-    private WDataTransferer() {
+    privbte WDbtbTrbnsferer() {
     }
 
-    private static WDataTransferer transferer;
+    privbte stbtic WDbtbTrbnsferer trbnsferer;
 
-    static synchronized WDataTransferer getInstanceImpl() {
-        if (transferer == null) {
-            transferer = new WDataTransferer();
+    stbtic synchronized WDbtbTrbnsferer getInstbnceImpl() {
+        if (trbnsferer == null) {
+            trbnsferer = new WDbtbTrbnsferer();
         }
-        return transferer;
+        return trbnsferer;
     }
 
     @Override
-    public SortedMap <Long, DataFlavor> getFormatsForFlavors(
-            DataFlavor[] flavors, FlavorTable map)
+    public SortedMbp <Long, DbtbFlbvor> getFormbtsForFlbvors(
+            DbtbFlbvor[] flbvors, FlbvorTbble mbp)
     {
-        SortedMap <Long, DataFlavor> retval =
-                super.getFormatsForFlavors(flavors, map);
+        SortedMbp <Long, DbtbFlbvor> retvbl =
+                super.getFormbtsForFlbvors(flbvors, mbp);
 
-        // The Win32 native code does not support exporting LOCALE data, nor
+        // The Win32 nbtive code does not support exporting LOCALE dbtb, nor
         // should it.
-        retval.remove(L_CF_LOCALE);
+        retvbl.remove(L_CF_LOCALE);
 
-        return retval;
+        return retvbl;
     }
 
     @Override
-    public String getDefaultUnicodeEncoding() {
+    public String getDefbultUnicodeEncoding() {
         return "utf-16le";
     }
 
     @Override
-    public byte[] translateTransferable(Transferable contents,
-                                        DataFlavor flavor,
-                                        long format) throws IOException
+    public byte[] trbnslbteTrbnsferbble(Trbnsferbble contents,
+                                        DbtbFlbvor flbvor,
+                                        long formbt) throws IOException
     {
         byte[] bytes = null;
-        if (format == CF_HTML) {
-            if (contents.isDataFlavorSupported(DataFlavor.selectionHtmlFlavor)) {
-                // if a user provides data represented by
-                // DataFlavor.selectionHtmlFlavor format, we use this
-                // type to store the data in the native clipboard
-                bytes = super.translateTransferable(contents,
-                        DataFlavor.selectionHtmlFlavor,
-                        format);
-            } else if (contents.isDataFlavorSupported(DataFlavor.allHtmlFlavor)) {
-                // if we cannot get data represented by the
-                // DataFlavor.selectionHtmlFlavor format
-                // but the DataFlavor.allHtmlFlavor format is avialable
-                // we belive that the user knows how to represent
-                // the data and how to mark up selection in a
-                // system specific manner. Therefor, we use this data
-                bytes = super.translateTransferable(contents,
-                        DataFlavor.allHtmlFlavor,
-                        format);
+        if (formbt == CF_HTML) {
+            if (contents.isDbtbFlbvorSupported(DbtbFlbvor.selectionHtmlFlbvor)) {
+                // if b user provides dbtb represented by
+                // DbtbFlbvor.selectionHtmlFlbvor formbt, we use this
+                // type to store the dbtb in the nbtive clipbobrd
+                bytes = super.trbnslbteTrbnsferbble(contents,
+                        DbtbFlbvor.selectionHtmlFlbvor,
+                        formbt);
+            } else if (contents.isDbtbFlbvorSupported(DbtbFlbvor.bllHtmlFlbvor)) {
+                // if we cbnnot get dbtb represented by the
+                // DbtbFlbvor.selectionHtmlFlbvor formbt
+                // but the DbtbFlbvor.bllHtmlFlbvor formbt is bviblbble
+                // we belive thbt the user knows how to represent
+                // the dbtb bnd how to mbrk up selection in b
+                // system specific mbnner. Therefor, we use this dbtb
+                bytes = super.trbnslbteTrbnsferbble(contents,
+                        DbtbFlbvor.bllHtmlFlbvor,
+                        formbt);
             } else {
-                // handle other html flavor types, including custom and
-                // fragment ones
-                bytes = HTMLCodec.convertToHTMLFormat(super.translateTransferable(contents, flavor, format));
+                // hbndle other html flbvor types, including custom bnd
+                // frbgment ones
+                bytes = HTMLCodec.convertToHTMLFormbt(super.trbnslbteTrbnsferbble(contents, flbvor, formbt));
             }
         } else {
-            // we handle non-html types basing on  their
-            // flavors
-            bytes = super.translateTransferable(contents, flavor, format);
+            // we hbndle non-html types bbsing on  their
+            // flbvors
+            bytes = super.trbnslbteTrbnsferbble(contents, flbvor, formbt);
         }
         return bytes;
     }
 
-    // The stream is closed as a closable object
+    // The strebm is closed bs b closbble object
     @Override
-    public Object translateStream(InputStream str,
-                                 DataFlavor flavor, long format,
-                                 Transferable localeTransferable)
+    public Object trbnslbteStrebm(InputStrebm str,
+                                 DbtbFlbvor flbvor, long formbt,
+                                 Trbnsferbble locbleTrbnsferbble)
         throws IOException
     {
-        if (format == CF_HTML && flavor.isFlavorTextType()) {
+        if (formbt == CF_HTML && flbvor.isFlbvorTextType()) {
             str = new HTMLCodec(str,
-                                 EHTMLReadMode.getEHTMLReadMode(flavor));
+                                 EHTMLRebdMode.getEHTMLRebdMode(flbvor));
 
         }
-        return super.translateStream(str, flavor, format,
-                                        localeTransferable);
+        return super.trbnslbteStrebm(str, flbvor, formbt,
+                                        locbleTrbnsferbble);
 
     }
 
     @Override
-    public Object translateBytes(byte[] bytes, DataFlavor flavor, long format,
-        Transferable localeTransferable) throws IOException
+    public Object trbnslbteBytes(byte[] bytes, DbtbFlbvor flbvor, long formbt,
+        Trbnsferbble locbleTrbnsferbble) throws IOException
     {
 
 
-        if (format == CF_FILEGROUPDESCRIPTORA || format == CF_FILEGROUPDESCRIPTORW) {
-            if (bytes == null || !DataFlavor.javaFileListFlavor.equals(flavor)) {
-                throw new IOException("data translation failed");
+        if (formbt == CF_FILEGROUPDESCRIPTORA || formbt == CF_FILEGROUPDESCRIPTORW) {
+            if (bytes == null || !DbtbFlbvor.jbvbFileListFlbvor.equbls(flbvor)) {
+                throw new IOException("dbtb trbnslbtion fbiled");
             }
             String st = new String(bytes, 0, bytes.length, "UTF-16LE");
-            String[] filenames = st.split("\0");
-            if( 0 == filenames.length ){
+            String[] filenbmes = st.split("\0");
+            if( 0 == filenbmes.length ){
                 return null;
             }
 
             // Convert the strings to File objects
-            File[] files = new File[filenames.length];
-            for (int i = 0; i < filenames.length; ++i) {
-                files[i] = new File(filenames[i]);
-                //They are temp-files from memory Stream, so they have to be removed on exit
+            File[] files = new File[filenbmes.length];
+            for (int i = 0; i < filenbmes.length; ++i) {
+                files[i] = new File(filenbmes[i]);
+                //They bre temp-files from memory Strebm, so they hbve to be removed on exit
                 files[i].deleteOnExit();
             }
-            // Turn the list of Files into a List and return
-            return Arrays.asList(files);
+            // Turn the list of Files into b List bnd return
+            return Arrbys.bsList(files);
         }
 
-        if (format == CFSTR_INETURL &&
-                URL.class.equals(flavor.getRepresentationClass()))
+        if (formbt == CFSTR_INETURL &&
+                URL.clbss.equbls(flbvor.getRepresentbtionClbss()))
         {
-            String charset = Charset.defaultCharset().name();
-            if (localeTransferable != null
-                    && localeTransferable.isDataFlavorSupported(javaTextEncodingFlavor))
+            String chbrset = Chbrset.defbultChbrset().nbme();
+            if (locbleTrbnsferbble != null
+                    && locbleTrbnsferbble.isDbtbFlbvorSupported(jbvbTextEncodingFlbvor))
             {
                 try {
-                    charset = new String((byte[])localeTransferable.
-                        getTransferData(javaTextEncodingFlavor), "UTF-8");
-                } catch (UnsupportedFlavorException cannotHappen) {
+                    chbrset = new String((byte[])locbleTrbnsferbble.
+                        getTrbnsferDbtb(jbvbTextEncodingFlbvor), "UTF-8");
+                } cbtch (UnsupportedFlbvorException cbnnotHbppen) {
                 }
             }
-            return new URL(new String(bytes, charset));
+            return new URL(new String(bytes, chbrset));
         }
 
-        return super.translateBytes(bytes , flavor, format,
-                                        localeTransferable);
+        return super.trbnslbteBytes(bytes , flbvor, formbt,
+                                        locbleTrbnsferbble);
 
     }
 
     @Override
-    public boolean isLocaleDependentTextFormat(long format) {
-        return format == CF_TEXT || format == CFSTR_INETURL;
+    public boolebn isLocbleDependentTextFormbt(long formbt) {
+        return formbt == CF_TEXT || formbt == CFSTR_INETURL;
     }
 
     @Override
-    public boolean isFileFormat(long format) {
-        return format == CF_HDROP || format == CF_FILEGROUPDESCRIPTORA || format == CF_FILEGROUPDESCRIPTORW;
+    public boolebn isFileFormbt(long formbt) {
+        return formbt == CF_HDROP || formbt == CF_FILEGROUPDESCRIPTORA || formbt == CF_FILEGROUPDESCRIPTORW;
     }
 
     @Override
-    protected Long getFormatForNativeAsLong(String str) {
-        Long format = predefinedClipboardNameMap.get(str);
-        if (format == null) {
-            format = Long.valueOf(registerClipboardFormat(str));
+    protected Long getFormbtForNbtiveAsLong(String str) {
+        Long formbt = predefinedClipbobrdNbmeMbp.get(str);
+        if (formbt == null) {
+            formbt = Long.vblueOf(registerClipbobrdFormbt(str));
         }
-        return format;
+        return formbt;
     }
 
     @Override
-    protected String getNativeForFormat(long format) {
-        return (format < predefinedClipboardNames.length)
-                ? predefinedClipboardNames[(int)format]
-                : getClipboardFormatName(format);
+    protected String getNbtiveForFormbt(long formbt) {
+        return (formbt < predefinedClipbobrdNbmes.length)
+                ? predefinedClipbobrdNbmes[(int)formbt]
+                : getClipbobrdFormbtNbme(formbt);
     }
 
-    private final ToolkitThreadBlockedHandler handler =
-            new WToolkitThreadBlockedHandler();
+    privbte finbl ToolkitThrebdBlockedHbndler hbndler =
+            new WToolkitThrebdBlockedHbndler();
 
     @Override
-    public ToolkitThreadBlockedHandler getToolkitThreadBlockedHandler() {
-        return handler;
+    public ToolkitThrebdBlockedHbndler getToolkitThrebdBlockedHbndler() {
+        return hbndler;
     }
 
     /**
-     * Calls the Win32 RegisterClipboardFormat function to register
-     * a non-standard format.
+     * Cblls the Win32 RegisterClipbobrdFormbt function to register
+     * b non-stbndbrd formbt.
      */
-    private static native long registerClipboardFormat(String str);
+    privbte stbtic nbtive long registerClipbobrdFormbt(String str);
 
     /**
-     * Calls the Win32 GetClipboardFormatName function which is
-     * the reverse operation of RegisterClipboardFormat.
+     * Cblls the Win32 GetClipbobrdFormbtNbme function which is
+     * the reverse operbtion of RegisterClipbobrdFormbt.
      */
-    private static native String getClipboardFormatName(long format);
+    privbte stbtic nbtive String getClipbobrdFormbtNbme(long formbt);
 
     @Override
-    public boolean isImageFormat(long format) {
-        return format == CF_DIB || format == CF_ENHMETAFILE ||
-                format == CF_METAFILEPICT || format == CF_PNG ||
-                format == CF_JFIF;
+    public boolebn isImbgeFormbt(long formbt) {
+        return formbt == CF_DIB || formbt == CF_ENHMETAFILE ||
+                formbt == CF_METAFILEPICT || formbt == CF_PNG ||
+                formbt == CF_JFIF;
     }
 
     @Override
-    protected byte[] imageToPlatformBytes(Image image, long format)
+    protected byte[] imbgeToPlbtformBytes(Imbge imbge, long formbt)
             throws IOException {
         String mimeType = null;
-        if (format == CF_PNG) {
-            mimeType = "image/png";
-        } else if (format == CF_JFIF) {
-            mimeType = "image/jpeg";
+        if (formbt == CF_PNG) {
+            mimeType = "imbge/png";
+        } else if (formbt == CF_JFIF) {
+            mimeType = "imbge/jpeg";
         }
         if (mimeType != null) {
-            return imageToStandardBytes(image, mimeType);
+            return imbgeToStbndbrdBytes(imbge, mimeType);
         }
 
         int width = 0;
         int height = 0;
 
-        if (image instanceof ToolkitImage) {
-            ImageRepresentation ir = ((ToolkitImage)image).getImageRep();
-            ir.reconstruct(ImageObserver.ALLBITS);
+        if (imbge instbnceof ToolkitImbge) {
+            ImbgeRepresentbtion ir = ((ToolkitImbge)imbge).getImbgeRep();
+            ir.reconstruct(ImbgeObserver.ALLBITS);
             width = ir.getWidth();
             height = ir.getHeight();
         } else {
-            width = image.getWidth(null);
-            height = image.getHeight(null);
+            width = imbge.getWidth(null);
+            height = imbge.getHeight(null);
         }
 
         // Fix for 4919639.
-        // Some Windows native applications (e.g. clipbrd.exe) do not handle
+        // Some Windows nbtive bpplicbtions (e.g. clipbrd.exe) do not hbndle
         // 32-bpp DIBs correctly.
-        // As a workaround we switched to 24-bpp DIBs.
-        // MSDN prescribes that the bitmap array for a 24-bpp should consist of
-        // 3-byte triplets representing blue, green and red components of a
-        // pixel respectively. Additionally each scan line must be padded with
-        // zeroes to end on a LONG data-type boundary. LONG is always 32-bit.
-        // We render the given Image to a BufferedImage of type TYPE_3BYTE_BGR
-        // with non-default scanline stride and pass the resulting data buffer
-        // to the native code to fill the BITMAPINFO structure.
+        // As b workbround we switched to 24-bpp DIBs.
+        // MSDN prescribes thbt the bitmbp brrby for b 24-bpp should consist of
+        // 3-byte triplets representing blue, green bnd red components of b
+        // pixel respectively. Additionblly ebch scbn line must be pbdded with
+        // zeroes to end on b LONG dbtb-type boundbry. LONG is blwbys 32-bit.
+        // We render the given Imbge to b BufferedImbge of type TYPE_3BYTE_BGR
+        // with non-defbult scbnline stride bnd pbss the resulting dbtb buffer
+        // to the nbtive code to fill the BITMAPINFO structure.
         int mod = (width * 3) % 4;
-        int pad = mod > 0 ? 4 - mod : 0;
+        int pbd = mod > 0 ? 4 - mod : 0;
 
-        ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+        ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
         int[] nBits = {8, 8, 8};
         int[] bOffs = {2, 1, 0};
         ColorModel colorModel =
-                new ComponentColorModel(cs, nBits, false, false,
-                        Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-        WritableRaster raster =
-                Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, width, height,
-                        width * 3 + pad, 3, bOffs, null);
+                new ComponentColorModel(cs, nBits, fblse, fblse,
+                        Trbnspbrency.OPAQUE, DbtbBuffer.TYPE_BYTE);
+        WritbbleRbster rbster =
+                Rbster.crebteInterlebvedRbster(DbtbBuffer.TYPE_BYTE, width, height,
+                        width * 3 + pbd, 3, bOffs, null);
 
-        BufferedImage bimage = new BufferedImage(colorModel, raster, false, null);
+        BufferedImbge bimbge = new BufferedImbge(colorModel, rbster, fblse, null);
 
-        // Some Windows native applications (e.g. clipbrd.exe) do not understand
+        // Some Windows nbtive bpplicbtions (e.g. clipbrd.exe) do not understbnd
         // top-down DIBs.
-        // So we flip the image vertically and create a bottom-up DIB.
-        AffineTransform imageFlipTransform =
-                new AffineTransform(1, 0, 0, -1, 0, height);
+        // So we flip the imbge verticblly bnd crebte b bottom-up DIB.
+        AffineTrbnsform imbgeFlipTrbnsform =
+                new AffineTrbnsform(1, 0, 0, -1, 0, height);
 
-        Graphics2D g2d = bimage.createGraphics();
+        Grbphics2D g2d = bimbge.crebteGrbphics();
 
         try {
-            g2d.drawImage(image, imageFlipTransform, null);
-        } finally {
+            g2d.drbwImbge(imbge, imbgeFlipTrbnsform, null);
+        } finblly {
             g2d.dispose();
         }
 
-        DataBufferByte buffer = (DataBufferByte)raster.getDataBuffer();
+        DbtbBufferByte buffer = (DbtbBufferByte)rbster.getDbtbBuffer();
 
-        byte[] imageData = buffer.getData();
-        return imageDataToPlatformImageBytes(imageData, width, height, format);
+        byte[] imbgeDbtb = buffer.getDbtb();
+        return imbgeDbtbToPlbtformImbgeBytes(imbgeDbtb, width, height, formbt);
     }
 
-    private static final byte [] UNICODE_NULL_TERMINATOR =  new byte [] {0,0};
+    privbte stbtic finbl byte [] UNICODE_NULL_TERMINATOR =  new byte [] {0,0};
 
     @Override
-    protected ByteArrayOutputStream convertFileListToBytes(ArrayList<String> fileList)
+    protected ByteArrbyOutputStrebm convertFileListToBytes(ArrbyList<String> fileList)
             throws IOException
     {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm();
 
         if(fileList.isEmpty()) {
-            //store empty unicode string (null terminator)
+            //store empty unicode string (null terminbtor)
             bos.write(UNICODE_NULL_TERMINATOR);
         } else {
             for (int i = 0; i < fileList.size(); i++) {
-                byte[] bytes = fileList.get(i).getBytes(getDefaultUnicodeEncoding());
-                //store unicode string with null terminator
+                byte[] bytes = fileList.get(i).getBytes(getDefbultUnicodeEncoding());
+                //store unicode string with null terminbtor
                 bos.write(bytes, 0, bytes.length);
                 bos.write(UNICODE_NULL_TERMINATOR);
             }
         }
 
-        // According to MSDN the byte array have to be double NULL-terminated.
-        // The array contains Unicode characters, so each NULL-terminator is
-        // a pair of bytes
+        // According to MSDN the byte brrby hbve to be double NULL-terminbted.
+        // The brrby contbins Unicode chbrbcters, so ebch NULL-terminbtor is
+        // b pbir of bytes
 
         bos.write(UNICODE_NULL_TERMINATOR);
         return bos;
     }
 
     /**
-     * Returns a byte array which contains data special for the given format
-     * and for the given image data.
+     * Returns b byte brrby which contbins dbtb specibl for the given formbt
+     * bnd for the given imbge dbtb.
      */
-    private native byte[] imageDataToPlatformImageBytes(byte[] imageData,
+    privbte nbtive byte[] imbgeDbtbToPlbtformImbgeBytes(byte[] imbgeDbtb,
                                                         int width, int height,
-                                                        long format);
+                                                        long formbt);
 
     /**
-     * Translates either a byte array or an input stream which contain
-     * platform-specific image data in the given format into an Image.
+     * Trbnslbtes either b byte brrby or bn input strebm which contbin
+     * plbtform-specific imbge dbtb in the given formbt into bn Imbge.
      */
     @Override
-    protected Image platformImageBytesToImage(byte[] bytes, long format)
+    protected Imbge plbtformImbgeBytesToImbge(byte[] bytes, long formbt)
             throws IOException {
         String mimeType = null;
-        if (format == CF_PNG) {
-            mimeType = "image/png";
-        } else if (format == CF_JFIF) {
-            mimeType = "image/jpeg";
+        if (formbt == CF_PNG) {
+            mimeType = "imbge/png";
+        } else if (formbt == CF_JFIF) {
+            mimeType = "imbge/jpeg";
         }
         if (mimeType != null) {
-            return standardImageBytesToImage(bytes, mimeType);
+            return stbndbrdImbgeBytesToImbge(bytes, mimeType);
         }
 
-        int[] imageData = platformImageBytesToImageData(bytes, format);
-        if (imageData == null) {
-            throw new IOException("data translation failed");
+        int[] imbgeDbtb = plbtformImbgeBytesToImbgeDbtb(bytes, formbt);
+        if (imbgeDbtb == null) {
+            throw new IOException("dbtb trbnslbtion fbiled");
         }
 
-        int len = imageData.length - 2;
-        int width = imageData[len];
-        int height = imageData[len + 1];
+        int len = imbgeDbtb.length - 2;
+        int width = imbgeDbtb[len];
+        int height = imbgeDbtb[len + 1];
 
-        DataBufferInt buffer = new DataBufferInt(imageData, len);
-        WritableRaster raster = Raster.createPackedRaster(buffer, width,
+        DbtbBufferInt buffer = new DbtbBufferInt(imbgeDbtb, len);
+        WritbbleRbster rbster = Rbster.crebtePbckedRbster(buffer, width,
                 height, width,
-                bandmasks, null);
+                bbndmbsks, null);
 
-        return new BufferedImage(directColorModel, raster, false, null);
+        return new BufferedImbge(directColorModel, rbster, fblse, null);
     }
 
     /**
-     * Translates a byte array which contains platform-specific image data in
-     * the given format into an integer array which contains pixel values in
-     * ARGB format. The two last elements in the array specify width and
-     * height of the image respectively.
+     * Trbnslbtes b byte brrby which contbins plbtform-specific imbge dbtb in
+     * the given formbt into bn integer brrby which contbins pixel vblues in
+     * ARGB formbt. The two lbst elements in the brrby specify width bnd
+     * height of the imbge respectively.
      */
-    private native int[] platformImageBytesToImageData(byte[] bytes,
-                                                       long format)
+    privbte nbtive int[] plbtformImbgeBytesToImbgeDbtb(byte[] bytes,
+                                                       long formbt)
             throws IOException;
 
     @Override
-    protected native String[] dragQueryFile(byte[] bytes);
+    protected nbtive String[] drbgQueryFile(byte[] bytes);
 }
 
-final class WToolkitThreadBlockedHandler extends Mutex
-        implements ToolkitThreadBlockedHandler {
+finbl clbss WToolkitThrebdBlockedHbndler extends Mutex
+        implements ToolkitThrebdBlockedHbndler {
 
     @Override
     public void enter() {
         if (!isOwned()) {
-            throw new IllegalMonitorStateException();
+            throw new IllegblMonitorStbteException();
         }
         unlock();
-        startSecondaryEventLoop();
+        stbrtSecondbryEventLoop();
         lock();
     }
 
     @Override
     public void exit() {
         if (!isOwned()) {
-            throw new IllegalMonitorStateException();
+            throw new IllegblMonitorStbteException();
         }
-        WToolkit.quitSecondaryEventLoop();
+        WToolkit.quitSecondbryEventLoop();
     }
 
-    private native void startSecondaryEventLoop();
+    privbte nbtive void stbrtSecondbryEventLoop();
 }
 
-enum EHTMLReadMode {
+enum EHTMLRebdMode {
     HTML_READ_ALL,
     HTML_READ_FRAGMENT,
     HTML_READ_SELECTION;
 
-    public static EHTMLReadMode getEHTMLReadMode (DataFlavor df) {
+    public stbtic EHTMLRebdMode getEHTMLRebdMode (DbtbFlbvor df) {
 
-        EHTMLReadMode mode = HTML_READ_SELECTION;
+        EHTMLRebdMode mode = HTML_READ_SELECTION;
 
-        String parameter = df.getParameter("document");
+        String pbrbmeter = df.getPbrbmeter("document");
 
-        if ("all".equals(parameter)) {
+        if ("bll".equbls(pbrbmeter)) {
             mode = HTML_READ_ALL;
-        } else if ("fragment".equals(parameter)) {
+        } else if ("frbgment".equbls(pbrbmeter)) {
             mode = HTML_READ_FRAGMENT;
         }
 
@@ -542,83 +542,83 @@ enum EHTMLReadMode {
 }
 
 /**
- * on decode: This stream takes an InputStream which provides data in CF_HTML format,
- * strips off the description and context to extract the original HTML data.
+ * on decode: This strebm tbkes bn InputStrebm which provides dbtb in CF_HTML formbt,
+ * strips off the description bnd context to extrbct the originbl HTML dbtb.
  *
- * on encode: static convertToHTMLFormat is responsible for HTML clipboard header creation
+ * on encode: stbtic convertToHTMLFormbt is responsible for HTML clipbobrd hebder crebtion
  */
-class HTMLCodec extends InputStream {
-    //static section
-    public static final String ENCODING = "UTF-8";
+clbss HTMLCodec extends InputStrebm {
+    //stbtic section
+    public stbtic finbl String ENCODING = "UTF-8";
 
-    public static final String VERSION = "Version:";
-    public static final String START_HTML = "StartHTML:";
-    public static final String END_HTML = "EndHTML:";
-    public static final String START_FRAGMENT = "StartFragment:";
-    public static final String END_FRAGMENT = "EndFragment:";
-    public static final String START_SELECTION = "StartSelection:"; //optional
-    public static final String END_SELECTION = "EndSelection:"; //optional
+    public stbtic finbl String VERSION = "Version:";
+    public stbtic finbl String START_HTML = "StbrtHTML:";
+    public stbtic finbl String END_HTML = "EndHTML:";
+    public stbtic finbl String START_FRAGMENT = "StbrtFrbgment:";
+    public stbtic finbl String END_FRAGMENT = "EndFrbgment:";
+    public stbtic finbl String START_SELECTION = "StbrtSelection:"; //optionbl
+    public stbtic finbl String END_SELECTION = "EndSelection:"; //optionbl
 
-    public static final String START_FRAGMENT_CMT = "<!--StartFragment-->";
-    public static final String END_FRAGMENT_CMT = "<!--EndFragment-->";
-    public static final String SOURCE_URL = "SourceURL:";
-    public static final String DEF_SOURCE_URL = "about:blank";
+    public stbtic finbl String START_FRAGMENT_CMT = "<!--StbrtFrbgment-->";
+    public stbtic finbl String END_FRAGMENT_CMT = "<!--EndFrbgment-->";
+    public stbtic finbl String SOURCE_URL = "SourceURL:";
+    public stbtic finbl String DEF_SOURCE_URL = "bbout:blbnk";
 
-    public static final String EOLN = "\r\n";
+    public stbtic finbl String EOLN = "\r\n";
 
-    private static final String VERSION_NUM = "1.0";
-    private static final int PADDED_WIDTH = 10;
+    privbte stbtic finbl String VERSION_NUM = "1.0";
+    privbte stbtic finbl int PADDED_WIDTH = 10;
 
-    private static String toPaddedString(int n, int width) {
+    privbte stbtic String toPbddedString(int n, int width) {
         String string = "" + n;
         int len = string.length();
         if (n >= 0 && len < width) {
-            char[] array = new char[width - len];
-            Arrays.fill(array, '0');
+            chbr[] brrby = new chbr[width - len];
+            Arrbys.fill(brrby, '0');
             StringBuffer buffer = new StringBuffer(width);
-            buffer.append(array);
-            buffer.append(string);
+            buffer.bppend(brrby);
+            buffer.bppend(string);
             string = buffer.toString();
         }
         return string;
     }
 
     /**
-     * convertToHTMLFormat adds the MS HTML clipboard header to byte array that
-     * contains the parameters pairs.
+     * convertToHTMLFormbt bdds the MS HTML clipbobrd hebder to byte brrby thbt
+     * contbins the pbrbmeters pbirs.
      *
-     * The consequence of parameters is fixed, but some or all of them could be
-     * omitted. One parameter per one text line.
-     * It looks like that:
+     * The consequence of pbrbmeters is fixed, but some or bll of them could be
+     * omitted. One pbrbmeter per one text line.
+     * It looks like thbt:
      *
      * Version:1.0\r\n                -- current supported version
-     * StartHTML:000000192\r\n        -- shift in array to the first byte after the header
-     * EndHTML:000000757\r\n          -- shift in array of last byte for HTML syntax analysis
-     * StartFragment:000000396\r\n    -- shift in array jast after <!--StartFragment-->
-     * EndFragment:000000694\r\n      -- shift in array before start  <!--EndFragment-->
-     * StartSelection:000000398\r\n   -- shift in array of the first char in copied selection
-     * EndSelection:000000692\r\n     -- shift in array of the last char in copied selection
-     * SourceURL:http://sun.com/\r\n  -- base URL for related referenses
-     * <HTML>...<BODY>...<!--StartFragment-->.....................<!--EndFragment-->...</BODY><HTML>
+     * StbrtHTML:000000192\r\n        -- shift in brrby to the first byte bfter the hebder
+     * EndHTML:000000757\r\n          -- shift in brrby of lbst byte for HTML syntbx bnblysis
+     * StbrtFrbgment:000000396\r\n    -- shift in brrby jbst bfter <!--StbrtFrbgment-->
+     * EndFrbgment:000000694\r\n      -- shift in brrby before stbrt  <!--EndFrbgment-->
+     * StbrtSelection:000000398\r\n   -- shift in brrby of the first chbr in copied selection
+     * EndSelection:000000692\r\n     -- shift in brrby of the lbst chbr in copied selection
+     * SourceURL:http://sun.com/\r\n  -- bbse URL for relbted referenses
+     * <HTML>...<BODY>...<!--StbrtFrbgment-->.....................<!--EndFrbgment-->...</BODY><HTML>
      * ^                                     ^ ^                ^^                                 ^
-     * \ StartHTML                           | \-StartSelection | \EndFragment              EndHTML/
-     *                                       \-StartFragment    \EndSelection
+     * \ StbrtHTML                           | \-StbrtSelection | \EndFrbgment              EndHTML/
+     *                                       \-StbrtFrbgment    \EndSelection
      *
-     *Combinations with tags sequence
-     *<!--StartFragment--><HTML>...<BODY>...</BODY><HTML><!--EndFragment-->
+     *Combinbtions with tbgs sequence
+     *<!--StbrtFrbgment--><HTML>...<BODY>...</BODY><HTML><!--EndFrbgment-->
      * or
-     *<HTML>...<!--StartFragment-->...<BODY>...</BODY><!--EndFragment--><HTML>
-     * are vailid too.
+     *<HTML>...<!--StbrtFrbgment-->...<BODY>...</BODY><!--EndFrbgment--><HTML>
+     * bre vbilid too.
      */
-    public static byte[] convertToHTMLFormat(byte[] bytes) {
-        // Calculate section offsets
+    public stbtic byte[] convertToHTMLFormbt(byte[] bytes) {
+        // Cblculbte section offsets
         String htmlPrefix = "";
         String htmlSuffix = "";
         {
-            //we have extend the fragment to full HTML document correctly
-            //to avoid HTML and BODY tags doubling
+            //we hbve extend the frbgment to full HTML document correctly
+            //to bvoid HTML bnd BODY tbgs doubling
             String stContext = new String(bytes);
-            String stUpContext = stContext.toUpperCase();
+            String stUpContext = stContext.toUpperCbse();
             if( -1 == stUpContext.indexOf("<HTML") ) {
                 htmlPrefix = "<HTML>";
                 htmlSuffix = "</HTML>";
@@ -629,152 +629,152 @@ class HTMLCodec extends InputStream {
             };
         }
 
-        String stBaseUrl = DEF_SOURCE_URL;
-        int nStartHTML =
+        String stBbseUrl = DEF_SOURCE_URL;
+        int nStbrtHTML =
                 VERSION.length() + VERSION_NUM.length() + EOLN.length()
                         + START_HTML.length() + PADDED_WIDTH + EOLN.length()
                         + END_HTML.length() + PADDED_WIDTH + EOLN.length()
                         + START_FRAGMENT.length() + PADDED_WIDTH + EOLN.length()
                         + END_FRAGMENT.length() + PADDED_WIDTH + EOLN.length()
-                        + SOURCE_URL.length() + stBaseUrl.length() + EOLN.length()
+                        + SOURCE_URL.length() + stBbseUrl.length() + EOLN.length()
                 ;
-        int nStartFragment = nStartHTML + htmlPrefix.length();
-        int nEndFragment = nStartFragment + bytes.length - 1;
-        int nEndHTML = nEndFragment + htmlSuffix.length();
+        int nStbrtFrbgment = nStbrtHTML + htmlPrefix.length();
+        int nEndFrbgment = nStbrtFrbgment + bytes.length - 1;
+        int nEndHTML = nEndFrbgment + htmlSuffix.length();
 
-        StringBuilder header = new StringBuilder(
-                nStartFragment
+        StringBuilder hebder = new StringBuilder(
+                nStbrtFrbgment
                         + START_FRAGMENT_CMT.length()
         );
-        //header
-        header.append(VERSION);
-        header.append(VERSION_NUM);
-        header.append(EOLN);
+        //hebder
+        hebder.bppend(VERSION);
+        hebder.bppend(VERSION_NUM);
+        hebder.bppend(EOLN);
 
-        header.append(START_HTML);
-        header.append(toPaddedString(nStartHTML, PADDED_WIDTH));
-        header.append(EOLN);
+        hebder.bppend(START_HTML);
+        hebder.bppend(toPbddedString(nStbrtHTML, PADDED_WIDTH));
+        hebder.bppend(EOLN);
 
-        header.append(END_HTML);
-        header.append(toPaddedString(nEndHTML, PADDED_WIDTH));
-        header.append(EOLN);
+        hebder.bppend(END_HTML);
+        hebder.bppend(toPbddedString(nEndHTML, PADDED_WIDTH));
+        hebder.bppend(EOLN);
 
-        header.append(START_FRAGMENT);
-        header.append(toPaddedString(nStartFragment, PADDED_WIDTH));
-        header.append(EOLN);
+        hebder.bppend(START_FRAGMENT);
+        hebder.bppend(toPbddedString(nStbrtFrbgment, PADDED_WIDTH));
+        hebder.bppend(EOLN);
 
-        header.append(END_FRAGMENT);
-        header.append(toPaddedString(nEndFragment, PADDED_WIDTH));
-        header.append(EOLN);
+        hebder.bppend(END_FRAGMENT);
+        hebder.bppend(toPbddedString(nEndFrbgment, PADDED_WIDTH));
+        hebder.bppend(EOLN);
 
-        header.append(SOURCE_URL);
-        header.append(stBaseUrl);
-        header.append(EOLN);
+        hebder.bppend(SOURCE_URL);
+        hebder.bppend(stBbseUrl);
+        hebder.bppend(EOLN);
 
         //HTML
-        header.append(htmlPrefix);
+        hebder.bppend(htmlPrefix);
 
-        byte[] headerBytes = null, trailerBytes = null;
+        byte[] hebderBytes = null, trbilerBytes = null;
 
         try {
-            headerBytes = header.toString().getBytes(ENCODING);
-            trailerBytes = htmlSuffix.getBytes(ENCODING);
-        } catch (UnsupportedEncodingException cannotHappen) {
+            hebderBytes = hebder.toString().getBytes(ENCODING);
+            trbilerBytes = htmlSuffix.getBytes(ENCODING);
+        } cbtch (UnsupportedEncodingException cbnnotHbppen) {
         }
 
-        byte[] retval = new byte[headerBytes.length + bytes.length +
-                trailerBytes.length];
+        byte[] retvbl = new byte[hebderBytes.length + bytes.length +
+                trbilerBytes.length];
 
-        System.arraycopy(headerBytes, 0, retval, 0, headerBytes.length);
-        System.arraycopy(bytes, 0, retval, headerBytes.length,
+        System.brrbycopy(hebderBytes, 0, retvbl, 0, hebderBytes.length);
+        System.brrbycopy(bytes, 0, retvbl, hebderBytes.length,
                 bytes.length - 1);
-        System.arraycopy(trailerBytes, 0, retval,
-                headerBytes.length + bytes.length - 1,
-                trailerBytes.length);
-        retval[retval.length-1] = 0;
+        System.brrbycopy(trbilerBytes, 0, retvbl,
+                hebderBytes.length + bytes.length - 1,
+                trbilerBytes.length);
+        retvbl[retvbl.length-1] = 0;
 
-        return retval;
+        return retvbl;
     }
 
     ////////////////////////////////////
-    //decoder instance data and methods:
+    //decoder instbnce dbtb bnd methods:
 
-    private final BufferedInputStream bufferedStream;
-    private boolean descriptionParsed = false;
-    private boolean closed = false;
+    privbte finbl BufferedInputStrebm bufferedStrebm;
+    privbte boolebn descriptionPbrsed = fblse;
+    privbte boolebn closed = fblse;
 
-    // InputStreamReader uses an 8K buffer. The size is not customizable.
-    public static final int BYTE_BUFFER_LEN = 8192;
+    // InputStrebmRebder uses bn 8K buffer. The size is not customizbble.
+    public stbtic finbl int BYTE_BUFFER_LEN = 8192;
 
-    // CharToByteUTF8.getMaxBytesPerChar returns 3, so we should not buffer
-    // more chars than 3 times the number of bytes we can buffer.
-    public static final int CHAR_BUFFER_LEN = BYTE_BUFFER_LEN / 3;
+    // ChbrToByteUTF8.getMbxBytesPerChbr returns 3, so we should not buffer
+    // more chbrs thbn 3 times the number of bytes we cbn buffer.
+    public stbtic finbl int CHAR_BUFFER_LEN = BYTE_BUFFER_LEN / 3;
 
-    private static final String FAILURE_MSG =
-            "Unable to parse HTML description: ";
-    private static final String INVALID_MSG =
-            " invalid";
+    privbte stbtic finbl String FAILURE_MSG =
+            "Unbble to pbrse HTML description: ";
+    privbte stbtic finbl String INVALID_MSG =
+            " invblid";
 
-    //HTML header mapping:
-    private long   iHTMLStart,// StartHTML -- shift in array to the first byte after the header
-            iHTMLEnd,  // EndHTML -- shift in array of last byte for HTML syntax analysis
-            iFragStart,// StartFragment -- shift in array jast after <!--StartFragment-->
-            iFragEnd,  // EndFragment -- shift in array before start <!--EndFragment-->
-            iSelStart, // StartSelection -- shift in array of the first char in copied selection
-            iSelEnd;   // EndSelection -- shift in array of the last char in copied selection
-    private String stBaseURL; // SourceURL -- base URL for related referenses
-    private String stVersion; // Version -- current supported version
+    //HTML hebder mbpping:
+    privbte long   iHTMLStbrt,// StbrtHTML -- shift in brrby to the first byte bfter the hebder
+            iHTMLEnd,  // EndHTML -- shift in brrby of lbst byte for HTML syntbx bnblysis
+            iFrbgStbrt,// StbrtFrbgment -- shift in brrby jbst bfter <!--StbrtFrbgment-->
+            iFrbgEnd,  // EndFrbgment -- shift in brrby before stbrt <!--EndFrbgment-->
+            iSelStbrt, // StbrtSelection -- shift in brrby of the first chbr in copied selection
+            iSelEnd;   // EndSelection -- shift in brrby of the lbst chbr in copied selection
+    privbte String stBbseURL; // SourceURL -- bbse URL for relbted referenses
+    privbte String stVersion; // Version -- current supported version
 
-    //Stream reader markers:
-    private long iStartOffset,
+    //Strebm rebder mbrkers:
+    privbte long iStbrtOffset,
             iEndOffset,
-            iReadCount;
+            iRebdCount;
 
-    private EHTMLReadMode readMode;
+    privbte EHTMLRebdMode rebdMode;
 
     public HTMLCodec(
-            InputStream _bytestream,
-            EHTMLReadMode _readMode) throws IOException
+            InputStrebm _bytestrebm,
+            EHTMLRebdMode _rebdMode) throws IOException
     {
-        bufferedStream = new BufferedInputStream(_bytestream, BYTE_BUFFER_LEN);
-        readMode = _readMode;
+        bufferedStrebm = new BufferedInputStrebm(_bytestrebm, BYTE_BUFFER_LEN);
+        rebdMode = _rebdMode;
     }
 
-    public synchronized String getBaseURL() throws IOException
+    public synchronized String getBbseURL() throws IOException
     {
-        if( !descriptionParsed ) {
-            parseDescription();
+        if( !descriptionPbrsed ) {
+            pbrseDescription();
         }
-        return stBaseURL;
+        return stBbseURL;
     }
     public synchronized String getVersion() throws IOException
     {
-        if( !descriptionParsed ) {
-            parseDescription();
+        if( !descriptionPbrsed ) {
+            pbrseDescription();
         }
         return stVersion;
     }
 
     /**
-     * parseDescription parsing HTML clipboard header as it described in
-     * comment to convertToHTMLFormat
+     * pbrseDescription pbrsing HTML clipbobrd hebder bs it described in
+     * comment to convertToHTMLFormbt
      */
-    private void parseDescription() throws IOException
+    privbte void pbrseDescription() throws IOException
     {
-        stBaseURL = null;
+        stBbseURL = null;
         stVersion = null;
 
-        // initialization of array offset pointers
-        // to the same "uninitialized" state.
+        // initiblizbtion of brrby offset pointers
+        // to the sbme "uninitiblized" stbte.
         iHTMLEnd =
-                iHTMLStart =
-                        iFragEnd =
-                                iFragStart =
+                iHTMLStbrt =
+                        iFrbgEnd =
+                                iFrbgStbrt =
                                         iSelEnd =
-                                                iSelStart = -1;
+                                                iSelStbrt = -1;
 
-        bufferedStream.mark(BYTE_BUFFER_LEN);
-        String astEntries[] = new String[] {
+        bufferedStrebm.mbrk(BYTE_BUFFER_LEN);
+        String bstEntries[] = new String[] {
                 //common
                 VERSION,
                 START_HTML,
@@ -786,139 +786,139 @@ class HTMLCodec extends InputStream {
                 END_SELECTION,
                 SOURCE_URL
         };
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(
-                        bufferedStream,
+        BufferedRebder bufferedRebder = new BufferedRebder(
+                new InputStrebmRebder(
+                        bufferedStrebm,
                         ENCODING
                 ),
                 CHAR_BUFFER_LEN
         );
-        long iHeadSize = 0;
+        long iHebdSize = 0;
         long iCRSize = EOLN.length();
-        int iEntCount = astEntries.length;
-        boolean bContinue = true;
+        int iEntCount = bstEntries.length;
+        boolebn bContinue = true;
 
         for( int  iEntry = 0; iEntry < iEntCount; ++iEntry ){
-            String stLine = bufferedReader.readLine();
+            String stLine = bufferedRebder.rebdLine();
             if( null==stLine ) {
-                break;
+                brebk;
             }
-            //some header entries are optional, but the order is fixed.
+            //some hebder entries bre optionbl, but the order is fixed.
             for( ; iEntry < iEntCount; ++iEntry ){
-                if( !stLine.startsWith(astEntries[iEntry]) ) {
+                if( !stLine.stbrtsWith(bstEntries[iEntry]) ) {
                     continue;
                 }
-                iHeadSize += stLine.length() + iCRSize;
-                String stValue = stLine.substring(astEntries[iEntry].length()).trim();
-                if( null!=stValue ) {
+                iHebdSize += stLine.length() + iCRSize;
+                String stVblue = stLine.substring(bstEntries[iEntry].length()).trim();
+                if( null!=stVblue ) {
                     try{
                         switch( iEntry ){
-                            case 0:
-                                stVersion = stValue;
-                                break;
-                            case 1:
-                                iHTMLStart = Integer.parseInt(stValue);
-                                break;
-                            case 2:
-                                iHTMLEnd = Integer.parseInt(stValue);
-                                break;
-                            case 3:
-                                iFragStart = Integer.parseInt(stValue);
-                                break;
-                            case 4:
-                                iFragEnd = Integer.parseInt(stValue);
-                                break;
-                            case 5:
-                                iSelStart = Integer.parseInt(stValue);
-                                break;
-                            case 6:
-                                iSelEnd = Integer.parseInt(stValue);
-                                break;
-                            case 7:
-                                stBaseURL = stValue;
-                                break;
+                            cbse 0:
+                                stVersion = stVblue;
+                                brebk;
+                            cbse 1:
+                                iHTMLStbrt = Integer.pbrseInt(stVblue);
+                                brebk;
+                            cbse 2:
+                                iHTMLEnd = Integer.pbrseInt(stVblue);
+                                brebk;
+                            cbse 3:
+                                iFrbgStbrt = Integer.pbrseInt(stVblue);
+                                brebk;
+                            cbse 4:
+                                iFrbgEnd = Integer.pbrseInt(stVblue);
+                                brebk;
+                            cbse 5:
+                                iSelStbrt = Integer.pbrseInt(stVblue);
+                                brebk;
+                            cbse 6:
+                                iSelEnd = Integer.pbrseInt(stVblue);
+                                brebk;
+                            cbse 7:
+                                stBbseURL = stVblue;
+                                brebk;
                         };
-                    } catch ( NumberFormatException e ) {
-                        throw new IOException(FAILURE_MSG + astEntries[iEntry]+ " value " + e + INVALID_MSG);
+                    } cbtch ( NumberFormbtException e ) {
+                        throw new IOException(FAILURE_MSG + bstEntries[iEntry]+ " vblue " + e + INVALID_MSG);
                     }
                 }
-                break;
+                brebk;
             }
         }
-        //some entries could absent in HTML header,
-        //so we have find they by another way.
-        if( -1 == iHTMLStart )
-            iHTMLStart = iHeadSize;
-        if( -1 == iFragStart )
-            iFragStart = iHTMLStart;
-        if( -1 == iFragEnd )
-            iFragEnd = iHTMLEnd;
-        if( -1 == iSelStart )
-            iSelStart = iFragStart;
+        //some entries could bbsent in HTML hebder,
+        //so we hbve find they by bnother wby.
+        if( -1 == iHTMLStbrt )
+            iHTMLStbrt = iHebdSize;
+        if( -1 == iFrbgStbrt )
+            iFrbgStbrt = iHTMLStbrt;
+        if( -1 == iFrbgEnd )
+            iFrbgEnd = iHTMLEnd;
+        if( -1 == iSelStbrt )
+            iSelStbrt = iFrbgStbrt;
         if( -1 == iSelEnd )
-            iSelEnd = iFragEnd;
+            iSelEnd = iFrbgEnd;
 
         //one of possible modes
-        switch( readMode ){
-            case HTML_READ_ALL:
-                iStartOffset = iHTMLStart;
+        switch( rebdMode ){
+            cbse HTML_READ_ALL:
+                iStbrtOffset = iHTMLStbrt;
                 iEndOffset = iHTMLEnd;
-                break;
-            case HTML_READ_FRAGMENT:
-                iStartOffset = iFragStart;
-                iEndOffset = iFragEnd;
-                break;
-            case HTML_READ_SELECTION:
-            default:
-                iStartOffset = iSelStart;
+                brebk;
+            cbse HTML_READ_FRAGMENT:
+                iStbrtOffset = iFrbgStbrt;
+                iEndOffset = iFrbgEnd;
+                brebk;
+            cbse HTML_READ_SELECTION:
+            defbult:
+                iStbrtOffset = iSelStbrt;
                 iEndOffset = iSelEnd;
-                break;
+                brebk;
         }
 
-        bufferedStream.reset();
-        if( -1 == iStartOffset ){
-            throw new IOException(FAILURE_MSG + "invalid HTML format.");
+        bufferedStrebm.reset();
+        if( -1 == iStbrtOffset ){
+            throw new IOException(FAILURE_MSG + "invblid HTML formbt.");
         }
 
         int curOffset = 0;
-        while (curOffset < iStartOffset){
-            curOffset += bufferedStream.skip(iStartOffset - curOffset);
+        while (curOffset < iStbrtOffset){
+            curOffset += bufferedStrebm.skip(iStbrtOffset - curOffset);
         }
 
-        iReadCount = curOffset;
+        iRebdCount = curOffset;
 
-        if( iStartOffset != iReadCount ){
-            throw new IOException(FAILURE_MSG + "Byte stream ends in description.");
+        if( iStbrtOffset != iRebdCount ){
+            throw new IOException(FAILURE_MSG + "Byte strebm ends in description.");
         }
-        descriptionParsed = true;
+        descriptionPbrsed = true;
     }
 
     @Override
-    public synchronized int read() throws IOException {
+    public synchronized int rebd() throws IOException {
         if( closed ){
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
         }
 
-        if( !descriptionParsed ){
-            parseDescription();
+        if( !descriptionPbrsed ){
+            pbrseDescription();
         }
-        if( -1 != iEndOffset && iReadCount >= iEndOffset ) {
+        if( -1 != iEndOffset && iRebdCount >= iEndOffset ) {
             return -1;
         }
 
-        int retval = bufferedStream.read();
-        if( retval == -1 ) {
+        int retvbl = bufferedStrebm.rebd();
+        if( retvbl == -1 ) {
             return -1;
         }
-        ++iReadCount;
-        return retval;
+        ++iRebdCount;
+        return retvbl;
     }
 
     @Override
     public synchronized void close() throws IOException {
         if( !closed ){
             closed = true;
-            bufferedStream.close();
+            bufferedStrebm.close();
         }
     }
 }

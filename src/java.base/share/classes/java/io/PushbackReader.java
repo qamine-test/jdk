@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * A character-stream reader that allows characters to be pushed back into the
- * stream.
+ * A chbrbcter-strebm rebder thbt bllows chbrbcters to be pushed bbck into the
+ * strebm.
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
 
-public class PushbackReader extends FilterReader {
+public clbss PushbbckRebder extends FilterRebder {
 
-    /** Pushback buffer */
-    private char[] buf;
+    /** Pushbbck buffer */
+    privbte chbr[] buf;
 
     /** Current position in buffer */
-    private int pos;
+    privbte int pos;
 
     /**
-     * Creates a new pushback reader with a pushback buffer of the given size.
+     * Crebtes b new pushbbck rebder with b pushbbck buffer of the given size.
      *
-     * @param   in   The reader from which characters will be read
-     * @param   size The size of the pushback buffer
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @pbrbm   in   The rebder from which chbrbcters will be rebd
+     * @pbrbm   size The size of the pushbbck buffer
+     * @exception IllegblArgumentException if {@code size <= 0}
      */
-    public PushbackReader(Reader in, int size) {
+    public PushbbckRebder(Rebder in, int size) {
         super(in);
         if (size <= 0) {
-            throw new IllegalArgumentException("size <= 0");
+            throw new IllegblArgumentException("size <= 0");
         }
-        this.buf = new char[size];
+        this.buf = new chbr[size];
         this.pos = size;
     }
 
     /**
-     * Creates a new pushback reader with a one-character pushback buffer.
+     * Crebtes b new pushbbck rebder with b one-chbrbcter pushbbck buffer.
      *
-     * @param   in  The reader from which characters will be read
+     * @pbrbm   in  The rebder from which chbrbcters will be rebd
      */
-    public PushbackReader(Reader in) {
+    public PushbbckRebder(Rebder in) {
         this(in, 1);
     }
 
-    /** Checks to make sure that the stream has not been closed. */
-    private void ensureOpen() throws IOException {
+    /** Checks to mbke sure thbt the strebm hbs not been closed. */
+    privbte void ensureOpen() throws IOException {
         if (buf == null)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
     /**
-     * Reads a single character.
+     * Rebds b single chbrbcter.
      *
-     * @return     The character read, or -1 if the end of the stream has been
-     *             reached
+     * @return     The chbrbcter rebd, or -1 if the end of the strebm hbs been
+     *             rebched
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         synchronized (lock) {
             ensureOpen();
             if (pos < buf.length)
                 return buf[pos++];
             else
-                return super.read();
+                return super.rebd();
         }
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rebds chbrbcters into b portion of bn brrby.
      *
-     * @param      cbuf  Destination buffer
-     * @param      off   Offset at which to start writing characters
-     * @param      len   Maximum number of characters to read
+     * @pbrbm      cbuf  Destinbtion buffer
+     * @pbrbm      off   Offset bt which to stbrt writing chbrbcters
+     * @pbrbm      len   Mbximum number of chbrbcters to rebd
      *
-     * @return     The number of characters read, or -1 if the end of the
-     *             stream has been reached
+     * @return     The number of chbrbcters rebd, or -1 if the end of the
+     *             strebm hbs been rebched
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public int read(char cbuf[], int off, int len) throws IOException {
+    public int rebd(chbr cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
             try {
@@ -115,134 +115,134 @@ public class PushbackReader extends FilterReader {
                     }
                     return 0;
                 }
-                int avail = buf.length - pos;
-                if (avail > 0) {
-                    if (len < avail)
-                        avail = len;
-                    System.arraycopy(buf, pos, cbuf, off, avail);
-                    pos += avail;
-                    off += avail;
-                    len -= avail;
+                int bvbil = buf.length - pos;
+                if (bvbil > 0) {
+                    if (len < bvbil)
+                        bvbil = len;
+                    System.brrbycopy(buf, pos, cbuf, off, bvbil);
+                    pos += bvbil;
+                    off += bvbil;
+                    len -= bvbil;
                 }
                 if (len > 0) {
-                    len = super.read(cbuf, off, len);
+                    len = super.rebd(cbuf, off, len);
                     if (len == -1) {
-                        return (avail == 0) ? -1 : avail;
+                        return (bvbil == 0) ? -1 : bvbil;
                     }
-                    return avail + len;
+                    return bvbil + len;
                 }
-                return avail;
-            } catch (ArrayIndexOutOfBoundsException e) {
+                return bvbil;
+            } cbtch (ArrbyIndexOutOfBoundsException e) {
                 throw new IndexOutOfBoundsException();
             }
         }
     }
 
     /**
-     * Pushes back a single character by copying it to the front of the
-     * pushback buffer. After this method returns, the next character to be read
-     * will have the value <code>(char)c</code>.
+     * Pushes bbck b single chbrbcter by copying it to the front of the
+     * pushbbck buffer. After this method returns, the next chbrbcter to be rebd
+     * will hbve the vblue <code>(chbr)c</code>.
      *
-     * @param  c  The int value representing a character to be pushed back
+     * @pbrbm  c  The int vblue representing b chbrbcter to be pushed bbck
      *
-     * @exception  IOException  If the pushback buffer is full,
+     * @exception  IOException  If the pushbbck buffer is full,
      *                          or if some other I/O error occurs
      */
-    public void unread(int c) throws IOException {
+    public void unrebd(int c) throws IOException {
         synchronized (lock) {
             ensureOpen();
             if (pos == 0)
-                throw new IOException("Pushback buffer overflow");
-            buf[--pos] = (char) c;
+                throw new IOException("Pushbbck buffer overflow");
+            buf[--pos] = (chbr) c;
         }
     }
 
     /**
-     * Pushes back a portion of an array of characters by copying it to the
-     * front of the pushback buffer.  After this method returns, the next
-     * character to be read will have the value <code>cbuf[off]</code>, the
-     * character after that will have the value <code>cbuf[off+1]</code>, and
+     * Pushes bbck b portion of bn brrby of chbrbcters by copying it to the
+     * front of the pushbbck buffer.  After this method returns, the next
+     * chbrbcter to be rebd will hbve the vblue <code>cbuf[off]</code>, the
+     * chbrbcter bfter thbt will hbve the vblue <code>cbuf[off+1]</code>, bnd
      * so forth.
      *
-     * @param  cbuf  Character array
-     * @param  off   Offset of first character to push back
-     * @param  len   Number of characters to push back
+     * @pbrbm  cbuf  Chbrbcter brrby
+     * @pbrbm  off   Offset of first chbrbcter to push bbck
+     * @pbrbm  len   Number of chbrbcters to push bbck
      *
-     * @exception  IOException  If there is insufficient room in the pushback
+     * @exception  IOException  If there is insufficient room in the pushbbck
      *                          buffer, or if some other I/O error occurs
      */
-    public void unread(char cbuf[], int off, int len) throws IOException {
+    public void unrebd(chbr cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
             if (len > pos)
-                throw new IOException("Pushback buffer overflow");
+                throw new IOException("Pushbbck buffer overflow");
             pos -= len;
-            System.arraycopy(cbuf, off, buf, pos, len);
+            System.brrbycopy(cbuf, off, buf, pos, len);
         }
     }
 
     /**
-     * Pushes back an array of characters by copying it to the front of the
-     * pushback buffer.  After this method returns, the next character to be
-     * read will have the value <code>cbuf[0]</code>, the character after that
-     * will have the value <code>cbuf[1]</code>, and so forth.
+     * Pushes bbck bn brrby of chbrbcters by copying it to the front of the
+     * pushbbck buffer.  After this method returns, the next chbrbcter to be
+     * rebd will hbve the vblue <code>cbuf[0]</code>, the chbrbcter bfter thbt
+     * will hbve the vblue <code>cbuf[1]</code>, bnd so forth.
      *
-     * @param  cbuf  Character array to push back
+     * @pbrbm  cbuf  Chbrbcter brrby to push bbck
      *
-     * @exception  IOException  If there is insufficient room in the pushback
+     * @exception  IOException  If there is insufficient room in the pushbbck
      *                          buffer, or if some other I/O error occurs
      */
-    public void unread(char cbuf[]) throws IOException {
-        unread(cbuf, 0, cbuf.length);
+    public void unrebd(chbr cbuf[]) throws IOException {
+        unrebd(cbuf, 0, cbuf.length);
     }
 
     /**
-     * Tells whether this stream is ready to be read.
+     * Tells whether this strebm is rebdy to be rebd.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
-    public boolean ready() throws IOException {
+    public boolebn rebdy() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            return (pos < buf.length) || super.ready();
+            return (pos < buf.length) || super.rebdy();
         }
     }
 
     /**
-     * Marks the present position in the stream. The <code>mark</code>
-     * for class <code>PushbackReader</code> always throws an exception.
+     * Mbrks the present position in the strebm. The <code>mbrk</code>
+     * for clbss <code>PushbbckRebder</code> blwbys throws bn exception.
      *
-     * @exception  IOException  Always, since mark is not supported
+     * @exception  IOException  Alwbys, since mbrk is not supported
      */
-    public void mark(int readAheadLimit) throws IOException {
-        throw new IOException("mark/reset not supported");
+    public void mbrk(int rebdAhebdLimit) throws IOException {
+        throw new IOException("mbrk/reset not supported");
     }
 
     /**
-     * Resets the stream. The <code>reset</code> method of
-     * <code>PushbackReader</code> always throws an exception.
+     * Resets the strebm. The <code>reset</code> method of
+     * <code>PushbbckRebder</code> blwbys throws bn exception.
      *
-     * @exception  IOException  Always, since reset is not supported
+     * @exception  IOException  Alwbys, since reset is not supported
      */
     public void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+        throw new IOException("mbrk/reset not supported");
     }
 
     /**
-     * Tells whether this stream supports the mark() operation, which it does
+     * Tells whether this strebm supports the mbrk() operbtion, which it does
      * not.
      */
-    public boolean markSupported() {
-        return false;
+    public boolebn mbrkSupported() {
+        return fblse;
     }
 
     /**
-     * Closes the stream and releases any system resources associated with
-     * it. Once the stream has been closed, further read(),
-     * unread(), ready(), or skip() invocations will throw an IOException.
-     * Closing a previously closed stream has no effect.
+     * Closes the strebm bnd relebses bny system resources bssocibted with
+     * it. Once the strebm hbs been closed, further rebd(),
+     * unrebd(), rebdy(), or skip() invocbtions will throw bn IOException.
+     * Closing b previously closed strebm hbs no effect.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IOException  If bn I/O error occurs
      */
     public void close() throws IOException {
         super.close();
@@ -250,32 +250,32 @@ public class PushbackReader extends FilterReader {
     }
 
     /**
-     * Skips characters.  This method will block until some characters are
-     * available, an I/O error occurs, or the end of the stream is reached.
+     * Skips chbrbcters.  This method will block until some chbrbcters bre
+     * bvbilbble, bn I/O error occurs, or the end of the strebm is rebched.
      *
-     * @param  n  The number of characters to skip
+     * @pbrbm  n  The number of chbrbcters to skip
      *
-     * @return    The number of characters actually skipped
+     * @return    The number of chbrbcters bctublly skipped
      *
-     * @exception  IllegalArgumentException  If <code>n</code> is negative.
-     * @exception  IOException  If an I/O error occurs
+     * @exception  IllegblArgumentException  If <code>n</code> is negbtive.
+     * @exception  IOException  If bn I/O error occurs
      */
     public long skip(long n) throws IOException {
         if (n < 0L)
-            throw new IllegalArgumentException("skip value is negative");
+            throw new IllegblArgumentException("skip vblue is negbtive");
         synchronized (lock) {
             ensureOpen();
-            int avail = buf.length - pos;
-            if (avail > 0) {
-                if (n <= avail) {
+            int bvbil = buf.length - pos;
+            if (bvbil > 0) {
+                if (n <= bvbil) {
                     pos += n;
                     return n;
                 } else {
                     pos = buf.length;
-                    n -= avail;
+                    n -= bvbil;
                 }
             }
-            return avail + super.skip(n);
+            return bvbil + super.skip(n);
         }
     }
 }

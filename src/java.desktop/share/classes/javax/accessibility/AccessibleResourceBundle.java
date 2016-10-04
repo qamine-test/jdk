@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
 /**
- * A resource bundle containing the localized strings in the accessibility
- * package.  This is meant only for internal use by Java Accessibility and
- * is not meant to be used by assistive technologies or applications.
+ * A resource bundle contbining the locblized strings in the bccessibility
+ * pbckbge.  This is mebnt only for internbl use by Jbvb Accessibility bnd
+ * is not mebnt to be used by bssistive technologies or bpplicbtions.
  *
- * @author      Willie Walker
- * @deprecated This class is deprecated as of version 1.3 of the
- *             Java Platform.
+ * @buthor      Willie Wblker
+ * @deprecbted This clbss is deprecbted bs of version 1.3 of the
+ *             Jbvb Plbtform.
  */
-@Deprecated
-public class AccessibleResourceBundle extends ListResourceBundle {
+@Deprecbted
+public clbss AccessibleResourceBundle extends ListResourceBundle {
 
     /**
-     * Returns the mapping between the programmatic keys and the
-     * localized display strings.
+     * Returns the mbpping between the progrbmmbtic keys bnd the
+     * locblized displby strings.
      */
     public Object[][] getContents() {
-        // The table holding the mapping between the programmatic keys
-        // and the display strings for the en_US locale.
+        // The tbble holding the mbpping between the progrbmmbtic keys
+        // bnd the displby strings for the en_US locble.
         return new Object[][] {
 
         // LOCALIZE THIS
-        // Role names
-//        { "application","application" },
+        // Role nbmes
+//        { "bpplicbtion","bpplicbtion" },
 //        { "border","border" },
 //        { "checkboxmenuitem","check box menu item" },
 //        { "choice","choice" },
@@ -58,94 +58,94 @@ public class AccessibleResourceBundle extends ListResourceBundle {
 //        { "cursor","cursor" },
 //        { "document","document" },
 //        { "grouping","grouping" },
-//        { "image","image" },
-//        { "indicator","indicator" },
-//        { "radiobuttonmenuitem","radio button menu item" },
+//        { "imbge","imbge" },
+//        { "indicbtor","indicbtor" },
+//        { "rbdiobuttonmenuitem","rbdio button menu item" },
 //        { "row","row" },
-//        { "tablecell","table cell" },
+//        { "tbblecell","tbble cell" },
 //        { "treenode","tree node" },
-        { "alert","alert" },
-        { "awtcomponent","AWT component" },
+        { "blert","blert" },
+        { "bwtcomponent","AWT component" },
         { "checkbox","check box" },
         { "colorchooser","color chooser" },
-        { "columnheader","column header" },
+        { "columnhebder","column hebder" },
         { "combobox","combo box" },
-        { "canvas","canvas" },
+        { "cbnvbs","cbnvbs" },
         { "desktopicon","desktop icon" },
-        { "desktoppane","desktop pane" },
-        { "dialog","dialog" },
-        { "directorypane","directory pane" },
-        { "glasspane","glass pane" },
+        { "desktoppbne","desktop pbne" },
+        { "diblog","diblog" },
+        { "directorypbne","directory pbne" },
+        { "glbsspbne","glbss pbne" },
         { "filechooser","file chooser" },
         { "filler","filler" },
-        { "frame","frame" },
-        { "internalframe","internal frame" },
-        { "label","label" },
-        { "layeredpane","layered pane" },
+        { "frbme","frbme" },
+        { "internblfrbme","internbl frbme" },
+        { "lbbel","lbbel" },
+        { "lbyeredpbne","lbyered pbne" },
         { "list","list" },
         { "listitem","list item" },
-        { "menubar","menu bar" },
+        { "menubbr","menu bbr" },
         { "menu","menu" },
         { "menuitem","menu item" },
-        { "optionpane","option pane" },
-        { "pagetab","page tab" },
-        { "pagetablist","page tab list" },
-        { "panel","panel" },
-        { "passwordtext","password text" },
+        { "optionpbne","option pbne" },
+        { "pbgetbb","pbge tbb" },
+        { "pbgetbblist","pbge tbb list" },
+        { "pbnel","pbnel" },
+        { "pbsswordtext","pbssword text" },
         { "popupmenu","popup menu" },
-        { "progressbar","progress bar" },
+        { "progressbbr","progress bbr" },
         { "pushbutton","push button" },
-        { "radiobutton","radio button" },
-        { "rootpane","root pane" },
-        { "rowheader","row header" },
-        { "scrollbar","scroll bar" },
-        { "scrollpane","scroll pane" },
-        { "separator","separator" },
+        { "rbdiobutton","rbdio button" },
+        { "rootpbne","root pbne" },
+        { "rowhebder","row hebder" },
+        { "scrollbbr","scroll bbr" },
+        { "scrollpbne","scroll pbne" },
+        { "sepbrbtor","sepbrbtor" },
         { "slider","slider" },
-        { "splitpane","split pane" },
+        { "splitpbne","split pbne" },
         { "swingcomponent","swing component" },
-        { "table","table" },
+        { "tbble","tbble" },
         { "text","text" },
         { "tree","tree" },
         { "togglebutton","toggle button" },
-        { "toolbar","tool bar" },
+        { "toolbbr","tool bbr" },
         { "tooltip","tool tip" },
         { "unknown","unknown" },
         { "viewport","viewport" },
         { "window","window" },
-        // Relations
-        { "labelFor","label for" },
-        { "labeledBy","labeled by" },
+        // Relbtions
+        { "lbbelFor","lbbel for" },
+        { "lbbeledBy","lbbeled by" },
         { "memberOf","member of" },
         { "controlledBy","controlledBy" },
         { "controllerFor","controllerFor" },
-        // State modes
-        { "active","active" },
-        { "armed","armed" },
+        // Stbte modes
+        { "bctive","bctive" },
+        { "brmed","brmed" },
         { "busy","busy" },
         { "checked","checked" },
-        { "collapsed", "collapsed" },
-        { "editable","editable" },
-        { "expandable", "expandable" },
-        { "expanded", "expanded" },
-        { "enabled","enabled" },
-        { "focusable","focusable" },
+        { "collbpsed", "collbpsed" },
+        { "editbble","editbble" },
+        { "expbndbble", "expbndbble" },
+        { "expbnded", "expbnded" },
+        { "enbbled","enbbled" },
+        { "focusbble","focusbble" },
         { "focused","focused" },
         { "iconified", "iconified" },
-        { "modal", "modal" },
+        { "modbl", "modbl" },
         { "multiline", "multiple line" },
-        { "multiselectable","multiselectable" },
-        { "opaque", "opaque" },
+        { "multiselectbble","multiselectbble" },
+        { "opbque", "opbque" },
         { "pressed","pressed" },
-        { "resizable", "resizable" },
-        { "selectable","selectable" },
+        { "resizbble", "resizbble" },
+        { "selectbble","selectbble" },
         { "selected","selected" },
         { "showing","showing" },
         { "singleline", "single line" },
-        { "transient", "transient" },
+        { "trbnsient", "trbnsient" },
         { "visible","visible" },
-        { "vertical","vertical" },
-        { "horizontal","horizontal" }
+        { "verticbl","verticbl" },
+        { "horizontbl","horizontbl" }
     // END OF MATERIAL TO LOCALIZE
         };
     }

@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.font.TextAttribute;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-import java.util.Vector;
-import java.util.ArrayList;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import javax.swing.event.*;
-import javax.swing.undo.AbstractUndoableEdit;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.UndoableEdit;
-import javax.swing.SwingUtilities;
-import static sun.swing.SwingUtilities2.IMPLIED_CR;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.Enumerbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Stbck;
+import jbvb.util.Vector;
+import jbvb.util.ArrbyList;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.event.*;
+import jbvbx.swing.undo.AbstrbctUndobbleEdit;
+import jbvbx.swing.undo.CbnnotRedoException;
+import jbvbx.swing.undo.CbnnotUndoException;
+import jbvbx.swing.undo.UndobbleEdit;
+import jbvbx.swing.SwingUtilities;
+import stbtic sun.swing.SwingUtilities2.IMPLIED_CR;
 
 /**
- * A document that can be marked up with character and paragraph
- * styles in a manner similar to the Rich Text Format.  The element
+ * A document thbt cbn be mbrked up with chbrbcter bnd pbrbgrbph
+ * styles in b mbnner similbr to the Rich Text Formbt.  The element
  * structure for this document represents style crossings for
- * style runs.  These style runs are mapped into a paragraph element
- * structure (which may reside in some other structure).  The
- * style runs break at paragraph boundaries since logical styles are
- * assigned to paragraph boundaries.
+ * style runs.  These style runs bre mbpped into b pbrbgrbph element
+ * structure (which mby reside in some other structure).  The
+ * style runs brebk bt pbrbgrbph boundbries since logicbl styles bre
+ * bssigned to pbrbgrbph boundbries.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @see     Document
- * @see     AbstractDocument
+ * @see     AbstrbctDocument
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultStyledDocument extends AbstractDocument implements StyledDocument {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultStyledDocument extends AbstrbctDocument implements StyledDocument {
 
     /**
-     * Constructs a styled document.
+     * Constructs b styled document.
      *
-     * @param c  the container for the content
-     * @param styles resources and style definitions which may
-     *  be shared across documents
+     * @pbrbm c  the contbiner for the content
+     * @pbrbm styles resources bnd style definitions which mby
+     *  be shbred bcross documents
      */
-    public DefaultStyledDocument(Content c, StyleContext styles) {
+    public DefbultStyledDocument(Content c, StyleContext styles) {
         super(c, styles);
         listeningStyles = new Vector<Style>();
-        buffer = new ElementBuffer(createDefaultRoot());
-        Style defaultStyle = styles.getStyle(StyleContext.DEFAULT_STYLE);
-        setLogicalStyle(0, defaultStyle);
+        buffer = new ElementBuffer(crebteDefbultRoot());
+        Style defbultStyle = styles.getStyle(StyleContext.DEFAULT_STYLE);
+        setLogicblStyle(0, defbultStyle);
     }
 
     /**
-     * Constructs a styled document with the default content
-     * storage implementation and a shared set of styles.
+     * Constructs b styled document with the defbult content
+     * storbge implementbtion bnd b shbred set of styles.
      *
-     * @param styles the styles
+     * @pbrbm styles the styles
      */
-    public DefaultStyledDocument(StyleContext styles) {
-        this(new GapContent(BUFFER_SIZE_DEFAULT), styles);
+    public DefbultStyledDocument(StyleContext styles) {
+        this(new GbpContent(BUFFER_SIZE_DEFAULT), styles);
     }
 
     /**
-     * Constructs a default styled document.  This buffers
-     * input content by a size of <em>BUFFER_SIZE_DEFAULT</em>
-     * and has a style context that is scoped by the lifetime
-     * of the document and is not shared with other documents.
+     * Constructs b defbult styled document.  This buffers
+     * input content by b size of <em>BUFFER_SIZE_DEFAULT</em>
+     * bnd hbs b style context thbt is scoped by the lifetime
+     * of the document bnd is not shbred with other documents.
      */
-    public DefaultStyledDocument() {
-        this(new GapContent(BUFFER_SIZE_DEFAULT), new StyleContext());
+    public DefbultStyledDocument() {
+        this(new GbpContent(BUFFER_SIZE_DEFAULT), new StyleContext());
     }
 
     /**
-     * Gets the default root element.
+     * Gets the defbult root element.
      *
      * @return the root
-     * @see Document#getDefaultRootElement
+     * @see Document#getDefbultRootElement
      */
-    public Element getDefaultRootElement() {
+    public Element getDefbultRootElement() {
         return buffer.getRootElement();
     }
 
     /**
-     * Initialize the document to reflect the given element
+     * Initiblize the document to reflect the given element
      * structure (i.e. the structure reported by the
-     * <code>getDefaultRootElement</code> method.  If the
-     * document contained any data it will first be removed.
+     * <code>getDefbultRootElement</code> method.  If the
+     * document contbined bny dbtb it will first be removed.
      */
-    protected void create(ElementSpec[] data) {
+    protected void crebte(ElementSpec[] dbtb) {
         try {
             if (getLength() != 0) {
                 remove(0, getLength());
             }
             writeLock();
 
-            // install the content
+            // instbll the content
             Content c = getContent();
-            int n = data.length;
+            int n = dbtb.length;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < n; i++) {
-                ElementSpec es = data[i];
+                ElementSpec es = dbtb[i];
                 if (es.getLength() > 0) {
-                    sb.append(es.getArray(), es.getOffset(),  es.getLength());
+                    sb.bppend(es.getArrby(), es.getOffset(),  es.getLength());
                 }
             }
-            UndoableEdit cEdit = c.insertString(0, sb.toString());
+            UndobbleEdit cEdit = c.insertString(0, sb.toString());
 
-            // build the event and element structure
+            // build the event bnd element structure
             int length = sb.length();
-            DefaultDocumentEvent evnt =
-                new DefaultDocumentEvent(0, length, DocumentEvent.EventType.INSERT);
-            evnt.addEdit(cEdit);
-            buffer.create(length, data, evnt);
+            DefbultDocumentEvent evnt =
+                new DefbultDocumentEvent(0, length, DocumentEvent.EventType.INSERT);
+            evnt.bddEdit(cEdit);
+            buffer.crebte(length, dbtb, evnt);
 
-            // update bidi (possibly)
-            super.insertUpdate(evnt, null);
+            // updbte bidi (possibly)
+            super.insertUpdbte(evnt, null);
 
             // notify the listeners
             evnt.end();
-            fireInsertUpdate(evnt);
-            fireUndoableEditUpdate(new UndoableEditEvent(this, evnt));
-        } catch (BadLocationException ble) {
-            throw new StateInvariantError("problem initializing");
-        } finally {
+            fireInsertUpdbte(evnt);
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, evnt));
+        } cbtch (BbdLocbtionException ble) {
+            throw new StbteInvbribntError("problem initiblizing");
+        } finblly {
             writeUnlock();
         }
 
     }
 
     /**
-     * Inserts new elements in bulk.  This is useful to allow
-     * parsing with the document in an unlocked state and
-     * prepare an element structure modification.  This method
-     * takes an array of tokens that describe how to update an
-     * element structure so the time within a write lock can
-     * be greatly reduced in an asynchronous update situation.
+     * Inserts new elements in bulk.  This is useful to bllow
+     * pbrsing with the document in bn unlocked stbte bnd
+     * prepbre bn element structure modificbtion.  This method
+     * tbkes bn brrby of tokens thbt describe how to updbte bn
+     * element structure so the time within b write lock cbn
+     * be grebtly reduced in bn bsynchronous updbte situbtion.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param offset the starting offset &gt;= 0
-     * @param data the element data
-     * @exception BadLocationException for an invalid starting offset
+     * @pbrbm offset the stbrting offset &gt;= 0
+     * @pbrbm dbtb the element dbtb
+     * @exception BbdLocbtionException for bn invblid stbrting offset
      */
-    protected void insert(int offset, ElementSpec[] data) throws BadLocationException {
-        if (data == null || data.length == 0) {
+    protected void insert(int offset, ElementSpec[] dbtb) throws BbdLocbtionException {
+        if (dbtb == null || dbtb.length == 0) {
             return;
         }
 
         try {
             writeLock();
 
-            // install the content
+            // instbll the content
             Content c = getContent();
-            int n = data.length;
+            int n = dbtb.length;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < n; i++) {
-                ElementSpec es = data[i];
+                ElementSpec es = dbtb[i];
                 if (es.getLength() > 0) {
-                    sb.append(es.getArray(), es.getOffset(),  es.getLength());
+                    sb.bppend(es.getArrby(), es.getOffset(),  es.getLength());
                 }
             }
             if (sb.length() == 0) {
-                // Nothing to insert, bail.
+                // Nothing to insert, bbil.
                 return;
             }
-            UndoableEdit cEdit = c.insertString(offset, sb.toString());
+            UndobbleEdit cEdit = c.insertString(offset, sb.toString());
 
-            // create event and build the element structure
+            // crebte event bnd build the element structure
             int length = sb.length();
-            DefaultDocumentEvent evnt =
-                new DefaultDocumentEvent(offset, length, DocumentEvent.EventType.INSERT);
-            evnt.addEdit(cEdit);
-            buffer.insert(offset, length, data, evnt);
+            DefbultDocumentEvent evnt =
+                new DefbultDocumentEvent(offset, length, DocumentEvent.EventType.INSERT);
+            evnt.bddEdit(cEdit);
+            buffer.insert(offset, length, dbtb, evnt);
 
-            // update bidi (possibly)
-            super.insertUpdate(evnt, null);
+            // updbte bidi (possibly)
+            super.insertUpdbte(evnt, null);
 
             // notify the listeners
             evnt.end();
-            fireInsertUpdate(evnt);
-            fireUndoableEditUpdate(new UndoableEditEvent(this, evnt));
-        } finally {
+            fireInsertUpdbte(evnt);
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, evnt));
+        } finblly {
             writeUnlock();
         }
     }
 
     /**
-     * Removes an element from this document.
+     * Removes bn element from this document.
      *
-     * <p>The element is removed from its parent element, as well as
-     * the text in the range identified by the element.  If the
-     * element isn't associated with the document, {@code
-     * IllegalArgumentException} is thrown.</p>
+     * <p>The element is removed from its pbrent element, bs well bs
+     * the text in the rbnge identified by the element.  If the
+     * element isn't bssocibted with the document, {@code
+     * IllegblArgumentException} is thrown.</p>
      *
-     * <p>As empty branch elements are not allowed in the document, if the
-     * element is the sole child, its parent element is removed as well,
-     * recursively.  This means that when replacing all the children of a
-     * particular element, new children should be added <em>before</em>
+     * <p>As empty brbnch elements bre not bllowed in the document, if the
+     * element is the sole child, its pbrent element is removed bs well,
+     * recursively.  This mebns thbt when replbcing bll the children of b
+     * pbrticulbr element, new children should be bdded <em>before</em>
      * removing old children.
      *
-     * <p>Element removal results in two events being fired, the
-     * {@code DocumentEvent} for changes in element structure and {@code
-     * UndoableEditEvent} for changes in document content.</p>
+     * <p>Element removbl results in two events being fired, the
+     * {@code DocumentEvent} for chbnges in element structure bnd {@code
+     * UndobbleEditEvent} for chbnges in document content.</p>
      *
-     * <p>If the element contains end-of-content mark (the last {@code
-     * "\n"} character in document), this character is not removed;
-     * instead, preceding leaf element is extended to cover the
-     * character.  If the last leaf already ends with {@code "\n",} it is
-     * included in content removal.</p>
+     * <p>If the element contbins end-of-content mbrk (the lbst {@code
+     * "\n"} chbrbcter in document), this chbrbcter is not removed;
+     * instebd, preceding lebf element is extended to cover the
+     * chbrbcter.  If the lbst lebf blrebdy ends with {@code "\n",} it is
+     * included in content removbl.</p>
      *
      * <p>If the element is {@code null,} {@code NullPointerException} is
-     * thrown.  If the element structure would become invalid after the removal,
-     * for example if the element is the document root element, {@code
-     * IllegalArgumentException} is thrown.  If the current element structure is
-     * invalid, {@code IllegalStateException} is thrown.</p>
+     * thrown.  If the element structure would become invblid bfter the removbl,
+     * for exbmple if the element is the document root element, {@code
+     * IllegblArgumentException} is thrown.  If the current element structure is
+     * invblid, {@code IllegblStbteException} is thrown.</p>
      *
-     * @param  elem                      the element to remove
+     * @pbrbm  elem                      the element to remove
      * @throws NullPointerException      if the element is {@code null}
-     * @throws IllegalArgumentException  if the element could not be removed
-     * @throws IllegalStateException     if the element structure is invalid
+     * @throws IllegblArgumentException  if the element could not be removed
+     * @throws IllegblStbteException     if the element structure is invblid
      *
      * @since  1.7
      */
@@ -265,131 +265,131 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
         try {
             writeLock();
             removeElementImpl(elem);
-        } finally {
+        } finblly {
             writeUnlock();
         }
     }
 
-    private void removeElementImpl(Element elem) {
+    privbte void removeElementImpl(Element elem) {
         if (elem.getDocument() != this) {
-            throw new IllegalArgumentException("element doesn't belong to document");
+            throw new IllegblArgumentException("element doesn't belong to document");
         }
-        BranchElement parent = (BranchElement) elem.getParentElement();
-        if (parent == null) {
-            throw new IllegalArgumentException("can't remove the root element");
+        BrbnchElement pbrent = (BrbnchElement) elem.getPbrentElement();
+        if (pbrent == null) {
+            throw new IllegblArgumentException("cbn't remove the root element");
         }
 
-        int startOffset = elem.getStartOffset();
-        int removeFrom = startOffset;
+        int stbrtOffset = elem.getStbrtOffset();
+        int removeFrom = stbrtOffset;
         int endOffset = elem.getEndOffset();
         int removeTo = endOffset;
-        int lastEndOffset = getLength() + 1;
+        int lbstEndOffset = getLength() + 1;
         Content content = getContent();
-        boolean atEnd = false;
-        boolean isComposedText = Utilities.isComposedTextElement(elem);
+        boolebn btEnd = fblse;
+        boolebn isComposedText = Utilities.isComposedTextElement(elem);
 
-        if (endOffset >= lastEndOffset) {
-            // element includes the last "\n" character, needs special handling
-            if (startOffset <= 0) {
-                throw new IllegalArgumentException("can't remove the whole content");
+        if (endOffset >= lbstEndOffset) {
+            // element includes the lbst "\n" chbrbcter, needs specibl hbndling
+            if (stbrtOffset <= 0) {
+                throw new IllegblArgumentException("cbn't remove the whole content");
             }
-            removeTo = lastEndOffset - 1; // last "\n" must not be removed
+            removeTo = lbstEndOffset - 1; // lbst "\n" must not be removed
             try {
-                if (content.getString(startOffset - 1, 1).charAt(0) == '\n') {
-                    removeFrom--; // preceding leaf ends with "\n", remove it
+                if (content.getString(stbrtOffset - 1, 1).chbrAt(0) == '\n') {
+                    removeFrom--; // preceding lebf ends with "\n", remove it
                 }
-            } catch (BadLocationException ble) { // can't happen
-                throw new IllegalStateException(ble);
+            } cbtch (BbdLocbtionException ble) { // cbn't hbppen
+                throw new IllegblStbteException(ble);
             }
-            atEnd = true;
+            btEnd = true;
         }
         int length = removeTo - removeFrom;
 
-        DefaultDocumentEvent dde = new DefaultDocumentEvent(removeFrom,
-                length, DefaultDocumentEvent.EventType.REMOVE);
-        UndoableEdit ue = null;
-        // do not leave empty branch elements
-        while (parent.getElementCount() == 1) {
-            elem = parent;
-            parent = (BranchElement) parent.getParentElement();
-            if (parent == null) { // shouldn't happen
-                throw new IllegalStateException("invalid element structure");
+        DefbultDocumentEvent dde = new DefbultDocumentEvent(removeFrom,
+                length, DefbultDocumentEvent.EventType.REMOVE);
+        UndobbleEdit ue = null;
+        // do not lebve empty brbnch elements
+        while (pbrent.getElementCount() == 1) {
+            elem = pbrent;
+            pbrent = (BrbnchElement) pbrent.getPbrentElement();
+            if (pbrent == null) { // shouldn't hbppen
+                throw new IllegblStbteException("invblid element structure");
             }
         }
         Element[] removed = { elem };
-        Element[] added = {};
-        int index = parent.getElementIndex(startOffset);
-        parent.replace(index, 1, added);
-        dde.addEdit(new ElementEdit(parent, index, removed, added));
+        Element[] bdded = {};
+        int index = pbrent.getElementIndex(stbrtOffset);
+        pbrent.replbce(index, 1, bdded);
+        dde.bddEdit(new ElementEdit(pbrent, index, removed, bdded));
         if (length > 0) {
             try {
                 ue = content.remove(removeFrom, length);
                 if (ue != null) {
-                    dde.addEdit(ue);
+                    dde.bddEdit(ue);
                 }
-            } catch (BadLocationException ble) {
-                // can only happen if the element structure is severely broken
-                throw new IllegalStateException(ble);
+            } cbtch (BbdLocbtionException ble) {
+                // cbn only hbppen if the element structure is severely broken
+                throw new IllegblStbteException(ble);
             }
-            lastEndOffset -= length;
+            lbstEndOffset -= length;
         }
 
-        if (atEnd) {
-            // preceding leaf element should be extended to cover orphaned "\n"
-            Element prevLeaf = parent.getElement(parent.getElementCount() - 1);
-            while ((prevLeaf != null) && !prevLeaf.isLeaf()) {
-                prevLeaf = prevLeaf.getElement(prevLeaf.getElementCount() - 1);
+        if (btEnd) {
+            // preceding lebf element should be extended to cover orphbned "\n"
+            Element prevLebf = pbrent.getElement(pbrent.getElementCount() - 1);
+            while ((prevLebf != null) && !prevLebf.isLebf()) {
+                prevLebf = prevLebf.getElement(prevLebf.getElementCount() - 1);
             }
-            if (prevLeaf == null) { // shouldn't happen
-                throw new IllegalStateException("invalid element structure");
+            if (prevLebf == null) { // shouldn't hbppen
+                throw new IllegblStbteException("invblid element structure");
             }
-            int prevStartOffset = prevLeaf.getStartOffset();
-            BranchElement prevParent = (BranchElement) prevLeaf.getParentElement();
-            int prevIndex = prevParent.getElementIndex(prevStartOffset);
+            int prevStbrtOffset = prevLebf.getStbrtOffset();
+            BrbnchElement prevPbrent = (BrbnchElement) prevLebf.getPbrentElement();
+            int prevIndex = prevPbrent.getElementIndex(prevStbrtOffset);
             Element newElem;
-            newElem = createLeafElement(prevParent, prevLeaf.getAttributes(),
-                                            prevStartOffset, lastEndOffset);
-            Element[] prevRemoved = { prevLeaf };
+            newElem = crebteLebfElement(prevPbrent, prevLebf.getAttributes(),
+                                            prevStbrtOffset, lbstEndOffset);
+            Element[] prevRemoved = { prevLebf };
             Element[] prevAdded = { newElem };
-            prevParent.replace(prevIndex, 1, prevAdded);
-            dde.addEdit(new ElementEdit(prevParent, prevIndex,
+            prevPbrent.replbce(prevIndex, 1, prevAdded);
+            dde.bddEdit(new ElementEdit(prevPbrent, prevIndex,
                                                     prevRemoved, prevAdded));
         }
 
-        postRemoveUpdate(dde);
+        postRemoveUpdbte(dde);
         dde.end();
-        fireRemoveUpdate(dde);
+        fireRemoveUpdbte(dde);
         if (! (isComposedText && (ue != null))) {
-            // do not fire UndoabeEdit event for composed text edit (unsupported)
-            fireUndoableEditUpdate(new UndoableEditEvent(this, dde));
+            // do not fire UndobbeEdit event for composed text edit (unsupported)
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, dde));
         }
     }
 
     /**
-     * Adds a new style into the logical style hierarchy.  Style attributes
-     * resolve from bottom up so an attribute specified in a child
-     * will override an attribute specified in the parent.
+     * Adds b new style into the logicbl style hierbrchy.  Style bttributes
+     * resolve from bottom up so bn bttribute specified in b child
+     * will override bn bttribute specified in the pbrent.
      *
-     * @param nm   the name of the style (must be unique within the
-     *   collection of named styles).  The name may be null if the style
-     *   is unnamed, but the caller is responsible
-     *   for managing the reference returned as an unnamed style can't
-     *   be fetched by name.  An unnamed style may be useful for things
-     *   like character attribute overrides such as found in a style
+     * @pbrbm nm   the nbme of the style (must be unique within the
+     *   collection of nbmed styles).  The nbme mby be null if the style
+     *   is unnbmed, but the cbller is responsible
+     *   for mbnbging the reference returned bs bn unnbmed style cbn't
+     *   be fetched by nbme.  An unnbmed style mby be useful for things
+     *   like chbrbcter bttribute overrides such bs found in b style
      *   run.
-     * @param parent the parent style.  This may be null if unspecified
-     *   attributes need not be resolved in some other style.
+     * @pbrbm pbrent the pbrent style.  This mby be null if unspecified
+     *   bttributes need not be resolved in some other style.
      * @return the style
      */
-    public Style addStyle(String nm, Style parent) {
+    public Style bddStyle(String nm, Style pbrent) {
         StyleContext styles = (StyleContext) getAttributeContext();
-        return styles.addStyle(nm, parent);
+        return styles.bddStyle(nm, pbrent);
     }
 
     /**
-     * Removes a named style previously added to the document.
+     * Removes b nbmed style previously bdded to the document.
      *
-     * @param nm  the name of the style to remove
+     * @pbrbm nm  the nbme of the style to remove
      */
     public void removeStyle(String nm) {
         StyleContext styles = (StyleContext) getAttributeContext();
@@ -397,9 +397,9 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
     }
 
     /**
-     * Fetches a named style previously added.
+     * Fetches b nbmed style previously bdded.
      *
-     * @param nm  the name of the style
+     * @pbrbm nm  the nbme of the style
      * @return the style
      */
     public Style getStyle(String nm) {
@@ -409,865 +409,865 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
 
 
     /**
-     * Fetches the list of of style names.
+     * Fetches the list of of style nbmes.
      *
-     * @return all the style names
+     * @return bll the style nbmes
      */
-    public Enumeration<?> getStyleNames() {
-        return ((StyleContext) getAttributeContext()).getStyleNames();
+    public Enumerbtion<?> getStyleNbmes() {
+        return ((StyleContext) getAttributeContext()).getStyleNbmes();
     }
 
     /**
-     * Sets the logical style to use for the paragraph at the
-     * given position.  If attributes aren't explicitly set
-     * for character and paragraph attributes they will resolve
-     * through the logical style assigned to the paragraph, which
-     * in turn may resolve through some hierarchy completely
-     * independent of the element hierarchy in the document.
+     * Sets the logicbl style to use for the pbrbgrbph bt the
+     * given position.  If bttributes bren't explicitly set
+     * for chbrbcter bnd pbrbgrbph bttributes they will resolve
+     * through the logicbl style bssigned to the pbrbgrbph, which
+     * in turn mby resolve through some hierbrchy completely
+     * independent of the element hierbrchy in the document.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param pos the offset from the start of the document &gt;= 0
-     * @param s  the logical style to assign to the paragraph, null if none
+     * @pbrbm pos the offset from the stbrt of the document &gt;= 0
+     * @pbrbm s  the logicbl style to bssign to the pbrbgrbph, null if none
      */
-    public void setLogicalStyle(int pos, Style s) {
-        Element paragraph = getParagraphElement(pos);
-        if ((paragraph != null) && (paragraph instanceof AbstractElement)) {
+    public void setLogicblStyle(int pos, Style s) {
+        Element pbrbgrbph = getPbrbgrbphElement(pos);
+        if ((pbrbgrbph != null) && (pbrbgrbph instbnceof AbstrbctElement)) {
             try {
                 writeLock();
-                StyleChangeUndoableEdit edit = new StyleChangeUndoableEdit((AbstractElement)paragraph, s);
-                ((AbstractElement)paragraph).setResolveParent(s);
-                int p0 = paragraph.getStartOffset();
-                int p1 = paragraph.getEndOffset();
-                DefaultDocumentEvent e =
-                  new DefaultDocumentEvent(p0, p1 - p0, DocumentEvent.EventType.CHANGE);
-                e.addEdit(edit);
+                StyleChbngeUndobbleEdit edit = new StyleChbngeUndobbleEdit((AbstrbctElement)pbrbgrbph, s);
+                ((AbstrbctElement)pbrbgrbph).setResolvePbrent(s);
+                int p0 = pbrbgrbph.getStbrtOffset();
+                int p1 = pbrbgrbph.getEndOffset();
+                DefbultDocumentEvent e =
+                  new DefbultDocumentEvent(p0, p1 - p0, DocumentEvent.EventType.CHANGE);
+                e.bddEdit(edit);
                 e.end();
-                fireChangedUpdate(e);
-                fireUndoableEditUpdate(new UndoableEditEvent(this, e));
-            } finally {
+                fireChbngedUpdbte(e);
+                fireUndobbleEditUpdbte(new UndobbleEditEvent(this, e));
+            } finblly {
                 writeUnlock();
             }
         }
     }
 
     /**
-     * Fetches the logical style assigned to the paragraph
+     * Fetches the logicbl style bssigned to the pbrbgrbph
      * represented by the given position.
      *
-     * @param p the location to translate to a paragraph
-     *  and determine the logical style assigned &gt;= 0.  This
-     *  is an offset from the start of the document.
+     * @pbrbm p the locbtion to trbnslbte to b pbrbgrbph
+     *  bnd determine the logicbl style bssigned &gt;= 0.  This
+     *  is bn offset from the stbrt of the document.
      * @return the style, null if none
      */
-    public Style getLogicalStyle(int p) {
+    public Style getLogicblStyle(int p) {
         Style s = null;
-        Element paragraph = getParagraphElement(p);
-        if (paragraph != null) {
-            AttributeSet a = paragraph.getAttributes();
-            AttributeSet parent = a.getResolveParent();
-            if (parent instanceof Style) {
-                s = (Style) parent;
+        Element pbrbgrbph = getPbrbgrbphElement(p);
+        if (pbrbgrbph != null) {
+            AttributeSet b = pbrbgrbph.getAttributes();
+            AttributeSet pbrent = b.getResolvePbrent();
+            if (pbrent instbnceof Style) {
+                s = (Style) pbrent;
             }
         }
         return s;
     }
 
     /**
-     * Sets attributes for some part of the document.
-     * A write lock is held by this operation while changes
-     * are being made, and a DocumentEvent is sent to the listeners
-     * after the change has been successfully completed.
+     * Sets bttributes for some pbrt of the document.
+     * A write lock is held by this operbtion while chbnges
+     * bre being mbde, bnd b DocumentEvent is sent to the listeners
+     * bfter the chbnge hbs been successfully completed.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param offset the offset in the document &gt;= 0
-     * @param length the length &gt;= 0
-     * @param s the attributes
-     * @param replace true if the previous attributes should be replaced
-     *  before setting the new attributes
+     * @pbrbm offset the offset in the document &gt;= 0
+     * @pbrbm length the length &gt;= 0
+     * @pbrbm s the bttributes
+     * @pbrbm replbce true if the previous bttributes should be replbced
+     *  before setting the new bttributes
      */
-    public void setCharacterAttributes(int offset, int length, AttributeSet s, boolean replace) {
+    public void setChbrbcterAttributes(int offset, int length, AttributeSet s, boolebn replbce) {
         if (length == 0) {
             return;
         }
         try {
             writeLock();
-            DefaultDocumentEvent changes =
-                new DefaultDocumentEvent(offset, length, DocumentEvent.EventType.CHANGE);
+            DefbultDocumentEvent chbnges =
+                new DefbultDocumentEvent(offset, length, DocumentEvent.EventType.CHANGE);
 
-            // split elements that need it
-            buffer.change(offset, length, changes);
+            // split elements thbt need it
+            buffer.chbnge(offset, length, chbnges);
 
             AttributeSet sCopy = s.copyAttributes();
 
-            // PENDING(prinz) - this isn't a very efficient way to iterate
-            int lastEnd;
-            for (int pos = offset; pos < (offset + length); pos = lastEnd) {
-                Element run = getCharacterElement(pos);
-                lastEnd = run.getEndOffset();
-                if (pos == lastEnd) {
-                    // offset + length beyond length of document, bail.
-                    break;
+            // PENDING(prinz) - this isn't b very efficient wby to iterbte
+            int lbstEnd;
+            for (int pos = offset; pos < (offset + length); pos = lbstEnd) {
+                Element run = getChbrbcterElement(pos);
+                lbstEnd = run.getEndOffset();
+                if (pos == lbstEnd) {
+                    // offset + length beyond length of document, bbil.
+                    brebk;
                 }
-                MutableAttributeSet attr = (MutableAttributeSet) run.getAttributes();
-                changes.addEdit(new AttributeUndoableEdit(run, sCopy, replace));
-                if (replace) {
-                    attr.removeAttributes(attr);
+                MutbbleAttributeSet bttr = (MutbbleAttributeSet) run.getAttributes();
+                chbnges.bddEdit(new AttributeUndobbleEdit(run, sCopy, replbce));
+                if (replbce) {
+                    bttr.removeAttributes(bttr);
                 }
-                attr.addAttributes(s);
+                bttr.bddAttributes(s);
             }
-            changes.end();
-            fireChangedUpdate(changes);
-            fireUndoableEditUpdate(new UndoableEditEvent(this, changes));
-        } finally {
+            chbnges.end();
+            fireChbngedUpdbte(chbnges);
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, chbnges));
+        } finblly {
             writeUnlock();
         }
 
     }
 
     /**
-     * Sets attributes for a paragraph.
+     * Sets bttributes for b pbrbgrbph.
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      *
-     * @param offset the offset into the paragraph &gt;= 0
-     * @param length the number of characters affected &gt;= 0
-     * @param s the attributes
-     * @param replace whether to replace existing attributes, or merge them
+     * @pbrbm offset the offset into the pbrbgrbph &gt;= 0
+     * @pbrbm length the number of chbrbcters bffected &gt;= 0
+     * @pbrbm s the bttributes
+     * @pbrbm replbce whether to replbce existing bttributes, or merge them
      */
-    public void setParagraphAttributes(int offset, int length, AttributeSet s,
-                                       boolean replace) {
+    public void setPbrbgrbphAttributes(int offset, int length, AttributeSet s,
+                                       boolebn replbce) {
         try {
             writeLock();
-            DefaultDocumentEvent changes =
-                new DefaultDocumentEvent(offset, length, DocumentEvent.EventType.CHANGE);
+            DefbultDocumentEvent chbnges =
+                new DefbultDocumentEvent(offset, length, DocumentEvent.EventType.CHANGE);
 
             AttributeSet sCopy = s.copyAttributes();
 
-            // PENDING(prinz) - this assumes a particular element structure
-            Element section = getDefaultRootElement();
+            // PENDING(prinz) - this bssumes b pbrticulbr element structure
+            Element section = getDefbultRootElement();
             int index0 = section.getElementIndex(offset);
             int index1 = section.getElementIndex(offset + ((length > 0) ? length - 1 : 0));
-            boolean isI18N = Boolean.TRUE.equals(getProperty(I18NProperty));
-            boolean hasRuns = false;
+            boolebn isI18N = Boolebn.TRUE.equbls(getProperty(I18NProperty));
+            boolebn hbsRuns = fblse;
             for (int i = index0; i <= index1; i++) {
-                Element paragraph = section.getElement(i);
-                MutableAttributeSet attr = (MutableAttributeSet) paragraph.getAttributes();
-                changes.addEdit(new AttributeUndoableEdit(paragraph, sCopy, replace));
-                if (replace) {
-                    attr.removeAttributes(attr);
+                Element pbrbgrbph = section.getElement(i);
+                MutbbleAttributeSet bttr = (MutbbleAttributeSet) pbrbgrbph.getAttributes();
+                chbnges.bddEdit(new AttributeUndobbleEdit(pbrbgrbph, sCopy, replbce));
+                if (replbce) {
+                    bttr.removeAttributes(bttr);
                 }
-                attr.addAttributes(s);
-                if (isI18N && !hasRuns) {
-                    hasRuns = (attr.getAttribute(TextAttribute.RUN_DIRECTION) != null);
+                bttr.bddAttributes(s);
+                if (isI18N && !hbsRuns) {
+                    hbsRuns = (bttr.getAttribute(TextAttribute.RUN_DIRECTION) != null);
                 }
             }
 
-            if (hasRuns) {
-                updateBidi( changes );
+            if (hbsRuns) {
+                updbteBidi( chbnges );
             }
 
-            changes.end();
-            fireChangedUpdate(changes);
-            fireUndoableEditUpdate(new UndoableEditEvent(this, changes));
-        } finally {
+            chbnges.end();
+            fireChbngedUpdbte(chbnges);
+            fireUndobbleEditUpdbte(new UndobbleEditEvent(this, chbnges));
+        } finblly {
             writeUnlock();
         }
     }
 
     /**
-     * Gets the paragraph element at the offset <code>pos</code>.
-     * A paragraph consists of at least one child Element, which is usually
-     * a leaf.
+     * Gets the pbrbgrbph element bt the offset <code>pos</code>.
+     * A pbrbgrbph consists of bt lebst one child Element, which is usublly
+     * b lebf.
      *
-     * @param pos the starting offset &gt;= 0
+     * @pbrbm pos the stbrting offset &gt;= 0
      * @return the element
      */
-    public Element getParagraphElement(int pos) {
+    public Element getPbrbgrbphElement(int pos) {
         Element e;
-        for (e = getDefaultRootElement(); ! e.isLeaf(); ) {
+        for (e = getDefbultRootElement(); ! e.isLebf(); ) {
             int index = e.getElementIndex(pos);
             e = e.getElement(index);
         }
         if(e != null)
-            return e.getParentElement();
+            return e.getPbrentElement();
         return e;
     }
 
     /**
-     * Gets a character element based on a position.
+     * Gets b chbrbcter element bbsed on b position.
      *
-     * @param pos the position in the document &gt;= 0
+     * @pbrbm pos the position in the document &gt;= 0
      * @return the element
      */
-    public Element getCharacterElement(int pos) {
+    public Element getChbrbcterElement(int pos) {
         Element e;
-        for (e = getDefaultRootElement(); ! e.isLeaf(); ) {
+        for (e = getDefbultRootElement(); ! e.isLebf(); ) {
             int index = e.getElementIndex(pos);
             e = e.getElement(index);
         }
         return e;
     }
 
-    // --- local methods -------------------------------------------------
+    // --- locbl methods -------------------------------------------------
 
     /**
-     * Updates document structure as a result of text insertion.  This
-     * will happen within a write lock.  This implementation simply
-     * parses the inserted content for line breaks and builds up a set
+     * Updbtes document structure bs b result of text insertion.  This
+     * will hbppen within b write lock.  This implementbtion simply
+     * pbrses the inserted content for line brebks bnd builds up b set
      * of instructions for the element buffer.
      *
-     * @param chng a description of the document change
-     * @param attr the attributes
+     * @pbrbm chng b description of the document chbnge
+     * @pbrbm bttr the bttributes
      */
-    protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
+    protected void insertUpdbte(DefbultDocumentEvent chng, AttributeSet bttr) {
         int offset = chng.getOffset();
         int length = chng.getLength();
-        if (attr == null) {
-            attr = SimpleAttributeSet.EMPTY;
+        if (bttr == null) {
+            bttr = SimpleAttributeSet.EMPTY;
         }
 
-        // Paragraph attributes should come from point after insertion.
-        // You really only notice this when inserting at a paragraph
-        // boundary.
-        Element paragraph = getParagraphElement(offset + length);
-        AttributeSet pattr = paragraph.getAttributes();
-        // Character attributes should come from actual insertion point.
-        Element pParagraph = getParagraphElement(offset);
-        Element run = pParagraph.getElement(pParagraph.getElementIndex
+        // Pbrbgrbph bttributes should come from point bfter insertion.
+        // You reblly only notice this when inserting bt b pbrbgrbph
+        // boundbry.
+        Element pbrbgrbph = getPbrbgrbphElement(offset + length);
+        AttributeSet pbttr = pbrbgrbph.getAttributes();
+        // Chbrbcter bttributes should come from bctubl insertion point.
+        Element pPbrbgrbph = getPbrbgrbphElement(offset);
+        Element run = pPbrbgrbph.getElement(pPbrbgrbph.getElementIndex
                                             (offset));
         int endOffset = offset + length;
-        boolean insertingAtBoundry = (run.getEndOffset() == endOffset);
-        AttributeSet cattr = run.getAttributes();
+        boolebn insertingAtBoundry = (run.getEndOffset() == endOffset);
+        AttributeSet cbttr = run.getAttributes();
 
         try {
             Segment s = new Segment();
-            Vector<ElementSpec> parseBuffer = new Vector<ElementSpec>();
-            ElementSpec lastStartSpec = null;
-            boolean insertingAfterNewline = false;
-            short lastStartDirection = ElementSpec.OriginateDirection;
-            // Check if the previous character was a newline.
+            Vector<ElementSpec> pbrseBuffer = new Vector<ElementSpec>();
+            ElementSpec lbstStbrtSpec = null;
+            boolebn insertingAfterNewline = fblse;
+            short lbstStbrtDirection = ElementSpec.OriginbteDirection;
+            // Check if the previous chbrbcter wbs b newline.
             if (offset > 0) {
                 getText(offset - 1, 1, s);
-                if (s.array[s.offset] == '\n') {
-                    // Inserting after a newline.
+                if (s.brrby[s.offset] == '\n') {
+                    // Inserting bfter b newline.
                     insertingAfterNewline = true;
-                    lastStartDirection = createSpecsForInsertAfterNewline
-                                  (paragraph, pParagraph, pattr, parseBuffer,
+                    lbstStbrtDirection = crebteSpecsForInsertAfterNewline
+                                  (pbrbgrbph, pPbrbgrbph, pbttr, pbrseBuffer,
                                    offset, endOffset);
-                    for(int counter = parseBuffer.size() - 1; counter >= 0;
+                    for(int counter = pbrseBuffer.size() - 1; counter >= 0;
                         counter--) {
-                        ElementSpec spec = parseBuffer.elementAt(counter);
-                        if(spec.getType() == ElementSpec.StartTagType) {
-                            lastStartSpec = spec;
-                            break;
+                        ElementSpec spec = pbrseBuffer.elementAt(counter);
+                        if(spec.getType() == ElementSpec.StbrtTbgType) {
+                            lbstStbrtSpec = spec;
+                            brebk;
                         }
                     }
                 }
             }
-            // If not inserting after a new line, pull the attributes for
-            // new paragraphs from the paragraph under the insertion point.
+            // If not inserting bfter b new line, pull the bttributes for
+            // new pbrbgrbphs from the pbrbgrbph under the insertion point.
             if(!insertingAfterNewline)
-                pattr = pParagraph.getAttributes();
+                pbttr = pPbrbgrbph.getAttributes();
 
             getText(offset, length, s);
-            char[] txt = s.array;
+            chbr[] txt = s.brrby;
             int n = s.offset + s.count;
-            int lastOffset = s.offset;
+            int lbstOffset = s.offset;
 
             for (int i = s.offset; i < n; i++) {
                 if (txt[i] == '\n') {
-                    int breakOffset = i + 1;
-                    parseBuffer.addElement(
-                        new ElementSpec(attr, ElementSpec.ContentType,
-                                               breakOffset - lastOffset));
-                    parseBuffer.addElement(
-                        new ElementSpec(null, ElementSpec.EndTagType));
-                    lastStartSpec = new ElementSpec(pattr, ElementSpec.
-                                                   StartTagType);
-                    parseBuffer.addElement(lastStartSpec);
-                    lastOffset = breakOffset;
+                    int brebkOffset = i + 1;
+                    pbrseBuffer.bddElement(
+                        new ElementSpec(bttr, ElementSpec.ContentType,
+                                               brebkOffset - lbstOffset));
+                    pbrseBuffer.bddElement(
+                        new ElementSpec(null, ElementSpec.EndTbgType));
+                    lbstStbrtSpec = new ElementSpec(pbttr, ElementSpec.
+                                                   StbrtTbgType);
+                    pbrseBuffer.bddElement(lbstStbrtSpec);
+                    lbstOffset = brebkOffset;
                 }
             }
-            if (lastOffset < n) {
-                parseBuffer.addElement(
-                    new ElementSpec(attr, ElementSpec.ContentType,
-                                           n - lastOffset));
+            if (lbstOffset < n) {
+                pbrseBuffer.bddElement(
+                    new ElementSpec(bttr, ElementSpec.ContentType,
+                                           n - lbstOffset));
             }
 
-            ElementSpec first = parseBuffer.firstElement();
+            ElementSpec first = pbrseBuffer.firstElement();
 
             int docLength = getLength();
 
             // Check for join previous of first content.
             if(first.getType() == ElementSpec.ContentType &&
-               cattr.isEqual(attr)) {
+               cbttr.isEqubl(bttr)) {
                 first.setDirection(ElementSpec.JoinPreviousDirection);
             }
 
-            // Do a join fracture/next for last start spec if necessary.
-            if(lastStartSpec != null) {
+            // Do b join frbcture/next for lbst stbrt spec if necessbry.
+            if(lbstStbrtSpec != null) {
                 if(insertingAfterNewline) {
-                    lastStartSpec.setDirection(lastStartDirection);
+                    lbstStbrtSpec.setDirection(lbstStbrtDirection);
                 }
-                // Join to the fracture if NOT inserting at the end
-                // (fracture only happens when not inserting at end of
-                // paragraph).
-                else if(pParagraph.getEndOffset() != endOffset) {
-                    lastStartSpec.setDirection(ElementSpec.
-                                               JoinFractureDirection);
+                // Join to the frbcture if NOT inserting bt the end
+                // (frbcture only hbppens when not inserting bt end of
+                // pbrbgrbph).
+                else if(pPbrbgrbph.getEndOffset() != endOffset) {
+                    lbstStbrtSpec.setDirection(ElementSpec.
+                                               JoinFrbctureDirection);
                 }
-                // Join to next if parent of pParagraph has another
-                // element after pParagraph, and it isn't a leaf.
+                // Join to next if pbrent of pPbrbgrbph hbs bnother
+                // element bfter pPbrbgrbph, bnd it isn't b lebf.
                 else {
-                    Element parent = pParagraph.getParentElement();
-                    int pParagraphIndex = parent.getElementIndex(offset);
-                    if((pParagraphIndex + 1) < parent.getElementCount() &&
-                       !parent.getElement(pParagraphIndex + 1).isLeaf()) {
-                        lastStartSpec.setDirection(ElementSpec.
+                    Element pbrent = pPbrbgrbph.getPbrentElement();
+                    int pPbrbgrbphIndex = pbrent.getElementIndex(offset);
+                    if((pPbrbgrbphIndex + 1) < pbrent.getElementCount() &&
+                       !pbrent.getElement(pPbrbgrbphIndex + 1).isLebf()) {
+                        lbstStbrtSpec.setDirection(ElementSpec.
                                                    JoinNextDirection);
                     }
                 }
             }
 
-            // Do a JoinNext for last spec if it is content, it doesn't
-            // already have a direction set, no new paragraphs have been
-            // inserted or a new paragraph has been inserted and its join
-            // direction isn't originate, and the element at endOffset
-            // is a leaf.
+            // Do b JoinNext for lbst spec if it is content, it doesn't
+            // blrebdy hbve b direction set, no new pbrbgrbphs hbve been
+            // inserted or b new pbrbgrbph hbs been inserted bnd its join
+            // direction isn't originbte, bnd the element bt endOffset
+            // is b lebf.
             if(insertingAtBoundry && endOffset < docLength) {
-                ElementSpec last = parseBuffer.lastElement();
-                if(last.getType() == ElementSpec.ContentType &&
-                   last.getDirection() != ElementSpec.JoinPreviousDirection &&
-                   ((lastStartSpec == null && (paragraph == pParagraph ||
+                ElementSpec lbst = pbrseBuffer.lbstElement();
+                if(lbst.getType() == ElementSpec.ContentType &&
+                   lbst.getDirection() != ElementSpec.JoinPreviousDirection &&
+                   ((lbstStbrtSpec == null && (pbrbgrbph == pPbrbgrbph ||
                                                insertingAfterNewline)) ||
-                    (lastStartSpec != null && lastStartSpec.getDirection() !=
-                     ElementSpec.OriginateDirection))) {
-                    Element nextRun = paragraph.getElement(paragraph.
+                    (lbstStbrtSpec != null && lbstStbrtSpec.getDirection() !=
+                     ElementSpec.OriginbteDirection))) {
+                    Element nextRun = pbrbgrbph.getElement(pbrbgrbph.
                                            getElementIndex(endOffset));
-                    // Don't try joining to a branch!
-                    if(nextRun.isLeaf() &&
-                       attr.isEqual(nextRun.getAttributes())) {
-                        last.setDirection(ElementSpec.JoinNextDirection);
+                    // Don't try joining to b brbnch!
+                    if(nextRun.isLebf() &&
+                       bttr.isEqubl(nextRun.getAttributes())) {
+                        lbst.setDirection(ElementSpec.JoinNextDirection);
                     }
                 }
             }
-            // If not inserting at boundary and there is going to be a
-            // fracture, then can join next on last content if cattr
-            // matches the new attributes.
-            else if(!insertingAtBoundry && lastStartSpec != null &&
-                    lastStartSpec.getDirection() ==
-                    ElementSpec.JoinFractureDirection) {
-                ElementSpec last = parseBuffer.lastElement();
-                if(last.getType() == ElementSpec.ContentType &&
-                   last.getDirection() != ElementSpec.JoinPreviousDirection &&
-                   attr.isEqual(cattr)) {
-                    last.setDirection(ElementSpec.JoinNextDirection);
+            // If not inserting bt boundbry bnd there is going to be b
+            // frbcture, then cbn join next on lbst content if cbttr
+            // mbtches the new bttributes.
+            else if(!insertingAtBoundry && lbstStbrtSpec != null &&
+                    lbstStbrtSpec.getDirection() ==
+                    ElementSpec.JoinFrbctureDirection) {
+                ElementSpec lbst = pbrseBuffer.lbstElement();
+                if(lbst.getType() == ElementSpec.ContentType &&
+                   lbst.getDirection() != ElementSpec.JoinPreviousDirection &&
+                   bttr.isEqubl(cbttr)) {
+                    lbst.setDirection(ElementSpec.JoinNextDirection);
                 }
             }
 
-            // Check for the composed text element. If it is, merge the character attributes
-            // into this element as well.
-            if (Utilities.isComposedTextAttributeDefined(attr)) {
-                MutableAttributeSet mattr = (MutableAttributeSet) attr;
-                mattr.addAttributes(cattr);
-                mattr.addAttribute(AbstractDocument.ElementNameAttribute,
-                        AbstractDocument.ContentElementName);
+            // Check for the composed text element. If it is, merge the chbrbcter bttributes
+            // into this element bs well.
+            if (Utilities.isComposedTextAttributeDefined(bttr)) {
+                MutbbleAttributeSet mbttr = (MutbbleAttributeSet) bttr;
+                mbttr.bddAttributes(cbttr);
+                mbttr.bddAttribute(AbstrbctDocument.ElementNbmeAttribute,
+                        AbstrbctDocument.ContentElementNbme);
 
-                // Assure that the composed text element is named properly
-                // and doesn't have the CR attribute defined.
-                mattr.addAttribute(StyleConstants.NameAttribute,
-                        AbstractDocument.ContentElementName);
-                if (mattr.isDefined(IMPLIED_CR)) {
-                    mattr.removeAttribute(IMPLIED_CR);
+                // Assure thbt the composed text element is nbmed properly
+                // bnd doesn't hbve the CR bttribute defined.
+                mbttr.bddAttribute(StyleConstbnts.NbmeAttribute,
+                        AbstrbctDocument.ContentElementNbme);
+                if (mbttr.isDefined(IMPLIED_CR)) {
+                    mbttr.removeAttribute(IMPLIED_CR);
                 }
             }
 
-            ElementSpec[] spec = new ElementSpec[parseBuffer.size()];
-            parseBuffer.copyInto(spec);
+            ElementSpec[] spec = new ElementSpec[pbrseBuffer.size()];
+            pbrseBuffer.copyInto(spec);
             buffer.insert(offset, length, spec, chng);
-        } catch (BadLocationException bl) {
+        } cbtch (BbdLocbtionException bl) {
         }
 
-        super.insertUpdate( chng, attr );
+        super.insertUpdbte( chng, bttr );
     }
 
     /**
-     * This is called by insertUpdate when inserting after a new line.
-     * It generates, in <code>parseBuffer</code>, ElementSpecs that will
-     * position the stack in <code>paragraph</code>.<p>
-     * It returns the direction the last StartSpec should have (this don't
-     * necessarily create the last start spec).
+     * This is cblled by insertUpdbte when inserting bfter b new line.
+     * It generbtes, in <code>pbrseBuffer</code>, ElementSpecs thbt will
+     * position the stbck in <code>pbrbgrbph</code>.<p>
+     * It returns the direction the lbst StbrtSpec should hbve (this don't
+     * necessbrily crebte the lbst stbrt spec).
      */
-    short createSpecsForInsertAfterNewline(Element paragraph,
-            Element pParagraph, AttributeSet pattr, Vector<ElementSpec> parseBuffer,
+    short crebteSpecsForInsertAfterNewline(Element pbrbgrbph,
+            Element pPbrbgrbph, AttributeSet pbttr, Vector<ElementSpec> pbrseBuffer,
                                                  int offset, int endOffset) {
-        // Need to find the common parent of pParagraph and paragraph.
-        if(paragraph.getParentElement() == pParagraph.getParentElement()) {
-            // The simple (and common) case that pParagraph and
-            // paragraph have the same parent.
-            ElementSpec spec = new ElementSpec(pattr, ElementSpec.EndTagType);
-            parseBuffer.addElement(spec);
-            spec = new ElementSpec(pattr, ElementSpec.StartTagType);
-            parseBuffer.addElement(spec);
-            if(pParagraph.getEndOffset() != endOffset)
-                return ElementSpec.JoinFractureDirection;
+        // Need to find the common pbrent of pPbrbgrbph bnd pbrbgrbph.
+        if(pbrbgrbph.getPbrentElement() == pPbrbgrbph.getPbrentElement()) {
+            // The simple (bnd common) cbse thbt pPbrbgrbph bnd
+            // pbrbgrbph hbve the sbme pbrent.
+            ElementSpec spec = new ElementSpec(pbttr, ElementSpec.EndTbgType);
+            pbrseBuffer.bddElement(spec);
+            spec = new ElementSpec(pbttr, ElementSpec.StbrtTbgType);
+            pbrseBuffer.bddElement(spec);
+            if(pPbrbgrbph.getEndOffset() != endOffset)
+                return ElementSpec.JoinFrbctureDirection;
 
-            Element parent = pParagraph.getParentElement();
-            if((parent.getElementIndex(offset) + 1) < parent.getElementCount())
+            Element pbrent = pPbrbgrbph.getPbrentElement();
+            if((pbrent.getElementIndex(offset) + 1) < pbrent.getElementCount())
                 return ElementSpec.JoinNextDirection;
         }
         else {
-            // Will only happen for text with more than 2 levels.
-            // Find the common parent of a paragraph and pParagraph
-            Vector<Element> leftParents = new Vector<Element>();
-            Vector<Element> rightParents = new Vector<Element>();
-            Element e = pParagraph;
+            // Will only hbppen for text with more thbn 2 levels.
+            // Find the common pbrent of b pbrbgrbph bnd pPbrbgrbph
+            Vector<Element> leftPbrents = new Vector<Element>();
+            Vector<Element> rightPbrents = new Vector<Element>();
+            Element e = pPbrbgrbph;
             while(e != null) {
-                leftParents.addElement(e);
-                e = e.getParentElement();
+                leftPbrents.bddElement(e);
+                e = e.getPbrentElement();
             }
-            e = paragraph;
+            e = pbrbgrbph;
             int leftIndex = -1;
-            while(e != null && (leftIndex = leftParents.indexOf(e)) == -1) {
-                rightParents.addElement(e);
-                e = e.getParentElement();
+            while(e != null && (leftIndex = leftPbrents.indexOf(e)) == -1) {
+                rightPbrents.bddElement(e);
+                e = e.getPbrentElement();
             }
             if(e != null) {
-                // e identifies the common parent.
+                // e identifies the common pbrent.
                 // Build the ends.
                 for(int counter = 0; counter < leftIndex;
                     counter++) {
-                    parseBuffer.addElement(new ElementSpec
-                                              (null, ElementSpec.EndTagType));
+                    pbrseBuffer.bddElement(new ElementSpec
+                                              (null, ElementSpec.EndTbgType));
                 }
-                // And the starts.
+                // And the stbrts.
                 ElementSpec spec;
-                for(int counter = rightParents.size() - 1;
+                for(int counter = rightPbrents.size() - 1;
                     counter >= 0; counter--) {
-                    spec = new ElementSpec(rightParents.elementAt(counter).getAttributes(),
-                                   ElementSpec.StartTagType);
+                    spec = new ElementSpec(rightPbrents.elementAt(counter).getAttributes(),
+                                   ElementSpec.StbrtTbgType);
                     if(counter > 0)
                         spec.setDirection(ElementSpec.JoinNextDirection);
-                    parseBuffer.addElement(spec);
+                    pbrseBuffer.bddElement(spec);
                 }
-                // If there are right parents, then we generated starts
-                // down the right subtree and there will be an element to
+                // If there bre right pbrents, then we generbted stbrts
+                // down the right subtree bnd there will be bn element to
                 // join to.
-                if(rightParents.size() > 0)
+                if(rightPbrents.size() > 0)
                     return ElementSpec.JoinNextDirection;
-                // No right subtree, e.getElement(endOffset) is a
-                // leaf. There will be a facture.
-                return ElementSpec.JoinFractureDirection;
+                // No right subtree, e.getElement(endOffset) is b
+                // lebf. There will be b fbcture.
+                return ElementSpec.JoinFrbctureDirection;
             }
-            // else: Could throw an exception here, but should never get here!
+            // else: Could throw bn exception here, but should never get here!
         }
-        return ElementSpec.OriginateDirection;
+        return ElementSpec.OriginbteDirection;
     }
 
     /**
-     * Updates document structure as a result of text removal.
+     * Updbtes document structure bs b result of text removbl.
      *
-     * @param chng a description of the document change
+     * @pbrbm chng b description of the document chbnge
      */
-    protected void removeUpdate(DefaultDocumentEvent chng) {
-        super.removeUpdate(chng);
+    protected void removeUpdbte(DefbultDocumentEvent chng) {
+        super.removeUpdbte(chng);
         buffer.remove(chng.getOffset(), chng.getLength(), chng);
     }
 
     /**
-     * Creates the root element to be used to represent the
-     * default document structure.
+     * Crebtes the root element to be used to represent the
+     * defbult document structure.
      *
-     * @return the element base
+     * @return the element bbse
      */
-    protected AbstractElement createDefaultRoot() {
-        // grabs a write-lock for this initialization and
-        // abandon it during initialization so in normal
-        // operation we can detect an illegitimate attempt
-        // to mutate attributes.
+    protected AbstrbctElement crebteDefbultRoot() {
+        // grbbs b write-lock for this initiblizbtion bnd
+        // bbbndon it during initiblizbtion so in normbl
+        // operbtion we cbn detect bn illegitimbte bttempt
+        // to mutbte bttributes.
         writeLock();
-        BranchElement section = new SectionElement();
-        BranchElement paragraph = new BranchElement(section, null);
+        BrbnchElement section = new SectionElement();
+        BrbnchElement pbrbgrbph = new BrbnchElement(section, null);
 
-        LeafElement brk = new LeafElement(paragraph, null, 0, 1);
+        LebfElement brk = new LebfElement(pbrbgrbph, null, 0, 1);
         Element[] buff = new Element[1];
         buff[0] = brk;
-        paragraph.replace(0, 0, buff);
+        pbrbgrbph.replbce(0, 0, buff);
 
-        buff[0] = paragraph;
-        section.replace(0, 0, buff);
+        buff[0] = pbrbgrbph;
+        section.replbce(0, 0, buff);
         writeUnlock();
         return section;
     }
 
     /**
-     * Gets the foreground color from an attribute set.
+     * Gets the foreground color from bn bttribute set.
      *
-     * @param attr the attribute set
+     * @pbrbm bttr the bttribute set
      * @return the color
      */
-    public Color getForeground(AttributeSet attr) {
+    public Color getForeground(AttributeSet bttr) {
         StyleContext styles = (StyleContext) getAttributeContext();
-        return styles.getForeground(attr);
+        return styles.getForeground(bttr);
     }
 
     /**
-     * Gets the background color from an attribute set.
+     * Gets the bbckground color from bn bttribute set.
      *
-     * @param attr the attribute set
+     * @pbrbm bttr the bttribute set
      * @return the color
      */
-    public Color getBackground(AttributeSet attr) {
+    public Color getBbckground(AttributeSet bttr) {
         StyleContext styles = (StyleContext) getAttributeContext();
-        return styles.getBackground(attr);
+        return styles.getBbckground(bttr);
     }
 
     /**
-     * Gets the font from an attribute set.
+     * Gets the font from bn bttribute set.
      *
-     * @param attr the attribute set
+     * @pbrbm bttr the bttribute set
      * @return the font
      */
-    public Font getFont(AttributeSet attr) {
+    public Font getFont(AttributeSet bttr) {
         StyleContext styles = (StyleContext) getAttributeContext();
-        return styles.getFont(attr);
+        return styles.getFont(bttr);
     }
 
     /**
-     * Called when any of this document's styles have changed.
-     * Subclasses may wish to be intelligent about what gets damaged.
+     * Cblled when bny of this document's styles hbve chbnged.
+     * Subclbsses mby wish to be intelligent bbout whbt gets dbmbged.
      *
-     * @param style The Style that has changed.
+     * @pbrbm style The Style thbt hbs chbnged.
      */
-    protected void styleChanged(Style style) {
-        // Only propagate change updated if have content
+    protected void styleChbnged(Style style) {
+        // Only propbgbte chbnge updbted if hbve content
         if (getLength() != 0) {
-            // lazily create a ChangeUpdateRunnable
-            if (updateRunnable == null) {
-                updateRunnable = new ChangeUpdateRunnable();
+            // lbzily crebte b ChbngeUpdbteRunnbble
+            if (updbteRunnbble == null) {
+                updbteRunnbble = new ChbngeUpdbteRunnbble();
             }
 
-            // We may get a whole batch of these at once, so only
-            // queue the runnable if it is not already pending
-            synchronized(updateRunnable) {
-                if (!updateRunnable.isPending) {
-                    SwingUtilities.invokeLater(updateRunnable);
-                    updateRunnable.isPending = true;
+            // We mby get b whole bbtch of these bt once, so only
+            // queue the runnbble if it is not blrebdy pending
+            synchronized(updbteRunnbble) {
+                if (!updbteRunnbble.isPending) {
+                    SwingUtilities.invokeLbter(updbteRunnbble);
+                    updbteRunnbble.isPending = true;
                 }
             }
         }
     }
 
     /**
-     * Adds a document listener for notification of any changes.
+     * Adds b document listener for notificbtion of bny chbnges.
      *
-     * @param listener the listener
-     * @see Document#addDocumentListener
+     * @pbrbm listener the listener
+     * @see Document#bddDocumentListener
      */
-    public void addDocumentListener(DocumentListener listener) {
+    public void bddDocumentListener(DocumentListener listener) {
         synchronized(listeningStyles) {
             int oldDLCount = listenerList.getListenerCount
-                                          (DocumentListener.class);
-            super.addDocumentListener(listener);
+                                          (DocumentListener.clbss);
+            super.bddDocumentListener(listener);
             if (oldDLCount == 0) {
-                if (styleContextChangeListener == null) {
-                    styleContextChangeListener =
-                                      createStyleContextChangeListener();
+                if (styleContextChbngeListener == null) {
+                    styleContextChbngeListener =
+                                      crebteStyleContextChbngeListener();
                 }
-                if (styleContextChangeListener != null) {
+                if (styleContextChbngeListener != null) {
                     StyleContext styles = (StyleContext)getAttributeContext();
-                    List<ChangeListener> staleListeners =
-                        AbstractChangeHandler.getStaleListeners(styleContextChangeListener);
-                    for (ChangeListener l: staleListeners) {
-                        styles.removeChangeListener(l);
+                    List<ChbngeListener> stbleListeners =
+                        AbstrbctChbngeHbndler.getStbleListeners(styleContextChbngeListener);
+                    for (ChbngeListener l: stbleListeners) {
+                        styles.removeChbngeListener(l);
                     }
-                    styles.addChangeListener(styleContextChangeListener);
+                    styles.bddChbngeListener(styleContextChbngeListener);
                 }
-                updateStylesListeningTo();
+                updbteStylesListeningTo();
             }
         }
     }
 
     /**
-     * Removes a document listener.
+     * Removes b document listener.
      *
-     * @param listener the listener
+     * @pbrbm listener the listener
      * @see Document#removeDocumentListener
      */
     public void removeDocumentListener(DocumentListener listener) {
         synchronized(listeningStyles) {
             super.removeDocumentListener(listener);
-            if (listenerList.getListenerCount(DocumentListener.class) == 0) {
+            if (listenerList.getListenerCount(DocumentListener.clbss) == 0) {
                 for (int counter = listeningStyles.size() - 1; counter >= 0;
                      counter--) {
                     listeningStyles.elementAt(counter).
-                                    removeChangeListener(styleChangeListener);
+                                    removeChbngeListener(styleChbngeListener);
                 }
                 listeningStyles.removeAllElements();
-                if (styleContextChangeListener != null) {
+                if (styleContextChbngeListener != null) {
                     StyleContext styles = (StyleContext)getAttributeContext();
-                    styles.removeChangeListener(styleContextChangeListener);
+                    styles.removeChbngeListener(styleContextChbngeListener);
                 }
             }
         }
     }
 
     /**
-     * Returns a new instance of StyleChangeHandler.
+     * Returns b new instbnce of StyleChbngeHbndler.
      */
-    ChangeListener createStyleChangeListener() {
-        return new StyleChangeHandler(this);
+    ChbngeListener crebteStyleChbngeListener() {
+        return new StyleChbngeHbndler(this);
     }
 
     /**
-     * Returns a new instance of StyleContextChangeHandler.
+     * Returns b new instbnce of StyleContextChbngeHbndler.
      */
-    ChangeListener createStyleContextChangeListener() {
-        return new StyleContextChangeHandler(this);
+    ChbngeListener crebteStyleContextChbngeListener() {
+        return new StyleContextChbngeHbndler(this);
     }
 
     /**
-     * Adds a ChangeListener to new styles, and removes ChangeListener from
+     * Adds b ChbngeListener to new styles, bnd removes ChbngeListener from
      * old styles.
      */
-    void updateStylesListeningTo() {
+    void updbteStylesListeningTo() {
         synchronized(listeningStyles) {
             StyleContext styles = (StyleContext)getAttributeContext();
-            if (styleChangeListener == null) {
-                styleChangeListener = createStyleChangeListener();
+            if (styleChbngeListener == null) {
+                styleChbngeListener = crebteStyleChbngeListener();
             }
-            if (styleChangeListener != null && styles != null) {
-                Enumeration<?> styleNames = styles.getStyleNames();
-                @SuppressWarnings("unchecked")
+            if (styleChbngeListener != null && styles != null) {
+                Enumerbtion<?> styleNbmes = styles.getStyleNbmes();
+                @SuppressWbrnings("unchecked")
                 Vector<Style> v = (Vector<Style>)listeningStyles.clone();
                 listeningStyles.removeAllElements();
-                List<ChangeListener> staleListeners =
-                    AbstractChangeHandler.getStaleListeners(styleChangeListener);
-                while (styleNames.hasMoreElements()) {
-                    String name = (String)styleNames.nextElement();
-                    Style aStyle = styles.getStyle(name);
-                    int index = v.indexOf(aStyle);
-                    listeningStyles.addElement(aStyle);
+                List<ChbngeListener> stbleListeners =
+                    AbstrbctChbngeHbndler.getStbleListeners(styleChbngeListener);
+                while (styleNbmes.hbsMoreElements()) {
+                    String nbme = (String)styleNbmes.nextElement();
+                    Style bStyle = styles.getStyle(nbme);
+                    int index = v.indexOf(bStyle);
+                    listeningStyles.bddElement(bStyle);
                     if (index == -1) {
-                        for (ChangeListener l: staleListeners) {
-                            aStyle.removeChangeListener(l);
+                        for (ChbngeListener l: stbleListeners) {
+                            bStyle.removeChbngeListener(l);
                         }
-                        aStyle.addChangeListener(styleChangeListener);
+                        bStyle.bddChbngeListener(styleChbngeListener);
                     }
                     else {
                         v.removeElementAt(index);
                     }
                 }
                 for (int counter = v.size() - 1; counter >= 0; counter--) {
-                    Style aStyle = v.elementAt(counter);
-                    aStyle.removeChangeListener(styleChangeListener);
+                    Style bStyle = v.elementAt(counter);
+                    bStyle.removeChbngeListener(styleChbngeListener);
                 }
                 if (listeningStyles.size() == 0) {
-                    styleChangeListener = null;
+                    styleChbngeListener = null;
                 }
             }
         }
     }
 
-    private void readObject(ObjectInputStream s)
-            throws ClassNotFoundException, IOException {
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws ClbssNotFoundException, IOException {
         listeningStyles = new Vector<Style>();
-        s.defaultReadObject();
-        // Reinstall style listeners.
-        if (styleContextChangeListener == null &&
-            listenerList.getListenerCount(DocumentListener.class) > 0) {
-            styleContextChangeListener = createStyleContextChangeListener();
-            if (styleContextChangeListener != null) {
+        s.defbultRebdObject();
+        // Reinstbll style listeners.
+        if (styleContextChbngeListener == null &&
+            listenerList.getListenerCount(DocumentListener.clbss) > 0) {
+            styleContextChbngeListener = crebteStyleContextChbngeListener();
+            if (styleContextChbngeListener != null) {
                 StyleContext styles = (StyleContext)getAttributeContext();
-                styles.addChangeListener(styleContextChangeListener);
+                styles.bddChbngeListener(styleContextChbngeListener);
             }
-            updateStylesListeningTo();
+            updbteStylesListeningTo();
         }
     }
 
-    // --- member variables -----------------------------------------------------------
+    // --- member vbribbles -----------------------------------------------------------
 
     /**
-     * The default size of the initial content buffer.
+     * The defbult size of the initibl content buffer.
      */
-    public static final int BUFFER_SIZE_DEFAULT = 4096;
+    public stbtic finbl int BUFFER_SIZE_DEFAULT = 4096;
 
     protected ElementBuffer buffer;
 
     /** Styles listening to. */
-    private transient Vector<Style> listeningStyles;
+    privbte trbnsient Vector<Style> listeningStyles;
 
     /** Listens to Styles. */
-    private transient ChangeListener styleChangeListener;
+    privbte trbnsient ChbngeListener styleChbngeListener;
 
     /** Listens to Styles. */
-    private transient ChangeListener styleContextChangeListener;
+    privbte trbnsient ChbngeListener styleContextChbngeListener;
 
-    /** Run to create a change event for the document */
-    private transient ChangeUpdateRunnable updateRunnable;
+    /** Run to crebte b chbnge event for the document */
+    privbte trbnsient ChbngeUpdbteRunnbble updbteRunnbble;
 
     /**
-     * Default root element for a document... maps out the
-     * paragraphs/lines contained.
+     * Defbult root element for b document... mbps out the
+     * pbrbgrbphs/lines contbined.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class SectionElement extends BranchElement {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss SectionElement extends BrbnchElement {
 
         /**
-         * Creates a new SectionElement.
+         * Crebtes b new SectionElement.
          */
         public SectionElement() {
             super(null, null);
         }
 
         /**
-         * Gets the name of the element.
+         * Gets the nbme of the element.
          *
-         * @return the name
+         * @return the nbme
          */
-        public String getName() {
-            return SectionElementName;
+        public String getNbme() {
+            return SectionElementNbme;
         }
     }
 
     /**
-     * Specification for building elements.
+     * Specificbtion for building elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class ElementSpec {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss ElementSpec {
 
         /**
-         * A possible value for getType.  This specifies
-         * that this record type is a start tag and
-         * represents markup that specifies the start
-         * of an element.
+         * A possible vblue for getType.  This specifies
+         * thbt this record type is b stbrt tbg bnd
+         * represents mbrkup thbt specifies the stbrt
+         * of bn element.
          */
-        public static final short StartTagType = 1;
+        public stbtic finbl short StbrtTbgType = 1;
 
         /**
-         * A possible value for getType.  This specifies
-         * that this record type is a end tag and
-         * represents markup that specifies the end
-         * of an element.
+         * A possible vblue for getType.  This specifies
+         * thbt this record type is b end tbg bnd
+         * represents mbrkup thbt specifies the end
+         * of bn element.
          */
-        public static final short EndTagType = 2;
+        public stbtic finbl short EndTbgType = 2;
 
         /**
-         * A possible value for getType.  This specifies
-         * that this record type represents content.
+         * A possible vblue for getType.  This specifies
+         * thbt this record type represents content.
          */
-        public static final short ContentType = 3;
+        public stbtic finbl short ContentType = 3;
 
         /**
-         * A possible value for getDirection.  This specifies
-         * that the data associated with this record should
-         * be joined to what precedes it.
+         * A possible vblue for getDirection.  This specifies
+         * thbt the dbtb bssocibted with this record should
+         * be joined to whbt precedes it.
          */
-        public static final short JoinPreviousDirection = 4;
+        public stbtic finbl short JoinPreviousDirection = 4;
 
         /**
-         * A possible value for getDirection.  This specifies
-         * that the data associated with this record should
-         * be joined to what follows it.
+         * A possible vblue for getDirection.  This specifies
+         * thbt the dbtb bssocibted with this record should
+         * be joined to whbt follows it.
          */
-        public static final short JoinNextDirection = 5;
+        public stbtic finbl short JoinNextDirection = 5;
 
         /**
-         * A possible value for getDirection.  This specifies
-         * that the data associated with this record should
-         * be used to originate a new element.  This would be
-         * the normal value.
+         * A possible vblue for getDirection.  This specifies
+         * thbt the dbtb bssocibted with this record should
+         * be used to originbte b new element.  This would be
+         * the normbl vblue.
          */
-        public static final short OriginateDirection = 6;
+        public stbtic finbl short OriginbteDirection = 6;
 
         /**
-         * A possible value for getDirection.  This specifies
-         * that the data associated with this record should
-         * be joined to the fractured element.
+         * A possible vblue for getDirection.  This specifies
+         * thbt the dbtb bssocibted with this record should
+         * be joined to the frbctured element.
          */
-        public static final short JoinFractureDirection = 7;
+        public stbtic finbl short JoinFrbctureDirection = 7;
 
 
         /**
-         * Constructor useful for markup when the markup will not
+         * Constructor useful for mbrkup when the mbrkup will not
          * be stored in the document.
          *
-         * @param a the attributes for the element
-         * @param type the type of the element (StartTagType, EndTagType,
+         * @pbrbm b the bttributes for the element
+         * @pbrbm type the type of the element (StbrtTbgType, EndTbgType,
          *  ContentType)
          */
-        public ElementSpec(AttributeSet a, short type) {
-            this(a, type, null, 0, 0);
+        public ElementSpec(AttributeSet b, short type) {
+            this(b, type, null, 0, 0);
         }
 
         /**
-         * Constructor for parsing inside the document when
-         * the data has already been added, but len information
+         * Constructor for pbrsing inside the document when
+         * the dbtb hbs blrebdy been bdded, but len informbtion
          * is needed.
          *
-         * @param a the attributes for the element
-         * @param type the type of the element (StartTagType, EndTagType,
+         * @pbrbm b the bttributes for the element
+         * @pbrbm type the type of the element (StbrtTbgType, EndTbgType,
          *  ContentType)
-         * @param len the length &gt;= 0
+         * @pbrbm len the length &gt;= 0
          */
-        public ElementSpec(AttributeSet a, short type, int len) {
-            this(a, type, null, 0, len);
+        public ElementSpec(AttributeSet b, short type, int len) {
+            this(b, type, null, 0, len);
         }
 
         /**
-         * Constructor for creating a spec externally for batch
-         * input of content and markup into the document.
+         * Constructor for crebting b spec externblly for bbtch
+         * input of content bnd mbrkup into the document.
          *
-         * @param a the attributes for the element
-         * @param type the type of the element (StartTagType, EndTagType,
+         * @pbrbm b the bttributes for the element
+         * @pbrbm type the type of the element (StbrtTbgType, EndTbgType,
          *  ContentType)
-         * @param txt the text for the element
-         * @param offs the offset into the text &gt;= 0
-         * @param len the length of the text &gt;= 0
+         * @pbrbm txt the text for the element
+         * @pbrbm offs the offset into the text &gt;= 0
+         * @pbrbm len the length of the text &gt;= 0
          */
-        public ElementSpec(AttributeSet a, short type, char[] txt,
+        public ElementSpec(AttributeSet b, short type, chbr[] txt,
                                   int offs, int len) {
-            attr = a;
+            bttr = b;
             this.type = type;
-            this.data = txt;
+            this.dbtb = txt;
             this.offs = offs;
             this.len = len;
-            this.direction = OriginateDirection;
+            this.direction = OriginbteDirection;
         }
 
         /**
          * Sets the element type.
          *
-         * @param type the type of the element (StartTagType, EndTagType,
+         * @pbrbm type the type of the element (StbrtTbgType, EndTbgType,
          *  ContentType)
          */
         public void setType(short type) {
@@ -1277,7 +1277,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
         /**
          * Gets the element type.
          *
-         * @return  the type of the element (StartTagType, EndTagType,
+         * @return  the type of the element (StbrtTbgType, EndTbgType,
          *  ContentType)
          */
         public short getType() {
@@ -1287,7 +1287,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
         /**
          * Sets the direction.
          *
-         * @param direction the direction (JoinPreviousDirection,
+         * @pbrbm direction the direction (JoinPreviousDirection,
          *   JoinNextDirection)
          */
         public void setDirection(short direction) {
@@ -1304,26 +1304,26 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
         }
 
         /**
-         * Gets the element attributes.
+         * Gets the element bttributes.
          *
-         * @return the attribute set
+         * @return the bttribute set
          */
         public AttributeSet getAttributes() {
-            return attr;
+            return bttr;
         }
 
         /**
-         * Gets the array of characters.
+         * Gets the brrby of chbrbcters.
          *
-         * @return the array
+         * @return the brrby
          */
-        public char[] getArray() {
-            return data;
+        public chbr[] getArrby() {
+            return dbtb;
         }
 
 
         /**
-         * Gets the starting offset.
+         * Gets the stbrting offset.
          *
          * @return the offset &gt;= 0
          */
@@ -1341,7 +1341,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
         }
 
         /**
-         * Converts the element to a string.
+         * Converts the element to b string.
          *
          * @return the string
          */
@@ -1349,68 +1349,68 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             String tlbl = "??";
             String plbl = "??";
             switch(type) {
-            case StartTagType:
-                tlbl = "StartTag";
-                break;
-            case ContentType:
+            cbse StbrtTbgType:
+                tlbl = "StbrtTbg";
+                brebk;
+            cbse ContentType:
                 tlbl = "Content";
-                break;
-            case EndTagType:
-                tlbl = "EndTag";
-                break;
+                brebk;
+            cbse EndTbgType:
+                tlbl = "EndTbg";
+                brebk;
             }
             switch(direction) {
-            case JoinPreviousDirection:
+            cbse JoinPreviousDirection:
                 plbl = "JoinPrevious";
-                break;
-            case JoinNextDirection:
+                brebk;
+            cbse JoinNextDirection:
                 plbl = "JoinNext";
-                break;
-            case OriginateDirection:
-                plbl = "Originate";
-                break;
-            case JoinFractureDirection:
-                plbl = "Fracture";
-                break;
+                brebk;
+            cbse OriginbteDirection:
+                plbl = "Originbte";
+                brebk;
+            cbse JoinFrbctureDirection:
+                plbl = "Frbcture";
+                brebk;
             }
             return tlbl + ":" + plbl + ":" + getLength();
         }
 
-        private AttributeSet attr;
-        private int len;
-        private short type;
-        private short direction;
+        privbte AttributeSet bttr;
+        privbte int len;
+        privbte short type;
+        privbte short direction;
 
-        private int offs;
-        private char[] data;
+        privbte int offs;
+        privbte chbr[] dbtb;
     }
 
     /**
-     * Class to manage changes to the element
-     * hierarchy.
+     * Clbss to mbnbge chbnges to the element
+     * hierbrchy.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public class ElementBuffer implements Serializable {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public clbss ElementBuffer implements Seriblizbble {
 
         /**
-         * Creates a new ElementBuffer.
+         * Crebtes b new ElementBuffer.
          *
-         * @param root the root element
+         * @pbrbm root the root element
          * @since 1.4
          */
         public ElementBuffer(Element root) {
             this.root = root;
-            changes = new Vector<ElemChanges>();
-            path = new Stack<ElemChanges>();
+            chbnges = new Vector<ElemChbnges>();
+            pbth = new Stbck<ElemChbnges>();
         }
 
         /**
@@ -1425,339 +1425,339 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
         /**
          * Inserts new content.
          *
-         * @param offset the starting offset &gt;= 0
-         * @param length the length &gt;= 0
-         * @param data the data to insert
-         * @param de the event capturing this edit
+         * @pbrbm offset the stbrting offset &gt;= 0
+         * @pbrbm length the length &gt;= 0
+         * @pbrbm dbtb the dbtb to insert
+         * @pbrbm de the event cbpturing this edit
          */
-        public void insert(int offset, int length, ElementSpec[] data,
-                                 DefaultDocumentEvent de) {
+        public void insert(int offset, int length, ElementSpec[] dbtb,
+                                 DefbultDocumentEvent de) {
             if (length == 0) {
-                // Nothing was inserted, no structure change.
+                // Nothing wbs inserted, no structure chbnge.
                 return;
             }
             insertOp = true;
             beginEdits(offset, length);
-            insertUpdate(data);
+            insertUpdbte(dbtb);
             endEdits(de);
 
-            insertOp = false;
+            insertOp = fblse;
         }
 
-        void create(int length, ElementSpec[] data, DefaultDocumentEvent de) {
+        void crebte(int length, ElementSpec[] dbtb, DefbultDocumentEvent de) {
             insertOp = true;
             beginEdits(offset, length);
 
-            // PENDING(prinz) this needs to be fixed to create a new
-            // root element as well, but requires changes to the
-            // DocumentEvent to inform the views that there is a new
+            // PENDING(prinz) this needs to be fixed to crebte b new
+            // root element bs well, but requires chbnges to the
+            // DocumentEvent to inform the views thbt there is b new
             // root element.
 
-            // Recreate the ending fake element to have the correct offsets.
+            // Recrebte the ending fbke element to hbve the correct offsets.
             Element elem = root;
             int index = elem.getElementIndex(0);
-            while (! elem.isLeaf()) {
+            while (! elem.isLebf()) {
                 Element child = elem.getElement(index);
                 push(elem, index);
                 elem = child;
                 index = elem.getElementIndex(0);
             }
-            ElemChanges ec = path.peek();
-            Element child = ec.parent.getElement(ec.index);
-            ec.added.addElement(createLeafElement(ec.parent,
+            ElemChbnges ec = pbth.peek();
+            Element child = ec.pbrent.getElement(ec.index);
+            ec.bdded.bddElement(crebteLebfElement(ec.pbrent,
                                 child.getAttributes(), getLength(),
                                 child.getEndOffset()));
-            ec.removed.addElement(child);
-            while (path.size() > 1) {
+            ec.removed.bddElement(child);
+            while (pbth.size() > 1) {
                 pop();
             }
 
-            int n = data.length;
+            int n = dbtb.length;
 
-            // Reset the root elements attributes.
+            // Reset the root elements bttributes.
             AttributeSet newAttrs = null;
-            if (n > 0 && data[0].getType() == ElementSpec.StartTagType) {
-                newAttrs = data[0].getAttributes();
+            if (n > 0 && dbtb[0].getType() == ElementSpec.StbrtTbgType) {
+                newAttrs = dbtb[0].getAttributes();
             }
             if (newAttrs == null) {
                 newAttrs = SimpleAttributeSet.EMPTY;
             }
-            MutableAttributeSet attr = (MutableAttributeSet)root.
+            MutbbleAttributeSet bttr = (MutbbleAttributeSet)root.
                                        getAttributes();
-            de.addEdit(new AttributeUndoableEdit(root, newAttrs, true));
-            attr.removeAttributes(attr);
-            attr.addAttributes(newAttrs);
+            de.bddEdit(new AttributeUndobbleEdit(root, newAttrs, true));
+            bttr.removeAttributes(bttr);
+            bttr.bddAttributes(newAttrs);
 
             // fold in the specified subtree
             for (int i = 1; i < n; i++) {
-                insertElement(data[i]);
+                insertElement(dbtb[i]);
             }
 
-            // pop the remaining path
-            while (path.size() != 0) {
+            // pop the rembining pbth
+            while (pbth.size() != 0) {
                 pop();
             }
 
             endEdits(de);
-            insertOp = false;
+            insertOp = fblse;
         }
 
         /**
          * Removes content.
          *
-         * @param offset the starting offset &gt;= 0
-         * @param length the length &gt;= 0
-         * @param de the event capturing this edit
+         * @pbrbm offset the stbrting offset &gt;= 0
+         * @pbrbm length the length &gt;= 0
+         * @pbrbm de the event cbpturing this edit
          */
-        public void remove(int offset, int length, DefaultDocumentEvent de) {
+        public void remove(int offset, int length, DefbultDocumentEvent de) {
             beginEdits(offset, length);
-            removeUpdate();
+            removeUpdbte();
             endEdits(de);
         }
 
         /**
-         * Changes content.
+         * Chbnges content.
          *
-         * @param offset the starting offset &gt;= 0
-         * @param length the length &gt;= 0
-         * @param de the event capturing this edit
+         * @pbrbm offset the stbrting offset &gt;= 0
+         * @pbrbm length the length &gt;= 0
+         * @pbrbm de the event cbpturing this edit
          */
-        public void change(int offset, int length, DefaultDocumentEvent de) {
+        public void chbnge(int offset, int length, DefbultDocumentEvent de) {
             beginEdits(offset, length);
-            changeUpdate();
+            chbngeUpdbte();
             endEdits(de);
         }
 
         /**
-         * Inserts an update into the document.
+         * Inserts bn updbte into the document.
          *
-         * @param data the elements to insert
+         * @pbrbm dbtb the elements to insert
          */
-        protected void insertUpdate(ElementSpec[] data) {
-            // push the path
+        protected void insertUpdbte(ElementSpec[] dbtb) {
+            // push the pbth
             Element elem = root;
             int index = elem.getElementIndex(offset);
-            while (! elem.isLeaf()) {
+            while (! elem.isLebf()) {
                 Element child = elem.getElement(index);
-                push(elem, (child.isLeaf() ? index : index+1));
+                push(elem, (child.isLebf() ? index : index+1));
                 elem = child;
                 index = elem.getElementIndex(offset);
             }
 
-            // Build a copy of the original path.
-            insertPath = new ElemChanges[path.size()];
-            path.copyInto(insertPath);
+            // Build b copy of the originbl pbth.
+            insertPbth = new ElemChbnges[pbth.size()];
+            pbth.copyInto(insertPbth);
 
-            // Haven't created the fracture yet.
-            createdFracture = false;
+            // Hbven't crebted the frbcture yet.
+            crebtedFrbcture = fblse;
 
             // Insert the first content.
             int i;
 
-            recreateLeafs = false;
-            if(data[0].getType() == ElementSpec.ContentType) {
-                insertFirstContent(data);
-                pos += data[0].getLength();
+            recrebteLebfs = fblse;
+            if(dbtb[0].getType() == ElementSpec.ContentType) {
+                insertFirstContent(dbtb);
+                pos += dbtb[0].getLength();
                 i = 1;
             }
             else {
-                fractureDeepestLeaf(data);
+                frbctureDeepestLebf(dbtb);
                 i = 0;
             }
 
             // fold in the specified subtree
-            int n = data.length;
+            int n = dbtb.length;
             for (; i < n; i++) {
-                insertElement(data[i]);
+                insertElement(dbtb[i]);
             }
 
-            // Fracture, if we haven't yet.
-            if(!createdFracture)
-                fracture(-1);
+            // Frbcture, if we hbven't yet.
+            if(!crebtedFrbcture)
+                frbcture(-1);
 
-            // pop the remaining path
-            while (path.size() != 0) {
+            // pop the rembining pbth
+            while (pbth.size() != 0) {
                 pop();
             }
 
-            // Offset the last index if necessary.
-            if(offsetLastIndex && offsetLastIndexOnReplace) {
-                insertPath[insertPath.length - 1].index++;
+            // Offset the lbst index if necessbry.
+            if(offsetLbstIndex && offsetLbstIndexOnReplbce) {
+                insertPbth[insertPbth.length - 1].index++;
             }
 
-            // Make sure an edit is going to be created for each of the
-            // original path items that have a change.
-            for(int counter = insertPath.length - 1; counter >= 0;
+            // Mbke sure bn edit is going to be crebted for ebch of the
+            // originbl pbth items thbt hbve b chbnge.
+            for(int counter = insertPbth.length - 1; counter >= 0;
                 counter--) {
-                ElemChanges change = insertPath[counter];
-                if(change.parent == fracturedParent)
-                    change.added.addElement(fracturedChild);
-                if((change.added.size() > 0 ||
-                    change.removed.size() > 0) && !changes.contains(change)) {
-                    // PENDING(sky): Do I need to worry about order here?
-                    changes.addElement(change);
+                ElemChbnges chbnge = insertPbth[counter];
+                if(chbnge.pbrent == frbcturedPbrent)
+                    chbnge.bdded.bddElement(frbcturedChild);
+                if((chbnge.bdded.size() > 0 ||
+                    chbnge.removed.size() > 0) && !chbnges.contbins(chbnge)) {
+                    // PENDING(sky): Do I need to worry bbout order here?
+                    chbnges.bddElement(chbnge);
                 }
             }
 
-            // An insert at 0 with an initial end implies some elements
-            // will have no children (the bottomost leaf would have length 0)
-            // this will find what element need to be removed and remove it.
-            if (offset == 0 && fracturedParent != null &&
-                data[0].getType() == ElementSpec.EndTagType) {
+            // An insert bt 0 with bn initibl end implies some elements
+            // will hbve no children (the bottomost lebf would hbve length 0)
+            // this will find whbt element need to be removed bnd remove it.
+            if (offset == 0 && frbcturedPbrent != null &&
+                dbtb[0].getType() == ElementSpec.EndTbgType) {
                 int counter = 0;
-                while (counter < data.length &&
-                       data[counter].getType() == ElementSpec.EndTagType) {
+                while (counter < dbtb.length &&
+                       dbtb[counter].getType() == ElementSpec.EndTbgType) {
                     counter++;
                 }
-                ElemChanges change = insertPath[insertPath.length -
+                ElemChbnges chbnge = insertPbth[insertPbth.length -
                                                counter - 1];
-                change.removed.insertElementAt(change.parent.getElement
-                                               (--change.index), 0);
+                chbnge.removed.insertElementAt(chbnge.pbrent.getElement
+                                               (--chbnge.index), 0);
             }
         }
 
         /**
-         * Updates the element structure in response to a removal from the
-         * associated sequence in the document.  Any elements consumed by the
-         * span of the removal are removed.
+         * Updbtes the element structure in response to b removbl from the
+         * bssocibted sequence in the document.  Any elements consumed by the
+         * spbn of the removbl bre removed.
          */
-        protected void removeUpdate() {
+        protected void removeUpdbte() {
             removeElements(root, offset, offset + length);
         }
 
         /**
-         * Updates the element structure in response to a change in the
+         * Updbtes the element structure in response to b chbnge in the
          * document.
          */
-        protected void changeUpdate() {
-            boolean didEnd = split(offset, length);
+        protected void chbngeUpdbte() {
+            boolebn didEnd = split(offset, length);
             if (! didEnd) {
                 // need to do the other end
-                while (path.size() != 0) {
+                while (pbth.size() != 0) {
                     pop();
                 }
                 split(offset + length, 0);
             }
-            while (path.size() != 0) {
+            while (pbth.size() != 0) {
                 pop();
             }
         }
 
-        boolean split(int offs, int len) {
-            boolean splitEnd = false;
-            // push the path
+        boolebn split(int offs, int len) {
+            boolebn splitEnd = fblse;
+            // push the pbth
             Element e = root;
             int index = e.getElementIndex(offs);
-            while (! e.isLeaf()) {
+            while (! e.isLebf()) {
                 push(e, index);
                 e = e.getElement(index);
                 index = e.getElementIndex(offs);
             }
 
-            ElemChanges ec = path.peek();
-            Element child = ec.parent.getElement(ec.index);
-            // make sure there is something to do... if the
-            // offset is already at a boundary then there is
+            ElemChbnges ec = pbth.peek();
+            Element child = ec.pbrent.getElement(ec.index);
+            // mbke sure there is something to do... if the
+            // offset is blrebdy bt b boundbry then there is
             // nothing to do.
-            if (child.getStartOffset() < offs && offs < child.getEndOffset()) {
+            if (child.getStbrtOffset() < offs && offs < child.getEndOffset()) {
                 // we need to split, now see if the other end is within
-                // the same parent.
+                // the sbme pbrent.
                 int index0 = ec.index;
                 int index1 = index0;
-                if (((offs + len) < ec.parent.getEndOffset()) && (len != 0)) {
-                    // it's a range split in the same parent
-                    index1 = ec.parent.getElementIndex(offs+len);
+                if (((offs + len) < ec.pbrent.getEndOffset()) && (len != 0)) {
+                    // it's b rbnge split in the sbme pbrent
+                    index1 = ec.pbrent.getElementIndex(offs+len);
                     if (index1 == index0) {
-                        // it's a three-way split
-                        ec.removed.addElement(child);
-                        e = createLeafElement(ec.parent, child.getAttributes(),
-                                              child.getStartOffset(), offs);
-                        ec.added.addElement(e);
-                        e = createLeafElement(ec.parent, child.getAttributes(),
+                        // it's b three-wby split
+                        ec.removed.bddElement(child);
+                        e = crebteLebfElement(ec.pbrent, child.getAttributes(),
+                                              child.getStbrtOffset(), offs);
+                        ec.bdded.bddElement(e);
+                        e = crebteLebfElement(ec.pbrent, child.getAttributes(),
                                           offs, offs + len);
-                        ec.added.addElement(e);
-                        e = createLeafElement(ec.parent, child.getAttributes(),
+                        ec.bdded.bddElement(e);
+                        e = crebteLebfElement(ec.pbrent, child.getAttributes(),
                                               offs + len, child.getEndOffset());
-                        ec.added.addElement(e);
+                        ec.bdded.bddElement(e);
                         return true;
                     } else {
-                        child = ec.parent.getElement(index1);
-                        if ((offs + len) == child.getStartOffset()) {
-                            // end is already on a boundary
+                        child = ec.pbrent.getElement(index1);
+                        if ((offs + len) == child.getStbrtOffset()) {
+                            // end is blrebdy on b boundbry
                             index1 = index0;
                         }
                     }
                     splitEnd = true;
                 }
 
-                // split the first location
+                // split the first locbtion
                 pos = offs;
-                child = ec.parent.getElement(index0);
-                ec.removed.addElement(child);
-                e = createLeafElement(ec.parent, child.getAttributes(),
-                                      child.getStartOffset(), pos);
-                ec.added.addElement(e);
-                e = createLeafElement(ec.parent, child.getAttributes(),
+                child = ec.pbrent.getElement(index0);
+                ec.removed.bddElement(child);
+                e = crebteLebfElement(ec.pbrent, child.getAttributes(),
+                                      child.getStbrtOffset(), pos);
+                ec.bdded.bddElement(e);
+                e = crebteLebfElement(ec.pbrent, child.getAttributes(),
                                       pos, child.getEndOffset());
-                ec.added.addElement(e);
+                ec.bdded.bddElement(e);
 
                 // pick up things in the middle
                 for (int i = index0 + 1; i < index1; i++) {
-                    child = ec.parent.getElement(i);
-                    ec.removed.addElement(child);
-                    ec.added.addElement(child);
+                    child = ec.pbrent.getElement(i);
+                    ec.removed.bddElement(child);
+                    ec.bdded.bddElement(child);
                 }
 
                 if (index1 != index0) {
-                    child = ec.parent.getElement(index1);
+                    child = ec.pbrent.getElement(index1);
                     pos = offs + len;
-                    ec.removed.addElement(child);
-                    e = createLeafElement(ec.parent, child.getAttributes(),
-                                          child.getStartOffset(), pos);
-                    ec.added.addElement(e);
-                    e = createLeafElement(ec.parent, child.getAttributes(),
+                    ec.removed.bddElement(child);
+                    e = crebteLebfElement(ec.pbrent, child.getAttributes(),
+                                          child.getStbrtOffset(), pos);
+                    ec.bdded.bddElement(e);
+                    e = crebteLebfElement(ec.pbrent, child.getAttributes(),
                                           pos, child.getEndOffset());
-                    ec.added.addElement(e);
+                    ec.bdded.bddElement(e);
                 }
             }
             return splitEnd;
         }
 
         /**
-         * Creates the UndoableEdit record for the edits made
+         * Crebtes the UndobbleEdit record for the edits mbde
          * in the buffer.
          */
-        void endEdits(DefaultDocumentEvent de) {
-            int n = changes.size();
+        void endEdits(DefbultDocumentEvent de) {
+            int n = chbnges.size();
             for (int i = 0; i < n; i++) {
-                ElemChanges ec = changes.elementAt(i);
+                ElemChbnges ec = chbnges.elementAt(i);
                 Element[] removed = new Element[ec.removed.size()];
                 ec.removed.copyInto(removed);
-                Element[] added = new Element[ec.added.size()];
-                ec.added.copyInto(added);
+                Element[] bdded = new Element[ec.bdded.size()];
+                ec.bdded.copyInto(bdded);
                 int index = ec.index;
-                ((BranchElement) ec.parent).replace(index, removed.length, added);
-                ElementEdit ee = new ElementEdit(ec.parent, index, removed, added);
-                de.addEdit(ee);
+                ((BrbnchElement) ec.pbrent).replbce(index, removed.length, bdded);
+                ElementEdit ee = new ElementEdit(ec.pbrent, index, removed, bdded);
+                de.bddEdit(ee);
             }
 
-            changes.removeAllElements();
-            path.removeAllElements();
+            chbnges.removeAllElements();
+            pbth.removeAllElements();
 
             /*
             for (int i = 0; i < n; i++) {
-                ElemChanges ec = (ElemChanges) changes.elementAt(i);
-                System.err.print("edited: " + ec.parent + " at: " + ec.index +
+                ElemChbnges ec = (ElemChbnges) chbnges.elementAt(i);
+                System.err.print("edited: " + ec.pbrent + " bt: " + ec.index +
                     " removed " + ec.removed.size());
                 if (ec.removed.size() > 0) {
-                    int r0 = ((Element) ec.removed.firstElement()).getStartOffset();
-                    int r1 = ((Element) ec.removed.lastElement()).getEndOffset();
+                    int r0 = ((Element) ec.removed.firstElement()).getStbrtOffset();
+                    int r1 = ((Element) ec.removed.lbstElement()).getEndOffset();
                     System.err.print("[" + r0 + "," + r1 + "]");
                 }
-                System.err.print(" added " + ec.added.size());
-                if (ec.added.size() > 0) {
-                    int p0 = ((Element) ec.added.firstElement()).getStartOffset();
-                    int p1 = ((Element) ec.added.lastElement()).getEndOffset();
+                System.err.print(" bdded " + ec.bdded.size());
+                if (ec.bdded.size() > 0) {
+                    int p0 = ((Element) ec.bdded.firstElement()).getStbrtOffset();
+                    int p1 = ((Element) ec.bdded.lbstElement()).getEndOffset();
                     System.err.print("[" + p0 + "," + p1 + "]");
                 }
                 System.err.println("");
@@ -1766,222 +1766,222 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
         }
 
         /**
-         * Initialize the buffer
+         * Initiblize the buffer
          */
         void beginEdits(int offset, int length) {
             this.offset = offset;
             this.length = length;
             this.endOffset = offset + length;
             pos = offset;
-            if (changes == null) {
-                changes = new Vector<ElemChanges>();
+            if (chbnges == null) {
+                chbnges = new Vector<ElemChbnges>();
             } else {
-                changes.removeAllElements();
+                chbnges.removeAllElements();
             }
-            if (path == null) {
-                path = new Stack<ElemChanges>();
+            if (pbth == null) {
+                pbth = new Stbck<ElemChbnges>();
             } else {
-                path.removeAllElements();
+                pbth.removeAllElements();
             }
-            fracturedParent = null;
-            fracturedChild = null;
-            offsetLastIndex = offsetLastIndexOnReplace = false;
+            frbcturedPbrent = null;
+            frbcturedChild = null;
+            offsetLbstIndex = offsetLbstIndexOnReplbce = fblse;
         }
 
         /**
-         * Pushes a new element onto the stack that represents
-         * the current path.
-         * @param record Whether or not the push should be
-         *  recorded as an element change or not.
-         * @param isFracture true if pushing on an element that was created
-         * as the result of a fracture.
+         * Pushes b new element onto the stbck thbt represents
+         * the current pbth.
+         * @pbrbm record Whether or not the push should be
+         *  recorded bs bn element chbnge or not.
+         * @pbrbm isFrbcture true if pushing on bn element thbt wbs crebted
+         * bs the result of b frbcture.
          */
-        void push(Element e, int index, boolean isFracture) {
-            ElemChanges ec = new ElemChanges(e, index, isFracture);
-            path.push(ec);
+        void push(Element e, int index, boolebn isFrbcture) {
+            ElemChbnges ec = new ElemChbnges(e, index, isFrbcture);
+            pbth.push(ec);
         }
 
         void push(Element e, int index) {
-            push(e, index, false);
+            push(e, index, fblse);
         }
 
         void pop() {
-            ElemChanges ec = path.peek();
-            path.pop();
-            if ((ec.added.size() > 0) || (ec.removed.size() > 0)) {
-                changes.addElement(ec);
-            } else if (! path.isEmpty()) {
-                Element e = ec.parent;
+            ElemChbnges ec = pbth.peek();
+            pbth.pop();
+            if ((ec.bdded.size() > 0) || (ec.removed.size() > 0)) {
+                chbnges.bddElement(ec);
+            } else if (! pbth.isEmpty()) {
+                Element e = ec.pbrent;
                 if(e.getElementCount() == 0) {
-                    // if we pushed a branch element that didn't get
-                    // used, make sure its not marked as having been added.
-                    ec = path.peek();
-                    ec.added.removeElement(e);
+                    // if we pushed b brbnch element thbt didn't get
+                    // used, mbke sure its not mbrked bs hbving been bdded.
+                    ec = pbth.peek();
+                    ec.bdded.removeElement(e);
                 }
             }
         }
 
         /**
-         * move the current offset forward by n.
+         * move the current offset forwbrd by n.
          */
-        void advance(int n) {
+        void bdvbnce(int n) {
             pos += n;
         }
 
         void insertElement(ElementSpec es) {
-            ElemChanges ec = path.peek();
+            ElemChbnges ec = pbth.peek();
             switch(es.getType()) {
-            case ElementSpec.StartTagType:
+            cbse ElementSpec.StbrtTbgType:
                 switch(es.getDirection()) {
-                case ElementSpec.JoinNextDirection:
-                    // Don't create a new element, use the existing one
-                    // at the specified location.
-                    Element parent = ec.parent.getElement(ec.index);
+                cbse ElementSpec.JoinNextDirection:
+                    // Don't crebte b new element, use the existing one
+                    // bt the specified locbtion.
+                    Element pbrent = ec.pbrent.getElement(ec.index);
 
-                    if(parent.isLeaf()) {
-                        // This happens if inserting into a leaf, followed
-                        // by a join next where next sibling is not a leaf.
-                        if((ec.index + 1) < ec.parent.getElementCount())
-                            parent = ec.parent.getElement(ec.index + 1);
+                    if(pbrent.isLebf()) {
+                        // This hbppens if inserting into b lebf, followed
+                        // by b join next where next sibling is not b lebf.
+                        if((ec.index + 1) < ec.pbrent.getElementCount())
+                            pbrent = ec.pbrent.getElement(ec.index + 1);
                         else
-                            throw new StateInvariantError("Join next to leaf");
+                            throw new StbteInvbribntError("Join next to lebf");
                     }
-                    // Not really a fracture, but need to treat it like
-                    // one so that content join next will work correctly.
-                    // We can do this because there will never be a join
-                    // next followed by a join fracture.
-                    push(parent, 0, true);
-                    break;
-                case ElementSpec.JoinFractureDirection:
-                    if(!createdFracture) {
-                        // Should always be something on the stack!
-                        fracture(path.size() - 1);
+                    // Not reblly b frbcture, but need to trebt it like
+                    // one so thbt content join next will work correctly.
+                    // We cbn do this becbuse there will never be b join
+                    // next followed by b join frbcture.
+                    push(pbrent, 0, true);
+                    brebk;
+                cbse ElementSpec.JoinFrbctureDirection:
+                    if(!crebtedFrbcture) {
+                        // Should blwbys be something on the stbck!
+                        frbcture(pbth.size() - 1);
                     }
-                    // If parent isn't a fracture, fracture will be
-                    // fracturedChild.
-                    if(!ec.isFracture) {
-                        push(fracturedChild, 0, true);
+                    // If pbrent isn't b frbcture, frbcture will be
+                    // frbcturedChild.
+                    if(!ec.isFrbcture) {
+                        push(frbcturedChild, 0, true);
                     }
                     else
-                        // Parent is a fracture, use 1st element.
-                        push(ec.parent.getElement(0), 0, true);
-                    break;
-                default:
-                    Element belem = createBranchElement(ec.parent,
+                        // Pbrent is b frbcture, use 1st element.
+                        push(ec.pbrent.getElement(0), 0, true);
+                    brebk;
+                defbult:
+                    Element belem = crebteBrbnchElement(ec.pbrent,
                                                         es.getAttributes());
-                    ec.added.addElement(belem);
+                    ec.bdded.bddElement(belem);
                     push(belem, 0);
-                    break;
+                    brebk;
                 }
-                break;
-            case ElementSpec.EndTagType:
+                brebk;
+            cbse ElementSpec.EndTbgType:
                 pop();
-                break;
-            case ElementSpec.ContentType:
+                brebk;
+            cbse ElementSpec.ContentType:
               int len = es.getLength();
                 if (es.getDirection() != ElementSpec.JoinNextDirection) {
-                    Element leaf = createLeafElement(ec.parent, es.getAttributes(),
+                    Element lebf = crebteLebfElement(ec.pbrent, es.getAttributes(),
                                                      pos, pos + len);
-                    ec.added.addElement(leaf);
+                    ec.bdded.bddElement(lebf);
                 }
                 else {
-                    // JoinNext on tail is only applicable if last element
-                    // and attributes come from that of first element.
-                    // With a little extra testing it would be possible
-                    // to NOT due this again, as more than likely fracture()
-                    // created this element.
-                    if(!ec.isFracture) {
+                    // JoinNext on tbil is only bpplicbble if lbst element
+                    // bnd bttributes come from thbt of first element.
+                    // With b little extrb testing it would be possible
+                    // to NOT due this bgbin, bs more thbn likely frbcture()
+                    // crebted this element.
+                    if(!ec.isFrbcture) {
                         Element first = null;
-                        if(insertPath != null) {
-                            for(int counter = insertPath.length - 1;
+                        if(insertPbth != null) {
+                            for(int counter = insertPbth.length - 1;
                                 counter >= 0; counter--) {
-                                if(insertPath[counter] == ec) {
-                                    if(counter != (insertPath.length - 1))
-                                        first = ec.parent.getElement(ec.index);
-                                    break;
+                                if(insertPbth[counter] == ec) {
+                                    if(counter != (insertPbth.length - 1))
+                                        first = ec.pbrent.getElement(ec.index);
+                                    brebk;
                                 }
                             }
                         }
                         if(first == null)
-                            first = ec.parent.getElement(ec.index + 1);
-                        Element leaf = createLeafElement(ec.parent, first.
+                            first = ec.pbrent.getElement(ec.index + 1);
+                        Element lebf = crebteLebfElement(ec.pbrent, first.
                                  getAttributes(), pos, first.getEndOffset());
-                        ec.added.addElement(leaf);
-                        ec.removed.addElement(first);
+                        ec.bdded.bddElement(lebf);
+                        ec.removed.bddElement(first);
                     }
                     else {
-                        // Parent was fractured element.
-                        Element first = ec.parent.getElement(0);
-                        Element leaf = createLeafElement(ec.parent, first.
+                        // Pbrent wbs frbctured element.
+                        Element first = ec.pbrent.getElement(0);
+                        Element lebf = crebteLebfElement(ec.pbrent, first.
                                  getAttributes(), pos, first.getEndOffset());
-                        ec.added.addElement(leaf);
-                        ec.removed.addElement(first);
+                        ec.bdded.bddElement(lebf);
+                        ec.removed.bddElement(first);
                     }
                 }
                 pos += len;
-                break;
+                brebk;
             }
         }
 
         /**
-         * Remove the elements from <code>elem</code> in range
+         * Remove the elements from <code>elem</code> in rbnge
          * <code>rmOffs0</code>, <code>rmOffs1</code>. This uses
-         * <code>canJoin</code> and <code>join</code> to handle joining
+         * <code>cbnJoin</code> bnd <code>join</code> to hbndle joining
          * the endpoints of the insertion.
          *
-         * @return true if elem will no longer have any elements.
+         * @return true if elem will no longer hbve bny elements.
          */
-        boolean removeElements(Element elem, int rmOffs0, int rmOffs1) {
-            if (! elem.isLeaf()) {
-                // update path for changes
+        boolebn removeElements(Element elem, int rmOffs0, int rmOffs1) {
+            if (! elem.isLebf()) {
+                // updbte pbth for chbnges
                 int index0 = elem.getElementIndex(rmOffs0);
                 int index1 = elem.getElementIndex(rmOffs1);
                 push(elem, index0);
-                ElemChanges ec = path.peek();
+                ElemChbnges ec = pbth.peek();
 
-                // if the range is contained by one element,
-                // we just forward the request
+                // if the rbnge is contbined by one element,
+                // we just forwbrd the request
                 if (index0 == index1) {
                     Element child0 = elem.getElement(index0);
-                    if(rmOffs0 <= child0.getStartOffset() &&
+                    if(rmOffs0 <= child0.getStbrtOffset() &&
                        rmOffs1 >= child0.getEndOffset()) {
-                        // Element totally removed.
-                        ec.removed.addElement(child0);
+                        // Element totblly removed.
+                        ec.removed.bddElement(child0);
                     }
                     else if(removeElements(child0, rmOffs0, rmOffs1)) {
-                        ec.removed.addElement(child0);
+                        ec.removed.bddElement(child0);
                     }
                 } else {
-                    // the removal range spans elements.  If we can join
+                    // the removbl rbnge spbns elements.  If we cbn join
                     // the two endpoints, do it.  Otherwise we remove the
-                    // interior and forward to the endpoints.
+                    // interior bnd forwbrd to the endpoints.
                     Element child0 = elem.getElement(index0);
                     Element child1 = elem.getElement(index1);
-                    boolean containsOffs1 = (rmOffs1 < elem.getEndOffset());
-                    if (containsOffs1 && canJoin(child0, child1)) {
-                        // remove and join
+                    boolebn contbinsOffs1 = (rmOffs1 < elem.getEndOffset());
+                    if (contbinsOffs1 && cbnJoin(child0, child1)) {
+                        // remove bnd join
                         for (int i = index0; i <= index1; i++) {
-                            ec.removed.addElement(elem.getElement(i));
+                            ec.removed.bddElement(elem.getElement(i));
                         }
                         Element e = join(elem, child0, child1, rmOffs0, rmOffs1);
-                        ec.added.addElement(e);
+                        ec.bdded.bddElement(e);
                     } else {
-                        // remove interior and forward
+                        // remove interior bnd forwbrd
                         int rmIndex0 = index0 + 1;
                         int rmIndex1 = index1 - 1;
-                        if (child0.getStartOffset() == rmOffs0 ||
+                        if (child0.getStbrtOffset() == rmOffs0 ||
                             (index0 == 0 &&
-                             child0.getStartOffset() > rmOffs0 &&
+                             child0.getStbrtOffset() > rmOffs0 &&
                              child0.getEndOffset() <= rmOffs1)) {
-                            // start element completely consumed
+                            // stbrt element completely consumed
                             child0 = null;
                             rmIndex0 = index0;
                         }
-                        if (!containsOffs1) {
+                        if (!contbinsOffs1) {
                             child1 = null;
                             rmIndex1++;
                         }
-                        else if (child1.getStartOffset() == rmOffs1) {
+                        else if (child1.getStbrtOffset() == rmOffs1) {
                             // end element not touched
                             child1 = null;
                         }
@@ -1989,7 +1989,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                             ec.index = rmIndex0;
                         }
                         for (int i = rmIndex0; i <= rmIndex1; i++) {
-                            ec.removed.addElement(elem.getElement(i));
+                            ec.removed.bddElement(elem.getElement(i));
                         }
                         if (child0 != null) {
                             if(removeElements(child0, rmOffs0, rmOffs1)) {
@@ -1999,611 +1999,611 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                         }
                         if (child1 != null) {
                             if(removeElements(child1, rmOffs0, rmOffs1)) {
-                                ec.removed.addElement(child1);
+                                ec.removed.bddElement(child1);
                             }
                         }
                     }
                 }
 
-                // publish changes
+                // publish chbnges
                 pop();
 
-                // Return true if we no longer have any children.
+                // Return true if we no longer hbve bny children.
                 if(elem.getElementCount() == (ec.removed.size() -
-                                              ec.added.size())) {
+                                              ec.bdded.size())) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Can the two given elements be coelesced together
+         * Cbn the two given elements be coelesced together
          * into one element?
          */
-        boolean canJoin(Element e0, Element e1) {
+        boolebn cbnJoin(Element e0, Element e1) {
             if ((e0 == null) || (e1 == null)) {
-                return false;
+                return fblse;
             }
-            // Don't join a leaf to a branch.
-            boolean leaf0 = e0.isLeaf();
-            boolean leaf1 = e1.isLeaf();
-            if(leaf0 != leaf1) {
-                return false;
+            // Don't join b lebf to b brbnch.
+            boolebn lebf0 = e0.isLebf();
+            boolebn lebf1 = e1.isLebf();
+            if(lebf0 != lebf1) {
+                return fblse;
             }
-            if (leaf0) {
-                // Only join leaves if the attributes match, otherwise
-                // style information will be lost.
-                return e0.getAttributes().isEqual(e1.getAttributes());
+            if (lebf0) {
+                // Only join lebves if the bttributes mbtch, otherwise
+                // style informbtion will be lost.
+                return e0.getAttributes().isEqubl(e1.getAttributes());
             }
-            // Only join non-leafs if the names are equal. This may result
-            // in loss of style information, but this is typically acceptable
-            // for non-leafs.
-            String name0 = e0.getName();
-            String name1 = e1.getName();
-            if (name0 != null) {
-                return name0.equals(name1);
+            // Only join non-lebfs if the nbmes bre equbl. This mby result
+            // in loss of style informbtion, but this is typicblly bcceptbble
+            // for non-lebfs.
+            String nbme0 = e0.getNbme();
+            String nbme1 = e1.getNbme();
+            if (nbme0 != null) {
+                return nbme0.equbls(nbme1);
             }
-            if (name1 != null) {
-                return name1.equals(name0);
+            if (nbme1 != null) {
+                return nbme1.equbls(nbme0);
             }
-            // Both names null, treat as equal.
+            // Both nbmes null, trebt bs equbl.
             return true;
         }
 
         /**
-         * Joins the two elements carving out a hole for the
-         * given removed range.
+         * Joins the two elements cbrving out b hole for the
+         * given removed rbnge.
          */
         Element join(Element p, Element left, Element right, int rmOffs0, int rmOffs1) {
-            if (left.isLeaf() && right.isLeaf()) {
-                return createLeafElement(p, left.getAttributes(), left.getStartOffset(),
+            if (left.isLebf() && right.isLebf()) {
+                return crebteLebfElement(p, left.getAttributes(), left.getStbrtOffset(),
                                          right.getEndOffset());
-            } else if ((!left.isLeaf()) && (!right.isLeaf())) {
-                // join two branch elements.  This copies the children before
-                // the removal range on the left element, and after the removal
-                // range on the right element.  The two elements on the edge
-                // are joined if possible and needed.
-                Element to = createBranchElement(p, left.getAttributes());
+            } else if ((!left.isLebf()) && (!right.isLebf())) {
+                // join two brbnch elements.  This copies the children before
+                // the removbl rbnge on the left element, bnd bfter the removbl
+                // rbnge on the right element.  The two elements on the edge
+                // bre joined if possible bnd needed.
+                Element to = crebteBrbnchElement(p, left.getAttributes());
                 int ljIndex = left.getElementIndex(rmOffs0);
                 int rjIndex = right.getElementIndex(rmOffs1);
                 Element lj = left.getElement(ljIndex);
-                if (lj.getStartOffset() >= rmOffs0) {
+                if (lj.getStbrtOffset() >= rmOffs0) {
                     lj = null;
                 }
                 Element rj = right.getElement(rjIndex);
-                if (rj.getStartOffset() == rmOffs1) {
+                if (rj.getStbrtOffset() == rmOffs1) {
                     rj = null;
                 }
                 Vector<Element> children = new Vector<Element>();
 
-                // transfer the left
+                // trbnsfer the left
                 for (int i = 0; i < ljIndex; i++) {
-                    children.addElement(clone(to, left.getElement(i)));
+                    children.bddElement(clone(to, left.getElement(i)));
                 }
 
-                // transfer the join/middle
-                if (canJoin(lj, rj)) {
+                // trbnsfer the join/middle
+                if (cbnJoin(lj, rj)) {
                     Element e = join(to, lj, rj, rmOffs0, rmOffs1);
-                    children.addElement(e);
+                    children.bddElement(e);
                 } else {
                     if (lj != null) {
-                        children.addElement(cloneAsNecessary(to, lj, rmOffs0, rmOffs1));
+                        children.bddElement(cloneAsNecessbry(to, lj, rmOffs0, rmOffs1));
                     }
                     if (rj != null) {
-                        children.addElement(cloneAsNecessary(to, rj, rmOffs0, rmOffs1));
+                        children.bddElement(cloneAsNecessbry(to, rj, rmOffs0, rmOffs1));
                     }
                 }
 
-                // transfer the right
+                // trbnsfer the right
                 int n = right.getElementCount();
                 for (int i = (rj == null) ? rjIndex : rjIndex + 1; i < n; i++) {
-                    children.addElement(clone(to, right.getElement(i)));
+                    children.bddElement(clone(to, right.getElement(i)));
                 }
 
-                // install the children
+                // instbll the children
                 Element[] c = new Element[children.size()];
                 children.copyInto(c);
-                ((BranchElement)to).replace(0, 0, c);
+                ((BrbnchElement)to).replbce(0, 0, c);
                 return to;
             } else {
-                throw new StateInvariantError(
-                    "No support to join leaf element with non-leaf element");
+                throw new StbteInvbribntError(
+                    "No support to join lebf element with non-lebf element");
             }
         }
 
         /**
-         * Creates a copy of this element, with a different
-         * parent.
+         * Crebtes b copy of this element, with b different
+         * pbrent.
          *
-         * @param parent the parent element
-         * @param clonee the element to be cloned
+         * @pbrbm pbrent the pbrent element
+         * @pbrbm clonee the element to be cloned
          * @return the copy
          */
-        public Element clone(Element parent, Element clonee) {
-            if (clonee.isLeaf()) {
-                return createLeafElement(parent, clonee.getAttributes(),
-                                         clonee.getStartOffset(),
+        public Element clone(Element pbrent, Element clonee) {
+            if (clonee.isLebf()) {
+                return crebteLebfElement(pbrent, clonee.getAttributes(),
+                                         clonee.getStbrtOffset(),
                                          clonee.getEndOffset());
             }
-            Element e = createBranchElement(parent, clonee.getAttributes());
+            Element e = crebteBrbnchElement(pbrent, clonee.getAttributes());
             int n = clonee.getElementCount();
             Element[] children = new Element[n];
             for (int i = 0; i < n; i++) {
                 children[i] = clone(e, clonee.getElement(i));
             }
-            ((BranchElement)e).replace(0, 0, children);
+            ((BrbnchElement)e).replbce(0, 0, children);
             return e;
         }
 
         /**
-         * Creates a copy of this element, with a different
-         * parent. Children of this element included in the
-         * removal range will be discarded.
+         * Crebtes b copy of this element, with b different
+         * pbrent. Children of this element included in the
+         * removbl rbnge will be discbrded.
          */
-        Element cloneAsNecessary(Element parent, Element clonee, int rmOffs0, int rmOffs1) {
-            if (clonee.isLeaf()) {
-                return createLeafElement(parent, clonee.getAttributes(),
-                                         clonee.getStartOffset(),
+        Element cloneAsNecessbry(Element pbrent, Element clonee, int rmOffs0, int rmOffs1) {
+            if (clonee.isLebf()) {
+                return crebteLebfElement(pbrent, clonee.getAttributes(),
+                                         clonee.getStbrtOffset(),
                                          clonee.getEndOffset());
             }
-            Element e = createBranchElement(parent, clonee.getAttributes());
+            Element e = crebteBrbnchElement(pbrent, clonee.getAttributes());
             int n = clonee.getElementCount();
-            ArrayList<Element> childrenList = new ArrayList<Element>(n);
+            ArrbyList<Element> childrenList = new ArrbyList<Element>(n);
             for (int i = 0; i < n; i++) {
                 Element elem = clonee.getElement(i);
-                if (elem.getStartOffset() < rmOffs0 || elem.getEndOffset() > rmOffs1) {
-                    childrenList.add(cloneAsNecessary(e, elem, rmOffs0, rmOffs1));
+                if (elem.getStbrtOffset() < rmOffs0 || elem.getEndOffset() > rmOffs1) {
+                    childrenList.bdd(cloneAsNecessbry(e, elem, rmOffs0, rmOffs1));
                 }
             }
             Element[] children = new Element[childrenList.size()];
-            children = childrenList.toArray(children);
-            ((BranchElement)e).replace(0, 0, children);
+            children = childrenList.toArrby(children);
+            ((BrbnchElement)e).replbce(0, 0, children);
             return e;
         }
 
         /**
-         * Determines if a fracture needs to be performed. A fracture
-         * can be thought of as moving the right part of a tree to a
-         * new location, where the right part is determined by what has
-         * been inserted. <code>depth</code> is used to indicate a
-         * JoinToFracture is needed to an element at a depth
+         * Determines if b frbcture needs to be performed. A frbcture
+         * cbn be thought of bs moving the right pbrt of b tree to b
+         * new locbtion, where the right pbrt is determined by whbt hbs
+         * been inserted. <code>depth</code> is used to indicbte b
+         * JoinToFrbcture is needed to bn element bt b depth
          * of <code>depth</code>. Where the root is 0, 1 is the children
          * of the root...
-         * <p>This will invoke <code>fractureFrom</code> if it is determined
-         * a fracture needs to happen.
+         * <p>This will invoke <code>frbctureFrom</code> if it is determined
+         * b frbcture needs to hbppen.
          */
-        void fracture(int depth) {
-            int cLength = insertPath.length;
-            int lastIndex = -1;
-            boolean needRecreate = recreateLeafs;
-            ElemChanges lastChange = insertPath[cLength - 1];
-            // Use childAltered to determine when a child has been altered,
-            // that is the point of insertion is less than the element count.
-            boolean childAltered = ((lastChange.index + 1) <
-                                    lastChange.parent.getElementCount());
-            int deepestAlteredIndex = (needRecreate) ? cLength : -1;
-            int lastAlteredIndex = cLength - 1;
+        void frbcture(int depth) {
+            int cLength = insertPbth.length;
+            int lbstIndex = -1;
+            boolebn needRecrebte = recrebteLebfs;
+            ElemChbnges lbstChbnge = insertPbth[cLength - 1];
+            // Use childAltered to determine when b child hbs been bltered,
+            // thbt is the point of insertion is less thbn the element count.
+            boolebn childAltered = ((lbstChbnge.index + 1) <
+                                    lbstChbnge.pbrent.getElementCount());
+            int deepestAlteredIndex = (needRecrebte) ? cLength : -1;
+            int lbstAlteredIndex = cLength - 1;
 
-            createdFracture = true;
-            // Determine where to start recreating from.
-            // Start at - 2, as first one is indicated by recreateLeafs and
+            crebtedFrbcture = true;
+            // Determine where to stbrt recrebting from.
+            // Stbrt bt - 2, bs first one is indicbted by recrebteLebfs bnd
             // childAltered.
             for(int counter = cLength - 2; counter >= 0; counter--) {
-                ElemChanges change = insertPath[counter];
-                if(change.added.size() > 0 || counter == depth) {
-                    lastIndex = counter;
-                    if(!needRecreate && childAltered) {
-                        needRecreate = true;
+                ElemChbnges chbnge = insertPbth[counter];
+                if(chbnge.bdded.size() > 0 || counter == depth) {
+                    lbstIndex = counter;
+                    if(!needRecrebte && childAltered) {
+                        needRecrebte = true;
                         if(deepestAlteredIndex == -1)
-                            deepestAlteredIndex = lastAlteredIndex + 1;
+                            deepestAlteredIndex = lbstAlteredIndex + 1;
                     }
                 }
-                if(!childAltered && change.index <
-                   change.parent.getElementCount()) {
+                if(!childAltered && chbnge.index <
+                   chbnge.pbrent.getElementCount()) {
                     childAltered = true;
-                    lastAlteredIndex = counter;
+                    lbstAlteredIndex = counter;
                 }
             }
-            if(needRecreate) {
-                // Recreate all children to right of parent starting
-                // at lastIndex.
-                if(lastIndex == -1)
-                    lastIndex = cLength - 1;
-                fractureFrom(insertPath, lastIndex, deepestAlteredIndex);
+            if(needRecrebte) {
+                // Recrebte bll children to right of pbrent stbrting
+                // bt lbstIndex.
+                if(lbstIndex == -1)
+                    lbstIndex = cLength - 1;
+                frbctureFrom(insertPbth, lbstIndex, deepestAlteredIndex);
             }
         }
 
         /**
-         * Recreates the elements to the right of the insertion point.
-         * This starts at <code>startIndex</code> in <code>changed</code>,
-         * and calls duplicate to duplicate existing elements.
-         * This will also duplicate the elements along the insertion
-         * point, until a depth of <code>endFractureIndex</code> is
-         * reached, at which point only the elements to the right of
-         * the insertion point are duplicated.
+         * Recrebtes the elements to the right of the insertion point.
+         * This stbrts bt <code>stbrtIndex</code> in <code>chbnged</code>,
+         * bnd cblls duplicbte to duplicbte existing elements.
+         * This will blso duplicbte the elements blong the insertion
+         * point, until b depth of <code>endFrbctureIndex</code> is
+         * rebched, bt which point only the elements to the right of
+         * the insertion point bre duplicbted.
          */
-        void fractureFrom(ElemChanges[] changed, int startIndex,
-                          int endFractureIndex) {
-            // Recreate the element representing the inserted index.
-            ElemChanges change = changed[startIndex];
+        void frbctureFrom(ElemChbnges[] chbnged, int stbrtIndex,
+                          int endFrbctureIndex) {
+            // Recrebte the element representing the inserted index.
+            ElemChbnges chbnge = chbnged[stbrtIndex];
             Element child;
             Element newChild;
-            int changeLength = changed.length;
+            int chbngeLength = chbnged.length;
 
-            if((startIndex + 1) == changeLength)
-                child = change.parent.getElement(change.index);
+            if((stbrtIndex + 1) == chbngeLength)
+                child = chbnge.pbrent.getElement(chbnge.index);
             else
-                child = change.parent.getElement(change.index - 1);
-            if(child.isLeaf()) {
-                newChild = createLeafElement(change.parent,
-                               child.getAttributes(), Math.max(endOffset,
-                               child.getStartOffset()), child.getEndOffset());
+                child = chbnge.pbrent.getElement(chbnge.index - 1);
+            if(child.isLebf()) {
+                newChild = crebteLebfElement(chbnge.pbrent,
+                               child.getAttributes(), Mbth.mbx(endOffset,
+                               child.getStbrtOffset()), child.getEndOffset());
             }
             else {
-                newChild = createBranchElement(change.parent,
+                newChild = crebteBrbnchElement(chbnge.pbrent,
                                                child.getAttributes());
             }
-            fracturedParent = change.parent;
-            fracturedChild = newChild;
+            frbcturedPbrent = chbnge.pbrent;
+            frbcturedChild = newChild;
 
-            // Recreate all the elements to the right of the
+            // Recrebte bll the elements to the right of the
             // insertion point.
-            Element parent = newChild;
+            Element pbrent = newChild;
 
-            while(++startIndex < endFractureIndex) {
-                boolean isEnd = ((startIndex + 1) == endFractureIndex);
-                boolean isEndLeaf = ((startIndex + 1) == changeLength);
+            while(++stbrtIndex < endFrbctureIndex) {
+                boolebn isEnd = ((stbrtIndex + 1) == endFrbctureIndex);
+                boolebn isEndLebf = ((stbrtIndex + 1) == chbngeLength);
 
-                // Create the newChild, a duplicate of the elment at
-                // index. This isn't done if isEnd and offsetLastIndex are true
-                // indicating a join previous was done.
-                change = changed[startIndex];
+                // Crebte the newChild, b duplicbte of the elment bt
+                // index. This isn't done if isEnd bnd offsetLbstIndex bre true
+                // indicbting b join previous wbs done.
+                chbnge = chbnged[stbrtIndex];
 
-                // Determine the child to duplicate, won't have to duplicate
-                // if at end of fracture, or offseting index.
+                // Determine the child to duplicbte, won't hbve to duplicbte
+                // if bt end of frbcture, or offseting index.
                 if(isEnd) {
-                    if(offsetLastIndex || !isEndLeaf)
+                    if(offsetLbstIndex || !isEndLebf)
                         child = null;
                     else
-                        child = change.parent.getElement(change.index);
+                        child = chbnge.pbrent.getElement(chbnge.index);
                 }
                 else {
-                    child = change.parent.getElement(change.index - 1);
+                    child = chbnge.pbrent.getElement(chbnge.index - 1);
                 }
-                // Duplicate it.
+                // Duplicbte it.
                 if(child != null) {
-                    if(child.isLeaf()) {
-                        newChild = createLeafElement(parent,
-                               child.getAttributes(), Math.max(endOffset,
-                               child.getStartOffset()), child.getEndOffset());
+                    if(child.isLebf()) {
+                        newChild = crebteLebfElement(pbrent,
+                               child.getAttributes(), Mbth.mbx(endOffset,
+                               child.getStbrtOffset()), child.getEndOffset());
                     }
                     else {
-                        newChild = createBranchElement(parent,
+                        newChild = crebteBrbnchElement(pbrent,
                                                    child.getAttributes());
                     }
                 }
                 else
                     newChild = null;
 
-                // Recreate the remaining children (there may be none).
-                int kidsToMove = change.parent.getElementCount() -
-                                 change.index;
+                // Recrebte the rembining children (there mby be none).
+                int kidsToMove = chbnge.pbrent.getElementCount() -
+                                 chbnge.index;
                 Element[] kids;
-                int moveStartIndex;
-                int kidStartIndex = 1;
+                int moveStbrtIndex;
+                int kidStbrtIndex = 1;
 
                 if(newChild == null) {
-                    // Last part of fracture.
-                    if(isEndLeaf) {
+                    // Lbst pbrt of frbcture.
+                    if(isEndLebf) {
                         kidsToMove--;
-                        moveStartIndex = change.index + 1;
+                        moveStbrtIndex = chbnge.index + 1;
                     }
                     else {
-                        moveStartIndex = change.index;
+                        moveStbrtIndex = chbnge.index;
                     }
-                    kidStartIndex = 0;
+                    kidStbrtIndex = 0;
                     kids = new Element[kidsToMove];
                 }
                 else {
                     if(!isEnd) {
-                        // Branch.
+                        // Brbnch.
                         kidsToMove++;
-                        moveStartIndex = change.index;
+                        moveStbrtIndex = chbnge.index;
                     }
                     else {
-                        // Last leaf, need to recreate part of it.
-                        moveStartIndex = change.index + 1;
+                        // Lbst lebf, need to recrebte pbrt of it.
+                        moveStbrtIndex = chbnge.index + 1;
                     }
                     kids = new Element[kidsToMove];
                     kids[0] = newChild;
                 }
 
-                for(int counter = kidStartIndex; counter < kidsToMove;
+                for(int counter = kidStbrtIndex; counter < kidsToMove;
                     counter++) {
-                    Element toMove =change.parent.getElement(moveStartIndex++);
-                    kids[counter] = recreateFracturedElement(parent, toMove);
-                    change.removed.addElement(toMove);
+                    Element toMove =chbnge.pbrent.getElement(moveStbrtIndex++);
+                    kids[counter] = recrebteFrbcturedElement(pbrent, toMove);
+                    chbnge.removed.bddElement(toMove);
                 }
-                ((BranchElement)parent).replace(0, 0, kids);
-                parent = newChild;
+                ((BrbnchElement)pbrent).replbce(0, 0, kids);
+                pbrent = newChild;
             }
         }
 
         /**
-         * Recreates <code>toDuplicate</code>. This is called when an
-         * element needs to be created as the result of an insertion. This
-         * will recurse and create all the children. This is similar to
+         * Recrebtes <code>toDuplicbte</code>. This is cblled when bn
+         * element needs to be crebted bs the result of bn insertion. This
+         * will recurse bnd crebte bll the children. This is similbr to
          * <code>clone</code>, but deteremines the offsets differently.
          */
-        Element recreateFracturedElement(Element parent, Element toDuplicate) {
-            if(toDuplicate.isLeaf()) {
-                return createLeafElement(parent, toDuplicate.getAttributes(),
-                                         Math.max(toDuplicate.getStartOffset(),
+        Element recrebteFrbcturedElement(Element pbrent, Element toDuplicbte) {
+            if(toDuplicbte.isLebf()) {
+                return crebteLebfElement(pbrent, toDuplicbte.getAttributes(),
+                                         Mbth.mbx(toDuplicbte.getStbrtOffset(),
                                                   endOffset),
-                                         toDuplicate.getEndOffset());
+                                         toDuplicbte.getEndOffset());
             }
-            // Not a leaf
-            Element newParent = createBranchElement(parent, toDuplicate.
+            // Not b lebf
+            Element newPbrent = crebteBrbnchElement(pbrent, toDuplicbte.
                                                     getAttributes());
-            int childCount = toDuplicate.getElementCount();
+            int childCount = toDuplicbte.getElementCount();
             Element[] newKids = new Element[childCount];
             for(int counter = 0; counter < childCount; counter++) {
-                newKids[counter] = recreateFracturedElement(newParent,
-                                             toDuplicate.getElement(counter));
+                newKids[counter] = recrebteFrbcturedElement(newPbrent,
+                                             toDuplicbte.getElement(counter));
             }
-            ((BranchElement)newParent).replace(0, 0, newKids);
-            return newParent;
+            ((BrbnchElement)newPbrent).replbce(0, 0, newKids);
+            return newPbrent;
         }
 
         /**
-         * Splits the bottommost leaf in <code>path</code>.
-         * This is called from insert when the first element is NOT content.
+         * Splits the bottommost lebf in <code>pbth</code>.
+         * This is cblled from insert when the first element is NOT content.
          */
-        void fractureDeepestLeaf(ElementSpec[] specs) {
-            // Split the bottommost leaf. It will be recreated elsewhere.
-            ElemChanges ec = path.peek();
-            Element child = ec.parent.getElement(ec.index);
-            // Inserts at offset 0 do not need to recreate child (it would
-            // have a length of 0!).
+        void frbctureDeepestLebf(ElementSpec[] specs) {
+            // Split the bottommost lebf. It will be recrebted elsewhere.
+            ElemChbnges ec = pbth.peek();
+            Element child = ec.pbrent.getElement(ec.index);
+            // Inserts bt offset 0 do not need to recrebte child (it would
+            // hbve b length of 0!).
             if (offset != 0) {
-                Element newChild = createLeafElement(ec.parent,
+                Element newChild = crebteLebfElement(ec.pbrent,
                                                  child.getAttributes(),
-                                                 child.getStartOffset(),
+                                                 child.getStbrtOffset(),
                                                  offset);
 
-                ec.added.addElement(newChild);
+                ec.bdded.bddElement(newChild);
             }
-            ec.removed.addElement(child);
+            ec.removed.bddElement(child);
             if(child.getEndOffset() != endOffset)
-                recreateLeafs = true;
+                recrebteLebfs = true;
             else
-                offsetLastIndex = true;
+                offsetLbstIndex = true;
         }
 
         /**
-         * Inserts the first content. This needs to be separate to handle
+         * Inserts the first content. This needs to be sepbrbte to hbndle
          * joining.
          */
         void insertFirstContent(ElementSpec[] specs) {
             ElementSpec firstSpec = specs[0];
-            ElemChanges ec = path.peek();
-            Element child = ec.parent.getElement(ec.index);
+            ElemChbnges ec = pbth.peek();
+            Element child = ec.pbrent.getElement(ec.index);
             int firstEndOffset = offset + firstSpec.getLength();
-            boolean isOnlyContent = (specs.length == 1);
+            boolebn isOnlyContent = (specs.length == 1);
 
             switch(firstSpec.getDirection()) {
-            case ElementSpec.JoinPreviousDirection:
+            cbse ElementSpec.JoinPreviousDirection:
                 if(child.getEndOffset() != firstEndOffset &&
                     !isOnlyContent) {
-                    // Create the left split part containing new content.
-                    Element newE = createLeafElement(ec.parent,
-                            child.getAttributes(), child.getStartOffset(),
+                    // Crebte the left split pbrt contbining new content.
+                    Element newE = crebteLebfElement(ec.pbrent,
+                            child.getAttributes(), child.getStbrtOffset(),
                             firstEndOffset);
-                    ec.added.addElement(newE);
-                    ec.removed.addElement(child);
-                    // Remainder will be created later.
+                    ec.bdded.bddElement(newE);
+                    ec.removed.bddElement(child);
+                    // Rembinder will be crebted lbter.
                     if(child.getEndOffset() != endOffset)
-                        recreateLeafs = true;
+                        recrebteLebfs = true;
                     else
-                        offsetLastIndex = true;
+                        offsetLbstIndex = true;
                 }
                 else {
-                    offsetLastIndex = true;
-                    offsetLastIndexOnReplace = true;
+                    offsetLbstIndex = true;
+                    offsetLbstIndexOnReplbce = true;
                 }
-                // else Inserted at end, and is total length.
-                // Update index incase something added/removed.
-                break;
-            case ElementSpec.JoinNextDirection:
+                // else Inserted bt end, bnd is totbl length.
+                // Updbte index incbse something bdded/removed.
+                brebk;
+            cbse ElementSpec.JoinNextDirection:
                 if(offset != 0) {
-                    // Recreate the first element, its offset will have
-                    // changed.
-                    Element newE = createLeafElement(ec.parent,
-                            child.getAttributes(), child.getStartOffset(),
+                    // Recrebte the first element, its offset will hbve
+                    // chbnged.
+                    Element newE = crebteLebfElement(ec.pbrent,
+                            child.getAttributes(), child.getStbrtOffset(),
                             offset);
-                    ec.added.addElement(newE);
-                    // Recreate the second, merge part. We do no checking
-                    // to see if JoinNextDirection is valid here!
-                    Element nextChild = ec.parent.getElement(ec.index + 1);
+                    ec.bdded.bddElement(newE);
+                    // Recrebte the second, merge pbrt. We do no checking
+                    // to see if JoinNextDirection is vblid here!
+                    Element nextChild = ec.pbrent.getElement(ec.index + 1);
                     if(isOnlyContent)
-                        newE = createLeafElement(ec.parent, nextChild.
+                        newE = crebteLebfElement(ec.pbrent, nextChild.
                             getAttributes(), offset, nextChild.getEndOffset());
                     else
-                        newE = createLeafElement(ec.parent, nextChild.
+                        newE = crebteLebfElement(ec.pbrent, nextChild.
                             getAttributes(), offset, firstEndOffset);
-                    ec.added.addElement(newE);
-                    ec.removed.addElement(child);
-                    ec.removed.addElement(nextChild);
+                    ec.bdded.bddElement(newE);
+                    ec.removed.bddElement(child);
+                    ec.removed.bddElement(nextChild);
                 }
                 // else nothin to do.
-                // PENDING: if !isOnlyContent could raise here!
-                break;
-            default:
-                // Inserted into middle, need to recreate split left
-                // new content, and split right.
-                if(child.getStartOffset() != offset) {
-                    Element newE = createLeafElement(ec.parent,
-                            child.getAttributes(), child.getStartOffset(),
+                // PENDING: if !isOnlyContent could rbise here!
+                brebk;
+            defbult:
+                // Inserted into middle, need to recrebte split left
+                // new content, bnd split right.
+                if(child.getStbrtOffset() != offset) {
+                    Element newE = crebteLebfElement(ec.pbrent,
+                            child.getAttributes(), child.getStbrtOffset(),
                             offset);
-                    ec.added.addElement(newE);
+                    ec.bdded.bddElement(newE);
                 }
-                ec.removed.addElement(child);
+                ec.removed.bddElement(child);
                 // new content
-                Element newE = createLeafElement(ec.parent,
+                Element newE = crebteLebfElement(ec.pbrent,
                                                  firstSpec.getAttributes(),
                                                  offset, firstEndOffset);
-                ec.added.addElement(newE);
+                ec.bdded.bddElement(newE);
                 if(child.getEndOffset() != endOffset) {
-                    // Signals need to recreate right split later.
-                    recreateLeafs = true;
+                    // Signbls need to recrebte right split lbter.
+                    recrebteLebfs = true;
                 }
                 else {
-                    offsetLastIndex = true;
+                    offsetLbstIndex = true;
                 }
-                break;
+                brebk;
             }
         }
 
         Element root;
-        transient int pos;          // current position
-        transient int offset;
-        transient int length;
-        transient int endOffset;
-        transient Vector<ElemChanges> changes;
-        transient Stack<ElemChanges> path;
-        transient boolean insertOp;
+        trbnsient int pos;          // current position
+        trbnsient int offset;
+        trbnsient int length;
+        trbnsient int endOffset;
+        trbnsient Vector<ElemChbnges> chbnges;
+        trbnsient Stbck<ElemChbnges> pbth;
+        trbnsient boolebn insertOp;
 
-        transient boolean recreateLeafs; // For insert.
+        trbnsient boolebn recrebteLebfs; // For insert.
 
-        /** For insert, path to inserted elements. */
-        transient ElemChanges[] insertPath;
-        /** Only for insert, set to true when the fracture has been created. */
-        transient boolean createdFracture;
-        /** Parent that contains the fractured child. */
-        transient Element fracturedParent;
-        /** Fractured child. */
-        transient Element fracturedChild;
-        /** Used to indicate when fracturing that the last leaf should be
+        /** For insert, pbth to inserted elements. */
+        trbnsient ElemChbnges[] insertPbth;
+        /** Only for insert, set to true when the frbcture hbs been crebted. */
+        trbnsient boolebn crebtedFrbcture;
+        /** Pbrent thbt contbins the frbctured child. */
+        trbnsient Element frbcturedPbrent;
+        /** Frbctured child. */
+        trbnsient Element frbcturedChild;
+        /** Used to indicbte when frbcturing thbt the lbst lebf should be
          * skipped. */
-        transient boolean offsetLastIndex;
-        /** Used to indicate that the parent of the deepest leaf should
-         * offset the index by 1 when adding/removing elements in an
+        trbnsient boolebn offsetLbstIndex;
+        /** Used to indicbte thbt the pbrent of the deepest lebf should
+         * offset the index by 1 when bdding/removing elements in bn
          * insert. */
-        transient boolean offsetLastIndexOnReplace;
+        trbnsient boolebn offsetLbstIndexOnReplbce;
 
         /*
-         * Internal record used to hold element change specifications
+         * Internbl record used to hold element chbnge specificbtions
          */
-        class ElemChanges {
+        clbss ElemChbnges {
 
-            ElemChanges(Element parent, int index, boolean isFracture) {
-                this.parent = parent;
+            ElemChbnges(Element pbrent, int index, boolebn isFrbcture) {
+                this.pbrent = pbrent;
                 this.index = index;
-                this.isFracture = isFracture;
-                added = new Vector<Element>();
+                this.isFrbcture = isFrbcture;
+                bdded = new Vector<Element>();
                 removed = new Vector<Element>();
             }
 
             public String toString() {
-                return "added: " + added + "\nremoved: " + removed + "\n";
+                return "bdded: " + bdded + "\nremoved: " + removed + "\n";
             }
 
-            Element parent;
+            Element pbrent;
             int index;
-            Vector<Element> added;
+            Vector<Element> bdded;
             Vector<Element> removed;
-            boolean isFracture;
+            boolebn isFrbcture;
         }
 
     }
 
     /**
-     * An UndoableEdit used to remember AttributeSet changes to an
+     * An UndobbleEdit used to remember AttributeSet chbnges to bn
      * Element.
      */
-    public static class AttributeUndoableEdit extends AbstractUndoableEdit {
-        public AttributeUndoableEdit(Element element, AttributeSet newAttributes,
-                              boolean isReplacing) {
+    public stbtic clbss AttributeUndobbleEdit extends AbstrbctUndobbleEdit {
+        public AttributeUndobbleEdit(Element element, AttributeSet newAttributes,
+                              boolebn isReplbcing) {
             super();
             this.element = element;
             this.newAttributes = newAttributes;
-            this.isReplacing = isReplacing;
-            // If not replacing, it may be more efficient to only copy the
-            // changed values...
+            this.isReplbcing = isReplbcing;
+            // If not replbcing, it mby be more efficient to only copy the
+            // chbnged vblues...
             copy = element.getAttributes().copyAttributes();
         }
 
         /**
-         * Redoes a change.
+         * Redoes b chbnge.
          *
-         * @exception CannotRedoException if the change cannot be redone
+         * @exception CbnnotRedoException if the chbnge cbnnot be redone
          */
-        public void redo() throws CannotRedoException {
+        public void redo() throws CbnnotRedoException {
             super.redo();
-            MutableAttributeSet as = (MutableAttributeSet)element
+            MutbbleAttributeSet bs = (MutbbleAttributeSet)element
                                      .getAttributes();
-            if(isReplacing)
-                as.removeAttributes(as);
-            as.addAttributes(newAttributes);
+            if(isReplbcing)
+                bs.removeAttributes(bs);
+            bs.bddAttributes(newAttributes);
         }
 
         /**
-         * Undoes a change.
+         * Undoes b chbnge.
          *
-         * @exception CannotUndoException if the change cannot be undone
+         * @exception CbnnotUndoException if the chbnge cbnnot be undone
          */
-        public void undo() throws CannotUndoException {
+        public void undo() throws CbnnotUndoException {
             super.undo();
-            MutableAttributeSet as = (MutableAttributeSet)element.getAttributes();
-            as.removeAttributes(as);
-            as.addAttributes(copy);
+            MutbbleAttributeSet bs = (MutbbleAttributeSet)element.getAttributes();
+            bs.removeAttributes(bs);
+            bs.bddAttributes(copy);
         }
 
-        // AttributeSet containing additional entries, must be non-mutable!
+        // AttributeSet contbining bdditionbl entries, must be non-mutbble!
         protected AttributeSet newAttributes;
-        // Copy of the AttributeSet the Element contained.
+        // Copy of the AttributeSet the Element contbined.
         protected AttributeSet copy;
-        // true if all the attributes in the element were removed first.
-        protected boolean isReplacing;
+        // true if bll the bttributes in the element were removed first.
+        protected boolebn isReplbcing;
         // Efected Element.
         protected Element element;
     }
 
     /**
-     * UndoableEdit for changing the resolve parent of an Element.
+     * UndobbleEdit for chbnging the resolve pbrent of bn Element.
      */
-    static class StyleChangeUndoableEdit extends AbstractUndoableEdit {
-        public StyleChangeUndoableEdit(AbstractElement element,
+    stbtic clbss StyleChbngeUndobbleEdit extends AbstrbctUndobbleEdit {
+        public StyleChbngeUndobbleEdit(AbstrbctElement element,
                                        Style newStyle) {
             super();
             this.element = element;
             this.newStyle = newStyle;
-            oldStyle = element.getResolveParent();
+            oldStyle = element.getResolvePbrent();
         }
 
         /**
-         * Redoes a change.
+         * Redoes b chbnge.
          *
-         * @exception CannotRedoException if the change cannot be redone
+         * @exception CbnnotRedoException if the chbnge cbnnot be redone
          */
-        public void redo() throws CannotRedoException {
+        public void redo() throws CbnnotRedoException {
             super.redo();
-            element.setResolveParent(newStyle);
+            element.setResolvePbrent(newStyle);
         }
 
         /**
-         * Undoes a change.
+         * Undoes b chbnge.
          *
-         * @exception CannotUndoException if the change cannot be undone
+         * @exception CbnnotUndoException if the chbnge cbnnot be undone
          */
-        public void undo() throws CannotUndoException {
+        public void undo() throws CbnnotUndoException {
             super.undo();
-            element.setResolveParent(oldStyle);
+            element.setResolvePbrent(oldStyle);
         }
 
-        /** Element to change resolve parent of. */
-        protected AbstractElement element;
+        /** Element to chbnge resolve pbrent of. */
+        protected AbstrbctElement element;
         /** New style. */
         protected Style newStyle;
         /** Old style, before setting newStyle. */
@@ -2611,137 +2611,137 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
     }
 
     /**
-     * Base class for style change handlers with support for stale objects detection.
+     * Bbse clbss for style chbnge hbndlers with support for stble objects detection.
      */
-    abstract static class AbstractChangeHandler implements ChangeListener {
+    bbstrbct stbtic clbss AbstrbctChbngeHbndler implements ChbngeListener {
 
-        /* This has an implicit reference to the handler object.  */
-        private class DocReference extends WeakReference<DefaultStyledDocument> {
+        /* This hbs bn implicit reference to the hbndler object.  */
+        privbte clbss DocReference extends WebkReference<DefbultStyledDocument> {
 
-            DocReference(DefaultStyledDocument d, ReferenceQueue<DefaultStyledDocument> q) {
+            DocReference(DefbultStyledDocument d, ReferenceQueue<DefbultStyledDocument> q) {
                 super(d, q);
             }
 
             /**
-             * Return a reference to the style change handler object.
+             * Return b reference to the style chbnge hbndler object.
              */
-            ChangeListener getListener() {
-                return AbstractChangeHandler.this;
+            ChbngeListener getListener() {
+                return AbstrbctChbngeHbndler.this;
             }
         }
 
-        /** Class-specific reference queues.  */
-        private final static Map<Class<?>, ReferenceQueue<DefaultStyledDocument>> queueMap
-                = new HashMap<Class<?>, ReferenceQueue<DefaultStyledDocument>>();
+        /** Clbss-specific reference queues.  */
+        privbte finbl stbtic Mbp<Clbss<?>, ReferenceQueue<DefbultStyledDocument>> queueMbp
+                = new HbshMbp<Clbss<?>, ReferenceQueue<DefbultStyledDocument>>();
 
-        /** A weak reference to the document object.  */
-        private DocReference doc;
+        /** A webk reference to the document object.  */
+        privbte DocReference doc;
 
-        AbstractChangeHandler(DefaultStyledDocument d) {
-            Class<?> c = getClass();
-            ReferenceQueue<DefaultStyledDocument> q;
-            synchronized (queueMap) {
-                q = queueMap.get(c);
+        AbstrbctChbngeHbndler(DefbultStyledDocument d) {
+            Clbss<?> c = getClbss();
+            ReferenceQueue<DefbultStyledDocument> q;
+            synchronized (queueMbp) {
+                q = queueMbp.get(c);
                 if (q == null) {
-                    q = new ReferenceQueue<DefaultStyledDocument>();
-                    queueMap.put(c, q);
+                    q = new ReferenceQueue<DefbultStyledDocument>();
+                    queueMbp.put(c, q);
                 }
             }
             doc = new DocReference(d, q);
         }
 
         /**
-         * Return a list of stale change listeners.
+         * Return b list of stble chbnge listeners.
          *
-         * A change listener becomes "stale" when its document is cleaned by GC.
+         * A chbnge listener becomes "stble" when its document is clebned by GC.
          */
-        static List<ChangeListener> getStaleListeners(ChangeListener l) {
-            List<ChangeListener> staleListeners = new ArrayList<ChangeListener>();
-            ReferenceQueue<DefaultStyledDocument> q = queueMap.get(l.getClass());
+        stbtic List<ChbngeListener> getStbleListeners(ChbngeListener l) {
+            List<ChbngeListener> stbleListeners = new ArrbyList<ChbngeListener>();
+            ReferenceQueue<DefbultStyledDocument> q = queueMbp.get(l.getClbss());
 
             if (q != null) {
                 DocReference r;
                 synchronized (q) {
                     while ((r = (DocReference) q.poll()) != null) {
-                        staleListeners.add(r.getListener());
+                        stbleListeners.bdd(r.getListener());
                     }
                 }
             }
 
-            return staleListeners;
+            return stbleListeners;
         }
 
         /**
-         * The ChangeListener wrapper which guards against dead documents.
+         * The ChbngeListener wrbpper which gubrds bgbinst debd documents.
          */
-        public void stateChanged(ChangeEvent e) {
-            DefaultStyledDocument d = doc.get();
+        public void stbteChbnged(ChbngeEvent e) {
+            DefbultStyledDocument d = doc.get();
             if (d != null) {
-                fireStateChanged(d, e);
+                fireStbteChbnged(d, e);
             }
         }
 
-        /** Run the actual class-specific stateChanged() method.  */
-        abstract void fireStateChanged(DefaultStyledDocument d, ChangeEvent e);
+        /** Run the bctubl clbss-specific stbteChbnged() method.  */
+        bbstrbct void fireStbteChbnged(DefbultStyledDocument d, ChbngeEvent e);
     }
 
     /**
-     * Added to all the Styles. When instances of this receive a
-     * stateChanged method, styleChanged is invoked.
+     * Added to bll the Styles. When instbnces of this receive b
+     * stbteChbnged method, styleChbnged is invoked.
      */
-    static class StyleChangeHandler extends AbstractChangeHandler {
+    stbtic clbss StyleChbngeHbndler extends AbstrbctChbngeHbndler {
 
-        StyleChangeHandler(DefaultStyledDocument d) {
+        StyleChbngeHbndler(DefbultStyledDocument d) {
             super(d);
         }
 
-        void fireStateChanged(DefaultStyledDocument d, ChangeEvent e) {
+        void fireStbteChbnged(DefbultStyledDocument d, ChbngeEvent e) {
             Object source = e.getSource();
-            if (source instanceof Style) {
-                d.styleChanged((Style) source);
+            if (source instbnceof Style) {
+                d.styleChbnged((Style) source);
             } else {
-                d.styleChanged(null);
+                d.styleChbnged(null);
             }
         }
     }
 
 
     /**
-     * Added to the StyleContext. When the StyleContext changes, this invokes
-     * <code>updateStylesListeningTo</code>.
+     * Added to the StyleContext. When the StyleContext chbnges, this invokes
+     * <code>updbteStylesListeningTo</code>.
      */
-    static class StyleContextChangeHandler extends AbstractChangeHandler {
+    stbtic clbss StyleContextChbngeHbndler extends AbstrbctChbngeHbndler {
 
-        StyleContextChangeHandler(DefaultStyledDocument d) {
+        StyleContextChbngeHbndler(DefbultStyledDocument d) {
             super(d);
         }
 
-        void fireStateChanged(DefaultStyledDocument d, ChangeEvent e) {
-            d.updateStylesListeningTo();
+        void fireStbteChbnged(DefbultStyledDocument d, ChbngeEvent e) {
+            d.updbteStylesListeningTo();
         }
     }
 
 
     /**
-     * When run this creates a change event for the complete document
-     * and fires it.
+     * When run this crebtes b chbnge event for the complete document
+     * bnd fires it.
      */
-    class ChangeUpdateRunnable implements Runnable {
-        boolean isPending = false;
+    clbss ChbngeUpdbteRunnbble implements Runnbble {
+        boolebn isPending = fblse;
 
         public void run() {
             synchronized(this) {
-                isPending = false;
+                isPending = fblse;
             }
 
             try {
                 writeLock();
-                DefaultDocumentEvent dde = new DefaultDocumentEvent(0,
+                DefbultDocumentEvent dde = new DefbultDocumentEvent(0,
                                               getLength(),
                                               DocumentEvent.EventType.CHANGE);
                 dde.end();
-                fireChangedUpdate(dde);
-            } finally {
+                fireChbngedUpdbte(dde);
+            } finblly {
                 writeUnlock();
             }
         }

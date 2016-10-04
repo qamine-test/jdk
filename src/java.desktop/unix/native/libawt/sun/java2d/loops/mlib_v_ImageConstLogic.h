@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,30 +29,30 @@
 
 #if defined ( VIS )
 #if VIS >= 0x200
-#error This include file can be used with VIS 1.0 only
+#error This include file cbn be used with VIS 1.0 only
 #endif /* VIS >= 0x200 */
 #endif /* defined ( VIS ) */
 
-#include <mlib_image.h>
+#include <mlib_imbge.h>
 #include <vis_proto.h>
-#include <mlib_ImageCheck.h>
-#include <mlib_ImageLogic_proto.h>
-#include <mlib_v_ImageLogic_proto.h>
+#include <mlib_ImbgeCheck.h>
+#include <mlib_ImbgeLogic_proto.h>
+#include <mlib_v_ImbgeLogic_proto.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 /*
- * Macro definitions for VIS version image logical functions.
+ * Mbcro definitions for VIS version imbge logicbl functions.
  */
 
 /***************************************************************/
 
 #define VALIDATE()                                               \
-  mlib_u8  *sp, *sl; /* pointers for pixel and line of source */ \
-  mlib_u8  *dp,  *dl;/* pointers for pixel and line of dst */    \
-  mlib_s32 width, height, type, nchannels;                       \
+  mlib_u8  *sp, *sl; /* pointers for pixel bnd line of source */ \
+  mlib_u8  *dp,  *dl;/* pointers for pixel bnd line of dst */    \
+  mlib_s32 width, height, type, nchbnnels;                       \
   mlib_s32 stride;   /* for src */                               \
   mlib_s32 strided;  /* for dst */                               \
   mlib_u32 c01, c02, c03, c04;                                   \
@@ -62,24 +62,24 @@ extern "C" {
   MLIB_IMAGE_TYPE_EQUAL(dst,src);                                \
   MLIB_IMAGE_CHAN_EQUAL(dst,src);                                \
                                                                  \
-  dp  = (mlib_u8 *) mlib_ImageGetData(dst);                      \
-  sp  = (mlib_u8 *) mlib_ImageGetData(src);                      \
-  height = mlib_ImageGetHeight(dst);                             \
-  width  = mlib_ImageGetWidth(dst);                              \
-  stride = mlib_ImageGetStride(src);                             \
-  strided  = mlib_ImageGetStride(dst);                           \
-  nchannels = mlib_ImageGetChannels(dst);                        \
-  type = mlib_ImageGetType(dst);                                 \
+  dp  = (mlib_u8 *) mlib_ImbgeGetDbtb(dst);                      \
+  sp  = (mlib_u8 *) mlib_ImbgeGetDbtb(src);                      \
+  height = mlib_ImbgeGetHeight(dst);                             \
+  width  = mlib_ImbgeGetWidth(dst);                              \
+  stride = mlib_ImbgeGetStride(src);                             \
+  strided  = mlib_ImbgeGetStride(dst);                           \
+  nchbnnels = mlib_ImbgeGetChbnnels(dst);                        \
+  type = mlib_ImbgeGetType(dst);                                 \
                                                                  \
   if (type == MLIB_SHORT) {                                      \
-    width *= (2 * nchannels);                                    \
-    if (nchannels == 1) {                                        \
+    width *= (2 * nchbnnels);                                    \
+    if (nchbnnels == 1) {                                        \
       c01 = c[0] & 0xFFFF; c01 |= (c01 << 16);                   \
       dc01 = vis_to_double_dup(c01);                             \
-    } else if (nchannels == 2) {                                 \
+    } else if (nchbnnels == 2) {                                 \
       c01 = ((c[0] & 0xFFFF) << 16) | (c[1] & 0xFFFF);           \
       dc01 = vis_to_double_dup(c01);                             \
-    } else if (nchannels == 3) {                                 \
+    } else if (nchbnnels == 3) {                                 \
       c01 = ((c[0] & 0xFFFF) << 16) | (c[1] & 0xFFFF);           \
       c02 = ((c[2] & 0xFFFF) << 16) | (c01 >> 16);               \
       c03 = (c01 << 16) | (c02 >> 16);                           \
@@ -93,16 +93,16 @@ extern "C" {
     }                                                            \
                                                                  \
   } else if (type == MLIB_BYTE) {                                \
-    width *= nchannels;                                          \
-    if (nchannels == 1) {                                        \
+    width *= nchbnnels;                                          \
+    if (nchbnnels == 1) {                                        \
       c01 = c[0] & 0xFF; c01 |= (c01 << 8);                      \
       c01 |= (c01 << 16);                                        \
       dc01 = vis_to_double_dup(c01);                             \
-    } else if (nchannels == 2) {                                 \
+    } else if (nchbnnels == 2) {                                 \
       c01 = ((c[0] & 0xFF) << 8) | (c[1] & 0xFF);                \
       c01 |= (c01 << 16);                                        \
       dc01 = vis_to_double_dup(c01);                             \
-    } else if (nchannels == 3) {                                 \
+    } else if (nchbnnels == 3) {                                 \
       c01 = ((c[0] & 0xFF) << 16) | ((c[1] & 0xFF) << 8) |       \
              (c[2] & 0xFF);                                      \
       c02 = (c01 << 16) | (c01 >> 8);                            \
@@ -117,14 +117,14 @@ extern "C" {
       dc01 = vis_to_double_dup(c01);                             \
     }                                                            \
   } else {                                                       \
-    width *= (4 * nchannels);                                    \
-    if (nchannels == 1) {                                        \
+    width *= (4 * nchbnnels);                                    \
+    if (nchbnnels == 1) {                                        \
       c01 = c[0] & 0xFFFFFFFF;                                   \
       dc01 = vis_to_double_dup(c01);                             \
-    } else if (nchannels == 2) {                                 \
+    } else if (nchbnnels == 2) {                                 \
       c01 = c[0] & 0xFFFFFFFF; c02 = c[1] & 0xFFFFFFFF;          \
       dc01 = vis_to_double(c01, c02);                            \
-    } else if (nchannels == 3) {                                 \
+    } else if (nchbnnels == 3) {                                 \
       c01 = c[0] & 0xFFFFFFFF; c02 = c[1] & 0xFFFFFFFF;          \
       c03 = c[2] & 0xFFFFFFFF;                                   \
       dc01= vis_to_double(c01, c02);                             \
@@ -143,40 +143,40 @@ extern "C" {
 
 /***************************************************************/
 
-static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
-                                          mlib_image *src,
+stbtic mlib_stbtus mlib_v_ImbgeConstLogic(mlib_imbge *dst,
+                                          mlib_imbge *src,
                                           mlib_s32   *c)
 {
   mlib_s32 i, j;
-  mlib_s32 offdst, offsrc, emask;
+  mlib_s32 offdst, offsrc, embsk;
   mlib_d64 *dpp, *spp;
-  mlib_d64 sa1, sa2, da, sa;
-  mlib_d64 ssa, ssa1, ssa2, sa3, sa4;
-  mlib_s32 amount;
+  mlib_d64 sb1, sb2, db, sb;
+  mlib_d64 ssb, ssb1, ssb2, sb3, sb4;
+  mlib_s32 bmount;
   mlib_u8 *dend;
   mlib_d64 c1, c2, c3;
 
   VALIDATE();
 
-  if (nchannels == 3) {
+  if (nchbnnels == 3) {
     if ((width == stride) && (width == strided) && ((width - (width / 3) * 3) == 0)) {
 
-      amount = height * width;
-      dend = dp + amount - 1;
-      offdst = ((mlib_addr) dp) & 7;
-      offsrc = ((mlib_addr) sp) & 7;
+      bmount = height * width;
+      dend = dp + bmount - 1;
+      offdst = ((mlib_bddr) dp) & 7;
+      offsrc = ((mlib_bddr) sp) & 7;
 
       if (offsrc == offdst) {
 
-        /* prepare the destination addresses */
-        dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+        /* prepbre the destinbtion bddresses */
+        dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
         i = (mlib_u8 *) dpp - dp;
 
         if (i != 0) {
-          vis_alignaddr((void *)(8 - offdst), 0);
-          c3 = vis_faligndata(dc03, dc01);
-          c1 = vis_faligndata(dc01, dc02);
-          c2 = vis_faligndata(dc02, dc03);
+          vis_blignbddr((void *)(8 - offdst), 0);
+          c3 = vis_fbligndbtb(dc03, dc01);
+          c1 = vis_fbligndbtb(dc01, dc02);
+          c2 = vis_fbligndbtb(dc02, dc03);
         }
         else {
           c1 = dc01;
@@ -184,20 +184,20 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
           c3 = dc03;
         }
 
-        /* prepare the destination addresses */
-        spp = (mlib_d64 *) vis_alignaddr(sp, 0);
+        /* prepbre the destinbtion bddresses */
+        spp = (mlib_d64 *) vis_blignbddr(sp, 0);
 
         if (i != 0) {
-          /* generate edge mask for the start point */
-          emask = vis_edge8(dp, dend);
-          sa1 = *spp++;
-          da = VIS_CONSTLOGIC(c3, sa1);
-          vis_pst_8(da, dpp++, emask);
+          /* generbte edge mbsk for the stbrt point */
+          embsk = vis_edge8(dp, dend);
+          sb1 = *spp++;
+          db = VIS_CONSTLOGIC(c3, sb1);
+          vis_pst_8(db, dpp++, embsk);
           i += 8;
         }
 
-#pragma pipeloop(0)
-        for (; i < amount - 24; i += 24) {
+#prbgmb pipeloop(0)
+        for (; i < bmount - 24; i += 24) {
           dpp[0] = VIS_CONSTLOGIC(c1, spp[0]);
           dpp[1] = VIS_CONSTLOGIC(c2, spp[1]);
           dpp[2] = VIS_CONSTLOGIC(c3, spp[2]);
@@ -205,39 +205,39 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
           spp += 3;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa1 = *spp++;
-          da = VIS_CONSTLOGIC(c1, sa1);
-          vis_pst_8(da, dpp++, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb1 = *spp++;
+          db = VIS_CONSTLOGIC(c1, sb1);
+          vis_pst_8(db, dpp++, embsk);
           i += 8;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa1 = *spp++;
-          da = VIS_CONSTLOGIC(c2, sa1);
-          vis_pst_8(da, dpp++, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb1 = *spp++;
+          db = VIS_CONSTLOGIC(c2, sb1);
+          vis_pst_8(db, dpp++, embsk);
           i += 8;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa1 = *spp++;
-          da = VIS_CONSTLOGIC(c3, sa1);
-          vis_pst_8(da, dpp, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb1 = *spp++;
+          db = VIS_CONSTLOGIC(c3, sb1);
+          vis_pst_8(db, dpp, embsk);
         }
       }
       else {
-        /* prepare the destination addresses */
-        dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+        /* prepbre the destinbtion bddresses */
+        dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
         i = (mlib_u8 *) dpp - dp;
 
         if (i != 0) {
-          vis_alignaddr((void *)(8 - offdst), 0);
-          c3 = vis_faligndata(dc03, dc01);
-          c1 = vis_faligndata(dc01, dc02);
-          c2 = vis_faligndata(dc02, dc03);
+          vis_blignbddr((void *)(8 - offdst), 0);
+          c3 = vis_fbligndbtb(dc03, dc01);
+          c1 = vis_fbligndbtb(dc01, dc02);
+          c2 = vis_fbligndbtb(dc02, dc03);
         }
         else {
           c1 = dc01;
@@ -245,67 +245,67 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
           c3 = dc03;
         }
 
-        /* prepare the destination addresses */
-        spp = (mlib_d64 *) vis_alignaddr(sp, i);
+        /* prepbre the destinbtion bddresses */
+        spp = (mlib_d64 *) vis_blignbddr(sp, i);
 
-        sa1 = spp[0];
+        sb1 = spp[0];
 
         if (i != 0) {
-          /* generate edge mask for the start point */
-          emask = vis_edge8(dp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c3, sa);
-          vis_pst_8(da, dpp++, emask);
-          sa1 = sa2;
+          /* generbte edge mbsk for the stbrt point */
+          embsk = vis_edge8(dp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c3, sb);
+          vis_pst_8(db, dpp++, embsk);
+          sb1 = sb2;
           i += 8;
           spp++;
         }
 
-#pragma pipeloop(0)
-        for (; i < amount - 24; i += 24) {
-          sa2 = spp[1];
-          ssa = vis_faligndata(sa1, sa2);
-          dpp[0] = VIS_CONSTLOGIC(c1, ssa);
-          sa3 = spp[2];
-          ssa1 = vis_faligndata(sa2, sa3);
-          dpp[1] = VIS_CONSTLOGIC(c2, ssa1);
-          sa4 = spp[3];
-          ssa2 = vis_faligndata(sa3, sa4);
-          dpp[2] = VIS_CONSTLOGIC(c3, ssa2);
-          sa1 = sa4;
+#prbgmb pipeloop(0)
+        for (; i < bmount - 24; i += 24) {
+          sb2 = spp[1];
+          ssb = vis_fbligndbtb(sb1, sb2);
+          dpp[0] = VIS_CONSTLOGIC(c1, ssb);
+          sb3 = spp[2];
+          ssb1 = vis_fbligndbtb(sb2, sb3);
+          dpp[1] = VIS_CONSTLOGIC(c2, ssb1);
+          sb4 = spp[3];
+          ssb2 = vis_fbligndbtb(sb3, sb4);
+          dpp[2] = VIS_CONSTLOGIC(c3, ssb2);
+          sb1 = sb4;
           dpp += 3;
           spp += 3;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c1, sa);
-          vis_pst_8(da, dpp++, emask);
-          sa1 = sa2;
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c1, sb);
+          vis_pst_8(db, dpp++, embsk);
+          sb1 = sb2;
           i += 8;
           spp++;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c2, sa);
-          vis_pst_8(da, dpp++, emask);
-          sa1 = sa2;
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c2, sb);
+          vis_pst_8(db, dpp++, embsk);
+          sb1 = sb2;
           i += 8;
           spp++;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c3, sa);
-          vis_pst_8(da, dpp++, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c3, sb);
+          vis_pst_8(db, dpp++, embsk);
         }
       }
     }
@@ -314,25 +314,25 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
       sl = sp;
       dl = dp;
 
-      amount = width;
+      bmount = width;
 
       for (j = 0; j < height; j++) {
 
-        dend = dp + amount - 1;
-        offdst = ((mlib_addr) dp) & 7;
-        offsrc = ((mlib_addr) sp) & 7;
+        dend = dp + bmount - 1;
+        offdst = ((mlib_bddr) dp) & 7;
+        offsrc = ((mlib_bddr) sp) & 7;
 
         if (offsrc == offdst) {
 
-          /* prepare the destination addresses */
-          dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+          /* prepbre the destinbtion bddresses */
+          dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
           i = (mlib_u8 *) dpp - dp;
 
           if (i != 0) {
-            vis_alignaddr((void *)(8 - offdst), 0);
-            c3 = vis_faligndata(dc03, dc01);
-            c1 = vis_faligndata(dc01, dc02);
-            c2 = vis_faligndata(dc02, dc03);
+            vis_blignbddr((void *)(8 - offdst), 0);
+            c3 = vis_fbligndbtb(dc03, dc01);
+            c1 = vis_fbligndbtb(dc01, dc02);
+            c2 = vis_fbligndbtb(dc02, dc03);
           }
           else {
             c1 = dc01;
@@ -340,20 +340,20 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
             c3 = dc03;
           }
 
-          /* prepare the destination addresses */
-          spp = (mlib_d64 *) vis_alignaddr(sp, 0);
+          /* prepbre the destinbtion bddresses */
+          spp = (mlib_d64 *) vis_blignbddr(sp, 0);
 
           if (i != 0) {
-            /* generate edge mask for the start point */
-            emask = vis_edge8(dp, dend);
-            sa1 = *spp++;
-            da = VIS_CONSTLOGIC(c3, sa1);
-            vis_pst_8(da, dpp++, emask);
+            /* generbte edge mbsk for the stbrt point */
+            embsk = vis_edge8(dp, dend);
+            sb1 = *spp++;
+            db = VIS_CONSTLOGIC(c3, sb1);
+            vis_pst_8(db, dpp++, embsk);
             i += 8;
           }
 
-#pragma pipeloop(0)
-          for (; i < amount - 24; i += 24) {
+#prbgmb pipeloop(0)
+          for (; i < bmount - 24; i += 24) {
             dpp[0] = VIS_CONSTLOGIC(c1, spp[0]);
             dpp[1] = VIS_CONSTLOGIC(c2, spp[1]);
             dpp[2] = VIS_CONSTLOGIC(c3, spp[2]);
@@ -361,39 +361,39 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
             spp += 3;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa1 = *spp++;
-            da = VIS_CONSTLOGIC(c1, sa1);
-            vis_pst_8(da, dpp++, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb1 = *spp++;
+            db = VIS_CONSTLOGIC(c1, sb1);
+            vis_pst_8(db, dpp++, embsk);
             i += 8;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa1 = *spp++;
-            da = VIS_CONSTLOGIC(c2, sa1);
-            vis_pst_8(da, dpp++, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb1 = *spp++;
+            db = VIS_CONSTLOGIC(c2, sb1);
+            vis_pst_8(db, dpp++, embsk);
             i += 8;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa1 = *spp++;
-            da = VIS_CONSTLOGIC(c3, sa1);
-            vis_pst_8(da, dpp, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb1 = *spp++;
+            db = VIS_CONSTLOGIC(c3, sb1);
+            vis_pst_8(db, dpp, embsk);
           }
         }
         else {
-          /* prepare the destination addresses */
-          dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+          /* prepbre the destinbtion bddresses */
+          dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
           i = (mlib_u8 *) dpp - dp;
 
           if (i != 0) {
-            vis_alignaddr((void *)(8 - offdst), 0);
-            c3 = vis_faligndata(dc03, dc01);
-            c1 = vis_faligndata(dc01, dc02);
-            c2 = vis_faligndata(dc02, dc03);
+            vis_blignbddr((void *)(8 - offdst), 0);
+            c3 = vis_fbligndbtb(dc03, dc01);
+            c1 = vis_fbligndbtb(dc01, dc02);
+            c2 = vis_fbligndbtb(dc02, dc03);
           }
           else {
             c1 = dc01;
@@ -401,67 +401,67 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
             c3 = dc03;
           }
 
-          /* prepare the destination addresses */
-          spp = (mlib_d64 *) vis_alignaddr(sp, i);
+          /* prepbre the destinbtion bddresses */
+          spp = (mlib_d64 *) vis_blignbddr(sp, i);
 
-          sa1 = spp[0];
+          sb1 = spp[0];
 
           if (i != 0) {
-            /* generate edge mask for the start point */
-            emask = vis_edge8(dp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c3, sa);
-            vis_pst_8(da, dpp++, emask);
-            sa1 = sa2;
+            /* generbte edge mbsk for the stbrt point */
+            embsk = vis_edge8(dp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c3, sb);
+            vis_pst_8(db, dpp++, embsk);
+            sb1 = sb2;
             i += 8;
             spp++;
           }
 
-#pragma pipeloop(0)
-          for (; i < amount - 24; i += 24) {
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            dpp[0] = VIS_CONSTLOGIC(c1, sa);
-            sa1 = spp[2];
-            sa = vis_faligndata(sa2, sa1);
-            dpp[1] = VIS_CONSTLOGIC(c2, sa);
-            sa2 = spp[3];
-            sa = vis_faligndata(sa1, sa2);
-            dpp[2] = VIS_CONSTLOGIC(c3, sa);
-            sa1 = sa2;
+#prbgmb pipeloop(0)
+          for (; i < bmount - 24; i += 24) {
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            dpp[0] = VIS_CONSTLOGIC(c1, sb);
+            sb1 = spp[2];
+            sb = vis_fbligndbtb(sb2, sb1);
+            dpp[1] = VIS_CONSTLOGIC(c2, sb);
+            sb2 = spp[3];
+            sb = vis_fbligndbtb(sb1, sb2);
+            dpp[2] = VIS_CONSTLOGIC(c3, sb);
+            sb1 = sb2;
             dpp += 3;
             spp += 3;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c1, sa);
-            vis_pst_8(da, dpp++, emask);
-            sa1 = sa2;
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c1, sb);
+            vis_pst_8(db, dpp++, embsk);
+            sb1 = sb2;
             i += 8;
             spp++;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c2, sa);
-            vis_pst_8(da, dpp++, emask);
-            sa1 = sa2;
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c2, sb);
+            vis_pst_8(db, dpp++, embsk);
+            sb1 = sb2;
             i += 8;
             spp++;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c3, sa);
-            vis_pst_8(da, dpp++, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c3, sb);
+            vis_pst_8(db, dpp++, embsk);
           }
         }
 
@@ -471,99 +471,99 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
     }
 
   }
-  else if ((type != MLIB_INT) || (nchannels != 4)) {
+  else if ((type != MLIB_INT) || (nchbnnels != 4)) {
 
     if ((width == stride) && (width == strided)) {
 
-      amount = height * width;
-      dend = dp + amount - 1;
-      offdst = ((mlib_addr) dp) & 7;
-      offsrc = ((mlib_addr) sp) & 7;
+      bmount = height * width;
+      dend = dp + bmount - 1;
+      offdst = ((mlib_bddr) dp) & 7;
+      offsrc = ((mlib_bddr) sp) & 7;
 
       if (offsrc == offdst) {
 
-        /* prepare the destination addresses */
-        dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+        /* prepbre the destinbtion bddresses */
+        dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
         i = (mlib_u8 *) dpp - dp;
 
         if (i != 0) {
-          vis_alignaddr((void *)(8 - offdst), 0);
-          c1 = vis_faligndata(dc01, dc01);
+          vis_blignbddr((void *)(8 - offdst), 0);
+          c1 = vis_fbligndbtb(dc01, dc01);
         }
         else {
           c1 = dc01;
         }
 
-        /* prepare the destination addresses */
-        spp = (mlib_d64 *) vis_alignaddr(sp, 0);
+        /* prepbre the destinbtion bddresses */
+        spp = (mlib_d64 *) vis_blignbddr(sp, 0);
 
         if (i != 0) {
-          /* generate edge mask for the start point */
-          emask = vis_edge8(dp, dend);
-          sa1 = *spp++;
-          da = VIS_CONSTLOGIC(c1, sa1);
-          vis_pst_8(da, dpp++, emask);
+          /* generbte edge mbsk for the stbrt point */
+          embsk = vis_edge8(dp, dend);
+          sb1 = *spp++;
+          db = VIS_CONSTLOGIC(c1, sb1);
+          vis_pst_8(db, dpp++, embsk);
           i += 8;
         }
 
-#pragma pipeloop(0)
-        for (; i < amount - 8; i += 8) {
+#prbgmb pipeloop(0)
+        for (; i < bmount - 8; i += 8) {
           *dpp++ = VIS_CONSTLOGIC(c1, *spp);
           spp++;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa1 = *spp;
-          da = VIS_CONSTLOGIC(c1, sa1);
-          vis_pst_8(da, dpp, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb1 = *spp;
+          db = VIS_CONSTLOGIC(c1, sb1);
+          vis_pst_8(db, dpp, embsk);
         }
       }
       else {
-        /* prepare the destination addresses */
-        dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+        /* prepbre the destinbtion bddresses */
+        dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
         i = (mlib_u8 *) dpp - dp;
 
         if (i != 0) {
-          vis_alignaddr((void *)(8 - offdst), 0);
-          c1 = vis_faligndata(dc01, dc01);
+          vis_blignbddr((void *)(8 - offdst), 0);
+          c1 = vis_fbligndbtb(dc01, dc01);
         }
         else {
           c1 = dc01;
         }
 
-        /* prepare the destination addresses */
-        spp = (mlib_d64 *) vis_alignaddr(sp, i);
+        /* prepbre the destinbtion bddresses */
+        spp = (mlib_d64 *) vis_blignbddr(sp, i);
 
-        sa1 = spp[0];
+        sb1 = spp[0];
 
         if (i != 0) {
-          /* generate edge mask for the start point */
-          emask = vis_edge8(dp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c1, sa);
-          vis_pst_8(da, dpp++, emask);
-          sa1 = sa2;
+          /* generbte edge mbsk for the stbrt point */
+          embsk = vis_edge8(dp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c1, sb);
+          vis_pst_8(db, dpp++, embsk);
+          sb1 = sb2;
           i += 8;
           spp++;
         }
 
-#pragma pipeloop(0)
-        for (; i < amount - 8; i += 8) {
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          *dpp++ = VIS_CONSTLOGIC(c1, sa);
-          sa1 = sa2;
+#prbgmb pipeloop(0)
+        for (; i < bmount - 8; i += 8) {
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          *dpp++ = VIS_CONSTLOGIC(c1, sb);
+          sb1 = sb2;
           spp++;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c1, sa);
-          vis_pst_8(da, dpp, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c1, sb);
+          vis_pst_8(db, dpp, embsk);
         }
       }
     }
@@ -572,98 +572,98 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
       sl = sp;
       dl = dp;
 
-      amount = width;
+      bmount = width;
 
       for (j = 0; j < height; j++) {
 
-        dend = dp + amount - 1;
-        offdst = ((mlib_addr) dp) & 7;
-        offsrc = ((mlib_addr) sp) & 7;
+        dend = dp + bmount - 1;
+        offdst = ((mlib_bddr) dp) & 7;
+        offsrc = ((mlib_bddr) sp) & 7;
 
         if (offsrc == offdst) {
 
-          /* prepare the destination addresses */
-          dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+          /* prepbre the destinbtion bddresses */
+          dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
           i = (mlib_u8 *) dpp - dp;
 
           if (i != 0) {
-            vis_alignaddr((void *)(8 - offdst), 0);
-            c1 = vis_faligndata(dc01, dc01);
+            vis_blignbddr((void *)(8 - offdst), 0);
+            c1 = vis_fbligndbtb(dc01, dc01);
           }
           else {
             c1 = dc01;
           }
 
-          /* prepare the destination addresses */
-          spp = (mlib_d64 *) vis_alignaddr(sp, 0);
+          /* prepbre the destinbtion bddresses */
+          spp = (mlib_d64 *) vis_blignbddr(sp, 0);
 
           if (i != 0) {
-            /* generate edge mask for the start point */
-            emask = vis_edge8(dp, dend);
-            sa1 = *spp++;
-            da = VIS_CONSTLOGIC(c1, sa1);
-            vis_pst_8(da, dpp++, emask);
+            /* generbte edge mbsk for the stbrt point */
+            embsk = vis_edge8(dp, dend);
+            sb1 = *spp++;
+            db = VIS_CONSTLOGIC(c1, sb1);
+            vis_pst_8(db, dpp++, embsk);
             i += 8;
           }
 
-#pragma pipeloop(0)
-          for (; i < amount - 8; i += 8) {
+#prbgmb pipeloop(0)
+          for (; i < bmount - 8; i += 8) {
             *dpp++ = VIS_CONSTLOGIC(c1, *spp);
             spp++;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa1 = *spp;
-            da = VIS_CONSTLOGIC(c1, sa1);
-            vis_pst_8(da, dpp, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb1 = *spp;
+            db = VIS_CONSTLOGIC(c1, sb1);
+            vis_pst_8(db, dpp, embsk);
           }
         }
         else {
-          /* prepare the destination addresses */
-          dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+          /* prepbre the destinbtion bddresses */
+          dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
           i = (mlib_u8 *) dpp - dp;
 
           if (i != 0) {
-            vis_alignaddr((void *)(8 - offdst), 0);
-            c1 = vis_faligndata(dc01, dc01);
+            vis_blignbddr((void *)(8 - offdst), 0);
+            c1 = vis_fbligndbtb(dc01, dc01);
           }
           else {
             c1 = dc01;
           }
 
-          /* prepare the destination addresses */
-          spp = (mlib_d64 *) vis_alignaddr(sp, i);
+          /* prepbre the destinbtion bddresses */
+          spp = (mlib_d64 *) vis_blignbddr(sp, i);
 
-          sa1 = spp[0];
+          sb1 = spp[0];
 
           if (i != 0) {
-            /* generate edge mask for the start point */
-            emask = vis_edge8(dp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c1, sa);
-            vis_pst_8(da, dpp++, emask);
-            sa1 = sa2;
+            /* generbte edge mbsk for the stbrt point */
+            embsk = vis_edge8(dp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c1, sb);
+            vis_pst_8(db, dpp++, embsk);
+            sb1 = sb2;
             i += 8;
             spp++;
           }
 
-#pragma pipeloop(0)
-          for (; i < amount - 8; i += 8) {
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            *dpp++ = VIS_CONSTLOGIC(c1, sa);
-            sa1 = sa2;
+#prbgmb pipeloop(0)
+          for (; i < bmount - 8; i += 8) {
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            *dpp++ = VIS_CONSTLOGIC(c1, sb);
+            sb1 = sb2;
             spp++;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c1, sa);
-            vis_pst_8(da, dpp, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c1, sb);
+            vis_pst_8(db, dpp, embsk);
           }
         }
 
@@ -677,124 +677,124 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
 
     if ((width == stride) && (width == strided)) {
 
-      amount = height * width;
-      dend = dp + amount - 1;
-      offdst = ((mlib_addr) dp) & 7;
-      offsrc = ((mlib_addr) sp) & 7;
+      bmount = height * width;
+      dend = dp + bmount - 1;
+      offdst = ((mlib_bddr) dp) & 7;
+      offsrc = ((mlib_bddr) sp) & 7;
 
       if (offsrc == offdst) {
 
-        /* prepare the destination addresses */
-        dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+        /* prepbre the destinbtion bddresses */
+        dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
         i = (mlib_u8 *) dpp - dp;
 
         if (i != 0) {
-          vis_alignaddr((void *)(8 - offdst), 0);
-          c2 = vis_faligndata(dc02, dc01);
-          c1 = vis_faligndata(dc01, dc02);
+          vis_blignbddr((void *)(8 - offdst), 0);
+          c2 = vis_fbligndbtb(dc02, dc01);
+          c1 = vis_fbligndbtb(dc01, dc02);
         }
         else {
           c1 = dc01;
           c2 = dc02;
         }
 
-        /* prepare the destination addresses */
-        spp = (mlib_d64 *) vis_alignaddr(sp, 0);
+        /* prepbre the destinbtion bddresses */
+        spp = (mlib_d64 *) vis_blignbddr(sp, 0);
 
         if (i != 0) {
-          /* generate edge mask for the start point */
-          emask = vis_edge8(dp, dend);
-          sa1 = *spp++;
-          da = VIS_CONSTLOGIC(c2, sa1);
-          vis_pst_8(da, dpp++, emask);
+          /* generbte edge mbsk for the stbrt point */
+          embsk = vis_edge8(dp, dend);
+          sb1 = *spp++;
+          db = VIS_CONSTLOGIC(c2, sb1);
+          vis_pst_8(db, dpp++, embsk);
           i += 8;
         }
 
-#pragma pipeloop(0)
-        for (; i < amount - 16; i += 16) {
+#prbgmb pipeloop(0)
+        for (; i < bmount - 16; i += 16) {
           dpp[0] = VIS_CONSTLOGIC(c1, spp[0]);
           dpp[1] = VIS_CONSTLOGIC(c2, spp[1]);
           dpp += 2;
           spp += 2;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa1 = *spp++;
-          da = VIS_CONSTLOGIC(c1, sa1);
-          vis_pst_8(da, dpp++, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb1 = *spp++;
+          db = VIS_CONSTLOGIC(c1, sb1);
+          vis_pst_8(db, dpp++, embsk);
           i += 8;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa1 = *spp;
-          da = VIS_CONSTLOGIC(c2, sa1);
-          vis_pst_8(da, dpp++, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb1 = *spp;
+          db = VIS_CONSTLOGIC(c2, sb1);
+          vis_pst_8(db, dpp++, embsk);
         }
       }
       else {
-        /* prepare the destination addresses */
-        dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+        /* prepbre the destinbtion bddresses */
+        dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
         i = (mlib_u8 *) dpp - dp;
 
         if (i != 0) {
-          vis_alignaddr((void *)(8 - offdst), 0);
-          c2 = vis_faligndata(dc02, dc01);
-          c1 = vis_faligndata(dc01, dc02);
+          vis_blignbddr((void *)(8 - offdst), 0);
+          c2 = vis_fbligndbtb(dc02, dc01);
+          c1 = vis_fbligndbtb(dc01, dc02);
         }
         else {
           c1 = dc01;
           c2 = dc02;
         }
 
-        /* prepare the destination addresses */
-        spp = (mlib_d64 *) vis_alignaddr(sp, i);
+        /* prepbre the destinbtion bddresses */
+        spp = (mlib_d64 *) vis_blignbddr(sp, i);
 
-        sa1 = spp[0];
+        sb1 = spp[0];
 
         if (i != 0) {
-          /* generate edge mask for the start point */
-          emask = vis_edge8(dp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c2, sa);
-          vis_pst_8(da, dpp++, emask);
-          sa1 = sa2;
+          /* generbte edge mbsk for the stbrt point */
+          embsk = vis_edge8(dp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c2, sb);
+          vis_pst_8(db, dpp++, embsk);
+          sb1 = sb2;
           i += 8;
           spp++;
         }
 
-#pragma pipeloop(0)
-        for (; i < amount - 16; i += 16) {
-          sa2 = spp[1];
-          ssa = vis_faligndata(sa1, sa2);
-          dpp[0] = VIS_CONSTLOGIC(c1, ssa);
-          sa3 = spp[2];
-          ssa1 = vis_faligndata(sa2, sa3);
-          dpp[1] = VIS_CONSTLOGIC(c2, ssa1);
-          sa1 = sa3;
+#prbgmb pipeloop(0)
+        for (; i < bmount - 16; i += 16) {
+          sb2 = spp[1];
+          ssb = vis_fbligndbtb(sb1, sb2);
+          dpp[0] = VIS_CONSTLOGIC(c1, ssb);
+          sb3 = spp[2];
+          ssb1 = vis_fbligndbtb(sb2, sb3);
+          dpp[1] = VIS_CONSTLOGIC(c2, ssb1);
+          sb1 = sb3;
           dpp += 2;
           spp += 2;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c1, sa);
-          vis_pst_8(da, dpp++, emask);
-          sa1 = sa2;
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c1, sb);
+          vis_pst_8(db, dpp++, embsk);
+          sb1 = sb2;
           i += 8;
           spp++;
         }
 
-        if (i < amount) {
-          emask = vis_edge8(dpp, dend);
-          sa2 = spp[1];
-          sa = vis_faligndata(sa1, sa2);
-          da = VIS_CONSTLOGIC(c2, sa);
-          vis_pst_8(da, dpp++, emask);
+        if (i < bmount) {
+          embsk = vis_edge8(dpp, dend);
+          sb2 = spp[1];
+          sb = vis_fbligndbtb(sb1, sb2);
+          db = VIS_CONSTLOGIC(c2, sb);
+          vis_pst_8(db, dpp++, embsk);
         }
       }
     }
@@ -803,127 +803,127 @@ static mlib_status mlib_v_ImageConstLogic(mlib_image *dst,
       sl = sp;
       dl = dp;
 
-      amount = width;
+      bmount = width;
 
       for (j = 0; j < height; j++) {
 
-        dend = dp + amount - 1;
-        offdst = ((mlib_addr) dp) & 7;
-        offsrc = ((mlib_addr) sp) & 7;
+        dend = dp + bmount - 1;
+        offdst = ((mlib_bddr) dp) & 7;
+        offsrc = ((mlib_bddr) sp) & 7;
 
         if (offsrc == offdst) {
 
-          /* prepare the destination addresses */
-          dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+          /* prepbre the destinbtion bddresses */
+          dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
           i = (mlib_u8 *) dpp - dp;
 
           if (i != 0) {
-            vis_alignaddr((void *)(8 - offdst), 0);
-            c2 = vis_faligndata(dc02, dc01);
-            c1 = vis_faligndata(dc01, dc02);
+            vis_blignbddr((void *)(8 - offdst), 0);
+            c2 = vis_fbligndbtb(dc02, dc01);
+            c1 = vis_fbligndbtb(dc01, dc02);
           }
           else {
             c1 = dc01;
             c2 = dc02;
           }
 
-          /* prepare the destination addresses */
-          spp = (mlib_d64 *) vis_alignaddr(sp, 0);
+          /* prepbre the destinbtion bddresses */
+          spp = (mlib_d64 *) vis_blignbddr(sp, 0);
 
           if (i != 0) {
-            /* generate edge mask for the start point */
-            emask = vis_edge8(dp, dend);
-            sa1 = *spp++;
-            da = VIS_CONSTLOGIC(c2, sa1);
-            vis_pst_8(da, dpp++, emask);
+            /* generbte edge mbsk for the stbrt point */
+            embsk = vis_edge8(dp, dend);
+            sb1 = *spp++;
+            db = VIS_CONSTLOGIC(c2, sb1);
+            vis_pst_8(db, dpp++, embsk);
             i += 8;
           }
 
-#pragma pipeloop(0)
-          for (; i < amount - 16; i += 16) {
+#prbgmb pipeloop(0)
+          for (; i < bmount - 16; i += 16) {
             dpp[0] = VIS_CONSTLOGIC(c1, spp[0]);
             dpp[1] = VIS_CONSTLOGIC(c2, spp[1]);
             dpp += 2;
             spp += 2;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa1 = *spp++;
-            da = VIS_CONSTLOGIC(c1, sa1);
-            vis_pst_8(da, dpp++, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb1 = *spp++;
+            db = VIS_CONSTLOGIC(c1, sb1);
+            vis_pst_8(db, dpp++, embsk);
             i += 8;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa1 = *spp;
-            da = VIS_CONSTLOGIC(c2, sa1);
-            vis_pst_8(da, dpp++, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb1 = *spp;
+            db = VIS_CONSTLOGIC(c2, sb1);
+            vis_pst_8(db, dpp++, embsk);
           }
         }
         else {
-          /* prepare the destination addresses */
-          dpp = (mlib_d64 *) vis_alignaddr(dp, 0);
+          /* prepbre the destinbtion bddresses */
+          dpp = (mlib_d64 *) vis_blignbddr(dp, 0);
           i = (mlib_u8 *) dpp - dp;
 
           if (i != 0) {
-            vis_alignaddr((void *)(8 - offdst), 0);
-            c2 = vis_faligndata(dc02, dc01);
-            c1 = vis_faligndata(dc01, dc02);
+            vis_blignbddr((void *)(8 - offdst), 0);
+            c2 = vis_fbligndbtb(dc02, dc01);
+            c1 = vis_fbligndbtb(dc01, dc02);
           }
           else {
             c1 = dc01;
             c2 = dc02;
           }
 
-          /* prepare the destination addresses */
-          spp = (mlib_d64 *) vis_alignaddr(sp, i);
+          /* prepbre the destinbtion bddresses */
+          spp = (mlib_d64 *) vis_blignbddr(sp, i);
 
-          sa1 = spp[0];
+          sb1 = spp[0];
 
           if (i != 0) {
-            /* generate edge mask for the start point */
-            emask = vis_edge8(dp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c2, sa);
-            vis_pst_8(da, dpp++, emask);
-            sa1 = sa2;
+            /* generbte edge mbsk for the stbrt point */
+            embsk = vis_edge8(dp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c2, sb);
+            vis_pst_8(db, dpp++, embsk);
+            sb1 = sb2;
             i += 8;
             spp++;
           }
 
-#pragma pipeloop(0)
-          for (; i < amount - 16; i += 16) {
-            sa2 = spp[1];
-            ssa = vis_faligndata(sa1, sa2);
-            dpp[0] = VIS_CONSTLOGIC(c1, ssa);
-            sa3 = spp[2];
-            ssa1 = vis_faligndata(sa2, sa3);
-            dpp[1] = VIS_CONSTLOGIC(c2, ssa1);
-            sa1 = sa3;
+#prbgmb pipeloop(0)
+          for (; i < bmount - 16; i += 16) {
+            sb2 = spp[1];
+            ssb = vis_fbligndbtb(sb1, sb2);
+            dpp[0] = VIS_CONSTLOGIC(c1, ssb);
+            sb3 = spp[2];
+            ssb1 = vis_fbligndbtb(sb2, sb3);
+            dpp[1] = VIS_CONSTLOGIC(c2, ssb1);
+            sb1 = sb3;
             dpp += 2;
             spp += 2;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c1, sa);
-            vis_pst_8(da, dpp++, emask);
-            sa1 = sa2;
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c1, sb);
+            vis_pst_8(db, dpp++, embsk);
+            sb1 = sb2;
             i += 8;
             spp++;
           }
 
-          if (i < amount) {
-            emask = vis_edge8(dpp, dend);
-            sa2 = spp[1];
-            sa = vis_faligndata(sa1, sa2);
-            da = VIS_CONSTLOGIC(c2, sa);
-            vis_pst_8(da, dpp++, emask);
+          if (i < bmount) {
+            embsk = vis_edge8(dpp, dend);
+            sb2 = spp[1];
+            sb = vis_fbligndbtb(sb1, sb2);
+            db = VIS_CONSTLOGIC(c2, sb);
+            vis_pst_8(db, dpp++, embsk);
           }
         }
 

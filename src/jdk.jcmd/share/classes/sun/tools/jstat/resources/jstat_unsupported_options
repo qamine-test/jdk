@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-option classload {
+option clbsslobd {
   column {
-    header "^Loaded^"	/* Number of classes loaded */
-    data (java.cls.loadedClasses + java.cls.sharedLoadedClasses)
-    align right
-    scale raw
+    hebder "^Lobded^"	/* Number of clbsses lobded */
+    dbtb (jbvb.cls.lobdedClbsses + jbvb.cls.shbredLobdedClbsses)
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Time^"	/* Accumulated time for class loading */
-    data sun.cls.time/sun.os.hrt.frequency
-    scale sec
-    align right
+    hebder "Time^"	/* Accumulbted time for clbss lobding */
+    dbtb sun.cls.time/sun.os.hrt.frequency
+    scble sec
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "^Inited^"	/* Number of initialized classes */
-    data sun.cls.initializedClasses
-    align right
-    scale raw
+    hebder "^Inited^"	/* Number of initiblized clbsses */
+    dbtb sun.cls.initiblizedClbsses
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Time^"	/* Accumulated time for class initialization */
-    data sun.cls.classInitTime.self/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "Time^"	/* Accumulbted time for clbss initiblizbtion */
+    dbtb sun.cls.clbssInitTime.self/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "Shared^"	/* Number of system classes loaded from shared archive */
-    data java.cls.sharedLoadedClasses
-    align right
-    scale raw
+    hebder "Shbred^"	/* Number of system clbsses lobded from shbred brchive */
+    dbtb jbvb.cls.shbredLobdedClbsses
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Kbytes^"	/* Accumulated Size of classes loaded */
-    data sun.cls.sharedLoadedBytes
-    align right
-    scale K
+    hebder "Kbytes^"	/* Accumulbted Size of clbsses lobded */
+    dbtb sun.cls.shbredLobdedBytes
+    blign right
+    scble K
     width 7
-    format "0.0"
+    formbt "0.0"
   }
   column {
-    header "LoadTime^"	/* Accumulated time for loading classes from shared archive */
-    data sun.cls.sharedClassLoadTime/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "LobdTime^"	/* Accumulbted time for lobding clbsses from shbred brchive */
+    dbtb sun.cls.shbredClbssLobdTime/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "^SysClass^"	/* Number of system classes loaded */
-    data java.cls.loadedClasses
-    align right
-    scale raw
+    hebder "^SysClbss^"	/* Number of system clbsses lobded */
+    dbtb jbvb.cls.lobdedClbsses
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Kbytes^"	/* Bytes read from system class files */
-    data sun.cls.sysClassBytes
-    align right
-    scale K
+    hebder "Kbytes^"	/* Bytes rebd from system clbss files */
+    dbtb sun.cls.sysClbssBytes
+    blign right
+    scble K
     width 7
-    format "0.0"
+    formbt "0.0"
   }
   column {
-    header "LoadTime^"	/* Accumulated time for loading non-shared system classes */
-    data sun.cls.sysClassLoadTime/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "LobdTime^"	/* Accumulbted time for lobding non-shbred system clbsses */
+    dbtb sun.cls.sysClbssLobdTime/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "Lookup^"	/* Time spent in looking up/reading of system classes */
-    data sun.cls.lookupSysClassTime/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "Lookup^"	/* Time spent in looking up/rebding of system clbsses */
+    dbtb sun.cls.lookupSysClbssTime/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "Parse^"	/* Time spent in parsing system classes */
-    data sun.cls.parseClassTime.self/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "Pbrse^"	/* Time spent in pbrsing system clbsses */
+    dbtb sun.cls.pbrseClbssTime.self/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "^Linked^"	/* Number of linked classes */
-    data sun.cls.linkedClasses
-    align right
-    scale raw
+    hebder "^Linked^"	/* Number of linked clbsses */
+    dbtb sun.cls.linkedClbsses
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Time^"	/* Accumulated time for class linking */
-    data sun.cls.classInitTime.self/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "Time^"	/* Accumulbted time for clbss linking */
+    dbtb sun.cls.clbssInitTime.self/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "^Verified^"	/* Number of verified classes */
-    data sun.cls.verifiedClasses
-    align right
-    scale raw
+    hebder "^Verified^"	/* Number of verified clbsses */
+    dbtb sun.cls.verifiedClbsses
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Time^"	/* Accumulated time for class verification */
-    data sun.cls.classVerifyTime.self/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "Time^"	/* Accumulbted time for clbss verificbtion */
+    dbtb sun.cls.clbssVerifyTime.self/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "AppClass^"	/* Number of loaded application classes */
-    data sun.cls.appClassLoadCount
-    align right
-    scale raw
+    hebder "AppClbss^"	/* Number of lobded bpplicbtion clbsses */
+    dbtb sun.cls.bppClbssLobdCount
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Kbytes^"	/* Bytes read from app class files */
-    data sun.cls.appClassBytes
-    align right
-    scale K
+    hebder "Kbytes^"	/* Bytes rebd from bpp clbss files */
+    dbtb sun.cls.bppClbssBytes
+    blign right
+    scble K
     width 7
-    format "0.0"
+    formbt "0.0"
   }
   column {
-    header "AppCL^"	/* Accumulated time for loading app classes */
-    data sun.cls.appClassLoadTime/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "AppCL^"	/* Accumulbted time for lobding bpp clbsses */
+    dbtb sun.cls.bppClbssLobdTime/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "^DefineClass^"	/* Number of defineClass calls */
-    data sun.cls.defineAppClasses
-    align right
-    scale raw
+    hebder "^DefineClbss^"	/* Number of defineClbss cblls */
+    dbtb sun.cls.defineAppClbsses
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Time^"	/* Accumulated time for defineClass */
-    data sun.cls.defineAppClassTime.self/sun.os.hrt.frequency
-    scale raw
-    align right
+    hebder "Time^"	/* Accumulbted time for defineClbss */
+    dbtb sun.cls.defineAppClbssTime.self/sun.os.hrt.frequency
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "^FindClass^"	/* Number of findClass calls */
-    data sun.classloader.findClasses
-    align right
-    scale raw
+    hebder "^FindClbss^"	/* Number of findClbss cblls */
+    dbtb sun.clbsslobder.findClbsses
+    blign right
+    scble rbw
     width 5
-    format "0"
+    formbt "0"
   }
   column {
-    header "Time^"	/* Accumulated time for findClass */
-    data sun.classloader.findClassTime/1000000000
-    scale raw
-    align right
+    hebder "Time^"	/* Accumulbted time for findClbss */
+    dbtb sun.clbsslobder.findClbssTime/1000000000
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "Delegation^"	/* Parent class loader delegation time */
-    data sun.classloader.parentDelegationTime/1000000000
-    scale raw 
-    align right
+    hebder "Delegbtion^"	/* Pbrent clbss lobder delegbtion time */
+    dbtb sun.clbsslobder.pbrentDelegbtionTime/1000000000
+    scble rbw 
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
   column {
-    header "URLCL Read^"	/* Accumulated time for URLClassLoader reading bytes */
-    data sun.urlClassLoader.readClassBytesTime/1000000000
-    scale raw
-    align right
+    hebder "URLCL Rebd^"	/* Accumulbted time for URLClbssLobder rebding bytes */
+    dbtb sun.urlClbssLobder.rebdClbssBytesTime/1000000000
+    scble rbw
+    blign right
     width 10
-    format "0.000"
+    formbt "0.000"
   }
 }
 

@@ -3,46 +3,46 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbckbge com.sun.org.bpbche.xml.internbl.security.encryption;
 
 /**
- * <code>CipherData</code> provides encrypted data. It must either contain the
- * encrypted octet sequence as base64 encoded text of the
- * <code>CipherValue</code> element, or provide a reference to an external
- * location containing the encrypted octet sequence via the
+ * <code>CipherDbtb</code> provides encrypted dbtb. It must either contbin the
+ * encrypted octet sequence bs bbse64 encoded text of the
+ * <code>CipherVblue</code> element, or provide b reference to bn externbl
+ * locbtion contbining the encrypted octet sequence vib the
  * <code>CipherReference</code> element.
  * <p>
- * The schema definition is as follows:
+ * The schemb definition is bs follows:
  * <xmp>
- * <element name='CipherData' type='xenc:CipherDataType'/>
- * <complexType name='CipherDataType'>
+ * <element nbme='CipherDbtb' type='xenc:CipherDbtbType'/>
+ * <complexType nbme='CipherDbtbType'>
  *     <choice>
- *         <element name='CipherValue' type='base64Binary'/>
+ *         <element nbme='CipherVblue' type='bbse64Binbry'/>
  *         <element ref='xenc:CipherReference'/>
  *     </choice>
  * </complexType>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @buthor Axl Mbttheus
  */
-public interface CipherData {
+public interfbce CipherDbtb {
 
     /** VALUE_TYPE ASN */
     int VALUE_TYPE = 0x00000001;
@@ -51,43 +51,43 @@ public interface CipherData {
     int REFERENCE_TYPE = 0x00000002;
 
     /**
-     * Returns the type of encrypted data contained in the
-     * <code>CipherData</code>.
+     * Returns the type of encrypted dbtb contbined in the
+     * <code>CipherDbtb</code>.
      *
-     * @return <code>VALUE_TYPE</code> if the encrypted data is contained as
-     *   <code>CipherValue</code> or <code>REFERENCE_TYPE</code> if the
-     *   encrypted data is contained as <code>CipherReference</code>.
+     * @return <code>VALUE_TYPE</code> if the encrypted dbtb is contbined bs
+     *   <code>CipherVblue</code> or <code>REFERENCE_TYPE</code> if the
+     *   encrypted dbtb is contbined bs <code>CipherReference</code>.
      */
-    int getDataType();
+    int getDbtbType();
 
     /**
-     * Returns the cipher value as a base64 encoded <code>byte</code> array.
+     * Returns the cipher vblue bs b bbse64 encoded <code>byte</code> brrby.
      *
-     * @return the <code>CipherData</code>'s value.
+     * @return the <code>CipherDbtb</code>'s vblue.
      */
-    CipherValue getCipherValue();
+    CipherVblue getCipherVblue();
 
     /**
-     * Sets the <code>CipherData</code>'s value.
+     * Sets the <code>CipherDbtb</code>'s vblue.
      *
-     * @param value the value of the <code>CipherData</code>.
+     * @pbrbm vblue the vblue of the <code>CipherDbtb</code>.
      * @throws XMLEncryptionException
      */
-    void setCipherValue(CipherValue value) throws XMLEncryptionException;
+    void setCipherVblue(CipherVblue vblue) throws XMLEncryptionException;
 
     /**
-     * Returns a reference to an external location containing the encrypted
-     * octet sequence (<code>byte</code> array).
+     * Returns b reference to bn externbl locbtion contbining the encrypted
+     * octet sequence (<code>byte</code> brrby).
      *
-     * @return the reference to an external location containing the encrypted
+     * @return the reference to bn externbl locbtion contbining the encrypted
      * octet sequence.
      */
     CipherReference getCipherReference();
 
     /**
-     * Sets the <code>CipherData</code>'s reference.
+     * Sets the <code>CipherDbtb</code>'s reference.
      *
-     * @param reference an external location containing the encrypted octet sequence.
+     * @pbrbm reference bn externbl locbtion contbining the encrypted octet sequence.
      * @throws XMLEncryptionException
      */
     void setCipherReference(CipherReference reference) throws XMLEncryptionException;

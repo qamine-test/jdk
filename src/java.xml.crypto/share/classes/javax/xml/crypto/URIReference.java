@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: URIReference.java,v 1.4 2005/05/10 15:47:42 mullan Exp $
+ * $Id: URIReference.jbvb,v 1.4 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbckbge jbvbx.xml.crypto;
 
 /**
- * Identifies a data object via a URI-Reference, as specified by
- * <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.
+ * Identifies b dbtb object vib b URI-Reference, bs specified by
+ * <b href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</b>.
  *
- * <p>Note that some subclasses may not have a <code>type</code> attribute
- * and for objects of those types, the {@link #getType} method always returns
+ * <p>Note thbt some subclbsses mby not hbve b <code>type</code> bttribute
+ * bnd for objects of those types, the {@link #getType} method blwbys returns
  * <code>null</code>.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
  * @see URIDereferencer
  */
-public interface URIReference {
+public interfbce URIReference {
 
     /**
-     * Returns the URI of the referenced data object.
+     * Returns the URI of the referenced dbtb object.
      *
-     * @return the URI of the data object in RFC 2396 format (may be
+     * @return the URI of the dbtb object in RFC 2396 formbt (mby be
      *    <code>null</code> if not specified)
      */
     String getURI();
 
     /**
-     * Returns the type of data referenced by this URI.
+     * Returns the type of dbtb referenced by this URI.
      *
-     * @return the type (a URI) of the data object (may be <code>null</code>
+     * @return the type (b URI) of the dbtb object (mby be <code>null</code>
      *    if not specified)
      */
     String getType();

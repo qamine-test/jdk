@@ -1,246 +1,246 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import javax.sound.sampled.*;
+import jbvbx.sound.sbmpled.*;
 
 /**
- * Class to write an AudioInputStream to a SourceDataLine.
- * Was previously an inner class in various classes like JavaSoundAudioClip
- * and sun.audio.AudioDevice.
- * It auto-opens and closes the SourceDataLine.
+ * Clbss to write bn AudioInputStrebm to b SourceDbtbLine.
+ * Wbs previously bn inner clbss in vbrious clbsses like JbvbSoundAudioClip
+ * bnd sun.budio.AudioDevice.
+ * It buto-opens bnd closes the SourceDbtbLine.
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Floribn Bomers
  */
 
-public final class DataPusher implements Runnable {
+public finbl clbss DbtbPusher implements Runnbble {
 
-    private static final int AUTO_CLOSE_TIME = 5000;
-    private static final boolean DEBUG = false;
+    privbte stbtic finbl int AUTO_CLOSE_TIME = 5000;
+    privbte stbtic finbl boolebn DEBUG = fblse;
 
-    private final SourceDataLine source;
-    private final AudioFormat format;
+    privbte finbl SourceDbtbLine source;
+    privbte finbl AudioFormbt formbt;
 
-    // stream as source data
-    private final AudioInputStream ais;
+    // strebm bs source dbtb
+    privbte finbl AudioInputStrebm bis;
 
-    // byte array as source data
-    private final byte[] audioData;
-    private final int audioDataByteLength;
-    private int pos;
-    private int newPos = -1;
-    private boolean looping;
+    // byte brrby bs source dbtb
+    privbte finbl byte[] budioDbtb;
+    privbte finbl int budioDbtbByteLength;
+    privbte int pos;
+    privbte int newPos = -1;
+    privbte boolebn looping;
 
-    private Thread pushThread = null;
-    private int wantedState;
-    private int threadState;
+    privbte Threbd pushThrebd = null;
+    privbte int wbntedStbte;
+    privbte int threbdStbte;
 
-    private final int STATE_NONE = 0;
-    private final int STATE_PLAYING = 1;
-    private final int STATE_WAITING = 2;
-    private final int STATE_STOPPING = 3;
-    private final int STATE_STOPPED = 4;
-    private final int BUFFER_SIZE = 16384;
+    privbte finbl int STATE_NONE = 0;
+    privbte finbl int STATE_PLAYING = 1;
+    privbte finbl int STATE_WAITING = 2;
+    privbte finbl int STATE_STOPPING = 3;
+    privbte finbl int STATE_STOPPED = 4;
+    privbte finbl int BUFFER_SIZE = 16384;
 
-    public DataPusher(SourceDataLine sourceLine, AudioFormat format, byte[] audioData, int byteLength) {
-        this(sourceLine, format, null, audioData, byteLength);
+    public DbtbPusher(SourceDbtbLine sourceLine, AudioFormbt formbt, byte[] budioDbtb, int byteLength) {
+        this(sourceLine, formbt, null, budioDbtb, byteLength);
     }
 
-    public DataPusher(SourceDataLine sourceLine, AudioInputStream ais) {
-        this(sourceLine, ais.getFormat(), ais, null, 0);
+    public DbtbPusher(SourceDbtbLine sourceLine, AudioInputStrebm bis) {
+        this(sourceLine, bis.getFormbt(), bis, null, 0);
     }
 
-    private DataPusher(final SourceDataLine source, final AudioFormat format,
-                       final AudioInputStream ais, final byte[] audioData,
-                       final int audioDataByteLength) {
+    privbte DbtbPusher(finbl SourceDbtbLine source, finbl AudioFormbt formbt,
+                       finbl AudioInputStrebm bis, finbl byte[] budioDbtb,
+                       finbl int budioDbtbByteLength) {
         this.source = source;
-        this.format = format;
-        this.ais = ais;
-        this.audioDataByteLength = audioDataByteLength;
-        this.audioData = audioData == null ? null : Arrays.copyOf(audioData,
-                                                                  audioData.length);
+        this.formbt = formbt;
+        this.bis = bis;
+        this.budioDbtbByteLength = budioDbtbByteLength;
+        this.budioDbtb = budioDbtb == null ? null : Arrbys.copyOf(budioDbtb,
+                                                                  budioDbtb.length);
     }
 
-    public synchronized void start() {
-        start(false);
+    public synchronized void stbrt() {
+        stbrt(fblse);
     }
 
-    public synchronized void start(boolean loop) {
-        if (DEBUG || Printer.debug) Printer.debug("> DataPusher.start(loop="+loop+")");
+    public synchronized void stbrt(boolebn loop) {
+        if (DEBUG || Printer.debug) Printer.debug("> DbtbPusher.stbrt(loop="+loop+")");
         try {
-            if (threadState == STATE_STOPPING) {
-                // wait that the thread has finished stopping
-                if (DEBUG || Printer.trace)Printer.trace("DataPusher.start(): calling stop()");
+            if (threbdStbte == STATE_STOPPING) {
+                // wbit thbt the threbd hbs finished stopping
+                if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher.stbrt(): cblling stop()");
                 stop();
             }
             looping = loop;
             newPos = 0;
-            wantedState = STATE_PLAYING;
+            wbntedStbte = STATE_PLAYING;
             if (!source.isOpen()) {
-                if (DEBUG || Printer.trace)Printer.trace("DataPusher: source.open()");
-                source.open(format);
+                if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher: source.open()");
+                source.open(formbt);
             }
-            if (DEBUG || Printer.trace)Printer.trace("DataPusher: source.flush()");
+            if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher: source.flush()");
             source.flush();
-            if (DEBUG || Printer.trace)Printer.trace("DataPusher: source.start()");
-            source.start();
-            if (pushThread == null) {
-                if (DEBUG || Printer.debug) Printer.debug("DataPusher.start(): Starting push");
-                pushThread = JSSecurityManager.createThread(this,
-                                                            null,   // name
-                                                            false,  // daemon
+            if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher: source.stbrt()");
+            source.stbrt();
+            if (pushThrebd == null) {
+                if (DEBUG || Printer.debug) Printer.debug("DbtbPusher.stbrt(): Stbrting push");
+                pushThrebd = JSSecurityMbnbger.crebteThrebd(this,
+                                                            null,   // nbme
+                                                            fblse,  // dbemon
                                                             -1,    // priority
-                                                            true); // doStart
+                                                            true); // doStbrt
             }
             notifyAll();
-        } catch (Exception e) {
-            if (DEBUG || Printer.err) e.printStackTrace();
+        } cbtch (Exception e) {
+            if (DEBUG || Printer.err) e.printStbckTrbce();
         }
-        if (DEBUG || Printer.debug) Printer.debug("< DataPusher.start(loop="+loop+")");
+        if (DEBUG || Printer.debug) Printer.debug("< DbtbPusher.stbrt(loop="+loop+")");
     }
 
 
     public synchronized void stop() {
-        if (DEBUG || Printer.debug) Printer.debug("> DataPusher.stop()");
-        if (threadState == STATE_STOPPING
-            || threadState == STATE_STOPPED
-            || pushThread == null) {
-            if (DEBUG || Printer.debug) Printer.debug("DataPusher.stop(): nothing to do");
+        if (DEBUG || Printer.debug) Printer.debug("> DbtbPusher.stop()");
+        if (threbdStbte == STATE_STOPPING
+            || threbdStbte == STATE_STOPPED
+            || pushThrebd == null) {
+            if (DEBUG || Printer.debug) Printer.debug("DbtbPusher.stop(): nothing to do");
             return;
         }
-        if (DEBUG || Printer.debug) Printer.debug("DataPusher.stop(): Stopping push");
+        if (DEBUG || Printer.debug) Printer.debug("DbtbPusher.stop(): Stopping push");
 
-        wantedState = STATE_WAITING;
+        wbntedStbte = STATE_WAITING;
         if (source != null) {
-            if (DEBUG || Printer.trace)Printer.trace("DataPusher: source.flush()");
+            if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher: source.flush()");
             source.flush();
         }
         notifyAll();
-        int maxWaitCount = 50; // 5 seconds
-        while ((maxWaitCount-- >= 0) && (threadState == STATE_PLAYING)) {
+        int mbxWbitCount = 50; // 5 seconds
+        while ((mbxWbitCount-- >= 0) && (threbdStbte == STATE_PLAYING)) {
             try {
-                wait(100);
-            } catch (InterruptedException e) {  }
+                wbit(100);
+            } cbtch (InterruptedException e) {  }
         }
-        if (DEBUG || Printer.debug) Printer.debug("< DataPusher.stop()");
+        if (DEBUG || Printer.debug) Printer.debug("< DbtbPusher.stop()");
     }
 
     synchronized void close() {
         if (source != null) {
-                if (DEBUG || Printer.trace)Printer.trace("DataPusher.close(): source.close()");
+                if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher.close(): source.close()");
                 source.close();
         }
     }
 
     /**
-     * Write data to the source data line.
+     * Write dbtb to the source dbtb line.
      */
     public void run() {
         byte[] buffer = null;
-        boolean useStream = (ais != null);
-        if (useStream) {
+        boolebn useStrebm = (bis != null);
+        if (useStrebm) {
             buffer = new byte[BUFFER_SIZE];
         } else {
-            buffer = audioData;
+            buffer = budioDbtb;
         }
-        while (wantedState != STATE_STOPPING) {
+        while (wbntedStbte != STATE_STOPPING) {
             //try {
-                if (wantedState == STATE_WAITING) {
-                    // wait for 5 seconds - maybe the clip is to be played again
-                    if (DEBUG || Printer.debug)Printer.debug("DataPusher.run(): waiting 5 seconds");
+                if (wbntedStbte == STATE_WAITING) {
+                    // wbit for 5 seconds - mbybe the clip is to be plbyed bgbin
+                    if (DEBUG || Printer.debug)Printer.debug("DbtbPusher.run(): wbiting 5 seconds");
                     try {
                         synchronized(this) {
-                                threadState = STATE_WAITING;
-                                wantedState = STATE_STOPPING;
-                                wait(AUTO_CLOSE_TIME);
+                                threbdStbte = STATE_WAITING;
+                                wbntedStbte = STATE_STOPPING;
+                                wbit(AUTO_CLOSE_TIME);
                         }
-                    } catch (InterruptedException ie) {}
-                    if (DEBUG || Printer.debug)Printer.debug("DataPusher.run(): waiting finished");
+                    } cbtch (InterruptedException ie) {}
+                    if (DEBUG || Printer.debug)Printer.debug("DbtbPusher.run(): wbiting finished");
                     continue;
                 }
                 if (newPos >= 0) {
                         pos = newPos;
                         newPos = -1;
                 }
-                threadState = STATE_PLAYING;
+                threbdStbte = STATE_PLAYING;
                 int toWrite = BUFFER_SIZE;
-                if (useStream) {
+                if (useStrebm) {
                     try {
-                        pos = 0; // always write from beginning of buffer
-                        // don't use read(byte[]), because some streams
-                        // may not override that method
-                        toWrite = ais.read(buffer, 0, buffer.length);
-                    } catch (java.io.IOException ioe) {
-                        // end of stream
+                        pos = 0; // blwbys write from beginning of buffer
+                        // don't use rebd(byte[]), becbuse some strebms
+                        // mby not override thbt method
+                        toWrite = bis.rebd(buffer, 0, buffer.length);
+                    } cbtch (jbvb.io.IOException ioe) {
+                        // end of strebm
                         toWrite = -1;
                     }
                 } else {
-                    if (toWrite > audioDataByteLength - pos) {
-                        toWrite = audioDataByteLength - pos;
+                    if (toWrite > budioDbtbByteLength - pos) {
+                        toWrite = budioDbtbByteLength - pos;
                     }
                     if (toWrite == 0) {
-                        toWrite = -1; // end of "stream"
+                        toWrite = -1; // end of "strebm"
                     }
                 }
                 if (toWrite < 0) {
-                    if (DEBUG || Printer.debug) Printer.debug("DataPusher.run(): Found end of stream");
-                        if (!useStream && looping) {
-                            if (DEBUG || Printer.debug)Printer.debug("DataPusher.run(): setting pos back to 0");
+                    if (DEBUG || Printer.debug) Printer.debug("DbtbPusher.run(): Found end of strebm");
+                        if (!useStrebm && looping) {
+                            if (DEBUG || Printer.debug)Printer.debug("DbtbPusher.run(): setting pos bbck to 0");
                             pos = 0;
                             continue;
                         }
-                    if (DEBUG || Printer.debug)Printer.debug("DataPusher.run(): calling drain()");
-                    wantedState = STATE_WAITING;
-                    source.drain();
+                    if (DEBUG || Printer.debug)Printer.debug("DbtbPusher.run(): cblling drbin()");
+                    wbntedStbte = STATE_WAITING;
+                    source.drbin();
                     continue;
                 }
-                if (DEBUG || Printer.debug) Printer.debug("> DataPusher.run(): Writing " + toWrite + " bytes");
+                if (DEBUG || Printer.debug) Printer.debug("> DbtbPusher.run(): Writing " + toWrite + " bytes");
                     int bytesWritten = source.write(buffer, pos, toWrite);
                     pos += bytesWritten;
-                if (DEBUG || Printer.debug) Printer.debug("< DataPusher.run(): Wrote " + bytesWritten + " bytes");
+                if (DEBUG || Printer.debug) Printer.debug("< DbtbPusher.run(): Wrote " + bytesWritten + " bytes");
         }
-        threadState = STATE_STOPPING;
-        if (DEBUG || Printer.debug)Printer.debug("DataPusher: closing device");
-        if (Printer.trace)Printer.trace("DataPusher: source.flush()");
+        threbdStbte = STATE_STOPPING;
+        if (DEBUG || Printer.debug)Printer.debug("DbtbPusher: closing device");
+        if (Printer.trbce)Printer.trbce("DbtbPusher: source.flush()");
         source.flush();
-        if (DEBUG || Printer.trace)Printer.trace("DataPusher: source.stop()");
+        if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher: source.stop()");
         source.stop();
-        if (DEBUG || Printer.trace)Printer.trace("DataPusher: source.flush()");
+        if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher: source.flush()");
         source.flush();
-        if (DEBUG || Printer.trace)Printer.trace("DataPusher: source.close()");
+        if (DEBUG || Printer.trbce)Printer.trbce("DbtbPusher: source.close()");
         source.close();
-        threadState = STATE_STOPPED;
+        threbdStbte = STATE_STOPPED;
         synchronized (this) {
-                pushThread = null;
+                pushThrebd = null;
                 notifyAll();
         }
-        if (DEBUG || Printer.debug)Printer.debug("DataPusher:end of thread");
+        if (DEBUG || Printer.debug)Printer.debug("DbtbPusher:end of threbd");
     }
 
-} // class DataPusher
+} // clbss DbtbPusher

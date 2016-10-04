@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.border.AbstractBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.View;
-import javax.swing.text.html.CSS.Attribute;
-import javax.swing.text.html.CSS.BorderStyle;
-import javax.swing.text.html.CSS.BorderWidthValue;
-import javax.swing.text.html.CSS.ColorValue;
-import javax.swing.text.html.CSS.CssValue;
-import javax.swing.text.html.CSS.LengthValue;
-import javax.swing.text.html.CSS.Value;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Polygon;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvbx.swing.border.AbstrbctBorder;
+import jbvbx.swing.text.AttributeSet;
+import jbvbx.swing.text.View;
+import jbvbx.swing.text.html.CSS.Attribute;
+import jbvbx.swing.text.html.CSS.BorderStyle;
+import jbvbx.swing.text.html.CSS.BorderWidthVblue;
+import jbvbx.swing.text.html.CSS.ColorVblue;
+import jbvbx.swing.text.html.CSS.CssVblue;
+import jbvbx.swing.text.html.CSS.LengthVblue;
+import jbvbx.swing.text.html.CSS.Vblue;
 
 /**
  * CSS-style borders for HTML elements.
  *
- * @author Sergey Groznyh
+ * @buthor Sergey Groznyh
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class CSSBorder extends AbstractBorder {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss CSSBorder extends AbstrbctBorder {
 
-    /** Indices for the attribute groups.  */
-    final static int COLOR = 0, STYLE = 1, WIDTH = 2;
+    /** Indices for the bttribute groups.  */
+    finbl stbtic int COLOR = 0, STYLE = 1, WIDTH = 2;
 
-    /** Indices for the box sides within the attribute group.  */
-    final static int TOP = 0, RIGHT = 1, BOTTOM = 2, LEFT = 3;
+    /** Indices for the box sides within the bttribute group.  */
+    finbl stbtic int TOP = 0, RIGHT = 1, BOTTOM = 2, LEFT = 3;
 
-    /** The attribute groups.  */
-    final static Attribute[][] ATTRIBUTES = {
+    /** The bttribute groups.  */
+    finbl stbtic Attribute[][] ATTRIBUTES = {
         { Attribute.BORDER_TOP_COLOR, Attribute.BORDER_RIGHT_COLOR,
           Attribute.BORDER_BOTTOM_COLOR, Attribute.BORDER_LEFT_COLOR, },
         { Attribute.BORDER_TOP_STYLE, Attribute.BORDER_RIGHT_STYLE,
@@ -69,72 +69,72 @@ class CSSBorder extends AbstractBorder {
           Attribute.BORDER_BOTTOM_WIDTH, Attribute.BORDER_LEFT_WIDTH, },
     };
 
-    /** Parsers for the border properties.  */
-    final static CssValue PARSERS[] = {
-        new ColorValue(), new BorderStyle(), new BorderWidthValue(null, 0),
+    /** Pbrsers for the border properties.  */
+    finbl stbtic CssVblue PARSERS[] = {
+        new ColorVblue(), new BorderStyle(), new BorderWidthVblue(null, 0),
     };
 
-    /** Default values for the border properties.  */
-    final static Object[] DEFAULTS = {
-        Attribute.BORDER_COLOR, // marker: value will be computed on request
-        PARSERS[1].parseCssValue(Attribute.BORDER_STYLE.getDefaultValue()),
-        PARSERS[2].parseCssValue(Attribute.BORDER_WIDTH.getDefaultValue()),
+    /** Defbult vblues for the border properties.  */
+    finbl stbtic Object[] DEFAULTS = {
+        Attribute.BORDER_COLOR, // mbrker: vblue will be computed on request
+        PARSERS[1].pbrseCssVblue(Attribute.BORDER_STYLE.getDefbultVblue()),
+        PARSERS[2].pbrseCssVblue(Attribute.BORDER_WIDTH.getDefbultVblue()),
     };
 
-    /** Attribute set containing border properties.  */
-    final AttributeSet attrs;
+    /** Attribute set contbining border properties.  */
+    finbl AttributeSet bttrs;
 
     /**
-     * Initialize the attribute set.
+     * Initiblize the bttribute set.
      */
-    CSSBorder(AttributeSet attrs) {
-        this.attrs = attrs;
+    CSSBorder(AttributeSet bttrs) {
+        this.bttrs = bttrs;
     }
 
     /**
      * Return the border color for the given side.
      */
-    private Color getBorderColor(int side) {
-        Object o = attrs.getAttribute(ATTRIBUTES[COLOR][side]);
-        ColorValue cv;
-        if (o instanceof ColorValue) {
-            cv = (ColorValue) o;
+    privbte Color getBorderColor(int side) {
+        Object o = bttrs.getAttribute(ATTRIBUTES[COLOR][side]);
+        ColorVblue cv;
+        if (o instbnceof ColorVblue) {
+            cv = (ColorVblue) o;
         } else {
-            // Marker for the default value.  Use 'color' property value as the
-            // computed value of the 'border-color' property (CSS2 8.5.2)
-            cv = (ColorValue) attrs.getAttribute(Attribute.COLOR);
+            // Mbrker for the defbult vblue.  Use 'color' property vblue bs the
+            // computed vblue of the 'border-color' property (CSS2 8.5.2)
+            cv = (ColorVblue) bttrs.getAttribute(Attribute.COLOR);
             if (cv == null) {
-                cv = (ColorValue) PARSERS[COLOR].parseCssValue(
-                                            Attribute.COLOR.getDefaultValue());
+                cv = (ColorVblue) PARSERS[COLOR].pbrseCssVblue(
+                                            Attribute.COLOR.getDefbultVblue());
             }
         }
-        return cv.getValue();
+        return cv.getVblue();
     }
 
     /**
      * Return the border width for the given side.
      */
-    private int getBorderWidth(int side) {
+    privbte int getBorderWidth(int side) {
         int width = 0;
-        BorderStyle bs = (BorderStyle) attrs.getAttribute(
+        BorderStyle bs = (BorderStyle) bttrs.getAttribute(
                                                     ATTRIBUTES[STYLE][side]);
-        if ((bs != null) && (bs.getValue() != Value.NONE)) {
-            // The 'border-style' value of "none" forces the computed value
+        if ((bs != null) && (bs.getVblue() != Vblue.NONE)) {
+            // The 'border-style' vblue of "none" forces the computed vblue
             // of 'border-width' to be 0 (CSS2 8.5.3)
-            LengthValue bw = (LengthValue) attrs.getAttribute(
+            LengthVblue bw = (LengthVblue) bttrs.getAttribute(
                                                     ATTRIBUTES[WIDTH][side]);
             if (bw == null) {
-                bw = (LengthValue) DEFAULTS[WIDTH];
+                bw = (LengthVblue) DEFAULTS[WIDTH];
             }
-            width = (int) bw.getValue(true);
+            width = (int) bw.getVblue(true);
         }
         return width;
     }
 
     /**
-     * Return an array of border widths in the TOP, RIGHT, BOTTOM, LEFT order.
+     * Return bn brrby of border widths in the TOP, RIGHT, BOTTOM, LEFT order.
      */
-    private int[] getWidths() {
+    privbte int[] getWidths() {
         int[] widths = new int[4];
         for (int i = 0; i < widths.length; i++) {
             widths[i] = getBorderWidth(i);
@@ -145,56 +145,56 @@ class CSSBorder extends AbstractBorder {
     /**
      * Return the border style for the given side.
      */
-    private Value getBorderStyle(int side) {
+    privbte Vblue getBorderStyle(int side) {
         BorderStyle style =
-                    (BorderStyle) attrs.getAttribute(ATTRIBUTES[STYLE][side]);
+                    (BorderStyle) bttrs.getAttribute(ATTRIBUTES[STYLE][side]);
         if (style == null) {
             style = (BorderStyle) DEFAULTS[STYLE];
         }
-        return style.getValue();
+        return style.getVblue();
     }
 
     /**
-     * Return border shape for {@code side} as if the border has zero interior
-     * length.  Shape start is at (0,0); points are added clockwise.
+     * Return border shbpe for {@code side} bs if the border hbs zero interior
+     * length.  Shbpe stbrt is bt (0,0); points bre bdded clockwise.
      */
-    private Polygon getBorderShape(int side) {
-        Polygon shape = null;
+    privbte Polygon getBorderShbpe(int side) {
+        Polygon shbpe = null;
         int[] widths = getWidths();
         if (widths[side] != 0) {
-            shape = new Polygon(new int[4], new int[4], 0);
-            shape.addPoint(0, 0);
-            shape.addPoint(-widths[(side + 3) % 4], -widths[side]);
-            shape.addPoint(widths[(side + 1) % 4], -widths[side]);
-            shape.addPoint(0, 0);
+            shbpe = new Polygon(new int[4], new int[4], 0);
+            shbpe.bddPoint(0, 0);
+            shbpe.bddPoint(-widths[(side + 3) % 4], -widths[side]);
+            shbpe.bddPoint(widths[(side + 1) % 4], -widths[side]);
+            shbpe.bddPoint(0, 0);
         }
-        return shape;
+        return shbpe;
     }
 
     /**
-     * Return the border painter appropriate for the given side.
+     * Return the border pbinter bppropribte for the given side.
      */
-    private BorderPainter getBorderPainter(int side) {
-        Value style = getBorderStyle(side);
-        return borderPainters.get(style);
+    privbte BorderPbinter getBorderPbinter(int side) {
+        Vblue style = getBorderStyle(side);
+        return borderPbinters.get(style);
     }
 
     /**
-     * Return the color with brightness adjusted by the specified factor.
+     * Return the color with brightness bdjusted by the specified fbctor.
      *
-     * The factor values are between 0.0 (no change) and 1.0 (turn into white).
-     * Negative factor values decrease brigthness (ie, 1.0 turns into black).
+     * The fbctor vblues bre between 0.0 (no chbnge) bnd 1.0 (turn into white).
+     * Negbtive fbctor vblues decrebse brigthness (ie, 1.0 turns into blbck).
      */
-    static Color getAdjustedColor(Color c, double factor) {
-        double f = 1 - Math.min(Math.abs(factor), 1);
-        double inc = (factor > 0 ? 255 * (1 - f) : 0);
+    stbtic Color getAdjustedColor(Color c, double fbctor) {
+        double f = 1 - Mbth.min(Mbth.bbs(fbctor), 1);
+        double inc = (fbctor > 0 ? 255 * (1 - f) : 0);
         return new Color((int) (c.getRed() * f + inc),
                          (int) (c.getGreen() * f + inc),
                          (int) (c.getBlue() * f + inc));
     }
 
 
-    /* The javax.swing.border.Border methods.  */
+    /* The jbvbx.swing.border.Border methods.  */
 
     public Insets getBorderInsets(Component c, Insets insets) {
         int[] widths = getWidths();
@@ -202,23 +202,23 @@ class CSSBorder extends AbstractBorder {
         return insets;
     }
 
-    public void paintBorder(Component c, Graphics g,
+    public void pbintBorder(Component c, Grbphics g,
                                         int x, int y, int width, int height) {
-        if (!(g instanceof Graphics2D)) {
+        if (!(g instbnceof Grbphics2D)) {
             return;
         }
 
-        Graphics2D g2 = (Graphics2D) g.create();
+        Grbphics2D g2 = (Grbphics2D) g.crebte();
 
         int[] widths = getWidths();
 
-        // Position and size of the border interior.
+        // Position bnd size of the border interior.
         int intX = x + widths[LEFT];
         int intY = y + widths[TOP];
         int intWidth = width - (widths[RIGHT] + widths[LEFT]);
         int intHeight = height - (widths[TOP] + widths[BOTTOM]);
 
-        // Coordinates of the interior corners, from NW clockwise.
+        // Coordinbtes of the interior corners, from NW clockwise.
         int[][] intCorners = {
             { intX, intY },
             { intX + intWidth, intY },
@@ -226,212 +226,212 @@ class CSSBorder extends AbstractBorder {
             { intX, intY + intHeight, },
         };
 
-        // Draw the borders for all sides.
+        // Drbw the borders for bll sides.
         for (int i = 0; i < 4; i++) {
-            Value style = getBorderStyle(i);
-            Polygon shape = getBorderShape(i);
-            if ((style != Value.NONE) && (shape != null)) {
+            Vblue style = getBorderStyle(i);
+            Polygon shbpe = getBorderShbpe(i);
+            if ((style != Vblue.NONE) && (shbpe != null)) {
                 int sideLength = (i % 2 == 0 ? intWidth : intHeight);
 
-                // "stretch" the border shape by the interior area dimension
-                shape.xpoints[2] += sideLength;
-                shape.xpoints[3] += sideLength;
+                // "stretch" the border shbpe by the interior breb dimension
+                shbpe.xpoints[2] += sideLength;
+                shbpe.xpoints[3] += sideLength;
                 Color color = getBorderColor(i);
-                BorderPainter painter = getBorderPainter(i);
+                BorderPbinter pbinter = getBorderPbinter(i);
 
-                double angle = i * Math.PI / 2;
-                g2.setClip(g.getClip()); // Restore initial clip
-                g2.translate(intCorners[i][0], intCorners[i][1]);
-                g2.rotate(angle);
-                g2.clip(shape);
-                painter.paint(shape, g2, color, i);
-                g2.rotate(-angle);
-                g2.translate(-intCorners[i][0], -intCorners[i][1]);
+                double bngle = i * Mbth.PI / 2;
+                g2.setClip(g.getClip()); // Restore initibl clip
+                g2.trbnslbte(intCorners[i][0], intCorners[i][1]);
+                g2.rotbte(bngle);
+                g2.clip(shbpe);
+                pbinter.pbint(shbpe, g2, color, i);
+                g2.rotbte(-bngle);
+                g2.trbnslbte(-intCorners[i][0], -intCorners[i][1]);
             }
         }
         g2.dispose();
     }
 
 
-    /* Border painters.  */
+    /* Border pbinters.  */
 
-    interface BorderPainter {
+    interfbce BorderPbinter {
         /**
-         * The painter should paint the border as if it were at the top and the
-         * coordinates of the NW corner of the interior area is (0, 0).  The
-         * caller is responsible for the appropriate affine transformations.
+         * The pbinter should pbint the border bs if it were bt the top bnd the
+         * coordinbtes of the NW corner of the interior breb is (0, 0).  The
+         * cbller is responsible for the bppropribte bffine trbnsformbtions.
          *
-         * Clip is set by the caller to the exact border shape so it's safe to
-         * simply draw into the shape's bounding rectangle.
+         * Clip is set by the cbller to the exbct border shbpe so it's sbfe to
+         * simply drbw into the shbpe's bounding rectbngle.
          */
-        void paint(Polygon shape, Graphics g, Color color, int side);
+        void pbint(Polygon shbpe, Grbphics g, Color color, int side);
     }
 
     /**
-     * Painter for the "none" and "hidden" CSS border styles.
+     * Pbinter for the "none" bnd "hidden" CSS border styles.
      */
-    static class NullPainter implements BorderPainter {
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
+    stbtic clbss NullPbinter implements BorderPbinter {
+        public void pbint(Polygon shbpe, Grbphics g, Color color, int side) {
             // Do nothing.
         }
     }
 
     /**
-     * Painter for the "solid" CSS border style.
+     * Pbinter for the "solid" CSS border style.
      */
-    static class SolidPainter implements BorderPainter {
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
+    stbtic clbss SolidPbinter implements BorderPbinter {
+        public void pbint(Polygon shbpe, Grbphics g, Color color, int side) {
             g.setColor(color);
-            g.fillPolygon(shape);
+            g.fillPolygon(shbpe);
         }
     }
 
     /**
-     * Defines a method for painting strokes in the specified direction using
-     * the given length and color patterns.
+     * Defines b method for pbinting strokes in the specified direction using
+     * the given length bnd color pbtterns.
      */
-    abstract static class StrokePainter implements BorderPainter {
+    bbstrbct stbtic clbss StrokePbinter implements BorderPbinter {
         /**
-         * Paint strokes repeatedly using the given length and color patterns.
+         * Pbint strokes repebtedly using the given length bnd color pbtterns.
          */
-        void paintStrokes(Rectangle r, Graphics g, int axis,
-                                int[] lengthPattern, Color[] colorPattern) {
-            boolean xAxis = (axis == View.X_AXIS);
-            int start = 0;
+        void pbintStrokes(Rectbngle r, Grbphics g, int bxis,
+                                int[] lengthPbttern, Color[] colorPbttern) {
+            boolebn xAxis = (bxis == View.X_AXIS);
+            int stbrt = 0;
             int end = (xAxis ? r.width : r.height);
-            while (start < end) {
-                for (int i = 0; i < lengthPattern.length; i++) {
-                    if (start >= end) {
-                        break;
+            while (stbrt < end) {
+                for (int i = 0; i < lengthPbttern.length; i++) {
+                    if (stbrt >= end) {
+                        brebk;
                     }
-                    int length = lengthPattern[i];
-                    Color c = colorPattern[i];
+                    int length = lengthPbttern[i];
+                    Color c = colorPbttern[i];
                     if (c != null) {
-                        int x = r.x + (xAxis ? start : 0);
-                        int y = r.y + (xAxis ? 0 : start);
+                        int x = r.x + (xAxis ? stbrt : 0);
+                        int y = r.y + (xAxis ? 0 : stbrt);
                         int width = xAxis ? length : r.width;
                         int height = xAxis ? r.height : length;
                         g.setColor(c);
                         g.fillRect(x, y, width, height);
                     }
-                    start += length;
+                    stbrt += length;
                 }
             }
         }
     }
 
     /**
-     * Painter for the "double" CSS border style.
+     * Pbinter for the "double" CSS border style.
      */
-    static class DoublePainter extends StrokePainter {
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            Rectangle r = shape.getBounds();
-            int length = Math.max(r.height / 3, 1);
-            int[] lengthPattern = { length, length };
-            Color[] colorPattern = { color, null };
-            paintStrokes(r, g, View.Y_AXIS, lengthPattern, colorPattern);
+    stbtic clbss DoublePbinter extends StrokePbinter {
+        public void pbint(Polygon shbpe, Grbphics g, Color color, int side) {
+            Rectbngle r = shbpe.getBounds();
+            int length = Mbth.mbx(r.height / 3, 1);
+            int[] lengthPbttern = { length, length };
+            Color[] colorPbttern = { color, null };
+            pbintStrokes(r, g, View.Y_AXIS, lengthPbttern, colorPbttern);
         }
     }
 
     /**
-     * Painter for the "dotted" and "dashed" CSS border styles.
+     * Pbinter for the "dotted" bnd "dbshed" CSS border styles.
      */
-    static class DottedDashedPainter extends StrokePainter {
-        final int factor;
+    stbtic clbss DottedDbshedPbinter extends StrokePbinter {
+        finbl int fbctor;
 
-        DottedDashedPainter(int factor) {
-            this.factor = factor;
+        DottedDbshedPbinter(int fbctor) {
+            this.fbctor = fbctor;
         }
 
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            Rectangle r = shape.getBounds();
-            int length = r.height * factor;
-            int[] lengthPattern = { length, length };
-            Color[] colorPattern = { color, null };
-            paintStrokes(r, g, View.X_AXIS, lengthPattern, colorPattern);
+        public void pbint(Polygon shbpe, Grbphics g, Color color, int side) {
+            Rectbngle r = shbpe.getBounds();
+            int length = r.height * fbctor;
+            int[] lengthPbttern = { length, length };
+            Color[] colorPbttern = { color, null };
+            pbintStrokes(r, g, View.X_AXIS, lengthPbttern, colorPbttern);
         }
     }
 
     /**
-     * Painter that defines colors for "shadow" and "light" border sides.
+     * Pbinter thbt defines colors for "shbdow" bnd "light" border sides.
      */
-    abstract static class ShadowLightPainter extends StrokePainter {
+    bbstrbct stbtic clbss ShbdowLightPbinter extends StrokePbinter {
         /**
-         * Return the "shadow" border side color.
+         * Return the "shbdow" border side color.
          */
-        static Color getShadowColor(Color c) {
+        stbtic Color getShbdowColor(Color c) {
             return CSSBorder.getAdjustedColor(c, -0.3);
         }
 
         /**
          * Return the "light" border side color.
          */
-        static Color getLightColor(Color c) {
+        stbtic Color getLightColor(Color c) {
             return CSSBorder.getAdjustedColor(c, 0.7);
         }
     }
 
     /**
-     * Painter for the "groove" and "ridge" CSS border styles.
+     * Pbinter for the "groove" bnd "ridge" CSS border styles.
      */
-    static class GrooveRidgePainter extends ShadowLightPainter {
-        final Value type;
+    stbtic clbss GrooveRidgePbinter extends ShbdowLightPbinter {
+        finbl Vblue type;
 
-        GrooveRidgePainter(Value type) {
+        GrooveRidgePbinter(Vblue type) {
             this.type = type;
         }
 
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            Rectangle r = shape.getBounds();
-            int length = Math.max(r.height / 2, 1);
-            int[] lengthPattern = { length, length };
-            Color[] colorPattern =
-                             ((side + 1) % 4 < 2) == (type == Value.GROOVE) ?
-                new Color[] { getShadowColor(color), getLightColor(color) } :
-                new Color[] { getLightColor(color), getShadowColor(color) };
-            paintStrokes(r, g, View.Y_AXIS, lengthPattern, colorPattern);
+        public void pbint(Polygon shbpe, Grbphics g, Color color, int side) {
+            Rectbngle r = shbpe.getBounds();
+            int length = Mbth.mbx(r.height / 2, 1);
+            int[] lengthPbttern = { length, length };
+            Color[] colorPbttern =
+                             ((side + 1) % 4 < 2) == (type == Vblue.GROOVE) ?
+                new Color[] { getShbdowColor(color), getLightColor(color) } :
+                new Color[] { getLightColor(color), getShbdowColor(color) };
+            pbintStrokes(r, g, View.Y_AXIS, lengthPbttern, colorPbttern);
         }
     }
 
     /**
-     * Painter for the "inset" and "outset" CSS border styles.
+     * Pbinter for the "inset" bnd "outset" CSS border styles.
      */
-    static class InsetOutsetPainter extends ShadowLightPainter {
-        Value type;
+    stbtic clbss InsetOutsetPbinter extends ShbdowLightPbinter {
+        Vblue type;
 
-        InsetOutsetPainter(Value type) {
+        InsetOutsetPbinter(Vblue type) {
             this.type = type;
         }
 
-        public void paint(Polygon shape, Graphics g, Color color, int side) {
-            g.setColor(((side + 1) % 4 < 2) == (type == Value.INSET) ?
-                                getShadowColor(color) : getLightColor(color));
-            g.fillPolygon(shape);
+        public void pbint(Polygon shbpe, Grbphics g, Color color, int side) {
+            g.setColor(((side + 1) % 4 < 2) == (type == Vblue.INSET) ?
+                                getShbdowColor(color) : getLightColor(color));
+            g.fillPolygon(shbpe);
         }
     }
 
     /**
-     * Add the specified painter to the painters map.
+     * Add the specified pbinter to the pbinters mbp.
      */
-    static void registerBorderPainter(Value style, BorderPainter painter) {
-        borderPainters.put(style, painter);
+    stbtic void registerBorderPbinter(Vblue style, BorderPbinter pbinter) {
+        borderPbinters.put(style, pbinter);
     }
 
-    /** Map the border style values to the border painter objects.  */
-    static Map<Value, BorderPainter> borderPainters =
-                                        new HashMap<Value, BorderPainter>();
+    /** Mbp the border style vblues to the border pbinter objects.  */
+    stbtic Mbp<Vblue, BorderPbinter> borderPbinters =
+                                        new HbshMbp<Vblue, BorderPbinter>();
 
-    /* Initialize the border painters map with the pre-defined values.  */
-    static {
-        registerBorderPainter(Value.NONE, new NullPainter());
-        registerBorderPainter(Value.HIDDEN, new NullPainter());
-        registerBorderPainter(Value.SOLID, new SolidPainter());
-        registerBorderPainter(Value.DOUBLE, new DoublePainter());
-        registerBorderPainter(Value.DOTTED, new DottedDashedPainter(1));
-        registerBorderPainter(Value.DASHED, new DottedDashedPainter(3));
-        registerBorderPainter(Value.GROOVE, new GrooveRidgePainter(Value.GROOVE));
-        registerBorderPainter(Value.RIDGE, new GrooveRidgePainter(Value.RIDGE));
-        registerBorderPainter(Value.INSET, new InsetOutsetPainter(Value.INSET));
-        registerBorderPainter(Value.OUTSET, new InsetOutsetPainter(Value.OUTSET));
+    /* Initiblize the border pbinters mbp with the pre-defined vblues.  */
+    stbtic {
+        registerBorderPbinter(Vblue.NONE, new NullPbinter());
+        registerBorderPbinter(Vblue.HIDDEN, new NullPbinter());
+        registerBorderPbinter(Vblue.SOLID, new SolidPbinter());
+        registerBorderPbinter(Vblue.DOUBLE, new DoublePbinter());
+        registerBorderPbinter(Vblue.DOTTED, new DottedDbshedPbinter(1));
+        registerBorderPbinter(Vblue.DASHED, new DottedDbshedPbinter(3));
+        registerBorderPbinter(Vblue.GROOVE, new GrooveRidgePbinter(Vblue.GROOVE));
+        registerBorderPbinter(Vblue.RIDGE, new GrooveRidgePbinter(Vblue.RIDGE));
+        registerBorderPbinter(Vblue.INSET, new InsetOutsetPbinter(Vblue.INSET));
+        registerBorderPbinter(Vblue.OUTSET, new InsetOutsetPbinter(Vblue.OUTSET));
     }
 }

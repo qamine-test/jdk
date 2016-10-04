@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.calendar;
+pbckbge sun.util.cblendbr;
 
-import java.util.Locale;
-import java.util.TimeZone;
+import jbvb.util.Locble;
+import jbvb.util.TimeZone;
 
 /**
- * The class <code>Era</code> represents a calendar era that defines a
- * period of time in which the same year numbering is used. For
- * example, Gregorian year 2004 is <I>Heisei</I> 16 in the Japanese
- * calendar system. An era starts at any point of time (Gregorian) that is
- * represented by <code>CalendarDate</code>.
+ * The clbss <code>Erb</code> represents b cblendbr erb thbt defines b
+ * period of time in which the sbme yebr numbering is used. For
+ * exbmple, Gregoribn yebr 2004 is <I>Heisei</I> 16 in the Jbpbnese
+ * cblendbr system. An erb stbrts bt bny point of time (Gregoribn) thbt is
+ * represented by <code>CblendbrDbte</code>.
  *
- * <p><code>Era</code>s that are applicable to a particular calendar
- * system can be obtained by calling {@link CalendarSystem#getEras}
- * one of which can be used to specify a date in
- * <code>CalendarDate</code>.
+ * <p><code>Erb</code>s thbt bre bpplicbble to b pbrticulbr cblendbr
+ * system cbn be obtbined by cblling {@link CblendbrSystem#getErbs}
+ * one of which cbn be used to specify b dbte in
+ * <code>CblendbrDbte</code>.
  *
- * <p>The following era names are defined in this release.
- * <!-- TODO: use HTML table -->
+ * <p>The following erb nbmes bre defined in this relebse.
+ * <!-- TODO: use HTML tbble -->
  * <pre><tt>
- *   Calendar system         Era name         Since (in Gregorian)
+ *   Cblendbr system         Erb nbme         Since (in Gregoribn)
  *   -----------------------------------------------------------------------
- *   Japanese calendar       Meiji            1868-01-01 midnight local time
- *                           Taisho           1912-07-30 midnight local time
- *                           Showa            1926-12-26 midnight local time
- *                           Heisei           1989-01-08 midnight local time
- *   Julian calendar         BeforeCommonEra  -292275055-05-16T16:47:04.192Z
- *                           CommonEra        0000-12-30 midnight local time
- *   Taiwanese calendar      MinGuo           1911-01-01 midnight local time
- *   Thai Buddhist calendar  BuddhistEra      -543-01-01 midnight local time
+ *   Jbpbnese cblendbr       Meiji            1868-01-01 midnight locbl time
+ *                           Tbisho           1912-07-30 midnight locbl time
+ *                           Showb            1926-12-26 midnight locbl time
+ *                           Heisei           1989-01-08 midnight locbl time
+ *   Julibn cblendbr         BeforeCommonErb  -292275055-05-16T16:47:04.192Z
+ *                           CommonErb        0000-12-30 midnight locbl time
+ *   Tbiwbnese cblendbr      MinGuo           1911-01-01 midnight locbl time
+ *   Thbi Buddhist cblendbr  BuddhistErb      -543-01-01 midnight locbl time
  *   -----------------------------------------------------------------------
  * </tt></pre>
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.5
  */
 
-public final class Era {
-    private final String name;
-    private final String abbr;
-    private final long since;
-    private final CalendarDate sinceDate;
-    private final boolean localTime;
+public finbl clbss Erb {
+    privbte finbl String nbme;
+    privbte finbl String bbbr;
+    privbte finbl long since;
+    privbte finbl CblendbrDbte sinceDbte;
+    privbte finbl boolebn locblTime;
 
     /**
-     * Constructs an <code>Era</code> instance.
+     * Constructs bn <code>Erb</code> instbnce.
      *
-     * @param name the era name (e.g., "BeforeCommonEra" for the Julian calendar system)
-     * @param abbr the abbreviation of the era name (e.g., "B.C.E." for "BeforeCommonEra")
-     * @param since the time (millisecond offset from January 1, 1970
-     * (Gregorian) UTC or local time) when the era starts, inclusive.
-     * @param localTime <code>true</code> if <code>since</code>
-     * specifies a local time; <code>false</code> if
+     * @pbrbm nbme the erb nbme (e.g., "BeforeCommonErb" for the Julibn cblendbr system)
+     * @pbrbm bbbr the bbbrevibtion of the erb nbme (e.g., "B.C.E." for "BeforeCommonErb")
+     * @pbrbm since the time (millisecond offset from Jbnubry 1, 1970
+     * (Gregoribn) UTC or locbl time) when the erb stbrts, inclusive.
+     * @pbrbm locblTime <code>true</code> if <code>since</code>
+     * specifies b locbl time; <code>fblse</code> if
      * <code>since</code> specifies UTC
      */
-    public Era(String name, String abbr, long since, boolean localTime) {
-        this.name = name;
-        this.abbr = abbr;
+    public Erb(String nbme, String bbbr, long since, boolebn locblTime) {
+        this.nbme = nbme;
+        this.bbbr = bbbr;
         this.since = since;
-        this.localTime = localTime;
-        Gregorian gcal = CalendarSystem.getGregorianCalendar();
-        BaseCalendar.Date d = (BaseCalendar.Date) gcal.newCalendarDate(null);
-        gcal.getCalendarDate(since, d);
-        sinceDate = new ImmutableGregorianDate(d);
+        this.locblTime = locblTime;
+        Gregoribn gcbl = CblendbrSystem.getGregoribnCblendbr();
+        BbseCblendbr.Dbte d = (BbseCblendbr.Dbte) gcbl.newCblendbrDbte(null);
+        gcbl.getCblendbrDbte(since, d);
+        sinceDbte = new ImmutbbleGregoribnDbte(d);
     }
 
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
-    public String getDisplayName(Locale locale) {
-        return name;
+    public String getDisplbyNbme(Locble locble) {
+        return nbme;
     }
 
-    public String getAbbreviation() {
-        return abbr;
+    public String getAbbrevibtion() {
+        return bbbr;
     }
 
-    public String getDiaplayAbbreviation(Locale locale) {
-        return abbr;
+    public String getDibplbyAbbrevibtion(Locble locble) {
+        return bbbr;
     }
 
     public long getSince(TimeZone zone) {
-        if (zone == null || !localTime) {
+        if (zone == null || !locblTime) {
             return since;
         }
         int offset = zone.getOffset(since);
         return since - offset;
     }
 
-    public CalendarDate getSinceDate() {
-        return sinceDate;
+    public CblendbrDbte getSinceDbte() {
+        return sinceDbte;
     }
 
-    public boolean isLocalTime() {
-        return localTime;
+    public boolebn isLocblTime() {
+        return locblTime;
     }
 
-    public boolean equals(Object o) {
-        if (!(o instanceof Era)) {
-            return false;
+    public boolebn equbls(Object o) {
+        if (!(o instbnceof Erb)) {
+            return fblse;
         }
-        Era that = (Era) o;
-        return name.equals(that.name)
-            && abbr.equals(that.abbr)
-            && since == that.since
-            && localTime == that.localTime;
+        Erb thbt = (Erb) o;
+        return nbme.equbls(thbt.nbme)
+            && bbbr.equbls(thbt.bbbr)
+            && since == thbt.since
+            && locblTime == thbt.locblTime;
     }
 
-    private int hash = 0;
+    privbte int hbsh = 0;
 
-    public int hashCode() {
-        if (hash == 0) {
-            hash = name.hashCode() ^ abbr.hashCode() ^ (int)since ^ (int)(since >> 32)
-                ^ (localTime ? 1 : 0);
+    public int hbshCode() {
+        if (hbsh == 0) {
+            hbsh = nbme.hbshCode() ^ bbbr.hbshCode() ^ (int)since ^ (int)(since >> 32)
+                ^ (locblTime ? 1 : 0);
         }
-        return hash;
+        return hbsh;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        sb.append(getName()).append(" (");
-        sb.append(getAbbreviation()).append(')');
-        sb.append(" since ").append(getSinceDate());
-        if (localTime) {
+        sb.bppend('[');
+        sb.bppend(getNbme()).bppend(" (");
+        sb.bppend(getAbbrevibtion()).bppend(')');
+        sb.bppend(" since ").bppend(getSinceDbte());
+        if (locblTime) {
             sb.setLength(sb.length() - 1); // remove 'Z'
-            sb.append(" local time");
+            sb.bppend(" locbl time");
         }
-        sb.append(']');
+        sb.bppend(']');
         return sb.toString();
     }
 }

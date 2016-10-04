@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
 /**
- * The {@code PKIXReason} enumerates the potential PKIX-specific reasons
- * that an X.509 certification path may be invalid according to the PKIX
- * (RFC 3280) standard. These reasons are in addition to those of the
- * {@code CertPathValidatorException.BasicReason} enumeration.
+ * The {@code PKIXRebson} enumerbtes the potentibl PKIX-specific rebsons
+ * thbt bn X.509 certificbtion pbth mby be invblid bccording to the PKIX
+ * (RFC 3280) stbndbrd. These rebsons bre in bddition to those of the
+ * {@code CertPbthVblidbtorException.BbsicRebson} enumerbtion.
  *
  * @since 1.7
  */
-public enum PKIXReason implements CertPathValidatorException.Reason {
+public enum PKIXRebson implements CertPbthVblidbtorException.Rebson {
     /**
-     * The certificate does not chain correctly.
+     * The certificbte does not chbin correctly.
      */
     NAME_CHAINING,
 
     /**
-     * The certificate's key usage is invalid.
+     * The certificbte's key usbge is invblid.
      */
     INVALID_KEY_USAGE,
 
     /**
-     * The policy constraints have been violated.
+     * The policy constrbints hbve been violbted.
      */
     INVALID_POLICY,
 
     /**
-     * No acceptable trust anchor found.
+     * No bcceptbble trust bnchor found.
      */
     NO_TRUST_ANCHOR,
 
     /**
-     * The certificate contains one or more unrecognized critical
+     * The certificbte contbins one or more unrecognized criticbl
      * extensions.
      */
     UNRECOGNIZED_CRIT_EXT,
 
     /**
-     * The certificate is not a CA certificate.
+     * The certificbte is not b CA certificbte.
      */
     NOT_CA_CERT,
 
     /**
-     * The path length constraint has been violated.
+     * The pbth length constrbint hbs been violbted.
      */
     PATH_TOO_LONG,
 
     /**
-     * The name constraints have been violated.
+     * The nbme constrbints hbve been violbted.
      */
     INVALID_NAME
 }

@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -54,228 +54,228 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import java.time.Duration;
+import jbvb.time.Durbtion;
 
 /**
- * A standard set of date periods units.
+ * A stbndbrd set of dbte periods units.
  * <p>
- * This set of units provide unit-based access to manipulate a date, time or date-time.
- * The standard set of units can be extended by implementing {@link TemporalUnit}.
+ * This set of units provide unit-bbsed bccess to mbnipulbte b dbte, time or dbte-time.
+ * The stbndbrd set of units cbn be extended by implementing {@link TemporblUnit}.
  * <p>
- * These units are intended to be applicable in multiple calendar systems.
- * For example, most non-ISO calendar systems define units of years, months and days,
+ * These units bre intended to be bpplicbble in multiple cblendbr systems.
+ * For exbmple, most non-ISO cblendbr systems define units of yebrs, months bnd dbys,
  * just with slightly different rules.
- * The documentation of each unit explains how it operates.
+ * The documentbtion of ebch unit explbins how it operbtes.
  *
  * @implSpec
- * This is a final, immutable and thread-safe enum.
+ * This is b finbl, immutbble bnd threbd-sbfe enum.
  *
  * @since 1.8
  */
-public enum ChronoUnit implements TemporalUnit {
+public enum ChronoUnit implements TemporblUnit {
 
     /**
-     * Unit that represents the concept of a nanosecond, the smallest supported unit of time.
-     * For the ISO calendar system, it is equal to the 1,000,000,000th part of the second unit.
+     * Unit thbt represents the concept of b nbnosecond, the smbllest supported unit of time.
+     * For the ISO cblendbr system, it is equbl to the 1,000,000,000th pbrt of the second unit.
      */
-    NANOS("Nanos", Duration.ofNanos(1)),
+    NANOS("Nbnos", Durbtion.ofNbnos(1)),
     /**
-     * Unit that represents the concept of a microsecond.
-     * For the ISO calendar system, it is equal to the 1,000,000th part of the second unit.
+     * Unit thbt represents the concept of b microsecond.
+     * For the ISO cblendbr system, it is equbl to the 1,000,000th pbrt of the second unit.
      */
-    MICROS("Micros", Duration.ofNanos(1000)),
+    MICROS("Micros", Durbtion.ofNbnos(1000)),
     /**
-     * Unit that represents the concept of a millisecond.
-     * For the ISO calendar system, it is equal to the 1000th part of the second unit.
+     * Unit thbt represents the concept of b millisecond.
+     * For the ISO cblendbr system, it is equbl to the 1000th pbrt of the second unit.
      */
-    MILLIS("Millis", Duration.ofNanos(1000_000)),
+    MILLIS("Millis", Durbtion.ofNbnos(1000_000)),
     /**
-     * Unit that represents the concept of a second.
-     * For the ISO calendar system, it is equal to the second in the SI system
-     * of units, except around a leap-second.
+     * Unit thbt represents the concept of b second.
+     * For the ISO cblendbr system, it is equbl to the second in the SI system
+     * of units, except bround b lebp-second.
      */
-    SECONDS("Seconds", Duration.ofSeconds(1)),
+    SECONDS("Seconds", Durbtion.ofSeconds(1)),
     /**
-     * Unit that represents the concept of a minute.
-     * For the ISO calendar system, it is equal to 60 seconds.
+     * Unit thbt represents the concept of b minute.
+     * For the ISO cblendbr system, it is equbl to 60 seconds.
      */
-    MINUTES("Minutes", Duration.ofSeconds(60)),
+    MINUTES("Minutes", Durbtion.ofSeconds(60)),
     /**
-     * Unit that represents the concept of an hour.
-     * For the ISO calendar system, it is equal to 60 minutes.
+     * Unit thbt represents the concept of bn hour.
+     * For the ISO cblendbr system, it is equbl to 60 minutes.
      */
-    HOURS("Hours", Duration.ofSeconds(3600)),
+    HOURS("Hours", Durbtion.ofSeconds(3600)),
     /**
-     * Unit that represents the concept of half a day, as used in AM/PM.
-     * For the ISO calendar system, it is equal to 12 hours.
+     * Unit thbt represents the concept of hblf b dby, bs used in AM/PM.
+     * For the ISO cblendbr system, it is equbl to 12 hours.
      */
-    HALF_DAYS("HalfDays", Duration.ofSeconds(43200)),
+    HALF_DAYS("HblfDbys", Durbtion.ofSeconds(43200)),
     /**
-     * Unit that represents the concept of a day.
-     * For the ISO calendar system, it is the standard day from midnight to midnight.
-     * The estimated duration of a day is {@code 24 Hours}.
+     * Unit thbt represents the concept of b dby.
+     * For the ISO cblendbr system, it is the stbndbrd dby from midnight to midnight.
+     * The estimbted durbtion of b dby is {@code 24 Hours}.
      * <p>
-     * When used with other calendar systems it must correspond to the day defined by
-     * the rising and setting of the Sun on Earth. It is not required that days begin
-     * at midnight - when converting between calendar systems, the date should be
-     * equivalent at midday.
+     * When used with other cblendbr systems it must correspond to the dby defined by
+     * the rising bnd setting of the Sun on Ebrth. It is not required thbt dbys begin
+     * bt midnight - when converting between cblendbr systems, the dbte should be
+     * equivblent bt middby.
      */
-    DAYS("Days", Duration.ofSeconds(86400)),
+    DAYS("Dbys", Durbtion.ofSeconds(86400)),
     /**
-     * Unit that represents the concept of a week.
-     * For the ISO calendar system, it is equal to 7 days.
+     * Unit thbt represents the concept of b week.
+     * For the ISO cblendbr system, it is equbl to 7 dbys.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days.
+     * When used with other cblendbr systems it must correspond to bn integrbl number of dbys.
      */
-    WEEKS("Weeks", Duration.ofSeconds(7 * 86400L)),
+    WEEKS("Weeks", Durbtion.ofSeconds(7 * 86400L)),
     /**
-     * Unit that represents the concept of a month.
-     * For the ISO calendar system, the length of the month varies by month-of-year.
-     * The estimated duration of a month is one twelfth of {@code 365.2425 Days}.
+     * Unit thbt represents the concept of b month.
+     * For the ISO cblendbr system, the length of the month vbries by month-of-yebr.
+     * The estimbted durbtion of b month is one twelfth of {@code 365.2425 Dbys}.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days.
+     * When used with other cblendbr systems it must correspond to bn integrbl number of dbys.
      */
-    MONTHS("Months", Duration.ofSeconds(31556952L / 12)),
+    MONTHS("Months", Durbtion.ofSeconds(31556952L / 12)),
     /**
-     * Unit that represents the concept of a year.
-     * For the ISO calendar system, it is equal to 12 months.
-     * The estimated duration of a year is {@code 365.2425 Days}.
+     * Unit thbt represents the concept of b yebr.
+     * For the ISO cblendbr system, it is equbl to 12 months.
+     * The estimbted durbtion of b yebr is {@code 365.2425 Dbys}.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days
-     * or months roughly equal to a year defined by the passage of the Earth around the Sun.
+     * When used with other cblendbr systems it must correspond to bn integrbl number of dbys
+     * or months roughly equbl to b yebr defined by the pbssbge of the Ebrth bround the Sun.
      */
-    YEARS("Years", Duration.ofSeconds(31556952L)),
+    YEARS("Yebrs", Durbtion.ofSeconds(31556952L)),
     /**
-     * Unit that represents the concept of a decade.
-     * For the ISO calendar system, it is equal to 10 years.
+     * Unit thbt represents the concept of b decbde.
+     * For the ISO cblendbr system, it is equbl to 10 yebrs.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days
-     * and is normally an integral number of years.
+     * When used with other cblendbr systems it must correspond to bn integrbl number of dbys
+     * bnd is normblly bn integrbl number of yebrs.
      */
-    DECADES("Decades", Duration.ofSeconds(31556952L * 10L)),
+    DECADES("Decbdes", Durbtion.ofSeconds(31556952L * 10L)),
     /**
-     * Unit that represents the concept of a century.
-     * For the ISO calendar system, it is equal to 100 years.
+     * Unit thbt represents the concept of b century.
+     * For the ISO cblendbr system, it is equbl to 100 yebrs.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days
-     * and is normally an integral number of years.
+     * When used with other cblendbr systems it must correspond to bn integrbl number of dbys
+     * bnd is normblly bn integrbl number of yebrs.
      */
-    CENTURIES("Centuries", Duration.ofSeconds(31556952L * 100L)),
+    CENTURIES("Centuries", Durbtion.ofSeconds(31556952L * 100L)),
     /**
-     * Unit that represents the concept of a millennium.
-     * For the ISO calendar system, it is equal to 1000 years.
+     * Unit thbt represents the concept of b millennium.
+     * For the ISO cblendbr system, it is equbl to 1000 yebrs.
      * <p>
-     * When used with other calendar systems it must correspond to an integral number of days
-     * and is normally an integral number of years.
+     * When used with other cblendbr systems it must correspond to bn integrbl number of dbys
+     * bnd is normblly bn integrbl number of yebrs.
      */
-    MILLENNIA("Millennia", Duration.ofSeconds(31556952L * 1000L)),
+    MILLENNIA("Millennib", Durbtion.ofSeconds(31556952L * 1000L)),
     /**
-     * Unit that represents the concept of an era.
-     * The ISO calendar system doesn't have eras thus it is impossible to add
-     * an era to a date or date-time.
-     * The estimated duration of the era is artificially defined as {@code 1,000,000,000 Years}.
+     * Unit thbt represents the concept of bn erb.
+     * The ISO cblendbr system doesn't hbve erbs thus it is impossible to bdd
+     * bn erb to b dbte or dbte-time.
+     * The estimbted durbtion of the erb is brtificiblly defined bs {@code 1,000,000,000 Yebrs}.
      * <p>
-     * When used with other calendar systems there are no restrictions on the unit.
+     * When used with other cblendbr systems there bre no restrictions on the unit.
      */
-    ERAS("Eras", Duration.ofSeconds(31556952L * 1000_000_000L)),
+    ERAS("Erbs", Durbtion.ofSeconds(31556952L * 1000_000_000L)),
     /**
-     * Artificial unit that represents the concept of forever.
-     * This is primarily used with {@link TemporalField} to represent unbounded fields
-     * such as the year or era.
-     * The estimated duration of the era is artificially defined as the largest duration
-     * supported by {@code Duration}.
+     * Artificibl unit thbt represents the concept of forever.
+     * This is primbrily used with {@link TemporblField} to represent unbounded fields
+     * such bs the yebr or erb.
+     * The estimbted durbtion of the erb is brtificiblly defined bs the lbrgest durbtion
+     * supported by {@code Durbtion}.
      */
-    FOREVER("Forever", Duration.ofSeconds(Long.MAX_VALUE, 999_999_999));
+    FOREVER("Forever", Durbtion.ofSeconds(Long.MAX_VALUE, 999_999_999));
 
-    private final String name;
-    private final Duration duration;
+    privbte finbl String nbme;
+    privbte finbl Durbtion durbtion;
 
-    private ChronoUnit(String name, Duration estimatedDuration) {
-        this.name = name;
-        this.duration = estimatedDuration;
+    privbte ChronoUnit(String nbme, Durbtion estimbtedDurbtion) {
+        this.nbme = nbme;
+        this.durbtion = estimbtedDurbtion;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the estimated duration of this unit in the ISO calendar system.
+     * Gets the estimbted durbtion of this unit in the ISO cblendbr system.
      * <p>
-     * All of the units in this class have an estimated duration.
-     * Days vary due to daylight saving time, while months have different lengths.
+     * All of the units in this clbss hbve bn estimbted durbtion.
+     * Dbys vbry due to dbylight sbving time, while months hbve different lengths.
      *
-     * @return the estimated duration of this unit, not null
+     * @return the estimbted durbtion of this unit, not null
      */
     @Override
-    public Duration getDuration() {
-        return duration;
+    public Durbtion getDurbtion() {
+        return durbtion;
     }
 
     /**
-     * Checks if the duration of the unit is an estimate.
+     * Checks if the durbtion of the unit is bn estimbte.
      * <p>
-     * All time units in this class are considered to be accurate, while all date
-     * units in this class are considered to be estimated.
+     * All time units in this clbss bre considered to be bccurbte, while bll dbte
+     * units in this clbss bre considered to be estimbted.
      * <p>
-     * This definition ignores leap seconds, but considers that Days vary due to
-     * daylight saving time and months have different lengths.
+     * This definition ignores lebp seconds, but considers thbt Dbys vbry due to
+     * dbylight sbving time bnd months hbve different lengths.
      *
-     * @return true if the duration is estimated, false if accurate
+     * @return true if the durbtion is estimbted, fblse if bccurbte
      */
     @Override
-    public boolean isDurationEstimated() {
-        return this.compareTo(DAYS) >= 0;
+    public boolebn isDurbtionEstimbted() {
+        return this.compbreTo(DAYS) >= 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this unit is a date unit.
+     * Checks if this unit is b dbte unit.
      * <p>
-     * All units from days to eras inclusive are date-based.
-     * Time-based units and {@code FOREVER} return false.
+     * All units from dbys to erbs inclusive bre dbte-bbsed.
+     * Time-bbsed units bnd {@code FOREVER} return fblse.
      *
-     * @return true if a date unit, false if a time unit
+     * @return true if b dbte unit, fblse if b time unit
      */
     @Override
-    public boolean isDateBased() {
-        return this.compareTo(DAYS) >= 0 && this != FOREVER;
+    public boolebn isDbteBbsed() {
+        return this.compbreTo(DAYS) >= 0 && this != FOREVER;
     }
 
     /**
-     * Checks if this unit is a time unit.
+     * Checks if this unit is b time unit.
      * <p>
-     * All units from nanos to half-days inclusive are time-based.
-     * Date-based units and {@code FOREVER} return false.
+     * All units from nbnos to hblf-dbys inclusive bre time-bbsed.
+     * Dbte-bbsed units bnd {@code FOREVER} return fblse.
      *
-     * @return true if a time unit, false if a date unit
+     * @return true if b time unit, fblse if b dbte unit
      */
     @Override
-    public boolean isTimeBased() {
-        return this.compareTo(DAYS) < 0;
+    public boolebn isTimeBbsed() {
+        return this.compbreTo(DAYS) < 0;
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean isSupportedBy(Temporal temporal) {
-        return temporal.isSupported(this);
+    public boolebn isSupportedBy(Temporbl temporbl) {
+        return temporbl.isSupported(this);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public <R extends Temporal> R addTo(R temporal, long amount) {
-        return (R) temporal.plus(amount, this);
+    public <R extends Temporbl> R bddTo(R temporbl, long bmount) {
+        return (R) temporbl.plus(bmount, this);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public long between(Temporal temporal1Inclusive, Temporal temporal2Exclusive) {
-        return temporal1Inclusive.until(temporal2Exclusive, this);
+    public long between(Temporbl temporbl1Inclusive, Temporbl temporbl2Exclusive) {
+        return temporbl1Inclusive.until(temporbl2Exclusive, this);
     }
 
     //-----------------------------------------------------------------------
     @Override
     public String toString() {
-        return name;
+        return nbme;
     }
 
 }

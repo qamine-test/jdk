@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.management;
+pbckbge jbvb.lbng.mbnbgement;
 
-import javax.management.openmbean.CompositeData;
-import sun.management.MemoryUsageCompositeData;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import sun.mbnbgement.MemoryUsbgeCompositeDbtb;
 
 /**
- * A <tt>MemoryUsage</tt> object represents a snapshot of memory usage.
- * Instances of the <tt>MemoryUsage</tt> class are usually constructed
- * by methods that are used to obtain memory usage
- * information about individual memory pool of the Java virtual machine or
- * the heap or non-heap memory of the Java virtual machine as a whole.
+ * A <tt>MemoryUsbge</tt> object represents b snbpshot of memory usbge.
+ * Instbnces of the <tt>MemoryUsbge</tt> clbss bre usublly constructed
+ * by methods thbt bre used to obtbin memory usbge
+ * informbtion bbout individubl memory pool of the Jbvb virtubl mbchine or
+ * the hebp or non-hebp memory of the Jbvb virtubl mbchine bs b whole.
  *
- * <p> A <tt>MemoryUsage</tt> object contains four values:
- * <table summary="Describes the MemoryUsage object content">
+ * <p> A <tt>MemoryUsbge</tt> object contbins four vblues:
+ * <tbble summbry="Describes the MemoryUsbge object content">
  * <tr>
- * <td valign=top> <tt>init</tt> </td>
- * <td valign=top> represents the initial amount of memory (in bytes) that
- *      the Java virtual machine requests from the operating system
- *      for memory management during startup.  The Java virtual machine
- *      may request additional memory from the operating system and
- *      may also release memory to the system over time.
- *      The value of <tt>init</tt> may be undefined.
+ * <td vblign=top> <tt>init</tt> </td>
+ * <td vblign=top> represents the initibl bmount of memory (in bytes) thbt
+ *      the Jbvb virtubl mbchine requests from the operbting system
+ *      for memory mbnbgement during stbrtup.  The Jbvb virtubl mbchine
+ *      mby request bdditionbl memory from the operbting system bnd
+ *      mby blso relebse memory to the system over time.
+ *      The vblue of <tt>init</tt> mby be undefined.
  * </td>
  * </tr>
  * <tr>
- * <td valign=top> <tt>used</tt> </td>
- * <td valign=top> represents the amount of memory currently used (in bytes).
+ * <td vblign=top> <tt>used</tt> </td>
+ * <td vblign=top> represents the bmount of memory currently used (in bytes).
  * </td>
  * </tr>
  * <tr>
- * <td valign=top> <tt>committed</tt> </td>
- * <td valign=top> represents the amount of memory (in bytes) that is
- *      guaranteed to be available for use by the Java virtual machine.
- *      The amount of committed memory may change over time (increase
- *      or decrease).  The Java virtual machine may release memory to
- *      the system and <tt>committed</tt> could be less than <tt>init</tt>.
- *      <tt>committed</tt> will always be greater than
- *      or equal to <tt>used</tt>.
+ * <td vblign=top> <tt>committed</tt> </td>
+ * <td vblign=top> represents the bmount of memory (in bytes) thbt is
+ *      gubrbnteed to be bvbilbble for use by the Jbvb virtubl mbchine.
+ *      The bmount of committed memory mby chbnge over time (increbse
+ *      or decrebse).  The Jbvb virtubl mbchine mby relebse memory to
+ *      the system bnd <tt>committed</tt> could be less thbn <tt>init</tt>.
+ *      <tt>committed</tt> will blwbys be grebter thbn
+ *      or equbl to <tt>used</tt>.
  * </td>
  * </tr>
  * <tr>
- * <td valign=top> <tt>max</tt> </td>
- * <td valign=top> represents the maximum amount of memory (in bytes)
- *      that can be used for memory management. Its value may be undefined.
- *      The maximum amount of memory may change over time if defined.
- *      The amount of used and committed memory will always be less than
- *      or equal to <tt>max</tt> if <tt>max</tt> is defined.
- *      A memory allocation may fail if it attempts to increase the
- *      used memory such that <tt>used &gt; committed</tt> even
- *      if <tt>used &lt;= max</tt> would still be true (for example,
- *      when the system is low on virtual memory).
+ * <td vblign=top> <tt>mbx</tt> </td>
+ * <td vblign=top> represents the mbximum bmount of memory (in bytes)
+ *      thbt cbn be used for memory mbnbgement. Its vblue mby be undefined.
+ *      The mbximum bmount of memory mby chbnge over time if defined.
+ *      The bmount of used bnd committed memory will blwbys be less thbn
+ *      or equbl to <tt>mbx</tt> if <tt>mbx</tt> is defined.
+ *      A memory bllocbtion mby fbil if it bttempts to increbse the
+ *      used memory such thbt <tt>used &gt; committed</tt> even
+ *      if <tt>used &lt;= mbx</tt> would still be true (for exbmple,
+ *      when the system is low on virtubl memory).
  * </td>
  * </tr>
- * </table>
+ * </tbble>
  *
- * Below is a picture showing an example of a memory pool:
+ * Below is b picture showing bn exbmple of b memory pool:
  *
  * <pre>
  *        +----------------------------------------------+
@@ -93,100 +93,100 @@ import sun.management.MemoryUsageCompositeData;
  *        |---------------------------|
  *                  committed
  *        |----------------------------------------------|
- *                            max
+ *                            mbx
  * </pre>
  *
- * <h3>MXBean Mapping</h3>
- * <tt>MemoryUsage</tt> is mapped to a {@link CompositeData CompositeData}
- * with attributes as specified in the {@link #from from} method.
+ * <h3>MXBebn Mbpping</h3>
+ * <tt>MemoryUsbge</tt> is mbpped to b {@link CompositeDbtb CompositeDbtb}
+ * with bttributes bs specified in the {@link #from from} method.
  *
- * @author   Mandy Chung
+ * @buthor   Mbndy Chung
  * @since   1.5
  */
-public class MemoryUsage {
-    private final long init;
-    private final long used;
-    private final long committed;
-    private final long max;
+public clbss MemoryUsbge {
+    privbte finbl long init;
+    privbte finbl long used;
+    privbte finbl long committed;
+    privbte finbl long mbx;
 
     /**
-     * Constructs a <tt>MemoryUsage</tt> object.
+     * Constructs b <tt>MemoryUsbge</tt> object.
      *
-     * @param init      the initial amount of memory in bytes that
-     *                  the Java virtual machine allocates;
+     * @pbrbm init      the initibl bmount of memory in bytes thbt
+     *                  the Jbvb virtubl mbchine bllocbtes;
      *                  or <tt>-1</tt> if undefined.
-     * @param used      the amount of used memory in bytes.
-     * @param committed the amount of committed memory in bytes.
-     * @param max       the maximum amount of memory in bytes that
-     *                  can be used; or <tt>-1</tt> if undefined.
+     * @pbrbm used      the bmount of used memory in bytes.
+     * @pbrbm committed the bmount of committed memory in bytes.
+     * @pbrbm mbx       the mbximum bmount of memory in bytes thbt
+     *                  cbn be used; or <tt>-1</tt> if undefined.
      *
-     * @throws IllegalArgumentException if
+     * @throws IllegblArgumentException if
      * <ul>
-     * <li> the value of <tt>init</tt> or <tt>max</tt> is negative
+     * <li> the vblue of <tt>init</tt> or <tt>mbx</tt> is negbtive
      *      but not <tt>-1</tt>; or</li>
-     * <li> the value of <tt>used</tt> or <tt>committed</tt> is negative;
+     * <li> the vblue of <tt>used</tt> or <tt>committed</tt> is negbtive;
      *      or</li>
-     * <li> <tt>used</tt> is greater than the value of <tt>committed</tt>;
+     * <li> <tt>used</tt> is grebter thbn the vblue of <tt>committed</tt>;
      *      or</li>
-     * <li> <tt>committed</tt> is greater than the value of <tt>max</tt>
-     *      <tt>max</tt> if defined.</li>
+     * <li> <tt>committed</tt> is grebter thbn the vblue of <tt>mbx</tt>
+     *      <tt>mbx</tt> if defined.</li>
      * </ul>
      */
-    public MemoryUsage(long init,
+    public MemoryUsbge(long init,
                        long used,
                        long committed,
-                       long max) {
+                       long mbx) {
         if (init < -1) {
-            throw new IllegalArgumentException( "init parameter = " +
-                init + " is negative but not -1.");
+            throw new IllegblArgumentException( "init pbrbmeter = " +
+                init + " is negbtive but not -1.");
         }
-        if (max < -1) {
-            throw new IllegalArgumentException( "max parameter = " +
-                max + " is negative but not -1.");
+        if (mbx < -1) {
+            throw new IllegblArgumentException( "mbx pbrbmeter = " +
+                mbx + " is negbtive but not -1.");
         }
         if (used < 0) {
-            throw new IllegalArgumentException( "used parameter = " +
-                used + " is negative.");
+            throw new IllegblArgumentException( "used pbrbmeter = " +
+                used + " is negbtive.");
         }
         if (committed < 0) {
-            throw new IllegalArgumentException( "committed parameter = " +
-                committed + " is negative.");
+            throw new IllegblArgumentException( "committed pbrbmeter = " +
+                committed + " is negbtive.");
         }
         if (used > committed) {
-            throw new IllegalArgumentException( "used = " + used +
+            throw new IllegblArgumentException( "used = " + used +
                 " should be <= committed = " + committed);
         }
-        if (max >= 0 && committed > max) {
-            throw new IllegalArgumentException( "committed = " + committed +
-                " should be < max = " + max);
+        if (mbx >= 0 && committed > mbx) {
+            throw new IllegblArgumentException( "committed = " + committed +
+                " should be < mbx = " + mbx);
         }
 
         this.init = init;
         this.used = used;
         this.committed = committed;
-        this.max = max;
+        this.mbx = mbx;
     }
 
     /**
-     * Constructs a <tt>MemoryUsage</tt> object from a
-     * {@link CompositeData CompositeData}.
+     * Constructs b <tt>MemoryUsbge</tt> object from b
+     * {@link CompositeDbtb CompositeDbtb}.
      */
-    private MemoryUsage(CompositeData cd) {
-        // validate the input composite data
-        MemoryUsageCompositeData.validateCompositeData(cd);
+    privbte MemoryUsbge(CompositeDbtb cd) {
+        // vblidbte the input composite dbtb
+        MemoryUsbgeCompositeDbtb.vblidbteCompositeDbtb(cd);
 
-        this.init = MemoryUsageCompositeData.getInit(cd);
-        this.used = MemoryUsageCompositeData.getUsed(cd);
-        this.committed = MemoryUsageCompositeData.getCommitted(cd);
-        this.max = MemoryUsageCompositeData.getMax(cd);
+        this.init = MemoryUsbgeCompositeDbtb.getInit(cd);
+        this.used = MemoryUsbgeCompositeDbtb.getUsed(cd);
+        this.committed = MemoryUsbgeCompositeDbtb.getCommitted(cd);
+        this.mbx = MemoryUsbgeCompositeDbtb.getMbx(cd);
     }
 
     /**
-     * Returns the amount of memory in bytes that the Java virtual machine
-     * initially requests from the operating system for memory management.
-     * This method returns <tt>-1</tt> if the initial memory size is undefined.
+     * Returns the bmount of memory in bytes thbt the Jbvb virtubl mbchine
+     * initiblly requests from the operbting system for memory mbnbgement.
+     * This method returns <tt>-1</tt> if the initibl memory size is undefined.
      *
-     * @return the initial size of memory in bytes;
+     * @return the initibl size of memory in bytes;
      * <tt>-1</tt> if undefined.
      */
     public long getInit() {
@@ -194,9 +194,9 @@ public class MemoryUsage {
     }
 
     /**
-     * Returns the amount of used memory in bytes.
+     * Returns the bmount of used memory in bytes.
      *
-     * @return the amount of used memory in bytes.
+     * @return the bmount of used memory in bytes.
      *
      */
     public long getUsed() {
@@ -204,11 +204,11 @@ public class MemoryUsage {
     };
 
     /**
-     * Returns the amount of memory in bytes that is committed for
-     * the Java virtual machine to use.  This amount of memory is
-     * guaranteed for the Java virtual machine to use.
+     * Returns the bmount of memory in bytes thbt is committed for
+     * the Jbvb virtubl mbchine to use.  This bmount of memory is
+     * gubrbnteed for the Jbvb virtubl mbchine to use.
      *
-     * @return the amount of committed memory in bytes.
+     * @return the bmount of committed memory in bytes.
      *
      */
     public long getCommitted() {
@@ -216,85 +216,85 @@ public class MemoryUsage {
     };
 
     /**
-     * Returns the maximum amount of memory in bytes that can be
-     * used for memory management.  This method returns <tt>-1</tt>
-     * if the maximum memory size is undefined.
+     * Returns the mbximum bmount of memory in bytes thbt cbn be
+     * used for memory mbnbgement.  This method returns <tt>-1</tt>
+     * if the mbximum memory size is undefined.
      *
-     * <p> This amount of memory is not guaranteed to be available
-     * for memory management if it is greater than the amount of
-     * committed memory.  The Java virtual machine may fail to allocate
-     * memory even if the amount of used memory does not exceed this
-     * maximum size.
+     * <p> This bmount of memory is not gubrbnteed to be bvbilbble
+     * for memory mbnbgement if it is grebter thbn the bmount of
+     * committed memory.  The Jbvb virtubl mbchine mby fbil to bllocbte
+     * memory even if the bmount of used memory does not exceed this
+     * mbximum size.
      *
-     * @return the maximum amount of memory in bytes;
+     * @return the mbximum bmount of memory in bytes;
      * <tt>-1</tt> if undefined.
      */
-    public long getMax() {
-        return max;
+    public long getMbx() {
+        return mbx;
     };
 
     /**
-     * Returns a descriptive representation of this memory usage.
+     * Returns b descriptive representbtion of this memory usbge.
      */
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("init = " + init + "(" + (init >> 10) + "K) ");
-        buf.append("used = " + used + "(" + (used >> 10) + "K) ");
-        buf.append("committed = " + committed + "(" +
+        buf.bppend("init = " + init + "(" + (init >> 10) + "K) ");
+        buf.bppend("used = " + used + "(" + (used >> 10) + "K) ");
+        buf.bppend("committed = " + committed + "(" +
                    (committed >> 10) + "K) " );
-        buf.append("max = " + max + "(" + (max >> 10) + "K)");
+        buf.bppend("mbx = " + mbx + "(" + (mbx >> 10) + "K)");
         return buf.toString();
     }
 
     /**
-     * Returns a <tt>MemoryUsage</tt> object represented by the
-     * given <tt>CompositeData</tt>. The given <tt>CompositeData</tt>
-     * must contain the following attributes:
+     * Returns b <tt>MemoryUsbge</tt> object represented by the
+     * given <tt>CompositeDbtb</tt>. The given <tt>CompositeDbtb</tt>
+     * must contbin the following bttributes:
      *
      * <blockquote>
-     * <table border summary="The attributes and the types the given CompositeData contains">
+     * <tbble border summbry="The bttributes bnd the types the given CompositeDbtb contbins">
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <th blign=left>Attribute Nbme</th>
+     *   <th blign=left>Type</th>
      * </tr>
      * <tr>
      *   <td>init</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
      *   <td>used</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
      *   <td>committed</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>max</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>mbx</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
-     * </table>
+     * </tbble>
      * </blockquote>
      *
-     * @param cd <tt>CompositeData</tt> representing a <tt>MemoryUsage</tt>
+     * @pbrbm cd <tt>CompositeDbtb</tt> representing b <tt>MemoryUsbge</tt>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>MemoryUsage</tt> with the attributes described
-     *   above.
+     * @throws IllegblArgumentException if <tt>cd</tt> does not
+     *   represent b <tt>MemoryUsbge</tt> with the bttributes described
+     *   bbove.
      *
-     * @return a <tt>MemoryUsage</tt> object represented by <tt>cd</tt>
+     * @return b <tt>MemoryUsbge</tt> object represented by <tt>cd</tt>
      *         if <tt>cd</tt> is not <tt>null</tt>;
      *         <tt>null</tt> otherwise.
      */
-    public static MemoryUsage from(CompositeData cd) {
+    public stbtic MemoryUsbge from(CompositeDbtb cd) {
         if (cd == null) {
             return null;
         }
 
-        if (cd instanceof MemoryUsageCompositeData) {
-            return ((MemoryUsageCompositeData) cd).getMemoryUsage();
+        if (cd instbnceof MemoryUsbgeCompositeDbtb) {
+            return ((MemoryUsbgeCompositeDbtb) cd).getMemoryUsbge();
         } else {
-            return new MemoryUsage(cd);
+            return new MemoryUsbge(cd);
         }
 
     }

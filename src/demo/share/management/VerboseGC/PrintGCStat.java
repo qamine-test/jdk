@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,120 +30,120 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  */
 
-import static java.lang.management.ManagementFactory.*;
-import java.lang.management.*;
-import javax.management.*;
-import java.io.*;
-import java.util.*;
+import stbtic jbvb.lbng.mbnbgement.MbnbgementFbctory.*;
+import jbvb.lbng.mbnbgement.*;
+import jbvbx.mbnbgement.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * Example of using the java.lang.management API to monitor
- * the memory usage and garbage collection statistics.
+ * Exbmple of using the jbvb.lbng.mbnbgement API to monitor
+ * the memory usbge bnd gbrbbge collection stbtistics.
  *
- * @author  Mandy Chung
+ * @buthor  Mbndy Chung
  */
-public class PrintGCStat {
-    private RuntimeMXBean rmbean;
-    private MemoryMXBean mmbean;
-    private List<MemoryPoolMXBean> pools;
-    private List<GarbageCollectorMXBean> gcmbeans;
+public clbss PrintGCStbt {
+    privbte RuntimeMXBebn rmbebn;
+    privbte MemoryMXBebn mmbebn;
+    privbte List<MemoryPoolMXBebn> pools;
+    privbte List<GbrbbgeCollectorMXBebn> gcmbebns;
 
     /**
-     * Constructs a PrintGCStat object to monitor a remote JVM.
+     * Constructs b PrintGCStbt object to monitor b remote JVM.
      */
-    public PrintGCStat(MBeanServerConnection server) throws IOException {
-        // Create the platform mxbean proxies
-        this.rmbean = newPlatformMXBeanProxy(server,
+    public PrintGCStbt(MBebnServerConnection server) throws IOException {
+        // Crebte the plbtform mxbebn proxies
+        this.rmbebn = newPlbtformMXBebnProxy(server,
                                              RUNTIME_MXBEAN_NAME,
-                                             RuntimeMXBean.class);
-        this.mmbean = newPlatformMXBeanProxy(server,
+                                             RuntimeMXBebn.clbss);
+        this.mmbebn = newPlbtformMXBebnProxy(server,
                                              MEMORY_MXBEAN_NAME,
-                                             MemoryMXBean.class);
-        ObjectName poolName = null;
-        ObjectName gcName = null;
+                                             MemoryMXBebn.clbss);
+        ObjectNbme poolNbme = null;
+        ObjectNbme gcNbme = null;
         try {
-            poolName = new ObjectName(MEMORY_POOL_MXBEAN_DOMAIN_TYPE+",*");
-            gcName = new ObjectName(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE+",*");
-        } catch (MalformedObjectNameException e) {
-            // should not reach here
-            assert(false);
+            poolNbme = new ObjectNbme(MEMORY_POOL_MXBEAN_DOMAIN_TYPE+",*");
+            gcNbme = new ObjectNbme(GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE+",*");
+        } cbtch (MblformedObjectNbmeException e) {
+            // should not rebch here
+            bssert(fblse);
         }
 
-        Set<ObjectName> mbeans = server.queryNames(poolName, null);
-        if (mbeans != null) {
-            pools = new ArrayList<MemoryPoolMXBean>();
-            for (ObjectName objName : mbeans) {
-                MemoryPoolMXBean p =
-                    newPlatformMXBeanProxy(server,
-                                           objName.getCanonicalName(),
-                                           MemoryPoolMXBean.class);
-                pools.add(p);
+        Set<ObjectNbme> mbebns = server.queryNbmes(poolNbme, null);
+        if (mbebns != null) {
+            pools = new ArrbyList<MemoryPoolMXBebn>();
+            for (ObjectNbme objNbme : mbebns) {
+                MemoryPoolMXBebn p =
+                    newPlbtformMXBebnProxy(server,
+                                           objNbme.getCbnonicblNbme(),
+                                           MemoryPoolMXBebn.clbss);
+                pools.bdd(p);
             }
         }
 
-        mbeans = server.queryNames(gcName, null);
-        if (mbeans != null) {
-            gcmbeans = new ArrayList<GarbageCollectorMXBean>();
-            for (ObjectName objName : mbeans) {
-                GarbageCollectorMXBean gc =
-                    newPlatformMXBeanProxy(server,
-                                           objName.getCanonicalName(),
-                                           GarbageCollectorMXBean.class);
-                gcmbeans.add(gc);
+        mbebns = server.queryNbmes(gcNbme, null);
+        if (mbebns != null) {
+            gcmbebns = new ArrbyList<GbrbbgeCollectorMXBebn>();
+            for (ObjectNbme objNbme : mbebns) {
+                GbrbbgeCollectorMXBebn gc =
+                    newPlbtformMXBebnProxy(server,
+                                           objNbme.getCbnonicblNbme(),
+                                           GbrbbgeCollectorMXBebn.clbss);
+                gcmbebns.bdd(gc);
             }
         }
     }
 
     /**
-     * Constructs a PrintGCStat object to monitor the local JVM.
+     * Constructs b PrintGCStbt object to monitor the locbl JVM.
      */
-    public PrintGCStat() {
-        // Obtain the platform mxbean instances for the running JVM.
-        this.rmbean = getRuntimeMXBean();
-        this.mmbean = getMemoryMXBean();
-        this.pools = getMemoryPoolMXBeans();
-        this.gcmbeans = getGarbageCollectorMXBeans();
+    public PrintGCStbt() {
+        // Obtbin the plbtform mxbebn instbnces for the running JVM.
+        this.rmbebn = getRuntimeMXBebn();
+        this.mmbebn = getMemoryMXBebn();
+        this.pools = getMemoryPoolMXBebns();
+        this.gcmbebns = getGbrbbgeCollectorMXBebns();
     }
 
     /**
-     * Prints the verbose GC log to System.out to list the memory usage
-     * of all memory pools as well as the GC statistics.
+     * Prints the verbose GC log to System.out to list the memory usbge
+     * of bll memory pools bs well bs the GC stbtistics.
      */
     public void printVerboseGc() {
-        System.out.println("Uptime: " + formatMillis(rmbean.getUptime()));
-        System.out.println("Heap usage: " + mmbean.getHeapMemoryUsage());
-        System.out.println("Non-Heap memory usage: " + mmbean.getNonHeapMemoryUsage());
-        for (GarbageCollectorMXBean gc : gcmbeans) {
-            System.out.print(" [" + gc.getName() + ": ");
+        System.out.println("Uptime: " + formbtMillis(rmbebn.getUptime()));
+        System.out.println("Hebp usbge: " + mmbebn.getHebpMemoryUsbge());
+        System.out.println("Non-Hebp memory usbge: " + mmbebn.getNonHebpMemoryUsbge());
+        for (GbrbbgeCollectorMXBebn gc : gcmbebns) {
+            System.out.print(" [" + gc.getNbme() + ": ");
             System.out.print("Count=" + gc.getCollectionCount());
-            System.out.print(" GCTime=" + formatMillis(gc.getCollectionTime()));
+            System.out.print(" GCTime=" + formbtMillis(gc.getCollectionTime()));
             System.out.print("]");
         }
         System.out.println();
-        for (MemoryPoolMXBean p : pools) {
-            System.out.print("  [" + p.getName() + ":");
-            MemoryUsage u = p.getUsage();
-            System.out.print(" Used=" + formatBytes(u.getUsed()));
-            System.out.print(" Committed=" + formatBytes(u.getCommitted()));
+        for (MemoryPoolMXBebn p : pools) {
+            System.out.print("  [" + p.getNbme() + ":");
+            MemoryUsbge u = p.getUsbge();
+            System.out.print(" Used=" + formbtBytes(u.getUsed()));
+            System.out.print(" Committed=" + formbtBytes(u.getCommitted()));
             System.out.println("]");
         }
     }
 
-    private String formatMillis(long ms) {
-        return String.format("%.4fsec", ms / (double) 1000);
+    privbte String formbtMillis(long ms) {
+        return String.formbt("%.4fsec", ms / (double) 1000);
     }
-    private String formatBytes(long bytes) {
+    privbte String formbtBytes(long bytes) {
         long kb = bytes;
         if (bytes > 0) {
             kb = bytes / 1024;

@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.connect.*;
 import com.sun.jdi.connect.spi.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.ResourceBundle;
-import java.io.IOException;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.ResourceBundle;
+import jbvb.io.IOException;
 
-import java.util.ServiceLoader;
+import jbvb.util.ServiceLobder;
 
-/* Public for use by com.sun.jdi.Bootstrap */
-public class VirtualMachineManagerImpl implements VirtualMachineManagerService {
-    private List<Connector> connectors = new ArrayList<Connector>();
-    private LaunchingConnector defaultConnector = null;
-    private List<VirtualMachine> targets = new ArrayList<VirtualMachine>();
-    private final ThreadGroup mainGroupForJDI;
-    private ResourceBundle messages = null;
-    private int vmSequenceNumber = 0;
-    private static final int majorVersion = 1;
-    private static final int minorVersion = 8;
+/* Public for use by com.sun.jdi.Bootstrbp */
+public clbss VirtublMbchineMbnbgerImpl implements VirtublMbchineMbnbgerService {
+    privbte List<Connector> connectors = new ArrbyList<Connector>();
+    privbte LbunchingConnector defbultConnector = null;
+    privbte List<VirtublMbchine> tbrgets = new ArrbyList<VirtublMbchine>();
+    privbte finbl ThrebdGroup mbinGroupForJDI;
+    privbte ResourceBundle messbges = null;
+    privbte int vmSequenceNumber = 0;
+    privbte stbtic finbl int mbjorVersion = 1;
+    privbte stbtic finbl int minorVersion = 8;
 
-    private static final Object lock = new Object();
-    private static VirtualMachineManagerImpl vmm;
+    privbte stbtic finbl Object lock = new Object();
+    privbte stbtic VirtublMbchineMbnbgerImpl vmm;
 
-    public static VirtualMachineManager virtualMachineManager() {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic VirtublMbchineMbnbger virtublMbchineMbnbger() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             JDIPermission vmmPermission =
-                new JDIPermission("virtualMachineManager");
+                new JDIPermission("virtublMbchineMbnbger");
             sm.checkPermission(vmmPermission);
         }
         synchronized (lock) {
             if (vmm == null) {
-                vmm = new VirtualMachineManagerImpl();
+                vmm = new VirtublMbchineMbnbgerImpl();
             }
         }
         return vmm;
     }
 
-    protected VirtualMachineManagerImpl() {
+    protected VirtublMbchineMbnbgerImpl() {
 
         /*
-         * Create a top-level thread group
+         * Crebte b top-level threbd group
          */
-        ThreadGroup top = Thread.currentThread().getThreadGroup();
-        ThreadGroup parent = null;
-        while ((parent = top.getParent()) != null) {
-            top = parent;
+        ThrebdGroup top = Threbd.currentThrebd().getThrebdGroup();
+        ThrebdGroup pbrent = null;
+        while ((pbrent = top.getPbrent()) != null) {
+            top = pbrent;
         }
-        mainGroupForJDI = new ThreadGroup(top, "JDI main");
+        mbinGroupForJDI = new ThrebdGroup(top, "JDI mbin");
 
         /*
-         * Load the connectors
+         * Lobd the connectors
          */
-        ServiceLoader<Connector> connectorLoader =
-            ServiceLoader.load(Connector.class, Connector.class.getClassLoader());
+        ServiceLobder<Connector> connectorLobder =
+            ServiceLobder.lobd(Connector.clbss, Connector.clbss.getClbssLobder());
 
-        Iterator<Connector> connectors = connectorLoader.iterator();
+        Iterbtor<Connector> connectors = connectorLobder.iterbtor();
 
-        while (connectors.hasNext()) {
+        while (connectors.hbsNext()) {
             Connector connector;
 
             try {
                 connector = connectors.next();
-            } catch (ThreadDeath x) {
+            } cbtch (ThrebdDebth x) {
                 throw x;
-            } catch (Exception x) {
+            } cbtch (Exception x) {
                 System.err.println(x);
                 continue;
-            } catch (Error x) {
+            } cbtch (Error x) {
                 System.err.println(x);
                 continue;
             }
 
-            addConnector(connector);
+            bddConnector(connector);
         }
 
         /*
-         * Load any transport services and encapsulate them with
-         * an attaching and listening connector.
+         * Lobd bny trbnsport services bnd encbpsulbte them with
+         * bn bttbching bnd listening connector.
          */
-        ServiceLoader<TransportService> transportLoader =
-            ServiceLoader.load(TransportService.class,
-                               TransportService.class.getClassLoader());
+        ServiceLobder<TrbnsportService> trbnsportLobder =
+            ServiceLobder.lobd(TrbnsportService.clbss,
+                               TrbnsportService.clbss.getClbssLobder());
 
-        Iterator<TransportService> transportServices =
-            transportLoader.iterator();
+        Iterbtor<TrbnsportService> trbnsportServices =
+            trbnsportLobder.iterbtor();
 
-        while (transportServices.hasNext()) {
-            TransportService transportService;
+        while (trbnsportServices.hbsNext()) {
+            TrbnsportService trbnsportService;
 
             try {
-                transportService = transportServices.next();
-            } catch (ThreadDeath x) {
+                trbnsportService = trbnsportServices.next();
+            } cbtch (ThrebdDebth x) {
                 throw x;
-            } catch (Exception x) {
+            } cbtch (Exception x) {
                 System.err.println(x);
                 continue;
-            } catch (Error x) {
+            } cbtch (Error x) {
                 System.err.println(x);
                 continue;
             }
 
-            addConnector(GenericAttachingConnector.create(transportService));
-            addConnector(GenericListeningConnector.create(transportService));
+            bddConnector(GenericAttbchingConnector.crebte(trbnsportService));
+            bddConnector(GenericListeningConnector.crebte(trbnsportService));
         }
 
         // no connectors found
-        if (allConnectors().size() == 0) {
-            throw new Error("no Connectors loaded");
+        if (bllConnectors().size() == 0) {
+            throw new Error("no Connectors lobded");
         }
 
-        // Set the default launcher. In order to be compatible
-        // 1.2/1.3/1.4 we try to make the default launcher
-        // "com.sun.jdi.CommandLineLaunch". If this connector
-        // isn't found then we arbitarly pick the first connector.
+        // Set the defbult lbuncher. In order to be compbtible
+        // 1.2/1.3/1.4 we try to mbke the defbult lbuncher
+        // "com.sun.jdi.CommbndLineLbunch". If this connector
+        // isn't found then we brbitbrly pick the first connector.
         //
-        boolean found = false;
-        List<LaunchingConnector> launchers = launchingConnectors();
-        for (LaunchingConnector lc: launchers) {
-            if (lc.name().equals("com.sun.jdi.CommandLineLaunch")) {
-                setDefaultConnector(lc);
+        boolebn found = fblse;
+        List<LbunchingConnector> lbunchers = lbunchingConnectors();
+        for (LbunchingConnector lc: lbunchers) {
+            if (lc.nbme().equbls("com.sun.jdi.CommbndLineLbunch")) {
+                setDefbultConnector(lc);
                 found = true;
-                break;
+                brebk;
             }
         }
-        if (!found && launchers.size() > 0) {
-            setDefaultConnector(launchers.get(0));
+        if (!found && lbunchers.size() > 0) {
+            setDefbultConnector(lbunchers.get(0));
         }
 
     }
 
-    public LaunchingConnector defaultConnector() {
-        if (defaultConnector == null) {
-            throw new Error("no default LaunchingConnector");
+    public LbunchingConnector defbultConnector() {
+        if (defbultConnector == null) {
+            throw new Error("no defbult LbunchingConnector");
         }
-        return defaultConnector;
+        return defbultConnector;
     }
 
-    public void setDefaultConnector(LaunchingConnector connector) {
-        defaultConnector = connector;
+    public void setDefbultConnector(LbunchingConnector connector) {
+        defbultConnector = connector;
     }
 
-    public List<LaunchingConnector> launchingConnectors() {
-        List<LaunchingConnector> launchingConnectors = new ArrayList<LaunchingConnector>(connectors.size());
+    public List<LbunchingConnector> lbunchingConnectors() {
+        List<LbunchingConnector> lbunchingConnectors = new ArrbyList<LbunchingConnector>(connectors.size());
         for (Connector connector: connectors) {
-            if (connector instanceof LaunchingConnector) {
-                launchingConnectors.add((LaunchingConnector)connector);
+            if (connector instbnceof LbunchingConnector) {
+                lbunchingConnectors.bdd((LbunchingConnector)connector);
             }
         }
-        return Collections.unmodifiableList(launchingConnectors);
+        return Collections.unmodifibbleList(lbunchingConnectors);
     }
 
-    public List<AttachingConnector> attachingConnectors() {
-        List<AttachingConnector> attachingConnectors = new ArrayList<AttachingConnector>(connectors.size());
+    public List<AttbchingConnector> bttbchingConnectors() {
+        List<AttbchingConnector> bttbchingConnectors = new ArrbyList<AttbchingConnector>(connectors.size());
         for (Connector connector: connectors) {
-            if (connector instanceof AttachingConnector) {
-                attachingConnectors.add((AttachingConnector)connector);
+            if (connector instbnceof AttbchingConnector) {
+                bttbchingConnectors.bdd((AttbchingConnector)connector);
             }
         }
-        return Collections.unmodifiableList(attachingConnectors);
+        return Collections.unmodifibbleList(bttbchingConnectors);
     }
 
     public List<ListeningConnector> listeningConnectors() {
-        List<ListeningConnector> listeningConnectors = new ArrayList<ListeningConnector>(connectors.size());
+        List<ListeningConnector> listeningConnectors = new ArrbyList<ListeningConnector>(connectors.size());
         for (Connector connector: connectors) {
-            if (connector instanceof ListeningConnector) {
-                listeningConnectors.add((ListeningConnector)connector);
+            if (connector instbnceof ListeningConnector) {
+                listeningConnectors.bdd((ListeningConnector)connector);
             }
         }
-        return Collections.unmodifiableList(listeningConnectors);
+        return Collections.unmodifibbleList(listeningConnectors);
     }
 
-    public List<Connector> allConnectors() {
-        return Collections.unmodifiableList(connectors);
+    public List<Connector> bllConnectors() {
+        return Collections.unmodifibbleList(connectors);
     }
 
-    public List<VirtualMachine> connectedVirtualMachines() {
-        return Collections.unmodifiableList(targets);
+    public List<VirtublMbchine> connectedVirtublMbchines() {
+        return Collections.unmodifibbleList(tbrgets);
     }
 
-    public void addConnector(Connector connector) {
-        connectors.add(connector);
+    public void bddConnector(Connector connector) {
+        connectors.bdd(connector);
     }
 
     public void removeConnector(Connector connector) {
         connectors.remove(connector);
     }
 
-    public synchronized VirtualMachine createVirtualMachine(
+    public synchronized VirtublMbchine crebteVirtublMbchine(
                                         Connection connection,
                                         Process process) throws IOException {
 
         if (!connection.isOpen()) {
-            throw new IllegalStateException("connection is not open");
+            throw new IllegblStbteException("connection is not open");
         }
 
-        VirtualMachine vm;
+        VirtublMbchine vm;
         try {
-            vm = new VirtualMachineImpl(this, connection, process,
+            vm = new VirtublMbchineImpl(this, connection, process,
                                                    ++vmSequenceNumber);
-        } catch (VMDisconnectedException e) {
-            throw new IOException(e.getMessage());
+        } cbtch (VMDisconnectedException e) {
+            throw new IOException(e.getMessbge());
         }
-        targets.add(vm);
+        tbrgets.bdd(vm);
         return vm;
     }
 
-    public VirtualMachine createVirtualMachine(Connection connection) throws IOException {
-        return createVirtualMachine(connection, null);
+    public VirtublMbchine crebteVirtublMbchine(Connection connection) throws IOException {
+        return crebteVirtublMbchine(connection, null);
     }
 
-    public void addVirtualMachine(VirtualMachine vm) {
-        targets.add(vm);
+    public void bddVirtublMbchine(VirtublMbchine vm) {
+        tbrgets.bdd(vm);
     }
 
-    void disposeVirtualMachine(VirtualMachine vm) {
-        targets.remove(vm);
+    void disposeVirtublMbchine(VirtublMbchine vm) {
+        tbrgets.remove(vm);
     }
 
-    public int majorInterfaceVersion() {
-        return majorVersion;
+    public int mbjorInterfbceVersion() {
+        return mbjorVersion;
     }
 
-    public int minorInterfaceVersion() {
+    public int minorInterfbceVersion() {
         return minorVersion;
     }
 
-    ThreadGroup mainGroupForJDI() {
-        return mainGroupForJDI;
+    ThrebdGroup mbinGroupForJDI() {
+        return mbinGroupForJDI;
     }
 
     String getString(String key) {
-        if (messages == null) {
-            messages = ResourceBundle.getBundle("com.sun.tools.jdi.resources.jdi");
+        if (messbges == null) {
+            messbges = ResourceBundle.getBundle("com.sun.tools.jdi.resources.jdi");
         }
-        return messages.getString(key);
+        return messbges.getString(key);
     }
 
 }

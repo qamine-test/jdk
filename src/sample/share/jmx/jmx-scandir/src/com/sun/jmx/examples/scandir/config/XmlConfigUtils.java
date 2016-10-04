@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,364 +30,364 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbckbge com.sun.jmx.exbmples.scbndir.config;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.logging.Logger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.util.logging.Logger;
+import jbvbx.xml.bind.JAXBContext;
+import jbvbx.xml.bind.JAXBException;
+import jbvbx.xml.bind.Mbrshbller;
+import jbvbx.xml.bind.Unmbrshbller;
 
 /**
- * The class XmlConfigUtils is used to deal with XML serialization
- * and XML files.
+ * The clbss XmlConfigUtils is used to debl with XML seriblizbtion
+ * bnd XML files.
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class XmlConfigUtils {
+public clbss XmlConfigUtils {
 
     /**
-     * A URI for our XML configuration namespace. This doesn't start with
-     * http:// because we are not going to publish this private schema
-     * anywhere.
+     * A URI for our XML configurbtion nbmespbce. This doesn't stbrt with
+     * http:// becbuse we bre not going to publish this privbte schemb
+     * bnywhere.
      **/
-    public static final String NAMESPACE =
-            "jmx:com.sun.jmx.examples.scandir.config";
+    public stbtic finbl String NAMESPACE =
+            "jmx:com.sun.jmx.exbmples.scbndir.config";
     /**
-     * A logger for this class.
+     * A logger for this clbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(XmlConfigUtils.class.getName());
+    privbte stbtic finbl Logger LOG =
+            Logger.getLogger(XmlConfigUtils.clbss.getNbme());
 
     // Our JAXBContext.
-    private static JAXBContext context;
+    privbte stbtic JAXBContext context;
 
-    // The file name of the XML file in which an instance of this object
-    // will read and write XML data.
-    final String file;
+    // The file nbme of the XML file in which bn instbnce of this object
+    // will rebd bnd write XML dbtb.
+    finbl String file;
 
     /**
-     * Creates a new instance of XmlConfigUtils.
-     * @param file The file name of the XML file in which an instance of this
-     *        object will read and write XML data.
+     * Crebtes b new instbnce of XmlConfigUtils.
+     * @pbrbm file The file nbme of the XML file in which bn instbnce of this
+     *        object will rebd bnd write XML dbtb.
      */
     public XmlConfigUtils(String file) {
         this.file = file;
     }
 
     /**
-     * Write the given bean to the XML file.
+     * Write the given bebn to the XML file.
      * <p>
-     * Performs an atomic write, first writing in {@code <file>.new}, then
-     * renaming {@code <file>} to {@code <file>~}, then renaming
-     * renaming {@code <file>.new} to {@code <file>}.
+     * Performs bn btomic write, first writing in {@code <file>.new}, then
+     * renbming {@code <file>} to {@code <file>~}, then renbming
+     * renbming {@code <file>.new} to {@code <file>}.
      * </p>
-     * @param bean The configuration to write in the XML file.
-     * @throws IOException if write to file failed.
+     * @pbrbm bebn The configurbtion to write in the XML file.
+     * @throws IOException if write to file fbiled.
      **/
-    public synchronized void writeToFile(ScanManagerConfig bean)
+    public synchronized void writeToFile(ScbnMbnbgerConfig bebn)
         throws IOException {
 
-        // Creates a new file named <file>.new
-        final File f = newXmlTmpFile(file);
+        // Crebtes b new file nbmed <file>.new
+        finbl File f = newXmlTmpFile(file);
         try {
-            final FileOutputStream out = new FileOutputStream(f);
-            boolean failed = true;
+            finbl FileOutputStrebm out = new FileOutputStrebm(f);
+            boolebn fbiled = true;
             try {
                 // writes to <file>.new
-                write(bean,out,false);
+                write(bebn,out,fblse);
 
-                // no exception: set failed=false for finaly {} block.
-                failed = false;
-            } finally {
+                // no exception: set fbiled=fblse for finbly {} block.
+                fbiled = fblse;
+            } finblly {
                 out.close();
-                // An exception was raised: delete temporary file.
-                if (failed == true) f.delete();
+                // An exception wbs rbised: delete temporbry file.
+                if (fbiled == true) f.delete();
             }
 
-            // rename <file> to <file>~ and <file>.new to <file>
+            // renbme <file> to <file>~ bnd <file>.new to <file>
             commit(file,f);
-        } catch (JAXBException x) {
-            final IOException io =
-                    new IOException("Failed to write SessionConfigBean to " +
+        } cbtch (JAXBException x) {
+            finbl IOException io =
+                    new IOException("Fbiled to write SessionConfigBebn to " +
                     file+": "+x,x);
             throw io;
         }
     }
 
     /**
-     * Creates an XML string representation of the given bean.
-     * @throws IllegalArgumentException if the bean class is not known by the
+     * Crebtes bn XML string representbtion of the given bebn.
+     * @throws IllegblArgumentException if the bebn clbss is not known by the
      *         underlying XMLbinding context.
-     * @return An XML string representation of the given bean.
+     * @return An XML string representbtion of the given bebn.
      **/
-    public static String toString(Object bean) {
+    public stbtic String toString(Object bebn) {
         try {
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            final Marshaller m = createMarshaller();
-            m.setProperty(m.JAXB_FRAGMENT,Boolean.TRUE);
-            m.marshal(bean, baos);
-            return baos.toString();
-        } catch (JAXBException x) {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException(
-                        "Failed to write SessionConfigBean: "+x,x);
-            throw iae;
+            finbl ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+            finbl Mbrshbller m = crebteMbrshbller();
+            m.setProperty(m.JAXB_FRAGMENT,Boolebn.TRUE);
+            m.mbrshbl(bebn, bbos);
+            return bbos.toString();
+        } cbtch (JAXBException x) {
+            finbl IllegblArgumentException ibe =
+                    new IllegblArgumentException(
+                        "Fbiled to write SessionConfigBebn: "+x,x);
+            throw ibe;
         }
     }
 
     /**
-     * Creates an XML clone of the given bean.
+     * Crebtes bn XML clone of the given bebn.
      * <p>
-     * In other words, this method XML-serializes the given bean, and
-     * XML-deserializes a copy of that bean.
+     * In other words, this method XML-seriblizes the given bebn, bnd
+     * XML-deseriblizes b copy of thbt bebn.
      * </p>
-     * @return A deep-clone of the given bean.
-     * @throws IllegalArgumentException if the bean class is not known by the
+     * @return A deep-clone of the given bebn.
+     * @throws IllegblArgumentException if the bebn clbss is not known by the
      *         underlying XML binding context.
-     * @param bean The bean to clone.
+     * @pbrbm bebn The bebn to clone.
      */
-    public static ScanManagerConfig xmlClone(ScanManagerConfig bean) {
-        final Object clone = copy(bean);
-        return (ScanManagerConfig)clone;
+    public stbtic ScbnMbnbgerConfig xmlClone(ScbnMbnbgerConfig bebn) {
+        finbl Object clone = copy(bebn);
+        return (ScbnMbnbgerConfig)clone;
     }
 
     /**
-     * Creates an XML clone of the given bean.
+     * Crebtes bn XML clone of the given bebn.
      * <p>
-     * In other words, this method XML-serializes the given bean, and
-     * XML-deserializes a copy of that bean.
+     * In other words, this method XML-seriblizes the given bebn, bnd
+     * XML-deseriblizes b copy of thbt bebn.
      * </p>
-     * @throws IllegalArgumentException if the bean class is not known by the
+     * @throws IllegblArgumentException if the bebn clbss is not known by the
      *         underlying XML binding context.
-     * @return A deep-clone of the given bean.
+     * @return A deep-clone of the given bebn.
      **/
-    private static Object copy(Object bean) {
+    privbte stbtic Object copy(Object bebn) {
         try {
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            final Marshaller m = createMarshaller();
-            m.marshal(bean, baos);
-            final ByteArrayInputStream bais =
-                    new ByteArrayInputStream(baos.toByteArray());
-            return createUnmarshaller().unmarshal(bais);
-        } catch (JAXBException x) {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException("Failed to write SessionConfigBean: "+x,x);
-            throw iae;
+            finbl ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+            finbl Mbrshbller m = crebteMbrshbller();
+            m.mbrshbl(bebn, bbos);
+            finbl ByteArrbyInputStrebm bbis =
+                    new ByteArrbyInputStrebm(bbos.toByteArrby());
+            return crebteUnmbrshbller().unmbrshbl(bbis);
+        } cbtch (JAXBException x) {
+            finbl IllegblArgumentException ibe =
+                    new IllegblArgumentException("Fbiled to write SessionConfigBebn: "+x,x);
+            throw ibe;
         }
     }
 
     /**
-     * Creates an XML clone of the given bean.
+     * Crebtes bn XML clone of the given bebn.
      * <p>
-     * In other words, this method XML-serializes the given bean, and
-     * XML-deserializes a copy of that bean.
+     * In other words, this method XML-seriblizes the given bebn, bnd
+     * XML-deseriblizes b copy of thbt bebn.
      * </p>
-     * @return A deep-clone of the given bean.
-     * @throws IllegalArgumentException if the bean class is not known by the
+     * @return A deep-clone of the given bebn.
+     * @throws IllegblArgumentException if the bebn clbss is not known by the
      *         underlying XML binding context.
-     * @param bean The bean to clone.
+     * @pbrbm bebn The bebn to clone.
      */
-    public static DirectoryScannerConfig xmlClone(DirectoryScannerConfig bean) {
-        final Object clone = copy(bean);
-        return (DirectoryScannerConfig)clone;
+    public stbtic DirectoryScbnnerConfig xmlClone(DirectoryScbnnerConfig bebn) {
+        finbl Object clone = copy(bebn);
+        return (DirectoryScbnnerConfig)clone;
     }
 
     /**
-     * Reads the configuration from the XML configuration file.
-     * @throws IOException if it fails to read the configuration.
-     * @return A {@code ScanManagerConfig} bean read from the
-     *         XML configuration file.
+     * Rebds the configurbtion from the XML configurbtion file.
+     * @throws IOException if it fbils to rebd the configurbtion.
+     * @return A {@code ScbnMbnbgerConfig} bebn rebd from the
+     *         XML configurbtion file.
      **/
-    public synchronized ScanManagerConfig readFromFile() throws IOException {
-        final File f = new File(file);
+    public synchronized ScbnMbnbgerConfig rebdFromFile() throws IOException {
+        finbl File f = new File(file);
         if (!f.exists())
             throw new IOException("No such file: "+file);
-        if (!f.canRead())
-            throw new IOException("Can't read file: "+file);
+        if (!f.cbnRebd())
+            throw new IOException("Cbn't rebd file: "+file);
         try {
-            return read(f);
-        } catch (JAXBException x) {
-            final IOException io =
-                    new IOException("Failed to read SessionConfigBean from " +
+            return rebd(f);
+        } cbtch (JAXBException x) {
+            finbl IOException io =
+                    new IOException("Fbiled to rebd SessionConfigBebn from " +
                     file+": "+x,x);
             throw io;
         }
     }
 
     /**
-     * Reads the configuration from the given XML configuration file.
-     * @param f the file to read from.
-     * @return A {@code ScanManagerConfig} bean read from the
-     *         XML configuration file.
-     * @throws javax.xml.bind.JAXBException if it fails to read the configuration.
+     * Rebds the configurbtion from the given XML configurbtion file.
+     * @pbrbm f the file to rebd from.
+     * @return A {@code ScbnMbnbgerConfig} bebn rebd from the
+     *         XML configurbtion file.
+     * @throws jbvbx.xml.bind.JAXBException if it fbils to rebd the configurbtion.
      */
-    public static ScanManagerConfig read(File f)
+    public stbtic ScbnMbnbgerConfig rebd(File f)
         throws JAXBException {
-        final Unmarshaller u = createUnmarshaller();
-        return (ScanManagerConfig) u.unmarshal(f);
+        finbl Unmbrshbller u = crebteUnmbrshbller();
+        return (ScbnMbnbgerConfig) u.unmbrshbl(f);
 
     }
 
     /**
-     * Writes the given bean to the given output stream.
-     * @param bean the bean to write.
-     * @param os the output stream to write to.
-     * @param fragment whether the {@code <?xml ... ?>} header should be
-     *        included. The header is not included if the bean is just an
-     *        XML fragment encapsulated in a higher level XML element.
+     * Writes the given bebn to the given output strebm.
+     * @pbrbm bebn the bebn to write.
+     * @pbrbm os the output strebm to write to.
+     * @pbrbm frbgment whether the {@code <?xml ... ?>} hebder should be
+     *        included. The hebder is not included if the bebn is just bn
+     *        XML frbgment encbpsulbted in b higher level XML element.
      * @throws JAXBException An XML Binding exception occurred.
      **/
-    public static void write(ScanManagerConfig bean, OutputStream os,
-            boolean fragment)
+    public stbtic void write(ScbnMbnbgerConfig bebn, OutputStrebm os,
+            boolebn frbgment)
         throws JAXBException {
-        writeXml((Object)bean,os,fragment);
+        writeXml((Object)bebn,os,frbgment);
     }
 
     /**
-     * Writes the given bean to the given output stream.
-     * @param bean the bean to write.
-     * @param os the output stream to write to.
-     * @param fragment whether the {@code <?xml ... ?>} header should be
-     *        included. The header is not included if the bean is just an
-     *        XML fragment encapsulated in a higher level XML element.
+     * Writes the given bebn to the given output strebm.
+     * @pbrbm bebn the bebn to write.
+     * @pbrbm os the output strebm to write to.
+     * @pbrbm frbgment whether the {@code <?xml ... ?>} hebder should be
+     *        included. The hebder is not included if the bebn is just bn
+     *        XML frbgment encbpsulbted in b higher level XML element.
      * @throws JAXBException An XML Binding exception occurred.
      **/
-    public static void write(ResultRecord bean, OutputStream os, boolean fragment)
+    public stbtic void write(ResultRecord bebn, OutputStrebm os, boolebn frbgment)
         throws JAXBException {
-        writeXml((Object)bean,os,fragment);
+        writeXml((Object)bebn,os,frbgment);
     }
 
     /**
-     * Writes the given bean to the given output stream.
-     * @param bean the bean to write.
-     * @param os the output stream to write to.
-     * @param fragment whether the {@code <?xml ... ?>} header should be
-     *        included. The header is not included if the bean is just an
-     *        XML fragment encapsulated in a higher level XML element.
+     * Writes the given bebn to the given output strebm.
+     * @pbrbm bebn the bebn to write.
+     * @pbrbm os the output strebm to write to.
+     * @pbrbm frbgment whether the {@code <?xml ... ?>} hebder should be
+     *        included. The hebder is not included if the bebn is just bn
+     *        XML frbgment encbpsulbted in b higher level XML element.
      * @throws JAXBException An XML Binding exception occurred.
      **/
-    private static void writeXml(Object bean, OutputStream os, boolean fragment)
+    privbte stbtic void writeXml(Object bebn, OutputStrebm os, boolebn frbgment)
         throws JAXBException {
-        final Marshaller m = createMarshaller();
-        if (fragment) m.setProperty(m.JAXB_FRAGMENT,Boolean.TRUE);
-        m.marshal(bean,os);
+        finbl Mbrshbller m = crebteMbrshbller();
+        if (frbgment) m.setProperty(m.JAXB_FRAGMENT,Boolebn.TRUE);
+        m.mbrshbl(bebn,os);
     }
 
-    // Creates a JAXB Unmarshaller.
-    private static Unmarshaller createUnmarshaller() throws JAXBException {
-        return getContext().createUnmarshaller();
+    // Crebtes b JAXB Unmbrshbller.
+    privbte stbtic Unmbrshbller crebteUnmbrshbller() throws JAXBException {
+        return getContext().crebteUnmbrshbller();
     }
 
-    // Creates a JAXB Marshaller - for nicely XML formatted output.
-    private static Marshaller createMarshaller() throws JAXBException {
-        final  Marshaller m = getContext().createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
+    // Crebtes b JAXB Mbrshbller - for nicely XML formbtted output.
+    privbte stbtic Mbrshbller crebteMbrshbller() throws JAXBException {
+        finbl  Mbrshbller m = getContext().crebteMbrshbller();
+        m.setProperty(Mbrshbller.JAXB_FORMATTED_OUTPUT,Boolebn.TRUE);
         return m;
     }
 
-    // Creates a JAXBContext if needed, and returns it.
-    // The JAXBContext instance we create will be able to handle the
-    // ScanManagerConfig and ResultRecord classes, plus all the property
-    // classes they reference (DirectoryScannerBean etc...).
+    // Crebtes b JAXBContext if needed, bnd returns it.
+    // The JAXBContext instbnce we crebte will be bble to hbndle the
+    // ScbnMbnbgerConfig bnd ResultRecord clbsses, plus bll the property
+    // clbsses they reference (DirectoryScbnnerBebn etc...).
     //
-    private static synchronized JAXBContext getContext() throws JAXBException {
+    privbte stbtic synchronized JAXBContext getContext() throws JAXBException {
         if (context == null)
-            context = JAXBContext.newInstance(ScanManagerConfig.class,
-                                              ResultRecord.class);
+            context = JAXBContext.newInstbnce(ScbnMbnbgerConfig.clbss,
+                                              ResultRecord.clbss);
         return context;
     }
 
 
-    // Creates a new XML temporary file called <basename>.new
-    // This method is used to implement atomic writing to file.
-    // The usual sequence is:
+    // Crebtes b new XML temporbry file cblled <bbsenbme>.new
+    // This method is used to implement btomic writing to file.
+    // The usubl sequence is:
     //
-    // Final tmp = newXmlTmpFile(basename);
-    // boolean failed = true;
+    // Finbl tmp = newXmlTmpFile(bbsenbme);
+    // boolebn fbiled = true;
     // try {
     //      ... write to 'tmp' ...
-    //      // no exception: set failed=false for finaly {} block.
-    //      failed = false;
-    // } finally
-    //      // failed==true means there was an exception and
-    //      // commit won't be called...
-    //      if (failed==true) tmp.delete();
+    //      // no exception: set fbiled=fblse for finbly {} block.
+    //      fbiled = fblse;
+    // } finblly
+    //      // fbiled==true mebns there wbs bn exception bnd
+    //      // commit won't be cblled...
+    //      if (fbiled==true) tmp.delete();
     // }
-    // commit(tmp,basename)
+    // commit(tmp,bbsenbme)
     //
-    private static File newXmlTmpFile(String basename) throws IOException {
-        final File f = new File(basename+".new");
-        if (!f.createNewFile())
-            throw new IOException("file "+f.getName()+" already exists");
+    privbte stbtic File newXmlTmpFile(String bbsenbme) throws IOException {
+        finbl File f = new File(bbsenbme+".new");
+        if (!f.crebteNewFile())
+            throw new IOException("file "+f.getNbme()+" blrebdy exists");
 
         try {
-            final OutputStream newStream = new FileOutputStream(f);
+            finbl OutputStrebm newStrebm = new FileOutputStrebm(f);
             try {
-                final String decl =
-                    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-                newStream.write(decl.getBytes("UTF-8"));
-                newStream.flush();
-            } finally {
-                newStream.close();
+                finbl String decl =
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\" stbndblone=\"yes\"?>";
+                newStrebm.write(decl.getBytes("UTF-8"));
+                newStrebm.flush();
+            } finblly {
+                newStrebm.close();
             }
-        } catch (IOException x) {
+        } cbtch (IOException x) {
             f.delete();
             throw x;
         }
         return f;
     }
 
-    // Commit the temporary file by renaming <basename> to <baesname>~
-    // and tmpFile to <basename>.
-    private static File commit(String basename, File tmpFile)
+    // Commit the temporbry file by renbming <bbsenbme> to <bbesnbme>~
+    // bnd tmpFile to <bbsenbme>.
+    privbte stbtic File commit(String bbsenbme, File tmpFile)
         throws IOException {
         try {
-            final String backupName = basename+"~";
-            final File desired = new File(basename);
-            final File backup = new File(backupName);
-            backup.delete();
+            finbl String bbckupNbme = bbsenbme+"~";
+            finbl File desired = new File(bbsenbme);
+            finbl File bbckup = new File(bbckupNbme);
+            bbckup.delete();
             if (desired.exists()) {
-                if (!desired.renameTo(new File(backupName)))
-                    throw new IOException("can't rename to "+backupName);
+                if (!desired.renbmeTo(new File(bbckupNbme)))
+                    throw new IOException("cbn't renbme to "+bbckupNbme);
             }
-            if (!tmpFile.renameTo(new File(basename)))
-                throw new IOException("can't rename to "+basename);
-        } catch (IOException x) {
+            if (!tmpFile.renbmeTo(new File(bbsenbme)))
+                throw new IOException("cbn't renbme to "+bbsenbme);
+        } cbtch (IOException x) {
             tmpFile.delete();
             throw x;
         }
-        return new File(basename);
+        return new File(bbsenbme);
     }
 
     /**
-     * Creates a new committed XML file for {@code <basename>}, containing only
-     * the {@code <?xml ...?>} header.
-     * <p>This method will rename {@code <basename>} to {@code <basename>~},
+     * Crebtes b new committed XML file for {@code <bbsenbme>}, contbining only
+     * the {@code <?xml ...?>} hebder.
+     * <p>This method will renbme {@code <bbsenbme>} to {@code <bbsenbme>~},
      * if it exists.
      * </p>
-     * @return A newly created XML file containing the regular
-     *         {@code <?xml ...?>} header.
-     * @param basename The name of the new file.
-     * @throws IOException if the new XML file couldn't be created.
+     * @return A newly crebted XML file contbining the regulbr
+     *         {@code <?xml ...?>} hebder.
+     * @pbrbm bbsenbme The nbme of the new file.
+     * @throws IOException if the new XML file couldn't be crebted.
      */
-    public static File createNewXmlFile(String basename) throws IOException {
-        return commit(basename,newXmlTmpFile(basename));
+    public stbtic File crebteNewXmlFile(String bbsenbme) throws IOException {
+        return commit(bbsenbme,newXmlTmpFile(bbsenbme));
     }
 
 }

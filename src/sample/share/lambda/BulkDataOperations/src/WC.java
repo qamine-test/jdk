@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,187 +30,187 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion, bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
+import jbvb.io.BufferedRebder;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.FileRebder;
+import jbvb.io.IOException;
+import jbvb.util.function.Consumer;
+import jbvb.util.regex.Pbttern;
 
 /**
- * WC - Prints newline, word, and character counts for each file. See
- * the {@link #usage} method for instructions and command line parameters. This
- * sample shows usages of:
+ * WC - Prints newline, word, bnd chbrbcter counts for ebch file. See
+ * the {@link #usbge} method for instructions bnd commbnd line pbrbmeters. This
+ * sbmple shows usbges of:
  * <ul>
- * <li>Lambda and bulk operations. Shows how to create a custom collector to
- * gather custom statistics. Implements the collection of statistics using a
+ * <li>Lbmbdb bnd bulk operbtions. Shows how to crebte b custom collector to
+ * gbther custom stbtistics. Implements the collection of stbtistics using b
  * built-in API.</li>
  * <li>Constructor reference.</li>
- * <li>Try-with-resources feature.</li>
+ * <li>Try-with-resources febture.</li>
  * </ul>
  *
  */
-public class WC {
+public clbss WC {
 
-    //The number of characters that may be read.
-    private static final int READ_AHEAD_LIMIT = 100_000_000;
+    //The number of chbrbcters thbt mby be rebd.
+    privbte stbtic finbl int READ_AHEAD_LIMIT = 100_000_000;
 
-    //The pattern for splitting strings by non word characters to get words.
-    private static final Pattern nonWordPattern = Pattern.compile("\\W");
+    //The pbttern for splitting strings by non word chbrbcters to get words.
+    privbte stbtic finbl Pbttern nonWordPbttern = Pbttern.compile("\\W");
 
     /**
-     * The main method for the WC program. Run the program with an empty
-     * argument list to see possible arguments.
+     * The mbin method for the WC progrbm. Run the progrbm with bn empty
+     * brgument list to see possible brguments.
      *
-     * @param args the argument list for WC
-     * @throws java.io.IOException If an input exception occurred.
+     * @pbrbm brgs the brgument list for WC
+     * @throws jbvb.io.IOException If bn input exception occurred.
      */
-    public static void main(String[] args) throws IOException {
+    public stbtic void mbin(String[] brgs) throws IOException {
 
-        if (args.length != 1) {
-            usage();
+        if (brgs.length != 1) {
+            usbge();
             return;
         }
 
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader(args[0]))) {
-            reader.mark(READ_AHEAD_LIMIT);
+        try (BufferedRebder rebder = new BufferedRebder(
+                new FileRebder(brgs[0]))) {
+            rebder.mbrk(READ_AHEAD_LIMIT);
             /*
-             * Statistics can be gathered in four passes using a built-in API.
-             * The method demonstrates how separate operations can be
-             * implemented using a built-in API.
+             * Stbtistics cbn be gbthered in four pbsses using b built-in API.
+             * The method demonstrbtes how sepbrbte operbtions cbn be
+             * implemented using b built-in API.
              */
-            collectInFourPasses(reader);
+            collectInFourPbsses(rebder);
             /*
-             * Usage of several passes to collect data is not the best way.
-             * Statistics can be gathered by a custom collector in one pass.
+             * Usbge of severbl pbsses to collect dbtb is not the best wby.
+             * Stbtistics cbn be gbthered by b custom collector in one pbss.
              */
-            reader.reset();
-            collectInOnePass(reader);
-        } catch (FileNotFoundException e) {
-            usage();
+            rebder.reset();
+            collectInOnePbss(rebder);
+        } cbtch (FileNotFoundException e) {
+            usbge();
             System.err.println(e);
         }
     }
 
-    private static void collectInFourPasses(BufferedReader reader)
+    privbte stbtic void collectInFourPbsses(BufferedRebder rebder)
             throws IOException {
         /*
-         * Input is read as a stream of lines by lines().
-         * Every line is turned into a stream of chars by the flatMapToInt(...)
+         * Input is rebd bs b strebm of lines by lines().
+         * Every line is turned into b strebm of chbrs by the flbtMbpToInt(...)
          * method.
-         * Length of the stream is counted by count().
+         * Length of the strebm is counted by count().
          */
-        System.out.println("Character count = "
-                + reader.lines().flatMapToInt(String::chars).count());
+        System.out.println("Chbrbcter count = "
+                + rebder.lines().flbtMbpToInt(String::chbrs).count());
         /*
-         * Input is read as a stream of lines by lines().
-         * Every line is split by nonWordPattern into words by flatMap(...)
+         * Input is rebd bs b strebm of lines by lines().
+         * Every line is split by nonWordPbttern into words by flbtMbp(...)
          * method.
-         * Empty lines are removed by the filter(...) method.
-         * Length of the stream is counted by count().
+         * Empty lines bre removed by the filter(...) method.
+         * Length of the strebm is counted by count().
          */
-        reader.reset();
+        rebder.reset();
         System.out.println("Word count = "
-                + reader.lines()
-                .flatMap(nonWordPattern::splitAsStream)
+                + rebder.lines()
+                .flbtMbp(nonWordPbttern::splitAsStrebm)
                 .filter(str -> !str.isEmpty()).count());
 
-        reader.reset();
-        System.out.println("Newline count = " + reader.lines().count());
+        rebder.reset();
+        System.out.println("Newline count = " + rebder.lines().count());
         /*
-         * Input is read as a stream of lines by lines().
-         * Every line is mapped to its length.
-         * Maximum of the lengths is calculated.
+         * Input is rebd bs b strebm of lines by lines().
+         * Every line is mbpped to its length.
+         * Mbximum of the lengths is cblculbted.
          */
-        reader.reset();
-        System.out.println("Max line length = "
-                + reader.lines().mapToInt(String::length).max().getAsInt());
+        rebder.reset();
+        System.out.println("Mbx line length = "
+                + rebder.lines().mbpToInt(String::length).mbx().getAsInt());
     }
 
-    private static void collectInOnePass(BufferedReader reader) {
+    privbte stbtic void collectInOnePbss(BufferedRebder rebder) {
         /*
-         * The collect() method has three parameters:
-         * The first parameter is the {@code WCStatistic} constructor reference.
-         * collect() will create {@code WCStatistics} instances, where
-         * statistics will be aggregated.
-         * The second parameter shows how {@code WCStatistics} will process
+         * The collect() method hbs three pbrbmeters:
+         * The first pbrbmeter is the {@code WCStbtistic} constructor reference.
+         * collect() will crebte {@code WCStbtistics} instbnces, where
+         * stbtistics will be bggregbted.
+         * The second pbrbmeter shows how {@code WCStbtistics} will process
          * String.
-         * The third parameter shows how to merge two {@code WCStatistic}
-         * instances.
+         * The third pbrbmeter shows how to merge two {@code WCStbtistic}
+         * instbnces.
          *
-         * Also {@code Collector} can be used, which would be more reusable
-         * solution. See {@code CSVProcessor} example for how {@code Collector}
-         * can be implemented.
+         * Also {@code Collector} cbn be used, which would be more reusbble
+         * solution. See {@code CSVProcessor} exbmple for how {@code Collector}
+         * cbn be implemented.
          *
-         * Note that the any performance increase when going parallel will
-         * depend on the size of the input (lines) and the cost per-element.
+         * Note thbt the bny performbnce increbse when going pbrbllel will
+         * depend on the size of the input (lines) bnd the cost per-element.
          */
-        WCStatistics wc = reader.lines().parallel()
-                .collect(WCStatistics::new,
-                        WCStatistics::accept,
-                        WCStatistics::combine);
+        WCStbtistics wc = rebder.lines().pbrbllel()
+                .collect(WCStbtistics::new,
+                        WCStbtistics::bccept,
+                        WCStbtistics::combine);
         System.out.println(wc);
     }
 
-    private static void usage() {
-        System.out.println("Usage: " + WC.class.getSimpleName() + " FILE");
+    privbte stbtic void usbge() {
+        System.out.println("Usbge: " + WC.clbss.getSimpleNbme() + " FILE");
         System.out.println("Print newline, word,"
-                + "  character counts and max line length for FILE.");
+                + "  chbrbcter counts bnd mbx line length for FILE.");
     }
 
-    private static class WCStatistics implements Consumer<String> {
+    privbte stbtic clbss WCStbtistics implements Consumer<String> {
         /*
-         * @implNote This implementation does not need to be thread safe because
-         * the parallel implementation of
-         * {@link java.util.stream.Stream#collect Stream.collect()}
-         * provides the necessary partitioning and isolation for safe parallel
+         * @implNote This implementbtion does not need to be threbd sbfe becbuse
+         * the pbrbllel implementbtion of
+         * {@link jbvb.util.strebm.Strebm#collect Strebm.collect()}
+         * provides the necessbry pbrtitioning bnd isolbtion for sbfe pbrbllel
          * execution.
          */
 
-        private long characterCount;
-        private long lineCount;
-        private long wordCount;
-        private long maxLineLength;
+        privbte long chbrbcterCount;
+        privbte long lineCount;
+        privbte long wordCount;
+        privbte long mbxLineLength;
 
 
         /*
          * Processes line.
          */
         @Override
-        public void accept(String line) {
-            characterCount += line.length();
+        public void bccept(String line) {
+            chbrbcterCount += line.length();
             lineCount++;
-            wordCount += nonWordPattern.splitAsStream(line)
+            wordCount += nonWordPbttern.splitAsStrebm(line)
                     .filter(str -> !str.isEmpty()).count();
-            maxLineLength = Math.max(maxLineLength, line.length());
+            mbxLineLength = Mbth.mbx(mbxLineLength, line.length());
         }
 
         /*
-         * Merges two WCStatistics.
+         * Merges two WCStbtistics.
          */
-        public void combine(WCStatistics stat) {
-            wordCount += stat.wordCount;
-            lineCount += stat.lineCount;
-            characterCount += stat.characterCount;
-            maxLineLength = Math.max(maxLineLength, stat.maxLineLength);
+        public void combine(WCStbtistics stbt) {
+            wordCount += stbt.wordCount;
+            lineCount += stbt.lineCount;
+            chbrbcterCount += stbt.chbrbcterCount;
+            mbxLineLength = Mbth.mbx(mbxLineLength, stbt.mbxLineLength);
         }
 
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append("#------WCStatistic------#\n");
-            sb.append("Character count = ").append(characterCount).append('\n');
-            sb.append("Word count = ").append(wordCount).append('\n');
-            sb.append("Newline count = ").append(lineCount).append('\n');
-            sb.append("Max line length = ").append(maxLineLength).append('\n');
+            sb.bppend("#------WCStbtistic------#\n");
+            sb.bppend("Chbrbcter count = ").bppend(chbrbcterCount).bppend('\n');
+            sb.bppend("Word count = ").bppend(wordCount).bppend('\n');
+            sb.bppend("Newline count = ").bppend(lineCount).bppend('\n');
+            sb.bppend("Mbx line length = ").bppend(mbxLineLength).bppend('\n');
             return sb.toString();
         }
     }

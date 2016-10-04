@@ -1,326 +1,326 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.security.AccessController;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.misc.Unsafe;
-import sun.reflect.CallerSensitive;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Member;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.security.AccessController;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import sun.misc.Unsbfe;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
-import sun.reflect.ReflectionFactory;
+import sun.reflect.ReflectionFbctory;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * Serialization's descriptor for classes.  It contains the name and
- * serialVersionUID of the class.  The ObjectStreamClass for a specific class
- * loaded in this Java VM can be found/created using the lookup method.
+ * Seriblizbtion's descriptor for clbsses.  It contbins the nbme bnd
+ * seriblVersionUID of the clbss.  The ObjectStrebmClbss for b specific clbss
+ * lobded in this Jbvb VM cbn be found/crebted using the lookup method.
  *
- * <p>The algorithm to compute the SerialVersionUID is described in
- * <a href="../../../platform/serialization/spec/class.html#4100">Object
- * Serialization Specification, Section 4.6, Stream Unique Identifiers</a>.
+ * <p>The blgorithm to compute the SeriblVersionUID is described in
+ * <b href="../../../plbtform/seriblizbtion/spec/clbss.html#4100">Object
+ * Seriblizbtion Specificbtion, Section 4.6, Strebm Unique Identifiers</b>.
  *
- * @author      Mike Warres
- * @author      Roger Riggs
- * @see ObjectStreamField
- * @see <a href="../../../platform/serialization/spec/class.html">Object Serialization Specification, Section 4, Class Descriptors</a>
+ * @buthor      Mike Wbrres
+ * @buthor      Roger Riggs
+ * @see ObjectStrebmField
+ * @see <b href="../../../plbtform/seriblizbtion/spec/clbss.html">Object Seriblizbtion Specificbtion, Section 4, Clbss Descriptors</b>
  * @since   1.1
  */
-public class ObjectStreamClass implements Serializable {
+public clbss ObjectStrebmClbss implements Seriblizbble {
 
-    /** serialPersistentFields value indicating no serializable fields */
-    public static final ObjectStreamField[] NO_FIELDS =
-        new ObjectStreamField[0];
+    /** seriblPersistentFields vblue indicbting no seriblizbble fields */
+    public stbtic finbl ObjectStrebmField[] NO_FIELDS =
+        new ObjectStrebmField[0];
 
-    private static final long serialVersionUID = -6120832682080437368L;
-    private static final ObjectStreamField[] serialPersistentFields =
+    privbte stbtic finbl long seriblVersionUID = -6120832682080437368L;
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields =
         NO_FIELDS;
 
-    /** reflection factory for obtaining serialization constructors */
-    private static final ReflectionFactory reflFactory =
+    /** reflection fbctory for obtbining seriblizbtion constructors */
+    privbte stbtic finbl ReflectionFbctory reflFbctory =
         AccessController.doPrivileged(
-            new ReflectionFactory.GetReflectionFactoryAction());
+            new ReflectionFbctory.GetReflectionFbctoryAction());
 
-    private static class Caches {
-        /** cache mapping local classes -> descriptors */
-        static final ConcurrentMap<WeakClassKey,Reference<?>> localDescs =
-            new ConcurrentHashMap<>();
+    privbte stbtic clbss Cbches {
+        /** cbche mbpping locbl clbsses -> descriptors */
+        stbtic finbl ConcurrentMbp<WebkClbssKey,Reference<?>> locblDescs =
+            new ConcurrentHbshMbp<>();
 
-        /** cache mapping field group/local desc pairs -> field reflectors */
-        static final ConcurrentMap<FieldReflectorKey,Reference<?>> reflectors =
-            new ConcurrentHashMap<>();
+        /** cbche mbpping field group/locbl desc pbirs -> field reflectors */
+        stbtic finbl ConcurrentMbp<FieldReflectorKey,Reference<?>> reflectors =
+            new ConcurrentHbshMbp<>();
 
-        /** queue for WeakReferences to local classes */
-        private static final ReferenceQueue<Class<?>> localDescsQueue =
+        /** queue for WebkReferences to locbl clbsses */
+        privbte stbtic finbl ReferenceQueue<Clbss<?>> locblDescsQueue =
             new ReferenceQueue<>();
-        /** queue for WeakReferences to field reflectors keys */
-        private static final ReferenceQueue<Class<?>> reflectorsQueue =
+        /** queue for WebkReferences to field reflectors keys */
+        privbte stbtic finbl ReferenceQueue<Clbss<?>> reflectorsQueue =
             new ReferenceQueue<>();
     }
 
-    /** class associated with this descriptor (if any) */
-    private Class<?> cl;
-    /** name of class represented by this descriptor */
-    private String name;
-    /** serialVersionUID of represented class (null if not computed yet) */
-    private volatile Long suid;
+    /** clbss bssocibted with this descriptor (if bny) */
+    privbte Clbss<?> cl;
+    /** nbme of clbss represented by this descriptor */
+    privbte String nbme;
+    /** seriblVersionUID of represented clbss (null if not computed yet) */
+    privbte volbtile Long suid;
 
-    /** true if represents dynamic proxy class */
-    private boolean isProxy;
+    /** true if represents dynbmic proxy clbss */
+    privbte boolebn isProxy;
     /** true if represents enum type */
-    private boolean isEnum;
-    /** true if represented class implements Serializable */
-    private boolean serializable;
-    /** true if represented class implements Externalizable */
-    private boolean externalizable;
-    /** true if desc has data written by class-defined writeObject method */
-    private boolean hasWriteObjectData;
+    privbte boolebn isEnum;
+    /** true if represented clbss implements Seriblizbble */
+    privbte boolebn seriblizbble;
+    /** true if represented clbss implements Externblizbble */
+    privbte boolebn externblizbble;
+    /** true if desc hbs dbtb written by clbss-defined writeObject method */
+    privbte boolebn hbsWriteObjectDbtb;
     /**
-     * true if desc has externalizable data written in block data format; this
-     * must be true by default to accommodate ObjectInputStream subclasses which
-     * override readClassDescriptor() to return class descriptors obtained from
-     * ObjectStreamClass.lookup() (see 4461737)
+     * true if desc hbs externblizbble dbtb written in block dbtb formbt; this
+     * must be true by defbult to bccommodbte ObjectInputStrebm subclbsses which
+     * override rebdClbssDescriptor() to return clbss descriptors obtbined from
+     * ObjectStrebmClbss.lookup() (see 4461737)
      */
-    private boolean hasBlockExternalData = true;
+    privbte boolebn hbsBlockExternblDbtb = true;
 
     /**
-     * Contains information about InvalidClassException instances to be thrown
-     * when attempting operations on an invalid class. Note that instances of
-     * this class are immutable and are potentially shared among
-     * ObjectStreamClass instances.
+     * Contbins informbtion bbout InvblidClbssException instbnces to be thrown
+     * when bttempting operbtions on bn invblid clbss. Note thbt instbnces of
+     * this clbss bre immutbble bnd bre potentiblly shbred bmong
+     * ObjectStrebmClbss instbnces.
      */
-    private static class ExceptionInfo {
-        private final String className;
-        private final String message;
+    privbte stbtic clbss ExceptionInfo {
+        privbte finbl String clbssNbme;
+        privbte finbl String messbge;
 
         ExceptionInfo(String cn, String msg) {
-            className = cn;
-            message = msg;
+            clbssNbme = cn;
+            messbge = msg;
         }
 
         /**
-         * Returns (does not throw) an InvalidClassException instance created
-         * from the information in this object, suitable for being thrown by
-         * the caller.
+         * Returns (does not throw) bn InvblidClbssException instbnce crebted
+         * from the informbtion in this object, suitbble for being thrown by
+         * the cbller.
          */
-        InvalidClassException newInvalidClassException() {
-            return new InvalidClassException(className, message);
+        InvblidClbssException newInvblidClbssException() {
+            return new InvblidClbssException(clbssNbme, messbge);
         }
     }
 
-    /** exception (if any) thrown while attempting to resolve class */
-    private ClassNotFoundException resolveEx;
-    /** exception (if any) to throw if non-enum deserialization attempted */
-    private ExceptionInfo deserializeEx;
-    /** exception (if any) to throw if non-enum serialization attempted */
-    private ExceptionInfo serializeEx;
-    /** exception (if any) to throw if default serialization attempted */
-    private ExceptionInfo defaultSerializeEx;
+    /** exception (if bny) thrown while bttempting to resolve clbss */
+    privbte ClbssNotFoundException resolveEx;
+    /** exception (if bny) to throw if non-enum deseriblizbtion bttempted */
+    privbte ExceptionInfo deseriblizeEx;
+    /** exception (if bny) to throw if non-enum seriblizbtion bttempted */
+    privbte ExceptionInfo seriblizeEx;
+    /** exception (if bny) to throw if defbult seriblizbtion bttempted */
+    privbte ExceptionInfo defbultSeriblizeEx;
 
-    /** serializable fields */
-    private ObjectStreamField[] fields;
-    /** aggregate marshalled size of primitive fields */
-    private int primDataSize;
+    /** seriblizbble fields */
+    privbte ObjectStrebmField[] fields;
+    /** bggregbte mbrshblled size of primitive fields */
+    privbte int primDbtbSize;
     /** number of non-primitive fields */
-    private int numObjFields;
-    /** reflector for setting/getting serializable field values */
-    private FieldReflector fieldRefl;
-    /** data layout of serialized objects described by this class desc */
-    private volatile ClassDataSlot[] dataLayout;
+    privbte int numObjFields;
+    /** reflector for setting/getting seriblizbble field vblues */
+    privbte FieldReflector fieldRefl;
+    /** dbtb lbyout of seriblized objects described by this clbss desc */
+    privbte volbtile ClbssDbtbSlot[] dbtbLbyout;
 
-    /** serialization-appropriate constructor, or null if none */
-    private Constructor<?> cons;
-    /** class-defined writeObject method, or null if none */
-    private Method writeObjectMethod;
-    /** class-defined readObject method, or null if none */
-    private Method readObjectMethod;
-    /** class-defined readObjectNoData method, or null if none */
-    private Method readObjectNoDataMethod;
-    /** class-defined writeReplace method, or null if none */
-    private Method writeReplaceMethod;
-    /** class-defined readResolve method, or null if none */
-    private Method readResolveMethod;
+    /** seriblizbtion-bppropribte constructor, or null if none */
+    privbte Constructor<?> cons;
+    /** clbss-defined writeObject method, or null if none */
+    privbte Method writeObjectMethod;
+    /** clbss-defined rebdObject method, or null if none */
+    privbte Method rebdObjectMethod;
+    /** clbss-defined rebdObjectNoDbtb method, or null if none */
+    privbte Method rebdObjectNoDbtbMethod;
+    /** clbss-defined writeReplbce method, or null if none */
+    privbte Method writeReplbceMethod;
+    /** clbss-defined rebdResolve method, or null if none */
+    privbte Method rebdResolveMethod;
 
-    /** local class descriptor for represented class (may point to self) */
-    private ObjectStreamClass localDesc;
-    /** superclass descriptor appearing in stream */
-    private ObjectStreamClass superDesc;
+    /** locbl clbss descriptor for represented clbss (mby point to self) */
+    privbte ObjectStrebmClbss locblDesc;
+    /** superclbss descriptor bppebring in strebm */
+    privbte ObjectStrebmClbss superDesc;
 
     /**
-     * Initializes native code.
+     * Initiblizes nbtive code.
      */
-    private static native void initNative();
-    static {
-        initNative();
+    privbte stbtic nbtive void initNbtive();
+    stbtic {
+        initNbtive();
     }
 
     /**
-     * Find the descriptor for a class that can be serialized.  Creates an
-     * ObjectStreamClass instance if one does not exist yet for class. Null is
-     * returned if the specified class does not implement java.io.Serializable
-     * or java.io.Externalizable.
+     * Find the descriptor for b clbss thbt cbn be seriblized.  Crebtes bn
+     * ObjectStrebmClbss instbnce if one does not exist yet for clbss. Null is
+     * returned if the specified clbss does not implement jbvb.io.Seriblizbble
+     * or jbvb.io.Externblizbble.
      *
-     * @param   cl class for which to get the descriptor
-     * @return  the class descriptor for the specified class
+     * @pbrbm   cl clbss for which to get the descriptor
+     * @return  the clbss descriptor for the specified clbss
      */
-    public static ObjectStreamClass lookup(Class<?> cl) {
-        return lookup(cl, false);
+    public stbtic ObjectStrebmClbss lookup(Clbss<?> cl) {
+        return lookup(cl, fblse);
     }
 
     /**
-     * Returns the descriptor for any class, regardless of whether it
-     * implements {@link Serializable}.
+     * Returns the descriptor for bny clbss, regbrdless of whether it
+     * implements {@link Seriblizbble}.
      *
-     * @param        cl class for which to get the descriptor
-     * @return       the class descriptor for the specified class
+     * @pbrbm        cl clbss for which to get the descriptor
+     * @return       the clbss descriptor for the specified clbss
      * @since 1.6
      */
-    public static ObjectStreamClass lookupAny(Class<?> cl) {
+    public stbtic ObjectStrebmClbss lookupAny(Clbss<?> cl) {
         return lookup(cl, true);
     }
 
     /**
-     * Returns the name of the class described by this descriptor.
-     * This method returns the name of the class in the format that
-     * is used by the {@link Class#getName} method.
+     * Returns the nbme of the clbss described by this descriptor.
+     * This method returns the nbme of the clbss in the formbt thbt
+     * is used by the {@link Clbss#getNbme} method.
      *
-     * @return a string representing the name of the class
+     * @return b string representing the nbme of the clbss
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Return the serialVersionUID for this class.  The serialVersionUID
-     * defines a set of classes all with the same name that have evolved from a
-     * common root class and agree to be serialized and deserialized using a
-     * common format.  NonSerializable classes have a serialVersionUID of 0L.
+     * Return the seriblVersionUID for this clbss.  The seriblVersionUID
+     * defines b set of clbsses bll with the sbme nbme thbt hbve evolved from b
+     * common root clbss bnd bgree to be seriblized bnd deseriblized using b
+     * common formbt.  NonSeriblizbble clbsses hbve b seriblVersionUID of 0L.
      *
-     * @return  the SUID of the class described by this descriptor
+     * @return  the SUID of the clbss described by this descriptor
      */
-    public long getSerialVersionUID() {
-        // REMIND: synchronize instead of relying on volatile?
+    public long getSeriblVersionUID() {
+        // REMIND: synchronize instebd of relying on volbtile?
         if (suid == null) {
             suid = AccessController.doPrivileged(
                 new PrivilegedAction<Long>() {
                     public Long run() {
-                        return computeDefaultSUID(cl);
+                        return computeDefbultSUID(cl);
                     }
                 }
             );
         }
-        return suid.longValue();
+        return suid.longVblue();
     }
 
     /**
-     * Return the class in the local VM that this version is mapped to.  Null
-     * is returned if there is no corresponding local class.
+     * Return the clbss in the locbl VM thbt this version is mbpped to.  Null
+     * is returned if there is no corresponding locbl clbss.
      *
-     * @return  the <code>Class</code> instance that this descriptor represents
+     * @return  the <code>Clbss</code> instbnce thbt this descriptor represents
      */
-    @CallerSensitive
-    public Class<?> forClass() {
+    @CbllerSensitive
+    public Clbss<?> forClbss() {
         if (cl == null) {
             return null;
         }
-        if (System.getSecurityManager() != null) {
-            Class<?> caller = Reflection.getCallerClass();
-            if (ReflectUtil.needsPackageAccessCheck(caller.getClassLoader(), cl.getClassLoader())) {
-                ReflectUtil.checkPackageAccess(cl);
+        if (System.getSecurityMbnbger() != null) {
+            Clbss<?> cbller = Reflection.getCbllerClbss();
+            if (ReflectUtil.needsPbckbgeAccessCheck(cbller.getClbssLobder(), cl.getClbssLobder())) {
+                ReflectUtil.checkPbckbgeAccess(cl);
             }
         }
         return cl;
     }
 
     /**
-     * Return an array of the fields of this serializable class.
+     * Return bn brrby of the fields of this seriblizbble clbss.
      *
-     * @return  an array containing an element for each persistent field of
-     *          this class. Returns an array of length zero if there are no
+     * @return  bn brrby contbining bn element for ebch persistent field of
+     *          this clbss. Returns bn brrby of length zero if there bre no
      *          fields.
      * @since 1.2
      */
-    public ObjectStreamField[] getFields() {
+    public ObjectStrebmField[] getFields() {
         return getFields(true);
     }
 
     /**
-     * Get the field of this class by name.
+     * Get the field of this clbss by nbme.
      *
-     * @param   name the name of the data field to look for
-     * @return  The ObjectStreamField object of the named field or null if
-     *          there is no such named field.
+     * @pbrbm   nbme the nbme of the dbtb field to look for
+     * @return  The ObjectStrebmField object of the nbmed field or null if
+     *          there is no such nbmed field.
      */
-    public ObjectStreamField getField(String name) {
-        return getField(name, null);
+    public ObjectStrebmField getField(String nbme) {
+        return getField(nbme, null);
     }
 
     /**
-     * Return a string describing this ObjectStreamClass.
+     * Return b string describing this ObjectStrebmClbss.
      */
     public String toString() {
-        return name + ": static final long serialVersionUID = " +
-            getSerialVersionUID() + "L;";
+        return nbme + ": stbtic finbl long seriblVersionUID = " +
+            getSeriblVersionUID() + "L;";
     }
 
     /**
-     * Looks up and returns class descriptor for given class, or null if class
-     * is non-serializable and "all" is set to false.
+     * Looks up bnd returns clbss descriptor for given clbss, or null if clbss
+     * is non-seriblizbble bnd "bll" is set to fblse.
      *
-     * @param   cl class to look up
-     * @param   all if true, return descriptors for all classes; if false, only
-     *          return descriptors for serializable classes
+     * @pbrbm   cl clbss to look up
+     * @pbrbm   bll if true, return descriptors for bll clbsses; if fblse, only
+     *          return descriptors for seriblizbble clbsses
      */
-    static ObjectStreamClass lookup(Class<?> cl, boolean all) {
-        if (!(all || Serializable.class.isAssignableFrom(cl))) {
+    stbtic ObjectStrebmClbss lookup(Clbss<?> cl, boolebn bll) {
+        if (!(bll || Seriblizbble.clbss.isAssignbbleFrom(cl))) {
             return null;
         }
-        processQueue(Caches.localDescsQueue, Caches.localDescs);
-        WeakClassKey key = new WeakClassKey(cl, Caches.localDescsQueue);
-        Reference<?> ref = Caches.localDescs.get(key);
+        processQueue(Cbches.locblDescsQueue, Cbches.locblDescs);
+        WebkClbssKey key = new WebkClbssKey(cl, Cbches.locblDescsQueue);
+        Reference<?> ref = Cbches.locblDescs.get(key);
         Object entry = null;
         if (ref != null) {
             entry = ref.get();
@@ -331,9 +331,9 @@ public class ObjectStreamClass implements Serializable {
             Reference<?> newRef = new SoftReference<>(newEntry);
             do {
                 if (ref != null) {
-                    Caches.localDescs.remove(key, ref);
+                    Cbches.locblDescs.remove(key, ref);
                 }
-                ref = Caches.localDescs.putIfAbsent(key, newRef);
+                ref = Cbches.locblDescs.putIfAbsent(key, newRef);
                 if (ref != null) {
                     entry = ref.get();
                 }
@@ -343,17 +343,17 @@ public class ObjectStreamClass implements Serializable {
             }
         }
 
-        if (entry instanceof ObjectStreamClass) {  // check common case first
-            return (ObjectStreamClass) entry;
+        if (entry instbnceof ObjectStrebmClbss) {  // check common cbse first
+            return (ObjectStrebmClbss) entry;
         }
-        if (entry instanceof EntryFuture) {
+        if (entry instbnceof EntryFuture) {
             future = (EntryFuture) entry;
-            if (future.getOwner() == Thread.currentThread()) {
+            if (future.getOwner() == Threbd.currentThrebd()) {
                 /*
-                 * Handle nested call situation described by 4803747: waiting
-                 * for future value to be set by a lookup() call further up the
-                 * stack will result in deadlock, so calculate and set the
-                 * future value here instead.
+                 * Hbndle nested cbll situbtion described by 4803747: wbiting
+                 * for future vblue to be set by b lookup() cbll further up the
+                 * stbck will result in debdlock, so cblculbte bnd set the
+                 * future vblue here instebd.
                  */
                 entry = null;
             } else {
@@ -362,53 +362,53 @@ public class ObjectStreamClass implements Serializable {
         }
         if (entry == null) {
             try {
-                entry = new ObjectStreamClass(cl);
-            } catch (Throwable th) {
+                entry = new ObjectStrebmClbss(cl);
+            } cbtch (Throwbble th) {
                 entry = th;
             }
             if (future.set(entry)) {
-                Caches.localDescs.put(key, new SoftReference<Object>(entry));
+                Cbches.locblDescs.put(key, new SoftReference<Object>(entry));
             } else {
-                // nested lookup call already set future
+                // nested lookup cbll blrebdy set future
                 entry = future.get();
             }
         }
 
-        if (entry instanceof ObjectStreamClass) {
-            return (ObjectStreamClass) entry;
-        } else if (entry instanceof RuntimeException) {
+        if (entry instbnceof ObjectStrebmClbss) {
+            return (ObjectStrebmClbss) entry;
+        } else if (entry instbnceof RuntimeException) {
             throw (RuntimeException) entry;
-        } else if (entry instanceof Error) {
+        } else if (entry instbnceof Error) {
             throw (Error) entry;
         } else {
-            throw new InternalError("unexpected entry: " + entry);
+            throw new InternblError("unexpected entry: " + entry);
         }
     }
 
     /**
-     * Placeholder used in class descriptor and field reflector lookup tables
-     * for an entry in the process of being initialized.  (Internal) callers
-     * which receive an EntryFuture belonging to another thread as the result
-     * of a lookup should call the get() method of the EntryFuture; this will
-     * return the actual entry once it is ready for use and has been set().  To
+     * Plbceholder used in clbss descriptor bnd field reflector lookup tbbles
+     * for bn entry in the process of being initiblized.  (Internbl) cbllers
+     * which receive bn EntryFuture belonging to bnother threbd bs the result
+     * of b lookup should cbll the get() method of the EntryFuture; this will
+     * return the bctubl entry once it is rebdy for use bnd hbs been set().  To
      * conserve objects, EntryFutures synchronize on themselves.
      */
-    private static class EntryFuture {
+    privbte stbtic clbss EntryFuture {
 
-        private static final Object unset = new Object();
-        private final Thread owner = Thread.currentThread();
-        private Object entry = unset;
+        privbte stbtic finbl Object unset = new Object();
+        privbte finbl Threbd owner = Threbd.currentThrebd();
+        privbte Object entry = unset;
 
         /**
-         * Attempts to set the value contained by this EntryFuture.  If the
-         * EntryFuture's value has not been set already, then the value is
-         * saved, any callers blocked in the get() method are notified, and
-         * true is returned.  If the value has already been set, then no saving
-         * or notification occurs, and false is returned.
+         * Attempts to set the vblue contbined by this EntryFuture.  If the
+         * EntryFuture's vblue hbs not been set blrebdy, then the vblue is
+         * sbved, bny cbllers blocked in the get() method bre notified, bnd
+         * true is returned.  If the vblue hbs blrebdy been set, then no sbving
+         * or notificbtion occurs, bnd fblse is returned.
          */
-        synchronized boolean set(Object entry) {
+        synchronized boolebn set(Object entry) {
             if (this.entry != unset) {
-                return false;
+                return fblse;
             }
             this.entry = entry;
             notifyAll();
@@ -416,15 +416,15 @@ public class ObjectStreamClass implements Serializable {
         }
 
         /**
-         * Returns the value contained by this EntryFuture, blocking if
-         * necessary until a value is set.
+         * Returns the vblue contbined by this EntryFuture, blocking if
+         * necessbry until b vblue is set.
          */
         synchronized Object get() {
-            boolean interrupted = false;
+            boolebn interrupted = fblse;
             while (entry == unset) {
                 try {
-                    wait();
-                } catch (InterruptedException ex) {
+                    wbit();
+                } cbtch (InterruptedException ex) {
                     interrupted = true;
                 }
             }
@@ -432,7 +432,7 @@ public class ObjectStreamClass implements Serializable {
                 AccessController.doPrivileged(
                     new PrivilegedAction<Void>() {
                         public Void run() {
-                            Thread.currentThread().interrupt();
+                            Threbd.currentThrebd().interrupt();
                             return null;
                         }
                     }
@@ -442,308 +442,308 @@ public class ObjectStreamClass implements Serializable {
         }
 
         /**
-         * Returns the thread that created this EntryFuture.
+         * Returns the threbd thbt crebted this EntryFuture.
          */
-        Thread getOwner() {
+        Threbd getOwner() {
             return owner;
         }
     }
 
     /**
-     * Creates local class descriptor representing given class.
+     * Crebtes locbl clbss descriptor representing given clbss.
      */
-    private ObjectStreamClass(final Class<?> cl) {
+    privbte ObjectStrebmClbss(finbl Clbss<?> cl) {
         this.cl = cl;
-        name = cl.getName();
-        isProxy = Proxy.isProxyClass(cl);
-        isEnum = Enum.class.isAssignableFrom(cl);
-        serializable = Serializable.class.isAssignableFrom(cl);
-        externalizable = Externalizable.class.isAssignableFrom(cl);
+        nbme = cl.getNbme();
+        isProxy = Proxy.isProxyClbss(cl);
+        isEnum = Enum.clbss.isAssignbbleFrom(cl);
+        seriblizbble = Seriblizbble.clbss.isAssignbbleFrom(cl);
+        externblizbble = Externblizbble.clbss.isAssignbbleFrom(cl);
 
-        Class<?> superCl = cl.getSuperclass();
-        superDesc = (superCl != null) ? lookup(superCl, false) : null;
-        localDesc = this;
+        Clbss<?> superCl = cl.getSuperclbss();
+        superDesc = (superCl != null) ? lookup(superCl, fblse) : null;
+        locblDesc = this;
 
-        if (serializable) {
+        if (seriblizbble) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
                     if (isEnum) {
-                        suid = Long.valueOf(0);
+                        suid = Long.vblueOf(0);
                         fields = NO_FIELDS;
                         return null;
                     }
-                    if (cl.isArray()) {
+                    if (cl.isArrby()) {
                         fields = NO_FIELDS;
                         return null;
                     }
 
-                    suid = getDeclaredSUID(cl);
+                    suid = getDeclbredSUID(cl);
                     try {
-                        fields = getSerialFields(cl);
+                        fields = getSeriblFields(cl);
                         computeFieldOffsets();
-                    } catch (InvalidClassException e) {
-                        serializeEx = deserializeEx =
-                            new ExceptionInfo(e.classname, e.getMessage());
+                    } cbtch (InvblidClbssException e) {
+                        seriblizeEx = deseriblizeEx =
+                            new ExceptionInfo(e.clbssnbme, e.getMessbge());
                         fields = NO_FIELDS;
                     }
 
-                    if (externalizable) {
-                        cons = getExternalizableConstructor(cl);
+                    if (externblizbble) {
+                        cons = getExternblizbbleConstructor(cl);
                     } else {
-                        cons = getSerializableConstructor(cl);
-                        writeObjectMethod = getPrivateMethod(cl, "writeObject",
-                            new Class<?>[] { ObjectOutputStream.class },
+                        cons = getSeriblizbbleConstructor(cl);
+                        writeObjectMethod = getPrivbteMethod(cl, "writeObject",
+                            new Clbss<?>[] { ObjectOutputStrebm.clbss },
                             Void.TYPE);
-                        readObjectMethod = getPrivateMethod(cl, "readObject",
-                            new Class<?>[] { ObjectInputStream.class },
+                        rebdObjectMethod = getPrivbteMethod(cl, "rebdObject",
+                            new Clbss<?>[] { ObjectInputStrebm.clbss },
                             Void.TYPE);
-                        readObjectNoDataMethod = getPrivateMethod(
-                            cl, "readObjectNoData", null, Void.TYPE);
-                        hasWriteObjectData = (writeObjectMethod != null);
+                        rebdObjectNoDbtbMethod = getPrivbteMethod(
+                            cl, "rebdObjectNoDbtb", null, Void.TYPE);
+                        hbsWriteObjectDbtb = (writeObjectMethod != null);
                     }
-                    writeReplaceMethod = getInheritableMethod(
-                        cl, "writeReplace", null, Object.class);
-                    readResolveMethod = getInheritableMethod(
-                        cl, "readResolve", null, Object.class);
+                    writeReplbceMethod = getInheritbbleMethod(
+                        cl, "writeReplbce", null, Object.clbss);
+                    rebdResolveMethod = getInheritbbleMethod(
+                        cl, "rebdResolve", null, Object.clbss);
                     return null;
                 }
             });
         } else {
-            suid = Long.valueOf(0);
+            suid = Long.vblueOf(0);
             fields = NO_FIELDS;
         }
 
         try {
             fieldRefl = getReflector(fields, this);
-        } catch (InvalidClassException ex) {
-            // field mismatches impossible when matching local fields vs. self
-            throw new InternalError(ex);
+        } cbtch (InvblidClbssException ex) {
+            // field mismbtches impossible when mbtching locbl fields vs. self
+            throw new InternblError(ex);
         }
 
-        if (deserializeEx == null) {
+        if (deseriblizeEx == null) {
             if (isEnum) {
-                deserializeEx = new ExceptionInfo(name, "enum type");
+                deseriblizeEx = new ExceptionInfo(nbme, "enum type");
             } else if (cons == null) {
-                deserializeEx = new ExceptionInfo(name, "no valid constructor");
+                deseriblizeEx = new ExceptionInfo(nbme, "no vblid constructor");
             }
         }
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getField() == null) {
-                defaultSerializeEx = new ExceptionInfo(
-                    name, "unmatched serializable field(s) declared");
+                defbultSeriblizeEx = new ExceptionInfo(
+                    nbme, "unmbtched seriblizbble field(s) declbred");
             }
         }
     }
 
     /**
-     * Creates blank class descriptor which should be initialized via a
-     * subsequent call to initProxy(), initNonProxy() or readNonProxy().
+     * Crebtes blbnk clbss descriptor which should be initiblized vib b
+     * subsequent cbll to initProxy(), initNonProxy() or rebdNonProxy().
      */
-    ObjectStreamClass() {
+    ObjectStrebmClbss() {
     }
 
     /**
-     * Initializes class descriptor representing a proxy class.
+     * Initiblizes clbss descriptor representing b proxy clbss.
      */
-    void initProxy(Class<?> cl,
-                   ClassNotFoundException resolveEx,
-                   ObjectStreamClass superDesc)
-        throws InvalidClassException
+    void initProxy(Clbss<?> cl,
+                   ClbssNotFoundException resolveEx,
+                   ObjectStrebmClbss superDesc)
+        throws InvblidClbssException
     {
         this.cl = cl;
         this.resolveEx = resolveEx;
         this.superDesc = superDesc;
         isProxy = true;
-        serializable = true;
-        suid = Long.valueOf(0);
+        seriblizbble = true;
+        suid = Long.vblueOf(0);
         fields = NO_FIELDS;
 
         if (cl != null) {
-            localDesc = lookup(cl, true);
-            if (!localDesc.isProxy) {
-                throw new InvalidClassException(
-                    "cannot bind proxy descriptor to a non-proxy class");
+            locblDesc = lookup(cl, true);
+            if (!locblDesc.isProxy) {
+                throw new InvblidClbssException(
+                    "cbnnot bind proxy descriptor to b non-proxy clbss");
             }
-            name = localDesc.name;
-            externalizable = localDesc.externalizable;
-            cons = localDesc.cons;
-            writeReplaceMethod = localDesc.writeReplaceMethod;
-            readResolveMethod = localDesc.readResolveMethod;
-            deserializeEx = localDesc.deserializeEx;
+            nbme = locblDesc.nbme;
+            externblizbble = locblDesc.externblizbble;
+            cons = locblDesc.cons;
+            writeReplbceMethod = locblDesc.writeReplbceMethod;
+            rebdResolveMethod = locblDesc.rebdResolveMethod;
+            deseriblizeEx = locblDesc.deseriblizeEx;
         }
-        fieldRefl = getReflector(fields, localDesc);
+        fieldRefl = getReflector(fields, locblDesc);
     }
 
     /**
-     * Initializes class descriptor representing a non-proxy class.
+     * Initiblizes clbss descriptor representing b non-proxy clbss.
      */
-    void initNonProxy(ObjectStreamClass model,
-                      Class<?> cl,
-                      ClassNotFoundException resolveEx,
-                      ObjectStreamClass superDesc)
-        throws InvalidClassException
+    void initNonProxy(ObjectStrebmClbss model,
+                      Clbss<?> cl,
+                      ClbssNotFoundException resolveEx,
+                      ObjectStrebmClbss superDesc)
+        throws InvblidClbssException
     {
         this.cl = cl;
         this.resolveEx = resolveEx;
         this.superDesc = superDesc;
-        name = model.name;
-        suid = Long.valueOf(model.getSerialVersionUID());
-        isProxy = false;
+        nbme = model.nbme;
+        suid = Long.vblueOf(model.getSeriblVersionUID());
+        isProxy = fblse;
         isEnum = model.isEnum;
-        serializable = model.serializable;
-        externalizable = model.externalizable;
-        hasBlockExternalData = model.hasBlockExternalData;
-        hasWriteObjectData = model.hasWriteObjectData;
+        seriblizbble = model.seriblizbble;
+        externblizbble = model.externblizbble;
+        hbsBlockExternblDbtb = model.hbsBlockExternblDbtb;
+        hbsWriteObjectDbtb = model.hbsWriteObjectDbtb;
         fields = model.fields;
-        primDataSize = model.primDataSize;
+        primDbtbSize = model.primDbtbSize;
         numObjFields = model.numObjFields;
 
         if (cl != null) {
-            localDesc = lookup(cl, true);
-            if (localDesc.isProxy) {
-                throw new InvalidClassException(
-                    "cannot bind non-proxy descriptor to a proxy class");
+            locblDesc = lookup(cl, true);
+            if (locblDesc.isProxy) {
+                throw new InvblidClbssException(
+                    "cbnnot bind non-proxy descriptor to b proxy clbss");
             }
-            if (isEnum != localDesc.isEnum) {
-                throw new InvalidClassException(isEnum ?
-                    "cannot bind enum descriptor to a non-enum class" :
-                    "cannot bind non-enum descriptor to an enum class");
+            if (isEnum != locblDesc.isEnum) {
+                throw new InvblidClbssException(isEnum ?
+                    "cbnnot bind enum descriptor to b non-enum clbss" :
+                    "cbnnot bind non-enum descriptor to bn enum clbss");
             }
 
-            if (serializable == localDesc.serializable &&
-                !cl.isArray() &&
-                suid.longValue() != localDesc.getSerialVersionUID())
+            if (seriblizbble == locblDesc.seriblizbble &&
+                !cl.isArrby() &&
+                suid.longVblue() != locblDesc.getSeriblVersionUID())
             {
-                throw new InvalidClassException(localDesc.name,
-                    "local class incompatible: " +
-                    "stream classdesc serialVersionUID = " + suid +
-                    ", local class serialVersionUID = " +
-                    localDesc.getSerialVersionUID());
+                throw new InvblidClbssException(locblDesc.nbme,
+                    "locbl clbss incompbtible: " +
+                    "strebm clbssdesc seriblVersionUID = " + suid +
+                    ", locbl clbss seriblVersionUID = " +
+                    locblDesc.getSeriblVersionUID());
             }
 
-            if (!classNamesEqual(name, localDesc.name)) {
-                throw new InvalidClassException(localDesc.name,
-                    "local class name incompatible with stream class " +
-                    "name \"" + name + "\"");
+            if (!clbssNbmesEqubl(nbme, locblDesc.nbme)) {
+                throw new InvblidClbssException(locblDesc.nbme,
+                    "locbl clbss nbme incompbtible with strebm clbss " +
+                    "nbme \"" + nbme + "\"");
             }
 
             if (!isEnum) {
-                if ((serializable == localDesc.serializable) &&
-                    (externalizable != localDesc.externalizable))
+                if ((seriblizbble == locblDesc.seriblizbble) &&
+                    (externblizbble != locblDesc.externblizbble))
                 {
-                    throw new InvalidClassException(localDesc.name,
-                        "Serializable incompatible with Externalizable");
+                    throw new InvblidClbssException(locblDesc.nbme,
+                        "Seriblizbble incompbtible with Externblizbble");
                 }
 
-                if ((serializable != localDesc.serializable) ||
-                    (externalizable != localDesc.externalizable) ||
-                    !(serializable || externalizable))
+                if ((seriblizbble != locblDesc.seriblizbble) ||
+                    (externblizbble != locblDesc.externblizbble) ||
+                    !(seriblizbble || externblizbble))
                 {
-                    deserializeEx = new ExceptionInfo(
-                        localDesc.name, "class invalid for deserialization");
+                    deseriblizeEx = new ExceptionInfo(
+                        locblDesc.nbme, "clbss invblid for deseriblizbtion");
                 }
             }
 
-            cons = localDesc.cons;
-            writeObjectMethod = localDesc.writeObjectMethod;
-            readObjectMethod = localDesc.readObjectMethod;
-            readObjectNoDataMethod = localDesc.readObjectNoDataMethod;
-            writeReplaceMethod = localDesc.writeReplaceMethod;
-            readResolveMethod = localDesc.readResolveMethod;
-            if (deserializeEx == null) {
-                deserializeEx = localDesc.deserializeEx;
+            cons = locblDesc.cons;
+            writeObjectMethod = locblDesc.writeObjectMethod;
+            rebdObjectMethod = locblDesc.rebdObjectMethod;
+            rebdObjectNoDbtbMethod = locblDesc.rebdObjectNoDbtbMethod;
+            writeReplbceMethod = locblDesc.writeReplbceMethod;
+            rebdResolveMethod = locblDesc.rebdResolveMethod;
+            if (deseriblizeEx == null) {
+                deseriblizeEx = locblDesc.deseriblizeEx;
             }
         }
-        fieldRefl = getReflector(fields, localDesc);
-        // reassign to matched fields so as to reflect local unshared settings
+        fieldRefl = getReflector(fields, locblDesc);
+        // rebssign to mbtched fields so bs to reflect locbl unshbred settings
         fields = fieldRefl.getFields();
     }
 
     /**
-     * Reads non-proxy class descriptor information from given input stream.
-     * The resulting class descriptor is not fully functional; it can only be
-     * used as input to the ObjectInputStream.resolveClass() and
-     * ObjectStreamClass.initNonProxy() methods.
+     * Rebds non-proxy clbss descriptor informbtion from given input strebm.
+     * The resulting clbss descriptor is not fully functionbl; it cbn only be
+     * used bs input to the ObjectInputStrebm.resolveClbss() bnd
+     * ObjectStrebmClbss.initNonProxy() methods.
      */
-    void readNonProxy(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    void rebdNonProxy(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        name = in.readUTF();
-        suid = Long.valueOf(in.readLong());
-        isProxy = false;
+        nbme = in.rebdUTF();
+        suid = Long.vblueOf(in.rebdLong());
+        isProxy = fblse;
 
-        byte flags = in.readByte();
-        hasWriteObjectData =
-            ((flags & ObjectStreamConstants.SC_WRITE_METHOD) != 0);
-        hasBlockExternalData =
-            ((flags & ObjectStreamConstants.SC_BLOCK_DATA) != 0);
-        externalizable =
-            ((flags & ObjectStreamConstants.SC_EXTERNALIZABLE) != 0);
-        boolean sflag =
-            ((flags & ObjectStreamConstants.SC_SERIALIZABLE) != 0);
-        if (externalizable && sflag) {
-            throw new InvalidClassException(
-                name, "serializable and externalizable flags conflict");
+        byte flbgs = in.rebdByte();
+        hbsWriteObjectDbtb =
+            ((flbgs & ObjectStrebmConstbnts.SC_WRITE_METHOD) != 0);
+        hbsBlockExternblDbtb =
+            ((flbgs & ObjectStrebmConstbnts.SC_BLOCK_DATA) != 0);
+        externblizbble =
+            ((flbgs & ObjectStrebmConstbnts.SC_EXTERNALIZABLE) != 0);
+        boolebn sflbg =
+            ((flbgs & ObjectStrebmConstbnts.SC_SERIALIZABLE) != 0);
+        if (externblizbble && sflbg) {
+            throw new InvblidClbssException(
+                nbme, "seriblizbble bnd externblizbble flbgs conflict");
         }
-        serializable = externalizable || sflag;
-        isEnum = ((flags & ObjectStreamConstants.SC_ENUM) != 0);
-        if (isEnum && suid.longValue() != 0L) {
-            throw new InvalidClassException(name,
-                "enum descriptor has non-zero serialVersionUID: " + suid);
+        seriblizbble = externblizbble || sflbg;
+        isEnum = ((flbgs & ObjectStrebmConstbnts.SC_ENUM) != 0);
+        if (isEnum && suid.longVblue() != 0L) {
+            throw new InvblidClbssException(nbme,
+                "enum descriptor hbs non-zero seriblVersionUID: " + suid);
         }
 
-        int numFields = in.readShort();
+        int numFields = in.rebdShort();
         if (isEnum && numFields != 0) {
-            throw new InvalidClassException(name,
-                "enum descriptor has non-zero field count: " + numFields);
+            throw new InvblidClbssException(nbme,
+                "enum descriptor hbs non-zero field count: " + numFields);
         }
         fields = (numFields > 0) ?
-            new ObjectStreamField[numFields] : NO_FIELDS;
+            new ObjectStrebmField[numFields] : NO_FIELDS;
         for (int i = 0; i < numFields; i++) {
-            char tcode = (char) in.readByte();
-            String fname = in.readUTF();
-            String signature = ((tcode == 'L') || (tcode == '[')) ?
-                in.readTypeString() : new String(new char[] { tcode });
+            chbr tcode = (chbr) in.rebdByte();
+            String fnbme = in.rebdUTF();
+            String signbture = ((tcode == 'L') || (tcode == '[')) ?
+                in.rebdTypeString() : new String(new chbr[] { tcode });
             try {
-                fields[i] = new ObjectStreamField(fname, signature, false);
-            } catch (RuntimeException e) {
-                throw (IOException) new InvalidClassException(name,
-                    "invalid descriptor for field " + fname).initCause(e);
+                fields[i] = new ObjectStrebmField(fnbme, signbture, fblse);
+            } cbtch (RuntimeException e) {
+                throw (IOException) new InvblidClbssException(nbme,
+                    "invblid descriptor for field " + fnbme).initCbuse(e);
             }
         }
         computeFieldOffsets();
     }
 
     /**
-     * Writes non-proxy class descriptor information to given output stream.
+     * Writes non-proxy clbss descriptor informbtion to given output strebm.
      */
-    void writeNonProxy(ObjectOutputStream out) throws IOException {
-        out.writeUTF(name);
-        out.writeLong(getSerialVersionUID());
+    void writeNonProxy(ObjectOutputStrebm out) throws IOException {
+        out.writeUTF(nbme);
+        out.writeLong(getSeriblVersionUID());
 
-        byte flags = 0;
-        if (externalizable) {
-            flags |= ObjectStreamConstants.SC_EXTERNALIZABLE;
+        byte flbgs = 0;
+        if (externblizbble) {
+            flbgs |= ObjectStrebmConstbnts.SC_EXTERNALIZABLE;
             int protocol = out.getProtocolVersion();
-            if (protocol != ObjectStreamConstants.PROTOCOL_VERSION_1) {
-                flags |= ObjectStreamConstants.SC_BLOCK_DATA;
+            if (protocol != ObjectStrebmConstbnts.PROTOCOL_VERSION_1) {
+                flbgs |= ObjectStrebmConstbnts.SC_BLOCK_DATA;
             }
-        } else if (serializable) {
-            flags |= ObjectStreamConstants.SC_SERIALIZABLE;
+        } else if (seriblizbble) {
+            flbgs |= ObjectStrebmConstbnts.SC_SERIALIZABLE;
         }
-        if (hasWriteObjectData) {
-            flags |= ObjectStreamConstants.SC_WRITE_METHOD;
+        if (hbsWriteObjectDbtb) {
+            flbgs |= ObjectStrebmConstbnts.SC_WRITE_METHOD;
         }
         if (isEnum) {
-            flags |= ObjectStreamConstants.SC_ENUM;
+            flbgs |= ObjectStrebmConstbnts.SC_ENUM;
         }
-        out.writeByte(flags);
+        out.writeByte(flbgs);
 
         out.writeShort(fields.length);
         for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField f = fields[i];
+            ObjectStrebmField f = fields[i];
             out.writeByte(f.getTypeCode());
-            out.writeUTF(f.getName());
+            out.writeUTF(f.getNbme());
             if (!f.isPrimitive()) {
                 out.writeTypeString(f.getTypeString());
             }
@@ -751,94 +751,94 @@ public class ObjectStreamClass implements Serializable {
     }
 
     /**
-     * Returns ClassNotFoundException (if any) thrown while attempting to
-     * resolve local class corresponding to this class descriptor.
+     * Returns ClbssNotFoundException (if bny) thrown while bttempting to
+     * resolve locbl clbss corresponding to this clbss descriptor.
      */
-    ClassNotFoundException getResolveException() {
+    ClbssNotFoundException getResolveException() {
         return resolveEx;
     }
 
     /**
-     * Throws an InvalidClassException if object instances referencing this
-     * class descriptor should not be allowed to deserialize.  This method does
-     * not apply to deserialization of enum constants.
+     * Throws bn InvblidClbssException if object instbnces referencing this
+     * clbss descriptor should not be bllowed to deseriblize.  This method does
+     * not bpply to deseriblizbtion of enum constbnts.
      */
-    void checkDeserialize() throws InvalidClassException {
-        if (deserializeEx != null) {
-            throw deserializeEx.newInvalidClassException();
+    void checkDeseriblize() throws InvblidClbssException {
+        if (deseriblizeEx != null) {
+            throw deseriblizeEx.newInvblidClbssException();
         }
     }
 
     /**
-     * Throws an InvalidClassException if objects whose class is represented by
-     * this descriptor should not be allowed to serialize.  This method does
-     * not apply to serialization of enum constants.
+     * Throws bn InvblidClbssException if objects whose clbss is represented by
+     * this descriptor should not be bllowed to seriblize.  This method does
+     * not bpply to seriblizbtion of enum constbnts.
      */
-    void checkSerialize() throws InvalidClassException {
-        if (serializeEx != null) {
-            throw serializeEx.newInvalidClassException();
+    void checkSeriblize() throws InvblidClbssException {
+        if (seriblizeEx != null) {
+            throw seriblizeEx.newInvblidClbssException();
         }
     }
 
     /**
-     * Throws an InvalidClassException if objects whose class is represented by
-     * this descriptor should not be permitted to use default serialization
-     * (e.g., if the class declares serializable fields that do not correspond
-     * to actual fields, and hence must use the GetField API).  This method
-     * does not apply to deserialization of enum constants.
+     * Throws bn InvblidClbssException if objects whose clbss is represented by
+     * this descriptor should not be permitted to use defbult seriblizbtion
+     * (e.g., if the clbss declbres seriblizbble fields thbt do not correspond
+     * to bctubl fields, bnd hence must use the GetField API).  This method
+     * does not bpply to deseriblizbtion of enum constbnts.
      */
-    void checkDefaultSerialize() throws InvalidClassException {
-        if (defaultSerializeEx != null) {
-            throw defaultSerializeEx.newInvalidClassException();
+    void checkDefbultSeriblize() throws InvblidClbssException {
+        if (defbultSeriblizeEx != null) {
+            throw defbultSeriblizeEx.newInvblidClbssException();
         }
     }
 
     /**
-     * Returns superclass descriptor.  Note that on the receiving side, the
-     * superclass descriptor may be bound to a class that is not a superclass
-     * of the subclass descriptor's bound class.
+     * Returns superclbss descriptor.  Note thbt on the receiving side, the
+     * superclbss descriptor mby be bound to b clbss thbt is not b superclbss
+     * of the subclbss descriptor's bound clbss.
      */
-    ObjectStreamClass getSuperDesc() {
+    ObjectStrebmClbss getSuperDesc() {
         return superDesc;
     }
 
     /**
-     * Returns the "local" class descriptor for the class associated with this
-     * class descriptor (i.e., the result of
-     * ObjectStreamClass.lookup(this.forClass())) or null if there is no class
-     * associated with this descriptor.
+     * Returns the "locbl" clbss descriptor for the clbss bssocibted with this
+     * clbss descriptor (i.e., the result of
+     * ObjectStrebmClbss.lookup(this.forClbss())) or null if there is no clbss
+     * bssocibted with this descriptor.
      */
-    ObjectStreamClass getLocalDesc() {
-        return localDesc;
+    ObjectStrebmClbss getLocblDesc() {
+        return locblDesc;
     }
 
     /**
-     * Returns arrays of ObjectStreamFields representing the serializable
-     * fields of the represented class.  If copy is true, a clone of this class
-     * descriptor's field array is returned, otherwise the array itself is
+     * Returns brrbys of ObjectStrebmFields representing the seriblizbble
+     * fields of the represented clbss.  If copy is true, b clone of this clbss
+     * descriptor's field brrby is returned, otherwise the brrby itself is
      * returned.
      */
-    ObjectStreamField[] getFields(boolean copy) {
+    ObjectStrebmField[] getFields(boolebn copy) {
         return copy ? fields.clone() : fields;
     }
 
     /**
-     * Looks up a serializable field of the represented class by name and type.
-     * A specified type of null matches all types, Object.class matches all
-     * non-primitive types, and any other non-null type matches assignable
-     * types only.  Returns matching field, or null if no match found.
+     * Looks up b seriblizbble field of the represented clbss by nbme bnd type.
+     * A specified type of null mbtches bll types, Object.clbss mbtches bll
+     * non-primitive types, bnd bny other non-null type mbtches bssignbble
+     * types only.  Returns mbtching field, or null if no mbtch found.
      */
-    ObjectStreamField getField(String name, Class<?> type) {
+    ObjectStrebmField getField(String nbme, Clbss<?> type) {
         for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField f = fields[i];
-            if (f.getName().equals(name)) {
+            ObjectStrebmField f = fields[i];
+            if (f.getNbme().equbls(nbme)) {
                 if (type == null ||
-                    (type == Object.class && !f.isPrimitive()))
+                    (type == Object.clbss && !f.isPrimitive()))
                 {
                     return f;
                 }
-                Class<?> ftype = f.getType();
-                if (ftype != null && type.isAssignableFrom(ftype)) {
+                Clbss<?> ftype = f.getType();
+                if (ftype != null && type.isAssignbbleFrom(ftype)) {
                     return f;
                 }
             }
@@ -847,487 +847,487 @@ public class ObjectStreamClass implements Serializable {
     }
 
     /**
-     * Returns true if class descriptor represents a dynamic proxy class, false
+     * Returns true if clbss descriptor represents b dynbmic proxy clbss, fblse
      * otherwise.
      */
-    boolean isProxy() {
+    boolebn isProxy() {
         return isProxy;
     }
 
     /**
-     * Returns true if class descriptor represents an enum type, false
+     * Returns true if clbss descriptor represents bn enum type, fblse
      * otherwise.
      */
-    boolean isEnum() {
+    boolebn isEnum() {
         return isEnum;
     }
 
     /**
-     * Returns true if represented class implements Externalizable, false
+     * Returns true if represented clbss implements Externblizbble, fblse
      * otherwise.
      */
-    boolean isExternalizable() {
-        return externalizable;
+    boolebn isExternblizbble() {
+        return externblizbble;
     }
 
     /**
-     * Returns true if represented class implements Serializable, false
+     * Returns true if represented clbss implements Seriblizbble, fblse
      * otherwise.
      */
-    boolean isSerializable() {
-        return serializable;
+    boolebn isSeriblizbble() {
+        return seriblizbble;
     }
 
     /**
-     * Returns true if class descriptor represents externalizable class that
-     * has written its data in 1.2 (block data) format, false otherwise.
+     * Returns true if clbss descriptor represents externblizbble clbss thbt
+     * hbs written its dbtb in 1.2 (block dbtb) formbt, fblse otherwise.
      */
-    boolean hasBlockExternalData() {
-        return hasBlockExternalData;
+    boolebn hbsBlockExternblDbtb() {
+        return hbsBlockExternblDbtb;
     }
 
     /**
-     * Returns true if class descriptor represents serializable (but not
-     * externalizable) class which has written its data via a custom
-     * writeObject() method, false otherwise.
+     * Returns true if clbss descriptor represents seriblizbble (but not
+     * externblizbble) clbss which hbs written its dbtb vib b custom
+     * writeObject() method, fblse otherwise.
      */
-    boolean hasWriteObjectData() {
-        return hasWriteObjectData;
+    boolebn hbsWriteObjectDbtb() {
+        return hbsWriteObjectDbtb;
     }
 
     /**
-     * Returns true if represented class is serializable/externalizable and can
-     * be instantiated by the serialization runtime--i.e., if it is
-     * externalizable and defines a public no-arg constructor, or if it is
-     * non-externalizable and its first non-serializable superclass defines an
-     * accessible no-arg constructor.  Otherwise, returns false.
+     * Returns true if represented clbss is seriblizbble/externblizbble bnd cbn
+     * be instbntibted by the seriblizbtion runtime--i.e., if it is
+     * externblizbble bnd defines b public no-brg constructor, or if it is
+     * non-externblizbble bnd its first non-seriblizbble superclbss defines bn
+     * bccessible no-brg constructor.  Otherwise, returns fblse.
      */
-    boolean isInstantiable() {
+    boolebn isInstbntibble() {
         return (cons != null);
     }
 
     /**
-     * Returns true if represented class is serializable (but not
-     * externalizable) and defines a conformant writeObject method.  Otherwise,
-     * returns false.
+     * Returns true if represented clbss is seriblizbble (but not
+     * externblizbble) bnd defines b conformbnt writeObject method.  Otherwise,
+     * returns fblse.
      */
-    boolean hasWriteObjectMethod() {
+    boolebn hbsWriteObjectMethod() {
         return (writeObjectMethod != null);
     }
 
     /**
-     * Returns true if represented class is serializable (but not
-     * externalizable) and defines a conformant readObject method.  Otherwise,
-     * returns false.
+     * Returns true if represented clbss is seriblizbble (but not
+     * externblizbble) bnd defines b conformbnt rebdObject method.  Otherwise,
+     * returns fblse.
      */
-    boolean hasReadObjectMethod() {
-        return (readObjectMethod != null);
+    boolebn hbsRebdObjectMethod() {
+        return (rebdObjectMethod != null);
     }
 
     /**
-     * Returns true if represented class is serializable (but not
-     * externalizable) and defines a conformant readObjectNoData method.
-     * Otherwise, returns false.
+     * Returns true if represented clbss is seriblizbble (but not
+     * externblizbble) bnd defines b conformbnt rebdObjectNoDbtb method.
+     * Otherwise, returns fblse.
      */
-    boolean hasReadObjectNoDataMethod() {
-        return (readObjectNoDataMethod != null);
+    boolebn hbsRebdObjectNoDbtbMethod() {
+        return (rebdObjectNoDbtbMethod != null);
     }
 
     /**
-     * Returns true if represented class is serializable or externalizable and
-     * defines a conformant writeReplace method.  Otherwise, returns false.
+     * Returns true if represented clbss is seriblizbble or externblizbble bnd
+     * defines b conformbnt writeReplbce method.  Otherwise, returns fblse.
      */
-    boolean hasWriteReplaceMethod() {
-        return (writeReplaceMethod != null);
+    boolebn hbsWriteReplbceMethod() {
+        return (writeReplbceMethod != null);
     }
 
     /**
-     * Returns true if represented class is serializable or externalizable and
-     * defines a conformant readResolve method.  Otherwise, returns false.
+     * Returns true if represented clbss is seriblizbble or externblizbble bnd
+     * defines b conformbnt rebdResolve method.  Otherwise, returns fblse.
      */
-    boolean hasReadResolveMethod() {
-        return (readResolveMethod != null);
+    boolebn hbsRebdResolveMethod() {
+        return (rebdResolveMethod != null);
     }
 
     /**
-     * Creates a new instance of the represented class.  If the class is
-     * externalizable, invokes its public no-arg constructor; otherwise, if the
-     * class is serializable, invokes the no-arg constructor of the first
-     * non-serializable superclass.  Throws UnsupportedOperationException if
-     * this class descriptor is not associated with a class, if the associated
-     * class is non-serializable or if the appropriate no-arg constructor is
-     * inaccessible/unavailable.
+     * Crebtes b new instbnce of the represented clbss.  If the clbss is
+     * externblizbble, invokes its public no-brg constructor; otherwise, if the
+     * clbss is seriblizbble, invokes the no-brg constructor of the first
+     * non-seriblizbble superclbss.  Throws UnsupportedOperbtionException if
+     * this clbss descriptor is not bssocibted with b clbss, if the bssocibted
+     * clbss is non-seriblizbble or if the bppropribte no-brg constructor is
+     * inbccessible/unbvbilbble.
      */
-    Object newInstance()
-        throws InstantiationException, InvocationTargetException,
-               UnsupportedOperationException
+    Object newInstbnce()
+        throws InstbntibtionException, InvocbtionTbrgetException,
+               UnsupportedOperbtionException
     {
         if (cons != null) {
             try {
-                return cons.newInstance();
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+                return cons.newInstbnce();
+            } cbtch (IllegblAccessException ex) {
+                // should not occur, bs bccess checks hbve been suppressed
+                throw new InternblError(ex);
             }
         } else {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     /**
-     * Invokes the writeObject method of the represented serializable class.
-     * Throws UnsupportedOperationException if this class descriptor is not
-     * associated with a class, or if the class is externalizable,
-     * non-serializable or does not define writeObject.
+     * Invokes the writeObject method of the represented seriblizbble clbss.
+     * Throws UnsupportedOperbtionException if this clbss descriptor is not
+     * bssocibted with b clbss, or if the clbss is externblizbble,
+     * non-seriblizbble or does not define writeObject.
      */
-    void invokeWriteObject(Object obj, ObjectOutputStream out)
-        throws IOException, UnsupportedOperationException
+    void invokeWriteObject(Object obj, ObjectOutputStrebm out)
+        throws IOException, UnsupportedOperbtionException
     {
         if (writeObjectMethod != null) {
             try {
                 writeObjectMethod.invoke(obj, new Object[]{ out });
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof IOException) {
+            } cbtch (InvocbtionTbrgetException ex) {
+                Throwbble th = ex.getTbrgetException();
+                if (th instbnceof IOException) {
                     throw (IOException) th;
                 } else {
                     throwMiscException(th);
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } cbtch (IllegblAccessException ex) {
+                // should not occur, bs bccess checks hbve been suppressed
+                throw new InternblError(ex);
             }
         } else {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     /**
-     * Invokes the readObject method of the represented serializable class.
-     * Throws UnsupportedOperationException if this class descriptor is not
-     * associated with a class, or if the class is externalizable,
-     * non-serializable or does not define readObject.
+     * Invokes the rebdObject method of the represented seriblizbble clbss.
+     * Throws UnsupportedOperbtionException if this clbss descriptor is not
+     * bssocibted with b clbss, or if the clbss is externblizbble,
+     * non-seriblizbble or does not define rebdObject.
      */
-    void invokeReadObject(Object obj, ObjectInputStream in)
-        throws ClassNotFoundException, IOException,
-               UnsupportedOperationException
+    void invokeRebdObject(Object obj, ObjectInputStrebm in)
+        throws ClbssNotFoundException, IOException,
+               UnsupportedOperbtionException
     {
-        if (readObjectMethod != null) {
+        if (rebdObjectMethod != null) {
             try {
-                readObjectMethod.invoke(obj, new Object[]{ in });
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof ClassNotFoundException) {
-                    throw (ClassNotFoundException) th;
-                } else if (th instanceof IOException) {
+                rebdObjectMethod.invoke(obj, new Object[]{ in });
+            } cbtch (InvocbtionTbrgetException ex) {
+                Throwbble th = ex.getTbrgetException();
+                if (th instbnceof ClbssNotFoundException) {
+                    throw (ClbssNotFoundException) th;
+                } else if (th instbnceof IOException) {
                     throw (IOException) th;
                 } else {
                     throwMiscException(th);
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } cbtch (IllegblAccessException ex) {
+                // should not occur, bs bccess checks hbve been suppressed
+                throw new InternblError(ex);
             }
         } else {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     /**
-     * Invokes the readObjectNoData method of the represented serializable
-     * class.  Throws UnsupportedOperationException if this class descriptor is
-     * not associated with a class, or if the class is externalizable,
-     * non-serializable or does not define readObjectNoData.
+     * Invokes the rebdObjectNoDbtb method of the represented seriblizbble
+     * clbss.  Throws UnsupportedOperbtionException if this clbss descriptor is
+     * not bssocibted with b clbss, or if the clbss is externblizbble,
+     * non-seriblizbble or does not define rebdObjectNoDbtb.
      */
-    void invokeReadObjectNoData(Object obj)
-        throws IOException, UnsupportedOperationException
+    void invokeRebdObjectNoDbtb(Object obj)
+        throws IOException, UnsupportedOperbtionException
     {
-        if (readObjectNoDataMethod != null) {
+        if (rebdObjectNoDbtbMethod != null) {
             try {
-                readObjectNoDataMethod.invoke(obj, (Object[]) null);
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof ObjectStreamException) {
-                    throw (ObjectStreamException) th;
+                rebdObjectNoDbtbMethod.invoke(obj, (Object[]) null);
+            } cbtch (InvocbtionTbrgetException ex) {
+                Throwbble th = ex.getTbrgetException();
+                if (th instbnceof ObjectStrebmException) {
+                    throw (ObjectStrebmException) th;
                 } else {
                     throwMiscException(th);
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } cbtch (IllegblAccessException ex) {
+                // should not occur, bs bccess checks hbve been suppressed
+                throw new InternblError(ex);
             }
         } else {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     /**
-     * Invokes the writeReplace method of the represented serializable class and
-     * returns the result.  Throws UnsupportedOperationException if this class
-     * descriptor is not associated with a class, or if the class is
-     * non-serializable or does not define writeReplace.
+     * Invokes the writeReplbce method of the represented seriblizbble clbss bnd
+     * returns the result.  Throws UnsupportedOperbtionException if this clbss
+     * descriptor is not bssocibted with b clbss, or if the clbss is
+     * non-seriblizbble or does not define writeReplbce.
      */
-    Object invokeWriteReplace(Object obj)
-        throws IOException, UnsupportedOperationException
+    Object invokeWriteReplbce(Object obj)
+        throws IOException, UnsupportedOperbtionException
     {
-        if (writeReplaceMethod != null) {
+        if (writeReplbceMethod != null) {
             try {
-                return writeReplaceMethod.invoke(obj, (Object[]) null);
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof ObjectStreamException) {
-                    throw (ObjectStreamException) th;
+                return writeReplbceMethod.invoke(obj, (Object[]) null);
+            } cbtch (InvocbtionTbrgetException ex) {
+                Throwbble th = ex.getTbrgetException();
+                if (th instbnceof ObjectStrebmException) {
+                    throw (ObjectStrebmException) th;
                 } else {
                     throwMiscException(th);
-                    throw new InternalError(th);  // never reached
+                    throw new InternblError(th);  // never rebched
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } cbtch (IllegblAccessException ex) {
+                // should not occur, bs bccess checks hbve been suppressed
+                throw new InternblError(ex);
             }
         } else {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     /**
-     * Invokes the readResolve method of the represented serializable class and
-     * returns the result.  Throws UnsupportedOperationException if this class
-     * descriptor is not associated with a class, or if the class is
-     * non-serializable or does not define readResolve.
+     * Invokes the rebdResolve method of the represented seriblizbble clbss bnd
+     * returns the result.  Throws UnsupportedOperbtionException if this clbss
+     * descriptor is not bssocibted with b clbss, or if the clbss is
+     * non-seriblizbble or does not define rebdResolve.
      */
-    Object invokeReadResolve(Object obj)
-        throws IOException, UnsupportedOperationException
+    Object invokeRebdResolve(Object obj)
+        throws IOException, UnsupportedOperbtionException
     {
-        if (readResolveMethod != null) {
+        if (rebdResolveMethod != null) {
             try {
-                return readResolveMethod.invoke(obj, (Object[]) null);
-            } catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                if (th instanceof ObjectStreamException) {
-                    throw (ObjectStreamException) th;
+                return rebdResolveMethod.invoke(obj, (Object[]) null);
+            } cbtch (InvocbtionTbrgetException ex) {
+                Throwbble th = ex.getTbrgetException();
+                if (th instbnceof ObjectStrebmException) {
+                    throw (ObjectStrebmException) th;
                 } else {
                     throwMiscException(th);
-                    throw new InternalError(th);  // never reached
+                    throw new InternblError(th);  // never rebched
                 }
-            } catch (IllegalAccessException ex) {
-                // should not occur, as access checks have been suppressed
-                throw new InternalError(ex);
+            } cbtch (IllegblAccessException ex) {
+                // should not occur, bs bccess checks hbve been suppressed
+                throw new InternblError(ex);
             }
         } else {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
     /**
-     * Class representing the portion of an object's serialized form allotted
-     * to data described by a given class descriptor.  If "hasData" is false,
-     * the object's serialized form does not contain data associated with the
-     * class descriptor.
+     * Clbss representing the portion of bn object's seriblized form bllotted
+     * to dbtb described by b given clbss descriptor.  If "hbsDbtb" is fblse,
+     * the object's seriblized form does not contbin dbtb bssocibted with the
+     * clbss descriptor.
      */
-    static class ClassDataSlot {
+    stbtic clbss ClbssDbtbSlot {
 
-        /** class descriptor "occupying" this slot */
-        final ObjectStreamClass desc;
-        /** true if serialized form includes data for this slot's descriptor */
-        final boolean hasData;
+        /** clbss descriptor "occupying" this slot */
+        finbl ObjectStrebmClbss desc;
+        /** true if seriblized form includes dbtb for this slot's descriptor */
+        finbl boolebn hbsDbtb;
 
-        ClassDataSlot(ObjectStreamClass desc, boolean hasData) {
+        ClbssDbtbSlot(ObjectStrebmClbss desc, boolebn hbsDbtb) {
             this.desc = desc;
-            this.hasData = hasData;
+            this.hbsDbtb = hbsDbtb;
         }
     }
 
     /**
-     * Returns array of ClassDataSlot instances representing the data layout
-     * (including superclass data) for serialized objects described by this
-     * class descriptor.  ClassDataSlots are ordered by inheritance with those
-     * containing "higher" superclasses appearing first.  The final
-     * ClassDataSlot contains a reference to this descriptor.
+     * Returns brrby of ClbssDbtbSlot instbnces representing the dbtb lbyout
+     * (including superclbss dbtb) for seriblized objects described by this
+     * clbss descriptor.  ClbssDbtbSlots bre ordered by inheritbnce with those
+     * contbining "higher" superclbsses bppebring first.  The finbl
+     * ClbssDbtbSlot contbins b reference to this descriptor.
      */
-    ClassDataSlot[] getClassDataLayout() throws InvalidClassException {
-        // REMIND: synchronize instead of relying on volatile?
-        if (dataLayout == null) {
-            dataLayout = getClassDataLayout0();
+    ClbssDbtbSlot[] getClbssDbtbLbyout() throws InvblidClbssException {
+        // REMIND: synchronize instebd of relying on volbtile?
+        if (dbtbLbyout == null) {
+            dbtbLbyout = getClbssDbtbLbyout0();
         }
-        return dataLayout;
+        return dbtbLbyout;
     }
 
-    private ClassDataSlot[] getClassDataLayout0()
-        throws InvalidClassException
+    privbte ClbssDbtbSlot[] getClbssDbtbLbyout0()
+        throws InvblidClbssException
     {
-        ArrayList<ClassDataSlot> slots = new ArrayList<>();
-        Class<?> start = cl, end = cl;
+        ArrbyList<ClbssDbtbSlot> slots = new ArrbyList<>();
+        Clbss<?> stbrt = cl, end = cl;
 
-        // locate closest non-serializable superclass
-        while (end != null && Serializable.class.isAssignableFrom(end)) {
-            end = end.getSuperclass();
+        // locbte closest non-seriblizbble superclbss
+        while (end != null && Seriblizbble.clbss.isAssignbbleFrom(end)) {
+            end = end.getSuperclbss();
         }
 
-        HashSet<String> oscNames = new HashSet<>(3);
+        HbshSet<String> oscNbmes = new HbshSet<>(3);
 
-        for (ObjectStreamClass d = this; d != null; d = d.superDesc) {
-            if (oscNames.contains(d.name)) {
-                throw new InvalidClassException("Circular reference.");
+        for (ObjectStrebmClbss d = this; d != null; d = d.superDesc) {
+            if (oscNbmes.contbins(d.nbme)) {
+                throw new InvblidClbssException("Circulbr reference.");
             } else {
-                oscNames.add(d.name);
+                oscNbmes.bdd(d.nbme);
             }
 
-            // search up inheritance hierarchy for class with matching name
-            String searchName = (d.cl != null) ? d.cl.getName() : d.name;
-            Class<?> match = null;
-            for (Class<?> c = start; c != end; c = c.getSuperclass()) {
-                if (searchName.equals(c.getName())) {
-                    match = c;
-                    break;
+            // sebrch up inheritbnce hierbrchy for clbss with mbtching nbme
+            String sebrchNbme = (d.cl != null) ? d.cl.getNbme() : d.nbme;
+            Clbss<?> mbtch = null;
+            for (Clbss<?> c = stbrt; c != end; c = c.getSuperclbss()) {
+                if (sebrchNbme.equbls(c.getNbme())) {
+                    mbtch = c;
+                    brebk;
                 }
             }
 
-            // add "no data" slot for each unmatched class below match
-            if (match != null) {
-                for (Class<?> c = start; c != match; c = c.getSuperclass()) {
-                    slots.add(new ClassDataSlot(
-                        ObjectStreamClass.lookup(c, true), false));
+            // bdd "no dbtb" slot for ebch unmbtched clbss below mbtch
+            if (mbtch != null) {
+                for (Clbss<?> c = stbrt; c != mbtch; c = c.getSuperclbss()) {
+                    slots.bdd(new ClbssDbtbSlot(
+                        ObjectStrebmClbss.lookup(c, true), fblse));
                 }
-                start = match.getSuperclass();
+                stbrt = mbtch.getSuperclbss();
             }
 
-            // record descriptor/class pairing
-            slots.add(new ClassDataSlot(d.getVariantFor(match), true));
+            // record descriptor/clbss pbiring
+            slots.bdd(new ClbssDbtbSlot(d.getVbribntFor(mbtch), true));
         }
 
-        // add "no data" slot for any leftover unmatched classes
-        for (Class<?> c = start; c != end; c = c.getSuperclass()) {
-            slots.add(new ClassDataSlot(
-                ObjectStreamClass.lookup(c, true), false));
+        // bdd "no dbtb" slot for bny leftover unmbtched clbsses
+        for (Clbss<?> c = stbrt; c != end; c = c.getSuperclbss()) {
+            slots.bdd(new ClbssDbtbSlot(
+                ObjectStrebmClbss.lookup(c, true), fblse));
         }
 
-        // order slots from superclass -> subclass
+        // order slots from superclbss -> subclbss
         Collections.reverse(slots);
-        return slots.toArray(new ClassDataSlot[slots.size()]);
+        return slots.toArrby(new ClbssDbtbSlot[slots.size()]);
     }
 
     /**
-     * Returns aggregate size (in bytes) of marshalled primitive field values
-     * for represented class.
+     * Returns bggregbte size (in bytes) of mbrshblled primitive field vblues
+     * for represented clbss.
      */
-    int getPrimDataSize() {
-        return primDataSize;
+    int getPrimDbtbSize() {
+        return primDbtbSize;
     }
 
     /**
-     * Returns number of non-primitive serializable fields of represented
-     * class.
+     * Returns number of non-primitive seriblizbble fields of represented
+     * clbss.
      */
     int getNumObjFields() {
         return numObjFields;
     }
 
     /**
-     * Fetches the serializable primitive field values of object obj and
-     * marshals them into byte array buf starting at offset 0.  It is the
-     * responsibility of the caller to ensure that obj is of the proper type if
+     * Fetches the seriblizbble primitive field vblues of object obj bnd
+     * mbrshbls them into byte brrby buf stbrting bt offset 0.  It is the
+     * responsibility of the cbller to ensure thbt obj is of the proper type if
      * non-null.
      */
-    void getPrimFieldValues(Object obj, byte[] buf) {
-        fieldRefl.getPrimFieldValues(obj, buf);
+    void getPrimFieldVblues(Object obj, byte[] buf) {
+        fieldRefl.getPrimFieldVblues(obj, buf);
     }
 
     /**
-     * Sets the serializable primitive fields of object obj using values
-     * unmarshalled from byte array buf starting at offset 0.  It is the
-     * responsibility of the caller to ensure that obj is of the proper type if
+     * Sets the seriblizbble primitive fields of object obj using vblues
+     * unmbrshblled from byte brrby buf stbrting bt offset 0.  It is the
+     * responsibility of the cbller to ensure thbt obj is of the proper type if
      * non-null.
      */
-    void setPrimFieldValues(Object obj, byte[] buf) {
-        fieldRefl.setPrimFieldValues(obj, buf);
+    void setPrimFieldVblues(Object obj, byte[] buf) {
+        fieldRefl.setPrimFieldVblues(obj, buf);
     }
 
     /**
-     * Fetches the serializable object field values of object obj and stores
-     * them in array vals starting at offset 0.  It is the responsibility of
-     * the caller to ensure that obj is of the proper type if non-null.
+     * Fetches the seriblizbble object field vblues of object obj bnd stores
+     * them in brrby vbls stbrting bt offset 0.  It is the responsibility of
+     * the cbller to ensure thbt obj is of the proper type if non-null.
      */
-    void getObjFieldValues(Object obj, Object[] vals) {
-        fieldRefl.getObjFieldValues(obj, vals);
+    void getObjFieldVblues(Object obj, Object[] vbls) {
+        fieldRefl.getObjFieldVblues(obj, vbls);
     }
 
     /**
-     * Sets the serializable object fields of object obj using values from
-     * array vals starting at offset 0.  It is the responsibility of the caller
-     * to ensure that obj is of the proper type if non-null.
+     * Sets the seriblizbble object fields of object obj using vblues from
+     * brrby vbls stbrting bt offset 0.  It is the responsibility of the cbller
+     * to ensure thbt obj is of the proper type if non-null.
      */
-    void setObjFieldValues(Object obj, Object[] vals) {
-        fieldRefl.setObjFieldValues(obj, vals);
+    void setObjFieldVblues(Object obj, Object[] vbls) {
+        fieldRefl.setObjFieldVblues(obj, vbls);
     }
 
     /**
-     * Calculates and sets serializable field offsets, as well as primitive
-     * data size and object field count totals.  Throws InvalidClassException
-     * if fields are illegally ordered.
+     * Cblculbtes bnd sets seriblizbble field offsets, bs well bs primitive
+     * dbtb size bnd object field count totbls.  Throws InvblidClbssException
+     * if fields bre illegblly ordered.
      */
-    private void computeFieldOffsets() throws InvalidClassException {
-        primDataSize = 0;
+    privbte void computeFieldOffsets() throws InvblidClbssException {
+        primDbtbSize = 0;
         numObjFields = 0;
         int firstObjIndex = -1;
 
         for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField f = fields[i];
+            ObjectStrebmField f = fields[i];
             switch (f.getTypeCode()) {
-                case 'Z':
-                case 'B':
-                    f.setOffset(primDataSize++);
-                    break;
+                cbse 'Z':
+                cbse 'B':
+                    f.setOffset(primDbtbSize++);
+                    brebk;
 
-                case 'C':
-                case 'S':
-                    f.setOffset(primDataSize);
-                    primDataSize += 2;
-                    break;
+                cbse 'C':
+                cbse 'S':
+                    f.setOffset(primDbtbSize);
+                    primDbtbSize += 2;
+                    brebk;
 
-                case 'I':
-                case 'F':
-                    f.setOffset(primDataSize);
-                    primDataSize += 4;
-                    break;
+                cbse 'I':
+                cbse 'F':
+                    f.setOffset(primDbtbSize);
+                    primDbtbSize += 4;
+                    brebk;
 
-                case 'J':
-                case 'D':
-                    f.setOffset(primDataSize);
-                    primDataSize += 8;
-                    break;
+                cbse 'J':
+                cbse 'D':
+                    f.setOffset(primDbtbSize);
+                    primDbtbSize += 8;
+                    brebk;
 
-                case '[':
-                case 'L':
+                cbse '[':
+                cbse 'L':
                     f.setOffset(numObjFields++);
                     if (firstObjIndex == -1) {
                         firstObjIndex = i;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    throw new InternalError();
+                defbult:
+                    throw new InternblError();
             }
         }
         if (firstObjIndex != -1 &&
             firstObjIndex + numObjFields != fields.length)
         {
-            throw new InvalidClassException(name, "illegal field order");
+            throw new InvblidClbssException(nbme, "illegbl field order");
         }
     }
 
     /**
-     * If given class is the same as the class associated with this class
-     * descriptor, returns reference to this class descriptor.  Otherwise,
-     * returns variant of this class descriptor bound to given class.
+     * If given clbss is the sbme bs the clbss bssocibted with this clbss
+     * descriptor, returns reference to this clbss descriptor.  Otherwise,
+     * returns vbribnt of this clbss descriptor bound to given clbss.
      */
-    private ObjectStreamClass getVariantFor(Class<?> cl)
-        throws InvalidClassException
+    privbte ObjectStrebmClbss getVbribntFor(Clbss<?> cl)
+        throws InvblidClbssException
     {
         if (this.cl == cl) {
             return this;
         }
-        ObjectStreamClass desc = new ObjectStreamClass();
+        ObjectStrebmClbss desc = new ObjectStrebmClbss();
         if (isProxy) {
             desc.initProxy(cl, null, superDesc);
         } else {
@@ -1337,68 +1337,68 @@ public class ObjectStreamClass implements Serializable {
     }
 
     /**
-     * Returns public no-arg constructor of given class, or null if none found.
-     * Access checks are disabled on the returned constructor (if any), since
-     * the defining class may still be non-public.
+     * Returns public no-brg constructor of given clbss, or null if none found.
+     * Access checks bre disbbled on the returned constructor (if bny), since
+     * the defining clbss mby still be non-public.
      */
-    private static Constructor<?> getExternalizableConstructor(Class<?> cl) {
+    privbte stbtic Constructor<?> getExternblizbbleConstructor(Clbss<?> cl) {
         try {
-            Constructor<?> cons = cl.getDeclaredConstructor((Class<?>[]) null);
+            Constructor<?> cons = cl.getDeclbredConstructor((Clbss<?>[]) null);
             cons.setAccessible(true);
             return ((cons.getModifiers() & Modifier.PUBLIC) != 0) ?
                 cons : null;
-        } catch (NoSuchMethodException ex) {
+        } cbtch (NoSuchMethodException ex) {
             return null;
         }
     }
 
     /**
-     * Returns subclass-accessible no-arg constructor of first non-serializable
-     * superclass, or null if none found.  Access checks are disabled on the
-     * returned constructor (if any).
+     * Returns subclbss-bccessible no-brg constructor of first non-seriblizbble
+     * superclbss, or null if none found.  Access checks bre disbbled on the
+     * returned constructor (if bny).
      */
-    private static Constructor<?> getSerializableConstructor(Class<?> cl) {
-        Class<?> initCl = cl;
-        while (Serializable.class.isAssignableFrom(initCl)) {
-            if ((initCl = initCl.getSuperclass()) == null) {
+    privbte stbtic Constructor<?> getSeriblizbbleConstructor(Clbss<?> cl) {
+        Clbss<?> initCl = cl;
+        while (Seriblizbble.clbss.isAssignbbleFrom(initCl)) {
+            if ((initCl = initCl.getSuperclbss()) == null) {
                 return null;
             }
         }
         try {
-            Constructor<?> cons = initCl.getDeclaredConstructor((Class<?>[]) null);
+            Constructor<?> cons = initCl.getDeclbredConstructor((Clbss<?>[]) null);
             int mods = cons.getModifiers();
             if ((mods & Modifier.PRIVATE) != 0 ||
                 ((mods & (Modifier.PUBLIC | Modifier.PROTECTED)) == 0 &&
-                 !packageEquals(cl, initCl)))
+                 !pbckbgeEqubls(cl, initCl)))
             {
                 return null;
             }
-            cons = reflFactory.newConstructorForSerialization(cl, cons);
+            cons = reflFbctory.newConstructorForSeriblizbtion(cl, cons);
             cons.setAccessible(true);
             return cons;
-        } catch (NoSuchMethodException ex) {
+        } cbtch (NoSuchMethodException ex) {
             return null;
         }
     }
 
     /**
-     * Returns non-static, non-abstract method with given signature provided it
-     * is defined by or accessible (via inheritance) by the given class, or
-     * null if no match found.  Access checks are disabled on the returned
-     * method (if any).
+     * Returns non-stbtic, non-bbstrbct method with given signbture provided it
+     * is defined by or bccessible (vib inheritbnce) by the given clbss, or
+     * null if no mbtch found.  Access checks bre disbbled on the returned
+     * method (if bny).
      */
-    private static Method getInheritableMethod(Class<?> cl, String name,
-                                               Class<?>[] argTypes,
-                                               Class<?> returnType)
+    privbte stbtic Method getInheritbbleMethod(Clbss<?> cl, String nbme,
+                                               Clbss<?>[] brgTypes,
+                                               Clbss<?> returnType)
     {
         Method meth = null;
-        Class<?> defCl = cl;
+        Clbss<?> defCl = cl;
         while (defCl != null) {
             try {
-                meth = defCl.getDeclaredMethod(name, argTypes);
-                break;
-            } catch (NoSuchMethodException ex) {
-                defCl = defCl.getSuperclass();
+                meth = defCl.getDeclbredMethod(nbme, brgTypes);
+                brebk;
+            } cbtch (NoSuchMethodException ex) {
+                defCl = defCl.getSuperclbss();
             }
         }
 
@@ -1414,166 +1414,166 @@ public class ObjectStreamClass implements Serializable {
         } else if ((mods & Modifier.PRIVATE) != 0) {
             return (cl == defCl) ? meth : null;
         } else {
-            return packageEquals(cl, defCl) ? meth : null;
+            return pbckbgeEqubls(cl, defCl) ? meth : null;
         }
     }
 
     /**
-     * Returns non-static private method with given signature defined by given
-     * class, or null if none found.  Access checks are disabled on the
-     * returned method (if any).
+     * Returns non-stbtic privbte method with given signbture defined by given
+     * clbss, or null if none found.  Access checks bre disbbled on the
+     * returned method (if bny).
      */
-    private static Method getPrivateMethod(Class<?> cl, String name,
-                                           Class<?>[] argTypes,
-                                           Class<?> returnType)
+    privbte stbtic Method getPrivbteMethod(Clbss<?> cl, String nbme,
+                                           Clbss<?>[] brgTypes,
+                                           Clbss<?> returnType)
     {
         try {
-            Method meth = cl.getDeclaredMethod(name, argTypes);
+            Method meth = cl.getDeclbredMethod(nbme, brgTypes);
             meth.setAccessible(true);
             int mods = meth.getModifiers();
             return ((meth.getReturnType() == returnType) &&
                     ((mods & Modifier.STATIC) == 0) &&
                     ((mods & Modifier.PRIVATE) != 0)) ? meth : null;
-        } catch (NoSuchMethodException ex) {
+        } cbtch (NoSuchMethodException ex) {
             return null;
         }
     }
 
     /**
-     * Returns true if classes are defined in the same runtime package, false
+     * Returns true if clbsses bre defined in the sbme runtime pbckbge, fblse
      * otherwise.
      */
-    private static boolean packageEquals(Class<?> cl1, Class<?> cl2) {
-        return (cl1.getClassLoader() == cl2.getClassLoader() &&
-                getPackageName(cl1).equals(getPackageName(cl2)));
+    privbte stbtic boolebn pbckbgeEqubls(Clbss<?> cl1, Clbss<?> cl2) {
+        return (cl1.getClbssLobder() == cl2.getClbssLobder() &&
+                getPbckbgeNbme(cl1).equbls(getPbckbgeNbme(cl2)));
     }
 
     /**
-     * Returns package name of given class.
+     * Returns pbckbge nbme of given clbss.
      */
-    private static String getPackageName(Class<?> cl) {
-        String s = cl.getName();
-        int i = s.lastIndexOf('[');
+    privbte stbtic String getPbckbgeNbme(Clbss<?> cl) {
+        String s = cl.getNbme();
+        int i = s.lbstIndexOf('[');
         if (i >= 0) {
             s = s.substring(i + 2);
         }
-        i = s.lastIndexOf('.');
+        i = s.lbstIndexOf('.');
         return (i >= 0) ? s.substring(0, i) : "";
     }
 
     /**
-     * Compares class names for equality, ignoring package names.  Returns true
-     * if class names equal, false otherwise.
+     * Compbres clbss nbmes for equblity, ignoring pbckbge nbmes.  Returns true
+     * if clbss nbmes equbl, fblse otherwise.
      */
-    private static boolean classNamesEqual(String name1, String name2) {
-        name1 = name1.substring(name1.lastIndexOf('.') + 1);
-        name2 = name2.substring(name2.lastIndexOf('.') + 1);
-        return name1.equals(name2);
+    privbte stbtic boolebn clbssNbmesEqubl(String nbme1, String nbme2) {
+        nbme1 = nbme1.substring(nbme1.lbstIndexOf('.') + 1);
+        nbme2 = nbme2.substring(nbme2.lbstIndexOf('.') + 1);
+        return nbme1.equbls(nbme2);
     }
 
     /**
-     * Returns JVM type signature for given primitive.
+     * Returns JVM type signbture for given primitive.
      */
-    private static String getPrimitiveSignature(Class<?> cl) {
+    privbte stbtic String getPrimitiveSignbture(Clbss<?> cl) {
         if (cl == Integer.TYPE)
             return "I";
         else if (cl == Byte.TYPE)
             return "B";
         else if (cl == Long.TYPE)
             return "J";
-        else if (cl == Float.TYPE)
+        else if (cl == Flobt.TYPE)
             return "F";
         else if (cl == Double.TYPE)
             return "D";
         else if (cl == Short.TYPE)
             return "S";
-        else if (cl == Character.TYPE)
+        else if (cl == Chbrbcter.TYPE)
             return "C";
-        else if (cl == Boolean.TYPE)
+        else if (cl == Boolebn.TYPE)
             return "Z";
         else if (cl == Void.TYPE)
             return "V";
         else
-            throw new InternalError();
+            throw new InternblError();
     }
 
     /**
-     * Returns JVM type signature for given class.
+     * Returns JVM type signbture for given clbss.
      */
-    static String getClassSignature(Class<?> cl) {
+    stbtic String getClbssSignbture(Clbss<?> cl) {
         if (cl.isPrimitive())
-            return getPrimitiveSignature(cl);
+            return getPrimitiveSignbture(cl);
         else
-            return appendClassSignature(new StringBuilder(), cl).toString();
+            return bppendClbssSignbture(new StringBuilder(), cl).toString();
     }
 
-    private static StringBuilder appendClassSignature(StringBuilder sbuf, Class<?> cl) {
-       while (cl.isArray()) {
-           sbuf.append('[');
+    privbte stbtic StringBuilder bppendClbssSignbture(StringBuilder sbuf, Clbss<?> cl) {
+       while (cl.isArrby()) {
+           sbuf.bppend('[');
            cl = cl.getComponentType();
        }
 
        if (cl.isPrimitive())
-           sbuf.append(getPrimitiveSignature(cl));
+           sbuf.bppend(getPrimitiveSignbture(cl));
        else
-           sbuf.append('L').append(cl.getName().replace('.', '/')).append(';');
+           sbuf.bppend('L').bppend(cl.getNbme().replbce('.', '/')).bppend(';');
 
        return sbuf;
    }
 
     /**
-     * Returns JVM type signature for given list of parameters and return type.
+     * Returns JVM type signbture for given list of pbrbmeters bnd return type.
      */
-    private static String getMethodSignature(Class<?>[] paramTypes,
-                                             Class<?> retType)
+    privbte stbtic String getMethodSignbture(Clbss<?>[] pbrbmTypes,
+                                             Clbss<?> retType)
     {
         StringBuilder sbuf = new StringBuilder();
-        sbuf.append('(');
-        for (int i = 0; i < paramTypes.length; i++) {
-            appendClassSignature(sbuf, paramTypes[i]);
+        sbuf.bppend('(');
+        for (int i = 0; i < pbrbmTypes.length; i++) {
+            bppendClbssSignbture(sbuf, pbrbmTypes[i]);
         }
-        sbuf.append(')');
-        appendClassSignature(sbuf, retType);
+        sbuf.bppend(')');
+        bppendClbssSignbture(sbuf, retType);
         return sbuf.toString();
     }
 
     /**
-     * Convenience method for throwing an exception that is either a
-     * RuntimeException, Error, or of some unexpected type (in which case it is
-     * wrapped inside an IOException).
+     * Convenience method for throwing bn exception thbt is either b
+     * RuntimeException, Error, or of some unexpected type (in which cbse it is
+     * wrbpped inside bn IOException).
      */
-    private static void throwMiscException(Throwable th) throws IOException {
-        if (th instanceof RuntimeException) {
+    privbte stbtic void throwMiscException(Throwbble th) throws IOException {
+        if (th instbnceof RuntimeException) {
             throw (RuntimeException) th;
-        } else if (th instanceof Error) {
+        } else if (th instbnceof Error) {
             throw (Error) th;
         } else {
             IOException ex = new IOException("unexpected exception type");
-            ex.initCause(th);
+            ex.initCbuse(th);
             throw ex;
         }
     }
 
     /**
-     * Returns ObjectStreamField array describing the serializable fields of
-     * the given class.  Serializable fields backed by an actual field of the
-     * class are represented by ObjectStreamFields with corresponding non-null
-     * Field objects.  Throws InvalidClassException if the (explicitly
-     * declared) serializable fields are invalid.
+     * Returns ObjectStrebmField brrby describing the seriblizbble fields of
+     * the given clbss.  Seriblizbble fields bbcked by bn bctubl field of the
+     * clbss bre represented by ObjectStrebmFields with corresponding non-null
+     * Field objects.  Throws InvblidClbssException if the (explicitly
+     * declbred) seriblizbble fields bre invblid.
      */
-    private static ObjectStreamField[] getSerialFields(Class<?> cl)
-        throws InvalidClassException
+    privbte stbtic ObjectStrebmField[] getSeriblFields(Clbss<?> cl)
+        throws InvblidClbssException
     {
-        ObjectStreamField[] fields;
-        if (Serializable.class.isAssignableFrom(cl) &&
-            !Externalizable.class.isAssignableFrom(cl) &&
-            !Proxy.isProxyClass(cl) &&
-            !cl.isInterface())
+        ObjectStrebmField[] fields;
+        if (Seriblizbble.clbss.isAssignbbleFrom(cl) &&
+            !Externblizbble.clbss.isAssignbbleFrom(cl) &&
+            !Proxy.isProxyClbss(cl) &&
+            !cl.isInterfbce())
         {
-            if ((fields = getDeclaredSerialFields(cl)) == null) {
-                fields = getDefaultSerialFields(cl);
+            if ((fields = getDeclbredSeriblFields(cl)) == null) {
+                fields = getDefbultSeriblFields(cl);
             }
-            Arrays.sort(fields);
+            Arrbys.sort(fields);
         } else {
             fields = NO_FIELDS;
         }
@@ -1581,165 +1581,165 @@ public class ObjectStreamClass implements Serializable {
     }
 
     /**
-     * Returns serializable fields of given class as defined explicitly by a
-     * "serialPersistentFields" field, or null if no appropriate
-     * "serialPersistentFields" field is defined.  Serializable fields backed
-     * by an actual field of the class are represented by ObjectStreamFields
-     * with corresponding non-null Field objects.  For compatibility with past
-     * releases, a "serialPersistentFields" field with a null value is
-     * considered equivalent to not declaring "serialPersistentFields".  Throws
-     * InvalidClassException if the declared serializable fields are
-     * invalid--e.g., if multiple fields share the same name.
+     * Returns seriblizbble fields of given clbss bs defined explicitly by b
+     * "seriblPersistentFields" field, or null if no bppropribte
+     * "seriblPersistentFields" field is defined.  Seriblizbble fields bbcked
+     * by bn bctubl field of the clbss bre represented by ObjectStrebmFields
+     * with corresponding non-null Field objects.  For compbtibility with pbst
+     * relebses, b "seriblPersistentFields" field with b null vblue is
+     * considered equivblent to not declbring "seriblPersistentFields".  Throws
+     * InvblidClbssException if the declbred seriblizbble fields bre
+     * invblid--e.g., if multiple fields shbre the sbme nbme.
      */
-    private static ObjectStreamField[] getDeclaredSerialFields(Class<?> cl)
-        throws InvalidClassException
+    privbte stbtic ObjectStrebmField[] getDeclbredSeriblFields(Clbss<?> cl)
+        throws InvblidClbssException
     {
-        ObjectStreamField[] serialPersistentFields = null;
+        ObjectStrebmField[] seriblPersistentFields = null;
         try {
-            Field f = cl.getDeclaredField("serialPersistentFields");
-            int mask = Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL;
-            if ((f.getModifiers() & mask) == mask) {
+            Field f = cl.getDeclbredField("seriblPersistentFields");
+            int mbsk = Modifier.PRIVATE | Modifier.STATIC | Modifier.FINAL;
+            if ((f.getModifiers() & mbsk) == mbsk) {
                 f.setAccessible(true);
-                serialPersistentFields = (ObjectStreamField[]) f.get(null);
+                seriblPersistentFields = (ObjectStrebmField[]) f.get(null);
             }
-        } catch (Exception ex) {
+        } cbtch (Exception ex) {
         }
-        if (serialPersistentFields == null) {
+        if (seriblPersistentFields == null) {
             return null;
-        } else if (serialPersistentFields.length == 0) {
+        } else if (seriblPersistentFields.length == 0) {
             return NO_FIELDS;
         }
 
-        ObjectStreamField[] boundFields =
-            new ObjectStreamField[serialPersistentFields.length];
-        Set<String> fieldNames = new HashSet<>(serialPersistentFields.length);
+        ObjectStrebmField[] boundFields =
+            new ObjectStrebmField[seriblPersistentFields.length];
+        Set<String> fieldNbmes = new HbshSet<>(seriblPersistentFields.length);
 
-        for (int i = 0; i < serialPersistentFields.length; i++) {
-            ObjectStreamField spf = serialPersistentFields[i];
+        for (int i = 0; i < seriblPersistentFields.length; i++) {
+            ObjectStrebmField spf = seriblPersistentFields[i];
 
-            String fname = spf.getName();
-            if (fieldNames.contains(fname)) {
-                throw new InvalidClassException(
-                    "multiple serializable fields named " + fname);
+            String fnbme = spf.getNbme();
+            if (fieldNbmes.contbins(fnbme)) {
+                throw new InvblidClbssException(
+                    "multiple seriblizbble fields nbmed " + fnbme);
             }
-            fieldNames.add(fname);
+            fieldNbmes.bdd(fnbme);
 
             try {
-                Field f = cl.getDeclaredField(fname);
+                Field f = cl.getDeclbredField(fnbme);
                 if ((f.getType() == spf.getType()) &&
                     ((f.getModifiers() & Modifier.STATIC) == 0))
                 {
                     boundFields[i] =
-                        new ObjectStreamField(f, spf.isUnshared(), true);
+                        new ObjectStrebmField(f, spf.isUnshbred(), true);
                 }
-            } catch (NoSuchFieldException ex) {
+            } cbtch (NoSuchFieldException ex) {
             }
             if (boundFields[i] == null) {
-                boundFields[i] = new ObjectStreamField(
-                    fname, spf.getType(), spf.isUnshared());
+                boundFields[i] = new ObjectStrebmField(
+                    fnbme, spf.getType(), spf.isUnshbred());
             }
         }
         return boundFields;
     }
 
     /**
-     * Returns array of ObjectStreamFields corresponding to all non-static
-     * non-transient fields declared by given class.  Each ObjectStreamField
-     * contains a Field object for the field it represents.  If no default
-     * serializable fields exist, NO_FIELDS is returned.
+     * Returns brrby of ObjectStrebmFields corresponding to bll non-stbtic
+     * non-trbnsient fields declbred by given clbss.  Ebch ObjectStrebmField
+     * contbins b Field object for the field it represents.  If no defbult
+     * seriblizbble fields exist, NO_FIELDS is returned.
      */
-    private static ObjectStreamField[] getDefaultSerialFields(Class<?> cl) {
-        Field[] clFields = cl.getDeclaredFields();
-        ArrayList<ObjectStreamField> list = new ArrayList<>();
-        int mask = Modifier.STATIC | Modifier.TRANSIENT;
+    privbte stbtic ObjectStrebmField[] getDefbultSeriblFields(Clbss<?> cl) {
+        Field[] clFields = cl.getDeclbredFields();
+        ArrbyList<ObjectStrebmField> list = new ArrbyList<>();
+        int mbsk = Modifier.STATIC | Modifier.TRANSIENT;
 
         for (int i = 0; i < clFields.length; i++) {
-            if ((clFields[i].getModifiers() & mask) == 0) {
-                list.add(new ObjectStreamField(clFields[i], false, true));
+            if ((clFields[i].getModifiers() & mbsk) == 0) {
+                list.bdd(new ObjectStrebmField(clFields[i], fblse, true));
             }
         }
         int size = list.size();
         return (size == 0) ? NO_FIELDS :
-            list.toArray(new ObjectStreamField[size]);
+            list.toArrby(new ObjectStrebmField[size]);
     }
 
     /**
-     * Returns explicit serial version UID value declared by given class, or
+     * Returns explicit seribl version UID vblue declbred by given clbss, or
      * null if none.
      */
-    private static Long getDeclaredSUID(Class<?> cl) {
+    privbte stbtic Long getDeclbredSUID(Clbss<?> cl) {
         try {
-            Field f = cl.getDeclaredField("serialVersionUID");
-            int mask = Modifier.STATIC | Modifier.FINAL;
-            if ((f.getModifiers() & mask) == mask) {
+            Field f = cl.getDeclbredField("seriblVersionUID");
+            int mbsk = Modifier.STATIC | Modifier.FINAL;
+            if ((f.getModifiers() & mbsk) == mbsk) {
                 f.setAccessible(true);
-                return Long.valueOf(f.getLong(null));
+                return Long.vblueOf(f.getLong(null));
             }
-        } catch (Exception ex) {
+        } cbtch (Exception ex) {
         }
         return null;
     }
 
     /**
-     * Computes the default serial version UID value for the given class.
+     * Computes the defbult seribl version UID vblue for the given clbss.
      */
-    private static long computeDefaultSUID(Class<?> cl) {
-        if (!Serializable.class.isAssignableFrom(cl) || Proxy.isProxyClass(cl))
+    privbte stbtic long computeDefbultSUID(Clbss<?> cl) {
+        if (!Seriblizbble.clbss.isAssignbbleFrom(cl) || Proxy.isProxyClbss(cl))
         {
             return 0L;
         }
 
         try {
-            ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            DataOutputStream dout = new DataOutputStream(bout);
+            ByteArrbyOutputStrebm bout = new ByteArrbyOutputStrebm();
+            DbtbOutputStrebm dout = new DbtbOutputStrebm(bout);
 
-            dout.writeUTF(cl.getName());
+            dout.writeUTF(cl.getNbme());
 
-            int classMods = cl.getModifiers() &
+            int clbssMods = cl.getModifiers() &
                 (Modifier.PUBLIC | Modifier.FINAL |
                  Modifier.INTERFACE | Modifier.ABSTRACT);
 
             /*
-             * compensate for javac bug in which ABSTRACT bit was set for an
-             * interface only if the interface declared methods
+             * compensbte for jbvbc bug in which ABSTRACT bit wbs set for bn
+             * interfbce only if the interfbce declbred methods
              */
-            Method[] methods = cl.getDeclaredMethods();
-            if ((classMods & Modifier.INTERFACE) != 0) {
-                classMods = (methods.length > 0) ?
-                    (classMods | Modifier.ABSTRACT) :
-                    (classMods & ~Modifier.ABSTRACT);
+            Method[] methods = cl.getDeclbredMethods();
+            if ((clbssMods & Modifier.INTERFACE) != 0) {
+                clbssMods = (methods.length > 0) ?
+                    (clbssMods | Modifier.ABSTRACT) :
+                    (clbssMods & ~Modifier.ABSTRACT);
             }
-            dout.writeInt(classMods);
+            dout.writeInt(clbssMods);
 
-            if (!cl.isArray()) {
+            if (!cl.isArrby()) {
                 /*
-                 * compensate for change in 1.2FCS in which
-                 * Class.getInterfaces() was modified to return Cloneable and
-                 * Serializable for array classes.
+                 * compensbte for chbnge in 1.2FCS in which
+                 * Clbss.getInterfbces() wbs modified to return Clonebble bnd
+                 * Seriblizbble for brrby clbsses.
                  */
-                Class<?>[] interfaces = cl.getInterfaces();
-                String[] ifaceNames = new String[interfaces.length];
-                for (int i = 0; i < interfaces.length; i++) {
-                    ifaceNames[i] = interfaces[i].getName();
+                Clbss<?>[] interfbces = cl.getInterfbces();
+                String[] ifbceNbmes = new String[interfbces.length];
+                for (int i = 0; i < interfbces.length; i++) {
+                    ifbceNbmes[i] = interfbces[i].getNbme();
                 }
-                Arrays.sort(ifaceNames);
-                for (int i = 0; i < ifaceNames.length; i++) {
-                    dout.writeUTF(ifaceNames[i]);
+                Arrbys.sort(ifbceNbmes);
+                for (int i = 0; i < ifbceNbmes.length; i++) {
+                    dout.writeUTF(ifbceNbmes[i]);
                 }
             }
 
-            Field[] fields = cl.getDeclaredFields();
-            MemberSignature[] fieldSigs = new MemberSignature[fields.length];
+            Field[] fields = cl.getDeclbredFields();
+            MemberSignbture[] fieldSigs = new MemberSignbture[fields.length];
             for (int i = 0; i < fields.length; i++) {
-                fieldSigs[i] = new MemberSignature(fields[i]);
+                fieldSigs[i] = new MemberSignbture(fields[i]);
             }
-            Arrays.sort(fieldSigs, new Comparator<MemberSignature>() {
-                public int compare(MemberSignature ms1, MemberSignature ms2) {
-                    return ms1.name.compareTo(ms2.name);
+            Arrbys.sort(fieldSigs, new Compbrbtor<MemberSignbture>() {
+                public int compbre(MemberSignbture ms1, MemberSignbture ms2) {
+                    return ms1.nbme.compbreTo(ms2.nbme);
                 }
             });
             for (int i = 0; i < fieldSigs.length; i++) {
-                MemberSignature sig = fieldSigs[i];
+                MemberSignbture sig = fieldSigs[i];
                 int mods = sig.member.getModifiers() &
                     (Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED |
                      Modifier.STATIC | Modifier.FINAL | Modifier.VOLATILE |
@@ -1747,30 +1747,30 @@ public class ObjectStreamClass implements Serializable {
                 if (((mods & Modifier.PRIVATE) == 0) ||
                     ((mods & (Modifier.STATIC | Modifier.TRANSIENT)) == 0))
                 {
-                    dout.writeUTF(sig.name);
+                    dout.writeUTF(sig.nbme);
                     dout.writeInt(mods);
-                    dout.writeUTF(sig.signature);
+                    dout.writeUTF(sig.signbture);
                 }
             }
 
-            if (hasStaticInitializer(cl)) {
+            if (hbsStbticInitiblizer(cl)) {
                 dout.writeUTF("<clinit>");
                 dout.writeInt(Modifier.STATIC);
                 dout.writeUTF("()V");
             }
 
-            Constructor<?>[] cons = cl.getDeclaredConstructors();
-            MemberSignature[] consSigs = new MemberSignature[cons.length];
+            Constructor<?>[] cons = cl.getDeclbredConstructors();
+            MemberSignbture[] consSigs = new MemberSignbture[cons.length];
             for (int i = 0; i < cons.length; i++) {
-                consSigs[i] = new MemberSignature(cons[i]);
+                consSigs[i] = new MemberSignbture(cons[i]);
             }
-            Arrays.sort(consSigs, new Comparator<MemberSignature>() {
-                public int compare(MemberSignature ms1, MemberSignature ms2) {
-                    return ms1.signature.compareTo(ms2.signature);
+            Arrbys.sort(consSigs, new Compbrbtor<MemberSignbture>() {
+                public int compbre(MemberSignbture ms1, MemberSignbture ms2) {
+                    return ms1.signbture.compbreTo(ms2.signbture);
                 }
             });
             for (int i = 0; i < consSigs.length; i++) {
-                MemberSignature sig = consSigs[i];
+                MemberSignbture sig = consSigs[i];
                 int mods = sig.member.getModifiers() &
                     (Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED |
                      Modifier.STATIC | Modifier.FINAL |
@@ -1779,358 +1779,358 @@ public class ObjectStreamClass implements Serializable {
                 if ((mods & Modifier.PRIVATE) == 0) {
                     dout.writeUTF("<init>");
                     dout.writeInt(mods);
-                    dout.writeUTF(sig.signature.replace('/', '.'));
+                    dout.writeUTF(sig.signbture.replbce('/', '.'));
                 }
             }
 
-            MemberSignature[] methSigs = new MemberSignature[methods.length];
+            MemberSignbture[] methSigs = new MemberSignbture[methods.length];
             for (int i = 0; i < methods.length; i++) {
-                methSigs[i] = new MemberSignature(methods[i]);
+                methSigs[i] = new MemberSignbture(methods[i]);
             }
-            Arrays.sort(methSigs, new Comparator<MemberSignature>() {
-                public int compare(MemberSignature ms1, MemberSignature ms2) {
-                    int comp = ms1.name.compareTo(ms2.name);
+            Arrbys.sort(methSigs, new Compbrbtor<MemberSignbture>() {
+                public int compbre(MemberSignbture ms1, MemberSignbture ms2) {
+                    int comp = ms1.nbme.compbreTo(ms2.nbme);
                     if (comp == 0) {
-                        comp = ms1.signature.compareTo(ms2.signature);
+                        comp = ms1.signbture.compbreTo(ms2.signbture);
                     }
                     return comp;
                 }
             });
             for (int i = 0; i < methSigs.length; i++) {
-                MemberSignature sig = methSigs[i];
+                MemberSignbture sig = methSigs[i];
                 int mods = sig.member.getModifiers() &
                     (Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED |
                      Modifier.STATIC | Modifier.FINAL |
                      Modifier.SYNCHRONIZED | Modifier.NATIVE |
                      Modifier.ABSTRACT | Modifier.STRICT);
                 if ((mods & Modifier.PRIVATE) == 0) {
-                    dout.writeUTF(sig.name);
+                    dout.writeUTF(sig.nbme);
                     dout.writeInt(mods);
-                    dout.writeUTF(sig.signature.replace('/', '.'));
+                    dout.writeUTF(sig.signbture.replbce('/', '.'));
                 }
             }
 
             dout.flush();
 
-            MessageDigest md = MessageDigest.getInstance("SHA");
-            byte[] hashBytes = md.digest(bout.toByteArray());
-            long hash = 0;
-            for (int i = Math.min(hashBytes.length, 8) - 1; i >= 0; i--) {
-                hash = (hash << 8) | (hashBytes[i] & 0xFF);
+            MessbgeDigest md = MessbgeDigest.getInstbnce("SHA");
+            byte[] hbshBytes = md.digest(bout.toByteArrby());
+            long hbsh = 0;
+            for (int i = Mbth.min(hbshBytes.length, 8) - 1; i >= 0; i--) {
+                hbsh = (hbsh << 8) | (hbshBytes[i] & 0xFF);
             }
-            return hash;
-        } catch (IOException ex) {
-            throw new InternalError(ex);
-        } catch (NoSuchAlgorithmException ex) {
-            throw new SecurityException(ex.getMessage());
+            return hbsh;
+        } cbtch (IOException ex) {
+            throw new InternblError(ex);
+        } cbtch (NoSuchAlgorithmException ex) {
+            throw new SecurityException(ex.getMessbge());
         }
     }
 
     /**
-     * Returns true if the given class defines a static initializer method,
-     * false otherwise.
+     * Returns true if the given clbss defines b stbtic initiblizer method,
+     * fblse otherwise.
      */
-    private native static boolean hasStaticInitializer(Class<?> cl);
+    privbte nbtive stbtic boolebn hbsStbticInitiblizer(Clbss<?> cl);
 
     /**
-     * Class for computing and caching field/constructor/method signatures
-     * during serialVersionUID calculation.
+     * Clbss for computing bnd cbching field/constructor/method signbtures
+     * during seriblVersionUID cblculbtion.
      */
-    private static class MemberSignature {
+    privbte stbtic clbss MemberSignbture {
 
-        public final Member member;
-        public final String name;
-        public final String signature;
+        public finbl Member member;
+        public finbl String nbme;
+        public finbl String signbture;
 
-        public MemberSignature(Field field) {
+        public MemberSignbture(Field field) {
             member = field;
-            name = field.getName();
-            signature = getClassSignature(field.getType());
+            nbme = field.getNbme();
+            signbture = getClbssSignbture(field.getType());
         }
 
-        public MemberSignature(Constructor<?> cons) {
+        public MemberSignbture(Constructor<?> cons) {
             member = cons;
-            name = cons.getName();
-            signature = getMethodSignature(
-                cons.getParameterTypes(), Void.TYPE);
+            nbme = cons.getNbme();
+            signbture = getMethodSignbture(
+                cons.getPbrbmeterTypes(), Void.TYPE);
         }
 
-        public MemberSignature(Method meth) {
+        public MemberSignbture(Method meth) {
             member = meth;
-            name = meth.getName();
-            signature = getMethodSignature(
-                meth.getParameterTypes(), meth.getReturnType());
+            nbme = meth.getNbme();
+            signbture = getMethodSignbture(
+                meth.getPbrbmeterTypes(), meth.getReturnType());
         }
     }
 
     /**
-     * Class for setting and retrieving serializable field values in batch.
+     * Clbss for setting bnd retrieving seriblizbble field vblues in bbtch.
      */
-    // REMIND: dynamically generate these?
-    private static class FieldReflector {
+    // REMIND: dynbmicblly generbte these?
+    privbte stbtic clbss FieldReflector {
 
-        /** handle for performing unsafe operations */
-        private static final Unsafe unsafe = Unsafe.getUnsafe();
+        /** hbndle for performing unsbfe operbtions */
+        privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-        /** fields to operate on */
-        private final ObjectStreamField[] fields;
+        /** fields to operbte on */
+        privbte finbl ObjectStrebmField[] fields;
         /** number of primitive fields */
-        private final int numPrimFields;
-        /** unsafe field keys for reading fields - may contain dupes */
-        private final long[] readKeys;
-        /** unsafe fields keys for writing fields - no dupes */
-        private final long[] writeKeys;
-        /** field data offsets */
-        private final int[] offsets;
+        privbte finbl int numPrimFields;
+        /** unsbfe field keys for rebding fields - mby contbin dupes */
+        privbte finbl long[] rebdKeys;
+        /** unsbfe fields keys for writing fields - no dupes */
+        privbte finbl long[] writeKeys;
+        /** field dbtb offsets */
+        privbte finbl int[] offsets;
         /** field type codes */
-        private final char[] typeCodes;
+        privbte finbl chbr[] typeCodes;
         /** field types */
-        private final Class<?>[] types;
+        privbte finbl Clbss<?>[] types;
 
         /**
-         * Constructs FieldReflector capable of setting/getting values from the
-         * subset of fields whose ObjectStreamFields contain non-null
-         * reflective Field objects.  ObjectStreamFields with null Fields are
-         * treated as filler, for which get operations return default values
-         * and set operations discard given values.
+         * Constructs FieldReflector cbpbble of setting/getting vblues from the
+         * subset of fields whose ObjectStrebmFields contbin non-null
+         * reflective Field objects.  ObjectStrebmFields with null Fields bre
+         * trebted bs filler, for which get operbtions return defbult vblues
+         * bnd set operbtions discbrd given vblues.
          */
-        FieldReflector(ObjectStreamField[] fields) {
+        FieldReflector(ObjectStrebmField[] fields) {
             this.fields = fields;
             int nfields = fields.length;
-            readKeys = new long[nfields];
+            rebdKeys = new long[nfields];
             writeKeys = new long[nfields];
             offsets = new int[nfields];
-            typeCodes = new char[nfields];
-            ArrayList<Class<?>> typeList = new ArrayList<>();
-            Set<Long> usedKeys = new HashSet<>();
+            typeCodes = new chbr[nfields];
+            ArrbyList<Clbss<?>> typeList = new ArrbyList<>();
+            Set<Long> usedKeys = new HbshSet<>();
 
 
             for (int i = 0; i < nfields; i++) {
-                ObjectStreamField f = fields[i];
+                ObjectStrebmField f = fields[i];
                 Field rf = f.getField();
                 long key = (rf != null) ?
-                    unsafe.objectFieldOffset(rf) : Unsafe.INVALID_FIELD_OFFSET;
-                readKeys[i] = key;
-                writeKeys[i] = usedKeys.add(key) ?
-                    key : Unsafe.INVALID_FIELD_OFFSET;
+                    unsbfe.objectFieldOffset(rf) : Unsbfe.INVALID_FIELD_OFFSET;
+                rebdKeys[i] = key;
+                writeKeys[i] = usedKeys.bdd(key) ?
+                    key : Unsbfe.INVALID_FIELD_OFFSET;
                 offsets[i] = f.getOffset();
                 typeCodes[i] = f.getTypeCode();
                 if (!f.isPrimitive()) {
-                    typeList.add((rf != null) ? rf.getType() : null);
+                    typeList.bdd((rf != null) ? rf.getType() : null);
                 }
             }
 
-            types = typeList.toArray(new Class<?>[typeList.size()]);
+            types = typeList.toArrby(new Clbss<?>[typeList.size()]);
             numPrimFields = nfields - types.length;
         }
 
         /**
-         * Returns list of ObjectStreamFields representing fields operated on
-         * by this reflector.  The shared/unshared values and Field objects
-         * contained by ObjectStreamFields in the list reflect their bindings
-         * to locally defined serializable fields.
+         * Returns list of ObjectStrebmFields representing fields operbted on
+         * by this reflector.  The shbred/unshbred vblues bnd Field objects
+         * contbined by ObjectStrebmFields in the list reflect their bindings
+         * to locblly defined seriblizbble fields.
          */
-        ObjectStreamField[] getFields() {
+        ObjectStrebmField[] getFields() {
             return fields;
         }
 
         /**
-         * Fetches the serializable primitive field values of object obj and
-         * marshals them into byte array buf starting at offset 0.  The caller
-         * is responsible for ensuring that obj is of the proper type.
+         * Fetches the seriblizbble primitive field vblues of object obj bnd
+         * mbrshbls them into byte brrby buf stbrting bt offset 0.  The cbller
+         * is responsible for ensuring thbt obj is of the proper type.
          */
-        void getPrimFieldValues(Object obj, byte[] buf) {
+        void getPrimFieldVblues(Object obj, byte[] buf) {
             if (obj == null) {
                 throw new NullPointerException();
             }
-            /* assuming checkDefaultSerialize() has been called on the class
-             * descriptor this FieldReflector was obtained from, no field keys
-             * in array should be equal to Unsafe.INVALID_FIELD_OFFSET.
+            /* bssuming checkDefbultSeriblize() hbs been cblled on the clbss
+             * descriptor this FieldReflector wbs obtbined from, no field keys
+             * in brrby should be equbl to Unsbfe.INVALID_FIELD_OFFSET.
              */
             for (int i = 0; i < numPrimFields; i++) {
-                long key = readKeys[i];
+                long key = rebdKeys[i];
                 int off = offsets[i];
                 switch (typeCodes[i]) {
-                    case 'Z':
-                        Bits.putBoolean(buf, off, unsafe.getBoolean(obj, key));
-                        break;
+                    cbse 'Z':
+                        Bits.putBoolebn(buf, off, unsbfe.getBoolebn(obj, key));
+                        brebk;
 
-                    case 'B':
-                        buf[off] = unsafe.getByte(obj, key);
-                        break;
+                    cbse 'B':
+                        buf[off] = unsbfe.getByte(obj, key);
+                        brebk;
 
-                    case 'C':
-                        Bits.putChar(buf, off, unsafe.getChar(obj, key));
-                        break;
+                    cbse 'C':
+                        Bits.putChbr(buf, off, unsbfe.getChbr(obj, key));
+                        brebk;
 
-                    case 'S':
-                        Bits.putShort(buf, off, unsafe.getShort(obj, key));
-                        break;
+                    cbse 'S':
+                        Bits.putShort(buf, off, unsbfe.getShort(obj, key));
+                        brebk;
 
-                    case 'I':
-                        Bits.putInt(buf, off, unsafe.getInt(obj, key));
-                        break;
+                    cbse 'I':
+                        Bits.putInt(buf, off, unsbfe.getInt(obj, key));
+                        brebk;
 
-                    case 'F':
-                        Bits.putFloat(buf, off, unsafe.getFloat(obj, key));
-                        break;
+                    cbse 'F':
+                        Bits.putFlobt(buf, off, unsbfe.getFlobt(obj, key));
+                        brebk;
 
-                    case 'J':
-                        Bits.putLong(buf, off, unsafe.getLong(obj, key));
-                        break;
+                    cbse 'J':
+                        Bits.putLong(buf, off, unsbfe.getLong(obj, key));
+                        brebk;
 
-                    case 'D':
-                        Bits.putDouble(buf, off, unsafe.getDouble(obj, key));
-                        break;
+                    cbse 'D':
+                        Bits.putDouble(buf, off, unsbfe.getDouble(obj, key));
+                        brebk;
 
-                    default:
-                        throw new InternalError();
+                    defbult:
+                        throw new InternblError();
                 }
             }
         }
 
         /**
-         * Sets the serializable primitive fields of object obj using values
-         * unmarshalled from byte array buf starting at offset 0.  The caller
-         * is responsible for ensuring that obj is of the proper type.
+         * Sets the seriblizbble primitive fields of object obj using vblues
+         * unmbrshblled from byte brrby buf stbrting bt offset 0.  The cbller
+         * is responsible for ensuring thbt obj is of the proper type.
          */
-        void setPrimFieldValues(Object obj, byte[] buf) {
+        void setPrimFieldVblues(Object obj, byte[] buf) {
             if (obj == null) {
                 throw new NullPointerException();
             }
             for (int i = 0; i < numPrimFields; i++) {
                 long key = writeKeys[i];
-                if (key == Unsafe.INVALID_FIELD_OFFSET) {
-                    continue;           // discard value
+                if (key == Unsbfe.INVALID_FIELD_OFFSET) {
+                    continue;           // discbrd vblue
                 }
                 int off = offsets[i];
                 switch (typeCodes[i]) {
-                    case 'Z':
-                        unsafe.putBoolean(obj, key, Bits.getBoolean(buf, off));
-                        break;
+                    cbse 'Z':
+                        unsbfe.putBoolebn(obj, key, Bits.getBoolebn(buf, off));
+                        brebk;
 
-                    case 'B':
-                        unsafe.putByte(obj, key, buf[off]);
-                        break;
+                    cbse 'B':
+                        unsbfe.putByte(obj, key, buf[off]);
+                        brebk;
 
-                    case 'C':
-                        unsafe.putChar(obj, key, Bits.getChar(buf, off));
-                        break;
+                    cbse 'C':
+                        unsbfe.putChbr(obj, key, Bits.getChbr(buf, off));
+                        brebk;
 
-                    case 'S':
-                        unsafe.putShort(obj, key, Bits.getShort(buf, off));
-                        break;
+                    cbse 'S':
+                        unsbfe.putShort(obj, key, Bits.getShort(buf, off));
+                        brebk;
 
-                    case 'I':
-                        unsafe.putInt(obj, key, Bits.getInt(buf, off));
-                        break;
+                    cbse 'I':
+                        unsbfe.putInt(obj, key, Bits.getInt(buf, off));
+                        brebk;
 
-                    case 'F':
-                        unsafe.putFloat(obj, key, Bits.getFloat(buf, off));
-                        break;
+                    cbse 'F':
+                        unsbfe.putFlobt(obj, key, Bits.getFlobt(buf, off));
+                        brebk;
 
-                    case 'J':
-                        unsafe.putLong(obj, key, Bits.getLong(buf, off));
-                        break;
+                    cbse 'J':
+                        unsbfe.putLong(obj, key, Bits.getLong(buf, off));
+                        brebk;
 
-                    case 'D':
-                        unsafe.putDouble(obj, key, Bits.getDouble(buf, off));
-                        break;
+                    cbse 'D':
+                        unsbfe.putDouble(obj, key, Bits.getDouble(buf, off));
+                        brebk;
 
-                    default:
-                        throw new InternalError();
+                    defbult:
+                        throw new InternblError();
                 }
             }
         }
 
         /**
-         * Fetches the serializable object field values of object obj and
-         * stores them in array vals starting at offset 0.  The caller is
-         * responsible for ensuring that obj is of the proper type.
+         * Fetches the seriblizbble object field vblues of object obj bnd
+         * stores them in brrby vbls stbrting bt offset 0.  The cbller is
+         * responsible for ensuring thbt obj is of the proper type.
          */
-        void getObjFieldValues(Object obj, Object[] vals) {
+        void getObjFieldVblues(Object obj, Object[] vbls) {
             if (obj == null) {
                 throw new NullPointerException();
             }
-            /* assuming checkDefaultSerialize() has been called on the class
-             * descriptor this FieldReflector was obtained from, no field keys
-             * in array should be equal to Unsafe.INVALID_FIELD_OFFSET.
+            /* bssuming checkDefbultSeriblize() hbs been cblled on the clbss
+             * descriptor this FieldReflector wbs obtbined from, no field keys
+             * in brrby should be equbl to Unsbfe.INVALID_FIELD_OFFSET.
              */
             for (int i = numPrimFields; i < fields.length; i++) {
                 switch (typeCodes[i]) {
-                    case 'L':
-                    case '[':
-                        vals[offsets[i]] = unsafe.getObject(obj, readKeys[i]);
-                        break;
+                    cbse 'L':
+                    cbse '[':
+                        vbls[offsets[i]] = unsbfe.getObject(obj, rebdKeys[i]);
+                        brebk;
 
-                    default:
-                        throw new InternalError();
+                    defbult:
+                        throw new InternblError();
                 }
             }
         }
 
         /**
-         * Sets the serializable object fields of object obj using values from
-         * array vals starting at offset 0.  The caller is responsible for
-         * ensuring that obj is of the proper type; however, attempts to set a
-         * field with a value of the wrong type will trigger an appropriate
-         * ClassCastException.
+         * Sets the seriblizbble object fields of object obj using vblues from
+         * brrby vbls stbrting bt offset 0.  The cbller is responsible for
+         * ensuring thbt obj is of the proper type; however, bttempts to set b
+         * field with b vblue of the wrong type will trigger bn bppropribte
+         * ClbssCbstException.
          */
-        void setObjFieldValues(Object obj, Object[] vals) {
+        void setObjFieldVblues(Object obj, Object[] vbls) {
             if (obj == null) {
                 throw new NullPointerException();
             }
             for (int i = numPrimFields; i < fields.length; i++) {
                 long key = writeKeys[i];
-                if (key == Unsafe.INVALID_FIELD_OFFSET) {
-                    continue;           // discard value
+                if (key == Unsbfe.INVALID_FIELD_OFFSET) {
+                    continue;           // discbrd vblue
                 }
                 switch (typeCodes[i]) {
-                    case 'L':
-                    case '[':
-                        Object val = vals[offsets[i]];
-                        if (val != null &&
-                            !types[i - numPrimFields].isInstance(val))
+                    cbse 'L':
+                    cbse '[':
+                        Object vbl = vbls[offsets[i]];
+                        if (vbl != null &&
+                            !types[i - numPrimFields].isInstbnce(vbl))
                         {
                             Field f = fields[i].getField();
-                            throw new ClassCastException(
-                                "cannot assign instance of " +
-                                val.getClass().getName() + " to field " +
-                                f.getDeclaringClass().getName() + "." +
-                                f.getName() + " of type " +
-                                f.getType().getName() + " in instance of " +
-                                obj.getClass().getName());
+                            throw new ClbssCbstException(
+                                "cbnnot bssign instbnce of " +
+                                vbl.getClbss().getNbme() + " to field " +
+                                f.getDeclbringClbss().getNbme() + "." +
+                                f.getNbme() + " of type " +
+                                f.getType().getNbme() + " in instbnce of " +
+                                obj.getClbss().getNbme());
                         }
-                        unsafe.putObject(obj, key, val);
-                        break;
+                        unsbfe.putObject(obj, key, vbl);
+                        brebk;
 
-                    default:
-                        throw new InternalError();
+                    defbult:
+                        throw new InternblError();
                 }
             }
         }
     }
 
     /**
-     * Matches given set of serializable fields with serializable fields
-     * described by the given local class descriptor, and returns a
-     * FieldReflector instance capable of setting/getting values from the
-     * subset of fields that match (non-matching fields are treated as filler,
-     * for which get operations return default values and set operations
-     * discard given values).  Throws InvalidClassException if unresolvable
+     * Mbtches given set of seriblizbble fields with seriblizbble fields
+     * described by the given locbl clbss descriptor, bnd returns b
+     * FieldReflector instbnce cbpbble of setting/getting vblues from the
+     * subset of fields thbt mbtch (non-mbtching fields bre trebted bs filler,
+     * for which get operbtions return defbult vblues bnd set operbtions
+     * discbrd given vblues).  Throws InvblidClbssException if unresolvbble
      * type conflicts exist between the two sets of fields.
      */
-    private static FieldReflector getReflector(ObjectStreamField[] fields,
-                                               ObjectStreamClass localDesc)
-        throws InvalidClassException
+    privbte stbtic FieldReflector getReflector(ObjectStrebmField[] fields,
+                                               ObjectStrebmClbss locblDesc)
+        throws InvblidClbssException
     {
-        // class irrelevant if no fields
-        Class<?> cl = (localDesc != null && fields.length > 0) ?
-            localDesc.cl : null;
-        processQueue(Caches.reflectorsQueue, Caches.reflectors);
+        // clbss irrelevbnt if no fields
+        Clbss<?> cl = (locblDesc != null && fields.length > 0) ?
+            locblDesc.cl : null;
+        processQueue(Cbches.reflectorsQueue, Cbches.reflectors);
         FieldReflectorKey key = new FieldReflectorKey(cl, fields,
-                                                      Caches.reflectorsQueue);
-        Reference<?> ref = Caches.reflectors.get(key);
+                                                      Cbches.reflectorsQueue);
+        Reference<?> ref = Cbches.reflectors.get(key);
         Object entry = null;
         if (ref != null) {
             entry = ref.get();
@@ -2141,9 +2141,9 @@ public class ObjectStreamClass implements Serializable {
             Reference<?> newRef = new SoftReference<>(newEntry);
             do {
                 if (ref != null) {
-                    Caches.reflectors.remove(key, ref);
+                    Cbches.reflectors.remove(key, ref);
                 }
-                ref = Caches.reflectors.putIfAbsent(key, newRef);
+                ref = Cbches.reflectors.putIfAbsent(key, newRef);
                 if (ref != null) {
                     entry = ref.get();
                 }
@@ -2153,197 +2153,197 @@ public class ObjectStreamClass implements Serializable {
             }
         }
 
-        if (entry instanceof FieldReflector) {  // check common case first
+        if (entry instbnceof FieldReflector) {  // check common cbse first
             return (FieldReflector) entry;
-        } else if (entry instanceof EntryFuture) {
+        } else if (entry instbnceof EntryFuture) {
             entry = ((EntryFuture) entry).get();
         } else if (entry == null) {
             try {
-                entry = new FieldReflector(matchFields(fields, localDesc));
-            } catch (Throwable th) {
+                entry = new FieldReflector(mbtchFields(fields, locblDesc));
+            } cbtch (Throwbble th) {
                 entry = th;
             }
             future.set(entry);
-            Caches.reflectors.put(key, new SoftReference<Object>(entry));
+            Cbches.reflectors.put(key, new SoftReference<Object>(entry));
         }
 
-        if (entry instanceof FieldReflector) {
+        if (entry instbnceof FieldReflector) {
             return (FieldReflector) entry;
-        } else if (entry instanceof InvalidClassException) {
-            throw (InvalidClassException) entry;
-        } else if (entry instanceof RuntimeException) {
+        } else if (entry instbnceof InvblidClbssException) {
+            throw (InvblidClbssException) entry;
+        } else if (entry instbnceof RuntimeException) {
             throw (RuntimeException) entry;
-        } else if (entry instanceof Error) {
+        } else if (entry instbnceof Error) {
             throw (Error) entry;
         } else {
-            throw new InternalError("unexpected entry: " + entry);
+            throw new InternblError("unexpected entry: " + entry);
         }
     }
 
     /**
-     * FieldReflector cache lookup key.  Keys are considered equal if they
-     * refer to the same class and equivalent field formats.
+     * FieldReflector cbche lookup key.  Keys bre considered equbl if they
+     * refer to the sbme clbss bnd equivblent field formbts.
      */
-    private static class FieldReflectorKey extends WeakReference<Class<?>> {
+    privbte stbtic clbss FieldReflectorKey extends WebkReference<Clbss<?>> {
 
-        private final String sigs;
-        private final int hash;
-        private final boolean nullClass;
+        privbte finbl String sigs;
+        privbte finbl int hbsh;
+        privbte finbl boolebn nullClbss;
 
-        FieldReflectorKey(Class<?> cl, ObjectStreamField[] fields,
-                          ReferenceQueue<Class<?>> queue)
+        FieldReflectorKey(Clbss<?> cl, ObjectStrebmField[] fields,
+                          ReferenceQueue<Clbss<?>> queue)
         {
             super(cl, queue);
-            nullClass = (cl == null);
+            nullClbss = (cl == null);
             StringBuilder sbuf = new StringBuilder();
             for (int i = 0; i < fields.length; i++) {
-                ObjectStreamField f = fields[i];
-                sbuf.append(f.getName()).append(f.getSignature());
+                ObjectStrebmField f = fields[i];
+                sbuf.bppend(f.getNbme()).bppend(f.getSignbture());
             }
             sigs = sbuf.toString();
-            hash = System.identityHashCode(cl) + sigs.hashCode();
+            hbsh = System.identityHbshCode(cl) + sigs.hbshCode();
         }
 
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
 
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this) {
                 return true;
             }
 
-            if (obj instanceof FieldReflectorKey) {
+            if (obj instbnceof FieldReflectorKey) {
                 FieldReflectorKey other = (FieldReflectorKey) obj;
-                Class<?> referent;
-                return (nullClass ? other.nullClass
+                Clbss<?> referent;
+                return (nullClbss ? other.nullClbss
                                   : ((referent = get()) != null) &&
                                     (referent == other.get())) &&
-                    sigs.equals(other.sigs);
+                    sigs.equbls(other.sigs);
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
     /**
-     * Matches given set of serializable fields with serializable fields
-     * obtained from the given local class descriptor (which contain bindings
-     * to reflective Field objects).  Returns list of ObjectStreamFields in
-     * which each ObjectStreamField whose signature matches that of a local
-     * field contains a Field object for that field; unmatched
-     * ObjectStreamFields contain null Field objects.  Shared/unshared settings
-     * of the returned ObjectStreamFields also reflect those of matched local
-     * ObjectStreamFields.  Throws InvalidClassException if unresolvable type
+     * Mbtches given set of seriblizbble fields with seriblizbble fields
+     * obtbined from the given locbl clbss descriptor (which contbin bindings
+     * to reflective Field objects).  Returns list of ObjectStrebmFields in
+     * which ebch ObjectStrebmField whose signbture mbtches thbt of b locbl
+     * field contbins b Field object for thbt field; unmbtched
+     * ObjectStrebmFields contbin null Field objects.  Shbred/unshbred settings
+     * of the returned ObjectStrebmFields blso reflect those of mbtched locbl
+     * ObjectStrebmFields.  Throws InvblidClbssException if unresolvbble type
      * conflicts exist between the two sets of fields.
      */
-    private static ObjectStreamField[] matchFields(ObjectStreamField[] fields,
-                                                   ObjectStreamClass localDesc)
-        throws InvalidClassException
+    privbte stbtic ObjectStrebmField[] mbtchFields(ObjectStrebmField[] fields,
+                                                   ObjectStrebmClbss locblDesc)
+        throws InvblidClbssException
     {
-        ObjectStreamField[] localFields = (localDesc != null) ?
-            localDesc.fields : NO_FIELDS;
+        ObjectStrebmField[] locblFields = (locblDesc != null) ?
+            locblDesc.fields : NO_FIELDS;
 
         /*
-         * Even if fields == localFields, we cannot simply return localFields
-         * here.  In previous implementations of serialization,
-         * ObjectStreamField.getType() returned Object.class if the
-         * ObjectStreamField represented a non-primitive field and belonged to
-         * a non-local class descriptor.  To preserve this (questionable)
-         * behavior, the ObjectStreamField instances returned by matchFields
-         * cannot report non-primitive types other than Object.class; hence
-         * localFields cannot be returned directly.
+         * Even if fields == locblFields, we cbnnot simply return locblFields
+         * here.  In previous implementbtions of seriblizbtion,
+         * ObjectStrebmField.getType() returned Object.clbss if the
+         * ObjectStrebmField represented b non-primitive field bnd belonged to
+         * b non-locbl clbss descriptor.  To preserve this (questionbble)
+         * behbvior, the ObjectStrebmField instbnces returned by mbtchFields
+         * cbnnot report non-primitive types other thbn Object.clbss; hence
+         * locblFields cbnnot be returned directly.
          */
 
-        ObjectStreamField[] matches = new ObjectStreamField[fields.length];
+        ObjectStrebmField[] mbtches = new ObjectStrebmField[fields.length];
         for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField f = fields[i], m = null;
-            for (int j = 0; j < localFields.length; j++) {
-                ObjectStreamField lf = localFields[j];
-                if (f.getName().equals(lf.getName())) {
+            ObjectStrebmField f = fields[i], m = null;
+            for (int j = 0; j < locblFields.length; j++) {
+                ObjectStrebmField lf = locblFields[j];
+                if (f.getNbme().equbls(lf.getNbme())) {
                     if ((f.isPrimitive() || lf.isPrimitive()) &&
                         f.getTypeCode() != lf.getTypeCode())
                     {
-                        throw new InvalidClassException(localDesc.name,
-                            "incompatible types for field " + f.getName());
+                        throw new InvblidClbssException(locblDesc.nbme,
+                            "incompbtible types for field " + f.getNbme());
                     }
                     if (lf.getField() != null) {
-                        m = new ObjectStreamField(
-                            lf.getField(), lf.isUnshared(), false);
+                        m = new ObjectStrebmField(
+                            lf.getField(), lf.isUnshbred(), fblse);
                     } else {
-                        m = new ObjectStreamField(
-                            lf.getName(), lf.getSignature(), lf.isUnshared());
+                        m = new ObjectStrebmField(
+                            lf.getNbme(), lf.getSignbture(), lf.isUnshbred());
                     }
                 }
             }
             if (m == null) {
-                m = new ObjectStreamField(
-                    f.getName(), f.getSignature(), false);
+                m = new ObjectStrebmField(
+                    f.getNbme(), f.getSignbture(), fblse);
             }
             m.setOffset(f.getOffset());
-            matches[i] = m;
+            mbtches[i] = m;
         }
-        return matches;
+        return mbtches;
     }
 
     /**
-     * Removes from the specified map any keys that have been enqueued
+     * Removes from the specified mbp bny keys thbt hbve been enqueued
      * on the specified reference queue.
      */
-    static void processQueue(ReferenceQueue<Class<?>> queue,
-                             ConcurrentMap<? extends
-                             WeakReference<Class<?>>, ?> map)
+    stbtic void processQueue(ReferenceQueue<Clbss<?>> queue,
+                             ConcurrentMbp<? extends
+                             WebkReference<Clbss<?>>, ?> mbp)
     {
-        Reference<? extends Class<?>> ref;
+        Reference<? extends Clbss<?>> ref;
         while((ref = queue.poll()) != null) {
-            map.remove(ref);
+            mbp.remove(ref);
         }
     }
 
     /**
-     *  Weak key for Class objects.
+     *  Webk key for Clbss objects.
      *
      **/
-    static class WeakClassKey extends WeakReference<Class<?>> {
+    stbtic clbss WebkClbssKey extends WebkReference<Clbss<?>> {
         /**
-         * saved value of the referent's identity hash code, to maintain
-         * a consistent hash code after the referent has been cleared
+         * sbved vblue of the referent's identity hbsh code, to mbintbin
+         * b consistent hbsh code bfter the referent hbs been clebred
          */
-        private final int hash;
+        privbte finbl int hbsh;
 
         /**
-         * Create a new WeakClassKey to the given object, registered
-         * with a queue.
+         * Crebte b new WebkClbssKey to the given object, registered
+         * with b queue.
          */
-        WeakClassKey(Class<?> cl, ReferenceQueue<Class<?>> refQueue) {
+        WebkClbssKey(Clbss<?> cl, ReferenceQueue<Clbss<?>> refQueue) {
             super(cl, refQueue);
-            hash = System.identityHashCode(cl);
+            hbsh = System.identityHbshCode(cl);
         }
 
         /**
-         * Returns the identity hash code of the original referent.
+         * Returns the identity hbsh code of the originbl referent.
          */
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
 
         /**
-         * Returns true if the given object is this identical
-         * WeakClassKey instance, or, if this object's referent has not
-         * been cleared, if the given object is another WeakClassKey
-         * instance with the identical non-null referent as this one.
+         * Returns true if the given object is this identicbl
+         * WebkClbssKey instbnce, or, if this object's referent hbs not
+         * been clebred, if the given object is bnother WebkClbssKey
+         * instbnce with the identicbl non-null referent bs this one.
          */
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this) {
                 return true;
             }
 
-            if (obj instanceof WeakClassKey) {
+            if (obj instbnceof WebkClbssKey) {
                 Object referent = get();
                 return (referent != null) &&
-                       (referent == ((WeakClassKey) obj).get());
+                       (referent == ((WebkClbssKey) obj).get());
             } else {
-                return false;
+                return fblse;
             }
         }
     }

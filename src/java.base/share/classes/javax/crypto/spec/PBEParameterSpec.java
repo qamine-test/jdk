@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * This class specifies the set of parameters used with password-based
- * encryption (PBE), as defined in the
- * <a href="http://www.ietf.org/rfc/rfc2898.txt">PKCS #5</a>
- * standard.
+ * This clbss specifies the set of pbrbmeters used with pbssword-bbsed
+ * encryption (PBE), bs defined in the
+ * <b href="http://www.ietf.org/rfc/rfc2898.txt">PKCS #5</b>
+ * stbndbrd.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
-public class PBEParameterSpec implements AlgorithmParameterSpec {
+public clbss PBEPbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private byte[] salt;
-    private int iterationCount;
-    private AlgorithmParameterSpec paramSpec = null;
+    privbte byte[] sblt;
+    privbte int iterbtionCount;
+    privbte AlgorithmPbrbmeterSpec pbrbmSpec = null;
 
     /**
-     * Constructs a parameter set for password-based encryption as defined in
-     * the PKCS #5 standard.
+     * Constructs b pbrbmeter set for pbssword-bbsed encryption bs defined in
+     * the PKCS #5 stbndbrd.
      *
-     * @param salt the salt. The contents of <code>salt</code> are copied
-     * to protect against subsequent modification.
-     * @param iterationCount the iteration count.
-     * @exception NullPointerException if <code>salt</code> is null.
+     * @pbrbm sblt the sblt. The contents of <code>sblt</code> bre copied
+     * to protect bgbinst subsequent modificbtion.
+     * @pbrbm iterbtionCount the iterbtion count.
+     * @exception NullPointerException if <code>sblt</code> is null.
      */
-    public PBEParameterSpec(byte[] salt, int iterationCount) {
-        this.salt = salt.clone();
-        this.iterationCount = iterationCount;
+    public PBEPbrbmeterSpec(byte[] sblt, int iterbtionCount) {
+        this.sblt = sblt.clone();
+        this.iterbtionCount = iterbtionCount;
     }
 
     /**
-     * Constructs a parameter set for password-based encryption as defined in
-     * the PKCS #5 standard.
+     * Constructs b pbrbmeter set for pbssword-bbsed encryption bs defined in
+     * the PKCS #5 stbndbrd.
      *
-     * @param salt the salt. The contents of <code>salt</code> are copied
-     * to protect against subsequent modification.
-     * @param iterationCount the iteration count.
-     * @param paramSpec the cipher algorithm parameter specification, which
-     * may be null.
-     * @exception NullPointerException if <code>salt</code> is null.
+     * @pbrbm sblt the sblt. The contents of <code>sblt</code> bre copied
+     * to protect bgbinst subsequent modificbtion.
+     * @pbrbm iterbtionCount the iterbtion count.
+     * @pbrbm pbrbmSpec the cipher blgorithm pbrbmeter specificbtion, which
+     * mby be null.
+     * @exception NullPointerException if <code>sblt</code> is null.
      *
      * @since 1.8
      */
-    public PBEParameterSpec(byte[] salt, int iterationCount,
-            AlgorithmParameterSpec paramSpec) {
-        this.salt = salt.clone();
-        this.iterationCount = iterationCount;
-        this.paramSpec = paramSpec;
+    public PBEPbrbmeterSpec(byte[] sblt, int iterbtionCount,
+            AlgorithmPbrbmeterSpec pbrbmSpec) {
+        this.sblt = sblt.clone();
+        this.iterbtionCount = iterbtionCount;
+        this.pbrbmSpec = pbrbmSpec;
     }
 
     /**
-     * Returns the salt.
+     * Returns the sblt.
      *
-     * @return the salt. Returns a new array
-     * each time this method is called.
+     * @return the sblt. Returns b new brrby
+     * ebch time this method is cblled.
      */
-    public byte[] getSalt() {
-        return this.salt.clone();
+    public byte[] getSblt() {
+        return this.sblt.clone();
     }
 
     /**
-     * Returns the iteration count.
+     * Returns the iterbtion count.
      *
-     * @return the iteration count
+     * @return the iterbtion count
      */
-    public int getIterationCount() {
-        return this.iterationCount;
+    public int getIterbtionCount() {
+        return this.iterbtionCount;
     }
 
     /**
-     * Returns the cipher algorithm parameter specification.
+     * Returns the cipher blgorithm pbrbmeter specificbtion.
      *
-     * @return the parameter specification, or null if none was set.
+     * @return the pbrbmeter specificbtion, or null if none wbs set.
      *
      * @since 1.8
      */
-    public AlgorithmParameterSpec getParameterSpec() {
-        return this.paramSpec;
+    public AlgorithmPbrbmeterSpec getPbrbmeterSpec() {
+        return this.pbrbmSpec;
     }
 }

@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
-import java.util.*;
+import jbvb.util.*;
 
-public class InternalEventHandler implements Runnable
+public clbss InternblEventHbndler implements Runnbble
 {
     EventQueueImpl queue;
-    VirtualMachineImpl vm;
+    VirtublMbchineImpl vm;
 
-    InternalEventHandler(VirtualMachineImpl vm, EventQueueImpl queue)
+    InternblEventHbndler(VirtublMbchineImpl vm, EventQueueImpl queue)
     {
         this.vm = vm;
         this.queue = queue;
-        Thread thread = new Thread(vm.threadGroupForJDI(), this,
-                                   "JDI Internal Event Handler");
-        thread.setDaemon(true);
-        thread.start();
+        Threbd threbd = new Threbd(vm.threbdGroupForJDI(), this,
+                                   "JDI Internbl Event Hbndler");
+        threbd.setDbemon(true);
+        threbd.stbrt();
     }
 
     public void run() {
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            vm.printTrace("Internal event handler running");
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_EVENTS) != 0) {
+            vm.printTrbce("Internbl event hbndler running");
         }
         try {
             while (true) {
                 try {
-                    EventSet eventSet = queue.removeInternal();
-                    EventIterator it = eventSet.eventIterator();
-                    while (it.hasNext()) {
+                    EventSet eventSet = queue.removeInternbl();
+                    EventIterbtor it = eventSet.eventIterbtor();
+                    while (it.hbsNext()) {
                         Event event = it.nextEvent();
-                        if (event instanceof ClassUnloadEvent) {
-                            ClassUnloadEvent cuEvent = (ClassUnloadEvent)event;
-                            vm.removeReferenceType(cuEvent.classSignature());
+                        if (event instbnceof ClbssUnlobdEvent) {
+                            ClbssUnlobdEvent cuEvent = (ClbssUnlobdEvent)event;
+                            vm.removeReferenceType(cuEvent.clbssSignbture());
 
-                            if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-                                vm.printTrace("Handled Unload Event for " +
-                                              cuEvent.classSignature());
+                            if ((vm.trbceFlbgs & VirtublMbchine.TRACE_EVENTS) != 0) {
+                                vm.printTrbce("Hbndled Unlobd Event for " +
+                                              cuEvent.clbssSignbture());
                             }
-                        } else if (event instanceof ClassPrepareEvent) {
-                            ClassPrepareEvent cpEvent = (ClassPrepareEvent)event;
+                        } else if (event instbnceof ClbssPrepbreEvent) {
+                            ClbssPrepbreEvent cpEvent = (ClbssPrepbreEvent)event;
                             ((ReferenceTypeImpl)cpEvent.referenceType())
-                                                            .markPrepared();
+                                                            .mbrkPrepbred();
 
-                            if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-                                vm.printTrace("Handled Prepare Event for " +
-                                              cpEvent.referenceType().name());
+                            if ((vm.trbceFlbgs & VirtublMbchine.TRACE_EVENTS) != 0) {
+                                vm.printTrbce("Hbndled Prepbre Event for " +
+                                              cpEvent.referenceType().nbme());
                             }
                         }
 
                     }
 
                 /*
-                 * Handle exceptions that can occur in normal operation
-                 * but which can't be accounted for by event builder
-                 * methods. The thread should not be terminated if they
+                 * Hbndle exceptions thbt cbn occur in normbl operbtion
+                 * but which cbn't be bccounted for by event builder
+                 * methods. The threbd should not be terminbted if they
                  * occur.
                  *
-                 * TO DO: We need a better way to log these conditions.
+                 * TO DO: We need b better wby to log these conditions.
                  */
-                } catch (VMOutOfMemoryException vmme) {
-                    vmme.printStackTrace();
-                } catch (InconsistentDebugInfoException idie) {
-                    idie.printStackTrace();
+                } cbtch (VMOutOfMemoryException vmme) {
+                    vmme.printStbckTrbce();
+                } cbtch (InconsistentDebugInfoException idie) {
+                    idie.printStbckTrbce();
 
                 /*
-                 * If any of these exceptions below occurs, there is some
-                 * sort of programming error that should be addressed in
-                 * the JDI implemementation. However, it would cripple
-                 * the implementation if we let this thread die due to
-                 * one of them. So, a notification of the exception is
-                 * given and we attempt to continue.
+                 * If bny of these exceptions below occurs, there is some
+                 * sort of progrbmming error thbt should be bddressed in
+                 * the JDI implemementbtion. However, it would cripple
+                 * the implementbtion if we let this threbd die due to
+                 * one of them. So, b notificbtion of the exception is
+                 * given bnd we bttempt to continue.
                  */
-                } catch (ObjectCollectedException oce) {
-                    oce.printStackTrace();
-                } catch (ClassNotPreparedException cnpe) {
-                    cnpe.printStackTrace();
+                } cbtch (ObjectCollectedException oce) {
+                    oce.printStbckTrbce();
+                } cbtch (ClbssNotPrepbredException cnpe) {
+                    cnpe.printStbckTrbce();
                 }
             }
-        } catch (InterruptedException e) {  // should we really die here
-        } catch (VMDisconnectedException e) {  // time to die
+        } cbtch (InterruptedException e) {  // should we reblly die here
+        } cbtch (VMDisconnectedException e) {  // time to die
         }
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            vm.printTrace("Internal event handler exiting");
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_EVENTS) != 0) {
+            vm.printTrbce("Internbl event hbndler exiting");
         }
     }
 }

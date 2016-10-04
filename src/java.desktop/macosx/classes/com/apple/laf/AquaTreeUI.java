@@ -1,215 +1,215 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
 
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicTreeUI;
-import javax.swing.tree.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.MouseInputAdbpter;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicTreeUI;
+import jbvbx.swing.tree.*;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
-import apple.laf.JRSUIState.AnimationFrameState;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIConstbnts.*;
+import bpple.lbf.JRSUIStbte.AnimbtionFrbmeStbte;
 
 /**
- * AquaTreeUI supports the client property "value-add" system of customization See MetalTreeUI
- * This is heavily based on the 1.3.1 AquaTreeUI implementation.
+ * AqubTreeUI supports the client property "vblue-bdd" system of customizbtion See MetblTreeUI
+ * This is hebvily bbsed on the 1.3.1 AqubTreeUI implementbtion.
  */
-public class AquaTreeUI extends BasicTreeUI {
+public clbss AqubTreeUI extends BbsicTreeUI {
 
-    // Create PLAF
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaTreeUI();
+    // Crebte PLAF
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubTreeUI();
     }
 
-    // Begin Line Stuff from Metal
+    // Begin Line Stuff from Metbl
 
-    private static final String LINE_STYLE = "JTree.lineStyle";
+    privbte stbtic finbl String LINE_STYLE = "JTree.lineStyle";
 
-    private static final String LEG_LINE_STYLE_STRING = "Angled";
-    private static final String HORIZ_STYLE_STRING = "Horizontal";
-    private static final String NO_STYLE_STRING = "None";
+    privbte stbtic finbl String LEG_LINE_STYLE_STRING = "Angled";
+    privbte stbtic finbl String HORIZ_STYLE_STRING = "Horizontbl";
+    privbte stbtic finbl String NO_STYLE_STRING = "None";
 
-    private static final int LEG_LINE_STYLE = 2;
-    private static final int HORIZ_LINE_STYLE = 1;
-    private static final int NO_LINE_STYLE = 0;
+    privbte stbtic finbl int LEG_LINE_STYLE = 2;
+    privbte stbtic finbl int HORIZ_LINE_STYLE = 1;
+    privbte stbtic finbl int NO_LINE_STYLE = 0;
 
-    private int lineStyle = HORIZ_LINE_STYLE;
-    private final PropertyChangeListener lineStyleListener = new LineListener();
+    privbte int lineStyle = HORIZ_LINE_STYLE;
+    privbte finbl PropertyChbngeListener lineStyleListener = new LineListener();
 
-    // mouse tracking state
-    protected TreePath fTrackingPath;
-    protected boolean fIsPressed = false;
-    protected boolean fIsInBounds = false;
-    protected int fAnimationFrame = -1;
-    protected TreeArrowMouseInputHandler fMouseHandler;
+    // mouse trbcking stbte
+    protected TreePbth fTrbckingPbth;
+    protected boolebn fIsPressed = fblse;
+    protected boolebn fIsInBounds = fblse;
+    protected int fAnimbtionFrbme = -1;
+    protected TreeArrowMouseInputHbndler fMouseHbndler;
 
-    protected final AquaPainter<AnimationFrameState> painter = AquaPainter.create(JRSUIStateFactory.getDisclosureTriangle());
+    protected finbl AqubPbinter<AnimbtionFrbmeStbte> pbinter = AqubPbinter.crebte(JRSUIStbteFbctory.getDisclosureTribngle());
 
-    public AquaTreeUI() {
+    public AqubTreeUI() {
 
     }
 
-    public void installUI(final JComponent c) {
-        super.installUI(c);
+    public void instbllUI(finbl JComponent c) {
+        super.instbllUI(c);
 
-        final Object lineStyleFlag = c.getClientProperty(LINE_STYLE);
-        decodeLineStyle(lineStyleFlag);
-        c.addPropertyChangeListener(lineStyleListener);
+        finbl Object lineStyleFlbg = c.getClientProperty(LINE_STYLE);
+        decodeLineStyle(lineStyleFlbg);
+        c.bddPropertyChbngeListener(lineStyleListener);
     }
 
-    public void uninstallUI(final JComponent c) {
-        c.removePropertyChangeListener(lineStyleListener);
-        super.uninstallUI(c);
-    }
-
-    /**
-     * Creates the focus listener to repaint the focus ring
-     */
-    protected FocusListener createFocusListener() {
-        return new AquaTreeUI.FocusHandler();
+    public void uninstbllUI(finbl JComponent c) {
+        c.removePropertyChbngeListener(lineStyleListener);
+        super.uninstbllUI(c);
     }
 
     /**
-     * this function converts between the string passed into the client property and the internal representation
-     * (currently an int)
+     * Crebtes the focus listener to repbint the focus ring
      */
-    protected void decodeLineStyle(final Object lineStyleFlag) {
-        if (lineStyleFlag == null || NO_STYLE_STRING.equals(lineStyleFlag)) {
-            lineStyle = NO_LINE_STYLE; // default case
+    protected FocusListener crebteFocusListener() {
+        return new AqubTreeUI.FocusHbndler();
+    }
+
+    /**
+     * this function converts between the string pbssed into the client property bnd the internbl representbtion
+     * (currently bn int)
+     */
+    protected void decodeLineStyle(finbl Object lineStyleFlbg) {
+        if (lineStyleFlbg == null || NO_STYLE_STRING.equbls(lineStyleFlbg)) {
+            lineStyle = NO_LINE_STYLE; // defbult cbse
             return;
         }
 
-        if (LEG_LINE_STYLE_STRING.equals(lineStyleFlag)) {
+        if (LEG_LINE_STYLE_STRING.equbls(lineStyleFlbg)) {
             lineStyle = LEG_LINE_STYLE;
-        } else if (HORIZ_STYLE_STRING.equals(lineStyleFlag)) {
+        } else if (HORIZ_STYLE_STRING.equbls(lineStyleFlbg)) {
             lineStyle = HORIZ_LINE_STYLE;
         }
     }
 
-    public TreePath getClosestPathForLocation(final JTree treeLocal, final int x, final int y) {
-        if (treeLocal == null || treeState == null) return null;
+    public TreePbth getClosestPbthForLocbtion(finbl JTree treeLocbl, finbl int x, finbl int y) {
+        if (treeLocbl == null || treeStbte == null) return null;
 
-        Insets i = treeLocal.getInsets();
+        Insets i = treeLocbl.getInsets();
         if (i == null) i = new Insets(0, 0, 0, 0);
-        return treeState.getPathClosestTo(x - i.left, y - i.top);
+        return treeStbte.getPbthClosestTo(x - i.left, y - i.top);
     }
 
-    public void paint(final Graphics g, final JComponent c) {
-        super.paint(g, c);
+    public void pbint(finbl Grbphics g, finbl JComponent c) {
+        super.pbint(g, c);
 
-        // Paint the lines
-        if (lineStyle == HORIZ_LINE_STYLE && !largeModel) {
-            paintHorizontalSeparators(g, c);
+        // Pbint the lines
+        if (lineStyle == HORIZ_LINE_STYLE && !lbrgeModel) {
+            pbintHorizontblSepbrbtors(g, c);
         }
     }
 
-    protected void paintHorizontalSeparators(final Graphics g, final JComponent c) {
-        g.setColor(UIManager.getColor("Tree.line"));
+    protected void pbintHorizontblSepbrbtors(finbl Grbphics g, finbl JComponent c) {
+        g.setColor(UIMbnbger.getColor("Tree.line"));
 
-        final Rectangle clipBounds = g.getClipBounds();
+        finbl Rectbngle clipBounds = g.getClipBounds();
 
-        final int beginRow = getRowForPath(tree, getClosestPathForLocation(tree, 0, clipBounds.y));
-        final int endRow = getRowForPath(tree, getClosestPathForLocation(tree, 0, clipBounds.y + clipBounds.height - 1));
+        finbl int beginRow = getRowForPbth(tree, getClosestPbthForLocbtion(tree, 0, clipBounds.y));
+        finbl int endRow = getRowForPbth(tree, getClosestPbthForLocbtion(tree, 0, clipBounds.y + clipBounds.height - 1));
 
         if (beginRow <= -1 || endRow <= -1) { return; }
 
         for (int i = beginRow; i <= endRow; ++i) {
-            final TreePath path = getPathForRow(tree, i);
+            finbl TreePbth pbth = getPbthForRow(tree, i);
 
-            if (path != null && path.getPathCount() == 2) {
-                final Rectangle rowBounds = getPathBounds(tree, getPathForRow(tree, i));
+            if (pbth != null && pbth.getPbthCount() == 2) {
+                finbl Rectbngle rowBounds = getPbthBounds(tree, getPbthForRow(tree, i));
 
-                // Draw a line at the top
-                if (rowBounds != null) g.drawLine(clipBounds.x, rowBounds.y, clipBounds.x + clipBounds.width, rowBounds.y);
+                // Drbw b line bt the top
+                if (rowBounds != null) g.drbwLine(clipBounds.x, rowBounds.y, clipBounds.x + clipBounds.width, rowBounds.y);
             }
         }
     }
 
-    protected void paintVerticalPartOfLeg(final Graphics g, final Rectangle clipBounds, final Insets insets, final TreePath path) {
+    protected void pbintVerticblPbrtOfLeg(finbl Grbphics g, finbl Rectbngle clipBounds, finbl Insets insets, finbl TreePbth pbth) {
         if (lineStyle == LEG_LINE_STYLE) {
-            super.paintVerticalPartOfLeg(g, clipBounds, insets, path);
+            super.pbintVerticblPbrtOfLeg(g, clipBounds, insets, pbth);
         }
     }
 
-    protected void paintHorizontalPartOfLeg(final Graphics g, final Rectangle clipBounds, final Insets insets, final Rectangle bounds, final TreePath path, final int row, final boolean isExpanded, final boolean hasBeenExpanded, final boolean isLeaf) {
+    protected void pbintHorizontblPbrtOfLeg(finbl Grbphics g, finbl Rectbngle clipBounds, finbl Insets insets, finbl Rectbngle bounds, finbl TreePbth pbth, finbl int row, finbl boolebn isExpbnded, finbl boolebn hbsBeenExpbnded, finbl boolebn isLebf) {
         if (lineStyle == LEG_LINE_STYLE) {
-            super.paintHorizontalPartOfLeg(g, clipBounds, insets, bounds, path, row, isExpanded, hasBeenExpanded, isLeaf);
+            super.pbintHorizontblPbrtOfLeg(g, clipBounds, insets, bounds, pbth, row, isExpbnded, hbsBeenExpbnded, isLebf);
         }
     }
 
-    /** This class listens for changes in line style */
-    class LineListener implements PropertyChangeListener {
-        public void propertyChange(final PropertyChangeEvent e) {
-            final String name = e.getPropertyName();
-            if (name.equals(LINE_STYLE)) {
-                decodeLineStyle(e.getNewValue());
+    /** This clbss listens for chbnges in line style */
+    clbss LineListener implements PropertyChbngeListener {
+        public void propertyChbnge(finbl PropertyChbngeEvent e) {
+            finbl String nbme = e.getPropertyNbme();
+            if (nbme.equbls(LINE_STYLE)) {
+                decodeLineStyle(e.getNewVblue());
             }
         }
     }
 
     /**
-     * Paints the expand (toggle) part of a row. The receiver should NOT modify <code>clipBounds</code>, or
+     * Pbints the expbnd (toggle) pbrt of b row. The receiver should NOT modify <code>clipBounds</code>, or
      * <code>insets</code>.
      */
-    protected void paintExpandControl(final Graphics g, final Rectangle clipBounds, final Insets insets, final Rectangle bounds, final TreePath path, final int row, final boolean isExpanded, final boolean hasBeenExpanded, final boolean isLeaf) {
-        final Object value = path.getLastPathComponent();
+    protected void pbintExpbndControl(finbl Grbphics g, finbl Rectbngle clipBounds, finbl Insets insets, finbl Rectbngle bounds, finbl TreePbth pbth, finbl int row, finbl boolebn isExpbnded, finbl boolebn hbsBeenExpbnded, finbl boolebn isLebf) {
+        finbl Object vblue = pbth.getLbstPbthComponent();
 
-        // Draw icons if not a leaf and either hasn't been loaded,
+        // Drbw icons if not b lebf bnd either hbsn't been lobded,
         // or the model child count is > 0.
-        if (isLeaf || (hasBeenExpanded && treeModel.getChildCount(value) <= 0)) return;
+        if (isLebf || (hbsBeenExpbnded && treeModel.getChildCount(vblue) <= 0)) return;
 
-        final boolean isLeftToRight = AquaUtils.isLeftToRight(tree); // Basic knows, but keeps it private
+        finbl boolebn isLeftToRight = AqubUtils.isLeftToRight(tree); // Bbsic knows, but keeps it privbte
 
-        final State state = getState(path);
+        finbl Stbte stbte = getStbte(pbth);
 
-        // if we are not animating, do the expected thing, and use the icon
-        // also, if there is a custom (non-LaF defined) icon - just use that instead
-        if (fAnimationFrame == -1 && state != State.PRESSED) {
-            super.paintExpandControl(g, clipBounds, insets, bounds, path, row, isExpanded, hasBeenExpanded, isLeaf);
+        // if we bre not bnimbting, do the expected thing, bnd use the icon
+        // blso, if there is b custom (non-LbF defined) icon - just use thbt instebd
+        if (fAnimbtionFrbme == -1 && stbte != Stbte.PRESSED) {
+            super.pbintExpbndControl(g, clipBounds, insets, bounds, pbth, row, isExpbnded, hbsBeenExpbnded, isLebf);
             return;
         }
 
-        // Both icons are the same size
-        final Icon icon = isExpanded ? getExpandedIcon() : getCollapsedIcon();
-        if (!(icon instanceof UIResource)) {
-            super.paintExpandControl(g, clipBounds, insets, bounds, path, row, isExpanded, hasBeenExpanded, isLeaf);
+        // Both icons bre the sbme size
+        finbl Icon icon = isExpbnded ? getExpbndedIcon() : getCollbpsedIcon();
+        if (!(icon instbnceof UIResource)) {
+            super.pbintExpbndControl(g, clipBounds, insets, bounds, pbth, row, isExpbnded, hbsBeenExpbnded, isLebf);
             return;
         }
 
-        // if painting a right-to-left knob, we ensure that we are only painting when
-        // the clipbounds rect is set to the exact size of the knob, and positioned correctly
-        // (this code is not the same as metal)
+        // if pbinting b right-to-left knob, we ensure thbt we bre only pbinting when
+        // the clipbounds rect is set to the exbct size of the knob, bnd positioned correctly
+        // (this code is not the sbme bs metbl)
         int middleXOfKnob;
         if (isLeftToRight) {
             middleXOfKnob = bounds.x - (getRightChildIndent() - 1);
@@ -217,240 +217,240 @@ public class AquaTreeUI extends BasicTreeUI {
             middleXOfKnob = clipBounds.x + clipBounds.width / 2;
         }
 
-        // Center vertically
-        final int middleYOfKnob = bounds.y + (bounds.height / 2);
+        // Center verticblly
+        finbl int middleYOfKnob = bounds.y + (bounds.height / 2);
 
-        final int x = middleXOfKnob - icon.getIconWidth() / 2;
-        final int y = middleYOfKnob - icon.getIconHeight() / 2;
-        final int height = icon.getIconHeight(); // use the icon height so we don't get drift  we modify the bounds (by changing row height)
-        final int width = 20; // this is a hardcoded value from our default icon (since we are only at this point for animation)
+        finbl int x = middleXOfKnob - icon.getIconWidth() / 2;
+        finbl int y = middleYOfKnob - icon.getIconHeight() / 2;
+        finbl int height = icon.getIconHeight(); // use the icon height so we don't get drift  we modify the bounds (by chbnging row height)
+        finbl int width = 20; // this is b hbrdcoded vblue from our defbult icon (since we bre only bt this point for bnimbtion)
 
-        setupPainter(state, isExpanded, isLeftToRight);
-        painter.paint(g, tree, x, y, width, height);
+        setupPbinter(stbte, isExpbnded, isLeftToRight);
+        pbinter.pbint(g, tree, x, y, width, height);
     }
 
     @Override
-    public Icon getCollapsedIcon() {
-        final Icon icon = super.getCollapsedIcon();
-        if (AquaUtils.isLeftToRight(tree)) return icon;
-        if (!(icon instanceof UIResource)) return icon;
-        return UIManager.getIcon("Tree.rightToLeftCollapsedIcon");
+    public Icon getCollbpsedIcon() {
+        finbl Icon icon = super.getCollbpsedIcon();
+        if (AqubUtils.isLeftToRight(tree)) return icon;
+        if (!(icon instbnceof UIResource)) return icon;
+        return UIMbnbger.getIcon("Tree.rightToLeftCollbpsedIcon");
     }
 
-    protected void setupPainter(State state, final boolean isExpanded, final boolean leftToRight) {
-        if (!fIsInBounds && state == State.PRESSED) state = State.ACTIVE;
+    protected void setupPbinter(Stbte stbte, finbl boolebn isExpbnded, finbl boolebn leftToRight) {
+        if (!fIsInBounds && stbte == Stbte.PRESSED) stbte = Stbte.ACTIVE;
 
-        painter.state.set(state);
-        if (JRSUIUtils.Tree.useLegacyTreeKnobs()) {
-            if (fAnimationFrame == -1) {
-                painter.state.set(isExpanded ? Direction.DOWN : Direction.RIGHT);
+        pbinter.stbte.set(stbte);
+        if (JRSUIUtils.Tree.useLegbcyTreeKnobs()) {
+            if (fAnimbtionFrbme == -1) {
+                pbinter.stbte.set(isExpbnded ? Direction.DOWN : Direction.RIGHT);
             } else {
-                painter.state.set(Direction.NONE);
-                painter.state.setAnimationFrame(fAnimationFrame - 1);
+                pbinter.stbte.set(Direction.NONE);
+                pbinter.stbte.setAnimbtionFrbme(fAnimbtionFrbme - 1);
             }
         } else {
-            painter.state.set(getDirection(isExpanded, leftToRight));
-            painter.state.setAnimationFrame(fAnimationFrame);
+            pbinter.stbte.set(getDirection(isExpbnded, leftToRight));
+            pbinter.stbte.setAnimbtionFrbme(fAnimbtionFrbme);
         }
     }
 
-    protected Direction getDirection(final boolean isExpanded, final boolean isLeftToRight) {
-        if (isExpanded && (fAnimationFrame == -1)) return Direction.DOWN;
+    protected Direction getDirection(finbl boolebn isExpbnded, finbl boolebn isLeftToRight) {
+        if (isExpbnded && (fAnimbtionFrbme == -1)) return Direction.DOWN;
         return isLeftToRight ? Direction.RIGHT : Direction.LEFT;
     }
 
-    protected State getState(final TreePath path) {
-        if (!tree.isEnabled()) return State.DISABLED;
+    protected Stbte getStbte(finbl TreePbth pbth) {
+        if (!tree.isEnbbled()) return Stbte.DISABLED;
         if (fIsPressed) {
-            if (fTrackingPath.equals(path)) return State.PRESSED;
+            if (fTrbckingPbth.equbls(pbth)) return Stbte.PRESSED;
         }
-        return State.ACTIVE;
+        return Stbte.ACTIVE;
     }
 
     /**
-     * Misnamed - this is called on mousePressed Macs shouldn't react till mouseReleased
-     * We install a motion handler that gets removed after.
-     * See super.MouseInputHandler & super.startEditing for why
+     * Misnbmed - this is cblled on mousePressed Mbcs shouldn't rebct till mouseRelebsed
+     * We instbll b motion hbndler thbt gets removed bfter.
+     * See super.MouseInputHbndler & super.stbrtEditing for why
      */
-    protected void handleExpandControlClick(final TreePath path, final int mouseX, final int mouseY) {
-        fMouseHandler = new TreeArrowMouseInputHandler(path);
+    protected void hbndleExpbndControlClick(finbl TreePbth pbth, finbl int mouseX, finbl int mouseY) {
+        fMouseHbndler = new TreeArrowMouseInputHbndler(pbth);
     }
 
     /**
-     * Returning true signifies a mouse event on the node should toggle the selection of only the row under mouse.
+     * Returning true signifies b mouse event on the node should toggle the selection of only the row under mouse.
      */
-    protected boolean isToggleSelectionEvent(final MouseEvent event) {
-        return SwingUtilities.isLeftMouseButton(event) && event.isMetaDown();
+    protected boolebn isToggleSelectionEvent(finbl MouseEvent event) {
+        return SwingUtilities.isLeftMouseButton(event) && event.isMetbDown();
     }
 
-    class FocusHandler extends BasicTreeUI.FocusHandler {
-        public void focusGained(final FocusEvent e) {
-            super.focusGained(e);
-            AquaBorder.repaintBorder(tree);
+    clbss FocusHbndler extends BbsicTreeUI.FocusHbndler {
+        public void focusGbined(finbl FocusEvent e) {
+            super.focusGbined(e);
+            AqubBorder.repbintBorder(tree);
         }
 
-        public void focusLost(final FocusEvent e) {
+        public void focusLost(finbl FocusEvent e) {
             super.focusLost(e);
-            AquaBorder.repaintBorder(tree);
+            AqubBorder.repbintBorder(tree);
         }
     }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new MacPropertyChangeHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return new MbcPropertyChbngeHbndler();
     }
 
-    public class MacPropertyChangeHandler extends PropertyChangeHandler {
-        public void propertyChange(final PropertyChangeEvent e) {
-            final String prop = e.getPropertyName();
-            if (prop.equals(AquaFocusHandler.FRAME_ACTIVE_PROPERTY)) {
-                AquaBorder.repaintBorder(tree);
-                AquaFocusHandler.swapSelectionColors("Tree", tree, e.getNewValue());
+    public clbss MbcPropertyChbngeHbndler extends PropertyChbngeHbndler {
+        public void propertyChbnge(finbl PropertyChbngeEvent e) {
+            finbl String prop = e.getPropertyNbme();
+            if (prop.equbls(AqubFocusHbndler.FRAME_ACTIVE_PROPERTY)) {
+                AqubBorder.repbintBorder(tree);
+                AqubFocusHbndler.swbpSelectionColors("Tree", tree, e.getNewVblue());
             } else {
-                super.propertyChange(e);
+                super.propertyChbnge(e);
             }
         }
     }
 
     /**
-     * TreeArrowMouseInputHandler handles passing all mouse events the way a Mac should - hilite/dehilite on enter/exit,
-     * only perform the action if released in arrow.
+     * TreeArrowMouseInputHbndler hbndles pbssing bll mouse events the wby b Mbc should - hilite/dehilite on enter/exit,
+     * only perform the bction if relebsed in brrow.
      *
-     * Just like super.MouseInputHandler, this is removed once it's not needed, so they won't clash with each other
+     * Just like super.MouseInputHbndler, this is removed once it's not needed, so they won't clbsh with ebch other
      */
-    // The Adapters take care of defining all the empties
-    class TreeArrowMouseInputHandler extends MouseInputAdapter {
-        protected Rectangle fPathBounds = new Rectangle();
+    // The Adbpters tbke cbre of defining bll the empties
+    clbss TreeArrowMouseInputHbndler extends MouseInputAdbpter {
+        protected Rectbngle fPbthBounds = new Rectbngle();
 
-        // Values needed for paintOneControl
-        protected boolean fIsLeaf, fIsExpanded, fHasBeenExpanded;
-        protected Rectangle fBounds, fVisibleRect;
-        int fTrackingRow;
+        // Vblues needed for pbintOneControl
+        protected boolebn fIsLebf, fIsExpbnded, fHbsBeenExpbnded;
+        protected Rectbngle fBounds, fVisibleRect;
+        int fTrbckingRow;
         Insets fInsets;
-        Color fBackground;
+        Color fBbckground;
 
-        TreeArrowMouseInputHandler(final TreePath path) {
-            fTrackingPath = path;
+        TreeArrowMouseInputHbndler(finbl TreePbth pbth) {
+            fTrbckingPbth = pbth;
             fIsPressed = true;
             fIsInBounds = true;
-            this.fPathBounds = getPathArrowBounds(path);
-            tree.addMouseListener(this);
-            tree.addMouseMotionListener(this);
-            fBackground = tree.getBackground();
-            if (!tree.isOpaque()) {
-                final Component p = tree.getParent();
-                if (p != null) fBackground = p.getBackground();
+            this.fPbthBounds = getPbthArrowBounds(pbth);
+            tree.bddMouseListener(this);
+            tree.bddMouseMotionListener(this);
+            fBbckground = tree.getBbckground();
+            if (!tree.isOpbque()) {
+                finbl Component p = tree.getPbrent();
+                if (p != null) fBbckground = p.getBbckground();
             }
 
-            // Set up values needed to paint the triangle - see
-            // BasicTreeUI.paint
+            // Set up vblues needed to pbint the tribngle - see
+            // BbsicTreeUI.pbint
             fVisibleRect = tree.getVisibleRect();
             fInsets = tree.getInsets();
 
             if (fInsets == null) fInsets = new Insets(0, 0, 0, 0);
-            fIsLeaf = treeModel.isLeaf(path.getLastPathComponent());
-            if (fIsLeaf) fIsExpanded = fHasBeenExpanded = false;
+            fIsLebf = treeModel.isLebf(pbth.getLbstPbthComponent());
+            if (fIsLebf) fIsExpbnded = fHbsBeenExpbnded = fblse;
             else {
-                fIsExpanded = treeState.getExpandedState(path);
-                fHasBeenExpanded = tree.hasBeenExpanded(path);
+                fIsExpbnded = treeStbte.getExpbndedStbte(pbth);
+                fHbsBeenExpbnded = tree.hbsBeenExpbnded(pbth);
             }
-            final Rectangle boundsBuffer = new Rectangle();
-            fBounds = treeState.getBounds(fTrackingPath, boundsBuffer);
+            finbl Rectbngle boundsBuffer = new Rectbngle();
+            fBounds = treeStbte.getBounds(fTrbckingPbth, boundsBuffer);
             fBounds.x += fInsets.left;
             fBounds.y += fInsets.top;
-            fTrackingRow = getRowForPath(fTrackingPath);
+            fTrbckingRow = getRowForPbth(fTrbckingPbth);
 
-            paintOneControl();
+            pbintOneControl();
         }
 
-        public void mouseDragged(final MouseEvent e) {
-            fIsInBounds = fPathBounds.contains(e.getX(), e.getY());
-                paintOneControl();
+        public void mouseDrbgged(finbl MouseEvent e) {
+            fIsInBounds = fPbthBounds.contbins(e.getX(), e.getY());
+                pbintOneControl();
             }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            fIsInBounds = fPathBounds.contains(e.getX(), e.getY());
-            paintOneControl();
+            fIsInBounds = fPbthBounds.contbins(e.getX(), e.getY());
+            pbintOneControl();
         }
 
-        public void mouseReleased(final MouseEvent e) {
+        public void mouseRelebsed(finbl MouseEvent e) {
             if (tree == null) return;
 
             if (fIsPressed) {
-                final boolean wasInBounds = fIsInBounds;
+                finbl boolebn wbsInBounds = fIsInBounds;
 
-                fIsPressed = false;
-                fIsInBounds = false;
+                fIsPressed = fblse;
+                fIsInBounds = fblse;
 
-                if (wasInBounds) {
-                    fIsExpanded = !fIsExpanded;
-                    paintAnimation(fIsExpanded);
+                if (wbsInBounds) {
+                    fIsExpbnded = !fIsExpbnded;
+                    pbintAnimbtion(fIsExpbnded);
                     if (e.isAltDown()) {
-                        if (fIsExpanded) {
-                            expandNode(fTrackingRow, true);
+                        if (fIsExpbnded) {
+                            expbndNode(fTrbckingRow, true);
                         } else {
-                            collapseNode(fTrackingRow, true);
+                            collbpseNode(fTrbckingRow, true);
                         }
                     } else {
-                        toggleExpandState(fTrackingPath);
+                        toggleExpbndStbte(fTrbckingPbth);
                     }
                 }
             }
-            fTrackingPath = null;
+            fTrbckingPbth = null;
             removeFromSource();
         }
 
-        protected void paintAnimation(final boolean expanding) {
-            if (expanding) {
-                paintAnimationFrame(1);
-                paintAnimationFrame(2);
-                paintAnimationFrame(3);
+        protected void pbintAnimbtion(finbl boolebn expbnding) {
+            if (expbnding) {
+                pbintAnimbtionFrbme(1);
+                pbintAnimbtionFrbme(2);
+                pbintAnimbtionFrbme(3);
             } else {
-                paintAnimationFrame(3);
-                paintAnimationFrame(2);
-                paintAnimationFrame(1);
+                pbintAnimbtionFrbme(3);
+                pbintAnimbtionFrbme(2);
+                pbintAnimbtionFrbme(1);
             }
-            fAnimationFrame = -1;
+            fAnimbtionFrbme = -1;
         }
 
-        protected void paintAnimationFrame(final int frame) {
-            fAnimationFrame = frame;
-            paintOneControl();
-            try { Thread.sleep(20); } catch (final InterruptedException e) { }
+        protected void pbintAnimbtionFrbme(finbl int frbme) {
+            fAnimbtionFrbme = frbme;
+            pbintOneControl();
+            try { Threbd.sleep(20); } cbtch (finbl InterruptedException e) { }
         }
 
-        // Utility to paint just one widget while it's being tracked
-        // Just doing "repaint" runs into problems if someone does "translate" on the graphics
-        // (ie, Sun's JTreeTable example, which is used by Moneydance - see Radar 2697837)
-        void paintOneControl() {
+        // Utility to pbint just one widget while it's being trbcked
+        // Just doing "repbint" runs into problems if someone does "trbnslbte" on the grbphics
+        // (ie, Sun's JTreeTbble exbmple, which is used by Moneydbnce - see Rbdbr 2697837)
+        void pbintOneControl() {
             if (tree == null) return;
-            final Graphics g = tree.getGraphics();
+            finbl Grbphics g = tree.getGrbphics();
             if (g == null) {
-                // i.e. source is not displayable
+                // i.e. source is not displbybble
                 return;
             }
 
             try {
                 g.setClip(fVisibleRect);
-                // If we ever wanted a callback for drawing the arrow between
-                // transition stages
-                // the code between here and paintExpandControl would be it
-                g.setColor(fBackground);
-                g.fillRect(fPathBounds.x, fPathBounds.y, fPathBounds.width, fPathBounds.height);
+                // If we ever wbnted b cbllbbck for drbwing the brrow between
+                // trbnsition stbges
+                // the code between here bnd pbintExpbndControl would be it
+                g.setColor(fBbckground);
+                g.fillRect(fPbthBounds.x, fPbthBounds.y, fPbthBounds.width, fPbthBounds.height);
 
-                // if there is no tracking path, we don't need to paint anything
-                if (fTrackingPath == null) return;
+                // if there is no trbcking pbth, we don't need to pbint bnything
+                if (fTrbckingPbth == null) return;
 
-                // draw the vertical line to the parent
-                final TreePath parentPath = fTrackingPath.getParentPath();
-                if (parentPath != null) {
-                    paintVerticalPartOfLeg(g, fPathBounds, fInsets, parentPath);
-                    paintHorizontalPartOfLeg(g, fPathBounds, fInsets, fBounds, fTrackingPath, fTrackingRow, fIsExpanded, fHasBeenExpanded, fIsLeaf);
-                } else if (isRootVisible() && fTrackingRow == 0) {
-                    paintHorizontalPartOfLeg(g, fPathBounds, fInsets, fBounds, fTrackingPath, fTrackingRow, fIsExpanded, fHasBeenExpanded, fIsLeaf);
+                // drbw the verticbl line to the pbrent
+                finbl TreePbth pbrentPbth = fTrbckingPbth.getPbrentPbth();
+                if (pbrentPbth != null) {
+                    pbintVerticblPbrtOfLeg(g, fPbthBounds, fInsets, pbrentPbth);
+                    pbintHorizontblPbrtOfLeg(g, fPbthBounds, fInsets, fBounds, fTrbckingPbth, fTrbckingRow, fIsExpbnded, fHbsBeenExpbnded, fIsLebf);
+                } else if (isRootVisible() && fTrbckingRow == 0) {
+                    pbintHorizontblPbrtOfLeg(g, fPbthBounds, fInsets, fBounds, fTrbckingPbth, fTrbckingRow, fIsExpbnded, fHbsBeenExpbnded, fIsLebf);
                 }
-                paintExpandControl(g, fPathBounds, fInsets, fBounds, fTrackingPath, fTrackingRow, fIsExpanded, fHasBeenExpanded, fIsLeaf);
-            } finally {
+                pbintExpbndControl(g, fPbthBounds, fInsets, fBounds, fTrbckingPbth, fTrbckingRow, fIsExpbnded, fHbsBeenExpbnded, fIsLebf);
+            } finblly {
                 g.dispose();
             }
         }
@@ -461,134 +461,134 @@ public class AquaTreeUI extends BasicTreeUI {
             }
         }
 
-    protected int getRowForPath(final TreePath path) {
-        return treeState.getRowForPath(path);
+    protected int getRowForPbth(finbl TreePbth pbth) {
+        return treeStbte.getRowForPbth(pbth);
     }
 
     /**
-     * see isLocationInExpandControl for bounds calc
+     * see isLocbtionInExpbndControl for bounds cblc
      */
-    protected Rectangle getPathArrowBounds(final TreePath path) {
-        final Rectangle bounds = getPathBounds(tree, path); // Gives us the y values, but x is adjusted for the contents
-        final Insets i = tree.getInsets();
+    protected Rectbngle getPbthArrowBounds(finbl TreePbth pbth) {
+        finbl Rectbngle bounds = getPbthBounds(tree, pbth); // Gives us the y vblues, but x is bdjusted for the contents
+        finbl Insets i = tree.getInsets();
 
-        if (getExpandedIcon() != null) bounds.width = getExpandedIcon().getIconWidth();
+        if (getExpbndedIcon() != null) bounds.width = getExpbndedIcon().getIconWidth();
         else bounds.width = 8;
 
         int boxLeftX = (i != null) ? i.left : 0;
-        if (AquaUtils.isLeftToRight(tree)) {
-            boxLeftX += (((path.getPathCount() + depthOffset - 2) * totalChildIndent) + getLeftChildIndent()) - bounds.width / 2;
+        if (AqubUtils.isLeftToRight(tree)) {
+            boxLeftX += (((pbth.getPbthCount() + depthOffset - 2) * totblChildIndent) + getLeftChildIndent()) - bounds.width / 2;
         } else {
-            boxLeftX += tree.getWidth() - 1 - ((path.getPathCount() - 2 + depthOffset) * totalChildIndent) - getLeftChildIndent() - bounds.width / 2;
+            boxLeftX += tree.getWidth() - 1 - ((pbth.getPbthCount() - 2 + depthOffset) * totblChildIndent) - getLeftChildIndent() - bounds.width / 2;
         }
         bounds.x = boxLeftX;
         return bounds;
     }
 
-    protected void installKeyboardActions() {
-        super.installKeyboardActions();
-        tree.getActionMap().put("aquaExpandNode", new KeyboardExpandCollapseAction(true, false));
-        tree.getActionMap().put("aquaCollapseNode", new KeyboardExpandCollapseAction(false, false));
-        tree.getActionMap().put("aquaFullyExpandNode", new KeyboardExpandCollapseAction(true, true));
-        tree.getActionMap().put("aquaFullyCollapseNode", new KeyboardExpandCollapseAction(false, true));
+    protected void instbllKeybobrdActions() {
+        super.instbllKeybobrdActions();
+        tree.getActionMbp().put("bqubExpbndNode", new KeybobrdExpbndCollbpseAction(true, fblse));
+        tree.getActionMbp().put("bqubCollbpseNode", new KeybobrdExpbndCollbpseAction(fblse, fblse));
+        tree.getActionMbp().put("bqubFullyExpbndNode", new KeybobrdExpbndCollbpseAction(true, true));
+        tree.getActionMbp().put("bqubFullyCollbpseNode", new KeybobrdExpbndCollbpseAction(fblse, true));
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class KeyboardExpandCollapseAction extends AbstractAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss KeybobrdExpbndCollbpseAction extends AbstrbctAction {
         /**
-         * Determines direction to traverse, 1 means expand, -1 means collapse.
+         * Determines direction to trbverse, 1 mebns expbnd, -1 mebns collbpse.
          */
-        final boolean expand;
-        final boolean recursive;
+        finbl boolebn expbnd;
+        finbl boolebn recursive;
 
         /**
-         * True if the selection is reset, false means only the lead path changes.
+         * True if the selection is reset, fblse mebns only the lebd pbth chbnges.
          */
-        public KeyboardExpandCollapseAction(final boolean expand, final boolean recursive) {
-            this.expand = expand;
+        public KeybobrdExpbndCollbpseAction(finbl boolebn expbnd, finbl boolebn recursive) {
+            this.expbnd = expbnd;
             this.recursive = recursive;
         }
 
-        public void actionPerformed(final ActionEvent e) {
+        public void bctionPerformed(finbl ActionEvent e) {
             if (tree == null || 0 > getRowCount(tree)) return;
 
-            final TreePath[] selectionPaths = tree.getSelectionPaths();
-            if (selectionPaths == null) return;
+            finbl TreePbth[] selectionPbths = tree.getSelectionPbths();
+            if (selectionPbths == null) return;
 
-            for (int i = selectionPaths.length - 1; i >= 0; i--) {
-                final TreePath path = selectionPaths[i];
+            for (int i = selectionPbths.length - 1; i >= 0; i--) {
+                finbl TreePbth pbth = selectionPbths[i];
 
                 /*
-                 * Try and expand the node, otherwise go to next node.
+                 * Try bnd expbnd the node, otherwise go to next node.
                  */
-                if (expand) {
-                    expandNode(tree.getRowForPath(path), recursive);
+                if (expbnd) {
+                    expbndNode(tree.getRowForPbth(pbth), recursive);
                     continue;
                 }
-                // else collapse
+                // else collbpse
 
-                // in the special case where there is only one row selected,
-                // we want to do what the Cocoa does, and select the parent
-                if (selectionPaths.length == 1 && tree.isCollapsed(path)) {
-                    final TreePath parentPath = path.getParentPath();
-                    if (parentPath != null && (!(parentPath.getParentPath() == null) || tree.isRootVisible())) {
-                        tree.scrollPathToVisible(parentPath);
-                        tree.setSelectionPath(parentPath);
+                // in the specibl cbse where there is only one row selected,
+                // we wbnt to do whbt the Cocob does, bnd select the pbrent
+                if (selectionPbths.length == 1 && tree.isCollbpsed(pbth)) {
+                    finbl TreePbth pbrentPbth = pbth.getPbrentPbth();
+                    if (pbrentPbth != null && (!(pbrentPbth.getPbrentPbth() == null) || tree.isRootVisible())) {
+                        tree.scrollPbthToVisible(pbrentPbth);
+                        tree.setSelectionPbth(pbrentPbth);
                     }
                     continue;
                 }
 
-                collapseNode(tree.getRowForPath(path), recursive);
+                collbpseNode(tree.getRowForPbth(pbth), recursive);
             }
         }
 
-        public boolean isEnabled() {
-            return (tree != null && tree.isEnabled());
+        public boolebn isEnbbled() {
+            return (tree != null && tree.isEnbbled());
         }
     }
 
-    void expandNode(final int row, final boolean recursive) {
-        final TreePath path = getPathForRow(tree, row);
-        if (path == null) return;
+    void expbndNode(finbl int row, finbl boolebn recursive) {
+        finbl TreePbth pbth = getPbthForRow(tree, row);
+        if (pbth == null) return;
 
-        tree.expandPath(path);
+        tree.expbndPbth(pbth);
         if (!recursive) return;
 
-        expandAllNodes(path, row + 1);
+        expbndAllNodes(pbth, row + 1);
     }
 
-    void expandAllNodes(final TreePath parent, final int initialRow) {
-        for (int i = initialRow; true; i++) {
-            final TreePath path = getPathForRow(tree, i);
-            if (!parent.isDescendant(path)) return;
+    void expbndAllNodes(finbl TreePbth pbrent, finbl int initiblRow) {
+        for (int i = initiblRow; true; i++) {
+            finbl TreePbth pbth = getPbthForRow(tree, i);
+            if (!pbrent.isDescendbnt(pbth)) return;
 
-            tree.expandPath(path);
+            tree.expbndPbth(pbth);
         }
     }
 
-    void collapseNode(final int row, final boolean recursive) {
-        final TreePath path = getPathForRow(tree, row);
-        if (path == null) return;
+    void collbpseNode(finbl int row, finbl boolebn recursive) {
+        finbl TreePbth pbth = getPbthForRow(tree, row);
+        if (pbth == null) return;
 
         if (recursive) {
-            collapseAllNodes(path, row + 1);
+            collbpseAllNodes(pbth, row + 1);
         }
 
-        tree.collapsePath(path);
+        tree.collbpsePbth(pbth);
     }
 
-    void collapseAllNodes(final TreePath parent, final int initialRow) {
-        int lastRow = -1;
-        for (int i = initialRow; lastRow == -1; i++) {
-            final TreePath path = getPathForRow(tree, i);
-            if (!parent.isDescendant(path)) {
-                lastRow = i - 1;
+    void collbpseAllNodes(finbl TreePbth pbrent, finbl int initiblRow) {
+        int lbstRow = -1;
+        for (int i = initiblRow; lbstRow == -1; i++) {
+            finbl TreePbth pbth = getPbthForRow(tree, i);
+            if (!pbrent.isDescendbnt(pbth)) {
+                lbstRow = i - 1;
             }
         }
 
-        for (int i = lastRow; i >= initialRow; i--) {
-            final TreePath path = getPathForRow(tree, i);
-            tree.collapsePath(path);
+        for (int i = lbstRow; i >= initiblRow; i--) {
+            finbl TreePbth pbth = getPbthForRow(tree, i);
+            tree.collbpsePbth(pbth);
         }
     }
 }

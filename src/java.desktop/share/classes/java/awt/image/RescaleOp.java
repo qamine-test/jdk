@@ -1,302 +1,302 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.color.ColorSpace;
-import java.awt.geom.Rectangle2D;
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
-import java.awt.RenderingHints;
-import sun.awt.image.ImagingLib;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.RenderingHints;
+import sun.bwt.imbge.ImbgingLib;
 
 /**
- * This class performs a pixel-by-pixel rescaling of the data in the
- * source image by multiplying the sample values for each pixel by a scale
- * factor and then adding an offset. The scaled sample values are clipped
- * to the minimum/maximum representable in the destination image.
+ * This clbss performs b pixel-by-pixel rescbling of the dbtb in the
+ * source imbge by multiplying the sbmple vblues for ebch pixel by b scble
+ * fbctor bnd then bdding bn offset. The scbled sbmple vblues bre clipped
+ * to the minimum/mbximum representbble in the destinbtion imbge.
  * <p>
- * The pseudo code for the rescaling operation is as follows:
+ * The pseudo code for the rescbling operbtion is bs follows:
  * <pre>
- *for each pixel from Source object {
- *    for each band/component of the pixel {
- *        dstElement = (srcElement*scaleFactor) + offset
+ *for ebch pixel from Source object {
+ *    for ebch bbnd/component of the pixel {
+ *        dstElement = (srcElement*scbleFbctor) + offset
  *    }
  *}
  * </pre>
  * <p>
- * For Rasters, rescaling operates on bands.  The number of
- * sets of scaling constants may be one, in which case the same constants
- * are applied to all bands, or it must equal the number of Source
- * Raster bands.
+ * For Rbsters, rescbling operbtes on bbnds.  The number of
+ * sets of scbling constbnts mby be one, in which cbse the sbme constbnts
+ * bre bpplied to bll bbnds, or it must equbl the number of Source
+ * Rbster bbnds.
  * <p>
- * For BufferedImages, rescaling operates on color and alpha components.
- * The number of sets of scaling constants may be one, in which case the
- * same constants are applied to all color (but not alpha) components.
- * Otherwise, the  number of sets of scaling constants may
- * equal the number of Source color components, in which case no
- * rescaling of the alpha component (if present) is performed.
- * If neither of these cases apply, the number of sets of scaling constants
- * must equal the number of Source color components plus alpha components,
- * in which case all color and alpha components are rescaled.
+ * For BufferedImbges, rescbling operbtes on color bnd blphb components.
+ * The number of sets of scbling constbnts mby be one, in which cbse the
+ * sbme constbnts bre bpplied to bll color (but not blphb) components.
+ * Otherwise, the  number of sets of scbling constbnts mby
+ * equbl the number of Source color components, in which cbse no
+ * rescbling of the blphb component (if present) is performed.
+ * If neither of these cbses bpply, the number of sets of scbling constbnts
+ * must equbl the number of Source color components plus blphb components,
+ * in which cbse bll color bnd blphb components bre rescbled.
  * <p>
- * BufferedImage sources with premultiplied alpha data are treated in the same
- * manner as non-premultiplied images for purposes of rescaling.  That is,
- * the rescaling is done per band on the raw data of the BufferedImage source
- * without regard to whether the data is premultiplied.  If a color conversion
- * is required to the destination ColorModel, the premultiplied state of
- * both source and destination will be taken into account for this step.
+ * BufferedImbge sources with premultiplied blphb dbtb bre trebted in the sbme
+ * mbnner bs non-premultiplied imbges for purposes of rescbling.  Thbt is,
+ * the rescbling is done per bbnd on the rbw dbtb of the BufferedImbge source
+ * without regbrd to whether the dbtb is premultiplied.  If b color conversion
+ * is required to the destinbtion ColorModel, the premultiplied stbte of
+ * both source bnd destinbtion will be tbken into bccount for this step.
  * <p>
- * Images with an IndexColorModel cannot be rescaled.
+ * Imbges with bn IndexColorModel cbnnot be rescbled.
  * <p>
- * If a RenderingHints object is specified in the constructor, the
- * color rendering hint and the dithering hint may be used when color
+ * If b RenderingHints object is specified in the constructor, the
+ * color rendering hint bnd the dithering hint mby be used when color
  * conversion is required.
  * <p>
- * Note that in-place operation is allowed (i.e. the source and destination can
- * be the same object).
- * @see java.awt.RenderingHints#KEY_COLOR_RENDERING
- * @see java.awt.RenderingHints#KEY_DITHERING
+ * Note thbt in-plbce operbtion is bllowed (i.e. the source bnd destinbtion cbn
+ * be the sbme object).
+ * @see jbvb.bwt.RenderingHints#KEY_COLOR_RENDERING
+ * @see jbvb.bwt.RenderingHints#KEY_DITHERING
  */
-public class RescaleOp implements BufferedImageOp, RasterOp {
-    float[] scaleFactors;
-    float[] offsets;
+public clbss RescbleOp implements BufferedImbgeOp, RbsterOp {
+    flobt[] scbleFbctors;
+    flobt[] offsets;
     int length = 0;
     RenderingHints hints;
 
-    private int srcNbits;
-    private int dstNbits;
+    privbte int srcNbits;
+    privbte int dstNbits;
 
 
     /**
-     * Constructs a new RescaleOp with the desired scale factors
-     * and offsets.  The length of the scaleFactor and offset arrays
-     * must meet the restrictions stated in the class comments above.
-     * The RenderingHints argument may be null.
-     * @param scaleFactors the specified scale factors
-     * @param offsets the specified offsets
-     * @param hints the specified <code>RenderingHints</code>, or
+     * Constructs b new RescbleOp with the desired scble fbctors
+     * bnd offsets.  The length of the scbleFbctor bnd offset brrbys
+     * must meet the restrictions stbted in the clbss comments bbove.
+     * The RenderingHints brgument mby be null.
+     * @pbrbm scbleFbctors the specified scble fbctors
+     * @pbrbm offsets the specified offsets
+     * @pbrbm hints the specified <code>RenderingHints</code>, or
      *        <code>null</code>
      */
-    public RescaleOp (float[] scaleFactors, float[] offsets,
+    public RescbleOp (flobt[] scbleFbctors, flobt[] offsets,
                       RenderingHints hints) {
-        length = scaleFactors.length;
+        length = scbleFbctors.length;
         if (length > offsets.length) length = offsets.length;
 
-        this.scaleFactors = new float[length];
-        this.offsets      = new float[length];
+        this.scbleFbctors = new flobt[length];
+        this.offsets      = new flobt[length];
         for (int i=0; i < length; i++) {
-            this.scaleFactors[i] = scaleFactors[i];
+            this.scbleFbctors[i] = scbleFbctors[i];
             this.offsets[i]      = offsets[i];
         }
         this.hints = hints;
     }
 
     /**
-     * Constructs a new RescaleOp with the desired scale factor
-     * and offset.  The scaleFactor and offset will be applied to
-     * all bands in a source Raster and to all color (but not alpha)
-     * components in a BufferedImage.
-     * The RenderingHints argument may be null.
-     * @param scaleFactor the specified scale factor
-     * @param offset the specified offset
-     * @param hints the specified <code>RenderingHints</code>, or
+     * Constructs b new RescbleOp with the desired scble fbctor
+     * bnd offset.  The scbleFbctor bnd offset will be bpplied to
+     * bll bbnds in b source Rbster bnd to bll color (but not blphb)
+     * components in b BufferedImbge.
+     * The RenderingHints brgument mby be null.
+     * @pbrbm scbleFbctor the specified scble fbctor
+     * @pbrbm offset the specified offset
+     * @pbrbm hints the specified <code>RenderingHints</code>, or
      *        <code>null</code>
      */
-    public RescaleOp (float scaleFactor, float offset, RenderingHints hints) {
+    public RescbleOp (flobt scbleFbctor, flobt offset, RenderingHints hints) {
         length = 1;
-        this.scaleFactors = new float[1];
-        this.offsets      = new float[1];
-        this.scaleFactors[0] = scaleFactor;
+        this.scbleFbctors = new flobt[1];
+        this.offsets      = new flobt[1];
+        this.scbleFbctors[0] = scbleFbctor;
         this.offsets[0]       = offset;
         this.hints = hints;
     }
 
     /**
-     * Returns the scale factors in the given array. The array is also
-     * returned for convenience.  If scaleFactors is null, a new array
-     * will be allocated.
-     * @param scaleFactors the array to contain the scale factors of
-     *        this <code>RescaleOp</code>
-     * @return the scale factors of this <code>RescaleOp</code>.
+     * Returns the scble fbctors in the given brrby. The brrby is blso
+     * returned for convenience.  If scbleFbctors is null, b new brrby
+     * will be bllocbted.
+     * @pbrbm scbleFbctors the brrby to contbin the scble fbctors of
+     *        this <code>RescbleOp</code>
+     * @return the scble fbctors of this <code>RescbleOp</code>.
      */
-    final public float[] getScaleFactors (float scaleFactors[]) {
-        if (scaleFactors == null) {
-            return this.scaleFactors.clone();
+    finbl public flobt[] getScbleFbctors (flobt scbleFbctors[]) {
+        if (scbleFbctors == null) {
+            return this.scbleFbctors.clone();
         }
-        System.arraycopy (this.scaleFactors, 0, scaleFactors, 0,
-                          Math.min(this.scaleFactors.length,
-                                   scaleFactors.length));
-        return scaleFactors;
+        System.brrbycopy (this.scbleFbctors, 0, scbleFbctors, 0,
+                          Mbth.min(this.scbleFbctors.length,
+                                   scbleFbctors.length));
+        return scbleFbctors;
     }
 
     /**
-     * Returns the offsets in the given array. The array is also returned
-     * for convenience.  If offsets is null, a new array
-     * will be allocated.
-     * @param offsets the array to contain the offsets of
-     *        this <code>RescaleOp</code>
-     * @return the offsets of this <code>RescaleOp</code>.
+     * Returns the offsets in the given brrby. The brrby is blso returned
+     * for convenience.  If offsets is null, b new brrby
+     * will be bllocbted.
+     * @pbrbm offsets the brrby to contbin the offsets of
+     *        this <code>RescbleOp</code>
+     * @return the offsets of this <code>RescbleOp</code>.
      */
-    final public float[] getOffsets(float offsets[]) {
+    finbl public flobt[] getOffsets(flobt offsets[]) {
         if (offsets == null) {
             return this.offsets.clone();
         }
 
-        System.arraycopy (this.offsets, 0, offsets, 0,
-                          Math.min(this.offsets.length, offsets.length));
+        System.brrbycopy (this.offsets, 0, offsets, 0,
+                          Mbth.min(this.offsets.length, offsets.length));
         return offsets;
     }
 
     /**
-     * Returns the number of scaling factors and offsets used in this
-     * RescaleOp.
-     * @return the number of scaling factors and offsets of this
-     *         <code>RescaleOp</code>.
+     * Returns the number of scbling fbctors bnd offsets used in this
+     * RescbleOp.
+     * @return the number of scbling fbctors bnd offsets of this
+     *         <code>RescbleOp</code>.
      */
-    final public int getNumFactors() {
+    finbl public int getNumFbctors() {
         return length;
     }
 
 
     /**
-     * Creates a ByteLookupTable to implement the rescale.
-     * The table may have either a SHORT or BYTE input.
-     * @param nElems    Number of elements the table is to have.
-     *                  This will generally be 256 for byte and
+     * Crebtes b ByteLookupTbble to implement the rescble.
+     * The tbble mby hbve either b SHORT or BYTE input.
+     * @pbrbm nElems    Number of elements the tbble is to hbve.
+     *                  This will generblly be 256 for byte bnd
      *                  65536 for short.
      */
-    private ByteLookupTable createByteLut(float scale[],
-                                          float off[],
-                                          int   nBands,
+    privbte ByteLookupTbble crebteByteLut(flobt scble[],
+                                          flobt off[],
+                                          int   nBbnds,
                                           int   nElems) {
 
-        byte[][]        lutData = new byte[scale.length][nElems];
+        byte[][]        lutDbtb = new byte[scble.length][nElems];
 
-        for (int band=0; band<scale.length; band++) {
-            float  bandScale   = scale[band];
-            float  bandOff     = off[band];
-            byte[] bandLutData = lutData[band];
+        for (int bbnd=0; bbnd<scble.length; bbnd++) {
+            flobt  bbndScble   = scble[bbnd];
+            flobt  bbndOff     = off[bbnd];
+            byte[] bbndLutDbtb = lutDbtb[bbnd];
             for (int i=0; i<nElems; i++) {
-                int val = (int)(i*bandScale + bandOff);
-                if ((val & 0xffffff00) != 0) {
-                    if (val < 0) {
-                        val = 0;
+                int vbl = (int)(i*bbndScble + bbndOff);
+                if ((vbl & 0xffffff00) != 0) {
+                    if (vbl < 0) {
+                        vbl = 0;
                     } else {
-                        val = 255;
+                        vbl = 255;
                     }
                 }
-                bandLutData[i] = (byte)val;
+                bbndLutDbtb[i] = (byte)vbl;
             }
 
         }
 
-        return new ByteLookupTable(0, lutData);
+        return new ByteLookupTbble(0, lutDbtb);
     }
 
     /**
-     * Creates a ShortLookupTable to implement the rescale.
-     * The table may have either a SHORT or BYTE input.
-     * @param nElems    Number of elements the table is to have.
-     *                  This will generally be 256 for byte and
+     * Crebtes b ShortLookupTbble to implement the rescble.
+     * The tbble mby hbve either b SHORT or BYTE input.
+     * @pbrbm nElems    Number of elements the tbble is to hbve.
+     *                  This will generblly be 256 for byte bnd
      *                  65536 for short.
      */
-    private ShortLookupTable createShortLut(float scale[],
-                                            float off[],
-                                            int   nBands,
+    privbte ShortLookupTbble crebteShortLut(flobt scble[],
+                                            flobt off[],
+                                            int   nBbnds,
                                             int   nElems) {
 
-        short[][]        lutData = new short[scale.length][nElems];
+        short[][]        lutDbtb = new short[scble.length][nElems];
 
-        for (int band=0; band<scale.length; band++) {
-            float   bandScale   = scale[band];
-            float   bandOff     = off[band];
-            short[] bandLutData = lutData[band];
+        for (int bbnd=0; bbnd<scble.length; bbnd++) {
+            flobt   bbndScble   = scble[bbnd];
+            flobt   bbndOff     = off[bbnd];
+            short[] bbndLutDbtb = lutDbtb[bbnd];
             for (int i=0; i<nElems; i++) {
-                int val = (int)(i*bandScale + bandOff);
-                if ((val & 0xffff0000) != 0) {
-                    if (val < 0) {
-                        val = 0;
+                int vbl = (int)(i*bbndScble + bbndOff);
+                if ((vbl & 0xffff0000) != 0) {
+                    if (vbl < 0) {
+                        vbl = 0;
                     } else {
-                        val = 65535;
+                        vbl = 65535;
                     }
                 }
-                bandLutData[i] = (short)val;
+                bbndLutDbtb[i] = (short)vbl;
             }
         }
 
-        return new ShortLookupTable(0, lutData);
+        return new ShortLookupTbble(0, lutDbtb);
     }
 
 
     /**
-     * Determines if the rescale can be performed as a lookup.
-     * The dst must be a byte or short type.
-     * The src must be less than 16 bits.
-     * All source band sizes must be the same and all dst band sizes
-     * must be the same.
+     * Determines if the rescble cbn be performed bs b lookup.
+     * The dst must be b byte or short type.
+     * The src must be less thbn 16 bits.
+     * All source bbnd sizes must be the sbme bnd bll dst bbnd sizes
+     * must be the sbme.
      */
-    private boolean canUseLookup(Raster src, Raster dst) {
+    privbte boolebn cbnUseLookup(Rbster src, Rbster dst) {
 
         //
-        // Check that the src datatype is either a BYTE or SHORT
+        // Check thbt the src dbtbtype is either b BYTE or SHORT
         //
-        int datatype = src.getDataBuffer().getDataType();
-        if(datatype != DataBuffer.TYPE_BYTE &&
-           datatype != DataBuffer.TYPE_USHORT) {
-            return false;
+        int dbtbtype = src.getDbtbBuffer().getDbtbType();
+        if(dbtbtype != DbtbBuffer.TYPE_BYTE &&
+           dbtbtype != DbtbBuffer.TYPE_USHORT) {
+            return fblse;
         }
 
         //
-        // Check dst sample sizes. All must be 8 or 16 bits.
+        // Check dst sbmple sizes. All must be 8 or 16 bits.
         //
-        SampleModel dstSM = dst.getSampleModel();
-        dstNbits = dstSM.getSampleSize(0);
+        SbmpleModel dstSM = dst.getSbmpleModel();
+        dstNbits = dstSM.getSbmpleSize(0);
 
         if (!(dstNbits == 8 || dstNbits == 16)) {
-            return false;
+            return fblse;
         }
-        for (int i=1; i<src.getNumBands(); i++) {
-            int bandSize = dstSM.getSampleSize(i);
-            if (bandSize != dstNbits) {
-                return false;
+        for (int i=1; i<src.getNumBbnds(); i++) {
+            int bbndSize = dstSM.getSbmpleSize(i);
+            if (bbndSize != dstNbits) {
+                return fblse;
             }
         }
 
         //
-        // Check src sample sizes. All must be the same size
+        // Check src sbmple sizes. All must be the sbme size
         //
-        SampleModel srcSM = src.getSampleModel();
-        srcNbits = srcSM.getSampleSize(0);
+        SbmpleModel srcSM = src.getSbmpleModel();
+        srcNbits = srcSM.getSbmpleSize(0);
         if (srcNbits > 16) {
-            return false;
+            return fblse;
         }
-        for (int i=1; i<src.getNumBands(); i++) {
-            int bandSize = srcSM.getSampleSize(i);
-            if (bandSize != srcNbits) {
-                return false;
+        for (int i=1; i<src.getNumBbnds(); i++) {
+            int bbndSize = srcSM.getSbmpleSize(i);
+            if (bbndSize != srcNbits) {
+                return fblse;
             }
         }
 
@@ -304,137 +304,137 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
     }
 
     /**
-     * Rescales the source BufferedImage.
-     * If the color model in the source image is not the same as that
-     * in the destination image, the pixels will be converted
-     * in the destination.  If the destination image is null,
-     * a BufferedImage will be created with the source ColorModel.
-     * An IllegalArgumentException may be thrown if the number of
-     * scaling factors/offsets in this object does not meet the
-     * restrictions stated in the class comments above, or if the
-     * source image has an IndexColorModel.
-     * @param src the <code>BufferedImage</code> to be filtered
-     * @param dst the destination for the filtering operation
+     * Rescbles the source BufferedImbge.
+     * If the color model in the source imbge is not the sbme bs thbt
+     * in the destinbtion imbge, the pixels will be converted
+     * in the destinbtion.  If the destinbtion imbge is null,
+     * b BufferedImbge will be crebted with the source ColorModel.
+     * An IllegblArgumentException mby be thrown if the number of
+     * scbling fbctors/offsets in this object does not meet the
+     * restrictions stbted in the clbss comments bbove, or if the
+     * source imbge hbs bn IndexColorModel.
+     * @pbrbm src the <code>BufferedImbge</code> to be filtered
+     * @pbrbm dst the destinbtion for the filtering operbtion
      *            or <code>null</code>
-     * @return the filtered <code>BufferedImage</code>.
-     * @throws IllegalArgumentException if the <code>ColorModel</code>
-     *         of <code>src</code> is an <code>IndexColorModel</code>,
-     *         or if the number of scaling factors and offsets in this
-     *         <code>RescaleOp</code> do not meet the requirements
-     *         stated in the class comments.
+     * @return the filtered <code>BufferedImbge</code>.
+     * @throws IllegblArgumentException if the <code>ColorModel</code>
+     *         of <code>src</code> is bn <code>IndexColorModel</code>,
+     *         or if the number of scbling fbctors bnd offsets in this
+     *         <code>RescbleOp</code> do not meet the requirements
+     *         stbted in the clbss comments.
      */
-    public final BufferedImage filter (BufferedImage src, BufferedImage dst) {
+    public finbl BufferedImbge filter (BufferedImbge src, BufferedImbge dst) {
         ColorModel srcCM = src.getColorModel();
         ColorModel dstCM;
-        int numBands = srcCM.getNumColorComponents();
+        int numBbnds = srcCM.getNumColorComponents();
 
 
-        if (srcCM instanceof IndexColorModel) {
+        if (srcCM instbnceof IndexColorModel) {
             throw new
-                IllegalArgumentException("Rescaling cannot be "+
-                                         "performed on an indexed image");
+                IllegblArgumentException("Rescbling cbnnot be "+
+                                         "performed on bn indexed imbge");
         }
-        if (length != 1 && length != numBands &&
+        if (length != 1 && length != numBbnds &&
             length != srcCM.getNumComponents())
         {
-            throw new IllegalArgumentException("Number of scaling constants "+
-                                               "does not equal the number of"+
-                                               " of color or color/alpha "+
+            throw new IllegblArgumentException("Number of scbling constbnts "+
+                                               "does not equbl the number of"+
+                                               " of color or color/blphb "+
                                                " components");
         }
 
-        boolean needToConvert = false;
+        boolebn needToConvert = fblse;
 
-        // Include alpha
-        if (length > numBands && srcCM.hasAlpha()) {
-            length = numBands+1;
+        // Include blphb
+        if (length > numBbnds && srcCM.hbsAlphb()) {
+            length = numBbnds+1;
         }
 
         int width = src.getWidth();
         int height = src.getHeight();
 
         if (dst == null) {
-            dst = createCompatibleDestImage(src, null);
+            dst = crebteCompbtibleDestImbge(src, null);
             dstCM = srcCM;
         }
         else {
             if (width != dst.getWidth()) {
                 throw new
-                    IllegalArgumentException("Src width ("+width+
-                                             ") not equal to dst width ("+
+                    IllegblArgumentException("Src width ("+width+
+                                             ") not equbl to dst width ("+
                                              dst.getWidth()+")");
             }
             if (height != dst.getHeight()) {
                 throw new
-                    IllegalArgumentException("Src height ("+height+
-                                             ") not equal to dst height ("+
+                    IllegblArgumentException("Src height ("+height+
+                                             ") not equbl to dst height ("+
                                              dst.getHeight()+")");
             }
 
             dstCM = dst.getColorModel();
-            if(srcCM.getColorSpace().getType() !=
-               dstCM.getColorSpace().getType()) {
+            if(srcCM.getColorSpbce().getType() !=
+               dstCM.getColorSpbce().getType()) {
                 needToConvert = true;
-                dst = createCompatibleDestImage(src, null);
+                dst = crebteCompbtibleDestImbge(src, null);
             }
 
         }
 
-        BufferedImage origDst = dst;
+        BufferedImbge origDst = dst;
 
         //
-        // Try to use a native BI rescale operation first
+        // Try to use b nbtive BI rescble operbtion first
         //
-        if (ImagingLib.filter(this, src, dst) == null) {
+        if (ImbgingLib.filter(this, src, dst) == null) {
             //
-            // Native BI rescale failed - convert to rasters
+            // Nbtive BI rescble fbiled - convert to rbsters
             //
-            WritableRaster srcRaster = src.getRaster();
-            WritableRaster dstRaster = dst.getRaster();
+            WritbbleRbster srcRbster = src.getRbster();
+            WritbbleRbster dstRbster = dst.getRbster();
 
-            if (srcCM.hasAlpha()) {
-                if (numBands-1 == length || length == 1) {
-                    int minx = srcRaster.getMinX();
-                    int miny = srcRaster.getMinY();
-                    int[] bands = new int[numBands-1];
-                    for (int i=0; i < numBands-1; i++) {
-                        bands[i] = i;
+            if (srcCM.hbsAlphb()) {
+                if (numBbnds-1 == length || length == 1) {
+                    int minx = srcRbster.getMinX();
+                    int miny = srcRbster.getMinY();
+                    int[] bbnds = new int[numBbnds-1];
+                    for (int i=0; i < numBbnds-1; i++) {
+                        bbnds[i] = i;
                     }
-                    srcRaster =
-                        srcRaster.createWritableChild(minx, miny,
-                                                      srcRaster.getWidth(),
-                                                      srcRaster.getHeight(),
+                    srcRbster =
+                        srcRbster.crebteWritbbleChild(minx, miny,
+                                                      srcRbster.getWidth(),
+                                                      srcRbster.getHeight(),
                                                       minx, miny,
-                                                      bands);
+                                                      bbnds);
                 }
             }
-            if (dstCM.hasAlpha()) {
-                int dstNumBands = dstRaster.getNumBands();
-                if (dstNumBands-1 == length || length == 1) {
-                    int minx = dstRaster.getMinX();
-                    int miny = dstRaster.getMinY();
-                    int[] bands = new int[numBands-1];
-                    for (int i=0; i < numBands-1; i++) {
-                        bands[i] = i;
+            if (dstCM.hbsAlphb()) {
+                int dstNumBbnds = dstRbster.getNumBbnds();
+                if (dstNumBbnds-1 == length || length == 1) {
+                    int minx = dstRbster.getMinX();
+                    int miny = dstRbster.getMinY();
+                    int[] bbnds = new int[numBbnds-1];
+                    for (int i=0; i < numBbnds-1; i++) {
+                        bbnds[i] = i;
                     }
-                    dstRaster =
-                        dstRaster.createWritableChild(minx, miny,
-                                                      dstRaster.getWidth(),
-                                                      dstRaster.getHeight(),
+                    dstRbster =
+                        dstRbster.crebteWritbbleChild(minx, miny,
+                                                      dstRbster.getWidth(),
+                                                      dstRbster.getHeight(),
                                                       minx, miny,
-                                                      bands);
+                                                      bbnds);
                 }
             }
 
             //
-            // Call the raster filter method
+            // Cbll the rbster filter method
             //
-            filter(srcRaster, dstRaster);
+            filter(srcRbster, dstRbster);
 
         }
 
         if (needToConvert) {
-            // ColorModels are not the same
+            // ColorModels bre not the sbme
             ColorConvertOp ccop = new ColorConvertOp(hints);
             ccop.filter(dst, origDst);
         }
@@ -443,85 +443,85 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
     }
 
     /**
-     * Rescales the pixel data in the source Raster.
-     * If the destination Raster is null, a new Raster will be created.
-     * The source and destination must have the same number of bands.
-     * Otherwise, an IllegalArgumentException is thrown.
-     * Note that the number of scaling factors/offsets in this object must
-     * meet the restrictions stated in the class comments above.
-     * Otherwise, an IllegalArgumentException is thrown.
-     * @param src the <code>Raster</code> to be filtered
-     * @param dst the destination for the filtering operation
+     * Rescbles the pixel dbtb in the source Rbster.
+     * If the destinbtion Rbster is null, b new Rbster will be crebted.
+     * The source bnd destinbtion must hbve the sbme number of bbnds.
+     * Otherwise, bn IllegblArgumentException is thrown.
+     * Note thbt the number of scbling fbctors/offsets in this object must
+     * meet the restrictions stbted in the clbss comments bbove.
+     * Otherwise, bn IllegblArgumentException is thrown.
+     * @pbrbm src the <code>Rbster</code> to be filtered
+     * @pbrbm dst the destinbtion for the filtering operbtion
      *            or <code>null</code>
-     * @return the filtered <code>WritableRaster</code>.
-     * @throws IllegalArgumentException if <code>src</code> and
-     *         <code>dst</code> do not have the same number of bands,
-     *         or if the number of scaling factors and offsets in this
-     *         <code>RescaleOp</code> do not meet the requirements
-     *         stated in the class comments.
+     * @return the filtered <code>WritbbleRbster</code>.
+     * @throws IllegblArgumentException if <code>src</code> bnd
+     *         <code>dst</code> do not hbve the sbme number of bbnds,
+     *         or if the number of scbling fbctors bnd offsets in this
+     *         <code>RescbleOp</code> do not meet the requirements
+     *         stbted in the clbss comments.
      */
-    public final WritableRaster filter (Raster src, WritableRaster dst)  {
-        int numBands = src.getNumBands();
+    public finbl WritbbleRbster filter (Rbster src, WritbbleRbster dst)  {
+        int numBbnds = src.getNumBbnds();
         int width  = src.getWidth();
         int height = src.getHeight();
         int[] srcPix = null;
         int step = 0;
         int tidx = 0;
 
-        // Create a new destination Raster, if needed
+        // Crebte b new destinbtion Rbster, if needed
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = crebteCompbtibleDestRbster(src);
         }
         else if (height != dst.getHeight() || width != dst.getWidth()) {
             throw new
-               IllegalArgumentException("Width or height of Rasters do not "+
-                                        "match");
+               IllegblArgumentException("Width or height of Rbsters do not "+
+                                        "mbtch");
         }
-        else if (numBands != dst.getNumBands()) {
-            // Make sure that the number of bands are equal
-            throw new IllegalArgumentException("Number of bands in src "
-                            + numBands
-                            + " does not equal number of bands in dest "
-                            + dst.getNumBands());
+        else if (numBbnds != dst.getNumBbnds()) {
+            // Mbke sure thbt the number of bbnds bre equbl
+            throw new IllegblArgumentException("Number of bbnds in src "
+                            + numBbnds
+                            + " does not equbl number of bbnds in dest "
+                            + dst.getNumBbnds());
         }
-        // Make sure that the arrays match
-        // Make sure that the low/high/constant arrays match
-        if (length != 1 && length != src.getNumBands()) {
-            throw new IllegalArgumentException("Number of scaling constants "+
-                                               "does not equal the number of"+
-                                               " of bands in the src raster");
+        // Mbke sure thbt the brrbys mbtch
+        // Mbke sure thbt the low/high/constbnt brrbys mbtch
+        if (length != 1 && length != src.getNumBbnds()) {
+            throw new IllegblArgumentException("Number of scbling constbnts "+
+                                               "does not equbl the number of"+
+                                               " of bbnds in the src rbster");
         }
 
 
         //
-        // Try for a native raster rescale first
+        // Try for b nbtive rbster rescble first
         //
-        if (ImagingLib.filter(this, src, dst) != null) {
+        if (ImbgingLib.filter(this, src, dst) != null) {
             return dst;
         }
 
         //
-        // Native raster rescale failed.
-        // Try to see if a lookup operation can be used
+        // Nbtive rbster rescble fbiled.
+        // Try to see if b lookup operbtion cbn be used
         //
-        if (canUseLookup(src, dst)) {
-            int srcNgray = (1 << srcNbits);
-            int dstNgray = (1 << dstNbits);
+        if (cbnUseLookup(src, dst)) {
+            int srcNgrby = (1 << srcNbits);
+            int dstNgrby = (1 << dstNbits);
 
-            if (dstNgray == 256) {
-                ByteLookupTable lut = createByteLut(scaleFactors, offsets,
-                                                    numBands, srcNgray);
+            if (dstNgrby == 256) {
+                ByteLookupTbble lut = crebteByteLut(scbleFbctors, offsets,
+                                                    numBbnds, srcNgrby);
                 LookupOp op = new LookupOp(lut, hints);
                 op.filter(src, dst);
             } else {
-                ShortLookupTable lut = createShortLut(scaleFactors, offsets,
-                                                      numBands, srcNgray);
+                ShortLookupTbble lut = crebteShortLut(scbleFbctors, offsets,
+                                                      numBbnds, srcNgrby);
                 LookupOp op = new LookupOp(lut, hints);
                 op.filter(src, dst);
             }
         } else {
             //
-            // Fall back to the slow code
+            // Fbll bbck to the slow code
             //
             if (length > 1) {
                 step = 1;
@@ -535,44 +535,44 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
             int dX;
 
             //
-            //  Determine bits per band to determine maxval for clamps.
-            //  The min is assumed to be zero.
-            //  REMIND: This must change if we ever support signed data types.
+            //  Determine bits per bbnd to determine mbxvbl for clbmps.
+            //  The min is bssumed to be zero.
+            //  REMIND: This must chbnge if we ever support signed dbtb types.
             //
             int nbits;
-            int dstMax[] = new int[numBands];
-            int dstMask[] = new int[numBands];
-            SampleModel dstSM = dst.getSampleModel();
-            for (int z=0; z<numBands; z++) {
-                nbits = dstSM.getSampleSize(z);
-                dstMax[z] = (1 << nbits) - 1;
-                dstMask[z] = ~(dstMax[z]);
+            int dstMbx[] = new int[numBbnds];
+            int dstMbsk[] = new int[numBbnds];
+            SbmpleModel dstSM = dst.getSbmpleModel();
+            for (int z=0; z<numBbnds; z++) {
+                nbits = dstSM.getSbmpleSize(z);
+                dstMbx[z] = (1 << nbits) - 1;
+                dstMbsk[z] = ~(dstMbx[z]);
             }
 
-            int val;
+            int vbl;
             for (int y=0; y < height; y++, sY++, dY++) {
                 dX = dminX;
                 sX = sminX;
                 for (int x = 0; x < width; x++, sX++, dX++) {
-                    // Get data for all bands at this x,y position
+                    // Get dbtb for bll bbnds bt this x,y position
                     srcPix = src.getPixel(sX, sY, srcPix);
                     tidx = 0;
-                    for (int z=0; z<numBands; z++, tidx += step) {
-                        val = (int)(srcPix[z]*scaleFactors[tidx]
+                    for (int z=0; z<numBbnds; z++, tidx += step) {
+                        vbl = (int)(srcPix[z]*scbleFbctors[tidx]
                                           + offsets[tidx]);
-                        // Clamp
-                        if ((val & dstMask[z]) != 0) {
-                            if (val < 0) {
-                                val = 0;
+                        // Clbmp
+                        if ((vbl & dstMbsk[z]) != 0) {
+                            if (vbl < 0) {
+                                vbl = 0;
                             } else {
-                                val = dstMax[z];
+                                vbl = dstMbx[z];
                             }
                         }
-                        srcPix[z] = val;
+                        srcPix[z] = vbl;
 
                     }
 
-                    // Put it back for all bands
+                    // Put it bbck for bll bbnds
                     dst.setPixel(dX, dY, srcPix);
                 }
             }
@@ -581,86 +581,86 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
     }
 
     /**
-     * Returns the bounding box of the rescaled destination image.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
+     * Returns the bounding box of the rescbled destinbtion imbge.  Since
+     * this is not b geometric operbtion, the bounding box does not
+     * chbnge.
      */
-    public final Rectangle2D getBounds2D (BufferedImage src) {
-         return getBounds2D(src.getRaster());
+    public finbl Rectbngle2D getBounds2D (BufferedImbge src) {
+         return getBounds2D(src.getRbster());
     }
 
     /**
-     * Returns the bounding box of the rescaled destination Raster.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
-     * @param src the rescaled destination <code>Raster</code>
-     * @return the bounds of the specified <code>Raster</code>.
+     * Returns the bounding box of the rescbled destinbtion Rbster.  Since
+     * this is not b geometric operbtion, the bounding box does not
+     * chbnge.
+     * @pbrbm src the rescbled destinbtion <code>Rbster</code>
+     * @return the bounds of the specified <code>Rbster</code>.
      */
-    public final Rectangle2D getBounds2D (Raster src) {
+    public finbl Rectbngle2D getBounds2D (Rbster src) {
         return src.getBounds();
     }
 
     /**
-     * Creates a zeroed destination image with the correct size and number of
-     * bands.
-     * @param src       Source image for the filter operation.
-     * @param destCM    ColorModel of the destination.  If null, the
+     * Crebtes b zeroed destinbtion imbge with the correct size bnd number of
+     * bbnds.
+     * @pbrbm src       Source imbge for the filter operbtion.
+     * @pbrbm destCM    ColorModel of the destinbtion.  If null, the
      *                  ColorModel of the source will be used.
-     * @return the zeroed-destination image.
+     * @return the zeroed-destinbtion imbge.
      */
-    public BufferedImage createCompatibleDestImage (BufferedImage src,
+    public BufferedImbge crebteCompbtibleDestImbge (BufferedImbge src,
                                                     ColorModel destCM) {
-        BufferedImage image;
+        BufferedImbge imbge;
         if (destCM == null) {
             ColorModel cm = src.getColorModel();
-            image = new BufferedImage(cm,
-                                      src.getRaster().createCompatibleWritableRaster(),
-                                      cm.isAlphaPremultiplied(),
+            imbge = new BufferedImbge(cm,
+                                      src.getRbster().crebteCompbtibleWritbbleRbster(),
+                                      cm.isAlphbPremultiplied(),
                                       null);
         }
         else {
             int w = src.getWidth();
             int h = src.getHeight();
-            image = new BufferedImage (destCM,
-                                   destCM.createCompatibleWritableRaster(w, h),
-                                   destCM.isAlphaPremultiplied(), null);
+            imbge = new BufferedImbge (destCM,
+                                   destCM.crebteCompbtibleWritbbleRbster(w, h),
+                                   destCM.isAlphbPremultiplied(), null);
         }
 
-        return image;
+        return imbge;
     }
 
     /**
-     * Creates a zeroed-destination <code>Raster</code> with the correct
-     * size and number of bands, given this source.
-     * @param src       the source <code>Raster</code>
-     * @return the zeroed-destination <code>Raster</code>.
+     * Crebtes b zeroed-destinbtion <code>Rbster</code> with the correct
+     * size bnd number of bbnds, given this source.
+     * @pbrbm src       the source <code>Rbster</code>
+     * @return the zeroed-destinbtion <code>Rbster</code>.
      */
-    public WritableRaster createCompatibleDestRaster (Raster src) {
-        return src.createCompatibleWritableRaster(src.getWidth(), src.getHeight());
+    public WritbbleRbster crebteCompbtibleDestRbster (Rbster src) {
+        return src.crebteCompbtibleWritbbleRbster(src.getWidth(), src.getHeight());
     }
 
     /**
-     * Returns the location of the destination point given a
+     * Returns the locbtion of the destinbtion point given b
      * point in the source.  If dstPt is non-null, it will
-     * be used to hold the return value.  Since this is not a geometric
-     * operation, the srcPt will equal the dstPt.
-     * @param srcPt a point in the source image
-     * @param dstPt the destination point or <code>null</code>
-     * @return the location of the destination point.
+     * be used to hold the return vblue.  Since this is not b geometric
+     * operbtion, the srcPt will equbl the dstPt.
+     * @pbrbm srcPt b point in the source imbge
+     * @pbrbm dstPt the destinbtion point or <code>null</code>
+     * @return the locbtion of the destinbtion point.
      */
-    public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
+    public finbl Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
-            dstPt = new Point2D.Float();
+            dstPt = new Point2D.Flobt();
         }
-        dstPt.setLocation(srcPt.getX(), srcPt.getY());
+        dstPt.setLocbtion(srcPt.getX(), srcPt.getY());
         return dstPt;
     }
 
     /**
      * Returns the rendering hints for this op.
-     * @return the rendering hints of this <code>RescaleOp</code>.
+     * @return the rendering hints of this <code>RescbleOp</code>.
      */
-    public final RenderingHints getRenderingHints() {
+    public finbl RenderingHints getRenderingHints() {
         return hints;
     }
 }

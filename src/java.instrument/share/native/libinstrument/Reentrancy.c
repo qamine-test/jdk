@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -31,32 +31,32 @@
 #include    <jvmti.h>
 
 #include    "JPLISAssert.h"
-#include    "Reentrancy.h"
+#include    "Reentrbncy.h"
 #include    "JPLISAgent.h"
 
 /*
- *  This module provides some utility functions to support the "same thread" re-entrancy management.
- *  Uses JVMTI TLS to store a single bit per thread.
- *  Non-zero means the thread is already inside; zero means the thread is not inside.
+ *  This module provides some utility functions to support the "sbme threbd" re-entrbncy mbnbgement.
+ *  Uses JVMTI TLS to store b single bit per threbd.
+ *  Non-zero mebns the threbd is blrebdy inside; zero mebns the threbd is not inside.
  */
 
 /*
- *  Local prototypes
+ *  Locbl prototypes
  */
 
-/* Wrapper around set that does the set then re-fetches to make sure it worked.
- * Degenerates to a simple set when assertions are disabled.
- * This routine is only here because of a bug in the JVMTI where set to 0 fails.
+/* Wrbpper bround set thbt does the set then re-fetches to mbke sure it worked.
+ * Degenerbtes to b simple set when bssertions bre disbbled.
+ * This routine is only here becbuse of b bug in the JVMTI where set to 0 fbils.
  */
 jvmtiError
 confirmingTLSSet(   jvmtiEnv *      jvmtienv,
-                    jthread         thread,
-                    const void *    newValue);
+                    jthrebd         threbd,
+                    const void *    newVblue);
 
-/* Confirmation routine only; used to assure that the TLS slot holds the value we expect it to. */
+/* Confirmbtion routine only; used to bssure thbt the TLS slot holds the vblue we expect it to. */
 void
-assertTLSValue( jvmtiEnv *      jvmtienv,
-                jthread         thread,
+bssertTLSVblue( jvmtiEnv *      jvmtienv,
+                jthrebd         threbd,
                 const void *    expected);
 
 
@@ -66,72 +66,72 @@ assertTLSValue( jvmtiEnv *      jvmtienv,
 
 jvmtiError
 confirmingTLSSet(   jvmtiEnv *      jvmtienv,
-                    jthread         thread,
-                    const void *    newValue) {
+                    jthrebd         threbd,
+                    const void *    newVblue) {
     jvmtiError  error;
 
-    error = (*jvmtienv)->SetThreadLocalStorage(
+    error = (*jvmtienv)->SetThrebdLocblStorbge(
                                     jvmtienv,
-                                    thread,
-                                    newValue);
-    check_phase_ret_blob(error, error);
+                                    threbd,
+                                    newVblue);
+    check_phbse_ret_blob(error, error);
 
 #if JPLISASSERT_ENABLEASSERTIONS
-    assertTLSValue( jvmtienv,
-                    thread,
-                    newValue);
+    bssertTLSVblue( jvmtienv,
+                    threbd,
+                    newVblue);
 #endif
 
     return error;
 }
 
 void
-assertTLSValue( jvmtiEnv *      jvmtienv,
-                jthread         thread,
+bssertTLSVblue( jvmtiEnv *      jvmtienv,
+                jthrebd         threbd,
                 const void *    expected) {
     jvmtiError  error;
     void *      test = (void *) 0x99999999;
 
-    /* now check if we do a fetch we get what we wrote */
-    error = (*jvmtienv)->GetThreadLocalStorage(
+    /* now check if we do b fetch we get whbt we wrote */
+    error = (*jvmtienv)->GetThrebdLocblStorbge(
                                 jvmtienv,
-                                thread,
+                                threbd,
                                 &test);
-    check_phase_ret(error);
-    jplis_assert(error == JVMTI_ERROR_NONE);
-    jplis_assert(test == expected);
+    check_phbse_ret(error);
+    jplis_bssert(error == JVMTI_ERROR_NONE);
+    jplis_bssert(test == expected);
 }
 
-jboolean
-tryToAcquireReentrancyToken(    jvmtiEnv *  jvmtienv,
-                                jthread     thread) {
-    jboolean    result      = JNI_FALSE;
+jboolebn
+tryToAcquireReentrbncyToken(    jvmtiEnv *  jvmtienv,
+                                jthrebd     threbd) {
+    jboolebn    result      = JNI_FALSE;
     jvmtiError  error       = JVMTI_ERROR_NONE;
-    void *      storedValue = NULL;
+    void *      storedVblue = NULL;
 
-    error = (*jvmtienv)->GetThreadLocalStorage(
+    error = (*jvmtienv)->GetThrebdLocblStorbge(
                                 jvmtienv,
-                                thread,
-                                &storedValue);
-    check_phase_ret_false(error);
-    jplis_assert(error == JVMTI_ERROR_NONE);
+                                threbd,
+                                &storedVblue);
+    check_phbse_ret_fblse(error);
+    jplis_bssert(error == JVMTI_ERROR_NONE);
     if ( error == JVMTI_ERROR_NONE ) {
-        /* if this thread is already inside, just return false and short-circuit */
-        if ( storedValue == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
+        /* if this threbd is blrebdy inside, just return fblse bnd short-circuit */
+        if ( storedVblue == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
             result = JNI_FALSE;
         }
         else {
-            /* stuff in the sentinel and return true */
+            /* stuff in the sentinel bnd return true */
 #if JPLISASSERT_ENABLEASSERTIONS
-            assertTLSValue( jvmtienv,
-                            thread,
+            bssertTLSVblue( jvmtienv,
+                            threbd,
                             JPLIS_CURRENTLY_OUTSIDE_TOKEN);
 #endif
             error = confirmingTLSSet (  jvmtienv,
-                                        thread,
+                                        threbd,
                                         JPLIS_CURRENTLY_INSIDE_TOKEN);
-            check_phase_ret_false(error);
-            jplis_assert(error == JVMTI_ERROR_NONE);
+            check_phbse_ret_fblse(error);
+            jplis_bssert(error == JVMTI_ERROR_NONE);
             if ( error != JVMTI_ERROR_NONE ) {
                 result = JNI_FALSE;
             }
@@ -145,21 +145,21 @@ tryToAcquireReentrancyToken(    jvmtiEnv *  jvmtienv,
 
 
 void
-releaseReentrancyToken(         jvmtiEnv *  jvmtienv,
-                                jthread     thread)  {
+relebseReentrbncyToken(         jvmtiEnv *  jvmtienv,
+                                jthrebd     threbd)  {
     jvmtiError  error       = JVMTI_ERROR_NONE;
 
-/* assert we hold the token */
+/* bssert we hold the token */
 #if JPLISASSERT_ENABLEASSERTIONS
-    assertTLSValue( jvmtienv,
-                    thread,
+    bssertTLSVblue( jvmtienv,
+                    threbd,
                     JPLIS_CURRENTLY_INSIDE_TOKEN);
 #endif
 
     error = confirmingTLSSet(   jvmtienv,
-                                thread,
+                                threbd,
                                 JPLIS_CURRENTLY_OUTSIDE_TOKEN);
-    check_phase_ret(error);
-    jplis_assert(error == JVMTI_ERROR_NONE);
+    check_phbse_ret(error);
+    jplis_bssert(error == JVMTI_ERROR_NONE);
 
 }

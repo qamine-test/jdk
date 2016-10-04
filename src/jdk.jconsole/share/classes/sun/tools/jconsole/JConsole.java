@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.List;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.util.*;
+import jbvb.util.List;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.security.auth.login.FailedLoginException;
-import javax.net.ssl.SSLHandshakeException;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.security.buth.login.FbiledLoginException;
+import jbvbx.net.ssl.SSLHbndshbkeException;
 
 import com.sun.tools.jconsole.JConsolePlugin;
 
 import sun.net.util.IPAddressUtil;
 
-import static sun.tools.jconsole.Utilities.*;
+import stbtic sun.tools.jconsole.Utilities.*;
 
-@SuppressWarnings("serial")
-public class JConsole extends JFrame
-    implements ActionListener, InternalFrameListener {
+@SuppressWbrnings("seribl")
+public clbss JConsole extends JFrbme
+    implements ActionListener, InternblFrbmeListener {
 
-    static /*final*/ boolean IS_GTK;
-    static /*final*/ boolean IS_WIN;
+    stbtic /*finbl*/ boolebn IS_GTK;
+    stbtic /*finbl*/ boolebn IS_WIN;
 
-    static {
-        // Apply the system L&F if it is GTK or Windows, and
-        // the L&F is not specified using a system property.
-        if (System.getProperty("swing.defaultlaf") == null) {
-            String systemLaF = UIManager.getSystemLookAndFeelClassName();
-            if (systemLaF.equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel") ||
-                systemLaF.equals("com.sun.java.swing.plaf.windows.WindowsLookAndFeel")) {
+    stbtic {
+        // Apply the system L&F if it is GTK or Windows, bnd
+        // the L&F is not specified using b system property.
+        if (System.getProperty("swing.defbultlbf") == null) {
+            String systemLbF = UIMbnbger.getSystemLookAndFeelClbssNbme();
+            if (systemLbF.equbls("com.sun.jbvb.swing.plbf.gtk.GTKLookAndFeel") ||
+                systemLbF.equbls("com.sun.jbvb.swing.plbf.windows.WindowsLookAndFeel")) {
 
                 try {
-                    UIManager.setLookAndFeel(systemLaF);
-                } catch (Exception e) {
-                    System.err.println(Resources.format(Messages.JCONSOLE_COLON_, e.getMessage()));
+                    UIMbnbger.setLookAndFeel(systemLbF);
+                } cbtch (Exception e) {
+                    System.err.println(Resources.formbt(Messbges.JCONSOLE_COLON_, e.getMessbge()));
                 }
             }
         }
 
-        updateLafValues();
+        updbteLbfVblues();
     }
 
 
-    static void updateLafValues() {
-        String lafName = UIManager.getLookAndFeel().getClass().getName();
-        IS_GTK = lafName.equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-        IS_WIN = lafName.equals("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+    stbtic void updbteLbfVblues() {
+        String lbfNbme = UIMbnbger.getLookAndFeel().getClbss().getNbme();
+        IS_GTK = lbfNbme.equbls("com.sun.jbvb.swing.plbf.gtk.GTKLookAndFeel");
+        IS_WIN = lbfNbme.equbls("com.sun.jbvb.swing.plbf.windows.WindowsLookAndFeel");
 
-        //BorderedComponent.updateLafValues();
+        //BorderedComponent.updbteLbfVblues();
     }
 
 
-    private final static String title =
-        Messages.JAVA_MONITORING___MANAGEMENT_CONSOLE;
-    public final static String ROOT_URL =
+    privbte finbl stbtic String title =
+        Messbges.JAVA_MONITORING___MANAGEMENT_CONSOLE;
+    public finbl stbtic String ROOT_URL =
         "service:jmx:";
 
-    private static int updateInterval = 4000;
-    private static String pluginPath = "";
+    privbte stbtic int updbteIntervbl = 4000;
+    privbte stbtic String pluginPbth = "";
 
-    private JMenuBar menuBar;
-    private JMenuItem hotspotMI, connectMI, exitMI;
-    private WindowMenu windowMenu;
-    private JMenuItem tileMI, cascadeMI, minimizeAllMI, restoreAllMI;
-    private JMenuItem userGuideMI, aboutMI;
+    privbte JMenuBbr menuBbr;
+    privbte JMenuItem hotspotMI, connectMI, exitMI;
+    privbte WindowMenu windowMenu;
+    privbte JMenuItem tileMI, cbscbdeMI, minimizeAllMI, restoreAllMI;
+    privbte JMenuItem userGuideMI, bboutMI;
 
-    private JButton connectButton;
-    private JDesktopPane desktop;
-    private ConnectDialog connectDialog;
-    private CreateMBeanDialog createDialog;
+    privbte JButton connectButton;
+    privbte JDesktopPbne desktop;
+    privbte ConnectDiblog connectDiblog;
+    privbte CrebteMBebnDiblog crebteDiblog;
 
-    private ArrayList<VMInternalFrame> windows =
-        new ArrayList<VMInternalFrame>();
+    privbte ArrbyList<VMInternblFrbme> windows =
+        new ArrbyList<VMInternblFrbme>();
 
-    private int frameLoc = 5;
-    static boolean debug;
+    privbte int frbmeLoc = 5;
+    stbtic boolebn debug;
 
-    public JConsole(boolean hotspot) {
+    public JConsole(boolebn hotspot) {
         super(title);
 
-        setRootPane(new FixedJRootPane());
+        setRootPbne(new FixedJRootPbne());
         setAccessibleDescription(this,
-                                 Messages.JCONSOLE_ACCESSIBLE_DESCRIPTION);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                 Messbges.JCONSOLE_ACCESSIBLE_DESCRIPTION);
+        setDefbultCloseOperbtion(JFrbme.EXIT_ON_CLOSE);
 
-        menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
+        menuBbr = new JMenuBbr();
+        setJMenuBbr(menuBbr);
 
         // TODO: Use Actions !
 
-        JMenu connectionMenu = new JMenu(Messages.CONNECTION);
-        connectionMenu.setMnemonic(Resources.getMnemonicInt(Messages.CONNECTION));
-        menuBar.add(connectionMenu);
+        JMenu connectionMenu = new JMenu(Messbges.CONNECTION);
+        connectionMenu.setMnemonic(Resources.getMnemonicInt(Messbges.CONNECTION));
+        menuBbr.bdd(connectionMenu);
         if(hotspot) {
-            hotspotMI = new JMenuItem(Messages.HOTSPOT_MBEANS_ELLIPSIS);
-            hotspotMI.setMnemonic(Resources.getMnemonicInt(Messages.HOTSPOT_MBEANS_ELLIPSIS));
-            hotspotMI.setAccelerator(KeyStroke.
+            hotspotMI = new JMenuItem(Messbges.HOTSPOT_MBEANS_ELLIPSIS);
+            hotspotMI.setMnemonic(Resources.getMnemonicInt(Messbges.HOTSPOT_MBEANS_ELLIPSIS));
+            hotspotMI.setAccelerbtor(KeyStroke.
                                      getKeyStroke(KeyEvent.VK_H,
                                                   InputEvent.CTRL_MASK));
-            hotspotMI.addActionListener(this);
-            connectionMenu.add(hotspotMI);
+            hotspotMI.bddActionListener(this);
+            connectionMenu.bdd(hotspotMI);
 
-            connectionMenu.addSeparator();
+            connectionMenu.bddSepbrbtor();
         }
 
-        connectMI = new JMenuItem(Messages.NEW_CONNECTION_ELLIPSIS);
-        connectMI.setMnemonic(Resources.getMnemonicInt(Messages.NEW_CONNECTION_ELLIPSIS));
-        connectMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+        connectMI = new JMenuItem(Messbges.NEW_CONNECTION_ELLIPSIS);
+        connectMI.setMnemonic(Resources.getMnemonicInt(Messbges.NEW_CONNECTION_ELLIPSIS));
+        connectMI.setAccelerbtor(KeyStroke.getKeyStroke(KeyEvent.VK_N,
                                                         InputEvent.CTRL_MASK));
-        connectMI.addActionListener(this);
-        connectionMenu.add(connectMI);
+        connectMI.bddActionListener(this);
+        connectionMenu.bdd(connectMI);
 
-        connectionMenu.addSeparator();
+        connectionMenu.bddSepbrbtor();
 
-        exitMI = new JMenuItem(Messages.EXIT);
-        exitMI.setMnemonic(Resources.getMnemonicInt(Messages.EXIT));
-        exitMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
+        exitMI = new JMenuItem(Messbges.EXIT);
+        exitMI.setMnemonic(Resources.getMnemonicInt(Messbges.EXIT));
+        exitMI.setAccelerbtor(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
                                                      InputEvent.ALT_MASK));
-        exitMI.addActionListener(this);
-        connectionMenu.add(exitMI);
+        exitMI.bddActionListener(this);
+        connectionMenu.bdd(exitMI);
 
 
-        JMenu helpMenu = new JMenu(Messages.HELP_MENU_TITLE);
-        helpMenu.setMnemonic(Resources.getMnemonicInt(Messages.HELP_MENU_TITLE));
-        menuBar.add(helpMenu);
+        JMenu helpMenu = new JMenu(Messbges.HELP_MENU_TITLE);
+        helpMenu.setMnemonic(Resources.getMnemonicInt(Messbges.HELP_MENU_TITLE));
+        menuBbr.bdd(helpMenu);
 
-        if (AboutDialog.isBrowseSupported()) {
-            userGuideMI = new JMenuItem(Messages.HELP_MENU_USER_GUIDE_TITLE);
-            userGuideMI.setMnemonic(Resources.getMnemonicInt(Messages.HELP_MENU_USER_GUIDE_TITLE));
-            userGuideMI.addActionListener(this);
-            helpMenu.add(userGuideMI);
-            helpMenu.addSeparator();
+        if (AboutDiblog.isBrowseSupported()) {
+            userGuideMI = new JMenuItem(Messbges.HELP_MENU_USER_GUIDE_TITLE);
+            userGuideMI.setMnemonic(Resources.getMnemonicInt(Messbges.HELP_MENU_USER_GUIDE_TITLE));
+            userGuideMI.bddActionListener(this);
+            helpMenu.bdd(userGuideMI);
+            helpMenu.bddSepbrbtor();
         }
-        aboutMI = new JMenuItem(Messages.HELP_MENU_ABOUT_TITLE);
-        aboutMI.setMnemonic(Resources.getMnemonicInt(Messages.HELP_MENU_ABOUT_TITLE));
-        aboutMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-        aboutMI.addActionListener(this);
-        helpMenu.add(aboutMI);
+        bboutMI = new JMenuItem(Messbges.HELP_MENU_ABOUT_TITLE);
+        bboutMI.setMnemonic(Resources.getMnemonicInt(Messbges.HELP_MENU_ABOUT_TITLE));
+        bboutMI.setAccelerbtor(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+        bboutMI.bddActionListener(this);
+        helpMenu.bdd(bboutMI);
     }
 
-    public JDesktopPane getDesktopPane() {
+    public JDesktopPbne getDesktopPbne() {
         return desktop;
     }
 
-    public List<VMInternalFrame> getInternalFrames() {
+    public List<VMInternblFrbme> getInternblFrbmes() {
         return windows;
     }
 
-    private void createMDI() {
-        // Restore title - we now show connection name on internal frames
+    privbte void crebteMDI() {
+        // Restore title - we now show connection nbme on internbl frbmes
         setTitle(title);
 
-        Container cp = getContentPane();
+        Contbiner cp = getContentPbne();
         Component oldCenter =
-            ((BorderLayout)cp.getLayout()).
-            getLayoutComponent(BorderLayout.CENTER);
+            ((BorderLbyout)cp.getLbyout()).
+            getLbyoutComponent(BorderLbyout.CENTER);
 
-        windowMenu = new WindowMenu(Messages.WINDOW);
-        windowMenu.setMnemonic(Resources.getMnemonicInt(Messages.WINDOW));
+        windowMenu = new WindowMenu(Messbges.WINDOW);
+        windowMenu.setMnemonic(Resources.getMnemonicInt(Messbges.WINDOW));
         // Add Window menu before Help menu
-        menuBar.add(windowMenu, menuBar.getComponentCount() - 1);
+        menuBbr.bdd(windowMenu, menuBbr.getComponentCount() - 1);
 
-        desktop = new JDesktopPane();
-        desktop.setBackground(new Color(235, 245, 255));
+        desktop = new JDesktopPbne();
+        desktop.setBbckground(new Color(235, 245, 255));
 
-        cp.add(desktop, BorderLayout.CENTER);
+        cp.bdd(desktop, BorderLbyout.CENTER);
 
-        if (oldCenter instanceof VMPanel) {
-            addFrame((VMPanel)oldCenter);
+        if (oldCenter instbnceof VMPbnel) {
+            bddFrbme((VMPbnel)oldCenter);
         }
     }
 
-    private class WindowMenu extends JMenu {
-        VMInternalFrame[] windowMenuWindows = new VMInternalFrame[0];
-        int separatorPosition;
+    privbte clbss WindowMenu extends JMenu {
+        VMInternblFrbme[] windowMenuWindows = new VMInternblFrbme[0];
+        int sepbrbtorPosition;
 
-        // The width value of viewR is used to truncate long menu items.
-        // The rest are placeholders and are ignored for this purpose.
-        Rectangle viewR = new Rectangle(0, 0, 400, 20);
-        Rectangle textR = new Rectangle(0, 0, 0, 0);
-        Rectangle iconR = new Rectangle(0, 0, 0, 0);
+        // The width vblue of viewR is used to truncbte long menu items.
+        // The rest bre plbceholders bnd bre ignored for this purpose.
+        Rectbngle viewR = new Rectbngle(0, 0, 400, 20);
+        Rectbngle textR = new Rectbngle(0, 0, 0, 0);
+        Rectbngle iconR = new Rectbngle(0, 0, 0, 0);
 
         WindowMenu(String text) {
             super(text);
 
-            cascadeMI = new JMenuItem(Messages.CASCADE);
-            cascadeMI.setMnemonic(Resources.getMnemonicInt(Messages.CASCADE));
-            cascadeMI.addActionListener(JConsole.this);
-            add(cascadeMI);
+            cbscbdeMI = new JMenuItem(Messbges.CASCADE);
+            cbscbdeMI.setMnemonic(Resources.getMnemonicInt(Messbges.CASCADE));
+            cbscbdeMI.bddActionListener(JConsole.this);
+            bdd(cbscbdeMI);
 
-            tileMI = new JMenuItem(Messages.TILE);
-            tileMI.setMnemonic(Resources.getMnemonicInt(Messages.TILE));
-            tileMI.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
+            tileMI = new JMenuItem(Messbges.TILE);
+            tileMI.setMnemonic(Resources.getMnemonicInt(Messbges.TILE));
+            tileMI.setAccelerbtor(KeyStroke.getKeyStroke(KeyEvent.VK_T,
                                                          InputEvent.CTRL_MASK));
-            tileMI.addActionListener(JConsole.this);
-            add(tileMI);
+            tileMI.bddActionListener(JConsole.this);
+            bdd(tileMI);
 
-            minimizeAllMI = new JMenuItem(Messages.MINIMIZE_ALL);
-            minimizeAllMI.setMnemonic(Resources.getMnemonicInt(Messages.MINIMIZE_ALL));
-            minimizeAllMI.addActionListener(JConsole.this);
-            add(minimizeAllMI);
+            minimizeAllMI = new JMenuItem(Messbges.MINIMIZE_ALL);
+            minimizeAllMI.setMnemonic(Resources.getMnemonicInt(Messbges.MINIMIZE_ALL));
+            minimizeAllMI.bddActionListener(JConsole.this);
+            bdd(minimizeAllMI);
 
-            restoreAllMI = new JMenuItem(Messages.RESTORE_ALL);
-            restoreAllMI.setMnemonic(Resources.getMnemonicInt(Messages.RESTORE_ALL));
-            restoreAllMI.addActionListener(JConsole.this);
-            add(restoreAllMI);
+            restoreAllMI = new JMenuItem(Messbges.RESTORE_ALL);
+            restoreAllMI.setMnemonic(Resources.getMnemonicInt(Messbges.RESTORE_ALL));
+            restoreAllMI.bddActionListener(JConsole.this);
+            bdd(restoreAllMI);
 
-            separatorPosition = getMenuComponentCount();
+            sepbrbtorPosition = getMenuComponentCount();
         }
 
-        private void add(VMInternalFrame vmIF) {
-            if (separatorPosition == getMenuComponentCount()) {
-                addSeparator();
+        privbte void bdd(VMInternblFrbme vmIF) {
+            if (sepbrbtorPosition == getMenuComponentCount()) {
+                bddSepbrbtor();
             }
 
             int index = -1;
-            int position = separatorPosition + 1;
+            int position = sepbrbtorPosition + 1;
             int n = windowMenuWindows.length;
 
             for (int i = 0; i < n; i++) {
@@ -254,48 +254,48 @@ public class JConsole extends JFrame
                     // Slot is in use, try next
                     position++;
                 } else {
-                    // Found a free slot
+                    // Found b free slot
                     index = i;
-                    break;
+                    brebk;
                 }
             }
 
             if (index == -1) {
-                // Create a slot at the end
-                VMInternalFrame[] newArray = new VMInternalFrame[n + 1];
-                System.arraycopy(windowMenuWindows, 0, newArray, 0, n);
-                windowMenuWindows = newArray;
+                // Crebte b slot bt the end
+                VMInternblFrbme[] newArrby = new VMInternblFrbme[n + 1];
+                System.brrbycopy(windowMenuWindows, 0, newArrby, 0, n);
+                windowMenuWindows = newArrby;
                 index = n;
             }
 
             windowMenuWindows[index] = vmIF;
 
             String indexString = "" + (index+1);
-            String vmName = vmIF.getVMPanel().getDisplayName();
-            // Maybe truncate menu item string and end with "..."
+            String vmNbme = vmIF.getVMPbnel().getDisplbyNbme();
+            // Mbybe truncbte menu item string bnd end with "..."
             String text =
-                SwingUtilities.layoutCompoundLabel(this,
-                                        getGraphics().getFontMetrics(getFont()),
-                                        indexString +  " " + vmName,
+                SwingUtilities.lbyoutCompoundLbbel(this,
+                                        getGrbphics().getFontMetrics(getFont()),
+                                        indexString +  " " + vmNbme,
                                         null, 0, 0, 0, 0,
                                         viewR, iconR, textR, 0);
             JMenuItem mi = new JMenuItem(text);
             if (text.endsWith("...")) {
-                mi.setToolTipText(vmName);
+                mi.setToolTipText(vmNbme);
             }
 
-            // Set mnemonic using last digit of number
+            // Set mnemonic using lbst digit of number
             int nDigits = indexString.length();
-            mi.setMnemonic(indexString.charAt(nDigits-1));
-            mi.setDisplayedMnemonicIndex(nDigits-1);
+            mi.setMnemonic(indexString.chbrAt(nDigits-1));
+            mi.setDisplbyedMnemonicIndex(nDigits-1);
 
             mi.putClientProperty("JConsole.vmIF", vmIF);
-            mi.addActionListener(JConsole.this);
+            mi.bddActionListener(JConsole.this);
             vmIF.putClientProperty("JConsole.menuItem", mi);
-            add(mi, position);
+            bdd(mi, position);
         }
 
-        private void remove(VMInternalFrame vmIF) {
+        privbte void remove(VMInternblFrbme vmIF) {
             for (int i = 0; i < windowMenuWindows.length; i++) {
                 if (windowMenuWindows[i] == vmIF) {
                     windowMenuWindows[i] = null;
@@ -306,67 +306,67 @@ public class JConsole extends JFrame
             mi.putClientProperty("JConsole.vmIF", null);
             vmIF.putClientProperty("JConsole.menuItem", null);
 
-            if (separatorPosition == getMenuComponentCount() - 1) {
+            if (sepbrbtorPosition == getMenuComponentCount() - 1) {
                 remove(getMenuComponent(getMenuComponentCount() - 1));
             }
         }
     }
 
-    public void actionPerformed(ActionEvent ev) {
+    public void bctionPerformed(ActionEvent ev) {
         Object src = ev.getSource();
         if (src == hotspotMI) {
-            showCreateMBeanDialog();
+            showCrebteMBebnDiblog();
         }
 
         if (src == connectButton || src == connectMI) {
-            VMPanel vmPanel = null;
-            JInternalFrame vmIF = desktop.getSelectedFrame();
-            if (vmIF instanceof VMInternalFrame) {
-                vmPanel = ((VMInternalFrame)vmIF).getVMPanel();
+            VMPbnel vmPbnel = null;
+            JInternblFrbme vmIF = desktop.getSelectedFrbme();
+            if (vmIF instbnceof VMInternblFrbme) {
+                vmPbnel = ((VMInternblFrbme)vmIF).getVMPbnel();
             }
-                String hostName = "";
+                String hostNbme = "";
                 String url = "";
-                if (vmPanel != null) {
-                    hostName = vmPanel.getHostName();
-                    if(vmPanel.getUrl() != null)
-                        url = vmPanel.getUrl();
+                if (vmPbnel != null) {
+                    hostNbme = vmPbnel.getHostNbme();
+                    if(vmPbnel.getUrl() != null)
+                        url = vmPbnel.getUrl();
                 }
-                showConnectDialog(url, hostName, 0, null, null, null);
+                showConnectDiblog(url, hostNbme, 0, null, null, null);
         } else if (src == tileMI) {
             tileWindows();
-        } else if (src == cascadeMI) {
-            cascadeWindows();
+        } else if (src == cbscbdeMI) {
+            cbscbdeWindows();
         } else if (src == minimizeAllMI) {
-            for (VMInternalFrame vmIF : windows) {
+            for (VMInternblFrbme vmIF : windows) {
                 try {
                     vmIF.setIcon(true);
-                } catch (PropertyVetoException ex) {
+                } cbtch (PropertyVetoException ex) {
                     // Ignore
                 }
             }
         } else if (src == restoreAllMI) {
-            for (VMInternalFrame vmIF : windows) {
+            for (VMInternblFrbme vmIF : windows) {
                 try {
-                    vmIF.setIcon(false);
-                } catch (PropertyVetoException ex) {
+                    vmIF.setIcon(fblse);
+                } cbtch (PropertyVetoException ex) {
                     // Ignore
                 }
             }
         } else if (src == exitMI) {
             System.exit(0);
         } else if (src == userGuideMI) {
-            AboutDialog.browseUserGuide(this);
-        } else if (src == aboutMI) {
-            AboutDialog.showAboutDialog(this);
-        } else if (src instanceof JMenuItem) {
+            AboutDiblog.browseUserGuide(this);
+        } else if (src == bboutMI) {
+            AboutDiblog.showAboutDiblog(this);
+        } else if (src instbnceof JMenuItem) {
             JMenuItem mi = (JMenuItem)src;
-            VMInternalFrame vmIF = (VMInternalFrame)mi.
+            VMInternblFrbme vmIF = (VMInternblFrbme)mi.
                 getClientProperty("JConsole.vmIF");
             if (vmIF != null) {
                 try {
-                    vmIF.setIcon(false);
+                    vmIF.setIcon(fblse);
                     vmIF.setSelected(true);
-                } catch (PropertyVetoException ex) {
+                } cbtch (PropertyVetoException ex) {
                     // Ignore
                 }
                 vmIF.moveToFront();
@@ -379,22 +379,22 @@ public class JConsole extends JFrame
         int w = -1;
         int h = -1;
         int n = 0;
-        for (VMInternalFrame vmIF : windows) {
+        for (VMInternblFrbme vmIF : windows) {
             if (!vmIF.isIcon()) {
                 n++;
                 if (w == -1) {
                     try {
-                        vmIF.setMaximum(true);
+                        vmIF.setMbximum(true);
                         w = vmIF.getWidth();
                         h = vmIF.getHeight();
-                    } catch (PropertyVetoException ex) {
+                    } cbtch (PropertyVetoException ex) {
                         // Ignore
                     }
                 }
             }
         }
         if (n > 0 && w > 0 && h > 0) {
-            int rows = (int)Math.ceil(Math.sqrt(n));
+            int rows = (int)Mbth.ceil(Mbth.sqrt(n));
             int cols = n / rows;
             if (rows * cols < n) cols++;
             int x = 0;
@@ -402,11 +402,11 @@ public class JConsole extends JFrame
             w /= cols;
             h /= rows;
             int col = 0;
-            for (VMInternalFrame vmIF : windows) {
+            for (VMInternblFrbme vmIF : windows) {
                 if (!vmIF.isIcon()) {
                     try {
-                        vmIF.setMaximum(n==1);
-                    } catch (PropertyVetoException ex) {
+                        vmIF.setMbximum(n==1);
+                    } cbtch (PropertyVetoException ex) {
                         // Ignore
                     }
                     if (n > 1) {
@@ -425,28 +425,28 @@ public class JConsole extends JFrame
         }
     }
 
-    public void cascadeWindows() {
+    public void cbscbdeWindows() {
         int n = 0;
         int w = -1;
         int h = -1;
-        for (VMInternalFrame vmIF : windows) {
+        for (VMInternblFrbme vmIF : windows) {
             if (!vmIF.isIcon()) {
                 try {
-                    vmIF.setMaximum(false);
-                } catch (PropertyVetoException ex) {
+                    vmIF.setMbximum(fblse);
+                } cbtch (PropertyVetoException ex) {
                     // Ignore
                 }
                 n++;
-                vmIF.pack();
+                vmIF.pbck();
                 if (w == -1) {
                     try {
                         w = vmIF.getWidth();
                         h = vmIF.getHeight();
-                        vmIF.setMaximum(true);
+                        vmIF.setMbximum(true);
                         w = vmIF.getWidth() - w;
                         h = vmIF.getHeight() - h;
-                        vmIF.pack();
-                    } catch (PropertyVetoException ex) {
+                        vmIF.pbck();
+                    } cbtch (PropertyVetoException ex) {
                         // Ignore
                     }
                 }
@@ -456,9 +456,9 @@ public class JConsole extends JFrame
         int y = 0;
         int dX = (n > 1) ? (w / (n - 1)) : 0;
         int dY = (n > 1) ? (h / (n - 1)) : 0;
-        for (VMInternalFrame vmIF : windows) {
+        for (VMInternblFrbme vmIF : windows) {
             if (!vmIF.isIcon()) {
-                vmIF.setLocation(x, y);
+                vmIF.setLocbtion(x, y);
                 vmIF.moveToFront();
                 x += dX;
                 y += dY;
@@ -466,235 +466,235 @@ public class JConsole extends JFrame
         }
     }
 
-    // Call on EDT
-    void addHost(String hostName, int port,
-                 String userName, String password) {
-        addHost(hostName, port, userName, password, false);
+    // Cbll on EDT
+    void bddHost(String hostNbme, int port,
+                 String userNbme, String pbssword) {
+        bddHost(hostNbme, port, userNbme, pbssword, fblse);
     }
 
-    // Call on EDT
-    void addVmid(LocalVirtualMachine lvm) {
-        addVmid(lvm, false);
+    // Cbll on EDT
+    void bddVmid(LocblVirtublMbchine lvm) {
+        bddVmid(lvm, fblse);
     }
 
-    // Call on EDT
-    void addVmid(final LocalVirtualMachine lvm, final boolean tile) {
-        new Thread("JConsole.addVmid") {
+    // Cbll on EDT
+    void bddVmid(finbl LocblVirtublMbchine lvm, finbl boolebn tile) {
+        new Threbd("JConsole.bddVmid") {
             public void run() {
                 try {
-                    addProxyClient(ProxyClient.getProxyClient(lvm), tile);
-                } catch (final SecurityException ex) {
-                    failed(ex, null, null, null);
-                } catch (final IOException ex) {
-                    failed(ex, null, null, null);
+                    bddProxyClient(ProxyClient.getProxyClient(lvm), tile);
+                } cbtch (finbl SecurityException ex) {
+                    fbiled(ex, null, null, null);
+                } cbtch (finbl IOException ex) {
+                    fbiled(ex, null, null, null);
                 }
             }
-        }.start();
+        }.stbrt();
     }
 
-    // Call on EDT
-    void addUrl(final String url,
-                final String userName,
-                final String password,
-                final boolean tile) {
-        new Thread("JConsole.addUrl") {
+    // Cbll on EDT
+    void bddUrl(finbl String url,
+                finbl String userNbme,
+                finbl String pbssword,
+                finbl boolebn tile) {
+        new Threbd("JConsole.bddUrl") {
             public void run() {
                 try {
-                    addProxyClient(ProxyClient.getProxyClient(url, userName, password),
+                    bddProxyClient(ProxyClient.getProxyClient(url, userNbme, pbssword),
                                    tile);
-                } catch (final MalformedURLException ex) {
-                    failed(ex, url, userName, password);
-                } catch (final SecurityException ex) {
-                    failed(ex, url, userName, password);
-                } catch (final IOException ex) {
-                    failed(ex, url, userName, password);
+                } cbtch (finbl MblformedURLException ex) {
+                    fbiled(ex, url, userNbme, pbssword);
+                } cbtch (finbl SecurityException ex) {
+                    fbiled(ex, url, userNbme, pbssword);
+                } cbtch (finbl IOException ex) {
+                    fbiled(ex, url, userNbme, pbssword);
                 }
             }
-        }.start();
+        }.stbrt();
     }
 
 
-    // Call on EDT
-    void addHost(final String hostName, final int port,
-                 final String userName, final String password,
-                 final boolean tile) {
-        new Thread("JConsole.addHost") {
+    // Cbll on EDT
+    void bddHost(finbl String hostNbme, finbl int port,
+                 finbl String userNbme, finbl String pbssword,
+                 finbl boolebn tile) {
+        new Threbd("JConsole.bddHost") {
             public void run() {
                 try {
-                    addProxyClient(ProxyClient.getProxyClient(hostName, port,
-                                                              userName, password),
+                    bddProxyClient(ProxyClient.getProxyClient(hostNbme, port,
+                                                              userNbme, pbssword),
                                    tile);
-                } catch (final IOException ex) {
-                    dbgStackTrace(ex);
-                    SwingUtilities.invokeLater(new Runnable() {
+                } cbtch (finbl IOException ex) {
+                    dbgStbckTrbce(ex);
+                    SwingUtilities.invokeLbter(new Runnbble() {
                         public void run() {
-                            showConnectDialog(null, hostName, port,
-                                              userName, password, errorMessage(ex));
+                            showConnectDiblog(null, hostNbme, port,
+                                              userNbme, pbssword, errorMessbge(ex));
                         }
                     });
                 }
             }
-        }.start();
+        }.stbrt();
     }
 
 
-    // Call on worker thread
-    void addProxyClient(final ProxyClient proxyClient, final boolean tile) {
-        SwingUtilities.invokeLater(new Runnable() {
+    // Cbll on worker threbd
+    void bddProxyClient(finbl ProxyClient proxyClient, finbl boolebn tile) {
+        SwingUtilities.invokeLbter(new Runnbble() {
             public void run() {
-                VMPanel vmPanel = new VMPanel(proxyClient, updateInterval);
-                addFrame(vmPanel);
+                VMPbnel vmPbnel = new VMPbnel(proxyClient, updbteIntervbl);
+                bddFrbme(vmPbnel);
 
                 if (tile) {
-                    SwingUtilities.invokeLater(new Runnable() {
+                    SwingUtilities.invokeLbter(new Runnbble() {
                         public void run() {
                             tileWindows();
                         }
                     });
                 }
-                vmPanel.connect();
+                vmPbnel.connect();
             }
         });
     }
 
 
-    // Call on worker thread
-    private void failed(final Exception ex,
-                        final String url,
-                        final String userName,
-                        final String password) {
-        SwingUtilities.invokeLater(new Runnable() {
+    // Cbll on worker threbd
+    privbte void fbiled(finbl Exception ex,
+                        finbl String url,
+                        finbl String userNbme,
+                        finbl String pbssword) {
+        SwingUtilities.invokeLbter(new Runnbble() {
             public void run() {
-                dbgStackTrace(ex);
-                showConnectDialog(url,
+                dbgStbckTrbce(ex);
+                showConnectDiblog(url,
                                   null,
                                   -1,
-                                  userName,
-                                  password,
-                                  errorMessage(ex));
+                                  userNbme,
+                                  pbssword,
+                                  errorMessbge(ex));
             }
         });
     }
 
 
-    private VMInternalFrame addFrame(VMPanel vmPanel) {
-        final VMInternalFrame vmIF = new VMInternalFrame(vmPanel);
+    privbte VMInternblFrbme bddFrbme(VMPbnel vmPbnel) {
+        finbl VMInternblFrbme vmIF = new VMInternblFrbme(vmPbnel);
 
-        for (VMInternalFrame f : windows) {
+        for (VMInternblFrbme f : windows) {
             try {
-                f.setMaximum(false);
-            } catch (PropertyVetoException ex) {
+                f.setMbximum(fblse);
+            } cbtch (PropertyVetoException ex) {
                 // Ignore
             }
         }
-        desktop.add(vmIF);
+        desktop.bdd(vmIF);
 
-        vmIF.setLocation(frameLoc, frameLoc);
-        frameLoc += 30;
+        vmIF.setLocbtion(frbmeLoc, frbmeLoc);
+        frbmeLoc += 30;
         vmIF.setVisible(true);
-        windows.add(vmIF);
+        windows.bdd(vmIF);
         if (windows.size() == 1) {
             try {
-                vmIF.setMaximum(true);
-            } catch (PropertyVetoException ex) {
+                vmIF.setMbximum(true);
+            } cbtch (PropertyVetoException ex) {
                 // Ignore
             }
         }
-        vmIF.addInternalFrameListener(this);
-        windowMenu.add(vmIF);
+        vmIF.bddInternblFrbmeListener(this);
+        windowMenu.bdd(vmIF);
 
         return vmIF;
     }
 
-    private void showConnectDialog(String url,
-                                   String hostName,
+    privbte void showConnectDiblog(String url,
+                                   String hostNbme,
                                    int port,
-                                   String userName,
-                                   String password,
+                                   String userNbme,
+                                   String pbssword,
                                    String msg) {
-        if (connectDialog == null) {
-            connectDialog = new ConnectDialog(this);
+        if (connectDiblog == null) {
+            connectDiblog = new ConnectDiblog(this);
         }
-        connectDialog.setConnectionParameters(url,
-                                              hostName,
+        connectDiblog.setConnectionPbrbmeters(url,
+                                              hostNbme,
                                               port,
-                                              userName,
-                                              password,
+                                              userNbme,
+                                              pbssword,
                                               msg);
 
-        connectDialog.refresh();
-        connectDialog.setVisible(true);
+        connectDiblog.refresh();
+        connectDiblog.setVisible(true);
         try {
-            // Bring to front of other dialogs
-            connectDialog.setSelected(true);
-        } catch (PropertyVetoException e) {
+            // Bring to front of other diblogs
+            connectDiblog.setSelected(true);
+        } cbtch (PropertyVetoException e) {
         }
     }
 
-    private void showCreateMBeanDialog() {
-        if (createDialog == null) {
-            createDialog = new CreateMBeanDialog(this);
+    privbte void showCrebteMBebnDiblog() {
+        if (crebteDiblog == null) {
+            crebteDiblog = new CrebteMBebnDiblog(this);
         }
-        createDialog.setVisible(true);
+        crebteDiblog.setVisible(true);
         try {
-            // Bring to front of other dialogs
-            createDialog.setSelected(true);
-        } catch (PropertyVetoException e) {
+            // Bring to front of other diblogs
+            crebteDiblog.setSelected(true);
+        } cbtch (PropertyVetoException e) {
         }
     }
 
-    private void removeVMInternalFrame(VMInternalFrame vmIF) {
+    privbte void removeVMInternblFrbme(VMInternblFrbme vmIF) {
         windowMenu.remove(vmIF);
         desktop.remove(vmIF);
-        desktop.repaint();
-        vmIF.getVMPanel().cleanUp();
+        desktop.repbint();
+        vmIF.getVMPbnel().clebnUp();
         vmIF.dispose();
     }
 
-    private boolean isProxyClientUsed(ProxyClient client) {
-        for(VMInternalFrame frame : windows) {
-            ProxyClient cli = frame.getVMPanel().getProxyClient(false);
+    privbte boolebn isProxyClientUsed(ProxyClient client) {
+        for(VMInternblFrbme frbme : windows) {
+            ProxyClient cli = frbme.getVMPbnel().getProxyClient(fblse);
             if(client == cli)
                 return true;
         }
-        return false;
+        return fblse;
     }
 
-    static boolean isValidRemoteString(String txt) {
-        boolean valid = false;
+    stbtic boolebn isVblidRemoteString(String txt) {
+        boolebn vblid = fblse;
         if (txt != null) {
             txt = txt.trim();
-            if (txt.startsWith(ROOT_URL)) {
+            if (txt.stbrtsWith(ROOT_URL)) {
                 if (txt.length() > ROOT_URL.length()) {
-                    valid = true;
+                    vblid = true;
                 }
             } else {
                 //---------------------------------------
-                // Supported host and port combinations:
-                //     hostname:port
+                // Supported host bnd port combinbtions:
+                //     hostnbme:port
                 //     IPv4Address:port
                 //     [IPv6Address]:port
                 //---------------------------------------
 
-                // Is literal IPv6 address?
+                // Is literbl IPv6 bddress?
                 //
-                if (txt.startsWith("[")) {
+                if (txt.stbrtsWith("[")) {
                     int index = txt.indexOf("]:");
                     if (index != -1) {
-                        // Extract literal IPv6 address
+                        // Extrbct literbl IPv6 bddress
                         //
-                        String address = txt.substring(1, index);
-                        if (IPAddressUtil.isIPv6LiteralAddress(address)) {
-                            // Extract port
+                        String bddress = txt.substring(1, index);
+                        if (IPAddressUtil.isIPv6LiterblAddress(bddress)) {
+                            // Extrbct port
                             //
                             try {
                                 String portStr = txt.substring(index + 2);
-                                int port = Integer.parseInt(portStr);
+                                int port = Integer.pbrseInt(portStr);
                                 if (port >= 0 && port <= 0xFFFF) {
-                                    valid = true;
+                                    vblid = true;
                                 }
-                            } catch (NumberFormatException ex) {
-                                valid = false;
+                            } cbtch (NumberFormbtException ex) {
+                                vblid = fblse;
                             }
                         }
                     }
@@ -702,131 +702,131 @@ public class JConsole extends JFrame
                     String[] s = txt.split(":");
                     if (s.length == 2) {
                         try {
-                            int port = Integer.parseInt(s[1]);
+                            int port = Integer.pbrseInt(s[1]);
                             if (port >= 0 && port <= 0xFFFF) {
-                                valid = true;
+                                vblid = true;
                             }
-                        } catch (NumberFormatException ex) {
-                            valid = false;
+                        } cbtch (NumberFormbtException ex) {
+                            vblid = fblse;
                         }
                     }
                 }
             }
         }
-        return valid;
+        return vblid;
     }
 
-    private String errorMessage(Exception ex) {
-       String msg = Messages.CONNECTION_FAILED;
-       if (ex instanceof IOException || ex instanceof SecurityException) {
-           Throwable cause = null;
-           Throwable c = ex.getCause();
+    privbte String errorMessbge(Exception ex) {
+       String msg = Messbges.CONNECTION_FAILED;
+       if (ex instbnceof IOException || ex instbnceof SecurityException) {
+           Throwbble cbuse = null;
+           Throwbble c = ex.getCbuse();
            while (c != null) {
-               cause = c;
-               c = c.getCause();
+               cbuse = c;
+               c = c.getCbuse();
            }
-           if (cause instanceof ConnectException) {
-               return msg + ": " + cause.getMessage();
-           } else if (cause instanceof UnknownHostException) {
-               return Resources.format(Messages.UNKNOWN_HOST, cause.getMessage());
-           } else if (cause instanceof NoRouteToHostException) {
-               return msg + ": " + cause.getMessage();
-           } else if (cause instanceof FailedLoginException) {
-               return msg + ": " + cause.getMessage();
-           } else if (cause instanceof SSLHandshakeException) {
-               return msg + ": "+ cause.getMessage();
+           if (cbuse instbnceof ConnectException) {
+               return msg + ": " + cbuse.getMessbge();
+           } else if (cbuse instbnceof UnknownHostException) {
+               return Resources.formbt(Messbges.UNKNOWN_HOST, cbuse.getMessbge());
+           } else if (cbuse instbnceof NoRouteToHostException) {
+               return msg + ": " + cbuse.getMessbge();
+           } else if (cbuse instbnceof FbiledLoginException) {
+               return msg + ": " + cbuse.getMessbge();
+           } else if (cbuse instbnceof SSLHbndshbkeException) {
+               return msg + ": "+ cbuse.getMessbge();
            }
-        } else if (ex instanceof MalformedURLException) {
-           return Resources.format(Messages.INVALID_URL, ex.getMessage());
+        } else if (ex instbnceof MblformedURLException) {
+           return Resources.formbt(Messbges.INVALID_URL, ex.getMessbge());
         }
-        return msg + ": " + ex.getMessage();
+        return msg + ": " + ex.getMessbge();
     }
 
 
-    // InternalFrameListener interface
+    // InternblFrbmeListener interfbce
 
-    public void internalFrameClosing(InternalFrameEvent e) {
-        VMInternalFrame vmIF = (VMInternalFrame)e.getInternalFrame();
-        removeVMInternalFrame(vmIF);
+    public void internblFrbmeClosing(InternblFrbmeEvent e) {
+        VMInternblFrbme vmIF = (VMInternblFrbme)e.getInternblFrbme();
+        removeVMInternblFrbme(vmIF);
         windows.remove(vmIF);
-        ProxyClient client = vmIF.getVMPanel().getProxyClient(false);
+        ProxyClient client = vmIF.getVMPbnel().getProxyClient(fblse);
         if(!isProxyClientUsed(client))
-            client.markAsDead();
+            client.mbrkAsDebd();
         if (windows.size() == 0) {
-            showConnectDialog("", "", 0, null, null, null);
+            showConnectDiblog("", "", 0, null, null, null);
         }
     }
 
-    public void internalFrameOpened(InternalFrameEvent e) {}
-    public void internalFrameClosed(InternalFrameEvent e) {}
-    public void internalFrameIconified(InternalFrameEvent e) {}
-    public void internalFrameDeiconified(InternalFrameEvent e) {}
-    public void internalFrameActivated(InternalFrameEvent e) {}
-    public void internalFrameDeactivated(InternalFrameEvent e) {}
+    public void internblFrbmeOpened(InternblFrbmeEvent e) {}
+    public void internblFrbmeClosed(InternblFrbmeEvent e) {}
+    public void internblFrbmeIconified(InternblFrbmeEvent e) {}
+    public void internblFrbmeDeiconified(InternblFrbmeEvent e) {}
+    public void internblFrbmeActivbted(InternblFrbmeEvent e) {}
+    public void internblFrbmeDebctivbted(InternblFrbmeEvent e) {}
 
 
-    private static void usage() {
-        System.err.println(Resources.format(Messages.ZZ_USAGE_TEXT, "jconsole"));
+    privbte stbtic void usbge() {
+        System.err.println(Resources.formbt(Messbges.ZZ_USAGE_TEXT, "jconsole"));
     }
 
-    private static void mainInit(final List<String> urls,
-                                 final List<String> hostNames,
-                                 final List<Integer> ports,
-                                 final List<LocalVirtualMachine> vmids,
-                                 final ProxyClient proxyClient,
-                                 final boolean noTile,
-                                 final boolean hotspot) {
+    privbte stbtic void mbinInit(finbl List<String> urls,
+                                 finbl List<String> hostNbmes,
+                                 finbl List<Integer> ports,
+                                 finbl List<LocblVirtublMbchine> vmids,
+                                 finbl ProxyClient proxyClient,
+                                 finbl boolebn noTile,
+                                 finbl boolebn hotspot) {
 
 
-        // Always create Swing GUI on the Event Dispatching Thread
-        SwingUtilities.invokeLater(new Runnable() {
+        // Alwbys crebte Swing GUI on the Event Dispbtching Threbd
+        SwingUtilities.invokeLbter(new Runnbble() {
                 public void run() {
                     JConsole jConsole = new JConsole(hotspot);
 
-                    // Center the window on screen, taking into account screen
-                    // size and insets.
-                    Toolkit toolkit = Toolkit.getDefaultToolkit();
-                    GraphicsConfiguration gc = jConsole.getGraphicsConfiguration();
+                    // Center the window on screen, tbking into bccount screen
+                    // size bnd insets.
+                    Toolkit toolkit = Toolkit.getDefbultToolkit();
+                    GrbphicsConfigurbtion gc = jConsole.getGrbphicsConfigurbtion();
                     Dimension scrSize = toolkit.getScreenSize();
                     Insets scrInsets  = toolkit.getScreenInsets(gc);
-                    Rectangle scrBounds =
-                        new Rectangle(scrInsets.left, scrInsets.top,
+                    Rectbngle scrBounds =
+                        new Rectbngle(scrInsets.left, scrInsets.top,
                                       scrSize.width  - scrInsets.left - scrInsets.right,
                                       scrSize.height - scrInsets.top  - scrInsets.bottom);
-                    int w = Math.min(900, scrBounds.width);
-                    int h = Math.min(750, scrBounds.height);
+                    int w = Mbth.min(900, scrBounds.width);
+                    int h = Mbth.min(750, scrBounds.height);
                     jConsole.setBounds(scrBounds.x + (scrBounds.width  - w) / 2,
                                        scrBounds.y + (scrBounds.height - h) / 2,
                                        w, h);
 
                     jConsole.setVisible(true);
-                    jConsole.createMDI();
+                    jConsole.crebteMDI();
 
-                    for (int i = 0; i < hostNames.size(); i++) {
-                        jConsole.addHost(hostNames.get(i), ports.get(i),
+                    for (int i = 0; i < hostNbmes.size(); i++) {
+                        jConsole.bddHost(hostNbmes.get(i), ports.get(i),
                                          null, null,
-                                         (i == hostNames.size() - 1) ?
-                                         !noTile : false);
+                                         (i == hostNbmes.size() - 1) ?
+                                         !noTile : fblse);
                     }
 
                     for (int i = 0; i < urls.size(); i++) {
-                        jConsole.addUrl(urls.get(i),
+                        jConsole.bddUrl(urls.get(i),
                                         null,
                                         null,
                                         (i == urls.size() - 1) ?
-                                        !noTile : false);
+                                        !noTile : fblse);
                     }
 
                     for (int i = 0; i < vmids.size(); i++) {
-                        jConsole.addVmid(vmids.get(i),
+                        jConsole.bddVmid(vmids.get(i),
                                         (i == vmids.size() - 1) ?
-                                        !noTile : false);
+                                        !noTile : fblse);
                     }
 
                     if (vmids.size() == 0 &&
-                        hostNames.size() == 0 &&
+                        hostNbmes.size() == 0 &&
                         urls.size() == 0) {
-                        jConsole.showConnectDialog(null,
+                        jConsole.showConnectDiblog(null,
                                                    null,
                                                    0,
                                                    null,
@@ -837,56 +837,56 @@ public class JConsole extends JFrame
             });
     }
 
-    public static void main(String[] args) {
-        boolean noTile = false, hotspot = false;
-        int argIndex = 0;
+    public stbtic void mbin(String[] brgs) {
+        boolebn noTile = fblse, hotspot = fblse;
+        int brgIndex = 0;
         ProxyClient proxyClient = null;
 
         if (System.getProperty("jconsole.showOutputViewer") != null) {
             OutputViewer.init();
         }
 
-        while (args.length - argIndex > 0 && args[argIndex].startsWith("-")) {
-            String arg = args[argIndex++];
-            if (arg.equals("-h") ||
-                arg.equals("-help") ||
-                arg.equals("-?")) {
+        while (brgs.length - brgIndex > 0 && brgs[brgIndex].stbrtsWith("-")) {
+            String brg = brgs[brgIndex++];
+            if (brg.equbls("-h") ||
+                brg.equbls("-help") ||
+                brg.equbls("-?")) {
 
-                usage();
+                usbge();
                 return;
-            } else if (arg.startsWith("-interval=")) {
+            } else if (brg.stbrtsWith("-intervbl=")) {
                 try {
-                    updateInterval = Integer.parseInt(arg.substring(10)) *
+                    updbteIntervbl = Integer.pbrseInt(brg.substring(10)) *
                         1000;
-                    if (updateInterval <= 0) {
-                        usage();
+                    if (updbteIntervbl <= 0) {
+                        usbge();
                         return;
                     }
-                } catch (NumberFormatException ex) {
-                    usage();
+                } cbtch (NumberFormbtException ex) {
+                    usbge();
                     return;
                 }
-            } else if (arg.equals("-pluginpath")) {
-                if (argIndex < args.length && !args[argIndex].startsWith("-")) {
-                    pluginPath = args[argIndex++];
+            } else if (brg.equbls("-pluginpbth")) {
+                if (brgIndex < brgs.length && !brgs[brgIndex].stbrtsWith("-")) {
+                    pluginPbth = brgs[brgIndex++];
                 } else {
-                    // Invalid argument
-                    usage();
+                    // Invblid brgument
+                    usbge();
                     return;
                 }
-            } else if (arg.equals("-notile")) {
+            } else if (brg.equbls("-notile")) {
                 noTile = true;
-            } else if (arg.equals("-version")) {
+            } else if (brg.equbls("-version")) {
                 Version.print(System.err);
                 return;
-            } else if (arg.equals("-debug")) {
+            } else if (brg.equbls("-debug")) {
                 debug = true;
-            } else if (arg.equals("-fullversion")) {
+            } else if (brg.equbls("-fullversion")) {
                 Version.printFullVersion(System.err);
                 return;
             } else {
                 // Unknown switch
-                usage();
+                usbge();
                 return;
             }
         }
@@ -895,122 +895,122 @@ public class JConsole extends JFrame
             hotspot = true;
         }
 
-        List<String> urls = new ArrayList<String>();
-        List<String> hostNames = new ArrayList<String>();
-        List<Integer> ports = new ArrayList<Integer>();
-        List<LocalVirtualMachine> vms = new ArrayList<LocalVirtualMachine>();
+        List<String> urls = new ArrbyList<String>();
+        List<String> hostNbmes = new ArrbyList<String>();
+        List<Integer> ports = new ArrbyList<Integer>();
+        List<LocblVirtublMbchine> vms = new ArrbyList<LocblVirtublMbchine>();
 
-        for (int i = argIndex; i < args.length; i++) {
-            String arg = args[i];
-            if (isValidRemoteString(arg)) {
-                if (arg.startsWith(ROOT_URL)) {
-                    urls.add(arg);
-                } else if (arg.matches(".*:[0-9]*")) {
-                    int p = arg.lastIndexOf(':');
-                    hostNames.add(arg.substring(0, p));
+        for (int i = brgIndex; i < brgs.length; i++) {
+            String brg = brgs[i];
+            if (isVblidRemoteString(brg)) {
+                if (brg.stbrtsWith(ROOT_URL)) {
+                    urls.bdd(brg);
+                } else if (brg.mbtches(".*:[0-9]*")) {
+                    int p = brg.lbstIndexOf(':');
+                    hostNbmes.bdd(brg.substring(0, p));
                     try {
-                        ports.add(Integer.parseInt(arg.substring(p+1)));
-                    } catch (NumberFormatException ex) {
-                        usage();
+                        ports.bdd(Integer.pbrseInt(brg.substring(p+1)));
+                    } cbtch (NumberFormbtException ex) {
+                        usbge();
                         return;
                     }
                 }
             } else {
-                if (!isLocalAttachAvailable()) {
-                    System.err.println("Local process monitoring is not supported");
+                if (!isLocblAttbchAvbilbble()) {
+                    System.err.println("Locbl process monitoring is not supported");
                     return;
                 }
                 try {
-                    int vmid = Integer.parseInt(arg);
-                    LocalVirtualMachine lvm =
-                        LocalVirtualMachine.getLocalVirtualMachine(vmid);
+                    int vmid = Integer.pbrseInt(brg);
+                    LocblVirtublMbchine lvm =
+                        LocblVirtublMbchine.getLocblVirtublMbchine(vmid);
                     if (lvm == null) {
-                        System.err.println("Invalid process id:" + vmid);
+                        System.err.println("Invblid process id:" + vmid);
                         return;
                     }
-                    vms.add(lvm);
-                } catch (NumberFormatException ex) {
-                    usage();
+                    vms.bdd(lvm);
+                } cbtch (NumberFormbtException ex) {
+                    usbge();
                     return;
                 }
             }
         }
 
-        mainInit(urls, hostNames, ports, vms, proxyClient, noTile, hotspot);
+        mbinInit(urls, hostNbmes, ports, vms, proxyClient, noTile, hotspot);
     }
 
-    public static boolean isDebug() {
+    public stbtic boolebn isDebug() {
         return debug;
     }
 
-    private static void dbgStackTrace(Exception ex) {
+    privbte stbtic void dbgStbckTrbce(Exception ex) {
         if (debug) {
-            ex.printStackTrace();
+            ex.printStbckTrbce();
         }
     }
 
-    private static final boolean localAttachmentSupported;
-    static {
-        boolean supported;
+    privbte stbtic finbl boolebn locblAttbchmentSupported;
+    stbtic {
+        boolebn supported;
         try {
-            Class.forName("com.sun.tools.attach.VirtualMachine");
-            Class.forName("sun.management.ConnectorAddressLink");
+            Clbss.forNbme("com.sun.tools.bttbch.VirtublMbchine");
+            Clbss.forNbme("sun.mbnbgement.ConnectorAddressLink");
             supported = true;
-        } catch (NoClassDefFoundError x) {
-            supported = false;
-        } catch (ClassNotFoundException x) {
-            supported = false;
+        } cbtch (NoClbssDefFoundError x) {
+            supported = fblse;
+        } cbtch (ClbssNotFoundException x) {
+            supported = fblse;
         }
-        localAttachmentSupported = supported;
+        locblAttbchmentSupported = supported;
     }
 
-    public static boolean isLocalAttachAvailable() {
-        return localAttachmentSupported;
+    public stbtic boolebn isLocblAttbchAvbilbble() {
+        return locblAttbchmentSupported;
     }
 
 
-    private static ServiceLoader<JConsolePlugin> pluginService = null;
+    privbte stbtic ServiceLobder<JConsolePlugin> pluginService = null;
 
-    // Return a list of newly instantiated JConsolePlugin objects
-    static synchronized List<JConsolePlugin> getPlugins() {
+    // Return b list of newly instbntibted JConsolePlugin objects
+    stbtic synchronized List<JConsolePlugin> getPlugins() {
         if (pluginService == null) {
-            // First time loading and initializing the plugins
-            initPluginService(pluginPath);
+            // First time lobding bnd initiblizing the plugins
+            initPluginService(pluginPbth);
         } else {
-            // reload the plugin so that new instances will be created
-            pluginService.reload();
+            // relobd the plugin so thbt new instbnces will be crebted
+            pluginService.relobd();
         }
 
-        List<JConsolePlugin> plugins = new ArrayList<JConsolePlugin>();
+        List<JConsolePlugin> plugins = new ArrbyList<JConsolePlugin>();
         for (JConsolePlugin p : pluginService) {
-            plugins.add(p);
+            plugins.bdd(p);
         }
         return plugins;
     }
 
-    private static void initPluginService(String pluginPath) {
-        if (pluginPath.length() > 0) {
+    privbte stbtic void initPluginService(String pluginPbth) {
+        if (pluginPbth.length() > 0) {
             try {
-                ClassLoader pluginCL = new URLClassLoader(pathToURLs(pluginPath));
-                ServiceLoader<JConsolePlugin> plugins =
-                    ServiceLoader.load(JConsolePlugin.class, pluginCL);
-                // validate all plugins
+                ClbssLobder pluginCL = new URLClbssLobder(pbthToURLs(pluginPbth));
+                ServiceLobder<JConsolePlugin> plugins =
+                    ServiceLobder.lobd(JConsolePlugin.clbss, pluginCL);
+                // vblidbte bll plugins
             for (JConsolePlugin p : plugins) {
                     if (isDebug()) {
-                        System.out.println("Plugin " + p.getClass() + " loaded.");
+                        System.out.println("Plugin " + p.getClbss() + " lobded.");
                     }
                 }
                 pluginService = plugins;
-            } catch (ServiceConfigurationError e) {
-                // Error occurs during initialization of plugin
-                System.out.println(Resources.format(Messages.FAIL_TO_LOAD_PLUGIN,
-                                   e.getMessage()));
-            } catch (MalformedURLException e) {
+            } cbtch (ServiceConfigurbtionError e) {
+                // Error occurs during initiblizbtion of plugin
+                System.out.println(Resources.formbt(Messbges.FAIL_TO_LOAD_PLUGIN,
+                                   e.getMessbge()));
+            } cbtch (MblformedURLException e) {
                 if (JConsole.isDebug()) {
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                 }
-                System.out.println(Resources.format(Messages.INVALID_PLUGIN_PATH,
-                                   e.getMessage()));
+                System.out.println(Resources.formbt(Messbges.INVALID_PLUGIN_PATH,
+                                   e.getMessbge()));
             }
         }
 
@@ -1019,23 +1019,23 @@ public class JConsole extends JFrame
         }
     }
 
-    private static void initEmptyPlugin() {
-        ClassLoader pluginCL = new URLClassLoader(new URL[0]);
-        pluginService = ServiceLoader.load(JConsolePlugin.class, pluginCL);
+    privbte stbtic void initEmptyPlugin() {
+        ClbssLobder pluginCL = new URLClbssLobder(new URL[0]);
+        pluginService = ServiceLobder.lobd(JConsolePlugin.clbss, pluginCL);
     }
 
    /**
-     * Utility method for converting a search path string to an array
-     * of directory and JAR file URLs.
+     * Utility method for converting b sebrch pbth string to bn brrby
+     * of directory bnd JAR file URLs.
      *
-     * @param path the search path string
-     * @return the resulting array of directory and JAR file URLs
+     * @pbrbm pbth the sebrch pbth string
+     * @return the resulting brrby of directory bnd JAR file URLs
      */
-    private static URL[] pathToURLs(String path) throws MalformedURLException {
-        String[] names = path.split(File.pathSeparator);
-        URL[] urls = new URL[names.length];
+    privbte stbtic URL[] pbthToURLs(String pbth) throws MblformedURLException {
+        String[] nbmes = pbth.split(File.pbthSepbrbtor);
+        URL[] urls = new URL[nbmes.length];
         int count = 0;
-        for (String f : names) {
+        for (String f : nbmes) {
             URL url = fileToURL(new File(f));
             urls[count++] = url;
         }
@@ -1044,69 +1044,69 @@ public class JConsole extends JFrame
 
     /**
      * Returns the directory or JAR file URL corresponding to the specified
-     * local file name.
+     * locbl file nbme.
      *
-     * @param file the File object
+     * @pbrbm file the File object
      * @return the resulting directory or JAR file URL, or null if unknown
      */
-    private static URL fileToURL(File file) throws MalformedURLException {
-        String name;
+    privbte stbtic URL fileToURL(File file) throws MblformedURLException {
+        String nbme;
         try {
-            name = file.getCanonicalPath();
-        } catch (IOException e) {
-            name = file.getAbsolutePath();
+            nbme = file.getCbnonicblPbth();
+        } cbtch (IOException e) {
+            nbme = file.getAbsolutePbth();
         }
-        name = name.replace(File.separatorChar, '/');
-        if (!name.startsWith("/")) {
-            name = "/" + name;
+        nbme = nbme.replbce(File.sepbrbtorChbr, '/');
+        if (!nbme.stbrtsWith("/")) {
+            nbme = "/" + nbme;
         }
-        // If the file does not exist, then assume that it's a directory
+        // If the file does not exist, then bssume thbt it's b directory
         if (!file.isFile()) {
-            name = name + "/";
+            nbme = nbme + "/";
         }
-        return new URL("file", "", name);
+        return new URL("file", "", nbme);
     }
 
 
-    private static class FixedJRootPane extends JRootPane {
-        public void updateUI() {
-            updateLafValues();
-            super.updateUI();
+    privbte stbtic clbss FixedJRootPbne extends JRootPbne {
+        public void updbteUI() {
+            updbteLbfVblues();
+            super.updbteUI();
         }
 
         /**
-         * The revalidate method seems to be the only one that gets
-         * called whenever there is a change of L&F or change of theme
-         * in Windows L&F and GTK L&F.
+         * The revblidbte method seems to be the only one thbt gets
+         * cblled whenever there is b chbnge of L&F or chbnge of theme
+         * in Windows L&F bnd GTK L&F.
          */
         @Override
-        public void revalidate() {
-            // Workaround for Swing bug where the titledborder in both
-            // GTK and Windows L&F's use calculated colors instead of
-            // the highlight/shadow colors from the theme.
+        public void revblidbte() {
+            // Workbround for Swing bug where the titledborder in both
+            // GTK bnd Windows L&F's use cblculbted colors instebd of
+            // the highlight/shbdow colors from the theme.
             //
-            // Putting null removes any previous override and causes a
-            // fallback to the current L&F's value.
-            UIManager.put("TitledBorder.border", null);
-            Border border = UIManager.getBorder("TitledBorder.border");
-            if (border instanceof BorderUIResource.EtchedBorderUIResource) {
-                Color highlight = UIManager.getColor("ToolBar.highlight");
-                Color shadow    = UIManager.getColor("ToolBar.shadow");
+            // Putting null removes bny previous override bnd cbuses b
+            // fbllbbck to the current L&F's vblue.
+            UIMbnbger.put("TitledBorder.border", null);
+            Border border = UIMbnbger.getBorder("TitledBorder.border");
+            if (border instbnceof BorderUIResource.EtchedBorderUIResource) {
+                Color highlight = UIMbnbger.getColor("ToolBbr.highlight");
+                Color shbdow    = UIMbnbger.getColor("ToolBbr.shbdow");
                 border = new BorderUIResource.EtchedBorderUIResource(highlight,
-                                                                     shadow);
-                UIManager.put("TitledBorder.border", border);
+                                                                     shbdow);
+                UIMbnbger.put("TitledBorder.border", border);
             }
 
             if (IS_GTK) {
-                // Workaround for Swing bug where the titledborder in
-                // GTK L&F use hardcoded color and font for the title
-                // instead of getting them from the theme.
-                UIManager.put("TitledBorder.titleColor",
-                              UIManager.getColor("Label.foreground"));
-                UIManager.put("TitledBorder.font",
-                              UIManager.getFont("Label.font"));
+                // Workbround for Swing bug where the titledborder in
+                // GTK L&F use hbrdcoded color bnd font for the title
+                // instebd of getting them from the theme.
+                UIMbnbger.put("TitledBorder.titleColor",
+                              UIMbnbger.getColor("Lbbel.foreground"));
+                UIMbnbger.put("TitledBorder.font",
+                              UIMbnbger.getFont("Lbbel.font"));
             }
-            super.revalidate();
+            super.revblidbte();
         }
     }
 }

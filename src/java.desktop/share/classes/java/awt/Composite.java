@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.ColorModel;
+import jbvb.bwt.imbge.ColorModel;
 
 /**
- * The <code>Composite</code> interface, along with
- * {@link CompositeContext}, defines the methods to compose a draw
- * primitive with the underlying graphics area.
+ * The <code>Composite</code> interfbce, blong with
+ * {@link CompositeContext}, defines the methods to compose b drbw
+ * primitive with the underlying grbphics breb.
  * After the <code>Composite</code> is set in the
- * {@link Graphics2D} context, it combines a shape, text, or an image
- * being rendered with the colors that have already been rendered
- * according to pre-defined rules. The classes
- * implementing this interface provide the rules and a method to create
- * the context for a particular operation.
- * <code>CompositeContext</code> is an environment used by the
- * compositing operation, which is created by the <code>Graphics2D</code>
- * prior to the start of the operation.  <code>CompositeContext</code>
- * contains private information and resources needed for a compositing
- * operation.  When the <code>CompositeContext</code> is no longer needed,
- * the <code>Graphics2D</code> object disposes of it in order to reclaim
- * resources allocated for the operation.
+ * {@link Grbphics2D} context, it combines b shbpe, text, or bn imbge
+ * being rendered with the colors thbt hbve blrebdy been rendered
+ * bccording to pre-defined rules. The clbsses
+ * implementing this interfbce provide the rules bnd b method to crebte
+ * the context for b pbrticulbr operbtion.
+ * <code>CompositeContext</code> is bn environment used by the
+ * compositing operbtion, which is crebted by the <code>Grbphics2D</code>
+ * prior to the stbrt of the operbtion.  <code>CompositeContext</code>
+ * contbins privbte informbtion bnd resources needed for b compositing
+ * operbtion.  When the <code>CompositeContext</code> is no longer needed,
+ * the <code>Grbphics2D</code> object disposes of it in order to reclbim
+ * resources bllocbted for the operbtion.
  * <p>
- * Instances of classes implementing <code>Composite</code> must be
- * immutable because the <code>Graphics2D</code> does not clone
- * these objects when they are set as an attribute with the
- * <code>setComposite</code> method or when the <code>Graphics2D</code>
- * object is cloned.  This is to avoid undefined rendering behavior of
- * <code>Graphics2D</code>, resulting from the modification of
- * the <code>Composite</code> object after it has been set in the
- * <code>Graphics2D</code> context.
+ * Instbnces of clbsses implementing <code>Composite</code> must be
+ * immutbble becbuse the <code>Grbphics2D</code> does not clone
+ * these objects when they bre set bs bn bttribute with the
+ * <code>setComposite</code> method or when the <code>Grbphics2D</code>
+ * object is cloned.  This is to bvoid undefined rendering behbvior of
+ * <code>Grbphics2D</code>, resulting from the modificbtion of
+ * the <code>Composite</code> object bfter it hbs been set in the
+ * <code>Grbphics2D</code> context.
  * <p>
- * Since this interface must expose the contents of pixels on the
- * target device or image to potentially arbitrary code, the use of
- * custom objects which implement this interface when rendering directly
- * to a screen device is governed by the <code>readDisplayPixels</code>
+ * Since this interfbce must expose the contents of pixels on the
+ * tbrget device or imbge to potentiblly brbitrbry code, the use of
+ * custom objects which implement this interfbce when rendering directly
+ * to b screen device is governed by the <code>rebdDisplbyPixels</code>
  * {@link AWTPermission}.  The permission check will occur when such
- * a custom object is passed to the <code>setComposite</code> method
- * of a <code>Graphics2D</code> retrieved from a {@link Component}.
- * @see AlphaComposite
+ * b custom object is pbssed to the <code>setComposite</code> method
+ * of b <code>Grbphics2D</code> retrieved from b {@link Component}.
+ * @see AlphbComposite
  * @see CompositeContext
- * @see Graphics2D#setComposite
+ * @see Grbphics2D#setComposite
  */
-public interface Composite {
+public interfbce Composite {
 
     /**
-     * Creates a context containing state that is used to perform
-     * the compositing operation.  In a multi-threaded environment,
-     * several contexts can exist simultaneously for a single
+     * Crebtes b context contbining stbte thbt is used to perform
+     * the compositing operbtion.  In b multi-threbded environment,
+     * severbl contexts cbn exist simultbneously for b single
      * <code>Composite</code> object.
-     * @param srcColorModel  the {@link ColorModel} of the source
-     * @param dstColorModel  the <code>ColorModel</code> of the destination
-     * @param hints the hint that the context object uses to choose between
-     * rendering alternatives
+     * @pbrbm srcColorModel  the {@link ColorModel} of the source
+     * @pbrbm dstColorModel  the <code>ColorModel</code> of the destinbtion
+     * @pbrbm hints the hint thbt the context object uses to choose between
+     * rendering blternbtives
      * @return the <code>CompositeContext</code> object used to perform the
-     * compositing operation.
+     * compositing operbtion.
      */
-    public CompositeContext createContext(ColorModel srcColorModel,
+    public CompositeContext crebteContext(ColorModel srcColorModel,
                                           ColorModel dstColorModel,
                                           RenderingHints hints);
 

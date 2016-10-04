@@ -1,87 +1,87 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* deflate.c -- compress data using the deflation algorithm
- * Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* deflbte.c -- compress dbtb using the deflbtion blgorithm
+ * Copyright (C) 1995-2013 Jebn-loup Gbilly bnd Mbrk Adler
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
 /*
  *  ALGORITHM
  *
- *      The "deflation" process depends on being able to identify portions
- *      of the input text which are identical to earlier input (within a
- *      sliding window trailing behind the input currently being processed).
+ *      The "deflbtion" process depends on being bble to identify portions
+ *      of the input text which bre identicbl to ebrlier input (within b
+ *      sliding window trbiling behind the input currently being processed).
  *
- *      The most straightforward technique turns out to be the fastest for
- *      most input files: try all possible matches and select the longest.
- *      The key feature of this algorithm is that insertions into the string
- *      dictionary are very simple and thus fast, and deletions are avoided
- *      completely. Insertions are performed at each input character, whereas
- *      string matches are performed only when the previous match ends. So it
- *      is preferable to spend more time in matches to allow very fast string
- *      insertions and avoid deletions. The matching algorithm for small
- *      strings is inspired from that of Rabin & Karp. A brute force approach
- *      is used to find longer strings when a small match has been found.
- *      A similar algorithm is used in comic (by Jan-Mark Wams) and freeze
+ *      The most strbightforwbrd technique turns out to be the fbstest for
+ *      most input files: try bll possible mbtches bnd select the longest.
+ *      The key febture of this blgorithm is thbt insertions into the string
+ *      dictionbry bre very simple bnd thus fbst, bnd deletions bre bvoided
+ *      completely. Insertions bre performed bt ebch input chbrbcter, wherebs
+ *      string mbtches bre performed only when the previous mbtch ends. So it
+ *      is preferbble to spend more time in mbtches to bllow very fbst string
+ *      insertions bnd bvoid deletions. The mbtching blgorithm for smbll
+ *      strings is inspired from thbt of Rbbin & Kbrp. A brute force bpprobch
+ *      is used to find longer strings when b smbll mbtch hbs been found.
+ *      A similbr blgorithm is used in comic (by Jbn-Mbrk Wbms) bnd freeze
  *      (by Leonid Broukhis).
- *         A previous version of this file used a more sophisticated algorithm
- *      (by Fiala and Greene) which is guaranteed to run in linear amortized
- *      time, but has a larger average cost, uses more memory and is patented.
- *      However the F&G algorithm may be faster for some highly redundant
- *      files if the parameter max_chain_length (described below) is too large.
+ *         A previous version of this file used b more sophisticbted blgorithm
+ *      (by Fiblb bnd Greene) which is gubrbnteed to run in linebr bmortized
+ *      time, but hbs b lbrger bverbge cost, uses more memory bnd is pbtented.
+ *      However the F&G blgorithm mby be fbster for some highly redundbnt
+ *      files if the pbrbmeter mbx_chbin_length (described below) is too lbrge.
  *
  *  ACKNOWLEDGEMENTS
  *
- *      The idea of lazy evaluation of matches is due to Jan-Mark Wams, and
+ *      The ideb of lbzy evblubtion of mbtches is due to Jbn-Mbrk Wbms, bnd
  *      I found it in 'freeze' written by Leonid Broukhis.
- *      Thanks to many people for bug reports and testing.
+ *      Thbnks to mbny people for bug reports bnd testing.
  *
  *  REFERENCES
  *
- *      Deutsch, L.P.,"DEFLATE Compressed Data Format Specification".
- *      Available in http://tools.ietf.org/html/rfc1951
+ *      Deutsch, L.P.,"DEFLATE Compressed Dbtb Formbt Specificbtion".
+ *      Avbilbble in http://tools.ietf.org/html/rfc1951
  *
- *      A description of the Rabin and Karp algorithm is given in the book
+ *      A description of the Rbbin bnd Kbrp blgorithm is given in the book
  *         "Algorithms" by R. Sedgewick, Addison-Wesley, p252.
  *
- *      Fiala,E.R., and Greene,D.H.
- *         Data Compression with Finite Windows, Comm.ACM, 32,4 (1989) 490-595
+ *      Fiblb,E.R., bnd Greene,D.H.
+ *         Dbtb Compression with Finite Windows, Comm.ACM, 32,4 (1989) 490-595
  *
  */
 
 /* @(#) $Id$ */
 
-#include "deflate.h"
+#include "deflbte.h"
 
-const char deflate_copyright[] =
-   " deflate 1.2.8 Copyright 1995-2013 Jean-loup Gailly and Mark Adler ";
+const chbr deflbte_copyright[] =
+   " deflbte 1.2.8 Copyright 1995-2013 Jebn-loup Gbilly bnd Mbrk Adler ";
 /*
-  If you use the zlib library in a product, an acknowledgment is welcome
-  in the documentation of your product. If for some reason you cannot
-  include such an acknowledgment, I would appreciate that you keep this
-  copyright string in the executable of your product.
+  If you use the zlib librbry in b product, bn bcknowledgment is welcome
+  in the documentbtion of your product. If for some rebson you cbnnot
+  include such bn bcknowledgment, I would bpprecibte thbt you keep this
+  copyright string in the executbble of your product.
  */
 
 /* ===========================================================================
@@ -90,183 +90,183 @@ const char deflate_copyright[] =
 typedef enum {
     need_more,      /* block not completed, need more input or more output */
     block_done,     /* block flush performed */
-    finish_started, /* finish started, need only more output at next deflate */
-    finish_done     /* finish done, accept no more input or output */
-} block_state;
+    finish_stbrted, /* finish stbrted, need only more output bt next deflbte */
+    finish_done     /* finish done, bccept no more input or output */
+} block_stbte;
 
-typedef block_state (*compress_func) OF((deflate_state *s, int flush));
-/* Compression function. Returns the block state after the call. */
+typedef block_stbte (*compress_func) OF((deflbte_stbte *s, int flush));
+/* Compression function. Returns the block stbte bfter the cbll. */
 
-local void fill_window    OF((deflate_state *s));
-local block_state deflate_stored OF((deflate_state *s, int flush));
-local block_state deflate_fast   OF((deflate_state *s, int flush));
+locbl void fill_window    OF((deflbte_stbte *s));
+locbl block_stbte deflbte_stored OF((deflbte_stbte *s, int flush));
+locbl block_stbte deflbte_fbst   OF((deflbte_stbte *s, int flush));
 #ifndef FASTEST
-local block_state deflate_slow   OF((deflate_state *s, int flush));
+locbl block_stbte deflbte_slow   OF((deflbte_stbte *s, int flush));
 #endif
-local block_state deflate_rle    OF((deflate_state *s, int flush));
-local block_state deflate_huff   OF((deflate_state *s, int flush));
-local void lm_init        OF((deflate_state *s));
-local void putShortMSB    OF((deflate_state *s, uInt b));
-local void flush_pending  OF((z_streamp strm));
-local int read_buf        OF((z_streamp strm, Bytef *buf, unsigned size));
+locbl block_stbte deflbte_rle    OF((deflbte_stbte *s, int flush));
+locbl block_stbte deflbte_huff   OF((deflbte_stbte *s, int flush));
+locbl void lm_init        OF((deflbte_stbte *s));
+locbl void putShortMSB    OF((deflbte_stbte *s, uInt b));
+locbl void flush_pending  OF((z_strebmp strm));
+locbl int rebd_buf        OF((z_strebmp strm, Bytef *buf, unsigned size));
 #ifdef ASMV
-      void match_init OF((void)); /* asm code initialization */
-      uInt longest_match  OF((deflate_state *s, IPos cur_match));
+      void mbtch_init OF((void)); /* bsm code initiblizbtion */
+      uInt longest_mbtch  OF((deflbte_stbte *s, IPos cur_mbtch));
 #else
-local uInt longest_match  OF((deflate_state *s, IPos cur_match));
+locbl uInt longest_mbtch  OF((deflbte_stbte *s, IPos cur_mbtch));
 #endif
 
 #ifdef DEBUG
-local  void check_match OF((deflate_state *s, IPos start, IPos match,
+locbl  void check_mbtch OF((deflbte_stbte *s, IPos stbrt, IPos mbtch,
                             int length));
 #endif
 
 /* ===========================================================================
- * Local data
+ * Locbl dbtb
  */
 
 #define NIL 0
-/* Tail of hash chains */
+/* Tbil of hbsh chbins */
 
 #ifndef TOO_FAR
 #  define TOO_FAR 4096
 #endif
-/* Matches of length 3 are discarded if their distance exceeds TOO_FAR */
+/* Mbtches of length 3 bre discbrded if their distbnce exceeds TOO_FAR */
 
-/* Values for max_lazy_match, good_match and max_chain_length, depending on
- * the desired pack level (0..9). The values given below have been tuned to
- * exclude worst case performance for pathological files. Better values may be
+/* Vblues for mbx_lbzy_mbtch, good_mbtch bnd mbx_chbin_length, depending on
+ * the desired pbck level (0..9). The vblues given below hbve been tuned to
+ * exclude worst cbse performbnce for pbthologicbl files. Better vblues mby be
  * found for specific files.
  */
 typedef struct config_s {
-   ush good_length; /* reduce lazy search above this match length */
-   ush max_lazy;    /* do not perform lazy search above this match length */
-   ush nice_length; /* quit search above this match length */
-   ush max_chain;
+   ush good_length; /* reduce lbzy sebrch bbove this mbtch length */
+   ush mbx_lbzy;    /* do not perform lbzy sebrch bbove this mbtch length */
+   ush nice_length; /* quit sebrch bbove this mbtch length */
+   ush mbx_chbin;
    compress_func func;
 } config;
 
 #ifdef FASTEST
-local const config configuration_table[2] = {
-/*      good lazy nice chain */
-/* 0 */ {0,    0,  0,    0, deflate_stored},  /* store only */
-/* 1 */ {4,    4,  8,    4, deflate_fast}}; /* max speed, no lazy matches */
+locbl const config configurbtion_tbble[2] = {
+/*      good lbzy nice chbin */
+/* 0 */ {0,    0,  0,    0, deflbte_stored},  /* store only */
+/* 1 */ {4,    4,  8,    4, deflbte_fbst}}; /* mbx speed, no lbzy mbtches */
 #else
-local const config configuration_table[10] = {
-/*      good lazy nice chain */
-/* 0 */ {0,    0,  0,    0, deflate_stored},  /* store only */
-/* 1 */ {4,    4,  8,    4, deflate_fast}, /* max speed, no lazy matches */
-/* 2 */ {4,    5, 16,    8, deflate_fast},
-/* 3 */ {4,    6, 32,   32, deflate_fast},
+locbl const config configurbtion_tbble[10] = {
+/*      good lbzy nice chbin */
+/* 0 */ {0,    0,  0,    0, deflbte_stored},  /* store only */
+/* 1 */ {4,    4,  8,    4, deflbte_fbst}, /* mbx speed, no lbzy mbtches */
+/* 2 */ {4,    5, 16,    8, deflbte_fbst},
+/* 3 */ {4,    6, 32,   32, deflbte_fbst},
 
-/* 4 */ {4,    4, 16,   16, deflate_slow},  /* lazy matches */
-/* 5 */ {8,   16, 32,   32, deflate_slow},
-/* 6 */ {8,   16, 128, 128, deflate_slow},
-/* 7 */ {8,   32, 128, 256, deflate_slow},
-/* 8 */ {32, 128, 258, 1024, deflate_slow},
-/* 9 */ {32, 258, 258, 4096, deflate_slow}}; /* max compression */
+/* 4 */ {4,    4, 16,   16, deflbte_slow},  /* lbzy mbtches */
+/* 5 */ {8,   16, 32,   32, deflbte_slow},
+/* 6 */ {8,   16, 128, 128, deflbte_slow},
+/* 7 */ {8,   32, 128, 256, deflbte_slow},
+/* 8 */ {32, 128, 258, 1024, deflbte_slow},
+/* 9 */ {32, 258, 258, 4096, deflbte_slow}}; /* mbx compression */
 #endif
 
-/* Note: the deflate() code requires max_lazy >= MIN_MATCH and max_chain >= 4
- * For deflate_fast() (levels <= 3) good is ignored and lazy has a different
- * meaning.
+/* Note: the deflbte() code requires mbx_lbzy >= MIN_MATCH bnd mbx_chbin >= 4
+ * For deflbte_fbst() (levels <= 3) good is ignored bnd lbzy hbs b different
+ * mebning.
  */
 
 #define EQUAL 0
-/* result of memcmp for equal strings */
+/* result of memcmp for equbl strings */
 
 #ifndef NO_DUMMY_DECL
-struct static_tree_desc_s {int dummy;}; /* for buggy compilers */
+struct stbtic_tree_desc_s {int dummy;}; /* for buggy compilers */
 #endif
 
-/* rank Z_BLOCK between Z_NO_FLUSH and Z_PARTIAL_FLUSH */
+/* rbnk Z_BLOCK between Z_NO_FLUSH bnd Z_PARTIAL_FLUSH */
 #define RANK(f) (((f) << 1) - ((f) > 4 ? 9 : 0))
 
 /* ===========================================================================
- * Update a hash value with the given input byte
- * IN  assertion: all calls to to UPDATE_HASH are made with consecutive
- *    input characters, so that a running hash key can be computed from the
- *    previous key instead of complete recalculation each time.
+ * Updbte b hbsh vblue with the given input byte
+ * IN  bssertion: bll cblls to to UPDATE_HASH bre mbde with consecutive
+ *    input chbrbcters, so thbt b running hbsh key cbn be computed from the
+ *    previous key instebd of complete recblculbtion ebch time.
  */
-#define UPDATE_HASH(s,h,c) (h = (((h)<<s->hash_shift) ^ (c)) & s->hash_mask)
+#define UPDATE_HASH(s,h,c) (h = (((h)<<s->hbsh_shift) ^ (c)) & s->hbsh_mbsk)
 
 
 /* ===========================================================================
- * Insert string str in the dictionary and set match_head to the previous head
- * of the hash chain (the most recent string with same hash key). Return
- * the previous length of the hash chain.
+ * Insert string str in the dictionbry bnd set mbtch_hebd to the previous hebd
+ * of the hbsh chbin (the most recent string with sbme hbsh key). Return
+ * the previous length of the hbsh chbin.
  * If this file is compiled with -DFASTEST, the compression level is forced
- * to 1, and no hash chains are maintained.
- * IN  assertion: all calls to to INSERT_STRING are made with consecutive
- *    input characters and the first MIN_MATCH bytes of str are valid
- *    (except for the last MIN_MATCH-1 bytes of the input file).
+ * to 1, bnd no hbsh chbins bre mbintbined.
+ * IN  bssertion: bll cblls to to INSERT_STRING bre mbde with consecutive
+ *    input chbrbcters bnd the first MIN_MATCH bytes of str bre vblid
+ *    (except for the lbst MIN_MATCH-1 bytes of the input file).
  */
 #ifdef FASTEST
-#define INSERT_STRING(s, str, match_head) \
+#define INSERT_STRING(s, str, mbtch_hebd) \
    (UPDATE_HASH(s, s->ins_h, s->window[(str) + (MIN_MATCH-1)]), \
-    match_head = s->head[s->ins_h], \
-    s->head[s->ins_h] = (Pos)(str))
+    mbtch_hebd = s->hebd[s->ins_h], \
+    s->hebd[s->ins_h] = (Pos)(str))
 #else
-#define INSERT_STRING(s, str, match_head) \
+#define INSERT_STRING(s, str, mbtch_hebd) \
    (UPDATE_HASH(s, s->ins_h, s->window[(str) + (MIN_MATCH-1)]), \
-    match_head = s->prev[(str) & s->w_mask] = s->head[s->ins_h], \
-    s->head[s->ins_h] = (Pos)(str))
+    mbtch_hebd = s->prev[(str) & s->w_mbsk] = s->hebd[s->ins_h], \
+    s->hebd[s->ins_h] = (Pos)(str))
 #endif
 
 /* ===========================================================================
- * Initialize the hash table (avoiding 64K overflow for 16 bit systems).
- * prev[] will be initialized on the fly.
+ * Initiblize the hbsh tbble (bvoiding 64K overflow for 16 bit systems).
+ * prev[] will be initiblized on the fly.
  */
 #define CLEAR_HASH(s) \
-    s->head[s->hash_size-1] = NIL; \
-    zmemzero((Bytef *)s->head, (unsigned)(s->hash_size-1)*sizeof(*s->head));
+    s->hebd[s->hbsh_size-1] = NIL; \
+    zmemzero((Bytef *)s->hebd, (unsigned)(s->hbsh_size-1)*sizeof(*s->hebd));
 
 /* ========================================================================= */
-int ZEXPORT deflateInit_(strm, level, version, stream_size)
-    z_streamp strm;
+int ZEXPORT deflbteInit_(strm, level, version, strebm_size)
+    z_strebmp strm;
     int level;
-    const char *version;
-    int stream_size;
+    const chbr *version;
+    int strebm_size;
 {
-    return deflateInit2_(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL,
-                         Z_DEFAULT_STRATEGY, version, stream_size);
-    /* To do: ignore strm->next_in if we use it as window */
+    return deflbteInit2_(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL,
+                         Z_DEFAULT_STRATEGY, version, strebm_size);
+    /* To do: ignore strm->next_in if we use it bs window */
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-                  version, stream_size)
-    z_streamp strm;
+int ZEXPORT deflbteInit2_(strm, level, method, windowBits, memLevel, strbtegy,
+                  version, strebm_size)
+    z_strebmp strm;
     int  level;
     int  method;
     int  windowBits;
     int  memLevel;
-    int  strategy;
-    const char *version;
-    int stream_size;
+    int  strbtegy;
+    const chbr *version;
+    int strebm_size;
 {
-    deflate_state *s;
-    int wrap = 1;
-    static const char my_version[] = ZLIB_VERSION;
+    deflbte_stbte *s;
+    int wrbp = 1;
+    stbtic const chbr my_version[] = ZLIB_VERSION;
 
-    ushf *overlay;
-    /* We overlay pending_buf and d_buf+l_buf. This works since the average
-     * output size for (length,distance) codes is <= 24 bits.
+    ushf *overlby;
+    /* We overlby pending_buf bnd d_buf+l_buf. This works since the bverbge
+     * output size for (length,distbnce) codes is <= 24 bits.
      */
 
     if (version == Z_NULL || version[0] != my_version[0] ||
-        stream_size != sizeof(z_stream)) {
+        strebm_size != sizeof(z_strebm)) {
         return Z_VERSION_ERROR;
     }
     if (strm == Z_NULL) return Z_STREAM_ERROR;
 
     strm->msg = Z_NULL;
-    if (strm->zalloc == (alloc_func)0) {
+    if (strm->zblloc == (blloc_func)0) {
 #ifdef Z_SOLO
         return Z_STREAM_ERROR;
 #else
-        strm->zalloc = zcalloc;
-        strm->opaque = (voidpf)0;
+        strm->zblloc = zcblloc;
+        strm->opbque = (voidpf)0;
 #endif
     }
     if (strm->zfree == (free_func)0)
@@ -282,165 +282,165 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
     if (level == Z_DEFAULT_COMPRESSION) level = 6;
 #endif
 
-    if (windowBits < 0) { /* suppress zlib wrapper */
-        wrap = 0;
+    if (windowBits < 0) { /* suppress zlib wrbpper */
+        wrbp = 0;
         windowBits = -windowBits;
     }
 #ifdef GZIP
     else if (windowBits > 15) {
-        wrap = 2;       /* write gzip wrapper instead */
+        wrbp = 2;       /* write gzip wrbpper instebd */
         windowBits -= 16;
     }
 #endif
     if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method != Z_DEFLATED ||
         windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
-        strategy < 0 || strategy > Z_FIXED) {
+        strbtegy < 0 || strbtegy > Z_FIXED) {
         return Z_STREAM_ERROR;
     }
     if (windowBits == 8) windowBits = 9;  /* until 256-byte window bug fixed */
-    s = (deflate_state *) ZALLOC(strm, 1, sizeof(deflate_state));
+    s = (deflbte_stbte *) ZALLOC(strm, 1, sizeof(deflbte_stbte));
     if (s == Z_NULL) return Z_MEM_ERROR;
-    strm->state = (struct internal_state FAR *)s;
+    strm->stbte = (struct internbl_stbte FAR *)s;
     s->strm = strm;
 
-    s->wrap = wrap;
-    s->gzhead = Z_NULL;
+    s->wrbp = wrbp;
+    s->gzhebd = Z_NULL;
     s->w_bits = windowBits;
     s->w_size = 1 << s->w_bits;
-    s->w_mask = s->w_size - 1;
+    s->w_mbsk = s->w_size - 1;
 
-    s->hash_bits = memLevel + 7;
-    s->hash_size = 1 << s->hash_bits;
-    s->hash_mask = s->hash_size - 1;
-    s->hash_shift =  ((s->hash_bits+MIN_MATCH-1)/MIN_MATCH);
+    s->hbsh_bits = memLevel + 7;
+    s->hbsh_size = 1 << s->hbsh_bits;
+    s->hbsh_mbsk = s->hbsh_size - 1;
+    s->hbsh_shift =  ((s->hbsh_bits+MIN_MATCH-1)/MIN_MATCH);
 
     s->window = (Bytef *) ZALLOC(strm, s->w_size, 2*sizeof(Byte));
     s->prev   = (Posf *)  ZALLOC(strm, s->w_size, sizeof(Pos));
-    s->head   = (Posf *)  ZALLOC(strm, s->hash_size, sizeof(Pos));
+    s->hebd   = (Posf *)  ZALLOC(strm, s->hbsh_size, sizeof(Pos));
 
-    s->high_water = 0;      /* nothing written to s->window yet */
+    s->high_wbter = 0;      /* nothing written to s->window yet */
 
-    s->lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
+    s->lit_bufsize = 1 << (memLevel + 6); /* 16K elements by defbult */
 
-    overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
-    s->pending_buf = (uchf *) overlay;
+    overlby = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
+    s->pending_buf = (uchf *) overlby;
     s->pending_buf_size = (ulg)s->lit_bufsize * (sizeof(ush)+2L);
 
-    if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
+    if (s->window == Z_NULL || s->prev == Z_NULL || s->hebd == Z_NULL ||
         s->pending_buf == Z_NULL) {
-        s->status = FINISH_STATE;
+        s->stbtus = FINISH_STATE;
         strm->msg = ERR_MSG(Z_MEM_ERROR);
-        deflateEnd (strm);
+        deflbteEnd (strm);
         return Z_MEM_ERROR;
     }
-    s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
+    s->d_buf = overlby + s->lit_bufsize/sizeof(ush);
     s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
 
     s->level = level;
-    s->strategy = strategy;
+    s->strbtegy = strbtegy;
     s->method = (Byte)method;
 
-    return deflateReset(strm);
+    return deflbteReset(strm);
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateSetDictionary (strm, dictionary, dictLength)
-    z_streamp strm;
-    const Bytef *dictionary;
+int ZEXPORT deflbteSetDictionbry (strm, dictionbry, dictLength)
+    z_strebmp strm;
+    const Bytef *dictionbry;
     uInt  dictLength;
 {
-    deflate_state *s;
+    deflbte_stbte *s;
     uInt str, n;
-    int wrap;
-    unsigned avail;
-    z_const unsigned char *next;
+    int wrbp;
+    unsigned bvbil;
+    z_const unsigned chbr *next;
 
-    if (strm == Z_NULL || strm->state == Z_NULL || dictionary == Z_NULL)
+    if (strm == Z_NULL || strm->stbte == Z_NULL || dictionbry == Z_NULL)
         return Z_STREAM_ERROR;
-    s = strm->state;
-    wrap = s->wrap;
-    if (wrap == 2 || (wrap == 1 && s->status != INIT_STATE) || s->lookahead)
+    s = strm->stbte;
+    wrbp = s->wrbp;
+    if (wrbp == 2 || (wrbp == 1 && s->stbtus != INIT_STATE) || s->lookbhebd)
         return Z_STREAM_ERROR;
 
-    /* when using zlib wrappers, compute Adler-32 for provided dictionary */
-    if (wrap == 1)
-        strm->adler = adler32(strm->adler, dictionary, dictLength);
-    s->wrap = 0;                    /* avoid computing Adler-32 in read_buf */
+    /* when using zlib wrbppers, compute Adler-32 for provided dictionbry */
+    if (wrbp == 1)
+        strm->bdler = bdler32(strm->bdler, dictionbry, dictLength);
+    s->wrbp = 0;                    /* bvoid computing Adler-32 in rebd_buf */
 
-    /* if dictionary would fill window, just replace the history */
+    /* if dictionbry would fill window, just replbce the history */
     if (dictLength >= s->w_size) {
-        if (wrap == 0) {            /* already empty otherwise */
+        if (wrbp == 0) {            /* blrebdy empty otherwise */
             CLEAR_HASH(s);
-            s->strstart = 0;
-            s->block_start = 0L;
+            s->strstbrt = 0;
+            s->block_stbrt = 0L;
             s->insert = 0;
         }
-        dictionary += dictLength - s->w_size;  /* use the tail */
+        dictionbry += dictLength - s->w_size;  /* use the tbil */
         dictLength = s->w_size;
     }
 
-    /* insert dictionary into window and hash */
-    avail = strm->avail_in;
+    /* insert dictionbry into window bnd hbsh */
+    bvbil = strm->bvbil_in;
     next = strm->next_in;
-    strm->avail_in = dictLength;
-    strm->next_in = (z_const Bytef *)dictionary;
+    strm->bvbil_in = dictLength;
+    strm->next_in = (z_const Bytef *)dictionbry;
     fill_window(s);
-    while (s->lookahead >= MIN_MATCH) {
-        str = s->strstart;
-        n = s->lookahead - (MIN_MATCH-1);
+    while (s->lookbhebd >= MIN_MATCH) {
+        str = s->strstbrt;
+        n = s->lookbhebd - (MIN_MATCH-1);
         do {
             UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]);
 #ifndef FASTEST
-            s->prev[str & s->w_mask] = s->head[s->ins_h];
+            s->prev[str & s->w_mbsk] = s->hebd[s->ins_h];
 #endif
-            s->head[s->ins_h] = (Pos)str;
+            s->hebd[s->ins_h] = (Pos)str;
             str++;
         } while (--n);
-        s->strstart = str;
-        s->lookahead = MIN_MATCH-1;
+        s->strstbrt = str;
+        s->lookbhebd = MIN_MATCH-1;
         fill_window(s);
     }
-    s->strstart += s->lookahead;
-    s->block_start = (long)s->strstart;
-    s->insert = s->lookahead;
-    s->lookahead = 0;
-    s->match_length = s->prev_length = MIN_MATCH-1;
-    s->match_available = 0;
+    s->strstbrt += s->lookbhebd;
+    s->block_stbrt = (long)s->strstbrt;
+    s->insert = s->lookbhebd;
+    s->lookbhebd = 0;
+    s->mbtch_length = s->prev_length = MIN_MATCH-1;
+    s->mbtch_bvbilbble = 0;
     strm->next_in = next;
-    strm->avail_in = avail;
-    s->wrap = wrap;
+    strm->bvbil_in = bvbil;
+    s->wrbp = wrbp;
     return Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateResetKeep (strm)
-    z_streamp strm;
+int ZEXPORT deflbteResetKeep (strm)
+    z_strebmp strm;
 {
-    deflate_state *s;
+    deflbte_stbte *s;
 
-    if (strm == Z_NULL || strm->state == Z_NULL ||
-        strm->zalloc == (alloc_func)0 || strm->zfree == (free_func)0) {
+    if (strm == Z_NULL || strm->stbte == Z_NULL ||
+        strm->zblloc == (blloc_func)0 || strm->zfree == (free_func)0) {
         return Z_STREAM_ERROR;
     }
 
-    strm->total_in = strm->total_out = 0;
-    strm->msg = Z_NULL; /* use zfree if we ever allocate msg dynamically */
-    strm->data_type = Z_UNKNOWN;
+    strm->totbl_in = strm->totbl_out = 0;
+    strm->msg = Z_NULL; /* use zfree if we ever bllocbte msg dynbmicblly */
+    strm->dbtb_type = Z_UNKNOWN;
 
-    s = (deflate_state *)strm->state;
+    s = (deflbte_stbte *)strm->stbte;
     s->pending = 0;
     s->pending_out = s->pending_buf;
 
-    if (s->wrap < 0) {
-        s->wrap = -s->wrap; /* was made negative by deflate(..., Z_FINISH); */
+    if (s->wrbp < 0) {
+        s->wrbp = -s->wrbp; /* wbs mbde negbtive by deflbte(..., Z_FINISH); */
     }
-    s->status = s->wrap ? INIT_STATE : BUSY_STATE;
-    strm->adler =
+    s->stbtus = s->wrbp ? INIT_STATE : BUSY_STATE;
+    strm->bdler =
 #ifdef GZIP
-        s->wrap == 2 ? crc32(0L, Z_NULL, 0) :
+        s->wrbp == 2 ? crc32(0L, Z_NULL, 0) :
 #endif
-        adler32(0L, Z_NULL, 0);
-    s->last_flush = Z_NO_FLUSH;
+        bdler32(0L, Z_NULL, 0);
+    s->lbst_flush = Z_NO_FLUSH;
 
     _tr_init(s);
 
@@ -448,209 +448,209 @@ int ZEXPORT deflateResetKeep (strm)
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateReset (strm)
-    z_streamp strm;
+int ZEXPORT deflbteReset (strm)
+    z_strebmp strm;
 {
     int ret;
 
-    ret = deflateResetKeep(strm);
+    ret = deflbteResetKeep(strm);
     if (ret == Z_OK)
-        lm_init(strm->state);
+        lm_init(strm->stbte);
     return ret;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateSetHeader (strm, head)
-    z_streamp strm;
-    gz_headerp head;
+int ZEXPORT deflbteSetHebder (strm, hebd)
+    z_strebmp strm;
+    gz_hebderp hebd;
 {
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    if (strm->state->wrap != 2) return Z_STREAM_ERROR;
-    strm->state->gzhead = head;
+    if (strm == Z_NULL || strm->stbte == Z_NULL) return Z_STREAM_ERROR;
+    if (strm->stbte->wrbp != 2) return Z_STREAM_ERROR;
+    strm->stbte->gzhebd = hebd;
     return Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflatePending (strm, pending, bits)
+int ZEXPORT deflbtePending (strm, pending, bits)
     unsigned *pending;
     int *bits;
-    z_streamp strm;
+    z_strebmp strm;
 {
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
+    if (strm == Z_NULL || strm->stbte == Z_NULL) return Z_STREAM_ERROR;
     if (pending != Z_NULL)
-        *pending = strm->state->pending;
+        *pending = strm->stbte->pending;
     if (bits != Z_NULL)
-        *bits = strm->state->bi_valid;
+        *bits = strm->stbte->bi_vblid;
     return Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflatePrime (strm, bits, value)
-    z_streamp strm;
+int ZEXPORT deflbtePrime (strm, bits, vblue)
+    z_strebmp strm;
     int bits;
-    int value;
+    int vblue;
 {
-    deflate_state *s;
+    deflbte_stbte *s;
     int put;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    s = strm->state;
+    if (strm == Z_NULL || strm->stbte == Z_NULL) return Z_STREAM_ERROR;
+    s = strm->stbte;
     if ((Bytef *)(s->d_buf) < s->pending_out + ((Buf_size + 7) >> 3))
         return Z_BUF_ERROR;
     do {
-        put = Buf_size - s->bi_valid;
+        put = Buf_size - s->bi_vblid;
         if (put > bits)
             put = bits;
-        s->bi_buf |= (ush)((value & ((1 << put) - 1)) << s->bi_valid);
-        s->bi_valid += put;
+        s->bi_buf |= (ush)((vblue & ((1 << put) - 1)) << s->bi_vblid);
+        s->bi_vblid += put;
         _tr_flush_bits(s);
-        value >>= put;
+        vblue >>= put;
         bits -= put;
     } while (bits);
     return Z_OK;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateParams(strm, level, strategy)
-    z_streamp strm;
+int ZEXPORT deflbtePbrbms(strm, level, strbtegy)
+    z_strebmp strm;
     int level;
-    int strategy;
+    int strbtegy;
 {
-    deflate_state *s;
+    deflbte_stbte *s;
     compress_func func;
     int err = Z_OK;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    s = strm->state;
+    if (strm == Z_NULL || strm->stbte == Z_NULL) return Z_STREAM_ERROR;
+    s = strm->stbte;
 
 #ifdef FASTEST
     if (level != 0) level = 1;
 #else
     if (level == Z_DEFAULT_COMPRESSION) level = 6;
 #endif
-    if (level < 0 || level > 9 || strategy < 0 || strategy > Z_FIXED) {
+    if (level < 0 || level > 9 || strbtegy < 0 || strbtegy > Z_FIXED) {
         return Z_STREAM_ERROR;
     }
-    func = configuration_table[s->level].func;
+    func = configurbtion_tbble[s->level].func;
 
-    if ((strategy != s->strategy || func != configuration_table[level].func) &&
-        strm->total_in != 0) {
-        /* Flush the last buffer: */
-        err = deflate(strm, Z_BLOCK);
+    if ((strbtegy != s->strbtegy || func != configurbtion_tbble[level].func) &&
+        strm->totbl_in != 0) {
+        /* Flush the lbst buffer: */
+        err = deflbte(strm, Z_BLOCK);
         if (err == Z_BUF_ERROR && s->pending == 0)
             err = Z_OK;
     }
     if (s->level != level) {
         s->level = level;
-        s->max_lazy_match   = configuration_table[level].max_lazy;
-        s->good_match       = configuration_table[level].good_length;
-        s->nice_match       = configuration_table[level].nice_length;
-        s->max_chain_length = configuration_table[level].max_chain;
+        s->mbx_lbzy_mbtch   = configurbtion_tbble[level].mbx_lbzy;
+        s->good_mbtch       = configurbtion_tbble[level].good_length;
+        s->nice_mbtch       = configurbtion_tbble[level].nice_length;
+        s->mbx_chbin_length = configurbtion_tbble[level].mbx_chbin;
     }
-    s->strategy = strategy;
+    s->strbtegy = strbtegy;
     return err;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateTune(strm, good_length, max_lazy, nice_length, max_chain)
-    z_streamp strm;
+int ZEXPORT deflbteTune(strm, good_length, mbx_lbzy, nice_length, mbx_chbin)
+    z_strebmp strm;
     int good_length;
-    int max_lazy;
+    int mbx_lbzy;
     int nice_length;
-    int max_chain;
+    int mbx_chbin;
 {
-    deflate_state *s;
+    deflbte_stbte *s;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
-    s = strm->state;
-    s->good_match = good_length;
-    s->max_lazy_match = max_lazy;
-    s->nice_match = nice_length;
-    s->max_chain_length = max_chain;
+    if (strm == Z_NULL || strm->stbte == Z_NULL) return Z_STREAM_ERROR;
+    s = strm->stbte;
+    s->good_mbtch = good_length;
+    s->mbx_lbzy_mbtch = mbx_lbzy;
+    s->nice_mbtch = nice_length;
+    s->mbx_chbin_length = mbx_chbin;
     return Z_OK;
 }
 
 /* =========================================================================
- * For the default windowBits of 15 and memLevel of 8, this function returns
- * a close to exact, as well as small, upper bound on the compressed size.
- * They are coded as constants here for a reason--if the #define's are
- * changed, then this function needs to be changed as well.  The return
- * value for 15 and 8 only works for those exact settings.
+ * For the defbult windowBits of 15 bnd memLevel of 8, this function returns
+ * b close to exbct, bs well bs smbll, upper bound on the compressed size.
+ * They bre coded bs constbnts here for b rebson--if the #define's bre
+ * chbnged, then this function needs to be chbnged bs well.  The return
+ * vblue for 15 bnd 8 only works for those exbct settings.
  *
- * For any setting other than those defaults for windowBits and memLevel,
- * the value returned is a conservative worst case for the maximum expansion
- * resulting from using fixed blocks instead of stored blocks, which deflate
- * can emit on compressed data for some combinations of the parameters.
+ * For bny setting other thbn those defbults for windowBits bnd memLevel,
+ * the vblue returned is b conservbtive worst cbse for the mbximum expbnsion
+ * resulting from using fixed blocks instebd of stored blocks, which deflbte
+ * cbn emit on compressed dbtb for some combinbtions of the pbrbmeters.
  *
- * This function could be more sophisticated to provide closer upper bounds for
- * every combination of windowBits and memLevel.  But even the conservative
- * upper bound of about 14% expansion does not seem onerous for output buffer
- * allocation.
+ * This function could be more sophisticbted to provide closer upper bounds for
+ * every combinbtion of windowBits bnd memLevel.  But even the conservbtive
+ * upper bound of bbout 14% expbnsion does not seem onerous for output buffer
+ * bllocbtion.
  */
-uLong ZEXPORT deflateBound(strm, sourceLen)
-    z_streamp strm;
+uLong ZEXPORT deflbteBound(strm, sourceLen)
+    z_strebmp strm;
     uLong sourceLen;
 {
-    deflate_state *s;
-    uLong complen, wraplen;
+    deflbte_stbte *s;
+    uLong complen, wrbplen;
     Bytef *str;
 
-    /* conservative upper bound for compressed data */
+    /* conservbtive upper bound for compressed dbtb */
     complen = sourceLen +
               ((sourceLen + 7) >> 3) + ((sourceLen + 63) >> 6) + 5;
 
-    /* if can't get parameters, return conservative bound plus zlib wrapper */
-    if (strm == Z_NULL || strm->state == Z_NULL)
+    /* if cbn't get pbrbmeters, return conservbtive bound plus zlib wrbpper */
+    if (strm == Z_NULL || strm->stbte == Z_NULL)
         return complen + 6;
 
-    /* compute wrapper length */
-    s = strm->state;
-    switch (s->wrap) {
-    case 0:                                 /* raw deflate */
-        wraplen = 0;
-        break;
-    case 1:                                 /* zlib wrapper */
-        wraplen = 6 + (s->strstart ? 4 : 0);
-        break;
-    case 2:                                 /* gzip wrapper */
-        wraplen = 18;
-        if (s->gzhead != Z_NULL) {          /* user-supplied gzip header */
-            if (s->gzhead->extra != Z_NULL)
-                wraplen += 2 + s->gzhead->extra_len;
-            str = s->gzhead->name;
+    /* compute wrbpper length */
+    s = strm->stbte;
+    switch (s->wrbp) {
+    cbse 0:                                 /* rbw deflbte */
+        wrbplen = 0;
+        brebk;
+    cbse 1:                                 /* zlib wrbpper */
+        wrbplen = 6 + (s->strstbrt ? 4 : 0);
+        brebk;
+    cbse 2:                                 /* gzip wrbpper */
+        wrbplen = 18;
+        if (s->gzhebd != Z_NULL) {          /* user-supplied gzip hebder */
+            if (s->gzhebd->extrb != Z_NULL)
+                wrbplen += 2 + s->gzhebd->extrb_len;
+            str = s->gzhebd->nbme;
             if (str != Z_NULL)
                 do {
-                    wraplen++;
+                    wrbplen++;
                 } while (*str++);
-            str = s->gzhead->comment;
+            str = s->gzhebd->comment;
             if (str != Z_NULL)
                 do {
-                    wraplen++;
+                    wrbplen++;
                 } while (*str++);
-            if (s->gzhead->hcrc)
-                wraplen += 2;
+            if (s->gzhebd->hcrc)
+                wrbplen += 2;
         }
-        break;
-    default:                                /* for compiler happiness */
-        wraplen = 6;
+        brebk;
+    defbult:                                /* for compiler hbppiness */
+        wrbplen = 6;
     }
 
-    /* if not default parameters, return conservative bound */
-    if (s->w_bits != 15 || s->hash_bits != 8 + 7)
-        return complen + wraplen;
+    /* if not defbult pbrbmeters, return conservbtive bound */
+    if (s->w_bits != 15 || s->hbsh_bits != 8 + 7)
+        return complen + wrbplen;
 
-    /* default settings: return tight bound for that case */
+    /* defbult settings: return tight bound for thbt cbse */
     return sourceLen + (sourceLen >> 12) + (sourceLen >> 14) +
-           (sourceLen >> 25) + 13 - 6 + wraplen;
+           (sourceLen >> 25) + 13 - 6 + wrbplen;
 }
 
 /* =========================================================================
- * Put a short in the pending buffer. The 16-bit value is put in MSB order.
- * IN assertion: the stream state is correct and there is enough room in
+ * Put b short in the pending buffer. The 16-bit vblue is put in MSB order.
+ * IN bssertion: the strebm stbte is correct bnd there is enough room in
  * pending_buf.
  */
-local void putShortMSB (s, b)
-    deflate_state *s;
+locbl void putShortMSB (s, b)
+    deflbte_stbte *s;
     uInt b;
 {
     put_byte(s, (Byte)(b >> 8));
@@ -658,27 +658,27 @@ local void putShortMSB (s, b)
 }
 
 /* =========================================================================
- * Flush as much pending output as possible. All deflate() output goes
- * through this function so some applications may wish to modify it
- * to avoid allocating a large strm->next_out buffer and copying into it.
- * (See also read_buf()).
+ * Flush bs much pending output bs possible. All deflbte() output goes
+ * through this function so some bpplicbtions mby wish to modify it
+ * to bvoid bllocbting b lbrge strm->next_out buffer bnd copying into it.
+ * (See blso rebd_buf()).
  */
-local void flush_pending(strm)
-    z_streamp strm;
+locbl void flush_pending(strm)
+    z_strebmp strm;
 {
     unsigned len;
-    deflate_state *s = strm->state;
+    deflbte_stbte *s = strm->stbte;
 
     _tr_flush_bits(s);
     len = s->pending;
-    if (len > strm->avail_out) len = strm->avail_out;
+    if (len > strm->bvbil_out) len = strm->bvbil_out;
     if (len == 0) return;
 
     zmemcpy(strm->next_out, s->pending_out, len);
     strm->next_out  += len;
     s->pending_out  += len;
-    strm->total_out += len;
-    strm->avail_out  -= len;
+    strm->totbl_out += len;
+    strm->bvbil_out  -= len;
     s->pending -= len;
     if (s->pending == 0) {
         s->pending_out = s->pending_buf;
@@ -686,400 +686,400 @@ local void flush_pending(strm)
 }
 
 /* ========================================================================= */
-int ZEXPORT deflate (strm, flush)
-    z_streamp strm;
+int ZEXPORT deflbte (strm, flush)
+    z_strebmp strm;
     int flush;
 {
-    int old_flush; /* value of flush param for previous deflate call */
-    deflate_state *s;
+    int old_flush; /* vblue of flush pbrbm for previous deflbte cbll */
+    deflbte_stbte *s;
 
-    if (strm == Z_NULL || strm->state == Z_NULL ||
+    if (strm == Z_NULL || strm->stbte == Z_NULL ||
         flush > Z_BLOCK || flush < 0) {
         return Z_STREAM_ERROR;
     }
-    s = strm->state;
+    s = strm->stbte;
 
     if (strm->next_out == Z_NULL ||
-        (strm->next_in == Z_NULL && strm->avail_in != 0) ||
-        (s->status == FINISH_STATE && flush != Z_FINISH)) {
+        (strm->next_in == Z_NULL && strm->bvbil_in != 0) ||
+        (s->stbtus == FINISH_STATE && flush != Z_FINISH)) {
         ERR_RETURN(strm, Z_STREAM_ERROR);
     }
-    if (strm->avail_out == 0) ERR_RETURN(strm, Z_BUF_ERROR);
+    if (strm->bvbil_out == 0) ERR_RETURN(strm, Z_BUF_ERROR);
 
-    s->strm = strm; /* just in case */
-    old_flush = s->last_flush;
-    s->last_flush = flush;
+    s->strm = strm; /* just in cbse */
+    old_flush = s->lbst_flush;
+    s->lbst_flush = flush;
 
-    /* Write the header */
-    if (s->status == INIT_STATE) {
+    /* Write the hebder */
+    if (s->stbtus == INIT_STATE) {
 #ifdef GZIP
-        if (s->wrap == 2) {
-            strm->adler = crc32(0L, Z_NULL, 0);
+        if (s->wrbp == 2) {
+            strm->bdler = crc32(0L, Z_NULL, 0);
             put_byte(s, 31);
             put_byte(s, 139);
             put_byte(s, 8);
-            if (s->gzhead == Z_NULL) {
+            if (s->gzhebd == Z_NULL) {
                 put_byte(s, 0);
                 put_byte(s, 0);
                 put_byte(s, 0);
                 put_byte(s, 0);
                 put_byte(s, 0);
                 put_byte(s, s->level == 9 ? 2 :
-                            (s->strategy >= Z_HUFFMAN_ONLY || s->level < 2 ?
+                            (s->strbtegy >= Z_HUFFMAN_ONLY || s->level < 2 ?
                              4 : 0));
                 put_byte(s, OS_CODE);
-                s->status = BUSY_STATE;
+                s->stbtus = BUSY_STATE;
             }
             else {
-                put_byte(s, (s->gzhead->text ? 1 : 0) +
-                            (s->gzhead->hcrc ? 2 : 0) +
-                            (s->gzhead->extra == Z_NULL ? 0 : 4) +
-                            (s->gzhead->name == Z_NULL ? 0 : 8) +
-                            (s->gzhead->comment == Z_NULL ? 0 : 16)
+                put_byte(s, (s->gzhebd->text ? 1 : 0) +
+                            (s->gzhebd->hcrc ? 2 : 0) +
+                            (s->gzhebd->extrb == Z_NULL ? 0 : 4) +
+                            (s->gzhebd->nbme == Z_NULL ? 0 : 8) +
+                            (s->gzhebd->comment == Z_NULL ? 0 : 16)
                         );
-                put_byte(s, (Byte)(s->gzhead->time & 0xff));
-                put_byte(s, (Byte)((s->gzhead->time >> 8) & 0xff));
-                put_byte(s, (Byte)((s->gzhead->time >> 16) & 0xff));
-                put_byte(s, (Byte)((s->gzhead->time >> 24) & 0xff));
+                put_byte(s, (Byte)(s->gzhebd->time & 0xff));
+                put_byte(s, (Byte)((s->gzhebd->time >> 8) & 0xff));
+                put_byte(s, (Byte)((s->gzhebd->time >> 16) & 0xff));
+                put_byte(s, (Byte)((s->gzhebd->time >> 24) & 0xff));
                 put_byte(s, s->level == 9 ? 2 :
-                            (s->strategy >= Z_HUFFMAN_ONLY || s->level < 2 ?
+                            (s->strbtegy >= Z_HUFFMAN_ONLY || s->level < 2 ?
                              4 : 0));
-                put_byte(s, s->gzhead->os & 0xff);
-                if (s->gzhead->extra != Z_NULL) {
-                    put_byte(s, s->gzhead->extra_len & 0xff);
-                    put_byte(s, (s->gzhead->extra_len >> 8) & 0xff);
+                put_byte(s, s->gzhebd->os & 0xff);
+                if (s->gzhebd->extrb != Z_NULL) {
+                    put_byte(s, s->gzhebd->extrb_len & 0xff);
+                    put_byte(s, (s->gzhebd->extrb_len >> 8) & 0xff);
                 }
-                if (s->gzhead->hcrc)
-                    strm->adler = crc32(strm->adler, s->pending_buf,
+                if (s->gzhebd->hcrc)
+                    strm->bdler = crc32(strm->bdler, s->pending_buf,
                                         s->pending);
                 s->gzindex = 0;
-                s->status = EXTRA_STATE;
+                s->stbtus = EXTRA_STATE;
             }
         }
         else
 #endif
         {
-            uInt header = (Z_DEFLATED + ((s->w_bits-8)<<4)) << 8;
-            uInt level_flags;
+            uInt hebder = (Z_DEFLATED + ((s->w_bits-8)<<4)) << 8;
+            uInt level_flbgs;
 
-            if (s->strategy >= Z_HUFFMAN_ONLY || s->level < 2)
-                level_flags = 0;
+            if (s->strbtegy >= Z_HUFFMAN_ONLY || s->level < 2)
+                level_flbgs = 0;
             else if (s->level < 6)
-                level_flags = 1;
+                level_flbgs = 1;
             else if (s->level == 6)
-                level_flags = 2;
+                level_flbgs = 2;
             else
-                level_flags = 3;
-            header |= (level_flags << 6);
-            if (s->strstart != 0) header |= PRESET_DICT;
-            header += 31 - (header % 31);
+                level_flbgs = 3;
+            hebder |= (level_flbgs << 6);
+            if (s->strstbrt != 0) hebder |= PRESET_DICT;
+            hebder += 31 - (hebder % 31);
 
-            s->status = BUSY_STATE;
-            putShortMSB(s, header);
+            s->stbtus = BUSY_STATE;
+            putShortMSB(s, hebder);
 
-            /* Save the adler32 of the preset dictionary: */
-            if (s->strstart != 0) {
-                putShortMSB(s, (uInt)(strm->adler >> 16));
-                putShortMSB(s, (uInt)(strm->adler & 0xffff));
+            /* Sbve the bdler32 of the preset dictionbry: */
+            if (s->strstbrt != 0) {
+                putShortMSB(s, (uInt)(strm->bdler >> 16));
+                putShortMSB(s, (uInt)(strm->bdler & 0xffff));
             }
-            strm->adler = adler32(0L, Z_NULL, 0);
+            strm->bdler = bdler32(0L, Z_NULL, 0);
         }
     }
 #ifdef GZIP
-    if (s->status == EXTRA_STATE) {
-        if (s->gzhead->extra != Z_NULL) {
-            uInt beg = s->pending;  /* start of bytes to update crc */
+    if (s->stbtus == EXTRA_STATE) {
+        if (s->gzhebd->extrb != Z_NULL) {
+            uInt beg = s->pending;  /* stbrt of bytes to updbte crc */
 
-            while (s->gzindex < (s->gzhead->extra_len & 0xffff)) {
+            while (s->gzindex < (s->gzhebd->extrb_len & 0xffff)) {
                 if (s->pending == s->pending_buf_size) {
-                    if (s->gzhead->hcrc && s->pending > beg)
-                        strm->adler = crc32(strm->adler, s->pending_buf + beg,
+                    if (s->gzhebd->hcrc && s->pending > beg)
+                        strm->bdler = crc32(strm->bdler, s->pending_buf + beg,
                                             s->pending - beg);
                     flush_pending(strm);
                     beg = s->pending;
                     if (s->pending == s->pending_buf_size)
-                        break;
+                        brebk;
                 }
-                put_byte(s, s->gzhead->extra[s->gzindex]);
+                put_byte(s, s->gzhebd->extrb[s->gzindex]);
                 s->gzindex++;
             }
-            if (s->gzhead->hcrc && s->pending > beg)
-                strm->adler = crc32(strm->adler, s->pending_buf + beg,
+            if (s->gzhebd->hcrc && s->pending > beg)
+                strm->bdler = crc32(strm->bdler, s->pending_buf + beg,
                                     s->pending - beg);
-            if (s->gzindex == s->gzhead->extra_len) {
+            if (s->gzindex == s->gzhebd->extrb_len) {
                 s->gzindex = 0;
-                s->status = NAME_STATE;
+                s->stbtus = NAME_STATE;
             }
         }
         else
-            s->status = NAME_STATE;
+            s->stbtus = NAME_STATE;
     }
-    if (s->status == NAME_STATE) {
-        if (s->gzhead->name != Z_NULL) {
-            uInt beg = s->pending;  /* start of bytes to update crc */
-            int val;
+    if (s->stbtus == NAME_STATE) {
+        if (s->gzhebd->nbme != Z_NULL) {
+            uInt beg = s->pending;  /* stbrt of bytes to updbte crc */
+            int vbl;
 
             do {
                 if (s->pending == s->pending_buf_size) {
-                    if (s->gzhead->hcrc && s->pending > beg)
-                        strm->adler = crc32(strm->adler, s->pending_buf + beg,
+                    if (s->gzhebd->hcrc && s->pending > beg)
+                        strm->bdler = crc32(strm->bdler, s->pending_buf + beg,
                                             s->pending - beg);
                     flush_pending(strm);
                     beg = s->pending;
                     if (s->pending == s->pending_buf_size) {
-                        val = 1;
-                        break;
+                        vbl = 1;
+                        brebk;
                     }
                 }
-                val = s->gzhead->name[s->gzindex++];
-                put_byte(s, val);
-            } while (val != 0);
-            if (s->gzhead->hcrc && s->pending > beg)
-                strm->adler = crc32(strm->adler, s->pending_buf + beg,
+                vbl = s->gzhebd->nbme[s->gzindex++];
+                put_byte(s, vbl);
+            } while (vbl != 0);
+            if (s->gzhebd->hcrc && s->pending > beg)
+                strm->bdler = crc32(strm->bdler, s->pending_buf + beg,
                                     s->pending - beg);
-            if (val == 0) {
+            if (vbl == 0) {
                 s->gzindex = 0;
-                s->status = COMMENT_STATE;
+                s->stbtus = COMMENT_STATE;
             }
         }
         else
-            s->status = COMMENT_STATE;
+            s->stbtus = COMMENT_STATE;
     }
-    if (s->status == COMMENT_STATE) {
-        if (s->gzhead->comment != Z_NULL) {
-            uInt beg = s->pending;  /* start of bytes to update crc */
-            int val;
+    if (s->stbtus == COMMENT_STATE) {
+        if (s->gzhebd->comment != Z_NULL) {
+            uInt beg = s->pending;  /* stbrt of bytes to updbte crc */
+            int vbl;
 
             do {
                 if (s->pending == s->pending_buf_size) {
-                    if (s->gzhead->hcrc && s->pending > beg)
-                        strm->adler = crc32(strm->adler, s->pending_buf + beg,
+                    if (s->gzhebd->hcrc && s->pending > beg)
+                        strm->bdler = crc32(strm->bdler, s->pending_buf + beg,
                                             s->pending - beg);
                     flush_pending(strm);
                     beg = s->pending;
                     if (s->pending == s->pending_buf_size) {
-                        val = 1;
-                        break;
+                        vbl = 1;
+                        brebk;
                     }
                 }
-                val = s->gzhead->comment[s->gzindex++];
-                put_byte(s, val);
-            } while (val != 0);
-            if (s->gzhead->hcrc && s->pending > beg)
-                strm->adler = crc32(strm->adler, s->pending_buf + beg,
+                vbl = s->gzhebd->comment[s->gzindex++];
+                put_byte(s, vbl);
+            } while (vbl != 0);
+            if (s->gzhebd->hcrc && s->pending > beg)
+                strm->bdler = crc32(strm->bdler, s->pending_buf + beg,
                                     s->pending - beg);
-            if (val == 0)
-                s->status = HCRC_STATE;
+            if (vbl == 0)
+                s->stbtus = HCRC_STATE;
         }
         else
-            s->status = HCRC_STATE;
+            s->stbtus = HCRC_STATE;
     }
-    if (s->status == HCRC_STATE) {
-        if (s->gzhead->hcrc) {
+    if (s->stbtus == HCRC_STATE) {
+        if (s->gzhebd->hcrc) {
             if (s->pending + 2 > s->pending_buf_size)
                 flush_pending(strm);
             if (s->pending + 2 <= s->pending_buf_size) {
-                put_byte(s, (Byte)(strm->adler & 0xff));
-                put_byte(s, (Byte)((strm->adler >> 8) & 0xff));
-                strm->adler = crc32(0L, Z_NULL, 0);
-                s->status = BUSY_STATE;
+                put_byte(s, (Byte)(strm->bdler & 0xff));
+                put_byte(s, (Byte)((strm->bdler >> 8) & 0xff));
+                strm->bdler = crc32(0L, Z_NULL, 0);
+                s->stbtus = BUSY_STATE;
             }
         }
         else
-            s->status = BUSY_STATE;
+            s->stbtus = BUSY_STATE;
     }
 #endif
 
-    /* Flush as much pending output as possible */
+    /* Flush bs much pending output bs possible */
     if (s->pending != 0) {
         flush_pending(strm);
-        if (strm->avail_out == 0) {
-            /* Since avail_out is 0, deflate will be called again with
-             * more output space, but possibly with both pending and
-             * avail_in equal to zero. There won't be anything to do,
-             * but this is not an error situation so make sure we
-             * return OK instead of BUF_ERROR at next call of deflate:
+        if (strm->bvbil_out == 0) {
+            /* Since bvbil_out is 0, deflbte will be cblled bgbin with
+             * more output spbce, but possibly with both pending bnd
+             * bvbil_in equbl to zero. There won't be bnything to do,
+             * but this is not bn error situbtion so mbke sure we
+             * return OK instebd of BUF_ERROR bt next cbll of deflbte:
              */
-            s->last_flush = -1;
+            s->lbst_flush = -1;
             return Z_OK;
         }
 
-    /* Make sure there is something to do and avoid duplicate consecutive
-     * flushes. For repeated and useless calls with Z_FINISH, we keep
-     * returning Z_STREAM_END instead of Z_BUF_ERROR.
+    /* Mbke sure there is something to do bnd bvoid duplicbte consecutive
+     * flushes. For repebted bnd useless cblls with Z_FINISH, we keep
+     * returning Z_STREAM_END instebd of Z_BUF_ERROR.
      */
-    } else if (strm->avail_in == 0 && RANK(flush) <= RANK(old_flush) &&
+    } else if (strm->bvbil_in == 0 && RANK(flush) <= RANK(old_flush) &&
                flush != Z_FINISH) {
         ERR_RETURN(strm, Z_BUF_ERROR);
     }
 
-    /* User must not provide more input after the first FINISH: */
-    if (s->status == FINISH_STATE && strm->avail_in != 0) {
+    /* User must not provide more input bfter the first FINISH: */
+    if (s->stbtus == FINISH_STATE && strm->bvbil_in != 0) {
         ERR_RETURN(strm, Z_BUF_ERROR);
     }
 
-    /* Start a new block or continue the current one.
+    /* Stbrt b new block or continue the current one.
      */
-    if (strm->avail_in != 0 || s->lookahead != 0 ||
-        (flush != Z_NO_FLUSH && s->status != FINISH_STATE)) {
-        block_state bstate;
+    if (strm->bvbil_in != 0 || s->lookbhebd != 0 ||
+        (flush != Z_NO_FLUSH && s->stbtus != FINISH_STATE)) {
+        block_stbte bstbte;
 
-        bstate = s->strategy == Z_HUFFMAN_ONLY ? deflate_huff(s, flush) :
-                    (s->strategy == Z_RLE ? deflate_rle(s, flush) :
-                        (*(configuration_table[s->level].func))(s, flush));
+        bstbte = s->strbtegy == Z_HUFFMAN_ONLY ? deflbte_huff(s, flush) :
+                    (s->strbtegy == Z_RLE ? deflbte_rle(s, flush) :
+                        (*(configurbtion_tbble[s->level].func))(s, flush));
 
-        if (bstate == finish_started || bstate == finish_done) {
-            s->status = FINISH_STATE;
+        if (bstbte == finish_stbrted || bstbte == finish_done) {
+            s->stbtus = FINISH_STATE;
         }
-        if (bstate == need_more || bstate == finish_started) {
-            if (strm->avail_out == 0) {
-                s->last_flush = -1; /* avoid BUF_ERROR next call, see above */
+        if (bstbte == need_more || bstbte == finish_stbrted) {
+            if (strm->bvbil_out == 0) {
+                s->lbst_flush = -1; /* bvoid BUF_ERROR next cbll, see bbove */
             }
             return Z_OK;
-            /* If flush != Z_NO_FLUSH && avail_out == 0, the next call
-             * of deflate should use the same flush parameter to make sure
-             * that the flush is complete. So we don't have to output an
-             * empty block here, this will be done at next call. This also
-             * ensures that for a very small output buffer, we emit at most
+            /* If flush != Z_NO_FLUSH && bvbil_out == 0, the next cbll
+             * of deflbte should use the sbme flush pbrbmeter to mbke sure
+             * thbt the flush is complete. So we don't hbve to output bn
+             * empty block here, this will be done bt next cbll. This blso
+             * ensures thbt for b very smbll output buffer, we emit bt most
              * one empty block.
              */
         }
-        if (bstate == block_done) {
+        if (bstbte == block_done) {
             if (flush == Z_PARTIAL_FLUSH) {
-                _tr_align(s);
+                _tr_blign(s);
             } else if (flush != Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
-                _tr_stored_block(s, (char*)0, 0L, 0);
-                /* For a full flush, this empty block will be recognized
-                 * as a special marker by inflate_sync().
+                _tr_stored_block(s, (chbr*)0, 0L, 0);
+                /* For b full flush, this empty block will be recognized
+                 * bs b specibl mbrker by inflbte_sync().
                  */
                 if (flush == Z_FULL_FLUSH) {
                     CLEAR_HASH(s);             /* forget history */
-                    if (s->lookahead == 0) {
-                        s->strstart = 0;
-                        s->block_start = 0L;
+                    if (s->lookbhebd == 0) {
+                        s->strstbrt = 0;
+                        s->block_stbrt = 0L;
                         s->insert = 0;
                     }
                 }
             }
             flush_pending(strm);
-            if (strm->avail_out == 0) {
-              s->last_flush = -1; /* avoid BUF_ERROR at next call, see above */
+            if (strm->bvbil_out == 0) {
+              s->lbst_flush = -1; /* bvoid BUF_ERROR bt next cbll, see bbove */
               return Z_OK;
             }
         }
     }
-    Assert(strm->avail_out > 0, "bug2");
+    Assert(strm->bvbil_out > 0, "bug2");
 
     if (flush != Z_FINISH) return Z_OK;
-    if (s->wrap <= 0) return Z_STREAM_END;
+    if (s->wrbp <= 0) return Z_STREAM_END;
 
-    /* Write the trailer */
+    /* Write the trbiler */
 #ifdef GZIP
-    if (s->wrap == 2) {
-        put_byte(s, (Byte)(strm->adler & 0xff));
-        put_byte(s, (Byte)((strm->adler >> 8) & 0xff));
-        put_byte(s, (Byte)((strm->adler >> 16) & 0xff));
-        put_byte(s, (Byte)((strm->adler >> 24) & 0xff));
-        put_byte(s, (Byte)(strm->total_in & 0xff));
-        put_byte(s, (Byte)((strm->total_in >> 8) & 0xff));
-        put_byte(s, (Byte)((strm->total_in >> 16) & 0xff));
-        put_byte(s, (Byte)((strm->total_in >> 24) & 0xff));
+    if (s->wrbp == 2) {
+        put_byte(s, (Byte)(strm->bdler & 0xff));
+        put_byte(s, (Byte)((strm->bdler >> 8) & 0xff));
+        put_byte(s, (Byte)((strm->bdler >> 16) & 0xff));
+        put_byte(s, (Byte)((strm->bdler >> 24) & 0xff));
+        put_byte(s, (Byte)(strm->totbl_in & 0xff));
+        put_byte(s, (Byte)((strm->totbl_in >> 8) & 0xff));
+        put_byte(s, (Byte)((strm->totbl_in >> 16) & 0xff));
+        put_byte(s, (Byte)((strm->totbl_in >> 24) & 0xff));
     }
     else
 #endif
     {
-        putShortMSB(s, (uInt)(strm->adler >> 16));
-        putShortMSB(s, (uInt)(strm->adler & 0xffff));
+        putShortMSB(s, (uInt)(strm->bdler >> 16));
+        putShortMSB(s, (uInt)(strm->bdler & 0xffff));
     }
     flush_pending(strm);
-    /* If avail_out is zero, the application will call deflate again
+    /* If bvbil_out is zero, the bpplicbtion will cbll deflbte bgbin
      * to flush the rest.
      */
-    if (s->wrap > 0) s->wrap = -s->wrap; /* write the trailer only once! */
+    if (s->wrbp > 0) s->wrbp = -s->wrbp; /* write the trbiler only once! */
     return s->pending != 0 ? Z_OK : Z_STREAM_END;
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateEnd (strm)
-    z_streamp strm;
+int ZEXPORT deflbteEnd (strm)
+    z_strebmp strm;
 {
-    int status;
+    int stbtus;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return Z_STREAM_ERROR;
+    if (strm == Z_NULL || strm->stbte == Z_NULL) return Z_STREAM_ERROR;
 
-    status = strm->state->status;
-    if (status != INIT_STATE &&
-        status != EXTRA_STATE &&
-        status != NAME_STATE &&
-        status != COMMENT_STATE &&
-        status != HCRC_STATE &&
-        status != BUSY_STATE &&
-        status != FINISH_STATE) {
+    stbtus = strm->stbte->stbtus;
+    if (stbtus != INIT_STATE &&
+        stbtus != EXTRA_STATE &&
+        stbtus != NAME_STATE &&
+        stbtus != COMMENT_STATE &&
+        stbtus != HCRC_STATE &&
+        stbtus != BUSY_STATE &&
+        stbtus != FINISH_STATE) {
       return Z_STREAM_ERROR;
     }
 
-    /* Deallocate in reverse order of allocations: */
-    TRY_FREE(strm, strm->state->pending_buf);
-    TRY_FREE(strm, strm->state->head);
-    TRY_FREE(strm, strm->state->prev);
-    TRY_FREE(strm, strm->state->window);
+    /* Debllocbte in reverse order of bllocbtions: */
+    TRY_FREE(strm, strm->stbte->pending_buf);
+    TRY_FREE(strm, strm->stbte->hebd);
+    TRY_FREE(strm, strm->stbte->prev);
+    TRY_FREE(strm, strm->stbte->window);
 
-    ZFREE(strm, strm->state);
-    strm->state = Z_NULL;
+    ZFREE(strm, strm->stbte);
+    strm->stbte = Z_NULL;
 
-    return status == BUSY_STATE ? Z_DATA_ERROR : Z_OK;
+    return stbtus == BUSY_STATE ? Z_DATA_ERROR : Z_OK;
 }
 
 /* =========================================================================
- * Copy the source state to the destination state.
+ * Copy the source stbte to the destinbtion stbte.
  * To simplify the source, this is not supported for 16-bit MSDOS (which
- * doesn't have enough memory anyway to duplicate compression states).
+ * doesn't hbve enough memory bnywby to duplicbte compression stbtes).
  */
-int ZEXPORT deflateCopy (dest, source)
-    z_streamp dest;
-    z_streamp source;
+int ZEXPORT deflbteCopy (dest, source)
+    z_strebmp dest;
+    z_strebmp source;
 {
 #ifdef MAXSEG_64K
     return Z_STREAM_ERROR;
 #else
-    deflate_state *ds;
-    deflate_state *ss;
-    ushf *overlay;
+    deflbte_stbte *ds;
+    deflbte_stbte *ss;
+    ushf *overlby;
 
 
-    if (source == Z_NULL || dest == Z_NULL || source->state == Z_NULL) {
+    if (source == Z_NULL || dest == Z_NULL || source->stbte == Z_NULL) {
         return Z_STREAM_ERROR;
     }
 
-    ss = source->state;
+    ss = source->stbte;
 
-    zmemcpy((voidpf)dest, (voidpf)source, sizeof(z_stream));
+    zmemcpy((voidpf)dest, (voidpf)source, sizeof(z_strebm));
 
-    ds = (deflate_state *) ZALLOC(dest, 1, sizeof(deflate_state));
+    ds = (deflbte_stbte *) ZALLOC(dest, 1, sizeof(deflbte_stbte));
     if (ds == Z_NULL) return Z_MEM_ERROR;
-    dest->state = (struct internal_state FAR *) ds;
-    zmemcpy((voidpf)ds, (voidpf)ss, sizeof(deflate_state));
+    dest->stbte = (struct internbl_stbte FAR *) ds;
+    zmemcpy((voidpf)ds, (voidpf)ss, sizeof(deflbte_stbte));
     ds->strm = dest;
 
     ds->window = (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
     ds->prev   = (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
-    ds->head   = (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
-    overlay = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
-    ds->pending_buf = (uchf *) overlay;
+    ds->hebd   = (Posf *)  ZALLOC(dest, ds->hbsh_size, sizeof(Pos));
+    overlby = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
+    ds->pending_buf = (uchf *) overlby;
 
-    if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->head == Z_NULL ||
+    if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->hebd == Z_NULL ||
         ds->pending_buf == Z_NULL) {
-        deflateEnd (dest);
+        deflbteEnd (dest);
         return Z_MEM_ERROR;
     }
     /* following zmemcpy do not work for 16-bit MSDOS */
     zmemcpy(ds->window, ss->window, ds->w_size * 2 * sizeof(Byte));
     zmemcpy((voidpf)ds->prev, (voidpf)ss->prev, ds->w_size * sizeof(Pos));
-    zmemcpy((voidpf)ds->head, (voidpf)ss->head, ds->hash_size * sizeof(Pos));
+    zmemcpy((voidpf)ds->hebd, (voidpf)ss->hebd, ds->hbsh_size * sizeof(Pos));
     zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_size);
 
     ds->pending_out = ds->pending_buf + (ss->pending_out - ss->pending_buf);
-    ds->d_buf = overlay + ds->lit_bufsize/sizeof(ush);
+    ds->d_buf = overlby + ds->lit_bufsize/sizeof(ush);
     ds->l_buf = ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
 
     ds->l_desc.dyn_tree = ds->dyn_ltree;
@@ -1091,225 +1091,225 @@ int ZEXPORT deflateCopy (dest, source)
 }
 
 /* ===========================================================================
- * Read a new buffer from the current input stream, update the adler32
- * and total number of bytes read.  All deflate() input goes through
- * this function so some applications may wish to modify it to avoid
- * allocating a large strm->next_in buffer and copying from it.
- * (See also flush_pending()).
+ * Rebd b new buffer from the current input strebm, updbte the bdler32
+ * bnd totbl number of bytes rebd.  All deflbte() input goes through
+ * this function so some bpplicbtions mby wish to modify it to bvoid
+ * bllocbting b lbrge strm->next_in buffer bnd copying from it.
+ * (See blso flush_pending()).
  */
-local int read_buf(strm, buf, size)
-    z_streamp strm;
+locbl int rebd_buf(strm, buf, size)
+    z_strebmp strm;
     Bytef *buf;
     unsigned size;
 {
-    unsigned len = strm->avail_in;
+    unsigned len = strm->bvbil_in;
 
     if (len > size) len = size;
     if (len == 0) return 0;
 
-    strm->avail_in  -= len;
+    strm->bvbil_in  -= len;
 
     zmemcpy(buf, strm->next_in, len);
-    if (strm->state->wrap == 1) {
-        strm->adler = adler32(strm->adler, buf, len);
+    if (strm->stbte->wrbp == 1) {
+        strm->bdler = bdler32(strm->bdler, buf, len);
     }
 #ifdef GZIP
-    else if (strm->state->wrap == 2) {
-        strm->adler = crc32(strm->adler, buf, len);
+    else if (strm->stbte->wrbp == 2) {
+        strm->bdler = crc32(strm->bdler, buf, len);
     }
 #endif
     strm->next_in  += len;
-    strm->total_in += len;
+    strm->totbl_in += len;
 
     return (int)len;
 }
 
 /* ===========================================================================
- * Initialize the "longest match" routines for a new zlib stream
+ * Initiblize the "longest mbtch" routines for b new zlib strebm
  */
-local void lm_init (s)
-    deflate_state *s;
+locbl void lm_init (s)
+    deflbte_stbte *s;
 {
     s->window_size = (ulg)2L*s->w_size;
 
     CLEAR_HASH(s);
 
-    /* Set the default configuration parameters:
+    /* Set the defbult configurbtion pbrbmeters:
      */
-    s->max_lazy_match   = configuration_table[s->level].max_lazy;
-    s->good_match       = configuration_table[s->level].good_length;
-    s->nice_match       = configuration_table[s->level].nice_length;
-    s->max_chain_length = configuration_table[s->level].max_chain;
+    s->mbx_lbzy_mbtch   = configurbtion_tbble[s->level].mbx_lbzy;
+    s->good_mbtch       = configurbtion_tbble[s->level].good_length;
+    s->nice_mbtch       = configurbtion_tbble[s->level].nice_length;
+    s->mbx_chbin_length = configurbtion_tbble[s->level].mbx_chbin;
 
-    s->strstart = 0;
-    s->block_start = 0L;
-    s->lookahead = 0;
+    s->strstbrt = 0;
+    s->block_stbrt = 0L;
+    s->lookbhebd = 0;
     s->insert = 0;
-    s->match_length = s->prev_length = MIN_MATCH-1;
-    s->match_available = 0;
+    s->mbtch_length = s->prev_length = MIN_MATCH-1;
+    s->mbtch_bvbilbble = 0;
     s->ins_h = 0;
 #ifndef FASTEST
 #ifdef ASMV
-    match_init(); /* initialize the asm code */
+    mbtch_init(); /* initiblize the bsm code */
 #endif
 #endif
 }
 
 #ifndef FASTEST
 /* ===========================================================================
- * Set match_start to the longest match starting at the given string and
- * return its length. Matches shorter or equal to prev_length are discarded,
- * in which case the result is equal to prev_length and match_start is
- * garbage.
- * IN assertions: cur_match is the head of the hash chain for the current
- *   string (strstart) and its distance is <= MAX_DIST, and prev_length >= 1
- * OUT assertion: the match length is not greater than s->lookahead.
+ * Set mbtch_stbrt to the longest mbtch stbrting bt the given string bnd
+ * return its length. Mbtches shorter or equbl to prev_length bre discbrded,
+ * in which cbse the result is equbl to prev_length bnd mbtch_stbrt is
+ * gbrbbge.
+ * IN bssertions: cur_mbtch is the hebd of the hbsh chbin for the current
+ *   string (strstbrt) bnd its distbnce is <= MAX_DIST, bnd prev_length >= 1
+ * OUT bssertion: the mbtch length is not grebter thbn s->lookbhebd.
  */
 #ifndef ASMV
-/* For 80x86 and 680x0, an optimized version will be provided in match.asm or
- * match.S. The code will be functionally equivalent.
+/* For 80x86 bnd 680x0, bn optimized version will be provided in mbtch.bsm or
+ * mbtch.S. The code will be functionblly equivblent.
  */
-local uInt longest_match(s, cur_match)
-    deflate_state *s;
-    IPos cur_match;                             /* current match */
+locbl uInt longest_mbtch(s, cur_mbtch)
+    deflbte_stbte *s;
+    IPos cur_mbtch;                             /* current mbtch */
 {
-    unsigned chain_length = s->max_chain_length;/* max hash chain length */
-    register Bytef *scan = s->window + s->strstart; /* current string */
-    register Bytef *match;                       /* matched string */
-    register int len;                           /* length of current match */
-    int best_len = s->prev_length;              /* best match length so far */
-    int nice_match = s->nice_match;             /* stop if match long enough */
-    IPos limit = s->strstart > (IPos)MAX_DIST(s) ?
-        s->strstart - (IPos)MAX_DIST(s) : NIL;
-    /* Stop when cur_match becomes <= limit. To simplify the code,
-     * we prevent matches with the string of window index 0.
+    unsigned chbin_length = s->mbx_chbin_length;/* mbx hbsh chbin length */
+    register Bytef *scbn = s->window + s->strstbrt; /* current string */
+    register Bytef *mbtch;                       /* mbtched string */
+    register int len;                           /* length of current mbtch */
+    int best_len = s->prev_length;              /* best mbtch length so fbr */
+    int nice_mbtch = s->nice_mbtch;             /* stop if mbtch long enough */
+    IPos limit = s->strstbrt > (IPos)MAX_DIST(s) ?
+        s->strstbrt - (IPos)MAX_DIST(s) : NIL;
+    /* Stop when cur_mbtch becomes <= limit. To simplify the code,
+     * we prevent mbtches with the string of window index 0.
      */
     Posf *prev = s->prev;
-    uInt wmask = s->w_mask;
+    uInt wmbsk = s->w_mbsk;
 
 #ifdef UNALIGNED_OK
-    /* Compare two bytes at a time. Note: this is not always beneficial.
-     * Try with and without -DUNALIGNED_OK to check.
+    /* Compbre two bytes bt b time. Note: this is not blwbys beneficibl.
+     * Try with bnd without -DUNALIGNED_OK to check.
      */
-    register Bytef *strend = s->window + s->strstart + MAX_MATCH - 1;
-    register ush scan_start = *(ushf*)scan;
-    register ush scan_end   = *(ushf*)(scan+best_len-1);
+    register Bytef *strend = s->window + s->strstbrt + MAX_MATCH - 1;
+    register ush scbn_stbrt = *(ushf*)scbn;
+    register ush scbn_end   = *(ushf*)(scbn+best_len-1);
 #else
-    register Bytef *strend = s->window + s->strstart + MAX_MATCH;
-    register Byte scan_end1  = scan[best_len-1];
-    register Byte scan_end   = scan[best_len];
+    register Bytef *strend = s->window + s->strstbrt + MAX_MATCH;
+    register Byte scbn_end1  = scbn[best_len-1];
+    register Byte scbn_end   = scbn[best_len];
 #endif
 
-    /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
-     * It is easy to get rid of this optimization if necessary.
+    /* The code is optimized for HASH_BITS >= 8 bnd MAX_MATCH-2 multiple of 16.
+     * It is ebsy to get rid of this optimizbtion if necessbry.
      */
-    Assert(s->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
+    Assert(s->hbsh_bits >= 8 && MAX_MATCH == 258, "Code too clever");
 
-    /* Do not waste too much time if we already have a good match: */
-    if (s->prev_length >= s->good_match) {
-        chain_length >>= 2;
+    /* Do not wbste too much time if we blrebdy hbve b good mbtch: */
+    if (s->prev_length >= s->good_mbtch) {
+        chbin_length >>= 2;
     }
-    /* Do not look for matches beyond the end of the input. This is necessary
-     * to make deflate deterministic.
+    /* Do not look for mbtches beyond the end of the input. This is necessbry
+     * to mbke deflbte deterministic.
      */
-    if ((uInt)nice_match > s->lookahead) nice_match = s->lookahead;
+    if ((uInt)nice_mbtch > s->lookbhebd) nice_mbtch = s->lookbhebd;
 
-    Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
+    Assert((ulg)s->strstbrt <= s->window_size-MIN_LOOKAHEAD, "need lookbhebd");
 
     do {
-        Assert(cur_match < s->strstart, "no future");
-        match = s->window + cur_match;
+        Assert(cur_mbtch < s->strstbrt, "no future");
+        mbtch = s->window + cur_mbtch;
 
-        /* Skip to next match if the match length cannot increase
-         * or if the match length is less than 2.  Note that the checks below
-         * for insufficient lookahead only occur occasionally for performance
-         * reasons.  Therefore uninitialized memory will be accessed, and
-         * conditional jumps will be made that depend on those values.
-         * However the length of the match is limited to the lookahead, so
-         * the output of deflate is not affected by the uninitialized values.
+        /* Skip to next mbtch if the mbtch length cbnnot increbse
+         * or if the mbtch length is less thbn 2.  Note thbt the checks below
+         * for insufficient lookbhebd only occur occbsionblly for performbnce
+         * rebsons.  Therefore uninitiblized memory will be bccessed, bnd
+         * conditionbl jumps will be mbde thbt depend on those vblues.
+         * However the length of the mbtch is limited to the lookbhebd, so
+         * the output of deflbte is not bffected by the uninitiblized vblues.
          */
 #if (defined(UNALIGNED_OK) && MAX_MATCH == 258)
-        /* This code assumes sizeof(unsigned short) == 2. Do not use
-         * UNALIGNED_OK if your compiler uses a different size.
+        /* This code bssumes sizeof(unsigned short) == 2. Do not use
+         * UNALIGNED_OK if your compiler uses b different size.
          */
-        if (*(ushf*)(match+best_len-1) != scan_end ||
-            *(ushf*)match != scan_start) continue;
+        if (*(ushf*)(mbtch+best_len-1) != scbn_end ||
+            *(ushf*)mbtch != scbn_stbrt) continue;
 
-        /* It is not necessary to compare scan[2] and match[2] since they are
-         * always equal when the other bytes match, given that the hash keys
-         * are equal and that HASH_BITS >= 8. Compare 2 bytes at a time at
-         * strstart+3, +5, ... up to strstart+257. We check for insufficient
-         * lookahead only every 4th comparison; the 128th check will be made
-         * at strstart+257. If MAX_MATCH-2 is not a multiple of 8, it is
-         * necessary to put more guard bytes at the end of the window, or
-         * to check more often for insufficient lookahead.
+        /* It is not necessbry to compbre scbn[2] bnd mbtch[2] since they bre
+         * blwbys equbl when the other bytes mbtch, given thbt the hbsh keys
+         * bre equbl bnd thbt HASH_BITS >= 8. Compbre 2 bytes bt b time bt
+         * strstbrt+3, +5, ... up to strstbrt+257. We check for insufficient
+         * lookbhebd only every 4th compbrison; the 128th check will be mbde
+         * bt strstbrt+257. If MAX_MATCH-2 is not b multiple of 8, it is
+         * necessbry to put more gubrd bytes bt the end of the window, or
+         * to check more often for insufficient lookbhebd.
          */
-        Assert(scan[2] == match[2], "scan[2]?");
-        scan++, match++;
+        Assert(scbn[2] == mbtch[2], "scbn[2]?");
+        scbn++, mbtch++;
         do {
-        } while (*(ushf*)(scan+=2) == *(ushf*)(match+=2) &&
-                 *(ushf*)(scan+=2) == *(ushf*)(match+=2) &&
-                 *(ushf*)(scan+=2) == *(ushf*)(match+=2) &&
-                 *(ushf*)(scan+=2) == *(ushf*)(match+=2) &&
-                 scan < strend);
-        /* The funny "do {}" generates better code on most compilers */
+        } while (*(ushf*)(scbn+=2) == *(ushf*)(mbtch+=2) &&
+                 *(ushf*)(scbn+=2) == *(ushf*)(mbtch+=2) &&
+                 *(ushf*)(scbn+=2) == *(ushf*)(mbtch+=2) &&
+                 *(ushf*)(scbn+=2) == *(ushf*)(mbtch+=2) &&
+                 scbn < strend);
+        /* The funny "do {}" generbtes better code on most compilers */
 
-        /* Here, scan <= window+strstart+257 */
-        Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
-        if (*scan == *match) scan++;
+        /* Here, scbn <= window+strstbrt+257 */
+        Assert(scbn <= s->window+(unsigned)(s->window_size-1), "wild scbn");
+        if (*scbn == *mbtch) scbn++;
 
-        len = (MAX_MATCH - 1) - (int)(strend-scan);
-        scan = strend - (MAX_MATCH-1);
+        len = (MAX_MATCH - 1) - (int)(strend-scbn);
+        scbn = strend - (MAX_MATCH-1);
 
 #else /* UNALIGNED_OK */
 
-        if (match[best_len]   != scan_end  ||
-            match[best_len-1] != scan_end1 ||
-            *match            != *scan     ||
-            *++match          != scan[1])      continue;
+        if (mbtch[best_len]   != scbn_end  ||
+            mbtch[best_len-1] != scbn_end1 ||
+            *mbtch            != *scbn     ||
+            *++mbtch          != scbn[1])      continue;
 
-        /* The check at best_len-1 can be removed because it will be made
-         * again later. (This heuristic is not always a win.)
-         * It is not necessary to compare scan[2] and match[2] since they
-         * are always equal when the other bytes match, given that
-         * the hash keys are equal and that HASH_BITS >= 8.
+        /* The check bt best_len-1 cbn be removed becbuse it will be mbde
+         * bgbin lbter. (This heuristic is not blwbys b win.)
+         * It is not necessbry to compbre scbn[2] bnd mbtch[2] since they
+         * bre blwbys equbl when the other bytes mbtch, given thbt
+         * the hbsh keys bre equbl bnd thbt HASH_BITS >= 8.
          */
-        scan += 2, match++;
-        Assert(*scan == *match, "match[2]?");
+        scbn += 2, mbtch++;
+        Assert(*scbn == *mbtch, "mbtch[2]?");
 
-        /* We check for insufficient lookahead only every 8th comparison;
-         * the 256th check will be made at strstart+258.
+        /* We check for insufficient lookbhebd only every 8th compbrison;
+         * the 256th check will be mbde bt strstbrt+258.
          */
         do {
-        } while (*++scan == *++match && *++scan == *++match &&
-                 *++scan == *++match && *++scan == *++match &&
-                 *++scan == *++match && *++scan == *++match &&
-                 *++scan == *++match && *++scan == *++match &&
-                 scan < strend);
+        } while (*++scbn == *++mbtch && *++scbn == *++mbtch &&
+                 *++scbn == *++mbtch && *++scbn == *++mbtch &&
+                 *++scbn == *++mbtch && *++scbn == *++mbtch &&
+                 *++scbn == *++mbtch && *++scbn == *++mbtch &&
+                 scbn < strend);
 
-        Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
+        Assert(scbn <= s->window+(unsigned)(s->window_size-1), "wild scbn");
 
-        len = MAX_MATCH - (int)(strend - scan);
-        scan = strend - MAX_MATCH;
+        len = MAX_MATCH - (int)(strend - scbn);
+        scbn = strend - MAX_MATCH;
 
 #endif /* UNALIGNED_OK */
 
         if (len > best_len) {
-            s->match_start = cur_match;
+            s->mbtch_stbrt = cur_mbtch;
             best_len = len;
-            if (len >= nice_match) break;
+            if (len >= nice_mbtch) brebk;
 #ifdef UNALIGNED_OK
-            scan_end = *(ushf*)(scan+best_len-1);
+            scbn_end = *(ushf*)(scbn+best_len-1);
 #else
-            scan_end1  = scan[best_len-1];
-            scan_end   = scan[best_len];
+            scbn_end1  = scbn[best_len-1];
+            scbn_end   = scbn[best_len];
 #endif
         }
-    } while ((cur_match = prev[cur_match & wmask]) > limit
-             && --chain_length != 0);
+    } while ((cur_mbtch = prev[cur_mbtch & wmbsk]) > limit
+             && --chbin_length != 0);
 
-    if ((uInt)best_len <= s->lookahead) return (uInt)best_len;
-    return s->lookahead;
+    if ((uInt)best_len <= s->lookbhebd) return (uInt)best_len;
+    return s->lookbhebd;
 }
 #endif /* ASMV */
 
@@ -1318,143 +1318,143 @@ local uInt longest_match(s, cur_match)
 /* ---------------------------------------------------------------------------
  * Optimized version for FASTEST only
  */
-local uInt longest_match(s, cur_match)
-    deflate_state *s;
-    IPos cur_match;                             /* current match */
+locbl uInt longest_mbtch(s, cur_mbtch)
+    deflbte_stbte *s;
+    IPos cur_mbtch;                             /* current mbtch */
 {
-    register Bytef *scan = s->window + s->strstart; /* current string */
-    register Bytef *match;                       /* matched string */
-    register int len;                           /* length of current match */
-    register Bytef *strend = s->window + s->strstart + MAX_MATCH;
+    register Bytef *scbn = s->window + s->strstbrt; /* current string */
+    register Bytef *mbtch;                       /* mbtched string */
+    register int len;                           /* length of current mbtch */
+    register Bytef *strend = s->window + s->strstbrt + MAX_MATCH;
 
-    /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
-     * It is easy to get rid of this optimization if necessary.
+    /* The code is optimized for HASH_BITS >= 8 bnd MAX_MATCH-2 multiple of 16.
+     * It is ebsy to get rid of this optimizbtion if necessbry.
      */
-    Assert(s->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
+    Assert(s->hbsh_bits >= 8 && MAX_MATCH == 258, "Code too clever");
 
-    Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
+    Assert((ulg)s->strstbrt <= s->window_size-MIN_LOOKAHEAD, "need lookbhebd");
 
-    Assert(cur_match < s->strstart, "no future");
+    Assert(cur_mbtch < s->strstbrt, "no future");
 
-    match = s->window + cur_match;
+    mbtch = s->window + cur_mbtch;
 
-    /* Return failure if the match length is less than 2:
+    /* Return fbilure if the mbtch length is less thbn 2:
      */
-    if (match[0] != scan[0] || match[1] != scan[1]) return MIN_MATCH-1;
+    if (mbtch[0] != scbn[0] || mbtch[1] != scbn[1]) return MIN_MATCH-1;
 
-    /* The check at best_len-1 can be removed because it will be made
-     * again later. (This heuristic is not always a win.)
-     * It is not necessary to compare scan[2] and match[2] since they
-     * are always equal when the other bytes match, given that
-     * the hash keys are equal and that HASH_BITS >= 8.
+    /* The check bt best_len-1 cbn be removed becbuse it will be mbde
+     * bgbin lbter. (This heuristic is not blwbys b win.)
+     * It is not necessbry to compbre scbn[2] bnd mbtch[2] since they
+     * bre blwbys equbl when the other bytes mbtch, given thbt
+     * the hbsh keys bre equbl bnd thbt HASH_BITS >= 8.
      */
-    scan += 2, match += 2;
-    Assert(*scan == *match, "match[2]?");
+    scbn += 2, mbtch += 2;
+    Assert(*scbn == *mbtch, "mbtch[2]?");
 
-    /* We check for insufficient lookahead only every 8th comparison;
-     * the 256th check will be made at strstart+258.
+    /* We check for insufficient lookbhebd only every 8th compbrison;
+     * the 256th check will be mbde bt strstbrt+258.
      */
     do {
-    } while (*++scan == *++match && *++scan == *++match &&
-             *++scan == *++match && *++scan == *++match &&
-             *++scan == *++match && *++scan == *++match &&
-             *++scan == *++match && *++scan == *++match &&
-             scan < strend);
+    } while (*++scbn == *++mbtch && *++scbn == *++mbtch &&
+             *++scbn == *++mbtch && *++scbn == *++mbtch &&
+             *++scbn == *++mbtch && *++scbn == *++mbtch &&
+             *++scbn == *++mbtch && *++scbn == *++mbtch &&
+             scbn < strend);
 
-    Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
+    Assert(scbn <= s->window+(unsigned)(s->window_size-1), "wild scbn");
 
-    len = MAX_MATCH - (int)(strend - scan);
+    len = MAX_MATCH - (int)(strend - scbn);
 
     if (len < MIN_MATCH) return MIN_MATCH - 1;
 
-    s->match_start = cur_match;
-    return (uInt)len <= s->lookahead ? (uInt)len : s->lookahead;
+    s->mbtch_stbrt = cur_mbtch;
+    return (uInt)len <= s->lookbhebd ? (uInt)len : s->lookbhebd;
 }
 
 #endif /* FASTEST */
 
 #ifdef DEBUG
 /* ===========================================================================
- * Check that the match at match_start is indeed a match.
+ * Check thbt the mbtch bt mbtch_stbrt is indeed b mbtch.
  */
-local void check_match(s, start, match, length)
-    deflate_state *s;
-    IPos start, match;
+locbl void check_mbtch(s, stbrt, mbtch, length)
+    deflbte_stbte *s;
+    IPos stbrt, mbtch;
     int length;
 {
-    /* check that the match is indeed a match */
-    if (zmemcmp(s->window + match,
-                s->window + start, length) != EQUAL) {
-        fprintf(stderr, " start %u, match %u, length %d\n",
-                start, match, length);
+    /* check thbt the mbtch is indeed b mbtch */
+    if (zmemcmp(s->window + mbtch,
+                s->window + stbrt, length) != EQUAL) {
+        fprintf(stderr, " stbrt %u, mbtch %u, length %d\n",
+                stbrt, mbtch, length);
         do {
-            fprintf(stderr, "%c%c", s->window[match++], s->window[start++]);
+            fprintf(stderr, "%c%c", s->window[mbtch++], s->window[stbrt++]);
         } while (--length != 0);
-        z_error("invalid match");
+        z_error("invblid mbtch");
     }
     if (z_verbose > 1) {
-        fprintf(stderr,"\\[%d,%d]", start-match, length);
-        do { putc(s->window[start++], stderr); } while (--length != 0);
+        fprintf(stderr,"\\[%d,%d]", stbrt-mbtch, length);
+        do { putc(s->window[stbrt++], stderr); } while (--length != 0);
     }
 }
 #else
-#  define check_match(s, start, match, length)
+#  define check_mbtch(s, stbrt, mbtch, length)
 #endif /* DEBUG */
 
 /* ===========================================================================
- * Fill the window when the lookahead becomes insufficient.
- * Updates strstart and lookahead.
+ * Fill the window when the lookbhebd becomes insufficient.
+ * Updbtes strstbrt bnd lookbhebd.
  *
- * IN assertion: lookahead < MIN_LOOKAHEAD
- * OUT assertions: strstart <= window_size-MIN_LOOKAHEAD
- *    At least one byte has been read, or avail_in == 0; reads are
- *    performed for at least two bytes (required for the zip translate_eol
+ * IN bssertion: lookbhebd < MIN_LOOKAHEAD
+ * OUT bssertions: strstbrt <= window_size-MIN_LOOKAHEAD
+ *    At lebst one byte hbs been rebd, or bvbil_in == 0; rebds bre
+ *    performed for bt lebst two bytes (required for the zip trbnslbte_eol
  *    option -- not supported here).
  */
-local void fill_window(s)
-    deflate_state *s;
+locbl void fill_window(s)
+    deflbte_stbte *s;
 {
     register unsigned n, m;
     register Posf *p;
-    unsigned more;    /* Amount of free space at the end of the window. */
+    unsigned more;    /* Amount of free spbce bt the end of the window. */
     uInt wsize = s->w_size;
 
-    Assert(s->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
+    Assert(s->lookbhebd < MIN_LOOKAHEAD, "blrebdy enough lookbhebd");
 
     do {
-        more = (unsigned)(s->window_size -(ulg)s->lookahead -(ulg)s->strstart);
+        more = (unsigned)(s->window_size -(ulg)s->lookbhebd -(ulg)s->strstbrt);
 
-        /* Deal with !@#$% 64K limit: */
+        /* Debl with !@#$% 64K limit: */
         if (sizeof(int) <= 2) {
-            if (more == 0 && s->strstart == 0 && s->lookahead == 0) {
+            if (more == 0 && s->strstbrt == 0 && s->lookbhebd == 0) {
                 more = wsize;
 
             } else if (more == (unsigned)(-1)) {
-                /* Very unlikely, but possible on 16 bit machine if
-                 * strstart == 0 && lookahead == 1 (input done a byte at time)
+                /* Very unlikely, but possible on 16 bit mbchine if
+                 * strstbrt == 0 && lookbhebd == 1 (input done b byte bt time)
                  */
                 more--;
             }
         }
 
-        /* If the window is almost full and there is insufficient lookahead,
-         * move the upper half to the lower one to make room in the upper half.
+        /* If the window is blmost full bnd there is insufficient lookbhebd,
+         * move the upper hblf to the lower one to mbke room in the upper hblf.
          */
-        if (s->strstart >= wsize+MAX_DIST(s)) {
+        if (s->strstbrt >= wsize+MAX_DIST(s)) {
 
             zmemcpy(s->window, s->window+wsize, (unsigned)wsize);
-            s->match_start -= wsize;
-            s->strstart    -= wsize; /* we now have strstart >= MAX_DIST */
-            s->block_start -= (long) wsize;
+            s->mbtch_stbrt -= wsize;
+            s->strstbrt    -= wsize; /* we now hbve strstbrt >= MAX_DIST */
+            s->block_stbrt -= (long) wsize;
 
-            /* Slide the hash table (could be avoided with 32 bit values
-               at the expense of memory usage). We slide even when level == 0
-               to keep the hash table consistent if we switch back to level > 0
-               later. (Using level 0 permanently is not an optimal usage of
-               zlib, so we don't care about this pathological case.)
+            /* Slide the hbsh tbble (could be bvoided with 32 bit vblues
+               bt the expense of memory usbge). We slide even when level == 0
+               to keep the hbsh tbble consistent if we switch bbck to level > 0
+               lbter. (Using level 0 permbnently is not bn optimbl usbge of
+               zlib, so we don't cbre bbout this pbthologicbl cbse.)
              */
-            n = s->hash_size;
-            p = &s->head[n];
+            n = s->hbsh_size;
+            p = &s->hebd[n];
             do {
                 m = *--p;
                 *p = (Pos)(m >= wsize ? m-wsize : NIL);
@@ -1466,169 +1466,169 @@ local void fill_window(s)
             do {
                 m = *--p;
                 *p = (Pos)(m >= wsize ? m-wsize : NIL);
-                /* If n is not on any hash chain, prev[n] is garbage but
-                 * its value will never be used.
+                /* If n is not on bny hbsh chbin, prev[n] is gbrbbge but
+                 * its vblue will never be used.
                  */
             } while (--n);
 #endif
             more += wsize;
         }
-        if (s->strm->avail_in == 0) break;
+        if (s->strm->bvbil_in == 0) brebk;
 
-        /* If there was no sliding:
-         *    strstart <= WSIZE+MAX_DIST-1 && lookahead <= MIN_LOOKAHEAD - 1 &&
-         *    more == window_size - lookahead - strstart
+        /* If there wbs no sliding:
+         *    strstbrt <= WSIZE+MAX_DIST-1 && lookbhebd <= MIN_LOOKAHEAD - 1 &&
+         *    more == window_size - lookbhebd - strstbrt
          * => more >= window_size - (MIN_LOOKAHEAD-1 + WSIZE + MAX_DIST-1)
          * => more >= window_size - 2*WSIZE + 2
-         * In the BIG_MEM or MMAP case (not yet supported),
+         * In the BIG_MEM or MMAP cbse (not yet supported),
          *   window_size == input_size + MIN_LOOKAHEAD  &&
-         *   strstart + s->lookahead <= input_size => more >= MIN_LOOKAHEAD.
+         *   strstbrt + s->lookbhebd <= input_size => more >= MIN_LOOKAHEAD.
          * Otherwise, window_size == 2*WSIZE so more >= 2.
-         * If there was sliding, more >= WSIZE. So in all cases, more >= 2.
+         * If there wbs sliding, more >= WSIZE. So in bll cbses, more >= 2.
          */
         Assert(more >= 2, "more < 2");
 
-        n = read_buf(s->strm, s->window + s->strstart + s->lookahead, more);
-        s->lookahead += n;
+        n = rebd_buf(s->strm, s->window + s->strstbrt + s->lookbhebd, more);
+        s->lookbhebd += n;
 
-        /* Initialize the hash value now that we have some input: */
-        if (s->lookahead + s->insert >= MIN_MATCH) {
-            uInt str = s->strstart - s->insert;
+        /* Initiblize the hbsh vblue now thbt we hbve some input: */
+        if (s->lookbhebd + s->insert >= MIN_MATCH) {
+            uInt str = s->strstbrt - s->insert;
             s->ins_h = s->window[str];
             UPDATE_HASH(s, s->ins_h, s->window[str + 1]);
 #if MIN_MATCH != 3
-            Call UPDATE_HASH() MIN_MATCH-3 more times
+            Cbll UPDATE_HASH() MIN_MATCH-3 more times
 #endif
             while (s->insert) {
                 UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]);
 #ifndef FASTEST
-                s->prev[str & s->w_mask] = s->head[s->ins_h];
+                s->prev[str & s->w_mbsk] = s->hebd[s->ins_h];
 #endif
-                s->head[s->ins_h] = (Pos)str;
+                s->hebd[s->ins_h] = (Pos)str;
                 str++;
                 s->insert--;
-                if (s->lookahead + s->insert < MIN_MATCH)
-                    break;
+                if (s->lookbhebd + s->insert < MIN_MATCH)
+                    brebk;
             }
         }
-        /* If the whole input has less than MIN_MATCH bytes, ins_h is garbage,
-         * but this is not important since only literal bytes will be emitted.
+        /* If the whole input hbs less thbn MIN_MATCH bytes, ins_h is gbrbbge,
+         * but this is not importbnt since only literbl bytes will be emitted.
          */
 
-    } while (s->lookahead < MIN_LOOKAHEAD && s->strm->avail_in != 0);
+    } while (s->lookbhebd < MIN_LOOKAHEAD && s->strm->bvbil_in != 0);
 
-    /* If the WIN_INIT bytes after the end of the current data have never been
-     * written, then zero those bytes in order to avoid memory check reports of
-     * the use of uninitialized (or uninitialised as Julian writes) bytes by
-     * the longest match routines.  Update the high water mark for the next
-     * time through here.  WIN_INIT is set to MAX_MATCH since the longest match
-     * routines allow scanning to strstart + MAX_MATCH, ignoring lookahead.
+    /* If the WIN_INIT bytes bfter the end of the current dbtb hbve never been
+     * written, then zero those bytes in order to bvoid memory check reports of
+     * the use of uninitiblized (or uninitiblised bs Julibn writes) bytes by
+     * the longest mbtch routines.  Updbte the high wbter mbrk for the next
+     * time through here.  WIN_INIT is set to MAX_MATCH since the longest mbtch
+     * routines bllow scbnning to strstbrt + MAX_MATCH, ignoring lookbhebd.
      */
-    if (s->high_water < s->window_size) {
-        ulg curr = s->strstart + (ulg)(s->lookahead);
+    if (s->high_wbter < s->window_size) {
+        ulg curr = s->strstbrt + (ulg)(s->lookbhebd);
         ulg init;
 
-        if (s->high_water < curr) {
-            /* Previous high water mark below current data -- zero WIN_INIT
+        if (s->high_wbter < curr) {
+            /* Previous high wbter mbrk below current dbtb -- zero WIN_INIT
              * bytes or up to end of window, whichever is less.
              */
             init = s->window_size - curr;
             if (init > WIN_INIT)
                 init = WIN_INIT;
             zmemzero(s->window + curr, (unsigned)init);
-            s->high_water = curr + init;
+            s->high_wbter = curr + init;
         }
-        else if (s->high_water < (ulg)curr + WIN_INIT) {
-            /* High water mark at or above current data, but below current data
-             * plus WIN_INIT -- zero out to current data plus WIN_INIT, or up
+        else if (s->high_wbter < (ulg)curr + WIN_INIT) {
+            /* High wbter mbrk bt or bbove current dbtb, but below current dbtb
+             * plus WIN_INIT -- zero out to current dbtb plus WIN_INIT, or up
              * to end of window, whichever is less.
              */
-            init = (ulg)curr + WIN_INIT - s->high_water;
-            if (init > s->window_size - s->high_water)
-                init = s->window_size - s->high_water;
-            zmemzero(s->window + s->high_water, (unsigned)init);
-            s->high_water += init;
+            init = (ulg)curr + WIN_INIT - s->high_wbter;
+            if (init > s->window_size - s->high_wbter)
+                init = s->window_size - s->high_wbter;
+            zmemzero(s->window + s->high_wbter, (unsigned)init);
+            s->high_wbter += init;
         }
     }
 
-    Assert((ulg)s->strstart <= s->window_size - MIN_LOOKAHEAD,
-           "not enough room for search");
+    Assert((ulg)s->strstbrt <= s->window_size - MIN_LOOKAHEAD,
+           "not enough room for sebrch");
 }
 
 /* ===========================================================================
- * Flush the current block, with given end-of-file flag.
- * IN assertion: strstart is set to the end of the current match.
+ * Flush the current block, with given end-of-file flbg.
+ * IN bssertion: strstbrt is set to the end of the current mbtch.
  */
-#define FLUSH_BLOCK_ONLY(s, last) { \
-   _tr_flush_block(s, (s->block_start >= 0L ? \
-                   (charf *)&s->window[(unsigned)s->block_start] : \
-                   (charf *)Z_NULL), \
-                (ulg)((long)s->strstart - s->block_start), \
-                (last)); \
-   s->block_start = s->strstart; \
+#define FLUSH_BLOCK_ONLY(s, lbst) { \
+   _tr_flush_block(s, (s->block_stbrt >= 0L ? \
+                   (chbrf *)&s->window[(unsigned)s->block_stbrt] : \
+                   (chbrf *)Z_NULL), \
+                (ulg)((long)s->strstbrt - s->block_stbrt), \
+                (lbst)); \
+   s->block_stbrt = s->strstbrt; \
    flush_pending(s->strm); \
-   Tracev((stderr,"[FLUSH]")); \
+   Trbcev((stderr,"[FLUSH]")); \
 }
 
-/* Same but force premature exit if necessary. */
-#define FLUSH_BLOCK(s, last) { \
-   FLUSH_BLOCK_ONLY(s, last); \
-   if (s->strm->avail_out == 0) return (last) ? finish_started : need_more; \
+/* Sbme but force prembture exit if necessbry. */
+#define FLUSH_BLOCK(s, lbst) { \
+   FLUSH_BLOCK_ONLY(s, lbst); \
+   if (s->strm->bvbil_out == 0) return (lbst) ? finish_stbrted : need_more; \
 }
 
 /* ===========================================================================
- * Copy without compression as much as possible from the input stream, return
- * the current block state.
- * This function does not insert new strings in the dictionary since
- * uncompressible data is probably not useful. This function is used
+ * Copy without compression bs much bs possible from the input strebm, return
+ * the current block stbte.
+ * This function does not insert new strings in the dictionbry since
+ * uncompressible dbtb is probbbly not useful. This function is used
  * only for the level=0 compression option.
- * NOTE: this function should be optimized to avoid extra copying from
+ * NOTE: this function should be optimized to bvoid extrb copying from
  * window to pending_buf.
  */
-local block_state deflate_stored(s, flush)
-    deflate_state *s;
+locbl block_stbte deflbte_stored(s, flush)
+    deflbte_stbte *s;
     int flush;
 {
-    /* Stored blocks are limited to 0xffff bytes, pending_buf is limited
-     * to pending_buf_size, and each stored block has a 5 byte header:
+    /* Stored blocks bre limited to 0xffff bytes, pending_buf is limited
+     * to pending_buf_size, bnd ebch stored block hbs b 5 byte hebder:
      */
-    ulg max_block_size = 0xffff;
-    ulg max_start;
+    ulg mbx_block_size = 0xffff;
+    ulg mbx_stbrt;
 
-    if (max_block_size > s->pending_buf_size - 5) {
-        max_block_size = s->pending_buf_size - 5;
+    if (mbx_block_size > s->pending_buf_size - 5) {
+        mbx_block_size = s->pending_buf_size - 5;
     }
 
-    /* Copy as much as possible from input to output: */
+    /* Copy bs much bs possible from input to output: */
     for (;;) {
-        /* Fill the window as much as possible: */
-        if (s->lookahead <= 1) {
+        /* Fill the window bs much bs possible: */
+        if (s->lookbhebd <= 1) {
 
-            Assert(s->strstart < s->w_size+MAX_DIST(s) ||
-                   s->block_start >= (long)s->w_size, "slide too late");
+            Assert(s->strstbrt < s->w_size+MAX_DIST(s) ||
+                   s->block_stbrt >= (long)s->w_size, "slide too lbte");
 
             fill_window(s);
-            if (s->lookahead == 0 && flush == Z_NO_FLUSH) return need_more;
+            if (s->lookbhebd == 0 && flush == Z_NO_FLUSH) return need_more;
 
-            if (s->lookahead == 0) break; /* flush the current block */
+            if (s->lookbhebd == 0) brebk; /* flush the current block */
         }
-        Assert(s->block_start >= 0L, "block gone");
+        Assert(s->block_stbrt >= 0L, "block gone");
 
-        s->strstart += s->lookahead;
-        s->lookahead = 0;
+        s->strstbrt += s->lookbhebd;
+        s->lookbhebd = 0;
 
-        /* Emit a stored block if pending_buf will be full: */
-        max_start = s->block_start + max_block_size;
-        if (s->strstart == 0 || (ulg)s->strstart >= max_start) {
-            /* strstart == 0 is possible when wraparound on 16-bit machine */
-            s->lookahead = (uInt)(s->strstart - max_start);
-            s->strstart = (uInt)max_start;
+        /* Emit b stored block if pending_buf will be full: */
+        mbx_stbrt = s->block_stbrt + mbx_block_size;
+        if (s->strstbrt == 0 || (ulg)s->strstbrt >= mbx_stbrt) {
+            /* strstbrt == 0 is possible when wrbpbround on 16-bit mbchine */
+            s->lookbhebd = (uInt)(s->strstbrt - mbx_stbrt);
+            s->strstbrt = (uInt)mbx_stbrt;
             FLUSH_BLOCK(s, 0);
         }
-        /* Flush if we may have to slide, otherwise block_start may become
-         * negative and the data will be gone:
+        /* Flush if we mby hbve to slide, otherwise block_stbrt mby become
+         * negbtive bnd the dbtb will be gone:
          */
-        if (s->strstart - (uInt)s->block_start >= MAX_DIST(s)) {
+        if (s->strstbrt - (uInt)s->block_stbrt >= MAX_DIST(s)) {
             FLUSH_BLOCK(s, 0);
         }
     }
@@ -1637,307 +1637,307 @@ local block_state deflate_stored(s, flush)
         FLUSH_BLOCK(s, 1);
         return finish_done;
     }
-    if ((long)s->strstart > s->block_start)
+    if ((long)s->strstbrt > s->block_stbrt)
         FLUSH_BLOCK(s, 0);
     return block_done;
 }
 
 /* ===========================================================================
- * Compress as much as possible from the input stream, return the current
- * block state.
- * This function does not perform lazy evaluation of matches and inserts
- * new strings in the dictionary only for unmatched strings or for short
- * matches. It is used only for the fast compression options.
+ * Compress bs much bs possible from the input strebm, return the current
+ * block stbte.
+ * This function does not perform lbzy evblubtion of mbtches bnd inserts
+ * new strings in the dictionbry only for unmbtched strings or for short
+ * mbtches. It is used only for the fbst compression options.
  */
-local block_state deflate_fast(s, flush)
-    deflate_state *s;
+locbl block_stbte deflbte_fbst(s, flush)
+    deflbte_stbte *s;
     int flush;
 {
-    IPos hash_head;       /* head of the hash chain */
+    IPos hbsh_hebd;       /* hebd of the hbsh chbin */
     int bflush;           /* set if current block must be flushed */
 
     for (;;) {
-        /* Make sure that we always have enough lookahead, except
-         * at the end of the input file. We need MAX_MATCH bytes
-         * for the next match, plus MIN_MATCH bytes to insert the
-         * string following the next match.
+        /* Mbke sure thbt we blwbys hbve enough lookbhebd, except
+         * bt the end of the input file. We need MAX_MATCH bytes
+         * for the next mbtch, plus MIN_MATCH bytes to insert the
+         * string following the next mbtch.
          */
-        if (s->lookahead < MIN_LOOKAHEAD) {
+        if (s->lookbhebd < MIN_LOOKAHEAD) {
             fill_window(s);
-            if (s->lookahead < MIN_LOOKAHEAD && flush == Z_NO_FLUSH) {
+            if (s->lookbhebd < MIN_LOOKAHEAD && flush == Z_NO_FLUSH) {
                 return need_more;
             }
-            if (s->lookahead == 0) break; /* flush the current block */
+            if (s->lookbhebd == 0) brebk; /* flush the current block */
         }
 
-        /* Insert the string window[strstart .. strstart+2] in the
-         * dictionary, and set hash_head to the head of the hash chain:
+        /* Insert the string window[strstbrt .. strstbrt+2] in the
+         * dictionbry, bnd set hbsh_hebd to the hebd of the hbsh chbin:
          */
-        hash_head = NIL;
-        if (s->lookahead >= MIN_MATCH) {
-            INSERT_STRING(s, s->strstart, hash_head);
+        hbsh_hebd = NIL;
+        if (s->lookbhebd >= MIN_MATCH) {
+            INSERT_STRING(s, s->strstbrt, hbsh_hebd);
         }
 
-        /* Find the longest match, discarding those <= prev_length.
-         * At this point we have always match_length < MIN_MATCH
+        /* Find the longest mbtch, discbrding those <= prev_length.
+         * At this point we hbve blwbys mbtch_length < MIN_MATCH
          */
-        if (hash_head != NIL && s->strstart - hash_head <= MAX_DIST(s)) {
-            /* To simplify the code, we prevent matches with the string
-             * of window index 0 (in particular we have to avoid a match
-             * of the string with itself at the start of the input file).
+        if (hbsh_hebd != NIL && s->strstbrt - hbsh_hebd <= MAX_DIST(s)) {
+            /* To simplify the code, we prevent mbtches with the string
+             * of window index 0 (in pbrticulbr we hbve to bvoid b mbtch
+             * of the string with itself bt the stbrt of the input file).
              */
-            s->match_length = longest_match (s, hash_head);
-            /* longest_match() sets match_start */
+            s->mbtch_length = longest_mbtch (s, hbsh_hebd);
+            /* longest_mbtch() sets mbtch_stbrt */
         }
-        if (s->match_length >= MIN_MATCH) {
-            check_match(s, s->strstart, s->match_start, s->match_length);
+        if (s->mbtch_length >= MIN_MATCH) {
+            check_mbtch(s, s->strstbrt, s->mbtch_stbrt, s->mbtch_length);
 
-            _tr_tally_dist(s, s->strstart - s->match_start,
-                           s->match_length - MIN_MATCH, bflush);
+            _tr_tblly_dist(s, s->strstbrt - s->mbtch_stbrt,
+                           s->mbtch_length - MIN_MATCH, bflush);
 
-            s->lookahead -= s->match_length;
+            s->lookbhebd -= s->mbtch_length;
 
-            /* Insert new strings in the hash table only if the match length
-             * is not too large. This saves time but degrades compression.
+            /* Insert new strings in the hbsh tbble only if the mbtch length
+             * is not too lbrge. This sbves time but degrbdes compression.
              */
 #ifndef FASTEST
-            if (s->match_length <= s->max_insert_length &&
-                s->lookahead >= MIN_MATCH) {
-                s->match_length--; /* string at strstart already in table */
+            if (s->mbtch_length <= s->mbx_insert_length &&
+                s->lookbhebd >= MIN_MATCH) {
+                s->mbtch_length--; /* string bt strstbrt blrebdy in tbble */
                 do {
-                    s->strstart++;
-                    INSERT_STRING(s, s->strstart, hash_head);
-                    /* strstart never exceeds WSIZE-MAX_MATCH, so there are
-                     * always MIN_MATCH bytes ahead.
+                    s->strstbrt++;
+                    INSERT_STRING(s, s->strstbrt, hbsh_hebd);
+                    /* strstbrt never exceeds WSIZE-MAX_MATCH, so there bre
+                     * blwbys MIN_MATCH bytes bhebd.
                      */
-                } while (--s->match_length != 0);
-                s->strstart++;
+                } while (--s->mbtch_length != 0);
+                s->strstbrt++;
             } else
 #endif
             {
-                s->strstart += s->match_length;
-                s->match_length = 0;
-                s->ins_h = s->window[s->strstart];
-                UPDATE_HASH(s, s->ins_h, s->window[s->strstart+1]);
+                s->strstbrt += s->mbtch_length;
+                s->mbtch_length = 0;
+                s->ins_h = s->window[s->strstbrt];
+                UPDATE_HASH(s, s->ins_h, s->window[s->strstbrt+1]);
 #if MIN_MATCH != 3
-                Call UPDATE_HASH() MIN_MATCH-3 more times
+                Cbll UPDATE_HASH() MIN_MATCH-3 more times
 #endif
-                /* If lookahead < MIN_MATCH, ins_h is garbage, but it does not
-                 * matter since it will be recomputed at next deflate call.
+                /* If lookbhebd < MIN_MATCH, ins_h is gbrbbge, but it does not
+                 * mbtter since it will be recomputed bt next deflbte cbll.
                  */
             }
         } else {
-            /* No match, output a literal byte */
-            Tracevv((stderr,"%c", s->window[s->strstart]));
-            _tr_tally_lit (s, s->window[s->strstart], bflush);
-            s->lookahead--;
-            s->strstart++;
+            /* No mbtch, output b literbl byte */
+            Trbcevv((stderr,"%c", s->window[s->strstbrt]));
+            _tr_tblly_lit (s, s->window[s->strstbrt], bflush);
+            s->lookbhebd--;
+            s->strstbrt++;
         }
         if (bflush) FLUSH_BLOCK(s, 0);
     }
-    s->insert = s->strstart < MIN_MATCH-1 ? s->strstart : MIN_MATCH-1;
+    s->insert = s->strstbrt < MIN_MATCH-1 ? s->strstbrt : MIN_MATCH-1;
     if (flush == Z_FINISH) {
         FLUSH_BLOCK(s, 1);
         return finish_done;
     }
-    if (s->last_lit)
+    if (s->lbst_lit)
         FLUSH_BLOCK(s, 0);
     return block_done;
 }
 
 #ifndef FASTEST
 /* ===========================================================================
- * Same as above, but achieves better compression. We use a lazy
- * evaluation for matches: a match is finally adopted only if there is
- * no better match at the next window position.
+ * Sbme bs bbove, but bchieves better compression. We use b lbzy
+ * evblubtion for mbtches: b mbtch is finblly bdopted only if there is
+ * no better mbtch bt the next window position.
  */
-local block_state deflate_slow(s, flush)
-    deflate_state *s;
+locbl block_stbte deflbte_slow(s, flush)
+    deflbte_stbte *s;
     int flush;
 {
-    IPos hash_head;          /* head of hash chain */
+    IPos hbsh_hebd;          /* hebd of hbsh chbin */
     int bflush;              /* set if current block must be flushed */
 
     /* Process the input block. */
     for (;;) {
-        /* Make sure that we always have enough lookahead, except
-         * at the end of the input file. We need MAX_MATCH bytes
-         * for the next match, plus MIN_MATCH bytes to insert the
-         * string following the next match.
+        /* Mbke sure thbt we blwbys hbve enough lookbhebd, except
+         * bt the end of the input file. We need MAX_MATCH bytes
+         * for the next mbtch, plus MIN_MATCH bytes to insert the
+         * string following the next mbtch.
          */
-        if (s->lookahead < MIN_LOOKAHEAD) {
+        if (s->lookbhebd < MIN_LOOKAHEAD) {
             fill_window(s);
-            if (s->lookahead < MIN_LOOKAHEAD && flush == Z_NO_FLUSH) {
+            if (s->lookbhebd < MIN_LOOKAHEAD && flush == Z_NO_FLUSH) {
                 return need_more;
             }
-            if (s->lookahead == 0) break; /* flush the current block */
+            if (s->lookbhebd == 0) brebk; /* flush the current block */
         }
 
-        /* Insert the string window[strstart .. strstart+2] in the
-         * dictionary, and set hash_head to the head of the hash chain:
+        /* Insert the string window[strstbrt .. strstbrt+2] in the
+         * dictionbry, bnd set hbsh_hebd to the hebd of the hbsh chbin:
          */
-        hash_head = NIL;
-        if (s->lookahead >= MIN_MATCH) {
-            INSERT_STRING(s, s->strstart, hash_head);
+        hbsh_hebd = NIL;
+        if (s->lookbhebd >= MIN_MATCH) {
+            INSERT_STRING(s, s->strstbrt, hbsh_hebd);
         }
 
-        /* Find the longest match, discarding those <= prev_length.
+        /* Find the longest mbtch, discbrding those <= prev_length.
          */
-        s->prev_length = s->match_length, s->prev_match = s->match_start;
-        s->match_length = MIN_MATCH-1;
+        s->prev_length = s->mbtch_length, s->prev_mbtch = s->mbtch_stbrt;
+        s->mbtch_length = MIN_MATCH-1;
 
-        if (hash_head != NIL && s->prev_length < s->max_lazy_match &&
-            s->strstart - hash_head <= MAX_DIST(s)) {
-            /* To simplify the code, we prevent matches with the string
-             * of window index 0 (in particular we have to avoid a match
-             * of the string with itself at the start of the input file).
+        if (hbsh_hebd != NIL && s->prev_length < s->mbx_lbzy_mbtch &&
+            s->strstbrt - hbsh_hebd <= MAX_DIST(s)) {
+            /* To simplify the code, we prevent mbtches with the string
+             * of window index 0 (in pbrticulbr we hbve to bvoid b mbtch
+             * of the string with itself bt the stbrt of the input file).
              */
-            s->match_length = longest_match (s, hash_head);
-            /* longest_match() sets match_start */
+            s->mbtch_length = longest_mbtch (s, hbsh_hebd);
+            /* longest_mbtch() sets mbtch_stbrt */
 
-            if (s->match_length <= 5 && (s->strategy == Z_FILTERED
+            if (s->mbtch_length <= 5 && (s->strbtegy == Z_FILTERED
 #if TOO_FAR <= 32767
-                || (s->match_length == MIN_MATCH &&
-                    s->strstart - s->match_start > TOO_FAR)
+                || (s->mbtch_length == MIN_MATCH &&
+                    s->strstbrt - s->mbtch_stbrt > TOO_FAR)
 #endif
                 )) {
 
-                /* If prev_match is also MIN_MATCH, match_start is garbage
-                 * but we will ignore the current match anyway.
+                /* If prev_mbtch is blso MIN_MATCH, mbtch_stbrt is gbrbbge
+                 * but we will ignore the current mbtch bnywby.
                  */
-                s->match_length = MIN_MATCH-1;
+                s->mbtch_length = MIN_MATCH-1;
             }
         }
-        /* If there was a match at the previous step and the current
-         * match is not better, output the previous match:
+        /* If there wbs b mbtch bt the previous step bnd the current
+         * mbtch is not better, output the previous mbtch:
          */
-        if (s->prev_length >= MIN_MATCH && s->match_length <= s->prev_length) {
-            uInt max_insert = s->strstart + s->lookahead - MIN_MATCH;
-            /* Do not insert strings in hash table beyond this. */
+        if (s->prev_length >= MIN_MATCH && s->mbtch_length <= s->prev_length) {
+            uInt mbx_insert = s->strstbrt + s->lookbhebd - MIN_MATCH;
+            /* Do not insert strings in hbsh tbble beyond this. */
 
-            check_match(s, s->strstart-1, s->prev_match, s->prev_length);
+            check_mbtch(s, s->strstbrt-1, s->prev_mbtch, s->prev_length);
 
-            _tr_tally_dist(s, s->strstart -1 - s->prev_match,
+            _tr_tblly_dist(s, s->strstbrt -1 - s->prev_mbtch,
                            s->prev_length - MIN_MATCH, bflush);
 
-            /* Insert in hash table all strings up to the end of the match.
-             * strstart-1 and strstart are already inserted. If there is not
-             * enough lookahead, the last two strings are not inserted in
-             * the hash table.
+            /* Insert in hbsh tbble bll strings up to the end of the mbtch.
+             * strstbrt-1 bnd strstbrt bre blrebdy inserted. If there is not
+             * enough lookbhebd, the lbst two strings bre not inserted in
+             * the hbsh tbble.
              */
-            s->lookahead -= s->prev_length-1;
+            s->lookbhebd -= s->prev_length-1;
             s->prev_length -= 2;
             do {
-                if (++s->strstart <= max_insert) {
-                    INSERT_STRING(s, s->strstart, hash_head);
+                if (++s->strstbrt <= mbx_insert) {
+                    INSERT_STRING(s, s->strstbrt, hbsh_hebd);
                 }
             } while (--s->prev_length != 0);
-            s->match_available = 0;
-            s->match_length = MIN_MATCH-1;
-            s->strstart++;
+            s->mbtch_bvbilbble = 0;
+            s->mbtch_length = MIN_MATCH-1;
+            s->strstbrt++;
 
             if (bflush) FLUSH_BLOCK(s, 0);
 
-        } else if (s->match_available) {
-            /* If there was no match at the previous position, output a
-             * single literal. If there was a match but the current match
-             * is longer, truncate the previous match to a single literal.
+        } else if (s->mbtch_bvbilbble) {
+            /* If there wbs no mbtch bt the previous position, output b
+             * single literbl. If there wbs b mbtch but the current mbtch
+             * is longer, truncbte the previous mbtch to b single literbl.
              */
-            Tracevv((stderr,"%c", s->window[s->strstart-1]));
-            _tr_tally_lit(s, s->window[s->strstart-1], bflush);
+            Trbcevv((stderr,"%c", s->window[s->strstbrt-1]));
+            _tr_tblly_lit(s, s->window[s->strstbrt-1], bflush);
             if (bflush) {
                 FLUSH_BLOCK_ONLY(s, 0);
             }
-            s->strstart++;
-            s->lookahead--;
-            if (s->strm->avail_out == 0) return need_more;
+            s->strstbrt++;
+            s->lookbhebd--;
+            if (s->strm->bvbil_out == 0) return need_more;
         } else {
-            /* There is no previous match to compare with, wait for
+            /* There is no previous mbtch to compbre with, wbit for
              * the next step to decide.
              */
-            s->match_available = 1;
-            s->strstart++;
-            s->lookahead--;
+            s->mbtch_bvbilbble = 1;
+            s->strstbrt++;
+            s->lookbhebd--;
         }
     }
     Assert (flush != Z_NO_FLUSH, "no flush?");
-    if (s->match_available) {
-        Tracevv((stderr,"%c", s->window[s->strstart-1]));
-        _tr_tally_lit(s, s->window[s->strstart-1], bflush);
-        s->match_available = 0;
+    if (s->mbtch_bvbilbble) {
+        Trbcevv((stderr,"%c", s->window[s->strstbrt-1]));
+        _tr_tblly_lit(s, s->window[s->strstbrt-1], bflush);
+        s->mbtch_bvbilbble = 0;
     }
-    s->insert = s->strstart < MIN_MATCH-1 ? s->strstart : MIN_MATCH-1;
+    s->insert = s->strstbrt < MIN_MATCH-1 ? s->strstbrt : MIN_MATCH-1;
     if (flush == Z_FINISH) {
         FLUSH_BLOCK(s, 1);
         return finish_done;
     }
-    if (s->last_lit)
+    if (s->lbst_lit)
         FLUSH_BLOCK(s, 0);
     return block_done;
 }
 #endif /* FASTEST */
 
 /* ===========================================================================
- * For Z_RLE, simply look for runs of bytes, generate matches only of distance
- * one.  Do not maintain a hash table.  (It will be regenerated if this run of
- * deflate switches away from Z_RLE.)
+ * For Z_RLE, simply look for runs of bytes, generbte mbtches only of distbnce
+ * one.  Do not mbintbin b hbsh tbble.  (It will be regenerbted if this run of
+ * deflbte switches bwby from Z_RLE.)
  */
-local block_state deflate_rle(s, flush)
-    deflate_state *s;
+locbl block_stbte deflbte_rle(s, flush)
+    deflbte_stbte *s;
     int flush;
 {
     int bflush;             /* set if current block must be flushed */
-    uInt prev;              /* byte at distance one to match */
-    Bytef *scan, *strend;   /* scan goes up to strend for length of run */
+    uInt prev;              /* byte bt distbnce one to mbtch */
+    Bytef *scbn, *strend;   /* scbn goes up to strend for length of run */
 
     for (;;) {
-        /* Make sure that we always have enough lookahead, except
-         * at the end of the input file. We need MAX_MATCH bytes
+        /* Mbke sure thbt we blwbys hbve enough lookbhebd, except
+         * bt the end of the input file. We need MAX_MATCH bytes
          * for the longest run, plus one for the unrolled loop.
          */
-        if (s->lookahead <= MAX_MATCH) {
+        if (s->lookbhebd <= MAX_MATCH) {
             fill_window(s);
-            if (s->lookahead <= MAX_MATCH && flush == Z_NO_FLUSH) {
+            if (s->lookbhebd <= MAX_MATCH && flush == Z_NO_FLUSH) {
                 return need_more;
             }
-            if (s->lookahead == 0) break; /* flush the current block */
+            if (s->lookbhebd == 0) brebk; /* flush the current block */
         }
 
-        /* See how many times the previous byte repeats */
-        s->match_length = 0;
-        if (s->lookahead >= MIN_MATCH && s->strstart > 0) {
-            scan = s->window + s->strstart - 1;
-            prev = *scan;
-            if (prev == *++scan && prev == *++scan && prev == *++scan) {
-                strend = s->window + s->strstart + MAX_MATCH;
+        /* See how mbny times the previous byte repebts */
+        s->mbtch_length = 0;
+        if (s->lookbhebd >= MIN_MATCH && s->strstbrt > 0) {
+            scbn = s->window + s->strstbrt - 1;
+            prev = *scbn;
+            if (prev == *++scbn && prev == *++scbn && prev == *++scbn) {
+                strend = s->window + s->strstbrt + MAX_MATCH;
                 do {
-                } while (prev == *++scan && prev == *++scan &&
-                         prev == *++scan && prev == *++scan &&
-                         prev == *++scan && prev == *++scan &&
-                         prev == *++scan && prev == *++scan &&
-                         scan < strend);
-                s->match_length = MAX_MATCH - (int)(strend - scan);
-                if (s->match_length > s->lookahead)
-                    s->match_length = s->lookahead;
+                } while (prev == *++scbn && prev == *++scbn &&
+                         prev == *++scbn && prev == *++scbn &&
+                         prev == *++scbn && prev == *++scbn &&
+                         prev == *++scbn && prev == *++scbn &&
+                         scbn < strend);
+                s->mbtch_length = MAX_MATCH - (int)(strend - scbn);
+                if (s->mbtch_length > s->lookbhebd)
+                    s->mbtch_length = s->lookbhebd;
             }
-            Assert(scan <= s->window+(uInt)(s->window_size-1), "wild scan");
+            Assert(scbn <= s->window+(uInt)(s->window_size-1), "wild scbn");
         }
 
-        /* Emit match if have run of MIN_MATCH or longer, else emit literal */
-        if (s->match_length >= MIN_MATCH) {
-            check_match(s, s->strstart, s->strstart - 1, s->match_length);
+        /* Emit mbtch if hbve run of MIN_MATCH or longer, else emit literbl */
+        if (s->mbtch_length >= MIN_MATCH) {
+            check_mbtch(s, s->strstbrt, s->strstbrt - 1, s->mbtch_length);
 
-            _tr_tally_dist(s, 1, s->match_length - MIN_MATCH, bflush);
+            _tr_tblly_dist(s, 1, s->mbtch_length - MIN_MATCH, bflush);
 
-            s->lookahead -= s->match_length;
-            s->strstart += s->match_length;
-            s->match_length = 0;
+            s->lookbhebd -= s->mbtch_length;
+            s->strstbrt += s->mbtch_length;
+            s->mbtch_length = 0;
         } else {
-            /* No match, output a literal byte */
-            Tracevv((stderr,"%c", s->window[s->strstart]));
-            _tr_tally_lit (s, s->window[s->strstart], bflush);
-            s->lookahead--;
-            s->strstart++;
+            /* No mbtch, output b literbl byte */
+            Trbcevv((stderr,"%c", s->window[s->strstbrt]));
+            _tr_tblly_lit (s, s->window[s->strstbrt], bflush);
+            s->lookbhebd--;
+            s->strstbrt++;
         }
         if (bflush) FLUSH_BLOCK(s, 0);
     }
@@ -1946,38 +1946,38 @@ local block_state deflate_rle(s, flush)
         FLUSH_BLOCK(s, 1);
         return finish_done;
     }
-    if (s->last_lit)
+    if (s->lbst_lit)
         FLUSH_BLOCK(s, 0);
     return block_done;
 }
 
 /* ===========================================================================
- * For Z_HUFFMAN_ONLY, do not look for matches.  Do not maintain a hash table.
- * (It will be regenerated if this run of deflate switches away from Huffman.)
+ * For Z_HUFFMAN_ONLY, do not look for mbtches.  Do not mbintbin b hbsh tbble.
+ * (It will be regenerbted if this run of deflbte switches bwby from Huffmbn.)
  */
-local block_state deflate_huff(s, flush)
-    deflate_state *s;
+locbl block_stbte deflbte_huff(s, flush)
+    deflbte_stbte *s;
     int flush;
 {
     int bflush;             /* set if current block must be flushed */
 
     for (;;) {
-        /* Make sure that we have a literal to write. */
-        if (s->lookahead == 0) {
+        /* Mbke sure thbt we hbve b literbl to write. */
+        if (s->lookbhebd == 0) {
             fill_window(s);
-            if (s->lookahead == 0) {
+            if (s->lookbhebd == 0) {
                 if (flush == Z_NO_FLUSH)
                     return need_more;
-                break;      /* flush the current block */
+                brebk;      /* flush the current block */
             }
         }
 
-        /* Output a literal byte */
-        s->match_length = 0;
-        Tracevv((stderr,"%c", s->window[s->strstart]));
-        _tr_tally_lit (s, s->window[s->strstart], bflush);
-        s->lookahead--;
-        s->strstart++;
+        /* Output b literbl byte */
+        s->mbtch_length = 0;
+        Trbcevv((stderr,"%c", s->window[s->strstbrt]));
+        _tr_tblly_lit (s, s->window[s->strstbrt], bflush);
+        s->lookbhebd--;
+        s->strstbrt++;
         if (bflush) FLUSH_BLOCK(s, 0);
     }
     s->insert = 0;
@@ -1985,7 +1985,7 @@ local block_state deflate_huff(s, flush)
         FLUSH_BLOCK(s, 1);
         return finish_done;
     }
-    if (s->last_lit)
+    if (s->lbst_lit)
         FLUSH_BLOCK(s, 0);
     return block_done;
 }

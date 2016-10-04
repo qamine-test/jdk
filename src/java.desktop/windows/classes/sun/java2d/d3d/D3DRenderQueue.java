@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import sun.java2d.ScreenUpdateManager;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.RenderQueue;
-import static sun.java2d.pipe.BufferedOpCodes.*;
+import sun.jbvb2d.ScreenUpdbteMbnbger;
+import sun.jbvb2d.pipe.RenderBuffer;
+import sun.jbvb2d.pipe.RenderQueue;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
 
 /**
- * D3D-specific implementation of RenderQueue.
+ * D3D-specific implementbtion of RenderQueue.
  */
-public class D3DRenderQueue extends RenderQueue {
+public clbss D3DRenderQueue extends RenderQueue {
 
-    private static D3DRenderQueue theInstance;
-    private static Thread rqThread;
+    privbte stbtic D3DRenderQueue theInstbnce;
+    privbte stbtic Threbd rqThrebd;
 
-    private D3DRenderQueue() {
+    privbte D3DRenderQueue() {
     }
 
     /**
-     * Returns the single D3DRenderQueue instance.  If it has not yet been
-     * initialized, this method will first construct the single instance
+     * Returns the single D3DRenderQueue instbnce.  If it hbs not yet been
+     * initiblized, this method will first construct the single instbnce
      * before returning it.
      */
-    public static synchronized D3DRenderQueue getInstance() {
-        if (theInstance == null) {
-            theInstance = new D3DRenderQueue();
-            // no need to lock, noone has reference to this instance yet
-            theInstance.flushAndInvokeNow(new Runnable() {
+    public stbtic synchronized D3DRenderQueue getInstbnce() {
+        if (theInstbnce == null) {
+            theInstbnce = new D3DRenderQueue();
+            // no need to lock, noone hbs reference to this instbnce yet
+            theInstbnce.flushAndInvokeNow(new Runnbble() {
                 public void run() {
-                    rqThread = Thread.currentThread();
+                    rqThrebd = Threbd.currentThrebd();
                 }
             });
         }
-        return theInstance;
+        return theInstbnce;
     }
 
     /**
-     * Flushes the single D3DRenderQueue instance synchronously.  If an
-     * D3DRenderQueue has not yet been instantiated, this method is a no-op.
-     * This method is useful in the case of Toolkit.sync(), in which we want
+     * Flushes the single D3DRenderQueue instbnce synchronously.  If bn
+     * D3DRenderQueue hbs not yet been instbntibted, this method is b no-op.
+     * This method is useful in the cbse of Toolkit.sync(), in which we wbnt
      * to flush the D3D pipeline, but only if the D3D pipeline is currently
-     * enabled.  Since this class has few external dependencies, callers need
-     * not be concerned that calling this method will trigger initialization
-     * of the D3D pipeline and related classes.
+     * enbbled.  Since this clbss hbs few externbl dependencies, cbllers need
+     * not be concerned thbt cblling this method will trigger initiblizbtion
+     * of the D3D pipeline bnd relbted clbsses.
      */
-    public static void sync() {
-        if (theInstance != null) {
-            // need to make sure any/all screen surfaces are presented prior
-            // to completing the sync operation
-            D3DScreenUpdateManager mgr =
-                (D3DScreenUpdateManager)ScreenUpdateManager.getInstance();
-            mgr.runUpdateNow();
+    public stbtic void sync() {
+        if (theInstbnce != null) {
+            // need to mbke sure bny/bll screen surfbces bre presented prior
+            // to completing the sync operbtion
+            D3DScreenUpdbteMbnbger mgr =
+                (D3DScreenUpdbteMbnbger)ScreenUpdbteMbnbger.getInstbnce();
+            mgr.runUpdbteNow();
 
-            theInstance.lock();
+            theInstbnce.lock();
             try {
-                theInstance.ensureCapacity(4);
-                theInstance.getBuffer().putInt(SYNC);
-                theInstance.flushNow();
-            } finally {
-                theInstance.unlock();
+                theInstbnce.ensureCbpbcity(4);
+                theInstbnce.getBuffer().putInt(SYNC);
+                theInstbnce.flushNow();
+            } finblly {
+                theInstbnce.unlock();
             }
         }
     }
 
     /**
-     * Attempt to restore the devices if they're in the lost state.
-     * (used when a full-screen window is activated/deactivated)
+     * Attempt to restore the devices if they're in the lost stbte.
+     * (used when b full-screen window is bctivbted/debctivbted)
      */
-    public static void restoreDevices() {
-        D3DRenderQueue rq = getInstance();
+    public stbtic void restoreDevices() {
+        D3DRenderQueue rq = getInstbnce();
         rq.lock();
         try {
-            rq.ensureCapacity(4);
+            rq.ensureCbpbcity(4);
             rq.getBuffer().putInt(RESTORE_DEVICES);
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
     /**
-     * @return true if current thread is the render queue thread,
-     * false otherwise
+     * @return true if current threbd is the render queue threbd,
+     * fblse otherwise
      */
-    public static boolean isRenderQueueThread() {
-        return (Thread.currentThread() == rqThread);
+    public stbtic boolebn isRenderQueueThrebd() {
+        return (Threbd.currentThrebd() == rqThrebd);
     }
 
     /**
-     * Disposes the native memory associated with the given native
-     * graphics config info pointer on the single queue flushing thread.
+     * Disposes the nbtive memory bssocibted with the given nbtive
+     * grbphics config info pointer on the single queue flushing threbd.
      */
-    public static void disposeGraphicsConfig(long pConfigInfo) {
-        D3DRenderQueue rq = getInstance();
+    public stbtic void disposeGrbphicsConfig(long pConfigInfo) {
+        D3DRenderQueue rq = getInstbnce();
         rq.lock();
         try {
 
             RenderBuffer buf = rq.getBuffer();
-            rq.ensureCapacityAndAlignment(12, 4);
+            rq.ensureCbpbcityAndAlignment(12, 4);
             buf.putInt(DISPOSE_CONFIG);
             buf.putLong(pConfigInfo);
 
-            // this call is expected to complete synchronously, so flush now
+            // this cbll is expected to complete synchronously, so flush now
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
     public void flushNow() {
-        // assert lock.isHeldByCurrentThread();
+        // bssert lock.isHeldByCurrentThrebd();
         flushBuffer(null);
     }
 
-    public void flushAndInvokeNow(Runnable r) {
-        // assert lock.isHeldByCurrentThread();
+    public void flushAndInvokeNow(Runnbble r) {
+        // bssert lock.isHeldByCurrentThrebd();
         flushBuffer(r);
     }
 
-    private native void flushBuffer(long buf, int limit, Runnable task);
+    privbte nbtive void flushBuffer(long buf, int limit, Runnbble tbsk);
 
-    private void flushBuffer(Runnable task) {
-        // assert lock.isHeldByCurrentThread();
+    privbte void flushBuffer(Runnbble tbsk) {
+        // bssert lock.isHeldByCurrentThrebd();
         int limit = buf.position();
-        if (limit > 0 || task != null) {
+        if (limit > 0 || tbsk != null) {
             // process the queue
-            flushBuffer(buf.getAddress(), limit, task);
+            flushBuffer(buf.getAddress(), limit, tbsk);
         }
         // reset the buffer position
-        buf.clear();
-        // clear the set of references, since we no longer need them
-        refSet.clear();
+        buf.clebr();
+        // clebr the set of references, since we no longer need them
+        refSet.clebr();
     }
 }

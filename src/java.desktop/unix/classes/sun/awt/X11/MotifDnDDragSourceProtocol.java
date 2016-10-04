@@ -1,422 +1,422 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.DataFlavor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
 
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.InvblidDnDOperbtionException;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
 /**
- * XDragSourceProtocol implementation for Motif DnD protocol.
+ * XDrbgSourceProtocol implementbtion for Motif DnD protocol.
  *
  * @since 1.5
  */
-class MotifDnDDragSourceProtocol extends XDragSourceProtocol
-    implements XEventDispatcher {
+clbss MotifDnDDrbgSourceProtocol extends XDrbgSourceProtocol
+    implements XEventDispbtcher {
 
-    private static final Unsafe unsafe = XlibWrapper.unsafe;
+    privbte stbtic finbl Unsbfe unsbfe = XlibWrbpper.unsbfe;
 
-    private long targetEnterServerTime = XConstants.CurrentTime;
+    privbte long tbrgetEnterServerTime = XConstbnts.CurrentTime;
 
-    protected MotifDnDDragSourceProtocol(XDragSourceProtocolListener listener) {
+    protected MotifDnDDrbgSourceProtocol(XDrbgSourceProtocolListener listener) {
         super(listener);
-        XToolkit.addEventDispatcher(XWindow.getXAWTRootWindow().getWindow(), this);
+        XToolkit.bddEventDispbtcher(XWindow.getXAWTRootWindow().getWindow(), this);
     }
 
     /**
-     * Creates an instance associated with the specified listener.
+     * Crebtes bn instbnce bssocibted with the specified listener.
      *
      * @throws NullPointerException if listener is <code>null</code>.
      */
-    static XDragSourceProtocol createInstance(XDragSourceProtocolListener listener) {
-        return new MotifDnDDragSourceProtocol(listener);
+    stbtic XDrbgSourceProtocol crebteInstbnce(XDrbgSourceProtocolListener listener) {
+        return new MotifDnDDrbgSourceProtocol(listener);
     }
 
-    public String getProtocolName() {
-        return XDragAndDropProtocols.MotifDnD;
+    public String getProtocolNbme() {
+        return XDrbgAndDropProtocols.MotifDnD;
     }
 
-    protected void initializeDragImpl(int actions, Transferable contents,
-                                      Map<Long, DataFlavor> formatMap, long[] formats)
-      throws InvalidDnDOperationException,
-        IllegalArgumentException, XException {
+    protected void initiblizeDrbgImpl(int bctions, Trbnsferbble contents,
+                                      Mbp<Long, DbtbFlbvor> formbtMbp, long[] formbts)
+      throws InvblidDnDOperbtionException,
+        IllegblArgumentException, XException {
 
-        long window = XDragSourceProtocol.getDragSourceWindow();
+        long window = XDrbgSourceProtocol.getDrbgSourceWindow();
 
-        /* Write the Motif DnD initiator info on the root XWindow. */
+        /* Write the Motif DnD initibtor info on the root XWindow. */
         try {
-            int index = MotifDnDConstants.getIndexForTargetList(formats);
+            int index = MotifDnDConstbnts.getIndexForTbrgetList(formbts);
 
-            MotifDnDConstants.writeDragInitiatorInfoStruct(window, index);
-        } catch (XException xe) {
-            cleanup();
+            MotifDnDConstbnts.writeDrbgInitibtorInfoStruct(window, index);
+        } cbtch (XException xe) {
+            clebnup();
             throw xe;
-        } catch (InvalidDnDOperationException idoe) {
-            cleanup();
+        } cbtch (InvblidDnDOperbtionException idoe) {
+            clebnup();
             throw idoe;
         }
 
-        if (!MotifDnDConstants.MotifDnDSelection.setOwner(contents, formatMap,
-                                                          formats,
-                                                          XConstants.CurrentTime)) {
-            cleanup();
-            throw new InvalidDnDOperationException("Cannot acquire selection ownership");
+        if (!MotifDnDConstbnts.MotifDnDSelection.setOwner(contents, formbtMbp,
+                                                          formbts,
+                                                          XConstbnts.CurrentTime)) {
+            clebnup();
+            throw new InvblidDnDOperbtionException("Cbnnot bcquire selection ownership");
         }
     }
 
     /**
-     * Processes the specified client message event.
+     * Processes the specified client messbge event.
      *
-     * @returns true if the event was successfully processed.
+     * @returns true if the event wbs successfully processed.
      */
-    public boolean processClientMessage(XClientMessageEvent xclient) {
-        if (xclient.get_message_type() !=
-            MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom()) {
-            return false;
+    public boolebn processClientMessbge(XClientMessbgeEvent xclient) {
+        if (xclient.get_messbge_type() !=
+            MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom()) {
+            return fblse;
         }
 
-        long data = xclient.get_data();
-        byte reason = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_REASON_MASK);
-        byte origin = (byte)(unsafe.getByte(data) &
-            MotifDnDConstants.MOTIF_MESSAGE_SENDER_MASK);
-        byte byteOrder = unsafe.getByte(data + 1);
-        boolean swapNeeded = byteOrder != MotifDnDConstants.getByteOrderByte();
-        int action = DnDConstants.ACTION_NONE;
+        long dbtb = xclient.get_dbtb();
+        byte rebson = (byte)(unsbfe.getByte(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_REASON_MASK);
+        byte origin = (byte)(unsbfe.getByte(dbtb) &
+            MotifDnDConstbnts.MOTIF_MESSAGE_SENDER_MASK);
+        byte byteOrder = unsbfe.getByte(dbtb + 1);
+        boolebn swbpNeeded = byteOrder != MotifDnDConstbnts.getByteOrderByte();
+        int bction = DnDConstbnts.ACTION_NONE;
         int x = 0;
         int y = 0;
 
-        /* Only receiver messages should be handled. */
-        if (origin != MotifDnDConstants.MOTIF_MESSAGE_FROM_RECEIVER) {
-            return false;
+        /* Only receiver messbges should be hbndled. */
+        if (origin != MotifDnDConstbnts.MOTIF_MESSAGE_FROM_RECEIVER) {
+            return fblse;
         }
 
-        switch (reason) {
-        case MotifDnDConstants.DROP_SITE_ENTER:
-        case MotifDnDConstants.DROP_SITE_LEAVE:
-        case MotifDnDConstants.DRAG_MOTION:
-        case MotifDnDConstants.OPERATION_CHANGED:
-            break;
-        default:
-            // Unknown reason.
-            return false;
+        switch (rebson) {
+        cbse MotifDnDConstbnts.DROP_SITE_ENTER:
+        cbse MotifDnDConstbnts.DROP_SITE_LEAVE:
+        cbse MotifDnDConstbnts.DRAG_MOTION:
+        cbse MotifDnDConstbnts.OPERATION_CHANGED:
+            brebk;
+        defbult:
+            // Unknown rebson.
+            return fblse;
         }
 
-        int t = unsafe.getInt(data + 4);
-        if (swapNeeded) {
-            t = MotifDnDConstants.Swapper.swap(t);
+        int t = unsbfe.getInt(dbtb + 4);
+        if (swbpNeeded) {
+            t = MotifDnDConstbnts.Swbpper.swbp(t);
         }
         long time = t & 0xffffffffL;
              // with correction of (32-bit unsigned to 64-bit signed) implicit conversion.
 
-        /* Discard events from the previous receiver. */
-        if (targetEnterServerTime == XConstants.CurrentTime ||
-            time < targetEnterServerTime) {
+        /* Discbrd events from the previous receiver. */
+        if (tbrgetEnterServerTime == XConstbnts.CurrentTime ||
+            time < tbrgetEnterServerTime) {
             return true;
         }
 
-        if (reason != MotifDnDConstants.DROP_SITE_LEAVE) {
-            short flags = unsafe.getShort(data + 2);
-            if (swapNeeded) {
-                flags = MotifDnDConstants.Swapper.swap(flags);
+        if (rebson != MotifDnDConstbnts.DROP_SITE_LEAVE) {
+            short flbgs = unsbfe.getShort(dbtb + 2);
+            if (swbpNeeded) {
+                flbgs = MotifDnDConstbnts.Swbpper.swbp(flbgs);
             }
 
-            byte status = (byte)((flags & MotifDnDConstants.MOTIF_DND_STATUS_MASK) >>
-                MotifDnDConstants.MOTIF_DND_STATUS_SHIFT);
-            byte motif_action = (byte)((flags & MotifDnDConstants.MOTIF_DND_ACTION_MASK) >>
-                MotifDnDConstants.MOTIF_DND_ACTION_SHIFT);
+            byte stbtus = (byte)((flbgs & MotifDnDConstbnts.MOTIF_DND_STATUS_MASK) >>
+                MotifDnDConstbnts.MOTIF_DND_STATUS_SHIFT);
+            byte motif_bction = (byte)((flbgs & MotifDnDConstbnts.MOTIF_DND_ACTION_MASK) >>
+                MotifDnDConstbnts.MOTIF_DND_ACTION_SHIFT);
 
-            if (status == MotifDnDConstants.MOTIF_VALID_DROP_SITE) {
-                action = MotifDnDConstants.getJavaActionsForMotifActions(motif_action);
+            if (stbtus == MotifDnDConstbnts.MOTIF_VALID_DROP_SITE) {
+                bction = MotifDnDConstbnts.getJbvbActionsForMotifActions(motif_bction);
             } else {
-                action = DnDConstants.ACTION_NONE;
+                bction = DnDConstbnts.ACTION_NONE;
             }
 
-            short tx = unsafe.getShort(data + 8);
-            short ty = unsafe.getShort(data + 10);
-            if (swapNeeded) {
-                tx = MotifDnDConstants.Swapper.swap(tx);
-                ty = MotifDnDConstants.Swapper.swap(ty);
+            short tx = unsbfe.getShort(dbtb + 8);
+            short ty = unsbfe.getShort(dbtb + 10);
+            if (swbpNeeded) {
+                tx = MotifDnDConstbnts.Swbpper.swbp(tx);
+                ty = MotifDnDConstbnts.Swbpper.swbp(ty);
             }
             x = tx;
             y = ty;
         }
 
-        getProtocolListener().handleDragReply(action, x, y);
+        getProtocolListener().hbndleDrbgReply(bction, x, y);
 
         return true;
     }
 
-    public TargetWindowInfo getTargetWindowInfo(long window) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    public TbrgetWindowInfo getTbrgetWindowInfo(long window) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         WindowPropertyGetter wpg =
             new WindowPropertyGetter(window,
-                                     MotifDnDConstants.XA_MOTIF_DRAG_RECEIVER_INFO,
-                                     0, 0xFFFF, false,
-                                     XConstants.AnyPropertyType);
+                                     MotifDnDConstbnts.XA_MOTIF_DRAG_RECEIVER_INFO,
+                                     0, 0xFFFF, fblse,
+                                     XConstbnts.AnyPropertyType);
 
         try {
-            int status = wpg.execute(XErrorHandler.IgnoreBadWindowHandler.getInstance());
+            int stbtus = wpg.execute(XErrorHbndler.IgnoreBbdWindowHbndler.getInstbnce());
 
             /*
-             * DragICCI.h:
+             * DrbgICCI.h:
              *
-             * typedef struct _xmDragReceiverInfoStruct{
+             * typedef struct _xmDrbgReceiverInfoStruct{
              *     BYTE byte_order;
              *     BYTE protocol_version;
-             *     BYTE drag_protocol_style;
-             *     BYTE pad1;
+             *     BYTE drbg_protocol_style;
+             *     BYTE pbd1;
              *     CARD32       proxy_window B32;
              *     CARD16       num_drop_sites B16;
-             *     CARD16       pad2 B16;
-             *     CARD32       heap_offset B32;
-             * } xmDragReceiverInfoStruct;
+             *     CARD16       pbd2 B16;
+             *     CARD32       hebp_offset B32;
+             * } xmDrbgReceiverInfoStruct;
              */
-            if (status == XConstants.Success && wpg.getData() != 0 &&
-                wpg.getActualType() != 0 && wpg.getActualFormat() == 8 &&
+            if (stbtus == XConstbnts.Success && wpg.getDbtb() != 0 &&
+                wpg.getActublType() != 0 && wpg.getActublFormbt() == 8 &&
                 wpg.getNumberOfItems() >=
-                MotifDnDConstants.MOTIF_RECEIVER_INFO_SIZE) {
+                MotifDnDConstbnts.MOTIF_RECEIVER_INFO_SIZE) {
 
-                long data = wpg.getData();
-                byte byteOrderByte = unsafe.getByte(data);
-                byte dragProtocolStyle = unsafe.getByte(data + 2);
-                switch (dragProtocolStyle) {
-                case MotifDnDConstants.MOTIF_PREFER_PREREGISTER_STYLE :
-                case MotifDnDConstants.MOTIF_PREFER_DYNAMIC_STYLE :
-                case MotifDnDConstants.MOTIF_DYNAMIC_STYLE :
-                case MotifDnDConstants.MOTIF_PREFER_RECEIVER_STYLE :
-                    int proxy = unsafe.getInt(data + 4);
-                    if (byteOrderByte != MotifDnDConstants.getByteOrderByte()) {
-                        proxy = MotifDnDConstants.Swapper.swap(proxy);
+                long dbtb = wpg.getDbtb();
+                byte byteOrderByte = unsbfe.getByte(dbtb);
+                byte drbgProtocolStyle = unsbfe.getByte(dbtb + 2);
+                switch (drbgProtocolStyle) {
+                cbse MotifDnDConstbnts.MOTIF_PREFER_PREREGISTER_STYLE :
+                cbse MotifDnDConstbnts.MOTIF_PREFER_DYNAMIC_STYLE :
+                cbse MotifDnDConstbnts.MOTIF_DYNAMIC_STYLE :
+                cbse MotifDnDConstbnts.MOTIF_PREFER_RECEIVER_STYLE :
+                    int proxy = unsbfe.getInt(dbtb + 4);
+                    if (byteOrderByte != MotifDnDConstbnts.getByteOrderByte()) {
+                        proxy = MotifDnDConstbnts.Swbpper.swbp(proxy);
                     }
 
-                    int protocolVersion = unsafe.getByte(data + 1);
+                    int protocolVersion = unsbfe.getByte(dbtb + 1);
 
-                    return new TargetWindowInfo(proxy, protocolVersion);
-                default:
+                    return new TbrgetWindowInfo(proxy, protocolVersion);
+                defbult:
                     // Unsupported protocol style.
                     return null;
                 }
             } else {
                 return null;
             }
-        } finally {
+        } finblly {
             wpg.dispose();
         }
     }
 
-    public void sendEnterMessage(long[] formats,
+    public void sendEnterMessbge(long[] formbts,
                                  int sourceAction, int sourceActions, long time) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
-        assert getTargetWindow() != 0;
-        assert formats != null;
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
+        bssert getTbrgetWindow() != 0;
+        bssert formbts != null;
 
-        targetEnterServerTime = time;
+        tbrgetEnterServerTime = time;
 
-        XClientMessageEvent msg = new XClientMessageEvent();
+        XClientMessbgeEvent msg = new XClientMessbgeEvent();
         try {
-            msg.set_type(XConstants.ClientMessage);
-            msg.set_window(getTargetWindow());
-            msg.set_format(8);
-            msg.set_message_type(MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
+            msg.set_type(XConstbnts.ClientMessbge);
+            msg.set_window(getTbrgetWindow());
+            msg.set_formbt(8);
+            msg.set_messbge_type(MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
 
-            long data = msg.get_data();
-            int flags =
-                (MotifDnDConstants.getMotifActionsForJavaActions(sourceAction) <<
-                 MotifDnDConstants.MOTIF_DND_ACTION_SHIFT) |
-                (MotifDnDConstants.getMotifActionsForJavaActions(sourceActions) <<
-                 MotifDnDConstants.MOTIF_DND_ACTIONS_SHIFT);
+            long dbtb = msg.get_dbtb();
+            int flbgs =
+                (MotifDnDConstbnts.getMotifActionsForJbvbActions(sourceAction) <<
+                 MotifDnDConstbnts.MOTIF_DND_ACTION_SHIFT) |
+                (MotifDnDConstbnts.getMotifActionsForJbvbActions(sourceActions) <<
+                 MotifDnDConstbnts.MOTIF_DND_ACTIONS_SHIFT);
 
-            unsafe.putByte(data,
-                           (byte)(MotifDnDConstants.TOP_LEVEL_ENTER |
-                                  MotifDnDConstants.MOTIF_MESSAGE_FROM_INITIATOR));
-            unsafe.putByte(data + 1,
-                           MotifDnDConstants.getByteOrderByte());
-            unsafe.putShort(data + 2, (short)flags);
-            unsafe.putInt(data + 4, (int)time);
-            unsafe.putInt(data + 8, (int)XDragSourceProtocol.getDragSourceWindow());
-            unsafe.putInt(data + 12, (int)MotifDnDConstants.XA_MOTIF_ATOM_0.getAtom());
+            unsbfe.putByte(dbtb,
+                           (byte)(MotifDnDConstbnts.TOP_LEVEL_ENTER |
+                                  MotifDnDConstbnts.MOTIF_MESSAGE_FROM_INITIATOR));
+            unsbfe.putByte(dbtb + 1,
+                           MotifDnDConstbnts.getByteOrderByte());
+            unsbfe.putShort(dbtb + 2, (short)flbgs);
+            unsbfe.putInt(dbtb + 4, (int)time);
+            unsbfe.putInt(dbtb + 8, (int)XDrbgSourceProtocol.getDrbgSourceWindow());
+            unsbfe.putInt(dbtb + 12, (int)MotifDnDConstbnts.XA_MOTIF_ATOM_0.getAtom());
 
-            XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                                   getTargetProxyWindow(),
-                                   false, XConstants.NoEventMask,
-                                   msg.pData);
-        } finally {
+            XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
+                                   getTbrgetProxyWindow(),
+                                   fblse, XConstbnts.NoEventMbsk,
+                                   msg.pDbtb);
+        } finblly {
             msg.dispose();
         }
     }
 
-    public void sendMoveMessage(int xRoot, int yRoot,
+    public void sendMoveMessbge(int xRoot, int yRoot,
                                 int sourceAction, int sourceActions, long time) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
-        assert getTargetWindow() != 0;
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
+        bssert getTbrgetWindow() != 0;
 
-        XClientMessageEvent msg = new XClientMessageEvent();
+        XClientMessbgeEvent msg = new XClientMessbgeEvent();
         try {
-            msg.set_type(XConstants.ClientMessage);
-            msg.set_window(getTargetWindow());
-            msg.set_format(8);
-            msg.set_message_type(MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
+            msg.set_type(XConstbnts.ClientMessbge);
+            msg.set_window(getTbrgetWindow());
+            msg.set_formbt(8);
+            msg.set_messbge_type(MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
 
-            long data = msg.get_data();
-            int flags =
-                (MotifDnDConstants.getMotifActionsForJavaActions(sourceAction) <<
-                 MotifDnDConstants.MOTIF_DND_ACTION_SHIFT) |
-                (MotifDnDConstants.getMotifActionsForJavaActions(sourceActions) <<
-                 MotifDnDConstants.MOTIF_DND_ACTIONS_SHIFT);
+            long dbtb = msg.get_dbtb();
+            int flbgs =
+                (MotifDnDConstbnts.getMotifActionsForJbvbActions(sourceAction) <<
+                 MotifDnDConstbnts.MOTIF_DND_ACTION_SHIFT) |
+                (MotifDnDConstbnts.getMotifActionsForJbvbActions(sourceActions) <<
+                 MotifDnDConstbnts.MOTIF_DND_ACTIONS_SHIFT);
 
-            unsafe.putByte(data,
-                           (byte)(MotifDnDConstants.DRAG_MOTION |
-                                  MotifDnDConstants.MOTIF_MESSAGE_FROM_INITIATOR));
-            unsafe.putByte(data + 1,
-                           MotifDnDConstants.getByteOrderByte());
-            unsafe.putShort(data + 2, (short)flags);
-            unsafe.putInt(data + 4, (int)time);
-            unsafe.putShort(data + 8, (short)xRoot);
-            unsafe.putShort(data + 10, (short)yRoot);
+            unsbfe.putByte(dbtb,
+                           (byte)(MotifDnDConstbnts.DRAG_MOTION |
+                                  MotifDnDConstbnts.MOTIF_MESSAGE_FROM_INITIATOR));
+            unsbfe.putByte(dbtb + 1,
+                           MotifDnDConstbnts.getByteOrderByte());
+            unsbfe.putShort(dbtb + 2, (short)flbgs);
+            unsbfe.putInt(dbtb + 4, (int)time);
+            unsbfe.putShort(dbtb + 8, (short)xRoot);
+            unsbfe.putShort(dbtb + 10, (short)yRoot);
 
-            XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                                   getTargetProxyWindow(),
-                                   false, XConstants.NoEventMask,
-                                   msg.pData);
-        } finally {
+            XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
+                                   getTbrgetProxyWindow(),
+                                   fblse, XConstbnts.NoEventMbsk,
+                                   msg.pDbtb);
+        } finblly {
             msg.dispose();
         }
     }
 
-    public void sendLeaveMessage(long time) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
-        assert getTargetWindow() != 0;
+    public void sendLebveMessbge(long time) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
+        bssert getTbrgetWindow() != 0;
 
-        XClientMessageEvent msg = new XClientMessageEvent();
+        XClientMessbgeEvent msg = new XClientMessbgeEvent();
         try {
-            msg.set_type(XConstants.ClientMessage);
-            msg.set_window(getTargetWindow());
-            msg.set_format(8);
-            msg.set_message_type(MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
+            msg.set_type(XConstbnts.ClientMessbge);
+            msg.set_window(getTbrgetWindow());
+            msg.set_formbt(8);
+            msg.set_messbge_type(MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
 
-            long data = msg.get_data();
+            long dbtb = msg.get_dbtb();
 
-            unsafe.putByte(data,
-                           (byte)(MotifDnDConstants.TOP_LEVEL_LEAVE |
-                                  MotifDnDConstants.MOTIF_MESSAGE_FROM_INITIATOR));
-            unsafe.putByte(data + 1,
-                           MotifDnDConstants.getByteOrderByte());
-            unsafe.putShort(data + 2, (short)0);
-            unsafe.putInt(data + 4, (int)time);
-            unsafe.putInt(data + 8, (int)XDragSourceProtocol.getDragSourceWindow());
+            unsbfe.putByte(dbtb,
+                           (byte)(MotifDnDConstbnts.TOP_LEVEL_LEAVE |
+                                  MotifDnDConstbnts.MOTIF_MESSAGE_FROM_INITIATOR));
+            unsbfe.putByte(dbtb + 1,
+                           MotifDnDConstbnts.getByteOrderByte());
+            unsbfe.putShort(dbtb + 2, (short)0);
+            unsbfe.putInt(dbtb + 4, (int)time);
+            unsbfe.putInt(dbtb + 8, (int)XDrbgSourceProtocol.getDrbgSourceWindow());
 
-            XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                                   getTargetProxyWindow(),
-                                   false, XConstants.NoEventMask,
-                                   msg.pData);
-        } finally {
+            XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
+                                   getTbrgetProxyWindow(),
+                                   fblse, XConstbnts.NoEventMbsk,
+                                   msg.pDbtb);
+        } finblly {
             msg.dispose();
         }
     }
 
-    protected void sendDropMessage(int xRoot, int yRoot,
+    protected void sendDropMessbge(int xRoot, int yRoot,
                                    int sourceAction, int sourceActions,
                                    long time) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
-        assert getTargetWindow() != 0;
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
+        bssert getTbrgetWindow() != 0;
 
         /*
          * Motif drop sites expect TOP_LEVEL_LEAVE before DROP_START.
          */
-        sendLeaveMessage(time);
+        sendLebveMessbge(time);
 
-        XClientMessageEvent msg = new XClientMessageEvent();
+        XClientMessbgeEvent msg = new XClientMessbgeEvent();
         try {
-            msg.set_type(XConstants.ClientMessage);
-            msg.set_window(getTargetWindow());
-            msg.set_format(8);
-            msg.set_message_type(MotifDnDConstants.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
+            msg.set_type(XConstbnts.ClientMessbge);
+            msg.set_window(getTbrgetWindow());
+            msg.set_formbt(8);
+            msg.set_messbge_type(MotifDnDConstbnts.XA_MOTIF_DRAG_AND_DROP_MESSAGE.getAtom());
 
-            long data = msg.get_data();
-            int flags =
-                (MotifDnDConstants.getMotifActionsForJavaActions(sourceAction) <<
-                 MotifDnDConstants.MOTIF_DND_ACTION_SHIFT) |
-                (MotifDnDConstants.getMotifActionsForJavaActions(sourceActions) <<
-                 MotifDnDConstants.MOTIF_DND_ACTIONS_SHIFT);
+            long dbtb = msg.get_dbtb();
+            int flbgs =
+                (MotifDnDConstbnts.getMotifActionsForJbvbActions(sourceAction) <<
+                 MotifDnDConstbnts.MOTIF_DND_ACTION_SHIFT) |
+                (MotifDnDConstbnts.getMotifActionsForJbvbActions(sourceActions) <<
+                 MotifDnDConstbnts.MOTIF_DND_ACTIONS_SHIFT);
 
-            unsafe.putByte(data,
-                           (byte)(MotifDnDConstants.DROP_START |
-                                  MotifDnDConstants.MOTIF_MESSAGE_FROM_INITIATOR));
-            unsafe.putByte(data + 1,
-                           MotifDnDConstants.getByteOrderByte());
-            unsafe.putShort(data + 2, (short)flags);
-            unsafe.putInt(data + 4, (int)time);
-            unsafe.putShort(data + 8, (short)xRoot);
-            unsafe.putShort(data + 10, (short)yRoot);
-            unsafe.putInt(data + 12, (int)MotifDnDConstants.XA_MOTIF_ATOM_0.getAtom());
-            unsafe.putInt(data + 16, (int)XDragSourceProtocol.getDragSourceWindow());
+            unsbfe.putByte(dbtb,
+                           (byte)(MotifDnDConstbnts.DROP_START |
+                                  MotifDnDConstbnts.MOTIF_MESSAGE_FROM_INITIATOR));
+            unsbfe.putByte(dbtb + 1,
+                           MotifDnDConstbnts.getByteOrderByte());
+            unsbfe.putShort(dbtb + 2, (short)flbgs);
+            unsbfe.putInt(dbtb + 4, (int)time);
+            unsbfe.putShort(dbtb + 8, (short)xRoot);
+            unsbfe.putShort(dbtb + 10, (short)yRoot);
+            unsbfe.putInt(dbtb + 12, (int)MotifDnDConstbnts.XA_MOTIF_ATOM_0.getAtom());
+            unsbfe.putInt(dbtb + 16, (int)XDrbgSourceProtocol.getDrbgSourceWindow());
 
-            XlibWrapper.XSendEvent(XToolkit.getDisplay(),
-                                   getTargetProxyWindow(),
-                                   false, XConstants.NoEventMask,
-                                   msg.pData);
-        } finally {
+            XlibWrbpper.XSendEvent(XToolkit.getDisplby(),
+                                   getTbrgetProxyWindow(),
+                                   fblse, XConstbnts.NoEventMbsk,
+                                   msg.pDbtb);
+        } finblly {
             msg.dispose();
         }
     }
 
-    public boolean processProxyModeEvent(XClientMessageEvent xclient,
+    public boolebn processProxyModeEvent(XClientMessbgeEvent xclient,
                                          long sourceWindow) {
         // Motif DnD for XEmbed is not implemented.
-        return false;
+        return fblse;
     }
 
-    public void cleanupTargetInfo() {
-        super.cleanupTargetInfo();
-        targetEnterServerTime = XConstants.CurrentTime;
+    public void clebnupTbrgetInfo() {
+        super.clebnupTbrgetInfo();
+        tbrgetEnterServerTime = XConstbnts.CurrentTime;
     }
 
-    public void dispatchEvent(XEvent ev) {
+    public void dispbtchEvent(XEvent ev) {
         switch (ev.get_type()) {
-        case XConstants.SelectionRequest:
+        cbse XConstbnts.SelectionRequest:
             XSelectionRequestEvent xsre = ev.get_xselectionrequest();
-            long atom = xsre.get_selection();
+            long btom = xsre.get_selection();
 
-            if (atom == MotifDnDConstants.XA_MOTIF_ATOM_0.getAtom()) {
-                long target = xsre.get_target();
-                if (target == MotifDnDConstants.XA_XmTRANSFER_SUCCESS.getAtom()) {
-                    getProtocolListener().handleDragFinished(true);
-                } else if (target == MotifDnDConstants.XA_XmTRANSFER_FAILURE.getAtom()) {
-                    getProtocolListener().handleDragFinished(false);
+            if (btom == MotifDnDConstbnts.XA_MOTIF_ATOM_0.getAtom()) {
+                long tbrget = xsre.get_tbrget();
+                if (tbrget == MotifDnDConstbnts.XA_XmTRANSFER_SUCCESS.getAtom()) {
+                    getProtocolListener().hbndleDrbgFinished(true);
+                } else if (tbrget == MotifDnDConstbnts.XA_XmTRANSFER_FAILURE.getAtom()) {
+                    getProtocolListener().hbndleDrbgFinished(fblse);
                 }
             }
-            break;
+            brebk;
         }
     }
 }

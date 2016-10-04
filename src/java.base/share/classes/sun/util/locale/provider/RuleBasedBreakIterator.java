@@ -1,489 +1,489 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 2002 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.text.BreakIterator;
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
-import java.util.MissingResourceException;
-import sun.text.CompactByteArray;
-import sun.text.SupplementaryCharacterData;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.text.BrebkIterbtor;
+import jbvb.text.ChbrbcterIterbtor;
+import jbvb.text.StringChbrbcterIterbtor;
+import jbvb.util.MissingResourceException;
+import sun.text.CompbctByteArrby;
+import sun.text.SupplementbryChbrbcterDbtb;
 
 /**
- * <p>A subclass of BreakIterator whose behavior is specified using a list of rules.</p>
+ * <p>A subclbss of BrebkIterbtor whose behbvior is specified using b list of rules.</p>
  *
- * <p>There are two kinds of rules, which are separated by semicolons: <i>substitutions</i>
- * and <i>regular expressions.</i></p>
+ * <p>There bre two kinds of rules, which bre sepbrbted by semicolons: <i>substitutions</i>
+ * bnd <i>regulbr expressions.</i></p>
  *
- * <p>A substitution rule defines a name that can be used in place of an expression. It
- * consists of a name, which is a string of characters contained in angle brackets, an equals
- * sign, and an expression. (There can be no whitespace on either side of the equals sign.)
- * To keep its syntactic meaning intact, the expression must be enclosed in parentheses or
- * square brackets. A substitution is visible after its definition, and is filled in using
- * simple textual substitution. Substitution definitions can contain other substitutions, as
- * long as those substitutions have been defined first. Substitutions are generally used to
- * make the regular expressions (which can get quite complex) shorted and easier to read.
- * They typically define either character categories or commonly-used subexpressions.</p>
+ * <p>A substitution rule defines b nbme thbt cbn be used in plbce of bn expression. It
+ * consists of b nbme, which is b string of chbrbcters contbined in bngle brbckets, bn equbls
+ * sign, bnd bn expression. (There cbn be no whitespbce on either side of the equbls sign.)
+ * To keep its syntbctic mebning intbct, the expression must be enclosed in pbrentheses or
+ * squbre brbckets. A substitution is visible bfter its definition, bnd is filled in using
+ * simple textubl substitution. Substitution definitions cbn contbin other substitutions, bs
+ * long bs those substitutions hbve been defined first. Substitutions bre generblly used to
+ * mbke the regulbr expressions (which cbn get quite complex) shorted bnd ebsier to rebd.
+ * They typicblly define either chbrbcter cbtegories or commonly-used subexpressions.</p>
  *
- * <p>There is one special substitution.&nbsp; If the description defines a substitution
- * called &quot;&lt;ignore&gt;&quot;, the expression must be a [] expression, and the
- * expression defines a set of characters (the &quot;<em>ignore characters</em>&quot;) that
- * will be transparent to the BreakIterator.&nbsp; A sequence of characters will break the
- * same way it would if any ignore characters it contains are taken out.&nbsp; Break
- * positions never occur befoer ignore characters.</p>
+ * <p>There is one specibl substitution.&nbsp; If the description defines b substitution
+ * cblled &quot;&lt;ignore&gt;&quot;, the expression must be b [] expression, bnd the
+ * expression defines b set of chbrbcters (the &quot;<em>ignore chbrbcters</em>&quot;) thbt
+ * will be trbnspbrent to the BrebkIterbtor.&nbsp; A sequence of chbrbcters will brebk the
+ * sbme wby it would if bny ignore chbrbcters it contbins bre tbken out.&nbsp; Brebk
+ * positions never occur befoer ignore chbrbcters.</p>
  *
- * <p>A regular expression uses a subset of the normal Unix regular-expression syntax, and
- * defines a sequence of characters to be kept together. With one significant exception, the
- * iterator uses a longest-possible-match algorithm when matching text to regular
- * expressions. The iterator also treats descriptions containing multiple regular expressions
- * as if they were ORed together (i.e., as if they were separated by |).</p>
+ * <p>A regulbr expression uses b subset of the normbl Unix regulbr-expression syntbx, bnd
+ * defines b sequence of chbrbcters to be kept together. With one significbnt exception, the
+ * iterbtor uses b longest-possible-mbtch blgorithm when mbtching text to regulbr
+ * expressions. The iterbtor blso trebts descriptions contbining multiple regulbr expressions
+ * bs if they were ORed together (i.e., bs if they were sepbrbted by |).</p>
  *
- * <p>The special characters recognized by the regular-expression parser are as follows:</p>
+ * <p>The specibl chbrbcters recognized by the regulbr-expression pbrser bre bs follows:</p>
  *
  * <blockquote>
- *   <table border="1" width="100%">
+ *   <tbble border="1" width="100%">
  *     <tr>
  *       <td width="6%">*</td>
- *       <td width="94%">Specifies that the expression preceding the asterisk may occur any number
- *       of times (including not at all).</td>
+ *       <td width="94%">Specifies thbt the expression preceding the bsterisk mby occur bny number
+ *       of times (including not bt bll).</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">{}</td>
- *       <td width="94%">Encloses a sequence of characters that is optional.</td>
+ *       <td width="94%">Encloses b sequence of chbrbcters thbt is optionbl.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">()</td>
- *       <td width="94%">Encloses a sequence of characters.&nbsp; If followed by *, the sequence
- *       repeats.&nbsp; Otherwise, the parentheses are just a grouping device and a way to delimit
- *       the ends of expressions containing |.</td>
+ *       <td width="94%">Encloses b sequence of chbrbcters.&nbsp; If followed by *, the sequence
+ *       repebts.&nbsp; Otherwise, the pbrentheses bre just b grouping device bnd b wby to delimit
+ *       the ends of expressions contbining |.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">|</td>
- *       <td width="94%">Separates two alternative sequences of characters.&nbsp; Either one
- *       sequence or the other, but not both, matches this expression.&nbsp; The | character can
+ *       <td width="94%">Sepbrbtes two blternbtive sequences of chbrbcters.&nbsp; Either one
+ *       sequence or the other, but not both, mbtches this expression.&nbsp; The | chbrbcter cbn
  *       only occur inside ().</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">.</td>
- *       <td width="94%">Matches any character.</td>
+ *       <td width="94%">Mbtches bny chbrbcter.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">*?</td>
- *       <td width="94%">Specifies a non-greedy asterisk.&nbsp; *? works the same way as *, except
- *       when there is overlap between the last group of characters in the expression preceding the
- *       * and the first group of characters following the *.&nbsp; When there is this kind of
- *       overlap, * will match the longest sequence of characters that match the expression before
- *       the *, and *? will match the shortest sequence of characters matching the expression
- *       before the *?.&nbsp; For example, if you have &quot;xxyxyyyxyxyxxyxyxyy&quot; in the text,
- *       &quot;x[xy]*x&quot; will match through to the last x (i.e., &quot;<strong>xxyxyyyxyxyxxyxyx</strong>yy&quot;,
- *       but &quot;x[xy]*?x&quot; will only match the first two xes (&quot;<strong>xx</strong>yxyyyxyxyxxyxyxyy&quot;).</td>
+ *       <td width="94%">Specifies b non-greedy bsterisk.&nbsp; *? works the sbme wby bs *, except
+ *       when there is overlbp between the lbst group of chbrbcters in the expression preceding the
+ *       * bnd the first group of chbrbcters following the *.&nbsp; When there is this kind of
+ *       overlbp, * will mbtch the longest sequence of chbrbcters thbt mbtch the expression before
+ *       the *, bnd *? will mbtch the shortest sequence of chbrbcters mbtching the expression
+ *       before the *?.&nbsp; For exbmple, if you hbve &quot;xxyxyyyxyxyxxyxyxyy&quot; in the text,
+ *       &quot;x[xy]*x&quot; will mbtch through to the lbst x (i.e., &quot;<strong>xxyxyyyxyxyxxyxyx</strong>yy&quot;,
+ *       but &quot;x[xy]*?x&quot; will only mbtch the first two xes (&quot;<strong>xx</strong>yxyyyxyxyxxyxyxyy&quot;).</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">[]</td>
- *       <td width="94%">Specifies a group of alternative characters.&nbsp; A [] expression will
- *       match any single character that is specified in the [] expression.&nbsp; For more on the
- *       syntax of [] expressions, see below.</td>
+ *       <td width="94%">Specifies b group of blternbtive chbrbcters.&nbsp; A [] expression will
+ *       mbtch bny single chbrbcter thbt is specified in the [] expression.&nbsp; For more on the
+ *       syntbx of [] expressions, see below.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">/</td>
- *       <td width="94%">Specifies where the break position should go if text matches this
- *       expression.&nbsp; (e.g., &quot;[a-z]&#42;/[:Zs:]*[1-0]&quot; will match if the iterator sees a run
- *       of letters, followed by a run of whitespace, followed by a digit, but the break position
- *       will actually go before the whitespace).&nbsp; Expressions that don't contain / put the
- *       break position at the end of the matching text.</td>
+ *       <td width="94%">Specifies where the brebk position should go if text mbtches this
+ *       expression.&nbsp; (e.g., &quot;[b-z]&#42;/[:Zs:]*[1-0]&quot; will mbtch if the iterbtor sees b run
+ *       of letters, followed by b run of whitespbce, followed by b digit, but the brebk position
+ *       will bctublly go before the whitespbce).&nbsp; Expressions thbt don't contbin / put the
+ *       brebk position bt the end of the mbtching text.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">\</td>
- *       <td width="94%">Escape character.&nbsp; The \ itself is ignored, but causes the next
- *       character to be treated as literal character.&nbsp; This has no effect for many
- *       characters, but for the characters listed above, this deprives them of their special
- *       meaning.&nbsp; (There are no special escape sequences for Unicode characters, or tabs and
- *       newlines; these are all handled by a higher-level protocol.&nbsp; In a Java string,
- *       &quot;\n&quot; will be converted to a literal newline character by the time the
- *       regular-expression parser sees it.&nbsp; Of course, this means that \ sequences that are
- *       visible to the regexp parser must be written as \\ when inside a Java string.)&nbsp; All
- *       characters in the ASCII range except for letters, digits, and control characters are
- *       reserved characters to the parser and must be preceded by \ even if they currently don't
- *       mean anything.</td>
+ *       <td width="94%">Escbpe chbrbcter.&nbsp; The \ itself is ignored, but cbuses the next
+ *       chbrbcter to be trebted bs literbl chbrbcter.&nbsp; This hbs no effect for mbny
+ *       chbrbcters, but for the chbrbcters listed bbove, this deprives them of their specibl
+ *       mebning.&nbsp; (There bre no specibl escbpe sequences for Unicode chbrbcters, or tbbs bnd
+ *       newlines; these bre bll hbndled by b higher-level protocol.&nbsp; In b Jbvb string,
+ *       &quot;\n&quot; will be converted to b literbl newline chbrbcter by the time the
+ *       regulbr-expression pbrser sees it.&nbsp; Of course, this mebns thbt \ sequences thbt bre
+ *       visible to the regexp pbrser must be written bs \\ when inside b Jbvb string.)&nbsp; All
+ *       chbrbcters in the ASCII rbnge except for letters, digits, bnd control chbrbcters bre
+ *       reserved chbrbcters to the pbrser bnd must be preceded by \ even if they currently don't
+ *       mebn bnything.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">!</td>
- *       <td width="94%">If ! appears at the beginning of a regular expression, it tells the regexp
- *       parser that this expression specifies the backwards-iteration behavior of the iterator,
- *       and not its normal iteration behavior.&nbsp; This is generally only used in situations
- *       where the automatically-generated backwards-iteration brhavior doesn't produce
- *       satisfactory results and must be supplemented with extra client-specified rules.</td>
+ *       <td width="94%">If ! bppebrs bt the beginning of b regulbr expression, it tells the regexp
+ *       pbrser thbt this expression specifies the bbckwbrds-iterbtion behbvior of the iterbtor,
+ *       bnd not its normbl iterbtion behbvior.&nbsp; This is generblly only used in situbtions
+ *       where the butombticblly-generbted bbckwbrds-iterbtion brhbvior doesn't produce
+ *       sbtisfbctory results bnd must be supplemented with extrb client-specified rules.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%"><em>(all others)</em></td>
- *       <td width="94%">All other characters are treated as literal characters, which must match
- *       the corresponding character(s) in the text exactly.</td>
+ *       <td width="6%"><em>(bll others)</em></td>
+ *       <td width="94%">All other chbrbcters bre trebted bs literbl chbrbcters, which must mbtch
+ *       the corresponding chbrbcter(s) in the text exbctly.</td>
  *     </tr>
- *   </table>
+ *   </tbble>
  * </blockquote>
  *
- * <p>Within a [] expression, a number of other special characters can be used to specify
- * groups of characters:</p>
+ * <p>Within b [] expression, b number of other specibl chbrbcters cbn be used to specify
+ * groups of chbrbcters:</p>
  *
  * <blockquote>
- *   <table border="1" width="100%">
+ *   <tbble border="1" width="100%">
  *     <tr>
  *       <td width="6%">-</td>
- *       <td width="94%">Specifies a range of matching characters.&nbsp; For example
- *       &quot;[a-p]&quot; matches all lowercase Latin letters from a to p (inclusive).&nbsp; The -
- *       sign specifies ranges of continuous Unicode numeric values, not ranges of characters in a
- *       language's alphabetical order: &quot;[a-z]&quot; doesn't include capital letters, nor does
- *       it include accented letters such as a-umlaut.</td>
+ *       <td width="94%">Specifies b rbnge of mbtching chbrbcters.&nbsp; For exbmple
+ *       &quot;[b-p]&quot; mbtches bll lowercbse Lbtin letters from b to p (inclusive).&nbsp; The -
+ *       sign specifies rbnges of continuous Unicode numeric vblues, not rbnges of chbrbcters in b
+ *       lbngubge's blphbbeticbl order: &quot;[b-z]&quot; doesn't include cbpitbl letters, nor does
+ *       it include bccented letters such bs b-umlbut.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">::</td>
- *       <td width="94%">A pair of colons containing a one- or two-letter code matches all
- *       characters in the corresponding Unicode category.&nbsp; The two-letter codes are the same
- *       as the two-letter codes in the Unicode database (for example, &quot;[:Sc::Sm:]&quot;
- *       matches all currency symbols and all math symbols).&nbsp; Specifying a one-letter code is
- *       the same as specifying all two-letter codes that begin with that letter (for example,
- *       &quot;[:L:]&quot; matches all letters, and is equivalent to
- *       &quot;[:Lu::Ll::Lo::Lm::Lt:]&quot;).&nbsp; Anything other than a valid two-letter Unicode
- *       category code or a single letter that begins a Unicode category code is illegal within
+ *       <td width="94%">A pbir of colons contbining b one- or two-letter code mbtches bll
+ *       chbrbcters in the corresponding Unicode cbtegory.&nbsp; The two-letter codes bre the sbme
+ *       bs the two-letter codes in the Unicode dbtbbbse (for exbmple, &quot;[:Sc::Sm:]&quot;
+ *       mbtches bll currency symbols bnd bll mbth symbols).&nbsp; Specifying b one-letter code is
+ *       the sbme bs specifying bll two-letter codes thbt begin with thbt letter (for exbmple,
+ *       &quot;[:L:]&quot; mbtches bll letters, bnd is equivblent to
+ *       &quot;[:Lu::Ll::Lo::Lm::Lt:]&quot;).&nbsp; Anything other thbn b vblid two-letter Unicode
+ *       cbtegory code or b single letter thbt begins b Unicode cbtegory code is illegbl within
  *       colons.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">[]</td>
- *       <td width="94%">[] expressions can nest.&nbsp; This has no effect, except when used in
+ *       <td width="94%">[] expressions cbn nest.&nbsp; This hbs no effect, except when used in
  *       conjunction with the ^ token.</td>
  *     </tr>
  *     <tr>
  *       <td width="6%">^</td>
- *       <td width="94%">Excludes the character (or the characters in the [] expression) following
- *       it from the group of characters.&nbsp; For example, &quot;[a-z^p]&quot; matches all Latin
- *       lowercase letters except p.&nbsp; &quot;[:L:^[&#92;u4e00-&#92;u9fff]]&quot; matches all letters
- *       except the Han ideographs.</td>
+ *       <td width="94%">Excludes the chbrbcter (or the chbrbcters in the [] expression) following
+ *       it from the group of chbrbcters.&nbsp; For exbmple, &quot;[b-z^p]&quot; mbtches bll Lbtin
+ *       lowercbse letters except p.&nbsp; &quot;[:L:^[&#92;u4e00-&#92;u9fff]]&quot; mbtches bll letters
+ *       except the Hbn ideogrbphs.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%"><em>(all others)</em></td>
- *       <td width="94%">All other characters are treated as literal characters.&nbsp; (For
- *       example, &quot;[aeiou]&quot; specifies just the letters a, e, i, o, and u.)</td>
+ *       <td width="6%"><em>(bll others)</em></td>
+ *       <td width="94%">All other chbrbcters bre trebted bs literbl chbrbcters.&nbsp; (For
+ *       exbmple, &quot;[beiou]&quot; specifies just the letters b, e, i, o, bnd u.)</td>
  *     </tr>
- *   </table>
+ *   </tbble>
  * </blockquote>
  *
- * <p>For a more complete explanation, see <a
- * href="http://www.ibm.com/java/education/boundaries/boundaries.html">http://www.ibm.com/java/education/boundaries/boundaries.html</a>.
- * &nbsp; For examples, see the resource data (which is annotated).</p>
+ * <p>For b more complete explbnbtion, see <b
+ * href="http://www.ibm.com/jbvb/educbtion/boundbries/boundbries.html">http://www.ibm.com/jbvb/educbtion/boundbries/boundbries.html</b>.
+ * &nbsp; For exbmples, see the resource dbtb (which is bnnotbted).</p>
  *
- * @author Richard Gillam
+ * @buthor Richbrd Gillbm
  */
-class RuleBasedBreakIterator extends BreakIterator {
+clbss RuleBbsedBrebkIterbtor extends BrebkIterbtor {
 
     /**
-     * A token used as a character-category value to identify ignore characters
+     * A token used bs b chbrbcter-cbtegory vblue to identify ignore chbrbcters
      */
-    protected static final byte IGNORE = -1;
+    protected stbtic finbl byte IGNORE = -1;
 
     /**
-     * The state number of the starting state
+     * The stbte number of the stbrting stbte
      */
-    private static final short START_STATE = 1;
+    privbte stbtic finbl short START_STATE = 1;
 
     /**
-     * The state-transition value indicating "stop"
+     * The stbte-trbnsition vblue indicbting "stop"
      */
-    private static final short STOP_STATE = 0;
+    privbte stbtic finbl short STOP_STATE = 0;
 
     /**
-     * Magic number for the BreakIterator data file format.
+     * Mbgic number for the BrebkIterbtor dbtb file formbt.
      */
-    static final byte[] LABEL = {
-        (byte)'B', (byte)'I', (byte)'d', (byte)'a', (byte)'t', (byte)'a',
+    stbtic finbl byte[] LABEL = {
+        (byte)'B', (byte)'I', (byte)'d', (byte)'b', (byte)'t', (byte)'b',
         (byte)'\0'
     };
-    static final int    LABEL_LENGTH = LABEL.length;
+    stbtic finbl int    LABEL_LENGTH = LABEL.length;
 
     /**
-     * Version number of the dictionary that was read in.
+     * Version number of the dictionbry thbt wbs rebd in.
      */
-    static final byte supportedVersion = 1;
+    stbtic finbl byte supportedVersion = 1;
 
     /**
-     * Header size in byte count
+     * Hebder size in byte count
      */
-    private static final int HEADER_LENGTH = 36;
+    privbte stbtic finbl int HEADER_LENGTH = 36;
 
     /**
-     * An array length of indices for BMP characters
+     * An brrby length of indices for BMP chbrbcters
      */
-    private static final int BMP_INDICES_LENGTH = 512;
+    privbte stbtic finbl int BMP_INDICES_LENGTH = 512;
 
     /**
-     * Tables that indexes from character values to character category numbers
+     * Tbbles thbt indexes from chbrbcter vblues to chbrbcter cbtegory numbers
      */
-    private CompactByteArray charCategoryTable = null;
-    private SupplementaryCharacterData supplementaryCharCategoryTable = null;
+    privbte CompbctByteArrby chbrCbtegoryTbble = null;
+    privbte SupplementbryChbrbcterDbtb supplementbryChbrCbtegoryTbble = null;
 
     /**
-     * The table of state transitions used for forward iteration
+     * The tbble of stbte trbnsitions used for forwbrd iterbtion
      */
-    private short[] stateTable = null;
+    privbte short[] stbteTbble = null;
 
     /**
-     * The table of state transitions used to sync up the iterator with the
-     * text in backwards and random-access iteration
+     * The tbble of stbte trbnsitions used to sync up the iterbtor with the
+     * text in bbckwbrds bnd rbndom-bccess iterbtion
      */
-    private short[] backwardsStateTable = null;
+    privbte short[] bbckwbrdsStbteTbble = null;
 
     /**
-     * A list of flags indicating which states in the state table are accepting
-     * ("end") states
+     * A list of flbgs indicbting which stbtes in the stbte tbble bre bccepting
+     * ("end") stbtes
      */
-    private boolean[] endStates = null;
+    privbte boolebn[] endStbtes = null;
 
     /**
-     * A list of flags indicating which states in the state table are
-     * lookahead states (states which turn lookahead on and off)
+     * A list of flbgs indicbting which stbtes in the stbte tbble bre
+     * lookbhebd stbtes (stbtes which turn lookbhebd on bnd off)
      */
-    private boolean[] lookaheadStates = null;
+    privbte boolebn[] lookbhebdStbtes = null;
 
     /**
-     * A table for additional data. May be used by a subclass of
-     * RuleBasedBreakIterator.
+     * A tbble for bdditionbl dbtb. Mby be used by b subclbss of
+     * RuleBbsedBrebkIterbtor.
      */
-    private byte[] additionalData = null;
+    privbte byte[] bdditionblDbtb = null;
 
     /**
-     * The number of character categories (and, thus, the number of columns in
-     * the state tables)
+     * The number of chbrbcter cbtegories (bnd, thus, the number of columns in
+     * the stbte tbbles)
      */
-    private int numCategories;
+    privbte int numCbtegories;
 
     /**
-     * The character iterator through which this BreakIterator accesses the text
+     * The chbrbcter iterbtor through which this BrebkIterbtor bccesses the text
      */
-    private CharacterIterator text = null;
+    privbte ChbrbcterIterbtor text = null;
 
     /**
-     * A CRC32 value of all data in datafile
+     * A CRC32 vblue of bll dbtb in dbtbfile
      */
-    private long checksum;
+    privbte long checksum;
 
     //=======================================================================
     // constructors
     //=======================================================================
 
     /**
-     * Constructs a RuleBasedBreakIterator according to the datafile
+     * Constructs b RuleBbsedBrebkIterbtor bccording to the dbtbfile
      * provided.
      */
-    RuleBasedBreakIterator(String datafile)
+    RuleBbsedBrebkIterbtor(String dbtbfile)
         throws IOException, MissingResourceException {
-        readTables(datafile);
+        rebdTbbles(dbtbfile);
     }
 
     /**
-     * Read datafile. The datafile's format is as follows:
+     * Rebd dbtbfile. The dbtbfile's formbt is bs follows:
      * <pre>
-     *   BreakIteratorData {
-     *       u1           magic[7];
+     *   BrebkIterbtorDbtb {
+     *       u1           mbgic[7];
      *       u1           version;
-     *       u4           totalDataSize;
-     *       header_info  header;
-     *       body         value;
+     *       u4           totblDbtbSize;
+     *       hebder_info  hebder;
+     *       body         vblue;
      *   }
      * </pre>
-     * <code>totalDataSize</code> is the summation of the size of
-     * <code>header_info</code> and <code>body</code> in byte count.
+     * <code>totblDbtbSize</code> is the summbtion of the size of
+     * <code>hebder_info</code> bnd <code>body</code> in byte count.
      * <p>
-     * In <code>header</code>, each field except for checksum implies the
-     * length of each field. Since <code>BMPdataLength</code> is a fixed-length
-     *  data(512 entries), its length isn't included in <code>header</code>.
-     * <code>checksum</code> is a CRC32 value of all in <code>body</code>.
+     * In <code>hebder</code>, ebch field except for checksum implies the
+     * length of ebch field. Since <code>BMPdbtbLength</code> is b fixed-length
+     *  dbtb(512 entries), its length isn't included in <code>hebder</code>.
+     * <code>checksum</code> is b CRC32 vblue of bll in <code>body</code>.
      * <pre>
-     *   header_info {
-     *       u4           stateTableLength;
-     *       u4           backwardsStateTableLength;
-     *       u4           endStatesLength;
-     *       u4           lookaheadStatesLength;
-     *       u4           BMPdataLength;
-     *       u4           nonBMPdataLength;
-     *       u4           additionalDataLength;
+     *   hebder_info {
+     *       u4           stbteTbbleLength;
+     *       u4           bbckwbrdsStbteTbbleLength;
+     *       u4           endStbtesLength;
+     *       u4           lookbhebdStbtesLength;
+     *       u4           BMPdbtbLength;
+     *       u4           nonBMPdbtbLength;
+     *       u4           bdditionblDbtbLength;
      *       u8           checksum;
      *   }
      * </pre>
      * <p>
      *
-     * Finally, <code>BMPindices</code> and <code>BMPdata</code> are set to
-     * <code>charCategoryTable</code>. <code>nonBMPdata</code> is set to
-     * <code>supplementaryCharCategoryTable</code>.
+     * Finblly, <code>BMPindices</code> bnd <code>BMPdbtb</code> bre set to
+     * <code>chbrCbtegoryTbble</code>. <code>nonBMPdbtb</code> is set to
+     * <code>supplementbryChbrCbtegoryTbble</code>.
      * <pre>
      *   body {
-     *       u2           stateTable[stateTableLength];
-     *       u2           backwardsStateTable[backwardsStateTableLength];
-     *       u1           endStates[endStatesLength];
-     *       u1           lookaheadStates[lookaheadStatesLength];
+     *       u2           stbteTbble[stbteTbbleLength];
+     *       u2           bbckwbrdsStbteTbble[bbckwbrdsStbteTbbleLength];
+     *       u1           endStbtes[endStbtesLength];
+     *       u1           lookbhebdStbtes[lookbhebdStbtesLength];
      *       u2           BMPindices[512];
-     *       u1           BMPdata[BMPdataLength];
-     *       u4           nonBMPdata[numNonBMPdataLength];
-     *       u1           additionalData[additionalDataLength];
+     *       u1           BMPdbtb[BMPdbtbLength];
+     *       u4           nonBMPdbtb[numNonBMPdbtbLength];
+     *       u1           bdditionblDbtb[bdditionblDbtbLength];
      *   }
      * </pre>
      */
-    protected final void readTables(String datafile)
+    protected finbl void rebdTbbles(String dbtbfile)
         throws IOException, MissingResourceException {
 
-        byte[] buffer = readFile(datafile);
+        byte[] buffer = rebdFile(dbtbfile);
 
-        /* Read header_info. */
-        int stateTableLength = getInt(buffer, 0);
-        int backwardsStateTableLength = getInt(buffer, 4);
-        int endStatesLength = getInt(buffer, 8);
-        int lookaheadStatesLength = getInt(buffer, 12);
-        int BMPdataLength = getInt(buffer, 16);
-        int nonBMPdataLength = getInt(buffer, 20);
-        int additionalDataLength = getInt(buffer, 24);
+        /* Rebd hebder_info. */
+        int stbteTbbleLength = getInt(buffer, 0);
+        int bbckwbrdsStbteTbbleLength = getInt(buffer, 4);
+        int endStbtesLength = getInt(buffer, 8);
+        int lookbhebdStbtesLength = getInt(buffer, 12);
+        int BMPdbtbLength = getInt(buffer, 16);
+        int nonBMPdbtbLength = getInt(buffer, 20);
+        int bdditionblDbtbLength = getInt(buffer, 24);
         checksum = getLong(buffer, 28);
 
-        /* Read stateTable[numCategories * numRows] */
-        stateTable = new short[stateTableLength];
+        /* Rebd stbteTbble[numCbtegories * numRows] */
+        stbteTbble = new short[stbteTbbleLength];
         int offset = HEADER_LENGTH;
-        for (int i = 0; i < stateTableLength; i++, offset+=2) {
-           stateTable[i] = getShort(buffer, offset);
+        for (int i = 0; i < stbteTbbleLength; i++, offset+=2) {
+           stbteTbble[i] = getShort(buffer, offset);
         }
 
-        /* Read backwardsStateTable[numCategories * numRows] */
-        backwardsStateTable = new short[backwardsStateTableLength];
-        for (int i = 0; i < backwardsStateTableLength; i++, offset+=2) {
-           backwardsStateTable[i] = getShort(buffer, offset);
+        /* Rebd bbckwbrdsStbteTbble[numCbtegories * numRows] */
+        bbckwbrdsStbteTbble = new short[bbckwbrdsStbteTbbleLength];
+        for (int i = 0; i < bbckwbrdsStbteTbbleLength; i++, offset+=2) {
+           bbckwbrdsStbteTbble[i] = getShort(buffer, offset);
         }
 
-        /* Read endStates[numRows] */
-        endStates = new boolean[endStatesLength];
-        for (int i = 0; i < endStatesLength; i++, offset++) {
-           endStates[i] = buffer[offset] == 1;
+        /* Rebd endStbtes[numRows] */
+        endStbtes = new boolebn[endStbtesLength];
+        for (int i = 0; i < endStbtesLength; i++, offset++) {
+           endStbtes[i] = buffer[offset] == 1;
         }
 
-        /* Read lookaheadStates[numRows] */
-        lookaheadStates = new boolean[lookaheadStatesLength];
-        for (int i = 0; i < lookaheadStatesLength; i++, offset++) {
-           lookaheadStates[i] = buffer[offset] == 1;
+        /* Rebd lookbhebdStbtes[numRows] */
+        lookbhebdStbtes = new boolebn[lookbhebdStbtesLength];
+        for (int i = 0; i < lookbhebdStbtesLength; i++, offset++) {
+           lookbhebdStbtes[i] = buffer[offset] == 1;
         }
 
-        /* Read a category table and indices for BMP characters. */
+        /* Rebd b cbtegory tbble bnd indices for BMP chbrbcters. */
         short[] temp1 = new short[BMP_INDICES_LENGTH];  // BMPindices
         for (int i = 0; i < BMP_INDICES_LENGTH; i++, offset+=2) {
             temp1[i] = getShort(buffer, offset);
         }
-        byte[] temp2 = new byte[BMPdataLength];  // BMPdata
-        System.arraycopy(buffer, offset, temp2, 0, BMPdataLength);
-        offset += BMPdataLength;
-        charCategoryTable = new CompactByteArray(temp1, temp2);
+        byte[] temp2 = new byte[BMPdbtbLength];  // BMPdbtb
+        System.brrbycopy(buffer, offset, temp2, 0, BMPdbtbLength);
+        offset += BMPdbtbLength;
+        chbrCbtegoryTbble = new CompbctByteArrby(temp1, temp2);
 
-        /* Read a category table for non-BMP characters. */
-        int[] temp3 = new int[nonBMPdataLength];
-        for (int i = 0; i < nonBMPdataLength; i++, offset+=4) {
+        /* Rebd b cbtegory tbble for non-BMP chbrbcters. */
+        int[] temp3 = new int[nonBMPdbtbLength];
+        for (int i = 0; i < nonBMPdbtbLength; i++, offset+=4) {
             temp3[i] = getInt(buffer, offset);
         }
-        supplementaryCharCategoryTable = new SupplementaryCharacterData(temp3);
+        supplementbryChbrCbtegoryTbble = new SupplementbryChbrbcterDbtb(temp3);
 
-        /* Read additional data */
-        if (additionalDataLength > 0) {
-            additionalData = new byte[additionalDataLength];
-            System.arraycopy(buffer, offset, additionalData, 0, additionalDataLength);
+        /* Rebd bdditionbl dbtb */
+        if (bdditionblDbtbLength > 0) {
+            bdditionblDbtb = new byte[bdditionblDbtbLength];
+            System.brrbycopy(buffer, offset, bdditionblDbtb, 0, bdditionblDbtbLength);
         }
 
-        /* Set numCategories */
-        numCategories = stateTable.length / endStates.length;
+        /* Set numCbtegories */
+        numCbtegories = stbteTbble.length / endStbtes.length;
     }
 
-    protected byte[] readFile(final String datafile)
+    protected byte[] rebdFile(finbl String dbtbfile)
         throws IOException, MissingResourceException {
 
-        BufferedInputStream is;
+        BufferedInputStrebm is;
         try {
             is = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<BufferedInputStream>() {
+                new PrivilegedExceptionAction<BufferedInputStrebm>() {
                     @Override
-                    public BufferedInputStream run() throws Exception {
-                        return new BufferedInputStream(getClass().getResourceAsStream("/sun/text/resources/" + datafile));
+                    public BufferedInputStrebm run() throws Exception {
+                        return new BufferedInputStrebm(getClbss().getResourceAsStrebm("/sun/text/resources/" + dbtbfile));
                     }
                 }
             );
         }
-        catch (PrivilegedActionException e) {
-            throw new InternalError(e.toString(), e);
+        cbtch (PrivilegedActionException e) {
+            throw new InternblError(e.toString(), e);
         }
 
         int offset = 0;
 
-        /* First, read magic, version, and header_info. */
+        /* First, rebd mbgic, version, bnd hebder_info. */
         int len = LABEL_LENGTH + 5;
         byte[] buf = new byte[len];
-        if (is.read(buf) != len) {
-            throw new MissingResourceException("Wrong header length",
-                                               datafile, "");
+        if (is.rebd(buf) != len) {
+            throw new MissingResourceException("Wrong hebder length",
+                                               dbtbfile, "");
         }
 
-        /* Validate the magic number. */
+        /* Vblidbte the mbgic number. */
         for (int i = 0; i < LABEL_LENGTH; i++, offset++) {
             if (buf[offset] != LABEL[offset]) {
-                throw new MissingResourceException("Wrong magic number",
-                                                   datafile, "");
+                throw new MissingResourceException("Wrong mbgic number",
+                                                   dbtbfile, "");
             }
         }
 
-        /* Validate the version number. */
+        /* Vblidbte the version number. */
         if (buf[offset] != supportedVersion) {
             throw new MissingResourceException("Unsupported version(" + buf[offset] + ")",
-                                               datafile, "");
+                                               dbtbfile, "");
         }
 
-        /* Read data: totalDataSize + 8(for checksum) */
+        /* Rebd dbtb: totblDbtbSize + 8(for checksum) */
         len = getInt(buf, ++offset);
         buf = new byte[len];
-        if (is.read(buf) != len) {
-            throw new MissingResourceException("Wrong data length",
-                                               datafile, "");
+        if (is.rebd(buf) != len) {
+            throw new MissingResourceException("Wrong dbtb length",
+                                               dbtbfile, "");
         }
 
         is.close();
@@ -491,54 +491,54 @@ class RuleBasedBreakIterator extends BreakIterator {
         return buf;
     }
 
-    byte[] getAdditionalData() {
-        return additionalData;
+    byte[] getAdditionblDbtb() {
+        return bdditionblDbtb;
     }
 
-    void setAdditionalData(byte[] b) {
-        additionalData = b;
+    void setAdditionblDbtb(byte[] b) {
+        bdditionblDbtb = b;
     }
 
     //=======================================================================
-    // boilerplate
+    // boilerplbte
     //=======================================================================
     /**
-     * Clones this iterator.
-     * @return A newly-constructed RuleBasedBreakIterator with the same
-     * behavior as this one.
+     * Clones this iterbtor.
+     * @return A newly-constructed RuleBbsedBrebkIterbtor with the sbme
+     * behbvior bs this one.
      */
     @Override
     public Object clone() {
-        RuleBasedBreakIterator result = (RuleBasedBreakIterator) super.clone();
+        RuleBbsedBrebkIterbtor result = (RuleBbsedBrebkIterbtor) super.clone();
         if (text != null) {
-            result.text = (CharacterIterator) text.clone();
+            result.text = (ChbrbcterIterbtor) text.clone();
         }
         return result;
     }
 
     /**
-     * Returns true if both BreakIterators are of the same class, have the same
-     * rules, and iterate over the same text.
+     * Returns true if both BrebkIterbtors bre of the sbme clbss, hbve the sbme
+     * rules, bnd iterbte over the sbme text.
      */
     @Override
-    public boolean equals(Object that) {
+    public boolebn equbls(Object thbt) {
         try {
-            if (that == null) {
-                return false;
+            if (thbt == null) {
+                return fblse;
             }
 
-            RuleBasedBreakIterator other = (RuleBasedBreakIterator) that;
+            RuleBbsedBrebkIterbtor other = (RuleBbsedBrebkIterbtor) thbt;
             if (checksum != other.checksum) {
-                return false;
+                return fblse;
             }
             if (text == null) {
                 return other.text == null;
             } else {
-                return text.equals(other.text);
+                return text.equbls(other.text);
             }
         }
-        catch(ClassCastException e) {
-            return false;
+        cbtch(ClbssCbstException e) {
+            return fblse;
         }
     }
 
@@ -548,68 +548,68 @@ class RuleBasedBreakIterator extends BreakIterator {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        sb.append("checksum=0x");
-        sb.append(Long.toHexString(checksum));
-        sb.append(']');
+        sb.bppend('[');
+        sb.bppend("checksum=0x");
+        sb.bppend(Long.toHexString(checksum));
+        sb.bppend(']');
         return sb.toString();
     }
 
     /**
-     * Compute a hashcode for this BreakIterator
-     * @return A hash code
+     * Compute b hbshcode for this BrebkIterbtor
+     * @return A hbsh code
      */
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         return (int)checksum;
     }
 
     //=======================================================================
-    // BreakIterator overrides
+    // BrebkIterbtor overrides
     //=======================================================================
 
     /**
-     * Sets the current iteration position to the beginning of the text.
-     * (i.e., the CharacterIterator's starting offset).
+     * Sets the current iterbtion position to the beginning of the text.
+     * (i.e., the ChbrbcterIterbtor's stbrting offset).
      * @return The offset of the beginning of the text.
      */
     @Override
     public int first() {
-        CharacterIterator t = getText();
+        ChbrbcterIterbtor t = getText();
 
         t.first();
         return t.getIndex();
     }
 
     /**
-     * Sets the current iteration position to the end of the text.
-     * (i.e., the CharacterIterator's ending offset).
-     * @return The text's past-the-end offset.
+     * Sets the current iterbtion position to the end of the text.
+     * (i.e., the ChbrbcterIterbtor's ending offset).
+     * @return The text's pbst-the-end offset.
      */
     @Override
-    public int last() {
-        CharacterIterator t = getText();
+    public int lbst() {
+        ChbrbcterIterbtor t = getText();
 
-        // I'm not sure why, but t.last() returns the offset of the last character,
-        // rather than the past-the-end offset
+        // I'm not sure why, but t.lbst() returns the offset of the lbst chbrbcter,
+        // rbther thbn the pbst-the-end offset
         t.setIndex(t.getEndIndex());
         return t.getIndex();
     }
 
     /**
-     * Advances the iterator either forward or backward the specified number of steps.
-     * Negative values move backward, and positive values move forward.  This is
-     * equivalent to repeatedly calling next() or previous().
-     * @param n The number of steps to move.  The sign indicates the direction
-     * (negative is backwards, and positive is forwards).
-     * @return The character offset of the boundary position n boundaries away from
+     * Advbnces the iterbtor either forwbrd or bbckwbrd the specified number of steps.
+     * Negbtive vblues move bbckwbrd, bnd positive vblues move forwbrd.  This is
+     * equivblent to repebtedly cblling next() or previous().
+     * @pbrbm n The number of steps to move.  The sign indicbtes the direction
+     * (negbtive is bbckwbrds, bnd positive is forwbrds).
+     * @return The chbrbcter offset of the boundbry position n boundbries bwby from
      * the current one.
      */
     @Override
     public int next(int n) {
         int result = current();
         while (n > 0) {
-            result = handleNext();
+            result = hbndleNext();
             --n;
         }
         while (n < 0) {
@@ -620,71 +620,71 @@ class RuleBasedBreakIterator extends BreakIterator {
     }
 
     /**
-     * Advances the iterator to the next boundary position.
-     * @return The position of the first boundary after this one.
+     * Advbnces the iterbtor to the next boundbry position.
+     * @return The position of the first boundbry bfter this one.
      */
     @Override
     public int next() {
-        return handleNext();
+        return hbndleNext();
     }
 
-    private int cachedLastKnownBreak = BreakIterator.DONE;
+    privbte int cbchedLbstKnownBrebk = BrebkIterbtor.DONE;
 
     /**
-     * Advances the iterator backwards, to the last boundary preceding this one.
-     * @return The position of the last boundary position preceding this one.
+     * Advbnces the iterbtor bbckwbrds, to the lbst boundbry preceding this one.
+     * @return The position of the lbst boundbry position preceding this one.
      */
     @Override
     public int previous() {
-        // if we're already sitting at the beginning of the text, return DONE
-        CharacterIterator text = getText();
+        // if we're blrebdy sitting bt the beginning of the text, return DONE
+        ChbrbcterIterbtor text = getText();
         if (current() == text.getBeginIndex()) {
-            return BreakIterator.DONE;
+            return BrebkIterbtor.DONE;
         }
 
-        // set things up.  handlePrevious() will back us up to some valid
-        // break position before the current position (we back our internal
-        // iterator up one step to prevent handlePrevious() from returning
-        // the current position), but not necessarily the last one before
-        // where we started
-        int start = current();
-        int lastResult = cachedLastKnownBreak;
-        if (lastResult >= start || lastResult <= BreakIterator.DONE) {
+        // set things up.  hbndlePrevious() will bbck us up to some vblid
+        // brebk position before the current position (we bbck our internbl
+        // iterbtor up one step to prevent hbndlePrevious() from returning
+        // the current position), but not necessbrily the lbst one before
+        // where we stbrted
+        int stbrt = current();
+        int lbstResult = cbchedLbstKnownBrebk;
+        if (lbstResult >= stbrt || lbstResult <= BrebkIterbtor.DONE) {
             getPrevious();
-            lastResult = handlePrevious();
+            lbstResult = hbndlePrevious();
         } else {
-            //it might be better to check if handlePrevious() give us closer
-            //safe value but handlePrevious() is slow too
-            //So, this has to be done carefully
-            text.setIndex(lastResult);
+            //it might be better to check if hbndlePrevious() give us closer
+            //sbfe vblue but hbndlePrevious() is slow too
+            //So, this hbs to be done cbrefully
+            text.setIndex(lbstResult);
         }
-        int result = lastResult;
+        int result = lbstResult;
 
-        // iterate forward from the known break position until we pass our
-        // starting point.  The last break position before the starting
-        // point is our return value
-        while (result != BreakIterator.DONE && result < start) {
-            lastResult = result;
-            result = handleNext();
+        // iterbte forwbrd from the known brebk position until we pbss our
+        // stbrting point.  The lbst brebk position before the stbrting
+        // point is our return vblue
+        while (result != BrebkIterbtor.DONE && result < stbrt) {
+            lbstResult = result;
+            result = hbndleNext();
         }
 
-        // set the current iteration position to be the last break position
-        // before where we started, and then return that value
-        text.setIndex(lastResult);
-        cachedLastKnownBreak = lastResult;
-        return lastResult;
+        // set the current iterbtion position to be the lbst brebk position
+        // before where we stbrted, bnd then return thbt vblue
+        text.setIndex(lbstResult);
+        cbchedLbstKnownBrebk = lbstResult;
+        return lbstResult;
     }
 
     /**
-     * Returns previous character
+     * Returns previous chbrbcter
      */
-    private int getPrevious() {
-        char c2 = text.previous();
-        if (Character.isLowSurrogate(c2) &&
+    privbte int getPrevious() {
+        chbr c2 = text.previous();
+        if (Chbrbcter.isLowSurrogbte(c2) &&
             text.getIndex() > text.getBeginIndex()) {
-            char c1 = text.previous();
-            if (Character.isHighSurrogate(c1)) {
-                return Character.toCodePoint(c1, c2);
+            chbr c1 = text.previous();
+            if (Chbrbcter.isHighSurrogbte(c1)) {
+                return Chbrbcter.toCodePoint(c1, c2);
             } else {
                 text.next();
             }
@@ -693,31 +693,31 @@ class RuleBasedBreakIterator extends BreakIterator {
     }
 
     /**
-     * Returns current character
+     * Returns current chbrbcter
      */
     int getCurrent() {
-        char c1 = text.current();
-        if (Character.isHighSurrogate(c1) &&
+        chbr c1 = text.current();
+        if (Chbrbcter.isHighSurrogbte(c1) &&
             text.getIndex() < text.getEndIndex()) {
-            char c2 = text.next();
+            chbr c2 = text.next();
             text.previous();
-            if (Character.isLowSurrogate(c2)) {
-                return Character.toCodePoint(c1, c2);
+            if (Chbrbcter.isLowSurrogbte(c2)) {
+                return Chbrbcter.toCodePoint(c1, c2);
             }
         }
         return (int)c1;
     }
 
     /**
-     * Returns the count of next character.
+     * Returns the count of next chbrbcter.
      */
-    private int getCurrentCodePointCount() {
-        char c1 = text.current();
-        if (Character.isHighSurrogate(c1) &&
+    privbte int getCurrentCodePointCount() {
+        chbr c1 = text.current();
+        if (Chbrbcter.isHighSurrogbte(c1) &&
             text.getIndex() < text.getEndIndex()) {
-            char c2 = text.next();
+            chbr c2 = text.next();
             text.previous();
-            if (Character.isLowSurrogate(c2)) {
+            if (Chbrbcter.isLowSurrogbte(c2)) {
                 return 2;
             }
         }
@@ -725,23 +725,23 @@ class RuleBasedBreakIterator extends BreakIterator {
     }
 
     /**
-     * Returns next character
+     * Returns next chbrbcter
      */
     int getNext() {
         int index = text.getIndex();
         int endIndex = text.getEndIndex();
         if (index == endIndex ||
             (index += getCurrentCodePointCount()) >= endIndex) {
-            return CharacterIterator.DONE;
+            return ChbrbcterIterbtor.DONE;
         }
         text.setIndex(index);
         return getCurrent();
     }
 
     /**
-     * Returns the position of next character.
+     * Returns the position of next chbrbcter.
      */
-    private int getNextIndex() {
+    privbte int getNextIndex() {
         int index = text.getIndex() + getCurrentCodePointCount();
         int endIndex = text.getEndIndex();
         if (index > endIndex) {
@@ -752,101 +752,101 @@ class RuleBasedBreakIterator extends BreakIterator {
     }
 
     /**
-     * Throw IllegalArgumentException unless begin <= offset < end.
+     * Throw IllegblArgumentException unless begin <= offset < end.
      */
-    protected static final void checkOffset(int offset, CharacterIterator text) {
+    protected stbtic finbl void checkOffset(int offset, ChbrbcterIterbtor text) {
         if (offset < text.getBeginIndex() || offset > text.getEndIndex()) {
-            throw new IllegalArgumentException("offset out of bounds");
+            throw new IllegblArgumentException("offset out of bounds");
         }
     }
 
     /**
-     * Sets the iterator to refer to the first boundary position following
+     * Sets the iterbtor to refer to the first boundbry position following
      * the specified position.
-     * @offset The position from which to begin searching for a break position.
-     * @return The position of the first break after the current position.
+     * @offset The position from which to begin sebrching for b brebk position.
+     * @return The position of the first brebk bfter the current position.
      */
     @Override
     public int following(int offset) {
 
-        CharacterIterator text = getText();
+        ChbrbcterIterbtor text = getText();
         checkOffset(offset, text);
 
-        // Set our internal iteration position (temporarily)
-        // to the position passed in.  If this is the _beginning_ position,
-        // then we can just use next() to get our return value
+        // Set our internbl iterbtion position (temporbrily)
+        // to the position pbssed in.  If this is the _beginning_ position,
+        // then we cbn just use next() to get our return vblue
         text.setIndex(offset);
         if (offset == text.getBeginIndex()) {
-            cachedLastKnownBreak = handleNext();
-            return cachedLastKnownBreak;
+            cbchedLbstKnownBrebk = hbndleNext();
+            return cbchedLbstKnownBrebk;
         }
 
-        // otherwise, we have to sync up first.  Use handlePrevious() to back
-        // us up to a known break position before the specified position (if
-        // we can determine that the specified position is a break position,
-        // we don't back up at all).  This may or may not be the last break
-        // position at or before our starting position.  Advance forward
-        // from here until we've passed the starting position.  The position
-        // we stop on will be the first break position after the specified one.
-        int result = cachedLastKnownBreak;
-        if (result >= offset || result <= BreakIterator.DONE) {
-            result = handlePrevious();
+        // otherwise, we hbve to sync up first.  Use hbndlePrevious() to bbck
+        // us up to b known brebk position before the specified position (if
+        // we cbn determine thbt the specified position is b brebk position,
+        // we don't bbck up bt bll).  This mby or mby not be the lbst brebk
+        // position bt or before our stbrting position.  Advbnce forwbrd
+        // from here until we've pbssed the stbrting position.  The position
+        // we stop on will be the first brebk position bfter the specified one.
+        int result = cbchedLbstKnownBrebk;
+        if (result >= offset || result <= BrebkIterbtor.DONE) {
+            result = hbndlePrevious();
         } else {
-            //it might be better to check if handlePrevious() give us closer
-            //safe value but handlePrevious() is slow too
-            //So, this has to be done carefully
+            //it might be better to check if hbndlePrevious() give us closer
+            //sbfe vblue but hbndlePrevious() is slow too
+            //So, this hbs to be done cbrefully
             text.setIndex(result);
         }
-        while (result != BreakIterator.DONE && result <= offset) {
-            result = handleNext();
+        while (result != BrebkIterbtor.DONE && result <= offset) {
+            result = hbndleNext();
         }
-        cachedLastKnownBreak = result;
+        cbchedLbstKnownBrebk = result;
         return result;
     }
 
     /**
-     * Sets the iterator to refer to the last boundary position before the
+     * Sets the iterbtor to refer to the lbst boundbry position before the
      * specified position.
-     * @offset The position to begin searching for a break from.
-     * @return The position of the last boundary before the starting position.
+     * @offset The position to begin sebrching for b brebk from.
+     * @return The position of the lbst boundbry before the stbrting position.
      */
     @Override
     public int preceding(int offset) {
-        // if we start by updating the current iteration position to the
-        // position specified by the caller, we can just use previous()
-        // to carry out this operation
-        CharacterIterator text = getText();
+        // if we stbrt by updbting the current iterbtion position to the
+        // position specified by the cbller, we cbn just use previous()
+        // to cbrry out this operbtion
+        ChbrbcterIterbtor text = getText();
         checkOffset(offset, text);
         text.setIndex(offset);
         return previous();
     }
 
     /**
-     * Returns true if the specified position is a boundary position.  As a side
-     * effect, leaves the iterator pointing to the first boundary position at
-     * or after "offset".
-     * @param offset the offset to check.
-     * @return True if "offset" is a boundary position.
+     * Returns true if the specified position is b boundbry position.  As b side
+     * effect, lebves the iterbtor pointing to the first boundbry position bt
+     * or bfter "offset".
+     * @pbrbm offset the offset to check.
+     * @return True if "offset" is b boundbry position.
      */
     @Override
-    public boolean isBoundary(int offset) {
-        CharacterIterator text = getText();
+    public boolebn isBoundbry(int offset) {
+        ChbrbcterIterbtor text = getText();
         checkOffset(offset, text);
         if (offset == text.getBeginIndex()) {
             return true;
         }
 
-        // to check whether this is a boundary, we can use following() on the
-        // position before the specified one and return true if the position we
-        // get back is the one the user specified
+        // to check whether this is b boundbry, we cbn use following() on the
+        // position before the specified one bnd return true if the position we
+        // get bbck is the one the user specified
         else {
             return following(offset - 1) == offset;
         }
     }
 
     /**
-     * Returns the current iteration position.
-     * @return The current iteration position.
+     * Returns the current iterbtion position.
+     * @return The current iterbtion position.
      */
     @Override
     public int current() {
@@ -854,114 +854,114 @@ class RuleBasedBreakIterator extends BreakIterator {
     }
 
     /**
-     * Return a CharacterIterator over the text being analyzed.  This version
-     * of this method returns the actual CharacterIterator we're using internally.
-     * Changing the state of this iterator can have undefined consequences.  If
-     * you need to change it, clone it first.
-     * @return An iterator over the text being analyzed.
+     * Return b ChbrbcterIterbtor over the text being bnblyzed.  This version
+     * of this method returns the bctubl ChbrbcterIterbtor we're using internblly.
+     * Chbnging the stbte of this iterbtor cbn hbve undefined consequences.  If
+     * you need to chbnge it, clone it first.
+     * @return An iterbtor over the text being bnblyzed.
      */
     @Override
-    public CharacterIterator getText() {
-        // The iterator is initialized pointing to no text at all, so if this
-        // function is called while we're in that state, we have to fudge an
-        // iterator to return.
+    public ChbrbcterIterbtor getText() {
+        // The iterbtor is initiblized pointing to no text bt bll, so if this
+        // function is cblled while we're in thbt stbte, we hbve to fudge bn
+        // iterbtor to return.
         if (text == null) {
-            text = new StringCharacterIterator("");
+            text = new StringChbrbcterIterbtor("");
         }
         return text;
     }
 
     /**
-     * Set the iterator to analyze a new piece of text.  This function resets
-     * the current iteration position to the beginning of the text.
-     * @param newText An iterator over the text to analyze.
+     * Set the iterbtor to bnblyze b new piece of text.  This function resets
+     * the current iterbtion position to the beginning of the text.
+     * @pbrbm newText An iterbtor over the text to bnblyze.
      */
     @Override
-    public void setText(CharacterIterator newText) {
-        // Test iterator to see if we need to wrap it in a SafeCharIterator.
-        // The correct behavior for CharacterIterators is to allow the
-        // position to be set to the endpoint of the iterator.  Many
-        // CharacterIterators do not uphold this, so this is a workaround
-        // to permit them to use this class.
+    public void setText(ChbrbcterIterbtor newText) {
+        // Test iterbtor to see if we need to wrbp it in b SbfeChbrIterbtor.
+        // The correct behbvior for ChbrbcterIterbtors is to bllow the
+        // position to be set to the endpoint of the iterbtor.  Mbny
+        // ChbrbcterIterbtors do not uphold this, so this is b workbround
+        // to permit them to use this clbss.
         int end = newText.getEndIndex();
-        boolean goodIterator;
+        boolebn goodIterbtor;
         try {
-            newText.setIndex(end);  // some buggy iterators throw an exception here
-            goodIterator = newText.getIndex() == end;
+            newText.setIndex(end);  // some buggy iterbtors throw bn exception here
+            goodIterbtor = newText.getIndex() == end;
         }
-        catch(IllegalArgumentException e) {
-            goodIterator = false;
+        cbtch(IllegblArgumentException e) {
+            goodIterbtor = fblse;
         }
 
-        if (goodIterator) {
+        if (goodIterbtor) {
             text = newText;
         }
         else {
-            text = new SafeCharIterator(newText);
+            text = new SbfeChbrIterbtor(newText);
         }
         text.first();
 
-        cachedLastKnownBreak = BreakIterator.DONE;
+        cbchedLbstKnownBrebk = BrebkIterbtor.DONE;
     }
 
 
     //=======================================================================
-    // implementation
+    // implementbtion
     //=======================================================================
 
     /**
-     * This method is the actual implementation of the next() method.  All iteration
-     * vectors through here.  This method initializes the state machine to state 1
-     * and advances through the text character by character until we reach the end
-     * of the text or the state machine transitions to state 0.  We update our return
-     * value every time the state machine passes through a possible end state.
+     * This method is the bctubl implementbtion of the next() method.  All iterbtion
+     * vectors through here.  This method initiblizes the stbte mbchine to stbte 1
+     * bnd bdvbnces through the text chbrbcter by chbrbcter until we rebch the end
+     * of the text or the stbte mbchine trbnsitions to stbte 0.  We updbte our return
+     * vblue every time the stbte mbchine pbsses through b possible end stbte.
      */
-    protected int handleNext() {
-        // if we're already at the end of the text, return DONE.
-        CharacterIterator text = getText();
+    protected int hbndleNext() {
+        // if we're blrebdy bt the end of the text, return DONE.
+        ChbrbcterIterbtor text = getText();
         if (text.getIndex() == text.getEndIndex()) {
-            return BreakIterator.DONE;
+            return BrebkIterbtor.DONE;
         }
 
-        // no matter what, we always advance at least one character forward
+        // no mbtter whbt, we blwbys bdvbnce bt lebst one chbrbcter forwbrd
         int result = getNextIndex();
-        int lookaheadResult = 0;
+        int lookbhebdResult = 0;
 
-        // begin in state 1
-        int state = START_STATE;
-        int category;
+        // begin in stbte 1
+        int stbte = START_STATE;
+        int cbtegory;
         int c = getCurrent();
 
-        // loop until we reach the end of the text or transition to state 0
-        while (c != CharacterIterator.DONE && state != STOP_STATE) {
+        // loop until we rebch the end of the text or trbnsition to stbte 0
+        while (c != ChbrbcterIterbtor.DONE && stbte != STOP_STATE) {
 
-            // look up the current character's character category (which tells us
-            // which column in the state table to look at)
-            category = lookupCategory(c);
+            // look up the current chbrbcter's chbrbcter cbtegory (which tells us
+            // which column in the stbte tbble to look bt)
+            cbtegory = lookupCbtegory(c);
 
-            // if the character isn't an ignore character, look up a state
-            // transition in the state table
-            if (category != IGNORE) {
-                state = lookupState(state, category);
+            // if the chbrbcter isn't bn ignore chbrbcter, look up b stbte
+            // trbnsition in the stbte tbble
+            if (cbtegory != IGNORE) {
+                stbte = lookupStbte(stbte, cbtegory);
             }
 
-            // if the state we've just transitioned to is a lookahead state,
-            // (but not also an end state), save its position.  If it's
-            // both a lookahead state and an end state, update the break position
-            // to the last saved lookup-state position
-            if (lookaheadStates[state]) {
-                if (endStates[state]) {
-                    result = lookaheadResult;
+            // if the stbte we've just trbnsitioned to is b lookbhebd stbte,
+            // (but not blso bn end stbte), sbve its position.  If it's
+            // both b lookbhebd stbte bnd bn end stbte, updbte the brebk position
+            // to the lbst sbved lookup-stbte position
+            if (lookbhebdStbtes[stbte]) {
+                if (endStbtes[stbte]) {
+                    result = lookbhebdResult;
                 }
                 else {
-                    lookaheadResult = getNextIndex();
+                    lookbhebdResult = getNextIndex();
                 }
             }
 
-            // otherwise, if the state we've just transitioned to is an accepting
-            // state, update the break position to be the current iteration position
+            // otherwise, if the stbte we've just trbnsitioned to is bn bccepting
+            // stbte, updbte the brebk position to be the current iterbtion position
             else {
-                if (endStates[state]) {
+                if (endStbtes[stbte]) {
                     result = getNextIndex();
                 }
             }
@@ -969,12 +969,12 @@ class RuleBasedBreakIterator extends BreakIterator {
             c = getNext();
         }
 
-        // if we've run off the end of the text, and the very last character took us into
-        // a lookahead state, advance the break position to the lookahead position
-        // (the theory here is that if there are no characters at all after the lookahead
-        // position, that always matches the lookahead criteria)
-        if (c == CharacterIterator.DONE && lookaheadResult == text.getEndIndex()) {
-            result = lookaheadResult;
+        // if we've run off the end of the text, bnd the very lbst chbrbcter took us into
+        // b lookbhebd stbte, bdvbnce the brebk position to the lookbhebd position
+        // (the theory here is thbt if there bre no chbrbcters bt bll bfter the lookbhebd
+        // position, thbt blwbys mbtches the lookbhebd criterib)
+        if (c == ChbrbcterIterbtor.DONE && lookbhebdResult == text.getEndIndex()) {
+            result = lookbhebdResult;
         }
 
         text.setIndex(result);
@@ -982,44 +982,44 @@ class RuleBasedBreakIterator extends BreakIterator {
     }
 
     /**
-     * This method backs the iterator back up to a "safe position" in the text.
-     * This is a position that we know, without any context, must be a break position.
-     * The various calling methods then iterate forward from this safe position to
-     * the appropriate position to return.  (For more information, see the description
-     * of buildBackwardsStateTable() in RuleBasedBreakIterator.Builder.)
+     * This method bbcks the iterbtor bbck up to b "sbfe position" in the text.
+     * This is b position thbt we know, without bny context, must be b brebk position.
+     * The vbrious cblling methods then iterbte forwbrd from this sbfe position to
+     * the bppropribte position to return.  (For more informbtion, see the description
+     * of buildBbckwbrdsStbteTbble() in RuleBbsedBrebkIterbtor.Builder.)
      */
-    protected int handlePrevious() {
-        CharacterIterator text = getText();
-        int state = START_STATE;
-        int category = 0;
-        int lastCategory = 0;
+    protected int hbndlePrevious() {
+        ChbrbcterIterbtor text = getText();
+        int stbte = START_STATE;
+        int cbtegory = 0;
+        int lbstCbtegory = 0;
         int c = getCurrent();
 
-        // loop until we reach the beginning of the text or transition to state 0
-        while (c != CharacterIterator.DONE && state != STOP_STATE) {
+        // loop until we rebch the beginning of the text or trbnsition to stbte 0
+        while (c != ChbrbcterIterbtor.DONE && stbte != STOP_STATE) {
 
-            // save the last character's category and look up the current
-            // character's category
-            lastCategory = category;
-            category = lookupCategory(c);
+            // sbve the lbst chbrbcter's cbtegory bnd look up the current
+            // chbrbcter's cbtegory
+            lbstCbtegory = cbtegory;
+            cbtegory = lookupCbtegory(c);
 
-            // if the current character isn't an ignore character, look up a
-            // state transition in the backwards state table
-            if (category != IGNORE) {
-                state = lookupBackwardState(state, category);
+            // if the current chbrbcter isn't bn ignore chbrbcter, look up b
+            // stbte trbnsition in the bbckwbrds stbte tbble
+            if (cbtegory != IGNORE) {
+                stbte = lookupBbckwbrdStbte(stbte, cbtegory);
             }
 
-            // then advance one character backwards
+            // then bdvbnce one chbrbcter bbckwbrds
             c = getPrevious();
         }
 
-        // if we didn't march off the beginning of the text, we're either one or two
-        // positions away from the real break position.  (One because of the call to
-        // previous() at the end of the loop above, and another because the character
-        // that takes us into the stop state will always be the character BEFORE
-        // the break position.)
-        if (c != CharacterIterator.DONE) {
-            if (lastCategory != IGNORE) {
+        // if we didn't mbrch off the beginning of the text, we're either one or two
+        // positions bwby from the rebl brebk position.  (One becbuse of the cbll to
+        // previous() bt the end of the loop bbove, bnd bnother becbuse the chbrbcter
+        // thbt tbkes us into the stop stbte will blwbys be the chbrbcter BEFORE
+        // the brebk position.)
+        if (c != ChbrbcterIterbtor.DONE) {
+            if (lbstCbtegory != IGNORE) {
                 getNext();
                 getNext();
             }
@@ -1031,34 +1031,34 @@ class RuleBasedBreakIterator extends BreakIterator {
     }
 
     /**
-     * Looks up a character's category (i.e., its category for breaking purposes,
-     * not its Unicode category)
+     * Looks up b chbrbcter's cbtegory (i.e., its cbtegory for brebking purposes,
+     * not its Unicode cbtegory)
      */
-    protected int lookupCategory(int c) {
-        if (c < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
-            return charCategoryTable.elementAt((char)c);
+    protected int lookupCbtegory(int c) {
+        if (c < Chbrbcter.MIN_SUPPLEMENTARY_CODE_POINT) {
+            return chbrCbtegoryTbble.elementAt((chbr)c);
         } else {
-            return supplementaryCharCategoryTable.getValue(c);
+            return supplementbryChbrCbtegoryTbble.getVblue(c);
         }
     }
 
     /**
-     * Given a current state and a character category, looks up the
-     * next state to transition to in the state table.
+     * Given b current stbte bnd b chbrbcter cbtegory, looks up the
+     * next stbte to trbnsition to in the stbte tbble.
      */
-    protected int lookupState(int state, int category) {
-        return stateTable[state * numCategories + category];
+    protected int lookupStbte(int stbte, int cbtegory) {
+        return stbteTbble[stbte * numCbtegories + cbtegory];
     }
 
     /**
-     * Given a current state and a character category, looks up the
-     * next state to transition to in the backwards state table.
+     * Given b current stbte bnd b chbrbcter cbtegory, looks up the
+     * next stbte to trbnsition to in the bbckwbrds stbte tbble.
      */
-    protected int lookupBackwardState(int state, int category) {
-        return backwardsStateTable[state * numCategories + category];
+    protected int lookupBbckwbrdStbte(int stbte, int cbtegory) {
+        return bbckwbrdsStbteTbble[stbte * numCbtegories + cbtegory];
     }
 
-    static long getLong(byte[] buf, int offset) {
+    stbtic long getLong(byte[] buf, int offset) {
         long num = buf[offset]&0xFF;
         for (int i = 1; i < 8; i++) {
             num = num<<8 | (buf[offset+i]&0xFF);
@@ -1066,7 +1066,7 @@ class RuleBasedBreakIterator extends BreakIterator {
         return num;
     }
 
-    static int getInt(byte[] buf, int offset) {
+    stbtic int getInt(byte[] buf, int offset) {
         int num = buf[offset]&0xFF;
         for (int i = 1; i < 4; i++) {
             num = num<<8 | (buf[offset+i]&0xFF);
@@ -1074,88 +1074,88 @@ class RuleBasedBreakIterator extends BreakIterator {
         return num;
     }
 
-    static short getShort(byte[] buf, int offset) {
+    stbtic short getShort(byte[] buf, int offset) {
         short num = (short)(buf[offset]&0xFF);
         num = (short)(num<<8 | (buf[offset+1]&0xFF));
         return num;
     }
 
     /*
-     * This class exists to work around a bug in incorrect implementations
-     * of CharacterIterator, which incorrectly handle setIndex(endIndex).
-     * This iterator relies only on base.setIndex(n) where n is less than
+     * This clbss exists to work bround b bug in incorrect implementbtions
+     * of ChbrbcterIterbtor, which incorrectly hbndle setIndex(endIndex).
+     * This iterbtor relies only on bbse.setIndex(n) where n is less thbn
      * endIndex.
      *
-     * One caveat:  if the base iterator's begin and end indices change
-     * the change will not be reflected by this wrapper.  Does that matter?
+     * One cbvebt:  if the bbse iterbtor's begin bnd end indices chbnge
+     * the chbnge will not be reflected by this wrbpper.  Does thbt mbtter?
      */
-    // TODO: Review this class to see if it's still required.
-    private static final class SafeCharIterator implements CharacterIterator,
-                                                           Cloneable {
+    // TODO: Review this clbss to see if it's still required.
+    privbte stbtic finbl clbss SbfeChbrIterbtor implements ChbrbcterIterbtor,
+                                                           Clonebble {
 
-        private CharacterIterator base;
-        private int rangeStart;
-        private int rangeLimit;
-        private int currentIndex;
+        privbte ChbrbcterIterbtor bbse;
+        privbte int rbngeStbrt;
+        privbte int rbngeLimit;
+        privbte int currentIndex;
 
-        SafeCharIterator(CharacterIterator base) {
-            this.base = base;
-            this.rangeStart = base.getBeginIndex();
-            this.rangeLimit = base.getEndIndex();
-            this.currentIndex = base.getIndex();
+        SbfeChbrIterbtor(ChbrbcterIterbtor bbse) {
+            this.bbse = bbse;
+            this.rbngeStbrt = bbse.getBeginIndex();
+            this.rbngeLimit = bbse.getEndIndex();
+            this.currentIndex = bbse.getIndex();
         }
 
         @Override
-        public char first() {
-            return setIndex(rangeStart);
+        public chbr first() {
+            return setIndex(rbngeStbrt);
         }
 
         @Override
-        public char last() {
-            return setIndex(rangeLimit - 1);
+        public chbr lbst() {
+            return setIndex(rbngeLimit - 1);
         }
 
         @Override
-        public char current() {
-            if (currentIndex < rangeStart || currentIndex >= rangeLimit) {
+        public chbr current() {
+            if (currentIndex < rbngeStbrt || currentIndex >= rbngeLimit) {
                 return DONE;
             }
             else {
-                return base.setIndex(currentIndex);
+                return bbse.setIndex(currentIndex);
             }
         }
 
         @Override
-        public char next() {
+        public chbr next() {
 
             currentIndex++;
-            if (currentIndex >= rangeLimit) {
-                currentIndex = rangeLimit;
+            if (currentIndex >= rbngeLimit) {
+                currentIndex = rbngeLimit;
                 return DONE;
             }
             else {
-                return base.setIndex(currentIndex);
+                return bbse.setIndex(currentIndex);
             }
         }
 
         @Override
-        public char previous() {
+        public chbr previous() {
 
             currentIndex--;
-            if (currentIndex < rangeStart) {
-                currentIndex = rangeStart;
+            if (currentIndex < rbngeStbrt) {
+                currentIndex = rbngeStbrt;
                 return DONE;
             }
             else {
-                return base.setIndex(currentIndex);
+                return bbse.setIndex(currentIndex);
             }
         }
 
         @Override
-        public char setIndex(int i) {
+        public chbr setIndex(int i) {
 
-            if (i < rangeStart || i > rangeLimit) {
-                throw new IllegalArgumentException("Invalid position");
+            if (i < rbngeStbrt || i > rbngeLimit) {
+                throw new IllegblArgumentException("Invblid position");
             }
             currentIndex = i;
             return current();
@@ -1163,12 +1163,12 @@ class RuleBasedBreakIterator extends BreakIterator {
 
         @Override
         public int getBeginIndex() {
-            return rangeStart;
+            return rbngeStbrt;
         }
 
         @Override
         public int getEndIndex() {
-            return rangeLimit;
+            return rbngeLimit;
         }
 
         @Override
@@ -1179,16 +1179,16 @@ class RuleBasedBreakIterator extends BreakIterator {
         @Override
         public Object clone() {
 
-            SafeCharIterator copy = null;
+            SbfeChbrIterbtor copy = null;
             try {
-                copy = (SafeCharIterator) super.clone();
+                copy = (SbfeChbrIterbtor) super.clone();
             }
-            catch(CloneNotSupportedException e) {
+            cbtch(CloneNotSupportedException e) {
                 throw new Error("Clone not supported: " + e);
             }
 
-            CharacterIterator copyOfBase = (CharacterIterator) base.clone();
-            copy.base = copyOfBase;
+            ChbrbcterIterbtor copyOfBbse = (ChbrbcterIterbtor) bbse.clone();
+            copy.bbse = copyOfBbse;
             return copy;
         }
     }

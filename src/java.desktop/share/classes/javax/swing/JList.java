@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import java.util.Vector;
-import java.util.Locale;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.Transient;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.Trbnsient;
 
-import javax.swing.event.*;
-import javax.accessibility.*;
-import javax.swing.plaf.*;
-import javax.swing.text.Position;
+import jbvbx.swing.event.*;
+import jbvbx.bccessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.Position;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.Seriblizbble;
 
 import sun.swing.SwingUtilities2;
 import sun.swing.SwingUtilities2.Section;
-import static sun.swing.SwingUtilities2.Section.*;
+import stbtic sun.swing.SwingUtilities2.Section.*;
 
 
 /**
- * A component that displays a list of objects and allows the user to select
- * one or more items. A separate model, {@code ListModel}, maintains the
+ * A component thbt displbys b list of objects bnd bllows the user to select
+ * one or more items. A sepbrbte model, {@code ListModel}, mbintbins the
  * contents of the list.
  * <p>
- * It's easy to display an array or Vector of objects, using the {@code JList}
- * constructor that automatically builds a read-only {@code ListModel} instance
+ * It's ebsy to displby bn brrby or Vector of objects, using the {@code JList}
+ * constructor thbt butombticblly builds b rebd-only {@code ListModel} instbnce
  * for you:
  * <pre>
  * {@code
- * // Create a JList that displays strings from an array
+ * // Crebte b JList thbt displbys strings from bn brrby
  *
- * String[] data = {"one", "two", "three", "four"};
- * JList<String> myList = new JList<String>(data);
+ * String[] dbtb = {"one", "two", "three", "four"};
+ * JList<String> myList = new JList<String>(dbtb);
  *
- * // Create a JList that displays the superclasses of JList.class, by
- * // creating it with a Vector populated with this data
+ * // Crebte b JList thbt displbys the superclbsses of JList.clbss, by
+ * // crebting it with b Vector populbted with this dbtb
  *
- * Vector<Class<?>> superClasses = new Vector<Class<?>>();
- * Class<JList> rootClass = javax.swing.JList.class;
- * for(Class<?> cls = rootClass; cls != null; cls = cls.getSuperclass()) {
- *     superClasses.addElement(cls);
+ * Vector<Clbss<?>> superClbsses = new Vector<Clbss<?>>();
+ * Clbss<JList> rootClbss = jbvbx.swing.JList.clbss;
+ * for(Clbss<?> cls = rootClbss; cls != null; cls = cls.getSuperclbss()) {
+ *     superClbsses.bddElement(cls);
  * }
- * JList<Class<?>> myList = new JList<Class<?>>(superClasses);
+ * JList<Clbss<?>> myList = new JList<Clbss<?>>(superClbsses);
  *
- * // The automatically created model is stored in JList's "model"
- * // property, which you can retrieve
+ * // The butombticblly crebted model is stored in JList's "model"
+ * // property, which you cbn retrieve
  *
- * ListModel<Class<?>> model = myList.getModel();
+ * ListModel<Clbss<?>> model = myList.getModel();
  * for(int i = 0; i < model.getSize(); i++) {
  *     System.out.println(model.getElementAt(i));
  * }
  * }
  * </pre>
  * <p>
- * A {@code ListModel} can be supplied directly to a {@code JList} by way of a
- * constructor or the {@code setModel} method. The contents need not be static -
- * the number of items, and the values of items can change over time. A correct
- * {@code ListModel} implementation notifies the set of
- * {@code javax.swing.event.ListDataListener}s that have been added to it, each
- * time a change occurs. These changes are characterized by a
- * {@code javax.swing.event.ListDataEvent}, which identifies the range of list
- * indices that have been modified, added, or removed. {@code JList}'s
- * {@code ListUI} is responsible for keeping the visual representation up to
- * date with changes, by listening to the model.
+ * A {@code ListModel} cbn be supplied directly to b {@code JList} by wby of b
+ * constructor or the {@code setModel} method. The contents need not be stbtic -
+ * the number of items, bnd the vblues of items cbn chbnge over time. A correct
+ * {@code ListModel} implementbtion notifies the set of
+ * {@code jbvbx.swing.event.ListDbtbListener}s thbt hbve been bdded to it, ebch
+ * time b chbnge occurs. These chbnges bre chbrbcterized by b
+ * {@code jbvbx.swing.event.ListDbtbEvent}, which identifies the rbnge of list
+ * indices thbt hbve been modified, bdded, or removed. {@code JList}'s
+ * {@code ListUI} is responsible for keeping the visubl representbtion up to
+ * dbte with chbnges, by listening to the model.
  * <p>
- * Simple, dynamic-content, {@code JList} applications can use the
- * {@code DefaultListModel} class to maintain list elements. This class
- * implements the {@code ListModel} interface and also provides a
- * <code>java.util.Vector</code>-like API. Applications that need a more
- * custom <code>ListModel</code> implementation may instead wish to subclass
- * {@code AbstractListModel}, which provides basic support for managing and
- * notifying listeners. For example, a read-only implementation of
- * {@code AbstractListModel}:
+ * Simple, dynbmic-content, {@code JList} bpplicbtions cbn use the
+ * {@code DefbultListModel} clbss to mbintbin list elements. This clbss
+ * implements the {@code ListModel} interfbce bnd blso provides b
+ * <code>jbvb.util.Vector</code>-like API. Applicbtions thbt need b more
+ * custom <code>ListModel</code> implementbtion mby instebd wish to subclbss
+ * {@code AbstrbctListModel}, which provides bbsic support for mbnbging bnd
+ * notifying listeners. For exbmple, b rebd-only implementbtion of
+ * {@code AbstrbctListModel}:
  * <pre>
  * {@code
- * // This list model has about 2^16 elements.  Enjoy scrolling.
+ * // This list model hbs bbout 2^16 elements.  Enjoy scrolling.
  *
- * ListModel<String> bigData = new AbstractListModel<String>() {
+ * ListModel<String> bigDbtb = new AbstrbctListModel<String>() {
  *     public int getSize() { return Short.MAX_VALUE; }
  *     public String getElementAt(int index) { return "Index " + index; }
  * };
  * }
  * </pre>
  * <p>
- * The selection state of a {@code JList} is managed by another separate
- * model, an instance of {@code ListSelectionModel}. {@code JList} is
- * initialized with a selection model on construction, and also contains
- * methods to query or set this selection model. Additionally, {@code JList}
- * provides convenient methods for easily managing the selection. These methods,
- * such as {@code setSelectedIndex} and {@code getSelectedValue}, are cover
- * methods that take care of the details of interacting with the selection
- * model. By default, {@code JList}'s selection model is configured to allow any
- * combination of items to be selected at a time; selection mode
- * {@code MULTIPLE_INTERVAL_SELECTION}. The selection mode can be changed
- * on the selection model directly, or via {@code JList}'s cover method.
- * Responsibility for updating the selection model in response to user gestures
+ * The selection stbte of b {@code JList} is mbnbged by bnother sepbrbte
+ * model, bn instbnce of {@code ListSelectionModel}. {@code JList} is
+ * initiblized with b selection model on construction, bnd blso contbins
+ * methods to query or set this selection model. Additionblly, {@code JList}
+ * provides convenient methods for ebsily mbnbging the selection. These methods,
+ * such bs {@code setSelectedIndex} bnd {@code getSelectedVblue}, bre cover
+ * methods thbt tbke cbre of the detbils of interbcting with the selection
+ * model. By defbult, {@code JList}'s selection model is configured to bllow bny
+ * combinbtion of items to be selected bt b time; selection mode
+ * {@code MULTIPLE_INTERVAL_SELECTION}. The selection mode cbn be chbnged
+ * on the selection model directly, or vib {@code JList}'s cover method.
+ * Responsibility for updbting the selection model in response to user gestures
  * lies with the list's {@code ListUI}.
  * <p>
- * A correct {@code ListSelectionModel} implementation notifies the set of
- * {@code javax.swing.event.ListSelectionListener}s that have been added to it
- * each time a change to the selection occurs. These changes are characterized
- * by a {@code javax.swing.event.ListSelectionEvent}, which identifies the range
- * of the selection change.
+ * A correct {@code ListSelectionModel} implementbtion notifies the set of
+ * {@code jbvbx.swing.event.ListSelectionListener}s thbt hbve been bdded to it
+ * ebch time b chbnge to the selection occurs. These chbnges bre chbrbcterized
+ * by b {@code jbvbx.swing.event.ListSelectionEvent}, which identifies the rbnge
+ * of the selection chbnge.
  * <p>
- * The preferred way to listen for changes in list selection is to add
+ * The preferred wby to listen for chbnges in list selection is to bdd
  * {@code ListSelectionListener}s directly to the {@code JList}. {@code JList}
- * then takes care of listening to the the selection model and notifying your
- * listeners of change.
+ * then tbkes cbre of listening to the the selection model bnd notifying your
+ * listeners of chbnge.
  * <p>
- * Responsibility for listening to selection changes in order to keep the list's
- * visual representation up to date lies with the list's {@code ListUI}.
+ * Responsibility for listening to selection chbnges in order to keep the list's
+ * visubl representbtion up to dbte lies with the list's {@code ListUI}.
  * <p>
- * <a name="renderer"></a>
- * Painting of cells in a {@code JList} is handled by a delegate called a
- * cell renderer, installed on the list as the {@code cellRenderer} property.
- * The renderer provides a {@code java.awt.Component} that is used
- * like a "rubber stamp" to paint the cells. Each time a cell needs to be
- * painted, the list's {@code ListUI} asks the cell renderer for the component,
- * moves it into place, and has it paint the contents of the cell by way of its
- * {@code paint} method. A default cell renderer, which uses a {@code JLabel}
- * component to render, is installed by the lists's {@code ListUI}. You can
+ * <b nbme="renderer"></b>
+ * Pbinting of cells in b {@code JList} is hbndled by b delegbte cblled b
+ * cell renderer, instblled on the list bs the {@code cellRenderer} property.
+ * The renderer provides b {@code jbvb.bwt.Component} thbt is used
+ * like b "rubber stbmp" to pbint the cells. Ebch time b cell needs to be
+ * pbinted, the list's {@code ListUI} bsks the cell renderer for the component,
+ * moves it into plbce, bnd hbs it pbint the contents of the cell by wby of its
+ * {@code pbint} method. A defbult cell renderer, which uses b {@code JLbbel}
+ * component to render, is instblled by the lists's {@code ListUI}. You cbn
  * substitute your own renderer using code like this:
  * <pre>
  * {@code
- *  // Display an icon and a string for each object in the list.
+ *  // Displby bn icon bnd b string for ebch object in the list.
  *
- * class MyCellRenderer extends JLabel implements ListCellRenderer<Object> {
- *     final static ImageIcon longIcon = new ImageIcon("long.gif");
- *     final static ImageIcon shortIcon = new ImageIcon("short.gif");
+ * clbss MyCellRenderer extends JLbbel implements ListCellRenderer<Object> {
+ *     finbl stbtic ImbgeIcon longIcon = new ImbgeIcon("long.gif");
+ *     finbl stbtic ImbgeIcon shortIcon = new ImbgeIcon("short.gif");
  *
  *     // This is the only method defined by ListCellRenderer.
- *     // We just reconfigure the JLabel each time we're called.
+ *     // We just reconfigure the JLbbel ebch time we're cblled.
  *
  *     public Component getListCellRendererComponent(
  *       JList<?> list,           // the list
- *       Object value,            // value to display
+ *       Object vblue,            // vblue to displby
  *       int index,               // cell index
- *       boolean isSelected,      // is the cell selected
- *       boolean cellHasFocus)    // does the cell have focus
+ *       boolebn isSelected,      // is the cell selected
+ *       boolebn cellHbsFocus)    // does the cell hbve focus
  *     {
- *         String s = value.toString();
+ *         String s = vblue.toString();
  *         setText(s);
  *         setIcon((s.length() > 10) ? longIcon : shortIcon);
  *         if (isSelected) {
- *             setBackground(list.getSelectionBackground());
+ *             setBbckground(list.getSelectionBbckground());
  *             setForeground(list.getSelectionForeground());
  *         } else {
- *             setBackground(list.getBackground());
+ *             setBbckground(list.getBbckground());
  *             setForeground(list.getForeground());
  *         }
- *         setEnabled(list.isEnabled());
+ *         setEnbbled(list.isEnbbled());
  *         setFont(list.getFont());
- *         setOpaque(true);
+ *         setOpbque(true);
  *         return this;
  *     }
  * }
@@ -196,181 +196,181 @@ import static sun.swing.SwingUtilities2.Section.*;
  * </pre>
  * <p>
  * Another job for the cell renderer is in helping to determine sizing
- * information for the list. By default, the list's {@code ListUI} determines
- * the size of cells by asking the cell renderer for its preferred
- * size for each list item. This can be expensive for large lists of items.
- * To avoid these calculations, you can set a {@code fixedCellWidth} and
- * {@code fixedCellHeight} on the list, or have these values calculated
- * automatically based on a single prototype value:
- * <a name="prototype_example"></a>
+ * informbtion for the list. By defbult, the list's {@code ListUI} determines
+ * the size of cells by bsking the cell renderer for its preferred
+ * size for ebch list item. This cbn be expensive for lbrge lists of items.
+ * To bvoid these cblculbtions, you cbn set b {@code fixedCellWidth} bnd
+ * {@code fixedCellHeight} on the list, or hbve these vblues cblculbted
+ * butombticblly bbsed on b single prototype vblue:
+ * <b nbme="prototype_exbmple"></b>
  * <pre>
  * {@code
- * JList<String> bigDataList = new JList<String>(bigData);
+ * JList<String> bigDbtbList = new JList<String>(bigDbtb);
  *
- * // We don't want the JList implementation to compute the width
- * // or height of all of the list cells, so we give it a string
- * // that's as big as we'll need for any cell.  It uses this to
- * // compute values for the fixedCellWidth and fixedCellHeight
+ * // We don't wbnt the JList implementbtion to compute the width
+ * // or height of bll of the list cells, so we give it b string
+ * // thbt's bs big bs we'll need for bny cell.  It uses this to
+ * // compute vblues for the fixedCellWidth bnd fixedCellHeight
  * // properties.
  *
- * bigDataList.setPrototypeCellValue("Index 1234567890");
+ * bigDbtbList.setPrototypeCellVblue("Index 1234567890");
  * }
  * </pre>
  * <p>
- * {@code JList} doesn't implement scrolling directly. To create a list that
- * scrolls, make it the viewport view of a {@code JScrollPane}. For example:
+ * {@code JList} doesn't implement scrolling directly. To crebte b list thbt
+ * scrolls, mbke it the viewport view of b {@code JScrollPbne}. For exbmple:
  * <pre>
- * JScrollPane scrollPane = new JScrollPane(myList);
+ * JScrollPbne scrollPbne = new JScrollPbne(myList);
  *
  * // Or in two steps:
- * JScrollPane scrollPane = new JScrollPane();
- * scrollPane.getViewport().setView(myList);
+ * JScrollPbne scrollPbne = new JScrollPbne();
+ * scrollPbne.getViewport().setView(myList);
  * </pre>
  * <p>
- * {@code JList} doesn't provide any special handling of double or triple
- * (or N) mouse clicks, but it's easy to add a {@code MouseListener} if you
- * wish to take action on these events. Use the {@code locationToIndex}
- * method to determine what cell was clicked. For example:
+ * {@code JList} doesn't provide bny specibl hbndling of double or triple
+ * (or N) mouse clicks, but it's ebsy to bdd b {@code MouseListener} if you
+ * wish to tbke bction on these events. Use the {@code locbtionToIndex}
+ * method to determine whbt cell wbs clicked. For exbmple:
  * <pre>
- * MouseListener mouseListener = new MouseAdapter() {
+ * MouseListener mouseListener = new MouseAdbpter() {
  *     public void mouseClicked(MouseEvent e) {
  *         if (e.getClickCount() == 2) {
- *             int index = list.locationToIndex(e.getPoint());
+ *             int index = list.locbtionToIndex(e.getPoint());
  *             System.out.println("Double clicked on Item " + index);
  *          }
  *     }
  * };
- * list.addMouseListener(mouseListener);
+ * list.bddMouseListener(mouseListener);
  * </pre>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  * <p>
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/list.html">How to Use Lists</a>
- * in <a href="http://docs.oracle.com/javase/tutorial/"><em>The Java Tutorial</em></a>
- * for further documentation.
+ * See <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/list.html">How to Use Lists</b>
+ * in <b href="http://docs.orbcle.com/jbvbse/tutoribl/"><em>The Jbvb Tutoribl</em></b>
+ * for further documentbtion.
  *
  * @see ListModel
- * @see AbstractListModel
- * @see DefaultListModel
+ * @see AbstrbctListModel
+ * @see DefbultListModel
  * @see ListSelectionModel
- * @see DefaultListSelectionModel
+ * @see DefbultListSelectionModel
  * @see ListCellRenderer
- * @see DefaultListCellRenderer
+ * @see DefbultListCellRenderer
  *
- * @param <E> the type of the elements of this list
+ * @pbrbm <E> the type of the elements of this list
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component which allows for the selection of one or more objects from a list.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A component which bllows for the selection of one or more objects from b list.
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JList<E> extends JComponent implements Scrollable, Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JList<E> extends JComponent implements Scrollbble, Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "ListUI";
+    privbte stbtic finbl String uiClbssID = "ListUI";
 
     /**
-     * Indicates a vertical layout of cells, in a single column;
-     * the default layout.
-     * @see #setLayoutOrientation
+     * Indicbtes b verticbl lbyout of cells, in b single column;
+     * the defbult lbyout.
+     * @see #setLbyoutOrientbtion
      * @since 1.4
      */
-    public static final int VERTICAL = 0;
+    public stbtic finbl int VERTICAL = 0;
 
     /**
-     * Indicates a "newspaper style" layout with cells flowing vertically
-     * then horizontally.
-     * @see #setLayoutOrientation
+     * Indicbtes b "newspbper style" lbyout with cells flowing verticblly
+     * then horizontblly.
+     * @see #setLbyoutOrientbtion
      * @since 1.4
      */
-    public static final int VERTICAL_WRAP = 1;
+    public stbtic finbl int VERTICAL_WRAP = 1;
 
     /**
-     * Indicates a "newspaper style" layout with cells flowing horizontally
-     * then vertically.
-     * @see #setLayoutOrientation
+     * Indicbtes b "newspbper style" lbyout with cells flowing horizontblly
+     * then verticblly.
+     * @see #setLbyoutOrientbtion
      * @since 1.4
      */
-    public static final int HORIZONTAL_WRAP = 2;
+    public stbtic finbl int HORIZONTAL_WRAP = 2;
 
-    private int fixedCellWidth = -1;
-    private int fixedCellHeight = -1;
-    private int horizontalScrollIncrement = -1;
-    private E prototypeCellValue;
-    private int visibleRowCount = 8;
-    private Color selectionForeground;
-    private Color selectionBackground;
-    private boolean dragEnabled;
+    privbte int fixedCellWidth = -1;
+    privbte int fixedCellHeight = -1;
+    privbte int horizontblScrollIncrement = -1;
+    privbte E prototypeCellVblue;
+    privbte int visibleRowCount = 8;
+    privbte Color selectionForeground;
+    privbte Color selectionBbckground;
+    privbte boolebn drbgEnbbled;
 
-    private ListSelectionModel selectionModel;
-    private ListModel<E> dataModel;
-    private ListCellRenderer<? super E> cellRenderer;
-    private ListSelectionListener selectionListener;
+    privbte ListSelectionModel selectionModel;
+    privbte ListModel<E> dbtbModel;
+    privbte ListCellRenderer<? super E> cellRenderer;
+    privbte ListSelectionListener selectionListener;
 
     /**
-     * How to lay out the cells; defaults to <code>VERTICAL</code>.
+     * How to lby out the cells; defbults to <code>VERTICAL</code>.
      */
-    private int layoutOrientation;
+    privbte int lbyoutOrientbtion;
 
     /**
      * The drop mode for this component.
      */
-    private DropMode dropMode = DropMode.USE_SELECTION;
+    privbte DropMode dropMode = DropMode.USE_SELECTION;
 
     /**
-     * The drop location.
+     * The drop locbtion.
      */
-    private transient DropLocation dropLocation;
+    privbte trbnsient DropLocbtion dropLocbtion;
 
     /**
-     * A subclass of <code>TransferHandler.DropLocation</code> representing
-     * a drop location for a <code>JList</code>.
+     * A subclbss of <code>TrbnsferHbndler.DropLocbtion</code> representing
+     * b drop locbtion for b <code>JList</code>.
      *
-     * @see #getDropLocation
+     * @see #getDropLocbtion
      * @since 1.6
      */
-    public static final class DropLocation extends TransferHandler.DropLocation {
-        private final int index;
-        private final boolean isInsert;
+    public stbtic finbl clbss DropLocbtion extends TrbnsferHbndler.DropLocbtion {
+        privbte finbl int index;
+        privbte finbl boolebn isInsert;
 
-        private DropLocation(Point p, int index, boolean isInsert) {
+        privbte DropLocbtion(Point p, int index, boolebn isInsert) {
             super(p);
             this.index = index;
             this.isInsert = isInsert;
         }
 
         /**
-         * Returns the index where dropped data should be placed in the
-         * list. Interpretation of the value depends on the drop mode set on
-         * the associated component. If the drop mode is either
+         * Returns the index where dropped dbtb should be plbced in the
+         * list. Interpretbtion of the vblue depends on the drop mode set on
+         * the bssocibted component. If the drop mode is either
          * <code>DropMode.USE_SELECTION</code> or <code>DropMode.ON</code>,
-         * the return value is an index of a row in the list. If the drop mode is
-         * <code>DropMode.INSERT</code>, the return value refers to the index
-         * where the data should be inserted. If the drop mode is
-         * <code>DropMode.ON_OR_INSERT</code>, the value of
-         * <code>isInsert()</code> indicates whether the index is an index
-         * of a row, or an insert index.
+         * the return vblue is bn index of b row in the list. If the drop mode is
+         * <code>DropMode.INSERT</code>, the return vblue refers to the index
+         * where the dbtb should be inserted. If the drop mode is
+         * <code>DropMode.ON_OR_INSERT</code>, the vblue of
+         * <code>isInsert()</code> indicbtes whether the index is bn index
+         * of b row, or bn insert index.
          * <p>
-         * <code>-1</code> indicates that the drop occurred over empty space,
-         * and no index could be calculated.
+         * <code>-1</code> indicbtes thbt the drop occurred over empty spbce,
+         * bnd no index could be cblculbted.
          *
          * @return the drop index
          */
@@ -379,25 +379,25 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
         }
 
         /**
-         * Returns whether or not this location represents an insert
-         * location.
+         * Returns whether or not this locbtion represents bn insert
+         * locbtion.
          *
-         * @return whether or not this is an insert location
+         * @return whether or not this is bn insert locbtion
          */
-        public boolean isInsert() {
+        public boolebn isInsert() {
             return isInsert;
         }
 
         /**
-         * Returns a string representation of this drop location.
+         * Returns b string representbtion of this drop locbtion.
          * This method is intended to be used for debugging purposes,
-         * and the content and format of the returned string may vary
-         * between implementations.
+         * bnd the content bnd formbt of the returned string mby vbry
+         * between implementbtions.
          *
-         * @return a string representation of this drop location
+         * @return b string representbtion of this drop locbtion
          */
         public String toString() {
-            return getClass().getName()
+            return getClbss().getNbme()
                    + "[dropPoint=" + getDropPoint() + ","
                    + "index=" + index + ","
                    + "insert=" + isInsert + "]";
@@ -405,104 +405,104 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Constructs a {@code JList} that displays elements from the specified,
-     * {@code non-null}, model. All {@code JList} constructors delegate to
+     * Constructs b {@code JList} thbt displbys elements from the specified,
+     * {@code non-null}, model. All {@code JList} constructors delegbte to
      * this one.
      * <p>
-     * This constructor registers the list with the {@code ToolTipManager},
-     * allowing for tooltips to be provided by the cell renderers.
+     * This constructor registers the list with the {@code ToolTipMbnbger},
+     * bllowing for tooltips to be provided by the cell renderers.
      *
-     * @param dataModel the model for the list
-     * @exception IllegalArgumentException if the model is {@code null}
+     * @pbrbm dbtbModel the model for the list
+     * @exception IllegblArgumentException if the model is {@code null}
      */
-    public JList(ListModel<E> dataModel)
+    public JList(ListModel<E> dbtbModel)
     {
-        if (dataModel == null) {
-            throw new IllegalArgumentException("dataModel must be non null");
+        if (dbtbModel == null) {
+            throw new IllegblArgumentException("dbtbModel must be non null");
         }
 
-        // Register with the ToolTipManager so that tooltips from the
+        // Register with the ToolTipMbnbger so thbt tooltips from the
         // renderer show through.
-        ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
-        toolTipManager.registerComponent(this);
+        ToolTipMbnbger toolTipMbnbger = ToolTipMbnbger.shbredInstbnce();
+        toolTipMbnbger.registerComponent(this);
 
-        layoutOrientation = VERTICAL;
+        lbyoutOrientbtion = VERTICAL;
 
-        this.dataModel = dataModel;
-        selectionModel = createSelectionModel();
+        this.dbtbModel = dbtbModel;
+        selectionModel = crebteSelectionModel();
         setAutoscrolls(true);
-        setOpaque(true);
-        updateUI();
+        setOpbque(true);
+        updbteUI();
     }
 
 
     /**
-     * Constructs a <code>JList</code> that displays the elements in
-     * the specified array. This constructor creates a read-only model
-     * for the given array, and then delegates to the constructor that
-     * takes a {@code ListModel}.
+     * Constructs b <code>JList</code> thbt displbys the elements in
+     * the specified brrby. This constructor crebtes b rebd-only model
+     * for the given brrby, bnd then delegbtes to the constructor thbt
+     * tbkes b {@code ListModel}.
      * <p>
-     * Attempts to pass a {@code null} value to this method results in
-     * undefined behavior and, most likely, exceptions. The created model
-     * references the given array directly. Attempts to modify the array
-     * after constructing the list results in undefined behavior.
+     * Attempts to pbss b {@code null} vblue to this method results in
+     * undefined behbvior bnd, most likely, exceptions. The crebted model
+     * references the given brrby directly. Attempts to modify the brrby
+     * bfter constructing the list results in undefined behbvior.
      *
-     * @param  listData  the array of Objects to be loaded into the data model,
+     * @pbrbm  listDbtb  the brrby of Objects to be lobded into the dbtb model,
      *                   {@code non-null}
      */
-    public JList(final E[] listData)
+    public JList(finbl E[] listDbtb)
     {
         this (
-            new AbstractListModel<E>() {
-                public int getSize() { return listData.length; }
-                public E getElementAt(int i) { return listData[i]; }
+            new AbstrbctListModel<E>() {
+                public int getSize() { return listDbtb.length; }
+                public E getElementAt(int i) { return listDbtb[i]; }
             }
         );
     }
 
 
     /**
-     * Constructs a <code>JList</code> that displays the elements in
-     * the specified <code>Vector</code>. This constructor creates a read-only
-     * model for the given {@code Vector}, and then delegates to the constructor
-     * that takes a {@code ListModel}.
+     * Constructs b <code>JList</code> thbt displbys the elements in
+     * the specified <code>Vector</code>. This constructor crebtes b rebd-only
+     * model for the given {@code Vector}, bnd then delegbtes to the constructor
+     * thbt tbkes b {@code ListModel}.
      * <p>
-     * Attempts to pass a {@code null} value to this method results in
-     * undefined behavior and, most likely, exceptions. The created model
+     * Attempts to pbss b {@code null} vblue to this method results in
+     * undefined behbvior bnd, most likely, exceptions. The crebted model
      * references the given {@code Vector} directly. Attempts to modify the
-     * {@code Vector} after constructing the list results in undefined behavior.
+     * {@code Vector} bfter constructing the list results in undefined behbvior.
      *
-     * @param  listData  the <code>Vector</code> to be loaded into the
-     *                   data model, {@code non-null}
+     * @pbrbm  listDbtb  the <code>Vector</code> to be lobded into the
+     *                   dbtb model, {@code non-null}
      */
-    public JList(final Vector<? extends E> listData) {
+    public JList(finbl Vector<? extends E> listDbtb) {
         this (
-            new AbstractListModel<E>() {
-                public int getSize() { return listData.size(); }
-                public E getElementAt(int i) { return listData.elementAt(i); }
+            new AbstrbctListModel<E>() {
+                public int getSize() { return listDbtb.size(); }
+                public E getElementAt(int i) { return listDbtb.elementAt(i); }
             }
         );
     }
 
 
     /**
-     * Constructs a <code>JList</code> with an empty, read-only, model.
+     * Constructs b <code>JList</code> with bn empty, rebd-only, model.
      */
     public JList() {
         this (
-            new AbstractListModel<E>() {
+            new AbstrbctListModel<E>() {
               public int getSize() { return 0; }
-              public E getElementAt(int i) { throw new IndexOutOfBoundsException("No Data Model"); }
+              public E getElementAt(int i) { throw new IndexOutOfBoundsException("No Dbtb Model"); }
             }
         );
     }
 
 
     /**
-     * Returns the {@code ListUI}, the look and feel object that
+     * Returns the {@code ListUI}, the look bnd feel object thbt
      * renders this component.
      *
-     * @return the <code>ListUI</code> object that renders this component
+     * @return the <code>ListUI</code> object thbt renders this component
      */
     public ListUI getUI() {
         return (ListUI)ui;
@@ -510,16 +510,16 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Sets the {@code ListUI}, the look and feel object that
+     * Sets the {@code ListUI}, the look bnd feel object thbt
      * renders this component.
      *
-     * @param ui  the <code>ListUI</code> object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the <code>ListUI</code> object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
     public void setUI(ListUI ui) {
         super.setUI(ui);
@@ -527,62 +527,62 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Resets the {@code ListUI} property by setting it to the value provided
-     * by the current look and feel. If the current cell renderer was installed
-     * by the developer (rather than the look and feel itself), this also causes
-     * the cell renderer and its children to be updated, by calling
-     * {@code SwingUtilities.updateComponentTreeUI} on it.
+     * Resets the {@code ListUI} property by setting it to the vblue provided
+     * by the current look bnd feel. If the current cell renderer wbs instblled
+     * by the developer (rbther thbn the look bnd feel itself), this blso cbuses
+     * the cell renderer bnd its children to be updbted, by cblling
+     * {@code SwingUtilities.updbteComponentTreeUI} on it.
      *
-     * @see UIManager#getUI
-     * @see SwingUtilities#updateComponentTreeUI
+     * @see UIMbnbger#getUI
+     * @see SwingUtilities#updbteComponentTreeUI
      */
-    public void updateUI() {
-        setUI((ListUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((ListUI)UIMbnbger.getUI(this));
 
         ListCellRenderer<? super E> renderer = getCellRenderer();
-        if (renderer instanceof Component) {
-            SwingUtilities.updateComponentTreeUI((Component)renderer);
+        if (renderer instbnceof Component) {
+            SwingUtilities.updbteComponentTreeUI((Component)renderer);
         }
     }
 
 
     /**
-     * Returns {@code "ListUI"}, the <code>UIDefaults</code> key used to look
-     * up the name of the {@code javax.swing.plaf.ListUI} class that defines
-     * the look and feel for this component.
+     * Returns {@code "ListUI"}, the <code>UIDefbults</code> key used to look
+     * up the nbme of the {@code jbvbx.swing.plbf.ListUI} clbss thbt defines
+     * the look bnd feel for this component.
      *
      * @return the string "ListUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
-    /* -----private-----
-     * This method is called by setPrototypeCellValue and setCellRenderer
-     * to update the fixedCellWidth and fixedCellHeight properties from the
-     * current value of prototypeCellValue (if it's non null).
+    /* -----privbte-----
+     * This method is cblled by setPrototypeCellVblue bnd setCellRenderer
+     * to updbte the fixedCellWidth bnd fixedCellHeight properties from the
+     * current vblue of prototypeCellVblue (if it's non null).
      * <p>
-     * This method sets fixedCellWidth and fixedCellHeight but does <b>not</b>
-     * generate PropertyChangeEvents for them.
+     * This method sets fixedCellWidth bnd fixedCellHeight but does <b>not</b>
+     * generbte PropertyChbngeEvents for them.
      *
-     * @see #setPrototypeCellValue
+     * @see #setPrototypeCellVblue
      * @see #setCellRenderer
      */
-    private void updateFixedCellSize()
+    privbte void updbteFixedCellSize()
     {
         ListCellRenderer<? super E> cr = getCellRenderer();
-        E value = getPrototypeCellValue();
+        E vblue = getPrototypeCellVblue();
 
-        if ((cr != null) && (value != null)) {
-            Component c = cr.getListCellRendererComponent(this, value, 0, false, false);
+        if ((cr != null) && (vblue != null)) {
+            Component c = cr.getListCellRendererComponent(this, vblue, 0, fblse, fblse);
 
-            /* The ListUI implementation will add Component c to its private
-             * CellRendererPane however we can't assume that's already
-             * been done here.  So we temporarily set the one "inherited"
-             * property that may affect the renderer components preferred size:
+            /* The ListUI implementbtion will bdd Component c to its privbte
+             * CellRendererPbne however we cbn't bssume thbt's blrebdy
+             * been done here.  So we temporbrily set the one "inherited"
+             * property thbt mby bffect the renderer components preferred size:
              * its font.
              */
             Font f = c.getFont();
@@ -598,71 +598,71 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the "prototypical" cell value -- a value used to calculate a
-     * fixed width and height for cells. This can be {@code null} if there
-     * is no such value.
+     * Returns the "prototypicbl" cell vblue -- b vblue used to cblculbte b
+     * fixed width bnd height for cells. This cbn be {@code null} if there
+     * is no such vblue.
      *
-     * @return the value of the {@code prototypeCellValue} property
-     * @see #setPrototypeCellValue
+     * @return the vblue of the {@code prototypeCellVblue} property
+     * @see #setPrototypeCellVblue
      */
-    public E getPrototypeCellValue() {
-        return prototypeCellValue;
+    public E getPrototypeCellVblue() {
+        return prototypeCellVblue;
     }
 
     /**
-     * Sets the {@code prototypeCellValue} property, and then (if the new value
-     * is {@code non-null}), computes the {@code fixedCellWidth} and
+     * Sets the {@code prototypeCellVblue} property, bnd then (if the new vblue
+     * is {@code non-null}), computes the {@code fixedCellWidth} bnd
      * {@code fixedCellHeight} properties by requesting the cell renderer
-     * component for the given value (and index 0) from the cell renderer, and
-     * using that component's preferred size.
+     * component for the given vblue (bnd index 0) from the cell renderer, bnd
+     * using thbt component's preferred size.
      * <p>
-     * This method is useful when the list is too long to allow the
-     * {@code ListUI} to compute the width/height of each cell, and there is a
-     * single cell value that is known to occupy as much space as any of the
-     * others, a so-called prototype.
+     * This method is useful when the list is too long to bllow the
+     * {@code ListUI} to compute the width/height of ebch cell, bnd there is b
+     * single cell vblue thbt is known to occupy bs much spbce bs bny of the
+     * others, b so-cblled prototype.
      * <p>
-     * While all three of the {@code prototypeCellValue},
-     * {@code fixedCellHeight}, and {@code fixedCellWidth} properties may be
-     * modified by this method, {@code PropertyChangeEvent} notifications are
-     * only sent when the {@code prototypeCellValue} property changes.
+     * While bll three of the {@code prototypeCellVblue},
+     * {@code fixedCellHeight}, bnd {@code fixedCellWidth} properties mby be
+     * modified by this method, {@code PropertyChbngeEvent} notificbtions bre
+     * only sent when the {@code prototypeCellVblue} property chbnges.
      * <p>
-     * To see an example which sets this property, see the
-     * <a href="#prototype_example">class description</a> above.
+     * To see bn exbmple which sets this property, see the
+     * <b href="#prototype_exbmple">clbss description</b> bbove.
      * <p>
-     * The default value of this property is <code>null</code>.
+     * The defbult vblue of this property is <code>null</code>.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param prototypeCellValue  the value on which to base
-     *                          <code>fixedCellWidth</code> and
+     * @pbrbm prototypeCellVblue  the vblue on which to bbse
+     *                          <code>fixedCellWidth</code> bnd
      *                          <code>fixedCellHeight</code>
-     * @see #getPrototypeCellValue
+     * @see #getPrototypeCellVblue
      * @see #setFixedCellWidth
      * @see #setFixedCellHeight
-     * @see JComponent#addPropertyChangeListener
-     * @beaninfo
+     * @see JComponent#bddPropertyChbngeListener
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: The cell prototype value, used to compute cell width and height.
+     *   bttribute: visublUpdbte true
+     * description: The cell prototype vblue, used to compute cell width bnd height.
      */
-    public void setPrototypeCellValue(E prototypeCellValue) {
-        E oldValue = this.prototypeCellValue;
-        this.prototypeCellValue = prototypeCellValue;
+    public void setPrototypeCellVblue(E prototypeCellVblue) {
+        E oldVblue = this.prototypeCellVblue;
+        this.prototypeCellVblue = prototypeCellVblue;
 
-        /* If the prototypeCellValue has changed and is non-null,
-         * then recompute fixedCellWidth and fixedCellHeight.
+        /* If the prototypeCellVblue hbs chbnged bnd is non-null,
+         * then recompute fixedCellWidth bnd fixedCellHeight.
          */
 
-        if ((prototypeCellValue != null) && !prototypeCellValue.equals(oldValue)) {
-            updateFixedCellSize();
+        if ((prototypeCellVblue != null) && !prototypeCellVblue.equbls(oldVblue)) {
+            updbteFixedCellSize();
         }
 
-        firePropertyChange("prototypeCellValue", oldValue, prototypeCellValue);
+        firePropertyChbnge("prototypeCellVblue", oldVblue, prototypeCellVblue);
     }
 
 
     /**
-     * Returns the value of the {@code fixedCellWidth} property.
+     * Returns the vblue of the {@code fixedCellWidth} property.
      *
      * @return the fixed cell width
      * @see #setFixedCellWidth
@@ -672,33 +672,33 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Sets a fixed value to be used for the width of every cell in the list.
-     * If {@code width} is -1, cell widths are computed in the {@code ListUI}
-     * by applying <code>getPreferredSize</code> to the cell renderer component
-     * for each list element.
+     * Sets b fixed vblue to be used for the width of every cell in the list.
+     * If {@code width} is -1, cell widths bre computed in the {@code ListUI}
+     * by bpplying <code>getPreferredSize</code> to the cell renderer component
+     * for ebch list element.
      * <p>
-     * The default value of this property is {@code -1}.
+     * The defbult vblue of this property is {@code -1}.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param width the width to be used for all cells in the list
-     * @see #setPrototypeCellValue
+     * @pbrbm width the width to be used for bll cells in the list
+     * @see #setPrototypeCellVblue
      * @see #setFixedCellWidth
-     * @see JComponent#addPropertyChangeListener
-     * @beaninfo
+     * @see JComponent#bddPropertyChbngeListener
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: Defines a fixed cell width when greater than zero.
+     *   bttribute: visublUpdbte true
+     * description: Defines b fixed cell width when grebter thbn zero.
      */
     public void setFixedCellWidth(int width) {
-        int oldValue = fixedCellWidth;
+        int oldVblue = fixedCellWidth;
         fixedCellWidth = width;
-        firePropertyChange("fixedCellWidth", oldValue, fixedCellWidth);
+        firePropertyChbnge("fixedCellWidth", oldVblue, fixedCellWidth);
     }
 
 
     /**
-     * Returns the value of the {@code fixedCellHeight} property.
+     * Returns the vblue of the {@code fixedCellHeight} property.
      *
      * @return the fixed cell height
      * @see #setFixedCellHeight
@@ -708,90 +708,90 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Sets a fixed value to be used for the height of every cell in the list.
-     * If {@code height} is -1, cell heights are computed in the {@code ListUI}
-     * by applying <code>getPreferredSize</code> to the cell renderer component
-     * for each list element.
+     * Sets b fixed vblue to be used for the height of every cell in the list.
+     * If {@code height} is -1, cell heights bre computed in the {@code ListUI}
+     * by bpplying <code>getPreferredSize</code> to the cell renderer component
+     * for ebch list element.
      * <p>
-     * The default value of this property is {@code -1}.
+     * The defbult vblue of this property is {@code -1}.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param height the height to be used for for all cells in the list
-     * @see #setPrototypeCellValue
+     * @pbrbm height the height to be used for for bll cells in the list
+     * @see #setPrototypeCellVblue
      * @see #setFixedCellWidth
-     * @see JComponent#addPropertyChangeListener
-     * @beaninfo
+     * @see JComponent#bddPropertyChbngeListener
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: Defines a fixed cell height when greater than zero.
+     *   bttribute: visublUpdbte true
+     * description: Defines b fixed cell height when grebter thbn zero.
      */
     public void setFixedCellHeight(int height) {
-        int oldValue = fixedCellHeight;
+        int oldVblue = fixedCellHeight;
         fixedCellHeight = height;
-        firePropertyChange("fixedCellHeight", oldValue, fixedCellHeight);
+        firePropertyChbnge("fixedCellHeight", oldVblue, fixedCellHeight);
     }
 
 
     /**
-     * Returns the object responsible for painting list items.
+     * Returns the object responsible for pbinting list items.
      *
-     * @return the value of the {@code cellRenderer} property
+     * @return the vblue of the {@code cellRenderer} property
      * @see #setCellRenderer
      */
-    @Transient
+    @Trbnsient
     public ListCellRenderer<? super E> getCellRenderer() {
         return cellRenderer;
     }
 
     /**
-     * Sets the delegate that is used to paint each cell in the list.
-     * The job of a cell renderer is discussed in detail in the
-     * <a href="#renderer">class level documentation</a>.
+     * Sets the delegbte thbt is used to pbint ebch cell in the list.
+     * The job of b cell renderer is discussed in detbil in the
+     * <b href="#renderer">clbss level documentbtion</b>.
      * <p>
-     * If the {@code prototypeCellValue} property is {@code non-null},
-     * setting the cell renderer also causes the {@code fixedCellWidth} and
-     * {@code fixedCellHeight} properties to be re-calculated. Only one
-     * <code>PropertyChangeEvent</code> is generated however -
+     * If the {@code prototypeCellVblue} property is {@code non-null},
+     * setting the cell renderer blso cbuses the {@code fixedCellWidth} bnd
+     * {@code fixedCellHeight} properties to be re-cblculbted. Only one
+     * <code>PropertyChbngeEvent</code> is generbted however -
      * for the <code>cellRenderer</code> property.
      * <p>
-     * The default value of this property is provided by the {@code ListUI}
-     * delegate, i.e. by the look and feel implementation.
+     * The defbult vblue of this property is provided by the {@code ListUI}
+     * delegbte, i.e. by the look bnd feel implementbtion.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param cellRenderer the <code>ListCellRenderer</code>
-     *                          that paints list cells
+     * @pbrbm cellRenderer the <code>ListCellRenderer</code>
+     *                          thbt pbints list cells
      * @see #getCellRenderer
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: The component used to draw the cells.
+     *   bttribute: visublUpdbte true
+     * description: The component used to drbw the cells.
      */
     public void setCellRenderer(ListCellRenderer<? super E> cellRenderer) {
-        ListCellRenderer<? super E> oldValue = this.cellRenderer;
+        ListCellRenderer<? super E> oldVblue = this.cellRenderer;
         this.cellRenderer = cellRenderer;
 
-        /* If the cellRenderer has changed and prototypeCellValue
-         * was set, then recompute fixedCellWidth and fixedCellHeight.
+        /* If the cellRenderer hbs chbnged bnd prototypeCellVblue
+         * wbs set, then recompute fixedCellWidth bnd fixedCellHeight.
          */
-        if ((cellRenderer != null) && !cellRenderer.equals(oldValue)) {
-            updateFixedCellSize();
+        if ((cellRenderer != null) && !cellRenderer.equbls(oldVblue)) {
+            updbteFixedCellSize();
         }
 
-        firePropertyChange("cellRenderer", oldValue, cellRenderer);
+        firePropertyChbnge("cellRenderer", oldVblue, cellRenderer);
     }
 
 
     /**
-     * Returns the color used to draw the foreground of selected items.
-     * {@code DefaultListCellRenderer} uses this color to draw the foreground
-     * of items in the selected state, as do the renderers installed by most
-     * {@code ListUI} implementations.
+     * Returns the color used to drbw the foreground of selected items.
+     * {@code DefbultListCellRenderer} uses this color to drbw the foreground
+     * of items in the selected stbte, bs do the renderers instblled by most
+     * {@code ListUI} implementbtions.
      *
-     * @return the color to draw the foreground of selected items
+     * @return the color to drbw the foreground of selected items
      * @see #setSelectionForeground
-     * @see DefaultListCellRenderer
+     * @see DefbultListCellRenderer
      */
     public Color getSelectionForeground() {
         return selectionForeground;
@@ -799,90 +799,90 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Sets the color used to draw the foreground of selected items, which
-     * cell renderers can use to render text and graphics.
-     * {@code DefaultListCellRenderer} uses this color to draw the foreground
-     * of items in the selected state, as do the renderers installed by most
-     * {@code ListUI} implementations.
+     * Sets the color used to drbw the foreground of selected items, which
+     * cell renderers cbn use to render text bnd grbphics.
+     * {@code DefbultListCellRenderer} uses this color to drbw the foreground
+     * of items in the selected stbte, bs do the renderers instblled by most
+     * {@code ListUI} implementbtions.
      * <p>
-     * The default value of this property is defined by the look and feel
-     * implementation.
+     * The defbult vblue of this property is defined by the look bnd feel
+     * implementbtion.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param selectionForeground  the {@code Color} to use in the foreground
+     * @pbrbm selectionForeground  the {@code Color} to use in the foreground
      *                             for selected list items
      * @see #getSelectionForeground
-     * @see #setSelectionBackground
+     * @see #setSelectionBbckground
      * @see #setForeground
-     * @see #setBackground
+     * @see #setBbckground
      * @see #setFont
-     * @see DefaultListCellRenderer
-     * @beaninfo
+     * @see DefbultListCellRenderer
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
+     *   bttribute: visublUpdbte true
      * description: The foreground color of selected cells.
      */
     public void setSelectionForeground(Color selectionForeground) {
-        Color oldValue = this.selectionForeground;
+        Color oldVblue = this.selectionForeground;
         this.selectionForeground = selectionForeground;
-        firePropertyChange("selectionForeground", oldValue, selectionForeground);
+        firePropertyChbnge("selectionForeground", oldVblue, selectionForeground);
     }
 
 
     /**
-     * Returns the color used to draw the background of selected items.
-     * {@code DefaultListCellRenderer} uses this color to draw the background
-     * of items in the selected state, as do the renderers installed by most
-     * {@code ListUI} implementations.
+     * Returns the color used to drbw the bbckground of selected items.
+     * {@code DefbultListCellRenderer} uses this color to drbw the bbckground
+     * of items in the selected stbte, bs do the renderers instblled by most
+     * {@code ListUI} implementbtions.
      *
-     * @return the color to draw the background of selected items
-     * @see #setSelectionBackground
-     * @see DefaultListCellRenderer
+     * @return the color to drbw the bbckground of selected items
+     * @see #setSelectionBbckground
+     * @see DefbultListCellRenderer
      */
-    public Color getSelectionBackground() {
-        return selectionBackground;
+    public Color getSelectionBbckground() {
+        return selectionBbckground;
     }
 
 
     /**
-     * Sets the color used to draw the background of selected items, which
-     * cell renderers can use fill selected cells.
-     * {@code DefaultListCellRenderer} uses this color to fill the background
-     * of items in the selected state, as do the renderers installed by most
-     * {@code ListUI} implementations.
+     * Sets the color used to drbw the bbckground of selected items, which
+     * cell renderers cbn use fill selected cells.
+     * {@code DefbultListCellRenderer} uses this color to fill the bbckground
+     * of items in the selected stbte, bs do the renderers instblled by most
+     * {@code ListUI} implementbtions.
      * <p>
-     * The default value of this property is defined by the look
-     * and feel implementation.
+     * The defbult vblue of this property is defined by the look
+     * bnd feel implementbtion.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param selectionBackground  the {@code Color} to use for the
-     *                             background of selected cells
-     * @see #getSelectionBackground
+     * @pbrbm selectionBbckground  the {@code Color} to use for the
+     *                             bbckground of selected cells
+     * @see #getSelectionBbckground
      * @see #setSelectionForeground
      * @see #setForeground
-     * @see #setBackground
+     * @see #setBbckground
      * @see #setFont
-     * @see DefaultListCellRenderer
-     * @beaninfo
+     * @see DefbultListCellRenderer
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: The background color of selected cells.
+     *   bttribute: visublUpdbte true
+     * description: The bbckground color of selected cells.
      */
-    public void setSelectionBackground(Color selectionBackground) {
-        Color oldValue = this.selectionBackground;
-        this.selectionBackground = selectionBackground;
-        firePropertyChange("selectionBackground", oldValue, selectionBackground);
+    public void setSelectionBbckground(Color selectionBbckground) {
+        Color oldVblue = this.selectionBbckground;
+        this.selectionBbckground = selectionBbckground;
+        firePropertyChbnge("selectionBbckground", oldVblue, selectionBbckground);
     }
 
 
     /**
-     * Returns the value of the {@code visibleRowCount} property. See the
-     * documentation for {@link #setVisibleRowCount} for details on how to
-     * interpret this value.
+     * Returns the vblue of the {@code visibleRowCount} property. See the
+     * documentbtion for {@link #setVisibleRowCount} for detbils on how to
+     * interpret this vblue.
      *
-     * @return the value of the {@code visibleRowCount} property.
+     * @return the vblue of the {@code visibleRowCount} property.
      * @see #setVisibleRowCount
      */
     public int getVisibleRowCount() {
@@ -890,68 +890,68 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Sets the {@code visibleRowCount} property, which has different meanings
-     * depending on the layout orientation: For a {@code VERTICAL} layout
-     * orientation, this sets the preferred number of rows to display without
-     * requiring scrolling; for other orientations, it affects the wrapping of
+     * Sets the {@code visibleRowCount} property, which hbs different mebnings
+     * depending on the lbyout orientbtion: For b {@code VERTICAL} lbyout
+     * orientbtion, this sets the preferred number of rows to displby without
+     * requiring scrolling; for other orientbtions, it bffects the wrbpping of
      * cells.
      * <p>
-     * In {@code VERTICAL} orientation:<br>
-     * Setting this property affects the return value of the
-     * {@link #getPreferredScrollableViewportSize} method, which is used to
-     * calculate the preferred size of an enclosing viewport. See that method's
-     * documentation for more details.
+     * In {@code VERTICAL} orientbtion:<br>
+     * Setting this property bffects the return vblue of the
+     * {@link #getPreferredScrollbbleViewportSize} method, which is used to
+     * cblculbte the preferred size of bn enclosing viewport. See thbt method's
+     * documentbtion for more detbils.
      * <p>
-     * In {@code HORIZONTAL_WRAP} and {@code VERTICAL_WRAP} orientations:<br>
-     * This affects how cells are wrapped. See the documentation of
-     * {@link #setLayoutOrientation} for more details.
+     * In {@code HORIZONTAL_WRAP} bnd {@code VERTICAL_WRAP} orientbtions:<br>
+     * This bffects how cells bre wrbpped. See the documentbtion of
+     * {@link #setLbyoutOrientbtion} for more detbils.
      * <p>
-     * The default value of this property is {@code 8}.
+     * The defbult vblue of this property is {@code 8}.
      * <p>
-     * Calling this method with a negative value results in the property
+     * Cblling this method with b negbtive vblue results in the property
      * being set to {@code 0}.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param visibleRowCount  an integer specifying the preferred number of
-     *                         rows to display without requiring scrolling
+     * @pbrbm visibleRowCount  bn integer specifying the preferred number of
+     *                         rows to displby without requiring scrolling
      * @see #getVisibleRowCount
-     * @see #getPreferredScrollableViewportSize
-     * @see #setLayoutOrientation
+     * @see #getPreferredScrollbbleViewportSize
+     * @see #setLbyoutOrientbtion
      * @see JComponent#getVisibleRect
      * @see JViewport
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: The preferred number of rows to display without
+     *   bttribute: visublUpdbte true
+     * description: The preferred number of rows to displby without
      *              requiring scrolling
      */
     public void setVisibleRowCount(int visibleRowCount) {
-        int oldValue = this.visibleRowCount;
-        this.visibleRowCount = Math.max(0, visibleRowCount);
-        firePropertyChange("visibleRowCount", oldValue, visibleRowCount);
+        int oldVblue = this.visibleRowCount;
+        this.visibleRowCount = Mbth.mbx(0, visibleRowCount);
+        firePropertyChbnge("visibleRowCount", oldVblue, visibleRowCount);
     }
 
 
     /**
-     * Returns the layout orientation property for the list: {@code VERTICAL}
-     * if the layout is a single column of cells, {@code VERTICAL_WRAP} if the
-     * layout is "newspaper style" with the content flowing vertically then
-     * horizontally, or {@code HORIZONTAL_WRAP} if the layout is "newspaper
-     * style" with the content flowing horizontally then vertically.
+     * Returns the lbyout orientbtion property for the list: {@code VERTICAL}
+     * if the lbyout is b single column of cells, {@code VERTICAL_WRAP} if the
+     * lbyout is "newspbper style" with the content flowing verticblly then
+     * horizontblly, or {@code HORIZONTAL_WRAP} if the lbyout is "newspbper
+     * style" with the content flowing horizontblly then verticblly.
      *
-     * @return the value of the {@code layoutOrientation} property
-     * @see #setLayoutOrientation
+     * @return the vblue of the {@code lbyoutOrientbtion} property
+     * @see #setLbyoutOrientbtion
      * @since 1.4
      */
-    public int getLayoutOrientation() {
-        return layoutOrientation;
+    public int getLbyoutOrientbtion() {
+        return lbyoutOrientbtion;
     }
 
 
     /**
-     * Defines the way list cells are layed out. Consider a {@code JList}
-     * with five cells. Cells can be layed out in one of the following ways:
+     * Defines the wby list cells bre lbyed out. Consider b {@code JList}
+     * with five cells. Cells cbn be lbyed out in one of the following wbys:
      *
      * <pre>
      * VERTICAL:          0
@@ -968,82 +968,82 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *                    2
      * </pre>
      * <p>
-     * A description of these layouts follows:
+     * A description of these lbyouts follows:
      *
-     * <table border="1"
-     *  summary="Describes layouts VERTICAL, HORIZONTAL_WRAP, and VERTICAL_WRAP">
-     *   <tr><th><p style="text-align:left">Value</p></th><th><p style="text-align:left">Description</p></th></tr>
+     * <tbble border="1"
+     *  summbry="Describes lbyouts VERTICAL, HORIZONTAL_WRAP, bnd VERTICAL_WRAP">
+     *   <tr><th><p style="text-blign:left">Vblue</p></th><th><p style="text-blign:left">Description</p></th></tr>
      *   <tr><td><code>VERTICAL</code>
-     *       <td>Cells are layed out vertically in a single column.
+     *       <td>Cells bre lbyed out verticblly in b single column.
      *   <tr><td><code>HORIZONTAL_WRAP</code>
-     *       <td>Cells are layed out horizontally, wrapping to a new row as
-     *           necessary. If the {@code visibleRowCount} property is less than
-     *           or equal to zero, wrapping is determined by the width of the
-     *           list; otherwise wrapping is done in such a way as to ensure
+     *       <td>Cells bre lbyed out horizontblly, wrbpping to b new row bs
+     *           necessbry. If the {@code visibleRowCount} property is less thbn
+     *           or equbl to zero, wrbpping is determined by the width of the
+     *           list; otherwise wrbpping is done in such b wby bs to ensure
      *           {@code visibleRowCount} rows in the list.
      *   <tr><td><code>VERTICAL_WRAP</code>
-     *       <td>Cells are layed out vertically, wrapping to a new column as
-     *           necessary. If the {@code visibleRowCount} property is less than
-     *           or equal to zero, wrapping is determined by the height of the
-     *           list; otherwise wrapping is done at {@code visibleRowCount} rows.
-     *  </table>
+     *       <td>Cells bre lbyed out verticblly, wrbpping to b new column bs
+     *           necessbry. If the {@code visibleRowCount} property is less thbn
+     *           or equbl to zero, wrbpping is determined by the height of the
+     *           list; otherwise wrbpping is done bt {@code visibleRowCount} rows.
+     *  </tbble>
      * <p>
-     * The default value of this property is <code>VERTICAL</code>.
+     * The defbult vblue of this property is <code>VERTICAL</code>.
      *
-     * @param layoutOrientation the new layout orientation, one of:
+     * @pbrbm lbyoutOrientbtion the new lbyout orientbtion, one of:
      *        {@code VERTICAL}, {@code HORIZONTAL_WRAP} or {@code VERTICAL_WRAP}
-     * @see #getLayoutOrientation
+     * @see #getLbyoutOrientbtion
      * @see #setVisibleRowCount
-     * @see #getScrollableTracksViewportHeight
-     * @see #getScrollableTracksViewportWidth
-     * @throws IllegalArgumentException if {@code layoutOrientation} isn't one of the
-     *         allowable values
+     * @see #getScrollbbleTrbcksViewportHeight
+     * @see #getScrollbbleTrbcksViewportWidth
+     * @throws IllegblArgumentException if {@code lbyoutOrientbtion} isn't one of the
+     *         bllowbble vblues
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: Defines the way list cells are layed out.
+     *   bttribute: visublUpdbte true
+     * description: Defines the wby list cells bre lbyed out.
      *        enum: VERTICAL JList.VERTICAL
      *              HORIZONTAL_WRAP JList.HORIZONTAL_WRAP
      *              VERTICAL_WRAP JList.VERTICAL_WRAP
      */
-    public void setLayoutOrientation(int layoutOrientation) {
-        int oldValue = this.layoutOrientation;
-        switch (layoutOrientation) {
-        case VERTICAL:
-        case VERTICAL_WRAP:
-        case HORIZONTAL_WRAP:
-            this.layoutOrientation = layoutOrientation;
-            firePropertyChange("layoutOrientation", oldValue, layoutOrientation);
-            break;
-        default:
-            throw new IllegalArgumentException("layoutOrientation must be one of: VERTICAL, HORIZONTAL_WRAP or VERTICAL_WRAP");
+    public void setLbyoutOrientbtion(int lbyoutOrientbtion) {
+        int oldVblue = this.lbyoutOrientbtion;
+        switch (lbyoutOrientbtion) {
+        cbse VERTICAL:
+        cbse VERTICAL_WRAP:
+        cbse HORIZONTAL_WRAP:
+            this.lbyoutOrientbtion = lbyoutOrientbtion;
+            firePropertyChbnge("lbyoutOrientbtion", oldVblue, lbyoutOrientbtion);
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("lbyoutOrientbtion must be one of: VERTICAL, HORIZONTAL_WRAP or VERTICAL_WRAP");
         }
     }
 
 
     /**
-     * Returns the smallest list index that is currently visible.
-     * In a left-to-right {@code componentOrientation}, the first visible
+     * Returns the smbllest list index thbt is currently visible.
+     * In b left-to-right {@code componentOrientbtion}, the first visible
      * cell is found closest to the list's upper-left corner. In right-to-left
-     * orientation, it is found closest to the upper-right corner.
+     * orientbtion, it is found closest to the upper-right corner.
      * If nothing is visible or the list is empty, {@code -1} is returned.
-     * Note that the returned cell may only be partially visible.
+     * Note thbt the returned cell mby only be pbrtiblly visible.
      *
      * @return the index of the first visible cell
-     * @see #getLastVisibleIndex
+     * @see #getLbstVisibleIndex
      * @see JComponent#getVisibleRect
      */
     public int getFirstVisibleIndex() {
-        Rectangle r = getVisibleRect();
+        Rectbngle r = getVisibleRect();
         int first;
-        if (this.getComponentOrientation().isLeftToRight()) {
-            first = locationToIndex(r.getLocation());
+        if (this.getComponentOrientbtion().isLeftToRight()) {
+            first = locbtionToIndex(r.getLocbtion());
         } else {
-            first = locationToIndex(new Point((r.x + r.width) - 1, r.y));
+            first = locbtionToIndex(new Point((r.x + r.width) - 1, r.y));
         }
         if (first != -1) {
-            Rectangle bounds = getCellBounds(first, first);
+            Rectbngle bounds = getCellBounds(first, first);
             if (bounds != null) {
                 SwingUtilities.computeIntersection(r.x, r.y, r.width, r.height, bounds);
                 if (bounds.width == 0 || bounds.height == 0) {
@@ -1056,160 +1056,160 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the largest list index that is currently visible.
+     * Returns the lbrgest list index thbt is currently visible.
      * If nothing is visible or the list is empty, {@code -1} is returned.
-     * Note that the returned cell may only be partially visible.
+     * Note thbt the returned cell mby only be pbrtiblly visible.
      *
-     * @return the index of the last visible cell
+     * @return the index of the lbst visible cell
      * @see #getFirstVisibleIndex
      * @see JComponent#getVisibleRect
      */
-    public int getLastVisibleIndex() {
-        boolean leftToRight = this.getComponentOrientation().isLeftToRight();
-        Rectangle r = getVisibleRect();
-        Point lastPoint;
+    public int getLbstVisibleIndex() {
+        boolebn leftToRight = this.getComponentOrientbtion().isLeftToRight();
+        Rectbngle r = getVisibleRect();
+        Point lbstPoint;
         if (leftToRight) {
-            lastPoint = new Point((r.x + r.width) - 1, (r.y + r.height) - 1);
+            lbstPoint = new Point((r.x + r.width) - 1, (r.y + r.height) - 1);
         } else {
-            lastPoint = new Point(r.x, (r.y + r.height) - 1);
+            lbstPoint = new Point(r.x, (r.y + r.height) - 1);
         }
-        int location = locationToIndex(lastPoint);
+        int locbtion = locbtionToIndex(lbstPoint);
 
-        if (location != -1) {
-            Rectangle bounds = getCellBounds(location, location);
+        if (locbtion != -1) {
+            Rectbngle bounds = getCellBounds(locbtion, locbtion);
 
             if (bounds != null) {
                 SwingUtilities.computeIntersection(r.x, r.y, r.width, r.height, bounds);
                 if (bounds.width == 0 || bounds.height == 0) {
-                    // Try the top left(LTR) or top right(RTL) corner, and
-                    // then go across checking each cell for HORIZONTAL_WRAP.
-                    // Try the lower left corner, and then go across checking
-                    // each cell for other list layout orientation.
-                    boolean isHorizontalWrap =
-                        (getLayoutOrientation() == HORIZONTAL_WRAP);
-                    Point visibleLocation = isHorizontalWrap ?
-                        new Point(lastPoint.x, r.y) :
-                        new Point(r.x, lastPoint.y);
-                    int last;
+                    // Try the top left(LTR) or top right(RTL) corner, bnd
+                    // then go bcross checking ebch cell for HORIZONTAL_WRAP.
+                    // Try the lower left corner, bnd then go bcross checking
+                    // ebch cell for other list lbyout orientbtion.
+                    boolebn isHorizontblWrbp =
+                        (getLbyoutOrientbtion() == HORIZONTAL_WRAP);
+                    Point visibleLocbtion = isHorizontblWrbp ?
+                        new Point(lbstPoint.x, r.y) :
+                        new Point(r.x, lbstPoint.y);
+                    int lbst;
                     int visIndex = -1;
-                    int lIndex = location;
-                    location = -1;
+                    int lIndex = locbtion;
+                    locbtion = -1;
 
                     do {
-                        last = visIndex;
-                        visIndex = locationToIndex(visibleLocation);
+                        lbst = visIndex;
+                        visIndex = locbtionToIndex(visibleLocbtion);
 
                         if (visIndex != -1) {
                             bounds = getCellBounds(visIndex, visIndex);
                             if (visIndex != lIndex && bounds != null &&
-                                bounds.contains(visibleLocation)) {
-                                location = visIndex;
-                                if (isHorizontalWrap) {
-                                    visibleLocation.y = bounds.y + bounds.height;
-                                    if (visibleLocation.y >= lastPoint.y) {
-                                        // Past visible region, bail.
-                                        last = visIndex;
+                                bounds.contbins(visibleLocbtion)) {
+                                locbtion = visIndex;
+                                if (isHorizontblWrbp) {
+                                    visibleLocbtion.y = bounds.y + bounds.height;
+                                    if (visibleLocbtion.y >= lbstPoint.y) {
+                                        // Pbst visible region, bbil.
+                                        lbst = visIndex;
                                     }
                                 }
                                 else {
-                                    visibleLocation.x = bounds.x + bounds.width;
-                                    if (visibleLocation.x >= lastPoint.x) {
-                                        // Past visible region, bail.
-                                        last = visIndex;
+                                    visibleLocbtion.x = bounds.x + bounds.width;
+                                    if (visibleLocbtion.x >= lbstPoint.x) {
+                                        // Pbst visible region, bbil.
+                                        lbst = visIndex;
                                     }
                                 }
 
                             }
                             else {
-                                last = visIndex;
+                                lbst = visIndex;
                             }
                         }
-                    } while (visIndex != -1 && last != visIndex);
+                    } while (visIndex != -1 && lbst != visIndex);
                 }
             }
         }
-        return location;
+        return locbtion;
     }
 
 
     /**
-     * Scrolls the list within an enclosing viewport to make the specified
-     * cell completely visible. This calls {@code scrollRectToVisible} with
+     * Scrolls the list within bn enclosing viewport to mbke the specified
+     * cell completely visible. This cblls {@code scrollRectToVisible} with
      * the bounds of the specified cell. For this method to work, the
-     * {@code JList} must be within a <code>JViewport</code>.
+     * {@code JList} must be within b <code>JViewport</code>.
      * <p>
-     * If the given index is outside the list's range of cells, this method
+     * If the given index is outside the list's rbnge of cells, this method
      * results in nothing.
      *
-     * @param index  the index of the cell to make visible
+     * @pbrbm index  the index of the cell to mbke visible
      * @see JComponent#scrollRectToVisible
      * @see #getVisibleRect
      */
     public void ensureIndexIsVisible(int index) {
-        Rectangle cellBounds = getCellBounds(index, index);
+        Rectbngle cellBounds = getCellBounds(index, index);
         if (cellBounds != null) {
             scrollRectToVisible(cellBounds);
         }
     }
 
     /**
-     * Turns on or off automatic drag handling. In order to enable automatic
-     * drag handling, this property should be set to {@code true}, and the
-     * list's {@code TransferHandler} needs to be {@code non-null}.
-     * The default value of the {@code dragEnabled} property is {@code false}.
+     * Turns on or off butombtic drbg hbndling. In order to enbble butombtic
+     * drbg hbndling, this property should be set to {@code true}, bnd the
+     * list's {@code TrbnsferHbndler} needs to be {@code non-null}.
+     * The defbult vblue of the {@code drbgEnbbled} property is {@code fblse}.
      * <p>
-     * The job of honoring this property, and recognizing a user drag gesture,
-     * lies with the look and feel implementation, and in particular, the list's
-     * {@code ListUI}. When automatic drag handling is enabled, most look and
-     * feels (including those that subclass {@code BasicLookAndFeel}) begin a
-     * drag and drop operation whenever the user presses the mouse button over
-     * an item and then moves the mouse a few pixels. Setting this property to
-     * {@code true} can therefore have a subtle effect on how selections behave.
+     * The job of honoring this property, bnd recognizing b user drbg gesture,
+     * lies with the look bnd feel implementbtion, bnd in pbrticulbr, the list's
+     * {@code ListUI}. When butombtic drbg hbndling is enbbled, most look bnd
+     * feels (including those thbt subclbss {@code BbsicLookAndFeel}) begin b
+     * drbg bnd drop operbtion whenever the user presses the mouse button over
+     * bn item bnd then moves the mouse b few pixels. Setting this property to
+     * {@code true} cbn therefore hbve b subtle effect on how selections behbve.
      * <p>
-     * If a look and feel is used that ignores this property, you can still
-     * begin a drag and drop operation by calling {@code exportAsDrag} on the
-     * list's {@code TransferHandler}.
+     * If b look bnd feel is used thbt ignores this property, you cbn still
+     * begin b drbg bnd drop operbtion by cblling {@code exportAsDrbg} on the
+     * list's {@code TrbnsferHbndler}.
      *
-     * @param b whether or not to enable automatic drag handling
-     * @exception HeadlessException if
-     *            <code>b</code> is <code>true</code> and
-     *            <code>GraphicsEnvironment.isHeadless()</code>
+     * @pbrbm b whether or not to enbble butombtic drbg hbndling
+     * @exception HebdlessException if
+     *            <code>b</code> is <code>true</code> bnd
+     *            <code>GrbphicsEnvironment.isHebdless()</code>
      *            returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #getDragEnabled
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #getDrbgEnbbled
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      * @since 1.4
      *
-     * @beaninfo
-     *  description: determines whether automatic drag handling is enabled
-     *        bound: false
+     * @bebninfo
+     *  description: determines whether butombtic drbg hbndling is enbbled
+     *        bound: fblse
      */
-    public void setDragEnabled(boolean b) {
-        if (b && GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public void setDrbgEnbbled(boolebn b) {
+        if (b && GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        dragEnabled = b;
+        drbgEnbbled = b;
     }
 
     /**
-     * Returns whether or not automatic drag handling is enabled.
+     * Returns whether or not butombtic drbg hbndling is enbbled.
      *
-     * @return the value of the {@code dragEnabled} property
-     * @see #setDragEnabled
+     * @return the vblue of the {@code drbgEnbbled} property
+     * @see #setDrbgEnbbled
      * @since 1.4
      */
-    public boolean getDragEnabled() {
-        return dragEnabled;
+    public boolebn getDrbgEnbbled() {
+        return drbgEnbbled;
     }
 
     /**
-     * Sets the drop mode for this component. For backward compatibility,
-     * the default for this property is <code>DropMode.USE_SELECTION</code>.
-     * Usage of one of the other modes is recommended, however, for an
-     * improved user experience. <code>DropMode.ON</code>, for instance,
-     * offers similar behavior of showing items as selected, but does so without
-     * affecting the actual selection in the list.
+     * Sets the drop mode for this component. For bbckwbrd compbtibility,
+     * the defbult for this property is <code>DropMode.USE_SELECTION</code>.
+     * Usbge of one of the other modes is recommended, however, for bn
+     * improved user experience. <code>DropMode.ON</code>, for instbnce,
+     * offers similbr behbvior of showing items bs selected, but does so without
+     * bffecting the bctubl selection in the list.
      * <p>
      * <code>JList</code> supports the following drop modes:
      * <ul>
@@ -1218,31 +1218,31 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *    <li><code>DropMode.INSERT</code></li>
      *    <li><code>DropMode.ON_OR_INSERT</code></li>
      * </ul>
-     * The drop mode is only meaningful if this component has a
-     * <code>TransferHandler</code> that accepts drops.
+     * The drop mode is only mebningful if this component hbs b
+     * <code>TrbnsferHbndler</code> thbt bccepts drops.
      *
-     * @param dropMode the drop mode to use
-     * @throws IllegalArgumentException if the drop mode is unsupported
+     * @pbrbm dropMode the drop mode to use
+     * @throws IllegblArgumentException if the drop mode is unsupported
      *         or <code>null</code>
      * @see #getDropMode
-     * @see #getDropLocation
-     * @see #setTransferHandler
-     * @see TransferHandler
+     * @see #getDropLocbtion
+     * @see #setTrbnsferHbndler
+     * @see TrbnsferHbndler
      * @since 1.6
      */
-    public final void setDropMode(DropMode dropMode) {
+    public finbl void setDropMode(DropMode dropMode) {
         if (dropMode != null) {
             switch (dropMode) {
-                case USE_SELECTION:
-                case ON:
-                case INSERT:
-                case ON_OR_INSERT:
+                cbse USE_SELECTION:
+                cbse ON:
+                cbse INSERT:
+                cbse ON_OR_INSERT:
                     this.dropMode = dropMode;
                     return;
             }
         }
 
-        throw new IllegalArgumentException(dropMode + ": Unsupported drop mode for list");
+        throw new IllegblArgumentException(dropMode + ": Unsupported drop mode for list");
     }
 
     /**
@@ -1252,74 +1252,74 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      * @see #setDropMode
      * @since 1.6
      */
-    public final DropMode getDropMode() {
+    public finbl DropMode getDropMode() {
         return dropMode;
     }
 
     /**
-     * Calculates a drop location in this component, representing where a
-     * drop at the given point should insert data.
+     * Cblculbtes b drop locbtion in this component, representing where b
+     * drop bt the given point should insert dbtb.
      *
-     * @param p the point to calculate a drop location for
-     * @return the drop location, or <code>null</code>
+     * @pbrbm p the point to cblculbte b drop locbtion for
+     * @return the drop locbtion, or <code>null</code>
      */
-    DropLocation dropLocationForPoint(Point p) {
-        DropLocation location = null;
-        Rectangle rect = null;
+    DropLocbtion dropLocbtionForPoint(Point p) {
+        DropLocbtion locbtion = null;
+        Rectbngle rect = null;
 
-        int index = locationToIndex(p);
+        int index = locbtionToIndex(p);
         if (index != -1) {
             rect = getCellBounds(index, index);
         }
 
         switch(dropMode) {
-            case USE_SELECTION:
-            case ON:
-                location = new DropLocation(p,
-                    (rect != null && rect.contains(p)) ? index : -1,
-                    false);
+            cbse USE_SELECTION:
+            cbse ON:
+                locbtion = new DropLocbtion(p,
+                    (rect != null && rect.contbins(p)) ? index : -1,
+                    fblse);
 
-                break;
-            case INSERT:
+                brebk;
+            cbse INSERT:
                 if (index == -1) {
-                    location = new DropLocation(p, getModel().getSize(), true);
-                    break;
+                    locbtion = new DropLocbtion(p, getModel().getSize(), true);
+                    brebk;
                 }
 
-                if (layoutOrientation == HORIZONTAL_WRAP) {
-                    boolean ltr = getComponentOrientation().isLeftToRight();
+                if (lbyoutOrientbtion == HORIZONTAL_WRAP) {
+                    boolebn ltr = getComponentOrientbtion().isLeftToRight();
 
-                    if (SwingUtilities2.liesInHorizontal(rect, p, ltr, false) == TRAILING) {
+                    if (SwingUtilities2.liesInHorizontbl(rect, p, ltr, fblse) == TRAILING) {
                         index++;
-                    // special case for below all cells
+                    // specibl cbse for below bll cells
                     } else if (index == getModel().getSize() - 1 && p.y >= rect.y + rect.height) {
                         index++;
                     }
                 } else {
-                    if (SwingUtilities2.liesInVertical(rect, p, false) == TRAILING) {
+                    if (SwingUtilities2.liesInVerticbl(rect, p, fblse) == TRAILING) {
                         index++;
                     }
                 }
 
-                location = new DropLocation(p, index, true);
+                locbtion = new DropLocbtion(p, index, true);
 
-                break;
-            case ON_OR_INSERT:
+                brebk;
+            cbse ON_OR_INSERT:
                 if (index == -1) {
-                    location = new DropLocation(p, getModel().getSize(), true);
-                    break;
+                    locbtion = new DropLocbtion(p, getModel().getSize(), true);
+                    brebk;
                 }
 
-                boolean between = false;
+                boolebn between = fblse;
 
-                if (layoutOrientation == HORIZONTAL_WRAP) {
-                    boolean ltr = getComponentOrientation().isLeftToRight();
+                if (lbyoutOrientbtion == HORIZONTAL_WRAP) {
+                    boolebn ltr = getComponentOrientbtion().isLeftToRight();
 
-                    Section section = SwingUtilities2.liesInHorizontal(rect, p, ltr, true);
+                    Section section = SwingUtilities2.liesInHorizontbl(rect, p, ltr, true);
                     if (section == TRAILING) {
                         index++;
                         between = true;
-                    // special case for below all cells
+                    // specibl cbse for below bll cells
                     } else if (index == getModel().getSize() - 1 && p.y >= rect.y + rect.height) {
                         index++;
                         between = true;
@@ -1327,7 +1327,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                         between = true;
                     }
                 } else {
-                    Section section = SwingUtilities2.liesInVertical(rect, p, true);
+                    Section section = SwingUtilities2.liesInVerticbl(rect, p, true);
                     if (section == LEADING) {
                         between = true;
                     } else if (section == TRAILING) {
@@ -1336,173 +1336,173 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                     }
                 }
 
-                location = new DropLocation(p, index, between);
+                locbtion = new DropLocbtion(p, index, between);
 
-                break;
-            default:
-                assert false : "Unexpected drop mode";
+                brebk;
+            defbult:
+                bssert fblse : "Unexpected drop mode";
         }
 
-        return location;
+        return locbtion;
     }
 
     /**
-     * Called to set or clear the drop location during a DnD operation.
-     * In some cases, the component may need to use it's internal selection
-     * temporarily to indicate the drop location. To help facilitate this,
-     * this method returns and accepts as a parameter a state object.
-     * This state object can be used to store, and later restore, the selection
-     * state. Whatever this method returns will be passed back to it in
-     * future calls, as the state parameter. If it wants the DnD system to
-     * continue storing the same state, it must pass it back every time.
+     * Cblled to set or clebr the drop locbtion during b DnD operbtion.
+     * In some cbses, the component mby need to use it's internbl selection
+     * temporbrily to indicbte the drop locbtion. To help fbcilitbte this,
+     * this method returns bnd bccepts bs b pbrbmeter b stbte object.
+     * This stbte object cbn be used to store, bnd lbter restore, the selection
+     * stbte. Whbtever this method returns will be pbssed bbck to it in
+     * future cblls, bs the stbte pbrbmeter. If it wbnts the DnD system to
+     * continue storing the sbme stbte, it must pbss it bbck every time.
      * Here's how this is used:
      * <p>
-     * Let's say that on the first call to this method the component decides
-     * to save some state (because it is about to use the selection to show
-     * a drop index). It can return a state object to the caller encapsulating
-     * any saved selection state. On a second call, let's say the drop location
-     * is being changed to something else. The component doesn't need to
-     * restore anything yet, so it simply passes back the same state object
-     * to have the DnD system continue storing it. Finally, let's say this
-     * method is messaged with <code>null</code>. This means DnD
-     * is finished with this component for now, meaning it should restore
-     * state. At this point, it can use the state parameter to restore
-     * said state, and of course return <code>null</code> since there's
-     * no longer anything to store.
+     * Let's sby thbt on the first cbll to this method the component decides
+     * to sbve some stbte (becbuse it is bbout to use the selection to show
+     * b drop index). It cbn return b stbte object to the cbller encbpsulbting
+     * bny sbved selection stbte. On b second cbll, let's sby the drop locbtion
+     * is being chbnged to something else. The component doesn't need to
+     * restore bnything yet, so it simply pbsses bbck the sbme stbte object
+     * to hbve the DnD system continue storing it. Finblly, let's sby this
+     * method is messbged with <code>null</code>. This mebns DnD
+     * is finished with this component for now, mebning it should restore
+     * stbte. At this point, it cbn use the stbte pbrbmeter to restore
+     * sbid stbte, bnd of course return <code>null</code> since there's
+     * no longer bnything to store.
      *
-     * @param location the drop location (as calculated by
-     *        <code>dropLocationForPoint</code>) or <code>null</code>
-     *        if there's no longer a valid drop location
-     * @param state the state object saved earlier for this component,
+     * @pbrbm locbtion the drop locbtion (bs cblculbted by
+     *        <code>dropLocbtionForPoint</code>) or <code>null</code>
+     *        if there's no longer b vblid drop locbtion
+     * @pbrbm stbte the stbte object sbved ebrlier for this component,
      *        or <code>null</code>
-     * @param forDrop whether or not the method is being called because an
-     *        actual drop occurred
-     * @return any saved state for this component, or <code>null</code> if none
+     * @pbrbm forDrop whether or not the method is being cblled becbuse bn
+     *        bctubl drop occurred
+     * @return bny sbved stbte for this component, or <code>null</code> if none
      */
-    Object setDropLocation(TransferHandler.DropLocation location,
-                           Object state,
-                           boolean forDrop) {
+    Object setDropLocbtion(TrbnsferHbndler.DropLocbtion locbtion,
+                           Object stbte,
+                           boolebn forDrop) {
 
-        Object retVal = null;
-        DropLocation listLocation = (DropLocation)location;
+        Object retVbl = null;
+        DropLocbtion listLocbtion = (DropLocbtion)locbtion;
 
         if (dropMode == DropMode.USE_SELECTION) {
-            if (listLocation == null) {
-                if (!forDrop && state != null) {
-                    setSelectedIndices(((int[][])state)[0]);
+            if (listLocbtion == null) {
+                if (!forDrop && stbte != null) {
+                    setSelectedIndices(((int[][])stbte)[0]);
 
-                    int anchor = ((int[][])state)[1][0];
-                    int lead = ((int[][])state)[1][1];
+                    int bnchor = ((int[][])stbte)[1][0];
+                    int lebd = ((int[][])stbte)[1][1];
 
-                    SwingUtilities2.setLeadAnchorWithoutSelection(
-                            getSelectionModel(), lead, anchor);
+                    SwingUtilities2.setLebdAnchorWithoutSelection(
+                            getSelectionModel(), lebd, bnchor);
                 }
             } else {
-                if (dropLocation == null) {
+                if (dropLocbtion == null) {
                     int[] inds = getSelectedIndices();
-                    retVal = new int[][] {inds, {getAnchorSelectionIndex(),
-                                                 getLeadSelectionIndex()}};
+                    retVbl = new int[][] {inds, {getAnchorSelectionIndex(),
+                                                 getLebdSelectionIndex()}};
                 } else {
-                    retVal = state;
+                    retVbl = stbte;
                 }
 
-                int index = listLocation.getIndex();
+                int index = listLocbtion.getIndex();
                 if (index == -1) {
-                    clearSelection();
+                    clebrSelection();
                     getSelectionModel().setAnchorSelectionIndex(-1);
-                    getSelectionModel().setLeadSelectionIndex(-1);
+                    getSelectionModel().setLebdSelectionIndex(-1);
                 } else {
-                    setSelectionInterval(index, index);
+                    setSelectionIntervbl(index, index);
                 }
             }
         }
 
-        DropLocation old = dropLocation;
-        dropLocation = listLocation;
-        firePropertyChange("dropLocation", old, dropLocation);
+        DropLocbtion old = dropLocbtion;
+        dropLocbtion = listLocbtion;
+        firePropertyChbnge("dropLocbtion", old, dropLocbtion);
 
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Returns the location that this component should visually indicate
-     * as the drop location during a DnD operation over the component,
-     * or {@code null} if no location is to currently be shown.
+     * Returns the locbtion thbt this component should visublly indicbte
+     * bs the drop locbtion during b DnD operbtion over the component,
+     * or {@code null} if no locbtion is to currently be shown.
      * <p>
-     * This method is not meant for querying the drop location
-     * from a {@code TransferHandler}, as the drop location is only
-     * set after the {@code TransferHandler}'s <code>canImport</code>
-     * has returned and has allowed for the location to be shown.
+     * This method is not mebnt for querying the drop locbtion
+     * from b {@code TrbnsferHbndler}, bs the drop locbtion is only
+     * set bfter the {@code TrbnsferHbndler}'s <code>cbnImport</code>
+     * hbs returned bnd hbs bllowed for the locbtion to be shown.
      * <p>
-     * When this property changes, a property change event with
-     * name "dropLocation" is fired by the component.
+     * When this property chbnges, b property chbnge event with
+     * nbme "dropLocbtion" is fired by the component.
      * <p>
-     * By default, responsibility for listening for changes to this property
-     * and indicating the drop location visually lies with the list's
-     * {@code ListUI}, which may paint it directly and/or install a cell
-     * renderer to do so. Developers wishing to implement custom drop location
-     * painting and/or replace the default cell renderer, may need to honor
+     * By defbult, responsibility for listening for chbnges to this property
+     * bnd indicbting the drop locbtion visublly lies with the list's
+     * {@code ListUI}, which mby pbint it directly bnd/or instbll b cell
+     * renderer to do so. Developers wishing to implement custom drop locbtion
+     * pbinting bnd/or replbce the defbult cell renderer, mby need to honor
      * this property.
      *
-     * @return the drop location
+     * @return the drop locbtion
      * @see #setDropMode
-     * @see TransferHandler#canImport(TransferHandler.TransferSupport)
+     * @see TrbnsferHbndler#cbnImport(TrbnsferHbndler.TrbnsferSupport)
      * @since 1.6
      */
-    public final DropLocation getDropLocation() {
-        return dropLocation;
+    public finbl DropLocbtion getDropLocbtion() {
+        return dropLocbtion;
     }
 
     /**
-     * Returns the next list element whose {@code toString} value
-     * starts with the given prefix.
+     * Returns the next list element whose {@code toString} vblue
+     * stbrts with the given prefix.
      *
-     * @param prefix the string to test for a match
-     * @param startIndex the index for starting the search
-     * @param bias the search direction, either
-     * Position.Bias.Forward or Position.Bias.Backward.
-     * @return the index of the next list element that
-     * starts with the prefix; otherwise {@code -1}
-     * @exception IllegalArgumentException if prefix is {@code null}
-     * or startIndex is out of bounds
+     * @pbrbm prefix the string to test for b mbtch
+     * @pbrbm stbrtIndex the index for stbrting the sebrch
+     * @pbrbm bibs the sebrch direction, either
+     * Position.Bibs.Forwbrd or Position.Bibs.Bbckwbrd.
+     * @return the index of the next list element thbt
+     * stbrts with the prefix; otherwise {@code -1}
+     * @exception IllegblArgumentException if prefix is {@code null}
+     * or stbrtIndex is out of bounds
      * @since 1.4
      */
-    public int getNextMatch(String prefix, int startIndex, Position.Bias bias) {
+    public int getNextMbtch(String prefix, int stbrtIndex, Position.Bibs bibs) {
         ListModel<E> model = getModel();
-        int max = model.getSize();
+        int mbx = model.getSize();
         if (prefix == null) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
-        if (startIndex < 0 || startIndex >= max) {
-            throw new IllegalArgumentException();
+        if (stbrtIndex < 0 || stbrtIndex >= mbx) {
+            throw new IllegblArgumentException();
         }
-        prefix = prefix.toUpperCase();
+        prefix = prefix.toUpperCbse();
 
-        // start search from the next element after the selected element
-        int increment = (bias == Position.Bias.Forward) ? 1 : -1;
-        int index = startIndex;
+        // stbrt sebrch from the next element bfter the selected element
+        int increment = (bibs == Position.Bibs.Forwbrd) ? 1 : -1;
+        int index = stbrtIndex;
         do {
             E element = model.getElementAt(index);
 
             if (element != null) {
                 String string;
 
-                if (element instanceof String) {
-                    string = ((String)element).toUpperCase();
+                if (element instbnceof String) {
+                    string = ((String)element).toUpperCbse();
                 }
                 else {
                     string = element.toString();
                     if (string != null) {
-                        string = string.toUpperCase();
+                        string = string.toUpperCbse();
                     }
                 }
 
-                if (string != null && string.startsWith(prefix)) {
+                if (string != null && string.stbrtsWith(prefix)) {
                     return index;
                 }
             }
-            index = (index + increment + max) % max;
-        } while (index != startIndex);
+            index = (index + increment + mbx) % mbx;
+        } while (index != stbrtIndex);
         return -1;
     }
 
@@ -1510,42 +1510,42 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      * Returns the tooltip text to be used for the given event. This overrides
      * {@code JComponent}'s {@code getToolTipText} to first check the cell
      * renderer component for the cell over which the event occurred, returning
-     * its tooltip text, if any. This implementation allows you to specify
+     * its tooltip text, if bny. This implementbtion bllows you to specify
      * tooltip text on the cell level, by using {@code setToolTipText} on your
      * cell renderer component.
      * <p>
-     * <strong>Note:</strong> For <code>JList</code> to properly display the
-     * tooltips of its renderers in this manner, <code>JList</code> must be a
-     * registered component with the <code>ToolTipManager</code>. This registration
-     * is done automatically in the constructor. However, if at a later point
-     * <code>JList</code> is unregistered, by way of a call to
-     * {@code setToolTipText(null)}, tips from the renderers will no longer display.
+     * <strong>Note:</strong> For <code>JList</code> to properly displby the
+     * tooltips of its renderers in this mbnner, <code>JList</code> must be b
+     * registered component with the <code>ToolTipMbnbger</code>. This registrbtion
+     * is done butombticblly in the constructor. However, if bt b lbter point
+     * <code>JList</code> is unregistered, by wby of b cbll to
+     * {@code setToolTipText(null)}, tips from the renderers will no longer displby.
      *
-     * @param event the {@code MouseEvent} to fetch the tooltip text for
+     * @pbrbm event the {@code MouseEvent} to fetch the tooltip text for
      * @see JComponent#setToolTipText
      * @see JComponent#getToolTipText
      */
     public String getToolTipText(MouseEvent event) {
         if(event != null) {
             Point p = event.getPoint();
-            int index = locationToIndex(p);
+            int index = locbtionToIndex(p);
             ListCellRenderer<? super E> r = getCellRenderer();
-            Rectangle cellBounds;
+            Rectbngle cellBounds;
 
             if (index != -1 && r != null && (cellBounds =
                                getCellBounds(index, index)) != null &&
-                               cellBounds.contains(p.x, p.y)) {
+                               cellBounds.contbins(p.x, p.y)) {
                 ListSelectionModel lsm = getSelectionModel();
                 Component rComponent = r.getListCellRendererComponent(
                            this, getModel().getElementAt(index), index,
                            lsm.isSelectedIndex(index),
-                           (hasFocus() && (lsm.getLeadSelectionIndex() ==
+                           (hbsFocus() && (lsm.getLebdSelectionIndex() ==
                                            index)));
 
-                if(rComponent instanceof JComponent) {
+                if(rComponent instbnceof JComponent) {
                     MouseEvent      newEvent;
 
-                    p.translate(-cellBounds.x, -cellBounds.y);
+                    p.trbnslbte(-cellBounds.x, -cellBounds.y);
                     newEvent = new MouseEvent(rComponent, event.getID(),
                                               event.getWhen(),
                                               event.getModifiers(),
@@ -1569,66 +1569,66 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * --- ListUI Delegations ---
+     * --- ListUI Delegbtions ---
      */
 
 
     /**
-     * Returns the cell index closest to the given location in the list's
-     * coordinate system. To determine if the cell actually contains the
-     * specified location, compare the point against the cell's bounds,
-     * as provided by {@code getCellBounds}. This method returns {@code -1}
+     * Returns the cell index closest to the given locbtion in the list's
+     * coordinbte system. To determine if the cell bctublly contbins the
+     * specified locbtion, compbre the point bgbinst the cell's bounds,
+     * bs provided by {@code getCellBounds}. This method returns {@code -1}
      * if the model is empty
      * <p>
-     * This is a cover method that delegates to the method of the same name
-     * in the list's {@code ListUI}. It returns {@code -1} if the list has
+     * This is b cover method thbt delegbtes to the method of the sbme nbme
+     * in the list's {@code ListUI}. It returns {@code -1} if the list hbs
      * no {@code ListUI}.
      *
-     * @param location the coordinates of the point
-     * @return the cell index closest to the given location, or {@code -1}
+     * @pbrbm locbtion the coordinbtes of the point
+     * @return the cell index closest to the given locbtion, or {@code -1}
      */
-    public int locationToIndex(Point location) {
+    public int locbtionToIndex(Point locbtion) {
         ListUI ui = getUI();
-        return (ui != null) ? ui.locationToIndex(this, location) : -1;
+        return (ui != null) ? ui.locbtionToIndex(this, locbtion) : -1;
     }
 
 
     /**
-     * Returns the origin of the specified item in the list's coordinate
-     * system. This method returns {@code null} if the index isn't valid.
+     * Returns the origin of the specified item in the list's coordinbte
+     * system. This method returns {@code null} if the index isn't vblid.
      * <p>
-     * This is a cover method that delegates to the method of the same name
-     * in the list's {@code ListUI}. It returns {@code null} if the list has
+     * This is b cover method thbt delegbtes to the method of the sbme nbme
+     * in the list's {@code ListUI}. It returns {@code null} if the list hbs
      * no {@code ListUI}.
      *
-     * @param index the cell index
+     * @pbrbm index the cell index
      * @return the origin of the cell, or {@code null}
      */
-    public Point indexToLocation(int index) {
+    public Point indexToLocbtion(int index) {
         ListUI ui = getUI();
-        return (ui != null) ? ui.indexToLocation(this, index) : null;
+        return (ui != null) ? ui.indexToLocbtion(this, index) : null;
     }
 
 
     /**
-     * Returns the bounding rectangle, in the list's coordinate system,
-     * for the range of cells specified by the two indices.
-     * These indices can be supplied in any order.
+     * Returns the bounding rectbngle, in the list's coordinbte system,
+     * for the rbnge of cells specified by the two indices.
+     * These indices cbn be supplied in bny order.
      * <p>
-     * If the smaller index is outside the list's range of cells, this method
-     * returns {@code null}. If the smaller index is valid, but the larger
-     * index is outside the list's range, the bounds of just the first index
-     * is returned. Otherwise, the bounds of the valid range is returned.
+     * If the smbller index is outside the list's rbnge of cells, this method
+     * returns {@code null}. If the smbller index is vblid, but the lbrger
+     * index is outside the list's rbnge, the bounds of just the first index
+     * is returned. Otherwise, the bounds of the vblid rbnge is returned.
      * <p>
-     * This is a cover method that delegates to the method of the same name
-     * in the list's {@code ListUI}. It returns {@code null} if the list has
+     * This is b cover method thbt delegbtes to the method of the sbme nbme
+     * in the list's {@code ListUI}. It returns {@code null} if the list hbs
      * no {@code ListUI}.
      *
-     * @param index0 the first index in the range
-     * @param index1 the second index in the range
-     * @return the bounding rectangle for the range of cells, or {@code null}
+     * @pbrbm index0 the first index in the rbnge
+     * @pbrbm index1 the second index in the rbnge
+     * @return the bounding rectbngle for the rbnge of cells, or {@code null}
      */
-    public Rectangle getCellBounds(int index0, int index1) {
+    public Rectbngle getCellBounds(int index0, int index1) {
         ListUI ui = getUI();
         return (ui != null) ? ui.getCellBounds(this, index0, index1) : null;
     }
@@ -1640,118 +1640,118 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the data model that holds the list of items displayed
+     * Returns the dbtb model thbt holds the list of items displbyed
      * by the <code>JList</code> component.
      *
-     * @return the <code>ListModel</code> that provides the displayed
+     * @return the <code>ListModel</code> thbt provides the displbyed
      *                          list of items
      * @see #setModel
      */
     public ListModel<E> getModel() {
-        return dataModel;
+        return dbtbModel;
     }
 
     /**
-     * Sets the model that represents the contents or "value" of the
-     * list, notifies property change listeners, and then clears the
+     * Sets the model thbt represents the contents or "vblue" of the
+     * list, notifies property chbnge listeners, bnd then clebrs the
      * list's selection.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param model  the <code>ListModel</code> that provides the
-     *                                          list of items for display
-     * @exception IllegalArgumentException  if <code>model</code> is
+     * @pbrbm model  the <code>ListModel</code> thbt provides the
+     *                                          list of items for displby
+     * @exception IllegblArgumentException  if <code>model</code> is
      *                                          <code>null</code>
      * @see #getModel
-     * @see #clearSelection
-     * @beaninfo
+     * @see #clebrSelection
+     * @bebninfo
      *       bound: true
-     *   attribute: visualUpdate true
-     * description: The object that contains the data to be drawn by this JList.
+     *   bttribute: visublUpdbte true
+     * description: The object thbt contbins the dbtb to be drbwn by this JList.
      */
     public void setModel(ListModel<E> model) {
         if (model == null) {
-            throw new IllegalArgumentException("model must be non null");
+            throw new IllegblArgumentException("model must be non null");
         }
-        ListModel<E> oldValue = dataModel;
-        dataModel = model;
-        firePropertyChange("model", oldValue, dataModel);
-        clearSelection();
+        ListModel<E> oldVblue = dbtbModel;
+        dbtbModel = model;
+        firePropertyChbnge("model", oldVblue, dbtbModel);
+        clebrSelection();
     }
 
 
     /**
-     * Constructs a read-only <code>ListModel</code> from an array of items,
-     * and calls {@code setModel} with this model.
+     * Constructs b rebd-only <code>ListModel</code> from bn brrby of items,
+     * bnd cblls {@code setModel} with this model.
      * <p>
-     * Attempts to pass a {@code null} value to this method results in
-     * undefined behavior and, most likely, exceptions. The created model
-     * references the given array directly. Attempts to modify the array
-     * after invoking this method results in undefined behavior.
+     * Attempts to pbss b {@code null} vblue to this method results in
+     * undefined behbvior bnd, most likely, exceptions. The crebted model
+     * references the given brrby directly. Attempts to modify the brrby
+     * bfter invoking this method results in undefined behbvior.
      *
-     * @param listData an array of {@code E} containing the items to
-     *        display in the list
+     * @pbrbm listDbtb bn brrby of {@code E} contbining the items to
+     *        displby in the list
      * @see #setModel
      */
-    public void setListData(final E[] listData) {
+    public void setListDbtb(finbl E[] listDbtb) {
         setModel (
-            new AbstractListModel<E>() {
-                public int getSize() { return listData.length; }
-                public E getElementAt(int i) { return listData[i]; }
+            new AbstrbctListModel<E>() {
+                public int getSize() { return listDbtb.length; }
+                public E getElementAt(int i) { return listDbtb[i]; }
             }
         );
     }
 
 
     /**
-     * Constructs a read-only <code>ListModel</code> from a <code>Vector</code>
-     * and calls {@code setModel} with this model.
+     * Constructs b rebd-only <code>ListModel</code> from b <code>Vector</code>
+     * bnd cblls {@code setModel} with this model.
      * <p>
-     * Attempts to pass a {@code null} value to this method results in
-     * undefined behavior and, most likely, exceptions. The created model
+     * Attempts to pbss b {@code null} vblue to this method results in
+     * undefined behbvior bnd, most likely, exceptions. The crebted model
      * references the given {@code Vector} directly. Attempts to modify the
-     * {@code Vector} after invoking this method results in undefined behavior.
+     * {@code Vector} bfter invoking this method results in undefined behbvior.
      *
-     * @param listData a <code>Vector</code> containing the items to
-     *                                          display in the list
+     * @pbrbm listDbtb b <code>Vector</code> contbining the items to
+     *                                          displby in the list
      * @see #setModel
      */
-    public void setListData(final Vector<? extends E> listData) {
+    public void setListDbtb(finbl Vector<? extends E> listDbtb) {
         setModel (
-            new AbstractListModel<E>() {
-                public int getSize() { return listData.size(); }
-                public E getElementAt(int i) { return listData.elementAt(i); }
+            new AbstrbctListModel<E>() {
+                public int getSize() { return listDbtb.size(); }
+                public E getElementAt(int i) { return listDbtb.elementAt(i); }
             }
         );
     }
 
 
     /**
-     * --- ListSelectionModel delegations and extensions ---
+     * --- ListSelectionModel delegbtions bnd extensions ---
      */
 
 
     /**
-     * Returns an instance of {@code DefaultListSelectionModel}; called
-     * during construction to initialize the list's selection model
+     * Returns bn instbnce of {@code DefbultListSelectionModel}; cblled
+     * during construction to initiblize the list's selection model
      * property.
      *
-     * @return a {@code DefaultListSelecitonModel}, used to initialize
+     * @return b {@code DefbultListSelecitonModel}, used to initiblize
      *         the list's selection model property during construction
      * @see #setSelectionModel
-     * @see DefaultListSelectionModel
+     * @see DefbultListSelectionModel
      */
-    protected ListSelectionModel createSelectionModel() {
-        return new DefaultListSelectionModel();
+    protected ListSelectionModel crebteSelectionModel() {
+        return new DefbultListSelectionModel();
     }
 
 
     /**
-     * Returns the current selection model. The selection model maintains the
-     * selection state of the list. See the class level documentation for more
-     * details.
+     * Returns the current selection model. The selection model mbintbins the
+     * selection stbte of the list. See the clbss level documentbtion for more
+     * detbils.
      *
-     * @return the <code>ListSelectionModel</code> that maintains the
+     * @return the <code>ListSelectionModel</code> thbt mbintbins the
      *         list's selections
      *
      * @see #setSelectionModel
@@ -1763,172 +1763,172 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Notifies {@code ListSelectionListener}s added directly to the list
-     * of selection changes made to the selection model. {@code JList}
-     * listens for changes made to the selection in the selection model,
-     * and forwards notification to listeners added to the list directly,
-     * by calling this method.
+     * Notifies {@code ListSelectionListener}s bdded directly to the list
+     * of selection chbnges mbde to the selection model. {@code JList}
+     * listens for chbnges mbde to the selection in the selection model,
+     * bnd forwbrds notificbtion to listeners bdded to the list directly,
+     * by cblling this method.
      * <p>
-     * This method constructs a {@code ListSelectionEvent} with this list
-     * as the source, and the specified arguments, and sends it to the
+     * This method constructs b {@code ListSelectionEvent} with this list
+     * bs the source, bnd the specified brguments, bnd sends it to the
      * registered {@code ListSelectionListeners}.
      *
-     * @param firstIndex the first index in the range, {@code <= lastIndex}
-     * @param lastIndex the last index in the range, {@code >= firstIndex}
-     * @param isAdjusting whether or not this is one in a series of
-     *        multiple events, where changes are still being made
+     * @pbrbm firstIndex the first index in the rbnge, {@code <= lbstIndex}
+     * @pbrbm lbstIndex the lbst index in the rbnge, {@code >= firstIndex}
+     * @pbrbm isAdjusting whether or not this is one in b series of
+     *        multiple events, where chbnges bre still being mbde
      *
-     * @see #addListSelectionListener
+     * @see #bddListSelectionListener
      * @see #removeListSelectionListener
-     * @see javax.swing.event.ListSelectionEvent
+     * @see jbvbx.swing.event.ListSelectionEvent
      * @see EventListenerList
      */
-    protected void fireSelectionValueChanged(int firstIndex, int lastIndex,
-                                             boolean isAdjusting)
+    protected void fireSelectionVblueChbnged(int firstIndex, int lbstIndex,
+                                             boolebn isAdjusting)
     {
         Object[] listeners = listenerList.getListenerList();
         ListSelectionEvent e = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ListSelectionListener.class) {
+            if (listeners[i] == ListSelectionListener.clbss) {
                 if (e == null) {
-                    e = new ListSelectionEvent(this, firstIndex, lastIndex,
+                    e = new ListSelectionEvent(this, firstIndex, lbstIndex,
                                                isAdjusting);
                 }
-                ((ListSelectionListener)listeners[i+1]).valueChanged(e);
+                ((ListSelectionListener)listeners[i+1]).vblueChbnged(e);
             }
         }
     }
 
 
-    /* A ListSelectionListener that forwards ListSelectionEvents from
+    /* A ListSelectionListener thbt forwbrds ListSelectionEvents from
      * the selectionModel to the JList ListSelectionListeners.  The
-     * forwarded events only differ from the originals in that their
-     * source is the JList instead of the selectionModel itself.
+     * forwbrded events only differ from the originbls in thbt their
+     * source is the JList instebd of the selectionModel itself.
      */
-    private class ListSelectionHandler implements ListSelectionListener, Serializable
+    privbte clbss ListSelectionHbndler implements ListSelectionListener, Seriblizbble
     {
-        public void valueChanged(ListSelectionEvent e) {
-            fireSelectionValueChanged(e.getFirstIndex(),
-                                      e.getLastIndex(),
-                                      e.getValueIsAdjusting());
+        public void vblueChbnged(ListSelectionEvent e) {
+            fireSelectionVblueChbnged(e.getFirstIndex(),
+                                      e.getLbstIndex(),
+                                      e.getVblueIsAdjusting());
         }
     }
 
 
     /**
-     * Adds a listener to the list, to be notified each time a change to the
-     * selection occurs; the preferred way of listening for selection state
-     * changes. {@code JList} takes care of listening for selection state
-     * changes in the selection model, and notifies the given listener of
-     * each change. {@code ListSelectionEvent}s sent to the listener have a
+     * Adds b listener to the list, to be notified ebch time b chbnge to the
+     * selection occurs; the preferred wby of listening for selection stbte
+     * chbnges. {@code JList} tbkes cbre of listening for selection stbte
+     * chbnges in the selection model, bnd notifies the given listener of
+     * ebch chbnge. {@code ListSelectionEvent}s sent to the listener hbve b
      * {@code source} property set to this list.
      *
-     * @param listener the {@code ListSelectionListener} to add
+     * @pbrbm listener the {@code ListSelectionListener} to bdd
      * @see #getSelectionModel
      * @see #getListSelectionListeners
      */
-    public void addListSelectionListener(ListSelectionListener listener)
+    public void bddListSelectionListener(ListSelectionListener listener)
     {
         if (selectionListener == null) {
-            selectionListener = new ListSelectionHandler();
-            getSelectionModel().addListSelectionListener(selectionListener);
+            selectionListener = new ListSelectionHbndler();
+            getSelectionModel().bddListSelectionListener(selectionListener);
         }
 
-        listenerList.add(ListSelectionListener.class, listener);
+        listenerList.bdd(ListSelectionListener.clbss, listener);
     }
 
 
     /**
-     * Removes a selection listener from the list.
+     * Removes b selection listener from the list.
      *
-     * @param listener the {@code ListSelectionListener} to remove
-     * @see #addListSelectionListener
+     * @pbrbm listener the {@code ListSelectionListener} to remove
+     * @see #bddListSelectionListener
      * @see #getSelectionModel
      */
     public void removeListSelectionListener(ListSelectionListener listener) {
-        listenerList.remove(ListSelectionListener.class, listener);
+        listenerList.remove(ListSelectionListener.clbss, listener);
     }
 
 
     /**
-     * Returns an array of all the {@code ListSelectionListener}s added
-     * to this {@code JList} by way of {@code addListSelectionListener}.
+     * Returns bn brrby of bll the {@code ListSelectionListener}s bdded
+     * to this {@code JList} by wby of {@code bddListSelectionListener}.
      *
-     * @return all of the {@code ListSelectionListener}s on this list, or
-     *         an empty array if no listeners have been added
-     * @see #addListSelectionListener
+     * @return bll of the {@code ListSelectionListener}s on this list, or
+     *         bn empty brrby if no listeners hbve been bdded
+     * @see #bddListSelectionListener
      * @since 1.4
      */
     public ListSelectionListener[] getListSelectionListeners() {
-        return listenerList.getListeners(ListSelectionListener.class);
+        return listenerList.getListeners(ListSelectionListener.clbss);
     }
 
 
     /**
-     * Sets the <code>selectionModel</code> for the list to a
+     * Sets the <code>selectionModel</code> for the list to b
      * non-<code>null</code> <code>ListSelectionModel</code>
-     * implementation. The selection model handles the task of making single
-     * selections, selections of contiguous ranges, and non-contiguous
+     * implementbtion. The selection model hbndles the tbsk of mbking single
+     * selections, selections of contiguous rbnges, bnd non-contiguous
      * selections.
      * <p>
-     * This is a JavaBeans bound property.
+     * This is b JbvbBebns bound property.
      *
-     * @param selectionModel  the <code>ListSelectionModel</code> that
+     * @pbrbm selectionModel  the <code>ListSelectionModel</code> thbt
      *                          implements the selections
-     * @exception IllegalArgumentException   if <code>selectionModel</code>
+     * @exception IllegblArgumentException   if <code>selectionModel</code>
      *                                          is <code>null</code>
      * @see #getSelectionModel
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     * description: The selection model, recording which cells are selected.
+     * description: The selection model, recording which cells bre selected.
      */
     public void setSelectionModel(ListSelectionModel selectionModel) {
         if (selectionModel == null) {
-            throw new IllegalArgumentException("selectionModel must be non null");
+            throw new IllegblArgumentException("selectionModel must be non null");
         }
 
-        /* Remove the forwarding ListSelectionListener from the old
-         * selectionModel, and add it to the new one, if necessary.
+        /* Remove the forwbrding ListSelectionListener from the old
+         * selectionModel, bnd bdd it to the new one, if necessbry.
          */
         if (selectionListener != null) {
             this.selectionModel.removeListSelectionListener(selectionListener);
-            selectionModel.addListSelectionListener(selectionListener);
+            selectionModel.bddListSelectionListener(selectionListener);
         }
 
-        ListSelectionModel oldValue = this.selectionModel;
+        ListSelectionModel oldVblue = this.selectionModel;
         this.selectionModel = selectionModel;
-        firePropertyChange("selectionModel", oldValue, selectionModel);
+        firePropertyChbnge("selectionModel", oldVblue, selectionModel);
     }
 
 
     /**
-     * Sets the selection mode for the list. This is a cover method that sets
+     * Sets the selection mode for the list. This is b cover method thbt sets
      * the selection mode directly on the selection model.
      * <p>
-     * The following list describes the accepted selection modes:
+     * The following list describes the bccepted selection modes:
      * <ul>
      * <li>{@code ListSelectionModel.SINGLE_SELECTION} -
-     *   Only one list index can be selected at a time. In this mode,
-     *   {@code setSelectionInterval} and {@code addSelectionInterval} are
-     *   equivalent, both replacing the current selection with the index
-     *   represented by the second argument (the "lead").
+     *   Only one list index cbn be selected bt b time. In this mode,
+     *   {@code setSelectionIntervbl} bnd {@code bddSelectionIntervbl} bre
+     *   equivblent, both replbcing the current selection with the index
+     *   represented by the second brgument (the "lebd").
      * <li>{@code ListSelectionModel.SINGLE_INTERVAL_SELECTION} -
-     *   Only one contiguous interval can be selected at a time.
-     *   In this mode, {@code addSelectionInterval} behaves like
-     *   {@code setSelectionInterval} (replacing the current selection},
-     *   unless the given interval is immediately adjacent to or overlaps
-     *   the existing selection, and can be used to grow the selection.
+     *   Only one contiguous intervbl cbn be selected bt b time.
+     *   In this mode, {@code bddSelectionIntervbl} behbves like
+     *   {@code setSelectionIntervbl} (replbcing the current selection},
+     *   unless the given intervbl is immedibtely bdjbcent to or overlbps
+     *   the existing selection, bnd cbn be used to grow the selection.
      * <li>{@code ListSelectionModel.MULTIPLE_INTERVAL_SELECTION} -
-     *   In this mode, there's no restriction on what can be selected.
-     *   This mode is the default.
+     *   In this mode, there's no restriction on whbt cbn be selected.
+     *   This mode is the defbult.
      * </ul>
      *
-     * @param selectionMode the selection mode
+     * @pbrbm selectionMode the selection mode
      * @see #getSelectionMode
-     * @throws IllegalArgumentException if the selection mode isn't
-     *         one of those allowed
-     * @beaninfo
+     * @throws IllegblArgumentException if the selection mode isn't
+     *         one of those bllowed
+     * @bebninfo
      * description: The selection mode.
      *        enum: SINGLE_SELECTION            ListSelectionModel.SINGLE_SELECTION
      *              SINGLE_INTERVAL_SELECTION   ListSelectionModel.SINGLE_INTERVAL_SELECTION
@@ -1939,8 +1939,8 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     }
 
     /**
-     * Returns the current selection mode for the list. This is a cover
-     * method that delegates to the method of the same name on the
+     * Returns the current selection mode for the list. This is b cover
+     * method thbt delegbtes to the method of the sbme nbme on the
      * list's selection model.
      *
      * @return the current selection mode
@@ -1952,10 +1952,10 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the anchor selection index. This is a cover method that
-     * delegates to the method of the same name on the list's selection model.
+     * Returns the bnchor selection index. This is b cover method thbt
+     * delegbtes to the method of the sbme nbme on the list's selection model.
      *
-     * @return the anchor selection index
+     * @return the bnchor selection index
      * @see ListSelectionModel#getAnchorSelectionIndex
      */
     public int getAnchorSelectionIndex() {
@@ -1964,25 +1964,25 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the lead selection index. This is a cover method that
-     * delegates to the method of the same name on the list's selection model.
+     * Returns the lebd selection index. This is b cover method thbt
+     * delegbtes to the method of the sbme nbme on the list's selection model.
      *
-     * @return the lead selection index
-     * @see ListSelectionModel#getLeadSelectionIndex
-     * @beaninfo
-     * description: The lead selection index.
+     * @return the lebd selection index
+     * @see ListSelectionModel#getLebdSelectionIndex
+     * @bebninfo
+     * description: The lebd selection index.
      */
-    public int getLeadSelectionIndex() {
-        return getSelectionModel().getLeadSelectionIndex();
+    public int getLebdSelectionIndex() {
+        return getSelectionModel().getLebdSelectionIndex();
     }
 
 
     /**
-     * Returns the smallest selected cell index, or {@code -1} if the selection
-     * is empty. This is a cover method that delegates to the method of the same
-     * name on the list's selection model.
+     * Returns the smbllest selected cell index, or {@code -1} if the selection
+     * is empty. This is b cover method thbt delegbtes to the method of the sbme
+     * nbme on the list's selection model.
      *
-     * @return the smallest selected cell index, or {@code -1}
+     * @return the smbllest selected cell index, or {@code -1}
      * @see ListSelectionModel#getMinSelectionIndex
      */
     public int getMinSelectionIndex() {
@@ -1991,316 +1991,316 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the largest selected cell index, or {@code -1} if the selection
-     * is empty. This is a cover method that delegates to the method of the same
-     * name on the list's selection model.
+     * Returns the lbrgest selected cell index, or {@code -1} if the selection
+     * is empty. This is b cover method thbt delegbtes to the method of the sbme
+     * nbme on the list's selection model.
      *
-     * @return the largest selected cell index
-     * @see ListSelectionModel#getMaxSelectionIndex
+     * @return the lbrgest selected cell index
+     * @see ListSelectionModel#getMbxSelectionIndex
      */
-    public int getMaxSelectionIndex() {
-        return getSelectionModel().getMaxSelectionIndex();
+    public int getMbxSelectionIndex() {
+        return getSelectionModel().getMbxSelectionIndex();
     }
 
 
     /**
      * Returns {@code true} if the specified index is selected,
-     * else {@code false}. This is a cover method that delegates to the method
-     * of the same name on the list's selection model.
+     * else {@code fblse}. This is b cover method thbt delegbtes to the method
+     * of the sbme nbme on the list's selection model.
      *
-     * @param index index to be queried for selection state
+     * @pbrbm index index to be queried for selection stbte
      * @return {@code true} if the specified index is selected,
-     *         else {@code false}
+     *         else {@code fblse}
      * @see ListSelectionModel#isSelectedIndex
      * @see #setSelectedIndex
      */
-    public boolean isSelectedIndex(int index) {
+    public boolebn isSelectedIndex(int index) {
         return getSelectionModel().isSelectedIndex(index);
     }
 
 
     /**
-     * Returns {@code true} if nothing is selected, else {@code false}.
-     * This is a cover method that delegates to the method of the same
-     * name on the list's selection model.
+     * Returns {@code true} if nothing is selected, else {@code fblse}.
+     * This is b cover method thbt delegbtes to the method of the sbme
+     * nbme on the list's selection model.
      *
-     * @return {@code true} if nothing is selected, else {@code false}
+     * @return {@code true} if nothing is selected, else {@code fblse}
      * @see ListSelectionModel#isSelectionEmpty
-     * @see #clearSelection
+     * @see #clebrSelection
      */
-    public boolean isSelectionEmpty() {
+    public boolebn isSelectionEmpty() {
         return getSelectionModel().isSelectionEmpty();
     }
 
 
     /**
-     * Clears the selection; after calling this method, {@code isSelectionEmpty}
-     * will return {@code true}. This is a cover method that delegates to the
-     * method of the same name on the list's selection model.
+     * Clebrs the selection; bfter cblling this method, {@code isSelectionEmpty}
+     * will return {@code true}. This is b cover method thbt delegbtes to the
+     * method of the sbme nbme on the list's selection model.
      *
-     * @see ListSelectionModel#clearSelection
+     * @see ListSelectionModel#clebrSelection
      * @see #isSelectionEmpty
      */
-    public void clearSelection() {
-        getSelectionModel().clearSelection();
+    public void clebrSelection() {
+        getSelectionModel().clebrSelection();
     }
 
 
     /**
-     * Selects the specified interval. Both {@code anchor} and {@code lead}
-     * indices are included. {@code anchor} doesn't have to be less than or
-     * equal to {@code lead}. This is a cover method that delegates to the
-     * method of the same name on the list's selection model.
+     * Selects the specified intervbl. Both {@code bnchor} bnd {@code lebd}
+     * indices bre included. {@code bnchor} doesn't hbve to be less thbn or
+     * equbl to {@code lebd}. This is b cover method thbt delegbtes to the
+     * method of the sbme nbme on the list's selection model.
      * <p>
-     * Refer to the documentation of the selection model class being used
-     * for details on how values less than {@code 0} are handled.
+     * Refer to the documentbtion of the selection model clbss being used
+     * for detbils on how vblues less thbn {@code 0} bre hbndled.
      *
-     * @param anchor the first index to select
-     * @param lead the last index to select
-     * @see ListSelectionModel#setSelectionInterval
-     * @see DefaultListSelectionModel#setSelectionInterval
-     * @see #createSelectionModel
-     * @see #addSelectionInterval
-     * @see #removeSelectionInterval
+     * @pbrbm bnchor the first index to select
+     * @pbrbm lebd the lbst index to select
+     * @see ListSelectionModel#setSelectionIntervbl
+     * @see DefbultListSelectionModel#setSelectionIntervbl
+     * @see #crebteSelectionModel
+     * @see #bddSelectionIntervbl
+     * @see #removeSelectionIntervbl
      */
-    public void setSelectionInterval(int anchor, int lead) {
-        getSelectionModel().setSelectionInterval(anchor, lead);
+    public void setSelectionIntervbl(int bnchor, int lebd) {
+        getSelectionModel().setSelectionIntervbl(bnchor, lebd);
     }
 
 
     /**
-     * Sets the selection to be the union of the specified interval with current
-     * selection. Both the {@code anchor} and {@code lead} indices are
-     * included. {@code anchor} doesn't have to be less than or
-     * equal to {@code lead}. This is a cover method that delegates to the
-     * method of the same name on the list's selection model.
+     * Sets the selection to be the union of the specified intervbl with current
+     * selection. Both the {@code bnchor} bnd {@code lebd} indices bre
+     * included. {@code bnchor} doesn't hbve to be less thbn or
+     * equbl to {@code lebd}. This is b cover method thbt delegbtes to the
+     * method of the sbme nbme on the list's selection model.
      * <p>
-     * Refer to the documentation of the selection model class being used
-     * for details on how values less than {@code 0} are handled.
+     * Refer to the documentbtion of the selection model clbss being used
+     * for detbils on how vblues less thbn {@code 0} bre hbndled.
      *
-     * @param anchor the first index to add to the selection
-     * @param lead the last index to add to the selection
-     * @see ListSelectionModel#addSelectionInterval
-     * @see DefaultListSelectionModel#addSelectionInterval
-     * @see #createSelectionModel
-     * @see #setSelectionInterval
-     * @see #removeSelectionInterval
+     * @pbrbm bnchor the first index to bdd to the selection
+     * @pbrbm lebd the lbst index to bdd to the selection
+     * @see ListSelectionModel#bddSelectionIntervbl
+     * @see DefbultListSelectionModel#bddSelectionIntervbl
+     * @see #crebteSelectionModel
+     * @see #setSelectionIntervbl
+     * @see #removeSelectionIntervbl
      */
-    public void addSelectionInterval(int anchor, int lead) {
-        getSelectionModel().addSelectionInterval(anchor, lead);
+    public void bddSelectionIntervbl(int bnchor, int lebd) {
+        getSelectionModel().bddSelectionIntervbl(bnchor, lebd);
     }
 
 
     /**
-     * Sets the selection to be the set difference of the specified interval
-     * and the current selection. Both the {@code index0} and {@code index1}
-     * indices are removed. {@code index0} doesn't have to be less than or
-     * equal to {@code index1}. This is a cover method that delegates to the
-     * method of the same name on the list's selection model.
+     * Sets the selection to be the set difference of the specified intervbl
+     * bnd the current selection. Both the {@code index0} bnd {@code index1}
+     * indices bre removed. {@code index0} doesn't hbve to be less thbn or
+     * equbl to {@code index1}. This is b cover method thbt delegbtes to the
+     * method of the sbme nbme on the list's selection model.
      * <p>
-     * Refer to the documentation of the selection model class being used
-     * for details on how values less than {@code 0} are handled.
+     * Refer to the documentbtion of the selection model clbss being used
+     * for detbils on how vblues less thbn {@code 0} bre hbndled.
      *
-     * @param index0 the first index to remove from the selection
-     * @param index1 the last index to remove from the selection
-     * @see ListSelectionModel#removeSelectionInterval
-     * @see DefaultListSelectionModel#removeSelectionInterval
-     * @see #createSelectionModel
-     * @see #setSelectionInterval
-     * @see #addSelectionInterval
+     * @pbrbm index0 the first index to remove from the selection
+     * @pbrbm index1 the lbst index to remove from the selection
+     * @see ListSelectionModel#removeSelectionIntervbl
+     * @see DefbultListSelectionModel#removeSelectionIntervbl
+     * @see #crebteSelectionModel
+     * @see #setSelectionIntervbl
+     * @see #bddSelectionIntervbl
      */
-    public void removeSelectionInterval(int index0, int index1) {
-        getSelectionModel().removeSelectionInterval(index0, index1);
+    public void removeSelectionIntervbl(int index0, int index1) {
+        getSelectionModel().removeSelectionIntervbl(index0, index1);
     }
 
 
     /**
-     * Sets the selection model's {@code valueIsAdjusting} property. When
-     * {@code true}, upcoming changes to selection should be considered part
-     * of a single change. This property is used internally and developers
-     * typically need not call this method. For example, when the model is being
-     * updated in response to a user drag, the value of the property is set
-     * to {@code true} when the drag is initiated and set to {@code false}
-     * when the drag is finished. This allows listeners to update only
-     * when a change has been finalized, rather than handling all of the
-     * intermediate values.
+     * Sets the selection model's {@code vblueIsAdjusting} property. When
+     * {@code true}, upcoming chbnges to selection should be considered pbrt
+     * of b single chbnge. This property is used internblly bnd developers
+     * typicblly need not cbll this method. For exbmple, when the model is being
+     * updbted in response to b user drbg, the vblue of the property is set
+     * to {@code true} when the drbg is initibted bnd set to {@code fblse}
+     * when the drbg is finished. This bllows listeners to updbte only
+     * when b chbnge hbs been finblized, rbther thbn hbndling bll of the
+     * intermedibte vblues.
      * <p>
-     * You may want to use this directly if making a series of changes
-     * that should be considered part of a single change.
+     * You mby wbnt to use this directly if mbking b series of chbnges
+     * thbt should be considered pbrt of b single chbnge.
      * <p>
-     * This is a cover method that delegates to the method of the same name on
-     * the list's selection model. See the documentation for
-     * {@link javax.swing.ListSelectionModel#setValueIsAdjusting} for
-     * more details.
+     * This is b cover method thbt delegbtes to the method of the sbme nbme on
+     * the list's selection model. See the documentbtion for
+     * {@link jbvbx.swing.ListSelectionModel#setVblueIsAdjusting} for
+     * more detbils.
      *
-     * @param b the new value for the property
-     * @see ListSelectionModel#setValueIsAdjusting
-     * @see javax.swing.event.ListSelectionEvent#getValueIsAdjusting
-     * @see #getValueIsAdjusting
+     * @pbrbm b the new vblue for the property
+     * @see ListSelectionModel#setVblueIsAdjusting
+     * @see jbvbx.swing.event.ListSelectionEvent#getVblueIsAdjusting
+     * @see #getVblueIsAdjusting
      */
-    public void setValueIsAdjusting(boolean b) {
-        getSelectionModel().setValueIsAdjusting(b);
+    public void setVblueIsAdjusting(boolebn b) {
+        getSelectionModel().setVblueIsAdjusting(b);
     }
 
 
     /**
-     * Returns the value of the selection model's {@code isAdjusting} property.
+     * Returns the vblue of the selection model's {@code isAdjusting} property.
      * <p>
-     * This is a cover method that delegates to the method of the same name on
+     * This is b cover method thbt delegbtes to the method of the sbme nbme on
      * the list's selection model.
      *
-     * @return the value of the selection model's {@code isAdjusting} property.
+     * @return the vblue of the selection model's {@code isAdjusting} property.
      *
-     * @see #setValueIsAdjusting
-     * @see ListSelectionModel#getValueIsAdjusting
+     * @see #setVblueIsAdjusting
+     * @see ListSelectionModel#getVblueIsAdjusting
      */
-    public boolean getValueIsAdjusting() {
-        return getSelectionModel().getValueIsAdjusting();
+    public boolebn getVblueIsAdjusting() {
+        return getSelectionModel().getVblueIsAdjusting();
     }
 
 
     /**
-     * Returns an array of all of the selected indices, in increasing
+     * Returns bn brrby of bll of the selected indices, in increbsing
      * order.
      *
-     * @return all of the selected indices, in increasing order,
-     *         or an empty array if nothing is selected
-     * @see #removeSelectionInterval
-     * @see #addListSelectionListener
+     * @return bll of the selected indices, in increbsing order,
+     *         or bn empty brrby if nothing is selected
+     * @see #removeSelectionIntervbl
+     * @see #bddListSelectionListener
      */
-    @Transient
+    @Trbnsient
     public int[] getSelectedIndices() {
         ListSelectionModel sm = getSelectionModel();
         int iMin = sm.getMinSelectionIndex();
-        int iMax = sm.getMaxSelectionIndex();
+        int iMbx = sm.getMbxSelectionIndex();
 
-        if ((iMin < 0) || (iMax < 0)) {
+        if ((iMin < 0) || (iMbx < 0)) {
             return new int[0];
         }
 
-        int[] rvTmp = new int[1+ (iMax - iMin)];
+        int[] rvTmp = new int[1+ (iMbx - iMin)];
         int n = 0;
-        for(int i = iMin; i <= iMax; i++) {
+        for(int i = iMin; i <= iMbx; i++) {
             if (sm.isSelectedIndex(i)) {
                 rvTmp[n++] = i;
             }
         }
         int[] rv = new int[n];
-        System.arraycopy(rvTmp, 0, rv, 0, n);
+        System.brrbycopy(rvTmp, 0, rv, 0, n);
         return rv;
     }
 
 
     /**
-     * Selects a single cell. Does nothing if the given index is greater
-     * than or equal to the model size. This is a convenience method that uses
-     * {@code setSelectionInterval} on the selection model. Refer to the
-     * documentation for the selection model class being used for details on
-     * how values less than {@code 0} are handled.
+     * Selects b single cell. Does nothing if the given index is grebter
+     * thbn or equbl to the model size. This is b convenience method thbt uses
+     * {@code setSelectionIntervbl} on the selection model. Refer to the
+     * documentbtion for the selection model clbss being used for detbils on
+     * how vblues less thbn {@code 0} bre hbndled.
      *
-     * @param index the index of the cell to select
-     * @see ListSelectionModel#setSelectionInterval
+     * @pbrbm index the index of the cell to select
+     * @see ListSelectionModel#setSelectionIntervbl
      * @see #isSelectedIndex
-     * @see #addListSelectionListener
-     * @beaninfo
+     * @see #bddListSelectionListener
+     * @bebninfo
      * description: The index of the selected cell.
      */
     public void setSelectedIndex(int index) {
         if (index >= getModel().getSize()) {
             return;
         }
-        getSelectionModel().setSelectionInterval(index, index);
+        getSelectionModel().setSelectionIntervbl(index, index);
     }
 
 
     /**
-     * Changes the selection to be the set of indices specified by the given
-     * array. Indices greater than or equal to the model size are ignored.
-     * This is a convenience method that clears the selection and then uses
-     * {@code addSelectionInterval} on the selection model to add the indices.
-     * Refer to the documentation of the selection model class being used for
-     * details on how values less than {@code 0} are handled.
+     * Chbnges the selection to be the set of indices specified by the given
+     * brrby. Indices grebter thbn or equbl to the model size bre ignored.
+     * This is b convenience method thbt clebrs the selection bnd then uses
+     * {@code bddSelectionIntervbl} on the selection model to bdd the indices.
+     * Refer to the documentbtion of the selection model clbss being used for
+     * detbils on how vblues less thbn {@code 0} bre hbndled.
      *
-     * @param indices an array of the indices of the cells to select,
+     * @pbrbm indices bn brrby of the indices of the cells to select,
      *                {@code non-null}
-     * @see ListSelectionModel#addSelectionInterval
+     * @see ListSelectionModel#bddSelectionIntervbl
      * @see #isSelectedIndex
-     * @see #addListSelectionListener
-     * @throws NullPointerException if the given array is {@code null}
+     * @see #bddListSelectionListener
+     * @throws NullPointerException if the given brrby is {@code null}
      */
     public void setSelectedIndices(int[] indices) {
         ListSelectionModel sm = getSelectionModel();
-        sm.clearSelection();
+        sm.clebrSelection();
         int size = getModel().getSize();
         for (int i : indices) {
             if (i < size) {
-                sm.addSelectionInterval(i, i);
+                sm.bddSelectionIntervbl(i, i);
             }
         }
     }
 
 
     /**
-     * Returns an array of all the selected values, in increasing order based
+     * Returns bn brrby of bll the selected vblues, in increbsing order bbsed
      * on their indices in the list.
      *
-     * @return the selected values, or an empty array if nothing is selected
+     * @return the selected vblues, or bn empty brrby if nothing is selected
      * @see #isSelectedIndex
      * @see #getModel
-     * @see #addListSelectionListener
+     * @see #bddListSelectionListener
      *
-     * @deprecated As of JDK 1.7, replaced by {@link #getSelectedValuesList()}
+     * @deprecbted As of JDK 1.7, replbced by {@link #getSelectedVbluesList()}
      */
-    @Deprecated
-    public Object[] getSelectedValues() {
+    @Deprecbted
+    public Object[] getSelectedVblues() {
         ListSelectionModel sm = getSelectionModel();
         ListModel<E> dm = getModel();
 
         int iMin = sm.getMinSelectionIndex();
-        int iMax = sm.getMaxSelectionIndex();
+        int iMbx = sm.getMbxSelectionIndex();
 
-        if ((iMin < 0) || (iMax < 0)) {
+        if ((iMin < 0) || (iMbx < 0)) {
             return new Object[0];
         }
 
-        Object[] rvTmp = new Object[1+ (iMax - iMin)];
+        Object[] rvTmp = new Object[1+ (iMbx - iMin)];
         int n = 0;
-        for(int i = iMin; i <= iMax; i++) {
+        for(int i = iMin; i <= iMbx; i++) {
             if (sm.isSelectedIndex(i)) {
                 rvTmp[n++] = dm.getElementAt(i);
             }
         }
         Object[] rv = new Object[n];
-        System.arraycopy(rvTmp, 0, rv, 0, n);
+        System.brrbycopy(rvTmp, 0, rv, 0, n);
         return rv;
     }
 
     /**
-     * Returns a list of all the selected items, in increasing order based
+     * Returns b list of bll the selected items, in increbsing order bbsed
      * on their indices in the list.
      *
-     * @return the selected items, or an empty list if nothing is selected
+     * @return the selected items, or bn empty list if nothing is selected
      * @see #isSelectedIndex
      * @see #getModel
-     * @see #addListSelectionListener
+     * @see #bddListSelectionListener
      *
      * @since 1.7
      */
-    public List<E> getSelectedValuesList() {
+    public List<E> getSelectedVbluesList() {
         ListSelectionModel sm = getSelectionModel();
         ListModel<E> dm = getModel();
 
         int iMin = sm.getMinSelectionIndex();
-        int iMax = sm.getMaxSelectionIndex();
+        int iMbx = sm.getMbxSelectionIndex();
 
-        if ((iMin < 0) || (iMax < 0)) {
+        if ((iMin < 0) || (iMbx < 0)) {
             return Collections.emptyList();
         }
 
-        List<E> selectedItems = new ArrayList<E>();
-        for(int i = iMin; i <= iMax; i++) {
+        List<E> selectedItems = new ArrbyList<E>();
+        for(int i = iMin; i <= iMbx; i++) {
             if (sm.isSelectedIndex(i)) {
-                selectedItems.add(dm.getElementAt(i));
+                selectedItems.bdd(dm.getElementAt(i));
             }
         }
         return selectedItems;
@@ -2308,16 +2308,16 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the smallest selected cell index; <i>the selection</i> when only
-     * a single item is selected in the list. When multiple items are selected,
-     * it is simply the smallest selected index. Returns {@code -1} if there is
+     * Returns the smbllest selected cell index; <i>the selection</i> when only
+     * b single item is selected in the list. When multiple items bre selected,
+     * it is simply the smbllest selected index. Returns {@code -1} if there is
      * no selection.
      * <p>
-     * This method is a cover that delegates to {@code getMinSelectionIndex}.
+     * This method is b cover thbt delegbtes to {@code getMinSelectionIndex}.
      *
-     * @return the smallest selected cell index
+     * @return the smbllest selected cell index
      * @see #getMinSelectionIndex
-     * @see #addListSelectionListener
+     * @see #bddListSelectionListener
      */
     public int getSelectedIndex() {
         return getMinSelectionIndex();
@@ -2325,20 +2325,20 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the value for the smallest selected cell index;
-     * <i>the selected value</i> when only a single item is selected in the
-     * list. When multiple items are selected, it is simply the value for the
-     * smallest selected index. Returns {@code null} if there is no selection.
+     * Returns the vblue for the smbllest selected cell index;
+     * <i>the selected vblue</i> when only b single item is selected in the
+     * list. When multiple items bre selected, it is simply the vblue for the
+     * smbllest selected index. Returns {@code null} if there is no selection.
      * <p>
-     * This is a convenience method that simply returns the model value for
+     * This is b convenience method thbt simply returns the model vblue for
      * {@code getMinSelectionIndex}.
      *
-     * @return the first selected value
+     * @return the first selected vblue
      * @see #getMinSelectionIndex
      * @see #getModel
-     * @see #addListSelectionListener
+     * @see #bddListSelectionListener
      */
-    public E getSelectedValue() {
+    public E getSelectedVblue() {
         int i = getMinSelectionIndex();
         return (i == -1) ? null : getModel().getElementAt(i);
     }
@@ -2347,89 +2347,89 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     /**
      * Selects the specified object from the list.
      *
-     * @param anObject      the object to select
-     * @param shouldScroll  {@code true} if the list should scroll to display
-     *                      the selected object, if one exists; otherwise {@code false}
+     * @pbrbm bnObject      the object to select
+     * @pbrbm shouldScroll  {@code true} if the list should scroll to displby
+     *                      the selected object, if one exists; otherwise {@code fblse}
      */
-    public void setSelectedValue(Object anObject,boolean shouldScroll) {
-        if(anObject == null)
+    public void setSelectedVblue(Object bnObject,boolebn shouldScroll) {
+        if(bnObject == null)
             setSelectedIndex(-1);
-        else if(!anObject.equals(getSelectedValue())) {
+        else if(!bnObject.equbls(getSelectedVblue())) {
             int i,c;
             ListModel<E> dm = getModel();
             for(i=0,c=dm.getSize();i<c;i++)
-                if(anObject.equals(dm.getElementAt(i))){
+                if(bnObject.equbls(dm.getElementAt(i))){
                     setSelectedIndex(i);
                     if(shouldScroll)
                         ensureIndexIsVisible(i);
-                    repaint();  /** FIX-ME setSelectedIndex does not redraw all the time with the basic l&f**/
+                    repbint();  /** FIX-ME setSelectedIndex does not redrbw bll the time with the bbsic l&f**/
                     return;
                 }
             setSelectedIndex(-1);
         }
-        repaint(); /** FIX-ME setSelectedIndex does not redraw all the time with the basic l&f**/
+        repbint(); /** FIX-ME setSelectedIndex does not redrbw bll the time with the bbsic l&f**/
     }
 
 
 
     /**
-     * --- The Scrollable Implementation ---
+     * --- The Scrollbble Implementbtion ---
      */
 
-    private void checkScrollableParameters(Rectangle visibleRect, int orientation) {
+    privbte void checkScrollbblePbrbmeters(Rectbngle visibleRect, int orientbtion) {
         if (visibleRect == null) {
-            throw new IllegalArgumentException("visibleRect must be non-null");
+            throw new IllegblArgumentException("visibleRect must be non-null");
         }
-        switch (orientation) {
-        case SwingConstants.VERTICAL:
-        case SwingConstants.HORIZONTAL:
-            break;
-        default:
-            throw new IllegalArgumentException("orientation must be one of: VERTICAL, HORIZONTAL");
+        switch (orientbtion) {
+        cbse SwingConstbnts.VERTICAL:
+        cbse SwingConstbnts.HORIZONTAL:
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("orientbtion must be one of: VERTICAL, HORIZONTAL");
         }
     }
 
 
     /**
-     * Computes the size of viewport needed to display {@code visibleRowCount}
-     * rows. The value returned by this method depends on the layout
-     * orientation:
+     * Computes the size of viewport needed to displby {@code visibleRowCount}
+     * rows. The vblue returned by this method depends on the lbyout
+     * orientbtion:
      * <p>
      * <b>{@code VERTICAL}:</b>
      * <br>
-     * This is trivial if both {@code fixedCellWidth} and {@code fixedCellHeight}
-     * have been set (either explicitly or by specifying a prototype cell value).
-     * The width is simply the {@code fixedCellWidth} plus the list's horizontal
+     * This is trivibl if both {@code fixedCellWidth} bnd {@code fixedCellHeight}
+     * hbve been set (either explicitly or by specifying b prototype cell vblue).
+     * The width is simply the {@code fixedCellWidth} plus the list's horizontbl
      * insets. The height is the {@code fixedCellHeight} multiplied by the
-     * {@code visibleRowCount}, plus the list's vertical insets.
+     * {@code visibleRowCount}, plus the list's verticbl insets.
      * <p>
-     * If either {@code fixedCellWidth} or {@code fixedCellHeight} haven't been
-     * specified, heuristics are used. If the model is empty, the width is
-     * the {@code fixedCellWidth}, if greater than {@code 0}, or a hard-coded
-     * value of {@code 256}. The height is the {@code fixedCellHeight} multiplied
-     * by {@code visibleRowCount}, if {@code fixedCellHeight} is greater than
-     * {@code 0}, otherwise it is a hard-coded value of {@code 16} multiplied by
+     * If either {@code fixedCellWidth} or {@code fixedCellHeight} hbven't been
+     * specified, heuristics bre used. If the model is empty, the width is
+     * the {@code fixedCellWidth}, if grebter thbn {@code 0}, or b hbrd-coded
+     * vblue of {@code 256}. The height is the {@code fixedCellHeight} multiplied
+     * by {@code visibleRowCount}, if {@code fixedCellHeight} is grebter thbn
+     * {@code 0}, otherwise it is b hbrd-coded vblue of {@code 16} multiplied by
      * {@code visibleRowCount}.
      * <p>
      * If the model isn't empty, the width is the preferred size's width,
-     * typically the width of the widest list element. The height is the
+     * typicblly the width of the widest list element. The height is the
      * {@code fixedCellHeight} multiplied by the {@code visibleRowCount},
-     * plus the list's vertical insets.
+     * plus the list's verticbl insets.
      * <p>
      * <b>{@code VERTICAL_WRAP} or {@code HORIZONTAL_WRAP}:</b>
      * <br>
-     * This method simply returns the value from {@code getPreferredSize}.
+     * This method simply returns the vblue from {@code getPreferredSize}.
      * The list's {@code ListUI} is expected to override {@code getPreferredSize}
-     * to return an appropriate value.
+     * to return bn bppropribte vblue.
      *
-     * @return a dimension containing the size of the viewport needed
-     *          to display {@code visibleRowCount} rows
-     * @see #getPreferredScrollableViewportSize
-     * @see #setPrototypeCellValue
+     * @return b dimension contbining the size of the viewport needed
+     *          to displby {@code visibleRowCount} rows
+     * @see #getPreferredScrollbbleViewportSize
+     * @see #setPrototypeCellVblue
      */
-    public Dimension getPreferredScrollableViewportSize()
+    public Dimension getPreferredScrollbbleViewportSize()
     {
-        if (getLayoutOrientation() != VERTICAL) {
+        if (getLbyoutOrientbtion() != VERTICAL) {
             return getPreferredSize();
         }
         Insets insets = getInsets();
@@ -2448,12 +2448,12 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
         else if (getModel().getSize() > 0) {
             int width = getPreferredSize().width;
             int height;
-            Rectangle r = getCellBounds(0, 0);
+            Rectbngle r = getCellBounds(0, 0);
             if (r != null) {
                 height = (visibleRowCount * r.height) + dy;
             }
             else {
-                // Will only happen if UI null, shouldn't matter what we return
+                // Will only hbppen if UI null, shouldn't mbtter whbt we return
                 height = 1;
             }
             return new Dimension(width, height);
@@ -2467,32 +2467,32 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the distance to scroll to expose the next or previous
-     * row (for vertical scrolling) or column (for horizontal scrolling).
+     * Returns the distbnce to scroll to expose the next or previous
+     * row (for verticbl scrolling) or column (for horizontbl scrolling).
      * <p>
-     * For horizontal scrolling, if the layout orientation is {@code VERTICAL},
+     * For horizontbl scrolling, if the lbyout orientbtion is {@code VERTICAL},
      * then the list's font size is returned (or {@code 1} if the font is
      * {@code null}).
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation {@code SwingConstants.HORIZONTAL} or
-     *                    {@code SwingConstants.VERTICAL}
-     * @param direction less or equal to zero to scroll up/back,
-     *                  greater than zero for down/forward
+     * @pbrbm visibleRect the view breb visible within the viewport
+     * @pbrbm orientbtion {@code SwingConstbnts.HORIZONTAL} or
+     *                    {@code SwingConstbnts.VERTICAL}
+     * @pbrbm direction less or equbl to zero to scroll up/bbck,
+     *                  grebter thbn zero for down/forwbrd
      * @return the "unit" increment for scrolling in the specified direction;
-     *         always positive
-     * @see #getScrollableBlockIncrement
-     * @see Scrollable#getScrollableUnitIncrement
-     * @throws IllegalArgumentException if {@code visibleRect} is {@code null}, or
-     *         {@code orientation} isn't one of {@code SwingConstants.VERTICAL} or
-     *         {@code SwingConstants.HORIZONTAL}
+     *         blwbys positive
+     * @see #getScrollbbleBlockIncrement
+     * @see Scrollbble#getScrollbbleUnitIncrement
+     * @throws IllegblArgumentException if {@code visibleRect} is {@code null}, or
+     *         {@code orientbtion} isn't one of {@code SwingConstbnts.VERTICAL} or
+     *         {@code SwingConstbnts.HORIZONTAL}
      */
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction)
+    public int getScrollbbleUnitIncrement(Rectbngle visibleRect, int orientbtion, int direction)
     {
-        checkScrollableParameters(visibleRect, orientation);
+        checkScrollbblePbrbmeters(visibleRect, orientbtion);
 
-        if (orientation == SwingConstants.VERTICAL) {
-            int row = locationToIndex(visibleRect.getLocation());
+        if (orientbtion == SwingConstbnts.VERTICAL) {
+            int row = locbtionToIndex(visibleRect.getLocbtion());
 
             if (row == -1) {
                 return 0;
@@ -2500,14 +2500,14 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             else {
                 /* Scroll Down */
                 if (direction > 0) {
-                    Rectangle r = getCellBounds(row, row);
+                    Rectbngle r = getCellBounds(row, row);
                     return (r == null) ? 0 : r.height - (visibleRect.y - r.y);
                 }
                 /* Scroll Up */
                 else {
-                    Rectangle r = getCellBounds(row, row);
+                    Rectbngle r = getCellBounds(row, row);
 
-                    /* The first row is completely visible and it's row 0.
+                    /* The first row is completely visible bnd it's row 0.
                      * We're done.
                      */
                     if ((r.y == visibleRect.y) && (row == 0))  {
@@ -2518,70 +2518,70 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                      * is the top row of the list.
                      */
                     else if (r.y == visibleRect.y) {
-                        Point loc = r.getLocation();
+                        Point loc = r.getLocbtion();
                         loc.y--;
-                        int prevIndex = locationToIndex(loc);
-                        Rectangle prevR = getCellBounds(prevIndex, prevIndex);
+                        int prevIndex = locbtionToIndex(loc);
+                        Rectbngle prevR = getCellBounds(prevIndex, prevIndex);
 
                         if (prevR == null || prevR.y >= r.y) {
                             return 0;
                         }
                         return prevR.height;
                     }
-                    /* The first row is partially visible, return the
-                     * height of hidden part.
+                    /* The first row is pbrtiblly visible, return the
+                     * height of hidden pbrt.
                      */
                     else {
                         return visibleRect.y - r.y;
                     }
                 }
             }
-        } else if (orientation == SwingConstants.HORIZONTAL &&
-                           getLayoutOrientation() != JList.VERTICAL) {
-            boolean leftToRight = getComponentOrientation().isLeftToRight();
+        } else if (orientbtion == SwingConstbnts.HORIZONTAL &&
+                           getLbyoutOrientbtion() != JList.VERTICAL) {
+            boolebn leftToRight = getComponentOrientbtion().isLeftToRight();
             int index;
-            Point leadingPoint;
+            Point lebdingPoint;
 
             if (leftToRight) {
-                leadingPoint = visibleRect.getLocation();
+                lebdingPoint = visibleRect.getLocbtion();
             }
             else {
-                leadingPoint = new Point(visibleRect.x + visibleRect.width -1,
+                lebdingPoint = new Point(visibleRect.x + visibleRect.width -1,
                                          visibleRect.y);
             }
-            index = locationToIndex(leadingPoint);
+            index = locbtionToIndex(lebdingPoint);
 
             if (index != -1) {
-                Rectangle cellBounds = getCellBounds(index, index);
-                if (cellBounds != null && cellBounds.contains(leadingPoint)) {
-                    int leadingVisibleEdge;
-                    int leadingCellEdge;
+                Rectbngle cellBounds = getCellBounds(index, index);
+                if (cellBounds != null && cellBounds.contbins(lebdingPoint)) {
+                    int lebdingVisibleEdge;
+                    int lebdingCellEdge;
 
                     if (leftToRight) {
-                        leadingVisibleEdge = visibleRect.x;
-                        leadingCellEdge = cellBounds.x;
+                        lebdingVisibleEdge = visibleRect.x;
+                        lebdingCellEdge = cellBounds.x;
                     }
                     else {
-                        leadingVisibleEdge = visibleRect.x + visibleRect.width;
-                        leadingCellEdge = cellBounds.x + cellBounds.width;
+                        lebdingVisibleEdge = visibleRect.x + visibleRect.width;
+                        lebdingCellEdge = cellBounds.x + cellBounds.width;
                     }
 
-                    if (leadingCellEdge != leadingVisibleEdge) {
+                    if (lebdingCellEdge != lebdingVisibleEdge) {
                         if (direction < 0) {
-                            // Show remainder of leading cell
-                            return Math.abs(leadingVisibleEdge - leadingCellEdge);
+                            // Show rembinder of lebding cell
+                            return Mbth.bbs(lebdingVisibleEdge - lebdingCellEdge);
 
                         }
                         else if (leftToRight) {
-                            // Hide rest of leading cell
-                            return leadingCellEdge + cellBounds.width - leadingVisibleEdge;
+                            // Hide rest of lebding cell
+                            return lebdingCellEdge + cellBounds.width - lebdingVisibleEdge;
                         }
                         else {
-                            // Hide rest of leading cell
-                            return leadingVisibleEdge - cellBounds.x;
+                            // Hide rest of lebding cell
+                            return lebdingVisibleEdge - cellBounds.x;
                         }
                     }
-                    // ASSUME: All cells are the same width
+                    // ASSUME: All cells bre the sbme width
                     return cellBounds.width;
                 }
             }
@@ -2592,75 +2592,75 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns the distance to scroll to expose the next or previous block.
+     * Returns the distbnce to scroll to expose the next or previous block.
      * <p>
-     * For vertical scrolling, the following rules are used:
+     * For verticbl scrolling, the following rules bre used:
      * <ul>
-     * <li>if scrolling down, returns the distance to scroll so that the last
+     * <li>if scrolling down, returns the distbnce to scroll so thbt the lbst
      * visible element becomes the first completely visible element
-     * <li>if scrolling up, returns the distance to scroll so that the first
-     * visible element becomes the last completely visible element
+     * <li>if scrolling up, returns the distbnce to scroll so thbt the first
+     * visible element becomes the lbst completely visible element
      * <li>returns {@code visibleRect.height} if the list is empty
      * </ul>
      * <p>
-     * For horizontal scrolling, when the layout orientation is either
+     * For horizontbl scrolling, when the lbyout orientbtion is either
      * {@code VERTICAL_WRAP} or {@code HORIZONTAL_WRAP}:
      * <ul>
-     * <li>if scrolling right, returns the distance to scroll so that the
-     * last visible element becomes
+     * <li>if scrolling right, returns the distbnce to scroll so thbt the
+     * lbst visible element becomes
      * the first completely visible element
-     * <li>if scrolling left, returns the distance to scroll so that the first
-     * visible element becomes the last completely visible element
+     * <li>if scrolling left, returns the distbnce to scroll so thbt the first
+     * visible element becomes the lbst completely visible element
      * <li>returns {@code visibleRect.width} if the list is empty
      * </ul>
      * <p>
-     * For horizontal scrolling and {@code VERTICAL} orientation,
+     * For horizontbl scrolling bnd {@code VERTICAL} orientbtion,
      * returns {@code visibleRect.width}.
      * <p>
-     * Note that the value of {@code visibleRect} must be the equal to
+     * Note thbt the vblue of {@code visibleRect} must be the equbl to
      * {@code this.getVisibleRect()}.
      *
-     * @param visibleRect the view area visible within the viewport
-     * @param orientation {@code SwingConstants.HORIZONTAL} or
-     *                    {@code SwingConstants.VERTICAL}
-     * @param direction less or equal to zero to scroll up/back,
-     *                  greater than zero for down/forward
+     * @pbrbm visibleRect the view breb visible within the viewport
+     * @pbrbm orientbtion {@code SwingConstbnts.HORIZONTAL} or
+     *                    {@code SwingConstbnts.VERTICAL}
+     * @pbrbm direction less or equbl to zero to scroll up/bbck,
+     *                  grebter thbn zero for down/forwbrd
      * @return the "block" increment for scrolling in the specified direction;
-     *         always positive
-     * @see #getScrollableUnitIncrement
-     * @see Scrollable#getScrollableBlockIncrement
-     * @throws IllegalArgumentException if {@code visibleRect} is {@code null}, or
-     *         {@code orientation} isn't one of {@code SwingConstants.VERTICAL} or
-     *         {@code SwingConstants.HORIZONTAL}
+     *         blwbys positive
+     * @see #getScrollbbleUnitIncrement
+     * @see Scrollbble#getScrollbbleBlockIncrement
+     * @throws IllegblArgumentException if {@code visibleRect} is {@code null}, or
+     *         {@code orientbtion} isn't one of {@code SwingConstbnts.VERTICAL} or
+     *         {@code SwingConstbnts.HORIZONTAL}
      */
-    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        checkScrollableParameters(visibleRect, orientation);
-        if (orientation == SwingConstants.VERTICAL) {
+    public int getScrollbbleBlockIncrement(Rectbngle visibleRect, int orientbtion, int direction) {
+        checkScrollbblePbrbmeters(visibleRect, orientbtion);
+        if (orientbtion == SwingConstbnts.VERTICAL) {
             int inc = visibleRect.height;
             /* Scroll Down */
             if (direction > 0) {
-                // last cell is the lowest left cell
-                int last = locationToIndex(new Point(visibleRect.x, visibleRect.y+visibleRect.height-1));
-                if (last != -1) {
-                    Rectangle lastRect = getCellBounds(last,last);
-                    if (lastRect != null) {
-                        inc = lastRect.y - visibleRect.y;
-                        if ( (inc == 0) && (last < getModel().getSize()-1) ) {
-                            inc = lastRect.height;
+                // lbst cell is the lowest left cell
+                int lbst = locbtionToIndex(new Point(visibleRect.x, visibleRect.y+visibleRect.height-1));
+                if (lbst != -1) {
+                    Rectbngle lbstRect = getCellBounds(lbst,lbst);
+                    if (lbstRect != null) {
+                        inc = lbstRect.y - visibleRect.y;
+                        if ( (inc == 0) && (lbst < getModel().getSize()-1) ) {
+                            inc = lbstRect.height;
                         }
                     }
                 }
             }
             /* Scroll Up */
             else {
-                int newFirst = locationToIndex(new Point(visibleRect.x, visibleRect.y-visibleRect.height));
+                int newFirst = locbtionToIndex(new Point(visibleRect.x, visibleRect.y-visibleRect.height));
                 int first = getFirstVisibleIndex();
                 if (newFirst != -1) {
                     if (first == -1) {
-                        first = locationToIndex(visibleRect.getLocation());
+                        first = locbtionToIndex(visibleRect.getLocbtion());
                     }
-                    Rectangle newFirstRect = getCellBounds(newFirst,newFirst);
-                    Rectangle firstRect = getCellBounds(first,first);
+                    Rectbngle newFirstRect = getCellBounds(newFirst,newFirst);
+                    Rectbngle firstRect = getCellBounds(first,first);
                     if ((newFirstRect != null) && (firstRect!=null)) {
                         while ( (newFirstRect.y + visibleRect.height <
                                  firstRect.y + firstRect.height) &&
@@ -2681,29 +2681,29 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
             return inc;
         }
-        else if (orientation == SwingConstants.HORIZONTAL &&
-                 getLayoutOrientation() != JList.VERTICAL) {
-            boolean leftToRight = getComponentOrientation().isLeftToRight();
+        else if (orientbtion == SwingConstbnts.HORIZONTAL &&
+                 getLbyoutOrientbtion() != JList.VERTICAL) {
+            boolebn leftToRight = getComponentOrientbtion().isLeftToRight();
             int inc = visibleRect.width;
             /* Scroll Right (in ltr mode) or Scroll Left (in rtl mode) */
             if (direction > 0) {
                 // position is upper right if ltr, or upper left otherwise
                 int x = visibleRect.x + (leftToRight ? (visibleRect.width - 1) : 0);
-                int last = locationToIndex(new Point(x, visibleRect.y));
+                int lbst = locbtionToIndex(new Point(x, visibleRect.y));
 
-                if (last != -1) {
-                    Rectangle lastRect = getCellBounds(last,last);
-                    if (lastRect != null) {
+                if (lbst != -1) {
+                    Rectbngle lbstRect = getCellBounds(lbst,lbst);
+                    if (lbstRect != null) {
                         if (leftToRight) {
-                            inc = lastRect.x - visibleRect.x;
+                            inc = lbstRect.x - visibleRect.x;
                         } else {
                             inc = visibleRect.x + visibleRect.width
-                                      - (lastRect.x + lastRect.width);
+                                      - (lbstRect.x + lbstRect.width);
                         }
                         if (inc < 0) {
-                            inc += lastRect.width;
-                        } else if ( (inc == 0) && (last < getModel().getSize()-1) ) {
-                            inc = lastRect.width;
+                            inc += lbstRect.width;
+                        } else if ( (inc == 0) && (lbst < getModel().getSize()-1) ) {
+                            inc = lbstRect.width;
                         }
                     }
                 }
@@ -2716,10 +2716,10 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 int x = visibleRect.x + (leftToRight
                                          ? -visibleRect.width
                                          : visibleRect.width - 1 + visibleRect.width);
-                int first = locationToIndex(new Point(x, visibleRect.y));
+                int first = locbtionToIndex(new Point(x, visibleRect.y));
 
                 if (first != -1) {
-                    Rectangle firstRect = getCellBounds(first,first);
+                    Rectbngle firstRect = getCellBounds(first,first);
                     if (firstRect != null) {
                         // the right of the first cell
                         int firstRight = firstRect.x + firstRect.width;
@@ -2751,99 +2751,99 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
 
     /**
-     * Returns {@code true} if this {@code JList} is displayed in a
-     * {@code JViewport} and the viewport is wider than the list's
-     * preferred width, or if the layout orientation is {@code HORIZONTAL_WRAP}
-     * and {@code visibleRowCount <= 0}; otherwise returns {@code false}.
+     * Returns {@code true} if this {@code JList} is displbyed in b
+     * {@code JViewport} bnd the viewport is wider thbn the list's
+     * preferred width, or if the lbyout orientbtion is {@code HORIZONTAL_WRAP}
+     * bnd {@code visibleRowCount <= 0}; otherwise returns {@code fblse}.
      * <p>
-     * If {@code false}, then don't track the viewport's width. This allows
-     * horizontal scrolling if the {@code JViewport} is itself embedded in a
-     * {@code JScrollPane}.
+     * If {@code fblse}, then don't trbck the viewport's width. This bllows
+     * horizontbl scrolling if the {@code JViewport} is itself embedded in b
+     * {@code JScrollPbne}.
      *
-     * @return whether or not an enclosing viewport should force the list's
-     *         width to match its own
-     * @see Scrollable#getScrollableTracksViewportWidth
+     * @return whether or not bn enclosing viewport should force the list's
+     *         width to mbtch its own
+     * @see Scrollbble#getScrollbbleTrbcksViewportWidth
      */
-    public boolean getScrollableTracksViewportWidth() {
-        if (getLayoutOrientation() == HORIZONTAL_WRAP &&
+    public boolebn getScrollbbleTrbcksViewportWidth() {
+        if (getLbyoutOrientbtion() == HORIZONTAL_WRAP &&
                                       getVisibleRowCount() <= 0) {
             return true;
         }
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            return parent.getWidth() > getPreferredSize().width;
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            return pbrent.getWidth() > getPreferredSize().width;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns {@code true} if this {@code JList} is displayed in a
-     * {@code JViewport} and the viewport is taller than the list's
-     * preferred height, or if the layout orientation is {@code VERTICAL_WRAP}
-     * and {@code visibleRowCount <= 0}; otherwise returns {@code false}.
+     * Returns {@code true} if this {@code JList} is displbyed in b
+     * {@code JViewport} bnd the viewport is tbller thbn the list's
+     * preferred height, or if the lbyout orientbtion is {@code VERTICAL_WRAP}
+     * bnd {@code visibleRowCount <= 0}; otherwise returns {@code fblse}.
      * <p>
-     * If {@code false}, then don't track the viewport's height. This allows
-     * vertical scrolling if the {@code JViewport} is itself embedded in a
-     * {@code JScrollPane}.
+     * If {@code fblse}, then don't trbck the viewport's height. This bllows
+     * verticbl scrolling if the {@code JViewport} is itself embedded in b
+     * {@code JScrollPbne}.
      *
-     * @return whether or not an enclosing viewport should force the list's
-     *         height to match its own
-     * @see Scrollable#getScrollableTracksViewportHeight
+     * @return whether or not bn enclosing viewport should force the list's
+     *         height to mbtch its own
+     * @see Scrollbble#getScrollbbleTrbcksViewportHeight
      */
-    public boolean getScrollableTracksViewportHeight() {
-        if (getLayoutOrientation() == VERTICAL_WRAP &&
+    public boolebn getScrollbbleTrbcksViewportHeight() {
+        if (getLbyoutOrientbtion() == VERTICAL_WRAP &&
                      getVisibleRowCount() <= 0) {
             return true;
         }
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            return parent.getHeight() > getPreferredSize().height;
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            return pbrent.getHeight() > getPreferredSize().height;
         }
-        return false;
+        return fblse;
     }
 
 
     /*
-     * See {@code readObject} and {@code writeObject} in {@code JComponent}
-     * for more information about serialization in Swing.
+     * See {@code rebdObject} bnd {@code writeObject} in {@code JComponent}
+     * for more informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
 
     /**
-     * Returns a {@code String} representation of this {@code JList}.
+     * Returns b {@code String} representbtion of this {@code JList}.
      * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned {@code String} may vary
-     * between implementations. The returned {@code String} may be empty,
-     * but may not be {@code null}.
+     * bnd the content bnd formbt of the returned {@code String} mby vbry
+     * between implementbtions. The returned {@code String} mby be empty,
+     * but mby not be {@code null}.
      *
-     * @return  a {@code String} representation of this {@code JList}.
+     * @return  b {@code String} representbtion of this {@code JList}.
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String selectionForegroundString = (selectionForeground != null ?
                                             selectionForeground.toString() :
                                             "");
-        String selectionBackgroundString = (selectionBackground != null ?
-                                            selectionBackground.toString() :
+        String selectionBbckgroundString = (selectionBbckground != null ?
+                                            selectionBbckground.toString() :
                                             "");
 
-        return super.paramString() +
+        return super.pbrbmString() +
         ",fixedCellHeight=" + fixedCellHeight +
         ",fixedCellWidth=" + fixedCellWidth +
-        ",horizontalScrollIncrement=" + horizontalScrollIncrement +
-        ",selectionBackground=" + selectionBackgroundString +
+        ",horizontblScrollIncrement=" + horizontblScrollIncrement +
+        ",selectionBbckground=" + selectionBbckgroundString +
         ",selectionForeground=" + selectionForegroundString +
         ",visibleRowCount=" + visibleRowCount +
-        ",layoutOrientation=" + layoutOrientation;
+        ",lbyoutOrientbtion=" + lbyoutOrientbtion;
     }
 
 
@@ -2852,191 +2852,191 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      */
 
     /**
-     * Gets the {@code AccessibleContext} associated with this {@code JList}.
-     * For {@code JList}, the {@code AccessibleContext} takes the form of an
+     * Gets the {@code AccessibleContext} bssocibted with this {@code JList}.
+     * For {@code JList}, the {@code AccessibleContext} tbkes the form of bn
      * {@code AccessibleJList}.
      * <p>
-     * A new {@code AccessibleJList} instance is created if necessary.
+     * A new {@code AccessibleJList} instbnce is crebted if necessbry.
      *
-     * @return an {@code AccessibleJList} that serves as the
+     * @return bn {@code AccessibleJList} thbt serves bs the
      *         {@code AccessibleContext} of this {@code JList}
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJList();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJList();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * {@code JList} class. It provides an implementation of the
-     * Java Accessibility API appropriate to list user-interface
+     * This clbss implements bccessibility support for the
+     * {@code JList} clbss. It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to list user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJList extends AccessibleJComponent
-        implements AccessibleSelection, PropertyChangeListener,
-        ListSelectionListener, ListDataListener {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJList extends AccessibleJComponent
+        implements AccessibleSelection, PropertyChbngeListener,
+        ListSelectionListener, ListDbtbListener {
 
-        int leadSelectionIndex;
+        int lebdSelectionIndex;
 
         public AccessibleJList() {
             super();
-            JList.this.addPropertyChangeListener(this);
-            JList.this.getSelectionModel().addListSelectionListener(this);
-            JList.this.getModel().addListDataListener(this);
-            leadSelectionIndex = JList.this.getLeadSelectionIndex();
+            JList.this.bddPropertyChbngeListener(this);
+            JList.this.getSelectionModel().bddListSelectionListener(this);
+            JList.this.getModel().bddListDbtbListener(this);
+            lebdSelectionIndex = JList.this.getLebdSelectionIndex();
         }
 
         /**
-         * Property Change Listener change method. Used to track changes
-         * to the DataModel and ListSelectionModel, in order to re-set
-         * listeners to those for reporting changes there via the Accessibility
-         * PropertyChange mechanism.
+         * Property Chbnge Listener chbnge method. Used to trbck chbnges
+         * to the DbtbModel bnd ListSelectionModel, in order to re-set
+         * listeners to those for reporting chbnges there vib the Accessibility
+         * PropertyChbnge mechbnism.
          *
-         * @param e PropertyChangeEvent
+         * @pbrbm e PropertyChbngeEvent
          */
-        public void propertyChange(PropertyChangeEvent e) {
-            String name = e.getPropertyName();
-            Object oldValue = e.getOldValue();
-            Object newValue = e.getNewValue();
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String nbme = e.getPropertyNbme();
+            Object oldVblue = e.getOldVblue();
+            Object newVblue = e.getNewVblue();
 
-                // re-set listData listeners
-            if (name.compareTo("model") == 0) {
+                // re-set listDbtb listeners
+            if (nbme.compbreTo("model") == 0) {
 
-                if (oldValue != null && oldValue instanceof ListModel) {
-                    ((ListModel) oldValue).removeListDataListener(this);
+                if (oldVblue != null && oldVblue instbnceof ListModel) {
+                    ((ListModel) oldVblue).removeListDbtbListener(this);
                 }
-                if (newValue != null && newValue instanceof ListModel) {
-                    ((ListModel) newValue).addListDataListener(this);
+                if (newVblue != null && newVblue instbnceof ListModel) {
+                    ((ListModel) newVblue).bddListDbtbListener(this);
                 }
 
                 // re-set listSelectionModel listeners
-            } else if (name.compareTo("selectionModel") == 0) {
+            } else if (nbme.compbreTo("selectionModel") == 0) {
 
-                if (oldValue != null && oldValue instanceof ListSelectionModel) {
-                    ((ListSelectionModel) oldValue).removeListSelectionListener(this);
+                if (oldVblue != null && oldVblue instbnceof ListSelectionModel) {
+                    ((ListSelectionModel) oldVblue).removeListSelectionListener(this);
                 }
-                if (newValue != null && newValue instanceof ListSelectionModel) {
-                    ((ListSelectionModel) newValue).addListSelectionListener(this);
+                if (newVblue != null && newVblue instbnceof ListSelectionModel) {
+                    ((ListSelectionModel) newVblue).bddListSelectionListener(this);
                 }
 
-                firePropertyChange(
+                firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
-                    Boolean.valueOf(false), Boolean.valueOf(true));
+                    Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
             }
         }
 
         /**
-         * List Selection Listener value change method. Used to fire
-         * the property change
+         * List Selection Listener vblue chbnge method. Used to fire
+         * the property chbnge
          *
-         * @param e ListSelectionEvent
+         * @pbrbm e ListSelectionEvent
          *
          */
-        public void valueChanged(ListSelectionEvent e) {
-            int oldLeadSelectionIndex = leadSelectionIndex;
-            leadSelectionIndex = JList.this.getLeadSelectionIndex();
-            if (oldLeadSelectionIndex != leadSelectionIndex) {
+        public void vblueChbnged(ListSelectionEvent e) {
+            int oldLebdSelectionIndex = lebdSelectionIndex;
+            lebdSelectionIndex = JList.this.getLebdSelectionIndex();
+            if (oldLebdSelectionIndex != lebdSelectionIndex) {
                 Accessible oldLS, newLS;
-                oldLS = (oldLeadSelectionIndex >= 0)
-                        ? getAccessibleChild(oldLeadSelectionIndex)
+                oldLS = (oldLebdSelectionIndex >= 0)
+                        ? getAccessibleChild(oldLebdSelectionIndex)
                         : null;
-                newLS = (leadSelectionIndex >= 0)
-                        ? getAccessibleChild(leadSelectionIndex)
+                newLS = (lebdSelectionIndex >= 0)
+                        ? getAccessibleChild(lebdSelectionIndex)
                         : null;
-                firePropertyChange(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
+                firePropertyChbnge(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
                                    oldLS, newLS);
             }
 
-            firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                               Boolean.valueOf(false), Boolean.valueOf(true));
-            firePropertyChange(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
-                               Boolean.valueOf(false), Boolean.valueOf(true));
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                               Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
+                               Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
 
-            // Process the State changes for Multiselectable
-            AccessibleStateSet s = getAccessibleStateSet();
+            // Process the Stbte chbnges for Multiselectbble
+            AccessibleStbteSet s = getAccessibleStbteSet();
             ListSelectionModel lsm = JList.this.getSelectionModel();
             if (lsm.getSelectionMode() != ListSelectionModel.SINGLE_SELECTION) {
-                if (!s.contains(AccessibleState.MULTISELECTABLE)) {
-                    s.add(AccessibleState.MULTISELECTABLE);
-                    firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                       null, AccessibleState.MULTISELECTABLE);
+                if (!s.contbins(AccessibleStbte.MULTISELECTABLE)) {
+                    s.bdd(AccessibleStbte.MULTISELECTABLE);
+                    firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                                       null, AccessibleStbte.MULTISELECTABLE);
                 }
             } else {
-                if (s.contains(AccessibleState.MULTISELECTABLE)) {
-                    s.remove(AccessibleState.MULTISELECTABLE);
-                    firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                       AccessibleState.MULTISELECTABLE, null);
+                if (s.contbins(AccessibleStbte.MULTISELECTABLE)) {
+                    s.remove(AccessibleStbte.MULTISELECTABLE);
+                    firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                                       AccessibleStbte.MULTISELECTABLE, null);
                 }
             }
         }
 
         /**
-         * List Data Listener interval added method. Used to fire the visible data property change
+         * List Dbtb Listener intervbl bdded method. Used to fire the visible dbtb property chbnge
          *
-         * @param e ListDataEvent
+         * @pbrbm e ListDbtbEvent
          *
          */
-        public void intervalAdded(ListDataEvent e) {
-            firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                               Boolean.valueOf(false), Boolean.valueOf(true));
+        public void intervblAdded(ListDbtbEvent e) {
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                               Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
         }
 
         /**
-         * List Data Listener interval removed method. Used to fire the visible data property change
+         * List Dbtb Listener intervbl removed method. Used to fire the visible dbtb property chbnge
          *
-         * @param e ListDataEvent
+         * @pbrbm e ListDbtbEvent
          *
          */
-        public void intervalRemoved(ListDataEvent e) {
-            firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                               Boolean.valueOf(false), Boolean.valueOf(true));
+        public void intervblRemoved(ListDbtbEvent e) {
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                               Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
         }
 
         /**
-         * List Data Listener contents changed method. Used to fire the visible data property change
+         * List Dbtb Listener contents chbnged method. Used to fire the visible dbtb property chbnge
          *
-         * @param e ListDataEvent
+         * @pbrbm e ListDbtbEvent
          *
          */
-         public void contentsChanged(ListDataEvent e) {
-             firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
-                                Boolean.valueOf(false), Boolean.valueOf(true));
+         public void contentsChbnged(ListDbtbEvent e) {
+             firePropertyChbnge(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
+                                Boolebn.vblueOf(fblse), Boolebn.vblueOf(true));
          }
 
     // AccessibleContext methods
 
         /**
-         * Get the state set of this object.
+         * Get the stbte set of this object.
          *
-         * @return an instance of AccessibleState containing the current state
+         * @return bn instbnce of AccessibleStbte contbining the current stbte
          * of the object
-         * @see AccessibleState
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
             if (selectionModel.getSelectionMode() !=
                 ListSelectionModel.SINGLE_SELECTION) {
-                states.add(AccessibleState.MULTISELECTABLE);
+                stbtes.bdd(AccessibleStbte.MULTISELECTABLE);
             }
-            return states;
+            return stbtes;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -3045,15 +3045,15 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
         }
 
         /**
-         * Returns the <code>Accessible</code> child contained at
-         * the local coordinate <code>Point</code>, if one exists.
+         * Returns the <code>Accessible</code> child contbined bt
+         * the locbl coordinbte <code>Point</code>, if one exists.
          * Otherwise returns <code>null</code>.
          *
-         * @return the <code>Accessible</code> at the specified
-         *    location, if it exists
+         * @return the <code>Accessible</code> bt the specified
+         *    locbtion, if it exists
          */
         public Accessible getAccessibleAt(Point p) {
-            int i = locationToIndex(p);
+            int i = locbtionToIndex(p);
             if (i >= 0) {
                 return new AccessibleJListChild(JList.this, i);
             } else {
@@ -3062,11 +3062,11 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
         }
 
         /**
-         * Returns the number of accessible children in the object.  If all
-         * of the children of this object implement Accessible, than this
+         * Returns the number of bccessible children in the object.  If bll
+         * of the children of this object implement Accessible, thbn this
          * method should return the number of children of this object.
          *
-         * @return the number of accessible children in the object.
+         * @return the number of bccessible children in the object.
          */
         public int getAccessibleChildrenCount() {
             return getModel().getSize();
@@ -3075,7 +3075,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
         /**
          * Return the nth Accessible child of the object.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the nth Accessible child of the object
          */
         public Accessible getAccessibleChild(int i) {
@@ -3087,10 +3087,10 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
         }
 
         /**
-         * Get the AccessibleSelection associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleSelection bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleSelection interface on behalf of itself.
+         * AccessibleSelection interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -3103,7 +3103,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
         /**
          * Returns the number of items currently selected.
-         * If no items are selected, the return value will be 0.
+         * If no items bre selected, the return vblue will be 0.
          *
          * @return the number of items currently selected.
          */
@@ -3112,13 +3112,13 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          }
 
         /**
-         * Returns an Accessible representing the specified selected item
-         * in the object.  If there isn't a selection, or there are
-         * fewer items selected than the integer passed in, the return
-         * value will be <code>null</code>.
+         * Returns bn Accessible representing the specified selected item
+         * in the object.  If there isn't b selection, or there bre
+         * fewer items selected thbn the integer pbssed in, the return
+         * vblue will be <code>null</code>.
          *
-         * @param i the zero-based index of selected items
-         * @return an Accessible containing the selected item
+         * @pbrbm i the zero-bbsed index of selected items
+         * @return bn Accessible contbining the selected item
          */
          public Accessible getAccessibleSelection(int i) {
              int len = getAccessibleSelectionCount();
@@ -3132,104 +3132,104 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
         /**
          * Returns true if the current child of this object is selected.
          *
-         * @param i the zero-based index of the child in this Accessible
+         * @pbrbm i the zero-bbsed index of the child in this Accessible
          * object.
          * @see AccessibleContext#getAccessibleChild
          */
-        public boolean isAccessibleChildSelected(int i) {
+        public boolebn isAccessibleChildSelected(int i) {
             return isSelectedIndex(i);
         }
 
         /**
          * Adds the specified selected item in the object to the object's
          * selection.  If the object supports multiple selections,
-         * the specified item is added to any existing selection, otherwise
-         * it replaces any existing selection in the object.  If the
-         * specified item is already selected, this method has no effect.
+         * the specified item is bdded to bny existing selection, otherwise
+         * it replbces bny existing selection in the object.  If the
+         * specified item is blrebdy selected, this method hbs no effect.
          *
-         * @param i the zero-based index of selectable items
+         * @pbrbm i the zero-bbsed index of selectbble items
          */
-         public void addAccessibleSelection(int i) {
-             JList.this.addSelectionInterval(i, i);
+         public void bddAccessibleSelection(int i) {
+             JList.this.bddSelectionIntervbl(i, i);
          }
 
         /**
          * Removes the specified selected item in the object from the object's
          * selection.  If the specified item isn't currently selected, this
-         * method has no effect.
+         * method hbs no effect.
          *
-         * @param i the zero-based index of selectable items
+         * @pbrbm i the zero-bbsed index of selectbble items
          */
          public void removeAccessibleSelection(int i) {
-             JList.this.removeSelectionInterval(i, i);
+             JList.this.removeSelectionIntervbl(i, i);
          }
 
         /**
-         * Clears the selection in the object, so that nothing in the
+         * Clebrs the selection in the object, so thbt nothing in the
          * object is selected.
          */
-         public void clearAccessibleSelection() {
-             JList.this.clearSelection();
+         public void clebrAccessibleSelection() {
+             JList.this.clebrSelection();
          }
 
         /**
-         * Causes every selected item in the object to be selected
+         * Cbuses every selected item in the object to be selected
          * if the object supports multiple selections.
          */
          public void selectAllAccessibleSelection() {
-             JList.this.addSelectionInterval(0, getAccessibleChildrenCount() -1);
+             JList.this.bddSelectionIntervbl(0, getAccessibleChildrenCount() -1);
          }
 
           /**
-           * This class implements accessibility support appropriate
+           * This clbss implements bccessibility support bppropribte
            * for list children.
            */
-        protected class AccessibleJListChild extends AccessibleContext
+        protected clbss AccessibleJListChild extends AccessibleContext
                 implements Accessible, AccessibleComponent {
-            private JList<E>     parent = null;
-            private int       indexInParent;
-            private Component component = null;
-            private AccessibleContext accessibleContext = null;
-            private ListModel<E> listModel;
-            private ListCellRenderer<? super E> cellRenderer = null;
+            privbte JList<E>     pbrent = null;
+            privbte int       indexInPbrent;
+            privbte Component component = null;
+            privbte AccessibleContext bccessibleContext = null;
+            privbte ListModel<E> listModel;
+            privbte ListCellRenderer<? super E> cellRenderer = null;
 
-            public AccessibleJListChild(JList<E> parent, int indexInParent) {
-                this.parent = parent;
-                this.setAccessibleParent(parent);
-                this.indexInParent = indexInParent;
-                if (parent != null) {
-                    listModel = parent.getModel();
-                    cellRenderer = parent.getCellRenderer();
+            public AccessibleJListChild(JList<E> pbrent, int indexInPbrent) {
+                this.pbrent = pbrent;
+                this.setAccessiblePbrent(pbrent);
+                this.indexInPbrent = indexInPbrent;
+                if (pbrent != null) {
+                    listModel = pbrent.getModel();
+                    cellRenderer = pbrent.getCellRenderer();
                 }
             }
 
-            private Component getCurrentComponent() {
-                return getComponentAtIndex(indexInParent);
+            privbte Component getCurrentComponent() {
+                return getComponentAtIndex(indexInPbrent);
             }
 
-            private AccessibleContext getCurrentAccessibleContext() {
-                Component c = getComponentAtIndex(indexInParent);
-                if (c instanceof Accessible) {
+            privbte AccessibleContext getCurrentAccessibleContext() {
+                Component c = getComponentAtIndex(indexInPbrent);
+                if (c instbnceof Accessible) {
                     return c.getAccessibleContext();
                 } else {
                     return null;
                 }
             }
 
-            private Component getComponentAtIndex(int index) {
+            privbte Component getComponentAtIndex(int index) {
                 if (index < 0 || index >= listModel.getSize()) {
                     return null;
                 }
-                if ((parent != null)
+                if ((pbrent != null)
                         && (listModel != null)
                         && cellRenderer != null) {
-                    E value = listModel.getElementAt(index);
-                    boolean isSelected = parent.isSelectedIndex(index);
-                    boolean isFocussed = parent.isFocusOwner()
-                            && (index == parent.getLeadSelectionIndex());
+                    E vblue = listModel.getElementAt(index);
+                    boolebn isSelected = pbrent.isSelectedIndex(index);
+                    boolebn isFocussed = pbrent.isFocusOwner()
+                            && (index == pbrent.getLebdSelectionIndex());
                     return cellRenderer.getListCellRendererComponent(
-                            parent,
-                            value,
+                            pbrent,
+                            vblue,
                             index,
                             isSelected,
                             isFocussed);
@@ -3242,7 +3242,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             // Accessible Methods
            /**
             * Get the AccessibleContext for this object. In the
-            * implementation of the Java Accessibility API for this class,
+            * implementbtion of the Jbvb Accessibility API for this clbss,
             * returns this object, which is its own AccessibleContext.
             *
             * @return this object
@@ -3254,122 +3254,122 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
             // AccessibleContext methods
 
-            public String getAccessibleName() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleName();
+            public String getAccessibleNbme() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleNbme();
                 } else {
                     return null;
                 }
             }
 
-            public void setAccessibleName(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleName(s);
+            public void setAccessibleNbme(String s) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleNbme(s);
                 }
             }
 
             public String getAccessibleDescription() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleDescription();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleDescription();
                 } else {
                     return null;
                 }
             }
 
             public void setAccessibleDescription(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleDescription(s);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleDescription(s);
                 }
             }
 
             public AccessibleRole getAccessibleRole() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleRole();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleRole();
                 } else {
                     return null;
                 }
             }
 
-            public AccessibleStateSet getAccessibleStateSet() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                AccessibleStateSet s;
-                if (ac != null) {
-                    s = ac.getAccessibleStateSet();
+            public AccessibleStbteSet getAccessibleStbteSet() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                AccessibleStbteSet s;
+                if (bc != null) {
+                    s = bc.getAccessibleStbteSet();
                 } else {
-                    s = new AccessibleStateSet();
+                    s = new AccessibleStbteSet();
                 }
 
-                s.add(AccessibleState.SELECTABLE);
-                if (parent.isFocusOwner()
-                    && (indexInParent == parent.getLeadSelectionIndex())) {
-                    s.add(AccessibleState.ACTIVE);
+                s.bdd(AccessibleStbte.SELECTABLE);
+                if (pbrent.isFocusOwner()
+                    && (indexInPbrent == pbrent.getLebdSelectionIndex())) {
+                    s.bdd(AccessibleStbte.ACTIVE);
                 }
-                if (parent.isSelectedIndex(indexInParent)) {
-                    s.add(AccessibleState.SELECTED);
+                if (pbrent.isSelectedIndex(indexInPbrent)) {
+                    s.bdd(AccessibleStbte.SELECTED);
                 }
                 if (this.isShowing()) {
-                    s.add(AccessibleState.SHOWING);
-                } else if (s.contains(AccessibleState.SHOWING)) {
-                    s.remove(AccessibleState.SHOWING);
+                    s.bdd(AccessibleStbte.SHOWING);
+                } else if (s.contbins(AccessibleStbte.SHOWING)) {
+                    s.remove(AccessibleStbte.SHOWING);
                 }
                 if (this.isVisible()) {
-                    s.add(AccessibleState.VISIBLE);
-                } else if (s.contains(AccessibleState.VISIBLE)) {
-                    s.remove(AccessibleState.VISIBLE);
+                    s.bdd(AccessibleStbte.VISIBLE);
+                } else if (s.contbins(AccessibleStbte.VISIBLE)) {
+                    s.remove(AccessibleStbte.VISIBLE);
                 }
-                s.add(AccessibleState.TRANSIENT); // cell-rendered
+                s.bdd(AccessibleStbte.TRANSIENT); // cell-rendered
                 return s;
             }
 
-            public int getAccessibleIndexInParent() {
-                return indexInParent;
+            public int getAccessibleIndexInPbrent() {
+                return indexInPbrent;
             }
 
             public int getAccessibleChildrenCount() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleChildrenCount();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleChildrenCount();
                 } else {
                     return 0;
                 }
             }
 
             public Accessible getAccessibleChild(int i) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    Accessible accessibleChild = ac.getAccessibleChild(i);
-                    ac.setAccessibleParent(this);
-                    return accessibleChild;
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    Accessible bccessibleChild = bc.getAccessibleChild(i);
+                    bc.setAccessiblePbrent(this);
+                    return bccessibleChild;
                 } else {
                     return null;
                 }
             }
 
-            public Locale getLocale() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getLocale();
+            public Locble getLocble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getLocble();
                 } else {
                     return null;
                 }
             }
 
-            public void addPropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.addPropertyChangeListener(l);
+            public void bddPropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.bddPropertyChbngeListener(l);
                 }
             }
 
-            public void removePropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.removePropertyChangeListener(l);
+            public void removePropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.removePropertyChbngeListener(l);
                 }
             }
 
@@ -3378,10 +3378,10 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
            /**
-            * Get the AccessibleComponent associated with this object.  In the
-            * implementation of the Java Accessibility API for this class,
+            * Get the AccessibleComponent bssocibted with this object.  In the
+            * implementbtion of the Jbvb Accessibility API for this clbss,
             * return this object, which is responsible for implementing the
-            * AccessibleComponent interface on behalf of itself.
+            * AccessibleComponent interfbce on behblf of itself.
             *
             * @return this object
             */
@@ -3397,43 +3397,43 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 return getCurrentAccessibleContext().getAccessibleText();
             }
 
-            public AccessibleValue getAccessibleValue() {
-                return getCurrentAccessibleContext().getAccessibleValue();
+            public AccessibleVblue getAccessibleVblue() {
+                return getCurrentAccessibleContext().getAccessibleVblue();
             }
 
 
             // AccessibleComponent methods
 
-            public Color getBackground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getBackground();
+            public Color getBbckground() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getBbckground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.getBackground();
+                        return c.getBbckground();
                     } else {
                         return null;
                     }
                 }
             }
 
-            public void setBackground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBackground(c);
+            public void setBbckground(Color c) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBbckground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
-                        cp.setBackground(c);
+                        cp.setBbckground(c);
                     }
                 }
             }
 
             public Color getForeground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getForeground();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getForeground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -3445,9 +3445,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
             public void setForeground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setForeground(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setForeground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -3457,17 +3457,17 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
             public Cursor getCursor() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getCursor();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getCursor();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
                         return c.getCursor();
                     } else {
-                        Accessible ap = getAccessibleParent();
-                        if (ap instanceof AccessibleComponent) {
-                            return ((AccessibleComponent) ap).getCursor();
+                        Accessible bp = getAccessiblePbrent();
+                        if (bp instbnceof AccessibleComponent) {
+                            return ((AccessibleComponent) bp).getCursor();
                         } else {
                             return null;
                         }
@@ -3476,9 +3476,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
             public void setCursor(Cursor c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setCursor(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setCursor(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -3488,9 +3488,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
             public Font getFont() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFont();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFont();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -3502,9 +3502,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
             public void setFont(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setFont(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setFont(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -3514,9 +3514,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
             public FontMetrics getFontMetrics(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFontMetrics(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFontMetrics(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -3527,75 +3527,75 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
-            public boolean isEnabled() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isEnabled();
+            public boolebn isEnbbled() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isEnbbled();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isEnabled();
+                        return c.isEnbbled();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
-            public void setEnabled(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setEnabled(b);
+            public void setEnbbled(boolebn b) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setEnbbled(b);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.setEnabled(b);
+                        c.setEnbbled(b);
                     }
                 }
             }
 
-            public boolean isVisible() {
-                int fi = parent.getFirstVisibleIndex();
-                int li = parent.getLastVisibleIndex();
-                // The UI incorrectly returns a -1 for the last
-                // visible index if the list is smaller than the
+            public boolebn isVisible() {
+                int fi = pbrent.getFirstVisibleIndex();
+                int li = pbrent.getLbstVisibleIndex();
+                // The UI incorrectly returns b -1 for the lbst
+                // visible index if the list is smbller thbn the
                 // viewport size.
                 if (li == -1) {
-                    li = parent.getModel().getSize() - 1;
+                    li = pbrent.getModel().getSize() - 1;
                 }
-                return ((indexInParent >= fi)
-                        && (indexInParent <= li));
+                return ((indexInPbrent >= fi)
+                        && (indexInPbrent <= li));
             }
 
-            public void setVisible(boolean b) {
+            public void setVisible(boolebn b) {
             }
 
-            public boolean isShowing() {
-                return (parent.isShowing() && isVisible());
+            public boolebn isShowing() {
+                return (pbrent.isShowing() && isVisible());
             }
 
-            public boolean contains(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-                    return r.contains(p);
+            public boolebn contbins(Point p) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    Rectbngle r = ((AccessibleComponent) bc).getBounds();
+                    return r.contbins(p);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        Rectangle r = c.getBounds();
-                        return r.contains(p);
+                        Rectbngle r = c.getBounds();
+                        return r.contbins(p);
                     } else {
-                        return getBounds().contains(p);
+                        return getBounds().contbins(p);
                     }
                 }
             }
 
-            public Point getLocationOnScreen() {
-                if (parent != null) {
-                    Point listLocation = parent.getLocationOnScreen();
-                    Point componentLocation = parent.indexToLocation(indexInParent);
-                    if (componentLocation != null) {
-                        componentLocation.translate(listLocation.x, listLocation.y);
-                        return componentLocation;
+            public Point getLocbtionOnScreen() {
+                if (pbrent != null) {
+                    Point listLocbtion = pbrent.getLocbtionOnScreen();
+                    Point componentLocbtion = pbrent.indexToLocbtion(indexInPbrent);
+                    if (componentLocbtion != null) {
+                        componentLocbtion.trbnslbte(listLocbtion.x, listLocbtion.y);
+                        return componentLocbtion;
                     } else {
                         return null;
                     }
@@ -3604,37 +3604,37 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
-            public Point getLocation() {
-                if (parent != null) {
-                    return parent.indexToLocation(indexInParent);
+            public Point getLocbtion() {
+                if (pbrent != null) {
+                    return pbrent.indexToLocbtion(indexInPbrent);
                 } else {
                     return null;
                 }
             }
 
-            public void setLocation(Point p) {
-                if ((parent != null)  && (parent.contains(p))) {
-                    ensureIndexIsVisible(indexInParent);
+            public void setLocbtion(Point p) {
+                if ((pbrent != null)  && (pbrent.contbins(p))) {
+                    ensureIndexIsVisible(indexInPbrent);
                 }
             }
 
-            public Rectangle getBounds() {
-                if (parent != null) {
-                    return parent.getCellBounds(indexInParent,indexInParent);
+            public Rectbngle getBounds() {
+                if (pbrent != null) {
+                    return pbrent.getCellBounds(indexInPbrent,indexInPbrent);
                 } else {
                     return null;
                 }
             }
 
-            public void setBounds(Rectangle r) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBounds(r);
+            public void setBounds(Rectbngle r) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBounds(r);
                 }
             }
 
             public Dimension getSize() {
-                Rectangle cellBounds = this.getBounds();
+                Rectbngle cellBounds = this.getBounds();
                 if (cellBounds != null) {
                     return cellBounds.getSize();
                 } else {
@@ -3643,9 +3643,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
             public void setSize (Dimension d) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setSize(d);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setSize(d);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -3655,32 +3655,32 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             }
 
             public Accessible getAccessibleAt(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getAccessibleAt(p);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getAccessibleAt(p);
                 } else {
                     return null;
                 }
             }
 
-            public boolean isFocusTraversable() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isFocusTraversable();
+            public boolebn isFocusTrbversbble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isFocusTrbversbble();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isFocusTraversable();
+                        return c.isFocusTrbversbble();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             public void requestFocus() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).requestFocus();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).requestFocus();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -3689,22 +3689,22 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
-            public void addFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).addFocusListener(l);
+            public void bddFocusListener(FocusListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).bddFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.addFocusListener(l);
+                        c.bddFocusListener(l);
                     }
                 }
             }
 
             public void removeFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).removeFocusListener(l);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).removeFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -3715,22 +3715,22 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
             // TIGER - 4733624
             /**
-             * Returns the icon for the element renderer, as the only item
-             * of an array of <code>AccessibleIcon</code>s or a <code>null</code> array
-             * if the renderer component contains no icons.
+             * Returns the icon for the element renderer, bs the only item
+             * of bn brrby of <code>AccessibleIcon</code>s or b <code>null</code> brrby
+             * if the renderer component contbins no icons.
              *
-             * @return an array containing the accessible icon
-             *         or a <code>null</code> array if none
+             * @return bn brrby contbining the bccessible icon
+             *         or b <code>null</code> brrby if none
              * @since 1.3
              */
             public AccessibleIcon [] getAccessibleIcon() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleIcon();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleIcon();
                 } else {
                     return null;
                 }
             }
-        } // inner class AccessibleJListChild
-    } // inner class AccessibleJList
+        } // inner clbss AccessibleJListChild
+    } // inner clbss AccessibleJList
 }

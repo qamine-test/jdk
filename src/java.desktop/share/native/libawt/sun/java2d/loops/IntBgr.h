@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,121 +27,121 @@
 #define IntBgr_h_Included
 
 #include "IntDcm.h"
-#include "ByteGray.h"
-#include "UshortGray.h"
+#include "ByteGrby.h"
+#include "UshortGrby.h"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "IntBgr".
+ * This file contbins mbcro bnd type definitions used by the mbcros in
+ * LoopMbcros.h to mbnipulbte b surfbce of type "IntBgr".
  */
 
 typedef jint    IntBgrPixelType;
-typedef jint    IntBgrDataType;
+typedef jint    IntBgrDbtbType;
 
-#define IntBgrIsOpaque 1
+#define IntBgrIsOpbque 1
 
 #define IntBgrPixelStride       4
 
-#define DeclareIntBgrLoadVars(PREFIX)
-#define DeclareIntBgrStoreVars(PREFIX)
-#define InitIntBgrLoadVars(PREFIX, pRasInfo)
-#define SetIntBgrStoreVarsYPos(PREFIX, pRasInfo, y)
-#define SetIntBgrStoreVarsXPos(PREFIX, pRasInfo, x)
-#define InitIntBgrStoreVarsY(PREFIX, pRasInfo)
-#define InitIntBgrStoreVarsX(PREFIX, pRasInfo)
-#define NextIntBgrStoreVarsX(PREFIX)
-#define NextIntBgrStoreVarsY(PREFIX)
+#define DeclbreIntBgrLobdVbrs(PREFIX)
+#define DeclbreIntBgrStoreVbrs(PREFIX)
+#define InitIntBgrLobdVbrs(PREFIX, pRbsInfo)
+#define SetIntBgrStoreVbrsYPos(PREFIX, pRbsInfo, y)
+#define SetIntBgrStoreVbrsXPos(PREFIX, pRbsInfo, x)
+#define InitIntBgrStoreVbrsY(PREFIX, pRbsInfo)
+#define InitIntBgrStoreVbrsX(PREFIX, pRbsInfo)
+#define NextIntBgrStoreVbrsX(PREFIX)
+#define NextIntBgrStoreVbrsY(PREFIX)
 
-#define IntBgrXparLutEntry              -1
-#define IntBgrIsXparLutEntry(pix)       (pix < 0)
-#define StoreIntBgrNonXparFromArgb(pRas, PREFIX, x, argb) \
-    (pRas)[x] = SwapIntDcmComponentsX123ToC321(argb)
+#define IntBgrXpbrLutEntry              -1
+#define IntBgrIsXpbrLutEntry(pix)       (pix < 0)
+#define StoreIntBgrNonXpbrFromArgb(pRbs, PREFIX, x, brgb) \
+    (pRbs)[x] = SwbpIntDcmComponentsX123ToC321(brgb)
 
 
-#define IntBgrPixelFromArgb(pixel, rgb, pRasInfo) \
-    (pixel) = SwapIntDcmComponentsX123ToX321(rgb)
+#define IntBgrPixelFromArgb(pixel, rgb, pRbsInfo) \
+    (pixel) = SwbpIntDcmComponentsX123ToX321(rgb)
 
-#define StoreIntBgrPixel(pRas, x, pixel) \
-    (pRas)[x] = (pixel)
+#define StoreIntBgrPixel(pRbs, x, pixel) \
+    (pRbs)[x] = (pixel)
 
-#define DeclareIntBgrPixelData(PREFIX)
+#define DeclbreIntBgrPixelDbtb(PREFIX)
 
-#define ExtractIntBgrPixelData(PIXEL, PREFIX)
+#define ExtrbctIntBgrPixelDbtb(PIXEL, PREFIX)
 
-#define StoreIntBgrPixelData(pPix, x, pixel, PREFIX) \
+#define StoreIntBgrPixelDbtb(pPix, x, pixel, PREFIX) \
     StoreIntBgrPixel(pPix, x, pixel)
 
 
-#define LoadIntBgrTo1IntRgb(pRas, PREFIX, x, rgb) \
+#define LobdIntBgrTo1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
-        jint pixel = (pRas)[x]; \
-        (rgb) = SwapIntDcmComponentsX123ToX321(pixel); \
+        jint pixel = (pRbs)[x]; \
+        (rgb) = SwbpIntDcmComponentsX123ToX321(pixel); \
     } while (0)
 
-#define LoadIntBgrTo1IntArgb(pRas, PREFIX, x, argb) \
+#define LobdIntBgrTo1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        jint pixel = (pRas)[x]; \
-        (argb) = SwapIntDcmComponentsX123ToS321(pixel); \
+        jint pixel = (pRbs)[x]; \
+        (brgb) = SwbpIntDcmComponentsX123ToS321(pixel); \
     } while (0)
 
-#define LoadIntBgrTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
+#define LobdIntBgrTo3ByteRgb(pRbs, PREFIX, x, r, g, b) \
     do { \
-        jint pixel = (pRas)[x]; \
-        ExtractIntDcmComponentsX123(pixel, b, g, r); \
+        jint pixel = (pRbs)[x]; \
+        ExtrbctIntDcmComponentsX123(pixel, b, g, r); \
     } while (0)
 
-#define LoadIntBgrTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#define LobdIntBgrTo4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        LoadIntBgrTo3ByteRgb(pRas, PREFIX, x, r, g, b); \
-        (a) = 0xff; \
+        LobdIntBgrTo3ByteRgb(pRbs, PREFIX, x, r, g, b); \
+        (b) = 0xff; \
     } while (0)
 
-#define StoreIntBgrFrom1IntRgb(pRas, PREFIX, x, rgb) \
-    (pRas)[x] = SwapIntDcmComponentsX123ToX321(rgb)
+#define StoreIntBgrFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    (pRbs)[x] = SwbpIntDcmComponentsX123ToX321(rgb)
 
-#define StoreIntBgrFrom1IntArgb(pRas, PREFIX, x, argb) \
-    StoreIntBgrFrom1IntRgb(pRas, PREFIX, x, argb)
+#define StoreIntBgrFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StoreIntBgrFrom1IntRgb(pRbs, PREFIX, x, brgb)
 
-#define StoreIntBgrFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    (pRas)[x] = ComposeIntDcmComponentsX123(b, g, r)
+#define StoreIntBgrFrom3ByteRgb(pRbs, PREFIX, x, r, g, b) \
+    (pRbs)[x] = ComposeIntDcmComponentsX123(b, g, r)
 
-#define StoreIntBgrFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
-    StoreIntBgrFrom3ByteRgb(pRas, PREFIX, x, r, g, b)
+#define StoreIntBgrFrom4ByteArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StoreIntBgrFrom3ByteRgb(pRbs, PREFIX, x, r, g, b)
 
 #define CopyIntBgrToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
-    LoadIntBgrTo1IntArgb(pRow, PREFIX, x, (pRGB)[i])
+    LobdIntBgrTo1IntArgb(pRow, PREFIX, x, (pRGB)[i])
 
 
-#define DeclareIntBgrAlphaLoadData(PREFIX)
-#define InitIntBgrAlphaLoadData(PREFIX, pRasInfo)
+#define DeclbreIntBgrAlphbLobdDbtb(PREFIX)
+#define InitIntBgrAlphbLobdDbtb(PREFIX, pRbsInfo)
 
-#define LoadAlphaFromIntBgrFor4ByteArgb(pRas, PREFIX, COMP_PREFIX) \
+#define LobdAlphbFromIntBgrFor4ByteArgb(pRbs, PREFIX, COMP_PREFIX) \
     COMP_PREFIX ## A = 0xff
 
-#define Postload4ByteArgbFromIntBgr(pRas, PREFIX, COMP_PREFIX) \
-    LoadIntBgrTo3ByteRgb(pRas, PREFIX, 0, COMP_PREFIX ## R, \
+#define Postlobd4ByteArgbFromIntBgr(pRbs, PREFIX, COMP_PREFIX) \
+    LobdIntBgrTo3ByteRgb(pRbs, PREFIX, 0, COMP_PREFIX ## R, \
                          COMP_PREFIX ## G, COMP_PREFIX ## B)
 
 
 #define IntBgrIsPremultiplied   0
 
-#define DeclareIntBgrBlendFillVars(PREFIX) \
+#define DeclbreIntBgrBlendFillVbrs(PREFIX) \
     jint PREFIX;
 
-#define ClearIntBgrBlendFillVars(PREFIX, argb) \
+#define ClebrIntBgrBlendFillVbrs(PREFIX, brgb) \
     PREFIX = 0
 
-#define InitIntBgrBlendFillVarsNonPre(PREFIX, argb, COMP_PREFIX) \
+#define InitIntBgrBlendFillVbrsNonPre(PREFIX, brgb, COMP_PREFIX) \
     PREFIX = ComposeIntDcmComponentsX123(COMP_PREFIX ## B, COMP_PREFIX ## G, \
                                          COMP_PREFIX ## R)
 
-#define InitIntBgrBlendFillVarsPre(PREFIX, argb, COMP_PREFIX)
+#define InitIntBgrBlendFillVbrsPre(PREFIX, brgb, COMP_PREFIX)
 
-#define StoreIntBgrBlendFill(pRas, PREFIX, x, argb, COMP_PREFIX) \
-    (pRas)[x] = PREFIX
+#define StoreIntBgrBlendFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = PREFIX
 
-#define StoreIntBgrFrom4ByteArgbComps(pRas, PREFIX, x, COMP_PREFIX) \
-    StoreIntBgrFrom4ByteArgb(pRas, PREFIX, x, \
+#define StoreIntBgrFrom4ByteArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StoreIntBgrFrom4ByteArgb(pRbs, PREFIX, x, \
                              COMP_PREFIX ## A, COMP_PREFIX ## R, \
                              COMP_PREFIX ## G, COMP_PREFIX ## B)
 

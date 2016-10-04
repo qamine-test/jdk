@@ -1,230 +1,230 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.ImageCapabilities;
-import java.awt.image.BufferedImage;
-import java.awt.image.VolatileImage;
-import sun.awt.DisplayChangedListener;
-import sun.awt.image.SunVolatileImage;
-import sun.java2d.SunGraphicsEnvironment;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import static sun.java2d.pipe.hw.AccelSurface.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.ImbgeCbpbbilities;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.VolbtileImbge;
+import sun.bwt.DisplbyChbngedListener;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.jbvb2d.SunGrbphicsEnvironment;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.CompositeType;
+import stbtic sun.jbvb2d.pipe.hw.AccelSurfbce.*;
 
 /**
- * This SurfaceManager variant manages an accelerated volatile surface, if it
- * is possible to create that surface.  If there is limited accelerated
- * memory, or if the volatile surface disappears due to an operating system
- * event, the VolatileSurfaceManager will attempt to restore the
- * accelerated surface.  If that fails, a system memory surface will be
- * created in its place.
+ * This SurfbceMbnbger vbribnt mbnbges bn bccelerbted volbtile surfbce, if it
+ * is possible to crebte thbt surfbce.  If there is limited bccelerbted
+ * memory, or if the volbtile surfbce disbppebrs due to bn operbting system
+ * event, the VolbtileSurfbceMbnbger will bttempt to restore the
+ * bccelerbted surfbce.  If thbt fbils, b system memory surfbce will be
+ * crebted in its plbce.
  */
-public abstract class VolatileSurfaceManager
-    extends SurfaceManager
-    implements DisplayChangedListener
+public bbstrbct clbss VolbtileSurfbceMbnbger
+    extends SurfbceMbnbger
+    implements DisplbyChbngedListener
 {
     /**
-     * A reference to the VolatileImage whose contents are being managed.
+     * A reference to the VolbtileImbge whose contents bre being mbnbged.
      */
-    protected SunVolatileImage vImg;
+    protected SunVolbtileImbge vImg;
 
     /**
-     * The accelerated SurfaceData object.
+     * The bccelerbted SurfbceDbtb object.
      */
-    protected SurfaceData sdAccel;
+    protected SurfbceDbtb sdAccel;
 
     /**
-     * The software-based SurfaceData object.  Only create when first asked
-     * to (otherwise it is a waste of memory as it will only be used in
-     * situations of surface loss).
+     * The softwbre-bbsed SurfbceDbtb object.  Only crebte when first bsked
+     * to (otherwise it is b wbste of memory bs it will only be used in
+     * situbtions of surfbce loss).
      */
-    protected SurfaceData sdBackup;
+    protected SurfbceDbtb sdBbckup;
 
     /**
-     * The current SurfaceData object.
+     * The current SurfbceDbtb object.
      */
-    protected SurfaceData sdCurrent;
+    protected SurfbceDbtb sdCurrent;
 
     /**
-     * A record-keeping object.  This keeps track of which SurfaceData was
-     * in use during the last call to validate().  This lets us see whether
-     * the SurfaceData object has changed since then and allows us to return
-     * the correct returnCode to the user in the validate() call.
+     * A record-keeping object.  This keeps trbck of which SurfbceDbtb wbs
+     * in use during the lbst cbll to vblidbte().  This lets us see whether
+     * the SurfbceDbtb object hbs chbnged since then bnd bllows us to return
+     * the correct returnCode to the user in the vblidbte() cbll.
      */
-    protected SurfaceData sdPrevious;
+    protected SurfbceDbtb sdPrevious;
 
     /**
-     * Tracks loss of surface contents; queriable by user to see whether
+     * Trbcks loss of surfbce contents; queribble by user to see whether
      * contents need to be restored.
      */
-    protected boolean lostSurface;
+    protected boolebn lostSurfbce;
 
     /**
-     * Context for extra initialization parameters.
+     * Context for extrb initiblizbtion pbrbmeters.
      */
     protected Object context;
 
-    protected VolatileSurfaceManager(SunVolatileImage vImg, Object context) {
+    protected VolbtileSurfbceMbnbger(SunVolbtileImbge vImg, Object context) {
         this.vImg = vImg;
         this.context = context;
 
-        GraphicsEnvironment ge =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
-        // We could have a HeadlessGE at this point, so double-check before
-        // assuming anything.
-        if (ge instanceof SunGraphicsEnvironment) {
-            ((SunGraphicsEnvironment)ge).addDisplayChangedListener(this);
+        GrbphicsEnvironment ge =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        // We could hbve b HebdlessGE bt this point, so double-check before
+        // bssuming bnything.
+        if (ge instbnceof SunGrbphicsEnvironment) {
+            ((SunGrbphicsEnvironment)ge).bddDisplbyChbngedListener(this);
         }
     }
 
     /**
-     * This init function is separate from the constructor because the
-     * things we are doing here necessitate the object's existence.
-     * Otherwise, we end up calling into a subclass' overridden method
-     * during construction, before that subclass is completely constructed.
+     * This init function is sepbrbte from the constructor becbuse the
+     * things we bre doing here necessitbte the object's existence.
+     * Otherwise, we end up cblling into b subclbss' overridden method
+     * during construction, before thbt subclbss is completely constructed.
      */
-    public void initialize() {
-        if (isAccelerationEnabled()) {
-            sdAccel = initAcceleratedSurface();
+    public void initiblize() {
+        if (isAccelerbtionEnbbled()) {
+            sdAccel = initAccelerbtedSurfbce();
             if (sdAccel != null) {
                 sdCurrent = sdAccel;
             }
         }
-        // only initialize the backup surface for images with unforced
-        // acceleration type
+        // only initiblize the bbckup surfbce for imbges with unforced
+        // bccelerbtion type
         if (sdCurrent == null &&
-            vImg.getForcedAccelSurfaceType() == UNDEFINED)
+            vImg.getForcedAccelSurfbceType() == UNDEFINED)
         {
-            sdCurrent = getBackupSurface();
+            sdCurrent = getBbckupSurfbce();
         }
     }
 
-    public SurfaceData getPrimarySurfaceData() {
+    public SurfbceDbtb getPrimbrySurfbceDbtb() {
         return sdCurrent;
     }
 
     /**
-     * Returns true if acceleration is enabled.  If not, we simply use the
-     * backup SurfaceData object and return quickly from most methods
-     * in this class.
+     * Returns true if bccelerbtion is enbbled.  If not, we simply use the
+     * bbckup SurfbceDbtb object bnd return quickly from most methods
+     * in this clbss.
      */
-    protected abstract boolean isAccelerationEnabled();
+    protected bbstrbct boolebn isAccelerbtionEnbbled();
 
     /**
-     * Get the image ready for rendering.  This method is called to make
-     * sure that the accelerated SurfaceData exists and is
-     * ready to be used.  Users call this method prior to any set of
-     * rendering to or from the image, to make sure the image is ready
-     * and compatible with the given GraphicsConfiguration.
+     * Get the imbge rebdy for rendering.  This method is cblled to mbke
+     * sure thbt the bccelerbted SurfbceDbtb exists bnd is
+     * rebdy to be used.  Users cbll this method prior to bny set of
+     * rendering to or from the imbge, to mbke sure the imbge is rebdy
+     * bnd compbtible with the given GrbphicsConfigurbtion.
      *
-     * The image may not be "ready" if either we had problems creating
-     * it in the first place (e.g., there was no space in vram) or if
-     * the surface became lost (e.g., some other app or the OS caused
-     * vram surfaces to be removed).
+     * The imbge mby not be "rebdy" if either we hbd problems crebting
+     * it in the first plbce (e.g., there wbs no spbce in vrbm) or if
+     * the surfbce becbme lost (e.g., some other bpp or the OS cbused
+     * vrbm surfbces to be removed).
      *
-     * Note that we want to return RESTORED in any situation where the
-     * SurfaceData is different than it was last time.  So whether it's
-     * software or hardware, if we have a different SurfaceData object,
-     * then the contents have been altered and we must reflect that
-     * change to the user.
+     * Note thbt we wbnt to return RESTORED in bny situbtion where the
+     * SurfbceDbtb is different thbn it wbs lbst time.  So whether it's
+     * softwbre or hbrdwbre, if we hbve b different SurfbceDbtb object,
+     * then the contents hbve been bltered bnd we must reflect thbt
+     * chbnge to the user.
      */
-    public int validate(GraphicsConfiguration gc) {
-        int returnCode = VolatileImage.IMAGE_OK;
-        boolean lostSurfaceTmp = lostSurface;
-        lostSurface = false;
+    public int vblidbte(GrbphicsConfigurbtion gc) {
+        int returnCode = VolbtileImbge.IMAGE_OK;
+        boolebn lostSurfbceTmp = lostSurfbce;
+        lostSurfbce = fblse;
 
-        if (isAccelerationEnabled()) {
-            if (!isConfigValid(gc)) {
-                // If we're asked to render to a different device than the
-                // one we were created under, return INCOMPATIBLE error code.
-                // Note that a null gc simply ignores the incompatibility
+        if (isAccelerbtionEnbbled()) {
+            if (!isConfigVblid(gc)) {
+                // If we're bsked to render to b different device thbn the
+                // one we were crebted under, return INCOMPATIBLE error code.
+                // Note thbt b null gc simply ignores the incompbtibility
                 // issue
-                returnCode = VolatileImage.IMAGE_INCOMPATIBLE;
+                returnCode = VolbtileImbge.IMAGE_INCOMPATIBLE;
             } else if (sdAccel == null) {
-                // We either had problems creating the surface or the display
-                // mode changed and we nullified the old one.  Try it again.
-                sdAccel = initAcceleratedSurface();
+                // We either hbd problems crebting the surfbce or the displby
+                // mode chbnged bnd we nullified the old one.  Try it bgbin.
+                sdAccel = initAccelerbtedSurfbce();
                 if (sdAccel != null) {
-                    // set the current SurfaceData to accelerated version
+                    // set the current SurfbceDbtb to bccelerbted version
                     sdCurrent = sdAccel;
-                    // we don't need the system memory surface anymore, so
-                    // let's release it now (it can always be restored later)
-                    sdBackup = null;
-                    returnCode = VolatileImage.IMAGE_RESTORED;
+                    // we don't need the system memory surfbce bnymore, so
+                    // let's relebse it now (it cbn blwbys be restored lbter)
+                    sdBbckup = null;
+                    returnCode = VolbtileImbge.IMAGE_RESTORED;
                 } else {
-                    sdCurrent = getBackupSurface();
+                    sdCurrent = getBbckupSurfbce();
                 }
-            } else if (sdAccel.isSurfaceLost()) {
+            } else if (sdAccel.isSurfbceLost()) {
                 try {
-                    restoreAcceleratedSurface();
-                    // set the current SurfaceData to accelerated version
+                    restoreAccelerbtedSurfbce();
+                    // set the current SurfbceDbtb to bccelerbted version
                     sdCurrent = sdAccel;
-                    // restoration successful: accel surface no longer lost
-                    sdAccel.setSurfaceLost(false);
-                    // we don't need the system memory surface anymore, so
-                    // let's release it now (it can always be restored later)
-                    sdBackup = null;
-                    returnCode = VolatileImage.IMAGE_RESTORED;
-                } catch (sun.java2d.InvalidPipeException e) {
-                    // Set the current SurfaceData to software version so that
-                    // drawing can continue.  Note that we still have
-                    // the lostAccelSurface flag set so that we will continue
-                    // to attempt to restore the accelerated surface.
-                    sdCurrent = getBackupSurface();
+                    // restorbtion successful: bccel surfbce no longer lost
+                    sdAccel.setSurfbceLost(fblse);
+                    // we don't need the system memory surfbce bnymore, so
+                    // let's relebse it now (it cbn blwbys be restored lbter)
+                    sdBbckup = null;
+                    returnCode = VolbtileImbge.IMAGE_RESTORED;
+                } cbtch (sun.jbvb2d.InvblidPipeException e) {
+                    // Set the current SurfbceDbtb to softwbre version so thbt
+                    // drbwing cbn continue.  Note thbt we still hbve
+                    // the lostAccelSurfbce flbg set so thbt we will continue
+                    // to bttempt to restore the bccelerbted surfbce.
+                    sdCurrent = getBbckupSurfbce();
                 }
-            } else if (lostSurfaceTmp) {
-                // Something else triggered this loss/restoration.  Could
-                // be a palette change that didn't require a SurfaceData
-                // recreation but merely a re-rendering of the pixels.
-                returnCode = VolatileImage.IMAGE_RESTORED;
+            } else if (lostSurfbceTmp) {
+                // Something else triggered this loss/restorbtion.  Could
+                // be b pblette chbnge thbt didn't require b SurfbceDbtb
+                // recrebtion but merely b re-rendering of the pixels.
+                returnCode = VolbtileImbge.IMAGE_RESTORED;
             }
         } else if (sdAccel != null) {
-            // if the "acceleration enabled" state changed to disabled,
-            // switch to software surface
-            sdCurrent = getBackupSurface();
+            // if the "bccelerbtion enbbled" stbte chbnged to disbbled,
+            // switch to softwbre surfbce
+            sdCurrent = getBbckupSurfbce();
             sdAccel = null;
-            returnCode = VolatileImage.IMAGE_RESTORED;
+            returnCode = VolbtileImbge.IMAGE_RESTORED;
         }
 
-        if ((returnCode != VolatileImage.IMAGE_INCOMPATIBLE) &&
+        if ((returnCode != VolbtileImbge.IMAGE_INCOMPATIBLE) &&
             (sdCurrent != sdPrevious))
         {
-            // contents have changed - return RESTORED to user
+            // contents hbve chbnged - return RESTORED to user
             sdPrevious = sdCurrent;
-            returnCode = VolatileImage.IMAGE_RESTORED;
+            returnCode = VolbtileImbge.IMAGE_RESTORED;
         }
 
-        if (returnCode == VolatileImage.IMAGE_RESTORED) {
-            // clear the current surface with the background color,
-            // only if the surface has been restored
+        if (returnCode == VolbtileImbge.IMAGE_RESTORED) {
+            // clebr the current surfbce with the bbckground color,
+            // only if the surfbce hbs been restored
             initContents();
         }
 
@@ -232,176 +232,176 @@ public abstract class VolatileSurfaceManager
     }
 
     /**
-     * Returns true if rendering data was lost since the last validate call.
+     * Returns true if rendering dbtb wbs lost since the lbst vblidbte cbll.
      *
-     * @see java.awt.image.VolatileImage#contentsLost
+     * @see jbvb.bwt.imbge.VolbtileImbge#contentsLost
      */
-    public boolean contentsLost() {
-        return lostSurface;
+    public boolebn contentsLost() {
+        return lostSurfbce;
     }
 
     /**
-     * Creates a new accelerated surface that is compatible with the
-     * current GraphicsConfiguration.  Returns the new accelerated
-     * SurfaceData object, or null if the surface creation was not successful.
+     * Crebtes b new bccelerbted surfbce thbt is compbtible with the
+     * current GrbphicsConfigurbtion.  Returns the new bccelerbted
+     * SurfbceDbtb object, or null if the surfbce crebtion wbs not successful.
      *
-     * Platform-specific subclasses should initialize an accelerated
-     * surface (e.g. a DirectDraw surface on Windows, an OpenGL pbuffer,
-     * or an X11 pixmap).
+     * Plbtform-specific subclbsses should initiblize bn bccelerbted
+     * surfbce (e.g. b DirectDrbw surfbce on Windows, bn OpenGL pbuffer,
+     * or bn X11 pixmbp).
      */
-    protected abstract SurfaceData initAcceleratedSurface();
+    protected bbstrbct SurfbceDbtb initAccelerbtedSurfbce();
 
     /**
-     * Creates a software-based surface (of type BufImgSurfaceData).
-     * The software representation is only created when needed, which
-     * is only during some situation in which the hardware surface
-     * cannot be allocated.  This allows apps to at least run,
-     * albeit more slowly than they would otherwise.
+     * Crebtes b softwbre-bbsed surfbce (of type BufImgSurfbceDbtb).
+     * The softwbre representbtion is only crebted when needed, which
+     * is only during some situbtion in which the hbrdwbre surfbce
+     * cbnnot be bllocbted.  This bllows bpps to bt lebst run,
+     * blbeit more slowly thbn they would otherwise.
      */
-    protected SurfaceData getBackupSurface() {
-        if (sdBackup == null) {
-            BufferedImage bImg = vImg.getBackupImage();
-            // Sabotage the acceleration capabilities of the BufImg surface
-            SunWritableRaster.stealTrackable(bImg
-                                             .getRaster()
-                                             .getDataBuffer()).setUntrackable();
-            sdBackup = BufImgSurfaceData.createData(bImg);
+    protected SurfbceDbtb getBbckupSurfbce() {
+        if (sdBbckup == null) {
+            BufferedImbge bImg = vImg.getBbckupImbge();
+            // Sbbotbge the bccelerbtion cbpbbilities of the BufImg surfbce
+            SunWritbbleRbster.steblTrbckbble(bImg
+                                             .getRbster()
+                                             .getDbtbBuffer()).setUntrbckbble();
+            sdBbckup = BufImgSurfbceDbtb.crebteDbtb(bImg);
         }
-        return sdBackup;
+        return sdBbckup;
     }
 
     /**
-     * Set contents of the current SurfaceData to default state (i.e. clear
-     * the background).
+     * Set contents of the current SurfbceDbtb to defbult stbte (i.e. clebr
+     * the bbckground).
      */
     public void initContents() {
-        // images with forced acceleration type may have a null sdCurrent
-        // because we do not create a backup surface for them
+        // imbges with forced bccelerbtion type mby hbve b null sdCurrent
+        // becbuse we do not crebte b bbckup surfbce for them
         if (sdCurrent != null) {
-            Graphics g = vImg.createGraphics();
-            g.clearRect(0, 0, vImg.getWidth(), vImg.getHeight());
+            Grbphics g = vImg.crebteGrbphics();
+            g.clebrRect(0, 0, vImg.getWidth(), vImg.getHeight());
             g.dispose();
         }
     }
 
     /**
-     * Called from a SurfaceData object, indicating that our
-     * accelerated surface has been lost and should be restored (perhaps
-     * using a backup system memory surface).  Returns the newly restored
-     * primary SurfaceData object.
+     * Cblled from b SurfbceDbtb object, indicbting thbt our
+     * bccelerbted surfbce hbs been lost bnd should be restored (perhbps
+     * using b bbckup system memory surfbce).  Returns the newly restored
+     * primbry SurfbceDbtb object.
      */
-    public SurfaceData restoreContents() {
-        return getBackupSurface();
+    public SurfbceDbtb restoreContents() {
+        return getBbckupSurfbce();
     }
 
     /**
-     * If the accelerated surface is the current SurfaceData for this manager,
-     * sets the variable lostSurface to true, which indicates that something
-     * happened to the image under management.  This variable is used in the
-     * validate method to tell the caller that the surface contents need to
+     * If the bccelerbted surfbce is the current SurfbceDbtb for this mbnbger,
+     * sets the vbribble lostSurfbce to true, which indicbtes thbt something
+     * hbppened to the imbge under mbnbgement.  This vbribble is used in the
+     * vblidbte method to tell the cbller thbt the surfbce contents need to
      * be restored.
      */
-    public void acceleratedSurfaceLost() {
-        if (isAccelerationEnabled() && (sdCurrent == sdAccel)) {
-            lostSurface = true;
+    public void bccelerbtedSurfbceLost() {
+        if (isAccelerbtionEnbbled() && (sdCurrent == sdAccel)) {
+            lostSurfbce = true;
         }
     }
 
     /**
-     * Restore sdAccel in case it was lost.  Do nothing in this
-     * default case; platform-specific implementations may do more in
-     * this situation as appropriate.
+     * Restore sdAccel in cbse it wbs lost.  Do nothing in this
+     * defbult cbse; plbtform-specific implementbtions mby do more in
+     * this situbtion bs bppropribte.
      */
-    protected void restoreAcceleratedSurface() {
+    protected void restoreAccelerbtedSurfbce() {
     }
 
     /**
-     * Called from SunGraphicsEnv when there has been a display mode change.
-     * Note that we simply invalidate hardware surfaces here; we do not
-     * attempt to recreate or re-render them.  This is to avoid threading
-     * conflicts with the native toolkit and associated threads.  Instead,
-     * we just nullify the old surface data object and wait for a future
-     * method in the rendering process to recreate the surface.
+     * Cblled from SunGrbphicsEnv when there hbs been b displby mode chbnge.
+     * Note thbt we simply invblidbte hbrdwbre surfbces here; we do not
+     * bttempt to recrebte or re-render them.  This is to bvoid threbding
+     * conflicts with the nbtive toolkit bnd bssocibted threbds.  Instebd,
+     * we just nullify the old surfbce dbtb object bnd wbit for b future
+     * method in the rendering process to recrebte the surfbce.
      */
-    public void displayChanged() {
-        if (!isAccelerationEnabled()) {
+    public void displbyChbnged() {
+        if (!isAccelerbtionEnbbled()) {
             return;
         }
-        lostSurface = true;
+        lostSurfbce = true;
         if (sdAccel != null) {
-            // First, nullify the software surface.  This guards against
-            // using a SurfaceData that was created in a different
-            // display mode.
-            sdBackup = null;
-            // Now, invalidate the old hardware-based SurfaceData
-            // Note that getBackupSurface may set sdAccel to null so we have to invalidate it before
-            SurfaceData oldData = sdAccel;
+            // First, nullify the softwbre surfbce.  This gubrds bgbinst
+            // using b SurfbceDbtb thbt wbs crebted in b different
+            // displby mode.
+            sdBbckup = null;
+            // Now, invblidbte the old hbrdwbre-bbsed SurfbceDbtb
+            // Note thbt getBbckupSurfbce mby set sdAccel to null so we hbve to invblidbte it before
+            SurfbceDbtb oldDbtb = sdAccel;
             sdAccel = null;
-            oldData.invalidate();
-            sdCurrent = getBackupSurface();
+            oldDbtb.invblidbte();
+            sdCurrent = getBbckupSurfbce();
         }
-        // Update graphicsConfig for the vImg in case it changed due to
-        // this display change event
-        vImg.updateGraphicsConfig();
+        // Updbte grbphicsConfig for the vImg in cbse it chbnged due to
+        // this displby chbnge event
+        vImg.updbteGrbphicsConfig();
     }
 
     /**
-     * When device palette changes, need to force a new copy
-     * of the image into our hardware cache to update the
+     * When device pblette chbnges, need to force b new copy
+     * of the imbge into our hbrdwbre cbche to updbte the
      * color indices of the pixels (indexed mode only).
      */
-    public void paletteChanged() {
-        lostSurface = true;
+    public void pbletteChbnged() {
+        lostSurfbce = true;
     }
 
     /**
-     * Called by validate() to see whether the GC passed in is ok for
-     * rendering to.  This generic implementation checks to see
-     * whether the GC is either null or is from the same
-     * device as the one that this image was created on.  Platform-
-     * specific implementations may perform other checks as
-     * appropriate.
+     * Cblled by vblidbte() to see whether the GC pbssed in is ok for
+     * rendering to.  This generic implementbtion checks to see
+     * whether the GC is either null or is from the sbme
+     * device bs the one thbt this imbge wbs crebted on.  Plbtform-
+     * specific implementbtions mby perform other checks bs
+     * bppropribte.
      */
-    protected boolean isConfigValid(GraphicsConfiguration gc) {
+    protected boolebn isConfigVblid(GrbphicsConfigurbtion gc) {
         return ((gc == null) ||
-                (gc.getDevice() == vImg.getGraphicsConfig().getDevice()));
+                (gc.getDevice() == vImg.getGrbphicsConfig().getDevice()));
     }
 
     @Override
-    public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
-        if (isConfigValid(gc)) {
-            return isAccelerationEnabled() ?
-                new AcceleratedImageCapabilities() :
-                new ImageCapabilities(false);
+    public ImbgeCbpbbilities getCbpbbilities(GrbphicsConfigurbtion gc) {
+        if (isConfigVblid(gc)) {
+            return isAccelerbtionEnbbled() ?
+                new AccelerbtedImbgeCbpbbilities() :
+                new ImbgeCbpbbilities(fblse);
         }
-        return super.getCapabilities(gc);
+        return super.getCbpbbilities(gc);
     }
 
-    private class AcceleratedImageCapabilities
-        extends ImageCapabilities
+    privbte clbss AccelerbtedImbgeCbpbbilities
+        extends ImbgeCbpbbilities
     {
-        AcceleratedImageCapabilities() {
-            super(false);
+        AccelerbtedImbgeCbpbbilities() {
+            super(fblse);
         }
         @Override
-        public boolean isAccelerated() {
+        public boolebn isAccelerbted() {
             return (sdCurrent == sdAccel);
         }
         @Override
-        public boolean isTrueVolatile() {
-            return isAccelerated();
+        public boolebn isTrueVolbtile() {
+            return isAccelerbted();
         }
     }
 
     /**
-     * Releases any associated hardware memory for this image by
-     * calling flush on sdAccel.  This method forces a lostSurface
-     * situation so any future operations on the image will need to
-     * revalidate the image first.
+     * Relebses bny bssocibted hbrdwbre memory for this imbge by
+     * cblling flush on sdAccel.  This method forces b lostSurfbce
+     * situbtion so bny future operbtions on the imbge will need to
+     * revblidbte the imbge first.
      */
     public void flush() {
-        lostSurface = true;
-        SurfaceData oldSD = sdAccel;
+        lostSurfbce = true;
+        SurfbceDbtb oldSD = sdAccel;
         sdAccel = null;
         if (oldSD != null) {
             oldSD.flush();

@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 import com.sun.jdi.*;
 
-public class LocalVariableImpl extends MirrorImpl
-                               implements LocalVariable, ValueContainer
+public clbss LocblVbribbleImpl extends MirrorImpl
+                               implements LocblVbribble, VblueContbiner
 {
-    private final Method method;
-    private final int slot;
-    private final Location scopeStart;
-    private final Location scopeEnd;
-    private final String name;
-    private final String signature;
-    private String genericSignature = null;
+    privbte finbl Method method;
+    privbte finbl int slot;
+    privbte finbl Locbtion scopeStbrt;
+    privbte finbl Locbtion scopeEnd;
+    privbte finbl String nbme;
+    privbte finbl String signbture;
+    privbte String genericSignbture = null;
 
-    LocalVariableImpl(VirtualMachine vm, Method method,
-                      int slot, Location scopeStart, Location scopeEnd,
-                      String name, String signature,
-                      String genericSignature) {
+    LocblVbribbleImpl(VirtublMbchine vm, Method method,
+                      int slot, Locbtion scopeStbrt, Locbtion scopeEnd,
+                      String nbme, String signbture,
+                      String genericSignbture) {
         super(vm);
         this.method = method;
         this.slot = slot;
-        this.scopeStart = scopeStart;
+        this.scopeStbrt = scopeStbrt;
         this.scopeEnd = scopeEnd;
-        this.name = name;
-        this.signature = signature;
-        if (genericSignature != null && genericSignature.length() > 0) {
-            this.genericSignature = genericSignature;
+        this.nbme = nbme;
+        this.signbture = signbture;
+        if (genericSignbture != null && genericSignbture.length() > 0) {
+            this.genericSignbture = genericSignbture;
         } else {
-            // The Spec says to return null for non-generic types
-            this.genericSignature = null;
+            // The Spec sbys to return null for non-generic types
+            this.genericSignbture = null;
         }
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof LocalVariableImpl)) {
-            LocalVariableImpl other = (LocalVariableImpl)obj;
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof LocblVbribbleImpl)) {
+            LocblVbribbleImpl other = (LocblVbribbleImpl)obj;
             return ((slot() == other.slot()) &&
-                    (scopeStart != null) &&
-                    (scopeStart.equals(other.scopeStart)) &&
-                    (super.equals(obj)));
+                    (scopeStbrt != null) &&
+                    (scopeStbrt.equbls(other.scopeStbrt)) &&
+                    (super.equbls(obj)));
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         /*
-         * TO DO: Better hash code
+         * TO DO: Better hbsh code
          */
-        return ((scopeStart.hashCode() << 4) + slot());
+        return ((scopeStbrt.hbshCode() << 4) + slot());
     }
 
-    public int compareTo(LocalVariable object) {
-        LocalVariableImpl other = (LocalVariableImpl)object;
+    public int compbreTo(LocblVbribble object) {
+        LocblVbribbleImpl other = (LocblVbribbleImpl)object;
 
-        int rc = scopeStart.compareTo(other.scopeStart);
+        int rc = scopeStbrt.compbreTo(other.scopeStbrt);
         if (rc == 0) {
             rc = slot() - other.slot();
         }
         return rc;
     }
 
-    public String name() {
-        return name;
+    public String nbme() {
+        return nbme;
     }
 
     /**
-     * @return a text representation of the declared type
-     * of this variable.
+     * @return b text representbtion of the declbred type
+     * of this vbribble.
      */
-    public String typeName() {
-        JNITypeParser parser = new JNITypeParser(signature);
-        return parser.typeName();
+    public String typeNbme() {
+        JNITypePbrser pbrser = new JNITypePbrser(signbture);
+        return pbrser.typeNbme();
     }
 
-    public Type type() throws ClassNotLoadedException {
-        return findType(signature());
+    public Type type() throws ClbssNotLobdedException {
+        return findType(signbture());
     }
 
-    public Type findType(String signature) throws ClassNotLoadedException {
-        ReferenceTypeImpl enclosing = (ReferenceTypeImpl)method.declaringType();
-        return enclosing.findType(signature);
+    public Type findType(String signbture) throws ClbssNotLobdedException {
+        ReferenceTypeImpl enclosing = (ReferenceTypeImpl)method.declbringType();
+        return enclosing.findType(signbture);
     }
 
-    public String signature() {
-        return signature;
+    public String signbture() {
+        return signbture;
     }
 
-    public String genericSignature() {
-        return genericSignature;
+    public String genericSignbture() {
+        return genericSignbture;
     }
 
-    public boolean isVisible(StackFrame frame) {
-        validateMirror(frame);
-        Method frameMethod = frame.location().method();
+    public boolebn isVisible(StbckFrbme frbme) {
+        vblidbteMirror(frbme);
+        Method frbmeMethod = frbme.locbtion().method();
 
-        if (!frameMethod.equals(method)) {
-            throw new IllegalArgumentException(
-                       "frame method different than variable's method");
+        if (!frbmeMethod.equbls(method)) {
+            throw new IllegblArgumentException(
+                       "frbme method different thbn vbribble's method");
         }
 
-        // this is here to cover the possibility that we will
-        // allow LocalVariables for native methods.  If we do
-        // so we will have to re-examinine this.
-        if (frameMethod.isNative()) {
-            return false;
+        // this is here to cover the possibility thbt we will
+        // bllow LocblVbribbles for nbtive methods.  If we do
+        // so we will hbve to re-exbminine this.
+        if (frbmeMethod.isNbtive()) {
+            return fblse;
         }
 
-        return ((scopeStart.compareTo(frame.location()) <= 0)
-             && (scopeEnd.compareTo(frame.location()) >= 0));
+        return ((scopeStbrt.compbreTo(frbme.locbtion()) <= 0)
+             && (scopeEnd.compbreTo(frbme.locbtion()) >= 0));
     }
 
-    public boolean isArgument() {
+    public boolebn isArgument() {
         try {
-            MethodImpl method = (MethodImpl)scopeStart.method();
-            return (slot < method.argSlotCount());
-        } catch (AbsentInformationException e) {
-            // If this variable object exists, there shouldn't be absent info
-            throw new InternalException();
+            MethodImpl method = (MethodImpl)scopeStbrt.method();
+            return (slot < method.brgSlotCount());
+        } cbtch (AbsentInformbtionException e) {
+            // If this vbribble object exists, there shouldn't be bbsent info
+            throw new InternblException();
         }
     }
 
@@ -150,29 +150,29 @@ public class LocalVariableImpl extends MirrorImpl
     }
 
     /*
-     * Compilers/VMs can have byte code ranges for variables of the
-     * same names that overlap. This is because the byte code ranges
-     * aren't necessarily scopes; they may have more to do with the
-     * lifetime of the variable's slot, depending on implementation.
+     * Compilers/VMs cbn hbve byte code rbnges for vbribbles of the
+     * sbme nbmes thbt overlbp. This is becbuse the byte code rbnges
+     * bren't necessbrily scopes; they mby hbve more to do with the
+     * lifetime of the vbribble's slot, depending on implementbtion.
      *
-     * This method determines whether this variable hides an
-     * identically named variable; ie, their byte code ranges overlap
-     * this one starts after the given one. If it returns true this
-     * variable should be preferred when looking for a single variable
-     * with its name when both variables are visible.
+     * This method determines whether this vbribble hides bn
+     * identicblly nbmed vbribble; ie, their byte code rbnges overlbp
+     * this one stbrts bfter the given one. If it returns true this
+     * vbribble should be preferred when looking for b single vbribble
+     * with its nbme when both vbribbles bre visible.
      */
-    boolean hides(LocalVariable other) {
-        LocalVariableImpl otherImpl = (LocalVariableImpl)other;
-        if (!method.equals(otherImpl.method) ||
-            !name.equals(otherImpl.name)) {
-            return false;
+    boolebn hides(LocblVbribble other) {
+        LocblVbribbleImpl otherImpl = (LocblVbribbleImpl)other;
+        if (!method.equbls(otherImpl.method) ||
+            !nbme.equbls(otherImpl.nbme)) {
+            return fblse;
         } else {
-            return (scopeStart.compareTo(otherImpl.scopeStart) > 0);
+            return (scopeStbrt.compbreTo(otherImpl.scopeStbrt) > 0);
         }
     }
 
     public String toString() {
-       return name() + " in " + method.toString() +
-              "@" + scopeStart.toString();
+       return nbme() + " in " + method.toString() +
+              "@" + scopeStbrt.toString();
     }
 }

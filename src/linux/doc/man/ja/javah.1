@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: javah
-.\" Language: English
-.\" Date: 2013Ç¯11·î21Æü
+.\" Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\" Title: jbvbh
+.\" Lbngubge: English
+.\" Dbte: 2013Ç¯11·î21Æü
 .\" SectDesc: ´ðËÜ¥Ä¡¼¥ë
-.\" Software: JDK 8
+.\" Softwbre: JDK 8
 .\" Arch: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "javah" "1" "2013Ç¯11·î21Æü" "JDK 8" "´ðËÜ¥Ä¡¼¥ë"
+.TH "jbvbh" "1" "2013Ç¯11·î21Æü" "JDK 8" "´ðËÜ¥Ä¡¼¥ë"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-javah \- Java¥¯¥é¥¹¤«¤éC¥Ø¥Ã¥À¡¼¤È¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤òÀ¸À®¤·¤Þ¤¹¡£
+jbvbh \- Jbvb¥¯¥é¥¹¤«¤éC¥Ø¥Ã¥À¡¼¤È¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤òÀ¸À®¤·¤Þ¤¹¡£
 .SH "³µÍ×"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIjavah\fR [ \fIoptions\fR ] f\fIully\-qualified\-class\-name \&.\&.\&.\fR
+\fIjbvbh\fR [ \fIoptions\fR ] f\fIully\-qublified\-clbss\-nbme \&.\&.\&.\fR
 .fi
 .if n \{\
 .RE
@@ -67,19 +67,19 @@ javah \- Java¥¯¥é¥¹¤«¤éC¥Ø¥Ã¥À¡¼¤È¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤òÀ¸À®¤·¤Þ¤¹¡£
 ¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥ª¥×¥·¥ç¥ó¡£¥ª¥×¥·¥ç¥ó¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .RE
 .PP
-\fIfully\-qualified\-class\-name\fR
+\fIfully\-qublified\-clbss\-nbme\fR
 .RS 4
 C¥Ø¥Ã¥À¡¼¤È¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤ËÊÑ´¹¤µ¤ì¤ë¥¯¥é¥¹¤Î´°Á´½¤¾þ¤µ¤ì¤¿¾ì½ê¡£
 .RE
 .SH "ÀâÌÀ"
 .PP
-\fIjavah\fR¥³¥Þ¥ó¥É¤Ï¡¢¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥É¤ò¼ÂÁõ¤¹¤ë¤¿¤á¤ËÉ¬Í×¤ÊC¥Ø¥Ã¥À¡¼¤È¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤òÀ¸À®¤·¤Þ¤¹¡£ºîÀ®¤µ¤ì¤¿¥Ø¥Ã¥À¡¼¤È¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤Ï¡¢¥Í¥¤¥Æ¥£¥Ö¡¦¥½¡¼¥¹¡¦¥³¡¼¥É¤«¤é¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ò»²¾È¤¹¤ë¤¿¤á¤ËC¥×¥í¥°¥é¥à¤Ë¤è¤Ã¤Æ»ÈÍÑ¤µ¤ì¤Þ¤¹¡£\fI\&.h\fR¥Õ¥¡¥¤¥ë¤Ï¡¢ÂÐ±þ¤¹¤ë¥¯¥é¥¹¤È°ìÃ×¤¹¤ëÇÛÃÖ¤ò»ý¤Ä\fIstruct\fRÄêµÁ¤ò´Þ¤ß¤Þ¤¹¡£\fIstruct\fR¤Î¥Õ¥£¡¼¥ë¥É¤Ï¡¢¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ËÂÐ±þ¤·¤Þ¤¹¡£
+\fIjbvbh\fR¥³¥Þ¥ó¥É¤Ï¡¢¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥É¤ò¼ÂÁõ¤¹¤ë¤¿¤á¤ËÉ¬Í×¤ÊC¥Ø¥Ã¥À¡¼¤È¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤òÀ¸À®¤·¤Þ¤¹¡£ºîÀ®¤µ¤ì¤¿¥Ø¥Ã¥À¡¼¤È¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤Ï¡¢¥Í¥¤¥Æ¥£¥Ö¡¦¥½¡¼¥¹¡¦¥³¡¼¥É¤«¤é¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ò»²¾È¤¹¤ë¤¿¤á¤ËC¥×¥í¥°¥é¥à¤Ë¤è¤Ã¤Æ»ÈÍÑ¤µ¤ì¤Þ¤¹¡£\fI\&.h\fR¥Õ¥¡¥¤¥ë¤Ï¡¢ÂÐ±þ¤¹¤ë¥¯¥é¥¹¤È°ìÃ×¤¹¤ëÇÛÃÖ¤ò»ý¤Ä\fIstruct\fRÄêµÁ¤ò´Þ¤ß¤Þ¤¹¡£\fIstruct\fR¤Î¥Õ¥£¡¼¥ë¥É¤Ï¡¢¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ËÂÐ±þ¤·¤Þ¤¹¡£
 .PP
-¥Ø¥Ã¥À¡¼¡¦¥Õ¥¡¥¤¥ë¤È¤½¤ÎÃæ¤ÇÀë¸À¤µ¤ì¤ë¹½Â¤ÂÎ¤ÎÌ¾Á°¤Ï¥¯¥é¥¹¤ÎÌ¾Á°¤«¤éÇÉÀ¸¤·¤Þ¤¹¡£\fIjavah\fR¥³¥Þ¥ó¥É¤ËÅÏ¤µ¤ì¤ë¥¯¥é¥¹¤¬¥Ñ¥Ã¥±¡¼¥¸¤ÎÃæ¤Ë¤¢¤ë¾ì¹ç¡¢¥Ñ¥Ã¥±¡¼¥¸Ì¾¤Ï¥Ø¥Ã¥À¡¼¡¦¥Õ¥¡¥¤¥ëÌ¾¤È¹½Â¤ÂÎÌ¾¤ÎÎ¾Êý¤ÎÀèÆ¬¤ËÉÕ²Ã¤µ¤ì¤Þ¤¹¡£²¼Àþ(_)¤¬Ì¾Á°¤Î¶èÀÚ¤êÊ¸»ú¤È¤·¤Æ»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
+¥Ø¥Ã¥À¡¼¡¦¥Õ¥¡¥¤¥ë¤È¤½¤ÎÃæ¤ÇÀë¸À¤µ¤ì¤ë¹½Â¤ÂÎ¤ÎÌ¾Á°¤Ï¥¯¥é¥¹¤ÎÌ¾Á°¤«¤éÇÉÀ¸¤·¤Þ¤¹¡£\fIjbvbh\fR¥³¥Þ¥ó¥É¤ËÅÏ¤µ¤ì¤ë¥¯¥é¥¹¤¬¥Ñ¥Ã¥±¡¼¥¸¤ÎÃæ¤Ë¤¢¤ë¾ì¹ç¡¢¥Ñ¥Ã¥±¡¼¥¸Ì¾¤Ï¥Ø¥Ã¥À¡¼¡¦¥Õ¥¡¥¤¥ëÌ¾¤È¹½Â¤ÂÎÌ¾¤ÎÎ¾Êý¤ÎÀèÆ¬¤ËÉÕ²Ã¤µ¤ì¤Þ¤¹¡£²¼Àþ(_)¤¬Ì¾Á°¤Î¶èÀÚ¤êÊ¸»ú¤È¤·¤Æ»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
 .PP
-¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï\fIjavah\fR¥³¥Þ¥ó¥É¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë¥ê¥¹¥È¤µ¤ì¤ë³Æ¥¯¥é¥¹¤Î¥Ø¥Ã¥À¡¼¡¦¥Õ¥¡¥¤¥ë¤òºîÀ®¤·¡¢¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥Õ¥¡¥¤¥ë¤òÃÖ¤­¤Þ¤¹¡£¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤òºîÀ®¤¹¤ë¤Ë¤Ï¡¢\fI\-stubs\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£1¤Ä¤Î¥Õ¥¡¥¤¥ë¤ÎÃæ¤Ë¡¢¥ê¥¹¥È¤µ¤ì¤¿¤¹¤Ù¤Æ¤Î¥¯¥é¥¹¤Î·ë²Ì¤òÏ¢·ë¤¹¤ë¤Ë¤Ï¡¢\fI\-o\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£
+¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï\fIjbvbh\fR¥³¥Þ¥ó¥É¤Ï¡¢¥³¥Þ¥ó¥É¥é¥¤¥ó¤Ë¥ê¥¹¥È¤µ¤ì¤ë³Æ¥¯¥é¥¹¤Î¥Ø¥Ã¥À¡¼¡¦¥Õ¥¡¥¤¥ë¤òºîÀ®¤·¡¢¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥Õ¥¡¥¤¥ë¤òÃÖ¤­¤Þ¤¹¡£¥½¡¼¥¹¡¦¥Õ¥¡¥¤¥ë¤òºîÀ®¤¹¤ë¤Ë¤Ï¡¢\fI\-stubs\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£1¤Ä¤Î¥Õ¥¡¥¤¥ë¤ÎÃæ¤Ë¡¢¥ê¥¹¥È¤µ¤ì¤¿¤¹¤Ù¤Æ¤Î¥¯¥é¥¹¤Î·ë²Ì¤òÏ¢·ë¤¹¤ë¤Ë¤Ï¡¢\fI\-o\fR¥ª¥×¥·¥ç¥ó¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£
 .PP
-Java Native Interface (JNI)¤Ï¥Ø¥Ã¥À¡¼¾ðÊó¤Þ¤¿¤Ï¥¹¥¿¥Ö¡¦¥Õ¥¡¥¤¥ë¤òÉ¬Í×¤È¤·¤Þ¤»¤ó¡£\fIjavah\fR¥³¥Þ¥ó¥É¤Ï°ú¤­Â³¤­JNI·Á¼°¤Î¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥É¤ËÉ¬Í×¤Ê¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥É´Ø¿ô¥×¥í¥È¥¿¥¤¥×¤ÎÀ¸À®¤Ë»ÈÍÑ¤Ç¤­¤Þ¤¹¡£\fIjavah\fR¥³¥Þ¥ó¥É¤Ï¥Ç¥Õ¥©¥ë¥È¤ÇJNI·Á¼°¤Î½ÐÎÏ¤òÀ¸À®¤·¡¢¤½¤Î·ë²Ì¤ò\fI\&.h\fR¥Õ¥¡¥¤¥ë¤Ë³ÊÇ¼¤·¤Þ¤¹¡£
+Jbvb Nbtive Interfbce (JNI)¤Ï¥Ø¥Ã¥À¡¼¾ðÊó¤Þ¤¿¤Ï¥¹¥¿¥Ö¡¦¥Õ¥¡¥¤¥ë¤òÉ¬Í×¤È¤·¤Þ¤»¤ó¡£\fIjbvbh\fR¥³¥Þ¥ó¥É¤Ï°ú¤­Â³¤­JNI·Á¼°¤Î¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥É¤ËÉ¬Í×¤Ê¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥É´Ø¿ô¥×¥í¥È¥¿¥¤¥×¤ÎÀ¸À®¤Ë»ÈÍÑ¤Ç¤­¤Þ¤¹¡£\fIjbvbh\fR¥³¥Þ¥ó¥É¤Ï¥Ç¥Õ¥©¥ë¥È¤ÇJNI·Á¼°¤Î½ÐÎÏ¤òÀ¸À®¤·¡¢¤½¤Î·ë²Ì¤ò\fI\&.h\fR¥Õ¥¡¥¤¥ë¤Ë³ÊÇ¼¤·¤Þ¤¹¡£
 .SH "¥ª¥×¥·¥ç¥ó"
 .PP
 \-o \fIoutputfile\fR
@@ -89,60 +89,60 @@ Java Native Interface (JNI)¤Ï¥Ø¥Ã¥À¡¼¾ðÊó¤Þ¤¿¤Ï¥¹¥¿¥Ö¡¦¥Õ¥¡¥¤¥ë¤òÉ¬Í×¤È¤·¤Þ¤»¤ó¡
 .PP
 \-d \fIdirectory\fR
 .RS 4
-\fIjavah\fR¤¬¥Ø¥Ã¥À¡¼¡¦¥Õ¥¡¥¤¥ë¤Þ¤¿¤Ï¥¹¥¿¥Ö¡¦¥Õ¥¡¥¤¥ë¤òÊÝÂ¸¤¹¤ë¡¢¥Ç¥£¥ì¥¯¥È¥ê¤òÀßÄê¤·¤Þ¤¹¡£\fI\-d\fR¤Þ¤¿¤Ï\fI\-o\fR¤Î¤É¤Á¤é¤«¤Î¤ß»ÈÍÑ¤Ç¤­¤Þ¤¹¡£
+\fIjbvbh\fR¤¬¥Ø¥Ã¥À¡¼¡¦¥Õ¥¡¥¤¥ë¤Þ¤¿¤Ï¥¹¥¿¥Ö¡¦¥Õ¥¡¥¤¥ë¤òÊÝÂ¸¤¹¤ë¡¢¥Ç¥£¥ì¥¯¥È¥ê¤òÀßÄê¤·¤Þ¤¹¡£\fI\-d\fR¤Þ¤¿¤Ï\fI\-o\fR¤Î¤É¤Á¤é¤«¤Î¤ß»ÈÍÑ¤Ç¤­¤Þ¤¹¡£
 .RE
 .PP
 \-stubs
 .RS 4
-\fIjavah\fR¥³¥Þ¥ó¥É¤¬¡¢Java¥ª¥Ö¥¸¥§¥¯¥È¡¦¥Õ¥¡¥¤¥ë¤«¤éCÀë¸À¤òÀ¸À®¤·¤Þ¤¹¡£
+\fIjbvbh\fR¥³¥Þ¥ó¥É¤¬¡¢Jbvb¥ª¥Ö¥¸¥§¥¯¥È¡¦¥Õ¥¡¥¤¥ë¤«¤éCÀë¸À¤òÀ¸À®¤·¤Þ¤¹¡£
 .RE
 .PP
 \-verbose
 .RS 4
-¾ÜºÙ½ÐÎÏ¤ò»ØÄê¤·¡¢ºîÀ®¥Õ¥¡¥¤¥ë¤Î¾õÂÖ¤Ë´Ø¤¹¤ë¥á¥Ã¥»¡¼¥¸¤ò¡¢\fIjavah\fR¥³¥Þ¥ó¥É¤¬\fIÉ¸½à½ÐÎÏ\fR¤Ë½ÐÎÏ¤·¤Þ¤¹¡£
+¾ÜºÙ½ÐÎÏ¤ò»ØÄê¤·¡¢ºîÀ®¥Õ¥¡¥¤¥ë¤Î¾õÂÖ¤Ë´Ø¤¹¤ë¥á¥Ã¥»¡¼¥¸¤ò¡¢\fIjbvbh\fR¥³¥Þ¥ó¥É¤¬\fIÉ¸½à½ÐÎÏ\fR¤Ë½ÐÎÏ¤·¤Þ¤¹¡£
 .RE
 .PP
 \-help
 .RS 4
-\fIjavah\fR¤Î»ÈÍÑÊýË¡¤Ë¤Ä¤¤¤Æ¤Î¥Ø¥ë¥×¡¦¥á¥Ã¥»¡¼¥¸¤ò½ÐÎÏ¤·¤Þ¤¹¡£
+\fIjbvbh\fR¤Î»ÈÍÑÊýË¡¤Ë¤Ä¤¤¤Æ¤Î¥Ø¥ë¥×¡¦¥á¥Ã¥»¡¼¥¸¤ò½ÐÎÏ¤·¤Þ¤¹¡£
 .RE
 .PP
 \-version
 .RS 4
-\fIjavah\fR¥³¥Þ¥ó¥É¤Î¥ê¥ê¡¼¥¹¾ðÊó¤ò½ÐÎÏ¤·¤Þ¤¹¡£
+\fIjbvbh\fR¥³¥Þ¥ó¥É¤Î¥ê¥ê¡¼¥¹¾ðÊó¤ò½ÐÎÏ¤·¤Þ¤¹¡£
 .RE
 .PP
 \-jni
 .RS 4
-JNI·Á¼°¤Î¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥Éµ¡Ç½¥×¥í¥È¥¿¥¤¥×¤ò´Þ¤à½ÐÎÏ¥Õ¥¡¥¤¥ë¤ò¡¢\fIjavah\fR¥³¥Þ¥ó¥É¤¬ºîÀ®¤·¤Þ¤¹¡£¤³¤ì¤ÏÉ¸½à½ÐÎÏ¤Ç¤¢¤ë¤¿¤á¡¢\fI\-jni\fR¤Î»ÈÍÑ¤Ï¥ª¥×¥·¥ç¥ó¤Ç¤¹¡£
+JNI·Á¼°¤Î¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥Éµ¡Ç½¥×¥í¥È¥¿¥¤¥×¤ò´Þ¤à½ÐÎÏ¥Õ¥¡¥¤¥ë¤ò¡¢\fIjbvbh\fR¥³¥Þ¥ó¥É¤¬ºîÀ®¤·¤Þ¤¹¡£¤³¤ì¤ÏÉ¸½à½ÐÎÏ¤Ç¤¢¤ë¤¿¤á¡¢\fI\-jni\fR¤Î»ÈÍÑ¤Ï¥ª¥×¥·¥ç¥ó¤Ç¤¹¡£
 .RE
 .PP
-\-classpath \fIpath\fR
+\-clbsspbth \fIpbth\fR
 .RS 4
-¥¯¥é¥¹¤òÃµ¤¹¤¿¤á¤Ë\fIjavah\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¥Ñ¥¹¤ò»ØÄê¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Þ¤¿¤Ï\fICLASSPATH\fR´Ä¶­ÊÑ¿ô¤ÎÀßÄê¤ò¥ª¡¼¥Ð¡¼¥é¥¤¥É¤·¤Þ¤¹¡£¥Ç¥£¥ì¥¯¥È¥ê¤ÏOracle Solaris¤Î¾ì¹ç¤Ï¥³¥í¥ó¤Ç¡¢Windows¤Î¾ì¹ç¤Ï¥»¥ß¥³¥í¥ó¤Ç¶èÀÚ¤é¤ì¤Þ¤¹¡£¥Ñ¥¹¤Î°ìÈÌÅª¤Ê·Á¼°¤Ï¼¡¤Î¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£
+¥¯¥é¥¹¤òÃµ¤¹¤¿¤á¤Ë\fIjbvbh\fR¥³¥Þ¥ó¥É¤¬»ÈÍÑ¤¹¤ë¥Ñ¥¹¤ò»ØÄê¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È¤Þ¤¿¤Ï\fICLASSPATH\fR´Ä¶­ÊÑ¿ô¤ÎÀßÄê¤ò¥ª¡¼¥Ð¡¼¥é¥¤¥É¤·¤Þ¤¹¡£¥Ç¥£¥ì¥¯¥È¥ê¤ÏOrbcle Solbris¤Î¾ì¹ç¤Ï¥³¥í¥ó¤Ç¡¢Windows¤Î¾ì¹ç¤Ï¥»¥ß¥³¥í¥ó¤Ç¶èÀÚ¤é¤ì¤Þ¤¹¡£¥Ñ¥¹¤Î°ìÈÌÅª¤Ê·Á¼°¤Ï¼¡¤Î¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£
 .sp
-\fBOracle Solaris\fR¤Î¾ì¹ç:
+\fBOrbcle Solbris\fR¤Î¾ì¹ç:
 .sp
-\&.:\fIyour\-path\fR
+\&.:\fIyour\-pbth\fR
 .sp
 Îã:
-\fI\&.:/home/avh/classes:/usr/local/java/classes\fR
+\fI\&.:/home/bvh/clbsses:/usr/locbl/jbvb/clbsses\fR
 .sp
 \fBWindows\fR¤Î¾ì¹ç:
 .sp
-\&.;\fIyour\-path\fR
+\&.;\fIyour\-pbth\fR
 .sp
 Îã:
-\fI\&.;C:\eusers\edac\eclasses;C:\etools\ejava\eclasses\fR
+\fI\&.;C:\eusers\edbc\eclbsses;C:\etools\ejbvb\eclbsses\fR
 .sp
-ÊØµ¹¾å¡¢*¤Î¥Ù¡¼¥¹Ì¾¤ò´Þ¤à¥¯¥é¥¹¡¦¥Ñ¥¹Í×ÁÇ¤Ï¡¢\fI\&.jar\fR¤Þ¤¿¤Ï\fI\&.JAR\fR¤ò³ÈÄ¥»Ò¤Ë»ý¤Ä¥Ç¥£¥ì¥¯¥È¥êÆâ¤Î¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤Î¥ê¥¹¥È¤ò»ØÄê¤¹¤ë¤Î¤ÈÆ±Åù¤È¤ß¤Ê¤µ¤ì¤Þ¤¹¡£
+ÊØµ¹¾å¡¢*¤Î¥Ù¡¼¥¹Ì¾¤ò´Þ¤à¥¯¥é¥¹¡¦¥Ñ¥¹Í×ÁÇ¤Ï¡¢\fI\&.jbr\fR¤Þ¤¿¤Ï\fI\&.JAR\fR¤ò³ÈÄ¥»Ò¤Ë»ý¤Ä¥Ç¥£¥ì¥¯¥È¥êÆâ¤Î¤¹¤Ù¤Æ¤Î¥Õ¥¡¥¤¥ë¤Î¥ê¥¹¥È¤ò»ØÄê¤¹¤ë¤Î¤ÈÆ±Åù¤È¤ß¤Ê¤µ¤ì¤Þ¤¹¡£
 .sp
-¤¿¤È¤¨¤Ð¡¢¥Ç¥£¥ì¥¯¥È¥ê\fImydir\fR¤Ë\fIa\&.jar\fR¤È\fIb\&.JAR\fR¤¬´Þ¤Þ¤ì¤Æ¤¤¤ë¾ì¹ç¡¢¥¯¥é¥¹¡¦¥Ñ¥¹Í×ÁÇ\fImydir/*\fR¤Ï\fIA\fR\fI\&.jar:b\&.JAR\fR¤ËÅ¸³«¤µ¤ì¤Þ¤¹¤¬¡¢JAR¥Õ¥¡¥¤¥ë¤Î½çÈÖ¤ÏÌ¤»ØÄê¤È¤Ê¤ê¤Þ¤¹¡£¤³¤Î¥ê¥¹¥È¤Ë¤Ï¡¢±£¤·¥Õ¥¡¥¤¥ë¤â´Þ¤á¡¢»ØÄê¤µ¤ì¤¿¥Ç¥£¥ì¥¯¥È¥êÆâ¤Î¤¹¤Ù¤Æ¤ÎJAR¥Õ¥¡¥¤¥ë¤¬´Þ¤Þ¤ì¤Þ¤¹¡£*¤«¤é¤Ê¤ë¥¯¥é¥¹¡¦¥Ñ¥¹¡¦¥¨¥ó¥È¥ê¤Ï¡¢¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥êÆâ¤Î¤¹¤Ù¤Æ¤ÎJAR¥Õ¥¡¥¤¥ë¤Î¥ê¥¹¥È¤ËÅ¸³«¤µ¤ì¤Þ¤¹¡£\fICLASSPATH\fR´Ä¶­ÊÑ¿ô¤â¡¢ÄêµÁ»þ¤Ë¤ÏÆ±ÍÍ¤ËÅ¸³«¤µ¤ì¤Þ¤¹¡£¥¯¥é¥¹¡¦¥Ñ¥¹¤Î¥ï¥¤¥ë¥É¥«¡¼¥É¤ÎÅ¸³«¤Ï¡¢Java²¾ÁÛ¥Þ¥·¥ó(JVM)¤Î³«»ÏÁ°¤Ë¹Ô¤ï¤ì¤Þ¤¹¡£Java¥×¥í¥°¥é¥à¤Ï¡¢´Ä¶­¤òÌä¤¤¹ç¤»¤ë¾ì¹ç¤ò½ü¤­¡¢Å¸³«¤µ¤ì¤Æ¤¤¤Ê¤¤¥ï¥¤¥ë¥É¥«¡¼¥É¤ò»²¾È¤·¤Þ¤»¤ó¡£¤¿¤È¤¨¤Ð¡¢\fISystem\&.getenv("CLASSPATH")\fR¤ò¥³¡¼¥ë¤·¤ÆÌä¤¤¹ç¤»¤ë¾ì¹ç¤Ç¤¹¡£
+¤¿¤È¤¨¤Ð¡¢¥Ç¥£¥ì¥¯¥È¥ê\fImydir\fR¤Ë\fIb\&.jbr\fR¤È\fIb\&.JAR\fR¤¬´Þ¤Þ¤ì¤Æ¤¤¤ë¾ì¹ç¡¢¥¯¥é¥¹¡¦¥Ñ¥¹Í×ÁÇ\fImydir/*\fR¤Ï\fIA\fR\fI\&.jbr:b\&.JAR\fR¤ËÅ¸³«¤µ¤ì¤Þ¤¹¤¬¡¢JAR¥Õ¥¡¥¤¥ë¤Î½çÈÖ¤ÏÌ¤»ØÄê¤È¤Ê¤ê¤Þ¤¹¡£¤³¤Î¥ê¥¹¥È¤Ë¤Ï¡¢±£¤·¥Õ¥¡¥¤¥ë¤â´Þ¤á¡¢»ØÄê¤µ¤ì¤¿¥Ç¥£¥ì¥¯¥È¥êÆâ¤Î¤¹¤Ù¤Æ¤ÎJAR¥Õ¥¡¥¤¥ë¤¬´Þ¤Þ¤ì¤Þ¤¹¡£*¤«¤é¤Ê¤ë¥¯¥é¥¹¡¦¥Ñ¥¹¡¦¥¨¥ó¥È¥ê¤Ï¡¢¸½ºß¤Î¥Ç¥£¥ì¥¯¥È¥êÆâ¤Î¤¹¤Ù¤Æ¤ÎJAR¥Õ¥¡¥¤¥ë¤Î¥ê¥¹¥È¤ËÅ¸³«¤µ¤ì¤Þ¤¹¡£\fICLASSPATH\fR´Ä¶­ÊÑ¿ô¤â¡¢ÄêµÁ»þ¤Ë¤ÏÆ±ÍÍ¤ËÅ¸³«¤µ¤ì¤Þ¤¹¡£¥¯¥é¥¹¡¦¥Ñ¥¹¤Î¥ï¥¤¥ë¥É¥«¡¼¥É¤ÎÅ¸³«¤Ï¡¢Jbvb²¾ÁÛ¥Þ¥·¥ó(JVM)¤Î³«»ÏÁ°¤Ë¹Ô¤ï¤ì¤Þ¤¹¡£Jbvb¥×¥í¥°¥é¥à¤Ï¡¢´Ä¶­¤òÌä¤¤¹ç¤»¤ë¾ì¹ç¤ò½ü¤­¡¢Å¸³«¤µ¤ì¤Æ¤¤¤Ê¤¤¥ï¥¤¥ë¥É¥«¡¼¥É¤ò»²¾È¤·¤Þ¤»¤ó¡£¤¿¤È¤¨¤Ð¡¢\fISystem\&.getenv("CLASSPATH")\fR¤ò¥³¡¼¥ë¤·¤ÆÌä¤¤¹ç¤»¤ë¾ì¹ç¤Ç¤¹¡£
 .RE
 .PP
-\-bootclasspath \fIpath\fR
+\-bootclbsspbth \fIpbth\fR
 .RS 4
-¥Ö¡¼¥È¥¹¥È¥é¥Ã¥×¡¦¥¯¥é¥¹¤ò¥í¡¼¥É¤¹¤ë¥Ñ¥¹¤ò»ØÄê¤·¤Þ¤¹¡£¥Ö¡¼¥È¥¹¥È¥é¥Ã¥×¡¦¥¯¥é¥¹¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï\fIjre\elib\ert\&.jar\fR¤ª¤è¤ÓÂ¾¤Î¤¤¤¯¤Ä¤«¤ÎJAR¥Õ¥¡¥¤¥ë¤Ë¤¢¤ë¡¢¥³¥¢Java¥×¥é¥Ã¥È¥Õ¥©¡¼¥à¤ò¼ÂÁõ¤¹¤ë¥¯¥é¥¹¤Ç¤¹¡£
+¥Ö¡¼¥È¥¹¥È¥é¥Ã¥×¡¦¥¯¥é¥¹¤ò¥í¡¼¥É¤¹¤ë¥Ñ¥¹¤ò»ØÄê¤·¤Þ¤¹¡£¥Ö¡¼¥È¥¹¥È¥é¥Ã¥×¡¦¥¯¥é¥¹¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï\fIjre\elib\ert\&.jbr\fR¤ª¤è¤ÓÂ¾¤Î¤¤¤¯¤Ä¤«¤ÎJAR¥Õ¥¡¥¤¥ë¤Ë¤¢¤ë¡¢¥³¥¢Jbvb¥×¥é¥Ã¥È¥Õ¥©¡¼¥à¤ò¼ÂÁõ¤¹¤ë¥¯¥é¥¹¤Ç¤¹¡£
 .RE
 .PP
 \-old
@@ -157,7 +157,7 @@ JNI·Á¼°¤Î¥Í¥¤¥Æ¥£¥Ö¡¦¥á¥½¥Ã¥Éµ¡Ç½¥×¥í¥È¥¿¥¤¥×¤ò´Þ¤à½ÐÎÏ¥Õ¥¡¥¤¥ë¤ò¡¢\fIjavah\fR¥³
 .PP
 \-J\fIoption\fR
 .RS 4
-Java²¾ÁÛ¥Þ¥·¥ó¤Ë\fIoption\fR¤òÅÏ¤·¤Þ¤¹¡£\fIoption\fR¤Ë¤Ï¡¢Java¥¢¥×¥ê¥±¡¼¥·¥ç¥óµ¯Æ°¥Ä¡¼¥ë¤Î¥ê¥Õ¥¡¥ì¥ó¥¹¡¦¥Ú¡¼¥¸¤Ëµ­ºÜ¤µ¤ì¤Æ¤¤¤ë¥ª¥×¥·¥ç¥ó¤ò1¤Ä»ØÄê¤·¤Þ¤¹¡£¤¿¤È¤¨¤Ð¡¢\fI\-J\-Xms48m\fR¤È»ØÄê¤¹¤ë¤È¡¢¥¹¥¿¡¼¥È¥¢¥Ã¥×¡¦¥á¥â¥ê¡¼¤Ï48MB¤ËÀßÄê¤µ¤ì¤Þ¤¹¡£java(1)¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
+Jbvb²¾ÁÛ¥Þ¥·¥ó¤Ë\fIoption\fR¤òÅÏ¤·¤Þ¤¹¡£\fIoption\fR¤Ë¤Ï¡¢Jbvb¥¢¥×¥ê¥±¡¼¥·¥ç¥óµ¯Æ°¥Ä¡¼¥ë¤Î¥ê¥Õ¥¡¥ì¥ó¥¹¡¦¥Ú¡¼¥¸¤Ëµ­ºÜ¤µ¤ì¤Æ¤¤¤ë¥ª¥×¥·¥ç¥ó¤ò1¤Ä»ØÄê¤·¤Þ¤¹¡£¤¿¤È¤¨¤Ð¡¢\fI\-J\-Xms48m\fR¤È»ØÄê¤¹¤ë¤È¡¢¥¹¥¿¡¼¥È¥¢¥Ã¥×¡¦¥á¥â¥ê¡¼¤Ï48MB¤ËÀßÄê¤µ¤ì¤Þ¤¹¡£jbvb(1)¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .RE
 .SH "´ØÏ¢¹àÌÜ"
 .sp
@@ -169,7 +169,7 @@ Java²¾ÁÛ¥Þ¥·¥ó¤Ë\fIoption\fR¤òÅÏ¤·¤Þ¤¹¡£\fIoption\fR¤Ë¤Ï¡¢Java¥¢¥×¥ê¥±¡¼¥·¥ç¥óµ¯
 .sp -1
 .IP \(bu 2.3
 .\}
-javah(1)
+jbvbh(1)
 .RE
 .sp
 .RS 4
@@ -180,7 +180,7 @@ javah(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-java(1)
+jbvb(1)
 .RE
 .sp
 .RS 4
@@ -202,7 +202,7 @@ jdb(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-javap(1)
+jbvbp(1)
 .RE
 .sp
 .RS 4
@@ -213,7 +213,7 @@ javap(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-javadoc(1)
+jbvbdoc(1)
 .RE
 .br
 'pl 8.5i

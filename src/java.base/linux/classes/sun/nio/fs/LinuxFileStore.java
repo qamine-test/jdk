@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.file.bttribute.*;
+import jbvb.util.*;
+import jbvb.io.IOException;
 
 /**
- * Linux implementation of FileStore
+ * Linux implementbtion of FileStore
  */
 
-class LinuxFileStore
+clbss LinuxFileStore
     extends UnixFileStore
 {
-    // used when checking if extended attributes are enabled or not
-    private volatile boolean xattrChecked;
-    private volatile boolean xattrEnabled;
+    // used when checking if extended bttributes bre enbbled or not
+    privbte volbtile boolebn xbttrChecked;
+    privbte volbtile boolebn xbttrEnbbled;
 
-    LinuxFileStore(UnixPath file) throws IOException {
+    LinuxFileStore(UnixPbth file) throws IOException {
         super(file);
     }
 
@@ -49,115 +49,115 @@ class LinuxFileStore
     }
 
     /**
-     * Finds, and returns, the mount entry for the file system where the file
+     * Finds, bnd returns, the mount entry for the file system where the file
      * resides.
      */
     @Override
     UnixMountEntry findMountEntry() throws IOException {
         LinuxFileSystem fs = (LinuxFileSystem)file().getFileSystem();
 
-        // step 1: get realpath
-        UnixPath path = null;
+        // step 1: get reblpbth
+        UnixPbth pbth = null;
         try {
-            byte[] rp = UnixNativeDispatcher.realpath(file());
-            path = new UnixPath(fs, rp);
-        } catch (UnixException x) {
+            byte[] rp = UnixNbtiveDispbtcher.reblpbth(file());
+            pbth = new UnixPbth(fs, rp);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file());
         }
 
         // step 2: find mount point
-        UnixPath parent = path.getParent();
-        while (parent != null) {
-            UnixFileAttributes attrs = null;
+        UnixPbth pbrent = pbth.getPbrent();
+        while (pbrent != null) {
+            UnixFileAttributes bttrs = null;
             try {
-                attrs = UnixFileAttributes.get(parent, true);
-            } catch (UnixException x) {
-                x.rethrowAsIOException(parent);
+                bttrs = UnixFileAttributes.get(pbrent, true);
+            } cbtch (UnixException x) {
+                x.rethrowAsIOException(pbrent);
             }
-            if (attrs.dev() != dev())
-                break;
-            path = parent;
-            parent = parent.getParent();
+            if (bttrs.dev() != dev())
+                brebk;
+            pbth = pbrent;
+            pbrent = pbrent.getPbrent();
         }
 
         // step 3: lookup mounted file systems (use /proc/mounts to ensure we
-        // find the file system even when not in /etc/mtab)
-        byte[] dir = path.asByteArray();
+        // find the file system even when not in /etc/mtbb)
+        byte[] dir = pbth.bsByteArrby();
         for (UnixMountEntry entry: fs.getMountEntries("/proc/mounts")) {
-            if (Arrays.equals(dir, entry.dir()))
+            if (Arrbys.equbls(dir, entry.dir()))
                 return entry;
         }
 
         throw new IOException("Mount point not found");
     }
 
-    // returns true if extended attributes enabled on file system where given
-    // file resides, returns false if disabled or unable to determine.
-    private boolean isExtendedAttributesEnabled(UnixPath path) {
+    // returns true if extended bttributes enbbled on file system where given
+    // file resides, returns fblse if disbbled or unbble to determine.
+    privbte boolebn isExtendedAttributesEnbbled(UnixPbth pbth) {
         try {
-            int fd = path.openForAttributeAccess(false);
+            int fd = pbth.openForAttributeAccess(fblse);
             try {
-                // fgetxattr returns size if called with size==0
-                byte[] name = Util.toBytes("user.java");
-                LinuxNativeDispatcher.fgetxattr(fd, name, 0L, 0);
+                // fgetxbttr returns size if cblled with size==0
+                byte[] nbme = Util.toBytes("user.jbvb");
+                LinuxNbtiveDispbtcher.fgetxbttr(fd, nbme, 0L, 0);
                 return true;
-            } catch (UnixException e) {
-                // attribute does not exist
-                if (e.errno() == UnixConstants.ENODATA)
+            } cbtch (UnixException e) {
+                // bttribute does not exist
+                if (e.errno() == UnixConstbnts.ENODATA)
                     return true;
-            } finally {
-                UnixNativeDispatcher.close(fd);
+            } finblly {
+                UnixNbtiveDispbtcher.close(fd);
             }
-        } catch (IOException ignore) {
-            // nothing we can do
+        } cbtch (IOException ignore) {
+            // nothing we cbn do
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
-        // support DosFileAttributeView and UserDefinedAttributeView if extended
-        // attributes enabled
-        if (type == DosFileAttributeView.class ||
-            type == UserDefinedFileAttributeView.class)
+    public boolebn supportsFileAttributeView(Clbss<? extends FileAttributeView> type) {
+        // support DosFileAttributeView bnd UserDefinedAttributeView if extended
+        // bttributes enbbled
+        if (type == DosFileAttributeView.clbss ||
+            type == UserDefinedFileAttributeView.clbss)
         {
             // lookup fstypes.properties
-            FeatureStatus status = checkIfFeaturePresent("user_xattr");
-            if (status == FeatureStatus.PRESENT)
+            FebtureStbtus stbtus = checkIfFebturePresent("user_xbttr");
+            if (stbtus == FebtureStbtus.PRESENT)
                 return true;
-            if (status == FeatureStatus.NOT_PRESENT)
-                return false;
+            if (stbtus == FebtureStbtus.NOT_PRESENT)
+                return fblse;
 
-            // if file system is mounted with user_xattr option then assume
-            // extended attributes are enabled
-            if ((entry().hasOption("user_xattr")))
+            // if file system is mounted with user_xbttr option then bssume
+            // extended bttributes bre enbbled
+            if ((entry().hbsOption("user_xbttr")))
                 return true;
 
-            // user_xattr option not present but we special-case ext3/4 as we
-            // know that extended attributes are not enabled by default.
-            if (entry().fstype().equals("ext3") || entry().fstype().equals("ext4"))
-                return false;
+            // user_xbttr option not present but we specibl-cbse ext3/4 bs we
+            // know thbt extended bttributes bre not enbbled by defbult.
+            if (entry().fstype().equbls("ext3") || entry().fstype().equbls("ext4"))
+                return fblse;
 
             // not ext3/4 so probe mount point
-            if (!xattrChecked) {
-                UnixPath dir = new UnixPath(file().getFileSystem(), entry().dir());
-                xattrEnabled = isExtendedAttributesEnabled(dir);
-                xattrChecked = true;
+            if (!xbttrChecked) {
+                UnixPbth dir = new UnixPbth(file().getFileSystem(), entry().dir());
+                xbttrEnbbled = isExtendedAttributesEnbbled(dir);
+                xbttrChecked = true;
             }
-            return xattrEnabled;
+            return xbttrEnbbled;
         }
-        // POSIX attributes not supported on FAT
-        if (type == PosixFileAttributeView.class && entry().fstype().equals("vfat"))
-            return false;
+        // POSIX bttributes not supported on FAT
+        if (type == PosixFileAttributeView.clbss && entry().fstype().equbls("vfbt"))
+            return fblse;
         return super.supportsFileAttributeView(type);
     }
 
     @Override
-    public boolean supportsFileAttributeView(String name) {
-        if (name.equals("dos"))
-            return supportsFileAttributeView(DosFileAttributeView.class);
-        if (name.equals("user"))
-            return supportsFileAttributeView(UserDefinedFileAttributeView.class);
-        return super.supportsFileAttributeView(name);
+    public boolebn supportsFileAttributeView(String nbme) {
+        if (nbme.equbls("dos"))
+            return supportsFileAttributeView(DosFileAttributeView.clbss);
+        if (nbme.equbls("user"))
+            return supportsFileAttributeView(UserDefinedFileAttributeView.clbss);
+        return super.supportsFileAttributeView(nbme);
     }
 }

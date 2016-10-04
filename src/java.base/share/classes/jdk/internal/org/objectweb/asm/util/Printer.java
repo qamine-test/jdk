@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,44 +56,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbckbge jdk.internbl.org.objectweb.bsm.util;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.io.PrintWriter;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.Hbndle;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
 
 /**
- * An abstract converter from visit events to text.
+ * An bbstrbct converter from visit events to text.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public abstract class Printer {
+public bbstrbct clbss Printer {
 
     /**
-     * The names of the Java Virtual Machine opcodes.
+     * The nbmes of the Jbvb Virtubl Mbchine opcodes.
      */
-    public static final String[] OPCODES;
+    public stbtic finbl String[] OPCODES;
 
     /**
-     * The names of the for <code>operand</code> parameter values of the
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitIntInsn} method when
+     * The nbmes of the for <code>operbnd</code> pbrbmeter vblues of the
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitIntInsn} method when
      * <code>opcode</code> is <code>NEWARRAY</code>.
      */
-    public static final String[] TYPES;
+    public stbtic finbl String[] TYPES;
 
     /**
-     * The names of the <code>tag</code> field values for
-     * {@link jdk.internal.org.objectweb.asm.Handle}.
+     * The nbmes of the <code>tbg</code> field vblues for
+     * {@link jdk.internbl.org.objectweb.bsm.Hbndle}.
      */
-    public static final String[] HANDLE_TAG;
+    public stbtic finbl String[] HANDLE_TAG;
 
-    static {
+    stbtic {
         String s = "NOP,ACONST_NULL,ICONST_M1,ICONST_0,ICONST_1,ICONST_2,"
                 + "ICONST_3,ICONST_4,ICONST_5,LCONST_0,LCONST_1,FCONST_0,"
                 + "FCONST_1,FCONST_2,DCONST_0,DCONST_1,BIPUSH,SIPUSH,LDC,,,"
@@ -145,268 +145,268 @@ public abstract class Printer {
     }
 
     /**
-     * The ASM API version implemented by this class. The value of this field
+     * The ASM API version implemented by this clbss. The vblue of this field
      * must be one of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
      */
-    protected final int api;
+    protected finbl int bpi;
 
     /**
-     * A buffer that can be used to create strings.
+     * A buffer thbt cbn be used to crebte strings.
      */
-    protected final StringBuffer buf;
+    protected finbl StringBuffer buf;
 
     /**
-     * The text to be printed. Since the code of methods is not necessarily
-     * visited in sequential order, one method after the other, but can be
-     * interlaced (some instructions from method one, then some instructions
-     * from method two, then some instructions from method one again...), it is
-     * not possible to print the visited instructions directly to a sequential
-     * stream. A class is therefore printed in a two steps process: a string
-     * tree is constructed during the visit, and printed to a sequential stream
-     * at the end of the visit. This string tree is stored in this field, as a
-     * string list that can contain other string lists, which can themselves
-     * contain other string lists, and so on.
+     * The text to be printed. Since the code of methods is not necessbrily
+     * visited in sequentibl order, one method bfter the other, but cbn be
+     * interlbced (some instructions from method one, then some instructions
+     * from method two, then some instructions from method one bgbin...), it is
+     * not possible to print the visited instructions directly to b sequentibl
+     * strebm. A clbss is therefore printed in b two steps process: b string
+     * tree is constructed during the visit, bnd printed to b sequentibl strebm
+     * bt the end of the visit. This string tree is stored in this field, bs b
+     * string list thbt cbn contbin other string lists, which cbn themselves
+     * contbin other string lists, bnd so on.
      */
-    public final List<Object> text;
+    public finbl List<Object> text;
 
     /**
-     * Constructs a new {@link Printer}.
+     * Constructs b new {@link Printer}.
      */
-    protected Printer(final int api) {
-        this.api = api;
+    protected Printer(finbl int bpi) {
+        this.bpi = bpi;
         this.buf = new StringBuffer();
-        this.text = new ArrayList<Object>();
+        this.text = new ArrbyList<Object>();
     }
 
     /**
-     * Class header. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visit}.
+     * Clbss hebder. See {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visit}.
      */
-    public abstract void visit(final int version, final int access,
-            final String name, final String signature, final String superName,
-            final String[] interfaces);
+    public bbstrbct void visit(finbl int version, finbl int bccess,
+            finbl String nbme, finbl String signbture, finbl String superNbme,
+            finbl String[] interfbces);
 
     /**
-     * Class source. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitSource}.
+     * Clbss source. See {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitSource}.
      */
-    public abstract void visitSource(final String file, final String debug);
+    public bbstrbct void visitSource(finbl String file, finbl String debug);
 
     /**
-     * Class outer class. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitOuterClass}.
+     * Clbss outer clbss. See
+     * {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitOuterClbss}.
      */
-    public abstract void visitOuterClass(final String owner, final String name,
-            final String desc);
+    public bbstrbct void visitOuterClbss(finbl String owner, finbl String nbme,
+            finbl String desc);
 
     /**
-     * Class annotation. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitAnnotation}.
+     * Clbss bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitAnnotbtion}.
      */
-    public abstract Printer visitClassAnnotation(final String desc,
-            final boolean visible);
+    public bbstrbct Printer visitClbssAnnotbtion(finbl String desc,
+            finbl boolebn visible);
 
     /**
-     * Class type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitTypeAnnotation}.
+     * Clbss type bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitTypeAnnotbtion}.
      */
-    public Printer visitClassTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+    public Printer visitClbssTypeAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
         throw new RuntimeException("Must be overriden");
     }
 
     /**
-     * Class attribute. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitAttribute}.
+     * Clbss bttribute. See
+     * {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitAttribute}.
      */
-    public abstract void visitClassAttribute(final Attribute attr);
+    public bbstrbct void visitClbssAttribute(finbl Attribute bttr);
 
     /**
-     * Class inner name. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitInnerClass}.
+     * Clbss inner nbme. See
+     * {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitInnerClbss}.
      */
-    public abstract void visitInnerClass(final String name,
-            final String outerName, final String innerName, final int access);
+    public bbstrbct void visitInnerClbss(finbl String nbme,
+            finbl String outerNbme, finbl String innerNbme, finbl int bccess);
 
     /**
-     * Class field. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitField}.
+     * Clbss field. See {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitField}.
      */
-    public abstract Printer visitField(final int access, final String name,
-            final String desc, final String signature, final Object value);
+    public bbstrbct Printer visitField(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl Object vblue);
 
     /**
-     * Class method. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitMethod}.
+     * Clbss method. See {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitMethod}.
      */
-    public abstract Printer visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions);
+    public bbstrbct Printer visitMethod(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl String[] exceptions);
 
     /**
-     * Class end. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitEnd}.
+     * Clbss end. See {@link jdk.internbl.org.objectweb.bsm.ClbssVisitor#visitEnd}.
      */
-    public abstract void visitClassEnd();
+    public bbstrbct void visitClbssEnd();
 
     // ------------------------------------------------------------------------
-    // Annotations
+    // Annotbtions
     // ------------------------------------------------------------------------
 
     /**
-     * Annotation value. See {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visit}.
+     * Annotbtion vblue. See {@link jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor#visit}.
      */
-    public abstract void visit(final String name, final Object value);
+    public bbstrbct void visit(finbl String nbme, finbl Object vblue);
 
     /**
-     * Annotation enum value. See
-     * {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visitEnum}.
+     * Annotbtion enum vblue. See
+     * {@link jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor#visitEnum}.
      */
-    public abstract void visitEnum(final String name, final String desc,
-            final String value);
+    public bbstrbct void visitEnum(finbl String nbme, finbl String desc,
+            finbl String vblue);
 
     /**
-     * Nested annotation value. See
-     * {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visitAnnotation}.
+     * Nested bnnotbtion vblue. See
+     * {@link jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor#visitAnnotbtion}.
      */
-    public abstract Printer visitAnnotation(final String name, final String desc);
+    public bbstrbct Printer visitAnnotbtion(finbl String nbme, finbl String desc);
 
     /**
-     * Annotation array value. See
-     * {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visitArray}.
+     * Annotbtion brrby vblue. See
+     * {@link jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor#visitArrby}.
      */
-    public abstract Printer visitArray(final String name);
+    public bbstrbct Printer visitArrby(finbl String nbme);
 
     /**
-     * Annotation end. See {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visitEnd}.
+     * Annotbtion end. See {@link jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor#visitEnd}.
      */
-    public abstract void visitAnnotationEnd();
+    public bbstrbct void visitAnnotbtionEnd();
 
     // ------------------------------------------------------------------------
     // Fields
     // ------------------------------------------------------------------------
 
     /**
-     * Field annotation. See
-     * {@link jdk.internal.org.objectweb.asm.FieldVisitor#visitAnnotation}.
+     * Field bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.FieldVisitor#visitAnnotbtion}.
      */
-    public abstract Printer visitFieldAnnotation(final String desc,
-            final boolean visible);
+    public bbstrbct Printer visitFieldAnnotbtion(finbl String desc,
+            finbl boolebn visible);
 
     /**
-     * Field type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.FieldVisitor#visitTypeAnnotation}.
+     * Field type bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.FieldVisitor#visitTypeAnnotbtion}.
      */
-    public Printer visitFieldTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+    public Printer visitFieldTypeAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
         throw new RuntimeException("Must be overriden");
     }
 
     /**
-     * Field attribute. See
-     * {@link jdk.internal.org.objectweb.asm.FieldVisitor#visitAttribute}.
+     * Field bttribute. See
+     * {@link jdk.internbl.org.objectweb.bsm.FieldVisitor#visitAttribute}.
      */
-    public abstract void visitFieldAttribute(final Attribute attr);
+    public bbstrbct void visitFieldAttribute(finbl Attribute bttr);
 
     /**
-     * Field end. See {@link jdk.internal.org.objectweb.asm.FieldVisitor#visitEnd}.
+     * Field end. See {@link jdk.internbl.org.objectweb.bsm.FieldVisitor#visitEnd}.
      */
-    public abstract void visitFieldEnd();
+    public bbstrbct void visitFieldEnd();
 
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
 
     /**
-     * Method parameter. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitParameter(String, int)}.
+     * Method pbrbmeter. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitPbrbmeter(String, int)}.
      */
-    public void visitParameter(String name, int access) {
+    public void visitPbrbmeter(String nbme, int bccess) {
         throw new RuntimeException("Must be overriden");
     }
 
     /**
-     * Method default annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitAnnotationDefault}.
+     * Method defbult bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitAnnotbtionDefbult}.
      */
-    public abstract Printer visitAnnotationDefault();
+    public bbstrbct Printer visitAnnotbtionDefbult();
 
     /**
-     * Method annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitAnnotation}.
+     * Method bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitAnnotbtion}.
      */
-    public abstract Printer visitMethodAnnotation(final String desc,
-            final boolean visible);
+    public bbstrbct Printer visitMethodAnnotbtion(finbl String desc,
+            finbl boolebn visible);
 
     /**
-     * Method type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTypeAnnotation}.
+     * Method type bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitTypeAnnotbtion}.
      */
-    public Printer visitMethodTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+    public Printer visitMethodTypeAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
         throw new RuntimeException("Must be overriden");
     }
 
     /**
-     * Method parameter annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitParameterAnnotation}.
+     * Method pbrbmeter bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitPbrbmeterAnnotbtion}.
      */
-    public abstract Printer visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible);
+    public bbstrbct Printer visitPbrbmeterAnnotbtion(finbl int pbrbmeter,
+            finbl String desc, finbl boolebn visible);
 
     /**
-     * Method attribute. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitAttribute}.
+     * Method bttribute. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitAttribute}.
      */
-    public abstract void visitMethodAttribute(final Attribute attr);
+    public bbstrbct void visitMethodAttribute(finbl Attribute bttr);
 
     /**
-     * Method start. See {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitCode}.
+     * Method stbrt. See {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitCode}.
      */
-    public abstract void visitCode();
+    public bbstrbct void visitCode();
 
     /**
-     * Method stack frame. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitFrame}.
+     * Method stbck frbme. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitFrbme}.
      */
-    public abstract void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack);
+    public bbstrbct void visitFrbme(finbl int type, finbl int nLocbl,
+            finbl Object[] locbl, finbl int nStbck, finbl Object[] stbck);
 
     /**
-     * Method instruction. See {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitInsn}
+     * Method instruction. See {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitInsn}
      * .
      */
-    public abstract void visitInsn(final int opcode);
+    public bbstrbct void visitInsn(finbl int opcode);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitIntInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitIntInsn}.
      */
-    public abstract void visitIntInsn(final int opcode, final int operand);
+    public bbstrbct void visitIntInsn(finbl int opcode, finbl int operbnd);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitVarInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitVbrInsn}.
      */
-    public abstract void visitVarInsn(final int opcode, final int var);
+    public bbstrbct void visitVbrInsn(finbl int opcode, finbl int vbr);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTypeInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitTypeInsn}.
      */
-    public abstract void visitTypeInsn(final int opcode, final String type);
+    public bbstrbct void visitTypeInsn(finbl int opcode, finbl String type);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitFieldInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitFieldInsn}.
      */
-    public abstract void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc);
+    public bbstrbct void visitFieldInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitMethodInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitMethodInsn}.
      */
-    @Deprecated
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            boolean itf = opcode == Opcodes.INVOKEINTERFACE;
-            visitMethodInsn(opcode, owner, name, desc, itf);
+    @Deprecbted
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc) {
+        if (bpi >= Opcodes.ASM5) {
+            boolebn itf = opcode == Opcodes.INVOKEINTERFACE;
+            visitMethodInsn(opcode, owner, nbme, desc, itf);
             return;
         }
         throw new RuntimeException("Must be overriden");
@@ -414,16 +414,16 @@ public abstract class Printer {
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitMethodInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitMethodInsn}.
      */
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
+    public void visitMethodInsn(finbl int opcode, finbl String owner,
+            finbl String nbme, finbl String desc, finbl boolebn itf) {
+        if (bpi < Opcodes.ASM5) {
             if (itf != (opcode == Opcodes.INVOKEINTERFACE)) {
-                throw new IllegalArgumentException(
-                        "INVOKESPECIAL/STATIC on interfaces require ASM 5");
+                throw new IllegblArgumentException(
+                        "INVOKESPECIAL/STATIC on interfbces require ASM 5");
             }
-            visitMethodInsn(opcode, owner, name, desc);
+            visitMethodInsn(opcode, owner, nbme, desc);
             return;
         }
         throw new RuntimeException("Must be overriden");
@@ -431,114 +431,114 @@ public abstract class Printer {
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitInvokeDynamicInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitInvokeDynbmicInsn}.
      */
-    public abstract void visitInvokeDynamicInsn(String name, String desc,
-            Handle bsm, Object... bsmArgs);
+    public bbstrbct void visitInvokeDynbmicInsn(String nbme, String desc,
+            Hbndle bsm, Object... bsmArgs);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitJumpInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitJumpInsn}.
      */
-    public abstract void visitJumpInsn(final int opcode, final Label label);
+    public bbstrbct void visitJumpInsn(finbl int opcode, finbl Lbbel lbbel);
 
     /**
-     * Method label. See {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLabel}.
+     * Method lbbel. See {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitLbbel}.
      */
-    public abstract void visitLabel(final Label label);
-
-    /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLdcInsn}.
-     */
-    public abstract void visitLdcInsn(final Object cst);
+    public bbstrbct void visitLbbel(finbl Lbbel lbbel);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitIincInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitLdcInsn}.
      */
-    public abstract void visitIincInsn(final int var, final int increment);
+    public bbstrbct void visitLdcInsn(finbl Object cst);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTableSwitchInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitIincInsn}.
      */
-    public abstract void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels);
+    public bbstrbct void visitIincInsn(finbl int vbr, finbl int increment);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLookupSwitchInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitTbbleSwitchInsn}.
      */
-    public abstract void visitLookupSwitchInsn(final Label dflt,
-            final int[] keys, final Label[] labels);
+    public bbstrbct void visitTbbleSwitchInsn(finbl int min, finbl int mbx,
+            finbl Lbbel dflt, finbl Lbbel... lbbels);
 
     /**
      * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitMultiANewArrayInsn}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitLookupSwitchInsn}.
      */
-    public abstract void visitMultiANewArrayInsn(final String desc,
-            final int dims);
+    public bbstrbct void visitLookupSwitchInsn(finbl Lbbel dflt,
+            finbl int[] keys, finbl Lbbel[] lbbels);
 
     /**
-     * Instruction type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitInsnAnnotation}.
+     * Method instruction. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitMultiANewArrbyInsn}.
      */
-    public Printer visitInsnAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+    public bbstrbct void visitMultiANewArrbyInsn(finbl String desc,
+            finbl int dims);
+
+    /**
+     * Instruction type bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitInsnAnnotbtion}.
+     */
+    public Printer visitInsnAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
         throw new RuntimeException("Must be overriden");
     }
 
     /**
-     * Method exception handler. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTryCatchBlock}.
+     * Method exception hbndler. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitTryCbtchBlock}.
      */
-    public abstract void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type);
+    public bbstrbct void visitTryCbtchBlock(finbl Lbbel stbrt, finbl Lbbel end,
+            finbl Lbbel hbndler, finbl String type);
 
     /**
-     * Try catch block type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTryCatchAnnotation}.
+     * Try cbtch block type bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitTryCbtchAnnotbtion}.
      */
-    public Printer visitTryCatchAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        throw new RuntimeException("Must be overriden");
-    }
-
-    /**
-     * Method debug info. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLocalVariable}.
-     */
-    public abstract void visitLocalVariable(final String name,
-            final String desc, final String signature, final Label start,
-            final Label end, final int index);
-
-    /**
-     * Local variable type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTryCatchAnnotation}.
-     */
-    public Printer visitLocalVariableAnnotation(final int typeRef,
-            final TypePath typePath, final Label[] start, final Label[] end,
-            final int[] index, final String desc, final boolean visible) {
+    public Printer visitTryCbtchAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
         throw new RuntimeException("Must be overriden");
     }
 
     /**
      * Method debug info. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLineNumber}.
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitLocblVbribble}.
      */
-    public abstract void visitLineNumber(final int line, final Label start);
+    public bbstrbct void visitLocblVbribble(finbl String nbme,
+            finbl String desc, finbl String signbture, finbl Lbbel stbrt,
+            finbl Lbbel end, finbl int index);
 
     /**
-     * Method max stack and max locals. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitMaxs}.
+     * Locbl vbribble type bnnotbtion. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitTryCbtchAnnotbtion}.
      */
-    public abstract void visitMaxs(final int maxStack, final int maxLocals);
+    public Printer visitLocblVbribbleAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl Lbbel[] stbrt, finbl Lbbel[] end,
+            finbl int[] index, finbl String desc, finbl boolebn visible) {
+        throw new RuntimeException("Must be overriden");
+    }
 
     /**
-     * Method end. See {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitEnd}.
+     * Method debug info. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitLineNumber}.
      */
-    public abstract void visitMethodEnd();
+    public bbstrbct void visitLineNumber(finbl int line, finbl Lbbel stbrt);
+
+    /**
+     * Method mbx stbck bnd mbx locbls. See
+     * {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitMbxs}.
+     */
+    public bbstrbct void visitMbxs(finbl int mbxStbck, finbl int mbxLocbls);
+
+    /**
+     * Method end. See {@link jdk.internbl.org.objectweb.bsm.MethodVisitor#visitEnd}.
+     */
+    public bbstrbct void visitMethodEnd();
 
     /**
      * Returns the text constructed by this visitor.
@@ -552,63 +552,63 @@ public abstract class Printer {
     /**
      * Prints the text constructed by this visitor.
      *
-     * @param pw
+     * @pbrbm pw
      *            the print writer to be used.
      */
-    public void print(final PrintWriter pw) {
+    public void print(finbl PrintWriter pw) {
         printList(pw, text);
     }
 
     /**
-     * Appends a quoted string to a given buffer.
+     * Appends b quoted string to b given buffer.
      *
-     * @param buf
-     *            the buffer where the string must be added.
-     * @param s
-     *            the string to be added.
+     * @pbrbm buf
+     *            the buffer where the string must be bdded.
+     * @pbrbm s
+     *            the string to be bdded.
      */
-    public static void appendString(final StringBuffer buf, final String s) {
-        buf.append('\"');
+    public stbtic void bppendString(finbl StringBuffer buf, finbl String s) {
+        buf.bppend('\"');
         for (int i = 0; i < s.length(); ++i) {
-            char c = s.charAt(i);
+            chbr c = s.chbrAt(i);
             if (c == '\n') {
-                buf.append("\\n");
+                buf.bppend("\\n");
             } else if (c == '\r') {
-                buf.append("\\r");
+                buf.bppend("\\r");
             } else if (c == '\\') {
-                buf.append("\\\\");
+                buf.bppend("\\\\");
             } else if (c == '"') {
-                buf.append("\\\"");
+                buf.bppend("\\\"");
             } else if (c < 0x20 || c > 0x7f) {
-                buf.append("\\u");
+                buf.bppend("\\u");
                 if (c < 0x10) {
-                    buf.append("000");
+                    buf.bppend("000");
                 } else if (c < 0x100) {
-                    buf.append("00");
+                    buf.bppend("00");
                 } else if (c < 0x1000) {
-                    buf.append('0');
+                    buf.bppend('0');
                 }
-                buf.append(Integer.toString(c, 16));
+                buf.bppend(Integer.toString(c, 16));
             } else {
-                buf.append(c);
+                buf.bppend(c);
             }
         }
-        buf.append('\"');
+        buf.bppend('\"');
     }
 
     /**
      * Prints the given string tree.
      *
-     * @param pw
+     * @pbrbm pw
      *            the writer to be used to print the tree.
-     * @param l
-     *            a string tree, i.e., a string list that can contain other
-     *            string lists, and so on recursively.
+     * @pbrbm l
+     *            b string tree, i.e., b string list thbt cbn contbin other
+     *            string lists, bnd so on recursively.
      */
-    static void printList(final PrintWriter pw, final List<?> l) {
+    stbtic void printList(finbl PrintWriter pw, finbl List<?> l) {
         for (int i = 0; i < l.size(); ++i) {
             Object o = l.get(i);
-            if (o instanceof List) {
+            if (o instbnceof List) {
                 printList(pw, (List<?>) o);
             } else {
                 pw.print(o.toString());

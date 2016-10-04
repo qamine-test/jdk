@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.NoSuchElementException;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
+import jbvb.util.List;
+import jbvb.util.StringTokenizer;
+import jbvb.util.NoSuchElementException;
+import jbvb.text.SimpleDbteFormbt;
+import jbvb.util.TimeZone;
+import jbvb.util.Cblendbr;
+import jbvb.util.GregoribnCblendbr;
+import jbvb.util.Dbte;
+import jbvb.util.Locble;
+import jbvb.util.Objects;
 
 /**
- * An HttpCookie object represents an HTTP cookie, which carries state
- * information between server and user agent. Cookie is widely adopted
- * to create stateful sessions.
+ * An HttpCookie object represents bn HTTP cookie, which cbrries stbte
+ * informbtion between server bnd user bgent. Cookie is widely bdopted
+ * to crebte stbteful sessions.
  *
- * <p> There are 3 HTTP cookie specifications:
+ * <p> There bre 3 HTTP cookie specificbtions:
  * <blockquote>
- *   Netscape draft<br>
- *   RFC 2109 - <a href="http://www.ietf.org/rfc/rfc2109.txt">
- * <i>http://www.ietf.org/rfc/rfc2109.txt</i></a><br>
- *   RFC 2965 - <a href="http://www.ietf.org/rfc/rfc2965.txt">
- * <i>http://www.ietf.org/rfc/rfc2965.txt</i></a>
+ *   Netscbpe drbft<br>
+ *   RFC 2109 - <b href="http://www.ietf.org/rfc/rfc2109.txt">
+ * <i>http://www.ietf.org/rfc/rfc2109.txt</i></b><br>
+ *   RFC 2965 - <b href="http://www.ietf.org/rfc/rfc2965.txt">
+ * <i>http://www.ietf.org/rfc/rfc2965.txt</i></b>
  * </blockquote>
  *
- * <p> HttpCookie class can accept all these 3 forms of syntax.
+ * <p> HttpCookie clbss cbn bccept bll these 3 forms of syntbx.
  *
- * @author Edward Wang
+ * @buthor Edwbrd Wbng
  * @since 1.6
  */
-public final class HttpCookie implements Cloneable {
+public finbl clbss HttpCookie implements Clonebble {
     // ---------------- Fields --------------
 
-    // The value of the cookie itself.
-    private final String name;  // NAME= ... "$Name" style is reserved
-    private String value;       // value of NAME
+    // The vblue of the cookie itself.
+    privbte finbl String nbme;  // NAME= ... "$Nbme" style is reserved
+    privbte String vblue;       // vblue of NAME
 
-    // Attributes encoded in the header's cookie fields.
-    private String comment;     // Comment=VALUE ... describes cookie's use
-    private String commentURL;  // CommentURL="http URL" ... describes cookie's use
-    private boolean toDiscard;  // Discard ... discard cookie unconditionally
-    private String domain;      // Domain=VALUE ... domain that sees cookie
-    private long maxAge = MAX_AGE_UNSPECIFIED;  // Max-Age=VALUE ... cookies auto-expire
-    private String path;        // Path=VALUE ... URLs that see the cookie
-    private String portlist;    // Port[="portlist"] ... the port cookie may be returned to
-    private boolean secure;     // Secure ... e.g. use SSL
-    private boolean httpOnly;   // HttpOnly ... i.e. not accessible to scripts
-    private int version = 1;    // Version=1 ... RFC 2965 style
+    // Attributes encoded in the hebder's cookie fields.
+    privbte String comment;     // Comment=VALUE ... describes cookie's use
+    privbte String commentURL;  // CommentURL="http URL" ... describes cookie's use
+    privbte boolebn toDiscbrd;  // Discbrd ... discbrd cookie unconditionblly
+    privbte String dombin;      // Dombin=VALUE ... dombin thbt sees cookie
+    privbte long mbxAge = MAX_AGE_UNSPECIFIED;  // Mbx-Age=VALUE ... cookies buto-expire
+    privbte String pbth;        // Pbth=VALUE ... URLs thbt see the cookie
+    privbte String portlist;    // Port[="portlist"] ... the port cookie mby be returned to
+    privbte boolebn secure;     // Secure ... e.g. use SSL
+    privbte boolebn httpOnly;   // HttpOnly ... i.e. not bccessible to scripts
+    privbte int version = 1;    // Version=1 ... RFC 2965 style
 
-    // The original header this cookie was constructed from, if it was
-    // constructed by parsing a header, otherwise null.
-    private final String header;
+    // The originbl hebder this cookie wbs constructed from, if it wbs
+    // constructed by pbrsing b hebder, otherwise null.
+    privbte finbl String hebder;
 
-    // Hold the creation time (in seconds) of the http cookie for later
-    // expiration calculation
-    private final long whenCreated;
+    // Hold the crebtion time (in seconds) of the http cookie for lbter
+    // expirbtion cblculbtion
+    privbte finbl long whenCrebted;
 
-    // Since the positive and zero max-age have their meanings,
-    // this value serves as a hint as 'not specify max-age'
-    private final static long MAX_AGE_UNSPECIFIED = -1;
+    // Since the positive bnd zero mbx-bge hbve their mebnings,
+    // this vblue serves bs b hint bs 'not specify mbx-bge'
+    privbte finbl stbtic long MAX_AGE_UNSPECIFIED = -1;
 
-    // date formats used by Netscape's cookie draft
-    // as well as formats seen on various sites
-    private final static String[] COOKIE_DATE_FORMATS = {
+    // dbte formbts used by Netscbpe's cookie drbft
+    // bs well bs formbts seen on vbrious sites
+    privbte finbl stbtic String[] COOKIE_DATE_FORMATS = {
         "EEE',' dd-MMM-yyyy HH:mm:ss 'GMT'",
         "EEE',' dd MMM yyyy HH:mm:ss 'GMT'",
         "EEE MMM dd yyyy HH:mm:ss 'GMT'Z",
@@ -97,156 +97,156 @@ public final class HttpCookie implements Cloneable {
         "EEE MMM dd yy HH:mm:ss 'GMT'Z"
     };
 
-    // constant strings represent set-cookie header token
-    private final static String SET_COOKIE = "set-cookie:";
-    private final static String SET_COOKIE2 = "set-cookie2:";
+    // constbnt strings represent set-cookie hebder token
+    privbte finbl stbtic String SET_COOKIE = "set-cookie:";
+    privbte finbl stbtic String SET_COOKIE2 = "set-cookie2:";
 
     // ---------------- Ctors --------------
 
     /**
-     * Constructs a cookie with a specified name and value.
+     * Constructs b cookie with b specified nbme bnd vblue.
      *
-     * <p> The name must conform to RFC 2965. That means it can contain
-     * only ASCII alphanumeric characters and cannot contain commas,
-     * semicolons, or white space or begin with a $ character. The cookie's
-     * name cannot be changed after creation.
+     * <p> The nbme must conform to RFC 2965. Thbt mebns it cbn contbin
+     * only ASCII blphbnumeric chbrbcters bnd cbnnot contbin commbs,
+     * semicolons, or white spbce or begin with b $ chbrbcter. The cookie's
+     * nbme cbnnot be chbnged bfter crebtion.
      *
-     * <p> The value can be anything the server chooses to send. Its
-     * value is probably of interest only to the server. The cookie's
-     * value can be changed after creation with the
-     * {@code setValue} method.
+     * <p> The vblue cbn be bnything the server chooses to send. Its
+     * vblue is probbbly of interest only to the server. The cookie's
+     * vblue cbn be chbnged bfter crebtion with the
+     * {@code setVblue} method.
      *
-     * <p> By default, cookies are created according to the RFC 2965
-     * cookie specification. The version can be changed with the
+     * <p> By defbult, cookies bre crebted bccording to the RFC 2965
+     * cookie specificbtion. The version cbn be chbnged with the
      * {@code setVersion} method.
      *
      *
-     * @param  name
-     *         a {@code String} specifying the name of the cookie
+     * @pbrbm  nbme
+     *         b {@code String} specifying the nbme of the cookie
      *
-     * @param  value
-     *         a {@code String} specifying the value of the cookie
+     * @pbrbm  vblue
+     *         b {@code String} specifying the vblue of the cookie
      *
-     * @throws  IllegalArgumentException
-     *          if the cookie name contains illegal characters
+     * @throws  IllegblArgumentException
+     *          if the cookie nbme contbins illegbl chbrbcters
      * @throws  NullPointerException
-     *          if {@code name} is {@code null}
+     *          if {@code nbme} is {@code null}
      *
-     * @see #setValue
+     * @see #setVblue
      * @see #setVersion
      */
-    public HttpCookie(String name, String value) {
-        this(name, value, null /*header*/);
+    public HttpCookie(String nbme, String vblue) {
+        this(nbme, vblue, null /*hebder*/);
     }
 
-    private HttpCookie(String name, String value, String header) {
-        name = name.trim();
-        if (name.length() == 0 || !isToken(name) || name.charAt(0) == '$') {
-            throw new IllegalArgumentException("Illegal cookie name");
+    privbte HttpCookie(String nbme, String vblue, String hebder) {
+        nbme = nbme.trim();
+        if (nbme.length() == 0 || !isToken(nbme) || nbme.chbrAt(0) == '$') {
+            throw new IllegblArgumentException("Illegbl cookie nbme");
         }
 
-        this.name = name;
-        this.value = value;
-        toDiscard = false;
-        secure = false;
+        this.nbme = nbme;
+        this.vblue = vblue;
+        toDiscbrd = fblse;
+        secure = fblse;
 
-        whenCreated = System.currentTimeMillis();
+        whenCrebted = System.currentTimeMillis();
         portlist = null;
-        this.header = header;
+        this.hebder = hebder;
     }
 
     /**
-     * Constructs cookies from set-cookie or set-cookie2 header string.
-     * RFC 2965 section 3.2.2 set-cookie2 syntax indicates that one header line
-     * may contain more than one cookie definitions, so this is a static
-     * utility method instead of another constructor.
+     * Constructs cookies from set-cookie or set-cookie2 hebder string.
+     * RFC 2965 section 3.2.2 set-cookie2 syntbx indicbtes thbt one hebder line
+     * mby contbin more thbn one cookie definitions, so this is b stbtic
+     * utility method instebd of bnother constructor.
      *
-     * @param  header
-     *         a {@code String} specifying the set-cookie header. The header
-     *         should start with "set-cookie", or "set-cookie2" token; or it
-     *         should have no leading token at all.
+     * @pbrbm  hebder
+     *         b {@code String} specifying the set-cookie hebder. The hebder
+     *         should stbrt with "set-cookie", or "set-cookie2" token; or it
+     *         should hbve no lebding token bt bll.
      *
-     * @return  a List of cookie parsed from header line string
+     * @return  b List of cookie pbrsed from hebder line string
      *
-     * @throws  IllegalArgumentException
-     *          if header string violates the cookie specification's syntax or
-     *          the cookie name contains illegal characters.
+     * @throws  IllegblArgumentException
+     *          if hebder string violbtes the cookie specificbtion's syntbx or
+     *          the cookie nbme contbins illegbl chbrbcters.
      * @throws  NullPointerException
-     *          if the header string is {@code null}
+     *          if the hebder string is {@code null}
      */
-    public static List<HttpCookie> parse(String header) {
-        return parse(header, false);
+    public stbtic List<HttpCookie> pbrse(String hebder) {
+        return pbrse(hebder, fblse);
     }
 
-    // Private version of parse() that will store the original header used to
-    // create the cookie, in the cookie itself. This can be useful for filtering
-    // Set-Cookie[2] headers, using the internal parsing logic defined in this
-    // class.
-    private static List<HttpCookie> parse(String header, boolean retainHeader) {
+    // Privbte version of pbrse() thbt will store the originbl hebder used to
+    // crebte the cookie, in the cookie itself. This cbn be useful for filtering
+    // Set-Cookie[2] hebders, using the internbl pbrsing logic defined in this
+    // clbss.
+    privbte stbtic List<HttpCookie> pbrse(String hebder, boolebn retbinHebder) {
 
-        int version = guessCookieVersion(header);
+        int version = guessCookieVersion(hebder);
 
-        // if header start with set-cookie or set-cookie2, strip it off
-        if (startsWithIgnoreCase(header, SET_COOKIE2)) {
-            header = header.substring(SET_COOKIE2.length());
-        } else if (startsWithIgnoreCase(header, SET_COOKIE)) {
-            header = header.substring(SET_COOKIE.length());
+        // if hebder stbrt with set-cookie or set-cookie2, strip it off
+        if (stbrtsWithIgnoreCbse(hebder, SET_COOKIE2)) {
+            hebder = hebder.substring(SET_COOKIE2.length());
+        } else if (stbrtsWithIgnoreCbse(hebder, SET_COOKIE)) {
+            hebder = hebder.substring(SET_COOKIE.length());
         }
 
-        List<HttpCookie> cookies = new java.util.ArrayList<>();
-        // The Netscape cookie may have a comma in its expires attribute, while
-        // the comma is the delimiter in rfc 2965/2109 cookie header string.
-        // so the parse logic is slightly different
+        List<HttpCookie> cookies = new jbvb.util.ArrbyList<>();
+        // The Netscbpe cookie mby hbve b commb in its expires bttribute, while
+        // the commb is the delimiter in rfc 2965/2109 cookie hebder string.
+        // so the pbrse logic is slightly different
         if (version == 0) {
-            // Netscape draft cookie
-            HttpCookie cookie = parseInternal(header, retainHeader);
+            // Netscbpe drbft cookie
+            HttpCookie cookie = pbrseInternbl(hebder, retbinHebder);
             cookie.setVersion(0);
-            cookies.add(cookie);
+            cookies.bdd(cookie);
         } else {
             // rfc2965/2109 cookie
-            // if header string contains more than one cookie,
-            // it'll separate them with comma
-            List<String> cookieStrings = splitMultiCookies(header);
+            // if hebder string contbins more thbn one cookie,
+            // it'll sepbrbte them with commb
+            List<String> cookieStrings = splitMultiCookies(hebder);
             for (String cookieStr : cookieStrings) {
-                HttpCookie cookie = parseInternal(cookieStr, retainHeader);
+                HttpCookie cookie = pbrseInternbl(cookieStr, retbinHebder);
                 cookie.setVersion(1);
-                cookies.add(cookie);
+                cookies.bdd(cookie);
             }
         }
 
         return cookies;
     }
 
-    // ---------------- Public operations --------------
+    // ---------------- Public operbtions --------------
 
     /**
-     * Reports whether this HTTP cookie has expired or not.
+     * Reports whether this HTTP cookie hbs expired or not.
      *
-     * @return  {@code true} to indicate this HTTP cookie has expired;
-     *          otherwise, {@code false}
+     * @return  {@code true} to indicbte this HTTP cookie hbs expired;
+     *          otherwise, {@code fblse}
      */
-    public boolean hasExpired() {
-        if (maxAge == 0) return true;
+    public boolebn hbsExpired() {
+        if (mbxAge == 0) return true;
 
-        // if not specify max-age, this cookie should be
-        // discarded when user agent is to be closed, but
+        // if not specify mbx-bge, this cookie should be
+        // discbrded when user bgent is to be closed, but
         // it is not expired.
-        if (maxAge == MAX_AGE_UNSPECIFIED) return false;
+        if (mbxAge == MAX_AGE_UNSPECIFIED) return fblse;
 
-        long deltaSecond = (System.currentTimeMillis() - whenCreated) / 1000;
-        if (deltaSecond > maxAge)
+        long deltbSecond = (System.currentTimeMillis() - whenCrebted) / 1000;
+        if (deltbSecond > mbxAge)
             return true;
         else
-            return false;
+            return fblse;
     }
 
     /**
-     * Specifies a comment that describes a cookie's purpose.
+     * Specifies b comment thbt describes b cookie's purpose.
      * The comment is useful if the browser presents the cookie
-     * to the user. Comments are not supported by Netscape Version 0 cookies.
+     * to the user. Comments bre not supported by Netscbpe Version 0 cookies.
      *
-     * @param  purpose
-     *         a {@code String} specifying the comment to display to the user
+     * @pbrbm  purpose
+     *         b {@code String} specifying the comment to displby to the user
      *
      * @see  #getComment
      */
@@ -256,9 +256,9 @@ public final class HttpCookie implements Cloneable {
 
     /**
      * Returns the comment describing the purpose of this cookie, or
-     * {@code null} if the cookie has no comment.
+     * {@code null} if the cookie hbs no comment.
      *
-     * @return  a {@code String} containing the comment, or {@code null} if none
+     * @return  b {@code String} contbining the comment, or {@code null} if none
      *
      * @see  #setComment
      */
@@ -267,12 +267,12 @@ public final class HttpCookie implements Cloneable {
     }
 
     /**
-     * Specifies a comment URL that describes a cookie's purpose.
+     * Specifies b comment URL thbt describes b cookie's purpose.
      * The comment URL is useful if the browser presents the cookie
      * to the user. Comment URL is RFC 2965 only.
      *
-     * @param  purpose
-     *         a {@code String} specifying the comment URL to display to the user
+     * @pbrbm  purpose
+     *         b {@code String} specifying the comment URL to displby to the user
      *
      * @see  #getCommentURL
      */
@@ -282,9 +282,9 @@ public final class HttpCookie implements Cloneable {
 
     /**
      * Returns the comment URL describing the purpose of this cookie, or
-     * {@code null} if the cookie has no comment URL.
+     * {@code null} if the cookie hbs no comment URL.
      *
-     * @return  a {@code String} containing the comment URL, or {@code null}
+     * @return  b {@code String} contbining the comment URL, or {@code null}
      *          if none
      *
      * @see  #setCommentURL
@@ -294,35 +294,35 @@ public final class HttpCookie implements Cloneable {
     }
 
     /**
-     * Specify whether user agent should discard the cookie unconditionally.
-     * This is RFC 2965 only attribute.
+     * Specify whether user bgent should discbrd the cookie unconditionblly.
+     * This is RFC 2965 only bttribute.
      *
-     * @param  discard
-     *         {@code true} indicates to discard cookie unconditionally
+     * @pbrbm  discbrd
+     *         {@code true} indicbtes to discbrd cookie unconditionblly
      *
-     * @see  #getDiscard
+     * @see  #getDiscbrd
      */
-    public void setDiscard(boolean discard) {
-        toDiscard = discard;
+    public void setDiscbrd(boolebn discbrd) {
+        toDiscbrd = discbrd;
     }
 
     /**
-     * Returns the discard attribute of the cookie
+     * Returns the discbrd bttribute of the cookie
      *
-     * @return  a {@code boolean} to represent this cookie's discard attribute
+     * @return  b {@code boolebn} to represent this cookie's discbrd bttribute
      *
-     * @see  #setDiscard
+     * @see  #setDiscbrd
      */
-    public boolean getDiscard() {
-        return toDiscard;
+    public boolebn getDiscbrd() {
+        return toDiscbrd;
     }
 
     /**
      * Specify the portlist of the cookie, which restricts the port(s)
-     * to which a cookie may be sent back in a Cookie header.
+     * to which b cookie mby be sent bbck in b Cookie hebder.
      *
-     * @param  ports
-     *         a {@code String} specify the port list, which is comma separated
+     * @pbrbm  ports
+     *         b {@code String} specify the port list, which is commb sepbrbted
      *         series of digits
      *
      * @see  #getPortlist
@@ -332,9 +332,9 @@ public final class HttpCookie implements Cloneable {
     }
 
     /**
-     * Returns the port list attribute of the cookie
+     * Returns the port list bttribute of the cookie
      *
-     * @return  a {@code String} contains the port list or {@code null} if none
+     * @return  b {@code String} contbins the port list or {@code null} if none
      *
      * @see  #setPortlist
      */
@@ -343,188 +343,188 @@ public final class HttpCookie implements Cloneable {
     }
 
     /**
-     * Specifies the domain within which this cookie should be presented.
+     * Specifies the dombin within which this cookie should be presented.
      *
-     * <p> The form of the domain name is specified by RFC 2965. A domain
-     * name begins with a dot ({@code .foo.com}) and means that
-     * the cookie is visible to servers in a specified Domain Name System
-     * (DNS) zone (for example, {@code www.foo.com}, but not
-     * {@code a.b.foo.com}). By default, cookies are only returned
-     * to the server that sent them.
+     * <p> The form of the dombin nbme is specified by RFC 2965. A dombin
+     * nbme begins with b dot ({@code .foo.com}) bnd mebns thbt
+     * the cookie is visible to servers in b specified Dombin Nbme System
+     * (DNS) zone (for exbmple, {@code www.foo.com}, but not
+     * {@code b.b.foo.com}). By defbult, cookies bre only returned
+     * to the server thbt sent them.
      *
-     * @param  pattern
-     *         a {@code String} containing the domain name within which this
-     *         cookie is visible; form is according to RFC 2965
+     * @pbrbm  pbttern
+     *         b {@code String} contbining the dombin nbme within which this
+     *         cookie is visible; form is bccording to RFC 2965
      *
-     * @see  #getDomain
+     * @see  #getDombin
      */
-    public void setDomain(String pattern) {
-        if (pattern != null)
-            domain = pattern.toLowerCase();
+    public void setDombin(String pbttern) {
+        if (pbttern != null)
+            dombin = pbttern.toLowerCbse();
         else
-            domain = pattern;
+            dombin = pbttern;
     }
 
     /**
-     * Returns the domain name set for this cookie. The form of the domain name
+     * Returns the dombin nbme set for this cookie. The form of the dombin nbme
      * is set by RFC 2965.
      *
-     * @return  a {@code String} containing the domain name
+     * @return  b {@code String} contbining the dombin nbme
      *
-     * @see  #setDomain
+     * @see  #setDombin
      */
-    public String getDomain() {
-        return domain;
+    public String getDombin() {
+        return dombin;
     }
 
     /**
-     * Sets the maximum age of the cookie in seconds.
+     * Sets the mbximum bge of the cookie in seconds.
      *
-     * <p> A positive value indicates that the cookie will expire
-     * after that many seconds have passed. Note that the value is
-     * the <i>maximum</i> age when the cookie will expire, not the cookie's
-     * current age.
+     * <p> A positive vblue indicbtes thbt the cookie will expire
+     * bfter thbt mbny seconds hbve pbssed. Note thbt the vblue is
+     * the <i>mbximum</i> bge when the cookie will expire, not the cookie's
+     * current bge.
      *
-     * <p> A negative value means that the cookie is not stored persistently
-     * and will be deleted when the Web browser exits. A zero value causes the
+     * <p> A negbtive vblue mebns thbt the cookie is not stored persistently
+     * bnd will be deleted when the Web browser exits. A zero vblue cbuses the
      * cookie to be deleted.
      *
-     * @param  expiry
-     *         an integer specifying the maximum age of the cookie in seconds;
-     *         if zero, the cookie should be discarded immediately; otherwise,
-     *         the cookie's max age is unspecified.
+     * @pbrbm  expiry
+     *         bn integer specifying the mbximum bge of the cookie in seconds;
+     *         if zero, the cookie should be discbrded immedibtely; otherwise,
+     *         the cookie's mbx bge is unspecified.
      *
-     * @see  #getMaxAge
+     * @see  #getMbxAge
      */
-    public void setMaxAge(long expiry) {
-        maxAge = expiry;
+    public void setMbxAge(long expiry) {
+        mbxAge = expiry;
     }
 
     /**
-     * Returns the maximum age of the cookie, specified in seconds. By default,
-     * {@code -1} indicating the cookie will persist until browser shutdown.
+     * Returns the mbximum bge of the cookie, specified in seconds. By defbult,
+     * {@code -1} indicbting the cookie will persist until browser shutdown.
      *
-     * @return  an integer specifying the maximum age of the cookie in seconds
+     * @return  bn integer specifying the mbximum bge of the cookie in seconds
      *
-     * @see  #setMaxAge
+     * @see  #setMbxAge
      */
-    public long getMaxAge() {
-        return maxAge;
+    public long getMbxAge() {
+        return mbxAge;
     }
 
     /**
-     * Specifies a path for the cookie to which the client should return
+     * Specifies b pbth for the cookie to which the client should return
      * the cookie.
      *
-     * <p> The cookie is visible to all the pages in the directory
-     * you specify, and all the pages in that directory's subdirectories.
-     * A cookie's path must include the servlet that set the cookie,
-     * for example, <i>/catalog</i>, which makes the cookie
-     * visible to all directories on the server under <i>/catalog</i>.
+     * <p> The cookie is visible to bll the pbges in the directory
+     * you specify, bnd bll the pbges in thbt directory's subdirectories.
+     * A cookie's pbth must include the servlet thbt set the cookie,
+     * for exbmple, <i>/cbtblog</i>, which mbkes the cookie
+     * visible to bll directories on the server under <i>/cbtblog</i>.
      *
-     * <p> Consult RFC 2965 (available on the Internet) for more
-     * information on setting path names for cookies.
+     * <p> Consult RFC 2965 (bvbilbble on the Internet) for more
+     * informbtion on setting pbth nbmes for cookies.
      *
-     * @param  uri
-     *         a {@code String} specifying a path
+     * @pbrbm  uri
+     *         b {@code String} specifying b pbth
      *
-     * @see  #getPath
+     * @see  #getPbth
      */
-    public void setPath(String uri) {
-        path = uri;
+    public void setPbth(String uri) {
+        pbth = uri;
     }
 
     /**
-     * Returns the path on the server to which the browser returns this cookie.
-     * The cookie is visible to all subpaths on the server.
+     * Returns the pbth on the server to which the browser returns this cookie.
+     * The cookie is visible to bll subpbths on the server.
      *
-     * @return  a {@code String} specifying a path that contains a servlet name,
-     *          for example, <i>/catalog</i>
+     * @return  b {@code String} specifying b pbth thbt contbins b servlet nbme,
+     *          for exbmple, <i>/cbtblog</i>
      *
-     * @see  #setPath
+     * @see  #setPbth
      */
-    public String getPath() {
-        return path;
+    public String getPbth() {
+        return pbth;
     }
 
     /**
-     * Indicates whether the cookie should only be sent using a secure protocol,
-     * such as HTTPS or SSL.
+     * Indicbtes whether the cookie should only be sent using b secure protocol,
+     * such bs HTTPS or SSL.
      *
-     * <p> The default value is {@code false}.
+     * <p> The defbult vblue is {@code fblse}.
      *
-     * @param  flag
-     *         If {@code true}, the cookie can only be sent over a secure
-     *         protocol like HTTPS. If {@code false}, it can be sent over
-     *         any protocol.
+     * @pbrbm  flbg
+     *         If {@code true}, the cookie cbn only be sent over b secure
+     *         protocol like HTTPS. If {@code fblse}, it cbn be sent over
+     *         bny protocol.
      *
      * @see  #getSecure
      */
-    public void setSecure(boolean flag) {
-        secure = flag;
+    public void setSecure(boolebn flbg) {
+        secure = flbg;
     }
 
     /**
-     * Returns {@code true} if sending this cookie should be restricted to a
-     * secure protocol, or {@code false} if the it can be sent using any
+     * Returns {@code true} if sending this cookie should be restricted to b
+     * secure protocol, or {@code fblse} if the it cbn be sent using bny
      * protocol.
      *
-     * @return  {@code false} if the cookie can be sent over any standard
+     * @return  {@code fblse} if the cookie cbn be sent over bny stbndbrd
      *          protocol; otherwise, {@code true}
      *
      * @see  #setSecure
      */
-    public boolean getSecure() {
+    public boolebn getSecure() {
         return secure;
     }
 
     /**
-     * Returns the name of the cookie. The name cannot be changed after
-     * creation.
+     * Returns the nbme of the cookie. The nbme cbnnot be chbnged bfter
+     * crebtion.
      *
-     * @return  a {@code String} specifying the cookie's name
+     * @return  b {@code String} specifying the cookie's nbme
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Assigns a new value to a cookie after the cookie is created.
-     * If you use a binary value, you may want to use BASE64 encoding.
+     * Assigns b new vblue to b cookie bfter the cookie is crebted.
+     * If you use b binbry vblue, you mby wbnt to use BASE64 encoding.
      *
-     * <p> With Version 0 cookies, values should not contain white space,
-     * brackets, parentheses, equals signs, commas, double quotes, slashes,
-     * question marks, at signs, colons, and semicolons. Empty values may not
-     * behave the same way on all browsers.
+     * <p> With Version 0 cookies, vblues should not contbin white spbce,
+     * brbckets, pbrentheses, equbls signs, commbs, double quotes, slbshes,
+     * question mbrks, bt signs, colons, bnd semicolons. Empty vblues mby not
+     * behbve the sbme wby on bll browsers.
      *
-     * @param  newValue
-     *         a {@code String} specifying the new value
+     * @pbrbm  newVblue
+     *         b {@code String} specifying the new vblue
      *
-     * @see  #getValue
+     * @see  #getVblue
      */
-    public void setValue(String newValue) {
-        value = newValue;
+    public void setVblue(String newVblue) {
+        vblue = newVblue;
     }
 
     /**
-     * Returns the value of the cookie.
+     * Returns the vblue of the cookie.
      *
-     * @return  a {@code String} containing the cookie's present value
+     * @return  b {@code String} contbining the cookie's present vblue
      *
-     * @see  #setValue
+     * @see  #setVblue
      */
-    public String getValue() {
-        return value;
+    public String getVblue() {
+        return vblue;
     }
 
     /**
      * Returns the version of the protocol this cookie complies with. Version 1
-     * complies with RFC 2965/2109, and version 0 complies with the original
-     * cookie specification drafted by Netscape. Cookies provided by a browser
-     * use and identify the browser's cookie version.
+     * complies with RFC 2965/2109, bnd version 0 complies with the originbl
+     * cookie specificbtion drbfted by Netscbpe. Cookies provided by b browser
+     * use bnd identify the browser's cookie version.
      *
-     * @return  0 if the cookie complies with the original Netscape
-     *          specification; 1 if the cookie complies with RFC 2965/2109
+     * @return  0 if the cookie complies with the originbl Netscbpe
+     *          specificbtion; 1 if the cookie complies with RFC 2965/2109
      *
      * @see  #setVersion
      */
@@ -534,612 +534,612 @@ public final class HttpCookie implements Cloneable {
 
     /**
      * Sets the version of the cookie protocol this cookie complies
-     * with. Version 0 complies with the original Netscape cookie
-     * specification. Version 1 complies with RFC 2965/2109.
+     * with. Version 0 complies with the originbl Netscbpe cookie
+     * specificbtion. Version 1 complies with RFC 2965/2109.
      *
-     * @param  v
-     *         0 if the cookie should comply with the original Netscape
-     *         specification; 1 if the cookie should comply with RFC 2965/2109
+     * @pbrbm  v
+     *         0 if the cookie should comply with the originbl Netscbpe
+     *         specificbtion; 1 if the cookie should comply with RFC 2965/2109
      *
-     * @throws  IllegalArgumentException
+     * @throws  IllegblArgumentException
      *          if {@code v} is neither 0 nor 1
      *
      * @see  #getVersion
      */
     public void setVersion(int v) {
         if (v != 0 && v != 1) {
-            throw new IllegalArgumentException("cookie version should be 0 or 1");
+            throw new IllegblArgumentException("cookie version should be 0 or 1");
         }
 
         version = v;
     }
 
     /**
-     * Returns {@code true} if this cookie contains the <i>HttpOnly</i>
-     * attribute. This means that the cookie should not be accessible to
-     * scripting engines, like javascript.
+     * Returns {@code true} if this cookie contbins the <i>HttpOnly</i>
+     * bttribute. This mebns thbt the cookie should not be bccessible to
+     * scripting engines, like jbvbscript.
      *
      * @return  {@code true} if this cookie should be considered HTTPOnly
      *
-     * @see  #setHttpOnly(boolean)
+     * @see  #setHttpOnly(boolebn)
      */
-    public boolean isHttpOnly() {
+    public boolebn isHttpOnly() {
         return httpOnly;
     }
 
     /**
-     * Indicates whether the cookie should be considered HTTP Only. If set to
-     * {@code true} it means the cookie should not be accessible to scripting
-     * engines like javascript.
+     * Indicbtes whether the cookie should be considered HTTP Only. If set to
+     * {@code true} it mebns the cookie should not be bccessible to scripting
+     * engines like jbvbscript.
      *
-     * @param  httpOnly
-     *         if {@code true} make the cookie HTTP only, i.e. only visible as
-     *         part of an HTTP request.
+     * @pbrbm  httpOnly
+     *         if {@code true} mbke the cookie HTTP only, i.e. only visible bs
+     *         pbrt of bn HTTP request.
      *
      * @see  #isHttpOnly()
      */
-    public void setHttpOnly(boolean httpOnly) {
+    public void setHttpOnly(boolebn httpOnly) {
         this.httpOnly = httpOnly;
     }
 
     /**
-     * The utility method to check whether a host name is in a domain or not.
+     * The utility method to check whether b host nbme is in b dombin or not.
      *
-     * <p> This concept is described in the cookie specification.
-     * To understand the concept, some terminologies need to be defined first:
+     * <p> This concept is described in the cookie specificbtion.
+     * To understbnd the concept, some terminologies need to be defined first:
      * <blockquote>
-     * effective host name = hostname if host name contains dot<br>
+     * effective host nbme = hostnbme if host nbme contbins dot<br>
      * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or = hostname.local if not
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or = hostnbme.locbl if not
      * </blockquote>
-     * <p>Host A's name domain-matches host B's if:
+     * <p>Host A's nbme dombin-mbtches host B's if:
      * <blockquote><ul>
-     *   <li>their host name strings string-compare equal; or</li>
-     *   <li>A is a HDN string and has the form NB, where N is a non-empty
-     *   name string, B has the form .B', and B' is a HDN string.  (So,
-     *   x.y.com domain-matches .Y.com but not Y.com.)</li>
+     *   <li>their host nbme strings string-compbre equbl; or</li>
+     *   <li>A is b HDN string bnd hbs the form NB, where N is b non-empty
+     *   nbme string, B hbs the form .B', bnd B' is b HDN string.  (So,
+     *   x.y.com dombin-mbtches .Y.com but not Y.com.)</li>
      * </ul></blockquote>
      *
-     * <p>A host isn't in a domain (RFC 2965 sec. 3.3.2) if:
+     * <p>A host isn't in b dombin (RFC 2965 sec. 3.3.2) if:
      * <blockquote><ul>
-     *   <li>The value for the Domain attribute contains no embedded dots,
-     *   and the value is not .local.</li>
-     *   <li>The effective host name that derives from the request-host does
-     *   not domain-match the Domain attribute.</li>
-     *   <li>The request-host is a HDN (not IP address) and has the form HD,
-     *   where D is the value of the Domain attribute, and H is a string
-     *   that contains one or more dots.</li>
+     *   <li>The vblue for the Dombin bttribute contbins no embedded dots,
+     *   bnd the vblue is not .locbl.</li>
+     *   <li>The effective host nbme thbt derives from the request-host does
+     *   not dombin-mbtch the Dombin bttribute.</li>
+     *   <li>The request-host is b HDN (not IP bddress) bnd hbs the form HD,
+     *   where D is the vblue of the Dombin bttribute, bnd H is b string
+     *   thbt contbins one or more dots.</li>
      * </ul></blockquote>
      *
-     * <p>Examples:
+     * <p>Exbmples:
      * <blockquote><ul>
-     *   <li>A Set-Cookie2 from request-host y.x.foo.com for Domain=.foo.com
-     *   would be rejected, because H is y.x and contains a dot.</li>
-     *   <li>A Set-Cookie2 from request-host x.foo.com for Domain=.foo.com
-     *   would be accepted.</li>
-     *   <li>A Set-Cookie2 with Domain=.com or Domain=.com., will always be
-     *   rejected, because there is no embedded dot.</li>
-     *   <li>A Set-Cookie2 from request-host example for Domain=.local will
-     *   be accepted, because the effective host name for the request-
-     *   host is example.local, and example.local domain-matches .local.</li>
+     *   <li>A Set-Cookie2 from request-host y.x.foo.com for Dombin=.foo.com
+     *   would be rejected, becbuse H is y.x bnd contbins b dot.</li>
+     *   <li>A Set-Cookie2 from request-host x.foo.com for Dombin=.foo.com
+     *   would be bccepted.</li>
+     *   <li>A Set-Cookie2 with Dombin=.com or Dombin=.com., will blwbys be
+     *   rejected, becbuse there is no embedded dot.</li>
+     *   <li>A Set-Cookie2 from request-host exbmple for Dombin=.locbl will
+     *   be bccepted, becbuse the effective host nbme for the request-
+     *   host is exbmple.locbl, bnd exbmple.locbl dombin-mbtches .locbl.</li>
      * </ul></blockquote>
      *
-     * @param  domain
-     *         the domain name to check host name with
+     * @pbrbm  dombin
+     *         the dombin nbme to check host nbme with
      *
-     * @param  host
-     *         the host name in question
+     * @pbrbm  host
+     *         the host nbme in question
      *
-     * @return  {@code true} if they domain-matches; {@code false} if not
+     * @return  {@code true} if they dombin-mbtches; {@code fblse} if not
      */
-    public static boolean domainMatches(String domain, String host) {
-        if (domain == null || host == null)
-            return false;
+    public stbtic boolebn dombinMbtches(String dombin, String host) {
+        if (dombin == null || host == null)
+            return fblse;
 
-        // if there's no embedded dot in domain and domain is not .local
-        boolean isLocalDomain = ".local".equalsIgnoreCase(domain);
-        int embeddedDotInDomain = domain.indexOf('.');
-        if (embeddedDotInDomain == 0)
-            embeddedDotInDomain = domain.indexOf('.', 1);
-        if (!isLocalDomain
-            && (embeddedDotInDomain == -1 ||
-                embeddedDotInDomain == domain.length() - 1))
-            return false;
+        // if there's no embedded dot in dombin bnd dombin is not .locbl
+        boolebn isLocblDombin = ".locbl".equblsIgnoreCbse(dombin);
+        int embeddedDotInDombin = dombin.indexOf('.');
+        if (embeddedDotInDombin == 0)
+            embeddedDotInDombin = dombin.indexOf('.', 1);
+        if (!isLocblDombin
+            && (embeddedDotInDombin == -1 ||
+                embeddedDotInDombin == dombin.length() - 1))
+            return fblse;
 
-        // if the host name contains no dot and the domain name
-        // is .local or host.local
+        // if the host nbme contbins no dot bnd the dombin nbme
+        // is .locbl or host.locbl
         int firstDotInHost = host.indexOf('.');
         if (firstDotInHost == -1 &&
-            (isLocalDomain ||
-             domain.equalsIgnoreCase(host + ".local"))) {
+            (isLocblDombin ||
+             dombin.equblsIgnoreCbse(host + ".locbl"))) {
             return true;
         }
 
-        int domainLength = domain.length();
-        int lengthDiff = host.length() - domainLength;
+        int dombinLength = dombin.length();
+        int lengthDiff = host.length() - dombinLength;
         if (lengthDiff == 0) {
-            // if the host name and the domain name are just string-compare euqal
-            return host.equalsIgnoreCase(domain);
+            // if the host nbme bnd the dombin nbme bre just string-compbre euqbl
+            return host.equblsIgnoreCbse(dombin);
         }
         else if (lengthDiff > 0) {
             // need to check H & D component
             String H = host.substring(0, lengthDiff);
             String D = host.substring(lengthDiff);
 
-            return (H.indexOf('.') == -1 && D.equalsIgnoreCase(domain));
+            return (H.indexOf('.') == -1 && D.equblsIgnoreCbse(dombin));
         }
         else if (lengthDiff == -1) {
-            // if domain is actually .host
-            return (domain.charAt(0) == '.' &&
-                        host.equalsIgnoreCase(domain.substring(1)));
+            // if dombin is bctublly .host
+            return (dombin.chbrAt(0) == '.' &&
+                        host.equblsIgnoreCbse(dombin.substring(1)));
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Constructs a cookie header string representation of this cookie,
-     * which is in the format defined by corresponding cookie specification,
-     * but without the leading "Cookie:" token.
+     * Constructs b cookie hebder string representbtion of this cookie,
+     * which is in the formbt defined by corresponding cookie specificbtion,
+     * but without the lebding "Cookie:" token.
      *
-     * @return  a string form of the cookie. The string has the defined format
+     * @return  b string form of the cookie. The string hbs the defined formbt
      */
     @Override
     public String toString() {
         if (getVersion() > 0) {
-            return toRFC2965HeaderString();
+            return toRFC2965HebderString();
         } else {
-            return toNetscapeHeaderString();
+            return toNetscbpeHebderString();
         }
     }
 
     /**
-     * Test the equality of two HTTP cookies.
+     * Test the equblity of two HTTP cookies.
      *
-     * <p> The result is {@code true} only if two cookies come from same domain
-     * (case-insensitive), have same name (case-insensitive), and have same path
-     * (case-sensitive).
+     * <p> The result is {@code true} only if two cookies come from sbme dombin
+     * (cbse-insensitive), hbve sbme nbme (cbse-insensitive), bnd hbve sbme pbth
+     * (cbse-sensitive).
      *
-     * @return  {@code true} if two HTTP cookies equal to each other;
-     *          otherwise, {@code false}
+     * @return  {@code true} if two HTTP cookies equbl to ebch other;
+     *          otherwise, {@code fblse}
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
-        if (!(obj instanceof HttpCookie))
-            return false;
+        if (!(obj instbnceof HttpCookie))
+            return fblse;
         HttpCookie other = (HttpCookie)obj;
 
-        // One http cookie equals to another cookie (RFC 2965 sec. 3.3.3) if:
-        //   1. they come from same domain (case-insensitive),
-        //   2. have same name (case-insensitive),
-        //   3. and have same path (case-sensitive).
-        return equalsIgnoreCase(getName(), other.getName()) &&
-               equalsIgnoreCase(getDomain(), other.getDomain()) &&
-               Objects.equals(getPath(), other.getPath());
+        // One http cookie equbls to bnother cookie (RFC 2965 sec. 3.3.3) if:
+        //   1. they come from sbme dombin (cbse-insensitive),
+        //   2. hbve sbme nbme (cbse-insensitive),
+        //   3. bnd hbve sbme pbth (cbse-sensitive).
+        return equblsIgnoreCbse(getNbme(), other.getNbme()) &&
+               equblsIgnoreCbse(getDombin(), other.getDombin()) &&
+               Objects.equbls(getPbth(), other.getPbth());
     }
 
     /**
-     * Returns the hash code of this HTTP cookie. The result is the sum of
-     * hash code value of three significant components of this cookie: name,
-     * domain, and path. That is, the hash code is the value of the expression:
+     * Returns the hbsh code of this HTTP cookie. The result is the sum of
+     * hbsh code vblue of three significbnt components of this cookie: nbme,
+     * dombin, bnd pbth. Thbt is, the hbsh code is the vblue of the expression:
      * <blockquote>
-     * getName().toLowerCase().hashCode()<br>
-     * + getDomain().toLowerCase().hashCode()<br>
-     * + getPath().hashCode()
+     * getNbme().toLowerCbse().hbshCode()<br>
+     * + getDombin().toLowerCbse().hbshCode()<br>
+     * + getPbth().hbshCode()
      * </blockquote>
      *
-     * @return  this HTTP cookie's hash code
+     * @return  this HTTP cookie's hbsh code
      */
     @Override
-    public int hashCode() {
-        int h1 = name.toLowerCase().hashCode();
-        int h2 = (domain!=null) ? domain.toLowerCase().hashCode() : 0;
-        int h3 = (path!=null) ? path.hashCode() : 0;
+    public int hbshCode() {
+        int h1 = nbme.toLowerCbse().hbshCode();
+        int h2 = (dombin!=null) ? dombin.toLowerCbse().hbshCode() : 0;
+        int h3 = (pbth!=null) ? pbth.hbshCode() : 0;
 
         return h1 + h2 + h3;
     }
 
     /**
-     * Create and return a copy of this object.
+     * Crebte bnd return b copy of this object.
      *
-     * @return  a clone of this HTTP cookie
+     * @return  b clone of this HTTP cookie
      */
     @Override
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.getMessage());
+        } cbtch (CloneNotSupportedException e) {
+            throw new RuntimeException(e.getMessbge());
         }
     }
 
-    // ---------------- Private operations --------------
+    // ---------------- Privbte operbtions --------------
 
-    // Note -- disabled for now to allow full Netscape compatibility
-    // from RFC 2068, token special case characters
+    // Note -- disbbled for now to bllow full Netscbpe compbtibility
+    // from RFC 2068, token specibl cbse chbrbcters
     //
-    // private static final String tspecials = "()<>@,;:\\\"/[]?={} \t";
-    private static final String tspecials = ",; ";  // deliberately includes space
+    // privbte stbtic finbl String tspecibls = "()<>@,;:\\\"/[]?={} \t";
+    privbte stbtic finbl String tspecibls = ",; ";  // deliberbtely includes spbce
 
     /*
-     * Tests a string and returns true if the string counts as a token.
+     * Tests b string bnd returns true if the string counts bs b token.
      *
-     * @param  value
+     * @pbrbm  vblue
      *         the {@code String} to be tested
      *
-     * @return  {@code true} if the {@code String} is a token;
-     *          {@code false} if it is not
+     * @return  {@code true} if the {@code String} is b token;
+     *          {@code fblse} if it is not
      */
-    private static boolean isToken(String value) {
-        int len = value.length();
+    privbte stbtic boolebn isToken(String vblue) {
+        int len = vblue.length();
 
         for (int i = 0; i < len; i++) {
-            char c = value.charAt(i);
+            chbr c = vblue.chbrAt(i);
 
-            if (c < 0x20 || c >= 0x7f || tspecials.indexOf(c) != -1)
-                return false;
+            if (c < 0x20 || c >= 0x7f || tspecibls.indexOf(c) != -1)
+                return fblse;
         }
         return true;
     }
 
     /*
-     * Parse header string to cookie object.
+     * Pbrse hebder string to cookie object.
      *
-     * @param  header
-     *         header string; should contain only one NAME=VALUE pair
+     * @pbrbm  hebder
+     *         hebder string; should contbin only one NAME=VALUE pbir
      *
-     * @return  an HttpCookie being extracted
+     * @return  bn HttpCookie being extrbcted
      *
-     * @throws  IllegalArgumentException
-     *          if header string violates the cookie specification
+     * @throws  IllegblArgumentException
+     *          if hebder string violbtes the cookie specificbtion
      */
-    private static HttpCookie parseInternal(String header,
-                                            boolean retainHeader)
+    privbte stbtic HttpCookie pbrseInternbl(String hebder,
+                                            boolebn retbinHebder)
     {
         HttpCookie cookie = null;
-        String namevaluePair = null;
+        String nbmevbluePbir = null;
 
-        StringTokenizer tokenizer = new StringTokenizer(header, ";");
+        StringTokenizer tokenizer = new StringTokenizer(hebder, ";");
 
-        // there should always have at least on name-value pair;
-        // it's cookie's name
+        // there should blwbys hbve bt lebst on nbme-vblue pbir;
+        // it's cookie's nbme
         try {
-            namevaluePair = tokenizer.nextToken();
-            int index = namevaluePair.indexOf('=');
+            nbmevbluePbir = tokenizer.nextToken();
+            int index = nbmevbluePbir.indexOf('=');
             if (index != -1) {
-                String name = namevaluePair.substring(0, index).trim();
-                String value = namevaluePair.substring(index + 1).trim();
-                if (retainHeader)
-                    cookie = new HttpCookie(name,
-                                            stripOffSurroundingQuote(value),
-                                            header);
+                String nbme = nbmevbluePbir.substring(0, index).trim();
+                String vblue = nbmevbluePbir.substring(index + 1).trim();
+                if (retbinHebder)
+                    cookie = new HttpCookie(nbme,
+                                            stripOffSurroundingQuote(vblue),
+                                            hebder);
                 else
-                    cookie = new HttpCookie(name,
-                                            stripOffSurroundingQuote(value));
+                    cookie = new HttpCookie(nbme,
+                                            stripOffSurroundingQuote(vblue));
             } else {
-                // no "=" in name-value pair; it's an error
-                throw new IllegalArgumentException("Invalid cookie name-value pair");
+                // no "=" in nbme-vblue pbir; it's bn error
+                throw new IllegblArgumentException("Invblid cookie nbme-vblue pbir");
             }
-        } catch (NoSuchElementException ignored) {
-            throw new IllegalArgumentException("Empty cookie header string");
+        } cbtch (NoSuchElementException ignored) {
+            throw new IllegblArgumentException("Empty cookie hebder string");
         }
 
-        // remaining name-value pairs are cookie's attributes
-        while (tokenizer.hasMoreTokens()) {
-            namevaluePair = tokenizer.nextToken();
-            int index = namevaluePair.indexOf('=');
-            String name, value;
+        // rembining nbme-vblue pbirs bre cookie's bttributes
+        while (tokenizer.hbsMoreTokens()) {
+            nbmevbluePbir = tokenizer.nextToken();
+            int index = nbmevbluePbir.indexOf('=');
+            String nbme, vblue;
             if (index != -1) {
-                name = namevaluePair.substring(0, index).trim();
-                value = namevaluePair.substring(index + 1).trim();
+                nbme = nbmevbluePbir.substring(0, index).trim();
+                vblue = nbmevbluePbir.substring(index + 1).trim();
             } else {
-                name = namevaluePair.trim();
-                value = null;
+                nbme = nbmevbluePbir.trim();
+                vblue = null;
             }
 
-            // assign attribute to cookie
-            assignAttribute(cookie, name, value);
+            // bssign bttribute to cookie
+            bssignAttribute(cookie, nbme, vblue);
         }
 
         return cookie;
     }
 
     /*
-     * assign cookie attribute value to attribute name;
-     * use a map to simulate method dispatch
+     * bssign cookie bttribute vblue to bttribute nbme;
+     * use b mbp to simulbte method dispbtch
      */
-    static interface CookieAttributeAssignor {
-            public void assign(HttpCookie cookie,
-                               String attrName,
-                               String attrValue);
+    stbtic interfbce CookieAttributeAssignor {
+            public void bssign(HttpCookie cookie,
+                               String bttrNbme,
+                               String bttrVblue);
     }
-    static final java.util.Map<String, CookieAttributeAssignor> assignors =
-            new java.util.HashMap<>();
-    static {
-        assignors.put("comment", new CookieAttributeAssignor() {
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+    stbtic finbl jbvb.util.Mbp<String, CookieAttributeAssignor> bssignors =
+            new jbvb.util.HbshMbp<>();
+    stbtic {
+        bssignors.put("comment", new CookieAttributeAssignor() {
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
                     if (cookie.getComment() == null)
-                        cookie.setComment(attrValue);
+                        cookie.setComment(bttrVblue);
                 }
             });
-        assignors.put("commenturl", new CookieAttributeAssignor() {
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+        bssignors.put("commenturl", new CookieAttributeAssignor() {
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
                     if (cookie.getCommentURL() == null)
-                        cookie.setCommentURL(attrValue);
+                        cookie.setCommentURL(bttrVblue);
                 }
             });
-        assignors.put("discard", new CookieAttributeAssignor() {
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    cookie.setDiscard(true);
+        bssignors.put("discbrd", new CookieAttributeAssignor() {
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
+                    cookie.setDiscbrd(true);
                 }
             });
-        assignors.put("domain", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getDomain() == null)
-                        cookie.setDomain(attrValue);
+        bssignors.put("dombin", new CookieAttributeAssignor(){
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
+                    if (cookie.getDombin() == null)
+                        cookie.setDombin(bttrVblue);
                 }
             });
-        assignors.put("max-age", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+        bssignors.put("mbx-bge", new CookieAttributeAssignor(){
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
                     try {
-                        long maxage = Long.parseLong(attrValue);
-                        if (cookie.getMaxAge() == MAX_AGE_UNSPECIFIED)
-                            cookie.setMaxAge(maxage);
-                    } catch (NumberFormatException ignored) {
-                        throw new IllegalArgumentException(
-                                "Illegal cookie max-age attribute");
+                        long mbxbge = Long.pbrseLong(bttrVblue);
+                        if (cookie.getMbxAge() == MAX_AGE_UNSPECIFIED)
+                            cookie.setMbxAge(mbxbge);
+                    } cbtch (NumberFormbtException ignored) {
+                        throw new IllegblArgumentException(
+                                "Illegbl cookie mbx-bge bttribute");
                     }
                 }
             });
-        assignors.put("path", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getPath() == null)
-                        cookie.setPath(attrValue);
+        bssignors.put("pbth", new CookieAttributeAssignor(){
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
+                    if (cookie.getPbth() == null)
+                        cookie.setPbth(bttrVblue);
                 }
             });
-        assignors.put("port", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+        bssignors.put("port", new CookieAttributeAssignor(){
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
                     if (cookie.getPortlist() == null)
-                        cookie.setPortlist(attrValue == null ? "" : attrValue);
+                        cookie.setPortlist(bttrVblue == null ? "" : bttrVblue);
                 }
             });
-        assignors.put("secure", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+        bssignors.put("secure", new CookieAttributeAssignor(){
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
                     cookie.setSecure(true);
                 }
             });
-        assignors.put("httponly", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+        bssignors.put("httponly", new CookieAttributeAssignor(){
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
                     cookie.setHttpOnly(true);
                 }
             });
-        assignors.put("version", new CookieAttributeAssignor(){
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
+        bssignors.put("version", new CookieAttributeAssignor(){
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
                     try {
-                        int version = Integer.parseInt(attrValue);
+                        int version = Integer.pbrseInt(bttrVblue);
                         cookie.setVersion(version);
-                    } catch (NumberFormatException ignored) {
-                        // Just ignore bogus version, it will default to 0 or 1
+                    } cbtch (NumberFormbtException ignored) {
+                        // Just ignore bogus version, it will defbult to 0 or 1
                     }
                 }
             });
-        assignors.put("expires", new CookieAttributeAssignor(){ // Netscape only
-                public void assign(HttpCookie cookie,
-                                   String attrName,
-                                   String attrValue) {
-                    if (cookie.getMaxAge() == MAX_AGE_UNSPECIFIED) {
-                        cookie.setMaxAge(cookie.expiryDate2DeltaSeconds(attrValue));
+        bssignors.put("expires", new CookieAttributeAssignor(){ // Netscbpe only
+                public void bssign(HttpCookie cookie,
+                                   String bttrNbme,
+                                   String bttrVblue) {
+                    if (cookie.getMbxAge() == MAX_AGE_UNSPECIFIED) {
+                        cookie.setMbxAge(cookie.expiryDbte2DeltbSeconds(bttrVblue));
                     }
                 }
             });
     }
-    private static void assignAttribute(HttpCookie cookie,
-                                        String attrName,
-                                        String attrValue)
+    privbte stbtic void bssignAttribute(HttpCookie cookie,
+                                        String bttrNbme,
+                                        String bttrVblue)
     {
-        // strip off the surrounding "-sign if there's any
-        attrValue = stripOffSurroundingQuote(attrValue);
+        // strip off the surrounding "-sign if there's bny
+        bttrVblue = stripOffSurroundingQuote(bttrVblue);
 
-        CookieAttributeAssignor assignor = assignors.get(attrName.toLowerCase());
-        if (assignor != null) {
-            assignor.assign(cookie, attrName, attrValue);
+        CookieAttributeAssignor bssignor = bssignors.get(bttrNbme.toLowerCbse());
+        if (bssignor != null) {
+            bssignor.bssign(cookie, bttrNbme, bttrVblue);
         } else {
-            // Ignore the attribute as per RFC 2965
+            // Ignore the bttribute bs per RFC 2965
         }
     }
 
-    static {
-        sun.misc.SharedSecrets.setJavaNetHttpCookieAccess(
-            new sun.misc.JavaNetHttpCookieAccess() {
-                public List<HttpCookie> parse(String header) {
-                    return HttpCookie.parse(header, true);
+    stbtic {
+        sun.misc.ShbredSecrets.setJbvbNetHttpCookieAccess(
+            new sun.misc.JbvbNetHttpCookieAccess() {
+                public List<HttpCookie> pbrse(String hebder) {
+                    return HttpCookie.pbrse(hebder, true);
                 }
 
-                public String header(HttpCookie cookie) {
-                    return cookie.header;
+                public String hebder(HttpCookie cookie) {
+                    return cookie.hebder;
                 }
             }
         );
     }
 
     /*
-     * Returns the original header this cookie was constructed from, if it was
-     * constructed by parsing a header, otherwise null.
+     * Returns the originbl hebder this cookie wbs constructed from, if it wbs
+     * constructed by pbrsing b hebder, otherwise null.
      */
-    private String header() {
-        return header;
+    privbte String hebder() {
+        return hebder;
     }
 
     /*
-     * Constructs a string representation of this cookie. The string format is
-     * as Netscape spec, but without leading "Cookie:" token.
+     * Constructs b string representbtion of this cookie. The string formbt is
+     * bs Netscbpe spec, but without lebding "Cookie:" token.
      */
-    private String toNetscapeHeaderString() {
-        return getName() + "=" + getValue();
+    privbte String toNetscbpeHebderString() {
+        return getNbme() + "=" + getVblue();
     }
 
     /*
-     * Constructs a string representation of this cookie. The string format is
-     * as RFC 2965/2109, but without leading "Cookie:" token.
+     * Constructs b string representbtion of this cookie. The string formbt is
+     * bs RFC 2965/2109, but without lebding "Cookie:" token.
      */
-    private String toRFC2965HeaderString() {
+    privbte String toRFC2965HebderString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(getName()).append("=\"").append(getValue()).append('"');
-        if (getPath() != null)
-            sb.append(";$Path=\"").append(getPath()).append('"');
-        if (getDomain() != null)
-            sb.append(";$Domain=\"").append(getDomain()).append('"');
+        sb.bppend(getNbme()).bppend("=\"").bppend(getVblue()).bppend('"');
+        if (getPbth() != null)
+            sb.bppend(";$Pbth=\"").bppend(getPbth()).bppend('"');
+        if (getDombin() != null)
+            sb.bppend(";$Dombin=\"").bppend(getDombin()).bppend('"');
         if (getPortlist() != null)
-            sb.append(";$Port=\"").append(getPortlist()).append('"');
+            sb.bppend(";$Port=\"").bppend(getPortlist()).bppend('"');
 
         return sb.toString();
     }
 
-    static final TimeZone GMT = TimeZone.getTimeZone("GMT");
+    stbtic finbl TimeZone GMT = TimeZone.getTimeZone("GMT");
 
     /*
-     * @param  dateString
-     *         a date string in one of the formats defined in Netscape cookie spec
+     * @pbrbm  dbteString
+     *         b dbte string in one of the formbts defined in Netscbpe cookie spec
      *
-     * @return  delta seconds between this cookie's creation time and the time
-     *          specified by dateString
+     * @return  deltb seconds between this cookie's crebtion time bnd the time
+     *          specified by dbteString
      */
-    private long expiryDate2DeltaSeconds(String dateString) {
-        Calendar cal = new GregorianCalendar(GMT);
+    privbte long expiryDbte2DeltbSeconds(String dbteString) {
+        Cblendbr cbl = new GregoribnCblendbr(GMT);
         for (int i = 0; i < COOKIE_DATE_FORMATS.length; i++) {
-            SimpleDateFormat df = new SimpleDateFormat(COOKIE_DATE_FORMATS[i],
-                                                       Locale.US);
-            cal.set(1970, 0, 1, 0, 0, 0);
+            SimpleDbteFormbt df = new SimpleDbteFormbt(COOKIE_DATE_FORMATS[i],
+                                                       Locble.US);
+            cbl.set(1970, 0, 1, 0, 0, 0);
             df.setTimeZone(GMT);
-            df.setLenient(false);
-            df.set2DigitYearStart(cal.getTime());
+            df.setLenient(fblse);
+            df.set2DigitYebrStbrt(cbl.getTime());
             try {
-                cal.setTime(df.parse(dateString));
-                if (!COOKIE_DATE_FORMATS[i].contains("yyyy")) {
-                    // 2-digit years following the standard set
+                cbl.setTime(df.pbrse(dbteString));
+                if (!COOKIE_DATE_FORMATS[i].contbins("yyyy")) {
+                    // 2-digit yebrs following the stbndbrd set
                     // out it rfc 6265
-                    int year = cal.get(Calendar.YEAR);
-                    year %= 100;
-                    if (year < 70) {
-                        year += 2000;
+                    int yebr = cbl.get(Cblendbr.YEAR);
+                    yebr %= 100;
+                    if (yebr < 70) {
+                        yebr += 2000;
                     } else {
-                        year += 1900;
+                        yebr += 1900;
                     }
-                    cal.set(Calendar.YEAR, year);
+                    cbl.set(Cblendbr.YEAR, yebr);
                 }
-                return (cal.getTimeInMillis() - whenCreated) / 1000;
-            } catch (Exception e) {
-                // Ignore, try the next date format
+                return (cbl.getTimeInMillis() - whenCrebted) / 1000;
+            } cbtch (Exception e) {
+                // Ignore, try the next dbte formbt
             }
         }
         return 0;
     }
 
     /*
-     * try to guess the cookie version through set-cookie header string
+     * try to guess the cookie version through set-cookie hebder string
      */
-    private static int guessCookieVersion(String header) {
+    privbte stbtic int guessCookieVersion(String hebder) {
         int version = 0;
 
-        header = header.toLowerCase();
-        if (header.indexOf("expires=") != -1) {
-            // only netscape cookie using 'expires'
+        hebder = hebder.toLowerCbse();
+        if (hebder.indexOf("expires=") != -1) {
+            // only netscbpe cookie using 'expires'
             version = 0;
-        } else if (header.indexOf("version=") != -1) {
-            // version is mandatory for rfc 2965/2109 cookie
+        } else if (hebder.indexOf("version=") != -1) {
+            // version is mbndbtory for rfc 2965/2109 cookie
             version = 1;
-        } else if (header.indexOf("max-age") != -1) {
-            // rfc 2965/2109 use 'max-age'
+        } else if (hebder.indexOf("mbx-bge") != -1) {
+            // rfc 2965/2109 use 'mbx-bge'
             version = 1;
-        } else if (startsWithIgnoreCase(header, SET_COOKIE2)) {
-            // only rfc 2965 cookie starts with 'set-cookie2'
+        } else if (stbrtsWithIgnoreCbse(hebder, SET_COOKIE2)) {
+            // only rfc 2965 cookie stbrts with 'set-cookie2'
             version = 1;
         }
 
         return version;
     }
 
-    private static String stripOffSurroundingQuote(String str) {
+    privbte stbtic String stripOffSurroundingQuote(String str) {
         if (str != null && str.length() > 2 &&
-            str.charAt(0) == '"' && str.charAt(str.length() - 1) == '"') {
+            str.chbrAt(0) == '"' && str.chbrAt(str.length() - 1) == '"') {
             return str.substring(1, str.length() - 1);
         }
         if (str != null && str.length() > 2 &&
-            str.charAt(0) == '\'' && str.charAt(str.length() - 1) == '\'') {
+            str.chbrAt(0) == '\'' && str.chbrAt(str.length() - 1) == '\'') {
             return str.substring(1, str.length() - 1);
         }
         return str;
     }
 
-    private static boolean equalsIgnoreCase(String s, String t) {
+    privbte stbtic boolebn equblsIgnoreCbse(String s, String t) {
         if (s == t) return true;
         if ((s != null) && (t != null)) {
-            return s.equalsIgnoreCase(t);
+            return s.equblsIgnoreCbse(t);
         }
-        return false;
+        return fblse;
     }
 
-    private static boolean startsWithIgnoreCase(String s, String start) {
-        if (s == null || start == null) return false;
+    privbte stbtic boolebn stbrtsWithIgnoreCbse(String s, String stbrt) {
+        if (s == null || stbrt == null) return fblse;
 
-        if (s.length() >= start.length() &&
-                start.equalsIgnoreCase(s.substring(0, start.length()))) {
+        if (s.length() >= stbrt.length() &&
+                stbrt.equblsIgnoreCbse(s.substring(0, stbrt.length()))) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /*
-     * Split cookie header string according to rfc 2965:
-     *   1) split where it is a comma;
-     *   2) but not the comma surrounding by double-quotes, which is the comma
+     * Split cookie hebder string bccording to rfc 2965:
+     *   1) split where it is b commb;
+     *   2) but not the commb surrounding by double-quotes, which is the commb
      *      inside port list or embeded URIs.
      *
-     * @param  header
-     *         the cookie header string to split
+     * @pbrbm  hebder
+     *         the cookie hebder string to split
      *
      * @return  list of strings; never null
      */
-    private static List<String> splitMultiCookies(String header) {
-        List<String> cookies = new java.util.ArrayList<String>();
+    privbte stbtic List<String> splitMultiCookies(String hebder) {
+        List<String> cookies = new jbvb.util.ArrbyList<String>();
         int quoteCount = 0;
         int p, q;
 
-        for (p = 0, q = 0; p < header.length(); p++) {
-            char c = header.charAt(p);
+        for (p = 0, q = 0; p < hebder.length(); p++) {
+            chbr c = hebder.chbrAt(p);
             if (c == '"') quoteCount++;
             if (c == ',' && (quoteCount % 2 == 0)) {
-                // it is comma and not surrounding by double-quotes
-                cookies.add(header.substring(q, p));
+                // it is commb bnd not surrounding by double-quotes
+                cookies.bdd(hebder.substring(q, p));
                 q = p + 1;
             }
         }
 
-        cookies.add(header.substring(q));
+        cookies.bdd(hebder.substring(q));
 
         return cookies;
     }

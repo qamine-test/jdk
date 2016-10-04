@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.io.*;
-import java.util.Hashtable;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
+import jbvb.io.*;
+import jbvb.util.Hbshtbble;
+import jbvbx.swing.text.AttributeSet;
+import jbvbx.swing.text.StyleConstbnts;
+import jbvbx.swing.text.StyleContext;
 
 /**
- * Constants used in the <code>HTMLDocument</code>.  These
- * are basically tag and attribute definitions.
+ * Constbnts used in the <code>HTMLDocument</code>.  These
+ * bre bbsicblly tbg bnd bttribute definitions.
  *
- * @author  Timothy Prinzing
- * @author  Sunita Mani
+ * @buthor  Timothy Prinzing
+ * @buthor  Sunitb Mbni
  *
  */
-public class HTML {
+public clbss HTML {
 
     /**
-     * Typesafe enumeration for an HTML tag.  Although the
-     * set of HTML tags is a closed set, we have left the
-     * set open so that people can add their own tag types
-     * to their custom parser and still communicate to the
-     * reader.
+     * Typesbfe enumerbtion for bn HTML tbg.  Although the
+     * set of HTML tbgs is b closed set, we hbve left the
+     * set open so thbt people cbn bdd their own tbg types
+     * to their custom pbrser bnd still communicbte to the
+     * rebder.
      */
-    public static class Tag {
+    public stbtic clbss Tbg {
 
         /** @since 1.3 */
-        public Tag() {}
+        public Tbg() {}
 
         /**
-         * Creates a new <code>Tag</code> with the specified <code>id</code>,
-         * and with <code>causesBreak</code> and <code>isBlock</code>
-         * set to <code>false</code>.
+         * Crebtes b new <code>Tbg</code> with the specified <code>id</code>,
+         * bnd with <code>cbusesBrebk</code> bnd <code>isBlock</code>
+         * set to <code>fblse</code>.
          *
-         * @param id  the id of the new tag
+         * @pbrbm id  the id of the new tbg
          */
-        protected Tag(String id) {
-            this(id, false, false);
+        protected Tbg(String id) {
+            this(id, fblse, fblse);
         }
 
         /**
-         * Creates a new <code>Tag</code> with the specified <code>id</code>;
-         * <code>causesBreak</code> and <code>isBlock</code> are defined
+         * Crebtes b new <code>Tbg</code> with the specified <code>id</code>;
+         * <code>cbusesBrebk</code> bnd <code>isBlock</code> bre defined
          * by the user.
          *
-         * @param id the id of the new tag
-         * @param causesBreak  <code>true</code> if this tag
-         *    causes a break to the flow of data
-         * @param isBlock <code>true</code> if the tag is used
-         *    to add structure to a document
+         * @pbrbm id the id of the new tbg
+         * @pbrbm cbusesBrebk  <code>true</code> if this tbg
+         *    cbuses b brebk to the flow of dbtb
+         * @pbrbm isBlock <code>true</code> if the tbg is used
+         *    to bdd structure to b document
          */
-        protected Tag(String id, boolean causesBreak, boolean isBlock) {
-            name = id;
-            this.breakTag = causesBreak;
-            this.blockTag = isBlock;
+        protected Tbg(String id, boolebn cbusesBrebk, boolebn isBlock) {
+            nbme = id;
+            this.brebkTbg = cbusesBrebk;
+            this.blockTbg = isBlock;
         }
 
         /**
-         * Returns <code>true</code> if this tag is a block
-         * tag, which is a tag used to add structure to a
+         * Returns <code>true</code> if this tbg is b block
+         * tbg, which is b tbg used to bdd structure to b
          * document.
          *
-         * @return <code>true</code> if this tag is a block
-         *   tag, otherwise returns <code>false</code>
+         * @return <code>true</code> if this tbg is b block
+         *   tbg, otherwise returns <code>fblse</code>
          */
-        public boolean isBlock() {
-            return blockTag;
+        public boolebn isBlock() {
+            return blockTbg;
         }
 
         /**
-         * Returns <code>true</code> if this tag causes a
-         * line break to the flow of data, otherwise returns
-         * <code>false</code>.
+         * Returns <code>true</code> if this tbg cbuses b
+         * line brebk to the flow of dbtb, otherwise returns
+         * <code>fblse</code>.
          *
-         * @return <code>true</code> if this tag causes a
-         *   line break to the flow of data, otherwise returns
-         *   <code>false</code>
+         * @return <code>true</code> if this tbg cbuses b
+         *   line brebk to the flow of dbtb, otherwise returns
+         *   <code>fblse</code>
          */
-        public boolean breaksFlow() {
-            return breakTag;
+        public boolebn brebksFlow() {
+            return brebkTbg;
         }
 
         /**
-         * Returns <code>true</code> if this tag is pre-formatted,
-         * which is true if the tag is either <code>PRE</code> or
+         * Returns <code>true</code> if this tbg is pre-formbtted,
+         * which is true if the tbg is either <code>PRE</code> or
          * <code>TEXTAREA</code>.
          *
-         * @return <code>true</code> if this tag is pre-formatted,
-         *   otherwise returns <code>false</code>
+         * @return <code>true</code> if this tbg is pre-formbtted,
+         *   otherwise returns <code>fblse</code>
          */
-        public boolean isPreformatted() {
+        public boolebn isPreformbtted() {
             return (this == PRE || this == TEXTAREA);
         }
 
         /**
-         * Returns the string representation of the
-         * tag.
+         * Returns the string representbtion of the
+         * tbg.
          *
-         * @return the <code>String</code> representation of the tag
+         * @return the <code>String</code> representbtion of the tbg
          */
         public String toString() {
-            return name;
+            return nbme;
         }
 
         /**
-         * Returns <code>true</code> if this tag is considered to be a paragraph
-         * in the internal HTML model. <code>false</code> - otherwise.
+         * Returns <code>true</code> if this tbg is considered to be b pbrbgrbph
+         * in the internbl HTML model. <code>fblse</code> - otherwise.
          *
-         * @return <code>true</code> if this tag is considered to be a paragraph
-         *         in the internal HTML model. <code>false</code> - otherwise.
-         * @see HTMLDocument.HTMLReader.ParagraphAction
+         * @return <code>true</code> if this tbg is considered to be b pbrbgrbph
+         *         in the internbl HTML model. <code>fblse</code> - otherwise.
+         * @see HTMLDocument.HTMLRebder.PbrbgrbphAction
          */
-        boolean isParagraph() {
+        boolebn isPbrbgrbph() {
             return (
                 this == P
                    || this == IMPLIED
@@ -149,411 +149,411 @@ public class HTML {
             );
         }
 
-        boolean blockTag;
-        boolean breakTag;
-        String name;
-        boolean unknown;
+        boolebn blockTbg;
+        boolebn brebkTbg;
+        String nbme;
+        boolebn unknown;
 
-        // --- Tag Names -----------------------------------
+        // --- Tbg Nbmes -----------------------------------
 
         /**
-         * Tag &lt;a&gt;
+         * Tbg &lt;b&gt;
          */
-        public static final Tag A = new Tag("a");
+        public stbtic finbl Tbg A = new Tbg("b");
 
         /**
-         * Tag &lt;address&gt;
+         * Tbg &lt;bddress&gt;
          */
-        public static final Tag ADDRESS = new Tag("address");
+        public stbtic finbl Tbg ADDRESS = new Tbg("bddress");
         /**
-         * Tag &lt;applet&gt;
+         * Tbg &lt;bpplet&gt;
          */
-        public static final Tag APPLET = new Tag("applet");
+        public stbtic finbl Tbg APPLET = new Tbg("bpplet");
 
         /**
-         * Tag &lt;area&gt;
+         * Tbg &lt;breb&gt;
          */
-        public static final Tag AREA = new Tag("area");
+        public stbtic finbl Tbg AREA = new Tbg("breb");
 
         /**
-         * Tag &lt;b&gt;
+         * Tbg &lt;b&gt;
          */
-        public static final Tag B = new Tag("b");
+        public stbtic finbl Tbg B = new Tbg("b");
 
         /**
-         * Tag &lt;base&gt;
+         * Tbg &lt;bbse&gt;
          */
-        public static final Tag BASE = new Tag("base");
+        public stbtic finbl Tbg BASE = new Tbg("bbse");
 
         /**
-         * Tag &lt;basefont&gt;
+         * Tbg &lt;bbsefont&gt;
          */
-        public static final Tag BASEFONT = new Tag("basefont");
+        public stbtic finbl Tbg BASEFONT = new Tbg("bbsefont");
 
         /**
-         * Tag &lt;big&gt;
+         * Tbg &lt;big&gt;
          */
-        public static final Tag BIG = new Tag("big");
+        public stbtic finbl Tbg BIG = new Tbg("big");
 
         /**
-         * Tag &lt;blockquote&gt;
+         * Tbg &lt;blockquote&gt;
          */
-        public static final Tag BLOCKQUOTE = new Tag("blockquote", true, true);
+        public stbtic finbl Tbg BLOCKQUOTE = new Tbg("blockquote", true, true);
 
         /**
-         * Tag &lt;body&gt;
+         * Tbg &lt;body&gt;
          */
-        public static final Tag BODY = new Tag("body", true, true);
+        public stbtic finbl Tbg BODY = new Tbg("body", true, true);
 
         /**
-         * Tag &lt;br&gt;
+         * Tbg &lt;br&gt;
          */
-        public static final Tag BR = new Tag("br", true, false);
+        public stbtic finbl Tbg BR = new Tbg("br", true, fblse);
 
         /**
-         * Tag &lt;caption&gt;
+         * Tbg &lt;cbption&gt;
          */
-        public static final Tag CAPTION = new Tag("caption");
+        public stbtic finbl Tbg CAPTION = new Tbg("cbption");
 
         /**
-         * Tag &lt;center&gt;
+         * Tbg &lt;center&gt;
          */
-        public static final Tag CENTER = new Tag("center", true, false);
+        public stbtic finbl Tbg CENTER = new Tbg("center", true, fblse);
 
         /**
-         * Tag &lt;cite&gt;
+         * Tbg &lt;cite&gt;
          */
-        public static final Tag CITE = new Tag("cite");
+        public stbtic finbl Tbg CITE = new Tbg("cite");
 
         /**
-         * Tag &lt;code&gt;
+         * Tbg &lt;code&gt;
          */
-        public static final Tag CODE = new Tag("code");
+        public stbtic finbl Tbg CODE = new Tbg("code");
 
         /**
-         * Tag &lt;dd&gt;
+         * Tbg &lt;dd&gt;
          */
-        public static final Tag DD = new Tag("dd", true, true);
+        public stbtic finbl Tbg DD = new Tbg("dd", true, true);
 
         /**
-         * Tag &lt;dfn&gt;
+         * Tbg &lt;dfn&gt;
          */
-        public static final Tag DFN = new Tag("dfn");
+        public stbtic finbl Tbg DFN = new Tbg("dfn");
 
         /**
-         * Tag &lt;dir&gt;
+         * Tbg &lt;dir&gt;
          */
-        public static final Tag DIR = new Tag("dir", true, true);
+        public stbtic finbl Tbg DIR = new Tbg("dir", true, true);
 
         /**
-         * Tag &lt;div&gt;
+         * Tbg &lt;div&gt;
          */
-        public static final Tag DIV = new Tag("div", true, true);
+        public stbtic finbl Tbg DIV = new Tbg("div", true, true);
 
         /**
-         * Tag &lt;dl&gt;
+         * Tbg &lt;dl&gt;
          */
-        public static final Tag DL = new Tag("dl", true, true);
+        public stbtic finbl Tbg DL = new Tbg("dl", true, true);
 
         /**
-         * Tag &lt;dt&gt;
+         * Tbg &lt;dt&gt;
          */
-        public static final Tag DT = new Tag("dt", true, true);
+        public stbtic finbl Tbg DT = new Tbg("dt", true, true);
 
         /**
-         * Tag &lt;em&gt;
+         * Tbg &lt;em&gt;
          */
-        public static final Tag EM = new Tag("em");
+        public stbtic finbl Tbg EM = new Tbg("em");
 
         /**
-         * Tag &lt;font&gt;
+         * Tbg &lt;font&gt;
          */
-        public static final Tag FONT = new Tag("font");
+        public stbtic finbl Tbg FONT = new Tbg("font");
 
         /**
-         * Tag &lt;form&gt;
+         * Tbg &lt;form&gt;
          */
-        public static final Tag FORM = new Tag("form", true, false);
+        public stbtic finbl Tbg FORM = new Tbg("form", true, fblse);
 
         /**
-         * Tag &lt;frame&gt;
+         * Tbg &lt;frbme&gt;
          */
-        public static final Tag FRAME = new Tag("frame");
+        public stbtic finbl Tbg FRAME = new Tbg("frbme");
 
         /**
-         * Tag &lt;frameset&gt;
+         * Tbg &lt;frbmeset&gt;
          */
-        public static final Tag FRAMESET = new Tag("frameset");
+        public stbtic finbl Tbg FRAMESET = new Tbg("frbmeset");
 
         /**
-         * Tag &lt;h1&gt;
+         * Tbg &lt;h1&gt;
          */
-        public static final Tag H1 = new Tag("h1", true, true);
+        public stbtic finbl Tbg H1 = new Tbg("h1", true, true);
 
         /**
-         * Tag &lt;h2&gt;
+         * Tbg &lt;h2&gt;
          */
-        public static final Tag H2 = new Tag("h2", true, true);
+        public stbtic finbl Tbg H2 = new Tbg("h2", true, true);
 
         /**
-         * Tag &lt;h3&gt;
+         * Tbg &lt;h3&gt;
          */
-        public static final Tag H3 = new Tag("h3", true, true);
+        public stbtic finbl Tbg H3 = new Tbg("h3", true, true);
 
         /**
-         * Tag &lt;h4&gt;
+         * Tbg &lt;h4&gt;
          */
-        public static final Tag H4 = new Tag("h4", true, true);
+        public stbtic finbl Tbg H4 = new Tbg("h4", true, true);
 
         /**
-         * Tag &lt;h5&gt;
+         * Tbg &lt;h5&gt;
          */
-        public static final Tag H5 = new Tag("h5", true, true);
+        public stbtic finbl Tbg H5 = new Tbg("h5", true, true);
 
         /**
-         * Tag &lt;h6&gt;
+         * Tbg &lt;h6&gt;
          */
-        public static final Tag H6 = new Tag("h6", true, true);
+        public stbtic finbl Tbg H6 = new Tbg("h6", true, true);
 
         /**
-         * Tag &lt;head&gt;
+         * Tbg &lt;hebd&gt;
          */
-        public static final Tag HEAD = new Tag("head", true, true);
+        public stbtic finbl Tbg HEAD = new Tbg("hebd", true, true);
 
         /**
-         * Tag &lt;hr&gt;
+         * Tbg &lt;hr&gt;
          */
-        public static final Tag HR = new Tag("hr", true, false);
+        public stbtic finbl Tbg HR = new Tbg("hr", true, fblse);
 
         /**
-         * Tag &lt;html&gt;
+         * Tbg &lt;html&gt;
          */
-        public static final Tag HTML = new Tag("html", true, false);
+        public stbtic finbl Tbg HTML = new Tbg("html", true, fblse);
 
         /**
-         * Tag &lt;i&gt;
+         * Tbg &lt;i&gt;
          */
-        public static final Tag I = new Tag("i");
+        public stbtic finbl Tbg I = new Tbg("i");
 
         /**
-         * Tag &lt;img&gt;
+         * Tbg &lt;img&gt;
          */
-        public static final Tag IMG = new Tag("img");
+        public stbtic finbl Tbg IMG = new Tbg("img");
 
         /**
-         * Tag &lt;input&gt;
+         * Tbg &lt;input&gt;
          */
-        public static final Tag INPUT = new Tag("input");
+        public stbtic finbl Tbg INPUT = new Tbg("input");
 
         /**
-         * Tag &lt;isindex&gt;
+         * Tbg &lt;isindex&gt;
          */
-        public static final Tag ISINDEX = new Tag("isindex", true, false);
+        public stbtic finbl Tbg ISINDEX = new Tbg("isindex", true, fblse);
 
         /**
-         * Tag &lt;kbd&gt;
+         * Tbg &lt;kbd&gt;
          */
-        public static final Tag KBD = new Tag("kbd");
+        public stbtic finbl Tbg KBD = new Tbg("kbd");
 
         /**
-         * Tag &lt;li&gt;
+         * Tbg &lt;li&gt;
          */
-        public static final Tag LI = new Tag("li", true, true);
+        public stbtic finbl Tbg LI = new Tbg("li", true, true);
 
         /**
-         * Tag &lt;link&gt;
+         * Tbg &lt;link&gt;
          */
-        public static final Tag LINK = new Tag("link");
+        public stbtic finbl Tbg LINK = new Tbg("link");
 
         /**
-         * Tag &lt;map&gt;
+         * Tbg &lt;mbp&gt;
          */
-        public static final Tag MAP = new Tag("map");
+        public stbtic finbl Tbg MAP = new Tbg("mbp");
 
         /**
-         * Tag &lt;menu&gt;
+         * Tbg &lt;menu&gt;
          */
-        public static final Tag MENU = new Tag("menu", true, true);
+        public stbtic finbl Tbg MENU = new Tbg("menu", true, true);
 
         /**
-         * Tag &lt;meta&gt;
+         * Tbg &lt;metb&gt;
          */
-        public static final Tag META = new Tag("meta");
-        /*public*/ static final Tag NOBR = new Tag("nobr");
+        public stbtic finbl Tbg META = new Tbg("metb");
+        /*public*/ stbtic finbl Tbg NOBR = new Tbg("nobr");
 
         /**
-         * Tag &lt;noframes&gt;
+         * Tbg &lt;nofrbmes&gt;
          */
-        public static final Tag NOFRAMES = new Tag("noframes", true, true);
+        public stbtic finbl Tbg NOFRAMES = new Tbg("nofrbmes", true, true);
 
         /**
-         * Tag &lt;object&gt;
+         * Tbg &lt;object&gt;
          */
-        public static final Tag OBJECT = new Tag("object");
+        public stbtic finbl Tbg OBJECT = new Tbg("object");
 
         /**
-         * Tag &lt;ol&gt;
+         * Tbg &lt;ol&gt;
          */
-        public static final Tag OL = new Tag("ol", true, true);
+        public stbtic finbl Tbg OL = new Tbg("ol", true, true);
 
         /**
-         * Tag &lt;option&gt;
+         * Tbg &lt;option&gt;
          */
-        public static final Tag OPTION = new Tag("option");
+        public stbtic finbl Tbg OPTION = new Tbg("option");
 
         /**
-         * Tag &lt;p&gt;
+         * Tbg &lt;p&gt;
          */
-        public static final Tag P = new Tag("p", true, true);
+        public stbtic finbl Tbg P = new Tbg("p", true, true);
 
         /**
-         * Tag &lt;param&gt;
+         * Tbg &lt;pbrbm&gt;
          */
-        public static final Tag PARAM = new Tag("param");
+        public stbtic finbl Tbg PARAM = new Tbg("pbrbm");
 
         /**
-         * Tag &lt;pre&gt;
+         * Tbg &lt;pre&gt;
          */
-        public static final Tag PRE = new Tag("pre", true, true);
+        public stbtic finbl Tbg PRE = new Tbg("pre", true, true);
 
         /**
-         * Tag &lt;samp&gt;
+         * Tbg &lt;sbmp&gt;
          */
-        public static final Tag SAMP = new Tag("samp");
+        public stbtic finbl Tbg SAMP = new Tbg("sbmp");
 
         /**
-         * Tag &lt;script&gt;
+         * Tbg &lt;script&gt;
          */
-        public static final Tag SCRIPT = new Tag("script");
+        public stbtic finbl Tbg SCRIPT = new Tbg("script");
 
         /**
-         * Tag &lt;select&gt;
+         * Tbg &lt;select&gt;
          */
-        public static final Tag SELECT = new Tag("select");
+        public stbtic finbl Tbg SELECT = new Tbg("select");
 
         /**
-         * Tag &lt;small&gt;
+         * Tbg &lt;smbll&gt;
          */
-        public static final Tag SMALL = new Tag("small");
+        public stbtic finbl Tbg SMALL = new Tbg("smbll");
 
         /**
-         * Tag &lt;span&gt;
+         * Tbg &lt;spbn&gt;
          */
-        public static final Tag SPAN = new Tag("span");
+        public stbtic finbl Tbg SPAN = new Tbg("spbn");
 
         /**
-         * Tag &lt;strike&gt;
+         * Tbg &lt;strike&gt;
          */
-        public static final Tag STRIKE = new Tag("strike");
+        public stbtic finbl Tbg STRIKE = new Tbg("strike");
 
         /**
-         * Tag &lt;s&gt;
+         * Tbg &lt;s&gt;
          */
-        public static final Tag S = new Tag("s");
+        public stbtic finbl Tbg S = new Tbg("s");
 
         /**
-         * Tag &lt;strong&gt;
+         * Tbg &lt;strong&gt;
          */
-        public static final Tag STRONG = new Tag("strong");
+        public stbtic finbl Tbg STRONG = new Tbg("strong");
 
         /**
-         * Tag &lt;style&gt;
+         * Tbg &lt;style&gt;
          */
-        public static final Tag STYLE = new Tag("style");
+        public stbtic finbl Tbg STYLE = new Tbg("style");
 
         /**
-         * Tag &lt;sub&gt;
+         * Tbg &lt;sub&gt;
          */
-        public static final Tag SUB = new Tag("sub");
+        public stbtic finbl Tbg SUB = new Tbg("sub");
 
         /**
-         * Tag &lt;sup&gt;
+         * Tbg &lt;sup&gt;
          */
-        public static final Tag SUP = new Tag("sup");
+        public stbtic finbl Tbg SUP = new Tbg("sup");
 
         /**
-         * Tag &lt;table&gt;
+         * Tbg &lt;tbble&gt;
          */
-        public static final Tag TABLE = new Tag("table", false, true);
+        public stbtic finbl Tbg TABLE = new Tbg("tbble", fblse, true);
 
         /**
-         * Tag &lt;td&gt;
+         * Tbg &lt;td&gt;
          */
-        public static final Tag TD = new Tag("td", true, true);
+        public stbtic finbl Tbg TD = new Tbg("td", true, true);
 
         /**
-         * Tag &lt;textarea&gt;
+         * Tbg &lt;textbreb&gt;
          */
-        public static final Tag TEXTAREA = new Tag("textarea");
+        public stbtic finbl Tbg TEXTAREA = new Tbg("textbreb");
 
         /**
-         * Tag &lt;th&gt;
+         * Tbg &lt;th&gt;
          */
-        public static final Tag TH = new Tag("th", true, true);
+        public stbtic finbl Tbg TH = new Tbg("th", true, true);
 
         /**
-         * Tag &lt;title&gt;
+         * Tbg &lt;title&gt;
          */
-        public static final Tag TITLE = new Tag("title", true, true);
+        public stbtic finbl Tbg TITLE = new Tbg("title", true, true);
 
         /**
-         * Tag &lt;tr&gt;
+         * Tbg &lt;tr&gt;
          */
-        public static final Tag TR = new Tag("tr", false, true);
+        public stbtic finbl Tbg TR = new Tbg("tr", fblse, true);
 
         /**
-         * Tag &lt;tt&gt;
+         * Tbg &lt;tt&gt;
          */
-        public static final Tag TT = new Tag("tt");
+        public stbtic finbl Tbg TT = new Tbg("tt");
 
         /**
-         * Tag &lt;u&gt;
+         * Tbg &lt;u&gt;
          */
-        public static final Tag U = new Tag("u");
+        public stbtic finbl Tbg U = new Tbg("u");
 
         /**
-         * Tag &lt;ul&gt;
+         * Tbg &lt;ul&gt;
          */
-        public static final Tag UL = new Tag("ul", true, true);
+        public stbtic finbl Tbg UL = new Tbg("ul", true, true);
 
         /**
-         * Tag &lt;var&gt;
+         * Tbg &lt;vbr&gt;
          */
-        public static final Tag VAR = new Tag("var");
+        public stbtic finbl Tbg VAR = new Tbg("vbr");
 
         /**
-         * All text content must be in a paragraph element.
-         * If a paragraph didn't exist when content was
-         * encountered, a paragraph is manufactured.
+         * All text content must be in b pbrbgrbph element.
+         * If b pbrbgrbph didn't exist when content wbs
+         * encountered, b pbrbgrbph is mbnufbctured.
          * <p>
-         * This is a tag synthesized by the HTML reader.
-         * Since elements are identified by their tag type,
-         * we create a some fake tag types to mark the elements
-         * that were manufactured.
+         * This is b tbg synthesized by the HTML rebder.
+         * Since elements bre identified by their tbg type,
+         * we crebte b some fbke tbg types to mbrk the elements
+         * thbt were mbnufbctured.
          */
-        public static final Tag IMPLIED = new Tag("p-implied");
+        public stbtic finbl Tbg IMPLIED = new Tbg("p-implied");
 
         /**
-         * All text content is labeled with this tag.
+         * All text content is lbbeled with this tbg.
          * <p>
-         * This is a tag synthesized by the HTML reader.
-         * Since elements are identified by their tag type,
-         * we create a some fake tag types to mark the elements
-         * that were manufactured.
+         * This is b tbg synthesized by the HTML rebder.
+         * Since elements bre identified by their tbg type,
+         * we crebte b some fbke tbg types to mbrk the elements
+         * thbt were mbnufbctured.
          */
-        public static final Tag CONTENT = new Tag("content");
+        public stbtic finbl Tbg CONTENT = new Tbg("content");
 
         /**
-         * All comments are labeled with this tag.
+         * All comments bre lbbeled with this tbg.
          * <p>
-         * This is a tag synthesized by the HTML reader.
-         * Since elements are identified by their tag type,
-         * we create a some fake tag types to mark the elements
-         * that were manufactured.
+         * This is b tbg synthesized by the HTML rebder.
+         * Since elements bre identified by their tbg type,
+         * we crebte b some fbke tbg types to mbrk the elements
+         * thbt were mbnufbctured.
          */
-        public static final Tag COMMENT = new Tag("comment");
+        public stbtic finbl Tbg COMMENT = new Tbg("comment");
 
-        static final Tag allTags[]  = {
+        stbtic finbl Tbg bllTbgs[]  = {
             A, ADDRESS, APPLET, AREA, B, BASE, BASEFONT, BIG,
             BLOCKQUOTE, BODY, BR, CAPTION, CENTER, CITE, CODE,
             DD, DFN, DIR, DIV, DL, DT, EM, FONT, FORM, FRAME,
@@ -565,502 +565,502 @@ public class HTML {
             TH, TITLE, TR, TT, U, UL, VAR
         };
 
-        static {
-            // Force HTMLs static initialize to be loaded.
-            getTag("html");
+        stbtic {
+            // Force HTMLs stbtic initiblize to be lobded.
+            getTbg("html");
         }
     }
 
     /**
-     * Class represents unknown HTML tag.
+     * Clbss represents unknown HTML tbg.
      */
-    // There is no unique instance of UnknownTag, so we allow it to be
-    // Serializable.
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UnknownTag extends Tag implements Serializable {
+    // There is no unique instbnce of UnknownTbg, so we bllow it to be
+    // Seriblizbble.
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss UnknownTbg extends Tbg implements Seriblizbble {
 
         /**
-         * Creates a new <code>UnknownTag</code> with the specified
+         * Crebtes b new <code>UnknownTbg</code> with the specified
          * <code>id</code>.
-         * @param id the id of the new tag
+         * @pbrbm id the id of the new tbg
          */
-        public UnknownTag(String id) {
+        public UnknownTbg(String id) {
             super(id);
         }
 
         /**
-         * Returns the hash code which corresponds to the string
-         * for this tag.
+         * Returns the hbsh code which corresponds to the string
+         * for this tbg.
          */
-        public int hashCode() {
-            return toString().hashCode();
+        public int hbshCode() {
+            return toString().hbshCode();
         }
 
         /**
-         * Compares this object to the specified object.
-         * The result is <code>true</code> if and only if the argument is not
-         * <code>null</code> and is an <code>UnknownTag</code> object
-         * with the same name.
+         * Compbres this object to the specified object.
+         * The result is <code>true</code> if bnd only if the brgument is not
+         * <code>null</code> bnd is bn <code>UnknownTbg</code> object
+         * with the sbme nbme.
          *
-         * @param     obj   the object to compare this tag with
-         * @return    <code>true</code> if the objects are equal;
-         *            <code>false</code> otherwise
+         * @pbrbm     obj   the object to compbre this tbg with
+         * @return    <code>true</code> if the objects bre equbl;
+         *            <code>fblse</code> otherwise
          */
-        public boolean equals(Object obj) {
-            if (obj instanceof UnknownTag) {
-                return toString().equals(obj.toString());
+        public boolebn equbls(Object obj) {
+            if (obj instbnceof UnknownTbg) {
+                return toString().equbls(obj.toString());
             }
-            return false;
+            return fblse;
         }
 
-        private void writeObject(java.io.ObjectOutputStream s)
+        privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
                      throws IOException {
-            s.defaultWriteObject();
-            s.writeBoolean(blockTag);
-            s.writeBoolean(breakTag);
-            s.writeBoolean(unknown);
-            s.writeObject(name);
+            s.defbultWriteObject();
+            s.writeBoolebn(blockTbg);
+            s.writeBoolebn(brebkTbg);
+            s.writeBoolebn(unknown);
+            s.writeObject(nbme);
         }
 
-        private void readObject(ObjectInputStream s)
-            throws ClassNotFoundException, IOException {
-            s.defaultReadObject();
-            blockTag = s.readBoolean();
-            breakTag = s.readBoolean();
-            unknown = s.readBoolean();
-            name = (String)s.readObject();
+        privbte void rebdObject(ObjectInputStrebm s)
+            throws ClbssNotFoundException, IOException {
+            s.defbultRebdObject();
+            blockTbg = s.rebdBoolebn();
+            brebkTbg = s.rebdBoolebn();
+            unknown = s.rebdBoolebn();
+            nbme = (String)s.rebdObject();
         }
     }
 
     /**
-     * Typesafe enumeration representing an HTML
-     * attribute.
+     * Typesbfe enumerbtion representing bn HTML
+     * bttribute.
      */
-    public static final class Attribute {
+    public stbtic finbl clbss Attribute {
 
         /**
-         * Creates a new <code>Attribute</code> with the specified
+         * Crebtes b new <code>Attribute</code> with the specified
          * <code>id</code>.
          *
-         * @param id the id of the new <code>Attribute</code>
+         * @pbrbm id the id of the new <code>Attribute</code>
          */
         Attribute(String id) {
-            name = id;
+            nbme = id;
         }
 
         /**
-         * Returns the string representation of this attribute.
-         * @return the string representation of this attribute
+         * Returns the string representbtion of this bttribute.
+         * @return the string representbtion of this bttribute
          */
         public String toString() {
-            return name;
+            return nbme;
         }
 
-        private String name;
+        privbte String nbme;
 
 
         /**
          * Attribute "size"
          */
-        public static final Attribute SIZE = new Attribute("size");
+        public stbtic finbl Attribute SIZE = new Attribute("size");
 
         /**
          * Attribute "color"
          */
-        public static final Attribute COLOR = new Attribute("color");
+        public stbtic finbl Attribute COLOR = new Attribute("color");
 
         /**
-         * Attribute "clear"
+         * Attribute "clebr"
          */
-        public static final Attribute CLEAR = new Attribute("clear");
+        public stbtic finbl Attribute CLEAR = new Attribute("clebr");
 
         /**
-         * Attribute "background"
+         * Attribute "bbckground"
          */
-        public static final Attribute BACKGROUND = new Attribute("background");
+        public stbtic finbl Attribute BACKGROUND = new Attribute("bbckground");
 
         /**
          * Attribute "bgcolor"
          */
-        public static final Attribute BGCOLOR = new Attribute("bgcolor");
+        public stbtic finbl Attribute BGCOLOR = new Attribute("bgcolor");
 
         /**
          * Attribute "text"
          */
-        public static final Attribute TEXT = new Attribute("text");
+        public stbtic finbl Attribute TEXT = new Attribute("text");
 
         /**
          * Attribute "link"
          */
-        public static final Attribute LINK = new Attribute("link");
+        public stbtic finbl Attribute LINK = new Attribute("link");
 
         /**
          * Attribute "vlink"
          */
-        public static final Attribute VLINK = new Attribute("vlink");
+        public stbtic finbl Attribute VLINK = new Attribute("vlink");
 
         /**
-         * Attribute "alink"
+         * Attribute "blink"
          */
-        public static final Attribute ALINK = new Attribute("alink");
+        public stbtic finbl Attribute ALINK = new Attribute("blink");
 
         /**
          * Attribute "width"
          */
-        public static final Attribute WIDTH = new Attribute("width");
+        public stbtic finbl Attribute WIDTH = new Attribute("width");
 
         /**
          * Attribute "height"
          */
-        public static final Attribute HEIGHT = new Attribute("height");
+        public stbtic finbl Attribute HEIGHT = new Attribute("height");
 
         /**
-         * Attribute "align"
+         * Attribute "blign"
          */
-        public static final Attribute ALIGN = new Attribute("align");
+        public stbtic finbl Attribute ALIGN = new Attribute("blign");
 
         /**
-         * Attribute "name"
+         * Attribute "nbme"
          */
-        public static final Attribute NAME = new Attribute("name");
+        public stbtic finbl Attribute NAME = new Attribute("nbme");
 
         /**
          * Attribute "href"
          */
-        public static final Attribute HREF = new Attribute("href");
+        public stbtic finbl Attribute HREF = new Attribute("href");
 
         /**
          * Attribute "rel"
          */
-        public static final Attribute REL = new Attribute("rel");
+        public stbtic finbl Attribute REL = new Attribute("rel");
 
         /**
          * Attribute "rev"
          */
-        public static final Attribute REV = new Attribute("rev");
+        public stbtic finbl Attribute REV = new Attribute("rev");
 
         /**
          * Attribute "title"
          */
-        public static final Attribute TITLE = new Attribute("title");
+        public stbtic finbl Attribute TITLE = new Attribute("title");
 
         /**
-         * Attribute "target"
+         * Attribute "tbrget"
          */
-        public static final Attribute TARGET = new Attribute("target");
+        public stbtic finbl Attribute TARGET = new Attribute("tbrget");
 
         /**
-         * Attribute "shape"
+         * Attribute "shbpe"
          */
-        public static final Attribute SHAPE = new Attribute("shape");
+        public stbtic finbl Attribute SHAPE = new Attribute("shbpe");
 
         /**
          * Attribute "coords"
          */
-        public static final Attribute COORDS = new Attribute("coords");
+        public stbtic finbl Attribute COORDS = new Attribute("coords");
 
         /**
-         * Attribute "ismap"
+         * Attribute "ismbp"
          */
-        public static final Attribute ISMAP = new Attribute("ismap");
+        public stbtic finbl Attribute ISMAP = new Attribute("ismbp");
 
         /**
          * Attribute "nohref"
          */
-        public static final Attribute NOHREF = new Attribute("nohref");
+        public stbtic finbl Attribute NOHREF = new Attribute("nohref");
 
         /**
-         * Attribute "alt"
+         * Attribute "blt"
          */
-        public static final Attribute ALT = new Attribute("alt");
+        public stbtic finbl Attribute ALT = new Attribute("blt");
 
         /**
          * Attribute "id"
          */
-        public static final Attribute ID = new Attribute("id");
+        public stbtic finbl Attribute ID = new Attribute("id");
 
         /**
          * Attribute "src"
          */
-        public static final Attribute SRC = new Attribute("src");
+        public stbtic finbl Attribute SRC = new Attribute("src");
 
         /**
-         * Attribute "hspace"
+         * Attribute "hspbce"
          */
-        public static final Attribute HSPACE = new Attribute("hspace");
+        public stbtic finbl Attribute HSPACE = new Attribute("hspbce");
 
         /**
-         * Attribute "vspace"
+         * Attribute "vspbce"
          */
-        public static final Attribute VSPACE = new Attribute("vspace");
+        public stbtic finbl Attribute VSPACE = new Attribute("vspbce");
 
         /**
-         * Attribute "usemap"
+         * Attribute "usembp"
          */
-        public static final Attribute USEMAP = new Attribute("usemap");
+        public stbtic finbl Attribute USEMAP = new Attribute("usembp");
 
         /**
          * Attribute "lowsrc"
          */
-        public static final Attribute LOWSRC = new Attribute("lowsrc");
+        public stbtic finbl Attribute LOWSRC = new Attribute("lowsrc");
 
         /**
-         * Attribute "codebase"
+         * Attribute "codebbse"
          */
-        public static final Attribute CODEBASE = new Attribute("codebase");
+        public stbtic finbl Attribute CODEBASE = new Attribute("codebbse");
 
         /**
          * Attribute "code"
          */
-        public static final Attribute CODE = new Attribute("code");
+        public stbtic finbl Attribute CODE = new Attribute("code");
 
         /**
-         * Attribute "archive"
+         * Attribute "brchive"
          */
-        public static final Attribute ARCHIVE = new Attribute("archive");
+        public stbtic finbl Attribute ARCHIVE = new Attribute("brchive");
 
         /**
-         * Attribute "value"
+         * Attribute "vblue"
          */
-        public static final Attribute VALUE = new Attribute("value");
+        public stbtic finbl Attribute VALUE = new Attribute("vblue");
 
         /**
-         * Attribute "valuetype"
+         * Attribute "vbluetype"
          */
-        public static final Attribute VALUETYPE = new Attribute("valuetype");
+        public stbtic finbl Attribute VALUETYPE = new Attribute("vbluetype");
 
         /**
          * Attribute "type"
          */
-        public static final Attribute TYPE = new Attribute("type");
+        public stbtic finbl Attribute TYPE = new Attribute("type");
 
         /**
-         * Attribute "class"
+         * Attribute "clbss"
          */
-        public static final Attribute CLASS = new Attribute("class");
+        public stbtic finbl Attribute CLASS = new Attribute("clbss");
 
         /**
          * Attribute "style"
          */
-        public static final Attribute STYLE = new Attribute("style");
+        public stbtic finbl Attribute STYLE = new Attribute("style");
 
         /**
-         * Attribute "lang"
+         * Attribute "lbng"
          */
-        public static final Attribute LANG = new Attribute("lang");
+        public stbtic finbl Attribute LANG = new Attribute("lbng");
 
         /**
-         * Attribute "face"
+         * Attribute "fbce"
          */
-        public static final Attribute FACE = new Attribute("face");
+        public stbtic finbl Attribute FACE = new Attribute("fbce");
 
         /**
          * Attribute "dir"
          */
-        public static final Attribute DIR = new Attribute("dir");
+        public stbtic finbl Attribute DIR = new Attribute("dir");
 
         /**
-         * Attribute "declare"
+         * Attribute "declbre"
          */
-        public static final Attribute DECLARE = new Attribute("declare");
+        public stbtic finbl Attribute DECLARE = new Attribute("declbre");
 
         /**
-         * Attribute "classid"
+         * Attribute "clbssid"
          */
-        public static final Attribute CLASSID = new Attribute("classid");
+        public stbtic finbl Attribute CLASSID = new Attribute("clbssid");
 
         /**
-         * Attribute "data"
+         * Attribute "dbtb"
          */
-        public static final Attribute DATA = new Attribute("data");
+        public stbtic finbl Attribute DATA = new Attribute("dbtb");
 
         /**
          * Attribute "codetype"
          */
-        public static final Attribute CODETYPE = new Attribute("codetype");
+        public stbtic finbl Attribute CODETYPE = new Attribute("codetype");
 
         /**
-         * Attribute "standby"
+         * Attribute "stbndby"
          */
-        public static final Attribute STANDBY = new Attribute("standby");
+        public stbtic finbl Attribute STANDBY = new Attribute("stbndby");
 
         /**
          * Attribute "border"
          */
-        public static final Attribute BORDER = new Attribute("border");
+        public stbtic finbl Attribute BORDER = new Attribute("border");
 
         /**
-         * Attribute "shapes"
+         * Attribute "shbpes"
          */
-        public static final Attribute SHAPES = new Attribute("shapes");
+        public stbtic finbl Attribute SHAPES = new Attribute("shbpes");
 
         /**
-         * Attribute "noshade"
+         * Attribute "noshbde"
          */
-        public static final Attribute NOSHADE = new Attribute("noshade");
+        public stbtic finbl Attribute NOSHADE = new Attribute("noshbde");
 
         /**
-         * Attribute "compact"
+         * Attribute "compbct"
          */
-        public static final Attribute COMPACT = new Attribute("compact");
+        public stbtic finbl Attribute COMPACT = new Attribute("compbct");
 
         /**
-         * Attribute "start"
+         * Attribute "stbrt"
          */
-        public static final Attribute START = new Attribute("start");
+        public stbtic finbl Attribute START = new Attribute("stbrt");
 
         /**
-         * Attribute "action"
+         * Attribute "bction"
          */
-        public static final Attribute ACTION = new Attribute("action");
+        public stbtic finbl Attribute ACTION = new Attribute("bction");
 
         /**
          * Attribute "method"
          */
-        public static final Attribute METHOD = new Attribute("method");
+        public stbtic finbl Attribute METHOD = new Attribute("method");
 
         /**
          * Attribute "enctype"
          */
-        public static final Attribute ENCTYPE = new Attribute("enctype");
+        public stbtic finbl Attribute ENCTYPE = new Attribute("enctype");
 
         /**
          * Attribute "checked"
          */
-        public static final Attribute CHECKED = new Attribute("checked");
+        public stbtic finbl Attribute CHECKED = new Attribute("checked");
 
         /**
-         * Attribute "maxlength"
+         * Attribute "mbxlength"
          */
-        public static final Attribute MAXLENGTH = new Attribute("maxlength");
+        public stbtic finbl Attribute MAXLENGTH = new Attribute("mbxlength");
 
         /**
          * Attribute "multiple"
          */
-        public static final Attribute MULTIPLE = new Attribute("multiple");
+        public stbtic finbl Attribute MULTIPLE = new Attribute("multiple");
 
         /**
          * Attribute "selected"
          */
-        public static final Attribute SELECTED = new Attribute("selected");
+        public stbtic finbl Attribute SELECTED = new Attribute("selected");
 
         /**
          * Attribute "rows"
          */
-        public static final Attribute ROWS = new Attribute("rows");
+        public stbtic finbl Attribute ROWS = new Attribute("rows");
 
         /**
          * Attribute "cols"
          */
-        public static final Attribute COLS = new Attribute("cols");
+        public stbtic finbl Attribute COLS = new Attribute("cols");
 
         /**
          * Attribute "dummy"
          */
-        public static final Attribute DUMMY = new Attribute("dummy");
+        public stbtic finbl Attribute DUMMY = new Attribute("dummy");
 
         /**
-         * Attribute "cellspacing"
+         * Attribute "cellspbcing"
          */
-        public static final Attribute CELLSPACING = new Attribute("cellspacing");
+        public stbtic finbl Attribute CELLSPACING = new Attribute("cellspbcing");
 
         /**
-         * Attribute "cellpadding"
+         * Attribute "cellpbdding"
          */
-        public static final Attribute CELLPADDING = new Attribute("cellpadding");
+        public stbtic finbl Attribute CELLPADDING = new Attribute("cellpbdding");
 
         /**
-         * Attribute "valign"
+         * Attribute "vblign"
          */
-        public static final Attribute VALIGN = new Attribute("valign");
+        public stbtic finbl Attribute VALIGN = new Attribute("vblign");
 
         /**
-         * Attribute "halign"
+         * Attribute "hblign"
          */
-        public static final Attribute HALIGN = new Attribute("halign");
+        public stbtic finbl Attribute HALIGN = new Attribute("hblign");
 
         /**
-         * Attribute "nowrap"
+         * Attribute "nowrbp"
          */
-        public static final Attribute NOWRAP = new Attribute("nowrap");
+        public stbtic finbl Attribute NOWRAP = new Attribute("nowrbp");
 
         /**
-         * Attribute "rowspan"
+         * Attribute "rowspbn"
          */
-        public static final Attribute ROWSPAN = new Attribute("rowspan");
+        public stbtic finbl Attribute ROWSPAN = new Attribute("rowspbn");
 
         /**
-         * Attribute "colspan"
+         * Attribute "colspbn"
          */
-        public static final Attribute COLSPAN = new Attribute("colspan");
+        public stbtic finbl Attribute COLSPAN = new Attribute("colspbn");
 
         /**
          * Attribute "prompt"
          */
-        public static final Attribute PROMPT = new Attribute("prompt");
+        public stbtic finbl Attribute PROMPT = new Attribute("prompt");
 
         /**
          * Attribute "http-equiv"
          */
-        public static final Attribute HTTPEQUIV = new Attribute("http-equiv");
+        public stbtic finbl Attribute HTTPEQUIV = new Attribute("http-equiv");
 
         /**
          * Attribute "content"
          */
-        public static final Attribute CONTENT = new Attribute("content");
+        public stbtic finbl Attribute CONTENT = new Attribute("content");
 
         /**
-         * Attribute "language"
+         * Attribute "lbngubge"
          */
-        public static final Attribute LANGUAGE = new Attribute("language");
+        public stbtic finbl Attribute LANGUAGE = new Attribute("lbngubge");
 
         /**
          * Attribute "version"
          */
-        public static final Attribute VERSION = new Attribute("version");
+        public stbtic finbl Attribute VERSION = new Attribute("version");
 
         /**
          * Attribute "n"
          */
-        public static final Attribute N = new Attribute("n");
+        public stbtic finbl Attribute N = new Attribute("n");
 
         /**
-         * Attribute "frameborder"
+         * Attribute "frbmeborder"
          */
-        public static final Attribute FRAMEBORDER = new Attribute("frameborder");
+        public stbtic finbl Attribute FRAMEBORDER = new Attribute("frbmeborder");
 
         /**
-         * Attribute "marginwidth"
+         * Attribute "mbrginwidth"
          */
-        public static final Attribute MARGINWIDTH = new Attribute("marginwidth");
+        public stbtic finbl Attribute MARGINWIDTH = new Attribute("mbrginwidth");
 
         /**
-         * Attribute "marginheight"
+         * Attribute "mbrginheight"
          */
-        public static final Attribute MARGINHEIGHT = new Attribute("marginheight");
+        public stbtic finbl Attribute MARGINHEIGHT = new Attribute("mbrginheight");
 
         /**
          * Attribute "scrolling"
          */
-        public static final Attribute SCROLLING = new Attribute("scrolling");
+        public stbtic finbl Attribute SCROLLING = new Attribute("scrolling");
 
         /**
          * Attribute "noresize"
          */
-        public static final Attribute NORESIZE = new Attribute("noresize");
+        public stbtic finbl Attribute NORESIZE = new Attribute("noresize");
 
         /**
-         * Attribute "endtag"
+         * Attribute "endtbg"
          */
-        public static final Attribute ENDTAG = new Attribute("endtag");
+        public stbtic finbl Attribute ENDTAG = new Attribute("endtbg");
 
         /**
          * Attribute "comment"
          */
-        public static final Attribute COMMENT = new Attribute("comment");
-        static final Attribute MEDIA = new Attribute("media");
+        public stbtic finbl Attribute COMMENT = new Attribute("comment");
+        stbtic finbl Attribute MEDIA = new Attribute("medib");
 
-        static final Attribute allAttributes[] = {
+        stbtic finbl Attribute bllAttributes[] = {
             FACE,
             COMMENT,
             SIZE,
@@ -1145,58 +1145,58 @@ public class HTML {
         };
     }
 
-    // The secret to 73, is that, given that the Hashtable contents
-    // never change once the static initialization happens, the initial size
-    // that the hashtable grew to was determined, and then that very size
+    // The secret to 73, is thbt, given thbt the Hbshtbble contents
+    // never chbnge once the stbtic initiblizbtion hbppens, the initibl size
+    // thbt the hbshtbble grew to wbs determined, bnd then thbt very size
     // is used.
     //
-    private static final Hashtable<String, Tag> tagHashtable = new Hashtable<String, Tag>(73);
+    privbte stbtic finbl Hbshtbble<String, Tbg> tbgHbshtbble = new Hbshtbble<String, Tbg>(73);
 
-    /** Maps from StyleConstant key to HTML.Tag. */
-    private static final Hashtable<Object, Tag> scMapping = new Hashtable<Object, Tag>(8);
+    /** Mbps from StyleConstbnt key to HTML.Tbg. */
+    privbte stbtic finbl Hbshtbble<Object, Tbg> scMbpping = new Hbshtbble<Object, Tbg>(8);
 
-    static {
+    stbtic {
 
-        for (int i = 0; i < Tag.allTags.length; i++ ) {
-            tagHashtable.put(Tag.allTags[i].toString(), Tag.allTags[i]);
-            StyleContext.registerStaticAttributeKey(Tag.allTags[i]);
+        for (int i = 0; i < Tbg.bllTbgs.length; i++ ) {
+            tbgHbshtbble.put(Tbg.bllTbgs[i].toString(), Tbg.bllTbgs[i]);
+            StyleContext.registerStbticAttributeKey(Tbg.bllTbgs[i]);
         }
-        StyleContext.registerStaticAttributeKey(Tag.IMPLIED);
-        StyleContext.registerStaticAttributeKey(Tag.CONTENT);
-        StyleContext.registerStaticAttributeKey(Tag.COMMENT);
-        for (int i = 0; i < Attribute.allAttributes.length; i++) {
-            StyleContext.registerStaticAttributeKey(Attribute.
-                                                    allAttributes[i]);
+        StyleContext.registerStbticAttributeKey(Tbg.IMPLIED);
+        StyleContext.registerStbticAttributeKey(Tbg.CONTENT);
+        StyleContext.registerStbticAttributeKey(Tbg.COMMENT);
+        for (int i = 0; i < Attribute.bllAttributes.length; i++) {
+            StyleContext.registerStbticAttributeKey(Attribute.
+                                                    bllAttributes[i]);
         }
-        StyleContext.registerStaticAttributeKey(HTML.NULL_ATTRIBUTE_VALUE);
-        scMapping.put(StyleConstants.Bold, Tag.B);
-        scMapping.put(StyleConstants.Italic, Tag.I);
-        scMapping.put(StyleConstants.Underline, Tag.U);
-        scMapping.put(StyleConstants.StrikeThrough, Tag.STRIKE);
-        scMapping.put(StyleConstants.Superscript, Tag.SUP);
-        scMapping.put(StyleConstants.Subscript, Tag.SUB);
-        scMapping.put(StyleConstants.FontFamily, Tag.FONT);
-        scMapping.put(StyleConstants.FontSize, Tag.FONT);
+        StyleContext.registerStbticAttributeKey(HTML.NULL_ATTRIBUTE_VALUE);
+        scMbpping.put(StyleConstbnts.Bold, Tbg.B);
+        scMbpping.put(StyleConstbnts.Itblic, Tbg.I);
+        scMbpping.put(StyleConstbnts.Underline, Tbg.U);
+        scMbpping.put(StyleConstbnts.StrikeThrough, Tbg.STRIKE);
+        scMbpping.put(StyleConstbnts.Superscript, Tbg.SUP);
+        scMbpping.put(StyleConstbnts.Subscript, Tbg.SUB);
+        scMbpping.put(StyleConstbnts.FontFbmily, Tbg.FONT);
+        scMbpping.put(StyleConstbnts.FontSize, Tbg.FONT);
     }
 
     /**
-     * Returns the set of actual HTML tags that
-     * are recognized by the default HTML reader.
-     * This set does not include tags that are
-     * manufactured by the reader.
+     * Returns the set of bctubl HTML tbgs thbt
+     * bre recognized by the defbult HTML rebder.
+     * This set does not include tbgs thbt bre
+     * mbnufbctured by the rebder.
      *
-     * @return the set of actual HTML tags that
-     * are recognized by the default HTML reader
+     * @return the set of bctubl HTML tbgs thbt
+     * bre recognized by the defbult HTML rebder
      */
-    public static Tag[] getAllTags() {
-        Tag[] tags = new Tag[Tag.allTags.length];
-        System.arraycopy(Tag.allTags, 0, tags, 0, Tag.allTags.length);
-        return tags;
+    public stbtic Tbg[] getAllTbgs() {
+        Tbg[] tbgs = new Tbg[Tbg.bllTbgs.length];
+        System.brrbycopy(Tbg.bllTbgs, 0, tbgs, 0, Tbg.bllTbgs.length);
+        return tbgs;
     }
 
     /**
-     * Fetches a tag constant for a well-known tag name (i.e. one of
-     * the tags in the set {A, ADDRESS, APPLET, AREA, B,
+     * Fetches b tbg constbnt for b well-known tbg nbme (i.e. one of
+     * the tbgs in the set {A, ADDRESS, APPLET, AREA, B,
      * BASE, BASEFONT, BIG,
      * BLOCKQUOTE, BODY, BR, CAPTION, CENTER, CITE, CODE,
      * DD, DFN, DIR, DIV, DL, DT, EM, FONT, FORM, FRAME,
@@ -1206,88 +1206,88 @@ public class HTML {
      * PRE, SAMP, SCRIPT, SELECT, SMALL, SPAN, STRIKE, S,
      * STRONG, STYLE, SUB, SUP, TABLE, TD, TEXTAREA,
      * TH, TITLE, TR, TT, U, UL, VAR}.  If the given
-     * name does not represent one of the well-known tags, then
+     * nbme does not represent one of the well-known tbgs, then
      * <code>null</code> will be returned.
      *
-     * @param tagName the <code>String</code> name requested
-     * @return a tag constant corresponding to the <code>tagName</code>,
+     * @pbrbm tbgNbme the <code>String</code> nbme requested
+     * @return b tbg constbnt corresponding to the <code>tbgNbme</code>,
      *    or <code>null</code> if not found
      */
-    public static Tag getTag(String tagName) {
+    public stbtic Tbg getTbg(String tbgNbme) {
 
-        Tag t =  tagHashtable.get(tagName);
+        Tbg t =  tbgHbshtbble.get(tbgNbme);
         return (t == null ? null : t);
     }
 
     /**
-     * Returns the HTML <code>Tag</code> associated with the
-     * <code>StyleConstants</code> key <code>sc</code>.
-     * If no matching <code>Tag</code> is found, returns
+     * Returns the HTML <code>Tbg</code> bssocibted with the
+     * <code>StyleConstbnts</code> key <code>sc</code>.
+     * If no mbtching <code>Tbg</code> is found, returns
      * <code>null</code>.
      *
-     * @param sc the <code>StyleConstants</code> key
-     * @return tag which corresponds to <code>sc</code>, or
+     * @pbrbm sc the <code>StyleConstbnts</code> key
+     * @return tbg which corresponds to <code>sc</code>, or
      *   <code>null</code> if not found
      */
-    static Tag getTagForStyleConstantsKey(StyleConstants sc) {
-        return scMapping.get(sc);
+    stbtic Tbg getTbgForStyleConstbntsKey(StyleConstbnts sc) {
+        return scMbpping.get(sc);
     }
 
     /**
-     * Fetches an integer attribute value.  Attribute values
-     * are stored as a string, and this is a convenience method
-     * to convert to an actual integer.
+     * Fetches bn integer bttribute vblue.  Attribute vblues
+     * bre stored bs b string, bnd this is b convenience method
+     * to convert to bn bctubl integer.
      *
-     * @param attr the set of attributes to use to try to fetch a value
-     * @param key the key to use to fetch the value
-     * @param def the default value to use if the attribute isn't
-     *  defined or there is an error converting to an integer
-     * @return an attribute value
+     * @pbrbm bttr the set of bttributes to use to try to fetch b vblue
+     * @pbrbm key the key to use to fetch the vblue
+     * @pbrbm def the defbult vblue to use if the bttribute isn't
+     *  defined or there is bn error converting to bn integer
+     * @return bn bttribute vblue
      */
-    public static int getIntegerAttributeValue(AttributeSet attr,
+    public stbtic int getIntegerAttributeVblue(AttributeSet bttr,
                                                Attribute key, int def) {
-        int value = def;
-        String istr = (String) attr.getAttribute(key);
+        int vblue = def;
+        String istr = (String) bttr.getAttribute(key);
         if (istr != null) {
             try {
-                value = Integer.valueOf(istr).intValue();
-            } catch (NumberFormatException e) {
-                value = def;
+                vblue = Integer.vblueOf(istr).intVblue();
+            } cbtch (NumberFormbtException e) {
+                vblue = def;
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     *  {@code NULL_ATTRIBUTE_VALUE} used in cases where the value for the attribute has not
+     *  {@code NULL_ATTRIBUTE_VALUE} used in cbses where the vblue for the bttribute hbs not
      *  been specified.
      */
-    public static final String NULL_ATTRIBUTE_VALUE = "#DEFAULT";
+    public stbtic finbl String NULL_ATTRIBUTE_VALUE = "#DEFAULT";
 
-    // size determined similar to size of tagHashtable
-    private static final Hashtable<String, Attribute> attHashtable = new Hashtable<String, Attribute>(77);
+    // size determined similbr to size of tbgHbshtbble
+    privbte stbtic finbl Hbshtbble<String, Attribute> bttHbshtbble = new Hbshtbble<String, Attribute>(77);
 
-    static {
+    stbtic {
 
-        for (int i = 0; i < Attribute.allAttributes.length; i++ ) {
-            attHashtable.put(Attribute.allAttributes[i].toString(), Attribute.allAttributes[i]);
+        for (int i = 0; i < Attribute.bllAttributes.length; i++ ) {
+            bttHbshtbble.put(Attribute.bllAttributes[i].toString(), Attribute.bllAttributes[i]);
         }
     }
 
     /**
-     * Returns the set of HTML attributes recognized.
-     * @return the set of HTML attributes recognized
+     * Returns the set of HTML bttributes recognized.
+     * @return the set of HTML bttributes recognized
      */
-    public static Attribute[] getAllAttributeKeys() {
-        Attribute[] attributes = new Attribute[Attribute.allAttributes.length];
-        System.arraycopy(Attribute.allAttributes, 0,
-                         attributes, 0, Attribute.allAttributes.length);
-        return attributes;
+    public stbtic Attribute[] getAllAttributeKeys() {
+        Attribute[] bttributes = new Attribute[Attribute.bllAttributes.length];
+        System.brrbycopy(Attribute.bllAttributes, 0,
+                         bttributes, 0, Attribute.bllAttributes.length);
+        return bttributes;
     }
 
     /**
-     * Fetches an attribute constant for a well-known attribute name
-     * (i.e. one of the attributes in the set {FACE, COMMENT, SIZE,
+     * Fetches bn bttribute constbnt for b well-known bttribute nbme
+     * (i.e. one of the bttributes in the set {FACE, COMMENT, SIZE,
      * COLOR, CLEAR, BACKGROUND, BGCOLOR, TEXT, LINK, VLINK, ALINK,
      * WIDTH, HEIGHT, ALIGN, NAME, HREF, REL, REV, TITLE, TARGET,
      * SHAPE, COORDS, ISMAP, NOHREF, ALT, ID, SRC, HSPACE, VSPACE,
@@ -1299,18 +1299,18 @@ public class HTML {
      * COLSPAN, PROMPT, HTTPEQUIV, CONTENT, LANGUAGE, VERSION, N,
      * FRAMEBORDER, MARGINWIDTH, MARGINHEIGHT, SCROLLING, NORESIZE,
      * MEDIA, ENDTAG}).
-     * If the given name does not represent one of the well-known attributes,
+     * If the given nbme does not represent one of the well-known bttributes,
      * then <code>null</code> will be returned.
      *
-     * @param attName the <code>String</code> requested
-     * @return the <code>Attribute</code> corresponding to <code>attName</code>
+     * @pbrbm bttNbme the <code>String</code> requested
+     * @return the <code>Attribute</code> corresponding to <code>bttNbme</code>
      */
-    public static Attribute getAttributeKey(String attName) {
-        Attribute a = attHashtable.get(attName);
-        if (a == null) {
+    public stbtic Attribute getAttributeKey(String bttNbme) {
+        Attribute b = bttHbshtbble.get(bttNbme);
+        if (b == null) {
           return null;
         }
-        return a;
+        return b;
     }
 
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,87 +28,87 @@
 
 #include <jni.h>
 #include <jni_util.h>
-#include <sun_awt_Win32FontManager.h>
+#include <sun_bwt_Win32FontMbnbger.h>
 
-#define BSIZE (max(512, MAX_PATH+1))
+#define BSIZE (mbx(512, MAX_PATH+1))
 
 
-JNIEXPORT jstring JNICALL Java_sun_awt_Win32FontManager_getFontPath(JNIEnv *env, jobject thiz, jboolean noType1)
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_Win32FontMbnbger_getFontPbth(JNIEnv *env, jobject thiz, jboolebn noType1)
 {
-    char windir[BSIZE];
-    char sysdir[BSIZE];
-    char fontpath[BSIZE*2];
-    char *end;
+    chbr windir[BSIZE];
+    chbr sysdir[BSIZE];
+    chbr fontpbth[BSIZE*2];
+    chbr *end;
 
-    /* Locate fonts directories relative to the Windows System directory.
-     * If Windows System location is different than the user's window
-     * directory location, as in a shared Windows installation,
-     * return both locations as potential font directories
+    /* Locbte fonts directories relbtive to the Windows System directory.
+     * If Windows System locbtion is different thbn the user's window
+     * directory locbtion, bs in b shbred Windows instbllbtion,
+     * return both locbtions bs potentibl font directories
      */
     GetSystemDirectory(sysdir, BSIZE);
     end = strrchr(sysdir,'\\');
     if (end && (stricmp(end,"\\System") || stricmp(end,"\\System32"))) {
         *end = 0;
-         strcat(sysdir, "\\Fonts");
+         strcbt(sysdir, "\\Fonts");
     }
 
     GetWindowsDirectory(windir, BSIZE);
     if (strlen(windir) > BSIZE-7) {
         *windir = 0;
     } else {
-        strcat(windir, "\\Fonts");
+        strcbt(windir, "\\Fonts");
     }
 
-    strcpy(fontpath,sysdir);
+    strcpy(fontpbth,sysdir);
     if (stricmp(sysdir,windir)) {
-        strcat(fontpath,";");
-        strcat(fontpath,windir);
+        strcbt(fontpbth,";");
+        strcbt(fontpbth,windir);
     }
 
-    return JNU_NewStringPlatform(env, fontpath);
+    return JNU_NewStringPlbtform(env, fontpbth);
 }
 
-/* The code below is used to obtain information from the windows font APIS
- * and registry on which fonts are available and what font files hold those
- * fonts. The results are used to speed font lookup.
+/* The code below is used to obtbin informbtion from the windows font APIS
+ * bnd registry on which fonts bre bvbilbble bnd whbt font files hold those
+ * fonts. The results bre used to speed font lookup.
  */
 
-typedef struct GdiFontMapInfo {
+typedef struct GdiFontMbpInfo {
     JNIEnv *env;
-    jstring family;
-    jobject fontToFamilyMap;
-    jobject familyToFontListMap;
+    jstring fbmily;
+    jobject fontToFbmilyMbp;
+    jobject fbmilyToFontListMbp;
     jobject list;
     jmethodID putMID;
-    jmethodID containsKeyMID;
-    jclass arrayListClass;
-    jmethodID arrayListCtr;
-    jmethodID addMID;
-    jmethodID toLowerCaseMID;
-    jobject locale;
-} GdiFontMapInfo;
+    jmethodID contbinsKeyMID;
+    jclbss brrbyListClbss;
+    jmethodID brrbyListCtr;
+    jmethodID bddMID;
+    jmethodID toLowerCbseMID;
+    jobject locble;
+} GdiFontMbpInfo;
 
-/* IS_NT means NT or later OSes which support Unicode.
- * We have to painfully deal with the ASCII and non-ASCII case we
- * we really want to get the font names as unicode wherever possible.
- * UNICODE_OS is 0 to mean uninitialised, 1 to mean not a unicode OS,
- * 2 to mean a unicode OS.
+/* IS_NT mebns NT or lbter OSes which support Unicode.
+ * We hbve to pbinfully debl with the ASCII bnd non-ASCII cbse we
+ * we reblly wbnt to get the font nbmes bs unicode wherever possible.
+ * UNICODE_OS is 0 to mebn uninitiblised, 1 to mebn not b unicode OS,
+ * 2 to mebn b unicode OS.
  */
 
 #define UC_UNKNOWN 0
 #define UC_NO     1
 #define UC_YES    2
-static int UNICODE_OS = UC_UNKNOWN;
-static int GetOSVersion () {
+stbtic int UNICODE_OS = UC_UNKNOWN;
+stbtic int GetOSVersion () {
     OSVERSIONINFO vinfo;
     vinfo.dwOSVersionInfoSize = sizeof(vinfo);
     GetVersionEx(&vinfo);
-    if ((int)vinfo.dwMajorVersion > 4) {
+    if ((int)vinfo.dwMbjorVersion > 4) {
         UNICODE_OS = UC_YES;
-    } else if ((int)vinfo.dwMajorVersion < 4) {
+    } else if ((int)vinfo.dwMbjorVersion < 4) {
         UNICODE_OS = UC_NO;
     } else {
-        if ((int)vinfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
+        if ((int)vinfo.dwPlbtformId == VER_PLATFORM_WIN32_WINDOWS) {
             UNICODE_OS = UC_NO;
         } else {
             UNICODE_OS = UC_YES;
@@ -121,547 +121,547 @@ static int GetOSVersion () {
    ? (GetOSVersion() == UC_YES) : (UNICODE_OS == UC_YES))
 
 /* NT is W2K & XP. WIN is Win9x */
-static const char FONTKEY_NT[] =
-    "Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
-static const char FONTKEY_WIN[] =
-    "Software\\Microsoft\\Windows\\CurrentVersion\\Fonts";
+stbtic const chbr FONTKEY_NT[] =
+    "Softwbre\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+stbtic const chbr FONTKEY_WIN[] =
+    "Softwbre\\Microsoft\\Windows\\CurrentVersion\\Fonts";
 
-/* Callback for call to EnumFontFamiliesEx in the EnumFamilyNames function.
- * Expects to be called once for each face name in the family specified
- * in the call. We extract the full name for the font which is expected
- * to be in the "system encoding" and create canonical and lower case
- * Java strings for the name which are added to the maps. The lower case
- * name is used as key to the family name value in the font to family map,
- * the canonical name is one of the"list" of members of the family.
+/* Cbllbbck for cbll to EnumFontFbmiliesEx in the EnumFbmilyNbmes function.
+ * Expects to be cblled once for ebch fbce nbme in the fbmily specified
+ * in the cbll. We extrbct the full nbme for the font which is expected
+ * to be in the "system encoding" bnd crebte cbnonicbl bnd lower cbse
+ * Jbvb strings for the nbme which bre bdded to the mbps. The lower cbse
+ * nbme is used bs key to the fbmily nbme vblue in the font to fbmily mbp,
+ * the cbnonicbl nbme is one of the"list" of members of the fbmily.
  */
-static int CALLBACK EnumFontFacesInFamilyProcA(
+stbtic int CALLBACK EnumFontFbcesInFbmilyProcA(
   ENUMLOGFONTEXA *lpelfe,
   NEWTEXTMETRICEX *lpntme,
   int FontType,
-  LPARAM lParam )
+  LPARAM lPbrbm )
 {
-    GdiFontMapInfo *fmi = (GdiFontMapInfo*)lParam;
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
     JNIEnv *env = fmi->env;
-    jstring fullname, fullnameLC;
+    jstring fullnbme, fullnbmeLC;
 
-    /* Both Vista and XP return DEVICE_FONTTYPE for OTF fonts */
+    /* Both Vistb bnd XP return DEVICE_FONTTYPE for OTF fonts */
     if (FontType != TRUETYPE_FONTTYPE && FontType != DEVICE_FONTTYPE) {
         return 1;
     }
 
-    /* printf("FULL=%s\n",lpelfe->elfFullName);fflush(stdout);  */
+    /* printf("FULL=%s\n",lpelfe->elfFullNbme);fflush(stdout);  */
 
-    fullname = JNU_NewStringPlatform(env, lpelfe->elfFullName);
-    if (fullname == NULL) {
-        (*env)->ExceptionClear(env);
+    fullnbme = JNU_NewStringPlbtform(env, lpelfe->elfFullNbme);
+    if (fullnbme == NULL) {
+        (*env)->ExceptionClebr(env);
         return 1;
     }
-    fullnameLC = (*env)->CallObjectMethod(env, fullname,
-                                          fmi->toLowerCaseMID, fmi->locale);
-    (*env)->CallBooleanMethod(env, fmi->list, fmi->addMID, fullname);
-    (*env)->CallObjectMethod(env, fmi->fontToFamilyMap,
-                             fmi->putMID, fullnameLC, fmi->family);
+    fullnbmeLC = (*env)->CbllObjectMethod(env, fullnbme,
+                                          fmi->toLowerCbseMID, fmi->locble);
+    (*env)->CbllBoolebnMethod(env, fmi->list, fmi->bddMID, fullnbme);
+    (*env)->CbllObjectMethod(env, fmi->fontToFbmilyMbp,
+                             fmi->putMID, fullnbmeLC, fmi->fbmily);
     return 1;
 }
 
-typedef struct CheckFamilyInfo {
-  wchar_t *family;
-  wchar_t* fullName;
+typedef struct CheckFbmilyInfo {
+  wchbr_t *fbmily;
+  wchbr_t* fullNbme;
   int isDifferent;
-} CheckFamilyInfo;
+} CheckFbmilyInfo;
 
-static int CALLBACK CheckFontFamilyProcW(
+stbtic int CALLBACK CheckFontFbmilyProcW(
   ENUMLOGFONTEXW *lpelfe,
   NEWTEXTMETRICEX *lpntme,
   int FontType,
-  LPARAM lParam)
+  LPARAM lPbrbm)
 {
-    CheckFamilyInfo *info = (CheckFamilyInfo*)lParam;
-    info->isDifferent = wcscmp(lpelfe->elfLogFont.lfFaceName, info->family);
+    CheckFbmilyInfo *info = (CheckFbmilyInfo*)lPbrbm;
+    info->isDifferent = wcscmp(lpelfe->elfLogFont.lfFbceNbme, info->fbmily);
 
 /*     if (!info->isDifferent) { */
-/*         wprintf(LFor font %s expected family=%s instead got %s\n", */
-/*                 lpelfe->elfFullName, */
-/*                 info->family, */
-/*                 lpelfe->elfLogFont.lfFaceName); */
+/*         wprintf(LFor font %s expected fbmily=%s instebd got %s\n", */
+/*                 lpelfe->elfFullNbme, */
+/*                 info->fbmily, */
+/*                 lpelfe->elfLogFont.lfFbceNbme); */
 /*         fflush(stdout); */
 /*     } */
     return 0;
 }
 
-/* This HDC is initialised and released in the populate family map
- * JNI entry point, and used within the call which would otherwise
- * create many DCs.
+/* This HDC is initiblised bnd relebsed in the populbte fbmily mbp
+ * JNI entry point, bnd used within the cbll which would otherwise
+ * crebte mbny DCs.
  */
-static HDC screenDC = NULL;
+stbtic HDC screenDC = NULL;
 
-static int DifferentFamily(wchar_t *family, wchar_t* fullName) {
+stbtic int DifferentFbmily(wchbr_t *fbmily, wchbr_t* fullNbme) {
     LOGFONTW lfw;
-    CheckFamilyInfo info;
+    CheckFbmilyInfo info;
 
-    /* If fullName can't be stored in the struct, assume correct family */
-    if (wcslen((LPWSTR)fullName) >= LF_FACESIZE) {
+    /* If fullNbme cbn't be stored in the struct, bssume correct fbmily */
+    if (wcslen((LPWSTR)fullNbme) >= LF_FACESIZE) {
         return 0;
     }
 
-    memset(&info, 0, sizeof(CheckFamilyInfo));
-    info.family = family;
-    info.fullName = fullName;
+    memset(&info, 0, sizeof(CheckFbmilyInfo));
+    info.fbmily = fbmily;
+    info.fullNbme = fullNbme;
     info.isDifferent = 0;
 
     memset(&lfw, 0, sizeof(lfw));
-    wcscpy(lfw.lfFaceName, fullName);
-    lfw.lfCharSet = DEFAULT_CHARSET;
-    EnumFontFamiliesExW(screenDC, &lfw,
-                        (FONTENUMPROCW)CheckFontFamilyProcW,
+    wcscpy(lfw.lfFbceNbme, fullNbme);
+    lfw.lfChbrSet = DEFAULT_CHARSET;
+    EnumFontFbmiliesExW(screenDC, &lfw,
+                        (FONTENUMPROCW)CheckFontFbmilyProcW,
                         (LPARAM)(&info), 0L);
 
     return info.isDifferent;
 }
 
-static int CALLBACK EnumFontFacesInFamilyProcW(
+stbtic int CALLBACK EnumFontFbcesInFbmilyProcW(
   ENUMLOGFONTEXW *lpelfe,
   NEWTEXTMETRICEX *lpntme,
   int FontType,
-  LPARAM lParam)
+  LPARAM lPbrbm)
 {
-    GdiFontMapInfo *fmi = (GdiFontMapInfo*)lParam;
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
     JNIEnv *env = fmi->env;
-    jstring fullname, fullnameLC;
+    jstring fullnbme, fullnbmeLC;
 
-    /* Both Vista and XP return DEVICE_FONTTYPE for OTF fonts */
+    /* Both Vistb bnd XP return DEVICE_FONTTYPE for OTF fonts */
     if (FontType != TRUETYPE_FONTTYPE && FontType != DEVICE_FONTTYPE) {
         return 1;
     }
 
-    /* Windows has font aliases and so may enumerate fonts from
-     * the aliased family if any actual font of that family is installed.
-     * To protect against it ignore fonts which aren't enumerated under
-     * their true family.
+    /* Windows hbs font blibses bnd so mby enumerbte fonts from
+     * the blibsed fbmily if bny bctubl font of thbt fbmily is instblled.
+     * To protect bgbinst it ignore fonts which bren't enumerbted under
+     * their true fbmily.
      */
-    if (DifferentFamily(lpelfe->elfLogFont.lfFaceName,
-                        lpelfe->elfFullName))  {
+    if (DifferentFbmily(lpelfe->elfLogFont.lfFbceNbme,
+                        lpelfe->elfFullNbme))  {
       return 1;
     }
 
-    fullname = (*env)->NewString(env, lpelfe->elfFullName,
-                                 (jsize)wcslen((LPWSTR)lpelfe->elfFullName));
-    if (fullname == NULL) {
-        (*env)->ExceptionClear(env);
+    fullnbme = (*env)->NewString(env, lpelfe->elfFullNbme,
+                                 (jsize)wcslen((LPWSTR)lpelfe->elfFullNbme));
+    if (fullnbme == NULL) {
+        (*env)->ExceptionClebr(env);
         return 1;
     }
-    fullnameLC = (*env)->CallObjectMethod(env, fullname,
-                                          fmi->toLowerCaseMID, fmi->locale);
-    (*env)->CallBooleanMethod(env, fmi->list, fmi->addMID, fullname);
-    (*env)->CallObjectMethod(env, fmi->fontToFamilyMap,
-                             fmi->putMID, fullnameLC, fmi->family);
+    fullnbmeLC = (*env)->CbllObjectMethod(env, fullnbme,
+                                          fmi->toLowerCbseMID, fmi->locble);
+    (*env)->CbllBoolebnMethod(env, fmi->list, fmi->bddMID, fullnbme);
+    (*env)->CbllObjectMethod(env, fmi->fontToFbmilyMbp,
+                             fmi->putMID, fullnbmeLC, fmi->fbmily);
     return 1;
 }
 
-/* Callback for EnumFontFamiliesEx in populateFontFileNameMap.
- * Expects to be called for every charset of every font family.
- * If this is the first time we have been called for this family,
- * add a new mapping to the familyToFontListMap from this family to a
- * list of its members. To populate that list, further enumerate all faces
- * in this family for the matched charset. This assumes that all fonts
- * in a family support the same charset, which is a fairly safe assumption
- * and saves time as the call we make here to EnumFontFamiliesEx will
- * enumerate the members of this family just once each.
- * Because we set fmi->list to be the newly created list the call back
- * can safely add to that list without a search.
+/* Cbllbbck for EnumFontFbmiliesEx in populbteFontFileNbmeMbp.
+ * Expects to be cblled for every chbrset of every font fbmily.
+ * If this is the first time we hbve been cblled for this fbmily,
+ * bdd b new mbpping to the fbmilyToFontListMbp from this fbmily to b
+ * list of its members. To populbte thbt list, further enumerbte bll fbces
+ * in this fbmily for the mbtched chbrset. This bssumes thbt bll fonts
+ * in b fbmily support the sbme chbrset, which is b fbirly sbfe bssumption
+ * bnd sbves time bs the cbll we mbke here to EnumFontFbmiliesEx will
+ * enumerbte the members of this fbmily just once ebch.
+ * Becbuse we set fmi->list to be the newly crebted list the cbll bbck
+ * cbn sbfely bdd to thbt list without b sebrch.
  */
-static int CALLBACK EnumFamilyNamesA(
-  ENUMLOGFONTEXA *lpelfe,    /* pointer to logical-font data */
-  NEWTEXTMETRICEX *lpntme,   /* pointer to physical-font data */
+stbtic int CALLBACK EnumFbmilyNbmesA(
+  ENUMLOGFONTEXA *lpelfe,    /* pointer to logicbl-font dbtb */
+  NEWTEXTMETRICEX *lpntme,   /* pointer to physicbl-font dbtb */
   int FontType,              /* type of font */
-  LPARAM lParam)             /* application-defined data */
+  LPARAM lPbrbm)             /* bpplicbtion-defined dbtb */
 {
-    GdiFontMapInfo *fmi = (GdiFontMapInfo*)lParam;
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
     JNIEnv *env = fmi->env;
-    jstring familyLC;
-    LOGFONTA lfa;
+    jstring fbmilyLC;
+    LOGFONTA lfb;
 
-    /* Both Vista and XP return DEVICE_FONTTYPE for OTF fonts */
+    /* Both Vistb bnd XP return DEVICE_FONTTYPE for OTF fonts */
     if (FontType != TRUETYPE_FONTTYPE && FontType != DEVICE_FONTTYPE) {
         return 1;
     }
 
-    /* Windows lists fonts which have a vmtx (vertical metrics) table twice.
-     * Once using their normal name, and again preceded by '@'. These appear
-     * in font lists in some windows apps, such as wordpad. We don't want
-     * these so we skip any font where the first character is '@'
+    /* Windows lists fonts which hbve b vmtx (verticbl metrics) tbble twice.
+     * Once using their normbl nbme, bnd bgbin preceded by '@'. These bppebr
+     * in font lists in some windows bpps, such bs wordpbd. We don't wbnt
+     * these so we skip bny font where the first chbrbcter is '@'
      */
-    if (lpelfe->elfLogFont.lfFaceName[0] == '@') {
+    if (lpelfe->elfLogFont.lfFbceNbme[0] == '@') {
         return 1;
     }
-    fmi->family = JNU_NewStringPlatform(env,lpelfe->elfLogFont.lfFaceName);
-    if (fmi->family == NULL) {
-        (*env)->ExceptionClear(env);
+    fmi->fbmily = JNU_NewStringPlbtform(env,lpelfe->elfLogFont.lfFbceNbme);
+    if (fmi->fbmily == NULL) {
+        (*env)->ExceptionClebr(env);
         return 1;
     }
-    familyLC = (*env)->CallObjectMethod(env, fmi->family,
-                                        fmi->toLowerCaseMID, fmi->locale);
-    /* check if already seen this family with a different charset */
-    if ((*env)->CallBooleanMethod(env,fmi->familyToFontListMap,
-                                  fmi->containsKeyMID, familyLC)) {
+    fbmilyLC = (*env)->CbllObjectMethod(env, fmi->fbmily,
+                                        fmi->toLowerCbseMID, fmi->locble);
+    /* check if blrebdy seen this fbmily with b different chbrset */
+    if ((*env)->CbllBoolebnMethod(env,fmi->fbmilyToFontListMbp,
+                                  fmi->contbinsKeyMID, fbmilyLC)) {
         return 1;
     }
     fmi->list = (*env)->NewObject(env,
-                                  fmi->arrayListClass, fmi->arrayListCtr, 4);
+                                  fmi->brrbyListClbss, fmi->brrbyListCtr, 4);
     if (fmi->list == NULL) {
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         return 1;
     }
-    (*env)->CallObjectMethod(env, fmi->familyToFontListMap,
-                             fmi->putMID, familyLC, fmi->list);
+    (*env)->CbllObjectMethod(env, fmi->fbmilyToFontListMbp,
+                             fmi->putMID, fbmilyLC, fmi->list);
 
-/*  printf("FAMILY=%s\n", lpelfe->elfLogFont.lfFaceName);fflush(stdout); */
+/*  printf("FAMILY=%s\n", lpelfe->elfLogFont.lfFbceNbme);fflush(stdout); */
 
-    memset(&lfa, 0, sizeof(lfa));
-    strcpy(lfa.lfFaceName, lpelfe->elfLogFont.lfFaceName);
-    lfa.lfCharSet = lpelfe->elfLogFont.lfCharSet;
-    EnumFontFamiliesExA(screenDC, &lfa,
-                        (FONTENUMPROCA)EnumFontFacesInFamilyProcA,
-                        lParam, 0L);
+    memset(&lfb, 0, sizeof(lfb));
+    strcpy(lfb.lfFbceNbme, lpelfe->elfLogFont.lfFbceNbme);
+    lfb.lfChbrSet = lpelfe->elfLogFont.lfChbrSet;
+    EnumFontFbmiliesExA(screenDC, &lfb,
+                        (FONTENUMPROCA)EnumFontFbcesInFbmilyProcA,
+                        lPbrbm, 0L);
     return 1;
 }
 
-static int CALLBACK EnumFamilyNamesW(
-  ENUMLOGFONTEXW *lpelfe,    /* pointer to logical-font data */
-  NEWTEXTMETRICEX *lpntme,  /* pointer to physical-font data */
+stbtic int CALLBACK EnumFbmilyNbmesW(
+  ENUMLOGFONTEXW *lpelfe,    /* pointer to logicbl-font dbtb */
+  NEWTEXTMETRICEX *lpntme,  /* pointer to physicbl-font dbtb */
   int FontType,             /* type of font */
-  LPARAM lParam )           /* application-defined data */
+  LPARAM lPbrbm )           /* bpplicbtion-defined dbtb */
 {
-    GdiFontMapInfo *fmi = (GdiFontMapInfo*)lParam;
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
     JNIEnv *env = fmi->env;
-    jstring familyLC;
+    jstring fbmilyLC;
     size_t slen;
     LOGFONTW lfw;
 
-    /* Both Vista and XP return DEVICE_FONTTYPE for OTF fonts */
+    /* Both Vistb bnd XP return DEVICE_FONTTYPE for OTF fonts */
     if (FontType != TRUETYPE_FONTTYPE && FontType != DEVICE_FONTTYPE) {
         return 1;
     }
-/*     wprintf(L"FAMILY=%s charset=%d FULL=%s\n", */
-/*          lpelfe->elfLogFont.lfFaceName, */
-/*          lpelfe->elfLogFont.lfCharSet, */
-/*          lpelfe->elfFullName); */
+/*     wprintf(L"FAMILY=%s chbrset=%d FULL=%s\n", */
+/*          lpelfe->elfLogFont.lfFbceNbme, */
+/*          lpelfe->elfLogFont.lfChbrSet, */
+/*          lpelfe->elfFullNbme); */
 /*     fflush(stdout); */
 
-    /* Windows lists fonts which have a vmtx (vertical metrics) table twice.
-     * Once using their normal name, and again preceded by '@'. These appear
-     * in font lists in some windows apps, such as wordpad. We don't want
-     * these so we skip any font where the first character is '@'
+    /* Windows lists fonts which hbve b vmtx (verticbl metrics) tbble twice.
+     * Once using their normbl nbme, bnd bgbin preceded by '@'. These bppebr
+     * in font lists in some windows bpps, such bs wordpbd. We don't wbnt
+     * these so we skip bny font where the first chbrbcter is '@'
      */
-    if (lpelfe->elfLogFont.lfFaceName[0] == L'@') {
+    if (lpelfe->elfLogFont.lfFbceNbme[0] == L'@') {
             return 1;
     }
-    slen = wcslen(lpelfe->elfLogFont.lfFaceName);
-    fmi->family = (*env)->NewString(env,lpelfe->elfLogFont.lfFaceName, (jsize)slen);
-    if (fmi->family == NULL) {
-        (*env)->ExceptionClear(env);
+    slen = wcslen(lpelfe->elfLogFont.lfFbceNbme);
+    fmi->fbmily = (*env)->NewString(env,lpelfe->elfLogFont.lfFbceNbme, (jsize)slen);
+    if (fmi->fbmily == NULL) {
+        (*env)->ExceptionClebr(env);
         return 1;
     }
-    familyLC = (*env)->CallObjectMethod(env, fmi->family,
-                                        fmi->toLowerCaseMID, fmi->locale);
-    /* check if already seen this family with a different charset */
-    if ((*env)->CallBooleanMethod(env,fmi->familyToFontListMap,
-                                  fmi->containsKeyMID, familyLC)) {
+    fbmilyLC = (*env)->CbllObjectMethod(env, fmi->fbmily,
+                                        fmi->toLowerCbseMID, fmi->locble);
+    /* check if blrebdy seen this fbmily with b different chbrset */
+    if ((*env)->CbllBoolebnMethod(env,fmi->fbmilyToFontListMbp,
+                                  fmi->contbinsKeyMID, fbmilyLC)) {
         return 1;
     }
     fmi->list = (*env)->NewObject(env,
-                                  fmi->arrayListClass, fmi->arrayListCtr, 4);
+                                  fmi->brrbyListClbss, fmi->brrbyListCtr, 4);
     if (fmi->list == NULL) {
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         return 1;
     }
-    (*env)->CallObjectMethod(env, fmi->familyToFontListMap,
-                             fmi->putMID, familyLC, fmi->list);
+    (*env)->CbllObjectMethod(env, fmi->fbmilyToFontListMbp,
+                             fmi->putMID, fbmilyLC, fmi->list);
 
     memset(&lfw, 0, sizeof(lfw));
-    wcscpy(lfw.lfFaceName, lpelfe->elfLogFont.lfFaceName);
-    lfw.lfCharSet = lpelfe->elfLogFont.lfCharSet;
-    EnumFontFamiliesExW(screenDC, &lfw,
-                        (FONTENUMPROCW)EnumFontFacesInFamilyProcW,
-                        lParam, 0L);
+    wcscpy(lfw.lfFbceNbme, lpelfe->elfLogFont.lfFbceNbme);
+    lfw.lfChbrSet = lpelfe->elfLogFont.lfChbrSet;
+    EnumFontFbmiliesExW(screenDC, &lfw,
+                        (FONTENUMPROCW)EnumFontFbcesInFbmilyProcW,
+                        lPbrbm, 0L);
     return 1;
 }
 
 
-/* It looks like TrueType fonts have " (TrueType)" tacked on the end of their
- * name, so we can try to use that to distinguish TT from other fonts.
- * However if a program "installed" a font in the registry the key may
- * not include that. We could also try to "pass" fonts which have no "(..)"
- * at the end. But that turns out to pass a few .FON files that MS supply.
- * If there's no parenthesized type string, we could next try to infer
- * the file type from the file name extension. Since the MS entries that
- * have no type string are very few, and have odd names like "MS-DOS CP 437"
- * and would never return a Java Font anyway its currently OK to put these
- * in the font map, although clearly the returned names must never percolate
- * up into a list of available fonts returned to the application.
- * Additionally for TTC font files the key looks like
+/* It looks like TrueType fonts hbve " (TrueType)" tbcked on the end of their
+ * nbme, so we cbn try to use thbt to distinguish TT from other fonts.
+ * However if b progrbm "instblled" b font in the registry the key mby
+ * not include thbt. We could blso try to "pbss" fonts which hbve no "(..)"
+ * bt the end. But thbt turns out to pbss b few .FON files thbt MS supply.
+ * If there's no pbrenthesized type string, we could next try to infer
+ * the file type from the file nbme extension. Since the MS entries thbt
+ * hbve no type string bre very few, bnd hbve odd nbmes like "MS-DOS CP 437"
+ * bnd would never return b Jbvb Font bnywby its currently OK to put these
+ * in the font mbp, blthough clebrly the returned nbmes must never percolbte
+ * up into b list of bvbilbble fonts returned to the bpplicbtion.
+ * Additionblly for TTC font files the key looks like
  * Font 1 & Font 2 (TrueType)
  * or sometimes even :
  * Font 1 & Font 2 & Font 3 (TrueType)
- * Also if a Font has a name for this locale that name also
- * exists in the registry using the appropriate platform encoding.
- * What do we do then?
+ * Also if b Font hbs b nbme for this locble thbt nbme blso
+ * exists in the registry using the bppropribte plbtform encoding.
+ * Whbt do we do then?
  *
- * Note: OpenType fonts seems to have " (TrueType)" suffix on Vista
+ * Note: OpenType fonts seems to hbve " (TrueType)" suffix on Vistb
  *   but " (OpenType)" on XP.
  */
 
-static BOOL RegistryToBaseTTNameA(LPSTR name) {
-    static const char TTSUFFIX[] = " (TrueType)";
-    static const char OTSUFFIX[] = " (OpenType)";
+stbtic BOOL RegistryToBbseTTNbmeA(LPSTR nbme) {
+    stbtic const chbr TTSUFFIX[] = " (TrueType)";
+    stbtic const chbr OTSUFFIX[] = " (OpenType)";
     size_t TTSLEN = strlen(TTSUFFIX);
-    char *suffix;
+    chbr *suffix;
 
-    size_t len = strlen(name);
+    size_t len = strlen(nbme);
     if (len == 0) {
         return FALSE;
     }
-    if (name[len-1] != ')') {
+    if (nbme[len-1] != ')') {
         return FALSE;
     }
     if (len <= TTSLEN) {
         return FALSE;
     }
 
-    /* suffix length is the same for truetype and opentype fonts */
-    suffix = name + len - TTSLEN;
+    /* suffix length is the sbme for truetype bnd opentype fonts */
+    suffix = nbme + len - TTSLEN;
     if (strcmp(suffix, TTSUFFIX) == 0 || strcmp(suffix, OTSUFFIX) == 0) {
-        suffix[0] = '\0'; /* truncate name */
+        suffix[0] = '\0'; /* truncbte nbme */
         return TRUE;
     }
     return FALSE;
 }
 
-static BOOL RegistryToBaseTTNameW(LPWSTR name) {
-    static const wchar_t TTSUFFIX[] = L" (TrueType)";
-    static const wchar_t OTSUFFIX[] = L" (OpenType)";
+stbtic BOOL RegistryToBbseTTNbmeW(LPWSTR nbme) {
+    stbtic const wchbr_t TTSUFFIX[] = L" (TrueType)";
+    stbtic const wchbr_t OTSUFFIX[] = L" (OpenType)";
     size_t TTSLEN = wcslen(TTSUFFIX);
-    wchar_t *suffix;
+    wchbr_t *suffix;
 
-    size_t len = wcslen(name);
+    size_t len = wcslen(nbme);
     if (len == 0) {
         return FALSE;
     }
-    if (name[len-1] != L')') {
+    if (nbme[len-1] != L')') {
         return FALSE;
     }
     if (len <= TTSLEN) {
         return FALSE;
     }
-    /* suffix length is the same for truetype and opentype fonts */
-    suffix = name + (len - TTSLEN);
+    /* suffix length is the sbme for truetype bnd opentype fonts */
+    suffix = nbme + (len - TTSLEN);
     if (wcscmp(suffix, TTSUFFIX) == 0 || wcscmp(suffix, OTSUFFIX) == 0) {
-        suffix[0] = L'\0'; /* truncate name */
+        suffix[0] = L'\0'; /* truncbte nbme */
         return TRUE;
     }
     return FALSE;
 }
 
-static void registerFontA(GdiFontMapInfo *fmi, jobject fontToFileMap,
-                          LPCSTR name, LPCSTR data) {
+stbtic void registerFontA(GdiFontMbpInfo *fmi, jobject fontToFileMbp,
+                          LPCSTR nbme, LPCSTR dbtb) {
     LPSTR ptr1, ptr2;
     jstring fontStr;
     JNIEnv *env = fmi->env;
-    size_t dslen = strlen(data);
-    jstring fileStr = JNU_NewStringPlatform(env, data);
+    size_t dslen = strlen(dbtb);
+    jstring fileStr = JNU_NewStringPlbtform(env, dbtb);
     if (fileStr == NULL) {
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         return;
     }
 
-    /* TTC or ttc means it may be a collection. Need to parse out
-     * multiple font face names separated by " & "
-     * By only doing this for fonts which look like collections based on
-     * file name we are adhering to MS recommendations for font file names
-     * so it seems that we can be sure that this identifies precisely
+    /* TTC or ttc mebns it mby be b collection. Need to pbrse out
+     * multiple font fbce nbmes sepbrbted by " & "
+     * By only doing this for fonts which look like collections bbsed on
+     * file nbme we bre bdhering to MS recommendbtions for font file nbmes
+     * so it seems thbt we cbn be sure thbt this identifies precisely
      * the MS-supplied truetype collections.
-     * This avoids any potential issues if a TTF file happens to have
-     * a & in the font name (I can't find anything which prohibits this)
-     * and also means we only parse the key in cases we know to be
+     * This bvoids bny potentibl issues if b TTF file hbppens to hbve
+     * b & in the font nbme (I cbn't find bnything which prohibits this)
+     * bnd blso mebns we only pbrse the key in cbses we know to be
      * worthwhile.
      */
-    if ((data[dslen-1] == 'C' || data[dslen-1] == 'c') &&
-        (ptr1 = strstr(name, " & ")) != NULL) {
+    if ((dbtb[dslen-1] == 'C' || dbtb[dslen-1] == 'c') &&
+        (ptr1 = strstr(nbme, " & ")) != NULL) {
         ptr1+=3;
-        while (ptr1 >= name) { /* marginally safer than while (true) */
+        while (ptr1 >= nbme) { /* mbrginblly sbfer thbn while (true) */
             while ((ptr2 = strstr(ptr1, " & ")) != NULL) {
                     ptr1 = ptr2+3;
             }
-            fontStr = JNU_NewStringPlatform(env, ptr1);
+            fontStr = JNU_NewStringPlbtform(env, ptr1);
             if (fontStr == NULL) {
-                (*env)->ExceptionClear(env);
+                (*env)->ExceptionClebr(env);
                 return;
             }
-            fontStr = (*env)->CallObjectMethod(env, fontStr,
-                                               fmi->toLowerCaseMID,
-                                               fmi->locale);
-            (*env)->CallObjectMethod(env, fontToFileMap, fmi->putMID,
+            fontStr = (*env)->CbllObjectMethod(env, fontStr,
+                                               fmi->toLowerCbseMID,
+                                               fmi->locble);
+            (*env)->CbllObjectMethod(env, fontToFileMbp, fmi->putMID,
                                      fontStr, fileStr);
-            if (ptr1 == name) {
-                break;
+            if (ptr1 == nbme) {
+                brebk;
             } else {
                 *(ptr1-3) ='\0';
-                ptr1 = (LPSTR)name;
+                ptr1 = (LPSTR)nbme;
             }
         }
     } else {
-        fontStr = JNU_NewStringPlatform(env, name);
+        fontStr = JNU_NewStringPlbtform(env, nbme);
         if (fontStr == NULL) {
-            (*env)->ExceptionClear(env);
+            (*env)->ExceptionClebr(env);
             return;
         }
-        fontStr = (*env)->CallObjectMethod(env, fontStr,
-                                           fmi->toLowerCaseMID, fmi->locale);
-        (*env)->CallObjectMethod(env, fontToFileMap, fmi->putMID,
+        fontStr = (*env)->CbllObjectMethod(env, fontStr,
+                                           fmi->toLowerCbseMID, fmi->locble);
+        (*env)->CbllObjectMethod(env, fontToFileMbp, fmi->putMID,
                                  fontStr, fileStr);
     }
 }
 
-static void registerFontW(GdiFontMapInfo *fmi, jobject fontToFileMap,
-                          LPWSTR name, LPWSTR data) {
+stbtic void registerFontW(GdiFontMbpInfo *fmi, jobject fontToFileMbp,
+                          LPWSTR nbme, LPWSTR dbtb) {
 
-    wchar_t *ptr1, *ptr2;
+    wchbr_t *ptr1, *ptr2;
     jstring fontStr;
     JNIEnv *env = fmi->env;
-    size_t dslen = wcslen(data);
-    jstring fileStr = (*env)->NewString(env, data, (jsize)dslen);
+    size_t dslen = wcslen(dbtb);
+    jstring fileStr = (*env)->NewString(env, dbtb, (jsize)dslen);
     if (fileStr == NULL) {
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         return;
     }
 
-    /* TTC or ttc means it may be a collection. Need to parse out
-     * multiple font face names separated by " & "
-     * By only doing this for fonts which look like collections based on
-     * file name we are adhering to MS recommendations for font file names
-     * so it seems that we can be sure that this identifies precisely
+    /* TTC or ttc mebns it mby be b collection. Need to pbrse out
+     * multiple font fbce nbmes sepbrbted by " & "
+     * By only doing this for fonts which look like collections bbsed on
+     * file nbme we bre bdhering to MS recommendbtions for font file nbmes
+     * so it seems thbt we cbn be sure thbt this identifies precisely
      * the MS-supplied truetype collections.
-     * This avoids any potential issues if a TTF file happens to have
-     * a & in the font name (I can't find anything which prohibits this)
-     * and also means we only parse the key in cases we know to be
+     * This bvoids bny potentibl issues if b TTF file hbppens to hbve
+     * b & in the font nbme (I cbn't find bnything which prohibits this)
+     * bnd blso mebns we only pbrse the key in cbses we know to be
      * worthwhile.
      */
 
-    if ((data[dslen-1] == L'C' || data[dslen-1] == L'c') &&
-        (ptr1 = wcsstr(name, L" & ")) != NULL) {
+    if ((dbtb[dslen-1] == L'C' || dbtb[dslen-1] == L'c') &&
+        (ptr1 = wcsstr(nbme, L" & ")) != NULL) {
         ptr1+=3;
-        while (ptr1 >= name) { /* marginally safer than while (true) */
+        while (ptr1 >= nbme) { /* mbrginblly sbfer thbn while (true) */
             while ((ptr2 = wcsstr(ptr1, L" & ")) != NULL) {
                 ptr1 = ptr2+3;
             }
             fontStr = (*env)->NewString(env, ptr1, (jsize)wcslen(ptr1));
             if (fontStr == NULL) {
-                (*env)->ExceptionClear(env);
+                (*env)->ExceptionClebr(env);
                 return;
             }
-            fontStr = (*env)->CallObjectMethod(env, fontStr,
-                                               fmi->toLowerCaseMID,
-                                               fmi->locale);
-            (*env)->CallObjectMethod(env, fontToFileMap, fmi->putMID,
+            fontStr = (*env)->CbllObjectMethod(env, fontStr,
+                                               fmi->toLowerCbseMID,
+                                               fmi->locble);
+            (*env)->CbllObjectMethod(env, fontToFileMbp, fmi->putMID,
                                      fontStr, fileStr);
-            if (ptr1 == name) {
-                break;
+            if (ptr1 == nbme) {
+                brebk;
             } else {
                 *(ptr1-3) = L'\0';
-                ptr1 = name;
+                ptr1 = nbme;
             }
         }
     } else {
-        fontStr = (*env)->NewString(env, name, (jsize)wcslen(name));
+        fontStr = (*env)->NewString(env, nbme, (jsize)wcslen(nbme));
         if (fontStr == NULL) {
-            (*env)->ExceptionClear(env);
+            (*env)->ExceptionClebr(env);
             return;
         }
-        fontStr = (*env)->CallObjectMethod(env, fontStr,
-                                           fmi->toLowerCaseMID, fmi->locale);
-        (*env)->CallObjectMethod(env, fontToFileMap, fmi->putMID,
+        fontStr = (*env)->CbllObjectMethod(env, fontStr,
+                                           fmi->toLowerCbseMID, fmi->locble);
+        (*env)->CbllObjectMethod(env, fontToFileMbp, fmi->putMID,
                                  fontStr, fileStr);
     }
 }
 
-/* Obtain all the fontname -> filename mappings.
- * This is called once and the results returned to Java code which can
- * use it for lookups to reduce or avoid the need to search font files.
+/* Obtbin bll the fontnbme -> filenbme mbppings.
+ * This is cblled once bnd the results returned to Jbvb code which cbn
+ * use it for lookups to reduce or bvoid the need to sebrch font files.
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32FontManager_populateFontFileNameMap0
-(JNIEnv *env, jclass obj, jobject fontToFileMap,
- jobject fontToFamilyMap, jobject familyToFontListMap, jobject locale)
+Jbvb_sun_bwt_Win32FontMbnbger_populbteFontFileNbmeMbp0
+(JNIEnv *env, jclbss obj, jobject fontToFileMbp,
+ jobject fontToFbmilyMbp, jobject fbmilyToFontListMbp, jobject locble)
 {
 #define MAX_BUFFER (FILENAME_MAX+1)
-    const wchar_t wname[MAX_BUFFER];
-    const char cname[MAX_BUFFER];
-    const char data[MAX_BUFFER];
+    const wchbr_t wnbme[MAX_BUFFER];
+    const chbr cnbme[MAX_BUFFER];
+    const chbr dbtb[MAX_BUFFER];
 
     DWORD type;
     LONG ret;
     HKEY hkeyFonts;
-    DWORD dwNameSize;
-    DWORD dwDataValueSize;
-    DWORD nval;
-    LPCSTR fontKeyName;
-    DWORD dwNumValues, dwMaxValueNameLen, dwMaxValueDataLen;
-    DWORD numValues = 0;
-    jclass classID;
+    DWORD dwNbmeSize;
+    DWORD dwDbtbVblueSize;
+    DWORD nvbl;
+    LPCSTR fontKeyNbme;
+    DWORD dwNumVblues, dwMbxVblueNbmeLen, dwMbxVblueDbtbLen;
+    DWORD numVblues = 0;
+    jclbss clbssID;
     jmethodID putMID;
-    GdiFontMapInfo fmi;
+    GdiFontMbpInfo fmi;
 
-    /* Check we were passed all the maps we need, and do lookup of
-     * methods for JNI up-calls
+    /* Check we were pbssed bll the mbps we need, bnd do lookup of
+     * methods for JNI up-cblls
      */
-    if (fontToFileMap == NULL ||
-        fontToFamilyMap == NULL ||
-        familyToFontListMap == NULL) {
+    if (fontToFileMbp == NULL ||
+        fontToFbmilyMbp == NULL ||
+        fbmilyToFontListMbp == NULL) {
         return;
     }
-    classID = (*env)->FindClass(env, "java/util/HashMap");
-    if (classID == NULL) {
+    clbssID = (*env)->FindClbss(env, "jbvb/util/HbshMbp");
+    if (clbssID == NULL) {
         return;
     }
-    putMID = (*env)->GetMethodID(env, classID, "put",
-                 "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+    putMID = (*env)->GetMethodID(env, clbssID, "put",
+                 "(Ljbvb/lbng/Object;Ljbvb/lbng/Object;)Ljbvb/lbng/Object;");
     if (putMID == NULL) {
         return;
     }
 
     fmi.env = env;
-    fmi.fontToFamilyMap = fontToFamilyMap;
-    fmi.familyToFontListMap = familyToFontListMap;
+    fmi.fontToFbmilyMbp = fontToFbmilyMbp;
+    fmi.fbmilyToFontListMbp = fbmilyToFontListMbp;
     fmi.putMID = putMID;
-    fmi.locale = locale;
-    fmi.containsKeyMID = (*env)->GetMethodID(env, classID, "containsKey",
-                                             "(Ljava/lang/Object;)Z");
-    if (fmi.containsKeyMID == NULL) {
+    fmi.locble = locble;
+    fmi.contbinsKeyMID = (*env)->GetMethodID(env, clbssID, "contbinsKey",
+                                             "(Ljbvb/lbng/Object;)Z");
+    if (fmi.contbinsKeyMID == NULL) {
         return;
     }
 
-    fmi.arrayListClass = (*env)->FindClass(env, "java/util/ArrayList");
-    if (fmi.arrayListClass == NULL) {
+    fmi.brrbyListClbss = (*env)->FindClbss(env, "jbvb/util/ArrbyList");
+    if (fmi.brrbyListClbss == NULL) {
         return;
     }
-    fmi.arrayListCtr = (*env)->GetMethodID(env, fmi.arrayListClass,
+    fmi.brrbyListCtr = (*env)->GetMethodID(env, fmi.brrbyListClbss,
                                               "<init>", "(I)V");
-    if (fmi.arrayListCtr == NULL) {
+    if (fmi.brrbyListCtr == NULL) {
         return;
     }
-    fmi.addMID = (*env)->GetMethodID(env, fmi.arrayListClass,
-                                     "add", "(Ljava/lang/Object;)Z");
-    if (fmi.addMID == NULL) {
+    fmi.bddMID = (*env)->GetMethodID(env, fmi.brrbyListClbss,
+                                     "bdd", "(Ljbvb/lbng/Object;)Z");
+    if (fmi.bddMID == NULL) {
         return;
     }
-    classID = (*env)->FindClass(env, "java/lang/String");
-    if (classID == NULL) {
+    clbssID = (*env)->FindClbss(env, "jbvb/lbng/String");
+    if (clbssID == NULL) {
         return;
     }
-    fmi.toLowerCaseMID =
-        (*env)->GetMethodID(env, classID, "toLowerCase",
-                            "(Ljava/util/Locale;)Ljava/lang/String;");
-    if (fmi.toLowerCaseMID == NULL) {
+    fmi.toLowerCbseMID =
+        (*env)->GetMethodID(env, clbssID, "toLowerCbse",
+                            "(Ljbvb/util/Locble;)Ljbvb/lbng/String;");
+    if (fmi.toLowerCbseMID == NULL) {
         return;
     }
 
@@ -669,89 +669,89 @@ Java_sun_awt_Win32FontManager_populateFontFileNameMap0
     if (screenDC == NULL) {
         return;
     }
-    /* Enumerate fonts via GDI to build maps of fonts and families */
+    /* Enumerbte fonts vib GDI to build mbps of fonts bnd fbmilies */
     if (IS_NT) {
         LOGFONTW lfw;
         memset(&lfw, 0, sizeof(lfw));
-        lfw.lfCharSet = DEFAULT_CHARSET;  /* all charsets */
-        wcscpy(lfw.lfFaceName, L"");      /* one face per family (CHECK) */
-        EnumFontFamiliesExW(screenDC, &lfw,
-                            (FONTENUMPROCW)EnumFamilyNamesW,
+        lfw.lfChbrSet = DEFAULT_CHARSET;  /* bll chbrsets */
+        wcscpy(lfw.lfFbceNbme, L"");      /* one fbce per fbmily (CHECK) */
+        EnumFontFbmiliesExW(screenDC, &lfw,
+                            (FONTENUMPROCW)EnumFbmilyNbmesW,
                             (LPARAM)(&fmi), 0L);
     } else {
-        LOGFONT lfa;
-        memset(&lfa, 0, sizeof(lfa));
-        lfa.lfCharSet = DEFAULT_CHARSET; /* all charsets */
-        strcpy(lfa.lfFaceName, "");      /* one face per family */
-        ret = EnumFontFamiliesExA(screenDC, &lfa,
-                            (FONTENUMPROCA)EnumFamilyNamesA,
+        LOGFONT lfb;
+        memset(&lfb, 0, sizeof(lfb));
+        lfb.lfChbrSet = DEFAULT_CHARSET; /* bll chbrsets */
+        strcpy(lfb.lfFbceNbme, "");      /* one fbce per fbmily */
+        ret = EnumFontFbmiliesExA(screenDC, &lfb,
+                            (FONTENUMPROCA)EnumFbmilyNbmesA,
                             (LPARAM)(&fmi), 0L);
     }
 
-    /* Use the windows registry to map font names to files */
-    fontKeyName = (IS_NT) ? FONTKEY_NT : FONTKEY_WIN;
+    /* Use the windows registry to mbp font nbmes to files */
+    fontKeyNbme = (IS_NT) ? FONTKEY_NT : FONTKEY_WIN;
     ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                       fontKeyName, 0L, KEY_READ, &hkeyFonts);
+                       fontKeyNbme, 0L, KEY_READ, &hkeyFonts);
     if (ret != ERROR_SUCCESS) {
-        ReleaseDC(NULL, screenDC);
+        RelebseDC(NULL, screenDC);
         screenDC = NULL;
         return;
     }
 
     if (IS_NT) {
         ret = RegQueryInfoKeyW(hkeyFonts, NULL, NULL, NULL, NULL, NULL, NULL,
-                               &dwNumValues, &dwMaxValueNameLen,
-                               &dwMaxValueDataLen, NULL, NULL);
+                               &dwNumVblues, &dwMbxVblueNbmeLen,
+                               &dwMbxVblueDbtbLen, NULL, NULL);
     } else {
         ret = RegQueryInfoKeyA(hkeyFonts, NULL, NULL, NULL, NULL, NULL, NULL,
-                               &dwNumValues, &dwMaxValueNameLen,
-                               &dwMaxValueDataLen, NULL, NULL);
+                               &dwNumVblues, &dwMbxVblueNbmeLen,
+                               &dwMbxVblueDbtbLen, NULL, NULL);
     }
     if (ret != ERROR_SUCCESS ||
-        dwMaxValueNameLen >= MAX_BUFFER ||
-        dwMaxValueDataLen >= MAX_BUFFER) {
+        dwMbxVblueNbmeLen >= MAX_BUFFER ||
+        dwMbxVblueDbtbLen >= MAX_BUFFER) {
         RegCloseKey(hkeyFonts);
-        ReleaseDC(NULL, screenDC);
+        RelebseDC(NULL, screenDC);
         screenDC = NULL;
         return;
     }
-    for (nval = 0; nval < dwNumValues; nval++ ) {
-        dwNameSize = MAX_BUFFER;
-        dwDataValueSize = MAX_BUFFER;
+    for (nvbl = 0; nvbl < dwNumVblues; nvbl++ ) {
+        dwNbmeSize = MAX_BUFFER;
+        dwDbtbVblueSize = MAX_BUFFER;
         if (IS_NT) {
-            ret = RegEnumValueW(hkeyFonts, nval, (LPWSTR)wname, &dwNameSize,
-                                NULL, &type, (LPBYTE)data, &dwDataValueSize);
+            ret = RegEnumVblueW(hkeyFonts, nvbl, (LPWSTR)wnbme, &dwNbmeSize,
+                                NULL, &type, (LPBYTE)dbtb, &dwDbtbVblueSize);
         } else {
-            ret = RegEnumValueA(hkeyFonts, nval, (LPSTR)cname, &dwNameSize,
-                                NULL, &type, (LPBYTE)data, &dwDataValueSize);
+            ret = RegEnumVblueA(hkeyFonts, nvbl, (LPSTR)cnbme, &dwNbmeSize,
+                                NULL, &type, (LPBYTE)dbtb, &dwDbtbVblueSize);
         }
         if (ret != ERROR_SUCCESS) {
-            break;
+            brebk;
         }
-        if (type != REG_SZ) { /* REG_SZ means a null-terminated string */
+        if (type != REG_SZ) { /* REG_SZ mebns b null-terminbted string */
             continue;
         }
         if (IS_NT) {
-            if (!RegistryToBaseTTNameW((LPWSTR)wname) ) {
-                /* If the filename ends with ".ttf" or ".otf" also accept it.
+            if (!RegistryToBbseTTNbmeW((LPWSTR)wnbme) ) {
+                /* If the filenbme ends with ".ttf" or ".otf" blso bccept it.
                  * Not expecting to need to do this for .ttc files.
-                 * Also note this code is not mirrored in the "A" (win9x) path.
+                 * Also note this code is not mirrored in the "A" (win9x) pbth.
                  */
-                LPWSTR dot = wcsrchr((LPWSTR)data, L'.');
+                LPWSTR dot = wcsrchr((LPWSTR)dbtb, L'.');
                 if (dot == NULL || ((wcsicmp(dot, L".ttf") != 0)
                                       && (wcsicmp(dot, L".otf") != 0))) {
-                    continue;  /* not a TT font... */
+                    continue;  /* not b TT font... */
                 }
             }
-            registerFontW(&fmi, fontToFileMap, (LPWSTR)wname, (LPWSTR)data);
+            registerFontW(&fmi, fontToFileMbp, (LPWSTR)wnbme, (LPWSTR)dbtb);
         } else {
-            if (!RegistryToBaseTTNameA((LPSTR)cname)) {
-                continue; /* not a TT font... */
+            if (!RegistryToBbseTTNbmeA((LPSTR)cnbme)) {
+                continue; /* not b TT font... */
             }
-            registerFontA(&fmi, fontToFileMap, cname, (LPCSTR)data);
+            registerFontA(&fmi, fontToFileMbp, cnbme, (LPCSTR)dbtb);
         }
     }
     RegCloseKey(hkeyFonts);
-    ReleaseDC(NULL, screenDC);
+    RelebseDC(NULL, screenDC);
     screenDC = NULL;
 }

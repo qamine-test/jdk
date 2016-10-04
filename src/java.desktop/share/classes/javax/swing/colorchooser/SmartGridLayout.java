@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.colorchooser;
+pbckbge jbvbx.swing.colorchooser;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import java.io.Serializable;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.*;
+import jbvb.io.Seriblizbble;
 
 
 /**
-  * A better GridLayout class
+  * A better GridLbyout clbss
   *
-  * @author Steve Wilson
+  * @buthor Steve Wilson
   */
-@SuppressWarnings("serial") // Same-version serialization only
-class SmartGridLayout implements LayoutManager, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss SmbrtGridLbyout implements LbyoutMbnbger, Seriblizbble {
 
   int rows = 2;
   int columns = 2;
-  int xGap = 2;
-  int yGap = 2;
+  int xGbp = 2;
+  int yGbp = 2;
   int componentCount = 0;
-  Component[][] layoutGrid;
+  Component[][] lbyoutGrid;
 
 
-  public SmartGridLayout(int numColumns, int numRows) {
+  public SmbrtGridLbyout(int numColumns, int numRows) {
     rows = numRows;
     columns = numColumns;
-    layoutGrid = new Component[numColumns][numRows];
+    lbyoutGrid = new Component[numColumns][numRows];
 
   }
 
 
-  public void layoutContainer(Container c) {
+  public void lbyoutContbiner(Contbiner c) {
 
-    buildLayoutGrid(c);
+    buildLbyoutGrid(c);
 
     int[] rowHeights = new int[rows];
     int[] columnWidths = new int[columns];
@@ -75,19 +75,19 @@ class SmartGridLayout implements LayoutManager, Serializable {
 
     Insets insets = c.getInsets();
 
-    if (c.getComponentOrientation().isLeftToRight()) {
+    if (c.getComponentOrientbtion().isLeftToRight()) {
         int horizLoc = insets.left;
         for (int column = 0; column < columns; column++) {
           int vertLoc = insets.top;
 
           for (int row = 0; row < rows; row++) {
-            Component current = layoutGrid[column][row];
+            Component current = lbyoutGrid[column][row];
 
             current.setBounds(horizLoc, vertLoc, columnWidths[column], rowHeights[row]);
             //  System.out.println(current.getBounds());
-            vertLoc += (rowHeights[row] + yGap);
+            vertLoc += (rowHeights[row] + yGbp);
           }
-          horizLoc += (columnWidths[column] + xGap );
+          horizLoc += (columnWidths[column] + xGbp );
         }
     } else {
         int horizLoc = c.getWidth() - insets.right;
@@ -96,13 +96,13 @@ class SmartGridLayout implements LayoutManager, Serializable {
           horizLoc -= columnWidths[column];
 
           for (int row = 0; row < rows; row++) {
-            Component current = layoutGrid[column][row];
+            Component current = lbyoutGrid[column][row];
 
             current.setBounds(horizLoc, vertLoc, columnWidths[column], rowHeights[row]);
             //  System.out.println(current.getBounds());
-            vertLoc += (rowHeights[row] + yGap);
+            vertLoc += (rowHeights[row] + yGbp);
           }
-          horizLoc -= xGap;
+          horizLoc -= xGbp;
         }
     }
 
@@ -110,9 +110,9 @@ class SmartGridLayout implements LayoutManager, Serializable {
 
   }
 
-  public Dimension minimumLayoutSize(Container c) {
+  public Dimension minimumLbyoutSize(Contbiner c) {
 
-    buildLayoutGrid(c);
+    buildLbyoutGrid(c);
     Insets insets = c.getInsets();
 
 
@@ -128,25 +128,25 @@ class SmartGridLayout implements LayoutManager, Serializable {
         width += computeColumnWidth(column);
     }
 
-    height += (yGap * (rows - 1)) + insets.top + insets.bottom;
-    width += (xGap * (columns - 1)) + insets.right + insets.left;
+    height += (yGbp * (rows - 1)) + insets.top + insets.bottom;
+    width += (xGbp * (columns - 1)) + insets.right + insets.left;
 
     return new Dimension(width, height);
 
 
   }
 
-  public Dimension preferredLayoutSize(Container c) {
-      return minimumLayoutSize(c);
+  public Dimension preferredLbyoutSize(Contbiner c) {
+      return minimumLbyoutSize(c);
   }
 
 
-  public void addLayoutComponent(String s, Component c) {}
+  public void bddLbyoutComponent(String s, Component c) {}
 
-  public void removeLayoutComponent(Component c) {}
+  public void removeLbyoutComponent(Component c) {}
 
 
-  private void buildLayoutGrid(Container c) {
+  privbte void buildLbyoutGrid(Contbiner c) {
 
       Component[] children = c.getComponents();
 
@@ -162,30 +162,30 @@ class SmartGridLayout implements LayoutManager, Serializable {
 
         //      System.out.println("inserting into: "+ column +  " " + row);
 
-        layoutGrid[column][row] = children[componentCount];
+        lbyoutGrid[column][row] = children[componentCount];
       }
   }
 
-  private int computeColumnWidth(int columnNum) {
-    int maxWidth = 1;
+  privbte int computeColumnWidth(int columnNum) {
+    int mbxWidth = 1;
     for (int row = 0; row < rows; row++) {
-      int width = layoutGrid[columnNum][row].getPreferredSize().width;
-      if (width > maxWidth) {
-        maxWidth = width;
+      int width = lbyoutGrid[columnNum][row].getPreferredSize().width;
+      if (width > mbxWidth) {
+        mbxWidth = width;
       }
     }
-    return maxWidth;
+    return mbxWidth;
   }
 
-  private int computeRowHeight(int rowNum) {
-    int maxHeight = 1;
+  privbte int computeRowHeight(int rowNum) {
+    int mbxHeight = 1;
     for (int column = 0; column < columns; column++) {
-      int height = layoutGrid[column][rowNum].getPreferredSize().height;
-      if (height > maxHeight) {
-        maxHeight = height;
+      int height = lbyoutGrid[column][rowNum].getPreferredSize().height;
+      if (height > mbxHeight) {
+        mbxHeight = height;
       }
     }
-    return maxHeight;
+    return mbxHeight;
   }
 
 }

@@ -1,541 +1,541 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * @author    IBM Corp.
+ * @buthor    IBM Corp.
  *
  * Copyright IBM Corp. 1999-2000.  All rights reserved.
  */
 
-package javax.management.modelmbean;
+pbckbge jbvbx.mbnbgement.modelmbebn;
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtic com.sun.jmx.defbults.JmxProperties.MODELMBEAN_LOGGER;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.util.logging.Level;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.lbng.reflect.Method;
+import jbvb.security.AccessController;
+import jbvb.util.logging.Level;
 
-import javax.management.Descriptor;
-import javax.management.DescriptorAccess;
-import javax.management.DescriptorKey;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.DescriptorAccess;
+import jbvbx.mbnbgement.DescriptorKey;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
+import jbvbx.mbnbgement.MBebnPbrbmeterInfo;
+import jbvbx.mbnbgement.RuntimeOperbtionsException;
 
 /**
- * <p>The ModelMBeanOperationInfo object describes a management operation of
- * the ModelMBean.  It is a subclass of MBeanOperationInfo with the addition
- * of an associated Descriptor and an implementation of the DescriptorAccess
- * interface.</p>
+ * <p>The ModelMBebnOperbtionInfo object describes b mbnbgement operbtion of
+ * the ModelMBebn.  It is b subclbss of MBebnOperbtionInfo with the bddition
+ * of bn bssocibted Descriptor bnd bn implementbtion of the DescriptorAccess
+ * interfbce.</p>
  *
  * <P id="descriptor">
- * The fields in the descriptor are defined, but not limited to, the following.
- * Note that when the Type in this table is Number, a String that is the decimal
- * representation of a Long can also be used.</P>
+ * The fields in the descriptor bre defined, but not limited to, the following.
+ * Note thbt when the Type in this tbble is Number, b String thbt is the decimbl
+ * representbtion of b Long cbn blso be used.</P>
  *
- * <table border="1" cellpadding="5" summary="ModelMBeanOperationInfo Fields">
- * <tr><th>Name</th><th>Type</th><th>Meaning</th></tr>
- * <tr><td>name</td><td>String</td>
- *     <td>Operation name.</td></tr>
+ * <tbble border="1" cellpbdding="5" summbry="ModelMBebnOperbtionInfo Fields">
+ * <tr><th>Nbme</th><th>Type</th><th>Mebning</th></tr>
+ * <tr><td>nbme</td><td>String</td>
+ *     <td>Operbtion nbme.</td></tr>
  * <tr><td>descriptorType</td><td>String</td>
- *     <td>Must be "operation".</td></tr>
- * <tr><td>class</td><td>String</td>
- *     <td>Class where method is defined (fully qualified).</td></tr>
+ *     <td>Must be "operbtion".</td></tr>
+ * <tr><td>clbss</td><td>String</td>
+ *     <td>Clbss where method is defined (fully qublified).</td></tr>
  * <tr><td>role</td><td>String</td>
- *     <td>Must be "operation", "getter", or "setter".</td></tr>
- * <tr><td>targetObject</td><td>Object</td>
+ *     <td>Must be "operbtion", "getter", or "setter".</td></tr>
+ * <tr><td>tbrgetObject</td><td>Object</td>
  *     <td>Object on which to execute this method.</td></tr>
- * <tr><td>targetType</td><td>String</td>
- *     <td>type of object reference for targetObject. Can be:
- *         ObjectReference | Handle | EJBHandle | IOR | RMIReference.</td></tr>
- * <tr><td>value</td><td>Object</td>
- *     <td>Cached value for operation.</td></tr>
- * <tr><td>displayName</td><td>String</td>
- *     <td>Human readable display name of the operation.</td>
+ * <tr><td>tbrgetType</td><td>String</td>
+ *     <td>type of object reference for tbrgetObject. Cbn be:
+ *         ObjectReference | Hbndle | EJBHbndle | IOR | RMIReference.</td></tr>
+ * <tr><td>vblue</td><td>Object</td>
+ *     <td>Cbched vblue for operbtion.</td></tr>
+ * <tr><td>displbyNbme</td><td>String</td>
+ *     <td>Humbn rebdbble displby nbme of the operbtion.</td>
  * <tr><td>currencyTimeLimit</td><td>Number</td>
- *     <td>How long cached value is valid.</td></tr>
- * <tr><td>lastUpdatedTimeStamp</td><td>Number</td>
- *     <td>When cached value was set.</td></tr>
+ *     <td>How long cbched vblue is vblid.</td></tr>
+ * <tr><td>lbstUpdbtedTimeStbmp</td><td>Number</td>
+ *     <td>When cbched vblue wbs set.</td></tr>
  * <tr><td>visibility</td><td>Number</td>
- *     <td>1-4 where 1: always visible 4: rarely visible.</td></tr>
- * <tr><td>presentationString</td><td>String</td>
- *     <td>XML formatted string to describe how to present operation</td></tr>
- * </table>
+ *     <td>1-4 where 1: blwbys visible 4: rbrely visible.</td></tr>
+ * <tr><td>presentbtionString</td><td>String</td>
+ *     <td>XML formbtted string to describe how to present operbtion</td></tr>
+ * </tbble>
  *
- * <p>The default descriptor will have name, descriptorType, displayName and
- * role fields set.  The default value of the name and displayName fields is
- * the operation name.</p>
+ * <p>The defbult descriptor will hbve nbme, descriptorType, displbyNbme bnd
+ * role fields set.  The defbult vblue of the nbme bnd displbyNbme fields is
+ * the operbtion nbme.</p>
  *
- * <p><b>Note:</b> because of inconsistencies in previous versions of
- * this specification, it is recommended not to use negative or zero
- * values for <code>currencyTimeLimit</code>.  To indicate that a
- * cached value is never valid, omit the
- * <code>currencyTimeLimit</code> field.  To indicate that it is
- * always valid, use a very large number for this field.</p>
+ * <p><b>Note:</b> becbuse of inconsistencies in previous versions of
+ * this specificbtion, it is recommended not to use negbtive or zero
+ * vblues for <code>currencyTimeLimit</code>.  To indicbte thbt b
+ * cbched vblue is never vblid, omit the
+ * <code>currencyTimeLimit</code> field.  To indicbte thbt it is
+ * blwbys vblid, use b very lbrge number for this field.</p>
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>6532732096650090465L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>6532732096650090465L</code>.
  *
  * @since 1.5
  */
 
-@SuppressWarnings("serial")  // serialVersionUID is not constant
-public class ModelMBeanOperationInfo extends MBeanOperationInfo
+@SuppressWbrnings("seribl")  // seriblVersionUID is not constbnt
+public clbss ModelMBebnOperbtionInfo extends MBebnOperbtionInfo
          implements DescriptorAccess
 {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 9087646304346171239L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = 9087646304346171239L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 6532732096650090465L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = 6532732096650090465L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("operationDescriptor", Descriptor.class),
-      new ObjectStreamField("currClass", String.class)
+      new ObjectStrebmField("operbtionDescriptor", Descriptor.clbss),
+      new ObjectStrebmField("currClbss", String.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("operationDescriptor", Descriptor.class)
+      new ObjectStrebmField("operbtionDescriptor", Descriptor.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField operationDescriptor Descriptor The descriptor
-     * containing the appropriate metadata for this instance
+     * @seriblField operbtionDescriptor Descriptor The descriptor
+     * contbining the bppropribte metbdbtb for this instbnce
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK: No compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
         /**
-         * @serial The descriptor containing the appropriate metadata for this instance
+         * @seribl The descriptor contbining the bppropribte metbdbtb for this instbnce
          */
-        private Descriptor operationDescriptor = validDescriptor(null);
+        privbte Descriptor operbtionDescriptor = vblidDescriptor(null);
 
-        private static final String currClass = "ModelMBeanOperationInfo";
+        privbte stbtic finbl String currClbss = "ModelMBebnOperbtionInfo";
 
         /**
-         * Constructs a ModelMBeanOperationInfo object with a default
+         * Constructs b ModelMBebnOperbtionInfo object with b defbult
          * descriptor. The {@link Descriptor} of the constructed
-         * object will include fields contributed by any annotations
-         * on the {@code Method} object that contain the {@link
-         * DescriptorKey} meta-annotation.
+         * object will include fields contributed by bny bnnotbtions
+         * on the {@code Method} object thbt contbin the {@link
+         * DescriptorKey} metb-bnnotbtion.
          *
-         * @param operationMethod The java.lang.reflect.Method object
-         * describing the MBean operation.
-         * @param description A human readable description of the operation.
+         * @pbrbm operbtionMethod The jbvb.lbng.reflect.Method object
+         * describing the MBebn operbtion.
+         * @pbrbm description A humbn rebdbble description of the operbtion.
          */
 
-        public ModelMBeanOperationInfo(String description,
-                                       Method operationMethod)
+        public ModelMBebnOperbtionInfo(String description,
+                                       Method operbtionMethod)
         {
-                super(description, operationMethod);
-                // create default descriptor
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                super(description, operbtionMethod);
+                // crebte defbult descriptor
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(String,Method)",
+                            ModelMBebnOperbtionInfo.clbss.getNbme(),
+                            "ModelMBebnOperbtionInfo(String,Method)",
                             "Entry");
                 }
-                operationDescriptor = validDescriptor(null);
+                operbtionDescriptor = vblidDescriptor(null);
         }
 
         /**
-         * Constructs a ModelMBeanOperationInfo object. The {@link
+         * Constructs b ModelMBebnOperbtionInfo object. The {@link
          * Descriptor} of the constructed object will include fields
-         * contributed by any annotations on the {@code Method} object
-         * that contain the {@link DescriptorKey} meta-annotation.
+         * contributed by bny bnnotbtions on the {@code Method} object
+         * thbt contbin the {@link DescriptorKey} metb-bnnotbtion.
          *
-         * @param operationMethod The java.lang.reflect.Method object
-         * describing the MBean operation.
-         * @param description A human readable description of the
-         * operation.
-         * @param descriptor An instance of Descriptor containing the
-         * appropriate metadata for this instance of the
-         * ModelMBeanOperationInfo.  If it is null a default
-         * descriptor will be created. If the descriptor does not
-         * contain the fields
-         * "displayName" or "role", the missing ones are added with
-         * their default values.
+         * @pbrbm operbtionMethod The jbvb.lbng.reflect.Method object
+         * describing the MBebn operbtion.
+         * @pbrbm description A humbn rebdbble description of the
+         * operbtion.
+         * @pbrbm descriptor An instbnce of Descriptor contbining the
+         * bppropribte metbdbtb for this instbnce of the
+         * ModelMBebnOperbtionInfo.  If it is null b defbult
+         * descriptor will be crebted. If the descriptor does not
+         * contbin the fields
+         * "displbyNbme" or "role", the missing ones bre bdded with
+         * their defbult vblues.
          *
-         * @exception RuntimeOperationsException Wraps an
-         * IllegalArgumentException. The descriptor is invalid; or
-         * descriptor field "name" is not equal to
-         * operation name; or descriptor field "DescriptorType" is
-         * not equal to "operation"; or descriptor
-         * optional field "role" is present but not equal to "operation",
+         * @exception RuntimeOperbtionsException Wrbps bn
+         * IllegblArgumentException. The descriptor is invblid; or
+         * descriptor field "nbme" is not equbl to
+         * operbtion nbme; or descriptor field "DescriptorType" is
+         * not equbl to "operbtion"; or descriptor
+         * optionbl field "role" is present but not equbl to "operbtion",
          * "getter", or "setter".
          *
          */
 
-        public ModelMBeanOperationInfo(String description,
-                                       Method operationMethod,
+        public ModelMBebnOperbtionInfo(String description,
+                                       Method operbtionMethod,
                                        Descriptor descriptor)
         {
 
-                super(description, operationMethod);
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                super(description, operbtionMethod);
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(String,Method,Descriptor)",
+                            ModelMBebnOperbtionInfo.clbss.getNbme(),
+                            "ModelMBebnOperbtionInfo(String,Method,Descriptor)",
                             "Entry");
                 }
-                operationDescriptor = validDescriptor(descriptor);
+                operbtionDescriptor = vblidDescriptor(descriptor);
         }
 
         /**
-        * Constructs a ModelMBeanOperationInfo object with a default descriptor.
+        * Constructs b ModelMBebnOperbtionInfo object with b defbult descriptor.
         *
-        * @param name The name of the method.
-        * @param description A human readable description of the operation.
-        * @param signature MBeanParameterInfo objects describing the
-        * parameters(arguments) of the method.
-        * @param type The type of the method's return value.
-        * @param impact The impact of the method, one of INFO, ACTION,
+        * @pbrbm nbme The nbme of the method.
+        * @pbrbm description A humbn rebdbble description of the operbtion.
+        * @pbrbm signbture MBebnPbrbmeterInfo objects describing the
+        * pbrbmeters(brguments) of the method.
+        * @pbrbm type The type of the method's return vblue.
+        * @pbrbm impbct The impbct of the method, one of INFO, ACTION,
         * ACTION_INFO, UNKNOWN.
         */
 
-        public ModelMBeanOperationInfo(String name,
+        public ModelMBebnOperbtionInfo(String nbme,
                                        String description,
-                                       MBeanParameterInfo[] signature,
+                                       MBebnPbrbmeterInfo[] signbture,
                                        String type,
-                                       int impact)
+                                       int impbct)
         {
 
-                super(name, description, signature, type, impact);
-                // create default descriptor
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                super(nbme, description, signbture, type, impbct);
+                // crebte defbult descriptor
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(" +
-                            "String,String,MBeanParameterInfo[],String,int)",
+                            ModelMBebnOperbtionInfo.clbss.getNbme(),
+                            "ModelMBebnOperbtionInfo(" +
+                            "String,String,MBebnPbrbmeterInfo[],String,int)",
                             "Entry");
                 }
-                operationDescriptor = validDescriptor(null);
+                operbtionDescriptor = vblidDescriptor(null);
         }
 
         /**
-        * Constructs a ModelMBeanOperationInfo object.
+        * Constructs b ModelMBebnOperbtionInfo object.
         *
-        * @param name The name of the method.
-        * @param description A human readable description of the operation.
-        * @param signature MBeanParameterInfo objects describing the
-        * parameters(arguments) of the method.
-        * @param type The type of the method's return value.
-        * @param impact The impact of the method, one of INFO, ACTION,
+        * @pbrbm nbme The nbme of the method.
+        * @pbrbm description A humbn rebdbble description of the operbtion.
+        * @pbrbm signbture MBebnPbrbmeterInfo objects describing the
+        * pbrbmeters(brguments) of the method.
+        * @pbrbm type The type of the method's return vblue.
+        * @pbrbm impbct The impbct of the method, one of INFO, ACTION,
         * ACTION_INFO, UNKNOWN.
-        * @param descriptor An instance of Descriptor containing the
-        * appropriate metadata for this instance of the
-        * MBeanOperationInfo. If it is null then a default descriptor
-        * will be created.  If the descriptor does not contain
-        * fields "displayName" or "role",
-        * the missing ones are added with their default values.
+        * @pbrbm descriptor An instbnce of Descriptor contbining the
+        * bppropribte metbdbtb for this instbnce of the
+        * MBebnOperbtionInfo. If it is null then b defbult descriptor
+        * will be crebted.  If the descriptor does not contbin
+        * fields "displbyNbme" or "role",
+        * the missing ones bre bdded with their defbult vblues.
         *
-        * @exception RuntimeOperationsException Wraps an
-        * IllegalArgumentException. The descriptor is invalid; or
-        * descriptor field "name" is not equal to
-        * operation name; or descriptor field "DescriptorType" is
-        * not equal to "operation"; or descriptor optional
-        * field "role" is present but not equal to "operation", "getter", or
+        * @exception RuntimeOperbtionsException Wrbps bn
+        * IllegblArgumentException. The descriptor is invblid; or
+        * descriptor field "nbme" is not equbl to
+        * operbtion nbme; or descriptor field "DescriptorType" is
+        * not equbl to "operbtion"; or descriptor optionbl
+        * field "role" is present but not equbl to "operbtion", "getter", or
         * "setter".
         */
 
-        public ModelMBeanOperationInfo(String name,
+        public ModelMBebnOperbtionInfo(String nbme,
                                        String description,
-                                       MBeanParameterInfo[] signature,
+                                       MBebnPbrbmeterInfo[] signbture,
                                        String type,
-                                       int impact,
+                                       int impbct,
                                        Descriptor descriptor)
         {
-                super(name, description, signature, type, impact);
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                super(nbme, description, signbture, type, impbct);
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(String,String," +
-                            "MBeanParameterInfo[],String,int,Descriptor)",
+                            ModelMBebnOperbtionInfo.clbss.getNbme(),
+                            "ModelMBebnOperbtionInfo(String,String," +
+                            "MBebnPbrbmeterInfo[],String,int,Descriptor)",
                             "Entry");
                 }
-                operationDescriptor = validDescriptor(descriptor);
+                operbtionDescriptor = vblidDescriptor(descriptor);
         }
 
         /**
-         * Constructs a new ModelMBeanOperationInfo object from this
-         * ModelMBeanOperation Object.
+         * Constructs b new ModelMBebnOperbtionInfo object from this
+         * ModelMBebnOperbtion Object.
          *
-         * @param inInfo the ModelMBeanOperationInfo to be duplicated
+         * @pbrbm inInfo the ModelMBebnOperbtionInfo to be duplicbted
          *
          */
 
-        public ModelMBeanOperationInfo(ModelMBeanOperationInfo inInfo)
+        public ModelMBebnOperbtionInfo(ModelMBebnOperbtionInfo inInfo)
         {
-                super(inInfo.getName(),
+                super(inInfo.getNbme(),
                           inInfo.getDescription(),
-                          inInfo.getSignature(),
+                          inInfo.getSignbture(),
                           inInfo.getReturnType(),
-                          inInfo.getImpact());
-                if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+                          inInfo.getImpbct());
+                if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
-                            ModelMBeanOperationInfo.class.getName(),
-                            "ModelMBeanOperationInfo(ModelMBeanOperationInfo)",
+                            ModelMBebnOperbtionInfo.clbss.getNbme(),
+                            "ModelMBebnOperbtionInfo(ModelMBebnOperbtionInfo)",
                             "Entry");
                 }
                 Descriptor newDesc = inInfo.getDescriptor();
-                operationDescriptor = validDescriptor(newDesc);
+                operbtionDescriptor = vblidDescriptor(newDesc);
         }
 
         /**
-        * Creates and returns a new ModelMBeanOperationInfo which is a
-        * duplicate of this ModelMBeanOperationInfo.
+        * Crebtes bnd returns b new ModelMBebnOperbtionInfo which is b
+        * duplicbte of this ModelMBebnOperbtionInfo.
         *
         */
 
         public Object clone ()
         {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanOperationInfo.class.getName(),
+                        ModelMBebnOperbtionInfo.clbss.getNbme(),
                         "clone()", "Entry");
             }
-                return(new ModelMBeanOperationInfo(this)) ;
+                return(new ModelMBebnOperbtionInfo(this)) ;
         }
 
         /**
-         * Returns a copy of the associated Descriptor of the
-         * ModelMBeanOperationInfo.
+         * Returns b copy of the bssocibted Descriptor of the
+         * ModelMBebnOperbtionInfo.
          *
-         * @return Descriptor associated with the
-         * ModelMBeanOperationInfo object.
+         * @return Descriptor bssocibted with the
+         * ModelMBebnOperbtionInfo object.
          *
          * @see #setDescriptor
          */
 
         public Descriptor getDescriptor()
         {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanOperationInfo.class.getName(),
+                        ModelMBebnOperbtionInfo.clbss.getNbme(),
                         "getDescriptor()", "Entry");
             }
-            if (operationDescriptor == null) {
-                operationDescriptor = validDescriptor(null);
+            if (operbtionDescriptor == null) {
+                operbtionDescriptor = vblidDescriptor(null);
             }
 
-            return((Descriptor) operationDescriptor.clone());
+            return((Descriptor) operbtionDescriptor.clone());
         }
 
         /**
-         * Sets associated Descriptor (full replace) for the
-         * ModelMBeanOperationInfo If the new Descriptor is null, then
-         * the associated Descriptor reverts to a default descriptor.
-         * The Descriptor is validated before it is assigned.  If the
-         * new Descriptor is invalid, then a
-         * RuntimeOperationsException wrapping an
-         * IllegalArgumentException is thrown.
+         * Sets bssocibted Descriptor (full replbce) for the
+         * ModelMBebnOperbtionInfo If the new Descriptor is null, then
+         * the bssocibted Descriptor reverts to b defbult descriptor.
+         * The Descriptor is vblidbted before it is bssigned.  If the
+         * new Descriptor is invblid, then b
+         * RuntimeOperbtionsException wrbpping bn
+         * IllegblArgumentException is thrown.
          *
-         * @param inDescriptor replaces the Descriptor associated with the
-         * ModelMBeanOperation.
+         * @pbrbm inDescriptor replbces the Descriptor bssocibted with the
+         * ModelMBebnOperbtion.
          *
-         * @exception RuntimeOperationsException Wraps an
-         * IllegalArgumentException for invalid Descriptor.
+         * @exception RuntimeOperbtionsException Wrbps bn
+         * IllegblArgumentException for invblid Descriptor.
          *
          * @see #getDescriptor
          */
         public void setDescriptor(Descriptor inDescriptor)
         {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanOperationInfo.class.getName(),
+                        ModelMBebnOperbtionInfo.clbss.getNbme(),
                         "setDescriptor(Descriptor)", "Entry");
             }
-            operationDescriptor = validDescriptor(inDescriptor);
+            operbtionDescriptor = vblidDescriptor(inDescriptor);
         }
 
         /**
-        * Returns a string containing the entire contents of the
-        * ModelMBeanOperationInfo in human readable form.
+        * Returns b string contbining the entire contents of the
+        * ModelMBebnOperbtionInfo in humbn rebdbble form.
         */
         public String toString()
         {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
+            if (MODELMBEAN_LOGGER.isLoggbble(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanOperationInfo.class.getName(),
+                        ModelMBebnOperbtionInfo.clbss.getNbme(),
                         "toString()", "Entry");
             }
                 String retStr =
-                    "ModelMBeanOperationInfo: " + this.getName() +
+                    "ModelMBebnOperbtionInfo: " + this.getNbme() +
                     " ; Description: " + this.getDescription() +
                     " ; Descriptor: " + this.getDescriptor() +
                     " ; ReturnType: " + this.getReturnType() +
-                    " ; Signature: ";
-                MBeanParameterInfo[] pTypes = this.getSignature();
+                    " ; Signbture: ";
+                MBebnPbrbmeterInfo[] pTypes = this.getSignbture();
                 for (int i=0; i < pTypes.length; i++)
                 {
-                        retStr = retStr.concat((pTypes[i]).getType() + ", ");
+                        retStr = retStr.concbt((pTypes[i]).getType() + ", ");
                 }
                 return retStr;
         }
 
         /**
-         * Clones the passed in Descriptor, sets default values, and checks for validity.
-         * If the Descriptor is invalid (for instance by having the wrong "name"),
-         * this indicates programming error and a RuntimeOperationsException will be thrown.
+         * Clones the pbssed in Descriptor, sets defbult vblues, bnd checks for vblidity.
+         * If the Descriptor is invblid (for instbnce by hbving the wrong "nbme"),
+         * this indicbtes progrbmming error bnd b RuntimeOperbtionsException will be thrown.
          *
-         * The following fields will be defaulted if they are not already set:
-         * displayName=this.getName(),name=this.getName(),
-         * descriptorType="operation", role="operation"
+         * The following fields will be defbulted if they bre not blrebdy set:
+         * displbyNbme=this.getNbme(),nbme=this.getNbme(),
+         * descriptorType="operbtion", role="operbtion"
          *
          *
-         * @param in Descriptor to be checked, or null which is equivalent to
-         * an empty Descriptor.
-         * @exception RuntimeOperationsException if Descriptor is invalid
+         * @pbrbm in Descriptor to be checked, or null which is equivblent to
+         * bn empty Descriptor.
+         * @exception RuntimeOperbtionsException if Descriptor is invblid
          */
-        private Descriptor validDescriptor(final Descriptor in)
-        throws RuntimeOperationsException {
+        privbte Descriptor vblidDescriptor(finbl Descriptor in)
+        throws RuntimeOperbtionsException {
             Descriptor clone;
-            boolean defaulted = (in == null);
-            if (defaulted) {
+            boolebn defbulted = (in == null);
+            if (defbulted) {
                 clone = new DescriptorSupport();
-                MODELMBEAN_LOGGER.finer("Null Descriptor, creating new.");
+                MODELMBEAN_LOGGER.finer("Null Descriptor, crebting new.");
             } else {
                 clone = (Descriptor) in.clone();
             }
 
-            //Setting defaults.
-            if (defaulted && clone.getFieldValue("name")==null) {
-                clone.setField("name", this.getName());
-                MODELMBEAN_LOGGER.finer("Defaulting Descriptor name to " + this.getName());
+            //Setting defbults.
+            if (defbulted && clone.getFieldVblue("nbme")==null) {
+                clone.setField("nbme", this.getNbme());
+                MODELMBEAN_LOGGER.finer("Defbulting Descriptor nbme to " + this.getNbme());
             }
-            if (defaulted && clone.getFieldValue("descriptorType")==null) {
-                clone.setField("descriptorType", "operation");
-                MODELMBEAN_LOGGER.finer("Defaulting descriptorType to \"operation\"");
+            if (defbulted && clone.getFieldVblue("descriptorType")==null) {
+                clone.setField("descriptorType", "operbtion");
+                MODELMBEAN_LOGGER.finer("Defbulting descriptorType to \"operbtion\"");
             }
-            if (clone.getFieldValue("displayName") == null) {
-                clone.setField("displayName",this.getName());
-                MODELMBEAN_LOGGER.finer("Defaulting Descriptor displayName to " + this.getName());
+            if (clone.getFieldVblue("displbyNbme") == null) {
+                clone.setField("displbyNbme",this.getNbme());
+                MODELMBEAN_LOGGER.finer("Defbulting Descriptor displbyNbme to " + this.getNbme());
             }
-            if (clone.getFieldValue("role") == null) {
-                clone.setField("role","operation");
-                MODELMBEAN_LOGGER.finer("Defaulting Descriptor role field to \"operation\"");
+            if (clone.getFieldVblue("role") == null) {
+                clone.setField("role","operbtion");
+                MODELMBEAN_LOGGER.finer("Defbulting Descriptor role field to \"operbtion\"");
             }
 
-            //Checking validity
-            if (!clone.isValid()) {
-                 throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The isValid() method of the Descriptor object itself returned false,"+
-                    "one or more required fields are invalid. Descriptor:" + clone.toString());
+            //Checking vblidity
+            if (!clone.isVblid()) {
+                 throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                    "The isVblid() method of the Descriptor object itself returned fblse,"+
+                    "one or more required fields bre invblid. Descriptor:" + clone.toString());
             }
-            if (!getName().equalsIgnoreCase((String) clone.getFieldValue("name"))) {
-                    throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The Descriptor \"name\" field does not match the object described. " +
-                     " Expected: "+ this.getName() + " , was: " + clone.getFieldValue("name"));
+            if (!getNbme().equblsIgnoreCbse((String) clone.getFieldVblue("nbme"))) {
+                    throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                    "The Descriptor \"nbme\" field does not mbtch the object described. " +
+                     " Expected: "+ this.getNbme() + " , wbs: " + clone.getFieldVblue("nbme"));
             }
-            if (!"operation".equalsIgnoreCase((String) clone.getFieldValue("descriptorType"))) {
-                     throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The Descriptor \"descriptorType\" field does not match the object described. " +
-                     " Expected: \"operation\" ," + " was: " + clone.getFieldValue("descriptorType"));
+            if (!"operbtion".equblsIgnoreCbse((String) clone.getFieldVblue("descriptorType"))) {
+                     throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                    "The Descriptor \"descriptorType\" field does not mbtch the object described. " +
+                     " Expected: \"operbtion\" ," + " wbs: " + clone.getFieldVblue("descriptorType"));
             }
-            final String role = (String)clone.getFieldValue("role");
-            if (!(role.equalsIgnoreCase("operation") ||
-                  role.equalsIgnoreCase("setter") ||
-                  role.equalsIgnoreCase("getter"))) {
-                     throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The Descriptor \"role\" field does not match the object described. " +
-                     " Expected: \"operation\", \"setter\", or \"getter\" ," + " was: " + clone.getFieldValue("role"));
+            finbl String role = (String)clone.getFieldVblue("role");
+            if (!(role.equblsIgnoreCbse("operbtion") ||
+                  role.equblsIgnoreCbse("setter") ||
+                  role.equblsIgnoreCbse("getter"))) {
+                     throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                    "The Descriptor \"role\" field does not mbtch the object described. " +
+                     " Expected: \"operbtion\", \"setter\", or \"getter\" ," + " wbs: " + clone.getFieldVblue("role"));
             }
-            final Object targetValue = clone.getFieldValue("targetType");
-            if (targetValue != null) {
-                if (!(targetValue instanceof java.lang.String)) {
-                    throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                    "The Descriptor field \"targetValue\" is invalid class. " +
-                     " Expected: java.lang.String, " + " was: " + targetValue.getClass().getName());
+            finbl Object tbrgetVblue = clone.getFieldVblue("tbrgetType");
+            if (tbrgetVblue != null) {
+                if (!(tbrgetVblue instbnceof jbvb.lbng.String)) {
+                    throw new RuntimeOperbtionsException(new IllegblArgumentException("Invblid Descriptor brgument"),
+                    "The Descriptor field \"tbrgetVblue\" is invblid clbss. " +
+                     " Expected: jbvb.lbng.String, " + " wbs: " + tbrgetVblue.getClbss().getNbme());
                 }
             }
             return clone;
         }
 
     /**
-     * Deserializes a {@link ModelMBeanOperationInfo} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link ModelMBebnOperbtionInfo} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      // New serial form ignores extra field "currClass"
-      in.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      // New seribl form ignores extrb field "currClbss"
+      in.defbultRebdObject();
     }
 
 
     /**
-     * Serializes a {@link ModelMBeanOperationInfo} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link ModelMBebnOperbtionInfo} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("operationDescriptor", operationDescriptor);
-        fields.put("currClass", currClass);
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("operbtionDescriptor", operbtionDescriptor);
+        fields.put("currClbss", currClbss);
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 

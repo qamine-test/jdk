@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,151 +30,151 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.io.*;
-import java.net.*;
-import java.nio.channels.*;
-import java.security.*;
-import javax.net.ssl.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.security.*;
+import jbvbx.net.ssl.*;
 
 /**
- * The main server base class.
+ * The mbin server bbse clbss.
  * <P>
- * This class is responsible for setting up most of the server state
- * before the actual server subclasses take over.
+ * This clbss is responsible for setting up most of the server stbte
+ * before the bctubl server subclbsses tbke over.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @buthor Mbrk Reinhold
+ * @buthor Brbd R. Wetmore
  */
-public abstract class Server {
+public bbstrbct clbss Server {
 
-    ServerSocketChannel ssc;
+    ServerSocketChbnnel ssc;
     SSLContext sslContext = null;
 
-    static private int PORT = 8000;
-    static private int BACKLOG = 1024;
-    static private boolean SECURE = false;
+    stbtic privbte int PORT = 8000;
+    stbtic privbte int BACKLOG = 1024;
+    stbtic privbte boolebn SECURE = fblse;
 
-    Server(int port, int backlog,
-            boolean secure) throws Exception {
+    Server(int port, int bbcklog,
+            boolebn secure) throws Exception {
 
         if (secure) {
-            createSSLContext();
+            crebteSSLContext();
         }
 
-        ssc = ServerSocketChannel.open();
+        ssc = ServerSocketChbnnel.open();
         ssc.socket().setReuseAddress(true);
-        ssc.socket().bind(new InetSocketAddress(port), backlog);
+        ssc.socket().bind(new InetSocketAddress(port), bbcklog);
     }
 
     /*
-     * If this is a secure server, we now setup the SSLContext we'll
-     * use for creating the SSLEngines throughout the lifetime of
+     * If this is b secure server, we now setup the SSLContext we'll
+     * use for crebting the SSLEngines throughout the lifetime of
      * this process.
      */
-    private void createSSLContext() throws Exception {
+    privbte void crebteSSLContext() throws Exception {
 
-        char[] passphrase = "passphrase".toCharArray();
+        chbr[] pbssphrbse = "pbssphrbse".toChbrArrby();
 
-        KeyStore ks = KeyStore.getInstance("JKS");
-        ks.load(new FileInputStream("testkeys"), passphrase);
+        KeyStore ks = KeyStore.getInstbnce("JKS");
+        ks.lobd(new FileInputStrebm("testkeys"), pbssphrbse);
 
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-        kmf.init(ks, passphrase);
+        KeyMbnbgerFbctory kmf = KeyMbnbgerFbctory.getInstbnce("SunX509");
+        kmf.init(ks, pbssphrbse);
 
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+        TrustMbnbgerFbctory tmf = TrustMbnbgerFbctory.getInstbnce("SunX509");
         tmf.init(ks);
 
-        sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+        sslContext = SSLContext.getInstbnce("TLS");
+        sslContext.init(kmf.getKeyMbnbgers(), tmf.getTrustMbnbgers(), null);
     }
 
-    abstract void runServer() throws Exception;
+    bbstrbct void runServer() throws Exception;
 
-    static private void usage() {
+    stbtic privbte void usbge() {
         System.out.println(
-            "Usage:  Server <type> [options]\n"
+            "Usbge:  Server <type> [options]\n"
                 + "     type:\n"
-                + "             B1      Blocking/Single-threaded Server\n"
-                + "             BN      Blocking/Multi-threaded Server\n"
-                + "             BP      Blocking/Pooled-Thread Server\n"
-                + "             N1      Nonblocking/Single-threaded Server\n"
-                + "             N2      Nonblocking/Dual-threaded Server\n"
+                + "             B1      Blocking/Single-threbded Server\n"
+                + "             BN      Blocking/Multi-threbded Server\n"
+                + "             BP      Blocking/Pooled-Threbd Server\n"
+                + "             N1      Nonblocking/Single-threbded Server\n"
+                + "             N2      Nonblocking/Dubl-threbded Server\n"
                 + "\n"
                 + "     options:\n"
                 + "             -port port              port number\n"
-                + "                 default:  " + PORT + "\n"
-                + "             -backlog backlog        backlog\n"
-                + "                 default:  " + BACKLOG + "\n"
+                + "                 defbult:  " + PORT + "\n"
+                + "             -bbcklog bbcklog        bbcklog\n"
+                + "                 defbult:  " + BACKLOG + "\n"
                 + "             -secure                 encrypt with SSL/TLS");
         System.exit(1);
     }
 
     /*
-     * Parse the arguments, decide what type of server to run,
-     * see if there are any defaults to change.
+     * Pbrse the brguments, decide whbt type of server to run,
+     * see if there bre bny defbults to chbnge.
      */
-    static private Server createServer(String args[]) throws Exception {
-        if (args.length < 1) {
-            usage();
+    stbtic privbte Server crebteServer(String brgs[]) throws Exception {
+        if (brgs.length < 1) {
+            usbge();
         }
 
         int port = PORT;
-        int backlog = BACKLOG;
-        boolean secure = SECURE;
+        int bbcklog = BACKLOG;
+        boolebn secure = SECURE;
 
-        for (int i = 1; i < args.length; i++) {
-            if (args[i].equals("-port")) {
-                checkArgs(i, args.length);
-                port = Integer.valueOf(args[++i]);
-            } else if (args[i].equals("-backlog")) {
-                checkArgs(i, args.length);
-                backlog = Integer.valueOf(args[++i]);
-            } else if (args[i].equals("-secure")) {
+        for (int i = 1; i < brgs.length; i++) {
+            if (brgs[i].equbls("-port")) {
+                checkArgs(i, brgs.length);
+                port = Integer.vblueOf(brgs[++i]);
+            } else if (brgs[i].equbls("-bbcklog")) {
+                checkArgs(i, brgs.length);
+                bbcklog = Integer.vblueOf(brgs[++i]);
+            } else if (brgs[i].equbls("-secure")) {
                 secure = true;
             } else {
-                usage();
+                usbge();
             }
         }
 
         Server server = null;
 
-        if (args[0].equals("B1")) {
-            server = new B1(port, backlog, secure);
-        } else if (args[0].equals("BN")) {
-            server = new BN(port, backlog, secure);
-        } else if (args[0].equals("BP")) {
-            server = new BP(port, backlog, secure);
-        } else if (args[0].equals("N1")) {
-            server = new N1(port, backlog, secure);
-        } else if (args[0].equals("N2")) {
-            server = new N2(port, backlog, secure);
+        if (brgs[0].equbls("B1")) {
+            server = new B1(port, bbcklog, secure);
+        } else if (brgs[0].equbls("BN")) {
+            server = new BN(port, bbcklog, secure);
+        } else if (brgs[0].equbls("BP")) {
+            server = new BP(port, bbcklog, secure);
+        } else if (brgs[0].equbls("N1")) {
+            server = new N1(port, bbcklog, secure);
+        } else if (brgs[0].equbls("N2")) {
+            server = new N2(port, bbcklog, secure);
         }
 
         return server;
     }
 
-    static private void checkArgs(int i, int len) {
+    stbtic privbte void checkArgs(int i, int len) {
         if ((i + 1) >= len) {
-           usage();
+           usbge();
         }
     }
 
-    static public void main(String args[]) throws Exception {
-        Server server = createServer(args);
+    stbtic public void mbin(String brgs[]) throws Exception {
+        Server server = crebteServer(brgs);
 
         if (server == null) {
-            usage();
+            usbge();
         }
 
-        System.out.println("Server started.");
+        System.out.println("Server stbrted.");
         server.runServer();
     }
 }

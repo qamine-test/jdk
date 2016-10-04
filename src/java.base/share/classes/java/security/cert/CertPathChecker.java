@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
 /**
- * <p>Performs one or more checks on each {@code Certificate} of a
- * {@code CertPath}.
+ * <p>Performs one or more checks on ebch {@code Certificbte} of b
+ * {@code CertPbth}.
  *
- * <p>A {@code CertPathChecker} implementation is typically created to extend
- * a certification path validation algorithm. For example, an implementation
- * may check for and process a critical private extension of each certificate
- * in a certification path.
+ * <p>A {@code CertPbthChecker} implementbtion is typicblly crebted to extend
+ * b certificbtion pbth vblidbtion blgorithm. For exbmple, bn implementbtion
+ * mby check for bnd process b criticbl privbte extension of ebch certificbte
+ * in b certificbtion pbth.
  *
  * @since 1.8
  */
-public interface CertPathChecker {
+public interfbce CertPbthChecker {
 
     /**
-     * Initializes the internal state of this {@code CertPathChecker}.
+     * Initiblizes the internbl stbte of this {@code CertPbthChecker}.
      *
-     * <p>The {@code forward} flag specifies the order that certificates will
-     * be passed to the {@link #check check} method (forward or reverse).
+     * <p>The {@code forwbrd} flbg specifies the order thbt certificbtes will
+     * be pbssed to the {@link #check check} method (forwbrd or reverse).
      *
-     * @param forward the order that certificates are presented to the
-     *        {@code check} method. If {@code true}, certificates are
-     *        presented from target to trust anchor (forward); if
-     *        {@code false}, from trust anchor to target (reverse).
-     * @throws CertPathValidatorException if this {@code CertPathChecker} is
-     *         unable to check certificates in the specified order
+     * @pbrbm forwbrd the order thbt certificbtes bre presented to the
+     *        {@code check} method. If {@code true}, certificbtes bre
+     *        presented from tbrget to trust bnchor (forwbrd); if
+     *        {@code fblse}, from trust bnchor to tbrget (reverse).
+     * @throws CertPbthVblidbtorException if this {@code CertPbthChecker} is
+     *         unbble to check certificbtes in the specified order
      */
-    void init(boolean forward) throws CertPathValidatorException;
+    void init(boolebn forwbrd) throws CertPbthVblidbtorException;
 
     /**
-     * Indicates if forward checking is supported. Forward checking refers
-     * to the ability of the {@code CertPathChecker} to perform its checks
-     * when certificates are presented to the {@code check} method in the
-     * forward direction (from target to trust anchor).
+     * Indicbtes if forwbrd checking is supported. Forwbrd checking refers
+     * to the bbility of the {@code CertPbthChecker} to perform its checks
+     * when certificbtes bre presented to the {@code check} method in the
+     * forwbrd direction (from tbrget to trust bnchor).
      *
-     * @return {@code true} if forward checking is supported, {@code false}
+     * @return {@code true} if forwbrd checking is supported, {@code fblse}
      *         otherwise
      */
-    boolean isForwardCheckingSupported();
+    boolebn isForwbrdCheckingSupported();
 
     /**
-     * Performs the check(s) on the specified certificate using its internal
-     * state. The certificates are presented in the order specified by the
+     * Performs the check(s) on the specified certificbte using its internbl
+     * stbte. The certificbtes bre presented in the order specified by the
      * {@code init} method.
      *
-     * @param cert the {@code Certificate} to be checked
-     * @throws CertPathValidatorException if the specified certificate does
-     *         not pass the check
+     * @pbrbm cert the {@code Certificbte} to be checked
+     * @throws CertPbthVblidbtorException if the specified certificbte does
+     *         not pbss the check
      */
-    void check(Certificate cert) throws CertPathValidatorException;
+    void check(Certificbte cert) throws CertPbthVblidbtorException;
 }

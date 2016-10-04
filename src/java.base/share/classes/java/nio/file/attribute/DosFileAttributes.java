@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file.attribute;
+pbckbge jbvb.nio.file.bttribute;
 
 /**
- * File attributes associated with a file in a file system that supports
- * legacy "DOS" attributes.
+ * File bttributes bssocibted with b file in b file system thbt supports
+ * legbcy "DOS" bttributes.
  *
- * <p> <b>Usage Example:</b>
+ * <p> <b>Usbge Exbmple:</b>
  * <pre>
- *    Path file = ...
- *    DosFileAttributes attrs = Files.readAttributes(file, DosFileAttributes.class);
+ *    Pbth file = ...
+ *    DosFileAttributes bttrs = Files.rebdAttributes(file, DosFileAttributes.clbss);
  * </pre>
  *
  * @since 1.7
  */
 
-public interface DosFileAttributes
-    extends BasicFileAttributes
+public interfbce DosFileAttributes
+    extends BbsicFileAttributes
 {
     /**
-     * Returns the value of the read-only attribute.
+     * Returns the vblue of the rebd-only bttribute.
      *
-     * <p> This attribute is often used as a simple access control mechanism
-     * to prevent files from being deleted or updated. Whether the file system
-     * or platform does any enforcement to prevent <em>read-only</em> files
-     * from being updated is implementation specific.
+     * <p> This bttribute is often used bs b simple bccess control mechbnism
+     * to prevent files from being deleted or updbted. Whether the file system
+     * or plbtform does bny enforcement to prevent <em>rebd-only</em> files
+     * from being updbted is implementbtion specific.
      *
-     * @return  the value of the read-only attribute
+     * @return  the vblue of the rebd-only bttribute
      */
-    boolean isReadOnly();
+    boolebn isRebdOnly();
 
     /**
-     * Returns the value of the hidden attribute.
+     * Returns the vblue of the hidden bttribute.
      *
-     * <p> This attribute is often used to indicate if the file is visible to
+     * <p> This bttribute is often used to indicbte if the file is visible to
      * users.
      *
-     * @return  the value of the hidden attribute
+     * @return  the vblue of the hidden bttribute
      */
-    boolean isHidden();
+    boolebn isHidden();
 
     /**
-     * Returns the value of the archive attribute.
+     * Returns the vblue of the brchive bttribute.
      *
-     * <p> This attribute is typically used by backup programs.
+     * <p> This bttribute is typicblly used by bbckup progrbms.
      *
-     * @return  the value of the archive attribute
+     * @return  the vblue of the brchive bttribute
      */
-    boolean isArchive();
+    boolebn isArchive();
 
     /**
-     * Returns the value of the system attribute.
+     * Returns the vblue of the system bttribute.
      *
-     * <p> This attribute is often used to indicate that the file is a component
-     * of the operating system.
+     * <p> This bttribute is often used to indicbte thbt the file is b component
+     * of the operbting system.
      *
-     * @return  the value of the system attribute
+     * @return  the vblue of the system bttribute
      */
-    boolean isSystem();
+    boolebn isSystem();
 }

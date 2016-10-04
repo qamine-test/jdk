@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.internal;
+pbckbge com.sun.jmx.remote.internbl;
 
-import java.util.Properties;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.NoSuchObjectException;
+import jbvb.util.Properties;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.NoSuchObjectException;
 
 /**
- * An interface to a subset of the RMI-IIOP and CORBA APIs to avoid a
- * static dependencies on the types defined by these APIs.
+ * An interfbce to b subset of the RMI-IIOP bnd CORBA APIs to bvoid b
+ * stbtic dependencies on the types defined by these APIs.
  */
 
-public interface IIOPProxy {
+public interfbce IIOPProxy {
 
     /**
-     * Returns true if the given object is a Stub.
+     * Returns true if the given object is b Stub.
      */
-    boolean isStub(Object obj);
+    boolebn isStub(Object obj);
 
     /**
-     * Returns the Delegate to which the given Stub delegates.
+     * Returns the Delegbte to which the given Stub delegbtes.
      */
-    Object getDelegate(Object stub);
+    Object getDelegbte(Object stub);
 
     /**
-     * Sets the Delegate for a given Stub.
+     * Sets the Delegbte for b given Stub.
      */
-    void setDelegate(Object stub, Object delegate);
+    void setDelegbte(Object stub, Object delegbte);
 
     /**
-     * Returns the ORB associated with the given stub
+     * Returns the ORB bssocibted with the given stub
      *
-     * @throws  UnsupportedOperationException
-     *          if the object does not support the operation that
-     *          was invoked
+     * @throws  UnsupportedOperbtionException
+     *          if the object does not support the operbtion thbt
+     *          wbs invoked
      */
     Object getOrb(Object stub);
 
@@ -67,44 +67,44 @@ public interface IIOPProxy {
     void connect(Object stub, Object orb) throws RemoteException;
 
     /**
-     * Returns true if the given object is an ORB.
+     * Returns true if the given object is bn ORB.
      */
-    boolean isOrb(Object obj);
+    boolebn isOrb(Object obj);
 
     /**
-     * Creates, and returns, a new ORB instance.
+     * Crebtes, bnd returns, b new ORB instbnce.
      */
-    Object createOrb(String[] args, Properties props);
+    Object crebteOrb(String[] brgs, Properties props);
 
     /**
-     * Converts a string, produced by the object_to_string method, back
-     * to a CORBA object reference.
+     * Converts b string, produced by the object_to_string method, bbck
+     * to b CORBA object reference.
      */
     Object stringToObject(Object orb, String str);
 
     /**
-     * Converts the given CORBA object reference to a string.
+     * Converts the given CORBA object reference to b string.
      */
     String objectToString(Object orb, Object obj);
 
     /**
-     * Checks to ensure that an object of a remote or abstract interface
-     * type can be cast to a desired type.
+     * Checks to ensure thbt bn object of b remote or bbstrbct interfbce
+     * type cbn be cbst to b desired type.
      */
-    <T> T narrow(Object narrowFrom, Class<T> narrowTo);
+    <T> T nbrrow(Object nbrrowFrom, Clbss<T> nbrrowTo);
 
     /**
-     * Makes a server object ready to receive remote calls
+     * Mbkes b server object rebdy to receive remote cblls
      */
     void exportObject(Remote obj) throws RemoteException;
 
     /**
-     * Deregisters a server object from the runtime.
+     * Deregisters b server object from the runtime.
      */
     void unexportObject(Remote obj) throws NoSuchObjectException;
 
     /**
-     * Returns a stub for the given server object.
+     * Returns b stub for the given server object.
      */
     Remote toStub(Remote obj) throws NoSuchObjectException;
 }

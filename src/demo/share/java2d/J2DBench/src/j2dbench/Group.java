@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,54 +30,54 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench;
+pbckbge j2dbench;
 
-import java.io.PrintWriter;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
-import java.util.NoSuchElementException;
+import jbvb.io.PrintWriter;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.JTbbbedPbne;
+import jbvbx.swing.border.TitledBorder;
+import jbvb.util.NoSuchElementException;
 
-import j2dbench.ui.CompactLayout;
-import j2dbench.ui.EnableButton;
+import j2dbench.ui.CompbctLbyout;
+import j2dbench.ui.EnbbleButton;
 
-public class Group extends Node {
-    public static Group root = new Group();
+public clbss Group extends Node {
+    public stbtic Group root = new Group();
 
-    private Node children;
-    private boolean tabbed;
-    private boolean hidden;
-    private boolean horizontal;
-    private Boolean bordered;
-    private int tabPlacement;
+    privbte Node children;
+    privbte boolebn tbbbed;
+    privbte boolebn hidden;
+    privbte boolebn horizontbl;
+    privbte Boolebn bordered;
+    privbte int tbbPlbcement;
 
-    private Group() {
-        setTabbed(JTabbedPane.LEFT);
+    privbte Group() {
+        setTbbbed(JTbbbedPbne.LEFT);
     }
 
-    public Group(String nodeName, String description) {
-        this(root, nodeName, description);
+    public Group(String nodeNbme, String description) {
+        this(root, nodeNbme, description);
     }
 
-    public Group(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    public Group(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    public void addChild(Node child) {
+    public void bddChild(Node child) {
         Node prev = null;
         for (Node node = children; node != null; node = node.getNext()) {
-            if (node.getNodeName().equalsIgnoreCase(child.getNodeName())) {
-                throw new RuntimeException("duplicate child added");
+            if (node.getNodeNbme().equblsIgnoreCbse(child.getNodeNbme())) {
+                throw new RuntimeException("duplicbte child bdded");
             }
             prev = node;
         }
@@ -88,69 +88,69 @@ public class Group extends Node {
         }
     }
 
-    public Node.Iterator getChildIterator() {
-        return new ChildIterator();
+    public Node.Iterbtor getChildIterbtor() {
+        return new ChildIterbtor();
     }
 
-    public Node.Iterator getRecursiveChildIterator() {
-        return new RecursiveChildIterator();
+    public Node.Iterbtor getRecursiveChildIterbtor() {
+        return new RecursiveChildIterbtor();
     }
 
     public Node getFirstChild() {
         return children;
     }
 
-    public boolean isBordered() {
+    public boolebn isBordered() {
         if (bordered == null) {
-            return (getParent() == null || !getParent().isTabbed());
+            return (getPbrent() == null || !getPbrent().isTbbbed());
         }
-        return bordered.booleanValue();
+        return bordered.boolebnVblue();
     }
 
-    public boolean isTabbed() {
-        return tabbed;
+    public boolebn isTbbbed() {
+        return tbbbed;
     }
 
-    public boolean isHidden() {
+    public boolebn isHidden() {
         return hidden;
     }
 
-    public boolean isHorizontal() {
-        return horizontal;
+    public boolebn isHorizontbl() {
+        return horizontbl;
     }
 
-    public void setBordered(boolean b) {
-        bordered = b ? Boolean.TRUE : Boolean.FALSE;
+    public void setBordered(boolebn b) {
+        bordered = b ? Boolebn.TRUE : Boolebn.FALSE;
     }
 
-    public void setTabbed() {
-        setTabbed(JTabbedPane.TOP);
+    public void setTbbbed() {
+        setTbbbed(JTbbbedPbne.TOP);
     }
 
-    public void setTabbed(int tabPlacement) {
-        this.tabbed = true;
-        this.tabPlacement = tabPlacement;
+    public void setTbbbed(int tbbPlbcement) {
+        this.tbbbed = true;
+        this.tbbPlbcement = tbbPlbcement;
     }
 
     public void setHidden() {
         hidden = true;
     }
 
-    public void setHorizontal() {
-        horizontal = true;
+    public void setHorizontbl() {
+        horizontbl = true;
     }
 
-    public void traverse(Visitor v) {
-        super.traverse(v);
+    public void trbverse(Visitor v) {
+        super.trbverse(v);
         for (Node node = children; node != null; node = node.getNext()) {
-            node.traverse(v);
+            node.trbverse(v);
         }
     }
 
-    public void restoreDefault() {
+    public void restoreDefbult() {
     }
 
-    public String setOption(String key, String value) {
+    public String setOption(String key, String vblue) {
         int index = key.indexOf('.');
         String subkey;
         if (index < 0) {
@@ -160,11 +160,11 @@ public class Group extends Node {
             key = key.substring(0, index);
         }
         for (Node node = children; node != null; node = node.getNext()) {
-            if (node.getNodeName().equalsIgnoreCase(key)) {
-                return node.setOption(subkey, value);
+            if (node.getNodeNbme().equblsIgnoreCbse(key)) {
+                return node.setOption(subkey, vblue);
             }
         }
-        return "Key failed to match an existing option";
+        return "Key fbiled to mbtch bn existing option";
     }
 
     public void write(PrintWriter pw) {
@@ -173,53 +173,53 @@ public class Group extends Node {
     public JComponent getJComponent() {
         if (isHidden()) {
             return null;
-        } else if (isTabbed()) {
-            JTabbedPane jtp = new JTabbedPane(tabPlacement);
+        } else if (isTbbbed()) {
+            JTbbbedPbne jtp = new JTbbbedPbne(tbbPlbcement);
             for (Node node = children; node != null; node = node.getNext()) {
                 JComponent comp = node.getJComponent();
                 if (comp != null) {
-                    jtp.addTab(node.getDescription(), comp);
+                    jtp.bddTbb(node.getDescription(), comp);
                 }
             }
             return jtp;
         } else {
-            JPanel p = new JPanel();
-            p.setLayout(new BoxLayout(p,
-                                      horizontal
-                                      ? BoxLayout.X_AXIS
-                                      : BoxLayout.Y_AXIS));
-            p.setLayout(new CompactLayout(horizontal));
+            JPbnel p = new JPbnel();
+            p.setLbyout(new BoxLbyout(p,
+                                      horizontbl
+                                      ? BoxLbyout.X_AXIS
+                                      : BoxLbyout.Y_AXIS));
+            p.setLbyout(new CompbctLbyout(horizontbl));
             if (getDescription() != null && isBordered()) {
                 p.setBorder(new TitledBorder(getDescription()));
-                addEnableButtons(p);
+                bddEnbbleButtons(p);
             }
             for (Node node = children; node != null; node = node.getNext()) {
                 JComponent comp = node.getJComponent();
                 if (comp != null) {
-                    p.add(comp);
+                    p.bdd(comp);
                 }
             }
             return p;
         }
     }
 
-    public void addEnableButtons(JPanel p) {
-        p.add(new EnableButton(this, EnableButton.DEFAULT));
-        p.add(new EnableButton(this, EnableButton.CLEAR));
-        p.add(new EnableButton(this, EnableButton.INVERT));
-        p.add(new EnableButton(this, EnableButton.SET));
+    public void bddEnbbleButtons(JPbnel p) {
+        p.bdd(new EnbbleButton(this, EnbbleButton.DEFAULT));
+        p.bdd(new EnbbleButton(this, EnbbleButton.CLEAR));
+        p.bdd(new EnbbleButton(this, EnbbleButton.INVERT));
+        p.bdd(new EnbbleButton(this, EnbbleButton.SET));
     }
 
-    public static void restoreAllDefaults() {
-        root.traverse(new Visitor() {
+    public stbtic void restoreAllDefbults() {
+        root.trbverse(new Visitor() {
             public void visit(Node node) {
-                node.restoreDefault();
+                node.restoreDefbult();
             }
         });
     }
 
-    public static void writeAll(final PrintWriter pw) {
-        root.traverse(new Visitor() {
+    public stbtic void writeAll(finbl PrintWriter pw) {
+        root.trbverse(new Visitor() {
             public void visit(Node node) {
                 node.write(pw);
             }
@@ -227,24 +227,24 @@ public class Group extends Node {
         pw.flush();
     }
 
-    public static String setOption(String s) {
+    public stbtic String setOption(String s) {
         int index = s.indexOf('=');
         if (index < 0) {
-            return "No value specified";
+            return "No vblue specified";
         }
         String key = s.substring(0, index);
-        String value = s.substring(index+1);
-        return root.setOption(key, value);
+        String vblue = s.substring(index+1);
+        return root.setOption(key, vblue);
     }
 
     public String toString() {
-        return "Group("+getTreeName()+")";
+        return "Group("+getTreeNbme()+")";
     }
 
-    public class ChildIterator implements Node.Iterator {
+    public clbss ChildIterbtor implements Node.Iterbtor {
         protected Node cur = getFirstChild();
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return (cur != null);
         }
 
@@ -258,95 +258,95 @@ public class Group extends Node {
         }
     }
 
-    public class RecursiveChildIterator extends ChildIterator {
-        Node.Iterator subiterator;
+    public clbss RecursiveChildIterbtor extends ChildIterbtor {
+        Node.Iterbtor subiterbtor;
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             while (true) {
-                if (subiterator != null && subiterator.hasNext()) {
+                if (subiterbtor != null && subiterbtor.hbsNext()) {
                     return true;
                 }
-                if (cur instanceof Group) {
-                    subiterator = ((Group) cur).getRecursiveChildIterator();
+                if (cur instbnceof Group) {
+                    subiterbtor = ((Group) cur).getRecursiveChildIterbtor();
                     cur = cur.getNext();
                 } else {
-                    subiterator = null;
-                    return super.hasNext();
+                    subiterbtor = null;
+                    return super.hbsNext();
                 }
             }
         }
 
         public Node next() {
-            if (subiterator != null) {
-                return subiterator.next();
+            if (subiterbtor != null) {
+                return subiterbtor.next();
             } else {
                 return super.next();
             }
         }
     }
 
-    public static class EnableSet extends Group implements Modifier {
-        public EnableSet() {
+    public stbtic clbss EnbbleSet extends Group implements Modifier {
+        public EnbbleSet() {
             super();
         }
 
-        public EnableSet(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description);
+        public EnbbleSet(Group pbrent, String nodeNbme, String description) {
+            super(pbrent, nodeNbme, description);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new EnableIterator();
+        public Modifier.Iterbtor getIterbtor(TestEnvironment env) {
+            return new EnbbleIterbtor();
         }
 
-        public void modifyTest(TestEnvironment env, Object val) {
-            ((Option.Enable) val).modifyTest(env);
-            env.setModifier(this, val);
+        public void modifyTest(TestEnvironment env, Object vbl) {
+            ((Option.Enbble) vbl).modifyTest(env);
+            env.setModifier(this, vbl);
         }
 
-        public void restoreTest(TestEnvironment env, Object val) {
-            ((Option.Enable) val).restoreTest(env);
+        public void restoreTest(TestEnvironment env, Object vbl) {
+            ((Option.Enbble) vbl).restoreTest(env);
             env.removeModifier(this);
         }
 
-        public String getAbbreviatedModifierDescription(Object val) {
-            Option.Enable oe = (Option.Enable) val;
-            return oe.getAbbreviatedModifierDescription(Boolean.TRUE);
+        public String getAbbrevibtedModifierDescription(Object vbl) {
+            Option.Enbble oe = (Option.Enbble) vbl;
+            return oe.getAbbrevibtedModifierDescription(Boolebn.TRUE);
         }
 
-        public String getModifierValueName(Object val) {
-            Option.Enable oe = (Option.Enable) val;
-            return oe.getModifierValueName(Boolean.TRUE);
+        public String getModifierVblueNbme(Object vbl) {
+            Option.Enbble oe = (Option.Enbble) vbl;
+            return oe.getModifierVblueNbme(Boolebn.TRUE);
         }
 
-        public class EnableIterator implements Modifier.Iterator {
-            Node.Iterator childiterator = getRecursiveChildIterator();
-            Option.Enable curval;
+        public clbss EnbbleIterbtor implements Modifier.Iterbtor {
+            Node.Iterbtor childiterbtor = getRecursiveChildIterbtor();
+            Option.Enbble curvbl;
 
-            public boolean hasNext() {
-                if (curval != null) {
+            public boolebn hbsNext() {
+                if (curvbl != null) {
                     return true;
                 }
-                while (childiterator.hasNext()) {
-                    Node node = childiterator.next();
-                    if (node instanceof Option.Enable) {
-                        curval = (Option.Enable) node;
-                        if (curval.isEnabled()) {
+                while (childiterbtor.hbsNext()) {
+                    Node node = childiterbtor.next();
+                    if (node instbnceof Option.Enbble) {
+                        curvbl = (Option.Enbble) node;
+                        if (curvbl.isEnbbled()) {
                             return true;
                         }
-                        curval = null;
+                        curvbl = null;
                     }
                 }
-                return false;
+                return fblse;
             }
 
             public Object next() {
-                if (curval == null) {
-                    if (!hasNext()) {
+                if (curvbl == null) {
+                    if (!hbsNext()) {
                         throw new NoSuchElementException();
                     }
                 }
-                Object ret = curval;
-                curval = null;
+                Object ret = curvbl;
+                curvbl = null;
                 return ret;
             }
         }

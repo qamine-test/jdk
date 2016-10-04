@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,87 +30,87 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import  java.util.*;
-import  java.net.*;
-import  java.io.*;
+import  jbvb.util.*;
+import  jbvb.net.*;
+import  jbvb.io.*;
 
-public class Client
+public clbss Client
 {
-  private final static int BYTESPEROP= PollingServer.BYTESPEROP;
-  private final static int PORTNUM   = PollingServer.PORTNUM;
-  private final static int MAXCONN   = PollingServer.MAXCONN;
+  privbte finbl stbtic int BYTESPEROP= PollingServer.BYTESPEROP;
+  privbte finbl stbtic int PORTNUM   = PollingServer.PORTNUM;
+  privbte finbl stbtic int MAXCONN   = PollingServer.MAXCONN;
 
-  private static Socket[] sockArr = new Socket[MAXCONN];
-  private static int totalConn =10;
-  private static int bytesToSend =1024000;
-  private static int connections = 0;
-  private static int sends = 0;
+  privbte stbtic Socket[] sockArr = new Socket[MAXCONN];
+  privbte stbtic int totblConn =10;
+  privbte stbtic int bytesToSend =1024000;
+  privbte stbtic int connections = 0;
+  privbte stbtic int sends = 0;
 
-  public static void main (String args[]) {
+  public stbtic void mbin (String brgs[]) {
 
-    String host = "localhost";
+    String host = "locblhost";
 
-    if (args.length < 1 || args.length > 3) {
-      System.out.println("Usage : java Client <num_connects>");
-      System.out.println("      | java Client <num_connects> <server_name>");
-      System.out.println("      | java Client <num_connects> <server_name>" +
-                         " <max_Kbytes>");
+    if (brgs.length < 1 || brgs.length > 3) {
+      System.out.println("Usbge : jbvb Client <num_connects>");
+      System.out.println("      | jbvb Client <num_connects> <server_nbme>");
+      System.out.println("      | jbvb Client <num_connects> <server_nbme>" +
+                         " <mbx_Kbytes>");
       System.exit(-1);
     }
 
-    if (args.length >= 1)
-      totalConn = java.lang.Integer.valueOf(args[0]).intValue();
-    if (args.length >= 2)
-      host = args[1];
-    if (args.length == 3)
-      bytesToSend = java.lang.Integer.valueOf(args[2]).intValue() * 1024;
+    if (brgs.length >= 1)
+      totblConn = jbvb.lbng.Integer.vblueOf(brgs[0]).intVblue();
+    if (brgs.length >= 2)
+      host = brgs[1];
+    if (brgs.length == 3)
+      bytesToSend = jbvb.lbng.Integer.vblueOf(brgs[2]).intVblue() * 1024;
 
 
-    if (totalConn <= 0 || totalConn > MAXCONN) {
-      System.out.println("Connections out of range.  Terminating.");
+    if (totblConn <= 0 || totblConn > MAXCONN) {
+      System.out.println("Connections out of rbnge.  Terminbting.");
       System.exit(-1);
     }
 
-    System.out.println("Using " + totalConn + " connections for sending " +
+    System.out.println("Using " + totblConn + " connections for sending " +
                        bytesToSend + " bytes to " + host);
 
 
     try {
       Socket ctrlSock = new Socket (host, PORTNUM);
-      PrintStream ctrlStream =
-        new PrintStream(ctrlSock.getOutputStream());
-      ctrlStream.println(bytesToSend);
-      ctrlStream.println(totalConn);
+      PrintStrebm ctrlStrebm =
+        new PrintStrebm(ctrlSock.getOutputStrebm());
+      ctrlStrebm.println(bytesToSend);
+      ctrlStrebm.println(totblConn);
 
-      while (connections < totalConn ) {
+      while (connections < totblConn ) {
         sockArr[connections] = new Socket (host, PORTNUM);
         connections ++;
       }
-      System.out.println("Connections made : " + connections);
+      System.out.println("Connections mbde : " + connections);
 
       byte[] buff = new byte[BYTESPEROP];
       for (int i = 0; i < BYTESPEROP; i++) // just put some junk in!
         buff[i] = (byte) i;
 
-      Random rand = new Random(5321L);
+      Rbndom rbnd = new Rbndom(5321L);
       while (sends < bytesToSend/BYTESPEROP) {
-        int idx = java.lang.Math.abs(rand.nextInt()) % totalConn;
-        sockArr[idx].getOutputStream().write(buff,0,BYTESPEROP);
+        int idx = jbvb.lbng.Mbth.bbs(rbnd.nextInt()) % totblConn;
+        sockArr[idx].getOutputStrebm().write(buff,0,BYTESPEROP);
         sends++;
       }
-      // Wait for server to say done.
-      int bytes = ctrlSock.getInputStream().read(buff, 0, BYTESPEROP);
-      System.out.println (" Total connections : " + connections +
+      // Wbit for server to sby done.
+      int bytes = ctrlSock.getInputStrebm().rebd(buff, 0, BYTESPEROP);
+      System.out.println (" Totbl connections : " + connections +
                           " Bytes sent : " + sends * BYTESPEROP +
                           "...Done!");
-    } catch (Exception e) { e.printStackTrace(); }
+    } cbtch (Exception e) { e.printStbckTrbce(); }
   }
 }

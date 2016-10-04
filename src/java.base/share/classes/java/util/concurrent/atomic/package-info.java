@@ -1,212 +1,212 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
 /**
- * A small toolkit of classes that support lock-free thread-safe
- * programming on single variables.  In essence, the classes in this
- * package extend the notion of {@code volatile} values, fields, and
- * array elements to those that also provide an atomic conditional update
- * operation of the form:
+ * A smbll toolkit of clbsses thbt support lock-free threbd-sbfe
+ * progrbmming on single vbribbles.  In essence, the clbsses in this
+ * pbckbge extend the notion of {@code volbtile} vblues, fields, bnd
+ * brrby elements to those thbt blso provide bn btomic conditionbl updbte
+ * operbtion of the form:
  *
- *  <pre> {@code boolean compareAndSet(expectedValue, updateValue);}</pre>
+ *  <pre> {@code boolebn compbreAndSet(expectedVblue, updbteVblue);}</pre>
  *
- * <p>This method (which varies in argument types across different
- * classes) atomically sets a variable to the {@code updateValue} if it
- * currently holds the {@code expectedValue}, reporting {@code true} on
- * success.  The classes in this package also contain methods to get and
- * unconditionally set values, as well as a weaker conditional atomic
- * update operation {@code weakCompareAndSet} described below.
+ * <p>This method (which vbries in brgument types bcross different
+ * clbsses) btomicblly sets b vbribble to the {@code updbteVblue} if it
+ * currently holds the {@code expectedVblue}, reporting {@code true} on
+ * success.  The clbsses in this pbckbge blso contbin methods to get bnd
+ * unconditionblly set vblues, bs well bs b webker conditionbl btomic
+ * updbte operbtion {@code webkCompbreAndSet} described below.
  *
- * <p>The specifications of these methods enable implementations to
- * employ efficient machine-level atomic instructions that are available
- * on contemporary processors.  However on some platforms, support may
- * entail some form of internal locking.  Thus the methods are not
- * strictly guaranteed to be non-blocking --
- * a thread may block transiently before performing the operation.
+ * <p>The specificbtions of these methods enbble implementbtions to
+ * employ efficient mbchine-level btomic instructions thbt bre bvbilbble
+ * on contemporbry processors.  However on some plbtforms, support mby
+ * entbil some form of internbl locking.  Thus the methods bre not
+ * strictly gubrbnteed to be non-blocking --
+ * b threbd mby block trbnsiently before performing the operbtion.
  *
- * <p>Instances of classes
- * {@link java.util.concurrent.atomic.AtomicBoolean},
- * {@link java.util.concurrent.atomic.AtomicInteger},
- * {@link java.util.concurrent.atomic.AtomicLong}, and
- * {@link java.util.concurrent.atomic.AtomicReference}
- * each provide access and updates to a single variable of the
- * corresponding type.  Each class also provides appropriate utility
- * methods for that type.  For example, classes {@code AtomicLong} and
- * {@code AtomicInteger} provide atomic increment methods.  One
- * application is to generate sequence numbers, as in:
+ * <p>Instbnces of clbsses
+ * {@link jbvb.util.concurrent.btomic.AtomicBoolebn},
+ * {@link jbvb.util.concurrent.btomic.AtomicInteger},
+ * {@link jbvb.util.concurrent.btomic.AtomicLong}, bnd
+ * {@link jbvb.util.concurrent.btomic.AtomicReference}
+ * ebch provide bccess bnd updbtes to b single vbribble of the
+ * corresponding type.  Ebch clbss blso provides bppropribte utility
+ * methods for thbt type.  For exbmple, clbsses {@code AtomicLong} bnd
+ * {@code AtomicInteger} provide btomic increment methods.  One
+ * bpplicbtion is to generbte sequence numbers, bs in:
  *
  *  <pre> {@code
- * class Sequencer {
- *   private final AtomicLong sequenceNumber
+ * clbss Sequencer {
+ *   privbte finbl AtomicLong sequenceNumber
  *     = new AtomicLong(0);
  *   public long next() {
  *     return sequenceNumber.getAndIncrement();
  *   }
  * }}</pre>
  *
- * <p>It is straightforward to define new utility functions that, like
- * {@code getAndIncrement}, apply a function to a value atomically.
- * For example, given some transformation
- * <pre> {@code long transform(long input)}</pre>
+ * <p>It is strbightforwbrd to define new utility functions thbt, like
+ * {@code getAndIncrement}, bpply b function to b vblue btomicblly.
+ * For exbmple, given some trbnsformbtion
+ * <pre> {@code long trbnsform(long input)}</pre>
  *
- * write your utility method as follows:
+ * write your utility method bs follows:
  *  <pre> {@code
- * long getAndTransform(AtomicLong var) {
+ * long getAndTrbnsform(AtomicLong vbr) {
  *   long prev, next;
  *   do {
- *     prev = var.get();
- *     next = transform(prev);
- *   } while (!var.compareAndSet(prev, next));
- *   return prev; // return next; for transformAndGet
+ *     prev = vbr.get();
+ *     next = trbnsform(prev);
+ *   } while (!vbr.compbreAndSet(prev, next));
+ *   return prev; // return next; for trbnsformAndGet
  * }}</pre>
  *
- * <p>The memory effects for accesses and updates of atomics generally
- * follow the rules for volatiles, as stated in
- * <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4">
- * The Java Language Specification (17.4 Memory Model)</a>:
+ * <p>The memory effects for bccesses bnd updbtes of btomics generblly
+ * follow the rules for volbtiles, bs stbted in
+ * <b href="http://docs.orbcle.com/jbvbse/specs/jls/se7/html/jls-17.html#jls-17.4">
+ * The Jbvb Lbngubge Specificbtion (17.4 Memory Model)</b>:
  *
  * <ul>
  *
- *   <li> {@code get} has the memory effects of reading a
- * {@code volatile} variable.
+ *   <li> {@code get} hbs the memory effects of rebding b
+ * {@code volbtile} vbribble.
  *
- *   <li> {@code set} has the memory effects of writing (assigning) a
- * {@code volatile} variable.
+ *   <li> {@code set} hbs the memory effects of writing (bssigning) b
+ * {@code volbtile} vbribble.
  *
- *   <li> {@code lazySet} has the memory effects of writing (assigning)
- *   a {@code volatile} variable except that it permits reorderings with
- *   subsequent (but not previous) memory actions that do not themselves
- *   impose reordering constraints with ordinary non-{@code volatile}
- *   writes.  Among other usage contexts, {@code lazySet} may apply when
- *   nulling out, for the sake of garbage collection, a reference that is
- *   never accessed again.
+ *   <li> {@code lbzySet} hbs the memory effects of writing (bssigning)
+ *   b {@code volbtile} vbribble except thbt it permits reorderings with
+ *   subsequent (but not previous) memory bctions thbt do not themselves
+ *   impose reordering constrbints with ordinbry non-{@code volbtile}
+ *   writes.  Among other usbge contexts, {@code lbzySet} mby bpply when
+ *   nulling out, for the sbke of gbrbbge collection, b reference thbt is
+ *   never bccessed bgbin.
  *
- *   <li>{@code weakCompareAndSet} atomically reads and conditionally
- *   writes a variable but does <em>not</em>
- *   create any happens-before orderings, so provides no guarantees
- *   with respect to previous or subsequent reads and writes of any
- *   variables other than the target of the {@code weakCompareAndSet}.
+ *   <li>{@code webkCompbreAndSet} btomicblly rebds bnd conditionblly
+ *   writes b vbribble but does <em>not</em>
+ *   crebte bny hbppens-before orderings, so provides no gubrbntees
+ *   with respect to previous or subsequent rebds bnd writes of bny
+ *   vbribbles other thbn the tbrget of the {@code webkCompbreAndSet}.
  *
- *   <li> {@code compareAndSet}
- *   and all other read-and-update operations such as {@code getAndIncrement}
- *   have the memory effects of both reading and
- *   writing {@code volatile} variables.
+ *   <li> {@code compbreAndSet}
+ *   bnd bll other rebd-bnd-updbte operbtions such bs {@code getAndIncrement}
+ *   hbve the memory effects of both rebding bnd
+ *   writing {@code volbtile} vbribbles.
  * </ul>
  *
- * <p>In addition to classes representing single values, this package
- * contains <em>Updater</em> classes that can be used to obtain
- * {@code compareAndSet} operations on any selected {@code volatile}
- * field of any selected class.
+ * <p>In bddition to clbsses representing single vblues, this pbckbge
+ * contbins <em>Updbter</em> clbsses thbt cbn be used to obtbin
+ * {@code compbreAndSet} operbtions on bny selected {@code volbtile}
+ * field of bny selected clbss.
  *
- * {@link java.util.concurrent.atomic.AtomicReferenceFieldUpdater},
- * {@link java.util.concurrent.atomic.AtomicIntegerFieldUpdater}, and
- * {@link java.util.concurrent.atomic.AtomicLongFieldUpdater} are
- * reflection-based utilities that provide access to the associated
- * field types.  These are mainly of use in atomic data structures in
- * which several {@code volatile} fields of the same node (for
- * example, the links of a tree node) are independently subject to
- * atomic updates.  These classes enable greater flexibility in how
- * and when to use atomic updates, at the expense of more awkward
- * reflection-based setup, less convenient usage, and weaker
- * guarantees.
+ * {@link jbvb.util.concurrent.btomic.AtomicReferenceFieldUpdbter},
+ * {@link jbvb.util.concurrent.btomic.AtomicIntegerFieldUpdbter}, bnd
+ * {@link jbvb.util.concurrent.btomic.AtomicLongFieldUpdbter} bre
+ * reflection-bbsed utilities thbt provide bccess to the bssocibted
+ * field types.  These bre mbinly of use in btomic dbtb structures in
+ * which severbl {@code volbtile} fields of the sbme node (for
+ * exbmple, the links of b tree node) bre independently subject to
+ * btomic updbtes.  These clbsses enbble grebter flexibility in how
+ * bnd when to use btomic updbtes, bt the expense of more bwkwbrd
+ * reflection-bbsed setup, less convenient usbge, bnd webker
+ * gubrbntees.
  *
  * <p>The
- * {@link java.util.concurrent.atomic.AtomicIntegerArray},
- * {@link java.util.concurrent.atomic.AtomicLongArray}, and
- * {@link java.util.concurrent.atomic.AtomicReferenceArray} classes
- * further extend atomic operation support to arrays of these types.
- * These classes are also notable in providing {@code volatile} access
- * semantics for their array elements, which is not supported for
- * ordinary arrays.
+ * {@link jbvb.util.concurrent.btomic.AtomicIntegerArrby},
+ * {@link jbvb.util.concurrent.btomic.AtomicLongArrby}, bnd
+ * {@link jbvb.util.concurrent.btomic.AtomicReferenceArrby} clbsses
+ * further extend btomic operbtion support to brrbys of these types.
+ * These clbsses bre blso notbble in providing {@code volbtile} bccess
+ * sembntics for their brrby elements, which is not supported for
+ * ordinbry brrbys.
  *
- * <p id="weakCompareAndSet">The atomic classes also support method
- * {@code weakCompareAndSet}, which has limited applicability.  On some
- * platforms, the weak version may be more efficient than {@code
- * compareAndSet} in the normal case, but differs in that any given
- * invocation of the {@code weakCompareAndSet} method may return {@code
- * false} <em>spuriously</em> (that is, for no apparent reason).  A
- * {@code false} return means only that the operation may be retried if
- * desired, relying on the guarantee that repeated invocation when the
- * variable holds {@code expectedValue} and no other thread is also
- * attempting to set the variable will eventually succeed.  (Such
- * spurious failures may for example be due to memory contention effects
- * that are unrelated to whether the expected and current values are
- * equal.)  Additionally {@code weakCompareAndSet} does not provide
- * ordering guarantees that are usually needed for synchronization
- * control.  However, the method may be useful for updating counters and
- * statistics when such updates are unrelated to the other
- * happens-before orderings of a program.  When a thread sees an update
- * to an atomic variable caused by a {@code weakCompareAndSet}, it does
- * not necessarily see updates to any <em>other</em> variables that
- * occurred before the {@code weakCompareAndSet}.  This may be
- * acceptable when, for example, updating performance statistics, but
- * rarely otherwise.
+ * <p id="webkCompbreAndSet">The btomic clbsses blso support method
+ * {@code webkCompbreAndSet}, which hbs limited bpplicbbility.  On some
+ * plbtforms, the webk version mby be more efficient thbn {@code
+ * compbreAndSet} in the normbl cbse, but differs in thbt bny given
+ * invocbtion of the {@code webkCompbreAndSet} method mby return {@code
+ * fblse} <em>spuriously</em> (thbt is, for no bppbrent rebson).  A
+ * {@code fblse} return mebns only thbt the operbtion mby be retried if
+ * desired, relying on the gubrbntee thbt repebted invocbtion when the
+ * vbribble holds {@code expectedVblue} bnd no other threbd is blso
+ * bttempting to set the vbribble will eventublly succeed.  (Such
+ * spurious fbilures mby for exbmple be due to memory contention effects
+ * thbt bre unrelbted to whether the expected bnd current vblues bre
+ * equbl.)  Additionblly {@code webkCompbreAndSet} does not provide
+ * ordering gubrbntees thbt bre usublly needed for synchronizbtion
+ * control.  However, the method mby be useful for updbting counters bnd
+ * stbtistics when such updbtes bre unrelbted to the other
+ * hbppens-before orderings of b progrbm.  When b threbd sees bn updbte
+ * to bn btomic vbribble cbused by b {@code webkCompbreAndSet}, it does
+ * not necessbrily see updbtes to bny <em>other</em> vbribbles thbt
+ * occurred before the {@code webkCompbreAndSet}.  This mby be
+ * bcceptbble when, for exbmple, updbting performbnce stbtistics, but
+ * rbrely otherwise.
  *
- * <p>The {@link java.util.concurrent.atomic.AtomicMarkableReference}
- * class associates a single boolean with a reference.  For example, this
- * bit might be used inside a data structure to mean that the object
- * being referenced has logically been deleted.
+ * <p>The {@link jbvb.util.concurrent.btomic.AtomicMbrkbbleReference}
+ * clbss bssocibtes b single boolebn with b reference.  For exbmple, this
+ * bit might be used inside b dbtb structure to mebn thbt the object
+ * being referenced hbs logicblly been deleted.
  *
- * The {@link java.util.concurrent.atomic.AtomicStampedReference}
- * class associates an integer value with a reference.  This may be
- * used for example, to represent version numbers corresponding to
- * series of updates.
+ * The {@link jbvb.util.concurrent.btomic.AtomicStbmpedReference}
+ * clbss bssocibtes bn integer vblue with b reference.  This mby be
+ * used for exbmple, to represent version numbers corresponding to
+ * series of updbtes.
  *
- * <p>Atomic classes are designed primarily as building blocks for
- * implementing non-blocking data structures and related infrastructure
- * classes.  The {@code compareAndSet} method is not a general
- * replacement for locking.  It applies only when critical updates for an
- * object are confined to a <em>single</em> variable.
+ * <p>Atomic clbsses bre designed primbrily bs building blocks for
+ * implementing non-blocking dbtb structures bnd relbted infrbstructure
+ * clbsses.  The {@code compbreAndSet} method is not b generbl
+ * replbcement for locking.  It bpplies only when criticbl updbtes for bn
+ * object bre confined to b <em>single</em> vbribble.
  *
- * <p>Atomic classes are not general purpose replacements for
- * {@code java.lang.Integer} and related classes.  They do <em>not</em>
- * define methods such as {@code equals}, {@code hashCode} and
- * {@code compareTo}.  (Because atomic variables are expected to be
- * mutated, they are poor choices for hash table keys.)  Additionally,
- * classes are provided only for those types that are commonly useful in
- * intended applications.  For example, there is no atomic class for
- * representing {@code byte}.  In those infrequent cases where you would
- * like to do so, you can use an {@code AtomicInteger} to hold
- * {@code byte} values, and cast appropriately.
+ * <p>Atomic clbsses bre not generbl purpose replbcements for
+ * {@code jbvb.lbng.Integer} bnd relbted clbsses.  They do <em>not</em>
+ * define methods such bs {@code equbls}, {@code hbshCode} bnd
+ * {@code compbreTo}.  (Becbuse btomic vbribbles bre expected to be
+ * mutbted, they bre poor choices for hbsh tbble keys.)  Additionblly,
+ * clbsses bre provided only for those types thbt bre commonly useful in
+ * intended bpplicbtions.  For exbmple, there is no btomic clbss for
+ * representing {@code byte}.  In those infrequent cbses where you would
+ * like to do so, you cbn use bn {@code AtomicInteger} to hold
+ * {@code byte} vblues, bnd cbst bppropribtely.
  *
- * You can also hold floats using
- * {@link java.lang.Float#floatToRawIntBits} and
- * {@link java.lang.Float#intBitsToFloat} conversions, and doubles using
- * {@link java.lang.Double#doubleToRawLongBits} and
- * {@link java.lang.Double#longBitsToDouble} conversions.
+ * You cbn blso hold flobts using
+ * {@link jbvb.lbng.Flobt#flobtToRbwIntBits} bnd
+ * {@link jbvb.lbng.Flobt#intBitsToFlobt} conversions, bnd doubles using
+ * {@link jbvb.lbng.Double#doubleToRbwLongBits} bnd
+ * {@link jbvb.lbng.Double#longBitsToDouble} conversions.
  *
  * @since 1.5
  */
-package java.util.concurrent.atomic;
+pbckbge jbvb.util.concurrent.btomic;

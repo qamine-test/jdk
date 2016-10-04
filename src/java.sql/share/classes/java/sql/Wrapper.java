@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * Interface for JDBC classes which provide the ability to retrieve the delegate instance when the instance
- * in question is in fact a proxy class.
+ * Interfbce for JDBC clbsses which provide the bbility to retrieve the delegbte instbnce when the instbnce
+ * in question is in fbct b proxy clbss.
  * <p>
- * The wrapper pattern is employed by many JDBC driver implementations to provide extensions beyond
- * the traditional JDBC API that are specific to a data source. Developers may wish to gain access to
- * these resources that are wrapped (the delegates) as  proxy class instances representing the
- * the actual resources. This interface describes a standard mechanism to access
- * these wrapped resources
- * represented by their proxy, to permit direct access to the resource delegates.
+ * The wrbpper pbttern is employed by mbny JDBC driver implementbtions to provide extensions beyond
+ * the trbditionbl JDBC API thbt bre specific to b dbtb source. Developers mby wish to gbin bccess to
+ * these resources thbt bre wrbpped (the delegbtes) bs  proxy clbss instbnces representing the
+ * the bctubl resources. This interfbce describes b stbndbrd mechbnism to bccess
+ * these wrbpped resources
+ * represented by their proxy, to permit direct bccess to the resource delegbtes.
  *
  * @since 1.6
  */
 
-public interface Wrapper {
+public interfbce Wrbpper {
 
     /**
-     * Returns an object that implements the given interface to allow access to
-     * non-standard methods, or standard methods not exposed by the proxy.
+     * Returns bn object thbt implements the given interfbce to bllow bccess to
+     * non-stbndbrd methods, or stbndbrd methods not exposed by the proxy.
      *
-     * If the receiver implements the interface then the result is the receiver
-     * or a proxy for the receiver. If the receiver is a wrapper
-     * and the wrapped object implements the interface then the result is the
-     * wrapped object or a proxy for the wrapped object. Otherwise return the
-     * the result of calling <code>unwrap</code> recursively on the wrapped object
-     * or a proxy for that result. If the receiver is not a
-     * wrapper and does not implement the interface, then an <code>SQLException</code> is thrown.
+     * If the receiver implements the interfbce then the result is the receiver
+     * or b proxy for the receiver. If the receiver is b wrbpper
+     * bnd the wrbpped object implements the interfbce then the result is the
+     * wrbpped object or b proxy for the wrbpped object. Otherwise return the
+     * the result of cblling <code>unwrbp</code> recursively on the wrbpped object
+     * or b proxy for thbt result. If the receiver is not b
+     * wrbpper bnd does not implement the interfbce, then bn <code>SQLException</code> is thrown.
      *
-     * @param <T> the type of the class modeled by this Class object
-     * @param iface A Class defining an interface that the result must implement.
-     * @return an object that implements the interface. May be a proxy for the actual implementing object.
-     * @throws java.sql.SQLException If no object found that implements the interface
+     * @pbrbm <T> the type of the clbss modeled by this Clbss object
+     * @pbrbm ifbce A Clbss defining bn interfbce thbt the result must implement.
+     * @return bn object thbt implements the interfbce. Mby be b proxy for the bctubl implementing object.
+     * @throws jbvb.sql.SQLException If no object found thbt implements the interfbce
      * @since 1.6
      */
-        <T> T unwrap(java.lang.Class<T> iface) throws java.sql.SQLException;
+        <T> T unwrbp(jbvb.lbng.Clbss<T> ifbce) throws jbvb.sql.SQLException;
 
     /**
-     * Returns true if this either implements the interface argument or is directly or indirectly a wrapper
-     * for an object that does. Returns false otherwise. If this implements the interface then return true,
-     * else if this is a wrapper then return the result of recursively calling <code>isWrapperFor</code> on the wrapped
-     * object. If this does not implement the interface and is not a wrapper, return false.
-     * This method should be implemented as a low-cost operation compared to <code>unwrap</code> so that
-     * callers can use this method to avoid expensive <code>unwrap</code> calls that may fail. If this method
-     * returns true then calling <code>unwrap</code> with the same argument should succeed.
+     * Returns true if this either implements the interfbce brgument or is directly or indirectly b wrbpper
+     * for bn object thbt does. Returns fblse otherwise. If this implements the interfbce then return true,
+     * else if this is b wrbpper then return the result of recursively cblling <code>isWrbpperFor</code> on the wrbpped
+     * object. If this does not implement the interfbce bnd is not b wrbpper, return fblse.
+     * This method should be implemented bs b low-cost operbtion compbred to <code>unwrbp</code> so thbt
+     * cbllers cbn use this method to bvoid expensive <code>unwrbp</code> cblls thbt mby fbil. If this method
+     * returns true then cblling <code>unwrbp</code> with the sbme brgument should succeed.
      *
-     * @param iface a Class defining an interface.
-     * @return true if this implements the interface or directly or indirectly wraps an object that does.
-     * @throws java.sql.SQLException  if an error occurs while determining whether this is a wrapper
-     * for an object with the given interface.
+     * @pbrbm ifbce b Clbss defining bn interfbce.
+     * @return true if this implements the interfbce or directly or indirectly wrbps bn object thbt does.
+     * @throws jbvb.sql.SQLException  if bn error occurs while determining whether this is b wrbpper
+     * for bn object with the given interfbce.
      * @since 1.6
      */
-    boolean isWrapperFor(java.lang.Class<?> iface) throws java.sql.SQLException;
+    boolebn isWrbpperFor(jbvb.lbng.Clbss<?> ifbce) throws jbvb.sql.SQLException;
 
 }

@@ -1,311 +1,311 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.image.ColorModel;
-import java.lang.ref.SoftReference;
-import java.util.Arrays;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.Arrbys;
 
 /**
- * This is the superclass for Paints which use a multiple color
- * gradient to fill in their raster.  It provides storage for variables and
- * enumerated values common to
- * {@code LinearGradientPaint} and {@code RadialGradientPaint}.
+ * This is the superclbss for Pbints which use b multiple color
+ * grbdient to fill in their rbster.  It provides storbge for vbribbles bnd
+ * enumerbted vblues common to
+ * {@code LinebrGrbdientPbint} bnd {@code RbdiblGrbdientPbint}.
  *
- * @author Nicholas Talian, Vincent Hardy, Jim Graham, Jerry Evans
+ * @buthor Nicholbs Tblibn, Vincent Hbrdy, Jim Grbhbm, Jerry Evbns
  * @since 1.6
  */
-public abstract class MultipleGradientPaint implements Paint {
+public bbstrbct clbss MultipleGrbdientPbint implements Pbint {
 
-    /** The method to use when painting outside the gradient bounds.
+    /** The method to use when pbinting outside the grbdient bounds.
      * @since 1.6
      */
-    public static enum CycleMethod {
+    public stbtic enum CycleMethod {
         /**
-         * Use the terminal colors to fill the remaining area.
+         * Use the terminbl colors to fill the rembining breb.
          */
         NO_CYCLE,
 
         /**
-         * Cycle the gradient colors start-to-end, end-to-start
-         * to fill the remaining area.
+         * Cycle the grbdient colors stbrt-to-end, end-to-stbrt
+         * to fill the rembining breb.
          */
         REFLECT,
 
         /**
-         * Cycle the gradient colors start-to-end, start-to-end
-         * to fill the remaining area.
+         * Cycle the grbdient colors stbrt-to-end, stbrt-to-end
+         * to fill the rembining breb.
          */
         REPEAT
     }
 
-    /** The color space in which to perform the gradient interpolation.
+    /** The color spbce in which to perform the grbdient interpolbtion.
      * @since 1.6
      */
-    public static enum ColorSpaceType {
+    public stbtic enum ColorSpbceType {
         /**
-         * Indicates that the color interpolation should occur in sRGB space.
+         * Indicbtes thbt the color interpolbtion should occur in sRGB spbce.
          */
         SRGB,
 
         /**
-         * Indicates that the color interpolation should occur in linearized
-         * RGB space.
+         * Indicbtes thbt the color interpolbtion should occur in linebrized
+         * RGB spbce.
          */
         LINEAR_RGB
     }
 
-    /** The transparency of this paint object. */
-    final int transparency;
+    /** The trbnspbrency of this pbint object. */
+    finbl int trbnspbrency;
 
-    /** Gradient keyframe values in the range 0 to 1. */
-    final float[] fractions;
+    /** Grbdient keyfrbme vblues in the rbnge 0 to 1. */
+    finbl flobt[] frbctions;
 
-    /** Gradient colors. */
-    final Color[] colors;
+    /** Grbdient colors. */
+    finbl Color[] colors;
 
-    /** Transform to apply to gradient. */
-    final AffineTransform gradientTransform;
+    /** Trbnsform to bpply to grbdient. */
+    finbl AffineTrbnsform grbdientTrbnsform;
 
-    /** The method to use when painting outside the gradient bounds. */
-    final CycleMethod cycleMethod;
+    /** The method to use when pbinting outside the grbdient bounds. */
+    finbl CycleMethod cycleMethod;
 
-    /** The color space in which to perform the gradient interpolation. */
-    final ColorSpaceType colorSpace;
+    /** The color spbce in which to perform the grbdient interpolbtion. */
+    finbl ColorSpbceType colorSpbce;
 
     /**
-     * The following fields are used only by MultipleGradientPaintContext
-     * to cache certain values that remain constant and do not need to be
-     * recalculated for each context created from this paint instance.
+     * The following fields bre used only by MultipleGrbdientPbintContext
+     * to cbche certbin vblues thbt rembin constbnt bnd do not need to be
+     * recblculbted for ebch context crebted from this pbint instbnce.
      */
     ColorModel model;
-    float[] normalizedIntervals;
-    boolean isSimpleLookup;
-    SoftReference<int[][]> gradients;
-    SoftReference<int[]> gradient;
-    int fastGradientArraySize;
+    flobt[] normblizedIntervbls;
+    boolebn isSimpleLookup;
+    SoftReference<int[][]> grbdients;
+    SoftReference<int[]> grbdient;
+    int fbstGrbdientArrbySize;
 
     /**
-     * Package-private constructor.
+     * Pbckbge-privbte constructor.
      *
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors corresponding to ebch frbctionbl vblue
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
-     * @param colorSpace which color space to use for interpolation,
+     * @pbrbm colorSpbce which color spbce to use for interpolbtion,
      *                   either {@code SRGB} or {@code LINEAR_RGB}
-     * @param gradientTransform transform to apply to the gradient
+     * @pbrbm grbdientTrbnsform trbnsform to bpply to the grbdient
      *
      * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code gradientTransform} is null,
+     * if {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
+     * or {@code grbdientTrbnsform} is null,
      * or {@code cycleMethod} is null,
-     * or {@code colorSpace} is null
-     * @throws IllegalArgumentException
-     * if {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * or {@code colorSpbce} is null
+     * @throws IllegblArgumentException
+     * if {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    MultipleGradientPaint(float[] fractions,
+    MultipleGrbdientPbint(flobt[] frbctions,
                           Color[] colors,
                           CycleMethod cycleMethod,
-                          ColorSpaceType colorSpace,
-                          AffineTransform gradientTransform)
+                          ColorSpbceType colorSpbce,
+                          AffineTrbnsform grbdientTrbnsform)
     {
-        if (fractions == null) {
-            throw new NullPointerException("Fractions array cannot be null");
+        if (frbctions == null) {
+            throw new NullPointerException("Frbctions brrby cbnnot be null");
         }
 
         if (colors == null) {
-            throw new NullPointerException("Colors array cannot be null");
+            throw new NullPointerException("Colors brrby cbnnot be null");
         }
 
         if (cycleMethod == null) {
-            throw new NullPointerException("Cycle method cannot be null");
+            throw new NullPointerException("Cycle method cbnnot be null");
         }
 
-        if (colorSpace == null) {
-            throw new NullPointerException("Color space cannot be null");
+        if (colorSpbce == null) {
+            throw new NullPointerException("Color spbce cbnnot be null");
         }
 
-        if (gradientTransform == null) {
-            throw new NullPointerException("Gradient transform cannot be "+
+        if (grbdientTrbnsform == null) {
+            throw new NullPointerException("Grbdient trbnsform cbnnot be "+
                                            "null");
         }
 
-        if (fractions.length != colors.length) {
-            throw new IllegalArgumentException("Colors and fractions must " +
-                                               "have equal size");
+        if (frbctions.length != colors.length) {
+            throw new IllegblArgumentException("Colors bnd frbctions must " +
+                                               "hbve equbl size");
         }
 
         if (colors.length < 2) {
-            throw new IllegalArgumentException("User must specify at least " +
+            throw new IllegblArgumentException("User must specify bt lebst " +
                                                "2 colors");
         }
 
-        // check that values are in the proper range and progress
-        // in increasing order from 0 to 1
-        float previousFraction = -1.0f;
-        for (float currentFraction : fractions) {
-            if (currentFraction < 0f || currentFraction > 1f) {
-                throw new IllegalArgumentException("Fraction values must " +
-                                                   "be in the range 0 to 1: " +
-                                                   currentFraction);
+        // check thbt vblues bre in the proper rbnge bnd progress
+        // in increbsing order from 0 to 1
+        flobt previousFrbction = -1.0f;
+        for (flobt currentFrbction : frbctions) {
+            if (currentFrbction < 0f || currentFrbction > 1f) {
+                throw new IllegblArgumentException("Frbction vblues must " +
+                                                   "be in the rbnge 0 to 1: " +
+                                                   currentFrbction);
             }
 
-            if (currentFraction <= previousFraction) {
-                throw new IllegalArgumentException("Keyframe fractions " +
-                                                   "must be increasing: " +
-                                                   currentFraction);
+            if (currentFrbction <= previousFrbction) {
+                throw new IllegblArgumentException("Keyfrbme frbctions " +
+                                                   "must be increbsing: " +
+                                                   currentFrbction);
             }
 
-            previousFraction = currentFraction;
+            previousFrbction = currentFrbction;
         }
 
-        // We have to deal with the cases where the first gradient stop is not
-        // equal to 0 and/or the last gradient stop is not equal to 1.
-        // In both cases, create a new point and replicate the previous
+        // We hbve to debl with the cbses where the first grbdient stop is not
+        // equbl to 0 bnd/or the lbst grbdient stop is not equbl to 1.
+        // In both cbses, crebte b new point bnd replicbte the previous
         // extreme point's color.
-        boolean fixFirst = false;
-        boolean fixLast = false;
-        int len = fractions.length;
+        boolebn fixFirst = fblse;
+        boolebn fixLbst = fblse;
+        int len = frbctions.length;
         int off = 0;
 
-        if (fractions[0] != 0f) {
-            // first stop is not equal to zero, fix this condition
+        if (frbctions[0] != 0f) {
+            // first stop is not equbl to zero, fix this condition
             fixFirst = true;
             len++;
             off++;
         }
-        if (fractions[fractions.length-1] != 1f) {
-            // last stop is not equal to one, fix this condition
-            fixLast = true;
+        if (frbctions[frbctions.length-1] != 1f) {
+            // lbst stop is not equbl to one, fix this condition
+            fixLbst = true;
             len++;
         }
 
-        this.fractions = new float[len];
-        System.arraycopy(fractions, 0, this.fractions, off, fractions.length);
+        this.frbctions = new flobt[len];
+        System.brrbycopy(frbctions, 0, this.frbctions, off, frbctions.length);
         this.colors = new Color[len];
-        System.arraycopy(colors, 0, this.colors, off, colors.length);
+        System.brrbycopy(colors, 0, this.colors, off, colors.length);
 
         if (fixFirst) {
-            this.fractions[0] = 0f;
+            this.frbctions[0] = 0f;
             this.colors[0] = colors[0];
         }
-        if (fixLast) {
-            this.fractions[len-1] = 1f;
+        if (fixLbst) {
+            this.frbctions[len-1] = 1f;
             this.colors[len-1] = colors[colors.length - 1];
         }
 
-        // copy some flags
-        this.colorSpace = colorSpace;
+        // copy some flbgs
+        this.colorSpbce = colorSpbce;
         this.cycleMethod = cycleMethod;
 
-        // copy the gradient transform
-        this.gradientTransform = new AffineTransform(gradientTransform);
+        // copy the grbdient trbnsform
+        this.grbdientTrbnsform = new AffineTrbnsform(grbdientTrbnsform);
 
-        // determine transparency
-        boolean opaque = true;
+        // determine trbnspbrency
+        boolebn opbque = true;
         for (int i = 0; i < colors.length; i++){
-            opaque = opaque && (colors[i].getAlpha() == 0xff);
+            opbque = opbque && (colors[i].getAlphb() == 0xff);
         }
-        this.transparency = opaque ? OPAQUE : TRANSLUCENT;
+        this.trbnspbrency = opbque ? OPAQUE : TRANSLUCENT;
     }
 
     /**
-     * Returns a copy of the array of floats used by this gradient
-     * to calculate color distribution.
-     * The returned array always has 0 as its first value and 1 as its
-     * last value, with increasing values in between.
+     * Returns b copy of the brrby of flobts used by this grbdient
+     * to cblculbte color distribution.
+     * The returned brrby blwbys hbs 0 bs its first vblue bnd 1 bs its
+     * lbst vblue, with increbsing vblues in between.
      *
-     * @return a copy of the array of floats used by this gradient to
-     * calculate color distribution
+     * @return b copy of the brrby of flobts used by this grbdient to
+     * cblculbte color distribution
      */
-    public final float[] getFractions() {
-        return Arrays.copyOf(fractions, fractions.length);
+    public finbl flobt[] getFrbctions() {
+        return Arrbys.copyOf(frbctions, frbctions.length);
     }
 
     /**
-     * Returns a copy of the array of colors used by this gradient.
-     * The first color maps to the first value in the fractions array,
-     * and the last color maps to the last value in the fractions array.
+     * Returns b copy of the brrby of colors used by this grbdient.
+     * The first color mbps to the first vblue in the frbctions brrby,
+     * bnd the lbst color mbps to the lbst vblue in the frbctions brrby.
      *
-     * @return a copy of the array of colors used by this gradient
+     * @return b copy of the brrby of colors used by this grbdient
      */
-    public final Color[] getColors() {
-        return Arrays.copyOf(colors, colors.length);
+    public finbl Color[] getColors() {
+        return Arrbys.copyOf(colors, colors.length);
     }
 
     /**
-     * Returns the enumerated type which specifies cycling behavior.
+     * Returns the enumerbted type which specifies cycling behbvior.
      *
-     * @return the enumerated type which specifies cycling behavior
+     * @return the enumerbted type which specifies cycling behbvior
      */
-    public final CycleMethod getCycleMethod() {
+    public finbl CycleMethod getCycleMethod() {
         return cycleMethod;
     }
 
     /**
-     * Returns the enumerated type which specifies color space for
-     * interpolation.
+     * Returns the enumerbted type which specifies color spbce for
+     * interpolbtion.
      *
-     * @return the enumerated type which specifies color space for
-     * interpolation
+     * @return the enumerbted type which specifies color spbce for
+     * interpolbtion
      */
-    public final ColorSpaceType getColorSpace() {
-        return colorSpace;
+    public finbl ColorSpbceType getColorSpbce() {
+        return colorSpbce;
     }
 
     /**
-     * Returns a copy of the transform applied to the gradient.
+     * Returns b copy of the trbnsform bpplied to the grbdient.
      *
      * <p>
-     * Note that if no transform is applied to the gradient
-     * when it is created, the identity transform is used.
+     * Note thbt if no trbnsform is bpplied to the grbdient
+     * when it is crebted, the identity trbnsform is used.
      *
-     * @return a copy of the transform applied to the gradient
+     * @return b copy of the trbnsform bpplied to the grbdient
      */
-    public final AffineTransform getTransform() {
-        return new AffineTransform(gradientTransform);
+    public finbl AffineTrbnsform getTrbnsform() {
+        return new AffineTrbnsform(grbdientTrbnsform);
     }
 
     /**
-     * Returns the transparency mode for this {@code Paint} object.
+     * Returns the trbnspbrency mode for this {@code Pbint} object.
      *
-     * @return {@code OPAQUE} if all colors used by this
-     *         {@code Paint} object are opaque,
-     *         {@code TRANSLUCENT} if at least one of the
-     *         colors used by this {@code Paint} object is not opaque.
-     * @see java.awt.Transparency
+     * @return {@code OPAQUE} if bll colors used by this
+     *         {@code Pbint} object bre opbque,
+     *         {@code TRANSLUCENT} if bt lebst one of the
+     *         colors used by this {@code Pbint} object is not opbque.
+     * @see jbvb.bwt.Trbnspbrency
      */
-    public final int getTransparency() {
-        return transparency;
+    public finbl int getTrbnspbrency() {
+        return trbnspbrency;
     }
 }

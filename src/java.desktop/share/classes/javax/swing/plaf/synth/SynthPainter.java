@@ -1,2417 +1,2417 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * <code>SynthPainter</code> is used for painting portions of
- * <code>JComponent</code>s. At a minimum each <code>JComponent</code>
- * has two paint methods: one for the border and one for the background. Some
- * <code>JComponent</code>s have more than one <code>Region</code>, and as
- * a consequence more paint methods.
+ * <code>SynthPbinter</code> is used for pbinting portions of
+ * <code>JComponent</code>s. At b minimum ebch <code>JComponent</code>
+ * hbs two pbint methods: one for the border bnd one for the bbckground. Some
+ * <code>JComponent</code>s hbve more thbn one <code>Region</code>, bnd bs
+ * b consequence more pbint methods.
  * <p>
- * Instances of <code>SynthPainter</code> are obtained from the
- * {@link javax.swing.plaf.synth.SynthStyle#getPainter} method.
+ * Instbnces of <code>SynthPbinter</code> bre obtbined from the
+ * {@link jbvbx.swing.plbf.synth.SynthStyle#getPbinter} method.
  * <p>
- * You typically supply a <code>SynthPainter</code> by way of Synth's
- * <a href="doc-files/synthFileFormat.html">file</a> format. The following
- * example registers a painter for all <code>JButton</code>s that will
- * render the image <code>myImage.png</code>:
+ * You typicblly supply b <code>SynthPbinter</code> by wby of Synth's
+ * <b href="doc-files/synthFileFormbt.html">file</b> formbt. The following
+ * exbmple registers b pbinter for bll <code>JButton</code>s thbt will
+ * render the imbge <code>myImbge.png</code>:
  * <pre>
  *  &lt;style id="buttonStyle"&gt;
- *    &lt;imagePainter path="myImage.png" sourceInsets="2 2 2 2"
- *                  paintCenter="true" stretch="true"/&gt;
+ *    &lt;imbgePbinter pbth="myImbge.png" sourceInsets="2 2 2 2"
+ *                  pbintCenter="true" stretch="true"/&gt;
  *    &lt;insets top="2" bottom="2" left="2" right="2"/&gt;
  *  &lt;/style&gt;
  *  &lt;bind style="buttonStyle" type="REGION" key="button"/&gt;
  *</pre>
  * <p>
- * <code>SynthPainter</code> is abstract in so far as it does no painting,
- * all the methods
- * are empty. While none of these methods are typed to throw an exception,
- * subclasses can assume that valid arguments are passed in, and if not
- * they can throw a <code>NullPointerException</code> or
- * <code>IllegalArgumentException</code> in response to invalid arguments.
+ * <code>SynthPbinter</code> is bbstrbct in so fbr bs it does no pbinting,
+ * bll the methods
+ * bre empty. While none of these methods bre typed to throw bn exception,
+ * subclbsses cbn bssume thbt vblid brguments bre pbssed in, bnd if not
+ * they cbn throw b <code>NullPointerException</code> or
+ * <code>IllegblArgumentException</code> in response to invblid brguments.
  *
  * @since 1.5
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public abstract class SynthPainter {
+public bbstrbct clbss SynthPbinter {
     /**
-     * Used to avoid null painter checks everywhere.
+     * Used to bvoid null pbinter checks everywhere.
      */
-    static SynthPainter NULL_PAINTER = new SynthPainter() {};
+    stbtic SynthPbinter NULL_PAINTER = new SynthPbinter() {};
 
 
     /**
-     * Paints the background of an arrow button. Arrow buttons are created by
-     * some components, such as <code>JScrollBar</code>.
+     * Pbints the bbckground of bn brrow button. Arrow buttons bre crebted by
+     * some components, such bs <code>JScrollBbr</code>.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintArrowButtonBackground(SynthContext context,
-                                           Graphics g, int x, int y,
+    public void pbintArrowButtonBbckground(SynthContext context,
+                                           Grbphics g, int x, int y,
                                            int w, int h) {
     }
 
     /**
-     * Paints the border of an arrow button. Arrow buttons are created by
-     * some components, such as <code>JScrollBar</code>.
+     * Pbints the border of bn brrow button. Arrow buttons bre crebted by
+     * some components, such bs <code>JScrollBbr</code>.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintArrowButtonBorder(SynthContext context,
-                                       Graphics g, int x, int y,
+    public void pbintArrowButtonBorder(SynthContext context,
+                                       Grbphics g, int x, int y,
                                        int w, int h) {
     }
 
     /**
-     * Paints the foreground of an arrow button. This method is responsible
-     * for drawing a graphical representation of a direction, typically
-     * an arrow. Arrow buttons are created by
-     * some components, such as <code>JScrollBar</code>
+     * Pbints the foreground of bn brrow button. This method is responsible
+     * for drbwing b grbphicbl representbtion of b direction, typicblly
+     * bn brrow. Arrow buttons bre crebted by
+     * some components, such bs <code>JScrollBbr</code>
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param direction One of SwingConstants.NORTH, SwingConstants.SOUTH
-     *                  SwingConstants.EAST or SwingConstants.WEST
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm direction One of SwingConstbnts.NORTH, SwingConstbnts.SOUTH
+     *                  SwingConstbnts.EAST or SwingConstbnts.WEST
      */
-    public void paintArrowButtonForeground(SynthContext context,
-                                           Graphics g, int x, int y,
+    public void pbintArrowButtonForeground(SynthContext context,
+                                           Grbphics g, int x, int y,
                                            int w, int h,
                                            int direction) {
     }
 
     /**
-     * Paints the background of a button.
+     * Pbints the bbckground of b button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintButtonBackground(SynthContext context,
-                                      Graphics g, int x, int y,
+    public void pbintButtonBbckground(SynthContext context,
+                                      Grbphics g, int x, int y,
                                       int w, int h) {
     }
 
     /**
-     * Paints the border of a button.
+     * Pbints the border of b button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintButtonBorder(SynthContext context,
-                                  Graphics g, int x, int y,
+    public void pbintButtonBorder(SynthContext context,
+                                  Grbphics g, int x, int y,
                                   int w, int h) {
     }
 
     /**
-     * Paints the background of a check box menu item.
+     * Pbints the bbckground of b check box menu item.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintCheckBoxMenuItemBackground(SynthContext context,
-                                                Graphics g, int x, int y,
+    public void pbintCheckBoxMenuItemBbckground(SynthContext context,
+                                                Grbphics g, int x, int y,
                                                 int w, int h) {
     }
 
     /**
-     * Paints the border of a check box menu item.
+     * Pbints the border of b check box menu item.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintCheckBoxMenuItemBorder(SynthContext context,
-                                            Graphics g, int x, int y,
+    public void pbintCheckBoxMenuItemBorder(SynthContext context,
+                                            Grbphics g, int x, int y,
                                             int w, int h) {
     }
 
     /**
-     * Paints the background of a check box.
+     * Pbints the bbckground of b check box.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintCheckBoxBackground(SynthContext context,
-                                        Graphics g, int x, int y,
+    public void pbintCheckBoxBbckground(SynthContext context,
+                                        Grbphics g, int x, int y,
                                         int w, int h) {
     }
 
     /**
-     * Paints the border of a check box.
+     * Pbints the border of b check box.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintCheckBoxBorder(SynthContext context,
-                                    Graphics g, int x, int y,
+    public void pbintCheckBoxBorder(SynthContext context,
+                                    Grbphics g, int x, int y,
                                     int w, int h) {
     }
 
     /**
-     * Paints the background of a color chooser.
+     * Pbints the bbckground of b color chooser.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintColorChooserBackground(SynthContext context,
-                                            Graphics g, int x, int y,
+    public void pbintColorChooserBbckground(SynthContext context,
+                                            Grbphics g, int x, int y,
                                             int w, int h) {
     }
 
     /**
-     * Paints the border of a color chooser.
+     * Pbints the border of b color chooser.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintColorChooserBorder(SynthContext context,
-                                        Graphics g, int x, int y,
+    public void pbintColorChooserBorder(SynthContext context,
+                                        Grbphics g, int x, int y,
                                         int w, int h) {
     }
 
     /**
-     * Paints the background of a combo box.
+     * Pbints the bbckground of b combo box.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintComboBoxBackground(SynthContext context,
-                                        Graphics g, int x, int y,
+    public void pbintComboBoxBbckground(SynthContext context,
+                                        Grbphics g, int x, int y,
                                         int w, int h) {
     }
 
     /**
-     * Paints the border of a combo box.
+     * Pbints the border of b combo box.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintComboBoxBorder(SynthContext context,
-                                        Graphics g, int x, int y,
+    public void pbintComboBoxBorder(SynthContext context,
+                                        Grbphics g, int x, int y,
                                         int w, int h) {
     }
 
     /**
-     * Paints the background of a desktop icon.
+     * Pbints the bbckground of b desktop icon.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintDesktopIconBackground(SynthContext context,
-                                        Graphics g, int x, int y,
+    public void pbintDesktopIconBbckground(SynthContext context,
+                                        Grbphics g, int x, int y,
                                         int w, int h) {
     }
 
     /**
-     * Paints the border of a desktop icon.
+     * Pbints the border of b desktop icon.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintDesktopIconBorder(SynthContext context,
-                                           Graphics g, int x, int y,
+    public void pbintDesktopIconBorder(SynthContext context,
+                                           Grbphics g, int x, int y,
                                            int w, int h) {
     }
 
     /**
-     * Paints the background of a desktop pane.
+     * Pbints the bbckground of b desktop pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintDesktopPaneBackground(SynthContext context,
-                                           Graphics g, int x, int y,
+    public void pbintDesktopPbneBbckground(SynthContext context,
+                                           Grbphics g, int x, int y,
                                            int w, int h) {
     }
 
     /**
-     * Paints the background of a desktop pane.
+     * Pbints the bbckground of b desktop pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintDesktopPaneBorder(SynthContext context,
-                                       Graphics g, int x, int y,
+    public void pbintDesktopPbneBorder(SynthContext context,
+                                       Grbphics g, int x, int y,
                                        int w, int h) {
     }
 
     /**
-     * Paints the background of an editor pane.
+     * Pbints the bbckground of bn editor pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintEditorPaneBackground(SynthContext context,
-                                          Graphics g, int x, int y,
+    public void pbintEditorPbneBbckground(SynthContext context,
+                                          Grbphics g, int x, int y,
                                           int w, int h) {
     }
 
     /**
-     * Paints the border of an editor pane.
+     * Pbints the border of bn editor pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintEditorPaneBorder(SynthContext context,
-                                      Graphics g, int x, int y,
+    public void pbintEditorPbneBorder(SynthContext context,
+                                      Grbphics g, int x, int y,
                                       int w, int h) {
     }
 
     /**
-     * Paints the background of a file chooser.
+     * Pbints the bbckground of b file chooser.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintFileChooserBackground(SynthContext context,
-                                          Graphics g, int x, int y,
+    public void pbintFileChooserBbckground(SynthContext context,
+                                          Grbphics g, int x, int y,
                                           int w, int h) {
     }
 
     /**
-     * Paints the border of a file chooser.
+     * Pbints the border of b file chooser.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintFileChooserBorder(SynthContext context,
-                                      Graphics g, int x, int y,
+    public void pbintFileChooserBorder(SynthContext context,
+                                      Grbphics g, int x, int y,
                                       int w, int h) {
     }
 
     /**
-     * Paints the background of a formatted text field.
+     * Pbints the bbckground of b formbtted text field.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintFormattedTextFieldBackground(SynthContext context,
-                                          Graphics g, int x, int y,
+    public void pbintFormbttedTextFieldBbckground(SynthContext context,
+                                          Grbphics g, int x, int y,
                                           int w, int h) {
     }
 
     /**
-     * Paints the border of a formatted text field.
+     * Pbints the border of b formbtted text field.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintFormattedTextFieldBorder(SynthContext context,
-                                      Graphics g, int x, int y,
+    public void pbintFormbttedTextFieldBorder(SynthContext context,
+                                      Grbphics g, int x, int y,
                                       int w, int h) {
     }
 
     /**
-     * Paints the background of an internal frame title pane.
+     * Pbints the bbckground of bn internbl frbme title pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintInternalFrameTitlePaneBackground(SynthContext context,
-                                          Graphics g, int x, int y,
+    public void pbintInternblFrbmeTitlePbneBbckground(SynthContext context,
+                                          Grbphics g, int x, int y,
                                           int w, int h) {
     }
 
     /**
-     * Paints the border of an internal frame title pane.
+     * Pbints the border of bn internbl frbme title pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintInternalFrameTitlePaneBorder(SynthContext context,
-                                      Graphics g, int x, int y,
+    public void pbintInternblFrbmeTitlePbneBorder(SynthContext context,
+                                      Grbphics g, int x, int y,
                                       int w, int h) {
     }
 
     /**
-     * Paints the background of an internal frame.
+     * Pbints the bbckground of bn internbl frbme.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintInternalFrameBackground(SynthContext context,
-                                          Graphics g, int x, int y,
+    public void pbintInternblFrbmeBbckground(SynthContext context,
+                                          Grbphics g, int x, int y,
                                           int w, int h) {
     }
 
     /**
-     * Paints the border of an internal frame.
+     * Pbints the border of bn internbl frbme.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintInternalFrameBorder(SynthContext context,
-                                      Graphics g, int x, int y,
+    public void pbintInternblFrbmeBorder(SynthContext context,
+                                      Grbphics g, int x, int y,
                                       int w, int h) {
     }
 
     /**
-     * Paints the background of a label.
+     * Pbints the bbckground of b lbbel.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintLabelBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintLbbelBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a label.
+     * Pbints the border of b lbbel.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintLabelBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintLbbelBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a list.
+     * Pbints the bbckground of b list.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintListBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintListBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a list.
+     * Pbints the border of b list.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintListBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintListBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a menu bar.
+     * Pbints the bbckground of b menu bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintMenuBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintMenuBbrBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a menu bar.
+     * Pbints the border of b menu bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintMenuBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintMenuBbrBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a menu item.
+     * Pbints the bbckground of b menu item.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintMenuItemBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintMenuItemBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a menu item.
+     * Pbints the border of b menu item.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintMenuItemBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintMenuItemBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a menu.
+     * Pbints the bbckground of b menu.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintMenuBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintMenuBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a menu.
+     * Pbints the border of b menu.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintMenuBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintMenuBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of an option pane.
+     * Pbints the bbckground of bn option pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintOptionPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintOptionPbneBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of an option pane.
+     * Pbints the border of bn option pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintOptionPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintOptionPbneBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a panel.
+     * Pbints the bbckground of b pbnel.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintPanelBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintPbnelBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a panel.
+     * Pbints the border of b pbnel.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintPanelBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintPbnelBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a password field.
+     * Pbints the bbckground of b pbssword field.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintPasswordFieldBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintPbsswordFieldBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a password field.
+     * Pbints the border of b pbssword field.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintPasswordFieldBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintPbsswordFieldBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a popup menu.
+     * Pbints the bbckground of b popup menu.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintPopupMenuBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintPopupMenuBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a popup menu.
+     * Pbints the border of b popup menu.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintPopupMenuBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintPopupMenuBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a progress bar.
+     * Pbints the bbckground of b progress bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintProgressBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintProgressBbrBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of a progress bar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the bbckground of b progress bbr. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation one of <code>JProgressBar.HORIZONTAL</code> or
-     *                    <code>JProgressBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion one of <code>JProgressBbr.HORIZONTAL</code> or
+     *                    <code>JProgressBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintProgressBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintProgressBarBackground(context, g, x, y, w, h);
+    public void pbintProgressBbrBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintProgressBbrBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of a progress bar.
+     * Pbints the border of b progress bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintProgressBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintProgressBbrBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of a progress bar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the border of b progress bbr. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation one of <code>JProgressBar.HORIZONTAL</code> or
-     *                    <code>JProgressBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion one of <code>JProgressBbr.HORIZONTAL</code> or
+     *                    <code>JProgressBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintProgressBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintProgressBarBorder(context, g, x, y, w, h);
+    public void pbintProgressBbrBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintProgressBbrBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the foreground of a progress bar. is responsible for
-     * providing an indication of the progress of the progress bar.
+     * Pbints the foreground of b progress bbr. is responsible for
+     * providing bn indicbtion of the progress of the progress bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation one of <code>JProgressBar.HORIZONTAL</code> or
-     *                    <code>JProgressBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion one of <code>JProgressBbr.HORIZONTAL</code> or
+     *                    <code>JProgressBbr.VERTICAL</code>
      */
-    public void paintProgressBarForeground(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+    public void pbintProgressBbrForeground(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
     }
 
     /**
-     * Paints the background of a radio button menu item.
+     * Pbints the bbckground of b rbdio button menu item.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintRadioButtonMenuItemBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintRbdioButtonMenuItemBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a radio button menu item.
+     * Pbints the border of b rbdio button menu item.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintRadioButtonMenuItemBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintRbdioButtonMenuItemBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a radio button.
+     * Pbints the bbckground of b rbdio button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintRadioButtonBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintRbdioButtonBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a radio button.
+     * Pbints the border of b rbdio button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintRadioButtonBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintRbdioButtonBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a root pane.
+     * Pbints the bbckground of b root pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintRootPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintRootPbneBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a root pane.
+     * Pbints the border of b root pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintRootPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintRootPbneBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a scrollbar.
+     * Pbints the bbckground of b scrollbbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintScrollBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintScrollBbrBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of a scrollbar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the bbckground of b scrollbbr. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion Orientbtion of the JScrollBbr, one of
+     *                    <code>JScrollBbr.HORIZONTAL</code> or
+     *                    <code>JScrollBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintScrollBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintScrollBarBackground(context, g, x, y, w, h);
+    public void pbintScrollBbrBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintScrollBbrBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of a scrollbar.
+     * Pbints the border of b scrollbbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintScrollBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintScrollBbrBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of a scrollbar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the border of b scrollbbr. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion Orientbtion of the JScrollBbr, one of
+     *                    <code>JScrollBbr.HORIZONTAL</code> or
+     *                    <code>JScrollBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintScrollBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintScrollBarBorder(context, g, x, y, w, h);
+    public void pbintScrollBbrBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintScrollBbrBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the background of the thumb of a scrollbar. The thumb provides
-     * a graphical indication as to how much of the Component is visible in a
-     * <code>JScrollPane</code>.
+     * Pbints the bbckground of the thumb of b scrollbbr. The thumb provides
+     * b grbphicbl indicbtion bs to how much of the Component is visible in b
+     * <code>JScrollPbne</code>.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion Orientbtion of the JScrollBbr, one of
+     *                    <code>JScrollBbr.HORIZONTAL</code> or
+     *                    <code>JScrollBbr.VERTICAL</code>
      */
-    public void paintScrollBarThumbBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+    public void pbintScrollBbrThumbBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
     }
 
     /**
-     * Paints the border of the thumb of a scrollbar. The thumb provides
-     * a graphical indication as to how much of the Component is visible in a
-     * <code>JScrollPane</code>.
+     * Pbints the border of the thumb of b scrollbbr. The thumb provides
+     * b grbphicbl indicbtion bs to how much of the Component is visible in b
+     * <code>JScrollPbne</code>.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion Orientbtion of the JScrollBbr, one of
+     *                    <code>JScrollBbr.HORIZONTAL</code> or
+     *                    <code>JScrollBbr.VERTICAL</code>
      */
-    public void paintScrollBarThumbBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+    public void pbintScrollBbrThumbBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
     }
 
     /**
-     * Paints the background of the track of a scrollbar. The track contains
+     * Pbints the bbckground of the trbck of b scrollbbr. The trbck contbins
      * the thumb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintScrollBarTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintScrollBbrTrbckBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of the track of a scrollbar. The track contains
-     * the thumb. This implementation invokes the method of the same name without
-     * the orientation.
+     * Pbints the bbckground of the trbck of b scrollbbr. The trbck contbins
+     * the thumb. This implementbtion invokes the method of the sbme nbme without
+     * the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion Orientbtion of the JScrollBbr, one of
+     *                    <code>JScrollBbr.HORIZONTAL</code> or
+     *                    <code>JScrollBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintScrollBarTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintScrollBarTrackBackground(context, g, x, y, w, h);
+    public void pbintScrollBbrTrbckBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintScrollBbrTrbckBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of the track of a scrollbar. The track contains
+     * Pbints the border of the trbck of b scrollbbr. The trbck contbins
      * the thumb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintScrollBarTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintScrollBbrTrbckBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of the track of a scrollbar. The track contains
-     * the thumb. This implementation invokes the method of the same name without
-     * the orientation.
+     * Pbints the border of the trbck of b scrollbbr. The trbck contbins
+     * the thumb. This implementbtion invokes the method of the sbme nbme without
+     * the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation Orientation of the JScrollBar, one of
-     *                    <code>JScrollBar.HORIZONTAL</code> or
-     *                    <code>JScrollBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion Orientbtion of the JScrollBbr, one of
+     *                    <code>JScrollBbr.HORIZONTAL</code> or
+     *                    <code>JScrollBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintScrollBarTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintScrollBarTrackBorder(context, g, x, y, w, h);
+    public void pbintScrollBbrTrbckBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintScrollBbrTrbckBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the background of a scroll pane.
+     * Pbints the bbckground of b scroll pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintScrollPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintScrollPbneBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a scroll pane.
+     * Pbints the border of b scroll pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintScrollPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintScrollPbneBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a separator.
+     * Pbints the bbckground of b sepbrbtor.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintSeparatorBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintSepbrbtorBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of a separator. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the bbckground of b sepbrbtor. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSeparator.HORIZONTAL</code> or
-     *                           <code>JSeparator.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSepbrbtor.HORIZONTAL</code> or
+     *                           <code>JSepbrbtor.VERTICAL</code>
      * @since 1.6
      */
-    public void paintSeparatorBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintSeparatorBackground(context, g, x, y, w, h);
+    public void pbintSepbrbtorBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintSepbrbtorBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of a separator.
+     * Pbints the border of b sepbrbtor.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintSeparatorBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintSepbrbtorBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of a separator. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the border of b sepbrbtor. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSeparator.HORIZONTAL</code> or
-     *                           <code>JSeparator.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSepbrbtor.HORIZONTAL</code> or
+     *                           <code>JSepbrbtor.VERTICAL</code>
      * @since 1.6
      */
-    public void paintSeparatorBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintSeparatorBorder(context, g, x, y, w, h);
+    public void pbintSepbrbtorBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintSepbrbtorBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the foreground of a separator.
+     * Pbints the foreground of b sepbrbtor.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSeparator.HORIZONTAL</code> or
-     *                           <code>JSeparator.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSepbrbtor.HORIZONTAL</code> or
+     *                           <code>JSepbrbtor.VERTICAL</code>
      */
-    public void paintSeparatorForeground(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+    public void pbintSepbrbtorForeground(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
     }
 
     /**
-     * Paints the background of a slider.
+     * Pbints the bbckground of b slider.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintSliderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintSliderBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of a slider. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the bbckground of b slider. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSlider.HORIZONTAL</code> or
      *                           <code>JSlider.VERTICAL</code>
      * @since 1.6
      */
-    public void paintSliderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintSliderBackground(context, g, x, y, w, h);
+    public void pbintSliderBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintSliderBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of a slider.
+     * Pbints the border of b slider.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintSliderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintSliderBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of a slider. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the border of b slider. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSlider.HORIZONTAL</code> or
      *                           <code>JSlider.VERTICAL</code>
      * @since 1.6
      */
-    public void paintSliderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintSliderBorder(context, g, x, y, w, h);
+    public void pbintSliderBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintSliderBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the background of the thumb of a slider.
+     * Pbints the bbckground of the thumb of b slider.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSlider.HORIZONTAL</code> or
      *                           <code>JSlider.VERTICAL</code>
      */
-    public void paintSliderThumbBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+    public void pbintSliderThumbBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
     }
 
     /**
-     * Paints the border of the thumb of a slider.
+     * Pbints the border of the thumb of b slider.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSlider.HORIZONTAL</code> or
      *                           <code>JSlider.VERTICAL</code>
      */
-    public void paintSliderThumbBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+    public void pbintSliderThumbBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
     }
 
     /**
-     * Paints the background of the track of a slider.
+     * Pbints the bbckground of the trbck of b slider.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintSliderTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintSliderTrbckBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of the track of a slider. This implementation invokes
-     * the method of the same name without the orientation.
+     * Pbints the bbckground of the trbck of b slider. This implementbtion invokes
+     * the method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
-     *                           <code>JSlider.VERTICAL</code>
-     * @since 1.6
-     */
-    public void paintSliderTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintSliderTrackBackground(context, g, x, y, w, h);
-    }
-
-    /**
-     * Paints the border of the track of a slider.
-     *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     */
-    public void paintSliderTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
-    }
-
-    /**
-     * Paints the border of the track of a slider. This implementation invokes the
-     * method of the same name without the orientation.
-     *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSlider.HORIZONTAL</code> or
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSlider.HORIZONTAL</code> or
      *                           <code>JSlider.VERTICAL</code>
      * @since 1.6
      */
-    public void paintSliderTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintSliderTrackBorder(context, g, x, y, w, h);
+    public void pbintSliderTrbckBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintSliderTrbckBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the background of a spinner.
+     * Pbints the border of the trbck of b slider.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintSpinnerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
-    }
-
-    /**
-     * Paints the border of a spinner.
-     *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     */
-    public void paintSpinnerBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintSliderTrbckBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of the divider of a split pane.
+     * Pbints the border of the trbck of b slider. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     */
-    public void paintSplitPaneDividerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
-    }
-
-    /**
-     * Paints the background of the divider of a split pane. This implementation
-     * invokes the method of the same name without the orientation.
-     *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                           <code>JSplitPane.VERTICAL_SPLIT</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSlider.HORIZONTAL</code> or
+     *                           <code>JSlider.VERTICAL</code>
      * @since 1.6
      */
-    public void paintSplitPaneDividerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintSplitPaneDividerBackground(context, g, x, y, w, h);
+    public void pbintSliderTrbckBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintSliderTrbckBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the foreground of the divider of a split pane.
+     * Pbints the bbckground of b spinner.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                           <code>JSplitPane.VERTICAL_SPLIT</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintSplitPaneDividerForeground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-    }
-
-    /**
-     * Paints the divider, when the user is dragging the divider, of a
-     * split pane.
-     *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                           <code>JSplitPane.VERTICAL_SPLIT</code>
-     */
-    public void paintSplitPaneDragDivider(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-    }
-
-    /**
-     * Paints the background of a split pane.
-     *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     */
-    public void paintSplitPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintSpinnerBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a split pane.
+     * Pbints the border of b spinner.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintSplitPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintSpinnerBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a tabbed pane.
+     * Pbints the bbckground of the divider of b split pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTabbedPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintSplitPbneDividerBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a tabbed pane.
+     * Pbints the bbckground of the divider of b split pbne. This implementbtion
+     * invokes the method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     */
-    public void paintTabbedPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
-    }
-
-    /**
-     * Paints the background of the area behind the tabs of a tabbed pane.
-     *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     */
-    public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
-    }
-
-    /**
-     * Paints the background of the area behind the tabs of a tabbed pane.
-     * This implementation invokes the method of the same name without the
-     * orientation.
-     *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JTabbedPane.TOP</code>,
-     *                    <code>JTabbedPane.LEFT</code>,
-     *                    <code>JTabbedPane.BOTTOM</code>, or
-     *                    <code>JTabbedPane.RIGHT</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSplitPbne.HORIZONTAL_SPLIT</code> or
+     *                           <code>JSplitPbne.VERTICAL_SPLIT</code>
      * @since 1.6
      */
-    public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintTabbedPaneTabAreaBackground(context, g, x, y, w, h);
+    public void pbintSplitPbneDividerBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintSplitPbneDividerBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of the area behind the tabs of a tabbed pane.
+     * Pbints the foreground of the divider of b split pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSplitPbne.HORIZONTAL_SPLIT</code> or
+     *                           <code>JSplitPbne.VERTICAL_SPLIT</code>
      */
-    public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintSplitPbneDividerForeground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+    }
+
+    /**
+     * Pbints the divider, when the user is drbgging the divider, of b
+     * split pbne.
+     *
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JSplitPbne.HORIZONTAL_SPLIT</code> or
+     *                           <code>JSplitPbne.VERTICAL_SPLIT</code>
+     */
+    public void pbintSplitPbneDrbgDivider(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+    }
+
+    /**
+     * Pbints the bbckground of b split pbne.
+     *
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     */
+    public void pbintSplitPbneBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints the border of b split pbne.
+     *
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     */
+    public void pbintSplitPbneBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of the area behind the tabs of a tabbed pane. This
-     * implementation invokes the method of the same name without the orientation.
+     * Pbints the bbckground of b tbbbed pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JTabbedPane.TOP</code>,
-     *                    <code>JTabbedPane.LEFT</code>,
-     *                    <code>JTabbedPane.BOTTOM</code>, or
-     *                    <code>JTabbedPane.RIGHT</code>
-     * @since 1.6
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintTabbedPaneTabAreaBorder(context, g, x, y, w, h);
+    public void pbintTbbbedPbneBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h) {
     }
 
     /**
-     * Paints the background of a tab of a tabbed pane.
+     * Pbints the border of b tbbbed pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param tabIndex Index of tab being painted.
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTabbedPaneTabBackground(SynthContext context, Graphics g,
+    public void pbintTbbbedPbneBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints the bbckground of the breb behind the tbbs of b tbbbed pbne.
+     *
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     */
+    public void pbintTbbbedPbneTbbArebBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h) {
+    }
+
+    /**
+     * Pbints the bbckground of the breb behind the tbbs of b tbbbed pbne.
+     * This implementbtion invokes the method of the sbme nbme without the
+     * orientbtion.
+     *
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JTbbbedPbne.TOP</code>,
+     *                    <code>JTbbbedPbne.LEFT</code>,
+     *                    <code>JTbbbedPbne.BOTTOM</code>, or
+     *                    <code>JTbbbedPbne.RIGHT</code>
+     * @since 1.6
+     */
+    public void pbintTbbbedPbneTbbArebBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintTbbbedPbneTbbArebBbckground(context, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints the border of the breb behind the tbbs of b tbbbed pbne.
+     *
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     */
+    public void pbintTbbbedPbneTbbArebBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h) {
+    }
+
+    /**
+     * Pbints the border of the breb behind the tbbs of b tbbbed pbne. This
+     * implementbtion invokes the method of the sbme nbme without the orientbtion.
+     *
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JTbbbedPbne.TOP</code>,
+     *                    <code>JTbbbedPbne.LEFT</code>,
+     *                    <code>JTbbbedPbne.BOTTOM</code>, or
+     *                    <code>JTbbbedPbne.RIGHT</code>
+     * @since 1.6
+     */
+    public void pbintTbbbedPbneTbbArebBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintTbbbedPbneTbbArebBorder(context, g, x, y, w, h);
+    }
+
+    /**
+     * Pbints the bbckground of b tbb of b tbbbed pbne.
+     *
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm tbbIndex Index of tbb being pbinted.
+     */
+    public void pbintTbbbedPbneTbbBbckground(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h,
-                                         int tabIndex) {
+                                         int tbbIndex) {
     }
 
     /**
-     * Paints the background of a tab of a tabbed pane. This implementation
-     * invokes the method of the same name without the orientation.
+     * Pbints the bbckground of b tbb of b tbbbed pbne. This implementbtion
+     * invokes the method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param tabIndex Index of tab being painted.
-     * @param orientation One of <code>JTabbedPane.TOP</code>,
-     *                    <code>JTabbedPane.LEFT</code>,
-     *                    <code>JTabbedPane.BOTTOM</code>, or
-     *                    <code>JTabbedPane.RIGHT</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm tbbIndex Index of tbb being pbinted.
+     * @pbrbm orientbtion One of <code>JTbbbedPbne.TOP</code>,
+     *                    <code>JTbbbedPbne.LEFT</code>,
+     *                    <code>JTbbbedPbne.BOTTOM</code>, or
+     *                    <code>JTbbbedPbne.RIGHT</code>
      * @since 1.6
      */
-    public void paintTabbedPaneTabBackground(SynthContext context, Graphics g,
+    public void pbintTbbbedPbneTbbBbckground(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h,
-                                         int tabIndex, int orientation) {
-        paintTabbedPaneTabBackground(context, g, x, y, w, h, tabIndex);
+                                         int tbbIndex, int orientbtion) {
+        pbintTbbbedPbneTbbBbckground(context, g, x, y, w, h, tbbIndex);
     }
 
     /**
-     * Paints the border of a tab of a tabbed pane.
+     * Pbints the border of b tbb of b tbbbed pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param tabIndex Index of tab being painted.
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm tbbIndex Index of tbb being pbinted.
      */
-    public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
+    public void pbintTbbbedPbneTbbBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h,
-                                         int tabIndex) {
+                                         int tbbIndex) {
     }
 
     /**
-     * Paints the border of a tab of a tabbed pane. This implementation invokes
-     * the method of the same name without the orientation.
+     * Pbints the border of b tbb of b tbbbed pbne. This implementbtion invokes
+     * the method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param tabIndex Index of tab being painted.
-     * @param orientation One of <code>JTabbedPane.TOP</code>,
-     *                    <code>JTabbedPane.LEFT</code>,
-     *                    <code>JTabbedPane.BOTTOM</code>, or
-     *                    <code>JTabbedPane.RIGHT</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm tbbIndex Index of tbb being pbinted.
+     * @pbrbm orientbtion One of <code>JTbbbedPbne.TOP</code>,
+     *                    <code>JTbbbedPbne.LEFT</code>,
+     *                    <code>JTbbbedPbne.BOTTOM</code>, or
+     *                    <code>JTbbbedPbne.RIGHT</code>
      * @since 1.6
      */
-    public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
+    public void pbintTbbbedPbneTbbBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h,
-                                         int tabIndex, int orientation) {
-        paintTabbedPaneTabBorder(context, g, x, y, w, h, tabIndex);
+                                         int tbbIndex, int orientbtion) {
+        pbintTbbbedPbneTbbBorder(context, g, x, y, w, h, tbbIndex);
     }
 
     /**
-     * Paints the background of the area that contains the content of the
-     * selected tab of a tabbed pane.
+     * Pbints the bbckground of the breb thbt contbins the content of the
+     * selected tbb of b tbbbed pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTabbedPaneContentBackground(SynthContext context,
-                                         Graphics g, int x, int y, int w,
+    public void pbintTbbbedPbneContentBbckground(SynthContext context,
+                                         Grbphics g, int x, int y, int w,
                                          int h) {
     }
 
     /**
-     * Paints the border of the area that contains the content of the
-     * selected tab of a tabbed pane.
+     * Pbints the border of the breb thbt contbins the content of the
+     * selected tbb of b tbbbed pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTabbedPaneContentBorder(SynthContext context, Graphics g,
+    public void pbintTbbbedPbneContentBorder(SynthContext context, Grbphics g,
                                          int x, int y, int w, int h) {
     }
 
     /**
-     * Paints the background of the header of a table.
+     * Pbints the bbckground of the hebder of b tbble.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTableHeaderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintTbbleHebderBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of the header of a table.
+     * Pbints the border of the hebder of b tbble.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTableHeaderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintTbbleHebderBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a table.
+     * Pbints the bbckground of b tbble.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTableBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintTbbleBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a table.
+     * Pbints the border of b tbble.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTableBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintTbbleBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a text area.
+     * Pbints the bbckground of b text breb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTextAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintTextArebBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a text area.
+     * Pbints the border of b text breb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTextAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintTextArebBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a text pane.
+     * Pbints the bbckground of b text pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTextPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintTextPbneBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a text pane.
+     * Pbints the border of b text pbne.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTextPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintTextPbneBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a text field.
+     * Pbints the bbckground of b text field.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTextFieldBackground(SynthContext context,
-                                          Graphics g, int x, int y,
+    public void pbintTextFieldBbckground(SynthContext context,
+                                          Grbphics g, int x, int y,
                                           int w, int h) {
     }
 
     /**
-     * Paints the border of a text field.
+     * Pbints the border of b text field.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTextFieldBorder(SynthContext context,
-                                      Graphics g, int x, int y,
+    public void pbintTextFieldBorder(SynthContext context,
+                                      Grbphics g, int x, int y,
                                       int w, int h) {
     }
 
     /**
-     * Paints the background of a toggle button.
+     * Pbints the bbckground of b toggle button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToggleButtonBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintToggleButtonBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a toggle button.
+     * Pbints the border of b toggle button.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToggleButtonBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintToggleButtonBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a tool bar.
+     * Pbints the bbckground of b tool bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToolBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintToolBbrBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of a tool bar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the bbckground of b tool bbr. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JToolBbr.HORIZONTAL</code> or
+     *                           <code>JToolBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintToolBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintToolBarBackground(context, g, x, y, w, h);
+    public void pbintToolBbrBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintToolBbrBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of a tool bar.
+     * Pbints the border of b tool bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToolBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintToolBbrBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of a tool bar. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the border of b tool bbr. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JToolBbr.HORIZONTAL</code> or
+     *                           <code>JToolBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintToolBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintToolBarBorder(context, g, x, y, w, h);
+    public void pbintToolBbrBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintToolBbrBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the background of the tool bar's content area.
+     * Pbints the bbckground of the tool bbr's content breb.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToolBarContentBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintToolBbrContentBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of the tool bar's content area. This implementation
-     * invokes the method of the same name without the orientation.
+     * Pbints the bbckground of the tool bbr's content breb. This implementbtion
+     * invokes the method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JToolBbr.HORIZONTAL</code> or
+     *                           <code>JToolBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintToolBarContentBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintToolBarContentBackground(context, g, x, y, w, h);
+    public void pbintToolBbrContentBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintToolBbrContentBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of the content area of a tool bar.
+     * Pbints the border of the content breb of b tool bbr.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToolBarContentBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintToolBbrContentBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of the content area of a tool bar. This implementation
-     * invokes the method of the same name without the orientation.
+     * Pbints the border of the content breb of b tool bbr. This implementbtion
+     * invokes the method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JToolBbr.HORIZONTAL</code> or
+     *                           <code>JToolBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintToolBarContentBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintToolBarContentBorder(context, g, x, y, w, h);
+    public void pbintToolBbrContentBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintToolBbrContentBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the background of the window containing the tool bar when it
-     * has been detached from its primary frame.
+     * Pbints the bbckground of the window contbining the tool bbr when it
+     * hbs been detbched from its primbry frbme.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToolBarDragWindowBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintToolBbrDrbgWindowBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the background of the window containing the tool bar when it
-     * has been detached from its primary frame. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the bbckground of the window contbining the tool bbr when it
+     * hbs been detbched from its primbry frbme. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JToolBbr.HORIZONTAL</code> or
+     *                           <code>JToolBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintToolBarDragWindowBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paintToolBarDragWindowBackground(context, g, x, y, w, h);
+    public void pbintToolBbrDrbgWindowBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
+                                     int w, int h, int orientbtion) {
+        pbintToolBbrDrbgWindowBbckground(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the border of the window containing the tool bar when it
-     * has been detached from it's primary frame.
+     * Pbints the border of the window contbining the tool bbr when it
+     * hbs been detbched from it's primbry frbme.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToolBarDragWindowBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintToolBbrDrbgWindowBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the border of the window containing the tool bar when it
-     * has been detached from it's primary frame. This implementation invokes the
-     * method of the same name without the orientation.
+     * Pbints the border of the window contbining the tool bbr when it
+     * hbs been detbched from it's primbry frbme. This implementbtion invokes the
+     * method of the sbme nbme without the orientbtion.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
-     * @param orientation One of <code>JToolBar.HORIZONTAL</code> or
-     *                           <code>JToolBar.VERTICAL</code>
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
+     * @pbrbm orientbtion One of <code>JToolBbr.HORIZONTAL</code> or
+     *                           <code>JToolBbr.VERTICAL</code>
      * @since 1.6
      */
-    public void paintToolBarDragWindowBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
-        paintToolBarDragWindowBorder(context, g, x, y, w, h);
+    public void pbintToolBbrDrbgWindowBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
+                                 int w, int h, int orientbtion) {
+        pbintToolBbrDrbgWindowBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Paints the background of a tool tip.
+     * Pbints the bbckground of b tool tip.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToolTipBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintToolTipBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a tool tip.
+     * Pbints the border of b tool tip.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintToolTipBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintToolTipBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of a tree.
+     * Pbints the bbckground of b tree.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTreeBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintTreeBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a tree.
+     * Pbints the border of b tree.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTreeBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintTreeBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the background of the row containing a cell in a tree.
+     * Pbints the bbckground of the row contbining b cell in b tree.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTreeCellBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintTreeCellBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of the row containing a cell in a tree.
+     * Pbints the border of the row contbining b cell in b tree.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTreeCellBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintTreeCellBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 
     /**
-     * Paints the focus indicator for a cell in a tree when it has focus.
+     * Pbints the focus indicbtor for b cell in b tree when it hbs focus.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintTreeCellFocus(SynthContext context,
-                                   Graphics g, int x, int y,
+    public void pbintTreeCellFocus(SynthContext context,
+                                   Grbphics g, int x, int y,
                                    int w, int h) {
     }
 
     /**
-     * Paints the background of the viewport.
+     * Pbints the bbckground of the viewport.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintViewportBackground(SynthContext context,
-                                     Graphics g, int x, int y,
+    public void pbintViewportBbckground(SynthContext context,
+                                     Grbphics g, int x, int y,
                                      int w, int h) {
     }
 
     /**
-     * Paints the border of a viewport.
+     * Pbints the border of b viewport.
      *
-     * @param context SynthContext identifying the <code>JComponent</code> and
-     *        <code>Region</code> to paint to
-     * @param g <code>Graphics</code> to paint to
-     * @param x X coordinate of the area to paint to
-     * @param y Y coordinate of the area to paint to
-     * @param w Width of the area to paint to
-     * @param h Height of the area to paint to
+     * @pbrbm context SynthContext identifying the <code>JComponent</code> bnd
+     *        <code>Region</code> to pbint to
+     * @pbrbm g <code>Grbphics</code> to pbint to
+     * @pbrbm x X coordinbte of the breb to pbint to
+     * @pbrbm y Y coordinbte of the breb to pbint to
+     * @pbrbm w Width of the breb to pbint to
+     * @pbrbm h Height of the breb to pbint to
      */
-    public void paintViewportBorder(SynthContext context,
-                                 Graphics g, int x, int y,
+    public void pbintViewportBorder(SynthContext context,
+                                 Grbphics g, int x, int y,
                                  int w, int h) {
     }
 }

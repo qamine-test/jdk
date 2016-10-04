@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.net.www.protocol.https;
+pbckbge sun.net.www.protocol.https;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.io.PrintStream;
-import java.io.BufferedOutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.security.Principal;
-import java.security.cert.*;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.security.AccessController;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.io.PrintStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.net.InetAddress;
+import jbvb.net.Socket;
+import jbvb.net.SocketException;
+import jbvb.net.URL;
+import jbvb.net.UnknownHostException;
+import jbvb.net.InetSocketAddress;
+import jbvb.net.Proxy;
+import jbvb.security.Principbl;
+import jbvb.security.cert.*;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
+import jbvb.security.AccessController;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
-import javax.net.ssl.*;
+import jbvbx.net.ssl.*;
 import sun.net.www.http.HttpClient;
 import sun.net.www.protocol.http.HttpURLConnection;
-import sun.security.action.*;
+import sun.security.bction.*;
 
-import sun.security.util.HostnameChecker;
+import sun.security.util.HostnbmeChecker;
 import sun.security.ssl.SSLSocketImpl;
 
-import sun.util.logging.PlatformLogger;
-import static sun.net.www.protocol.http.HttpURLConnection.TunnelState.*;
+import sun.util.logging.PlbtformLogger;
+import stbtic sun.net.www.protocol.http.HttpURLConnection.TunnelStbte.*;
 
 
 /**
- * This class provides HTTPS client URL support, building on the standard
- * "sun.net.www" HTTP protocol handler.  HTTPS is the same protocol as HTTP,
- * but differs in the transport layer which it uses:  <UL>
+ * This clbss provides HTTPS client URL support, building on the stbndbrd
+ * "sun.net.www" HTTP protocol hbndler.  HTTPS is the sbme protocol bs HTTP,
+ * but differs in the trbnsport lbyer which it uses:  <UL>
  *
- *      <LI>There's a <em>Secure Sockets Layer</em> between TCP
- *      and the HTTP protocol code.
+ *      <LI>There's b <em>Secure Sockets Lbyer</em> between TCP
+ *      bnd the HTTP protocol code.
  *
- *      <LI>It uses a different default TCP port.
+ *      <LI>It uses b different defbult TCP port.
  *
- *      <LI>It doesn't use application level proxies, which can see and
- *      manipulate HTTP user level data, compromising privacy.  It uses
- *      low level tunneling instead, which hides HTTP protocol and data
- *      from all third parties.  (Traffic analysis is still possible).
+ *      <LI>It doesn't use bpplicbtion level proxies, which cbn see bnd
+ *      mbnipulbte HTTP user level dbtb, compromising privbcy.  It uses
+ *      low level tunneling instebd, which hides HTTP protocol bnd dbtb
+ *      from bll third pbrties.  (Trbffic bnblysis is still possible).
  *
- *      <LI>It does basic server authentication, to protect
- *      against "URL spoofing" attacks.  This involves deciding
- *      whether the X.509 certificate chain identifying the server
- *      is trusted, and verifying that the name of the server is
- *      found in the certificate.  (The application may enable an
- *      anonymous SSL cipher suite, and such checks are not done
- *      for anonymous ciphers.)
+ *      <LI>It does bbsic server buthenticbtion, to protect
+ *      bgbinst "URL spoofing" bttbcks.  This involves deciding
+ *      whether the X.509 certificbte chbin identifying the server
+ *      is trusted, bnd verifying thbt the nbme of the server is
+ *      found in the certificbte.  (The bpplicbtion mby enbble bn
+ *      bnonymous SSL cipher suite, bnd such checks bre not done
+ *      for bnonymous ciphers.)
  *
- *      <LI>It exposes key SSL session attributes, specifically the
- *      cipher suite in use and the server's X509 certificates, to
- *      application software which knows about this protocol handler.
+ *      <LI>It exposes key SSL session bttributes, specificblly the
+ *      cipher suite in use bnd the server's X509 certificbtes, to
+ *      bpplicbtion softwbre which knows bbout this protocol hbndler.
  *
  *      </UL>
  *
  * <P> System properties used include:  <UL>
  *
  *      <LI><em>https.proxyHost</em> ... the host supporting SSL
- *      tunneling using the conventional CONNECT syntax
+ *      tunneling using the conventionbl CONNECT syntbx
  *
  *      <LI><em>https.proxyPort</em> ... port to use on proxyHost
  *
- *      <LI><em>https.cipherSuites</em> ... comma separated list of
- *      SSL cipher suite names to enable.
+ *      <LI><em>https.cipherSuites</em> ... commb sepbrbted list of
+ *      SSL cipher suite nbmes to enbble.
  *
  *      <LI><em>http.nonProxyHosts</em> ...
  *
  *      </UL>
  *
- * @author David Brownell
- * @author Bill Foote
+ * @buthor Dbvid Brownell
+ * @buthor Bill Foote
  */
 
-// final for export control reasons (access to APIs); remove with care
-final class HttpsClient extends HttpClient
-    implements HandshakeCompletedListener
+// finbl for export control rebsons (bccess to APIs); remove with cbre
+finbl clbss HttpsClient extends HttpClient
+    implements HbndshbkeCompletedListener
 {
-    // STATIC STATE and ACCESSORS THERETO
+    // STATIC STATE bnd ACCESSORS THERETO
 
-    // HTTPS uses a different default port number than HTTP.
-    private static final int    httpsPortNumber = 443;
+    // HTTPS uses b different defbult port number thbn HTTP.
+    privbte stbtic finbl int    httpsPortNumber = 443;
 
-    // default HostnameVerifier class canonical name
-    private static final String defaultHVCanonicalName =
-            "javax.net.ssl.HttpsURLConnection.DefaultHostnameVerifier";
+    // defbult HostnbmeVerifier clbss cbnonicbl nbme
+    privbte stbtic finbl String defbultHVCbnonicblNbme =
+            "jbvbx.net.ssl.HttpsURLConnection.DefbultHostnbmeVerifier";
 
-    /** Returns the default HTTPS port (443) */
+    /** Returns the defbult HTTPS port (443) */
     @Override
-    protected int getDefaultPort() { return httpsPortNumber; }
+    protected int getDefbultPort() { return httpsPortNumber; }
 
-    private HostnameVerifier hv;
-    private SSLSocketFactory sslSocketFactory;
+    privbte HostnbmeVerifier hv;
+    privbte SSLSocketFbctory sslSocketFbctory;
 
-    // HttpClient.proxyDisabled will always be false, because we don't
-    // use an application-level HTTP proxy.  We might tunnel through
+    // HttpClient.proxyDisbbled will blwbys be fblse, becbuse we don't
+    // use bn bpplicbtion-level HTTP proxy.  We might tunnel through
     // our http proxy, though.
 
 
     // INSTANCE DATA
 
-    // last negotiated SSL session
-    private SSLSession  session;
+    // lbst negotibted SSL session
+    privbte SSLSession  session;
 
-    private String [] getCipherSuites() {
+    privbte String [] getCipherSuites() {
         //
-        // If ciphers are assigned, sort them into an array.
+        // If ciphers bre bssigned, sort them into bn brrby.
         //
         String ciphers [];
         String cipherString = AccessController.doPrivileged(
                 new GetPropertyAction("https.cipherSuites"));
 
-        if (cipherString == null || "".equals(cipherString)) {
+        if (cipherString == null || "".equbls(cipherString)) {
             ciphers = null;
         } else {
             StringTokenizer     tokenizer;
             Vector<String>      v = new Vector<String>();
 
             tokenizer = new StringTokenizer(cipherString, ",");
-            while (tokenizer.hasMoreTokens())
-                v.addElement(tokenizer.nextToken());
+            while (tokenizer.hbsMoreTokens())
+                v.bddElement(tokenizer.nextToken());
             ciphers = new String [v.size()];
             for (int i = 0; i < ciphers.length; i++)
                 ciphers [i] = v.elementAt(i);
@@ -158,23 +158,23 @@ final class HttpsClient extends HttpClient
         return ciphers;
     }
 
-    private String [] getProtocols() {
+    privbte String [] getProtocols() {
         //
-        // If protocols are assigned, sort them into an array.
+        // If protocols bre bssigned, sort them into bn brrby.
         //
         String protocols [];
         String protocolString = AccessController.doPrivileged(
                 new GetPropertyAction("https.protocols"));
 
-        if (protocolString == null || "".equals(protocolString)) {
+        if (protocolString == null || "".equbls(protocolString)) {
             protocols = null;
         } else {
             StringTokenizer     tokenizer;
             Vector<String>      v = new Vector<String>();
 
             tokenizer = new StringTokenizer(protocolString, ",");
-            while (tokenizer.hasMoreTokens())
-                v.addElement(tokenizer.nextToken());
+            while (tokenizer.hbsMoreTokens())
+                v.bddElement(tokenizer.nextToken());
             protocols = new String [v.size()];
             for (int i = 0; i < protocols.length; i++) {
                 protocols [i] = v.elementAt(i);
@@ -183,70 +183,70 @@ final class HttpsClient extends HttpClient
         return protocols;
     }
 
-    private String getUserAgent() {
-        String userAgent = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("https.agent"));
+    privbte String getUserAgent() {
+        String userAgent = jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction("https.bgent"));
         if (userAgent == null || userAgent.length() == 0) {
             userAgent = "JSSE";
         }
         return userAgent;
     }
 
-    // should remove once HttpClient.newHttpProxy is putback
-    private static Proxy newHttpProxy(String proxyHost, int proxyPort) {
-        InetSocketAddress saddr = null;
-        final String phost = proxyHost;
-        final int pport = proxyPort < 0 ? httpsPortNumber : proxyPort;
+    // should remove once HttpClient.newHttpProxy is putbbck
+    privbte stbtic Proxy newHttpProxy(String proxyHost, int proxyPort) {
+        InetSocketAddress sbddr = null;
+        finbl String phost = proxyHost;
+        finbl int pport = proxyPort < 0 ? httpsPortNumber : proxyPort;
         try {
-            saddr = java.security.AccessController.doPrivileged(new
-                java.security.PrivilegedExceptionAction<InetSocketAddress>() {
+            sbddr = jbvb.security.AccessController.doPrivileged(new
+                jbvb.security.PrivilegedExceptionAction<InetSocketAddress>() {
                 public InetSocketAddress run() {
                     return new InetSocketAddress(phost, pport);
                 }});
-        } catch (java.security.PrivilegedActionException pae) {
+        } cbtch (jbvb.security.PrivilegedActionException pbe) {
         }
-        return new Proxy(Proxy.Type.HTTP, saddr);
+        return new Proxy(Proxy.Type.HTTP, sbddr);
     }
 
     // CONSTRUCTOR, FACTORY
 
 
     /**
-     * Create an HTTPS client URL.  Traffic will be tunneled through any
-     * intermediate nodes rather than proxied, so that confidentiality
-     * of data exchanged can be preserved.  However, note that all the
-     * anonymous SSL flavors are subject to "person-in-the-middle"
-     * attacks against confidentiality.  If you enable use of those
-     * flavors, you may be giving up the protection you get through
+     * Crebte bn HTTPS client URL.  Trbffic will be tunneled through bny
+     * intermedibte nodes rbther thbn proxied, so thbt confidentiblity
+     * of dbtb exchbnged cbn be preserved.  However, note thbt bll the
+     * bnonymous SSL flbvors bre subject to "person-in-the-middle"
+     * bttbcks bgbinst confidentiblity.  If you enbble use of those
+     * flbvors, you mby be giving up the protection you get through
      * SSL tunneling.
      *
-     * Use New to get new HttpsClient. This constructor is meant to be
+     * Use New to get new HttpsClient. This constructor is mebnt to be
      * used only by New method. New properly checks for URL spoofing.
      *
-     * @param URL https URL with which a connection must be established
+     * @pbrbm URL https URL with which b connection must be estbblished
      */
-    private HttpsClient(SSLSocketFactory sf, URL url)
+    privbte HttpsClient(SSLSocketFbctory sf, URL url)
     throws IOException
     {
-        // HttpClient-level proxying is always disabled,
-        // because we override doConnect to do tunneling instead.
+        // HttpClient-level proxying is blwbys disbbled,
+        // becbuse we override doConnect to do tunneling instebd.
         this(sf, url, (String)null, -1);
     }
 
     /**
-     *  Create an HTTPS client URL.  Traffic will be tunneled through
+     *  Crebte bn HTTPS client URL.  Trbffic will be tunneled through
      * the specified proxy server.
      */
-    HttpsClient(SSLSocketFactory sf, URL url, String proxyHost, int proxyPort)
+    HttpsClient(SSLSocketFbctory sf, URL url, String proxyHost, int proxyPort)
         throws IOException {
         this(sf, url, proxyHost, proxyPort, -1);
     }
 
     /**
-     *  Create an HTTPS client URL.  Traffic will be tunneled through
-     * the specified proxy server, with a connect timeout
+     *  Crebte bn HTTPS client URL.  Trbffic will be tunneled through
+     * the specified proxy server, with b connect timeout
      */
-    HttpsClient(SSLSocketFactory sf, URL url, String proxyHost, int proxyPort,
+    HttpsClient(SSLSocketFbctory sf, URL url, String proxyHost, int proxyPort,
                 int connectTimeout)
         throws IOException {
         this(sf, url,
@@ -256,73 +256,73 @@ final class HttpsClient extends HttpClient
     }
 
     /**
-     *  Same as previous constructor except using a Proxy
+     *  Sbme bs previous constructor except using b Proxy
      */
-    HttpsClient(SSLSocketFactory sf, URL url, Proxy proxy,
+    HttpsClient(SSLSocketFbctory sf, URL url, Proxy proxy,
                 int connectTimeout)
         throws IOException {
         this.proxy = proxy;
-        setSSLSocketFactory(sf);
-        this.proxyDisabled = true;
+        setSSLSocketFbctory(sf);
+        this.proxyDisbbled = true;
 
         this.host = url.getHost();
         this.url = url;
         port = url.getPort();
         if (port == -1) {
-            port = getDefaultPort();
+            port = getDefbultPort();
         }
         setConnectTimeout(connectTimeout);
         openServer();
     }
 
 
-    // This code largely ripped off from HttpClient.New, and
-    // it uses the same keepalive cache.
+    // This code lbrgely ripped off from HttpClient.New, bnd
+    // it uses the sbme keepblive cbche.
 
-    static HttpClient New(SSLSocketFactory sf, URL url, HostnameVerifier hv,
+    stbtic HttpClient New(SSLSocketFbctory sf, URL url, HostnbmeVerifier hv,
                           HttpURLConnection httpuc)
             throws IOException {
         return HttpsClient.New(sf, url, hv, true, httpuc);
     }
 
     /** See HttpClient for the model for this method. */
-    static HttpClient New(SSLSocketFactory sf, URL url,
-            HostnameVerifier hv, boolean useCache,
+    stbtic HttpClient New(SSLSocketFbctory sf, URL url,
+            HostnbmeVerifier hv, boolebn useCbche,
             HttpURLConnection httpuc) throws IOException {
-        return HttpsClient.New(sf, url, hv, (String)null, -1, useCache, httpuc);
+        return HttpsClient.New(sf, url, hv, (String)null, -1, useCbche, httpuc);
     }
 
     /**
-     * Get a HTTPS client to the URL.  Traffic will be tunneled through
+     * Get b HTTPS client to the URL.  Trbffic will be tunneled through
      * the specified proxy server.
      */
-    static HttpClient New(SSLSocketFactory sf, URL url, HostnameVerifier hv,
+    stbtic HttpClient New(SSLSocketFbctory sf, URL url, HostnbmeVerifier hv,
                            String proxyHost, int proxyPort,
                            HttpURLConnection httpuc) throws IOException {
         return HttpsClient.New(sf, url, hv, proxyHost, proxyPort, true, httpuc);
     }
 
-    static HttpClient New(SSLSocketFactory sf, URL url, HostnameVerifier hv,
-                           String proxyHost, int proxyPort, boolean useCache,
+    stbtic HttpClient New(SSLSocketFbctory sf, URL url, HostnbmeVerifier hv,
+                           String proxyHost, int proxyPort, boolebn useCbche,
                            HttpURLConnection httpuc)
         throws IOException {
-        return HttpsClient.New(sf, url, hv, proxyHost, proxyPort, useCache, -1,
+        return HttpsClient.New(sf, url, hv, proxyHost, proxyPort, useCbche, -1,
                                httpuc);
     }
 
-    static HttpClient New(SSLSocketFactory sf, URL url, HostnameVerifier hv,
-                          String proxyHost, int proxyPort, boolean useCache,
+    stbtic HttpClient New(SSLSocketFbctory sf, URL url, HostnbmeVerifier hv,
+                          String proxyHost, int proxyPort, boolebn useCbche,
                           int connectTimeout, HttpURLConnection httpuc)
         throws IOException {
 
         return HttpsClient.New(sf, url, hv,
                                (proxyHost == null? null :
                                 HttpsClient.newHttpProxy(proxyHost, proxyPort)),
-                               useCache, connectTimeout, httpuc);
+                               useCbche, connectTimeout, httpuc);
     }
 
-    static HttpClient New(SSLSocketFactory sf, URL url, HostnameVerifier hv,
-                          Proxy p, boolean useCache,
+    stbtic HttpClient New(SSLSocketFbctory sf, URL url, HostnbmeVerifier hv,
+                          Proxy p, boolebn useCbche,
                           int connectTimeout, HttpURLConnection httpuc)
         throws IOException
     {
@@ -330,37 +330,37 @@ final class HttpsClient extends HttpClient
             p = Proxy.NO_PROXY;
         }
         HttpsClient ret = null;
-        if (useCache) {
-            /* see if one's already around */
-            ret = (HttpsClient) kac.get(url, sf);
+        if (useCbche) {
+            /* see if one's blrebdy bround */
+            ret = (HttpsClient) kbc.get(url, sf);
             if (ret != null && httpuc != null &&
-                httpuc.streaming() &&
+                httpuc.strebming() &&
                 httpuc.getRequestMethod() == "POST") {
-                if (!ret.available())
+                if (!ret.bvbilbble())
                     ret = null;
             }
 
             if (ret != null) {
-                if ((ret.proxy != null && ret.proxy.equals(p)) ||
+                if ((ret.proxy != null && ret.proxy.equbls(p)) ||
                     (ret.proxy == null && p == null)) {
                     synchronized (ret) {
-                        ret.cachedHttpClient = true;
-                        assert ret.inCache;
-                        ret.inCache = false;
+                        ret.cbchedHttpClient = true;
+                        bssert ret.inCbche;
+                        ret.inCbche = fblse;
                         if (httpuc != null && ret.needsTunneling())
-                            httpuc.setTunnelState(TUNNELING);
-                        PlatformLogger logger = HttpURLConnection.getHttpLogger();
-                        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
-                            logger.finest("KeepAlive stream retrieved from the cache, " + ret);
+                            httpuc.setTunnelStbte(TUNNELING);
+                        PlbtformLogger logger = HttpURLConnection.getHttpLogger();
+                        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                            logger.finest("KeepAlive strebm retrieved from the cbche, " + ret);
                         }
                     }
                 } else {
-                    // We cannot return this connection to the cache as it's
+                    // We cbnnot return this connection to the cbche bs it's
                     // KeepAliveTimeout will get reset. We simply close the connection.
-                    // This should be fine as it is very rare that a connection
-                    // to the same host will not use the same proxy.
+                    // This should be fine bs it is very rbre thbt b connection
+                    // to the sbme host will not use the sbme proxy.
                     synchronized(ret) {
-                        ret.inCache = false;
+                        ret.inCbche = fblse;
                         ret.closeServer();
                     }
                     ret = null;
@@ -370,53 +370,53 @@ final class HttpsClient extends HttpClient
         if (ret == null) {
             ret = new HttpsClient(sf, url, p, connectTimeout);
         } else {
-            SecurityManager security = System.getSecurityManager();
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
                 if (ret.proxy == Proxy.NO_PROXY || ret.proxy == null) {
-                    security.checkConnect(InetAddress.getByName(url.getHost()).getHostAddress(), url.getPort());
+                    security.checkConnect(InetAddress.getByNbme(url.getHost()).getHostAddress(), url.getPort());
                 } else {
                     security.checkConnect(url.getHost(), url.getPort());
                 }
             }
             ret.url = url;
         }
-        ret.setHostnameVerifier(hv);
+        ret.setHostnbmeVerifier(hv);
 
         return ret;
     }
 
     // METHODS
-    void setHostnameVerifier(HostnameVerifier hv) {
+    void setHostnbmeVerifier(HostnbmeVerifier hv) {
         this.hv = hv;
     }
 
-    void setSSLSocketFactory(SSLSocketFactory sf) {
-        sslSocketFactory = sf;
+    void setSSLSocketFbctory(SSLSocketFbctory sf) {
+        sslSocketFbctory = sf;
     }
 
-    SSLSocketFactory getSSLSocketFactory() {
-        return sslSocketFactory;
+    SSLSocketFbctory getSSLSocketFbctory() {
+        return sslSocketFbctory;
     }
 
     /**
-     * The following method, createSocket, is defined in NetworkClient
-     * and overridden here so that the socket facroty is used to create
+     * The following method, crebteSocket, is defined in NetworkClient
+     * bnd overridden here so thbt the socket fbcroty is used to crebte
      * new sockets.
      */
     @Override
-    protected Socket createSocket() throws IOException {
+    protected Socket crebteSocket() throws IOException {
         try {
-            return sslSocketFactory.createSocket();
-        } catch (SocketException se) {
+            return sslSocketFbctory.crebteSocket();
+        } cbtch (SocketException se) {
             //
             // bug 6771432
-            // javax.net.SocketFactory throws a SocketException with an
-            // UnsupportedOperationException as its cause to indicate that
-            // unconnected sockets have not been implemented.
+            // jbvbx.net.SocketFbctory throws b SocketException with bn
+            // UnsupportedOperbtionException bs its cbuse to indicbte thbt
+            // unconnected sockets hbve not been implemented.
             //
-            Throwable t = se.getCause();
-            if (t != null && t instanceof UnsupportedOperationException) {
-                return super.createSocket();
+            Throwbble t = se.getCbuse();
+            if (t != null && t instbnceof UnsupportedOperbtionException) {
+                return super.crebteSocket();
             } else {
                 throw se;
             }
@@ -425,250 +425,250 @@ final class HttpsClient extends HttpClient
 
 
     @Override
-    public boolean needsTunneling() {
+    public boolebn needsTunneling() {
         return (proxy != null && proxy.type() != Proxy.Type.DIRECT
                 && proxy.type() != Proxy.Type.SOCKS);
     }
 
     @Override
-    public void afterConnect() throws IOException, UnknownHostException {
-        if (!isCachedConnection()) {
+    public void bfterConnect() throws IOException, UnknownHostException {
+        if (!isCbchedConnection()) {
             SSLSocket s = null;
-            SSLSocketFactory factory = sslSocketFactory;
+            SSLSocketFbctory fbctory = sslSocketFbctory;
             try {
-                if (!(serverSocket instanceof SSLSocket)) {
-                    s = (SSLSocket)factory.createSocket(serverSocket,
+                if (!(serverSocket instbnceof SSLSocket)) {
+                    s = (SSLSocket)fbctory.crebteSocket(serverSocket,
                                                         host, port, true);
                 } else {
                     s = (SSLSocket)serverSocket;
-                    if (s instanceof SSLSocketImpl) {
+                    if (s instbnceof SSLSocketImpl) {
                         ((SSLSocketImpl)s).setHost(host);
                     }
                 }
-            } catch (IOException ex) {
-                // If we fail to connect through the tunnel, try it
-                // locally, as a last resort.  If this doesn't work,
-                // throw the original exception.
+            } cbtch (IOException ex) {
+                // If we fbil to connect through the tunnel, try it
+                // locblly, bs b lbst resort.  If this doesn't work,
+                // throw the originbl exception.
                 try {
-                    s = (SSLSocket)factory.createSocket(host, port);
-                } catch (IOException ignored) {
+                    s = (SSLSocket)fbctory.crebteSocket(host, port);
+                } cbtch (IOException ignored) {
                     throw ex;
                 }
             }
 
             //
-            // Force handshaking, so that we get any authentication.
-            // Register a handshake callback so our session state tracks any
-            // later session renegotiations.
+            // Force hbndshbking, so thbt we get bny buthenticbtion.
+            // Register b hbndshbke cbllbbck so our session stbte trbcks bny
+            // lbter session renegotibtions.
             //
             String [] protocols = getProtocols();
             String [] ciphers = getCipherSuites();
             if (protocols != null) {
-                s.setEnabledProtocols(protocols);
+                s.setEnbbledProtocols(protocols);
             }
             if (ciphers != null) {
-                s.setEnabledCipherSuites(ciphers);
+                s.setEnbbledCipherSuites(ciphers);
             }
-            s.addHandshakeCompletedListener(this);
+            s.bddHbndshbkeCompletedListener(this);
 
-            // We have two hostname verification approaches. One is in
-            // SSL/TLS socket layer, where the algorithm is configured with
-            // SSLParameters.setEndpointIdentificationAlgorithm(), and the
-            // hostname verification is done by X509ExtendedTrustManager when
-            // the algorithm is "HTTPS". The other one is in HTTPS layer,
-            // where the algorithm is customized by
-            // HttpsURLConnection.setHostnameVerifier(), and the hostname
-            // verification is done by HostnameVerifier when the default
-            // rules for hostname verification fail.
+            // We hbve two hostnbme verificbtion bpprobches. One is in
+            // SSL/TLS socket lbyer, where the blgorithm is configured with
+            // SSLPbrbmeters.setEndpointIdentificbtionAlgorithm(), bnd the
+            // hostnbme verificbtion is done by X509ExtendedTrustMbnbger when
+            // the blgorithm is "HTTPS". The other one is in HTTPS lbyer,
+            // where the blgorithm is customized by
+            // HttpsURLConnection.setHostnbmeVerifier(), bnd the hostnbme
+            // verificbtion is done by HostnbmeVerifier when the defbult
+            // rules for hostnbme verificbtion fbil.
             //
-            // The relationship between two hostname verification approaches
+            // The relbtionship between two hostnbme verificbtion bpprobches
             // likes the following:
             //
-            //               |             EIA algorithm
+            //               |             EIA blgorithm
             //               +----------------------------------------------
             //               |     null      |   HTTPS    |   LDAP/other   |
             // -------------------------------------------------------------
             //     |         |1              |2           |3               |
-            // HNV | default | Set HTTPS EIA | use EIA    | HTTPS          |
+            // HNV | defbult | Set HTTPS EIA | use EIA    | HTTPS          |
             //     |--------------------------------------------------------
             //     | non -   |4              |5           |6               |
-            //     | default | HTTPS/HNV     | use EIA    | HTTPS/HNV      |
+            //     | defbult | HTTPS/HNV     | use EIA    | HTTPS/HNV      |
             // -------------------------------------------------------------
             //
-            // Abbreviation:
-            //     EIA: the endpoint identification algorithm in SSL/TLS
-            //           socket layer
-            //     HNV: the hostname verification object in HTTPS layer
+            // Abbrevibtion:
+            //     EIA: the endpoint identificbtion blgorithm in SSL/TLS
+            //           socket lbyer
+            //     HNV: the hostnbme verificbtion object in HTTPS lbyer
             // Notes:
-            //     case 1. default HNV and EIA is null
-            //           Set EIA as HTTPS, hostname check done in SSL/TLS
-            //           layer.
-            //     case 2. default HNV and EIA is HTTPS
-            //           Use existing EIA, hostname check done in SSL/TLS
-            //           layer.
-            //     case 3. default HNV and EIA is other than HTTPS
+            //     cbse 1. defbult HNV bnd EIA is null
+            //           Set EIA bs HTTPS, hostnbme check done in SSL/TLS
+            //           lbyer.
+            //     cbse 2. defbult HNV bnd EIA is HTTPS
+            //           Use existing EIA, hostnbme check done in SSL/TLS
+            //           lbyer.
+            //     cbse 3. defbult HNV bnd EIA is other thbn HTTPS
             //           Use existing EIA, EIA check done in SSL/TLS
-            //           layer, then do HTTPS check in HTTPS layer.
-            //     case 4. non-default HNV and EIA is null
-            //           No EIA, no EIA check done in SSL/TLS layer, then do
-            //           HTTPS check in HTTPS layer using HNV as override.
-            //     case 5. non-default HNV and EIA is HTTPS
-            //           Use existing EIA, hostname check done in SSL/TLS
-            //           layer. No HNV override possible. We will review this
-            //           decision and may update the architecture for JDK 7.
-            //     case 6. non-default HNV and EIA is other than HTTPS
-            //           Use existing EIA, EIA check done in SSL/TLS layer,
-            //           then do HTTPS check in HTTPS layer as override.
-            boolean needToCheckSpoofing = true;
-            String identification =
-                s.getSSLParameters().getEndpointIdentificationAlgorithm();
-            if (identification != null && identification.length() != 0) {
-                if (identification.equalsIgnoreCase("HTTPS")) {
-                    // Do not check server identity again out of SSLSocket,
-                    // the endpoint will be identified during TLS handshaking
+            //           lbyer, then do HTTPS check in HTTPS lbyer.
+            //     cbse 4. non-defbult HNV bnd EIA is null
+            //           No EIA, no EIA check done in SSL/TLS lbyer, then do
+            //           HTTPS check in HTTPS lbyer using HNV bs override.
+            //     cbse 5. non-defbult HNV bnd EIA is HTTPS
+            //           Use existing EIA, hostnbme check done in SSL/TLS
+            //           lbyer. No HNV override possible. We will review this
+            //           decision bnd mby updbte the brchitecture for JDK 7.
+            //     cbse 6. non-defbult HNV bnd EIA is other thbn HTTPS
+            //           Use existing EIA, EIA check done in SSL/TLS lbyer,
+            //           then do HTTPS check in HTTPS lbyer bs override.
+            boolebn needToCheckSpoofing = true;
+            String identificbtion =
+                s.getSSLPbrbmeters().getEndpointIdentificbtionAlgorithm();
+            if (identificbtion != null && identificbtion.length() != 0) {
+                if (identificbtion.equblsIgnoreCbse("HTTPS")) {
+                    // Do not check server identity bgbin out of SSLSocket,
+                    // the endpoint will be identified during TLS hbndshbking
                     // in SSLSocket.
-                    needToCheckSpoofing = false;
-                }   // else, we don't understand the identification algorithm,
+                    needToCheckSpoofing = fblse;
+                }   // else, we don't understbnd the identificbtion blgorithm,
                     // need to check URL spoofing here.
             } else {
-                boolean isDefaultHostnameVerifier = false;
+                boolebn isDefbultHostnbmeVerifier = fblse;
 
                 // We prefer to let the SSLSocket do the spoof checks, but if
-                // the application has specified a HostnameVerifier (HNV),
-                // we will always use that.
+                // the bpplicbtion hbs specified b HostnbmeVerifier (HNV),
+                // we will blwbys use thbt.
                 if (hv != null) {
-                    String canonicalName = hv.getClass().getCanonicalName();
-                    if (canonicalName != null &&
-                    canonicalName.equalsIgnoreCase(defaultHVCanonicalName)) {
-                        isDefaultHostnameVerifier = true;
+                    String cbnonicblNbme = hv.getClbss().getCbnonicblNbme();
+                    if (cbnonicblNbme != null &&
+                    cbnonicblNbme.equblsIgnoreCbse(defbultHVCbnonicblNbme)) {
+                        isDefbultHostnbmeVerifier = true;
                     }
                 } else {
-                    // Unlikely to happen! As the behavior is the same as the
-                    // default hostname verifier, so we prefer to let the
+                    // Unlikely to hbppen! As the behbvior is the sbme bs the
+                    // defbult hostnbme verifier, so we prefer to let the
                     // SSLSocket do the spoof checks.
-                    isDefaultHostnameVerifier = true;
+                    isDefbultHostnbmeVerifier = true;
                 }
 
-                if (isDefaultHostnameVerifier) {
-                    // If the HNV is the default from HttpsURLConnection, we
+                if (isDefbultHostnbmeVerifier) {
+                    // If the HNV is the defbult from HttpsURLConnection, we
                     // will do the spoof checks in SSLSocket.
-                    SSLParameters paramaters = s.getSSLParameters();
-                    paramaters.setEndpointIdentificationAlgorithm("HTTPS");
-                    s.setSSLParameters(paramaters);
+                    SSLPbrbmeters pbrbmbters = s.getSSLPbrbmeters();
+                    pbrbmbters.setEndpointIdentificbtionAlgorithm("HTTPS");
+                    s.setSSLPbrbmeters(pbrbmbters);
 
-                    needToCheckSpoofing = false;
+                    needToCheckSpoofing = fblse;
                 }
             }
 
-            s.startHandshake();
+            s.stbrtHbndshbke();
             session = s.getSession();
-            // change the serverSocket and serverOutput
+            // chbnge the serverSocket bnd serverOutput
             serverSocket = s;
             try {
-                serverOutput = new PrintStream(
-                    new BufferedOutputStream(serverSocket.getOutputStream()),
-                    false, encoding);
-            } catch (UnsupportedEncodingException e) {
-                throw new InternalError(encoding+" encoding not found");
+                serverOutput = new PrintStrebm(
+                    new BufferedOutputStrebm(serverSocket.getOutputStrebm()),
+                    fblse, encoding);
+            } cbtch (UnsupportedEncodingException e) {
+                throw new InternblError(encoding+" encoding not found");
             }
 
-            // check URL spoofing if it has not been checked under handshaking
+            // check URL spoofing if it hbs not been checked under hbndshbking
             if (needToCheckSpoofing) {
                 checkURLSpoofing(hv);
             }
         } else {
-            // if we are reusing a cached https session,
-            // we don't need to do handshaking etc. But we do need to
+            // if we bre reusing b cbched https session,
+            // we don't need to do hbndshbking etc. But we do need to
             // set the ssl session
             session = ((SSLSocket)serverSocket).getSession();
         }
     }
 
-    // Server identity checking is done according to RFC 2818: HTTP over TLS
+    // Server identity checking is done bccording to RFC 2818: HTTP over TLS
     // Section 3.1 Server Identity
-    private void checkURLSpoofing(HostnameVerifier hostnameVerifier)
+    privbte void checkURLSpoofing(HostnbmeVerifier hostnbmeVerifier)
             throws IOException {
         //
-        // Get authenticated server name, if any
+        // Get buthenticbted server nbme, if bny
         //
         String host = url.getHost();
 
         // if IPv6 strip off the "[]"
-        if (host != null && host.startsWith("[") && host.endsWith("]")) {
+        if (host != null && host.stbrtsWith("[") && host.endsWith("]")) {
             host = host.substring(1, host.length()-1);
         }
 
-        Certificate[] peerCerts = null;
+        Certificbte[] peerCerts = null;
         String cipher = session.getCipherSuite();
         try {
-            HostnameChecker checker = HostnameChecker.getInstance(
-                                                HostnameChecker.TYPE_TLS);
+            HostnbmeChecker checker = HostnbmeChecker.getInstbnce(
+                                                HostnbmeChecker.TYPE_TLS);
 
             // Use ciphersuite to determine whether Kerberos is present.
-            if (cipher.startsWith("TLS_KRB5")) {
-                if (!HostnameChecker.match(host, getPeerPrincipal())) {
-                    throw new SSLPeerUnverifiedException("Hostname checker" +
-                                " failed for Kerberos");
+            if (cipher.stbrtsWith("TLS_KRB5")) {
+                if (!HostnbmeChecker.mbtch(host, getPeerPrincipbl())) {
+                    throw new SSLPeerUnverifiedException("Hostnbme checker" +
+                                " fbiled for Kerberos");
                 }
             } else { // X.509
 
-                // get the subject's certificate
-                peerCerts = session.getPeerCertificates();
+                // get the subject's certificbte
+                peerCerts = session.getPeerCertificbtes();
 
-                X509Certificate peerCert;
-                if (peerCerts[0] instanceof
-                        java.security.cert.X509Certificate) {
-                    peerCert = (java.security.cert.X509Certificate)peerCerts[0];
+                X509Certificbte peerCert;
+                if (peerCerts[0] instbnceof
+                        jbvb.security.cert.X509Certificbte) {
+                    peerCert = (jbvb.security.cert.X509Certificbte)peerCerts[0];
                 } else {
                     throw new SSLPeerUnverifiedException("");
                 }
-                checker.match(host, peerCert);
+                checker.mbtch(host, peerCert);
             }
 
-            // if it doesn't throw an exception, we passed. Return.
+            // if it doesn't throw bn exception, we pbssed. Return.
             return;
 
-        } catch (SSLPeerUnverifiedException e) {
+        } cbtch (SSLPeerUnverifiedException e) {
 
             //
-            // client explicitly changed default policy and enabled
-            // anonymous ciphers; we can't check the standard policy
+            // client explicitly chbnged defbult policy bnd enbbled
+            // bnonymous ciphers; we cbn't check the stbndbrd policy
             //
             // ignore
-        } catch (java.security.cert.CertificateException cpe) {
+        } cbtch (jbvb.security.cert.CertificbteException cpe) {
             // ignore
         }
 
-        if ((cipher != null) && (cipher.indexOf("_anon_") != -1)) {
+        if ((cipher != null) && (cipher.indexOf("_bnon_") != -1)) {
             return;
-        } else if ((hostnameVerifier != null) &&
-                   (hostnameVerifier.verify(host, session))) {
+        } else if ((hostnbmeVerifier != null) &&
+                   (hostnbmeVerifier.verify(host, session))) {
             return;
         }
 
         serverSocket.close();
-        session.invalidate();
+        session.invblidbte();
 
-        throw new IOException("HTTPS hostname wrong:  should be <"
+        throw new IOException("HTTPS hostnbme wrong:  should be <"
                               + url.getHost() + ">");
     }
 
     @Override
-    protected void putInKeepAliveCache() {
-        if (inCache) {
-            assert false : "Duplicate put to keep alive cache";
+    protected void putInKeepAliveCbche() {
+        if (inCbche) {
+            bssert fblse : "Duplicbte put to keep blive cbche";
             return;
         }
-        inCache = true;
-        kac.put(url, sslSocketFactory, this);
+        inCbche = true;
+        kbc.put(url, sslSocketFbctory, this);
     }
 
     /*
-     * Close an idle connection to this URL (if it exists in the cache).
+     * Close bn idle connection to this URL (if it exists in the cbche).
      */
     @Override
     public void closeIdleConnection() {
-        HttpClient http = kac.get(url, sslSocketFactory);
+        HttpClient http = kbc.get(url, sslSocketFbctory);
         if (http != null) {
             http.closeServer();
         }
@@ -682,93 +682,93 @@ final class HttpsClient extends HttpClient
     }
 
     /**
-     * Returns the certificate chain the client sent to the
-     * server, or null if the client did not authenticate.
+     * Returns the certificbte chbin the client sent to the
+     * server, or null if the client did not buthenticbte.
      */
-    public java.security.cert.Certificate [] getLocalCertificates() {
-        return session.getLocalCertificates();
+    public jbvb.security.cert.Certificbte [] getLocblCertificbtes() {
+        return session.getLocblCertificbtes();
     }
 
     /**
-     * Returns the certificate chain with which the server
-     * authenticated itself, or throw a SSLPeerUnverifiedException
-     * if the server did not authenticate.
+     * Returns the certificbte chbin with which the server
+     * buthenticbted itself, or throw b SSLPeerUnverifiedException
+     * if the server did not buthenticbte.
      */
-    java.security.cert.Certificate [] getServerCertificates()
+    jbvb.security.cert.Certificbte [] getServerCertificbtes()
             throws SSLPeerUnverifiedException
     {
-        return session.getPeerCertificates();
+        return session.getPeerCertificbtes();
     }
 
     /**
-     * Returns the X.509 certificate chain with which the server
-     * authenticated itself, or null if the server did not authenticate.
+     * Returns the X.509 certificbte chbin with which the server
+     * buthenticbted itself, or null if the server did not buthenticbte.
      */
-    javax.security.cert.X509Certificate [] getServerCertificateChain()
+    jbvbx.security.cert.X509Certificbte [] getServerCertificbteChbin()
             throws SSLPeerUnverifiedException
     {
-        return session.getPeerCertificateChain();
+        return session.getPeerCertificbteChbin();
     }
 
     /**
-     * Returns the principal with which the server authenticated
-     * itself, or throw a SSLPeerUnverifiedException if the
-     * server did not authenticate.
+     * Returns the principbl with which the server buthenticbted
+     * itself, or throw b SSLPeerUnverifiedException if the
+     * server did not buthenticbte.
      */
-    Principal getPeerPrincipal()
+    Principbl getPeerPrincipbl()
             throws SSLPeerUnverifiedException
     {
-        Principal principal;
+        Principbl principbl;
         try {
-            principal = session.getPeerPrincipal();
-        } catch (AbstractMethodError e) {
-            // if the provider does not support it, fallback to peer certs.
-            // return the X500Principal of the end-entity cert.
-            java.security.cert.Certificate[] certs =
-                        session.getPeerCertificates();
-            principal = ((X509Certificate)certs[0]).getSubjectX500Principal();
+            principbl = session.getPeerPrincipbl();
+        } cbtch (AbstrbctMethodError e) {
+            // if the provider does not support it, fbllbbck to peer certs.
+            // return the X500Principbl of the end-entity cert.
+            jbvb.security.cert.Certificbte[] certs =
+                        session.getPeerCertificbtes();
+            principbl = ((X509Certificbte)certs[0]).getSubjectX500Principbl();
         }
-        return principal;
+        return principbl;
     }
 
     /**
-     * Returns the principal the client sent to the
-     * server, or null if the client did not authenticate.
+     * Returns the principbl the client sent to the
+     * server, or null if the client did not buthenticbte.
      */
-    Principal getLocalPrincipal()
+    Principbl getLocblPrincipbl()
     {
-        Principal principal;
+        Principbl principbl;
         try {
-            principal = session.getLocalPrincipal();
-        } catch (AbstractMethodError e) {
-            principal = null;
-            // if the provider does not support it, fallback to local certs.
-            // return the X500Principal of the end-entity cert.
-            java.security.cert.Certificate[] certs =
-                        session.getLocalCertificates();
+            principbl = session.getLocblPrincipbl();
+        } cbtch (AbstrbctMethodError e) {
+            principbl = null;
+            // if the provider does not support it, fbllbbck to locbl certs.
+            // return the X500Principbl of the end-entity cert.
+            jbvb.security.cert.Certificbte[] certs =
+                        session.getLocblCertificbtes();
             if (certs != null) {
-                principal = ((X509Certificate)certs[0]).getSubjectX500Principal();
+                principbl = ((X509Certificbte)certs[0]).getSubjectX500Principbl();
             }
         }
-        return principal;
+        return principbl;
     }
 
     /**
-     * This method implements the SSL HandshakeCompleted callback,
-     * remembering the resulting session so that it may be queried
-     * for the current cipher suite and peer certificates.  Servers
-     * sometimes re-initiate handshaking, so the session in use on
-     * a given connection may change.  When sessions change, so may
-     * peer identities and cipher suites.
+     * This method implements the SSL HbndshbkeCompleted cbllbbck,
+     * remembering the resulting session so thbt it mby be queried
+     * for the current cipher suite bnd peer certificbtes.  Servers
+     * sometimes re-initibte hbndshbking, so the session in use on
+     * b given connection mby chbnge.  When sessions chbnge, so mby
+     * peer identities bnd cipher suites.
      */
-    public void handshakeCompleted(HandshakeCompletedEvent event)
+    public void hbndshbkeCompleted(HbndshbkeCompletedEvent event)
     {
         session = event.getSession();
     }
 
     /**
      * @return the proxy host being used for this client, or null
-     *          if we're not going through a proxy
+     *          if we're not going through b proxy
      */
     @Override
     public String getProxyHostUsed() {
@@ -780,13 +780,13 @@ final class HttpsClient extends HttpClient
     }
 
     /**
-     * @return the proxy port being used for this client.  Meaningless
+     * @return the proxy port being used for this client.  Mebningless
      *          if getProxyHostUsed() gives null.
      */
     @Override
     public int getProxyPortUsed() {
         return (proxy == null || proxy.type() == Proxy.Type.DIRECT ||
                 proxy.type() == Proxy.Type.SOCKS)? -1:
-            ((InetSocketAddress)proxy.address()).getPort();
+            ((InetSocketAddress)proxy.bddress()).getPort();
     }
 }

@@ -1,1486 +1,1486 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
 
-import java.util.*;
-import java.lang.invoke.LambdaForm.BasicType;
+import jbvb.util.*;
+import jbvb.lbng.invoke.LbmbdbForm.BbsicType;
 import sun.invoke.util.*;
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
-import static java.lang.invoke.MethodHandleStatics.*;
-import static java.lang.invoke.LambdaForm.BasicType.*;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
+import stbtic jbvb.lbng.invoke.LbmbdbForm.BbsicType.*;
 
 /**
- * A method handle is a typed, directly executable reference to an underlying method,
- * constructor, field, or similar low-level operation, with optional
- * transformations of arguments or return values.
- * These transformations are quite general, and include such patterns as
- * {@linkplain #asType conversion},
- * {@linkplain #bindTo insertion},
- * {@linkplain java.lang.invoke.MethodHandles#dropArguments deletion},
- * and {@linkplain java.lang.invoke.MethodHandles#filterArguments substitution}.
+ * A method hbndle is b typed, directly executbble reference to bn underlying method,
+ * constructor, field, or similbr low-level operbtion, with optionbl
+ * trbnsformbtions of brguments or return vblues.
+ * These trbnsformbtions bre quite generbl, bnd include such pbtterns bs
+ * {@linkplbin #bsType conversion},
+ * {@linkplbin #bindTo insertion},
+ * {@linkplbin jbvb.lbng.invoke.MethodHbndles#dropArguments deletion},
+ * bnd {@linkplbin jbvb.lbng.invoke.MethodHbndles#filterArguments substitution}.
  *
- * <h1>Method handle contents</h1>
- * Method handles are dynamically and strongly typed according to their parameter and return types.
- * They are not distinguished by the name or the defining class of their underlying methods.
- * A method handle must be invoked using a symbolic type descriptor which matches
- * the method handle's own {@linkplain #type type descriptor}.
+ * <h1>Method hbndle contents</h1>
+ * Method hbndles bre dynbmicblly bnd strongly typed bccording to their pbrbmeter bnd return types.
+ * They bre not distinguished by the nbme or the defining clbss of their underlying methods.
+ * A method hbndle must be invoked using b symbolic type descriptor which mbtches
+ * the method hbndle's own {@linkplbin #type type descriptor}.
  * <p>
- * Every method handle reports its type descriptor via the {@link #type type} accessor.
- * This type descriptor is a {@link java.lang.invoke.MethodType MethodType} object,
- * whose structure is a series of classes, one of which is
- * the return type of the method (or {@code void.class} if none).
+ * Every method hbndle reports its type descriptor vib the {@link #type type} bccessor.
+ * This type descriptor is b {@link jbvb.lbng.invoke.MethodType MethodType} object,
+ * whose structure is b series of clbsses, one of which is
+ * the return type of the method (or {@code void.clbss} if none).
  * <p>
- * A method handle's type controls the types of invocations it accepts,
- * and the kinds of transformations that apply to it.
+ * A method hbndle's type controls the types of invocbtions it bccepts,
+ * bnd the kinds of trbnsformbtions thbt bpply to it.
  * <p>
- * A method handle contains a pair of special invoker methods
- * called {@link #invokeExact invokeExact} and {@link #invoke invoke}.
- * Both invoker methods provide direct access to the method handle's
- * underlying method, constructor, field, or other operation,
- * as modified by transformations of arguments and return values.
- * Both invokers accept calls which exactly match the method handle's own type.
- * The plain, inexact invoker also accepts a range of other call types.
+ * A method hbndle contbins b pbir of specibl invoker methods
+ * cblled {@link #invokeExbct invokeExbct} bnd {@link #invoke invoke}.
+ * Both invoker methods provide direct bccess to the method hbndle's
+ * underlying method, constructor, field, or other operbtion,
+ * bs modified by trbnsformbtions of brguments bnd return vblues.
+ * Both invokers bccept cblls which exbctly mbtch the method hbndle's own type.
+ * The plbin, inexbct invoker blso bccepts b rbnge of other cbll types.
  * <p>
- * Method handles are immutable and have no visible state.
- * Of course, they can be bound to underlying methods or data which exhibit state.
- * With respect to the Java Memory Model, any method handle will behave
- * as if all of its (internal) fields are final variables.  This means that any method
- * handle made visible to the application will always be fully formed.
- * This is true even if the method handle is published through a shared
- * variable in a data race.
+ * Method hbndles bre immutbble bnd hbve no visible stbte.
+ * Of course, they cbn be bound to underlying methods or dbtb which exhibit stbte.
+ * With respect to the Jbvb Memory Model, bny method hbndle will behbve
+ * bs if bll of its (internbl) fields bre finbl vbribbles.  This mebns thbt bny method
+ * hbndle mbde visible to the bpplicbtion will blwbys be fully formed.
+ * This is true even if the method hbndle is published through b shbred
+ * vbribble in b dbtb rbce.
  * <p>
- * Method handles cannot be subclassed by the user.
- * Implementations may (or may not) create internal subclasses of {@code MethodHandle}
- * which may be visible via the {@link java.lang.Object#getClass Object.getClass}
- * operation.  The programmer should not draw conclusions about a method handle
- * from its specific class, as the method handle class hierarchy (if any)
- * may change from time to time or across implementations from different vendors.
+ * Method hbndles cbnnot be subclbssed by the user.
+ * Implementbtions mby (or mby not) crebte internbl subclbsses of {@code MethodHbndle}
+ * which mby be visible vib the {@link jbvb.lbng.Object#getClbss Object.getClbss}
+ * operbtion.  The progrbmmer should not drbw conclusions bbout b method hbndle
+ * from its specific clbss, bs the method hbndle clbss hierbrchy (if bny)
+ * mby chbnge from time to time or bcross implementbtions from different vendors.
  *
- * <h1>Method handle compilation</h1>
- * A Java method call expression naming {@code invokeExact} or {@code invoke}
- * can invoke a method handle from Java source code.
- * From the viewpoint of source code, these methods can take any arguments
- * and their result can be cast to any return type.
- * Formally this is accomplished by giving the invoker methods
- * {@code Object} return types and variable arity {@code Object} arguments,
- * but they have an additional quality called <em>signature polymorphism</em>
- * which connects this freedom of invocation directly to the JVM execution stack.
+ * <h1>Method hbndle compilbtion</h1>
+ * A Jbvb method cbll expression nbming {@code invokeExbct} or {@code invoke}
+ * cbn invoke b method hbndle from Jbvb source code.
+ * From the viewpoint of source code, these methods cbn tbke bny brguments
+ * bnd their result cbn be cbst to bny return type.
+ * Formblly this is bccomplished by giving the invoker methods
+ * {@code Object} return types bnd vbribble brity {@code Object} brguments,
+ * but they hbve bn bdditionbl qublity cblled <em>signbture polymorphism</em>
+ * which connects this freedom of invocbtion directly to the JVM execution stbck.
  * <p>
- * As is usual with virtual methods, source-level calls to {@code invokeExact}
- * and {@code invoke} compile to an {@code invokevirtual} instruction.
- * More unusually, the compiler must record the actual argument types,
- * and may not perform method invocation conversions on the arguments.
- * Instead, it must push them on the stack according to their own unconverted types.
- * The method handle object itself is pushed on the stack before the arguments.
- * The compiler then calls the method handle with a symbolic type descriptor which
- * describes the argument and return types.
+ * As is usubl with virtubl methods, source-level cblls to {@code invokeExbct}
+ * bnd {@code invoke} compile to bn {@code invokevirtubl} instruction.
+ * More unusublly, the compiler must record the bctubl brgument types,
+ * bnd mby not perform method invocbtion conversions on the brguments.
+ * Instebd, it must push them on the stbck bccording to their own unconverted types.
+ * The method hbndle object itself is pushed on the stbck before the brguments.
+ * The compiler then cblls the method hbndle with b symbolic type descriptor which
+ * describes the brgument bnd return types.
  * <p>
- * To issue a complete symbolic type descriptor, the compiler must also determine
- * the return type.  This is based on a cast on the method invocation expression,
- * if there is one, or else {@code Object} if the invocation is an expression
- * or else {@code void} if the invocation is a statement.
- * The cast may be to a primitive type (but not {@code void}).
+ * To issue b complete symbolic type descriptor, the compiler must blso determine
+ * the return type.  This is bbsed on b cbst on the method invocbtion expression,
+ * if there is one, or else {@code Object} if the invocbtion is bn expression
+ * or else {@code void} if the invocbtion is b stbtement.
+ * The cbst mby be to b primitive type (but not {@code void}).
  * <p>
- * As a corner case, an uncasted {@code null} argument is given
- * a symbolic type descriptor of {@code java.lang.Void}.
- * The ambiguity with the type {@code Void} is harmless, since there are no references of type
+ * As b corner cbse, bn uncbsted {@code null} brgument is given
+ * b symbolic type descriptor of {@code jbvb.lbng.Void}.
+ * The bmbiguity with the type {@code Void} is hbrmless, since there bre no references of type
  * {@code Void} except the null reference.
  *
- * <h1>Method handle invocation</h1>
- * The first time a {@code invokevirtual} instruction is executed
- * it is linked, by symbolically resolving the names in the instruction
- * and verifying that the method call is statically legal.
- * This is true of calls to {@code invokeExact} and {@code invoke}.
- * In this case, the symbolic type descriptor emitted by the compiler is checked for
- * correct syntax and names it contains are resolved.
- * Thus, an {@code invokevirtual} instruction which invokes
- * a method handle will always link, as long
- * as the symbolic type descriptor is syntactically well-formed
- * and the types exist.
+ * <h1>Method hbndle invocbtion</h1>
+ * The first time b {@code invokevirtubl} instruction is executed
+ * it is linked, by symbolicblly resolving the nbmes in the instruction
+ * bnd verifying thbt the method cbll is stbticblly legbl.
+ * This is true of cblls to {@code invokeExbct} bnd {@code invoke}.
+ * In this cbse, the symbolic type descriptor emitted by the compiler is checked for
+ * correct syntbx bnd nbmes it contbins bre resolved.
+ * Thus, bn {@code invokevirtubl} instruction which invokes
+ * b method hbndle will blwbys link, bs long
+ * bs the symbolic type descriptor is syntbcticblly well-formed
+ * bnd the types exist.
  * <p>
- * When the {@code invokevirtual} is executed after linking,
- * the receiving method handle's type is first checked by the JVM
- * to ensure that it matches the symbolic type descriptor.
- * If the type match fails, it means that the method which the
- * caller is invoking is not present on the individual
- * method handle being invoked.
+ * When the {@code invokevirtubl} is executed bfter linking,
+ * the receiving method hbndle's type is first checked by the JVM
+ * to ensure thbt it mbtches the symbolic type descriptor.
+ * If the type mbtch fbils, it mebns thbt the method which the
+ * cbller is invoking is not present on the individubl
+ * method hbndle being invoked.
  * <p>
- * In the case of {@code invokeExact}, the type descriptor of the invocation
- * (after resolving symbolic type names) must exactly match the method type
- * of the receiving method handle.
- * In the case of plain, inexact {@code invoke}, the resolved type descriptor
- * must be a valid argument to the receiver's {@link #asType asType} method.
- * Thus, plain {@code invoke} is more permissive than {@code invokeExact}.
+ * In the cbse of {@code invokeExbct}, the type descriptor of the invocbtion
+ * (bfter resolving symbolic type nbmes) must exbctly mbtch the method type
+ * of the receiving method hbndle.
+ * In the cbse of plbin, inexbct {@code invoke}, the resolved type descriptor
+ * must be b vblid brgument to the receiver's {@link #bsType bsType} method.
+ * Thus, plbin {@code invoke} is more permissive thbn {@code invokeExbct}.
  * <p>
- * After type matching, a call to {@code invokeExact} directly
- * and immediately invoke the method handle's underlying method
- * (or other behavior, as the case may be).
+ * After type mbtching, b cbll to {@code invokeExbct} directly
+ * bnd immedibtely invoke the method hbndle's underlying method
+ * (or other behbvior, bs the cbse mby be).
  * <p>
- * A call to plain {@code invoke} works the same as a call to
- * {@code invokeExact}, if the symbolic type descriptor specified by the caller
- * exactly matches the method handle's own type.
- * If there is a type mismatch, {@code invoke} attempts
- * to adjust the type of the receiving method handle,
- * as if by a call to {@link #asType asType},
- * to obtain an exactly invokable method handle {@code M2}.
- * This allows a more powerful negotiation of method type
- * between caller and callee.
+ * A cbll to plbin {@code invoke} works the sbme bs b cbll to
+ * {@code invokeExbct}, if the symbolic type descriptor specified by the cbller
+ * exbctly mbtches the method hbndle's own type.
+ * If there is b type mismbtch, {@code invoke} bttempts
+ * to bdjust the type of the receiving method hbndle,
+ * bs if by b cbll to {@link #bsType bsType},
+ * to obtbin bn exbctly invokbble method hbndle {@code M2}.
+ * This bllows b more powerful negotibtion of method type
+ * between cbller bnd cbllee.
  * <p>
- * (<em>Note:</em> The adjusted method handle {@code M2} is not directly observable,
- * and implementations are therefore not required to materialize it.)
+ * (<em>Note:</em> The bdjusted method hbndle {@code M2} is not directly observbble,
+ * bnd implementbtions bre therefore not required to mbteriblize it.)
  *
- * <h1>Invocation checking</h1>
- * In typical programs, method handle type matching will usually succeed.
- * But if a match fails, the JVM will throw a {@link WrongMethodTypeException},
- * either directly (in the case of {@code invokeExact}) or indirectly as if
- * by a failed call to {@code asType} (in the case of {@code invoke}).
+ * <h1>Invocbtion checking</h1>
+ * In typicbl progrbms, method hbndle type mbtching will usublly succeed.
+ * But if b mbtch fbils, the JVM will throw b {@link WrongMethodTypeException},
+ * either directly (in the cbse of {@code invokeExbct}) or indirectly bs if
+ * by b fbiled cbll to {@code bsType} (in the cbse of {@code invoke}).
  * <p>
- * Thus, a method type mismatch which might show up as a linkage error
- * in a statically typed program can show up as
- * a dynamic {@code WrongMethodTypeException}
- * in a program which uses method handles.
+ * Thus, b method type mismbtch which might show up bs b linkbge error
+ * in b stbticblly typed progrbm cbn show up bs
+ * b dynbmic {@code WrongMethodTypeException}
+ * in b progrbm which uses method hbndles.
  * <p>
- * Because method types contain "live" {@code Class} objects,
- * method type matching takes into account both types names and class loaders.
- * Thus, even if a method handle {@code M} is created in one
- * class loader {@code L1} and used in another {@code L2},
- * method handle calls are type-safe, because the caller's symbolic type
- * descriptor, as resolved in {@code L2},
- * is matched against the original callee method's symbolic type descriptor,
- * as resolved in {@code L1}.
- * The resolution in {@code L1} happens when {@code M} is created
- * and its type is assigned, while the resolution in {@code L2} happens
- * when the {@code invokevirtual} instruction is linked.
+ * Becbuse method types contbin "live" {@code Clbss} objects,
+ * method type mbtching tbkes into bccount both types nbmes bnd clbss lobders.
+ * Thus, even if b method hbndle {@code M} is crebted in one
+ * clbss lobder {@code L1} bnd used in bnother {@code L2},
+ * method hbndle cblls bre type-sbfe, becbuse the cbller's symbolic type
+ * descriptor, bs resolved in {@code L2},
+ * is mbtched bgbinst the originbl cbllee method's symbolic type descriptor,
+ * bs resolved in {@code L1}.
+ * The resolution in {@code L1} hbppens when {@code M} is crebted
+ * bnd its type is bssigned, while the resolution in {@code L2} hbppens
+ * when the {@code invokevirtubl} instruction is linked.
  * <p>
- * Apart from the checking of type descriptors,
- * a method handle's capability to call its underlying method is unrestricted.
- * If a method handle is formed on a non-public method by a class
- * that has access to that method, the resulting handle can be used
- * in any place by any caller who receives a reference to it.
+ * Apbrt from the checking of type descriptors,
+ * b method hbndle's cbpbbility to cbll its underlying method is unrestricted.
+ * If b method hbndle is formed on b non-public method by b clbss
+ * thbt hbs bccess to thbt method, the resulting hbndle cbn be used
+ * in bny plbce by bny cbller who receives b reference to it.
  * <p>
- * Unlike with the Core Reflection API, where access is checked every time
- * a reflective method is invoked,
- * method handle access checking is performed
- * <a href="MethodHandles.Lookup.html#access">when the method handle is created</a>.
- * In the case of {@code ldc} (see below), access checking is performed as part of linking
- * the constant pool entry underlying the constant method handle.
+ * Unlike with the Core Reflection API, where bccess is checked every time
+ * b reflective method is invoked,
+ * method hbndle bccess checking is performed
+ * <b href="MethodHbndles.Lookup.html#bccess">when the method hbndle is crebted</b>.
+ * In the cbse of {@code ldc} (see below), bccess checking is performed bs pbrt of linking
+ * the constbnt pool entry underlying the constbnt method hbndle.
  * <p>
- * Thus, handles to non-public methods, or to methods in non-public classes,
- * should generally be kept secret.
- * They should not be passed to untrusted code unless their use from
- * the untrusted code would be harmless.
+ * Thus, hbndles to non-public methods, or to methods in non-public clbsses,
+ * should generblly be kept secret.
+ * They should not be pbssed to untrusted code unless their use from
+ * the untrusted code would be hbrmless.
  *
- * <h1>Method handle creation</h1>
- * Java code can create a method handle that directly accesses
- * any method, constructor, or field that is accessible to that code.
- * This is done via a reflective, capability-based API called
- * {@link java.lang.invoke.MethodHandles.Lookup MethodHandles.Lookup}
- * For example, a static method handle can be obtained
- * from {@link java.lang.invoke.MethodHandles.Lookup#findStatic Lookup.findStatic}.
- * There are also conversion methods from Core Reflection API objects,
- * such as {@link java.lang.invoke.MethodHandles.Lookup#unreflect Lookup.unreflect}.
+ * <h1>Method hbndle crebtion</h1>
+ * Jbvb code cbn crebte b method hbndle thbt directly bccesses
+ * bny method, constructor, or field thbt is bccessible to thbt code.
+ * This is done vib b reflective, cbpbbility-bbsed API cblled
+ * {@link jbvb.lbng.invoke.MethodHbndles.Lookup MethodHbndles.Lookup}
+ * For exbmple, b stbtic method hbndle cbn be obtbined
+ * from {@link jbvb.lbng.invoke.MethodHbndles.Lookup#findStbtic Lookup.findStbtic}.
+ * There bre blso conversion methods from Core Reflection API objects,
+ * such bs {@link jbvb.lbng.invoke.MethodHbndles.Lookup#unreflect Lookup.unreflect}.
  * <p>
- * Like classes and strings, method handles that correspond to accessible
- * fields, methods, and constructors can also be represented directly
- * in a class file's constant pool as constants to be loaded by {@code ldc} bytecodes.
- * A new type of constant pool entry, {@code CONSTANT_MethodHandle},
- * refers directly to an associated {@code CONSTANT_Methodref},
- * {@code CONSTANT_InterfaceMethodref}, or {@code CONSTANT_Fieldref}
- * constant pool entry.
- * (For full details on method handle constants,
- * see sections 4.4.8 and 5.4.3.5 of the Java Virtual Machine Specification.)
+ * Like clbsses bnd strings, method hbndles thbt correspond to bccessible
+ * fields, methods, bnd constructors cbn blso be represented directly
+ * in b clbss file's constbnt pool bs constbnts to be lobded by {@code ldc} bytecodes.
+ * A new type of constbnt pool entry, {@code CONSTANT_MethodHbndle},
+ * refers directly to bn bssocibted {@code CONSTANT_Methodref},
+ * {@code CONSTANT_InterfbceMethodref}, or {@code CONSTANT_Fieldref}
+ * constbnt pool entry.
+ * (For full detbils on method hbndle constbnts,
+ * see sections 4.4.8 bnd 5.4.3.5 of the Jbvb Virtubl Mbchine Specificbtion.)
  * <p>
- * Method handles produced by lookups or constant loads from methods or
- * constructors with the variable arity modifier bit ({@code 0x0080})
- * have a corresponding variable arity, as if they were defined with
- * the help of {@link #asVarargsCollector asVarargsCollector}.
+ * Method hbndles produced by lookups or constbnt lobds from methods or
+ * constructors with the vbribble brity modifier bit ({@code 0x0080})
+ * hbve b corresponding vbribble brity, bs if they were defined with
+ * the help of {@link #bsVbrbrgsCollector bsVbrbrgsCollector}.
  * <p>
- * A method reference may refer either to a static or non-static method.
- * In the non-static case, the method handle type includes an explicit
- * receiver argument, prepended before any other arguments.
- * In the method handle's type, the initial receiver argument is typed
- * according to the class under which the method was initially requested.
- * (E.g., if a non-static method handle is obtained via {@code ldc},
- * the type of the receiver is the class named in the constant pool entry.)
+ * A method reference mby refer either to b stbtic or non-stbtic method.
+ * In the non-stbtic cbse, the method hbndle type includes bn explicit
+ * receiver brgument, prepended before bny other brguments.
+ * In the method hbndle's type, the initibl receiver brgument is typed
+ * bccording to the clbss under which the method wbs initiblly requested.
+ * (E.g., if b non-stbtic method hbndle is obtbined vib {@code ldc},
+ * the type of the receiver is the clbss nbmed in the constbnt pool entry.)
  * <p>
- * Method handle constants are subject to the same link-time access checks
- * their corresponding bytecode instructions, and the {@code ldc} instruction
- * will throw corresponding linkage errors if the bytecode behaviors would
+ * Method hbndle constbnts bre subject to the sbme link-time bccess checks
+ * their corresponding bytecode instructions, bnd the {@code ldc} instruction
+ * will throw corresponding linkbge errors if the bytecode behbviors would
  * throw such errors.
  * <p>
- * As a corollary of this, access to protected members is restricted
- * to receivers only of the accessing class, or one of its subclasses,
- * and the accessing class must in turn be a subclass (or package sibling)
- * of the protected member's defining class.
- * If a method reference refers to a protected non-static method or field
- * of a class outside the current package, the receiver argument will
- * be narrowed to the type of the accessing class.
+ * As b corollbry of this, bccess to protected members is restricted
+ * to receivers only of the bccessing clbss, or one of its subclbsses,
+ * bnd the bccessing clbss must in turn be b subclbss (or pbckbge sibling)
+ * of the protected member's defining clbss.
+ * If b method reference refers to b protected non-stbtic method or field
+ * of b clbss outside the current pbckbge, the receiver brgument will
+ * be nbrrowed to the type of the bccessing clbss.
  * <p>
- * When a method handle to a virtual method is invoked, the method is
- * always looked up in the receiver (that is, the first argument).
+ * When b method hbndle to b virtubl method is invoked, the method is
+ * blwbys looked up in the receiver (thbt is, the first brgument).
  * <p>
- * A non-virtual method handle to a specific virtual method implementation
- * can also be created.  These do not perform virtual lookup based on
- * receiver type.  Such a method handle simulates the effect of
- * an {@code invokespecial} instruction to the same method.
+ * A non-virtubl method hbndle to b specific virtubl method implementbtion
+ * cbn blso be crebted.  These do not perform virtubl lookup bbsed on
+ * receiver type.  Such b method hbndle simulbtes the effect of
+ * bn {@code invokespecibl} instruction to the sbme method.
  *
- * <h1>Usage examples</h1>
- * Here are some examples of usage:
+ * <h1>Usbge exbmples</h1>
+ * Here bre some exbmples of usbge:
  * <blockquote><pre>{@code
 Object x, y; String s; int i;
-MethodType mt; MethodHandle mh;
-MethodHandles.Lookup lookup = MethodHandles.lookup();
-// mt is (char,char)String
-mt = MethodType.methodType(String.class, char.class, char.class);
-mh = lookup.findVirtual(String.class, "replace", mt);
-s = (String) mh.invokeExact("daddy",'d','n');
-// invokeExact(Ljava/lang/String;CC)Ljava/lang/String;
-assertEquals(s, "nanny");
-// weakly typed invocation (using MHs.invoke)
-s = (String) mh.invokeWithArguments("sappy", 'p', 'v');
-assertEquals(s, "savvy");
+MethodType mt; MethodHbndle mh;
+MethodHbndles.Lookup lookup = MethodHbndles.lookup();
+// mt is (chbr,chbr)String
+mt = MethodType.methodType(String.clbss, chbr.clbss, chbr.clbss);
+mh = lookup.findVirtubl(String.clbss, "replbce", mt);
+s = (String) mh.invokeExbct("dbddy",'d','n');
+// invokeExbct(Ljbvb/lbng/String;CC)Ljbvb/lbng/String;
+bssertEqubls(s, "nbnny");
+// webkly typed invocbtion (using MHs.invoke)
+s = (String) mh.invokeWithArguments("sbppy", 'p', 'v');
+bssertEqubls(s, "sbvvy");
 // mt is (Object[])List
-mt = MethodType.methodType(java.util.List.class, Object[].class);
-mh = lookup.findStatic(java.util.Arrays.class, "asList", mt);
-assert(mh.isVarargsCollector());
+mt = MethodType.methodType(jbvb.util.List.clbss, Object[].clbss);
+mh = lookup.findStbtic(jbvb.util.Arrbys.clbss, "bsList", mt);
+bssert(mh.isVbrbrgsCollector());
 x = mh.invoke("one", "two");
-// invoke(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;
-assertEquals(x, java.util.Arrays.asList("one","two"));
+// invoke(Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/Object;
+bssertEqubls(x, jbvb.util.Arrbys.bsList("one","two"));
 // mt is (Object,Object,Object)Object
 mt = MethodType.genericMethodType(3);
-mh = mh.asType(mt);
-x = mh.invokeExact((Object)1, (Object)2, (Object)3);
-// invokeExact(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-assertEquals(x, java.util.Arrays.asList(1,2,3));
+mh = mh.bsType(mt);
+x = mh.invokeExbct((Object)1, (Object)2, (Object)3);
+// invokeExbct(Ljbvb/lbng/Object;Ljbvb/lbng/Object;Ljbvb/lbng/Object;)Ljbvb/lbng/Object;
+bssertEqubls(x, jbvb.util.Arrbys.bsList(1,2,3));
 // mt is ()int
-mt = MethodType.methodType(int.class);
-mh = lookup.findVirtual(java.util.List.class, "size", mt);
-i = (int) mh.invokeExact(java.util.Arrays.asList(1,2,3));
-// invokeExact(Ljava/util/List;)I
-assert(i == 3);
-mt = MethodType.methodType(void.class, String.class);
-mh = lookup.findVirtual(java.io.PrintStream.class, "println", mt);
-mh.invokeExact(System.out, "Hello, world.");
-// invokeExact(Ljava/io/PrintStream;Ljava/lang/String;)V
+mt = MethodType.methodType(int.clbss);
+mh = lookup.findVirtubl(jbvb.util.List.clbss, "size", mt);
+i = (int) mh.invokeExbct(jbvb.util.Arrbys.bsList(1,2,3));
+// invokeExbct(Ljbvb/util/List;)I
+bssert(i == 3);
+mt = MethodType.methodType(void.clbss, String.clbss);
+mh = lookup.findVirtubl(jbvb.io.PrintStrebm.clbss, "println", mt);
+mh.invokeExbct(System.out, "Hello, world.");
+// invokeExbct(Ljbvb/io/PrintStrebm;Ljbvb/lbng/String;)V
  * }</pre></blockquote>
- * Each of the above calls to {@code invokeExact} or plain {@code invoke}
- * generates a single invokevirtual instruction with
- * the symbolic type descriptor indicated in the following comment.
- * In these examples, the helper method {@code assertEquals} is assumed to
- * be a method which calls {@link java.util.Objects#equals(Object,Object) Objects.equals}
- * on its arguments, and asserts that the result is true.
+ * Ebch of the bbove cblls to {@code invokeExbct} or plbin {@code invoke}
+ * generbtes b single invokevirtubl instruction with
+ * the symbolic type descriptor indicbted in the following comment.
+ * In these exbmples, the helper method {@code bssertEqubls} is bssumed to
+ * be b method which cblls {@link jbvb.util.Objects#equbls(Object,Object) Objects.equbls}
+ * on its brguments, bnd bsserts thbt the result is true.
  *
  * <h1>Exceptions</h1>
- * The methods {@code invokeExact} and {@code invoke} are declared
- * to throw {@link java.lang.Throwable Throwable},
- * which is to say that there is no static restriction on what a method handle
- * can throw.  Since the JVM does not distinguish between checked
- * and unchecked exceptions (other than by their class, of course),
- * there is no particular effect on bytecode shape from ascribing
- * checked exceptions to method handle invocations.  But in Java source
- * code, methods which perform method handle calls must either explicitly
- * throw {@code Throwable}, or else must catch all
- * throwables locally, rethrowing only those which are legal in the context,
- * and wrapping ones which are illegal.
+ * The methods {@code invokeExbct} bnd {@code invoke} bre declbred
+ * to throw {@link jbvb.lbng.Throwbble Throwbble},
+ * which is to sby thbt there is no stbtic restriction on whbt b method hbndle
+ * cbn throw.  Since the JVM does not distinguish between checked
+ * bnd unchecked exceptions (other thbn by their clbss, of course),
+ * there is no pbrticulbr effect on bytecode shbpe from bscribing
+ * checked exceptions to method hbndle invocbtions.  But in Jbvb source
+ * code, methods which perform method hbndle cblls must either explicitly
+ * throw {@code Throwbble}, or else must cbtch bll
+ * throwbbles locblly, rethrowing only those which bre legbl in the context,
+ * bnd wrbpping ones which bre illegbl.
  *
- * <h1><a name="sigpoly"></a>Signature polymorphism</h1>
- * The unusual compilation and linkage behavior of
- * {@code invokeExact} and plain {@code invoke}
- * is referenced by the term <em>signature polymorphism</em>.
- * As defined in the Java Language Specification,
- * a signature polymorphic method is one which can operate with
- * any of a wide range of call signatures and return types.
+ * <h1><b nbme="sigpoly"></b>Signbture polymorphism</h1>
+ * The unusubl compilbtion bnd linkbge behbvior of
+ * {@code invokeExbct} bnd plbin {@code invoke}
+ * is referenced by the term <em>signbture polymorphism</em>.
+ * As defined in the Jbvb Lbngubge Specificbtion,
+ * b signbture polymorphic method is one which cbn operbte with
+ * bny of b wide rbnge of cbll signbtures bnd return types.
  * <p>
- * In source code, a call to a signature polymorphic method will
- * compile, regardless of the requested symbolic type descriptor.
- * As usual, the Java compiler emits an {@code invokevirtual}
- * instruction with the given symbolic type descriptor against the named method.
- * The unusual part is that the symbolic type descriptor is derived from
- * the actual argument and return types, not from the method declaration.
+ * In source code, b cbll to b signbture polymorphic method will
+ * compile, regbrdless of the requested symbolic type descriptor.
+ * As usubl, the Jbvb compiler emits bn {@code invokevirtubl}
+ * instruction with the given symbolic type descriptor bgbinst the nbmed method.
+ * The unusubl pbrt is thbt the symbolic type descriptor is derived from
+ * the bctubl brgument bnd return types, not from the method declbrbtion.
  * <p>
- * When the JVM processes bytecode containing signature polymorphic calls,
- * it will successfully link any such call, regardless of its symbolic type descriptor.
- * (In order to retain type safety, the JVM will guard such calls with suitable
- * dynamic type checks, as described elsewhere.)
+ * When the JVM processes bytecode contbining signbture polymorphic cblls,
+ * it will successfully link bny such cbll, regbrdless of its symbolic type descriptor.
+ * (In order to retbin type sbfety, the JVM will gubrd such cblls with suitbble
+ * dynbmic type checks, bs described elsewhere.)
  * <p>
- * Bytecode generators, including the compiler back end, are required to emit
- * untransformed symbolic type descriptors for these methods.
- * Tools which determine symbolic linkage are required to accept such
- * untransformed descriptors, without reporting linkage errors.
+ * Bytecode generbtors, including the compiler bbck end, bre required to emit
+ * untrbnsformed symbolic type descriptors for these methods.
+ * Tools which determine symbolic linkbge bre required to bccept such
+ * untrbnsformed descriptors, without reporting linkbge errors.
  *
- * <h1>Interoperation between method handles and the Core Reflection API</h1>
- * Using factory methods in the {@link java.lang.invoke.MethodHandles.Lookup Lookup} API,
- * any class member represented by a Core Reflection API object
- * can be converted to a behaviorally equivalent method handle.
- * For example, a reflective {@link java.lang.reflect.Method Method} can
- * be converted to a method handle using
- * {@link java.lang.invoke.MethodHandles.Lookup#unreflect Lookup.unreflect}.
- * The resulting method handles generally provide more direct and efficient
- * access to the underlying class members.
+ * <h1>Interoperbtion between method hbndles bnd the Core Reflection API</h1>
+ * Using fbctory methods in the {@link jbvb.lbng.invoke.MethodHbndles.Lookup Lookup} API,
+ * bny clbss member represented by b Core Reflection API object
+ * cbn be converted to b behbviorblly equivblent method hbndle.
+ * For exbmple, b reflective {@link jbvb.lbng.reflect.Method Method} cbn
+ * be converted to b method hbndle using
+ * {@link jbvb.lbng.invoke.MethodHbndles.Lookup#unreflect Lookup.unreflect}.
+ * The resulting method hbndles generblly provide more direct bnd efficient
+ * bccess to the underlying clbss members.
  * <p>
- * As a special case,
- * when the Core Reflection API is used to view the signature polymorphic
- * methods {@code invokeExact} or plain {@code invoke} in this class,
- * they appear as ordinary non-polymorphic methods.
- * Their reflective appearance, as viewed by
- * {@link java.lang.Class#getDeclaredMethod Class.getDeclaredMethod},
- * is unaffected by their special status in this API.
- * For example, {@link java.lang.reflect.Method#getModifiers Method.getModifiers}
- * will report exactly those modifier bits required for any similarly
- * declared method, including in this case {@code native} and {@code varargs} bits.
+ * As b specibl cbse,
+ * when the Core Reflection API is used to view the signbture polymorphic
+ * methods {@code invokeExbct} or plbin {@code invoke} in this clbss,
+ * they bppebr bs ordinbry non-polymorphic methods.
+ * Their reflective bppebrbnce, bs viewed by
+ * {@link jbvb.lbng.Clbss#getDeclbredMethod Clbss.getDeclbredMethod},
+ * is unbffected by their specibl stbtus in this API.
+ * For exbmple, {@link jbvb.lbng.reflect.Method#getModifiers Method.getModifiers}
+ * will report exbctly those modifier bits required for bny similbrly
+ * declbred method, including in this cbse {@code nbtive} bnd {@code vbrbrgs} bits.
  * <p>
- * As with any reflected method, these methods (when reflected) may be
- * invoked via {@link java.lang.reflect.Method#invoke java.lang.reflect.Method.invoke}.
- * However, such reflective calls do not result in method handle invocations.
- * Such a call, if passed the required argument
- * (a single one, of type {@code Object[]}), will ignore the argument and
- * will throw an {@code UnsupportedOperationException}.
+ * As with bny reflected method, these methods (when reflected) mby be
+ * invoked vib {@link jbvb.lbng.reflect.Method#invoke jbvb.lbng.reflect.Method.invoke}.
+ * However, such reflective cblls do not result in method hbndle invocbtions.
+ * Such b cbll, if pbssed the required brgument
+ * (b single one, of type {@code Object[]}), will ignore the brgument bnd
+ * will throw bn {@code UnsupportedOperbtionException}.
  * <p>
- * Since {@code invokevirtual} instructions can natively
- * invoke method handles under any symbolic type descriptor, this reflective view conflicts
- * with the normal presentation of these methods via bytecodes.
- * Thus, these two native methods, when reflectively viewed by
- * {@code Class.getDeclaredMethod}, may be regarded as placeholders only.
+ * Since {@code invokevirtubl} instructions cbn nbtively
+ * invoke method hbndles under bny symbolic type descriptor, this reflective view conflicts
+ * with the normbl presentbtion of these methods vib bytecodes.
+ * Thus, these two nbtive methods, when reflectively viewed by
+ * {@code Clbss.getDeclbredMethod}, mby be regbrded bs plbceholders only.
  * <p>
- * In order to obtain an invoker method for a particular type descriptor,
- * use {@link java.lang.invoke.MethodHandles#exactInvoker MethodHandles.exactInvoker},
- * or {@link java.lang.invoke.MethodHandles#invoker MethodHandles.invoker}.
- * The {@link java.lang.invoke.MethodHandles.Lookup#findVirtual Lookup.findVirtual}
- * API is also able to return a method handle
- * to call {@code invokeExact} or plain {@code invoke},
- * for any specified type descriptor .
+ * In order to obtbin bn invoker method for b pbrticulbr type descriptor,
+ * use {@link jbvb.lbng.invoke.MethodHbndles#exbctInvoker MethodHbndles.exbctInvoker},
+ * or {@link jbvb.lbng.invoke.MethodHbndles#invoker MethodHbndles.invoker}.
+ * The {@link jbvb.lbng.invoke.MethodHbndles.Lookup#findVirtubl Lookup.findVirtubl}
+ * API is blso bble to return b method hbndle
+ * to cbll {@code invokeExbct} or plbin {@code invoke},
+ * for bny specified type descriptor .
  *
- * <h1>Interoperation between method handles and Java generics</h1>
- * A method handle can be obtained on a method, constructor, or field
- * which is declared with Java generic types.
- * As with the Core Reflection API, the type of the method handle
- * will constructed from the erasure of the source-level type.
- * When a method handle is invoked, the types of its arguments
- * or the return value cast type may be generic types or type instances.
- * If this occurs, the compiler will replace those
- * types by their erasures when it constructs the symbolic type descriptor
- * for the {@code invokevirtual} instruction.
+ * <h1>Interoperbtion between method hbndles bnd Jbvb generics</h1>
+ * A method hbndle cbn be obtbined on b method, constructor, or field
+ * which is declbred with Jbvb generic types.
+ * As with the Core Reflection API, the type of the method hbndle
+ * will constructed from the erbsure of the source-level type.
+ * When b method hbndle is invoked, the types of its brguments
+ * or the return vblue cbst type mby be generic types or type instbnces.
+ * If this occurs, the compiler will replbce those
+ * types by their erbsures when it constructs the symbolic type descriptor
+ * for the {@code invokevirtubl} instruction.
  * <p>
- * Method handles do not represent
- * their function-like types in terms of Java parameterized (generic) types,
- * because there are three mismatches between function-like types and parameterized
- * Java types.
+ * Method hbndles do not represent
+ * their function-like types in terms of Jbvb pbrbmeterized (generic) types,
+ * becbuse there bre three mismbtches between function-like types bnd pbrbmeterized
+ * Jbvb types.
  * <ul>
- * <li>Method types range over all possible arities,
- * from no arguments to up to the  <a href="MethodHandle.html#maxarity">maximum number</a> of allowed arguments.
- * Generics are not variadic, and so cannot represent this.</li>
- * <li>Method types can specify arguments of primitive types,
- * which Java generic types cannot range over.</li>
- * <li>Higher order functions over method handles (combinators) are
- * often generic across a wide range of function types, including
- * those of multiple arities.  It is impossible to represent such
- * genericity with a Java type parameter.</li>
+ * <li>Method types rbnge over bll possible brities,
+ * from no brguments to up to the  <b href="MethodHbndle.html#mbxbrity">mbximum number</b> of bllowed brguments.
+ * Generics bre not vbribdic, bnd so cbnnot represent this.</li>
+ * <li>Method types cbn specify brguments of primitive types,
+ * which Jbvb generic types cbnnot rbnge over.</li>
+ * <li>Higher order functions over method hbndles (combinbtors) bre
+ * often generic bcross b wide rbnge of function types, including
+ * those of multiple brities.  It is impossible to represent such
+ * genericity with b Jbvb type pbrbmeter.</li>
  * </ul>
  *
- * <h1><a name="maxarity"></a>Arity limits</h1>
- * The JVM imposes on all methods and constructors of any kind an absolute
- * limit of 255 stacked arguments.  This limit can appear more restrictive
- * in certain cases:
+ * <h1><b nbme="mbxbrity"></b>Arity limits</h1>
+ * The JVM imposes on bll methods bnd constructors of bny kind bn bbsolute
+ * limit of 255 stbcked brguments.  This limit cbn bppebr more restrictive
+ * in certbin cbses:
  * <ul>
- * <li>A {@code long} or {@code double} argument counts (for purposes of arity limits) as two argument slots.
- * <li>A non-static method consumes an extra argument for the object on which the method is called.
- * <li>A constructor consumes an extra argument for the object which is being constructed.
- * <li>Since a method handle&rsquo;s {@code invoke} method (or other signature-polymorphic method) is non-virtual,
- *     it consumes an extra argument for the method handle itself, in addition to any non-virtual receiver object.
+ * <li>A {@code long} or {@code double} brgument counts (for purposes of brity limits) bs two brgument slots.
+ * <li>A non-stbtic method consumes bn extrb brgument for the object on which the method is cblled.
+ * <li>A constructor consumes bn extrb brgument for the object which is being constructed.
+ * <li>Since b method hbndle&rsquo;s {@code invoke} method (or other signbture-polymorphic method) is non-virtubl,
+ *     it consumes bn extrb brgument for the method hbndle itself, in bddition to bny non-virtubl receiver object.
  * </ul>
- * These limits imply that certain method handles cannot be created, solely because of the JVM limit on stacked arguments.
- * For example, if a static JVM method accepts exactly 255 arguments, a method handle cannot be created for it.
- * Attempts to create method handles with impossible method types lead to an {@link IllegalArgumentException}.
- * In particular, a method handle&rsquo;s type must not have an arity of the exact maximum 255.
+ * These limits imply thbt certbin method hbndles cbnnot be crebted, solely becbuse of the JVM limit on stbcked brguments.
+ * For exbmple, if b stbtic JVM method bccepts exbctly 255 brguments, b method hbndle cbnnot be crebted for it.
+ * Attempts to crebte method hbndles with impossible method types lebd to bn {@link IllegblArgumentException}.
+ * In pbrticulbr, b method hbndle&rsquo;s type must not hbve bn brity of the exbct mbximum 255.
  *
  * @see MethodType
- * @see MethodHandles
- * @author John Rose, JSR 292 EG
+ * @see MethodHbndles
+ * @buthor John Rose, JSR 292 EG
  */
-public abstract class MethodHandle {
-    static { MethodHandleImpl.initStatics(); }
+public bbstrbct clbss MethodHbndle {
+    stbtic { MethodHbndleImpl.initStbtics(); }
 
     /**
-     * Internal marker interface which distinguishes (to the Java compiler)
-     * those methods which are <a href="MethodHandle.html#sigpoly">signature polymorphic</a>.
+     * Internbl mbrker interfbce which distinguishes (to the Jbvb compiler)
+     * those methods which bre <b href="MethodHbndle.html#sigpoly">signbture polymorphic</b>.
      */
-    @java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD})
-    @java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-    @interface PolymorphicSignature { }
+    @jbvb.lbng.bnnotbtion.Tbrget({jbvb.lbng.bnnotbtion.ElementType.METHOD})
+    @jbvb.lbng.bnnotbtion.Retention(jbvb.lbng.bnnotbtion.RetentionPolicy.RUNTIME)
+    @interfbce PolymorphicSignbture { }
 
-    private final MethodType type;
-    /*private*/ final LambdaForm form;
-    // form is not private so that invokers can easily fetch it
-    /*private*/ MethodHandle asTypeCache;
-    // asTypeCache is not private so that invokers can easily fetch it
+    privbte finbl MethodType type;
+    /*privbte*/ finbl LbmbdbForm form;
+    // form is not privbte so thbt invokers cbn ebsily fetch it
+    /*privbte*/ MethodHbndle bsTypeCbche;
+    // bsTypeCbche is not privbte so thbt invokers cbn ebsily fetch it
 
     /**
-     * Reports the type of this method handle.
-     * Every invocation of this method handle via {@code invokeExact} must exactly match this type.
-     * @return the method handle type
+     * Reports the type of this method hbndle.
+     * Every invocbtion of this method hbndle vib {@code invokeExbct} must exbctly mbtch this type.
+     * @return the method hbndle type
      */
     public MethodType type() {
         return type;
     }
 
     /**
-     * Package-private constructor for the method handle implementation hierarchy.
-     * Method handle inheritance will be contained completely within
-     * the {@code java.lang.invoke} package.
+     * Pbckbge-privbte constructor for the method hbndle implementbtion hierbrchy.
+     * Method hbndle inheritbnce will be contbined completely within
+     * the {@code jbvb.lbng.invoke} pbckbge.
      */
-    // @param type type (permanently assigned) of the new method handle
-    /*non-public*/ MethodHandle(MethodType type, LambdaForm form) {
-        type.getClass();  // explicit NPE
-        form.getClass();  // explicit NPE
+    // @pbrbm type type (permbnently bssigned) of the new method hbndle
+    /*non-public*/ MethodHbndle(MethodType type, LbmbdbForm form) {
+        type.getClbss();  // explicit NPE
+        form.getClbss();  // explicit NPE
         this.type = type;
         this.form = form;
 
-        form.prepare();  // TO DO:  Try to delay this step until just before invocation.
+        form.prepbre();  // TO DO:  Try to delby this step until just before invocbtion.
     }
 
     /**
-     * Invokes the method handle, allowing any caller type descriptor, but requiring an exact type match.
-     * The symbolic type descriptor at the call site of {@code invokeExact} must
-     * exactly match this method handle's {@link #type type}.
-     * No conversions are allowed on arguments or return values.
+     * Invokes the method hbndle, bllowing bny cbller type descriptor, but requiring bn exbct type mbtch.
+     * The symbolic type descriptor bt the cbll site of {@code invokeExbct} must
+     * exbctly mbtch this method hbndle's {@link #type type}.
+     * No conversions bre bllowed on brguments or return vblues.
      * <p>
-     * When this method is observed via the Core Reflection API,
-     * it will appear as a single native method, taking an object array and returning an object.
-     * If this native method is invoked directly via
-     * {@link java.lang.reflect.Method#invoke java.lang.reflect.Method.invoke}, via JNI,
-     * or indirectly via {@link java.lang.invoke.MethodHandles.Lookup#unreflect Lookup.unreflect},
-     * it will throw an {@code UnsupportedOperationException}.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
-     * @throws WrongMethodTypeException if the target's type is not identical with the caller's symbolic type descriptor
-     * @throws Throwable anything thrown by the underlying method propagates unchanged through the method handle call
+     * When this method is observed vib the Core Reflection API,
+     * it will bppebr bs b single nbtive method, tbking bn object brrby bnd returning bn object.
+     * If this nbtive method is invoked directly vib
+     * {@link jbvb.lbng.reflect.Method#invoke jbvb.lbng.reflect.Method.invoke}, vib JNI,
+     * or indirectly vib {@link jbvb.lbng.invoke.MethodHbndles.Lookup#unreflect Lookup.unreflect},
+     * it will throw bn {@code UnsupportedOperbtionException}.
+     * @pbrbm brgs the signbture-polymorphic pbrbmeter list, stbticblly represented using vbrbrgs
+     * @return the signbture-polymorphic result, stbticblly represented using {@code Object}
+     * @throws WrongMethodTypeException if the tbrget's type is not identicbl with the cbller's symbolic type descriptor
+     * @throws Throwbble bnything thrown by the underlying method propbgbtes unchbnged through the method hbndle cbll
      */
-    public final native @PolymorphicSignature Object invokeExact(Object... args) throws Throwable;
+    public finbl nbtive @PolymorphicSignbture Object invokeExbct(Object... brgs) throws Throwbble;
 
     /**
-     * Invokes the method handle, allowing any caller type descriptor,
-     * and optionally performing conversions on arguments and return values.
+     * Invokes the method hbndle, bllowing bny cbller type descriptor,
+     * bnd optionblly performing conversions on brguments bnd return vblues.
      * <p>
-     * If the call site's symbolic type descriptor exactly matches this method handle's {@link #type type},
-     * the call proceeds as if by {@link #invokeExact invokeExact}.
+     * If the cbll site's symbolic type descriptor exbctly mbtches this method hbndle's {@link #type type},
+     * the cbll proceeds bs if by {@link #invokeExbct invokeExbct}.
      * <p>
-     * Otherwise, the call proceeds as if this method handle were first
-     * adjusted by calling {@link #asType asType} to adjust this method handle
-     * to the required type, and then the call proceeds as if by
-     * {@link #invokeExact invokeExact} on the adjusted method handle.
+     * Otherwise, the cbll proceeds bs if this method hbndle were first
+     * bdjusted by cblling {@link #bsType bsType} to bdjust this method hbndle
+     * to the required type, bnd then the cbll proceeds bs if by
+     * {@link #invokeExbct invokeExbct} on the bdjusted method hbndle.
      * <p>
-     * There is no guarantee that the {@code asType} call is actually made.
-     * If the JVM can predict the results of making the call, it may perform
-     * adaptations directly on the caller's arguments,
-     * and call the target method handle according to its own exact type.
+     * There is no gubrbntee thbt the {@code bsType} cbll is bctublly mbde.
+     * If the JVM cbn predict the results of mbking the cbll, it mby perform
+     * bdbptbtions directly on the cbller's brguments,
+     * bnd cbll the tbrget method hbndle bccording to its own exbct type.
      * <p>
-     * The resolved type descriptor at the call site of {@code invoke} must
-     * be a valid argument to the receivers {@code asType} method.
-     * In particular, the caller must specify the same argument arity
-     * as the callee's type,
-     * if the callee is not a {@linkplain #asVarargsCollector variable arity collector}.
+     * The resolved type descriptor bt the cbll site of {@code invoke} must
+     * be b vblid brgument to the receivers {@code bsType} method.
+     * In pbrticulbr, the cbller must specify the sbme brgument brity
+     * bs the cbllee's type,
+     * if the cbllee is not b {@linkplbin #bsVbrbrgsCollector vbribble brity collector}.
      * <p>
-     * When this method is observed via the Core Reflection API,
-     * it will appear as a single native method, taking an object array and returning an object.
-     * If this native method is invoked directly via
-     * {@link java.lang.reflect.Method#invoke java.lang.reflect.Method.invoke}, via JNI,
-     * or indirectly via {@link java.lang.invoke.MethodHandles.Lookup#unreflect Lookup.unreflect},
-     * it will throw an {@code UnsupportedOperationException}.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
-     * @throws WrongMethodTypeException if the target's type cannot be adjusted to the caller's symbolic type descriptor
-     * @throws ClassCastException if the target's type can be adjusted to the caller, but a reference cast fails
-     * @throws Throwable anything thrown by the underlying method propagates unchanged through the method handle call
+     * When this method is observed vib the Core Reflection API,
+     * it will bppebr bs b single nbtive method, tbking bn object brrby bnd returning bn object.
+     * If this nbtive method is invoked directly vib
+     * {@link jbvb.lbng.reflect.Method#invoke jbvb.lbng.reflect.Method.invoke}, vib JNI,
+     * or indirectly vib {@link jbvb.lbng.invoke.MethodHbndles.Lookup#unreflect Lookup.unreflect},
+     * it will throw bn {@code UnsupportedOperbtionException}.
+     * @pbrbm brgs the signbture-polymorphic pbrbmeter list, stbticblly represented using vbrbrgs
+     * @return the signbture-polymorphic result, stbticblly represented using {@code Object}
+     * @throws WrongMethodTypeException if the tbrget's type cbnnot be bdjusted to the cbller's symbolic type descriptor
+     * @throws ClbssCbstException if the tbrget's type cbn be bdjusted to the cbller, but b reference cbst fbils
+     * @throws Throwbble bnything thrown by the underlying method propbgbtes unchbnged through the method hbndle cbll
      */
-    public final native @PolymorphicSignature Object invoke(Object... args) throws Throwable;
+    public finbl nbtive @PolymorphicSignbture Object invoke(Object... brgs) throws Throwbble;
 
     /**
-     * Private method for trusted invocation of a method handle respecting simplified signatures.
-     * Type mismatches will not throw {@code WrongMethodTypeException}, but could crash the JVM.
+     * Privbte method for trusted invocbtion of b method hbndle respecting simplified signbtures.
+     * Type mismbtches will not throw {@code WrongMethodTypeException}, but could crbsh the JVM.
      * <p>
-     * The caller signature is restricted to the following basic types:
-     * Object, int, long, float, double, and void return.
+     * The cbller signbture is restricted to the following bbsic types:
+     * Object, int, long, flobt, double, bnd void return.
      * <p>
-     * The caller is responsible for maintaining type correctness by ensuring
-     * that the each outgoing argument value is a member of the range of the corresponding
-     * callee argument type.
-     * (The caller should therefore issue appropriate casts and integer narrowing
-     * operations on outgoing argument values.)
-     * The caller can assume that the incoming result value is part of the range
-     * of the callee's return type.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * The cbller is responsible for mbintbining type correctness by ensuring
+     * thbt the ebch outgoing brgument vblue is b member of the rbnge of the corresponding
+     * cbllee brgument type.
+     * (The cbller should therefore issue bppropribte cbsts bnd integer nbrrowing
+     * operbtions on outgoing brgument vblues.)
+     * The cbller cbn bssume thbt the incoming result vblue is pbrt of the rbnge
+     * of the cbllee's return type.
+     * @pbrbm brgs the signbture-polymorphic pbrbmeter list, stbticblly represented using vbrbrgs
+     * @return the signbture-polymorphic result, stbticblly represented using {@code Object}
      */
-    /*non-public*/ final native @PolymorphicSignature Object invokeBasic(Object... args) throws Throwable;
+    /*non-public*/ finbl nbtive @PolymorphicSignbture Object invokeBbsic(Object... brgs) throws Throwbble;
 
     /**
-     * Private method for trusted invocation of a MemberName of kind {@code REF_invokeVirtual}.
-     * The caller signature is restricted to basic types as with {@code invokeBasic}.
-     * The trailing (not leading) argument must be a MemberName.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Privbte method for trusted invocbtion of b MemberNbme of kind {@code REF_invokeVirtubl}.
+     * The cbller signbture is restricted to bbsic types bs with {@code invokeBbsic}.
+     * The trbiling (not lebding) brgument must be b MemberNbme.
+     * @pbrbm brgs the signbture-polymorphic pbrbmeter list, stbticblly represented using vbrbrgs
+     * @return the signbture-polymorphic result, stbticblly represented using {@code Object}
      */
-    /*non-public*/ static native @PolymorphicSignature Object linkToVirtual(Object... args) throws Throwable;
+    /*non-public*/ stbtic nbtive @PolymorphicSignbture Object linkToVirtubl(Object... brgs) throws Throwbble;
 
     /**
-     * Private method for trusted invocation of a MemberName of kind {@code REF_invokeStatic}.
-     * The caller signature is restricted to basic types as with {@code invokeBasic}.
-     * The trailing (not leading) argument must be a MemberName.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Privbte method for trusted invocbtion of b MemberNbme of kind {@code REF_invokeStbtic}.
+     * The cbller signbture is restricted to bbsic types bs with {@code invokeBbsic}.
+     * The trbiling (not lebding) brgument must be b MemberNbme.
+     * @pbrbm brgs the signbture-polymorphic pbrbmeter list, stbticblly represented using vbrbrgs
+     * @return the signbture-polymorphic result, stbticblly represented using {@code Object}
      */
-    /*non-public*/ static native @PolymorphicSignature Object linkToStatic(Object... args) throws Throwable;
+    /*non-public*/ stbtic nbtive @PolymorphicSignbture Object linkToStbtic(Object... brgs) throws Throwbble;
 
     /**
-     * Private method for trusted invocation of a MemberName of kind {@code REF_invokeSpecial}.
-     * The caller signature is restricted to basic types as with {@code invokeBasic}.
-     * The trailing (not leading) argument must be a MemberName.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Privbte method for trusted invocbtion of b MemberNbme of kind {@code REF_invokeSpecibl}.
+     * The cbller signbture is restricted to bbsic types bs with {@code invokeBbsic}.
+     * The trbiling (not lebding) brgument must be b MemberNbme.
+     * @pbrbm brgs the signbture-polymorphic pbrbmeter list, stbticblly represented using vbrbrgs
+     * @return the signbture-polymorphic result, stbticblly represented using {@code Object}
      */
-    /*non-public*/ static native @PolymorphicSignature Object linkToSpecial(Object... args) throws Throwable;
+    /*non-public*/ stbtic nbtive @PolymorphicSignbture Object linkToSpecibl(Object... brgs) throws Throwbble;
 
     /**
-     * Private method for trusted invocation of a MemberName of kind {@code REF_invokeInterface}.
-     * The caller signature is restricted to basic types as with {@code invokeBasic}.
-     * The trailing (not leading) argument must be a MemberName.
-     * @param args the signature-polymorphic parameter list, statically represented using varargs
-     * @return the signature-polymorphic result, statically represented using {@code Object}
+     * Privbte method for trusted invocbtion of b MemberNbme of kind {@code REF_invokeInterfbce}.
+     * The cbller signbture is restricted to bbsic types bs with {@code invokeBbsic}.
+     * The trbiling (not lebding) brgument must be b MemberNbme.
+     * @pbrbm brgs the signbture-polymorphic pbrbmeter list, stbticblly represented using vbrbrgs
+     * @return the signbture-polymorphic result, stbticblly represented using {@code Object}
      */
-    /*non-public*/ static native @PolymorphicSignature Object linkToInterface(Object... args) throws Throwable;
+    /*non-public*/ stbtic nbtive @PolymorphicSignbture Object linkToInterfbce(Object... brgs) throws Throwbble;
 
     /**
-     * Performs a variable arity invocation, passing the arguments in the given list
-     * to the method handle, as if via an inexact {@link #invoke invoke} from a call site
-     * which mentions only the type {@code Object}, and whose arity is the length
-     * of the argument list.
+     * Performs b vbribble brity invocbtion, pbssing the brguments in the given list
+     * to the method hbndle, bs if vib bn inexbct {@link #invoke invoke} from b cbll site
+     * which mentions only the type {@code Object}, bnd whose brity is the length
+     * of the brgument list.
      * <p>
-     * Specifically, execution proceeds as if by the following steps,
-     * although the methods are not guaranteed to be called if the JVM
-     * can predict their effects.
+     * Specificblly, execution proceeds bs if by the following steps,
+     * blthough the methods bre not gubrbnteed to be cblled if the JVM
+     * cbn predict their effects.
      * <ul>
-     * <li>Determine the length of the argument array as {@code N}.
-     *     For a null reference, {@code N=0}. </li>
-     * <li>Determine the general type {@code TN} of {@code N} arguments as
-     *     as {@code TN=MethodType.genericMethodType(N)}.</li>
-     * <li>Force the original target method handle {@code MH0} to the
-     *     required type, as {@code MH1 = MH0.asType(TN)}. </li>
-     * <li>Spread the array into {@code N} separate arguments {@code A0, ...}. </li>
-     * <li>Invoke the type-adjusted method handle on the unpacked arguments:
-     *     MH1.invokeExact(A0, ...). </li>
-     * <li>Take the return value as an {@code Object} reference. </li>
+     * <li>Determine the length of the brgument brrby bs {@code N}.
+     *     For b null reference, {@code N=0}. </li>
+     * <li>Determine the generbl type {@code TN} of {@code N} brguments bs
+     *     bs {@code TN=MethodType.genericMethodType(N)}.</li>
+     * <li>Force the originbl tbrget method hbndle {@code MH0} to the
+     *     required type, bs {@code MH1 = MH0.bsType(TN)}. </li>
+     * <li>Sprebd the brrby into {@code N} sepbrbte brguments {@code A0, ...}. </li>
+     * <li>Invoke the type-bdjusted method hbndle on the unpbcked brguments:
+     *     MH1.invokeExbct(A0, ...). </li>
+     * <li>Tbke the return vblue bs bn {@code Object} reference. </li>
      * </ul>
      * <p>
-     * Because of the action of the {@code asType} step, the following argument
-     * conversions are applied as necessary:
+     * Becbuse of the bction of the {@code bsType} step, the following brgument
+     * conversions bre bpplied bs necessbry:
      * <ul>
-     * <li>reference casting
+     * <li>reference cbsting
      * <li>unboxing
      * <li>widening primitive conversions
      * </ul>
      * <p>
-     * The result returned by the call is boxed if it is a primitive,
+     * The result returned by the cbll is boxed if it is b primitive,
      * or forced to null if the return type is void.
      * <p>
-     * This call is equivalent to the following code:
+     * This cbll is equivblent to the following code:
      * <blockquote><pre>{@code
-     * MethodHandle invoker = MethodHandles.spreadInvoker(this.type(), 0);
-     * Object result = invoker.invokeExact(this, arguments);
+     * MethodHbndle invoker = MethodHbndles.sprebdInvoker(this.type(), 0);
+     * Object result = invoker.invokeExbct(this, brguments);
      * }</pre></blockquote>
      * <p>
-     * Unlike the signature polymorphic methods {@code invokeExact} and {@code invoke},
-     * {@code invokeWithArguments} can be accessed normally via the Core Reflection API and JNI.
-     * It can therefore be used as a bridge between native or reflective code and method handles.
+     * Unlike the signbture polymorphic methods {@code invokeExbct} bnd {@code invoke},
+     * {@code invokeWithArguments} cbn be bccessed normblly vib the Core Reflection API bnd JNI.
+     * It cbn therefore be used bs b bridge between nbtive or reflective code bnd method hbndles.
      *
-     * @param arguments the arguments to pass to the target
-     * @return the result returned by the target
-     * @throws ClassCastException if an argument cannot be converted by reference casting
-     * @throws WrongMethodTypeException if the target's type cannot be adjusted to take the given number of {@code Object} arguments
-     * @throws Throwable anything thrown by the target method invocation
-     * @see MethodHandles#spreadInvoker
+     * @pbrbm brguments the brguments to pbss to the tbrget
+     * @return the result returned by the tbrget
+     * @throws ClbssCbstException if bn brgument cbnnot be converted by reference cbsting
+     * @throws WrongMethodTypeException if the tbrget's type cbnnot be bdjusted to tbke the given number of {@code Object} brguments
+     * @throws Throwbble bnything thrown by the tbrget method invocbtion
+     * @see MethodHbndles#sprebdInvoker
      */
-    public Object invokeWithArguments(Object... arguments) throws Throwable {
-        int argc = arguments == null ? 0 : arguments.length;
-        @SuppressWarnings("LocalVariableHidesMemberVariable")
+    public Object invokeWithArguments(Object... brguments) throws Throwbble {
+        int brgc = brguments == null ? 0 : brguments.length;
+        @SuppressWbrnings("LocblVbribbleHidesMemberVbribble")
         MethodType type = type();
-        if (type.parameterCount() != argc || isVarargsCollector()) {
-            // simulate invoke
-            return asType(MethodType.genericMethodType(argc)).invokeWithArguments(arguments);
+        if (type.pbrbmeterCount() != brgc || isVbrbrgsCollector()) {
+            // simulbte invoke
+            return bsType(MethodType.genericMethodType(brgc)).invokeWithArguments(brguments);
         }
-        MethodHandle invoker = type.invokers().varargsInvoker();
-        return invoker.invokeExact(this, arguments);
+        MethodHbndle invoker = type.invokers().vbrbrgsInvoker();
+        return invoker.invokeExbct(this, brguments);
     }
 
     /**
-     * Performs a variable arity invocation, passing the arguments in the given array
-     * to the method handle, as if via an inexact {@link #invoke invoke} from a call site
-     * which mentions only the type {@code Object}, and whose arity is the length
-     * of the argument array.
+     * Performs b vbribble brity invocbtion, pbssing the brguments in the given brrby
+     * to the method hbndle, bs if vib bn inexbct {@link #invoke invoke} from b cbll site
+     * which mentions only the type {@code Object}, bnd whose brity is the length
+     * of the brgument brrby.
      * <p>
-     * This method is also equivalent to the following code:
+     * This method is blso equivblent to the following code:
      * <blockquote><pre>{@code
-     *   invokeWithArguments(arguments.toArray()
+     *   invokeWithArguments(brguments.toArrby()
      * }</pre></blockquote>
      *
-     * @param arguments the arguments to pass to the target
-     * @return the result returned by the target
-     * @throws NullPointerException if {@code arguments} is a null reference
-     * @throws ClassCastException if an argument cannot be converted by reference casting
-     * @throws WrongMethodTypeException if the target's type cannot be adjusted to take the given number of {@code Object} arguments
-     * @throws Throwable anything thrown by the target method invocation
+     * @pbrbm brguments the brguments to pbss to the tbrget
+     * @return the result returned by the tbrget
+     * @throws NullPointerException if {@code brguments} is b null reference
+     * @throws ClbssCbstException if bn brgument cbnnot be converted by reference cbsting
+     * @throws WrongMethodTypeException if the tbrget's type cbnnot be bdjusted to tbke the given number of {@code Object} brguments
+     * @throws Throwbble bnything thrown by the tbrget method invocbtion
      */
-    public Object invokeWithArguments(java.util.List<?> arguments) throws Throwable {
-        return invokeWithArguments(arguments.toArray());
+    public Object invokeWithArguments(jbvb.util.List<?> brguments) throws Throwbble {
+        return invokeWithArguments(brguments.toArrby());
     }
 
     /**
-     * Produces an adapter method handle which adapts the type of the
-     * current method handle to a new type.
-     * The resulting method handle is guaranteed to report a type
-     * which is equal to the desired new type.
+     * Produces bn bdbpter method hbndle which bdbpts the type of the
+     * current method hbndle to b new type.
+     * The resulting method hbndle is gubrbnteed to report b type
+     * which is equbl to the desired new type.
      * <p>
-     * If the original type and new type are equal, returns {@code this}.
+     * If the originbl type bnd new type bre equbl, returns {@code this}.
      * <p>
-     * The new method handle, when invoked, will perform the following
+     * The new method hbndle, when invoked, will perform the following
      * steps:
      * <ul>
-     * <li>Convert the incoming argument list to match the original
-     *     method handle's argument list.
-     * <li>Invoke the original method handle on the converted argument list.
-     * <li>Convert any result returned by the original method handle
-     *     to the return type of new method handle.
+     * <li>Convert the incoming brgument list to mbtch the originbl
+     *     method hbndle's brgument list.
+     * <li>Invoke the originbl method hbndle on the converted brgument list.
+     * <li>Convert bny result returned by the originbl method hbndle
+     *     to the return type of new method hbndle.
      * </ul>
      * <p>
-     * This method provides the crucial behavioral difference between
-     * {@link #invokeExact invokeExact} and plain, inexact {@link #invoke invoke}.
+     * This method provides the crucibl behbviorbl difference between
+     * {@link #invokeExbct invokeExbct} bnd plbin, inexbct {@link #invoke invoke}.
      * The two methods
-     * perform the same steps when the caller's type descriptor exactly m atches
-     * the callee's, but when the types differ, plain {@link #invoke invoke}
-     * also calls {@code asType} (or some internal equivalent) in order
-     * to match up the caller's and callee's types.
+     * perform the sbme steps when the cbller's type descriptor exbctly m btches
+     * the cbllee's, but when the types differ, plbin {@link #invoke invoke}
+     * blso cblls {@code bsType} (or some internbl equivblent) in order
+     * to mbtch up the cbller's bnd cbllee's types.
      * <p>
-     * If the current method is a variable arity method handle
-     * argument list conversion may involve the conversion and collection
-     * of several arguments into an array, as
-     * {@linkplain #asVarargsCollector described elsewhere}.
-     * In every other case, all conversions are applied <em>pairwise</em>,
-     * which means that each argument or return value is converted to
-     * exactly one argument or return value (or no return value).
-     * The applied conversions are defined by consulting the
-     * the corresponding component types of the old and new
-     * method handle types.
+     * If the current method is b vbribble brity method hbndle
+     * brgument list conversion mby involve the conversion bnd collection
+     * of severbl brguments into bn brrby, bs
+     * {@linkplbin #bsVbrbrgsCollector described elsewhere}.
+     * In every other cbse, bll conversions bre bpplied <em>pbirwise</em>,
+     * which mebns thbt ebch brgument or return vblue is converted to
+     * exbctly one brgument or return vblue (or no return vblue).
+     * The bpplied conversions bre defined by consulting the
+     * the corresponding component types of the old bnd new
+     * method hbndle types.
      * <p>
-     * Let <em>T0</em> and <em>T1</em> be corresponding new and old parameter types,
-     * or old and new return types.  Specifically, for some valid index {@code i}, let
-     * <em>T0</em>{@code =newType.parameterType(i)} and <em>T1</em>{@code =this.type().parameterType(i)}.
-     * Or else, going the other way for return values, let
-     * <em>T0</em>{@code =this.type().returnType()} and <em>T1</em>{@code =newType.returnType()}.
-     * If the types are the same, the new method handle makes no change
-     * to the corresponding argument or return value (if any).
-     * Otherwise, one of the following conversions is applied
+     * Let <em>T0</em> bnd <em>T1</em> be corresponding new bnd old pbrbmeter types,
+     * or old bnd new return types.  Specificblly, for some vblid index {@code i}, let
+     * <em>T0</em>{@code =newType.pbrbmeterType(i)} bnd <em>T1</em>{@code =this.type().pbrbmeterType(i)}.
+     * Or else, going the other wby for return vblues, let
+     * <em>T0</em>{@code =this.type().returnType()} bnd <em>T1</em>{@code =newType.returnType()}.
+     * If the types bre the sbme, the new method hbndle mbkes no chbnge
+     * to the corresponding brgument or return vblue (if bny).
+     * Otherwise, one of the following conversions is bpplied
      * if possible:
      * <ul>
-     * <li>If <em>T0</em> and <em>T1</em> are references, then a cast to <em>T1</em> is applied.
-     *     (The types do not need to be related in any particular way.
-     *     This is because a dynamic value of null can convert to any reference type.)
-     * <li>If <em>T0</em> and <em>T1</em> are primitives, then a Java method invocation
-     *     conversion (JLS 5.3) is applied, if one exists.
-     *     (Specifically, <em>T0</em> must convert to <em>T1</em> by a widening primitive conversion.)
-     * <li>If <em>T0</em> is a primitive and <em>T1</em> a reference,
-     *     a Java casting conversion (JLS 5.5) is applied if one exists.
-     *     (Specifically, the value is boxed from <em>T0</em> to its wrapper class,
-     *     which is then widened as needed to <em>T1</em>.)
-     * <li>If <em>T0</em> is a reference and <em>T1</em> a primitive, an unboxing
-     *     conversion will be applied at runtime, possibly followed
-     *     by a Java method invocation conversion (JLS 5.3)
-     *     on the primitive value.  (These are the primitive widening conversions.)
-     *     <em>T0</em> must be a wrapper class or a supertype of one.
-     *     (In the case where <em>T0</em> is Object, these are the conversions
-     *     allowed by {@link java.lang.reflect.Method#invoke java.lang.reflect.Method.invoke}.)
-     *     The unboxing conversion must have a possibility of success, which means that
-     *     if <em>T0</em> is not itself a wrapper class, there must exist at least one
-     *     wrapper class <em>TW</em> which is a subtype of <em>T0</em> and whose unboxed
-     *     primitive value can be widened to <em>T1</em>.
-     * <li>If the return type <em>T1</em> is marked as void, any returned value is discarded
-     * <li>If the return type <em>T0</em> is void and <em>T1</em> a reference, a null value is introduced.
-     * <li>If the return type <em>T0</em> is void and <em>T1</em> a primitive,
-     *     a zero value is introduced.
+     * <li>If <em>T0</em> bnd <em>T1</em> bre references, then b cbst to <em>T1</em> is bpplied.
+     *     (The types do not need to be relbted in bny pbrticulbr wby.
+     *     This is becbuse b dynbmic vblue of null cbn convert to bny reference type.)
+     * <li>If <em>T0</em> bnd <em>T1</em> bre primitives, then b Jbvb method invocbtion
+     *     conversion (JLS 5.3) is bpplied, if one exists.
+     *     (Specificblly, <em>T0</em> must convert to <em>T1</em> by b widening primitive conversion.)
+     * <li>If <em>T0</em> is b primitive bnd <em>T1</em> b reference,
+     *     b Jbvb cbsting conversion (JLS 5.5) is bpplied if one exists.
+     *     (Specificblly, the vblue is boxed from <em>T0</em> to its wrbpper clbss,
+     *     which is then widened bs needed to <em>T1</em>.)
+     * <li>If <em>T0</em> is b reference bnd <em>T1</em> b primitive, bn unboxing
+     *     conversion will be bpplied bt runtime, possibly followed
+     *     by b Jbvb method invocbtion conversion (JLS 5.3)
+     *     on the primitive vblue.  (These bre the primitive widening conversions.)
+     *     <em>T0</em> must be b wrbpper clbss or b supertype of one.
+     *     (In the cbse where <em>T0</em> is Object, these bre the conversions
+     *     bllowed by {@link jbvb.lbng.reflect.Method#invoke jbvb.lbng.reflect.Method.invoke}.)
+     *     The unboxing conversion must hbve b possibility of success, which mebns thbt
+     *     if <em>T0</em> is not itself b wrbpper clbss, there must exist bt lebst one
+     *     wrbpper clbss <em>TW</em> which is b subtype of <em>T0</em> bnd whose unboxed
+     *     primitive vblue cbn be widened to <em>T1</em>.
+     * <li>If the return type <em>T1</em> is mbrked bs void, bny returned vblue is discbrded
+     * <li>If the return type <em>T0</em> is void bnd <em>T1</em> b reference, b null vblue is introduced.
+     * <li>If the return type <em>T0</em> is void bnd <em>T1</em> b primitive,
+     *     b zero vblue is introduced.
      * </ul>
-     * (<em>Note:</em> Both <em>T0</em> and <em>T1</em> may be regarded as static types,
-     * because neither corresponds specifically to the <em>dynamic type</em> of any
-     * actual argument or return value.)
+     * (<em>Note:</em> Both <em>T0</em> bnd <em>T1</em> mby be regbrded bs stbtic types,
+     * becbuse neither corresponds specificblly to the <em>dynbmic type</em> of bny
+     * bctubl brgument or return vblue.)
      * <p>
-     * The method handle conversion cannot be made if any one of the required
-     * pairwise conversions cannot be made.
+     * The method hbndle conversion cbnnot be mbde if bny one of the required
+     * pbirwise conversions cbnnot be mbde.
      * <p>
-     * At runtime, the conversions applied to reference arguments
-     * or return values may require additional runtime checks which can fail.
-     * An unboxing operation may fail because the original reference is null,
-     * causing a {@link java.lang.NullPointerException NullPointerException}.
-     * An unboxing operation or a reference cast may also fail on a reference
-     * to an object of the wrong type,
-     * causing a {@link java.lang.ClassCastException ClassCastException}.
-     * Although an unboxing operation may accept several kinds of wrappers,
-     * if none are available, a {@code ClassCastException} will be thrown.
+     * At runtime, the conversions bpplied to reference brguments
+     * or return vblues mby require bdditionbl runtime checks which cbn fbil.
+     * An unboxing operbtion mby fbil becbuse the originbl reference is null,
+     * cbusing b {@link jbvb.lbng.NullPointerException NullPointerException}.
+     * An unboxing operbtion or b reference cbst mby blso fbil on b reference
+     * to bn object of the wrong type,
+     * cbusing b {@link jbvb.lbng.ClbssCbstException ClbssCbstException}.
+     * Although bn unboxing operbtion mby bccept severbl kinds of wrbppers,
+     * if none bre bvbilbble, b {@code ClbssCbstException} will be thrown.
      *
-     * @param newType the expected type of the new method handle
-     * @return a method handle which delegates to {@code this} after performing
-     *           any necessary argument conversions, and arranges for any
-     *           necessary return value conversions
-     * @throws NullPointerException if {@code newType} is a null reference
-     * @throws WrongMethodTypeException if the conversion cannot be made
-     * @see MethodHandles#explicitCastArguments
+     * @pbrbm newType the expected type of the new method hbndle
+     * @return b method hbndle which delegbtes to {@code this} bfter performing
+     *           bny necessbry brgument conversions, bnd brrbnges for bny
+     *           necessbry return vblue conversions
+     * @throws NullPointerException if {@code newType} is b null reference
+     * @throws WrongMethodTypeException if the conversion cbnnot be mbde
+     * @see MethodHbndles#explicitCbstArguments
      */
-    public MethodHandle asType(MethodType newType) {
-        // Fast path alternative to a heavyweight {@code asType} call.
-        // Return 'this' if the conversion will be a no-op.
+    public MethodHbndle bsType(MethodType newType) {
+        // Fbst pbth blternbtive to b hebvyweight {@code bsType} cbll.
+        // Return 'this' if the conversion will be b no-op.
         if (newType == type) {
             return this;
         }
-        // Return 'this.asTypeCache' if the conversion is already memoized.
-        MethodHandle atc = asTypeCache;
-        if (atc != null && newType == atc.type) {
-            return atc;
+        // Return 'this.bsTypeCbche' if the conversion is blrebdy memoized.
+        MethodHbndle btc = bsTypeCbche;
+        if (btc != null && newType == btc.type) {
+            return btc;
         }
-        return asTypeUncached(newType);
+        return bsTypeUncbched(newType);
     }
 
-    /** Override this to change asType behavior. */
-    /*non-public*/ MethodHandle asTypeUncached(MethodType newType) {
+    /** Override this to chbnge bsType behbvior. */
+    /*non-public*/ MethodHbndle bsTypeUncbched(MethodType newType) {
         if (!type.isConvertibleTo(newType))
-            throw new WrongMethodTypeException("cannot convert "+this+" to "+newType);
-        return asTypeCache = convertArguments(newType);
+            throw new WrongMethodTypeException("cbnnot convert "+this+" to "+newType);
+        return bsTypeCbche = convertArguments(newType);
     }
 
     /**
-     * Makes an <em>array-spreading</em> method handle, which accepts a trailing array argument
-     * and spreads its elements as positional arguments.
-     * The new method handle adapts, as its <i>target</i>,
-     * the current method handle.  The type of the adapter will be
-     * the same as the type of the target, except that the final
-     * {@code arrayLength} parameters of the target's type are replaced
-     * by a single array parameter of type {@code arrayType}.
+     * Mbkes bn <em>brrby-sprebding</em> method hbndle, which bccepts b trbiling brrby brgument
+     * bnd sprebds its elements bs positionbl brguments.
+     * The new method hbndle bdbpts, bs its <i>tbrget</i>,
+     * the current method hbndle.  The type of the bdbpter will be
+     * the sbme bs the type of the tbrget, except thbt the finbl
+     * {@code brrbyLength} pbrbmeters of the tbrget's type bre replbced
+     * by b single brrby pbrbmeter of type {@code brrbyType}.
      * <p>
-     * If the array element type differs from any of the corresponding
-     * argument types on the original target,
-     * the original target is adapted to take the array elements directly,
-     * as if by a call to {@link #asType asType}.
+     * If the brrby element type differs from bny of the corresponding
+     * brgument types on the originbl tbrget,
+     * the originbl tbrget is bdbpted to tbke the brrby elements directly,
+     * bs if by b cbll to {@link #bsType bsType}.
      * <p>
-     * When called, the adapter replaces a trailing array argument
-     * by the array's elements, each as its own argument to the target.
-     * (The order of the arguments is preserved.)
-     * They are converted pairwise by casting and/or unboxing
-     * to the types of the trailing parameters of the target.
-     * Finally the target is called.
-     * What the target eventually returns is returned unchanged by the adapter.
+     * When cblled, the bdbpter replbces b trbiling brrby brgument
+     * by the brrby's elements, ebch bs its own brgument to the tbrget.
+     * (The order of the brguments is preserved.)
+     * They bre converted pbirwise by cbsting bnd/or unboxing
+     * to the types of the trbiling pbrbmeters of the tbrget.
+     * Finblly the tbrget is cblled.
+     * Whbt the tbrget eventublly returns is returned unchbnged by the bdbpter.
      * <p>
-     * Before calling the target, the adapter verifies that the array
-     * contains exactly enough elements to provide a correct argument count
-     * to the target method handle.
-     * (The array may also be null when zero elements are required.)
+     * Before cblling the tbrget, the bdbpter verifies thbt the brrby
+     * contbins exbctly enough elements to provide b correct brgument count
+     * to the tbrget method hbndle.
+     * (The brrby mby blso be null when zero elements bre required.)
      * <p>
-     * If, when the adapter is called, the supplied array argument does
-     * not have the correct number of elements, the adapter will throw
-     * an {@link IllegalArgumentException} instead of invoking the target.
+     * If, when the bdbpter is cblled, the supplied brrby brgument does
+     * not hbve the correct number of elements, the bdbpter will throw
+     * bn {@link IllegblArgumentException} instebd of invoking the tbrget.
      * <p>
-     * Here are some simple examples of array-spreading method handles:
+     * Here bre some simple exbmples of brrby-sprebding method hbndles:
      * <blockquote><pre>{@code
-MethodHandle equals = publicLookup()
-  .findVirtual(String.class, "equals", methodType(boolean.class, Object.class));
-assert( (boolean) equals.invokeExact("me", (Object)"me"));
-assert(!(boolean) equals.invokeExact("me", (Object)"thee"));
-// spread both arguments from a 2-array:
-MethodHandle eq2 = equals.asSpreader(Object[].class, 2);
-assert( (boolean) eq2.invokeExact(new Object[]{ "me", "me" }));
-assert(!(boolean) eq2.invokeExact(new Object[]{ "me", "thee" }));
-// try to spread from anything but a 2-array:
+MethodHbndle equbls = publicLookup()
+  .findVirtubl(String.clbss, "equbls", methodType(boolebn.clbss, Object.clbss));
+bssert( (boolebn) equbls.invokeExbct("me", (Object)"me"));
+bssert(!(boolebn) equbls.invokeExbct("me", (Object)"thee"));
+// sprebd both brguments from b 2-brrby:
+MethodHbndle eq2 = equbls.bsSprebder(Object[].clbss, 2);
+bssert( (boolebn) eq2.invokeExbct(new Object[]{ "me", "me" }));
+bssert(!(boolebn) eq2.invokeExbct(new Object[]{ "me", "thee" }));
+// try to sprebd from bnything but b 2-brrby:
 for (int n = 0; n <= 10; n++) {
-  Object[] badArityArgs = (n == 2 ? null : new Object[n]);
-  try { assert((boolean) eq2.invokeExact(badArityArgs) && false); }
-  catch (IllegalArgumentException ex) { } // OK
+  Object[] bbdArityArgs = (n == 2 ? null : new Object[n]);
+  try { bssert((boolebn) eq2.invokeExbct(bbdArityArgs) && fblse); }
+  cbtch (IllegblArgumentException ex) { } // OK
 }
-// spread both arguments from a String array:
-MethodHandle eq2s = equals.asSpreader(String[].class, 2);
-assert( (boolean) eq2s.invokeExact(new String[]{ "me", "me" }));
-assert(!(boolean) eq2s.invokeExact(new String[]{ "me", "thee" }));
-// spread second arguments from a 1-array:
-MethodHandle eq1 = equals.asSpreader(Object[].class, 1);
-assert( (boolean) eq1.invokeExact("me", new Object[]{ "me" }));
-assert(!(boolean) eq1.invokeExact("me", new Object[]{ "thee" }));
-// spread no arguments from a 0-array or null:
-MethodHandle eq0 = equals.asSpreader(Object[].class, 0);
-assert( (boolean) eq0.invokeExact("me", (Object)"me", new Object[0]));
-assert(!(boolean) eq0.invokeExact("me", (Object)"thee", (Object[])null));
-// asSpreader and asCollector are approximate inverses:
+// sprebd both brguments from b String brrby:
+MethodHbndle eq2s = equbls.bsSprebder(String[].clbss, 2);
+bssert( (boolebn) eq2s.invokeExbct(new String[]{ "me", "me" }));
+bssert(!(boolebn) eq2s.invokeExbct(new String[]{ "me", "thee" }));
+// sprebd second brguments from b 1-brrby:
+MethodHbndle eq1 = equbls.bsSprebder(Object[].clbss, 1);
+bssert( (boolebn) eq1.invokeExbct("me", new Object[]{ "me" }));
+bssert(!(boolebn) eq1.invokeExbct("me", new Object[]{ "thee" }));
+// sprebd no brguments from b 0-brrby or null:
+MethodHbndle eq0 = equbls.bsSprebder(Object[].clbss, 0);
+bssert( (boolebn) eq0.invokeExbct("me", (Object)"me", new Object[0]));
+bssert(!(boolebn) eq0.invokeExbct("me", (Object)"thee", (Object[])null));
+// bsSprebder bnd bsCollector bre bpproximbte inverses:
 for (int n = 0; n <= 2; n++) {
-    for (Class<?> a : new Class<?>[]{Object[].class, String[].class, CharSequence[].class}) {
-        MethodHandle equals2 = equals.asSpreader(a, n).asCollector(a, n);
-        assert( (boolean) equals2.invokeWithArguments("me", "me"));
-        assert(!(boolean) equals2.invokeWithArguments("me", "thee"));
+    for (Clbss<?> b : new Clbss<?>[]{Object[].clbss, String[].clbss, ChbrSequence[].clbss}) {
+        MethodHbndle equbls2 = equbls.bsSprebder(b, n).bsCollector(b, n);
+        bssert( (boolebn) equbls2.invokeWithArguments("me", "me"));
+        bssert(!(boolebn) equbls2.invokeWithArguments("me", "thee"));
     }
 }
-MethodHandle caToString = publicLookup()
-  .findStatic(Arrays.class, "toString", methodType(String.class, char[].class));
-assertEquals("[A, B, C]", (String) caToString.invokeExact("ABC".toCharArray()));
-MethodHandle caString3 = caToString.asCollector(char[].class, 3);
-assertEquals("[A, B, C]", (String) caString3.invokeExact('A', 'B', 'C'));
-MethodHandle caToString2 = caString3.asSpreader(char[].class, 2);
-assertEquals("[A, B, C]", (String) caToString2.invokeExact('A', "BC".toCharArray()));
+MethodHbndle cbToString = publicLookup()
+  .findStbtic(Arrbys.clbss, "toString", methodType(String.clbss, chbr[].clbss));
+bssertEqubls("[A, B, C]", (String) cbToString.invokeExbct("ABC".toChbrArrby()));
+MethodHbndle cbString3 = cbToString.bsCollector(chbr[].clbss, 3);
+bssertEqubls("[A, B, C]", (String) cbString3.invokeExbct('A', 'B', 'C'));
+MethodHbndle cbToString2 = cbString3.bsSprebder(chbr[].clbss, 2);
+bssertEqubls("[A, B, C]", (String) cbToString2.invokeExbct('A', "BC".toChbrArrby()));
      * }</pre></blockquote>
-     * @param arrayType usually {@code Object[]}, the type of the array argument from which to extract the spread arguments
-     * @param arrayLength the number of arguments to spread from an incoming array argument
-     * @return a new method handle which spreads its final array argument,
-     *         before calling the original method handle
-     * @throws NullPointerException if {@code arrayType} is a null reference
-     * @throws IllegalArgumentException if {@code arrayType} is not an array type,
-     *         or if target does not have at least
-     *         {@code arrayLength} parameter types,
-     *         or if {@code arrayLength} is negative,
-     *         or if the resulting method handle's type would have
-     *         <a href="MethodHandle.html#maxarity">too many parameters</a>
-     * @throws WrongMethodTypeException if the implied {@code asType} call fails
-     * @see #asCollector
+     * @pbrbm brrbyType usublly {@code Object[]}, the type of the brrby brgument from which to extrbct the sprebd brguments
+     * @pbrbm brrbyLength the number of brguments to sprebd from bn incoming brrby brgument
+     * @return b new method hbndle which sprebds its finbl brrby brgument,
+     *         before cblling the originbl method hbndle
+     * @throws NullPointerException if {@code brrbyType} is b null reference
+     * @throws IllegblArgumentException if {@code brrbyType} is not bn brrby type,
+     *         or if tbrget does not hbve bt lebst
+     *         {@code brrbyLength} pbrbmeter types,
+     *         or if {@code brrbyLength} is negbtive,
+     *         or if the resulting method hbndle's type would hbve
+     *         <b href="MethodHbndle.html#mbxbrity">too mbny pbrbmeters</b>
+     * @throws WrongMethodTypeException if the implied {@code bsType} cbll fbils
+     * @see #bsCollector
      */
-    public MethodHandle asSpreader(Class<?> arrayType, int arrayLength) {
-        asSpreaderChecks(arrayType, arrayLength);
-        int spreadArgPos = type.parameterCount() - arrayLength;
-        return MethodHandleImpl.makeSpreadArguments(this, arrayType, spreadArgPos, arrayLength);
+    public MethodHbndle bsSprebder(Clbss<?> brrbyType, int brrbyLength) {
+        bsSprebderChecks(brrbyType, brrbyLength);
+        int sprebdArgPos = type.pbrbmeterCount() - brrbyLength;
+        return MethodHbndleImpl.mbkeSprebdArguments(this, brrbyType, sprebdArgPos, brrbyLength);
     }
 
-    private void asSpreaderChecks(Class<?> arrayType, int arrayLength) {
-        spreadArrayChecks(arrayType, arrayLength);
-        int nargs = type().parameterCount();
-        if (nargs < arrayLength || arrayLength < 0)
-            throw newIllegalArgumentException("bad spread array length");
-        if (arrayType != Object[].class && arrayLength != 0) {
-            boolean sawProblem = false;
-            Class<?> arrayElement = arrayType.getComponentType();
-            for (int i = nargs - arrayLength; i < nargs; i++) {
-                if (!MethodType.canConvert(arrayElement, type().parameterType(i))) {
-                    sawProblem = true;
-                    break;
+    privbte void bsSprebderChecks(Clbss<?> brrbyType, int brrbyLength) {
+        sprebdArrbyChecks(brrbyType, brrbyLength);
+        int nbrgs = type().pbrbmeterCount();
+        if (nbrgs < brrbyLength || brrbyLength < 0)
+            throw newIllegblArgumentException("bbd sprebd brrby length");
+        if (brrbyType != Object[].clbss && brrbyLength != 0) {
+            boolebn sbwProblem = fblse;
+            Clbss<?> brrbyElement = brrbyType.getComponentType();
+            for (int i = nbrgs - brrbyLength; i < nbrgs; i++) {
+                if (!MethodType.cbnConvert(brrbyElement, type().pbrbmeterType(i))) {
+                    sbwProblem = true;
+                    brebk;
                 }
             }
-            if (sawProblem) {
-                ArrayList<Class<?>> ptypes = new ArrayList<>(type().parameterList());
-                for (int i = nargs - arrayLength; i < nargs; i++) {
-                    ptypes.set(i, arrayElement);
+            if (sbwProblem) {
+                ArrbyList<Clbss<?>> ptypes = new ArrbyList<>(type().pbrbmeterList());
+                for (int i = nbrgs - brrbyLength; i < nbrgs; i++) {
+                    ptypes.set(i, brrbyElement);
                 }
-                // elicit an error:
-                this.asType(MethodType.methodType(type().returnType(), ptypes));
+                // elicit bn error:
+                this.bsType(MethodType.methodType(type().returnType(), ptypes));
             }
         }
     }
 
-    private void spreadArrayChecks(Class<?> arrayType, int arrayLength) {
-        Class<?> arrayElement = arrayType.getComponentType();
-        if (arrayElement == null)
-            throw newIllegalArgumentException("not an array type", arrayType);
-        if ((arrayLength & 0x7F) != arrayLength) {
-            if ((arrayLength & 0xFF) != arrayLength)
-                throw newIllegalArgumentException("array length is not legal", arrayLength);
-            assert(arrayLength >= 128);
-            if (arrayElement == long.class ||
-                arrayElement == double.class)
-                throw newIllegalArgumentException("array length is not legal for long[] or double[]", arrayLength);
+    privbte void sprebdArrbyChecks(Clbss<?> brrbyType, int brrbyLength) {
+        Clbss<?> brrbyElement = brrbyType.getComponentType();
+        if (brrbyElement == null)
+            throw newIllegblArgumentException("not bn brrby type", brrbyType);
+        if ((brrbyLength & 0x7F) != brrbyLength) {
+            if ((brrbyLength & 0xFF) != brrbyLength)
+                throw newIllegblArgumentException("brrby length is not legbl", brrbyLength);
+            bssert(brrbyLength >= 128);
+            if (brrbyElement == long.clbss ||
+                brrbyElement == double.clbss)
+                throw newIllegblArgumentException("brrby length is not legbl for long[] or double[]", brrbyLength);
         }
     }
 
     /**
-     * Makes an <em>array-collecting</em> method handle, which accepts a given number of trailing
-     * positional arguments and collects them into an array argument.
-     * The new method handle adapts, as its <i>target</i>,
-     * the current method handle.  The type of the adapter will be
-     * the same as the type of the target, except that a single trailing
-     * parameter (usually of type {@code arrayType}) is replaced by
-     * {@code arrayLength} parameters whose type is element type of {@code arrayType}.
+     * Mbkes bn <em>brrby-collecting</em> method hbndle, which bccepts b given number of trbiling
+     * positionbl brguments bnd collects them into bn brrby brgument.
+     * The new method hbndle bdbpts, bs its <i>tbrget</i>,
+     * the current method hbndle.  The type of the bdbpter will be
+     * the sbme bs the type of the tbrget, except thbt b single trbiling
+     * pbrbmeter (usublly of type {@code brrbyType}) is replbced by
+     * {@code brrbyLength} pbrbmeters whose type is element type of {@code brrbyType}.
      * <p>
-     * If the array type differs from the final argument type on the original target,
-     * the original target is adapted to take the array type directly,
-     * as if by a call to {@link #asType asType}.
+     * If the brrby type differs from the finbl brgument type on the originbl tbrget,
+     * the originbl tbrget is bdbpted to tbke the brrby type directly,
+     * bs if by b cbll to {@link #bsType bsType}.
      * <p>
-     * When called, the adapter replaces its trailing {@code arrayLength}
-     * arguments by a single new array of type {@code arrayType}, whose elements
-     * comprise (in order) the replaced arguments.
-     * Finally the target is called.
-     * What the target eventually returns is returned unchanged by the adapter.
+     * When cblled, the bdbpter replbces its trbiling {@code brrbyLength}
+     * brguments by b single new brrby of type {@code brrbyType}, whose elements
+     * comprise (in order) the replbced brguments.
+     * Finblly the tbrget is cblled.
+     * Whbt the tbrget eventublly returns is returned unchbnged by the bdbpter.
      * <p>
-     * (The array may also be a shared constant when {@code arrayLength} is zero.)
+     * (The brrby mby blso be b shbred constbnt when {@code brrbyLength} is zero.)
      * <p>
-     * (<em>Note:</em> The {@code arrayType} is often identical to the last
-     * parameter type of the original target.
-     * It is an explicit argument for symmetry with {@code asSpreader}, and also
-     * to allow the target to use a simple {@code Object} as its last parameter type.)
+     * (<em>Note:</em> The {@code brrbyType} is often identicbl to the lbst
+     * pbrbmeter type of the originbl tbrget.
+     * It is bn explicit brgument for symmetry with {@code bsSprebder}, bnd blso
+     * to bllow the tbrget to use b simple {@code Object} bs its lbst pbrbmeter type.)
      * <p>
-     * In order to create a collecting adapter which is not restricted to a particular
-     * number of collected arguments, use {@link #asVarargsCollector asVarargsCollector} instead.
+     * In order to crebte b collecting bdbpter which is not restricted to b pbrticulbr
+     * number of collected brguments, use {@link #bsVbrbrgsCollector bsVbrbrgsCollector} instebd.
      * <p>
-     * Here are some examples of array-collecting method handles:
+     * Here bre some exbmples of brrby-collecting method hbndles:
      * <blockquote><pre>{@code
-MethodHandle deepToString = publicLookup()
-  .findStatic(Arrays.class, "deepToString", methodType(String.class, Object[].class));
-assertEquals("[won]",   (String) deepToString.invokeExact(new Object[]{"won"}));
-MethodHandle ts1 = deepToString.asCollector(Object[].class, 1);
-assertEquals(methodType(String.class, Object.class), ts1.type());
-//assertEquals("[won]", (String) ts1.invokeExact(         new Object[]{"won"})); //FAIL
-assertEquals("[[won]]", (String) ts1.invokeExact((Object) new Object[]{"won"}));
-// arrayType can be a subtype of Object[]
-MethodHandle ts2 = deepToString.asCollector(String[].class, 2);
-assertEquals(methodType(String.class, String.class, String.class), ts2.type());
-assertEquals("[two, too]", (String) ts2.invokeExact("two", "too"));
-MethodHandle ts0 = deepToString.asCollector(Object[].class, 0);
-assertEquals("[]", (String) ts0.invokeExact());
-// collectors can be nested, Lisp-style
-MethodHandle ts22 = deepToString.asCollector(Object[].class, 3).asCollector(String[].class, 2);
-assertEquals("[A, B, [C, D]]", ((String) ts22.invokeExact((Object)'A', (Object)"B", "C", "D")));
-// arrayType can be any primitive array type
-MethodHandle bytesToString = publicLookup()
-  .findStatic(Arrays.class, "toString", methodType(String.class, byte[].class))
-  .asCollector(byte[].class, 3);
-assertEquals("[1, 2, 3]", (String) bytesToString.invokeExact((byte)1, (byte)2, (byte)3));
-MethodHandle longsToString = publicLookup()
-  .findStatic(Arrays.class, "toString", methodType(String.class, long[].class))
-  .asCollector(long[].class, 1);
-assertEquals("[123]", (String) longsToString.invokeExact((long)123));
+MethodHbndle deepToString = publicLookup()
+  .findStbtic(Arrbys.clbss, "deepToString", methodType(String.clbss, Object[].clbss));
+bssertEqubls("[won]",   (String) deepToString.invokeExbct(new Object[]{"won"}));
+MethodHbndle ts1 = deepToString.bsCollector(Object[].clbss, 1);
+bssertEqubls(methodType(String.clbss, Object.clbss), ts1.type());
+//bssertEqubls("[won]", (String) ts1.invokeExbct(         new Object[]{"won"})); //FAIL
+bssertEqubls("[[won]]", (String) ts1.invokeExbct((Object) new Object[]{"won"}));
+// brrbyType cbn be b subtype of Object[]
+MethodHbndle ts2 = deepToString.bsCollector(String[].clbss, 2);
+bssertEqubls(methodType(String.clbss, String.clbss, String.clbss), ts2.type());
+bssertEqubls("[two, too]", (String) ts2.invokeExbct("two", "too"));
+MethodHbndle ts0 = deepToString.bsCollector(Object[].clbss, 0);
+bssertEqubls("[]", (String) ts0.invokeExbct());
+// collectors cbn be nested, Lisp-style
+MethodHbndle ts22 = deepToString.bsCollector(Object[].clbss, 3).bsCollector(String[].clbss, 2);
+bssertEqubls("[A, B, [C, D]]", ((String) ts22.invokeExbct((Object)'A', (Object)"B", "C", "D")));
+// brrbyType cbn be bny primitive brrby type
+MethodHbndle bytesToString = publicLookup()
+  .findStbtic(Arrbys.clbss, "toString", methodType(String.clbss, byte[].clbss))
+  .bsCollector(byte[].clbss, 3);
+bssertEqubls("[1, 2, 3]", (String) bytesToString.invokeExbct((byte)1, (byte)2, (byte)3));
+MethodHbndle longsToString = publicLookup()
+  .findStbtic(Arrbys.clbss, "toString", methodType(String.clbss, long[].clbss))
+  .bsCollector(long[].clbss, 1);
+bssertEqubls("[123]", (String) longsToString.invokeExbct((long)123));
      * }</pre></blockquote>
-     * @param arrayType often {@code Object[]}, the type of the array argument which will collect the arguments
-     * @param arrayLength the number of arguments to collect into a new array argument
-     * @return a new method handle which collects some trailing argument
-     *         into an array, before calling the original method handle
-     * @throws NullPointerException if {@code arrayType} is a null reference
-     * @throws IllegalArgumentException if {@code arrayType} is not an array type
-     *         or {@code arrayType} is not assignable to this method handle's trailing parameter type,
-     *         or {@code arrayLength} is not a legal array size,
-     *         or the resulting method handle's type would have
-     *         <a href="MethodHandle.html#maxarity">too many parameters</a>
-     * @throws WrongMethodTypeException if the implied {@code asType} call fails
-     * @see #asSpreader
-     * @see #asVarargsCollector
+     * @pbrbm brrbyType often {@code Object[]}, the type of the brrby brgument which will collect the brguments
+     * @pbrbm brrbyLength the number of brguments to collect into b new brrby brgument
+     * @return b new method hbndle which collects some trbiling brgument
+     *         into bn brrby, before cblling the originbl method hbndle
+     * @throws NullPointerException if {@code brrbyType} is b null reference
+     * @throws IllegblArgumentException if {@code brrbyType} is not bn brrby type
+     *         or {@code brrbyType} is not bssignbble to this method hbndle's trbiling pbrbmeter type,
+     *         or {@code brrbyLength} is not b legbl brrby size,
+     *         or the resulting method hbndle's type would hbve
+     *         <b href="MethodHbndle.html#mbxbrity">too mbny pbrbmeters</b>
+     * @throws WrongMethodTypeException if the implied {@code bsType} cbll fbils
+     * @see #bsSprebder
+     * @see #bsVbrbrgsCollector
      */
-    public MethodHandle asCollector(Class<?> arrayType, int arrayLength) {
-        asCollectorChecks(arrayType, arrayLength);
-        int collectArgPos = type().parameterCount()-1;
-        MethodHandle target = this;
-        if (arrayType != type().parameterType(collectArgPos))
-            target = convertArguments(type().changeParameterType(collectArgPos, arrayType));
-        MethodHandle collector = ValueConversions.varargsArray(arrayType, arrayLength);
-        return MethodHandles.collectArguments(target, collectArgPos, collector);
+    public MethodHbndle bsCollector(Clbss<?> brrbyType, int brrbyLength) {
+        bsCollectorChecks(brrbyType, brrbyLength);
+        int collectArgPos = type().pbrbmeterCount()-1;
+        MethodHbndle tbrget = this;
+        if (brrbyType != type().pbrbmeterType(collectArgPos))
+            tbrget = convertArguments(type().chbngePbrbmeterType(collectArgPos, brrbyType));
+        MethodHbndle collector = VblueConversions.vbrbrgsArrby(brrbyType, brrbyLength);
+        return MethodHbndles.collectArguments(tbrget, collectArgPos, collector);
     }
 
-    // private API: return true if last param exactly matches arrayType
-    private boolean asCollectorChecks(Class<?> arrayType, int arrayLength) {
-        spreadArrayChecks(arrayType, arrayLength);
-        int nargs = type().parameterCount();
-        if (nargs != 0) {
-            Class<?> lastParam = type().parameterType(nargs-1);
-            if (lastParam == arrayType)  return true;
-            if (lastParam.isAssignableFrom(arrayType))  return false;
+    // privbte API: return true if lbst pbrbm exbctly mbtches brrbyType
+    privbte boolebn bsCollectorChecks(Clbss<?> brrbyType, int brrbyLength) {
+        sprebdArrbyChecks(brrbyType, brrbyLength);
+        int nbrgs = type().pbrbmeterCount();
+        if (nbrgs != 0) {
+            Clbss<?> lbstPbrbm = type().pbrbmeterType(nbrgs-1);
+            if (lbstPbrbm == brrbyType)  return true;
+            if (lbstPbrbm.isAssignbbleFrom(brrbyType))  return fblse;
         }
-        throw newIllegalArgumentException("array type not assignable to trailing argument", this, arrayType);
+        throw newIllegblArgumentException("brrby type not bssignbble to trbiling brgument", this, brrbyType);
     }
 
     /**
-     * Makes a <em>variable arity</em> adapter which is able to accept
-     * any number of trailing positional arguments and collect them
-     * into an array argument.
+     * Mbkes b <em>vbribble brity</em> bdbpter which is bble to bccept
+     * bny number of trbiling positionbl brguments bnd collect them
+     * into bn brrby brgument.
      * <p>
-     * The type and behavior of the adapter will be the same as
-     * the type and behavior of the target, except that certain
-     * {@code invoke} and {@code asType} requests can lead to
-     * trailing positional arguments being collected into target's
-     * trailing parameter.
-     * Also, the last parameter type of the adapter will be
-     * {@code arrayType}, even if the target has a different
-     * last parameter type.
+     * The type bnd behbvior of the bdbpter will be the sbme bs
+     * the type bnd behbvior of the tbrget, except thbt certbin
+     * {@code invoke} bnd {@code bsType} requests cbn lebd to
+     * trbiling positionbl brguments being collected into tbrget's
+     * trbiling pbrbmeter.
+     * Also, the lbst pbrbmeter type of the bdbpter will be
+     * {@code brrbyType}, even if the tbrget hbs b different
+     * lbst pbrbmeter type.
      * <p>
-     * This transformation may return {@code this} if the method handle is
-     * already of variable arity and its trailing parameter type
-     * is identical to {@code arrayType}.
+     * This trbnsformbtion mby return {@code this} if the method hbndle is
+     * blrebdy of vbribble brity bnd its trbiling pbrbmeter type
+     * is identicbl to {@code brrbyType}.
      * <p>
-     * When called with {@link #invokeExact invokeExact}, the adapter invokes
-     * the target with no argument changes.
-     * (<em>Note:</em> This behavior is different from a
-     * {@linkplain #asCollector fixed arity collector},
-     * since it accepts a whole array of indeterminate length,
-     * rather than a fixed number of arguments.)
+     * When cblled with {@link #invokeExbct invokeExbct}, the bdbpter invokes
+     * the tbrget with no brgument chbnges.
+     * (<em>Note:</em> This behbvior is different from b
+     * {@linkplbin #bsCollector fixed brity collector},
+     * since it bccepts b whole brrby of indeterminbte length,
+     * rbther thbn b fixed number of brguments.)
      * <p>
-     * When called with plain, inexact {@link #invoke invoke}, if the caller
-     * type is the same as the adapter, the adapter invokes the target as with
-     * {@code invokeExact}.
-     * (This is the normal behavior for {@code invoke} when types match.)
+     * When cblled with plbin, inexbct {@link #invoke invoke}, if the cbller
+     * type is the sbme bs the bdbpter, the bdbpter invokes the tbrget bs with
+     * {@code invokeExbct}.
+     * (This is the normbl behbvior for {@code invoke} when types mbtch.)
      * <p>
-     * Otherwise, if the caller and adapter arity are the same, and the
-     * trailing parameter type of the caller is a reference type identical to
-     * or assignable to the trailing parameter type of the adapter,
-     * the arguments and return values are converted pairwise,
-     * as if by {@link #asType asType} on a fixed arity
-     * method handle.
+     * Otherwise, if the cbller bnd bdbpter brity bre the sbme, bnd the
+     * trbiling pbrbmeter type of the cbller is b reference type identicbl to
+     * or bssignbble to the trbiling pbrbmeter type of the bdbpter,
+     * the brguments bnd return vblues bre converted pbirwise,
+     * bs if by {@link #bsType bsType} on b fixed brity
+     * method hbndle.
      * <p>
-     * Otherwise, the arities differ, or the adapter's trailing parameter
-     * type is not assignable from the corresponding caller type.
-     * In this case, the adapter replaces all trailing arguments from
-     * the original trailing argument position onward, by
-     * a new array of type {@code arrayType}, whose elements
-     * comprise (in order) the replaced arguments.
+     * Otherwise, the brities differ, or the bdbpter's trbiling pbrbmeter
+     * type is not bssignbble from the corresponding cbller type.
+     * In this cbse, the bdbpter replbces bll trbiling brguments from
+     * the originbl trbiling brgument position onwbrd, by
+     * b new brrby of type {@code brrbyType}, whose elements
+     * comprise (in order) the replbced brguments.
      * <p>
-     * The caller type must provides as least enough arguments,
-     * and of the correct type, to satisfy the target's requirement for
-     * positional arguments before the trailing array argument.
-     * Thus, the caller must supply, at a minimum, {@code N-1} arguments,
-     * where {@code N} is the arity of the target.
-     * Also, there must exist conversions from the incoming arguments
-     * to the target's arguments.
-     * As with other uses of plain {@code invoke}, if these basic
-     * requirements are not fulfilled, a {@code WrongMethodTypeException}
-     * may be thrown.
+     * The cbller type must provides bs lebst enough brguments,
+     * bnd of the correct type, to sbtisfy the tbrget's requirement for
+     * positionbl brguments before the trbiling brrby brgument.
+     * Thus, the cbller must supply, bt b minimum, {@code N-1} brguments,
+     * where {@code N} is the brity of the tbrget.
+     * Also, there must exist conversions from the incoming brguments
+     * to the tbrget's brguments.
+     * As with other uses of plbin {@code invoke}, if these bbsic
+     * requirements bre not fulfilled, b {@code WrongMethodTypeException}
+     * mby be thrown.
      * <p>
-     * In all cases, what the target eventually returns is returned unchanged by the adapter.
+     * In bll cbses, whbt the tbrget eventublly returns is returned unchbnged by the bdbpter.
      * <p>
-     * In the final case, it is exactly as if the target method handle were
-     * temporarily adapted with a {@linkplain #asCollector fixed arity collector}
-     * to the arity required by the caller type.
-     * (As with {@code asCollector}, if the array length is zero,
-     * a shared constant may be used instead of a new array.
-     * If the implied call to {@code asCollector} would throw
-     * an {@code IllegalArgumentException} or {@code WrongMethodTypeException},
-     * the call to the variable arity adapter must throw
+     * In the finbl cbse, it is exbctly bs if the tbrget method hbndle were
+     * temporbrily bdbpted with b {@linkplbin #bsCollector fixed brity collector}
+     * to the brity required by the cbller type.
+     * (As with {@code bsCollector}, if the brrby length is zero,
+     * b shbred constbnt mby be used instebd of b new brrby.
+     * If the implied cbll to {@code bsCollector} would throw
+     * bn {@code IllegblArgumentException} or {@code WrongMethodTypeException},
+     * the cbll to the vbribble brity bdbpter must throw
      * {@code WrongMethodTypeException}.)
      * <p>
-     * The behavior of {@link #asType asType} is also specialized for
-     * variable arity adapters, to maintain the invariant that
-     * plain, inexact {@code invoke} is always equivalent to an {@code asType}
-     * call to adjust the target type, followed by {@code invokeExact}.
-     * Therefore, a variable arity adapter responds
-     * to an {@code asType} request by building a fixed arity collector,
-     * if and only if the adapter and requested type differ either
-     * in arity or trailing argument type.
-     * The resulting fixed arity collector has its type further adjusted
-     * (if necessary) to the requested type by pairwise conversion,
-     * as if by another application of {@code asType}.
+     * The behbvior of {@link #bsType bsType} is blso speciblized for
+     * vbribble brity bdbpters, to mbintbin the invbribnt thbt
+     * plbin, inexbct {@code invoke} is blwbys equivblent to bn {@code bsType}
+     * cbll to bdjust the tbrget type, followed by {@code invokeExbct}.
+     * Therefore, b vbribble brity bdbpter responds
+     * to bn {@code bsType} request by building b fixed brity collector,
+     * if bnd only if the bdbpter bnd requested type differ either
+     * in brity or trbiling brgument type.
+     * The resulting fixed brity collector hbs its type further bdjusted
+     * (if necessbry) to the requested type by pbirwise conversion,
+     * bs if by bnother bpplicbtion of {@code bsType}.
      * <p>
-     * When a method handle is obtained by executing an {@code ldc} instruction
-     * of a {@code CONSTANT_MethodHandle} constant, and the target method is marked
-     * as a variable arity method (with the modifier bit {@code 0x0080}),
-     * the method handle will accept multiple arities, as if the method handle
-     * constant were created by means of a call to {@code asVarargsCollector}.
+     * When b method hbndle is obtbined by executing bn {@code ldc} instruction
+     * of b {@code CONSTANT_MethodHbndle} constbnt, bnd the tbrget method is mbrked
+     * bs b vbribble brity method (with the modifier bit {@code 0x0080}),
+     * the method hbndle will bccept multiple brities, bs if the method hbndle
+     * constbnt were crebted by mebns of b cbll to {@code bsVbrbrgsCollector}.
      * <p>
-     * In order to create a collecting adapter which collects a predetermined
-     * number of arguments, and whose type reflects this predetermined number,
-     * use {@link #asCollector asCollector} instead.
+     * In order to crebte b collecting bdbpter which collects b predetermined
+     * number of brguments, bnd whose type reflects this predetermined number,
+     * use {@link #bsCollector bsCollector} instebd.
      * <p>
-     * No method handle transformations produce new method handles with
-     * variable arity, unless they are documented as doing so.
-     * Therefore, besides {@code asVarargsCollector},
-     * all methods in {@code MethodHandle} and {@code MethodHandles}
-     * will return a method handle with fixed arity,
-     * except in the cases where they are specified to return their original
-     * operand (e.g., {@code asType} of the method handle's own type).
+     * No method hbndle trbnsformbtions produce new method hbndles with
+     * vbribble brity, unless they bre documented bs doing so.
+     * Therefore, besides {@code bsVbrbrgsCollector},
+     * bll methods in {@code MethodHbndle} bnd {@code MethodHbndles}
+     * will return b method hbndle with fixed brity,
+     * except in the cbses where they bre specified to return their originbl
+     * operbnd (e.g., {@code bsType} of the method hbndle's own type).
      * <p>
-     * Calling {@code asVarargsCollector} on a method handle which is already
-     * of variable arity will produce a method handle with the same type and behavior.
-     * It may (or may not) return the original variable arity method handle.
+     * Cblling {@code bsVbrbrgsCollector} on b method hbndle which is blrebdy
+     * of vbribble brity will produce b method hbndle with the sbme type bnd behbvior.
+     * It mby (or mby not) return the originbl vbribble brity method hbndle.
      * <p>
-     * Here is an example, of a list-making variable arity method handle:
+     * Here is bn exbmple, of b list-mbking vbribble brity method hbndle:
      * <blockquote><pre>{@code
-MethodHandle deepToString = publicLookup()
-  .findStatic(Arrays.class, "deepToString", methodType(String.class, Object[].class));
-MethodHandle ts1 = deepToString.asVarargsCollector(Object[].class);
-assertEquals("[won]",   (String) ts1.invokeExact(    new Object[]{"won"}));
-assertEquals("[won]",   (String) ts1.invoke(         new Object[]{"won"}));
-assertEquals("[won]",   (String) ts1.invoke(                      "won" ));
-assertEquals("[[won]]", (String) ts1.invoke((Object) new Object[]{"won"}));
-// findStatic of Arrays.asList(...) produces a variable arity method handle:
-MethodHandle asList = publicLookup()
-  .findStatic(Arrays.class, "asList", methodType(List.class, Object[].class));
-assertEquals(methodType(List.class, Object[].class), asList.type());
-assert(asList.isVarargsCollector());
-assertEquals("[]", asList.invoke().toString());
-assertEquals("[1]", asList.invoke(1).toString());
-assertEquals("[two, too]", asList.invoke("two", "too").toString());
-String[] argv = { "three", "thee", "tee" };
-assertEquals("[three, thee, tee]", asList.invoke(argv).toString());
-assertEquals("[three, thee, tee]", asList.invoke((Object[])argv).toString());
-List ls = (List) asList.invoke((Object)argv);
-assertEquals(1, ls.size());
-assertEquals("[three, thee, tee]", Arrays.toString((Object[])ls.get(0)));
+MethodHbndle deepToString = publicLookup()
+  .findStbtic(Arrbys.clbss, "deepToString", methodType(String.clbss, Object[].clbss));
+MethodHbndle ts1 = deepToString.bsVbrbrgsCollector(Object[].clbss);
+bssertEqubls("[won]",   (String) ts1.invokeExbct(    new Object[]{"won"}));
+bssertEqubls("[won]",   (String) ts1.invoke(         new Object[]{"won"}));
+bssertEqubls("[won]",   (String) ts1.invoke(                      "won" ));
+bssertEqubls("[[won]]", (String) ts1.invoke((Object) new Object[]{"won"}));
+// findStbtic of Arrbys.bsList(...) produces b vbribble brity method hbndle:
+MethodHbndle bsList = publicLookup()
+  .findStbtic(Arrbys.clbss, "bsList", methodType(List.clbss, Object[].clbss));
+bssertEqubls(methodType(List.clbss, Object[].clbss), bsList.type());
+bssert(bsList.isVbrbrgsCollector());
+bssertEqubls("[]", bsList.invoke().toString());
+bssertEqubls("[1]", bsList.invoke(1).toString());
+bssertEqubls("[two, too]", bsList.invoke("two", "too").toString());
+String[] brgv = { "three", "thee", "tee" };
+bssertEqubls("[three, thee, tee]", bsList.invoke(brgv).toString());
+bssertEqubls("[three, thee, tee]", bsList.invoke((Object[])brgv).toString());
+List ls = (List) bsList.invoke((Object)brgv);
+bssertEqubls(1, ls.size());
+bssertEqubls("[three, thee, tee]", Arrbys.toString((Object[])ls.get(0)));
      * }</pre></blockquote>
-     * <p style="font-size:smaller;">
+     * <p style="font-size:smbller;">
      * <em>Discussion:</em>
-     * These rules are designed as a dynamically-typed variation
-     * of the Java rules for variable arity methods.
-     * In both cases, callers to a variable arity method or method handle
-     * can either pass zero or more positional arguments, or else pass
-     * pre-collected arrays of any length.  Users should be aware of the
-     * special role of the final argument, and of the effect of a
-     * type match on that final argument, which determines whether
-     * or not a single trailing argument is interpreted as a whole
-     * array or a single element of an array to be collected.
-     * Note that the dynamic type of the trailing argument has no
-     * effect on this decision, only a comparison between the symbolic
-     * type descriptor of the call site and the type descriptor of the method handle.)
+     * These rules bre designed bs b dynbmicblly-typed vbribtion
+     * of the Jbvb rules for vbribble brity methods.
+     * In both cbses, cbllers to b vbribble brity method or method hbndle
+     * cbn either pbss zero or more positionbl brguments, or else pbss
+     * pre-collected brrbys of bny length.  Users should be bwbre of the
+     * specibl role of the finbl brgument, bnd of the effect of b
+     * type mbtch on thbt finbl brgument, which determines whether
+     * or not b single trbiling brgument is interpreted bs b whole
+     * brrby or b single element of bn brrby to be collected.
+     * Note thbt the dynbmic type of the trbiling brgument hbs no
+     * effect on this decision, only b compbrison between the symbolic
+     * type descriptor of the cbll site bnd the type descriptor of the method hbndle.)
      *
-     * @param arrayType often {@code Object[]}, the type of the array argument which will collect the arguments
-     * @return a new method handle which can collect any number of trailing arguments
-     *         into an array, before calling the original method handle
-     * @throws NullPointerException if {@code arrayType} is a null reference
-     * @throws IllegalArgumentException if {@code arrayType} is not an array type
-     *         or {@code arrayType} is not assignable to this method handle's trailing parameter type
-     * @see #asCollector
-     * @see #isVarargsCollector
-     * @see #asFixedArity
+     * @pbrbm brrbyType often {@code Object[]}, the type of the brrby brgument which will collect the brguments
+     * @return b new method hbndle which cbn collect bny number of trbiling brguments
+     *         into bn brrby, before cblling the originbl method hbndle
+     * @throws NullPointerException if {@code brrbyType} is b null reference
+     * @throws IllegblArgumentException if {@code brrbyType} is not bn brrby type
+     *         or {@code brrbyType} is not bssignbble to this method hbndle's trbiling pbrbmeter type
+     * @see #bsCollector
+     * @see #isVbrbrgsCollector
+     * @see #bsFixedArity
      */
-    public MethodHandle asVarargsCollector(Class<?> arrayType) {
-        Class<?> arrayElement = arrayType.getComponentType();
-        boolean lastMatch = asCollectorChecks(arrayType, 0);
-        if (isVarargsCollector() && lastMatch)
+    public MethodHbndle bsVbrbrgsCollector(Clbss<?> brrbyType) {
+        Clbss<?> brrbyElement = brrbyType.getComponentType();
+        boolebn lbstMbtch = bsCollectorChecks(brrbyType, 0);
+        if (isVbrbrgsCollector() && lbstMbtch)
             return this;
-        return MethodHandleImpl.makeVarargsCollector(this, arrayType);
+        return MethodHbndleImpl.mbkeVbrbrgsCollector(this, brrbyType);
     }
 
     /**
-     * Determines if this method handle
-     * supports {@linkplain #asVarargsCollector variable arity} calls.
-     * Such method handles arise from the following sources:
+     * Determines if this method hbndle
+     * supports {@linkplbin #bsVbrbrgsCollector vbribble brity} cblls.
+     * Such method hbndles brise from the following sources:
      * <ul>
-     * <li>a call to {@linkplain #asVarargsCollector asVarargsCollector}
-     * <li>a call to a {@linkplain java.lang.invoke.MethodHandles.Lookup lookup method}
-     *     which resolves to a variable arity Java method or constructor
-     * <li>an {@code ldc} instruction of a {@code CONSTANT_MethodHandle}
-     *     which resolves to a variable arity Java method or constructor
+     * <li>b cbll to {@linkplbin #bsVbrbrgsCollector bsVbrbrgsCollector}
+     * <li>b cbll to b {@linkplbin jbvb.lbng.invoke.MethodHbndles.Lookup lookup method}
+     *     which resolves to b vbribble brity Jbvb method or constructor
+     * <li>bn {@code ldc} instruction of b {@code CONSTANT_MethodHbndle}
+     *     which resolves to b vbribble brity Jbvb method or constructor
      * </ul>
-     * @return true if this method handle accepts more than one arity of plain, inexact {@code invoke} calls
-     * @see #asVarargsCollector
-     * @see #asFixedArity
+     * @return true if this method hbndle bccepts more thbn one brity of plbin, inexbct {@code invoke} cblls
+     * @see #bsVbrbrgsCollector
+     * @see #bsFixedArity
      */
-    public boolean isVarargsCollector() {
-        return false;
+    public boolebn isVbrbrgsCollector() {
+        return fblse;
     }
 
     /**
-     * Makes a <em>fixed arity</em> method handle which is otherwise
-     * equivalent to the current method handle.
+     * Mbkes b <em>fixed brity</em> method hbndle which is otherwise
+     * equivblent to the current method hbndle.
      * <p>
-     * If the current method handle is not of
-     * {@linkplain #asVarargsCollector variable arity},
-     * the current method handle is returned.
-     * This is true even if the current method handle
-     * could not be a valid input to {@code asVarargsCollector}.
+     * If the current method hbndle is not of
+     * {@linkplbin #bsVbrbrgsCollector vbribble brity},
+     * the current method hbndle is returned.
+     * This is true even if the current method hbndle
+     * could not be b vblid input to {@code bsVbrbrgsCollector}.
      * <p>
-     * Otherwise, the resulting fixed-arity method handle has the same
-     * type and behavior of the current method handle,
-     * except that {@link #isVarargsCollector isVarargsCollector}
-     * will be false.
-     * The fixed-arity method handle may (or may not) be the
-     * a previous argument to {@code asVarargsCollector}.
+     * Otherwise, the resulting fixed-brity method hbndle hbs the sbme
+     * type bnd behbvior of the current method hbndle,
+     * except thbt {@link #isVbrbrgsCollector isVbrbrgsCollector}
+     * will be fblse.
+     * The fixed-brity method hbndle mby (or mby not) be the
+     * b previous brgument to {@code bsVbrbrgsCollector}.
      * <p>
-     * Here is an example, of a list-making variable arity method handle:
+     * Here is bn exbmple, of b list-mbking vbribble brity method hbndle:
      * <blockquote><pre>{@code
-MethodHandle asListVar = publicLookup()
-  .findStatic(Arrays.class, "asList", methodType(List.class, Object[].class))
-  .asVarargsCollector(Object[].class);
-MethodHandle asListFix = asListVar.asFixedArity();
-assertEquals("[1]", asListVar.invoke(1).toString());
-Exception caught = null;
-try { asListFix.invoke((Object)1); }
-catch (Exception ex) { caught = ex; }
-assert(caught instanceof ClassCastException);
-assertEquals("[two, too]", asListVar.invoke("two", "too").toString());
-try { asListFix.invoke("two", "too"); }
-catch (Exception ex) { caught = ex; }
-assert(caught instanceof WrongMethodTypeException);
-Object[] argv = { "three", "thee", "tee" };
-assertEquals("[three, thee, tee]", asListVar.invoke(argv).toString());
-assertEquals("[three, thee, tee]", asListFix.invoke(argv).toString());
-assertEquals(1, ((List) asListVar.invoke((Object)argv)).size());
-assertEquals("[three, thee, tee]", asListFix.invoke((Object)argv).toString());
+MethodHbndle bsListVbr = publicLookup()
+  .findStbtic(Arrbys.clbss, "bsList", methodType(List.clbss, Object[].clbss))
+  .bsVbrbrgsCollector(Object[].clbss);
+MethodHbndle bsListFix = bsListVbr.bsFixedArity();
+bssertEqubls("[1]", bsListVbr.invoke(1).toString());
+Exception cbught = null;
+try { bsListFix.invoke((Object)1); }
+cbtch (Exception ex) { cbught = ex; }
+bssert(cbught instbnceof ClbssCbstException);
+bssertEqubls("[two, too]", bsListVbr.invoke("two", "too").toString());
+try { bsListFix.invoke("two", "too"); }
+cbtch (Exception ex) { cbught = ex; }
+bssert(cbught instbnceof WrongMethodTypeException);
+Object[] brgv = { "three", "thee", "tee" };
+bssertEqubls("[three, thee, tee]", bsListVbr.invoke(brgv).toString());
+bssertEqubls("[three, thee, tee]", bsListFix.invoke(brgv).toString());
+bssertEqubls(1, ((List) bsListVbr.invoke((Object)brgv)).size());
+bssertEqubls("[three, thee, tee]", bsListFix.invoke((Object)brgv).toString());
      * }</pre></blockquote>
      *
-     * @return a new method handle which accepts only a fixed number of arguments
-     * @see #asVarargsCollector
-     * @see #isVarargsCollector
+     * @return b new method hbndle which bccepts only b fixed number of brguments
+     * @see #bsVbrbrgsCollector
+     * @see #isVbrbrgsCollector
      */
-    public MethodHandle asFixedArity() {
-        assert(!isVarargsCollector());
+    public MethodHbndle bsFixedArity() {
+        bssert(!isVbrbrgsCollector());
         return this;
     }
 
     /**
-     * Binds a value {@code x} to the first argument of a method handle, without invoking it.
-     * The new method handle adapts, as its <i>target</i>,
-     * the current method handle by binding it to the given argument.
-     * The type of the bound handle will be
-     * the same as the type of the target, except that a single leading
-     * reference parameter will be omitted.
+     * Binds b vblue {@code x} to the first brgument of b method hbndle, without invoking it.
+     * The new method hbndle bdbpts, bs its <i>tbrget</i>,
+     * the current method hbndle by binding it to the given brgument.
+     * The type of the bound hbndle will be
+     * the sbme bs the type of the tbrget, except thbt b single lebding
+     * reference pbrbmeter will be omitted.
      * <p>
-     * When called, the bound handle inserts the given value {@code x}
-     * as a new leading argument to the target.  The other arguments are
-     * also passed unchanged.
-     * What the target eventually returns is returned unchanged by the bound handle.
+     * When cblled, the bound hbndle inserts the given vblue {@code x}
+     * bs b new lebding brgument to the tbrget.  The other brguments bre
+     * blso pbssed unchbnged.
+     * Whbt the tbrget eventublly returns is returned unchbnged by the bound hbndle.
      * <p>
-     * The reference {@code x} must be convertible to the first parameter
-     * type of the target.
+     * The reference {@code x} must be convertible to the first pbrbmeter
+     * type of the tbrget.
      * <p>
-     * (<em>Note:</em>  Because method handles are immutable, the target method handle
-     * retains its original type and behavior.)
-     * @param x  the value to bind to the first argument of the target
-     * @return a new method handle which prepends the given value to the incoming
-     *         argument list, before calling the original method handle
-     * @throws IllegalArgumentException if the target does not have a
-     *         leading parameter type that is a reference type
-     * @throws ClassCastException if {@code x} cannot be converted
-     *         to the leading parameter type of the target
-     * @see MethodHandles#insertArguments
+     * (<em>Note:</em>  Becbuse method hbndles bre immutbble, the tbrget method hbndle
+     * retbins its originbl type bnd behbvior.)
+     * @pbrbm x  the vblue to bind to the first brgument of the tbrget
+     * @return b new method hbndle which prepends the given vblue to the incoming
+     *         brgument list, before cblling the originbl method hbndle
+     * @throws IllegblArgumentException if the tbrget does not hbve b
+     *         lebding pbrbmeter type thbt is b reference type
+     * @throws ClbssCbstException if {@code x} cbnnot be converted
+     *         to the lebding pbrbmeter type of the tbrget
+     * @see MethodHbndles#insertArguments
      */
-    public MethodHandle bindTo(Object x) {
-        Class<?> ptype;
-        @SuppressWarnings("LocalVariableHidesMemberVariable")
+    public MethodHbndle bindTo(Object x) {
+        Clbss<?> ptype;
+        @SuppressWbrnings("LocblVbribbleHidesMemberVbribble")
         MethodType type = type();
-        if (type.parameterCount() == 0 ||
-            (ptype = type.parameterType(0)).isPrimitive())
-            throw newIllegalArgumentException("no leading reference parameter", x);
-        x = ptype.cast(x);  // throw CCE if needed
+        if (type.pbrbmeterCount() == 0 ||
+            (ptype = type.pbrbmeterType(0)).isPrimitive())
+            throw newIllegblArgumentException("no lebding reference pbrbmeter", x);
+        x = ptype.cbst(x);  // throw CCE if needed
         return bindReceiver(x);
     }
 
     /**
-     * Returns a string representation of the method handle,
-     * starting with the string {@code "MethodHandle"} and
-     * ending with the string representation of the method handle's type.
-     * In other words, this method returns a string equal to the value of:
+     * Returns b string representbtion of the method hbndle,
+     * stbrting with the string {@code "MethodHbndle"} bnd
+     * ending with the string representbtion of the method hbndle's type.
+     * In other words, this method returns b string equbl to the vblue of:
      * <blockquote><pre>{@code
-     * "MethodHandle" + type().toString()
+     * "MethodHbndle" + type().toString()
      * }</pre></blockquote>
      * <p>
-     * (<em>Note:</em>  Future releases of this API may add further information
-     * to the string representation.
-     * Therefore, the present syntax should not be parsed by applications.)
+     * (<em>Note:</em>  Future relebses of this API mby bdd further informbtion
+     * to the string representbtion.
+     * Therefore, the present syntbx should not be pbrsed by bpplicbtions.)
      *
-     * @return a string representation of the method handle
+     * @return b string representbtion of the method hbndle
      */
     @Override
     public String toString() {
         if (DEBUG_METHOD_HANDLE_NAMES)  return debugString();
-        return standardString();
+        return stbndbrdString();
     }
-    String standardString() {
-        return "MethodHandle"+type;
+    String stbndbrdString() {
+        return "MethodHbndle"+type;
     }
     String debugString() {
-        return standardString()+"/LF="+internalForm()+internalProperties();
+        return stbndbrdString()+"/LF="+internblForm()+internblProperties();
     }
 
-    //// Implementation methods.
-    //// Sub-classes can override these default implementations.
-    //// All these methods assume arguments are already validated.
+    //// Implementbtion methods.
+    //// Sub-clbsses cbn override these defbult implementbtions.
+    //// All these methods bssume brguments bre blrebdy vblidbted.
 
-    // Other transforms to do:  convert, explicitCast, permute, drop, filter, fold, GWT, catch
+    // Other trbnsforms to do:  convert, explicitCbst, permute, drop, filter, fold, GWT, cbtch
 
     /*non-public*/
-    MethodHandle setVarargs(MemberName member) throws IllegalAccessException {
-        if (!member.isVarargs())  return this;
-        int argc = type().parameterCount();
-        if (argc != 0) {
-            Class<?> arrayType = type().parameterType(argc-1);
-            if (arrayType.isArray()) {
-                return MethodHandleImpl.makeVarargsCollector(this, arrayType);
+    MethodHbndle setVbrbrgs(MemberNbme member) throws IllegblAccessException {
+        if (!member.isVbrbrgs())  return this;
+        int brgc = type().pbrbmeterCount();
+        if (brgc != 0) {
+            Clbss<?> brrbyType = type().pbrbmeterType(brgc-1);
+            if (brrbyType.isArrby()) {
+                return MethodHbndleImpl.mbkeVbrbrgsCollector(this, brrbyType);
             }
         }
-        throw member.makeAccessException("cannot make variable arity", null);
+        throw member.mbkeAccessException("cbnnot mbke vbribble brity", null);
     }
     /*non-public*/
-    MethodHandle viewAsType(MethodType newType) {
-        // No actual conversions, just a new view of the same method.
-        return MethodHandleImpl.makePairwiseConvert(this, newType, 0);
+    MethodHbndle viewAsType(MethodType newType) {
+        // No bctubl conversions, just b new view of the sbme method.
+        return MethodHbndleImpl.mbkePbirwiseConvert(this, newType, 0);
     }
 
     // Decoding
 
     /*non-public*/
-    LambdaForm internalForm() {
+    LbmbdbForm internblForm() {
         return form;
     }
 
     /*non-public*/
-    MemberName internalMemberName() {
+    MemberNbme internblMemberNbme() {
         return null;  // DMH returns DMH.member
     }
 
     /*non-public*/
-    Class<?> internalCallerClass() {
-        return null;  // caller-bound MH for @CallerSensitive method returns caller
+    Clbss<?> internblCbllerClbss() {
+        return null;  // cbller-bound MH for @CbllerSensitive method returns cbller
     }
 
     /*non-public*/
-    MethodHandle withInternalMemberName(MemberName member) {
+    MethodHbndle withInternblMemberNbme(MemberNbme member) {
         if (member != null) {
-            return MethodHandleImpl.makeWrappedMember(this, member);
-        } else if (internalMemberName() == null) {
-            // The required internaMemberName is null, and this MH (like most) doesn't have one.
+            return MethodHbndleImpl.mbkeWrbppedMember(this, member);
+        } else if (internblMemberNbme() == null) {
+            // The required internbMemberNbme is null, bnd this MH (like most) doesn't hbve one.
             return this;
         } else {
-            // The following case is rare. Mask the internalMemberName by wrapping the MH in a BMH.
-            MethodHandle result = rebind();
-            assert (result.internalMemberName() == null);
+            // The following cbse is rbre. Mbsk the internblMemberNbme by wrbpping the MH in b BMH.
+            MethodHbndle result = rebind();
+            bssert (result.internblMemberNbme() == null);
             return result;
         }
     }
 
     /*non-public*/
-    boolean isInvokeSpecial() {
-        return false;  // DMH.Special returns true
+    boolebn isInvokeSpecibl() {
+        return fblse;  // DMH.Specibl returns true
     }
 
     /*non-public*/
-    Object internalValues() {
+    Object internblVblues() {
         return null;
     }
 
     /*non-public*/
-    Object internalProperties() {
-        // Override to something like "/FOO=bar"
+    Object internblProperties() {
+        // Override to something like "/FOO=bbr"
         return "";
     }
 
-    //// Method handle implementation methods.
-    //// Sub-classes can override these default implementations.
-    //// All these methods assume arguments are already validated.
+    //// Method hbndle implementbtion methods.
+    //// Sub-clbsses cbn override these defbult implementbtions.
+    //// All these methods bssume brguments bre blrebdy vblidbted.
 
-    /*non-public*/ MethodHandle convertArguments(MethodType newType) {
-        // Override this if it can be improved.
-        return MethodHandleImpl.makePairwiseConvert(this, newType, 1);
+    /*non-public*/ MethodHbndle convertArguments(MethodType newType) {
+        // Override this if it cbn be improved.
+        return MethodHbndleImpl.mbkePbirwiseConvert(this, newType, 1);
     }
 
     /*non-public*/
-    MethodHandle bindArgument(int pos, BasicType basicType, Object value) {
-        // Override this if it can be improved.
-        return rebind().bindArgument(pos, basicType, value);
+    MethodHbndle bindArgument(int pos, BbsicType bbsicType, Object vblue) {
+        // Override this if it cbn be improved.
+        return rebind().bindArgument(pos, bbsicType, vblue);
     }
 
     /*non-public*/
-    MethodHandle bindReceiver(Object receiver) {
-        // Override this if it can be improved.
+    MethodHbndle bindReceiver(Object receiver) {
+        // Override this if it cbn be improved.
         return bindArgument(0, L_TYPE, receiver);
     }
 
     /*non-public*/
-    MethodHandle dropArguments(MethodType srcType, int pos, int drops) {
-        // Override this if it can be improved.
+    MethodHbndle dropArguments(MethodType srcType, int pos, int drops) {
+        // Override this if it cbn be improved.
         return rebind().dropArguments(srcType, pos, drops);
     }
 
     /*non-public*/
-    MethodHandle permuteArguments(MethodType newType, int[] reorder) {
-        // Override this if it can be improved.
+    MethodHbndle permuteArguments(MethodType newType, int[] reorder) {
+        // Override this if it cbn be improved.
         return rebind().permuteArguments(newType, reorder);
     }
 
     /*non-public*/
-    MethodHandle rebind() {
-        // Bind 'this' into a new invoker, of the known class BMH.
+    MethodHbndle rebind() {
+        // Bind 'this' into b new invoker, of the known clbss BMH.
         MethodType type2 = type();
-        LambdaForm form2 = reinvokerForm(this);
-        // form2 = lambda (bmh, arg*) { thismh = bmh[0]; invokeBasic(thismh, arg*) }
-        return BoundMethodHandle.bindSingle(type2, form2, this);
+        LbmbdbForm form2 = reinvokerForm(this);
+        // form2 = lbmbdb (bmh, brg*) { thismh = bmh[0]; invokeBbsic(thismh, brg*) }
+        return BoundMethodHbndle.bindSingle(type2, form2, this);
     }
 
     /*non-public*/
-    MethodHandle reinvokerTarget() {
-        throw new InternalError("not a reinvoker MH: "+this.getClass().getName()+": "+this);
+    MethodHbndle reinvokerTbrget() {
+        throw new InternblError("not b reinvoker MH: "+this.getClbss().getNbme()+": "+this);
     }
 
-    /** Create a LF which simply reinvokes a target of the given basic type.
-     *  The target MH must override {@link #reinvokerTarget} to provide the target.
+    /** Crebte b LF which simply reinvokes b tbrget of the given bbsic type.
+     *  The tbrget MH must override {@link #reinvokerTbrget} to provide the tbrget.
      */
-    static LambdaForm reinvokerForm(MethodHandle target) {
-        MethodType mtype = target.type().basicType();
-        LambdaForm reinvoker = mtype.form().cachedLambdaForm(MethodTypeForm.LF_REINVOKE);
+    stbtic LbmbdbForm reinvokerForm(MethodHbndle tbrget) {
+        MethodType mtype = tbrget.type().bbsicType();
+        LbmbdbForm reinvoker = mtype.form().cbchedLbmbdbForm(MethodTypeForm.LF_REINVOKE);
         if (reinvoker != null)  return reinvoker;
-        if (mtype.parameterSlotCount() >= MethodType.MAX_MH_ARITY)
-            return makeReinvokerForm(target.type(), target);  // cannot cache this
-        reinvoker = makeReinvokerForm(mtype, null);
-        return mtype.form().setCachedLambdaForm(MethodTypeForm.LF_REINVOKE, reinvoker);
+        if (mtype.pbrbmeterSlotCount() >= MethodType.MAX_MH_ARITY)
+            return mbkeReinvokerForm(tbrget.type(), tbrget);  // cbnnot cbche this
+        reinvoker = mbkeReinvokerForm(mtype, null);
+        return mtype.form().setCbchedLbmbdbForm(MethodTypeForm.LF_REINVOKE, reinvoker);
     }
-    private static LambdaForm makeReinvokerForm(MethodType mtype, MethodHandle customTargetOrNull) {
-        boolean customized = (customTargetOrNull != null);
-        MethodHandle MH_invokeBasic = customized ? null : MethodHandles.basicInvoker(mtype);
-        final int THIS_BMH    = 0;
-        final int ARG_BASE    = 1;
-        final int ARG_LIMIT   = ARG_BASE + mtype.parameterCount();
-        int nameCursor = ARG_LIMIT;
-        final int NEXT_MH     = customized ? -1 : nameCursor++;
-        final int REINVOKE    = nameCursor++;
-        LambdaForm.Name[] names = LambdaForm.arguments(nameCursor - ARG_LIMIT, mtype.invokerType());
-        Object[] targetArgs;
-        MethodHandle targetMH;
+    privbte stbtic LbmbdbForm mbkeReinvokerForm(MethodType mtype, MethodHbndle customTbrgetOrNull) {
+        boolebn customized = (customTbrgetOrNull != null);
+        MethodHbndle MH_invokeBbsic = customized ? null : MethodHbndles.bbsicInvoker(mtype);
+        finbl int THIS_BMH    = 0;
+        finbl int ARG_BASE    = 1;
+        finbl int ARG_LIMIT   = ARG_BASE + mtype.pbrbmeterCount();
+        int nbmeCursor = ARG_LIMIT;
+        finbl int NEXT_MH     = customized ? -1 : nbmeCursor++;
+        finbl int REINVOKE    = nbmeCursor++;
+        LbmbdbForm.Nbme[] nbmes = LbmbdbForm.brguments(nbmeCursor - ARG_LIMIT, mtype.invokerType());
+        Object[] tbrgetArgs;
+        MethodHbndle tbrgetMH;
         if (customized) {
-            targetArgs = Arrays.copyOfRange(names, ARG_BASE, ARG_LIMIT, Object[].class);
-            targetMH = customTargetOrNull;
+            tbrgetArgs = Arrbys.copyOfRbnge(nbmes, ARG_BASE, ARG_LIMIT, Object[].clbss);
+            tbrgetMH = customTbrgetOrNull;
         } else {
-            names[NEXT_MH] = new LambdaForm.Name(NF_reinvokerTarget, names[THIS_BMH]);
-            targetArgs = Arrays.copyOfRange(names, THIS_BMH, ARG_LIMIT, Object[].class);
-            targetArgs[0] = names[NEXT_MH];  // overwrite this MH with next MH
-            targetMH = MethodHandles.basicInvoker(mtype);
+            nbmes[NEXT_MH] = new LbmbdbForm.Nbme(NF_reinvokerTbrget, nbmes[THIS_BMH]);
+            tbrgetArgs = Arrbys.copyOfRbnge(nbmes, THIS_BMH, ARG_LIMIT, Object[].clbss);
+            tbrgetArgs[0] = nbmes[NEXT_MH];  // overwrite this MH with next MH
+            tbrgetMH = MethodHbndles.bbsicInvoker(mtype);
         }
-        names[REINVOKE] = new LambdaForm.Name(targetMH, targetArgs);
-        return new LambdaForm("BMH.reinvoke", ARG_LIMIT, names);
+        nbmes[REINVOKE] = new LbmbdbForm.Nbme(tbrgetMH, tbrgetArgs);
+        return new LbmbdbForm("BMH.reinvoke", ARG_LIMIT, nbmes);
     }
 
-    private static final LambdaForm.NamedFunction NF_reinvokerTarget;
-    static {
+    privbte stbtic finbl LbmbdbForm.NbmedFunction NF_reinvokerTbrget;
+    stbtic {
         try {
-            NF_reinvokerTarget = new LambdaForm.NamedFunction(MethodHandle.class
-                .getDeclaredMethod("reinvokerTarget"));
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+            NF_reinvokerTbrget = new LbmbdbForm.NbmedFunction(MethodHbndle.clbss
+                .getDeclbredMethod("reinvokerTbrget"));
+        } cbtch (ReflectiveOperbtionException ex) {
+            throw newInternblError(ex);
         }
     }
 
     /**
-     * Replace the old lambda form of this method handle with a new one.
-     * The new one must be functionally equivalent to the old one.
-     * Threads may continue running the old form indefinitely,
-     * but it is likely that the new one will be preferred for new executions.
+     * Replbce the old lbmbdb form of this method hbndle with b new one.
+     * The new one must be functionblly equivblent to the old one.
+     * Threbds mby continue running the old form indefinitely,
+     * but it is likely thbt the new one will be preferred for new executions.
      * Use with discretion.
      */
     /*non-public*/
-    void updateForm(LambdaForm newForm) {
+    void updbteForm(LbmbdbForm newForm) {
         if (form == newForm)  return;
-        // ISSUE: Should we have a memory fence here?
+        // ISSUE: Should we hbve b memory fence here?
         UNSAFE.putObject(this, FORM_OFFSET, newForm);
-        this.form.prepare();  // as in MethodHandle.<init>
+        this.form.prepbre();  // bs in MethodHbndle.<init>
     }
 
-    private static final long FORM_OFFSET;
-    static {
+    privbte stbtic finbl long FORM_OFFSET;
+    stbtic {
         try {
-            FORM_OFFSET = UNSAFE.objectFieldOffset(MethodHandle.class.getDeclaredField("form"));
-        } catch (ReflectiveOperationException ex) {
-            throw newInternalError(ex);
+            FORM_OFFSET = UNSAFE.objectFieldOffset(MethodHbndle.clbss.getDeclbredField("form"));
+        } cbtch (ReflectiveOperbtionException ex) {
+            throw newInternblError(ex);
         }
     }
 }

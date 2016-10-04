@@ -1,312 +1,312 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
 /*
  *******************************************************************************
- * Copyright (C) 2003-2004, International Business Machines Corporation and         *
+ * Copyright (C) 2003-2004, Internbtionbl Business Mbchines Corporbtion bnd         *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
 //
 // CHANGELOG
-//      2005-05-19 Edward Wang
-//          - copy this file from icu4jsrc_3_2/src/com/ibm/icu/text/StringPrep.java
-//          - move from package com.ibm.icu.text to package sun.net.idn
-//          - use ParseException instead of StringPrepParseException
-//          - change 'Normalizer.getUnicodeVersion()' to 'NormalizerImpl.getUnicodeVersion()'
-//          - remove all @deprecated tag to make compiler happy
-//      2007-08-14 Martin Buchholz
-//          - remove redundant casts
+//      2005-05-19 Edwbrd Wbng
+//          - copy this file from icu4jsrc_3_2/src/com/ibm/icu/text/StringPrep.jbvb
+//          - move from pbckbge com.ibm.icu.text to pbckbge sun.net.idn
+//          - use PbrseException instebd of StringPrepPbrseException
+//          - chbnge 'Normblizer.getUnicodeVersion()' to 'NormblizerImpl.getUnicodeVersion()'
+//          - remove bll @deprecbted tbg to mbke compiler hbppy
+//      2007-08-14 Mbrtin Buchholz
+//          - remove redundbnt cbsts
 //
-package sun.net.idn;
+pbckbge sun.net.idn;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.text.PbrseException;
 
-import sun.text.Normalizer;
-import sun.text.normalizer.CharTrie;
-import sun.text.normalizer.Trie;
-import sun.text.normalizer.NormalizerImpl;
-import sun.text.normalizer.VersionInfo;
-import sun.text.normalizer.UCharacter;
-import sun.text.normalizer.UCharacterIterator;
-import sun.text.normalizer.UTF16;
-import sun.net.idn.UCharacterDirection;
-import sun.net.idn.StringPrepDataReader;
+import sun.text.Normblizer;
+import sun.text.normblizer.ChbrTrie;
+import sun.text.normblizer.Trie;
+import sun.text.normblizer.NormblizerImpl;
+import sun.text.normblizer.VersionInfo;
+import sun.text.normblizer.UChbrbcter;
+import sun.text.normblizer.UChbrbcterIterbtor;
+import sun.text.normblizer.UTF16;
+import sun.net.idn.UChbrbcterDirection;
+import sun.net.idn.StringPrepDbtbRebder;
 
 /**
- * StringPrep API implements the StingPrep framework as described by
- * <a href="http://www.ietf.org/rfc/rfc3454.txt">RFC 3454</a>.
- * StringPrep prepares Unicode strings for use in network protocols.
- * Profiles of StingPrep are set of rules and data according to which the
- * Unicode Strings are prepared. Each profiles contains tables which describe
- * how a code point should be treated. The tables are broadly classied into
+ * StringPrep API implements the StingPrep frbmework bs described by
+ * <b href="http://www.ietf.org/rfc/rfc3454.txt">RFC 3454</b>.
+ * StringPrep prepbres Unicode strings for use in network protocols.
+ * Profiles of StingPrep bre set of rules bnd dbtb bccording to which the
+ * Unicode Strings bre prepbred. Ebch profiles contbins tbbles which describe
+ * how b code point should be trebted. The tbbles bre brobdly clbssied into
  * <ul>
- *     <li> Unassigned Table: Contains code points that are unassigned
+ *     <li> Unbssigned Tbble: Contbins code points thbt bre unbssigned
  *          in the Unicode Version supported by StringPrep. Currently
  *          RFC 3454 supports Unicode 3.2. </li>
- *     <li> Prohibited Table: Contains code points that are prohibted from
+ *     <li> Prohibited Tbble: Contbins code points thbt bre prohibted from
  *          the output of the StringPrep processing function. </li>
- *     <li> Mapping Table: Contains code ponts that are deleted from the output or case mapped. </li>
+ *     <li> Mbpping Tbble: Contbins code ponts thbt bre deleted from the output or cbse mbpped. </li>
  * </ul>
  *
- * The procedure for preparing Unicode strings:
+ * The procedure for prepbring Unicode strings:
  * <ol>
- *      <li> Map: For each character in the input, check if it has a mapping
- *           and, if so, replace it with its mapping. </li>
- *      <li> Normalize: Possibly normalize the result of step 1 using Unicode
- *           normalization. </li>
- *      <li> Prohibit: Check for any characters that are not allowed in the
- *           output.  If any are found, return an error.</li>
- *      <li> Check bidi: Possibly check for right-to-left characters, and if
- *           any are found, make sure that the whole string satisfies the
- *           requirements for bidirectional strings.  If the string does not
- *           satisfy the requirements for bidirectional strings, return an
+ *      <li> Mbp: For ebch chbrbcter in the input, check if it hbs b mbpping
+ *           bnd, if so, replbce it with its mbpping. </li>
+ *      <li> Normblize: Possibly normblize the result of step 1 using Unicode
+ *           normblizbtion. </li>
+ *      <li> Prohibit: Check for bny chbrbcters thbt bre not bllowed in the
+ *           output.  If bny bre found, return bn error.</li>
+ *      <li> Check bidi: Possibly check for right-to-left chbrbcters, bnd if
+ *           bny bre found, mbke sure thbt the whole string sbtisfies the
+ *           requirements for bidirectionbl strings.  If the string does not
+ *           sbtisfy the requirements for bidirectionbl strings, return bn
  *           error.  </li>
  * </ol>
- * @author Ram Viswanadha
- * @draft ICU 2.8
+ * @buthor Rbm Viswbnbdhb
+ * @drbft ICU 2.8
  */
-public final class StringPrep {
+public finbl clbss StringPrep {
     /**
-     * Option to prohibit processing of unassigned code points in the input
+     * Option to prohibit processing of unbssigned code points in the input
      *
-     * @see   #prepare
-     * @draft ICU 2.8
+     * @see   #prepbre
+     * @drbft ICU 2.8
      */
-    public static final int DEFAULT = 0x0000;
+    public stbtic finbl int DEFAULT = 0x0000;
 
     /**
-     * Option to allow processing of unassigned code points in the input
+     * Option to bllow processing of unbssigned code points in the input
      *
-     * @see   #prepare
-     * @draft ICU 2.8
+     * @see   #prepbre
+     * @drbft ICU 2.8
      */
-    public static final int ALLOW_UNASSIGNED = 0x0001;
+    public stbtic finbl int ALLOW_UNASSIGNED = 0x0001;
 
-    private static final int UNASSIGNED        = 0x0000;
-    private static final int MAP               = 0x0001;
-    private static final int PROHIBITED        = 0x0002;
-    private static final int DELETE            = 0x0003;
-    private static final int TYPE_LIMIT        = 0x0004;
+    privbte stbtic finbl int UNASSIGNED        = 0x0000;
+    privbte stbtic finbl int MAP               = 0x0001;
+    privbte stbtic finbl int PROHIBITED        = 0x0002;
+    privbte stbtic finbl int DELETE            = 0x0003;
+    privbte stbtic finbl int TYPE_LIMIT        = 0x0004;
 
-    private static final int NORMALIZATION_ON  = 0x0001;
-    private static final int CHECK_BIDI_ON     = 0x0002;
+    privbte stbtic finbl int NORMALIZATION_ON  = 0x0001;
+    privbte stbtic finbl int CHECK_BIDI_ON     = 0x0002;
 
-    private static final int TYPE_THRESHOLD       = 0xFFF0;
-    private static final int MAX_INDEX_VALUE      = 0x3FBF;   /*16139*/
-    private static final int MAX_INDEX_TOP_LENGTH = 0x0003;
+    privbte stbtic finbl int TYPE_THRESHOLD       = 0xFFF0;
+    privbte stbtic finbl int MAX_INDEX_VALUE      = 0x3FBF;   /*16139*/
+    privbte stbtic finbl int MAX_INDEX_TOP_LENGTH = 0x0003;
 
-    /* indexes[] value names */
-    private static final int INDEX_TRIE_SIZE                  =  0; /* number of bytes in normalization trie */
-    private static final int INDEX_MAPPING_DATA_SIZE          =  1; /* The array that contains the mapping   */
-    private static final int NORM_CORRECTNS_LAST_UNI_VERSION  =  2; /* The index of Unicode version of last entry in NormalizationCorrections.txt */
-    private static final int ONE_UCHAR_MAPPING_INDEX_START    =  3; /* The starting index of 1 UChar mapping index in the mapping data array */
-    private static final int TWO_UCHARS_MAPPING_INDEX_START   =  4; /* The starting index of 2 UChars mapping index in the mapping data array */
-    private static final int THREE_UCHARS_MAPPING_INDEX_START =  5;
-    private static final int FOUR_UCHARS_MAPPING_INDEX_START  =  6;
-    private static final int OPTIONS                          =  7; /* Bit set of options to turn on in the profile */
-    private static final int INDEX_TOP                        = 16;                          /* changing this requires a new formatVersion */
+    /* indexes[] vblue nbmes */
+    privbte stbtic finbl int INDEX_TRIE_SIZE                  =  0; /* number of bytes in normblizbtion trie */
+    privbte stbtic finbl int INDEX_MAPPING_DATA_SIZE          =  1; /* The brrby thbt contbins the mbpping   */
+    privbte stbtic finbl int NORM_CORRECTNS_LAST_UNI_VERSION  =  2; /* The index of Unicode version of lbst entry in NormblizbtionCorrections.txt */
+    privbte stbtic finbl int ONE_UCHAR_MAPPING_INDEX_START    =  3; /* The stbrting index of 1 UChbr mbpping index in the mbpping dbtb brrby */
+    privbte stbtic finbl int TWO_UCHARS_MAPPING_INDEX_START   =  4; /* The stbrting index of 2 UChbrs mbpping index in the mbpping dbtb brrby */
+    privbte stbtic finbl int THREE_UCHARS_MAPPING_INDEX_START =  5;
+    privbte stbtic finbl int FOUR_UCHARS_MAPPING_INDEX_START  =  6;
+    privbte stbtic finbl int OPTIONS                          =  7; /* Bit set of options to turn on in the profile */
+    privbte stbtic finbl int INDEX_TOP                        = 16;                          /* chbnging this requires b new formbtVersion */
 
 
     /**
-     * Default buffer size of datafile
+     * Defbult buffer size of dbtbfile
      */
-    private static final int DATA_BUFFER_SIZE = 25000;
+    privbte stbtic finbl int DATA_BUFFER_SIZE = 25000;
 
-    /* Wrappers for Trie implementations */
-    private static final class StringPrepTrieImpl implements Trie.DataManipulate{
-        private CharTrie sprepTrie = null;
+    /* Wrbppers for Trie implementbtions */
+    privbte stbtic finbl clbss StringPrepTrieImpl implements Trie.DbtbMbnipulbte{
+        privbte ChbrTrie sprepTrie = null;
        /**
-        * Called by com.ibm.icu.util.Trie to extract from a lead surrogate's
-        * data the index array offset of the indexes for that lead surrogate.
-        * @param property data value for a surrogate from the trie, including
+        * Cblled by com.ibm.icu.util.Trie to extrbct from b lebd surrogbte's
+        * dbtb the index brrby offset of the indexes for thbt lebd surrogbte.
+        * @pbrbm property dbtb vblue for b surrogbte from the trie, including
         *        the folding offset
-        * @return data offset or 0 if there is no data for the lead surrogate
+        * @return dbtb offset or 0 if there is no dbtb for the lebd surrogbte
         */
-         public int getFoldingOffset(int value){
-            return value;
+         public int getFoldingOffset(int vblue){
+            return vblue;
         }
     }
 
-    // CharTrie implementation for reading the trie data
-    private StringPrepTrieImpl sprepTrieImpl;
-    // Indexes read from the data file
-    private int[] indexes;
-    // mapping data read from the data file
-    private char[] mappingData;
-    // format version of the data file
-    private byte[] formatVersion;
-    // the version of Unicode supported by the data file
-    private VersionInfo sprepUniVer;
-    // the Unicode version of last entry in the
-    // NormalizationCorrections.txt file if normalization
+    // ChbrTrie implementbtion for rebding the trie dbtb
+    privbte StringPrepTrieImpl sprepTrieImpl;
+    // Indexes rebd from the dbtb file
+    privbte int[] indexes;
+    // mbpping dbtb rebd from the dbtb file
+    privbte chbr[] mbppingDbtb;
+    // formbt version of the dbtb file
+    privbte byte[] formbtVersion;
+    // the version of Unicode supported by the dbtb file
+    privbte VersionInfo sprepUniVer;
+    // the Unicode version of lbst entry in the
+    // NormblizbtionCorrections.txt file if normblizbtion
     // is turned on
-    private VersionInfo normCorrVer;
-    // Option to turn on Normalization
-    private boolean doNFKC;
+    privbte VersionInfo normCorrVer;
+    // Option to turn on Normblizbtion
+    privbte boolebn doNFKC;
     // Option to turn on checking for BiDi rules
-    private boolean checkBiDi;
+    privbte boolebn checkBiDi;
 
 
-    private char getCodePointValue(int ch){
-        return sprepTrieImpl.sprepTrie.getCodePointValue(ch);
+    privbte chbr getCodePointVblue(int ch){
+        return sprepTrieImpl.sprepTrie.getCodePointVblue(ch);
     }
 
-    private static VersionInfo getVersionInfo(int comp){
+    privbte stbtic VersionInfo getVersionInfo(int comp){
         int micro = comp & 0xFF;
         int milli =(comp >> 8)  & 0xFF;
         int minor =(comp >> 16) & 0xFF;
-        int major =(comp >> 24) & 0xFF;
-        return VersionInfo.getInstance(major,minor,milli,micro);
+        int mbjor =(comp >> 24) & 0xFF;
+        return VersionInfo.getInstbnce(mbjor,minor,milli,micro);
     }
-    private static VersionInfo getVersionInfo(byte[] version){
+    privbte stbtic VersionInfo getVersionInfo(byte[] version){
         if(version.length != 4){
             return null;
         }
-        return VersionInfo.getInstance((int)version[0],(int) version[1],(int) version[2],(int) version[3]);
+        return VersionInfo.getInstbnce((int)version[0],(int) version[1],(int) version[2],(int) version[3]);
     }
     /**
-     * Creates an StringPrep object after reading the input stream.
-     * The object does not hold a reference to the input steam, so the stream can be
-     * closed after the method returns.
+     * Crebtes bn StringPrep object bfter rebding the input strebm.
+     * The object does not hold b reference to the input stebm, so the strebm cbn be
+     * closed bfter the method returns.
      *
-     * @param inputStream The stream for reading the StringPrep profile binarySun
+     * @pbrbm inputStrebm The strebm for rebding the StringPrep profile binbrySun
      * @throws IOException
-     * @draft ICU 2.8
+     * @drbft ICU 2.8
      */
-    public StringPrep(InputStream inputStream) throws IOException{
+    public StringPrep(InputStrebm inputStrebm) throws IOException{
 
-        BufferedInputStream b = new BufferedInputStream(inputStream,DATA_BUFFER_SIZE);
+        BufferedInputStrebm b = new BufferedInputStrebm(inputStrebm,DATA_BUFFER_SIZE);
 
-        StringPrepDataReader reader = new StringPrepDataReader(b);
+        StringPrepDbtbRebder rebder = new StringPrepDbtbRebder(b);
 
-        // read the indexes
-        indexes = reader.readIndexes(INDEX_TOP);
+        // rebd the indexes
+        indexes = rebder.rebdIndexes(INDEX_TOP);
 
         byte[] sprepBytes = new byte[indexes[INDEX_TRIE_SIZE]];
 
 
-        //indexes[INDEX_MAPPING_DATA_SIZE] store the size of mappingData in bytes
-        mappingData = new char[indexes[INDEX_MAPPING_DATA_SIZE]/2];
-        // load the rest of the data data and initialize the data members
-        reader.read(sprepBytes,mappingData);
+        //indexes[INDEX_MAPPING_DATA_SIZE] store the size of mbppingDbtb in bytes
+        mbppingDbtb = new chbr[indexes[INDEX_MAPPING_DATA_SIZE]/2];
+        // lobd the rest of the dbtb dbtb bnd initiblize the dbtb members
+        rebder.rebd(sprepBytes,mbppingDbtb);
 
         sprepTrieImpl           = new StringPrepTrieImpl();
-        sprepTrieImpl.sprepTrie = new CharTrie( new ByteArrayInputStream(sprepBytes),sprepTrieImpl  );
+        sprepTrieImpl.sprepTrie = new ChbrTrie( new ByteArrbyInputStrebm(sprepBytes),sprepTrieImpl  );
 
-        // get the data format version
-        formatVersion = reader.getDataFormatVersion();
+        // get the dbtb formbt version
+        formbtVersion = rebder.getDbtbFormbtVersion();
 
         // get the options
         doNFKC            = ((indexes[OPTIONS] & NORMALIZATION_ON) > 0);
         checkBiDi         = ((indexes[OPTIONS] & CHECK_BIDI_ON) > 0);
-        sprepUniVer   = getVersionInfo(reader.getUnicodeVersion());
+        sprepUniVer   = getVersionInfo(rebder.getUnicodeVersion());
         normCorrVer   = getVersionInfo(indexes[NORM_CORRECTNS_LAST_UNI_VERSION]);
-        VersionInfo normUniVer = NormalizerImpl.getUnicodeVersion();
-        if(normUniVer.compareTo(sprepUniVer) < 0 && /* the Unicode version of SPREP file must be less than the Unicode Vesion of the normalization data */
-           normUniVer.compareTo(normCorrVer) < 0 && /* the Unicode version of the NormalizationCorrections.txt file should be less than the Unicode Vesion of the normalization data */
-           ((indexes[OPTIONS] & NORMALIZATION_ON) > 0) /* normalization turned on*/
+        VersionInfo normUniVer = NormblizerImpl.getUnicodeVersion();
+        if(normUniVer.compbreTo(sprepUniVer) < 0 && /* the Unicode version of SPREP file must be less thbn the Unicode Vesion of the normblizbtion dbtb */
+           normUniVer.compbreTo(normCorrVer) < 0 && /* the Unicode version of the NormblizbtionCorrections.txt file should be less thbn the Unicode Vesion of the normblizbtion dbtb */
+           ((indexes[OPTIONS] & NORMALIZATION_ON) > 0) /* normblizbtion turned on*/
            ){
-            throw new IOException("Normalization Correction version not supported");
+            throw new IOException("Normblizbtion Correction version not supported");
         }
         b.close();
     }
 
-    private static final class Values{
-        boolean isIndex;
-        int value;
+    privbte stbtic finbl clbss Vblues{
+        boolebn isIndex;
+        int vblue;
         int type;
         public void reset(){
-            isIndex = false;
-            value = 0;
+            isIndex = fblse;
+            vblue = 0;
             type = -1;
         }
     }
 
-    private static final void getValues(char trieWord,Values values){
-        values.reset();
+    privbte stbtic finbl void getVblues(chbr trieWord,Vblues vblues){
+        vblues.reset();
         if(trieWord == 0){
             /*
-             * Initial value stored in the mapping table
-             * just return TYPE_LIMIT .. so that
-             * the source codepoint is copied to the destination
+             * Initibl vblue stored in the mbpping tbble
+             * just return TYPE_LIMIT .. so thbt
+             * the source codepoint is copied to the destinbtion
              */
-            values.type = TYPE_LIMIT;
+            vblues.type = TYPE_LIMIT;
         }else if(trieWord >= TYPE_THRESHOLD){
-            values.type = (trieWord - TYPE_THRESHOLD);
+            vblues.type = (trieWord - TYPE_THRESHOLD);
         }else{
             /* get the type */
-            values.type = MAP;
-            /* ascertain if the value is index or delta */
+            vblues.type = MAP;
+            /* bscertbin if the vblue is index or deltb */
             if((trieWord & 0x02)>0){
-                values.isIndex = true;
-                values.value = trieWord  >> 2; //mask off the lower 2 bits and shift
+                vblues.isIndex = true;
+                vblues.vblue = trieWord  >> 2; //mbsk off the lower 2 bits bnd shift
 
             }else{
-                values.isIndex = false;
-                values.value = (trieWord<<16)>>16;
-                values.value =  (values.value >> 2);
+                vblues.isIndex = fblse;
+                vblues.vblue = (trieWord<<16)>>16;
+                vblues.vblue =  (vblues.vblue >> 2);
 
             }
 
             if((trieWord>>2) == MAX_INDEX_VALUE){
-                values.type = DELETE;
-                values.isIndex = false;
-                values.value = 0;
+                vblues.type = DELETE;
+                vblues.isIndex = fblse;
+                vblues.vblue = 0;
             }
         }
     }
 
 
 
-    private StringBuffer map( UCharacterIterator iter, int options)
-                            throws ParseException {
+    privbte StringBuffer mbp( UChbrbcterIterbtor iter, int options)
+                            throws PbrseException {
 
-        Values val = new Values();
-        char result = 0;
-        int ch  = UCharacterIterator.DONE;
+        Vblues vbl = new Vblues();
+        chbr result = 0;
+        int ch  = UChbrbcterIterbtor.DONE;
         StringBuffer dest = new StringBuffer();
-        boolean allowUnassigned = ((options & ALLOW_UNASSIGNED)>0);
+        boolebn bllowUnbssigned = ((options & ALLOW_UNASSIGNED)>0);
 
-        while((ch=iter.nextCodePoint())!= UCharacterIterator.DONE){
+        while((ch=iter.nextCodePoint())!= UChbrbcterIterbtor.DONE){
 
-            result = getCodePointValue(ch);
-            getValues(result,val);
+            result = getCodePointVblue(ch);
+            getVblues(result,vbl);
 
-            // check if the source codepoint is unassigned
-            if(val.type == UNASSIGNED && allowUnassigned == false){
-                 throw new ParseException("An unassigned code point was found in the input " +
+            // check if the source codepoint is unbssigned
+            if(vbl.type == UNASSIGNED && bllowUnbssigned == fblse){
+                 throw new PbrseException("An unbssigned code point wbs found in the input " +
                                           iter.getText(), iter.getIndex());
-            }else if((val.type == MAP)){
+            }else if((vbl.type == MAP)){
                 int index, length;
 
-                if(val.isIndex){
-                    index = val.value;
+                if(vbl.isIndex){
+                    index = vbl.vblue;
                     if(index >= indexes[ONE_UCHAR_MAPPING_INDEX_START] &&
                              index < indexes[TWO_UCHARS_MAPPING_INDEX_START]){
                         length = 1;
@@ -317,166 +317,166 @@ public final class StringPrep {
                              index < indexes[FOUR_UCHARS_MAPPING_INDEX_START]){
                         length = 3;
                     }else{
-                        length = mappingData[index++];
+                        length = mbppingDbtb[index++];
                     }
-                    /* copy mapping to destination */
-                    dest.append(mappingData,index,length);
+                    /* copy mbpping to destinbtion */
+                    dest.bppend(mbppingDbtb,index,length);
                     continue;
 
                 }else{
-                    ch -= val.value;
+                    ch -= vbl.vblue;
                 }
-            }else if(val.type == DELETE){
-                // just consume the codepoint and contine
+            }else if(vbl.type == DELETE){
+                // just consume the codepoint bnd contine
                 continue;
             }
-            //copy the source into destination
-            UTF16.append(dest,ch);
+            //copy the source into destinbtion
+            UTF16.bppend(dest,ch);
         }
 
         return dest;
     }
 
 
-    private StringBuffer normalize(StringBuffer src){
+    privbte StringBuffer normblize(StringBuffer src){
         /*
          * Option UNORM_BEFORE_PRI_29:
          *
-         * IDNA as interpreted by IETF members (see unicode mailing list 2004H1)
-         * requires strict adherence to Unicode 3.2 normalization,
+         * IDNA bs interpreted by IETF members (see unicode mbiling list 2004H1)
+         * requires strict bdherence to Unicode 3.2 normblizbtion,
          * including buggy composition from before fixing Public Review Issue #29.
-         * Note that this results in some valid but nonsensical text to be
+         * Note thbt this results in some vblid but nonsensicbl text to be
          * either corrupted or rejected, depending on the text.
          * See http://www.unicode.org/review/resolved-pri.html#pri29
-         * See unorm.cpp and cnormtst.c
+         * See unorm.cpp bnd cnormtst.c
          */
         return new StringBuffer(
-            Normalizer.normalize(
+            Normblizer.normblize(
                 src.toString(),
-                java.text.Normalizer.Form.NFKC,
-                Normalizer.UNICODE_3_2|NormalizerImpl.BEFORE_PRI_29));
+                jbvb.text.Normblizer.Form.NFKC,
+                Normblizer.UNICODE_3_2|NormblizerImpl.BEFORE_PRI_29));
     }
     /*
-    boolean isLabelSeparator(int ch){
-        int result = getCodePointValue(ch);
+    boolebn isLbbelSepbrbtor(int ch){
+        int result = getCodePointVblue(ch);
         if( (result & 0x07)  == LABEL_SEPARATOR){
             return true;
         }
-        return false;
+        return fblse;
     }
     */
      /*
-       1) Map -- For each character in the input, check if it has a mapping
-          and, if so, replace it with its mapping.
+       1) Mbp -- For ebch chbrbcter in the input, check if it hbs b mbpping
+          bnd, if so, replbce it with its mbpping.
 
-       2) Normalize -- Possibly normalize the result of step 1 using Unicode
-          normalization.
+       2) Normblize -- Possibly normblize the result of step 1 using Unicode
+          normblizbtion.
 
-       3) Prohibit -- Check for any characters that are not allowed in the
-          output.  If any are found, return an error.
+       3) Prohibit -- Check for bny chbrbcters thbt bre not bllowed in the
+          output.  If bny bre found, return bn error.
 
-       4) Check bidi -- Possibly check for right-to-left characters, and if
-          any are found, make sure that the whole string satisfies the
-          requirements for bidirectional strings.  If the string does not
-          satisfy the requirements for bidirectional strings, return an
+       4) Check bidi -- Possibly check for right-to-left chbrbcters, bnd if
+          bny bre found, mbke sure thbt the whole string sbtisfies the
+          requirements for bidirectionbl strings.  If the string does not
+          sbtisfy the requirements for bidirectionbl strings, return bn
           error.
-          [Unicode3.2] defines several bidirectional categories; each character
-           has one bidirectional category assigned to it.  For the purposes of
-           the requirements below, an "RandALCat character" is a character that
-           has Unicode bidirectional categories "R" or "AL"; an "LCat character"
-           is a character that has Unicode bidirectional category "L".  Note
+          [Unicode3.2] defines severbl bidirectionbl cbtegories; ebch chbrbcter
+           hbs one bidirectionbl cbtegory bssigned to it.  For the purposes of
+           the requirements below, bn "RbndALCbt chbrbcter" is b chbrbcter thbt
+           hbs Unicode bidirectionbl cbtegories "R" or "AL"; bn "LCbt chbrbcter"
+           is b chbrbcter thbt hbs Unicode bidirectionbl cbtegory "L".  Note
 
 
-           that there are many characters which fall in neither of the above
-           definitions; Latin digits (<U+0030> through <U+0039>) are examples of
-           this because they have bidirectional category "EN".
+           thbt there bre mbny chbrbcters which fbll in neither of the bbove
+           definitions; Lbtin digits (<U+0030> through <U+0039>) bre exbmples of
+           this becbuse they hbve bidirectionbl cbtegory "EN".
 
-           In any profile that specifies bidirectional character handling, all
+           In bny profile thbt specifies bidirectionbl chbrbcter hbndling, bll
            three of the following requirements MUST be met:
 
-           1) The characters in section 5.8 MUST be prohibited.
+           1) The chbrbcters in section 5.8 MUST be prohibited.
 
-           2) If a string contains any RandALCat character, the string MUST NOT
-              contain any LCat character.
+           2) If b string contbins bny RbndALCbt chbrbcter, the string MUST NOT
+              contbin bny LCbt chbrbcter.
 
-           3) If a string contains any RandALCat character, a RandALCat
-              character MUST be the first character of the string, and a
-              RandALCat character MUST be the last character of the string.
+           3) If b string contbins bny RbndALCbt chbrbcter, b RbndALCbt
+              chbrbcter MUST be the first chbrbcter of the string, bnd b
+              RbndALCbt chbrbcter MUST be the lbst chbrbcter of the string.
     */
     /**
-     * Prepare the input buffer for use in applications with the given profile. This operation maps, normalizes(NFKC),
-     * checks for prohited and BiDi characters in the order defined by RFC 3454
+     * Prepbre the input buffer for use in bpplicbtions with the given profile. This operbtion mbps, normblizes(NFKC),
+     * checks for prohited bnd BiDi chbrbcters in the order defined by RFC 3454
      * depending on the options specified in the profile.
      *
-     * @param src           A UCharacterIterator object containing the source string
-     * @param options       A bit set of options:
+     * @pbrbm src           A UChbrbcterIterbtor object contbining the source string
+     * @pbrbm options       A bit set of options:
      *
-     *  - StringPrep.NONE               Prohibit processing of unassigned code points in the input
+     *  - StringPrep.NONE               Prohibit processing of unbssigned code points in the input
      *
-     *  - StringPrep.ALLOW_UNASSIGNED   Treat the unassigned code points are in the input
-     *                                  as normal Unicode code points.
+     *  - StringPrep.ALLOW_UNASSIGNED   Trebt the unbssigned code points bre in the input
+     *                                  bs normbl Unicode code points.
      *
-     * @return StringBuffer A StringBuffer containing the output
-     * @throws ParseException
-     * @draft ICU 2.8
+     * @return StringBuffer A StringBuffer contbining the output
+     * @throws PbrseException
+     * @drbft ICU 2.8
      */
-    public StringBuffer prepare(UCharacterIterator src, int options)
-                        throws ParseException{
+    public StringBuffer prepbre(UChbrbcterIterbtor src, int options)
+                        throws PbrseException{
 
-        // map
-        StringBuffer mapOut = map(src,options);
-        StringBuffer normOut = mapOut;// initialize
+        // mbp
+        StringBuffer mbpOut = mbp(src,options);
+        StringBuffer normOut = mbpOut;// initiblize
 
         if(doNFKC){
-            // normalize
-            normOut = normalize(mapOut);
+            // normblize
+            normOut = normblize(mbpOut);
         }
 
         int ch;
-        char result;
-        UCharacterIterator iter = UCharacterIterator.getInstance(normOut);
-        Values val = new Values();
-        int direction=UCharacterDirection.CHAR_DIRECTION_COUNT,
-            firstCharDir=UCharacterDirection.CHAR_DIRECTION_COUNT;
+        chbr result;
+        UChbrbcterIterbtor iter = UChbrbcterIterbtor.getInstbnce(normOut);
+        Vblues vbl = new Vblues();
+        int direction=UChbrbcterDirection.CHAR_DIRECTION_COUNT,
+            firstChbrDir=UChbrbcterDirection.CHAR_DIRECTION_COUNT;
         int rtlPos=-1, ltrPos=-1;
-        boolean rightToLeft=false, leftToRight=false;
+        boolebn rightToLeft=fblse, leftToRight=fblse;
 
-        while((ch=iter.nextCodePoint())!= UCharacterIterator.DONE){
-            result = getCodePointValue(ch);
-            getValues(result,val);
+        while((ch=iter.nextCodePoint())!= UChbrbcterIterbtor.DONE){
+            result = getCodePointVblue(ch);
+            getVblues(result,vbl);
 
-            if(val.type == PROHIBITED ){
-                throw new ParseException("A prohibited code point was found in the input" +
-                                         iter.getText(), val.value);
+            if(vbl.type == PROHIBITED ){
+                throw new PbrseException("A prohibited code point wbs found in the input" +
+                                         iter.getText(), vbl.vblue);
             }
 
-            direction = UCharacter.getDirection(ch);
-            if(firstCharDir == UCharacterDirection.CHAR_DIRECTION_COUNT){
-                firstCharDir = direction;
+            direction = UChbrbcter.getDirection(ch);
+            if(firstChbrDir == UChbrbcterDirection.CHAR_DIRECTION_COUNT){
+                firstChbrDir = direction;
             }
-            if(direction == UCharacterDirection.LEFT_TO_RIGHT){
+            if(direction == UChbrbcterDirection.LEFT_TO_RIGHT){
                 leftToRight = true;
                 ltrPos = iter.getIndex()-1;
             }
-            if(direction == UCharacterDirection.RIGHT_TO_LEFT || direction == UCharacterDirection.RIGHT_TO_LEFT_ARABIC){
+            if(direction == UChbrbcterDirection.RIGHT_TO_LEFT || direction == UChbrbcterDirection.RIGHT_TO_LEFT_ARABIC){
                 rightToLeft = true;
                 rtlPos = iter.getIndex()-1;
             }
         }
         if(checkBiDi == true){
-            // satisfy 2
+            // sbtisfy 2
             if( leftToRight == true && rightToLeft == true){
-                throw new ParseException("The input does not conform to the rules for BiDi code points." +
+                throw new PbrseException("The input does not conform to the rules for BiDi code points." +
                                          iter.getText(),
                                          (rtlPos>ltrPos) ? rtlPos : ltrPos);
              }
 
-            //satisfy 3
+            //sbtisfy 3
             if( rightToLeft == true &&
-                !((firstCharDir == UCharacterDirection.RIGHT_TO_LEFT || firstCharDir == UCharacterDirection.RIGHT_TO_LEFT_ARABIC) &&
-                (direction == UCharacterDirection.RIGHT_TO_LEFT || direction == UCharacterDirection.RIGHT_TO_LEFT_ARABIC))
+                !((firstChbrDir == UChbrbcterDirection.RIGHT_TO_LEFT || firstChbrDir == UChbrbcterDirection.RIGHT_TO_LEFT_ARABIC) &&
+                (direction == UChbrbcterDirection.RIGHT_TO_LEFT || direction == UChbrbcterDirection.RIGHT_TO_LEFT_ARABIC))
               ){
-                throw new ParseException("The input does not conform to the rules for BiDi code points." +
+                throw new PbrseException("The input does not conform to the rules for BiDi code points." +
                                          iter.getText(),
                                          (rtlPos>ltrPos) ? rtlPos : ltrPos);
             }

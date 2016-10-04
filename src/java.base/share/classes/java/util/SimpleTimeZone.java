@@ -1,323 +1,323 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import sun.util.calendar.CalendarSystem;
-import sun.util.calendar.CalendarUtils;
-import sun.util.calendar.BaseCalendar;
-import sun.util.calendar.Gregorian;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
+import sun.util.cblendbr.CblendbrSystem;
+import sun.util.cblendbr.CblendbrUtils;
+import sun.util.cblendbr.BbseCblendbr;
+import sun.util.cblendbr.Gregoribn;
 
 /**
- * <code>SimpleTimeZone</code> is a concrete subclass of <code>TimeZone</code>
- * that represents a time zone for use with a Gregorian calendar.
- * The class holds an offset from GMT, called <em>raw offset</em>, and start
- * and end rules for a daylight saving time schedule.  Since it only holds
- * single values for each, it cannot handle historical changes in the offset
- * from GMT and the daylight saving schedule, except that the {@link
- * #setStartYear setStartYear} method can specify the year when the daylight
- * saving time schedule starts in effect.
+ * <code>SimpleTimeZone</code> is b concrete subclbss of <code>TimeZone</code>
+ * thbt represents b time zone for use with b Gregoribn cblendbr.
+ * The clbss holds bn offset from GMT, cblled <em>rbw offset</em>, bnd stbrt
+ * bnd end rules for b dbylight sbving time schedule.  Since it only holds
+ * single vblues for ebch, it cbnnot hbndle historicbl chbnges in the offset
+ * from GMT bnd the dbylight sbving schedule, except thbt the {@link
+ * #setStbrtYebr setStbrtYebr} method cbn specify the yebr when the dbylight
+ * sbving time schedule stbrts in effect.
  * <p>
- * To construct a <code>SimpleTimeZone</code> with a daylight saving time
- * schedule, the schedule can be described with a set of rules,
- * <em>start-rule</em> and <em>end-rule</em>. A day when daylight saving time
- * starts or ends is specified by a combination of <em>month</em>,
- * <em>day-of-month</em>, and <em>day-of-week</em> values. The <em>month</em>
- * value is represented by a Calendar {@link Calendar#MONTH MONTH} field
- * value, such as {@link Calendar#MARCH}. The <em>day-of-week</em> value is
- * represented by a Calendar {@link Calendar#DAY_OF_WEEK DAY_OF_WEEK} value,
- * such as {@link Calendar#SUNDAY SUNDAY}. The meanings of value combinations
- * are as follows.
+ * To construct b <code>SimpleTimeZone</code> with b dbylight sbving time
+ * schedule, the schedule cbn be described with b set of rules,
+ * <em>stbrt-rule</em> bnd <em>end-rule</em>. A dby when dbylight sbving time
+ * stbrts or ends is specified by b combinbtion of <em>month</em>,
+ * <em>dby-of-month</em>, bnd <em>dby-of-week</em> vblues. The <em>month</em>
+ * vblue is represented by b Cblendbr {@link Cblendbr#MONTH MONTH} field
+ * vblue, such bs {@link Cblendbr#MARCH}. The <em>dby-of-week</em> vblue is
+ * represented by b Cblendbr {@link Cblendbr#DAY_OF_WEEK DAY_OF_WEEK} vblue,
+ * such bs {@link Cblendbr#SUNDAY SUNDAY}. The mebnings of vblue combinbtions
+ * bre bs follows.
  *
  * <ul>
- * <li><b>Exact day of month</b><br>
- * To specify an exact day of month, set the <em>month</em> and
- * <em>day-of-month</em> to an exact value, and <em>day-of-week</em> to zero. For
- * example, to specify March 1, set the <em>month</em> to {@link Calendar#MARCH
- * MARCH}, <em>day-of-month</em> to 1, and <em>day-of-week</em> to 0.</li>
+ * <li><b>Exbct dby of month</b><br>
+ * To specify bn exbct dby of month, set the <em>month</em> bnd
+ * <em>dby-of-month</em> to bn exbct vblue, bnd <em>dby-of-week</em> to zero. For
+ * exbmple, to specify Mbrch 1, set the <em>month</em> to {@link Cblendbr#MARCH
+ * MARCH}, <em>dby-of-month</em> to 1, bnd <em>dby-of-week</em> to 0.</li>
  *
- * <li><b>Day of week on or after day of month</b><br>
- * To specify a day of week on or after an exact day of month, set the
- * <em>month</em> to an exact month value, <em>day-of-month</em> to the day on
- * or after which the rule is applied, and <em>day-of-week</em> to a negative {@link
- * Calendar#DAY_OF_WEEK DAY_OF_WEEK} field value. For example, to specify the
- * second Sunday of April, set <em>month</em> to {@link Calendar#APRIL APRIL},
- * <em>day-of-month</em> to 8, and <em>day-of-week</em> to <code>-</code>{@link
- * Calendar#SUNDAY SUNDAY}.</li>
+ * <li><b>Dby of week on or bfter dby of month</b><br>
+ * To specify b dby of week on or bfter bn exbct dby of month, set the
+ * <em>month</em> to bn exbct month vblue, <em>dby-of-month</em> to the dby on
+ * or bfter which the rule is bpplied, bnd <em>dby-of-week</em> to b negbtive {@link
+ * Cblendbr#DAY_OF_WEEK DAY_OF_WEEK} field vblue. For exbmple, to specify the
+ * second Sundby of April, set <em>month</em> to {@link Cblendbr#APRIL APRIL},
+ * <em>dby-of-month</em> to 8, bnd <em>dby-of-week</em> to <code>-</code>{@link
+ * Cblendbr#SUNDAY SUNDAY}.</li>
  *
- * <li><b>Day of week on or before day of month</b><br>
- * To specify a day of the week on or before an exact day of the month, set
- * <em>day-of-month</em> and <em>day-of-week</em> to a negative value. For
- * example, to specify the last Wednesday on or before the 21st of March, set
- * <em>month</em> to {@link Calendar#MARCH MARCH}, <em>day-of-month</em> is -21
- * and <em>day-of-week</em> is <code>-</code>{@link Calendar#WEDNESDAY WEDNESDAY}. </li>
+ * <li><b>Dby of week on or before dby of month</b><br>
+ * To specify b dby of the week on or before bn exbct dby of the month, set
+ * <em>dby-of-month</em> bnd <em>dby-of-week</em> to b negbtive vblue. For
+ * exbmple, to specify the lbst Wednesdby on or before the 21st of Mbrch, set
+ * <em>month</em> to {@link Cblendbr#MARCH MARCH}, <em>dby-of-month</em> is -21
+ * bnd <em>dby-of-week</em> is <code>-</code>{@link Cblendbr#WEDNESDAY WEDNESDAY}. </li>
  *
- * <li><b>Last day-of-week of month</b><br>
- * To specify, the last day-of-week of the month, set <em>day-of-week</em> to a
- * {@link Calendar#DAY_OF_WEEK DAY_OF_WEEK} value and <em>day-of-month</em> to
- * -1. For example, to specify the last Sunday of October, set <em>month</em>
- * to {@link Calendar#OCTOBER OCTOBER}, <em>day-of-week</em> to {@link
- * Calendar#SUNDAY SUNDAY} and <em>day-of-month</em> to -1.  </li>
+ * <li><b>Lbst dby-of-week of month</b><br>
+ * To specify, the lbst dby-of-week of the month, set <em>dby-of-week</em> to b
+ * {@link Cblendbr#DAY_OF_WEEK DAY_OF_WEEK} vblue bnd <em>dby-of-month</em> to
+ * -1. For exbmple, to specify the lbst Sundby of October, set <em>month</em>
+ * to {@link Cblendbr#OCTOBER OCTOBER}, <em>dby-of-week</em> to {@link
+ * Cblendbr#SUNDAY SUNDAY} bnd <em>dby-of-month</em> to -1.  </li>
  *
  * </ul>
- * The time of the day at which daylight saving time starts or ends is
- * specified by a millisecond value within the day. There are three kinds of
+ * The time of the dby bt which dbylight sbving time stbrts or ends is
+ * specified by b millisecond vblue within the dby. There bre three kinds of
  * <em>mode</em>s to specify the time: {@link #WALL_TIME}, {@link
- * #STANDARD_TIME} and {@link #UTC_TIME}. For example, if daylight
- * saving time ends
- * at 2:00 am in the wall clock time, it can be specified by 7200000
- * milliseconds in the {@link #WALL_TIME} mode. In this case, the wall clock time
- * for an <em>end-rule</em> means the same thing as the daylight time.
+ * #STANDARD_TIME} bnd {@link #UTC_TIME}. For exbmple, if dbylight
+ * sbving time ends
+ * bt 2:00 bm in the wbll clock time, it cbn be specified by 7200000
+ * milliseconds in the {@link #WALL_TIME} mode. In this cbse, the wbll clock time
+ * for bn <em>end-rule</em> mebns the sbme thing bs the dbylight time.
  * <p>
- * The following are examples of parameters for constructing time zone objects.
+ * The following bre exbmples of pbrbmeters for constructing time zone objects.
  * <pre><code>
- *      // Base GMT offset: -8:00
- *      // DST starts:      at 2:00am in standard time
- *      //                  on the first Sunday in April
- *      // DST ends:        at 2:00am in daylight time
- *      //                  on the last Sunday in October
- *      // Save:            1 hour
+ *      // Bbse GMT offset: -8:00
+ *      // DST stbrts:      bt 2:00bm in stbndbrd time
+ *      //                  on the first Sundby in April
+ *      // DST ends:        bt 2:00bm in dbylight time
+ *      //                  on the lbst Sundby in October
+ *      // Sbve:            1 hour
  *      SimpleTimeZone(-28800000,
- *                     "America/Los_Angeles",
- *                     Calendar.APRIL, 1, -Calendar.SUNDAY,
+ *                     "Americb/Los_Angeles",
+ *                     Cblendbr.APRIL, 1, -Cblendbr.SUNDAY,
  *                     7200000,
- *                     Calendar.OCTOBER, -1, Calendar.SUNDAY,
+ *                     Cblendbr.OCTOBER, -1, Cblendbr.SUNDAY,
  *                     7200000,
  *                     3600000)
  *
- *      // Base GMT offset: +1:00
- *      // DST starts:      at 1:00am in UTC time
- *      //                  on the last Sunday in March
- *      // DST ends:        at 1:00am in UTC time
- *      //                  on the last Sunday in October
- *      // Save:            1 hour
+ *      // Bbse GMT offset: +1:00
+ *      // DST stbrts:      bt 1:00bm in UTC time
+ *      //                  on the lbst Sundby in Mbrch
+ *      // DST ends:        bt 1:00bm in UTC time
+ *      //                  on the lbst Sundby in October
+ *      // Sbve:            1 hour
  *      SimpleTimeZone(3600000,
- *                     "Europe/Paris",
- *                     Calendar.MARCH, -1, Calendar.SUNDAY,
+ *                     "Europe/Pbris",
+ *                     Cblendbr.MARCH, -1, Cblendbr.SUNDAY,
  *                     3600000, SimpleTimeZone.UTC_TIME,
- *                     Calendar.OCTOBER, -1, Calendar.SUNDAY,
+ *                     Cblendbr.OCTOBER, -1, Cblendbr.SUNDAY,
  *                     3600000, SimpleTimeZone.UTC_TIME,
  *                     3600000)
  * </code></pre>
- * These parameter rules are also applicable to the set rule methods, such as
- * <code>setStartRule</code>.
+ * These pbrbmeter rules bre blso bpplicbble to the set rule methods, such bs
+ * <code>setStbrtRule</code>.
  *
  * @since 1.1
- * @see      Calendar
- * @see      GregorianCalendar
+ * @see      Cblendbr
+ * @see      GregoribnCblendbr
  * @see      TimeZone
- * @author   David Goldsmith, Mark Davis, Chen-Lieh Huang, Alan Liu
+ * @buthor   Dbvid Goldsmith, Mbrk Dbvis, Chen-Lieh Hubng, Albn Liu
  */
 
-public class SimpleTimeZone extends TimeZone {
+public clbss SimpleTimeZone extends TimeZone {
     /**
-     * Constructs a SimpleTimeZone with the given base time zone offset from GMT
-     * and time zone ID with no daylight saving time schedule.
+     * Constructs b SimpleTimeZone with the given bbse time zone offset from GMT
+     * bnd time zone ID with no dbylight sbving time schedule.
      *
-     * @param rawOffset  The base time zone offset in milliseconds to GMT.
-     * @param ID         The time zone name that is given to this instance.
+     * @pbrbm rbwOffset  The bbse time zone offset in milliseconds to GMT.
+     * @pbrbm ID         The time zone nbme thbt is given to this instbnce.
      */
-    public SimpleTimeZone(int rawOffset, String ID)
+    public SimpleTimeZone(int rbwOffset, String ID)
     {
-        this.rawOffset = rawOffset;
+        this.rbwOffset = rbwOffset;
         setID (ID);
-        dstSavings = millisPerHour; // In case user sets rules later
+        dstSbvings = millisPerHour; // In cbse user sets rules lbter
     }
 
     /**
-     * Constructs a SimpleTimeZone with the given base time zone offset from
-     * GMT, time zone ID, and rules for starting and ending the daylight
+     * Constructs b SimpleTimeZone with the given bbse time zone offset from
+     * GMT, time zone ID, bnd rules for stbrting bnd ending the dbylight
      * time.
-     * Both <code>startTime</code> and <code>endTime</code> are specified to be
-     * represented in the wall clock time. The amount of daylight saving is
-     * assumed to be 3600000 milliseconds (i.e., one hour). This constructor is
-     * equivalent to:
+     * Both <code>stbrtTime</code> bnd <code>endTime</code> bre specified to be
+     * represented in the wbll clock time. The bmount of dbylight sbving is
+     * bssumed to be 3600000 milliseconds (i.e., one hour). This constructor is
+     * equivblent to:
      * <pre><code>
-     *     SimpleTimeZone(rawOffset,
+     *     SimpleTimeZone(rbwOffset,
      *                    ID,
-     *                    startMonth,
-     *                    startDay,
-     *                    startDayOfWeek,
-     *                    startTime,
+     *                    stbrtMonth,
+     *                    stbrtDby,
+     *                    stbrtDbyOfWeek,
+     *                    stbrtTime,
      *                    SimpleTimeZone.{@link #WALL_TIME},
      *                    endMonth,
-     *                    endDay,
-     *                    endDayOfWeek,
+     *                    endDby,
+     *                    endDbyOfWeek,
      *                    endTime,
      *                    SimpleTimeZone.{@link #WALL_TIME},
      *                    3600000)
      * </code></pre>
      *
-     * @param rawOffset       The given base time zone offset from GMT.
-     * @param ID              The time zone ID which is given to this object.
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field value (0-based. e.g., 0
-     *                        for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     *                        See the class description for the special cases of this parameter.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time (in milliseconds within the day), which is local
-     *                        standard time in this case.
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     *                        See the class description for the special cases of this parameter.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        (in milliseconds within the day) which is local daylight
-     *                        time in this case.
-     * @exception IllegalArgumentException if the month, day, dayOfWeek, or time
-     * parameters are out of range for the start or end rule
+     * @pbrbm rbwOffset       The given bbse time zone offset from GMT.
+     * @pbrbm ID              The time zone ID which is given to this object.
+     * @pbrbm stbrtMonth      The dbylight sbving time stbrting month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field vblue (0-bbsed. e.g., 0
+     *                        for Jbnubry).
+     * @pbrbm stbrtDby        The dby of the month on which the dbylight sbving time stbrts.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm stbrtDbyOfWeek  The dbylight sbving time stbrting dby-of-week.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm stbrtTime       The dbylight sbving time stbrting time in locbl wbll clock
+     *                        time (in milliseconds within the dby), which is locbl
+     *                        stbndbrd time in this cbse.
+     * @pbrbm endMonth        The dbylight sbving time ending month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 9 for October).
+     * @pbrbm endDby          The dby of the month on which the dbylight sbving time ends.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm endDbyOfWeek    The dbylight sbving time ending dby-of-week.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm endTime         The dbylight sbving ending time in locbl wbll clock time,
+     *                        (in milliseconds within the dby) which is locbl dbylight
+     *                        time in this cbse.
+     * @exception IllegblArgumentException if the month, dby, dbyOfWeek, or time
+     * pbrbmeters bre out of rbnge for the stbrt or end rule
      */
-    public SimpleTimeZone(int rawOffset, String ID,
-                          int startMonth, int startDay, int startDayOfWeek, int startTime,
-                          int endMonth, int endDay, int endDayOfWeek, int endTime)
+    public SimpleTimeZone(int rbwOffset, String ID,
+                          int stbrtMonth, int stbrtDby, int stbrtDbyOfWeek, int stbrtTime,
+                          int endMonth, int endDby, int endDbyOfWeek, int endTime)
     {
-        this(rawOffset, ID,
-             startMonth, startDay, startDayOfWeek, startTime, WALL_TIME,
-             endMonth, endDay, endDayOfWeek, endTime, WALL_TIME,
+        this(rbwOffset, ID,
+             stbrtMonth, stbrtDby, stbrtDbyOfWeek, stbrtTime, WALL_TIME,
+             endMonth, endDby, endDbyOfWeek, endTime, WALL_TIME,
              millisPerHour);
     }
 
     /**
-     * Constructs a SimpleTimeZone with the given base time zone offset from
-     * GMT, time zone ID, and rules for starting and ending the daylight
+     * Constructs b SimpleTimeZone with the given bbse time zone offset from
+     * GMT, time zone ID, bnd rules for stbrting bnd ending the dbylight
      * time.
-     * Both <code>startTime</code> and <code>endTime</code> are assumed to be
-     * represented in the wall clock time. This constructor is equivalent to:
+     * Both <code>stbrtTime</code> bnd <code>endTime</code> bre bssumed to be
+     * represented in the wbll clock time. This constructor is equivblent to:
      * <pre><code>
-     *     SimpleTimeZone(rawOffset,
+     *     SimpleTimeZone(rbwOffset,
      *                    ID,
-     *                    startMonth,
-     *                    startDay,
-     *                    startDayOfWeek,
-     *                    startTime,
+     *                    stbrtMonth,
+     *                    stbrtDby,
+     *                    stbrtDbyOfWeek,
+     *                    stbrtTime,
      *                    SimpleTimeZone.{@link #WALL_TIME},
      *                    endMonth,
-     *                    endDay,
-     *                    endDayOfWeek,
+     *                    endDby,
+     *                    endDbyOfWeek,
      *                    endTime,
      *                    SimpleTimeZone.{@link #WALL_TIME},
-     *                    dstSavings)
+     *                    dstSbvings)
      * </code></pre>
      *
-     * @param rawOffset       The given base time zone offset from GMT.
-     * @param ID              The time zone ID which is given to this object.
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     *                        See the class description for the special cases of this parameter.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time, which is local standard time in this case.
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     *                        See the class description for the special cases of this parameter.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        which is local daylight time in this case.
-     * @param dstSavings      The amount of time in milliseconds saved during
-     *                        daylight saving time.
-     * @exception IllegalArgumentException if the month, day, dayOfWeek, or time
-     * parameters are out of range for the start or end rule
+     * @pbrbm rbwOffset       The given bbse time zone offset from GMT.
+     * @pbrbm ID              The time zone ID which is given to this object.
+     * @pbrbm stbrtMonth      The dbylight sbving time stbrting month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        The dby of the month on which the dbylight sbving time stbrts.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm stbrtDbyOfWeek  The dbylight sbving time stbrting dby-of-week.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm stbrtTime       The dbylight sbving time stbrting time in locbl wbll clock
+     *                        time, which is locbl stbndbrd time in this cbse.
+     * @pbrbm endMonth        The dbylight sbving time ending month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 9 for October).
+     * @pbrbm endDby          The dby of the month on which the dbylight sbving time ends.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm endDbyOfWeek    The dbylight sbving time ending dby-of-week.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm endTime         The dbylight sbving ending time in locbl wbll clock time,
+     *                        which is locbl dbylight time in this cbse.
+     * @pbrbm dstSbvings      The bmount of time in milliseconds sbved during
+     *                        dbylight sbving time.
+     * @exception IllegblArgumentException if the month, dby, dbyOfWeek, or time
+     * pbrbmeters bre out of rbnge for the stbrt or end rule
      * @since 1.2
      */
-    public SimpleTimeZone(int rawOffset, String ID,
-                          int startMonth, int startDay, int startDayOfWeek, int startTime,
-                          int endMonth, int endDay, int endDayOfWeek, int endTime,
-                          int dstSavings)
+    public SimpleTimeZone(int rbwOffset, String ID,
+                          int stbrtMonth, int stbrtDby, int stbrtDbyOfWeek, int stbrtTime,
+                          int endMonth, int endDby, int endDbyOfWeek, int endTime,
+                          int dstSbvings)
     {
-        this(rawOffset, ID,
-             startMonth, startDay, startDayOfWeek, startTime, WALL_TIME,
-             endMonth, endDay, endDayOfWeek, endTime, WALL_TIME,
-             dstSavings);
+        this(rbwOffset, ID,
+             stbrtMonth, stbrtDby, stbrtDbyOfWeek, stbrtTime, WALL_TIME,
+             endMonth, endDby, endDbyOfWeek, endTime, WALL_TIME,
+             dstSbvings);
     }
 
     /**
-     * Constructs a SimpleTimeZone with the given base time zone offset from
-     * GMT, time zone ID, and rules for starting and ending the daylight
+     * Constructs b SimpleTimeZone with the given bbse time zone offset from
+     * GMT, time zone ID, bnd rules for stbrting bnd ending the dbylight
      * time.
-     * This constructor takes the full set of the start and end rules
-     * parameters, including modes of <code>startTime</code> and
-     * <code>endTime</code>. The mode specifies either {@link #WALL_TIME wall
-     * time} or {@link #STANDARD_TIME standard time} or {@link #UTC_TIME UTC
+     * This constructor tbkes the full set of the stbrt bnd end rules
+     * pbrbmeters, including modes of <code>stbrtTime</code> bnd
+     * <code>endTime</code>. The mode specifies either {@link #WALL_TIME wbll
+     * time} or {@link #STANDARD_TIME stbndbrd time} or {@link #UTC_TIME UTC
      * time}.
      *
-     * @param rawOffset       The given base time zone offset from GMT.
-     * @param ID              The time zone ID which is given to this object.
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     *                        See the class description for the special cases of this parameter.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param startTime       The daylight saving time starting time in the time mode
-     *                        specified by <code>startTimeMode</code>.
-     * @param startTimeMode   The mode of the start time specified by startTime.
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     *                        See the class description for the special cases of this parameter.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param endTime         The daylight saving ending time in time time mode
+     * @pbrbm rbwOffset       The given bbse time zone offset from GMT.
+     * @pbrbm ID              The time zone ID which is given to this object.
+     * @pbrbm stbrtMonth      The dbylight sbving time stbrting month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        The dby of the month on which the dbylight sbving time stbrts.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm stbrtDbyOfWeek  The dbylight sbving time stbrting dby-of-week.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm stbrtTime       The dbylight sbving time stbrting time in the time mode
+     *                        specified by <code>stbrtTimeMode</code>.
+     * @pbrbm stbrtTimeMode   The mode of the stbrt time specified by stbrtTime.
+     * @pbrbm endMonth        The dbylight sbving time ending month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 9 for October).
+     * @pbrbm endDby          The dby of the month on which the dbylight sbving time ends.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm endDbyOfWeek    The dbylight sbving time ending dby-of-week.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm endTime         The dbylight sbving ending time in time time mode
      *                        specified by <code>endTimeMode</code>.
-     * @param endTimeMode     The mode of the end time specified by endTime
-     * @param dstSavings      The amount of time in milliseconds saved during
-     *                        daylight saving time.
+     * @pbrbm endTimeMode     The mode of the end time specified by endTime
+     * @pbrbm dstSbvings      The bmount of time in milliseconds sbved during
+     *                        dbylight sbving time.
      *
-     * @exception IllegalArgumentException if the month, day, dayOfWeek, time more, or
-     * time parameters are out of range for the start or end rule, or if a time mode
-     * value is invalid.
+     * @exception IllegblArgumentException if the month, dby, dbyOfWeek, time more, or
+     * time pbrbmeters bre out of rbnge for the stbrt or end rule, or if b time mode
+     * vblue is invblid.
      *
      * @see #WALL_TIME
      * @see #STANDARD_TIME
@@ -325,546 +325,546 @@ public class SimpleTimeZone extends TimeZone {
      *
      * @since 1.4
      */
-    public SimpleTimeZone(int rawOffset, String ID,
-                          int startMonth, int startDay, int startDayOfWeek,
-                          int startTime, int startTimeMode,
-                          int endMonth, int endDay, int endDayOfWeek,
+    public SimpleTimeZone(int rbwOffset, String ID,
+                          int stbrtMonth, int stbrtDby, int stbrtDbyOfWeek,
+                          int stbrtTime, int stbrtTimeMode,
+                          int endMonth, int endDby, int endDbyOfWeek,
                           int endTime, int endTimeMode,
-                          int dstSavings) {
+                          int dstSbvings) {
 
         setID(ID);
-        this.rawOffset      = rawOffset;
-        this.startMonth     = startMonth;
-        this.startDay       = startDay;
-        this.startDayOfWeek = startDayOfWeek;
-        this.startTime      = startTime;
-        this.startTimeMode  = startTimeMode;
+        this.rbwOffset      = rbwOffset;
+        this.stbrtMonth     = stbrtMonth;
+        this.stbrtDby       = stbrtDby;
+        this.stbrtDbyOfWeek = stbrtDbyOfWeek;
+        this.stbrtTime      = stbrtTime;
+        this.stbrtTimeMode  = stbrtTimeMode;
         this.endMonth       = endMonth;
-        this.endDay         = endDay;
-        this.endDayOfWeek   = endDayOfWeek;
+        this.endDby         = endDby;
+        this.endDbyOfWeek   = endDbyOfWeek;
         this.endTime        = endTime;
         this.endTimeMode    = endTimeMode;
-        this.dstSavings     = dstSavings;
+        this.dstSbvings     = dstSbvings;
 
-        // this.useDaylight is set by decodeRules
+        // this.useDbylight is set by decodeRules
         decodeRules();
-        if (dstSavings <= 0) {
-            throw new IllegalArgumentException("Illegal daylight saving value: " + dstSavings);
+        if (dstSbvings <= 0) {
+            throw new IllegblArgumentException("Illegbl dbylight sbving vblue: " + dstSbvings);
         }
     }
 
     /**
-     * Sets the daylight saving time starting year.
+     * Sets the dbylight sbving time stbrting yebr.
      *
-     * @param year  The daylight saving starting year.
+     * @pbrbm yebr  The dbylight sbving stbrting yebr.
      */
-    public void setStartYear(int year)
+    public void setStbrtYebr(int yebr)
     {
-        startYear = year;
-        invalidateCache();
+        stbrtYebr = yebr;
+        invblidbteCbche();
     }
 
     /**
-     * Sets the daylight saving time start rule. For example, if daylight saving
-     * time starts on the first Sunday in April at 2 am in local wall clock
-     * time, you can set the start rule by calling:
-     * <pre><code>setStartRule(Calendar.APRIL, 1, Calendar.SUNDAY, 2*60*60*1000);</code></pre>
+     * Sets the dbylight sbving time stbrt rule. For exbmple, if dbylight sbving
+     * time stbrts on the first Sundby in April bt 2 bm in locbl wbll clock
+     * time, you cbn set the stbrt rule by cblling:
+     * <pre><code>setStbrtRule(Cblendbr.APRIL, 1, Cblendbr.SUNDAY, 2*60*60*1000);</code></pre>
      *
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     *                        See the class description for the special cases of this parameter.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time, which is local standard time in this case.
-     * @exception IllegalArgumentException if the <code>startMonth</code>, <code>startDay</code>,
-     * <code>startDayOfWeek</code>, or <code>startTime</code> parameters are out of range
+     * @pbrbm stbrtMonth      The dbylight sbving time stbrting month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        The dby of the month on which the dbylight sbving time stbrts.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm stbrtDbyOfWeek  The dbylight sbving time stbrting dby-of-week.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm stbrtTime       The dbylight sbving time stbrting time in locbl wbll clock
+     *                        time, which is locbl stbndbrd time in this cbse.
+     * @exception IllegblArgumentException if the <code>stbrtMonth</code>, <code>stbrtDby</code>,
+     * <code>stbrtDbyOfWeek</code>, or <code>stbrtTime</code> pbrbmeters bre out of rbnge
      */
-    public void setStartRule(int startMonth, int startDay, int startDayOfWeek, int startTime)
+    public void setStbrtRule(int stbrtMonth, int stbrtDby, int stbrtDbyOfWeek, int stbrtTime)
     {
-        this.startMonth = startMonth;
-        this.startDay = startDay;
-        this.startDayOfWeek = startDayOfWeek;
-        this.startTime = startTime;
-        startTimeMode = WALL_TIME;
-        decodeStartRule();
-        invalidateCache();
+        this.stbrtMonth = stbrtMonth;
+        this.stbrtDby = stbrtDby;
+        this.stbrtDbyOfWeek = stbrtDbyOfWeek;
+        this.stbrtTime = stbrtTime;
+        stbrtTimeMode = WALL_TIME;
+        decodeStbrtRule();
+        invblidbteCbche();
     }
 
     /**
-     * Sets the daylight saving time start rule to a fixed date within a month.
-     * This method is equivalent to:
-     * <pre><code>setStartRule(startMonth, startDay, 0, startTime)</code></pre>
+     * Sets the dbylight sbving time stbrt rule to b fixed dbte within b month.
+     * This method is equivblent to:
+     * <pre><code>setStbrtRule(stbrtMonth, stbrtDby, 0, stbrtTime)</code></pre>
      *
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time, which is local standard time in this case.
-     *                        See the class description for the special cases of this parameter.
-     * @exception IllegalArgumentException if the <code>startMonth</code>,
-     * <code>startDayOfMonth</code>, or <code>startTime</code> parameters are out of range
+     * @pbrbm stbrtMonth      The dbylight sbving time stbrting month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        The dby of the month on which the dbylight sbving time stbrts.
+     * @pbrbm stbrtTime       The dbylight sbving time stbrting time in locbl wbll clock
+     *                        time, which is locbl stbndbrd time in this cbse.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @exception IllegblArgumentException if the <code>stbrtMonth</code>,
+     * <code>stbrtDbyOfMonth</code>, or <code>stbrtTime</code> pbrbmeters bre out of rbnge
      * @since 1.2
      */
-    public void setStartRule(int startMonth, int startDay, int startTime) {
-        setStartRule(startMonth, startDay, 0, startTime);
+    public void setStbrtRule(int stbrtMonth, int stbrtDby, int stbrtTime) {
+        setStbrtRule(stbrtMonth, stbrtDby, 0, stbrtTime);
     }
 
     /**
-     * Sets the daylight saving time start rule to a weekday before or after the given date within
-     * a month, e.g., the first Monday on or after the 8th.
+     * Sets the dbylight sbving time stbrt rule to b weekdby before or bfter the given dbte within
+     * b month, e.g., the first Mondby on or bfter the 8th.
      *
-     * @param startMonth      The daylight saving time starting month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 0 for January).
-     * @param startDay        The day of the month on which the daylight saving time starts.
-     * @param startDayOfWeek  The daylight saving time starting day-of-week.
-     * @param startTime       The daylight saving time starting time in local wall clock
-     *                        time, which is local standard time in this case.
-     * @param after           If true, this rule selects the first <code>dayOfWeek</code> on or
-     *                        <em>after</em> <code>dayOfMonth</code>.  If false, this rule
-     *                        selects the last <code>dayOfWeek</code> on or <em>before</em>
-     *                        <code>dayOfMonth</code>.
-     * @exception IllegalArgumentException if the <code>startMonth</code>, <code>startDay</code>,
-     * <code>startDayOfWeek</code>, or <code>startTime</code> parameters are out of range
+     * @pbrbm stbrtMonth      The dbylight sbving time stbrting month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 0 for Jbnubry).
+     * @pbrbm stbrtDby        The dby of the month on which the dbylight sbving time stbrts.
+     * @pbrbm stbrtDbyOfWeek  The dbylight sbving time stbrting dby-of-week.
+     * @pbrbm stbrtTime       The dbylight sbving time stbrting time in locbl wbll clock
+     *                        time, which is locbl stbndbrd time in this cbse.
+     * @pbrbm bfter           If true, this rule selects the first <code>dbyOfWeek</code> on or
+     *                        <em>bfter</em> <code>dbyOfMonth</code>.  If fblse, this rule
+     *                        selects the lbst <code>dbyOfWeek</code> on or <em>before</em>
+     *                        <code>dbyOfMonth</code>.
+     * @exception IllegblArgumentException if the <code>stbrtMonth</code>, <code>stbrtDby</code>,
+     * <code>stbrtDbyOfWeek</code>, or <code>stbrtTime</code> pbrbmeters bre out of rbnge
      * @since 1.2
      */
-    public void setStartRule(int startMonth, int startDay, int startDayOfWeek,
-                             int startTime, boolean after)
+    public void setStbrtRule(int stbrtMonth, int stbrtDby, int stbrtDbyOfWeek,
+                             int stbrtTime, boolebn bfter)
     {
-        // TODO: this method doesn't check the initial values of dayOfMonth or dayOfWeek.
-        if (after) {
-            setStartRule(startMonth, startDay, -startDayOfWeek, startTime);
+        // TODO: this method doesn't check the initibl vblues of dbyOfMonth or dbyOfWeek.
+        if (bfter) {
+            setStbrtRule(stbrtMonth, stbrtDby, -stbrtDbyOfWeek, stbrtTime);
         } else {
-            setStartRule(startMonth, -startDay, -startDayOfWeek, startTime);
+            setStbrtRule(stbrtMonth, -stbrtDby, -stbrtDbyOfWeek, stbrtTime);
         }
     }
 
     /**
-     * Sets the daylight saving time end rule. For example, if daylight saving time
-     * ends on the last Sunday in October at 2 am in wall clock time,
-     * you can set the end rule by calling:
-     * <code>setEndRule(Calendar.OCTOBER, -1, Calendar.SUNDAY, 2*60*60*1000);</code>
+     * Sets the dbylight sbving time end rule. For exbmple, if dbylight sbving time
+     * ends on the lbst Sundby in October bt 2 bm in wbll clock time,
+     * you cbn set the end rule by cblling:
+     * <code>setEndRule(Cblendbr.OCTOBER, -1, Cblendbr.SUNDAY, 2*60*60*1000);</code>
      *
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     *                        See the class description for the special cases of this parameter.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     *                        See the class description for the special cases of this parameter.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        (in milliseconds within the day) which is local daylight
-     *                        time in this case.
-     * @exception IllegalArgumentException if the <code>endMonth</code>, <code>endDay</code>,
-     * <code>endDayOfWeek</code>, or <code>endTime</code> parameters are out of range
+     * @pbrbm endMonth        The dbylight sbving time ending month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 9 for October).
+     * @pbrbm endDby          The dby of the month on which the dbylight sbving time ends.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm endDbyOfWeek    The dbylight sbving time ending dby-of-week.
+     *                        See the clbss description for the specibl cbses of this pbrbmeter.
+     * @pbrbm endTime         The dbylight sbving ending time in locbl wbll clock time,
+     *                        (in milliseconds within the dby) which is locbl dbylight
+     *                        time in this cbse.
+     * @exception IllegblArgumentException if the <code>endMonth</code>, <code>endDby</code>,
+     * <code>endDbyOfWeek</code>, or <code>endTime</code> pbrbmeters bre out of rbnge
      */
-    public void setEndRule(int endMonth, int endDay, int endDayOfWeek,
+    public void setEndRule(int endMonth, int endDby, int endDbyOfWeek,
                            int endTime)
     {
         this.endMonth = endMonth;
-        this.endDay = endDay;
-        this.endDayOfWeek = endDayOfWeek;
+        this.endDby = endDby;
+        this.endDbyOfWeek = endDbyOfWeek;
         this.endTime = endTime;
         this.endTimeMode = WALL_TIME;
         decodeEndRule();
-        invalidateCache();
+        invblidbteCbche();
     }
 
     /**
-     * Sets the daylight saving time end rule to a fixed date within a month.
-     * This method is equivalent to:
-     * <pre><code>setEndRule(endMonth, endDay, 0, endTime)</code></pre>
+     * Sets the dbylight sbving time end rule to b fixed dbte within b month.
+     * This method is equivblent to:
+     * <pre><code>setEndRule(endMonth, endDby, 0, endTime)</code></pre>
      *
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        (in milliseconds within the day) which is local daylight
-     *                        time in this case.
-     * @exception IllegalArgumentException the <code>endMonth</code>, <code>endDay</code>,
-     * or <code>endTime</code> parameters are out of range
+     * @pbrbm endMonth        The dbylight sbving time ending month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 9 for October).
+     * @pbrbm endDby          The dby of the month on which the dbylight sbving time ends.
+     * @pbrbm endTime         The dbylight sbving ending time in locbl wbll clock time,
+     *                        (in milliseconds within the dby) which is locbl dbylight
+     *                        time in this cbse.
+     * @exception IllegblArgumentException the <code>endMonth</code>, <code>endDby</code>,
+     * or <code>endTime</code> pbrbmeters bre out of rbnge
      * @since 1.2
      */
-    public void setEndRule(int endMonth, int endDay, int endTime)
+    public void setEndRule(int endMonth, int endDby, int endTime)
     {
-        setEndRule(endMonth, endDay, 0, endTime);
+        setEndRule(endMonth, endDby, 0, endTime);
     }
 
     /**
-     * Sets the daylight saving time end rule to a weekday before or after the given date within
-     * a month, e.g., the first Monday on or after the 8th.
+     * Sets the dbylight sbving time end rule to b weekdby before or bfter the given dbte within
+     * b month, e.g., the first Mondby on or bfter the 8th.
      *
-     * @param endMonth        The daylight saving time ending month. Month is
-     *                        a {@link Calendar#MONTH MONTH} field
-     *                        value (0-based. e.g., 9 for October).
-     * @param endDay          The day of the month on which the daylight saving time ends.
-     * @param endDayOfWeek    The daylight saving time ending day-of-week.
-     * @param endTime         The daylight saving ending time in local wall clock time,
-     *                        (in milliseconds within the day) which is local daylight
-     *                        time in this case.
-     * @param after           If true, this rule selects the first <code>endDayOfWeek</code> on
-     *                        or <em>after</em> <code>endDay</code>.  If false, this rule
-     *                        selects the last <code>endDayOfWeek</code> on or before
-     *                        <code>endDay</code> of the month.
-     * @exception IllegalArgumentException the <code>endMonth</code>, <code>endDay</code>,
-     * <code>endDayOfWeek</code>, or <code>endTime</code> parameters are out of range
+     * @pbrbm endMonth        The dbylight sbving time ending month. Month is
+     *                        b {@link Cblendbr#MONTH MONTH} field
+     *                        vblue (0-bbsed. e.g., 9 for October).
+     * @pbrbm endDby          The dby of the month on which the dbylight sbving time ends.
+     * @pbrbm endDbyOfWeek    The dbylight sbving time ending dby-of-week.
+     * @pbrbm endTime         The dbylight sbving ending time in locbl wbll clock time,
+     *                        (in milliseconds within the dby) which is locbl dbylight
+     *                        time in this cbse.
+     * @pbrbm bfter           If true, this rule selects the first <code>endDbyOfWeek</code> on
+     *                        or <em>bfter</em> <code>endDby</code>.  If fblse, this rule
+     *                        selects the lbst <code>endDbyOfWeek</code> on or before
+     *                        <code>endDby</code> of the month.
+     * @exception IllegblArgumentException the <code>endMonth</code>, <code>endDby</code>,
+     * <code>endDbyOfWeek</code>, or <code>endTime</code> pbrbmeters bre out of rbnge
      * @since 1.2
      */
-    public void setEndRule(int endMonth, int endDay, int endDayOfWeek, int endTime, boolean after)
+    public void setEndRule(int endMonth, int endDby, int endDbyOfWeek, int endTime, boolebn bfter)
     {
-        if (after) {
-            setEndRule(endMonth, endDay, -endDayOfWeek, endTime);
+        if (bfter) {
+            setEndRule(endMonth, endDby, -endDbyOfWeek, endTime);
         } else {
-            setEndRule(endMonth, -endDay, -endDayOfWeek, endTime);
+            setEndRule(endMonth, -endDby, -endDbyOfWeek, endTime);
         }
     }
 
     /**
-     * Returns the offset of this time zone from UTC at the given
-     * time. If daylight saving time is in effect at the given time,
-     * the offset value is adjusted with the amount of daylight
-     * saving.
+     * Returns the offset of this time zone from UTC bt the given
+     * time. If dbylight sbving time is in effect bt the given time,
+     * the offset vblue is bdjusted with the bmount of dbylight
+     * sbving.
      *
-     * @param date the time at which the time zone offset is found
-     * @return the amount of time in milliseconds to add to UTC to get
-     * local time.
+     * @pbrbm dbte the time bt which the time zone offset is found
+     * @return the bmount of time in milliseconds to bdd to UTC to get
+     * locbl time.
      * @since 1.4
      */
-    public int getOffset(long date) {
-        return getOffsets(date, null);
+    public int getOffset(long dbte) {
+        return getOffsets(dbte, null);
     }
 
     /**
      * @see TimeZone#getOffsets
      */
-    int getOffsets(long date, int[] offsets) {
-        int offset = rawOffset;
+    int getOffsets(long dbte, int[] offsets) {
+        int offset = rbwOffset;
 
       computeOffset:
-        if (useDaylight) {
+        if (useDbylight) {
             synchronized (this) {
-                if (cacheStart != 0) {
-                    if (date >= cacheStart && date < cacheEnd) {
-                        offset += dstSavings;
-                        break computeOffset;
+                if (cbcheStbrt != 0) {
+                    if (dbte >= cbcheStbrt && dbte < cbcheEnd) {
+                        offset += dstSbvings;
+                        brebk computeOffset;
                     }
                 }
             }
-            BaseCalendar cal = date >= GregorianCalendar.DEFAULT_GREGORIAN_CUTOVER ?
-                gcal : (BaseCalendar) CalendarSystem.forName("julian");
-            BaseCalendar.Date cdate = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-            // Get the year in local time
-            cal.getCalendarDate(date + rawOffset, cdate);
-            int year = cdate.getNormalizedYear();
-            if (year >= startYear) {
-                // Clear time elements for the transition calculations
-                cdate.setTimeOfDay(0, 0, 0, 0);
-                offset = getOffset(cal, cdate, year, date);
+            BbseCblendbr cbl = dbte >= GregoribnCblendbr.DEFAULT_GREGORIAN_CUTOVER ?
+                gcbl : (BbseCblendbr) CblendbrSystem.forNbme("julibn");
+            BbseCblendbr.Dbte cdbte = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(TimeZone.NO_TIMEZONE);
+            // Get the yebr in locbl time
+            cbl.getCblendbrDbte(dbte + rbwOffset, cdbte);
+            int yebr = cdbte.getNormblizedYebr();
+            if (yebr >= stbrtYebr) {
+                // Clebr time elements for the trbnsition cblculbtions
+                cdbte.setTimeOfDby(0, 0, 0, 0);
+                offset = getOffset(cbl, cdbte, yebr, dbte);
             }
         }
 
         if (offsets != null) {
-            offsets[0] = rawOffset;
-            offsets[1] = offset - rawOffset;
+            offsets[0] = rbwOffset;
+            offsets[1] = offset - rbwOffset;
         }
         return offset;
     }
 
    /**
-     * Returns the difference in milliseconds between local time and
-     * UTC, taking into account both the raw offset and the effect of
-     * daylight saving, for the specified date and time.  This method
-     * assumes that the start and end month are distinct.  It also
-     * uses a default {@link GregorianCalendar} object as its
-     * underlying calendar, such as for determining leap years.  Do
-     * not use the result of this method with a calendar other than a
-     * default <code>GregorianCalendar</code>.
+     * Returns the difference in milliseconds between locbl time bnd
+     * UTC, tbking into bccount both the rbw offset bnd the effect of
+     * dbylight sbving, for the specified dbte bnd time.  This method
+     * bssumes thbt the stbrt bnd end month bre distinct.  It blso
+     * uses b defbult {@link GregoribnCblendbr} object bs its
+     * underlying cblendbr, such bs for determining lebp yebrs.  Do
+     * not use the result of this method with b cblendbr other thbn b
+     * defbult <code>GregoribnCblendbr</code>.
      *
-     * <p><em>Note:  In general, clients should use
-     * <code>Calendar.get(ZONE_OFFSET) + Calendar.get(DST_OFFSET)</code>
-     * instead of calling this method.</em>
+     * <p><em>Note:  In generbl, clients should use
+     * <code>Cblendbr.get(ZONE_OFFSET) + Cblendbr.get(DST_OFFSET)</code>
+     * instebd of cblling this method.</em>
      *
-     * @param era       The era of the given date.
-     * @param year      The year in the given date.
-     * @param month     The month in the given date. Month is 0-based. e.g.,
-     *                  0 for January.
-     * @param day       The day-in-month of the given date.
-     * @param dayOfWeek The day-of-week of the given date.
-     * @param millis    The milliseconds in day in <em>standard</em> local time.
-     * @return          The milliseconds to add to UTC to get local time.
-     * @exception       IllegalArgumentException the <code>era</code>,
-     *                  <code>month</code>, <code>day</code>, <code>dayOfWeek</code>,
-     *                  or <code>millis</code> parameters are out of range
+     * @pbrbm erb       The erb of the given dbte.
+     * @pbrbm yebr      The yebr in the given dbte.
+     * @pbrbm month     The month in the given dbte. Month is 0-bbsed. e.g.,
+     *                  0 for Jbnubry.
+     * @pbrbm dby       The dby-in-month of the given dbte.
+     * @pbrbm dbyOfWeek The dby-of-week of the given dbte.
+     * @pbrbm millis    The milliseconds in dby in <em>stbndbrd</em> locbl time.
+     * @return          The milliseconds to bdd to UTC to get locbl time.
+     * @exception       IllegblArgumentException the <code>erb</code>,
+     *                  <code>month</code>, <code>dby</code>, <code>dbyOfWeek</code>,
+     *                  or <code>millis</code> pbrbmeters bre out of rbnge
      */
-    public int getOffset(int era, int year, int month, int day, int dayOfWeek,
+    public int getOffset(int erb, int yebr, int month, int dby, int dbyOfWeek,
                          int millis)
     {
-        if (era != GregorianCalendar.AD && era != GregorianCalendar.BC) {
-            throw new IllegalArgumentException("Illegal era " + era);
+        if (erb != GregoribnCblendbr.AD && erb != GregoribnCblendbr.BC) {
+            throw new IllegblArgumentException("Illegbl erb " + erb);
         }
 
-        int y = year;
-        if (era == GregorianCalendar.BC) {
-            // adjust y with the GregorianCalendar-style year numbering.
+        int y = yebr;
+        if (erb == GregoribnCblendbr.BC) {
+            // bdjust y with the GregoribnCblendbr-style yebr numbering.
             y = 1 - y;
         }
 
-        // If the year isn't representable with the 64-bit long
-        // integer in milliseconds, convert the year to an
-        // equivalent year. This is required to pass some JCK test cases
-        // which are actually useless though because the specified years
-        // can't be supported by the Java time system.
+        // If the yebr isn't representbble with the 64-bit long
+        // integer in milliseconds, convert the yebr to bn
+        // equivblent yebr. This is required to pbss some JCK test cbses
+        // which bre bctublly useless though becbuse the specified yebrs
+        // cbn't be supported by the Jbvb time system.
         if (y >= 292278994) {
             y = 2800 + y % 2800;
         } else if (y <= -292269054) {
-            // y %= 28 also produces an equivalent year, but positive
-            // year numbers would be convenient to use the UNIX cal
-            // command.
-            y = (int) CalendarUtils.mod((long) y, 28);
+            // y %= 28 blso produces bn equivblent yebr, but positive
+            // yebr numbers would be convenient to use the UNIX cbl
+            // commbnd.
+            y = (int) CblendbrUtils.mod((long) y, 28);
         }
 
-        // convert year to its 1-based month value
+        // convert yebr to its 1-bbsed month vblue
         int m = month + 1;
 
-        // First, calculate time as a Gregorian date.
-        BaseCalendar cal = gcal;
-        BaseCalendar.Date cdate = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-        cdate.setDate(y, m, day);
-        long time = cal.getTime(cdate); // normalize cdate
-        time += millis - rawOffset; // UTC time
+        // First, cblculbte time bs b Gregoribn dbte.
+        BbseCblendbr cbl = gcbl;
+        BbseCblendbr.Dbte cdbte = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(TimeZone.NO_TIMEZONE);
+        cdbte.setDbte(y, m, dby);
+        long time = cbl.getTime(cdbte); // normblize cdbte
+        time += millis - rbwOffset; // UTC time
 
-        // If the time value represents a time before the default
-        // Gregorian cutover, recalculate time using the Julian
-        // calendar system. For the Julian calendar system, the
-        // normalized year numbering is ..., -2 (BCE 2), -1 (BCE 1),
-        // 1, 2 ... which is different from the GregorianCalendar
-        // style year numbering (..., -1, 0 (BCE 1), 1, 2, ...).
-        if (time < GregorianCalendar.DEFAULT_GREGORIAN_CUTOVER) {
-            cal = (BaseCalendar) CalendarSystem.forName("julian");
-            cdate = (BaseCalendar.Date) cal.newCalendarDate(TimeZone.NO_TIMEZONE);
-            cdate.setNormalizedDate(y, m, day);
-            time = cal.getTime(cdate) + millis - rawOffset;
+        // If the time vblue represents b time before the defbult
+        // Gregoribn cutover, recblculbte time using the Julibn
+        // cblendbr system. For the Julibn cblendbr system, the
+        // normblized yebr numbering is ..., -2 (BCE 2), -1 (BCE 1),
+        // 1, 2 ... which is different from the GregoribnCblendbr
+        // style yebr numbering (..., -1, 0 (BCE 1), 1, 2, ...).
+        if (time < GregoribnCblendbr.DEFAULT_GREGORIAN_CUTOVER) {
+            cbl = (BbseCblendbr) CblendbrSystem.forNbme("julibn");
+            cdbte = (BbseCblendbr.Dbte) cbl.newCblendbrDbte(TimeZone.NO_TIMEZONE);
+            cdbte.setNormblizedDbte(y, m, dby);
+            time = cbl.getTime(cdbte) + millis - rbwOffset;
         }
 
-        if ((cdate.getNormalizedYear() != y)
-            || (cdate.getMonth() != m)
-            || (cdate.getDayOfMonth() != day)
-            // The validation should be cdate.getDayOfWeek() ==
-            // dayOfWeek. However, we don't check dayOfWeek for
-            // compatibility.
-            || (dayOfWeek < Calendar.SUNDAY || dayOfWeek > Calendar.SATURDAY)
+        if ((cdbte.getNormblizedYebr() != y)
+            || (cdbte.getMonth() != m)
+            || (cdbte.getDbyOfMonth() != dby)
+            // The vblidbtion should be cdbte.getDbyOfWeek() ==
+            // dbyOfWeek. However, we don't check dbyOfWeek for
+            // compbtibility.
+            || (dbyOfWeek < Cblendbr.SUNDAY || dbyOfWeek > Cblendbr.SATURDAY)
             || (millis < 0 || millis >= (24*60*60*1000))) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        if (!useDaylight || year < startYear || era != GregorianCalendar.CE) {
-            return rawOffset;
+        if (!useDbylight || yebr < stbrtYebr || erb != GregoribnCblendbr.CE) {
+            return rbwOffset;
         }
 
-        return getOffset(cal, cdate, y, time);
+        return getOffset(cbl, cdbte, y, time);
     }
 
-    private int getOffset(BaseCalendar cal, BaseCalendar.Date cdate, int year, long time) {
+    privbte int getOffset(BbseCblendbr cbl, BbseCblendbr.Dbte cdbte, int yebr, long time) {
         synchronized (this) {
-            if (cacheStart != 0) {
-                if (time >= cacheStart && time < cacheEnd) {
-                    return rawOffset + dstSavings;
+            if (cbcheStbrt != 0) {
+                if (time >= cbcheStbrt && time < cbcheEnd) {
+                    return rbwOffset + dstSbvings;
                 }
-                if (year == cacheYear) {
-                    return rawOffset;
+                if (yebr == cbcheYebr) {
+                    return rbwOffset;
                 }
             }
         }
 
-        long start = getStart(cal, cdate, year);
-        long end = getEnd(cal, cdate, year);
-        int offset = rawOffset;
-        if (start <= end) {
-            if (time >= start && time < end) {
-                offset += dstSavings;
+        long stbrt = getStbrt(cbl, cdbte, yebr);
+        long end = getEnd(cbl, cdbte, yebr);
+        int offset = rbwOffset;
+        if (stbrt <= end) {
+            if (time >= stbrt && time < end) {
+                offset += dstSbvings;
             }
             synchronized (this) {
-                cacheYear = year;
-                cacheStart = start;
-                cacheEnd = end;
+                cbcheYebr = yebr;
+                cbcheStbrt = stbrt;
+                cbcheEnd = end;
             }
         } else {
             if (time < end) {
-                // TODO: support Gregorian cutover. The previous year
-                // may be in the other calendar system.
-                start = getStart(cal, cdate, year - 1);
-                if (time >= start) {
-                    offset += dstSavings;
+                // TODO: support Gregoribn cutover. The previous yebr
+                // mby be in the other cblendbr system.
+                stbrt = getStbrt(cbl, cdbte, yebr - 1);
+                if (time >= stbrt) {
+                    offset += dstSbvings;
                 }
-            } else if (time >= start) {
-                // TODO: support Gregorian cutover. The next year
-                // may be in the other calendar system.
-                end = getEnd(cal, cdate, year + 1);
+            } else if (time >= stbrt) {
+                // TODO: support Gregoribn cutover. The next yebr
+                // mby be in the other cblendbr system.
+                end = getEnd(cbl, cdbte, yebr + 1);
                 if (time < end) {
-                    offset += dstSavings;
+                    offset += dstSbvings;
                 }
             }
-            if (start <= end) {
+            if (stbrt <= end) {
                 synchronized (this) {
-                    // The start and end transitions are in multiple years.
-                    cacheYear = (long) startYear - 1;
-                    cacheStart = start;
-                    cacheEnd = end;
+                    // The stbrt bnd end trbnsitions bre in multiple yebrs.
+                    cbcheYebr = (long) stbrtYebr - 1;
+                    cbcheStbrt = stbrt;
+                    cbcheEnd = end;
                 }
             }
         }
         return offset;
     }
 
-    private long getStart(BaseCalendar cal, BaseCalendar.Date cdate, int year) {
-        int time = startTime;
-        if (startTimeMode != UTC_TIME) {
-            time -= rawOffset;
+    privbte long getStbrt(BbseCblendbr cbl, BbseCblendbr.Dbte cdbte, int yebr) {
+        int time = stbrtTime;
+        if (stbrtTimeMode != UTC_TIME) {
+            time -= rbwOffset;
         }
-        return getTransition(cal, cdate, startMode, year, startMonth, startDay,
-                             startDayOfWeek, time);
+        return getTrbnsition(cbl, cdbte, stbrtMode, yebr, stbrtMonth, stbrtDby,
+                             stbrtDbyOfWeek, time);
     }
 
-    private long getEnd(BaseCalendar cal, BaseCalendar.Date cdate, int year) {
+    privbte long getEnd(BbseCblendbr cbl, BbseCblendbr.Dbte cdbte, int yebr) {
         int time = endTime;
         if (endTimeMode != UTC_TIME) {
-            time -= rawOffset;
+            time -= rbwOffset;
         }
         if (endTimeMode == WALL_TIME) {
-            time -= dstSavings;
+            time -= dstSbvings;
         }
-        return getTransition(cal, cdate, endMode, year, endMonth, endDay,
-                                        endDayOfWeek, time);
+        return getTrbnsition(cbl, cdbte, endMode, yebr, endMonth, endDby,
+                                        endDbyOfWeek, time);
     }
 
-    private long getTransition(BaseCalendar cal, BaseCalendar.Date cdate,
-                               int mode, int year, int month, int dayOfMonth,
-                               int dayOfWeek, int timeOfDay) {
-        cdate.setNormalizedYear(year);
-        cdate.setMonth(month + 1);
+    privbte long getTrbnsition(BbseCblendbr cbl, BbseCblendbr.Dbte cdbte,
+                               int mode, int yebr, int month, int dbyOfMonth,
+                               int dbyOfWeek, int timeOfDby) {
+        cdbte.setNormblizedYebr(yebr);
+        cdbte.setMonth(month + 1);
         switch (mode) {
-        case DOM_MODE:
-            cdate.setDayOfMonth(dayOfMonth);
-            break;
+        cbse DOM_MODE:
+            cdbte.setDbyOfMonth(dbyOfMonth);
+            brebk;
 
-        case DOW_IN_MONTH_MODE:
-            cdate.setDayOfMonth(1);
-            if (dayOfMonth < 0) {
-                cdate.setDayOfMonth(cal.getMonthLength(cdate));
+        cbse DOW_IN_MONTH_MODE:
+            cdbte.setDbyOfMonth(1);
+            if (dbyOfMonth < 0) {
+                cdbte.setDbyOfMonth(cbl.getMonthLength(cdbte));
             }
-            cdate = (BaseCalendar.Date) cal.getNthDayOfWeek(dayOfMonth, dayOfWeek, cdate);
-            break;
+            cdbte = (BbseCblendbr.Dbte) cbl.getNthDbyOfWeek(dbyOfMonth, dbyOfWeek, cdbte);
+            brebk;
 
-        case DOW_GE_DOM_MODE:
-            cdate.setDayOfMonth(dayOfMonth);
-            cdate = (BaseCalendar.Date) cal.getNthDayOfWeek(1, dayOfWeek, cdate);
-            break;
+        cbse DOW_GE_DOM_MODE:
+            cdbte.setDbyOfMonth(dbyOfMonth);
+            cdbte = (BbseCblendbr.Dbte) cbl.getNthDbyOfWeek(1, dbyOfWeek, cdbte);
+            brebk;
 
-        case DOW_LE_DOM_MODE:
-            cdate.setDayOfMonth(dayOfMonth);
-            cdate = (BaseCalendar.Date) cal.getNthDayOfWeek(-1, dayOfWeek, cdate);
-            break;
+        cbse DOW_LE_DOM_MODE:
+            cdbte.setDbyOfMonth(dbyOfMonth);
+            cdbte = (BbseCblendbr.Dbte) cbl.getNthDbyOfWeek(-1, dbyOfWeek, cdbte);
+            brebk;
         }
-        return cal.getTime(cdate) + timeOfDay;
+        return cbl.getTime(cdbte) + timeOfDby;
     }
 
     /**
      * Gets the GMT offset for this time zone.
-     * @return the GMT offset value in milliseconds
-     * @see #setRawOffset
+     * @return the GMT offset vblue in milliseconds
+     * @see #setRbwOffset
      */
-    public int getRawOffset()
+    public int getRbwOffset()
     {
-        // The given date will be taken into account while
-        // we have the historical time zone data in place.
-        return rawOffset;
+        // The given dbte will be tbken into bccount while
+        // we hbve the historicbl time zone dbtb in plbce.
+        return rbwOffset;
     }
 
     /**
-     * Sets the base time zone offset to GMT.
-     * This is the offset to add to UTC to get local time.
-     * @see #getRawOffset
+     * Sets the bbse time zone offset to GMT.
+     * This is the offset to bdd to UTC to get locbl time.
+     * @see #getRbwOffset
      */
-    public void setRawOffset(int offsetMillis)
+    public void setRbwOffset(int offsetMillis)
     {
-        this.rawOffset = offsetMillis;
+        this.rbwOffset = offsetMillis;
     }
 
     /**
-     * Sets the amount of time in milliseconds that the clock is advanced
-     * during daylight saving time.
-     * @param millisSavedDuringDST the number of milliseconds the time is
-     * advanced with respect to standard time when the daylight saving time rules
-     * are in effect. A positive number, typically one hour (3600000).
-     * @see #getDSTSavings
+     * Sets the bmount of time in milliseconds thbt the clock is bdvbnced
+     * during dbylight sbving time.
+     * @pbrbm millisSbvedDuringDST the number of milliseconds the time is
+     * bdvbnced with respect to stbndbrd time when the dbylight sbving time rules
+     * bre in effect. A positive number, typicblly one hour (3600000).
+     * @see #getDSTSbvings
      * @since 1.2
      */
-    public void setDSTSavings(int millisSavedDuringDST) {
-        if (millisSavedDuringDST <= 0) {
-            throw new IllegalArgumentException("Illegal daylight saving value: "
-                                               + millisSavedDuringDST);
+    public void setDSTSbvings(int millisSbvedDuringDST) {
+        if (millisSbvedDuringDST <= 0) {
+            throw new IllegblArgumentException("Illegbl dbylight sbving vblue: "
+                                               + millisSbvedDuringDST);
         }
-        dstSavings = millisSavedDuringDST;
+        dstSbvings = millisSbvedDuringDST;
     }
 
     /**
-     * Returns the amount of time in milliseconds that the clock is
-     * advanced during daylight saving time.
+     * Returns the bmount of time in milliseconds thbt the clock is
+     * bdvbnced during dbylight sbving time.
      *
-     * @return the number of milliseconds the time is advanced with
-     * respect to standard time when the daylight saving rules are in
-     * effect, or 0 (zero) if this time zone doesn't observe daylight
-     * saving time.
+     * @return the number of milliseconds the time is bdvbnced with
+     * respect to stbndbrd time when the dbylight sbving rules bre in
+     * effect, or 0 (zero) if this time zone doesn't observe dbylight
+     * sbving time.
      *
-     * @see #setDSTSavings
+     * @see #setDSTSbvings
      * @since 1.2
      */
-    public int getDSTSavings() {
-        return useDaylight ? dstSavings : 0;
+    public int getDSTSbvings() {
+        return useDbylight ? dstSbvings : 0;
     }
 
     /**
-     * Queries if this time zone uses daylight saving time.
-     * @return true if this time zone uses daylight saving time;
-     * false otherwise.
+     * Queries if this time zone uses dbylight sbving time.
+     * @return true if this time zone uses dbylight sbving time;
+     * fblse otherwise.
      */
-    public boolean useDaylightTime()
+    public boolebn useDbylightTime()
     {
-        return useDaylight;
+        return useDbylight;
     }
 
     /**
      * Returns {@code true} if this {@code SimpleTimeZone} observes
-     * Daylight Saving Time. This method is equivalent to {@link
-     * #useDaylightTime()}.
+     * Dbylight Sbving Time. This method is equivblent to {@link
+     * #useDbylightTime()}.
      *
      * @return {@code true} if this {@code SimpleTimeZone} observes
-     * Daylight Saving Time; {@code false} otherwise.
+     * Dbylight Sbving Time; {@code fblse} otherwise.
      * @since 1.7
      */
     @Override
-    public boolean observesDaylightTime() {
-        return useDaylightTime();
+    public boolebn observesDbylightTime() {
+        return useDbylightTime();
     }
 
     /**
-     * Queries if the given date is in daylight saving time.
-     * @return true if daylight saving time is in effective at the
-     * given date; false otherwise.
+     * Queries if the given dbte is in dbylight sbving time.
+     * @return true if dbylight sbving time is in effective bt the
+     * given dbte; fblse otherwise.
      */
-    public boolean inDaylightTime(Date date)
+    public boolebn inDbylightTime(Dbte dbte)
     {
-        return (getOffset(date.getTime()) != rawOffset);
+        return (getOffset(dbte.getTime()) != rbwOffset);
     }
 
     /**
-     * Returns a clone of this <code>SimpleTimeZone</code> instance.
-     * @return a clone of this instance.
+     * Returns b clone of this <code>SimpleTimeZone</code> instbnce.
+     * @return b clone of this instbnce.
      */
     public Object clone()
     {
@@ -872,835 +872,835 @@ public class SimpleTimeZone extends TimeZone {
     }
 
     /**
-     * Generates the hash code for the SimpleDateFormat object.
-     * @return the hash code for this object
+     * Generbtes the hbsh code for the SimpleDbteFormbt object.
+     * @return the hbsh code for this object
      */
-    public synchronized int hashCode()
+    public synchronized int hbshCode()
     {
-        return startMonth ^ startDay ^ startDayOfWeek ^ startTime ^
-            endMonth ^ endDay ^ endDayOfWeek ^ endTime ^ rawOffset;
+        return stbrtMonth ^ stbrtDby ^ stbrtDbyOfWeek ^ stbrtTime ^
+            endMonth ^ endDby ^ endDbyOfWeek ^ endTime ^ rbwOffset;
     }
 
     /**
-     * Compares the equality of two <code>SimpleTimeZone</code> objects.
+     * Compbres the equblity of two <code>SimpleTimeZone</code> objects.
      *
-     * @param obj  The <code>SimpleTimeZone</code> object to be compared with.
-     * @return     True if the given <code>obj</code> is the same as this
-     *             <code>SimpleTimeZone</code> object; false otherwise.
+     * @pbrbm obj  The <code>SimpleTimeZone</code> object to be compbred with.
+     * @return     True if the given <code>obj</code> is the sbme bs this
+     *             <code>SimpleTimeZone</code> object; fblse otherwise.
      */
-    public boolean equals(Object obj)
+    public boolebn equbls(Object obj)
     {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof SimpleTimeZone)) {
-            return false;
+        if (!(obj instbnceof SimpleTimeZone)) {
+            return fblse;
         }
 
-        SimpleTimeZone that = (SimpleTimeZone) obj;
+        SimpleTimeZone thbt = (SimpleTimeZone) obj;
 
-        return getID().equals(that.getID()) &&
-            hasSameRules(that);
+        return getID().equbls(thbt.getID()) &&
+            hbsSbmeRules(thbt);
     }
 
     /**
-     * Returns <code>true</code> if this zone has the same rules and offset as another zone.
-     * @param other the TimeZone object to be compared with
-     * @return <code>true</code> if the given zone is a SimpleTimeZone and has the
-     * same rules and offset as this one
+     * Returns <code>true</code> if this zone hbs the sbme rules bnd offset bs bnother zone.
+     * @pbrbm other the TimeZone object to be compbred with
+     * @return <code>true</code> if the given zone is b SimpleTimeZone bnd hbs the
+     * sbme rules bnd offset bs this one
      * @since 1.2
      */
-    public boolean hasSameRules(TimeZone other) {
+    public boolebn hbsSbmeRules(TimeZone other) {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof SimpleTimeZone)) {
-            return false;
+        if (!(other instbnceof SimpleTimeZone)) {
+            return fblse;
         }
-        SimpleTimeZone that = (SimpleTimeZone) other;
-        return rawOffset == that.rawOffset &&
-            useDaylight == that.useDaylight &&
-            (!useDaylight
+        SimpleTimeZone thbt = (SimpleTimeZone) other;
+        return rbwOffset == thbt.rbwOffset &&
+            useDbylight == thbt.useDbylight &&
+            (!useDbylight
              // Only check rules if using DST
-             || (dstSavings == that.dstSavings &&
-                 startMode == that.startMode &&
-                 startMonth == that.startMonth &&
-                 startDay == that.startDay &&
-                 startDayOfWeek == that.startDayOfWeek &&
-                 startTime == that.startTime &&
-                 startTimeMode == that.startTimeMode &&
-                 endMode == that.endMode &&
-                 endMonth == that.endMonth &&
-                 endDay == that.endDay &&
-                 endDayOfWeek == that.endDayOfWeek &&
-                 endTime == that.endTime &&
-                 endTimeMode == that.endTimeMode &&
-                 startYear == that.startYear));
+             || (dstSbvings == thbt.dstSbvings &&
+                 stbrtMode == thbt.stbrtMode &&
+                 stbrtMonth == thbt.stbrtMonth &&
+                 stbrtDby == thbt.stbrtDby &&
+                 stbrtDbyOfWeek == thbt.stbrtDbyOfWeek &&
+                 stbrtTime == thbt.stbrtTime &&
+                 stbrtTimeMode == thbt.stbrtTimeMode &&
+                 endMode == thbt.endMode &&
+                 endMonth == thbt.endMonth &&
+                 endDby == thbt.endDby &&
+                 endDbyOfWeek == thbt.endDbyOfWeek &&
+                 endTime == thbt.endTime &&
+                 endTimeMode == thbt.endTimeMode &&
+                 stbrtYebr == thbt.stbrtYebr));
     }
 
     /**
-     * Returns a string representation of this time zone.
-     * @return a string representation of this time zone.
+     * Returns b string representbtion of this time zone.
+     * @return b string representbtion of this time zone.
      */
     public String toString() {
-        return getClass().getName() +
+        return getClbss().getNbme() +
             "[id=" + getID() +
-            ",offset=" + rawOffset +
-            ",dstSavings=" + dstSavings +
-            ",useDaylight=" + useDaylight +
-            ",startYear=" + startYear +
-            ",startMode=" + startMode +
-            ",startMonth=" + startMonth +
-            ",startDay=" + startDay +
-            ",startDayOfWeek=" + startDayOfWeek +
-            ",startTime=" + startTime +
-            ",startTimeMode=" + startTimeMode +
+            ",offset=" + rbwOffset +
+            ",dstSbvings=" + dstSbvings +
+            ",useDbylight=" + useDbylight +
+            ",stbrtYebr=" + stbrtYebr +
+            ",stbrtMode=" + stbrtMode +
+            ",stbrtMonth=" + stbrtMonth +
+            ",stbrtDby=" + stbrtDby +
+            ",stbrtDbyOfWeek=" + stbrtDbyOfWeek +
+            ",stbrtTime=" + stbrtTime +
+            ",stbrtTimeMode=" + stbrtTimeMode +
             ",endMode=" + endMode +
             ",endMonth=" + endMonth +
-            ",endDay=" + endDay +
-            ",endDayOfWeek=" + endDayOfWeek +
+            ",endDby=" + endDby +
+            ",endDbyOfWeek=" + endDbyOfWeek +
             ",endTime=" + endTime +
             ",endTimeMode=" + endTimeMode + ']';
     }
 
-    // =======================privates===============================
+    // =======================privbtes===============================
 
     /**
-     * The month in which daylight saving time starts.  This value must be
-     * between <code>Calendar.JANUARY</code> and
-     * <code>Calendar.DECEMBER</code> inclusive.  This value must not equal
+     * The month in which dbylight sbving time stbrts.  This vblue must be
+     * between <code>Cblendbr.JANUARY</code> bnd
+     * <code>Cblendbr.DECEMBER</code> inclusive.  This vblue must not equbl
      * <code>endMonth</code>.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      */
-    private int startMonth;
+    privbte int stbrtMonth;
 
     /**
-     * This field has two possible interpretations:
+     * This field hbs two possible interpretbtions:
      * <dl>
-     * <dt><code>startMode == DOW_IN_MONTH</code></dt>
+     * <dt><code>stbrtMode == DOW_IN_MONTH</code></dt>
      * <dd>
-     * <code>startDay</code> indicates the day of the month of
-     * <code>startMonth</code> on which daylight
-     * saving time starts, from 1 to 28, 30, or 31, depending on the
-     * <code>startMonth</code>.
+     * <code>stbrtDby</code> indicbtes the dby of the month of
+     * <code>stbrtMonth</code> on which dbylight
+     * sbving time stbrts, from 1 to 28, 30, or 31, depending on the
+     * <code>stbrtMonth</code>.
      * </dd>
-     * <dt><code>startMode != DOW_IN_MONTH</code></dt>
+     * <dt><code>stbrtMode != DOW_IN_MONTH</code></dt>
      * <dd>
-     * <code>startDay</code> indicates which <code>startDayOfWeek</code> in the
-     * month <code>startMonth</code> daylight
-     * saving time starts on.  For example, a value of +1 and a
-     * <code>startDayOfWeek</code> of <code>Calendar.SUNDAY</code> indicates the
-     * first Sunday of <code>startMonth</code>.  Likewise, +2 would indicate the
-     * second Sunday, and -1 the last Sunday.  A value of 0 is illegal.
+     * <code>stbrtDby</code> indicbtes which <code>stbrtDbyOfWeek</code> in the
+     * month <code>stbrtMonth</code> dbylight
+     * sbving time stbrts on.  For exbmple, b vblue of +1 bnd b
+     * <code>stbrtDbyOfWeek</code> of <code>Cblendbr.SUNDAY</code> indicbtes the
+     * first Sundby of <code>stbrtMonth</code>.  Likewise, +2 would indicbte the
+     * second Sundby, bnd -1 the lbst Sundby.  A vblue of 0 is illegbl.
      * </dd>
      * </dl>
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      */
-    private int startDay;
+    privbte int stbrtDby;
 
     /**
-     * The day of the week on which daylight saving time starts.  This value
-     * must be between <code>Calendar.SUNDAY</code> and
-     * <code>Calendar.SATURDAY</code> inclusive.
-     * <p>If <code>useDaylight</code> is false or
-     * <code>startMode == DAY_OF_MONTH</code>, this value is ignored.
-     * @serial
+     * The dby of the week on which dbylight sbving time stbrts.  This vblue
+     * must be between <code>Cblendbr.SUNDAY</code> bnd
+     * <code>Cblendbr.SATURDAY</code> inclusive.
+     * <p>If <code>useDbylight</code> is fblse or
+     * <code>stbrtMode == DAY_OF_MONTH</code>, this vblue is ignored.
+     * @seribl
      */
-    private int startDayOfWeek;
+    privbte int stbrtDbyOfWeek;
 
     /**
-     * The time in milliseconds after midnight at which daylight saving
-     * time starts.  This value is expressed as wall time, standard time,
-     * or UTC time, depending on the setting of <code>startTimeMode</code>.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * The time in milliseconds bfter midnight bt which dbylight sbving
+     * time stbrts.  This vblue is expressed bs wbll time, stbndbrd time,
+     * or UTC time, depending on the setting of <code>stbrtTimeMode</code>.
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      */
-    private int startTime;
+    privbte int stbrtTime;
 
     /**
-     * The format of startTime, either WALL_TIME, STANDARD_TIME, or UTC_TIME.
-     * @serial
+     * The formbt of stbrtTime, either WALL_TIME, STANDARD_TIME, or UTC_TIME.
+     * @seribl
      * @since 1.3
      */
-    private int startTimeMode;
+    privbte int stbrtTimeMode;
 
     /**
-     * The month in which daylight saving time ends.  This value must be
-     * between <code>Calendar.JANUARY</code> and
-     * <code>Calendar.UNDECIMBER</code>.  This value must not equal
-     * <code>startMonth</code>.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * The month in which dbylight sbving time ends.  This vblue must be
+     * between <code>Cblendbr.JANUARY</code> bnd
+     * <code>Cblendbr.UNDECIMBER</code>.  This vblue must not equbl
+     * <code>stbrtMonth</code>.
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      */
-    private int endMonth;
+    privbte int endMonth;
 
     /**
-     * This field has two possible interpretations:
+     * This field hbs two possible interpretbtions:
      * <dl>
      * <dt><code>endMode == DOW_IN_MONTH</code></dt>
      * <dd>
-     * <code>endDay</code> indicates the day of the month of
-     * <code>endMonth</code> on which daylight
-     * saving time ends, from 1 to 28, 30, or 31, depending on the
+     * <code>endDby</code> indicbtes the dby of the month of
+     * <code>endMonth</code> on which dbylight
+     * sbving time ends, from 1 to 28, 30, or 31, depending on the
      * <code>endMonth</code>.
      * </dd>
      * <dt><code>endMode != DOW_IN_MONTH</code></dt>
      * <dd>
-     * <code>endDay</code> indicates which <code>endDayOfWeek</code> in th
-     * month <code>endMonth</code> daylight
-     * saving time ends on.  For example, a value of +1 and a
-     * <code>endDayOfWeek</code> of <code>Calendar.SUNDAY</code> indicates the
-     * first Sunday of <code>endMonth</code>.  Likewise, +2 would indicate the
-     * second Sunday, and -1 the last Sunday.  A value of 0 is illegal.
+     * <code>endDby</code> indicbtes which <code>endDbyOfWeek</code> in th
+     * month <code>endMonth</code> dbylight
+     * sbving time ends on.  For exbmple, b vblue of +1 bnd b
+     * <code>endDbyOfWeek</code> of <code>Cblendbr.SUNDAY</code> indicbtes the
+     * first Sundby of <code>endMonth</code>.  Likewise, +2 would indicbte the
+     * second Sundby, bnd -1 the lbst Sundby.  A vblue of 0 is illegbl.
      * </dd>
      * </dl>
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      */
-    private int endDay;
+    privbte int endDby;
 
     /**
-     * The day of the week on which daylight saving time ends.  This value
-     * must be between <code>Calendar.SUNDAY</code> and
-     * <code>Calendar.SATURDAY</code> inclusive.
-     * <p>If <code>useDaylight</code> is false or
-     * <code>endMode == DAY_OF_MONTH</code>, this value is ignored.
-     * @serial
+     * The dby of the week on which dbylight sbving time ends.  This vblue
+     * must be between <code>Cblendbr.SUNDAY</code> bnd
+     * <code>Cblendbr.SATURDAY</code> inclusive.
+     * <p>If <code>useDbylight</code> is fblse or
+     * <code>endMode == DAY_OF_MONTH</code>, this vblue is ignored.
+     * @seribl
      */
-    private int endDayOfWeek;
+    privbte int endDbyOfWeek;
 
     /**
-     * The time in milliseconds after midnight at which daylight saving
-     * time ends.  This value is expressed as wall time, standard time,
+     * The time in milliseconds bfter midnight bt which dbylight sbving
+     * time ends.  This vblue is expressed bs wbll time, stbndbrd time,
      * or UTC time, depending on the setting of <code>endTimeMode</code>.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      */
-    private int endTime;
+    privbte int endTime;
 
     /**
-     * The format of endTime, either <code>WALL_TIME</code>,
+     * The formbt of endTime, either <code>WALL_TIME</code>,
      * <code>STANDARD_TIME</code>, or <code>UTC_TIME</code>.
-     * @serial
+     * @seribl
      * @since 1.3
      */
-    private int endTimeMode;
+    privbte int endTimeMode;
 
     /**
-     * The year in which daylight saving time is first observed.  This is an {@link GregorianCalendar#AD AD}
-     * value.  If this value is less than 1 then daylight saving time is observed
-     * for all <code>AD</code> years.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * The yebr in which dbylight sbving time is first observed.  This is bn {@link GregoribnCblendbr#AD AD}
+     * vblue.  If this vblue is less thbn 1 then dbylight sbving time is observed
+     * for bll <code>AD</code> yebrs.
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      */
-    private int startYear;
+    privbte int stbrtYebr;
 
     /**
-     * The offset in milliseconds between this zone and GMT.  Negative offsets
-     * are to the west of Greenwich.  To obtain local <em>standard</em> time,
-     * add the offset to GMT time.  To obtain local wall time it may also be
-     * necessary to add <code>dstSavings</code>.
-     * @serial
+     * The offset in milliseconds between this zone bnd GMT.  Negbtive offsets
+     * bre to the west of Greenwich.  To obtbin locbl <em>stbndbrd</em> time,
+     * bdd the offset to GMT time.  To obtbin locbl wbll time it mby blso be
+     * necessbry to bdd <code>dstSbvings</code>.
+     * @seribl
      */
-    private int rawOffset;
+    privbte int rbwOffset;
 
     /**
-     * A boolean value which is true if and only if this zone uses daylight
-     * saving time.  If this value is false, several other fields are ignored.
-     * @serial
+     * A boolebn vblue which is true if bnd only if this zone uses dbylight
+     * sbving time.  If this vblue is fblse, severbl other fields bre ignored.
+     * @seribl
      */
-    private boolean useDaylight=false; // indicate if this time zone uses DST
+    privbte boolebn useDbylight=fblse; // indicbte if this time zone uses DST
 
-    private static final int millisPerHour = 60*60*1000;
-    private static final int millisPerDay  = 24*millisPerHour;
+    privbte stbtic finbl int millisPerHour = 60*60*1000;
+    privbte stbtic finbl int millisPerDby  = 24*millisPerHour;
 
     /**
-     * This field was serialized in JDK 1.1, so we have to keep it that way
-     * to maintain serialization compatibility. However, there's no need to
-     * recreate the array each time we create a new time zone.
-     * @serial An array of bytes containing the values {31, 28, 31, 30, 31, 30,
-     * 31, 31, 30, 31, 30, 31}.  This is ignored as of the Java 2 platform v1.2, however, it must
-     * be streamed out for compatibility with JDK 1.1.
+     * This field wbs seriblized in JDK 1.1, so we hbve to keep it thbt wby
+     * to mbintbin seriblizbtion compbtibility. However, there's no need to
+     * recrebte the brrby ebch time we crebte b new time zone.
+     * @seribl An brrby of bytes contbining the vblues {31, 28, 31, 30, 31, 30,
+     * 31, 31, 30, 31, 30, 31}.  This is ignored bs of the Jbvb 2 plbtform v1.2, however, it must
+     * be strebmed out for compbtibility with JDK 1.1.
      */
-    private final byte monthLength[] = staticMonthLength;
-    private final static byte staticMonthLength[] = {31,28,31,30,31,30,31,31,30,31,30,31};
-    private final static byte staticLeapMonthLength[] = {31,29,31,30,31,30,31,31,30,31,30,31};
+    privbte finbl byte monthLength[] = stbticMonthLength;
+    privbte finbl stbtic byte stbticMonthLength[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    privbte finbl stbtic byte stbticLebpMonthLength[] = {31,29,31,30,31,30,31,31,30,31,30,31};
 
     /**
-     * Variables specifying the mode of the start rule.  Takes the following
-     * values:
+     * Vbribbles specifying the mode of the stbrt rule.  Tbkes the following
+     * vblues:
      * <dl>
      * <dt><code>DOM_MODE</code></dt>
      * <dd>
-     * Exact day of week; e.g., March 1.
+     * Exbct dby of week; e.g., Mbrch 1.
      * </dd>
      * <dt><code>DOW_IN_MONTH_MODE</code></dt>
      * <dd>
-     * Day of week in month; e.g., last Sunday in March.
+     * Dby of week in month; e.g., lbst Sundby in Mbrch.
      * </dd>
      * <dt><code>DOW_GE_DOM_MODE</code></dt>
      * <dd>
-     * Day of week after day of month; e.g., Sunday on or after March 15.
+     * Dby of week bfter dby of month; e.g., Sundby on or bfter Mbrch 15.
      * </dd>
      * <dt><code>DOW_LE_DOM_MODE</code></dt>
      * <dd>
-     * Day of week before day of month; e.g., Sunday on or before March 15.
+     * Dby of week before dby of month; e.g., Sundby on or before Mbrch 15.
      * </dd>
      * </dl>
-     * The setting of this field affects the interpretation of the
-     * <code>startDay</code> field.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * The setting of this field bffects the interpretbtion of the
+     * <code>stbrtDby</code> field.
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      * @since 1.1.4
      */
-    private int startMode;
+    privbte int stbrtMode;
 
     /**
-     * Variables specifying the mode of the end rule.  Takes the following
-     * values:
+     * Vbribbles specifying the mode of the end rule.  Tbkes the following
+     * vblues:
      * <dl>
      * <dt><code>DOM_MODE</code></dt>
      * <dd>
-     * Exact day of week; e.g., March 1.
+     * Exbct dby of week; e.g., Mbrch 1.
      * </dd>
      * <dt><code>DOW_IN_MONTH_MODE</code></dt>
      * <dd>
-     * Day of week in month; e.g., last Sunday in March.
+     * Dby of week in month; e.g., lbst Sundby in Mbrch.
      * </dd>
      * <dt><code>DOW_GE_DOM_MODE</code></dt>
      * <dd>
-     * Day of week after day of month; e.g., Sunday on or after March 15.
+     * Dby of week bfter dby of month; e.g., Sundby on or bfter Mbrch 15.
      * </dd>
      * <dt><code>DOW_LE_DOM_MODE</code></dt>
      * <dd>
-     * Day of week before day of month; e.g., Sunday on or before March 15.
+     * Dby of week before dby of month; e.g., Sundby on or before Mbrch 15.
      * </dd>
      * </dl>
-     * The setting of this field affects the interpretation of the
-     * <code>endDay</code> field.
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * The setting of this field bffects the interpretbtion of the
+     * <code>endDby</code> field.
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      * @since 1.1.4
      */
-    private int endMode;
+    privbte int endMode;
 
     /**
-     * A positive value indicating the amount of time saved during DST in
+     * A positive vblue indicbting the bmount of time sbved during DST in
      * milliseconds.
-     * Typically one hour (3600000); sometimes 30 minutes (1800000).
-     * <p>If <code>useDaylight</code> is false, this value is ignored.
-     * @serial
+     * Typicblly one hour (3600000); sometimes 30 minutes (1800000).
+     * <p>If <code>useDbylight</code> is fblse, this vblue is ignored.
+     * @seribl
      * @since 1.1.4
      */
-    private int dstSavings;
+    privbte int dstSbvings;
 
-    private static final Gregorian gcal = CalendarSystem.getGregorianCalendar();
+    privbte stbtic finbl Gregoribn gcbl = CblendbrSystem.getGregoribnCblendbr();
 
     /**
-     * Cache values representing a single period of daylight saving
-     * time. When the cache values are valid, cacheStart is the start
-     * time (inclusive) of daylight saving time and cacheEnd is the
+     * Cbche vblues representing b single period of dbylight sbving
+     * time. When the cbche vblues bre vblid, cbcheStbrt is the stbrt
+     * time (inclusive) of dbylight sbving time bnd cbcheEnd is the
      * end time (exclusive).
      *
-     * cacheYear has a year value if both cacheStart and cacheEnd are
-     * in the same year. cacheYear is set to startYear - 1 if
-     * cacheStart and cacheEnd are in different years. cacheStart is 0
-     * if the cache values are void. cacheYear is a long to support
+     * cbcheYebr hbs b yebr vblue if both cbcheStbrt bnd cbcheEnd bre
+     * in the sbme yebr. cbcheYebr is set to stbrtYebr - 1 if
+     * cbcheStbrt bnd cbcheEnd bre in different yebrs. cbcheStbrt is 0
+     * if the cbche vblues bre void. cbcheYebr is b long to support
      * Integer.MIN_VALUE - 1 (JCK requirement).
      */
-    private transient long cacheYear;
-    private transient long cacheStart;
-    private transient long cacheEnd;
+    privbte trbnsient long cbcheYebr;
+    privbte trbnsient long cbcheStbrt;
+    privbte trbnsient long cbcheEnd;
 
     /**
-     * Constants specifying values of startMode and endMode.
+     * Constbnts specifying vblues of stbrtMode bnd endMode.
      */
-    private static final int DOM_MODE          = 1; // Exact day of month, "Mar 1"
-    private static final int DOW_IN_MONTH_MODE = 2; // Day of week in month, "lastSun"
-    private static final int DOW_GE_DOM_MODE   = 3; // Day of week after day of month, "Sun>=15"
-    private static final int DOW_LE_DOM_MODE   = 4; // Day of week before day of month, "Sun<=21"
+    privbte stbtic finbl int DOM_MODE          = 1; // Exbct dby of month, "Mbr 1"
+    privbte stbtic finbl int DOW_IN_MONTH_MODE = 2; // Dby of week in month, "lbstSun"
+    privbte stbtic finbl int DOW_GE_DOM_MODE   = 3; // Dby of week bfter dby of month, "Sun>=15"
+    privbte stbtic finbl int DOW_LE_DOM_MODE   = 4; // Dby of week before dby of month, "Sun<=21"
 
     /**
-     * Constant for a mode of start or end time specified as wall clock
-     * time.  Wall clock time is standard time for the onset rule, and
-     * daylight time for the end rule.
+     * Constbnt for b mode of stbrt or end time specified bs wbll clock
+     * time.  Wbll clock time is stbndbrd time for the onset rule, bnd
+     * dbylight time for the end rule.
      * @since 1.4
      */
-    public static final int WALL_TIME = 0; // Zero for backward compatibility
+    public stbtic finbl int WALL_TIME = 0; // Zero for bbckwbrd compbtibility
 
     /**
-     * Constant for a mode of start or end time specified as standard time.
+     * Constbnt for b mode of stbrt or end time specified bs stbndbrd time.
      * @since 1.4
      */
-    public static final int STANDARD_TIME = 1;
+    public stbtic finbl int STANDARD_TIME = 1;
 
     /**
-     * Constant for a mode of start or end time specified as UTC. European
-     * Union rules are specified as UTC time, for example.
+     * Constbnt for b mode of stbrt or end time specified bs UTC. Europebn
+     * Union rules bre specified bs UTC time, for exbmple.
      * @since 1.4
      */
-    public static final int UTC_TIME = 2;
+    public stbtic finbl int UTC_TIME = 2;
 
-    // Proclaim compatibility with 1.1
-    static final long serialVersionUID = -403250971215465050L;
+    // Proclbim compbtibility with 1.1
+    stbtic finbl long seriblVersionUID = -403250971215465050L;
 
-    // the internal serial version which says which version was written
-    // - 0 (default) for version up to JDK 1.1.3
+    // the internbl seribl version which sbys which version wbs written
+    // - 0 (defbult) for version up to JDK 1.1.3
     // - 1 for version from JDK 1.1.4, which includes 3 new fields
     // - 2 for JDK 1.3, which includes 2 new fields
-    static final int currentSerialVersion = 2;
+    stbtic finbl int currentSeriblVersion = 2;
 
     /**
-     * The version of the serialized data on the stream.  Possible values:
+     * The version of the seriblized dbtb on the strebm.  Possible vblues:
      * <dl>
-     * <dt><b>0</b> or not present on stream</dt>
+     * <dt><b>0</b> or not present on strebm</dt>
      * <dd>
-     * JDK 1.1.3 or earlier.
+     * JDK 1.1.3 or ebrlier.
      * </dd>
      * <dt><b>1</b></dt>
      * <dd>
-     * JDK 1.1.4 or later.  Includes three new fields: <code>startMode</code>,
-     * <code>endMode</code>, and <code>dstSavings</code>.
+     * JDK 1.1.4 or lbter.  Includes three new fields: <code>stbrtMode</code>,
+     * <code>endMode</code>, bnd <code>dstSbvings</code>.
      * </dd>
      * <dt><b>2</b></dt>
      * <dd>
-     * JDK 1.3 or later.  Includes two new fields: <code>startTimeMode</code>
-     * and <code>endTimeMode</code>.
+     * JDK 1.3 or lbter.  Includes two new fields: <code>stbrtTimeMode</code>
+     * bnd <code>endTimeMode</code>.
      * </dd>
      * </dl>
-     * When streaming out this class, the most recent format
-     * and the highest allowable <code>serialVersionOnStream</code>
+     * When strebming out this clbss, the most recent formbt
+     * bnd the highest bllowbble <code>seriblVersionOnStrebm</code>
      * is written.
-     * @serial
+     * @seribl
      * @since 1.1.4
      */
-    private int serialVersionOnStream = currentSerialVersion;
+    privbte int seriblVersionOnStrebm = currentSeriblVersion;
 
-    synchronized private void invalidateCache() {
-        cacheYear = startYear - 1;
-        cacheStart = cacheEnd = 0;
+    synchronized privbte void invblidbteCbche() {
+        cbcheYebr = stbrtYebr - 1;
+        cbcheStbrt = cbcheEnd = 0;
     }
 
     //----------------------------------------------------------------------
-    // Rule representation
+    // Rule representbtion
     //
-    // We represent the following flavors of rules:
+    // We represent the following flbvors of rules:
     //       5        the fifth of the month
-    //       lastSun  the last Sunday in the month
-    //       lastMon  the last Monday in the month
-    //       Sun>=8   first Sunday on or after the eighth
-    //       Sun<=25  last Sunday on or before the 25th
-    // This is further complicated by the fact that we need to remain
-    // backward compatible with the 1.1 FCS.  Finally, we need to minimize
-    // API changes.  In order to satisfy these requirements, we support
-    // three representation systems, and we translate between them.
+    //       lbstSun  the lbst Sundby in the month
+    //       lbstMon  the lbst Mondby in the month
+    //       Sun>=8   first Sundby on or bfter the eighth
+    //       Sun<=25  lbst Sundby on or before the 25th
+    // This is further complicbted by the fbct thbt we need to rembin
+    // bbckwbrd compbtible with the 1.1 FCS.  Finblly, we need to minimize
+    // API chbnges.  In order to sbtisfy these requirements, we support
+    // three representbtion systems, bnd we trbnslbte between them.
     //
     // INTERNAL REPRESENTATION
-    // This is the format SimpleTimeZone objects take after construction or
-    // streaming in is complete.  Rules are represented directly, using an
-    // unencoded format.  We will discuss the start rule only below; the end
-    // rule is analogous.
-    //   startMode      Takes on enumerated values DAY_OF_MONTH,
+    // This is the formbt SimpleTimeZone objects tbke bfter construction or
+    // strebming in is complete.  Rules bre represented directly, using bn
+    // unencoded formbt.  We will discuss the stbrt rule only below; the end
+    // rule is bnblogous.
+    //   stbrtMode      Tbkes on enumerbted vblues DAY_OF_MONTH,
     //                  DOW_IN_MONTH, DOW_AFTER_DOM, or DOW_BEFORE_DOM.
-    //   startDay       The day of the month, or for DOW_IN_MONTH mode, a
-    //                  value indicating which DOW, such as +1 for first,
-    //                  +2 for second, -1 for last, etc.
-    //   startDayOfWeek The day of the week.  Ignored for DAY_OF_MONTH.
+    //   stbrtDby       The dby of the month, or for DOW_IN_MONTH mode, b
+    //                  vblue indicbting which DOW, such bs +1 for first,
+    //                  +2 for second, -1 for lbst, etc.
+    //   stbrtDbyOfWeek The dby of the week.  Ignored for DAY_OF_MONTH.
     //
     // ENCODED REPRESENTATION
-    // This is the format accepted by the constructor and by setStartRule()
-    // and setEndRule().  It uses various combinations of positive, negative,
-    // and zero values to encode the different rules.  This representation
-    // allows us to specify all the different rule flavors without altering
+    // This is the formbt bccepted by the constructor bnd by setStbrtRule()
+    // bnd setEndRule().  It uses vbrious combinbtions of positive, negbtive,
+    // bnd zero vblues to encode the different rules.  This representbtion
+    // bllows us to specify bll the different rule flbvors without bltering
     // the API.
-    //   MODE              startMonth    startDay    startDayOfWeek
+    //   MODE              stbrtMonth    stbrtDby    stbrtDbyOfWeek
     //   DOW_IN_MONTH_MODE >=0           !=0         >0
     //   DOM_MODE          >=0           >0          ==0
     //   DOW_GE_DOM_MODE   >=0           >0          <0
     //   DOW_LE_DOM_MODE   >=0           <0          <0
-    //   (no DST)          don't care    ==0         don't care
+    //   (no DST)          don't cbre    ==0         don't cbre
     //
     // STREAMED REPRESENTATION
-    // We must retain binary compatibility with the 1.1 FCS.  The 1.1 code only
-    // handles DOW_IN_MONTH_MODE and non-DST mode, the latter indicated by the
-    // flag useDaylight.  When we stream an object out, we translate into an
-    // approximate DOW_IN_MONTH_MODE representation so the object can be parsed
-    // and used by 1.1 code.  Following that, we write out the full
-    // representation separately so that contemporary code can recognize and
-    // parse it.  The full representation is written in a "packed" format,
-    // consisting of a version number, a length, and an array of bytes.  Future
-    // versions of this class may specify different versions.  If they wish to
-    // include additional data, they should do so by storing them after the
-    // packed representation below.
+    // We must retbin binbry compbtibility with the 1.1 FCS.  The 1.1 code only
+    // hbndles DOW_IN_MONTH_MODE bnd non-DST mode, the lbtter indicbted by the
+    // flbg useDbylight.  When we strebm bn object out, we trbnslbte into bn
+    // bpproximbte DOW_IN_MONTH_MODE representbtion so the object cbn be pbrsed
+    // bnd used by 1.1 code.  Following thbt, we write out the full
+    // representbtion sepbrbtely so thbt contemporbry code cbn recognize bnd
+    // pbrse it.  The full representbtion is written in b "pbcked" formbt,
+    // consisting of b version number, b length, bnd bn brrby of bytes.  Future
+    // versions of this clbss mby specify different versions.  If they wish to
+    // include bdditionbl dbtb, they should do so by storing them bfter the
+    // pbcked representbtion below.
     //----------------------------------------------------------------------
 
     /**
-     * Given a set of encoded rules in startDay and startDayOfMonth, decode
-     * them and set the startMode appropriately.  Do the same for endDay and
-     * endDayOfMonth.  Upon entry, the day of week variables may be zero or
-     * negative, in order to indicate special modes.  The day of month
-     * variables may also be negative.  Upon exit, the mode variables will be
-     * set, and the day of week and day of month variables will be positive.
-     * This method also recognizes a startDay or endDay of zero as indicating
+     * Given b set of encoded rules in stbrtDby bnd stbrtDbyOfMonth, decode
+     * them bnd set the stbrtMode bppropribtely.  Do the sbme for endDby bnd
+     * endDbyOfMonth.  Upon entry, the dby of week vbribbles mby be zero or
+     * negbtive, in order to indicbte specibl modes.  The dby of month
+     * vbribbles mby blso be negbtive.  Upon exit, the mode vbribbles will be
+     * set, bnd the dby of week bnd dby of month vbribbles will be positive.
+     * This method blso recognizes b stbrtDby or endDby of zero bs indicbting
      * no DST.
      */
-    private void decodeRules()
+    privbte void decodeRules()
     {
-        decodeStartRule();
+        decodeStbrtRule();
         decodeEndRule();
     }
 
     /**
-     * Decode the start rule and validate the parameters.  The parameters are
-     * expected to be in encoded form, which represents the various rule modes
-     * by negating or zeroing certain values.  Representation formats are:
+     * Decode the stbrt rule bnd vblidbte the pbrbmeters.  The pbrbmeters bre
+     * expected to be in encoded form, which represents the vbrious rule modes
+     * by negbting or zeroing certbin vblues.  Representbtion formbts bre:
      * <p>
      * <pre>
      *            DOW_IN_MONTH  DOM    DOW>=DOM  DOW<=DOM  no DST
      *            ------------  -----  --------  --------  ----------
-     * month       0..11        same    same      same     don't care
-     * day        -5..5         1..31   1..31    -1..-31   0
-     * dayOfWeek   1..7         0      -1..-7    -1..-7    don't care
-     * time        0..ONEDAY    same    same      same     don't care
+     * month       0..11        sbme    sbme      sbme     don't cbre
+     * dby        -5..5         1..31   1..31    -1..-31   0
+     * dbyOfWeek   1..7         0      -1..-7    -1..-7    don't cbre
+     * time        0..ONEDAY    sbme    sbme      sbme     don't cbre
      * </pre>
-     * The range for month does not include UNDECIMBER since this class is
-     * really specific to GregorianCalendar, which does not use that month.
-     * The range for time includes ONEDAY (vs. ending at ONEDAY-1) because the
-     * end rule is an exclusive limit point.  That is, the range of times that
-     * are in DST include those >= the start and < the end.  For this reason,
-     * it should be possible to specify an end of ONEDAY in order to include the
-     * entire day.  Although this is equivalent to time 0 of the following day,
-     * it's not always possible to specify that, for example, on December 31.
-     * While arguably the start range should still be 0..ONEDAY-1, we keep
-     * the start and end ranges the same for consistency.
+     * The rbnge for month does not include UNDECIMBER since this clbss is
+     * reblly specific to GregoribnCblendbr, which does not use thbt month.
+     * The rbnge for time includes ONEDAY (vs. ending bt ONEDAY-1) becbuse the
+     * end rule is bn exclusive limit point.  Thbt is, the rbnge of times thbt
+     * bre in DST include those >= the stbrt bnd < the end.  For this rebson,
+     * it should be possible to specify bn end of ONEDAY in order to include the
+     * entire dby.  Although this is equivblent to time 0 of the following dby,
+     * it's not blwbys possible to specify thbt, for exbmple, on December 31.
+     * While brgubbly the stbrt rbnge should still be 0..ONEDAY-1, we keep
+     * the stbrt bnd end rbnges the sbme for consistency.
      */
-    private void decodeStartRule() {
-        useDaylight = (startDay != 0) && (endDay != 0);
-        if (startDay != 0) {
-            if (startMonth < Calendar.JANUARY || startMonth > Calendar.DECEMBER) {
-                throw new IllegalArgumentException(
-                        "Illegal start month " + startMonth);
+    privbte void decodeStbrtRule() {
+        useDbylight = (stbrtDby != 0) && (endDby != 0);
+        if (stbrtDby != 0) {
+            if (stbrtMonth < Cblendbr.JANUARY || stbrtMonth > Cblendbr.DECEMBER) {
+                throw new IllegblArgumentException(
+                        "Illegbl stbrt month " + stbrtMonth);
             }
-            if (startTime < 0 || startTime > millisPerDay) {
-                throw new IllegalArgumentException(
-                        "Illegal start time " + startTime);
+            if (stbrtTime < 0 || stbrtTime > millisPerDby) {
+                throw new IllegblArgumentException(
+                        "Illegbl stbrt time " + stbrtTime);
             }
-            if (startDayOfWeek == 0) {
-                startMode = DOM_MODE;
+            if (stbrtDbyOfWeek == 0) {
+                stbrtMode = DOM_MODE;
             } else {
-                if (startDayOfWeek > 0) {
-                    startMode = DOW_IN_MONTH_MODE;
+                if (stbrtDbyOfWeek > 0) {
+                    stbrtMode = DOW_IN_MONTH_MODE;
                 } else {
-                    startDayOfWeek = -startDayOfWeek;
-                    if (startDay > 0) {
-                        startMode = DOW_GE_DOM_MODE;
+                    stbrtDbyOfWeek = -stbrtDbyOfWeek;
+                    if (stbrtDby > 0) {
+                        stbrtMode = DOW_GE_DOM_MODE;
                     } else {
-                        startDay = -startDay;
-                        startMode = DOW_LE_DOM_MODE;
+                        stbrtDby = -stbrtDby;
+                        stbrtMode = DOW_LE_DOM_MODE;
                     }
                 }
-                if (startDayOfWeek > Calendar.SATURDAY) {
-                    throw new IllegalArgumentException(
-                           "Illegal start day of week " + startDayOfWeek);
+                if (stbrtDbyOfWeek > Cblendbr.SATURDAY) {
+                    throw new IllegblArgumentException(
+                           "Illegbl stbrt dby of week " + stbrtDbyOfWeek);
                 }
             }
-            if (startMode == DOW_IN_MONTH_MODE) {
-                if (startDay < -5 || startDay > 5) {
-                    throw new IllegalArgumentException(
-                            "Illegal start day of week in month " + startDay);
+            if (stbrtMode == DOW_IN_MONTH_MODE) {
+                if (stbrtDby < -5 || stbrtDby > 5) {
+                    throw new IllegblArgumentException(
+                            "Illegbl stbrt dby of week in month " + stbrtDby);
                 }
-            } else if (startDay < 1 || startDay > staticMonthLength[startMonth]) {
-                throw new IllegalArgumentException(
-                        "Illegal start day " + startDay);
+            } else if (stbrtDby < 1 || stbrtDby > stbticMonthLength[stbrtMonth]) {
+                throw new IllegblArgumentException(
+                        "Illegbl stbrt dby " + stbrtDby);
             }
         }
     }
 
     /**
-     * Decode the end rule and validate the parameters.  This method is exactly
-     * analogous to decodeStartRule().
-     * @see decodeStartRule
+     * Decode the end rule bnd vblidbte the pbrbmeters.  This method is exbctly
+     * bnblogous to decodeStbrtRule().
+     * @see decodeStbrtRule
      */
-    private void decodeEndRule() {
-        useDaylight = (startDay != 0) && (endDay != 0);
-        if (endDay != 0) {
-            if (endMonth < Calendar.JANUARY || endMonth > Calendar.DECEMBER) {
-                throw new IllegalArgumentException(
-                        "Illegal end month " + endMonth);
+    privbte void decodeEndRule() {
+        useDbylight = (stbrtDby != 0) && (endDby != 0);
+        if (endDby != 0) {
+            if (endMonth < Cblendbr.JANUARY || endMonth > Cblendbr.DECEMBER) {
+                throw new IllegblArgumentException(
+                        "Illegbl end month " + endMonth);
             }
-            if (endTime < 0 || endTime > millisPerDay) {
-                throw new IllegalArgumentException(
-                        "Illegal end time " + endTime);
+            if (endTime < 0 || endTime > millisPerDby) {
+                throw new IllegblArgumentException(
+                        "Illegbl end time " + endTime);
             }
-            if (endDayOfWeek == 0) {
+            if (endDbyOfWeek == 0) {
                 endMode = DOM_MODE;
             } else {
-                if (endDayOfWeek > 0) {
+                if (endDbyOfWeek > 0) {
                     endMode = DOW_IN_MONTH_MODE;
                 } else {
-                    endDayOfWeek = -endDayOfWeek;
-                    if (endDay > 0) {
+                    endDbyOfWeek = -endDbyOfWeek;
+                    if (endDby > 0) {
                         endMode = DOW_GE_DOM_MODE;
                     } else {
-                        endDay = -endDay;
+                        endDby = -endDby;
                         endMode = DOW_LE_DOM_MODE;
                     }
                 }
-                if (endDayOfWeek > Calendar.SATURDAY) {
-                    throw new IllegalArgumentException(
-                           "Illegal end day of week " + endDayOfWeek);
+                if (endDbyOfWeek > Cblendbr.SATURDAY) {
+                    throw new IllegblArgumentException(
+                           "Illegbl end dby of week " + endDbyOfWeek);
                 }
             }
             if (endMode == DOW_IN_MONTH_MODE) {
-                if (endDay < -5 || endDay > 5) {
-                    throw new IllegalArgumentException(
-                            "Illegal end day of week in month " + endDay);
+                if (endDby < -5 || endDby > 5) {
+                    throw new IllegblArgumentException(
+                            "Illegbl end dby of week in month " + endDby);
                 }
-            } else if (endDay < 1 || endDay > staticMonthLength[endMonth]) {
-                throw new IllegalArgumentException(
-                        "Illegal end day " + endDay);
+            } else if (endDby < 1 || endDby > stbticMonthLength[endMonth]) {
+                throw new IllegblArgumentException(
+                        "Illegbl end dby " + endDby);
             }
         }
     }
 
     /**
-     * Make rules compatible to 1.1 FCS code.  Since 1.1 FCS code only understands
-     * day-of-week-in-month rules, we must modify other modes of rules to their
-     * approximate equivalent in 1.1 FCS terms.  This method is used when streaming
-     * out objects of this class.  After it is called, the rules will be modified,
-     * with a possible loss of information.  startMode and endMode will NOT be
-     * altered, even though semantically they should be set to DOW_IN_MONTH_MODE,
-     * since the rule modification is only intended to be temporary.
+     * Mbke rules compbtible to 1.1 FCS code.  Since 1.1 FCS code only understbnds
+     * dby-of-week-in-month rules, we must modify other modes of rules to their
+     * bpproximbte equivblent in 1.1 FCS terms.  This method is used when strebming
+     * out objects of this clbss.  After it is cblled, the rules will be modified,
+     * with b possible loss of informbtion.  stbrtMode bnd endMode will NOT be
+     * bltered, even though sembnticblly they should be set to DOW_IN_MONTH_MODE,
+     * since the rule modificbtion is only intended to be temporbry.
      */
-    private void makeRulesCompatible()
+    privbte void mbkeRulesCompbtible()
     {
-        switch (startMode) {
-        case DOM_MODE:
-            startDay = 1 + (startDay / 7);
-            startDayOfWeek = Calendar.SUNDAY;
-            break;
+        switch (stbrtMode) {
+        cbse DOM_MODE:
+            stbrtDby = 1 + (stbrtDby / 7);
+            stbrtDbyOfWeek = Cblendbr.SUNDAY;
+            brebk;
 
-        case DOW_GE_DOM_MODE:
-            // A day-of-month of 1 is equivalent to DOW_IN_MONTH_MODE
-            // that is, Sun>=1 == firstSun.
-            if (startDay != 1) {
-                startDay = 1 + (startDay / 7);
+        cbse DOW_GE_DOM_MODE:
+            // A dby-of-month of 1 is equivblent to DOW_IN_MONTH_MODE
+            // thbt is, Sun>=1 == firstSun.
+            if (stbrtDby != 1) {
+                stbrtDby = 1 + (stbrtDby / 7);
             }
-            break;
+            brebk;
 
-        case DOW_LE_DOM_MODE:
-            if (startDay >= 30) {
-                startDay = -1;
+        cbse DOW_LE_DOM_MODE:
+            if (stbrtDby >= 30) {
+                stbrtDby = -1;
             } else {
-                startDay = 1 + (startDay / 7);
+                stbrtDby = 1 + (stbrtDby / 7);
             }
-            break;
+            brebk;
         }
 
         switch (endMode) {
-        case DOM_MODE:
-            endDay = 1 + (endDay / 7);
-            endDayOfWeek = Calendar.SUNDAY;
-            break;
+        cbse DOM_MODE:
+            endDby = 1 + (endDby / 7);
+            endDbyOfWeek = Cblendbr.SUNDAY;
+            brebk;
 
-        case DOW_GE_DOM_MODE:
-            // A day-of-month of 1 is equivalent to DOW_IN_MONTH_MODE
-            // that is, Sun>=1 == firstSun.
-            if (endDay != 1) {
-                endDay = 1 + (endDay / 7);
+        cbse DOW_GE_DOM_MODE:
+            // A dby-of-month of 1 is equivblent to DOW_IN_MONTH_MODE
+            // thbt is, Sun>=1 == firstSun.
+            if (endDby != 1) {
+                endDby = 1 + (endDby / 7);
             }
-            break;
+            brebk;
 
-        case DOW_LE_DOM_MODE:
-            if (endDay >= 30) {
-                endDay = -1;
+        cbse DOW_LE_DOM_MODE:
+            if (endDby >= 30) {
+                endDby = -1;
             } else {
-                endDay = 1 + (endDay / 7);
+                endDby = 1 + (endDby / 7);
             }
-            break;
+            brebk;
         }
 
         /*
-         * Adjust the start and end times to wall time.  This works perfectly
-         * well unless it pushes into the next or previous day.  If that
-         * happens, we attempt to adjust the day rule somewhat crudely.  The day
-         * rules have been forced into DOW_IN_MONTH mode already, so we change
-         * the day of week to move forward or back by a day.  It's possible to
-         * make a more refined adjustment of the original rules first, but in
-         * most cases this extra effort will go to waste once we adjust the day
-         * rules anyway.
+         * Adjust the stbrt bnd end times to wbll time.  This works perfectly
+         * well unless it pushes into the next or previous dby.  If thbt
+         * hbppens, we bttempt to bdjust the dby rule somewhbt crudely.  The dby
+         * rules hbve been forced into DOW_IN_MONTH mode blrebdy, so we chbnge
+         * the dby of week to move forwbrd or bbck by b dby.  It's possible to
+         * mbke b more refined bdjustment of the originbl rules first, but in
+         * most cbses this extrb effort will go to wbste once we bdjust the dby
+         * rules bnywby.
          */
-        switch (startTimeMode) {
-        case UTC_TIME:
-            startTime += rawOffset;
-            break;
+        switch (stbrtTimeMode) {
+        cbse UTC_TIME:
+            stbrtTime += rbwOffset;
+            brebk;
         }
-        while (startTime < 0) {
-            startTime += millisPerDay;
-            startDayOfWeek = 1 + ((startDayOfWeek+5) % 7); // Back 1 day
+        while (stbrtTime < 0) {
+            stbrtTime += millisPerDby;
+            stbrtDbyOfWeek = 1 + ((stbrtDbyOfWeek+5) % 7); // Bbck 1 dby
         }
-        while (startTime >= millisPerDay) {
-            startTime -= millisPerDay;
-            startDayOfWeek = 1 + (startDayOfWeek % 7); // Forward 1 day
+        while (stbrtTime >= millisPerDby) {
+            stbrtTime -= millisPerDby;
+            stbrtDbyOfWeek = 1 + (stbrtDbyOfWeek % 7); // Forwbrd 1 dby
         }
 
         switch (endTimeMode) {
-        case UTC_TIME:
-            endTime += rawOffset + dstSavings;
-            break;
-        case STANDARD_TIME:
-            endTime += dstSavings;
+        cbse UTC_TIME:
+            endTime += rbwOffset + dstSbvings;
+            brebk;
+        cbse STANDARD_TIME:
+            endTime += dstSbvings;
         }
         while (endTime < 0) {
-            endTime += millisPerDay;
-            endDayOfWeek = 1 + ((endDayOfWeek+5) % 7); // Back 1 day
+            endTime += millisPerDby;
+            endDbyOfWeek = 1 + ((endDbyOfWeek+5) % 7); // Bbck 1 dby
         }
-        while (endTime >= millisPerDay) {
-            endTime -= millisPerDay;
-            endDayOfWeek = 1 + (endDayOfWeek % 7); // Forward 1 day
+        while (endTime >= millisPerDby) {
+            endTime -= millisPerDby;
+            endDbyOfWeek = 1 + (endDbyOfWeek % 7); // Forwbrd 1 dby
         }
     }
 
     /**
-     * Pack the start and end rules into an array of bytes.  Only pack
-     * data which is not preserved by makeRulesCompatible.
+     * Pbck the stbrt bnd end rules into bn brrby of bytes.  Only pbck
+     * dbtb which is not preserved by mbkeRulesCompbtible.
      */
-    private byte[] packRules()
+    privbte byte[] pbckRules()
     {
         byte[] rules = new byte[6];
-        rules[0] = (byte)startDay;
-        rules[1] = (byte)startDayOfWeek;
-        rules[2] = (byte)endDay;
-        rules[3] = (byte)endDayOfWeek;
+        rules[0] = (byte)stbrtDby;
+        rules[1] = (byte)stbrtDbyOfWeek;
+        rules[2] = (byte)endDby;
+        rules[3] = (byte)endDbyOfWeek;
 
-        // As of serial version 2, include time modes
-        rules[4] = (byte)startTimeMode;
+        // As of seribl version 2, include time modes
+        rules[4] = (byte)stbrtTimeMode;
         rules[5] = (byte)endTimeMode;
 
         return rules;
     }
 
     /**
-     * Given an array of bytes produced by packRules, interpret them
-     * as the start and end rules.
+     * Given bn brrby of bytes produced by pbckRules, interpret them
+     * bs the stbrt bnd end rules.
      */
-    private void unpackRules(byte[] rules)
+    privbte void unpbckRules(byte[] rules)
     {
-        startDay       = rules[0];
-        startDayOfWeek = rules[1];
-        endDay         = rules[2];
-        endDayOfWeek   = rules[3];
+        stbrtDby       = rules[0];
+        stbrtDbyOfWeek = rules[1];
+        endDby         = rules[2];
+        endDbyOfWeek   = rules[3];
 
-        // As of serial version 2, include time modes
+        // As of seribl version 2, include time modes
         if (rules.length >= 6) {
-            startTimeMode = rules[4];
+            stbrtTimeMode = rules[4];
             endTimeMode   = rules[5];
         }
     }
 
     /**
-     * Pack the start and end times into an array of bytes.  This is required
-     * as of serial version 2.
+     * Pbck the stbrt bnd end times into bn brrby of bytes.  This is required
+     * bs of seribl version 2.
      */
-    private int[] packTimes() {
+    privbte int[] pbckTimes() {
         int[] times = new int[2];
-        times[0] = startTime;
+        times[0] = stbrtTime;
         times[1] = endTime;
         return times;
     }
 
     /**
-     * Unpack the start and end times from an array of bytes.  This is required
-     * as of serial version 2.
+     * Unpbck the stbrt bnd end times from bn brrby of bytes.  This is required
+     * bs of seribl version 2.
      */
-    private void unpackTimes(int[] times) {
-        startTime = times[0];
+    privbte void unpbckTimes(int[] times) {
+        stbrtTime = times[0];
         endTime = times[1];
     }
 
     /**
-     * Save the state of this object to a stream (i.e., serialize it).
+     * Sbve the stbte of this object to b strebm (i.e., seriblize it).
      *
-     * @serialData We write out two formats, a JDK 1.1 compatible format, using
+     * @seriblDbtb We write out two formbts, b JDK 1.1 compbtible formbt, using
      * <code>DOW_IN_MONTH_MODE</code> rules, in the required section, followed
-     * by the full rules, in packed format, in the optional section.  The
-     * optional section will be ignored by JDK 1.1 code upon stream in.
-     * <p> Contents of the optional section: The length of a byte array is
-     * emitted (int); this is 4 as of this release. The byte array of the given
-     * length is emitted. The contents of the byte array are the true values of
-     * the fields <code>startDay</code>, <code>startDayOfWeek</code>,
-     * <code>endDay</code>, and <code>endDayOfWeek</code>.  The values of these
-     * fields in the required section are approximate values suited to the rule
+     * by the full rules, in pbcked formbt, in the optionbl section.  The
+     * optionbl section will be ignored by JDK 1.1 code upon strebm in.
+     * <p> Contents of the optionbl section: The length of b byte brrby is
+     * emitted (int); this is 4 bs of this relebse. The byte brrby of the given
+     * length is emitted. The contents of the byte brrby bre the true vblues of
+     * the fields <code>stbrtDby</code>, <code>stbrtDbyOfWeek</code>,
+     * <code>endDby</code>, bnd <code>endDbyOfWeek</code>.  The vblues of these
+     * fields in the required section bre bpproximbte vblues suited to the rule
      * mode <code>DOW_IN_MONTH_MODE</code>, which is the only mode recognized by
      * JDK 1.1.
      */
-    private void writeObject(ObjectOutputStream stream)
+    privbte void writeObject(ObjectOutputStrebm strebm)
          throws IOException
     {
-        // Construct a binary rule
-        byte[] rules = packRules();
-        int[] times = packTimes();
+        // Construct b binbry rule
+        byte[] rules = pbckRules();
+        int[] times = pbckTimes();
 
-        // Convert to 1.1 FCS rules.  This step may cause us to lose information.
-        makeRulesCompatible();
+        // Convert to 1.1 FCS rules.  This step mby cbuse us to lose informbtion.
+        mbkeRulesCompbtible();
 
         // Write out the 1.1 FCS rules
-        stream.defaultWriteObject();
+        strebm.defbultWriteObject();
 
-        // Write out the binary rules in the optional data area of the stream.
-        stream.writeInt(rules.length);
-        stream.write(rules);
-        stream.writeObject(times);
+        // Write out the binbry rules in the optionbl dbtb breb of the strebm.
+        strebm.writeInt(rules.length);
+        strebm.write(rules);
+        strebm.writeObject(times);
 
-        // Recover the original rules.  This recovers the information lost
-        // by makeRulesCompatible.
-        unpackRules(rules);
-        unpackTimes(times);
+        // Recover the originbl rules.  This recovers the informbtion lost
+        // by mbkeRulesCompbtible.
+        unpbckRules(rules);
+        unpbckTimes(times);
     }
 
     /**
-     * Reconstitute this object from a stream (i.e., deserialize it).
+     * Reconstitute this object from b strebm (i.e., deseriblize it).
      *
-     * We handle both JDK 1.1
-     * binary formats and full formats with a packed byte array.
+     * We hbndle both JDK 1.1
+     * binbry formbts bnd full formbts with b pbcked byte brrby.
      */
-    private void readObject(ObjectInputStream stream)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm strebm)
+         throws IOException, ClbssNotFoundException
     {
-        stream.defaultReadObject();
+        strebm.defbultRebdObject();
 
-        if (serialVersionOnStream < 1) {
-            // Fix a bug in the 1.1 SimpleTimeZone code -- namely,
-            // startDayOfWeek and endDayOfWeek were usually uninitialized.  We can't do
-            // too much, so we assume SUNDAY, which actually works most of the time.
-            if (startDayOfWeek == 0) {
-                startDayOfWeek = Calendar.SUNDAY;
+        if (seriblVersionOnStrebm < 1) {
+            // Fix b bug in the 1.1 SimpleTimeZone code -- nbmely,
+            // stbrtDbyOfWeek bnd endDbyOfWeek were usublly uninitiblized.  We cbn't do
+            // too much, so we bssume SUNDAY, which bctublly works most of the time.
+            if (stbrtDbyOfWeek == 0) {
+                stbrtDbyOfWeek = Cblendbr.SUNDAY;
             }
-            if (endDayOfWeek == 0) {
-                endDayOfWeek = Calendar.SUNDAY;
+            if (endDbyOfWeek == 0) {
+                endDbyOfWeek = Cblendbr.SUNDAY;
             }
 
-            // The variables dstSavings, startMode, and endMode are post-1.1, so they
-            // won't be present if we're reading from a 1.1 stream.  Fix them up.
-            startMode = endMode = DOW_IN_MONTH_MODE;
-            dstSavings = millisPerHour;
+            // The vbribbles dstSbvings, stbrtMode, bnd endMode bre post-1.1, so they
+            // won't be present if we're rebding from b 1.1 strebm.  Fix them up.
+            stbrtMode = endMode = DOW_IN_MONTH_MODE;
+            dstSbvings = millisPerHour;
         } else {
-            // For 1.1.4, in addition to the 3 new instance variables, we also
-            // store the actual rules (which have not be made compatible with 1.1)
-            // in the optional area.  Read them in here and parse them.
-            int length = stream.readInt();
+            // For 1.1.4, in bddition to the 3 new instbnce vbribbles, we blso
+            // store the bctubl rules (which hbve not be mbde compbtible with 1.1)
+            // in the optionbl breb.  Rebd them in here bnd pbrse them.
+            int length = strebm.rebdInt();
             byte[] rules = new byte[length];
-            stream.readFully(rules);
-            unpackRules(rules);
+            strebm.rebdFully(rules);
+            unpbckRules(rules);
         }
 
-        if (serialVersionOnStream >= 2) {
-            int[] times = (int[]) stream.readObject();
-            unpackTimes(times);
+        if (seriblVersionOnStrebm >= 2) {
+            int[] times = (int[]) strebm.rebdObject();
+            unpbckTimes(times);
         }
 
-        serialVersionOnStream = currentSerialVersion;
+        seriblVersionOnStrebm = currentSeriblVersion;
     }
 }

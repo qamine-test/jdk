@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: XMLSignContext.java,v 1.8 2005/05/10 16:03:48 mullan Exp $
+ * $Id: XMLSignContext.jbvb,v 1.8 2005/05/10 16:03:48 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbckbge jbvbx.xml.crypto.dsig;
 
-import javax.xml.crypto.KeySelector;
-import javax.xml.crypto.XMLCryptoContext;
+import jbvbx.xml.crypto.KeySelector;
+import jbvbx.xml.crypto.XMLCryptoContext;
 
 /**
- * Contains context information for generating XML Signatures. This interface
- * is primarily intended for type-safety.
+ * Contbins context informbtion for generbting XML Signbtures. This interfbce
+ * is primbrily intended for type-sbfety.
  *
- * <p>Note that <code>XMLSignContext</code> instances can contain
- * information and state specific to the XML signature structure it is
- * used with. The results are unpredictable if an
- * <code>XMLSignContext</code> is used with different signature structures
- * (for example, you should not use the same <code>XMLSignContext</code>
- * instance to sign two different {@link XMLSignature} objects).
+ * <p>Note thbt <code>XMLSignContext</code> instbnces cbn contbin
+ * informbtion bnd stbte specific to the XML signbture structure it is
+ * used with. The results bre unpredictbble if bn
+ * <code>XMLSignContext</code> is used with different signbture structures
+ * (for exbmple, you should not use the sbme <code>XMLSignContext</code>
+ * instbnce to sign two different {@link XMLSignbture} objects).
  * <p>
- * <b><a name="SupportedProperties"></a>Supported Properties</b>
- * <p>The following properties can be set using the
+ * <b><b nbme="SupportedProperties"></b>Supported Properties</b>
+ * <p>The following properties cbn be set using the
  * {@link #setProperty setProperty} method.
  * <ul>
- *   <li><code>javax.xml.crypto.dsig.cacheReference</code>: value must be a
- *      {@link Boolean}. This property controls whether or not the digested
- *      {@link Reference} objects will cache the dereferenced content and
- *      pre-digested input for subsequent retrieval via the
- *      {@link Reference#getDereferencedData Reference.getDereferencedData} and
- *      {@link Reference#getDigestInputStream Reference.getDigestInputStream}
- *      methods. The default value if not specified is
- *      <code>Boolean.FALSE</code>.
+ *   <li><code>jbvbx.xml.crypto.dsig.cbcheReference</code>: vblue must be b
+ *      {@link Boolebn}. This property controls whether or not the digested
+ *      {@link Reference} objects will cbche the dereferenced content bnd
+ *      pre-digested input for subsequent retrievbl vib the
+ *      {@link Reference#getDereferencedDbtb Reference.getDereferencedDbtb} bnd
+ *      {@link Reference#getDigestInputStrebm Reference.getDigestInputStrebm}
+ *      methods. The defbult vblue if not specified is
+ *      <code>Boolebn.FALSE</code>.
  * </ul>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see XMLSignature#sign(XMLSignContext)
+ * @see XMLSignbture#sign(XMLSignContext)
  */
-public interface XMLSignContext extends XMLCryptoContext {}
+public interfbce XMLSignContext extends XMLCryptoContext {}

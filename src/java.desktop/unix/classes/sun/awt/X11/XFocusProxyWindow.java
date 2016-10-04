@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * This class represent focus holder window implementation. When toplevel requests or receives focus
- * it instead sets focus to this proxy. This proxy is mapped but invisible(it is kept at (-1,-1))
- * and therefore X doesn't control focus after we have set it to proxy.
+ * This clbss represent focus holder window implementbtion. When toplevel requests or receives focus
+ * it instebd sets focus to this proxy. This proxy is mbpped but invisible(it is kept bt (-1,-1))
+ * bnd therefore X doesn't control focus bfter we hbve set it to proxy.
  */
-public class XFocusProxyWindow extends XBaseWindow {
+public clbss XFocusProxyWindow extends XBbseWindow {
     XWindowPeer owner;
 
     public XFocusProxyWindow(XWindowPeer owner) {
-        super(new XCreateWindowParams(new Object[] {
-            BOUNDS, new Rectangle(-1, -1, 1, 1),
-            PARENT_WINDOW, Long.valueOf(owner.getWindow()),
-            EVENT_MASK, Long.valueOf(XConstants.FocusChangeMask | XConstants
-                .KeyPressMask | XConstants.KeyReleaseMask)
+        super(new XCrebteWindowPbrbms(new Object[] {
+            BOUNDS, new Rectbngle(-1, -1, 1, 1),
+            PARENT_WINDOW, Long.vblueOf(owner.getWindow()),
+            EVENT_MASK, Long.vblueOf(XConstbnts.FocusChbngeMbsk | XConstbnts
+                .KeyPressMbsk | XConstbnts.KeyRelebseMbsk)
         }));
         this.owner = owner;
     }
 
-    public void postInit(XCreateWindowParams params){
-        super.postInit(params);
-        setWMClass(getWMClass());
+    public void postInit(XCrebteWindowPbrbms pbrbms){
+        super.postInit(pbrbms);
+        setWMClbss(getWMClbss());
         xSetVisible(true);
     }
 
-    protected String getWMName() {
+    protected String getWMNbme() {
         return "FocusProxy";
     }
-    protected String[] getWMClass() {
+    protected String[] getWMClbss() {
         return new String[] {"Focus-Proxy-Window", "FocusProxy"};
     }
 
@@ -62,27 +62,27 @@ public class XFocusProxyWindow extends XBaseWindow {
         return owner;
     }
 
-    public void dispatchEvent(XEvent ev) {
+    public void dispbtchEvent(XEvent ev) {
         int type = ev.get_type();
         switch (type)
         {
-          case XConstants.FocusIn:
-          case XConstants.FocusOut:
-              handleFocusEvent(ev);
-              break;
+          cbse XConstbnts.FocusIn:
+          cbse XConstbnts.FocusOut:
+              hbndleFocusEvent(ev);
+              brebk;
         }
-        super.dispatchEvent(ev);
+        super.dispbtchEvent(ev);
     }
 
-    public void handleFocusEvent(XEvent xev) {
-        owner.handleFocusEvent(xev);
+    public void hbndleFocusEvent(XEvent xev) {
+        owner.hbndleFocusEvent(xev);
     }
 
-    public void handleKeyPress(XEvent xev) {
-        owner.handleKeyPress(xev);
+    public void hbndleKeyPress(XEvent xev) {
+        owner.hbndleKeyPress(xev);
     }
 
-    public void handleKeyRelease(XEvent xev) {
-        owner.handleKeyRelease(xev);
+    public void hbndleKeyRelebse(XEvent xev) {
+        owner.hbndleKeyRelebse(xev);
     }
 }

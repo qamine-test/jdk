@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * A TabSet is comprised of many TabStops. It offers methods for locating the
- * closest TabStop to a given position and finding all the potential TabStops.
- * It is also immutable.
+ * A TbbSet is comprised of mbny TbbStops. It offers methods for locbting the
+ * closest TbbStop to b given position bnd finding bll the potentibl TbbStops.
+ * It is blso immutbble.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Scott Violet
+ * @buthor  Scott Violet
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TabSet implements Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss TbbSet implements Seriblizbble
 {
-    /** TabStops this TabSet contains. */
-    private TabStop[]              tabs;
+    /** TbbStops this TbbSet contbins. */
+    privbte TbbStop[]              tbbs;
     /**
-     * Since this class is immutable the hash code could be
-     * calculated once. MAX_VALUE means that it was not initialized
-     * yet. Hash code shouldn't has MAX_VALUE value.
+     * Since this clbss is immutbble the hbsh code could be
+     * cblculbted once. MAX_VALUE mebns thbt it wbs not initiblized
+     * yet. Hbsh code shouldn't hbs MAX_VALUE vblue.
      */
-    private int hashCode = Integer.MAX_VALUE;
+    privbte int hbshCode = Integer.MAX_VALUE;
 
     /**
-     * Creates and returns an instance of TabSet. The array of Tabs
-     * passed in must be sorted in ascending order.
+     * Crebtes bnd returns bn instbnce of TbbSet. The brrby of Tbbs
+     * pbssed in must be sorted in bscending order.
      */
-    public TabSet(TabStop[] tabs) {
-        // PENDING(sky): If this becomes a problem, make it sort.
-        if(tabs != null) {
-            int          tabCount = tabs.length;
+    public TbbSet(TbbStop[] tbbs) {
+        // PENDING(sky): If this becomes b problem, mbke it sort.
+        if(tbbs != null) {
+            int          tbbCount = tbbs.length;
 
-            this.tabs = new TabStop[tabCount];
-            System.arraycopy(tabs, 0, this.tabs, 0, tabCount);
+            this.tbbs = new TbbStop[tbbCount];
+            System.brrbycopy(tbbs, 0, this.tbbs, 0, tbbCount);
         }
         else
-            this.tabs = null;
+            this.tbbs = null;
     }
 
     /**
-     * Returns the number of Tab instances the receiver contains.
+     * Returns the number of Tbb instbnces the receiver contbins.
      */
-    public int getTabCount() {
-        return (tabs == null) ? 0 : tabs.length;
+    public int getTbbCount() {
+        return (tbbs == null) ? 0 : tbbs.length;
     }
 
     /**
-     * Returns the TabStop at index <code>index</code>. This will throw an
-     * IllegalArgumentException if <code>index</code> is outside the range
-     * of tabs.
+     * Returns the TbbStop bt index <code>index</code>. This will throw bn
+     * IllegblArgumentException if <code>index</code> is outside the rbnge
+     * of tbbs.
      */
-    public TabStop getTab(int index) {
-        int          numTabs = getTabCount();
+    public TbbStop getTbb(int index) {
+        int          numTbbs = getTbbCount();
 
-        if(index < 0 || index >= numTabs)
-            throw new IllegalArgumentException(index +
-                                              " is outside the range of tabs");
-        return tabs[index];
+        if(index < 0 || index >= numTbbs)
+            throw new IllegblArgumentException(index +
+                                              " is outside the rbnge of tbbs");
+        return tbbs[index];
     }
 
     /**
-     * Returns the Tab instance after <code>location</code>. This will
-     * return null if there are no tabs after <code>location</code>.
+     * Returns the Tbb instbnce bfter <code>locbtion</code>. This will
+     * return null if there bre no tbbs bfter <code>locbtion</code>.
      */
-    public TabStop getTabAfter(float location) {
-        int     index = getTabIndexAfter(location);
+    public TbbStop getTbbAfter(flobt locbtion) {
+        int     index = getTbbIndexAfter(locbtion);
 
-        return (index == -1) ? null : tabs[index];
+        return (index == -1) ? null : tbbs[index];
     }
 
     /**
-     * @return the index of the TabStop <code>tab</code>, or -1 if
-     * <code>tab</code> is not contained in the receiver.
+     * @return the index of the TbbStop <code>tbb</code>, or -1 if
+     * <code>tbb</code> is not contbined in the receiver.
      */
-    public int getTabIndex(TabStop tab) {
-        for(int counter = getTabCount() - 1; counter >= 0; counter--)
-            // should this use .equals?
-            if(getTab(counter) == tab)
+    public int getTbbIndex(TbbStop tbb) {
+        for(int counter = getTbbCount() - 1; counter >= 0; counter--)
+            // should this use .equbls?
+            if(getTbb(counter) == tbb)
                 return counter;
         return -1;
     }
 
     /**
-     * Returns the index of the Tab to be used after <code>location</code>.
-     * This will return -1 if there are no tabs after <code>location</code>.
+     * Returns the index of the Tbb to be used bfter <code>locbtion</code>.
+     * This will return -1 if there bre no tbbs bfter <code>locbtion</code>.
      */
-    public int getTabIndexAfter(float location) {
-        int     current, min, max;
+    public int getTbbIndexAfter(flobt locbtion) {
+        int     current, min, mbx;
 
         min = 0;
-        max = getTabCount();
-        while(min != max) {
-            current = (max - min) / 2 + min;
-            if(location > tabs[current].getPosition()) {
+        mbx = getTbbCount();
+        while(min != mbx) {
+            current = (mbx - min) / 2 + min;
+            if(locbtion > tbbs[current].getPosition()) {
                 if(min == current)
-                    min = max;
+                    min = mbx;
                 else
                     min = current;
             }
             else {
-                if(current == 0 || location > tabs[current - 1].getPosition())
+                if(current == 0 || locbtion > tbbs[current - 1].getPosition())
                     return current;
-                max = current;
+                mbx = current;
             }
         }
-        // no tabs after the passed in location.
+        // no tbbs bfter the pbssed in locbtion.
         return -1;
     }
 
     /**
-     * Indicates whether this <code>TabSet</code> is equal to another one.
-     * @param o the <code>TabSet</code> instance which this instance
-     *  should be compared to.
-     * @return <code>true</code> if <code>o</code> is the instance of
-     * <code>TabSet</code>, has the same number of <code>TabStop</code>s
-     * and they are all equal, <code>false</code> otherwise.
+     * Indicbtes whether this <code>TbbSet</code> is equbl to bnother one.
+     * @pbrbm o the <code>TbbSet</code> instbnce which this instbnce
+     *  should be compbred to.
+     * @return <code>true</code> if <code>o</code> is the instbnce of
+     * <code>TbbSet</code>, hbs the sbme number of <code>TbbStop</code>s
+     * bnd they bre bll equbl, <code>fblse</code> otherwise.
      *
      * @since 1.5
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this) {
             return true;
         }
-        if (o instanceof TabSet) {
-            TabSet ts = (TabSet) o;
-            int count = getTabCount();
-            if (ts.getTabCount() != count) {
-                return false;
+        if (o instbnceof TbbSet) {
+            TbbSet ts = (TbbSet) o;
+            int count = getTbbCount();
+            if (ts.getTbbCount() != count) {
+                return fblse;
             }
             for (int i=0; i < count; i++) {
-                TabStop ts1 = getTab(i);
-                TabStop ts2 = ts.getTab(i);
+                TbbStop ts1 = getTbb(i);
+                TbbStop ts2 = ts.getTbb(i);
                 if ((ts1 == null && ts2 != null) ||
-                        (ts1 != null && !getTab(i).equals(ts.getTab(i)))) {
-                    return false;
+                        (ts1 != null && !getTbb(i).equbls(ts.getTbb(i)))) {
+                    return fblse;
                 }
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hashcode for this set of TabStops.
-     * @return  a hashcode value for this set of TabStops.
+     * Returns b hbshcode for this set of TbbStops.
+     * @return  b hbshcode vblue for this set of TbbStops.
      *
      * @since 1.5
      */
-    public int hashCode() {
-        if (hashCode == Integer.MAX_VALUE) {
-            hashCode = 0;
-            int len = getTabCount();
+    public int hbshCode() {
+        if (hbshCode == Integer.MAX_VALUE) {
+            hbshCode = 0;
+            int len = getTbbCount();
             for (int i = 0; i < len; i++) {
-                TabStop ts = getTab(i);
-                hashCode ^= ts != null ? getTab(i).hashCode() : 0;
+                TbbStop ts = getTbb(i);
+                hbshCode ^= ts != null ? getTbb(i).hbshCode() : 0;
             }
-            if (hashCode == Integer.MAX_VALUE) {
-                hashCode -= 1;
+            if (hbshCode == Integer.MAX_VALUE) {
+                hbshCode -= 1;
             }
         }
-        return hashCode;
+        return hbshCode;
     }
 
     /**
-     * Returns the string representation of the set of tabs.
+     * Returns the string representbtion of the set of tbbs.
      */
     public String toString() {
-        int            tabCount = getTabCount();
+        int            tbbCount = getTbbCount();
         StringBuilder buffer = new StringBuilder("[ ");
 
-        for(int counter = 0; counter < tabCount; counter++) {
+        for(int counter = 0; counter < tbbCount; counter++) {
             if(counter > 0)
-                buffer.append(" - ");
-            buffer.append(getTab(counter).toString());
+                buffer.bppend(" - ");
+            buffer.bppend(getTbb(counter).toString());
         }
-        buffer.append(" ]");
+        buffer.bppend(" ]");
         return buffer.toString();
     }
 }

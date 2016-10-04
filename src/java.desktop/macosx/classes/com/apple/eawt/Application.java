@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.beans.Beans;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bebns.Bebns;
 
-import javax.swing.JMenuBar;
+import jbvbx.swing.JMenuBbr;
 
-import sun.lwawt.*;
-import sun.lwawt.macosx.*;
+import sun.lwbwt.*;
+import sun.lwbwt.mbcosx.*;
 
 /**
- * The <code>Application</code> class allows you to integrate your Java application with the native Mac OS X environment.
- * You can provide your Mac OS X users a greatly enhanced experience by implementing a few basic handlers for standard system events.
+ * The <code>Applicbtion</code> clbss bllows you to integrbte your Jbvb bpplicbtion with the nbtive Mbc OS X environment.
+ * You cbn provide your Mbc OS X users b grebtly enhbnced experience by implementing b few bbsic hbndlers for stbndbrd system events.
  *
- * For example:
+ * For exbmple:
  * <ul>
- * <li>Open an about dialog when a user chooses About from the application menu.</li>
- * <li>Open a preferences window when the users chooses Preferences from the application menu.</li>
- * <li>Create a new document when the user clicks on your Dock icon, and no windows are open.</li>
- * <li>Open a document that the user double-clicked on in the Finder.</li>
- * <li>Open a custom URL scheme when a user clicks on link in a web browser.</li>
- * <li>Reconnect to network services after the system has awoke from sleep.</li>
- * <li>Cleanly shutdown your application when the user chooses Quit from the application menu, Dock icon, or types Command-Q.</li>
- * <li>Cancel shutdown/logout if the user has unsaved changes in your application.</li>
+ * <li>Open bn bbout diblog when b user chooses About from the bpplicbtion menu.</li>
+ * <li>Open b preferences window when the users chooses Preferences from the bpplicbtion menu.</li>
+ * <li>Crebte b new document when the user clicks on your Dock icon, bnd no windows bre open.</li>
+ * <li>Open b document thbt the user double-clicked on in the Finder.</li>
+ * <li>Open b custom URL scheme when b user clicks on link in b web browser.</li>
+ * <li>Reconnect to network services bfter the system hbs bwoke from sleep.</li>
+ * <li>Clebnly shutdown your bpplicbtion when the user chooses Quit from the bpplicbtion menu, Dock icon, or types Commbnd-Q.</li>
+ * <li>Cbncel shutdown/logout if the user hbs unsbved chbnges in your bpplicbtion.</li>
  * </ul>
  *
  * @since 1.4
  */
-public class Application {
-    private static native void nativeInitializeApplicationDelegate();
+public clbss Applicbtion {
+    privbte stbtic nbtive void nbtiveInitiblizeApplicbtionDelegbte();
 
-    static Application sApplication = null;
+    stbtic Applicbtion sApplicbtion = null;
 
-    static {
+    stbtic {
         checkSecurity();
-        Toolkit.getDefaultToolkit(); // Start AppKit
-        if (!Beans.isDesignTime()) {
-            nativeInitializeApplicationDelegate();
+        Toolkit.getDefbultToolkit(); // Stbrt AppKit
+        if (!Bebns.isDesignTime()) {
+            nbtiveInitiblizeApplicbtionDelegbte();
         }
 
-        sApplication = new Application();
+        sApplicbtion = new Applicbtion();
     }
 
-    private static void checkSecurity() {
-        final SecurityManager security = System.getSecurityManager();
+    privbte stbtic void checkSecurity() {
+        finbl SecurityMbnbger security = System.getSecurityMbnbger();
         if (security == null) return;
-        security.checkPermission(new RuntimePermission("canProcessApplicationEvents"));
+        security.checkPermission(new RuntimePermission("cbnProcessApplicbtionEvents"));
     }
 
     /**
-     * @return the singleton representing this Mac OS X Application
+     * @return the singleton representing this Mbc OS X Applicbtion
      *
      * @since 1.4
      */
-    public static Application getApplication() {
+    public stbtic Applicbtion getApplicbtion() {
         checkSecurity();
-        return sApplication;
+        return sApplicbtion;
     }
 
-    // some singletons, since they get called back into from native
-    final _AppEventHandler eventHandler = _AppEventHandler.getInstance();
-    final _AppMenuBarHandler menuBarHandler = _AppMenuBarHandler.getInstance();
-    final _AppDockIconHandler iconHandler = new _AppDockIconHandler();
+    // some singletons, since they get cblled bbck into from nbtive
+    finbl _AppEventHbndler eventHbndler = _AppEventHbndler.getInstbnce();
+    finbl _AppMenuBbrHbndler menuBbrHbndler = _AppMenuBbrHbndler.getInstbnce();
+    finbl _AppDockIconHbndler iconHbndler = new _AppDockIconHbndler();
 
     /**
-     * Creates an Application instance. Should only be used in JavaBean environments.
-     * @deprecated use {@link #getApplication()}
+     * Crebtes bn Applicbtion instbnce. Should only be used in JbvbBebn environments.
+     * @deprecbted use {@link #getApplicbtion()}
      *
      * @since 1.4
      */
-    @Deprecated
-    public Application() {
+    @Deprecbted
+    public Applicbtion() {
         checkSecurity();
     }
 
     /**
-     * Adds sub-types of {@link AppEventListener} to listen for notifications from the native Mac OS X system.
+     * Adds sub-types of {@link AppEventListener} to listen for notificbtions from the nbtive Mbc OS X system.
      *
      * @see AppForegroundListener
      * @see AppHiddenListener
@@ -109,16 +109,16 @@ public class Application {
      * @see SystemSleepListener
      * @see UserSessionListener
      *
-     * @param listener
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm listener
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void addAppEventListener(final AppEventListener listener) {
-        eventHandler.addListener(listener);
+    public void bddAppEventListener(finbl AppEventListener listener) {
+        eventHbndler.bddListener(listener);
     }
 
     /**
-     * Removes sub-types of {@link AppEventListener} from listening for notifications from the native Mac OS X system.
+     * Removes sub-types of {@link AppEventListener} from listening for notificbtions from the nbtive Mbc OS X system.
      *
      * @see AppForegroundListener
      * @see AppHiddenListener
@@ -127,436 +127,436 @@ public class Application {
      * @see SystemSleepListener
      * @see UserSessionListener
      *
-     * @param listener
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm listener
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void removeAppEventListener(final AppEventListener listener) {
-        eventHandler.removeListener(listener);
+    public void removeAppEventListener(finbl AppEventListener listener) {
+        eventHbndler.removeListener(listener);
     }
 
     /**
-     * Installs a handler to show a custom About window for your application.
+     * Instblls b hbndler to show b custom About window for your bpplicbtion.
      *
-     * Setting the {@link AboutHandler} to <code>null</code> reverts it to the default Cocoa About window.
+     * Setting the {@link AboutHbndler} to <code>null</code> reverts it to the defbult Cocob About window.
      *
-     * @param aboutHandler the handler to respond to the {@link AboutHandler#handleAbout()} message
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm bboutHbndler the hbndler to respond to the {@link AboutHbndler#hbndleAbout()} messbge
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void setAboutHandler(final AboutHandler aboutHandler) {
-        eventHandler.aboutDispatcher.setHandler(aboutHandler);
+    public void setAboutHbndler(finbl AboutHbndler bboutHbndler) {
+        eventHbndler.bboutDispbtcher.setHbndler(bboutHbndler);
     }
 
     /**
-     * Installs a handler to create the Preferences menu item in your application's app menu.
+     * Instblls b hbndler to crebte the Preferences menu item in your bpplicbtion's bpp menu.
      *
-     * Setting the {@link PreferencesHandler} to <code>null</code> will remove the Preferences item from the app menu.
+     * Setting the {@link PreferencesHbndler} to <code>null</code> will remove the Preferences item from the bpp menu.
      *
-     * @param preferencesHandler
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm preferencesHbndler
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void setPreferencesHandler(final PreferencesHandler preferencesHandler) {
-        eventHandler.preferencesDispatcher.setHandler(preferencesHandler);
+    public void setPreferencesHbndler(finbl PreferencesHbndler preferencesHbndler) {
+        eventHbndler.preferencesDispbtcher.setHbndler(preferencesHbndler);
     }
 
     /**
-     * Installs the handler which is notified when the application is asked to open a list of files.
-     * The {@link OpenFilesHandler#openFiles(AppEvent.OpenFilesEvent)} notifications are only sent if the Java app is a bundled application, with a <code>CFBundleDocumentTypes</code> array present in it's Info.plist.
-     * See the <a href="http://developer.apple.com/mac/library/documentation/General/Reference/InfoPlistKeyReference">Info.plist Key Reference</a> for more information about adding a <code>CFBundleDocumentTypes</code> key to your app's Info.plist.
+     * Instblls the hbndler which is notified when the bpplicbtion is bsked to open b list of files.
+     * The {@link OpenFilesHbndler#openFiles(AppEvent.OpenFilesEvent)} notificbtions bre only sent if the Jbvb bpp is b bundled bpplicbtion, with b <code>CFBundleDocumentTypes</code> brrby present in it's Info.plist.
+     * See the <b href="http://developer.bpple.com/mbc/librbry/documentbtion/Generbl/Reference/InfoPlistKeyReference">Info.plist Key Reference</b> for more informbtion bbout bdding b <code>CFBundleDocumentTypes</code> key to your bpp's Info.plist.
      *
-     * @param openFileHandler
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm openFileHbndler
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void setOpenFileHandler(final OpenFilesHandler openFileHandler) {
-        eventHandler.openFilesDispatcher.setHandler(openFileHandler);
+    public void setOpenFileHbndler(finbl OpenFilesHbndler openFileHbndler) {
+        eventHbndler.openFilesDispbtcher.setHbndler(openFileHbndler);
     }
 
     /**
-     * Installs the handler which is notified when the application is asked to print a list of files.
-     * The {@link PrintFilesHandler#printFiles(AppEvent.PrintFilesEvent)} notifications are only sent if the Java app is a bundled application, with a <code>CFBundleDocumentTypes</code> array present in it's Info.plist.
-     * See the <a href="http://developer.apple.com/mac/library/documentation/General/Reference/InfoPlistKeyReference">Info.plist Key Reference</a> for more information about adding a <code>CFBundleDocumentTypes</code> key to your app's Info.plist.
+     * Instblls the hbndler which is notified when the bpplicbtion is bsked to print b list of files.
+     * The {@link PrintFilesHbndler#printFiles(AppEvent.PrintFilesEvent)} notificbtions bre only sent if the Jbvb bpp is b bundled bpplicbtion, with b <code>CFBundleDocumentTypes</code> brrby present in it's Info.plist.
+     * See the <b href="http://developer.bpple.com/mbc/librbry/documentbtion/Generbl/Reference/InfoPlistKeyReference">Info.plist Key Reference</b> for more informbtion bbout bdding b <code>CFBundleDocumentTypes</code> key to your bpp's Info.plist.
      *
-     * @param printFileHandler
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm printFileHbndler
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void setPrintFileHandler(final PrintFilesHandler printFileHandler) {
-        eventHandler.printFilesDispatcher.setHandler(printFileHandler);
+    public void setPrintFileHbndler(finbl PrintFilesHbndler printFileHbndler) {
+        eventHbndler.printFilesDispbtcher.setHbndler(printFileHbndler);
     }
 
     /**
-     * Installs the handler which is notified when the application is asked to open a URL.
-     * The {@link OpenURIHandler#openURI(AppEvent.OpenURIEvent)} notifications are only sent if the Java app is a bundled application, with a <code>CFBundleURLTypes</code> array present in it's Info.plist.
-     * See the <a href="http://developer.apple.com/mac/library/documentation/General/Reference/InfoPlistKeyReference">Info.plist Key Reference</a> for more information about adding a <code>CFBundleURLTypes</code> key to your app's Info.plist.
+     * Instblls the hbndler which is notified when the bpplicbtion is bsked to open b URL.
+     * The {@link OpenURIHbndler#openURI(AppEvent.OpenURIEvent)} notificbtions bre only sent if the Jbvb bpp is b bundled bpplicbtion, with b <code>CFBundleURLTypes</code> brrby present in it's Info.plist.
+     * See the <b href="http://developer.bpple.com/mbc/librbry/documentbtion/Generbl/Reference/InfoPlistKeyReference">Info.plist Key Reference</b> for more informbtion bbout bdding b <code>CFBundleURLTypes</code> key to your bpp's Info.plist.
      *
-     * Setting the handler to <code>null</code> causes all {@link OpenURIHandler#openURI(AppEvent.OpenURIEvent)} requests to be enqueued until another handler is set.
+     * Setting the hbndler to <code>null</code> cbuses bll {@link OpenURIHbndler#openURI(AppEvent.OpenURIEvent)} requests to be enqueued until bnother hbndler is set.
      *
-     * @param openURIHandler
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm openURIHbndler
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void setOpenURIHandler(final OpenURIHandler openURIHandler) {
-        eventHandler.openURIDispatcher.setHandler(openURIHandler);
+    public void setOpenURIHbndler(finbl OpenURIHbndler openURIHbndler) {
+        eventHbndler.openURIDispbtcher.setHbndler(openURIHbndler);
     }
 
     /**
-     * Installs the handler which determines if the application should quit.
-     * The handler is passed a one-shot {@link QuitResponse} which can cancel or proceed with the quit.
-     * Setting the handler to <code>null</code> causes all quit requests to directly perform the default {@link QuitStrategy}.
+     * Instblls the hbndler which determines if the bpplicbtion should quit.
+     * The hbndler is pbssed b one-shot {@link QuitResponse} which cbn cbncel or proceed with the quit.
+     * Setting the hbndler to <code>null</code> cbuses bll quit requests to directly perform the defbult {@link QuitStrbtegy}.
      *
-     * @param quitHandler the handler that is called when the application is asked to quit
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm quitHbndler the hbndler thbt is cblled when the bpplicbtion is bsked to quit
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void setQuitHandler(final QuitHandler quitHandler) {
-        eventHandler.quitDispatcher.setHandler(quitHandler);
+    public void setQuitHbndler(finbl QuitHbndler quitHbndler) {
+        eventHbndler.quitDispbtcher.setHbndler(quitHbndler);
     }
 
     /**
-     * Sets the default strategy used to quit this application. The default is calling SYSTEM_EXIT_0.
+     * Sets the defbult strbtegy used to quit this bpplicbtion. The defbult is cblling SYSTEM_EXIT_0.
      *
-     * The quit strategy can also be set with the "apple.eawt.quitStrategy" system property.
+     * The quit strbtegy cbn blso be set with the "bpple.ebwt.quitStrbtegy" system property.
      *
-     * @param strategy the way this application should be shutdown
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @pbrbm strbtegy the wby this bpplicbtion should be shutdown
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void setQuitStrategy(final QuitStrategy strategy) {
-        eventHandler.setDefaultQuitStrategy(strategy);
+    public void setQuitStrbtegy(finbl QuitStrbtegy strbtegy) {
+        eventHbndler.setDefbultQuitStrbtegy(strbtegy);
     }
 
     /**
-     * Enables this application to be suddenly terminated.
+     * Enbbles this bpplicbtion to be suddenly terminbted.
      *
-     * Call this method to indicate your application's state is saved, and requires no notification to be terminated.
-     * Letting your application remain terminatable improves the user experience by avoiding re-paging in your application when it's asked to quit.
+     * Cbll this method to indicbte your bpplicbtion's stbte is sbved, bnd requires no notificbtion to be terminbted.
+     * Letting your bpplicbtion rembin terminbtbble improves the user experience by bvoiding re-pbging in your bpplicbtion when it's bsked to quit.
      *
-     * <b>Note: enabling sudden termination will allow your application to be quit without notifying your QuitHandler, or running any shutdown hooks.</b>
-     * User initiated Cmd-Q, logout, restart, or shutdown requests will effectively "kill -KILL" your application.
+     * <b>Note: enbbling sudden terminbtion will bllow your bpplicbtion to be quit without notifying your QuitHbndler, or running bny shutdown hooks.</b>
+     * User initibted Cmd-Q, logout, restbrt, or shutdown requests will effectively "kill -KILL" your bpplicbtion.
      *
-     * This call has no effect on Mac OS X versions prior to 10.6.
+     * This cbll hbs no effect on Mbc OS X versions prior to 10.6.
      *
-     * @see <a href="http://developer.apple.com/mac/library/documentation/cocoa/reference/foundation/Classes/NSProcessInfo_Class">NSProcessInfo class references</a> for more information about Sudden Termination.
-     * @see Application#disableSuddenTermination()
+     * @see <b href="http://developer.bpple.com/mbc/librbry/documentbtion/cocob/reference/foundbtion/Clbsses/NSProcessInfo_Clbss">NSProcessInfo clbss references</b> for more informbtion bbout Sudden Terminbtion.
+     * @see Applicbtion#disbbleSuddenTerminbtion()
      *
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void enableSuddenTermination() {
-        _AppMiscHandlers.enableSuddenTermination();
+    public void enbbleSuddenTerminbtion() {
+        _AppMiscHbndlers.enbbleSuddenTerminbtion();
     }
 
     /**
-     * Prevents this application from being suddenly terminated.
+     * Prevents this bpplicbtion from being suddenly terminbted.
      *
-     * Call this method to indicate that your application has unsaved state, and may not be terminated without notification.
+     * Cbll this method to indicbte thbt your bpplicbtion hbs unsbved stbte, bnd mby not be terminbted without notificbtion.
      *
-     * This call has no effect on Mac OS X versions prior to 10.6.
+     * This cbll hbs no effect on Mbc OS X versions prior to 10.6.
      *
-     * @see <a href="http://developer.apple.com/mac/library/documentation/cocoa/reference/foundation/Classes/NSProcessInfo_Class">NSProcessInfo class references</a> for more information about Sudden Termination.
-     * @see Application#enableSuddenTermination()
+     * @see <b href="http://developer.bpple.com/mbc/librbry/documentbtion/cocob/reference/foundbtion/Clbsses/NSProcessInfo_Clbss">NSProcessInfo clbss references</b> for more informbtion bbout Sudden Terminbtion.
+     * @see Applicbtion#enbbleSuddenTerminbtion()
      *
-     * @since Java for Mac OS X 10.6 Update 3
-     * @since Java for Mac OS X 10.5 Update 8
+     * @since Jbvb for Mbc OS X 10.6 Updbte 3
+     * @since Jbvb for Mbc OS X 10.5 Updbte 8
      */
-    public void disableSuddenTermination() {
-        _AppMiscHandlers.disableSuddenTermination();
+    public void disbbleSuddenTerminbtion() {
+        _AppMiscHbndlers.disbbleSuddenTerminbtion();
     }
 
     /**
-     * Requests this application to move to the foreground.
+     * Requests this bpplicbtion to move to the foreground.
      *
-     * @param allWindows if all windows of this application should be moved to the foreground, or only the foremost one
+     * @pbrbm bllWindows if bll windows of this bpplicbtion should be moved to the foreground, or only the foremost one
      *
-     * @since Java for Mac OS X 10.6 Update 1
-     * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+     * @since Jbvb for Mbc OS X 10.6 Updbte 1
+     * @since Jbvb for Mbc OS X 10.5 Updbte 6 - 1.6, 1.5
      */
-    public void requestForeground(final boolean allWindows) {
-        _AppMiscHandlers.requestActivation(allWindows);
+    public void requestForeground(finbl boolebn bllWindows) {
+        _AppMiscHbndlers.requestActivbtion(bllWindows);
     }
 
     /**
-     * Requests user attention to this application (usually through bouncing the Dock icon). Critical
-     * requests will continue to bounce the Dock icon until the app is activated. An already active
-     * application requesting attention does nothing.
+     * Requests user bttention to this bpplicbtion (usublly through bouncing the Dock icon). Criticbl
+     * requests will continue to bounce the Dock icon until the bpp is bctivbted. An blrebdy bctive
+     * bpplicbtion requesting bttention does nothing.
      *
-     * @param critical if this is an important request
+     * @pbrbm criticbl if this is bn importbnt request
      *
-     * @since Java for Mac OS X 10.6 Update 1
-     * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+     * @since Jbvb for Mbc OS X 10.6 Updbte 1
+     * @since Jbvb for Mbc OS X 10.5 Updbte 6 - 1.6, 1.5
      */
-    public void requestUserAttention(final boolean critical) {
-        _AppMiscHandlers.requestUserAttention(critical);
+    public void requestUserAttention(finbl boolebn criticbl) {
+        _AppMiscHbndlers.requestUserAttention(criticbl);
     }
 
     /**
-     * Opens the native help viewer application if a Help Book has been added to the
-     * application bundler and registered in the Info.plist with CFBundleHelpBookFolder.
+     * Opens the nbtive help viewer bpplicbtion if b Help Book hbs been bdded to the
+     * bpplicbtion bundler bnd registered in the Info.plist with CFBundleHelpBookFolder.
      *
-     * See http://developer.apple.com/qa/qa2001/qa1022.html for more information.
+     * See http://developer.bpple.com/qb/qb2001/qb1022.html for more informbtion.
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+     * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
     public void openHelpViewer() {
-        _AppMiscHandlers.openHelpViewer();
+        _AppMiscHbndlers.openHelpViewer();
     }
 
     /**
-     * Attaches the contents of the provided PopupMenu to the application's Dock icon.
+     * Attbches the contents of the provided PopupMenu to the bpplicbtion's Dock icon.
      *
-     * @param menu the PopupMenu to attach to this application's Dock icon
+     * @pbrbm menu the PopupMenu to bttbch to this bpplicbtion's Dock icon
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+     * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public void setDockMenu(final PopupMenu menu) {
-        iconHandler.setDockMenu(menu);
+    public void setDockMenu(finbl PopupMenu menu) {
+        iconHbndler.setDockMenu(menu);
     }
 
     /**
-     * @return the PopupMenu used to add items to this application's Dock icon
+     * @return the PopupMenu used to bdd items to this bpplicbtion's Dock icon
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+     * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
     public PopupMenu getDockMenu() {
-        return iconHandler.getDockMenu();
+        return iconHbndler.getDockMenu();
     }
 
     /**
-     * Changes this application's Dock icon to the provided image.
+     * Chbnges this bpplicbtion's Dock icon to the provided imbge.
      *
-     * @param image
+     * @pbrbm imbge
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+     * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public void setDockIconImage(final Image image) {
-        iconHandler.setDockIconImage(image);
+    public void setDockIconImbge(finbl Imbge imbge) {
+        iconHbndler.setDockIconImbge(imbge);
     }
 
     /**
-     * Obtains an image of this application's Dock icon.
+     * Obtbins bn imbge of this bpplicbtion's Dock icon.
      *
-     * @return an image of this application's Dock icon
+     * @return bn imbge of this bpplicbtion's Dock icon
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+     * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public Image getDockIconImage() {
-        return iconHandler.getDockIconImage();
+    public Imbge getDockIconImbge() {
+        return iconHbndler.getDockIconImbge();
     }
 
     /**
-     * Affixes a small system provided badge to this application's Dock icon. Usually a number.
+     * Affixes b smbll system provided bbdge to this bpplicbtion's Dock icon. Usublly b number.
      *
-     * @param badge textual label to affix to the Dock icon
+     * @pbrbm bbdge textubl lbbel to bffix to the Dock icon
      *
-     * @since Java for Mac OS X 10.5 - 1.5
-     * @since Java for Mac OS X 10.5 Update 1 - 1.6
+     * @since Jbvb for Mbc OS X 10.5 - 1.5
+     * @since Jbvb for Mbc OS X 10.5 Updbte 1 - 1.6
      */
-    public void setDockIconBadge(final String badge) {
-        iconHandler.setDockIconBadge(badge);
+    public void setDockIconBbdge(finbl String bbdge) {
+        iconHbndler.setDockIconBbdge(bbdge);
     }
 
     /**
-     * Sets the default menu bar to use when there are no active frames.
-     * Only used when the system property "apple.laf.useScreenMenuBar" is "true", and
-     * the Aqua Look and Feel is active.
+     * Sets the defbult menu bbr to use when there bre no bctive frbmes.
+     * Only used when the system property "bpple.lbf.useScreenMenuBbr" is "true", bnd
+     * the Aqub Look bnd Feel is bctive.
      *
-     * @param menuBar to use when no other frames are active
+     * @pbrbm menuBbr to use when no other frbmes bre bctive
      *
-     * @since Java for Mac OS X 10.6 Update 1
-     * @since Java for Mac OS X 10.5 Update 6 - 1.6, 1.5
+     * @since Jbvb for Mbc OS X 10.6 Updbte 1
+     * @since Jbvb for Mbc OS X 10.5 Updbte 6 - 1.6, 1.5
      */
-    public void setDefaultMenuBar(final JMenuBar menuBar) {
-        menuBarHandler.setDefaultMenuBar(menuBar);
+    public void setDefbultMenuBbr(finbl JMenuBbr menuBbr) {
+        menuBbrHbndler.setDefbultMenuBbr(menuBbr);
     }
 
     /**
-     * Requests that a {@link Window} should animate into or out of full screen mode.
-     * Only {@link Window}s marked as full screenable by {@link FullScreenUtilities#setWindowCanFullScreen(Window, boolean)} can be toggled.
+     * Requests thbt b {@link Window} should bnimbte into or out of full screen mode.
+     * Only {@link Window}s mbrked bs full screenbble by {@link FullScreenUtilities#setWindowCbnFullScreen(Window, boolebn)} cbn be toggled.
      *
-     * @param window to animate into or out of full screen mode
+     * @pbrbm window to bnimbte into or out of full screen mode
      *
-     * @since Java for Mac OS X 10.7 Update 1
+     * @since Jbvb for Mbc OS X 10.7 Updbte 1
      */
-    @SuppressWarnings("deprecation")
-    public void requestToggleFullScreen(final Window window) {
-        final ComponentPeer peer = window.getPeer();
+    @SuppressWbrnings("deprecbtion")
+    public void requestToggleFullScreen(finbl Window window) {
+        finbl ComponentPeer peer = window.getPeer();
 
-        if (!(peer instanceof LWWindowPeer)) return;
-        Object platformWindow = ((LWWindowPeer) peer).getPlatformWindow();
-        if (!(platformWindow instanceof CPlatformWindow)) return;
-        ((CPlatformWindow)platformWindow).toggleFullScreen();
+        if (!(peer instbnceof LWWindowPeer)) return;
+        Object plbtformWindow = ((LWWindowPeer) peer).getPlbtformWindow();
+        if (!(plbtformWindow instbnceof CPlbtformWindow)) return;
+        ((CPlbtformWindow)plbtformWindow).toggleFullScreen();
     }
 
 
     // -- DEPRECATED API --
 
     /**
-     * Adds the specified ApplicationListener as a receiver of callbacks from this class.
-     * This method throws a RuntimeException if the newer About, Preferences, Quit, etc handlers are installed.
+     * Adds the specified ApplicbtionListener bs b receiver of cbllbbcks from this clbss.
+     * This method throws b RuntimeException if the newer About, Preferences, Quit, etc hbndlers bre instblled.
      *
-     * @param listener an implementation of ApplicationListener that handles ApplicationEvents
+     * @pbrbm listener bn implementbtion of ApplicbtionListener thbt hbndles ApplicbtionEvents
      *
-     * @deprecated register individual handlers for each task (About, Preferences, Open, Print, Quit, etc)
+     * @deprecbted register individubl hbndlers for ebch tbsk (About, Preferences, Open, Print, Quit, etc)
      * @since 1.4
      */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void addApplicationListener(final ApplicationListener listener) {
-        eventHandler.legacyHandler.addLegacyAppListener(listener);
+    @SuppressWbrnings("deprecbtion")
+    @Deprecbted
+    public void bddApplicbtionListener(finbl ApplicbtionListener listener) {
+        eventHbndler.legbcyHbndler.bddLegbcyAppListener(listener);
     }
 
     /**
-     * Removes the specified ApplicationListener from being a receiver of callbacks from this class.
-     * This method throws a RuntimeException if the newer About, Preferences, Quit, etc handlers are installed.
+     * Removes the specified ApplicbtionListener from being b receiver of cbllbbcks from this clbss.
+     * This method throws b RuntimeException if the newer About, Preferences, Quit, etc hbndlers bre instblled.
      *
-     * @param listener an implementation of ApplicationListener that had previously been registered to handle ApplicationEvents
+     * @pbrbm listener bn implementbtion of ApplicbtionListener thbt hbd previously been registered to hbndle ApplicbtionEvents
      *
-     * @deprecated unregister individual handlers for each task (About, Preferences, Open, Print, Quit, etc)
+     * @deprecbted unregister individubl hbndlers for ebch tbsk (About, Preferences, Open, Print, Quit, etc)
      * @since 1.4
      */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void removeApplicationListener(final ApplicationListener listener) {
-        eventHandler.legacyHandler.removeLegacyAppListener(listener);
+    @SuppressWbrnings("deprecbtion")
+    @Deprecbted
+    public void removeApplicbtionListener(finbl ApplicbtionListener listener) {
+        eventHbndler.legbcyHbndler.removeLegbcyAppListener(listener);
     }
 
     /**
-     * Enables the Preferences item in the application menu. The ApplicationListener receives a callback for
-     * selection of the Preferences item in the application menu only if this is set to <code>true</code>.
+     * Enbbles the Preferences item in the bpplicbtion menu. The ApplicbtionListener receives b cbllbbck for
+     * selection of the Preferences item in the bpplicbtion menu only if this is set to <code>true</code>.
      *
-     * If a Preferences item isn't present, this method adds and enables it.
+     * If b Preferences item isn't present, this method bdds bnd enbbles it.
      *
-     * @param enable specifies whether the Preferences item in the application menu should be enabled (<code>true</code>) or not (<code>false</code>)
+     * @pbrbm enbble specifies whether the Preferences item in the bpplicbtion menu should be enbbled (<code>true</code>) or not (<code>fblse</code>)
      *
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      * @since 1.4
      */
-    @Deprecated
-    public void setEnabledPreferencesMenu(final boolean enable) {
-        menuBarHandler.setPreferencesMenuItemVisible(true);
-        menuBarHandler.setPreferencesMenuItemEnabled(enable);
+    @Deprecbted
+    public void setEnbbledPreferencesMenu(finbl boolebn enbble) {
+        menuBbrHbndler.setPreferencesMenuItemVisible(true);
+        menuBbrHbndler.setPreferencesMenuItemEnbbled(enbble);
     }
 
     /**
-     * Enables the About item in the application menu. The ApplicationListener receives a callback for
-     * selection of the About item in the application menu only if this is set to <code>true</code>. Because AWT supplies
-     * a standard About window when an application may not, by default this is set to <code>true</code>.
+     * Enbbles the About item in the bpplicbtion menu. The ApplicbtionListener receives b cbllbbck for
+     * selection of the About item in the bpplicbtion menu only if this is set to <code>true</code>. Becbuse AWT supplies
+     * b stbndbrd About window when bn bpplicbtion mby not, by defbult this is set to <code>true</code>.
      *
-     * If the About item isn't present, this method adds and enables it.
+     * If the About item isn't present, this method bdds bnd enbbles it.
      *
-     * @param enable specifies whether the About item in the application menu should be enabled (<code>true</code>) or not (<code>false</code>)
+     * @pbrbm enbble specifies whether the About item in the bpplicbtion menu should be enbbled (<code>true</code>) or not (<code>fblse</code>)
      *
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      * @since 1.4
      */
-    @Deprecated
-    public void setEnabledAboutMenu(final boolean enable) {
-        menuBarHandler.setAboutMenuItemEnabled(enable);
+    @Deprecbted
+    public void setEnbbledAboutMenu(finbl boolebn enbble) {
+        menuBbrHbndler.setAboutMenuItemEnbbled(enbble);
     }
 
     /**
-     * Determines if the Preferences item of the application menu is enabled.
+     * Determines if the Preferences item of the bpplicbtion menu is enbbled.
      *
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      * @since 1.4
      */
-    @Deprecated
-    public boolean getEnabledPreferencesMenu() {
-        return menuBarHandler.isPreferencesMenuItemEnabled();
+    @Deprecbted
+    public boolebn getEnbbledPreferencesMenu() {
+        return menuBbrHbndler.isPreferencesMenuItemEnbbled();
     }
 
     /**
-     * Determines if the About item of the application menu is enabled.
+     * Determines if the About item of the bpplicbtion menu is enbbled.
      *
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      * @since 1.4
      */
-    @Deprecated
-    public boolean getEnabledAboutMenu() {
-        return menuBarHandler.isAboutMenuItemEnabled();
+    @Deprecbted
+    public boolebn getEnbbledAboutMenu() {
+        return menuBbrHbndler.isAboutMenuItemEnbbled();
     }
 
     /**
-     * Determines if the About item of the application menu is present.
+     * Determines if the About item of the bpplicbtion menu is present.
      *
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      * @since 1.4
      */
-    @Deprecated
-    public boolean isAboutMenuItemPresent() {
-        return menuBarHandler.isAboutMenuItemVisible();
+    @Deprecbted
+    public boolebn isAboutMenuItemPresent() {
+        return menuBbrHbndler.isAboutMenuItemVisible();
     }
 
     /**
-     * Adds the About item to the application menu if the item is not already present.
+     * Adds the About item to the bpplicbtion menu if the item is not blrebdy present.
      *
-     * @deprecated use {@link #setAboutHandler(AboutHandler)} with a non-null {@link AboutHandler} parameter
+     * @deprecbted use {@link #setAboutHbndler(AboutHbndler)} with b non-null {@link AboutHbndler} pbrbmeter
      * @since 1.4
      */
-    @Deprecated
-    public void addAboutMenuItem() {
-        menuBarHandler.setAboutMenuItemVisible(true);
+    @Deprecbted
+    public void bddAboutMenuItem() {
+        menuBbrHbndler.setAboutMenuItemVisible(true);
     }
 
     /**
-     * Removes the About item from the application menu if  the item is present.
+     * Removes the About item from the bpplicbtion menu if  the item is present.
      *
-     * @deprecated use {@link #setAboutHandler(AboutHandler)} with a null parameter
+     * @deprecbted use {@link #setAboutHbndler(AboutHbndler)} with b null pbrbmeter
      * @since 1.4
      */
-    @Deprecated
+    @Deprecbted
     public void removeAboutMenuItem() {
-        menuBarHandler.setAboutMenuItemVisible(false);
+        menuBbrHbndler.setAboutMenuItemVisible(fblse);
     }
 
     /**
-     * Determines if the About Preferences of the application menu is present. By default there is no Preferences menu item.
+     * Determines if the About Preferences of the bpplicbtion menu is present. By defbult there is no Preferences menu item.
      *
-     * @deprecated no replacement
+     * @deprecbted no replbcement
      * @since 1.4
      */
-    @Deprecated
-    public boolean isPreferencesMenuItemPresent() {
-        return menuBarHandler.isPreferencesMenuItemVisible();
+    @Deprecbted
+    public boolebn isPreferencesMenuItemPresent() {
+        return menuBbrHbndler.isPreferencesMenuItemVisible();
     }
 
     /**
-     * Adds the Preferences item to the application menu if the item is not already present.
+     * Adds the Preferences item to the bpplicbtion menu if the item is not blrebdy present.
      *
-     * @deprecated use {@link #setPreferencesHandler(PreferencesHandler)} with a non-null {@link PreferencesHandler} parameter
+     * @deprecbted use {@link #setPreferencesHbndler(PreferencesHbndler)} with b non-null {@link PreferencesHbndler} pbrbmeter
      * @since 1.4
      */
-    @Deprecated
-    public void addPreferencesMenuItem() {
-        menuBarHandler.setPreferencesMenuItemVisible(true);
+    @Deprecbted
+    public void bddPreferencesMenuItem() {
+        menuBbrHbndler.setPreferencesMenuItemVisible(true);
     }
 
     /**
-     * Removes the Preferences item from the application menu if that item is present.
+     * Removes the Preferences item from the bpplicbtion menu if thbt item is present.
      *
-     * @deprecated use {@link #setPreferencesHandler(PreferencesHandler)} with a null parameter
+     * @deprecbted use {@link #setPreferencesHbndler(PreferencesHbndler)} with b null pbrbmeter
      * @since 1.4
      */
-    @Deprecated
+    @Deprecbted
     public void removePreferencesMenuItem() {
-        menuBarHandler.setPreferencesMenuItemVisible(false);
+        menuBbrHbndler.setPreferencesMenuItemVisible(fblse);
     }
 
     /**
-     * @deprecated Use <code>java.awt.MouseInfo.getPointerInfo().getLocation()</code>.
+     * @deprecbted Use <code>jbvb.bwt.MouseInfo.getPointerInfo().getLocbtion()</code>.
      *
      * @since 1.4
      */
-    @Deprecated
-    public static Point getMouseLocationOnScreen() {
-        return java.awt.MouseInfo.getPointerInfo().getLocation();
+    @Deprecbted
+    public stbtic Point getMouseLocbtionOnScreen() {
+        return jbvb.bwt.MouseInfo.getPointerInfo().getLocbtion();
     }
 }

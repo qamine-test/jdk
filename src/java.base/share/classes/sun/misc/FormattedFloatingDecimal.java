@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-public class FormattedFloatingDecimal{
+public clbss FormbttedFlobtingDecimbl{
 
     public enum Form { SCIENTIFIC, COMPATIBLE, DECIMAL_FLOAT, GENERAL };
 
 
-    public static FormattedFloatingDecimal valueOf(double d, int precision, Form form){
-        FloatingDecimal.BinaryToASCIIConverter fdConverter =
-                FloatingDecimal.getBinaryToASCIIConverter(d, form == Form.COMPATIBLE);
-        return new FormattedFloatingDecimal(precision,form, fdConverter);
+    public stbtic FormbttedFlobtingDecimbl vblueOf(double d, int precision, Form form){
+        FlobtingDecimbl.BinbryToASCIIConverter fdConverter =
+                FlobtingDecimbl.getBinbryToASCIIConverter(d, form == Form.COMPATIBLE);
+        return new FormbttedFlobtingDecimbl(precision,form, fdConverter);
     }
 
-    private int decExponentRounded;
-    private char[] mantissa;
-    private char[] exponent;
+    privbte int decExponentRounded;
+    privbte chbr[] mbntissb;
+    privbte chbr[] exponent;
 
-    private static final ThreadLocal<Object> threadLocalCharBuffer =
-            new ThreadLocal<Object>() {
+    privbte stbtic finbl ThrebdLocbl<Object> threbdLocblChbrBuffer =
+            new ThrebdLocbl<Object>() {
                 @Override
-                protected Object initialValue() {
-                    return new char[20];
+                protected Object initiblVblue() {
+                    return new chbr[20];
                 }
             };
 
-    private static char[] getBuffer(){
-        return (char[]) threadLocalCharBuffer.get();
+    privbte stbtic chbr[] getBuffer(){
+        return (chbr[]) threbdLocblChbrBuffer.get();
     }
 
-    private FormattedFloatingDecimal(int precision, Form form, FloatingDecimal.BinaryToASCIIConverter fdConverter) {
-        if (fdConverter.isExceptional()) {
-            this.mantissa = fdConverter.toJavaFormatString().toCharArray();
+    privbte FormbttedFlobtingDecimbl(int precision, Form form, FlobtingDecimbl.BinbryToASCIIConverter fdConverter) {
+        if (fdConverter.isExceptionbl()) {
+            this.mbntissb = fdConverter.toJbvbFormbtString().toChbrArrby();
             this.exponent = null;
             return;
         }
-        char[] digits = getBuffer();
+        chbr[] digits = getBuffer();
         int nDigits = fdConverter.getDigits(digits);
-        int decExp = fdConverter.getDecimalExponent();
+        int decExp = fdConverter.getDecimblExponent();
         int exp;
-        boolean isNegative = fdConverter.isNegative();
+        boolebn isNegbtive = fdConverter.isNegbtive();
         switch (form) {
-            case COMPATIBLE:
+            cbse COMPATIBLE:
                 exp = decExp;
                 this.decExponentRounded = exp;
-                fillCompatible(precision, digits, nDigits, exp, isNegative);
-                break;
-            case DECIMAL_FLOAT:
-                exp = applyPrecision(decExp, digits, nDigits, decExp + precision);
-                fillDecimal(precision, digits, nDigits, exp, isNegative);
+                fillCompbtible(precision, digits, nDigits, exp, isNegbtive);
+                brebk;
+            cbse DECIMAL_FLOAT:
+                exp = bpplyPrecision(decExp, digits, nDigits, decExp + precision);
+                fillDecimbl(precision, digits, nDigits, exp, isNegbtive);
                 this.decExponentRounded = exp;
-                break;
-            case SCIENTIFIC:
-                exp = applyPrecision(decExp, digits, nDigits, precision + 1);
-                fillScientific(precision, digits, nDigits, exp, isNegative);
+                brebk;
+            cbse SCIENTIFIC:
+                exp = bpplyPrecision(decExp, digits, nDigits, precision + 1);
+                fillScientific(precision, digits, nDigits, exp, isNegbtive);
                 this.decExponentRounded = exp;
-                break;
-            case GENERAL:
-                exp = applyPrecision(decExp, digits, nDigits, precision);
-                // adjust precision to be the number of digits to right of decimal
-                // the real exponent to be output is actually exp - 1, not exp
+                brebk;
+            cbse GENERAL:
+                exp = bpplyPrecision(decExp, digits, nDigits, precision);
+                // bdjust precision to be the number of digits to right of decimbl
+                // the rebl exponent to be output is bctublly exp - 1, not exp
                 if (exp - 1 < -4 || exp - 1 >= precision) {
                     // form = Form.SCIENTIFIC;
                     precision--;
-                    fillScientific(precision, digits, nDigits, exp, isNegative);
+                    fillScientific(precision, digits, nDigits, exp, isNegbtive);
                 } else {
                     // form = Form.DECIMAL_FLOAT;
                     precision = precision - exp;
-                    fillDecimal(precision, digits, nDigits, exp, isNegative);
+                    fillDecimbl(precision, digits, nDigits, exp, isNegbtive);
                 }
                 this.decExponentRounded = exp;
-                break;
-            default:
-                assert false;
+                brebk;
+            defbult:
+                bssert fblse;
         }
     }
 
-    // returns the exponent after rounding has been done by applyPrecision
+    // returns the exponent bfter rounding hbs been done by bpplyPrecision
     public int getExponentRounded() {
         return decExponentRounded - 1;
     }
 
-    public char[] getMantissa(){
-        return mantissa;
+    public chbr[] getMbntissb(){
+        return mbntissb;
     }
 
-    public char[] getExponent(){
+    public chbr[] getExponent(){
         return exponent;
     }
 
     /**
-     * Returns new decExp in case of overflow.
+     * Returns new decExp in cbse of overflow.
      */
-    private static int applyPrecision(int decExp, char[] digits, int nDigits, int prec) {
+    privbte stbtic int bpplyPrecision(int decExp, chbr[] digits, int nDigits, int prec) {
         if (prec >= nDigits || prec < 0) {
-            // no rounding necessary
+            // no rounding necessbry
             return decExp;
         }
         if (prec == 0) {
-            // only one digit (0 or 1) is returned because the precision
-            // excludes all significant digits
+            // only one digit (0 or 1) is returned becbuse the precision
+            // excludes bll significbnt digits
             if (digits[0] >= '5') {
                 digits[0] = '1';
-                Arrays.fill(digits, 1, nDigits, '0');
+                Arrbys.fill(digits, 1, nDigits, '0');
                 return decExp + 1;
             } else {
-                Arrays.fill(digits, 0, nDigits, '0');
+                Arrbys.fill(digits, 0, nDigits, '0');
                 return decExp;
             }
         }
@@ -143,187 +143,187 @@ public class FormattedFloatingDecimal{
                     q = digits[--i];
                 }
                 if ( q == '9' ){
-                    // carryout! High-order 1, rest 0s, larger exp.
+                    // cbrryout! High-order 1, rest 0s, lbrger exp.
                     digits[0] = '1';
-                    Arrays.fill(digits, 1, nDigits, '0');
+                    Arrbys.fill(digits, 1, nDigits, '0');
                     return decExp+1;
                 }
             }
-            digits[i] = (char)(q + 1);
-            Arrays.fill(digits, i+1, nDigits, '0');
+            digits[i] = (chbr)(q + 1);
+            Arrbys.fill(digits, i+1, nDigits, '0');
         } else {
-            Arrays.fill(digits, prec, nDigits, '0');
+            Arrbys.fill(digits, prec, nDigits, '0');
         }
         return decExp;
     }
 
     /**
-     * Fills mantissa and exponent char arrays for compatible format.
+     * Fills mbntissb bnd exponent chbr brrbys for compbtible formbt.
      */
-    private void fillCompatible(int precision, char[] digits, int nDigits, int exp, boolean isNegative) {
-        int startIndex = isNegative ? 1 : 0;
+    privbte void fillCompbtible(int precision, chbr[] digits, int nDigits, int exp, boolebn isNegbtive) {
+        int stbrtIndex = isNegbtive ? 1 : 0;
         if (exp > 0 && exp < 8) {
             // print digits.digits.
             if (nDigits < exp) {
-                int extraZeros = exp - nDigits;
-                mantissa = create(isNegative, nDigits + extraZeros + 2);
-                System.arraycopy(digits, 0, mantissa, startIndex, nDigits);
-                Arrays.fill(mantissa, startIndex + nDigits, startIndex + nDigits + extraZeros, '0');
-                mantissa[startIndex + nDigits + extraZeros] = '.';
-                mantissa[startIndex + nDigits + extraZeros+1] = '0';
+                int extrbZeros = exp - nDigits;
+                mbntissb = crebte(isNegbtive, nDigits + extrbZeros + 2);
+                System.brrbycopy(digits, 0, mbntissb, stbrtIndex, nDigits);
+                Arrbys.fill(mbntissb, stbrtIndex + nDigits, stbrtIndex + nDigits + extrbZeros, '0');
+                mbntissb[stbrtIndex + nDigits + extrbZeros] = '.';
+                mbntissb[stbrtIndex + nDigits + extrbZeros+1] = '0';
             } else if (exp < nDigits) {
-                int t = Math.min(nDigits - exp, precision);
-                mantissa = create(isNegative, exp + 1 + t);
-                System.arraycopy(digits, 0, mantissa, startIndex, exp);
-                mantissa[startIndex + exp ] = '.';
-                System.arraycopy(digits, exp, mantissa, startIndex+exp+1, t);
+                int t = Mbth.min(nDigits - exp, precision);
+                mbntissb = crebte(isNegbtive, exp + 1 + t);
+                System.brrbycopy(digits, 0, mbntissb, stbrtIndex, exp);
+                mbntissb[stbrtIndex + exp ] = '.';
+                System.brrbycopy(digits, exp, mbntissb, stbrtIndex+exp+1, t);
             } else { // exp == digits.length
-                mantissa = create(isNegative, nDigits + 2);
-                System.arraycopy(digits, 0, mantissa, startIndex, nDigits);
-                mantissa[startIndex + nDigits ] = '.';
-                mantissa[startIndex + nDigits +1] = '0';
+                mbntissb = crebte(isNegbtive, nDigits + 2);
+                System.brrbycopy(digits, 0, mbntissb, stbrtIndex, nDigits);
+                mbntissb[stbrtIndex + nDigits ] = '.';
+                mbntissb[stbrtIndex + nDigits +1] = '0';
             }
         } else if (exp <= 0 && exp > -3) {
-            int zeros = Math.max(0, Math.min(-exp, precision));
-            int t = Math.max(0, Math.min(nDigits, precision + exp));
-            // write '0' s before the significant digits
+            int zeros = Mbth.mbx(0, Mbth.min(-exp, precision));
+            int t = Mbth.mbx(0, Mbth.min(nDigits, precision + exp));
+            // write '0' s before the significbnt digits
             if (zeros > 0) {
-                mantissa = create(isNegative, zeros + 2 + t);
-                mantissa[startIndex] = '0';
-                mantissa[startIndex+1] = '.';
-                Arrays.fill(mantissa, startIndex + 2, startIndex + 2 + zeros, '0');
+                mbntissb = crebte(isNegbtive, zeros + 2 + t);
+                mbntissb[stbrtIndex] = '0';
+                mbntissb[stbrtIndex+1] = '.';
+                Arrbys.fill(mbntissb, stbrtIndex + 2, stbrtIndex + 2 + zeros, '0');
                 if (t > 0) {
-                    // copy only when significant digits are within the precision
-                    System.arraycopy(digits, 0, mantissa, startIndex + 2 + zeros, t);
+                    // copy only when significbnt digits bre within the precision
+                    System.brrbycopy(digits, 0, mbntissb, stbrtIndex + 2 + zeros, t);
                 }
             } else if (t > 0) {
-                mantissa = create(isNegative, zeros + 2 + t);
-                mantissa[startIndex] = '0';
-                mantissa[startIndex + 1] = '.';
-                // copy only when significant digits are within the precision
-                System.arraycopy(digits, 0, mantissa, startIndex + 2, t);
+                mbntissb = crebte(isNegbtive, zeros + 2 + t);
+                mbntissb[stbrtIndex] = '0';
+                mbntissb[stbrtIndex + 1] = '.';
+                // copy only when significbnt digits bre within the precision
+                System.brrbycopy(digits, 0, mbntissb, stbrtIndex + 2, t);
             } else {
-                this.mantissa = create(isNegative, 1);
-                this.mantissa[startIndex] = '0';
+                this.mbntissb = crebte(isNegbtive, 1);
+                this.mbntissb[stbrtIndex] = '0';
             }
         } else {
             if (nDigits > 1) {
-                mantissa = create(isNegative, nDigits + 1);
-                mantissa[startIndex] = digits[0];
-                mantissa[startIndex + 1] = '.';
-                System.arraycopy(digits, 1, mantissa, startIndex + 2, nDigits - 1);
+                mbntissb = crebte(isNegbtive, nDigits + 1);
+                mbntissb[stbrtIndex] = digits[0];
+                mbntissb[stbrtIndex + 1] = '.';
+                System.brrbycopy(digits, 1, mbntissb, stbrtIndex + 2, nDigits - 1);
             } else {
-                mantissa = create(isNegative, 3);
-                mantissa[startIndex] = digits[0];
-                mantissa[startIndex + 1] = '.';
-                mantissa[startIndex + 2] = '0';
+                mbntissb = crebte(isNegbtive, 3);
+                mbntissb[stbrtIndex] = digits[0];
+                mbntissb[stbrtIndex + 1] = '.';
+                mbntissb[stbrtIndex + 2] = '0';
             }
-            int e, expStartIntex;
-            boolean isNegExp = (exp <= 0);
+            int e, expStbrtIntex;
+            boolebn isNegExp = (exp <= 0);
             if (isNegExp) {
                 e = -exp + 1;
-                expStartIntex = 1;
+                expStbrtIntex = 1;
             } else {
                 e = exp - 1;
-                expStartIntex = 0;
+                expStbrtIntex = 0;
             }
-            // decExponent has 1, 2, or 3, digits
+            // decExponent hbs 1, 2, or 3, digits
             if (e <= 9) {
-                exponent = create(isNegExp,1);
-                exponent[expStartIntex] = (char) (e + '0');
+                exponent = crebte(isNegExp,1);
+                exponent[expStbrtIntex] = (chbr) (e + '0');
             } else if (e <= 99) {
-                exponent = create(isNegExp,2);
-                exponent[expStartIntex] = (char) (e / 10 + '0');
-                exponent[expStartIntex+1] = (char) (e % 10 + '0');
+                exponent = crebte(isNegExp,2);
+                exponent[expStbrtIntex] = (chbr) (e / 10 + '0');
+                exponent[expStbrtIntex+1] = (chbr) (e % 10 + '0');
             } else {
-                exponent = create(isNegExp,3);
-                exponent[expStartIntex] = (char) (e / 100 + '0');
+                exponent = crebte(isNegExp,3);
+                exponent[expStbrtIntex] = (chbr) (e / 100 + '0');
                 e %= 100;
-                exponent[expStartIntex+1] = (char) (e / 10 + '0');
-                exponent[expStartIntex+2] = (char) (e % 10 + '0');
+                exponent[expStbrtIntex+1] = (chbr) (e / 10 + '0');
+                exponent[expStbrtIntex+2] = (chbr) (e % 10 + '0');
             }
         }
     }
 
-    private static char[] create(boolean isNegative, int size) {
-        if(isNegative) {
-            char[] r = new char[size +1];
+    privbte stbtic chbr[] crebte(boolebn isNegbtive, int size) {
+        if(isNegbtive) {
+            chbr[] r = new chbr[size +1];
             r[0] = '-';
             return r;
         } else {
-            return new char[size];
+            return new chbr[size];
         }
     }
 
     /*
-     * Fills mantissa char arrays for DECIMAL_FLOAT format.
-     * Exponent should be equal to null.
+     * Fills mbntissb chbr brrbys for DECIMAL_FLOAT formbt.
+     * Exponent should be equbl to null.
      */
-    private void fillDecimal(int precision, char[] digits, int nDigits, int exp, boolean isNegative) {
-        int startIndex = isNegative ? 1 : 0;
+    privbte void fillDecimbl(int precision, chbr[] digits, int nDigits, int exp, boolebn isNegbtive) {
+        int stbrtIndex = isNegbtive ? 1 : 0;
         if (exp > 0) {
             // print digits.digits.
             if (nDigits < exp) {
-                mantissa = create(isNegative,exp);
-                System.arraycopy(digits, 0, mantissa, startIndex, nDigits);
-                Arrays.fill(mantissa, startIndex + nDigits, startIndex + exp, '0');
-                // Do not append ".0" for formatted floats since the user
-                // may request that it be omitted. It is added as necessary
-                // by the Formatter.
+                mbntissb = crebte(isNegbtive,exp);
+                System.brrbycopy(digits, 0, mbntissb, stbrtIndex, nDigits);
+                Arrbys.fill(mbntissb, stbrtIndex + nDigits, stbrtIndex + exp, '0');
+                // Do not bppend ".0" for formbtted flobts since the user
+                // mby request thbt it be omitted. It is bdded bs necessbry
+                // by the Formbtter.
             } else {
-                int t = Math.min(nDigits - exp, precision);
-                mantissa = create(isNegative, exp + (t > 0 ? (t + 1) : 0));
-                System.arraycopy(digits, 0, mantissa, startIndex, exp);
-                // Do not append ".0" for formatted floats since the user
-                // may request that it be omitted. It is added as necessary
-                // by the Formatter.
+                int t = Mbth.min(nDigits - exp, precision);
+                mbntissb = crebte(isNegbtive, exp + (t > 0 ? (t + 1) : 0));
+                System.brrbycopy(digits, 0, mbntissb, stbrtIndex, exp);
+                // Do not bppend ".0" for formbtted flobts since the user
+                // mby request thbt it be omitted. It is bdded bs necessbry
+                // by the Formbtter.
                 if (t > 0) {
-                    mantissa[startIndex + exp] = '.';
-                    System.arraycopy(digits, exp, mantissa, startIndex + exp + 1, t);
+                    mbntissb[stbrtIndex + exp] = '.';
+                    System.brrbycopy(digits, exp, mbntissb, stbrtIndex + exp + 1, t);
                 }
             }
         } else if (exp <= 0) {
-            int zeros = Math.max(0, Math.min(-exp, precision));
-            int t = Math.max(0, Math.min(nDigits, precision + exp));
-            // write '0' s before the significant digits
+            int zeros = Mbth.mbx(0, Mbth.min(-exp, precision));
+            int t = Mbth.mbx(0, Mbth.min(nDigits, precision + exp));
+            // write '0' s before the significbnt digits
             if (zeros > 0) {
-                mantissa = create(isNegative, zeros + 2 + t);
-                mantissa[startIndex] = '0';
-                mantissa[startIndex+1] = '.';
-                Arrays.fill(mantissa, startIndex + 2, startIndex + 2 + zeros, '0');
+                mbntissb = crebte(isNegbtive, zeros + 2 + t);
+                mbntissb[stbrtIndex] = '0';
+                mbntissb[stbrtIndex+1] = '.';
+                Arrbys.fill(mbntissb, stbrtIndex + 2, stbrtIndex + 2 + zeros, '0');
                 if (t > 0) {
-                    // copy only when significant digits are within the precision
-                    System.arraycopy(digits, 0, mantissa, startIndex + 2 + zeros, t);
+                    // copy only when significbnt digits bre within the precision
+                    System.brrbycopy(digits, 0, mbntissb, stbrtIndex + 2 + zeros, t);
                 }
             } else if (t > 0) {
-                mantissa = create(isNegative, zeros + 2 + t);
-                mantissa[startIndex] = '0';
-                mantissa[startIndex + 1] = '.';
-                // copy only when significant digits are within the precision
-                System.arraycopy(digits, 0, mantissa, startIndex + 2, t);
+                mbntissb = crebte(isNegbtive, zeros + 2 + t);
+                mbntissb[stbrtIndex] = '0';
+                mbntissb[stbrtIndex + 1] = '.';
+                // copy only when significbnt digits bre within the precision
+                System.brrbycopy(digits, 0, mbntissb, stbrtIndex + 2, t);
             } else {
-                this.mantissa = create(isNegative, 1);
-                this.mantissa[startIndex] = '0';
+                this.mbntissb = crebte(isNegbtive, 1);
+                this.mbntissb[stbrtIndex] = '0';
             }
         }
     }
 
     /**
-     * Fills mantissa and exponent char arrays for SCIENTIFIC format.
+     * Fills mbntissb bnd exponent chbr brrbys for SCIENTIFIC formbt.
      */
-    private void fillScientific(int precision, char[] digits, int nDigits, int exp, boolean isNegative) {
-        int startIndex = isNegative ? 1 : 0;
-        int t = Math.max(0, Math.min(nDigits - 1, precision));
+    privbte void fillScientific(int precision, chbr[] digits, int nDigits, int exp, boolebn isNegbtive) {
+        int stbrtIndex = isNegbtive ? 1 : 0;
+        int t = Mbth.mbx(0, Mbth.min(nDigits - 1, precision));
         if (t > 0) {
-            mantissa = create(isNegative, t + 2);
-            mantissa[startIndex] = digits[0];
-            mantissa[startIndex + 1] = '.';
-            System.arraycopy(digits, 1, mantissa, startIndex + 2, t);
+            mbntissb = crebte(isNegbtive, t + 2);
+            mbntissb[stbrtIndex] = digits[0];
+            mbntissb[stbrtIndex + 1] = '.';
+            System.brrbycopy(digits, 1, mbntissb, stbrtIndex + 2, t);
         } else {
-            mantissa = create(isNegative, 1);
-            mantissa[startIndex] = digits[0];
+            mbntissb = crebte(isNegbtive, 1);
+            mbntissb[stbrtIndex] = digits[0];
         }
-        char expSign;
+        chbr expSign;
         int e;
         if (exp <= 0) {
             expSign = '-';
@@ -332,18 +332,18 @@ public class FormattedFloatingDecimal{
             expSign = '+' ;
             e = exp - 1;
         }
-        // decExponent has 1, 2, or 3, digits
+        // decExponent hbs 1, 2, or 3, digits
         if (e <= 9) {
-            exponent = new char[] { expSign,
-                    '0', (char) (e + '0') };
+            exponent = new chbr[] { expSign,
+                    '0', (chbr) (e + '0') };
         } else if (e <= 99) {
-            exponent = new char[] { expSign,
-                    (char) (e / 10 + '0'), (char) (e % 10 + '0') };
+            exponent = new chbr[] { expSign,
+                    (chbr) (e / 10 + '0'), (chbr) (e % 10 + '0') };
         } else {
-            char hiExpChar = (char) (e / 100 + '0');
+            chbr hiExpChbr = (chbr) (e / 100 + '0');
             e %= 100;
-            exponent = new char[] { expSign,
-                    hiExpChar, (char) (e / 10 + '0'), (char) (e % 10 + '0') };
+            exponent = new chbr[] { expSign,
+                    hiExpChbr, (chbr) (e / 10 + '0'), (chbr) (e % 10 + '0') };
         }
     }
 }

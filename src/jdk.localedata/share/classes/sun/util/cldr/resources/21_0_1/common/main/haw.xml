@@ -3,90 +3,90 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="haw"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="hbw"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ar">ʻAlapia</language>
-			<language type="cy">Wale</language>
-			<language type="da">Kenemaka</language>
-			<language type="de">Kelemānia</language>
-			<language type="el">Helene</language>
-			<language type="en">Pelekānia</language>
-			<language type="en_AU">Pelekāne Nū Hōlani</language>
-			<language type="en_CA">Pelekāne Kanakā</language>
-			<language type="en_GB">Pelekānia Pekekāne</language>
-			<language type="en_US">Pelekānia ʻAmelika</language>
-			<language type="es">Paniolo</language>
-			<language type="fj">Pīkī</language>
-			<language type="fr">Palani</language>
-			<language type="fr_CA">Palani Kanakā</language>
-			<language type="fr_CH">Kuikilani</language>
-			<language type="ga">ʻAiliki</language>
-			<language type="gsw">Kuikilani Kelemānia</language>
-			<language type="haw">ʻŌlelo Hawaiʻi</language>
-			<language type="he">Hebera</language>
-			<language type="it">ʻĪkālia</language>
-			<language type="ja">Kepanī</language>
-			<language type="ko">Kōlea</language>
-			<language type="la">Lākina</language>
-			<language type="mi">Māori</language>
-			<language type="nl">Hōlani</language>
-			<language type="pt">Pukikī</language>
-			<language type="pt_BR">Pukikī Palakila</language>
-			<language type="ru">Lūkia</language>
-			<language type="sm">Kāmoa</language>
-			<language type="sv">Kuekene</language>
-			<language type="to">Tonga</language>
-			<language type="ty">Polapola</language>
-			<language type="und">ʻIke ʻole ‘ia a kūpono ʻole paha ka ʻōlelo</language>
-			<language type="vi">Wiekanama</language>
-			<language type="zh">Pākē</language>
-			<language type="zh_Hans">Pākē Hoʻomaʻalahi ʻia</language>
-			<language type="zh_Hant">Pākē Kuʻuna</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="br">ʻAlbpib</lbngubge>
+			<lbngubge type="cy">Wble</lbngubge>
+			<lbngubge type="db">Kenembkb</lbngubge>
+			<lbngubge type="de">Kelemānib</lbngubge>
+			<lbngubge type="el">Helene</lbngubge>
+			<lbngubge type="en">Pelekānib</lbngubge>
+			<lbngubge type="en_AU">Pelekāne Nū Hōlbni</lbngubge>
+			<lbngubge type="en_CA">Pelekāne Kbnbkā</lbngubge>
+			<lbngubge type="en_GB">Pelekānib Pekekāne</lbngubge>
+			<lbngubge type="en_US">Pelekānib ʻAmelikb</lbngubge>
+			<lbngubge type="es">Pbniolo</lbngubge>
+			<lbngubge type="fj">Pīkī</lbngubge>
+			<lbngubge type="fr">Pblbni</lbngubge>
+			<lbngubge type="fr_CA">Pblbni Kbnbkā</lbngubge>
+			<lbngubge type="fr_CH">Kuikilbni</lbngubge>
+			<lbngubge type="gb">ʻAiliki</lbngubge>
+			<lbngubge type="gsw">Kuikilbni Kelemānib</lbngubge>
+			<lbngubge type="hbw">ʻŌlelo Hbwbiʻi</lbngubge>
+			<lbngubge type="he">Heberb</lbngubge>
+			<lbngubge type="it">ʻĪkālib</lbngubge>
+			<lbngubge type="jb">Kepbnī</lbngubge>
+			<lbngubge type="ko">Kōleb</lbngubge>
+			<lbngubge type="lb">Lākinb</lbngubge>
+			<lbngubge type="mi">Māori</lbngubge>
+			<lbngubge type="nl">Hōlbni</lbngubge>
+			<lbngubge type="pt">Pukikī</lbngubge>
+			<lbngubge type="pt_BR">Pukikī Pblbkilb</lbngubge>
+			<lbngubge type="ru">Lūkib</lbngubge>
+			<lbngubge type="sm">Kāmob</lbngubge>
+			<lbngubge type="sv">Kuekene</lbngubge>
+			<lbngubge type="to">Tongb</lbngubge>
+			<lbngubge type="ty">Polbpolb</lbngubge>
+			<lbngubge type="und">ʻIke ʻole ‘ib b kūpono ʻole pbhb kb ʻōlelo</lbngubge>
+			<lbngubge type="vi">Wiekbnbmb</lbngubge>
+			<lbngubge type="zh">Pākē</lbngubge>
+			<lbngubge type="zh_Hbns">Pākē Hoʻombʻblbhi ʻib</lbngubge>
+			<lbngubge type="zh_Hbnt">Pākē Kuʻunb</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="AU">Nūhōlani</territory>
-			<territory type="CA">Kanakā</territory>
-			<territory type="CN">Kina</territory>
-			<territory type="DE">Kelemānia</territory>
-			<territory type="DK">Kenemaka</territory>
-			<territory type="ES">Kepania</territory>
-			<territory type="FR">Palani</territory>
-			<territory type="GB">Aupuni Mōʻī Hui Pū ʻIa</territory>
+			<territory type="AU">Nūhōlbni</territory>
+			<territory type="CA">Kbnbkā</territory>
+			<territory type="CN">Kinb</territory>
+			<territory type="DE">Kelemānib</territory>
+			<territory type="DK">Kenembkb</territory>
+			<territory type="ES">Kepbnib</territory>
+			<territory type="FR">Pblbni</territory>
+			<territory type="GB">Aupuni Mōʻī Hui Pū ʻIb</territory>
 			<territory type="GR">Helene</territory>
-			<territory type="IE">ʻIlelani</territory>
-			<territory type="IL">ʻIseraʻela</territory>
-			<territory type="IN">ʻĪnia</territory>
-			<territory type="IT">ʻĪkālia</territory>
-			<territory type="JP">Iāpana</territory>
+			<territory type="IE">ʻIlelbni</territory>
+			<territory type="IL">ʻIserbʻelb</territory>
+			<territory type="IN">ʻĪnib</territory>
+			<territory type="IT">ʻĪkālib</territory>
+			<territory type="JP">Iāpbnb</territory>
 			<territory type="MX">Mekiko</territory>
-			<territory type="NL">Hōlani</territory>
-			<territory type="NZ">Aotearoa</territory>
-			<territory type="PH">ʻĀina Pilipino</territory>
-			<territory type="RU">Lūkia</territory>
-			<territory type="US">ʻAmelika Hui Pū ʻIa</territory>
+			<territory type="NL">Hōlbni</territory>
+			<territory type="NZ">Aotebrob</territory>
+			<territory type="PH">ʻĀinb Pilipino</territory>
+			<territory type="RU">Lūkib</territory>
+			<territory type="US">ʻAmelikb Hui Pū ʻIb</territory>
 		</territories>
-		<measurementSystemNames>
-			<measurementSystemName type="metric">Mekalika</measurementSystemName>
-			<measurementSystemName type="US">ʻAmelika Hui Pū ʻIa</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a ā e ē i ī o ō u ū h k l m n p w ʻ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[b c d f g j q r s t v x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A E I O U H K L M N P W ʻ B C D F G J Q R S T V X Y Z]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+		<mebsurementSystemNbmes>
+			<mebsurementSystemNbme type="metric">Mekblikb</mebsurementSystemNbme>
+			<mebsurementSystemNbme type="US">ʻAmelikb Hui Pū ʻIb</mebsurementSystemNbme>
+		</mebsurementSystemNbmes>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b ā e ē i ī o ō u ū h k l m n p w ʻ]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[b c d f g j q r s t v x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[A E I O U H K L M N P W ʻ B C D F G J Q R S T V X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Ian.</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1">Ibn.</month>
 							<month type="2">Pep.</month>
-							<month type="3">Mal.</month>
+							<month type="3">Mbl.</month>
 							<month type="4">ʻAp.</month>
 							<month type="5">Mei</month>
 							<month type="6">Iun.</month>
@@ -98,120 +98,120 @@
 							<month type="12">Kek.</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Ianuali</month>
-							<month type="2">Pepeluali</month>
-							<month type="3">Malaki</month>
-							<month type="4">ʻApelila</month>
+							<month type="1">Ibnubli</month>
+							<month type="2">Pepelubli</month>
+							<month type="3">Mblbki</month>
+							<month type="4">ʻApelilb</month>
 							<month type="5">Mei</month>
 							<month type="6">Iune</month>
-							<month type="7">Iulai</month>
-							<month type="8">ʻAukake</month>
-							<month type="9">Kepakemapa</month>
-							<month type="10">ʻOkakopa</month>
-							<month type="11">Nowemapa</month>
-							<month type="12">Kekemapa</month>
+							<month type="7">Iulbi</month>
+							<month type="8">ʻAukbke</month>
+							<month type="9">Kepbkembpb</month>
+							<month type="10">ʻOkbkopb</month>
+							<month type="11">Nowembpb</month>
+							<month type="12">Kekembpb</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">LP</day>
-							<day type="mon">P1</day>
-							<day type="tue">P2</day>
-							<day type="wed">P3</day>
-							<day type="thu">P4</day>
-							<day type="fri">P5</day>
-							<day type="sat">P6</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Lāpule</day>
-							<day type="mon">Poʻakahi</day>
-							<day type="tue">Poʻalua</day>
-							<day type="wed">Poʻakolu</day>
-							<day type="thu">Poʻahā</day>
-							<day type="fri">Poʻalima</day>
-							<day type="sat">Poʻaono</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">d/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">LP</dby>
+							<dby type="mon">P1</dby>
+							<dby type="tue">P2</dby>
+							<dby type="wed">P3</dby>
+							<dby type="thu">P4</dby>
+							<dby type="fri">P5</dby>
+							<dby type="sbt">P6</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">Lāpule</dby>
+							<dby type="mon">Poʻbkbhi</dby>
+							<dby type="tue">Poʻblub</dby>
+							<dby type="wed">Poʻbkolu</dby>
+							<dby type="thu">Poʻbhā</dby>
+							<dby type="fri">Poʻblimb</dby>
+							<dby type="sbt">Poʻbono</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">EEEE, d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">d/M/yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00;(¤#,##0.00)</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="other">{0} lā</unitPattern>
+		<unit type="dby">
+			<unitPbttern count="other">{0} lā</unitPbttern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="other">{0} hola</unitPattern>
+			<unitPbttern count="other">{0} holb</unitPbttern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="other">{0} minuke</unitPattern>
+			<unitPbttern count="other">{0} minuke</unitPbttern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="other">{0} mahina</unitPattern>
+			<unitPbttern count="other">{0} mbhinb</unitPbttern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="other">{0} kekona</unitPattern>
+			<unitPbttern count="other">{0} kekonb</unitPbttern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="other">{0} pule</unitPattern>
+			<unitPbttern count="other">{0} pule</unitPbttern>
 		</unit>
-		<unit type="year">
-			<unitPattern count="other">{0} makahiki</unitPattern>
+		<unit type="yebr">
+			<unitPbttern count="other">{0} mbkbhiki</unitPbttern>
 		</unit>
 	</units>
 </ldml>

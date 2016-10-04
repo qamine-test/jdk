@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.ItemEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.ItemEvent;
 
-final class WCheckboxPeer extends WComponentPeer implements CheckboxPeer {
+finbl clbss WCheckboxPeer extends WComponentPeer implements CheckboxPeer {
 
-    // CheckboxPeer implementation
+    // CheckboxPeer implementbtion
 
     @Override
-    public native void setState(boolean state);
+    public nbtive void setStbte(boolebn stbte);
     @Override
-    public native void setCheckboxGroup(CheckboxGroup g);
+    public nbtive void setCheckboxGroup(CheckboxGroup g);
     @Override
-    public native void setLabel(String label);
+    public nbtive void setLbbel(String lbbel);
 
-    private static native int getCheckMarkSize();
+    privbte stbtic nbtive int getCheckMbrkSize();
 
     @Override
     public Dimension getMinimumSize() {
-        String lbl = ((Checkbox)target).getLabel();
-        int marksize = getCheckMarkSize();
+        String lbl = ((Checkbox)tbrget).getLbbel();
+        int mbrksize = getCheckMbrkSize();
         if (lbl == null) {
             lbl = "";
         }
-        FontMetrics fm = getFontMetrics(((Checkbox)target).getFont());
+        FontMetrics fm = getFontMetrics(((Checkbox)tbrget).getFont());
         /*
-         * Borders between check mark and text and between text and edge of
-         * checkbox should both be equal to marksize/4, here's where marksize/2
-         * goes from. Marksize is currently constant ( = 16 pixels) on win32.
+         * Borders between check mbrk bnd text bnd between text bnd edge of
+         * checkbox should both be equbl to mbrksize/4, here's where mbrksize/2
+         * goes from. Mbrksize is currently constbnt ( = 16 pixels) on win32.
          */
-        return new Dimension(fm.stringWidth(lbl) + marksize/2 + marksize,
-                             Math.max(fm.getHeight() + 8,  marksize));
+        return new Dimension(fm.stringWidth(lbl) + mbrksize/2 + mbrksize,
+                             Mbth.mbx(fm.getHeight() + 8,  mbrksize));
     }
 
     @Override
-    public boolean isFocusable() {
+    public boolebn isFocusbble() {
         return true;
     }
 
-    // Toolkit & peer internals
+    // Toolkit & peer internbls
 
-    WCheckboxPeer(Checkbox target) {
-        super(target);
+    WCheckboxPeer(Checkbox tbrget) {
+        super(tbrget);
     }
 
     @Override
-    native void create(WComponentPeer parent);
+    nbtive void crebte(WComponentPeer pbrent);
 
     @Override
-    void initialize() {
-        Checkbox t = (Checkbox)target;
-        setState(t.getState());
+    void initiblize() {
+        Checkbox t = (Checkbox)tbrget;
+        setStbte(t.getStbte());
         setCheckboxGroup(t.getCheckboxGroup());
 
-        Color bg = ((Component)target).getBackground();
+        Color bg = ((Component)tbrget).getBbckground();
         if (bg != null) {
-            setBackground(bg);
+            setBbckground(bg);
         }
 
-        super.initialize();
+        super.initiblize();
     }
 
     @Override
-    public boolean shouldClearRectBeforePaint() {
-        return false;
+    public boolebn shouldClebrRectBeforePbint() {
+        return fblse;
     }
 
-    // native callbacks
+    // nbtive cbllbbcks
 
-    void handleAction(final boolean state) {
-        final Checkbox cb = (Checkbox)this.target;
-        WToolkit.executeOnEventHandlerThread(cb, new Runnable() {
+    void hbndleAction(finbl boolebn stbte) {
+        finbl Checkbox cb = (Checkbox)this.tbrget;
+        WToolkit.executeOnEventHbndlerThrebd(cb, new Runnbble() {
             @Override
             public void run() {
                 CheckboxGroup chg = cb.getCheckboxGroup();
-                if ((chg != null) && (cb == chg.getSelectedCheckbox()) && cb.getState()) {
+                if ((chg != null) && (cb == chg.getSelectedCheckbox()) && cb.getStbte()) {
                     return;
                 }
-                cb.setState(state);
+                cb.setStbte(stbte);
                 postEvent(new ItemEvent(cb, ItemEvent.ITEM_STATE_CHANGED,
-                                cb.getLabel(),
-                                state? ItemEvent.SELECTED : ItemEvent.DESELECTED));
+                                cb.getLbbel(),
+                                stbte? ItemEvent.SELECTED : ItemEvent.DESELECTED));
             }
         });
     }

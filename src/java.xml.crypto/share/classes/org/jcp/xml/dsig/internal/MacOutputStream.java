@@ -3,52 +3,52 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package org.jcp.xml.dsig.internal;
+pbckbge org.jcp.xml.dsig.internbl;
 
-import java.io.ByteArrayOutputStream;
-import javax.crypto.Mac;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvbx.crypto.Mbc;
 
 /**
- * Derived from Apache sources and changed to use Mac objects instead of
- * com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm objects.
+ * Derived from Apbche sources bnd chbnged to use Mbc objects instebd of
+ * com.sun.org.bpbche.xml.internbl.security.blgorithms.SignbtureAlgorithm objects.
  *
- * @author raul
- * @author Sean Mullan
+ * @buthor rbul
+ * @buthor Sebn Mullbn
  *
  */
-public class MacOutputStream extends ByteArrayOutputStream {
-    private final Mac mac;
+public clbss MbcOutputStrebm extends ByteArrbyOutputStrebm {
+    privbte finbl Mbc mbc;
 
-    public MacOutputStream(Mac mac) {
-        this.mac = mac;
+    public MbcOutputStrebm(Mbc mbc) {
+        this.mbc = mbc;
     }
 
     @Override
-    public void write(int arg0) {
-        super.write(arg0);
-        mac.update((byte) arg0);
+    public void write(int brg0) {
+        super.write(brg0);
+        mbc.updbte((byte) brg0);
     }
 
     @Override
-    public void write(byte[] arg0, int arg1, int arg2) {
-        super.write(arg0, arg1, arg2);
-        mac.update(arg0, arg1, arg2);
+    public void write(byte[] brg0, int brg1, int brg2) {
+        super.write(brg0, brg1, brg2);
+        mbc.updbte(brg0, brg1, brg2);
     }
 }

@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.*;
+import jbvb.bwt.event.*;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-abstract class ModalEventFilter implements EventFilter {
+bbstrbct clbss ModblEventFilter implements EventFilter {
 
-    protected Dialog modalDialog;
-    protected boolean disabled;
+    protected Diblog modblDiblog;
+    protected boolebn disbbled;
 
-    protected ModalEventFilter(Dialog modalDialog) {
-        this.modalDialog = modalDialog;
-        disabled = false;
+    protected ModblEventFilter(Diblog modblDiblog) {
+        this.modblDiblog = modblDiblog;
+        disbbled = fblse;
     }
 
-    Dialog getModalDialog() {
-        return modalDialog;
+    Diblog getModblDiblog() {
+        return modblDiblog;
     }
 
-    public FilterAction acceptEvent(AWTEvent event) {
-        if (disabled || !modalDialog.isVisible()) {
+    public FilterAction bcceptEvent(AWTEvent event) {
+        if (disbbled || !modblDiblog.isVisible()) {
             return FilterAction.ACCEPT;
         }
         int eventID = event.getID();
@@ -54,97 +54,97 @@ abstract class ModalEventFilter implements EventFilter {
             eventID == WindowEvent.WINDOW_CLOSING)
         {
             Object o = event.getSource();
-            if (o instanceof sun.awt.ModalExclude) {
-                // Exclude this object from modality and
+            if (o instbnceof sun.bwt.ModblExclude) {
+                // Exclude this object from modblity bnd
                 // continue to pump it's events.
-            } else if (o instanceof Component) {
+            } else if (o instbnceof Component) {
                 Component c = (Component)o;
-                while ((c != null) && !(c instanceof Window)) {
-                    c = c.getParent_NoClientCode();
+                while ((c != null) && !(c instbnceof Window)) {
+                    c = c.getPbrent_NoClientCode();
                 }
                 if (c != null) {
-                    return acceptWindow((Window)c);
+                    return bcceptWindow((Window)c);
                 }
             }
         }
         return FilterAction.ACCEPT;
     }
 
-    protected abstract FilterAction acceptWindow(Window w);
+    protected bbstrbct FilterAction bcceptWindow(Window w);
 
-    // When a modal dialog is hidden its modal filter may not be deleted from
-    // EventDispatchThread event filters immediately, so we need to mark the filter
-    // as disabled to prevent it from working. Simple checking for visibility of
-    // the modalDialog is not enough, as it can be hidden and then shown again
-    // with a new event pump and a new filter
-    void disable() {
-        disabled = true;
+    // When b modbl diblog is hidden its modbl filter mby not be deleted from
+    // EventDispbtchThrebd event filters immedibtely, so we need to mbrk the filter
+    // bs disbbled to prevent it from working. Simple checking for visibility of
+    // the modblDiblog is not enough, bs it cbn be hidden bnd then shown bgbin
+    // with b new event pump bnd b new filter
+    void disbble() {
+        disbbled = true;
     }
 
-    int compareTo(ModalEventFilter another) {
-        Dialog anotherDialog = another.getModalDialog();
-        // check if modalDialog is from anotherDialog's hierarchy
-        //   or vice versa
-        Component c = modalDialog;
+    int compbreTo(ModblEventFilter bnother) {
+        Diblog bnotherDiblog = bnother.getModblDiblog();
+        // check if modblDiblog is from bnotherDiblog's hierbrchy
+        //   or vice versb
+        Component c = modblDiblog;
         while (c != null) {
-            if (c == anotherDialog) {
+            if (c == bnotherDiblog) {
                 return 1;
             }
-            c = c.getParent_NoClientCode();
+            c = c.getPbrent_NoClientCode();
         }
-        c = anotherDialog;
+        c = bnotherDiblog;
         while (c != null) {
-            if (c == modalDialog) {
+            if (c == modblDiblog) {
                 return -1;
             }
-            c = c.getParent_NoClientCode();
+            c = c.getPbrent_NoClientCode();
         }
-        // check if one dialog blocks (directly or indirectly) another
-        Dialog blocker = modalDialog.getModalBlocker();
+        // check if one diblog blocks (directly or indirectly) bnother
+        Diblog blocker = modblDiblog.getModblBlocker();
         while (blocker != null) {
-            if (blocker == anotherDialog) {
+            if (blocker == bnotherDiblog) {
                 return -1;
             }
-            blocker = blocker.getModalBlocker();
+            blocker = blocker.getModblBlocker();
         }
-        blocker = anotherDialog.getModalBlocker();
+        blocker = bnotherDiblog.getModblBlocker();
         while (blocker != null) {
-            if (blocker == modalDialog) {
+            if (blocker == modblDiblog) {
                 return 1;
             }
-            blocker = blocker.getModalBlocker();
+            blocker = blocker.getModblBlocker();
         }
-        // compare modality types
-        return modalDialog.getModalityType().compareTo(anotherDialog.getModalityType());
+        // compbre modblity types
+        return modblDiblog.getModblityType().compbreTo(bnotherDiblog.getModblityType());
     }
 
-    static ModalEventFilter createFilterForDialog(Dialog modalDialog) {
-        switch (modalDialog.getModalityType()) {
-            case DOCUMENT_MODAL: return new DocumentModalEventFilter(modalDialog);
-            case APPLICATION_MODAL: return new ApplicationModalEventFilter(modalDialog);
-            case TOOLKIT_MODAL: return new ToolkitModalEventFilter(modalDialog);
+    stbtic ModblEventFilter crebteFilterForDiblog(Diblog modblDiblog) {
+        switch (modblDiblog.getModblityType()) {
+            cbse DOCUMENT_MODAL: return new DocumentModblEventFilter(modblDiblog);
+            cbse APPLICATION_MODAL: return new ApplicbtionModblEventFilter(modblDiblog);
+            cbse TOOLKIT_MODAL: return new ToolkitModblEventFilter(modblDiblog);
         }
         return null;
     }
 
-    private static class ToolkitModalEventFilter extends ModalEventFilter {
+    privbte stbtic clbss ToolkitModblEventFilter extends ModblEventFilter {
 
-        private AppContext appContext;
+        privbte AppContext bppContext;
 
-        ToolkitModalEventFilter(Dialog modalDialog) {
-            super(modalDialog);
-            appContext = modalDialog.appContext;
+        ToolkitModblEventFilter(Diblog modblDiblog) {
+            super(modblDiblog);
+            bppContext = modblDiblog.bppContext;
         }
 
-        protected FilterAction acceptWindow(Window w) {
-            if (w.isModalExcluded(Dialog.ModalExclusionType.TOOLKIT_EXCLUDE)) {
+        protected FilterAction bcceptWindow(Window w) {
+            if (w.isModblExcluded(Diblog.ModblExclusionType.TOOLKIT_EXCLUDE)) {
                 return FilterAction.ACCEPT;
             }
-            if (w.appContext != appContext) {
+            if (w.bppContext != bppContext) {
                 return FilterAction.REJECT;
             }
             while (w != null) {
-                if (w == modalDialog) {
+                if (w == modblDiblog) {
                     return FilterAction.ACCEPT_IMMEDIATELY;
                 }
                 w = w.getOwner();
@@ -153,22 +153,22 @@ abstract class ModalEventFilter implements EventFilter {
         }
     }
 
-    private static class ApplicationModalEventFilter extends ModalEventFilter {
+    privbte stbtic clbss ApplicbtionModblEventFilter extends ModblEventFilter {
 
-        private AppContext appContext;
+        privbte AppContext bppContext;
 
-        ApplicationModalEventFilter(Dialog modalDialog) {
-            super(modalDialog);
-            appContext = modalDialog.appContext;
+        ApplicbtionModblEventFilter(Diblog modblDiblog) {
+            super(modblDiblog);
+            bppContext = modblDiblog.bppContext;
         }
 
-        protected FilterAction acceptWindow(Window w) {
-            if (w.isModalExcluded(Dialog.ModalExclusionType.APPLICATION_EXCLUDE)) {
+        protected FilterAction bcceptWindow(Window w) {
+            if (w.isModblExcluded(Diblog.ModblExclusionType.APPLICATION_EXCLUDE)) {
                 return FilterAction.ACCEPT;
             }
-            if (w.appContext == appContext) {
+            if (w.bppContext == bppContext) {
                 while (w != null) {
-                    if (w == modalDialog) {
+                    if (w == modblDiblog) {
                         return FilterAction.ACCEPT_IMMEDIATELY;
                     }
                     w = w.getOwner();
@@ -179,20 +179,20 @@ abstract class ModalEventFilter implements EventFilter {
         }
     }
 
-    private static class DocumentModalEventFilter extends ModalEventFilter {
+    privbte stbtic clbss DocumentModblEventFilter extends ModblEventFilter {
 
-        private Window documentRoot;
+        privbte Window documentRoot;
 
-        DocumentModalEventFilter(Dialog modalDialog) {
-            super(modalDialog);
-            documentRoot = modalDialog.getDocumentRoot();
+        DocumentModblEventFilter(Diblog modblDiblog) {
+            super(modblDiblog);
+            documentRoot = modblDiblog.getDocumentRoot();
         }
 
-        protected FilterAction acceptWindow(Window w) {
-            // application- and toolkit-excluded windows are blocked by
-            // document-modal dialogs from their child hierarchy
-            if (w.isModalExcluded(Dialog.ModalExclusionType.APPLICATION_EXCLUDE)) {
-                Window w1 = modalDialog.getOwner();
+        protected FilterAction bcceptWindow(Window w) {
+            // bpplicbtion- bnd toolkit-excluded windows bre blocked by
+            // document-modbl diblogs from their child hierbrchy
+            if (w.isModblExcluded(Diblog.ModblExclusionType.APPLICATION_EXCLUDE)) {
+                Window w1 = modblDiblog.getOwner();
                 while (w1 != null) {
                     if (w1 == w) {
                         return FilterAction.REJECT;
@@ -202,7 +202,7 @@ abstract class ModalEventFilter implements EventFilter {
                 return FilterAction.ACCEPT;
             }
             while (w != null) {
-                if (w == modalDialog) {
+                if (w == modblDiblog) {
                     return FilterAction.ACCEPT_IMMEDIATELY;
                 }
                 if (w == documentRoot) {

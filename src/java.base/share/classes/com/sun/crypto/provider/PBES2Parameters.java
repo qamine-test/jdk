@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.security.NoSuchAlgorithmException;
-import java.security.AlgorithmParametersSpi;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEParameterSpec;
+import jbvb.io.*;
+import jbvb.mbth.BigInteger;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.AlgorithmPbrbmetersSpi;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvb.security.spec.InvblidPbrbmeterSpecException;
+import jbvbx.crypto.spec.IvPbrbmeterSpec;
+import jbvbx.crypto.spec.PBEPbrbmeterSpec;
 import sun.misc.HexDumpEncoder;
 import sun.security.util.*;
 
 /**
- * This class implements the parameter set used with password-based
- * encryption scheme 2 (PBES2), which is defined in PKCS#5 as follows:
+ * This clbss implements the pbrbmeter set used with pbssword-bbsed
+ * encryption scheme 2 (PBES2), which is defined in PKCS#5 bs follows:
  *
  * <pre>
  * -- PBES2
  *
  * PBES2Algorithms ALGORITHM-IDENTIFIER ::=
- *   { {PBES2-params IDENTIFIED BY id-PBES2}, ...}
+ *   { {PBES2-pbrbms IDENTIFIED BY id-PBES2}, ...}
  *
  * id-PBES2 OBJECT IDENTIFIER ::= {pkcs-5 13}
  *
- * PBES2-params ::= SEQUENCE {
- *   keyDerivationFunc AlgorithmIdentifier {{PBES2-KDFs}},
+ * PBES2-pbrbms ::= SEQUENCE {
+ *   keyDerivbtionFunc AlgorithmIdentifier {{PBES2-KDFs}},
  *   encryptionScheme AlgorithmIdentifier {{PBES2-Encs}} }
  *
  * PBES2-KDFs ALGORITHM-IDENTIFIER ::=
- *   { {PBKDF2-params IDENTIFIED BY id-PBKDF2}, ... }
+ *   { {PBKDF2-pbrbms IDENTIFIED BY id-PBKDF2}, ... }
  *
  * PBES2-Encs ALGORITHM-IDENTIFIER ::= { ... }
  *
  * -- PBKDF2
  *
  * PBKDF2Algorithms ALGORITHM-IDENTIFIER ::=
- *   { {PBKDF2-params IDENTIFIED BY id-PBKDF2}, ...}
+ *   { {PBKDF2-pbrbms IDENTIFIED BY id-PBKDF2}, ...}
  *
  * id-PBKDF2 OBJECT IDENTIFIER ::= {pkcs-5 12}
  *
- * PBKDF2-params ::= SEQUENCE {
- *     salt CHOICE {
+ * PBKDF2-pbrbms ::= SEQUENCE {
+ *     sblt CHOICE {
  *       specified OCTET STRING,
- *       otherSource AlgorithmIdentifier {{PBKDF2-SaltSources}}
+ *       otherSource AlgorithmIdentifier {{PBKDF2-SbltSources}}
  *     },
- *     iterationCount INTEGER (1..MAX),
+ *     iterbtionCount INTEGER (1..MAX),
  *     keyLength INTEGER (1..MAX) OPTIONAL,
- *     prf AlgorithmIdentifier {{PBKDF2-PRFs}} DEFAULT algid-hmacWithSHA1
+ *     prf AlgorithmIdentifier {{PBKDF2-PRFs}} DEFAULT blgid-hmbcWithSHA1
  * }
  *
- * PBKDF2-SaltSources ALGORITHM-IDENTIFIER ::= { ... }
+ * PBKDF2-SbltSources ALGORITHM-IDENTIFIER ::= { ... }
  *
  * PBKDF2-PRFs ALGORITHM-IDENTIFIER ::= {
- *     {NULL IDENTIFIED BY id-hmacWithSHA1} |
- *     {NULL IDENTIFIED BY id-hmacWithSHA224} |
- *     {NULL IDENTIFIED BY id-hmacWithSHA256} |
- *     {NULL IDENTIFIED BY id-hmacWithSHA384} |
- *     {NULL IDENTIFIED BY id-hmacWithSHA512}, ... }
+ *     {NULL IDENTIFIED BY id-hmbcWithSHA1} |
+ *     {NULL IDENTIFIED BY id-hmbcWithSHA224} |
+ *     {NULL IDENTIFIED BY id-hmbcWithSHA256} |
+ *     {NULL IDENTIFIED BY id-hmbcWithSHA384} |
+ *     {NULL IDENTIFIED BY id-hmbcWithSHA512}, ... }
  *
- * algid-hmacWithSHA1 AlgorithmIdentifier {{PBKDF2-PRFs}} ::=
- *     {algorithm id-hmacWithSHA1, parameters NULL : NULL}
+ * blgid-hmbcWithSHA1 AlgorithmIdentifier {{PBKDF2-PRFs}} ::=
+ *     {blgorithm id-hmbcWithSHA1, pbrbmeters NULL : NULL}
  *
- * id-hmacWithSHA1 OBJECT IDENTIFIER ::= {digestAlgorithm 7}
+ * id-hmbcWithSHA1 OBJECT IDENTIFIER ::= {digestAlgorithm 7}
  *
  * PBES2-Encs ALGORITHM-IDENTIFIER ::= { ... }
  *
  * </pre>
  */
 
-abstract class PBES2Parameters extends AlgorithmParametersSpi {
+bbstrbct clbss PBES2Pbrbmeters extends AlgorithmPbrbmetersSpi {
 
-    private static final int pkcs5PBKDF2[] =
+    privbte stbtic finbl int pkcs5PBKDF2[] =
                                         {1, 2, 840, 113549, 1, 5, 12};
-    private static final int pkcs5PBES2[] =
+    privbte stbtic finbl int pkcs5PBES2[] =
                                         {1, 2, 840, 113549, 1, 5, 13};
-    private static final int hmacWithSHA1[] =
+    privbte stbtic finbl int hmbcWithSHA1[] =
                                         {1, 2, 840, 113549, 2, 7};
-    private static final int hmacWithSHA224[] =
+    privbte stbtic finbl int hmbcWithSHA224[] =
                                         {1, 2, 840, 113549, 2, 8};
-    private static final int hmacWithSHA256[] =
+    privbte stbtic finbl int hmbcWithSHA256[] =
                                         {1, 2, 840, 113549, 2, 9};
-    private static final int hmacWithSHA384[] =
+    privbte stbtic finbl int hmbcWithSHA384[] =
                                         {1, 2, 840, 113549, 2, 10};
-    private static final int hmacWithSHA512[] =
+    privbte stbtic finbl int hmbcWithSHA512[] =
                                         {1, 2, 840, 113549, 2, 11};
-    private static final int aes128CBC[] =
+    privbte stbtic finbl int bes128CBC[] =
                                         {2, 16, 840, 1, 101, 3, 4, 1, 2};
-    private static final int aes192CBC[] =
+    privbte stbtic finbl int bes192CBC[] =
                                         {2, 16, 840, 1, 101, 3, 4, 1, 22};
-    private static final int aes256CBC[] =
+    privbte stbtic finbl int bes256CBC[] =
                                         {2, 16, 840, 1, 101, 3, 4, 1, 42};
 
-    private static ObjectIdentifier pkcs5PBKDF2_OID;
-    private static ObjectIdentifier pkcs5PBES2_OID;
-    private static ObjectIdentifier hmacWithSHA1_OID;
-    private static ObjectIdentifier hmacWithSHA224_OID;
-    private static ObjectIdentifier hmacWithSHA256_OID;
-    private static ObjectIdentifier hmacWithSHA384_OID;
-    private static ObjectIdentifier hmacWithSHA512_OID;
-    private static ObjectIdentifier aes128CBC_OID;
-    private static ObjectIdentifier aes192CBC_OID;
-    private static ObjectIdentifier aes256CBC_OID;
+    privbte stbtic ObjectIdentifier pkcs5PBKDF2_OID;
+    privbte stbtic ObjectIdentifier pkcs5PBES2_OID;
+    privbte stbtic ObjectIdentifier hmbcWithSHA1_OID;
+    privbte stbtic ObjectIdentifier hmbcWithSHA224_OID;
+    privbte stbtic ObjectIdentifier hmbcWithSHA256_OID;
+    privbte stbtic ObjectIdentifier hmbcWithSHA384_OID;
+    privbte stbtic ObjectIdentifier hmbcWithSHA512_OID;
+    privbte stbtic ObjectIdentifier bes128CBC_OID;
+    privbte stbtic ObjectIdentifier bes192CBC_OID;
+    privbte stbtic ObjectIdentifier bes256CBC_OID;
 
-    static {
+    stbtic {
         try {
             pkcs5PBKDF2_OID = new ObjectIdentifier(pkcs5PBKDF2);
             pkcs5PBES2_OID = new ObjectIdentifier(pkcs5PBES2);
-            hmacWithSHA1_OID = new ObjectIdentifier(hmacWithSHA1);
-            hmacWithSHA224_OID = new ObjectIdentifier(hmacWithSHA224);
-            hmacWithSHA256_OID = new ObjectIdentifier(hmacWithSHA256);
-            hmacWithSHA384_OID = new ObjectIdentifier(hmacWithSHA384);
-            hmacWithSHA512_OID = new ObjectIdentifier(hmacWithSHA512);
-            aes128CBC_OID = new ObjectIdentifier(aes128CBC);
-            aes192CBC_OID = new ObjectIdentifier(aes192CBC);
-            aes256CBC_OID = new ObjectIdentifier(aes256CBC);
-        } catch (IOException ioe) {
-            // should not happen
+            hmbcWithSHA1_OID = new ObjectIdentifier(hmbcWithSHA1);
+            hmbcWithSHA224_OID = new ObjectIdentifier(hmbcWithSHA224);
+            hmbcWithSHA256_OID = new ObjectIdentifier(hmbcWithSHA256);
+            hmbcWithSHA384_OID = new ObjectIdentifier(hmbcWithSHA384);
+            hmbcWithSHA512_OID = new ObjectIdentifier(hmbcWithSHA512);
+            bes128CBC_OID = new ObjectIdentifier(bes128CBC);
+            bes192CBC_OID = new ObjectIdentifier(bes192CBC);
+            bes256CBC_OID = new ObjectIdentifier(bes256CBC);
+        } cbtch (IOException ioe) {
+            // should not hbppen
         }
     }
 
-    // the PBES2 algorithm name
-    private String pbes2AlgorithmName = null;
+    // the PBES2 blgorithm nbme
+    privbte String pbes2AlgorithmNbme = null;
 
-    // the salt
-    private byte[] salt = null;
+    // the sblt
+    privbte byte[] sblt = null;
 
-    // the iteration count
-    private int iCount = 0;
+    // the iterbtion count
+    privbte int iCount = 0;
 
-    // the cipher parameter
-    private AlgorithmParameterSpec cipherParam = null;
+    // the cipher pbrbmeter
+    privbte AlgorithmPbrbmeterSpec cipherPbrbm = null;
 
-    // the key derivation function (default is HmacSHA1)
-    private ObjectIdentifier kdfAlgo_OID = hmacWithSHA1_OID;
+    // the key derivbtion function (defbult is HmbcSHA1)
+    privbte ObjectIdentifier kdfAlgo_OID = hmbcWithSHA1_OID;
 
     // the encryption function
-    private ObjectIdentifier cipherAlgo_OID = null;
+    privbte ObjectIdentifier cipherAlgo_OID = null;
 
     // the cipher keysize (in bits)
-    private int keysize = -1;
+    privbte int keysize = -1;
 
-    PBES2Parameters() {
-        // KDF, encryption & keysize values are set later, in engineInit(byte[])
+    PBES2Pbrbmeters() {
+        // KDF, encryption & keysize vblues bre set lbter, in engineInit(byte[])
     }
 
-    PBES2Parameters(String pbes2AlgorithmName) throws NoSuchAlgorithmException {
-        int and;
+    PBES2Pbrbmeters(String pbes2AlgorithmNbme) throws NoSuchAlgorithmException {
+        int bnd;
         String kdfAlgo = null;
         String cipherAlgo = null;
 
-        // Extract the KDF and encryption algorithm names
-        this.pbes2AlgorithmName = pbes2AlgorithmName;
-        if (pbes2AlgorithmName.startsWith("PBEWith") &&
-            (and = pbes2AlgorithmName.indexOf("And", 7 + 1)) > 0) {
-            kdfAlgo = pbes2AlgorithmName.substring(7, and);
-            cipherAlgo = pbes2AlgorithmName.substring(and + 3);
+        // Extrbct the KDF bnd encryption blgorithm nbmes
+        this.pbes2AlgorithmNbme = pbes2AlgorithmNbme;
+        if (pbes2AlgorithmNbme.stbrtsWith("PBEWith") &&
+            (bnd = pbes2AlgorithmNbme.indexOf("And", 7 + 1)) > 0) {
+            kdfAlgo = pbes2AlgorithmNbme.substring(7, bnd);
+            cipherAlgo = pbes2AlgorithmNbme.substring(bnd + 3);
 
             // Check for keysize
             int underscore;
             if ((underscore = cipherAlgo.indexOf('_')) > 0) {
-                int slash;
-                if ((slash = cipherAlgo.indexOf('/', underscore + 1)) > 0) {
+                int slbsh;
+                if ((slbsh = cipherAlgo.indexOf('/', underscore + 1)) > 0) {
                     keysize =
-                        Integer.parseInt(cipherAlgo.substring(underscore + 1,
-                            slash));
+                        Integer.pbrseInt(cipherAlgo.substring(underscore + 1,
+                            slbsh));
                 } else {
                     keysize =
-                        Integer.parseInt(cipherAlgo.substring(underscore + 1));
+                        Integer.pbrseInt(cipherAlgo.substring(underscore + 1));
                 }
                 cipherAlgo = cipherAlgo.substring(0, underscore);
             }
         } else {
-            throw new NoSuchAlgorithmException("No crypto implementation for " +
-                pbes2AlgorithmName);
+            throw new NoSuchAlgorithmException("No crypto implementbtion for " +
+                pbes2AlgorithmNbme);
         }
 
         switch (kdfAlgo) {
-        case "HmacSHA1":
-            kdfAlgo_OID = hmacWithSHA1_OID;
-            break;
-        case "HmacSHA224":
-            kdfAlgo_OID = hmacWithSHA224_OID;
-            break;
-        case "HmacSHA256":
-            kdfAlgo_OID = hmacWithSHA256_OID;
-            break;
-        case "HmacSHA384":
-            kdfAlgo_OID = hmacWithSHA384_OID;
-            break;
-        case "HmacSHA512":
-            kdfAlgo_OID = hmacWithSHA512_OID;
-            break;
-        default:
+        cbse "HmbcSHA1":
+            kdfAlgo_OID = hmbcWithSHA1_OID;
+            brebk;
+        cbse "HmbcSHA224":
+            kdfAlgo_OID = hmbcWithSHA224_OID;
+            brebk;
+        cbse "HmbcSHA256":
+            kdfAlgo_OID = hmbcWithSHA256_OID;
+            brebk;
+        cbse "HmbcSHA384":
+            kdfAlgo_OID = hmbcWithSHA384_OID;
+            brebk;
+        cbse "HmbcSHA512":
+            kdfAlgo_OID = hmbcWithSHA512_OID;
+            brebk;
+        defbult:
             throw new NoSuchAlgorithmException(
-                "No crypto implementation for " + kdfAlgo);
+                "No crypto implementbtion for " + kdfAlgo);
         }
 
-        if (cipherAlgo.equals("AES")) {
+        if (cipherAlgo.equbls("AES")) {
             this.keysize = keysize;
             switch (keysize) {
-            case 128:
-                cipherAlgo_OID = aes128CBC_OID;
-                break;
-            case 256:
-                cipherAlgo_OID = aes256CBC_OID;
-                break;
-            default:
+            cbse 128:
+                cipherAlgo_OID = bes128CBC_OID;
+                brebk;
+            cbse 256:
+                cipherAlgo_OID = bes256CBC_OID;
+                brebk;
+            defbult:
                 throw new NoSuchAlgorithmException(
-                    "No Cipher implementation for " + keysize + "-bit " +
+                    "No Cipher implementbtion for " + keysize + "-bit " +
                         cipherAlgo);
             }
         } else {
-            throw new NoSuchAlgorithmException("No Cipher implementation for " +
+            throw new NoSuchAlgorithmException("No Cipher implementbtion for " +
                 cipherAlgo);
         }
     }
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbmSpec)
+        throws InvblidPbrbmeterSpecException
     {
-       if (!(paramSpec instanceof PBEParameterSpec)) {
-           throw new InvalidParameterSpecException
-               ("Inappropriate parameter specification");
+       if (!(pbrbmSpec instbnceof PBEPbrbmeterSpec)) {
+           throw new InvblidPbrbmeterSpecException
+               ("Inbppropribte pbrbmeter specificbtion");
        }
-       this.salt = ((PBEParameterSpec)paramSpec).getSalt().clone();
-       this.iCount = ((PBEParameterSpec)paramSpec).getIterationCount();
-       this.cipherParam = ((PBEParameterSpec)paramSpec).getParameterSpec();
+       this.sblt = ((PBEPbrbmeterSpec)pbrbmSpec).getSblt().clone();
+       this.iCount = ((PBEPbrbmeterSpec)pbrbmSpec).getIterbtionCount();
+       this.cipherPbrbm = ((PBEPbrbmeterSpec)pbrbmSpec).getPbrbmeterSpec();
     }
 
     protected void engineInit(byte[] encoded)
@@ -259,91 +259,91 @@ abstract class PBES2Parameters extends AlgorithmParametersSpi {
         String kdfAlgo = null;
         String cipherAlgo = null;
 
-        DerValue pBES2Algorithms = new DerValue(encoded);
-        if (pBES2Algorithms.tag != DerValue.tag_Sequence) {
-            throw new IOException("PBE parameter parsing error: "
-                                  + "not an ASN.1 SEQUENCE tag");
+        DerVblue pBES2Algorithms = new DerVblue(encoded);
+        if (pBES2Algorithms.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("PBE pbrbmeter pbrsing error: "
+                                  + "not bn ASN.1 SEQUENCE tbg");
         }
-        if (!pkcs5PBES2_OID.equals(pBES2Algorithms.data.getOID())) {
-            throw new IOException("PBE parameter parsing error: "
+        if (!pkcs5PBES2_OID.equbls(pBES2Algorithms.dbtb.getOID())) {
+            throw new IOException("PBE pbrbmeter pbrsing error: "
                 + "expecting the object identifier for PBES2");
         }
-        if (pBES2Algorithms.tag != DerValue.tag_Sequence) {
-            throw new IOException("PBE parameter parsing error: "
-                + "not an ASN.1 SEQUENCE tag");
+        if (pBES2Algorithms.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("PBE pbrbmeter pbrsing error: "
+                + "not bn ASN.1 SEQUENCE tbg");
         }
 
-        DerValue pBES2_params = pBES2Algorithms.data.getDerValue();
-        if (pBES2_params.tag != DerValue.tag_Sequence) {
-            throw new IOException("PBE parameter parsing error: "
-                + "not an ASN.1 SEQUENCE tag");
+        DerVblue pBES2_pbrbms = pBES2Algorithms.dbtb.getDerVblue();
+        if (pBES2_pbrbms.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("PBE pbrbmeter pbrsing error: "
+                + "not bn ASN.1 SEQUENCE tbg");
         }
-        kdfAlgo = parseKDF(pBES2_params.data.getDerValue());
+        kdfAlgo = pbrseKDF(pBES2_pbrbms.dbtb.getDerVblue());
 
-        if (pBES2_params.tag != DerValue.tag_Sequence) {
-            throw new IOException("PBE parameter parsing error: "
-                + "not an ASN.1 SEQUENCE tag");
+        if (pBES2_pbrbms.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("PBE pbrbmeter pbrsing error: "
+                + "not bn ASN.1 SEQUENCE tbg");
         }
-        cipherAlgo = parseES(pBES2_params.data.getDerValue());
+        cipherAlgo = pbrseES(pBES2_pbrbms.dbtb.getDerVblue());
 
-        pbes2AlgorithmName = new StringBuilder().append("PBEWith")
-            .append(kdfAlgo).append("And").append(cipherAlgo).toString();
+        pbes2AlgorithmNbme = new StringBuilder().bppend("PBEWith")
+            .bppend(kdfAlgo).bppend("And").bppend(cipherAlgo).toString();
     }
 
-    private String parseKDF(DerValue keyDerivationFunc) throws IOException {
+    privbte String pbrseKDF(DerVblue keyDerivbtionFunc) throws IOException {
         String kdfAlgo = null;
 
-        if (!pkcs5PBKDF2_OID.equals(keyDerivationFunc.data.getOID())) {
-            throw new IOException("PBE parameter parsing error: "
+        if (!pkcs5PBKDF2_OID.equbls(keyDerivbtionFunc.dbtb.getOID())) {
+            throw new IOException("PBE pbrbmeter pbrsing error: "
                 + "expecting the object identifier for PBKDF2");
         }
-        if (keyDerivationFunc.tag != DerValue.tag_Sequence) {
-            throw new IOException("PBE parameter parsing error: "
-                + "not an ASN.1 SEQUENCE tag");
+        if (keyDerivbtionFunc.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("PBE pbrbmeter pbrsing error: "
+                + "not bn ASN.1 SEQUENCE tbg");
         }
-        DerValue pBKDF2_params = keyDerivationFunc.data.getDerValue();
-        if (pBKDF2_params.tag != DerValue.tag_Sequence) {
-            throw new IOException("PBE parameter parsing error: "
-                + "not an ASN.1 SEQUENCE tag");
+        DerVblue pBKDF2_pbrbms = keyDerivbtionFunc.dbtb.getDerVblue();
+        if (pBKDF2_pbrbms.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("PBE pbrbmeter pbrsing error: "
+                + "not bn ASN.1 SEQUENCE tbg");
         }
-        DerValue specified = pBKDF2_params.data.getDerValue();
-        // the 'specified' ASN.1 CHOICE for 'salt' is supported
-        if (specified.tag == DerValue.tag_OctetString) {
-            salt = specified.getOctetString();
+        DerVblue specified = pBKDF2_pbrbms.dbtb.getDerVblue();
+        // the 'specified' ASN.1 CHOICE for 'sblt' is supported
+        if (specified.tbg == DerVblue.tbg_OctetString) {
+            sblt = specified.getOctetString();
         } else {
-            // the 'otherSource' ASN.1 CHOICE for 'salt' is not supported
-            throw new IOException("PBE parameter parsing error: "
-                + "not an ASN.1 OCTET STRING tag");
+            // the 'otherSource' ASN.1 CHOICE for 'sblt' is not supported
+            throw new IOException("PBE pbrbmeter pbrsing error: "
+                + "not bn ASN.1 OCTET STRING tbg");
         }
-        iCount = pBKDF2_params.data.getInteger();
-        DerValue keyLength = pBKDF2_params.data.getDerValue();
-        if (keyLength.tag == DerValue.tag_Integer) {
+        iCount = pBKDF2_pbrbms.dbtb.getInteger();
+        DerVblue keyLength = pBKDF2_pbrbms.dbtb.getDerVblue();
+        if (keyLength.tbg == DerVblue.tbg_Integer) {
             keysize = keyLength.getInteger() * 8; // keysize (in bits)
         }
-        if (pBKDF2_params.tag == DerValue.tag_Sequence) {
-            DerValue prf = pBKDF2_params.data.getDerValue();
-            kdfAlgo_OID = prf.data.getOID();
-            if (hmacWithSHA1_OID.equals(kdfAlgo_OID)) {
-                kdfAlgo = "HmacSHA1";
-            } else if (hmacWithSHA224_OID.equals(kdfAlgo_OID)) {
-                kdfAlgo = "HmacSHA224";
-            } else if (hmacWithSHA256_OID.equals(kdfAlgo_OID)) {
-                kdfAlgo = "HmacSHA256";
-            } else if (hmacWithSHA384_OID.equals(kdfAlgo_OID)) {
-                kdfAlgo = "HmacSHA384";
-            } else if (hmacWithSHA512_OID.equals(kdfAlgo_OID)) {
-                kdfAlgo = "HmacSHA512";
+        if (pBKDF2_pbrbms.tbg == DerVblue.tbg_Sequence) {
+            DerVblue prf = pBKDF2_pbrbms.dbtb.getDerVblue();
+            kdfAlgo_OID = prf.dbtb.getOID();
+            if (hmbcWithSHA1_OID.equbls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbcSHA1";
+            } else if (hmbcWithSHA224_OID.equbls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbcSHA224";
+            } else if (hmbcWithSHA256_OID.equbls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbcSHA256";
+            } else if (hmbcWithSHA384_OID.equbls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbcSHA384";
+            } else if (hmbcWithSHA512_OID.equbls(kdfAlgo_OID)) {
+                kdfAlgo = "HmbcSHA512";
             } else {
-                throw new IOException("PBE parameter parsing error: "
-                    + "expecting the object identifier for a HmacSHA key "
-                    + "derivation function");
+                throw new IOException("PBE pbrbmeter pbrsing error: "
+                    + "expecting the object identifier for b HmbcSHA key "
+                    + "derivbtion function");
             }
-            if (prf.data.available() != 0) {
-                // parameter is 'NULL' for all HmacSHA KDFs
-                DerValue parameter = prf.data.getDerValue();
-                if (parameter.tag != DerValue.tag_Null) {
-                    throw new IOException("PBE parameter parsing error: "
-                        + "not an ASN.1 NULL tag");
+            if (prf.dbtb.bvbilbble() != 0) {
+                // pbrbmeter is 'NULL' for bll HmbcSHA KDFs
+                DerVblue pbrbmeter = prf.dbtb.getDerVblue();
+                if (pbrbmeter.tbg != DerVblue.tbg_Null) {
+                    throw new IOException("PBE pbrbmeter pbrsing error: "
+                        + "not bn ASN.1 NULL tbg");
                 }
             }
         }
@@ -351,24 +351,24 @@ abstract class PBES2Parameters extends AlgorithmParametersSpi {
         return kdfAlgo;
     }
 
-    private String parseES(DerValue encryptionScheme) throws IOException {
+    privbte String pbrseES(DerVblue encryptionScheme) throws IOException {
         String cipherAlgo = null;
 
-        cipherAlgo_OID = encryptionScheme.data.getOID();
-        if (aes128CBC_OID.equals(cipherAlgo_OID)) {
+        cipherAlgo_OID = encryptionScheme.dbtb.getOID();
+        if (bes128CBC_OID.equbls(cipherAlgo_OID)) {
             cipherAlgo = "AES_128";
-            // parameter is AES-IV 'OCTET STRING (SIZE(16))'
-            cipherParam =
-                new IvParameterSpec(encryptionScheme.data.getOctetString());
+            // pbrbmeter is AES-IV 'OCTET STRING (SIZE(16))'
+            cipherPbrbm =
+                new IvPbrbmeterSpec(encryptionScheme.dbtb.getOctetString());
             keysize = 128;
-        } else if (aes256CBC_OID.equals(cipherAlgo_OID)) {
+        } else if (bes256CBC_OID.equbls(cipherAlgo_OID)) {
             cipherAlgo = "AES_256";
-            // parameter is AES-IV 'OCTET STRING (SIZE(16))'
-            cipherParam =
-                new IvParameterSpec(encryptionScheme.data.getOctetString());
+            // pbrbmeter is AES-IV 'OCTET STRING (SIZE(16))'
+            cipherPbrbm =
+                new IvPbrbmeterSpec(encryptionScheme.dbtb.getOctetString());
             keysize = 256;
         } else {
-            throw new IOException("PBE parameter parsing error: "
+            throw new IOException("PBE pbrbmeter pbrsing error: "
                 + "expecting the object identifier for AES cipher");
         }
 
@@ -381,60 +381,60 @@ abstract class PBES2Parameters extends AlgorithmParametersSpi {
         engineInit(encoded);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-            T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException
+    protected <T extends AlgorithmPbrbmeterSpec>
+            T engineGetPbrbmeterSpec(Clbss<T> pbrbmSpec)
+        throws InvblidPbrbmeterSpecException
     {
-        if (PBEParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return paramSpec.cast(
-                new PBEParameterSpec(this.salt, this.iCount, this.cipherParam));
+        if (PBEPbrbmeterSpec.clbss.isAssignbbleFrom(pbrbmSpec)) {
+            return pbrbmSpec.cbst(
+                new PBEPbrbmeterSpec(this.sblt, this.iCount, this.cipherPbrbm));
         } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+            throw new InvblidPbrbmeterSpecException
+                ("Inbppropribte pbrbmeter specificbtion");
         }
     }
 
     protected byte[] engineGetEncoded() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream pBES2Algorithms = new DerOutputStream();
+        DerOutputStrebm out = new DerOutputStrebm();
+        DerOutputStrebm pBES2Algorithms = new DerOutputStrebm();
         pBES2Algorithms.putOID(pkcs5PBES2_OID);
 
-        DerOutputStream pBES2_params = new DerOutputStream();
+        DerOutputStrebm pBES2_pbrbms = new DerOutputStrebm();
 
-        DerOutputStream keyDerivationFunc = new DerOutputStream();
-        keyDerivationFunc.putOID(pkcs5PBKDF2_OID);
+        DerOutputStrebm keyDerivbtionFunc = new DerOutputStrebm();
+        keyDerivbtionFunc.putOID(pkcs5PBKDF2_OID);
 
-        DerOutputStream pBKDF2_params = new DerOutputStream();
-        pBKDF2_params.putOctetString(salt); // choice: 'specified OCTET STRING'
-        pBKDF2_params.putInteger(iCount);
-        pBKDF2_params.putInteger(keysize / 8); // derived key length (in octets)
+        DerOutputStrebm pBKDF2_pbrbms = new DerOutputStrebm();
+        pBKDF2_pbrbms.putOctetString(sblt); // choice: 'specified OCTET STRING'
+        pBKDF2_pbrbms.putInteger(iCount);
+        pBKDF2_pbrbms.putInteger(keysize / 8); // derived key length (in octets)
 
-        DerOutputStream prf = new DerOutputStream();
-        // algorithm is id-hmacWithSHA1/SHA224/SHA256/SHA384/SHA512
+        DerOutputStrebm prf = new DerOutputStrebm();
+        // blgorithm is id-hmbcWithSHA1/SHA224/SHA256/SHA384/SHA512
         prf.putOID(kdfAlgo_OID);
-        // parameters is 'NULL'
+        // pbrbmeters is 'NULL'
         prf.putNull();
-        pBKDF2_params.write(DerValue.tag_Sequence, prf);
+        pBKDF2_pbrbms.write(DerVblue.tbg_Sequence, prf);
 
-        keyDerivationFunc.write(DerValue.tag_Sequence, pBKDF2_params);
-        pBES2_params.write(DerValue.tag_Sequence, keyDerivationFunc);
+        keyDerivbtionFunc.write(DerVblue.tbg_Sequence, pBKDF2_pbrbms);
+        pBES2_pbrbms.write(DerVblue.tbg_Sequence, keyDerivbtionFunc);
 
-        DerOutputStream encryptionScheme = new DerOutputStream();
-        // algorithm is id-aes128-CBC or id-aes256-CBC
+        DerOutputStrebm encryptionScheme = new DerOutputStrebm();
+        // blgorithm is id-bes128-CBC or id-bes256-CBC
         encryptionScheme.putOID(cipherAlgo_OID);
-        // parameters is 'AES-IV ::= OCTET STRING (SIZE(16))'
-        if (cipherParam != null && cipherParam instanceof IvParameterSpec) {
+        // pbrbmeters is 'AES-IV ::= OCTET STRING (SIZE(16))'
+        if (cipherPbrbm != null && cipherPbrbm instbnceof IvPbrbmeterSpec) {
             encryptionScheme.putOctetString(
-                ((IvParameterSpec)cipherParam).getIV());
+                ((IvPbrbmeterSpec)cipherPbrbm).getIV());
         } else {
-            throw new IOException("Wrong parameter type: IV expected");
+            throw new IOException("Wrong pbrbmeter type: IV expected");
         }
-        pBES2_params.write(DerValue.tag_Sequence, encryptionScheme);
+        pBES2_pbrbms.write(DerVblue.tbg_Sequence, encryptionScheme);
 
-        pBES2Algorithms.write(DerValue.tag_Sequence, pBES2_params);
-        out.write(DerValue.tag_Sequence, pBES2Algorithms);
+        pBES2Algorithms.write(DerVblue.tbg_Sequence, pBES2_pbrbms);
+        out.write(DerVblue.tbg_Sequence, pBES2Algorithms);
 
-        return out.toByteArray();
+        return out.toByteArrby();
     }
 
     protected byte[] engineGetEncoded(String encodingMethod)
@@ -444,79 +444,79 @@ abstract class PBES2Parameters extends AlgorithmParametersSpi {
     }
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Returns b formbtted string describing the pbrbmeters.
      *
-     * The algorithn name pattern is: "PBEWith<prf>And<encryption>"
-     * where <prf> is one of: HmacSHA1, HmacSHA224, HmacSHA256, HmacSHA384,
-     * or HmacSHA512, and <encryption> is AES with a keysize suffix.
+     * The blgorithn nbme pbttern is: "PBEWith<prf>And<encryption>"
+     * where <prf> is one of: HmbcSHA1, HmbcSHA224, HmbcSHA256, HmbcSHA384,
+     * or HmbcSHA512, bnd <encryption> is AES with b keysize suffix.
      */
     protected String engineToString() {
-        return pbes2AlgorithmName;
+        return pbes2AlgorithmNbme;
     }
 
-    public static final class General extends PBES2Parameters {
-        public General() throws NoSuchAlgorithmException {
+    public stbtic finbl clbss Generbl extends PBES2Pbrbmeters {
+        public Generbl() throws NoSuchAlgorithmException {
             super();
         }
     }
 
-    public static final class HmacSHA1AndAES_128 extends PBES2Parameters {
-        public HmacSHA1AndAES_128() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA1AndAES_128");
+    public stbtic finbl clbss HmbcSHA1AndAES_128 extends PBES2Pbrbmeters {
+        public HmbcSHA1AndAES_128() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA1AndAES_128");
         }
     }
 
-    public static final class HmacSHA224AndAES_128 extends PBES2Parameters {
-        public HmacSHA224AndAES_128() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA224AndAES_128");
+    public stbtic finbl clbss HmbcSHA224AndAES_128 extends PBES2Pbrbmeters {
+        public HmbcSHA224AndAES_128() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA224AndAES_128");
         }
     }
 
-    public static final class HmacSHA256AndAES_128 extends PBES2Parameters {
-        public HmacSHA256AndAES_128() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA256AndAES_128");
+    public stbtic finbl clbss HmbcSHA256AndAES_128 extends PBES2Pbrbmeters {
+        public HmbcSHA256AndAES_128() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA256AndAES_128");
         }
     }
 
-    public static final class HmacSHA384AndAES_128 extends PBES2Parameters {
-        public HmacSHA384AndAES_128() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA384AndAES_128");
+    public stbtic finbl clbss HmbcSHA384AndAES_128 extends PBES2Pbrbmeters {
+        public HmbcSHA384AndAES_128() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA384AndAES_128");
         }
     }
 
-    public static final class HmacSHA512AndAES_128 extends PBES2Parameters {
-        public HmacSHA512AndAES_128() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA512AndAES_128");
+    public stbtic finbl clbss HmbcSHA512AndAES_128 extends PBES2Pbrbmeters {
+        public HmbcSHA512AndAES_128() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA512AndAES_128");
         }
     }
 
-    public static final class HmacSHA1AndAES_256 extends PBES2Parameters {
-        public HmacSHA1AndAES_256() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA1AndAES_256");
+    public stbtic finbl clbss HmbcSHA1AndAES_256 extends PBES2Pbrbmeters {
+        public HmbcSHA1AndAES_256() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA1AndAES_256");
         }
     }
 
-    public static final class HmacSHA224AndAES_256 extends PBES2Parameters {
-        public HmacSHA224AndAES_256() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA224AndAES_256");
+    public stbtic finbl clbss HmbcSHA224AndAES_256 extends PBES2Pbrbmeters {
+        public HmbcSHA224AndAES_256() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA224AndAES_256");
         }
     }
 
-    public static final class HmacSHA256AndAES_256 extends PBES2Parameters {
-        public HmacSHA256AndAES_256() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA256AndAES_256");
+    public stbtic finbl clbss HmbcSHA256AndAES_256 extends PBES2Pbrbmeters {
+        public HmbcSHA256AndAES_256() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA256AndAES_256");
         }
     }
 
-    public static final class HmacSHA384AndAES_256 extends PBES2Parameters {
-        public HmacSHA384AndAES_256() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA384AndAES_256");
+    public stbtic finbl clbss HmbcSHA384AndAES_256 extends PBES2Pbrbmeters {
+        public HmbcSHA384AndAES_256() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA384AndAES_256");
         }
     }
 
-    public static final class HmacSHA512AndAES_256 extends PBES2Parameters {
-        public HmacSHA512AndAES_256() throws NoSuchAlgorithmException {
-            super("PBEWithHmacSHA512AndAES_256");
+    public stbtic finbl clbss HmbcSHA512AndAES_256 extends PBES2Pbrbmeters {
+        public HmbcSHA512AndAES_256() throws NoSuchAlgorithmException {
+            super("PBEWithHmbcSHA512AndAES_256");
         }
     }
 }

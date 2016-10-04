@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.nio.ByteBuffer;
-import java.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.io.IOException;
 
 /**
- * A byte channel that maintains a current <i>position</i> and allows the
- * position to be changed.
+ * A byte chbnnel thbt mbintbins b current <i>position</i> bnd bllows the
+ * position to be chbnged.
  *
- * <p> A seekable byte channel is connected to an entity, typically a file,
- * that contains a variable-length sequence of bytes that can be read and
- * written. The current position can be {@link #position() <i>queried</i>} and
- * {@link #position(long) <i>modified</i>}. The channel also provides access to
- * the current <i>size</i> of the entity to which the channel is connected. The
- * size increases when bytes are written beyond its current size; the size
- * decreases when it is {@link #truncate <i>truncated</i>}.
+ * <p> A seekbble byte chbnnel is connected to bn entity, typicblly b file,
+ * thbt contbins b vbribble-length sequence of bytes thbt cbn be rebd bnd
+ * written. The current position cbn be {@link #position() <i>queried</i>} bnd
+ * {@link #position(long) <i>modified</i>}. The chbnnel blso provides bccess to
+ * the current <i>size</i> of the entity to which the chbnnel is connected. The
+ * size increbses when bytes bre written beyond its current size; the size
+ * decrebses when it is {@link #truncbte <i>truncbted</i>}.
  *
- * <p> The {@link #position(long) position} and {@link #truncate truncate} methods
- * which do not otherwise have a value to return are specified to return the
- * channel upon which they are invoked. This allows method invocations to be
- * chained. Implementations of this interface should specialize the return type
- * so that method invocations on the implementation class can be chained.
+ * <p> The {@link #position(long) position} bnd {@link #truncbte truncbte} methods
+ * which do not otherwise hbve b vblue to return bre specified to return the
+ * chbnnel upon which they bre invoked. This bllows method invocbtions to be
+ * chbined. Implementbtions of this interfbce should speciblize the return type
+ * so thbt method invocbtions on the implementbtion clbss cbn be chbined.
  *
  * @since 1.7
- * @see java.nio.file.Files#newByteChannel
+ * @see jbvb.nio.file.Files#newByteChbnnel
  */
 
-public interface SeekableByteChannel
-    extends ByteChannel
+public interfbce SeekbbleByteChbnnel
+    extends ByteChbnnel
 {
     /**
-     * Reads a sequence of bytes from this channel into the given buffer.
+     * Rebds b sequence of bytes from this chbnnel into the given buffer.
      *
-     * <p> Bytes are read starting at this channel's current position, and
-     * then the position is updated with the number of bytes actually read.
-     * Otherwise this method behaves exactly as specified in the {@link
-     * ReadableByteChannel} interface.
+     * <p> Bytes bre rebd stbrting bt this chbnnel's current position, bnd
+     * then the position is updbted with the number of bytes bctublly rebd.
+     * Otherwise this method behbves exbctly bs specified in the {@link
+     * RebdbbleByteChbnnel} interfbce.
      */
     @Override
-    int read(ByteBuffer dst) throws IOException;
+    int rebd(ByteBuffer dst) throws IOException;
 
     /**
-     * Writes a sequence of bytes to this channel from the given buffer.
+     * Writes b sequence of bytes to this chbnnel from the given buffer.
      *
-     * <p> Bytes are written starting at this channel's current position, unless
-     * the channel is connected to an entity such as a file that is opened with
-     * the {@link java.nio.file.StandardOpenOption#APPEND APPEND} option, in
-     * which case the position is first advanced to the end. The entity to which
-     * the channel is connected is grown, if necessary, to accommodate the
-     * written bytes, and then the position is updated with the number of bytes
-     * actually written. Otherwise this method behaves exactly as specified by
-     * the {@link WritableByteChannel} interface.
+     * <p> Bytes bre written stbrting bt this chbnnel's current position, unless
+     * the chbnnel is connected to bn entity such bs b file thbt is opened with
+     * the {@link jbvb.nio.file.StbndbrdOpenOption#APPEND APPEND} option, in
+     * which cbse the position is first bdvbnced to the end. The entity to which
+     * the chbnnel is connected is grown, if necessbry, to bccommodbte the
+     * written bytes, bnd then the position is updbted with the number of bytes
+     * bctublly written. Otherwise this method behbves exbctly bs specified by
+     * the {@link WritbbleByteChbnnel} interfbce.
      */
     @Override
     int write(ByteBuffer src) throws IOException;
 
     /**
-     * Returns this channel's position.
+     * Returns this chbnnel's position.
      *
-     * @return  This channel's position,
-     *          a non-negative integer counting the number of bytes
+     * @return  This chbnnel's position,
+     *          b non-negbtive integer counting the number of bytes
      *          from the beginning of the entity to the current position
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      * @throws  IOException
      *          If some other I/O error occurs
      */
     long position() throws IOException;
 
     /**
-     * Sets this channel's position.
+     * Sets this chbnnel's position.
      *
-     * <p> Setting the position to a value that is greater than the current size
-     * is legal but does not change the size of the entity.  A later attempt to
-     * read bytes at such a position will immediately return an end-of-file
-     * indication.  A later attempt to write bytes at such a position will cause
-     * the entity to grow to accommodate the new bytes; the values of any bytes
-     * between the previous end-of-file and the newly-written bytes are
+     * <p> Setting the position to b vblue thbt is grebter thbn the current size
+     * is legbl but does not chbnge the size of the entity.  A lbter bttempt to
+     * rebd bytes bt such b position will immedibtely return bn end-of-file
+     * indicbtion.  A lbter bttempt to write bytes bt such b position will cbuse
+     * the entity to grow to bccommodbte the new bytes; the vblues of bny bytes
+     * between the previous end-of-file bnd the newly-written bytes bre
      * unspecified.
      *
-     * <p> Setting the channel's position is not recommended when connected to
-     * an entity, typically a file, that is opened with the {@link
-     * java.nio.file.StandardOpenOption#APPEND APPEND} option. When opened for
-     * append, the position is first advanced to the end before writing.
+     * <p> Setting the chbnnel's position is not recommended when connected to
+     * bn entity, typicblly b file, thbt is opened with the {@link
+     * jbvb.nio.file.StbndbrdOpenOption#APPEND APPEND} option. When opened for
+     * bppend, the position is first bdvbnced to the end before writing.
      *
-     * @param  newPosition
-     *         The new position, a non-negative integer counting
+     * @pbrbm  newPosition
+     *         The new position, b non-negbtive integer counting
      *         the number of bytes from the beginning of the entity
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IllegalArgumentException
-     *          If the new position is negative
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
+     * @throws  IllegblArgumentException
+     *          If the new position is negbtive
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    SeekableByteChannel position(long newPosition) throws IOException;
+    SeekbbleByteChbnnel position(long newPosition) throws IOException;
 
     /**
-     * Returns the current size of entity to which this channel is connected.
+     * Returns the current size of entity to which this chbnnel is connected.
      *
-     * @return  The current size, measured in bytes
+     * @return  The current size, mebsured in bytes
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      * @throws  IOException
      *          If some other I/O error occurs
      */
     long size() throws IOException;
 
     /**
-     * Truncates the entity, to which this channel is connected, to the given
+     * Truncbtes the entity, to which this chbnnel is connected, to the given
      * size.
      *
-     * <p> If the given size is less than the current size then the entity is
-     * truncated, discarding any bytes beyond the new end. If the given size is
-     * greater than or equal to the current size then the entity is not modified.
-     * In either case, if the current position is greater than the given size
-     * then it is set to that size.
+     * <p> If the given size is less thbn the current size then the entity is
+     * truncbted, discbrding bny bytes beyond the new end. If the given size is
+     * grebter thbn or equbl to the current size then the entity is not modified.
+     * In either cbse, if the current position is grebter thbn the given size
+     * then it is set to thbt size.
      *
-     * <p> An implementation of this interface may prohibit truncation when
-     * connected to an entity, typically a file, opened with the {@link
-     * java.nio.file.StandardOpenOption#APPEND APPEND} option.
+     * <p> An implementbtion of this interfbce mby prohibit truncbtion when
+     * connected to bn entity, typicblly b file, opened with the {@link
+     * jbvb.nio.file.StbndbrdOpenOption#APPEND APPEND} option.
      *
-     * @param  size
-     *         The new size, a non-negative byte count
+     * @pbrbm  size
+     *         The new size, b non-negbtive byte count
      *
-     * @return  This channel
+     * @return  This chbnnel
      *
-     * @throws  NonWritableChannelException
-     *          If this channel was not opened for writing
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IllegalArgumentException
-     *          If the new size is negative
+     * @throws  NonWritbbleChbnnelException
+     *          If this chbnnel wbs not opened for writing
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
+     * @throws  IllegblArgumentException
+     *          If the new size is negbtive
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    SeekableByteChannel truncate(long size) throws IOException;
+    SeekbbleByteChbnnel truncbte(long size) throws IOException;
 }

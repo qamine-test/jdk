@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.tree;
+pbckbge jbvbx.swing.tree;
 
-import java.util.Enumeration;
+import jbvb.util.Enumerbtion;
 
 /**
- * Defines the requirements for an object that can be used as a
- * tree node in a JTree.
+ * Defines the requirements for bn object thbt cbn be used bs b
+ * tree node in b JTree.
  * <p>
- * Implementations of <code>TreeNode</code> that override <code>equals</code>
- * will typically need to override <code>hashCode</code> as well.  Refer
- * to {@link javax.swing.tree.TreeModel} for more information.
+ * Implementbtions of <code>TreeNode</code> thbt override <code>equbls</code>
+ * will typicblly need to override <code>hbshCode</code> bs well.  Refer
+ * to {@link jbvbx.swing.tree.TreeModel} for more informbtion.
  *
- * For further information and examples of using tree nodes,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Tree Nodes</a>
- * in <em>The Java Tutorial.</em>
+ * For further informbtion bnd exbmples of using tree nodes,
+ * see <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tree.html">How to Use Tree Nodes</b>
+ * in <em>The Jbvb Tutoribl.</em>
  *
- * @author Rob Davis
- * @author Scott Violet
+ * @buthor Rob Dbvis
+ * @buthor Scott Violet
  */
 
-public interface TreeNode
+public interfbce TreeNode
 {
     /**
-     * Returns the child <code>TreeNode</code> at index
+     * Returns the child <code>TreeNode</code> bt index
      * <code>childIndex</code>.
      *
-     * @param   childIndex  index of child
-     * @return              the child node at given index
+     * @pbrbm   childIndex  index of child
+     * @return              the child node bt given index
      */
     TreeNode getChildAt(int childIndex);
 
     /**
      * Returns the number of children <code>TreeNode</code>s the receiver
-     * contains.
+     * contbins.
      *
-     * @return              the number of children the receiver contains
+     * @return              the number of children the receiver contbins
      */
     int getChildCount();
 
     /**
-     * Returns the parent <code>TreeNode</code> of the receiver.
+     * Returns the pbrent <code>TreeNode</code> of the receiver.
      *
-     * @return              the parent of the receiver
+     * @return              the pbrent of the receiver
      */
-    TreeNode getParent();
+    TreeNode getPbrent();
 
     /**
      * Returns the index of <code>node</code> in the receivers children.
-     * If the receiver does not contain <code>node</code>, -1 will be
+     * If the receiver does not contbin <code>node</code>, -1 will be
      * returned.
      *
-     * @param   node        node to be loked for
+     * @pbrbm   node        node to be loked for
      * @return              index of specified node
      */
     int getIndex(TreeNode node);
 
     /**
-     * Returns true if the receiver allows children.
+     * Returns true if the receiver bllows children.
      *
-     * @return              whether the receiver allows children
+     * @return              whether the receiver bllows children
      */
-    boolean getAllowsChildren();
+    boolebn getAllowsChildren();
 
     /**
-     * Returns true if the receiver is a leaf.
+     * Returns true if the receiver is b lebf.
      *
-     * @return              whether the receiver is a leaf
+     * @return              whether the receiver is b lebf
      */
-    boolean isLeaf();
+    boolebn isLebf();
 
     /**
-     * Returns the children of the receiver as an <code>Enumeration</code>.
+     * Returns the children of the receiver bs bn <code>Enumerbtion</code>.
      *
-     * @return              the children of the receiver as an {@code Enumeration}
+     * @return              the children of the receiver bs bn {@code Enumerbtion}
      */
-    Enumeration<TreeNode> children();
+    Enumerbtion<TreeNode> children();
 }

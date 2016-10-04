@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.lang.ref.Reference;
-import java.awt.FontFormatException;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.nio.ByteBuffer;
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
+import jbvb.lbng.ref.Reference;
+import jbvb.bwt.FontFormbtException;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.io.File;
+import jbvb.nio.ByteBuffer;
+import sun.jbvb2d.Disposer;
+import sun.jbvb2d.DisposerRecord;
 
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
 
-public abstract class FileFont extends PhysicalFont {
+public bbstrbct clbss FileFont extends PhysicblFont {
 
-    protected boolean useJavaRasterizer = true;
+    protected boolebn useJbvbRbsterizer = true;
 
-    /* I/O and file operations are always synchronized on the font
-     * object. Two threads can be accessing the font and retrieving
-     * information, and synchronized only to the extent that filesystem
-     * operations require.
-     * A limited number of files can be open at a time, to limit the
-     * absorption of file descriptors. If a file needs to be opened
-     * when there are none free, then the synchronization of all I/O
-     * ensures that any in progress operation will complete before some
-     * other thread closes the descriptor in order to allocate another one.
+    /* I/O bnd file operbtions bre blwbys synchronized on the font
+     * object. Two threbds cbn be bccessing the font bnd retrieving
+     * informbtion, bnd synchronized only to the extent thbt filesystem
+     * operbtions require.
+     * A limited number of files cbn be open bt b time, to limit the
+     * bbsorption of file descriptors. If b file needs to be opened
+     * when there bre none free, then the synchronizbtion of bll I/O
+     * ensures thbt bny in progress operbtion will complete before some
+     * other threbd closes the descriptor in order to bllocbte bnother one.
      */
-    // NB consider using a RAF. FIS has finalize method so may take a
-    // little longer to be GC'd. We don't use this stream at all anyway.
-    // In fact why increase the size of a FileFont object if the stream
+    // NB consider using b RAF. FIS hbs finblize method so mby tbke b
+    // little longer to be GC'd. We don't use this strebm bt bll bnywby.
+    // In fbct why increbse the size of b FileFont object if the strebm
     // isn't needed ..
-    //protected FileInputStream stream;
-    //protected FileChannel channel;
+    //protected FileInputStrebm strebm;
+    //protected FileChbnnel chbnnel;
     protected int fileSize;
 
-    protected FontScaler scaler;
+    protected FontScbler scbler;
 
-    /* The following variables are used, (and in the case of the arrays,
-     * only initialised) for select fonts where a native scaler may be
-     * used to get glyph images and metrics.
-     * glyphToCharMap is filled in on the fly and used to do a reverse
-     * lookup when a FileFont needs to get the charcode back from a glyph
-     * code so it can re-map via a NativeGlyphMapper to get a native glyph.
-     * This isn't a big hit in time, since a boolean test is sufficient
-     * to choose the usual default path, nor in memory for fonts which take
-     * the native path, since fonts have contiguous zero-based glyph indexes,
-     * and these obviously do all exist in the font.
+    /* The following vbribbles bre used, (bnd in the cbse of the brrbys,
+     * only initiblised) for select fonts where b nbtive scbler mby be
+     * used to get glyph imbges bnd metrics.
+     * glyphToChbrMbp is filled in on the fly bnd used to do b reverse
+     * lookup when b FileFont needs to get the chbrcode bbck from b glyph
+     * code so it cbn re-mbp vib b NbtiveGlyphMbpper to get b nbtive glyph.
+     * This isn't b big hit in time, since b boolebn test is sufficient
+     * to choose the usubl defbult pbth, nor in memory for fonts which tbke
+     * the nbtive pbth, since fonts hbve contiguous zero-bbsed glyph indexes,
+     * bnd these obviously do bll exist in the font.
      */
-    protected boolean checkedNatives;
-    protected boolean useNatives;
-    protected NativeFont[] nativeFonts;
-    protected char[] glyphToCharMap;
+    protected boolebn checkedNbtives;
+    protected boolebn useNbtives;
+    protected NbtiveFont[] nbtiveFonts;
+    protected chbr[] glyphToChbrMbp;
     /*
-     * @throws FontFormatException - if the font can't be opened
+     * @throws FontFormbtException - if the font cbn't be opened
      */
-    FileFont(String platname, Object nativeNames)
-        throws FontFormatException {
+    FileFont(String plbtnbme, Object nbtiveNbmes)
+        throws FontFormbtException {
 
-        super(platname, nativeNames);
+        super(plbtnbme, nbtiveNbmes);
     }
 
-    FontStrike createStrike(FontStrikeDesc desc) {
-        if (!checkedNatives) {
-           checkUseNatives();
+    FontStrike crebteStrike(FontStrikeDesc desc) {
+        if (!checkedNbtives) {
+           checkUseNbtives();
         }
         return new FileFontStrike(this, desc);
     }
 
-    protected boolean checkUseNatives() {
-        checkedNatives = true;
-        return useNatives;
+    protected boolebn checkUseNbtives() {
+        checkedNbtives = true;
+        return useNbtives;
     }
 
-    /* This method needs to be accessible to FontManager if there is
-     * file pool management. It may be a no-op.
+    /* This method needs to be bccessible to FontMbnbger if there is
+     * file pool mbnbgement. It mby be b no-op.
      */
-    protected abstract void close();
+    protected bbstrbct void close();
 
 
     /*
-     * This is the public interface. The subclasses need to implement
-     * this. The returned block may be longer than the requested length.
+     * This is the public interfbce. The subclbsses need to implement
+     * this. The returned block mby be longer thbn the requested length.
      */
-    abstract ByteBuffer readBlock(int offset, int length);
+    bbstrbct ByteBuffer rebdBlock(int offset, int length);
 
-    public boolean canDoStyle(int style) {
+    public boolebn cbnDoStyle(int style) {
         return true;
     }
 
-    void setFileToRemove(File file, CreatedFontTracker tracker) {
-        Disposer.addObjectRecord(this,
-                         new CreatedFontFileDisposerRecord(file, tracker));
+    void setFileToRemove(File file, CrebtedFontTrbcker trbcker) {
+        Disposer.bddObjectRecord(this,
+                         new CrebtedFontFileDisposerRecord(file, trbcker));
     }
 
-    // MACOSX begin -- Make this static so that we can pass in CFont
-    static void setFileToRemove(Object font, File file, CreatedFontTracker tracker) {
-        Disposer.addObjectRecord(font,
-                         new CreatedFontFileDisposerRecord(file, tracker));
+    // MACOSX begin -- Mbke this stbtic so thbt we cbn pbss in CFont
+    stbtic void setFileToRemove(Object font, File file, CrebtedFontTrbcker trbcker) {
+        Disposer.bddObjectRecord(font,
+                         new CrebtedFontFileDisposerRecord(file, trbcker));
     }
     // MACOSX - end
 
-    /* This is called when a font scaler is determined to
-     * be unusable (ie bad).
-     * We want to replace current scaler with NullFontScaler, so
-     * we never try to use same font scaler again.
-     * Scaler native resources could have already been disposed
-     * or they will be eventually by Java2D disposer.
-     * However, it should be safe to call dispose() explicitly here.
+    /* This is cblled when b font scbler is determined to
+     * be unusbble (ie bbd).
+     * We wbnt to replbce current scbler with NullFontScbler, so
+     * we never try to use sbme font scbler bgbin.
+     * Scbler nbtive resources could hbve blrebdy been disposed
+     * or they will be eventublly by Jbvb2D disposer.
+     * However, it should be sbfe to cbll dispose() explicitly here.
      *
-     * For safety we also invalidate all strike's scaler context.
-     * So, in case they cache pointer to native scaler
+     * For sbfety we blso invblidbte bll strike's scbler context.
+     * So, in cbse they cbche pointer to nbtive scbler
      * it will not ever be used.
      *
-     * It also appears desirable to remove all the entries from the
-     * cache so no other code will pick them up. But we can't just
-     * 'delete' them as code may be using them. And simply dropping
-     * the reference to the cache will make the reference objects
-     * unreachable and so they will not get disposed.
-     * Since a strike may hold (via java arrays) native pointers to many
-     * rasterised glyphs, this would be a memory leak.
+     * It blso bppebrs desirbble to remove bll the entries from the
+     * cbche so no other code will pick them up. But we cbn't just
+     * 'delete' them bs code mby be using them. And simply dropping
+     * the reference to the cbche will mbke the reference objects
+     * unrebchbble bnd so they will not get disposed.
+     * Since b strike mby hold (vib jbvb brrbys) nbtive pointers to mbny
+     * rbsterised glyphs, this would be b memory lebk.
      * The solution is :
-     * - to move all the entries to another map where they
-     *   are no longer locatable
-     * - update FontStrikeDisposer to be able to distinguish which
-     * map they are held in via a boolean flag
-     * Since this isn't expected to be anything other than an extremely
-     * rare maybe it is not worth doing this last part.
+     * - to move bll the entries to bnother mbp where they
+     *   bre no longer locbtbble
+     * - updbte FontStrikeDisposer to be bble to distinguish which
+     * mbp they bre held in vib b boolebn flbg
+     * Since this isn't expected to be bnything other thbn bn extremely
+     * rbre mbybe it is not worth doing this lbst pbrt.
      */
-    synchronized void deregisterFontAndClearStrikeCache() {
-        SunFontManager fm = SunFontManager.getInstance();
-        fm.deRegisterBadFont(this);
+    synchronized void deregisterFontAndClebrStrikeCbche() {
+        SunFontMbnbger fm = SunFontMbnbger.getInstbnce();
+        fm.deRegisterBbdFont(this);
 
-        for (Reference<FontStrike> strikeRef : strikeCache.values()) {
+        for (Reference<FontStrike> strikeRef : strikeCbche.vblues()) {
             if (strikeRef != null) {
-                /* NB we know these are all FileFontStrike instances
-                 * because the cache is on this FileFont
+                /* NB we know these bre bll FileFontStrike instbnces
+                 * becbuse the cbche is on this FileFont
                  */
                 FileFontStrike strike = (FileFontStrike)strikeRef.get();
-                if (strike != null && strike.pScalerContext != 0L) {
-                    scaler.invalidateScalerContext(strike.pScalerContext);
+                if (strike != null && strike.pScblerContext != 0L) {
+                    scbler.invblidbteScblerContext(strike.pScblerContext);
                 }
             }
         }
-        if (scaler != null) {
-            scaler.dispose();
+        if (scbler != null) {
+            scbler.dispose();
         }
-        scaler = FontScaler.getNullScaler();
+        scbler = FontScbler.getNullScbler();
     }
 
-    StrikeMetrics getFontMetrics(long pScalerContext) {
+    StrikeMetrics getFontMetrics(long pScblerContext) {
         try {
-            return getScaler().getFontMetrics(pScalerContext);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getFontMetrics(pScalerContext);
+            return getScbler().getFontMetrics(pScblerContext);
+        } cbtch (FontScblerException fe) {
+            scbler = FontScbler.getNullScbler();
+            return getFontMetrics(pScblerContext);
         }
     }
 
-    float getGlyphAdvance(long pScalerContext, int glyphCode) {
+    flobt getGlyphAdvbnce(long pScblerContext, int glyphCode) {
         try {
-            return getScaler().getGlyphAdvance(pScalerContext, glyphCode);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphAdvance(pScalerContext, glyphCode);
+            return getScbler().getGlyphAdvbnce(pScblerContext, glyphCode);
+        } cbtch (FontScblerException fe) {
+            scbler = FontScbler.getNullScbler();
+            return getGlyphAdvbnce(pScblerContext, glyphCode);
         }
     }
 
-    void getGlyphMetrics(long pScalerContext, int glyphCode, Point2D.Float metrics) {
+    void getGlyphMetrics(long pScblerContext, int glyphCode, Point2D.Flobt metrics) {
         try {
-            getScaler().getGlyphMetrics(pScalerContext, glyphCode, metrics);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            getGlyphMetrics(pScalerContext, glyphCode, metrics);
+            getScbler().getGlyphMetrics(pScblerContext, glyphCode, metrics);
+        } cbtch (FontScblerException fe) {
+            scbler = FontScbler.getNullScbler();
+            getGlyphMetrics(pScblerContext, glyphCode, metrics);
         }
     }
 
-    long getGlyphImage(long pScalerContext, int glyphCode) {
+    long getGlyphImbge(long pScblerContext, int glyphCode) {
         try {
-            return getScaler().getGlyphImage(pScalerContext, glyphCode);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphImage(pScalerContext, glyphCode);
+            return getScbler().getGlyphImbge(pScblerContext, glyphCode);
+        } cbtch (FontScblerException fe) {
+            scbler = FontScbler.getNullScbler();
+            return getGlyphImbge(pScblerContext, glyphCode);
         }
     }
 
-    Rectangle2D.Float getGlyphOutlineBounds(long pScalerContext, int glyphCode) {
+    Rectbngle2D.Flobt getGlyphOutlineBounds(long pScblerContext, int glyphCode) {
         try {
-            return getScaler().getGlyphOutlineBounds(pScalerContext, glyphCode);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphOutlineBounds(pScalerContext, glyphCode);
+            return getScbler().getGlyphOutlineBounds(pScblerContext, glyphCode);
+        } cbtch (FontScblerException fe) {
+            scbler = FontScbler.getNullScbler();
+            return getGlyphOutlineBounds(pScblerContext, glyphCode);
         }
     }
 
-    GeneralPath getGlyphOutline(long pScalerContext, int glyphCode, float x, float y) {
+    GenerblPbth getGlyphOutline(long pScblerContext, int glyphCode, flobt x, flobt y) {
         try {
-            return getScaler().getGlyphOutline(pScalerContext, glyphCode, x, y);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphOutline(pScalerContext, glyphCode, x, y);
+            return getScbler().getGlyphOutline(pScblerContext, glyphCode, x, y);
+        } cbtch (FontScblerException fe) {
+            scbler = FontScbler.getNullScbler();
+            return getGlyphOutline(pScblerContext, glyphCode, x, y);
         }
     }
 
-    GeneralPath getGlyphVectorOutline(long pScalerContext, int[] glyphs, int numGlyphs, float x, float y) {
+    GenerblPbth getGlyphVectorOutline(long pScblerContext, int[] glyphs, int numGlyphs, flobt x, flobt y) {
         try {
-            return getScaler().getGlyphVectorOutline(pScalerContext, glyphs, numGlyphs, x, y);
-        } catch (FontScalerException fe) {
-            scaler = FontScaler.getNullScaler();
-            return getGlyphVectorOutline(pScalerContext, glyphs, numGlyphs, x, y);
+            return getScbler().getGlyphVectorOutline(pScblerContext, glyphs, numGlyphs, x, y);
+        } cbtch (FontScblerException fe) {
+            scbler = FontScbler.getNullScbler();
+            return getGlyphVectorOutline(pScblerContext, glyphs, numGlyphs, x, y);
         }
     }
 
-    /* T1 & TT implementation differ so this method is abstract.
+    /* T1 & TT implementbtion differ so this method is bbstrbct.
        NB: null should not be returned here! */
-    protected abstract FontScaler getScaler();
+    protected bbstrbct FontScbler getScbler();
 
     protected long getUnitsPerEm() {
-        return getScaler().getUnitsPerEm();
+        return getScbler().getUnitsPerEm();
     }
 
-    private static class CreatedFontFileDisposerRecord
+    privbte stbtic clbss CrebtedFontFileDisposerRecord
         implements DisposerRecord {
 
         File fontFile = null;
-        CreatedFontTracker tracker;
+        CrebtedFontTrbcker trbcker;
 
-        private CreatedFontFileDisposerRecord(File file,
-                                              CreatedFontTracker tracker) {
+        privbte CrebtedFontFileDisposerRecord(File file,
+                                              CrebtedFontTrbcker trbcker) {
             fontFile = file;
-            this.tracker = tracker;
+            this.trbcker = trbcker;
         }
 
         public void dispose() {
-            java.security.AccessController.doPrivileged(
-                 new java.security.PrivilegedAction<Object>() {
+            jbvb.security.AccessController.doPrivileged(
+                 new jbvb.security.PrivilegedAction<Object>() {
                       public Object run() {
                           if (fontFile != null) {
                               try {
-                                  if (tracker != null) {
-                                      tracker.subBytes((int)fontFile.length());
+                                  if (trbcker != null) {
+                                      trbcker.subBytes((int)fontFile.length());
                                   }
-                                  /* REMIND: is it possible that the file is
+                                  /* REMIND: is it possible thbt the file is
                                    * still open? It will be closed when the
                                    * font2D is disposed but could this code
                                    * execute first? If so the file would not
@@ -276,9 +276,9 @@ public abstract class FileFont extends PhysicalFont {
                                    */
                                   fontFile.delete();
                                   /* remove from delete on exit hook list : */
-                                  // FIXME: still need to be refactored
-                                  SunFontManager.getInstance().tmpFontFiles.remove(fontFile);
-                              } catch (Exception e) {
+                                  // FIXME: still need to be refbctored
+                                  SunFontMbnbger.getInstbnce().tmpFontFiles.remove(fontFile);
+                              } cbtch (Exception e) {
                               }
                           }
                           return null;
@@ -287,48 +287,48 @@ public abstract class FileFont extends PhysicalFont {
         }
     }
 
-    protected String getPublicFileName() {
-        SecurityManager sm = System.getSecurityManager();
+    protected String getPublicFileNbme() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null) {
-            return platName;
+            return plbtNbme;
         }
-        boolean canReadProperty = true;
+        boolebn cbnRebdProperty = true;
 
         try {
-            sm.checkPropertyAccess("java.io.tmpdir");
-        } catch (SecurityException e) {
-            canReadProperty = false;
+            sm.checkPropertyAccess("jbvb.io.tmpdir");
+        } cbtch (SecurityException e) {
+            cbnRebdProperty = fblse;
         }
 
-        if (canReadProperty) {
-            return platName;
+        if (cbnRebdProperty) {
+            return plbtNbme;
         }
 
-        final File f = new File(platName);
+        finbl File f = new File(plbtNbme);
 
-        Boolean isTmpFile = Boolean.FALSE;
+        Boolebn isTmpFile = Boolebn.FALSE;
         try {
             isTmpFile = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Boolean>() {
-                    public Boolean run() {
-                        File tmp = new File(System.getProperty("java.io.tmpdir"));
+                new PrivilegedExceptionAction<Boolebn>() {
+                    public Boolebn run() {
+                        File tmp = new File(System.getProperty("jbvb.io.tmpdir"));
                         try {
-                            String tpath = tmp.getCanonicalPath();
-                            String fpath = f.getCanonicalPath();
+                            String tpbth = tmp.getCbnonicblPbth();
+                            String fpbth = f.getCbnonicblPbth();
 
-                            return (fpath == null) || fpath.startsWith(tpath);
-                        } catch (IOException e) {
-                            return Boolean.TRUE;
+                            return (fpbth == null) || fpbth.stbrtsWith(tpbth);
+                        } cbtch (IOException e) {
+                            return Boolebn.TRUE;
                         }
                     }
                 }
             );
-        } catch (PrivilegedActionException e) {
-            // unable to verify whether value of java.io.tempdir will be
-            // exposed, so return only a name of the font file.
-            isTmpFile = Boolean.TRUE;
+        } cbtch (PrivilegedActionException e) {
+            // unbble to verify whether vblue of jbvb.io.tempdir will be
+            // exposed, so return only b nbme of the font file.
+            isTmpFile = Boolebn.TRUE;
         }
 
-        return  isTmpFile ? "temp file" : platName;
+        return  isTmpFile ? "temp file" : plbtNbme;
     }
 }

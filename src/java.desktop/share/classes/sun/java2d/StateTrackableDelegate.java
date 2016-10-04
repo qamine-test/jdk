@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import sun.java2d.StateTrackable.State;
-import static sun.java2d.StateTrackable.State.*;
+import sun.jbvb2d.StbteTrbckbble.Stbte;
+import stbtic sun.jbvb2d.StbteTrbckbble.Stbte.*;
 
 /**
- * This class provides a basic pre-packaged implementation of the
- * complete {@link StateTrackable} interface with implementations
- * of the required methods in the interface and methods to manage
- * transitions in the state of the object.
- * Classes which wish to implement StateTrackable could create an
- * instance of this class and delegate all of their implementations
- * for {@code StateTrackable} methods to the corresponding methods
- * of this class.
+ * This clbss provides b bbsic pre-pbckbged implementbtion of the
+ * complete {@link StbteTrbckbble} interfbce with implementbtions
+ * of the required methods in the interfbce bnd methods to mbnbge
+ * trbnsitions in the stbte of the object.
+ * Clbsses which wish to implement StbteTrbckbble could crebte bn
+ * instbnce of this clbss bnd delegbte bll of their implementbtions
+ * for {@code StbteTrbckbble} methods to the corresponding methods
+ * of this clbss.
  */
-public final class StateTrackableDelegate implements StateTrackable {
+public finbl clbss StbteTrbckbbleDelegbte implements StbteTrbckbble {
     /**
-     * The {@code UNTRACKABLE_DELEGATE} provides an implementation
-     * of the StateTrackable interface that is permanently in the
-     * {@link State#UNTRACKABLE UNTRACKABLE} state.
+     * The {@code UNTRACKABLE_DELEGATE} provides bn implementbtion
+     * of the StbteTrbckbble interfbce thbt is permbnently in the
+     * {@link Stbte#UNTRACKABLE UNTRACKABLE} stbte.
      */
-    public final static StateTrackableDelegate UNTRACKABLE_DELEGATE =
-        new StateTrackableDelegate(UNTRACKABLE);
+    public finbl stbtic StbteTrbckbbleDelegbte UNTRACKABLE_DELEGATE =
+        new StbteTrbckbbleDelegbte(UNTRACKABLE);
 
     /**
-     * The {@code IMMUTABLE_DELEGATE} provides an implementation
-     * of the StateTrackable interface that is permanently in the
-     * {@link State#IMMUTABLE IMMUTABLE} state.
+     * The {@code IMMUTABLE_DELEGATE} provides bn implementbtion
+     * of the StbteTrbckbble interfbce thbt is permbnently in the
+     * {@link Stbte#IMMUTABLE IMMUTABLE} stbte.
      */
-    public final static StateTrackableDelegate IMMUTABLE_DELEGATE =
-        new StateTrackableDelegate(IMMUTABLE);
+    public finbl stbtic StbteTrbckbbleDelegbte IMMUTABLE_DELEGATE =
+        new StbteTrbckbbleDelegbte(IMMUTABLE);
 
     /**
-     * Returns a {@code StateTrackableDelegate} instance with the
-     * specified initial {@link State State}.
-     * If the specified {@code State} is
-     * {@link State#UNTRACKABLE UNTRACKABLE} or
-     * {@link State#IMMUTABLE IMMUTABLE}
-     * then the approprirate static instance
+     * Returns b {@code StbteTrbckbbleDelegbte} instbnce with the
+     * specified initibl {@link Stbte Stbte}.
+     * If the specified {@code Stbte} is
+     * {@link Stbte#UNTRACKABLE UNTRACKABLE} or
+     * {@link Stbte#IMMUTABLE IMMUTABLE}
+     * then the bpproprirbte stbtic instbnce
      * {@link #UNTRACKABLE_DELEGATE} or {@link #IMMUTABLE_DELEGATE}
      * is returned.
      */
-    public static StateTrackableDelegate createInstance(State state) {
-        switch (state) {
-        case UNTRACKABLE:
+    public stbtic StbteTrbckbbleDelegbte crebteInstbnce(Stbte stbte) {
+        switch (stbte) {
+        cbse UNTRACKABLE:
             return UNTRACKABLE_DELEGATE;
-        case STABLE:
-            return new StateTrackableDelegate(STABLE);
-        case DYNAMIC:
-            return new StateTrackableDelegate(DYNAMIC);
-        case IMMUTABLE:
+        cbse STABLE:
+            return new StbteTrbckbbleDelegbte(STABLE);
+        cbse DYNAMIC:
+            return new StbteTrbckbbleDelegbte(DYNAMIC);
+        cbse IMMUTABLE:
             return IMMUTABLE_DELEGATE;
-        default:
-            throw new InternalError("unknown state");
+        defbult:
+            throw new InternblError("unknown stbte");
         }
     }
 
-    private State theState;
-    StateTracker theTracker;   // package private for easy access from tracker
-    private int numDynamicAgents;
+    privbte Stbte theStbte;
+    StbteTrbcker theTrbcker;   // pbckbge privbte for ebsy bccess from trbcker
+    privbte int numDynbmicAgents;
 
     /**
-     * Constructs a StateTrackableDelegate object with the specified
-     * initial State.
+     * Constructs b StbteTrbckbbleDelegbte object with the specified
+     * initibl Stbte.
      */
-    private StateTrackableDelegate(State state) {
-        this.theState = state;
+    privbte StbteTrbckbbleDelegbte(Stbte stbte) {
+        this.theStbte = stbte;
     }
 
     /**
      * @inheritDoc
      * @since 1.7
      */
-    public State getState() {
-        return theState;
+    public Stbte getStbte() {
+        return theStbte;
     }
 
     /**
      * @inheritDoc
      * @since 1.7
      */
-    public synchronized StateTracker getStateTracker() {
-        StateTracker st = theTracker;
+    public synchronized StbteTrbcker getStbteTrbcker() {
+        StbteTrbcker st = theTrbcker;
         if (st == null) {
-            switch (theState) {
-            case IMMUTABLE:
-                st = StateTracker.ALWAYS_CURRENT;
-                break;
-            case STABLE:
-                st = new StateTracker() {
-                    public boolean isCurrent() {
-                        return (theTracker == this);
+            switch (theStbte) {
+            cbse IMMUTABLE:
+                st = StbteTrbcker.ALWAYS_CURRENT;
+                brebk;
+            cbse STABLE:
+                st = new StbteTrbcker() {
+                    public boolebn isCurrent() {
+                        return (theTrbcker == this);
                     }
                 };
-                break;
-            case DYNAMIC:
-                // We return the NEVER_CURRENT tracker, but that is
-                // just temporary while we are in the DYNAMIC state.
+                brebk;
+            cbse DYNAMIC:
+                // We return the NEVER_CURRENT trbcker, but thbt is
+                // just temporbry while we bre in the DYNAMIC stbte.
                 // NO BREAK
-            case UNTRACKABLE:
-                st = StateTracker.NEVER_CURRENT;
-                break;
+            cbse UNTRACKABLE:
+                st = StbteTrbcker.NEVER_CURRENT;
+                brebk;
             }
-            theTracker = st;
+            theTrbcker = st;
         }
         return st;
     }
 
     /**
-     * This method provides an easy way for delegating classes to
-     * change the overall {@link State State} of the delegate to
-     * {@link State#IMMUTABLE IMMUTABLE}.
-     * @throws IllegalStateException if the current state is
-     *         {@link State#UNTRACKABLE UNTRACKABLE}
-     * @see #setUntrackable
+     * This method provides bn ebsy wby for delegbting clbsses to
+     * chbnge the overbll {@link Stbte Stbte} of the delegbte to
+     * {@link Stbte#IMMUTABLE IMMUTABLE}.
+     * @throws IllegblStbteException if the current stbte is
+     *         {@link Stbte#UNTRACKABLE UNTRACKABLE}
+     * @see #setUntrbckbble
      * @since 1.7
      */
-    public synchronized void setImmutable() {
-        if (theState == UNTRACKABLE || theState == DYNAMIC) {
-            throw new IllegalStateException("UNTRACKABLE or DYNAMIC "+
-                                            "objects cannot become IMMUTABLE");
+    public synchronized void setImmutbble() {
+        if (theStbte == UNTRACKABLE || theStbte == DYNAMIC) {
+            throw new IllegblStbteException("UNTRACKABLE or DYNAMIC "+
+                                            "objects cbnnot become IMMUTABLE");
         }
-        theState = IMMUTABLE;
-        theTracker = null;
+        theStbte = IMMUTABLE;
+        theTrbcker = null;
     }
 
     /**
-     * This method provides an easy way for delegating classes to
-     * change the overall {@link State State} of the delegate to
-     * {@link State#UNTRACKABLE UNTRACKABLE}.
-     * This method is typically called when references to the
-     * internal data buffers have been made public.
-     * @throws IllegalStateException if the current state is
-     *         {@link State#IMMUTABLE IMMUTABLE}
-     * @see #setImmutable
+     * This method provides bn ebsy wby for delegbting clbsses to
+     * chbnge the overbll {@link Stbte Stbte} of the delegbte to
+     * {@link Stbte#UNTRACKABLE UNTRACKABLE}.
+     * This method is typicblly cblled when references to the
+     * internbl dbtb buffers hbve been mbde public.
+     * @throws IllegblStbteException if the current stbte is
+     *         {@link Stbte#IMMUTABLE IMMUTABLE}
+     * @see #setImmutbble
      * @since 1.7
      */
-    public synchronized void setUntrackable() {
-        if (theState == IMMUTABLE) {
-            throw new IllegalStateException("IMMUTABLE objects cannot "+
+    public synchronized void setUntrbckbble() {
+        if (theStbte == IMMUTABLE) {
+            throw new IllegblStbteException("IMMUTABLE objects cbnnot "+
                                             "become UNTRACKABLE");
         }
-        theState = UNTRACKABLE;
-        theTracker = null;
+        theStbte = UNTRACKABLE;
+        theTrbcker = null;
     }
 
     /**
-     * This method provides an easy way for delegating classes to
-     * manage temporarily setting the overall {@link State State}
-     * of the delegate to {@link State#DYNAMIC DYNAMIC}
-     * during well-defined time frames of dynamic pixel updating.
-     * This method should be called once before each flow of control
-     * that might dynamically update the pixels in an uncontrolled
-     * or unpredictable fashion.
+     * This method provides bn ebsy wby for delegbting clbsses to
+     * mbnbge temporbrily setting the overbll {@link Stbte Stbte}
+     * of the delegbte to {@link Stbte#DYNAMIC DYNAMIC}
+     * during well-defined time frbmes of dynbmic pixel updbting.
+     * This method should be cblled once before ebch flow of control
+     * thbt might dynbmicblly updbte the pixels in bn uncontrolled
+     * or unpredictbble fbshion.
      * <p>
-     * The companion method {@link #removeDynamicAgent} method should
-     * also be called once after each such flow of control has ended.
-     * Failing to call the remove method will result in this object
-     * permanently becoming {@link State#DYNAMIC DYNAMIC}
-     * and therefore effectively untrackable.
+     * The compbnion method {@link #removeDynbmicAgent} method should
+     * blso be cblled once bfter ebch such flow of control hbs ended.
+     * Fbiling to cbll the remove method will result in this object
+     * permbnently becoming {@link Stbte#DYNAMIC DYNAMIC}
+     * bnd therefore effectively untrbckbble.
      * <p>
-     * This method will only change the {@link State State} of the
-     * delegate if it is currently {@link State#STABLE STABLE}.
+     * This method will only chbnge the {@link Stbte Stbte} of the
+     * delegbte if it is currently {@link Stbte#STABLE STABLE}.
      *
-     * @throws IllegalStateException if the current state is
-     *         {@link State#IMMUTABLE IMMUTABLE}
+     * @throws IllegblStbteException if the current stbte is
+     *         {@link Stbte#IMMUTABLE IMMUTABLE}
      * @since 1.7
      */
-    public synchronized void addDynamicAgent() {
-        if (theState == IMMUTABLE) {
-            throw new IllegalStateException("Cannot change state from "+
+    public synchronized void bddDynbmicAgent() {
+        if (theStbte == IMMUTABLE) {
+            throw new IllegblStbteException("Cbnnot chbnge stbte from "+
                                             "IMMUTABLE");
         }
-        ++numDynamicAgents;
-        if (theState == STABLE) {
-            theState = DYNAMIC;
-            theTracker = null;
+        ++numDynbmicAgents;
+        if (theStbte == STABLE) {
+            theStbte = DYNAMIC;
+            theTrbcker = null;
         }
     }
 
     /**
-     * This method provides an easy way for delegating classes to
-     * manage restoring the overall {@link State State} of the
-     * delegate back to {@link State#STABLE STABLE}
-     * after a well-defined time frame of dynamic pixel updating.
-     * This method should be called once after each flow of control
-     * that might dynamically update the pixels in an uncontrolled
-     * or unpredictable fashion has ended.
+     * This method provides bn ebsy wby for delegbting clbsses to
+     * mbnbge restoring the overbll {@link Stbte Stbte} of the
+     * delegbte bbck to {@link Stbte#STABLE STABLE}
+     * bfter b well-defined time frbme of dynbmic pixel updbting.
+     * This method should be cblled once bfter ebch flow of control
+     * thbt might dynbmicblly updbte the pixels in bn uncontrolled
+     * or unpredictbble fbshion hbs ended.
      * <p>
-     * The companion method {@link #addDynamicAgent} method should
-     * have been called at some point before each such flow of
-     * control began.
-     * If this method is called without having previously called
-     * the add method, the {@link State State} of this object
-     * will become unreliable.
+     * The compbnion method {@link #bddDynbmicAgent} method should
+     * hbve been cblled bt some point before ebch such flow of
+     * control begbn.
+     * If this method is cblled without hbving previously cblled
+     * the bdd method, the {@link Stbte Stbte} of this object
+     * will become unrelibble.
      * <p>
-     * This method will only change the {@link State State} of the
-     * delegate if the number of outstanding dynamic agents has
-     * gone to 0 and it is currently
-     * {@link State#DYNAMIC DYNAMIC}.
+     * This method will only chbnge the {@link Stbte Stbte} of the
+     * delegbte if the number of outstbnding dynbmic bgents hbs
+     * gone to 0 bnd it is currently
+     * {@link Stbte#DYNAMIC DYNAMIC}.
      *
      * @since 1.7
      */
-    protected synchronized void removeDynamicAgent() {
-        if (--numDynamicAgents == 0 && theState == DYNAMIC) {
-            theState = STABLE;
-            theTracker = null;
+    protected synchronized void removeDynbmicAgent() {
+        if (--numDynbmicAgents == 0 && theStbte == DYNAMIC) {
+            theStbte = STABLE;
+            theTrbcker = null;
         }
     }
 
     /**
-     * This method provides an easy way for delegating classes to
-     * indicate that the contents have changed.
-     * This method will invalidate outstanding StateTracker objects
-     * so that any other agents which maintain cached information
-     * about the pixels will know to refresh their cached copies.
-     * This method should be called after every modification to
-     * the data, such as any calls to any of the setElem methods.
+     * This method provides bn ebsy wby for delegbting clbsses to
+     * indicbte thbt the contents hbve chbnged.
+     * This method will invblidbte outstbnding StbteTrbcker objects
+     * so thbt bny other bgents which mbintbin cbched informbtion
+     * bbout the pixels will know to refresh their cbched copies.
+     * This method should be cblled bfter every modificbtion to
+     * the dbtb, such bs bny cblls to bny of the setElem methods.
      * <p>
-     * Note that, for efficiency, this method does not check the
-     * {@link State State} of the object to see if it is compatible
-     * with being marked dirty
-     * (i.e. not {@link State#IMMUTABLE IMMUTABLE}).
-     * It is up to the callers to enforce the fact that an
-     * {@code IMMUTABLE} delegate is never modified.
+     * Note thbt, for efficiency, this method does not check the
+     * {@link Stbte Stbte} of the object to see if it is compbtible
+     * with being mbrked dirty
+     * (i.e. not {@link Stbte#IMMUTABLE IMMUTABLE}).
+     * It is up to the cbllers to enforce the fbct thbt bn
+     * {@code IMMUTABLE} delegbte is never modified.
      * @since 1.7
      */
-    public final void markDirty() {
-        theTracker = null;
+    public finbl void mbrkDirty() {
+        theTrbcker = null;
     }
 }

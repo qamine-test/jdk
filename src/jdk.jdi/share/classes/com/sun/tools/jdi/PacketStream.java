@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
-import java.util.*;
-import java.io.ByteArrayOutputStream;
+import jbvb.util.*;
+import jbvb.io.ByteArrbyOutputStrebm;
 
-class PacketStream {
-    final VirtualMachineImpl vm;
-    private int inCursor = 0;
-    final Packet pkt;
-    private ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-    private boolean isCommitted = false;
+clbss PbcketStrebm {
+    finbl VirtublMbchineImpl vm;
+    privbte int inCursor = 0;
+    finbl Pbcket pkt;
+    privbte ByteArrbyOutputStrebm dbtbStrebm = new ByteArrbyOutputStrebm();
+    privbte boolebn isCommitted = fblse;
 
-    PacketStream(VirtualMachineImpl vm, int cmdSet, int cmd) {
+    PbcketStrebm(VirtublMbchineImpl vm, int cmdSet, int cmd) {
         this.vm = vm;
-        this.pkt = new Packet();
+        this.pkt = new Pbcket();
         pkt.cmdSet = (short)cmdSet;
         pkt.cmd = (short)cmd;
     }
 
-    PacketStream(VirtualMachineImpl vm, Packet pkt) {
+    PbcketStrebm(VirtublMbchineImpl vm, Pbcket pkt) {
         this.vm = vm;
         this.pkt = pkt;
-        this.isCommitted = true; /* read only stream */
+        this.isCommitted = true; /* rebd only strebm */
     }
 
     int id() {
@@ -55,86 +55,86 @@ class PacketStream {
 
     void send() {
         if (!isCommitted) {
-            pkt.data = dataStream.toByteArray();
-            vm.sendToTarget(pkt);
+            pkt.dbtb = dbtbStrebm.toByteArrby();
+            vm.sendToTbrget(pkt);
             isCommitted = true;
         }
     }
 
-    void waitForReply() throws JDWPException {
+    void wbitForReply() throws JDWPException {
         if (!isCommitted) {
-            throw new InternalException("waitForReply without send");
+            throw new InternblException("wbitForReply without send");
         }
 
-        vm.waitForTargetReply(pkt);
+        vm.wbitForTbrgetReply(pkt);
 
-        if (pkt.errorCode != Packet.ReplyNoError) {
+        if (pkt.errorCode != Pbcket.ReplyNoError) {
             throw new JDWPException(pkt.errorCode);
         }
     }
 
-    void writeBoolean(boolean data) {
-        if(data) {
-            dataStream.write( 1 );
+    void writeBoolebn(boolebn dbtb) {
+        if(dbtb) {
+            dbtbStrebm.write( 1 );
         } else {
-            dataStream.write( 0 );
+            dbtbStrebm.write( 0 );
         }
     }
 
-    void writeByte(byte data) {
-        dataStream.write( data );
+    void writeByte(byte dbtb) {
+        dbtbStrebm.write( dbtb );
     }
 
-    void writeChar(char data) {
-        dataStream.write( (byte)((data >>> 8) & 0xFF) );
-        dataStream.write( (byte)((data >>> 0) & 0xFF) );
+    void writeChbr(chbr dbtb) {
+        dbtbStrebm.write( (byte)((dbtb >>> 8) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 0) & 0xFF) );
     }
 
-    void writeShort(short data) {
-        dataStream.write( (byte)((data >>> 8) & 0xFF) );
-        dataStream.write( (byte)((data >>> 0) & 0xFF) );
+    void writeShort(short dbtb) {
+        dbtbStrebm.write( (byte)((dbtb >>> 8) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 0) & 0xFF) );
     }
 
-    void writeInt(int data) {
-        dataStream.write( (byte)((data >>> 24) & 0xFF) );
-        dataStream.write( (byte)((data >>> 16) & 0xFF) );
-        dataStream.write( (byte)((data >>> 8) & 0xFF) );
-        dataStream.write( (byte)((data >>> 0) & 0xFF) );
+    void writeInt(int dbtb) {
+        dbtbStrebm.write( (byte)((dbtb >>> 24) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 16) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 8) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 0) & 0xFF) );
     }
 
-    void writeLong(long data) {
-        dataStream.write( (byte)((data >>> 56) & 0xFF) );
-        dataStream.write( (byte)((data >>> 48) & 0xFF) );
-        dataStream.write( (byte)((data >>> 40) & 0xFF) );
-        dataStream.write( (byte)((data >>> 32) & 0xFF) );
+    void writeLong(long dbtb) {
+        dbtbStrebm.write( (byte)((dbtb >>> 56) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 48) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 40) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 32) & 0xFF) );
 
-        dataStream.write( (byte)((data >>> 24) & 0xFF) );
-        dataStream.write( (byte)((data >>> 16) & 0xFF) );
-        dataStream.write( (byte)((data >>> 8) & 0xFF) );
-        dataStream.write( (byte)((data >>> 0) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 24) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 16) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 8) & 0xFF) );
+        dbtbStrebm.write( (byte)((dbtb >>> 0) & 0xFF) );
     }
 
-    void writeFloat(float data) {
-        writeInt(Float.floatToIntBits(data));
+    void writeFlobt(flobt dbtb) {
+        writeInt(Flobt.flobtToIntBits(dbtb));
     }
 
-    void writeDouble(double data) {
-        writeLong(Double.doubleToLongBits(data));
+    void writeDouble(double dbtb) {
+        writeLong(Double.doubleToLongBits(dbtb));
     }
 
-    void writeID(int size, long data) {
+    void writeID(int size, long dbtb) {
         switch (size) {
-            case 8:
-                writeLong(data);
-                break;
-            case 4:
-                writeInt((int)data);
-                break;
-            case 2:
-                writeShort((short)data);
-                break;
-            default:
-                throw new UnsupportedOperationException("JDWP: ID size not supported: " + size);
+            cbse 8:
+                writeLong(dbtb);
+                brebk;
+            cbse 4:
+                writeInt((int)dbtb);
+                brebk;
+            cbse 2:
+                writeShort((short)dbtb);
+                brebk;
+            defbult:
+                throw new UnsupportedOperbtionException("JDWP: ID size not supported: " + size);
         }
     }
 
@@ -142,148 +142,148 @@ class PacketStream {
         writeObjectRef(0);
     }
 
-    void writeObjectRef(long data) {
-        writeID(vm.sizeofObjectRef, data);
+    void writeObjectRef(long dbtb) {
+        writeID(vm.sizeofObjectRef, dbtb);
     }
 
-    void writeClassRef(long data) {
-        writeID(vm.sizeofClassRef, data);
+    void writeClbssRef(long dbtb) {
+        writeID(vm.sizeofClbssRef, dbtb);
     }
 
-    void writeMethodRef(long data) {
-        writeID(vm.sizeofMethodRef, data);
+    void writeMethodRef(long dbtb) {
+        writeID(vm.sizeofMethodRef, dbtb);
     }
 
-    void writeFieldRef(long data) {
-        writeID(vm.sizeofFieldRef, data);
+    void writeFieldRef(long dbtb) {
+        writeID(vm.sizeofFieldRef, dbtb);
     }
 
-    void writeFrameRef(long data) {
-        writeID(vm.sizeofFrameRef, data);
+    void writeFrbmeRef(long dbtb) {
+        writeID(vm.sizeofFrbmeRef, dbtb);
     }
 
-    void writeByteArray(byte[] data) {
-        dataStream.write(data, 0, data.length);
+    void writeByteArrby(byte[] dbtb) {
+        dbtbStrebm.write(dbtb, 0, dbtb.length);
     }
 
     void writeString(String string) {
         try {
             byte[] stringBytes = string.getBytes("UTF8");
             writeInt(stringBytes.length);
-            writeByteArray(stringBytes);
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new InternalException("Cannot convert string to UTF8 bytes");
+            writeByteArrby(stringBytes);
+        } cbtch (jbvb.io.UnsupportedEncodingException e) {
+            throw new InternblException("Cbnnot convert string to UTF8 bytes");
         }
     }
 
-    void writeLocation(Location location) {
-        ReferenceTypeImpl refType = (ReferenceTypeImpl)location.declaringType();
-        byte tag;
-        if (refType instanceof ClassType) {
-            tag = JDWP.TypeTag.CLASS;
-        } else if (refType instanceof InterfaceType) {
-            // It's possible to have executable code in an interface
-            tag = JDWP.TypeTag.INTERFACE;
+    void writeLocbtion(Locbtion locbtion) {
+        ReferenceTypeImpl refType = (ReferenceTypeImpl)locbtion.declbringType();
+        byte tbg;
+        if (refType instbnceof ClbssType) {
+            tbg = JDWP.TypeTbg.CLASS;
+        } else if (refType instbnceof InterfbceType) {
+            // It's possible to hbve executbble code in bn interfbce
+            tbg = JDWP.TypeTbg.INTERFACE;
         } else {
-            throw new InternalException("Invalid Location");
+            throw new InternblException("Invblid Locbtion");
         }
-        writeByte(tag);
-        writeClassRef(refType.ref());
-        writeMethodRef(((MethodImpl)location.method()).ref());
-        writeLong(location.codeIndex());
+        writeByte(tbg);
+        writeClbssRef(refType.ref());
+        writeMethodRef(((MethodImpl)locbtion.method()).ref());
+        writeLong(locbtion.codeIndex());
     }
 
-    void writeValue(Value val) {
+    void writeVblue(Vblue vbl) {
         try {
-            writeValueChecked(val);
-        } catch (InvalidTypeException exc) {  // should never happen
+            writeVblueChecked(vbl);
+        } cbtch (InvblidTypeException exc) {  // should never hbppen
             throw new RuntimeException(
-                "Internal error: Invalid Tag/Type pair");
+                "Internbl error: Invblid Tbg/Type pbir");
         }
     }
 
-    void writeValueChecked(Value val) throws InvalidTypeException {
-        writeByte(ValueImpl.typeValueKey(val));
-        writeUntaggedValue(val);
+    void writeVblueChecked(Vblue vbl) throws InvblidTypeException {
+        writeByte(VblueImpl.typeVblueKey(vbl));
+        writeUntbggedVblue(vbl);
     }
 
-    void writeUntaggedValue(Value val) {
+    void writeUntbggedVblue(Vblue vbl) {
         try {
-            writeUntaggedValueChecked(val);
-        } catch (InvalidTypeException exc) {  // should never happen
+            writeUntbggedVblueChecked(vbl);
+        } cbtch (InvblidTypeException exc) {  // should never hbppen
             throw new RuntimeException(
-                "Internal error: Invalid Tag/Type pair");
+                "Internbl error: Invblid Tbg/Type pbir");
         }
     }
 
-    void writeUntaggedValueChecked(Value val) throws InvalidTypeException {
-        byte tag = ValueImpl.typeValueKey(val);
-        if (isObjectTag(tag)) {
-            if (val == null) {
+    void writeUntbggedVblueChecked(Vblue vbl) throws InvblidTypeException {
+        byte tbg = VblueImpl.typeVblueKey(vbl);
+        if (isObjectTbg(tbg)) {
+            if (vbl == null) {
                  writeObjectRef(0);
             } else {
-                if (!(val instanceof ObjectReference)) {
-                    throw new InvalidTypeException();
+                if (!(vbl instbnceof ObjectReference)) {
+                    throw new InvblidTypeException();
                 }
-                writeObjectRef(((ObjectReferenceImpl)val).ref());
+                writeObjectRef(((ObjectReferenceImpl)vbl).ref());
             }
         } else {
-            switch (tag) {
-                case JDWP.Tag.BYTE:
-                    if(!(val instanceof ByteValue))
-                        throw new InvalidTypeException();
+            switch (tbg) {
+                cbse JDWP.Tbg.BYTE:
+                    if(!(vbl instbnceof ByteVblue))
+                        throw new InvblidTypeException();
 
-                    writeByte(((PrimitiveValue)val).byteValue());
-                    break;
+                    writeByte(((PrimitiveVblue)vbl).byteVblue());
+                    brebk;
 
-                case JDWP.Tag.CHAR:
-                    if(!(val instanceof CharValue))
-                        throw new InvalidTypeException();
+                cbse JDWP.Tbg.CHAR:
+                    if(!(vbl instbnceof ChbrVblue))
+                        throw new InvblidTypeException();
 
-                    writeChar(((PrimitiveValue)val).charValue());
-                    break;
+                    writeChbr(((PrimitiveVblue)vbl).chbrVblue());
+                    brebk;
 
-                case JDWP.Tag.FLOAT:
-                    if(!(val instanceof FloatValue))
-                        throw new InvalidTypeException();
+                cbse JDWP.Tbg.FLOAT:
+                    if(!(vbl instbnceof FlobtVblue))
+                        throw new InvblidTypeException();
 
-                    writeFloat(((PrimitiveValue)val).floatValue());
-                    break;
+                    writeFlobt(((PrimitiveVblue)vbl).flobtVblue());
+                    brebk;
 
-                case JDWP.Tag.DOUBLE:
-                    if(!(val instanceof DoubleValue))
-                        throw new InvalidTypeException();
+                cbse JDWP.Tbg.DOUBLE:
+                    if(!(vbl instbnceof DoubleVblue))
+                        throw new InvblidTypeException();
 
-                    writeDouble(((PrimitiveValue)val).doubleValue());
-                    break;
+                    writeDouble(((PrimitiveVblue)vbl).doubleVblue());
+                    brebk;
 
-                case JDWP.Tag.INT:
-                    if(!(val instanceof IntegerValue))
-                        throw new InvalidTypeException();
+                cbse JDWP.Tbg.INT:
+                    if(!(vbl instbnceof IntegerVblue))
+                        throw new InvblidTypeException();
 
-                    writeInt(((PrimitiveValue)val).intValue());
-                    break;
+                    writeInt(((PrimitiveVblue)vbl).intVblue());
+                    brebk;
 
-                case JDWP.Tag.LONG:
-                    if(!(val instanceof LongValue))
-                        throw new InvalidTypeException();
+                cbse JDWP.Tbg.LONG:
+                    if(!(vbl instbnceof LongVblue))
+                        throw new InvblidTypeException();
 
-                    writeLong(((PrimitiveValue)val).longValue());
-                    break;
+                    writeLong(((PrimitiveVblue)vbl).longVblue());
+                    brebk;
 
-                case JDWP.Tag.SHORT:
-                    if(!(val instanceof ShortValue))
-                        throw new InvalidTypeException();
+                cbse JDWP.Tbg.SHORT:
+                    if(!(vbl instbnceof ShortVblue))
+                        throw new InvblidTypeException();
 
-                    writeShort(((PrimitiveValue)val).shortValue());
-                    break;
+                    writeShort(((PrimitiveVblue)vbl).shortVblue());
+                    brebk;
 
-                case JDWP.Tag.BOOLEAN:
-                    if(!(val instanceof BooleanValue))
-                        throw new InvalidTypeException();
+                cbse JDWP.Tbg.BOOLEAN:
+                    if(!(vbl instbnceof BoolebnVblue))
+                        throw new InvblidTypeException();
 
-                    writeBoolean(((PrimitiveValue)val).booleanValue());
-                    break;
+                    writeBoolebn(((PrimitiveVblue)vbl).boolebnVblue());
+                    brebk;
             }
         }
     }
@@ -291,106 +291,106 @@ class PacketStream {
 
 
     /**
-     * Read byte represented as one bytes.
+     * Rebd byte represented bs one bytes.
      */
-    byte readByte() {
-        byte ret = pkt.data[inCursor];
+    byte rebdByte() {
+        byte ret = pkt.dbtb[inCursor];
         inCursor += 1;
         return ret;
     }
 
     /**
-     * Read boolean represented as one byte.
+     * Rebd boolebn represented bs one byte.
      */
-    boolean readBoolean() {
-        byte ret = readByte();
+    boolebn rebdBoolebn() {
+        byte ret = rebdByte();
         return (ret != 0);
     }
 
     /**
-     * Read char represented as two bytes.
+     * Rebd chbr represented bs two bytes.
      */
-    char readChar() {
+    chbr rebdChbr() {
         int b1, b2;
 
-        b1 = pkt.data[inCursor++] & 0xff;
-        b2 = pkt.data[inCursor++] & 0xff;
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
 
-        return (char)((b1 << 8) + b2);
+        return (chbr)((b1 << 8) + b2);
     }
 
     /**
-     * Read short represented as two bytes.
+     * Rebd short represented bs two bytes.
      */
-    short readShort() {
+    short rebdShort() {
         int b1, b2;
 
-        b1 = pkt.data[inCursor++] & 0xff;
-        b2 = pkt.data[inCursor++] & 0xff;
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
 
         return (short)((b1 << 8) + b2);
     }
 
     /**
-     * Read int represented as four bytes.
+     * Rebd int represented bs four bytes.
      */
-    int readInt() {
+    int rebdInt() {
         int b1,b2,b3,b4;
 
-        b1 = pkt.data[inCursor++] & 0xff;
-        b2 = pkt.data[inCursor++] & 0xff;
-        b3 = pkt.data[inCursor++] & 0xff;
-        b4 = pkt.data[inCursor++] & 0xff;
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
+        b3 = pkt.dbtb[inCursor++] & 0xff;
+        b4 = pkt.dbtb[inCursor++] & 0xff;
 
         return ((b1 << 24) + (b2 << 16) + (b3 << 8) + b4);
     }
 
     /**
-     * Read long represented as eight bytes.
+     * Rebd long represented bs eight bytes.
      */
-    long readLong() {
+    long rebdLong() {
         long b1,b2,b3,b4;
         long b5,b6,b7,b8;
 
-        b1 = pkt.data[inCursor++] & 0xff;
-        b2 = pkt.data[inCursor++] & 0xff;
-        b3 = pkt.data[inCursor++] & 0xff;
-        b4 = pkt.data[inCursor++] & 0xff;
+        b1 = pkt.dbtb[inCursor++] & 0xff;
+        b2 = pkt.dbtb[inCursor++] & 0xff;
+        b3 = pkt.dbtb[inCursor++] & 0xff;
+        b4 = pkt.dbtb[inCursor++] & 0xff;
 
-        b5 = pkt.data[inCursor++] & 0xff;
-        b6 = pkt.data[inCursor++] & 0xff;
-        b7 = pkt.data[inCursor++] & 0xff;
-        b8 = pkt.data[inCursor++] & 0xff;
+        b5 = pkt.dbtb[inCursor++] & 0xff;
+        b6 = pkt.dbtb[inCursor++] & 0xff;
+        b7 = pkt.dbtb[inCursor++] & 0xff;
+        b8 = pkt.dbtb[inCursor++] & 0xff;
 
         return ((b1 << 56) + (b2 << 48) + (b3 << 40) + (b4 << 32)
                 + (b5 << 24) + (b6 << 16) + (b7 << 8) + b8);
     }
 
     /**
-     * Read float represented as four bytes.
+     * Rebd flobt represented bs four bytes.
      */
-    float readFloat() {
-        return Float.intBitsToFloat(readInt());
+    flobt rebdFlobt() {
+        return Flobt.intBitsToFlobt(rebdInt());
     }
 
     /**
-     * Read double represented as eight bytes.
+     * Rebd double represented bs eight bytes.
      */
-    double readDouble() {
-        return Double.longBitsToDouble(readLong());
+    double rebdDouble() {
+        return Double.longBitsToDouble(rebdLong());
     }
 
     /**
-     * Read string represented as four byte length followed by
-     * characters of the string.
+     * Rebd string represented bs four byte length followed by
+     * chbrbcters of the string.
      */
-    String readString() {
+    String rebdString() {
         String ret;
-        int len = readInt();
+        int len = rebdInt();
 
         try {
-            ret = new String(pkt.data, inCursor, len, "UTF8");
-        } catch(java.io.UnsupportedEncodingException e) {
+            ret = new String(pkt.dbtb, inCursor, len, "UTF8");
+        } cbtch(jbvb.io.UnsupportedEncodingException e) {
             System.err.println(e);
             ret = "Conversion error!";
         }
@@ -398,212 +398,212 @@ class PacketStream {
         return ret;
     }
 
-    private long readID(int size) {
+    privbte long rebdID(int size) {
         switch (size) {
-          case 8:
-              return readLong();
-          case 4:
-              return (long)readInt();
-          case 2:
-              return (long)readShort();
-          default:
-              throw new UnsupportedOperationException("JDWP: ID size not supported: " + size);
+          cbse 8:
+              return rebdLong();
+          cbse 4:
+              return (long)rebdInt();
+          cbse 2:
+              return (long)rebdShort();
+          defbult:
+              throw new UnsupportedOperbtionException("JDWP: ID size not supported: " + size);
         }
     }
 
     /**
-     * Read object represented as vm specific byte sequence.
+     * Rebd object represented bs vm specific byte sequence.
      */
-    long readObjectRef() {
-        return readID(vm.sizeofObjectRef);
+    long rebdObjectRef() {
+        return rebdID(vm.sizeofObjectRef);
     }
 
-    long readClassRef() {
-        return readID(vm.sizeofClassRef);
+    long rebdClbssRef() {
+        return rebdID(vm.sizeofClbssRef);
     }
 
-    ObjectReferenceImpl readTaggedObjectReference() {
-        byte typeKey = readByte();
-        return vm.objectMirror(readObjectRef(), typeKey);
+    ObjectReferenceImpl rebdTbggedObjectReference() {
+        byte typeKey = rebdByte();
+        return vm.objectMirror(rebdObjectRef(), typeKey);
     }
 
-    ObjectReferenceImpl readObjectReference() {
-        return vm.objectMirror(readObjectRef());
+    ObjectReferenceImpl rebdObjectReference() {
+        return vm.objectMirror(rebdObjectRef());
     }
 
-    StringReferenceImpl readStringReference() {
-        long ref = readObjectRef();
+    StringReferenceImpl rebdStringReference() {
+        long ref = rebdObjectRef();
         return vm.stringMirror(ref);
     }
 
-    ArrayReferenceImpl readArrayReference() {
-        long ref = readObjectRef();
-        return vm.arrayMirror(ref);
+    ArrbyReferenceImpl rebdArrbyReference() {
+        long ref = rebdObjectRef();
+        return vm.brrbyMirror(ref);
     }
 
-    ThreadReferenceImpl readThreadReference() {
-        long ref = readObjectRef();
-        return vm.threadMirror(ref);
+    ThrebdReferenceImpl rebdThrebdReference() {
+        long ref = rebdObjectRef();
+        return vm.threbdMirror(ref);
     }
 
-    ThreadGroupReferenceImpl readThreadGroupReference() {
-        long ref = readObjectRef();
-        return vm.threadGroupMirror(ref);
+    ThrebdGroupReferenceImpl rebdThrebdGroupReference() {
+        long ref = rebdObjectRef();
+        return vm.threbdGroupMirror(ref);
     }
 
-    ClassLoaderReferenceImpl readClassLoaderReference() {
-        long ref = readObjectRef();
-        return vm.classLoaderMirror(ref);
+    ClbssLobderReferenceImpl rebdClbssLobderReference() {
+        long ref = rebdObjectRef();
+        return vm.clbssLobderMirror(ref);
     }
 
-    ClassObjectReferenceImpl readClassObjectReference() {
-        long ref = readObjectRef();
-        return vm.classObjectMirror(ref);
+    ClbssObjectReferenceImpl rebdClbssObjectReference() {
+        long ref = rebdObjectRef();
+        return vm.clbssObjectMirror(ref);
     }
 
-    ReferenceTypeImpl readReferenceType() {
-        byte tag = readByte();
-        long ref = readObjectRef();
-        return vm.referenceType(ref, tag);
-    }
-
-    /**
-     * Read method reference represented as vm specific byte sequence.
-     */
-    long readMethodRef() {
-        return readID(vm.sizeofMethodRef);
+    ReferenceTypeImpl rebdReferenceType() {
+        byte tbg = rebdByte();
+        long ref = rebdObjectRef();
+        return vm.referenceType(ref, tbg);
     }
 
     /**
-     * Read field reference represented as vm specific byte sequence.
+     * Rebd method reference represented bs vm specific byte sequence.
      */
-    long readFieldRef() {
-        return readID(vm.sizeofFieldRef);
+    long rebdMethodRef() {
+        return rebdID(vm.sizeofMethodRef);
     }
 
     /**
-     * Read field represented as vm specific byte sequence.
+     * Rebd field reference represented bs vm specific byte sequence.
      */
-    Field readField() {
-        ReferenceTypeImpl refType = readReferenceType();
-        long fieldRef = readFieldRef();
+    long rebdFieldRef() {
+        return rebdID(vm.sizeofFieldRef);
+    }
+
+    /**
+     * Rebd field represented bs vm specific byte sequence.
+     */
+    Field rebdField() {
+        ReferenceTypeImpl refType = rebdReferenceType();
+        long fieldRef = rebdFieldRef();
         return refType.getFieldMirror(fieldRef);
     }
 
     /**
-     * Read frame represented as vm specific byte sequence.
+     * Rebd frbme represented bs vm specific byte sequence.
      */
-    long readFrameRef() {
-        return readID(vm.sizeofFrameRef);
+    long rebdFrbmeRef() {
+        return rebdID(vm.sizeofFrbmeRef);
     }
 
     /**
-     * Read a value, first byte describes type of value to read.
+     * Rebd b vblue, first byte describes type of vblue to rebd.
      */
-    ValueImpl readValue() {
-        byte typeKey = readByte();
-        return readUntaggedValue(typeKey);
+    VblueImpl rebdVblue() {
+        byte typeKey = rebdByte();
+        return rebdUntbggedVblue(typeKey);
     }
 
-    ValueImpl readUntaggedValue(byte typeKey) {
-        ValueImpl val = null;
+    VblueImpl rebdUntbggedVblue(byte typeKey) {
+        VblueImpl vbl = null;
 
-        if (isObjectTag(typeKey)) {
-            val = vm.objectMirror(readObjectRef(), typeKey);
+        if (isObjectTbg(typeKey)) {
+            vbl = vm.objectMirror(rebdObjectRef(), typeKey);
         } else {
             switch(typeKey) {
-                case JDWP.Tag.BYTE:
-                    val = new ByteValueImpl(vm, readByte());
-                    break;
+                cbse JDWP.Tbg.BYTE:
+                    vbl = new ByteVblueImpl(vm, rebdByte());
+                    brebk;
 
-                case JDWP.Tag.CHAR:
-                    val = new CharValueImpl(vm, readChar());
-                    break;
+                cbse JDWP.Tbg.CHAR:
+                    vbl = new ChbrVblueImpl(vm, rebdChbr());
+                    brebk;
 
-                case JDWP.Tag.FLOAT:
-                    val = new FloatValueImpl(vm, readFloat());
-                    break;
+                cbse JDWP.Tbg.FLOAT:
+                    vbl = new FlobtVblueImpl(vm, rebdFlobt());
+                    brebk;
 
-                case JDWP.Tag.DOUBLE:
-                    val = new DoubleValueImpl(vm, readDouble());
-                    break;
+                cbse JDWP.Tbg.DOUBLE:
+                    vbl = new DoubleVblueImpl(vm, rebdDouble());
+                    brebk;
 
-                case JDWP.Tag.INT:
-                    val = new IntegerValueImpl(vm, readInt());
-                    break;
+                cbse JDWP.Tbg.INT:
+                    vbl = new IntegerVblueImpl(vm, rebdInt());
+                    brebk;
 
-                case JDWP.Tag.LONG:
-                    val = new LongValueImpl(vm, readLong());
-                    break;
+                cbse JDWP.Tbg.LONG:
+                    vbl = new LongVblueImpl(vm, rebdLong());
+                    brebk;
 
-                case JDWP.Tag.SHORT:
-                    val = new ShortValueImpl(vm, readShort());
-                    break;
+                cbse JDWP.Tbg.SHORT:
+                    vbl = new ShortVblueImpl(vm, rebdShort());
+                    brebk;
 
-                case JDWP.Tag.BOOLEAN:
-                    val = new BooleanValueImpl(vm, readBoolean());
-                    break;
+                cbse JDWP.Tbg.BOOLEAN:
+                    vbl = new BoolebnVblueImpl(vm, rebdBoolebn());
+                    brebk;
 
-                case JDWP.Tag.VOID:
-                    val = new VoidValueImpl(vm);
-                    break;
+                cbse JDWP.Tbg.VOID:
+                    vbl = new VoidVblueImpl(vm);
+                    brebk;
             }
         }
-        return val;
+        return vbl;
     }
 
     /**
-     * Read location represented as vm specific byte sequence.
+     * Rebd locbtion represented bs vm specific byte sequence.
      */
-    Location readLocation() {
-        byte tag = readByte();
-        long classRef = readObjectRef();
-        long methodRef = readMethodRef();
-        long codeIndex = readLong();
-        if (classRef != 0) {
-            /* Valid location */
-            ReferenceTypeImpl refType = vm.referenceType(classRef, tag);
-            return new LocationImpl(vm, refType, methodRef, codeIndex);
+    Locbtion rebdLocbtion() {
+        byte tbg = rebdByte();
+        long clbssRef = rebdObjectRef();
+        long methodRef = rebdMethodRef();
+        long codeIndex = rebdLong();
+        if (clbssRef != 0) {
+            /* Vblid locbtion */
+            ReferenceTypeImpl refType = vm.referenceType(clbssRef, tbg);
+            return new LocbtionImpl(vm, refType, methodRef, codeIndex);
         } else {
-            /* Null location (example: uncaught exception) */
+            /* Null locbtion (exbmple: uncbught exception) */
            return null;
         }
     }
 
-    byte[] readByteArray(int length) {
-        byte[] array = new byte[length];
-        System.arraycopy(pkt.data, inCursor, array, 0, length);
+    byte[] rebdByteArrby(int length) {
+        byte[] brrby = new byte[length];
+        System.brrbycopy(pkt.dbtb, inCursor, brrby, 0, length);
         inCursor += length;
-        return array;
+        return brrby;
     }
 
-    List<Value> readArrayRegion() {
-        byte typeKey = readByte();
-        int length = readInt();
-        List<Value> list = new ArrayList<Value>(length);
-        boolean gettingObjects = isObjectTag(typeKey);
+    List<Vblue> rebdArrbyRegion() {
+        byte typeKey = rebdByte();
+        int length = rebdInt();
+        List<Vblue> list = new ArrbyList<Vblue>(length);
+        boolebn gettingObjects = isObjectTbg(typeKey);
         for (int i = 0; i < length; i++) {
             /*
-             * Each object comes back with a type key which might
-             * identify a more specific type than the type key we
-             * passed in, so we use it in the decodeValue call.
-             * (For primitives, we just use the original one)
+             * Ebch object comes bbck with b type key which might
+             * identify b more specific type thbn the type key we
+             * pbssed in, so we use it in the decodeVblue cbll.
+             * (For primitives, we just use the originbl one)
              */
             if (gettingObjects) {
-                typeKey = readByte();
+                typeKey = rebdByte();
             }
-            Value value = readUntaggedValue(typeKey);
-            list.add(value);
+            Vblue vblue = rebdUntbggedVblue(typeKey);
+            list.bdd(vblue);
         }
 
         return list;
     }
 
-    void writeArrayRegion(List<Value> srcValues) {
-        writeInt(srcValues.size());
-        for (int i = 0; i < srcValues.size(); i++) {
-            Value value = srcValues.get(i);
-            writeUntaggedValue(value);
+    void writeArrbyRegion(List<Vblue> srcVblues) {
+        writeInt(srcVblues.size());
+        for (int i = 0; i < srcVblues.size(); i++) {
+            Vblue vblue = srcVblues.get(i);
+            writeUntbggedVblue(vblue);
         }
     }
 
@@ -612,17 +612,17 @@ class PacketStream {
         return n;
     }
 
-    byte command() {
+    byte commbnd() {
         return (byte)pkt.cmd;
     }
 
-    static boolean isObjectTag(byte tag) {
-        return (tag == JDWP.Tag.OBJECT) ||
-               (tag == JDWP.Tag.ARRAY) ||
-               (tag == JDWP.Tag.STRING) ||
-               (tag == JDWP.Tag.THREAD) ||
-               (tag == JDWP.Tag.THREAD_GROUP) ||
-               (tag == JDWP.Tag.CLASS_LOADER) ||
-               (tag == JDWP.Tag.CLASS_OBJECT);
+    stbtic boolebn isObjectTbg(byte tbg) {
+        return (tbg == JDWP.Tbg.OBJECT) ||
+               (tbg == JDWP.Tbg.ARRAY) ||
+               (tbg == JDWP.Tbg.STRING) ||
+               (tbg == JDWP.Tbg.THREAD) ||
+               (tbg == JDWP.Tbg.THREAD_GROUP) ||
+               (tbg == JDWP.Tbg.CLASS_LOADER) ||
+               (tbg == JDWP.Tbg.CLASS_OBJECT);
     }
 }

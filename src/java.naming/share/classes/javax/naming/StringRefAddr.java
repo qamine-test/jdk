@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
- * This class represents the string form of the address of
- * a communications end-point.
- * It consists of a type that describes the communication mechanism
- * and a string contents specific to that communication mechanism.
- * The format and interpretation of
- * the address type and the contents of the address are based on
- * the agreement of three parties: the client that uses the address,
- * the object/server that can be reached using the address, and the
- * administrator or program that creates the address.
+ * This clbss represents the string form of the bddress of
+ * b communicbtions end-point.
+ * It consists of b type thbt describes the communicbtion mechbnism
+ * bnd b string contents specific to thbt communicbtion mechbnism.
+ * The formbt bnd interpretbtion of
+ * the bddress type bnd the contents of the bddress bre bbsed on
+ * the bgreement of three pbrties: the client thbt uses the bddress,
+ * the object/server thbt cbn be rebched using the bddress, bnd the
+ * bdministrbtor or progrbm thbt crebtes the bddress.
  *
- * <p> An example of a string reference address is a host name.
- * Another example of a string reference address is a URL.
+ * <p> An exbmple of b string reference bddress is b host nbme.
+ * Another exbmple of b string reference bddress is b URL.
  *
- * <p> A string reference address is immutable:
- * once created, it cannot be changed.  Multithreaded access to
- * a single StringRefAddr need not be synchronized.
+ * <p> A string reference bddress is immutbble:
+ * once crebted, it cbnnot be chbnged.  Multithrebded bccess to
+ * b single StringRefAddr need not be synchronized.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  *
  * @see RefAddr
- * @see BinaryRefAddr
+ * @see BinbryRefAddr
  * @since 1.3
  */
 
-public class StringRefAddr extends RefAddr {
+public clbss StringRefAddr extends RefAddr {
     /**
-     * Contains the contents of this address.
-     * Can be null.
-     * @serial
+     * Contbins the contents of this bddress.
+     * Cbn be null.
+     * @seribl
      */
-    private String contents;
+    privbte String contents;
     /**
-      * Constructs a new instance of StringRefAddr using its address type
-      * and contents.
+      * Constructs b new instbnce of StringRefAddr using its bddress type
+      * bnd contents.
       *
-      * @param addrType A non-null string describing the type of the address.
-      * @param addr The possibly null contents of the address in the form of a string.
+      * @pbrbm bddrType A non-null string describing the type of the bddress.
+      * @pbrbm bddr The possibly null contents of the bddress in the form of b string.
       */
-    public StringRefAddr(String addrType, String addr) {
-        super(addrType);
-        contents = addr;
+    public StringRefAddr(String bddrType, String bddr) {
+        super(bddrType);
+        contents = bddr;
     }
 
     /**
-      * Retrieves the contents of this address. The result is a string.
+      * Retrieves the contents of this bddress. The result is b string.
       *
-      * @return The possibly null address contents.
+      * @return The possibly null bddress contents.
       */
     public Object getContent() {
         return contents;
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -8913762495138505527L;
+    privbte stbtic finbl long seriblVersionUID = -8913762495138505527L;
 }

@@ -1,409 +1,409 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jndi.toolkit.url;
+pbckbge com.sun.jndi.toolkit.url;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.ResolveResult;
-import javax.naming.spi.DirectoryManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.ResolveResult;
+import jbvbx.nbming.spi.DirectoryMbnbger;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
 /**
- * This abstract class is a generic URL DirContext that accepts as the
- * name argument either a string URL or a Name whose first component
- * is a URL. It resolves the URL to a target context and then continues
- * the operation using the remaining name in the target context as if
- * the first component names a junction.
+ * This bbstrbct clbss is b generic URL DirContext thbt bccepts bs the
+ * nbme brgument either b string URL or b Nbme whose first component
+ * is b URL. It resolves the URL to b tbrget context bnd then continues
+ * the operbtion using the rembining nbme in the tbrget context bs if
+ * the first component nbmes b junction.
  *
- * A subclass must define getRootURLContext()
- * to process the URL into head/tail pieces. If it wants to control how
- * URL strings are parsed and compared for the rename() operation, then
- * it should override getNonRootURLSuffixes() and urlEquals().
+ * A subclbss must define getRootURLContext()
+ * to process the URL into hebd/tbil pieces. If it wbnts to control how
+ * URL strings bre pbrsed bnd compbred for the renbme() operbtion, then
+ * it should override getNonRootURLSuffixes() bnd urlEqubls().
  *
- * @author Scott Seligman
- * @author Rosanna Lee
+ * @buthor Scott Seligmbn
+ * @buthor Rosbnnb Lee
  */
 
-abstract public class GenericURLDirContext extends GenericURLContext
+bbstrbct public clbss GenericURLDirContext extends GenericURLContext
 implements DirContext {
 
-    protected GenericURLDirContext(Hashtable<?,?> env) {
+    protected GenericURLDirContext(Hbshtbble<?,?> env) {
         super(env);
     }
 
     /**
-     * Gets the context in which to continue the operation. This method
-     * is called when this context is asked to process a multicomponent
-     * Name in which the first component is a URL.
-     * Treat the first component like a junction: resolve it and then use
-     * DirectoryManager.getContinuationDirContext() to get the target context in
-     * which to operate on the remainder of the name (n.getSuffix(1)).
-     * Do this in case intermediate contexts are not DirContext.
+     * Gets the context in which to continue the operbtion. This method
+     * is cblled when this context is bsked to process b multicomponent
+     * Nbme in which the first component is b URL.
+     * Trebt the first component like b junction: resolve it bnd then use
+     * DirectoryMbnbger.getContinubtionDirContext() to get the tbrget context in
+     * which to operbte on the rembinder of the nbme (n.getSuffix(1)).
+     * Do this in cbse intermedibte contexts bre not DirContext.
      */
-    protected DirContext getContinuationDirContext(Name n) throws NamingException {
+    protected DirContext getContinubtionDirContext(Nbme n) throws NbmingException {
         Object obj = lookup(n.get(0));
-        CannotProceedException cpe = new CannotProceedException();
+        CbnnotProceedException cpe = new CbnnotProceedException();
         cpe.setResolvedObj(obj);
         cpe.setEnvironment(myEnv);
-        return DirectoryManager.getContinuationDirContext(cpe);
+        return DirectoryMbnbger.getContinubtionDirContext(cpe);
     }
 
 
-    public Attributes getAttributes(String name) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public Attributes getAttributes(String nbme) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         DirContext ctx = (DirContext)res.getResolvedObj();
         try {
-            return ctx.getAttributes(res.getRemainingName());
-        } finally {
+            return ctx.getAttributes(res.getRembiningNbme());
+        } finblly {
             ctx.close();
         }
     }
 
-    public Attributes getAttributes(Name name) throws NamingException  {
-        if (name.size() == 1) {
-            return getAttributes(name.get(0));
+    public Attributes getAttributes(Nbme nbme) throws NbmingException  {
+        if (nbme.size() == 1) {
+            return getAttributes(nbme.get(0));
         } else {
-            DirContext ctx = getContinuationDirContext(name);
+            DirContext ctx = getContinubtionDirContext(nbme);
             try {
-                return ctx.getAttributes(name.getSuffix(1));
-            } finally {
+                return ctx.getAttributes(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public Attributes getAttributes(String nbme, String[] bttrIds)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                return ctx.getAttributes(res.getRemainingName(), attrIds);
-            } finally {
+                return ctx.getAttributes(res.getRembiningNbme(), bttrIds);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-        throws NamingException {
-            if (name.size() == 1) {
-                return getAttributes(name.get(0), attrIds);
+    public Attributes getAttributes(Nbme nbme, String[] bttrIds)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                return getAttributes(nbme.get(0), bttrIds);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    return ctx.getAttributes(name.getSuffix(1), attrIds);
-                } finally {
+                    return ctx.getAttributes(nbme.getSuffix(1), bttrIds);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public void modifyAttributes(String nbme, int mod_op, Attributes bttrs)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                ctx.modifyAttributes(res.getRemainingName(), mod_op, attrs);
-            } finally {
+                ctx.modifyAttributes(res.getRembiningNbme(), mod_op, bttrs);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-        throws NamingException {
-            if (name.size() == 1) {
-                modifyAttributes(name.get(0), mod_op, attrs);
+    public void modifyAttributes(Nbme nbme, int mod_op, Attributes bttrs)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                modifyAttributes(nbme.get(0), mod_op, bttrs);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    ctx.modifyAttributes(name.getSuffix(1), mod_op, attrs);
-                } finally {
+                    ctx.modifyAttributes(nbme.getSuffix(1), mod_op, bttrs);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public void modifyAttributes(String name, ModificationItem[] mods)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public void modifyAttributes(String nbme, ModificbtionItem[] mods)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                ctx.modifyAttributes(res.getRemainingName(), mods);
-            } finally {
+                ctx.modifyAttributes(res.getRembiningNbme(), mods);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-        throws NamingException  {
-            if (name.size() == 1) {
-                modifyAttributes(name.get(0), mods);
+    public void modifyAttributes(Nbme nbme, ModificbtionItem[] mods)
+        throws NbmingException  {
+            if (nbme.size() == 1) {
+                modifyAttributes(nbme.get(0), mods);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    ctx.modifyAttributes(name.getSuffix(1), mods);
-                } finally {
+                    ctx.modifyAttributes(nbme.getSuffix(1), mods);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public void bind(String nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                ctx.bind(res.getRemainingName(), obj, attrs);
-            } finally {
+                ctx.bind(res.getRembiningNbme(), obj, bttrs);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
-            if (name.size() == 1) {
-                bind(name.get(0), obj, attrs);
+    public void bind(Nbme nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                bind(nbme.get(0), obj, bttrs);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    ctx.bind(name.getSuffix(1), obj, attrs);
-                } finally {
+                    ctx.bind(nbme.getSuffix(1), obj, bttrs);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public void rebind(String name, Object obj, Attributes attrs)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public void rebind(String nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                ctx.rebind(res.getRemainingName(), obj, attrs);
-            } finally {
+                ctx.rebind(res.getRembiningNbme(), obj, bttrs);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public void rebind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
-            if (name.size() == 1) {
-                rebind(name.get(0), obj, attrs);
+    public void rebind(Nbme nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                rebind(nbme.get(0), obj, bttrs);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    ctx.rebind(name.getSuffix(1), obj, attrs);
-                } finally {
+                    ctx.rebind(nbme.getSuffix(1), obj, bttrs);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public DirContext crebteSubcontext(String nbme, Attributes bttrs)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                return ctx.createSubcontext(res.getRemainingName(), attrs);
-            } finally {
+                return ctx.crebteSubcontext(res.getRembiningNbme(), bttrs);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-        throws NamingException {
-            if (name.size() == 1) {
-                return createSubcontext(name.get(0), attrs);
+    public DirContext crebteSubcontext(Nbme nbme, Attributes bttrs)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                return crebteSubcontext(nbme.get(0), bttrs);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    return ctx.createSubcontext(name.getSuffix(1), attrs);
-                } finally {
+                    return ctx.crebteSubcontext(nbme.getSuffix(1), bttrs);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public DirContext getSchema(String name) throws NamingException {
-        ResolveResult res = getRootURLContext(name, myEnv);
+    public DirContext getSchemb(String nbme) throws NbmingException {
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         DirContext ctx = (DirContext)res.getResolvedObj();
-        return ctx.getSchema(res.getRemainingName());
+        return ctx.getSchemb(res.getRembiningNbme());
     }
 
-    public DirContext getSchema(Name name) throws NamingException {
-        if (name.size() == 1) {
-            return getSchema(name.get(0));
+    public DirContext getSchemb(Nbme nbme) throws NbmingException {
+        if (nbme.size() == 1) {
+            return getSchemb(nbme.get(0));
         } else {
-            DirContext ctx = getContinuationDirContext(name);
+            DirContext ctx = getContinubtionDirContext(nbme);
             try {
-                return ctx.getSchema(name.getSuffix(1));
-            } finally {
+                return ctx.getSchemb(nbme.getSuffix(1));
+            } finblly {
                 ctx.close();
             }
         }
     }
 
-    public DirContext getSchemaClassDefinition(String name)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public DirContext getSchembClbssDefinition(String nbme)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                return ctx.getSchemaClassDefinition(res.getRemainingName());
-            } finally {
+                return ctx.getSchembClbssDefinition(res.getRembiningNbme());
+            } finblly {
                 ctx.close();
             }
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-        throws NamingException {
-            if (name.size() == 1) {
-                return getSchemaClassDefinition(name.get(0));
+    public DirContext getSchembClbssDefinition(Nbme nbme)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                return getSchembClbssDefinition(nbme.get(0));
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    return ctx.getSchemaClassDefinition(name.getSuffix(1));
-                } finally {
+                    return ctx.getSchembClbssDefinition(nbme.getSuffix(1));
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
-        Attributes matchingAttributes)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
+        Attributes mbtchingAttributes)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                return ctx.search(res.getRemainingName(), matchingAttributes);
-            } finally {
+                return ctx.sebrch(res.getRembiningNbme(), mbtchingAttributes);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
-        Attributes matchingAttributes)
-        throws NamingException {
-            if (name.size() == 1) {
-                return search(name.get(0), matchingAttributes);
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
+        Attributes mbtchingAttributes)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                return sebrch(nbme.get(0), mbtchingAttributes);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    return ctx.search(name.getSuffix(1), matchingAttributes);
-                } finally {
+                    return ctx.sebrch(nbme.getSuffix(1), mbtchingAttributes);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
-        Attributes matchingAttributes,
-        String[] attributesToReturn)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
+        Attributes mbtchingAttributes,
+        String[] bttributesToReturn)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                return ctx.search(res.getRemainingName(),
-                    matchingAttributes, attributesToReturn);
-            } finally {
+                return ctx.sebrch(res.getRembiningNbme(),
+                    mbtchingAttributes, bttributesToReturn);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
-        Attributes matchingAttributes,
-        String[] attributesToReturn)
-        throws NamingException {
-            if (name.size() == 1) {
-                return search(name.get(0), matchingAttributes,
-                    attributesToReturn);
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
+        Attributes mbtchingAttributes,
+        String[] bttributesToReturn)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                return sebrch(nbme.get(0), mbtchingAttributes,
+                    bttributesToReturn);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    return ctx.search(name.getSuffix(1),
-                        matchingAttributes, attributesToReturn);
-                } finally {
+                    return ctx.sebrch(nbme.getSuffix(1),
+                        mbtchingAttributes, bttributesToReturn);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
         String filter,
-        SearchControls cons)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+        SebrchControls cons)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
-                return ctx.search(res.getRemainingName(), filter, cons);
-            } finally {
+                return ctx.sebrch(res.getRembiningNbme(), filter, cons);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
         String filter,
-        SearchControls cons)
-        throws NamingException {
-            if (name.size() == 1) {
-                return search(name.get(0), filter, cons);
+        SebrchControls cons)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                return sebrch(nbme.get(0), filter, cons);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                    return ctx.search(name.getSuffix(1), filter, cons);
-                } finally {
+                    return ctx.sebrch(nbme.getSuffix(1), filter, cons);
+                } finblly {
                     ctx.close();
                 }
             }
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
         String filterExpr,
         Object[] filterArgs,
-        SearchControls cons)
-        throws NamingException {
-            ResolveResult res = getRootURLContext(name, myEnv);
+        SebrchControls cons)
+        throws NbmingException {
+            ResolveResult res = getRootURLContext(nbme, myEnv);
             DirContext ctx = (DirContext)res.getResolvedObj();
             try {
                 return
-                    ctx.search(res.getRemainingName(), filterExpr, filterArgs, cons);
-            } finally {
+                    ctx.sebrch(res.getRembiningNbme(), filterExpr, filterArgs, cons);
+            } finblly {
                 ctx.close();
             }
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
         String filterExpr,
         Object[] filterArgs,
-        SearchControls cons)
-        throws NamingException {
-            if (name.size() == 1) {
-                return search(name.get(0), filterExpr, filterArgs, cons);
+        SebrchControls cons)
+        throws NbmingException {
+            if (nbme.size() == 1) {
+                return sebrch(nbme.get(0), filterExpr, filterArgs, cons);
             } else {
-                DirContext ctx = getContinuationDirContext(name);
+                DirContext ctx = getContinubtionDirContext(nbme);
                 try {
-                return ctx.search(name.getSuffix(1), filterExpr, filterArgs, cons);
-                } finally {
+                return ctx.sebrch(nbme.getSuffix(1), filterExpr, filterArgs, cons);
+                } finblly {
                     ctx.close();
                 }
             }

@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset.internal;
+pbckbge com.sun.rowset.internbl;
 
-import java.sql.*;
-import java.io.*;
-import java.util.Arrays;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
 
 /**
- * The abstract base class from which the classes <code>Row</code>
- * The class <code>BaseRow</code> stores
- * a row's original values as an array of <code>Object</code>
- * values, which can be retrieved with the method <code>getOrigRow</code>.
- * This class also provides methods for getting and setting individual
- * values in the row.
+ * The bbstrbct bbse clbss from which the clbsses <code>Row</code>
+ * The clbss <code>BbseRow</code> stores
+ * b row's originbl vblues bs bn brrby of <code>Object</code>
+ * vblues, which cbn be retrieved with the method <code>getOrigRow</code>.
+ * This clbss blso provides methods for getting bnd setting individubl
+ * vblues in the row.
  * <P>
- * A row's original values are the values it contained before it was last
- * modified.  For example, when the <code>CachedRowSet</code>method
- * <code>acceptChanges</code> is called, it will reset a row's original
- * values to be the row's current values.  Then, when the row is modified,
- * the values that were previously the current values will become the row's
- * original values (the values the row had immediately before it was modified).
- * If a row has not been modified, its original values are its initial values.
+ * A row's originbl vblues bre the vblues it contbined before it wbs lbst
+ * modified.  For exbmple, when the <code>CbchedRowSet</code>method
+ * <code>bcceptChbnges</code> is cblled, it will reset b row's originbl
+ * vblues to be the row's current vblues.  Then, when the row is modified,
+ * the vblues thbt were previously the current vblues will become the row's
+ * originbl vblues (the vblues the row hbd immedibtely before it wbs modified).
+ * If b row hbs not been modified, its originbl vblues bre its initibl vblues.
  * <P>
- * Subclasses of this class contain more specific details, such as
- * the conditions under which an exception is thrown or the bounds for
- * index parameters.
+ * Subclbsses of this clbss contbin more specific detbils, such bs
+ * the conditions under which bn exception is thrown or the bounds for
+ * index pbrbmeters.
  */
-public abstract class BaseRow implements Serializable, Cloneable {
+public bbstrbct clbss BbseRow implements Seriblizbble, Clonebble {
 
 /**
- * Specify the serialVersionUID
+ * Specify the seriblVersionUID
  */
-private static final long serialVersionUID = 4152013523511412238L;
+privbte stbtic finbl long seriblVersionUID = 4152013523511412238L;
 
 /**
- * The array containing the original values for this <code>BaseRow</code>
+ * The brrby contbining the originbl vblues for this <code>BbseRow</code>
  * object.
- * @serial
+ * @seribl
  */
-    protected Object[] origVals;
+    protected Object[] origVbls;
 
 /**
- * Retrieves the values that this row contained immediately
- * prior to its last modification.
+ * Retrieves the vblues thbt this row contbined immedibtely
+ * prior to its lbst modificbtion.
  *
- * @return an array of <code>Object</code> values containing this row's
- * original values
+ * @return bn brrby of <code>Object</code> vblues contbining this row's
+ * originbl vblues
  */
     public Object[] getOrigRow() {
-        Object[] origRow = this.origVals;
-        return (origRow == null) ? null: Arrays.copyOf(origRow, origRow.length);
+        Object[] origRow = this.origVbls;
+        return (origRow == null) ? null: Arrbys.copyOf(origRow, origRow.length);
     }
 
 /**
- * Retrieves the array element at the given index, which is
- * the original value of column number <i>idx</i> in this row.
+ * Retrieves the brrby element bt the given index, which is
+ * the originbl vblue of column number <i>idx</i> in this row.
  *
- * @param idx the index of the element to return
- * @return the <code>Object</code> value at the given index into this
- *         row's array of original values
- * @throws SQLException if there is an error
+ * @pbrbm idx the index of the element to return
+ * @return the <code>Object</code> vblue bt the given index into this
+ *         row's brrby of originbl vblues
+ * @throws SQLException if there is bn error
  */
-    public abstract Object getColumnObject(int idx) throws SQLException;
+    public bbstrbct Object getColumnObject(int idx) throws SQLException;
 
 /**
- * Sets the element at the given index into this row's array of
- * original values to the given value.  Implementations of the classes
- * <code>Row</code> and determine what happens
- * when the cursor is on the insert row and when it is on any other row.
+ * Sets the element bt the given index into this row's brrby of
+ * originbl vblues to the given vblue.  Implementbtions of the clbsses
+ * <code>Row</code> bnd determine whbt hbppens
+ * when the cursor is on the insert row bnd when it is on bny other row.
  *
- * @param idx the index of the element to be set
- * @param obj the <code>Object</code> to which the element at index
+ * @pbrbm idx the index of the element to be set
+ * @pbrbm obj the <code>Object</code> to which the element bt index
  *              <code>idx</code> to be set
- * @throws SQLException if there is an error
+ * @throws SQLException if there is bn error
  */
-    public abstract void setColumnObject(int idx, Object obj) throws SQLException;
+    public bbstrbct void setColumnObject(int idx, Object obj) throws SQLException;
 }

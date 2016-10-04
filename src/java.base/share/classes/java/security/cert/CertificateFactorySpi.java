@@ -1,315 +1,315 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.security.Provider;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
+import jbvb.io.InputStrebm;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.security.Provider;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.NoSuchProviderException;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code CertificateFactory} class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a certificate factory for a particular certificate type, e.g., X.509.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the {@code CertificbteFbctory} clbss.
+ * All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b certificbte fbctory for b pbrticulbr certificbte type, e.g., X.509.
  *
- * <p>Certificate factories are used to generate certificate, certification path
- * ({@code CertPath}) and certificate revocation list (CRL) objects from
+ * <p>Certificbte fbctories bre used to generbte certificbte, certificbtion pbth
+ * ({@code CertPbth}) bnd certificbte revocbtion list (CRL) objects from
  * their encodings.
  *
- * <p>A certificate factory for X.509 must return certificates that are an
- * instance of {@code java.security.cert.X509Certificate}, and CRLs
- * that are an instance of {@code java.security.cert.X509CRL}.
+ * <p>A certificbte fbctory for X.509 must return certificbtes thbt bre bn
+ * instbnce of {@code jbvb.security.cert.X509Certificbte}, bnd CRLs
+ * thbt bre bn instbnce of {@code jbvb.security.cert.X509CRL}.
  *
- * @author Hemma Prafullchandra
- * @author Jan Luehe
- * @author Sean Mullan
+ * @buthor Hemmb Prbfullchbndrb
+ * @buthor Jbn Luehe
+ * @buthor Sebn Mullbn
  *
  *
- * @see CertificateFactory
- * @see Certificate
- * @see X509Certificate
- * @see CertPath
+ * @see CertificbteFbctory
+ * @see Certificbte
+ * @see X509Certificbte
+ * @see CertPbth
  * @see CRL
  * @see X509CRL
  *
  * @since 1.2
  */
 
-public abstract class CertificateFactorySpi {
+public bbstrbct clbss CertificbteFbctorySpi {
 
     /**
-     * Generates a certificate object and initializes it with
-     * the data read from the input stream {@code inStream}.
+     * Generbtes b certificbte object bnd initiblizes it with
+     * the dbtb rebd from the input strebm {@code inStrebm}.
      *
-     * <p>In order to take advantage of the specialized certificate format
-     * supported by this certificate factory,
-     * the returned certificate object can be typecast to the corresponding
-     * certificate class. For example, if this certificate
-     * factory implements X.509 certificates, the returned certificate object
-     * can be typecast to the {@code X509Certificate} class.
+     * <p>In order to tbke bdvbntbge of the speciblized certificbte formbt
+     * supported by this certificbte fbctory,
+     * the returned certificbte object cbn be typecbst to the corresponding
+     * certificbte clbss. For exbmple, if this certificbte
+     * fbctory implements X.509 certificbtes, the returned certificbte object
+     * cbn be typecbst to the {@code X509Certificbte} clbss.
      *
-     * <p>In the case of a certificate factory for X.509 certificates, the
-     * certificate provided in {@code inStream} must be DER-encoded and
-     * may be supplied in binary or printable (Base64) encoding. If the
-     * certificate is provided in Base64 encoding, it must be bounded at
-     * the beginning by -----BEGIN CERTIFICATE-----, and must be bounded at
+     * <p>In the cbse of b certificbte fbctory for X.509 certificbtes, the
+     * certificbte provided in {@code inStrebm} must be DER-encoded bnd
+     * mby be supplied in binbry or printbble (Bbse64) encoding. If the
+     * certificbte is provided in Bbse64 encoding, it must be bounded bt
+     * the beginning by -----BEGIN CERTIFICATE-----, bnd must be bounded bt
      * the end by -----END CERTIFICATE-----.
      *
-     * <p>Note that if the given input stream does not support
-     * {@link java.io.InputStream#mark(int) mark} and
-     * {@link java.io.InputStream#reset() reset}, this method will
-     * consume the entire input stream. Otherwise, each call to this
-     * method consumes one certificate and the read position of the input stream
-     * is positioned to the next available byte after the inherent
-     * end-of-certificate marker. If the data in the
-     * input stream does not contain an inherent end-of-certificate marker (other
-     * than EOF) and there is trailing data after the certificate is parsed, a
-     * {@code CertificateException} is thrown.
+     * <p>Note thbt if the given input strebm does not support
+     * {@link jbvb.io.InputStrebm#mbrk(int) mbrk} bnd
+     * {@link jbvb.io.InputStrebm#reset() reset}, this method will
+     * consume the entire input strebm. Otherwise, ebch cbll to this
+     * method consumes one certificbte bnd the rebd position of the input strebm
+     * is positioned to the next bvbilbble byte bfter the inherent
+     * end-of-certificbte mbrker. If the dbtb in the
+     * input strebm does not contbin bn inherent end-of-certificbte mbrker (other
+     * thbn EOF) bnd there is trbiling dbtb bfter the certificbte is pbrsed, b
+     * {@code CertificbteException} is thrown.
      *
-     * @param inStream an input stream with the certificate data.
+     * @pbrbm inStrebm bn input strebm with the certificbte dbtb.
      *
-     * @return a certificate object initialized with the data
-     * from the input stream.
+     * @return b certificbte object initiblized with the dbtb
+     * from the input strebm.
      *
-     * @exception CertificateException on parsing errors.
+     * @exception CertificbteException on pbrsing errors.
      */
-    public abstract Certificate engineGenerateCertificate(InputStream inStream)
-        throws CertificateException;
+    public bbstrbct Certificbte engineGenerbteCertificbte(InputStrebm inStrebm)
+        throws CertificbteException;
 
     /**
-     * Generates a {@code CertPath} object and initializes it with
-     * the data read from the {@code InputStream} inStream. The data
-     * is assumed to be in the default encoding.
+     * Generbtes b {@code CertPbth} object bnd initiblizes it with
+     * the dbtb rebd from the {@code InputStrebm} inStrebm. The dbtb
+     * is bssumed to be in the defbult encoding.
      *
-     * <p> This method was added to version 1.4 of the Java 2 Platform
-     * Standard Edition. In order to maintain backwards compatibility with
-     * existing service providers, this method cannot be {@code abstract}
-     * and by default throws an {@code UnsupportedOperationException}.
+     * <p> This method wbs bdded to version 1.4 of the Jbvb 2 Plbtform
+     * Stbndbrd Edition. In order to mbintbin bbckwbrds compbtibility with
+     * existing service providers, this method cbnnot be {@code bbstrbct}
+     * bnd by defbult throws bn {@code UnsupportedOperbtionException}.
      *
-     * @param inStream an {@code InputStream} containing the data
-     * @return a {@code CertPath} initialized with the data from the
-     *   {@code InputStream}
-     * @exception CertificateException if an exception occurs while decoding
-     * @exception UnsupportedOperationException if the method is not supported
+     * @pbrbm inStrebm bn {@code InputStrebm} contbining the dbtb
+     * @return b {@code CertPbth} initiblized with the dbtb from the
+     *   {@code InputStrebm}
+     * @exception CertificbteException if bn exception occurs while decoding
+     * @exception UnsupportedOperbtionException if the method is not supported
      * @since 1.4
      */
-    public CertPath engineGenerateCertPath(InputStream inStream)
-        throws CertificateException
+    public CertPbth engineGenerbteCertPbth(InputStrebm inStrebm)
+        throws CertificbteException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Generates a {@code CertPath} object and initializes it with
-     * the data read from the {@code InputStream} inStream. The data
-     * is assumed to be in the specified encoding.
+     * Generbtes b {@code CertPbth} object bnd initiblizes it with
+     * the dbtb rebd from the {@code InputStrebm} inStrebm. The dbtb
+     * is bssumed to be in the specified encoding.
      *
-     * <p> This method was added to version 1.4 of the Java 2 Platform
-     * Standard Edition. In order to maintain backwards compatibility with
-     * existing service providers, this method cannot be {@code abstract}
-     * and by default throws an {@code UnsupportedOperationException}.
+     * <p> This method wbs bdded to version 1.4 of the Jbvb 2 Plbtform
+     * Stbndbrd Edition. In order to mbintbin bbckwbrds compbtibility with
+     * existing service providers, this method cbnnot be {@code bbstrbct}
+     * bnd by defbult throws bn {@code UnsupportedOperbtionException}.
      *
-     * @param inStream an {@code InputStream} containing the data
-     * @param encoding the encoding used for the data
-     * @return a {@code CertPath} initialized with the data from the
-     *   {@code InputStream}
-     * @exception CertificateException if an exception occurs while decoding or
+     * @pbrbm inStrebm bn {@code InputStrebm} contbining the dbtb
+     * @pbrbm encoding the encoding used for the dbtb
+     * @return b {@code CertPbth} initiblized with the dbtb from the
+     *   {@code InputStrebm}
+     * @exception CertificbteException if bn exception occurs while decoding or
      *   the encoding requested is not supported
-     * @exception UnsupportedOperationException if the method is not supported
+     * @exception UnsupportedOperbtionException if the method is not supported
      * @since 1.4
      */
-    public CertPath engineGenerateCertPath(InputStream inStream,
-        String encoding) throws CertificateException
+    public CertPbth engineGenerbteCertPbth(InputStrebm inStrebm,
+        String encoding) throws CertificbteException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Generates a {@code CertPath} object and initializes it with
-     * a {@code List} of {@code Certificate}s.
+     * Generbtes b {@code CertPbth} object bnd initiblizes it with
+     * b {@code List} of {@code Certificbte}s.
      * <p>
-     * The certificates supplied must be of a type supported by the
-     * {@code CertificateFactory}. They will be copied out of the supplied
+     * The certificbtes supplied must be of b type supported by the
+     * {@code CertificbteFbctory}. They will be copied out of the supplied
      * {@code List} object.
      *
-     * <p> This method was added to version 1.4 of the Java 2 Platform
-     * Standard Edition. In order to maintain backwards compatibility with
-     * existing service providers, this method cannot be {@code abstract}
-     * and by default throws an {@code UnsupportedOperationException}.
+     * <p> This method wbs bdded to version 1.4 of the Jbvb 2 Plbtform
+     * Stbndbrd Edition. In order to mbintbin bbckwbrds compbtibility with
+     * existing service providers, this method cbnnot be {@code bbstrbct}
+     * bnd by defbult throws bn {@code UnsupportedOperbtionException}.
      *
-     * @param certificates a {@code List} of {@code Certificate}s
-     * @return a {@code CertPath} initialized with the supplied list of
-     *   certificates
-     * @exception CertificateException if an exception occurs
-     * @exception UnsupportedOperationException if the method is not supported
+     * @pbrbm certificbtes b {@code List} of {@code Certificbte}s
+     * @return b {@code CertPbth} initiblized with the supplied list of
+     *   certificbtes
+     * @exception CertificbteException if bn exception occurs
+     * @exception UnsupportedOperbtionException if the method is not supported
      * @since 1.4
      */
-    public CertPath
-        engineGenerateCertPath(List<? extends Certificate> certificates)
-        throws CertificateException
+    public CertPbth
+        engineGenerbteCertPbth(List<? extends Certificbte> certificbtes)
+        throws CertificbteException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Returns an iteration of the {@code CertPath} encodings supported
-     * by this certificate factory, with the default encoding first. See
-     * the CertPath Encodings section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathEncodings">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard encoding names.
+     * Returns bn iterbtion of the {@code CertPbth} encodings supported
+     * by this certificbte fbctory, with the defbult encoding first. See
+     * the CertPbth Encodings section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#CertPbthEncodings">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd encoding nbmes.
      * <p>
-     * Attempts to modify the returned {@code Iterator} via its
-     * {@code remove} method result in an
-     * {@code UnsupportedOperationException}.
+     * Attempts to modify the returned {@code Iterbtor} vib its
+     * {@code remove} method result in bn
+     * {@code UnsupportedOperbtionException}.
      *
-     * <p> This method was added to version 1.4 of the Java 2 Platform
-     * Standard Edition. In order to maintain backwards compatibility with
-     * existing service providers, this method cannot be {@code abstract}
-     * and by default throws an {@code UnsupportedOperationException}.
+     * <p> This method wbs bdded to version 1.4 of the Jbvb 2 Plbtform
+     * Stbndbrd Edition. In order to mbintbin bbckwbrds compbtibility with
+     * existing service providers, this method cbnnot be {@code bbstrbct}
+     * bnd by defbult throws bn {@code UnsupportedOperbtionException}.
      *
-     * @return an {@code Iterator} over the names of the supported
-     *         {@code CertPath} encodings (as {@code String}s)
-     * @exception UnsupportedOperationException if the method is not supported
+     * @return bn {@code Iterbtor} over the nbmes of the supported
+     *         {@code CertPbth} encodings (bs {@code String}s)
+     * @exception UnsupportedOperbtionException if the method is not supported
      * @since 1.4
      */
-    public Iterator<String> engineGetCertPathEncodings() {
-        throw new UnsupportedOperationException();
+    public Iterbtor<String> engineGetCertPbthEncodings() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Returns a (possibly empty) collection view of the certificates read
-     * from the given input stream {@code inStream}.
+     * Returns b (possibly empty) collection view of the certificbtes rebd
+     * from the given input strebm {@code inStrebm}.
      *
-     * <p>In order to take advantage of the specialized certificate format
-     * supported by this certificate factory, each element in
-     * the returned collection view can be typecast to the corresponding
-     * certificate class. For example, if this certificate
-     * factory implements X.509 certificates, the elements in the returned
-     * collection can be typecast to the {@code X509Certificate} class.
+     * <p>In order to tbke bdvbntbge of the speciblized certificbte formbt
+     * supported by this certificbte fbctory, ebch element in
+     * the returned collection view cbn be typecbst to the corresponding
+     * certificbte clbss. For exbmple, if this certificbte
+     * fbctory implements X.509 certificbtes, the elements in the returned
+     * collection cbn be typecbst to the {@code X509Certificbte} clbss.
      *
-     * <p>In the case of a certificate factory for X.509 certificates,
-     * {@code inStream} may contain a single DER-encoded certificate
-     * in the formats described for
-     * {@link CertificateFactory#generateCertificate(java.io.InputStream)
-     * generateCertificate}.
-     * In addition, {@code inStream} may contain a PKCS#7 certificate
-     * chain. This is a PKCS#7 <i>SignedData</i> object, with the only
-     * significant field being <i>certificates</i>. In particular, the
-     * signature and the contents are ignored. This format allows multiple
-     * certificates to be downloaded at once. If no certificates are present,
-     * an empty collection is returned.
+     * <p>In the cbse of b certificbte fbctory for X.509 certificbtes,
+     * {@code inStrebm} mby contbin b single DER-encoded certificbte
+     * in the formbts described for
+     * {@link CertificbteFbctory#generbteCertificbte(jbvb.io.InputStrebm)
+     * generbteCertificbte}.
+     * In bddition, {@code inStrebm} mby contbin b PKCS#7 certificbte
+     * chbin. This is b PKCS#7 <i>SignedDbtb</i> object, with the only
+     * significbnt field being <i>certificbtes</i>. In pbrticulbr, the
+     * signbture bnd the contents bre ignored. This formbt bllows multiple
+     * certificbtes to be downlobded bt once. If no certificbtes bre present,
+     * bn empty collection is returned.
      *
-     * <p>Note that if the given input stream does not support
-     * {@link java.io.InputStream#mark(int) mark} and
-     * {@link java.io.InputStream#reset() reset}, this method will
-     * consume the entire input stream.
+     * <p>Note thbt if the given input strebm does not support
+     * {@link jbvb.io.InputStrebm#mbrk(int) mbrk} bnd
+     * {@link jbvb.io.InputStrebm#reset() reset}, this method will
+     * consume the entire input strebm.
      *
-     * @param inStream the input stream with the certificates.
+     * @pbrbm inStrebm the input strebm with the certificbtes.
      *
-     * @return a (possibly empty) collection view of
-     * java.security.cert.Certificate objects
-     * initialized with the data from the input stream.
+     * @return b (possibly empty) collection view of
+     * jbvb.security.cert.Certificbte objects
+     * initiblized with the dbtb from the input strebm.
      *
-     * @exception CertificateException on parsing errors.
+     * @exception CertificbteException on pbrsing errors.
      */
-    public abstract Collection<? extends Certificate>
-            engineGenerateCertificates(InputStream inStream)
-            throws CertificateException;
+    public bbstrbct Collection<? extends Certificbte>
+            engineGenerbteCertificbtes(InputStrebm inStrebm)
+            throws CertificbteException;
 
     /**
-     * Generates a certificate revocation list (CRL) object and initializes it
-     * with the data read from the input stream {@code inStream}.
+     * Generbtes b certificbte revocbtion list (CRL) object bnd initiblizes it
+     * with the dbtb rebd from the input strebm {@code inStrebm}.
      *
-     * <p>In order to take advantage of the specialized CRL format
-     * supported by this certificate factory,
-     * the returned CRL object can be typecast to the corresponding
-     * CRL class. For example, if this certificate
-     * factory implements X.509 CRLs, the returned CRL object
-     * can be typecast to the {@code X509CRL} class.
+     * <p>In order to tbke bdvbntbge of the speciblized CRL formbt
+     * supported by this certificbte fbctory,
+     * the returned CRL object cbn be typecbst to the corresponding
+     * CRL clbss. For exbmple, if this certificbte
+     * fbctory implements X.509 CRLs, the returned CRL object
+     * cbn be typecbst to the {@code X509CRL} clbss.
      *
-     * <p>Note that if the given input stream does not support
-     * {@link java.io.InputStream#mark(int) mark} and
-     * {@link java.io.InputStream#reset() reset}, this method will
-     * consume the entire input stream. Otherwise, each call to this
-     * method consumes one CRL and the read position of the input stream
-     * is positioned to the next available byte after the inherent
-     * end-of-CRL marker. If the data in the
-     * input stream does not contain an inherent end-of-CRL marker (other
-     * than EOF) and there is trailing data after the CRL is parsed, a
+     * <p>Note thbt if the given input strebm does not support
+     * {@link jbvb.io.InputStrebm#mbrk(int) mbrk} bnd
+     * {@link jbvb.io.InputStrebm#reset() reset}, this method will
+     * consume the entire input strebm. Otherwise, ebch cbll to this
+     * method consumes one CRL bnd the rebd position of the input strebm
+     * is positioned to the next bvbilbble byte bfter the inherent
+     * end-of-CRL mbrker. If the dbtb in the
+     * input strebm does not contbin bn inherent end-of-CRL mbrker (other
+     * thbn EOF) bnd there is trbiling dbtb bfter the CRL is pbrsed, b
      * {@code CRLException} is thrown.
      *
-     * @param inStream an input stream with the CRL data.
+     * @pbrbm inStrebm bn input strebm with the CRL dbtb.
      *
-     * @return a CRL object initialized with the data
-     * from the input stream.
+     * @return b CRL object initiblized with the dbtb
+     * from the input strebm.
      *
-     * @exception CRLException on parsing errors.
+     * @exception CRLException on pbrsing errors.
      */
-    public abstract CRL engineGenerateCRL(InputStream inStream)
+    public bbstrbct CRL engineGenerbteCRL(InputStrebm inStrebm)
         throws CRLException;
 
     /**
-     * Returns a (possibly empty) collection view of the CRLs read
-     * from the given input stream {@code inStream}.
+     * Returns b (possibly empty) collection view of the CRLs rebd
+     * from the given input strebm {@code inStrebm}.
      *
-     * <p>In order to take advantage of the specialized CRL format
-     * supported by this certificate factory, each element in
-     * the returned collection view can be typecast to the corresponding
-     * CRL class. For example, if this certificate
-     * factory implements X.509 CRLs, the elements in the returned
-     * collection can be typecast to the {@code X509CRL} class.
+     * <p>In order to tbke bdvbntbge of the speciblized CRL formbt
+     * supported by this certificbte fbctory, ebch element in
+     * the returned collection view cbn be typecbst to the corresponding
+     * CRL clbss. For exbmple, if this certificbte
+     * fbctory implements X.509 CRLs, the elements in the returned
+     * collection cbn be typecbst to the {@code X509CRL} clbss.
      *
-     * <p>In the case of a certificate factory for X.509 CRLs,
-     * {@code inStream} may contain a single DER-encoded CRL.
-     * In addition, {@code inStream} may contain a PKCS#7 CRL
-     * set. This is a PKCS#7 <i>SignedData</i> object, with the only
-     * significant field being <i>crls</i>. In particular, the
-     * signature and the contents are ignored. This format allows multiple
-     * CRLs to be downloaded at once. If no CRLs are present,
-     * an empty collection is returned.
+     * <p>In the cbse of b certificbte fbctory for X.509 CRLs,
+     * {@code inStrebm} mby contbin b single DER-encoded CRL.
+     * In bddition, {@code inStrebm} mby contbin b PKCS#7 CRL
+     * set. This is b PKCS#7 <i>SignedDbtb</i> object, with the only
+     * significbnt field being <i>crls</i>. In pbrticulbr, the
+     * signbture bnd the contents bre ignored. This formbt bllows multiple
+     * CRLs to be downlobded bt once. If no CRLs bre present,
+     * bn empty collection is returned.
      *
-     * <p>Note that if the given input stream does not support
-     * {@link java.io.InputStream#mark(int) mark} and
-     * {@link java.io.InputStream#reset() reset}, this method will
-     * consume the entire input stream.
+     * <p>Note thbt if the given input strebm does not support
+     * {@link jbvb.io.InputStrebm#mbrk(int) mbrk} bnd
+     * {@link jbvb.io.InputStrebm#reset() reset}, this method will
+     * consume the entire input strebm.
      *
-     * @param inStream the input stream with the CRLs.
+     * @pbrbm inStrebm the input strebm with the CRLs.
      *
-     * @return a (possibly empty) collection view of
-     * java.security.cert.CRL objects initialized with the data from the input
-     * stream.
+     * @return b (possibly empty) collection view of
+     * jbvb.security.cert.CRL objects initiblized with the dbtb from the input
+     * strebm.
      *
-     * @exception CRLException on parsing errors.
+     * @exception CRLException on pbrsing errors.
      */
-    public abstract Collection<? extends CRL> engineGenerateCRLs
-            (InputStream inStream) throws CRLException;
+    public bbstrbct Collection<? extends CRL> engineGenerbteCRLs
+            (InputStrebm inStrebm) throws CRLException;
 }

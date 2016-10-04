@@ -1,70 +1,70 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.util.Collection;
-import java.util.Queue;
+import jbvb.util.Collection;
+import jbvb.util.Queue;
 
 /**
- * A {@link java.util.Queue} that additionally supports operations
- * that wait for the queue to become non-empty when retrieving an
- * element, and wait for space to become available in the queue when
- * storing an element.
+ * A {@link jbvb.util.Queue} thbt bdditionblly supports operbtions
+ * thbt wbit for the queue to become non-empty when retrieving bn
+ * element, bnd wbit for spbce to become bvbilbble in the queue when
+ * storing bn element.
  *
- * <p>{@code BlockingQueue} methods come in four forms, with different ways
- * of handling operations that cannot be satisfied immediately, but may be
- * satisfied at some point in the future:
- * one throws an exception, the second returns a special value (either
- * {@code null} or {@code false}, depending on the operation), the third
- * blocks the current thread indefinitely until the operation can succeed,
- * and the fourth blocks for only a given maximum time limit before giving
- * up.  These methods are summarized in the following table:
+ * <p>{@code BlockingQueue} methods come in four forms, with different wbys
+ * of hbndling operbtions thbt cbnnot be sbtisfied immedibtely, but mby be
+ * sbtisfied bt some point in the future:
+ * one throws bn exception, the second returns b specibl vblue (either
+ * {@code null} or {@code fblse}, depending on the operbtion), the third
+ * blocks the current threbd indefinitely until the operbtion cbn succeed,
+ * bnd the fourth blocks for only b given mbximum time limit before giving
+ * up.  These methods bre summbrized in the following tbble:
  *
- * <table BORDER CELLPADDING=3 CELLSPACING=1>
- * <caption>Summary of BlockingQueue methods</caption>
+ * <tbble BORDER CELLPADDING=3 CELLSPACING=1>
+ * <cbption>Summbry of BlockingQueue methods</cbption>
  *  <tr>
  *    <td></td>
  *    <td ALIGN=CENTER><em>Throws exception</em></td>
- *    <td ALIGN=CENTER><em>Special value</em></td>
+ *    <td ALIGN=CENTER><em>Specibl vblue</em></td>
  *    <td ALIGN=CENTER><em>Blocks</em></td>
  *    <td ALIGN=CENTER><em>Times out</em></td>
  *  </tr>
  *  <tr>
  *    <td><b>Insert</b></td>
- *    <td>{@link #add add(e)}</td>
+ *    <td>{@link #bdd bdd(e)}</td>
  *    <td>{@link #offer offer(e)}</td>
  *    <td>{@link #put put(e)}</td>
  *    <td>{@link #offer(Object, long, TimeUnit) offer(e, time, unit)}</td>
@@ -73,304 +73,304 @@ import java.util.Queue;
  *    <td><b>Remove</b></td>
  *    <td>{@link #remove remove()}</td>
  *    <td>{@link #poll poll()}</td>
- *    <td>{@link #take take()}</td>
+ *    <td>{@link #tbke tbke()}</td>
  *    <td>{@link #poll(long, TimeUnit) poll(time, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Examine</b></td>
+ *    <td><b>Exbmine</b></td>
  *    <td>{@link #element element()}</td>
  *    <td>{@link #peek peek()}</td>
- *    <td><em>not applicable</em></td>
- *    <td><em>not applicable</em></td>
+ *    <td><em>not bpplicbble</em></td>
+ *    <td><em>not bpplicbble</em></td>
  *  </tr>
- * </table>
+ * </tbble>
  *
- * <p>A {@code BlockingQueue} does not accept {@code null} elements.
- * Implementations throw {@code NullPointerException} on attempts
- * to {@code add}, {@code put} or {@code offer} a {@code null}.  A
- * {@code null} is used as a sentinel value to indicate failure of
- * {@code poll} operations.
+ * <p>A {@code BlockingQueue} does not bccept {@code null} elements.
+ * Implementbtions throw {@code NullPointerException} on bttempts
+ * to {@code bdd}, {@code put} or {@code offer} b {@code null}.  A
+ * {@code null} is used bs b sentinel vblue to indicbte fbilure of
+ * {@code poll} operbtions.
  *
- * <p>A {@code BlockingQueue} may be capacity bounded. At any given
- * time it may have a {@code remainingCapacity} beyond which no
- * additional elements can be {@code put} without blocking.
- * A {@code BlockingQueue} without any intrinsic capacity constraints always
- * reports a remaining capacity of {@code Integer.MAX_VALUE}.
+ * <p>A {@code BlockingQueue} mby be cbpbcity bounded. At bny given
+ * time it mby hbve b {@code rembiningCbpbcity} beyond which no
+ * bdditionbl elements cbn be {@code put} without blocking.
+ * A {@code BlockingQueue} without bny intrinsic cbpbcity constrbints blwbys
+ * reports b rembining cbpbcity of {@code Integer.MAX_VALUE}.
  *
- * <p>{@code BlockingQueue} implementations are designed to be used
- * primarily for producer-consumer queues, but additionally support
- * the {@link java.util.Collection} interface.  So, for example, it is
- * possible to remove an arbitrary element from a queue using
- * {@code remove(x)}. However, such operations are in general
- * <em>not</em> performed very efficiently, and are intended for only
- * occasional use, such as when a queued message is cancelled.
+ * <p>{@code BlockingQueue} implementbtions bre designed to be used
+ * primbrily for producer-consumer queues, but bdditionblly support
+ * the {@link jbvb.util.Collection} interfbce.  So, for exbmple, it is
+ * possible to remove bn brbitrbry element from b queue using
+ * {@code remove(x)}. However, such operbtions bre in generbl
+ * <em>not</em> performed very efficiently, bnd bre intended for only
+ * occbsionbl use, such bs when b queued messbge is cbncelled.
  *
- * <p>{@code BlockingQueue} implementations are thread-safe.  All
- * queuing methods achieve their effects atomically using internal
+ * <p>{@code BlockingQueue} implementbtions bre threbd-sbfe.  All
+ * queuing methods bchieve their effects btomicblly using internbl
  * locks or other forms of concurrency control. However, the
- * <em>bulk</em> Collection operations {@code addAll},
- * {@code containsAll}, {@code retainAll} and {@code removeAll} are
- * <em>not</em> necessarily performed atomically unless specified
- * otherwise in an implementation. So it is possible, for example, for
- * {@code addAll(c)} to fail (throwing an exception) after adding
+ * <em>bulk</em> Collection operbtions {@code bddAll},
+ * {@code contbinsAll}, {@code retbinAll} bnd {@code removeAll} bre
+ * <em>not</em> necessbrily performed btomicblly unless specified
+ * otherwise in bn implementbtion. So it is possible, for exbmple, for
+ * {@code bddAll(c)} to fbil (throwing bn exception) bfter bdding
  * only some of the elements in {@code c}.
  *
- * <p>A {@code BlockingQueue} does <em>not</em> intrinsically support
- * any kind of &quot;close&quot; or &quot;shutdown&quot; operation to
- * indicate that no more items will be added.  The needs and usage of
- * such features tend to be implementation-dependent. For example, a
- * common tactic is for producers to insert special
- * <em>end-of-stream</em> or <em>poison</em> objects, that are
- * interpreted accordingly when taken by consumers.
+ * <p>A {@code BlockingQueue} does <em>not</em> intrinsicblly support
+ * bny kind of &quot;close&quot; or &quot;shutdown&quot; operbtion to
+ * indicbte thbt no more items will be bdded.  The needs bnd usbge of
+ * such febtures tend to be implementbtion-dependent. For exbmple, b
+ * common tbctic is for producers to insert specibl
+ * <em>end-of-strebm</em> or <em>poison</em> objects, thbt bre
+ * interpreted bccordingly when tbken by consumers.
  *
  * <p>
- * Usage example, based on a typical producer-consumer scenario.
- * Note that a {@code BlockingQueue} can safely be used with multiple
- * producers and multiple consumers.
+ * Usbge exbmple, bbsed on b typicbl producer-consumer scenbrio.
+ * Note thbt b {@code BlockingQueue} cbn sbfely be used with multiple
+ * producers bnd multiple consumers.
  *  <pre> {@code
- * class Producer implements Runnable {
- *   private final BlockingQueue queue;
+ * clbss Producer implements Runnbble {
+ *   privbte finbl BlockingQueue queue;
  *   Producer(BlockingQueue q) { queue = q; }
  *   public void run() {
  *     try {
  *       while (true) { queue.put(produce()); }
- *     } catch (InterruptedException ex) { ... handle ...}
+ *     } cbtch (InterruptedException ex) { ... hbndle ...}
  *   }
  *   Object produce() { ... }
  * }
  *
- * class Consumer implements Runnable {
- *   private final BlockingQueue queue;
+ * clbss Consumer implements Runnbble {
+ *   privbte finbl BlockingQueue queue;
  *   Consumer(BlockingQueue q) { queue = q; }
  *   public void run() {
  *     try {
- *       while (true) { consume(queue.take()); }
- *     } catch (InterruptedException ex) { ... handle ...}
+ *       while (true) { consume(queue.tbke()); }
+ *     } cbtch (InterruptedException ex) { ... hbndle ...}
  *   }
  *   void consume(Object x) { ... }
  * }
  *
- * class Setup {
- *   void main() {
- *     BlockingQueue q = new SomeQueueImplementation();
+ * clbss Setup {
+ *   void mbin() {
+ *     BlockingQueue q = new SomeQueueImplementbtion();
  *     Producer p = new Producer(q);
  *     Consumer c1 = new Consumer(q);
  *     Consumer c2 = new Consumer(q);
- *     new Thread(p).start();
- *     new Thread(c1).start();
- *     new Thread(c2).start();
+ *     new Threbd(p).stbrt();
+ *     new Threbd(c1).stbrt();
+ *     new Threbd(c2).stbrt();
  *   }
  * }}</pre>
  *
  * <p>Memory consistency effects: As with other concurrent
- * collections, actions in a thread prior to placing an object into a
+ * collections, bctions in b threbd prior to plbcing bn object into b
  * {@code BlockingQueue}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions subsequent to the access or removal of that element from
- * the {@code BlockingQueue} in another thread.
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * bctions subsequent to the bccess or removbl of thbt element from
+ * the {@code BlockingQueue} in bnother threbd.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This interfbce is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public interface BlockingQueue<E> extends Queue<E> {
+public interfbce BlockingQueue<E> extends Queue<E> {
     /**
      * Inserts the specified element into this queue if it is possible to do
-     * so immediately without violating capacity restrictions, returning
-     * {@code true} upon success and throwing an
-     * {@code IllegalStateException} if no space is currently available.
-     * When using a capacity-restricted queue, it is generally preferable to
+     * so immedibtely without violbting cbpbcity restrictions, returning
+     * {@code true} upon success bnd throwing bn
+     * {@code IllegblStbteException} if no spbce is currently bvbilbble.
+     * When using b cbpbcity-restricted queue, it is generblly preferbble to
      * use {@link #offer(Object) offer}.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws IllegalStateException if the element cannot be added at this
-     *         time due to capacity restrictions
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
+     * @pbrbm e the element to bdd
+     * @return {@code true} (bs specified by {@link Collection#bdd})
+     * @throws IllegblStbteException if the element cbnnot be bdded bt this
+     *         time due to cbpbcity restrictions
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this queue
      * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this queue
      */
-    boolean add(E e);
+    boolebn bdd(E e);
 
     /**
      * Inserts the specified element into this queue if it is possible to do
-     * so immediately without violating capacity restrictions, returning
-     * {@code true} upon success and {@code false} if no space is currently
-     * available.  When using a capacity-restricted queue, this method is
-     * generally preferable to {@link #add}, which can fail to insert an
-     * element only by throwing an exception.
+     * so immedibtely without violbting cbpbcity restrictions, returning
+     * {@code true} upon success bnd {@code fblse} if no spbce is currently
+     * bvbilbble.  When using b cbpbcity-restricted queue, this method is
+     * generblly preferbble to {@link #bdd}, which cbn fbil to insert bn
+     * element only by throwing bn exception.
      *
-     * @param e the element to add
-     * @return {@code true} if the element was added to this queue, else
-     *         {@code false}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
+     * @pbrbm e the element to bdd
+     * @return {@code true} if the element wbs bdded to this queue, else
+     *         {@code fblse}
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this queue
      * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this queue
      */
-    boolean offer(E e);
+    boolebn offer(E e);
 
     /**
-     * Inserts the specified element into this queue, waiting if necessary
-     * for space to become available.
+     * Inserts the specified element into this queue, wbiting if necessbry
+     * for spbce to become bvbilbble.
      *
-     * @param e the element to add
-     * @throws InterruptedException if interrupted while waiting
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
+     * @pbrbm e the element to bdd
+     * @throws InterruptedException if interrupted while wbiting
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this queue
      * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this queue
      */
     void put(E e) throws InterruptedException;
 
     /**
-     * Inserts the specified element into this queue, waiting up to the
-     * specified wait time if necessary for space to become available.
+     * Inserts the specified element into this queue, wbiting up to the
+     * specified wbit time if necessbry for spbce to become bvbilbble.
      *
-     * @param e the element to add
-     * @param timeout how long to wait before giving up, in units of
+     * @pbrbm e the element to bdd
+     * @pbrbm timeout how long to wbit before giving up, in units of
      *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return {@code true} if successful, or {@code false} if
-     *         the specified waiting time elapses before space is available
-     * @throws InterruptedException if interrupted while waiting
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this queue
+     * @pbrbm unit b {@code TimeUnit} determining how to interpret the
+     *        {@code timeout} pbrbmeter
+     * @return {@code true} if successful, or {@code fblse} if
+     *         the specified wbiting time elbpses before spbce is bvbilbble
+     * @throws InterruptedException if interrupted while wbiting
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this queue
      * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this queue
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this queue
      */
-    boolean offer(E e, long timeout, TimeUnit unit)
+    boolebn offer(E e, long timeout, TimeUnit unit)
         throws InterruptedException;
 
     /**
-     * Retrieves and removes the head of this queue, waiting if necessary
-     * until an element becomes available.
+     * Retrieves bnd removes the hebd of this queue, wbiting if necessbry
+     * until bn element becomes bvbilbble.
      *
-     * @return the head of this queue
-     * @throws InterruptedException if interrupted while waiting
+     * @return the hebd of this queue
+     * @throws InterruptedException if interrupted while wbiting
      */
-    E take() throws InterruptedException;
+    E tbke() throws InterruptedException;
 
     /**
-     * Retrieves and removes the head of this queue, waiting up to the
-     * specified wait time if necessary for an element to become available.
+     * Retrieves bnd removes the hebd of this queue, wbiting up to the
+     * specified wbit time if necessbry for bn element to become bvbilbble.
      *
-     * @param timeout how long to wait before giving up, in units of
+     * @pbrbm timeout how long to wbit before giving up, in units of
      *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return the head of this queue, or {@code null} if the
-     *         specified waiting time elapses before an element is available
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm unit b {@code TimeUnit} determining how to interpret the
+     *        {@code timeout} pbrbmeter
+     * @return the hebd of this queue, or {@code null} if the
+     *         specified wbiting time elbpses before bn element is bvbilbble
+     * @throws InterruptedException if interrupted while wbiting
      */
     E poll(long timeout, TimeUnit unit)
         throws InterruptedException;
 
     /**
-     * Returns the number of additional elements that this queue can ideally
-     * (in the absence of memory or resource constraints) accept without
+     * Returns the number of bdditionbl elements thbt this queue cbn ideblly
+     * (in the bbsence of memory or resource constrbints) bccept without
      * blocking, or {@code Integer.MAX_VALUE} if there is no intrinsic
      * limit.
      *
-     * <p>Note that you <em>cannot</em> always tell if an attempt to insert
-     * an element will succeed by inspecting {@code remainingCapacity}
-     * because it may be the case that another thread is about to
-     * insert or remove an element.
+     * <p>Note thbt you <em>cbnnot</em> blwbys tell if bn bttempt to insert
+     * bn element will succeed by inspecting {@code rembiningCbpbcity}
+     * becbuse it mby be the cbse thbt bnother threbd is bbout to
+     * insert or remove bn element.
      *
-     * @return the remaining capacity
+     * @return the rembining cbpbcity
      */
-    int remainingCapacity();
+    int rembiningCbpbcity();
 
     /**
-     * Removes a single instance of the specified element from this queue,
-     * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
+     * Removes b single instbnce of the specified element from this queue,
+     * if it is present.  More formblly, removes bn element {@code e} such
+     * thbt {@code o.equbls(e)}, if this queue contbins one or more such
      * elements.
-     * Returns {@code true} if this queue contained the specified element
-     * (or equivalently, if this queue changed as a result of the call).
+     * Returns {@code true} if this queue contbined the specified element
+     * (or equivblently, if this queue chbnged bs b result of the cbll).
      *
-     * @param o element to be removed from this queue, if present
-     * @return {@code true} if this queue changed as a result of the call
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this queue
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o element to be removed from this queue, if present
+     * @return {@code true} if this queue chbnged bs b result of the cbll
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         is incompbtible with this queue
+     *         (<b href="../Collection.html#optionbl-restrictions">optionbl</b>)
      * @throws NullPointerException if the specified element is null
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     *         (<b href="../Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    boolean remove(Object o);
+    boolebn remove(Object o);
 
     /**
-     * Returns {@code true} if this queue contains the specified element.
-     * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this queue contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this queue contbins
+     * bt lebst one element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o object to be checked for containment in this queue
-     * @return {@code true} if this queue contains the specified element
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this queue
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o object to be checked for contbinment in this queue
+     * @return {@code true} if this queue contbins the specified element
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         is incompbtible with this queue
+     *         (<b href="../Collection.html#optionbl-restrictions">optionbl</b>)
      * @throws NullPointerException if the specified element is null
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     *         (<b href="../Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    public boolean contains(Object o);
+    public boolebn contbins(Object o);
 
     /**
-     * Removes all available elements from this queue and adds them
-     * to the given collection.  This operation may be more
-     * efficient than repeatedly polling this queue.  A failure
-     * encountered while attempting to add elements to
-     * collection {@code c} may result in elements being in neither,
-     * either or both collections when the associated exception is
-     * thrown.  Attempts to drain a queue to itself result in
-     * {@code IllegalArgumentException}. Further, the behavior of
-     * this operation is undefined if the specified collection is
-     * modified while the operation is in progress.
+     * Removes bll bvbilbble elements from this queue bnd bdds them
+     * to the given collection.  This operbtion mby be more
+     * efficient thbn repebtedly polling this queue.  A fbilure
+     * encountered while bttempting to bdd elements to
+     * collection {@code c} mby result in elements being in neither,
+     * either or both collections when the bssocibted exception is
+     * thrown.  Attempts to drbin b queue to itself result in
+     * {@code IllegblArgumentException}. Further, the behbvior of
+     * this operbtion is undefined if the specified collection is
+     * modified while the operbtion is in progress.
      *
-     * @param c the collection to transfer elements into
-     * @return the number of elements transferred
-     * @throws UnsupportedOperationException if addition of elements
+     * @pbrbm c the collection to trbnsfer elements into
+     * @return the number of elements trbnsferred
+     * @throws UnsupportedOperbtionException if bddition of elements
      *         is not supported by the specified collection
-     * @throws ClassCastException if the class of an element of this queue
-     *         prevents it from being added to the specified collection
+     * @throws ClbssCbstException if the clbss of bn element of this queue
+     *         prevents it from being bdded to the specified collection
      * @throws NullPointerException if the specified collection is null
-     * @throws IllegalArgumentException if the specified collection is this
-     *         queue, or some property of an element of this queue prevents
-     *         it from being added to the specified collection
+     * @throws IllegblArgumentException if the specified collection is this
+     *         queue, or some property of bn element of this queue prevents
+     *         it from being bdded to the specified collection
      */
-    int drainTo(Collection<? super E> c);
+    int drbinTo(Collection<? super E> c);
 
     /**
-     * Removes at most the given number of available elements from
-     * this queue and adds them to the given collection.  A failure
-     * encountered while attempting to add elements to
-     * collection {@code c} may result in elements being in neither,
-     * either or both collections when the associated exception is
-     * thrown.  Attempts to drain a queue to itself result in
-     * {@code IllegalArgumentException}. Further, the behavior of
-     * this operation is undefined if the specified collection is
-     * modified while the operation is in progress.
+     * Removes bt most the given number of bvbilbble elements from
+     * this queue bnd bdds them to the given collection.  A fbilure
+     * encountered while bttempting to bdd elements to
+     * collection {@code c} mby result in elements being in neither,
+     * either or both collections when the bssocibted exception is
+     * thrown.  Attempts to drbin b queue to itself result in
+     * {@code IllegblArgumentException}. Further, the behbvior of
+     * this operbtion is undefined if the specified collection is
+     * modified while the operbtion is in progress.
      *
-     * @param c the collection to transfer elements into
-     * @param maxElements the maximum number of elements to transfer
-     * @return the number of elements transferred
-     * @throws UnsupportedOperationException if addition of elements
+     * @pbrbm c the collection to trbnsfer elements into
+     * @pbrbm mbxElements the mbximum number of elements to trbnsfer
+     * @return the number of elements trbnsferred
+     * @throws UnsupportedOperbtionException if bddition of elements
      *         is not supported by the specified collection
-     * @throws ClassCastException if the class of an element of this queue
-     *         prevents it from being added to the specified collection
+     * @throws ClbssCbstException if the clbss of bn element of this queue
+     *         prevents it from being bdded to the specified collection
      * @throws NullPointerException if the specified collection is null
-     * @throws IllegalArgumentException if the specified collection is this
-     *         queue, or some property of an element of this queue prevents
-     *         it from being added to the specified collection
+     * @throws IllegblArgumentException if the specified collection is this
+     *         queue, or some property of bn element of this queue prevents
+     *         it from being bdded to the specified collection
      */
-    int drainTo(Collection<? super E> c, int maxElements);
+    int drbinTo(Collection<? super E> c, int mbxElements);
 }

@@ -1,502 +1,502 @@
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.GraphicsEnvironment;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.StreamTokenizer;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.io.BufferedRebder;
+import jbvb.io.File;
+import jbvb.io.FileRebder;
+import jbvb.io.IOException;
+import jbvb.io.StrebmTokenizer;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
 
-import javax.swing.plaf.FontUIResource;
-import sun.awt.motif.MFontConfiguration;
+import jbvbx.swing.plbf.FontUIResource;
+import sun.bwt.motif.MFontConfigurbtion;
 import sun.font.CompositeFont;
-import sun.font.FontManager;
-import sun.font.SunFontManager;
-import sun.font.FontConfigManager;
-import sun.font.FcFontConfiguration;
+import sun.font.FontMbnbger;
+import sun.font.SunFontMbnbger;
+import sun.font.FontConfigMbnbger;
+import sun.font.FcFontConfigurbtion;
 import sun.font.FontAccess;
 import sun.font.FontUtilities;
-import sun.font.NativeFont;
-import sun.util.logging.PlatformLogger;
+import sun.font.NbtiveFont;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * The X11 implementation of {@link FontManager}.
+ * The X11 implementbtion of {@link FontMbnbger}.
  */
-public class X11FontManager extends SunFontManager {
+public clbss X11FontMbnbger extends SunFontMbnbger {
 
-    // constants identifying XLFD and font ID fields
-    private static final int FOUNDRY_FIELD = 1;
-    private static final int FAMILY_NAME_FIELD = 2;
-    private static final int WEIGHT_NAME_FIELD = 3;
-    private static final int SLANT_FIELD = 4;
-    private static final int SETWIDTH_NAME_FIELD = 5;
-    private static final int ADD_STYLE_NAME_FIELD = 6;
-    private static final int PIXEL_SIZE_FIELD = 7;
-    private static final int POINT_SIZE_FIELD = 8;
-    private static final int RESOLUTION_X_FIELD = 9;
-    private static final int RESOLUTION_Y_FIELD = 10;
-    private static final int SPACING_FIELD = 11;
-    private static final int AVERAGE_WIDTH_FIELD = 12;
-    private static final int CHARSET_REGISTRY_FIELD = 13;
-    private static final int CHARSET_ENCODING_FIELD = 14;
+    // constbnts identifying XLFD bnd font ID fields
+    privbte stbtic finbl int FOUNDRY_FIELD = 1;
+    privbte stbtic finbl int FAMILY_NAME_FIELD = 2;
+    privbte stbtic finbl int WEIGHT_NAME_FIELD = 3;
+    privbte stbtic finbl int SLANT_FIELD = 4;
+    privbte stbtic finbl int SETWIDTH_NAME_FIELD = 5;
+    privbte stbtic finbl int ADD_STYLE_NAME_FIELD = 6;
+    privbte stbtic finbl int PIXEL_SIZE_FIELD = 7;
+    privbte stbtic finbl int POINT_SIZE_FIELD = 8;
+    privbte stbtic finbl int RESOLUTION_X_FIELD = 9;
+    privbte stbtic finbl int RESOLUTION_Y_FIELD = 10;
+    privbte stbtic finbl int SPACING_FIELD = 11;
+    privbte stbtic finbl int AVERAGE_WIDTH_FIELD = 12;
+    privbte stbtic finbl int CHARSET_REGISTRY_FIELD = 13;
+    privbte stbtic finbl int CHARSET_ENCODING_FIELD = 14;
 
     /*
-     * fontNameMap is a map from a fontID (which is a substring of an XLFD like
-     * "-monotype-arial-bold-r-normal-iso8859-7")
-     * to font file path like
-     * /usr/openwin/lib/locale/iso_8859_7/X11/fonts/TrueType/ArialBoldItalic.ttf
-     * It's used in a couple of methods like
-     * getFileNameFomPlatformName(..) to help locate the font file.
-     * We use this substring of a full XLFD because the font configuration files
-     * define the XLFDs in a way that's easier to make into a request.
+     * fontNbmeMbp is b mbp from b fontID (which is b substring of bn XLFD like
+     * "-monotype-bribl-bold-r-normbl-iso8859-7")
+     * to font file pbth like
+     * /usr/openwin/lib/locble/iso_8859_7/X11/fonts/TrueType/AriblBoldItblic.ttf
+     * It's used in b couple of methods like
+     * getFileNbmeFomPlbtformNbme(..) to help locbte the font file.
+     * We use this substring of b full XLFD becbuse the font configurbtion files
+     * define the XLFDs in b wby thbt's ebsier to mbke into b request.
      * E.g., the -0-0-0-0-p-0- reported by X is -*-%d-*-*-p-*- in the font
-     * configuration files. We need to remove that part for comparisons.
+     * configurbtion files. We need to remove thbt pbrt for compbrisons.
      */
-    private static Map<String, String> fontNameMap = new HashMap<>();
+    privbte stbtic Mbp<String, String> fontNbmeMbp = new HbshMbp<>();
 
     /*
-     * xlfdMap is a map from a platform path like
-     * /usr/openwin/lib/locale/ja/X11/fonts/TT/HG-GothicB.ttf to an XLFD like
-     * "-ricoh-hg gothic b-medium-r-normal--0-0-0-0-m-0-jisx0201.1976-0"
-     * Because there may be multiple native names, because the font is used
-     * to support multiple X encodings for example, the value of an entry in
-     * this map is always a vector where we store all the native names.
-     * For fonts which we don't understand the key isn't a pathname, its
+     * xlfdMbp is b mbp from b plbtform pbth like
+     * /usr/openwin/lib/locble/jb/X11/fonts/TT/HG-GothicB.ttf to bn XLFD like
+     * "-ricoh-hg gothic b-medium-r-normbl--0-0-0-0-m-0-jisx0201.1976-0"
+     * Becbuse there mby be multiple nbtive nbmes, becbuse the font is used
+     * to support multiple X encodings for exbmple, the vblue of bn entry in
+     * this mbp is blwbys b vector where we store bll the nbtive nbmes.
+     * For fonts which we don't understbnd the key isn't b pbthnbme, its
      * the full XLFD string like :-
-     * "-ricoh-hg gothic b-medium-r-normal--0-0-0-0-m-0-jisx0201.1976-0"
+     * "-ricoh-hg gothic b-medium-r-normbl--0-0-0-0-m-0-jisx0201.1976-0"
      */
-    private static Map<String, Vector<String>> xlfdMap = new HashMap<>();
+    privbte stbtic Mbp<String, Vector<String>> xlfdMbp = new HbshMbp<>();
 
-    /* xFontDirsMap is also a map from a font ID to a font filepath.
-     * The difference from fontNameMap is just that it does not have
-     * resolved symbolic links. Normally this is not interesting except
-     * that we need to know the directory in which a font was found to
-     * add it to the X font server path, since although the files may
-     * be linked, the fonts.dir is different and specific to the encoding
-     * handled by that directory. This map is nulled out after use to free
-     * heap space. If the optimal path is taken, such that all fonts in
-     * font configuration files are referenced by filename, then the font
-     * dir can be directly derived as its parent directory.
-     * If a font is used by two XLFDs, each corresponding to a different
-     * X11 font directory, then precautions must be taken to include both
+    /* xFontDirsMbp is blso b mbp from b font ID to b font filepbth.
+     * The difference from fontNbmeMbp is just thbt it does not hbve
+     * resolved symbolic links. Normblly this is not interesting except
+     * thbt we need to know the directory in which b font wbs found to
+     * bdd it to the X font server pbth, since blthough the files mby
+     * be linked, the fonts.dir is different bnd specific to the encoding
+     * hbndled by thbt directory. This mbp is nulled out bfter use to free
+     * hebp spbce. If the optimbl pbth is tbken, such thbt bll fonts in
+     * font configurbtion files bre referenced by filenbme, then the font
+     * dir cbn be directly derived bs its pbrent directory.
+     * If b font is used by two XLFDs, ebch corresponding to b different
+     * X11 font directory, then precbutions must be tbken to include both
      * directories.
      */
-     private static Map<String, String> xFontDirsMap;
+     privbte stbtic Mbp<String, String> xFontDirsMbp;
 
      /*
-      * This is the set of font directories needed to be on the X font path
-      * to enable AWT heavyweights to find all of the font configuration fonts.
-      * It is populated by :
-      * - awtfontpath entries in the fontconfig.properties
-      * - parent directories of "core" fonts used in the fontconfig.properties
-      * - looking up font dirs in the xFontDirsMap where the key is a fontID
-      *   (cut down version of the XLFD read from the font configuration file).
-      * This set is nulled out after use to free heap space.
+      * This is the set of font directories needed to be on the X font pbth
+      * to enbble AWT hebvyweights to find bll of the font configurbtion fonts.
+      * It is populbted by :
+      * - bwtfontpbth entries in the fontconfig.properties
+      * - pbrent directories of "core" fonts used in the fontconfig.properties
+      * - looking up font dirs in the xFontDirsMbp where the key is b fontID
+      *   (cut down version of the XLFD rebd from the font configurbtion file).
+      * This set is nulled out bfter use to free hebp spbce.
       */
-     private static HashSet<String> fontConfigDirs = null;
+     privbte stbtic HbshSet<String> fontConfigDirs = null;
 
-    /* These maps are used on Linux where we reference the Lucida oblique
-     * fonts in fontconfig files even though they aren't in the standard
-     * font directory. This explicitly remaps the XLFDs for these to the
-     * correct base font. This is needed to prevent composite fonts from
-     * defaulting to the Lucida Sans which is a bad substitute for the
-     * monospaced Lucida Sans Typewriter. Also these maps prevent the
-     * JRE from doing wasted work at start up.
+    /* These mbps bre used on Linux where we reference the Lucidb oblique
+     * fonts in fontconfig files even though they bren't in the stbndbrd
+     * font directory. This explicitly rembps the XLFDs for these to the
+     * correct bbse font. This is needed to prevent composite fonts from
+     * defbulting to the Lucidb Sbns which is b bbd substitute for the
+     * monospbced Lucidb Sbns Typewriter. Also these mbps prevent the
+     * JRE from doing wbsted work bt stbrt up.
      */
-    HashMap<String, String> oblmap = null;
+    HbshMbp<String, String> oblmbp = null;
 
 
     /*
-     * Used to eliminate redundant work. When a font directory is
-     * registered it added to this list. Subsequent registrations for the
-     * same directory can then be skipped by checking this Map.
-     * Access to this map is not synchronised here since creation
-     * of the singleton GE instance is already synchronised and that is
-     * the only code path that accesses this map.
+     * Used to eliminbte redundbnt work. When b font directory is
+     * registered it bdded to this list. Subsequent registrbtions for the
+     * sbme directory cbn then be skipped by checking this Mbp.
+     * Access to this mbp is not synchronised here since crebtion
+     * of the singleton GE instbnce is blrebdy synchronised bnd thbt is
+     * the only code pbth thbt bccesses this mbp.
      */
-     private static HashMap<String, Object> registeredDirs = new HashMap<>();
+     privbte stbtic HbshMbp<String, Object> registeredDirs = new HbshMbp<>();
 
-     /* Array of directories to be added to the X11 font path.
-      * Used by static method called from Toolkits which use X11 fonts.
-      * Specifically this means MToolkit
+     /* Arrby of directories to be bdded to the X11 font pbth.
+      * Used by stbtic method cblled from Toolkits which use X11 fonts.
+      * Specificblly this mebns MToolkit
       */
-     private static String[] fontdirs = null;
+     privbte stbtic String[] fontdirs = null;
 
-    private static String[] defaultPlatformFont = null;
+    privbte stbtic String[] defbultPlbtformFont = null;
 
-    private FontConfigManager fcManager = null;
+    privbte FontConfigMbnbger fcMbnbger = null;
 
-    public static X11FontManager getInstance() {
-        return (X11FontManager) SunFontManager.getInstance();
+    public stbtic X11FontMbnbger getInstbnce() {
+        return (X11FontMbnbger) SunFontMbnbger.getInstbnce();
     }
 
     /**
-     * Takes family name property in the following format:
-     * "-linotype-helvetica-medium-r-normal-sans-*-%d-*-*-p-*-iso8859-1"
-     * and returns the name of the corresponding physical font.
-     * This code is used to resolve font configuration fonts, and expects
-     * only to get called for these fonts.
+     * Tbkes fbmily nbme property in the following formbt:
+     * "-linotype-helveticb-medium-r-normbl-sbns-*-%d-*-*-p-*-iso8859-1"
+     * bnd returns the nbme of the corresponding physicbl font.
+     * This code is used to resolve font configurbtion fonts, bnd expects
+     * only to get cblled for these fonts.
      */
     @Override
-    public String getFileNameFromPlatformName(String platName) {
+    public String getFileNbmeFromPlbtformNbme(String plbtNbme) {
 
         /* If the FontConfig file doesn't use xlfds, or its
-         * FcFontConfiguration, this may be already a file name.
+         * FcFontConfigurbtion, this mby be blrebdy b file nbme.
          */
-        if (platName.startsWith("/")) {
-            return platName;
+        if (plbtNbme.stbrtsWith("/")) {
+            return plbtNbme;
         }
 
-        String fileName = null;
-        String fontID = specificFontIDForName(platName);
+        String fileNbme = null;
+        String fontID = specificFontIDForNbme(plbtNbme);
 
-        /* If the font filename has been explicitly assigned in the
-         * font configuration file, use it. This avoids accessing
+        /* If the font filenbme hbs been explicitly bssigned in the
+         * font configurbtion file, use it. This bvoids bccessing
          * the wrong fonts on Linux, where different fonts (some
-         * of which may not be usable by 2D) may share the same
-         * specific font ID. It may also speed up the lookup.
+         * of which mby not be usbble by 2D) mby shbre the sbme
+         * specific font ID. It mby blso speed up the lookup.
          */
-        fileName = super.getFileNameFromPlatformName(platName);
-        if (fileName != null) {
-            if (isHeadless() && fileName.startsWith("-")) {
-                /* if it's headless, no xlfd should be used */
+        fileNbme = super.getFileNbmeFromPlbtformNbme(plbtNbme);
+        if (fileNbme != null) {
+            if (isHebdless() && fileNbme.stbrtsWith("-")) {
+                /* if it's hebdless, no xlfd should be used */
                     return null;
             }
-            if (fileName.startsWith("/")) {
-                /* If a path is assigned in the font configuration file,
-                 * it is required that the config file also specify using the
-                 * new awtfontpath key the X11 font directories
-                 * which must be added to the X11 font path to support
-                 * AWT access to that font. For that reason we no longer
-                 * have code here to add the parent directory to the list
-                 * of font config dirs, since the parent directory may not
-                 * be sufficient if fonts are symbolically linked to a
+            if (fileNbme.stbrtsWith("/")) {
+                /* If b pbth is bssigned in the font configurbtion file,
+                 * it is required thbt the config file blso specify using the
+                 * new bwtfontpbth key the X11 font directories
+                 * which must be bdded to the X11 font pbth to support
+                 * AWT bccess to thbt font. For thbt rebson we no longer
+                 * hbve code here to bdd the pbrent directory to the list
+                 * of font config dirs, since the pbrent directory mby not
+                 * be sufficient if fonts bre symbolicblly linked to b
                  * different directory.
                  *
-                 * Add this XLFD (platform name) to the list of known
+                 * Add this XLFD (plbtform nbme) to the list of known
                  * ones for this file.
                  */
-                Vector<String> xVal = xlfdMap.get(fileName);
-                if (xVal == null) {
+                Vector<String> xVbl = xlfdMbp.get(fileNbme);
+                if (xVbl == null) {
                     /* Try to be robust on Linux distros which move fonts
-                     * around by verifying that the fileName represents a
-                     * file that exists.  If it doesn't, set it to null
-                     * to trigger a search.
+                     * bround by verifying thbt the fileNbme represents b
+                     * file thbt exists.  If it doesn't, set it to null
+                     * to trigger b sebrch.
                      */
-                    if (getFontConfiguration().needToSearchForFile(fileName)) {
-                        fileName = null;
+                    if (getFontConfigurbtion().needToSebrchForFile(fileNbme)) {
+                        fileNbme = null;
                     }
-                    if (fileName != null) {
-                        xVal = new Vector<>();
-                        xVal.add(platName);
-                        xlfdMap.put(fileName, xVal);
+                    if (fileNbme != null) {
+                        xVbl = new Vector<>();
+                        xVbl.bdd(plbtNbme);
+                        xlfdMbp.put(fileNbme, xVbl);
                     }
                 } else {
-                    if (!xVal.contains(platName)) {
-                        xVal.add(platName);
+                    if (!xVbl.contbins(plbtNbme)) {
+                        xVbl.bdd(plbtNbme);
                     }
                 }
             }
-            if (fileName != null) {
-                fontNameMap.put(fontID, fileName);
-                return fileName;
+            if (fileNbme != null) {
+                fontNbmeMbp.put(fontID, fileNbme);
+                return fileNbme;
             }
         }
 
         if (fontID != null) {
-            fileName = fontNameMap.get(fontID);
-            /* On Linux check for the Lucida Oblique fonts */
-            if (fileName == null && FontUtilities.isLinux && !isOpenJDK()) {
-                if (oblmap == null) {
-                    initObliqueLucidaFontMap();
+            fileNbme = fontNbmeMbp.get(fontID);
+            /* On Linux check for the Lucidb Oblique fonts */
+            if (fileNbme == null && FontUtilities.isLinux && !isOpenJDK()) {
+                if (oblmbp == null) {
+                    initObliqueLucidbFontMbp();
                 }
-                String oblkey = getObliqueLucidaFontID(fontID);
+                String oblkey = getObliqueLucidbFontID(fontID);
                 if (oblkey != null) {
-                    fileName = oblmap.get(oblkey);
+                    fileNbme = oblmbp.get(oblkey);
                 }
             }
-            if (fontPath == null &&
-                (fileName == null || !fileName.startsWith("/"))) {
+            if (fontPbth == null &&
+                (fileNbme == null || !fileNbme.stbrtsWith("/"))) {
                 if (FontUtilities.debugFonts()) {
                     FontUtilities.getLogger()
-                          .warning("** Registering all font paths because " +
-                                   "can't find file for " + platName);
+                          .wbrning("** Registering bll font pbths becbuse " +
+                                   "cbn't find file for " + plbtNbme);
                 }
-                fontPath = getPlatformFontPath(noType1Font);
-                registerFontDirs(fontPath);
+                fontPbth = getPlbtformFontPbth(noType1Font);
+                registerFontDirs(fontPbth);
                 if (FontUtilities.debugFonts()) {
                     FontUtilities.getLogger()
-                            .warning("** Finished registering all font paths");
+                            .wbrning("** Finished registering bll font pbths");
                 }
-                fileName = fontNameMap.get(fontID);
+                fileNbme = fontNbmeMbp.get(fontID);
             }
-            if (fileName == null && !isHeadless()) {
-                /* Query X11 directly to see if this font is available
-                 * as a native font.
+            if (fileNbme == null && !isHebdless()) {
+                /* Query X11 directly to see if this font is bvbilbble
+                 * bs b nbtive font.
                  */
-                fileName = getX11FontName(platName);
+                fileNbme = getX11FontNbme(plbtNbme);
             }
-            if (fileName == null) {
-                fontID = switchFontIDForName(platName);
-                fileName = fontNameMap.get(fontID);
+            if (fileNbme == null) {
+                fontID = switchFontIDForNbme(plbtNbme);
+                fileNbme = fontNbmeMbp.get(fontID);
             }
-            if (fileName != null) {
-                fontNameMap.put(fontID, fileName);
+            if (fileNbme != null) {
+                fontNbmeMbp.put(fontID, fileNbme);
             }
         }
-        return fileName;
+        return fileNbme;
     }
 
     @Override
-    protected String[] getNativeNames(String fontFileName,
-            String platformName) {
-        Vector<String> nativeNames;
-        if ((nativeNames=xlfdMap.get(fontFileName))==null) {
-            if (platformName == null) {
+    protected String[] getNbtiveNbmes(String fontFileNbme,
+            String plbtformNbme) {
+        Vector<String> nbtiveNbmes;
+        if ((nbtiveNbmes=xlfdMbp.get(fontFileNbme))==null) {
+            if (plbtformNbme == null) {
                 return null;
             } else {
-                /* back-stop so that at least the name used in the
-                 * font configuration file is known as a native name
+                /* bbck-stop so thbt bt lebst the nbme used in the
+                 * font configurbtion file is known bs b nbtive nbme
                  */
-                String []natNames = new String[1];
-                natNames[0] = platformName;
-                return natNames;
+                String []nbtNbmes = new String[1];
+                nbtNbmes[0] = plbtformNbme;
+                return nbtNbmes;
             }
         } else {
-            int len = nativeNames.size();
-            return nativeNames.toArray(new String[len]);
+            int len = nbtiveNbmes.size();
+            return nbtiveNbmes.toArrby(new String[len]);
         }
     }
 
-    /* NOTE: this method needs to be executed in a privileged context.
-     * The superclass constructor which is the primary caller of
-     * this method executes entirely in such a context. Additionally
-     * the loadFonts() method does too. So all should be well.
+    /* NOTE: this method needs to be executed in b privileged context.
+     * The superclbss constructor which is the primbry cbller of
+     * this method executes entirely in such b context. Additionblly
+     * the lobdFonts() method does too. So bll should be well.
 
      */
     @Override
-    protected void registerFontDir(String path) {
-        /* fonts.dir file format looks like :-
+    protected void registerFontDir(String pbth) {
+        /* fonts.dir file formbt looks like :-
          * 47
-         * Arial.ttf -monotype-arial-regular-r-normal--0-0-0-0-p-0-iso8859-1
-         * Arial-Bold.ttf -monotype-arial-bold-r-normal--0-0-0-0-p-0-iso8859-1
+         * Aribl.ttf -monotype-bribl-regulbr-r-normbl--0-0-0-0-p-0-iso8859-1
+         * Aribl-Bold.ttf -monotype-bribl-bold-r-normbl--0-0-0-0-p-0-iso8859-1
          * ...
          */
         if (FontUtilities.debugFonts()) {
-            FontUtilities.getLogger().info("ParseFontDir " + path);
+            FontUtilities.getLogger().info("PbrseFontDir " + pbth);
         }
-        File fontsDotDir = new File(path + File.separator + "fonts.dir");
-        FileReader fr = null;
+        File fontsDotDir = new File(pbth + File.sepbrbtor + "fonts.dir");
+        FileRebder fr = null;
         try {
-            if (fontsDotDir.canRead()) {
-                fr = new FileReader(fontsDotDir);
-                BufferedReader br = new BufferedReader(fr, 8192);
-                StreamTokenizer st = new StreamTokenizer(br);
-                st.eolIsSignificant(true);
+            if (fontsDotDir.cbnRebd()) {
+                fr = new FileRebder(fontsDotDir);
+                BufferedRebder br = new BufferedRebder(fr, 8192);
+                StrebmTokenizer st = new StrebmTokenizer(br);
+                st.eolIsSignificbnt(true);
                 int ttype = st.nextToken();
-                if (ttype == StreamTokenizer.TT_NUMBER) {
-                    int numEntries = (int)st.nval;
+                if (ttype == StrebmTokenizer.TT_NUMBER) {
+                    int numEntries = (int)st.nvbl;
                     ttype = st.nextToken();
-                    if (ttype == StreamTokenizer.TT_EOL) {
-                        st.resetSyntax();
-                        st.wordChars(32, 127);
-                        st.wordChars(128 + 32, 255);
-                        st.whitespaceChars(0, 31);
+                    if (ttype == StrebmTokenizer.TT_EOL) {
+                        st.resetSyntbx();
+                        st.wordChbrs(32, 127);
+                        st.wordChbrs(128 + 32, 255);
+                        st.whitespbceChbrs(0, 31);
 
                         for (int i=0; i < numEntries; i++) {
                             ttype = st.nextToken();
-                            if (ttype == StreamTokenizer.TT_EOF) {
-                                break;
+                            if (ttype == StrebmTokenizer.TT_EOF) {
+                                brebk;
                             }
-                            if (ttype != StreamTokenizer.TT_WORD) {
-                                break;
+                            if (ttype != StrebmTokenizer.TT_WORD) {
+                                brebk;
                             }
-                            int breakPos = st.sval.indexOf(' ');
-                            if (breakPos <= 0) {
-                                /* On TurboLinux 8.0 a fonts.dir file had
-                                 * a line with integer value "24" which
-                                 * appeared to be the number of remaining
-                                 * entries in the file. This didn't add to
-                                 * the value on the first line of the file.
+                            int brebkPos = st.svbl.indexOf(' ');
+                            if (brebkPos <= 0) {
+                                /* On TurboLinux 8.0 b fonts.dir file hbd
+                                 * b line with integer vblue "24" which
+                                 * bppebred to be the number of rembining
+                                 * entries in the file. This didn't bdd to
+                                 * the vblue on the first line of the file.
                                  * Seemed like XFree86 didn't like this line
-                                 * much either. It failed to parse the file.
-                                 * Ignore lines like this completely, and
-                                 * don't let them count as an entry.
+                                 * much either. It fbiled to pbrse the file.
+                                 * Ignore lines like this completely, bnd
+                                 * don't let them count bs bn entry.
                                  */
                                 numEntries++;
                                 ttype = st.nextToken();
-                                if (ttype != StreamTokenizer.TT_EOL) {
-                                    break;
+                                if (ttype != StrebmTokenizer.TT_EOL) {
+                                    brebk;
                                 }
 
                                 continue;
                             }
-                            if (st.sval.charAt(0) == '!') {
+                            if (st.svbl.chbrAt(0) == '!') {
                                 /* TurboLinux 8.0 comment line: ignore.
-                                 * can't use st.commentChar('!') to just
-                                 * skip because this line mustn't count
-                                 * against numEntries.
+                                 * cbn't use st.commentChbr('!') to just
+                                 * skip becbuse this line mustn't count
+                                 * bgbinst numEntries.
                                  */
                                 numEntries++;
                                 ttype = st.nextToken();
-                                if (ttype != StreamTokenizer.TT_EOL) {
-                                    break;
+                                if (ttype != StrebmTokenizer.TT_EOL) {
+                                    brebk;
                                 }
                                 continue;
                             }
-                            String fileName = st.sval.substring(0, breakPos);
-                            /* TurboLinux 8.0 uses some additional syntax to
-                             * indicate algorithmic styling values.
-                             * Ignore ':' separated files at the beginning
-                             * of the fileName
+                            String fileNbme = st.svbl.substring(0, brebkPos);
+                            /* TurboLinux 8.0 uses some bdditionbl syntbx to
+                             * indicbte blgorithmic styling vblues.
+                             * Ignore ':' sepbrbted files bt the beginning
+                             * of the fileNbme
                              */
-                            int lastColon = fileName.lastIndexOf(':');
-                            if (lastColon > 0) {
-                                if (lastColon+1 >= fileName.length()) {
+                            int lbstColon = fileNbme.lbstIndexOf(':');
+                            if (lbstColon > 0) {
+                                if (lbstColon+1 >= fileNbme.length()) {
                                     continue;
                                 }
-                                fileName = fileName.substring(lastColon+1);
+                                fileNbme = fileNbme.substring(lbstColon+1);
                             }
-                            String fontPart = st.sval.substring(breakPos+1);
-                            String fontID = specificFontIDForName(fontPart);
-                            String sVal = fontNameMap.get(fontID);
+                            String fontPbrt = st.svbl.substring(brebkPos+1);
+                            String fontID = specificFontIDForNbme(fontPbrt);
+                            String sVbl = fontNbmeMbp.get(fontID);
 
                             if (FontUtilities.debugFonts()) {
-                                PlatformLogger logger = FontUtilities.getLogger();
-                                logger.info("file=" + fileName +
-                                            " xlfd=" + fontPart);
+                                PlbtformLogger logger = FontUtilities.getLogger();
+                                logger.info("file=" + fileNbme +
+                                            " xlfd=" + fontPbrt);
                                 logger.info("fontID=" + fontID +
-                                            " sVal=" + sVal);
+                                            " sVbl=" + sVbl);
                             }
-                            String fullPath = null;
+                            String fullPbth = null;
                             try {
-                                File file = new File(path,fileName);
-                                /* we may have a resolved symbolic link
-                                 * this becomes important for an xlfd we
-                                 * still need to know the location it was
-                                 * found to update the X server font path
-                                 * for use by AWT heavyweights - and when 2D
-                                 * wants to use the native rasteriser.
+                                File file = new File(pbth,fileNbme);
+                                /* we mby hbve b resolved symbolic link
+                                 * this becomes importbnt for bn xlfd we
+                                 * still need to know the locbtion it wbs
+                                 * found to updbte the X server font pbth
+                                 * for use by AWT hebvyweights - bnd when 2D
+                                 * wbnts to use the nbtive rbsteriser.
                                  */
-                                if (xFontDirsMap == null) {
-                                    xFontDirsMap = new HashMap<>();
+                                if (xFontDirsMbp == null) {
+                                    xFontDirsMbp = new HbshMbp<>();
                                 }
-                                xFontDirsMap.put(fontID, path);
-                                fullPath = file.getCanonicalPath();
-                            } catch (IOException e) {
-                                fullPath = path + File.separator + fileName;
+                                xFontDirsMbp.put(fontID, pbth);
+                                fullPbth = file.getCbnonicblPbth();
+                            } cbtch (IOException e) {
+                                fullPbth = pbth + File.sepbrbtor + fileNbme;
                             }
-                            Vector<String> xVal = xlfdMap.get(fullPath);
+                            Vector<String> xVbl = xlfdMbp.get(fullPbth);
                             if (FontUtilities.debugFonts()) {
                                 FontUtilities.getLogger()
-                                      .info("fullPath=" + fullPath +
-                                            " xVal=" + xVal);
+                                      .info("fullPbth=" + fullPbth +
+                                            " xVbl=" + xVbl);
                             }
-                            if ((xVal == null || !xVal.contains(fontPart)) &&
-                                (sVal == null) || !sVal.startsWith("/")) {
+                            if ((xVbl == null || !xVbl.contbins(fontPbrt)) &&
+                                (sVbl == null) || !sVbl.stbrtsWith("/")) {
                                 if (FontUtilities.debugFonts()) {
                                     FontUtilities.getLogger()
-                                          .info("Map fontID:"+fontID +
-                                                "to file:" + fullPath);
+                                          .info("Mbp fontID:"+fontID +
+                                                "to file:" + fullPbth);
                                 }
-                                fontNameMap.put(fontID, fullPath);
-                                if (xVal == null) {
-                                    xVal = new Vector<>();
-                                    xlfdMap.put (fullPath, xVal);
+                                fontNbmeMbp.put(fontID, fullPbth);
+                                if (xVbl == null) {
+                                    xVbl = new Vector<>();
+                                    xlfdMbp.put (fullPbth, xVbl);
                                 }
-                                xVal.add(fontPart);
+                                xVbl.bdd(fontPbrt);
                             }
 
                             ttype = st.nextToken();
-                            if (ttype != StreamTokenizer.TT_EOL) {
-                                break;
+                            if (ttype != StrebmTokenizer.TT_EOL) {
+                                brebk;
                             }
                         }
                     }
                 }
                 fr.close();
             }
-        } catch (IOException ioe1) {
-        } finally {
+        } cbtch (IOException ioe1) {
+        } finblly {
             if (fr != null) {
                 try {
                     fr.close();
-                }  catch (IOException ioe2) {
+                }  cbtch (IOException ioe2) {
                 }
             }
         }
     }
 
     @Override
-    public void loadFonts() {
-        super.loadFonts();
-        /* These maps are greatly expanded during a loadFonts but
-         * can be reset to their initial state afterwards.
-         * Since preferLocaleFonts() and preferProportionalFonts() will
-         * trigger a partial repopulating from the FontConfiguration
-         * it has to be the inital (empty) state for the latter two, not
+    public void lobdFonts() {
+        super.lobdFonts();
+        /* These mbps bre grebtly expbnded during b lobdFonts but
+         * cbn be reset to their initibl stbte bfterwbrds.
+         * Since preferLocbleFonts() bnd preferProportionblFonts() will
+         * trigger b pbrtibl repopulbting from the FontConfigurbtion
+         * it hbs to be the initbl (empty) stbte for the lbtter two, not
          * simply nulling out.
-         * xFontDirsMap is a special case in that the implementation
-         * will typically not ever need to initialise it so it can be null.
+         * xFontDirsMbp is b specibl cbse in thbt the implementbtion
+         * will typicblly not ever need to initiblise it so it cbn be null.
          */
-        xFontDirsMap = null;
-        xlfdMap = new HashMap<>(1);
-        fontNameMap = new HashMap<>(1);
+        xFontDirsMbp = null;
+        xlfdMbp = new HbshMbp<>(1);
+        fontNbmeMbp = new HbshMbp<>(1);
     }
 
-    private String getObliqueLucidaFontID(String fontID) {
-        if (fontID.startsWith("-lucidasans-medium-i-normal") ||
-            fontID.startsWith("-lucidasans-bold-i-normal") ||
-            fontID.startsWith("-lucidatypewriter-medium-i-normal") ||
-            fontID.startsWith("-lucidatypewriter-bold-i-normal")) {
+    privbte String getObliqueLucidbFontID(String fontID) {
+        if (fontID.stbrtsWith("-lucidbsbns-medium-i-normbl") ||
+            fontID.stbrtsWith("-lucidbsbns-bold-i-normbl") ||
+            fontID.stbrtsWith("-lucidbtypewriter-medium-i-normbl") ||
+            fontID.stbrtsWith("-lucidbtypewriter-bold-i-normbl")) {
             return fontID.substring(0, fontID.indexOf("-i-"));
         } else {
             return null;
         }
     }
 
-    private static String getX11FontName(String platName) {
-        String xlfd = platName.replaceAll("%d", "*");
-        if (NativeFont.fontExists(xlfd)) {
+    privbte stbtic String getX11FontNbme(String plbtNbme) {
+        String xlfd = plbtNbme.replbceAll("%d", "*");
+        if (NbtiveFont.fontExists(xlfd)) {
             return xlfd;
         } else {
             return null;
         }
     }
 
-    private void initObliqueLucidaFontMap() {
-        oblmap = new HashMap<String, String>();
-        oblmap.put("-lucidasans-medium",
-                   jreLibDirName+"/fonts/LucidaSansRegular.ttf");
-        oblmap.put("-lucidasans-bold",
-                   jreLibDirName+"/fonts/LucidaSansDemiBold.ttf");
-        oblmap.put("-lucidatypewriter-medium",
-                   jreLibDirName+"/fonts/LucidaTypewriterRegular.ttf");
-        oblmap.put("-lucidatypewriter-bold",
-                   jreLibDirName+"/fonts/LucidaTypewriterBold.ttf");
+    privbte void initObliqueLucidbFontMbp() {
+        oblmbp = new HbshMbp<String, String>();
+        oblmbp.put("-lucidbsbns-medium",
+                   jreLibDirNbme+"/fonts/LucidbSbnsRegulbr.ttf");
+        oblmbp.put("-lucidbsbns-bold",
+                   jreLibDirNbme+"/fonts/LucidbSbnsDemiBold.ttf");
+        oblmbp.put("-lucidbtypewriter-medium",
+                   jreLibDirNbme+"/fonts/LucidbTypewriterRegulbr.ttf");
+        oblmbp.put("-lucidbtypewriter-bold",
+                   jreLibDirNbme+"/fonts/LucidbTypewriterBold.ttf");
     }
 
-    private boolean isHeadless() {
-        GraphicsEnvironment ge =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
-        return GraphicsEnvironment.isHeadless();
+    privbte boolebn isHebdless() {
+        GrbphicsEnvironment ge =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        return GrbphicsEnvironment.isHebdless();
     }
 
-    private String specificFontIDForName(String name) {
+    privbte String specificFontIDForNbme(String nbme) {
 
         int[] hPos = new int[14];
         int hyphenCnt = 1;
         int pos = 1;
 
         while (pos != -1 && hyphenCnt < 14) {
-            pos = name.indexOf('-', pos);
+            pos = nbme.indexOf('-', pos);
             if (pos != -1) {
                 hPos[hyphenCnt++] = pos;
                     pos++;
@@ -506,27 +506,27 @@ public class X11FontManager extends SunFontManager {
         if (hyphenCnt != 14) {
             if (FontUtilities.debugFonts()) {
                 FontUtilities.getLogger()
-                    .severe("Font Configuration Font ID is malformed:" + name);
+                    .severe("Font Configurbtion Font ID is mblformed:" + nbme);
             }
-            return name; // what else can we do?
+            return nbme; // whbt else cbn we do?
         }
 
         StringBuffer sb =
-            new StringBuffer(name.substring(hPos[FAMILY_NAME_FIELD-1],
+            new StringBuffer(nbme.substring(hPos[FAMILY_NAME_FIELD-1],
                                             hPos[SETWIDTH_NAME_FIELD]));
-        sb.append(name.substring(hPos[CHARSET_REGISTRY_FIELD-1]));
-        String retval = sb.toString().toLowerCase (Locale.ENGLISH);
-        return retval;
+        sb.bppend(nbme.substring(hPos[CHARSET_REGISTRY_FIELD-1]));
+        String retvbl = sb.toString().toLowerCbse (Locble.ENGLISH);
+        return retvbl;
     }
 
-    private String switchFontIDForName(String name) {
+    privbte String switchFontIDForNbme(String nbme) {
 
         int[] hPos = new int[14];
         int hyphenCnt = 1;
         int pos = 1;
 
         while (pos != -1 && hyphenCnt < 14) {
-            pos = name.indexOf('-', pos);
+            pos = nbme.indexOf('-', pos);
             if (pos != -1) {
                 hPos[hyphenCnt++] = pos;
                     pos++;
@@ -536,216 +536,216 @@ public class X11FontManager extends SunFontManager {
         if (hyphenCnt != 14) {
             if (FontUtilities.debugFonts()) {
                 FontUtilities.getLogger()
-                    .severe("Font Configuration Font ID is malformed:" + name);
+                    .severe("Font Configurbtion Font ID is mblformed:" + nbme);
             }
-            return name; // what else can we do?
+            return nbme; // whbt else cbn we do?
         }
 
-        String slant = name.substring(hPos[SLANT_FIELD-1]+1,
+        String slbnt = nbme.substring(hPos[SLANT_FIELD-1]+1,
                                            hPos[SLANT_FIELD]);
-        String family = name.substring(hPos[FAMILY_NAME_FIELD-1]+1,
+        String fbmily = nbme.substring(hPos[FAMILY_NAME_FIELD-1]+1,
                                            hPos[FAMILY_NAME_FIELD]);
-        String registry = name.substring(hPos[CHARSET_REGISTRY_FIELD-1]+1,
+        String registry = nbme.substring(hPos[CHARSET_REGISTRY_FIELD-1]+1,
                                            hPos[CHARSET_REGISTRY_FIELD]);
-        String encoding = name.substring(hPos[CHARSET_ENCODING_FIELD-1]+1);
+        String encoding = nbme.substring(hPos[CHARSET_ENCODING_FIELD-1]+1);
 
-        if (slant.equals("i")) {
-            slant = "o";
-        } else if (slant.equals("o")) {
-            slant = "i";
+        if (slbnt.equbls("i")) {
+            slbnt = "o";
+        } else if (slbnt.equbls("o")) {
+            slbnt = "i";
         }
-        // workaround for #4471000
-        if (family.equals("itc zapfdingbats")
-            && registry.equals("sun")
-            && encoding.equals("fontspecific")){
-            registry = "adobe";
+        // workbround for #4471000
+        if (fbmily.equbls("itc zbpfdingbbts")
+            && registry.equbls("sun")
+            && encoding.equbls("fontspecific")){
+            registry = "bdobe";
         }
         StringBuffer sb =
-            new StringBuffer(name.substring(hPos[FAMILY_NAME_FIELD-1],
+            new StringBuffer(nbme.substring(hPos[FAMILY_NAME_FIELD-1],
                                             hPos[SLANT_FIELD-1]+1));
-        sb.append(slant);
-        sb.append(name.substring(hPos[SLANT_FIELD],
+        sb.bppend(slbnt);
+        sb.bppend(nbme.substring(hPos[SLANT_FIELD],
                                  hPos[SETWIDTH_NAME_FIELD]+1));
-        sb.append(registry);
-        sb.append(name.substring(hPos[CHARSET_ENCODING_FIELD-1]));
-        String retval = sb.toString().toLowerCase (Locale.ENGLISH);
-        return retval;
+        sb.bppend(registry);
+        sb.bppend(nbme.substring(hPos[CHARSET_ENCODING_FIELD-1]));
+        String retvbl = sb.toString().toLowerCbse (Locble.ENGLISH);
+        return retvbl;
     }
 
     /**
-     * Returns the face name for the given XLFD.
+     * Returns the fbce nbme for the given XLFD.
      */
-    public String getFileNameFromXLFD(String name) {
-        String fileName = null;
-        String fontID = specificFontIDForName(name);
+    public String getFileNbmeFromXLFD(String nbme) {
+        String fileNbme = null;
+        String fontID = specificFontIDForNbme(nbme);
         if (fontID != null) {
-            fileName = fontNameMap.get(fontID);
-            if (fileName == null) {
-                fontID = switchFontIDForName(name);
-                fileName = fontNameMap.get(fontID);
+            fileNbme = fontNbmeMbp.get(fontID);
+            if (fileNbme == null) {
+                fontID = switchFontIDForNbme(nbme);
+                fileNbme = fontNbmeMbp.get(fontID);
             }
-            if (fileName == null) {
-                fileName = getDefaultFontFile();
+            if (fileNbme == null) {
+                fileNbme = getDefbultFontFile();
             }
         }
-        return fileName;
+        return fileNbme;
     }
 
-    /* Register just the paths, (it doesn't register the fonts).
-     * If a font configuration file has specified a baseFontPath
-     * fontPath is just those directories, unless on usage we
-     * find it doesn't contain what we need for the logical fonts.
-     * Otherwise, we register all the paths on Solaris, because
-     * the fontPath we have here is the complete one from
-     * parsing /var/sadm/install/contents, not just
-     * what's on the X font path (may be this should be
-     * changed).
-     * But for now what it means is that if we didn't do
-     * this then if the font weren't listed anywhere on the
-     * less complete font path we'd trigger loadFonts which
-     * actually registers the fonts. This may actually be
-     * the right thing tho' since that would also set up
-     * the X font path without which we wouldn't be able to
-     * display some "native" fonts.
-     * So something to revisit is that probably fontPath
-     * here ought to be only the X font path + jre font dir.
-     * loadFonts should have a separate native call to
-     * get the rest of the platform font path.
+    /* Register just the pbths, (it doesn't register the fonts).
+     * If b font configurbtion file hbs specified b bbseFontPbth
+     * fontPbth is just those directories, unless on usbge we
+     * find it doesn't contbin whbt we need for the logicbl fonts.
+     * Otherwise, we register bll the pbths on Solbris, becbuse
+     * the fontPbth we hbve here is the complete one from
+     * pbrsing /vbr/sbdm/instbll/contents, not just
+     * whbt's on the X font pbth (mby be this should be
+     * chbnged).
+     * But for now whbt it mebns is thbt if we didn't do
+     * this then if the font weren't listed bnywhere on the
+     * less complete font pbth we'd trigger lobdFonts which
+     * bctublly registers the fonts. This mby bctublly be
+     * the right thing tho' since thbt would blso set up
+     * the X font pbth without which we wouldn't be bble to
+     * displby some "nbtive" fonts.
+     * So something to revisit is thbt probbbly fontPbth
+     * here ought to be only the X font pbth + jre font dir.
+     * lobdFonts should hbve b sepbrbte nbtive cbll to
+     * get the rest of the plbtform font pbth.
      *
-     * Registering the directories can now be avoided in the
-     * font configuration initialisation when filename entries
-     * exist in the font configuration file for all fonts.
-     * (Perhaps a little confusingly a filename entry is
-     * actually keyed using the XLFD used in the font entries,
-     * and it maps *to* a real filename).
-     * In the event any are missing, registration of all
-     * directories will be invoked to find the real files.
+     * Registering the directories cbn now be bvoided in the
+     * font configurbtion initiblisbtion when filenbme entries
+     * exist in the font configurbtion file for bll fonts.
+     * (Perhbps b little confusingly b filenbme entry is
+     * bctublly keyed using the XLFD used in the font entries,
+     * bnd it mbps *to* b rebl filenbme).
+     * In the event bny bre missing, registrbtion of bll
+     * directories will be invoked to find the rebl files.
      *
      * But registering the directory performed other
-     * functions such as filling in the map of all native names
+     * functions such bs filling in the mbp of bll nbtive nbmes
      * for the font. So when this method isn't invoked, they still
-     * must be found. This is mitigated by getNativeNames now
-     * being able to return at least the platform name, but mostly
-     * by ensuring that when a filename key is found, that
-     * xlfd key is stored as one of the set of platform names
-     * for the font. Its a set because typical font configuration
-     * files reference the same CJK font files using multiple
-     * X11 encodings. For the code that adds this to the map
-     * see X11GE.getFileNameFromPlatformName(..)
-     * If you don't get all of these then some code points may
-     * not use the Xserver, and will not get the PCF bitmaps
-     * that are available for some point sizes.
-     * So, in the event that there is such a problem,
-     * unconditionally making this call may be necessary, at
-     * some cost to JRE start-up
+     * must be found. This is mitigbted by getNbtiveNbmes now
+     * being bble to return bt lebst the plbtform nbme, but mostly
+     * by ensuring thbt when b filenbme key is found, thbt
+     * xlfd key is stored bs one of the set of plbtform nbmes
+     * for the font. Its b set becbuse typicbl font configurbtion
+     * files reference the sbme CJK font files using multiple
+     * X11 encodings. For the code thbt bdds this to the mbp
+     * see X11GE.getFileNbmeFromPlbtformNbme(..)
+     * If you don't get bll of these then some code points mby
+     * not use the Xserver, bnd will not get the PCF bitmbps
+     * thbt bre bvbilbble for some point sizes.
+     * So, in the event thbt there is such b problem,
+     * unconditionblly mbking this cbll mby be necessbry, bt
+     * some cost to JRE stbrt-up
      */
     @Override
-    protected void registerFontDirs(String pathName) {
+    protected void registerFontDirs(String pbthNbme) {
 
-        StringTokenizer parser = new StringTokenizer(pathName,
-                                                     File.pathSeparator);
+        StringTokenizer pbrser = new StringTokenizer(pbthNbme,
+                                                     File.pbthSepbrbtor);
         try {
-            while (parser.hasMoreTokens()) {
-                String dirPath = parser.nextToken();
-                if (dirPath != null && !registeredDirs.containsKey(dirPath)) {
-                    registeredDirs.put(dirPath, null);
-                    registerFontDir(dirPath);
+            while (pbrser.hbsMoreTokens()) {
+                String dirPbth = pbrser.nextToken();
+                if (dirPbth != null && !registeredDirs.contbinsKey(dirPbth)) {
+                    registeredDirs.put(dirPbth, null);
+                    registerFontDir(dirPbth);
                 }
             }
-        } catch (NoSuchElementException e) {
+        } cbtch (NoSuchElementException e) {
         }
     }
 
-    // An X font spec (xlfd) includes an encoding. The same TrueType font file
-    // may be referenced from different X font directories in font.dir files
-    // to support use in multiple encodings by X apps.
-    // So for the purposes of font configuration logical fonts where AWT
-    // heavyweights need to access the font via X APIs we need to ensure that
-    // the directory for precisely the encodings needed by this are added to
-    // the x font path. This requires that we note the platform names
-    // specified in font configuration files and use that to identify the
-    // X font directory that contains a font.dir file for that platform name
-    // and add it to the X font path (if display is local)
-    // Here we make use of an already built map of xlfds to font locations
-    // to add the font location to the set of those required to build the
-    // x font path needed by AWT.
-    // These are added to the x font path later.
-    // All this is necessary because on Solaris the font.dir directories
-    // may contain not real font files, but symbolic links to the actual
-    // location but that location is not suitable for the x font path, since
-    // it probably doesn't have a font.dir at all and certainly not one
+    // An X font spec (xlfd) includes bn encoding. The sbme TrueType font file
+    // mby be referenced from different X font directories in font.dir files
+    // to support use in multiple encodings by X bpps.
+    // So for the purposes of font configurbtion logicbl fonts where AWT
+    // hebvyweights need to bccess the font vib X APIs we need to ensure thbt
+    // the directory for precisely the encodings needed by this bre bdded to
+    // the x font pbth. This requires thbt we note the plbtform nbmes
+    // specified in font configurbtion files bnd use thbt to identify the
+    // X font directory thbt contbins b font.dir file for thbt plbtform nbme
+    // bnd bdd it to the X font pbth (if displby is locbl)
+    // Here we mbke use of bn blrebdy built mbp of xlfds to font locbtions
+    // to bdd the font locbtion to the set of those required to build the
+    // x font pbth needed by AWT.
+    // These bre bdded to the x font pbth lbter.
+    // All this is necessbry becbuse on Solbris the font.dir directories
+    // mby contbin not rebl font files, but symbolic links to the bctubl
+    // locbtion but thbt locbtion is not suitbble for the x font pbth, since
+    // it probbbly doesn't hbve b font.dir bt bll bnd certbinly not one
     // with the required encodings
-    // If the fontconfiguration file is properly set up so that all fonts
-    // are mapped to files then we will never trigger initialising
-    // xFontDirsMap (it will be null). In this case the awtfontpath entries
-    // must specify all the X11 directories needed by AWT.
+    // If the fontconfigurbtion file is properly set up so thbt bll fonts
+    // bre mbpped to files then we will never trigger initiblising
+    // xFontDirsMbp (it will be null). In this cbse the bwtfontpbth entries
+    // must specify bll the X11 directories needed by AWT.
     @Override
-    protected void addFontToPlatformFontPath(String platformName) {
-        // Lazily initialize fontConfigDirs.
-        getPlatformFontPathFromFontConfig();
-        if (xFontDirsMap != null) {
-            String fontID = specificFontIDForName(platformName);
-            String dirName = xFontDirsMap.get(fontID);
-            if (dirName != null) {
-                fontConfigDirs.add(dirName);
+    protected void bddFontToPlbtformFontPbth(String plbtformNbme) {
+        // Lbzily initiblize fontConfigDirs.
+        getPlbtformFontPbthFromFontConfig();
+        if (xFontDirsMbp != null) {
+            String fontID = specificFontIDForNbme(plbtformNbme);
+            String dirNbme = xFontDirsMbp.get(fontID);
+            if (dirNbme != null) {
+                fontConfigDirs.bdd(dirNbme);
             }
         }
         return;
     }
 
-    private void getPlatformFontPathFromFontConfig() {
+    privbte void getPlbtformFontPbthFromFontConfig() {
         if (fontConfigDirs == null) {
-            fontConfigDirs = getFontConfiguration().getAWTFontPathSet();
+            fontConfigDirs = getFontConfigurbtion().getAWTFontPbthSet();
             if (FontUtilities.debugFonts() && fontConfigDirs != null) {
-                String[] names = fontConfigDirs.toArray(new String[0]);
-                for (int i=0;i<names.length;i++) {
-                    FontUtilities.getLogger().info("awtfontpath : " + names[i]);
+                String[] nbmes = fontConfigDirs.toArrby(new String[0]);
+                for (int i=0;i<nbmes.length;i++) {
+                    FontUtilities.getLogger().info("bwtfontpbth : " + nbmes[i]);
                 }
             }
         }
     }
 
     @Override
-    protected void registerPlatformFontsUsedByFontConfiguration() {
-        // Lazily initialize fontConfigDirs.
-        getPlatformFontPathFromFontConfig();
+    protected void registerPlbtformFontsUsedByFontConfigurbtion() {
+        // Lbzily initiblize fontConfigDirs.
+        getPlbtformFontPbthFromFontConfig();
         if (fontConfigDirs == null) {
             return;
         }
         if (FontUtilities.isLinux) {
-            fontConfigDirs.add(jreLibDirName+File.separator+"oblique-fonts");
+            fontConfigDirs.bdd(jreLibDirNbme+File.sepbrbtor+"oblique-fonts");
         }
-        fontdirs = fontConfigDirs.toArray(new String[0]);
+        fontdirs = fontConfigDirs.toArrby(new String[0]);
     }
 
-    // Implements SunGraphicsEnvironment.createFontConfiguration.
-    protected FontConfiguration createFontConfiguration() {
-        /* The logic here decides whether to use a preconfigured
-         * fontconfig.properties file, or synthesise one using platform APIs.
-         * On Solaris (as opposed to OpenSolaris) we try to use the
-         * pre-configured ones, but if the files it specifies are missing
-         * we fail-safe to synthesising one. This might happen if Solaris
-         * changes its fonts.
-         * For OpenSolaris I don't expect us to ever create fontconfig files,
-         * so it will always synthesise. Note that if we misidentify
-         * OpenSolaris as Solaris, then the test for the presence of
-         * Solaris-only font files will correct this.
-         * For Linux we require an exact match of distro and version to
-         * use the preconfigured file, and also that it points to
+    // Implements SunGrbphicsEnvironment.crebteFontConfigurbtion.
+    protected FontConfigurbtion crebteFontConfigurbtion() {
+        /* The logic here decides whether to use b preconfigured
+         * fontconfig.properties file, or synthesise one using plbtform APIs.
+         * On Solbris (bs opposed to OpenSolbris) we try to use the
+         * pre-configured ones, but if the files it specifies bre missing
+         * we fbil-sbfe to synthesising one. This might hbppen if Solbris
+         * chbnges its fonts.
+         * For OpenSolbris I don't expect us to ever crebte fontconfig files,
+         * so it will blwbys synthesise. Note thbt if we misidentify
+         * OpenSolbris bs Solbris, then the test for the presence of
+         * Solbris-only font files will correct this.
+         * For Linux we require bn exbct mbtch of distro bnd version to
+         * use the preconfigured file, bnd blso thbt it points to
          * existent fonts.
-         * If synthesising fails, we fall back to any preconfigured file
-         * and do the best we can. For the commercial JDK this will be
-         * fine as it includes the Lucida fonts. OpenJDK should not hit
-         * this as the synthesis should always work on its platforms.
+         * If synthesising fbils, we fbll bbck to bny preconfigured file
+         * bnd do the best we cbn. For the commercibl JDK this will be
+         * fine bs it includes the Lucidb fonts. OpenJDK should not hit
+         * this bs the synthesis should blwbys work on its plbtforms.
          */
-        FontConfiguration mFontConfig = new MFontConfiguration(this);
-        if (FontUtilities.isOpenSolaris ||
+        FontConfigurbtion mFontConfig = new MFontConfigurbtion(this);
+        if (FontUtilities.isOpenSolbris ||
             (FontUtilities.isLinux &&
              (!mFontConfig.foundOsSpecificFile() ||
               !mFontConfig.fontFilesArePresent()) ||
-             (FontUtilities.isSolaris && !mFontConfig.fontFilesArePresent()))) {
-            FcFontConfiguration fcFontConfig =
-                new FcFontConfiguration(this);
+             (FontUtilities.isSolbris && !mFontConfig.fontFilesArePresent()))) {
+            FcFontConfigurbtion fcFontConfig =
+                new FcFontConfigurbtion(this);
             if (fcFontConfig.init()) {
                 return fcFontConfig;
             }
@@ -753,84 +753,84 @@ public class X11FontManager extends SunFontManager {
         mFontConfig.init();
         return mFontConfig;
     }
-    public FontConfiguration
-        createFontConfiguration(boolean preferLocaleFonts,
-                                boolean preferPropFonts) {
+    public FontConfigurbtion
+        crebteFontConfigurbtion(boolebn preferLocbleFonts,
+                                boolebn preferPropFonts) {
 
-        return new MFontConfiguration(this,
-                                      preferLocaleFonts, preferPropFonts);
+        return new MFontConfigurbtion(this,
+                                      preferLocbleFonts, preferPropFonts);
     }
 
-    public synchronized native String getFontPathNative(boolean noType1Fonts);
+    public synchronized nbtive String getFontPbthNbtive(boolebn noType1Fonts);
 
-    protected synchronized String getFontPath(boolean noType1Fonts) {
-        isHeadless(); // make sure GE is inited, as its the X11 lock.
-        return getFontPathNative(noType1Fonts);
+    protected synchronized String getFontPbth(boolebn noType1Fonts) {
+        isHebdless(); // mbke sure GE is inited, bs its the X11 lock.
+        return getFontPbthNbtive(noType1Fonts);
     }
 
-    public String[] getDefaultPlatformFont() {
-        if (defaultPlatformFont != null) {
-            return defaultPlatformFont;
+    public String[] getDefbultPlbtformFont() {
+        if (defbultPlbtformFont != null) {
+            return defbultPlbtformFont;
         }
         String[] info = new String[2];
-        getFontConfigManager().initFontConfigFonts(false);
-        FontConfigManager.FcCompFont[] fontConfigFonts =
-            getFontConfigManager().getFontConfigFonts();
+        getFontConfigMbnbger().initFontConfigFonts(fblse);
+        FontConfigMbnbger.FcCompFont[] fontConfigFonts =
+            getFontConfigMbnbger().getFontConfigFonts();
         for (int i=0; i<fontConfigFonts.length; i++) {
-            if ("sans".equals(fontConfigFonts[i].fcFamily) &&
+            if ("sbns".equbls(fontConfigFonts[i].fcFbmily) &&
                 0 == fontConfigFonts[i].style) {
-                info[0] = fontConfigFonts[i].firstFont.familyName;
+                info[0] = fontConfigFonts[i].firstFont.fbmilyNbme;
                 info[1] = fontConfigFonts[i].firstFont.fontFile;
-                break;
+                brebk;
             }
         }
-        /* Absolute last ditch attempt in the face of fontconfig problems.
-         * If we didn't match, pick the first, or just make something
+        /* Absolute lbst ditch bttempt in the fbce of fontconfig problems.
+         * If we didn't mbtch, pick the first, or just mbke something
          * up so we don't NPE.
          */
         if (info[0] == null) {
             if (fontConfigFonts.length > 0 &&
                 fontConfigFonts[0].firstFont.fontFile != null) {
-                info[0] = fontConfigFonts[0].firstFont.familyName;
+                info[0] = fontConfigFonts[0].firstFont.fbmilyNbme;
                 info[1] = fontConfigFonts[0].firstFont.fontFile;
             } else {
-                info[0] = "Dialog";
-                info[1] = "/dialog.ttf";
+                info[0] = "Diblog";
+                info[1] = "/diblog.ttf";
             }
         }
-        defaultPlatformFont = info;
-        return defaultPlatformFont;
+        defbultPlbtformFont = info;
+        return defbultPlbtformFont;
     }
 
-    public synchronized FontConfigManager getFontConfigManager() {
+    public synchronized FontConfigMbnbger getFontConfigMbnbger() {
 
-        if (fcManager == null) {
-            fcManager = new FontConfigManager();
+        if (fcMbnbger == null) {
+            fcMbnbger = new FontConfigMbnbger();
         }
 
-        return fcManager;
+        return fcMbnbger;
     }
 
     @Override
-    protected FontUIResource getFontConfigFUIR(String family, int style, int size) {
+    protected FontUIResource getFontConfigFUIR(String fbmily, int style, int size) {
 
-        CompositeFont font2D = getFontConfigManager().getFontConfigFont(family, style);
+        CompositeFont font2D = getFontConfigMbnbger().getFontConfigFont(fbmily, style);
 
-        if (font2D == null) { // Not expected, just a precaution.
-           return new FontUIResource(family, style, size);
+        if (font2D == null) { // Not expected, just b precbution.
+           return new FontUIResource(fbmily, style, size);
         }
 
-        /* The name of the font will be that of the physical font in slot,
-         * but by setting the handle to that of the CompositeFont it
-         * renders as that CompositeFont.
-         * It also needs to be marked as a created font which is the
-         * current mechanism to signal that deriveFont etc must copy
-         * the handle from the original font.
+        /* The nbme of the font will be thbt of the physicbl font in slot,
+         * but by setting the hbndle to thbt of the CompositeFont it
+         * renders bs thbt CompositeFont.
+         * It blso needs to be mbrked bs b crebted font which is the
+         * current mechbnism to signbl thbt deriveFont etc must copy
+         * the hbndle from the originbl font.
          */
         FontUIResource fuir =
-            new FontUIResource(font2D.getFamilyName(null), style, size);
-        FontAccess.getFontAccess().setFont2D(fuir, font2D.handle);
-        FontAccess.getFontAccess().setCreatedFont(fuir);
+            new FontUIResource(font2D.getFbmilyNbme(null), style, size);
+        FontAccess.getFontAccess().setFont2D(fuir, font2D.hbndle);
+        FontAccess.getFontAccess().setCrebtedFont(fuir);
         return fuir;
     }
 }

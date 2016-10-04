@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.rtf;
+pbckbge jbvbx.swing.text.rtf;
 
-import java.io.*;
-import java.lang.*;
+import jbvb.io.*;
+import jbvb.lbng.*;
 
 /**
- * <b>RTFParser</b> is a subclass of <b>AbstractFilter</b> which understands basic RTF syntax
- * and passes a stream of control words, text, and begin/end group
- * indications to its subclass.
+ * <b>RTFPbrser</b> is b subclbss of <b>AbstrbctFilter</b> which understbnds bbsic RTF syntbx
+ * bnd pbsses b strebm of control words, text, bnd begin/end group
+ * indicbtions to its subclbss.
  *
- * Normally programmers will only use <b>RTFFilter</b>, a subclass of this class that knows what to
- * do with the tokens this class parses.
+ * Normblly progrbmmers will only use <b>RTFFilter</b>, b subclbss of this clbss thbt knows whbt to
+ * do with the tokens this clbss pbrses.
  *
- * @see AbstractFilter
+ * @see AbstrbctFilter
  * @see RTFFilter
  */
-abstract class RTFParser extends AbstractFilter
+bbstrbct clbss RTFPbrser extends AbstrbctFilter
 {
   /** The current RTF group nesting level. */
   public int level;
 
-  private int state;
-  private StringBuffer currentCharacters;
-  private String pendingKeyword;                // where keywords go while we
-                                                // read their parameters
-  private int pendingCharacter;                 // for the \'xx construct
+  privbte int stbte;
+  privbte StringBuffer currentChbrbcters;
+  privbte String pendingKeyword;                // where keywords go while we
+                                                // rebd their pbrbmeters
+  privbte int pendingChbrbcter;                 // for the \'xx construct
 
-  private long binaryBytesLeft;                  // in a \bin blob?
-  ByteArrayOutputStream binaryBuf;
-  private boolean[] savedSpecials;
+  privbte long binbryBytesLeft;                  // in b \bin blob?
+  ByteArrbyOutputStrebm binbryBuf;
+  privbte boolebn[] sbvedSpecibls;
 
-  /** A stream to which to write warnings and debugging information
-   *  while parsing. This is set to <code>System.out</code> to log
-   *  any anomalous information to stdout. */
-  protected PrintStream warnings;
+  /** A strebm to which to write wbrnings bnd debugging informbtion
+   *  while pbrsing. This is set to <code>System.out</code> to log
+   *  bny bnomblous informbtion to stdout. */
+  protected PrintStrebm wbrnings;
 
-  // value for the 'state' variable
-  private final int S_text = 0;          // reading random text
-  private final int S_backslashed = 1;   // read a backslash, waiting for next
-  private final int S_token = 2;         // reading a multicharacter token
-  private final int S_parameter = 3;     // reading a token's parameter
+  // vblue for the 'stbte' vbribble
+  privbte finbl int S_text = 0;          // rebding rbndom text
+  privbte finbl int S_bbckslbshed = 1;   // rebd b bbckslbsh, wbiting for next
+  privbte finbl int S_token = 2;         // rebding b multichbrbcter token
+  privbte finbl int S_pbrbmeter = 3;     // rebding b token's pbrbmeter
 
-  private final int S_aftertick = 4;     // after reading \'
-  private final int S_aftertickc = 5;    // after reading \'x
+  privbte finbl int S_bftertick = 4;     // bfter rebding \'
+  privbte finbl int S_bftertickc = 5;    // bfter rebding \'x
 
-  private final int S_inblob = 6;        // in a \bin blob
+  privbte finbl int S_inblob = 6;        // in b \bin blob
 
-  /** Implemented by subclasses to interpret a parameter-less RTF keyword.
-   *  The keyword is passed without the leading '/' or any delimiting
-   *  whitespace. */
-  public abstract boolean handleKeyword(String keyword);
-  /** Implemented by subclasses to interpret a keyword with a parameter.
-   *  @param keyword   The keyword, as with <code>handleKeyword(String)</code>.
-   *  @param parameter The parameter following the keyword. */
-  public abstract boolean handleKeyword(String keyword, int parameter);
-  /** Implemented by subclasses to interpret text from the RTF stream. */
-  public abstract void handleText(String text);
-  public void handleText(char ch)
-  { handleText(String.valueOf(ch)); }
-  /** Implemented by subclasses to handle the contents of the \bin keyword. */
-  public abstract void handleBinaryBlob(byte[] data);
-  /** Implemented by subclasses to react to an increase
+  /** Implemented by subclbsses to interpret b pbrbmeter-less RTF keyword.
+   *  The keyword is pbssed without the lebding '/' or bny delimiting
+   *  whitespbce. */
+  public bbstrbct boolebn hbndleKeyword(String keyword);
+  /** Implemented by subclbsses to interpret b keyword with b pbrbmeter.
+   *  @pbrbm keyword   The keyword, bs with <code>hbndleKeyword(String)</code>.
+   *  @pbrbm pbrbmeter The pbrbmeter following the keyword. */
+  public bbstrbct boolebn hbndleKeyword(String keyword, int pbrbmeter);
+  /** Implemented by subclbsses to interpret text from the RTF strebm. */
+  public bbstrbct void hbndleText(String text);
+  public void hbndleText(chbr ch)
+  { hbndleText(String.vblueOf(ch)); }
+  /** Implemented by subclbsses to hbndle the contents of the \bin keyword. */
+  public bbstrbct void hbndleBinbryBlob(byte[] dbtb);
+  /** Implemented by subclbsses to rebct to bn increbse
    *  in the nesting level. */
-  public abstract void begingroup();
-  /** Implemented by subclasses to react to the end of a group. */
-  public abstract void endgroup();
+  public bbstrbct void begingroup();
+  /** Implemented by subclbsses to rebct to the end of b group. */
+  public bbstrbct void endgroup();
 
-  // table of non-text characters in rtf
-  static final boolean rtfSpecialsTable[];
-  static {
-    rtfSpecialsTable = noSpecialsTable.clone();
-    rtfSpecialsTable['\n'] = true;
-    rtfSpecialsTable['\r'] = true;
-    rtfSpecialsTable['{'] = true;
-    rtfSpecialsTable['}'] = true;
-    rtfSpecialsTable['\\'] = true;
+  // tbble of non-text chbrbcters in rtf
+  stbtic finbl boolebn rtfSpeciblsTbble[];
+  stbtic {
+    rtfSpeciblsTbble = noSpeciblsTbble.clone();
+    rtfSpeciblsTbble['\n'] = true;
+    rtfSpeciblsTbble['\r'] = true;
+    rtfSpeciblsTbble['{'] = true;
+    rtfSpeciblsTbble['}'] = true;
+    rtfSpeciblsTbble['\\'] = true;
   }
 
-  public RTFParser()
+  public RTFPbrser()
   {
-    currentCharacters = new StringBuffer();
-    state = S_text;
+    currentChbrbcters = new StringBuffer();
+    stbte = S_text;
     pendingKeyword = null;
     level = 0;
-    //warnings = System.out;
+    //wbrnings = System.out;
 
-    specialsTable = rtfSpecialsTable;
+    speciblsTbble = rtfSpeciblsTbble;
   }
 
-  // TODO: Handle wrapup at end of file correctly.
+  // TODO: Hbndle wrbpup bt end of file correctly.
 
-  public void writeSpecial(int b)
+  public void writeSpecibl(int b)
     throws IOException
   {
-    write((char)b);
+    write((chbr)b);
   }
 
-    protected void warning(String s) {
-        if (warnings != null) {
-            warnings.println(s);
+    protected void wbrning(String s) {
+        if (wbrnings != null) {
+            wbrnings.println(s);
         }
     }
 
   public void write(String s)
     throws IOException
   {
-    if (state != S_text) {
+    if (stbte != S_text) {
       int index = 0;
       int length = s.length();
-      while(index < length && state != S_text) {
-        write(s.charAt(index));
+      while(index < length && stbte != S_text) {
+        write(s.chbrAt(index));
         index ++;
       }
 
@@ -142,185 +142,185 @@ abstract class RTFParser extends AbstractFilter
       s = s.substring(index);
     }
 
-    if (currentCharacters.length() > 0)
-      currentCharacters.append(s);
+    if (currentChbrbcters.length() > 0)
+      currentChbrbcters.bppend(s);
     else
-      handleText(s);
+      hbndleText(s);
   }
 
-  @SuppressWarnings("fallthrough")
-  public void write(char ch)
+  @SuppressWbrnings("fbllthrough")
+  public void write(chbr ch)
     throws IOException
   {
-    boolean ok;
+    boolebn ok;
 
-    switch (state)
+    switch (stbte)
     {
-      case S_text:
+      cbse S_text:
         if (ch == '\n' || ch == '\r') {
-          break;  // unadorned newlines are ignored
+          brebk;  // unbdorned newlines bre ignored
         } else if (ch == '{') {
-          if (currentCharacters.length() > 0) {
-            handleText(currentCharacters.toString());
-            currentCharacters = new StringBuffer();
+          if (currentChbrbcters.length() > 0) {
+            hbndleText(currentChbrbcters.toString());
+            currentChbrbcters = new StringBuffer();
           }
           level ++;
           begingroup();
         } else if(ch == '}') {
-          if (currentCharacters.length() > 0) {
-            handleText(currentCharacters.toString());
-            currentCharacters = new StringBuffer();
+          if (currentChbrbcters.length() > 0) {
+            hbndleText(currentChbrbcters.toString());
+            currentChbrbcters = new StringBuffer();
           }
           if (level == 0)
-            throw new IOException("Too many close-groups in RTF text");
+            throw new IOException("Too mbny close-groups in RTF text");
           endgroup();
           level --;
         } else if(ch == '\\') {
-          if (currentCharacters.length() > 0) {
-            handleText(currentCharacters.toString());
-            currentCharacters = new StringBuffer();
+          if (currentChbrbcters.length() > 0) {
+            hbndleText(currentChbrbcters.toString());
+            currentChbrbcters = new StringBuffer();
           }
-          state = S_backslashed;
+          stbte = S_bbckslbshed;
         } else {
-          currentCharacters.append(ch);
+          currentChbrbcters.bppend(ch);
         }
-        break;
-      case S_backslashed:
+        brebk;
+      cbse S_bbckslbshed:
         if (ch == '\'') {
-          state = S_aftertick;
-          break;
+          stbte = S_bftertick;
+          brebk;
         }
-        if (!Character.isLetter(ch)) {
-          char newstring[] = new char[1];
+        if (!Chbrbcter.isLetter(ch)) {
+          chbr newstring[] = new chbr[1];
           newstring[0] = ch;
-          if (!handleKeyword(new String(newstring))) {
-            warning("Unknown keyword: " + newstring + " (" + (byte)ch + ")");
+          if (!hbndleKeyword(new String(newstring))) {
+            wbrning("Unknown keyword: " + newstring + " (" + (byte)ch + ")");
           }
-          state = S_text;
+          stbte = S_text;
           pendingKeyword = null;
-          /* currentCharacters is already an empty stringBuffer */
-          break;
+          /* currentChbrbcters is blrebdy bn empty stringBuffer */
+          brebk;
         }
 
-        state = S_token;
+        stbte = S_token;
         /* FALL THROUGH */
-      case S_token:
-        if (Character.isLetter(ch)) {
-          currentCharacters.append(ch);
+      cbse S_token:
+        if (Chbrbcter.isLetter(ch)) {
+          currentChbrbcters.bppend(ch);
         } else {
-          pendingKeyword = currentCharacters.toString();
-          currentCharacters = new StringBuffer();
+          pendingKeyword = currentChbrbcters.toString();
+          currentChbrbcters = new StringBuffer();
 
-          // Parameter following?
-          if (Character.isDigit(ch) || (ch == '-')) {
-            state = S_parameter;
-            currentCharacters.append(ch);
+          // Pbrbmeter following?
+          if (Chbrbcter.isDigit(ch) || (ch == '-')) {
+            stbte = S_pbrbmeter;
+            currentChbrbcters.bppend(ch);
           } else {
-            ok = handleKeyword(pendingKeyword);
+            ok = hbndleKeyword(pendingKeyword);
             if (!ok)
-              warning("Unknown keyword: " + pendingKeyword);
+              wbrning("Unknown keyword: " + pendingKeyword);
             pendingKeyword = null;
-            state = S_text;
+            stbte = S_text;
 
-            // Non-space delimiters get included in the text
-            if (!Character.isWhitespace(ch))
+            // Non-spbce delimiters get included in the text
+            if (!Chbrbcter.isWhitespbce(ch))
               write(ch);
           }
         }
-        break;
-      case S_parameter:
-        if (Character.isDigit(ch)) {
-          currentCharacters.append(ch);
+        brebk;
+      cbse S_pbrbmeter:
+        if (Chbrbcter.isDigit(ch)) {
+          currentChbrbcters.bppend(ch);
         } else {
-          /* TODO: Test correct behavior of \bin keyword */
-          if (pendingKeyword.equals("bin")) {  /* magic layer-breaking kwd */
-            long parameter = Long.parseLong(currentCharacters.toString());
+          /* TODO: Test correct behbvior of \bin keyword */
+          if (pendingKeyword.equbls("bin")) {  /* mbgic lbyer-brebking kwd */
+            long pbrbmeter = Long.pbrseLong(currentChbrbcters.toString());
             pendingKeyword = null;
-            state = S_inblob;
-            binaryBytesLeft = parameter;
-            if (binaryBytesLeft > Integer.MAX_VALUE)
-                binaryBuf = new ByteArrayOutputStream(Integer.MAX_VALUE);
+            stbte = S_inblob;
+            binbryBytesLeft = pbrbmeter;
+            if (binbryBytesLeft > Integer.MAX_VALUE)
+                binbryBuf = new ByteArrbyOutputStrebm(Integer.MAX_VALUE);
             else
-                binaryBuf = new ByteArrayOutputStream((int)binaryBytesLeft);
-            savedSpecials = specialsTable;
-            specialsTable = allSpecialsTable;
-            break;
+                binbryBuf = new ByteArrbyOutputStrebm((int)binbryBytesLeft);
+            sbvedSpecibls = speciblsTbble;
+            speciblsTbble = bllSpeciblsTbble;
+            brebk;
           }
 
-          int parameter = Integer.parseInt(currentCharacters.toString());
-          ok = handleKeyword(pendingKeyword, parameter);
+          int pbrbmeter = Integer.pbrseInt(currentChbrbcters.toString());
+          ok = hbndleKeyword(pendingKeyword, pbrbmeter);
           if (!ok)
-            warning("Unknown keyword: " + pendingKeyword +
-                    " (param " + currentCharacters + ")");
+            wbrning("Unknown keyword: " + pendingKeyword +
+                    " (pbrbm " + currentChbrbcters + ")");
           pendingKeyword = null;
-          currentCharacters = new StringBuffer();
-          state = S_text;
+          currentChbrbcters = new StringBuffer();
+          stbte = S_text;
 
-          // Delimiters here are interpreted as text too
-          if (!Character.isWhitespace(ch))
+          // Delimiters here bre interpreted bs text too
+          if (!Chbrbcter.isWhitespbce(ch))
             write(ch);
         }
-        break;
-      case S_aftertick:
-        if (Character.digit(ch, 16) == -1)
-          state = S_text;
+        brebk;
+      cbse S_bftertick:
+        if (Chbrbcter.digit(ch, 16) == -1)
+          stbte = S_text;
         else {
-          pendingCharacter = Character.digit(ch, 16);
-          state = S_aftertickc;
+          pendingChbrbcter = Chbrbcter.digit(ch, 16);
+          stbte = S_bftertickc;
         }
-        break;
-      case S_aftertickc:
-        state = S_text;
-        if (Character.digit(ch, 16) != -1)
+        brebk;
+      cbse S_bftertickc:
+        stbte = S_text;
+        if (Chbrbcter.digit(ch, 16) != -1)
         {
-          pendingCharacter = pendingCharacter * 16 + Character.digit(ch, 16);
-          ch = translationTable[pendingCharacter];
+          pendingChbrbcter = pendingChbrbcter * 16 + Chbrbcter.digit(ch, 16);
+          ch = trbnslbtionTbble[pendingChbrbcter];
           if (ch != 0)
-              handleText(ch);
+              hbndleText(ch);
         }
-        break;
-      case S_inblob:
-        binaryBuf.write(ch);
-        binaryBytesLeft --;
-        if (binaryBytesLeft == 0) {
-            state = S_text;
-            specialsTable = savedSpecials;
-            savedSpecials = null;
-            handleBinaryBlob(binaryBuf.toByteArray());
-            binaryBuf = null;
+        brebk;
+      cbse S_inblob:
+        binbryBuf.write(ch);
+        binbryBytesLeft --;
+        if (binbryBytesLeft == 0) {
+            stbte = S_text;
+            speciblsTbble = sbvedSpecibls;
+            sbvedSpecibls = null;
+            hbndleBinbryBlob(binbryBuf.toByteArrby());
+            binbryBuf = null;
         }
       }
   }
 
-  /** Flushes any buffered but not yet written characters.
-   *  Subclasses which override this method should call this
+  /** Flushes bny buffered but not yet written chbrbcters.
+   *  Subclbsses which override this method should cbll this
    *  method <em>before</em> flushing
-   *  any of their own buffers. */
+   *  bny of their own buffers. */
   public void flush()
     throws IOException
   {
     super.flush();
 
-    if (state == S_text && currentCharacters.length() > 0) {
-      handleText(currentCharacters.toString());
-      currentCharacters = new StringBuffer();
+    if (stbte == S_text && currentChbrbcters.length() > 0) {
+      hbndleText(currentChbrbcters.toString());
+      currentChbrbcters = new StringBuffer();
     }
   }
 
-  /** Closes the parser. Currently, this simply does a <code>flush()</code>,
-   *  followed by some minimal consistency checks. */
+  /** Closes the pbrser. Currently, this simply does b <code>flush()</code>,
+   *  followed by some minimbl consistency checks. */
   public void close()
     throws IOException
   {
     flush();
 
-    if (state != S_text || level > 0) {
-      warning("Truncated RTF file.");
+    if (stbte != S_text || level > 0) {
+      wbrning("Truncbted RTF file.");
 
-      /* TODO: any sane way to handle termination in a non-S_text state? */
-      /* probably not */
+      /* TODO: bny sbne wby to hbndle terminbtion in b non-S_text stbte? */
+      /* probbbly not */
 
-      /* this will cause subclasses to behave more reasonably
+      /* this will cbuse subclbsses to behbve more rebsonbbly
          some of the time */
       while (level > 0) {
           endgroup();

@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans.beancontext;
+pbckbge jbvb.bebns.bebncontext;
 
-import java.awt.Component;
-import java.awt.Container;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
 
-import java.beans.Beans;
-import java.beans.AppletInitializer;
+import jbvb.bebns.Bebns;
+import jbvb.bebns.AppletInitiblizer;
 
-import java.beans.DesignMode;
+import jbvb.bebns.DesignMode;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeSupport;
 
-import java.beans.VetoableChangeListener;
-import java.beans.VetoableChangeSupport;
-import java.beans.PropertyVetoException;
+import jbvb.bebns.VetobbleChbngeListener;
+import jbvb.bebns.VetobbleChbngeSupport;
+import jbvb.bebns.PropertyVetoException;
 
-import java.beans.Visibility;
+import jbvb.bebns.Visibility;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
 
-import java.net.URL;
+import jbvb.net.URL;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
 
 
 /**
- * This helper class provides a utility implementation of the
- * java.beans.beancontext.BeanContext interface.
+ * This helper clbss provides b utility implementbtion of the
+ * jbvb.bebns.bebncontext.BebnContext interfbce.
  * <p>
- * Since this class directly implements the BeanContext interface, the class
- * can, and is intended to be used either by subclassing this implementation,
- * or via ad-hoc delegation of an instance of this class from another.
+ * Since this clbss directly implements the BebnContext interfbce, the clbss
+ * cbn, bnd is intended to be used either by subclbssing this implementbtion,
+ * or vib bd-hoc delegbtion of bn instbnce of this clbss from bnother.
  * </p>
  *
- * @author Laurence P. G. Cable
+ * @buthor Lburence P. G. Cbble
  * @since 1.2
  */
-public class      BeanContextSupport extends BeanContextChildSupport
-       implements BeanContext,
-                  Serializable,
-                  PropertyChangeListener,
-                  VetoableChangeListener {
+public clbss      BebnContextSupport extends BebnContextChildSupport
+       implements BebnContext,
+                  Seriblizbble,
+                  PropertyChbngeListener,
+                  VetobbleChbngeListener {
 
-    // Fix for bug 4282900 to pass JCK regression test
-    static final long serialVersionUID = -4879613978649577204L;
+    // Fix for bug 4282900 to pbss JCK regression test
+    stbtic finbl long seriblVersionUID = -4879613978649577204L;
 
     /**
      *
-     * Construct a BeanContextSupport instance
+     * Construct b BebnContextSupport instbnce
      *
      *
-     * @param peer      The peer <tt>BeanContext</tt> we are
-     *                  supplying an implementation for,
+     * @pbrbm peer      The peer <tt>BebnContext</tt> we bre
+     *                  supplying bn implementbtion for,
      *                  or <tt>null</tt>
      *                  if this object is its own peer
-     * @param lcle      The current Locale for this BeanContext. If
-     *                  <tt>lcle</tt> is <tt>null</tt>, the default locale
-     *                  is assigned to the <tt>BeanContext</tt> instance.
-     * @param dTime     The initial state,
+     * @pbrbm lcle      The current Locble for this BebnContext. If
+     *                  <tt>lcle</tt> is <tt>null</tt>, the defbult locble
+     *                  is bssigned to the <tt>BebnContext</tt> instbnce.
+     * @pbrbm dTime     The initibl stbte,
      *                  <tt>true</tt> if in design mode,
-     *                  <tt>false</tt> if runtime.
-     * @param visible   The initial visibility.
-     * @see java.util.Locale#getDefault()
-     * @see java.util.Locale#setDefault(java.util.Locale)
+     *                  <tt>fblse</tt> if runtime.
+     * @pbrbm visible   The initibl visibility.
+     * @see jbvb.util.Locble#getDefbult()
+     * @see jbvb.util.Locble#setDefbult(jbvb.util.Locble)
      */
-    public BeanContextSupport(BeanContext peer, Locale lcle, boolean dTime, boolean visible) {
+    public BebnContextSupport(BebnContext peer, Locble lcle, boolebn dTime, boolebn visible) {
         super(peer);
 
-        locale          = lcle != null ? lcle : Locale.getDefault();
+        locble          = lcle != null ? lcle : Locble.getDefbult();
         designTime      = dTime;
         okToUseGui      = visible;
 
-        initialize();
+        initiblize();
     }
 
     /**
-     * Create an instance using the specified Locale and design mode.
+     * Crebte bn instbnce using the specified Locble bnd design mode.
      *
-     * @param peer      The peer <tt>BeanContext</tt> we
-     *                  are supplying an implementation for,
+     * @pbrbm peer      The peer <tt>BebnContext</tt> we
+     *                  bre supplying bn implementbtion for,
      *                  or <tt>null</tt> if this object is its own peer
-     * @param lcle      The current Locale for this <tt>BeanContext</tt>. If
-     *                  <tt>lcle</tt> is <tt>null</tt>, the default locale
-     *                  is assigned to the <tt>BeanContext</tt> instance.
-     * @param dtime     The initial state, <tt>true</tt>
+     * @pbrbm lcle      The current Locble for this <tt>BebnContext</tt>. If
+     *                  <tt>lcle</tt> is <tt>null</tt>, the defbult locble
+     *                  is bssigned to the <tt>BebnContext</tt> instbnce.
+     * @pbrbm dtime     The initibl stbte, <tt>true</tt>
      *                  if in design mode,
-     *                  <tt>false</tt> if runtime.
-     * @see java.util.Locale#getDefault()
-     * @see java.util.Locale#setDefault(java.util.Locale)
+     *                  <tt>fblse</tt> if runtime.
+     * @see jbvb.util.Locble#getDefbult()
+     * @see jbvb.util.Locble#setDefbult(jbvb.util.Locble)
      */
-    public BeanContextSupport(BeanContext peer, Locale lcle, boolean dtime) {
+    public BebnContextSupport(BebnContext peer, Locble lcle, boolebn dtime) {
         this (peer, lcle, dtime, true);
     }
 
     /**
-     * Create an instance using the specified locale
+     * Crebte bn instbnce using the specified locble
      *
-     * @param peer      The peer BeanContext we are
-     *                  supplying an implementation for,
+     * @pbrbm peer      The peer BebnContext we bre
+     *                  supplying bn implementbtion for,
      *                  or <tt>null</tt> if this object
      *                  is its own peer
-     * @param lcle      The current Locale for this
-     *                  <tt>BeanContext</tt>. If
+     * @pbrbm lcle      The current Locble for this
+     *                  <tt>BebnContext</tt>. If
      *                  <tt>lcle</tt> is <tt>null</tt>,
-     *                  the default locale
-     *                  is assigned to the <tt>BeanContext</tt>
-     *                  instance.
-     * @see java.util.Locale#getDefault()
-     * @see java.util.Locale#setDefault(java.util.Locale)
+     *                  the defbult locble
+     *                  is bssigned to the <tt>BebnContext</tt>
+     *                  instbnce.
+     * @see jbvb.util.Locble#getDefbult()
+     * @see jbvb.util.Locble#setDefbult(jbvb.util.Locble)
      */
-    public BeanContextSupport(BeanContext peer, Locale lcle) {
-        this (peer, lcle, false, true);
+    public BebnContextSupport(BebnContext peer, Locble lcle) {
+        this (peer, lcle, fblse, true);
     }
 
     /**
-     * Create an instance using with a default locale
+     * Crebte bn instbnce using with b defbult locble
      *
-     * @param peer      The peer <tt>BeanContext</tt> we are
-     *                  supplying an implementation for,
+     * @pbrbm peer      The peer <tt>BebnContext</tt> we bre
+     *                  supplying bn implementbtion for,
      *                  or <tt>null</tt> if this object
      *                  is its own peer
      */
-    public BeanContextSupport(BeanContext peer) {
-        this (peer, null, false, true);
+    public BebnContextSupport(BebnContext peer) {
+        this (peer, null, fblse, true);
     }
 
     /**
-     * Create an instance that is not a delegate of another object
+     * Crebte bn instbnce thbt is not b delegbte of bnother object
      */
 
-    public BeanContextSupport() {
-        this (null, null, false, true);
+    public BebnContextSupport() {
+        this (null, null, fblse, true);
     }
 
     /**
-     * Gets the instance of <tt>BeanContext</tt> that
-     * this object is providing the implementation for.
-     * @return the BeanContext instance
+     * Gets the instbnce of <tt>BebnContext</tt> thbt
+     * this object is providing the implementbtion for.
+     * @return the BebnContext instbnce
      */
-    public BeanContext getBeanContextPeer() { return (BeanContext)getBeanContextChildPeer(); }
+    public BebnContext getBebnContextPeer() { return (BebnContext)getBebnContextChildPeer(); }
 
     /**
      * <p>
-     * The instantiateChild method is a convenience hook
-     * in BeanContext to simplify
-     * the task of instantiating a Bean, nested,
-     * into a <tt>BeanContext</tt>.
+     * The instbntibteChild method is b convenience hook
+     * in BebnContext to simplify
+     * the tbsk of instbntibting b Bebn, nested,
+     * into b <tt>BebnContext</tt>.
      * </p>
      * <p>
-     * The semantics of the beanName parameter are defined by java.beans.Beans.instantiate.
+     * The sembntics of the bebnNbme pbrbmeter bre defined by jbvb.bebns.Bebns.instbntibte.
      * </p>
      *
-     * @param beanName the name of the Bean to instantiate within this BeanContext
-     * @throws IOException if there is an I/O error when the bean is being deserialized
-     * @throws ClassNotFoundException if the class
-     * identified by the beanName parameter is not found
+     * @pbrbm bebnNbme the nbme of the Bebn to instbntibte within this BebnContext
+     * @throws IOException if there is bn I/O error when the bebn is being deseriblized
+     * @throws ClbssNotFoundException if the clbss
+     * identified by the bebnNbme pbrbmeter is not found
      * @return the new object
      */
-    public Object instantiateChild(String beanName)
-           throws IOException, ClassNotFoundException {
-        BeanContext bc = getBeanContextPeer();
+    public Object instbntibteChild(String bebnNbme)
+           throws IOException, ClbssNotFoundException {
+        BebnContext bc = getBebnContextPeer();
 
-        return Beans.instantiate(bc.getClass().getClassLoader(), beanName, bc);
+        return Bebns.instbntibte(bc.getClbss().getClbssLobder(), bebnNbme, bc);
     }
 
     /**
      * Gets the number of children currently nested in
-     * this BeanContext.
+     * this BebnContext.
      *
      * @return number of children
      */
@@ -213,13 +213,13 @@ public class      BeanContextSupport extends BeanContextChildSupport
 
     /**
      * Reports whether or not this
-     * <tt>BeanContext</tt> is empty.
-     * A <tt>BeanContext</tt> is considered
-     * empty when it contains zero
+     * <tt>BebnContext</tt> is empty.
+     * A <tt>BebnContext</tt> is considered
+     * empty when it contbins zero
      * nested children.
-     * @return if there are not children
+     * @return if there bre not children
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         synchronized(children) {
             return children.isEmpty();
         }
@@ -227,60 +227,60 @@ public class      BeanContextSupport extends BeanContextChildSupport
 
     /**
      * Determines whether or not the specified object
-     * is currently a child of this <tt>BeanContext</tt>.
-     * @param o the Object in question
-     * @return if this object is a child
+     * is currently b child of this <tt>BebnContext</tt>.
+     * @pbrbm o the Object in question
+     * @return if this object is b child
      */
-    public boolean contains(Object o) {
+    public boolebn contbins(Object o) {
         synchronized(children) {
-            return children.containsKey(o);
+            return children.contbinsKey(o);
         }
     }
 
     /**
      * Determines whether or not the specified object
-     * is currently a child of this <tt>BeanContext</tt>.
-     * @param o the Object in question
-     * @return if this object is a child
+     * is currently b child of this <tt>BebnContext</tt>.
+     * @pbrbm o the Object in question
+     * @return if this object is b child
      */
-    public boolean containsKey(Object o) {
+    public boolebn contbinsKey(Object o) {
         synchronized(children) {
-            return children.containsKey(o);
+            return children.contbinsKey(o);
         }
     }
 
     /**
-     * Gets all JavaBean or <tt>BeanContext</tt> instances
-     * currently nested in this <tt>BeanContext</tt>.
-     * @return an <tt>Iterator</tt> of the nested children
+     * Gets bll JbvbBebn or <tt>BebnContext</tt> instbnces
+     * currently nested in this <tt>BebnContext</tt>.
+     * @return bn <tt>Iterbtor</tt> of the nested children
      */
-    public Iterator<Object> iterator() {
+    public Iterbtor<Object> iterbtor() {
         synchronized(children) {
-            return new BCSIterator(children.keySet().iterator());
+            return new BCSIterbtor(children.keySet().iterbtor());
         }
     }
 
     /**
-     * Gets all JavaBean or <tt>BeanContext</tt>
-     * instances currently nested in this BeanContext.
+     * Gets bll JbvbBebn or <tt>BebnContext</tt>
+     * instbnces currently nested in this BebnContext.
      */
-    public Object[] toArray() {
+    public Object[] toArrby() {
         synchronized(children) {
-            return children.keySet().toArray();
+            return children.keySet().toArrby();
         }
     }
 
     /**
-     * Gets an array containing all children of
-     * this <tt>BeanContext</tt> that match
-     * the types contained in arry.
-     * @param arry The array of object
-     * types that are of interest.
-     * @return an array of children
+     * Gets bn brrby contbining bll children of
+     * this <tt>BebnContext</tt> thbt mbtch
+     * the types contbined in brry.
+     * @pbrbm brry The brrby of object
+     * types thbt bre of interest.
+     * @return bn brrby of children
      */
-    public Object[] toArray(Object[] arry) {
+    public Object[] toArrby(Object[] brry) {
         synchronized(children) {
-            return children.keySet().toArray(arry);
+            return children.keySet().toArrby(brry);
         }
     }
 
@@ -288,34 +288,34 @@ public class      BeanContextSupport extends BeanContextChildSupport
     /************************************************************************/
 
     /**
-     * protected final subclass that encapsulates an iterator but implements
-     * a noop remove() method.
+     * protected finbl subclbss thbt encbpsulbtes bn iterbtor but implements
+     * b noop remove() method.
      */
 
-    protected static final class BCSIterator implements Iterator<Object> {
-        BCSIterator(Iterator<?> i) { super(); src = i; }
+    protected stbtic finbl clbss BCSIterbtor implements Iterbtor<Object> {
+        BCSIterbtor(Iterbtor<?> i) { super(); src = i; }
 
-        public boolean hasNext() { return src.hasNext(); }
+        public boolebn hbsNext() { return src.hbsNext(); }
         public Object       next()    { return src.next();    }
         public void    remove()  { /* do nothing */      }
 
-        private Iterator<?> src;
+        privbte Iterbtor<?> src;
     }
 
     /************************************************************************/
 
     /*
-     * protected nested class containing per child information, an instance
-     * of which is associated with each child in the "children" hashtable.
-     * subclasses can extend this class to include their own per-child state.
+     * protected nested clbss contbining per child informbtion, bn instbnce
+     * of which is bssocibted with ebch child in the "children" hbshtbble.
+     * subclbsses cbn extend this clbss to include their own per-child stbte.
      *
-     * Note that this 'value' is serialized with the corresponding child 'key'
-     * when the BeanContextSupport is serialized.
+     * Note thbt this 'vblue' is seriblized with the corresponding child 'key'
+     * when the BebnContextSupport is seriblized.
      */
 
-    protected class BCSChild implements Serializable {
+    protected clbss BCSChild implements Seriblizbble {
 
-    private static final long serialVersionUID = -5815286101609939109L;
+    privbte stbtic finbl long seriblVersionUID = -5815286101609939109L;
 
         BCSChild(Object bcc, Object peer) {
             super();
@@ -326,11 +326,11 @@ public class      BeanContextSupport extends BeanContextChildSupport
 
         Object  getChild()                  { return child; }
 
-        void    setRemovePending(boolean v) { removePending = v; }
+        void    setRemovePending(boolebn v) { removePending = v; }
 
-        boolean isRemovePending()           { return removePending; }
+        boolebn isRemovePending()           { return removePending; }
 
-        boolean isProxyPeer()               { return proxyPeer != null; }
+        boolebn isProxyPeer()               { return proxyPeer != null; }
 
         Object  getProxyPeer()              { return proxyPeer; }
         /*
@@ -338,102 +338,102 @@ public class      BeanContextSupport extends BeanContextChildSupport
          */
 
 
-        private           Object   child;
-        private           Object   proxyPeer;
+        privbte           Object   child;
+        privbte           Object   proxyPeer;
 
-        private transient boolean  removePending;
+        privbte trbnsient boolebn  removePending;
     }
 
     /**
      * <p>
-     * Subclasses can override this method to insert their own subclass
-     * of Child without having to override add() or the other Collection
-     * methods that add children to the set.
+     * Subclbsses cbn override this method to insert their own subclbss
+     * of Child without hbving to override bdd() or the other Collection
+     * methods thbt bdd children to the set.
      * </p>
-     * @param targetChild the child to create the Child on behalf of
-     * @param peer        the peer if the tragetChild and the peer are related by an implementation of BeanContextProxy
-     * @return Subtype-specific subclass of Child without overriding collection methods
+     * @pbrbm tbrgetChild the child to crebte the Child on behblf of
+     * @pbrbm peer        the peer if the trbgetChild bnd the peer bre relbted by bn implementbtion of BebnContextProxy
+     * @return Subtype-specific subclbss of Child without overriding collection methods
      */
 
-    protected BCSChild createBCSChild(Object targetChild, Object peer) {
-        return new BCSChild(targetChild, peer);
+    protected BCSChild crebteBCSChild(Object tbrgetChild, Object peer) {
+        return new BCSChild(tbrgetChild, peer);
     }
 
     /************************************************************************/
 
     /**
-     * Adds/nests a child within this <tt>BeanContext</tt>.
+     * Adds/nests b child within this <tt>BebnContext</tt>.
      * <p>
-     * Invoked as a side effect of java.beans.Beans.instantiate().
-     * If the child object is not valid for adding then this method
-     * throws an IllegalStateException.
+     * Invoked bs b side effect of jbvb.bebns.Bebns.instbntibte().
+     * If the child object is not vblid for bdding then this method
+     * throws bn IllegblStbteException.
      * </p>
      *
      *
-     * @param targetChild The child objects to nest
-     * within this <tt>BeanContext</tt>
-     * @return true if the child was added successfully.
-     * @see #validatePendingAdd
+     * @pbrbm tbrgetChild The child objects to nest
+     * within this <tt>BebnContext</tt>
+     * @return true if the child wbs bdded successfully.
+     * @see #vblidbtePendingAdd
      */
-    public boolean add(Object targetChild) {
+    public boolebn bdd(Object tbrgetChild) {
 
-        if (targetChild == null) throw new IllegalArgumentException();
+        if (tbrgetChild == null) throw new IllegblArgumentException();
 
-        // The specification requires that we do nothing if the child
-        // is already nested herein.
+        // The specificbtion requires thbt we do nothing if the child
+        // is blrebdy nested herein.
 
-        if (children.containsKey(targetChild)) return false; // test before locking
+        if (children.contbinsKey(tbrgetChild)) return fblse; // test before locking
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (children.containsKey(targetChild)) return false; // check again
+        synchronized(BebnContext.globblHierbrchyLock) {
+            if (children.contbinsKey(tbrgetChild)) return fblse; // check bgbin
 
-            if (!validatePendingAdd(targetChild)) {
-                throw new IllegalStateException();
+            if (!vblidbtePendingAdd(tbrgetChild)) {
+                throw new IllegblStbteException();
             }
 
 
-            // The specification requires that we invoke setBeanContext() on the
-            // newly added child if it implements the java.beans.beancontext.BeanContextChild interface
+            // The specificbtion requires thbt we invoke setBebnContext() on the
+            // newly bdded child if it implements the jbvb.bebns.bebncontext.BebnContextChild interfbce
 
-            BeanContextChild cbcc  = getChildBeanContextChild(targetChild);
-            BeanContextChild  bccp = null;
+            BebnContextChild cbcc  = getChildBebnContextChild(tbrgetChild);
+            BebnContextChild  bccp = null;
 
-            synchronized(targetChild) {
+            synchronized(tbrgetChild) {
 
-                if (targetChild instanceof BeanContextProxy) {
-                    bccp = ((BeanContextProxy)targetChild).getBeanContextProxy();
+                if (tbrgetChild instbnceof BebnContextProxy) {
+                    bccp = ((BebnContextProxy)tbrgetChild).getBebnContextProxy();
 
-                    if (bccp == null) throw new NullPointerException("BeanContextPeer.getBeanContextProxy()");
+                    if (bccp == null) throw new NullPointerException("BebnContextPeer.getBebnContextProxy()");
                 }
 
-                BCSChild bcsc  = createBCSChild(targetChild, bccp);
+                BCSChild bcsc  = crebteBCSChild(tbrgetChild, bccp);
                 BCSChild pbcsc = null;
 
                 synchronized (children) {
-                    children.put(targetChild, bcsc);
+                    children.put(tbrgetChild, bcsc);
 
-                    if (bccp != null) children.put(bccp, pbcsc = createBCSChild(bccp, targetChild));
+                    if (bccp != null) children.put(bccp, pbcsc = crebteBCSChild(bccp, tbrgetChild));
                 }
 
                 if (cbcc != null) synchronized(cbcc) {
                     try {
-                        cbcc.setBeanContext(getBeanContextPeer());
-                    } catch (PropertyVetoException pve) {
+                        cbcc.setBebnContext(getBebnContextPeer());
+                    } cbtch (PropertyVetoException pve) {
 
                         synchronized (children) {
-                            children.remove(targetChild);
+                            children.remove(tbrgetChild);
 
                             if (bccp != null) children.remove(bccp);
                         }
 
-                        throw new IllegalStateException();
+                        throw new IllegblStbteException();
                     }
 
-                    cbcc.addPropertyChangeListener("beanContext", childPCL);
-                    cbcc.addVetoableChangeListener("beanContext", childVCL);
+                    cbcc.bddPropertyChbngeListener("bebnContext", childPCL);
+                    cbcc.bddVetobbleChbngeListener("bebnContext", childVCL);
                 }
 
-                Visibility v = getChildVisibility(targetChild);
+                Visibility v = getChildVisibility(tbrgetChild);
 
                 if (v != null) {
                     if (okToUseGui)
@@ -442,9 +442,9 @@ public class      BeanContextSupport extends BeanContextChildSupport
                         v.dontUseGui();
                 }
 
-                if (getChildSerializable(targetChild) != null) serializable++;
+                if (getChildSeriblizbble(tbrgetChild) != null) seriblizbble++;
 
-                childJustAddedHook(targetChild, bcsc);
+                childJustAddedHook(tbrgetChild, bcsc);
 
                 if (bccp != null) {
                     v = getChildVisibility(bccp);
@@ -456,7 +456,7 @@ public class      BeanContextSupport extends BeanContextChildSupport
                             v.dontUseGui();
                     }
 
-                    if (getChildSerializable(bccp) != null) serializable++;
+                    if (getChildSeriblizbble(bccp) != null) seriblizbble++;
 
                     childJustAddedHook(bccp, pbcsc);
                 }
@@ -464,9 +464,9 @@ public class      BeanContextSupport extends BeanContextChildSupport
 
             }
 
-            // The specification requires that we fire a notification of the change
+            // The specificbtion requires thbt we fire b notificbtion of the chbnge
 
-            fireChildrenAdded(new BeanContextMembershipEvent(getBeanContextPeer(), bccp == null ? new Object[] { targetChild } : new Object[] { targetChild, bccp } ));
+            fireChildrenAdded(new BebnContextMembershipEvent(getBebnContextPeer(), bccp == null ? new Object[] { tbrgetChild } : new Object[] { tbrgetChild, bccp } ));
 
         }
 
@@ -474,63 +474,63 @@ public class      BeanContextSupport extends BeanContextChildSupport
     }
 
     /**
-     * Removes a child from this BeanContext.  If the child object is not
-     * for adding then this method throws an IllegalStateException.
-     * @param targetChild The child objects to remove
-     * @see #validatePendingRemove
+     * Removes b child from this BebnContext.  If the child object is not
+     * for bdding then this method throws bn IllegblStbteException.
+     * @pbrbm tbrgetChild The child objects to remove
+     * @see #vblidbtePendingRemove
      */
-    public boolean remove(Object targetChild) {
-        return remove(targetChild, true);
+    public boolebn remove(Object tbrgetChild) {
+        return remove(tbrgetChild, true);
     }
 
     /**
-     * internal remove used when removal caused by
-     * unexpected <tt>setBeanContext</tt> or
-     * by <tt>remove()</tt> invocation.
-     * @param targetChild the JavaBean, BeanContext, or Object to be removed
-     * @param callChildSetBC used to indicate that
-     * the child should be notified that it is no
-     * longer nested in this <tt>BeanContext</tt>.
-     * @return whether or not was present before being removed
+     * internbl remove used when removbl cbused by
+     * unexpected <tt>setBebnContext</tt> or
+     * by <tt>remove()</tt> invocbtion.
+     * @pbrbm tbrgetChild the JbvbBebn, BebnContext, or Object to be removed
+     * @pbrbm cbllChildSetBC used to indicbte thbt
+     * the child should be notified thbt it is no
+     * longer nested in this <tt>BebnContext</tt>.
+     * @return whether or not wbs present before being removed
      */
-    protected boolean remove(Object targetChild, boolean callChildSetBC) {
+    protected boolebn remove(Object tbrgetChild, boolebn cbllChildSetBC) {
 
-        if (targetChild == null) throw new IllegalArgumentException();
+        if (tbrgetChild == null) throw new IllegblArgumentException();
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            if (!containsKey(targetChild)) return false;
+        synchronized(BebnContext.globblHierbrchyLock) {
+            if (!contbinsKey(tbrgetChild)) return fblse;
 
-            if (!validatePendingRemove(targetChild)) {
-                throw new IllegalStateException();
+            if (!vblidbtePendingRemove(tbrgetChild)) {
+                throw new IllegblStbteException();
             }
 
-            BCSChild bcsc  = children.get(targetChild);
+            BCSChild bcsc  = children.get(tbrgetChild);
             BCSChild pbcsc = null;
             Object   peer  = null;
 
-            // we are required to notify the child that it is no longer nested here if
-            // it implements java.beans.beancontext.BeanContextChild
+            // we bre required to notify the child thbt it is no longer nested here if
+            // it implements jbvb.bebns.bebncontext.BebnContextChild
 
-            synchronized(targetChild) {
-                if (callChildSetBC) {
-                    BeanContextChild cbcc = getChildBeanContextChild(targetChild);
+            synchronized(tbrgetChild) {
+                if (cbllChildSetBC) {
+                    BebnContextChild cbcc = getChildBebnContextChild(tbrgetChild);
                     if (cbcc != null) synchronized(cbcc) {
-                        cbcc.removePropertyChangeListener("beanContext", childPCL);
-                        cbcc.removeVetoableChangeListener("beanContext", childVCL);
+                        cbcc.removePropertyChbngeListener("bebnContext", childPCL);
+                        cbcc.removeVetobbleChbngeListener("bebnContext", childVCL);
 
                         try {
-                            cbcc.setBeanContext(null);
-                        } catch (PropertyVetoException pve1) {
-                            cbcc.addPropertyChangeListener("beanContext", childPCL);
-                            cbcc.addVetoableChangeListener("beanContext", childVCL);
-                            throw new IllegalStateException();
+                            cbcc.setBebnContext(null);
+                        } cbtch (PropertyVetoException pve1) {
+                            cbcc.bddPropertyChbngeListener("bebnContext", childPCL);
+                            cbcc.bddVetobbleChbngeListener("bebnContext", childVCL);
+                            throw new IllegblStbteException();
                         }
 
                     }
                 }
 
                 synchronized (children) {
-                    children.remove(targetChild);
+                    children.remove(tbrgetChild);
 
                     if (bcsc.isProxyPeer()) {
                         pbcsc = children.get(peer = bcsc.getProxyPeer());
@@ -538,18 +538,18 @@ public class      BeanContextSupport extends BeanContextChildSupport
                     }
                 }
 
-                if (getChildSerializable(targetChild) != null) serializable--;
+                if (getChildSeriblizbble(tbrgetChild) != null) seriblizbble--;
 
-                childJustRemovedHook(targetChild, bcsc);
+                childJustRemovedHook(tbrgetChild, bcsc);
 
                 if (peer != null) {
-                    if (getChildSerializable(peer) != null) serializable--;
+                    if (getChildSeriblizbble(peer) != null) seriblizbble--;
 
                     childJustRemovedHook(peer, pbcsc);
                 }
             }
 
-            fireChildrenRemoved(new BeanContextMembershipEvent(getBeanContextPeer(), peer == null ? new Object[] { targetChild } : new Object[] { targetChild, peer } ));
+            fireChildrenRemoved(new BebnContextMembershipEvent(getBebnContextPeer(), peer == null ? new Object[] { tbrgetChild } : new Object[] { tbrgetChild, peer } ));
 
         }
 
@@ -557,101 +557,101 @@ public class      BeanContextSupport extends BeanContextChildSupport
     }
 
     /**
-     * Tests to see if all objects in the
-     * specified <tt>Collection</tt> are children of
-     * this <tt>BeanContext</tt>.
-     * @param c the specified <tt>Collection</tt>
+     * Tests to see if bll objects in the
+     * specified <tt>Collection</tt> bre children of
+     * this <tt>BebnContext</tt>.
+     * @pbrbm c the specified <tt>Collection</tt>
      *
-     * @return <tt>true</tt> if all objects
-     * in the collection are children of
-     * this <tt>BeanContext</tt>, false if not.
+     * @return <tt>true</tt> if bll objects
+     * in the collection bre children of
+     * this <tt>BebnContext</tt>, fblse if not.
      */
-    @SuppressWarnings("rawtypes")
-    public boolean containsAll(Collection c) {
+    @SuppressWbrnings("rbwtypes")
+    public boolebn contbinsAll(Collection c) {
         synchronized(children) {
-            Iterator<?> i = c.iterator();
-            while (i.hasNext())
-                if(!contains(i.next()))
-                    return false;
+            Iterbtor<?> i = c.iterbtor();
+            while (i.hbsNext())
+                if(!contbins(i.next()))
+                    return fblse;
 
             return true;
         }
     }
 
     /**
-     * add Collection to set of Children (Unsupported)
-     * implementations must synchronized on the hierarchy lock and "children" protected field
-     * @throws UnsupportedOperationException thrown unconditionally by this implementation
-     * @return this implementation unconditionally throws {@code UnsupportedOperationException}
+     * bdd Collection to set of Children (Unsupported)
+     * implementbtions must synchronized on the hierbrchy lock bnd "children" protected field
+     * @throws UnsupportedOperbtionException thrown unconditionblly by this implementbtion
+     * @return this implementbtion unconditionblly throws {@code UnsupportedOperbtionException}
      */
-    @SuppressWarnings("rawtypes")
-    public boolean addAll(Collection c) {
-        throw new UnsupportedOperationException();
+    @SuppressWbrnings("rbwtypes")
+    public boolebn bddAll(Collection c) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * remove all specified children (Unsupported)
-     * implementations must synchronized on the hierarchy lock and "children" protected field
-     * @throws UnsupportedOperationException thrown unconditionally by this implementation
-     * @return this implementation unconditionally throws {@code UnsupportedOperationException}
+     * remove bll specified children (Unsupported)
+     * implementbtions must synchronized on the hierbrchy lock bnd "children" protected field
+     * @throws UnsupportedOperbtionException thrown unconditionblly by this implementbtion
+     * @return this implementbtion unconditionblly throws {@code UnsupportedOperbtionException}
 
      */
-    @SuppressWarnings("rawtypes")
-    public boolean removeAll(Collection c) {
-        throw new UnsupportedOperationException();
+    @SuppressWbrnings("rbwtypes")
+    public boolebn removeAll(Collection c) {
+        throw new UnsupportedOperbtionException();
     }
 
 
     /**
-     * retain only specified children (Unsupported)
-     * implementations must synchronized on the hierarchy lock and "children" protected field
-     * @throws UnsupportedOperationException thrown unconditionally by this implementation
-     * @return this implementation unconditionally throws {@code UnsupportedOperationException}
+     * retbin only specified children (Unsupported)
+     * implementbtions must synchronized on the hierbrchy lock bnd "children" protected field
+     * @throws UnsupportedOperbtionException thrown unconditionblly by this implementbtion
+     * @return this implementbtion unconditionblly throws {@code UnsupportedOperbtionException}
      */
-    @SuppressWarnings("rawtypes")
-    public boolean retainAll(Collection c) {
-        throw new UnsupportedOperationException();
+    @SuppressWbrnings("rbwtypes")
+    public boolebn retbinAll(Collection c) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * clear the children (Unsupported)
-     * implementations must synchronized on the hierarchy lock and "children" protected field
-     * @throws UnsupportedOperationException thrown unconditionally by this implementation
+     * clebr the children (Unsupported)
+     * implementbtions must synchronized on the hierbrchy lock bnd "children" protected field
+     * @throws UnsupportedOperbtionException thrown unconditionblly by this implementbtion
      */
-    public void clear() {
-        throw new UnsupportedOperationException();
+    public void clebr() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Adds a BeanContextMembershipListener
+     * Adds b BebnContextMembershipListener
      *
-     * @param  bcml the BeanContextMembershipListener to add
-     * @throws NullPointerException if the argument is null
+     * @pbrbm  bcml the BebnContextMembershipListener to bdd
+     * @throws NullPointerException if the brgument is null
      */
 
-    public void addBeanContextMembershipListener(BeanContextMembershipListener bcml) {
+    public void bddBebnContextMembershipListener(BebnContextMembershipListener bcml) {
         if (bcml == null) throw new NullPointerException("listener");
 
         synchronized(bcmListeners) {
-            if (bcmListeners.contains(bcml))
+            if (bcmListeners.contbins(bcml))
                 return;
             else
-                bcmListeners.add(bcml);
+                bcmListeners.bdd(bcml);
         }
     }
 
     /**
-     * Removes a BeanContextMembershipListener
+     * Removes b BebnContextMembershipListener
      *
-     * @param  bcml the BeanContextMembershipListener to remove
-     * @throws NullPointerException if the argument is null
+     * @pbrbm  bcml the BebnContextMembershipListener to remove
+     * @throws NullPointerException if the brgument is null
      */
 
-    public void removeBeanContextMembershipListener(BeanContextMembershipListener bcml) {
+    public void removeBebnContextMembershipListener(BebnContextMembershipListener bcml) {
         if (bcml == null) throw new NullPointerException("listener");
 
         synchronized(bcmListeners) {
-            if (!bcmListeners.contains(bcml))
+            if (!bcmListeners.contbins(bcml))
                 return;
             else
                 bcmListeners.remove(bcml);
@@ -659,53 +659,53 @@ public class      BeanContextSupport extends BeanContextChildSupport
     }
 
     /**
-     * @param name the name of the resource requested.
-     * @param bcc  the child object making the request.
+     * @pbrbm nbme the nbme of the resource requested.
+     * @pbrbm bcc  the child object mbking the request.
      *
-     * @return  the requested resource as an InputStream
-     * @throws  NullPointerException if the argument is null
+     * @return  the requested resource bs bn InputStrebm
+     * @throws  NullPointerException if the brgument is null
      */
 
-    public InputStream getResourceAsStream(String name, BeanContextChild bcc) {
-        if (name == null) throw new NullPointerException("name");
+    public InputStrebm getResourceAsStrebm(String nbme, BebnContextChild bcc) {
+        if (nbme == null) throw new NullPointerException("nbme");
         if (bcc  == null) throw new NullPointerException("bcc");
 
-        if (containsKey(bcc)) {
-            ClassLoader cl = bcc.getClass().getClassLoader();
+        if (contbinsKey(bcc)) {
+            ClbssLobder cl = bcc.getClbss().getClbssLobder();
 
-            return cl != null ? cl.getResourceAsStream(name)
-                              : ClassLoader.getSystemResourceAsStream(name);
-        } else throw new IllegalArgumentException("Not a valid child");
+            return cl != null ? cl.getResourceAsStrebm(nbme)
+                              : ClbssLobder.getSystemResourceAsStrebm(nbme);
+        } else throw new IllegblArgumentException("Not b vblid child");
     }
 
     /**
-     * @param name the name of the resource requested.
-     * @param bcc  the child object making the request.
+     * @pbrbm nbme the nbme of the resource requested.
+     * @pbrbm bcc  the child object mbking the request.
      *
-     * @return the requested resource as an InputStream
+     * @return the requested resource bs bn InputStrebm
      */
 
-    public URL getResource(String name, BeanContextChild bcc) {
-        if (name == null) throw new NullPointerException("name");
+    public URL getResource(String nbme, BebnContextChild bcc) {
+        if (nbme == null) throw new NullPointerException("nbme");
         if (bcc  == null) throw new NullPointerException("bcc");
 
-        if (containsKey(bcc)) {
-            ClassLoader cl = bcc.getClass().getClassLoader();
+        if (contbinsKey(bcc)) {
+            ClbssLobder cl = bcc.getClbss().getClbssLobder();
 
-            return cl != null ? cl.getResource(name)
-                              : ClassLoader.getSystemResource(name);
-        } else throw new IllegalArgumentException("Not a valid child");
+            return cl != null ? cl.getResource(nbme)
+                              : ClbssLobder.getSystemResource(nbme);
+        } else throw new IllegblArgumentException("Not b vblid child");
     }
 
     /**
-     * Sets the new design time value for this <tt>BeanContext</tt>.
-     * @param dTime the new designTime value
+     * Sets the new design time vblue for this <tt>BebnContext</tt>.
+     * @pbrbm dTime the new designTime vblue
      */
-    public synchronized void setDesignTime(boolean dTime) {
+    public synchronized void setDesignTime(boolebn dTime) {
         if (designTime != dTime) {
             designTime = dTime;
 
-            firePropertyChange("designMode", Boolean.valueOf(!dTime), Boolean.valueOf(dTime));
+            firePropertyChbnge("designMode", Boolebn.vblueOf(!dTime), Boolebn.vblueOf(dTime));
         }
     }
 
@@ -714,87 +714,87 @@ public class      BeanContextSupport extends BeanContextChildSupport
      * Reports whether or not this object is in
      * currently in design time mode.
      * @return <tt>true</tt> if in design time mode,
-     * <tt>false</tt> if not
+     * <tt>fblse</tt> if not
      */
-    public synchronized boolean isDesignTime() { return designTime; }
+    public synchronized boolebn isDesignTime() { return designTime; }
 
     /**
-     * Sets the locale of this BeanContext.
-     * @param newLocale the new locale. This method call will have
-     *        no effect if newLocale is <CODE>null</CODE>.
-     * @throws PropertyVetoException if the new value is rejected
+     * Sets the locble of this BebnContext.
+     * @pbrbm newLocble the new locble. This method cbll will hbve
+     *        no effect if newLocble is <CODE>null</CODE>.
+     * @throws PropertyVetoException if the new vblue is rejected
      */
-    public synchronized void setLocale(Locale newLocale) throws PropertyVetoException {
+    public synchronized void setLocble(Locble newLocble) throws PropertyVetoException {
 
-        if ((locale != null && !locale.equals(newLocale)) && newLocale != null) {
-            Locale old = locale;
+        if ((locble != null && !locble.equbls(newLocble)) && newLocble != null) {
+            Locble old = locble;
 
-            fireVetoableChange("locale", old, newLocale); // throws
+            fireVetobbleChbnge("locble", old, newLocble); // throws
 
-            locale = newLocale;
+            locble = newLocble;
 
-            firePropertyChange("locale", old, newLocale);
+            firePropertyChbnge("locble", old, newLocble);
         }
     }
 
     /**
-     * Gets the locale for this <tt>BeanContext</tt>.
+     * Gets the locble for this <tt>BebnContext</tt>.
      *
-     * @return the current Locale of the <tt>BeanContext</tt>
+     * @return the current Locble of the <tt>BebnContext</tt>
      */
-    public synchronized Locale getLocale() { return locale; }
+    public synchronized Locble getLocble() { return locble; }
 
     /**
      * <p>
-     * This method is typically called from the environment in order to determine
-     * if the implementor "needs" a GUI.
+     * This method is typicblly cblled from the environment in order to determine
+     * if the implementor "needs" b GUI.
      * </p>
      * <p>
-     * The algorithm used herein tests the BeanContextPeer, and its current children
-     * to determine if they are either Containers, Components, or if they implement
-     * Visibility and return needsGui() == true.
+     * The blgorithm used herein tests the BebnContextPeer, bnd its current children
+     * to determine if they bre either Contbiners, Components, or if they implement
+     * Visibility bnd return needsGui() == true.
      * </p>
-     * @return <tt>true</tt> if the implementor needs a GUI
+     * @return <tt>true</tt> if the implementor needs b GUI
      */
-    public synchronized boolean needsGui() {
-        BeanContext bc = getBeanContextPeer();
+    public synchronized boolebn needsGui() {
+        BebnContext bc = getBebnContextPeer();
 
         if (bc != this) {
-            if (bc instanceof Visibility) return ((Visibility)bc).needsGui();
+            if (bc instbnceof Visibility) return ((Visibility)bc).needsGui();
 
-            if (bc instanceof Container || bc instanceof Component)
+            if (bc instbnceof Contbiner || bc instbnceof Component)
                 return true;
         }
 
         synchronized(children) {
-            for (Iterator<Object> i = children.keySet().iterator(); i.hasNext();) {
+            for (Iterbtor<Object> i = children.keySet().iterbtor(); i.hbsNext();) {
                 Object c = i.next();
 
                 try {
                         return ((Visibility)c).needsGui();
-                    } catch (ClassCastException cce) {
+                    } cbtch (ClbssCbstException cce) {
                         // do nothing ...
                     }
 
-                    if (c instanceof Container || c instanceof Component)
+                    if (c instbnceof Contbiner || c instbnceof Component)
                         return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * notify this instance that it may no longer render a GUI.
+     * notify this instbnce thbt it mby no longer render b GUI.
      */
 
     public synchronized void dontUseGui() {
         if (okToUseGui) {
-            okToUseGui = false;
+            okToUseGui = fblse;
 
-            // lets also tell the Children that can that they may not use their GUI's
+            // lets blso tell the Children thbt cbn thbt they mby not use their GUI's
             synchronized(children) {
-                for (Iterator<Object> i = children.keySet().iterator(); i.hasNext();) {
+                for (Iterbtor<Object> i = children.keySet().iterbtor(); i.hbsNext();) {
                     Visibility v = getChildVisibility(i.next());
 
                     if (v != null) v.dontUseGui();
@@ -804,16 +804,16 @@ public class      BeanContextSupport extends BeanContextChildSupport
     }
 
     /**
-     * Notify this instance that it may now render a GUI
+     * Notify this instbnce thbt it mby now render b GUI
      */
 
     public synchronized void okToUseGui() {
         if (!okToUseGui) {
             okToUseGui = true;
 
-            // lets also tell the Children that can that they may use their GUI's
+            // lets blso tell the Children thbt cbn thbt they mby use their GUI's
             synchronized(children) {
-                for (Iterator<Object> i = children.keySet().iterator(); i.hasNext();) {
+                for (Iterbtor<Object> i = children.keySet().iterbtor(); i.hbsNext();) {
                     Visibility v = getChildVisibility(i.next());
 
                     if (v != null) v.okToUseGui();
@@ -823,89 +823,89 @@ public class      BeanContextSupport extends BeanContextChildSupport
     }
 
     /**
-     * Used to determine if the <tt>BeanContext</tt>
-     * child is avoiding using its GUI.
-     * @return is this instance avoiding using its GUI?
+     * Used to determine if the <tt>BebnContext</tt>
+     * child is bvoiding using its GUI.
+     * @return is this instbnce bvoiding using its GUI?
      * @see Visibility
      */
-    public boolean avoidingGui() {
+    public boolebn bvoidingGui() {
         return !okToUseGui && needsGui();
     }
 
     /**
-     * Is this <tt>BeanContext</tt> in the
-     * process of being serialized?
-     * @return if this <tt>BeanContext</tt> is
-     * currently being serialized
+     * Is this <tt>BebnContext</tt> in the
+     * process of being seriblized?
+     * @return if this <tt>BebnContext</tt> is
+     * currently being seriblized
      */
-    public boolean isSerializing() { return serializing; }
+    public boolebn isSeriblizing() { return seriblizing; }
 
     /**
-     * Returns an iterator of all children
-     * of this <tt>BeanContext</tt>.
-     * @return an iterator for all the current BCSChild values
+     * Returns bn iterbtor of bll children
+     * of this <tt>BebnContext</tt>.
+     * @return bn iterbtor for bll the current BCSChild vblues
      */
-    protected Iterator<BCSChild> bcsChildren() { synchronized(children) { return children.values().iterator();  } }
+    protected Iterbtor<BCSChild> bcsChildren() { synchronized(children) { return children.vblues().iterbtor();  } }
 
     /**
-     * called by writeObject after defaultWriteObject() but prior to
-     * serialization of currently serializable children.
+     * cblled by writeObject bfter defbultWriteObject() but prior to
+     * seriblizbtion of currently seriblizbble children.
      *
-     * This method may be overridden by subclasses to perform custom
-     * serialization of their state prior to this superclass serializing
+     * This method mby be overridden by subclbsses to perform custom
+     * seriblizbtion of their stbte prior to this superclbss seriblizing
      * the children.
      *
-     * This method should not however be used by subclasses to replace their
-     * own implementation (if any) of writeObject().
-     * @param oos the {@code ObjectOutputStream} to use during serialization
-     * @throws IOException if serialization failed
+     * This method should not however be used by subclbsses to replbce their
+     * own implementbtion (if bny) of writeObject().
+     * @pbrbm oos the {@code ObjectOutputStrebm} to use during seriblizbtion
+     * @throws IOException if seriblizbtion fbiled
      */
 
-    protected void bcsPreSerializationHook(ObjectOutputStream oos) throws IOException {
+    protected void bcsPreSeriblizbtionHook(ObjectOutputStrebm oos) throws IOException {
     }
 
     /**
-     * called by readObject after defaultReadObject() but prior to
-     * deserialization of any children.
+     * cblled by rebdObject bfter defbultRebdObject() but prior to
+     * deseriblizbtion of bny children.
      *
-     * This method may be overridden by subclasses to perform custom
-     * deserialization of their state prior to this superclass deserializing
+     * This method mby be overridden by subclbsses to perform custom
+     * deseriblizbtion of their stbte prior to this superclbss deseriblizing
      * the children.
      *
-     * This method should not however be used by subclasses to replace their
-     * own implementation (if any) of readObject().
-     * @param ois the {@code ObjectInputStream} to use during deserialization
-     * @throws IOException if deserialization failed
-     * @throws ClassNotFoundException if needed classes are not found
+     * This method should not however be used by subclbsses to replbce their
+     * own implementbtion (if bny) of rebdObject().
+     * @pbrbm ois the {@code ObjectInputStrebm} to use during deseriblizbtion
+     * @throws IOException if deseriblizbtion fbiled
+     * @throws ClbssNotFoundException if needed clbsses bre not found
      */
 
-    protected void bcsPreDeserializationHook(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+    protected void bcsPreDeseriblizbtionHook(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
     }
 
     /**
-     * Called by readObject with the newly deserialized child and BCSChild.
-     * @param child the newly deserialized child
-     * @param bcsc the newly deserialized BCSChild
+     * Cblled by rebdObject with the newly deseriblized child bnd BCSChild.
+     * @pbrbm child the newly deseriblized child
+     * @pbrbm bcsc the newly deseriblized BCSChild
      */
-    protected void childDeserializedHook(Object child, BCSChild bcsc) {
+    protected void childDeseriblizedHook(Object child, BCSChild bcsc) {
         synchronized(children) {
             children.put(child, bcsc);
         }
     }
 
     /**
-     * Used by writeObject to serialize a Collection.
-     * @param oos the <tt>ObjectOutputStream</tt>
-     * to use during serialization
-     * @param coll the <tt>Collection</tt> to serialize
-     * @throws IOException if serialization failed
+     * Used by writeObject to seriblize b Collection.
+     * @pbrbm oos the <tt>ObjectOutputStrebm</tt>
+     * to use during seriblizbtion
+     * @pbrbm coll the <tt>Collection</tt> to seriblize
+     * @throws IOException if seriblizbtion fbiled
      */
-    protected final void serialize(ObjectOutputStream oos, Collection<?> coll) throws IOException {
+    protected finbl void seriblize(ObjectOutputStrebm oos, Collection<?> coll) throws IOException {
         int      count   = 0;
-        Object[] objects = coll.toArray();
+        Object[] objects = coll.toArrby();
 
         for (int i = 0; i < objects.length; i++) {
-            if (objects[i] instanceof Serializable)
+            if (objects[i] instbnceof Seriblizbble)
                 count++;
             else
                 objects[i] = null;
@@ -924,51 +924,51 @@ public class      BeanContextSupport extends BeanContextChildSupport
     }
 
     /**
-     * used by readObject to deserialize a collection.
-     * @param ois the ObjectInputStream to use
-     * @param coll the Collection
-     * @throws IOException if deserialization failed
-     * @throws ClassNotFoundException if needed classes are not found
+     * used by rebdObject to deseriblize b collection.
+     * @pbrbm ois the ObjectInputStrebm to use
+     * @pbrbm coll the Collection
+     * @throws IOException if deseriblizbtion fbiled
+     * @throws ClbssNotFoundException if needed clbsses bre not found
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    protected final void deserialize(ObjectInputStream ois, Collection coll) throws IOException, ClassNotFoundException {
+    @SuppressWbrnings({"rbwtypes", "unchecked"})
+    protected finbl void deseriblize(ObjectInputStrebm ois, Collection coll) throws IOException, ClbssNotFoundException {
         int count = 0;
 
-        count = ois.readInt();
+        count = ois.rebdInt();
 
         while (count-- > 0) {
-            coll.add(ois.readObject());
+            coll.bdd(ois.rebdObject());
         }
     }
 
     /**
-     * Used to serialize all children of
-     * this <tt>BeanContext</tt>.
-     * @param oos the <tt>ObjectOutputStream</tt>
-     * to use during serialization
-     * @throws IOException if serialization failed
+     * Used to seriblize bll children of
+     * this <tt>BebnContext</tt>.
+     * @pbrbm oos the <tt>ObjectOutputStrebm</tt>
+     * to use during seriblizbtion
+     * @throws IOException if seriblizbtion fbiled
      */
-    public final void writeChildren(ObjectOutputStream oos) throws IOException {
-        if (serializable <= 0) return;
+    public finbl void writeChildren(ObjectOutputStrebm oos) throws IOException {
+        if (seriblizbble <= 0) return;
 
-        boolean prev = serializing;
+        boolebn prev = seriblizing;
 
-        serializing = true;
+        seriblizing = true;
 
         int count = 0;
 
         synchronized(children) {
-            Iterator<Map.Entry<Object, BCSChild>> i = children.entrySet().iterator();
+            Iterbtor<Mbp.Entry<Object, BCSChild>> i = children.entrySet().iterbtor();
 
-            while (i.hasNext() && count < serializable) {
-                Map.Entry<Object, BCSChild> entry = i.next();
+            while (i.hbsNext() && count < seriblizbble) {
+                Mbp.Entry<Object, BCSChild> entry = i.next();
 
-                if (entry.getKey() instanceof Serializable) {
+                if (entry.getKey() instbnceof Seriblizbble) {
                     try {
                         oos.writeObject(entry.getKey());   // child
-                        oos.writeObject(entry.getValue()); // BCSChild
-                    } catch (IOException ioe) {
-                        serializing = prev;
+                        oos.writeObject(entry.getVblue()); // BCSChild
+                    } cbtch (IOException ioe) {
+                        seriblizing = prev;
                         throw ioe;
                     }
                     count++;
@@ -976,159 +976,159 @@ public class      BeanContextSupport extends BeanContextChildSupport
             }
         }
 
-        serializing = prev;
+        seriblizing = prev;
 
-        if (count != serializable) {
-            throw new IOException("wrote different number of children than expected");
+        if (count != seriblizbble) {
+            throw new IOException("wrote different number of children thbn expected");
         }
 
     }
 
     /**
-     * Serialize the BeanContextSupport, if this instance has a distinct
-     * peer (that is this object is acting as a delegate for another) then
-     * the children of this instance are not serialized here due to a
-     * 'chicken and egg' problem that occurs on deserialization of the
-     * children at the same time as this instance.
+     * Seriblize the BebnContextSupport, if this instbnce hbs b distinct
+     * peer (thbt is this object is bcting bs b delegbte for bnother) then
+     * the children of this instbnce bre not seriblized here due to b
+     * 'chicken bnd egg' problem thbt occurs on deseriblizbtion of the
+     * children bt the sbme time bs this instbnce.
      *
-     * Therefore in situations where there is a distinct peer to this instance
-     * it should always call writeObject() followed by writeChildren() and
-     * readObject() followed by readChildren().
+     * Therefore in situbtions where there is b distinct peer to this instbnce
+     * it should blwbys cbll writeObject() followed by writeChildren() bnd
+     * rebdObject() followed by rebdChildren().
      *
-     * @param oos the ObjectOutputStream
+     * @pbrbm oos the ObjectOutputStrebm
      */
 
-    private synchronized void writeObject(ObjectOutputStream oos) throws IOException, ClassNotFoundException {
-        serializing = true;
+    privbte synchronized void writeObject(ObjectOutputStrebm oos) throws IOException, ClbssNotFoundException {
+        seriblizing = true;
 
-        synchronized (BeanContext.globalHierarchyLock) {
+        synchronized (BebnContext.globblHierbrchyLock) {
             try {
-                oos.defaultWriteObject(); // serialize the BeanContextSupport object
+                oos.defbultWriteObject(); // seriblize the BebnContextSupport object
 
-                bcsPreSerializationHook(oos);
+                bcsPreSeriblizbtionHook(oos);
 
-                if (serializable > 0 && this.equals(getBeanContextPeer()))
+                if (seriblizbble > 0 && this.equbls(getBebnContextPeer()))
                     writeChildren(oos);
 
-                serialize(oos, (Collection)bcmListeners);
-            } finally {
-                serializing = false;
+                seriblize(oos, (Collection)bcmListeners);
+            } finblly {
+                seriblizing = fblse;
             }
         }
     }
 
     /**
-     * When an instance of this class is used as a delegate for the
-     * implementation of the BeanContext protocols (and its subprotocols)
-     * there exists a 'chicken and egg' problem during deserialization
-     * @param ois the ObjectInputStream to use
-     * @throws IOException if deserialization failed
-     * @throws ClassNotFoundException if needed classes are not found
+     * When bn instbnce of this clbss is used bs b delegbte for the
+     * implementbtion of the BebnContext protocols (bnd its subprotocols)
+     * there exists b 'chicken bnd egg' problem during deseriblizbtion
+     * @pbrbm ois the ObjectInputStrebm to use
+     * @throws IOException if deseriblizbtion fbiled
+     * @throws ClbssNotFoundException if needed clbsses bre not found
      */
 
-    public final void readChildren(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        int count = serializable;
+    public finbl void rebdChildren(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        int count = seriblizbble;
 
         while (count-- > 0) {
             Object                      child = null;
-            BeanContextSupport.BCSChild bscc  = null;
+            BebnContextSupport.BCSChild bscc  = null;
 
             try {
-                child = ois.readObject();
-                bscc  = (BeanContextSupport.BCSChild)ois.readObject();
-            } catch (IOException ioe) {
+                child = ois.rebdObject();
+                bscc  = (BebnContextSupport.BCSChild)ois.rebdObject();
+            } cbtch (IOException ioe) {
                 continue;
-            } catch (ClassNotFoundException cnfe) {
+            } cbtch (ClbssNotFoundException cnfe) {
                 continue;
             }
 
 
             synchronized(child) {
-                BeanContextChild bcc = null;
+                BebnContextChild bcc = null;
 
                 try {
-                    bcc = (BeanContextChild)child;
-                } catch (ClassCastException cce) {
+                    bcc = (BebnContextChild)child;
+                } cbtch (ClbssCbstException cce) {
                     // do nothing;
                 }
 
                 if (bcc != null) {
                     try {
-                        bcc.setBeanContext(getBeanContextPeer());
+                        bcc.setBebnContext(getBebnContextPeer());
 
-                       bcc.addPropertyChangeListener("beanContext", childPCL);
-                       bcc.addVetoableChangeListener("beanContext", childVCL);
+                       bcc.bddPropertyChbngeListener("bebnContext", childPCL);
+                       bcc.bddVetobbleChbngeListener("bebnContext", childVCL);
 
-                    } catch (PropertyVetoException pve) {
+                    } cbtch (PropertyVetoException pve) {
                         continue;
                     }
                 }
 
-                childDeserializedHook(child, bscc);
+                childDeseriblizedHook(child, bscc);
             }
         }
     }
 
     /**
-     * deserialize contents ... if this instance has a distinct peer the
-     * children are *not* serialized here, the peer's readObject() must call
-     * readChildren() after deserializing this instance.
+     * deseriblize contents ... if this instbnce hbs b distinct peer the
+     * children bre *not* seriblized here, the peer's rebdObject() must cbll
+     * rebdChildren() bfter deseriblizing this instbnce.
      */
 
-    private synchronized void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+    privbte synchronized void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
 
-        synchronized(BeanContext.globalHierarchyLock) {
-            ois.defaultReadObject();
+        synchronized(BebnContext.globblHierbrchyLock) {
+            ois.defbultRebdObject();
 
-            initialize();
+            initiblize();
 
-            bcsPreDeserializationHook(ois);
+            bcsPreDeseriblizbtionHook(ois);
 
-            if (serializable > 0 && this.equals(getBeanContextPeer()))
-                readChildren(ois);
+            if (seriblizbble > 0 && this.equbls(getBebnContextPeer()))
+                rebdChildren(ois);
 
-            deserialize(ois, bcmListeners = new ArrayList<>(1));
+            deseriblize(ois, bcmListeners = new ArrbyList<>(1));
         }
     }
 
     /**
-     * subclasses may envelope to monitor veto child property changes.
+     * subclbsses mby envelope to monitor veto child property chbnges.
      */
 
-    public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {
-        String propertyName = pce.getPropertyName();
+    public void vetobbleChbnge(PropertyChbngeEvent pce) throws PropertyVetoException {
+        String propertyNbme = pce.getPropertyNbme();
         Object source       = pce.getSource();
 
         synchronized(children) {
-            if ("beanContext".equals(propertyName) &&
-                containsKey(source)                    &&
-                !getBeanContextPeer().equals(pce.getNewValue())
+            if ("bebnContext".equbls(propertyNbme) &&
+                contbinsKey(source)                    &&
+                !getBebnContextPeer().equbls(pce.getNewVblue())
             ) {
-                if (!validatePendingRemove(source)) {
-                    throw new PropertyVetoException("current BeanContext vetoes setBeanContext()", pce);
+                if (!vblidbtePendingRemove(source)) {
+                    throw new PropertyVetoException("current BebnContext vetoes setBebnContext()", pce);
                 } else children.get(source).setRemovePending(true);
             }
         }
     }
 
     /**
-     * subclasses may envelope to monitor child property changes.
+     * subclbsses mby envelope to monitor child property chbnges.
      */
 
-    public void propertyChange(PropertyChangeEvent pce) {
-        String propertyName = pce.getPropertyName();
+    public void propertyChbnge(PropertyChbngeEvent pce) {
+        String propertyNbme = pce.getPropertyNbme();
         Object source       = pce.getSource();
 
         synchronized(children) {
-            if ("beanContext".equals(propertyName) &&
-                containsKey(source)                    &&
+            if ("bebnContext".equbls(propertyNbme) &&
+                contbinsKey(source)                    &&
                 children.get(source).isRemovePending()) {
-                BeanContext bc = getBeanContextPeer();
+                BebnContext bc = getBebnContextPeer();
 
-                if (bc.equals(pce.getOldValue()) && !bc.equals(pce.getNewValue())) {
-                    remove(source, false);
+                if (bc.equbls(pce.getOldVblue()) && !bc.equbls(pce.getNewVblue())) {
+                    remove(source, fblse);
                 } else {
-                    children.get(source).setRemovePending(false);
+                    children.get(source).setRemovePending(fblse);
                 }
             }
         }
@@ -1136,236 +1136,236 @@ public class      BeanContextSupport extends BeanContextChildSupport
 
     /**
      * <p>
-     * Subclasses of this class may override, or envelope, this method to
-     * add validation behavior for the BeanContext to examine child objects
-     * immediately prior to their being added to the BeanContext.
+     * Subclbsses of this clbss mby override, or envelope, this method to
+     * bdd vblidbtion behbvior for the BebnContext to exbmine child objects
+     * immedibtely prior to their being bdded to the BebnContext.
      * </p>
      *
-     * @param targetChild the child to create the Child on behalf of
-     * @return true iff the child may be added to this BeanContext, otherwise false.
+     * @pbrbm tbrgetChild the child to crebte the Child on behblf of
+     * @return true iff the child mby be bdded to this BebnContext, otherwise fblse.
      */
 
-    protected boolean validatePendingAdd(Object targetChild) {
+    protected boolebn vblidbtePendingAdd(Object tbrgetChild) {
         return true;
     }
 
     /**
      * <p>
-     * Subclasses of this class may override, or envelope, this method to
-     * add validation behavior for the BeanContext to examine child objects
-     * immediately prior to their being removed from the BeanContext.
+     * Subclbsses of this clbss mby override, or envelope, this method to
+     * bdd vblidbtion behbvior for the BebnContext to exbmine child objects
+     * immedibtely prior to their being removed from the BebnContext.
      * </p>
      *
-     * @param targetChild the child to create the Child on behalf of
-     * @return true iff the child may be removed from this BeanContext, otherwise false.
+     * @pbrbm tbrgetChild the child to crebte the Child on behblf of
+     * @return true iff the child mby be removed from this BebnContext, otherwise fblse.
      */
 
-    protected boolean validatePendingRemove(Object targetChild) {
+    protected boolebn vblidbtePendingRemove(Object tbrgetChild) {
         return true;
     }
 
     /**
-     * subclasses may override this method to simply extend add() semantics
-     * after the child has been added and before the event notification has
-     * occurred. The method is called with the child synchronized.
-     * @param child the child
-     * @param bcsc the BCSChild
+     * subclbsses mby override this method to simply extend bdd() sembntics
+     * bfter the child hbs been bdded bnd before the event notificbtion hbs
+     * occurred. The method is cblled with the child synchronized.
+     * @pbrbm child the child
+     * @pbrbm bcsc the BCSChild
      */
 
     protected void childJustAddedHook(Object child, BCSChild bcsc) {
     }
 
     /**
-     * subclasses may override this method to simply extend remove() semantics
-     * after the child has been removed and before the event notification has
-     * occurred. The method is called with the child synchronized.
-     * @param child the child
-     * @param bcsc the BCSChild
+     * subclbsses mby override this method to simply extend remove() sembntics
+     * bfter the child hbs been removed bnd before the event notificbtion hbs
+     * occurred. The method is cblled with the child synchronized.
+     * @pbrbm child the child
+     * @pbrbm bcsc the BCSChild
      */
 
     protected void childJustRemovedHook(Object child, BCSChild bcsc) {
     }
 
     /**
-     * Gets the Component (if any) associated with the specified child.
-     * @param child the specified child
-     * @return the Component (if any) associated with the specified child.
+     * Gets the Component (if bny) bssocibted with the specified child.
+     * @pbrbm child the specified child
+     * @return the Component (if bny) bssocibted with the specified child.
      */
-    protected static final Visibility getChildVisibility(Object child) {
+    protected stbtic finbl Visibility getChildVisibility(Object child) {
         try {
             return (Visibility)child;
-        } catch (ClassCastException cce) {
+        } cbtch (ClbssCbstException cce) {
             return null;
         }
     }
 
     /**
-     * Gets the Serializable (if any) associated with the specified Child
-     * @param child the specified child
-     * @return the Serializable (if any) associated with the specified Child
+     * Gets the Seriblizbble (if bny) bssocibted with the specified Child
+     * @pbrbm child the specified child
+     * @return the Seriblizbble (if bny) bssocibted with the specified Child
      */
-    protected static final Serializable getChildSerializable(Object child) {
+    protected stbtic finbl Seriblizbble getChildSeriblizbble(Object child) {
         try {
-            return (Serializable)child;
-        } catch (ClassCastException cce) {
+            return (Seriblizbble)child;
+        } cbtch (ClbssCbstException cce) {
             return null;
         }
     }
 
     /**
-     * Gets the PropertyChangeListener
-     * (if any) of the specified child
-     * @param child the specified child
-     * @return the PropertyChangeListener (if any) of the specified child
+     * Gets the PropertyChbngeListener
+     * (if bny) of the specified child
+     * @pbrbm child the specified child
+     * @return the PropertyChbngeListener (if bny) of the specified child
      */
-    protected static final PropertyChangeListener getChildPropertyChangeListener(Object child) {
+    protected stbtic finbl PropertyChbngeListener getChildPropertyChbngeListener(Object child) {
         try {
-            return (PropertyChangeListener)child;
-        } catch (ClassCastException cce) {
+            return (PropertyChbngeListener)child;
+        } cbtch (ClbssCbstException cce) {
             return null;
         }
     }
 
     /**
-     * Gets the VetoableChangeListener
-     * (if any) of the specified child
-     * @param child the specified child
-     * @return the VetoableChangeListener (if any) of the specified child
+     * Gets the VetobbleChbngeListener
+     * (if bny) of the specified child
+     * @pbrbm child the specified child
+     * @return the VetobbleChbngeListener (if bny) of the specified child
      */
-    protected static final VetoableChangeListener getChildVetoableChangeListener(Object child) {
+    protected stbtic finbl VetobbleChbngeListener getChildVetobbleChbngeListener(Object child) {
         try {
-            return (VetoableChangeListener)child;
-        } catch (ClassCastException cce) {
+            return (VetobbleChbngeListener)child;
+        } cbtch (ClbssCbstException cce) {
             return null;
         }
     }
 
     /**
-     * Gets the BeanContextMembershipListener
-     * (if any) of the specified child
-     * @param child the specified child
-     * @return the BeanContextMembershipListener (if any) of the specified child
+     * Gets the BebnContextMembershipListener
+     * (if bny) of the specified child
+     * @pbrbm child the specified child
+     * @return the BebnContextMembershipListener (if bny) of the specified child
      */
-    protected static final BeanContextMembershipListener getChildBeanContextMembershipListener(Object child) {
+    protected stbtic finbl BebnContextMembershipListener getChildBebnContextMembershipListener(Object child) {
         try {
-            return (BeanContextMembershipListener)child;
-        } catch (ClassCastException cce) {
+            return (BebnContextMembershipListener)child;
+        } cbtch (ClbssCbstException cce) {
             return null;
         }
     }
 
     /**
-     * Gets the BeanContextChild (if any) of the specified child
-     * @param child the specified child
-     * @return  the BeanContextChild (if any) of the specified child
-     * @throws  IllegalArgumentException if child implements both BeanContextChild and BeanContextProxy
+     * Gets the BebnContextChild (if bny) of the specified child
+     * @pbrbm child the specified child
+     * @return  the BebnContextChild (if bny) of the specified child
+     * @throws  IllegblArgumentException if child implements both BebnContextChild bnd BebnContextProxy
      */
-    protected static final BeanContextChild getChildBeanContextChild(Object child) {
+    protected stbtic finbl BebnContextChild getChildBebnContextChild(Object child) {
         try {
-            BeanContextChild bcc = (BeanContextChild)child;
+            BebnContextChild bcc = (BebnContextChild)child;
 
-            if (child instanceof BeanContextChild && child instanceof BeanContextProxy)
-                throw new IllegalArgumentException("child cannot implement both BeanContextChild and BeanContextProxy");
+            if (child instbnceof BebnContextChild && child instbnceof BebnContextProxy)
+                throw new IllegblArgumentException("child cbnnot implement both BebnContextChild bnd BebnContextProxy");
             else
                 return bcc;
-        } catch (ClassCastException cce) {
+        } cbtch (ClbssCbstException cce) {
             try {
-                return ((BeanContextProxy)child).getBeanContextProxy();
-            } catch (ClassCastException cce1) {
+                return ((BebnContextProxy)child).getBebnContextProxy();
+            } cbtch (ClbssCbstException cce1) {
                 return null;
             }
         }
     }
 
     /**
-     * Fire a BeanContextshipEvent on the BeanContextMembershipListener interface
-     * @param bcme the event to fire
+     * Fire b BebnContextshipEvent on the BebnContextMembershipListener interfbce
+     * @pbrbm bcme the event to fire
      */
 
-    protected final void fireChildrenAdded(BeanContextMembershipEvent bcme) {
+    protected finbl void fireChildrenAdded(BebnContextMembershipEvent bcme) {
         Object[] copy;
 
-        synchronized(bcmListeners) { copy = bcmListeners.toArray(); }
+        synchronized(bcmListeners) { copy = bcmListeners.toArrby(); }
 
         for (int i = 0; i < copy.length; i++)
-            ((BeanContextMembershipListener)copy[i]).childrenAdded(bcme);
+            ((BebnContextMembershipListener)copy[i]).childrenAdded(bcme);
     }
 
     /**
-     * Fire a BeanContextshipEvent on the BeanContextMembershipListener interface
-     * @param bcme the event to fire
+     * Fire b BebnContextshipEvent on the BebnContextMembershipListener interfbce
+     * @pbrbm bcme the event to fire
      */
 
-    protected final void fireChildrenRemoved(BeanContextMembershipEvent bcme) {
+    protected finbl void fireChildrenRemoved(BebnContextMembershipEvent bcme) {
         Object[] copy;
 
-        synchronized(bcmListeners) { copy = bcmListeners.toArray(); }
+        synchronized(bcmListeners) { copy = bcmListeners.toArrby(); }
 
         for (int i = 0; i < copy.length; i++)
-            ((BeanContextMembershipListener)copy[i]).childrenRemoved(bcme);
+            ((BebnContextMembershipListener)copy[i]).childrenRemoved(bcme);
     }
 
     /**
-     * protected method called from constructor and readObject to initialize
-     * transient state of BeanContextSupport instance.
+     * protected method cblled from constructor bnd rebdObject to initiblize
+     * trbnsient stbte of BebnContextSupport instbnce.
      *
-     * This class uses this method to instantiate inner class listeners used
-     * to monitor PropertyChange and VetoableChange events on children.
+     * This clbss uses this method to instbntibte inner clbss listeners used
+     * to monitor PropertyChbnge bnd VetobbleChbnge events on children.
      *
-     * subclasses may envelope this method to add their own initialization
-     * behavior
+     * subclbsses mby envelope this method to bdd their own initiblizbtion
+     * behbvior
      */
 
-    protected synchronized void initialize() {
-        children     = new HashMap<>(serializable + 1);
-        bcmListeners = new ArrayList<>(1);
+    protected synchronized void initiblize() {
+        children     = new HbshMbp<>(seriblizbble + 1);
+        bcmListeners = new ArrbyList<>(1);
 
-        childPCL = new PropertyChangeListener() {
+        childPCL = new PropertyChbngeListener() {
 
             /*
-             * this adaptor is used by the BeanContextSupport class to forward
-             * property changes from a child to the BeanContext, avoiding
-             * accidential serialization of the BeanContext by a badly
-             * behaved Serializable child.
+             * this bdbptor is used by the BebnContextSupport clbss to forwbrd
+             * property chbnges from b child to the BebnContext, bvoiding
+             * bccidentibl seriblizbtion of the BebnContext by b bbdly
+             * behbved Seriblizbble child.
              */
 
-            public void propertyChange(PropertyChangeEvent pce) {
-                BeanContextSupport.this.propertyChange(pce);
+            public void propertyChbnge(PropertyChbngeEvent pce) {
+                BebnContextSupport.this.propertyChbnge(pce);
             }
         };
 
-        childVCL = new VetoableChangeListener() {
+        childVCL = new VetobbleChbngeListener() {
 
             /*
-             * this adaptor is used by the BeanContextSupport class to forward
-             * vetoable changes from a child to the BeanContext, avoiding
-             * accidential serialization of the BeanContext by a badly
-             * behaved Serializable child.
+             * this bdbptor is used by the BebnContextSupport clbss to forwbrd
+             * vetobble chbnges from b child to the BebnContext, bvoiding
+             * bccidentibl seriblizbtion of the BebnContext by b bbdly
+             * behbved Seriblizbble child.
              */
 
-            public void vetoableChange(PropertyChangeEvent pce) throws PropertyVetoException {
-                BeanContextSupport.this.vetoableChange(pce);
+            public void vetobbleChbnge(PropertyChbngeEvent pce) throws PropertyVetoException {
+                BebnContextSupport.this.vetobbleChbnge(pce);
              }
         };
     }
 
     /**
-     * Gets a copy of the this BeanContext's children.
-     * @return a copy of the current nested children
+     * Gets b copy of the this BebnContext's children.
+     * @return b copy of the current nested children
      */
-    protected final Object[] copyChildren() {
-        synchronized(children) { return children.keySet().toArray(); }
+    protected finbl Object[] copyChildren() {
+        synchronized(children) { return children.keySet().toArrby(); }
     }
 
     /**
-     * Tests to see if two class objects,
-     * or their names are equal.
-     * @param first the first object
-     * @param second the second object
-     * @return true if equal, false if not
+     * Tests to see if two clbss objects,
+     * or their nbmes bre equbl.
+     * @pbrbm first the first object
+     * @pbrbm second the second object
+     * @return true if equbl, fblse if not
      */
-    protected static final boolean classEquals(Class<?> first, Class<?> second) {
-        return first.equals(second) || first.getName().equals(second.getName());
+    protected stbtic finbl boolebn clbssEqubls(Clbss<?> first, Clbss<?> second) {
+        return first.equbls(second) || first.getNbme().equbls(second.getNbme());
     }
 
 
@@ -1375,46 +1375,46 @@ public class      BeanContextSupport extends BeanContextChildSupport
 
 
     /**
-     * all accesses to the <code> protected HashMap children </code> field
-     * shall be synchronized on that object.
+     * bll bccesses to the <code> protected HbshMbp children </code> field
+     * shbll be synchronized on thbt object.
      */
-    protected transient HashMap<Object, BCSChild>         children;
+    protected trbnsient HbshMbp<Object, BCSChild>         children;
 
-    private             int             serializable  = 0; // children serializable
+    privbte             int             seriblizbble  = 0; // children seriblizbble
 
     /**
-     * all accesses to the <code> protected ArrayList bcmListeners </code> field
-     * shall be synchronized on that object.
+     * bll bccesses to the <code> protected ArrbyList bcmListeners </code> field
+     * shbll be synchronized on thbt object.
      */
-    protected transient ArrayList<BeanContextMembershipListener> bcmListeners;
+    protected trbnsient ArrbyList<BebnContextMembershipListener> bcmListeners;
 
     //
 
     /**
-     * The current locale of this BeanContext.
+     * The current locble of this BebnContext.
      */
-    protected           Locale          locale;
+    protected           Locble          locble;
 
     /**
-     * A <tt>boolean</tt> indicating if this
-     * instance may now render a GUI.
+     * A <tt>boolebn</tt> indicbting if this
+     * instbnce mby now render b GUI.
      */
-    protected           boolean         okToUseGui;
+    protected           boolebn         okToUseGui;
 
 
     /**
-     * A <tt>boolean</tt> indicating whether or not
+     * A <tt>boolebn</tt> indicbting whether or not
      * this object is currently in design time mode.
      */
-    protected           boolean         designTime;
+    protected           boolebn         designTime;
 
     /*
-     * transient
+     * trbnsient
      */
 
-    private transient PropertyChangeListener childPCL;
+    privbte trbnsient PropertyChbngeListener childPCL;
 
-    private transient VetoableChangeListener childVCL;
+    privbte trbnsient VetobbleChbngeListener childVCL;
 
-    private transient boolean                serializing;
+    privbte trbnsient boolebn                seriblizing;
 }

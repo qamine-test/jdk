@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import com.sun.beans.TypeResolver;
-import com.sun.beans.WeakCache;
-import com.sun.beans.finder.ClassFinder;
-import com.sun.beans.introspect.ClassInfo;
-import com.sun.beans.introspect.EventSetInfo;
-import com.sun.beans.introspect.PropertyInfo;
+import com.sun.bebns.TypeResolver;
+import com.sun.bebns.WebkCbche;
+import com.sun.bebns.finder.ClbssFinder;
+import com.sun.bebns.introspect.ClbssInfo;
+import com.sun.bebns.introspect.EventSetInfo;
+import com.sun.bebns.introspect.PropertyInfo;
 
-import java.awt.Component;
+import jbvb.bwt.Component;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Type;
 
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.EventObject;
-import java.util.List;
-import java.util.TreeMap;
+import jbvb.util.Mbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.EventObject;
+import jbvb.util.List;
+import jbvb.util.TreeMbp;
 
-import sun.misc.SharedSecrets;
+import sun.misc.ShbredSecrets;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * The Introspector class provides a standard way for tools to learn about
- * the properties, events, and methods supported by a target Java Bean.
+ * The Introspector clbss provides b stbndbrd wby for tools to lebrn bbout
+ * the properties, events, bnd methods supported by b tbrget Jbvb Bebn.
  * <p>
- * For each of those three kinds of information, the Introspector will
- * separately analyze the bean's class and superclasses looking for
- * either explicit or implicit information and use that information to
- * build a BeanInfo object that comprehensively describes the target bean.
+ * For ebch of those three kinds of informbtion, the Introspector will
+ * sepbrbtely bnblyze the bebn's clbss bnd superclbsses looking for
+ * either explicit or implicit informbtion bnd use thbt informbtion to
+ * build b BebnInfo object thbt comprehensively describes the tbrget bebn.
  * <p>
- * For each class "Foo", explicit information may be available if there exists
- * a corresponding "FooBeanInfo" class that provides a non-null value when
- * queried for the information.   We first look for the BeanInfo class by
- * taking the full package-qualified name of the target bean class and
- * appending "BeanInfo" to form a new class name.  If this fails, then
- * we take the final classname component of this name, and look for that
- * class in each of the packages specified in the BeanInfo package search
- * path.
+ * For ebch clbss "Foo", explicit informbtion mby be bvbilbble if there exists
+ * b corresponding "FooBebnInfo" clbss thbt provides b non-null vblue when
+ * queried for the informbtion.   We first look for the BebnInfo clbss by
+ * tbking the full pbckbge-qublified nbme of the tbrget bebn clbss bnd
+ * bppending "BebnInfo" to form b new clbss nbme.  If this fbils, then
+ * we tbke the finbl clbssnbme component of this nbme, bnd look for thbt
+ * clbss in ebch of the pbckbges specified in the BebnInfo pbckbge sebrch
+ * pbth.
  * <p>
- * Thus for a class such as "sun.xyz.OurButton" we would first look for a
- * BeanInfo class called "sun.xyz.OurButtonBeanInfo" and if that failed we'd
- * look in each package in the BeanInfo search path for an OurButtonBeanInfo
- * class.  With the default search path, this would mean looking for
- * "sun.beans.infos.OurButtonBeanInfo".
+ * Thus for b clbss such bs "sun.xyz.OurButton" we would first look for b
+ * BebnInfo clbss cblled "sun.xyz.OurButtonBebnInfo" bnd if thbt fbiled we'd
+ * look in ebch pbckbge in the BebnInfo sebrch pbth for bn OurButtonBebnInfo
+ * clbss.  With the defbult sebrch pbth, this would mebn looking for
+ * "sun.bebns.infos.OurButtonBebnInfo".
  * <p>
- * If a class provides explicit BeanInfo about itself then we add that to
- * the BeanInfo information we obtained from analyzing any derived classes,
- * but we regard the explicit information as being definitive for the current
- * class and its base classes, and do not proceed any further up the superclass
- * chain.
+ * If b clbss provides explicit BebnInfo bbout itself then we bdd thbt to
+ * the BebnInfo informbtion we obtbined from bnblyzing bny derived clbsses,
+ * but we regbrd the explicit informbtion bs being definitive for the current
+ * clbss bnd its bbse clbsses, bnd do not proceed bny further up the superclbss
+ * chbin.
  * <p>
- * If we don't find explicit BeanInfo on a class, we use low-level
- * reflection to study the methods of the class and apply standard design
- * patterns to identify property accessors, event sources, or public
- * methods.  We then proceed to analyze the class's superclass and add
- * in the information from it (and possibly on up the superclass chain).
+ * If we don't find explicit BebnInfo on b clbss, we use low-level
+ * reflection to study the methods of the clbss bnd bpply stbndbrd design
+ * pbtterns to identify property bccessors, event sources, or public
+ * methods.  We then proceed to bnblyze the clbss's superclbss bnd bdd
+ * in the informbtion from it (bnd possibly on up the superclbss chbin).
  * <p>
- * For more information about introspection and design patterns, please
+ * For more informbtion bbout introspection bnd design pbtterns, plebse
  * consult the
- *  <a href="http://www.oracle.com/technetwork/java/javase/documentation/spec-136004.html">JavaBeans&trade; specification</a>.
+ *  <b href="http://www.orbcle.com/technetwork/jbvb/jbvbse/documentbtion/spec-136004.html">JbvbBebns&trbde; specificbtion</b>.
  *
  * @since 1.1
  */
 
-public class Introspector {
+public clbss Introspector {
 
-    // Flags that can be used to control getBeanInfo:
+    // Flbgs thbt cbn be used to control getBebnInfo:
     /**
-     * Flag to indicate to use of all beaninfo.
+     * Flbg to indicbte to use of bll bebninfo.
      * @since 1.2
      */
-    public final static int USE_ALL_BEANINFO           = 1;
+    public finbl stbtic int USE_ALL_BEANINFO           = 1;
     /**
-     * Flag to indicate to ignore immediate beaninfo.
+     * Flbg to indicbte to ignore immedibte bebninfo.
      * @since 1.2
      */
-    public final static int IGNORE_IMMEDIATE_BEANINFO  = 2;
+    public finbl stbtic int IGNORE_IMMEDIATE_BEANINFO  = 2;
     /**
-     * Flag to indicate to ignore all beaninfo.
+     * Flbg to indicbte to ignore bll bebninfo.
      * @since 1.2
      */
-    public final static int IGNORE_ALL_BEANINFO        = 3;
+    public finbl stbtic int IGNORE_ALL_BEANINFO        = 3;
 
-    // Static Caches to speed up introspection.
-    private static final WeakCache<Class<?>, Method[]> declaredMethodCache = new WeakCache<>();
+    // Stbtic Cbches to speed up introspection.
+    privbte stbtic finbl WebkCbche<Clbss<?>, Method[]> declbredMethodCbche = new WebkCbche<>();
 
-    private Class<?> beanClass;
-    private BeanInfo explicitBeanInfo;
-    private BeanInfo superBeanInfo;
-    private BeanInfo additionalBeanInfo[];
+    privbte Clbss<?> bebnClbss;
+    privbte BebnInfo explicitBebnInfo;
+    privbte BebnInfo superBebnInfo;
+    privbte BebnInfo bdditionblBebnInfo[];
 
-    private boolean propertyChangeSource = false;
+    privbte boolebn propertyChbngeSource = fblse;
 
     // These should be removed.
-    private String defaultEventName;
-    private String defaultPropertyName;
-    private int defaultEventIndex = -1;
-    private int defaultPropertyIndex = -1;
+    privbte String defbultEventNbme;
+    privbte String defbultPropertyNbme;
+    privbte int defbultEventIndex = -1;
+    privbte int defbultPropertyIndex = -1;
 
-    // Methods maps from Method names to MethodDescriptors
-    private Map<String, MethodDescriptor> methods;
+    // Methods mbps from Method nbmes to MethodDescriptors
+    privbte Mbp<String, MethodDescriptor> methods;
 
-    // properties maps from String names to PropertyDescriptors
-    private Map<String, PropertyDescriptor> properties;
+    // properties mbps from String nbmes to PropertyDescriptors
+    privbte Mbp<String, PropertyDescriptor> properties;
 
-    // events maps from String names to EventSetDescriptors
-    private Map<String, EventSetDescriptor> events;
+    // events mbps from String nbmes to EventSetDescriptors
+    privbte Mbp<String, EventSetDescriptor> events;
 
-    private final static EventSetDescriptor[] EMPTY_EVENTSETDESCRIPTORS = new EventSetDescriptor[0];
+    privbte finbl stbtic EventSetDescriptor[] EMPTY_EVENTSETDESCRIPTORS = new EventSetDescriptor[0];
 
-    static final String ADD_PREFIX = "add";
-    static final String REMOVE_PREFIX = "remove";
-    static final String GET_PREFIX = "get";
-    static final String SET_PREFIX = "set";
-    static final String IS_PREFIX = "is";
+    stbtic finbl String ADD_PREFIX = "bdd";
+    stbtic finbl String REMOVE_PREFIX = "remove";
+    stbtic finbl String GET_PREFIX = "get";
+    stbtic finbl String SET_PREFIX = "set";
+    stbtic finbl String IS_PREFIX = "is";
 
-    // register with SharedSecrets for JMX usage
-    static {
-        SharedSecrets.setJavaBeansIntrospectorAccess((clazz, property) -> {
-            BeanInfo bi = Introspector.getBeanInfo(clazz);
+    // register with ShbredSecrets for JMX usbge
+    stbtic {
+        ShbredSecrets.setJbvbBebnsIntrospectorAccess((clbzz, property) -> {
+            BebnInfo bi = Introspector.getBebnInfo(clbzz);
             PropertyDescriptor[] pds = bi.getPropertyDescriptors();
             for (PropertyDescriptor pd: pds) {
-                if (pd.getName().equals(property)) {
-                    return pd.getReadMethod();
+                if (pd.getNbme().equbls(property)) {
+                    return pd.getRebdMethod();
                 }
             }
             return null;
@@ -163,433 +163,433 @@ public class Introspector {
     //======================================================================
 
     /**
-     * Introspect on a Java Bean and learn about all its properties, exposed
-     * methods, and events.
+     * Introspect on b Jbvb Bebn bnd lebrn bbout bll its properties, exposed
+     * methods, bnd events.
      * <p>
-     * If the BeanInfo class for a Java Bean has been previously Introspected
-     * then the BeanInfo class is retrieved from the BeanInfo cache.
+     * If the BebnInfo clbss for b Jbvb Bebn hbs been previously Introspected
+     * then the BebnInfo clbss is retrieved from the BebnInfo cbche.
      *
-     * @param beanClass  The bean class to be analyzed.
-     * @return  A BeanInfo object describing the target bean.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm bebnClbss  The bebn clbss to be bnblyzed.
+     * @return  A BebnInfo object describing the tbrget bebn.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
-     * @see #flushCaches
-     * @see #flushFromCaches
+     * @see #flushCbches
+     * @see #flushFromCbches
      */
-    public static BeanInfo getBeanInfo(Class<?> beanClass)
+    public stbtic BebnInfo getBebnInfo(Clbss<?> bebnClbss)
         throws IntrospectionException
     {
-        if (!ReflectUtil.isPackageAccessible(beanClass)) {
-            return (new Introspector(beanClass, null, USE_ALL_BEANINFO)).getBeanInfo();
+        if (!ReflectUtil.isPbckbgeAccessible(bebnClbss)) {
+            return (new Introspector(bebnClbss, null, USE_ALL_BEANINFO)).getBebnInfo();
         }
-        ThreadGroupContext context = ThreadGroupContext.getContext();
-        BeanInfo beanInfo;
-        synchronized (declaredMethodCache) {
-            beanInfo = context.getBeanInfo(beanClass);
+        ThrebdGroupContext context = ThrebdGroupContext.getContext();
+        BebnInfo bebnInfo;
+        synchronized (declbredMethodCbche) {
+            bebnInfo = context.getBebnInfo(bebnClbss);
         }
-        if (beanInfo == null) {
-            beanInfo = new Introspector(beanClass, null, USE_ALL_BEANINFO).getBeanInfo();
-            synchronized (declaredMethodCache) {
-                context.putBeanInfo(beanClass, beanInfo);
+        if (bebnInfo == null) {
+            bebnInfo = new Introspector(bebnClbss, null, USE_ALL_BEANINFO).getBebnInfo();
+            synchronized (declbredMethodCbche) {
+                context.putBebnInfo(bebnClbss, bebnInfo);
             }
         }
-        return beanInfo;
+        return bebnInfo;
     }
 
     /**
-     * Introspect on a Java bean and learn about all its properties, exposed
-     * methods, and events, subject to some control flags.
+     * Introspect on b Jbvb bebn bnd lebrn bbout bll its properties, exposed
+     * methods, bnd events, subject to some control flbgs.
      * <p>
-     * If the BeanInfo class for a Java Bean has been previously Introspected
-     * based on the same arguments then the BeanInfo class is retrieved
-     * from the BeanInfo cache.
+     * If the BebnInfo clbss for b Jbvb Bebn hbs been previously Introspected
+     * bbsed on the sbme brguments then the BebnInfo clbss is retrieved
+     * from the BebnInfo cbche.
      *
-     * @param beanClass  The bean class to be analyzed.
-     * @param flags  Flags to control the introspection.
-     *     If flags == USE_ALL_BEANINFO then we use all of the BeanInfo
-     *          classes we can discover.
-     *     If flags == IGNORE_IMMEDIATE_BEANINFO then we ignore any
-     *           BeanInfo associated with the specified beanClass.
-     *     If flags == IGNORE_ALL_BEANINFO then we ignore all BeanInfo
-     *           associated with the specified beanClass or any of its
-     *           parent classes.
-     * @return  A BeanInfo object describing the target bean.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm bebnClbss  The bebn clbss to be bnblyzed.
+     * @pbrbm flbgs  Flbgs to control the introspection.
+     *     If flbgs == USE_ALL_BEANINFO then we use bll of the BebnInfo
+     *          clbsses we cbn discover.
+     *     If flbgs == IGNORE_IMMEDIATE_BEANINFO then we ignore bny
+     *           BebnInfo bssocibted with the specified bebnClbss.
+     *     If flbgs == IGNORE_ALL_BEANINFO then we ignore bll BebnInfo
+     *           bssocibted with the specified bebnClbss or bny of its
+     *           pbrent clbsses.
+     * @return  A BebnInfo object describing the tbrget bebn.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      * @since 1.2
      */
-    public static BeanInfo getBeanInfo(Class<?> beanClass, int flags)
+    public stbtic BebnInfo getBebnInfo(Clbss<?> bebnClbss, int flbgs)
                                                 throws IntrospectionException {
-        return getBeanInfo(beanClass, null, flags);
+        return getBebnInfo(bebnClbss, null, flbgs);
     }
 
     /**
-     * Introspect on a Java bean and learn all about its properties, exposed
-     * methods, below a given "stop" point.
+     * Introspect on b Jbvb bebn bnd lebrn bll bbout its properties, exposed
+     * methods, below b given "stop" point.
      * <p>
-     * If the BeanInfo class for a Java Bean has been previously Introspected
-     * based on the same arguments, then the BeanInfo class is retrieved
-     * from the BeanInfo cache.
-     * @return the BeanInfo for the bean
-     * @param beanClass The bean class to be analyzed.
-     * @param stopClass The baseclass at which to stop the analysis.  Any
-     *    methods/properties/events in the stopClass or in its baseclasses
-     *    will be ignored in the analysis.
-     * @exception IntrospectionException if an exception occurs during
+     * If the BebnInfo clbss for b Jbvb Bebn hbs been previously Introspected
+     * bbsed on the sbme brguments, then the BebnInfo clbss is retrieved
+     * from the BebnInfo cbche.
+     * @return the BebnInfo for the bebn
+     * @pbrbm bebnClbss The bebn clbss to be bnblyzed.
+     * @pbrbm stopClbss The bbseclbss bt which to stop the bnblysis.  Any
+     *    methods/properties/events in the stopClbss or in its bbseclbsses
+     *    will be ignored in the bnblysis.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      */
-    public static BeanInfo getBeanInfo(Class<?> beanClass, Class<?> stopClass)
+    public stbtic BebnInfo getBebnInfo(Clbss<?> bebnClbss, Clbss<?> stopClbss)
                                                 throws IntrospectionException {
-        return getBeanInfo(beanClass, stopClass, USE_ALL_BEANINFO);
+        return getBebnInfo(bebnClbss, stopClbss, USE_ALL_BEANINFO);
     }
 
     /**
-     * Introspect on a Java Bean and learn about all its properties,
-     * exposed methods and events, below a given {@code stopClass} point
-     * subject to some control {@code flags}.
+     * Introspect on b Jbvb Bebn bnd lebrn bbout bll its properties,
+     * exposed methods bnd events, below b given {@code stopClbss} point
+     * subject to some control {@code flbgs}.
      * <dl>
      *  <dt>USE_ALL_BEANINFO</dt>
-     *  <dd>Any BeanInfo that can be discovered will be used.</dd>
+     *  <dd>Any BebnInfo thbt cbn be discovered will be used.</dd>
      *  <dt>IGNORE_IMMEDIATE_BEANINFO</dt>
-     *  <dd>Any BeanInfo associated with the specified {@code beanClass} will be ignored.</dd>
+     *  <dd>Any BebnInfo bssocibted with the specified {@code bebnClbss} will be ignored.</dd>
      *  <dt>IGNORE_ALL_BEANINFO</dt>
-     *  <dd>Any BeanInfo associated with the specified {@code beanClass}
-     *      or any of its parent classes will be ignored.</dd>
+     *  <dd>Any BebnInfo bssocibted with the specified {@code bebnClbss}
+     *      or bny of its pbrent clbsses will be ignored.</dd>
      * </dl>
-     * Any methods/properties/events in the {@code stopClass}
-     * or in its parent classes will be ignored in the analysis.
+     * Any methods/properties/events in the {@code stopClbss}
+     * or in its pbrent clbsses will be ignored in the bnblysis.
      * <p>
-     * If the BeanInfo class for a Java Bean has been
-     * previously introspected based on the same arguments then
-     * the BeanInfo class is retrieved from the BeanInfo cache.
+     * If the BebnInfo clbss for b Jbvb Bebn hbs been
+     * previously introspected bbsed on the sbme brguments then
+     * the BebnInfo clbss is retrieved from the BebnInfo cbche.
      *
-     * @param beanClass  the bean class to be analyzed
-     * @param stopClass  the parent class at which to stop the analysis
-     * @param flags      flags to control the introspection
-     * @return a BeanInfo object describing the target bean
-     * @exception IntrospectionException if an exception occurs during introspection
+     * @pbrbm bebnClbss  the bebn clbss to be bnblyzed
+     * @pbrbm stopClbss  the pbrent clbss bt which to stop the bnblysis
+     * @pbrbm flbgs      flbgs to control the introspection
+     * @return b BebnInfo object describing the tbrget bebn
+     * @exception IntrospectionException if bn exception occurs during introspection
      *
      * @since 1.7
      */
-    public static BeanInfo getBeanInfo(Class<?> beanClass, Class<?> stopClass,
-                                        int flags) throws IntrospectionException {
-        BeanInfo bi;
-        if (stopClass == null && flags == USE_ALL_BEANINFO) {
-            // Same parameters to take advantage of caching.
-            bi = getBeanInfo(beanClass);
+    public stbtic BebnInfo getBebnInfo(Clbss<?> bebnClbss, Clbss<?> stopClbss,
+                                        int flbgs) throws IntrospectionException {
+        BebnInfo bi;
+        if (stopClbss == null && flbgs == USE_ALL_BEANINFO) {
+            // Sbme pbrbmeters to tbke bdvbntbge of cbching.
+            bi = getBebnInfo(bebnClbss);
         } else {
-            bi = (new Introspector(beanClass, stopClass, flags)).getBeanInfo();
+            bi = (new Introspector(bebnClbss, stopClbss, flbgs)).getBebnInfo();
         }
         return bi;
 
-        // Old behaviour: Make an independent copy of the BeanInfo.
-        //return new GenericBeanInfo(bi);
+        // Old behbviour: Mbke bn independent copy of the BebnInfo.
+        //return new GenericBebnInfo(bi);
     }
 
 
     /**
-     * Utility method to take a string and convert it to normal Java variable
-     * name capitalization.  This normally means converting the first
-     * character from upper case to lower case, but in the (unusual) special
-     * case when there is more than one character and both the first and
-     * second characters are upper case, we leave it alone.
+     * Utility method to tbke b string bnd convert it to normbl Jbvb vbribble
+     * nbme cbpitblizbtion.  This normblly mebns converting the first
+     * chbrbcter from upper cbse to lower cbse, but in the (unusubl) specibl
+     * cbse when there is more thbn one chbrbcter bnd both the first bnd
+     * second chbrbcters bre upper cbse, we lebve it blone.
      * <p>
-     * Thus "FooBah" becomes "fooBah" and "X" becomes "x", but "URL" stays
-     * as "URL".
+     * Thus "FooBbh" becomes "fooBbh" bnd "X" becomes "x", but "URL" stbys
+     * bs "URL".
      *
-     * @param  name The string to be decapitalized.
-     * @return  The decapitalized version of the string.
+     * @pbrbm  nbme The string to be decbpitblized.
+     * @return  The decbpitblized version of the string.
      */
-    public static String decapitalize(String name) {
-        if (name == null || name.length() == 0) {
-            return name;
+    public stbtic String decbpitblize(String nbme) {
+        if (nbme == null || nbme.length() == 0) {
+            return nbme;
         }
-        if (name.length() > 1 && Character.isUpperCase(name.charAt(1)) &&
-                        Character.isUpperCase(name.charAt(0))){
-            return name;
+        if (nbme.length() > 1 && Chbrbcter.isUpperCbse(nbme.chbrAt(1)) &&
+                        Chbrbcter.isUpperCbse(nbme.chbrAt(0))){
+            return nbme;
         }
-        char chars[] = name.toCharArray();
-        chars[0] = Character.toLowerCase(chars[0]);
-        return new String(chars);
+        chbr chbrs[] = nbme.toChbrArrby();
+        chbrs[0] = Chbrbcter.toLowerCbse(chbrs[0]);
+        return new String(chbrs);
     }
 
     /**
-     * Gets the list of package names that will be used for
-     *          finding BeanInfo classes.
+     * Gets the list of pbckbge nbmes thbt will be used for
+     *          finding BebnInfo clbsses.
      *
-     * @return  The array of package names that will be searched in
-     *          order to find BeanInfo classes. The default value
-     *          for this array is implementation-dependent; e.g.
-     *          Sun implementation initially sets to {"sun.beans.infos"}.
+     * @return  The brrby of pbckbge nbmes thbt will be sebrched in
+     *          order to find BebnInfo clbsses. The defbult vblue
+     *          for this brrby is implementbtion-dependent; e.g.
+     *          Sun implementbtion initiblly sets to {"sun.bebns.infos"}.
      */
 
-    public static String[] getBeanInfoSearchPath() {
-        return ThreadGroupContext.getContext().getBeanInfoFinder().getPackages();
+    public stbtic String[] getBebnInfoSebrchPbth() {
+        return ThrebdGroupContext.getContext().getBebnInfoFinder().getPbckbges();
     }
 
     /**
-     * Change the list of package names that will be used for
-     *          finding BeanInfo classes.  The behaviour of
-     *          this method is undefined if parameter path
+     * Chbnge the list of pbckbge nbmes thbt will be used for
+     *          finding BebnInfo clbsses.  The behbviour of
+     *          this method is undefined if pbrbmeter pbth
      *          is null.
      *
-     * <p>First, if there is a security manager, its <code>checkPropertiesAccess</code>
-     * method is called. This could result in a SecurityException.
+     * <p>First, if there is b security mbnbger, its <code>checkPropertiesAccess</code>
+     * method is cblled. This could result in b SecurityException.
      *
-     * @param path  Array of package names.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow setting
+     * @pbrbm pbth  Arrby of pbckbge nbmes.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             <code>checkPropertiesAccess</code> method doesn't bllow setting
      *              of system properties.
-     * @see SecurityManager#checkPropertiesAccess
+     * @see SecurityMbnbger#checkPropertiesAccess
      */
 
-    public static void setBeanInfoSearchPath(String[] path) {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic void setBebnInfoSebrchPbth(String[] pbth) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertiesAccess();
         }
-        ThreadGroupContext.getContext().getBeanInfoFinder().setPackages(path);
+        ThrebdGroupContext.getContext().getBebnInfoFinder().setPbckbges(pbth);
     }
 
 
     /**
-     * Flush all of the Introspector's internal caches.  This method is
-     * not normally required.  It is normally only needed by advanced
-     * tools that update existing "Class" objects in-place and need
-     * to make the Introspector re-analyze existing Class objects.
+     * Flush bll of the Introspector's internbl cbches.  This method is
+     * not normblly required.  It is normblly only needed by bdvbnced
+     * tools thbt updbte existing "Clbss" objects in-plbce bnd need
+     * to mbke the Introspector re-bnblyze existing Clbss objects.
      *
      * @since 1.2
      */
 
-    public static void flushCaches() {
-        synchronized (declaredMethodCache) {
-            ThreadGroupContext.getContext().clearBeanInfoCache();
-            declaredMethodCache.clear();
+    public stbtic void flushCbches() {
+        synchronized (declbredMethodCbche) {
+            ThrebdGroupContext.getContext().clebrBebnInfoCbche();
+            declbredMethodCbche.clebr();
         }
     }
 
     /**
-     * Flush the Introspector's internal cached information for a given class.
-     * This method is not normally required.  It is normally only needed
-     * by advanced tools that update existing "Class" objects in-place
-     * and need to make the Introspector re-analyze an existing Class object.
+     * Flush the Introspector's internbl cbched informbtion for b given clbss.
+     * This method is not normblly required.  It is normblly only needed
+     * by bdvbnced tools thbt updbte existing "Clbss" objects in-plbce
+     * bnd need to mbke the Introspector re-bnblyze bn existing Clbss object.
      *
-     * Note that only the direct state associated with the target Class
-     * object is flushed.  We do not flush state for other Class objects
-     * with the same name, nor do we flush state for any related Class
-     * objects (such as subclasses), even though their state may include
-     * information indirectly obtained from the target Class object.
+     * Note thbt only the direct stbte bssocibted with the tbrget Clbss
+     * object is flushed.  We do not flush stbte for other Clbss objects
+     * with the sbme nbme, nor do we flush stbte for bny relbted Clbss
+     * objects (such bs subclbsses), even though their stbte mby include
+     * informbtion indirectly obtbined from the tbrget Clbss object.
      *
-     * @param clz  Class object to be flushed.
-     * @throws NullPointerException If the Class object is null.
+     * @pbrbm clz  Clbss object to be flushed.
+     * @throws NullPointerException If the Clbss object is null.
      * @since 1.2
      */
-    public static void flushFromCaches(Class<?> clz) {
+    public stbtic void flushFromCbches(Clbss<?> clz) {
         if (clz == null) {
             throw new NullPointerException();
         }
-        synchronized (declaredMethodCache) {
-            ThreadGroupContext.getContext().removeBeanInfo(clz);
-            declaredMethodCache.put(clz, null);
+        synchronized (declbredMethodCbche) {
+            ThrebdGroupContext.getContext().removeBebnInfo(clz);
+            declbredMethodCbche.put(clz, null);
         }
     }
 
     //======================================================================
-    //                  Private implementation methods
+    //                  Privbte implementbtion methods
     //======================================================================
 
-    private Introspector(Class<?> beanClass, Class<?> stopClass, int flags)
+    privbte Introspector(Clbss<?> bebnClbss, Clbss<?> stopClbss, int flbgs)
                                             throws IntrospectionException {
-        this.beanClass = beanClass;
+        this.bebnClbss = bebnClbss;
 
-        // Check stopClass is a superClass of startClass.
-        if (stopClass != null) {
-            boolean isSuper = false;
-            for (Class<?> c = beanClass.getSuperclass(); c != null; c = c.getSuperclass()) {
-                if (c == stopClass) {
+        // Check stopClbss is b superClbss of stbrtClbss.
+        if (stopClbss != null) {
+            boolebn isSuper = fblse;
+            for (Clbss<?> c = bebnClbss.getSuperclbss(); c != null; c = c.getSuperclbss()) {
+                if (c == stopClbss) {
                     isSuper = true;
                 }
             }
             if (!isSuper) {
-                throw new IntrospectionException(stopClass.getName() + " not superclass of " +
-                                        beanClass.getName());
+                throw new IntrospectionException(stopClbss.getNbme() + " not superclbss of " +
+                                        bebnClbss.getNbme());
             }
         }
 
-        if (flags == USE_ALL_BEANINFO) {
-            explicitBeanInfo = findExplicitBeanInfo(beanClass);
+        if (flbgs == USE_ALL_BEANINFO) {
+            explicitBebnInfo = findExplicitBebnInfo(bebnClbss);
         }
 
-        Class<?> superClass = beanClass.getSuperclass();
-        if (superClass != stopClass) {
-            int newFlags = flags;
-            if (newFlags == IGNORE_IMMEDIATE_BEANINFO) {
-                newFlags = USE_ALL_BEANINFO;
+        Clbss<?> superClbss = bebnClbss.getSuperclbss();
+        if (superClbss != stopClbss) {
+            int newFlbgs = flbgs;
+            if (newFlbgs == IGNORE_IMMEDIATE_BEANINFO) {
+                newFlbgs = USE_ALL_BEANINFO;
             }
-            superBeanInfo = getBeanInfo(superClass, stopClass, newFlags);
+            superBebnInfo = getBebnInfo(superClbss, stopClbss, newFlbgs);
         }
-        if (explicitBeanInfo != null) {
-            additionalBeanInfo = explicitBeanInfo.getAdditionalBeanInfo();
+        if (explicitBebnInfo != null) {
+            bdditionblBebnInfo = explicitBebnInfo.getAdditionblBebnInfo();
         }
-        if (additionalBeanInfo == null) {
-            additionalBeanInfo = new BeanInfo[0];
+        if (bdditionblBebnInfo == null) {
+            bdditionblBebnInfo = new BebnInfo[0];
         }
     }
 
     /**
-     * Constructs a GenericBeanInfo class from the state of the Introspector
+     * Constructs b GenericBebnInfo clbss from the stbte of the Introspector
      */
-    private BeanInfo getBeanInfo() throws IntrospectionException {
+    privbte BebnInfo getBebnInfo() throws IntrospectionException {
 
-        // the evaluation order here is import, as we evaluate the
-        // event sets and locate PropertyChangeListeners before we
+        // the evblubtion order here is import, bs we evblubte the
+        // event sets bnd locbte PropertyChbngeListeners before we
         // look for properties.
-        BeanDescriptor bd = getTargetBeanDescriptor();
-        MethodDescriptor mds[] = getTargetMethodInfo();
-        EventSetDescriptor esds[] = getTargetEventInfo();
-        PropertyDescriptor pds[] = getTargetPropertyInfo();
+        BebnDescriptor bd = getTbrgetBebnDescriptor();
+        MethodDescriptor mds[] = getTbrgetMethodInfo();
+        EventSetDescriptor esds[] = getTbrgetEventInfo();
+        PropertyDescriptor pds[] = getTbrgetPropertyInfo();
 
-        int defaultEvent = getTargetDefaultEventIndex();
-        int defaultProperty = getTargetDefaultPropertyIndex();
+        int defbultEvent = getTbrgetDefbultEventIndex();
+        int defbultProperty = getTbrgetDefbultPropertyIndex();
 
-        return new GenericBeanInfo(bd, esds, defaultEvent, pds,
-                        defaultProperty, mds, explicitBeanInfo);
+        return new GenericBebnInfo(bd, esds, defbultEvent, pds,
+                        defbultProperty, mds, explicitBebnInfo);
 
     }
 
     /**
-     * Looks for an explicit BeanInfo class that corresponds to the Class.
-     * First it looks in the existing package that the Class is defined in,
-     * then it checks to see if the class is its own BeanInfo. Finally,
-     * the BeanInfo search path is prepended to the class and searched.
+     * Looks for bn explicit BebnInfo clbss thbt corresponds to the Clbss.
+     * First it looks in the existing pbckbge thbt the Clbss is defined in,
+     * then it checks to see if the clbss is its own BebnInfo. Finblly,
+     * the BebnInfo sebrch pbth is prepended to the clbss bnd sebrched.
      *
-     * @param beanClass  the class type of the bean
-     * @return Instance of an explicit BeanInfo class or null if one isn't found.
+     * @pbrbm bebnClbss  the clbss type of the bebn
+     * @return Instbnce of bn explicit BebnInfo clbss or null if one isn't found.
      */
-    private static BeanInfo findExplicitBeanInfo(Class<?> beanClass) {
-        return ThreadGroupContext.getContext().getBeanInfoFinder().find(beanClass);
+    privbte stbtic BebnInfo findExplicitBebnInfo(Clbss<?> bebnClbss) {
+        return ThrebdGroupContext.getContext().getBebnInfoFinder().find(bebnClbss);
     }
 
     /**
-     * @return An array of PropertyDescriptors describing the editable
-     * properties supported by the target bean.
+     * @return An brrby of PropertyDescriptors describing the editbble
+     * properties supported by the tbrget bebn.
      */
 
-    private PropertyDescriptor[] getTargetPropertyInfo() {
+    privbte PropertyDescriptor[] getTbrgetPropertyInfo() {
 
-        // Check if the bean has its own BeanInfo that will provide
-        // explicit information.
+        // Check if the bebn hbs its own BebnInfo thbt will provide
+        // explicit informbtion.
         PropertyDescriptor[] explicitProperties = null;
-        if (explicitBeanInfo != null) {
-            explicitProperties = getPropertyDescriptors(this.explicitBeanInfo);
+        if (explicitBebnInfo != null) {
+            explicitProperties = getPropertyDescriptors(this.explicitBebnInfo);
         }
 
-        if (explicitProperties == null && superBeanInfo != null) {
-            // We have no explicit BeanInfo properties.  Check with our parent.
-            addPropertyDescriptors(getPropertyDescriptors(this.superBeanInfo));
+        if (explicitProperties == null && superBebnInfo != null) {
+            // We hbve no explicit BebnInfo properties.  Check with our pbrent.
+            bddPropertyDescriptors(getPropertyDescriptors(this.superBebnInfo));
         }
 
-        for (int i = 0; i < additionalBeanInfo.length; i++) {
-            addPropertyDescriptors(additionalBeanInfo[i].getPropertyDescriptors());
+        for (int i = 0; i < bdditionblBebnInfo.length; i++) {
+            bddPropertyDescriptors(bdditionblBebnInfo[i].getPropertyDescriptors());
         }
 
         if (explicitProperties != null) {
-            // Add the explicit BeanInfo data to our results.
-            addPropertyDescriptors(explicitProperties);
+            // Add the explicit BebnInfo dbtb to our results.
+            bddPropertyDescriptors(explicitProperties);
 
         } else {
-            // Apply some reflection to the current class.
-            for (Map.Entry<String,PropertyInfo> entry : ClassInfo.get(this.beanClass).getProperties().entrySet()) {
-                addPropertyDescriptor(null != entry.getValue().getIndexed()
-                        ? new IndexedPropertyDescriptor(entry, this.propertyChangeSource)
-                        : new PropertyDescriptor(entry, this.propertyChangeSource));
+            // Apply some reflection to the current clbss.
+            for (Mbp.Entry<String,PropertyInfo> entry : ClbssInfo.get(this.bebnClbss).getProperties().entrySet()) {
+                bddPropertyDescriptor(null != entry.getVblue().getIndexed()
+                        ? new IndexedPropertyDescriptor(entry, this.propertyChbngeSource)
+                        : new PropertyDescriptor(entry, this.propertyChbngeSource));
             }
-            JavaBean annotation = this.beanClass.getAnnotation(JavaBean.class);
-            if ((annotation != null) && !annotation.defaultProperty().isEmpty()) {
-                this.defaultPropertyName = annotation.defaultProperty();
+            JbvbBebn bnnotbtion = this.bebnClbss.getAnnotbtion(JbvbBebn.clbss);
+            if ((bnnotbtion != null) && !bnnotbtion.defbultProperty().isEmpty()) {
+                this.defbultPropertyNbme = bnnotbtion.defbultProperty();
             }
         }
         processPropertyDescriptors();
 
-        // Allocate and populate the result array.
+        // Allocbte bnd populbte the result brrby.
         PropertyDescriptor result[] =
-                properties.values().toArray(new PropertyDescriptor[properties.size()]);
+                properties.vblues().toArrby(new PropertyDescriptor[properties.size()]);
 
-        // Set the default index.
-        if (defaultPropertyName != null) {
+        // Set the defbult index.
+        if (defbultPropertyNbme != null) {
             for (int i = 0; i < result.length; i++) {
-                if (defaultPropertyName.equals(result[i].getName())) {
-                    defaultPropertyIndex = i;
+                if (defbultPropertyNbme.equbls(result[i].getNbme())) {
+                    defbultPropertyIndex = i;
                 }
             }
         }
         return result;
     }
 
-    private HashMap<String, List<PropertyDescriptor>> pdStore = new HashMap<>();
+    privbte HbshMbp<String, List<PropertyDescriptor>> pdStore = new HbshMbp<>();
 
     /**
      * Adds the property descriptor to the list store.
      */
-    private void addPropertyDescriptor(PropertyDescriptor pd) {
-        String propName = pd.getName();
-        List<PropertyDescriptor> list = pdStore.get(propName);
+    privbte void bddPropertyDescriptor(PropertyDescriptor pd) {
+        String propNbme = pd.getNbme();
+        List<PropertyDescriptor> list = pdStore.get(propNbme);
         if (list == null) {
-            list = new ArrayList<>();
-            pdStore.put(propName, list);
+            list = new ArrbyList<>();
+            pdStore.put(propNbme, list);
         }
-        if (this.beanClass != pd.getClass0()) {
-            // replace existing property descriptor
-            // only if we have types to resolve
-            // in the context of this.beanClass
-            Method read = pd.getReadMethod();
+        if (this.bebnClbss != pd.getClbss0()) {
+            // replbce existing property descriptor
+            // only if we hbve types to resolve
+            // in the context of this.bebnClbss
+            Method rebd = pd.getRebdMethod();
             Method write = pd.getWriteMethod();
-            boolean cls = true;
-            if (read != null) cls = cls && read.getGenericReturnType() instanceof Class;
-            if (write != null) cls = cls && write.getGenericParameterTypes()[0] instanceof Class;
-            if (pd instanceof IndexedPropertyDescriptor) {
+            boolebn cls = true;
+            if (rebd != null) cls = cls && rebd.getGenericReturnType() instbnceof Clbss;
+            if (write != null) cls = cls && write.getGenericPbrbmeterTypes()[0] instbnceof Clbss;
+            if (pd instbnceof IndexedPropertyDescriptor) {
                 IndexedPropertyDescriptor ipd = (IndexedPropertyDescriptor) pd;
-                Method readI = ipd.getIndexedReadMethod();
+                Method rebdI = ipd.getIndexedRebdMethod();
                 Method writeI = ipd.getIndexedWriteMethod();
-                if (readI != null) cls = cls && readI.getGenericReturnType() instanceof Class;
-                if (writeI != null) cls = cls && writeI.getGenericParameterTypes()[1] instanceof Class;
+                if (rebdI != null) cls = cls && rebdI.getGenericReturnType() instbnceof Clbss;
+                if (writeI != null) cls = cls && writeI.getGenericPbrbmeterTypes()[1] instbnceof Clbss;
                 if (!cls) {
                     pd = new IndexedPropertyDescriptor(ipd);
-                    pd.updateGenericsFor(this.beanClass);
+                    pd.updbteGenericsFor(this.bebnClbss);
                 }
             }
             else if (!cls) {
                 pd = new PropertyDescriptor(pd);
-                pd.updateGenericsFor(this.beanClass);
+                pd.updbteGenericsFor(this.bebnClbss);
             }
         }
-        list.add(pd);
+        list.bdd(pd);
     }
 
-    private void addPropertyDescriptors(PropertyDescriptor[] descriptors) {
+    privbte void bddPropertyDescriptors(PropertyDescriptor[] descriptors) {
         if (descriptors != null) {
             for (PropertyDescriptor descriptor : descriptors) {
-                addPropertyDescriptor(descriptor);
+                bddPropertyDescriptor(descriptor);
             }
         }
     }
 
-    private PropertyDescriptor[] getPropertyDescriptors(BeanInfo info) {
+    privbte PropertyDescriptor[] getPropertyDescriptors(BebnInfo info) {
         PropertyDescriptor[] descriptors = info.getPropertyDescriptors();
-        int index = info.getDefaultPropertyIndex();
+        int index = info.getDefbultPropertyIndex();
         if ((0 <= index) && (index < descriptors.length)) {
-            this.defaultPropertyName = descriptors[index].getName();
+            this.defbultPropertyNbme = descriptors[index].getNbme();
         }
         return descriptors;
     }
 
     /**
-     * Populates the property descriptor table by merging the
+     * Populbtes the property descriptor tbble by merging the
      * lists of Property descriptors.
      */
-    private void processPropertyDescriptors() {
+    privbte void processPropertyDescriptors() {
         if (properties == null) {
-            properties = new TreeMap<>();
+            properties = new TreeMbp<>();
         }
 
         List<PropertyDescriptor> list;
@@ -597,20 +597,20 @@ public class Introspector {
         PropertyDescriptor pd, gpd, spd;
         IndexedPropertyDescriptor ipd, igpd, ispd;
 
-        Iterator<List<PropertyDescriptor>> it = pdStore.values().iterator();
-        while (it.hasNext()) {
+        Iterbtor<List<PropertyDescriptor>> it = pdStore.vblues().iterbtor();
+        while (it.hbsNext()) {
             pd = null; gpd = null; spd = null;
             ipd = null; igpd = null; ispd = null;
 
             list = it.next();
 
-            // First pass. Find the latest getter method. Merge properties
+            // First pbss. Find the lbtest getter method. Merge properties
             // of previous getter methods.
             for (int i = 0; i < list.size(); i++) {
                 pd = list.get(i);
-                if (pd instanceof IndexedPropertyDescriptor) {
+                if (pd instbnceof IndexedPropertyDescriptor) {
                     ipd = (IndexedPropertyDescriptor)pd;
-                    if (ipd.getIndexedReadMethod() != null) {
+                    if (ipd.getIndexedRebdMethod() != null) {
                         if (igpd != null) {
                             igpd = new IndexedPropertyDescriptor(igpd, ipd);
                         } else {
@@ -618,13 +618,13 @@ public class Introspector {
                         }
                     }
                 } else {
-                    if (pd.getReadMethod() != null) {
-                        String pdName = pd.getReadMethod().getName();
+                    if (pd.getRebdMethod() != null) {
+                        String pdNbme = pd.getRebdMethod().getNbme();
                         if (gpd != null) {
-                            // Don't replace the existing read
-                            // method if it starts with "is"
-                            String gpdName = gpd.getReadMethod().getName();
-                            if (gpdName.equals(pdName) || !gpdName.startsWith(IS_PREFIX)) {
+                            // Don't replbce the existing rebd
+                            // method if it stbrts with "is"
+                            String gpdNbme = gpd.getRebdMethod().getNbme();
+                            if (gpdNbme.equbls(pdNbme) || !gpdNbme.stbrtsWith(IS_PREFIX)) {
                                 gpd = new PropertyDescriptor(gpd, pd);
                             }
                         } else {
@@ -634,15 +634,15 @@ public class Introspector {
                 }
             }
 
-            // Second pass. Find the latest setter method which
-            // has the same type as the getter method.
+            // Second pbss. Find the lbtest setter method which
+            // hbs the sbme type bs the getter method.
             for (int i = 0; i < list.size(); i++) {
                 pd = list.get(i);
-                if (pd instanceof IndexedPropertyDescriptor) {
+                if (pd instbnceof IndexedPropertyDescriptor) {
                     ipd = (IndexedPropertyDescriptor)pd;
                     if (ipd.getIndexedWriteMethod() != null) {
                         if (igpd != null) {
-                            if (isAssignable(igpd.getIndexedPropertyType(), ipd.getIndexedPropertyType())) {
+                            if (isAssignbble(igpd.getIndexedPropertyType(), ipd.getIndexedPropertyType())) {
                                 if (ispd != null) {
                                     ispd = new IndexedPropertyDescriptor(ispd, ipd);
                                 } else {
@@ -660,7 +660,7 @@ public class Introspector {
                 } else {
                     if (pd.getWriteMethod() != null) {
                         if (gpd != null) {
-                            if (isAssignable(gpd.getPropertyType(), pd.getPropertyType())) {
+                            if (isAssignbble(gpd.getPropertyType(), pd.getPropertyType())) {
                                 if (spd != null) {
                                     spd = new PropertyDescriptor(spd, pd);
                                 } else {
@@ -678,22 +678,22 @@ public class Introspector {
                 }
             }
 
-            // At this stage we should have either PDs or IPDs for the
-            // representative getters and setters. The order at which the
-            // property descriptors are determined represent the
+            // At this stbge we should hbve either PDs or IPDs for the
+            // representbtive getters bnd setters. The order bt which the
+            // property descriptors bre determined represent the
             // precedence of the property ordering.
             pd = null; ipd = null;
 
             if (igpd != null && ispd != null) {
                 // Complete indexed properties set
-                // Merge any classic property descriptors
+                // Merge bny clbssic property descriptors
                 if ((gpd == spd) || (gpd == null)) {
                     pd = spd;
                 } else if (spd == null) {
                     pd = gpd;
-                } else if (spd instanceof IndexedPropertyDescriptor) {
+                } else if (spd instbnceof IndexedPropertyDescriptor) {
                     pd = mergePropertyWithIndexedProperty(gpd, (IndexedPropertyDescriptor) spd);
-                } else if (gpd instanceof IndexedPropertyDescriptor) {
+                } else if (gpd instbnceof IndexedPropertyDescriptor) {
                     pd = mergePropertyWithIndexedProperty(spd, (IndexedPropertyDescriptor) gpd);
                 } else {
                     pd = mergePropertyDescriptor(gpd, spd);
@@ -706,14 +706,14 @@ public class Introspector {
                 if (pd == null) {
                     pd = ipd;
                 } else {
-                    Class<?> propType = pd.getPropertyType();
-                    Class<?> ipropType = ipd.getIndexedPropertyType();
-                    if (propType.isArray() && propType.getComponentType() == ipropType) {
-                        pd = pd.getClass0().isAssignableFrom(ipd.getClass0())
+                    Clbss<?> propType = pd.getPropertyType();
+                    Clbss<?> ipropType = ipd.getIndexedPropertyType();
+                    if (propType.isArrby() && propType.getComponentType() == ipropType) {
+                        pd = pd.getClbss0().isAssignbbleFrom(ipd.getClbss0())
                                 ? new IndexedPropertyDescriptor(pd, ipd)
                                 : new IndexedPropertyDescriptor(ipd, pd);
-                    } else if (pd.getClass0().isAssignableFrom(ipd.getClass0())) {
-                        pd = pd.getClass0().isAssignableFrom(ipd.getClass0())
+                    } else if (pd.getClbss0().isAssignbbleFrom(ipd.getClbss0())) {
+                        pd = pd.getClbss0().isAssignbbleFrom(ipd.getClbss0())
                                 ? new PropertyDescriptor(pd, ipd)
                                 : new PropertyDescriptor(ipd, pd);
                     } else {
@@ -730,9 +730,9 @@ public class Introspector {
                 // Complete simple properties set
                 if (gpd == spd) {
                     pd = gpd;
-                } else if (spd instanceof IndexedPropertyDescriptor) {
+                } else if (spd instbnceof IndexedPropertyDescriptor) {
                     pd = mergePropertyWithIndexedProperty(gpd, (IndexedPropertyDescriptor) spd);
-                } else if (gpd instanceof IndexedPropertyDescriptor) {
+                } else if (gpd instbnceof IndexedPropertyDescriptor) {
                     pd = mergePropertyWithIndexedProperty(spd, (IndexedPropertyDescriptor) gpd);
                 } else {
                     pd = mergePropertyDescriptor(gpd, spd);
@@ -740,7 +740,7 @@ public class Introspector {
             } else if (ispd != null) {
                 // indexed setter
                 pd = ispd;
-                // Merge any classic property descriptors
+                // Merge bny clbssic property descriptors
                 if (spd != null) {
                     pd = mergePropertyDescriptor(ispd, spd);
                 }
@@ -750,7 +750,7 @@ public class Introspector {
             } else if (igpd != null) {
                 // indexed getter
                 pd = igpd;
-                // Merge any classic property descriptors
+                // Merge bny clbssic property descriptors
                 if (gpd != null) {
                     pd = mergePropertyDescriptor(igpd, gpd);
                 }
@@ -765,38 +765,38 @@ public class Introspector {
                 pd = gpd;
             }
 
-            // Very special case to ensure that an IndexedPropertyDescriptor
-            // doesn't contain less information than the enclosed
-            // PropertyDescriptor. If it does, then recreate as a
+            // Very specibl cbse to ensure thbt bn IndexedPropertyDescriptor
+            // doesn't contbin less informbtion thbn the enclosed
+            // PropertyDescriptor. If it does, then recrebte bs b
             // PropertyDescriptor. See 4168833
-            if (pd instanceof IndexedPropertyDescriptor) {
+            if (pd instbnceof IndexedPropertyDescriptor) {
                 ipd = (IndexedPropertyDescriptor)pd;
-                if (ipd.getIndexedReadMethod() == null && ipd.getIndexedWriteMethod() == null) {
+                if (ipd.getIndexedRebdMethod() == null && ipd.getIndexedWriteMethod() == null) {
                     pd = new PropertyDescriptor(ipd);
                 }
             }
 
             // Find the first property descriptor
-            // which does not have getter and setter methods.
+            // which does not hbve getter bnd setter methods.
             // See regression bug 4984912.
             if ( (pd == null) && (list.size() > 0) ) {
                 pd = list.get(0);
             }
 
             if (pd != null) {
-                properties.put(pd.getName(), pd);
+                properties.put(pd.getNbme(), pd);
             }
         }
     }
 
-    private static boolean isAssignable(Class<?> current, Class<?> candidate) {
-        return ((current == null) || (candidate == null)) ? current == candidate : current.isAssignableFrom(candidate);
+    privbte stbtic boolebn isAssignbble(Clbss<?> current, Clbss<?> cbndidbte) {
+        return ((current == null) || (cbndidbte == null)) ? current == cbndidbte : current.isAssignbbleFrom(cbndidbte);
     }
 
-    private PropertyDescriptor mergePropertyWithIndexedProperty(PropertyDescriptor pd, IndexedPropertyDescriptor ipd) {
-        Class<?> type = pd.getPropertyType();
-        if (type.isArray() && (type.getComponentType() == ipd.getIndexedPropertyType())) {
-            return pd.getClass0().isAssignableFrom(ipd.getClass0())
+    privbte PropertyDescriptor mergePropertyWithIndexedProperty(PropertyDescriptor pd, IndexedPropertyDescriptor ipd) {
+        Clbss<?> type = pd.getPropertyType();
+        if (type.isArrby() && (type.getComponentType() == ipd.getIndexedPropertyType())) {
+            return pd.getClbss0().isAssignbbleFrom(ipd.getClbss0())
                     ? new IndexedPropertyDescriptor(pd, ipd)
                     : new IndexedPropertyDescriptor(ipd, pd);
         }
@@ -805,61 +805,61 @@ public class Introspector {
 
     /**
      * Adds the property descriptor to the indexedproperty descriptor only if the
-     * types are the same.
+     * types bre the sbme.
      *
-     * The most specific property descriptor will take precedence.
+     * The most specific property descriptor will tbke precedence.
      */
-    private PropertyDescriptor mergePropertyDescriptor(IndexedPropertyDescriptor ipd,
+    privbte PropertyDescriptor mergePropertyDescriptor(IndexedPropertyDescriptor ipd,
                                                        PropertyDescriptor pd) {
         PropertyDescriptor result = null;
 
-        Class<?> propType = pd.getPropertyType();
-        Class<?> ipropType = ipd.getIndexedPropertyType();
+        Clbss<?> propType = pd.getPropertyType();
+        Clbss<?> ipropType = ipd.getIndexedPropertyType();
 
-        if (propType.isArray() && propType.getComponentType() == ipropType) {
-            if (pd.getClass0().isAssignableFrom(ipd.getClass0())) {
+        if (propType.isArrby() && propType.getComponentType() == ipropType) {
+            if (pd.getClbss0().isAssignbbleFrom(ipd.getClbss0())) {
                 result = new IndexedPropertyDescriptor(pd, ipd);
             } else {
                 result = new IndexedPropertyDescriptor(ipd, pd);
             }
-        } else if ((ipd.getReadMethod() == null) && (ipd.getWriteMethod() == null)) {
-            if (pd.getClass0().isAssignableFrom(ipd.getClass0())) {
+        } else if ((ipd.getRebdMethod() == null) && (ipd.getWriteMethod() == null)) {
+            if (pd.getClbss0().isAssignbbleFrom(ipd.getClbss0())) {
                 result = new PropertyDescriptor(pd, ipd);
             } else {
                 result = new PropertyDescriptor(ipd, pd);
             }
         } else {
-            // Cannot merge the pd because of type mismatch
+            // Cbnnot merge the pd becbuse of type mismbtch
             // Return the most specific pd
-            if (pd.getClass0().isAssignableFrom(ipd.getClass0())) {
+            if (pd.getClbss0().isAssignbbleFrom(ipd.getClbss0())) {
                 result = ipd;
             } else {
                 result = pd;
-                // Try to add methods which may have been lost in the type change
+                // Try to bdd methods which mby hbve been lost in the type chbnge
                 // See 4168833
                 Method write = result.getWriteMethod();
-                Method read = result.getReadMethod();
+                Method rebd = result.getRebdMethod();
 
-                if (read == null && write != null) {
-                    read = findMethod(result.getClass0(),
-                                      GET_PREFIX + NameGenerator.capitalize(result.getName()), 0);
-                    if (read != null) {
+                if (rebd == null && write != null) {
+                    rebd = findMethod(result.getClbss0(),
+                                      GET_PREFIX + NbmeGenerbtor.cbpitblize(result.getNbme()), 0);
+                    if (rebd != null) {
                         try {
-                            result.setReadMethod(read);
-                        } catch (IntrospectionException ex) {
-                            // no consequences for failure.
+                            result.setRebdMethod(rebd);
+                        } cbtch (IntrospectionException ex) {
+                            // no consequences for fbilure.
                         }
                     }
                 }
-                if (write == null && read != null) {
-                    write = findMethod(result.getClass0(),
-                                       SET_PREFIX + NameGenerator.capitalize(result.getName()), 1,
-                                       new Class<?>[] { FeatureDescriptor.getReturnType(result.getClass0(), read) });
+                if (write == null && rebd != null) {
+                    write = findMethod(result.getClbss0(),
+                                       SET_PREFIX + NbmeGenerbtor.cbpitblize(result.getNbme()), 1,
+                                       new Clbss<?>[] { FebtureDescriptor.getReturnType(result.getClbss0(), rebd) });
                     if (write != null) {
                         try {
                             result.setWriteMethod(write);
-                        } catch (IntrospectionException ex) {
-                            // no consequences for failure.
+                        } cbtch (IntrospectionException ex) {
+                            // no consequences for fbilure.
                         }
                     }
                 }
@@ -868,20 +868,20 @@ public class Introspector {
         return result;
     }
 
-    // Handle regular pd merge
-    private PropertyDescriptor mergePropertyDescriptor(PropertyDescriptor pd1,
+    // Hbndle regulbr pd merge
+    privbte PropertyDescriptor mergePropertyDescriptor(PropertyDescriptor pd1,
                                                        PropertyDescriptor pd2) {
-        if (pd1.getClass0().isAssignableFrom(pd2.getClass0())) {
+        if (pd1.getClbss0().isAssignbbleFrom(pd2.getClbss0())) {
             return new PropertyDescriptor(pd1, pd2);
         } else {
             return new PropertyDescriptor(pd2, pd1);
         }
     }
 
-    // Handle regular ipd merge
-    private IndexedPropertyDescriptor mergePropertyDescriptor(IndexedPropertyDescriptor ipd1,
+    // Hbndle regulbr ipd merge
+    privbte IndexedPropertyDescriptor mergePropertyDescriptor(IndexedPropertyDescriptor ipd1,
                                                        IndexedPropertyDescriptor ipd2) {
-        if (ipd1.getClass0().isAssignableFrom(ipd2.getClass0())) {
+        if (ipd1.getClbss0().isAssignbbleFrom(ipd2.getClbss0())) {
             return new IndexedPropertyDescriptor(ipd1, ipd2);
         } else {
             return new IndexedPropertyDescriptor(ipd2, ipd1);
@@ -889,84 +889,84 @@ public class Introspector {
     }
 
     /**
-     * @return An array of EventSetDescriptors describing the kinds of
-     * events fired by the target bean.
+     * @return An brrby of EventSetDescriptors describing the kinds of
+     * events fired by the tbrget bebn.
      */
-    private EventSetDescriptor[] getTargetEventInfo() throws IntrospectionException {
+    privbte EventSetDescriptor[] getTbrgetEventInfo() throws IntrospectionException {
         if (events == null) {
-            events = new HashMap<>();
+            events = new HbshMbp<>();
         }
 
-        // Check if the bean has its own BeanInfo that will provide
-        // explicit information.
+        // Check if the bebn hbs its own BebnInfo thbt will provide
+        // explicit informbtion.
         EventSetDescriptor[] explicitEvents = null;
-        if (explicitBeanInfo != null) {
-            explicitEvents = explicitBeanInfo.getEventSetDescriptors();
-            int ix = explicitBeanInfo.getDefaultEventIndex();
+        if (explicitBebnInfo != null) {
+            explicitEvents = explicitBebnInfo.getEventSetDescriptors();
+            int ix = explicitBebnInfo.getDefbultEventIndex();
             if (ix >= 0 && ix < explicitEvents.length) {
-                defaultEventName = explicitEvents[ix].getName();
+                defbultEventNbme = explicitEvents[ix].getNbme();
             }
         }
 
-        if (explicitEvents == null && superBeanInfo != null) {
-            // We have no explicit BeanInfo events.  Check with our parent.
-            EventSetDescriptor supers[] = superBeanInfo.getEventSetDescriptors();
+        if (explicitEvents == null && superBebnInfo != null) {
+            // We hbve no explicit BebnInfo events.  Check with our pbrent.
+            EventSetDescriptor supers[] = superBebnInfo.getEventSetDescriptors();
             for (int i = 0 ; i < supers.length; i++) {
-                addEvent(supers[i]);
+                bddEvent(supers[i]);
             }
-            int ix = superBeanInfo.getDefaultEventIndex();
+            int ix = superBebnInfo.getDefbultEventIndex();
             if (ix >= 0 && ix < supers.length) {
-                defaultEventName = supers[ix].getName();
+                defbultEventNbme = supers[ix].getNbme();
             }
         }
 
-        for (int i = 0; i < additionalBeanInfo.length; i++) {
-            EventSetDescriptor additional[] = additionalBeanInfo[i].getEventSetDescriptors();
-            if (additional != null) {
-                for (int j = 0 ; j < additional.length; j++) {
-                    addEvent(additional[j]);
+        for (int i = 0; i < bdditionblBebnInfo.length; i++) {
+            EventSetDescriptor bdditionbl[] = bdditionblBebnInfo[i].getEventSetDescriptors();
+            if (bdditionbl != null) {
+                for (int j = 0 ; j < bdditionbl.length; j++) {
+                    bddEvent(bdditionbl[j]);
                 }
             }
         }
 
         if (explicitEvents != null) {
-            // Add the explicit explicitBeanInfo data to our results.
+            // Add the explicit explicitBebnInfo dbtb to our results.
             for (int i = 0 ; i < explicitEvents.length; i++) {
-                addEvent(explicitEvents[i]);
+                bddEvent(explicitEvents[i]);
             }
 
         } else {
-            // Apply some reflection to the current class.
-            for (Map.Entry<String,EventSetInfo> entry : ClassInfo.get(this.beanClass).getEventSets().entrySet()) {
-                    // generate a list of Method objects for each of the target methods:
-                List<Method> methods = new ArrayList<>();
-                for (Method method : ClassInfo.get(entry.getValue().getListenerType()).getMethods()) {
-                    if (isEventHandler(method)) {
-                        methods.add(method);
+            // Apply some reflection to the current clbss.
+            for (Mbp.Entry<String,EventSetInfo> entry : ClbssInfo.get(this.bebnClbss).getEventSets().entrySet()) {
+                    // generbte b list of Method objects for ebch of the tbrget methods:
+                List<Method> methods = new ArrbyList<>();
+                for (Method method : ClbssInfo.get(entry.getVblue().getListenerType()).getMethods()) {
+                    if (isEventHbndler(method)) {
+                        methods.bdd(method);
                     }
                 }
-                addEvent(new EventSetDescriptor(
+                bddEvent(new EventSetDescriptor(
                         entry.getKey(),
-                        entry.getValue(),
-                        methods.toArray(new Method[methods.size()])));
+                        entry.getVblue(),
+                        methods.toArrby(new Method[methods.size()])));
             }
-            JavaBean annotation = this.beanClass.getAnnotation(JavaBean.class);
-            if ((annotation != null) && !annotation.defaultEventSet().isEmpty()) {
-                this.defaultEventName = annotation.defaultEventSet();
+            JbvbBebn bnnotbtion = this.bebnClbss.getAnnotbtion(JbvbBebn.clbss);
+            if ((bnnotbtion != null) && !bnnotbtion.defbultEventSet().isEmpty()) {
+                this.defbultEventNbme = bnnotbtion.defbultEventSet();
             }
         }
         EventSetDescriptor[] result;
         if (events.size() == 0) {
             result = EMPTY_EVENTSETDESCRIPTORS;
         } else {
-            // Allocate and populate the result array.
+            // Allocbte bnd populbte the result brrby.
             result = new EventSetDescriptor[events.size()];
-            result = events.values().toArray(result);
-            // Set the default index.
-            if (defaultEventName != null) {
+            result = events.vblues().toArrby(result);
+            // Set the defbult index.
+            if (defbultEventNbme != null) {
                 for (int i = 0; i < result.length; i++) {
-                    if (defaultEventName.equals(result[i].getName())) {
-                        defaultEventIndex = i;
+                    if (defbultEventNbme.equbls(result[i].getNbme())) {
+                        defbultEventIndex = i;
                     }
                 }
             }
@@ -974,10 +974,10 @@ public class Introspector {
         return result;
     }
 
-    private void addEvent(EventSetDescriptor esd) {
-        String key = esd.getName();
-        if (esd.getName().equals("propertyChange")) {
-            propertyChangeSource = true;
+    privbte void bddEvent(EventSetDescriptor esd) {
+        String key = esd.getNbme();
+        if (esd.getNbme().equbls("propertyChbnge")) {
+            propertyChbngeSource = true;
         }
         EventSetDescriptor old = events.get(key);
         if (old == null) {
@@ -989,97 +989,97 @@ public class Introspector {
     }
 
     /**
-     * @return An array of MethodDescriptors describing the private
-     * methods supported by the target bean.
+     * @return An brrby of MethodDescriptors describing the privbte
+     * methods supported by the tbrget bebn.
      */
-    private MethodDescriptor[] getTargetMethodInfo() {
+    privbte MethodDescriptor[] getTbrgetMethodInfo() {
         if (methods == null) {
-            methods = new HashMap<>(100);
+            methods = new HbshMbp<>(100);
         }
 
-        // Check if the bean has its own BeanInfo that will provide
-        // explicit information.
+        // Check if the bebn hbs its own BebnInfo thbt will provide
+        // explicit informbtion.
         MethodDescriptor[] explicitMethods = null;
-        if (explicitBeanInfo != null) {
-            explicitMethods = explicitBeanInfo.getMethodDescriptors();
+        if (explicitBebnInfo != null) {
+            explicitMethods = explicitBebnInfo.getMethodDescriptors();
         }
 
-        if (explicitMethods == null && superBeanInfo != null) {
-            // We have no explicit BeanInfo methods.  Check with our parent.
-            MethodDescriptor supers[] = superBeanInfo.getMethodDescriptors();
+        if (explicitMethods == null && superBebnInfo != null) {
+            // We hbve no explicit BebnInfo methods.  Check with our pbrent.
+            MethodDescriptor supers[] = superBebnInfo.getMethodDescriptors();
             for (int i = 0 ; i < supers.length; i++) {
-                addMethod(supers[i]);
+                bddMethod(supers[i]);
             }
         }
 
-        for (int i = 0; i < additionalBeanInfo.length; i++) {
-            MethodDescriptor additional[] = additionalBeanInfo[i].getMethodDescriptors();
-            if (additional != null) {
-                for (int j = 0 ; j < additional.length; j++) {
-                    addMethod(additional[j]);
+        for (int i = 0; i < bdditionblBebnInfo.length; i++) {
+            MethodDescriptor bdditionbl[] = bdditionblBebnInfo[i].getMethodDescriptors();
+            if (bdditionbl != null) {
+                for (int j = 0 ; j < bdditionbl.length; j++) {
+                    bddMethod(bdditionbl[j]);
                 }
             }
         }
 
         if (explicitMethods != null) {
-            // Add the explicit explicitBeanInfo data to our results.
+            // Add the explicit explicitBebnInfo dbtb to our results.
             for (int i = 0 ; i < explicitMethods.length; i++) {
-                addMethod(explicitMethods[i]);
+                bddMethod(explicitMethods[i]);
             }
 
         } else {
-            // Apply some reflection to the current class.
-            for (Method method : ClassInfo.get(this.beanClass).getMethods()) {
-                addMethod(new MethodDescriptor(method));
+            // Apply some reflection to the current clbss.
+            for (Method method : ClbssInfo.get(this.bebnClbss).getMethods()) {
+                bddMethod(new MethodDescriptor(method));
             }
         }
 
-        // Allocate and populate the result array.
+        // Allocbte bnd populbte the result brrby.
         MethodDescriptor result[] = new MethodDescriptor[methods.size()];
-        result = methods.values().toArray(result);
+        result = methods.vblues().toArrby(result);
 
         return result;
     }
 
-    private void addMethod(MethodDescriptor md) {
-        // We have to be careful here to distinguish method by both name
-        // and argument lists.
-        // This method gets called a *lot, so we try to be efficient.
-        String name = md.getName();
+    privbte void bddMethod(MethodDescriptor md) {
+        // We hbve to be cbreful here to distinguish method by both nbme
+        // bnd brgument lists.
+        // This method gets cblled b *lot, so we try to be efficient.
+        String nbme = md.getNbme();
 
-        MethodDescriptor old = methods.get(name);
+        MethodDescriptor old = methods.get(nbme);
         if (old == null) {
-            // This is the common case.
-            methods.put(name, md);
+            // This is the common cbse.
+            methods.put(nbme, md);
             return;
         }
 
-        // We have a collision on method names.  This is rare.
+        // We hbve b collision on method nbmes.  This is rbre.
 
-        // Check if old and md have the same type.
-        String[] p1 = md.getParamNames();
-        String[] p2 = old.getParamNames();
+        // Check if old bnd md hbve the sbme type.
+        String[] p1 = md.getPbrbmNbmes();
+        String[] p2 = old.getPbrbmNbmes();
 
-        boolean match = false;
+        boolebn mbtch = fblse;
         if (p1.length == p2.length) {
-            match = true;
+            mbtch = true;
             for (int i = 0; i < p1.length; i++) {
                 if (p1[i] != p2[i]) {
-                    match = false;
-                    break;
+                    mbtch = fblse;
+                    brebk;
                 }
             }
         }
-        if (match) {
+        if (mbtch) {
             MethodDescriptor composite = new MethodDescriptor(old, md);
-            methods.put(name, composite);
+            methods.put(nbme, composite);
             return;
         }
 
-        // We have a collision on method names with different type signatures.
-        // This is very rare.
+        // We hbve b collision on method nbmes with different type signbtures.
+        // This is very rbre.
 
-        String longKey = makeQualifiedMethodName(name, p1);
+        String longKey = mbkeQublifiedMethodNbme(nbme, p1);
         old = methods.get(longKey);
         if (old == null) {
             methods.put(longKey, md);
@@ -1090,87 +1090,87 @@ public class Introspector {
     }
 
     /**
-     * Creates a key for a method in a method cache.
+     * Crebtes b key for b method in b method cbche.
      */
-    private static String makeQualifiedMethodName(String name, String[] params) {
-        StringBuilder sb = new StringBuilder(name);
-        sb.append('=');
-        for (int i = 0; i < params.length; i++) {
-            sb.append(':');
-            sb.append(params[i]);
+    privbte stbtic String mbkeQublifiedMethodNbme(String nbme, String[] pbrbms) {
+        StringBuilder sb = new StringBuilder(nbme);
+        sb.bppend('=');
+        for (int i = 0; i < pbrbms.length; i++) {
+            sb.bppend(':');
+            sb.bppend(pbrbms[i]);
         }
         return sb.toString();
     }
 
-    private int getTargetDefaultEventIndex() {
-        return defaultEventIndex;
+    privbte int getTbrgetDefbultEventIndex() {
+        return defbultEventIndex;
     }
 
-    private int getTargetDefaultPropertyIndex() {
-        return defaultPropertyIndex;
+    privbte int getTbrgetDefbultPropertyIndex() {
+        return defbultPropertyIndex;
     }
 
-    private BeanDescriptor getTargetBeanDescriptor() {
-        // Use explicit info, if available,
-        if (explicitBeanInfo != null) {
-            BeanDescriptor bd = explicitBeanInfo.getBeanDescriptor();
+    privbte BebnDescriptor getTbrgetBebnDescriptor() {
+        // Use explicit info, if bvbilbble,
+        if (explicitBebnInfo != null) {
+            BebnDescriptor bd = explicitBebnInfo.getBebnDescriptor();
             if (bd != null) {
                 return (bd);
             }
         }
-        // OK, fabricate a default BeanDescriptor.
-        return new BeanDescriptor(this.beanClass, findCustomizerClass(this.beanClass));
+        // OK, fbbricbte b defbult BebnDescriptor.
+        return new BebnDescriptor(this.bebnClbss, findCustomizerClbss(this.bebnClbss));
     }
 
-    private static Class<?> findCustomizerClass(Class<?> type) {
-        String name = type.getName() + "Customizer";
+    privbte stbtic Clbss<?> findCustomizerClbss(Clbss<?> type) {
+        String nbme = type.getNbme() + "Customizer";
         try {
-            type = ClassFinder.findClass(name, type.getClassLoader());
-            // Each customizer should inherit java.awt.Component and implement java.beans.Customizer
-            // according to the section 9.3 of JavaBeans&trade; specification
-            if (Component.class.isAssignableFrom(type) && Customizer.class.isAssignableFrom(type)) {
+            type = ClbssFinder.findClbss(nbme, type.getClbssLobder());
+            // Ebch customizer should inherit jbvb.bwt.Component bnd implement jbvb.bebns.Customizer
+            // bccording to the section 9.3 of JbvbBebns&trbde; specificbtion
+            if (Component.clbss.isAssignbbleFrom(type) && Customizer.clbss.isAssignbbleFrom(type)) {
                 return type;
             }
         }
-        catch (Exception exception) {
-            // ignore any exceptions
+        cbtch (Exception exception) {
+            // ignore bny exceptions
         }
         return null;
     }
 
-    private boolean isEventHandler(Method m) {
-        // We assume that a method is an event handler if it has a single
-        // argument, whose type inherit from java.util.Event.
-        Type argTypes[] = m.getGenericParameterTypes();
-        if (argTypes.length != 1) {
-            return false;
+    privbte boolebn isEventHbndler(Method m) {
+        // We bssume thbt b method is bn event hbndler if it hbs b single
+        // brgument, whose type inherit from jbvb.util.Event.
+        Type brgTypes[] = m.getGenericPbrbmeterTypes();
+        if (brgTypes.length != 1) {
+            return fblse;
         }
-        return isSubclass(TypeResolver.erase(TypeResolver.resolveInClass(beanClass, argTypes[0])), EventObject.class);
+        return isSubclbss(TypeResolver.erbse(TypeResolver.resolveInClbss(bebnClbss, brgTypes[0])), EventObject.clbss);
     }
 
     //======================================================================
-    // Package private support methods.
+    // Pbckbge privbte support methods.
     //======================================================================
 
     /**
-     * Internal support for finding a target methodName with a given
-     * parameter list on a given class.
+     * Internbl support for finding b tbrget methodNbme with b given
+     * pbrbmeter list on b given clbss.
      */
-    private static Method internalFindMethod(Class<?> start, String methodName,
-                                                 int argCount, Class<?> args[]) {
+    privbte stbtic Method internblFindMethod(Clbss<?> stbrt, String methodNbme,
+                                                 int brgCount, Clbss<?> brgs[]) {
         // For overriden methods we need to find the most derived version.
-        // So we start with the given class and walk up the superclass chain.
-        for (Class<?> cl = start; cl != null; cl = cl.getSuperclass()) {
-            for (Method method : ClassInfo.get(cl).getMethods()) {
-                // make sure method signature matches.
-                if (method.getName().equals(methodName)) {
-                    Type[] params = method.getGenericParameterTypes();
-                    if (params.length == argCount) {
-                        if (args != null) {
-                            boolean different = false;
-                            if (argCount > 0) {
-                                for (int j = 0; j < argCount; j++) {
-                                    if (TypeResolver.erase(TypeResolver.resolveInClass(start, params[j])) != args[j]) {
+        // So we stbrt with the given clbss bnd wblk up the superclbss chbin.
+        for (Clbss<?> cl = stbrt; cl != null; cl = cl.getSuperclbss()) {
+            for (Method method : ClbssInfo.get(cl).getMethods()) {
+                // mbke sure method signbture mbtches.
+                if (method.getNbme().equbls(methodNbme)) {
+                    Type[] pbrbms = method.getGenericPbrbmeterTypes();
+                    if (pbrbms.length == brgCount) {
+                        if (brgs != null) {
+                            boolebn different = fblse;
+                            if (brgCount > 0) {
+                                for (int j = 0; j < brgCount; j++) {
+                                    if (TypeResolver.erbse(TypeResolver.resolveInClbss(stbrt, pbrbms[j])) != brgs[j]) {
                                         different = true;
                                         continue;
                                     }
@@ -1185,15 +1185,15 @@ public class Introspector {
                 }
             }
         }
-        // Now check any inherited interfaces.  This is necessary both when
-        // the argument class is itself an interface, and when the argument
-        // class is an abstract class.
-        Class<?>[] ifcs = start.getInterfaces();
+        // Now check bny inherited interfbces.  This is necessbry both when
+        // the brgument clbss is itself bn interfbce, bnd when the brgument
+        // clbss is bn bbstrbct clbss.
+        Clbss<?>[] ifcs = stbrt.getInterfbces();
         for (int i = 0 ; i < ifcs.length; i++) {
-            // Note: The original implementation had both methods calling
-            // the 3 arg method. This is preserved but perhaps it should
-            // pass the args array instead of null.
-            Method method = internalFindMethod(ifcs[i], methodName, argCount, null);
+            // Note: The originbl implementbtion hbd both methods cblling
+            // the 3 brg method. This is preserved but perhbps it should
+            // pbss the brgs brrby instebd of null.
+            Method method = internblFindMethod(ifcs[i], methodNbme, brgCount, null);
             if (method != null) {
                 return method;
             }
@@ -1202,121 +1202,121 @@ public class Introspector {
     }
 
     /**
-     * Find a target methodName on a given class.
+     * Find b tbrget methodNbme on b given clbss.
      */
-    static Method findMethod(Class<?> cls, String methodName, int argCount) {
-        return findMethod(cls, methodName, argCount, null);
+    stbtic Method findMethod(Clbss<?> cls, String methodNbme, int brgCount) {
+        return findMethod(cls, methodNbme, brgCount, null);
     }
 
     /**
-     * Find a target methodName with specific parameter list on a given class.
+     * Find b tbrget methodNbme with specific pbrbmeter list on b given clbss.
      * <p>
      * Used in the contructors of the EventSetDescriptor,
-     * PropertyDescriptor and the IndexedPropertyDescriptor.
+     * PropertyDescriptor bnd the IndexedPropertyDescriptor.
      * <p>
-     * @param cls The Class object on which to retrieve the method.
-     * @param methodName Name of the method.
-     * @param argCount Number of arguments for the desired method.
-     * @param args Array of argument types for the method.
+     * @pbrbm cls The Clbss object on which to retrieve the method.
+     * @pbrbm methodNbme Nbme of the method.
+     * @pbrbm brgCount Number of brguments for the desired method.
+     * @pbrbm brgs Arrby of brgument types for the method.
      * @return the method or null if not found
      */
-    static Method findMethod(Class<?> cls, String methodName, int argCount,
-                             Class<?>[] args) {
-        if (methodName == null) {
+    stbtic Method findMethod(Clbss<?> cls, String methodNbme, int brgCount,
+                             Clbss<?>[] brgs) {
+        if (methodNbme == null) {
             return null;
         }
-        return internalFindMethod(cls, methodName, argCount, args);
+        return internblFindMethod(cls, methodNbme, brgCount, brgs);
     }
 
     /**
-     * Return true if class a is either equivalent to class b, or
-     * if class a is a subclass of class b, i.e. if a either "extends"
+     * Return true if clbss b is either equivblent to clbss b, or
+     * if clbss b is b subclbss of clbss b, i.e. if b either "extends"
      * or "implements" b.
-     * Note tht either or both "Class" objects may represent interfaces.
+     * Note tht either or both "Clbss" objects mby represent interfbces.
      */
-    static  boolean isSubclass(Class<?> a, Class<?> b) {
-        // We rely on the fact that for any given java class or
-        // primtitive type there is a unqiue Class object, so
-        // we can use object equivalence in the comparisons.
-        if (a == b) {
+    stbtic  boolebn isSubclbss(Clbss<?> b, Clbss<?> b) {
+        // We rely on the fbct thbt for bny given jbvb clbss or
+        // primtitive type there is b unqiue Clbss object, so
+        // we cbn use object equivblence in the compbrisons.
+        if (b == b) {
             return true;
         }
-        if (a == null || b == null) {
-            return false;
+        if (b == null || b == null) {
+            return fblse;
         }
-        for (Class<?> x = a; x != null; x = x.getSuperclass()) {
+        for (Clbss<?> x = b; x != null; x = x.getSuperclbss()) {
             if (x == b) {
                 return true;
             }
-            if (b.isInterface()) {
-                Class<?>[] interfaces = x.getInterfaces();
-                for (int i = 0; i < interfaces.length; i++) {
-                    if (isSubclass(interfaces[i], b)) {
+            if (b.isInterfbce()) {
+                Clbss<?>[] interfbces = x.getInterfbces();
+                for (int i = 0; i < interfbces.length; i++) {
+                    if (isSubclbss(interfbces[i], b)) {
                         return true;
                     }
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Try to create an instance of a named class.
-     * First try the classloader of "sibling", then try the system
-     * classloader then the class loader of the current Thread.
+     * Try to crebte bn instbnce of b nbmed clbss.
+     * First try the clbsslobder of "sibling", then try the system
+     * clbsslobder then the clbss lobder of the current Threbd.
      */
-    static Object instantiate(Class<?> sibling, String className)
-                 throws InstantiationException, IllegalAccessException,
-                                                ClassNotFoundException {
-        // First check with sibling's classloader (if any).
-        ClassLoader cl = sibling.getClassLoader();
-        Class<?> cls = ClassFinder.findClass(className, cl);
-        return cls.newInstance();
+    stbtic Object instbntibte(Clbss<?> sibling, String clbssNbme)
+                 throws InstbntibtionException, IllegblAccessException,
+                                                ClbssNotFoundException {
+        // First check with sibling's clbsslobder (if bny).
+        ClbssLobder cl = sibling.getClbssLobder();
+        Clbss<?> cls = ClbssFinder.findClbss(clbssNbme, cl);
+        return cls.newInstbnce();
     }
 
-} // end class Introspector
+} // end clbss Introspector
 
 //===========================================================================
 
 /**
- * Package private implementation support class for Introspector's
- * internal use.
+ * Pbckbge privbte implementbtion support clbss for Introspector's
+ * internbl use.
  * <p>
- * Mostly this is used as a placeholder for the descriptors.
+ * Mostly this is used bs b plbceholder for the descriptors.
  */
 
-class GenericBeanInfo extends SimpleBeanInfo {
+clbss GenericBebnInfo extends SimpleBebnInfo {
 
-    private BeanDescriptor beanDescriptor;
-    private EventSetDescriptor[] events;
-    private int defaultEvent;
-    private PropertyDescriptor[] properties;
-    private int defaultProperty;
-    private MethodDescriptor[] methods;
-    private Reference<BeanInfo> targetBeanInfoRef;
+    privbte BebnDescriptor bebnDescriptor;
+    privbte EventSetDescriptor[] events;
+    privbte int defbultEvent;
+    privbte PropertyDescriptor[] properties;
+    privbte int defbultProperty;
+    privbte MethodDescriptor[] methods;
+    privbte Reference<BebnInfo> tbrgetBebnInfoRef;
 
-    public GenericBeanInfo(BeanDescriptor beanDescriptor,
-                EventSetDescriptor[] events, int defaultEvent,
-                PropertyDescriptor[] properties, int defaultProperty,
-                MethodDescriptor[] methods, BeanInfo targetBeanInfo) {
-        this.beanDescriptor = beanDescriptor;
+    public GenericBebnInfo(BebnDescriptor bebnDescriptor,
+                EventSetDescriptor[] events, int defbultEvent,
+                PropertyDescriptor[] properties, int defbultProperty,
+                MethodDescriptor[] methods, BebnInfo tbrgetBebnInfo) {
+        this.bebnDescriptor = bebnDescriptor;
         this.events = events;
-        this.defaultEvent = defaultEvent;
+        this.defbultEvent = defbultEvent;
         this.properties = properties;
-        this.defaultProperty = defaultProperty;
+        this.defbultProperty = defbultProperty;
         this.methods = methods;
-        this.targetBeanInfoRef = (targetBeanInfo != null)
-                ? new SoftReference<>(targetBeanInfo)
+        this.tbrgetBebnInfoRef = (tbrgetBebnInfo != null)
+                ? new SoftReference<>(tbrgetBebnInfo)
                 : null;
     }
 
     /**
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbckbge-privbte dup constructor
+     * This must isolbte the new object from bny chbnges to the old object.
      */
-    GenericBeanInfo(GenericBeanInfo old) {
+    GenericBebnInfo(GenericBebnInfo old) {
 
-        beanDescriptor = new BeanDescriptor(old.beanDescriptor);
+        bebnDescriptor = new BebnDescriptor(old.bebnDescriptor);
         if (old.events != null) {
             int len = old.events.length;
             events = new EventSetDescriptor[len];
@@ -1324,13 +1324,13 @@ class GenericBeanInfo extends SimpleBeanInfo {
                 events[i] = new EventSetDescriptor(old.events[i]);
             }
         }
-        defaultEvent = old.defaultEvent;
+        defbultEvent = old.defbultEvent;
         if (old.properties != null) {
             int len = old.properties.length;
             properties = new PropertyDescriptor[len];
             for (int i = 0; i < len; i++) {
                 PropertyDescriptor oldp = old.properties[i];
-                if (oldp instanceof IndexedPropertyDescriptor) {
+                if (oldp instbnceof IndexedPropertyDescriptor) {
                     properties[i] = new IndexedPropertyDescriptor(
                                         (IndexedPropertyDescriptor) oldp);
                 } else {
@@ -1338,7 +1338,7 @@ class GenericBeanInfo extends SimpleBeanInfo {
                 }
             }
         }
-        defaultProperty = old.defaultProperty;
+        defbultProperty = old.defbultProperty;
         if (old.methods != null) {
             int len = old.methods.length;
             methods = new MethodDescriptor[len];
@@ -1346,53 +1346,53 @@ class GenericBeanInfo extends SimpleBeanInfo {
                 methods[i] = new MethodDescriptor(old.methods[i]);
             }
         }
-        this.targetBeanInfoRef = old.targetBeanInfoRef;
+        this.tbrgetBebnInfoRef = old.tbrgetBebnInfoRef;
     }
 
     public PropertyDescriptor[] getPropertyDescriptors() {
         return properties;
     }
 
-    public int getDefaultPropertyIndex() {
-        return defaultProperty;
+    public int getDefbultPropertyIndex() {
+        return defbultProperty;
     }
 
     public EventSetDescriptor[] getEventSetDescriptors() {
         return events;
     }
 
-    public int getDefaultEventIndex() {
-        return defaultEvent;
+    public int getDefbultEventIndex() {
+        return defbultEvent;
     }
 
     public MethodDescriptor[] getMethodDescriptors() {
         return methods;
     }
 
-    public BeanDescriptor getBeanDescriptor() {
-        return beanDescriptor;
+    public BebnDescriptor getBebnDescriptor() {
+        return bebnDescriptor;
     }
 
-    public java.awt.Image getIcon(int iconKind) {
-        BeanInfo targetBeanInfo = getTargetBeanInfo();
-        if (targetBeanInfo != null) {
-            return targetBeanInfo.getIcon(iconKind);
+    public jbvb.bwt.Imbge getIcon(int iconKind) {
+        BebnInfo tbrgetBebnInfo = getTbrgetBebnInfo();
+        if (tbrgetBebnInfo != null) {
+            return tbrgetBebnInfo.getIcon(iconKind);
         }
         return super.getIcon(iconKind);
     }
 
-    private BeanInfo getTargetBeanInfo() {
-        if (this.targetBeanInfoRef == null) {
+    privbte BebnInfo getTbrgetBebnInfo() {
+        if (this.tbrgetBebnInfoRef == null) {
             return null;
         }
-        BeanInfo targetBeanInfo = this.targetBeanInfoRef.get();
-        if (targetBeanInfo == null) {
-            targetBeanInfo = ThreadGroupContext.getContext().getBeanInfoFinder()
-                    .find(this.beanDescriptor.getBeanClass());
-            if (targetBeanInfo != null) {
-                this.targetBeanInfoRef = new SoftReference<>(targetBeanInfo);
+        BebnInfo tbrgetBebnInfo = this.tbrgetBebnInfoRef.get();
+        if (tbrgetBebnInfo == null) {
+            tbrgetBebnInfo = ThrebdGroupContext.getContext().getBebnInfoFinder()
+                    .find(this.bebnDescriptor.getBebnClbss());
+            if (tbrgetBebnInfo != null) {
+                this.tbrgetBebnInfoRef = new SoftReference<>(tbrgetBebnInfo);
             }
         }
-        return targetBeanInfo;
+        return tbrgetBebnInfo;
     }
 }

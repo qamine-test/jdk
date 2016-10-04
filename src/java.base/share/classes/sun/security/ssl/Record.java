@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
 
 /**
- * SSL/TLS records, as pulled off (and put onto) a TCP stream.  This is
- * the base interface, which defines common information and interfaces
- * used by both Input and Output records.
+ * SSL/TLS records, bs pulled off (bnd put onto) b TCP strebm.  This is
+ * the bbse interfbce, which defines common informbtion bnd interfbces
+ * used by both Input bnd Output records.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-interface Record {
+interfbce Record {
     /*
-     * There are four SSL record types, which are part of the interface
-     * to this level (along with the maximum record size)
+     * There bre four SSL record types, which bre pbrt of the interfbce
+     * to this level (blong with the mbximum record size)
      *
-     * enum { change_cipher_spec(20), alert(21), handshake(22),
-     *      application_data(23), (255) } ContentType;
+     * enum { chbnge_cipher_spec(20), blert(21), hbndshbke(22),
+     *      bpplicbtion_dbtb(23), (255) } ContentType;
      */
-    static final byte   ct_change_cipher_spec = 20;
-    static final byte   ct_alert = 21;
-    static final byte   ct_handshake = 22;
-    static final byte   ct_application_data = 23;
+    stbtic finbl byte   ct_chbnge_cipher_spec = 20;
+    stbtic finbl byte   ct_blert = 21;
+    stbtic finbl byte   ct_hbndshbke = 22;
+    stbtic finbl byte   ct_bpplicbtion_dbtb = 23;
 
-    static final int    headerSize = 5;         // SSLv3 record header
-    static final int    maxExpansion = 1024;    // for bad compression
-    static final int    trailerSize = 20;       // SHA1 hash size
-    static final int    maxDataSize = 16384;    // 2^14 bytes of data
-    static final int    maxPadding = 256;       // block cipher padding
-    static final int    maxIVLength = 256;      // IV length
+    stbtic finbl int    hebderSize = 5;         // SSLv3 record hebder
+    stbtic finbl int    mbxExpbnsion = 1024;    // for bbd compression
+    stbtic finbl int    trbilerSize = 20;       // SHA1 hbsh size
+    stbtic finbl int    mbxDbtbSize = 16384;    // 2^14 bytes of dbtb
+    stbtic finbl int    mbxPbdding = 256;       // block cipher pbdding
+    stbtic finbl int    mbxIVLength = 256;      // IV length
 
     /*
-     * The size of the header plus the max IV length
+     * The size of the hebder plus the mbx IV length
      */
-    static final int    headerPlusMaxIVSize =
-                                      headerSize        // header
-                                    + maxIVLength;      // iv
+    stbtic finbl int    hebderPlusMbxIVSize =
+                                      hebderSize        // hebder
+                                    + mbxIVLength;      // iv
 
     /*
-     * SSL has a maximum record size.  It's header, (compressed) data,
-     * padding, and a trailer for the message authentication information (MAC
-     * for block and stream ciphers, and message authentication tag for AEAD
+     * SSL hbs b mbximum record size.  It's hebder, (compressed) dbtb,
+     * pbdding, bnd b trbiler for the messbge buthenticbtion informbtion (MAC
+     * for block bnd strebm ciphers, bnd messbge buthenticbtion tbg for AEAD
      * ciphers).
      *
-     * Some compression algorithms have rare cases where they expand the data.
-     * As we don't support compression at this time, leave that out.
+     * Some compression blgorithms hbve rbre cbses where they expbnd the dbtb.
+     * As we don't support compression bt this time, lebve thbt out.
      */
-    static final int    maxRecordSize =
-                                      headerPlusMaxIVSize   // header + iv
-                                    + maxDataSize           // data
-                                    + maxPadding            // padding
-                                    + trailerSize;          // MAC or AEAD tag
+    stbtic finbl int    mbxRecordSize =
+                                      hebderPlusMbxIVSize   // hebder + iv
+                                    + mbxDbtbSize           // dbtb
+                                    + mbxPbdding            // pbdding
+                                    + trbilerSize;          // MAC or AEAD tbg
 
-    static final boolean enableCBCProtection =
-            Debug.getBooleanProperty("jsse.enableCBCProtection", true);
+    stbtic finbl boolebn enbbleCBCProtection =
+            Debug.getBoolebnProperty("jsse.enbbleCBCProtection", true);
 
     /*
-     * For CBC protection in SSL3/TLS1, we break some plaintext into two
-     * packets.  Max application data size for the second packet.
+     * For CBC protection in SSL3/TLS1, we brebk some plbintext into two
+     * pbckets.  Mbx bpplicbtion dbtb size for the second pbcket.
      */
-    static final int    maxDataSizeMinusOneByteRecord =
-                                  maxDataSize       // max data size
-                                - (                 // max one byte record size
-                                      headerPlusMaxIVSize   // header + iv
-                                    + 1             // one byte data
-                                    + maxPadding    // padding
-                                    + trailerSize   // MAC
+    stbtic finbl int    mbxDbtbSizeMinusOneByteRecord =
+                                  mbxDbtbSize       // mbx dbtb size
+                                - (                 // mbx one byte record size
+                                      hebderPlusMbxIVSize   // hebder + iv
+                                    + 1             // one byte dbtb
+                                    + mbxPbdding    // pbdding
+                                    + trbilerSize   // MAC
                                   );
 
     /*
-     * The maximum large record size.
+     * The mbximum lbrge record size.
      *
-     * Some SSL/TLS implementations support large fragment upto 2^15 bytes,
-     * such as Microsoft. We support large incoming fragments.
+     * Some SSL/TLS implementbtions support lbrge frbgment upto 2^15 bytes,
+     * such bs Microsoft. We support lbrge incoming frbgments.
      *
-     * The maximum large record size is defined as maxRecordSize plus 2^14,
-     * this is the amount OpenSSL is using.
+     * The mbximum lbrge record size is defined bs mbxRecordSize plus 2^14,
+     * this is the bmount OpenSSL is using.
      */
-    static final int    maxLargeRecordSize =
-                maxRecordSize   // Max size with a conforming implementation
-              + maxDataSize;    // extra 2^14 bytes for large data packets.
+    stbtic finbl int    mbxLbrgeRecordSize =
+                mbxRecordSize   // Mbx size with b conforming implementbtion
+              + mbxDbtbSize;    // extrb 2^14 bytes for lbrge dbtb pbckets.
 
 
     /*
-     * Maximum record size for alert and change cipher spec records.
-     * They only contain 2 and 1 bytes of data, respectively.
-     * Allocate a smaller array.
+     * Mbximum record size for blert bnd chbnge cipher spec records.
+     * They only contbin 2 bnd 1 bytes of dbtb, respectively.
+     * Allocbte b smbller brrby.
      */
-    static final int    maxAlertRecordSize =
-                                      headerPlusMaxIVSize   // header + iv
-                                    + 2                     // alert
-                                    + maxPadding            // padding
-                                    + trailerSize;          // MAC
+    stbtic finbl int    mbxAlertRecordSize =
+                                      hebderPlusMbxIVSize   // hebder + iv
+                                    + 2                     // blert
+                                    + mbxPbdding            // pbdding
+                                    + trbilerSize;          // MAC
 
     /*
-     * The overflow values of integers of 8, 16 and 24 bits.
+     * The overflow vblues of integers of 8, 16 bnd 24 bits.
      */
-    static final int OVERFLOW_OF_INT08 = (1 << 8);
-    static final int OVERFLOW_OF_INT16 = (1 << 16);
-    static final int OVERFLOW_OF_INT24 = (1 << 24);
+    stbtic finbl int OVERFLOW_OF_INT08 = (1 << 8);
+    stbtic finbl int OVERFLOW_OF_INT16 = (1 << 16);
+    stbtic finbl int OVERFLOW_OF_INT24 = (1 << 24);
 }

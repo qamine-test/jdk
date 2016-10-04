@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: javap
-.\" Language: English
-.\" Date: 2013年11月21日
+.\" Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\" Title: jbvbp
+.\" Lbngubge: English
+.\" Dbte: 2013年11月21日
 .\" SectDesc: 基本ツール
-.\" Software: JDK 8
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "javap" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jbvbp" "1" "2013年11月21日" "JDK 8" "基本ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-javap \- 1つ以上のクラス・ファイルを逆アセンブルします。
+jbvbp \- 1つ以上のクラス・ファイルを逆アセンブルします。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIjavap\fR [\fIoptions\fR] \fIclassfile\fR\&.\&.\&.
+\fIjbvbp\fR [\fIoptions\fR] \fIclbssfile\fR\&.\&.\&.
 .fi
 .if n \{\
 .RE
@@ -67,18 +67,18 @@ javap \- 1つ以上のクラス・ファイルを逆アセンブルします。
 コマンドライン・オプション。オプションを参照してください。
 .RE
 .PP
-\fIclassfile\fR
+\fIclbssfile\fR
 .RS 4
-注釈の処理対象となる、空白で区切った1つ以上のクラス(DocFooter\&.classなど)。クラス・パスで検出できるクラスを、ファイル名またはURL(\fIfile:///home/user/myproject/src/DocFooter\&.class\fRなど)で指定できます。
+注釈の処理対象となる、空白で区切った1つ以上のクラス(DocFooter\&.clbssなど)。クラス・パスで検出できるクラスを、ファイル名またはURL(\fIfile:///home/user/myproject/src/DocFooter\&.clbss\fRなど)で指定できます。
 .RE
 .SH "説明"
 .PP
-\fIjavap\fRコマンドは、1つまたは複数のクラス・ファイルを逆アセンブルします。その出力は指定するオプションにより異なります。オプションを指定しない場合、\fIjavap\fRコマンドは、そのパッケージ、渡されたクラスのprotectedおよびpublicのフィールドとメソッドを出力します。\fIjavap\fRコマンドはその出力を\fI標準出力\fRに表示します。
+\fIjbvbp\fRコマンドは、1つまたは複数のクラス・ファイルを逆アセンブルします。その出力は指定するオプションにより異なります。オプションを指定しない場合、\fIjbvbp\fRコマンドは、そのパッケージ、渡されたクラスのprotectedおよびpublicのフィールドとメソッドを出力します。\fIjbvbp\fRコマンドはその出力を\fI標準出力\fRに表示します。
 .SH "オプション"
 .PP
 \-help, \-\-help, \-?
 .RS 4
-\fIjavap\fRコマンドについてのヘルプ・メッセージを出力します。
+\fIjbvbp\fRコマンドについてのヘルプ・メッセージを出力します。
 .RE
 .PP
 \-version
@@ -101,7 +101,7 @@ publicクラスおよびメンバーのみ表示します。
 protectedおよびpublicのクラスとメンバーのみを表示します。
 .RE
 .PP
-\-private, \-p
+\-privbte, \-p
 .RS 4
 すべてのクラスとメンバーを表示します。
 .RE
@@ -114,8 +114,8 @@ protectedおよびpublicのクラスとメンバーのみを表示します。
 .RS 4
 .\}
 .nf
-javap \-J\-version
-javap \-J\-Djava\&.security\&.manager \-J\-Djava\&.security\&.policy=MyPolicy MyClassName
+jbvbp \-J\-version
+jbvbp \-J\-Djbvb\&.security\&.mbnbger \-J\-Djbvb\&.security\&.policy=MyPolicy MyClbssNbme
 .fi
 .if n \{\
 .RE
@@ -133,34 +133,34 @@ JVMオプションの詳細は、コマンドのマニュアルを参照してください。
 処理中のクラスのシステム情報(パス、サイズ、日付、MD5ハッシュ)を表示します。
 .RE
 .PP
-\-constants
+\-constbnts
 .RS 4
-\fIstatic final\fR定数を表示します。
+\fIstbtic finbl\fR定数を表示します。
 .RE
 .PP
 \-c
 .RS 4
-クラスの各メソッドのために逆アセンブルされるコード、すなわちJavaバイトコードからなる命令を表示します。
+クラスの各メソッドのために逆アセンブルされるコード、すなわちJbvbバイトコードからなる命令を表示します。
 .RE
 .PP
 \-verbose
 .RS 4
-メソッドのスタック・サイズ、localsとargumentsの数を出力します。
+メソッドのスタック・サイズ、locblsとbrgumentsの数を出力します。
 .RE
 .PP
-\-classpath \fIpath\fR
+\-clbsspbth \fIpbth\fR
 .RS 4
-クラスを探すために\fIjavap\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。
+クラスを探すために\fIjbvbp\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。
 .RE
 .PP
-\-bootclasspath \fIpath\fR
+\-bootclbsspbth \fIpbth\fR
 .RS 4
-ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjre/lib/rt\&.jar\fRおよび他のいくつかのJARファイルにある、コアJavaプラットフォームを実装するクラスです。
+ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjre/lib/rt\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
 .RE
 .PP
 \-extdir \fIdirs\fR
 .RS 4
-インストールされた拡張機能を検索する場所をオーバーライドします。拡張機能のデフォルト位置は\fIjava\&.ext\&.dirs\fRです。
+インストールされた拡張機能を検索する場所をオーバーライドします。拡張機能のデフォルト位置は\fIjbvb\&.ext\&.dirs\fRです。
 .RE
 .SH "例"
 .PP
@@ -170,22 +170,22 @@ JVMオプションの詳細は、コマンドのマニュアルを参照してください。
 .RS 4
 .\}
 .nf
-import java\&.awt\&.*;
-import java\&.applet\&.*;
+import jbvb\&.bwt\&.*;
+import jbvb\&.bpplet\&.*;
  
-public class DocFooter extends Applet {
-        String date;
-        String email;
+public clbss DocFooter extends Applet {
+        String dbte;
+        String embil;
  
         public void init() {
                 resize(500,100);
-                date = getParameter("LAST_UPDATED");
-                email = getParameter("EMAIL");
+                dbte = getPbrbmeter("LAST_UPDATED");
+                embil = getPbrbmeter("EMAIL");
         }
  
-        public void paint(Graphics g) {
-                g\&.drawString(date + " by ",100, 15);
-                g\&.drawString(email,290,15);
+        public void pbint(Grbphics g) {
+                g\&.drbwString(dbte + " by ",100, 15);
+                g\&.drbwString(embil,290,15);
         }
 }
 .fi
@@ -193,90 +193,90 @@ public class DocFooter extends Applet {
 .RE
 .\}
 .PP
-\fIjavap DocFooter\&.class\fRコマンドからの出力は次を生成します。
+\fIjbvbp DocFooter\&.clbss\fRコマンドからの出力は次を生成します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-Compiled from "DocFooter\&.java"
-public class DocFooter extends java\&.applet\&.Applet {
-  java\&.lang\&.String date;
-  java\&.lang\&.String email;
+Compiled from "DocFooter\&.jbvb"
+public clbss DocFooter extends jbvb\&.bpplet\&.Applet {
+  jbvb\&.lbng\&.String dbte;
+  jbvb\&.lbng\&.String embil;
   public DocFooter();
   public void init();
-  public void paint(java\&.awt\&.Graphics);
+  public void pbint(jbvb\&.bwt\&.Grbphics);
 }
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIjavap \-c DocFooter\&.class\fRコマンドからの出力は次を生成します。
+\fIjbvbp \-c DocFooter\&.clbss\fRコマンドからの出力は次を生成します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-Compiled from "DocFooter\&.java"
-public class DocFooter extends java\&.applet\&.Applet {
-  java\&.lang\&.String date;
-  java\&.lang\&.String email;
+Compiled from "DocFooter\&.jbvb"
+public clbss DocFooter extends jbvb\&.bpplet\&.Applet {
+  jbvb\&.lbng\&.String dbte;
+  jbvb\&.lbng\&.String embil;
 
   public DocFooter();
     Code:
-       0: aload_0       
-       1: invokespecial #1                  // Method
-java/applet/Applet\&."<init>":()V
+       0: blobd_0       
+       1: invokespecibl #1                  // Method
+jbvb/bpplet/Applet\&."<init>":()V
        4: return        
 
   public void init();
     Code:
-       0: aload_0       
+       0: blobd_0       
        1: sipush        500
        4: bipush        100
-       6: invokevirtual #2                  // Method resize:(II)V
-       9: aload_0       
-      10: aload_0       
+       6: invokevirtubl #2                  // Method resize:(II)V
+       9: blobd_0       
+      10: blobd_0       
       11: ldc           #3                  // String LAST_UPDATED
-      13: invokevirtual #4                  // Method
- getParameter:(Ljava/lang/String;)Ljava/lang/String;
-      16: putfield      #5                  // Field date:Ljava/lang/String;
-      19: aload_0       
-      20: aload_0       
+      13: invokevirtubl #4                  // Method
+ getPbrbmeter:(Ljbvb/lbng/String;)Ljbvb/lbng/String;
+      16: putfield      #5                  // Field dbte:Ljbvb/lbng/String;
+      19: blobd_0       
+      20: blobd_0       
       21: ldc           #6                  // String EMAIL
-      23: invokevirtual #4                  // Method
- getParameter:(Ljava/lang/String;)Ljava/lang/String;
-      26: putfield      #7                  // Field email:Ljava/lang/String;
+      23: invokevirtubl #4                  // Method
+ getPbrbmeter:(Ljbvb/lbng/String;)Ljbvb/lbng/String;
+      26: putfield      #7                  // Field embil:Ljbvb/lbng/String;
       29: return        
 
-  public void paint(java\&.awt\&.Graphics);
+  public void pbint(jbvb\&.bwt\&.Grbphics);
     Code:
-       0: aload_1       
-       1: new           #8                  // class java/lang/StringBuilder
+       0: blobd_1       
+       1: new           #8                  // clbss jbvb/lbng/StringBuilder
        4: dup           
-       5: invokespecial #9                  // Method
- java/lang/StringBuilder\&."<init>":()V
-       8: aload_0       
-       9: getfield      #5                  // Field date:Ljava/lang/String;
-      12: invokevirtual #10                 // Method
- java/lang/StringBuilder\&.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       5: invokespecibl #9                  // Method
+ jbvb/lbng/StringBuilder\&."<init>":()V
+       8: blobd_0       
+       9: getfield      #5                  // Field dbte:Ljbvb/lbng/String;
+      12: invokevirtubl #10                 // Method
+ jbvb/lbng/StringBuilder\&.bppend:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuilder;
       15: ldc           #11                 // String  by 
-      17: invokevirtual #10                 // Method
- java/lang/StringBuilder\&.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-      20: invokevirtual #12                 // Method
- java/lang/StringBuilder\&.toString:()Ljava/lang/String;
+      17: invokevirtubl #10                 // Method
+ jbvb/lbng/StringBuilder\&.bppend:(Ljbvb/lbng/String;)Ljbvb/lbng/StringBuilder;
+      20: invokevirtubl #12                 // Method
+ jbvb/lbng/StringBuilder\&.toString:()Ljbvb/lbng/String;
       23: bipush        100
       25: bipush        15
-      27: invokevirtual #13                 // Method
- java/awt/Graphics\&.drawString:(Ljava/lang/String;II)V
-      30: aload_1       
-      31: aload_0       
-      32: getfield      #7                  // Field email:Ljava/lang/String;
+      27: invokevirtubl #13                 // Method
+ jbvb/bwt/Grbphics\&.drbwString:(Ljbvb/lbng/String;II)V
+      30: blobd_1       
+      31: blobd_0       
+      32: getfield      #7                  // Field embil:Ljbvb/lbng/String;
       35: sipush        290
       38: bipush        15
-      40: invokevirtual #13                 // Method
-java/awt/Graphics\&.drawString:(Ljava/lang/String;II)V
+      40: invokevirtubl #13                 // Method
+jbvb/bwt/Grbphics\&.drbwString:(Ljbvb/lbng/String;II)V
       43: return        
 }
 .fi
@@ -293,7 +293,7 @@ java/awt/Graphics\&.drawString:(Ljava/lang/String;II)V
 .sp -1
 .IP \(bu 2.3
 .\}
-javac(1)
+jbvbc(1)
 .RE
 .sp
 .RS 4
@@ -304,7 +304,7 @@ javac(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-java(1)
+jbvb(1)
 .RE
 .sp
 .RS 4
@@ -326,7 +326,7 @@ jdb(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-javah(1)
+jbvbh(1)
 .RE
 .sp
 .RS 4
@@ -337,7 +337,7 @@ javah(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-javadoc(1)
+jbvbdoc(1)
 .RE
 .br
 'pl 8.5i

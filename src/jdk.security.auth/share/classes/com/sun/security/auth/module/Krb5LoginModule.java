@@ -1,441 +1,441 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.security.auth.module;
+pbckbge com.sun.security.buth.module;
 
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.MessageFormat;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.*;
 
-import javax.security.auth.*;
-import javax.security.auth.kerberos.KerberosTicket;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.KerberosKey;
-import javax.security.auth.kerberos.KeyTab;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
+import jbvbx.security.buth.*;
+import jbvbx.security.buth.kerberos.KerberosTicket;
+import jbvbx.security.buth.kerberos.KerberosPrincipbl;
+import jbvbx.security.buth.kerberos.KerberosKey;
+import jbvbx.security.buth.kerberos.KeyTbb;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.buth.login.*;
+import jbvbx.security.buth.spi.*;
 
 import sun.security.krb5.*;
 import sun.security.jgss.krb5.Krb5Util;
-import sun.security.krb5.Credentials;
+import sun.security.krb5.Credentibls;
 import sun.misc.HexDumpEncoder;
 
 /**
- * <p> This <code>LoginModule</code> authenticates users using
+ * <p> This <code>LoginModule</code> buthenticbtes users using
  * Kerberos protocols.
  *
- * <p> The configuration entry for <code>Krb5LoginModule</code> has
- * several options that control the authentication process and
- * additions to the <code>Subject</code>'s private credential
+ * <p> The configurbtion entry for <code>Krb5LoginModule</code> hbs
+ * severbl options thbt control the buthenticbtion process bnd
+ * bdditions to the <code>Subject</code>'s privbte credentibl
  * set. Irrespective of these options, the <code>Subject</code>'s
- * principal set and private credentials set are updated only when
- * <code>commit</code> is called.
- * When <code>commit</code> is called, the <code>KerberosPrincipal</code>
- * is added to the <code>Subject</code>'s principal set (unless the
- * <code>principal</code> is specified as "*"). If <code>isInitiator</code>
+ * principbl set bnd privbte credentibls set bre updbted only when
+ * <code>commit</code> is cblled.
+ * When <code>commit</code> is cblled, the <code>KerberosPrincipbl</code>
+ * is bdded to the <code>Subject</code>'s principbl set (unless the
+ * <code>principbl</code> is specified bs "*"). If <code>isInitibtor</code>
  * is true, the <code>KerberosTicket</code> is
- * added to the <code>Subject</code>'s private credentials.
+ * bdded to the <code>Subject</code>'s privbte credentibls.
  *
- * <p> If the configuration entry for <code>KerberosLoginModule</code>
- * has the option <code>storeKey</code> set to true, then
- * <code>KerberosKey</code> or <code>KeyTab</code> will also be added to the
- * subject's private credentials. <code>KerberosKey</code>, the principal's
- * key(s) will be derived from user's password, and <code>KeyTab</code> is
- * the keytab used when <code>useKeyTab</code> is set to true. The
- * <code>KeyTab</code> object is restricted to be used by the specified
- * principal unless the principal value is "*".
+ * <p> If the configurbtion entry for <code>KerberosLoginModule</code>
+ * hbs the option <code>storeKey</code> set to true, then
+ * <code>KerberosKey</code> or <code>KeyTbb</code> will blso be bdded to the
+ * subject's privbte credentibls. <code>KerberosKey</code>, the principbl's
+ * key(s) will be derived from user's pbssword, bnd <code>KeyTbb</code> is
+ * the keytbb used when <code>useKeyTbb</code> is set to true. The
+ * <code>KeyTbb</code> object is restricted to be used by the specified
+ * principbl unless the principbl vblue is "*".
  *
  * <p> This <code>LoginModule</code> recognizes the <code>doNotPrompt</code>
- * option. If set to true the user will not be prompted for the password.
+ * option. If set to true the user will not be prompted for the pbssword.
  *
- * <p> The user can  specify the location of the ticket cache by using
- * the option <code>ticketCache</code> in the configuration entry.
+ * <p> The user cbn  specify the locbtion of the ticket cbche by using
+ * the option <code>ticketCbche</code> in the configurbtion entry.
  *
- * <p>The user can specify the keytab location by using
- * the option <code>keyTab</code>
- * in the configuration entry.
+ * <p>The user cbn specify the keytbb locbtion by using
+ * the option <code>keyTbb</code>
+ * in the configurbtion entry.
  *
- * <p> The principal name can be specified in the configuration entry
- * by using the option <code>principal</code>. The principal name
- * can either be a simple user name, a service name such as
- * <code>host/mission.eng.sun.com</code>, or "*". The principal can also
- * be set using the system property <code>sun.security.krb5.principal</code>.
+ * <p> The principbl nbme cbn be specified in the configurbtion entry
+ * by using the option <code>principbl</code>. The principbl nbme
+ * cbn either be b simple user nbme, b service nbme such bs
+ * <code>host/mission.eng.sun.com</code>, or "*". The principbl cbn blso
+ * be set using the system property <code>sun.security.krb5.principbl</code>.
  * This property is checked during login. If this property is not set, then
- * the principal name from the configuration is used. In the
- * case where the principal property is not set and the principal
- * entry also does not exist, the user is prompted for the name.
- * When this property of entry is set, and <code>useTicketCache</code>
- * is set to true, only TGT belonging to this principal is used.
+ * the principbl nbme from the configurbtion is used. In the
+ * cbse where the principbl property is not set bnd the principbl
+ * entry blso does not exist, the user is prompted for the nbme.
+ * When this property of entry is set, bnd <code>useTicketCbche</code>
+ * is set to true, only TGT belonging to this principbl is used.
  *
- * <p> The following is a list of configuration options supported
+ * <p> The following is b list of configurbtion options supported
  * for <code>Krb5LoginModule</code>:
  * <blockquote><dl>
  * <dt><b><code>refreshKrb5Config</code></b>:</dt>
- * <dd> Set this to true, if you want the configuration
- * to be refreshed before the <code>login</code> method is called.</dd>
- * <dt><b><code>useTicketCache</code></b>:</dt>
- * <dd>Set this to true, if you want the
- * TGT to be obtained
- * from the ticket cache. Set this option
- * to false if you do not want this module to use the ticket cache.
- * (Default is False).
+ * <dd> Set this to true, if you wbnt the configurbtion
+ * to be refreshed before the <code>login</code> method is cblled.</dd>
+ * <dt><b><code>useTicketCbche</code></b>:</dt>
+ * <dd>Set this to true, if you wbnt the
+ * TGT to be obtbined
+ * from the ticket cbche. Set this option
+ * to fblse if you do not wbnt this module to use the ticket cbche.
+ * (Defbult is Fblse).
  * This module will
- * search for the ticket
- * cache in the following locations:
- * On Solaris and Linux
- * it will look for the ticket cache in /tmp/krb5cc_<code>uid</code>
+ * sebrch for the ticket
+ * cbche in the following locbtions:
+ * On Solbris bnd Linux
+ * it will look for the ticket cbche in /tmp/krb5cc_<code>uid</code>
  * where the uid is numeric user
- * identifier. If the ticket cache is
- * not available in the above location, or if we are on a
- * Windows platform, it will look for the cache as
- * {user.home}{file.separator}krb5cc_{user.name}.
- * You can override the ticket cache location by using
- * <code>ticketCache</code>.
- * For Windows, if a ticket cannot be retrieved from the file ticket cache,
- * it will use Local Security Authority (LSA) API to get the TGT.
- * <dt><b><code>ticketCache</code></b>:</dt>
- * <dd>Set this to the name of the ticket
- * cache that  contains user's TGT.
- * If this is set,  <code>useTicketCache</code>
- * must also be set to true; Otherwise a configuration error will
+ * identifier. If the ticket cbche is
+ * not bvbilbble in the bbove locbtion, or if we bre on b
+ * Windows plbtform, it will look for the cbche bs
+ * {user.home}{file.sepbrbtor}krb5cc_{user.nbme}.
+ * You cbn override the ticket cbche locbtion by using
+ * <code>ticketCbche</code>.
+ * For Windows, if b ticket cbnnot be retrieved from the file ticket cbche,
+ * it will use Locbl Security Authority (LSA) API to get the TGT.
+ * <dt><b><code>ticketCbche</code></b>:</dt>
+ * <dd>Set this to the nbme of the ticket
+ * cbche thbt  contbins user's TGT.
+ * If this is set,  <code>useTicketCbche</code>
+ * must blso be set to true; Otherwise b configurbtion error will
  * be returned.</dd>
  * <dt><b><code>renewTGT</code></b>:</dt>
- * <dd>Set this to true, if you want to renew
- * the TGT. If this is set, <code>useTicketCache</code> must also be
- * set to true; otherwise a configuration error will be returned.</dd>
+ * <dd>Set this to true, if you wbnt to renew
+ * the TGT. If this is set, <code>useTicketCbche</code> must blso be
+ * set to true; otherwise b configurbtion error will be returned.</dd>
  * <dt><b><code>doNotPrompt</code></b>:</dt>
- * <dd>Set this to true if you do not want to be
- * prompted for the password
- * if credentials can not be obtained from the cache, the keytab,
- * or through shared state.(Default is false)
- * If set to true, credential must be obtained through cache, keytab,
- * or shared state. Otherwise, authentication will fail.</dd>
- * <dt><b><code>useKeyTab</code></b>:</dt>
+ * <dd>Set this to true if you do not wbnt to be
+ * prompted for the pbssword
+ * if credentibls cbn not be obtbined from the cbche, the keytbb,
+ * or through shbred stbte.(Defbult is fblse)
+ * If set to true, credentibl must be obtbined through cbche, keytbb,
+ * or shbred stbte. Otherwise, buthenticbtion will fbil.</dd>
+ * <dt><b><code>useKeyTbb</code></b>:</dt>
  * <dd>Set this to true if you
- * want the module to get the principal's key from the
- * the keytab.(default value is False)
- * If <code>keytab</code>
+ * wbnt the module to get the principbl's key from the
+ * the keytbb.(defbult vblue is Fblse)
+ * If <code>keytbb</code>
  * is not set then
- * the module will locate the keytab from the
- * Kerberos configuration file.
- * If it is not specified in the Kerberos configuration file
+ * the module will locbte the keytbb from the
+ * Kerberos configurbtion file.
+ * If it is not specified in the Kerberos configurbtion file
  * then it will look for the file
- * <code>{user.home}{file.separator}</code>krb5.keytab.</dd>
- * <dt><b><code>keyTab</code></b>:</dt>
- * <dd>Set this to the file name of the
- * keytab to get principal's secret key.</dd>
+ * <code>{user.home}{file.sepbrbtor}</code>krb5.keytbb.</dd>
+ * <dt><b><code>keyTbb</code></b>:</dt>
+ * <dd>Set this to the file nbme of the
+ * keytbb to get principbl's secret key.</dd>
  * <dt><b><code>storeKey</code></b>:</dt>
- * <dd>Set this to true to if you want the keytab or the
- * principal's key to be stored in the Subject's private credentials.
- * For <code>isInitiator</code> being false, if <code>principal</code>
- * is "*", the {@link KeyTab} stored can be used by anyone, otherwise,
- * it's restricted to be used by the specified principal only.</dd>
- * <dt><b><code>principal</code></b>:</dt>
- * <dd>The name of the principal that should
- * be used. The principal can be a simple username such as
- * "<code>testuser</code>" or a service name such as
- * "<code>host/testhost.eng.sun.com</code>". You can use the
- * <code>principal</code>  option to set the principal when there are
- * credentials for multiple principals in the
- * <code>keyTab</code> or when you want a specific ticket cache only.
- * The principal can also be set using the system property
- * <code>sun.security.krb5.principal</code>. In addition, if this
+ * <dd>Set this to true to if you wbnt the keytbb or the
+ * principbl's key to be stored in the Subject's privbte credentibls.
+ * For <code>isInitibtor</code> being fblse, if <code>principbl</code>
+ * is "*", the {@link KeyTbb} stored cbn be used by bnyone, otherwise,
+ * it's restricted to be used by the specified principbl only.</dd>
+ * <dt><b><code>principbl</code></b>:</dt>
+ * <dd>The nbme of the principbl thbt should
+ * be used. The principbl cbn be b simple usernbme such bs
+ * "<code>testuser</code>" or b service nbme such bs
+ * "<code>host/testhost.eng.sun.com</code>". You cbn use the
+ * <code>principbl</code>  option to set the principbl when there bre
+ * credentibls for multiple principbls in the
+ * <code>keyTbb</code> or when you wbnt b specific ticket cbche only.
+ * The principbl cbn blso be set using the system property
+ * <code>sun.security.krb5.principbl</code>. In bddition, if this
  * system property is defined, then it will be used. If this property
- * is not set, then the principal name from the configuration will be
+ * is not set, then the principbl nbme from the configurbtion will be
  * used.
- * The principal name can be set to "*" when <code>isInitiator</code> is false.
- * In this case, the acceptor is not bound to a single principal. It can
- * act as any principal an initiator requests if keys for that principal
- * can be found. When <code>isInitiator</code> is true, the principal name
- * cannot be set to "*".
+ * The principbl nbme cbn be set to "*" when <code>isInitibtor</code> is fblse.
+ * In this cbse, the bcceptor is not bound to b single principbl. It cbn
+ * bct bs bny principbl bn initibtor requests if keys for thbt principbl
+ * cbn be found. When <code>isInitibtor</code> is true, the principbl nbme
+ * cbnnot be set to "*".
  * </dd>
- * <dt><b><code>isInitiator</code></b>:</dt>
- * <dd>Set this to true, if initiator. Set this to false, if acceptor only.
- * (Default is true).
- * Note: Do not set this value to false for initiators.</dd>
+ * <dt><b><code>isInitibtor</code></b>:</dt>
+ * <dd>Set this to true, if initibtor. Set this to fblse, if bcceptor only.
+ * (Defbult is true).
+ * Note: Do not set this vblue to fblse for initibtors.</dd>
  * </dl></blockquote>
  *
- * <p> This <code>LoginModule</code> also recognizes the following additional
- * <code>Configuration</code>
- * options that enable you to share username and passwords across different
- * authentication modules:
+ * <p> This <code>LoginModule</code> blso recognizes the following bdditionbl
+ * <code>Configurbtion</code>
+ * options thbt enbble you to shbre usernbme bnd pbsswords bcross different
+ * buthenticbtion modules:
  * <blockquote><dl>
  *
- *    <dt><b><code>useFirstPass</code></b>:</dt>
+ *    <dt><b><code>useFirstPbss</code></b>:</dt>
  *                   <dd>if, true, this LoginModule retrieves the
- *                   username and password from the module's shared state,
- *                   using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys. The retrieved values are used for authentication.
- *                   If authentication fails, no attempt for a retry
- *                   is made, and the failure is reported back to the
- *                   calling application.</dd>
+ *                   usernbme bnd pbssword from the module's shbred stbte,
+ *                   using "jbvbx.security.buth.login.nbme" bnd
+ *                   "jbvbx.security.buth.login.pbssword" bs the respective
+ *                   keys. The retrieved vblues bre used for buthenticbtion.
+ *                   If buthenticbtion fbils, no bttempt for b retry
+ *                   is mbde, bnd the fbilure is reported bbck to the
+ *                   cblling bpplicbtion.</dd>
  *
- *    <dt><b><code>tryFirstPass</code></b>:</dt>
+ *    <dt><b><code>tryFirstPbss</code></b>:</dt>
  *                   <dd>if, true, this LoginModule retrieves the
- *                   the username and password from the module's shared
- *                   state using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  The retrieved values are used for
- *                   authentication.
- *                   If authentication fails, the module uses the
- *                   CallbackHandler to retrieve a new username
- *                   and password, and another attempt to authenticate
- *                   is made. If the authentication fails,
- *                   the failure is reported back to the calling application</dd>
+ *                   the usernbme bnd pbssword from the module's shbred
+ *                   stbte using "jbvbx.security.buth.login.nbme" bnd
+ *                   "jbvbx.security.buth.login.pbssword" bs the respective
+ *                   keys.  The retrieved vblues bre used for
+ *                   buthenticbtion.
+ *                   If buthenticbtion fbils, the module uses the
+ *                   CbllbbckHbndler to retrieve b new usernbme
+ *                   bnd pbssword, bnd bnother bttempt to buthenticbte
+ *                   is mbde. If the buthenticbtion fbils,
+ *                   the fbilure is reported bbck to the cblling bpplicbtion</dd>
  *
- *    <dt><b><code>storePass</code></b>:</dt>
- *                   <dd>if, true, this LoginModule stores the username and
- *                   password obtained from the CallbackHandler in the
- *                   modules shared state, using
- *                   "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  This is not performed if existing values already
- *                   exist for the username and password in the shared
- *                   state, or if authentication fails.</dd>
+ *    <dt><b><code>storePbss</code></b>:</dt>
+ *                   <dd>if, true, this LoginModule stores the usernbme bnd
+ *                   pbssword obtbined from the CbllbbckHbndler in the
+ *                   modules shbred stbte, using
+ *                   "jbvbx.security.buth.login.nbme" bnd
+ *                   "jbvbx.security.buth.login.pbssword" bs the respective
+ *                   keys.  This is not performed if existing vblues blrebdy
+ *                   exist for the usernbme bnd pbssword in the shbred
+ *                   stbte, or if buthenticbtion fbils.</dd>
  *
- *    <dt><b><code>clearPass</code></b>:</dt>
- *                   <dd>if, true, this LoginModule clears the
- *                   username and password stored in the module's shared
- *                   state  after both phases of authentication
- *                   (login and commit) have completed.</dd>
+ *    <dt><b><code>clebrPbss</code></b>:</dt>
+ *                   <dd>if, true, this LoginModule clebrs the
+ *                   usernbme bnd pbssword stored in the module's shbred
+ *                   stbte  bfter both phbses of buthenticbtion
+ *                   (login bnd commit) hbve completed.</dd>
  * </dl></blockquote>
- * <p>If the principal system property or key is already provided, the value of
- * "javax.security.auth.login.name" in the shared state is ignored.
- * <p>When multiple mechanisms to retrieve a ticket or key is provided, the
+ * <p>If the principbl system property or key is blrebdy provided, the vblue of
+ * "jbvbx.security.buth.login.nbme" in the shbred stbte is ignored.
+ * <p>When multiple mechbnisms to retrieve b ticket or key is provided, the
  * preference order is:
  * <ol>
- * <li>ticket cache
- * <li>keytab
- * <li>shared state
+ * <li>ticket cbche
+ * <li>keytbb
+ * <li>shbred stbte
  * <li>user prompt
  * </ol>
- * <p>Note that if any step fails, it will fallback to the next step.
- * There's only one exception, if the shared state step fails and
- * <code>useFirstPass</code>=true, no user prompt is made.
- * <p>Examples of some configuration values for Krb5LoginModule in
- * JAAS config file and the results are:
+ * <p>Note thbt if bny step fbils, it will fbllbbck to the next step.
+ * There's only one exception, if the shbred stbte step fbils bnd
+ * <code>useFirstPbss</code>=true, no user prompt is mbde.
+ * <p>Exbmples of some configurbtion vblues for Krb5LoginModule in
+ * JAAS config file bnd the results bre:
  * <ul>
  * <p> <code>doNotPrompt</code>=true;
  * </ul>
- * <p> This is an illegal combination since none of <code>useTicketCache</code>,
- * <code>useKeyTab</code>, <code>useFirstPass</code> and <code>tryFirstPass</code>
- * is set and the user can not be prompted for the password.
+ * <p> This is bn illegbl combinbtion since none of <code>useTicketCbche</code>,
+ * <code>useKeyTbb</code>, <code>useFirstPbss</code> bnd <code>tryFirstPbss</code>
+ * is set bnd the user cbn not be prompted for the pbssword.
  *<ul>
- * <p> <code>ticketCache</code> = &lt;filename&gt;;
+ * <p> <code>ticketCbche</code> = &lt;filenbme&gt;;
  *</ul>
- * <p> This is an illegal combination since <code>useTicketCache</code>
- * is not set to true and the ticketCache is set. A configuration error
+ * <p> This is bn illegbl combinbtion since <code>useTicketCbche</code>
+ * is not set to true bnd the ticketCbche is set. A configurbtion error
  * will occur.
  * <ul>
  * <p> <code>renewTGT</code>=true;
  *</ul>
- * <p> This is an illegal combination since <code>useTicketCache</code> is
- * not set to true and renewTGT is set. A configuration error will occur.
+ * <p> This is bn illegbl combinbtion since <code>useTicketCbche</code> is
+ * not set to true bnd renewTGT is set. A configurbtion error will occur.
  * <ul>
  * <p> <code>storeKey</code>=true
- * <code>useTicketCache</code> = true
+ * <code>useTicketCbche</code> = true
  * <code>doNotPrompt</code>=true;;
  *</ul>
- * <p> This is an illegal combination since  <code>storeKey</code> is set to
- * true but the key can not be obtained either by prompting the user or from
- * the keytab, or from the shared state. A configuration error will occur.
+ * <p> This is bn illegbl combinbtion since  <code>storeKey</code> is set to
+ * true but the key cbn not be obtbined either by prompting the user or from
+ * the keytbb, or from the shbred stbte. A configurbtion error will occur.
  * <ul>
- * <p>  <code>keyTab</code> = &lt;filename&gt; <code>doNotPrompt</code>=true ;
+ * <p>  <code>keyTbb</code> = &lt;filenbme&gt; <code>doNotPrompt</code>=true ;
  * </ul>
- * <p>This is an illegal combination since useKeyTab is not set to true and
- * the keyTab is set. A configuration error will occur.
+ * <p>This is bn illegbl combinbtion since useKeyTbb is not set to true bnd
+ * the keyTbb is set. A configurbtion error will occur.
  * <ul>
  * <p> <code>debug=true </code>
  *</ul>
- * <p> Prompt the user for the principal name and the password.
- * Use the authentication exchange to get TGT from the KDC and
- * populate the <code>Subject</code> with the principal and TGT.
- * Output debug messages.
+ * <p> Prompt the user for the principbl nbme bnd the pbssword.
+ * Use the buthenticbtion exchbnge to get TGT from the KDC bnd
+ * populbte the <code>Subject</code> with the principbl bnd TGT.
+ * Output debug messbges.
  * <ul>
- * <p> <code>useTicketCache</code> = true <code>doNotPrompt</code>=true;
+ * <p> <code>useTicketCbche</code> = true <code>doNotPrompt</code>=true;
  *</ul>
- * <p>Check the default cache for TGT and populate the <code>Subject</code>
- * with the principal and TGT. If the TGT is not available,
- * do not prompt the user, instead fail the authentication.
+ * <p>Check the defbult cbche for TGT bnd populbte the <code>Subject</code>
+ * with the principbl bnd TGT. If the TGT is not bvbilbble,
+ * do not prompt the user, instebd fbil the buthenticbtion.
  * <ul>
- * <p><code>principal</code>=&lt;name&gt;<code>useTicketCache</code> = true
+ * <p><code>principbl</code>=&lt;nbme&gt;<code>useTicketCbche</code> = true
  * <code>doNotPrompt</code>=true;
  *</ul>
- * <p> Get the TGT from the default cache for the principal and populate the
- * Subject's principal and private creds set. If ticket cache is
- * not available or does not contain the principal's TGT
- * authentication will fail.
+ * <p> Get the TGT from the defbult cbche for the principbl bnd populbte the
+ * Subject's principbl bnd privbte creds set. If ticket cbche is
+ * not bvbilbble or does not contbin the principbl's TGT
+ * buthenticbtion will fbil.
  * <ul>
- * <p> <code>useTicketCache</code> = true
- * <code>ticketCache</code>=&lt;file name&gt;<code>useKeyTab</code> = true
- * <code> keyTab</code>=&lt;keytab filename&gt;
- * <code>principal</code> = &lt;principal name&gt;
+ * <p> <code>useTicketCbche</code> = true
+ * <code>ticketCbche</code>=&lt;file nbme&gt;<code>useKeyTbb</code> = true
+ * <code> keyTbb</code>=&lt;keytbb filenbme&gt;
+ * <code>principbl</code> = &lt;principbl nbme&gt;
  * <code>doNotPrompt</code>=true;
  *</ul>
- * <p>  Search the cache for the principal's TGT. If it is not available
- * use the key in the keytab to perform authentication exchange with the
- * KDC and acquire the TGT.
- * The Subject will be populated with the principal and the TGT.
- * If the key is not available or valid then authentication will fail.
+ * <p>  Sebrch the cbche for the principbl's TGT. If it is not bvbilbble
+ * use the key in the keytbb to perform buthenticbtion exchbnge with the
+ * KDC bnd bcquire the TGT.
+ * The Subject will be populbted with the principbl bnd the TGT.
+ * If the key is not bvbilbble or vblid then buthenticbtion will fbil.
  * <ul>
- * <p><code>useTicketCache</code> = true
- * <code>ticketCache</code>=&lt;file name&gt;
+ * <p><code>useTicketCbche</code> = true
+ * <code>ticketCbche</code>=&lt;file nbme&gt;
  *</ul>
- * <p> The TGT will be obtained from the cache specified.
- * The Kerberos principal name used will be the principal name in
- * the Ticket cache. If the TGT is not available in the
- * ticket cache the user will be prompted for the principal name
- * and the password. The TGT will be obtained using the authentication
- * exchange with the KDC.
- * The Subject will be populated with the TGT.
+ * <p> The TGT will be obtbined from the cbche specified.
+ * The Kerberos principbl nbme used will be the principbl nbme in
+ * the Ticket cbche. If the TGT is not bvbilbble in the
+ * ticket cbche the user will be prompted for the principbl nbme
+ * bnd the pbssword. The TGT will be obtbined using the buthenticbtion
+ * exchbnge with the KDC.
+ * The Subject will be populbted with the TGT.
  *<ul>
- * <p> <code>useKeyTab</code> = true
- * <code>keyTab</code>=&lt;keytab filename&gt;
- * <code>principal</code>= &lt;principal name&gt;
+ * <p> <code>useKeyTbb</code> = true
+ * <code>keyTbb</code>=&lt;keytbb filenbme&gt;
+ * <code>principbl</code>= &lt;principbl nbme&gt;
  * <code>storeKey</code>=true;
  *</ul>
- * <p>  The key for the principal will be retrieved from the keytab.
- * If the key is not available in the keytab the user will be prompted
- * for the principal's password. The Subject will be populated
- * with the principal's key either from the keytab or derived from the
- * password entered.
+ * <p>  The key for the principbl will be retrieved from the keytbb.
+ * If the key is not bvbilbble in the keytbb the user will be prompted
+ * for the principbl's pbssword. The Subject will be populbted
+ * with the principbl's key either from the keytbb or derived from the
+ * pbssword entered.
  * <ul>
- * <p> <code>useKeyTab</code> = true
- * <code>keyTab</code>=&lt;keytabname&gt;
+ * <p> <code>useKeyTbb</code> = true
+ * <code>keyTbb</code>=&lt;keytbbnbme&gt;
  * <code>storeKey</code>=true
- * <code>doNotPrompt</code>=false;
+ * <code>doNotPrompt</code>=fblse;
  *</ul>
- * <p>The user will be prompted for the service principal name.
- * If the principal's
- * longterm key is available in the keytab , it will be added to the
- * Subject's private credentials. An authentication exchange will be
- * attempted with the principal name and the key from the Keytab.
- * If successful the TGT will be added to the
- * Subject's private credentials set. Otherwise the authentication will
- * fail.
+ * <p>The user will be prompted for the service principbl nbme.
+ * If the principbl's
+ * longterm key is bvbilbble in the keytbb , it will be bdded to the
+ * Subject's privbte credentibls. An buthenticbtion exchbnge will be
+ * bttempted with the principbl nbme bnd the key from the Keytbb.
+ * If successful the TGT will be bdded to the
+ * Subject's privbte credentibls set. Otherwise the buthenticbtion will
+ * fbil.
  * <ul>
- * <p> <code>isInitiator</code> = false <code>useKeyTab</code> = true
- * <code>keyTab</code>=&lt;keytabname&gt;
+ * <p> <code>isInitibtor</code> = fblse <code>useKeyTbb</code> = true
+ * <code>keyTbb</code>=&lt;keytbbnbme&gt;
  * <code>storeKey</code>=true
- * <code>principal</code>=*;
+ * <code>principbl</code>=*;
  *</ul>
- * <p>The acceptor will be an unbound acceptor and it can act as any principal
- * as long that principal has keys in the keytab.
+ * <p>The bcceptor will be bn unbound bcceptor bnd it cbn bct bs bny principbl
+ * bs long thbt principbl hbs keys in the keytbb.
  *<ul>
  * <p>
- * <code>useTicketCache</code>=true
- * <code>ticketCache</code>=&lt;file name&gt;;
- * <code>useKeyTab</code> = true
- * <code>keyTab</code>=&lt;file name&gt; <code>storeKey</code>=true
- * <code>principal</code>= &lt;principal name&gt;
+ * <code>useTicketCbche</code>=true
+ * <code>ticketCbche</code>=&lt;file nbme&gt;;
+ * <code>useKeyTbb</code> = true
+ * <code>keyTbb</code>=&lt;file nbme&gt; <code>storeKey</code>=true
+ * <code>principbl</code>= &lt;principbl nbme&gt;
  *</ul>
  * <p>
- * The client's TGT will be retrieved from the ticket cache and added to the
- * <code>Subject</code>'s private credentials. If the TGT is not available
- * in the ticket cache, or the TGT's client name does not match the principal
- * name, Java will use a secret key to obtain the TGT using the authentication
- * exchange and added to the Subject's private credentials.
- * This secret key will be first retrieved from the keytab. If the key
- * is not available, the user will be prompted for the password. In either
- * case, the key derived from the password will be added to the
- * Subject's private credentials set.
+ * The client's TGT will be retrieved from the ticket cbche bnd bdded to the
+ * <code>Subject</code>'s privbte credentibls. If the TGT is not bvbilbble
+ * in the ticket cbche, or the TGT's client nbme does not mbtch the principbl
+ * nbme, Jbvb will use b secret key to obtbin the TGT using the buthenticbtion
+ * exchbnge bnd bdded to the Subject's privbte credentibls.
+ * This secret key will be first retrieved from the keytbb. If the key
+ * is not bvbilbble, the user will be prompted for the pbssword. In either
+ * cbse, the key derived from the pbssword will be bdded to the
+ * Subject's privbte credentibls set.
  * <ul>
- * <p><code>isInitiator</code> = false
+ * <p><code>isInitibtor</code> = fblse
  *</ul>
- * <p>Configured to act as acceptor only, credentials are not acquired
- * via AS exchange. For acceptors only, set this value to false.
- * For initiators, do not set this value to false.
+ * <p>Configured to bct bs bcceptor only, credentibls bre not bcquired
+ * vib AS exchbnge. For bcceptors only, set this vblue to fblse.
+ * For initibtors, do not set this vblue to fblse.
  * <ul>
- * <p><code>isInitiator</code> = true
+ * <p><code>isInitibtor</code> = true
  *</ul>
- * <p>Configured to act as initiator, credentials are acquired
- * via AS exchange. For initiators, set this value to true, or leave this
- * option unset, in which case default value (true) will be used.
+ * <p>Configured to bct bs initibtor, credentibls bre bcquired
+ * vib AS exchbnge. For initibtors, set this vblue to true, or lebve this
+ * option unset, in which cbse defbult vblue (true) will be used.
  *
- * @author Ram Marti
+ * @buthor Rbm Mbrti
  */
 
 @jdk.Exported
-public class Krb5LoginModule implements LoginModule {
+public clbss Krb5LoginModule implements LoginModule {
 
-    // initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, Object> sharedState;
-    private Map<String, ?> options;
+    // initibl stbte
+    privbte Subject subject;
+    privbte CbllbbckHbndler cbllbbckHbndler;
+    privbte Mbp<String, Object> shbredStbte;
+    privbte Mbp<String, ?> options;
 
-    // configurable option
-    private boolean debug = false;
-    private boolean storeKey = false;
-    private boolean doNotPrompt = false;
-    private boolean useTicketCache = false;
-    private boolean useKeyTab = false;
-    private String ticketCacheName = null;
-    private String keyTabName = null;
-    private String princName = null;
+    // configurbble option
+    privbte boolebn debug = fblse;
+    privbte boolebn storeKey = fblse;
+    privbte boolebn doNotPrompt = fblse;
+    privbte boolebn useTicketCbche = fblse;
+    privbte boolebn useKeyTbb = fblse;
+    privbte String ticketCbcheNbme = null;
+    privbte String keyTbbNbme = null;
+    privbte String princNbme = null;
 
-    private boolean useFirstPass = false;
-    private boolean tryFirstPass = false;
-    private boolean storePass = false;
-    private boolean clearPass = false;
-    private boolean refreshKrb5Config = false;
-    private boolean renewTGT = false;
+    privbte boolebn useFirstPbss = fblse;
+    privbte boolebn tryFirstPbss = fblse;
+    privbte boolebn storePbss = fblse;
+    privbte boolebn clebrPbss = fblse;
+    privbte boolebn refreshKrb5Config = fblse;
+    privbte boolebn renewTGT = fblse;
 
-    // specify if initiator.
-    // perform authentication exchange if initiator
-    private boolean isInitiator = true;
+    // specify if initibtor.
+    // perform buthenticbtion exchbnge if initibtor
+    privbte boolebn isInitibtor = true;
 
-    // the authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
-    private String username;
+    // the buthenticbtion stbtus
+    privbte boolebn succeeded = fblse;
+    privbte boolebn commitSucceeded = fblse;
+    privbte String usernbme;
 
-    // Encryption keys calculated from password. Assigned when storekey == true
-    // and useKeyTab == false (or true but not found)
-    private EncryptionKey[] encKeys = null;
+    // Encryption keys cblculbted from pbssword. Assigned when storekey == true
+    // bnd useKeyTbb == fblse (or true but not found)
+    privbte EncryptionKey[] encKeys = null;
 
-    KeyTab ktab = null;
+    KeyTbb ktbb = null;
 
-    private Credentials cred = null;
+    privbte Credentibls cred = null;
 
-    private PrincipalName principal = null;
-    private KerberosPrincipal kerbClientPrinc = null;
-    private KerberosTicket kerbTicket = null;
-    private KerberosKey[] kerbKeys = null;
-    private StringBuffer krb5PrincName = null;
-    private boolean unboundServer = false;
-    private char[] password = null;
+    privbte PrincipblNbme principbl = null;
+    privbte KerberosPrincipbl kerbClientPrinc = null;
+    privbte KerberosTicket kerbTicket = null;
+    privbte KerberosKey[] kerbKeys = null;
+    privbte StringBuffer krb5PrincNbme = null;
+    privbte boolebn unboundServer = fblse;
+    privbte chbr[] pbssword = null;
 
-    private static final String NAME = "javax.security.auth.login.name";
-    private static final String PWD = "javax.security.auth.login.password";
-    private static final ResourceBundle rb = AccessController.doPrivileged(
+    privbte stbtic finbl String NAME = "jbvbx.security.buth.login.nbme";
+    privbte stbtic finbl String PWD = "jbvbx.security.buth.login.pbssword";
+    privbte stbtic finbl ResourceBundle rb = AccessController.doPrivileged(
             new PrivilegedAction<ResourceBundle>() {
                 public ResourceBundle run() {
                     return ResourceBundle.getBundle(
@@ -445,313 +445,313 @@ public class Krb5LoginModule implements LoginModule {
     );
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblize this <code>LoginModule</code>.
      *
      * <p>
-     * @param subject the <code>Subject</code> to be authenticated. <p>
+     * @pbrbm subject the <code>Subject</code> to be buthenticbted. <p>
      *
-     * @param callbackHandler a <code>CallbackHandler</code> for
-     *                  communication with the end user (prompting for
-     *                  usernames and passwords, for example). <p>
+     * @pbrbm cbllbbckHbndler b <code>CbllbbckHbndler</code> for
+     *                  communicbtion with the end user (prompting for
+     *                  usernbmes bnd pbsswords, for exbmple). <p>
      *
-     * @param sharedState shared <code>LoginModule</code> state. <p>
+     * @pbrbm shbredStbte shbred <code>LoginModule</code> stbte. <p>
      *
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
+     * @pbrbm options options specified in the login
+     *                  <code>Configurbtion</code> for this pbrticulbr
      *                  <code>LoginModule</code>.
      */
-    // Unchecked warning from (Map<String, Object>)sharedState is safe
-    // since javax.security.auth.login.LoginContext passes a raw HashMap.
-    // Unchecked warnings from options.get(String) are safe since we are
-    // passing known keys.
-    @SuppressWarnings("unchecked")
-    public void initialize(Subject subject,
-                           CallbackHandler callbackHandler,
-                           Map<String, ?> sharedState,
-                           Map<String, ?> options) {
+    // Unchecked wbrning from (Mbp<String, Object>)shbredStbte is sbfe
+    // since jbvbx.security.buth.login.LoginContext pbsses b rbw HbshMbp.
+    // Unchecked wbrnings from options.get(String) bre sbfe since we bre
+    // pbssing known keys.
+    @SuppressWbrnings("unchecked")
+    public void initiblize(Subject subject,
+                           CbllbbckHbndler cbllbbckHbndler,
+                           Mbp<String, ?> shbredStbte,
+                           Mbp<String, ?> options) {
 
         this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = (Map<String, Object>)sharedState;
+        this.cbllbbckHbndler = cbllbbckHbndler;
+        this.shbredStbte = (Mbp<String, Object>)shbredStbte;
         this.options = options;
 
-        // initialize any configured options
+        // initiblize bny configured options
 
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
-        storeKey = "true".equalsIgnoreCase((String)options.get("storeKey"));
-        doNotPrompt = "true".equalsIgnoreCase((String)options.get
+        debug = "true".equblsIgnoreCbse((String)options.get("debug"));
+        storeKey = "true".equblsIgnoreCbse((String)options.get("storeKey"));
+        doNotPrompt = "true".equblsIgnoreCbse((String)options.get
                                               ("doNotPrompt"));
-        useTicketCache = "true".equalsIgnoreCase((String)options.get
-                                                 ("useTicketCache"));
-        useKeyTab = "true".equalsIgnoreCase((String)options.get("useKeyTab"));
-        ticketCacheName = (String)options.get("ticketCache");
-        keyTabName = (String)options.get("keyTab");
-        if (keyTabName != null) {
-            keyTabName = sun.security.krb5.internal.ktab.KeyTab.normalize(
-                         keyTabName);
+        useTicketCbche = "true".equblsIgnoreCbse((String)options.get
+                                                 ("useTicketCbche"));
+        useKeyTbb = "true".equblsIgnoreCbse((String)options.get("useKeyTbb"));
+        ticketCbcheNbme = (String)options.get("ticketCbche");
+        keyTbbNbme = (String)options.get("keyTbb");
+        if (keyTbbNbme != null) {
+            keyTbbNbme = sun.security.krb5.internbl.ktbb.KeyTbb.normblize(
+                         keyTbbNbme);
         }
-        princName = (String)options.get("principal");
+        princNbme = (String)options.get("principbl");
         refreshKrb5Config =
-            "true".equalsIgnoreCase((String)options.get("refreshKrb5Config"));
+            "true".equblsIgnoreCbse((String)options.get("refreshKrb5Config"));
         renewTGT =
-            "true".equalsIgnoreCase((String)options.get("renewTGT"));
+            "true".equblsIgnoreCbse((String)options.get("renewTGT"));
 
-        // check isInitiator value
-        String isInitiatorValue = ((String)options.get("isInitiator"));
-        if (isInitiatorValue == null) {
-            // use default, if value not set
+        // check isInitibtor vblue
+        String isInitibtorVblue = ((String)options.get("isInitibtor"));
+        if (isInitibtorVblue == null) {
+            // use defbult, if vblue not set
         } else {
-            isInitiator = "true".equalsIgnoreCase(isInitiatorValue);
+            isInitibtor = "true".equblsIgnoreCbse(isInitibtorVblue);
         }
 
-        tryFirstPass =
-            "true".equalsIgnoreCase
-            ((String)options.get("tryFirstPass"));
-        useFirstPass =
-            "true".equalsIgnoreCase
-            ((String)options.get("useFirstPass"));
-        storePass =
-            "true".equalsIgnoreCase((String)options.get("storePass"));
-        clearPass =
-            "true".equalsIgnoreCase((String)options.get("clearPass"));
+        tryFirstPbss =
+            "true".equblsIgnoreCbse
+            ((String)options.get("tryFirstPbss"));
+        useFirstPbss =
+            "true".equblsIgnoreCbse
+            ((String)options.get("useFirstPbss"));
+        storePbss =
+            "true".equblsIgnoreCbse((String)options.get("storePbss"));
+        clebrPbss =
+            "true".equblsIgnoreCbse((String)options.get("clebrPbss"));
         if (debug) {
             System.out.print("Debug is  " + debug
                              + " storeKey " + storeKey
-                             + " useTicketCache " + useTicketCache
-                             + " useKeyTab " + useKeyTab
+                             + " useTicketCbche " + useTicketCbche
+                             + " useKeyTbb " + useKeyTbb
                              + " doNotPrompt " + doNotPrompt
-                             + " ticketCache is " + ticketCacheName
-                             + " isInitiator " + isInitiator
-                             + " KeyTab is " + keyTabName
+                             + " ticketCbche is " + ticketCbcheNbme
+                             + " isInitibtor " + isInitibtor
+                             + " KeyTbb is " + keyTbbNbme
                              + " refreshKrb5Config is " + refreshKrb5Config
-                             + " principal is " + princName
-                             + " tryFirstPass is " + tryFirstPass
-                             + " useFirstPass is " + useFirstPass
-                             + " storePass is " + storePass
-                             + " clearPass is " + clearPass + "\n");
+                             + " principbl is " + princNbme
+                             + " tryFirstPbss is " + tryFirstPbss
+                             + " useFirstPbss is " + useFirstPbss
+                             + " storePbss is " + storePbss
+                             + " clebrPbss is " + clebrPbss + "\n");
         }
     }
 
 
     /**
-     * Authenticate the user
+     * Authenticbte the user
      *
      * <p>
      *
-     * @return true in all cases since this <code>LoginModule</code>
+     * @return true in bll cbses since this <code>LoginModule</code>
      *          should not be ignored.
      *
-     * @exception FailedLoginException if the authentication fails. <p>
+     * @exception FbiledLoginException if the buthenticbtion fbils. <p>
      *
      * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     *          is unbble to perform the buthenticbtion.
      */
-    public boolean login() throws LoginException {
+    public boolebn login() throws LoginException {
 
         if (refreshKrb5Config) {
             try {
                 if (debug) {
-                    System.out.println("Refreshing Kerberos configuration");
+                    System.out.println("Refreshing Kerberos configurbtion");
                 }
                 sun.security.krb5.Config.refresh();
-            } catch (KrbException ke) {
-                LoginException le = new LoginException(ke.getMessage());
-                le.initCause(ke);
+            } cbtch (KrbException ke) {
+                LoginException le = new LoginException(ke.getMessbge());
+                le.initCbuse(ke);
                 throw le;
             }
         }
-        String principalProperty = System.getProperty
-            ("sun.security.krb5.principal");
-        if (principalProperty != null) {
-            krb5PrincName = new StringBuffer(principalProperty);
+        String principblProperty = System.getProperty
+            ("sun.security.krb5.principbl");
+        if (principblProperty != null) {
+            krb5PrincNbme = new StringBuffer(principblProperty);
         } else {
-            if (princName != null) {
-                krb5PrincName = new StringBuffer(princName);
+            if (princNbme != null) {
+                krb5PrincNbme = new StringBuffer(princNbme);
             }
         }
 
-        validateConfiguration();
+        vblidbteConfigurbtion();
 
-        if (krb5PrincName != null && krb5PrincName.toString().equals("*")) {
+        if (krb5PrincNbme != null && krb5PrincNbme.toString().equbls("*")) {
             unboundServer = true;
         }
 
-        if (tryFirstPass) {
+        if (tryFirstPbss) {
             try {
-                attemptAuthentication(true);
+                bttemptAuthenticbtion(true);
                 if (debug)
                     System.out.println("\t\t[Krb5LoginModule] " +
-                                       "authentication succeeded");
+                                       "buthenticbtion succeeded");
                 succeeded = true;
-                cleanState();
+                clebnStbte();
                 return true;
-            } catch (LoginException le) {
-                // authentication failed -- try again below by prompting
-                cleanState();
+            } cbtch (LoginException le) {
+                // buthenticbtion fbiled -- try bgbin below by prompting
+                clebnStbte();
                 if (debug) {
                     System.out.println("\t\t[Krb5LoginModule] " +
-                                       "tryFirstPass failed with:" +
-                                       le.getMessage());
+                                       "tryFirstPbss fbiled with:" +
+                                       le.getMessbge());
                 }
             }
-        } else if (useFirstPass) {
+        } else if (useFirstPbss) {
             try {
-                attemptAuthentication(true);
+                bttemptAuthenticbtion(true);
                 succeeded = true;
-                cleanState();
+                clebnStbte();
                 return true;
-            } catch (LoginException e) {
-                // authentication failed -- clean out state
+            } cbtch (LoginException e) {
+                // buthenticbtion fbiled -- clebn out stbte
                 if (debug) {
                     System.out.println("\t\t[Krb5LoginModule] " +
-                                       "authentication failed \n" +
-                                       e.getMessage());
+                                       "buthenticbtion fbiled \n" +
+                                       e.getMessbge());
                 }
-                succeeded = false;
-                cleanState();
+                succeeded = fblse;
+                clebnStbte();
                 throw e;
             }
         }
 
-        // attempt the authentication by getting the username and pwd
-        // by prompting or configuration i.e. not from shared state
+        // bttempt the buthenticbtion by getting the usernbme bnd pwd
+        // by prompting or configurbtion i.e. not from shbred stbte
 
         try {
-            attemptAuthentication(false);
+            bttemptAuthenticbtion(fblse);
             succeeded = true;
-            cleanState();
+            clebnStbte();
             return true;
-        } catch (LoginException e) {
-            // authentication failed -- clean out state
+        } cbtch (LoginException e) {
+            // buthenticbtion fbiled -- clebn out stbte
             if (debug) {
                 System.out.println("\t\t[Krb5LoginModule] " +
-                                   "authentication failed \n" +
-                                   e.getMessage());
+                                   "buthenticbtion fbiled \n" +
+                                   e.getMessbge());
             }
-            succeeded = false;
-            cleanState();
+            succeeded = fblse;
+            clebnStbte();
             throw e;
         }
     }
     /**
-     * process the configuration options
+     * process the configurbtion options
      * Get the TGT either out of
-     * cache or from the KDC using the password entered
+     * cbche or from the KDC using the pbssword entered
      * Check the  permission before getting the TGT
      */
 
-    private void attemptAuthentication(boolean getPasswdFromSharedState)
+    privbte void bttemptAuthenticbtion(boolebn getPbsswdFromShbredStbte)
         throws LoginException {
 
         /*
-         * Check the creds cache to see whether
-         * we have TGT for this client principal
+         * Check the creds cbche to see whether
+         * we hbve TGT for this client principbl
          */
-        if (krb5PrincName != null) {
+        if (krb5PrincNbme != null) {
             try {
-                principal = new PrincipalName
-                    (krb5PrincName.toString(),
-                     PrincipalName.KRB_NT_PRINCIPAL);
-            } catch (KrbException e) {
-                LoginException le = new LoginException(e.getMessage());
-                le.initCause(e);
+                principbl = new PrincipblNbme
+                    (krb5PrincNbme.toString(),
+                     PrincipblNbme.KRB_NT_PRINCIPAL);
+            } cbtch (KrbException e) {
+                LoginException le = new LoginException(e.getMessbge());
+                le.initCbuse(e);
                 throw le;
             }
         }
 
         try {
-            if (useTicketCache) {
-                // ticketCacheName == null implies the default cache
+            if (useTicketCbche) {
+                // ticketCbcheNbme == null implies the defbult cbche
                 if (debug)
-                    System.out.println("Acquire TGT from Cache");
-                cred  = Credentials.acquireTGTFromCache
-                    (principal, ticketCacheName);
+                    System.out.println("Acquire TGT from Cbche");
+                cred  = Credentibls.bcquireTGTFromCbche
+                    (principbl, ticketCbcheNbme);
 
                 if (cred != null) {
-                    // check to renew credentials
+                    // check to renew credentibls
                     if (!isCurrent(cred)) {
                         if (renewTGT) {
-                            cred = renewCredentials(cred);
+                            cred = renewCredentibls(cred);
                         } else {
-                            // credentials have expired
+                            // credentibls hbve expired
                             cred = null;
                             if (debug)
-                                System.out.println("Credentials are" +
-                                                " no longer valid");
+                                System.out.println("Credentibls bre" +
+                                                " no longer vblid");
                         }
                     }
                 }
 
                 if (cred != null) {
-                   // get the principal name from the ticket cache
-                   if (principal == null) {
-                        principal = cred.getClient();
+                   // get the principbl nbme from the ticket cbche
+                   if (principbl == null) {
+                        principbl = cred.getClient();
                    }
                 }
                 if (debug) {
-                    System.out.println("Principal is " + principal);
+                    System.out.println("Principbl is " + principbl);
                     if (cred == null) {
                         System.out.println
-                            ("null credentials from Ticket Cache");
+                            ("null credentibls from Ticket Cbche");
                     }
                 }
             }
 
-            // cred = null indicates that we didn't get the creds
-            // from the cache or useTicketCache was false
+            // cred = null indicbtes thbt we didn't get the creds
+            // from the cbche or useTicketCbche wbs fblse
 
             if (cred == null) {
-                // We need the principal name whether we use keytab
-                // or AS Exchange
-                if (principal == null) {
-                    promptForName(getPasswdFromSharedState);
-                    principal = new PrincipalName
-                        (krb5PrincName.toString(),
-                         PrincipalName.KRB_NT_PRINCIPAL);
+                // We need the principbl nbme whether we use keytbb
+                // or AS Exchbnge
+                if (principbl == null) {
+                    promptForNbme(getPbsswdFromShbredStbte);
+                    principbl = new PrincipblNbme
+                        (krb5PrincNbme.toString(),
+                         PrincipblNbme.KRB_NT_PRINCIPAL);
                 }
 
                 /*
-                 * Before dynamic KeyTab support (6894072), here we check if
-                 * the keytab contains keys for the principal. If no, keytab
-                 * will not be used and password is prompted for.
+                 * Before dynbmic KeyTbb support (6894072), here we check if
+                 * the keytbb contbins keys for the principbl. If no, keytbb
+                 * will not be used bnd pbssword is prompted for.
                  *
-                 * After 6894072, we normally don't check it, and expect the
-                 * keys can be populated until a real connection is made. The
-                 * check is still done when isInitiator == true, where the keys
+                 * After 6894072, we normblly don't check it, bnd expect the
+                 * keys cbn be populbted until b rebl connection is mbde. The
+                 * check is still done when isInitibtor == true, where the keys
                  * will be used right now.
                  *
-                 * Probably tricky relations:
+                 * Probbbly tricky relbtions:
                  *
-                 * useKeyTab is config flag, but when it's true but the ktab
-                 * does not contains keys for principal, we would use password
-                 * and keep the flag unchanged (for reuse?). In this method,
-                 * we use (ktab != null) to check whether keytab is used.
-                 * After this method (and when storeKey == true), we use
+                 * useKeyTbb is config flbg, but when it's true but the ktbb
+                 * does not contbins keys for principbl, we would use pbssword
+                 * bnd keep the flbg unchbnged (for reuse?). In this method,
+                 * we use (ktbb != null) to check whether keytbb is used.
+                 * After this method (bnd when storeKey == true), we use
                  * (encKeys == null) to check.
                  */
-                if (useKeyTab) {
+                if (useKeyTbb) {
                     if (!unboundServer) {
-                        KerberosPrincipal kp =
-                                new KerberosPrincipal(principal.getName());
-                        ktab = (keyTabName == null)
-                                ? KeyTab.getInstance(kp)
-                                : KeyTab.getInstance(kp, new File(keyTabName));
+                        KerberosPrincipbl kp =
+                                new KerberosPrincipbl(principbl.getNbme());
+                        ktbb = (keyTbbNbme == null)
+                                ? KeyTbb.getInstbnce(kp)
+                                : KeyTbb.getInstbnce(kp, new File(keyTbbNbme));
                     } else {
-                        ktab = (keyTabName == null)
-                                ? KeyTab.getUnboundInstance()
-                                : KeyTab.getUnboundInstance(new File(keyTabName));
+                        ktbb = (keyTbbNbme == null)
+                                ? KeyTbb.getUnboundInstbnce()
+                                : KeyTbb.getUnboundInstbnce(new File(keyTbbNbme));
                     }
-                    if (isInitiator) {
-                        if (Krb5Util.keysFromJavaxKeyTab(ktab, principal).length
+                    if (isInitibtor) {
+                        if (Krb5Util.keysFromJbvbxKeyTbb(ktbb, principbl).length
                                 == 0) {
-                            ktab = null;
+                            ktbb = null;
                             if (debug) {
                                 System.out.println
-                                    ("Key for the principal " +
-                                     principal  +
-                                     " not available in " +
-                                     ((keyTabName == null) ?
-                                      "default key tab" : keyTabName));
+                                    ("Key for the principbl " +
+                                     principbl  +
+                                     " not bvbilbble in " +
+                                     ((keyTbbNbme == null) ?
+                                      "defbult key tbb" : keyTbbNbme));
                             }
                         }
                     }
@@ -759,33 +759,33 @@ public class Krb5LoginModule implements LoginModule {
 
                 KrbAsReqBuilder builder;
 
-                if (ktab == null) {
-                    promptForPass(getPasswdFromSharedState);
-                    builder = new KrbAsReqBuilder(principal, password);
-                    if (isInitiator) {
-                        // XXX Even if isInitiator=false, it might be
-                        // better to do an AS-REQ so that keys can be
-                        // updated with PA info
-                        cred = builder.action().getCreds();
+                if (ktbb == null) {
+                    promptForPbss(getPbsswdFromShbredStbte);
+                    builder = new KrbAsReqBuilder(principbl, pbssword);
+                    if (isInitibtor) {
+                        // XXX Even if isInitibtor=fblse, it might be
+                        // better to do bn AS-REQ so thbt keys cbn be
+                        // updbted with PA info
+                        cred = builder.bction().getCreds();
                     }
                     if (storeKey) {
-                        encKeys = builder.getKeys(isInitiator);
-                        // When encKeys is empty, the login actually fails.
-                        // For compatibility, exception is thrown in commit().
+                        encKeys = builder.getKeys(isInitibtor);
+                        // When encKeys is empty, the login bctublly fbils.
+                        // For compbtibility, exception is thrown in commit().
                     }
                 } else {
-                    builder = new KrbAsReqBuilder(principal, ktab);
-                    if (isInitiator) {
-                        cred = builder.action().getCreds();
+                    builder = new KrbAsReqBuilder(principbl, ktbb);
+                    if (isInitibtor) {
+                        cred = builder.bction().getCreds();
                     }
                 }
                 builder.destroy();
 
                 if (debug) {
-                    System.out.println("principal is " + principal);
+                    System.out.println("principbl is " + principbl);
                     HexDumpEncoder hd = new HexDumpEncoder();
-                    if (ktab != null) {
-                        System.out.println("Will use keytab");
+                    if (ktbb != null) {
+                        System.out.println("Will use keytbb");
                     } else if (storeKey) {
                         for (int i = 0; i < encKeys.length; i++) {
                             System.out.println("EncryptionKey: keyType=" +
@@ -796,292 +796,292 @@ public class Krb5LoginModule implements LoginModule {
                     }
                 }
 
-                // we should hava a non-null cred
-                if (isInitiator && (cred == null)) {
+                // we should hbvb b non-null cred
+                if (isInitibtor && (cred == null)) {
                     throw new LoginException
-                        ("TGT Can not be obtained from the KDC ");
+                        ("TGT Cbn not be obtbined from the KDC ");
                 }
 
             }
-        } catch (KrbException e) {
-            LoginException le = new LoginException(e.getMessage());
-            le.initCause(e);
+        } cbtch (KrbException e) {
+            LoginException le = new LoginException(e.getMessbge());
+            le.initCbuse(e);
             throw le;
-        } catch (IOException ioe) {
-            LoginException ie = new LoginException(ioe.getMessage());
-            ie.initCause(ioe);
+        } cbtch (IOException ioe) {
+            LoginException ie = new LoginException(ioe.getMessbge());
+            ie.initCbuse(ioe);
             throw ie;
         }
     }
 
-    private void promptForName(boolean getPasswdFromSharedState)
+    privbte void promptForNbme(boolebn getPbsswdFromShbredStbte)
         throws LoginException {
-        krb5PrincName = new StringBuffer("");
-        if (getPasswdFromSharedState) {
-            // use the name saved by the first module in the stack
-            username = (String)sharedState.get(NAME);
+        krb5PrincNbme = new StringBuffer("");
+        if (getPbsswdFromShbredStbte) {
+            // use the nbme sbved by the first module in the stbck
+            usernbme = (String)shbredStbte.get(NAME);
             if (debug) {
                 System.out.println
-                    ("username from shared state is " + username + "\n");
+                    ("usernbme from shbred stbte is " + usernbme + "\n");
             }
-            if (username == null) {
+            if (usernbme == null) {
                 System.out.println
-                    ("username from shared state is null\n");
+                    ("usernbme from shbred stbte is null\n");
                 throw new LoginException
-                    ("Username can not be obtained from sharedstate ");
+                    ("Usernbme cbn not be obtbined from shbredstbte ");
             }
             if (debug) {
                 System.out.println
-                    ("username from shared state is " + username + "\n");
+                    ("usernbme from shbred stbte is " + usernbme + "\n");
             }
-            if (username != null && username.length() > 0) {
-                krb5PrincName.insert(0, username);
+            if (usernbme != null && usernbme.length() > 0) {
+                krb5PrincNbme.insert(0, usernbme);
                 return;
             }
         }
 
         if (doNotPrompt) {
             throw new LoginException
-                ("Unable to obtain Principal Name for authentication ");
+                ("Unbble to obtbin Principbl Nbme for buthenticbtion ");
         } else {
-            if (callbackHandler == null)
-                throw new LoginException("No CallbackHandler "
-                                         + "available "
-                                         + "to garner authentication "
-                                         + "information from the user");
+            if (cbllbbckHbndler == null)
+                throw new LoginException("No CbllbbckHbndler "
+                                         + "bvbilbble "
+                                         + "to gbrner buthenticbtion "
+                                         + "informbtion from the user");
             try {
-                String defUsername = System.getProperty("user.name");
+                String defUsernbme = System.getProperty("user.nbme");
 
-                Callback[] callbacks = new Callback[1];
-                MessageFormat form = new MessageFormat(
+                Cbllbbck[] cbllbbcks = new Cbllbbck[1];
+                MessbgeFormbt form = new MessbgeFormbt(
                                        rb.getString(
-                                       "Kerberos.username.defUsername."));
-                Object[] source =  {defUsername};
-                callbacks[0] = new NameCallback(form.format(source));
-                callbackHandler.handle(callbacks);
-                username = ((NameCallback)callbacks[0]).getName();
-                if (username == null || username.length() == 0)
-                    username = defUsername;
-                krb5PrincName.insert(0, username);
+                                       "Kerberos.usernbme.defUsernbme."));
+                Object[] source =  {defUsernbme};
+                cbllbbcks[0] = new NbmeCbllbbck(form.formbt(source));
+                cbllbbckHbndler.hbndle(cbllbbcks);
+                usernbme = ((NbmeCbllbbck)cbllbbcks[0]).getNbme();
+                if (usernbme == null || usernbme.length() == 0)
+                    usernbme = defUsernbme;
+                krb5PrincNbme.insert(0, usernbme);
 
-            } catch (java.io.IOException ioe) {
-                throw new LoginException(ioe.getMessage());
-            } catch (UnsupportedCallbackException uce) {
+            } cbtch (jbvb.io.IOException ioe) {
+                throw new LoginException(ioe.getMessbge());
+            } cbtch (UnsupportedCbllbbckException uce) {
                 throw new LoginException
-                    (uce.getMessage()
-                     +" not available to garner "
-                     +" authentication information "
+                    (uce.getMessbge()
+                     +" not bvbilbble to gbrner "
+                     +" buthenticbtion informbtion "
                      +" from the user");
             }
         }
     }
 
-    private void promptForPass(boolean getPasswdFromSharedState)
+    privbte void promptForPbss(boolebn getPbsswdFromShbredStbte)
         throws LoginException {
 
-        if (getPasswdFromSharedState) {
-            // use the password saved by the first module in the stack
-            password = (char[])sharedState.get(PWD);
-            if (password == null) {
+        if (getPbsswdFromShbredStbte) {
+            // use the pbssword sbved by the first module in the stbck
+            pbssword = (chbr[])shbredStbte.get(PWD);
+            if (pbssword == null) {
                 if (debug) {
                     System.out.println
-                        ("Password from shared state is null");
+                        ("Pbssword from shbred stbte is null");
                 }
                 throw new LoginException
-                    ("Password can not be obtained from sharedstate ");
+                    ("Pbssword cbn not be obtbined from shbredstbte ");
             }
             if (debug) {
                 System.out.println
-                    ("password is " + new String(password));
+                    ("pbssword is " + new String(pbssword));
             }
             return;
         }
         if (doNotPrompt) {
             throw new LoginException
-                ("Unable to obtain password from user\n");
+                ("Unbble to obtbin pbssword from user\n");
         } else {
-            if (callbackHandler == null)
-                throw new LoginException("No CallbackHandler "
-                                         + "available "
-                                         + "to garner authentication "
-                                         + "information from the user");
+            if (cbllbbckHbndler == null)
+                throw new LoginException("No CbllbbckHbndler "
+                                         + "bvbilbble "
+                                         + "to gbrner buthenticbtion "
+                                         + "informbtion from the user");
             try {
-                Callback[] callbacks = new Callback[1];
-                String userName = krb5PrincName.toString();
-                MessageFormat form = new MessageFormat(
+                Cbllbbck[] cbllbbcks = new Cbllbbck[1];
+                String userNbme = krb5PrincNbme.toString();
+                MessbgeFormbt form = new MessbgeFormbt(
                                          rb.getString(
-                                         "Kerberos.password.for.username."));
-                Object[] source = {userName};
-                callbacks[0] = new PasswordCallback(
-                                                    form.format(source),
-                                                    false);
-                callbackHandler.handle(callbacks);
-                char[] tmpPassword = ((PasswordCallback)
-                                      callbacks[0]).getPassword();
-                if (tmpPassword == null) {
-                    throw new LoginException("No password provided");
+                                         "Kerberos.pbssword.for.usernbme."));
+                Object[] source = {userNbme};
+                cbllbbcks[0] = new PbsswordCbllbbck(
+                                                    form.formbt(source),
+                                                    fblse);
+                cbllbbckHbndler.hbndle(cbllbbcks);
+                chbr[] tmpPbssword = ((PbsswordCbllbbck)
+                                      cbllbbcks[0]).getPbssword();
+                if (tmpPbssword == null) {
+                    throw new LoginException("No pbssword provided");
                 }
-                password = new char[tmpPassword.length];
-                System.arraycopy(tmpPassword, 0,
-                                 password, 0, tmpPassword.length);
-                ((PasswordCallback)callbacks[0]).clearPassword();
+                pbssword = new chbr[tmpPbssword.length];
+                System.brrbycopy(tmpPbssword, 0,
+                                 pbssword, 0, tmpPbssword.length);
+                ((PbsswordCbllbbck)cbllbbcks[0]).clebrPbssword();
 
 
-                // clear tmpPassword
-                for (int i = 0; i < tmpPassword.length; i++)
-                    tmpPassword[i] = ' ';
-                tmpPassword = null;
+                // clebr tmpPbssword
+                for (int i = 0; i < tmpPbssword.length; i++)
+                    tmpPbssword[i] = ' ';
+                tmpPbssword = null;
                 if (debug) {
                     System.out.println("\t\t[Krb5LoginModule] " +
-                                       "user entered username: " +
-                                       krb5PrincName);
+                                       "user entered usernbme: " +
+                                       krb5PrincNbme);
                     System.out.println();
                 }
-            } catch (java.io.IOException ioe) {
-                throw new LoginException(ioe.getMessage());
-            } catch (UnsupportedCallbackException uce) {
-                throw new LoginException(uce.getMessage()
-                                         +" not available to garner "
-                                         +" authentication information "
+            } cbtch (jbvb.io.IOException ioe) {
+                throw new LoginException(ioe.getMessbge());
+            } cbtch (UnsupportedCbllbbckException uce) {
+                throw new LoginException(uce.getMessbge()
+                                         +" not bvbilbble to gbrner "
+                                         +" buthenticbtion informbtion "
                                          + "from the user");
             }
         }
     }
 
-    private void validateConfiguration() throws LoginException {
-        if (doNotPrompt && !useTicketCache && !useKeyTab
-                && !tryFirstPass && !useFirstPass)
+    privbte void vblidbteConfigurbtion() throws LoginException {
+        if (doNotPrompt && !useTicketCbche && !useKeyTbb
+                && !tryFirstPbss && !useFirstPbss)
             throw new LoginException
-                ("Configuration Error"
+                ("Configurbtion Error"
                  + " - either doNotPrompt should be "
-                 + " false or at least one of useTicketCache, "
-                 + " useKeyTab, tryFirstPass and useFirstPass"
+                 + " fblse or bt lebst one of useTicketCbche, "
+                 + " useKeyTbb, tryFirstPbss bnd useFirstPbss"
                  + " should be true");
-        if (ticketCacheName != null && !useTicketCache)
+        if (ticketCbcheNbme != null && !useTicketCbche)
             throw new LoginException
-                ("Configuration Error "
-                 + " - useTicketCache should be set "
-                 + "to true to use the ticket cache"
-                 + ticketCacheName);
-        if (keyTabName != null & !useKeyTab)
+                ("Configurbtion Error "
+                 + " - useTicketCbche should be set "
+                 + "to true to use the ticket cbche"
+                 + ticketCbcheNbme);
+        if (keyTbbNbme != null & !useKeyTbb)
             throw new LoginException
-                ("Configuration Error - useKeyTab should be set to true "
-                 + "to use the keytab" + keyTabName);
-        if (storeKey && doNotPrompt && !useKeyTab
-                && !tryFirstPass && !useFirstPass)
+                ("Configurbtion Error - useKeyTbb should be set to true "
+                 + "to use the keytbb" + keyTbbNbme);
+        if (storeKey && doNotPrompt && !useKeyTbb
+                && !tryFirstPbss && !useFirstPbss)
             throw new LoginException
-                ("Configuration Error - either doNotPrompt should be set to "
-                 + " false or at least one of tryFirstPass, useFirstPass "
-                 + "or useKeyTab must be set to true for storeKey option");
-        if (renewTGT && !useTicketCache)
+                ("Configurbtion Error - either doNotPrompt should be set to "
+                 + " fblse or bt lebst one of tryFirstPbss, useFirstPbss "
+                 + "or useKeyTbb must be set to true for storeKey option");
+        if (renewTGT && !useTicketCbche)
             throw new LoginException
-                ("Configuration Error"
-                 + " - either useTicketCache should be "
-                 + " true or renewTGT should be false");
-        if (krb5PrincName != null && krb5PrincName.toString().equals("*")) {
-            if (isInitiator) {
+                ("Configurbtion Error"
+                 + " - either useTicketCbche should be "
+                 + " true or renewTGT should be fblse");
+        if (krb5PrincNbme != null && krb5PrincNbme.toString().equbls("*")) {
+            if (isInitibtor) {
                 throw new LoginException
-                    ("Configuration Error"
-                    + " - principal cannot be * when isInitiator is true");
+                    ("Configurbtion Error"
+                    + " - principbl cbnnot be * when isInitibtor is true");
             }
         }
     }
 
-    private boolean isCurrent(Credentials creds)
+    privbte boolebn isCurrent(Credentibls creds)
     {
-        Date endTime = creds.getEndTime();
+        Dbte endTime = creds.getEndTime();
         if (endTime != null) {
             return (System.currentTimeMillis() <= endTime.getTime());
         }
         return true;
     }
 
-    private Credentials renewCredentials(Credentials creds)
+    privbte Credentibls renewCredentibls(Credentibls creds)
     {
-        Credentials lcreds;
+        Credentibls lcreds;
         try {
-            if (!creds.isRenewable())
-                throw new RefreshFailedException("This ticket" +
-                                " is not renewable");
+            if (!creds.isRenewbble())
+                throw new RefreshFbiledException("This ticket" +
+                                " is not renewbble");
             if (System.currentTimeMillis() > cred.getRenewTill().getTime())
-                throw new RefreshFailedException("This ticket is past "
-                                             + "its last renewal time.");
+                throw new RefreshFbiledException("This ticket is pbst "
+                                             + "its lbst renewbl time.");
             lcreds = creds.renew();
             if (debug)
                 System.out.println("Renewed Kerberos Ticket");
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             lcreds = null;
             if (debug)
                 System.out.println("Ticket could not be renewed : "
-                                + e.getMessage());
+                                + e.getMessbge());
         }
         return lcreds;
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion succeeded
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
      * LoginModules succeeded).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates a
-     * <code>Krb5Principal</code>
-     * with the <code>Subject</code> located in the
-     * <code>LoginModule</code>. It adds Kerberos Credentials to the
-     *  the Subject's private credentials set. If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> method), then this method bssocibtes b
+     * <code>Krb5Principbl</code>
+     * with the <code>Subject</code> locbted in the
+     * <code>LoginModule</code>. It bdds Kerberos Credentibls to the
+     *  the Subject's privbte credentibls set. If this LoginModule's own
+     * buthenticbtion bttempted fbiled, then this method removes
+     * bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails.
+     * @exception LoginException if the commit fbils.
      *
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @return true if this LoginModule's own login bnd commit
+     *          bttempts succeeded, or fblse otherwise.
      */
 
-    public boolean commit() throws LoginException {
+    public boolebn commit() throws LoginException {
 
         /*
-         * Let us add the Krb5 Creds to the Subject's
-         * private credentials. The credentials are of type
+         * Let us bdd the Krb5 Creds to the Subject's
+         * privbte credentibls. The credentibls bre of type
          * KerberosKey or KerberosTicket
          */
-        if (succeeded == false) {
-            return false;
+        if (succeeded == fblse) {
+            return fblse;
         } else {
 
-            if (isInitiator && (cred == null)) {
-                succeeded = false;
-                throw new LoginException("Null Client Credential");
+            if (isInitibtor && (cred == null)) {
+                succeeded = fblse;
+                throw new LoginException("Null Client Credentibl");
             }
 
-            if (subject.isReadOnly()) {
-                cleanKerberosCred();
-                throw new LoginException("Subject is Readonly");
+            if (subject.isRebdOnly()) {
+                clebnKerberosCred();
+                throw new LoginException("Subject is Rebdonly");
             }
 
             /*
-             * Add the Principal (authenticated identity)
-             * to the Subject's principal set and
-             * add the credentials (TGT or Service key) to the
-             * Subject's private credentials
+             * Add the Principbl (buthenticbted identity)
+             * to the Subject's principbl set bnd
+             * bdd the credentibls (TGT or Service key) to the
+             * Subject's privbte credentibls
              */
 
-            Set<Object> privCredSet =  subject.getPrivateCredentials();
-            Set<java.security.Principal> princSet  = subject.getPrincipals();
-            kerbClientPrinc = new KerberosPrincipal(principal.getName());
+            Set<Object> privCredSet =  subject.getPrivbteCredentibls();
+            Set<jbvb.security.Principbl> princSet  = subject.getPrincipbls();
+            kerbClientPrinc = new KerberosPrincipbl(principbl.getNbme());
 
-            // create Kerberos Ticket
-            if (isInitiator) {
+            // crebte Kerberos Ticket
+            if (isInitibtor) {
                 kerbTicket = Krb5Util.credsToTicket(cred);
             }
 
             if (storeKey && encKeys != null) {
                 if (encKeys.length == 0) {
-                    succeeded = false;
+                    succeeded = fblse;
                     throw new LoginException("Null Server Key ");
                 }
 
@@ -1092,39 +1092,39 @@ public class Krb5LoginModule implements LoginModule {
                                           encKeys[i].getBytes(),
                                           encKeys[i].getEType(),
                                           (temp == null?
-                                          0: temp.intValue()));
+                                          0: temp.intVblue()));
                 }
 
             }
-            // Let us add the kerbClientPrinc,kerbTicket and KeyTab/KerbKey (if
+            // Let us bdd the kerbClientPrinc,kerbTicket bnd KeyTbb/KerbKey (if
             // storeKey is true)
 
-            // We won't add "*" as a KerberosPrincipal
+            // We won't bdd "*" bs b KerberosPrincipbl
             if (!unboundServer &&
-                    !princSet.contains(kerbClientPrinc)) {
-                princSet.add(kerbClientPrinc);
+                    !princSet.contbins(kerbClientPrinc)) {
+                princSet.bdd(kerbClientPrinc);
             }
 
-            // add the TGT
+            // bdd the TGT
             if (kerbTicket != null) {
-                if (!privCredSet.contains(kerbTicket))
-                    privCredSet.add(kerbTicket);
+                if (!privCredSet.contbins(kerbTicket))
+                    privCredSet.bdd(kerbTicket);
             }
 
             if (storeKey) {
                 if (encKeys == null) {
-                    if (ktab != null) {
-                        if (!privCredSet.contains(ktab)) {
-                            privCredSet.add(ktab);
+                    if (ktbb != null) {
+                        if (!privCredSet.contbins(ktbb)) {
+                            privCredSet.bdd(ktbb);
                         }
                     } else {
-                        succeeded = false;
+                        succeeded = fblse;
                         throw new LoginException("No key to store");
                     }
                 } else {
                     for (int i = 0; i < kerbKeys.length; i ++) {
-                        if (!privCredSet.contains(kerbKeys[i])) {
-                            privCredSet.add(kerbKeys[i]);
+                        if (!privCredSet.contbins(kerbKeys[i])) {
+                            privCredSet.bdd(kerbKeys[i]);
                         }
                         encKeys[i].destroy();
                         encKeys[i] = null;
@@ -1132,7 +1132,7 @@ public class Krb5LoginModule implements LoginModule {
                             System.out.println("Added server's key"
                                             + kerbKeys[i]);
                             System.out.println("\t\t[Krb5LoginModule] " +
-                                           "added Krb5Principal  " +
+                                           "bdded Krb5Principbl  " +
                                            kerbClientPrinc.toString()
                                            + " to Subject");
                         }
@@ -1147,34 +1147,34 @@ public class Krb5LoginModule implements LoginModule {
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion fbiled.
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
      * LoginModules did not succeed).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> bnd <code>commit</code> methods),
+     * then this method clebns up bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails.
+     * @exception LoginException if the bbort fbils.
      *
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @return fblse if this LoginModule's own login bnd/or commit bttempts
+     *          fbiled, bnd true otherwise.
      */
 
-    public boolean abort() throws LoginException {
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
-            // login succeeded but overall authentication failed
-            succeeded = false;
-            cleanKerberosCred();
+    public boolebn bbort() throws LoginException {
+        if (succeeded == fblse) {
+            return fblse;
+        } else if (succeeded == true && commitSucceeded == fblse) {
+            // login succeeded but overbll buthenticbtion fbiled
+            succeeded = fblse;
+            clebnKerberosCred();
         } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            // overbll buthenticbtion succeeded bnd commit succeeded,
+            // but someone else's commit fbiled
             logout();
         }
         return true;
@@ -1183,44 +1183,44 @@ public class Krb5LoginModule implements LoginModule {
     /**
      * Logout the user.
      *
-     * <p> This method removes the <code>Krb5Principal</code>
-     * that was added by the <code>commit</code> method.
+     * <p> This method removes the <code>Krb5Principbl</code>
+     * thbt wbs bdded by the <code>commit</code> method.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails.
+     * @exception LoginException if the logout fbils.
      *
-     * @return true in all cases since this <code>LoginModule</code>
+     * @return true in bll cbses since this <code>LoginModule</code>
      *          should not be ignored.
      */
-    public boolean logout() throws LoginException {
+    public boolebn logout() throws LoginException {
 
         if (debug) {
             System.out.println("\t\t[Krb5LoginModule]: " +
                 "Entering logout");
         }
 
-        if (subject.isReadOnly()) {
-            cleanKerberosCred();
-            throw new LoginException("Subject is Readonly");
+        if (subject.isRebdOnly()) {
+            clebnKerberosCred();
+            throw new LoginException("Subject is Rebdonly");
         }
 
-        subject.getPrincipals().remove(kerbClientPrinc);
-           // Let us remove all Kerberos credentials stored in the Subject
-        Iterator<Object> it = subject.getPrivateCredentials().iterator();
-        while (it.hasNext()) {
+        subject.getPrincipbls().remove(kerbClientPrinc);
+           // Let us remove bll Kerberos credentibls stored in the Subject
+        Iterbtor<Object> it = subject.getPrivbteCredentibls().iterbtor();
+        while (it.hbsNext()) {
             Object o = it.next();
-            if (o instanceof KerberosTicket ||
-                    o instanceof KerberosKey ||
-                    o instanceof KeyTab) {
+            if (o instbnceof KerberosTicket ||
+                    o instbnceof KerberosKey ||
+                    o instbnceof KeyTbb) {
                 it.remove();
             }
         }
-        // clean the kerberos ticket and keys
-        cleanKerberosCred();
+        // clebn the kerberos ticket bnd keys
+        clebnKerberosCred();
 
-        succeeded = false;
-        commitSucceeded = false;
+        succeeded = fblse;
+        commitSucceeded = fblse;
         if (debug) {
             System.out.println("\t\t[Krb5LoginModule]: " +
                                "logged out Subject");
@@ -1229,10 +1229,10 @@ public class Krb5LoginModule implements LoginModule {
     }
 
     /**
-     * Clean Kerberos credentials
+     * Clebn Kerberos credentibls
      */
-    private void cleanKerberosCred() throws LoginException {
-        // Clean the ticket and server key
+    privbte void clebnKerberosCred() throws LoginException {
+        // Clebn the ticket bnd server key
         try {
             if (kerbTicket != null)
                 kerbTicket.destroy();
@@ -1241,9 +1241,9 @@ public class Krb5LoginModule implements LoginModule {
                     kerbKeys[i].destroy();
                 }
             }
-        } catch (DestroyFailedException e) {
+        } cbtch (DestroyFbiledException e) {
             throw new LoginException
-                ("Destroy Failed on Kerberos Private Credentials");
+                ("Destroy Fbiled on Kerberos Privbte Credentibls");
         }
         kerbTicket = null;
         kerbKeys = null;
@@ -1251,33 +1251,33 @@ public class Krb5LoginModule implements LoginModule {
     }
 
     /**
-     * Clean out the state
+     * Clebn out the stbte
      */
-    private void cleanState() {
+    privbte void clebnStbte() {
 
-        // save input as shared state only if
-        // authentication succeeded
+        // sbve input bs shbred stbte only if
+        // buthenticbtion succeeded
         if (succeeded) {
-            if (storePass &&
-                !sharedState.containsKey(NAME) &&
-                !sharedState.containsKey(PWD)) {
-                sharedState.put(NAME, username);
-                sharedState.put(PWD, password);
+            if (storePbss &&
+                !shbredStbte.contbinsKey(NAME) &&
+                !shbredStbte.contbinsKey(PWD)) {
+                shbredStbte.put(NAME, usernbme);
+                shbredStbte.put(PWD, pbssword);
             }
         } else {
             // remove temp results for the next try
             encKeys = null;
-            ktab = null;
-            principal = null;
+            ktbb = null;
+            principbl = null;
         }
-        username = null;
-        password = null;
-        if (krb5PrincName != null && krb5PrincName.length() != 0)
-            krb5PrincName.delete(0, krb5PrincName.length());
-        krb5PrincName = null;
-        if (clearPass) {
-            sharedState.remove(NAME);
-            sharedState.remove(PWD);
+        usernbme = null;
+        pbssword = null;
+        if (krb5PrincNbme != null && krb5PrincNbme.length() != 0)
+            krb5PrincNbme.delete(0, krb5PrincNbme.length());
+        krb5PrincNbme = null;
+        if (clebrPbss) {
+            shbredStbte.remove(NAME);
+            shbredStbte.remove(PWD);
         }
     }
 }

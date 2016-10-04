@@ -1,445 +1,445 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * An object that currently exists in the target VM. An ObjectReference
- * mirrors only the object itself and is not specific to any
- * {@link Field} or {@link LocalVariable} to which it is currently
- * assigned. An ObjectReference can
- * have 0 or more references from field(s) and/or variable(s).
+ * An object thbt currently exists in the tbrget VM. An ObjectReference
+ * mirrors only the object itself bnd is not specific to bny
+ * {@link Field} or {@link LocblVbribble} to which it is currently
+ * bssigned. An ObjectReference cbn
+ * hbve 0 or more references from field(s) bnd/or vbribble(s).
  * <p>
  * Any method on <code>ObjectReference</code> which directly or
- * indirectly takes <code>ObjectReference</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * indirectly tbkes <code>ObjectReference</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMDisconnectedException} if the tbrget VM is
+ * disconnected bnd the {@link com.sun.jdi.event.VMDisconnectEvent} hbs been or is
+ * bvbilbble to be rebd from the {@link com.sun.jdi.event.EventQueue}.
  * <p>
  * Any method on <code>ObjectReference</code> which directly or
- * indirectly takes <code>ObjectReference</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * indirectly tbkes <code>ObjectReference</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMOutOfMemoryException} if the tbrget VM hbs run out of memory.
  * <p>
- * Any method on <code>ObjectReference</code> or which directly or indirectly takes
- * <code>ObjectReference</code> as parameter may throw
- * {@link com.sun.jdi.ObjectCollectedException} if the mirrored object has been
- * garbage collected.
+ * Any method on <code>ObjectReference</code> or which directly or indirectly tbkes
+ * <code>ObjectReference</code> bs pbrbmeter mby throw
+ * {@link com.sun.jdi.ObjectCollectedException} if the mirrored object hbs been
+ * gbrbbge collected.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface ObjectReference extends Value {
+public interfbce ObjectReference extends Vblue {
 
     /**
-     * Gets the {@link ReferenceType} that mirrors the type
-     * of this object. The type may be a subclass or implementor of the
-     * declared type of any field or variable which currently holds it.
-     * For example, right after the following statement.
+     * Gets the {@link ReferenceType} thbt mirrors the type
+     * of this object. The type mby be b subclbss or implementor of the
+     * declbred type of bny field or vbribble which currently holds it.
+     * For exbmple, right bfter the following stbtement.
      * <p>
      * <code>Object obj = new String("Hello, world!");</code>
      * <p>
-     * The ReferenceType of obj will mirror java.lang.String and not
-     * java.lang.Object.
+     * The ReferenceType of obj will mirror jbvb.lbng.String bnd not
+     * jbvb.lbng.Object.
      * <p>
-     * The type of an object never changes, so this method will
-     * always return the same ReferenceType over the lifetime of the
+     * The type of bn object never chbnges, so this method will
+     * blwbys return the sbme ReferenceType over the lifetime of the
      * mirrored object.
      * <p>
-     * The returned ReferenceType will be a {@link ClassType} or
-     * {@link ArrayType} and never an {@link InterfaceType}.
+     * The returned ReferenceType will be b {@link ClbssType} or
+     * {@link ArrbyType} bnd never bn {@link InterfbceType}.
      *
      * @return the {@link ReferenceType} for this object.
      */
     ReferenceType referenceType();
 
     /**
-     * Gets the value of a given instance or static field in this object.
-     * The Field must be valid for this ObjectReference;
-     * that is, it must be from
-     * the mirrored object's class or a superclass of that class.
+     * Gets the vblue of b given instbnce or stbtic field in this object.
+     * The Field must be vblid for this ObjectReference;
+     * thbt is, it must be from
+     * the mirrored object's clbss or b superclbss of thbt clbss.
      *
-     * @param sig the field containing the requested value
-     * @return the {@link Value} of the instance field.
-     * @throws java.lang.IllegalArgumentException if the field is not valid for
-     * this object's class.
+     * @pbrbm sig the field contbining the requested vblue
+     * @return the {@link Vblue} of the instbnce field.
+     * @throws jbvb.lbng.IllegblArgumentException if the field is not vblid for
+     * this object's clbss.
      */
-    Value getValue(Field sig);
+    Vblue getVblue(Field sig);
 
     /**
-     * Gets the value of multiple instance and/or static fields in this object.
-     * The Fields must be valid for this ObjectReference;
-     * that is, they must be from
-     * the mirrored object's class or a superclass of that class.
+     * Gets the vblue of multiple instbnce bnd/or stbtic fields in this object.
+     * The Fields must be vblid for this ObjectReference;
+     * thbt is, they must be from
+     * the mirrored object's clbss or b superclbss of thbt clbss.
      *
-     * @param fields a list of {@link Field} objects containing the
-     * requested values.
-     * @return a Map of the requested {@link Field} objects with
-     * their {@link Value}.
-     * @throws java.lang.IllegalArgumentException if any field is not valid for
-     * this object's class.
+     * @pbrbm fields b list of {@link Field} objects contbining the
+     * requested vblues.
+     * @return b Mbp of the requested {@link Field} objects with
+     * their {@link Vblue}.
+     * @throws jbvb.lbng.IllegblArgumentException if bny field is not vblid for
+     * this object's clbss.
      */
-    Map<Field,Value> getValues(List<? extends Field> fields);
+    Mbp<Field,Vblue> getVblues(List<? extends Field> fields);
 
     /**
-     * Sets the value of a given instance or static field in this object.
-     * The {@link Field} must be valid for this ObjectReference; that is,
-     * it must be from the mirrored object's class or a superclass of that class.
-     * If static, the field must not be final.
+     * Sets the vblue of b given instbnce or stbtic field in this object.
+     * The {@link Field} must be vblid for this ObjectReference; thbt is,
+     * it must be from the mirrored object's clbss or b superclbss of thbt clbss.
+     * If stbtic, the field must not be finbl.
      * <p>
-     * Object values must be assignment compatible with the field type
-     * (This implies that the field type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the field type or must be
-     * convertible to the field type without loss of information.
+     * Object vblues must be bssignment compbtible with the field type
+     * (This implies thbt the field type must be lobded through the
+     * enclosing clbss's clbss lobder). Primitive vblues must be
+     * either bssignment compbtible with the field type or must be
+     * convertible to the field type without loss of informbtion.
      * See section 5.2 of
-     * <cite>The Java&trade; Language Specification</cite>
-     * for more information on assignment
-     * compatibility.
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>
+     * for more informbtion on bssignment
+     * compbtibility.
      *
-     * @param field the field containing the requested value
-     * @param value the new value to assign
-     * @throws java.lang.IllegalArgumentException if the field is not valid for
-     * this object's class.
-     * @throws InvalidTypeException if the value's type does not match
+     * @pbrbm field the field contbining the requested vblue
+     * @pbrbm vblue the new vblue to bssign
+     * @throws jbvb.lbng.IllegblArgumentException if the field is not vblid for
+     * this object's clbss.
+     * @throws InvblidTypeException if the vblue's type does not mbtch
      * the field's type.
-     * @throws ClassNotLoadedException if 'value' is not null, and the field
-     * type has not yet been loaded through the appropriate class loader.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws ClbssNotLobdedException if 'vblue' is not null, bnd the field
+     * type hbs not yet been lobded through the bppropribte clbss lobder.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      */
-    void setValue(Field field, Value value)
-        throws InvalidTypeException, ClassNotLoadedException;
+    void setVblue(Field field, Vblue vblue)
+        throws InvblidTypeException, ClbssNotLobdedException;
 
-    /** Perform method invocation with only the invoking thread resumed */
-    static final int INVOKE_SINGLE_THREADED = 0x1;
-    /** Perform non-virtual method invocation */
-    static final int INVOKE_NONVIRTUAL      = 0x2;
+    /** Perform method invocbtion with only the invoking threbd resumed */
+    stbtic finbl int INVOKE_SINGLE_THREADED = 0x1;
+    /** Perform non-virtubl method invocbtion */
+    stbtic finbl int INVOKE_NONVIRTUAL      = 0x2;
 
     /**
      * Invokes the specified {@link Method} on this object in the
-     * target VM. The
-     * specified method can be defined in this object's class,
-     * in a superclass of this object's class, or in an interface
-     * implemented by this object. The method may be a static method
-     * or an instance method, but not a static initializer or constructor.
-     * Use {@link ClassType#newInstance} to create a new object and
+     * tbrget VM. The
+     * specified method cbn be defined in this object's clbss,
+     * in b superclbss of this object's clbss, or in bn interfbce
+     * implemented by this object. The method mby be b stbtic method
+     * or bn instbnce method, but not b stbtic initiblizer or constructor.
+     * Use {@link ClbssType#newInstbnce} to crebte b new object bnd
      * run its constructor.
      * <p>
-     * The method invocation will occur in the specified thread.
-     * Method invocation can occur only if the specified thread
-     * has been suspended by an event which occurred in that thread.
-     * Method invocation is not supported
-     * when the target VM has been suspended through
-     * {@link VirtualMachine#suspend} or when the specified thread
-     * is suspended through {@link ThreadReference#suspend}.
+     * The method invocbtion will occur in the specified threbd.
+     * Method invocbtion cbn occur only if the specified threbd
+     * hbs been suspended by bn event which occurred in thbt threbd.
+     * Method invocbtion is not supported
+     * when the tbrget VM hbs been suspended through
+     * {@link VirtublMbchine#suspend} or when the specified threbd
+     * is suspended through {@link ThrebdReference#suspend}.
      * <p>
-     * The specified method is invoked with the arguments in the specified
-     * argument list.  The method invocation is synchronous; this method
-     * does not return until the invoked method returns in the target VM.
-     * If the invoked method throws an exception, this method
-     * will throw an {@link InvocationException} which contains
-     * a mirror to the exception object thrown.
+     * The specified method is invoked with the brguments in the specified
+     * brgument list.  The method invocbtion is synchronous; this method
+     * does not return until the invoked method returns in the tbrget VM.
+     * If the invoked method throws bn exception, this method
+     * will throw bn {@link InvocbtionException} which contbins
+     * b mirror to the exception object thrown.
      * <p>
-     * Object arguments must be assignment compatible with the argument type
-     * (This implies that the argument type must be loaded through the
-     * enclosing class's class loader). Primitive arguments must be
-     * either assignment compatible with the argument type or must be
-     * convertible to the argument type without loss of information.
-     * If the method being called accepts a variable number of arguments,
-     * then the last argument type is an array of some component type.
-     * The argument in the matching position can be omitted, or can be null,
-     * an array of the same component type, or an argument of the
-     * component type followed by any number of other arguments of the same
-     * type. If the argument is omitted, then a 0 length array of the
-     * component type is passed.  The component type can be a primitive type.
+     * Object brguments must be bssignment compbtible with the brgument type
+     * (This implies thbt the brgument type must be lobded through the
+     * enclosing clbss's clbss lobder). Primitive brguments must be
+     * either bssignment compbtible with the brgument type or must be
+     * convertible to the brgument type without loss of informbtion.
+     * If the method being cblled bccepts b vbribble number of brguments,
+     * then the lbst brgument type is bn brrby of some component type.
+     * The brgument in the mbtching position cbn be omitted, or cbn be null,
+     * bn brrby of the sbme component type, or bn brgument of the
+     * component type followed by bny number of other brguments of the sbme
+     * type. If the brgument is omitted, then b 0 length brrby of the
+     * component type is pbssed.  The component type cbn be b primitive type.
      * Autoboxing is not supported.
      *
      * See section 5.2 of
-     * <cite>The Java&trade; Language Specification</cite>
-     * for more information on assignment compatibility.
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>
+     * for more informbtion on bssignment compbtibility.
      * <p>
-     * By default, the method is invoked using dynamic lookup as
+     * By defbult, the method is invoked using dynbmic lookup bs
      * documented in section 15.12.4.4 of
-     * <cite>The Java&trade; Language Specification</cite>
-     * in particular, overriding based on the runtime type of the object
+     * <cite>The Jbvb&trbde; Lbngubge Specificbtion</cite>
+     * in pbrticulbr, overriding bbsed on the runtime type of the object
      * mirrored by this {@link ObjectReference} will occur. This
-     * behavior can be changed by specifying the
-     * {@link #INVOKE_NONVIRTUAL} bit flag in the <code>options</code>
-     * argument. If this flag is set, the specified method is invoked
+     * behbvior cbn be chbnged by specifying the
+     * {@link #INVOKE_NONVIRTUAL} bit flbg in the <code>options</code>
+     * brgument. If this flbg is set, the specified method is invoked
      * whether or not it is overridden for this object's runtime type.
-     * The method, in this case, must have an implementation, either in a class
-     * or an interface. This option is useful for performing method invocations
-     * like those done with the <code>super</code> keyword in the Java programming
-     * language.
+     * The method, in this cbse, must hbve bn implementbtion, either in b clbss
+     * or bn interfbce. This option is useful for performing method invocbtions
+     * like those done with the <code>super</code> keyword in the Jbvb progrbmming
+     * lbngubge.
      * <p>
-     * By default, all threads in the target VM are resumed while
+     * By defbult, bll threbds in the tbrget VM bre resumed while
      * the method is being invoked if they were previously
-     * suspended by an event or by {@link VirtualMachine#suspend} or
-     * {@link ThreadReference#suspend}. This is done to prevent the deadlocks
-     * that will occur if any of the threads own monitors
-     * that will be needed by the invoked method.
-     * Note, however, that this implicit resume acts exactly like
-     * {@link ThreadReference#resume}, so if the thread's suspend
-     * count is greater than 1, it will remain in a suspended state
-     * during the invocation and thus a deadlock could still occur.
-     * By default, when the invocation completes,
-     * all threads in the target VM are suspended, regardless their state
-     * before the invocation.
-     * It is possible that
-     * breakpoints or other events might occur during the invocation.
-     * This can cause deadlocks as described above. It can also cause a deadlock
-     * if invokeMethod is called from the client's event handler thread.  In this
-     * case, this thread will be waiting for the invokeMethod to complete and
-     * won't read the EventSet that comes in for the new event.  If this
-     * new EventSet is SUSPEND_ALL, then a deadlock will occur because no
-     * one will resume the EventSet.  To avoid this, all EventRequests should
-     * be disabled before doing the invokeMethod, or the invokeMethod should
-     * not be done from the client's event handler thread.
+     * suspended by bn event or by {@link VirtublMbchine#suspend} or
+     * {@link ThrebdReference#suspend}. This is done to prevent the debdlocks
+     * thbt will occur if bny of the threbds own monitors
+     * thbt will be needed by the invoked method.
+     * Note, however, thbt this implicit resume bcts exbctly like
+     * {@link ThrebdReference#resume}, so if the threbd's suspend
+     * count is grebter thbn 1, it will rembin in b suspended stbte
+     * during the invocbtion bnd thus b debdlock could still occur.
+     * By defbult, when the invocbtion completes,
+     * bll threbds in the tbrget VM bre suspended, regbrdless their stbte
+     * before the invocbtion.
+     * It is possible thbt
+     * brebkpoints or other events might occur during the invocbtion.
+     * This cbn cbuse debdlocks bs described bbove. It cbn blso cbuse b debdlock
+     * if invokeMethod is cblled from the client's event hbndler threbd.  In this
+     * cbse, this threbd will be wbiting for the invokeMethod to complete bnd
+     * won't rebd the EventSet thbt comes in for the new event.  If this
+     * new EventSet is SUSPEND_ALL, then b debdlock will occur becbuse no
+     * one will resume the EventSet.  To bvoid this, bll EventRequests should
+     * be disbbled before doing the invokeMethod, or the invokeMethod should
+     * not be done from the client's event hbndler threbd.
      * <p>
-     * The resumption of other threads during the invocation can be prevented
+     * The resumption of other threbds during the invocbtion cbn be prevented
      * by specifying the {@link #INVOKE_SINGLE_THREADED}
-     * bit flag in the <code>options</code> argument; however,
-     * there is no protection against or recovery from the deadlocks
-     * described above, so this option should be used with great caution.
-     * Only the specified thread will be resumed (as described for all
-     * threads above). Upon completion of a single threaded invoke, the invoking thread
-     * will be suspended once again. Note that any threads started during
-     * the single threaded invocation will not be suspended when the
-     * invocation completes.
+     * bit flbg in the <code>options</code> brgument; however,
+     * there is no protection bgbinst or recovery from the debdlocks
+     * described bbove, so this option should be used with grebt cbution.
+     * Only the specified threbd will be resumed (bs described for bll
+     * threbds bbove). Upon completion of b single threbded invoke, the invoking threbd
+     * will be suspended once bgbin. Note thbt bny threbds stbrted during
+     * the single threbded invocbtion will not be suspended when the
+     * invocbtion completes.
      * <p>
-     * If the target VM is disconnected during the invoke (for example, through
-     * {@link VirtualMachine#dispose}) the method invocation continues.
+     * If the tbrget VM is disconnected during the invoke (for exbmple, through
+     * {@link VirtublMbchine#dispose}) the method invocbtion continues.
      *
-     * @param thread the thread in which to invoke.
-     * @param method the {@link Method} to invoke.
-     * @param arguments the list of {@link Value} arguments bound to the
-     * invoked method. Values from the list are assigned to arguments
-     * in the order they appear in the method signature.
-     * @param options the integer bit flag options.
-     * @return a {@link Value} mirror of the invoked method's return value.
-     * @throws java.lang.IllegalArgumentException if the method is not
-     * a member of this object's class, if the size of the argument list
-     * does not match the number of declared arguments for the method,
-     * if the method is a constructor or static intializer, or
-     * if {@link #INVOKE_NONVIRTUAL} is specified and the method is
-     * either abstract or a non-default interface member.
-     * @throws {@link InvalidTypeException} if any argument in the
-     * argument list is not assignable to the corresponding method argument
+     * @pbrbm threbd the threbd in which to invoke.
+     * @pbrbm method the {@link Method} to invoke.
+     * @pbrbm brguments the list of {@link Vblue} brguments bound to the
+     * invoked method. Vblues from the list bre bssigned to brguments
+     * in the order they bppebr in the method signbture.
+     * @pbrbm options the integer bit flbg options.
+     * @return b {@link Vblue} mirror of the invoked method's return vblue.
+     * @throws jbvb.lbng.IllegblArgumentException if the method is not
+     * b member of this object's clbss, if the size of the brgument list
+     * does not mbtch the number of declbred brguments for the method,
+     * if the method is b constructor or stbtic intiblizer, or
+     * if {@link #INVOKE_NONVIRTUAL} is specified bnd the method is
+     * either bbstrbct or b non-defbult interfbce member.
+     * @throws {@link InvblidTypeException} if bny brgument in the
+     * brgument list is not bssignbble to the corresponding method brgument
      * type.
-     * @throws ClassNotLoadedException if any argument type has not yet been loaded
-     * through the appropriate class loader.
-     * @throws IncompatibleThreadStateException if the specified thread has not
-     * been suspended by an event.
-     * @throws InvocationException if the method invocation resulted in
-     * an exception in the target VM.
-     * @throws InvalidTypeException If the arguments do not meet this requirement --
-     *         Object arguments must be assignment compatible with the argument
-     *         type.  This implies that the argument type must be
-     *         loaded through the enclosing class's class loader.
-     *         Primitive arguments must be either assignment compatible with the
-     *         argument type or must be convertible to the argument type without loss
-     *         of information. See JLS section 5.2 for more information on assignment
-     *         compatibility.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws ClbssNotLobdedException if bny brgument type hbs not yet been lobded
+     * through the bppropribte clbss lobder.
+     * @throws IncompbtibleThrebdStbteException if the specified threbd hbs not
+     * been suspended by bn event.
+     * @throws InvocbtionException if the method invocbtion resulted in
+     * bn exception in the tbrget VM.
+     * @throws InvblidTypeException If the brguments do not meet this requirement --
+     *         Object brguments must be bssignment compbtible with the brgument
+     *         type.  This implies thbt the brgument type must be
+     *         lobded through the enclosing clbss's clbss lobder.
+     *         Primitive brguments must be either bssignment compbtible with the
+     *         brgument type or must be convertible to the brgument type without loss
+     *         of informbtion. See JLS section 5.2 for more informbtion on bssignment
+     *         compbtibility.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      */
-    Value invokeMethod(ThreadReference thread, Method method,
-                       List<? extends Value> arguments, int options)
-                                   throws InvalidTypeException,
-                                          ClassNotLoadedException,
-                                          IncompatibleThreadStateException,
-                                          InvocationException;
+    Vblue invokeMethod(ThrebdReference threbd, Method method,
+                       List<? extends Vblue> brguments, int options)
+                                   throws InvblidTypeException,
+                                          ClbssNotLobdedException,
+                                          IncompbtibleThrebdStbteException,
+                                          InvocbtionException;
 
     /**
-     * Prevents garbage collection for this object. By default all
-     * {@link ObjectReference} values returned by JDI may be collected
-     * at any time the target VM is running. A call to this method
-     * guarantees that the object will not be collected.
-     * {@link #enableCollection} can be used to allow collection once
-     * again.
+     * Prevents gbrbbge collection for this object. By defbult bll
+     * {@link ObjectReference} vblues returned by JDI mby be collected
+     * bt bny time the tbrget VM is running. A cbll to this method
+     * gubrbntees thbt the object will not be collected.
+     * {@link #enbbleCollection} cbn be used to bllow collection once
+     * bgbin.
      * <p>
-     * Calls to this method are counted. Every call to this method
-     * requires a corresponding call to {@link #enableCollection} before
-     * garbage collection is re-enabled.
+     * Cblls to this method bre counted. Every cbll to this method
+     * requires b corresponding cbll to {@link #enbbleCollection} before
+     * gbrbbge collection is re-enbbled.
      * <p>
-     * Note that while the target VM is suspended, no garbage collection
-     * will occur because all threads are suspended. The typical
-     * examination of variables, fields, and arrays during the suspension
-     * is safe without explicitly disabling garbage collection.
+     * Note thbt while the tbrget VM is suspended, no gbrbbge collection
+     * will occur becbuse bll threbds bre suspended. The typicbl
+     * exbminbtion of vbribbles, fields, bnd brrbys during the suspension
+     * is sbfe without explicitly disbbling gbrbbge collection.
      * <p>
-     * This method should be used sparingly, as it alters the
-     * pattern of garbage collection in the target VM and,
-     * consequently, may result in application behavior under the
-     * debugger that differs from its non-debugged behavior.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * This method should be used spbringly, bs it blters the
+     * pbttern of gbrbbge collection in the tbrget VM bnd,
+     * consequently, mby result in bpplicbtion behbvior under the
+     * debugger thbt differs from its non-debugged behbvior.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only
+     * -see {@link VirtublMbchine#cbnBeModified()}.
      */
-    void disableCollection();
+    void disbbleCollection();
 
     /**
-     * Permits garbage collection for this object. By default all
-     * {@link ObjectReference} values returned by JDI may be collected
-     * at any time the target VM is running. A call to this method
-     * is necessary only if garbage collection was previously disabled
-     * with {@link #disableCollection}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * Permits gbrbbge collection for this object. By defbult bll
+     * {@link ObjectReference} vblues returned by JDI mby be collected
+     * bt bny time the tbrget VM is running. A cbll to this method
+     * is necessbry only if gbrbbge collection wbs previously disbbled
+     * with {@link #disbbleCollection}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only
+     * -see {@link VirtublMbchine#cbnBeModified()}.
      */
-    void enableCollection();
+    void enbbleCollection();
 
     /**
-     * Determines if this object has been garbage collected in the target
+     * Determines if this object hbs been gbrbbge collected in the tbrget
      * VM.
      *
-     * @return <code>true</code> if this {@link ObjectReference} has been collected;
-     * <code>false</code> otherwise.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * @return <code>true</code> if this {@link ObjectReference} hbs been collected;
+     * <code>fblse</code> otherwise.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only
+     * -see {@link VirtublMbchine#cbnBeModified()}.
      */
-    boolean isCollected();
+    boolebn isCollected();
 
     /**
-     * Returns a unique identifier for this ObjectReference.
-     * It is guaranteed to be unique among all
-     * ObjectReferences from the same VM that have not yet been disposed.
-     * The guarantee applies as long
-     * as this ObjectReference has not yet been disposed.
+     * Returns b unique identifier for this ObjectReference.
+     * It is gubrbnteed to be unique bmong bll
+     * ObjectReferences from the sbme VM thbt hbve not yet been disposed.
+     * The gubrbntee bpplies bs long
+     * bs this ObjectReference hbs not yet been disposed.
      *
-     * @return a long unique ID
+     * @return b long unique ID
      */
     long uniqueID();
 
     /**
-     * Returns a List containing a {@link ThreadReference} for
-     * each thread currently waiting for this object's monitor.
-     * See {@link ThreadReference#currentContendedMonitor} for
-     * information about when a thread is considered to be waiting
-     * for a monitor.
+     * Returns b List contbining b {@link ThrebdReference} for
+     * ebch threbd currently wbiting for this object's monitor.
+     * See {@link ThrebdReference#currentContendedMonitor} for
+     * informbtion bbout when b threbd is considered to be wbiting
+     * for b monitor.
      * <p>
-     * Not all target VMs support this operation. See
-     * VirtualMachine#canGetMonitorInfo to determine if the
-     * operation is supported.
+     * Not bll tbrget VMs support this operbtion. See
+     * VirtublMbchine#cbnGetMonitorInfo to determine if the
+     * operbtion is supported.
      *
-     * @return a List of {@link ThreadReference} objects. The list
-     * has zero length if no threads are waiting for the monitor.
-     * @throws java.lang.UnsupportedOperationException if the
-     * target VM does not support this operation.
-     * @throws IncompatibleThreadStateException if any
-     * waiting thread is not suspended
-     * in the target VM
+     * @return b List of {@link ThrebdReference} objects. The list
+     * hbs zero length if no threbds bre wbiting for the monitor.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the
+     * tbrget VM does not support this operbtion.
+     * @throws IncompbtibleThrebdStbteException if bny
+     * wbiting threbd is not suspended
+     * in the tbrget VM
      */
-    List<ThreadReference> waitingThreads()
-        throws IncompatibleThreadStateException;
+    List<ThrebdReference> wbitingThrebds()
+        throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns an {@link ThreadReference} for the thread, if any,
+     * Returns bn {@link ThrebdReference} for the threbd, if bny,
      * which currently owns this object's monitor.
-     * See {@link ThreadReference#ownedMonitors} for a definition
+     * See {@link ThrebdReference#ownedMonitors} for b definition
      * of ownership.
      * <p>
-     * Not all target VMs support this operation. See
-     * VirtualMachine#canGetMonitorInfo to determine if the
-     * operation is supported.
+     * Not bll tbrget VMs support this operbtion. See
+     * VirtublMbchine#cbnGetMonitorInfo to determine if the
+     * operbtion is supported.
      *
-     * @return the {@link ThreadReference} which currently owns the
+     * @return the {@link ThrebdReference} which currently owns the
      * monitor, or null if it is unowned.
      *
-     * @throws java.lang.UnsupportedOperationException if the
-     * target VM does not support this operation.
-     * @throws IncompatibleThreadStateException if the owning thread is
-     * not suspended in the target VM
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the
+     * tbrget VM does not support this operbtion.
+     * @throws IncompbtibleThrebdStbteException if the owning threbd is
+     * not suspended in the tbrget VM
      */
-    ThreadReference owningThread() throws IncompatibleThreadStateException;
+    ThrebdReference owningThrebd() throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns the number times this object's monitor has been
-     * entered by the current owning thread.
-     * See {@link ThreadReference#ownedMonitors} for a definition
+     * Returns the number times this object's monitor hbs been
+     * entered by the current owning threbd.
+     * See {@link ThrebdReference#ownedMonitors} for b definition
      * of ownership.
      * <p>
-     * Not all target VMs support this operation. See
-     * VirtualMachine#canGetMonitorInfo to determine if the
-     * operation is supported.
+     * Not bll tbrget VMs support this operbtion. See
+     * VirtublMbchine#cbnGetMonitorInfo to determine if the
+     * operbtion is supported.
      *
-     * @see #owningThread
+     * @see #owningThrebd
      * @return the integer count of the number of entries.
      *
-     * @throws java.lang.UnsupportedOperationException if the
-     * target VM does not support this operation.
-     * @throws IncompatibleThreadStateException if the owning thread is
-     * not suspended in the target VM
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the
+     * tbrget VM does not support this operbtion.
+     * @throws IncompbtibleThrebdStbteException if the owning threbd is
+     * not suspended in the tbrget VM
      */
-    int entryCount() throws IncompatibleThreadStateException;
+    int entryCount() throws IncompbtibleThrebdStbteException;
 
     /**
-     * Returns objects that directly reference this object.
-     * Only objects that are reachable for the purposes of garbage collection
-     * are returned.  Note that an object can also be referenced in other ways,
-     * such as from a local variable in a stack frame, or from a JNI global
-     * reference.  Such non-object referrers are not returned by this method.
+     * Returns objects thbt directly reference this object.
+     * Only objects thbt bre rebchbble for the purposes of gbrbbge collection
+     * bre returned.  Note thbt bn object cbn blso be referenced in other wbys,
+     * such bs from b locbl vbribble in b stbck frbme, or from b JNI globbl
+     * reference.  Such non-object referrers bre not returned by this method.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetInstanceInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetInstbnceInfo()}
+     * to determine if the operbtion is supported.
      *
-     * @see VirtualMachine#instanceCounts(List)
-     * @see ReferenceType#instances(long)
+     * @see VirtublMbchine#instbnceCounts(List)
+     * @see ReferenceType#instbnces(long)
 
-     * @param maxReferrers  The maximum number of referring objects to return.
-     *                      Must be non-negative.  If zero, all referring
-     *                      objects are returned.
-     * @return a of List of {@link ObjectReference} objects. If there are
-     *  no objects that reference this object, a zero-length list is returned..
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetInstanceInfo() canGetInstanceInfo()}
-     * @throws java.lang.IllegalArgumentException if maxReferrers is less
-     *         than zero.
+     * @pbrbm mbxReferrers  The mbximum number of referring objects to return.
+     *                      Must be non-negbtive.  If zero, bll referring
+     *                      objects bre returned.
+     * @return b of List of {@link ObjectReference} objects. If there bre
+     *  no objects thbt reference this object, b zero-length list is returned..
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetInstbnceInfo() cbnGetInstbnceInfo()}
+     * @throws jbvb.lbng.IllegblArgumentException if mbxReferrers is less
+     *         thbn zero.
      * @since 1.6
      */
-    List<ObjectReference> referringObjects(long maxReferrers);
+    List<ObjectReference> referringObjects(long mbxReferrers);
 
 
     /**
-     * Compares the specified Object with this ObjectReference for equality.
+     * Compbres the specified Object with this ObjectReference for equblity.
      *
-     * @return  true if the Object is an ObjectReference, if the
-     * ObjectReferences belong to the same VM, and if applying the
-     * "==" operator on the mirrored objects in that VM evaluates to true.
+     * @return  true if the Object is bn ObjectReference, if the
+     * ObjectReferences belong to the sbme VM, bnd if bpplying the
+     * "==" operbtor on the mirrored objects in thbt VM evblubtes to true.
      */
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this ObjectReference.
+     * Returns the hbsh code vblue for this ObjectReference.
      *
-     * @return the integer hash code
+     * @return the integer hbsh code
      */
-    int hashCode();
+    int hbshCode();
 }

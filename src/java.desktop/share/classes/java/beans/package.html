@@ -1,154 +1,154 @@
 <!--
- Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
 <body bgcolor="white">
 
-Contains classes related to developing
-<em>beans</em> -- components
-based on the JavaBeans&trade; architecture.
+Contbins clbsses relbted to developing
+<em>bebns</em> -- components
+bbsed on the JbvbBebns&trbde; brchitecture.
 A few of the
-classes are used by beans while they run in an application. 
-For example, the event classes are
-used by beans that fire property and vetoable change 
+clbsses bre used by bebns while they run in bn bpplicbtion. 
+For exbmple, the event clbsses bre
+used by bebns thbt fire property bnd vetobble chbnge 
 events (see 
-{@link java.beans.PropertyChangeEvent}). However, most of the classes in this
-package are meant to be used by a bean editor (that is, a development environment 
-for customizing and putting together beans to create an application). In
-particular, these classes help the bean editor create a user 
-interface that the user can use to customize the bean. For example, a bean may 
-contain a property of a special type that a bean editor may not know how to handle. 
-By using the <code>PropertyEditor</code> interface, a bean developer can
-provide an editor for this special type.
+{@link jbvb.bebns.PropertyChbngeEvent}). However, most of the clbsses in this
+pbckbge bre mebnt to be used by b bebn editor (thbt is, b development environment 
+for customizing bnd putting together bebns to crebte bn bpplicbtion). In
+pbrticulbr, these clbsses help the bebn editor crebte b user 
+interfbce thbt the user cbn use to customize the bebn. For exbmple, b bebn mby 
+contbin b property of b specibl type thbt b bebn editor mby not know how to hbndle. 
+By using the <code>PropertyEditor</code> interfbce, b bebn developer cbn
+provide bn editor for this specibl type.
 
 <p>
-To minimize the resources used by a bean, the classes used by bean editors are loaded only
-when the bean is being edited. They are not needed while the bean is running in an application
-and therefore not loaded. This information is kept in what's called a bean-info (see {@link java.beans.BeanInfo}).
+To minimize the resources used by b bebn, the clbsses used by bebn editors bre lobded only
+when the bebn is being edited. They bre not needed while the bebn is running in bn bpplicbtion
+bnd therefore not lobded. This informbtion is kept in whbt's cblled b bebn-info (see {@link jbvb.bebns.BebnInfo}).
 
 <p>
-Unless explicitly stated, null values or empty Strings are not valid 
-parameters for the methods in this package. You may expect to see 
-exceptions if these parameters are used.
+Unless explicitly stbted, null vblues or empty Strings bre not vblid 
+pbrbmeters for the methods in this pbckbge. You mby expect to see 
+exceptions if these pbrbmeters bre used.
 
 
 <h2>Long-Term Persistence</h2>
 
 As of v1.4,
-the <code>java.beans</code> package provides support for 
-<em>long-term persistence</em> -- reading and
-writing a bean as a textual representation of its property values.
-The property values are treated as beans,
-and are recursively read or written to capture 
-their publicly available state.
-This approach is suitable for long-term storage 
-because it relies only on public API,
-rather than the likely-to-change private implementation.
+the <code>jbvb.bebns</code> pbckbge provides support for 
+<em>long-term persistence</em> -- rebding bnd
+writing b bebn bs b textubl representbtion of its property vblues.
+The property vblues bre trebted bs bebns,
+bnd bre recursively rebd or written to cbpture 
+their publicly bvbilbble stbte.
+This bpprobch is suitbble for long-term storbge 
+becbuse it relies only on public API,
+rbther thbn the likely-to-chbnge privbte implementbtion.
 
 <blockquote>
 <hr>
 <b>Note:</b>
-The persistence scheme cannot automatically instantiate 
-custom inner classes, such as you might use for event handlers.
-By using the {@link java.beans.EventHandler} class
-instead of inner classes for custom event handlers,
-you can avoid this problem.
+The persistence scheme cbnnot butombticblly instbntibte 
+custom inner clbsses, such bs you might use for event hbndlers.
+By using the {@link jbvb.bebns.EventHbndler} clbss
+instebd of inner clbsses for custom event hbndlers,
+you cbn bvoid this problem.
 <hr>
 </blockquote>
 
 <p>
 
-You read and write beans in XML format using the
-{@link java.beans.XMLDecoder}
-and 
-{@link java.beans.XMLEncoder}
-classes, respectively.
-One notable feature of the persistence scheme is that
-reading in a bean requires no special knowledge of the bean.
+You rebd bnd write bebns in XML formbt using the
+{@link jbvb.bebns.XMLDecoder}
+bnd 
+{@link jbvb.bebns.XMLEncoder}
+clbsses, respectively.
+One notbble febture of the persistence scheme is thbt
+rebding in b bebn requires no specibl knowledge of the bebn.
 
 <p>
-Writing out a bean, on the other hand,
-sometimes requires special knowledge of the bean's type.
-If the bean's state can be
-expressed using only the no-argument constructor and 
-public getter and setter methods for properties,
-no special knowledge is required.
-Otherwise, the bean requires a custom <em>persistence delegate</em> --
-an object that is in charge of writing out beans of a particular type.
-All classes provided in the JDK that descend 
-from <code>java.awt.Component</code>, 
-as well as all their properties, 
-automatically have persistence delegates.
+Writing out b bebn, on the other hbnd,
+sometimes requires specibl knowledge of the bebn's type.
+If the bebn's stbte cbn be
+expressed using only the no-brgument constructor bnd 
+public getter bnd setter methods for properties,
+no specibl knowledge is required.
+Otherwise, the bebn requires b custom <em>persistence delegbte</em> --
+bn object thbt is in chbrge of writing out bebns of b pbrticulbr type.
+All clbsses provided in the JDK thbt descend 
+from <code>jbvb.bwt.Component</code>, 
+bs well bs bll their properties, 
+butombticblly hbve persistence delegbtes.
 
 <p>
 
-If you need (or choose) to provide a persistence delegate for a bean,
-you can do so either by using a 
-{@link java.beans.DefaultPersistenceDelegate}
-instance
-or by creating your own subclass of <code>PersistenceDelegate</code>.
-If the only reason a bean needs a persistence delegate 
-is because you want to invoke the bean's constructor with 
-property values as arguments,
-you can create the bean's persistence delegate 
-with the one-argument
-<code>DefaultPersistenceDelegate</code>
+If you need (or choose) to provide b persistence delegbte for b bebn,
+you cbn do so either by using b 
+{@link jbvb.bebns.DefbultPersistenceDelegbte}
+instbnce
+or by crebting your own subclbss of <code>PersistenceDelegbte</code>.
+If the only rebson b bebn needs b persistence delegbte 
+is becbuse you wbnt to invoke the bebn's constructor with 
+property vblues bs brguments,
+you cbn crebte the bebn's persistence delegbte 
+with the one-brgument
+<code>DefbultPersistenceDelegbte</code>
 constructor.
 Otherwise,
-you need to implement your own persistence delegate,
-for which you're likely to need the following classes:
+you need to implement your own persistence delegbte,
+for which you're likely to need the following clbsses:
 
 <dl>
-<dt> {@link java.beans.PersistenceDelegate}
-<dd> The abstract class from which all persistence delegates descend.
-     Your subclass should use its knowledge of the bean's type to provide 
-     whatever <code>Statement</code>s and <code>Expression</code>s
-     are necessary to create the bean
-     and restore its state.
-<dt> {@link java.beans.Statement}
-<dd> Represents the invocation of a single method on an object.
-     Includes a set of arguments to the method.
-<dt> {@link java.beans.Expression}
-<dd> A subclass of <code>Statement</code>
-     used for methods that return a value.
+<dt> {@link jbvb.bebns.PersistenceDelegbte}
+<dd> The bbstrbct clbss from which bll persistence delegbtes descend.
+     Your subclbss should use its knowledge of the bebn's type to provide 
+     whbtever <code>Stbtement</code>s bnd <code>Expression</code>s
+     bre necessbry to crebte the bebn
+     bnd restore its stbte.
+<dt> {@link jbvb.bebns.Stbtement}
+<dd> Represents the invocbtion of b single method on bn object.
+     Includes b set of brguments to the method.
+<dt> {@link jbvb.bebns.Expression}
+<dd> A subclbss of <code>Stbtement</code>
+     used for methods thbt return b vblue.
 </dl>
 
 <p>
-Once you create a persistence delegate,
+Once you crebte b persistence delegbte,
 you register it using the
-<code>setPersistenceDelegate</code> method of
+<code>setPersistenceDelegbte</code> method of
 <code>XMLEncoder</code>.
 
 
-<h2>Related Documentation</h2>
+<h2>Relbted Documentbtion</h2>
 
-For overview, architecture, and tutorial documentation, please see:
+For overview, brchitecture, bnd tutoribl documentbtion, plebse see:
 <ul>
-  <li><a href="http://java.sun.com/docs/books/tutorial/javabeans/">JavaBeans</a>, a trail in <em>The Java Tutorial</em>.
-  <li><a href="http://java.sun.com/products/jfc/tsc/articles/persistence2/">Long-Term Persistence</a>, an article in <em>The Swing Connection</em>.
+  <li><b href="http://jbvb.sun.com/docs/books/tutoribl/jbvbbebns/">JbvbBebns</b>, b trbil in <em>The Jbvb Tutoribl</em>.
+  <li><b href="http://jbvb.sun.com/products/jfc/tsc/brticles/persistence2/">Long-Term Persistence</b>, bn brticle in <em>The Swing Connection</em>.
 </ul>
 
 </body>

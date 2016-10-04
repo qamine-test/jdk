@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -27,309 +27,309 @@
 /*
  * (C) Copyright IBM Corp. 1999,  All rights reserved.
  */
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.im.InputMethodHighlight;
-import java.text.Annotation;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.Vector;
-import java.util.HashMap;
-import java.util.Map;
-import sun.font.CodePointIterator;
-import sun.font.Decoration;
+import jbvb.bwt.Font;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.im.InputMethodHighlight;
+import jbvb.text.Annotbtion;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.text.AttributedChbrbcterIterbtor.Attribute;
+import jbvb.util.Vector;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import sun.font.CodePointIterbtor;
+import sun.font.Decorbtion;
 import sun.font.FontResolver;
 
 /**
- * This class stores Font, GraphicAttribute, and Decoration intervals
- * on a paragraph of styled text.
+ * This clbss stores Font, GrbphicAttribute, bnd Decorbtion intervbls
+ * on b pbrbgrbph of styled text.
  * <p>
- * Currently, this class is optimized for a small number of intervals
- * (preferrably 1).
+ * Currently, this clbss is optimized for b smbll number of intervbls
+ * (preferrbbly 1).
  */
-final class StyledParagraph {
+finbl clbss StyledPbrbgrbph {
 
-    // the length of the paragraph
-    private int length;
+    // the length of the pbrbgrbph
+    privbte int length;
 
-    // If there is a single Decoration for the whole paragraph, it
+    // If there is b single Decorbtion for the whole pbrbgrbph, it
     // is stored here.  Otherwise this field is ignored.
 
-    private Decoration decoration;
+    privbte Decorbtion decorbtion;
 
-    // If there is a single Font or GraphicAttribute for the whole
-    // paragraph, it is stored here.  Otherwise this field is ignored.
-    private Object font;
+    // If there is b single Font or GrbphicAttribute for the whole
+    // pbrbgrbph, it is stored here.  Otherwise this field is ignored.
+    privbte Object font;
 
-    // If there are multiple Decorations in the paragraph, they are
-    // stored in this Vector, in order.  Otherwise this vector and
-    // the decorationStarts array are null.
-    private Vector<Decoration> decorations;
-    // If there are multiple Decorations in the paragraph,
-    // decorationStarts[i] contains the index where decoration i
-    // starts.  For convenience, there is an extra entry at the
-    // end of this array with the length of the paragraph.
-    int[] decorationStarts;
+    // If there bre multiple Decorbtions in the pbrbgrbph, they bre
+    // stored in this Vector, in order.  Otherwise this vector bnd
+    // the decorbtionStbrts brrby bre null.
+    privbte Vector<Decorbtion> decorbtions;
+    // If there bre multiple Decorbtions in the pbrbgrbph,
+    // decorbtionStbrts[i] contbins the index where decorbtion i
+    // stbrts.  For convenience, there is bn extrb entry bt the
+    // end of this brrby with the length of the pbrbgrbph.
+    int[] decorbtionStbrts;
 
-    // If there are multiple Fonts/GraphicAttributes in the paragraph,
-    // they are
-    // stored in this Vector, in order.  Otherwise this vector and
-    // the fontStarts array are null.
-    private Vector<Object> fonts;
-    // If there are multiple Fonts/GraphicAttributes in the paragraph,
-    // fontStarts[i] contains the index where decoration i
-    // starts.  For convenience, there is an extra entry at the
-    // end of this array with the length of the paragraph.
-    int[] fontStarts;
+    // If there bre multiple Fonts/GrbphicAttributes in the pbrbgrbph,
+    // they bre
+    // stored in this Vector, in order.  Otherwise this vector bnd
+    // the fontStbrts brrby bre null.
+    privbte Vector<Object> fonts;
+    // If there bre multiple Fonts/GrbphicAttributes in the pbrbgrbph,
+    // fontStbrts[i] contbins the index where decorbtion i
+    // stbrts.  For convenience, there is bn extrb entry bt the
+    // end of this brrby with the length of the pbrbgrbph.
+    int[] fontStbrts;
 
-    private static int INITIAL_SIZE = 8;
+    privbte stbtic int INITIAL_SIZE = 8;
 
     /**
-     * Create a new StyledParagraph over the given styled text.
-     * @param aci an iterator over the text
-     * @param chars the characters extracted from aci
+     * Crebte b new StyledPbrbgrbph over the given styled text.
+     * @pbrbm bci bn iterbtor over the text
+     * @pbrbm chbrs the chbrbcters extrbcted from bci
      */
-    public StyledParagraph(AttributedCharacterIterator aci,
-                           char[] chars) {
+    public StyledPbrbgrbph(AttributedChbrbcterIterbtor bci,
+                           chbr[] chbrs) {
 
-        int start = aci.getBeginIndex();
-        int end = aci.getEndIndex();
-        length = end - start;
+        int stbrt = bci.getBeginIndex();
+        int end = bci.getEndIndex();
+        length = end - stbrt;
 
-        int index = start;
-        aci.first();
+        int index = stbrt;
+        bci.first();
 
         do {
-            final int nextRunStart = aci.getRunLimit();
-            final int localIndex = index-start;
+            finbl int nextRunStbrt = bci.getRunLimit();
+            finbl int locblIndex = index-stbrt;
 
-            Map<? extends Attribute, ?> attributes = aci.getAttributes();
-            attributes = addInputMethodAttrs(attributes);
-            Decoration d = Decoration.getDecoration(attributes);
-            addDecoration(d, localIndex);
+            Mbp<? extends Attribute, ?> bttributes = bci.getAttributes();
+            bttributes = bddInputMethodAttrs(bttributes);
+            Decorbtion d = Decorbtion.getDecorbtion(bttributes);
+            bddDecorbtion(d, locblIndex);
 
-            Object f = getGraphicOrFont(attributes);
+            Object f = getGrbphicOrFont(bttributes);
             if (f == null) {
-                addFonts(chars, attributes, localIndex, nextRunStart-start);
+                bddFonts(chbrs, bttributes, locblIndex, nextRunStbrt-stbrt);
             }
             else {
-                addFont(f, localIndex);
+                bddFont(f, locblIndex);
             }
 
-            aci.setIndex(nextRunStart);
-            index = nextRunStart;
+            bci.setIndex(nextRunStbrt);
+            index = nextRunStbrt;
 
         } while (index < end);
 
-        // Add extra entries to starts arrays with the length
-        // of the paragraph.  'this' is used as a dummy value
+        // Add extrb entries to stbrts brrbys with the length
+        // of the pbrbgrbph.  'this' is used bs b dummy vblue
         // in the Vector.
-        if (decorations != null) {
-            decorationStarts = addToVector(this, length, decorations, decorationStarts);
+        if (decorbtions != null) {
+            decorbtionStbrts = bddToVector(this, length, decorbtions, decorbtionStbrts);
         }
         if (fonts != null) {
-            fontStarts = addToVector(this, length, fonts, fontStarts);
+            fontStbrts = bddToVector(this, length, fonts, fontStbrts);
         }
     }
 
     /**
-     * Adjust indices in starts to reflect an insertion after pos.
-     * Any index in starts greater than pos will be increased by 1.
+     * Adjust indices in stbrts to reflect bn insertion bfter pos.
+     * Any index in stbrts grebter thbn pos will be increbsed by 1.
      */
-    private static void insertInto(int pos, int[] starts, int numStarts) {
+    privbte stbtic void insertInto(int pos, int[] stbrts, int numStbrts) {
 
-        while (starts[--numStarts] > pos) {
-            starts[numStarts] += 1;
+        while (stbrts[--numStbrts] > pos) {
+            stbrts[numStbrts] += 1;
         }
     }
 
     /**
-     * Return a StyledParagraph reflecting the insertion of a single character
-     * into the text.  This method will attempt to reuse the given paragraph,
-     * but may create a new paragraph.
-     * @param aci an iterator over the text.  The text should be the same as the
-     *     text used to create (or most recently update) oldParagraph, with
-     *     the exception of inserting a single character at insertPos.
-     * @param chars the characters in aci
-     * @param insertPos the index of the new character in aci
-     * @param oldParagraph a StyledParagraph for the text in aci before the
+     * Return b StyledPbrbgrbph reflecting the insertion of b single chbrbcter
+     * into the text.  This method will bttempt to reuse the given pbrbgrbph,
+     * but mby crebte b new pbrbgrbph.
+     * @pbrbm bci bn iterbtor over the text.  The text should be the sbme bs the
+     *     text used to crebte (or most recently updbte) oldPbrbgrbph, with
+     *     the exception of inserting b single chbrbcter bt insertPos.
+     * @pbrbm chbrs the chbrbcters in bci
+     * @pbrbm insertPos the index of the new chbrbcter in bci
+     * @pbrbm oldPbrbgrbph b StyledPbrbgrbph for the text in bci before the
      *     insertion
      */
-    public static StyledParagraph insertChar(AttributedCharacterIterator aci,
-                                             char[] chars,
+    public stbtic StyledPbrbgrbph insertChbr(AttributedChbrbcterIterbtor bci,
+                                             chbr[] chbrs,
                                              int insertPos,
-                                             StyledParagraph oldParagraph) {
+                                             StyledPbrbgrbph oldPbrbgrbph) {
 
-        // If the styles at insertPos match those at insertPos-1,
-        // oldParagraph will be reused.  Otherwise we create a new
-        // paragraph.
+        // If the styles bt insertPos mbtch those bt insertPos-1,
+        // oldPbrbgrbph will be reused.  Otherwise we crebte b new
+        // pbrbgrbph.
 
-        char ch = aci.setIndex(insertPos);
-        int relativePos = Math.max(insertPos - aci.getBeginIndex() - 1, 0);
+        chbr ch = bci.setIndex(insertPos);
+        int relbtivePos = Mbth.mbx(insertPos - bci.getBeginIndex() - 1, 0);
 
-        Map<? extends Attribute, ?> attributes =
-            addInputMethodAttrs(aci.getAttributes());
-        Decoration d = Decoration.getDecoration(attributes);
-        if (!oldParagraph.getDecorationAt(relativePos).equals(d)) {
-            return new StyledParagraph(aci, chars);
+        Mbp<? extends Attribute, ?> bttributes =
+            bddInputMethodAttrs(bci.getAttributes());
+        Decorbtion d = Decorbtion.getDecorbtion(bttributes);
+        if (!oldPbrbgrbph.getDecorbtionAt(relbtivePos).equbls(d)) {
+            return new StyledPbrbgrbph(bci, chbrs);
         }
-        Object f = getGraphicOrFont(attributes);
+        Object f = getGrbphicOrFont(bttributes);
         if (f == null) {
-            FontResolver resolver = FontResolver.getInstance();
+            FontResolver resolver = FontResolver.getInstbnce();
             int fontIndex = resolver.getFontIndex(ch);
-            f = resolver.getFont(fontIndex, attributes);
+            f = resolver.getFont(fontIndex, bttributes);
         }
-        if (!oldParagraph.getFontOrGraphicAt(relativePos).equals(f)) {
-            return new StyledParagraph(aci, chars);
+        if (!oldPbrbgrbph.getFontOrGrbphicAt(relbtivePos).equbls(f)) {
+            return new StyledPbrbgrbph(bci, chbrs);
         }
 
-        // insert into existing paragraph
-        oldParagraph.length += 1;
-        if (oldParagraph.decorations != null) {
-            insertInto(relativePos,
-                       oldParagraph.decorationStarts,
-                       oldParagraph.decorations.size());
+        // insert into existing pbrbgrbph
+        oldPbrbgrbph.length += 1;
+        if (oldPbrbgrbph.decorbtions != null) {
+            insertInto(relbtivePos,
+                       oldPbrbgrbph.decorbtionStbrts,
+                       oldPbrbgrbph.decorbtions.size());
         }
-        if (oldParagraph.fonts != null) {
-            insertInto(relativePos,
-                       oldParagraph.fontStarts,
-                       oldParagraph.fonts.size());
+        if (oldPbrbgrbph.fonts != null) {
+            insertInto(relbtivePos,
+                       oldPbrbgrbph.fontStbrts,
+                       oldPbrbgrbph.fonts.size());
         }
-        return oldParagraph;
+        return oldPbrbgrbph;
     }
 
     /**
-     * Adjust indices in starts to reflect a deletion after deleteAt.
-     * Any index in starts greater than deleteAt will be increased by 1.
-     * It is the caller's responsibility to make sure that no 0-length
+     * Adjust indices in stbrts to reflect b deletion bfter deleteAt.
+     * Any index in stbrts grebter thbn deleteAt will be increbsed by 1.
+     * It is the cbller's responsibility to mbke sure thbt no 0-length
      * runs result.
      */
-    private static void deleteFrom(int deleteAt, int[] starts, int numStarts) {
+    privbte stbtic void deleteFrom(int deleteAt, int[] stbrts, int numStbrts) {
 
-        while (starts[--numStarts] > deleteAt) {
-            starts[numStarts] -= 1;
+        while (stbrts[--numStbrts] > deleteAt) {
+            stbrts[numStbrts] -= 1;
         }
     }
 
     /**
-     * Return a StyledParagraph reflecting the insertion of a single character
-     * into the text.  This method will attempt to reuse the given paragraph,
-     * but may create a new paragraph.
-     * @param aci an iterator over the text.  The text should be the same as the
-     *     text used to create (or most recently update) oldParagraph, with
-     *     the exception of deleting a single character at deletePos.
-     * @param chars the characters in aci
-     * @param deletePos the index where a character was removed
-     * @param oldParagraph a StyledParagraph for the text in aci before the
+     * Return b StyledPbrbgrbph reflecting the insertion of b single chbrbcter
+     * into the text.  This method will bttempt to reuse the given pbrbgrbph,
+     * but mby crebte b new pbrbgrbph.
+     * @pbrbm bci bn iterbtor over the text.  The text should be the sbme bs the
+     *     text used to crebte (or most recently updbte) oldPbrbgrbph, with
+     *     the exception of deleting b single chbrbcter bt deletePos.
+     * @pbrbm chbrs the chbrbcters in bci
+     * @pbrbm deletePos the index where b chbrbcter wbs removed
+     * @pbrbm oldPbrbgrbph b StyledPbrbgrbph for the text in bci before the
      *     insertion
      */
-    public static StyledParagraph deleteChar(AttributedCharacterIterator aci,
-                                             char[] chars,
+    public stbtic StyledPbrbgrbph deleteChbr(AttributedChbrbcterIterbtor bci,
+                                             chbr[] chbrs,
                                              int deletePos,
-                                             StyledParagraph oldParagraph) {
+                                             StyledPbrbgrbph oldPbrbgrbph) {
 
-        // We will reuse oldParagraph unless there was a length-1 run
-        // at deletePos.  We could do more work and check the individual
-        // Font and Decoration runs, but we don't right now...
-        deletePos -= aci.getBeginIndex();
+        // We will reuse oldPbrbgrbph unless there wbs b length-1 run
+        // bt deletePos.  We could do more work bnd check the individubl
+        // Font bnd Decorbtion runs, but we don't right now...
+        deletePos -= bci.getBeginIndex();
 
-        if (oldParagraph.decorations == null && oldParagraph.fonts == null) {
-            oldParagraph.length -= 1;
-            return oldParagraph;
+        if (oldPbrbgrbph.decorbtions == null && oldPbrbgrbph.fonts == null) {
+            oldPbrbgrbph.length -= 1;
+            return oldPbrbgrbph;
         }
 
-        if (oldParagraph.getRunLimit(deletePos) == deletePos+1) {
-            if (deletePos == 0 || oldParagraph.getRunLimit(deletePos-1) == deletePos) {
-                return new StyledParagraph(aci, chars);
+        if (oldPbrbgrbph.getRunLimit(deletePos) == deletePos+1) {
+            if (deletePos == 0 || oldPbrbgrbph.getRunLimit(deletePos-1) == deletePos) {
+                return new StyledPbrbgrbph(bci, chbrs);
             }
         }
 
-        oldParagraph.length -= 1;
-        if (oldParagraph.decorations != null) {
+        oldPbrbgrbph.length -= 1;
+        if (oldPbrbgrbph.decorbtions != null) {
             deleteFrom(deletePos,
-                       oldParagraph.decorationStarts,
-                       oldParagraph.decorations.size());
+                       oldPbrbgrbph.decorbtionStbrts,
+                       oldPbrbgrbph.decorbtions.size());
         }
-        if (oldParagraph.fonts != null) {
+        if (oldPbrbgrbph.fonts != null) {
             deleteFrom(deletePos,
-                       oldParagraph.fontStarts,
-                       oldParagraph.fonts.size());
+                       oldPbrbgrbph.fontStbrts,
+                       oldPbrbgrbph.fonts.size());
         }
-        return oldParagraph;
+        return oldPbrbgrbph;
     }
 
     /**
-     * Return the index at which there is a different Font, GraphicAttribute, or
-     * Dcoration than at the given index.
-     * @param index a valid index in the paragraph
-     * @return the first index where there is a change in attributes from
-     *      those at index
+     * Return the index bt which there is b different Font, GrbphicAttribute, or
+     * Dcorbtion thbn bt the given index.
+     * @pbrbm index b vblid index in the pbrbgrbph
+     * @return the first index where there is b chbnge in bttributes from
+     *      those bt index
      */
     public int getRunLimit(int index) {
 
         if (index < 0 || index >= length) {
-            throw new IllegalArgumentException("index out of range");
+            throw new IllegblArgumentException("index out of rbnge");
         }
         int limit1 = length;
-        if (decorations != null) {
-            int run = findRunContaining(index, decorationStarts);
-            limit1 = decorationStarts[run+1];
+        if (decorbtions != null) {
+            int run = findRunContbining(index, decorbtionStbrts);
+            limit1 = decorbtionStbrts[run+1];
         }
         int limit2 = length;
         if (fonts != null) {
-            int run = findRunContaining(index, fontStarts);
-            limit2 = fontStarts[run+1];
+            int run = findRunContbining(index, fontStbrts);
+            limit2 = fontStbrts[run+1];
         }
-        return Math.min(limit1, limit2);
+        return Mbth.min(limit1, limit2);
     }
 
     /**
-     * Return the Decoration in effect at the given index.
-     * @param index a valid index in the paragraph
-     * @return the Decoration at index.
+     * Return the Decorbtion in effect bt the given index.
+     * @pbrbm index b vblid index in the pbrbgrbph
+     * @return the Decorbtion bt index.
      */
-    public Decoration getDecorationAt(int index) {
+    public Decorbtion getDecorbtionAt(int index) {
 
         if (index < 0 || index >= length) {
-            throw new IllegalArgumentException("index out of range");
+            throw new IllegblArgumentException("index out of rbnge");
         }
-        if (decorations == null) {
-            return decoration;
+        if (decorbtions == null) {
+            return decorbtion;
         }
-        int run = findRunContaining(index, decorationStarts);
-        return decorations.elementAt(run);
+        int run = findRunContbining(index, decorbtionStbrts);
+        return decorbtions.elementAt(run);
     }
 
     /**
-     * Return the Font or GraphicAttribute in effect at the given index.
-     * The client must test the type of the return value to determine what
+     * Return the Font or GrbphicAttribute in effect bt the given index.
+     * The client must test the type of the return vblue to determine whbt
      * it is.
-     * @param index a valid index in the paragraph
-     * @return the Font or GraphicAttribute at index.
+     * @pbrbm index b vblid index in the pbrbgrbph
+     * @return the Font or GrbphicAttribute bt index.
      */
-    public Object getFontOrGraphicAt(int index) {
+    public Object getFontOrGrbphicAt(int index) {
 
         if (index < 0 || index >= length) {
-            throw new IllegalArgumentException("index out of range");
+            throw new IllegblArgumentException("index out of rbnge");
         }
         if (fonts == null) {
             return font;
         }
-        int run = findRunContaining(index, fontStarts);
+        int run = findRunContbining(index, fontStbrts);
         return fonts.elementAt(run);
     }
 
     /**
-     * Return i such that starts[i] &lt;= index &lt; starts[i+1].  starts
-     * must be in increasing order, with at least one element greater
-     * than index.
+     * Return i such thbt stbrts[i] &lt;= index &lt; stbrts[i+1].  stbrts
+     * must be in increbsing order, with bt lebst one element grebter
+     * thbn index.
      */
-    private static int findRunContaining(int index, int[] starts) {
+    privbte stbtic int findRunContbining(int index, int[] stbrts) {
 
         for (int i=1; true; i++) {
-            if (starts[i] > index) {
+            if (stbrts[i] > index) {
                 return i-1;
             }
         }
@@ -337,127 +337,127 @@ final class StyledParagraph {
 
     /**
      * Append the given Object to the given Vector.  Add
-     * the given index to the given starts array.  If the
-     * starts array does not have room for the index, a
-     * new array is created and returned.
+     * the given index to the given stbrts brrby.  If the
+     * stbrts brrby does not hbve room for the index, b
+     * new brrby is crebted bnd returned.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static int[] addToVector(Object obj,
+    @SuppressWbrnings({"rbwtypes", "unchecked"})
+    privbte stbtic int[] bddToVector(Object obj,
                                      int index,
                                      Vector v,
-                                     int[] starts) {
+                                     int[] stbrts) {
 
-        if (!v.lastElement().equals(obj)) {
-            v.addElement(obj);
+        if (!v.lbstElement().equbls(obj)) {
+            v.bddElement(obj);
             int count = v.size();
-            if (starts.length == count) {
-                int[] temp = new int[starts.length*2];
-                System.arraycopy(starts, 0, temp, 0, starts.length);
-                starts = temp;
+            if (stbrts.length == count) {
+                int[] temp = new int[stbrts.length*2];
+                System.brrbycopy(stbrts, 0, temp, 0, stbrts.length);
+                stbrts = temp;
             }
-            starts[count-1] = index;
+            stbrts[count-1] = index;
         }
-        return starts;
+        return stbrts;
     }
 
     /**
-     * Add a new Decoration run with the given Decoration at the
+     * Add b new Decorbtion run with the given Decorbtion bt the
      * given index.
      */
-    private void addDecoration(Decoration d, int index) {
+    privbte void bddDecorbtion(Decorbtion d, int index) {
 
-        if (decorations != null) {
-            decorationStarts = addToVector(d,
+        if (decorbtions != null) {
+            decorbtionStbrts = bddToVector(d,
                                            index,
-                                           decorations,
-                                           decorationStarts);
+                                           decorbtions,
+                                           decorbtionStbrts);
         }
-        else if (decoration == null) {
-            decoration = d;
+        else if (decorbtion == null) {
+            decorbtion = d;
         }
         else {
-            if (!decoration.equals(d)) {
-                decorations = new Vector<Decoration>(INITIAL_SIZE);
-                decorations.addElement(decoration);
-                decorations.addElement(d);
-                decorationStarts = new int[INITIAL_SIZE];
-                decorationStarts[0] = 0;
-                decorationStarts[1] = index;
+            if (!decorbtion.equbls(d)) {
+                decorbtions = new Vector<Decorbtion>(INITIAL_SIZE);
+                decorbtions.bddElement(decorbtion);
+                decorbtions.bddElement(d);
+                decorbtionStbrts = new int[INITIAL_SIZE];
+                decorbtionStbrts[0] = 0;
+                decorbtionStbrts[1] = index;
             }
         }
     }
 
     /**
-     * Add a new Font/GraphicAttribute run with the given object at the
+     * Add b new Font/GrbphicAttribute run with the given object bt the
      * given index.
      */
-    private void addFont(Object f, int index) {
+    privbte void bddFont(Object f, int index) {
 
         if (fonts != null) {
-            fontStarts = addToVector(f, index, fonts, fontStarts);
+            fontStbrts = bddToVector(f, index, fonts, fontStbrts);
         }
         else if (font == null) {
             font = f;
         }
         else {
-            if (!font.equals(f)) {
+            if (!font.equbls(f)) {
                 fonts = new Vector<Object>(INITIAL_SIZE);
-                fonts.addElement(font);
-                fonts.addElement(f);
-                fontStarts = new int[INITIAL_SIZE];
-                fontStarts[0] = 0;
-                fontStarts[1] = index;
+                fonts.bddElement(font);
+                fonts.bddElement(f);
+                fontStbrts = new int[INITIAL_SIZE];
+                fontStbrts[0] = 0;
+                fontStbrts[1] = index;
             }
         }
     }
 
     /**
-     * Resolve the given chars into Fonts using FontResolver, then add
-     * font runs for each.
+     * Resolve the given chbrs into Fonts using FontResolver, then bdd
+     * font runs for ebch.
      */
-    private void addFonts(char[] chars, Map<? extends Attribute, ?> attributes,
-                          int start, int limit) {
+    privbte void bddFonts(chbr[] chbrs, Mbp<? extends Attribute, ?> bttributes,
+                          int stbrt, int limit) {
 
-        FontResolver resolver = FontResolver.getInstance();
-        CodePointIterator iter = CodePointIterator.create(chars, start, limit);
-        for (int runStart = iter.charIndex(); runStart < limit; runStart = iter.charIndex()) {
+        FontResolver resolver = FontResolver.getInstbnce();
+        CodePointIterbtor iter = CodePointIterbtor.crebte(chbrs, stbrt, limit);
+        for (int runStbrt = iter.chbrIndex(); runStbrt < limit; runStbrt = iter.chbrIndex()) {
             int fontIndex = resolver.nextFontRunIndex(iter);
-            addFont(resolver.getFont(fontIndex, attributes), runStart);
+            bddFont(resolver.getFont(fontIndex, bttributes), runStbrt);
         }
     }
 
     /**
-     * Return a Map with entries from oldStyles, as well as input
-     * method entries, if any.
+     * Return b Mbp with entries from oldStyles, bs well bs input
+     * method entries, if bny.
      */
-    static Map<? extends Attribute, ?>
-           addInputMethodAttrs(Map<? extends Attribute, ?> oldStyles) {
+    stbtic Mbp<? extends Attribute, ?>
+           bddInputMethodAttrs(Mbp<? extends Attribute, ?> oldStyles) {
 
-        Object value = oldStyles.get(TextAttribute.INPUT_METHOD_HIGHLIGHT);
+        Object vblue = oldStyles.get(TextAttribute.INPUT_METHOD_HIGHLIGHT);
 
         try {
-            if (value != null) {
-                if (value instanceof Annotation) {
-                    value = ((Annotation)value).getValue();
+            if (vblue != null) {
+                if (vblue instbnceof Annotbtion) {
+                    vblue = ((Annotbtion)vblue).getVblue();
                 }
 
                 InputMethodHighlight hl;
-                hl = (InputMethodHighlight) value;
+                hl = (InputMethodHighlight) vblue;
 
-                Map<? extends Attribute, ?> imStyles = null;
+                Mbp<? extends Attribute, ?> imStyles = null;
                 try {
                     imStyles = hl.getStyle();
-                } catch (NoSuchMethodError e) {
+                } cbtch (NoSuchMethodError e) {
                 }
 
                 if (imStyles == null) {
-                    Toolkit tk = Toolkit.getDefaultToolkit();
-                    imStyles = tk.mapInputMethodHighlight(hl);
+                    Toolkit tk = Toolkit.getDefbultToolkit();
+                    imStyles = tk.mbpInputMethodHighlight(hl);
                 }
 
                 if (imStyles != null) {
-                    HashMap<Attribute, Object>
-                        newStyles = new HashMap<>(5, (float)0.9);
+                    HbshMbp<Attribute, Object>
+                        newStyles = new HbshMbp<>(5, (flobt)0.9);
                     newStyles.putAll(oldStyles);
 
                     newStyles.putAll(imStyles);
@@ -466,31 +466,31 @@ final class StyledParagraph {
                 }
             }
         }
-        catch(ClassCastException e) {
+        cbtch(ClbssCbstException e) {
         }
 
         return oldStyles;
     }
 
     /**
-     * Extract a GraphicAttribute or Font from the given attributes.
-     * If attributes does not contain a GraphicAttribute, Font, or
-     * Font family entry this method returns null.
+     * Extrbct b GrbphicAttribute or Font from the given bttributes.
+     * If bttributes does not contbin b GrbphicAttribute, Font, or
+     * Font fbmily entry this method returns null.
      */
-    private static Object getGraphicOrFont(
-            Map<? extends Attribute, ?> attributes) {
+    privbte stbtic Object getGrbphicOrFont(
+            Mbp<? extends Attribute, ?> bttributes) {
 
-        Object value = attributes.get(TextAttribute.CHAR_REPLACEMENT);
-        if (value != null) {
-            return value;
+        Object vblue = bttributes.get(TextAttribute.CHAR_REPLACEMENT);
+        if (vblue != null) {
+            return vblue;
         }
-        value = attributes.get(TextAttribute.FONT);
-        if (value != null) {
-            return value;
+        vblue = bttributes.get(TextAttribute.FONT);
+        if (vblue != null) {
+            return vblue;
         }
 
-        if (attributes.get(TextAttribute.FAMILY) != null) {
-            return Font.getFont(attributes);
+        if (bttributes.get(TextAttribute.FAMILY) != null) {
+            return Font.getFont(bttributes);
         }
         else {
             return null;

@@ -1,452 +1,452 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
 
-<title>GIF Metadata Format Specification</title>
-</head>
+<title>GIF Metbdbtb Formbt Specificbtion</title>
+</hebd>
 
 <body bgcolor="white">
 
 <center><h1>
-GIF Metadata Format Specification
+GIF Metbdbtb Formbt Specificbtion
 </h1></center>
 
-<a name="gif_stream_metadata_format">
+<b nbme="gif_strebm_metbdbtb_formbt">
 <center><h2>
-GIF Stream Metadata Format Specification
+GIF Strebm Metbdbtb Formbt Specificbtion
 </h2></center>
-</a>
+</b>
 <p>
 
-The GIF stream metadata format encodes the information stored in the
-per-file header, namely the file version, logical screen descriptor,
-and the global color table.
-
-<p>
-
-The logical screen descriptor describes the overall width and height
-of an animated file, as well as information about the color resolution
-(number of bits per pixel) and pixel aspect ratio.
+The GIF strebm metbdbtb formbt encodes the informbtion stored in the
+per-file hebder, nbmely the file version, logicbl screen descriptor,
+bnd the globbl color tbble.
 
 <p>
 
-The global color table contains a color lookup table that is used for
-images that do not have their own local color table.
+The logicbl screen descriptor describes the overbll width bnd height
+of bn bnimbted file, bs well bs informbtion bbout the color resolution
+(number of bits per pixel) bnd pixel bspect rbtio.
+
+<p>
+
+The globbl color tbble contbins b color lookup tbble thbt is used for
+imbges thbt do not hbve their own locbl color tbble.
 
 <pre>
-&lt;!DOCTYPE "javax_imageio_gif_stream_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgeio_gif_strebm_1.0" [
 
-  &lt;!ELEMENT "javax_imageio_gif_stream_1.0" (Version?, 
-    LogicalScreenDescriptor?, GlobalColorTable?)&gt;
+  &lt;!ELEMENT "jbvbx_imbgeio_gif_strebm_1.0" (Version?, 
+    LogicblScreenDescriptor?, GlobblColorTbble?)&gt;
 
     &lt;!ELEMENT "Version" EMPTY&gt;
-      &lt;!-- The file version, either 87a or 89a --&gt;
-      &lt;!ATTLIST "Version" "value" ("87a" | "89a") #REQUIRED&gt;
+      &lt;!-- The file version, either 87b or 89b --&gt;
+      &lt;!ATTLIST "Version" "vblue" ("87b" | "89b") #REQUIRED&gt;
         &lt;!-- The version string --&gt;
 
-    &lt;!ELEMENT "LogicalScreenDescriptor" EMPTY&gt;
-      &lt;!-- The logical screen descriptor, except for the global color table --&gt;
-      &lt;!ATTLIST "LogicalScreenDescriptor" "logicalScreenWidth" #CDATA
+    &lt;!ELEMENT "LogicblScreenDescriptor" EMPTY&gt;
+      &lt;!-- The logicbl screen descriptor, except for the globbl color tbble --&gt;
+      &lt;!ATTLIST "LogicblScreenDescriptor" "logicblScreenWidth" #CDATA
          #REQUIRED&gt;
         &lt;!-- The width in pixels of the whole picture --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "LogicalScreenDescriptor" "logicalScreenHeight" #CDATA
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "LogicblScreenDescriptor" "logicblScreenHeight" #CDATA
          #REQUIRED&gt;
         &lt;!-- The height in pixels of the whole picture --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "LogicalScreenDescriptor" "colorResolution" #CDATA
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "LogicblScreenDescriptor" "colorResolution" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The number of bits of color resolution, beteen 1 and 8 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 8 (inclusive) --&gt;
-      &lt;!ATTLIST "LogicalScreenDescriptor" "pixelAspectRatio" #CDATA
+        &lt;!-- The number of bits of color resolution, beteen 1 bnd 8 --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 8 (inclusive) --&gt;
+      &lt;!ATTLIST "LogicblScreenDescriptor" "pixelAspectRbtio" #CDATA
          #REQUIRED&gt;
-        &lt;!-- If 0, indicates square pixels, else W/H = (value + 15)/64 --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- If 0, indicbtes squbre pixels, else W/H = (vblue + 15)/64 --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 
-    &lt;!ELEMENT "GlobalColorTable" (ColorTableEntry)*&gt;
-      &lt;!-- The global color table --&gt;
+    &lt;!ELEMENT "GlobblColorTbble" (ColorTbbleEntry)*&gt;
+      &lt;!-- The globbl color tbble --&gt;
       &lt;!-- Min children: 2 --&gt;
-      &lt;!-- Max children: 256 --&gt;
-      &lt;!ATTLIST "GlobalColorTable" "sizeOfGlobalColorTable" ("2" | 
+      &lt;!-- Mbx children: 256 --&gt;
+      &lt;!ATTLIST "GlobblColorTbble" "sizeOfGlobblColorTbble" ("2" | 
         "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
-        &lt;!-- The number of entries in the global color table --&gt;
-      &lt;!ATTLIST "GlobalColorTable" "backgroundColorIndex" #CDATA
+        &lt;!-- The number of entries in the globbl color tbble --&gt;
+      &lt;!ATTLIST "GlobblColorTbble" "bbckgroundColorIndex" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The index of the color table entry to be used as a background --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
-      &lt;!ATTLIST "GlobalColorTable" "sortFlag" ("TRUE" | "FALSE")
+        &lt;!-- The index of the color tbble entry to be used bs b bbckground --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+      &lt;!ATTLIST "GlobblColorTbble" "sortFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- True if the global color table is sorted by frequency --&gt;
+        &lt;!-- True if the globbl color tbble is sorted by frequency --&gt;
 
-      &lt;!ELEMENT "ColorTableEntry" EMPTY&gt;
-        &lt;!-- A global color table entry --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- The index of the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The red value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The green value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The blue value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "ColorTbbleEntry" EMPTY&gt;
+        &lt;!-- A globbl color tbble entry --&gt;
+        &lt;!ATTLIST "ColorTbbleEntry" "index" #CDATA #REQUIRED&gt;
+          &lt;!-- The index of the color tbble entry --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "ColorTbbleEntry" "red" #CDATA #REQUIRED&gt;
+          &lt;!-- The red vblue for the color tbble entry --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "ColorTbbleEntry" "green" #CDATA #REQUIRED&gt;
+          &lt;!-- The green vblue for the color tbble entry --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "ColorTbbleEntry" "blue" #CDATA #REQUIRED&gt;
+          &lt;!-- The blue vblue for the color tbble entry --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 ]&gt;
 </pre>
-<a name="gif_image_metadata_format">
+<b nbme="gif_imbge_metbdbtb_formbt">
 <center><h2>
-GIF Image Metadata Format Specification
+GIF Imbge Metbdbtb Formbt Specificbtion
 </h2></center>
-</a>
+</b>
 <p>
 
-The GIF image metadata format encodes the image descriptor, local
-color table, and extension information assciated with a single image
-within a GIF file, typically a frame of an animation.
-
-<p>
-
-The image description contains the offset of the frame within the
-logical screen described in the stream metadata, as well as the width
-and height of the frame and whether it is used interlaced encoding.
+The GIF imbge metbdbtb formbt encodes the imbge descriptor, locbl
+color tbble, bnd extension informbtion bsscibted with b single imbge
+within b GIF file, typicblly b frbme of bn bnimbtion.
 
 <p>
 
-The local color table, if present, supersedes the global color table
-for the frame at hand.
+The imbge description contbins the offset of the frbme within the
+logicbl screen described in the strebm metbdbtb, bs well bs the width
+bnd height of the frbme bnd whether it is used interlbced encoding.
 
 <p>
 
-The graphic control extension contains information on how the frame is
-to be incorporated into the animation.  The disposal method indicates
-whether the current frame should remain in place
-(<code>doNotDispose</code>), be restored to the backgound color as
-specified in the stream metadata
-(<code>restoreToBackgroundColor</code>), or be restored to the
-previous frame contents (<code>restoreToPrevious</code>) prior to
-displaying the subsequent frame.
+The locbl color tbble, if present, supersedes the globbl color tbble
+for the frbme bt hbnd.
 
 <p>
 
-The user input flag indicates whether the animation should pause for
-user input before advancing to the next frame.  The transparent color
-flag and index indicate a color index for which pixels of the frame
-should not be drawn.  The delay time indicates how long the frame
-should be displayed, in hundredths of a second.  If the user input
-flag is set and the delay time is 0, the frame is intended to be
-advanced only on user input.
+The grbphic control extension contbins informbtion on how the frbme is
+to be incorporbted into the bnimbtion.  The disposbl method indicbtes
+whether the current frbme should rembin in plbce
+(<code>doNotDispose</code>), be restored to the bbckgound color bs
+specified in the strebm metbdbtb
+(<code>restoreToBbckgroundColor</code>), or be restored to the
+previous frbme contents (<code>restoreToPrevious</code>) prior to
+displbying the subsequent frbme.
+
+<p>
+
+The user input flbg indicbtes whether the bnimbtion should pbuse for
+user input before bdvbncing to the next frbme.  The trbnspbrent color
+flbg bnd index indicbte b color index for which pixels of the frbme
+should not be drbwn.  The delby time indicbtes how long the frbme
+should be displbyed, in hundredths of b second.  If the user input
+flbg is set bnd the delby time is 0, the frbme is intended to be
+bdvbnced only on user input.
 
 <pre>
-&lt;!DOCTYPE "javax_imageio_gif_image_1.0" [
+&lt;!DOCTYPE "jbvbx_imbgeio_gif_imbge_1.0" [
 
-  &lt;!ELEMENT "javax_imageio_gif_image_1.0" (ImageDescriptor?, 
-    LocalColorTable?, GraphicControlExtension?, PlainTextExtension?, 
-    ApplicationExtensions?, CommentExtensions?)&gt;
+  &lt;!ELEMENT "jbvbx_imbgeio_gif_imbge_1.0" (ImbgeDescriptor?, 
+    LocblColorTbble?, GrbphicControlExtension?, PlbinTextExtension?, 
+    ApplicbtionExtensions?, CommentExtensions?)&gt;
 
-    &lt;!ELEMENT "ImageDescriptor" EMPTY&gt;
-      &lt;!-- The image descriptor --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "imageLeftPosition" #CDATA #REQUIRED&gt;
-        &lt;!-- The X offset of the image relative to the screen origin --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "imageTopPosition" #CDATA #REQUIRED&gt;
-        &lt;!-- The Y offset of the image relative to the screen origin --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "imageWidth" #CDATA #REQUIRED&gt;
-        &lt;!-- The width of the image --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "imageHeight" #CDATA #REQUIRED&gt;
-        &lt;!-- The height of the image --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "ImageDescriptor" "interlaceFlag" ("TRUE" | "FALSE")
+    &lt;!ELEMENT "ImbgeDescriptor" EMPTY&gt;
+      &lt;!-- The imbge descriptor --&gt;
+      &lt;!ATTLIST "ImbgeDescriptor" "imbgeLeftPosition" #CDATA #REQUIRED&gt;
+        &lt;!-- The X offset of the imbge relbtive to the screen origin --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "ImbgeDescriptor" "imbgeTopPosition" #CDATA #REQUIRED&gt;
+        &lt;!-- The Y offset of the imbge relbtive to the screen origin --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "ImbgeDescriptor" "imbgeWidth" #CDATA #REQUIRED&gt;
+        &lt;!-- The width of the imbge --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "ImbgeDescriptor" "imbgeHeight" #CDATA #REQUIRED&gt;
+        &lt;!-- The height of the imbge --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "ImbgeDescriptor" "interlbceFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- True if the image is stored using interlacing --&gt;
+        &lt;!-- True if the imbge is stored using interlbcing --&gt;
 
-    &lt;!ELEMENT "LocalColorTable" (ColorTableEntry)*&gt;
-      &lt;!-- The local color table --&gt;
+    &lt;!ELEMENT "LocblColorTbble" (ColorTbbleEntry)*&gt;
+      &lt;!-- The locbl color tbble --&gt;
       &lt;!-- Min children: 2 --&gt;
-      &lt;!-- Max children: 256 --&gt;
-      &lt;!ATTLIST "LocalColorTable" "sizeOfLocalColorTable" ("2" | 
+      &lt;!-- Mbx children: 256 --&gt;
+      &lt;!ATTLIST "LocblColorTbble" "sizeOfLocblColorTbble" ("2" | 
         "4" | "8" | "16" | "32" | "64" | "128" | "256") #REQUIRED&gt;
-        &lt;!-- The number of entries in the local color table --&gt;
-      &lt;!ATTLIST "LocalColorTable" "sortFlag" ("TRUE" | "FALSE")
+        &lt;!-- The number of entries in the locbl color tbble --&gt;
+      &lt;!ATTLIST "LocblColorTbble" "sortFlbg" ("TRUE" | "FALSE")
          #REQUIRED&gt;
-        &lt;!-- True if the local color table is sorted by frequency --&gt;
+        &lt;!-- True if the locbl color tbble is sorted by frequency --&gt;
 
-      &lt;!ELEMENT "ColorTableEntry" EMPTY&gt;
-        &lt;!-- A local color table entry --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "index" #CDATA #REQUIRED&gt;
-          &lt;!-- The index of the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "red" #CDATA #REQUIRED&gt;
-          &lt;!-- The red value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "green" #CDATA #REQUIRED&gt;
-          &lt;!-- The green value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "ColorTableEntry" "blue" #CDATA #REQUIRED&gt;
-          &lt;!-- The blue value for the color table entry --&gt;
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "ColorTbbleEntry" EMPTY&gt;
+        &lt;!-- A locbl color tbble entry --&gt;
+        &lt;!ATTLIST "ColorTbbleEntry" "index" #CDATA #REQUIRED&gt;
+          &lt;!-- The index of the color tbble entry --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "ColorTbbleEntry" "red" #CDATA #REQUIRED&gt;
+          &lt;!-- The red vblue for the color tbble entry --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "ColorTbbleEntry" "green" #CDATA #REQUIRED&gt;
+          &lt;!-- The green vblue for the color tbble entry --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+        &lt;!ATTLIST "ColorTbbleEntry" "blue" #CDATA #REQUIRED&gt;
+          &lt;!-- The blue vblue for the color tbble entry --&gt;
+          &lt;!-- Dbtb type: Integer --&gt;
+          &lt;!-- Min vblue: 0 (inclusive) --&gt;
+          &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 
-    &lt;!ELEMENT "GraphicControlExtension" EMPTY&gt;
-      &lt;!-- A graphic control extension --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "disposalMethod" ("none" | 
-        "doNotDispose" | "restoreToBackgroundColor" | 
-        "restoreToPrevious" | "undefinedDisposalMethod4" | 
-        "undefinedDisposalMethod5" | "undefinedDisposalMethod6" | 
-        "undefinedDisposalMethod7") #REQUIRED&gt;
-        &lt;!-- The disposal method for this frame --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "userInputFlag" ("TRUE" | 
+    &lt;!ELEMENT "GrbphicControlExtension" EMPTY&gt;
+      &lt;!-- A grbphic control extension --&gt;
+      &lt;!ATTLIST "GrbphicControlExtension" "disposblMethod" ("none" | 
+        "doNotDispose" | "restoreToBbckgroundColor" | 
+        "restoreToPrevious" | "undefinedDisposblMethod4" | 
+        "undefinedDisposblMethod5" | "undefinedDisposblMethod6" | 
+        "undefinedDisposblMethod7") #REQUIRED&gt;
+        &lt;!-- The disposbl method for this frbme --&gt;
+      &lt;!ATTLIST "GrbphicControlExtension" "userInputFlbg" ("TRUE" | 
         "FALSE") #REQUIRED&gt;
-        &lt;!-- True if the frame should be advanced based on user input --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "transparentColorFlag" (
+        &lt;!-- True if the frbme should be bdvbnced bbsed on user input --&gt;
+      &lt;!ATTLIST "GrbphicControlExtension" "trbnspbrentColorFlbg" (
         "TRUE" | "FALSE") #REQUIRED&gt;
-        &lt;!-- True if a transparent color exists --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "delayTime" #CDATA #REQUIRED&gt;
-        &lt;!-- The time to delay between frames, in hundredths of a second --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "GraphicControlExtension" "transparentColorIndex"
+        &lt;!-- True if b trbnspbrent color exists --&gt;
+      &lt;!ATTLIST "GrbphicControlExtension" "delbyTime" #CDATA #REQUIRED&gt;
+        &lt;!-- The time to delby between frbmes, in hundredths of b second --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "GrbphicControlExtension" "trbnspbrentColorIndex"
          #CDATA #REQUIRED&gt;
-        &lt;!-- The transparent color, if transparentColorFlag is true --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- The trbnspbrent color, if trbnspbrentColorFlbg is true --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 
-    &lt;!ELEMENT "PlainTextExtension" EMPTY&gt;
-      &lt;!-- A plain text (text grid) extension --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textGridLeft" #CDATA #REQUIRED&gt;
+    &lt;!ELEMENT "PlbinTextExtension" EMPTY&gt;
+      &lt;!-- A plbin text (text grid) extension --&gt;
+      &lt;!ATTLIST "PlbinTextExtension" "textGridLeft" #CDATA #REQUIRED&gt;
         &lt;!-- The X offset of the text grid --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textGridTop" #CDATA #REQUIRED&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "PlbinTextExtension" "textGridTop" #CDATA #REQUIRED&gt;
         &lt;!-- The Y offset of the text grid --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textGridWidth" #CDATA #REQUIRED&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "PlbinTextExtension" "textGridWidth" #CDATA #REQUIRED&gt;
         &lt;!-- The number of columns in the text grid --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textGridHeight" #CDATA #REQUIRED&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "PlbinTextExtension" "textGridHeight" #CDATA #REQUIRED&gt;
         &lt;!-- The number of rows in the text grid --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "characterCellWidth" #CDATA
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "PlbinTextExtension" "chbrbcterCellWidth" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The width of a character cell --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "characterCellHeight" #CDATA
+        &lt;!-- The width of b chbrbcter cell --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "PlbinTextExtension" "chbrbcterCellHeight" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The height of a character cell --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 1 (inclusive) --&gt;
-        &lt;!-- Max value: 65535 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textForegroundColor" #CDATA
+        &lt;!-- The height of b chbrbcter cell --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 1 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 65535 (inclusive) --&gt;
+      &lt;!ATTLIST "PlbinTextExtension" "textForegroundColor" #CDATA
          #REQUIRED&gt;
         &lt;!-- The text foreground color index --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
-      &lt;!ATTLIST "PlainTextExtension" "textBackgroundColor" #CDATA
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
+      &lt;!ATTLIST "PlbinTextExtension" "textBbckgroundColor" #CDATA
          #REQUIRED&gt;
-        &lt;!-- The text background color index --&gt;
-        &lt;!-- Data type: Integer --&gt;
-        &lt;!-- Min value: 0 (inclusive) --&gt;
-        &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- The text bbckground color index --&gt;
+        &lt;!-- Dbtb type: Integer --&gt;
+        &lt;!-- Min vblue: 0 (inclusive) --&gt;
+        &lt;!-- Mbx vblue: 255 (inclusive) --&gt;
 
-    &lt;!ELEMENT "ApplicationExtensions" (ApplicationExtension)*&gt;
-      &lt;!-- A set of application extensions --&gt;
+    &lt;!ELEMENT "ApplicbtionExtensions" (ApplicbtionExtension)*&gt;
+      &lt;!-- A set of bpplicbtion extensions --&gt;
       &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 2147483647 --&gt;
+      &lt;!-- Mbx children: 2147483647 --&gt;
 
-      &lt;!ELEMENT "ApplicationExtension" EMPTY&gt;
-        &lt;!-- An application extension --&gt;
-        &lt;!-- User object: array of byte --&gt;
+      &lt;!ELEMENT "ApplicbtionExtension" EMPTY&gt;
+        &lt;!-- An bpplicbtion extension --&gt;
+        &lt;!-- User object: brrby of byte --&gt;
         &lt;!-- Min length: 0 --&gt;
-        &lt;!-- Max length: 2147483647 --&gt;
-        &lt;!ATTLIST "ApplicationExtension" "applicationID" #CDATA
+        &lt;!-- Mbx length: 2147483647 --&gt;
+        &lt;!ATTLIST "ApplicbtionExtension" "bpplicbtionID" #CDATA
            #REQUIRED&gt;
-          &lt;!-- The application ID --&gt;
-          &lt;!-- Data type: String --&gt;
-        &lt;!ATTLIST "ApplicationExtension" "authenticationCode" #CDATA
+          &lt;!-- The bpplicbtion ID --&gt;
+          &lt;!-- Dbtb type: String --&gt;
+        &lt;!ATTLIST "ApplicbtionExtension" "buthenticbtionCode" #CDATA
            #REQUIRED&gt;
-          &lt;!-- The authentication code --&gt;
-          &lt;!-- Data type: String --&gt;
+          &lt;!-- The buthenticbtion code --&gt;
+          &lt;!-- Dbtb type: String --&gt;
 
     &lt;!ELEMENT "CommentExtensions" (CommentExtension)*&gt;
       &lt;!-- A set of comments --&gt;
       &lt;!-- Min children: 1 --&gt;
-      &lt;!-- Max children: 2147483647 --&gt;
+      &lt;!-- Mbx children: 2147483647 --&gt;
 
       &lt;!ELEMENT "CommentExtension" EMPTY&gt;
         &lt;!-- A comment --&gt;
-        &lt;!ATTLIST "CommentExtension" "value" #CDATA #REQUIRED&gt;
+        &lt;!ATTLIST "CommentExtension" "vblue" #CDATA #REQUIRED&gt;
           &lt;!-- The comment --&gt;
-          &lt;!-- Data type: String --&gt;
+          &lt;!-- Dbtb type: String --&gt;
 ]&gt;
 </pre>
 
 <p>
-<a name="mapping">
+<b nbme="mbpping">
 <center>
-<table border=1>
-<caption><b>Mapping of Standard to GIF Native Stream Metadata</b></caption>
+<tbble border=1>
+<cbption><b>Mbpping of Stbndbrd to GIF Nbtive Strebm Metbdbtb</b></cbption>
 <tr>
-<th>Standard Metadata Component</th>
-<th>GIF Native Stream Metadata Component</th>
+<th>Stbndbrd Metbdbtb Component</th>
+<th>GIF Nbtive Strebm Metbdbtb Component</th>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@index</td>
-<td>/GlobalColorTable/ColorTableEntry@index</td>
+<td>/Chromb/Pblette/PbletteEntry@index</td>
+<td>/GlobblColorTbble/ColorTbbleEntry@index</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@red</td>
-<td>/GlobalColorTable/ColorTableEntry@red</td>
+<td>/Chromb/Pblette/PbletteEntry@red</td>
+<td>/GlobblColorTbble/ColorTbbleEntry@red</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@green</td>
-<td>/GlobalColorTable/ColorTableEntry@green</td>
+<td>/Chromb/Pblette/PbletteEntry@green</td>
+<td>/GlobblColorTbble/ColorTbbleEntry@green</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@blue</td>
-<td>/GlobalColorTable/ColorTableEntry@blue</td>
+<td>/Chromb/Pblette/PbletteEntry@blue</td>
+<td>/GlobblColorTbble/ColorTbbleEntry@blue</td>
 </tr>
 <tr>
-<td>/Chroma/BackgroundIndex@value</td>
-<td>/GlobalColorTable@backgroundColorIndex</td>
+<td>/Chromb/BbckgroundIndex@vblue</td>
+<td>/GlobblColorTbble@bbckgroundColorIndex</td>
 </tr>
 <tr>
-<td>/Data/BitsPerSample@value</td>
-<td>/LogicalScreenDescriptor@colorResolution</td>
+<td>/Dbtb/BitsPerSbmple@vblue</td>
+<td>/LogicblScreenDescriptor@colorResolution</td>
 </tr>
 <tr>
-<td>/Dimension/PixelAspectRatio@value</td>
-<td>/LogicalScreenDescriptor@pixelAspectRatio</td>
+<td>/Dimension/PixelAspectRbtio@vblue</td>
+<td>/LogicblScreenDescriptor@pixelAspectRbtio</td>
 </tr>
 <tr>
-<td>/Dimension/HorizontalScreenSize@value</td>
-<td>/LogicalScreenDescriptor@logicalScreenWidth</td>
+<td>/Dimension/HorizontblScreenSize@vblue</td>
+<td>/LogicblScreenDescriptor@logicblScreenWidth</td>
 </tr>
 <tr>
-<td>/Dimension/VerticalScreenSize@value</td>
-<td>/LogicalScreenDescriptor@logicalScreenHeight</td>
+<td>/Dimension/VerticblScreenSize@vblue</td>
+<td>/LogicblScreenDescriptor@logicblScreenHeight</td>
 </tr>
 <tr>
-<td>/Document/FormatVersion@value</td>
-<td>/Version@value</td>
+<td>/Document/FormbtVersion@vblue</td>
+<td>/Version@vblue</td>
 </tr>
-</table>
+</tbble>
 </center>
 </p>
 
 <p>
 <center>
-<table border=1>
-<caption><b>Mapping of Standard to GIF Native Image Metadata</b></caption>
+<tbble border=1>
+<cbption><b>Mbpping of Stbndbrd to GIF Nbtive Imbge Metbdbtb</b></cbption>
 <tr>
-<th>Standard Metadata Component</th>
-<th>GIF Native Image Metadata Component</th>
+<th>Stbndbrd Metbdbtb Component</th>
+<th>GIF Nbtive Imbge Metbdbtb Component</th>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@index</td>
-<td>/LocalColorTable/ColorTableEntry@index</td>
+<td>/Chromb/Pblette/PbletteEntry@index</td>
+<td>/LocblColorTbble/ColorTbbleEntry@index</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@red</td>
-<td>/LocalColorTable/ColorTableEntry@red</td>
+<td>/Chromb/Pblette/PbletteEntry@red</td>
+<td>/LocblColorTbble/ColorTbbleEntry@red</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@green</td>
-<td>/LocalColorTable/ColorTableEntry@green</td>
+<td>/Chromb/Pblette/PbletteEntry@green</td>
+<td>/LocblColorTbble/ColorTbbleEntry@green</td>
 </tr>
 <tr>
-<td>/Chroma/Palette/PaletteEntry@blue</td>
-<td>/LocalColorTable/ColorTableEntry@blue</td>
+<td>/Chromb/Pblette/PbletteEntry@blue</td>
+<td>/LocblColorTbble/ColorTbbleEntry@blue</td>
 </tr>
 <tr>
-<td>/Dimension/HorizontalPixelOffset@value</td>
-<td>/ImageDescriptor@imageLeftPosition</td>
+<td>/Dimension/HorizontblPixelOffset@vblue</td>
+<td>/ImbgeDescriptor@imbgeLeftPosition</td>
 </tr>
 <tr>
-<td>/Dimension/VerticalPixelOffset@value</td>
-<td>/ImageDescriptor@imageTopPosition</td>
+<td>/Dimension/VerticblPixelOffset@vblue</td>
+<td>/ImbgeDescriptor@imbgeTopPosition</td>
 </tr>
 <tr>
-<td>/Text/TextEntry@value</td>
-<td>/CommentExtensions/CommentExtension@value</td>
+<td>/Text/TextEntry@vblue</td>
+<td>/CommentExtensions/CommentExtension@vblue</td>
 </tr>
 <tr>
-<td>/Transparency/TransparentIndex@value</td>
-<td>/GraphicControlExtension@transparentColorIndex
-(/GraphicControlExtension@transparentColorFlag is also set to
+<td>/Trbnspbrency/TrbnspbrentIndex@vblue</td>
+<td>/GrbphicControlExtension@trbnspbrentColorIndex
+(/GrbphicControlExtension@trbnspbrentColorFlbg is blso set to
 "TRUE")</td>
 </tr>
-</table>
+</tbble>
 </center>
 
 </body>

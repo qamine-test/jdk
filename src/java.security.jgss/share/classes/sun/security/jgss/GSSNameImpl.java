@@ -1,255 +1,255 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss;
+pbckbge sun.security.jgss;
 
 import org.ietf.jgss.*;
 import sun.security.jgss.spi.*;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Arrays;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import jbvb.util.Set;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Arrbys;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
 import sun.security.util.ObjectIdentifier;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerInputStrebm;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * This is the implementation class for GSSName. Conceptually the
- * GSSName is a container with mechanism specific name elements. Each
- * name element is a representation of how that particular mechanism
- * would canonicalize this principal.
+ * This is the implementbtion clbss for GSSNbme. Conceptublly the
+ * GSSNbme is b contbiner with mechbnism specific nbme elements. Ebch
+ * nbme element is b representbtion of how thbt pbrticulbr mechbnism
+ * would cbnonicblize this principbl.
  *
- * Generally a GSSName is created by an application when it supplies
- * a sequence of bytes and a nametype that helps each mechanism
+ * Generblly b GSSNbme is crebted by bn bpplicbtion when it supplies
+ * b sequence of bytes bnd b nbmetype thbt helps ebch mechbnism
  * decide how to interpret those bytes.
  *
- * It is not necessary to create name elements for each available
- * mechanism at the time the application creates the GSSName. This
- * implementation does this lazily, as and when name elements for
- * mechanisms are required to be handed out. (Generally, other GSS
- * classes like GSSContext and GSSCredential request specific
- * elements depending on the mechanisms that they are dealing with.)
- * Assume that getting a mechanism to parse the applciation specified
- * bytes is an expensive call.
+ * It is not necessbry to crebte nbme elements for ebch bvbilbble
+ * mechbnism bt the time the bpplicbtion crebtes the GSSNbme. This
+ * implementbtion does this lbzily, bs bnd when nbme elements for
+ * mechbnisms bre required to be hbnded out. (Generblly, other GSS
+ * clbsses like GSSContext bnd GSSCredentibl request specific
+ * elements depending on the mechbnisms thbt they bre debling with.)
+ * Assume thbt getting b mechbnism to pbrse the bpplcibtion specified
+ * bytes is bn expensive cbll.
  *
- * When a GSSName is canonicalized wrt some mechanism, it is supposed
- * to discard all elements of other mechanisms and retain only the
- * element for this mechanism. In GSS terminology this is called a
- * Mechanism Name or MN. This implementation tries to retain the
- * application provided bytes and name type just in case the MN is
- * asked to produce an element for a mechanism that is different.
+ * When b GSSNbme is cbnonicblized wrt some mechbnism, it is supposed
+ * to discbrd bll elements of other mechbnisms bnd retbin only the
+ * element for this mechbnism. In GSS terminology this is cblled b
+ * Mechbnism Nbme or MN. This implementbtion tries to retbin the
+ * bpplicbtion provided bytes bnd nbme type just in cbse the MN is
+ * bsked to produce bn element for b mechbnism thbt is different.
  *
- * When a GSSName is to be exported, the name element for the desired
- * mechanism is converted to a byte representation and written
- * out. It might happen that a name element for that mechanism cannot
- * be obtained. This happens when the mechanism is just not supported
- * in this GSS-API or when the mechanism is supported but bytes
- * corresponding to the nametypes that it understands are not
- * available in this GSSName.
+ * When b GSSNbme is to be exported, the nbme element for the desired
+ * mechbnism is converted to b byte representbtion bnd written
+ * out. It might hbppen thbt b nbme element for thbt mechbnism cbnnot
+ * be obtbined. This hbppens when the mechbnism is just not supported
+ * in this GSS-API or when the mechbnism is supported but bytes
+ * corresponding to the nbmetypes thbt it understbnds bre not
+ * bvbilbble in this GSSNbme.
  *
- * This class is safe for sharing. Each retrieval of a name element
- * from getElement() might potentially add a new element to the
- * hashmap of elements, but getElement() is synchronized.
+ * This clbss is sbfe for shbring. Ebch retrievbl of b nbme element
+ * from getElement() might potentiblly bdd b new element to the
+ * hbshmbp of elements, but getElement() is synchronized.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
 
-public class GSSNameImpl implements GSSName {
+public clbss GSSNbmeImpl implements GSSNbme {
 
     /**
-     * The old Oid used in RFC 2853. Now supported as
-     * input parameters in:
+     * The old Oid used in RFC 2853. Now supported bs
+     * input pbrbmeters in:
      *
-     * 1. The four overloaded GSSManager.createName(*) methods
-     * 2. GSSManager.getMechsForName(Oid)
+     * 1. The four overlobded GSSMbnbger.crebteNbme(*) methods
+     * 2. GSSMbnbger.getMechsForNbme(Oid)
      *
-     * Note that even if a GSSName is created with this old Oid,
-     * its internal name type and getStringNameType() output are
-     * always the new value.
+     * Note thbt even if b GSSNbme is crebted with this old Oid,
+     * its internbl nbme type bnd getStringNbmeType() output bre
+     * blwbys the new vblue.
      */
-    final static Oid oldHostbasedServiceName;
+    finbl stbtic Oid oldHostbbsedServiceNbme;
 
-    static {
+    stbtic {
         Oid tmp = null;
         try {
             tmp = new Oid("1.3.6.1.5.6.2");
-        } catch (Exception e) {
-            // should never happen
+        } cbtch (Exception e) {
+            // should never hbppen
         }
-        oldHostbasedServiceName = tmp;
+        oldHostbbsedServiceNbme = tmp;
     }
 
-    private GSSManagerImpl gssManager = null;
+    privbte GSSMbnbgerImpl gssMbnbger = null;
 
     /*
-     * Store whatever the application passed in. We will use this to
-     * get individual mechanisms to create name elements as and when
+     * Store whbtever the bpplicbtion pbssed in. We will use this to
+     * get individubl mechbnisms to crebte nbme elements bs bnd when
      * needed.
-     * Store both the String and the byte[]. Leave I18N to the
-     * mechanism by allowing it to extract bytes from the String!
+     * Store both the String bnd the byte[]. Lebve I18N to the
+     * mechbnism by bllowing it to extrbct bytes from the String!
      */
 
-    private String appNameStr = null;
-    private byte[] appNameBytes = null;
-    private Oid appNameType = null;
+    privbte String bppNbmeStr = null;
+    privbte byte[] bppNbmeBytes = null;
+    privbte Oid bppNbmeType = null;
 
     /*
-     * When we figure out what the printable name would be, we store
-     * both the name and its type.
+     * When we figure out whbt the printbble nbme would be, we store
+     * both the nbme bnd its type.
      */
 
-    private String printableName = null;
-    private Oid printableNameType = null;
+    privbte String printbbleNbme = null;
+    privbte Oid printbbleNbmeType = null;
 
-    private HashMap<Oid, GSSNameSpi> elements = null;
-    private GSSNameSpi mechElement = null;
+    privbte HbshMbp<Oid, GSSNbmeSpi> elements = null;
+    privbte GSSNbmeSpi mechElement = null;
 
-    static GSSNameImpl wrapElement(GSSManagerImpl gssManager,
-        GSSNameSpi mechElement) throws GSSException {
+    stbtic GSSNbmeImpl wrbpElement(GSSMbnbgerImpl gssMbnbger,
+        GSSNbmeSpi mechElement) throws GSSException {
         return (mechElement == null ?
-            null : new GSSNameImpl(gssManager, mechElement));
+            null : new GSSNbmeImpl(gssMbnbger, mechElement));
     }
 
-    GSSNameImpl(GSSManagerImpl gssManager, GSSNameSpi mechElement) {
-        this.gssManager = gssManager;
-        appNameStr = printableName = mechElement.toString();
-        appNameType = printableNameType = mechElement.getStringNameType();
+    GSSNbmeImpl(GSSMbnbgerImpl gssMbnbger, GSSNbmeSpi mechElement) {
+        this.gssMbnbger = gssMbnbger;
+        bppNbmeStr = printbbleNbme = mechElement.toString();
+        bppNbmeType = printbbleNbmeType = mechElement.getStringNbmeType();
         this.mechElement = mechElement;
-        elements = new HashMap<Oid, GSSNameSpi>(1);
-        elements.put(mechElement.getMechanism(), this.mechElement);
+        elements = new HbshMbp<Oid, GSSNbmeSpi>(1);
+        elements.put(mechElement.getMechbnism(), this.mechElement);
     }
 
-    GSSNameImpl(GSSManagerImpl gssManager,
-                       Object appName,
-                       Oid appNameType)
+    GSSNbmeImpl(GSSMbnbgerImpl gssMbnbger,
+                       Object bppNbme,
+                       Oid bppNbmeType)
         throws GSSException {
-        this(gssManager, appName, appNameType, null);
+        this(gssMbnbger, bppNbme, bppNbmeType, null);
     }
 
-    GSSNameImpl(GSSManagerImpl gssManager,
-                        Object appName,
-                        Oid appNameType,
+    GSSNbmeImpl(GSSMbnbgerImpl gssMbnbger,
+                        Object bppNbme,
+                        Oid bppNbmeType,
                         Oid mech)
         throws GSSException {
 
-        if (oldHostbasedServiceName.equals(appNameType)) {
-            appNameType = GSSName.NT_HOSTBASED_SERVICE;
+        if (oldHostbbsedServiceNbme.equbls(bppNbmeType)) {
+            bppNbmeType = GSSNbme.NT_HOSTBASED_SERVICE;
         }
-        if (appName == null)
+        if (bppNbme == null)
             throw new GSSExceptionImpl(GSSException.BAD_NAME,
-                                   "Cannot import null name");
+                                   "Cbnnot import null nbme");
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
-        if (NT_EXPORT_NAME.equals(appNameType)) {
-            importName(gssManager, appName);
+        if (NT_EXPORT_NAME.equbls(bppNbmeType)) {
+            importNbme(gssMbnbger, bppNbme);
         } else {
-            init(gssManager, appName, appNameType, mech);
+            init(gssMbnbger, bppNbme, bppNbmeType, mech);
         }
     }
 
-    private void init(GSSManagerImpl gssManager,
-                      Object appName, Oid appNameType,
+    privbte void init(GSSMbnbgerImpl gssMbnbger,
+                      Object bppNbme, Oid bppNbmeType,
                       Oid mech)
         throws GSSException {
 
-        this.gssManager = gssManager;
+        this.gssMbnbger = gssMbnbger;
         this.elements =
-                new HashMap<Oid, GSSNameSpi>(gssManager.getMechs().length);
+                new HbshMbp<Oid, GSSNbmeSpi>(gssMbnbger.getMechs().length);
 
-        if (appName instanceof String) {
-            this.appNameStr = (String) appName;
+        if (bppNbme instbnceof String) {
+            this.bppNbmeStr = (String) bppNbme;
             /*
-             * If appNameType is null, then the nametype for this printable
-             * string is determined only by interrogating the
-             * mechanism. Thus, defer the setting of printableName and
-             * printableNameType till later.
+             * If bppNbmeType is null, then the nbmetype for this printbble
+             * string is determined only by interrogbting the
+             * mechbnism. Thus, defer the setting of printbbleNbme bnd
+             * printbbleNbmeType till lbter.
              */
-            if (appNameType != null) {
-                printableName = appNameStr;
-                printableNameType = appNameType;
+            if (bppNbmeType != null) {
+                printbbleNbme = bppNbmeStr;
+                printbbleNbmeType = bppNbmeType;
             }
         } else {
-            this.appNameBytes = (byte[]) appName;
+            this.bppNbmeBytes = (byte[]) bppNbme;
         }
 
-        this.appNameType = appNameType;
+        this.bppNbmeType = bppNbmeType;
 
         mechElement = getElement(mech);
 
         /*
-         * printableName will be null if appName was in a byte[] or if
-         * appName was in a String but appNameType was null.
+         * printbbleNbme will be null if bppNbme wbs in b byte[] or if
+         * bppNbme wbs in b String but bppNbmeType wbs null.
          */
-        if (printableName == null) {
-            printableName = mechElement.toString();
-            printableNameType = mechElement.getStringNameType();
+        if (printbbleNbme == null) {
+            printbbleNbme = mechElement.toString();
+            printbbleNbmeType = mechElement.getStringNbmeType();
         }
 
         /*
-         *  At this point the GSSNameImpl has the following set:
-         *   appNameStr or appNameBytes
-         *   appNameType (could be null)
-         *   printableName
-         *   printableNameType
-         *   mechElement (which also exists in the hashmap of elements)
+         *  At this point the GSSNbmeImpl hbs the following set:
+         *   bppNbmeStr or bppNbmeBytes
+         *   bppNbmeType (could be null)
+         *   printbbleNbme
+         *   printbbleNbmeType
+         *   mechElement (which blso exists in the hbshmbp of elements)
          */
     }
 
-    private void importName(GSSManagerImpl gssManager,
-                            Object appName)
+    privbte void importNbme(GSSMbnbgerImpl gssMbnbger,
+                            Object bppNbme)
         throws GSSException {
 
         int pos = 0;
         byte[] bytes = null;
 
-        if (appName instanceof String) {
+        if (bppNbme instbnceof String) {
             try {
-                bytes = ((String) appName).getBytes("UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                // Won't happen
+                bytes = ((String) bppNbme).getBytes("UTF-8");
+            } cbtch (UnsupportedEncodingException e) {
+                // Won't hbppen
             }
         } else
-            bytes = (byte[]) appName;
+            bytes = (byte[]) bppNbme;
 
         if ((bytes[pos++] != 0x04) ||
             (bytes[pos++] != 0x01))
             throw new GSSExceptionImpl(GSSException.BAD_NAME,
-                                   "Exported name token id is corrupted!");
+                                   "Exported nbme token id is corrupted!");
 
         int oidLen  = (((0xFF & bytes[pos++]) << 8) |
                        (0xFF & bytes[pos++]));
         ObjectIdentifier temp = null;
         try {
-            DerInputStream din = new DerInputStream(bytes, pos,
+            DerInputStrebm din = new DerInputStrebm(bytes, pos,
                                                     oidLen);
             temp = new ObjectIdentifier(din);
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSExceptionImpl(GSSException.BAD_NAME,
-                       "Exported name Object identifier is corrupted!");
+                       "Exported nbme Object identifier is corrupted!");
         }
         Oid oid = new Oid(temp.toString());
         pos += oidLen;
@@ -259,150 +259,150 @@ public class GSSNameImpl implements GSSName {
                               (0xFF & bytes[pos++]));
         if (pos > bytes.length - mechPortionLen) {
             throw new GSSExceptionImpl(GSSException.BAD_NAME,
-                    "Exported name mech name is corrupted!");
+                    "Exported nbme mech nbme is corrupted!");
         }
         byte[] mechPortion = new byte[mechPortionLen];
-        System.arraycopy(bytes, pos, mechPortion, 0, mechPortionLen);
+        System.brrbycopy(bytes, pos, mechPortion, 0, mechPortionLen);
 
-        init(gssManager, mechPortion, NT_EXPORT_NAME, oid);
+        init(gssMbnbger, mechPortion, NT_EXPORT_NAME, oid);
     }
 
-    public GSSName canonicalize(Oid mech) throws GSSException {
+    public GSSNbme cbnonicblize(Oid mech) throws GSSException {
         if (mech == null) mech = ProviderList.DEFAULT_MECH_OID;
 
-        return wrapElement(gssManager, getElement(mech));
+        return wrbpElement(gssMbnbger, getElement(mech));
     }
 
     /**
-     * This method may return false negatives. But if it says two
-     * names are equals, then there is some mechanism that
-     * authenticates them as the same principal.
+     * This method mby return fblse negbtives. But if it sbys two
+     * nbmes bre equbls, then there is some mechbnism thbt
+     * buthenticbtes them bs the sbme principbl.
      */
-    public boolean equals(GSSName other) throws GSSException {
+    public boolebn equbls(GSSNbme other) throws GSSException {
 
         if (this.isAnonymous() || other.isAnonymous())
-            return false;
+            return fblse;
 
         if (other == this)
             return true;
 
-        if (! (other instanceof GSSNameImpl))
-            return equals(gssManager.createName(other.toString(),
-                                                other.getStringNameType()));
+        if (! (other instbnceof GSSNbmeImpl))
+            return equbls(gssMbnbger.crebteNbme(other.toString(),
+                                                other.getStringNbmeType()));
 
         /*
-         * XXX Do a comparison of the appNameStr/appNameBytes if
-         * available. If that fails, then proceed with this test.
+         * XXX Do b compbrison of the bppNbmeStr/bppNbmeBytes if
+         * bvbilbble. If thbt fbils, then proceed with this test.
          */
 
-        GSSNameImpl that = (GSSNameImpl) other;
+        GSSNbmeImpl thbt = (GSSNbmeImpl) other;
 
-        GSSNameSpi myElement = this.mechElement;
-        GSSNameSpi element = that.mechElement;
+        GSSNbmeSpi myElement = this.mechElement;
+        GSSNbmeSpi element = thbt.mechElement;
 
         /*
-         * XXX If they are not of the same mechanism type, convert both to
-         * Kerberos since it is guaranteed to be present.
+         * XXX If they bre not of the sbme mechbnism type, convert both to
+         * Kerberos since it is gubrbnteed to be present.
          */
         if ((myElement == null) && (element != null)) {
-            myElement = this.getElement(element.getMechanism());
+            myElement = this.getElement(element.getMechbnism());
         } else if ((myElement != null) && (element == null)) {
-            element = that.getElement(myElement.getMechanism());
+            element = thbt.getElement(myElement.getMechbnism());
         }
 
         if (myElement != null && element != null) {
-            return myElement.equals(element);
+            return myElement.equbls(element);
         }
 
-        if ((this.appNameType != null) &&
-            (that.appNameType != null)) {
-            if (!this.appNameType.equals(that.appNameType)) {
-                return false;
+        if ((this.bppNbmeType != null) &&
+            (thbt.bppNbmeType != null)) {
+            if (!this.bppNbmeType.equbls(thbt.bppNbmeType)) {
+                return fblse;
             }
             byte[] myBytes = null;
             byte[] bytes = null;
             try {
                 myBytes =
-                    (this.appNameStr != null ?
-                     this.appNameStr.getBytes("UTF-8") :
-                     this.appNameBytes);
+                    (this.bppNbmeStr != null ?
+                     this.bppNbmeStr.getBytes("UTF-8") :
+                     this.bppNbmeBytes);
                 bytes =
-                    (that.appNameStr != null ?
-                     that.appNameStr.getBytes("UTF-8") :
-                     that.appNameBytes);
-            } catch (UnsupportedEncodingException e) {
-                // Won't happen
+                    (thbt.bppNbmeStr != null ?
+                     thbt.bppNbmeStr.getBytes("UTF-8") :
+                     thbt.bppNbmeBytes);
+            } cbtch (UnsupportedEncodingException e) {
+                // Won't hbppen
             }
 
-            return Arrays.equals(myBytes, bytes);
+            return Arrbys.equbls(myBytes, bytes);
         }
 
-        return false;
+        return fblse;
 
     }
 
     /**
-     * Returns a hashcode value for this GSSName.
+     * Returns b hbshcode vblue for this GSSNbme.
      *
-     * @return a hashCode value
+     * @return b hbshCode vblue
      */
-    public int hashCode() {
+    public int hbshCode() {
         /*
          * XXX
-         * In order to get this to work reliably and properly(!), obtain a
-         * Kerberos name element for the name and then call hashCode on its
-         * string representation. But this cannot be done if the nametype
-         * is not one of those supported by the Kerberos provider and hence
-         * this name cannot be imported by Kerberos. In that case return a
-         * constant value!
+         * In order to get this to work relibbly bnd properly(!), obtbin b
+         * Kerberos nbme element for the nbme bnd then cbll hbshCode on its
+         * string representbtion. But this cbnnot be done if the nbmetype
+         * is not one of those supported by the Kerberos provider bnd hence
+         * this nbme cbnnot be imported by Kerberos. In thbt cbse return b
+         * constbnt vblue!
          */
 
         return 1;
     }
 
-    public boolean equals(Object another) {
+    public boolebn equbls(Object bnother) {
 
         try {
-            // XXX This can lead to an infinite loop. Extract info
-            // and create a GSSNameImpl with it.
+            // XXX This cbn lebd to bn infinite loop. Extrbct info
+            // bnd crebte b GSSNbmeImpl with it.
 
-            if (another instanceof GSSName)
-                return equals((GSSName) another);
-        } catch (GSSException e) {
-            // Squelch it and return false
+            if (bnother instbnceof GSSNbme)
+                return equbls((GSSNbme) bnother);
+        } cbtch (GSSException e) {
+            // Squelch it bnd return fblse
         }
 
-            return false;
+            return fblse;
     }
 
     /**
-     * Returns a flat name representation for this object. The name
-     * format is defined in RFC 2743:
+     * Returns b flbt nbme representbtion for this object. The nbme
+     * formbt is defined in RFC 2743:
      *<pre>
-     * Length           Name          Description
+     * Length           Nbme          Description
      * 2               TOK_ID          Token Identifier
-     *                                 For exported name objects, this
+     *                                 For exported nbme objects, this
      *                                 must be hex 04 01.
-     * 2               MECH_OID_LEN    Length of the Mechanism OID
-     * MECH_OID_LEN    MECH_OID        Mechanism OID, in DER
-     * 4               NAME_LEN        Length of name
-     * NAME_LEN        NAME            Exported name; format defined in
-     *                                 applicable mechanism draft.
+     * 2               MECH_OID_LEN    Length of the Mechbnism OID
+     * MECH_OID_LEN    MECH_OID        Mechbnism OID, in DER
+     * 4               NAME_LEN        Length of nbme
+     * NAME_LEN        NAME            Exported nbme; formbt defined in
+     *                                 bpplicbble mechbnism drbft.
      *</pre>
      *
-     * Note that it is not required to canonicalize a name before
-     * calling export(). i.e., the name need not be an MN. If it is
-     * not an MN, an implementation defined algorithm can be used for
-     * choosing the mechanism which should export this name.
+     * Note thbt it is not required to cbnonicblize b nbme before
+     * cblling export(). i.e., the nbme need not be bn MN. If it is
+     * not bn MN, bn implementbtion defined blgorithm cbn be used for
+     * choosing the mechbnism which should export this nbme.
      *
-     * @return the flat name representation for this object
-     * @exception GSSException with major codes NAME_NOT_MN, BAD_NAME,
+     * @return the flbt nbme representbtion for this object
+     * @exception GSSException with mbjor codes NAME_NOT_MN, BAD_NAME,
      *  BAD_NAME, FAILURE.
      */
     public byte[] export() throws GSSException {
 
         if (mechElement == null) {
-            /* Use default mech */
+            /* Use defbult mech */
             mechElement = getElement(ProviderList.DEFAULT_MECH_OID);
         }
 
@@ -412,94 +412,94 @@ public class GSSNameImpl implements GSSName {
 
         try {
             oid = new ObjectIdentifier
-                (mechElement.getMechanism().toString());
-        } catch (IOException e) {
+                (mechElement.getMechbnism().toString());
+        } cbtch (IOException e) {
             throw new GSSExceptionImpl(GSSException.FAILURE,
-                                       "Invalid OID String ");
+                                       "Invblid OID String ");
         }
-        DerOutputStream dout = new DerOutputStream();
+        DerOutputStrebm dout = new DerOutputStrebm();
         try {
             dout.putOID(oid);
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new GSSExceptionImpl(GSSException.FAILURE,
                                    "Could not ASN.1 Encode "
                                    + oid.toString());
         }
-        oidBytes = dout.toByteArray();
+        oidBytes = dout.toByteArrby();
 
-        byte[] retVal = new byte[2
+        byte[] retVbl = new byte[2
                                 + 2 + oidBytes.length
                                 + 4 + mechPortion.length];
         int pos = 0;
-        retVal[pos++] = 0x04;
-        retVal[pos++] = 0x01;
-        retVal[pos++] = (byte) (oidBytes.length>>>8);
-        retVal[pos++] = (byte) oidBytes.length;
-        System.arraycopy(oidBytes, 0, retVal, pos, oidBytes.length);
+        retVbl[pos++] = 0x04;
+        retVbl[pos++] = 0x01;
+        retVbl[pos++] = (byte) (oidBytes.length>>>8);
+        retVbl[pos++] = (byte) oidBytes.length;
+        System.brrbycopy(oidBytes, 0, retVbl, pos, oidBytes.length);
         pos += oidBytes.length;
-        retVal[pos++] = (byte) (mechPortion.length>>>24);
-        retVal[pos++] = (byte) (mechPortion.length>>>16);
-        retVal[pos++] = (byte) (mechPortion.length>>>8);
-        retVal[pos++] = (byte)  mechPortion.length;
-        System.arraycopy(mechPortion, 0, retVal, pos, mechPortion.length);
-        return retVal;
+        retVbl[pos++] = (byte) (mechPortion.length>>>24);
+        retVbl[pos++] = (byte) (mechPortion.length>>>16);
+        retVbl[pos++] = (byte) (mechPortion.length>>>8);
+        retVbl[pos++] = (byte)  mechPortion.length;
+        System.brrbycopy(mechPortion, 0, retVbl, pos, mechPortion.length);
+        return retVbl;
     }
 
     public String toString() {
-         return printableName;
+         return printbbleNbme;
 
     }
 
-    public Oid getStringNameType() throws GSSException {
-        return printableNameType;
+    public Oid getStringNbmeType() throws GSSException {
+        return printbbleNbmeType;
     }
 
-    public boolean isAnonymous() {
-        if (printableNameType == null) {
-            return false;
+    public boolebn isAnonymous() {
+        if (printbbleNbmeType == null) {
+            return fblse;
         } else {
-            return GSSName.NT_ANONYMOUS.equals(printableNameType);
+            return GSSNbme.NT_ANONYMOUS.equbls(printbbleNbmeType);
         }
     }
 
-    public boolean isMN() {
-        return true; // Since always canonicalized for some mech
+    public boolebn isMN() {
+        return true; // Since blwbys cbnonicblized for some mech
     }
 
-    public synchronized GSSNameSpi getElement(Oid mechOid)
+    public synchronized GSSNbmeSpi getElement(Oid mechOid)
         throws GSSException {
 
-        GSSNameSpi retVal = elements.get(mechOid);
+        GSSNbmeSpi retVbl = elements.get(mechOid);
 
-        if (retVal == null) {
-            if (appNameStr != null) {
-                retVal = gssManager.getNameElement
-                    (appNameStr, appNameType, mechOid);
+        if (retVbl == null) {
+            if (bppNbmeStr != null) {
+                retVbl = gssMbnbger.getNbmeElement
+                    (bppNbmeStr, bppNbmeType, mechOid);
             } else {
-                retVal = gssManager.getNameElement
-                    (appNameBytes, appNameType, mechOid);
+                retVbl = gssMbnbger.getNbmeElement
+                    (bppNbmeBytes, bppNbmeType, mechOid);
             }
-            elements.put(mechOid, retVal);
+            elements.put(mechOid, retVbl);
         }
-        return retVal;
+        return retVbl;
     }
 
-    Set<GSSNameSpi> getElements() {
-        return new HashSet<GSSNameSpi>(elements.values());
+    Set<GSSNbmeSpi> getElements() {
+        return new HbshSet<GSSNbmeSpi>(elements.vblues());
     }
 
-    private static String getNameTypeStr(Oid nameTypeOid) {
+    privbte stbtic String getNbmeTypeStr(Oid nbmeTypeOid) {
 
-        if (nameTypeOid == null)
+        if (nbmeTypeOid == null)
             return "(NT is null)";
 
-        if (nameTypeOid.equals(NT_USER_NAME))
+        if (nbmeTypeOid.equbls(NT_USER_NAME))
             return "NT_USER_NAME";
-        if (nameTypeOid.equals(NT_HOSTBASED_SERVICE))
+        if (nbmeTypeOid.equbls(NT_HOSTBASED_SERVICE))
             return "NT_HOSTBASED_SERVICE";
-        if (nameTypeOid.equals(NT_EXPORT_NAME))
+        if (nbmeTypeOid.equbls(NT_EXPORT_NAME))
             return "NT_EXPORT_NAME";
-        if (nameTypeOid.equals(GSSUtil.NT_GSS_KRB5_PRINCIPAL))
+        if (nbmeTypeOid.equbls(GSSUtil.NT_GSS_KRB5_PRINCIPAL))
             return "NT_GSS_KRB5_PRINCIPAL";
         else
             return "Unknown";

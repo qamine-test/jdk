@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.event.ActionEvent;
-import java.util.*;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.UIDefaults.LazyValue;
-import javax.swing.text.*;
-import javax.swing.text.DefaultEditorKit.DefaultKeyTypedAction;
+import jbvbx.swing.*;
+import jbvbx.swing.UIDefbults.LbzyVblue;
+import jbvbx.swing.text.*;
+import jbvbx.swing.text.DefbultEditorKit.DefbultKeyTypedAction;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
-public class AquaKeyBindings {
-    static final RecyclableSingleton<AquaKeyBindings> instance = new RecyclableSingletonFromDefaultConstructor<AquaKeyBindings>(AquaKeyBindings.class);
-    static AquaKeyBindings instance() {
-        return instance.get();
+public clbss AqubKeyBindings {
+    stbtic finbl RecyclbbleSingleton<AqubKeyBindings> instbnce = new RecyclbbleSingletonFromDefbultConstructor<AqubKeyBindings>(AqubKeyBindings.clbss);
+    stbtic AqubKeyBindings instbnce() {
+        return instbnce.get();
     }
 
-    final DefaultKeyTypedAction defaultKeyTypedAction = new DefaultKeyTypedAction();
-    void setDefaultAction(final String keymapName) {
-        final javax.swing.text.Keymap map = JTextComponent.getKeymap(keymapName);
-        map.setDefaultAction(defaultKeyTypedAction);
+    finbl DefbultKeyTypedAction defbultKeyTypedAction = new DefbultKeyTypedAction();
+    void setDefbultAction(finbl String keymbpNbme) {
+        finbl jbvbx.swing.text.Keymbp mbp = JTextComponent.getKeymbp(keymbpNbme);
+        mbp.setDefbultAction(defbultKeyTypedAction);
     }
 
-    static final String upMultilineAction = "aqua-move-up";
-    static final String downMultilineAction = "aqua-move-down";
-    static final String pageUpMultiline = "aqua-page-up";
-    static final String pageDownMultiline = "aqua-page-down";
+    stbtic finbl String upMultilineAction = "bqub-move-up";
+    stbtic finbl String downMultilineAction = "bqub-move-down";
+    stbtic finbl String pbgeUpMultiline = "bqub-pbge-up";
+    stbtic finbl String pbgeDownMultiline = "bqub-pbge-down";
 
-    final String[] commonTextEditorBindings = {
+    finbl String[] commonTextEditorBindings = {
         "ENTER", JTextField.notifyAction,
-        "COPY", DefaultEditorKit.copyAction,
-        "CUT", DefaultEditorKit.cutAction,
-        "PASTE", DefaultEditorKit.pasteAction,
-        "meta A", DefaultEditorKit.selectAllAction,
-        "meta C", DefaultEditorKit.copyAction,
-        "meta V", DefaultEditorKit.pasteAction,
-        "meta X", DefaultEditorKit.cutAction,
-        "meta BACK_SLASH", "unselect",
+        "COPY", DefbultEditorKit.copyAction,
+        "CUT", DefbultEditorKit.cutAction,
+        "PASTE", DefbultEditorKit.pbsteAction,
+        "metb A", DefbultEditorKit.selectAllAction,
+        "metb C", DefbultEditorKit.copyAction,
+        "metb V", DefbultEditorKit.pbsteAction,
+        "metb X", DefbultEditorKit.cutAction,
+        "metb BACK_SLASH", "unselect",
 
-        "DELETE", DefaultEditorKit.deleteNextCharAction,
-        "alt DELETE", "delete-next-word",
-        "BACK_SPACE", DefaultEditorKit.deletePrevCharAction,
-        "alt BACK_SPACE", "delete-previous-word",
+        "DELETE", DefbultEditorKit.deleteNextChbrAction,
+        "blt DELETE", "delete-next-word",
+        "BACK_SPACE", DefbultEditorKit.deletePrevChbrAction,
+        "blt BACK_SPACE", "delete-previous-word",
 
-        "LEFT", DefaultEditorKit.backwardAction,
-        "KP_LEFT", DefaultEditorKit.backwardAction,
-        "RIGHT", DefaultEditorKit.forwardAction,
-        "KP_RIGHT", DefaultEditorKit.forwardAction,
-        "shift LEFT", DefaultEditorKit.selectionBackwardAction,
-        "shift KP_LEFT", DefaultEditorKit.selectionBackwardAction,
-        "shift RIGHT", DefaultEditorKit.selectionForwardAction,
-        "shift KP_RIGHT", DefaultEditorKit.selectionForwardAction,
-        "meta LEFT", DefaultEditorKit.beginLineAction,
-        "meta KP_LEFT", DefaultEditorKit.beginLineAction,
-        "meta RIGHT", DefaultEditorKit.endLineAction,
-        "meta KP_RIGHT", DefaultEditorKit.endLineAction,
-        "shift meta LEFT", DefaultEditorKit.selectionBeginLineAction,
-        "shift meta KP_LEFT", DefaultEditorKit.selectionBeginLineAction,
-        "shift meta RIGHT", DefaultEditorKit.selectionEndLineAction,
-        "shift meta KP_RIGHT", DefaultEditorKit.selectionEndLineAction,
-        "alt LEFT", DefaultEditorKit.previousWordAction,
-        "alt KP_LEFT", DefaultEditorKit.previousWordAction,
-        "alt RIGHT", DefaultEditorKit.nextWordAction,
-        "alt KP_RIGHT", DefaultEditorKit.nextWordAction,
-        "shift alt LEFT", DefaultEditorKit.selectionPreviousWordAction,
-        "shift alt KP_LEFT", DefaultEditorKit.selectionPreviousWordAction,
-        "shift alt RIGHT", DefaultEditorKit.selectionNextWordAction,
-        "shift alt KP_RIGHT", DefaultEditorKit.selectionNextWordAction,
+        "LEFT", DefbultEditorKit.bbckwbrdAction,
+        "KP_LEFT", DefbultEditorKit.bbckwbrdAction,
+        "RIGHT", DefbultEditorKit.forwbrdAction,
+        "KP_RIGHT", DefbultEditorKit.forwbrdAction,
+        "shift LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+        "shift KP_LEFT", DefbultEditorKit.selectionBbckwbrdAction,
+        "shift RIGHT", DefbultEditorKit.selectionForwbrdAction,
+        "shift KP_RIGHT", DefbultEditorKit.selectionForwbrdAction,
+        "metb LEFT", DefbultEditorKit.beginLineAction,
+        "metb KP_LEFT", DefbultEditorKit.beginLineAction,
+        "metb RIGHT", DefbultEditorKit.endLineAction,
+        "metb KP_RIGHT", DefbultEditorKit.endLineAction,
+        "shift metb LEFT", DefbultEditorKit.selectionBeginLineAction,
+        "shift metb KP_LEFT", DefbultEditorKit.selectionBeginLineAction,
+        "shift metb RIGHT", DefbultEditorKit.selectionEndLineAction,
+        "shift metb KP_RIGHT", DefbultEditorKit.selectionEndLineAction,
+        "blt LEFT", DefbultEditorKit.previousWordAction,
+        "blt KP_LEFT", DefbultEditorKit.previousWordAction,
+        "blt RIGHT", DefbultEditorKit.nextWordAction,
+        "blt KP_RIGHT", DefbultEditorKit.nextWordAction,
+        "shift blt LEFT", DefbultEditorKit.selectionPreviousWordAction,
+        "shift blt KP_LEFT", DefbultEditorKit.selectionPreviousWordAction,
+        "shift blt RIGHT", DefbultEditorKit.selectionNextWordAction,
+        "shift blt KP_RIGHT", DefbultEditorKit.selectionNextWordAction,
 
-        "control A", DefaultEditorKit.beginLineAction,
-        "control B", DefaultEditorKit.backwardAction,
-        "control D", DefaultEditorKit.deleteNextCharAction,
-        "control E", DefaultEditorKit.endLineAction,
-        "control F", DefaultEditorKit.forwardAction,
-        "control H", DefaultEditorKit.deletePrevCharAction,
+        "control A", DefbultEditorKit.beginLineAction,
+        "control B", DefbultEditorKit.bbckwbrdAction,
+        "control D", DefbultEditorKit.deleteNextChbrAction,
+        "control E", DefbultEditorKit.endLineAction,
+        "control F", DefbultEditorKit.forwbrdAction,
+        "control H", DefbultEditorKit.deletePrevChbrAction,
         "control W", "delete-previous-word",
-        "control shift O", "toggle-componentOrientation",
+        "control shift O", "toggle-componentOrientbtion",
 
-        "END", DefaultEditorKit.endAction,
-        "HOME", DefaultEditorKit.beginAction,
-        "shift END", DefaultEditorKit.selectionEndAction,
-        "shift HOME", DefaultEditorKit.selectionBeginAction,
+        "END", DefbultEditorKit.endAction,
+        "HOME", DefbultEditorKit.beginAction,
+        "shift END", DefbultEditorKit.selectionEndAction,
+        "shift HOME", DefbultEditorKit.selectionBeginAction,
 
-        "PAGE_DOWN", pageDownMultiline,
-        "PAGE_UP", pageUpMultiline,
-        "shift PAGE_DOWN", "selection-page-down",
-        "shift PAGE_UP", "selection-page-up",
-        "meta shift PAGE_DOWN", "selection-page-right",
-        "meta shift PAGE_UP", "selection-page-left",
+        "PAGE_DOWN", pbgeDownMultiline,
+        "PAGE_UP", pbgeUpMultiline,
+        "shift PAGE_DOWN", "selection-pbge-down",
+        "shift PAGE_UP", "selection-pbge-up",
+        "metb shift PAGE_DOWN", "selection-pbge-right",
+        "metb shift PAGE_UP", "selection-pbge-left",
 
-        "meta DOWN", DefaultEditorKit.endAction,
-        "meta KP_DOWN", DefaultEditorKit.endAction,
-        "meta UP", DefaultEditorKit.beginAction,
-        "meta KP_UP", DefaultEditorKit.beginAction,
-        "shift meta DOWN", DefaultEditorKit.selectionEndAction,
-        "shift meta KP_DOWN", DefaultEditorKit.selectionEndAction,
-        "shift meta UP", DefaultEditorKit.selectionBeginAction,
-        "shift meta KP_UP", DefaultEditorKit.selectionBeginAction,
+        "metb DOWN", DefbultEditorKit.endAction,
+        "metb KP_DOWN", DefbultEditorKit.endAction,
+        "metb UP", DefbultEditorKit.beginAction,
+        "metb KP_UP", DefbultEditorKit.beginAction,
+        "shift metb DOWN", DefbultEditorKit.selectionEndAction,
+        "shift metb KP_DOWN", DefbultEditorKit.selectionEndAction,
+        "shift metb UP", DefbultEditorKit.selectionBeginAction,
+        "shift metb KP_UP", DefbultEditorKit.selectionBeginAction,
     };
 
-    LateBoundInputMap getTextFieldInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(commonTextEditorBindings), new SimpleBinding(new String[] {
-            "DOWN", DefaultEditorKit.endLineAction,
-            "KP_DOWN", DefaultEditorKit.endLineAction,
-            "UP", DefaultEditorKit.beginLineAction,
-            "KP_UP", DefaultEditorKit.beginLineAction,
-            "shift DOWN", DefaultEditorKit.selectionEndLineAction,
-            "shift KP_DOWN", DefaultEditorKit.selectionEndLineAction,
-            "shift UP", DefaultEditorKit.selectionBeginLineAction,
-            "shift KP_UP", DefaultEditorKit.selectionBeginLineAction,
+    LbteBoundInputMbp getTextFieldInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(commonTextEditorBindings), new SimpleBinding(new String[] {
+            "DOWN", DefbultEditorKit.endLineAction,
+            "KP_DOWN", DefbultEditorKit.endLineAction,
+            "UP", DefbultEditorKit.beginLineAction,
+            "KP_UP", DefbultEditorKit.beginLineAction,
+            "shift DOWN", DefbultEditorKit.selectionEndLineAction,
+            "shift KP_DOWN", DefbultEditorKit.selectionEndLineAction,
+            "shift UP", DefbultEditorKit.selectionBeginLineAction,
+            "shift KP_UP", DefbultEditorKit.selectionBeginLineAction,
 
-            "control P", DefaultEditorKit.beginAction,
-            "control N", DefaultEditorKit.endAction,
-            "control V", DefaultEditorKit.endAction,
+            "control P", DefbultEditorKit.beginAction,
+            "control N", DefbultEditorKit.endAction,
+            "control V", DefbultEditorKit.endAction,
         }));
     }
 
-    LateBoundInputMap getPasswordFieldInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(getTextFieldInputMap().getBindings()),
-                // nullify all the bindings that may discover space characters in the text
+    LbteBoundInputMbp getPbsswordFieldInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(getTextFieldInputMbp().getBindings()),
+                // nullify bll the bindings thbt mby discover spbce chbrbcters in the text
                 new SimpleBinding(new String[] {
-                        "alt LEFT", null,
-                        "alt KP_LEFT", null,
-                        "alt RIGHT", null,
-                        "alt KP_RIGHT", null,
-                        "shift alt LEFT", null,
-                        "shift alt KP_LEFT", null,
-                        "shift alt RIGHT", null,
-                        "shift alt KP_RIGHT", null,
+                        "blt LEFT", null,
+                        "blt KP_LEFT", null,
+                        "blt RIGHT", null,
+                        "blt KP_RIGHT", null,
+                        "shift blt LEFT", null,
+                        "shift blt KP_LEFT", null,
+                        "shift blt RIGHT", null,
+                        "shift blt KP_RIGHT", null,
                 }));
     }
 
-    LateBoundInputMap getMultiLineTextInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(commonTextEditorBindings), new SimpleBinding(new String[] {
-            "ENTER", DefaultEditorKit.insertBreakAction,
+    LbteBoundInputMbp getMultiLineTextInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(commonTextEditorBindings), new SimpleBinding(new String[] {
+            "ENTER", DefbultEditorKit.insertBrebkAction,
             "DOWN", downMultilineAction,
             "KP_DOWN", downMultilineAction,
             "UP", upMultilineAction,
             "KP_UP", upMultilineAction,
-            "shift DOWN", DefaultEditorKit.selectionDownAction,
-            "shift KP_DOWN", DefaultEditorKit.selectionDownAction,
-            "shift UP", DefaultEditorKit.selectionUpAction,
-            "shift KP_UP", DefaultEditorKit.selectionUpAction,
-            "alt shift DOWN", DefaultEditorKit.selectionEndParagraphAction,
-            "alt shift KP_DOWN", DefaultEditorKit.selectionEndParagraphAction,
-            "alt shift UP", DefaultEditorKit.selectionBeginParagraphAction,
-            "alt shift KP_UP", DefaultEditorKit.selectionBeginParagraphAction,
+            "shift DOWN", DefbultEditorKit.selectionDownAction,
+            "shift KP_DOWN", DefbultEditorKit.selectionDownAction,
+            "shift UP", DefbultEditorKit.selectionUpAction,
+            "shift KP_UP", DefbultEditorKit.selectionUpAction,
+            "blt shift DOWN", DefbultEditorKit.selectionEndPbrbgrbphAction,
+            "blt shift KP_DOWN", DefbultEditorKit.selectionEndPbrbgrbphAction,
+            "blt shift UP", DefbultEditorKit.selectionBeginPbrbgrbphAction,
+            "blt shift KP_UP", DefbultEditorKit.selectionBeginPbrbgrbphAction,
 
-            "control P", DefaultEditorKit.upAction,
-            "control N", DefaultEditorKit.downAction,
-            "control V", pageDownMultiline,
+            "control P", DefbultEditorKit.upAction,
+            "control N", DefbultEditorKit.downAction,
+            "control V", pbgeDownMultiline,
 
-            "TAB", DefaultEditorKit.insertTabAction,
-            "meta SPACE", "activate-link-action",
-            "meta T", "next-link-action",
-            "meta shift T", "previous-link-action",
+            "TAB", DefbultEditorKit.insertTbbAction,
+            "metb SPACE", "bctivbte-link-bction",
+            "metb T", "next-link-bction",
+            "metb shift T", "previous-link-bction",
 
-            "END", DefaultEditorKit.endAction,
-            "HOME", DefaultEditorKit.beginAction,
-            "shift END", DefaultEditorKit.selectionEndAction,
-            "shift HOME", DefaultEditorKit.selectionBeginAction,
+            "END", DefbultEditorKit.endAction,
+            "HOME", DefbultEditorKit.beginAction,
+            "shift END", DefbultEditorKit.selectionEndAction,
+            "shift HOME", DefbultEditorKit.selectionBeginAction,
 
-            "PAGE_DOWN", pageDownMultiline,
-            "PAGE_UP", pageUpMultiline,
-            "shift PAGE_DOWN", "selection-page-down",
-            "shift PAGE_UP", "selection-page-up",
-            "meta shift PAGE_DOWN", "selection-page-right",
-            "meta shift PAGE_UP", "selection-page-left",
+            "PAGE_DOWN", pbgeDownMultiline,
+            "PAGE_UP", pbgeUpMultiline,
+            "shift PAGE_DOWN", "selection-pbge-down",
+            "shift PAGE_UP", "selection-pbge-up",
+            "metb shift PAGE_DOWN", "selection-pbge-right",
+            "metb shift PAGE_UP", "selection-pbge-left",
         }));
     }
 
-    LateBoundInputMap getFormattedTextFieldInputMap() {
-        return new LateBoundInputMap(getTextFieldInputMap(), new SimpleBinding(new String[] {
+    LbteBoundInputMbp getFormbttedTextFieldInputMbp() {
+        return new LbteBoundInputMbp(getTextFieldInputMbp(), new SimpleBinding(new String[] {
             "UP", "increment",
             "KP_UP", "increment",
             "DOWN", "decrement",
@@ -207,29 +207,29 @@ public class AquaKeyBindings {
         }));
     }
 
-    LateBoundInputMap getComboBoxInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "ESCAPE", "aquaHidePopup",
-            "PAGE_UP", "aquaSelectPageUp",
-            "PAGE_DOWN", "aquaSelectPageDown",
-            "HOME", "aquaSelectHome",
-            "END", "aquaSelectEnd",
-            "ENTER", "aquaEnterPressed",
-            "UP", "aquaSelectPrevious",
-            "KP_UP", "aquaSelectPrevious",
-            "DOWN", "aquaSelectNext",
-            "KP_DOWN", "aquaSelectNext",
-            "SPACE", "aquaSpacePressed" // "spacePopup"
+    LbteBoundInputMbp getComboBoxInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
+            "ESCAPE", "bqubHidePopup",
+            "PAGE_UP", "bqubSelectPbgeUp",
+            "PAGE_DOWN", "bqubSelectPbgeDown",
+            "HOME", "bqubSelectHome",
+            "END", "bqubSelectEnd",
+            "ENTER", "bqubEnterPressed",
+            "UP", "bqubSelectPrevious",
+            "KP_UP", "bqubSelectPrevious",
+            "DOWN", "bqubSelectNext",
+            "KP_DOWN", "bqubSelectNext",
+            "SPACE", "bqubSpbcePressed" // "spbcePopup"
         }));
     }
 
-    LateBoundInputMap getListInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "meta C", "copy",
-            "meta V", "paste",
-            "meta X", "cut",
+    LbteBoundInputMbp getListInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
+            "metb C", "copy",
+            "metb V", "pbste",
+            "metb X", "cut",
             "COPY", "copy",
-            "PASTE", "paste",
+            "PASTE", "pbste",
             "CUT", "cut",
             "UP", "selectPreviousRow",
             "KP_UP", "selectPreviousRow",
@@ -247,48 +247,48 @@ public class AquaKeyBindings {
             "KP_RIGHT", "selectNextColumn",
             "shift RIGHT", "selectNextColumnExtendSelection",
             "shift KP_RIGHT", "selectNextColumnExtendSelection",
-            "meta A", "selectAll",
+            "metb A", "selectAll",
 
-            // aquaHome and aquaEnd are new actions that just move the view so the first or last item is visible.
-            "HOME", "aquaHome",
+            // bqubHome bnd bqubEnd bre new bctions thbt just move the view so the first or lbst item is visible.
+            "HOME", "bqubHome",
             "shift HOME", "selectFirstRowExtendSelection",
-            "END", "aquaEnd",
-            "shift END", "selectLastRowExtendSelection",
+            "END", "bqubEnd",
+            "shift END", "selectLbstRowExtendSelection",
 
-            // Unmodified PAGE_UP and PAGE_DOWN are handled by their scroll pane, if any.
+            // Unmodified PAGE_UP bnd PAGE_DOWN bre hbndled by their scroll pbne, if bny.
             "shift PAGE_UP", "scrollUpExtendSelection",
             "shift PAGE_DOWN", "scrollDownExtendSelection"
         }));
     }
 
-    LateBoundInputMap getScrollBarInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
+    LbteBoundInputMbp getScrollBbrInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
             "RIGHT", "positiveUnitIncrement",
             "KP_RIGHT", "positiveUnitIncrement",
             "DOWN", "positiveUnitIncrement",
             "KP_DOWN", "positiveUnitIncrement",
             "PAGE_DOWN", "positiveBlockIncrement",
-            "LEFT", "negativeUnitIncrement",
-            "KP_LEFT", "negativeUnitIncrement",
-            "UP", "negativeUnitIncrement",
-            "KP_UP", "negativeUnitIncrement",
-            "PAGE_UP", "negativeBlockIncrement",
+            "LEFT", "negbtiveUnitIncrement",
+            "KP_LEFT", "negbtiveUnitIncrement",
+            "UP", "negbtiveUnitIncrement",
+            "KP_UP", "negbtiveUnitIncrement",
+            "PAGE_UP", "negbtiveBlockIncrement",
             "HOME", "minScroll",
-            "END", "maxScroll"
+            "END", "mbxScroll"
         }));
     }
 
-    LateBoundInputMap getScrollBarRightToLeftInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "negativeUnitIncrement",
-            "KP_RIGHT", "negativeUnitIncrement",
+    LbteBoundInputMbp getScrollBbrRightToLeftInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
+            "RIGHT", "negbtiveUnitIncrement",
+            "KP_RIGHT", "negbtiveUnitIncrement",
             "LEFT", "positiveUnitIncrement",
             "KP_LEFT", "positiveUnitIncrement"
         }));
     }
 
-    LateBoundInputMap getScrollPaneInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
+    LbteBoundInputMbp getScrollPbneInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
             "RIGHT", "unitScrollRight",
             "KP_RIGHT", "unitScrollRight",
             "DOWN", "unitScrollDown",
@@ -304,34 +304,34 @@ public class AquaKeyBindings {
         }));
     }
 
-    LateBoundInputMap getSliderInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
+    LbteBoundInputMbp getSliderInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
             "RIGHT", "positiveUnitIncrement",
             "KP_RIGHT", "positiveUnitIncrement",
-            "DOWN", "negativeUnitIncrement",
-            "KP_DOWN", "negativeUnitIncrement",
-            "PAGE_DOWN", "negativeBlockIncrement",
-            "LEFT", "negativeUnitIncrement",
-            "KP_LEFT", "negativeUnitIncrement",
+            "DOWN", "negbtiveUnitIncrement",
+            "KP_DOWN", "negbtiveUnitIncrement",
+            "PAGE_DOWN", "negbtiveBlockIncrement",
+            "LEFT", "negbtiveUnitIncrement",
+            "KP_LEFT", "negbtiveUnitIncrement",
             "UP", "positiveUnitIncrement",
             "KP_UP", "positiveUnitIncrement",
             "PAGE_UP", "positiveBlockIncrement",
             "HOME", "minScroll",
-            "END", "maxScroll"
+            "END", "mbxScroll"
         }));
     }
 
-    LateBoundInputMap getSliderRightToLeftInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "negativeUnitIncrement",
-            "KP_RIGHT", "negativeUnitIncrement",
+    LbteBoundInputMbp getSliderRightToLeftInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
+            "RIGHT", "negbtiveUnitIncrement",
+            "KP_RIGHT", "negbtiveUnitIncrement",
             "LEFT", "positiveUnitIncrement",
             "KP_LEFT", "positiveUnitIncrement"
         }));
     }
 
-    LateBoundInputMap getSpinnerInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
+    LbteBoundInputMbp getSpinnerInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
             "UP", "increment",
             "KP_UP", "increment",
             "DOWN", "decrement",
@@ -339,13 +339,13 @@ public class AquaKeyBindings {
         }));
     }
 
-    LateBoundInputMap getTableInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "meta C", "copy",
-            "meta V", "paste",
-            "meta X", "cut",
+    LbteBoundInputMbp getTbbleInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
+            "metb C", "copy",
+            "metb V", "pbste",
+            "metb X", "cut",
             "COPY", "copy",
-            "PASTE", "paste",
+            "PASTE", "pbste",
             "CUT", "cut",
             "RIGHT", "selectNextColumn",
             "KP_RIGHT", "selectNextColumn",
@@ -363,27 +363,27 @@ public class AquaKeyBindings {
             "shift KP_DOWN", "selectNextRowExtendSelection",
             "shift UP", "selectPreviousRowExtendSelection",
             "shift KP_UP", "selectPreviousRowExtendSelection",
-            "PAGE_UP", "scrollUpChangeSelection",
-            "PAGE_DOWN", "scrollDownChangeSelection",
+            "PAGE_UP", "scrollUpChbngeSelection",
+            "PAGE_DOWN", "scrollDownChbngeSelection",
             "HOME", "selectFirstColumn",
-            "END", "selectLastColumn",
+            "END", "selectLbstColumn",
             "shift PAGE_UP", "scrollUpExtendSelection",
             "shift PAGE_DOWN", "scrollDownExtendSelection",
             "shift HOME", "selectFirstColumnExtendSelection",
-            "shift END", "selectLastColumnExtendSelection",
+            "shift END", "selectLbstColumnExtendSelection",
             "TAB", "selectNextColumnCell",
             "shift TAB", "selectPreviousColumnCell",
-            "meta A", "selectAll",
-            "ESCAPE", "cancel",
+            "metb A", "selectAll",
+            "ESCAPE", "cbncel",
             "ENTER", "selectNextRowCell",
             "shift ENTER", "selectPreviousRowCell",
-            "alt TAB", "focusHeader",
-            "alt shift TAB", "focusHeader"
+            "blt TAB", "focusHebder",
+            "blt shift TAB", "focusHebder"
         }));
     }
 
-    LateBoundInputMap getTableRightToLeftInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
+    LbteBoundInputMbp getTbbleRightToLeftInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
             "RIGHT", "selectPreviousColumn",
             "KP_RIGHT", "selectPreviousColumn",
             "LEFT", "selectNextColumn",
@@ -392,20 +392,20 @@ public class AquaKeyBindings {
             "shift KP_RIGHT", "selectPreviousColumnExtendSelection",
             "shift LEFT", "selectNextColumnExtendSelection",
             "shift KP_LEFT", "selectNextColumnExtendSelection",
-            "ctrl PAGE_UP", "scrollRightChangeSelection",
-            "ctrl PAGE_DOWN", "scrollLeftChangeSelection",
+            "ctrl PAGE_UP", "scrollRightChbngeSelection",
+            "ctrl PAGE_DOWN", "scrollLeftChbngeSelection",
             "ctrl shift PAGE_UP", "scrollRightExtendSelection",
             "ctrl shift PAGE_DOWN", "scrollLeftExtendSelection"
         }));
     }
 
-    LateBoundInputMap getTreeInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "meta C", "copy",
-            "meta V", "paste",
-            "meta X", "cut",
+    LbteBoundInputMbp getTreeInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
+            "metb C", "copy",
+            "metb V", "pbste",
+            "metb X", "cut",
             "COPY", "copy",
-            "PASTE", "paste",
+            "PASTE", "pbste",
             "CUT", "cut",
             "UP", "selectPrevious",
             "KP_UP", "selectPrevious",
@@ -415,73 +415,73 @@ public class AquaKeyBindings {
             "KP_DOWN", "selectNext",
             "shift DOWN", "selectNextExtendSelection",
             "shift KP_DOWN", "selectNextExtendSelection",
-            "RIGHT", "aquaExpandNode",
-            "KP_RIGHT", "aquaExpandNode",
-            "LEFT", "aquaCollapseNode",
-            "KP_LEFT", "aquaCollapseNode",
-            "shift RIGHT", "aquaExpandNode",
-            "shift KP_RIGHT", "aquaExpandNode",
-            "shift LEFT", "aquaCollapseNode",
-            "shift KP_LEFT", "aquaCollapseNode",
-            "ctrl LEFT", "aquaCollapseNode",
-            "ctrl KP_LEFT", "aquaCollapseNode",
-            "ctrl RIGHT", "aquaExpandNode",
-            "ctrl KP_RIGHT", "aquaExpandNode",
-            "alt RIGHT", "aquaFullyExpandNode",
-            "alt KP_RIGHT", "aquaFullyExpandNode",
-            "alt LEFT", "aquaFullyCollapseNode",
-            "alt KP_LEFT", "aquaFullyCollapseNode",
-            "meta A", "selectAll",
-            "RETURN", "startEditing"
+            "RIGHT", "bqubExpbndNode",
+            "KP_RIGHT", "bqubExpbndNode",
+            "LEFT", "bqubCollbpseNode",
+            "KP_LEFT", "bqubCollbpseNode",
+            "shift RIGHT", "bqubExpbndNode",
+            "shift KP_RIGHT", "bqubExpbndNode",
+            "shift LEFT", "bqubCollbpseNode",
+            "shift KP_LEFT", "bqubCollbpseNode",
+            "ctrl LEFT", "bqubCollbpseNode",
+            "ctrl KP_LEFT", "bqubCollbpseNode",
+            "ctrl RIGHT", "bqubExpbndNode",
+            "ctrl KP_RIGHT", "bqubExpbndNode",
+            "blt RIGHT", "bqubFullyExpbndNode",
+            "blt KP_RIGHT", "bqubFullyExpbndNode",
+            "blt LEFT", "bqubFullyCollbpseNode",
+            "blt KP_LEFT", "bqubFullyCollbpseNode",
+            "metb A", "selectAll",
+            "RETURN", "stbrtEditing"
         }));
     }
 
-    LateBoundInputMap getTreeRightToLeftInputMap() {
-        return new LateBoundInputMap(new SimpleBinding(new String[] {
-            "RIGHT", "aquaCollapseNode",
-            "KP_RIGHT", "aquaCollapseNode",
-            "LEFT", "aquaExpandNode",
-            "KP_LEFT", "aquaExpandNode",
-            "shift RIGHT", "aquaCollapseNode",
-            "shift KP_RIGHT", "aquaCollapseNode",
-            "shift LEFT", "aquaExpandNode",
-            "shift KP_LEFT", "aquaExpandNode",
-            "ctrl LEFT", "aquaExpandNode",
-            "ctrl KP_LEFT", "aquaExpandNode",
-            "ctrl RIGHT", "aquaCollapseNode",
-            "ctrl KP_RIGHT", "aquaCollapseNode"
+    LbteBoundInputMbp getTreeRightToLeftInputMbp() {
+        return new LbteBoundInputMbp(new SimpleBinding(new String[] {
+            "RIGHT", "bqubCollbpseNode",
+            "KP_RIGHT", "bqubCollbpseNode",
+            "LEFT", "bqubExpbndNode",
+            "KP_LEFT", "bqubExpbndNode",
+            "shift RIGHT", "bqubCollbpseNode",
+            "shift KP_RIGHT", "bqubCollbpseNode",
+            "shift LEFT", "bqubExpbndNode",
+            "shift KP_LEFT", "bqubExpbndNode",
+            "ctrl LEFT", "bqubExpbndNode",
+            "ctrl KP_LEFT", "bqubExpbndNode",
+            "ctrl RIGHT", "bqubCollbpseNode",
+            "ctrl KP_RIGHT", "bqubCollbpseNode"
         }));
     }
 
-    // common interface between a string array, and a dynamic provider of string arrays ;-)
-    interface BindingsProvider {
+    // common interfbce between b string brrby, bnd b dynbmic provider of string brrbys ;-)
+    interfbce BindingsProvider {
         public String[] getBindings();
     }
 
-    // wraps basic string arrays
-    static class SimpleBinding implements BindingsProvider {
-        final String[] bindings;
-        public SimpleBinding(final String[] bindings) { this.bindings = bindings; }
+    // wrbps bbsic string brrbys
+    stbtic clbss SimpleBinding implements BindingsProvider {
+        finbl String[] bindings;
+        public SimpleBinding(finbl String[] bindings) { this.bindings = bindings; }
         public String[] getBindings() { return bindings; }
     }
 
-    // patches all providers together at the moment the UIManager needs the real InputMap
-    static class LateBoundInputMap implements LazyValue, BindingsProvider {
-        private final BindingsProvider[] providerList;
-        private String[] mergedBindings;
+    // pbtches bll providers together bt the moment the UIMbnbger needs the rebl InputMbp
+    stbtic clbss LbteBoundInputMbp implements LbzyVblue, BindingsProvider {
+        privbte finbl BindingsProvider[] providerList;
+        privbte String[] mergedBindings;
 
-        public LateBoundInputMap(final BindingsProvider ... providerList) {
+        public LbteBoundInputMbp(finbl BindingsProvider ... providerList) {
             this.providerList = providerList;
         }
 
-        public Object createValue(final UIDefaults table) {
-            return LookAndFeel.makeInputMap(getBindings());
+        public Object crebteVblue(finbl UIDefbults tbble) {
+            return LookAndFeel.mbkeInputMbp(getBindings());
         }
 
         public String[] getBindings() {
             if (mergedBindings != null) return mergedBindings;
 
-            final String[][] bindingsList = new String[providerList.length][];
+            finbl String[][] bindingsList = new String[providerList.length][];
             int size = 0;
             for (int i = 0; i < providerList.length; i++) {
                 bindingsList[i] = providerList[i].getBindings();
@@ -492,102 +492,102 @@ public class AquaKeyBindings {
                 return mergedBindings = bindingsList[0];
             }
 
-            final ArrayList<String> unifiedList = new ArrayList<String>(size);
-            Collections.addAll(unifiedList, bindingsList[0]); // System.arrayCopy() the first set
+            finbl ArrbyList<String> unifiedList = new ArrbyList<String>(size);
+            Collections.bddAll(unifiedList, bindingsList[0]); // System.brrbyCopy() the first set
 
             for (int i = 1; i < providerList.length; i++) {
                 mergeBindings(unifiedList, bindingsList[i]);
             }
 
-            return mergedBindings = unifiedList.toArray(new String[unifiedList.size()]);
+            return mergedBindings = unifiedList.toArrby(new String[unifiedList.size()]);
         }
 
-        static void mergeBindings(final ArrayList<String> unifiedList, final String[] overrides) {
+        stbtic void mergeBindings(finbl ArrbyList<String> unifiedList, finbl String[] overrides) {
             for (int i = 0; i < overrides.length; i+=2) {
-                final String key = overrides[i];
-                final String value = overrides[i+1];
+                finbl String key = overrides[i];
+                finbl String vblue = overrides[i+1];
 
-                final int keyIndex = unifiedList.indexOf(key);
+                finbl int keyIndex = unifiedList.indexOf(key);
                 if (keyIndex == -1) {
-                    unifiedList.add(key);
-                    unifiedList.add(value);
+                    unifiedList.bdd(key);
+                    unifiedList.bdd(vblue);
                 } else {
                     unifiedList.set(keyIndex, key);
-                    unifiedList.set(keyIndex + 1, value);
+                    unifiedList.set(keyIndex + 1, vblue);
                 }
             }
         }
     }
 
-    void installAquaUpDownActions(final JTextComponent component) {
-        final ActionMap actionMap = component.getActionMap();
-        actionMap.put(upMultilineAction, moveUpMultilineAction);
-        actionMap.put(downMultilineAction, moveDownMultilineAction);
-        actionMap.put(pageUpMultiline, pageUpMultilineAction);
-        actionMap.put(pageDownMultiline, pageDownMultilineAction);
+    void instbllAqubUpDownActions(finbl JTextComponent component) {
+        finbl ActionMbp bctionMbp = component.getActionMbp();
+        bctionMbp.put(upMultilineAction, moveUpMultilineAction);
+        bctionMbp.put(downMultilineAction, moveDownMultilineAction);
+        bctionMbp.put(pbgeUpMultiline, pbgeUpMultilineAction);
+        bctionMbp.put(pbgeDownMultiline, pbgeDownMultilineAction);
     }
 
-    // extracted and adapted from DefaultEditorKit in 1.6
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static abstract class DeleteWordAction extends TextAction {
-        public DeleteWordAction(final String name) { super(name); }
+    // extrbcted bnd bdbpted from DefbultEditorKit in 1.6
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic bbstrbct clbss DeleteWordAction extends TextAction {
+        public DeleteWordAction(finbl String nbme) { super(nbme); }
 
-        public void actionPerformed(final ActionEvent e) {
+        public void bctionPerformed(finbl ActionEvent e) {
             if (e == null) return;
 
-            final JTextComponent target = getTextComponent(e);
-            if (target == null) return;
+            finbl JTextComponent tbrget = getTextComponent(e);
+            if (tbrget == null) return;
 
-            if (!target.isEditable() || !target.isEnabled()) {
-                UIManager.getLookAndFeel().provideErrorFeedback(target);
+            if (!tbrget.isEditbble() || !tbrget.isEnbbled()) {
+                UIMbnbger.getLookAndFeel().provideErrorFeedbbck(tbrget);
                 return;
             }
 
             try {
-                final int start = target.getSelectionStart();
-                final Element line = Utilities.getParagraphElement(target, start);
-                final int end = getEnd(target, line, start);
+                finbl int stbrt = tbrget.getSelectionStbrt();
+                finbl Element line = Utilities.getPbrbgrbphElement(tbrget, stbrt);
+                finbl int end = getEnd(tbrget, line, stbrt);
 
-                final int offs = Math.min(start, end);
-                final int len = Math.abs(end - start);
+                finbl int offs = Mbth.min(stbrt, end);
+                finbl int len = Mbth.bbs(end - stbrt);
                 if (offs >= 0) {
-                    target.getDocument().remove(offs, len);
+                    tbrget.getDocument().remove(offs, len);
                     return;
                 }
-            } catch (final BadLocationException ignore) {}
-            UIManager.getLookAndFeel().provideErrorFeedback(target);
+            } cbtch (finbl BbdLocbtionException ignore) {}
+            UIMbnbger.getLookAndFeel().provideErrorFeedbbck(tbrget);
         }
 
-        abstract int getEnd(final JTextComponent target, final Element line, final int start) throws BadLocationException;
+        bbstrbct int getEnd(finbl JTextComponent tbrget, finbl Element line, finbl int stbrt) throws BbdLocbtionException;
     }
 
-    final TextAction moveUpMultilineAction = new AquaMultilineAction(upMultilineAction, DefaultEditorKit.upAction, DefaultEditorKit.beginAction);
-    final TextAction moveDownMultilineAction = new AquaMultilineAction(downMultilineAction, DefaultEditorKit.downAction, DefaultEditorKit.endAction);
-    final TextAction pageUpMultilineAction = new AquaMultilineAction(pageUpMultiline, DefaultEditorKit.pageUpAction, DefaultEditorKit.beginAction);
-    final TextAction pageDownMultilineAction = new AquaMultilineAction(pageDownMultiline, DefaultEditorKit.pageDownAction, DefaultEditorKit.endAction);
+    finbl TextAction moveUpMultilineAction = new AqubMultilineAction(upMultilineAction, DefbultEditorKit.upAction, DefbultEditorKit.beginAction);
+    finbl TextAction moveDownMultilineAction = new AqubMultilineAction(downMultilineAction, DefbultEditorKit.downAction, DefbultEditorKit.endAction);
+    finbl TextAction pbgeUpMultilineAction = new AqubMultilineAction(pbgeUpMultiline, DefbultEditorKit.pbgeUpAction, DefbultEditorKit.beginAction);
+    finbl TextAction pbgeDownMultilineAction = new AqubMultilineAction(pbgeDownMultiline, DefbultEditorKit.pbgeDownAction, DefbultEditorKit.endAction);
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class AquaMultilineAction extends TextAction {
-        final String targetActionName;
-        final String proxyActionName;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss AqubMultilineAction extends TextAction {
+        finbl String tbrgetActionNbme;
+        finbl String proxyActionNbme;
 
-        public AquaMultilineAction(final String actionName, final String targetActionName, final String proxyActionName) {
-            super(actionName);
-            this.targetActionName = targetActionName;
-            this.proxyActionName = proxyActionName;
+        public AqubMultilineAction(finbl String bctionNbme, finbl String tbrgetActionNbme, finbl String proxyActionNbme) {
+            super(bctionNbme);
+            this.tbrgetActionNbme = tbrgetActionNbme;
+            this.proxyActionNbme = proxyActionNbme;
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            final JTextComponent c = getTextComponent(e);
-            final ActionMap actionMap = c.getActionMap();
-            final Action targetAction = actionMap.get(targetActionName);
+        public void bctionPerformed(finbl ActionEvent e) {
+            finbl JTextComponent c = getTextComponent(e);
+            finbl ActionMbp bctionMbp = c.getActionMbp();
+            finbl Action tbrgetAction = bctionMbp.get(tbrgetActionNbme);
 
-            final int startPosition = c.getCaretPosition();
-            targetAction.actionPerformed(e);
-            if (startPosition != c.getCaretPosition()) return;
+            finbl int stbrtPosition = c.getCbretPosition();
+            tbrgetAction.bctionPerformed(e);
+            if (stbrtPosition != c.getCbretPosition()) return;
 
-            final Action proxyAction = actionMap.get(proxyActionName);
-            proxyAction.actionPerformed(e);
+            finbl Action proxyAction = bctionMbp.get(proxyActionNbme);
+            proxyAction.bctionPerformed(e);
         }
     }
 }

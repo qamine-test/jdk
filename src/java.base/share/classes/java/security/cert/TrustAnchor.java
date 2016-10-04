@@ -1,333 +1,333 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.io.IOException;
-import java.security.PublicKey;
+import jbvb.io.IOException;
+import jbvb.security.PublicKey;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
-import sun.security.x509.NameConstraintsExtension;
-import sun.security.x509.X500Name;
+import sun.security.x509.NbmeConstrbintsExtension;
+import sun.security.x509.X500Nbme;
 
 /**
- * A trust anchor or most-trusted Certification Authority (CA).
+ * A trust bnchor or most-trusted Certificbtion Authority (CA).
  * <p>
- * This class represents a "most-trusted CA", which is used as a trust anchor
- * for validating X.509 certification paths. A most-trusted CA includes the
- * public key of the CA, the CA's name, and any constraints upon the set of
- * paths which may be validated using this key. These parameters can be
- * specified in the form of a trusted {@code X509Certificate} or as
- * individual parameters.
+ * This clbss represents b "most-trusted CA", which is used bs b trust bnchor
+ * for vblidbting X.509 certificbtion pbths. A most-trusted CA includes the
+ * public key of the CA, the CA's nbme, bnd bny constrbints upon the set of
+ * pbths which mby be vblidbted using this key. These pbrbmeters cbn be
+ * specified in the form of b trusted {@code X509Certificbte} or bs
+ * individubl pbrbmeters.
  * <p>
  * <b>Concurrent Access</b>
- * <p>All {@code TrustAnchor} objects must be immutable and
- * thread-safe. That is, multiple threads may concurrently invoke the
- * methods defined in this class on a single {@code TrustAnchor}
- * object (or more than one) with no ill effects. Requiring
- * {@code TrustAnchor} objects to be immutable and thread-safe
- * allows them to be passed around to various pieces of code without
- * worrying about coordinating access. This stipulation applies to all
- * public fields and methods of this class and any added or overridden
- * by subclasses.
+ * <p>All {@code TrustAnchor} objects must be immutbble bnd
+ * threbd-sbfe. Thbt is, multiple threbds mby concurrently invoke the
+ * methods defined in this clbss on b single {@code TrustAnchor}
+ * object (or more thbn one) with no ill effects. Requiring
+ * {@code TrustAnchor} objects to be immutbble bnd threbd-sbfe
+ * bllows them to be pbssed bround to vbrious pieces of code without
+ * worrying bbout coordinbting bccess. This stipulbtion bpplies to bll
+ * public fields bnd methods of this clbss bnd bny bdded or overridden
+ * by subclbsses.
  *
- * @see PKIXParameters#PKIXParameters(Set)
- * @see PKIXBuilderParameters#PKIXBuilderParameters(Set, CertSelector)
+ * @see PKIXPbrbmeters#PKIXPbrbmeters(Set)
+ * @see PKIXBuilderPbrbmeters#PKIXBuilderPbrbmeters(Set, CertSelector)
  *
  * @since       1.4
- * @author      Sean Mullan
+ * @buthor      Sebn Mullbn
  */
-public class TrustAnchor {
+public clbss TrustAnchor {
 
-    private final PublicKey pubKey;
-    private final String caName;
-    private final X500Principal caPrincipal;
-    private final X509Certificate trustedCert;
-    private byte[] ncBytes;
-    private NameConstraintsExtension nc;
+    privbte finbl PublicKey pubKey;
+    privbte finbl String cbNbme;
+    privbte finbl X500Principbl cbPrincipbl;
+    privbte finbl X509Certificbte trustedCert;
+    privbte byte[] ncBytes;
+    privbte NbmeConstrbintsExtension nc;
 
     /**
-     * Creates an instance of {@code TrustAnchor} with the specified
-     * {@code X509Certificate} and optional name constraints, which
-     * are intended to be used as additional constraints when validating
-     * an X.509 certification path.
+     * Crebtes bn instbnce of {@code TrustAnchor} with the specified
+     * {@code X509Certificbte} bnd optionbl nbme constrbints, which
+     * bre intended to be used bs bdditionbl constrbints when vblidbting
+     * bn X.509 certificbtion pbth.
      * <p>
-     * The name constraints are specified as a byte array. This byte array
-     * should contain the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in
-     * <a href="http://www.ietf.org/rfc/rfc3280">RFC 3280</a>
-     * and X.509. The ASN.1 definition of this structure appears below.
+     * The nbme constrbints bre specified bs b byte brrby. This byte brrby
+     * should contbin the DER encoded form of the nbme constrbints, bs they
+     * would bppebr in the NbmeConstrbints structure defined in
+     * <b href="http://www.ietf.org/rfc/rfc3280">RFC 3280</b>
+     * bnd X.509. The ASN.1 definition of this structure bppebrs below.
      *
      * <pre>{@code
-     *  NameConstraints ::= SEQUENCE {
-     *       permittedSubtrees       [0]     GeneralSubtrees OPTIONAL,
-     *       excludedSubtrees        [1]     GeneralSubtrees OPTIONAL }
+     *  NbmeConstrbints ::= SEQUENCE {
+     *       permittedSubtrees       [0]     GenerblSubtrees OPTIONAL,
+     *       excludedSubtrees        [1]     GenerblSubtrees OPTIONAL }
      *
-     *  GeneralSubtrees ::= SEQUENCE SIZE (1..MAX) OF GeneralSubtree
+     *  GenerblSubtrees ::= SEQUENCE SIZE (1..MAX) OF GenerblSubtree
      *
-     *  GeneralSubtree ::= SEQUENCE {
-     *       base                    GeneralName,
-     *       minimum         [0]     BaseDistance DEFAULT 0,
-     *       maximum         [1]     BaseDistance OPTIONAL }
+     *  GenerblSubtree ::= SEQUENCE {
+     *       bbse                    GenerblNbme,
+     *       minimum         [0]     BbseDistbnce DEFAULT 0,
+     *       mbximum         [1]     BbseDistbnce OPTIONAL }
      *
-     *  BaseDistance ::= INTEGER (0..MAX)
+     *  BbseDistbnce ::= INTEGER (0..MAX)
      *
-     *  GeneralName ::= CHOICE {
-     *       otherName                       [0]     OtherName,
-     *       rfc822Name                      [1]     IA5String,
-     *       dNSName                         [2]     IA5String,
+     *  GenerblNbme ::= CHOICE {
+     *       otherNbme                       [0]     OtherNbme,
+     *       rfc822Nbme                      [1]     IA5String,
+     *       dNSNbme                         [2]     IA5String,
      *       x400Address                     [3]     ORAddress,
-     *       directoryName                   [4]     Name,
-     *       ediPartyName                    [5]     EDIPartyName,
+     *       directoryNbme                   [4]     Nbme,
+     *       ediPbrtyNbme                    [5]     EDIPbrtyNbme,
      *       uniformResourceIdentifier       [6]     IA5String,
      *       iPAddress                       [7]     OCTET STRING,
      *       registeredID                    [8]     OBJECT IDENTIFIER}
      * }</pre>
      * <p>
-     * Note that the name constraints byte array supplied is cloned to protect
-     * against subsequent modifications.
+     * Note thbt the nbme constrbints byte brrby supplied is cloned to protect
+     * bgbinst subsequent modificbtions.
      *
-     * @param trustedCert a trusted {@code X509Certificate}
-     * @param nameConstraints a byte array containing the ASN.1 DER encoding of
-     * a NameConstraints extension to be used for checking name constraints.
-     * Only the value of the extension is included, not the OID or criticality
-     * flag. Specify {@code null} to omit the parameter.
-     * @throws IllegalArgumentException if the name constraints cannot be
+     * @pbrbm trustedCert b trusted {@code X509Certificbte}
+     * @pbrbm nbmeConstrbints b byte brrby contbining the ASN.1 DER encoding of
+     * b NbmeConstrbints extension to be used for checking nbme constrbints.
+     * Only the vblue of the extension is included, not the OID or criticblity
+     * flbg. Specify {@code null} to omit the pbrbmeter.
+     * @throws IllegblArgumentException if the nbme constrbints cbnnot be
      * decoded
      * @throws NullPointerException if the specified
-     * {@code X509Certificate} is {@code null}
+     * {@code X509Certificbte} is {@code null}
      */
-    public TrustAnchor(X509Certificate trustedCert, byte[] nameConstraints)
+    public TrustAnchor(X509Certificbte trustedCert, byte[] nbmeConstrbints)
     {
         if (trustedCert == null)
-            throw new NullPointerException("the trustedCert parameter must " +
+            throw new NullPointerException("the trustedCert pbrbmeter must " +
                 "be non-null");
         this.trustedCert = trustedCert;
         this.pubKey = null;
-        this.caName = null;
-        this.caPrincipal = null;
-        setNameConstraints(nameConstraints);
+        this.cbNbme = null;
+        this.cbPrincipbl = null;
+        setNbmeConstrbints(nbmeConstrbints);
     }
 
     /**
-     * Creates an instance of {@code TrustAnchor} where the
-     * most-trusted CA is specified as an X500Principal and public key.
-     * Name constraints are an optional parameter, and are intended to be used
-     * as additional constraints when validating an X.509 certification path.
+     * Crebtes bn instbnce of {@code TrustAnchor} where the
+     * most-trusted CA is specified bs bn X500Principbl bnd public key.
+     * Nbme constrbints bre bn optionbl pbrbmeter, bnd bre intended to be used
+     * bs bdditionbl constrbints when vblidbting bn X.509 certificbtion pbth.
      * <p>
-     * The name constraints are specified as a byte array. This byte array
-     * contains the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in RFC 3280
-     * and X.509. The ASN.1 notation for this structure is supplied in the
-     * documentation for
-     * {@link #TrustAnchor(X509Certificate, byte[])
-     * TrustAnchor(X509Certificate trustedCert, byte[] nameConstraints) }.
+     * The nbme constrbints bre specified bs b byte brrby. This byte brrby
+     * contbins the DER encoded form of the nbme constrbints, bs they
+     * would bppebr in the NbmeConstrbints structure defined in RFC 3280
+     * bnd X.509. The ASN.1 notbtion for this structure is supplied in the
+     * documentbtion for
+     * {@link #TrustAnchor(X509Certificbte, byte[])
+     * TrustAnchor(X509Certificbte trustedCert, byte[] nbmeConstrbints) }.
      * <p>
-     * Note that the name constraints byte array supplied here is cloned to
-     * protect against subsequent modifications.
+     * Note thbt the nbme constrbints byte brrby supplied here is cloned to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @param caPrincipal the name of the most-trusted CA as X500Principal
-     * @param pubKey the public key of the most-trusted CA
-     * @param nameConstraints a byte array containing the ASN.1 DER encoding of
-     * a NameConstraints extension to be used for checking name constraints.
-     * Only the value of the extension is included, not the OID or criticality
-     * flag. Specify {@code null} to omit the parameter.
-     * @throws NullPointerException if the specified {@code caPrincipal} or
-     * {@code pubKey} parameter is {@code null}
+     * @pbrbm cbPrincipbl the nbme of the most-trusted CA bs X500Principbl
+     * @pbrbm pubKey the public key of the most-trusted CA
+     * @pbrbm nbmeConstrbints b byte brrby contbining the ASN.1 DER encoding of
+     * b NbmeConstrbints extension to be used for checking nbme constrbints.
+     * Only the vblue of the extension is included, not the OID or criticblity
+     * flbg. Specify {@code null} to omit the pbrbmeter.
+     * @throws NullPointerException if the specified {@code cbPrincipbl} or
+     * {@code pubKey} pbrbmeter is {@code null}
      * @since 1.5
      */
-    public TrustAnchor(X500Principal caPrincipal, PublicKey pubKey,
-            byte[] nameConstraints) {
-        if ((caPrincipal == null) || (pubKey == null)) {
+    public TrustAnchor(X500Principbl cbPrincipbl, PublicKey pubKey,
+            byte[] nbmeConstrbints) {
+        if ((cbPrincipbl == null) || (pubKey == null)) {
             throw new NullPointerException();
         }
         this.trustedCert = null;
-        this.caPrincipal = caPrincipal;
-        this.caName = caPrincipal.getName();
+        this.cbPrincipbl = cbPrincipbl;
+        this.cbNbme = cbPrincipbl.getNbme();
         this.pubKey = pubKey;
-        setNameConstraints(nameConstraints);
+        setNbmeConstrbints(nbmeConstrbints);
     }
 
     /**
-     * Creates an instance of {@code TrustAnchor} where the
-     * most-trusted CA is specified as a distinguished name and public key.
-     * Name constraints are an optional parameter, and are intended to be used
-     * as additional constraints when validating an X.509 certification path.
+     * Crebtes bn instbnce of {@code TrustAnchor} where the
+     * most-trusted CA is specified bs b distinguished nbme bnd public key.
+     * Nbme constrbints bre bn optionbl pbrbmeter, bnd bre intended to be used
+     * bs bdditionbl constrbints when vblidbting bn X.509 certificbtion pbth.
      * <p>
-     * The name constraints are specified as a byte array. This byte array
-     * contains the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in RFC 3280
-     * and X.509. The ASN.1 notation for this structure is supplied in the
-     * documentation for
-     * {@link #TrustAnchor(X509Certificate, byte[])
-     * TrustAnchor(X509Certificate trustedCert, byte[] nameConstraints) }.
+     * The nbme constrbints bre specified bs b byte brrby. This byte brrby
+     * contbins the DER encoded form of the nbme constrbints, bs they
+     * would bppebr in the NbmeConstrbints structure defined in RFC 3280
+     * bnd X.509. The ASN.1 notbtion for this structure is supplied in the
+     * documentbtion for
+     * {@link #TrustAnchor(X509Certificbte, byte[])
+     * TrustAnchor(X509Certificbte trustedCert, byte[] nbmeConstrbints) }.
      * <p>
-     * Note that the name constraints byte array supplied here is cloned to
-     * protect against subsequent modifications.
+     * Note thbt the nbme constrbints byte brrby supplied here is cloned to
+     * protect bgbinst subsequent modificbtions.
      *
-     * @param caName the X.500 distinguished name of the most-trusted CA in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a>
-     * {@code String} format
-     * @param pubKey the public key of the most-trusted CA
-     * @param nameConstraints a byte array containing the ASN.1 DER encoding of
-     * a NameConstraints extension to be used for checking name constraints.
-     * Only the value of the extension is included, not the OID or criticality
-     * flag. Specify {@code null} to omit the parameter.
-     * @throws IllegalArgumentException if the specified
-     * {@code caName} parameter is empty {@code (caName.length() == 0)}
-     * or incorrectly formatted or the name constraints cannot be decoded
-     * @throws NullPointerException if the specified {@code caName} or
-     * {@code pubKey} parameter is {@code null}
+     * @pbrbm cbNbme the X.500 distinguished nbme of the most-trusted CA in
+     * <b href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</b>
+     * {@code String} formbt
+     * @pbrbm pubKey the public key of the most-trusted CA
+     * @pbrbm nbmeConstrbints b byte brrby contbining the ASN.1 DER encoding of
+     * b NbmeConstrbints extension to be used for checking nbme constrbints.
+     * Only the vblue of the extension is included, not the OID or criticblity
+     * flbg. Specify {@code null} to omit the pbrbmeter.
+     * @throws IllegblArgumentException if the specified
+     * {@code cbNbme} pbrbmeter is empty {@code (cbNbme.length() == 0)}
+     * or incorrectly formbtted or the nbme constrbints cbnnot be decoded
+     * @throws NullPointerException if the specified {@code cbNbme} or
+     * {@code pubKey} pbrbmeter is {@code null}
      */
-    public TrustAnchor(String caName, PublicKey pubKey, byte[] nameConstraints)
+    public TrustAnchor(String cbNbme, PublicKey pubKey, byte[] nbmeConstrbints)
     {
         if (pubKey == null)
-            throw new NullPointerException("the pubKey parameter must be " +
+            throw new NullPointerException("the pubKey pbrbmeter must be " +
                 "non-null");
-        if (caName == null)
-            throw new NullPointerException("the caName parameter must be " +
+        if (cbNbme == null)
+            throw new NullPointerException("the cbNbme pbrbmeter must be " +
                 "non-null");
-        if (caName.length() == 0)
-            throw new IllegalArgumentException("the caName " +
-                "parameter must be a non-empty String");
-        // check if caName is formatted correctly
-        this.caPrincipal = new X500Principal(caName);
+        if (cbNbme.length() == 0)
+            throw new IllegblArgumentException("the cbNbme " +
+                "pbrbmeter must be b non-empty String");
+        // check if cbNbme is formbtted correctly
+        this.cbPrincipbl = new X500Principbl(cbNbme);
         this.pubKey = pubKey;
-        this.caName = caName;
+        this.cbNbme = cbNbme;
         this.trustedCert = null;
-        setNameConstraints(nameConstraints);
+        setNbmeConstrbints(nbmeConstrbints);
     }
 
     /**
-     * Returns the most-trusted CA certificate.
+     * Returns the most-trusted CA certificbte.
      *
-     * @return a trusted {@code X509Certificate} or {@code null}
-     * if the trust anchor was not specified as a trusted certificate
+     * @return b trusted {@code X509Certificbte} or {@code null}
+     * if the trust bnchor wbs not specified bs b trusted certificbte
      */
-    public final X509Certificate getTrustedCert() {
+    public finbl X509Certificbte getTrustedCert() {
         return this.trustedCert;
     }
 
     /**
-     * Returns the name of the most-trusted CA as an X500Principal.
+     * Returns the nbme of the most-trusted CA bs bn X500Principbl.
      *
-     * @return the X.500 distinguished name of the most-trusted CA, or
-     * {@code null} if the trust anchor was not specified as a trusted
-     * public key and name or X500Principal pair
+     * @return the X.500 distinguished nbme of the most-trusted CA, or
+     * {@code null} if the trust bnchor wbs not specified bs b trusted
+     * public key bnd nbme or X500Principbl pbir
      * @since 1.5
      */
-    public final X500Principal getCA() {
-        return this.caPrincipal;
+    public finbl X500Principbl getCA() {
+        return this.cbPrincipbl;
     }
 
     /**
-     * Returns the name of the most-trusted CA in RFC 2253 {@code String}
-     * format.
+     * Returns the nbme of the most-trusted CA in RFC 2253 {@code String}
+     * formbt.
      *
-     * @return the X.500 distinguished name of the most-trusted CA, or
-     * {@code null} if the trust anchor was not specified as a trusted
-     * public key and name or X500Principal pair
+     * @return the X.500 distinguished nbme of the most-trusted CA, or
+     * {@code null} if the trust bnchor wbs not specified bs b trusted
+     * public key bnd nbme or X500Principbl pbir
      */
-    public final String getCAName() {
-        return this.caName;
+    public finbl String getCANbme() {
+        return this.cbNbme;
     }
 
     /**
      * Returns the public key of the most-trusted CA.
      *
      * @return the public key of the most-trusted CA, or {@code null}
-     * if the trust anchor was not specified as a trusted public key and name
-     * or X500Principal pair
+     * if the trust bnchor wbs not specified bs b trusted public key bnd nbme
+     * or X500Principbl pbir
      */
-    public final PublicKey getCAPublicKey() {
+    public finbl PublicKey getCAPublicKey() {
         return this.pubKey;
     }
 
     /**
-     * Decode the name constraints and clone them if not null.
+     * Decode the nbme constrbints bnd clone them if not null.
      */
-    private void setNameConstraints(byte[] bytes) {
+    privbte void setNbmeConstrbints(byte[] bytes) {
         if (bytes == null) {
             ncBytes = null;
             nc = null;
         } else {
             ncBytes = bytes.clone();
-            // validate DER encoding
+            // vblidbte DER encoding
             try {
-                nc = new NameConstraintsExtension(Boolean.FALSE, bytes);
-            } catch (IOException ioe) {
-                IllegalArgumentException iae =
-                    new IllegalArgumentException(ioe.getMessage());
-                iae.initCause(ioe);
-                throw iae;
+                nc = new NbmeConstrbintsExtension(Boolebn.FALSE, bytes);
+            } cbtch (IOException ioe) {
+                IllegblArgumentException ibe =
+                    new IllegblArgumentException(ioe.getMessbge());
+                ibe.initCbuse(ioe);
+                throw ibe;
             }
         }
     }
 
     /**
-     * Returns the name constraints parameter. The specified name constraints
-     * are associated with this trust anchor and are intended to be used
-     * as additional constraints when validating an X.509 certification path.
+     * Returns the nbme constrbints pbrbmeter. The specified nbme constrbints
+     * bre bssocibted with this trust bnchor bnd bre intended to be used
+     * bs bdditionbl constrbints when vblidbting bn X.509 certificbtion pbth.
      * <p>
-     * The name constraints are returned as a byte array. This byte array
-     * contains the DER encoded form of the name constraints, as they
-     * would appear in the NameConstraints structure defined in RFC 3280
-     * and X.509. The ASN.1 notation for this structure is supplied in the
-     * documentation for
-     * {@link #TrustAnchor(X509Certificate, byte[])
-     * TrustAnchor(X509Certificate trustedCert, byte[] nameConstraints) }.
+     * The nbme constrbints bre returned bs b byte brrby. This byte brrby
+     * contbins the DER encoded form of the nbme constrbints, bs they
+     * would bppebr in the NbmeConstrbints structure defined in RFC 3280
+     * bnd X.509. The ASN.1 notbtion for this structure is supplied in the
+     * documentbtion for
+     * {@link #TrustAnchor(X509Certificbte, byte[])
+     * TrustAnchor(X509Certificbte trustedCert, byte[] nbmeConstrbints) }.
      * <p>
-     * Note that the byte array returned is cloned to protect against
-     * subsequent modifications.
+     * Note thbt the byte brrby returned is cloned to protect bgbinst
+     * subsequent modificbtions.
      *
-     * @return a byte array containing the ASN.1 DER encoding of
-     *         a NameConstraints extension used for checking name constraints,
+     * @return b byte brrby contbining the ASN.1 DER encoding of
+     *         b NbmeConstrbints extension used for checking nbme constrbints,
      *         or {@code null} if not set.
      */
-    public final byte [] getNameConstraints() {
+    public finbl byte [] getNbmeConstrbints() {
         return ncBytes == null ? null : ncBytes.clone();
     }
 
     /**
-     * Returns a formatted string describing the {@code TrustAnchor}.
+     * Returns b formbtted string describing the {@code TrustAnchor}.
      *
-     * @return a formatted string describing the {@code TrustAnchor}
+     * @return b formbtted string describing the {@code TrustAnchor}
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[\n");
+        sb.bppend("[\n");
         if (pubKey != null) {
-            sb.append("  Trusted CA Public Key: " + pubKey.toString() + "\n");
-            sb.append("  Trusted CA Issuer Name: "
-                + String.valueOf(caName) + "\n");
+            sb.bppend("  Trusted CA Public Key: " + pubKey.toString() + "\n");
+            sb.bppend("  Trusted CA Issuer Nbme: "
+                + String.vblueOf(cbNbme) + "\n");
         } else {
-            sb.append("  Trusted CA cert: " + trustedCert.toString() + "\n");
+            sb.bppend("  Trusted CA cert: " + trustedCert.toString() + "\n");
         }
         if (nc != null)
-            sb.append("  Name Constraints: " + nc.toString() + "\n");
+            sb.bppend("  Nbme Constrbints: " + nc.toString() + "\n");
         return sb.toString();
     }
 }

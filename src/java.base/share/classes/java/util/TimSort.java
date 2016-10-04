@@ -1,359 +1,359 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Copyright 2009 Google Inc.  All Rights Reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * A stable, adaptive, iterative mergesort that requires far fewer than
- * n lg(n) comparisons when running on partially sorted arrays, while
- * offering performance comparable to a traditional mergesort when run
- * on random arrays.  Like all proper mergesorts, this sort is stable and
- * runs O(n log n) time (worst case).  In the worst case, this sort requires
- * temporary storage space for n/2 object references; in the best case,
- * it requires only a small constant amount of space.
+ * A stbble, bdbptive, iterbtive mergesort thbt requires fbr fewer thbn
+ * n lg(n) compbrisons when running on pbrtiblly sorted brrbys, while
+ * offering performbnce compbrbble to b trbditionbl mergesort when run
+ * on rbndom brrbys.  Like bll proper mergesorts, this sort is stbble bnd
+ * runs O(n log n) time (worst cbse).  In the worst cbse, this sort requires
+ * temporbry storbge spbce for n/2 object references; in the best cbse,
+ * it requires only b smbll constbnt bmount of spbce.
  *
- * This implementation was adapted from Tim Peters's list sort for
- * Python, which is described in detail here:
+ * This implementbtion wbs bdbpted from Tim Peters's list sort for
+ * Python, which is described in detbil here:
  *
  *   http://svn.python.org/projects/python/trunk/Objects/listsort.txt
  *
- * Tim's C code may be found here:
+ * Tim's C code mby be found here:
  *
  *   http://svn.python.org/projects/python/trunk/Objects/listobject.c
  *
- * The underlying techniques are described in this paper (and may have
- * even earlier origins):
+ * The underlying techniques bre described in this pbper (bnd mby hbve
+ * even ebrlier origins):
  *
- *  "Optimistic Sorting and Information Theoretic Complexity"
+ *  "Optimistic Sorting bnd Informbtion Theoretic Complexity"
  *  Peter McIlroy
- *  SODA (Fourth Annual ACM-SIAM Symposium on Discrete Algorithms),
- *  pp 467-474, Austin, Texas, 25-27 January 1993.
+ *  SODA (Fourth Annubl ACM-SIAM Symposium on Discrete Algorithms),
+ *  pp 467-474, Austin, Texbs, 25-27 Jbnubry 1993.
  *
- * While the API to this class consists solely of static methods, it is
- * (privately) instantiable; a TimSort instance holds the state of an ongoing
- * sort, assuming the input array is large enough to warrant the full-blown
- * TimSort. Small arrays are sorted in place, using a binary insertion sort.
+ * While the API to this clbss consists solely of stbtic methods, it is
+ * (privbtely) instbntibble; b TimSort instbnce holds the stbte of bn ongoing
+ * sort, bssuming the input brrby is lbrge enough to wbrrbnt the full-blown
+ * TimSort. Smbll brrbys bre sorted in plbce, using b binbry insertion sort.
  *
- * @author Josh Bloch
+ * @buthor Josh Bloch
  */
-class TimSort<T> {
+clbss TimSort<T> {
     /**
-     * This is the minimum sized sequence that will be merged.  Shorter
-     * sequences will be lengthened by calling binarySort.  If the entire
-     * array is less than this length, no merges will be performed.
+     * This is the minimum sized sequence thbt will be merged.  Shorter
+     * sequences will be lengthened by cblling binbrySort.  If the entire
+     * brrby is less thbn this length, no merges will be performed.
      *
-     * This constant should be a power of two.  It was 64 in Tim Peter's C
-     * implementation, but 32 was empirically determined to work better in
-     * this implementation.  In the unlikely event that you set this constant
-     * to be a number that's not a power of two, you'll need to change the
-     * {@link #minRunLength} computation.
+     * This constbnt should be b power of two.  It wbs 64 in Tim Peter's C
+     * implementbtion, but 32 wbs empiricblly determined to work better in
+     * this implementbtion.  In the unlikely event thbt you set this constbnt
+     * to be b number thbt's not b power of two, you'll need to chbnge the
+     * {@link #minRunLength} computbtion.
      *
-     * If you decrease this constant, you must change the stackLen
-     * computation in the TimSort constructor, or you risk an
-     * ArrayOutOfBounds exception.  See listsort.txt for a discussion
-     * of the minimum stack length required as a function of the length
-     * of the array being sorted and the minimum merge sequence length.
+     * If you decrebse this constbnt, you must chbnge the stbckLen
+     * computbtion in the TimSort constructor, or you risk bn
+     * ArrbyOutOfBounds exception.  See listsort.txt for b discussion
+     * of the minimum stbck length required bs b function of the length
+     * of the brrby being sorted bnd the minimum merge sequence length.
      */
-    private static final int MIN_MERGE = 32;
+    privbte stbtic finbl int MIN_MERGE = 32;
 
     /**
-     * The array being sorted.
+     * The brrby being sorted.
      */
-    private final T[] a;
+    privbte finbl T[] b;
 
     /**
-     * The comparator for this sort.
+     * The compbrbtor for this sort.
      */
-    private final Comparator<? super T> c;
+    privbte finbl Compbrbtor<? super T> c;
 
     /**
-     * When we get into galloping mode, we stay there until both runs win less
-     * often than MIN_GALLOP consecutive times.
+     * When we get into gblloping mode, we stby there until both runs win less
+     * often thbn MIN_GALLOP consecutive times.
      */
-    private static final int  MIN_GALLOP = 7;
+    privbte stbtic finbl int  MIN_GALLOP = 7;
 
     /**
-     * This controls when we get *into* galloping mode.  It is initialized
-     * to MIN_GALLOP.  The mergeLo and mergeHi methods nudge it higher for
-     * random data, and lower for highly structured data.
+     * This controls when we get *into* gblloping mode.  It is initiblized
+     * to MIN_GALLOP.  The mergeLo bnd mergeHi methods nudge it higher for
+     * rbndom dbtb, bnd lower for highly structured dbtb.
      */
-    private int minGallop = MIN_GALLOP;
+    privbte int minGbllop = MIN_GALLOP;
 
     /**
-     * Maximum initial size of tmp array, which is used for merging.  The array
-     * can grow to accommodate demand.
+     * Mbximum initibl size of tmp brrby, which is used for merging.  The brrby
+     * cbn grow to bccommodbte dembnd.
      *
-     * Unlike Tim's original C version, we do not allocate this much storage
-     * when sorting smaller arrays.  This change was required for performance.
+     * Unlike Tim's originbl C version, we do not bllocbte this much storbge
+     * when sorting smbller brrbys.  This chbnge wbs required for performbnce.
      */
-    private static final int INITIAL_TMP_STORAGE_LENGTH = 256;
+    privbte stbtic finbl int INITIAL_TMP_STORAGE_LENGTH = 256;
 
     /**
-     * Temp storage for merges. A workspace array may optionally be
-     * provided in constructor, and if so will be used as long as it
+     * Temp storbge for merges. A workspbce brrby mby optionblly be
+     * provided in constructor, bnd if so will be used bs long bs it
      * is big enough.
      */
-    private T[] tmp;
-    private int tmpBase; // base of tmp array slice
-    private int tmpLen;  // length of tmp array slice
+    privbte T[] tmp;
+    privbte int tmpBbse; // bbse of tmp brrby slice
+    privbte int tmpLen;  // length of tmp brrby slice
 
     /**
-     * A stack of pending runs yet to be merged.  Run i starts at
-     * address base[i] and extends for len[i] elements.  It's always
-     * true (so long as the indices are in bounds) that:
+     * A stbck of pending runs yet to be merged.  Run i stbrts bt
+     * bddress bbse[i] bnd extends for len[i] elements.  It's blwbys
+     * true (so long bs the indices bre in bounds) thbt:
      *
-     *     runBase[i] + runLen[i] == runBase[i + 1]
+     *     runBbse[i] + runLen[i] == runBbse[i + 1]
      *
-     * so we could cut the storage for this, but it's a minor amount,
-     * and keeping all the info explicit simplifies the code.
+     * so we could cut the storbge for this, but it's b minor bmount,
+     * bnd keeping bll the info explicit simplifies the code.
      */
-    private int stackSize = 0;  // Number of pending runs on stack
-    private final int[] runBase;
-    private final int[] runLen;
+    privbte int stbckSize = 0;  // Number of pending runs on stbck
+    privbte finbl int[] runBbse;
+    privbte finbl int[] runLen;
 
     /**
-     * Creates a TimSort instance to maintain the state of an ongoing sort.
+     * Crebtes b TimSort instbnce to mbintbin the stbte of bn ongoing sort.
      *
-     * @param a the array to be sorted
-     * @param c the comparator to determine the order of the sort
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm c the compbrbtor to determine the order of the sort
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      */
-    private TimSort(T[] a, Comparator<? super T> c, T[] work, int workBase, int workLen) {
-        this.a = a;
+    privbte TimSort(T[] b, Compbrbtor<? super T> c, T[] work, int workBbse, int workLen) {
+        this.b = b;
         this.c = c;
 
-        // Allocate temp storage (which may be increased later if necessary)
-        int len = a.length;
+        // Allocbte temp storbge (which mby be increbsed lbter if necessbry)
+        int len = b.length;
         int tlen = (len < 2 * INITIAL_TMP_STORAGE_LENGTH) ?
             len >>> 1 : INITIAL_TMP_STORAGE_LENGTH;
-        if (work == null || workLen < tlen || workBase + tlen > work.length) {
-            @SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-            T[] newArray = (T[])java.lang.reflect.Array.newInstance
-                (a.getClass().getComponentType(), tlen);
-            tmp = newArray;
-            tmpBase = 0;
+        if (work == null || workLen < tlen || workBbse + tlen > work.length) {
+            @SuppressWbrnings({"unchecked", "UnnecessbryLocblVbribble"})
+            T[] newArrby = (T[])jbvb.lbng.reflect.Arrby.newInstbnce
+                (b.getClbss().getComponentType(), tlen);
+            tmp = newArrby;
+            tmpBbse = 0;
             tmpLen = tlen;
         }
         else {
             tmp = work;
-            tmpBase = workBase;
+            tmpBbse = workBbse;
             tmpLen = workLen;
         }
 
         /*
-         * Allocate runs-to-be-merged stack (which cannot be expanded).  The
-         * stack length requirements are described in listsort.txt.  The C
-         * version always uses the same stack length (85), but this was
-         * measured to be too expensive when sorting "mid-sized" arrays (e.g.,
-         * 100 elements) in Java.  Therefore, we use smaller (but sufficiently
-         * large) stack lengths for smaller arrays.  The "magic numbers" in the
-         * computation below must be changed if MIN_MERGE is decreased.  See
-         * the MIN_MERGE declaration above for more information.
+         * Allocbte runs-to-be-merged stbck (which cbnnot be expbnded).  The
+         * stbck length requirements bre described in listsort.txt.  The C
+         * version blwbys uses the sbme stbck length (85), but this wbs
+         * mebsured to be too expensive when sorting "mid-sized" brrbys (e.g.,
+         * 100 elements) in Jbvb.  Therefore, we use smbller (but sufficiently
+         * lbrge) stbck lengths for smbller brrbys.  The "mbgic numbers" in the
+         * computbtion below must be chbnged if MIN_MERGE is decrebsed.  See
+         * the MIN_MERGE declbrbtion bbove for more informbtion.
          */
-        int stackLen = (len <    120  ?  5 :
+        int stbckLen = (len <    120  ?  5 :
                         len <   1542  ? 10 :
                         len < 119151  ? 24 : 40);
-        runBase = new int[stackLen];
-        runLen = new int[stackLen];
+        runBbse = new int[stbckLen];
+        runLen = new int[stbckLen];
     }
 
     /*
-     * The next method (package private and static) constitutes the
-     * entire API of this class.
+     * The next method (pbckbge privbte bnd stbtic) constitutes the
+     * entire API of this clbss.
      */
 
     /**
-     * Sorts the given range, using the given workspace array slice
-     * for temp storage when possible. This method is designed to be
-     * invoked from public methods (in class Arrays) after performing
-     * any necessary array bounds checks and expanding parameters into
+     * Sorts the given rbnge, using the given workspbce brrby slice
+     * for temp storbge when possible. This method is designed to be
+     * invoked from public methods (in clbss Arrbys) bfter performing
+     * bny necessbry brrby bounds checks bnd expbnding pbrbmeters into
      * the required forms.
      *
-     * @param a the array to be sorted
-     * @param lo the index of the first element, inclusive, to be sorted
-     * @param hi the index of the last element, exclusive, to be sorted
-     * @param c the comparator to use
-     * @param work a workspace array (slice)
-     * @param workBase origin of usable space in work array
-     * @param workLen usable size of work array
+     * @pbrbm b the brrby to be sorted
+     * @pbrbm lo the index of the first element, inclusive, to be sorted
+     * @pbrbm hi the index of the lbst element, exclusive, to be sorted
+     * @pbrbm c the compbrbtor to use
+     * @pbrbm work b workspbce brrby (slice)
+     * @pbrbm workBbse origin of usbble spbce in work brrby
+     * @pbrbm workLen usbble size of work brrby
      * @since 1.8
      */
-    static <T> void sort(T[] a, int lo, int hi, Comparator<? super T> c,
-                         T[] work, int workBase, int workLen) {
-        assert c != null && a != null && lo >= 0 && lo <= hi && hi <= a.length;
+    stbtic <T> void sort(T[] b, int lo, int hi, Compbrbtor<? super T> c,
+                         T[] work, int workBbse, int workLen) {
+        bssert c != null && b != null && lo >= 0 && lo <= hi && hi <= b.length;
 
-        int nRemaining  = hi - lo;
-        if (nRemaining < 2)
-            return;  // Arrays of size 0 and 1 are always sorted
+        int nRembining  = hi - lo;
+        if (nRembining < 2)
+            return;  // Arrbys of size 0 bnd 1 bre blwbys sorted
 
-        // If array is small, do a "mini-TimSort" with no merges
-        if (nRemaining < MIN_MERGE) {
-            int initRunLen = countRunAndMakeAscending(a, lo, hi, c);
-            binarySort(a, lo, hi, lo + initRunLen, c);
+        // If brrby is smbll, do b "mini-TimSort" with no merges
+        if (nRembining < MIN_MERGE) {
+            int initRunLen = countRunAndMbkeAscending(b, lo, hi, c);
+            binbrySort(b, lo, hi, lo + initRunLen, c);
             return;
         }
 
         /**
-         * March over the array once, left to right, finding natural runs,
-         * extending short natural runs to minRun elements, and merging runs
-         * to maintain stack invariant.
+         * Mbrch over the brrby once, left to right, finding nbturbl runs,
+         * extending short nbturbl runs to minRun elements, bnd merging runs
+         * to mbintbin stbck invbribnt.
          */
-        TimSort<T> ts = new TimSort<>(a, c, work, workBase, workLen);
-        int minRun = minRunLength(nRemaining);
+        TimSort<T> ts = new TimSort<>(b, c, work, workBbse, workLen);
+        int minRun = minRunLength(nRembining);
         do {
             // Identify next run
-            int runLen = countRunAndMakeAscending(a, lo, hi, c);
+            int runLen = countRunAndMbkeAscending(b, lo, hi, c);
 
-            // If run is short, extend to min(minRun, nRemaining)
+            // If run is short, extend to min(minRun, nRembining)
             if (runLen < minRun) {
-                int force = nRemaining <= minRun ? nRemaining : minRun;
-                binarySort(a, lo, lo + force, lo + runLen, c);
+                int force = nRembining <= minRun ? nRembining : minRun;
+                binbrySort(b, lo, lo + force, lo + runLen, c);
                 runLen = force;
             }
 
-            // Push run onto pending-run stack, and maybe merge
+            // Push run onto pending-run stbck, bnd mbybe merge
             ts.pushRun(lo, runLen);
-            ts.mergeCollapse();
+            ts.mergeCollbpse();
 
-            // Advance to find next run
+            // Advbnce to find next run
             lo += runLen;
-            nRemaining -= runLen;
-        } while (nRemaining != 0);
+            nRembining -= runLen;
+        } while (nRembining != 0);
 
-        // Merge all remaining runs to complete sort
-        assert lo == hi;
-        ts.mergeForceCollapse();
-        assert ts.stackSize == 1;
+        // Merge bll rembining runs to complete sort
+        bssert lo == hi;
+        ts.mergeForceCollbpse();
+        bssert ts.stbckSize == 1;
     }
 
     /**
-     * Sorts the specified portion of the specified array using a binary
-     * insertion sort.  This is the best method for sorting small numbers
-     * of elements.  It requires O(n log n) compares, but O(n^2) data
-     * movement (worst case).
+     * Sorts the specified portion of the specified brrby using b binbry
+     * insertion sort.  This is the best method for sorting smbll numbers
+     * of elements.  It requires O(n log n) compbres, but O(n^2) dbtb
+     * movement (worst cbse).
      *
-     * If the initial part of the specified range is already sorted,
-     * this method can take advantage of it: the method assumes that the
-     * elements from index {@code lo}, inclusive, to {@code start},
-     * exclusive are already sorted.
+     * If the initibl pbrt of the specified rbnge is blrebdy sorted,
+     * this method cbn tbke bdvbntbge of it: the method bssumes thbt the
+     * elements from index {@code lo}, inclusive, to {@code stbrt},
+     * exclusive bre blrebdy sorted.
      *
-     * @param a the array in which a range is to be sorted
-     * @param lo the index of the first element in the range to be sorted
-     * @param hi the index after the last element in the range to be sorted
-     * @param start the index of the first element in the range that is
-     *        not already known to be sorted ({@code lo <= start <= hi})
-     * @param c comparator to used for the sort
+     * @pbrbm b the brrby in which b rbnge is to be sorted
+     * @pbrbm lo the index of the first element in the rbnge to be sorted
+     * @pbrbm hi the index bfter the lbst element in the rbnge to be sorted
+     * @pbrbm stbrt the index of the first element in the rbnge thbt is
+     *        not blrebdy known to be sorted ({@code lo <= stbrt <= hi})
+     * @pbrbm c compbrbtor to used for the sort
      */
-    @SuppressWarnings("fallthrough")
-    private static <T> void binarySort(T[] a, int lo, int hi, int start,
-                                       Comparator<? super T> c) {
-        assert lo <= start && start <= hi;
-        if (start == lo)
-            start++;
-        for ( ; start < hi; start++) {
-            T pivot = a[start];
+    @SuppressWbrnings("fbllthrough")
+    privbte stbtic <T> void binbrySort(T[] b, int lo, int hi, int stbrt,
+                                       Compbrbtor<? super T> c) {
+        bssert lo <= stbrt && stbrt <= hi;
+        if (stbrt == lo)
+            stbrt++;
+        for ( ; stbrt < hi; stbrt++) {
+            T pivot = b[stbrt];
 
-            // Set left (and right) to the index where a[start] (pivot) belongs
+            // Set left (bnd right) to the index where b[stbrt] (pivot) belongs
             int left = lo;
-            int right = start;
-            assert left <= right;
+            int right = stbrt;
+            bssert left <= right;
             /*
-             * Invariants:
-             *   pivot >= all in [lo, left).
-             *   pivot <  all in [right, start).
+             * Invbribnts:
+             *   pivot >= bll in [lo, left).
+             *   pivot <  bll in [right, stbrt).
              */
             while (left < right) {
                 int mid = (left + right) >>> 1;
-                if (c.compare(pivot, a[mid]) < 0)
+                if (c.compbre(pivot, b[mid]) < 0)
                     right = mid;
                 else
                     left = mid + 1;
             }
-            assert left == right;
+            bssert left == right;
 
             /*
-             * The invariants still hold: pivot >= all in [lo, left) and
-             * pivot < all in [left, start), so pivot belongs at left.  Note
-             * that if there are elements equal to pivot, left points to the
-             * first slot after them -- that's why this sort is stable.
-             * Slide elements over to make room for pivot.
+             * The invbribnts still hold: pivot >= bll in [lo, left) bnd
+             * pivot < bll in [left, stbrt), so pivot belongs bt left.  Note
+             * thbt if there bre elements equbl to pivot, left points to the
+             * first slot bfter them -- thbt's why this sort is stbble.
+             * Slide elements over to mbke room for pivot.
              */
-            int n = start - left;  // The number of elements to move
-            // Switch is just an optimization for arraycopy in default case
+            int n = stbrt - left;  // The number of elements to move
+            // Switch is just bn optimizbtion for brrbycopy in defbult cbse
             switch (n) {
-                case 2:  a[left + 2] = a[left + 1];
-                case 1:  a[left + 1] = a[left];
-                         break;
-                default: System.arraycopy(a, left, a, left + 1, n);
+                cbse 2:  b[left + 2] = b[left + 1];
+                cbse 1:  b[left + 1] = b[left];
+                         brebk;
+                defbult: System.brrbycopy(b, left, b, left + 1, n);
             }
-            a[left] = pivot;
+            b[left] = pivot;
         }
     }
 
     /**
-     * Returns the length of the run beginning at the specified position in
-     * the specified array and reverses the run if it is descending (ensuring
-     * that the run will always be ascending when the method returns).
+     * Returns the length of the run beginning bt the specified position in
+     * the specified brrby bnd reverses the run if it is descending (ensuring
+     * thbt the run will blwbys be bscending when the method returns).
      *
-     * A run is the longest ascending sequence with:
+     * A run is the longest bscending sequence with:
      *
-     *    a[lo] <= a[lo + 1] <= a[lo + 2] <= ...
+     *    b[lo] <= b[lo + 1] <= b[lo + 2] <= ...
      *
      * or the longest descending sequence with:
      *
-     *    a[lo] >  a[lo + 1] >  a[lo + 2] >  ...
+     *    b[lo] >  b[lo + 1] >  b[lo + 2] >  ...
      *
-     * For its intended use in a stable mergesort, the strictness of the
-     * definition of "descending" is needed so that the call can safely
-     * reverse a descending sequence without violating stability.
+     * For its intended use in b stbble mergesort, the strictness of the
+     * definition of "descending" is needed so thbt the cbll cbn sbfely
+     * reverse b descending sequence without violbting stbbility.
      *
-     * @param a the array in which a run is to be counted and possibly reversed
-     * @param lo index of the first element in the run
-     * @param hi index after the last element that may be contained in the run.
-              It is required that {@code lo < hi}.
-     * @param c the comparator to used for the sort
-     * @return  the length of the run beginning at the specified position in
-     *          the specified array
+     * @pbrbm b the brrby in which b run is to be counted bnd possibly reversed
+     * @pbrbm lo index of the first element in the run
+     * @pbrbm hi index bfter the lbst element thbt mby be contbined in the run.
+              It is required thbt {@code lo < hi}.
+     * @pbrbm c the compbrbtor to used for the sort
+     * @return  the length of the run beginning bt the specified position in
+     *          the specified brrby
      */
-    private static <T> int countRunAndMakeAscending(T[] a, int lo, int hi,
-                                                    Comparator<? super T> c) {
-        assert lo < hi;
+    privbte stbtic <T> int countRunAndMbkeAscending(T[] b, int lo, int hi,
+                                                    Compbrbtor<? super T> c) {
+        bssert lo < hi;
         int runHi = lo + 1;
         if (runHi == hi)
             return 1;
 
-        // Find end of run, and reverse range if descending
-        if (c.compare(a[runHi++], a[lo]) < 0) { // Descending
-            while (runHi < hi && c.compare(a[runHi], a[runHi - 1]) < 0)
+        // Find end of run, bnd reverse rbnge if descending
+        if (c.compbre(b[runHi++], b[lo]) < 0) { // Descending
+            while (runHi < hi && c.compbre(b[runHi], b[runHi - 1]) < 0)
                 runHi++;
-            reverseRange(a, lo, runHi);
+            reverseRbnge(b, lo, runHi);
         } else {                              // Ascending
-            while (runHi < hi && c.compare(a[runHi], a[runHi - 1]) >= 0)
+            while (runHi < hi && c.compbre(b[runHi], b[runHi - 1]) >= 0)
                 runHi++;
         }
 
@@ -361,41 +361,41 @@ class TimSort<T> {
     }
 
     /**
-     * Reverse the specified range of the specified array.
+     * Reverse the specified rbnge of the specified brrby.
      *
-     * @param a the array in which a range is to be reversed
-     * @param lo the index of the first element in the range to be reversed
-     * @param hi the index after the last element in the range to be reversed
+     * @pbrbm b the brrby in which b rbnge is to be reversed
+     * @pbrbm lo the index of the first element in the rbnge to be reversed
+     * @pbrbm hi the index bfter the lbst element in the rbnge to be reversed
      */
-    private static void reverseRange(Object[] a, int lo, int hi) {
+    privbte stbtic void reverseRbnge(Object[] b, int lo, int hi) {
         hi--;
         while (lo < hi) {
-            Object t = a[lo];
-            a[lo++] = a[hi];
-            a[hi--] = t;
+            Object t = b[lo];
+            b[lo++] = b[hi];
+            b[hi--] = t;
         }
     }
 
     /**
-     * Returns the minimum acceptable run length for an array of the specified
-     * length. Natural runs shorter than this will be extended with
-     * {@link #binarySort}.
+     * Returns the minimum bcceptbble run length for bn brrby of the specified
+     * length. Nbturbl runs shorter thbn this will be extended with
+     * {@link #binbrySort}.
      *
-     * Roughly speaking, the computation is:
+     * Roughly spebking, the computbtion is:
      *
-     *  If n < MIN_MERGE, return n (it's too small to bother with fancy stuff).
-     *  Else if n is an exact power of 2, return MIN_MERGE/2.
-     *  Else return an int k, MIN_MERGE/2 <= k <= MIN_MERGE, such that n/k
-     *   is close to, but strictly less than, an exact power of 2.
+     *  If n < MIN_MERGE, return n (it's too smbll to bother with fbncy stuff).
+     *  Else if n is bn exbct power of 2, return MIN_MERGE/2.
+     *  Else return bn int k, MIN_MERGE/2 <= k <= MIN_MERGE, such thbt n/k
+     *   is close to, but strictly less thbn, bn exbct power of 2.
      *
-     * For the rationale, see listsort.txt.
+     * For the rbtionble, see listsort.txt.
      *
-     * @param n the length of the array to be sorted
+     * @pbrbm n the length of the brrby to be sorted
      * @return the length of the minimum run to be merged
      */
-    private static int minRunLength(int n) {
-        assert n >= 0;
-        int r = 0;      // Becomes 1 if any 1 bits are shifted off
+    privbte stbtic int minRunLength(int n) {
+        bssert n >= 0;
+        int r = 0;      // Becomes 1 if bny 1 bits bre shifted off
         while (n >= MIN_MERGE) {
             r |= (n & 1);
             n >>= 1;
@@ -404,31 +404,31 @@ class TimSort<T> {
     }
 
     /**
-     * Pushes the specified run onto the pending-run stack.
+     * Pushes the specified run onto the pending-run stbck.
      *
-     * @param runBase index of the first element in the run
-     * @param runLen  the number of elements in the run
+     * @pbrbm runBbse index of the first element in the run
+     * @pbrbm runLen  the number of elements in the run
      */
-    private void pushRun(int runBase, int runLen) {
-        this.runBase[stackSize] = runBase;
-        this.runLen[stackSize] = runLen;
-        stackSize++;
+    privbte void pushRun(int runBbse, int runLen) {
+        this.runBbse[stbckSize] = runBbse;
+        this.runLen[stbckSize] = runLen;
+        stbckSize++;
     }
 
     /**
-     * Examines the stack of runs waiting to be merged and merges adjacent runs
-     * until the stack invariants are reestablished:
+     * Exbmines the stbck of runs wbiting to be merged bnd merges bdjbcent runs
+     * until the stbck invbribnts bre reestbblished:
      *
      *     1. runLen[i - 3] > runLen[i - 2] + runLen[i - 1]
      *     2. runLen[i - 2] > runLen[i - 1]
      *
-     * This method is called each time a new run is pushed onto the stack,
-     * so the invariants are guaranteed to hold for i < stackSize upon
+     * This method is cblled ebch time b new run is pushed onto the stbck,
+     * so the invbribnts bre gubrbnteed to hold for i < stbckSize upon
      * entry to the method.
      */
-    private void mergeCollapse() {
-        while (stackSize > 1) {
-            int n = stackSize - 2;
+    privbte void mergeCollbpse() {
+        while (stbckSize > 1) {
+            int n = stbckSize - 2;
             if (n > 0 && runLen[n-1] <= runLen[n] + runLen[n+1]) {
                 if (runLen[n - 1] < runLen[n + 1])
                     n--;
@@ -436,18 +436,18 @@ class TimSort<T> {
             } else if (runLen[n] <= runLen[n + 1]) {
                 mergeAt(n);
             } else {
-                break; // Invariant is established
+                brebk; // Invbribnt is estbblished
             }
         }
     }
 
     /**
-     * Merges all runs on the stack until only one remains.  This method is
-     * called once, to complete the sort.
+     * Merges bll runs on the stbck until only one rembins.  This method is
+     * cblled once, to complete the sort.
      */
-    private void mergeForceCollapse() {
-        while (stackSize > 1) {
-            int n = stackSize - 2;
+    privbte void mergeForceCollbpse() {
+        while (stbckSize > 1) {
+            int n = stbckSize - 2;
             if (n > 0 && runLen[n - 1] < runLen[n + 1])
                 n--;
             mergeAt(n);
@@ -455,464 +455,464 @@ class TimSort<T> {
     }
 
     /**
-     * Merges the two runs at stack indices i and i+1.  Run i must be
-     * the penultimate or antepenultimate run on the stack.  In other words,
-     * i must be equal to stackSize-2 or stackSize-3.
+     * Merges the two runs bt stbck indices i bnd i+1.  Run i must be
+     * the penultimbte or bntepenultimbte run on the stbck.  In other words,
+     * i must be equbl to stbckSize-2 or stbckSize-3.
      *
-     * @param i stack index of the first of the two runs to merge
+     * @pbrbm i stbck index of the first of the two runs to merge
      */
-    private void mergeAt(int i) {
-        assert stackSize >= 2;
-        assert i >= 0;
-        assert i == stackSize - 2 || i == stackSize - 3;
+    privbte void mergeAt(int i) {
+        bssert stbckSize >= 2;
+        bssert i >= 0;
+        bssert i == stbckSize - 2 || i == stbckSize - 3;
 
-        int base1 = runBase[i];
+        int bbse1 = runBbse[i];
         int len1 = runLen[i];
-        int base2 = runBase[i + 1];
+        int bbse2 = runBbse[i + 1];
         int len2 = runLen[i + 1];
-        assert len1 > 0 && len2 > 0;
-        assert base1 + len1 == base2;
+        bssert len1 > 0 && len2 > 0;
+        bssert bbse1 + len1 == bbse2;
 
         /*
-         * Record the length of the combined runs; if i is the 3rd-last
-         * run now, also slide over the last run (which isn't involved
-         * in this merge).  The current run (i+1) goes away in any case.
+         * Record the length of the combined runs; if i is the 3rd-lbst
+         * run now, blso slide over the lbst run (which isn't involved
+         * in this merge).  The current run (i+1) goes bwby in bny cbse.
          */
         runLen[i] = len1 + len2;
-        if (i == stackSize - 3) {
-            runBase[i + 1] = runBase[i + 2];
+        if (i == stbckSize - 3) {
+            runBbse[i + 1] = runBbse[i + 2];
             runLen[i + 1] = runLen[i + 2];
         }
-        stackSize--;
+        stbckSize--;
 
         /*
          * Find where the first element of run2 goes in run1. Prior elements
-         * in run1 can be ignored (because they're already in place).
+         * in run1 cbn be ignored (becbuse they're blrebdy in plbce).
          */
-        int k = gallopRight(a[base2], a, base1, len1, 0, c);
-        assert k >= 0;
-        base1 += k;
+        int k = gbllopRight(b[bbse2], b, bbse1, len1, 0, c);
+        bssert k >= 0;
+        bbse1 += k;
         len1 -= k;
         if (len1 == 0)
             return;
 
         /*
-         * Find where the last element of run1 goes in run2. Subsequent elements
-         * in run2 can be ignored (because they're already in place).
+         * Find where the lbst element of run1 goes in run2. Subsequent elements
+         * in run2 cbn be ignored (becbuse they're blrebdy in plbce).
          */
-        len2 = gallopLeft(a[base1 + len1 - 1], a, base2, len2, len2 - 1, c);
-        assert len2 >= 0;
+        len2 = gbllopLeft(b[bbse1 + len1 - 1], b, bbse2, len2, len2 - 1, c);
+        bssert len2 >= 0;
         if (len2 == 0)
             return;
 
-        // Merge remaining runs, using tmp array with min(len1, len2) elements
+        // Merge rembining runs, using tmp brrby with min(len1, len2) elements
         if (len1 <= len2)
-            mergeLo(base1, len1, base2, len2);
+            mergeLo(bbse1, len1, bbse2, len2);
         else
-            mergeHi(base1, len1, base2, len2);
+            mergeHi(bbse1, len1, bbse2, len2);
     }
 
     /**
-     * Locates the position at which to insert the specified key into the
-     * specified sorted range; if the range contains an element equal to key,
-     * returns the index of the leftmost equal element.
+     * Locbtes the position bt which to insert the specified key into the
+     * specified sorted rbnge; if the rbnge contbins bn element equbl to key,
+     * returns the index of the leftmost equbl element.
      *
-     * @param key the key whose insertion point to search for
-     * @param a the array in which to search
-     * @param base the index of the first element in the range
-     * @param len the length of the range; must be > 0
-     * @param hint the index at which to begin the search, 0 <= hint < n.
-     *     The closer hint is to the result, the faster this method will run.
-     * @param c the comparator used to order the range, and to search
-     * @return the int k,  0 <= k <= n such that a[b + k - 1] < key <= a[b + k],
-     *    pretending that a[b - 1] is minus infinity and a[b + n] is infinity.
-     *    In other words, key belongs at index b + k; or in other words,
-     *    the first k elements of a should precede key, and the last n - k
+     * @pbrbm key the key whose insertion point to sebrch for
+     * @pbrbm b the brrby in which to sebrch
+     * @pbrbm bbse the index of the first element in the rbnge
+     * @pbrbm len the length of the rbnge; must be > 0
+     * @pbrbm hint the index bt which to begin the sebrch, 0 <= hint < n.
+     *     The closer hint is to the result, the fbster this method will run.
+     * @pbrbm c the compbrbtor used to order the rbnge, bnd to sebrch
+     * @return the int k,  0 <= k <= n such thbt b[b + k - 1] < key <= b[b + k],
+     *    pretending thbt b[b - 1] is minus infinity bnd b[b + n] is infinity.
+     *    In other words, key belongs bt index b + k; or in other words,
+     *    the first k elements of b should precede key, bnd the lbst n - k
      *    should follow it.
      */
-    private static <T> int gallopLeft(T key, T[] a, int base, int len, int hint,
-                                      Comparator<? super T> c) {
-        assert len > 0 && hint >= 0 && hint < len;
-        int lastOfs = 0;
+    privbte stbtic <T> int gbllopLeft(T key, T[] b, int bbse, int len, int hint,
+                                      Compbrbtor<? super T> c) {
+        bssert len > 0 && hint >= 0 && hint < len;
+        int lbstOfs = 0;
         int ofs = 1;
-        if (c.compare(key, a[base + hint]) > 0) {
-            // Gallop right until a[base+hint+lastOfs] < key <= a[base+hint+ofs]
-            int maxOfs = len - hint;
-            while (ofs < maxOfs && c.compare(key, a[base + hint + ofs]) > 0) {
-                lastOfs = ofs;
+        if (c.compbre(key, b[bbse + hint]) > 0) {
+            // Gbllop right until b[bbse+hint+lbstOfs] < key <= b[bbse+hint+ofs]
+            int mbxOfs = len - hint;
+            while (ofs < mbxOfs && c.compbre(key, b[bbse + hint + ofs]) > 0) {
+                lbstOfs = ofs;
                 ofs = (ofs << 1) + 1;
                 if (ofs <= 0)   // int overflow
-                    ofs = maxOfs;
+                    ofs = mbxOfs;
             }
-            if (ofs > maxOfs)
-                ofs = maxOfs;
+            if (ofs > mbxOfs)
+                ofs = mbxOfs;
 
-            // Make offsets relative to base
-            lastOfs += hint;
+            // Mbke offsets relbtive to bbse
+            lbstOfs += hint;
             ofs += hint;
-        } else { // key <= a[base + hint]
-            // Gallop left until a[base+hint-ofs] < key <= a[base+hint-lastOfs]
-            final int maxOfs = hint + 1;
-            while (ofs < maxOfs && c.compare(key, a[base + hint - ofs]) <= 0) {
-                lastOfs = ofs;
+        } else { // key <= b[bbse + hint]
+            // Gbllop left until b[bbse+hint-ofs] < key <= b[bbse+hint-lbstOfs]
+            finbl int mbxOfs = hint + 1;
+            while (ofs < mbxOfs && c.compbre(key, b[bbse + hint - ofs]) <= 0) {
+                lbstOfs = ofs;
                 ofs = (ofs << 1) + 1;
                 if (ofs <= 0)   // int overflow
-                    ofs = maxOfs;
+                    ofs = mbxOfs;
             }
-            if (ofs > maxOfs)
-                ofs = maxOfs;
+            if (ofs > mbxOfs)
+                ofs = mbxOfs;
 
-            // Make offsets relative to base
-            int tmp = lastOfs;
-            lastOfs = hint - ofs;
+            // Mbke offsets relbtive to bbse
+            int tmp = lbstOfs;
+            lbstOfs = hint - ofs;
             ofs = hint - tmp;
         }
-        assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
+        bssert -1 <= lbstOfs && lbstOfs < ofs && ofs <= len;
 
         /*
-         * Now a[base+lastOfs] < key <= a[base+ofs], so key belongs somewhere
-         * to the right of lastOfs but no farther right than ofs.  Do a binary
-         * search, with invariant a[base + lastOfs - 1] < key <= a[base + ofs].
+         * Now b[bbse+lbstOfs] < key <= b[bbse+ofs], so key belongs somewhere
+         * to the right of lbstOfs but no fbrther right thbn ofs.  Do b binbry
+         * sebrch, with invbribnt b[bbse + lbstOfs - 1] < key <= b[bbse + ofs].
          */
-        lastOfs++;
-        while (lastOfs < ofs) {
-            int m = lastOfs + ((ofs - lastOfs) >>> 1);
+        lbstOfs++;
+        while (lbstOfs < ofs) {
+            int m = lbstOfs + ((ofs - lbstOfs) >>> 1);
 
-            if (c.compare(key, a[base + m]) > 0)
-                lastOfs = m + 1;  // a[base + m] < key
+            if (c.compbre(key, b[bbse + m]) > 0)
+                lbstOfs = m + 1;  // b[bbse + m] < key
             else
-                ofs = m;          // key <= a[base + m]
+                ofs = m;          // key <= b[bbse + m]
         }
-        assert lastOfs == ofs;    // so a[base + ofs - 1] < key <= a[base + ofs]
+        bssert lbstOfs == ofs;    // so b[bbse + ofs - 1] < key <= b[bbse + ofs]
         return ofs;
     }
 
     /**
-     * Like gallopLeft, except that if the range contains an element equal to
-     * key, gallopRight returns the index after the rightmost equal element.
+     * Like gbllopLeft, except thbt if the rbnge contbins bn element equbl to
+     * key, gbllopRight returns the index bfter the rightmost equbl element.
      *
-     * @param key the key whose insertion point to search for
-     * @param a the array in which to search
-     * @param base the index of the first element in the range
-     * @param len the length of the range; must be > 0
-     * @param hint the index at which to begin the search, 0 <= hint < n.
-     *     The closer hint is to the result, the faster this method will run.
-     * @param c the comparator used to order the range, and to search
-     * @return the int k,  0 <= k <= n such that a[b + k - 1] <= key < a[b + k]
+     * @pbrbm key the key whose insertion point to sebrch for
+     * @pbrbm b the brrby in which to sebrch
+     * @pbrbm bbse the index of the first element in the rbnge
+     * @pbrbm len the length of the rbnge; must be > 0
+     * @pbrbm hint the index bt which to begin the sebrch, 0 <= hint < n.
+     *     The closer hint is to the result, the fbster this method will run.
+     * @pbrbm c the compbrbtor used to order the rbnge, bnd to sebrch
+     * @return the int k,  0 <= k <= n such thbt b[b + k - 1] <= key < b[b + k]
      */
-    private static <T> int gallopRight(T key, T[] a, int base, int len,
-                                       int hint, Comparator<? super T> c) {
-        assert len > 0 && hint >= 0 && hint < len;
+    privbte stbtic <T> int gbllopRight(T key, T[] b, int bbse, int len,
+                                       int hint, Compbrbtor<? super T> c) {
+        bssert len > 0 && hint >= 0 && hint < len;
 
         int ofs = 1;
-        int lastOfs = 0;
-        if (c.compare(key, a[base + hint]) < 0) {
-            // Gallop left until a[b+hint - ofs] <= key < a[b+hint - lastOfs]
-            int maxOfs = hint + 1;
-            while (ofs < maxOfs && c.compare(key, a[base + hint - ofs]) < 0) {
-                lastOfs = ofs;
+        int lbstOfs = 0;
+        if (c.compbre(key, b[bbse + hint]) < 0) {
+            // Gbllop left until b[b+hint - ofs] <= key < b[b+hint - lbstOfs]
+            int mbxOfs = hint + 1;
+            while (ofs < mbxOfs && c.compbre(key, b[bbse + hint - ofs]) < 0) {
+                lbstOfs = ofs;
                 ofs = (ofs << 1) + 1;
                 if (ofs <= 0)   // int overflow
-                    ofs = maxOfs;
+                    ofs = mbxOfs;
             }
-            if (ofs > maxOfs)
-                ofs = maxOfs;
+            if (ofs > mbxOfs)
+                ofs = mbxOfs;
 
-            // Make offsets relative to b
-            int tmp = lastOfs;
-            lastOfs = hint - ofs;
+            // Mbke offsets relbtive to b
+            int tmp = lbstOfs;
+            lbstOfs = hint - ofs;
             ofs = hint - tmp;
-        } else { // a[b + hint] <= key
-            // Gallop right until a[b+hint + lastOfs] <= key < a[b+hint + ofs]
-            int maxOfs = len - hint;
-            while (ofs < maxOfs && c.compare(key, a[base + hint + ofs]) >= 0) {
-                lastOfs = ofs;
+        } else { // b[b + hint] <= key
+            // Gbllop right until b[b+hint + lbstOfs] <= key < b[b+hint + ofs]
+            int mbxOfs = len - hint;
+            while (ofs < mbxOfs && c.compbre(key, b[bbse + hint + ofs]) >= 0) {
+                lbstOfs = ofs;
                 ofs = (ofs << 1) + 1;
                 if (ofs <= 0)   // int overflow
-                    ofs = maxOfs;
+                    ofs = mbxOfs;
             }
-            if (ofs > maxOfs)
-                ofs = maxOfs;
+            if (ofs > mbxOfs)
+                ofs = mbxOfs;
 
-            // Make offsets relative to b
-            lastOfs += hint;
+            // Mbke offsets relbtive to b
+            lbstOfs += hint;
             ofs += hint;
         }
-        assert -1 <= lastOfs && lastOfs < ofs && ofs <= len;
+        bssert -1 <= lbstOfs && lbstOfs < ofs && ofs <= len;
 
         /*
-         * Now a[b + lastOfs] <= key < a[b + ofs], so key belongs somewhere to
-         * the right of lastOfs but no farther right than ofs.  Do a binary
-         * search, with invariant a[b + lastOfs - 1] <= key < a[b + ofs].
+         * Now b[b + lbstOfs] <= key < b[b + ofs], so key belongs somewhere to
+         * the right of lbstOfs but no fbrther right thbn ofs.  Do b binbry
+         * sebrch, with invbribnt b[b + lbstOfs - 1] <= key < b[b + ofs].
          */
-        lastOfs++;
-        while (lastOfs < ofs) {
-            int m = lastOfs + ((ofs - lastOfs) >>> 1);
+        lbstOfs++;
+        while (lbstOfs < ofs) {
+            int m = lbstOfs + ((ofs - lbstOfs) >>> 1);
 
-            if (c.compare(key, a[base + m]) < 0)
-                ofs = m;          // key < a[b + m]
+            if (c.compbre(key, b[bbse + m]) < 0)
+                ofs = m;          // key < b[b + m]
             else
-                lastOfs = m + 1;  // a[b + m] <= key
+                lbstOfs = m + 1;  // b[b + m] <= key
         }
-        assert lastOfs == ofs;    // so a[b + ofs - 1] <= key < a[b + ofs]
+        bssert lbstOfs == ofs;    // so b[b + ofs - 1] <= key < b[b + ofs]
         return ofs;
     }
 
     /**
-     * Merges two adjacent runs in place, in a stable fashion.  The first
-     * element of the first run must be greater than the first element of the
-     * second run (a[base1] > a[base2]), and the last element of the first run
-     * (a[base1 + len1-1]) must be greater than all elements of the second run.
+     * Merges two bdjbcent runs in plbce, in b stbble fbshion.  The first
+     * element of the first run must be grebter thbn the first element of the
+     * second run (b[bbse1] > b[bbse2]), bnd the lbst element of the first run
+     * (b[bbse1 + len1-1]) must be grebter thbn bll elements of the second run.
      *
-     * For performance, this method should be called only when len1 <= len2;
-     * its twin, mergeHi should be called if len1 >= len2.  (Either method
-     * may be called if len1 == len2.)
+     * For performbnce, this method should be cblled only when len1 <= len2;
+     * its twin, mergeHi should be cblled if len1 >= len2.  (Either method
+     * mby be cblled if len1 == len2.)
      *
-     * @param base1 index of first element in first run to be merged
-     * @param len1  length of first run to be merged (must be > 0)
-     * @param base2 index of first element in second run to be merged
-     *        (must be aBase + aLen)
-     * @param len2  length of second run to be merged (must be > 0)
+     * @pbrbm bbse1 index of first element in first run to be merged
+     * @pbrbm len1  length of first run to be merged (must be > 0)
+     * @pbrbm bbse2 index of first element in second run to be merged
+     *        (must be bBbse + bLen)
+     * @pbrbm len2  length of second run to be merged (must be > 0)
      */
-    private void mergeLo(int base1, int len1, int base2, int len2) {
-        assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
+    privbte void mergeLo(int bbse1, int len1, int bbse2, int len2) {
+        bssert len1 > 0 && len2 > 0 && bbse1 + len1 == bbse2;
 
-        // Copy first run into temp array
-        T[] a = this.a; // For performance
-        T[] tmp = ensureCapacity(len1);
-        int cursor1 = tmpBase; // Indexes into tmp array
-        int cursor2 = base2;   // Indexes int a
-        int dest = base1;      // Indexes int a
-        System.arraycopy(a, base1, tmp, cursor1, len1);
+        // Copy first run into temp brrby
+        T[] b = this.b; // For performbnce
+        T[] tmp = ensureCbpbcity(len1);
+        int cursor1 = tmpBbse; // Indexes into tmp brrby
+        int cursor2 = bbse2;   // Indexes int b
+        int dest = bbse1;      // Indexes int b
+        System.brrbycopy(b, bbse1, tmp, cursor1, len1);
 
-        // Move first element of second run and deal with degenerate cases
-        a[dest++] = a[cursor2++];
+        // Move first element of second run bnd debl with degenerbte cbses
+        b[dest++] = b[cursor2++];
         if (--len2 == 0) {
-            System.arraycopy(tmp, cursor1, a, dest, len1);
+            System.brrbycopy(tmp, cursor1, b, dest, len1);
             return;
         }
         if (len1 == 1) {
-            System.arraycopy(a, cursor2, a, dest, len2);
-            a[dest + len2] = tmp[cursor1]; // Last elt of run 1 to end of merge
+            System.brrbycopy(b, cursor2, b, dest, len2);
+            b[dest + len2] = tmp[cursor1]; // Lbst elt of run 1 to end of merge
             return;
         }
 
-        Comparator<? super T> c = this.c;  // Use local variable for performance
-        int minGallop = this.minGallop;    //  "    "       "     "      "
+        Compbrbtor<? super T> c = this.c;  // Use locbl vbribble for performbnce
+        int minGbllop = this.minGbllop;    //  "    "       "     "      "
     outer:
         while (true) {
-            int count1 = 0; // Number of times in a row that first run won
-            int count2 = 0; // Number of times in a row that second run won
+            int count1 = 0; // Number of times in b row thbt first run won
+            int count2 = 0; // Number of times in b row thbt second run won
 
             /*
-             * Do the straightforward thing until (if ever) one run starts
+             * Do the strbightforwbrd thing until (if ever) one run stbrts
              * winning consistently.
              */
             do {
-                assert len1 > 1 && len2 > 0;
-                if (c.compare(a[cursor2], tmp[cursor1]) < 0) {
-                    a[dest++] = a[cursor2++];
+                bssert len1 > 1 && len2 > 0;
+                if (c.compbre(b[cursor2], tmp[cursor1]) < 0) {
+                    b[dest++] = b[cursor2++];
                     count2++;
                     count1 = 0;
                     if (--len2 == 0)
-                        break outer;
+                        brebk outer;
                 } else {
-                    a[dest++] = tmp[cursor1++];
+                    b[dest++] = tmp[cursor1++];
                     count1++;
                     count2 = 0;
                     if (--len1 == 1)
-                        break outer;
+                        brebk outer;
                 }
-            } while ((count1 | count2) < minGallop);
+            } while ((count1 | count2) < minGbllop);
 
             /*
-             * One run is winning so consistently that galloping may be a
-             * huge win. So try that, and continue galloping until (if ever)
-             * neither run appears to be winning consistently anymore.
+             * One run is winning so consistently thbt gblloping mby be b
+             * huge win. So try thbt, bnd continue gblloping until (if ever)
+             * neither run bppebrs to be winning consistently bnymore.
              */
             do {
-                assert len1 > 1 && len2 > 0;
-                count1 = gallopRight(a[cursor2], tmp, cursor1, len1, 0, c);
+                bssert len1 > 1 && len2 > 0;
+                count1 = gbllopRight(b[cursor2], tmp, cursor1, len1, 0, c);
                 if (count1 != 0) {
-                    System.arraycopy(tmp, cursor1, a, dest, count1);
+                    System.brrbycopy(tmp, cursor1, b, dest, count1);
                     dest += count1;
                     cursor1 += count1;
                     len1 -= count1;
                     if (len1 <= 1) // len1 == 1 || len1 == 0
-                        break outer;
+                        brebk outer;
                 }
-                a[dest++] = a[cursor2++];
+                b[dest++] = b[cursor2++];
                 if (--len2 == 0)
-                    break outer;
+                    brebk outer;
 
-                count2 = gallopLeft(tmp[cursor1], a, cursor2, len2, 0, c);
+                count2 = gbllopLeft(tmp[cursor1], b, cursor2, len2, 0, c);
                 if (count2 != 0) {
-                    System.arraycopy(a, cursor2, a, dest, count2);
+                    System.brrbycopy(b, cursor2, b, dest, count2);
                     dest += count2;
                     cursor2 += count2;
                     len2 -= count2;
                     if (len2 == 0)
-                        break outer;
+                        brebk outer;
                 }
-                a[dest++] = tmp[cursor1++];
+                b[dest++] = tmp[cursor1++];
                 if (--len1 == 1)
-                    break outer;
-                minGallop--;
+                    brebk outer;
+                minGbllop--;
             } while (count1 >= MIN_GALLOP | count2 >= MIN_GALLOP);
-            if (minGallop < 0)
-                minGallop = 0;
-            minGallop += 2;  // Penalize for leaving gallop mode
+            if (minGbllop < 0)
+                minGbllop = 0;
+            minGbllop += 2;  // Penblize for lebving gbllop mode
         }  // End of "outer" loop
-        this.minGallop = minGallop < 1 ? 1 : minGallop;  // Write back to field
+        this.minGbllop = minGbllop < 1 ? 1 : minGbllop;  // Write bbck to field
 
         if (len1 == 1) {
-            assert len2 > 0;
-            System.arraycopy(a, cursor2, a, dest, len2);
-            a[dest + len2] = tmp[cursor1]; //  Last elt of run 1 to end of merge
+            bssert len2 > 0;
+            System.brrbycopy(b, cursor2, b, dest, len2);
+            b[dest + len2] = tmp[cursor1]; //  Lbst elt of run 1 to end of merge
         } else if (len1 == 0) {
-            throw new IllegalArgumentException(
-                "Comparison method violates its general contract!");
+            throw new IllegblArgumentException(
+                "Compbrison method violbtes its generbl contrbct!");
         } else {
-            assert len2 == 0;
-            assert len1 > 1;
-            System.arraycopy(tmp, cursor1, a, dest, len1);
+            bssert len2 == 0;
+            bssert len1 > 1;
+            System.brrbycopy(tmp, cursor1, b, dest, len1);
         }
     }
 
     /**
-     * Like mergeLo, except that this method should be called only if
-     * len1 >= len2; mergeLo should be called if len1 <= len2.  (Either method
-     * may be called if len1 == len2.)
+     * Like mergeLo, except thbt this method should be cblled only if
+     * len1 >= len2; mergeLo should be cblled if len1 <= len2.  (Either method
+     * mby be cblled if len1 == len2.)
      *
-     * @param base1 index of first element in first run to be merged
-     * @param len1  length of first run to be merged (must be > 0)
-     * @param base2 index of first element in second run to be merged
-     *        (must be aBase + aLen)
-     * @param len2  length of second run to be merged (must be > 0)
+     * @pbrbm bbse1 index of first element in first run to be merged
+     * @pbrbm len1  length of first run to be merged (must be > 0)
+     * @pbrbm bbse2 index of first element in second run to be merged
+     *        (must be bBbse + bLen)
+     * @pbrbm len2  length of second run to be merged (must be > 0)
      */
-    private void mergeHi(int base1, int len1, int base2, int len2) {
-        assert len1 > 0 && len2 > 0 && base1 + len1 == base2;
+    privbte void mergeHi(int bbse1, int len1, int bbse2, int len2) {
+        bssert len1 > 0 && len2 > 0 && bbse1 + len1 == bbse2;
 
-        // Copy second run into temp array
-        T[] a = this.a; // For performance
-        T[] tmp = ensureCapacity(len2);
-        int tmpBase = this.tmpBase;
-        System.arraycopy(a, base2, tmp, tmpBase, len2);
+        // Copy second run into temp brrby
+        T[] b = this.b; // For performbnce
+        T[] tmp = ensureCbpbcity(len2);
+        int tmpBbse = this.tmpBbse;
+        System.brrbycopy(b, bbse2, tmp, tmpBbse, len2);
 
-        int cursor1 = base1 + len1 - 1;  // Indexes into a
-        int cursor2 = tmpBase + len2 - 1; // Indexes into tmp array
-        int dest = base2 + len2 - 1;     // Indexes into a
+        int cursor1 = bbse1 + len1 - 1;  // Indexes into b
+        int cursor2 = tmpBbse + len2 - 1; // Indexes into tmp brrby
+        int dest = bbse2 + len2 - 1;     // Indexes into b
 
-        // Move last element of first run and deal with degenerate cases
-        a[dest--] = a[cursor1--];
+        // Move lbst element of first run bnd debl with degenerbte cbses
+        b[dest--] = b[cursor1--];
         if (--len1 == 0) {
-            System.arraycopy(tmp, tmpBase, a, dest - (len2 - 1), len2);
+            System.brrbycopy(tmp, tmpBbse, b, dest - (len2 - 1), len2);
             return;
         }
         if (len2 == 1) {
             dest -= len1;
             cursor1 -= len1;
-            System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
-            a[dest] = tmp[cursor2];
+            System.brrbycopy(b, cursor1 + 1, b, dest + 1, len1);
+            b[dest] = tmp[cursor2];
             return;
         }
 
-        Comparator<? super T> c = this.c;  // Use local variable for performance
-        int minGallop = this.minGallop;    //  "    "       "     "      "
+        Compbrbtor<? super T> c = this.c;  // Use locbl vbribble for performbnce
+        int minGbllop = this.minGbllop;    //  "    "       "     "      "
     outer:
         while (true) {
-            int count1 = 0; // Number of times in a row that first run won
-            int count2 = 0; // Number of times in a row that second run won
+            int count1 = 0; // Number of times in b row thbt first run won
+            int count2 = 0; // Number of times in b row thbt second run won
 
             /*
-             * Do the straightforward thing until (if ever) one run
-             * appears to win consistently.
+             * Do the strbightforwbrd thing until (if ever) one run
+             * bppebrs to win consistently.
              */
             do {
-                assert len1 > 0 && len2 > 1;
-                if (c.compare(tmp[cursor2], a[cursor1]) < 0) {
-                    a[dest--] = a[cursor1--];
+                bssert len1 > 0 && len2 > 1;
+                if (c.compbre(tmp[cursor2], b[cursor1]) < 0) {
+                    b[dest--] = b[cursor1--];
                     count1++;
                     count2 = 0;
                     if (--len1 == 0)
-                        break outer;
+                        brebk outer;
                 } else {
-                    a[dest--] = tmp[cursor2--];
+                    b[dest--] = tmp[cursor2--];
                     count2++;
                     count1 = 0;
                     if (--len2 == 1)
-                        break outer;
+                        brebk outer;
                 }
-            } while ((count1 | count2) < minGallop);
+            } while ((count1 | count2) < minGbllop);
 
             /*
-             * One run is winning so consistently that galloping may be a
-             * huge win. So try that, and continue galloping until (if ever)
-             * neither run appears to be winning consistently anymore.
+             * One run is winning so consistently thbt gblloping mby be b
+             * huge win. So try thbt, bnd continue gblloping until (if ever)
+             * neither run bppebrs to be winning consistently bnymore.
              */
             do {
-                assert len1 > 0 && len2 > 1;
-                count1 = len1 - gallopRight(tmp[cursor2], a, base1, len1, len1 - 1, c);
+                bssert len1 > 0 && len2 > 1;
+                count1 = len1 - gbllopRight(tmp[cursor2], b, bbse1, len1, len1 - 1, c);
                 if (count1 != 0) {
                     dest -= count1;
                     cursor1 -= count1;
                     len1 -= count1;
-                    System.arraycopy(a, cursor1 + 1, a, dest + 1, count1);
+                    System.brrbycopy(b, cursor1 + 1, b, dest + 1, count1);
                     if (len1 == 0)
-                        break outer;
+                        brebk outer;
                 }
-                a[dest--] = tmp[cursor2--];
+                b[dest--] = tmp[cursor2--];
                 if (--len2 == 1)
-                    break outer;
+                    brebk outer;
 
-                count2 = len2 - gallopLeft(a[cursor1], tmp, tmpBase, len2, len2 - 1, c);
+                count2 = len2 - gbllopLeft(b[cursor1], tmp, tmpBbse, len2, len2 - 1, c);
                 if (count2 != 0) {
                     dest -= count2;
                     cursor2 -= count2;
                     len2 -= count2;
-                    System.arraycopy(tmp, cursor2 + 1, a, dest + 1, count2);
+                    System.brrbycopy(tmp, cursor2 + 1, b, dest + 1, count2);
                     if (len2 <= 1)  // len2 == 1 || len2 == 0
-                        break outer;
+                        brebk outer;
                 }
-                a[dest--] = a[cursor1--];
+                b[dest--] = b[cursor1--];
                 if (--len1 == 0)
-                    break outer;
-                minGallop--;
+                    brebk outer;
+                minGbllop--;
             } while (count1 >= MIN_GALLOP | count2 >= MIN_GALLOP);
-            if (minGallop < 0)
-                minGallop = 0;
-            minGallop += 2;  // Penalize for leaving gallop mode
+            if (minGbllop < 0)
+                minGbllop = 0;
+            minGbllop += 2;  // Penblize for lebving gbllop mode
         }  // End of "outer" loop
-        this.minGallop = minGallop < 1 ? 1 : minGallop;  // Write back to field
+        this.minGbllop = minGbllop < 1 ? 1 : minGbllop;  // Write bbck to field
 
         if (len2 == 1) {
-            assert len1 > 0;
+            bssert len1 > 0;
             dest -= len1;
             cursor1 -= len1;
-            System.arraycopy(a, cursor1 + 1, a, dest + 1, len1);
-            a[dest] = tmp[cursor2];  // Move first elt of run2 to front of merge
+            System.brrbycopy(b, cursor1 + 1, b, dest + 1, len1);
+            b[dest] = tmp[cursor2];  // Move first elt of run2 to front of merge
         } else if (len2 == 0) {
-            throw new IllegalArgumentException(
-                "Comparison method violates its general contract!");
+            throw new IllegblArgumentException(
+                "Compbrison method violbtes its generbl contrbct!");
         } else {
-            assert len1 == 0;
-            assert len2 > 0;
-            System.arraycopy(tmp, tmpBase, a, dest - (len2 - 1), len2);
+            bssert len1 == 0;
+            bssert len2 > 0;
+            System.brrbycopy(tmp, tmpBbse, b, dest - (len2 - 1), len2);
         }
     }
 
     /**
-     * Ensures that the external array tmp has at least the specified
-     * number of elements, increasing its size if necessary.  The size
-     * increases exponentially to ensure amortized linear time complexity.
+     * Ensures thbt the externbl brrby tmp hbs bt lebst the specified
+     * number of elements, increbsing its size if necessbry.  The size
+     * increbses exponentiblly to ensure bmortized linebr time complexity.
      *
-     * @param minCapacity the minimum required capacity of the tmp array
+     * @pbrbm minCbpbcity the minimum required cbpbcity of the tmp brrby
      * @return tmp, whether or not it grew
      */
-    private T[] ensureCapacity(int minCapacity) {
-        if (tmpLen < minCapacity) {
-            // Compute smallest power of 2 > minCapacity
-            int newSize = minCapacity;
+    privbte T[] ensureCbpbcity(int minCbpbcity) {
+        if (tmpLen < minCbpbcity) {
+            // Compute smbllest power of 2 > minCbpbcity
+            int newSize = minCbpbcity;
             newSize |= newSize >> 1;
             newSize |= newSize >> 2;
             newSize |= newSize >> 4;
@@ -921,16 +921,16 @@ class TimSort<T> {
             newSize++;
 
             if (newSize < 0) // Not bloody likely!
-                newSize = minCapacity;
+                newSize = minCbpbcity;
             else
-                newSize = Math.min(newSize, a.length >>> 1);
+                newSize = Mbth.min(newSize, b.length >>> 1);
 
-            @SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
-            T[] newArray = (T[])java.lang.reflect.Array.newInstance
-                (a.getClass().getComponentType(), newSize);
-            tmp = newArray;
+            @SuppressWbrnings({"unchecked", "UnnecessbryLocblVbribble"})
+            T[] newArrby = (T[])jbvb.lbng.reflect.Arrby.newInstbnce
+                (b.getClbss().getComponentType(), newSize);
+            tmp = newArrby;
             tmpLen = newSize;
-            tmpBase = 0;
+            tmpBbse = 0;
         }
         return tmp;
     }

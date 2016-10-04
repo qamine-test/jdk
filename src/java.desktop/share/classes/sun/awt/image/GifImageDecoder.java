@@ -1,464 +1,464 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*-
- *      Reads GIF images from an InputStream and reports the
- *      image data to an InputStreamImageSource object.
+ *      Rebds GIF imbges from bn InputStrebm bnd reports the
+ *      imbge dbtb to bn InputStrebmImbgeSource object.
  *
- * The algorithm is copyright of CompuServe.
+ * The blgorithm is copyright of CompuServe.
  */
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.io.InputStream;
-import java.io.IOException;
-import java.awt.image.*;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.bwt.imbge.*;
 
 /**
- * Gif Image converter
+ * Gif Imbge converter
  *
- * @author Arthur van Hoff
- * @author Jim Graham
+ * @buthor Arthur vbn Hoff
+ * @buthor Jim Grbhbm
  */
-public class GifImageDecoder extends ImageDecoder {
-    private static final boolean verbose = false;
+public clbss GifImbgeDecoder extends ImbgeDecoder {
+    privbte stbtic finbl boolebn verbose = fblse;
 
-    private static final int IMAGESEP           = 0x2c;
-    private static final int EXBLOCK            = 0x21;
-    private static final int EX_GRAPHICS_CONTROL= 0xf9;
-    private static final int EX_COMMENT         = 0xfe;
-    private static final int EX_APPLICATION     = 0xff;
-    private static final int TERMINATOR         = 0x3b;
-    private static final int TRANSPARENCYMASK   = 0x01;
-    private static final int INTERLACEMASK      = 0x40;
-    private static final int COLORMAPMASK       = 0x80;
+    privbte stbtic finbl int IMAGESEP           = 0x2c;
+    privbte stbtic finbl int EXBLOCK            = 0x21;
+    privbte stbtic finbl int EX_GRAPHICS_CONTROL= 0xf9;
+    privbte stbtic finbl int EX_COMMENT         = 0xfe;
+    privbte stbtic finbl int EX_APPLICATION     = 0xff;
+    privbte stbtic finbl int TERMINATOR         = 0x3b;
+    privbte stbtic finbl int TRANSPARENCYMASK   = 0x01;
+    privbte stbtic finbl int INTERLACEMASK      = 0x40;
+    privbte stbtic finbl int COLORMAPMASK       = 0x80;
 
-    int num_global_colors;
-    byte[] global_colormap;
-    int trans_pixel = -1;
-    IndexColorModel global_model;
+    int num_globbl_colors;
+    byte[] globbl_colormbp;
+    int trbns_pixel = -1;
+    IndexColorModel globbl_model;
 
-    Hashtable<String, Object> props = new Hashtable<>();
+    Hbshtbble<String, Object> props = new Hbshtbble<>();
 
-    byte[] saved_image;
-    IndexColorModel saved_model;
+    byte[] sbved_imbge;
+    IndexColorModel sbved_model;
 
-    int global_width;
-    int global_height;
-    int global_bgpixel;
+    int globbl_width;
+    int globbl_height;
+    int globbl_bgpixel;
 
-    GifFrame curframe;
+    GifFrbme curfrbme;
 
-    public GifImageDecoder(InputStreamImageSource src, InputStream is) {
+    public GifImbgeDecoder(InputStrebmImbgeSource src, InputStrebm is) {
         super(src, is);
     }
 
     /**
-     * An error has occurred. Throw an exception.
+     * An error hbs occurred. Throw bn exception.
      */
-    private static void error(String s1) throws ImageFormatException {
-        throw new ImageFormatException(s1);
+    privbte stbtic void error(String s1) throws ImbgeFormbtException {
+        throw new ImbgeFormbtException(s1);
     }
 
     /**
-     * Read a number of bytes into a buffer.
-     * @return number of bytes that were not read due to EOF or error
+     * Rebd b number of bytes into b buffer.
+     * @return number of bytes thbt were not rebd due to EOF or error
      */
-    private int readBytes(byte buf[], int off, int len) {
+    privbte int rebdBytes(byte buf[], int off, int len) {
         while (len > 0) {
             try {
-                int n = input.read(buf, off, len);
+                int n = input.rebd(buf, off, len);
                 if (n < 0) {
-                    break;
+                    brebk;
                 }
                 off += n;
                 len -= n;
-            } catch (IOException e) {
-                break;
+            } cbtch (IOException e) {
+                brebk;
             }
         }
         return len;
     }
 
-    private static final int ExtractByte(byte buf[], int off) {
+    privbte stbtic finbl int ExtrbctByte(byte buf[], int off) {
         return (buf[off] & 0xFF);
     }
 
-    private static final int ExtractWord(byte buf[], int off) {
+    privbte stbtic finbl int ExtrbctWord(byte buf[], int off) {
         return (buf[off] & 0xFF) | ((buf[off + 1] & 0xFF) << 8);
     }
 
     /**
-     * produce an image from the stream.
+     * produce bn imbge from the strebm.
      */
-    @SuppressWarnings("fallthrough")
-    public void produceImage() throws IOException, ImageFormatException {
+    @SuppressWbrnings("fbllthrough")
+    public void produceImbge() throws IOException, ImbgeFormbtException {
         try {
-            readHeader();
+            rebdHebder();
 
-            int totalframes = 0;
-            int frameno = 0;
+            int totblfrbmes = 0;
+            int frbmeno = 0;
             int nloops = -1;
-            int disposal_method = 0;
-            int delay = -1;
-            boolean loopsRead = false;
-            boolean isAnimation = false;
+            int disposbl_method = 0;
+            int delby = -1;
+            boolebn loopsRebd = fblse;
+            boolebn isAnimbtion = fblse;
 
-            while (!aborted) {
+            while (!bborted) {
                 int code;
 
-                switch (code = input.read()) {
-                  case EXBLOCK:
-                    switch (code = input.read()) {
-                      case EX_GRAPHICS_CONTROL: {
+                switch (code = input.rebd()) {
+                  cbse EXBLOCK:
+                    switch (code = input.rebd()) {
+                      cbse EX_GRAPHICS_CONTROL: {
                         byte buf[] = new byte[6];
-                        if (readBytes(buf, 0, 6) != 0) {
+                        if (rebdBytes(buf, 0, 6) != 0) {
                             return;//error("corrupt GIF file");
                         }
                         if ((buf[0] != 4) || (buf[5] != 0)) {
                             return;//error("corrupt GIF file (GCE size)");
                         }
-                        // Get the index of the transparent color
-                        delay = ExtractWord(buf, 2) * 10;
-                        if (delay > 0 && !isAnimation) {
-                            isAnimation = true;
-                            ImageFetcher.startingAnimation();
+                        // Get the index of the trbnspbrent color
+                        delby = ExtrbctWord(buf, 2) * 10;
+                        if (delby > 0 && !isAnimbtion) {
+                            isAnimbtion = true;
+                            ImbgeFetcher.stbrtingAnimbtion();
                         }
-                        disposal_method = (buf[1] >> 2) & 7;
+                        disposbl_method = (buf[1] >> 2) & 7;
                         if ((buf[1] & TRANSPARENCYMASK) != 0) {
-                            trans_pixel = ExtractByte(buf, 4);
+                            trbns_pixel = ExtrbctByte(buf, 4);
                         } else {
-                            trans_pixel = -1;
+                            trbns_pixel = -1;
                         }
-                        break;
+                        brebk;
                       }
 
-                      case EX_COMMENT:
-                      case EX_APPLICATION:
-                      default:
-                        boolean loop_tag = false;
+                      cbse EX_COMMENT:
+                      cbse EX_APPLICATION:
+                      defbult:
+                        boolebn loop_tbg = fblse;
                         String comment = "";
                         while (true) {
-                            int n = input.read();
+                            int n = input.rebd();
                             if (n <= 0) {
-                                break;
+                                brebk;
                             }
                             byte buf[] = new byte[n];
-                            if (readBytes(buf, 0, n) != 0) {
+                            if (rebdBytes(buf, 0, n) != 0) {
                                 return;//error("corrupt GIF file");
                             }
                             if (code == EX_COMMENT) {
                                 comment += new String(buf, 0);
                             } else if (code == EX_APPLICATION) {
-                                if (loop_tag) {
+                                if (loop_tbg) {
                                     if (n == 3 && buf[0] == 1) {
-                                        if (loopsRead) {
-                                            ExtractWord(buf, 1);
+                                        if (loopsRebd) {
+                                            ExtrbctWord(buf, 1);
                                         }
                                         else {
-                                            nloops = ExtractWord(buf, 1);
-                                            loopsRead = true;
+                                            nloops = ExtrbctWord(buf, 1);
+                                            loopsRebd = true;
                                         }
                                     } else {
-                                        loop_tag = false;
+                                        loop_tbg = fblse;
                                     }
                                 }
-                                if ("NETSCAPE2.0".equals(new String(buf, 0))) {
-                                    loop_tag = true;
+                                if ("NETSCAPE2.0".equbls(new String(buf, 0))) {
+                                    loop_tbg = true;
                                 }
                             }
                         }
                         if (code == EX_COMMENT) {
                             props.put("comment", comment);
                         }
-                        if (loop_tag && !isAnimation) {
-                            isAnimation = true;
-                            ImageFetcher.startingAnimation();
+                        if (loop_tbg && !isAnimbtion) {
+                            isAnimbtion = true;
+                            ImbgeFetcher.stbrtingAnimbtion();
                         }
-                        break;
+                        brebk;
 
-                      case -1:
+                      cbse -1:
                         return; //error("corrupt GIF file");
                     }
-                    break;
+                    brebk;
 
-                  case IMAGESEP:
-                    if (!isAnimation) {
-                        input.mark(0); // we don't need the mark buffer
+                  cbse IMAGESEP:
+                    if (!isAnimbtion) {
+                        input.mbrk(0); // we don't need the mbrk buffer
                     }
                     try {
-                        if (!readImage(totalframes == 0,
-                                       disposal_method,
-                                       delay)) {
+                        if (!rebdImbge(totblfrbmes == 0,
+                                       disposbl_method,
+                                       delby)) {
                             return;
                         }
-                    } catch (Exception e) {
+                    } cbtch (Exception e) {
                         if (verbose) {
-                            e.printStackTrace();
+                            e.printStbckTrbce();
                         }
                         return;
                     }
-                    frameno++;
-                    totalframes++;
-                    break;
+                    frbmeno++;
+                    totblfrbmes++;
+                    brebk;
 
-                  default:
-                  case -1:
+                  defbult:
+                  cbse -1:
                     if (verbose) {
                         if (code == -1) {
-                            System.err.println("Premature EOF in GIF file," +
-                                               " frame " + frameno);
+                            System.err.println("Prembture EOF in GIF file," +
+                                               " frbme " + frbmeno);
                         } else {
-                            System.err.println("corrupt GIF file (parse) ["
+                            System.err.println("corrupt GIF file (pbrse) ["
                                                + code + "].");
                         }
                     }
-                    if (frameno == 0) {
+                    if (frbmeno == 0) {
                         return;
                     }
-                    // Fall through
+                    // Fbll through
 
-                  case TERMINATOR:
+                  cbse TERMINATOR:
                     if (nloops == 0 || nloops-- >= 0) {
                         try {
-                            if (curframe != null) {
-                                curframe.dispose();
-                                curframe = null;
+                            if (curfrbme != null) {
+                                curfrbme.dispose();
+                                curfrbme = null;
                             }
                             input.reset();
-                            saved_image = null;
-                            saved_model = null;
-                            frameno = 0;
-                            break;
-                        } catch (IOException e) {
-                            return; // Unable to reset input buffer
+                            sbved_imbge = null;
+                            sbved_model = null;
+                            frbmeno = 0;
+                            brebk;
+                        } cbtch (IOException e) {
+                            return; // Unbble to reset input buffer
                         }
                     }
-                    if (verbose && frameno != 1) {
-                        System.out.println("processing GIF terminator,"
-                                           + " frames: " + frameno
-                                           + " total: " + totalframes);
+                    if (verbose && frbmeno != 1) {
+                        System.out.println("processing GIF terminbtor,"
+                                           + " frbmes: " + frbmeno
+                                           + " totbl: " + totblfrbmes);
                     }
-                    imageComplete(ImageConsumer.STATICIMAGEDONE, true);
+                    imbgeComplete(ImbgeConsumer.STATICIMAGEDONE, true);
                     return;
                 }
             }
-        } finally {
+        } finblly {
             close();
         }
     }
 
     /**
-     * Read Image header
+     * Rebd Imbge hebder
      */
-    private void readHeader() throws IOException, ImageFormatException {
-        // Create a buffer
+    privbte void rebdHebder() throws IOException, ImbgeFormbtException {
+        // Crebte b buffer
         byte buf[] = new byte[13];
 
-        // Read the header
-        if (readBytes(buf, 0, 13) != 0) {
+        // Rebd the hebder
+        if (rebdBytes(buf, 0, 13) != 0) {
             throw new IOException();
         }
 
-        // Check header
+        // Check hebder
         if ((buf[0] != 'G') || (buf[1] != 'I') || (buf[2] != 'F')) {
-            error("not a GIF file.");
+            error("not b GIF file.");
         }
 
-        // Global width&height
-        global_width = ExtractWord(buf, 6);
-        global_height = ExtractWord(buf, 8);
+        // Globbl width&height
+        globbl_width = ExtrbctWord(buf, 6);
+        globbl_height = ExtrbctWord(buf, 8);
 
-        // colormap info
-        int ch = ExtractByte(buf, 10);
+        // colormbp info
+        int ch = ExtrbctByte(buf, 10);
         if ((ch & COLORMAPMASK) == 0) {
-            // no global colormap so make up our own
-            // If there is a local colormap, it will override what we
-            // have here.  If there is not a local colormap, the rules
-            // for GIF89 say that we can use whatever colormap we want.
-            // This means that we should probably put in a full 256 colormap
-            // at some point.  REMIND!
-            num_global_colors = 2;
-            global_bgpixel = 0;
-            global_colormap = new byte[2*3];
-            global_colormap[0] = global_colormap[1] = global_colormap[2] = (byte)0;
-            global_colormap[3] = global_colormap[4] = global_colormap[5] = (byte)255;
+            // no globbl colormbp so mbke up our own
+            // If there is b locbl colormbp, it will override whbt we
+            // hbve here.  If there is not b locbl colormbp, the rules
+            // for GIF89 sby thbt we cbn use whbtever colormbp we wbnt.
+            // This mebns thbt we should probbbly put in b full 256 colormbp
+            // bt some point.  REMIND!
+            num_globbl_colors = 2;
+            globbl_bgpixel = 0;
+            globbl_colormbp = new byte[2*3];
+            globbl_colormbp[0] = globbl_colormbp[1] = globbl_colormbp[2] = (byte)0;
+            globbl_colormbp[3] = globbl_colormbp[4] = globbl_colormbp[5] = (byte)255;
 
         }
         else {
-            num_global_colors = 1 << ((ch & 0x7) + 1);
+            num_globbl_colors = 1 << ((ch & 0x7) + 1);
 
-            global_bgpixel = ExtractByte(buf, 11);
+            globbl_bgpixel = ExtrbctByte(buf, 11);
 
             if (buf[12] != 0) {
-                props.put("aspectratio", ""+((ExtractByte(buf, 12) + 15) / 64.0));
+                props.put("bspectrbtio", ""+((ExtrbctByte(buf, 12) + 15) / 64.0));
             }
 
-            // Read colors
-            global_colormap = new byte[num_global_colors * 3];
-            if (readBytes(global_colormap, 0, num_global_colors * 3) != 0) {
+            // Rebd colors
+            globbl_colormbp = new byte[num_globbl_colors * 3];
+            if (rebdBytes(globbl_colormbp, 0, num_globbl_colors * 3) != 0) {
                 throw new IOException();
             }
         }
-        input.mark(Integer.MAX_VALUE); // set this mark in case this is an animated GIF
+        input.mbrk(Integer.MAX_VALUE); // set this mbrk in cbse this is bn bnimbted GIF
     }
 
     /**
-     * The ImageConsumer hints flag for a non-interlaced GIF image.
+     * The ImbgeConsumer hints flbg for b non-interlbced GIF imbge.
      */
-    private static final int normalflags =
-        ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.COMPLETESCANLINES |
-        ImageConsumer.SINGLEPASS | ImageConsumer.SINGLEFRAME;
+    privbte stbtic finbl int normblflbgs =
+        ImbgeConsumer.TOPDOWNLEFTRIGHT | ImbgeConsumer.COMPLETESCANLINES |
+        ImbgeConsumer.SINGLEPASS | ImbgeConsumer.SINGLEFRAME;
 
     /**
-     * The ImageConsumer hints flag for an interlaced GIF image.
+     * The ImbgeConsumer hints flbg for bn interlbced GIF imbge.
      */
-    private static final int interlaceflags =
-        ImageConsumer.RANDOMPIXELORDER | ImageConsumer.COMPLETESCANLINES |
-        ImageConsumer.SINGLEPASS | ImageConsumer.SINGLEFRAME;
+    privbte stbtic finbl int interlbceflbgs =
+        ImbgeConsumer.RANDOMPIXELORDER | ImbgeConsumer.COMPLETESCANLINES |
+        ImbgeConsumer.SINGLEPASS | ImbgeConsumer.SINGLEFRAME;
 
-    private short prefix[]  = new short[4096];
-    private byte  suffix[]  = new byte[4096];
-    private byte  outCode[] = new byte[4097];
+    privbte short prefix[]  = new short[4096];
+    privbte byte  suffix[]  = new byte[4096];
+    privbte byte  outCode[] = new byte[4097];
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        NbtiveLibLobder.lobdLibrbries();
         initIDs();
     }
 
-    private native boolean parseImage(int x, int y, int width, int height,
-                                      boolean interlace, int initCodeSize,
-                                      byte block[], byte rasline[],
+    privbte nbtive boolebn pbrseImbge(int x, int y, int width, int height,
+                                      boolebn interlbce, int initCodeSize,
+                                      byte block[], byte rbsline[],
                                       IndexColorModel model);
 
-    private int sendPixels(int x, int y, int width, int height,
-                           byte rasline[], ColorModel model) {
-        int rasbeg, rasend, x2;
+    privbte int sendPixels(int x, int y, int width, int height,
+                           byte rbsline[], ColorModel model) {
+        int rbsbeg, rbsend, x2;
         if (y < 0) {
             height += y;
             y = 0;
         }
-        if (y + height > global_height) {
-            height = global_height - y;
+        if (y + height > globbl_height) {
+            height = globbl_height - y;
         }
         if (height <= 0) {
             return 1;
         }
-        // rasline[0]     == pixel at coordinate (x,y)
-        // rasline[width] == pixel at coordinate (x+width, y)
+        // rbsline[0]     == pixel bt coordinbte (x,y)
+        // rbsline[width] == pixel bt coordinbte (x+width, y)
         if (x < 0) {
-            rasbeg = -x;
-            width += x;         // same as (width -= rasbeg)
-            x2 = 0;             // same as (x2     = x + rasbeg)
+            rbsbeg = -x;
+            width += x;         // sbme bs (width -= rbsbeg)
+            x2 = 0;             // sbme bs (x2     = x + rbsbeg)
         } else {
-            rasbeg = 0;
-            // width -= 0;      // same as (width -= rasbeg)
-            x2 = x;             // same as (x2     = x + rasbeg)
+            rbsbeg = 0;
+            // width -= 0;      // sbme bs (width -= rbsbeg)
+            x2 = x;             // sbme bs (x2     = x + rbsbeg)
         }
-        // rasline[rasbeg]          == pixel at coordinate (x2,y)
-        // rasline[width]           == pixel at coordinate (x+width, y)
-        // rasline[rasbeg + width]  == pixel at coordinate (x2+width, y)
-        if (x2 + width > global_width) {
-            width = global_width - x2;
+        // rbsline[rbsbeg]          == pixel bt coordinbte (x2,y)
+        // rbsline[width]           == pixel bt coordinbte (x+width, y)
+        // rbsline[rbsbeg + width]  == pixel bt coordinbte (x2+width, y)
+        if (x2 + width > globbl_width) {
+            width = globbl_width - x2;
         }
         if (width <= 0) {
             return 1;
         }
-        rasend = rasbeg + width;
-        // rasline[rasbeg] == pixel at coordinate (x2,y)
-        // rasline[rasend] == pixel at coordinate (x2+width, y)
-        int off = y * global_width + x2;
-        boolean save = (curframe.disposal_method == GifFrame.DISPOSAL_SAVE);
-        if (trans_pixel >= 0 && !curframe.initialframe) {
-            if (saved_image != null && model.equals(saved_model)) {
-                for (int i = rasbeg; i < rasend; i++, off++) {
-                    byte pixel = rasline[i];
-                    if ((pixel & 0xff) == trans_pixel) {
-                        rasline[i] = saved_image[off];
-                    } else if (save) {
-                        saved_image[off] = pixel;
+        rbsend = rbsbeg + width;
+        // rbsline[rbsbeg] == pixel bt coordinbte (x2,y)
+        // rbsline[rbsend] == pixel bt coordinbte (x2+width, y)
+        int off = y * globbl_width + x2;
+        boolebn sbve = (curfrbme.disposbl_method == GifFrbme.DISPOSAL_SAVE);
+        if (trbns_pixel >= 0 && !curfrbme.initiblfrbme) {
+            if (sbved_imbge != null && model.equbls(sbved_model)) {
+                for (int i = rbsbeg; i < rbsend; i++, off++) {
+                    byte pixel = rbsline[i];
+                    if ((pixel & 0xff) == trbns_pixel) {
+                        rbsline[i] = sbved_imbge[off];
+                    } else if (sbve) {
+                        sbved_imbge[off] = pixel;
                     }
                 }
             } else {
-                // We have to do this the hard way - only transmit
-                // the non-transparent sections of the line...
-                // Fix for 6301050: the interlacing is ignored in this case
-                // in order to avoid artefacts in case of animated images.
-                int runstart = -1;
+                // We hbve to do this the hbrd wby - only trbnsmit
+                // the non-trbnspbrent sections of the line...
+                // Fix for 6301050: the interlbcing is ignored in this cbse
+                // in order to bvoid brtefbcts in cbse of bnimbted imbges.
+                int runstbrt = -1;
                 int count = 1;
-                for (int i = rasbeg; i < rasend; i++, off++) {
-                    byte pixel = rasline[i];
-                    if ((pixel & 0xff) == trans_pixel) {
-                        if (runstart >= 0) {
-                            count = setPixels(x + runstart, y,
-                                              i - runstart, 1,
-                                              model, rasline,
-                                              runstart, 0);
+                for (int i = rbsbeg; i < rbsend; i++, off++) {
+                    byte pixel = rbsline[i];
+                    if ((pixel & 0xff) == trbns_pixel) {
+                        if (runstbrt >= 0) {
+                            count = setPixels(x + runstbrt, y,
+                                              i - runstbrt, 1,
+                                              model, rbsline,
+                                              runstbrt, 0);
                             if (count == 0) {
-                                break;
+                                brebk;
                             }
                         }
-                        runstart = -1;
+                        runstbrt = -1;
                     } else {
-                        if (runstart < 0) {
-                            runstart = i;
+                        if (runstbrt < 0) {
+                            runstbrt = i;
                         }
-                        if (save) {
-                            saved_image[off] = pixel;
+                        if (sbve) {
+                            sbved_imbge[off] = pixel;
                         }
                     }
                 }
-                if (runstart >= 0) {
-                    count = setPixels(x + runstart, y,
-                                      rasend - runstart, 1,
-                                      model, rasline,
-                                      runstart, 0);
+                if (runstbrt >= 0) {
+                    count = setPixels(x + runstbrt, y,
+                                      rbsend - runstbrt, 1,
+                                      model, rbsline,
+                                      runstbrt, 0);
                 }
                 return count;
             }
-        } else if (save) {
-            System.arraycopy(rasline, rasbeg, saved_image, off, width);
+        } else if (sbve) {
+            System.brrbycopy(rbsline, rbsbeg, sbved_imbge, off, width);
         }
         int count = setPixels(x2, y, width, height, model,
-                              rasline, rasbeg, 0);
+                              rbsline, rbsbeg, 0);
         return count;
     }
 
     /**
-     * Read Image data
+     * Rebd Imbge dbtb
      */
-    private boolean readImage(boolean first, int disposal_method, int delay)
+    privbte boolebn rebdImbge(boolebn first, int disposbl_method, int delby)
         throws IOException
     {
-        if (curframe != null && !curframe.dispose()) {
-            abort();
-            return false;
+        if (curfrbme != null && !curfrbme.dispose()) {
+            bbort();
+            return fblse;
         }
 
         long tm = 0;
@@ -467,139 +467,139 @@ public class GifImageDecoder extends ImageDecoder {
             tm = System.currentTimeMillis();
         }
 
-        // Allocate the buffer
+        // Allocbte the buffer
         byte block[] = new byte[256 + 3];
 
-        // Read the image descriptor
-        if (readBytes(block, 0, 10) != 0) {
+        // Rebd the imbge descriptor
+        if (rebdBytes(block, 0, 10) != 0) {
             throw new IOException();
         }
-        int x = ExtractWord(block, 0);
-        int y = ExtractWord(block, 2);
-        int width = ExtractWord(block, 4);
-        int height = ExtractWord(block, 6);
+        int x = ExtrbctWord(block, 0);
+        int y = ExtrbctWord(block, 2);
+        int width = ExtrbctWord(block, 4);
+        int height = ExtrbctWord(block, 6);
 
         /*
-         * Majority of gif images have
-         * same logical screen and frame dimensions.
-         * Also, Photoshop and Mozilla seem to use the logical
-         * screen dimension (from the global stream header)
-         * if frame dimension is invalid.
+         * Mbjority of gif imbges hbve
+         * sbme logicbl screen bnd frbme dimensions.
+         * Also, Photoshop bnd Mozillb seem to use the logicbl
+         * screen dimension (from the globbl strebm hebder)
+         * if frbme dimension is invblid.
          *
-         * We use similar heuristic and trying to recover
-         * frame width from logical screen dimension and
-         * frame offset.
+         * We use similbr heuristic bnd trying to recover
+         * frbme width from logicbl screen dimension bnd
+         * frbme offset.
          */
-        if (width == 0 && global_width != 0) {
-            width = global_width - x;
+        if (width == 0 && globbl_width != 0) {
+            width = globbl_width - x;
         }
-        if (height == 0 && global_height != 0) {
-            height = global_height - y;
+        if (height == 0 && globbl_height != 0) {
+            height = globbl_height - y;
         }
 
-        boolean interlace = (block[8] & INTERLACEMASK) != 0;
+        boolebn interlbce = (block[8] & INTERLACEMASK) != 0;
 
-        IndexColorModel model = global_model;
+        IndexColorModel model = globbl_model;
 
         if ((block[8] & COLORMAPMASK) != 0) {
-            // We read one extra byte above so now when we must
-            // transfer that byte as the first colormap byte
-            // and manually read the code size when we are done
-            int num_local_colors = 1 << ((block[8] & 0x7) + 1);
+            // We rebd one extrb byte bbove so now when we must
+            // trbnsfer thbt byte bs the first colormbp byte
+            // bnd mbnublly rebd the code size when we bre done
+            int num_locbl_colors = 1 << ((block[8] & 0x7) + 1);
 
-            // Read local colors
-            byte[] local_colormap = new byte[num_local_colors * 3];
-            local_colormap[0] = block[9];
-            if (readBytes(local_colormap, 1, num_local_colors * 3 - 1) != 0) {
+            // Rebd locbl colors
+            byte[] locbl_colormbp = new byte[num_locbl_colors * 3];
+            locbl_colormbp[0] = block[9];
+            if (rebdBytes(locbl_colormbp, 1, num_locbl_colors * 3 - 1) != 0) {
                 throw new IOException();
             }
 
-            // Now read the "real" code size byte which follows
-            // the local color table
-            if (readBytes(block, 9, 1) != 0) {
+            // Now rebd the "rebl" code size byte which follows
+            // the locbl color tbble
+            if (rebdBytes(block, 9, 1) != 0) {
                 throw new IOException();
             }
-            if (trans_pixel >= num_local_colors) {
-                // Fix for 4233748: extend colormap to contain transparent pixel
-                num_local_colors = trans_pixel + 1;
-                local_colormap = grow_colormap(local_colormap, num_local_colors);
+            if (trbns_pixel >= num_locbl_colors) {
+                // Fix for 4233748: extend colormbp to contbin trbnspbrent pixel
+                num_locbl_colors = trbns_pixel + 1;
+                locbl_colormbp = grow_colormbp(locbl_colormbp, num_locbl_colors);
             }
-            model = new IndexColorModel(8, num_local_colors, local_colormap,
-                                        0, false, trans_pixel);
+            model = new IndexColorModel(8, num_locbl_colors, locbl_colormbp,
+                                        0, fblse, trbns_pixel);
         } else if (model == null
-                   || trans_pixel != model.getTransparentPixel()) {
-            if (trans_pixel >= num_global_colors) {
-                // Fix for 4233748: extend colormap to contain transparent pixel
-                num_global_colors = trans_pixel + 1;
-                global_colormap = grow_colormap(global_colormap, num_global_colors);
+                   || trbns_pixel != model.getTrbnspbrentPixel()) {
+            if (trbns_pixel >= num_globbl_colors) {
+                // Fix for 4233748: extend colormbp to contbin trbnspbrent pixel
+                num_globbl_colors = trbns_pixel + 1;
+                globbl_colormbp = grow_colormbp(globbl_colormbp, num_globbl_colors);
             }
-            model = new IndexColorModel(8, num_global_colors, global_colormap,
-                                        0, false, trans_pixel);
-            global_model = model;
+            model = new IndexColorModel(8, num_globbl_colors, globbl_colormbp,
+                                        0, fblse, trbns_pixel);
+            globbl_model = model;
         }
 
         // Notify the consumers
         if (first) {
-            if (global_width == 0) global_width = width;
-            if (global_height == 0) global_height = height;
+            if (globbl_width == 0) globbl_width = width;
+            if (globbl_height == 0) globbl_height = height;
 
-            setDimensions(global_width, global_height);
+            setDimensions(globbl_width, globbl_height);
             setProperties(props);
             setColorModel(model);
-            headerComplete();
+            hebderComplete();
         }
 
-        if (disposal_method == GifFrame.DISPOSAL_SAVE && saved_image == null) {
-            saved_image = new byte[global_width * global_height];
+        if (disposbl_method == GifFrbme.DISPOSAL_SAVE && sbved_imbge == null) {
+            sbved_imbge = new byte[globbl_width * globbl_height];
             /*
-             * If height of current image is smaller than the global height,
-             * fill the gap with transparent pixels.
+             * If height of current imbge is smbller thbn the globbl height,
+             * fill the gbp with trbnspbrent pixels.
              */
-            if ((height < global_height) && (model != null)) {
-                byte tpix = (byte)model.getTransparentPixel();
+            if ((height < globbl_height) && (model != null)) {
+                byte tpix = (byte)model.getTrbnspbrentPixel();
                 if (tpix >= 0) {
-                    byte trans_rasline[] = new byte[global_width];
-                    for (int i=0; i<global_width;i++) {
-                        trans_rasline[i] = tpix;
+                    byte trbns_rbsline[] = new byte[globbl_width];
+                    for (int i=0; i<globbl_width;i++) {
+                        trbns_rbsline[i] = tpix;
                     }
 
-                    setPixels(0, 0, global_width, y,
-                              model, trans_rasline, 0, 0);
-                    setPixels(0, y+height, global_width,
-                              global_height-height-y, model, trans_rasline,
+                    setPixels(0, 0, globbl_width, y,
+                              model, trbns_rbsline, 0, 0);
+                    setPixels(0, y+height, globbl_width,
+                              globbl_height-height-y, model, trbns_rbsline,
                               0, 0);
                 }
             }
         }
 
-        int hints = (interlace ? interlaceflags : normalflags);
+        int hints = (interlbce ? interlbceflbgs : normblflbgs);
         setHints(hints);
 
-        curframe = new GifFrame(this, disposal_method, delay,
-                                (curframe == null), model,
+        curfrbme = new GifFrbme(this, disposbl_method, delby,
+                                (curfrbme == null), model,
                                 x, y, width, height);
 
-        // allocate the raster data
-        byte rasline[] = new byte[width];
+        // bllocbte the rbster dbtb
+        byte rbsline[] = new byte[width];
 
         if (verbose) {
-            System.out.print("Reading a " + width + " by " + height + " " +
-                      (interlace ? "" : "non-") + "interlaced image...");
+            System.out.print("Rebding b " + width + " by " + height + " " +
+                      (interlbce ? "" : "non-") + "interlbced imbge...");
         }
-        int initCodeSize = ExtractByte(block, 9);
+        int initCodeSize = ExtrbctByte(block, 9);
         if (initCodeSize >= 12) {
             if (verbose) {
-                System.out.println("Invalid initial code size: " +
+                System.out.println("Invblid initibl code size: " +
                                    initCodeSize);
             }
-            return false;
+            return fblse;
         }
-        boolean ret = parseImage(x, y, width, height,
-                                 interlace, initCodeSize,
-                                 block, rasline, model);
+        boolebn ret = pbrseImbge(x, y, width, height,
+                                 interlbce, initCodeSize,
+                                 block, rbsline, model);
 
         if (!ret) {
-            abort();
+            bbort();
         }
 
         if (verbose) {
@@ -611,26 +611,26 @@ public class GifImageDecoder extends ImageDecoder {
         return ret;
     }
 
-    public static byte[] grow_colormap(byte[] colormap, int newlen) {
+    public stbtic byte[] grow_colormbp(byte[] colormbp, int newlen) {
         byte[] newcm = new byte[newlen * 3];
-        System.arraycopy(colormap, 0, newcm, 0, colormap.length);
+        System.brrbycopy(colormbp, 0, newcm, 0, colormbp.length);
         return newcm;
     }
 }
 
-class GifFrame {
-    private static final boolean verbose = false;
-    private static IndexColorModel trans_model;
+clbss GifFrbme {
+    privbte stbtic finbl boolebn verbose = fblse;
+    privbte stbtic IndexColorModel trbns_model;
 
-    static final int DISPOSAL_NONE      = 0x00;
-    static final int DISPOSAL_SAVE      = 0x01;
-    static final int DISPOSAL_BGCOLOR   = 0x02;
-    static final int DISPOSAL_PREVIOUS  = 0x03;
+    stbtic finbl int DISPOSAL_NONE      = 0x00;
+    stbtic finbl int DISPOSAL_SAVE      = 0x01;
+    stbtic finbl int DISPOSAL_BGCOLOR   = 0x02;
+    stbtic finbl int DISPOSAL_PREVIOUS  = 0x03;
 
-    GifImageDecoder decoder;
+    GifImbgeDecoder decoder;
 
-    int disposal_method;
-    int delay;
+    int disposbl_method;
+    int delby;
 
     IndexColorModel model;
 
@@ -639,114 +639,114 @@ class GifFrame {
     int width;
     int height;
 
-    boolean initialframe;
+    boolebn initiblfrbme;
 
-    public GifFrame(GifImageDecoder id, int dm, int dl, boolean init,
+    public GifFrbme(GifImbgeDecoder id, int dm, int dl, boolebn init,
                     IndexColorModel cm, int x, int y, int w, int h) {
         this.decoder = id;
-        this.disposal_method = dm;
-        this.delay = dl;
+        this.disposbl_method = dm;
+        this.delby = dl;
         this.model = cm;
-        this.initialframe = init;
+        this.initiblfrbme = init;
         this.x = x;
         this.y = y;
         this.width = w;
         this.height = h;
     }
 
-    private void setPixels(int x, int y, int w, int h,
-                           ColorModel cm, byte[] pix, int off, int scan) {
-        decoder.setPixels(x, y, w, h, cm, pix, off, scan);
+    privbte void setPixels(int x, int y, int w, int h,
+                           ColorModel cm, byte[] pix, int off, int scbn) {
+        decoder.setPixels(x, y, w, h, cm, pix, off, scbn);
     }
 
-    public boolean dispose() {
-        if (decoder.imageComplete(ImageConsumer.SINGLEFRAMEDONE, false) == 0) {
-            return false;
+    public boolebn dispose() {
+        if (decoder.imbgeComplete(ImbgeConsumer.SINGLEFRAMEDONE, fblse) == 0) {
+            return fblse;
         } else {
-            if (delay > 0) {
+            if (delby > 0) {
                 try {
                     if (verbose) {
-                        System.out.println("sleeping: "+delay);
+                        System.out.println("sleeping: "+delby);
                     }
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                    return false;
+                    Threbd.sleep(delby);
+                } cbtch (InterruptedException e) {
+                    return fblse;
                 }
             } else {
-                Thread.yield();
+                Threbd.yield();
             }
 
-            if (verbose && disposal_method != 0) {
-                System.out.println("disposal method: "+disposal_method);
+            if (verbose && disposbl_method != 0) {
+                System.out.println("disposbl method: "+disposbl_method);
             }
 
-            int global_width = decoder.global_width;
-            int global_height = decoder.global_height;
+            int globbl_width = decoder.globbl_width;
+            int globbl_height = decoder.globbl_height;
 
             if (x < 0) {
                 width += x;
                 x = 0;
             }
-            if (x + width > global_width) {
-                width = global_width - x;
+            if (x + width > globbl_width) {
+                width = globbl_width - x;
             }
             if (width <= 0) {
-                disposal_method = DISPOSAL_NONE;
+                disposbl_method = DISPOSAL_NONE;
             } else {
                 if (y < 0) {
                     height += y;
                     y = 0;
                 }
-                if (y + height > global_height) {
-                    height = global_height - y;
+                if (y + height > globbl_height) {
+                    height = globbl_height - y;
                 }
                 if (height <= 0) {
-                    disposal_method = DISPOSAL_NONE;
+                    disposbl_method = DISPOSAL_NONE;
                 }
             }
 
-            switch (disposal_method) {
-            case DISPOSAL_PREVIOUS:
-                byte[] saved_image = decoder.saved_image;
-                IndexColorModel saved_model = decoder.saved_model;
-                if (saved_image != null) {
+            switch (disposbl_method) {
+            cbse DISPOSAL_PREVIOUS:
+                byte[] sbved_imbge = decoder.sbved_imbge;
+                IndexColorModel sbved_model = decoder.sbved_model;
+                if (sbved_imbge != null) {
                     setPixels(x, y, width, height,
-                              saved_model, saved_image,
-                              y * global_width + x, global_width);
+                              sbved_model, sbved_imbge,
+                              y * globbl_width + x, globbl_width);
                 }
-                break;
-            case DISPOSAL_BGCOLOR:
+                brebk;
+            cbse DISPOSAL_BGCOLOR:
                 byte tpix;
-                if (model.getTransparentPixel() < 0) {
-                    model = trans_model;
+                if (model.getTrbnspbrentPixel() < 0) {
+                    model = trbns_model;
                     if (model == null) {
                         model = new IndexColorModel(8, 1,
                                                     new byte[4], 0, true);
-                        trans_model = model;
+                        trbns_model = model;
                     }
                     tpix = 0;
                 } else {
-                    tpix = (byte) model.getTransparentPixel();
+                    tpix = (byte) model.getTrbnspbrentPixel();
                 }
-                byte[] rasline = new byte[width];
+                byte[] rbsline = new byte[width];
                 if (tpix != 0) {
                     for (int i = 0; i < width; i++) {
-                        rasline[i] = tpix;
+                        rbsline[i] = tpix;
                     }
                 }
 
-                // clear saved_image using transparent pixels
-                // this will be used as the background in the next display
-                if( decoder.saved_image != null ) {
-                    for( int i = 0; i < global_width * global_height; i ++ )
-                        decoder.saved_image[i] = tpix;
+                // clebr sbved_imbge using trbnspbrent pixels
+                // this will be used bs the bbckground in the next displby
+                if( decoder.sbved_imbge != null ) {
+                    for( int i = 0; i < globbl_width * globbl_height; i ++ )
+                        decoder.sbved_imbge[i] = tpix;
                 }
 
-                setPixels(x, y, width, height, model, rasline, 0, 0);
-                break;
-            case DISPOSAL_SAVE:
-                decoder.saved_model = model;
-                break;
+                setPixels(x, y, width, height, model, rbsline, 0, 0);
+                brebk;
+            cbse DISPOSAL_SAVE:
+                decoder.sbved_model = model;
+                brebk;
             }
         }
         return true;

@@ -1,29 +1,29 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "SurfaceData.h"
+#include "SurfbceDbtb.h"
 
 #include "jni_util.h"
 #include "Disposer.h"
@@ -32,144 +32,144 @@
 #include "string.h"
 
 /**
- * This include file contains information on how to use a SurfaceData
- * object from native code.
+ * This include file contbins informbtion on how to use b SurfbceDbtb
+ * object from nbtive code.
  */
 
-static jclass pInvalidPipeClass;
-static jclass pNullSurfaceDataClass;
-static jfieldID pDataID;
-static jfieldID allGrayID;
+stbtic jclbss pInvblidPipeClbss;
+stbtic jclbss pNullSurfbceDbtbClbss;
+stbtic jfieldID pDbtbID;
+stbtic jfieldID bllGrbyID;
 
-jfieldID validID;
-GeneralDisposeFunc SurfaceData_DisposeOps;
+jfieldID vblidID;
+GenerblDisposeFunc SurfbceDbtb_DisposeOps;
 
-#define InitClass(var, env, name) \
+#define InitClbss(vbr, env, nbme) \
 do { \
-    var = (*env)->FindClass(env, name); \
-    if (var == NULL) { \
+    vbr = (*env)->FindClbss(env, nbme); \
+    if (vbr == NULL) { \
         return; \
     } \
 } while (0)
 
-#define InitField(var, env, jcl, name, type) \
+#define InitField(vbr, env, jcl, nbme, type) \
 do { \
-    var = (*env)->GetFieldID(env, jcl, name, type); \
-    if (var == NULL) { \
+    vbr = (*env)->GetFieldID(env, jcl, nbme, type); \
+    if (vbr == NULL) { \
         return; \
     } \
 } while (0)
 
-#define InitGlobalClassRef(var, env, name) \
+#define InitGlobblClbssRef(vbr, env, nbme) \
 do { \
     jobject jtmp; \
-    InitClass(jtmp, env, name); \
-    var = (*env)->NewGlobalRef(env, jtmp); \
-    if (var == NULL) { \
+    InitClbss(jtmp, env, nbme); \
+    vbr = (*env)->NewGlobblRef(env, jtmp); \
+    if (vbr == NULL) { \
         return; \
     } \
 } while (0)
 
 /*
- * Class:     sun_java2d_SurfaceData
+ * Clbss:     sun_jbvb2d_SurfbceDbtb
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_SurfaceData_initIDs(JNIEnv *env, jclass sd)
+Jbvb_sun_jbvb2d_SurfbceDbtb_initIDs(JNIEnv *env, jclbss sd)
 {
-    jclass pICMClass;
+    jclbss pICMClbss;
 
-    InitGlobalClassRef(pInvalidPipeClass, env,
-                       "sun/java2d/InvalidPipeException");
+    InitGlobblClbssRef(pInvblidPipeClbss, env,
+                       "sun/jbvb2d/InvblidPipeException");
 
-    InitGlobalClassRef(pNullSurfaceDataClass, env,
-                       "sun/java2d/NullSurfaceData");
+    InitGlobblClbssRef(pNullSurfbceDbtbClbss, env,
+                       "sun/jbvb2d/NullSurfbceDbtb");
 
-    InitField(pDataID, env, sd, "pData", "J");
-    InitField(validID, env, sd, "valid", "Z");
+    InitField(pDbtbID, env, sd, "pDbtb", "J");
+    InitField(vblidID, env, sd, "vblid", "Z");
 
-    InitClass(pICMClass, env, "java/awt/image/IndexColorModel");
-    InitField(allGrayID, env, pICMClass, "allgrayopaque", "Z");
+    InitClbss(pICMClbss, env, "jbvb/bwt/imbge/IndexColorModel");
+    InitField(bllGrbyID, env, pICMClbss, "bllgrbyopbque", "Z");
 }
 
 /*
- * Class:     sun_java2d_SurfaceData
- * Method:    isOpaqueGray
- * Signature: ()Z
+ * Clbss:     sun_jbvb2d_SurfbceDbtb
+ * Method:    isOpbqueGrby
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_SurfaceData_isOpaqueGray(JNIEnv *env, jclass sdClass,
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_SurfbceDbtb_isOpbqueGrby(JNIEnv *env, jclbss sdClbss,
                                          jobject icm)
 {
     if (icm == NULL) {
         return JNI_FALSE;
     }
-    return (*env)->GetBooleanField(env, icm, allGrayID);
+    return (*env)->GetBoolebnField(env, icm, bllGrbyID);
 }
 
-static SurfaceDataOps *
-GetSDOps(JNIEnv *env, jobject sData, jboolean callSetup)
+stbtic SurfbceDbtbOps *
+GetSDOps(JNIEnv *env, jobject sDbtb, jboolebn cbllSetup)
 {
-    SurfaceDataOps *ops;
-    if (JNU_IsNull(env, sData)) {
-        JNU_ThrowNullPointerException(env, "surfaceData");
+    SurfbceDbtbOps *ops;
+    if (JNU_IsNull(env, sDbtb)) {
+        JNU_ThrowNullPointerException(env, "surfbceDbtb");
         return NULL;
     }
-    ops = (SurfaceDataOps *)JNU_GetLongFieldAsPtr(env, sData, pDataID);
+    ops = (SurfbceDbtbOps *)JNU_GetLongFieldAsPtr(env, sDbtb, pDbtbID);
     if (ops == NULL) {
         if (!(*env)->ExceptionOccurred(env) &&
-            !(*env)->IsInstanceOf(env, sData, pNullSurfaceDataClass))
+            !(*env)->IsInstbnceOf(env, sDbtb, pNullSurfbceDbtbClbss))
         {
-            if (!(*env)->GetBooleanField(env, sData, validID)) {
-                SurfaceData_ThrowInvalidPipeException(env, "invalid data");
+            if (!(*env)->GetBoolebnField(env, sDbtb, vblidID)) {
+                SurfbceDbtb_ThrowInvblidPipeException(env, "invblid dbtb");
             } else {
-                JNU_ThrowNullPointerException(env, "native ops missing");
+                JNU_ThrowNullPointerException(env, "nbtive ops missing");
             }
         }
-    } else if (callSetup) {
-        SurfaceData_InvokeSetup(env, ops);
+    } else if (cbllSetup) {
+        SurfbceDbtb_InvokeSetup(env, ops);
     }
     return ops;
 }
 
-JNIEXPORT SurfaceDataOps * JNICALL
-SurfaceData_GetOps(JNIEnv *env, jobject sData)
+JNIEXPORT SurfbceDbtbOps * JNICALL
+SurfbceDbtb_GetOps(JNIEnv *env, jobject sDbtb)
 {
-    return GetSDOps(env, sData, JNI_TRUE);
+    return GetSDOps(env, sDbtb, JNI_TRUE);
 }
 
-JNIEXPORT SurfaceDataOps * JNICALL
-SurfaceData_GetOpsNoSetup(JNIEnv *env, jobject sData)
+JNIEXPORT SurfbceDbtbOps * JNICALL
+SurfbceDbtb_GetOpsNoSetup(JNIEnv *env, jobject sDbtb)
 {
-    return GetSDOps(env, sData, JNI_FALSE);
+    return GetSDOps(env, sDbtb, JNI_FALSE);
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_SetOps(JNIEnv *env, jobject sData, SurfaceDataOps *ops)
+SurfbceDbtb_SetOps(JNIEnv *env, jobject sDbtb, SurfbceDbtbOps *ops)
 {
-    if (JNU_GetLongFieldAsPtr(env, sData, pDataID) == NULL) {
-        JNU_SetLongFieldFromPtr(env, sData, pDataID, ops);
-        /* Register the data for disposal */
-        Disposer_AddRecord(env, sData,
-                           SurfaceData_DisposeOps,
+    if (JNU_GetLongFieldAsPtr(env, sDbtb, pDbtbID) == NULL) {
+        JNU_SetLongFieldFromPtr(env, sDbtb, pDbtbID, ops);
+        /* Register the dbtb for disposbl */
+        Disposer_AddRecord(env, sDbtb,
+                           SurfbceDbtb_DisposeOps,
                            ptr_to_jlong(ops));
     } else {
-        JNU_ThrowInternalError(env, "Attempting to set SurfaceData ops twice");
+        JNU_ThrowInternblError(env, "Attempting to set SurfbceDbtb ops twice");
     }
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_ThrowInvalidPipeException(JNIEnv *env, const char *msg)
+SurfbceDbtb_ThrowInvblidPipeException(JNIEnv *env, const chbr *msg)
 {
-    (*env)->ThrowNew(env, pInvalidPipeClass, msg);
+    (*env)->ThrowNew(env, pInvblidPipeClbss, msg);
 }
 
 #define GETMIN(v1, v2)          (((v1) > (t=(v2))) && ((v1) = t))
 #define GETMAX(v1, v2)          (((v1) < (t=(v2))) && ((v1) = t))
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBounds(SurfaceDataBounds *dst, SurfaceDataBounds *src)
+SurfbceDbtb_IntersectBounds(SurfbceDbtbBounds *dst, SurfbceDbtbBounds *src)
 {
     int t;
     GETMAX(dst->x1, src->x1);
@@ -179,7 +179,7 @@ SurfaceData_IntersectBounds(SurfaceDataBounds *dst, SurfaceDataBounds *src)
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBoundsXYXY(SurfaceDataBounds *bounds,
+SurfbceDbtb_IntersectBoundsXYXY(SurfbceDbtbBounds *bounds,
                                 jint x1, jint y1, jint x2, jint y2)
 {
     int t;
@@ -190,7 +190,7 @@ SurfaceData_IntersectBoundsXYXY(SurfaceDataBounds *bounds,
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBoundsXYWH(SurfaceDataBounds *bounds,
+SurfbceDbtb_IntersectBoundsXYWH(SurfbceDbtbBounds *bounds,
                                 jint x, jint y, jint w, jint h)
 {
     w = (w <= 0) ? x : x+w;
@@ -216,8 +216,8 @@ SurfaceData_IntersectBoundsXYWH(SurfaceDataBounds *bounds,
 }
 
 JNIEXPORT void JNICALL
-SurfaceData_IntersectBlitBounds(SurfaceDataBounds *src,
-                                SurfaceDataBounds *dst,
+SurfbceDbtb_IntersectBlitBounds(SurfbceDbtbBounds *src,
+                                SurfbceDbtbBounds *dst,
                                 jint dx, jint dy)
 {
     int t;
@@ -231,26 +231,26 @@ SurfaceData_IntersectBlitBounds(SurfaceDataBounds *src,
     GETMIN(src->y2, dst->y2 - dy);
 }
 
-SurfaceDataOps *SurfaceData_InitOps(JNIEnv *env, jobject sData, int opsSize)
+SurfbceDbtbOps *SurfbceDbtb_InitOps(JNIEnv *env, jobject sDbtb, int opsSize)
 {
-    SurfaceDataOps *ops = malloc(opsSize);
-    SurfaceData_SetOps(env, sData, ops);
+    SurfbceDbtbOps *ops = mblloc(opsSize);
+    SurfbceDbtb_SetOps(env, sDbtb, ops);
     if (ops != NULL) {
         memset(ops, 0, opsSize);
         if (!(*env)->ExceptionCheck(env)) {
-            ops->sdObject = (*env)->NewWeakGlobalRef(env, sData);
+            ops->sdObject = (*env)->NewWebkGlobblRef(env, sDbtb);
         }
     }
     return ops;
 }
 
-void SurfaceData_DisposeOps(JNIEnv *env, jlong ops)
+void SurfbceDbtb_DisposeOps(JNIEnv *env, jlong ops)
 {
     if (ops != 0) {
-        SurfaceDataOps *sdops = (SurfaceDataOps*)jlong_to_ptr(ops);
-        /* Invoke the ops-specific disposal function */
-        SurfaceData_InvokeDispose(env, sdops);
-        (*env)->DeleteWeakGlobalRef(env, sdops->sdObject);
+        SurfbceDbtbOps *sdops = (SurfbceDbtbOps*)jlong_to_ptr(ops);
+        /* Invoke the ops-specific disposbl function */
+        SurfbceDbtb_InvokeDispose(env, sdops);
+        (*env)->DeleteWebkGlobblRef(env, sdops->sdObject);
         free(sdops);
     }
 }

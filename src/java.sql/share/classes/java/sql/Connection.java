@@ -1,1254 +1,1254 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.util.Properties;
-import java.util.concurrent.Executor;
+import jbvb.util.Properties;
+import jbvb.util.concurrent.Executor;
 
 /**
- * <P>A connection (session) with a specific
- * database. SQL statements are executed and results are returned
- * within the context of a connection.
+ * <P>A connection (session) with b specific
+ * dbtbbbse. SQL stbtements bre executed bnd results bre returned
+ * within the context of b connection.
  * <P>
- * A <code>Connection</code> object's database is able to provide information
- * describing its tables, its supported SQL grammar, its stored
- * procedures, the capabilities of this connection, and so on. This
- * information is obtained with the <code>getMetaData</code> method.
+ * A <code>Connection</code> object's dbtbbbse is bble to provide informbtion
+ * describing its tbbles, its supported SQL grbmmbr, its stored
+ * procedures, the cbpbbilities of this connection, bnd so on. This
+ * informbtion is obtbined with the <code>getMetbDbtb</code> method.
  *
- * <P><B>Note:</B> When configuring a <code>Connection</code>, JDBC applications
- *  should use the appropriate <code>Connection</code> method such as
- *  <code>setAutoCommit</code> or <code>setTransactionIsolation</code>.
- *  Applications should not invoke SQL commands directly to change the connection's
- *   configuration when there is a JDBC method available.  By default a <code>Connection</code> object is in
- * auto-commit mode, which means that it automatically commits changes
- * after executing each statement. If auto-commit mode has been
- * disabled, the method <code>commit</code> must be called explicitly in
- * order to commit changes; otherwise, database changes will not be saved.
+ * <P><B>Note:</B> When configuring b <code>Connection</code>, JDBC bpplicbtions
+ *  should use the bppropribte <code>Connection</code> method such bs
+ *  <code>setAutoCommit</code> or <code>setTrbnsbctionIsolbtion</code>.
+ *  Applicbtions should not invoke SQL commbnds directly to chbnge the connection's
+ *   configurbtion when there is b JDBC method bvbilbble.  By defbult b <code>Connection</code> object is in
+ * buto-commit mode, which mebns thbt it butombticblly commits chbnges
+ * bfter executing ebch stbtement. If buto-commit mode hbs been
+ * disbbled, the method <code>commit</code> must be cblled explicitly in
+ * order to commit chbnges; otherwise, dbtbbbse chbnges will not be sbved.
  * <P>
- * A new <code>Connection</code> object created using the JDBC 2.1 core API
- * has an initially empty type map associated with it. A user may enter a
- * custom mapping for a UDT in this type map.
- * When a UDT is retrieved from a data source with the
+ * A new <code>Connection</code> object crebted using the JDBC 2.1 core API
+ * hbs bn initiblly empty type mbp bssocibted with it. A user mby enter b
+ * custom mbpping for b UDT in this type mbp.
+ * When b UDT is retrieved from b dbtb source with the
  * method <code>ResultSet.getObject</code>, the <code>getObject</code> method
- * will check the connection's type map to see if there is an entry for that
- * UDT.  If so, the <code>getObject</code> method will map the UDT to the
- * class indicated.  If there is no entry, the UDT will be mapped using the
- * standard mapping.
+ * will check the connection's type mbp to see if there is bn entry for thbt
+ * UDT.  If so, the <code>getObject</code> method will mbp the UDT to the
+ * clbss indicbted.  If there is no entry, the UDT will be mbpped using the
+ * stbndbrd mbpping.
  * <p>
- * A user may create a new type map, which is a <code>java.util.Map</code>
- * object, make an entry in it, and pass it to the <code>java.sql</code>
- * methods that can perform custom mapping.  In this case, the method
- * will use the given type map instead of the one associated with
+ * A user mby crebte b new type mbp, which is b <code>jbvb.util.Mbp</code>
+ * object, mbke bn entry in it, bnd pbss it to the <code>jbvb.sql</code>
+ * methods thbt cbn perform custom mbpping.  In this cbse, the method
+ * will use the given type mbp instebd of the one bssocibted with
  * the connection.
  * <p>
- * For example, the following code fragment specifies that the SQL
- * type <code>ATHLETES</code> will be mapped to the class
- * <code>Athletes</code> in the Java programming language.
- * The code fragment retrieves the type map for the <code>Connection
- * </code> object <code>con</code>, inserts the entry into it, and then sets
- * the type map with the new entry as the connection's type map.
+ * For exbmple, the following code frbgment specifies thbt the SQL
+ * type <code>ATHLETES</code> will be mbpped to the clbss
+ * <code>Athletes</code> in the Jbvb progrbmming lbngubge.
+ * The code frbgment retrieves the type mbp for the <code>Connection
+ * </code> object <code>con</code>, inserts the entry into it, bnd then sets
+ * the type mbp with the new entry bs the connection's type mbp.
  * <pre>
- *      java.util.Map map = con.getTypeMap();
- *      map.put("mySchemaName.ATHLETES", Class.forName("Athletes"));
- *      con.setTypeMap(map);
+ *      jbvb.util.Mbp mbp = con.getTypeMbp();
+ *      mbp.put("mySchembNbme.ATHLETES", Clbss.forNbme("Athletes"));
+ *      con.setTypeMbp(mbp);
  * </pre>
  *
- * @see DriverManager#getConnection
- * @see Statement
+ * @see DriverMbnbger#getConnection
+ * @see Stbtement
  * @see ResultSet
- * @see DatabaseMetaData
+ * @see DbtbbbseMetbDbtb
  */
-public interface Connection  extends Wrapper, AutoCloseable {
+public interfbce Connection  extends Wrbpper, AutoClosebble {
 
     /**
-     * Creates a <code>Statement</code> object for sending
-     * SQL statements to the database.
-     * SQL statements without parameters are normally
-     * executed using <code>Statement</code> objects. If the same SQL statement
-     * is executed many times, it may be more efficient to use a
-     * <code>PreparedStatement</code> object.
+     * Crebtes b <code>Stbtement</code> object for sending
+     * SQL stbtements to the dbtbbbse.
+     * SQL stbtements without pbrbmeters bre normblly
+     * executed using <code>Stbtement</code> objects. If the sbme SQL stbtement
+     * is executed mbny times, it mby be more efficient to use b
+     * <code>PrepbredStbtement</code> object.
      * <P>
-     * Result sets created using the returned <code>Statement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Result sets crebted using the returned <code>Stbtement</code>
+     * object will by defbult be type <code>TYPE_FORWARD_ONLY</code>
+     * bnd hbve b concurrency level of <code>CONCUR_READ_ONLY</code>.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @return a new default <code>Statement</code> object
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @return b new defbult <code>Stbtement</code> object
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
      */
-    Statement createStatement() throws SQLException;
+    Stbtement crebteStbtement() throws SQLException;
 
     /**
-     * Creates a <code>PreparedStatement</code> object for sending
-     * parameterized SQL statements to the database.
+     * Crebtes b <code>PrepbredStbtement</code> object for sending
+     * pbrbmeterized SQL stbtements to the dbtbbbse.
      * <P>
-     * A SQL statement with or without IN parameters can be
-     * pre-compiled and stored in a <code>PreparedStatement</code> object. This
-     * object can then be used to efficiently execute this statement
+     * A SQL stbtement with or without IN pbrbmeters cbn be
+     * pre-compiled bnd stored in b <code>PrepbredStbtement</code> object. This
+     * object cbn then be used to efficiently execute this stbtement
      * multiple times.
      *
-     * <P><B>Note:</B> This method is optimized for handling
-     * parametric SQL statements that benefit from precompilation. If
-     * the driver supports precompilation,
-     * the method <code>prepareStatement</code> will send
-     * the statement to the database for precompilation. Some drivers
-     * may not support precompilation. In this case, the statement may
-     * not be sent to the database until the <code>PreparedStatement</code>
-     * object is executed.  This has no direct effect on users; however, it does
-     * affect which methods throw certain <code>SQLException</code> objects.
+     * <P><B>Note:</B> This method is optimized for hbndling
+     * pbrbmetric SQL stbtements thbt benefit from precompilbtion. If
+     * the driver supports precompilbtion,
+     * the method <code>prepbreStbtement</code> will send
+     * the stbtement to the dbtbbbse for precompilbtion. Some drivers
+     * mby not support precompilbtion. In this cbse, the stbtement mby
+     * not be sent to the dbtbbbse until the <code>PrepbredStbtement</code>
+     * object is executed.  This hbs no direct effect on users; however, it does
+     * bffect which methods throw certbin <code>SQLException</code> objects.
      * <P>
-     * Result sets created using the returned <code>PreparedStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Result sets crebted using the returned <code>PrepbredStbtement</code>
+     * object will by defbult be type <code>TYPE_FORWARD_ONLY</code>
+     * bnd hbve b concurrency level of <code>CONCUR_READ_ONLY</code>.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?' IN
-     * parameter placeholders
-     * @return a new default <code>PreparedStatement</code> object containing the
-     * pre-compiled SQL statement
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @pbrbm sql bn SQL stbtement thbt mby contbin one or more '?' IN
+     * pbrbmeter plbceholders
+     * @return b new defbult <code>PrepbredStbtement</code> object contbining the
+     * pre-compiled SQL stbtement
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
      */
-    PreparedStatement prepareStatement(String sql)
+    PrepbredStbtement prepbreStbtement(String sql)
         throws SQLException;
 
     /**
-     * Creates a <code>CallableStatement</code> object for calling
-     * database stored procedures.
-     * The <code>CallableStatement</code> object provides
-     * methods for setting up its IN and OUT parameters, and
-     * methods for executing the call to a stored procedure.
+     * Crebtes b <code>CbllbbleStbtement</code> object for cblling
+     * dbtbbbse stored procedures.
+     * The <code>CbllbbleStbtement</code> object provides
+     * methods for setting up its IN bnd OUT pbrbmeters, bnd
+     * methods for executing the cbll to b stored procedure.
      *
-     * <P><B>Note:</B> This method is optimized for handling stored
-     * procedure call statements. Some drivers may send the call
-     * statement to the database when the method <code>prepareCall</code>
+     * <P><B>Note:</B> This method is optimized for hbndling stored
+     * procedure cbll stbtements. Some drivers mby send the cbll
+     * stbtement to the dbtbbbse when the method <code>prepbreCbll</code>
      * is done; others
-     * may wait until the <code>CallableStatement</code> object
-     * is executed. This has no
-     * direct effect on users; however, it does affect which method
-     * throws certain SQLExceptions.
+     * mby wbit until the <code>CbllbbleStbtement</code> object
+     * is executed. This hbs no
+     * direct effect on users; however, it does bffect which method
+     * throws certbin SQLExceptions.
      * <P>
-     * Result sets created using the returned <code>CallableStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Result sets crebted using the returned <code>CbllbbleStbtement</code>
+     * object will by defbult be type <code>TYPE_FORWARD_ONLY</code>
+     * bnd hbve b concurrency level of <code>CONCUR_READ_ONLY</code>.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?'
-     * parameter placeholders. Typically this statement is specified using JDBC
-     * call escape syntax.
-     * @return a new default <code>CallableStatement</code> object containing the
-     * pre-compiled SQL statement
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @pbrbm sql bn SQL stbtement thbt mby contbin one or more '?'
+     * pbrbmeter plbceholders. Typicblly this stbtement is specified using JDBC
+     * cbll escbpe syntbx.
+     * @return b new defbult <code>CbllbbleStbtement</code> object contbining the
+     * pre-compiled SQL stbtement
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
      */
-    CallableStatement prepareCall(String sql) throws SQLException;
+    CbllbbleStbtement prepbreCbll(String sql) throws SQLException;
 
     /**
-     * Converts the given SQL statement into the system's native SQL grammar.
-     * A driver may convert the JDBC SQL grammar into its system's
-     * native SQL grammar prior to sending it. This method returns the
-     * native form of the statement that the driver would have sent.
+     * Converts the given SQL stbtement into the system's nbtive SQL grbmmbr.
+     * A driver mby convert the JDBC SQL grbmmbr into its system's
+     * nbtive SQL grbmmbr prior to sending it. This method returns the
+     * nbtive form of the stbtement thbt the driver would hbve sent.
      *
-     * @param sql an SQL statement that may contain one or more '?'
-     * parameter placeholders
-     * @return the native form of this statement
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @pbrbm sql bn SQL stbtement thbt mby contbin one or more '?'
+     * pbrbmeter plbceholders
+     * @return the nbtive form of this stbtement
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
      */
-    String nativeSQL(String sql) throws SQLException;
+    String nbtiveSQL(String sql) throws SQLException;
 
     /**
-     * Sets this connection's auto-commit mode to the given state.
-     * If a connection is in auto-commit mode, then all its SQL
-     * statements will be executed and committed as individual
-     * transactions.  Otherwise, its SQL statements are grouped into
-     * transactions that are terminated by a call to either
-     * the method <code>commit</code> or the method <code>rollback</code>.
-     * By default, new connections are in auto-commit
+     * Sets this connection's buto-commit mode to the given stbte.
+     * If b connection is in buto-commit mode, then bll its SQL
+     * stbtements will be executed bnd committed bs individubl
+     * trbnsbctions.  Otherwise, its SQL stbtements bre grouped into
+     * trbnsbctions thbt bre terminbted by b cbll to either
+     * the method <code>commit</code> or the method <code>rollbbck</code>.
+     * By defbult, new connections bre in buto-commit
      * mode.
      * <P>
-     * The commit occurs when the statement completes. The time when the statement
-     * completes depends on the type of SQL Statement:
+     * The commit occurs when the stbtement completes. The time when the stbtement
+     * completes depends on the type of SQL Stbtement:
      * <ul>
-     * <li>For DML statements, such as Insert, Update or Delete, and DDL statements,
-     * the statement is complete as soon as it has finished executing.
-     * <li>For Select statements, the statement is complete when the associated result
+     * <li>For DML stbtements, such bs Insert, Updbte or Delete, bnd DDL stbtements,
+     * the stbtement is complete bs soon bs it hbs finished executing.
+     * <li>For Select stbtements, the stbtement is complete when the bssocibted result
      * set is closed.
-     * <li>For <code>CallableStatement</code> objects or for statements that return
-     * multiple results, the statement is complete
-     * when all of the associated result sets have been closed, and all update
-     * counts and output parameters have been retrieved.
+     * <li>For <code>CbllbbleStbtement</code> objects or for stbtements thbt return
+     * multiple results, the stbtement is complete
+     * when bll of the bssocibted result sets hbve been closed, bnd bll updbte
+     * counts bnd output pbrbmeters hbve been retrieved.
      *</ul>
      * <P>
-     * <B>NOTE:</B>  If this method is called during a transaction and the
-     * auto-commit mode is changed, the transaction is committed.  If
-     * <code>setAutoCommit</code> is called and the auto-commit mode is
-     * not changed, the call is a no-op.
+     * <B>NOTE:</B>  If this method is cblled during b trbnsbction bnd the
+     * buto-commit mode is chbnged, the trbnsbction is committed.  If
+     * <code>setAutoCommit</code> is cblled bnd the buto-commit mode is
+     * not chbnged, the cbll is b no-op.
      *
-     * @param autoCommit <code>true</code> to enable auto-commit mode;
-     *         <code>false</code> to disable it
-     * @exception SQLException if a database access error occurs,
-     *  setAutoCommit(true) is called while participating in a distributed transaction,
-     * or this method is called on a closed connection
+     * @pbrbm butoCommit <code>true</code> to enbble buto-commit mode;
+     *         <code>fblse</code> to disbble it
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     *  setAutoCommit(true) is cblled while pbrticipbting in b distributed trbnsbction,
+     * or this method is cblled on b closed connection
      * @see #getAutoCommit
      */
-    void setAutoCommit(boolean autoCommit) throws SQLException;
+    void setAutoCommit(boolebn butoCommit) throws SQLException;
 
     /**
-     * Retrieves the current auto-commit mode for this <code>Connection</code>
+     * Retrieves the current buto-commit mode for this <code>Connection</code>
      * object.
      *
-     * @return the current state of this <code>Connection</code> object's
-     *         auto-commit mode
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @return the current stbte of this <code>Connection</code> object's
+     *         buto-commit mode
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
      * @see #setAutoCommit
      */
-    boolean getAutoCommit() throws SQLException;
+    boolebn getAutoCommit() throws SQLException;
 
     /**
-     * Makes all changes made since the previous
-     * commit/rollback permanent and releases any database locks
+     * Mbkes bll chbnges mbde since the previous
+     * commit/rollbbck permbnent bnd relebses bny dbtbbbse locks
      * currently held by this <code>Connection</code> object.
      * This method should be
-     * used only when auto-commit mode has been disabled.
+     * used only when buto-commit mode hbs been disbbled.
      *
-     * @exception SQLException if a database access error occurs,
-     * this method is called while participating in a distributed transaction,
-     * if this method is called on a closed connection or this
-     *            <code>Connection</code> object is in auto-commit mode
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     * this method is cblled while pbrticipbting in b distributed trbnsbction,
+     * if this method is cblled on b closed connection or this
+     *            <code>Connection</code> object is in buto-commit mode
      * @see #setAutoCommit
      */
     void commit() throws SQLException;
 
     /**
-     * Undoes all changes made in the current transaction
-     * and releases any database locks currently held
+     * Undoes bll chbnges mbde in the current trbnsbction
+     * bnd relebses bny dbtbbbse locks currently held
      * by this <code>Connection</code> object. This method should be
-     * used only when auto-commit mode has been disabled.
+     * used only when buto-commit mode hbs been disbbled.
      *
-     * @exception SQLException if a database access error occurs,
-     * this method is called while participating in a distributed transaction,
-     * this method is called on a closed connection or this
-     *            <code>Connection</code> object is in auto-commit mode
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     * this method is cblled while pbrticipbting in b distributed trbnsbction,
+     * this method is cblled on b closed connection or this
+     *            <code>Connection</code> object is in buto-commit mode
      * @see #setAutoCommit
      */
-    void rollback() throws SQLException;
+    void rollbbck() throws SQLException;
 
     /**
-     * Releases this <code>Connection</code> object's database and JDBC resources
-     * immediately instead of waiting for them to be automatically released.
+     * Relebses this <code>Connection</code> object's dbtbbbse bnd JDBC resources
+     * immedibtely instebd of wbiting for them to be butombticblly relebsed.
      * <P>
-     * Calling the method <code>close</code> on a <code>Connection</code>
-     * object that is already closed is a no-op.
+     * Cblling the method <code>close</code> on b <code>Connection</code>
+     * object thbt is blrebdy closed is b no-op.
      * <P>
-     * It is <b>strongly recommended</b> that an application explicitly
-     * commits or rolls back an active transaction prior to calling the
-     * <code>close</code> method.  If the <code>close</code> method is called
-     * and there is an active transaction, the results are implementation-defined.
+     * It is <b>strongly recommended</b> thbt bn bpplicbtion explicitly
+     * commits or rolls bbck bn bctive trbnsbction prior to cblling the
+     * <code>close</code> method.  If the <code>close</code> method is cblled
+     * bnd there is bn bctive trbnsbction, the results bre implementbtion-defined.
      *
-     * @exception SQLException SQLException if a database access error occurs
+     * @exception SQLException SQLException if b dbtbbbse bccess error occurs
      */
     void close() throws SQLException;
 
     /**
-     * Retrieves whether this <code>Connection</code> object has been
+     * Retrieves whether this <code>Connection</code> object hbs been
      * closed.  A connection is closed if the method <code>close</code>
-     * has been called on it or if certain fatal errors have occurred.
-     * This method is guaranteed to return <code>true</code> only when
-     * it is called after the method <code>Connection.close</code> has
-     * been called.
+     * hbs been cblled on it or if certbin fbtbl errors hbve occurred.
+     * This method is gubrbnteed to return <code>true</code> only when
+     * it is cblled bfter the method <code>Connection.close</code> hbs
+     * been cblled.
      * <P>
-     * This method generally cannot be called to determine whether a
-     * connection to a database is valid or invalid.  A typical client
-     * can determine that a connection is invalid by catching any
-     * exceptions that might be thrown when an operation is attempted.
+     * This method generblly cbnnot be cblled to determine whether b
+     * connection to b dbtbbbse is vblid or invblid.  A typicbl client
+     * cbn determine thbt b connection is invblid by cbtching bny
+     * exceptions thbt might be thrown when bn operbtion is bttempted.
      *
      * @return <code>true</code> if this <code>Connection</code> object
-     *         is closed; <code>false</code> if it is still open
-     * @exception SQLException if a database access error occurs
+     *         is closed; <code>fblse</code> if it is still open
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    boolean isClosed() throws SQLException;
+    boolebn isClosed() throws SQLException;
 
     //======================================================================
-    // Advanced features:
+    // Advbnced febtures:
 
     /**
-     * Retrieves a <code>DatabaseMetaData</code> object that contains
-     * metadata about the database to which this
-     * <code>Connection</code> object represents a connection.
-     * The metadata includes information about the database's
-     * tables, its supported SQL grammar, its stored
-     * procedures, the capabilities of this connection, and so on.
+     * Retrieves b <code>DbtbbbseMetbDbtb</code> object thbt contbins
+     * metbdbtb bbout the dbtbbbse to which this
+     * <code>Connection</code> object represents b connection.
+     * The metbdbtb includes informbtion bbout the dbtbbbse's
+     * tbbles, its supported SQL grbmmbr, its stored
+     * procedures, the cbpbbilities of this connection, bnd so on.
      *
-     * @return a <code>DatabaseMetaData</code> object for this
+     * @return b <code>DbtbbbseMetbDbtb</code> object for this
      *         <code>Connection</code> object
-     * @exception  SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @exception  SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
      */
-    DatabaseMetaData getMetaData() throws SQLException;
+    DbtbbbseMetbDbtb getMetbDbtb() throws SQLException;
 
     /**
-     * Puts this connection in read-only mode as a hint to the driver to enable
-     * database optimizations.
+     * Puts this connection in rebd-only mode bs b hint to the driver to enbble
+     * dbtbbbse optimizbtions.
      *
-     * <P><B>Note:</B> This method cannot be called during a transaction.
+     * <P><B>Note:</B> This method cbnnot be cblled during b trbnsbction.
      *
-     * @param readOnly <code>true</code> enables read-only mode;
-     *        <code>false</code> disables it
-     * @exception SQLException if a database access error occurs, this
-     *  method is called on a closed connection or this
-     *            method is called during a transaction
+     * @pbrbm rebdOnly <code>true</code> enbbles rebd-only mode;
+     *        <code>fblse</code> disbbles it
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     *  method is cblled on b closed connection or this
+     *            method is cblled during b trbnsbction
      */
-    void setReadOnly(boolean readOnly) throws SQLException;
+    void setRebdOnly(boolebn rebdOnly) throws SQLException;
 
     /**
      * Retrieves whether this <code>Connection</code>
-     * object is in read-only mode.
+     * object is in rebd-only mode.
      *
      * @return <code>true</code> if this <code>Connection</code> object
-     *         is read-only; <code>false</code> otherwise
-     * @exception SQLException SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     *         is rebd-only; <code>fblse</code> otherwise
+     * @exception SQLException SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
      */
-    boolean isReadOnly() throws SQLException;
+    boolebn isRebdOnly() throws SQLException;
 
     /**
-     * Sets the given catalog name in order to select
-     * a subspace of this <code>Connection</code> object's database
+     * Sets the given cbtblog nbme in order to select
+     * b subspbce of this <code>Connection</code> object's dbtbbbse
      * in which to work.
      * <P>
-     * If the driver does not support catalogs, it will
+     * If the driver does not support cbtblogs, it will
      * silently ignore this request.
      * <p>
-     * Calling {@code setCatalog} has no effect on previously created or prepared
-     * {@code Statement} objects. It is implementation defined whether a DBMS
-     * prepare operation takes place immediately when the {@code Connection}
-     * method {@code prepareStatement} or {@code prepareCall} is invoked.
-     * For maximum portability, {@code setCatalog} should be called before a
-     * {@code Statement} is created or prepared.
+     * Cblling {@code setCbtblog} hbs no effect on previously crebted or prepbred
+     * {@code Stbtement} objects. It is implementbtion defined whether b DBMS
+     * prepbre operbtion tbkes plbce immedibtely when the {@code Connection}
+     * method {@code prepbreStbtement} or {@code prepbreCbll} is invoked.
+     * For mbximum portbbility, {@code setCbtblog} should be cblled before b
+     * {@code Stbtement} is crebted or prepbred.
      *
-     * @param catalog the name of a catalog (subspace in this
-     *        <code>Connection</code> object's database) in which to work
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #getCatalog
+     * @pbrbm cbtblog the nbme of b cbtblog (subspbce in this
+     *        <code>Connection</code> object's dbtbbbse) in which to work
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
+     * @see #getCbtblog
      */
-    void setCatalog(String catalog) throws SQLException;
+    void setCbtblog(String cbtblog) throws SQLException;
 
     /**
-     * Retrieves this <code>Connection</code> object's current catalog name.
+     * Retrieves this <code>Connection</code> object's current cbtblog nbme.
      *
-     * @return the current catalog name or <code>null</code> if there is none
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setCatalog
+     * @return the current cbtblog nbme or <code>null</code> if there is none
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
+     * @see #setCbtblog
      */
-    String getCatalog() throws SQLException;
+    String getCbtblog() throws SQLException;
 
     /**
-     * A constant indicating that transactions are not supported.
+     * A constbnt indicbting thbt trbnsbctions bre not supported.
      */
     int TRANSACTION_NONE             = 0;
 
     /**
-     * A constant indicating that
-     * dirty reads, non-repeatable reads and phantom reads can occur.
-     * This level allows a row changed by one transaction to be read
-     * by another transaction before any changes in that row have been
-     * committed (a "dirty read").  If any of the changes are rolled back,
-     * the second transaction will have retrieved an invalid row.
+     * A constbnt indicbting thbt
+     * dirty rebds, non-repebtbble rebds bnd phbntom rebds cbn occur.
+     * This level bllows b row chbnged by one trbnsbction to be rebd
+     * by bnother trbnsbction before bny chbnges in thbt row hbve been
+     * committed (b "dirty rebd").  If bny of the chbnges bre rolled bbck,
+     * the second trbnsbction will hbve retrieved bn invblid row.
      */
     int TRANSACTION_READ_UNCOMMITTED = 1;
 
     /**
-     * A constant indicating that
-     * dirty reads are prevented; non-repeatable reads and phantom
-     * reads can occur.  This level only prohibits a transaction
-     * from reading a row with uncommitted changes in it.
+     * A constbnt indicbting thbt
+     * dirty rebds bre prevented; non-repebtbble rebds bnd phbntom
+     * rebds cbn occur.  This level only prohibits b trbnsbction
+     * from rebding b row with uncommitted chbnges in it.
      */
     int TRANSACTION_READ_COMMITTED   = 2;
 
     /**
-     * A constant indicating that
-     * dirty reads and non-repeatable reads are prevented; phantom
-     * reads can occur.  This level prohibits a transaction from
-     * reading a row with uncommitted changes in it, and it also
-     * prohibits the situation where one transaction reads a row,
-     * a second transaction alters the row, and the first transaction
-     * rereads the row, getting different values the second time
-     * (a "non-repeatable read").
+     * A constbnt indicbting thbt
+     * dirty rebds bnd non-repebtbble rebds bre prevented; phbntom
+     * rebds cbn occur.  This level prohibits b trbnsbction from
+     * rebding b row with uncommitted chbnges in it, bnd it blso
+     * prohibits the situbtion where one trbnsbction rebds b row,
+     * b second trbnsbction blters the row, bnd the first trbnsbction
+     * rerebds the row, getting different vblues the second time
+     * (b "non-repebtbble rebd").
      */
     int TRANSACTION_REPEATABLE_READ  = 4;
 
     /**
-     * A constant indicating that
-     * dirty reads, non-repeatable reads and phantom reads are prevented.
+     * A constbnt indicbting thbt
+     * dirty rebds, non-repebtbble rebds bnd phbntom rebds bre prevented.
      * This level includes the prohibitions in
-     * <code>TRANSACTION_REPEATABLE_READ</code> and further prohibits the
-     * situation where one transaction reads all rows that satisfy
-     * a <code>WHERE</code> condition, a second transaction inserts a row that
-     * satisfies that <code>WHERE</code> condition, and the first transaction
-     * rereads for the same condition, retrieving the additional
-     * "phantom" row in the second read.
+     * <code>TRANSACTION_REPEATABLE_READ</code> bnd further prohibits the
+     * situbtion where one trbnsbction rebds bll rows thbt sbtisfy
+     * b <code>WHERE</code> condition, b second trbnsbction inserts b row thbt
+     * sbtisfies thbt <code>WHERE</code> condition, bnd the first trbnsbction
+     * rerebds for the sbme condition, retrieving the bdditionbl
+     * "phbntom" row in the second rebd.
      */
     int TRANSACTION_SERIALIZABLE     = 8;
 
     /**
-     * Attempts to change the transaction isolation level for this
+     * Attempts to chbnge the trbnsbction isolbtion level for this
      * <code>Connection</code> object to the one given.
-     * The constants defined in the interface <code>Connection</code>
-     * are the possible transaction isolation levels.
+     * The constbnts defined in the interfbce <code>Connection</code>
+     * bre the possible trbnsbction isolbtion levels.
      * <P>
-     * <B>Note:</B> If this method is called during a transaction, the result
-     * is implementation-defined.
+     * <B>Note:</B> If this method is cblled during b trbnsbction, the result
+     * is implementbtion-defined.
      *
-     * @param level one of the following <code>Connection</code> constants:
+     * @pbrbm level one of the following <code>Connection</code> constbnts:
      *        <code>Connection.TRANSACTION_READ_UNCOMMITTED</code>,
      *        <code>Connection.TRANSACTION_READ_COMMITTED</code>,
      *        <code>Connection.TRANSACTION_REPEATABLE_READ</code>, or
      *        <code>Connection.TRANSACTION_SERIALIZABLE</code>.
-     *        (Note that <code>Connection.TRANSACTION_NONE</code> cannot be used
-     *        because it specifies that transactions are not supported.)
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *            or the given parameter is not one of the <code>Connection</code>
-     *            constants
-     * @see DatabaseMetaData#supportsTransactionIsolationLevel
-     * @see #getTransactionIsolation
+     *        (Note thbt <code>Connection.TRANSACTION_NONE</code> cbnnot be used
+     *        becbuse it specifies thbt trbnsbctions bre not supported.)
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     * method is cblled on b closed connection
+     *            or the given pbrbmeter is not one of the <code>Connection</code>
+     *            constbnts
+     * @see DbtbbbseMetbDbtb#supportsTrbnsbctionIsolbtionLevel
+     * @see #getTrbnsbctionIsolbtion
      */
-    void setTransactionIsolation(int level) throws SQLException;
+    void setTrbnsbctionIsolbtion(int level) throws SQLException;
 
     /**
      * Retrieves this <code>Connection</code> object's current
-     * transaction isolation level.
+     * trbnsbction isolbtion level.
      *
-     * @return the current transaction isolation level, which will be one
-     *         of the following constants:
+     * @return the current trbnsbction isolbtion level, which will be one
+     *         of the following constbnts:
      *        <code>Connection.TRANSACTION_READ_UNCOMMITTED</code>,
      *        <code>Connection.TRANSACTION_READ_COMMITTED</code>,
      *        <code>Connection.TRANSACTION_REPEATABLE_READ</code>,
      *        <code>Connection.TRANSACTION_SERIALIZABLE</code>, or
      *        <code>Connection.TRANSACTION_NONE</code>.
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setTransactionIsolation
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
+     * @see #setTrbnsbctionIsolbtion
      */
-    int getTransactionIsolation() throws SQLException;
+    int getTrbnsbctionIsolbtion() throws SQLException;
 
     /**
-     * Retrieves the first warning reported by calls on this
-     * <code>Connection</code> object.  If there is more than one
-     * warning, subsequent warnings will be chained to the first one
-     * and can be retrieved by calling the method
-     * <code>SQLWarning.getNextWarning</code> on the warning
-     * that was retrieved previously.
+     * Retrieves the first wbrning reported by cblls on this
+     * <code>Connection</code> object.  If there is more thbn one
+     * wbrning, subsequent wbrnings will be chbined to the first one
+     * bnd cbn be retrieved by cblling the method
+     * <code>SQLWbrning.getNextWbrning</code> on the wbrning
+     * thbt wbs retrieved previously.
      * <P>
-     * This method may not be
-     * called on a closed connection; doing so will cause an
+     * This method mby not be
+     * cblled on b closed connection; doing so will cbuse bn
      * <code>SQLException</code> to be thrown.
      *
-     * <P><B>Note:</B> Subsequent warnings will be chained to this
-     * SQLWarning.
+     * <P><B>Note:</B> Subsequent wbrnings will be chbined to this
+     * SQLWbrning.
      *
-     * @return the first <code>SQLWarning</code> object or <code>null</code>
-     *         if there are none
-     * @exception SQLException if a database access error occurs or
-     *            this method is called on a closed connection
-     * @see SQLWarning
+     * @return the first <code>SQLWbrning</code> object or <code>null</code>
+     *         if there bre none
+     * @exception SQLException if b dbtbbbse bccess error occurs or
+     *            this method is cblled on b closed connection
+     * @see SQLWbrning
      */
-    SQLWarning getWarnings() throws SQLException;
+    SQLWbrning getWbrnings() throws SQLException;
 
     /**
-     * Clears all warnings reported for this <code>Connection</code> object.
-     * After a call to this method, the method <code>getWarnings</code>
-     * returns <code>null</code> until a new warning is
+     * Clebrs bll wbrnings reported for this <code>Connection</code> object.
+     * After b cbll to this method, the method <code>getWbrnings</code>
+     * returns <code>null</code> until b new wbrning is
      * reported for this <code>Connection</code> object.
      *
-     * @exception SQLException SQLException if a database access error occurs
-     * or this method is called on a closed connection
+     * @exception SQLException SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
      */
-    void clearWarnings() throws SQLException;
+    void clebrWbrnings() throws SQLException;
 
 
     //--------------------------JDBC 2.0-----------------------------
 
     /**
-     * Creates a <code>Statement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type and concurrency.
-     * This method is the same as the <code>createStatement</code> method
-     * above, but it allows the default result set
-     * type and concurrency to be overridden.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Crebtes b <code>Stbtement</code> object thbt will generbte
+     * <code>ResultSet</code> objects with the given type bnd concurrency.
+     * This method is the sbme bs the <code>crebteStbtement</code> method
+     * bbove, but it bllows the defbult result set
+     * type bnd concurrency to be overridden.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @param resultSetType a result set type; one of
+     * @pbrbm resultSetType b result set type; one of
      *        <code>ResultSet.TYPE_FORWARD_ONLY</code>,
      *        <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
      *        <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency a concurrency type; one of
+     * @pbrbm resultSetConcurrency b concurrency type; one of
      *        <code>ResultSet.CONCUR_READ_ONLY</code> or
      *        <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @return a new <code>Statement</code> object that will generate
-     *         <code>ResultSet</code> objects with the given type and
+     * @return b new <code>Stbtement</code> object thbt will generbte
+     *         <code>ResultSet</code> objects with the given type bnd
      *         concurrency
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *         or the given parameters are not <code>ResultSet</code>
-     *         constants indicating type and concurrency
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     * method is cblled on b closed connection
+     *         or the given pbrbmeters bre not <code>ResultSet</code>
+     *         constbnts indicbting type bnd concurrency
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method or this method is not supported for the specified result
-     * set type and result set concurrency.
+     * set type bnd result set concurrency.
      * @since 1.2
      */
-    Statement createStatement(int resultSetType, int resultSetConcurrency)
+    Stbtement crebteStbtement(int resultSetType, int resultSetConcurrency)
         throws SQLException;
 
     /**
      *
-     * Creates a <code>PreparedStatement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type and concurrency.
-     * This method is the same as the <code>prepareStatement</code> method
-     * above, but it allows the default result set
-     * type and concurrency to be overridden.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Crebtes b <code>PrepbredStbtement</code> object thbt will generbte
+     * <code>ResultSet</code> objects with the given type bnd concurrency.
+     * This method is the sbme bs the <code>prepbreStbtement</code> method
+     * bbove, but it bllows the defbult result set
+     * type bnd concurrency to be overridden.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain one or more '?' IN
-     *            parameters
-     * @param resultSetType a result set type; one of
+     * @pbrbm sql b <code>String</code> object thbt is the SQL stbtement to
+     *            be sent to the dbtbbbse; mby contbin one or more '?' IN
+     *            pbrbmeters
+     * @pbrbm resultSetType b result set type; one of
      *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
      *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
      *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency a concurrency type; one of
+     * @pbrbm resultSetConcurrency b concurrency type; one of
      *         <code>ResultSet.CONCUR_READ_ONLY</code> or
      *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @return a new PreparedStatement object containing the
-     * pre-compiled SQL statement that will produce <code>ResultSet</code>
-     * objects with the given type and concurrency
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *         or the given parameters are not <code>ResultSet</code>
-     *         constants indicating type and concurrency
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return b new PrepbredStbtement object contbining the
+     * pre-compiled SQL stbtement thbt will produce <code>ResultSet</code>
+     * objects with the given type bnd concurrency
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     * method is cblled on b closed connection
+     *         or the given pbrbmeters bre not <code>ResultSet</code>
+     *         constbnts indicbting type bnd concurrency
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method or this method is not supported for the specified result
-     * set type and result set concurrency.
+     * set type bnd result set concurrency.
      * @since 1.2
      */
-    PreparedStatement prepareStatement(String sql, int resultSetType,
+    PrepbredStbtement prepbreStbtement(String sql, int resultSetType,
                                        int resultSetConcurrency)
         throws SQLException;
 
     /**
-     * Creates a <code>CallableStatement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type and concurrency.
-     * This method is the same as the <code>prepareCall</code> method
-     * above, but it allows the default result set
-     * type and concurrency to be overridden.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Crebtes b <code>CbllbbleStbtement</code> object thbt will generbte
+     * <code>ResultSet</code> objects with the given type bnd concurrency.
+     * This method is the sbme bs the <code>prepbreCbll</code> method
+     * bbove, but it bllows the defbult result set
+     * type bnd concurrency to be overridden.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain on or more '?' parameters
-     * @param resultSetType a result set type; one of
+     * @pbrbm sql b <code>String</code> object thbt is the SQL stbtement to
+     *            be sent to the dbtbbbse; mby contbin on or more '?' pbrbmeters
+     * @pbrbm resultSetType b result set type; one of
      *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
      *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
      *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency a concurrency type; one of
+     * @pbrbm resultSetConcurrency b concurrency type; one of
      *         <code>ResultSet.CONCUR_READ_ONLY</code> or
      *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @return a new <code>CallableStatement</code> object containing the
-     * pre-compiled SQL statement that will produce <code>ResultSet</code>
-     * objects with the given type and concurrency
-     * @exception SQLException if a database access error occurs, this method
-     * is called on a closed connection
-     *         or the given parameters are not <code>ResultSet</code>
-     *         constants indicating type and concurrency
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @return b new <code>CbllbbleStbtement</code> object contbining the
+     * pre-compiled SQL stbtement thbt will produce <code>ResultSet</code>
+     * objects with the given type bnd concurrency
+     * @exception SQLException if b dbtbbbse bccess error occurs, this method
+     * is cblled on b closed connection
+     *         or the given pbrbmeters bre not <code>ResultSet</code>
+     *         constbnts indicbting type bnd concurrency
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method or this method is not supported for the specified result
-     * set type and result set concurrency.
+     * set type bnd result set concurrency.
      * @since 1.2
      */
-    CallableStatement prepareCall(String sql, int resultSetType,
+    CbllbbleStbtement prepbreCbll(String sql, int resultSetType,
                                   int resultSetConcurrency) throws SQLException;
 
     /**
-     * Retrieves the <code>Map</code> object associated with this
+     * Retrieves the <code>Mbp</code> object bssocibted with this
      * <code>Connection</code> object.
-     * Unless the application has added an entry, the type map returned
+     * Unless the bpplicbtion hbs bdded bn entry, the type mbp returned
      * will be empty.
      * <p>
-     * You must invoke <code>setTypeMap</code> after making changes to the
-     * <code>Map</code> object returned from
-     *  <code>getTypeMap</code> as a JDBC driver may create an internal
-     * copy of the <code>Map</code> object passed to <code>setTypeMap</code>:
+     * You must invoke <code>setTypeMbp</code> bfter mbking chbnges to the
+     * <code>Mbp</code> object returned from
+     *  <code>getTypeMbp</code> bs b JDBC driver mby crebte bn internbl
+     * copy of the <code>Mbp</code> object pbssed to <code>setTypeMbp</code>:
      *
      * <pre>
-     *      Map&lt;String,Class&lt;?&gt;&gt; myMap = con.getTypeMap();
-     *      myMap.put("mySchemaName.ATHLETES", Athletes.class);
-     *      con.setTypeMap(myMap);
+     *      Mbp&lt;String,Clbss&lt;?&gt;&gt; myMbp = con.getTypeMbp();
+     *      myMbp.put("mySchembNbme.ATHLETES", Athletes.clbss);
+     *      con.setTypeMbp(myMbp);
      * </pre>
-     * @return the <code>java.util.Map</code> object associated
+     * @return the <code>jbvb.util.Mbp</code> object bssocibted
      *         with this <code>Connection</code> object
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
-     * @see #setTypeMap
+     * @see #setTypeMbp
      */
-    java.util.Map<String,Class<?>> getTypeMap() throws SQLException;
+    jbvb.util.Mbp<String,Clbss<?>> getTypeMbp() throws SQLException;
 
     /**
-     * Installs the given <code>TypeMap</code> object as the type map for
-     * this <code>Connection</code> object.  The type map will be used for the
-     * custom mapping of SQL structured types and distinct types.
+     * Instblls the given <code>TypeMbp</code> object bs the type mbp for
+     * this <code>Connection</code> object.  The type mbp will be used for the
+     * custom mbpping of SQL structured types bnd distinct types.
      * <p>
-     * You must set the the values for the <code>TypeMap</code> prior to
-     * callng <code>setMap</code> as a JDBC driver may create an internal copy
-     * of the <code>TypeMap</code>:
+     * You must set the the vblues for the <code>TypeMbp</code> prior to
+     * cbllng <code>setMbp</code> bs b JDBC driver mby crebte bn internbl copy
+     * of the <code>TypeMbp</code>:
      *
      * <pre>
-     *      Map myMap&lt;String,Class&lt;?&gt;&gt; = new HashMap&lt;String,Class&lt;?&gt;&gt;();
-     *      myMap.put("mySchemaName.ATHLETES", Athletes.class);
-     *      con.setTypeMap(myMap);
+     *      Mbp myMbp&lt;String,Clbss&lt;?&gt;&gt; = new HbshMbp&lt;String,Clbss&lt;?&gt;&gt;();
+     *      myMbp.put("mySchembNbme.ATHLETES", Athletes.clbss);
+     *      con.setTypeMbp(myMbp);
      * </pre>
-     * @param map the <code>java.util.Map</code> object to install
-     *        as the replacement for this <code>Connection</code>
-     *        object's default type map
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection or
-     *        the given parameter is not a <code>java.util.Map</code>
+     * @pbrbm mbp the <code>jbvb.util.Mbp</code> object to instbll
+     *        bs the replbcement for this <code>Connection</code>
+     *        object's defbult type mbp
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     * method is cblled on b closed connection or
+     *        the given pbrbmeter is not b <code>jbvb.util.Mbp</code>
      *        object
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.2
-     * @see #getTypeMap
+     * @see #getTypeMbp
      */
-    void setTypeMap(java.util.Map<String,Class<?>> map) throws SQLException;
+    void setTypeMbp(jbvb.util.Mbp<String,Clbss<?>> mbp) throws SQLException;
 
     //--------------------------JDBC 3.0-----------------------------
 
 
     /**
-     * Changes the default holdability of <code>ResultSet</code> objects
-     * created using this <code>Connection</code> object to the given
-     * holdability.  The default holdability of <code>ResultSet</code> objects
-     * can be be determined by invoking
-     * {@link DatabaseMetaData#getResultSetHoldability}.
+     * Chbnges the defbult holdbbility of <code>ResultSet</code> objects
+     * crebted using this <code>Connection</code> object to the given
+     * holdbbility.  The defbult holdbbility of <code>ResultSet</code> objects
+     * cbn be be determined by invoking
+     * {@link DbtbbbseMetbDbtb#getResultSetHoldbbility}.
      *
-     * @param holdability a <code>ResultSet</code> holdability constant; one of
+     * @pbrbm holdbbility b <code>ResultSet</code> holdbbility constbnt; one of
      *        <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
      *        <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @throws SQLException if a database access occurs, this method is called
-     * on a closed connection, or the given parameter
-     *         is not a <code>ResultSet</code> constant indicating holdability
-     * @exception SQLFeatureNotSupportedException if the given holdability is not supported
-     * @see #getHoldability
-     * @see DatabaseMetaData#getResultSetHoldability
+     * @throws SQLException if b dbtbbbse bccess occurs, this method is cblled
+     * on b closed connection, or the given pbrbmeter
+     *         is not b <code>ResultSet</code> constbnt indicbting holdbbility
+     * @exception SQLFebtureNotSupportedException if the given holdbbility is not supported
+     * @see #getHoldbbility
+     * @see DbtbbbseMetbDbtb#getResultSetHoldbbility
      * @see ResultSet
      * @since 1.4
      */
-    void setHoldability(int holdability) throws SQLException;
+    void setHoldbbility(int holdbbility) throws SQLException;
 
     /**
-     * Retrieves the current holdability of <code>ResultSet</code> objects
-     * created using this <code>Connection</code> object.
+     * Retrieves the current holdbbility of <code>ResultSet</code> objects
+     * crebted using this <code>Connection</code> object.
      *
-     * @return the holdability, one of
+     * @return the holdbbility, one of
      *        <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
      *        <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @throws SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setHoldability
-     * @see DatabaseMetaData#getResultSetHoldability
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
+     * @see #setHoldbbility
+     * @see DbtbbbseMetbDbtb#getResultSetHoldbbility
      * @see ResultSet
      * @since 1.4
      */
-    int getHoldability() throws SQLException;
+    int getHoldbbility() throws SQLException;
 
     /**
-     * Creates an unnamed savepoint in the current transaction and
-     * returns the new <code>Savepoint</code> object that represents it.
+     * Crebtes bn unnbmed sbvepoint in the current trbnsbction bnd
+     * returns the new <code>Sbvepoint</code> object thbt represents it.
      *
-     *<p> if setSavepoint is invoked outside of an active transaction, a transaction will be started at this newly created
-     *savepoint.
+     *<p> if setSbvepoint is invoked outside of bn bctive trbnsbction, b trbnsbction will be stbrted bt this newly crebted
+     *sbvepoint.
      *
-     * @return the new <code>Savepoint</code> object
-     * @exception SQLException if a database access error occurs,
-     * this method is called while participating in a distributed transaction,
-     * this method is called on a closed connection
+     * @return the new <code>Sbvepoint</code> object
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     * this method is cblled while pbrticipbting in b distributed trbnsbction,
+     * this method is cblled on b closed connection
      *            or this <code>Connection</code> object is currently in
-     *            auto-commit mode
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     *            buto-commit mode
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see Savepoint
+     * @see Sbvepoint
      * @since 1.4
      */
-    Savepoint setSavepoint() throws SQLException;
+    Sbvepoint setSbvepoint() throws SQLException;
 
     /**
-     * Creates a savepoint with the given name in the current transaction
-     * and returns the new <code>Savepoint</code> object that represents it.
+     * Crebtes b sbvepoint with the given nbme in the current trbnsbction
+     * bnd returns the new <code>Sbvepoint</code> object thbt represents it.
      *
-     * <p> if setSavepoint is invoked outside of an active transaction, a transaction will be started at this newly created
-     *savepoint.
+     * <p> if setSbvepoint is invoked outside of bn bctive trbnsbction, b trbnsbction will be stbrted bt this newly crebted
+     *sbvepoint.
      *
-     * @param name a <code>String</code> containing the name of the savepoint
-     * @return the new <code>Savepoint</code> object
-     * @exception SQLException if a database access error occurs,
-          * this method is called while participating in a distributed transaction,
-     * this method is called on a closed connection
+     * @pbrbm nbme b <code>String</code> contbining the nbme of the sbvepoint
+     * @return the new <code>Sbvepoint</code> object
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+          * this method is cblled while pbrticipbting in b distributed trbnsbction,
+     * this method is cblled on b closed connection
      *            or this <code>Connection</code> object is currently in
-     *            auto-commit mode
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     *            buto-commit mode
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see Savepoint
+     * @see Sbvepoint
      * @since 1.4
      */
-    Savepoint setSavepoint(String name) throws SQLException;
+    Sbvepoint setSbvepoint(String nbme) throws SQLException;
 
     /**
-     * Undoes all changes made after the given <code>Savepoint</code> object
-     * was set.
+     * Undoes bll chbnges mbde bfter the given <code>Sbvepoint</code> object
+     * wbs set.
      * <P>
-     * This method should be used only when auto-commit has been disabled.
+     * This method should be used only when buto-commit hbs been disbbled.
      *
-     * @param savepoint the <code>Savepoint</code> object to roll back to
-     * @exception SQLException if a database access error occurs,
-     * this method is called while participating in a distributed transaction,
-     * this method is called on a closed connection,
-     *            the <code>Savepoint</code> object is no longer valid,
+     * @pbrbm sbvepoint the <code>Sbvepoint</code> object to roll bbck to
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     * this method is cblled while pbrticipbting in b distributed trbnsbction,
+     * this method is cblled on b closed connection,
+     *            the <code>Sbvepoint</code> object is no longer vblid,
      *            or this <code>Connection</code> object is currently in
-     *            auto-commit mode
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     *            buto-commit mode
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see Savepoint
-     * @see #rollback
+     * @see Sbvepoint
+     * @see #rollbbck
      * @since 1.4
      */
-    void rollback(Savepoint savepoint) throws SQLException;
+    void rollbbck(Sbvepoint sbvepoint) throws SQLException;
 
     /**
-     * Removes the specified <code>Savepoint</code>  and subsequent <code>Savepoint</code> objects from the current
-     * transaction. Any reference to the savepoint after it have been removed
-     * will cause an <code>SQLException</code> to be thrown.
+     * Removes the specified <code>Sbvepoint</code>  bnd subsequent <code>Sbvepoint</code> objects from the current
+     * trbnsbction. Any reference to the sbvepoint bfter it hbve been removed
+     * will cbuse bn <code>SQLException</code> to be thrown.
      *
-     * @param savepoint the <code>Savepoint</code> object to be removed
-     * @exception SQLException if a database access error occurs, this
-     *  method is called on a closed connection or
-     *            the given <code>Savepoint</code> object is not a valid
-     *            savepoint in the current transaction
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm sbvepoint the <code>Sbvepoint</code> object to be removed
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     *  method is cblled on b closed connection or
+     *            the given <code>Sbvepoint</code> object is not b vblid
+     *            sbvepoint in the current trbnsbction
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.4
      */
-    void releaseSavepoint(Savepoint savepoint) throws SQLException;
+    void relebseSbvepoint(Sbvepoint sbvepoint) throws SQLException;
 
     /**
-     * Creates a <code>Statement</code> object that will generate
+     * Crebtes b <code>Stbtement</code> object thbt will generbte
      * <code>ResultSet</code> objects with the given type, concurrency,
-     * and holdability.
-     * This method is the same as the <code>createStatement</code> method
-     * above, but it allows the default result set
-     * type, concurrency, and holdability to be overridden.
+     * bnd holdbbility.
+     * This method is the sbme bs the <code>crebteStbtement</code> method
+     * bbove, but it bllows the defbult result set
+     * type, concurrency, bnd holdbbility to be overridden.
      *
-     * @param resultSetType one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm resultSetType one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
      *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
      *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm resultSetConcurrency one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.CONCUR_READ_ONLY</code> or
      *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @param resultSetHoldability one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm resultSetHoldbbility one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
      *         <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @return a new <code>Statement</code> object that will generate
+     * @return b new <code>Stbtement</code> object thbt will generbte
      *         <code>ResultSet</code> objects with the given type,
-     *         concurrency, and holdability
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *            or the given parameters are not <code>ResultSet</code>
-     *            constants indicating type, concurrency, and holdability
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     *         concurrency, bnd holdbbility
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     * method is cblled on b closed connection
+     *            or the given pbrbmeters bre not <code>ResultSet</code>
+     *            constbnts indicbting type, concurrency, bnd holdbbility
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method or this method is not supported for the specified result
-     * set type, result set holdability and result set concurrency.
+     * set type, result set holdbbility bnd result set concurrency.
      * @see ResultSet
      * @since 1.4
      */
-    Statement createStatement(int resultSetType, int resultSetConcurrency,
-                              int resultSetHoldability) throws SQLException;
+    Stbtement crebteStbtement(int resultSetType, int resultSetConcurrency,
+                              int resultSetHoldbbility) throws SQLException;
 
     /**
-     * Creates a <code>PreparedStatement</code> object that will generate
+     * Crebtes b <code>PrepbredStbtement</code> object thbt will generbte
      * <code>ResultSet</code> objects with the given type, concurrency,
-     * and holdability.
+     * bnd holdbbility.
      * <P>
-     * This method is the same as the <code>prepareStatement</code> method
-     * above, but it allows the default result set
-     * type, concurrency, and holdability to be overridden.
+     * This method is the sbme bs the <code>prepbreStbtement</code> method
+     * bbove, but it bllows the defbult result set
+     * type, concurrency, bnd holdbbility to be overridden.
      *
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain one or more '?' IN
-     *            parameters
-     * @param resultSetType one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm sql b <code>String</code> object thbt is the SQL stbtement to
+     *            be sent to the dbtbbbse; mby contbin one or more '?' IN
+     *            pbrbmeters
+     * @pbrbm resultSetType one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
      *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
      *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm resultSetConcurrency one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.CONCUR_READ_ONLY</code> or
      *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @param resultSetHoldability one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm resultSetHoldbbility one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
      *         <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @return a new <code>PreparedStatement</code> object, containing the
-     *         pre-compiled SQL statement, that will generate
+     * @return b new <code>PrepbredStbtement</code> object, contbining the
+     *         pre-compiled SQL stbtement, thbt will generbte
      *         <code>ResultSet</code> objects with the given type,
-     *         concurrency, and holdability
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *            or the given parameters are not <code>ResultSet</code>
-     *            constants indicating type, concurrency, and holdability
-      * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     *         concurrency, bnd holdbbility
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     * method is cblled on b closed connection
+     *            or the given pbrbmeters bre not <code>ResultSet</code>
+     *            constbnts indicbting type, concurrency, bnd holdbbility
+      * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method or this method is not supported for the specified result
-     * set type, result set holdability and result set concurrency.
+     * set type, result set holdbbility bnd result set concurrency.
      * @see ResultSet
      * @since 1.4
      */
-    PreparedStatement prepareStatement(String sql, int resultSetType,
-                                       int resultSetConcurrency, int resultSetHoldability)
+    PrepbredStbtement prepbreStbtement(String sql, int resultSetType,
+                                       int resultSetConcurrency, int resultSetHoldbbility)
         throws SQLException;
 
     /**
-     * Creates a <code>CallableStatement</code> object that will generate
-     * <code>ResultSet</code> objects with the given type and concurrency.
-     * This method is the same as the <code>prepareCall</code> method
-     * above, but it allows the default result set
-     * type, result set concurrency type and holdability to be overridden.
+     * Crebtes b <code>CbllbbleStbtement</code> object thbt will generbte
+     * <code>ResultSet</code> objects with the given type bnd concurrency.
+     * This method is the sbme bs the <code>prepbreCbll</code> method
+     * bbove, but it bllows the defbult result set
+     * type, result set concurrency type bnd holdbbility to be overridden.
      *
-     * @param sql a <code>String</code> object that is the SQL statement to
-     *            be sent to the database; may contain on or more '?' parameters
-     * @param resultSetType one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm sql b <code>String</code> object thbt is the SQL stbtement to
+     *            be sent to the dbtbbbse; mby contbin on or more '?' pbrbmeters
+     * @pbrbm resultSetType one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.TYPE_FORWARD_ONLY</code>,
      *         <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
      *         <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @param resultSetConcurrency one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm resultSetConcurrency one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.CONCUR_READ_ONLY</code> or
      *         <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @param resultSetHoldability one of the following <code>ResultSet</code>
-     *        constants:
+     * @pbrbm resultSetHoldbbility one of the following <code>ResultSet</code>
+     *        constbnts:
      *         <code>ResultSet.HOLD_CURSORS_OVER_COMMIT</code> or
      *         <code>ResultSet.CLOSE_CURSORS_AT_COMMIT</code>
-     * @return a new <code>CallableStatement</code> object, containing the
-     *         pre-compiled SQL statement, that will generate
+     * @return b new <code>CbllbbleStbtement</code> object, contbining the
+     *         pre-compiled SQL stbtement, thbt will generbte
      *         <code>ResultSet</code> objects with the given type,
-     *         concurrency, and holdability
-     * @exception SQLException if a database access error occurs, this
-     * method is called on a closed connection
-     *            or the given parameters are not <code>ResultSet</code>
-     *            constants indicating type, concurrency, and holdability
-      * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     *         concurrency, bnd holdbbility
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     * method is cblled on b closed connection
+     *            or the given pbrbmeters bre not <code>ResultSet</code>
+     *            constbnts indicbting type, concurrency, bnd holdbbility
+      * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method or this method is not supported for the specified result
-     * set type, result set holdability and result set concurrency.
+     * set type, result set holdbbility bnd result set concurrency.
      * @see ResultSet
      * @since 1.4
      */
-    CallableStatement prepareCall(String sql, int resultSetType,
+    CbllbbleStbtement prepbreCbll(String sql, int resultSetType,
                                   int resultSetConcurrency,
-                                  int resultSetHoldability) throws SQLException;
+                                  int resultSetHoldbbility) throws SQLException;
 
 
     /**
-     * Creates a default <code>PreparedStatement</code> object that has
-     * the capability to retrieve auto-generated keys. The given constant
-     * tells the driver whether it should make auto-generated keys
-     * available for retrieval.  This parameter is ignored if the SQL statement
-     * is not an <code>INSERT</code> statement, or an SQL statement able to return
-     * auto-generated keys (the list of such statements is vendor-specific).
+     * Crebtes b defbult <code>PrepbredStbtement</code> object thbt hbs
+     * the cbpbbility to retrieve buto-generbted keys. The given constbnt
+     * tells the driver whether it should mbke buto-generbted keys
+     * bvbilbble for retrievbl.  This pbrbmeter is ignored if the SQL stbtement
+     * is not bn <code>INSERT</code> stbtement, or bn SQL stbtement bble to return
+     * buto-generbted keys (the list of such stbtements is vendor-specific).
      * <P>
-     * <B>Note:</B> This method is optimized for handling
-     * parametric SQL statements that benefit from precompilation. If
-     * the driver supports precompilation,
-     * the method <code>prepareStatement</code> will send
-     * the statement to the database for precompilation. Some drivers
-     * may not support precompilation. In this case, the statement may
-     * not be sent to the database until the <code>PreparedStatement</code>
-     * object is executed.  This has no direct effect on users; however, it does
-     * affect which methods throw certain SQLExceptions.
+     * <B>Note:</B> This method is optimized for hbndling
+     * pbrbmetric SQL stbtements thbt benefit from precompilbtion. If
+     * the driver supports precompilbtion,
+     * the method <code>prepbreStbtement</code> will send
+     * the stbtement to the dbtbbbse for precompilbtion. Some drivers
+     * mby not support precompilbtion. In this cbse, the stbtement mby
+     * not be sent to the dbtbbbse until the <code>PrepbredStbtement</code>
+     * object is executed.  This hbs no direct effect on users; however, it does
+     * bffect which methods throw certbin SQLExceptions.
      * <P>
-     * Result sets created using the returned <code>PreparedStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Result sets crebted using the returned <code>PrepbredStbtement</code>
+     * object will by defbult be type <code>TYPE_FORWARD_ONLY</code>
+     * bnd hbve b concurrency level of <code>CONCUR_READ_ONLY</code>.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?' IN
-     *        parameter placeholders
-     * @param autoGeneratedKeys a flag indicating whether auto-generated keys
+     * @pbrbm sql bn SQL stbtement thbt mby contbin one or more '?' IN
+     *        pbrbmeter plbceholders
+     * @pbrbm butoGenerbtedKeys b flbg indicbting whether buto-generbted keys
      *        should be returned; one of
-     *        <code>Statement.RETURN_GENERATED_KEYS</code> or
-     *        <code>Statement.NO_GENERATED_KEYS</code>
-     * @return a new <code>PreparedStatement</code> object, containing the
-     *         pre-compiled SQL statement, that will have the capability of
-     *         returning auto-generated keys
-     * @exception SQLException if a database access error occurs, this
-     *  method is called on a closed connection
-     *         or the given parameter is not a <code>Statement</code>
-     *         constant indicating whether auto-generated keys should be
+     *        <code>Stbtement.RETURN_GENERATED_KEYS</code> or
+     *        <code>Stbtement.NO_GENERATED_KEYS</code>
+     * @return b new <code>PrepbredStbtement</code> object, contbining the
+     *         pre-compiled SQL stbtement, thbt will hbve the cbpbbility of
+     *         returning buto-generbted keys
+     * @exception SQLException if b dbtbbbse bccess error occurs, this
+     *  method is cblled on b closed connection
+     *         or the given pbrbmeter is not b <code>Stbtement</code>
+     *         constbnt indicbting whether buto-generbted keys should be
      *         returned
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method with a constant of Statement.RETURN_GENERATED_KEYS
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
+     * this method with b constbnt of Stbtement.RETURN_GENERATED_KEYS
      * @since 1.4
      */
-    PreparedStatement prepareStatement(String sql, int autoGeneratedKeys)
+    PrepbredStbtement prepbreStbtement(String sql, int butoGenerbtedKeys)
         throws SQLException;
 
     /**
-     * Creates a default <code>PreparedStatement</code> object capable
-     * of returning the auto-generated keys designated by the given array.
-     * This array contains the indexes of the columns in the target
-     * table that contain the auto-generated keys that should be made
-     * available.  The driver will ignore the array if the SQL statement
-     * is not an <code>INSERT</code> statement, or an SQL statement able to return
-     * auto-generated keys (the list of such statements is vendor-specific).
+     * Crebtes b defbult <code>PrepbredStbtement</code> object cbpbble
+     * of returning the buto-generbted keys designbted by the given brrby.
+     * This brrby contbins the indexes of the columns in the tbrget
+     * tbble thbt contbin the buto-generbted keys thbt should be mbde
+     * bvbilbble.  The driver will ignore the brrby if the SQL stbtement
+     * is not bn <code>INSERT</code> stbtement, or bn SQL stbtement bble to return
+     * buto-generbted keys (the list of such stbtements is vendor-specific).
      *<p>
-     * An SQL statement with or without IN parameters can be
-     * pre-compiled and stored in a <code>PreparedStatement</code> object. This
-     * object can then be used to efficiently execute this statement
+     * An SQL stbtement with or without IN pbrbmeters cbn be
+     * pre-compiled bnd stored in b <code>PrepbredStbtement</code> object. This
+     * object cbn then be used to efficiently execute this stbtement
      * multiple times.
      * <P>
-     * <B>Note:</B> This method is optimized for handling
-     * parametric SQL statements that benefit from precompilation. If
-     * the driver supports precompilation,
-     * the method <code>prepareStatement</code> will send
-     * the statement to the database for precompilation. Some drivers
-     * may not support precompilation. In this case, the statement may
-     * not be sent to the database until the <code>PreparedStatement</code>
-     * object is executed.  This has no direct effect on users; however, it does
-     * affect which methods throw certain SQLExceptions.
+     * <B>Note:</B> This method is optimized for hbndling
+     * pbrbmetric SQL stbtements thbt benefit from precompilbtion. If
+     * the driver supports precompilbtion,
+     * the method <code>prepbreStbtement</code> will send
+     * the stbtement to the dbtbbbse for precompilbtion. Some drivers
+     * mby not support precompilbtion. In this cbse, the stbtement mby
+     * not be sent to the dbtbbbse until the <code>PrepbredStbtement</code>
+     * object is executed.  This hbs no direct effect on users; however, it does
+     * bffect which methods throw certbin SQLExceptions.
      * <P>
-     * Result sets created using the returned <code>PreparedStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Result sets crebted using the returned <code>PrepbredStbtement</code>
+     * object will by defbult be type <code>TYPE_FORWARD_ONLY</code>
+     * bnd hbve b concurrency level of <code>CONCUR_READ_ONLY</code>.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?' IN
-     *        parameter placeholders
-     * @param columnIndexes an array of column indexes indicating the columns
-     *        that should be returned from the inserted row or rows
-     * @return a new <code>PreparedStatement</code> object, containing the
-     *         pre-compiled statement, that is capable of returning the
-     *         auto-generated keys designated by the given array of column
+     * @pbrbm sql bn SQL stbtement thbt mby contbin one or more '?' IN
+     *        pbrbmeter plbceholders
+     * @pbrbm columnIndexes bn brrby of column indexes indicbting the columns
+     *        thbt should be returned from the inserted row or rows
+     * @return b new <code>PrepbredStbtement</code> object, contbining the
+     *         pre-compiled stbtement, thbt is cbpbble of returning the
+     *         buto-generbted keys designbted by the given brrby of column
      *         indexes
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      *
      * @since 1.4
      */
-    PreparedStatement prepareStatement(String sql, int columnIndexes[])
+    PrepbredStbtement prepbreStbtement(String sql, int columnIndexes[])
         throws SQLException;
 
     /**
-     * Creates a default <code>PreparedStatement</code> object capable
-     * of returning the auto-generated keys designated by the given array.
-     * This array contains the names of the columns in the target
-     * table that contain the auto-generated keys that should be returned.
-     * The driver will ignore the array if the SQL statement
-     * is not an <code>INSERT</code> statement, or an SQL statement able to return
-     * auto-generated keys (the list of such statements is vendor-specific).
+     * Crebtes b defbult <code>PrepbredStbtement</code> object cbpbble
+     * of returning the buto-generbted keys designbted by the given brrby.
+     * This brrby contbins the nbmes of the columns in the tbrget
+     * tbble thbt contbin the buto-generbted keys thbt should be returned.
+     * The driver will ignore the brrby if the SQL stbtement
+     * is not bn <code>INSERT</code> stbtement, or bn SQL stbtement bble to return
+     * buto-generbted keys (the list of such stbtements is vendor-specific).
      * <P>
-     * An SQL statement with or without IN parameters can be
-     * pre-compiled and stored in a <code>PreparedStatement</code> object. This
-     * object can then be used to efficiently execute this statement
+     * An SQL stbtement with or without IN pbrbmeters cbn be
+     * pre-compiled bnd stored in b <code>PrepbredStbtement</code> object. This
+     * object cbn then be used to efficiently execute this stbtement
      * multiple times.
      * <P>
-     * <B>Note:</B> This method is optimized for handling
-     * parametric SQL statements that benefit from precompilation. If
-     * the driver supports precompilation,
-     * the method <code>prepareStatement</code> will send
-     * the statement to the database for precompilation. Some drivers
-     * may not support precompilation. In this case, the statement may
-     * not be sent to the database until the <code>PreparedStatement</code>
-     * object is executed.  This has no direct effect on users; however, it does
-     * affect which methods throw certain SQLExceptions.
+     * <B>Note:</B> This method is optimized for hbndling
+     * pbrbmetric SQL stbtements thbt benefit from precompilbtion. If
+     * the driver supports precompilbtion,
+     * the method <code>prepbreStbtement</code> will send
+     * the stbtement to the dbtbbbse for precompilbtion. Some drivers
+     * mby not support precompilbtion. In this cbse, the stbtement mby
+     * not be sent to the dbtbbbse until the <code>PrepbredStbtement</code>
+     * object is executed.  This hbs no direct effect on users; however, it does
+     * bffect which methods throw certbin SQLExceptions.
      * <P>
-     * Result sets created using the returned <code>PreparedStatement</code>
-     * object will by default be type <code>TYPE_FORWARD_ONLY</code>
-     * and have a concurrency level of <code>CONCUR_READ_ONLY</code>.
-     * The holdability of the created result sets can be determined by
-     * calling {@link #getHoldability}.
+     * Result sets crebted using the returned <code>PrepbredStbtement</code>
+     * object will by defbult be type <code>TYPE_FORWARD_ONLY</code>
+     * bnd hbve b concurrency level of <code>CONCUR_READ_ONLY</code>.
+     * The holdbbility of the crebted result sets cbn be determined by
+     * cblling {@link #getHoldbbility}.
      *
-     * @param sql an SQL statement that may contain one or more '?' IN
-     *        parameter placeholders
-     * @param columnNames an array of column names indicating the columns
-     *        that should be returned from the inserted row or rows
-     * @return a new <code>PreparedStatement</code> object, containing the
-     *         pre-compiled statement, that is capable of returning the
-     *         auto-generated keys designated by the given array of column
-     *         names
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm sql bn SQL stbtement thbt mby contbin one or more '?' IN
+     *        pbrbmeter plbceholders
+     * @pbrbm columnNbmes bn brrby of column nbmes indicbting the columns
+     *        thbt should be returned from the inserted row or rows
+     * @return b new <code>PrepbredStbtement</code> object, contbining the
+     *         pre-compiled stbtement, thbt is cbpbble of returning the
+     *         buto-generbted keys designbted by the given brrby of column
+     *         nbmes
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      *
      * @since 1.4
      */
-    PreparedStatement prepareStatement(String sql, String columnNames[])
+    PrepbredStbtement prepbreStbtement(String sql, String columnNbmes[])
         throws SQLException;
 
     /**
-     * Constructs an object that implements the <code>Clob</code> interface. The object
-     * returned initially contains no data.  The <code>setAsciiStream</code>,
-     * <code>setCharacterStream</code> and <code>setString</code> methods of
-     * the <code>Clob</code> interface may be used to add data to the <code>Clob</code>.
-     * @return An object that implements the <code>Clob</code> interface
-     * @throws SQLException if an object that implements the
-     * <code>Clob</code> interface can not be constructed, this method is
-     * called on a closed connection or a database access error occurs.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this data type
+     * Constructs bn object thbt implements the <code>Clob</code> interfbce. The object
+     * returned initiblly contbins no dbtb.  The <code>setAsciiStrebm</code>,
+     * <code>setChbrbcterStrebm</code> bnd <code>setString</code> methods of
+     * the <code>Clob</code> interfbce mby be used to bdd dbtb to the <code>Clob</code>.
+     * @return An object thbt implements the <code>Clob</code> interfbce
+     * @throws SQLException if bn object thbt implements the
+     * <code>Clob</code> interfbce cbn not be constructed, this method is
+     * cblled on b closed connection or b dbtbbbse bccess error occurs.
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
+     * this dbtb type
      *
      * @since 1.6
      */
-    Clob createClob() throws SQLException;
+    Clob crebteClob() throws SQLException;
 
     /**
-     * Constructs an object that implements the <code>Blob</code> interface. The object
-     * returned initially contains no data.  The <code>setBinaryStream</code> and
-     * <code>setBytes</code> methods of the <code>Blob</code> interface may be used to add data to
+     * Constructs bn object thbt implements the <code>Blob</code> interfbce. The object
+     * returned initiblly contbins no dbtb.  The <code>setBinbryStrebm</code> bnd
+     * <code>setBytes</code> methods of the <code>Blob</code> interfbce mby be used to bdd dbtb to
      * the <code>Blob</code>.
-     * @return  An object that implements the <code>Blob</code> interface
-     * @throws SQLException if an object that implements the
-     * <code>Blob</code> interface can not be constructed, this method is
-     * called on a closed connection or a database access error occurs.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this data type
+     * @return  An object thbt implements the <code>Blob</code> interfbce
+     * @throws SQLException if bn object thbt implements the
+     * <code>Blob</code> interfbce cbn not be constructed, this method is
+     * cblled on b closed connection or b dbtbbbse bccess error occurs.
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
+     * this dbtb type
      *
      * @since 1.6
      */
-    Blob createBlob() throws SQLException;
+    Blob crebteBlob() throws SQLException;
 
     /**
-     * Constructs an object that implements the <code>NClob</code> interface. The object
-     * returned initially contains no data.  The <code>setAsciiStream</code>,
-     * <code>setCharacterStream</code> and <code>setString</code> methods of the <code>NClob</code> interface may
-     * be used to add data to the <code>NClob</code>.
-     * @return An object that implements the <code>NClob</code> interface
-     * @throws SQLException if an object that implements the
-     * <code>NClob</code> interface can not be constructed, this method is
-     * called on a closed connection or a database access error occurs.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this data type
+     * Constructs bn object thbt implements the <code>NClob</code> interfbce. The object
+     * returned initiblly contbins no dbtb.  The <code>setAsciiStrebm</code>,
+     * <code>setChbrbcterStrebm</code> bnd <code>setString</code> methods of the <code>NClob</code> interfbce mby
+     * be used to bdd dbtb to the <code>NClob</code>.
+     * @return An object thbt implements the <code>NClob</code> interfbce
+     * @throws SQLException if bn object thbt implements the
+     * <code>NClob</code> interfbce cbn not be constructed, this method is
+     * cblled on b closed connection or b dbtbbbse bccess error occurs.
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
+     * this dbtb type
      *
      * @since 1.6
      */
-    NClob createNClob() throws SQLException;
+    NClob crebteNClob() throws SQLException;
 
     /**
-     * Constructs an object that implements the <code>SQLXML</code> interface. The object
-     * returned initially contains no data. The <code>createXmlStreamWriter</code> object and
-     * <code>setString</code> method of the <code>SQLXML</code> interface may be used to add data to the <code>SQLXML</code>
+     * Constructs bn object thbt implements the <code>SQLXML</code> interfbce. The object
+     * returned initiblly contbins no dbtb. The <code>crebteXmlStrebmWriter</code> object bnd
+     * <code>setString</code> method of the <code>SQLXML</code> interfbce mby be used to bdd dbtb to the <code>SQLXML</code>
      * object.
-     * @return An object that implements the <code>SQLXML</code> interface
-     * @throws SQLException if an object that implements the <code>SQLXML</code> interface can not
+     * @return An object thbt implements the <code>SQLXML</code> interfbce
+     * @throws SQLException if bn object thbt implements the <code>SQLXML</code> interfbce cbn not
      * be constructed, this method is
-     * called on a closed connection or a database access error occurs.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this data type
+     * cblled on b closed connection or b dbtbbbse bccess error occurs.
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
+     * this dbtb type
      * @since 1.6
      */
-    SQLXML createSQLXML() throws SQLException;
+    SQLXML crebteSQLXML() throws SQLException;
 
         /**
-         * Returns true if the connection has not been closed and is still valid.
-         * The driver shall submit a query on the connection or use some other
-         * mechanism that positively verifies the connection is still valid when
-         * this method is called.
+         * Returns true if the connection hbs not been closed bnd is still vblid.
+         * The driver shbll submit b query on the connection or use some other
+         * mechbnism thbt positively verifies the connection is still vblid when
+         * this method is cblled.
          * <p>
-         * The query submitted by the driver to validate the connection shall be
-         * executed in the context of the current transaction.
+         * The query submitted by the driver to vblidbte the connection shbll be
+         * executed in the context of the current trbnsbction.
          *
-         * @param timeout -             The time in seconds to wait for the database operation
-         *                                              used to validate the connection to complete.  If
-         *                                              the timeout period expires before the operation
-         *                                              completes, this method returns false.  A value of
-         *                                              0 indicates a timeout is not applied to the
-         *                                              database operation.
+         * @pbrbm timeout -             The time in seconds to wbit for the dbtbbbse operbtion
+         *                                              used to vblidbte the connection to complete.  If
+         *                                              the timeout period expires before the operbtion
+         *                                              completes, this method returns fblse.  A vblue of
+         *                                              0 indicbtes b timeout is not bpplied to the
+         *                                              dbtbbbse operbtion.
          *
-         * @return true if the connection is valid, false otherwise
-         * @exception SQLException if the value supplied for <code>timeout</code>
+         * @return true if the connection is vblid, fblse otherwise
+         * @exception SQLException if the vblue supplied for <code>timeout</code>
          * is less then 0
          * @since 1.6
          *
-         * @see java.sql.DatabaseMetaData#getClientInfoProperties
+         * @see jbvb.sql.DbtbbbseMetbDbtb#getClientInfoProperties
          */
-         boolean isValid(int timeout) throws SQLException;
+         boolebn isVblid(int timeout) throws SQLException;
 
         /**
-         * Sets the value of the client info property specified by name to the
-         * value specified by value.
+         * Sets the vblue of the client info property specified by nbme to the
+         * vblue specified by vblue.
          * <p>
-         * Applications may use the <code>DatabaseMetaData.getClientInfoProperties</code>
+         * Applicbtions mby use the <code>DbtbbbseMetbDbtb.getClientInfoProperties</code>
          * method to determine the client info properties supported by the driver
-         * and the maximum length that may be specified for each property.
+         * bnd the mbximum length thbt mby be specified for ebch property.
          * <p>
-         * The driver stores the value specified in a suitable location in the
-         * database.  For example in a special register, session parameter, or
-         * system table column.  For efficiency the driver may defer setting the
-         * value in the database until the next time a statement is executed or
-         * prepared.  Other than storing the client information in the appropriate
-         * place in the database, these methods shall not alter the behavior of
-         * the connection in anyway.  The values supplied to these methods are
-         * used for accounting, diagnostics and debugging purposes only.
+         * The driver stores the vblue specified in b suitbble locbtion in the
+         * dbtbbbse.  For exbmple in b specibl register, session pbrbmeter, or
+         * system tbble column.  For efficiency the driver mby defer setting the
+         * vblue in the dbtbbbse until the next time b stbtement is executed or
+         * prepbred.  Other thbn storing the client informbtion in the bppropribte
+         * plbce in the dbtbbbse, these methods shbll not blter the behbvior of
+         * the connection in bnywby.  The vblues supplied to these methods bre
+         * used for bccounting, dibgnostics bnd debugging purposes only.
          * <p>
-         * The driver shall generate a warning if the client info name specified
+         * The driver shbll generbte b wbrning if the client info nbme specified
          * is not recognized by the driver.
          * <p>
-         * If the value specified to this method is greater than the maximum
-         * length for the property the driver may either truncate the value and
-         * generate a warning or generate a <code>SQLClientInfoException</code>.  If the driver
-         * generates a <code>SQLClientInfoException</code>, the value specified was not set on the
+         * If the vblue specified to this method is grebter thbn the mbximum
+         * length for the property the driver mby either truncbte the vblue bnd
+         * generbte b wbrning or generbte b <code>SQLClientInfoException</code>.  If the driver
+         * generbtes b <code>SQLClientInfoException</code>, the vblue specified wbs not set on the
          * connection.
          * <p>
-         * The following are standard client info properties.  Drivers are not
-         * required to support these properties however if the driver supports a
-         * client info property that can be described by one of the standard
-         * properties, the standard property name should be used.
+         * The following bre stbndbrd client info properties.  Drivers bre not
+         * required to support these properties however if the driver supports b
+         * client info property thbt cbn be described by one of the stbndbrd
+         * properties, the stbndbrd property nbme should be used.
          *
          * <ul>
-         * <li>ApplicationName  -       The name of the application currently utilizing
+         * <li>ApplicbtionNbme  -       The nbme of the bpplicbtion currently utilizing
          *                                                      the connection</li>
-         * <li>ClientUser               -       The name of the user that the application using
-         *                                                      the connection is performing work for.  This may
-         *                                                      not be the same as the user name that was used
-         *                                                      in establishing the connection.</li>
-         * <li>ClientHostname   -       The hostname of the computer the application
+         * <li>ClientUser               -       The nbme of the user thbt the bpplicbtion using
+         *                                                      the connection is performing work for.  This mby
+         *                                                      not be the sbme bs the user nbme thbt wbs used
+         *                                                      in estbblishing the connection.</li>
+         * <li>ClientHostnbme   -       The hostnbme of the computer the bpplicbtion
          *                                                      using the connection is running on.</li>
          * </ul>
          *
-         * @param name          The name of the client info property to set
-         * @param value         The value to set the client info property to.  If the
-         *                                      value is null, the current value of the specified
-         *                                      property is cleared.
+         * @pbrbm nbme          The nbme of the client info property to set
+         * @pbrbm vblue         The vblue to set the client info property to.  If the
+         *                                      vblue is null, the current vblue of the specified
+         *                                      property is clebred.
          *
-         * @throws      SQLClientInfoException if the database server returns an error while
-         *                      setting the client info value on the database server or this method
-         * is called on a closed connection
+         * @throws      SQLClientInfoException if the dbtbbbse server returns bn error while
+         *                      setting the client info vblue on the dbtbbbse server or this method
+         * is cblled on b closed connection
          *
          * @since 1.6
          */
-         void setClientInfo(String name, String value)
+         void setClientInfo(String nbme, String vblue)
                 throws SQLClientInfoException;
 
         /**
-     * Sets the value of the connection's client info properties.  The
-     * <code>Properties</code> object contains the names and values of the client info
-     * properties to be set.  The set of client info properties contained in
-     * the properties list replaces the current set of client info properties
-     * on the connection.  If a property that is currently set on the
-     * connection is not present in the properties list, that property is
-     * cleared.  Specifying an empty properties list will clear all of the
+     * Sets the vblue of the connection's client info properties.  The
+     * <code>Properties</code> object contbins the nbmes bnd vblues of the client info
+     * properties to be set.  The set of client info properties contbined in
+     * the properties list replbces the current set of client info properties
+     * on the connection.  If b property thbt is currently set on the
+     * connection is not present in the properties list, thbt property is
+     * clebred.  Specifying bn empty properties list will clebr bll of the
      * properties on the connection.  See <code>setClientInfo (String, String)</code> for
-     * more information.
+     * more informbtion.
      * <p>
-     * If an error occurs in setting any of the client info properties, a
+     * If bn error occurs in setting bny of the client info properties, b
      * <code>SQLClientInfoException</code> is thrown. The <code>SQLClientInfoException</code>
-     * contains information indicating which client info properties were not set.
-     * The state of the client information is unknown because
-     * some databases do not allow multiple client info properties to be set
-     * atomically.  For those databases, one or more properties may have been
+     * contbins informbtion indicbting which client info properties were not set.
+     * The stbte of the client informbtion is unknown becbuse
+     * some dbtbbbses do not bllow multiple client info properties to be set
+     * btomicblly.  For those dbtbbbses, one or more properties mby hbve been
      * set before the error occurred.
      *
      *
-     * @param properties                the list of client info properties to set
+     * @pbrbm properties                the list of client info properties to set
      *
-     * @see java.sql.Connection#setClientInfo(String, String) setClientInfo(String, String)
+     * @see jbvb.sql.Connection#setClientInfo(String, String) setClientInfo(String, String)
      * @since 1.6
      *
-     * @throws SQLClientInfoException if the database server returns an error while
-     *                  setting the clientInfo values on the database server or this method
-     * is called on a closed connection
+     * @throws SQLClientInfoException if the dbtbbbse server returns bn error while
+     *                  setting the clientInfo vblues on the dbtbbbse server or this method
+     * is cblled on b closed connection
      *
      */
          void setClientInfo(Properties properties)
                 throws SQLClientInfoException;
 
         /**
-         * Returns the value of the client info property specified by name.  This
-         * method may return null if the specified client info property has not
-         * been set and does not have a default value.  This method will also
-         * return null if the specified client info property name is not supported
+         * Returns the vblue of the client info property specified by nbme.  This
+         * method mby return null if the specified client info property hbs not
+         * been set bnd does not hbve b defbult vblue.  This method will blso
+         * return null if the specified client info property nbme is not supported
          * by the driver.
          * <p>
-         * Applications may use the <code>DatabaseMetaData.getClientInfoProperties</code>
+         * Applicbtions mby use the <code>DbtbbbseMetbDbtb.getClientInfoProperties</code>
          * method to determine the client info properties supported by the driver.
          *
-         * @param name          The name of the client info property to retrieve
+         * @pbrbm nbme          The nbme of the client info property to retrieve
          *
-         * @return                      The value of the client info property specified
+         * @return                      The vblue of the client info property specified
          *
-         * @throws SQLException         if the database server returns an error when
-         *                              fetching the client info value from the database
-         *                              or this method is called on a closed connection
+         * @throws SQLException         if the dbtbbbse server returns bn error when
+         *                              fetching the client info vblue from the dbtbbbse
+         *                              or this method is cblled on b closed connection
          *
          * @since 1.6
          *
-         * @see java.sql.DatabaseMetaData#getClientInfoProperties
+         * @see jbvb.sql.DbtbbbseMetbDbtb#getClientInfoProperties
          */
-         String getClientInfo(String name)
+         String getClientInfo(String nbme)
                 throws SQLException;
 
         /**
-         * Returns a list containing the name and current value of each client info
-         * property supported by the driver.  The value of a client info property
-         * may be null if the property has not been set and does not have a
-         * default value.
+         * Returns b list contbining the nbme bnd current vblue of ebch client info
+         * property supported by the driver.  The vblue of b client info property
+         * mby be null if the property hbs not been set bnd does not hbve b
+         * defbult vblue.
          *
-         * @return      A <code>Properties</code> object that contains the name and current value of
-         *                      each of the client info properties supported by the driver.
+         * @return      A <code>Properties</code> object thbt contbins the nbme bnd current vblue of
+         *                      ebch of the client info properties supported by the driver.
          *
-         * @throws      SQLException if the database server returns an error when
-         *                      fetching the client info values from the database
-         * or this method is called on a closed connection
+         * @throws      SQLException if the dbtbbbse server returns bn error when
+         *                      fetching the client info vblues from the dbtbbbse
+         * or this method is cblled on b closed connection
          *
          * @since 1.6
          */
@@ -1256,210 +1256,210 @@ public interface Connection  extends Wrapper, AutoCloseable {
                 throws SQLException;
 
 /**
-  * Factory method for creating Array objects.
+  * Fbctory method for crebting Arrby objects.
   *<p>
-  * <b>Note: </b>When <code>createArrayOf</code> is used to create an array object
-  * that maps to a primitive data type, then it is implementation-defined
-  * whether the <code>Array</code> object is an array of that primitive
-  * data type or an array of <code>Object</code>.
+  * <b>Note: </b>When <code>crebteArrbyOf</code> is used to crebte bn brrby object
+  * thbt mbps to b primitive dbtb type, then it is implementbtion-defined
+  * whether the <code>Arrby</code> object is bn brrby of thbt primitive
+  * dbtb type or bn brrby of <code>Object</code>.
   * <p>
-  * <b>Note: </b>The JDBC driver is responsible for mapping the elements
-  * <code>Object</code> array to the default JDBC SQL type defined in
-  * java.sql.Types for the given class of <code>Object</code>. The default
-  * mapping is specified in Appendix B of the JDBC specification.  If the
-  * resulting JDBC type is not the appropriate type for the given typeName then
-  * it is implementation defined whether an <code>SQLException</code> is
+  * <b>Note: </b>The JDBC driver is responsible for mbpping the elements
+  * <code>Object</code> brrby to the defbult JDBC SQL type defined in
+  * jbvb.sql.Types for the given clbss of <code>Object</code>. The defbult
+  * mbpping is specified in Appendix B of the JDBC specificbtion.  If the
+  * resulting JDBC type is not the bppropribte type for the given typeNbme then
+  * it is implementbtion defined whether bn <code>SQLException</code> is
   * thrown or the driver supports the resulting conversion.
   *
-  * @param typeName the SQL name of the type the elements of the array map to. The typeName is a
-  * database-specific name which may be the name of a built-in type, a user-defined type or a standard  SQL type supported by this database. This
-  *  is the value returned by <code>Array.getBaseTypeName</code>
-  * @param elements the elements that populate the returned object
-  * @return an Array object whose elements map to the specified SQL type
-  * @throws SQLException if a database error occurs, the JDBC type is not
-  *  appropriate for the typeName and the conversion is not supported, the typeName is null or this method is called on a closed connection
-  * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this data type
+  * @pbrbm typeNbme the SQL nbme of the type the elements of the brrby mbp to. The typeNbme is b
+  * dbtbbbse-specific nbme which mby be the nbme of b built-in type, b user-defined type or b stbndbrd  SQL type supported by this dbtbbbse. This
+  *  is the vblue returned by <code>Arrby.getBbseTypeNbme</code>
+  * @pbrbm elements the elements thbt populbte the returned object
+  * @return bn Arrby object whose elements mbp to the specified SQL type
+  * @throws SQLException if b dbtbbbse error occurs, the JDBC type is not
+  *  bppropribte for the typeNbme bnd the conversion is not supported, the typeNbme is null or this method is cblled on b closed connection
+  * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this dbtb type
   * @since 1.6
   */
- Array createArrayOf(String typeName, Object[] elements) throws
+ Arrby crebteArrbyOf(String typeNbme, Object[] elements) throws
 SQLException;
 
 /**
-  * Factory method for creating Struct objects.
+  * Fbctory method for crebting Struct objects.
   *
-  * @param typeName the SQL type name of the SQL structured type that this <code>Struct</code>
-  * object maps to. The typeName is the name of  a user-defined type that
-  * has been defined for this database. It is the value returned by
-  * <code>Struct.getSQLTypeName</code>.
+  * @pbrbm typeNbme the SQL type nbme of the SQL structured type thbt this <code>Struct</code>
+  * object mbps to. The typeNbme is the nbme of  b user-defined type thbt
+  * hbs been defined for this dbtbbbse. It is the vblue returned by
+  * <code>Struct.getSQLTypeNbme</code>.
 
-  * @param attributes the attributes that populate the returned object
-  * @return a Struct object that maps to the given SQL type and is populated with the given attributes
-  * @throws SQLException if a database error occurs, the typeName is null or this method is called on a closed connection
-  * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this data type
+  * @pbrbm bttributes the bttributes thbt populbte the returned object
+  * @return b Struct object thbt mbps to the given SQL type bnd is populbted with the given bttributes
+  * @throws SQLException if b dbtbbbse error occurs, the typeNbme is null or this method is cblled on b closed connection
+  * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this dbtb type
   * @since 1.6
   */
- Struct createStruct(String typeName, Object[] attributes)
+ Struct crebteStruct(String typeNbme, Object[] bttributes)
 throws SQLException;
 
    //--------------------------JDBC 4.1 -----------------------------
 
    /**
-    * Sets the given schema name to access.
+    * Sets the given schemb nbme to bccess.
     * <P>
-    * If the driver does not support schemas, it will
+    * If the driver does not support schembs, it will
     * silently ignore this request.
     * <p>
-    * Calling {@code setSchema} has no effect on previously created or prepared
-    * {@code Statement} objects. It is implementation defined whether a DBMS
-    * prepare operation takes place immediately when the {@code Connection}
-    * method {@code prepareStatement} or {@code prepareCall} is invoked.
-    * For maximum portability, {@code setSchema} should be called before a
-    * {@code Statement} is created or prepared.
+    * Cblling {@code setSchemb} hbs no effect on previously crebted or prepbred
+    * {@code Stbtement} objects. It is implementbtion defined whether b DBMS
+    * prepbre operbtion tbkes plbce immedibtely when the {@code Connection}
+    * method {@code prepbreStbtement} or {@code prepbreCbll} is invoked.
+    * For mbximum portbbility, {@code setSchemb} should be cblled before b
+    * {@code Stbtement} is crebted or prepbred.
     *
-    * @param schema the name of a schema  in which to work
-    * @exception SQLException if a database access error occurs
-    * or this method is called on a closed connection
-    * @see #getSchema
+    * @pbrbm schemb the nbme of b schemb  in which to work
+    * @exception SQLException if b dbtbbbse bccess error occurs
+    * or this method is cblled on b closed connection
+    * @see #getSchemb
     * @since 1.7
     */
-    void setSchema(String schema) throws SQLException;
+    void setSchemb(String schemb) throws SQLException;
 
     /**
-     * Retrieves this <code>Connection</code> object's current schema name.
+     * Retrieves this <code>Connection</code> object's current schemb nbme.
      *
-     * @return the current schema name or <code>null</code> if there is none
-     * @exception SQLException if a database access error occurs
-     * or this method is called on a closed connection
-     * @see #setSchema
+     * @return the current schemb nbme or <code>null</code> if there is none
+     * @exception SQLException if b dbtbbbse bccess error occurs
+     * or this method is cblled on b closed connection
+     * @see #setSchemb
      * @since 1.7
      */
-    String getSchema() throws SQLException;
+    String getSchemb() throws SQLException;
 
     /**
-     * Terminates an open connection.  Calling <code>abort</code> results in:
+     * Terminbtes bn open connection.  Cblling <code>bbort</code> results in:
      * <ul>
-     * <li>The connection marked as closed
-     * <li>Closes any physical connection to the database
-     * <li>Releases resources used by the connection
-     * <li>Insures that any thread that is currently accessing the connection
-     * will either progress to completion or throw an <code>SQLException</code>.
+     * <li>The connection mbrked bs closed
+     * <li>Closes bny physicbl connection to the dbtbbbse
+     * <li>Relebses resources used by the connection
+     * <li>Insures thbt bny threbd thbt is currently bccessing the connection
+     * will either progress to completion or throw bn <code>SQLException</code>.
      * </ul>
      * <p>
-     * Calling <code>abort</code> marks the connection closed and releases any
-     * resources. Calling <code>abort</code> on a closed connection is a
+     * Cblling <code>bbort</code> mbrks the connection closed bnd relebses bny
+     * resources. Cblling <code>bbort</code> on b closed connection is b
      * no-op.
      * <p>
-     * It is possible that the aborting and releasing of the resources that are
-     * held by the connection can take an extended period of time.  When the
-     * <code>abort</code> method returns, the connection will have been marked as
-     * closed and the <code>Executor</code> that was passed as a parameter to abort
-     * may still be executing tasks to release resources.
+     * It is possible thbt the bborting bnd relebsing of the resources thbt bre
+     * held by the connection cbn tbke bn extended period of time.  When the
+     * <code>bbort</code> method returns, the connection will hbve been mbrked bs
+     * closed bnd the <code>Executor</code> thbt wbs pbssed bs b pbrbmeter to bbort
+     * mby still be executing tbsks to relebse resources.
      * <p>
-     * This method checks to see that there is an <code>SQLPermission</code>
-     * object before allowing the method to proceed.  If a
-     * <code>SecurityManager</code> exists and its
-     * <code>checkPermission</code> method denies calling <code>abort</code>,
-     * this method throws a
-     * <code>java.lang.SecurityException</code>.
-     * @param executor  The <code>Executor</code>  implementation which will
-     * be used by <code>abort</code>.
-     * @throws java.sql.SQLException if a database access error occurs or
+     * This method checks to see thbt there is bn <code>SQLPermission</code>
+     * object before bllowing the method to proceed.  If b
+     * <code>SecurityMbnbger</code> exists bnd its
+     * <code>checkPermission</code> method denies cblling <code>bbort</code>,
+     * this method throws b
+     * <code>jbvb.lbng.SecurityException</code>.
+     * @pbrbm executor  The <code>Executor</code>  implementbtion which will
+     * be used by <code>bbort</code>.
+     * @throws jbvb.sql.SQLException if b dbtbbbse bccess error occurs or
      * the {@code executor} is {@code null},
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *    <code>checkPermission</code> method denies calling <code>abort</code>
-     * @see SecurityManager#checkPermission
+     * @throws jbvb.lbng.SecurityException if b security mbnbger exists bnd its
+     *    <code>checkPermission</code> method denies cblling <code>bbort</code>
+     * @see SecurityMbnbger#checkPermission
      * @see Executor
      * @since 1.7
      */
-    void abort(Executor executor) throws SQLException;
+    void bbort(Executor executor) throws SQLException;
 
     /**
      *
-     * Sets the maximum period a <code>Connection</code> or
-     * objects created from the <code>Connection</code>
-     * will wait for the database to reply to any one request. If any
-     *  request remains unanswered, the waiting method will
-     * return with a <code>SQLException</code>, and the <code>Connection</code>
-     * or objects created from the <code>Connection</code>  will be marked as
+     * Sets the mbximum period b <code>Connection</code> or
+     * objects crebted from the <code>Connection</code>
+     * will wbit for the dbtbbbse to reply to bny one request. If bny
+     *  request rembins unbnswered, the wbiting method will
+     * return with b <code>SQLException</code>, bnd the <code>Connection</code>
+     * or objects crebted from the <code>Connection</code>  will be mbrked bs
      * closed. Any subsequent use of
      * the objects, with the exception of the <code>close</code>,
-     * <code>isClosed</code> or <code>Connection.isValid</code>
-     * methods, will result in  a <code>SQLException</code>.
+     * <code>isClosed</code> or <code>Connection.isVblid</code>
+     * methods, will result in  b <code>SQLException</code>.
      * <p>
-     * <b>Note</b>: This method is intended to address a rare but serious
-     * condition where network partitions can cause threads issuing JDBC calls
-     * to hang uninterruptedly in socket reads, until the OS TCP-TIMEOUT
-     * (typically 10 minutes). This method is related to the
-     * {@link #abort abort() } method which provides an administrator
-     * thread a means to free any such threads in cases where the
-     * JDBC connection is accessible to the administrator thread.
-     * The <code>setNetworkTimeout</code> method will cover cases where
-     * there is no administrator thread, or it has no access to the
-     * connection. This method is severe in it's effects, and should be
-     * given a high enough value so it is never triggered before any more
-     * normal timeouts, such as transaction timeouts.
+     * <b>Note</b>: This method is intended to bddress b rbre but serious
+     * condition where network pbrtitions cbn cbuse threbds issuing JDBC cblls
+     * to hbng uninterruptedly in socket rebds, until the OS TCP-TIMEOUT
+     * (typicblly 10 minutes). This method is relbted to the
+     * {@link #bbort bbort() } method which provides bn bdministrbtor
+     * threbd b mebns to free bny such threbds in cbses where the
+     * JDBC connection is bccessible to the bdministrbtor threbd.
+     * The <code>setNetworkTimeout</code> method will cover cbses where
+     * there is no bdministrbtor threbd, or it hbs no bccess to the
+     * connection. This method is severe in it's effects, bnd should be
+     * given b high enough vblue so it is never triggered before bny more
+     * normbl timeouts, such bs trbnsbction timeouts.
      * <p>
-     * JDBC driver implementations  may also choose to support the
-     * {@code setNetworkTimeout} method to impose a limit on database
+     * JDBC driver implementbtions  mby blso choose to support the
+     * {@code setNetworkTimeout} method to impose b limit on dbtbbbse
      * response time, in environments where no network is present.
      * <p>
-     * Drivers may internally implement some or all of their API calls with
-     * multiple internal driver-database transmissions, and it is left to the
-     * driver implementation to determine whether the limit will be
-     * applied always to the response to the API call, or to any
-     * single  request made during the API call.
+     * Drivers mby internblly implement some or bll of their API cblls with
+     * multiple internbl driver-dbtbbbse trbnsmissions, bnd it is left to the
+     * driver implementbtion to determine whether the limit will be
+     * bpplied blwbys to the response to the API cbll, or to bny
+     * single  request mbde during the API cbll.
      * <p>
      *
-     * This method can be invoked more than once, such as to set a limit for an
-     * area of JDBC code, and to reset to the default on exit from this area.
-     * Invocation of this method has no impact on already outstanding
+     * This method cbn be invoked more thbn once, such bs to set b limit for bn
+     * breb of JDBC code, bnd to reset to the defbult on exit from this breb.
+     * Invocbtion of this method hbs no impbct on blrebdy outstbnding
      * requests.
      * <p>
-     * The {@code Statement.setQueryTimeout()} timeout value is independent of the
-     * timeout value specified in {@code setNetworkTimeout}. If the query timeout
+     * The {@code Stbtement.setQueryTimeout()} timeout vblue is independent of the
+     * timeout vblue specified in {@code setNetworkTimeout}. If the query timeout
      * expires  before the network timeout then the
-     * statement execution will be canceled. If the network is still
-     * active the result will be that both the statement and connection
-     * are still usable. However if the network timeout expires before
-     * the query timeout or if the statement timeout fails due to network
-     * problems, the connection will be marked as closed, any resources held by
-     * the connection will be released and both the connection and
-     * statement will be unusable.
+     * stbtement execution will be cbnceled. If the network is still
+     * bctive the result will be thbt both the stbtement bnd connection
+     * bre still usbble. However if the network timeout expires before
+     * the query timeout or if the stbtement timeout fbils due to network
+     * problems, the connection will be mbrked bs closed, bny resources held by
+     * the connection will be relebsed bnd both the connection bnd
+     * stbtement will be unusbble.
      * <p>
-     * When the driver determines that the {@code setNetworkTimeout} timeout
-     * value has expired, the JDBC driver marks the connection
-     * closed and releases any resources held by the connection.
+     * When the driver determines thbt the {@code setNetworkTimeout} timeout
+     * vblue hbs expired, the JDBC driver mbrks the connection
+     * closed bnd relebses bny resources held by the connection.
      * <p>
      *
-     * This method checks to see that there is an <code>SQLPermission</code>
-     * object before allowing the method to proceed.  If a
-     * <code>SecurityManager</code> exists and its
-     * <code>checkPermission</code> method denies calling
-     * <code>setNetworkTimeout</code>, this method throws a
-     * <code>java.lang.SecurityException</code>.
+     * This method checks to see thbt there is bn <code>SQLPermission</code>
+     * object before bllowing the method to proceed.  If b
+     * <code>SecurityMbnbger</code> exists bnd its
+     * <code>checkPermission</code> method denies cblling
+     * <code>setNetworkTimeout</code>, this method throws b
+     * <code>jbvb.lbng.SecurityException</code>.
      *
-     * @param executor  The <code>Executor</code>  implementation which will
+     * @pbrbm executor  The <code>Executor</code>  implementbtion which will
      * be used by <code>setNetworkTimeout</code>.
-     * @param milliseconds The time in milliseconds to wait for the database
-     * operation
+     * @pbrbm milliseconds The time in milliseconds to wbit for the dbtbbbse
+     * operbtion
      *  to complete.  If the JDBC driver does not support milliseconds, the
-     * JDBC driver will round the value up to the nearest second.  If the
-     * timeout period expires before the operation
-     * completes, a SQLException will be thrown.
-     * A value of 0 indicates that there is not timeout for database operations.
-     * @throws java.sql.SQLException if a database access error occurs, this
-     * method is called on a closed connection,
+     * JDBC driver will round the vblue up to the nebrest second.  If the
+     * timeout period expires before the operbtion
+     * completes, b SQLException will be thrown.
+     * A vblue of 0 indicbtes thbt there is not timeout for dbtbbbse operbtions.
+     * @throws jbvb.sql.SQLException if b dbtbbbse bccess error occurs, this
+     * method is cblled on b closed connection,
      * the {@code executor} is {@code null},
-     * or the value specified for <code>seconds</code> is less than 0.
-     * @throws java.lang.SecurityException if a security manager exists and its
-     *    <code>checkPermission</code> method denies calling
+     * or the vblue specified for <code>seconds</code> is less thbn 0.
+     * @throws jbvb.lbng.SecurityException if b security mbnbger exists bnd its
+     *    <code>checkPermission</code> method denies cblling
      * <code>setNetworkTimeout</code>.
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
-     * @see SecurityManager#checkPermission
-     * @see Statement#setQueryTimeout
+     * @see SecurityMbnbger#checkPermission
+     * @see Stbtement#setQueryTimeout
      * @see #getNetworkTimeout
-     * @see #abort
+     * @see #bbort
      * @see Executor
      * @since 1.7
      */
@@ -1468,15 +1468,15 @@ throws SQLException;
 
     /**
      * Retrieves the number of milliseconds the driver will
-     * wait for a database request to complete.
-     * If the limit is exceeded, a
+     * wbit for b dbtbbbse request to complete.
+     * If the limit is exceeded, b
      * <code>SQLException</code> is thrown.
      *
-     * @return the current timeout limit in milliseconds; zero means there is
+     * @return the current timeout limit in milliseconds; zero mebns there is
      *         no limit
-     * @throws SQLException if a database access error occurs or
-     * this method is called on a closed <code>Connection</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @throws SQLException if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>Connection</code>
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @see #setNetworkTimeout
      * @since 1.7

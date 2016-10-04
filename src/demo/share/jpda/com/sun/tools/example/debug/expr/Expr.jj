@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 options {
   JAVA_UNICODE_ESCAPE = true;
-  STATIC = false;
+  STATIC = fblse;
 }
 
-PARSER_BEGIN(ExpressionParser)
+PARSER_BEGIN(ExpressionPbrser)
 
-package com.sun.tools.example.debug.expr;
+pbckbge com.sun.tools.exbmple.debug.expr;
 
 import com.sun.jdi.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.util.Stbck;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-public class ExpressionParser {    
+public clbss ExpressionPbrser {    
 
-  Stack stack = new Stack();    
-  VirtualMachine vm = null;
-  GetFrame frameGetter = null;
-  private static GetFrame lastFrameGetter;
-  private static LValue lastLValue;
+  Stbck stbck = new Stbck();    
+  VirtublMbchine vm = null;
+  GetFrbme frbmeGetter = null;
+  privbte stbtic GetFrbme lbstFrbmeGetter;
+  privbte stbtic LVblue lbstLVblue;
 
-  LValue peek() {
-    return (LValue)stack.peek();
+  LVblue peek() {
+    return (LVblue)stbck.peek();
   }
 
-  LValue pop() {
-    return (LValue)stack.pop();
+  LVblue pop() {
+    return (LVblue)stbck.pop();
   }
 
-  void push(LValue lval) {
-    stack.push(lval);
+  void push(LVblue lvbl) {
+    stbck.push(lvbl);
   }
 
-  public static Value getMassagedValue() throws ParseException {
-        return lastLValue.getMassagedValue(lastFrameGetter);
+  public stbtic Vblue getMbssbgedVblue() throws PbrseException {
+        return lbstLVblue.getMbssbgedVblue(lbstFrbmeGetter);
   }
 
-  public interface GetFrame {
-        StackFrame get() throws IncompatibleThreadStateException;
+  public interfbce GetFrbme {
+        StbckFrbme get() throws IncompbtibleThrebdStbteException;
   }
 
-  public static Value evaluate(String expr, VirtualMachine vm, 
-                               GetFrame frameGetter) throws ParseException,
-                                            InvocationException, 
-					    InvalidTypeException,
-					    ClassNotLoadedException,
-					    IncompatibleThreadStateException {
-        // TODO StringBufferInputStream is deprecated.
-        java.io.InputStream in = new java.io.StringBufferInputStream(expr);
-        ExpressionParser parser = new ExpressionParser(in);
-        parser.vm = vm;
-        parser.frameGetter = frameGetter;
-	Value value = null;
-        parser.Expression();
-	lastFrameGetter = frameGetter;
-	lastLValue = parser.pop();
-	return lastLValue.getValue();
+  public stbtic Vblue evblubte(String expr, VirtublMbchine vm, 
+                               GetFrbme frbmeGetter) throws PbrseException,
+                                            InvocbtionException, 
+					    InvblidTypeException,
+					    ClbssNotLobdedException,
+					    IncompbtibleThrebdStbteException {
+        // TODO StringBufferInputStrebm is deprecbted.
+        jbvb.io.InputStrebm in = new jbvb.io.StringBufferInputStrebm(expr);
+        ExpressionPbrser pbrser = new ExpressionPbrser(in);
+        pbrser.vm = vm;
+        pbrser.frbmeGetter = frbmeGetter;
+	Vblue vblue = null;
+        pbrser.Expression();
+	lbstFrbmeGetter = frbmeGetter;
+	lbstLVblue = pbrser.pop();
+	return lbstLVblue.getVblue();
   }
 
-  public static void main(String args[]) {
-    ExpressionParser parser;
-    System.out.print("Java Expression Parser:  ");
-    if (args.length == 0) {
-      System.out.println("Reading from standard input . . .");
-      parser = new ExpressionParser(System.in);
-    } else if (args.length == 1) {
-      System.out.println("Reading from file " + args[0] + " . . .");
+  public stbtic void mbin(String brgs[]) {
+    ExpressionPbrser pbrser;
+    System.out.print("Jbvb Expression Pbrser:  ");
+    if (brgs.length == 0) {
+      System.out.println("Rebding from stbndbrd input . . .");
+      pbrser = new ExpressionPbrser(System.in);
+    } else if (brgs.length == 1) {
+      System.out.println("Rebding from file " + brgs[0] + " . . .");
       try {
-        parser = new ExpressionParser(new java.io.FileInputStream(args[0]));
-      } catch (java.io.FileNotFoundException e) {
-        System.out.println("Java Parser Version 1.0.2:  File " + 
-                           args[0] + " not found.");
+        pbrser = new ExpressionPbrser(new jbvb.io.FileInputStrebm(brgs[0]));
+      } cbtch (jbvb.io.FileNotFoundException e) {
+        System.out.println("Jbvb Pbrser Version 1.0.2:  File " + 
+                           brgs[0] + " not found.");
         return;
       }
     } else {
-      System.out.println("Usage is one of:");
-      System.out.println("         java ExpressionParser < inputfile");
+      System.out.println("Usbge is one of:");
+      System.out.println("         jbvb ExpressionPbrser < inputfile");
       System.out.println("OR");
-      System.out.println("         java ExpressionParser inputfile");
+      System.out.println("         jbvb ExpressionPbrser inputfile");
       return;
     }
     try {
-        parser.Expression();
-        System.out.print("Java Expression Parser:  ");
-        System.out.println("Java program parsed successfully.");
-    } catch (ParseException e) {
-        System.out.print("Java Expression Parser:  ");
-        System.out.println("Encountered errors during parse.");
+        pbrser.Expression();
+        System.out.print("Jbvb Expression Pbrser:  ");
+        System.out.println("Jbvb progrbm pbrsed successfully.");
+    } cbtch (PbrseException e) {
+        System.out.print("Jbvb Expression Pbrser:  ");
+        System.out.println("Encountered errors during pbrse.");
     }
   }
 
 }
 
-PARSER_END(ExpressionParser)
+PARSER_END(ExpressionPbrser)
 
 
 SKIP : /* WHITE SPACE */
@@ -138,55 +138,55 @@ SPECIAL_TOKEN : /* COMMENTS */
 
 TOKEN : /* RESERVED WORDS AND LITERALS */
 {
-  < ABSTRACT: "abstract" >
-| < BOOLEAN: "boolean" >
-| < BREAK: "break" >
+  < ABSTRACT: "bbstrbct" >
+| < BOOLEAN: "boolebn" >
+| < BREAK: "brebk" >
 | < BYTE: "byte" >
-| < CASE: "case" >
-| < CATCH: "catch" >
-| < CHAR: "char" >
-| < CLASS: "class" >
+| < CASE: "cbse" >
+| < CATCH: "cbtch" >
+| < CHAR: "chbr" >
+| < CLASS: "clbss" >
 | < CONST: "const" >
 | < CONTINUE: "continue" >
-| < _DEFAULT: "default" >
+| < _DEFAULT: "defbult" >
 | < DO: "do" >
 | < DOUBLE: "double" >
 | < ELSE: "else" >
 | < EXTENDS: "extends" >
-| < FALSE: "false" >
-| < FINAL: "final" >
-| < FINALLY: "finally" >
-| < FLOAT: "float" >
+| < FALSE: "fblse" >
+| < FINAL: "finbl" >
+| < FINALLY: "finblly" >
+| < FLOAT: "flobt" >
 | < FOR: "for" >
 | < GOTO: "goto" >
 | < IF: "if" >
 | < IMPLEMENTS: "implements" >
 | < IMPORT: "import" >
-| < INSTANCEOF: "instanceof" >
+| < INSTANCEOF: "instbnceof" >
 | < INT: "int" >
-| < INTERFACE: "interface" >
+| < INTERFACE: "interfbce" >
 | < LONG: "long" >
-| < NATIVE: "native" >
+| < NATIVE: "nbtive" >
 | < NEW: "new" >
 | < NULL: "null" >
-| < PACKAGE: "package">
-| < PRIVATE: "private" >
+| < PACKAGE: "pbckbge">
+| < PRIVATE: "privbte" >
 | < PROTECTED: "protected" >
 | < PUBLIC: "public" >
 | < RETURN: "return" >
 | < SHORT: "short" >
-| < STATIC: "static" >
+| < STATIC: "stbtic" >
 | < SUPER: "super" >
 | < SWITCH: "switch" >
 | < SYNCHRONIZED: "synchronized" >
 | < THIS: "this" >
 | < THROW: "throw" >
 | < THROWS: "throws" >
-| < TRANSIENT: "transient" >
+| < TRANSIENT: "trbnsient" >
 | < TRUE: "true" >
 | < TRY: "try" >
 | < VOID: "void" >
-| < VOLATILE: "volatile" >
+| < VOLATILE: "volbtile" >
 | < WHILE: "while" >
 }
 
@@ -201,7 +201,7 @@ TOKEN : /* LITERALS */
 |
   < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
 |
-  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
 |
   < #OCTAL_LITERAL: "0" (["0"-"7"])* >
 |
@@ -248,9 +248,9 @@ TOKEN : /* IDENTIFIERS */
   < #LETTER:
       [
        "\u0024",
-       "\u0041"-"\u005a",
+       "\u0041"-"\u005b",
        "\u005f",
-       "\u0061"-"\u007a",
+       "\u0061"-"\u007b",
        "\u00c0"-"\u00d6",
        "\u00d8"-"\u00f6",
        "\u00f8"-"\u00ff",
@@ -259,7 +259,7 @@ TOKEN : /* IDENTIFIERS */
        "\u3300"-"\u337f",
        "\u3400"-"\u3d2d",
        "\u4e00"-"\u9fff",
-       "\uf900"-"\ufaff"
+       "\uf900"-"\ufbff"
       ]
   >
 |
@@ -270,8 +270,8 @@ TOKEN : /* IDENTIFIERS */
        "\u06f0"-"\u06f9",
        "\u0966"-"\u096f",
        "\u09e6"-"\u09ef",
-       "\u0a66"-"\u0a6f",
-       "\u0ae6"-"\u0aef",
+       "\u0b66"-"\u0b6f",
+       "\u0be6"-"\u0bef",
        "\u0b66"-"\u0b6f",
        "\u0be7"-"\u0bef",
        "\u0c66"-"\u0c6f",
@@ -344,21 +344,21 @@ TOKEN : /* OPERATORS */
  *****************************************/
 
 /*
- * Type, name and expression syntax follows.
+ * Type, nbme bnd expression syntbx follows.
  */
 
 void Type() :
 {}
 {
-  ( PrimitiveType() | Name() ) ( "[" "]" )*
+  ( PrimitiveType() | Nbme() ) ( "[" "]" )*
 }
 
 void PrimitiveType() :
 {}
 {
-  "boolean"
+  "boolebn"
 |
-  "char"
+  "chbr"
 |
   "byte"
 |
@@ -368,88 +368,88 @@ void PrimitiveType() :
 |
   "long"
 |
-  "float"
+  "flobt"
 |
   "double"
 }
 
 
-String Name() :
+String Nbme() :
 {StringBuffer sb = new StringBuffer();}
 {
-  <IDENTIFIER> { sb.append(token); }
-  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.append('.'); sb.append(token); }
+  <IDENTIFIER> { sb.bppend(token); }
+  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.bppend('.'); sb.bppend(token); }
   )*
         { return sb.toString(); }
 }
 
-void NameList() :
+void NbmeList() :
 {}
 {
-  Name()
-  ( "," Name()
+  Nbme()
+  ( "," Nbme()
   )*
 }
 
 
 /*
- * Expression syntax follows.
+ * Expression syntbx follows.
  */
 
 void Expression() :
 {}
 {
-  LOOKAHEAD( PrimaryExpression() AssignmentOperator() )
+  LOOKAHEAD( PrimbryExpression() AssignmentOperbtor() )
   Assignment()
 |
-  ConditionalExpression()
+  ConditionblExpression()
 }
 
 void Assignment() :
 {}
 {
-  PrimaryExpression() AssignmentOperator() Expression()
-        { LValue exprVal = pop(); pop().setValue(exprVal); push(exprVal);}
+  PrimbryExpression() AssignmentOperbtor() Expression()
+        { LVblue exprVbl = pop(); pop().setVblue(exprVbl); push(exprVbl);}
 }
 
-void AssignmentOperator() :
+void AssignmentOperbtor() :
 {}
 {
   "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
 }
 
-void ConditionalExpression() :
+void ConditionblExpression() :
 {}
 {
-  ConditionalOrExpression() 
-        [ "?" Expression() ":" ConditionalExpression() 
-                { LValue falseBranch = pop(); LValue trueBranch = pop(); 
-                  Value cond = pop().interiorGetValue();
-                  if (cond instanceof BooleanValue) {
-                        push(((BooleanValue)cond).booleanValue()? 
-                                        trueBranch : falseBranch);
+  ConditionblOrExpression() 
+        [ "?" Expression() ":" ConditionblExpression() 
+                { LVblue fblseBrbnch = pop(); LVblue trueBrbnch = pop(); 
+                  Vblue cond = pop().interiorGetVblue();
+                  if (cond instbnceof BoolebnVblue) {
+                        push(((BoolebnVblue)cond).boolebnVblue()? 
+                                        trueBrbnch : fblseBrbnch);
                   } else {
-                        throw new ParseException("Condition must be boolean");
+                        throw new PbrseException("Condition must be boolebn");
                   }
                 }
         ]
 }
 
-void ConditionalOrExpression() :
+void ConditionblOrExpression() :
 {}
 {
-  ConditionalAndExpression() 
-        ( "||" ConditionalAndExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+  ConditionblAndExpression() 
+        ( "||" ConditionblAndExpression() 
+                        { throw new PbrseException("operbtion not yet supported"); }
         )*
 }
 
-void ConditionalAndExpression() :
+void ConditionblAndExpression() :
 {}
 {
   InclusiveOrExpression() 
         ( "&&" InclusiveOrExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+                        { throw new PbrseException("operbtion not yet supported"); }
         )*
 }
 
@@ -458,7 +458,7 @@ void InclusiveOrExpression() :
 {
   ExclusiveOrExpression() 
         ( "|" ExclusiveOrExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+                        { throw new PbrseException("operbtion not yet supported"); }
         )*
 }
 
@@ -467,45 +467,45 @@ void ExclusiveOrExpression() :
 {
   AndExpression() 
         ( "^" AndExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+                        { throw new PbrseException("operbtion not yet supported"); }
         )*
 }
 
 void AndExpression() :
 {}
 {
-  EqualityExpression() 
-        ( "&" EqualityExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+  EqublityExpression() 
+        ( "&" EqublityExpression() 
+                        { throw new PbrseException("operbtion not yet supported"); }
         )*
 }
 
-void EqualityExpression() :
+void EqublityExpression() :
 {Token tok;}
 {
-  InstanceOfExpression() 
-        ( ( tok = "==" | tok = "!=" ) InstanceOfExpression() 
-                { LValue left = pop(); 
-                  push( LValue.booleanOperation(vm, tok, pop(), left) ); }
+  InstbnceOfExpression() 
+        ( ( tok = "==" | tok = "!=" ) InstbnceOfExpression() 
+                { LVblue left = pop(); 
+                  push( LVblue.boolebnOperbtion(vm, tok, pop(), left) ); }
         )*
 }
 
-void InstanceOfExpression() :
+void InstbnceOfExpression() :
 {}
 {
-  RelationalExpression() 
-        [ "instanceof" Type() 
-                        { throw new ParseException("operation not yet supported"); }
+  RelbtionblExpression() 
+        [ "instbnceof" Type() 
+                        { throw new PbrseException("operbtion not yet supported"); }
         ]
 }
 
-void RelationalExpression() :
+void RelbtionblExpression() :
 {Token tok;}
 {
   ShiftExpression() 
         ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) ShiftExpression()
-                { LValue left = pop(); 
-                  push( LValue.booleanOperation(vm, tok, pop(), left) ); }
+                { LVblue left = pop(); 
+                  push( LVblue.boolebnOperbtion(vm, tok, pop(), left) ); }
          )*
 }
 
@@ -514,209 +514,209 @@ void ShiftExpression() :
 {
   AdditiveExpression() 
         ( ( "<<" | ">>" | ">>>" ) AdditiveExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+                        { throw new PbrseException("operbtion not yet supported"); }
         )*
 }
 
 void AdditiveExpression() :
 {Token tok;}
 {
-  MultiplicativeExpression() 
-        ( ( tok = "+" | tok = "-" ) MultiplicativeExpression() 
-                { LValue left = pop(); 
-                  push( LValue.operation(vm, tok, pop(), left, frameGetter) ); }
+  MultiplicbtiveExpression() 
+        ( ( tok = "+" | tok = "-" ) MultiplicbtiveExpression() 
+                { LVblue left = pop(); 
+                  push( LVblue.operbtion(vm, tok, pop(), left, frbmeGetter) ); }
         )*
 }
 
-void MultiplicativeExpression() :
+void MultiplicbtiveExpression() :
 {Token tok;}
 {
-  UnaryExpression() 
-        ( ( tok = "*" | tok = "/" | tok = "%" ) UnaryExpression()
-                { LValue left = pop(); 
-                  push( LValue.operation(vm, tok, pop(), left, frameGetter) ); }
+  UnbryExpression() 
+        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExpression()
+                { LVblue left = pop(); 
+                  push( LVblue.operbtion(vm, tok, pop(), left, frbmeGetter) ); }
         )*
 }
 
-void UnaryExpression() :
+void UnbryExpression() :
 {Token tok;}
 {
-  ( tok = "+" | tok = "-" ) UnaryExpression()
-                { push( LValue.operation(vm, tok, pop(), frameGetter) ); }
+  ( tok = "+" | tok = "-" ) UnbryExpression()
+                { push( LVblue.operbtion(vm, tok, pop(), frbmeGetter) ); }
 |
   PreIncrementExpression()
 |
   PreDecrementExpression()
 |
-  UnaryExpressionNotPlusMinus()
+  UnbryExpressionNotPlusMinus()
 }
 
 void PreIncrementExpression() :
 {}
 {
-  "++" PrimaryExpression()
-                        { throw new ParseException("operation not yet supported"); }
+  "++" PrimbryExpression()
+                        { throw new PbrseException("operbtion not yet supported"); }
 }
 
 void PreDecrementExpression() :
 {}
 {
-  "--" PrimaryExpression()
-                        { throw new ParseException("operation not yet supported"); }
+  "--" PrimbryExpression()
+                        { throw new PbrseException("operbtion not yet supported"); }
 }
 
-void UnaryExpressionNotPlusMinus() :
+void UnbryExpressionNotPlusMinus() :
 {Token tok;}
 {
-  ( tok = "~" | tok = "!" ) UnaryExpression()
-                { push( LValue.operation(vm, tok, pop(), frameGetter) ); }
+  ( tok = "~" | tok = "!" ) UnbryExpression()
+                { push( LVblue.operbtion(vm, tok, pop(), frbmeGetter) ); }
 |
-  LOOKAHEAD( CastLookahead() )
-  CastExpression()
+  LOOKAHEAD( CbstLookbhebd() )
+  CbstExpression()
 |
   PostfixExpression()
 }
 
-// This production is to determine lookahead only.  The LOOKAHEAD specifications
-// below are not used, but they are there just to indicate that we know about
+// This production is to determine lookbhebd only.  The LOOKAHEAD specificbtions
+// below bre not used, but they bre there just to indicbte thbt we know bbout
 // this.
-void CastLookahead() :
+void CbstLookbhebd() :
 {}
 {
   LOOKAHEAD(2)
   "(" PrimitiveType()
 |
-  LOOKAHEAD("(" Name() "[")
-  "(" Name() "[" "]"
+  LOOKAHEAD("(" Nbme() "[")
+  "(" Nbme() "[" "]"
 |
-  "(" Name() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "this" | "super" | "new" | Literal() )
+  "(" Nbme() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "this" | "super" | "new" | Literbl() )
 }
 
 void PostfixExpression() :
 {}
 {
-  PrimaryExpression() 
+  PrimbryExpression() 
         [ "++" | "--" 
-                        { throw new ParseException("operation not yet supported"); }
+                        { throw new PbrseException("operbtion not yet supported"); }
         ]
 }
 
-void CastExpression() :
+void CbstExpression() :
 {}
 {
   LOOKAHEAD(2)
-  "(" PrimitiveType() ( "[" "]" )* ")" UnaryExpression()
+  "(" PrimitiveType() ( "[" "]" )* ")" UnbryExpression()
 |
-  "(" Name() ( "[" "]" )* ")" UnaryExpressionNotPlusMinus()
+  "(" Nbme() ( "[" "]" )* ")" UnbryExpressionNotPlusMinus()
 }
 
-void PrimaryExpression() :
+void PrimbryExpression() :
 {}
 {
-  PrimaryPrefix() ( PrimarySuffix() )*
+  PrimbryPrefix() ( PrimbrySuffix() )*
 }
 
-void PrimaryPrefix() :
-{String name;}
+void PrimbryPrefix() :
+{String nbme;}
 {
-  Literal()
+  Literbl()
 |
-  name = Name()
-                        { push(LValue.makeName(vm, frameGetter, name)); }
+  nbme = Nbme()
+                        { push(LVblue.mbkeNbme(vm, frbmeGetter, nbme)); }
 |
   "this"
-                        { push(LValue.makeThisObject(vm, frameGetter, token)); }
+                        { push(LVblue.mbkeThisObject(vm, frbmeGetter, token)); }
 |
   "super" "." <IDENTIFIER>
-                        { throw new ParseException("operation not yet supported"); }
+                        { throw new PbrseException("operbtion not yet supported"); }
 |
   "(" Expression() ")"
 |
-  AllocationExpression()
+  AllocbtionExpression()
 }
 
-void PrimarySuffix() :
-{List argList;}
+void PrimbrySuffix() :
+{List brgList;}
 {
   "[" Expression() "]"  
-                        { LValue index = pop();
-                          push(pop().arrayElementLValue(index)); }
+                        { LVblue index = pop();
+                          push(pop().brrbyElementLVblue(index)); }
 |
   "." <IDENTIFIER>
-                        { push(pop().memberLValue(frameGetter, token.image)); }
+                        { push(pop().memberLVblue(frbmeGetter, token.imbge)); }
 |
-  argList = Arguments()
-                        { peek().invokeWith(argList); }
+  brgList = Arguments()
+                        { peek().invokeWith(brgList); }
 }
 
-void Literal() :
+void Literbl() :
 {}
 {
   <INTEGER_LITERAL>
-                        { push(LValue.makeInteger(vm, token)); }
+                        { push(LVblue.mbkeInteger(vm, token)); }
 |
   <FLOATING_POINT_LITERAL>
-                        { push(LValue.makeFloat(vm, token)); }
+                        { push(LVblue.mbkeFlobt(vm, token)); }
 |
   <CHARACTER_LITERAL>
-                        { push(LValue.makeCharacter(vm, token)); }
+                        { push(LVblue.mbkeChbrbcter(vm, token)); }
 |
   <STRING_LITERAL>
-                        { push(LValue.makeString(vm, token)); }
+                        { push(LVblue.mbkeString(vm, token)); }
 |
-  BooleanLiteral()
-                        { push(LValue.makeBoolean(vm, token)); }
+  BoolebnLiterbl()
+                        { push(LVblue.mbkeBoolebn(vm, token)); }
 |
-  NullLiteral()
-                        { push(LValue.makeNull(vm, token)); }
+  NullLiterbl()
+                        { push(LVblue.mbkeNull(vm, token)); }
 }
 
-void BooleanLiteral() :
+void BoolebnLiterbl() :
 {}
 {
   "true" 
 |
-  "false"
+  "fblse"
 }
 
-void NullLiteral() :
+void NullLiterbl() :
 {}
 {
   "null"
 }
 
 List Arguments() :
-{List argList = new ArrayList();}
+{List brgList = new ArrbyList();}
 {
-  "(" [ ArgumentList(argList) ] ")"
-  { return argList; }
+  "(" [ ArgumentList(brgList) ] ")"
+  { return brgList; }
 }
 
-void ArgumentList(List argList) :
+void ArgumentList(List brgList) :
 {}
 {
-  Expression() {argList.add(pop().interiorGetValue());}
-  ( "," Expression() {argList.add(pop().interiorGetValue());} )*
+  Expression() {brgList.bdd(pop().interiorGetVblue());}
+  ( "," Expression() {brgList.bdd(pop().interiorGetVblue());} )*
 }
 
-void AllocationExpression() :
-{List argList; String className;}
+void AllocbtionExpression() :
+{List brgList; String clbssNbme;}
 {
   LOOKAHEAD(2)
-  "new" PrimitiveType() ArrayDimensions()
+  "new" PrimitiveType() ArrbyDimensions()
 |
-  "new" className = Name() ( argList = Arguments() 
-                        { push(LValue.makeNewObject(vm, frameGetter, className, argList)); }
-                           | ArrayDimensions() 
-                        { throw new ParseException("operation not yet supported"); }
+  "new" clbssNbme = Nbme() ( brgList = Arguments() 
+                        { push(LVblue.mbkeNewObject(vm, frbmeGetter, clbssNbme, brgList)); }
+                           | ArrbyDimensions() 
+                        { throw new PbrseException("operbtion not yet supported"); }
 			   )
 }
 
 /*
- * The second LOOKAHEAD specification below is to parse to PrimarySuffix
- * if there is an expression between the "[...]".
+ * The second LOOKAHEAD specificbtion below is to pbrse to PrimbrySuffix
+ * if there is bn expression between the "[...]".
  */
-void ArrayDimensions() :
+void ArrbyDimensions() :
 {}
 {
   ( LOOKAHEAD(2) "[" Expression() "]" )+ ( LOOKAHEAD(2) "[" "]" )*

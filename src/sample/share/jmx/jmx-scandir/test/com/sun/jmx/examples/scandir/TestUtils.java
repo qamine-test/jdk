@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,84 +30,84 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
-import java.util.logging.Logger;
-import javax.management.JMX;
-import javax.management.MBeanServerConnection;
-import javax.management.MBeanServerInvocationHandler;
-import javax.management.NotificationEmitter;
-import javax.management.ObjectName;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.util.logging.Logger;
+import jbvbx.mbnbgement.JMX;
+import jbvbx.mbnbgement.MBebnServerConnection;
+import jbvbx.mbnbgement.MBebnServerInvocbtionHbndler;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * A utility class defining static methods used by our tests.
+ * A utility clbss defining stbtic methods used by our tests.
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class TestUtils {
+public clbss TestUtils {
 
     /**
-     * A logger for this class.
+     * A logger for this clbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(TestUtils.class.getName());
+    privbte stbtic finbl Logger LOG =
+            Logger.getLogger(TestUtils.clbss.getNbme());
 
-    /** Creates a new instance of TestUtils */
-    private TestUtils() {
+    /** Crebtes b new instbnce of TestUtils */
+    privbte TestUtils() {
     }
 
     /**
-     * Returns the ObjectName of the MBean that a proxy object
+     * Returns the ObjectNbme of the MBebn thbt b proxy object
      * is proxying.
      **/
-    public static ObjectName getObjectName(Object proxy) {
-        if (!(proxy instanceof Proxy))
-            throw new IllegalArgumentException("not a "+Proxy.class.getName());
-        final Proxy p = (Proxy) proxy;
-        final InvocationHandler handler =
-                Proxy.getInvocationHandler(proxy);
-        if (handler instanceof MBeanServerInvocationHandler)
-            return ((MBeanServerInvocationHandler)handler).getObjectName();
-        throw new IllegalArgumentException("not a JMX Proxy");
+    public stbtic ObjectNbme getObjectNbme(Object proxy) {
+        if (!(proxy instbnceof Proxy))
+            throw new IllegblArgumentException("not b "+Proxy.clbss.getNbme());
+        finbl Proxy p = (Proxy) proxy;
+        finbl InvocbtionHbndler hbndler =
+                Proxy.getInvocbtionHbndler(proxy);
+        if (hbndler instbnceof MBebnServerInvocbtionHbndler)
+            return ((MBebnServerInvocbtionHbndler)hbndler).getObjectNbme();
+        throw new IllegblArgumentException("not b JMX Proxy");
     }
 
     /**
-     * Transfroms a proxy implementing T in a proxy implementing T plus
-     * NotificationEmitter
+     * Trbnsfroms b proxy implementing T in b proxy implementing T plus
+     * NotificbtionEmitter
      *
      **/
-    public static <T> T makeNotificationEmitter(T proxy,
-                        Class<T> mbeanInterface) {
-        if (proxy instanceof NotificationEmitter)
+    public stbtic <T> T mbkeNotificbtionEmitter(T proxy,
+                        Clbss<T> mbebnInterfbce) {
+        if (proxy instbnceof NotificbtionEmitter)
             return proxy;
         if (proxy == null) return null;
-        if (!(proxy instanceof Proxy))
-            throw new IllegalArgumentException("not a "+Proxy.class.getName());
-        final Proxy p = (Proxy) proxy;
-        final InvocationHandler handler =
-                Proxy.getInvocationHandler(proxy);
-        if (!(handler instanceof MBeanServerInvocationHandler))
-            throw new IllegalArgumentException("not a JMX Proxy");
-        final MBeanServerInvocationHandler h =
-                (MBeanServerInvocationHandler)handler;
-        final ObjectName name = h.getObjectName();
-        final MBeanServerConnection mbs = h.getMBeanServerConnection();
-        final boolean isMXBean = h.isMXBean();
-        final T newProxy;
-        if (isMXBean)
-            newProxy = JMX.newMXBeanProxy(mbs,name,mbeanInterface,true);
+        if (!(proxy instbnceof Proxy))
+            throw new IllegblArgumentException("not b "+Proxy.clbss.getNbme());
+        finbl Proxy p = (Proxy) proxy;
+        finbl InvocbtionHbndler hbndler =
+                Proxy.getInvocbtionHbndler(proxy);
+        if (!(hbndler instbnceof MBebnServerInvocbtionHbndler))
+            throw new IllegblArgumentException("not b JMX Proxy");
+        finbl MBebnServerInvocbtionHbndler h =
+                (MBebnServerInvocbtionHbndler)hbndler;
+        finbl ObjectNbme nbme = h.getObjectNbme();
+        finbl MBebnServerConnection mbs = h.getMBebnServerConnection();
+        finbl boolebn isMXBebn = h.isMXBebn();
+        finbl T newProxy;
+        if (isMXBebn)
+            newProxy = JMX.newMXBebnProxy(mbs,nbme,mbebnInterfbce,true);
         else
-            newProxy = JMX.newMBeanProxy(mbs,name,mbeanInterface,true);
+            newProxy = JMX.newMBebnProxy(mbs,nbme,mbebnInterfbce,true);
         return newProxy;
     }
 

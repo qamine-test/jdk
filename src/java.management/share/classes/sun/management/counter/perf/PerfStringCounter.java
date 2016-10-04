@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.counter.perf;
+pbckbge sun.mbnbgement.counter.perf;
 
-import sun.management.counter.*;
-import java.nio.ByteBuffer;
-import java.nio.ReadOnlyBufferException;
-import java.nio.charset.Charset;
+import sun.mbnbgement.counter.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.RebdOnlyBufferException;
+import jbvb.nio.chbrset.Chbrset;
 
-public class PerfStringCounter extends PerfByteArrayCounter
+public clbss PerfStringCounter extends PerfByteArrbyCounter
     implements StringCounter {
 
-    private static Charset defaultCharset = Charset.defaultCharset();
-    PerfStringCounter(String name, Variability v,
-                      int flags, ByteBuffer bb) {
-        this(name, v, flags, bb.limit(), bb);
+    privbte stbtic Chbrset defbultChbrset = Chbrset.defbultChbrset();
+    PerfStringCounter(String nbme, Vbribbility v,
+                      int flbgs, ByteBuffer bb) {
+        this(nbme, v, flbgs, bb.limit(), bb);
     }
 
-    PerfStringCounter(String name, Variability v, int flags,
-                      int maxLength, ByteBuffer bb) {
+    PerfStringCounter(String nbme, Vbribbility v, int flbgs,
+                      int mbxLength, ByteBuffer bb) {
 
-        super(name, Units.STRING, v, flags, maxLength, bb);
+        super(nbme, Units.STRING, v, flbgs, mbxLength, bb);
     }
 
-    // override isVector and getVectorLength in ByteArrayCounter
-    public boolean isVector() {
-        return false;
+    // override isVector bnd getVectorLength in ByteArrbyCounter
+    public boolebn isVector() {
+        return fblse;
     }
 
     public int getVectorLength() {
         return 0;
     }
 
-    public Object getValue() {
-        return stringValue();
+    public Object getVblue() {
+        return stringVblue();
     }
 
-    public String stringValue() {
+    public String stringVblue() {
 
         String str = "";
-        byte[] b = byteArrayValue();
+        byte[] b = byteArrbyVblue();
 
         if (b == null || b.length <= 1) {
             return str;
@@ -70,21 +70,21 @@ public class PerfStringCounter extends PerfByteArrayCounter
         int i;
         for (i = 0; i < b.length && b[i] != (byte)0; i++);
 
-        // convert byte array to string, using all bytes up to, but
+        // convert byte brrby to string, using bll bytes up to, but
         // not including the first null byte.
-        return new String(b , 0, i, defaultCharset);
+        return new String(b , 0, i, defbultChbrset);
     }
 
     /**
-     * Serialize as a snapshot object.
+     * Seriblize bs b snbpshot object.
      */
-    protected Object writeReplace() throws java.io.ObjectStreamException {
-        return new StringCounterSnapshot(getName(),
+    protected Object writeReplbce() throws jbvb.io.ObjectStrebmException {
+        return new StringCounterSnbpshot(getNbme(),
                                          getUnits(),
-                                         getVariability(),
-                                         getFlags(),
-                                         stringValue());
+                                         getVbribbility(),
+                                         getFlbgs(),
+                                         stringVblue());
     }
 
-    private static final long serialVersionUID = 6802913433363692452L;
+    privbte stbtic finbl long seriblVersionUID = 6802913433363692452L;
 }

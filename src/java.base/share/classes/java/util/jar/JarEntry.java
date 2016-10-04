@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.jar;
+pbckbge jbvb.util.jbr;
 
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.security.CodeSigner;
-import java.security.cert.Certificate;
+import jbvb.io.IOException;
+import jbvb.util.zip.ZipEntry;
+import jbvb.security.CodeSigner;
+import jbvb.security.cert.Certificbte;
 
 /**
- * This class is used to represent a JAR file entry.
+ * This clbss is used to represent b JAR file entry.
  */
 public
-class JarEntry extends ZipEntry {
-    Attributes attr;
-    Certificate[] certs;
+clbss JbrEntry extends ZipEntry {
+    Attributes bttr;
+    Certificbte[] certs;
     CodeSigner[] signers;
 
     /**
-     * Creates a new <code>JarEntry</code> for the specified JAR file
-     * entry name.
+     * Crebtes b new <code>JbrEntry</code> for the specified JAR file
+     * entry nbme.
      *
-     * @param name the JAR file entry name
-     * @exception NullPointerException if the entry name is <code>null</code>
-     * @exception IllegalArgumentException if the entry name is longer than
+     * @pbrbm nbme the JAR file entry nbme
+     * @exception NullPointerException if the entry nbme is <code>null</code>
+     * @exception IllegblArgumentException if the entry nbme is longer thbn
      *            0xFFFF bytes.
      */
-    public JarEntry(String name) {
-        super(name);
+    public JbrEntry(String nbme) {
+        super(nbme);
     }
 
     /**
-     * Creates a new <code>JarEntry</code> with fields taken from the
+     * Crebtes b new <code>JbrEntry</code> with fields tbken from the
      * specified <code>ZipEntry</code> object.
-     * @param ze the <code>ZipEntry</code> object to create the
-     *           <code>JarEntry</code> from
+     * @pbrbm ze the <code>ZipEntry</code> object to crebte the
+     *           <code>JbrEntry</code> from
      */
-    public JarEntry(ZipEntry ze) {
+    public JbrEntry(ZipEntry ze) {
         super(ze);
     }
 
     /**
-     * Creates a new <code>JarEntry</code> with fields taken from the
-     * specified <code>JarEntry</code> object.
+     * Crebtes b new <code>JbrEntry</code> with fields tbken from the
+     * specified <code>JbrEntry</code> object.
      *
-     * @param je the <code>JarEntry</code> to copy
+     * @pbrbm je the <code>JbrEntry</code> to copy
      */
-    public JarEntry(JarEntry je) {
+    public JbrEntry(JbrEntry je) {
         this((ZipEntry)je);
-        this.attr = je.attr;
+        this.bttr = je.bttr;
         this.certs = je.certs;
         this.signers = je.signers;
     }
 
     /**
-     * Returns the <code>Manifest</code> <code>Attributes</code> for this
+     * Returns the <code>Mbnifest</code> <code>Attributes</code> for this
      * entry, or <code>null</code> if none.
      *
-     * @return the <code>Manifest</code> <code>Attributes</code> for this
+     * @return the <code>Mbnifest</code> <code>Attributes</code> for this
      * entry, or <code>null</code> if none
-     * @throws IOException  if an I/O error has occurred
+     * @throws IOException  if bn I/O error hbs occurred
      */
     public Attributes getAttributes() throws IOException {
-        return attr;
+        return bttr;
     }
 
     /**
-     * Returns the <code>Certificate</code> objects for this entry, or
-     * <code>null</code> if none. This method can only be called once
-     * the <code>JarEntry</code> has been completely verified by reading
-     * from the entry input stream until the end of the stream has been
-     * reached. Otherwise, this method will return <code>null</code>.
+     * Returns the <code>Certificbte</code> objects for this entry, or
+     * <code>null</code> if none. This method cbn only be cblled once
+     * the <code>JbrEntry</code> hbs been completely verified by rebding
+     * from the entry input strebm until the end of the strebm hbs been
+     * rebched. Otherwise, this method will return <code>null</code>.
      *
-     * <p>The returned certificate array comprises all the signer certificates
-     * that were used to verify this entry. Each signer certificate is
-     * followed by its supporting certificate chain (which may be empty).
-     * Each signer certificate and its supporting certificate chain are ordered
-     * bottom-to-top (i.e., with the signer certificate first and the (root)
-     * certificate authority last).
+     * <p>The returned certificbte brrby comprises bll the signer certificbtes
+     * thbt were used to verify this entry. Ebch signer certificbte is
+     * followed by its supporting certificbte chbin (which mby be empty).
+     * Ebch signer certificbte bnd its supporting certificbte chbin bre ordered
+     * bottom-to-top (i.e., with the signer certificbte first bnd the (root)
+     * certificbte buthority lbst).
      *
-     * @return the <code>Certificate</code> objects for this entry, or
+     * @return the <code>Certificbte</code> objects for this entry, or
      * <code>null</code> if none.
      */
-    public Certificate[] getCertificates() {
+    public Certificbte[] getCertificbtes() {
         return certs == null ? null : certs.clone();
     }
 
     /**
      * Returns the <code>CodeSigner</code> objects for this entry, or
-     * <code>null</code> if none. This method can only be called once
-     * the <code>JarEntry</code> has been completely verified by reading
-     * from the entry input stream until the end of the stream has been
-     * reached. Otherwise, this method will return <code>null</code>.
+     * <code>null</code> if none. This method cbn only be cblled once
+     * the <code>JbrEntry</code> hbs been completely verified by rebding
+     * from the entry input strebm until the end of the strebm hbs been
+     * rebched. Otherwise, this method will return <code>null</code>.
      *
-     * <p>The returned array comprises all the code signers that have signed
+     * <p>The returned brrby comprises bll the code signers thbt hbve signed
      * this entry.
      *
      * @return the <code>CodeSigner</code> objects for this entry, or

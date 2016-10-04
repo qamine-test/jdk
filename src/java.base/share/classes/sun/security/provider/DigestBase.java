@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.security.MessageDigestSpi;
-import java.security.DigestException;
-import java.security.ProviderException;
+import jbvb.security.MessbgeDigestSpi;
+import jbvb.security.DigestException;
+import jbvb.security.ProviderException;
 
 /**
- * Common base message digest implementation for the Sun provider.
- * It implements all the JCA methods as suitable for a Java message digest
- * implementation of an algorithm based on a compression function (as all
- * commonly used algorithms are). The individual digest subclasses only need to
+ * Common bbse messbge digest implementbtion for the Sun provider.
+ * It implements bll the JCA methods bs suitbble for b Jbvb messbge digest
+ * implementbtion of bn blgorithm bbsed on b compression function (bs bll
+ * commonly used blgorithms bre). The individubl digest subclbsses only need to
  * implement the following methods:
  *
- *  . abstract void implCompress(byte[] b, int ofs);
- *  . abstract void implDigest(byte[] out, int ofs);
- *  . abstract void implReset();
+ *  . bbstrbct void implCompress(byte[] b, int ofs);
+ *  . bbstrbct void implDigest(byte[] out, int ofs);
+ *  . bbstrbct void implReset();
  *
- * See the inline documentation for details.
+ * See the inline documentbtion for detbils.
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-abstract class DigestBase extends MessageDigestSpi implements Cloneable {
+bbstrbct clbss DigestBbse extends MessbgeDigestSpi implements Clonebble {
 
-    // one element byte array, temporary storage for update(byte)
-    private byte[] oneByte;
+    // one element byte brrby, temporbry storbge for updbte(byte)
+    privbte byte[] oneByte;
 
-    // algorithm name to use in the exception message
-    private final String algorithm;
-    // length of the message digest in bytes
-    private final int digestLength;
+    // blgorithm nbme to use in the exception messbge
+    privbte finbl String blgorithm;
+    // length of the messbge digest in bytes
+    privbte finbl int digestLength;
 
     // size of the input to the compression function in bytes
-    private final int blockSize;
-    // buffer to store partial blocks, blockSize bytes large
-    // Subclasses should not access this array directly except possibly in their
-    // implDigest() method. See MD5.java as an example.
+    privbte finbl int blockSize;
+    // buffer to store pbrtibl blocks, blockSize bytes lbrge
+    // Subclbsses should not bccess this brrby directly except possibly in their
+    // implDigest() method. See MD5.jbvb bs bn exbmple.
     byte[] buffer;
     // offset into buffer
-    private int bufOfs;
+    privbte int bufOfs;
 
-    // number of bytes processed so far. subclasses should not modify
-    // this value.
-    // also used as a flag to indicate reset status
-    // -1: need to call engineReset() before next call to update()
-    //  0: is already reset
+    // number of bytes processed so fbr. subclbsses should not modify
+    // this vblue.
+    // blso used bs b flbg to indicbte reset stbtus
+    // -1: need to cbll engineReset() before next cbll to updbte()
+    //  0: is blrebdy reset
     long bytesProcessed;
 
     /**
-     * Main constructor.
+     * Mbin constructor.
      */
-    DigestBase(String algorithm, int digestLength, int blockSize) {
+    DigestBbse(String blgorithm, int digestLength, int blockSize) {
         super();
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
         this.digestLength = digestLength;
         this.blockSize = blockSize;
         buffer = new byte[blockSize];
     }
 
     // return digest length. See JCA doc.
-    protected final int engineGetDigestLength() {
+    protected finbl int engineGetDigestLength() {
         return digestLength;
     }
 
-    // single byte update. See JCA doc.
-    protected final void engineUpdate(byte b) {
+    // single byte updbte. See JCA doc.
+    protected finbl void engineUpdbte(byte b) {
         if (oneByte == null) {
             oneByte = new byte[1];
         }
         oneByte[0] = b;
-        engineUpdate(oneByte, 0, 1);
+        engineUpdbte(oneByte, 0, 1);
     }
 
-    // array update. See JCA doc.
-    protected final void engineUpdate(byte[] b, int ofs, int len) {
+    // brrby updbte. See JCA doc.
+    protected finbl void engineUpdbte(byte[] b, int ofs, int len) {
         if (len == 0) {
             return;
         }
         if ((ofs < 0) || (len < 0) || (ofs > b.length - len)) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
         if (bytesProcessed < 0) {
             engineReset();
@@ -110,8 +110,8 @@ abstract class DigestBase extends MessageDigestSpi implements Cloneable {
         bytesProcessed += len;
         // if buffer is not empty, we need to fill it before proceeding
         if (bufOfs != 0) {
-            int n = Math.min(len, blockSize - bufOfs);
-            System.arraycopy(b, ofs, buffer, bufOfs, n);
+            int n = Mbth.min(len, blockSize - bufOfs);
+            System.brrbycopy(b, ofs, buffer, bufOfs, n);
             bufOfs += n;
             ofs += n;
             len -= n;
@@ -127,15 +127,15 @@ abstract class DigestBase extends MessageDigestSpi implements Cloneable {
             ofs = implCompressMultiBlock(b, ofs, limit - blockSize);
             len = limit - ofs;
         }
-        // copy remainder to buffer
+        // copy rembinder to buffer
         if (len > 0) {
-            System.arraycopy(b, ofs, buffer, 0, len);
+            System.brrbycopy(b, ofs, buffer, 0, len);
             bufOfs = len;
         }
     }
 
     // compress complete blocks
-    private int implCompressMultiBlock(byte[] b, int ofs, int limit) {
+    privbte int implCompressMultiBlock(byte[] b, int ofs, int limit) {
         for (; ofs <= limit; ofs += blockSize) {
             implCompress(b, ofs);
         }
@@ -143,9 +143,9 @@ abstract class DigestBase extends MessageDigestSpi implements Cloneable {
     }
 
     // reset this object. See JCA doc.
-    protected final void engineReset() {
+    protected finbl void engineReset() {
         if (bytesProcessed == 0) {
-            // already reset, ignore
+            // blrebdy reset, ignore
             return;
         }
         implReset();
@@ -154,23 +154,23 @@ abstract class DigestBase extends MessageDigestSpi implements Cloneable {
     }
 
     // return the digest. See JCA doc.
-    protected final byte[] engineDigest() {
+    protected finbl byte[] engineDigest() {
         byte[] b = new byte[digestLength];
         try {
             engineDigest(b, 0, b.length);
-        } catch (DigestException e) {
+        } cbtch (DigestException e) {
             throw (ProviderException)
-                new ProviderException("Internal error").initCause(e);
+                new ProviderException("Internbl error").initCbuse(e);
         }
         return b;
     }
 
-    // return the digest in the specified array. See JCA doc.
-    protected final int engineDigest(byte[] out, int ofs, int len)
+    // return the digest in the specified brrby. See JCA doc.
+    protected finbl int engineDigest(byte[] out, int ofs, int len)
             throws DigestException {
         if (len < digestLength) {
-            throw new DigestException("Length must be at least "
-                + digestLength + " for " + algorithm + "digests");
+            throw new DigestException("Length must be bt lebst "
+                + digestLength + " for " + blgorithm + "digests");
         }
         if ((ofs < 0) || (len < 0) || (ofs > out.length - len)) {
             throw new DigestException("Buffer too short to store digest");
@@ -184,37 +184,37 @@ abstract class DigestBase extends MessageDigestSpi implements Cloneable {
     }
 
     /**
-     * Core compression function. Processes blockSize bytes at a time
-     * and updates the state of this object.
+     * Core compression function. Processes blockSize bytes bt b time
+     * bnd updbtes the stbte of this object.
      */
-    abstract void implCompress(byte[] b, int ofs);
+    bbstrbct void implCompress(byte[] b, int ofs);
 
     /**
-     * Return the digest. Subclasses do not need to reset() themselves,
-     * DigestBase calls implReset() when necessary.
+     * Return the digest. Subclbsses do not need to reset() themselves,
+     * DigestBbse cblls implReset() when necessbry.
      */
-    abstract void implDigest(byte[] out, int ofs);
+    bbstrbct void implDigest(byte[] out, int ofs);
 
     /**
-     * Reset subclass specific state to their initial values. DigestBase
-     * calls this method when necessary.
+     * Reset subclbss specific stbte to their initibl vblues. DigestBbse
+     * cblls this method when necessbry.
      */
-    abstract void implReset();
+    bbstrbct void implReset();
 
     public Object clone() throws CloneNotSupportedException {
-        DigestBase copy = (DigestBase) super.clone();
+        DigestBbse copy = (DigestBbse) super.clone();
         copy.buffer = copy.buffer.clone();
         return copy;
     }
 
-    // padding used for the MD5, and SHA-* message digests
-    static final byte[] padding;
+    // pbdding used for the MD5, bnd SHA-* messbge digests
+    stbtic finbl byte[] pbdding;
 
-    static {
-        // we need 128 byte padding for SHA-384/512
-        // and an additional 8 bytes for the high 8 bytes of the 16
+    stbtic {
+        // we need 128 byte pbdding for SHA-384/512
+        // bnd bn bdditionbl 8 bytes for the high 8 bytes of the 16
         // byte bit counter in SHA-384/512
-        padding = new byte[136];
-        padding[0] = (byte)0x80;
+        pbdding = new byte[136];
+        pbdding[0] = (byte)0x80;
     }
 }

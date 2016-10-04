@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtic com.sun.jmx.mbebnserver.Util.*;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.WebkReference;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 
 /**
- * <p>A map where keys are compared using identity comparison (like
- * IdentityHashMap) but where the presence of an object as a key in
- * the map does not prevent it being garbage collected (like
- * WeakHashMap).  This class does not implement the Map interface
- * because it is difficult to ensure correct semantics for iterators
+ * <p>A mbp where keys bre compbred using identity compbrison (like
+ * IdentityHbshMbp) but where the presence of bn object bs b key in
+ * the mbp does not prevent it being gbrbbge collected (like
+ * WebkHbshMbp).  This clbss does not implement the Mbp interfbce
+ * becbuse it is difficult to ensure correct sembntics for iterbtors
  * over the entrySet().</p>
  *
- * <p>Because we do not implement Map, we do not copy the questionable
- * interface where you can call get(k) or remove(k) for any type of k,
- * which of course can only have an effect if k is of type K.</p>
+ * <p>Becbuse we do not implement Mbp, we do not copy the questionbble
+ * interfbce where you cbn cbll get(k) or remove(k) for bny type of k,
+ * which of course cbn only hbve bn effect if k is of type K.</p>
  *
- * <p>This map does not support null keys.</p>
+ * <p>This mbp does not support null keys.</p>
  */
 /*
- * The approach
- * is to wrap each key in a WeakReference and use the wrapped value as
- * a key in an ordinary HashMap.  The WeakReference has to be a
- * subclass IdentityWeakReference (IWR) where two IWRs are equal if
- * they refer to the same object.  This enables us to find the entry
- * again.
+ * The bpprobch
+ * is to wrbp ebch key in b WebkReference bnd use the wrbpped vblue bs
+ * b key in bn ordinbry HbshMbp.  The WebkReference hbs to be b
+ * subclbss IdentityWebkReference (IWR) where two IWRs bre equbl if
+ * they refer to the sbme object.  This enbbles us to find the entry
+ * bgbin.
  */
-class WeakIdentityHashMap<K, V> {
-    private WeakIdentityHashMap() {}
+clbss WebkIdentityHbshMbp<K, V> {
+    privbte WebkIdentityHbshMbp() {}
 
-    static <K, V> WeakIdentityHashMap<K, V> make() {
-        return new WeakIdentityHashMap<K, V>();
+    stbtic <K, V> WebkIdentityHbshMbp<K, V> mbke() {
+        return new WebkIdentityHbshMbp<K, V>();
     }
 
     V get(K key) {
         expunge();
-        WeakReference<K> keyref = makeReference(key);
-        return map.get(keyref);
+        WebkReference<K> keyref = mbkeReference(key);
+        return mbp.get(keyref);
     }
 
-    public V put(K key, V value) {
+    public V put(K key, V vblue) {
         expunge();
         if (key == null)
-            throw new IllegalArgumentException("Null key");
-        WeakReference<K> keyref = makeReference(key, refQueue);
-        return map.put(keyref, value);
+            throw new IllegblArgumentException("Null key");
+        WebkReference<K> keyref = mbkeReference(key, refQueue);
+        return mbp.put(keyref, vblue);
     }
 
     public V remove(K key) {
         expunge();
-        WeakReference<K> keyref = makeReference(key);
-        return map.remove(keyref);
+        WebkReference<K> keyref = mbkeReference(key);
+        return mbp.remove(keyref);
     }
 
-    private void expunge() {
+    privbte void expunge() {
         Reference<? extends K> ref;
         while ((ref = refQueue.poll()) != null)
-            map.remove(ref);
+            mbp.remove(ref);
     }
 
-    private WeakReference<K> makeReference(K referent) {
-        return new IdentityWeakReference<K>(referent);
+    privbte WebkReference<K> mbkeReference(K referent) {
+        return new IdentityWebkReference<K>(referent);
     }
 
-    private WeakReference<K> makeReference(K referent, ReferenceQueue<K> q) {
-        return new IdentityWeakReference<K>(referent, q);
+    privbte WebkReference<K> mbkeReference(K referent, ReferenceQueue<K> q) {
+        return new IdentityWebkReference<K>(referent, q);
     }
 
     /**
-     * WeakReference where equals and hashCode are based on the
-     * referent.  More precisely, two objects are equal if they are
-     * identical or if they both have the same non-null referent.  The
-     * hashCode is the value the original referent had.  Even if the
-     * referent is cleared, the hashCode remains.  Thus, objects of
-     * this class can be used as keys in hash-based maps and sets.
+     * WebkReference where equbls bnd hbshCode bre bbsed on the
+     * referent.  More precisely, two objects bre equbl if they bre
+     * identicbl or if they both hbve the sbme non-null referent.  The
+     * hbshCode is the vblue the originbl referent hbd.  Even if the
+     * referent is clebred, the hbshCode rembins.  Thus, objects of
+     * this clbss cbn be used bs keys in hbsh-bbsed mbps bnd sets.
      */
-    private static class IdentityWeakReference<T> extends WeakReference<T> {
-        IdentityWeakReference(T o) {
+    privbte stbtic clbss IdentityWebkReference<T> extends WebkReference<T> {
+        IdentityWebkReference(T o) {
             this(o, null);
         }
 
-        IdentityWeakReference(T o, ReferenceQueue<T> q) {
+        IdentityWebkReference(T o, ReferenceQueue<T> q) {
             super(o, q);
-            this.hashCode = (o == null) ? 0 : System.identityHashCode(o);
+            this.hbshCode = (o == null) ? 0 : System.identityHbshCode(o);
         }
 
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (this == o)
                 return true;
-            if (!(o instanceof IdentityWeakReference<?>))
-                return false;
-            IdentityWeakReference<?> wr = (IdentityWeakReference<?>) o;
+            if (!(o instbnceof IdentityWebkReference<?>))
+                return fblse;
+            IdentityWebkReference<?> wr = (IdentityWebkReference<?>) o;
             Object got = get();
             return (got != null && got == wr.get());
         }
 
-        public int hashCode() {
-            return hashCode;
+        public int hbshCode() {
+            return hbshCode;
         }
 
-        private final int hashCode;
+        privbte finbl int hbshCode;
     }
 
-    private Map<WeakReference<K>, V> map = newMap();
-    private ReferenceQueue<K> refQueue = new ReferenceQueue<K>();
+    privbte Mbp<WebkReference<K>, V> mbp = newMbp();
+    privbte ReferenceQueue<K> refQueue = new ReferenceQueue<K>();
 }

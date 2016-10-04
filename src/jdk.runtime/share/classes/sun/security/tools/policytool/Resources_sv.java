@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.tools.policytool;
+pbckbge sun.security.tools.policytool;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
+ * <p> This clbss represents the <code>ResourceBundle</code>
  * for the policytool.
  *
  */
-public class Resources_sv extends java.util.ListResourceBundle {
+public clbss Resources_sv extends jbvb.util.ListResourceBundle {
 
-    private static final Object[][] contents = {
+    privbte stbtic finbl Object[][] contents = {
         {"NEWLINE", "\n"},
-        {"Warning.A.public.key.for.alias.signers.i.does.not.exist.Make.sure.a.KeyStore.is.properly.configured.",
-                "Varning! Det finns ingen offentlig nyckel f\u00F6r aliaset {0}. Kontrollera att det aktuella nyckellagret \u00E4r korrekt konfigurerat."},
-        {"Warning.Class.not.found.class", "Varning! Klassen hittades inte: {0}"},
-        {"Warning.Invalid.argument.s.for.constructor.arg",
-                "Varning! Ogiltiga argument f\u00F6r konstruktor: {0}"},
-        {"Illegal.Principal.Type.type", "Otill\u00E5ten identitetshavaretyp: {0}"},
-        {"Illegal.option.option", "Otill\u00E5tet alternativ: {0}"},
-        {"Usage.policytool.options.", "Syntax: policytool [alternativ]"},
-        {".file.file.policy.file.location",
-                "  [-file <fil>]    policyfilens plats"},
+        {"Wbrning.A.public.key.for.blibs.signers.i.does.not.exist.Mbke.sure.b.KeyStore.is.properly.configured.",
+                "Vbrning! Det finns ingen offentlig nyckel f\u00F6r blibset {0}. Kontrollerb btt det bktuellb nyckellbgret \u00E4r korrekt konfigurerbt."},
+        {"Wbrning.Clbss.not.found.clbss", "Vbrning! Klbssen hittbdes inte: {0}"},
+        {"Wbrning.Invblid.brgument.s.for.constructor.brg",
+                "Vbrning! Ogiltigb brgument f\u00F6r konstruktor: {0}"},
+        {"Illegbl.Principbl.Type.type", "Otill\u00E5ten identitetshbvbretyp: {0}"},
+        {"Illegbl.option.option", "Otill\u00E5tet blternbtiv: {0}"},
+        {"Usbge.policytool.options.", "Syntbx: policytool [blternbtiv]"},
+        {".file.file.policy.file.locbtion",
+                "  [-file <fil>]    policyfilens plbts"},
         {"New", "Nytt"},
-        {"Open", "\u00D6ppna"},
-        {"Save", "Spara"},
-        {"Save.As", "Spara som"},
-        {"View.Warning.Log", "Visa varningslogg"},
-        {"Exit", "Avsluta"},
+        {"Open", "\u00D6ppnb"},
+        {"Sbve", "Spbrb"},
+        {"Sbve.As", "Spbrb som"},
+        {"View.Wbrning.Log", "Visb vbrningslogg"},
+        {"Exit", "Avslutb"},
         {"Add.Policy.Entry", "L\u00E4gg till policypost"},
-        {"Edit.Policy.Entry", "Redigera policypost"},
-        {"Remove.Policy.Entry", "Ta bort policypost"},
-        {"Edit", "Redigera"},
-        {"Retain", "Beh\u00E5ll"},
+        {"Edit.Policy.Entry", "Redigerb policypost"},
+        {"Remove.Policy.Entry", "Tb bort policypost"},
+        {"Edit", "Redigerb"},
+        {"Retbin", "Beh\u00E5ll"},
 
-        {"Warning.File.name.may.include.escaped.backslash.characters.It.is.not.necessary.to.escape.backslash.characters.the.tool.escapes",
-            "Varning! Filnamnet kan inneh\u00E5lla omv\u00E4nda snedstreck inom citattecken. Citattecken kr\u00E4vs inte f\u00F6r omv\u00E4nda snedstreck (verktyget hanterar detta n\u00E4r policyinneh\u00E5llet skrivs till det best\u00E4ndiga lagret).\n\nKlicka p\u00E5 Beh\u00E5ll f\u00F6r att beh\u00E5lla det angivna namnet, eller klicka p\u00E5 Redigera f\u00F6r att \u00E4ndra det."},
+        {"Wbrning.File.nbme.mby.include.escbped.bbckslbsh.chbrbcters.It.is.not.necessbry.to.escbpe.bbckslbsh.chbrbcters.the.tool.escbpes",
+            "Vbrning! Filnbmnet kbn inneh\u00E5llb omv\u00E4ndb snedstreck inom citbttecken. Citbttecken kr\u00E4vs inte f\u00F6r omv\u00E4ndb snedstreck (verktyget hbnterbr dettb n\u00E4r policyinneh\u00E5llet skrivs till det best\u00E4ndigb lbgret).\n\nKlickb p\u00E5 Beh\u00E5ll f\u00F6r btt beh\u00E5llb det bngivnb nbmnet, eller klickb p\u00E5 Redigerb f\u00F6r btt \u00E4ndrb det."},
 
-        {"Add.Public.Key.Alias", "L\u00E4gg till offentligt nyckelalias"},
-        {"Remove.Public.Key.Alias", "Ta bort offentligt nyckelalias"},
+        {"Add.Public.Key.Alibs", "L\u00E4gg till offentligt nyckelblibs"},
+        {"Remove.Public.Key.Alibs", "Tb bort offentligt nyckelblibs"},
         {"File", "Fil"},
-        {"KeyStore", "Nyckellager"},
+        {"KeyStore", "Nyckellbger"},
         {"Policy.File.", "Policyfil:"},
         {"Could.not.open.policy.file.policyFile.e.toString.",
-                "Kan inte \u00F6ppna policyfilen: {0}: {1}"},
+                "Kbn inte \u00F6ppnb policyfilen: {0}: {1}"},
         {"Policy.Tool", "Policyverktyg"},
-        {"Errors.have.occurred.while.opening.the.policy.configuration.View.the.Warning.Log.for.more.information.",
-                "Det uppstod ett fel n\u00E4r policykonfigurationen skulle \u00F6ppnas. Se varningsloggen f\u00F6r mer information."},
+        {"Errors.hbve.occurred.while.opening.the.policy.configurbtion.View.the.Wbrning.Log.for.more.informbtion.",
+                "Det uppstod ett fel n\u00E4r policykonfigurbtionen skulle \u00F6ppnbs. Se vbrningsloggen f\u00F6r mer informbtion."},
         {"Error", "Fel"},
         {"OK", "OK"},
-        {"Status", "Status"},
-        {"Warning", "Varning"},
+        {"Stbtus", "Stbtus"},
+        {"Wbrning", "Vbrning"},
         {"Permission.",
                 "Beh\u00F6righet:                                                       "},
-        {"Principal.Type.", "Identitetshavaretyp:"},
-        {"Principal.Name.", "Identitetshavare:"},
-        {"Target.Name.",
+        {"Principbl.Type.", "Identitetshbvbretyp:"},
+        {"Principbl.Nbme.", "Identitetshbvbre:"},
+        {"Tbrget.Nbme.",
                 "M\u00E5l:                                                    "},
         {"Actions.",
                 "Funktioner:                                                             "},
-        {"OK.to.overwrite.existing.file.filename.",
-                "Ska den befintliga filen {0} skrivas \u00F6ver?"},
-        {"Cancel", "Avbryt"},
-        {"CodeBase.", "Kodbas:"},
-        {"SignedBy.", "Signerad av:"},
-        {"Add.Principal", "L\u00E4gg till identitetshavare"},
-        {"Edit.Principal", "Redigera identitetshavare"},
-        {"Remove.Principal", "Ta bort identitetshavare"},
-        {"Principals.", "Identitetshavare:"},
+        {"OK.to.overwrite.existing.file.filenbme.",
+                "Skb den befintligb filen {0} skrivbs \u00F6ver?"},
+        {"Cbncel", "Avbryt"},
+        {"CodeBbse.", "Kodbbs:"},
+        {"SignedBy.", "Signerbd bv:"},
+        {"Add.Principbl", "L\u00E4gg till identitetshbvbre"},
+        {"Edit.Principbl", "Redigerb identitetshbvbre"},
+        {"Remove.Principbl", "Tb bort identitetshbvbre"},
+        {"Principbls.", "Identitetshbvbre:"},
         {".Add.Permission", "  L\u00E4gg till beh\u00F6righet"},
-        {".Edit.Permission", "  Redigera beh\u00F6righet"},
-        {"Remove.Permission", "Ta bort beh\u00F6righet"},
+        {".Edit.Permission", "  Redigerb beh\u00F6righet"},
+        {"Remove.Permission", "Tb bort beh\u00F6righet"},
         {"Done", "Utf\u00F6rd"},
-        {"KeyStore.URL.", "URL f\u00F6r nyckellager:"},
-        {"KeyStore.Type.", "Nyckellagertyp:"},
-        {"KeyStore.Provider.", "Nyckellagerleverant\u00F6r:"},
-        {"KeyStore.Password.URL.", "URL f\u00F6r l\u00F6senord till nyckellager:"},
-        {"Principals", "Identitetshavare"},
-        {".Edit.Principal.", "  Redigera identitetshavare:"},
-        {".Add.New.Principal.", "  L\u00E4gg till ny identitetshavare:"},
+        {"KeyStore.URL.", "URL f\u00F6r nyckellbger:"},
+        {"KeyStore.Type.", "Nyckellbgertyp:"},
+        {"KeyStore.Provider.", "Nyckellbgerleverbnt\u00F6r:"},
+        {"KeyStore.Pbssword.URL.", "URL f\u00F6r l\u00F6senord till nyckellbger:"},
+        {"Principbls", "Identitetshbvbre"},
+        {".Edit.Principbl.", "  Redigerb identitetshbvbre:"},
+        {".Add.New.Principbl.", "  L\u00E4gg till ny identitetshbvbre:"},
         {"Permissions", "Beh\u00F6righet"},
-        {".Edit.Permission.", "  Redigera beh\u00F6righet:"},
+        {".Edit.Permission.", "  Redigerb beh\u00F6righet:"},
         {".Add.New.Permission.", "  L\u00E4gg till ny beh\u00F6righet:"},
-        {"Signed.By.", "Signerad av:"},
-        {"Cannot.Specify.Principal.with.a.Wildcard.Class.without.a.Wildcard.Name",
-            "Kan inte specificera identitetshavare med jokerteckenklass utan jokerteckennamn"},
-        {"Cannot.Specify.Principal.without.a.Name",
-            "Kan inte specificera identitetshavare utan namn"},
-        {"Permission.and.Target.Name.must.have.a.value",
-                "Beh\u00F6righet och m\u00E5lnamn m\u00E5ste ha ett v\u00E4rde"},
-        {"Remove.this.Policy.Entry.", "Vill du ta bort den h\u00E4r policyposten?"},
+        {"Signed.By.", "Signerbd bv:"},
+        {"Cbnnot.Specify.Principbl.with.b.Wildcbrd.Clbss.without.b.Wildcbrd.Nbme",
+            "Kbn inte specificerb identitetshbvbre med jokerteckenklbss utbn jokerteckennbmn"},
+        {"Cbnnot.Specify.Principbl.without.b.Nbme",
+            "Kbn inte specificerb identitetshbvbre utbn nbmn"},
+        {"Permission.bnd.Tbrget.Nbme.must.hbve.b.vblue",
+                "Beh\u00F6righet och m\u00E5lnbmn m\u00E5ste hb ett v\u00E4rde"},
+        {"Remove.this.Policy.Entry.", "Vill du tb bort den h\u00E4r policyposten?"},
         {"Overwrite.File", "Skriv \u00F6ver fil"},
-        {"Policy.successfully.written.to.filename",
-                "Policy har skrivits till {0}"},
-        {"null.filename", "nullfilnamn"},
-        {"Save.changes.", "Vill du spara \u00E4ndringarna?"},
-        {"Yes", "Ja"},
+        {"Policy.successfully.written.to.filenbme",
+                "Policy hbr skrivits till {0}"},
+        {"null.filenbme", "nullfilnbmn"},
+        {"Sbve.chbnges.", "Vill du spbrb \u00E4ndringbrnb?"},
+        {"Yes", "Jb"},
         {"No", "Nej"},
         {"Policy.Entry", "Policyfel"},
-        {"Save.Changes", "Spara \u00E4ndringar"},
-        {"No.Policy.Entry.selected", "Ingen policypost har valts"},
-        {"Unable.to.open.KeyStore.ex.toString.",
-                "Kan inte \u00F6ppna nyckellagret: {0}"},
-        {"No.principal.selected", "Ingen identitetshavare har valts"},
-        {"No.permission.selected", "Ingen beh\u00F6righet har valts"},
-        {"name", "namn"},
-        {"configuration.type", "konfigurationstyp"},
-        {"environment.variable.name", "variabelnamn f\u00F6r milj\u00F6"},
-        {"library.name", "biblioteksnamn"},
-        {"package.name", "paketnamn"},
+        {"Sbve.Chbnges", "Spbrb \u00E4ndringbr"},
+        {"No.Policy.Entry.selected", "Ingen policypost hbr vblts"},
+        {"Unbble.to.open.KeyStore.ex.toString.",
+                "Kbn inte \u00F6ppnb nyckellbgret: {0}"},
+        {"No.principbl.selected", "Ingen identitetshbvbre hbr vblts"},
+        {"No.permission.selected", "Ingen beh\u00F6righet hbr vblts"},
+        {"nbme", "nbmn"},
+        {"configurbtion.type", "konfigurbtionstyp"},
+        {"environment.vbribble.nbme", "vbribbelnbmn f\u00F6r milj\u00F6"},
+        {"librbry.nbme", "biblioteksnbmn"},
+        {"pbckbge.nbme", "pbketnbmn"},
         {"policy.type", "policytyp"},
-        {"property.name", "egenskapsnamn"},
-        {"provider.name", "leverant\u00F6rsnamn"},
+        {"property.nbme", "egenskbpsnbmn"},
+        {"provider.nbme", "leverbnt\u00F6rsnbmn"},
         {"url", "url"},
-        {"method.list", "metodlista"},
-        {"request.headers.list", "beg\u00E4ranrubriklista"},
-        {"Principal.List", "Lista \u00F6ver identitetshavare"},
-        {"Permission.List", "Beh\u00F6righetslista"},
-        {"Code.Base", "Kodbas"},
-        {"KeyStore.U.R.L.", "URL f\u00F6r nyckellager:"},
-        {"KeyStore.Password.U.R.L.", "URL f\u00F6r l\u00F6senord till nyckellager:"}
+        {"method.list", "metodlistb"},
+        {"request.hebders.list", "beg\u00E4rbnrubriklistb"},
+        {"Principbl.List", "Listb \u00F6ver identitetshbvbre"},
+        {"Permission.List", "Beh\u00F6righetslistb"},
+        {"Code.Bbse", "Kodbbs"},
+        {"KeyStore.U.R.L.", "URL f\u00F6r nyckellbger:"},
+        {"KeyStore.Pbssword.U.R.L.", "URL f\u00F6r l\u00F6senord till nyckellbger:"}
     };
 
 

@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.tree;
-   // ISSUE: this class depends on nothing in AWT -- move to java.util?
+pbckbge jbvbx.swing.tree;
+   // ISSUE: this clbss depends on nothing in AWT -- move to jbvb.util?
 
-import java.beans.Transient;
-import java.io.*;
-import java.util.*;
+import jbvb.bebns.Trbnsient;
+import jbvb.io.*;
+import jbvb.util.*;
 
 
 /**
- * A <code>DefaultMutableTreeNode</code> is a general-purpose node in a tree data
+ * A <code>DefbultMutbbleTreeNode</code> is b generbl-purpose node in b tree dbtb
  * structure.
- * For examples of using default mutable tree nodes, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
- * in <em>The Java Tutorial.</em>
+ * For exbmples of using defbult mutbble tree nodes, see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tree.html">How to Use Trees</b>
+ * in <em>The Jbvb Tutoribl.</em>
  *
  * <p>
  *
- * A tree node may have at most one parent and 0 or more children.
- * <code>DefaultMutableTreeNode</code> provides operations for examining and modifying a
- * node's parent and children and also operations for examining the tree that
- * the node is a part of.  A node's tree is the set of all nodes that can be
- * reached by starting at the node and following all the possible links to
- * parents and children.  A node with no parent is the root of its tree; a
- * node with no children is a leaf.  A tree may consist of many subtrees,
- * each node acting as the root for its own subtree.
+ * A tree node mby hbve bt most one pbrent bnd 0 or more children.
+ * <code>DefbultMutbbleTreeNode</code> provides operbtions for exbmining bnd modifying b
+ * node's pbrent bnd children bnd blso operbtions for exbmining the tree thbt
+ * the node is b pbrt of.  A node's tree is the set of bll nodes thbt cbn be
+ * rebched by stbrting bt the node bnd following bll the possible links to
+ * pbrents bnd children.  A node with no pbrent is the root of its tree; b
+ * node with no children is b lebf.  A tree mby consist of mbny subtrees,
+ * ebch node bcting bs the root for its own subtree.
  * <p>
- * This class provides enumerations for efficiently traversing a tree or
- * subtree in various orders or for following the path between two nodes.
- * A <code>DefaultMutableTreeNode</code> may also hold a reference to a user object, the
- * use of which is left to the user.  Asking a <code>DefaultMutableTreeNode</code> for its
- * string representation with <code>toString()</code> returns the string
- * representation of its user object.
+ * This clbss provides enumerbtions for efficiently trbversing b tree or
+ * subtree in vbrious orders or for following the pbth between two nodes.
+ * A <code>DefbultMutbbleTreeNode</code> mby blso hold b reference to b user object, the
+ * use of which is left to the user.  Asking b <code>DefbultMutbbleTreeNode</code> for its
+ * string representbtion with <code>toString()</code> returns the string
+ * representbtion of its user object.
  * <p>
- * <b>This is not a thread safe class.</b>If you intend to use
- * a DefaultMutableTreeNode (or a tree of TreeNodes) in more than one thread, you
- * need to do your own synchronizing. A good convention to adopt is
- * synchronizing on the root node of a tree.
+ * <b>This is not b threbd sbfe clbss.</b>If you intend to use
+ * b DefbultMutbbleTreeNode (or b tree of TreeNodes) in more thbn one threbd, you
+ * need to do your own synchronizing. A good convention to bdopt is
+ * synchronizing on the root node of b tree.
  * <p>
- * While DefaultMutableTreeNode implements the MutableTreeNode interface and
- * will allow you to add in any implementation of MutableTreeNode not all
- * of the methods in DefaultMutableTreeNode will be applicable to all
- * MutableTreeNodes implementations. Especially with some of the enumerations
- * that are provided, using some of these methods assumes the
- * DefaultMutableTreeNode contains only DefaultMutableNode instances. All
- * of the TreeNode/MutableTreeNode methods will behave as defined no
- * matter what implementations are added.
+ * While DefbultMutbbleTreeNode implements the MutbbleTreeNode interfbce bnd
+ * will bllow you to bdd in bny implementbtion of MutbbleTreeNode not bll
+ * of the methods in DefbultMutbbleTreeNode will be bpplicbble to bll
+ * MutbbleTreeNodes implementbtions. Especiblly with some of the enumerbtions
+ * thbt bre provided, using some of these methods bssumes the
+ * DefbultMutbbleTreeNode contbins only DefbultMutbbleNode instbnces. All
+ * of the TreeNode/MutbbleTreeNode methods will behbve bs defined no
+ * mbtter whbt implementbtions bre bdded.
  *
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see MutableTreeNode
+ * @see MutbbleTreeNode
  *
- * @author Rob Davis
+ * @buthor Rob Dbvis
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultMutableTreeNode implements Cloneable,
-       MutableTreeNode, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultMutbbleTreeNode implements Clonebble,
+       MutbbleTreeNode, Seriblizbble
 {
-    private static final long serialVersionUID = -4298474751201349152L;
+    privbte stbtic finbl long seriblVersionUID = -4298474751201349152L;
 
     /**
-     * An enumeration that is always empty. This is used when an enumeration
-     * of a leaf node's children is requested.
+     * An enumerbtion thbt is blwbys empty. This is used when bn enumerbtion
+     * of b lebf node's children is requested.
      */
-    static public final Enumeration<TreeNode> EMPTY_ENUMERATION
-        = Collections.emptyEnumeration();
+    stbtic public finbl Enumerbtion<TreeNode> EMPTY_ENUMERATION
+        = Collections.emptyEnumerbtion();
 
-    /** this node's parent, or null if this node has no parent */
-    protected MutableTreeNode   parent;
+    /** this node's pbrent, or null if this node hbs no pbrent */
+    protected MutbbleTreeNode   pbrent;
 
-    /** array of children, may be null if this node has no children */
+    /** brrby of children, mby be null if this node hbs no children */
     protected Vector<TreeNode> children;
 
-    /** optional user object */
-    transient protected Object  userObject;
+    /** optionbl user object */
+    trbnsient protected Object  userObject;
 
-    /** true if the node is able to have children */
-    protected boolean           allowsChildren;
+    /** true if the node is bble to hbve children */
+    protected boolebn           bllowsChildren;
 
 
     /**
-     * Creates a tree node that has no parent and no children, but which
-     * allows children.
+     * Crebtes b tree node thbt hbs no pbrent bnd no children, but which
+     * bllows children.
      */
-    public DefaultMutableTreeNode() {
+    public DefbultMutbbleTreeNode() {
         this(null);
     }
 
     /**
-     * Creates a tree node with no parent, no children, but which allows
-     * children, and initializes it with the specified user object.
+     * Crebtes b tree node with no pbrent, no children, but which bllows
+     * children, bnd initiblizes it with the specified user object.
      *
-     * @param userObject an Object provided by the user that constitutes
-     *                   the node's data
+     * @pbrbm userObject bn Object provided by the user thbt constitutes
+     *                   the node's dbtb
      */
-    public DefaultMutableTreeNode(Object userObject) {
+    public DefbultMutbbleTreeNode(Object userObject) {
         this(userObject, true);
     }
 
     /**
-     * Creates a tree node with no parent, no children, initialized with
-     * the specified user object, and that allows children only if
+     * Crebtes b tree node with no pbrent, no children, initiblized with
+     * the specified user object, bnd thbt bllows children only if
      * specified.
      *
-     * @param userObject an Object provided by the user that constitutes
-     *        the node's data
-     * @param allowsChildren if true, the node is allowed to have child
-     *        nodes -- otherwise, it is always a leaf node
+     * @pbrbm userObject bn Object provided by the user thbt constitutes
+     *        the node's dbtb
+     * @pbrbm bllowsChildren if true, the node is bllowed to hbve child
+     *        nodes -- otherwise, it is blwbys b lebf node
      */
-    public DefaultMutableTreeNode(Object userObject, boolean allowsChildren) {
+    public DefbultMutbbleTreeNode(Object userObject, boolebn bllowsChildren) {
         super();
-        parent = null;
-        this.allowsChildren = allowsChildren;
+        pbrent = null;
+        this.bllowsChildren = bllowsChildren;
         this.userObject = userObject;
     }
 
@@ -153,39 +153,39 @@ public class DefaultMutableTreeNode implements Cloneable,
     //
 
     /**
-     * Removes <code>newChild</code> from its present parent (if it has a
-     * parent), sets the child's parent to this node, and then adds the child
-     * to this node's child array at index <code>childIndex</code>.
-     * <code>newChild</code> must not be null and must not be an ancestor of
+     * Removes <code>newChild</code> from its present pbrent (if it hbs b
+     * pbrent), sets the child's pbrent to this node, bnd then bdds the child
+     * to this node's child brrby bt index <code>childIndex</code>.
+     * <code>newChild</code> must not be null bnd must not be bn bncestor of
      * this node.
      *
-     * @param   newChild        the MutableTreeNode to insert under this node
-     * @param   childIndex      the index in this node's child array
+     * @pbrbm   newChild        the MutbbleTreeNode to insert under this node
+     * @pbrbm   childIndex      the index in this node's child brrby
      *                          where this node is to be inserted
-     * @exception       ArrayIndexOutOfBoundsException  if
+     * @exception       ArrbyIndexOutOfBoundsException  if
      *                          <code>childIndex</code> is out of bounds
-     * @exception       IllegalArgumentException        if
-     *                          <code>newChild</code> is null or is an
-     *                          ancestor of this node
-     * @exception       IllegalStateException   if this node does not allow
+     * @exception       IllegblArgumentException        if
+     *                          <code>newChild</code> is null or is bn
+     *                          bncestor of this node
+     * @exception       IllegblStbteException   if this node does not bllow
      *                                          children
-     * @see     #isNodeDescendant
+     * @see     #isNodeDescendbnt
      */
-    public void insert(MutableTreeNode newChild, int childIndex) {
-        if (!allowsChildren) {
-            throw new IllegalStateException("node does not allow children");
+    public void insert(MutbbleTreeNode newChild, int childIndex) {
+        if (!bllowsChildren) {
+            throw new IllegblStbteException("node does not bllow children");
         } else if (newChild == null) {
-            throw new IllegalArgumentException("new child is null");
+            throw new IllegblArgumentException("new child is null");
         } else if (isNodeAncestor(newChild)) {
-            throw new IllegalArgumentException("new child is an ancestor");
+            throw new IllegblArgumentException("new child is bn bncestor");
         }
 
-            MutableTreeNode oldParent = (MutableTreeNode)newChild.getParent();
+            MutbbleTreeNode oldPbrent = (MutbbleTreeNode)newChild.getPbrent();
 
-            if (oldParent != null) {
-                oldParent.remove(newChild);
+            if (oldPbrent != null) {
+                oldPbrent.remove(newChild);
             }
-            newChild.setParent(this);
+            newChild.setPbrent(this);
             if (children == null) {
                 children = new Vector<>();
             }
@@ -193,55 +193,55 @@ public class DefaultMutableTreeNode implements Cloneable,
     }
 
     /**
-     * Removes the child at the specified index from this node's children
-     * and sets that node's parent to null. The child node to remove
-     * must be a <code>MutableTreeNode</code>.
+     * Removes the child bt the specified index from this node's children
+     * bnd sets thbt node's pbrent to null. The child node to remove
+     * must be b <code>MutbbleTreeNode</code>.
      *
-     * @param   childIndex      the index in this node's child array
+     * @pbrbm   childIndex      the index in this node's child brrby
      *                          of the child to remove
-     * @exception       ArrayIndexOutOfBoundsException  if
+     * @exception       ArrbyIndexOutOfBoundsException  if
      *                          <code>childIndex</code> is out of bounds
      */
     public void remove(int childIndex) {
-        MutableTreeNode child = (MutableTreeNode)getChildAt(childIndex);
+        MutbbleTreeNode child = (MutbbleTreeNode)getChildAt(childIndex);
         children.removeElementAt(childIndex);
-        child.setParent(null);
+        child.setPbrent(null);
     }
 
     /**
-     * Sets this node's parent to <code>newParent</code> but does not
-     * change the parent's child array.  This method is called from
-     * <code>insert()</code> and <code>remove()</code> to
-     * reassign a child's parent, it should not be messaged from anywhere
+     * Sets this node's pbrent to <code>newPbrent</code> but does not
+     * chbnge the pbrent's child brrby.  This method is cblled from
+     * <code>insert()</code> bnd <code>remove()</code> to
+     * rebssign b child's pbrent, it should not be messbged from bnywhere
      * else.
      *
-     * @param   newParent       this node's new parent
+     * @pbrbm   newPbrent       this node's new pbrent
      */
-    @Transient
-    public void setParent(MutableTreeNode newParent) {
-        parent = newParent;
+    @Trbnsient
+    public void setPbrent(MutbbleTreeNode newPbrent) {
+        pbrent = newPbrent;
     }
 
     /**
-     * Returns this node's parent or null if this node has no parent.
+     * Returns this node's pbrent or null if this node hbs no pbrent.
      *
-     * @return  this node's parent TreeNode, or null if this node has no parent
+     * @return  this node's pbrent TreeNode, or null if this node hbs no pbrent
      */
-    public TreeNode getParent() {
-        return parent;
+    public TreeNode getPbrent() {
+        return pbrent;
     }
 
     /**
-     * Returns the child at the specified index in this node's child array.
+     * Returns the child bt the specified index in this node's child brrby.
      *
-     * @param   index   an index into this node's child array
-     * @exception       ArrayIndexOutOfBoundsException  if <code>index</code>
+     * @pbrbm   index   bn index into this node's child brrby
+     * @exception       ArrbyIndexOutOfBoundsException  if <code>index</code>
      *                                          is out of bounds
-     * @return  the TreeNode in this node's child array at  the specified index
+     * @return  the TreeNode in this node's child brrby bt  the specified index
      */
     public TreeNode getChildAt(int index) {
         if (children == null) {
-            throw new ArrayIndexOutOfBoundsException("node has no children");
+            throw new ArrbyIndexOutOfBoundsException("node hbs no children");
         }
         return children.elementAt(index);
     }
@@ -249,7 +249,7 @@ public class DefaultMutableTreeNode implements Cloneable,
     /**
      * Returns the number of children of this node.
      *
-     * @return  an int giving the number of children of this node
+     * @return  bn int giving the number of children of this node
      */
     public int getChildCount() {
         if (children == null) {
@@ -260,37 +260,37 @@ public class DefaultMutableTreeNode implements Cloneable,
     }
 
     /**
-     * Returns the index of the specified child in this node's child array.
-     * If the specified node is not a child of this node, returns
-     * <code>-1</code>.  This method performs a linear search and is O(n)
+     * Returns the index of the specified child in this node's child brrby.
+     * If the specified node is not b child of this node, returns
+     * <code>-1</code>.  This method performs b linebr sebrch bnd is O(n)
      * where n is the number of children.
      *
-     * @param   aChild  the TreeNode to search for among this node's children
-     * @exception       IllegalArgumentException        if <code>aChild</code>
+     * @pbrbm   bChild  the TreeNode to sebrch for bmong this node's children
+     * @exception       IllegblArgumentException        if <code>bChild</code>
      *                                                  is null
-     * @return  an int giving the index of the node in this node's child
-     *          array, or <code>-1</code> if the specified node is a not
-     *          a child of this node
+     * @return  bn int giving the index of the node in this node's child
+     *          brrby, or <code>-1</code> if the specified node is b not
+     *          b child of this node
      */
-    public int getIndex(TreeNode aChild) {
-        if (aChild == null) {
-            throw new IllegalArgumentException("argument is null");
+    public int getIndex(TreeNode bChild) {
+        if (bChild == null) {
+            throw new IllegblArgumentException("brgument is null");
         }
 
-        if (!isNodeChild(aChild)) {
+        if (!isNodeChild(bChild)) {
             return -1;
         }
-        return children.indexOf(aChild);        // linear search
+        return children.indexOf(bChild);        // linebr sebrch
     }
 
     /**
-     * Creates and returns a forward-order enumeration of this node's
-     * children.  Modifying this node's child array invalidates any child
-     * enumerations created before the modification.
+     * Crebtes bnd returns b forwbrd-order enumerbtion of this node's
+     * children.  Modifying this node's child brrby invblidbtes bny child
+     * enumerbtions crebted before the modificbtion.
      *
-     * @return  an Enumeration of this node's children
+     * @return  bn Enumerbtion of this node's children
      */
-    public Enumeration<TreeNode> children() {
+    public Enumerbtion<TreeNode> children() {
         if (children == null) {
             return EMPTY_ENUMERATION;
         } else {
@@ -299,37 +299,37 @@ public class DefaultMutableTreeNode implements Cloneable,
     }
 
     /**
-     * Determines whether or not this node is allowed to have children.
-     * If <code>allows</code> is false, all of this node's children are
+     * Determines whether or not this node is bllowed to hbve children.
+     * If <code>bllows</code> is fblse, bll of this node's children bre
      * removed.
      * <p>
-     * Note: By default, a node allows children.
+     * Note: By defbult, b node bllows children.
      *
-     * @param   allows  true if this node is allowed to have children
+     * @pbrbm   bllows  true if this node is bllowed to hbve children
      */
-    public void setAllowsChildren(boolean allows) {
-        if (allows != allowsChildren) {
-            allowsChildren = allows;
-            if (!allowsChildren) {
+    public void setAllowsChildren(boolebn bllows) {
+        if (bllows != bllowsChildren) {
+            bllowsChildren = bllows;
+            if (!bllowsChildren) {
                 removeAllChildren();
             }
         }
     }
 
     /**
-     * Returns true if this node is allowed to have children.
+     * Returns true if this node is bllowed to hbve children.
      *
-     * @return  true if this node allows children, else false
+     * @return  true if this node bllows children, else fblse
      */
-    public boolean getAllowsChildren() {
-        return allowsChildren;
+    public boolebn getAllowsChildren() {
+        return bllowsChildren;
     }
 
     /**
      * Sets the user object for this node to <code>userObject</code>.
      *
-     * @param   userObject      the Object that constitutes this node's
-     *                          user-specified data
+     * @pbrbm   userObject      the Object thbt constitutes this node's
+     *                          user-specified dbtb
      * @see     #getUserObject
      * @see     #toString
      */
@@ -340,7 +340,7 @@ public class DefaultMutableTreeNode implements Cloneable,
     /**
      * Returns this node's user object.
      *
-     * @return  the Object stored at this node by the user
+     * @return  the Object stored bt this node by the user
      * @see     #setUserObject
      * @see     #toString
      */
@@ -354,39 +354,39 @@ public class DefaultMutableTreeNode implements Cloneable,
     //
 
     /**
-     * Removes the subtree rooted at this node from the tree, giving this
-     * node a null parent.  Does nothing if this node is the root of its
+     * Removes the subtree rooted bt this node from the tree, giving this
+     * node b null pbrent.  Does nothing if this node is the root of its
      * tree.
      */
-    public void removeFromParent() {
-        MutableTreeNode parent = (MutableTreeNode)getParent();
-        if (parent != null) {
-            parent.remove(this);
+    public void removeFromPbrent() {
+        MutbbleTreeNode pbrent = (MutbbleTreeNode)getPbrent();
+        if (pbrent != null) {
+            pbrent.remove(this);
         }
     }
 
     /**
-     * Removes <code>aChild</code> from this node's child array, giving it a
-     * null parent.
+     * Removes <code>bChild</code> from this node's child brrby, giving it b
+     * null pbrent.
      *
-     * @param   aChild  a child of this node to remove
-     * @exception       IllegalArgumentException        if <code>aChild</code>
-     *                                  is null or is not a child of this node
+     * @pbrbm   bChild  b child of this node to remove
+     * @exception       IllegblArgumentException        if <code>bChild</code>
+     *                                  is null or is not b child of this node
      */
-    public void remove(MutableTreeNode aChild) {
-        if (aChild == null) {
-            throw new IllegalArgumentException("argument is null");
+    public void remove(MutbbleTreeNode bChild) {
+        if (bChild == null) {
+            throw new IllegblArgumentException("brgument is null");
         }
 
-        if (!isNodeChild(aChild)) {
-            throw new IllegalArgumentException("argument is not a child");
+        if (!isNodeChild(bChild)) {
+            throw new IllegblArgumentException("brgument is not b child");
         }
-        remove(getIndex(aChild));       // linear search
+        remove(getIndex(bChild));       // linebr sebrch
     }
 
     /**
-     * Removes all of this node's children, setting their parents to null.
-     * If this node has no children, this method does nothing.
+     * Removes bll of this node's children, setting their pbrents to null.
+     * If this node hbs no children, this method does nothing.
      */
     public void removeAllChildren() {
         for (int i = getChildCount()-1; i >= 0; i--) {
@@ -395,18 +395,18 @@ public class DefaultMutableTreeNode implements Cloneable,
     }
 
     /**
-     * Removes <code>newChild</code> from its parent and makes it a child of
-     * this node by adding it to the end of this node's child array.
+     * Removes <code>newChild</code> from its pbrent bnd mbkes it b child of
+     * this node by bdding it to the end of this node's child brrby.
      *
      * @see             #insert
-     * @param   newChild        node to add as a child of this node
-     * @exception       IllegalArgumentException    if <code>newChild</code>
+     * @pbrbm   newChild        node to bdd bs b child of this node
+     * @exception       IllegblArgumentException    if <code>newChild</code>
      *                                          is null
-     * @exception       IllegalStateException   if this node does not allow
+     * @exception       IllegblStbteException   if this node does not bllow
      *                                          children
      */
-    public void add(MutableTreeNode newChild) {
-        if(newChild != null && newChild.getParent() == this)
+    public void bdd(MutbbleTreeNode newChild) {
+        if(newChild != null && newChild.getPbrent() == this)
             insert(newChild, getChildCount() - 1);
         else
             insert(newChild, getChildCount());
@@ -419,70 +419,70 @@ public class DefaultMutableTreeNode implements Cloneable,
     //
 
     /**
-     * Returns true if <code>anotherNode</code> is an ancestor of this node
-     * -- if it is this node, this node's parent, or an ancestor of this
-     * node's parent.  (Note that a node is considered an ancestor of itself.)
-     * If <code>anotherNode</code> is null, this method returns false.  This
-     * operation is at worst O(h) where h is the distance from the root to
+     * Returns true if <code>bnotherNode</code> is bn bncestor of this node
+     * -- if it is this node, this node's pbrent, or bn bncestor of this
+     * node's pbrent.  (Note thbt b node is considered bn bncestor of itself.)
+     * If <code>bnotherNode</code> is null, this method returns fblse.  This
+     * operbtion is bt worst O(h) where h is the distbnce from the root to
      * this node.
      *
-     * @see             #isNodeDescendant
-     * @see             #getSharedAncestor
-     * @param   anotherNode     node to test as an ancestor of this node
-     * @return  true if this node is a descendant of <code>anotherNode</code>
+     * @see             #isNodeDescendbnt
+     * @see             #getShbredAncestor
+     * @pbrbm   bnotherNode     node to test bs bn bncestor of this node
+     * @return  true if this node is b descendbnt of <code>bnotherNode</code>
      */
-    public boolean isNodeAncestor(TreeNode anotherNode) {
-        if (anotherNode == null) {
-            return false;
+    public boolebn isNodeAncestor(TreeNode bnotherNode) {
+        if (bnotherNode == null) {
+            return fblse;
         }
 
-        TreeNode ancestor = this;
+        TreeNode bncestor = this;
 
         do {
-            if (ancestor == anotherNode) {
+            if (bncestor == bnotherNode) {
                 return true;
             }
-        } while((ancestor = ancestor.getParent()) != null);
+        } while((bncestor = bncestor.getPbrent()) != null);
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if <code>anotherNode</code> is a descendant of this node
-     * -- if it is this node, one of this node's children, or a descendant of
-     * one of this node's children.  Note that a node is considered a
-     * descendant of itself.  If <code>anotherNode</code> is null, returns
-     * false.  This operation is at worst O(h) where h is the distance from the
-     * root to <code>anotherNode</code>.
+     * Returns true if <code>bnotherNode</code> is b descendbnt of this node
+     * -- if it is this node, one of this node's children, or b descendbnt of
+     * one of this node's children.  Note thbt b node is considered b
+     * descendbnt of itself.  If <code>bnotherNode</code> is null, returns
+     * fblse.  This operbtion is bt worst O(h) where h is the distbnce from the
+     * root to <code>bnotherNode</code>.
      *
      * @see     #isNodeAncestor
-     * @see     #getSharedAncestor
-     * @param   anotherNode     node to test as descendant of this node
-     * @return  true if this node is an ancestor of <code>anotherNode</code>
+     * @see     #getShbredAncestor
+     * @pbrbm   bnotherNode     node to test bs descendbnt of this node
+     * @return  true if this node is bn bncestor of <code>bnotherNode</code>
      */
-    public boolean isNodeDescendant(DefaultMutableTreeNode anotherNode) {
-        if (anotherNode == null)
-            return false;
+    public boolebn isNodeDescendbnt(DefbultMutbbleTreeNode bnotherNode) {
+        if (bnotherNode == null)
+            return fblse;
 
-        return anotherNode.isNodeAncestor(this);
+        return bnotherNode.isNodeAncestor(this);
     }
 
     /**
-     * Returns the nearest common ancestor to this node and <code>aNode</code>.
-     * Returns null, if no such ancestor exists -- if this node and
-     * <code>aNode</code> are in different trees or if <code>aNode</code> is
-     * null.  A node is considered an ancestor of itself.
+     * Returns the nebrest common bncestor to this node bnd <code>bNode</code>.
+     * Returns null, if no such bncestor exists -- if this node bnd
+     * <code>bNode</code> bre in different trees or if <code>bNode</code> is
+     * null.  A node is considered bn bncestor of itself.
      *
      * @see     #isNodeAncestor
-     * @see     #isNodeDescendant
-     * @param   aNode   node to find common ancestor with
-     * @return  nearest ancestor common to this node and <code>aNode</code>,
+     * @see     #isNodeDescendbnt
+     * @pbrbm   bNode   node to find common bncestor with
+     * @return  nebrest bncestor common to this node bnd <code>bNode</code>,
      *          or null if none
      */
-    public TreeNode getSharedAncestor(DefaultMutableTreeNode aNode) {
-        if (aNode == this) {
+    public TreeNode getShbredAncestor(DefbultMutbbleTreeNode bNode) {
+        if (bNode == this) {
             return this;
-        } else if (aNode == null) {
+        } else if (bNode == null) {
             return null;
         }
 
@@ -490,37 +490,37 @@ public class DefaultMutableTreeNode implements Cloneable,
         TreeNode        node1, node2;
 
         level1 = getLevel();
-        level2 = aNode.getLevel();
+        level2 = bNode.getLevel();
 
         if (level2 > level1) {
             diff = level2 - level1;
-            node1 = aNode;
+            node1 = bNode;
             node2 = this;
         } else {
             diff = level1 - level2;
             node1 = this;
-            node2 = aNode;
+            node2 = bNode;
         }
 
-        // Go up the tree until the nodes are at the same level
+        // Go up the tree until the nodes bre bt the sbme level
         while (diff > 0) {
-            node1 = node1.getParent();
+            node1 = node1.getPbrent();
             diff--;
         }
 
-        // Move up the tree until we find a common ancestor.  Since we know
-        // that both nodes are at the same level, we won't cross paths
-        // unknowingly (if there is a common ancestor, both nodes hit it in
-        // the same iteration).
+        // Move up the tree until we find b common bncestor.  Since we know
+        // thbt both nodes bre bt the sbme level, we won't cross pbths
+        // unknowingly (if there is b common bncestor, both nodes hit it in
+        // the sbme iterbtion).
 
         do {
             if (node1 == node2) {
                 return node1;
             }
-            node1 = node1.getParent();
-            node2 = node2.getParent();
-        } while (node1 != null);// only need to check one -- they're at the
-        // same level so if one is null, the other is
+            node1 = node1.getPbrent();
+            node2 = node2.getPbrent();
+        } while (node1 != null);// only need to check one -- they're bt the
+        // sbme level so if one is null, the other is
 
         if (node1 != null || node2 != null) {
             throw new Error ("nodes should be null");
@@ -531,60 +531,60 @@ public class DefaultMutableTreeNode implements Cloneable,
 
 
     /**
-     * Returns true if and only if <code>aNode</code> is in the same tree
-     * as this node.  Returns false if <code>aNode</code> is null.
+     * Returns true if bnd only if <code>bNode</code> is in the sbme tree
+     * bs this node.  Returns fblse if <code>bNode</code> is null.
      *
-     * @param   aNode node to find common ancestor with
-     * @see     #getSharedAncestor
+     * @pbrbm   bNode node to find common bncestor with
+     * @see     #getShbredAncestor
      * @see     #getRoot
-     * @return  true if <code>aNode</code> is in the same tree as this node;
-     *          false if <code>aNode</code> is null
+     * @return  true if <code>bNode</code> is in the sbme tree bs this node;
+     *          fblse if <code>bNode</code> is null
      */
-    public boolean isNodeRelated(DefaultMutableTreeNode aNode) {
-        return (aNode != null) && (getRoot() == aNode.getRoot());
+    public boolebn isNodeRelbted(DefbultMutbbleTreeNode bNode) {
+        return (bNode != null) && (getRoot() == bNode.getRoot());
     }
 
 
     /**
-     * Returns the depth of the tree rooted at this node -- the longest
-     * distance from this node to a leaf.  If this node has no children,
-     * returns 0.  This operation is much more expensive than
-     * <code>getLevel()</code> because it must effectively traverse the entire
-     * tree rooted at this node.
+     * Returns the depth of the tree rooted bt this node -- the longest
+     * distbnce from this node to b lebf.  If this node hbs no children,
+     * returns 0.  This operbtion is much more expensive thbn
+     * <code>getLevel()</code> becbuse it must effectively trbverse the entire
+     * tree rooted bt this node.
      *
      * @see     #getLevel
      * @return  the depth of the tree whose root is this node
      */
     public int getDepth() {
-        Object  last = null;
-        Enumeration<TreeNode> enum_ = breadthFirstEnumeration();
+        Object  lbst = null;
+        Enumerbtion<TreeNode> enum_ = brebdthFirstEnumerbtion();
 
-        while (enum_.hasMoreElements()) {
-            last = enum_.nextElement();
+        while (enum_.hbsMoreElements()) {
+            lbst = enum_.nextElement();
         }
 
-        if (last == null) {
+        if (lbst == null) {
             throw new Error ("nodes should be null");
         }
 
-        return ((DefaultMutableTreeNode)last).getLevel() - getLevel();
+        return ((DefbultMutbbleTreeNode)lbst).getLevel() - getLevel();
     }
 
 
 
     /**
-     * Returns the number of levels above this node -- the distance from
+     * Returns the number of levels bbove this node -- the distbnce from
      * the root to this node.  If this node is the root, returns 0.
      *
      * @see     #getDepth
-     * @return  the number of levels above this node
+     * @return  the number of levels bbove this node
      */
     public int getLevel() {
-        TreeNode ancestor;
+        TreeNode bncestor;
         int levels = 0;
 
-        ancestor = this;
-        while((ancestor = ancestor.getParent()) != null){
+        bncestor = this;
+        while((bncestor = bncestor.getPbrent()) != null){
             levels++;
         }
 
@@ -593,35 +593,35 @@ public class DefaultMutableTreeNode implements Cloneable,
 
 
     /**
-      * Returns the path from the root, to get to this node.  The last
-      * element in the path is this node.
+      * Returns the pbth from the root, to get to this node.  The lbst
+      * element in the pbth is this node.
       *
-      * @return an array of TreeNode objects giving the path, where the
-      *         first element in the path is the root and the last
+      * @return bn brrby of TreeNode objects giving the pbth, where the
+      *         first element in the pbth is the root bnd the lbst
       *         element is this node.
       */
-    public TreeNode[] getPath() {
-        return getPathToRoot(this, 0);
+    public TreeNode[] getPbth() {
+        return getPbthToRoot(this, 0);
     }
 
     /**
-     * Builds the parents of node up to and including the root node,
-     * where the original node is the last element in the returned array.
-     * The length of the returned array gives the node's depth in the
+     * Builds the pbrents of node up to bnd including the root node,
+     * where the originbl node is the lbst element in the returned brrby.
+     * The length of the returned brrby gives the node's depth in the
      * tree.
      *
-     * @param aNode  the TreeNode to get the path for
-     * @param depth  an int giving the number of steps already taken towards
-     *        the root (on recursive calls), used to size the returned array
-     * @return an array of TreeNodes giving the path from the root to the
+     * @pbrbm bNode  the TreeNode to get the pbth for
+     * @pbrbm depth  bn int giving the number of steps blrebdy tbken towbrds
+     *        the root (on recursive cblls), used to size the returned brrby
+     * @return bn brrby of TreeNodes giving the pbth from the root to the
      *         specified node
      */
-    protected TreeNode[] getPathToRoot(TreeNode aNode, int depth) {
+    protected TreeNode[] getPbthToRoot(TreeNode bNode, int depth) {
         TreeNode[]              retNodes;
 
-        /* Check for null, in case someone passed in a null node, or
-           they passed in an element that isn't rooted at root. */
-        if(aNode == null) {
+        /* Check for null, in cbse someone pbssed in b null node, or
+           they pbssed in bn element thbt isn't rooted bt root. */
+        if(bNode == null) {
             if(depth == 0)
                 return null;
             else
@@ -629,44 +629,44 @@ public class DefaultMutableTreeNode implements Cloneable,
         }
         else {
             depth++;
-            retNodes = getPathToRoot(aNode.getParent(), depth);
-            retNodes[retNodes.length - depth] = aNode;
+            retNodes = getPbthToRoot(bNode.getPbrent(), depth);
+            retNodes[retNodes.length - depth] = bNode;
         }
         return retNodes;
     }
 
     /**
-      * Returns the user object path, from the root, to get to this node.
-      * If some of the TreeNodes in the path have null user objects, the
-      * returned path will contain nulls.
+      * Returns the user object pbth, from the root, to get to this node.
+      * If some of the TreeNodes in the pbth hbve null user objects, the
+      * returned pbth will contbin nulls.
       *
-      * @return the user object path, from the root, to get to this node
+      * @return the user object pbth, from the root, to get to this node
       */
-    public Object[] getUserObjectPath() {
-        TreeNode[]          realPath = getPath();
-        Object[]            retPath = new Object[realPath.length];
+    public Object[] getUserObjectPbth() {
+        TreeNode[]          reblPbth = getPbth();
+        Object[]            retPbth = new Object[reblPbth.length];
 
-        for(int counter = 0; counter < realPath.length; counter++)
-            retPath[counter] = ((DefaultMutableTreeNode)realPath[counter])
+        for(int counter = 0; counter < reblPbth.length; counter++)
+            retPbth[counter] = ((DefbultMutbbleTreeNode)reblPbth[counter])
                                .getUserObject();
-        return retPath;
+        return retPbth;
     }
 
     /**
-     * Returns the root of the tree that contains this node.  The root is
-     * the ancestor with a null parent.
+     * Returns the root of the tree thbt contbins this node.  The root is
+     * the bncestor with b null pbrent.
      *
      * @see     #isNodeAncestor
-     * @return  the root of the tree that contains this node
+     * @return  the root of the tree thbt contbins this node
      */
     public TreeNode getRoot() {
-        TreeNode ancestor = this;
+        TreeNode bncestor = this;
         TreeNode previous;
 
         do {
-            previous = ancestor;
-            ancestor = ancestor.getParent();
-        } while (ancestor != null);
+            previous = bncestor;
+            bncestor = bncestor.getPbrent();
+        } while (bncestor != null);
 
         return previous;
     }
@@ -674,71 +674,71 @@ public class DefaultMutableTreeNode implements Cloneable,
 
     /**
      * Returns true if this node is the root of the tree.  The root is
-     * the only node in the tree with a null parent; every tree has exactly
+     * the only node in the tree with b null pbrent; every tree hbs exbctly
      * one root.
      *
      * @return  true if this node is the root of its tree
      */
-    public boolean isRoot() {
-        return getParent() == null;
+    public boolebn isRoot() {
+        return getPbrent() == null;
     }
 
 
     /**
-     * Returns the node that follows this node in a preorder traversal of this
-     * node's tree.  Returns null if this node is the last node of the
-     * traversal.  This is an inefficient way to traverse the entire tree; use
-     * an enumeration, instead.
+     * Returns the node thbt follows this node in b preorder trbversbl of this
+     * node's tree.  Returns null if this node is the lbst node of the
+     * trbversbl.  This is bn inefficient wby to trbverse the entire tree; use
+     * bn enumerbtion, instebd.
      *
-     * @see     #preorderEnumeration
-     * @return  the node that follows this node in a preorder traversal, or
-     *          null if this node is last
+     * @see     #preorderEnumerbtion
+     * @return  the node thbt follows this node in b preorder trbversbl, or
+     *          null if this node is lbst
      */
-    public DefaultMutableTreeNode getNextNode() {
+    public DefbultMutbbleTreeNode getNextNode() {
         if (getChildCount() == 0) {
             // No children, so look for nextSibling
-            DefaultMutableTreeNode nextSibling = getNextSibling();
+            DefbultMutbbleTreeNode nextSibling = getNextSibling();
 
             if (nextSibling == null) {
-                DefaultMutableTreeNode aNode = (DefaultMutableTreeNode)getParent();
+                DefbultMutbbleTreeNode bNode = (DefbultMutbbleTreeNode)getPbrent();
 
                 do {
-                    if (aNode == null) {
+                    if (bNode == null) {
                         return null;
                     }
 
-                    nextSibling = aNode.getNextSibling();
+                    nextSibling = bNode.getNextSibling();
                     if (nextSibling != null) {
                         return nextSibling;
                     }
 
-                    aNode = (DefaultMutableTreeNode)aNode.getParent();
+                    bNode = (DefbultMutbbleTreeNode)bNode.getPbrent();
                 } while(true);
             } else {
                 return nextSibling;
             }
         } else {
-            return (DefaultMutableTreeNode)getChildAt(0);
+            return (DefbultMutbbleTreeNode)getChildAt(0);
         }
     }
 
 
     /**
-     * Returns the node that precedes this node in a preorder traversal of
+     * Returns the node thbt precedes this node in b preorder trbversbl of
      * this node's tree.  Returns <code>null</code> if this node is the
-     * first node of the traversal -- the root of the tree.
-     * This is an inefficient way to
-     * traverse the entire tree; use an enumeration, instead.
+     * first node of the trbversbl -- the root of the tree.
+     * This is bn inefficient wby to
+     * trbverse the entire tree; use bn enumerbtion, instebd.
      *
-     * @see     #preorderEnumeration
-     * @return  the node that precedes this node in a preorder traversal, or
+     * @see     #preorderEnumerbtion
+     * @return  the node thbt precedes this node in b preorder trbversbl, or
      *          null if this node is the first
      */
-    public DefaultMutableTreeNode getPreviousNode() {
-        DefaultMutableTreeNode previousSibling;
-        DefaultMutableTreeNode myParent = (DefaultMutableTreeNode)getParent();
+    public DefbultMutbbleTreeNode getPreviousNode() {
+        DefbultMutbbleTreeNode previousSibling;
+        DefbultMutbbleTreeNode myPbrent = (DefbultMutbbleTreeNode)getPbrent();
 
-        if (myParent == null) {
+        if (myPbrent == null) {
             return null;
         }
 
@@ -748,99 +748,99 @@ public class DefaultMutableTreeNode implements Cloneable,
             if (previousSibling.getChildCount() == 0)
                 return previousSibling;
             else
-                return previousSibling.getLastLeaf();
+                return previousSibling.getLbstLebf();
         } else {
-            return myParent;
+            return myPbrent;
         }
     }
 
     /**
-     * Creates and returns an enumeration that traverses the subtree rooted at
-     * this node in preorder.  The first node returned by the enumeration's
+     * Crebtes bnd returns bn enumerbtion thbt trbverses the subtree rooted bt
+     * this node in preorder.  The first node returned by the enumerbtion's
      * <code>nextElement()</code> method is this node.<P>
      *
-     * Modifying the tree by inserting, removing, or moving a node invalidates
-     * any enumerations created before the modification.
+     * Modifying the tree by inserting, removing, or moving b node invblidbtes
+     * bny enumerbtions crebted before the modificbtion.
      *
-     * @see     #postorderEnumeration
-     * @return  an enumeration for traversing the tree in preorder
+     * @see     #postorderEnumerbtion
+     * @return  bn enumerbtion for trbversing the tree in preorder
      */
-    public Enumeration<TreeNode> preorderEnumeration() {
-        return new PreorderEnumeration(this);
+    public Enumerbtion<TreeNode> preorderEnumerbtion() {
+        return new PreorderEnumerbtion(this);
     }
 
     /**
-     * Creates and returns an enumeration that traverses the subtree rooted at
-     * this node in postorder.  The first node returned by the enumeration's
-     * <code>nextElement()</code> method is the leftmost leaf.  This is the
-     * same as a depth-first traversal.<P>
+     * Crebtes bnd returns bn enumerbtion thbt trbverses the subtree rooted bt
+     * this node in postorder.  The first node returned by the enumerbtion's
+     * <code>nextElement()</code> method is the leftmost lebf.  This is the
+     * sbme bs b depth-first trbversbl.<P>
      *
-     * Modifying the tree by inserting, removing, or moving a node invalidates
-     * any enumerations created before the modification.
+     * Modifying the tree by inserting, removing, or moving b node invblidbtes
+     * bny enumerbtions crebted before the modificbtion.
      *
-     * @see     #depthFirstEnumeration
-     * @see     #preorderEnumeration
-     * @return  an enumeration for traversing the tree in postorder
+     * @see     #depthFirstEnumerbtion
+     * @see     #preorderEnumerbtion
+     * @return  bn enumerbtion for trbversing the tree in postorder
      */
-    public Enumeration<TreeNode> postorderEnumeration() {
-        return new PostorderEnumeration(this);
+    public Enumerbtion<TreeNode> postorderEnumerbtion() {
+        return new PostorderEnumerbtion(this);
     }
 
     /**
-     * Creates and returns an enumeration that traverses the subtree rooted at
-     * this node in breadth-first order.  The first node returned by the
-     * enumeration's <code>nextElement()</code> method is this node.<P>
+     * Crebtes bnd returns bn enumerbtion thbt trbverses the subtree rooted bt
+     * this node in brebdth-first order.  The first node returned by the
+     * enumerbtion's <code>nextElement()</code> method is this node.<P>
      *
-     * Modifying the tree by inserting, removing, or moving a node invalidates
-     * any enumerations created before the modification.
+     * Modifying the tree by inserting, removing, or moving b node invblidbtes
+     * bny enumerbtions crebted before the modificbtion.
      *
-     * @see     #depthFirstEnumeration
-     * @return  an enumeration for traversing the tree in breadth-first order
+     * @see     #depthFirstEnumerbtion
+     * @return  bn enumerbtion for trbversing the tree in brebdth-first order
      */
-    public Enumeration<TreeNode> breadthFirstEnumeration() {
-        return new BreadthFirstEnumeration(this);
+    public Enumerbtion<TreeNode> brebdthFirstEnumerbtion() {
+        return new BrebdthFirstEnumerbtion(this);
     }
 
     /**
-     * Creates and returns an enumeration that traverses the subtree rooted at
+     * Crebtes bnd returns bn enumerbtion thbt trbverses the subtree rooted bt
      * this node in depth-first order.  The first node returned by the
-     * enumeration's <code>nextElement()</code> method is the leftmost leaf.
-     * This is the same as a postorder traversal.<P>
+     * enumerbtion's <code>nextElement()</code> method is the leftmost lebf.
+     * This is the sbme bs b postorder trbversbl.<P>
      *
-     * Modifying the tree by inserting, removing, or moving a node invalidates
-     * any enumerations created before the modification.
+     * Modifying the tree by inserting, removing, or moving b node invblidbtes
+     * bny enumerbtions crebted before the modificbtion.
      *
-     * @see     #breadthFirstEnumeration
-     * @see     #postorderEnumeration
-     * @return  an enumeration for traversing the tree in depth-first order
+     * @see     #brebdthFirstEnumerbtion
+     * @see     #postorderEnumerbtion
+     * @return  bn enumerbtion for trbversing the tree in depth-first order
      */
-    public Enumeration<TreeNode> depthFirstEnumeration() {
-        return postorderEnumeration();
+    public Enumerbtion<TreeNode> depthFirstEnumerbtion() {
+        return postorderEnumerbtion();
     }
 
     /**
-     * Creates and returns an enumeration that follows the path from
-     * <code>ancestor</code> to this node.  The enumeration's
-     * <code>nextElement()</code> method first returns <code>ancestor</code>,
-     * then the child of <code>ancestor</code> that is an ancestor of this
-     * node, and so on, and finally returns this node.  Creation of the
-     * enumeration is O(m) where m is the number of nodes between this node
-     * and <code>ancestor</code>, inclusive.  Each <code>nextElement()</code>
-     * message is O(1).<P>
+     * Crebtes bnd returns bn enumerbtion thbt follows the pbth from
+     * <code>bncestor</code> to this node.  The enumerbtion's
+     * <code>nextElement()</code> method first returns <code>bncestor</code>,
+     * then the child of <code>bncestor</code> thbt is bn bncestor of this
+     * node, bnd so on, bnd finblly returns this node.  Crebtion of the
+     * enumerbtion is O(m) where m is the number of nodes between this node
+     * bnd <code>bncestor</code>, inclusive.  Ebch <code>nextElement()</code>
+     * messbge is O(1).<P>
      *
-     * Modifying the tree by inserting, removing, or moving a node invalidates
-     * any enumerations created before the modification.
+     * Modifying the tree by inserting, removing, or moving b node invblidbtes
+     * bny enumerbtions crebted before the modificbtion.
      *
-     * @param           ancestor the node to start enumeration from
+     * @pbrbm           bncestor the node to stbrt enumerbtion from
      * @see             #isNodeAncestor
-     * @see             #isNodeDescendant
-     * @exception       IllegalArgumentException if <code>ancestor</code> is
-     *                                          not an ancestor of this node
-     * @return  an enumeration for following the path from an ancestor of
+     * @see             #isNodeDescendbnt
+     * @exception       IllegblArgumentException if <code>bncestor</code> is
+     *                                          not bn bncestor of this node
+     * @return  bn enumerbtion for following the pbth from bn bncestor of
      *          this node to this one
      */
-    public Enumeration<TreeNode> pathFromAncestorEnumeration(TreeNode ancestor) {
-        return new PathBetweenNodesEnumeration(ancestor, this);
+    public Enumerbtion<TreeNode> pbthFromAncestorEnumerbtion(TreeNode bncestor) {
+        return new PbthBetweenNodesEnumerbtion(bncestor, this);
     }
 
 
@@ -849,84 +849,84 @@ public class DefaultMutableTreeNode implements Cloneable,
     //
 
     /**
-     * Returns true if <code>aNode</code> is a child of this node.  If
-     * <code>aNode</code> is null, this method returns false.
+     * Returns true if <code>bNode</code> is b child of this node.  If
+     * <code>bNode</code> is null, this method returns fblse.
      *
-     * @param   aNode the node to determinate whether it is a child
-     * @return  true if <code>aNode</code> is a child of this node; false if
-     *                  <code>aNode</code> is null
+     * @pbrbm   bNode the node to determinbte whether it is b child
+     * @return  true if <code>bNode</code> is b child of this node; fblse if
+     *                  <code>bNode</code> is null
      */
-    public boolean isNodeChild(TreeNode aNode) {
-        boolean retval;
+    public boolebn isNodeChild(TreeNode bNode) {
+        boolebn retvbl;
 
-        if (aNode == null) {
-            retval = false;
+        if (bNode == null) {
+            retvbl = fblse;
         } else {
             if (getChildCount() == 0) {
-                retval = false;
+                retvbl = fblse;
             } else {
-                retval = (aNode.getParent() == this);
+                retvbl = (bNode.getPbrent() == this);
             }
         }
 
-        return retval;
+        return retvbl;
     }
 
 
     /**
-     * Returns this node's first child.  If this node has no children,
+     * Returns this node's first child.  If this node hbs no children,
      * throws NoSuchElementException.
      *
      * @return  the first child of this node
-     * @exception       NoSuchElementException  if this node has no children
+     * @exception       NoSuchElementException  if this node hbs no children
      */
     public TreeNode getFirstChild() {
         if (getChildCount() == 0) {
-            throw new NoSuchElementException("node has no children");
+            throw new NoSuchElementException("node hbs no children");
         }
         return getChildAt(0);
     }
 
 
     /**
-     * Returns this node's last child.  If this node has no children,
+     * Returns this node's lbst child.  If this node hbs no children,
      * throws NoSuchElementException.
      *
-     * @return  the last child of this node
-     * @exception       NoSuchElementException  if this node has no children
+     * @return  the lbst child of this node
+     * @exception       NoSuchElementException  if this node hbs no children
      */
-    public TreeNode getLastChild() {
+    public TreeNode getLbstChild() {
         if (getChildCount() == 0) {
-            throw new NoSuchElementException("node has no children");
+            throw new NoSuchElementException("node hbs no children");
         }
         return getChildAt(getChildCount()-1);
     }
 
 
     /**
-     * Returns the child in this node's child array that immediately
-     * follows <code>aChild</code>, which must be a child of this node.  If
-     * <code>aChild</code> is the last child, returns null.  This method
-     * performs a linear search of this node's children for
-     * <code>aChild</code> and is O(n) where n is the number of children; to
-     * traverse the entire array of children, use an enumeration instead.
+     * Returns the child in this node's child brrby thbt immedibtely
+     * follows <code>bChild</code>, which must be b child of this node.  If
+     * <code>bChild</code> is the lbst child, returns null.  This method
+     * performs b linebr sebrch of this node's children for
+     * <code>bChild</code> bnd is O(n) where n is the number of children; to
+     * trbverse the entire brrby of children, use bn enumerbtion instebd.
      *
-     * @param           aChild the child node to look for next child after it
+     * @pbrbm           bChild the child node to look for next child bfter it
      * @see             #children
-     * @exception       IllegalArgumentException if <code>aChild</code> is
-     *                                  null or is not a child of this node
-     * @return  the child of this node that immediately follows
-     *          <code>aChild</code>
+     * @exception       IllegblArgumentException if <code>bChild</code> is
+     *                                  null or is not b child of this node
+     * @return  the child of this node thbt immedibtely follows
+     *          <code>bChild</code>
      */
-    public TreeNode getChildAfter(TreeNode aChild) {
-        if (aChild == null) {
-            throw new IllegalArgumentException("argument is null");
+    public TreeNode getChildAfter(TreeNode bChild) {
+        if (bChild == null) {
+            throw new IllegblArgumentException("brgument is null");
         }
 
-        int index = getIndex(aChild);           // linear search
+        int index = getIndex(bChild);           // linebr sebrch
 
         if (index == -1) {
-            throw new IllegalArgumentException("node is not a child");
+            throw new IllegblArgumentException("node is not b child");
         }
 
         if (index < getChildCount() - 1) {
@@ -938,27 +938,27 @@ public class DefaultMutableTreeNode implements Cloneable,
 
 
     /**
-     * Returns the child in this node's child array that immediately
-     * precedes <code>aChild</code>, which must be a child of this node.  If
-     * <code>aChild</code> is the first child, returns null.  This method
-     * performs a linear search of this node's children for <code>aChild</code>
-     * and is O(n) where n is the number of children.
+     * Returns the child in this node's child brrby thbt immedibtely
+     * precedes <code>bChild</code>, which must be b child of this node.  If
+     * <code>bChild</code> is the first child, returns null.  This method
+     * performs b linebr sebrch of this node's children for <code>bChild</code>
+     * bnd is O(n) where n is the number of children.
      *
-     * @param           aChild the child node to look for previous child before it
-     * @exception       IllegalArgumentException if <code>aChild</code> is null
-     *                                          or is not a child of this node
-     * @return  the child of this node that immediately precedes
-     *          <code>aChild</code>
+     * @pbrbm           bChild the child node to look for previous child before it
+     * @exception       IllegblArgumentException if <code>bChild</code> is null
+     *                                          or is not b child of this node
+     * @return  the child of this node thbt immedibtely precedes
+     *          <code>bChild</code>
      */
-    public TreeNode getChildBefore(TreeNode aChild) {
-        if (aChild == null) {
-            throw new IllegalArgumentException("argument is null");
+    public TreeNode getChildBefore(TreeNode bChild) {
+        if (bChild == null) {
+            throw new IllegblArgumentException("brgument is null");
         }
 
-        int index = getIndex(aChild);           // linear search
+        int index = getIndex(bChild);           // linebr sebrch
 
         if (index == -1) {
-            throw new IllegalArgumentException("argument is not a child");
+            throw new IllegblArgumentException("brgument is not b child");
         }
 
         if (index > 0) {
@@ -975,141 +975,141 @@ public class DefaultMutableTreeNode implements Cloneable,
 
 
     /**
-     * Returns true if <code>anotherNode</code> is a sibling of (has the
-     * same parent as) this node.  A node is its own sibling.  If
-     * <code>anotherNode</code> is null, returns false.
+     * Returns true if <code>bnotherNode</code> is b sibling of (hbs the
+     * sbme pbrent bs) this node.  A node is its own sibling.  If
+     * <code>bnotherNode</code> is null, returns fblse.
      *
-     * @param   anotherNode     node to test as sibling of this node
-     * @return  true if <code>anotherNode</code> is a sibling of this node
+     * @pbrbm   bnotherNode     node to test bs sibling of this node
+     * @return  true if <code>bnotherNode</code> is b sibling of this node
      */
-    public boolean isNodeSibling(TreeNode anotherNode) {
-        boolean retval;
+    public boolebn isNodeSibling(TreeNode bnotherNode) {
+        boolebn retvbl;
 
-        if (anotherNode == null) {
-            retval = false;
-        } else if (anotherNode == this) {
-            retval = true;
+        if (bnotherNode == null) {
+            retvbl = fblse;
+        } else if (bnotherNode == this) {
+            retvbl = true;
         } else {
-            TreeNode  myParent = getParent();
-            retval = (myParent != null && myParent == anotherNode.getParent());
+            TreeNode  myPbrent = getPbrent();
+            retvbl = (myPbrent != null && myPbrent == bnotherNode.getPbrent());
 
-            if (retval && !((DefaultMutableTreeNode)getParent())
-                           .isNodeChild(anotherNode)) {
-                throw new Error("sibling has different parent");
+            if (retvbl && !((DefbultMutbbleTreeNode)getPbrent())
+                           .isNodeChild(bnotherNode)) {
+                throw new Error("sibling hbs different pbrent");
             }
         }
 
-        return retval;
+        return retvbl;
     }
 
 
     /**
      * Returns the number of siblings of this node.  A node is its own sibling
-     * (if it has no parent or no siblings, this method returns
+     * (if it hbs no pbrent or no siblings, this method returns
      * <code>1</code>).
      *
      * @return  the number of siblings of this node
      */
     public int getSiblingCount() {
-        TreeNode myParent = getParent();
+        TreeNode myPbrent = getPbrent();
 
-        if (myParent == null) {
+        if (myPbrent == null) {
             return 1;
         } else {
-            return myParent.getChildCount();
+            return myPbrent.getChildCount();
         }
     }
 
 
     /**
-     * Returns the next sibling of this node in the parent's children array.
-     * Returns null if this node has no parent or is the parent's last child.
-     * This method performs a linear search that is O(n) where n is the number
-     * of children; to traverse the entire array, use the parent's child
-     * enumeration instead.
+     * Returns the next sibling of this node in the pbrent's children brrby.
+     * Returns null if this node hbs no pbrent or is the pbrent's lbst child.
+     * This method performs b linebr sebrch thbt is O(n) where n is the number
+     * of children; to trbverse the entire brrby, use the pbrent's child
+     * enumerbtion instebd.
      *
      * @see     #children
-     * @return  the sibling of this node that immediately follows this node
+     * @return  the sibling of this node thbt immedibtely follows this node
      */
-    public DefaultMutableTreeNode getNextSibling() {
-        DefaultMutableTreeNode retval;
+    public DefbultMutbbleTreeNode getNextSibling() {
+        DefbultMutbbleTreeNode retvbl;
 
-        DefaultMutableTreeNode myParent = (DefaultMutableTreeNode)getParent();
+        DefbultMutbbleTreeNode myPbrent = (DefbultMutbbleTreeNode)getPbrent();
 
-        if (myParent == null) {
-            retval = null;
+        if (myPbrent == null) {
+            retvbl = null;
         } else {
-            retval = (DefaultMutableTreeNode)myParent.getChildAfter(this);      // linear search
+            retvbl = (DefbultMutbbleTreeNode)myPbrent.getChildAfter(this);      // linebr sebrch
         }
 
-        if (retval != null && !isNodeSibling(retval)) {
-            throw new Error("child of parent is not a sibling");
+        if (retvbl != null && !isNodeSibling(retvbl)) {
+            throw new Error("child of pbrent is not b sibling");
         }
 
-        return retval;
+        return retvbl;
     }
 
 
     /**
-     * Returns the previous sibling of this node in the parent's children
-     * array.  Returns null if this node has no parent or is the parent's
-     * first child.  This method performs a linear search that is O(n) where n
+     * Returns the previous sibling of this node in the pbrent's children
+     * brrby.  Returns null if this node hbs no pbrent or is the pbrent's
+     * first child.  This method performs b linebr sebrch thbt is O(n) where n
      * is the number of children.
      *
-     * @return  the sibling of this node that immediately precedes this node
+     * @return  the sibling of this node thbt immedibtely precedes this node
      */
-    public DefaultMutableTreeNode getPreviousSibling() {
-        DefaultMutableTreeNode retval;
+    public DefbultMutbbleTreeNode getPreviousSibling() {
+        DefbultMutbbleTreeNode retvbl;
 
-        DefaultMutableTreeNode myParent = (DefaultMutableTreeNode)getParent();
+        DefbultMutbbleTreeNode myPbrent = (DefbultMutbbleTreeNode)getPbrent();
 
-        if (myParent == null) {
-            retval = null;
+        if (myPbrent == null) {
+            retvbl = null;
         } else {
-            retval = (DefaultMutableTreeNode)myParent.getChildBefore(this);     // linear search
+            retvbl = (DefbultMutbbleTreeNode)myPbrent.getChildBefore(this);     // linebr sebrch
         }
 
-        if (retval != null && !isNodeSibling(retval)) {
-            throw new Error("child of parent is not a sibling");
+        if (retvbl != null && !isNodeSibling(retvbl)) {
+            throw new Error("child of pbrent is not b sibling");
         }
 
-        return retval;
+        return retvbl;
     }
 
 
 
     //
-    //  Leaf Queries
+    //  Lebf Queries
     //
 
     /**
-     * Returns true if this node has no children.  To distinguish between
-     * nodes that have no children and nodes that <i>cannot</i> have
+     * Returns true if this node hbs no children.  To distinguish between
+     * nodes thbt hbve no children bnd nodes thbt <i>cbnnot</i> hbve
      * children (e.g. to distinguish files from empty directories), use this
      * method in conjunction with <code>getAllowsChildren</code>
      *
      * @see     #getAllowsChildren
-     * @return  true if this node has no children
+     * @return  true if this node hbs no children
      */
-    public boolean isLeaf() {
+    public boolebn isLebf() {
         return (getChildCount() == 0);
     }
 
 
     /**
-     * Finds and returns the first leaf that is a descendant of this node --
-     * either this node or its first child's first leaf.
-     * Returns this node if it is a leaf.
+     * Finds bnd returns the first lebf thbt is b descendbnt of this node --
+     * either this node or its first child's first lebf.
+     * Returns this node if it is b lebf.
      *
-     * @see     #isLeaf
-     * @see     #isNodeDescendant
-     * @return  the first leaf in the subtree rooted at this node
+     * @see     #isLebf
+     * @see     #isNodeDescendbnt
+     * @return  the first lebf in the subtree rooted bt this node
      */
-    public DefaultMutableTreeNode getFirstLeaf() {
-        DefaultMutableTreeNode node = this;
+    public DefbultMutbbleTreeNode getFirstLebf() {
+        DefbultMutbbleTreeNode node = this;
 
-        while (!node.isLeaf()) {
-            node = (DefaultMutableTreeNode)node.getFirstChild();
+        while (!node.isLebf()) {
+            node = (DefbultMutbbleTreeNode)node.getFirstChild();
         }
 
         return node;
@@ -1117,19 +1117,19 @@ public class DefaultMutableTreeNode implements Cloneable,
 
 
     /**
-     * Finds and returns the last leaf that is a descendant of this node --
-     * either this node or its last child's last leaf.
-     * Returns this node if it is a leaf.
+     * Finds bnd returns the lbst lebf thbt is b descendbnt of this node --
+     * either this node or its lbst child's lbst lebf.
+     * Returns this node if it is b lebf.
      *
-     * @see     #isLeaf
-     * @see     #isNodeDescendant
-     * @return  the last leaf in the subtree rooted at this node
+     * @see     #isLebf
+     * @see     #isNodeDescendbnt
+     * @return  the lbst lebf in the subtree rooted bt this node
      */
-    public DefaultMutableTreeNode getLastLeaf() {
-        DefaultMutableTreeNode node = this;
+    public DefbultMutbbleTreeNode getLbstLebf() {
+        DefbultMutbbleTreeNode node = this;
 
-        while (!node.isLeaf()) {
-            node = (DefaultMutableTreeNode)node.getLastChild();
+        while (!node.isLebf()) {
+            node = (DefbultMutbbleTreeNode)node.getLbstChild();
         }
 
         return node;
@@ -1137,98 +1137,98 @@ public class DefaultMutableTreeNode implements Cloneable,
 
 
     /**
-     * Returns the leaf after this node or null if this node is the
-     * last leaf in the tree.
+     * Returns the lebf bfter this node or null if this node is the
+     * lbst lebf in the tree.
      * <p>
-     * In this implementation of the <code>MutableNode</code> interface,
-     * this operation is very inefficient. In order to determine the
-     * next node, this method first performs a linear search in the
-     * parent's child-list in order to find the current node.
+     * In this implementbtion of the <code>MutbbleNode</code> interfbce,
+     * this operbtion is very inefficient. In order to determine the
+     * next node, this method first performs b linebr sebrch in the
+     * pbrent's child-list in order to find the current node.
      * <p>
-     * That implementation makes the operation suitable for short
-     * traversals from a known position. But to traverse all of the
-     * leaves in the tree, you should use <code>depthFirstEnumeration</code>
-     * to enumerate the nodes in the tree and use <code>isLeaf</code>
-     * on each node to determine which are leaves.
+     * Thbt implementbtion mbkes the operbtion suitbble for short
+     * trbversbls from b known position. But to trbverse bll of the
+     * lebves in the tree, you should use <code>depthFirstEnumerbtion</code>
+     * to enumerbte the nodes in the tree bnd use <code>isLebf</code>
+     * on ebch node to determine which bre lebves.
      *
-     * @see     #depthFirstEnumeration
-     * @see     #isLeaf
-     * @return  returns the next leaf past this node
+     * @see     #depthFirstEnumerbtion
+     * @see     #isLebf
+     * @return  returns the next lebf pbst this node
      */
-    public DefaultMutableTreeNode getNextLeaf() {
-        DefaultMutableTreeNode nextSibling;
-        DefaultMutableTreeNode myParent = (DefaultMutableTreeNode)getParent();
+    public DefbultMutbbleTreeNode getNextLebf() {
+        DefbultMutbbleTreeNode nextSibling;
+        DefbultMutbbleTreeNode myPbrent = (DefbultMutbbleTreeNode)getPbrent();
 
-        if (myParent == null)
+        if (myPbrent == null)
             return null;
 
-        nextSibling = getNextSibling(); // linear search
+        nextSibling = getNextSibling(); // linebr sebrch
 
         if (nextSibling != null)
-            return nextSibling.getFirstLeaf();
+            return nextSibling.getFirstLebf();
 
-        return myParent.getNextLeaf();  // tail recursion
+        return myPbrent.getNextLebf();  // tbil recursion
     }
 
 
     /**
-     * Returns the leaf before this node or null if this node is the
-     * first leaf in the tree.
+     * Returns the lebf before this node or null if this node is the
+     * first lebf in the tree.
      * <p>
-     * In this implementation of the <code>MutableNode</code> interface,
-     * this operation is very inefficient. In order to determine the
-     * previous node, this method first performs a linear search in the
-     * parent's child-list in order to find the current node.
+     * In this implementbtion of the <code>MutbbleNode</code> interfbce,
+     * this operbtion is very inefficient. In order to determine the
+     * previous node, this method first performs b linebr sebrch in the
+     * pbrent's child-list in order to find the current node.
      * <p>
-     * That implementation makes the operation suitable for short
-     * traversals from a known position. But to traverse all of the
-     * leaves in the tree, you should use <code>depthFirstEnumeration</code>
-     * to enumerate the nodes in the tree and use <code>isLeaf</code>
-     * on each node to determine which are leaves.
+     * Thbt implementbtion mbkes the operbtion suitbble for short
+     * trbversbls from b known position. But to trbverse bll of the
+     * lebves in the tree, you should use <code>depthFirstEnumerbtion</code>
+     * to enumerbte the nodes in the tree bnd use <code>isLebf</code>
+     * on ebch node to determine which bre lebves.
      *
-     * @see             #depthFirstEnumeration
-     * @see             #isLeaf
-     * @return  returns the leaf before this node
+     * @see             #depthFirstEnumerbtion
+     * @see             #isLebf
+     * @return  returns the lebf before this node
      */
-    public DefaultMutableTreeNode getPreviousLeaf() {
-        DefaultMutableTreeNode previousSibling;
-        DefaultMutableTreeNode myParent = (DefaultMutableTreeNode)getParent();
+    public DefbultMutbbleTreeNode getPreviousLebf() {
+        DefbultMutbbleTreeNode previousSibling;
+        DefbultMutbbleTreeNode myPbrent = (DefbultMutbbleTreeNode)getPbrent();
 
-        if (myParent == null)
+        if (myPbrent == null)
             return null;
 
-        previousSibling = getPreviousSibling(); // linear search
+        previousSibling = getPreviousSibling(); // linebr sebrch
 
         if (previousSibling != null)
-            return previousSibling.getLastLeaf();
+            return previousSibling.getLbstLebf();
 
-        return myParent.getPreviousLeaf();              // tail recursion
+        return myPbrent.getPreviousLebf();              // tbil recursion
     }
 
 
     /**
-     * Returns the total number of leaves that are descendants of this node.
-     * If this node is a leaf, returns <code>1</code>.  This method is O(n)
-     * where n is the number of descendants of this node.
+     * Returns the totbl number of lebves thbt bre descendbnts of this node.
+     * If this node is b lebf, returns <code>1</code>.  This method is O(n)
+     * where n is the number of descendbnts of this node.
      *
      * @see     #isNodeAncestor
-     * @return  the number of leaves beneath this node
+     * @return  the number of lebves benebth this node
      */
-    public int getLeafCount() {
+    public int getLebfCount() {
         int count = 0;
 
         TreeNode node;
-        Enumeration<TreeNode> enum_ = breadthFirstEnumeration(); // order matters not
+        Enumerbtion<TreeNode> enum_ = brebdthFirstEnumerbtion(); // order mbtters not
 
-        while (enum_.hasMoreElements()) {
+        while (enum_.hbsMoreElements()) {
             node = enum_.nextElement();
-            if (node.isLeaf()) {
+            if (node.isLebf()) {
                 count++;
             }
         }
 
         if (count < 1) {
-            throw new Error("tree has zero leaves");
+            throw new Error("tree hbs zero lebves");
         }
 
         return count;
@@ -1241,7 +1241,7 @@ public class DefaultMutableTreeNode implements Cloneable,
 
     /**
      * Returns the result of sending <code>toString()</code> to this node's
-     * user object, or the empty string if the node has no user object.
+     * user object, or the empty string if the node hbs no user object.
      *
      * @see     #getUserObject
      */
@@ -1254,24 +1254,24 @@ public class DefaultMutableTreeNode implements Cloneable,
     }
 
     /**
-     * Overridden to make clone public.  Returns a shallow copy of this node;
-     * the new node has no parent or children and has a reference to the same
-     * user object, if any.
+     * Overridden to mbke clone public.  Returns b shbllow copy of this node;
+     * the new node hbs no pbrent or children bnd hbs b reference to the sbme
+     * user object, if bny.
      *
-     * @return  a copy of this node
+     * @return  b copy of this node
      */
     public Object clone() {
-        DefaultMutableTreeNode newNode;
+        DefbultMutbbleTreeNode newNode;
 
         try {
-            newNode = (DefaultMutableTreeNode)super.clone();
+            newNode = (DefbultMutbbleTreeNode)super.clone();
 
-            // shallow copy -- the new node has no parent or children
+            // shbllow copy -- the new node hbs no pbrent or children
             newNode.children = null;
-            newNode.parent = null;
+            newNode.pbrent = null;
 
-        } catch (CloneNotSupportedException e) {
-            // Won't happen because we implement Cloneable
+        } cbtch (CloneNotSupportedException e) {
+            // Won't hbppen becbuse we implement Clonebble
             throw new Error(e.toString());
         }
 
@@ -1279,140 +1279,140 @@ public class DefaultMutableTreeNode implements Cloneable,
     }
 
 
-    // Serialization support.
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Object[]             tValues;
+    // Seriblizbtion support.
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        Object[]             tVblues;
 
-        s.defaultWriteObject();
-        // Save the userObject, if its Serializable.
-        if(userObject != null && userObject instanceof Serializable) {
-            tValues = new Object[2];
-            tValues[0] = "userObject";
-            tValues[1] = userObject;
+        s.defbultWriteObject();
+        // Sbve the userObject, if its Seriblizbble.
+        if(userObject != null && userObject instbnceof Seriblizbble) {
+            tVblues = new Object[2];
+            tVblues[0] = "userObject";
+            tVblues[1] = userObject;
         }
         else
-            tValues = new Object[0];
-        s.writeObject(tValues);
+            tVblues = new Object[0];
+        s.writeObject(tVblues);
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        Object[]      tValues;
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException {
+        Object[]      tVblues;
 
-        s.defaultReadObject();
+        s.defbultRebdObject();
 
-        tValues = (Object[])s.readObject();
+        tVblues = (Object[])s.rebdObject();
 
-        if(tValues.length > 0 && tValues[0].equals("userObject"))
-            userObject = tValues[1];
+        if(tVblues.length > 0 && tVblues[0].equbls("userObject"))
+            userObject = tVblues[1];
     }
 
-    private final class PreorderEnumeration implements Enumeration<TreeNode> {
-        private final Stack<Enumeration<TreeNode>> stack = new Stack<>();
+    privbte finbl clbss PreorderEnumerbtion implements Enumerbtion<TreeNode> {
+        privbte finbl Stbck<Enumerbtion<TreeNode>> stbck = new Stbck<>();
 
-        public PreorderEnumeration(TreeNode rootNode) {
+        public PreorderEnumerbtion(TreeNode rootNode) {
             super();
             Vector<TreeNode> v = new Vector<TreeNode>(1);
-            v.addElement(rootNode);     // PENDING: don't really need a vector
-            stack.push(v.elements());
+            v.bddElement(rootNode);     // PENDING: don't reblly need b vector
+            stbck.push(v.elements());
         }
 
-        public boolean hasMoreElements() {
-            return (!stack.empty() && stack.peek().hasMoreElements());
+        public boolebn hbsMoreElements() {
+            return (!stbck.empty() && stbck.peek().hbsMoreElements());
         }
 
         public TreeNode nextElement() {
-            Enumeration<TreeNode> enumer = stack.peek();
+            Enumerbtion<TreeNode> enumer = stbck.peek();
             TreeNode    node = enumer.nextElement();
-            @SuppressWarnings("unchecked")
-            Enumeration<TreeNode> children = node.children();
+            @SuppressWbrnings("unchecked")
+            Enumerbtion<TreeNode> children = node.children();
 
-            if (!enumer.hasMoreElements()) {
-                stack.pop();
+            if (!enumer.hbsMoreElements()) {
+                stbck.pop();
             }
-            if (children.hasMoreElements()) {
-                stack.push(children);
+            if (children.hbsMoreElements()) {
+                stbck.push(children);
             }
             return node;
         }
 
-    }  // End of class PreorderEnumeration
+    }  // End of clbss PreorderEnumerbtion
 
 
 
-    final class PostorderEnumeration implements Enumeration<TreeNode> {
+    finbl clbss PostorderEnumerbtion implements Enumerbtion<TreeNode> {
         protected TreeNode root;
-        protected Enumeration<TreeNode> children;
-        protected Enumeration<TreeNode> subtree;
+        protected Enumerbtion<TreeNode> children;
+        protected Enumerbtion<TreeNode> subtree;
 
-        public PostorderEnumeration(TreeNode rootNode) {
+        public PostorderEnumerbtion(TreeNode rootNode) {
             super();
             root = rootNode;
             children = root.children();
             subtree = EMPTY_ENUMERATION;
         }
 
-        public boolean hasMoreElements() {
+        public boolebn hbsMoreElements() {
             return root != null;
         }
 
         public TreeNode nextElement() {
-            TreeNode retval;
+            TreeNode retvbl;
 
-            if (subtree.hasMoreElements()) {
-                retval = subtree.nextElement();
-            } else if (children.hasMoreElements()) {
-                subtree = new PostorderEnumeration(children.nextElement());
-                retval = subtree.nextElement();
+            if (subtree.hbsMoreElements()) {
+                retvbl = subtree.nextElement();
+            } else if (children.hbsMoreElements()) {
+                subtree = new PostorderEnumerbtion(children.nextElement());
+                retvbl = subtree.nextElement();
             } else {
-                retval = root;
+                retvbl = root;
                 root = null;
             }
 
-            return retval;
+            return retvbl;
         }
 
-    }  // End of class PostorderEnumeration
+    }  // End of clbss PostorderEnumerbtion
 
 
 
-    final class BreadthFirstEnumeration implements Enumeration<TreeNode> {
+    finbl clbss BrebdthFirstEnumerbtion implements Enumerbtion<TreeNode> {
         protected Queue queue;
 
-        public BreadthFirstEnumeration(TreeNode rootNode) {
+        public BrebdthFirstEnumerbtion(TreeNode rootNode) {
             super();
             Vector<TreeNode> v = new Vector<TreeNode>(1);
-            v.addElement(rootNode);     // PENDING: don't really need a vector
+            v.bddElement(rootNode);     // PENDING: don't reblly need b vector
             queue = new Queue();
             queue.enqueue(v.elements());
         }
 
-        public boolean hasMoreElements() {
+        public boolebn hbsMoreElements() {
             return (!queue.isEmpty() &&
-                    ((Enumeration)queue.firstObject()).hasMoreElements());
+                    ((Enumerbtion)queue.firstObject()).hbsMoreElements());
         }
 
         public TreeNode nextElement() {
-            Enumeration<?> enumer = (Enumeration)queue.firstObject();
+            Enumerbtion<?> enumer = (Enumerbtion)queue.firstObject();
             TreeNode    node = (TreeNode)enumer.nextElement();
-            Enumeration<?> children = node.children();
+            Enumerbtion<?> children = node.children();
 
-            if (!enumer.hasMoreElements()) {
+            if (!enumer.hbsMoreElements()) {
                 queue.dequeue();
             }
-            if (children.hasMoreElements()) {
+            if (children.hbsMoreElements()) {
                 queue.enqueue(children);
             }
             return node;
         }
 
 
-        // A simple queue with a linked list data structure.
-        final class Queue {
-            QNode head; // null if empty
-            QNode tail;
+        // A simple queue with b linked list dbtb structure.
+        finbl clbss Queue {
+            QNode hebd; // null if empty
+            QNode tbil;
 
-            final class QNode {
+            finbl clbss QNode {
                 public Object   object;
                 public QNode    next;   // null if end
                 public QNode(Object object, QNode next) {
@@ -1421,91 +1421,91 @@ public class DefaultMutableTreeNode implements Cloneable,
                 }
             }
 
-            public void enqueue(Object anObject) {
-                if (head == null) {
-                    head = tail = new QNode(anObject, null);
+            public void enqueue(Object bnObject) {
+                if (hebd == null) {
+                    hebd = tbil = new QNode(bnObject, null);
                 } else {
-                    tail.next = new QNode(anObject, null);
-                    tail = tail.next;
+                    tbil.next = new QNode(bnObject, null);
+                    tbil = tbil.next;
                 }
             }
 
             public Object dequeue() {
-                if (head == null) {
+                if (hebd == null) {
                     throw new NoSuchElementException("No more elements");
                 }
 
-                Object retval = head.object;
-                QNode oldHead = head;
-                head = head.next;
-                if (head == null) {
-                    tail = null;
+                Object retvbl = hebd.object;
+                QNode oldHebd = hebd;
+                hebd = hebd.next;
+                if (hebd == null) {
+                    tbil = null;
                 } else {
-                    oldHead.next = null;
+                    oldHebd.next = null;
                 }
-                return retval;
+                return retvbl;
             }
 
             public Object firstObject() {
-                if (head == null) {
+                if (hebd == null) {
                     throw new NoSuchElementException("No more elements");
                 }
 
-                return head.object;
+                return hebd.object;
             }
 
-            public boolean isEmpty() {
-                return head == null;
+            public boolebn isEmpty() {
+                return hebd == null;
             }
 
-        } // End of class Queue
+        } // End of clbss Queue
 
-    }  // End of class BreadthFirstEnumeration
+    }  // End of clbss BrebdthFirstEnumerbtion
 
 
 
-    final class PathBetweenNodesEnumeration implements Enumeration<TreeNode> {
-        protected Stack<TreeNode> stack;
+    finbl clbss PbthBetweenNodesEnumerbtion implements Enumerbtion<TreeNode> {
+        protected Stbck<TreeNode> stbck;
 
-        public PathBetweenNodesEnumeration(TreeNode ancestor,
-                                           TreeNode descendant)
+        public PbthBetweenNodesEnumerbtion(TreeNode bncestor,
+                                           TreeNode descendbnt)
         {
             super();
 
-            if (ancestor == null || descendant == null) {
-                throw new IllegalArgumentException("argument is null");
+            if (bncestor == null || descendbnt == null) {
+                throw new IllegblArgumentException("brgument is null");
             }
 
             TreeNode current;
 
-            stack = new Stack<TreeNode>();
-            stack.push(descendant);
+            stbck = new Stbck<TreeNode>();
+            stbck.push(descendbnt);
 
-            current = descendant;
-            while (current != ancestor) {
-                current = current.getParent();
-                if (current == null && descendant != ancestor) {
-                    throw new IllegalArgumentException("node " + ancestor +
-                                " is not an ancestor of " + descendant);
+            current = descendbnt;
+            while (current != bncestor) {
+                current = current.getPbrent();
+                if (current == null && descendbnt != bncestor) {
+                    throw new IllegblArgumentException("node " + bncestor +
+                                " is not bn bncestor of " + descendbnt);
                 }
-                stack.push(current);
+                stbck.push(current);
             }
         }
 
-        public boolean hasMoreElements() {
-            return stack.size() > 0;
+        public boolebn hbsMoreElements() {
+            return stbck.size() > 0;
         }
 
         public TreeNode nextElement() {
             try {
-                return stack.pop();
-            } catch (EmptyStackException e) {
+                return stbck.pop();
+            } cbtch (EmptyStbckException e) {
                 throw new NoSuchElementException("No more elements");
             }
         }
 
-    } // End of class PathBetweenNodesEnumeration
+    } // End of clbss PbthBetweenNodesEnumerbtion
 
 
 
-} // End of class DefaultMutableTreeNode
+} // End of clbss DefbultMutbbleTreeNode

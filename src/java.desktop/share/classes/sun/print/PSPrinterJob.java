@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.GraphicsEnvironment;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.HeadlessException;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.HebdlessException;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
 
-import java.awt.image.BufferedImage;
+import jbvb.bwt.imbge.BufferedImbge;
 
-import java.awt.font.FontRenderContext;
+import jbvb.bwt.font.FontRenderContext;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.Rectbngle2D;
 
-import java.awt.image.BufferedImage;
+import jbvb.bwt.imbge.BufferedImbge;
 
-import java.awt.print.Pageable;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterIOException;
-import java.awt.print.PrinterJob;
+import jbvb.bwt.print.Pbgebble;
+import jbvb.bwt.print.PbgeFormbt;
+import jbvb.bwt.print.Pbper;
+import jbvb.bwt.print.Printbble;
+import jbvb.bwt.print.PrinterException;
+import jbvb.bwt.print.PrinterIOException;
+import jbvb.bwt.print.PrinterJob;
 
-import javax.print.DocFlavor;
-import javax.print.PrintService;
-import javax.print.StreamPrintService;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.standard.PrinterName;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.DialogTypeSelection;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.Sides;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.PrintService;
+import jbvbx.print.StrebmPrintService;
+import jbvbx.print.bttribute.HbshPrintRequestAttributeSet;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
+import jbvbx.print.bttribute.PrintServiceAttributeSet;
+import jbvbx.print.bttribute.stbndbrd.PrinterNbme;
+import jbvbx.print.bttribute.stbndbrd.Chrombticity;
+import jbvbx.print.bttribute.stbndbrd.Copies;
+import jbvbx.print.bttribute.stbndbrd.Destinbtion;
+import jbvbx.print.bttribute.stbndbrd.DiblogTypeSelection;
+import jbvbx.print.bttribute.stbndbrd.JobNbme;
+import jbvbx.print.bttribute.stbndbrd.Sides;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.CharConversionException;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.BufferedRebder;
+import jbvb.io.ChbrConversionException;
+import jbvb.io.File;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.IOException;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.PrintStrebm;
+import jbvb.io.PrintWriter;
+import jbvb.io.StringWriter;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Properties;
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Locble;
+import jbvb.util.Properties;
 
-import sun.awt.CharsetString;
-import sun.awt.FontConfiguration;
-import sun.awt.FontDescriptor;
-import sun.awt.PlatformFont;
-import sun.awt.SunToolkit;
-import sun.font.FontManagerFactory;
+import sun.bwt.ChbrsetString;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.FontDescriptor;
+import sun.bwt.PlbtformFont;
+import sun.bwt.SunToolkit;
+import sun.font.FontMbnbgerFbctory;
 import sun.font.FontUtilities;
 
-import java.nio.charset.*;
-import java.nio.CharBuffer;
-import java.nio.ByteBuffer;
-import java.nio.file.Files;
+import jbvb.nio.chbrset.*;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.file.Files;
 
-//REMIND: Remove use of this class when IPPPrintService is moved to share directory.
-import java.lang.reflect.Method;
+//REMIND: Remove use of this clbss when IPPPrintService is moved to shbre directory.
+import jbvb.lbng.reflect.Method;
 
 /**
- * A class which initiates and executes a PostScript printer job.
+ * A clbss which initibtes bnd executes b PostScript printer job.
  *
- * @author Richard Blanchard
+ * @buthor Richbrd Blbnchbrd
  */
-public class PSPrinterJob extends RasterPrinterJob {
+public clbss PSPrinterJob extends RbsterPrinterJob {
 
- /* Class Constants */
+ /* Clbss Constbnts */
 
     /**
-     * Passed to the <code>setFillMode</code>
-     * method this value forces fills to be
+     * Pbssed to the <code>setFillMode</code>
+     * method this vblue forces fills to be
      * done using the even-odd fill rule.
      */
-    protected static final int FILL_EVEN_ODD = 1;
+    protected stbtic finbl int FILL_EVEN_ODD = 1;
 
     /**
-     * Passed to the <code>setFillMode</code>
-     * method this value forces fills to be
+     * Pbssed to the <code>setFillMode</code>
+     * method this vblue forces fills to be
      * done using the non-zero winding rule.
      */
-    protected static final int FILL_WINDING = 2;
+    protected stbtic finbl int FILL_WINDING = 2;
 
-    /* PostScript has a 64K maximum on its strings.
+    /* PostScript hbs b 64K mbximum on its strings.
      */
-    private static final int MAX_PSSTR = (1024 * 64 - 1);
+    privbte stbtic finbl int MAX_PSSTR = (1024 * 64 - 1);
 
-    private static final int RED_MASK = 0x00ff0000;
-    private static final int GREEN_MASK = 0x0000ff00;
-    private static final int BLUE_MASK = 0x000000ff;
+    privbte stbtic finbl int RED_MASK = 0x00ff0000;
+    privbte stbtic finbl int GREEN_MASK = 0x0000ff00;
+    privbte stbtic finbl int BLUE_MASK = 0x000000ff;
 
-    private static final int RED_SHIFT = 16;
-    private static final int GREEN_SHIFT = 8;
-    private static final int BLUE_SHIFT = 0;
+    privbte stbtic finbl int RED_SHIFT = 16;
+    privbte stbtic finbl int GREEN_SHIFT = 8;
+    privbte stbtic finbl int BLUE_SHIFT = 0;
 
-    private static final int LOWNIBBLE_MASK = 0x0000000f;
-    private static final int HINIBBLE_MASK =  0x000000f0;
-    private static final int HINIBBLE_SHIFT = 4;
-    private static final byte hexDigits[] = {
+    privbte stbtic finbl int LOWNIBBLE_MASK = 0x0000000f;
+    privbte stbtic finbl int HINIBBLE_MASK =  0x000000f0;
+    privbte stbtic finbl int HINIBBLE_SHIFT = 4;
+    privbte stbtic finbl byte hexDigits[] = {
         (byte)'0', (byte)'1', (byte)'2', (byte)'3',
         (byte)'4', (byte)'5', (byte)'6', (byte)'7',
         (byte)'8', (byte)'9', (byte)'A', (byte)'B',
         (byte)'C', (byte)'D', (byte)'E', (byte)'F'
     };
 
-    private static final int PS_XRES = 300;
-    private static final int PS_YRES = 300;
+    privbte stbtic finbl int PS_XRES = 300;
+    privbte stbtic finbl int PS_YRES = 300;
 
-    private static final String ADOBE_PS_STR =  "%!PS-Adobe-3.0";
-    private static final String EOF_COMMENT =   "%%EOF";
-    private static final String PAGE_COMMENT =  "%%Page: ";
+    privbte stbtic finbl String ADOBE_PS_STR =  "%!PS-Adobe-3.0";
+    privbte stbtic finbl String EOF_COMMENT =   "%%EOF";
+    privbte stbtic finbl String PAGE_COMMENT =  "%%Pbge: ";
 
-    private static final String READIMAGEPROC = "/imStr 0 def /imageSrc " +
+    privbte stbtic finbl String READIMAGEPROC = "/imStr 0 def /imbgeSrc " +
         "{currentfile /ASCII85Decode filter /RunLengthDecode filter " +
-        " imStr readstring pop } def";
+        " imStr rebdstring pop } def";
 
-    private static final String COPIES =        "/#copies exch def";
-    private static final String PAGE_SAVE =     "/pgSave save def";
-    private static final String PAGE_RESTORE =  "pgSave restore";
-    private static final String SHOWPAGE =      "showpage";
-    private static final String IMAGE_SAVE =    "/imSave save def";
-    private static final String IMAGE_STR =     " string /imStr exch def";
-    private static final String IMAGE_RESTORE = "imSave restore";
+    privbte stbtic finbl String COPIES =        "/#copies exch def";
+    privbte stbtic finbl String PAGE_SAVE =     "/pgSbve sbve def";
+    privbte stbtic finbl String PAGE_RESTORE =  "pgSbve restore";
+    privbte stbtic finbl String SHOWPAGE =      "showpbge";
+    privbte stbtic finbl String IMAGE_SAVE =    "/imSbve sbve def";
+    privbte stbtic finbl String IMAGE_STR =     " string /imStr exch def";
+    privbte stbtic finbl String IMAGE_RESTORE = "imSbve restore";
 
-    private static final String SetFontName = "F";
+    privbte stbtic finbl String SetFontNbme = "F";
 
-    private static final String DrawStringName = "S";
+    privbte stbtic finbl String DrbwStringNbme = "S";
 
     /**
-     * The PostScript invocation to fill a path using the
+     * The PostScript invocbtion to fill b pbth using the
      * even-odd rule. (eofill)
      */
-    private static final String EVEN_ODD_FILL_STR = "EF";
+    privbte stbtic finbl String EVEN_ODD_FILL_STR = "EF";
 
     /**
-     * The PostScript invocation to fill a path using the
+     * The PostScript invocbtion to fill b pbth using the
      * non-zero winding rule. (fill)
      */
-    private static final String WINDING_FILL_STR = "WF";
+    privbte stbtic finbl String WINDING_FILL_STR = "WF";
 
     /**
-     * The PostScript to set the clip to be the current path
+     * The PostScript to set the clip to be the current pbth
      * using the even odd rule. (eoclip)
      */
-    private static final String EVEN_ODD_CLIP_STR = "EC";
+    privbte stbtic finbl String EVEN_ODD_CLIP_STR = "EC";
 
     /**
-     * The PostScript to set the clip to be the current path
+     * The PostScript to set the clip to be the current pbth
      * using the non-zero winding rule. (clip)
      */
-    private static final String WINDING_CLIP_STR = "WC";
+    privbte stbtic finbl String WINDING_CLIP_STR = "WC";
 
     /**
-     * Expecting two numbers on the PostScript stack, this
-     * invocation moves the current pen position. (moveto)
+     * Expecting two numbers on the PostScript stbck, this
+     * invocbtion moves the current pen position. (moveto)
      */
-    private static final String MOVETO_STR = " M";
+    privbte stbtic finbl String MOVETO_STR = " M";
     /**
-     * Expecting two numbers on the PostScript stack, this
-     * invocation draws a PS line from the current pen
-     * position to the point on the stack. (lineto)
+     * Expecting two numbers on the PostScript stbck, this
+     * invocbtion drbws b PS line from the current pen
+     * position to the point on the stbck. (lineto)
      */
-    private static final String LINETO_STR = " L";
-
-    /**
-     * This PostScript operator takes two control points
-     * and an ending point and using the current pen
-     * position as a starting point adds a bezier
-     * curve to the current path. (curveto)
-     */
-    private static final String CURVETO_STR = " C";
+    privbte stbtic finbl String LINETO_STR = " L";
 
     /**
-     * The PostScript to pop a state off of the printer's
-     * gstate stack. (grestore)
+     * This PostScript operbtor tbkes two control points
+     * bnd bn ending point bnd using the current pen
+     * position bs b stbrting point bdds b bezier
+     * curve to the current pbth. (curveto)
      */
-    private static final String GRESTORE_STR = "R";
-    /**
-     * The PostScript to push a state on to the printer's
-     * gstate stack. (gsave)
-     */
-    private static final String GSAVE_STR = "G";
+    privbte stbtic finbl String CURVETO_STR = " C";
 
     /**
-     * Make the current PostScript path an empty path. (newpath)
+     * The PostScript to pop b stbte off of the printer's
+     * gstbte stbck. (grestore)
      */
-    private static final String NEWPATH_STR = "N";
+    privbte stbtic finbl String GRESTORE_STR = "R";
+    /**
+     * The PostScript to push b stbte on to the printer's
+     * gstbte stbck. (gsbve)
+     */
+    privbte stbtic finbl String GSAVE_STR = "G";
 
     /**
-     * Close the current subpath by generating a line segment
-     * from the current position to the start of the subpath. (closepath)
+     * Mbke the current PostScript pbth bn empty pbth. (newpbth)
      */
-    private static final String CLOSEPATH_STR = "P";
+    privbte stbtic finbl String NEWPATH_STR = "N";
 
     /**
-     * Use the three numbers on top of the PS operator
-     * stack to set the rgb color. (setrgbcolor)
+     * Close the current subpbth by generbting b line segment
+     * from the current position to the stbrt of the subpbth. (closepbth)
      */
-    private static final String SETRGBCOLOR_STR = " SC";
+    privbte stbtic finbl String CLOSEPATH_STR = "P";
 
     /**
-     * Use the top number on the stack to set the printer's
-     * current gray value. (setgray)
+     * Use the three numbers on top of the PS operbtor
+     * stbck to set the rgb color. (setrgbcolor)
      */
-    private static final String SETGRAY_STR = " SG";
+    privbte stbtic finbl String SETRGBCOLOR_STR = " SC";
 
- /* Instance Variables */
+    /**
+     * Use the top number on the stbck to set the printer's
+     * current grby vblue. (setgrby)
+     */
+    privbte stbtic finbl String SETGRAY_STR = " SG";
 
-   private int mDestType;
+ /* Instbnce Vbribbles */
 
-   private String mDestination = "lp";
+   privbte int mDestType;
 
-   private boolean mNoJobSheet = false;
+   privbte String mDestinbtion = "lp";
 
-   private String mOptions;
+   privbte boolebn mNoJobSheet = fblse;
 
-   private Font mLastFont;
+   privbte String mOptions;
 
-   private Color mLastColor;
+   privbte Font mLbstFont;
 
-   private Shape mLastClip;
+   privbte Color mLbstColor;
 
-   private AffineTransform mLastTransform;
+   privbte Shbpe mLbstClip;
 
-   private double xres = PS_XRES;
-   private double yres = PS_XRES;
+   privbte AffineTrbnsform mLbstTrbnsform;
 
-   /* non-null if printing EPS for Java Plugin */
-   private EPSPrinter epsPrinter = null;
+   privbte double xres = PS_XRES;
+   privbte double yres = PS_XRES;
+
+   /* non-null if printing EPS for Jbvb Plugin */
+   privbte EPSPrinter epsPrinter = null;
 
    /**
     * The metrics for the font currently set.
@@ -280,126 +280,126 @@ public class PSPrinterJob extends RasterPrinterJob {
    FontMetrics mCurMetrics;
 
    /**
-    * The output stream to which the generated PostScript
+    * The output strebm to which the generbted PostScript
     * is written.
     */
-   PrintStream mPSStream;
+   PrintStrebm mPSStrebm;
 
-   /* The temporary file to which we spool before sending to the printer  */
+   /* The temporbry file to which we spool before sending to the printer  */
 
    File spoolFile;
 
    /**
-    * This string holds the PostScript operator to
-    * be used to fill a path. It can be changed
+    * This string holds the PostScript operbtor to
+    * be used to fill b pbth. It cbn be chbnged
     * by the <code>setFillMode</code> method.
     */
-    private String mFillOpStr = WINDING_FILL_STR;
+    privbte String mFillOpStr = WINDING_FILL_STR;
 
    /**
-    * This string holds the PostScript operator to
-    * be used to clip to a path. It can be changed
+    * This string holds the PostScript operbtor to
+    * be used to clip to b pbth. It cbn be chbnged
     * by the <code>setFillMode</code> method.
     */
-    private String mClipOpStr = WINDING_CLIP_STR;
+    privbte String mClipOpStr = WINDING_CLIP_STR;
 
    /**
-    * A stack that represents the PostScript gstate stack.
+    * A stbck thbt represents the PostScript gstbte stbck.
     */
-   ArrayList<GState> mGStateStack = new ArrayList<>();
+   ArrbyList<GStbte> mGStbteStbck = new ArrbyList<>();
 
    /**
-    * The x coordinate of the current pen position.
+    * The x coordinbte of the current pen position.
     */
-   private float mPenX;
+   privbte flobt mPenX;
 
    /**
-    * The y coordinate of the current pen position.
+    * The y coordinbte of the current pen position.
     */
-   private float mPenY;
+   privbte flobt mPenY;
 
    /**
-    * The x coordinate of the starting point of
-    * the current subpath.
+    * The x coordinbte of the stbrting point of
+    * the current subpbth.
     */
-   private float mStartPathX;
+   privbte flobt mStbrtPbthX;
 
    /**
-    * The y coordinate of the starting point of
-    * the current subpath.
+    * The y coordinbte of the stbrting point of
+    * the current subpbth.
     */
-   private float mStartPathY;
+   privbte flobt mStbrtPbthY;
 
    /**
-    * An optional mapping of fonts to PostScript names.
+    * An optionbl mbpping of fonts to PostScript nbmes.
     */
-   private static Properties mFontProps = null;
+   privbte stbtic Properties mFontProps = null;
 
-   private static boolean isMac;
+   privbte stbtic boolebn isMbc;
 
-    /* Class static initialiser block */
-    static {
-       //enable priviledges so initProps can access system properties,
+    /* Clbss stbtic initibliser block */
+    stbtic {
+       //enbble priviledges so initProps cbn bccess system properties,
         // open the property file, etc.
-        java.security.AccessController.doPrivileged(
-                            new java.security.PrivilegedAction<Object>() {
+        jbvb.security.AccessController.doPrivileged(
+                            new jbvb.security.PrivilegedAction<Object>() {
             public Object run() {
                 mFontProps = initProps();
-                String osName = System.getProperty("os.name");
-                isMac = osName.startsWith("Mac");
+                String osNbme = System.getProperty("os.nbme");
+                isMbc = osNbme.stbrtsWith("Mbc");
                 return null;
             }
         });
     }
 
     /*
-     * Initialize PostScript font properties.
-     * Copied from PSPrintStream
+     * Initiblize PostScript font properties.
+     * Copied from PSPrintStrebm
      */
-    private static Properties initProps() {
-        // search psfont.properties for fonts
-        // and create and initialize fontProps if it exist.
+    privbte stbtic Properties initProps() {
+        // sebrch psfont.properties for fonts
+        // bnd crebte bnd initiblize fontProps if it exist.
 
-        String jhome = System.getProperty("java.home");
+        String jhome = System.getProperty("jbvb.home");
 
         if (jhome != null){
-            String ulocale = SunToolkit.getStartupLocale().getLanguage();
+            String ulocble = SunToolkit.getStbrtupLocble().getLbngubge();
             try {
 
-                File f = new File(jhome + File.separator +
-                                  "lib" + File.separator +
-                                  "psfontj2d.properties." + ulocale);
+                File f = new File(jhome + File.sepbrbtor +
+                                  "lib" + File.sepbrbtor +
+                                  "psfontj2d.properties." + ulocble);
 
-                if (!f.canRead()){
+                if (!f.cbnRebd()){
 
-                    f = new File(jhome + File.separator +
-                                      "lib" + File.separator +
-                                      "psfont.properties." + ulocale);
-                    if (!f.canRead()){
+                    f = new File(jhome + File.sepbrbtor +
+                                      "lib" + File.sepbrbtor +
+                                      "psfont.properties." + ulocble);
+                    if (!f.cbnRebd()){
 
-                        f = new File(jhome + File.separator + "lib" +
-                                     File.separator + "psfontj2d.properties");
+                        f = new File(jhome + File.sepbrbtor + "lib" +
+                                     File.sepbrbtor + "psfontj2d.properties");
 
-                        if (!f.canRead()){
+                        if (!f.cbnRebd()){
 
-                            f = new File(jhome + File.separator + "lib" +
-                                         File.separator + "psfont.properties");
+                            f = new File(jhome + File.sepbrbtor + "lib" +
+                                         File.sepbrbtor + "psfont.properties");
 
-                            if (!f.canRead()){
+                            if (!f.cbnRebd()){
                                 return (Properties)null;
                             }
                         }
                     }
                 }
 
-                // Load property file
-                InputStream in =
-                    new BufferedInputStream(new FileInputStream(f.getPath()));
+                // Lobd property file
+                InputStrebm in =
+                    new BufferedInputStrebm(new FileInputStrebm(f.getPbth()));
                 Properties props = new Properties();
-                props.load(in);
+                props.lobd(in);
                 in.close();
                 return props;
-            } catch (Exception e){
+            } cbtch (Exception e){
                 return (Properties)null;
             }
         }
@@ -412,71 +412,71 @@ public class PSPrinterJob extends RasterPrinterJob {
     {
     }
 
- /* Instance Methods */
+ /* Instbnce Methods */
 
    /**
-     * Presents the user a dialog for changing properties of the
-     * print job interactively.
-     * @returns false if the user cancels the dialog and
+     * Presents the user b diblog for chbnging properties of the
+     * print job interbctively.
+     * @returns fblse if the user cbncels the diblog bnd
      *          true otherwise.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public boolean printDialog() throws HeadlessException {
+    public boolebn printDiblog() throws HebdlessException {
 
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        if (attributes == null) {
-            attributes = new HashPrintRequestAttributeSet();
+        if (bttributes == null) {
+            bttributes = new HbshPrintRequestAttributeSet();
         }
-        attributes.add(new Copies(getCopies()));
-        attributes.add(new JobName(getJobName(), null));
+        bttributes.bdd(new Copies(getCopies()));
+        bttributes.bdd(new JobNbme(getJobNbme(), null));
 
-        boolean doPrint = false;
-        DialogTypeSelection dts =
-            (DialogTypeSelection)attributes.get(DialogTypeSelection.class);
-        if (dts == DialogTypeSelection.NATIVE) {
-            // Remove DialogTypeSelection.NATIVE to prevent infinite loop in
-            // RasterPrinterJob.
-            attributes.remove(DialogTypeSelection.class);
-            doPrint = printDialog(attributes);
-            // restore attribute
-            attributes.add(DialogTypeSelection.NATIVE);
+        boolebn doPrint = fblse;
+        DiblogTypeSelection dts =
+            (DiblogTypeSelection)bttributes.get(DiblogTypeSelection.clbss);
+        if (dts == DiblogTypeSelection.NATIVE) {
+            // Remove DiblogTypeSelection.NATIVE to prevent infinite loop in
+            // RbsterPrinterJob.
+            bttributes.remove(DiblogTypeSelection.clbss);
+            doPrint = printDiblog(bttributes);
+            // restore bttribute
+            bttributes.bdd(DiblogTypeSelection.NATIVE);
         } else {
-            doPrint = printDialog(attributes);
+            doPrint = printDiblog(bttributes);
         }
 
         if (doPrint) {
-            JobName jobName = (JobName)attributes.get(JobName.class);
-            if (jobName != null) {
-                setJobName(jobName.getValue());
+            JobNbme jobNbme = (JobNbme)bttributes.get(JobNbme.clbss);
+            if (jobNbme != null) {
+                setJobNbme(jobNbme.getVblue());
             }
-            Copies copies = (Copies)attributes.get(Copies.class);
+            Copies copies = (Copies)bttributes.get(Copies.clbss);
             if (copies != null) {
-                setCopies(copies.getValue());
+                setCopies(copies.getVblue());
             }
 
-            Destination dest = (Destination)attributes.get(Destination.class);
+            Destinbtion dest = (Destinbtion)bttributes.get(Destinbtion.clbss);
 
             if (dest != null) {
                 try {
-                    mDestType = RasterPrinterJob.FILE;
-                    mDestination = (new File(dest.getURI())).getPath();
-                } catch (Exception e) {
-                    mDestination = "out.ps";
+                    mDestType = RbsterPrinterJob.FILE;
+                    mDestinbtion = (new File(dest.getURI())).getPbth();
+                } cbtch (Exception e) {
+                    mDestinbtion = "out.ps";
                 }
             } else {
-                mDestType = RasterPrinterJob.PRINTER;
+                mDestType = RbsterPrinterJob.PRINTER;
                 PrintService pServ = getPrintService();
                 if (pServ != null) {
-                    mDestination = pServ.getName();
-                   if (isMac) {
-                        PrintServiceAttributeSet psaSet = pServ.getAttributes() ;
-                        if (psaSet != null) {
-                            mDestination = psaSet.get(PrinterName.class).toString();
+                    mDestinbtion = pServ.getNbme();
+                   if (isMbc) {
+                        PrintServiceAttributeSet psbSet = pServ.getAttributes() ;
+                        if (psbSet != null) {
+                            mDestinbtion = psbSet.get(PrinterNbme.clbss).toString();
                         }
                     }
                 }
@@ -487,48 +487,48 @@ public class PSPrinterJob extends RasterPrinterJob {
     }
 
     /**
-     * Invoked by the RasterPrinterJob super class
-     * this method is called to mark the start of a
+     * Invoked by the RbsterPrinterJob super clbss
+     * this method is cblled to mbrk the stbrt of b
      * document.
      */
-    protected void startDoc() throws PrinterException {
+    protected void stbrtDoc() throws PrinterException {
 
-        // A security check has been performed in the
-        // java.awt.print.printerJob.getPrinterJob method.
-        // We use an inner class to execute the privilged open operations.
-        // Note that we only open a file if it has been nominated by
-        // the end-user in a dialog that we ouselves put up.
+        // A security check hbs been performed in the
+        // jbvb.bwt.print.printerJob.getPrinterJob method.
+        // We use bn inner clbss to execute the privilged open operbtions.
+        // Note thbt we only open b file if it hbs been nominbted by
+        // the end-user in b diblog thbt we ouselves put up.
 
-        OutputStream output;
+        OutputStrebm output;
 
         if (epsPrinter == null) {
-            if (getPrintService() instanceof PSStreamPrintService) {
-                StreamPrintService sps = (StreamPrintService)getPrintService();
-                mDestType = RasterPrinterJob.STREAM;
+            if (getPrintService() instbnceof PSStrebmPrintService) {
+                StrebmPrintService sps = (StrebmPrintService)getPrintService();
+                mDestType = RbsterPrinterJob.STREAM;
                 if (sps.isDisposed()) {
                     throw new PrinterException("service is disposed");
                 }
-                output = sps.getOutputStream();
+                output = sps.getOutputStrebm();
                 if (output == null) {
-                    throw new PrinterException("Null output stream");
+                    throw new PrinterException("Null output strebm");
                 }
             } else {
-                /* REMIND: This needs to be more maintainable */
+                /* REMIND: This needs to be more mbintbinbble */
                 mNoJobSheet = super.noJobSheet;
-                if (super.destinationAttr != null) {
-                    mDestType = RasterPrinterJob.FILE;
-                    mDestination = super.destinationAttr;
+                if (super.destinbtionAttr != null) {
+                    mDestType = RbsterPrinterJob.FILE;
+                    mDestinbtion = super.destinbtionAttr;
                 }
-                if (mDestType == RasterPrinterJob.FILE) {
+                if (mDestType == RbsterPrinterJob.FILE) {
                     try {
-                        spoolFile = new File(mDestination);
-                        output =  new FileOutputStream(spoolFile);
-                    } catch (IOException ex) {
+                        spoolFile = new File(mDestinbtion);
+                        output =  new FileOutputStrebm(spoolFile);
+                    } cbtch (IOException ex) {
                         throw new PrinterIOException(ex);
                     }
                 } else {
                     PrinterOpener po = new PrinterOpener();
-                    java.security.AccessController.doPrivileged(po);
+                    jbvb.security.AccessController.doPrivileged(po);
                     if (po.pex != null) {
                         throw po.pex;
                     }
@@ -536,173 +536,173 @@ public class PSPrinterJob extends RasterPrinterJob {
                 }
             }
 
-            mPSStream = new PrintStream(new BufferedOutputStream(output));
-            mPSStream.println(ADOBE_PS_STR);
+            mPSStrebm = new PrintStrebm(new BufferedOutputStrebm(output));
+            mPSStrebm.println(ADOBE_PS_STR);
         }
 
-        mPSStream.println("%%BeginProlog");
-        mPSStream.println(READIMAGEPROC);
-        mPSStream.println("/BD {bind def} bind def");
-        mPSStream.println("/D {def} BD");
-        mPSStream.println("/C {curveto} BD");
-        mPSStream.println("/L {lineto} BD");
-        mPSStream.println("/M {moveto} BD");
-        mPSStream.println("/R {grestore} BD");
-        mPSStream.println("/G {gsave} BD");
-        mPSStream.println("/N {newpath} BD");
-        mPSStream.println("/P {closepath} BD");
-        mPSStream.println("/EC {eoclip} BD");
-        mPSStream.println("/WC {clip} BD");
-        mPSStream.println("/EF {eofill} BD");
-        mPSStream.println("/WF {fill} BD");
-        mPSStream.println("/SG {setgray} BD");
-        mPSStream.println("/SC {setrgbcolor} BD");
-        mPSStream.println("/ISOF {");
-        mPSStream.println("     dup findfont dup length 1 add dict begin {");
-        mPSStream.println("             1 index /FID eq {pop pop} {D} ifelse");
-        mPSStream.println("     } forall /Encoding ISOLatin1Encoding D");
-        mPSStream.println("     currentdict end definefont");
-        mPSStream.println("} BD");
-        mPSStream.println("/NZ {dup 1 lt {pop 1} if} BD");
-        /* The following procedure takes args: string, x, y, desiredWidth.
-         * It calculates using stringwidth the width of the string in the
-         * current font and subtracts it from the desiredWidth and divides
-         * this by stringLen-1. This gives us a per-glyph adjustment in
-         * the spacing needed (either +ve or -ve) to make the string
-         * print at the desiredWidth. The ashow procedure call takes this
-         * per-glyph adjustment as an argument. This is necessary for WYSIWYG
+        mPSStrebm.println("%%BeginProlog");
+        mPSStrebm.println(READIMAGEPROC);
+        mPSStrebm.println("/BD {bind def} bind def");
+        mPSStrebm.println("/D {def} BD");
+        mPSStrebm.println("/C {curveto} BD");
+        mPSStrebm.println("/L {lineto} BD");
+        mPSStrebm.println("/M {moveto} BD");
+        mPSStrebm.println("/R {grestore} BD");
+        mPSStrebm.println("/G {gsbve} BD");
+        mPSStrebm.println("/N {newpbth} BD");
+        mPSStrebm.println("/P {closepbth} BD");
+        mPSStrebm.println("/EC {eoclip} BD");
+        mPSStrebm.println("/WC {clip} BD");
+        mPSStrebm.println("/EF {eofill} BD");
+        mPSStrebm.println("/WF {fill} BD");
+        mPSStrebm.println("/SG {setgrby} BD");
+        mPSStrebm.println("/SC {setrgbcolor} BD");
+        mPSStrebm.println("/ISOF {");
+        mPSStrebm.println("     dup findfont dup length 1 bdd dict begin {");
+        mPSStrebm.println("             1 index /FID eq {pop pop} {D} ifelse");
+        mPSStrebm.println("     } forbll /Encoding ISOLbtin1Encoding D");
+        mPSStrebm.println("     currentdict end definefont");
+        mPSStrebm.println("} BD");
+        mPSStrebm.println("/NZ {dup 1 lt {pop 1} if} BD");
+        /* The following procedure tbkes brgs: string, x, y, desiredWidth.
+         * It cblculbtes using stringwidth the width of the string in the
+         * current font bnd subtrbcts it from the desiredWidth bnd divides
+         * this by stringLen-1. This gives us b per-glyph bdjustment in
+         * the spbcing needed (either +ve or -ve) to mbke the string
+         * print bt the desiredWidth. The bshow procedure cbll tbkes this
+         * per-glyph bdjustment bs bn brgument. This is necessbry for WYSIWYG
          */
-        mPSStream.println("/"+DrawStringName +" {");
-        mPSStream.println("     moveto 1 index stringwidth pop NZ sub");
-        mPSStream.println("     1 index length 1 sub NZ div 0");
-        mPSStream.println("     3 2 roll ashow newpath} BD");
-        mPSStream.println("/FL [");
+        mPSStrebm.println("/"+DrbwStringNbme +" {");
+        mPSStrebm.println("     moveto 1 index stringwidth pop NZ sub");
+        mPSStrebm.println("     1 index length 1 sub NZ div 0");
+        mPSStrebm.println("     3 2 roll bshow newpbth} BD");
+        mPSStrebm.println("/FL [");
         if (mFontProps == null){
-            mPSStream.println(" /Helvetica ISOF");
-            mPSStream.println(" /Helvetica-Bold ISOF");
-            mPSStream.println(" /Helvetica-Oblique ISOF");
-            mPSStream.println(" /Helvetica-BoldOblique ISOF");
-            mPSStream.println(" /Times-Roman ISOF");
-            mPSStream.println(" /Times-Bold ISOF");
-            mPSStream.println(" /Times-Italic ISOF");
-            mPSStream.println(" /Times-BoldItalic ISOF");
-            mPSStream.println(" /Courier ISOF");
-            mPSStream.println(" /Courier-Bold ISOF");
-            mPSStream.println(" /Courier-Oblique ISOF");
-            mPSStream.println(" /Courier-BoldOblique ISOF");
+            mPSStrebm.println(" /Helveticb ISOF");
+            mPSStrebm.println(" /Helveticb-Bold ISOF");
+            mPSStrebm.println(" /Helveticb-Oblique ISOF");
+            mPSStrebm.println(" /Helveticb-BoldOblique ISOF");
+            mPSStrebm.println(" /Times-Rombn ISOF");
+            mPSStrebm.println(" /Times-Bold ISOF");
+            mPSStrebm.println(" /Times-Itblic ISOF");
+            mPSStrebm.println(" /Times-BoldItblic ISOF");
+            mPSStrebm.println(" /Courier ISOF");
+            mPSStrebm.println(" /Courier-Bold ISOF");
+            mPSStrebm.println(" /Courier-Oblique ISOF");
+            mPSStrebm.println(" /Courier-BoldOblique ISOF");
         } else {
-            int cnt = Integer.parseInt(mFontProps.getProperty("font.num", "9"));
+            int cnt = Integer.pbrseInt(mFontProps.getProperty("font.num", "9"));
             for (int i = 0; i < cnt; i++){
-                mPSStream.println("    /" + mFontProps.getProperty
-                           ("font." + String.valueOf(i), "Courier ISOF"));
+                mPSStrebm.println("    /" + mFontProps.getProperty
+                           ("font." + String.vblueOf(i), "Courier ISOF"));
             }
         }
-        mPSStream.println("] D");
+        mPSStrebm.println("] D");
 
-        mPSStream.println("/"+SetFontName +" {");
-        mPSStream.println("     FL exch get exch scalefont");
-        mPSStream.println("     [1 0 0 -1 0 0] makefont setfont} BD");
+        mPSStrebm.println("/"+SetFontNbme +" {");
+        mPSStrebm.println("     FL exch get exch scblefont");
+        mPSStrebm.println("     [1 0 0 -1 0 0] mbkefont setfont} BD");
 
-        mPSStream.println("%%EndProlog");
+        mPSStrebm.println("%%EndProlog");
 
-        mPSStream.println("%%BeginSetup");
+        mPSStrebm.println("%%BeginSetup");
         if (epsPrinter == null) {
-            // Set Page Size using first page's format.
-            PageFormat pageFormat = getPageable().getPageFormat(0);
-            double paperHeight = pageFormat.getPaper().getHeight();
-            double paperWidth = pageFormat.getPaper().getWidth();
+            // Set Pbge Size using first pbge's formbt.
+            PbgeFormbt pbgeFormbt = getPbgebble().getPbgeFormbt(0);
+            double pbperHeight = pbgeFormbt.getPbper().getHeight();
+            double pbperWidth = pbgeFormbt.getPbper().getWidth();
 
-            /* PostScript printers can always generate uncollated copies.
+            /* PostScript printers cbn blwbys generbte uncollbted copies.
              */
-            mPSStream.print("<< /PageSize [" +
-                                           paperWidth + " "+ paperHeight+"]");
+            mPSStrebm.print("<< /PbgeSize [" +
+                                           pbperWidth + " "+ pbperHeight+"]");
 
-            final PrintService pservice = getPrintService();
-            Boolean isPS = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Boolean>() {
-                    public Boolean run() {
+            finbl PrintService pservice = getPrintService();
+            Boolebn isPS = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Boolebn>() {
+                    public Boolebn run() {
                        try {
-                           Class<?> psClass = Class.forName("sun.print.IPPPrintService");
-                           if (psClass.isInstance(pservice)) {
-                               Method isPSMethod = psClass.getMethod("isPostscript",
-                                                                     (Class[])null);
-                               return (Boolean)isPSMethod.invoke(pservice, (Object[])null);
+                           Clbss<?> psClbss = Clbss.forNbme("sun.print.IPPPrintService");
+                           if (psClbss.isInstbnce(pservice)) {
+                               Method isPSMethod = psClbss.getMethod("isPostscript",
+                                                                     (Clbss[])null);
+                               return (Boolebn)isPSMethod.invoke(pservice, (Object[])null);
                            }
-                       } catch (Throwable t) {
+                       } cbtch (Throwbble t) {
                        }
-                       return Boolean.TRUE;
+                       return Boolebn.TRUE;
                     }
                 }
             );
             if (isPS) {
-                mPSStream.print(" /DeferredMediaSelection true");
+                mPSStrebm.print(" /DeferredMedibSelection true");
             }
 
-            mPSStream.print(" /ImagingBBox null /ManualFeed false");
-            mPSStream.print(isCollated() ? " /Collate true":"");
-            mPSStream.print(" /NumCopies " +getCopiesInt());
+            mPSStrebm.print(" /ImbgingBBox null /MbnublFeed fblse");
+            mPSStrebm.print(isCollbted() ? " /Collbte true":"");
+            mPSStrebm.print(" /NumCopies " +getCopiesInt());
 
             if (sidesAttr != Sides.ONE_SIDED) {
                 if (sidesAttr == Sides.TWO_SIDED_LONG_EDGE) {
-                    mPSStream.print(" /Duplex true ");
+                    mPSStrebm.print(" /Duplex true ");
                 } else if (sidesAttr == Sides.TWO_SIDED_SHORT_EDGE) {
-                    mPSStream.print(" /Duplex true /Tumble true ");
+                    mPSStrebm.print(" /Duplex true /Tumble true ");
                 }
             }
-            mPSStream.println(" >> setpagedevice ");
+            mPSStrebm.println(" >> setpbgedevice ");
         }
-        mPSStream.println("%%EndSetup");
+        mPSStrebm.println("%%EndSetup");
     }
 
-    // Inner class to run "privileged" to open the printer output stream.
+    // Inner clbss to run "privileged" to open the printer output strebm.
 
-    private class PrinterOpener implements java.security.PrivilegedAction<OutputStream> {
+    privbte clbss PrinterOpener implements jbvb.security.PrivilegedAction<OutputStrebm> {
         PrinterException pex;
-        OutputStream result;
+        OutputStrebm result;
 
-        public OutputStream run() {
+        public OutputStrebm run() {
             try {
 
-                    /* Write to a temporary file which will be spooled to
-                     * the printer then deleted. In the case that the file
-                     * is not removed for some reason, request that it is
+                    /* Write to b temporbry file which will be spooled to
+                     * the printer then deleted. In the cbse thbt the file
+                     * is not removed for some rebson, request thbt it is
                      * removed when the VM exits.
                      */
-                    spoolFile = Files.createTempFile("javaprint", ".ps").toFile();
+                    spoolFile = Files.crebteTempFile("jbvbprint", ".ps").toFile();
                     spoolFile.deleteOnExit();
 
-                result = new FileOutputStream(spoolFile);
+                result = new FileOutputStrebm(spoolFile);
                 return result;
-            } catch (IOException ex) {
-                // If there is an IOError we subvert it to a PrinterException.
+            } cbtch (IOException ex) {
+                // If there is bn IOError we subvert it to b PrinterException.
                 pex = new PrinterIOException(ex);
             }
             return null;
         }
     }
 
-    // Inner class to run "privileged" to invoke the system print command
+    // Inner clbss to run "privileged" to invoke the system print commbnd
 
-    private class PrinterSpooler implements java.security.PrivilegedAction<Object> {
+    privbte clbss PrinterSpooler implements jbvb.security.PrivilegedAction<Object> {
         PrinterException pex;
 
-        private void handleProcessFailure(final Process failedProcess,
-                final String[] execCmd, final int result) throws IOException {
+        privbte void hbndleProcessFbilure(finbl Process fbiledProcess,
+                finbl String[] execCmd, finbl int result) throws IOException {
             try (StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw)) {
-                pw.append("error=").append(Integer.toString(result));
-                pw.append(" running:");
-                for (String arg: execCmd) {
-                    pw.append(" '").append(arg).append("'");
+                pw.bppend("error=").bppend(Integer.toString(result));
+                pw.bppend(" running:");
+                for (String brg: execCmd) {
+                    pw.bppend(" '").bppend(brg).bppend("'");
                 }
-                try (InputStream is = failedProcess.getErrorStream();
-                        InputStreamReader isr = new InputStreamReader(is);
-                        BufferedReader br = new BufferedReader(isr)) {
-                    while (br.ready()) {
+                try (InputStrebm is = fbiledProcess.getErrorStrebm();
+                        InputStrebmRebder isr = new InputStrebmRebder(is);
+                        BufferedRebder br = new BufferedRebder(isr)) {
+                    while (br.rebdy()) {
                         pw.println();
-                        pw.append("\t\t").append(br.readLine());
+                        pw.bppend("\t\t").bppend(br.rebdLine());
                     }
-                } finally {
+                } finblly {
                     pw.flush();
                 }
                 throw new IOException(sw.toString());
@@ -718,22 +718,22 @@ public class PSPrinterJob extends RasterPrinterJob {
                 /**
                  * Spool to the printer.
                  */
-                String fileName = spoolFile.getAbsolutePath();
-                String execCmd[] = printExecCmd(mDestination, mOptions,
-                               mNoJobSheet, getJobNameInt(),
-                                                1, fileName);
+                String fileNbme = spoolFile.getAbsolutePbth();
+                String execCmd[] = printExecCmd(mDestinbtion, mOptions,
+                               mNoJobSheet, getJobNbmeInt(),
+                                                1, fileNbme);
 
                 Process process = Runtime.getRuntime().exec(execCmd);
-                process.waitFor();
-                final int result = process.exitValue();
+                process.wbitFor();
+                finbl int result = process.exitVblue();
                 if (0 != result) {
-                    handleProcessFailure(process, execCmd, result);
+                    hbndleProcessFbilure(process, execCmd, result);
                 }
-            } catch (IOException ex) {
+            } cbtch (IOException ex) {
                 pex = new PrinterIOException(ex);
-            } catch (InterruptedException ie) {
+            } cbtch (InterruptedException ie) {
                 pex = new PrinterException(ie.toString());
-            } finally {
+            } finblly {
                 spoolFile.delete();
             }
             return null;
@@ -742,14 +742,14 @@ public class PSPrinterJob extends RasterPrinterJob {
 
 
     /**
-     * Invoked if the application cancelled the printjob.
+     * Invoked if the bpplicbtion cbncelled the printjob.
      */
-    protected void abortDoc() {
-        if (mPSStream != null && mDestType != RasterPrinterJob.STREAM) {
-            mPSStream.close();
+    protected void bbortDoc() {
+        if (mPSStrebm != null && mDestType != RbsterPrinterJob.STREAM) {
+            mPSStrebm.close();
         }
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>() {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Object>() {
 
             public Object run() {
                if (spoolFile != null && spoolFile.exists()) {
@@ -761,416 +761,416 @@ public class PSPrinterJob extends RasterPrinterJob {
     }
 
     /**
-     * Invoked by the RasterPrintJob super class
-     * this method is called after that last page
-     * has been imaged.
+     * Invoked by the RbsterPrintJob super clbss
+     * this method is cblled bfter thbt lbst pbge
+     * hbs been imbged.
      */
     protected void endDoc() throws PrinterException {
-        if (mPSStream != null) {
-            mPSStream.println(EOF_COMMENT);
-            mPSStream.flush();
-            if (mDestType != RasterPrinterJob.STREAM) {
-                mPSStream.close();
+        if (mPSStrebm != null) {
+            mPSStrebm.println(EOF_COMMENT);
+            mPSStrebm.flush();
+            if (mDestType != RbsterPrinterJob.STREAM) {
+                mPSStrebm.close();
             }
         }
-        if (mDestType == RasterPrinterJob.PRINTER) {
+        if (mDestType == RbsterPrinterJob.PRINTER) {
             PrintService pServ = getPrintService();
             if (pServ != null) {
-                mDestination = pServ.getName();
-               if (isMac) {
-                    PrintServiceAttributeSet psaSet = pServ.getAttributes();
-                    if (psaSet != null) {
-                        mDestination = psaSet.get(PrinterName.class).toString() ;
+                mDestinbtion = pServ.getNbme();
+               if (isMbc) {
+                    PrintServiceAttributeSet psbSet = pServ.getAttributes();
+                    if (psbSet != null) {
+                        mDestinbtion = psbSet.get(PrinterNbme.clbss).toString() ;
                     }
                 }
             }
             PrinterSpooler spooler = new PrinterSpooler();
-            java.security.AccessController.doPrivileged(spooler);
+            jbvb.security.AccessController.doPrivileged(spooler);
             if (spooler.pex != null) {
                 throw spooler.pex;
             }
         }
     }
 
-    private String getCoordPrep() {
-        return " 0 exch translate "
-             + "1 -1 scale"
+    privbte String getCoordPrep() {
+        return " 0 exch trbnslbte "
+             + "1 -1 scble"
              + "[72 " + getXRes() + " div "
              + "0 0 "
              + "72 " + getYRes() + " div "
-             + "0 0]concat";
+             + "0 0]concbt";
     }
 
     /**
-     * The RasterPrintJob super class calls this method
-     * at the start of each page.
+     * The RbsterPrintJob super clbss cblls this method
+     * bt the stbrt of ebch pbge.
      */
-    protected void startPage(PageFormat pageFormat, Printable painter,
-                             int index, boolean paperChanged)
+    protected void stbrtPbge(PbgeFormbt pbgeFormbt, Printbble pbinter,
+                             int index, boolebn pbperChbnged)
         throws PrinterException
     {
-        double paperHeight = pageFormat.getPaper().getHeight();
-        double paperWidth = pageFormat.getPaper().getWidth();
-        int pageNumber = index + 1;
+        double pbperHeight = pbgeFormbt.getPbper().getHeight();
+        double pbperWidth = pbgeFormbt.getPbper().getWidth();
+        int pbgeNumber = index + 1;
 
-        /* Place an initial gstate on to our gstate stack.
-         * It will have the default PostScript gstate
-         * attributes.
+        /* Plbce bn initibl gstbte on to our gstbte stbck.
+         * It will hbve the defbult PostScript gstbte
+         * bttributes.
          */
-        mGStateStack = new ArrayList<>();
-        mGStateStack.add(new GState());
+        mGStbteStbck = new ArrbyList<>();
+        mGStbteStbck.bdd(new GStbte());
 
-        mPSStream.println(PAGE_COMMENT + pageNumber + " " + pageNumber);
+        mPSStrebm.println(PAGE_COMMENT + pbgeNumber + " " + pbgeNumber);
 
-        /* Check current page's pageFormat against the previous pageFormat,
+        /* Check current pbge's pbgeFormbt bgbinst the previous pbgeFormbt,
          */
-        if (index > 0 && paperChanged) {
+        if (index > 0 && pbperChbnged) {
 
-            mPSStream.print("<< /PageSize [" +
-                            paperWidth + " " + paperHeight + "]");
+            mPSStrebm.print("<< /PbgeSize [" +
+                            pbperWidth + " " + pbperHeight + "]");
 
-            final PrintService pservice = getPrintService();
-            Boolean isPS = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Boolean>() {
-                    public Boolean run() {
+            finbl PrintService pservice = getPrintService();
+            Boolebn isPS = jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<Boolebn>() {
+                    public Boolebn run() {
                         try {
-                            Class<?> psClass =
-                                Class.forName("sun.print.IPPPrintService");
-                            if (psClass.isInstance(pservice)) {
+                            Clbss<?> psClbss =
+                                Clbss.forNbme("sun.print.IPPPrintService");
+                            if (psClbss.isInstbnce(pservice)) {
                                 Method isPSMethod =
-                                    psClass.getMethod("isPostscript",
-                                                      (Class[])null);
-                                return (Boolean)
+                                    psClbss.getMethod("isPostscript",
+                                                      (Clbss[])null);
+                                return (Boolebn)
                                     isPSMethod.invoke(pservice,
                                                       (Object[])null);
                             }
-                        } catch (Throwable t) {
+                        } cbtch (Throwbble t) {
                         }
-                        return Boolean.TRUE;
+                        return Boolebn.TRUE;
                     }
                     }
                 );
 
             if (isPS) {
-                mPSStream.print(" /DeferredMediaSelection true");
+                mPSStrebm.print(" /DeferredMedibSelection true");
             }
-            mPSStream.println(" >> setpagedevice");
+            mPSStrebm.println(" >> setpbgedevice");
         }
-        mPSStream.println(PAGE_SAVE);
-        mPSStream.println(paperHeight + getCoordPrep());
+        mPSStrebm.println(PAGE_SAVE);
+        mPSStrebm.println(pbperHeight + getCoordPrep());
     }
 
     /**
-     * The RastePrintJob super class calls this method
-     * at the end of each page.
+     * The RbstePrintJob super clbss cblls this method
+     * bt the end of ebch pbge.
      */
-    protected void endPage(PageFormat format, Printable painter,
+    protected void endPbge(PbgeFormbt formbt, Printbble pbinter,
                            int index)
         throws PrinterException
     {
-        mPSStream.println(PAGE_RESTORE);
-        mPSStream.println(SHOWPAGE);
+        mPSStrebm.println(PAGE_RESTORE);
+        mPSStrebm.println(SHOWPAGE);
     }
 
    /**
-     * Convert the 24 bit BGR image buffer represented by
-     * <code>image</code> to PostScript. The image is drawn at
-     * <code>(destX, destY)</code> in device coordinates.
-     * The image is scaled into a square of size
-     * specified by <code>destWidth</code> and
+     * Convert the 24 bit BGR imbge buffer represented by
+     * <code>imbge</code> to PostScript. The imbge is drbwn bt
+     * <code>(destX, destY)</code> in device coordinbtes.
+     * The imbge is scbled into b squbre of size
+     * specified by <code>destWidth</code> bnd
      * <code>destHeight</code>. The portion of the
-     * source image copied into that square is specified
+     * source imbge copied into thbt squbre is specified
      * by <code>srcX</code>, <code>srcY</code>,
-     * <code>srcWidth</code>, and srcHeight.
+     * <code>srcWidth</code>, bnd srcHeight.
      */
-    protected void drawImageBGR(byte[] bgrData,
-                                   float destX, float destY,
-                                   float destWidth, float destHeight,
-                                   float srcX, float srcY,
-                                   float srcWidth, float srcHeight,
-                                   int srcBitMapWidth, int srcBitMapHeight) {
+    protected void drbwImbgeBGR(byte[] bgrDbtb,
+                                   flobt destX, flobt destY,
+                                   flobt destWidth, flobt destHeight,
+                                   flobt srcX, flobt srcY,
+                                   flobt srcWidth, flobt srcHeight,
+                                   int srcBitMbpWidth, int srcBitMbpHeight) {
 
-        /* We draw images at device resolution so we probably need
-         * to change the current PostScript transform.
+        /* We drbw imbges bt device resolution so we probbbly need
+         * to chbnge the current PostScript trbnsform.
          */
-        setTransform(new AffineTransform());
-        prepDrawing();
+        setTrbnsform(new AffineTrbnsform());
+        prepDrbwing();
 
         int intSrcWidth = (int) srcWidth;
         int intSrcHeight = (int) srcHeight;
 
-        mPSStream.println(IMAGE_SAVE);
+        mPSStrebm.println(IMAGE_SAVE);
 
-        /* Create a PS string big enough to hold a row of pixels.
+        /* Crebte b PS string big enough to hold b row of pixels.
          */
         int psBytesPerRow = 3 * intSrcWidth;
         while (psBytesPerRow > MAX_PSSTR) {
             psBytesPerRow /= 2;
         }
 
-        mPSStream.println(psBytesPerRow + IMAGE_STR);
+        mPSStrebm.println(psBytesPerRow + IMAGE_STR);
 
-        /* Scale and translate the unit image.
+        /* Scble bnd trbnslbte the unit imbge.
          */
-        mPSStream.println("[" + destWidth + " 0 "
+        mPSStrebm.println("[" + destWidth + " 0 "
                           + "0 " + destHeight
                           + " " + destX + " " + destY
-                          +"]concat");
+                          +"]concbt");
 
-        /* Color Image invocation.
+        /* Color Imbge invocbtion.
          */
-        mPSStream.println(intSrcWidth + " " + intSrcHeight + " " + 8 + "["
+        mPSStrebm.println(intSrcWidth + " " + intSrcHeight + " " + 8 + "["
                           + intSrcWidth + " 0 "
                           + "0 " + intSrcHeight
                           + " 0 " + 0 + "]"
-                          + "/imageSrc load false 3 colorimage");
+                          + "/imbgeSrc lobd fblse 3 colorimbge");
 
-        /* Image data.
+        /* Imbge dbtb.
          */
         int index = 0;
-        byte[] rgbData = new byte[intSrcWidth * 3];
+        byte[] rgbDbtb = new byte[intSrcWidth * 3];
 
         try {
-            /* Skip the parts of the image that are not part
-             * of the source rectangle.
+            /* Skip the pbrts of the imbge thbt bre not pbrt
+             * of the source rectbngle.
              */
-            index = (int) srcY * srcBitMapWidth;
+            index = (int) srcY * srcBitMbpWidth;
 
             for(int i = 0; i < intSrcHeight; i++) {
 
-                /* Skip the left part of the image that is not
-                 * part of the source rectangle.
+                /* Skip the left pbrt of the imbge thbt is not
+                 * pbrt of the source rectbngle.
                  */
                 index += (int) srcX;
 
-                index = swapBGRtoRGB(bgrData, index, rgbData);
-                byte[] encodedData = rlEncode(rgbData);
-                byte[] asciiData = ascii85Encode(encodedData);
-                mPSStream.write(asciiData);
-                mPSStream.println("");
+                index = swbpBGRtoRGB(bgrDbtb, index, rgbDbtb);
+                byte[] encodedDbtb = rlEncode(rgbDbtb);
+                byte[] bsciiDbtb = bscii85Encode(encodedDbtb);
+                mPSStrebm.write(bsciiDbtb);
+                mPSStrebm.println("");
             }
 
             /*
-             * If there is an IOError we subvert it to a PrinterException.
-             * Fix: There has got to be a better way, maybe define
-             * a PrinterIOException and then throw that?
+             * If there is bn IOError we subvert it to b PrinterException.
+             * Fix: There hbs got to be b better wby, mbybe define
+             * b PrinterIOException bnd then throw thbt?
              */
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             //throw new PrinterException(e.toString());
         }
 
-        mPSStream.println(IMAGE_RESTORE);
+        mPSStrebm.println(IMAGE_RESTORE);
     }
 
     /**
-     * Prints the contents of the array of ints, 'data'
-     * to the current page. The band is placed at the
-     * location (x, y) in device coordinates on the
-     * page. The width and height of the band is
-     * specified by the caller. Currently the data
-     * is 24 bits per pixel in BGR format.
+     * Prints the contents of the brrby of ints, 'dbtb'
+     * to the current pbge. The bbnd is plbced bt the
+     * locbtion (x, y) in device coordinbtes on the
+     * pbge. The width bnd height of the bbnd is
+     * specified by the cbller. Currently the dbtb
+     * is 24 bits per pixel in BGR formbt.
      */
-    protected void printBand(byte[] bgrData, int x, int y,
+    protected void printBbnd(byte[] bgrDbtb, int x, int y,
                              int width, int height)
         throws PrinterException
     {
 
-        mPSStream.println(IMAGE_SAVE);
+        mPSStrebm.println(IMAGE_SAVE);
 
-        /* Create a PS string big enough to hold a row of pixels.
+        /* Crebte b PS string big enough to hold b row of pixels.
          */
         int psBytesPerRow = 3 * width;
         while (psBytesPerRow > MAX_PSSTR) {
             psBytesPerRow /= 2;
         }
 
-        mPSStream.println(psBytesPerRow + IMAGE_STR);
+        mPSStrebm.println(psBytesPerRow + IMAGE_STR);
 
-        /* Scale and translate the unit image.
+        /* Scble bnd trbnslbte the unit imbge.
          */
-        mPSStream.println("[" + width + " 0 "
+        mPSStrebm.println("[" + width + " 0 "
                           + "0 " + height
                           + " " + x + " " + y
-                          +"]concat");
+                          +"]concbt");
 
-        /* Color Image invocation.
+        /* Color Imbge invocbtion.
          */
-        mPSStream.println(width + " " + height + " " + 8 + "["
+        mPSStrebm.println(width + " " + height + " " + 8 + "["
                           + width + " 0 "
                           + "0 " + -height
                           + " 0 " + height + "]"
-                          + "/imageSrc load false 3 colorimage");
+                          + "/imbgeSrc lobd fblse 3 colorimbge");
 
-        /* Image data.
+        /* Imbge dbtb.
          */
         int index = 0;
-        byte[] rgbData = new byte[width*3];
+        byte[] rgbDbtb = new byte[width*3];
 
         try {
             for(int i = 0; i < height; i++) {
-                index = swapBGRtoRGB(bgrData, index, rgbData);
-                byte[] encodedData = rlEncode(rgbData);
-                byte[] asciiData = ascii85Encode(encodedData);
-                mPSStream.write(asciiData);
-                mPSStream.println("");
+                index = swbpBGRtoRGB(bgrDbtb, index, rgbDbtb);
+                byte[] encodedDbtb = rlEncode(rgbDbtb);
+                byte[] bsciiDbtb = bscii85Encode(encodedDbtb);
+                mPSStrebm.write(bsciiDbtb);
+                mPSStrebm.println("");
             }
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             throw new PrinterIOException(e);
         }
 
-        mPSStream.println(IMAGE_RESTORE);
+        mPSStrebm.println(IMAGE_RESTORE);
     }
 
     /**
-     * Examine the metrics captured by the
-     * <code>PeekGraphics</code> instance and
-     * if capable of directly converting this
-     * print job to the printer's control language
-     * or the native OS's graphics primitives, then
-     * return a <code>PSPathGraphics</code> to perform
-     * that conversion. If there is not an object
-     * capable of the conversion then return
+     * Exbmine the metrics cbptured by the
+     * <code>PeekGrbphics</code> instbnce bnd
+     * if cbpbble of directly converting this
+     * print job to the printer's control lbngubge
+     * or the nbtive OS's grbphics primitives, then
+     * return b <code>PSPbthGrbphics</code> to perform
+     * thbt conversion. If there is not bn object
+     * cbpbble of the conversion then return
      * <code>null</code>. Returning <code>null</code>
-     * causes the print job to be rasterized.
+     * cbuses the print job to be rbsterized.
      */
 
-    protected Graphics2D createPathGraphics(PeekGraphics peekGraphics,
+    protected Grbphics2D crebtePbthGrbphics(PeekGrbphics peekGrbphics,
                                             PrinterJob printerJob,
-                                            Printable painter,
-                                            PageFormat pageFormat,
-                                            int pageIndex) {
+                                            Printbble pbinter,
+                                            PbgeFormbt pbgeFormbt,
+                                            int pbgeIndex) {
 
-        PSPathGraphics pathGraphics;
-        PeekMetrics metrics = peekGraphics.getMetrics();
+        PSPbthGrbphics pbthGrbphics;
+        PeekMetrics metrics = peekGrbphics.getMetrics();
 
-        /* If the application has drawn anything that
-         * out PathGraphics class can not handle then
-         * return a null PathGraphics.
+        /* If the bpplicbtion hbs drbwn bnything thbt
+         * out PbthGrbphics clbss cbn not hbndle then
+         * return b null PbthGrbphics.
          */
-        if (forcePDL == false && (forceRaster == true
-                        || metrics.hasNonSolidColors()
-                        || metrics.hasCompositing())) {
+        if (forcePDL == fblse && (forceRbster == true
+                        || metrics.hbsNonSolidColors()
+                        || metrics.hbsCompositing())) {
 
-            pathGraphics = null;
+            pbthGrbphics = null;
         } else {
 
-            BufferedImage bufferedImage = new BufferedImage(8, 8,
-                                            BufferedImage.TYPE_INT_RGB);
-            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
-            boolean canRedraw = peekGraphics.getAWTDrawingOnly() == false;
+            BufferedImbge bufferedImbge = new BufferedImbge(8, 8,
+                                            BufferedImbge.TYPE_INT_RGB);
+            Grbphics2D bufferedGrbphics = bufferedImbge.crebteGrbphics();
+            boolebn cbnRedrbw = peekGrbphics.getAWTDrbwingOnly() == fblse;
 
-            pathGraphics =  new PSPathGraphics(bufferedGraphics, printerJob,
-                                               painter, pageFormat, pageIndex,
-                                               canRedraw);
+            pbthGrbphics =  new PSPbthGrbphics(bufferedGrbphics, printerJob,
+                                               pbinter, pbgeFormbt, pbgeIndex,
+                                               cbnRedrbw);
         }
 
-        return pathGraphics;
+        return pbthGrbphics;
     }
 
     /**
-     * Intersect the gstate's current path with the
-     * current clip and make the result the new clip.
+     * Intersect the gstbte's current pbth with the
+     * current clip bnd mbke the result the new clip.
      */
-    protected void selectClipPath() {
+    protected void selectClipPbth() {
 
-        mPSStream.println(mClipOpStr);
+        mPSStrebm.println(mClipOpStr);
     }
 
-    protected void setClip(Shape clip) {
+    protected void setClip(Shbpe clip) {
 
-        mLastClip = clip;
+        mLbstClip = clip;
     }
 
-    protected void setTransform(AffineTransform transform) {
-        mLastTransform = transform;
+    protected void setTrbnsform(AffineTrbnsform trbnsform) {
+        mLbstTrbnsform = trbnsform;
     }
 
     /**
      * Set the current PostScript font.
-     * Taken from outFont in PSPrintStream.
+     * Tbken from outFont in PSPrintStrebm.
      */
-     protected boolean setFont(Font font) {
-        mLastFont = font;
+     protected boolebn setFont(Font font) {
+        mLbstFont = font;
         return true;
     }
 
     /**
-     * Given an array of CharsetStrings that make up a run
-     * of text, this routine converts each CharsetString to
-     * an index into our PostScript font list. If one or more
-     * CharsetStrings can not be represented by a PostScript
-     * font, then this routine will return a null array.
+     * Given bn brrby of ChbrsetStrings thbt mbke up b run
+     * of text, this routine converts ebch ChbrsetString to
+     * bn index into our PostScript font list. If one or more
+     * ChbrsetStrings cbn not be represented by b PostScript
+     * font, then this routine will return b null brrby.
      */
-     private int[] getPSFontIndexArray(Font font, CharsetString[] charSet) {
+     privbte int[] getPSFontIndexArrby(Font font, ChbrsetString[] chbrSet) {
         int[] psFont = null;
 
         if (mFontProps != null) {
-            psFont = new int[charSet.length];
+            psFont = new int[chbrSet.length];
         }
 
-        for (int i = 0; i < charSet.length && psFont != null; i++){
+        for (int i = 0; i < chbrSet.length && psFont != null; i++){
 
             /* Get the encoding of the run of text.
              */
-            CharsetString cs = charSet[i];
+            ChbrsetString cs = chbrSet[i];
 
-            CharsetEncoder fontCS = cs.fontDescriptor.encoder;
-            String charsetName = cs.fontDescriptor.getFontCharsetName();
+            ChbrsetEncoder fontCS = cs.fontDescriptor.encoder;
+            String chbrsetNbme = cs.fontDescriptor.getFontChbrsetNbme();
             /*
-             * sun.awt.Symbol perhaps should return "symbol" for encoding.
-             * Similarly X11Dingbats should return "dingbats"
-             * Forced to check for win32 & x/unix names for these converters.
+             * sun.bwt.Symbol perhbps should return "symbol" for encoding.
+             * Similbrly X11Dingbbts should return "dingbbts"
+             * Forced to check for win32 & x/unix nbmes for these converters.
              */
 
-            if ("Symbol".equals(charsetName)) {
-                charsetName = "symbol";
-            } else if ("WingDings".equals(charsetName) ||
-                       "X11Dingbats".equals(charsetName)) {
-                charsetName = "dingbats";
+            if ("Symbol".equbls(chbrsetNbme)) {
+                chbrsetNbme = "symbol";
+            } else if ("WingDings".equbls(chbrsetNbme) ||
+                       "X11Dingbbts".equbls(chbrsetNbme)) {
+                chbrsetNbme = "dingbbts";
             } else {
-                charsetName = makeCharsetName(charsetName, cs.charsetChars);
+                chbrsetNbme = mbkeChbrsetNbme(chbrsetNbme, cs.chbrsetChbrs);
             }
 
-            int styleMask = font.getStyle() |
+            int styleMbsk = font.getStyle() |
                 FontUtilities.getFont2D(font).getStyle();
 
-            String style = FontConfiguration.getStyleString(styleMask);
+            String style = FontConfigurbtion.getStyleString(styleMbsk);
 
-            /* First we map the font name through the properties file.
-             * This mapping provides alias names for fonts, for example,
-             * "timesroman" is mapped to "serif".
+            /* First we mbp the font nbme through the properties file.
+             * This mbpping provides blibs nbmes for fonts, for exbmple,
+             * "timesrombn" is mbpped to "serif".
              */
-            String fontName = font.getFamily().toLowerCase(Locale.ENGLISH);
-            fontName = fontName.replace(' ', '_');
-            String name = mFontProps.getProperty(fontName, "");
+            String fontNbme = font.getFbmily().toLowerCbse(Locble.ENGLISH);
+            fontNbme = fontNbme.replbce(' ', '_');
+            String nbme = mFontProps.getProperty(fontNbme, "");
 
-            /* Now map the alias name, character set name, and style
-             * to a PostScript name.
+            /* Now mbp the blibs nbme, chbrbcter set nbme, bnd style
+             * to b PostScript nbme.
              */
-            String psName =
-                mFontProps.getProperty(name + "." + charsetName + "." + style,
+            String psNbme =
+                mFontProps.getProperty(nbme + "." + chbrsetNbme + "." + style,
                                       null);
 
-            if (psName != null) {
+            if (psNbme != null) {
 
                 /* Get the PostScript font index for the PostScript font.
                  */
                 try {
                     psFont[i] =
-                        Integer.parseInt(mFontProps.getProperty(psName));
+                        Integer.pbrseInt(mFontProps.getProperty(psNbme));
 
-                /* If there is no PostScript font for this font name,
-                 * then we want to termintate the loop and the method
-                 * indicating our failure. Setting the array to null
-                 * is used to indicate these failures.
+                /* If there is no PostScript font for this font nbme,
+                 * then we wbnt to termintbte the loop bnd the method
+                 * indicbting our fbilure. Setting the brrby to null
+                 * is used to indicbte these fbilures.
                  */
-                } catch(NumberFormatException e){
+                } cbtch(NumberFormbtException e){
                     psFont = null;
                 }
 
-            /* There was no PostScript name for the font, character set,
-             * and style so give up.
+            /* There wbs no PostScript nbme for the font, chbrbcter set,
+             * bnd style so give up.
              */
             } else {
                 psFont = null;
@@ -1181,7 +1181,7 @@ public class PSPrinterJob extends RasterPrinterJob {
      }
 
 
-    private static String escapeParens(String str) {
+    privbte stbtic String escbpePbrens(String str) {
         if (str.indexOf('(') == -1 && str.indexOf(')') == -1 ) {
             return str;
         } else {
@@ -1196,8 +1196,8 @@ public class PSPrinterJob extends RasterPrinterJob {
                 count++;
                 pos++;
             }
-            char []inArr = str.toCharArray();
-            char []outArr = new char[inArr.length+count];
+            chbr []inArr = str.toChbrArrby();
+            chbr []outArr = new chbr[inArr.length+count];
             pos = 0;
             for (int i=0;i<inArr.length;i++) {
                 if (inArr[i] == '(' || inArr[i] == ')') {
@@ -1210,109 +1210,109 @@ public class PSPrinterJob extends RasterPrinterJob {
         }
     }
 
-    /* return of 0 means unsupported. Other return indicates the number
-     * of distinct PS fonts needed to draw this text. This saves us
-     * doing this processing one extra time.
+    /* return of 0 mebns unsupported. Other return indicbtes the number
+     * of distinct PS fonts needed to drbw this text. This sbves us
+     * doing this processing one extrb time.
      */
-    protected int platformFontCount(Font font, String str) {
+    protected int plbtformFontCount(Font font, String str) {
         if (mFontProps == null) {
             return 0;
         }
-        CharsetString[] acs =
-            ((PlatformFont)(font.getPeer())).makeMultiCharsetString(str,false);
-        if (acs == null) {
-            /* AWT can't convert all chars so use 2D path */
+        ChbrsetString[] bcs =
+            ((PlbtformFont)(font.getPeer())).mbkeMultiChbrsetString(str,fblse);
+        if (bcs == null) {
+            /* AWT cbn't convert bll chbrs so use 2D pbth */
             return 0;
         }
-        int[] psFonts = getPSFontIndexArray(font, acs);
+        int[] psFonts = getPSFontIndexArrby(font, bcs);
         return (psFonts == null) ? 0 : psFonts.length;
     }
 
-     protected boolean textOut(Graphics g, String str, float x, float y,
-                               Font mLastFont, FontRenderContext frc,
-                               float width) {
-        boolean didText = true;
+     protected boolebn textOut(Grbphics g, String str, flobt x, flobt y,
+                               Font mLbstFont, FontRenderContext frc,
+                               flobt width) {
+        boolebn didText = true;
 
         if (mFontProps == null) {
-            return false;
+            return fblse;
         } else {
-            prepDrawing();
+            prepDrbwing();
 
-            /* On-screen drawString renders most control chars as the missing
-             * glyph and have the non-zero advance of that glyph.
-             * Exceptions are \t, \n and \r which are considered zero-width.
-             * Postscript handles control chars mostly as a missing glyph.
-             * But we use 'ashow' specifying a width for the string which
-             * assumes zero-width for those three exceptions, and Postscript
-             * tries to squeeze the extra char in, with the result that the
-             * glyphs look compressed or even overlap.
-             * So exclude those control chars from the string sent to PS.
+            /* On-screen drbwString renders most control chbrs bs the missing
+             * glyph bnd hbve the non-zero bdvbnce of thbt glyph.
+             * Exceptions bre \t, \n bnd \r which bre considered zero-width.
+             * Postscript hbndles control chbrs mostly bs b missing glyph.
+             * But we use 'bshow' specifying b width for the string which
+             * bssumes zero-width for those three exceptions, bnd Postscript
+             * tries to squeeze the extrb chbr in, with the result thbt the
+             * glyphs look compressed or even overlbp.
+             * So exclude those control chbrs from the string sent to PS.
              */
-            str = removeControlChars(str);
+            str = removeControlChbrs(str);
             if (str.length() == 0) {
                 return true;
             }
-            CharsetString[] acs =
-                ((PlatformFont)
-                 (mLastFont.getPeer())).makeMultiCharsetString(str, false);
-            if (acs == null) {
-                /* AWT can't convert all chars so use 2D path */
-                return false;
+            ChbrsetString[] bcs =
+                ((PlbtformFont)
+                 (mLbstFont.getPeer())).mbkeMultiChbrsetString(str, fblse);
+            if (bcs == null) {
+                /* AWT cbn't convert bll chbrs so use 2D pbth */
+                return fblse;
             }
-            /* Get an array of indices into our PostScript name
-             * table. If all of the runs can not be converted
-             * to PostScript fonts then null is returned and
-             * we'll want to fall back to printing the text
-             * as shapes.
+            /* Get bn brrby of indices into our PostScript nbme
+             * tbble. If bll of the runs cbn not be converted
+             * to PostScript fonts then null is returned bnd
+             * we'll wbnt to fbll bbck to printing the text
+             * bs shbpes.
              */
-            int[] psFonts = getPSFontIndexArray(mLastFont, acs);
+            int[] psFonts = getPSFontIndexArrby(mLbstFont, bcs);
             if (psFonts != null) {
 
-                for (int i = 0; i < acs.length; i++){
-                    CharsetString cs = acs[i];
-                    CharsetEncoder fontCS = cs.fontDescriptor.encoder;
+                for (int i = 0; i < bcs.length; i++){
+                    ChbrsetString cs = bcs[i];
+                    ChbrsetEncoder fontCS = cs.fontDescriptor.encoder;
 
-                    StringBuilder nativeStr = new StringBuilder();
+                    StringBuilder nbtiveStr = new StringBuilder();
                     byte[] strSeg = new byte[cs.length * 2];
                     int len = 0;
                     try {
-                        ByteBuffer bb = ByteBuffer.wrap(strSeg);
-                        fontCS.encode(CharBuffer.wrap(cs.charsetChars,
+                        ByteBuffer bb = ByteBuffer.wrbp(strSeg);
+                        fontCS.encode(ChbrBuffer.wrbp(cs.chbrsetChbrs,
                                                       cs.offset,
                                                       cs.length),
                                       bb, true);
                         bb.flip();
                         len = bb.limit();
-                    } catch(IllegalStateException xx){
+                    } cbtch(IllegblStbteException xx){
                         continue;
-                    } catch(CoderMalfunctionError xx){
+                    } cbtch(CoderMblfunctionError xx){
                         continue;
                     }
-                    /* The width to fit to may either be specified,
-                     * or calculated. Specifying by the caller is only
-                     * valid if the text does not need to be decomposed
-                     * into multiple calls.
+                    /* The width to fit to mby either be specified,
+                     * or cblculbted. Specifying by the cbller is only
+                     * vblid if the text does not need to be decomposed
+                     * into multiple cblls.
                      */
-                    float desiredWidth;
-                    if (acs.length == 1 && width != 0f) {
+                    flobt desiredWidth;
+                    if (bcs.length == 1 && width != 0f) {
                         desiredWidth = width;
                     } else {
-                        Rectangle2D r2d =
-                            mLastFont.getStringBounds(cs.charsetChars,
+                        Rectbngle2D r2d =
+                            mLbstFont.getStringBounds(cs.chbrsetChbrs,
                                                       cs.offset,
                                                       cs.offset+cs.length,
                                                       frc);
-                        desiredWidth = (float)r2d.getWidth();
+                        desiredWidth = (flobt)r2d.getWidth();
                     }
-                    /* unprintable chars had width of 0, causing a PS error
+                    /* unprintbble chbrs hbd width of 0, cbusing b PS error
                      */
                     if (desiredWidth == 0) {
                         return didText;
                     }
-                    nativeStr.append('<');
+                    nbtiveStr.bppend('<');
                     for (int j = 0; j < len; j++){
                         byte b = strSeg[j];
-                        // to avoid encoding conversion with println()
+                        // to bvoid encoding conversion with println()
                         String hexS = Integer.toHexString(b);
                         int length = hexS.length();
                         if (length > 2) {
@@ -1322,30 +1322,30 @@ public class PSPrinterJob extends RasterPrinterJob {
                         } else if (length == 0) {
                             hexS = "00";
                         }
-                        nativeStr.append(hexS);
+                        nbtiveStr.bppend(hexS);
                     }
-                    nativeStr.append('>');
+                    nbtiveStr.bppend('>');
                     /* This comment costs too much in output file size */
-//                  mPSStream.println("% Font[" + mLastFont.getName() + ", " +
-//                             FontConfiguration.getStyleString(mLastFont.getStyle()) + ", "
-//                             + mLastFont.getSize2D() + "]");
-                    getGState().emitPSFont(psFonts[i], mLastFont.getSize2D());
+//                  mPSStrebm.println("% Font[" + mLbstFont.getNbme() + ", " +
+//                             FontConfigurbtion.getStyleString(mLbstFont.getStyle()) + ", "
+//                             + mLbstFont.getSize2D() + "]");
+                    getGStbte().emitPSFont(psFonts[i], mLbstFont.getSize2D());
 
                     // out String
-                    mPSStream.println(nativeStr.toString() + " " +
+                    mPSStrebm.println(nbtiveStr.toString() + " " +
                                       desiredWidth + " " + x + " " + y + " " +
-                                      DrawStringName);
+                                      DrbwStringNbme);
                     x += desiredWidth;
                 }
             } else {
-                didText = false;
+                didText = fblse;
             }
         }
 
         return didText;
      }
     /**
-     * Set the current path rule to be either
+     * Set the current pbth rule to be either
      * <code>FILL_EVEN_ODD</code> (using the
      * even-odd file rule) or <code>FILL_WINDING</code>
      * (using the non-zero winding rule.)
@@ -1354,111 +1354,111 @@ public class PSPrinterJob extends RasterPrinterJob {
 
         switch (fillRule) {
 
-         case FILL_EVEN_ODD:
+         cbse FILL_EVEN_ODD:
             mFillOpStr = EVEN_ODD_FILL_STR;
             mClipOpStr = EVEN_ODD_CLIP_STR;
-            break;
+            brebk;
 
-         case FILL_WINDING:
+         cbse FILL_WINDING:
              mFillOpStr = WINDING_FILL_STR;
              mClipOpStr = WINDING_CLIP_STR;
-             break;
+             brebk;
 
-         default:
-             throw new IllegalArgumentException();
+         defbult:
+             throw new IllegblArgumentException();
         }
 
     }
 
     /**
-     * Set the printer's current color to be that
+     * Set the printer's current color to be thbt
      * defined by <code>color</code>
      */
     protected void setColor(Color color) {
-        mLastColor = color;
+        mLbstColor = color;
     }
 
     /**
-     * Fill the current path using the current fill mode
-     * and color.
+     * Fill the current pbth using the current fill mode
+     * bnd color.
      */
-    protected void fillPath() {
+    protected void fillPbth() {
 
-        mPSStream.println(mFillOpStr);
+        mPSStrebm.println(mFillOpStr);
     }
 
     /**
-     * Called to mark the start of a new path.
+     * Cblled to mbrk the stbrt of b new pbth.
      */
-    protected void beginPath() {
+    protected void beginPbth() {
 
-        prepDrawing();
-        mPSStream.println(NEWPATH_STR);
+        prepDrbwing();
+        mPSStrebm.println(NEWPATH_STR);
 
         mPenX = 0;
         mPenY = 0;
     }
 
     /**
-     * Close the current subpath by appending a straight
-     * line from the current point to the subpath's
-     * starting point.
+     * Close the current subpbth by bppending b strbight
+     * line from the current point to the subpbth's
+     * stbrting point.
      */
-    protected void closeSubpath() {
+    protected void closeSubpbth() {
 
-        mPSStream.println(CLOSEPATH_STR);
+        mPSStrebm.println(CLOSEPATH_STR);
 
-        mPenX = mStartPathX;
-        mPenY = mStartPathY;
+        mPenX = mStbrtPbthX;
+        mPenY = mStbrtPbthY;
     }
 
 
     /**
-     * Generate PostScript to move the current pen
+     * Generbte PostScript to move the current pen
      * position to <code>(x, y)</code>.
      */
-    protected void moveTo(float x, float y) {
+    protected void moveTo(flobt x, flobt y) {
 
-        mPSStream.println(trunc(x) + " " + trunc(y) + MOVETO_STR);
+        mPSStrebm.println(trunc(x) + " " + trunc(y) + MOVETO_STR);
 
-        /* moveto marks the start of a new subpath
-         * and we need to remember that starting
-         * position so that we know where the
-         * pen returns to with a close path.
+        /* moveto mbrks the stbrt of b new subpbth
+         * bnd we need to remember thbt stbrting
+         * position so thbt we know where the
+         * pen returns to with b close pbth.
          */
-        mStartPathX = x;
-        mStartPathY = y;
+        mStbrtPbthX = x;
+        mStbrtPbthY = y;
 
         mPenX = x;
         mPenY = y;
     }
     /**
-     * Generate PostScript to draw a line from the
+     * Generbte PostScript to drbw b line from the
      * current pen position to <code>(x, y)</code>.
      */
-    protected void lineTo(float x, float y) {
+    protected void lineTo(flobt x, flobt y) {
 
-        mPSStream.println(trunc(x) + " " + trunc(y) + LINETO_STR);
+        mPSStrebm.println(trunc(x) + " " + trunc(y) + LINETO_STR);
 
         mPenX = x;
         mPenY = y;
     }
 
     /**
-     * Add to the current path a bezier curve formed
-     * by the current pen position and the method parameters
-     * which are two control points and an ending
+     * Add to the current pbth b bezier curve formed
+     * by the current pen position bnd the method pbrbmeters
+     * which bre two control points bnd bn ending
      * point.
      */
-    protected void bezierTo(float control1x, float control1y,
-                                float control2x, float control2y,
-                                float endX, float endY) {
+    protected void bezierTo(flobt control1x, flobt control1y,
+                                flobt control2x, flobt control2y,
+                                flobt endX, flobt endY) {
 
-//      mPSStream.println(control1x + " " + control1y
+//      mPSStrebm.println(control1x + " " + control1y
 //                        + " " + control2x + " " + control2y
 //                        + " " + endX + " " + endY
 //                        + CURVETO_STR);
-        mPSStream.println(trunc(control1x) + " " + trunc(control1y)
+        mPSStrebm.println(trunc(control1x) + " " + trunc(control1y)
                           + " " + trunc(control2x) + " " + trunc(control2y)
                           + " " + trunc(endX) + " " + trunc(endY)
                           + CURVETO_STR);
@@ -1468,40 +1468,40 @@ public class PSPrinterJob extends RasterPrinterJob {
         mPenY = endY;
     }
 
-    String trunc(float f) {
-        float af = Math.abs(f);
-        if (af >= 1f && af <=1000f) {
-            f = Math.round(f*1000)/1000f;
+    String trunc(flobt f) {
+        flobt bf = Mbth.bbs(f);
+        if (bf >= 1f && bf <=1000f) {
+            f = Mbth.round(f*1000)/1000f;
         }
-        return Float.toString(f);
+        return Flobt.toString(f);
     }
 
     /**
-     * Return the x coordinate of the pen in the
-     * current path.
+     * Return the x coordinbte of the pen in the
+     * current pbth.
      */
-    protected float getPenX() {
+    protected flobt getPenX() {
 
         return mPenX;
     }
     /**
-     * Return the y coordinate of the pen in the
-     * current path.
+     * Return the y coordinbte of the pen in the
+     * current pbth.
      */
-    protected float getPenY() {
+    protected flobt getPenY() {
 
         return mPenY;
     }
 
     /**
-     * Return the x resolution of the coordinates
+     * Return the x resolution of the coordinbtes
      * to be rendered.
      */
     protected double getXRes() {
         return xres;
     }
     /**
-     * Return the y resolution of the coordinates
+     * Return the y resolution of the coordinbtes
      * to be rendered.
      */
     protected double getYRes() {
@@ -1509,7 +1509,7 @@ public class PSPrinterJob extends RasterPrinterJob {
     }
 
     /**
-     * Set the resolution at which to print.
+     * Set the resolution bt which to print.
      */
     protected void setXYRes(double x, double y) {
         xres = x;
@@ -1518,122 +1518,122 @@ public class PSPrinterJob extends RasterPrinterJob {
 
     /**
      * For PostScript the origin is in the upper-left of the
-     * paper not at the imageable area corner.
+     * pbper not bt the imbgebble breb corner.
      */
-    protected double getPhysicalPrintableX(Paper p) {
+    protected double getPhysicblPrintbbleX(Pbper p) {
         return 0;
 
     }
 
     /**
      * For PostScript the origin is in the upper-left of the
-     * paper not at the imageable area corner.
+     * pbper not bt the imbgebble breb corner.
      */
-    protected double getPhysicalPrintableY(Paper p) {
+    protected double getPhysicblPrintbbleY(Pbper p) {
         return 0;
     }
 
-    protected double getPhysicalPrintableWidth(Paper p) {
-        return p.getImageableWidth();
+    protected double getPhysicblPrintbbleWidth(Pbper p) {
+        return p.getImbgebbleWidth();
     }
 
-    protected double getPhysicalPrintableHeight(Paper p) {
-        return p.getImageableHeight();
+    protected double getPhysicblPrintbbleHeight(Pbper p) {
+        return p.getImbgebbleHeight();
     }
 
-    protected double getPhysicalPageWidth(Paper p) {
+    protected double getPhysicblPbgeWidth(Pbper p) {
         return p.getWidth();
     }
 
-    protected double getPhysicalPageHeight(Paper p) {
+    protected double getPhysicblPbgeHeight(Pbper p) {
         return p.getHeight();
     }
 
    /**
-     * Returns how many times each page in the book
+     * Returns how mbny times ebch pbge in the book
      * should be consecutively printed by PrintJob.
-     * If the printer makes copies itself then this
+     * If the printer mbkes copies itself then this
      * method should return 1.
      */
-    protected int getNoncollatedCopies() {
+    protected int getNoncollbtedCopies() {
         return 1;
     }
 
-    protected int getCollatedCopies() {
+    protected int getCollbtedCopies() {
         return 1;
     }
 
-    private String[] printExecCmd(String printer, String options,
-                                  boolean noJobSheet,
-                                  String banner, int copies, String spoolFile) {
+    privbte String[] printExecCmd(String printer, String options,
+                                  boolebn noJobSheet,
+                                  String bbnner, int copies, String spoolFile) {
         int PRINTER = 0x1;
         int OPTIONS = 0x2;
         int BANNER  = 0x4;
         int COPIES  = 0x8;
         int NOSHEET = 0x10;
-        int pFlags = 0;
+        int pFlbgs = 0;
         String execCmd[];
-        int ncomps = 2; // minimum number of print args
+        int ncomps = 2; // minimum number of print brgs
         int n = 0;
 
-        if (printer != null && !printer.equals("") && !printer.equals("lp")) {
-            pFlags |= PRINTER;
+        if (printer != null && !printer.equbls("") && !printer.equbls("lp")) {
+            pFlbgs |= PRINTER;
             ncomps+=1;
         }
-        if (options != null && !options.equals("")) {
-            pFlags |= OPTIONS;
+        if (options != null && !options.equbls("")) {
+            pFlbgs |= OPTIONS;
             ncomps+=1;
         }
-        if (banner != null && !banner.equals("")) {
-            pFlags |= BANNER;
+        if (bbnner != null && !bbnner.equbls("")) {
+            pFlbgs |= BANNER;
             ncomps+=1;
         }
         if (copies > 1) {
-            pFlags |= COPIES;
+            pFlbgs |= COPIES;
             ncomps+=1;
         }
         if (noJobSheet) {
-            pFlags |= NOSHEET;
+            pFlbgs |= NOSHEET;
             ncomps+=1;
         }
 
-       String osname = System.getProperty("os.name");
-       if (osname.equals("Linux") || osname.contains("OS X")) {
+       String osnbme = System.getProperty("os.nbme");
+       if (osnbme.equbls("Linux") || osnbme.contbins("OS X")) {
             execCmd = new String[ncomps];
             execCmd[n++] = "/usr/bin/lpr";
-            if ((pFlags & PRINTER) != 0) {
+            if ((pFlbgs & PRINTER) != 0) {
                 execCmd[n++] = "-P" + printer;
             }
-            if ((pFlags & BANNER) != 0) {
-                execCmd[n++] = "-J"  + banner;
+            if ((pFlbgs & BANNER) != 0) {
+                execCmd[n++] = "-J"  + bbnner;
             }
-            if ((pFlags & COPIES) != 0) {
+            if ((pFlbgs & COPIES) != 0) {
                 execCmd[n++] = "-#" + copies;
             }
-            if ((pFlags & NOSHEET) != 0) {
+            if ((pFlbgs & NOSHEET) != 0) {
                 execCmd[n++] = "-h";
             }
-            if ((pFlags & OPTIONS) != 0) {
+            if ((pFlbgs & OPTIONS) != 0) {
                 execCmd[n++] = new String(options);
             }
         } else {
-            ncomps+=1; //add 1 arg for lp
+            ncomps+=1; //bdd 1 brg for lp
             execCmd = new String[ncomps];
             execCmd[n++] = "/usr/bin/lp";
-            execCmd[n++] = "-c";           // make a copy of the spool file
-            if ((pFlags & PRINTER) != 0) {
+            execCmd[n++] = "-c";           // mbke b copy of the spool file
+            if ((pFlbgs & PRINTER) != 0) {
                 execCmd[n++] = "-d" + printer;
             }
-            if ((pFlags & BANNER) != 0) {
-                execCmd[n++] = "-t"  + banner;
+            if ((pFlbgs & BANNER) != 0) {
+                execCmd[n++] = "-t"  + bbnner;
             }
-            if ((pFlags & COPIES) != 0) {
+            if ((pFlbgs & COPIES) != 0) {
                 execCmd[n++] = "-n" + copies;
             }
-            if ((pFlags & NOSHEET) != 0) {
-                execCmd[n++] = "-o nobanner";
+            if ((pFlbgs & NOSHEET) != 0) {
+                execCmd[n++] = "-o nobbnner";
             }
-            if ((pFlags & OPTIONS) != 0) {
+            if ((pFlbgs & OPTIONS) != 0) {
                 execCmd[n++] = "-o" + options;
             }
         }
@@ -1641,206 +1641,206 @@ public class PSPrinterJob extends RasterPrinterJob {
         return execCmd;
     }
 
-    private static int swapBGRtoRGB(byte[] image, int index, byte[] dest) {
+    privbte stbtic int swbpBGRtoRGB(byte[] imbge, int index, byte[] dest) {
         int destIndex = 0;
-        while(index < image.length-2 && destIndex < dest.length-2) {
-            dest[destIndex++] = image[index+2];
-            dest[destIndex++] = image[index+1];
-            dest[destIndex++] = image[index+0];
+        while(index < imbge.length-2 && destIndex < dest.length-2) {
+            dest[destIndex++] = imbge[index+2];
+            dest[destIndex++] = imbge[index+1];
+            dest[destIndex++] = imbge[index+0];
             index+=3;
         }
         return index;
     }
 
     /*
-     * Currently CharToByteConverter.getCharacterEncoding() return values are
-     * not fixed yet. These are used as the part of the key of
-     * psfont.properties. When those name are fixed this routine can
-     * be erased.
+     * Currently ChbrToByteConverter.getChbrbcterEncoding() return vblues bre
+     * not fixed yet. These bre used bs the pbrt of the key of
+     * psfont.properties. When those nbme bre fixed this routine cbn
+     * be erbsed.
      */
-    private String makeCharsetName(String name, char[] chs) {
-        if (name.equals("Cp1252") || name.equals("ISO8859_1")) {
-            return "latin1";
-        } else if (name.equals("UTF8")) {
-            // same as latin 1 if all chars < 256
+    privbte String mbkeChbrsetNbme(String nbme, chbr[] chs) {
+        if (nbme.equbls("Cp1252") || nbme.equbls("ISO8859_1")) {
+            return "lbtin1";
+        } else if (nbme.equbls("UTF8")) {
+            // sbme bs lbtin 1 if bll chbrs < 256
             for (int i=0; i < chs.length; i++) {
                 if (chs[i] > 255) {
-                    return name.toLowerCase();
+                    return nbme.toLowerCbse();
                 }
             }
-            return "latin1";
-        } else if (name.startsWith("ISO8859")) {
-            // same as latin 1 if all chars < 128
+            return "lbtin1";
+        } else if (nbme.stbrtsWith("ISO8859")) {
+            // sbme bs lbtin 1 if bll chbrs < 128
             for (int i=0; i < chs.length; i++) {
                 if (chs[i] > 127) {
-                    return name.toLowerCase();
+                    return nbme.toLowerCbse();
                 }
             }
-            return "latin1";
+            return "lbtin1";
         } else {
-            return name.toLowerCase();
+            return nbme.toLowerCbse();
         }
     }
 
-    private void prepDrawing() {
+    privbte void prepDrbwing() {
 
-        /* Pop gstates until we can set the needed clip
-         * and transform or until we are at the outer most
-         * gstate.
+        /* Pop gstbtes until we cbn set the needed clip
+         * bnd trbnsform or until we bre bt the outer most
+         * gstbte.
          */
-        while (isOuterGState() == false
-               && (getGState().canSetClip(mLastClip) == false
-                   || getGState().mTransform.equals(mLastTransform) == false)) {
+        while (isOuterGStbte() == fblse
+               && (getGStbte().cbnSetClip(mLbstClip) == fblse
+                   || getGStbte().mTrbnsform.equbls(mLbstTrbnsform) == fblse)) {
 
 
             grestore();
         }
 
-        /* Set the color. This can push the color to the
-         * outer most gsave which is often a good thing.
+        /* Set the color. This cbn push the color to the
+         * outer most gsbve which is often b good thing.
          */
-        getGState().emitPSColor(mLastColor);
+        getGStbte().emitPSColor(mLbstColor);
 
-        /* We do not want to change the outermost
-         * transform or clip so if we are at the
-         * outer clip the generate a gsave.
+        /* We do not wbnt to chbnge the outermost
+         * trbnsform or clip so if we bre bt the
+         * outer clip the generbte b gsbve.
          */
-        if (isOuterGState()) {
-            gsave();
-            getGState().emitTransform(mLastTransform);
-            getGState().emitPSClip(mLastClip);
+        if (isOuterGStbte()) {
+            gsbve();
+            getGStbte().emitTrbnsform(mLbstTrbnsform);
+            getGStbte().emitPSClip(mLbstClip);
         }
 
-        /* Set the font if we have been asked to. It is
-         * important that the font is set after the
-         * transform in order to get the font size
+        /* Set the font if we hbve been bsked to. It is
+         * importbnt thbt the font is set bfter the
+         * trbnsform in order to get the font size
          * correct.
          */
 //      if (g != null) {
-//          getGState().emitPSFont(g, mLastFont);
+//          getGStbte().emitPSFont(g, mLbstFont);
 //      }
 
     }
 
     /**
-     * Return the GState that is currently on top
-     * of the GState stack. There should always be
-     * a GState on top of the stack. If there isn't
-     * then this method will throw an IndexOutOfBounds
+     * Return the GStbte thbt is currently on top
+     * of the GStbte stbck. There should blwbys be
+     * b GStbte on top of the stbck. If there isn't
+     * then this method will throw bn IndexOutOfBounds
      * exception.
      */
-    private GState getGState() {
-        int count = mGStateStack.size();
-        return mGStateStack.get(count - 1);
+    privbte GStbte getGStbte() {
+        int count = mGStbteStbck.size();
+        return mGStbteStbck.get(count - 1);
     }
 
     /**
-     * Emit a PostScript gsave command and add a
-     * new GState on to our stack which represents
-     * the printer's gstate stack.
+     * Emit b PostScript gsbve commbnd bnd bdd b
+     * new GStbte on to our stbck which represents
+     * the printer's gstbte stbck.
      */
-    private void gsave() {
-        GState oldGState = getGState();
-        mGStateStack.add(new GState(oldGState));
-        mPSStream.println(GSAVE_STR);
+    privbte void gsbve() {
+        GStbte oldGStbte = getGStbte();
+        mGStbteStbck.bdd(new GStbte(oldGStbte));
+        mPSStrebm.println(GSAVE_STR);
     }
 
     /**
-     * Emit a PostScript grestore command and remove
-     * a GState from our stack which represents the
-     * printer's gstate stack.
+     * Emit b PostScript grestore commbnd bnd remove
+     * b GStbte from our stbck which represents the
+     * printer's gstbte stbck.
      */
-    private void grestore() {
-        int count = mGStateStack.size();
-        mGStateStack.remove(count - 1);
-        mPSStream.println(GRESTORE_STR);
+    privbte void grestore() {
+        int count = mGStbteStbck.size();
+        mGStbteStbck.remove(count - 1);
+        mPSStrebm.println(GRESTORE_STR);
     }
 
     /**
-     * Return true if the current GState is the
-     * outermost GState and therefore should not
+     * Return true if the current GStbte is the
+     * outermost GStbte bnd therefore should not
      * be restored.
      */
-    private boolean isOuterGState() {
-        return mGStateStack.size() == 1;
+    privbte boolebn isOuterGStbte() {
+        return mGStbteStbck.size() == 1;
     }
 
     /**
-     * A stack of GStates is maintained to model the printer's
-     * gstate stack. Each GState holds information about
-     * the current graphics attributes.
+     * A stbck of GStbtes is mbintbined to model the printer's
+     * gstbte stbck. Ebch GStbte holds informbtion bbout
+     * the current grbphics bttributes.
      */
-    private class GState{
+    privbte clbss GStbte{
         Color mColor;
-        Shape mClip;
+        Shbpe mClip;
         Font mFont;
-        AffineTransform mTransform;
+        AffineTrbnsform mTrbnsform;
 
-        GState() {
-            mColor = Color.black;
+        GStbte() {
+            mColor = Color.blbck;
             mClip = null;
             mFont = null;
-            mTransform = new AffineTransform();
+            mTrbnsform = new AffineTrbnsform();
         }
 
-        GState(GState copyGState) {
-            mColor = copyGState.mColor;
-            mClip = copyGState.mClip;
-            mFont = copyGState.mFont;
-            mTransform = copyGState.mTransform;
+        GStbte(GStbte copyGStbte) {
+            mColor = copyGStbte.mColor;
+            mClip = copyGStbte.mClip;
+            mFont = copyGStbte.mFont;
+            mTrbnsform = copyGStbte.mTrbnsform;
         }
 
-        boolean canSetClip(Shape clip) {
+        boolebn cbnSetClip(Shbpe clip) {
 
-            return mClip == null || mClip.equals(clip);
+            return mClip == null || mClip.equbls(clip);
         }
 
 
-        void emitPSClip(Shape clip) {
+        void emitPSClip(Shbpe clip) {
             if (clip != null
-                && (mClip == null || mClip.equals(clip) == false)) {
-                String saveFillOp = mFillOpStr;
-                String saveClipOp = mClipOpStr;
-                convertToPSPath(clip.getPathIterator(new AffineTransform()));
-                selectClipPath();
+                && (mClip == null || mClip.equbls(clip) == fblse)) {
+                String sbveFillOp = mFillOpStr;
+                String sbveClipOp = mClipOpStr;
+                convertToPSPbth(clip.getPbthIterbtor(new AffineTrbnsform()));
+                selectClipPbth();
                 mClip = clip;
-                /* The clip is a shape and has reset the winding rule state */
-                mClipOpStr = saveFillOp;
-                mFillOpStr = saveFillOp;
+                /* The clip is b shbpe bnd hbs reset the winding rule stbte */
+                mClipOpStr = sbveFillOp;
+                mFillOpStr = sbveFillOp;
             }
         }
 
-        void emitTransform(AffineTransform transform) {
+        void emitTrbnsform(AffineTrbnsform trbnsform) {
 
-            if (transform != null && transform.equals(mTransform) == false) {
-                double[] matrix = new double[6];
-                transform.getMatrix(matrix);
-                mPSStream.println("[" + (float)matrix[0]
-                                  + " " + (float)matrix[1]
-                                  + " " + (float)matrix[2]
-                                  + " " + (float)matrix[3]
-                                  + " " + (float)matrix[4]
-                                  + " " + (float)matrix[5]
-                                  + "] concat");
+            if (trbnsform != null && trbnsform.equbls(mTrbnsform) == fblse) {
+                double[] mbtrix = new double[6];
+                trbnsform.getMbtrix(mbtrix);
+                mPSStrebm.println("[" + (flobt)mbtrix[0]
+                                  + " " + (flobt)mbtrix[1]
+                                  + " " + (flobt)mbtrix[2]
+                                  + " " + (flobt)mbtrix[3]
+                                  + " " + (flobt)mbtrix[4]
+                                  + " " + (flobt)mbtrix[5]
+                                  + "] concbt");
 
-                mTransform = transform;
+                mTrbnsform = trbnsform;
             }
         }
 
         void emitPSColor(Color color) {
-            if (color != null && color.equals(mColor) == false) {
-                float[] rgb = color.getRGBColorComponents(null);
+            if (color != null && color.equbls(mColor) == fblse) {
+                flobt[] rgb = color.getRGBColorComponents(null);
 
-                /* If the color is a gray value then use
-                 * setgray.
+                /* If the color is b grby vblue then use
+                 * setgrby.
                  */
                 if (rgb[0] == rgb[1] && rgb[1] == rgb[2]) {
-                    mPSStream.println(rgb[0] + SETGRAY_STR);
+                    mPSStrebm.println(rgb[0] + SETGRAY_STR);
 
-                /* It's not gray so use setrgbcolor.
+                /* It's not grby so use setrgbcolor.
                  */
                 } else {
-                    mPSStream.println(rgb[0] + " "
+                    mPSStrebm.println(rgb[0] + " "
                                       + rgb[1] + " "
                                       + rgb[2] + " "
                                       + SETRGBCOLOR_STR);
@@ -1851,165 +1851,165 @@ public class PSPrinterJob extends RasterPrinterJob {
             }
         }
 
-        void emitPSFont(int psFontIndex, float fontSize) {
-            mPSStream.println(fontSize + " " +
-                              psFontIndex + " " + SetFontName);
+        void emitPSFont(int psFontIndex, flobt fontSize) {
+            mPSStrebm.println(fontSize + " " +
+                              psFontIndex + " " + SetFontNbme);
         }
     }
 
        /**
-        * Given a Java2D <code>PathIterator</code> instance,
-        * this method translates that into a PostScript path..
+        * Given b Jbvb2D <code>PbthIterbtor</code> instbnce,
+        * this method trbnslbtes thbt into b PostScript pbth..
         */
-        void convertToPSPath(PathIterator pathIter) {
+        void convertToPSPbth(PbthIterbtor pbthIter) {
 
-            float[] segment = new float[6];
+            flobt[] segment = new flobt[6];
             int segmentType;
 
-            /* Map the PathIterator's fill rule into the PostScript
+            /* Mbp the PbthIterbtor's fill rule into the PostScript
              * fill rule.
              */
             int fillRule;
-            if (pathIter.getWindingRule() == PathIterator.WIND_EVEN_ODD) {
+            if (pbthIter.getWindingRule() == PbthIterbtor.WIND_EVEN_ODD) {
                 fillRule = FILL_EVEN_ODD;
             } else {
                 fillRule = FILL_WINDING;
             }
 
-            beginPath();
+            beginPbth();
 
             setFillMode(fillRule);
 
-            while (pathIter.isDone() == false) {
-                segmentType = pathIter.currentSegment(segment);
+            while (pbthIter.isDone() == fblse) {
+                segmentType = pbthIter.currentSegment(segment);
 
                 switch (segmentType) {
-                 case PathIterator.SEG_MOVETO:
+                 cbse PbthIterbtor.SEG_MOVETO:
                     moveTo(segment[0], segment[1]);
-                    break;
+                    brebk;
 
-                 case PathIterator.SEG_LINETO:
+                 cbse PbthIterbtor.SEG_LINETO:
                     lineTo(segment[0], segment[1]);
-                    break;
+                    brebk;
 
-                /* Convert the quad path to a bezier.
+                /* Convert the qubd pbth to b bezier.
                  */
-                 case PathIterator.SEG_QUADTO:
-                    float lastX = getPenX();
-                    float lastY = getPenY();
-                    float c1x = lastX + (segment[0] - lastX) * 2 / 3;
-                    float c1y = lastY + (segment[1] - lastY) * 2 / 3;
-                    float c2x = segment[2] - (segment[2] - segment[0]) * 2/ 3;
-                    float c2y = segment[3] - (segment[3] - segment[1]) * 2/ 3;
+                 cbse PbthIterbtor.SEG_QUADTO:
+                    flobt lbstX = getPenX();
+                    flobt lbstY = getPenY();
+                    flobt c1x = lbstX + (segment[0] - lbstX) * 2 / 3;
+                    flobt c1y = lbstY + (segment[1] - lbstY) * 2 / 3;
+                    flobt c2x = segment[2] - (segment[2] - segment[0]) * 2/ 3;
+                    flobt c2y = segment[3] - (segment[3] - segment[1]) * 2/ 3;
                     bezierTo(c1x, c1y,
                              c2x, c2y,
                              segment[2], segment[3]);
-                    break;
+                    brebk;
 
-                 case PathIterator.SEG_CUBICTO:
+                 cbse PbthIterbtor.SEG_CUBICTO:
                     bezierTo(segment[0], segment[1],
                              segment[2], segment[3],
                              segment[4], segment[5]);
-                    break;
+                    brebk;
 
-                 case PathIterator.SEG_CLOSE:
-                    closeSubpath();
-                    break;
+                 cbse PbthIterbtor.SEG_CLOSE:
+                    closeSubpbth();
+                    brebk;
                 }
 
 
-                pathIter.next();
+                pbthIter.next();
             }
         }
 
     /*
-     * Fill the path defined by <code>pathIter</code>
+     * Fill the pbth defined by <code>pbthIter</code>
      * with the specified color.
-     * The path is provided in current user space.
+     * The pbth is provided in current user spbce.
      */
-    protected void deviceFill(PathIterator pathIter, Color color,
-                              AffineTransform tx, Shape clip) {
+    protected void deviceFill(PbthIterbtor pbthIter, Color color,
+                              AffineTrbnsform tx, Shbpe clip) {
 
-        setTransform(tx);
+        setTrbnsform(tx);
         setClip(clip);
         setColor(color);
-        convertToPSPath(pathIter);
-        /* Specify the path to fill as the clip, this ensures that only
-         * pixels which are inside the path will be filled, which is
-         * what the Java 2D APIs specify
+        convertToPSPbth(pbthIter);
+        /* Specify the pbth to fill bs the clip, this ensures thbt only
+         * pixels which bre inside the pbth will be filled, which is
+         * whbt the Jbvb 2D APIs specify
          */
-        mPSStream.println(GSAVE_STR);
-        selectClipPath();
-        fillPath();
-        mPSStream.println(GRESTORE_STR + " " + NEWPATH_STR);
+        mPSStrebm.println(GSAVE_STR);
+        selectClipPbth();
+        fillPbth();
+        mPSStrebm.println(GRESTORE_STR + " " + NEWPATH_STR);
     }
 
     /*
-     * Run length encode byte array in a form suitable for decoding
+     * Run length encode byte brrby in b form suitbble for decoding
      * by the PS Level 2 filter RunLengthDecode.
-     * Array data to encode is inArr. Encoded data is written to outArr
-     * outArr must be long enough to hold the encoded data but this
-     * can't be known ahead of time.
-     * A safe assumption is to use double the length of the input array.
-     * This is then copied into a new array of the correct length which
+     * Arrby dbtb to encode is inArr. Encoded dbtb is written to outArr
+     * outArr must be long enough to hold the encoded dbtb but this
+     * cbn't be known bhebd of time.
+     * A sbfe bssumption is to use double the length of the input brrby.
+     * This is then copied into b new brrby of the correct length which
      * is returned.
      * Algorithm:
-     * Encoding is a lead byte followed by data bytes.
-     * Lead byte of 0->127 indicates leadByte + 1 distinct bytes follow
-     * Lead byte of 129->255 indicates 257 - leadByte is the number of times
-     * the following byte is repeated in the source.
-     * 128 is a special lead byte indicating end of data (EOD) and is
-     * written as the final byte of the returned encoded data.
+     * Encoding is b lebd byte followed by dbtb bytes.
+     * Lebd byte of 0->127 indicbtes lebdByte + 1 distinct bytes follow
+     * Lebd byte of 129->255 indicbtes 257 - lebdByte is the number of times
+     * the following byte is repebted in the source.
+     * 128 is b specibl lebd byte indicbting end of dbtb (EOD) bnd is
+     * written bs the finbl byte of the returned encoded dbtb.
      */
-     private byte[] rlEncode(byte[] inArr) {
+     privbte byte[] rlEncode(byte[] inArr) {
 
          int inIndex = 0;
          int outIndex = 0;
-         int startIndex = 0;
+         int stbrtIndex = 0;
          int runLen = 0;
          byte[] outArr = new byte[(inArr.length * 2) +2];
          while (inIndex < inArr.length) {
              if (runLen == 0) {
-                 startIndex = inIndex++;
+                 stbrtIndex = inIndex++;
                  runLen=1;
              }
 
              while (runLen < 128 && inIndex < inArr.length &&
-                    inArr[inIndex] == inArr[startIndex]) {
-                 runLen++; // count run of same value
+                    inArr[inIndex] == inArr[stbrtIndex]) {
+                 runLen++; // count run of sbme vblue
                  inIndex++;
              }
 
              if (runLen > 1) {
                  outArr[outIndex++] = (byte)(257 - runLen);
-                 outArr[outIndex++] = inArr[startIndex];
+                 outArr[outIndex++] = inArr[stbrtIndex];
                  runLen = 0;
-                 continue; // back to top of while loop.
+                 continue; // bbck to top of while loop.
              }
 
-             // if reach here have a run of different values, or at the end.
+             // if rebch here hbve b run of different vblues, or bt the end.
              while (runLen < 128 && inIndex < inArr.length &&
                     inArr[inIndex] != inArr[inIndex-1]) {
-                 runLen++; // count run of different values
+                 runLen++; // count run of different vblues
                  inIndex++;
              }
              outArr[outIndex++] = (byte)(runLen - 1);
-             for (int i = startIndex; i < startIndex+runLen; i++) {
+             for (int i = stbrtIndex; i < stbrtIndex+runLen; i++) {
                  outArr[outIndex++] = inArr[i];
              }
              runLen = 0;
          }
          outArr[outIndex++] = (byte)128;
-         byte[] encodedData = new byte[outIndex];
-         System.arraycopy(outArr, 0, encodedData, 0, outIndex);
+         byte[] encodedDbtb = new byte[outIndex];
+         System.brrbycopy(outArr, 0, encodedDbtb, 0, outIndex);
 
-         return encodedData;
+         return encodedDbtb;
      }
 
-    /* written acc. to Adobe Spec. "Filtered Files: ASCIIEncode Filter",
-     * "PS Language Reference Manual, 2nd edition: Section 3.13"
+    /* written bcc. to Adobe Spec. "Filtered Files: ASCIIEncode Filter",
+     * "PS Lbngubge Reference Mbnubl, 2nd edition: Section 3.13"
      */
-    private byte[] ascii85Encode(byte[] inArr) {
+    privbte byte[] bscii85Encode(byte[] inArr) {
         byte[]  outArr = new byte[((inArr.length+4) * 5 / 4) + 2];
         long p1 = 85;
         long p2 = p1*p1;
@@ -2019,17 +2019,17 @@ public class PSPrinterJob extends RasterPrinterJob {
 
         int i = 0;
         int olen = 0;
-        long val, rem;
+        long vbl, rem;
 
         while (i+3 < inArr.length) {
-            val = ((long)((inArr[i++]&0xff))<<24) +
+            vbl = ((long)((inArr[i++]&0xff))<<24) +
                   ((long)((inArr[i++]&0xff))<<16) +
                   ((long)((inArr[i++]&0xff))<< 8) +
                   ((long)(inArr[i++]&0xff));
-            if (val == 0) {
+            if (vbl == 0) {
                 outArr[olen++] = 'z';
             } else {
-                rem = val;
+                rem = vbl;
                 outArr[olen++] = (byte)(rem / p4 + pling); rem = rem % p4;
                 outArr[olen++] = (byte)(rem / p3 + pling); rem = rem % p3;
                 outArr[olen++] = (byte)(rem / p2 + pling); rem = rem % p2;
@@ -2037,21 +2037,21 @@ public class PSPrinterJob extends RasterPrinterJob {
                 outArr[olen++] = (byte)(rem + pling);
             }
         }
-        // input not a multiple of 4 bytes, write partial output.
+        // input not b multiple of 4 bytes, write pbrtibl output.
         if (i < inArr.length) {
-            int n = inArr.length - i; // n bytes remain to be written
+            int n = inArr.length - i; // n bytes rembin to be written
 
-            val = 0;
+            vbl = 0;
             while (i < inArr.length) {
-                val = (val << 8) + (inArr[i++]&0xff);
+                vbl = (vbl << 8) + (inArr[i++]&0xff);
             }
 
-            int append = 4 - n;
-            while (append-- > 0) {
-                val = val << 8;
+            int bppend = 4 - n;
+            while (bppend-- > 0) {
+                vbl = vbl << 8;
             }
             byte []c = new byte[5];
-            rem = val;
+            rem = vbl;
             c[0] = (byte)(rem / p4 + pling); rem = rem % p4;
             c[1] = (byte)(rem / p3 + pling); rem = rem % p3;
             c[2] = (byte)(rem / p2 + pling); rem = rem % p2;
@@ -2063,201 +2063,201 @@ public class PSPrinterJob extends RasterPrinterJob {
             }
         }
 
-        // write EOD marker.
+        // write EOD mbrker.
         outArr[olen++]='~'; outArr[olen++]='>';
 
-        /* The original intention was to insert a newline after every 78 bytes.
-         * This was mainly intended for legibility but I decided against this
-         * partially because of the (small) amount of extra space, and
-         * partially because for line breaks either would have to hardwire
-         * ascii 10 (newline) or calculate space in bytes to allocate for
-         * the platform's newline byte sequence. Also need to be careful
-         * about where its inserted:
-         * Ascii 85 decoder ignores white space except for one special case:
-         * you must ensure you do not split the EOD marker across lines.
+        /* The originbl intention wbs to insert b newline bfter every 78 bytes.
+         * This wbs mbinly intended for legibility but I decided bgbinst this
+         * pbrtiblly becbuse of the (smbll) bmount of extrb spbce, bnd
+         * pbrtiblly becbuse for line brebks either would hbve to hbrdwire
+         * bscii 10 (newline) or cblculbte spbce in bytes to bllocbte for
+         * the plbtform's newline byte sequence. Also need to be cbreful
+         * bbout where its inserted:
+         * Ascii 85 decoder ignores white spbce except for one specibl cbse:
+         * you must ensure you do not split the EOD mbrker bcross lines.
          */
         byte[] retArr = new byte[olen];
-        System.arraycopy(outArr, 0, retArr, 0, olen);
+        System.brrbycopy(outArr, 0, retArr, 0, olen);
         return retArr;
 
     }
 
     /**
-     * PluginPrinter generates EPSF wrapped with a header and trailer
-     * comment. This conforms to the new requirements of Mozilla 1.7
-     * and FireFox 1.5 and later. Earlier versions of these browsers
-     * did not support plugin printing in the general sense (not just Java).
-     * A notable limitation of these browsers is that they handle plugins
-     * which would span page boundaries by scaling plugin content to fit on a
-     * single page. This means white space is left at the bottom of the
-     * previous page and its impossible to print these cases as they appear on
-     * the web page. This is contrast to how the same browsers behave on
-     * Windows where it renders as on-screen.
-     * Cases where the content fits on a single page do work fine, and they
-     * are the majority of cases.
-     * The scaling that the browser specifies to make the plugin content fit
-     * when it is larger than a single page can hold is non-uniform. It
-     * scales the axis in which the content is too large just enough to
-     * ensure it fits. For content which is extremely long this could lead
-     * to noticeable distortion. However that is probably rare enough that
-     * its not worth compensating for that here, but we can revisit that if
-     * needed, and compensate by making the scale for the other axis the
-     * same.
+     * PluginPrinter generbtes EPSF wrbpped with b hebder bnd trbiler
+     * comment. This conforms to the new requirements of Mozillb 1.7
+     * bnd FireFox 1.5 bnd lbter. Ebrlier versions of these browsers
+     * did not support plugin printing in the generbl sense (not just Jbvb).
+     * A notbble limitbtion of these browsers is thbt they hbndle plugins
+     * which would spbn pbge boundbries by scbling plugin content to fit on b
+     * single pbge. This mebns white spbce is left bt the bottom of the
+     * previous pbge bnd its impossible to print these cbses bs they bppebr on
+     * the web pbge. This is contrbst to how the sbme browsers behbve on
+     * Windows where it renders bs on-screen.
+     * Cbses where the content fits on b single pbge do work fine, bnd they
+     * bre the mbjority of cbses.
+     * The scbling thbt the browser specifies to mbke the plugin content fit
+     * when it is lbrger thbn b single pbge cbn hold is non-uniform. It
+     * scbles the bxis in which the content is too lbrge just enough to
+     * ensure it fits. For content which is extremely long this could lebd
+     * to noticebble distortion. However thbt is probbbly rbre enough thbt
+     * its not worth compensbting for thbt here, but we cbn revisit thbt if
+     * needed, bnd compensbte by mbking the scble for the other bxis the
+     * sbme.
      */
-    public static class PluginPrinter implements Printable {
+    public stbtic clbss PluginPrinter implements Printbble {
 
-        private EPSPrinter epsPrinter;
-        private Component applet;
-        private PrintStream stream;
-        private String epsTitle;
-        private int bx, by, bw, bh;
-        private int width, height;
+        privbte EPSPrinter epsPrinter;
+        privbte Component bpplet;
+        privbte PrintStrebm strebm;
+        privbte String epsTitle;
+        privbte int bx, by, bw, bh;
+        privbte int width, height;
 
         /**
-         * This is called from the Java Plug-in to print an Applet's
-         * contents as EPS to a postscript stream provided by the browser.
-         * @param applet the applet component to print.
-         * @param stream the print stream provided by the plug-in
-         * @param x the x location of the applet panel in the browser window
-         * @param y the y location of the applet panel in the browser window
-         * @param w the width of the applet panel in the browser window
-         * @param h the width of the applet panel in the browser window
+         * This is cblled from the Jbvb Plug-in to print bn Applet's
+         * contents bs EPS to b postscript strebm provided by the browser.
+         * @pbrbm bpplet the bpplet component to print.
+         * @pbrbm strebm the print strebm provided by the plug-in
+         * @pbrbm x the x locbtion of the bpplet pbnel in the browser window
+         * @pbrbm y the y locbtion of the bpplet pbnel in the browser window
+         * @pbrbm w the width of the bpplet pbnel in the browser window
+         * @pbrbm h the width of the bpplet pbnel in the browser window
          */
-        public PluginPrinter(Component applet,
-                             PrintStream stream,
+        public PluginPrinter(Component bpplet,
+                             PrintStrebm strebm,
                              int x, int y, int w, int h) {
 
-            this.applet = applet;
-            this.epsTitle = "Java Plugin Applet";
-            this.stream = stream;
+            this.bpplet = bpplet;
+            this.epsTitle = "Jbvb Plugin Applet";
+            this.strebm = strebm;
             bx = x;
             by = y;
             bw = w;
             bh = h;
-            width = applet.size().width;
-            height = applet.size().height;
-            epsPrinter = new EPSPrinter(this, epsTitle, stream,
+            width = bpplet.size().width;
+            height = bpplet.size().height;
+            epsPrinter = new EPSPrinter(this, epsTitle, strebm,
                                         0, 0, width, height);
         }
 
-        public void printPluginPSHeader() {
-            stream.println("%%BeginDocument: JavaPluginApplet");
+        public void printPluginPSHebder() {
+            strebm.println("%%BeginDocument: JbvbPluginApplet");
         }
 
         public void printPluginApplet() {
             try {
                 epsPrinter.print();
-            } catch (PrinterException e) {
+            } cbtch (PrinterException e) {
             }
         }
 
-        public void printPluginPSTrailer() {
-            stream.println("%%EndDocument: JavaPluginApplet");
-            stream.flush();
+        public void printPluginPSTrbiler() {
+            strebm.println("%%EndDocument: JbvbPluginApplet");
+            strebm.flush();
         }
 
         public void printAll() {
-            printPluginPSHeader();
+            printPluginPSHebder();
             printPluginApplet();
-            printPluginPSTrailer();
+            printPluginPSTrbiler();
         }
 
-        public int print(Graphics g, PageFormat pf, int pgIndex) {
+        public int print(Grbphics g, PbgeFormbt pf, int pgIndex) {
             if (pgIndex > 0) {
-                return Printable.NO_SUCH_PAGE;
+                return Printbble.NO_SUCH_PAGE;
             } else {
-                // "aware" client code can detect that its been passed a
-                // PrinterGraphics and could theoretically print
-                // differently. I think this is more likely useful than
-                // a problem.
-                applet.printAll(g);
-                return Printable.PAGE_EXISTS;
+                // "bwbre" client code cbn detect thbt its been pbssed b
+                // PrinterGrbphics bnd could theoreticblly print
+                // differently. I think this is more likely useful thbn
+                // b problem.
+                bpplet.printAll(g);
+                return Printbble.PAGE_EXISTS;
             }
         }
 
     }
 
     /*
-     * This class can take an application-client supplied printable object
-     * and send the result to a stream.
-     * The application does not need to send any postscript to this stream
-     * unless it needs to specify a translation etc.
-     * It assumes that its importing application obeys all the conventions
-     * for importation of EPS. See Appendix H - Encapsulated Postscript File
-     * Format - of the Adobe Postscript Language Reference Manual, 2nd edition.
-     * This class could be used as the basis for exposing the ability to
-     * generate EPSF from 2D graphics as a StreamPrintService.
-     * In that case a MediaPrintableArea attribute could be used to
-     * communicate the bounding box.
+     * This clbss cbn tbke bn bpplicbtion-client supplied printbble object
+     * bnd send the result to b strebm.
+     * The bpplicbtion does not need to send bny postscript to this strebm
+     * unless it needs to specify b trbnslbtion etc.
+     * It bssumes thbt its importing bpplicbtion obeys bll the conventions
+     * for importbtion of EPS. See Appendix H - Encbpsulbted Postscript File
+     * Formbt - of the Adobe Postscript Lbngubge Reference Mbnubl, 2nd edition.
+     * This clbss could be used bs the bbsis for exposing the bbility to
+     * generbte EPSF from 2D grbphics bs b StrebmPrintService.
+     * In thbt cbse b MedibPrintbbleAreb bttribute could be used to
+     * communicbte the bounding box.
      */
-    public static class EPSPrinter implements Pageable {
+    public stbtic clbss EPSPrinter implements Pbgebble {
 
-        private PageFormat pf;
-        private PSPrinterJob job;
-        private int llx, lly, urx, ury;
-        private Printable printable;
-        private PrintStream stream;
-        private String epsTitle;
+        privbte PbgeFormbt pf;
+        privbte PSPrinterJob job;
+        privbte int llx, lly, urx, ury;
+        privbte Printbble printbble;
+        privbte PrintStrebm strebm;
+        privbte String epsTitle;
 
-        public EPSPrinter(Printable printable, String title,
-                          PrintStream stream,
+        public EPSPrinter(Printbble printbble, String title,
+                          PrintStrebm strebm,
                           int x, int y, int wid, int hgt) {
 
-            this.printable = printable;
+            this.printbble = printbble;
             this.epsTitle = title;
-            this.stream = stream;
+            this.strebm = strebm;
             llx = x;
             lly = y;
             urx = llx+wid;
             ury = lly+hgt;
-            // construct a PageFormat with zero margins representing the
-            // exact bounds of the applet. ie construct a theoretical
-            // paper which happens to exactly match applet panel size.
-            Paper p = new Paper();
+            // construct b PbgeFormbt with zero mbrgins representing the
+            // exbct bounds of the bpplet. ie construct b theoreticbl
+            // pbper which hbppens to exbctly mbtch bpplet pbnel size.
+            Pbper p = new Pbper();
             p.setSize((double)wid, (double)hgt);
-            p.setImageableArea(0.0,0.0, (double)wid, (double)hgt);
-            pf = new PageFormat();
-            pf.setPaper(p);
+            p.setImbgebbleAreb(0.0,0.0, (double)wid, (double)hgt);
+            pf = new PbgeFormbt();
+            pf.setPbper(p);
         }
 
         public void print() throws PrinterException {
-            stream.println("%!PS-Adobe-3.0 EPSF-3.0");
-            stream.println("%%BoundingBox: " +
+            strebm.println("%!PS-Adobe-3.0 EPSF-3.0");
+            strebm.println("%%BoundingBox: " +
                            llx + " " + lly + " " + urx + " " + ury);
-            stream.println("%%Title: " + epsTitle);
-            stream.println("%%Creator: Java Printing");
-            stream.println("%%CreationDate: " + new java.util.Date());
-            stream.println("%%EndComments");
-            stream.println("/pluginSave save def");
-            stream.println("mark"); // for restoring stack state on return
+            strebm.println("%%Title: " + epsTitle);
+            strebm.println("%%Crebtor: Jbvb Printing");
+            strebm.println("%%CrebtionDbte: " + new jbvb.util.Dbte());
+            strebm.println("%%EndComments");
+            strebm.println("/pluginSbve sbve def");
+            strebm.println("mbrk"); // for restoring stbck stbte on return
 
             job = new PSPrinterJob();
-            job.epsPrinter = this; // modifies the behaviour of PSPrinterJob
-            job.mPSStream = stream;
-            job.mDestType = RasterPrinterJob.STREAM; // prevents closure
+            job.epsPrinter = this; // modifies the behbviour of PSPrinterJob
+            job.mPSStrebm = strebm;
+            job.mDestType = RbsterPrinterJob.STREAM; // prevents closure
 
-            job.startDoc();
+            job.stbrtDoc();
             try {
-                job.printPage(this, 0);
-            } catch (Throwable t) {
-                if (t instanceof PrinterException) {
+                job.printPbge(this, 0);
+            } cbtch (Throwbble t) {
+                if (t instbnceof PrinterException) {
                     throw (PrinterException)t;
                 } else {
                     throw new PrinterException(t.toString());
                 }
-            } finally {
-                stream.println("cleartomark"); // restore stack state
-                stream.println("pluginSave restore");
+            } finblly {
+                strebm.println("clebrtombrk"); // restore stbck stbte
+                strebm.println("pluginSbve restore");
                 job.endDoc();
             }
-            stream.flush();
+            strebm.flush();
         }
 
-        public int getNumberOfPages() {
+        public int getNumberOfPbges() {
             return 1;
         }
 
-        public PageFormat getPageFormat(int pgIndex) {
+        public PbgeFormbt getPbgeFormbt(int pgIndex) {
             if (pgIndex > 0) {
                 throw new IndexOutOfBoundsException("pgIndex");
             } else {
@@ -2265,11 +2265,11 @@ public class PSPrinterJob extends RasterPrinterJob {
             }
         }
 
-        public Printable getPrintable(int pgIndex) {
+        public Printbble getPrintbble(int pgIndex) {
             if (pgIndex > 0) {
                 throw new IndexOutOfBoundsException("pgIndex");
             } else {
-            return printable;
+            return printbble;
             }
         }
 

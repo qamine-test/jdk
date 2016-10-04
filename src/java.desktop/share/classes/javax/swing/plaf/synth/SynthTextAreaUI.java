@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicTextAreaUI;
-import java.awt.*;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
-import java.beans.PropertyChangeEvent;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicTextArebUI;
+import jbvb.bwt.*;
+import jbvb.bwt.event.FocusListener;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bebns.PropertyChbngeEvent;
 
 /**
- * Provides the look and feel for a plain text editor in the
- * Synth look and feel. In this implementation the default UI
- * is extended to act as a simple view factory.
+ * Provides the look bnd feel for b plbin text editor in the
+ * Synth look bnd feel. In this implementbtion the defbult UI
+ * is extended to bct bs b simple view fbctory.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Shannon Hickey
+ * @buthor  Shbnnon Hickey
  * @since 1.7
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class SynthTextAreaUI extends BasicTextAreaUI implements SynthUI {
-    private Handler handler = new Handler();
-    private SynthStyle style;
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss SynthTextArebUI extends BbsicTextArebUI implements SynthUI {
+    privbte Hbndler hbndler = new Hbndler();
+    privbte SynthStyle style;
 
     /**
-     * Creates a UI object for a JTextArea.
+     * Crebtes b UI object for b JTextAreb.
      *
-     * @param ta a text area
+     * @pbrbm tb b text breb
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent ta) {
-        return new SynthTextAreaUI();
+    public stbtic ComponentUI crebteUI(JComponent tb) {
+        return new SynthTextArebUI();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        // Installs the text cursor on the component
-        super.installDefaults();
-        updateStyle(getComponent());
-        getComponent().addFocusListener(handler);
+    protected void instbllDefbults() {
+        // Instblls the text cursor on the component
+        super.instbllDefbults();
+        updbteStyle(getComponent());
+        getComponent().bddFocusListener(hbndler);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
+    protected void uninstbllDefbults() {
         SynthContext context = getContext(getComponent(), ENABLED);
 
-        getComponent().putClientProperty("caretAspectRatio", null);
-        getComponent().removeFocusListener(handler);
+        getComponent().putClientProperty("cbretAspectRbtio", null);
+        getComponent().removeFocusListener(hbndler);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
-        super.uninstallDefaults();
+        super.uninstbllDefbults();
     }
 
-    private void updateStyle(JTextComponent comp) {
+    privbte void updbteStyle(JTextComponent comp) {
         SynthContext context = getContext(comp, ENABLED);
         SynthStyle oldStyle = style;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
 
         if (style != oldStyle) {
-            SynthTextFieldUI.updateStyle(comp, context, getPropertyPrefix());
+            SynthTextFieldUI.updbteStyle(comp, context, getPropertyPrefix());
 
             if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+                uninstbllKeybobrdActions();
+                instbllKeybobrdActions();
             }
         }
         context.dispose();
@@ -115,45 +115,45 @@ public class SynthTextAreaUI extends BasicTextAreaUI implements SynthUI {
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+        return getContext(c, SynthLookAndFeel.getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintTextAreaBackground(context,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintTextArebBbckground(context,
                           g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        super.paint(g, getComponent());
+    protected void pbint(SynthContext context, Grbphics g) {
+        super.pbint(g, getComponent());
     }
 
     /**
@@ -162,44 +162,44 @@ public class SynthTextAreaUI extends BasicTextAreaUI implements SynthUI {
      * Overridden to do nothing.
      */
     @Override
-    protected void paintBackground(Graphics g) {
-        // Overriden to do nothing, all our painting is done from update/paint.
+    protected void pbintBbckground(Grbphics g) {
+        // Overriden to do nothing, bll our pbinting is done from updbte/pbint.
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintTextAreaBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintTextArebBorder(context, g, x, y, w, h);
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
+     * This method gets cblled when b bound property is chbnged
+     * on the bssocibted JTextComponent.  This is b hook
+     * which UI implementbtions mby chbnge to reflect how the
+     * UI displbys bound properties of JTextComponent subclbsses.
      * This is implemented to rebuild the View when the
-     * <em>WrapLine</em> or the <em>WrapStyleWord</em> property changes.
+     * <em>WrbpLine</em> or the <em>WrbpStyleWord</em> property chbnges.
      *
-     * @param evt the property change event
+     * @pbrbm evt the property chbnge event
      */
     @Override
-    protected void propertyChange(PropertyChangeEvent evt) {
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle((JTextComponent)evt.getSource());
+    protected void propertyChbnge(PropertyChbngeEvent evt) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(evt)) {
+            updbteStyle((JTextComponent)evt.getSource());
         }
-        super.propertyChange(evt);
+        super.propertyChbnge(evt);
     }
 
-    private final class Handler implements FocusListener {
-        public void focusGained(FocusEvent e) {
-            getComponent().repaint();
+    privbte finbl clbss Hbndler implements FocusListener {
+        public void focusGbined(FocusEvent e) {
+            getComponent().repbint();
         }
 
         public void focusLost(FocusEvent e) {
-            getComponent().repaint();
+            getComponent().repbint();
         }
     }
 }

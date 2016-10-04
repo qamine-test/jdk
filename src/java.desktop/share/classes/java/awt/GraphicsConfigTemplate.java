@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * The <code>GraphicsConfigTemplate</code> class is used to obtain a valid
- * {@link GraphicsConfiguration}.  A user instantiates one of these
- * objects and then sets all non-default attributes as desired.  The
- * {@link GraphicsDevice#getBestConfiguration} method found in the
- * {@link GraphicsDevice} class is then called with this
- * <code>GraphicsConfigTemplate</code>.  A valid
- * <code>GraphicsConfiguration</code> is returned that meets or exceeds
- * what was requested in the <code>GraphicsConfigTemplate</code>.
- * @see GraphicsDevice
- * @see GraphicsConfiguration
+ * The <code>GrbphicsConfigTemplbte</code> clbss is used to obtbin b vblid
+ * {@link GrbphicsConfigurbtion}.  A user instbntibtes one of these
+ * objects bnd then sets bll non-defbult bttributes bs desired.  The
+ * {@link GrbphicsDevice#getBestConfigurbtion} method found in the
+ * {@link GrbphicsDevice} clbss is then cblled with this
+ * <code>GrbphicsConfigTemplbte</code>.  A vblid
+ * <code>GrbphicsConfigurbtion</code> is returned thbt meets or exceeds
+ * whbt wbs requested in the <code>GrbphicsConfigTemplbte</code>.
+ * @see GrbphicsDevice
+ * @see GrbphicsConfigurbtion
  *
  * @since       1.2
  */
-public abstract class GraphicsConfigTemplate implements Serializable {
+public bbstrbct clbss GrbphicsConfigTemplbte implements Seriblizbble {
     /*
-     * serialVersionUID
+     * seriblVersionUID
      */
-    private static final long serialVersionUID = -8061369279557787079L;
+    privbte stbtic finbl long seriblVersionUID = -8061369279557787079L;
 
     /**
-     * This class is an abstract class so only subclasses can be
-     * instantiated.
+     * This clbss is bn bbstrbct clbss so only subclbsses cbn be
+     * instbntibted.
      */
-    public GraphicsConfigTemplate() {
+    public GrbphicsConfigTemplbte() {
     }
 
     /**
-     * Value used for "Enum" (Integer) type.  States that this
-     * feature is required for the <code>GraphicsConfiguration</code>
-     * object.  If this feature is not available, do not select the
-     * <code>GraphicsConfiguration</code> object.
+     * Vblue used for "Enum" (Integer) type.  Stbtes thbt this
+     * febture is required for the <code>GrbphicsConfigurbtion</code>
+     * object.  If this febture is not bvbilbble, do not select the
+     * <code>GrbphicsConfigurbtion</code> object.
      */
-    public static final int REQUIRED    = 1;
+    public stbtic finbl int REQUIRED    = 1;
 
     /**
-     * Value used for "Enum" (Integer) type.  States that this
-     * feature is desired for the <code>GraphicsConfiguration</code>
-     * object.  A selection with this feature is preferred over a
-     * selection that does not include this feature, although both
-     * selections can be considered valid matches.
+     * Vblue used for "Enum" (Integer) type.  Stbtes thbt this
+     * febture is desired for the <code>GrbphicsConfigurbtion</code>
+     * object.  A selection with this febture is preferred over b
+     * selection thbt does not include this febture, blthough both
+     * selections cbn be considered vblid mbtches.
      */
-    public static final int PREFERRED   = 2;
+    public stbtic finbl int PREFERRED   = 2;
 
     /**
-     * Value used for "Enum" (Integer) type.  States that this
-     * feature is not necessary for the selection of the
-     * <code>GraphicsConfiguration</code> object.  A selection
-     * without this feature is preferred over a selection that
-     * includes this feature since it is not used.
+     * Vblue used for "Enum" (Integer) type.  Stbtes thbt this
+     * febture is not necessbry for the selection of the
+     * <code>GrbphicsConfigurbtion</code> object.  A selection
+     * without this febture is preferred over b selection thbt
+     * includes this febture since it is not used.
      */
-    public static final int UNNECESSARY = 3;
+    public stbtic finbl int UNNECESSARY = 3;
 
     /**
-     * Returns the "best" configuration possible that passes the
-     * criteria defined in the <code>GraphicsConfigTemplate</code>.
-     * @param gc the array of <code>GraphicsConfiguration</code>
+     * Returns the "best" configurbtion possible thbt pbsses the
+     * criterib defined in the <code>GrbphicsConfigTemplbte</code>.
+     * @pbrbm gc the brrby of <code>GrbphicsConfigurbtion</code>
      * objects to choose from.
-     * @return a <code>GraphicsConfiguration</code> object that is
-     * the best configuration possible.
-     * @see GraphicsConfiguration
+     * @return b <code>GrbphicsConfigurbtion</code> object thbt is
+     * the best configurbtion possible.
+     * @see GrbphicsConfigurbtion
      */
-    public abstract GraphicsConfiguration
-      getBestConfiguration(GraphicsConfiguration[] gc);
+    public bbstrbct GrbphicsConfigurbtion
+      getBestConfigurbtion(GrbphicsConfigurbtion[] gc);
 
     /**
-     * Returns a <code>boolean</code> indicating whether or
-     * not the specified <code>GraphicsConfiguration</code> can be
-     * used to create a drawing surface that supports the indicated
-     * features.
-     * @param gc the <code>GraphicsConfiguration</code> object to test
+     * Returns b <code>boolebn</code> indicbting whether or
+     * not the specified <code>GrbphicsConfigurbtion</code> cbn be
+     * used to crebte b drbwing surfbce thbt supports the indicbted
+     * febtures.
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code> object to test
      * @return <code>true</code> if this
-     * <code>GraphicsConfiguration</code> object can be used to create
-     * surfaces that support the indicated features;
-     * <code>false</code> if the <code>GraphicsConfiguration</code> can
-     * not be used to create a drawing surface usable by this Java(tm)
+     * <code>GrbphicsConfigurbtion</code> object cbn be used to crebte
+     * surfbces thbt support the indicbted febtures;
+     * <code>fblse</code> if the <code>GrbphicsConfigurbtion</code> cbn
+     * not be used to crebte b drbwing surfbce usbble by this Jbvb(tm)
      * API.
      */
-    public abstract boolean
-      isGraphicsConfigSupported(GraphicsConfiguration gc);
+    public bbstrbct boolebn
+      isGrbphicsConfigSupported(GrbphicsConfigurbtion gc);
 
 }

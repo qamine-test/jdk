@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.PrintRequestAttribute;
-import java.awt.Frame;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvb.bwt.Frbme;
 
 /**
- * Class DialogOwner is a printing attribute class that identifies
- * the window that owns the print dialog.
+ * Clbss DiblogOwner is b printing bttribute clbss thbt identifies
+ * the window thbt owns the print diblog.
  *
  * <P>
- * <B>IPP Compatibility:</B> This is not an IPP attribute.
+ * <B>IPP Compbtibility:</B> This is not bn IPP bttribute.
  * <P>
  *
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public final class DialogOwner
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public finbl clbss DiblogOwner
     implements PrintRequestAttribute {
 
-    private Frame dlgOwner;
+    privbte Frbme dlgOwner;
 
     /**
-     * Construct a new dialog type selection enumeration value with the
-     * given integer value.
+     * Construct b new diblog type selection enumerbtion vblue with the
+     * given integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    public DialogOwner(Frame frame) {
-        dlgOwner = frame;
+    public DiblogOwner(Frbme frbme) {
+        dlgOwner = frbme;
     }
 
 
     /**
-     * Returns the string table for class DialogOwner.
+     * Returns the string tbble for clbss DiblogOwner.
      */
-    public Frame getOwner() {
+    public Frbme getOwner() {
         return dlgOwner;
     }
 
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class DialogOwner the category is class
-     * DialogOwner itself.
+     * For clbss DiblogOwner the cbtegory is clbss
+     * DiblogOwner itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return DialogOwner.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return DiblogOwner.clbss;
     }
 
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class DialogOwner the category name is
-     * <CODE>"dialog-owner"</CODE>.
+     * For clbss DiblogOwner the cbtegory nbme is
+     * <CODE>"diblog-owner"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "dialog-owner";
+    public finbl String getNbme() {
+        return "diblog-owner";
     }
 
 }

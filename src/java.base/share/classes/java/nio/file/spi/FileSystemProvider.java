@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file.spi;
+pbckbge jbvb.nio.file.spi;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.channels.*;
-import java.net.URI;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.URI;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import jbvb.util.concurrent.ExecutorService;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Service-provider class for file systems. The methods defined by the {@link
- * java.nio.file.Files} class will typically delegate to an instance of this
- * class.
+ * Service-provider clbss for file systems. The methods defined by the {@link
+ * jbvb.nio.file.Files} clbss will typicblly delegbte to bn instbnce of this
+ * clbss.
  *
- * <p> A file system provider is a concrete implementation of this class that
- * implements the abstract methods defined by this class. A provider is
- * identified by a {@code URI} {@link #getScheme() scheme}. The default provider
- * is identified by the URI scheme "file". It creates the {@link FileSystem} that
- * provides access to the file systems accessible to the Java virtual machine.
- * The {@link FileSystems} class defines how file system providers are located
- * and loaded. The default provider is typically a system-default provider but
- * may be overridden if the system property {@code
- * java.nio.file.spi.DefaultFileSystemProvider} is set. In that case, the
- * provider has a one argument constructor whose formal parameter type is {@code
- * FileSystemProvider}. All other providers have a zero argument constructor
- * that initializes the provider.
+ * <p> A file system provider is b concrete implementbtion of this clbss thbt
+ * implements the bbstrbct methods defined by this clbss. A provider is
+ * identified by b {@code URI} {@link #getScheme() scheme}. The defbult provider
+ * is identified by the URI scheme "file". It crebtes the {@link FileSystem} thbt
+ * provides bccess to the file systems bccessible to the Jbvb virtubl mbchine.
+ * The {@link FileSystems} clbss defines how file system providers bre locbted
+ * bnd lobded. The defbult provider is typicblly b system-defbult provider but
+ * mby be overridden if the system property {@code
+ * jbvb.nio.file.spi.DefbultFileSystemProvider} is set. In thbt cbse, the
+ * provider hbs b one brgument constructor whose formbl pbrbmeter type is {@code
+ * FileSystemProvider}. All other providers hbve b zero brgument constructor
+ * thbt initiblizes the provider.
  *
- * <p> A provider is a factory for one or more {@link FileSystem} instances. Each
- * file system is identified by a {@code URI} where the URI's scheme matches
- * the provider's {@link #getScheme scheme}. The default file system, for example,
- * is identified by the URI {@code "file:///"}. A memory-based file system,
- * for example, may be identified by a URI such as {@code "memory:///?name=logfs"}.
- * The {@link #newFileSystem newFileSystem} method may be used to create a file
- * system, and the {@link #getFileSystem getFileSystem} method may be used to
- * obtain a reference to an existing file system created by the provider. Where
- * a provider is the factory for a single file system then it is provider dependent
- * if the file system is created when the provider is initialized, or later when
- * the {@code newFileSystem} method is invoked. In the case of the default
- * provider, the {@code FileSystem} is created when the provider is initialized.
+ * <p> A provider is b fbctory for one or more {@link FileSystem} instbnces. Ebch
+ * file system is identified by b {@code URI} where the URI's scheme mbtches
+ * the provider's {@link #getScheme scheme}. The defbult file system, for exbmple,
+ * is identified by the URI {@code "file:///"}. A memory-bbsed file system,
+ * for exbmple, mby be identified by b URI such bs {@code "memory:///?nbme=logfs"}.
+ * The {@link #newFileSystem newFileSystem} method mby be used to crebte b file
+ * system, bnd the {@link #getFileSystem getFileSystem} method mby be used to
+ * obtbin b reference to bn existing file system crebted by the provider. Where
+ * b provider is the fbctory for b single file system then it is provider dependent
+ * if the file system is crebted when the provider is initiblized, or lbter when
+ * the {@code newFileSystem} method is invoked. In the cbse of the defbult
+ * provider, the {@code FileSystem} is crebted when the provider is initiblized.
  *
- * <p> All of the methods in this class are safe for use by multiple concurrent
- * threads.
+ * <p> All of the methods in this clbss bre sbfe for use by multiple concurrent
+ * threbds.
  *
  * @since 1.7
  */
 
-public abstract class FileSystemProvider {
-    // lock using when loading providers
-    private static final Object lock = new Object();
+public bbstrbct clbss FileSystemProvider {
+    // lock using when lobding providers
+    privbte stbtic finbl Object lock = new Object();
 
-    // installed providers
-    private static volatile List<FileSystemProvider> installedProviders;
+    // instblled providers
+    privbte stbtic volbtile List<FileSystemProvider> instblledProviders;
 
-    // used to avoid recursive loading of installed providers
-    private static boolean loadingProviders  = false;
+    // used to bvoid recursive lobding of instblled providers
+    privbte stbtic boolebn lobdingProviders  = fblse;
 
-    private static Void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
+    privbte stbtic Void checkPermission() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
             sm.checkPermission(new RuntimePermission("fileSystemProvider"));
         return null;
     }
-    private FileSystemProvider(Void ignore) { }
+    privbte FileSystemProvider(Void ignore) { }
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      *
-     * <p> During construction a provider may safely access files associated
-     * with the default provider but care needs to be taken to avoid circular
-     * loading of other installed providers. If circular loading of installed
-     * providers is detected then an unspecified error is thrown.
+     * <p> During construction b provider mby sbfely bccess files bssocibted
+     * with the defbult provider but cbre needs to be tbken to bvoid circulbr
+     * lobding of other instblled providers. If circulbr lobding of instblled
+     * providers is detected then bn unspecified error is thrown.
      *
      * @throws  SecurityException
-     *          If a security manager has been installed and it denies
+     *          If b security mbnbger hbs been instblled bnd it denies
      *          {@link RuntimePermission}<tt>("fileSystemProvider")</tt>
      */
     protected FileSystemProvider() {
         this(checkPermission());
     }
 
-    // loads all installed providers
-    private static List<FileSystemProvider> loadInstalledProviders() {
-        List<FileSystemProvider> list = new ArrayList<FileSystemProvider>();
+    // lobds bll instblled providers
+    privbte stbtic List<FileSystemProvider> lobdInstblledProviders() {
+        List<FileSystemProvider> list = new ArrbyList<FileSystemProvider>();
 
-        ServiceLoader<FileSystemProvider> sl = ServiceLoader
-            .load(FileSystemProvider.class, ClassLoader.getSystemClassLoader());
+        ServiceLobder<FileSystemProvider> sl = ServiceLobder
+            .lobd(FileSystemProvider.clbss, ClbssLobder.getSystemClbssLobder());
 
-        // ServiceConfigurationError may be throw here
+        // ServiceConfigurbtionError mby be throw here
         for (FileSystemProvider provider: sl) {
             String scheme = provider.getScheme();
 
-            // add to list if the provider is not "file" and isn't a duplicate
-            if (!scheme.equalsIgnoreCase("file")) {
-                boolean found = false;
+            // bdd to list if the provider is not "file" bnd isn't b duplicbte
+            if (!scheme.equblsIgnoreCbse("file")) {
+                boolebn found = fblse;
                 for (FileSystemProvider p: list) {
-                    if (p.getScheme().equalsIgnoreCase(scheme)) {
+                    if (p.getScheme().equblsIgnoreCbse(scheme)) {
                         found = true;
-                        break;
+                        brebk;
                     }
                 }
                 if (!found) {
-                    list.add(provider);
+                    list.bdd(provider);
                 }
             }
         }
@@ -137,967 +137,967 @@ public abstract class FileSystemProvider {
     }
 
     /**
-     * Returns a list of the installed file system providers.
+     * Returns b list of the instblled file system providers.
      *
-     * <p> The first invocation of this method causes the default provider to be
-     * initialized (if not already initialized) and loads any other installed
-     * providers as described by the {@link FileSystems} class.
+     * <p> The first invocbtion of this method cbuses the defbult provider to be
+     * initiblized (if not blrebdy initiblized) bnd lobds bny other instblled
+     * providers bs described by the {@link FileSystems} clbss.
      *
-     * @return  An unmodifiable list of the installed file system providers. The
-     *          list contains at least one element, that is the default file
+     * @return  An unmodifibble list of the instblled file system providers. The
+     *          list contbins bt lebst one element, thbt is the defbult file
      *          system provider
      *
-     * @throws  ServiceConfigurationError
-     *          When an error occurs while loading a service provider
+     * @throws  ServiceConfigurbtionError
+     *          When bn error occurs while lobding b service provider
      */
-    public static List<FileSystemProvider> installedProviders() {
-        if (installedProviders == null) {
-            // ensure default provider is initialized
-            FileSystemProvider defaultProvider = FileSystems.getDefault().provider();
+    public stbtic List<FileSystemProvider> instblledProviders() {
+        if (instblledProviders == null) {
+            // ensure defbult provider is initiblized
+            FileSystemProvider defbultProvider = FileSystems.getDefbult().provider();
 
             synchronized (lock) {
-                if (installedProviders == null) {
-                    if (loadingProviders) {
-                        throw new Error("Circular loading of installed providers detected");
+                if (instblledProviders == null) {
+                    if (lobdingProviders) {
+                        throw new Error("Circulbr lobding of instblled providers detected");
                     }
-                    loadingProviders = true;
+                    lobdingProviders = true;
 
                     List<FileSystemProvider> list = AccessController
                         .doPrivileged(new PrivilegedAction<List<FileSystemProvider>>() {
                             @Override
                             public List<FileSystemProvider> run() {
-                                return loadInstalledProviders();
+                                return lobdInstblledProviders();
                         }});
 
-                    // insert the default provider at the start of the list
-                    list.add(0, defaultProvider);
+                    // insert the defbult provider bt the stbrt of the list
+                    list.bdd(0, defbultProvider);
 
-                    installedProviders = Collections.unmodifiableList(list);
+                    instblledProviders = Collections.unmodifibbleList(list);
                 }
             }
         }
-        return installedProviders;
+        return instblledProviders;
     }
 
     /**
-     * Returns the URI scheme that identifies this provider.
+     * Returns the URI scheme thbt identifies this provider.
      *
      * @return  The URI scheme
      */
-    public abstract String getScheme();
+    public bbstrbct String getScheme();
 
     /**
-     * Constructs a new {@code FileSystem} object identified by a URI. This
-     * method is invoked by the {@link FileSystems#newFileSystem(URI,Map)}
-     * method to open a new file system identified by a URI.
+     * Constructs b new {@code FileSystem} object identified by b URI. This
+     * method is invoked by the {@link FileSystems#newFileSystem(URI,Mbp)}
+     * method to open b new file system identified by b URI.
      *
-     * <p> The {@code uri} parameter is an absolute, hierarchical URI, with a
-     * scheme equal (without regard to case) to the scheme supported by this
-     * provider. The exact form of the URI is highly provider dependent. The
-     * {@code env} parameter is a map of provider specific properties to configure
+     * <p> The {@code uri} pbrbmeter is bn bbsolute, hierbrchicbl URI, with b
+     * scheme equbl (without regbrd to cbse) to the scheme supported by this
+     * provider. The exbct form of the URI is highly provider dependent. The
+     * {@code env} pbrbmeter is b mbp of provider specific properties to configure
      * the file system.
      *
-     * <p> This method throws {@link FileSystemAlreadyExistsException} if the
-     * file system already exists because it was previously created by an
-     * invocation of this method. Once a file system is {@link
-     * java.nio.file.FileSystem#close closed} it is provider-dependent if the
-     * provider allows a new file system to be created with the same URI as a
-     * file system it previously created.
+     * <p> This method throws {@link FileSystemAlrebdyExistsException} if the
+     * file system blrebdy exists becbuse it wbs previously crebted by bn
+     * invocbtion of this method. Once b file system is {@link
+     * jbvb.nio.file.FileSystem#close closed} it is provider-dependent if the
+     * provider bllows b new file system to be crebted with the sbme URI bs b
+     * file system it previously crebted.
      *
-     * @param   uri
+     * @pbrbm   uri
      *          URI reference
-     * @param   env
-     *          A map of provider specific properties to configure the file system;
-     *          may be empty
+     * @pbrbm   env
+     *          A mbp of provider specific properties to configure the file system;
+     *          mby be empty
      *
      * @return  A new file system
      *
-     * @throws  IllegalArgumentException
-     *          If the pre-conditions for the {@code uri} parameter aren't met,
-     *          or the {@code env} parameter does not contain properties required
-     *          by the provider, or a property value is invalid
+     * @throws  IllegblArgumentException
+     *          If the pre-conditions for the {@code uri} pbrbmeter bren't met,
+     *          or the {@code env} pbrbmeter does not contbin properties required
+     *          by the provider, or b property vblue is invblid
      * @throws  IOException
-     *          An I/O error occurs creating the file system
+     *          An I/O error occurs crebting the file system
      * @throws  SecurityException
-     *          If a security manager is installed and it denies an unspecified
-     *          permission required by the file system provider implementation
-     * @throws  FileSystemAlreadyExistsException
-     *          If the file system has already been created
+     *          If b security mbnbger is instblled bnd it denies bn unspecified
+     *          permission required by the file system provider implementbtion
+     * @throws  FileSystemAlrebdyExistsException
+     *          If the file system hbs blrebdy been crebted
      */
-    public abstract FileSystem newFileSystem(URI uri, Map<String,?> env)
+    public bbstrbct FileSystem newFileSystem(URI uri, Mbp<String,?> env)
         throws IOException;
 
     /**
-     * Returns an existing {@code FileSystem} created by this provider.
+     * Returns bn existing {@code FileSystem} crebted by this provider.
      *
-     * <p> This method returns a reference to a {@code FileSystem} that was
-     * created by invoking the {@link #newFileSystem(URI,Map) newFileSystem(URI,Map)}
-     * method. File systems created the {@link #newFileSystem(Path,Map)
-     * newFileSystem(Path,Map)} method are not returned by this method.
-     * The file system is identified by its {@code URI}. Its exact form
-     * is highly provider dependent. In the case of the default provider the URI's
-     * path component is {@code "/"} and the authority, query and fragment components
-     * are undefined (Undefined components are represented by {@code null}).
+     * <p> This method returns b reference to b {@code FileSystem} thbt wbs
+     * crebted by invoking the {@link #newFileSystem(URI,Mbp) newFileSystem(URI,Mbp)}
+     * method. File systems crebted the {@link #newFileSystem(Pbth,Mbp)
+     * newFileSystem(Pbth,Mbp)} method bre not returned by this method.
+     * The file system is identified by its {@code URI}. Its exbct form
+     * is highly provider dependent. In the cbse of the defbult provider the URI's
+     * pbth component is {@code "/"} bnd the buthority, query bnd frbgment components
+     * bre undefined (Undefined components bre represented by {@code null}).
      *
-     * <p> Once a file system created by this provider is {@link
-     * java.nio.file.FileSystem#close closed} it is provider-dependent if this
-     * method returns a reference to the closed file system or throws {@link
-     * FileSystemNotFoundException}. If the provider allows a new file system to
-     * be created with the same URI as a file system it previously created then
-     * this method throws the exception if invoked after the file system is
-     * closed (and before a new instance is created by the {@link #newFileSystem
+     * <p> Once b file system crebted by this provider is {@link
+     * jbvb.nio.file.FileSystem#close closed} it is provider-dependent if this
+     * method returns b reference to the closed file system or throws {@link
+     * FileSystemNotFoundException}. If the provider bllows b new file system to
+     * be crebted with the sbme URI bs b file system it previously crebted then
+     * this method throws the exception if invoked bfter the file system is
+     * closed (bnd before b new instbnce is crebted by the {@link #newFileSystem
      * newFileSystem} method).
      *
-     * <p> If a security manager is installed then a provider implementation
-     * may require to check a permission before returning a reference to an
-     * existing file system. In the case of the {@link FileSystems#getDefault
-     * default} file system, no permission check is required.
+     * <p> If b security mbnbger is instblled then b provider implementbtion
+     * mby require to check b permission before returning b reference to bn
+     * existing file system. In the cbse of the {@link FileSystems#getDefbult
+     * defbult} file system, no permission check is required.
      *
-     * @param   uri
+     * @pbrbm   uri
      *          URI reference
      *
      * @return  The file system
      *
-     * @throws  IllegalArgumentException
-     *          If the pre-conditions for the {@code uri} parameter aren't met
+     * @throws  IllegblArgumentException
+     *          If the pre-conditions for the {@code uri} pbrbmeter bren't met
      * @throws  FileSystemNotFoundException
      *          If the file system does not exist
      * @throws  SecurityException
-     *          If a security manager is installed and it denies an unspecified
+     *          If b security mbnbger is instblled bnd it denies bn unspecified
      *          permission.
      */
-    public abstract FileSystem getFileSystem(URI uri);
+    public bbstrbct FileSystem getFileSystem(URI uri);
 
     /**
-     * Return a {@code Path} object by converting the given {@link URI}. The
-     * resulting {@code Path} is associated with a {@link FileSystem} that
-     * already exists or is constructed automatically.
+     * Return b {@code Pbth} object by converting the given {@link URI}. The
+     * resulting {@code Pbth} is bssocibted with b {@link FileSystem} thbt
+     * blrebdy exists or is constructed butombticblly.
      *
-     * <p> The exact form of the URI is file system provider dependent. In the
-     * case of the default provider, the URI scheme is {@code "file"} and the
-     * given URI has a non-empty path component, and undefined query, and
-     * fragment components. The resulting {@code Path} is associated with the
-     * default {@link FileSystems#getDefault default} {@code FileSystem}.
+     * <p> The exbct form of the URI is file system provider dependent. In the
+     * cbse of the defbult provider, the URI scheme is {@code "file"} bnd the
+     * given URI hbs b non-empty pbth component, bnd undefined query, bnd
+     * frbgment components. The resulting {@code Pbth} is bssocibted with the
+     * defbult {@link FileSystems#getDefbult defbult} {@code FileSystem}.
      *
-     * <p> If a security manager is installed then a provider implementation
-     * may require to check a permission. In the case of the {@link
-     * FileSystems#getDefault default} file system, no permission check is
+     * <p> If b security mbnbger is instblled then b provider implementbtion
+     * mby require to check b permission. In the cbse of the {@link
+     * FileSystems#getDefbult defbult} file system, no permission check is
      * required.
      *
-     * @param   uri
+     * @pbrbm   uri
      *          The URI to convert
      *
-     * @return  The resulting {@code Path}
+     * @return  The resulting {@code Pbth}
      *
-     * @throws  IllegalArgumentException
+     * @throws  IllegblArgumentException
      *          If the URI scheme does not identify this provider or other
-     *          preconditions on the uri parameter do not hold
+     *          preconditions on the uri pbrbmeter do not hold
      * @throws  FileSystemNotFoundException
-     *          The file system, identified by the URI, does not exist and
-     *          cannot be created automatically
+     *          The file system, identified by the URI, does not exist bnd
+     *          cbnnot be crebted butombticblly
      * @throws  SecurityException
-     *          If a security manager is installed and it denies an unspecified
+     *          If b security mbnbger is instblled bnd it denies bn unspecified
      *          permission.
      */
-    public abstract Path getPath(URI uri);
+    public bbstrbct Pbth getPbth(URI uri);
 
     /**
-     * Constructs a new {@code FileSystem} to access the contents of a file as a
+     * Constructs b new {@code FileSystem} to bccess the contents of b file bs b
      * file system.
      *
-     * <p> This method is intended for specialized providers of pseudo file
-     * systems where the contents of one or more files is treated as a file
-     * system. The {@code env} parameter is a map of provider specific properties
+     * <p> This method is intended for speciblized providers of pseudo file
+     * systems where the contents of one or more files is trebted bs b file
+     * system. The {@code env} pbrbmeter is b mbp of provider specific properties
      * to configure the file system.
      *
-     * <p> If this provider does not support the creation of such file systems
+     * <p> If this provider does not support the crebtion of such file systems
      * or if the provider does not recognize the file type of the given file then
-     * it throws {@code UnsupportedOperationException}. The default implementation
-     * of this method throws {@code UnsupportedOperationException}.
+     * it throws {@code UnsupportedOperbtionException}. The defbult implementbtion
+     * of this method throws {@code UnsupportedOperbtionException}.
      *
-     * @param   path
-     *          The path to the file
-     * @param   env
-     *          A map of provider specific properties to configure the file system;
-     *          may be empty
+     * @pbrbm   pbth
+     *          The pbth to the file
+     * @pbrbm   env
+     *          A mbp of provider specific properties to configure the file system;
+     *          mby be empty
      *
      * @return  A new file system
      *
-     * @throws  UnsupportedOperationException
-     *          If this provider does not support access to the contents as a
+     * @throws  UnsupportedOperbtionException
+     *          If this provider does not support bccess to the contents bs b
      *          file system or it does not recognize the file type of the
      *          given file
-     * @throws  IllegalArgumentException
-     *          If the {@code env} parameter does not contain properties required
-     *          by the provider, or a property value is invalid
+     * @throws  IllegblArgumentException
+     *          If the {@code env} pbrbmeter does not contbin properties required
+     *          by the provider, or b property vblue is invblid
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          If a security manager is installed and it denies an unspecified
+     *          If b security mbnbger is instblled bnd it denies bn unspecified
      *          permission.
      */
-    public FileSystem newFileSystem(Path path, Map<String,?> env)
+    public FileSystem newFileSystem(Pbth pbth, Mbp<String,?> env)
         throws IOException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Opens a file, returning an input stream to read from the file. This
-     * method works in exactly the manner specified by the {@link
-     * Files#newInputStream} method.
+     * Opens b file, returning bn input strebm to rebd from the file. This
+     * method works in exbctly the mbnner specified by the {@link
+     * Files#newInputStrebm} method.
      *
-     * <p> The default implementation of this method opens a channel to the file
-     * as if by invoking the {@link #newByteChannel} method and constructs a
-     * stream that reads bytes from the channel. This method should be overridden
-     * where appropriate.
+     * <p> The defbult implementbtion of this method opens b chbnnel to the file
+     * bs if by invoking the {@link #newByteChbnnel} method bnd constructs b
+     * strebm thbt rebds bytes from the chbnnel. This method should be overridden
+     * where bppropribte.
      *
-     * @param   path
-     *          the path to the file to open
-     * @param   options
+     * @pbrbm   pbth
+     *          the pbth to the file to open
+     * @pbrbm   options
      *          options specifying how the file is opened
      *
-     * @return  a new input stream
+     * @return  b new input strebm
      *
-     * @throws  IllegalArgumentException
-     *          if an invalid combination of options is specified
-     * @throws  UnsupportedOperationException
-     *          if an unsupported option is specified
+     * @throws  IllegblArgumentException
+     *          if bn invblid combinbtion of options is specified
+     * @throws  UnsupportedOperbtionException
+     *          if bn unsupported option is specified
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the file.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the file.
      */
-    public InputStream newInputStream(Path path, OpenOption... options)
+    public InputStrebm newInputStrebm(Pbth pbth, OpenOption... options)
         throws IOException
     {
         if (options.length > 0) {
             for (OpenOption opt: options) {
-                // All OpenOption values except for APPEND and WRITE are allowed
-                if (opt == StandardOpenOption.APPEND ||
-                    opt == StandardOpenOption.WRITE)
-                    throw new UnsupportedOperationException("'" + opt + "' not allowed");
+                // All OpenOption vblues except for APPEND bnd WRITE bre bllowed
+                if (opt == StbndbrdOpenOption.APPEND ||
+                    opt == StbndbrdOpenOption.WRITE)
+                    throw new UnsupportedOperbtionException("'" + opt + "' not bllowed");
             }
         }
-        return Channels.newInputStream(Files.newByteChannel(path, options));
+        return Chbnnels.newInputStrebm(Files.newByteChbnnel(pbth, options));
     }
 
     /**
-     * Opens or creates a file, returning an output stream that may be used to
-     * write bytes to the file. This method works in exactly the manner
-     * specified by the {@link Files#newOutputStream} method.
+     * Opens or crebtes b file, returning bn output strebm thbt mby be used to
+     * write bytes to the file. This method works in exbctly the mbnner
+     * specified by the {@link Files#newOutputStrebm} method.
      *
-     * <p> The default implementation of this method opens a channel to the file
-     * as if by invoking the {@link #newByteChannel} method and constructs a
-     * stream that writes bytes to the channel. This method should be overridden
-     * where appropriate.
+     * <p> The defbult implementbtion of this method opens b chbnnel to the file
+     * bs if by invoking the {@link #newByteChbnnel} method bnd constructs b
+     * strebm thbt writes bytes to the chbnnel. This method should be overridden
+     * where bppropribte.
      *
-     * @param   path
-     *          the path to the file to open or create
-     * @param   options
+     * @pbrbm   pbth
+     *          the pbth to the file to open or crebte
+     * @pbrbm   options
      *          options specifying how the file is opened
      *
-     * @return  a new output stream
+     * @return  b new output strebm
      *
-     * @throws  IllegalArgumentException
-     *          if {@code options} contains an invalid combination of options
-     * @throws  UnsupportedOperationException
-     *          if an unsupported option is specified
+     * @throws  IllegblArgumentException
+     *          if {@code options} contbins bn invblid combinbtion of options
+     * @throws  UnsupportedOperbtionException
+     *          if bn unsupported option is specified
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method is invoked to check write access to the file. The {@link
-     *          SecurityManager#checkDelete(String) checkDelete} method is
-     *          invoked to check delete access if the file is opened with the
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method is invoked to check write bccess to the file. The {@link
+     *          SecurityMbnbger#checkDelete(String) checkDelete} method is
+     *          invoked to check delete bccess if the file is opened with the
      *          {@code DELETE_ON_CLOSE} option.
      */
-    public OutputStream newOutputStream(Path path, OpenOption... options)
+    public OutputStrebm newOutputStrebm(Pbth pbth, OpenOption... options)
         throws IOException
     {
         int len = options.length;
-        Set<OpenOption> opts = new HashSet<OpenOption>(len + 3);
+        Set<OpenOption> opts = new HbshSet<OpenOption>(len + 3);
         if (len == 0) {
-            opts.add(StandardOpenOption.CREATE);
-            opts.add(StandardOpenOption.TRUNCATE_EXISTING);
+            opts.bdd(StbndbrdOpenOption.CREATE);
+            opts.bdd(StbndbrdOpenOption.TRUNCATE_EXISTING);
         } else {
             for (OpenOption opt: options) {
-                if (opt == StandardOpenOption.READ)
-                    throw new IllegalArgumentException("READ not allowed");
-                opts.add(opt);
+                if (opt == StbndbrdOpenOption.READ)
+                    throw new IllegblArgumentException("READ not bllowed");
+                opts.bdd(opt);
             }
         }
-        opts.add(StandardOpenOption.WRITE);
-        return Channels.newOutputStream(newByteChannel(path, opts));
+        opts.bdd(StbndbrdOpenOption.WRITE);
+        return Chbnnels.newOutputStrebm(newByteChbnnel(pbth, opts));
     }
 
     /**
-     * Opens or creates a file for reading and/or writing, returning a file
-     * channel to access the file. This method works in exactly the manner
-     * specified by the {@link FileChannel#open(Path,Set,FileAttribute[])
-     * FileChannel.open} method. A provider that does not support all the
-     * features required to construct a file channel throws {@code
-     * UnsupportedOperationException}. The default provider is required to
-     * support the creation of file channels. When not overridden, the default
-     * implementation throws {@code UnsupportedOperationException}.
+     * Opens or crebtes b file for rebding bnd/or writing, returning b file
+     * chbnnel to bccess the file. This method works in exbctly the mbnner
+     * specified by the {@link FileChbnnel#open(Pbth,Set,FileAttribute[])
+     * FileChbnnel.open} method. A provider thbt does not support bll the
+     * febtures required to construct b file chbnnel throws {@code
+     * UnsupportedOperbtionException}. The defbult provider is required to
+     * support the crebtion of file chbnnels. When not overridden, the defbult
+     * implementbtion throws {@code UnsupportedOperbtionException}.
      *
-     * @param   path
-     *          the path of the file to open or create
-     * @param   options
+     * @pbrbm   pbth
+     *          the pbth of the file to open or crebte
+     * @pbrbm   options
      *          options specifying how the file is opened
-     * @param   attrs
-     *          an optional list of file attributes to set atomically when
-     *          creating the file
+     * @pbrbm   bttrs
+     *          bn optionbl list of file bttributes to set btomicblly when
+     *          crebting the file
      *
-     * @return  a new file channel
+     * @return  b new file chbnnel
      *
-     * @throws  IllegalArgumentException
-     *          If the set contains an invalid combination of options
-     * @throws  UnsupportedOperationException
-     *          If this provider that does not support creating file channels,
-     *          or an unsupported open option or file attribute is specified
+     * @throws  IllegblArgumentException
+     *          If the set contbins bn invblid combinbtion of options
+     * @throws  UnsupportedOperbtionException
+     *          If this provider thbt does not support crebting file chbnnels,
+     *          or bn unsupported open option or file bttribute is specified
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default file system, the {@link
-     *          SecurityManager#checkRead(String)} method is invoked to check
-     *          read access if the file is opened for reading. The {@link
-     *          SecurityManager#checkWrite(String)} method is invoked to check
-     *          write access if the file is opened for writing
+     *          In the cbse of the defbult file system, the {@link
+     *          SecurityMbnbger#checkRebd(String)} method is invoked to check
+     *          rebd bccess if the file is opened for rebding. The {@link
+     *          SecurityMbnbger#checkWrite(String)} method is invoked to check
+     *          write bccess if the file is opened for writing
      */
-    public FileChannel newFileChannel(Path path,
+    public FileChbnnel newFileChbnnel(Pbth pbth,
                                       Set<? extends OpenOption> options,
-                                      FileAttribute<?>... attrs)
+                                      FileAttribute<?>... bttrs)
         throws IOException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Opens or creates a file for reading and/or writing, returning an
-     * asynchronous file channel to access the file. This method works in
-     * exactly the manner specified by the {@link
-     * AsynchronousFileChannel#open(Path,Set,ExecutorService,FileAttribute[])
-     * AsynchronousFileChannel.open} method.
-     * A provider that does not support all the features required to construct
-     * an asynchronous file channel throws {@code UnsupportedOperationException}.
-     * The default provider is required to support the creation of asynchronous
-     * file channels. When not overridden, the default implementation of this
-     * method throws {@code UnsupportedOperationException}.
+     * Opens or crebtes b file for rebding bnd/or writing, returning bn
+     * bsynchronous file chbnnel to bccess the file. This method works in
+     * exbctly the mbnner specified by the {@link
+     * AsynchronousFileChbnnel#open(Pbth,Set,ExecutorService,FileAttribute[])
+     * AsynchronousFileChbnnel.open} method.
+     * A provider thbt does not support bll the febtures required to construct
+     * bn bsynchronous file chbnnel throws {@code UnsupportedOperbtionException}.
+     * The defbult provider is required to support the crebtion of bsynchronous
+     * file chbnnels. When not overridden, the defbult implementbtion of this
+     * method throws {@code UnsupportedOperbtionException}.
      *
-     * @param   path
-     *          the path of the file to open or create
-     * @param   options
+     * @pbrbm   pbth
+     *          the pbth of the file to open or crebte
+     * @pbrbm   options
      *          options specifying how the file is opened
-     * @param   executor
-     *          the thread pool or {@code null} to associate the channel with
-     *          the default thread pool
-     * @param   attrs
-     *          an optional list of file attributes to set atomically when
-     *          creating the file
+     * @pbrbm   executor
+     *          the threbd pool or {@code null} to bssocibte the chbnnel with
+     *          the defbult threbd pool
+     * @pbrbm   bttrs
+     *          bn optionbl list of file bttributes to set btomicblly when
+     *          crebting the file
      *
-     * @return  a new asynchronous file channel
+     * @return  b new bsynchronous file chbnnel
      *
-     * @throws  IllegalArgumentException
-     *          If the set contains an invalid combination of options
-     * @throws  UnsupportedOperationException
-     *          If this provider that does not support creating asynchronous file
-     *          channels, or an unsupported open option or file attribute is
+     * @throws  IllegblArgumentException
+     *          If the set contbins bn invblid combinbtion of options
+     * @throws  UnsupportedOperbtionException
+     *          If this provider thbt does not support crebting bsynchronous file
+     *          chbnnels, or bn unsupported open option or file bttribute is
      *          specified
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default file system, the {@link
-     *          SecurityManager#checkRead(String)} method is invoked to check
-     *          read access if the file is opened for reading. The {@link
-     *          SecurityManager#checkWrite(String)} method is invoked to check
-     *          write access if the file is opened for writing
+     *          In the cbse of the defbult file system, the {@link
+     *          SecurityMbnbger#checkRebd(String)} method is invoked to check
+     *          rebd bccess if the file is opened for rebding. The {@link
+     *          SecurityMbnbger#checkWrite(String)} method is invoked to check
+     *          write bccess if the file is opened for writing
      */
-    public AsynchronousFileChannel newAsynchronousFileChannel(Path path,
+    public AsynchronousFileChbnnel newAsynchronousFileChbnnel(Pbth pbth,
                                                               Set<? extends OpenOption> options,
                                                               ExecutorService executor,
-                                                              FileAttribute<?>... attrs)
+                                                              FileAttribute<?>... bttrs)
         throws IOException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Opens or creates a file, returning a seekable byte channel to access the
-     * file. This method works in exactly the manner specified by the {@link
-     * Files#newByteChannel(Path,Set,FileAttribute[])} method.
+     * Opens or crebtes b file, returning b seekbble byte chbnnel to bccess the
+     * file. This method works in exbctly the mbnner specified by the {@link
+     * Files#newByteChbnnel(Pbth,Set,FileAttribute[])} method.
      *
-     * @param   path
-     *          the path to the file to open or create
-     * @param   options
+     * @pbrbm   pbth
+     *          the pbth to the file to open or crebte
+     * @pbrbm   options
      *          options specifying how the file is opened
-     * @param   attrs
-     *          an optional list of file attributes to set atomically when
-     *          creating the file
+     * @pbrbm   bttrs
+     *          bn optionbl list of file bttributes to set btomicblly when
+     *          crebting the file
      *
-     * @return  a new seekable byte channel
+     * @return  b new seekbble byte chbnnel
      *
-     * @throws  IllegalArgumentException
-     *          if the set contains an invalid combination of options
-     * @throws  UnsupportedOperationException
-     *          if an unsupported open option is specified or the array contains
-     *          attributes that cannot be set atomically when creating the file
-     * @throws  FileAlreadyExistsException
-     *          if a file of that name already exists and the {@link
-     *          StandardOpenOption#CREATE_NEW CREATE_NEW} option is specified
-     *          <i>(optional specific exception)</i>
+     * @throws  IllegblArgumentException
+     *          if the set contbins bn invblid combinbtion of options
+     * @throws  UnsupportedOperbtionException
+     *          if bn unsupported open option is specified or the brrby contbins
+     *          bttributes thbt cbnnot be set btomicblly when crebting the file
+     * @throws  FileAlrebdyExistsException
+     *          if b file of thbt nbme blrebdy exists bnd the {@link
+     *          StbndbrdOpenOption#CREATE_NEW CREATE_NEW} option is specified
+     *          <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the path if the file is
-     *          opened for reading. The {@link SecurityManager#checkWrite(String)
-     *          checkWrite} method is invoked to check write access to the path
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the pbth if the file is
+     *          opened for rebding. The {@link SecurityMbnbger#checkWrite(String)
+     *          checkWrite} method is invoked to check write bccess to the pbth
      *          if the file is opened for writing. The {@link
-     *          SecurityManager#checkDelete(String) checkDelete} method is
-     *          invoked to check delete access if the file is opened with the
+     *          SecurityMbnbger#checkDelete(String) checkDelete} method is
+     *          invoked to check delete bccess if the file is opened with the
      *          {@code DELETE_ON_CLOSE} option.
      */
-    public abstract SeekableByteChannel newByteChannel(Path path,
-        Set<? extends OpenOption> options, FileAttribute<?>... attrs) throws IOException;
+    public bbstrbct SeekbbleByteChbnnel newByteChbnnel(Pbth pbth,
+        Set<? extends OpenOption> options, FileAttribute<?>... bttrs) throws IOException;
 
     /**
-     * Opens a directory, returning a {@code DirectoryStream} to iterate over
-     * the entries in the directory. This method works in exactly the manner
+     * Opens b directory, returning b {@code DirectoryStrebm} to iterbte over
+     * the entries in the directory. This method works in exbctly the mbnner
      * specified by the {@link
-     * Files#newDirectoryStream(java.nio.file.Path, java.nio.file.DirectoryStream.Filter)}
+     * Files#newDirectoryStrebm(jbvb.nio.file.Pbth, jbvb.nio.file.DirectoryStrebm.Filter)}
      * method.
      *
-     * @param   dir
-     *          the path to the directory
-     * @param   filter
-     *          the directory stream filter
+     * @pbrbm   dir
+     *          the pbth to the directory
+     * @pbrbm   filter
+     *          the directory strebm filter
      *
-     * @return  a new and open {@code DirectoryStream} object
+     * @return  b new bnd open {@code DirectoryStrebm} object
      *
      * @throws  NotDirectoryException
-     *          if the file could not otherwise be opened because it is not
-     *          a directory <i>(optional specific exception)</i>
+     *          if the file could not otherwise be opened becbuse it is not
+     *          b directory <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the directory.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the directory.
      */
-    public abstract DirectoryStream<Path> newDirectoryStream(Path dir,
-         DirectoryStream.Filter<? super Path> filter) throws IOException;
+    public bbstrbct DirectoryStrebm<Pbth> newDirectoryStrebm(Pbth dir,
+         DirectoryStrebm.Filter<? super Pbth> filter) throws IOException;
 
     /**
-     * Creates a new directory. This method works in exactly the manner
-     * specified by the {@link Files#createDirectory} method.
+     * Crebtes b new directory. This method works in exbctly the mbnner
+     * specified by the {@link Files#crebteDirectory} method.
      *
-     * @param   dir
-     *          the directory to create
-     * @param   attrs
-     *          an optional list of file attributes to set atomically when
-     *          creating the directory
+     * @pbrbm   dir
+     *          the directory to crebte
+     * @pbrbm   bttrs
+     *          bn optionbl list of file bttributes to set btomicblly when
+     *          crebting the directory
      *
-     * @throws  UnsupportedOperationException
-     *          if the array contains an attribute that cannot be set atomically
-     *          when creating the directory
-     * @throws  FileAlreadyExistsException
-     *          if a directory could not otherwise be created because a file of
-     *          that name already exists <i>(optional specific exception)</i>
+     * @throws  UnsupportedOperbtionException
+     *          if the brrby contbins bn bttribute thbt cbnnot be set btomicblly
+     *          when crebting the directory
+     * @throws  FileAlrebdyExistsException
+     *          if b directory could not otherwise be crebted becbuse b file of
+     *          thbt nbme blrebdy exists <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs or the parent directory does not exist
+     *          if bn I/O error occurs or the pbrent directory does not exist
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method is invoked to check write access to the new directory.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method is invoked to check write bccess to the new directory.
      */
-    public abstract void createDirectory(Path dir, FileAttribute<?>... attrs)
+    public bbstrbct void crebteDirectory(Pbth dir, FileAttribute<?>... bttrs)
         throws IOException;
 
     /**
-     * Creates a symbolic link to a target. This method works in exactly the
-     * manner specified by the {@link Files#createSymbolicLink} method.
+     * Crebtes b symbolic link to b tbrget. This method works in exbctly the
+     * mbnner specified by the {@link Files#crebteSymbolicLink} method.
      *
-     * <p> The default implementation of this method throws {@code
-     * UnsupportedOperationException}.
+     * <p> The defbult implementbtion of this method throws {@code
+     * UnsupportedOperbtionException}.
      *
-     * @param   link
-     *          the path of the symbolic link to create
-     * @param   target
-     *          the target of the symbolic link
-     * @param   attrs
-     *          the array of attributes to set atomically when creating the
+     * @pbrbm   link
+     *          the pbth of the symbolic link to crebte
+     * @pbrbm   tbrget
+     *          the tbrget of the symbolic link
+     * @pbrbm   bttrs
+     *          the brrby of bttributes to set btomicblly when crebting the
      *          symbolic link
      *
-     * @throws  UnsupportedOperationException
-     *          if the implementation does not support symbolic links or the
-     *          array contains an attribute that cannot be set atomically when
-     *          creating the symbolic link
-     * @throws  FileAlreadyExistsException
-     *          if a file with the name already exists <i>(optional specific
+     * @throws  UnsupportedOperbtionException
+     *          if the implementbtion does not support symbolic links or the
+     *          brrby contbins bn bttribute thbt cbnnot be set btomicblly when
+     *          crebting the symbolic link
+     * @throws  FileAlrebdyExistsException
+     *          if b file with the nbme blrebdy exists <i>(optionbl specific
      *          exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager
-     *          is installed, it denies {@link LinkPermission}<tt>("symbolic")</tt>
-     *          or its {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method denies write access to the path of the symbolic link.
+     *          In the cbse of the defbult provider, bnd b security mbnbger
+     *          is instblled, it denies {@link LinkPermission}<tt>("symbolic")</tt>
+     *          or its {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method denies write bccess to the pbth of the symbolic link.
      */
-    public void createSymbolicLink(Path link, Path target, FileAttribute<?>... attrs)
+    public void crebteSymbolicLink(Pbth link, Pbth tbrget, FileAttribute<?>... bttrs)
         throws IOException
     {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Creates a new link (directory entry) for an existing file. This method
-     * works in exactly the manner specified by the {@link Files#createLink}
+     * Crebtes b new link (directory entry) for bn existing file. This method
+     * works in exbctly the mbnner specified by the {@link Files#crebteLink}
      * method.
      *
-     * <p> The default implementation of this method throws {@code
-     * UnsupportedOperationException}.
+     * <p> The defbult implementbtion of this method throws {@code
+     * UnsupportedOperbtionException}.
      *
-     * @param   link
-     *          the link (directory entry) to create
-     * @param   existing
-     *          a path to an existing file
+     * @pbrbm   link
+     *          the link (directory entry) to crebte
+     * @pbrbm   existing
+     *          b pbth to bn existing file
      *
-     * @throws  UnsupportedOperationException
-     *          if the implementation does not support adding an existing file
-     *          to a directory
-     * @throws  FileAlreadyExistsException
-     *          if the entry could not otherwise be created because a file of
-     *          that name already exists <i>(optional specific exception)</i>
+     * @throws  UnsupportedOperbtionException
+     *          if the implementbtion does not support bdding bn existing file
+     *          to b directory
+     * @throws  FileAlrebdyExistsException
+     *          if the entry could not otherwise be crebted becbuse b file of
+     *          thbt nbme blrebdy exists <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager
-     *          is installed, it denies {@link LinkPermission}<tt>("hard")</tt>
-     *          or its {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method denies write access to either the  link or the
+     *          In the cbse of the defbult provider, bnd b security mbnbger
+     *          is instblled, it denies {@link LinkPermission}<tt>("hbrd")</tt>
+     *          or its {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method denies write bccess to either the  link or the
      *          existing file.
      */
-    public void createLink(Path link, Path existing) throws IOException {
-        throw new UnsupportedOperationException();
+    public void crebteLink(Pbth link, Pbth existing) throws IOException {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Deletes a file. This method works in exactly the  manner specified by the
+     * Deletes b file. This method works in exbctly the  mbnner specified by the
      * {@link Files#delete} method.
      *
-     * @param   path
-     *          the path to the file to delete
+     * @pbrbm   pbth
+     *          the pbth to the file to delete
      *
      * @throws  NoSuchFileException
-     *          if the file does not exist <i>(optional specific exception)</i>
+     *          if the file does not exist <i>(optionbl specific exception)</i>
      * @throws  DirectoryNotEmptyException
-     *          if the file is a directory and could not otherwise be deleted
-     *          because the directory is not empty <i>(optional specific
+     *          if the file is b directory bnd could not otherwise be deleted
+     *          becbuse the directory is not empty <i>(optionbl specific
      *          exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkDelete(String)} method
-     *          is invoked to check delete access to the file
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkDelete(String)} method
+     *          is invoked to check delete bccess to the file
      */
-    public abstract void delete(Path path) throws IOException;
+    public bbstrbct void delete(Pbth pbth) throws IOException;
 
     /**
-     * Deletes a file if it exists. This method works in exactly the manner
+     * Deletes b file if it exists. This method works in exbctly the mbnner
      * specified by the {@link Files#deleteIfExists} method.
      *
-     * <p> The default implementation of this method simply invokes {@link
+     * <p> The defbult implementbtion of this method simply invokes {@link
      * #delete} ignoring the {@code NoSuchFileException} when the file does not
-     * exist. It may be overridden where appropriate.
+     * exist. It mby be overridden where bppropribte.
      *
-     * @param   path
-     *          the path to the file to delete
+     * @pbrbm   pbth
+     *          the pbth to the file to delete
      *
-     * @return  {@code true} if the file was deleted by this method; {@code
-     *          false} if the file could not be deleted because it did not
+     * @return  {@code true} if the file wbs deleted by this method; {@code
+     *          fblse} if the file could not be deleted becbuse it did not
      *          exist
      *
      * @throws  DirectoryNotEmptyException
-     *          if the file is a directory and could not otherwise be deleted
-     *          because the directory is not empty <i>(optional specific
+     *          if the file is b directory bnd could not otherwise be deleted
+     *          becbuse the directory is not empty <i>(optionbl specific
      *          exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkDelete(String)} method
-     *          is invoked to check delete access to the file
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkDelete(String)} method
+     *          is invoked to check delete bccess to the file
      */
-    public boolean deleteIfExists(Path path) throws IOException {
+    public boolebn deleteIfExists(Pbth pbth) throws IOException {
         try {
-            delete(path);
+            delete(pbth);
             return true;
-        } catch (NoSuchFileException ignore) {
-            return false;
+        } cbtch (NoSuchFileException ignore) {
+            return fblse;
         }
     }
 
     /**
-     * Reads the target of a symbolic link. This method works in exactly the
-     * manner specified by the {@link Files#readSymbolicLink} method.
+     * Rebds the tbrget of b symbolic link. This method works in exbctly the
+     * mbnner specified by the {@link Files#rebdSymbolicLink} method.
      *
-     * <p> The default implementation of this method throws {@code
-     * UnsupportedOperationException}.
+     * <p> The defbult implementbtion of this method throws {@code
+     * UnsupportedOperbtionException}.
      *
-     * @param   link
-     *          the path to the symbolic link
+     * @pbrbm   link
+     *          the pbth to the symbolic link
      *
-     * @return  The target of the symbolic link
+     * @return  The tbrget of the symbolic link
      *
-     * @throws  UnsupportedOperationException
-     *          if the implementation does not support symbolic links
+     * @throws  UnsupportedOperbtionException
+     *          if the implementbtion does not support symbolic links
      * @throws  NotLinkException
-     *          if the target could otherwise not be read because the file
-     *          is not a symbolic link <i>(optional specific exception)</i>
+     *          if the tbrget could otherwise not be rebd becbuse the file
+     *          is not b symbolic link <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager
-     *          is installed, it checks that {@code FilePermission} has been
-     *          granted with the "{@code readlink}" action to read the link.
+     *          In the cbse of the defbult provider, bnd b security mbnbger
+     *          is instblled, it checks thbt {@code FilePermission} hbs been
+     *          grbnted with the "{@code rebdlink}" bction to rebd the link.
      */
-    public Path readSymbolicLink(Path link) throws IOException {
-        throw new UnsupportedOperationException();
+    public Pbth rebdSymbolicLink(Pbth link) throws IOException {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Copy a file to a target file. This method works in exactly the manner
-     * specified by the {@link Files#copy(Path,Path,CopyOption[])} method
-     * except that both the source and target paths must be associated with
+     * Copy b file to b tbrget file. This method works in exbctly the mbnner
+     * specified by the {@link Files#copy(Pbth,Pbth,CopyOption[])} method
+     * except thbt both the source bnd tbrget pbths must be bssocibted with
      * this provider.
      *
-     * @param   source
-     *          the path to the file to copy
-     * @param   target
-     *          the path to the target file
-     * @param   options
+     * @pbrbm   source
+     *          the pbth to the file to copy
+     * @pbrbm   tbrget
+     *          the pbth to the tbrget file
+     * @pbrbm   options
      *          options specifying how the copy should be done
      *
-     * @throws  UnsupportedOperationException
-     *          if the array contains a copy option that is not supported
-     * @throws  FileAlreadyExistsException
-     *          if the target file exists but cannot be replaced because the
-     *          {@code REPLACE_EXISTING} option is not specified <i>(optional
+     * @throws  UnsupportedOperbtionException
+     *          if the brrby contbins b copy option thbt is not supported
+     * @throws  FileAlrebdyExistsException
+     *          if the tbrget file exists but cbnnot be replbced becbuse the
+     *          {@code REPLACE_EXISTING} option is not specified <i>(optionbl
      *          specific exception)</i>
      * @throws  DirectoryNotEmptyException
      *          the {@code REPLACE_EXISTING} option is specified but the file
-     *          cannot be replaced because it is a non-empty directory
-     *          <i>(optional specific exception)</i>
+     *          cbnnot be replbced becbuse it is b non-empty directory
+     *          <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the source file, the
-     *          {@link SecurityManager#checkWrite(String) checkWrite} is invoked
-     *          to check write access to the target file. If a symbolic link is
-     *          copied the security manager is invoked to check {@link
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the source file, the
+     *          {@link SecurityMbnbger#checkWrite(String) checkWrite} is invoked
+     *          to check write bccess to the tbrget file. If b symbolic link is
+     *          copied the security mbnbger is invoked to check {@link
      *          LinkPermission}{@code ("symbolic")}.
      */
-    public abstract void copy(Path source, Path target, CopyOption... options)
+    public bbstrbct void copy(Pbth source, Pbth tbrget, CopyOption... options)
         throws IOException;
 
     /**
-     * Move or rename a file to a target file. This method works in exactly the
-     * manner specified by the {@link Files#move} method except that both the
-     * source and target paths must be associated with this provider.
+     * Move or renbme b file to b tbrget file. This method works in exbctly the
+     * mbnner specified by the {@link Files#move} method except thbt both the
+     * source bnd tbrget pbths must be bssocibted with this provider.
      *
-     * @param   source
-     *          the path to the file to move
-     * @param   target
-     *          the path to the target file
-     * @param   options
+     * @pbrbm   source
+     *          the pbth to the file to move
+     * @pbrbm   tbrget
+     *          the pbth to the tbrget file
+     * @pbrbm   options
      *          options specifying how the move should be done
      *
-     * @throws  UnsupportedOperationException
-     *          if the array contains a copy option that is not supported
-     * @throws  FileAlreadyExistsException
-     *          if the target file exists but cannot be replaced because the
-     *          {@code REPLACE_EXISTING} option is not specified <i>(optional
+     * @throws  UnsupportedOperbtionException
+     *          if the brrby contbins b copy option thbt is not supported
+     * @throws  FileAlrebdyExistsException
+     *          if the tbrget file exists but cbnnot be replbced becbuse the
+     *          {@code REPLACE_EXISTING} option is not specified <i>(optionbl
      *          specific exception)</i>
      * @throws  DirectoryNotEmptyException
      *          the {@code REPLACE_EXISTING} option is specified but the file
-     *          cannot be replaced because it is a non-empty directory
-     *          <i>(optional specific exception)</i>
+     *          cbnnot be replbced becbuse it is b non-empty directory
+     *          <i>(optionbl specific exception)</i>
      * @throws  AtomicMoveNotSupportedException
-     *          if the options array contains the {@code ATOMIC_MOVE} option but
-     *          the file cannot be moved as an atomic file system operation.
+     *          if the options brrby contbins the {@code ATOMIC_MOVE} option but
+     *          the file cbnnot be moved bs bn btomic file system operbtion.
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method is invoked to check write access to both the source and
-     *          target file.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method is invoked to check write bccess to both the source bnd
+     *          tbrget file.
      */
-    public abstract void move(Path source, Path target, CopyOption... options)
+    public bbstrbct void move(Pbth source, Pbth tbrget, CopyOption... options)
         throws IOException;
 
     /**
-     * Tests if two paths locate the same file. This method works in exactly the
-     * manner specified by the {@link Files#isSameFile} method.
+     * Tests if two pbths locbte the sbme file. This method works in exbctly the
+     * mbnner specified by the {@link Files#isSbmeFile} method.
      *
-     * @param   path
-     *          one path to the file
-     * @param   path2
-     *          the other path
+     * @pbrbm   pbth
+     *          one pbth to the file
+     * @pbrbm   pbth2
+     *          the other pbth
      *
-     * @return  {@code true} if, and only if, the two paths locate the same file
+     * @return  {@code true} if, bnd only if, the two pbths locbte the sbme file
      *
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to both files.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to both files.
      */
-    public abstract boolean isSameFile(Path path, Path path2)
+    public bbstrbct boolebn isSbmeFile(Pbth pbth, Pbth pbth2)
         throws IOException;
 
     /**
-     * Tells whether or not a file is considered <em>hidden</em>. This method
-     * works in exactly the manner specified by the {@link Files#isHidden}
+     * Tells whether or not b file is considered <em>hidden</em>. This method
+     * works in exbctly the mbnner specified by the {@link Files#isHidden}
      * method.
      *
      * <p> This method is invoked by the {@link Files#isHidden isHidden} method.
      *
-     * @param   path
-     *          the path to the file to test
+     * @pbrbm   pbth
+     *          the pbth to the file to test
      *
      * @return  {@code true} if the file is considered hidden
      *
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the file.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the file.
      */
-    public abstract boolean isHidden(Path path) throws IOException;
+    public bbstrbct boolebn isHidden(Pbth pbth) throws IOException;
 
     /**
-     * Returns the {@link FileStore} representing the file store where a file
-     * is located. This method works in exactly the manner specified by the
+     * Returns the {@link FileStore} representing the file store where b file
+     * is locbted. This method works in exbctly the mbnner specified by the
      * {@link Files#getFileStore} method.
      *
-     * @param   path
-     *          the path to the file
+     * @pbrbm   pbth
+     *          the pbth to the file
      *
      * @return  the file store where the file is stored
      *
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the file, and in
-     *          addition it checks {@link RuntimePermission}<tt>
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the file, bnd in
+     *          bddition it checks {@link RuntimePermission}<tt>
      *          ("getFileStoreAttributes")</tt>
      */
-    public abstract FileStore getFileStore(Path path) throws IOException;
+    public bbstrbct FileStore getFileStore(Pbth pbth) throws IOException;
 
     /**
-     * Checks the existence, and optionally the accessibility, of a file.
+     * Checks the existence, bnd optionblly the bccessibility, of b file.
      *
-     * <p> This method may be used by the {@link Files#isReadable isReadable},
-     * {@link Files#isWritable isWritable} and {@link Files#isExecutable
-     * isExecutable} methods to check the accessibility of a file.
+     * <p> This method mby be used by the {@link Files#isRebdbble isRebdbble},
+     * {@link Files#isWritbble isWritbble} bnd {@link Files#isExecutbble
+     * isExecutbble} methods to check the bccessibility of b file.
      *
-     * <p> This method checks the existence of a file and that this Java virtual
-     * machine has appropriate privileges that would allow it access the file
-     * according to all of access modes specified in the {@code modes} parameter
-     * as follows:
+     * <p> This method checks the existence of b file bnd thbt this Jbvb virtubl
+     * mbchine hbs bppropribte privileges thbt would bllow it bccess the file
+     * bccording to bll of bccess modes specified in the {@code modes} pbrbmeter
+     * bs follows:
      *
-     * <table border=1 cellpadding=5 summary="">
-     * <tr> <th>Value</th> <th>Description</th> </tr>
+     * <tbble border=1 cellpbdding=5 summbry="">
+     * <tr> <th>Vblue</th> <th>Description</th> </tr>
      * <tr>
      *   <td> {@link AccessMode#READ READ} </td>
-     *   <td> Checks that the file exists and that the Java virtual machine has
-     *     permission to read the file. </td>
+     *   <td> Checks thbt the file exists bnd thbt the Jbvb virtubl mbchine hbs
+     *     permission to rebd the file. </td>
      * </tr>
      * <tr>
      *   <td> {@link AccessMode#WRITE WRITE} </td>
-     *   <td> Checks that the file exists and that the Java virtual machine has
+     *   <td> Checks thbt the file exists bnd thbt the Jbvb virtubl mbchine hbs
      *     permission to write to the file, </td>
      * </tr>
      * <tr>
      *   <td> {@link AccessMode#EXECUTE EXECUTE} </td>
-     *   <td> Checks that the file exists and that the Java virtual machine has
-     *     permission to {@link Runtime#exec execute} the file. The semantics
-     *     may differ when checking access to a directory. For example, on UNIX
-     *     systems, checking for {@code EXECUTE} access checks that the Java
-     *     virtual machine has permission to search the directory in order to
-     *     access file or subdirectories. </td>
+     *   <td> Checks thbt the file exists bnd thbt the Jbvb virtubl mbchine hbs
+     *     permission to {@link Runtime#exec execute} the file. The sembntics
+     *     mby differ when checking bccess to b directory. For exbmple, on UNIX
+     *     systems, checking for {@code EXECUTE} bccess checks thbt the Jbvb
+     *     virtubl mbchine hbs permission to sebrch the directory in order to
+     *     bccess file or subdirectories. </td>
      * </tr>
-     * </table>
+     * </tbble>
      *
-     * <p> If the {@code modes} parameter is of length zero, then the existence
+     * <p> If the {@code modes} pbrbmeter is of length zero, then the existence
      * of the file is checked.
      *
      * <p> This method follows symbolic links if the file referenced by this
-     * object is a symbolic link. Depending on the implementation, this method
-     * may require to read file permissions, access control lists, or other
-     * file attributes in order to check the effective access to the file. To
-     * determine the effective access to a file may require access to several
-     * attributes and so in some implementations this method may not be atomic
-     * with respect to other file system operations.
+     * object is b symbolic link. Depending on the implementbtion, this method
+     * mby require to rebd file permissions, bccess control lists, or other
+     * file bttributes in order to check the effective bccess to the file. To
+     * determine the effective bccess to b file mby require bccess to severbl
+     * bttributes bnd so in some implementbtions this method mby not be btomic
+     * with respect to other file system operbtions.
      *
-     * @param   path
-     *          the path to the file to check
-     * @param   modes
-     *          The access modes to check; may have zero elements
+     * @pbrbm   pbth
+     *          the pbth to the file to check
+     * @pbrbm   modes
+     *          The bccess modes to check; mby hbve zero elements
      *
-     * @throws  UnsupportedOperationException
-     *          an implementation is required to support checking for
-     *          {@code READ}, {@code WRITE}, and {@code EXECUTE} access. This
-     *          exception is specified to allow for the {@code Access} enum to
-     *          be extended in future releases.
+     * @throws  UnsupportedOperbtionException
+     *          bn implementbtion is required to support checking for
+     *          {@code READ}, {@code WRITE}, bnd {@code EXECUTE} bccess. This
+     *          exception is specified to bllow for the {@code Access} enum to
+     *          be extended in future relebses.
      * @throws  NoSuchFileException
-     *          if a file does not exist <i>(optional specific exception)</i>
+     *          if b file does not exist <i>(optionbl specific exception)</i>
      * @throws  AccessDeniedException
-     *          the requested access would be denied or the access cannot be
-     *          determined because the Java virtual machine has insufficient
-     *          privileges or other reasons. <i>(optional specific exception)</i>
+     *          the requested bccess would be denied or the bccess cbnnot be
+     *          determined becbuse the Jbvb virtubl mbchine hbs insufficient
+     *          privileges or other rebsons. <i>(optionbl specific exception)</i>
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, the {@link SecurityManager#checkRead(String) checkRead}
-     *          is invoked when checking read access to the file or only the
-     *          existence of the file, the {@link SecurityManager#checkWrite(String)
-     *          checkWrite} is invoked when checking write access to the file,
-     *          and {@link SecurityManager#checkExec(String) checkExec} is invoked
-     *          when checking execute access.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, the {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          is invoked when checking rebd bccess to the file or only the
+     *          existence of the file, the {@link SecurityMbnbger#checkWrite(String)
+     *          checkWrite} is invoked when checking write bccess to the file,
+     *          bnd {@link SecurityMbnbger#checkExec(String) checkExec} is invoked
+     *          when checking execute bccess.
      */
-    public abstract void checkAccess(Path path, AccessMode... modes)
+    public bbstrbct void checkAccess(Pbth pbth, AccessMode... modes)
         throws IOException;
 
     /**
-     * Returns a file attribute view of a given type. This method works in
-     * exactly the manner specified by the {@link Files#getFileAttributeView}
+     * Returns b file bttribute view of b given type. This method works in
+     * exbctly the mbnner specified by the {@link Files#getFileAttributeView}
      * method.
      *
-     * @param   <V>
+     * @pbrbm   <V>
      *          The {@code FileAttributeView} type
-     * @param   path
-     *          the path to the file
-     * @param   type
-     *          the {@code Class} object corresponding to the file attribute view
-     * @param   options
-     *          options indicating how symbolic links are handled
+     * @pbrbm   pbth
+     *          the pbth to the file
+     * @pbrbm   type
+     *          the {@code Clbss} object corresponding to the file bttribute view
+     * @pbrbm   options
+     *          options indicbting how symbolic links bre hbndled
      *
-     * @return  a file attribute view of the specified type, or {@code null} if
-     *          the attribute view type is not available
+     * @return  b file bttribute view of the specified type, or {@code null} if
+     *          the bttribute view type is not bvbilbble
      */
-    public abstract <V extends FileAttributeView> V
-        getFileAttributeView(Path path, Class<V> type, LinkOption... options);
+    public bbstrbct <V extends FileAttributeView> V
+        getFileAttributeView(Pbth pbth, Clbss<V> type, LinkOption... options);
 
     /**
-     * Reads a file's attributes as a bulk operation. This method works in
-     * exactly the manner specified by the {@link
-     * Files#readAttributes(Path,Class,LinkOption[])} method.
+     * Rebds b file's bttributes bs b bulk operbtion. This method works in
+     * exbctly the mbnner specified by the {@link
+     * Files#rebdAttributes(Pbth,Clbss,LinkOption[])} method.
      *
-     * @param   <A>
-     *          The {@code BasicFileAttributes} type
-     * @param   path
-     *          the path to the file
-     * @param   type
-     *          the {@code Class} of the file attributes required
-     *          to read
-     * @param   options
-     *          options indicating how symbolic links are handled
+     * @pbrbm   <A>
+     *          The {@code BbsicFileAttributes} type
+     * @pbrbm   pbth
+     *          the pbth to the file
+     * @pbrbm   type
+     *          the {@code Clbss} of the file bttributes required
+     *          to rebd
+     * @pbrbm   options
+     *          options indicbting how symbolic links bre hbndled
      *
-     * @return  the file attributes
+     * @return  the file bttributes
      *
-     * @throws  UnsupportedOperationException
-     *          if an attributes of the given type are not supported
+     * @throws  UnsupportedOperbtionException
+     *          if bn bttributes of the given type bre not supported
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, its {@link SecurityManager#checkRead(String) checkRead}
-     *          method is invoked to check read access to the file
+     *          In the cbse of the defbult provider, b security mbnbger is
+     *          instblled, its {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method is invoked to check rebd bccess to the file
      */
-    public abstract <A extends BasicFileAttributes> A
-        readAttributes(Path path, Class<A> type, LinkOption... options) throws IOException;
+    public bbstrbct <A extends BbsicFileAttributes> A
+        rebdAttributes(Pbth pbth, Clbss<A> type, LinkOption... options) throws IOException;
 
     /**
-     * Reads a set of file attributes as a bulk operation. This method works in
-     * exactly the manner specified by the {@link
-     * Files#readAttributes(Path,String,LinkOption[])} method.
+     * Rebds b set of file bttributes bs b bulk operbtion. This method works in
+     * exbctly the mbnner specified by the {@link
+     * Files#rebdAttributes(Pbth,String,LinkOption[])} method.
      *
-     * @param   path
-     *          the path to the file
-     * @param   attributes
-     *          the attributes to read
-     * @param   options
-     *          options indicating how symbolic links are handled
+     * @pbrbm   pbth
+     *          the pbth to the file
+     * @pbrbm   bttributes
+     *          the bttributes to rebd
+     * @pbrbm   options
+     *          options indicbting how symbolic links bre hbndled
      *
-     * @return  a map of the attributes returned; may be empty. The map's keys
-     *          are the attribute names, its values are the attribute values
+     * @return  b mbp of the bttributes returned; mby be empty. The mbp's keys
+     *          bre the bttribute nbmes, its vblues bre the bttribute vblues
      *
-     * @throws  UnsupportedOperationException
-     *          if the attribute view is not available
-     * @throws  IllegalArgumentException
-     *          if no attributes are specified or an unrecognized attributes is
+     * @throws  UnsupportedOperbtionException
+     *          if the bttribute view is not bvbilbble
+     * @throws  IllegblArgumentException
+     *          if no bttributes bre specified or bn unrecognized bttributes is
      *          specified
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, its {@link SecurityManager#checkRead(String) checkRead}
-     *          method denies read access to the file. If this method is invoked
-     *          to read security sensitive attributes then the security manager
-     *          may be invoke to check for additional permissions.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, its {@link SecurityMbnbger#checkRebd(String) checkRebd}
+     *          method denies rebd bccess to the file. If this method is invoked
+     *          to rebd security sensitive bttributes then the security mbnbger
+     *          mby be invoke to check for bdditionbl permissions.
      */
-    public abstract Map<String,Object> readAttributes(Path path, String attributes,
+    public bbstrbct Mbp<String,Object> rebdAttributes(Pbth pbth, String bttributes,
                                                       LinkOption... options)
         throws IOException;
 
     /**
-     * Sets the value of a file attribute. This method works in exactly the
-     * manner specified by the {@link Files#setAttribute} method.
+     * Sets the vblue of b file bttribute. This method works in exbctly the
+     * mbnner specified by the {@link Files#setAttribute} method.
      *
-     * @param   path
-     *          the path to the file
-     * @param   attribute
-     *          the attribute to set
-     * @param   value
-     *          the attribute value
-     * @param   options
-     *          options indicating how symbolic links are handled
+     * @pbrbm   pbth
+     *          the pbth to the file
+     * @pbrbm   bttribute
+     *          the bttribute to set
+     * @pbrbm   vblue
+     *          the bttribute vblue
+     * @pbrbm   options
+     *          options indicbting how symbolic links bre hbndled
      *
-     * @throws  UnsupportedOperationException
-     *          if the attribute view is not available
-     * @throws  IllegalArgumentException
-     *          if the attribute name is not specified, or is not recognized, or
-     *          the attribute value is of the correct type but has an
-     *          inappropriate value
-     * @throws  ClassCastException
-     *          If the attribute value is not of the expected type or is a
-     *          collection containing elements that are not of the expected
+     * @throws  UnsupportedOperbtionException
+     *          if the bttribute view is not bvbilbble
+     * @throws  IllegblArgumentException
+     *          if the bttribute nbme is not specified, or is not recognized, or
+     *          the bttribute vblue is of the correct type but hbs bn
+     *          inbppropribte vblue
+     * @throws  ClbssCbstException
+     *          If the bttribute vblue is not of the expected type or is b
+     *          collection contbining elements thbt bre not of the expected
      *          type
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      * @throws  SecurityException
-     *          In the case of the default provider, and a security manager is
-     *          installed, its {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method denies write access to the file. If this method is invoked
-     *          to set security sensitive attributes then the security manager
-     *          may be invoked to check for additional permissions.
+     *          In the cbse of the defbult provider, bnd b security mbnbger is
+     *          instblled, its {@link SecurityMbnbger#checkWrite(String) checkWrite}
+     *          method denies write bccess to the file. If this method is invoked
+     *          to set security sensitive bttributes then the security mbnbger
+     *          mby be invoked to check for bdditionbl permissions.
      */
-    public abstract void setAttribute(Path path, String attribute,
-                                      Object value, LinkOption... options)
+    public bbstrbct void setAttribute(Pbth pbth, String bttribute,
+                                      Object vblue, LinkOption... options)
         throws IOException;
 }

@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
-#include <sys/utsname.h>
+#include <sys/utsnbme.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <dlfcn.h>
 #include "jni.h"
 #include <jni_util.h>
 #include "jvm_md.h"
-#include "awt_Mlib.h"
-#include "java_awt_image_BufferedImage.h"
+#include "bwt_Mlib.h"
+#include "jbvb_bwt_imbge_BufferedImbge.h"
 
-static void start_timer(int numsec);
-static void stop_timer(int numsec, int ntimes);
+stbtic void stbrt_timer(int numsec);
+stbtic void stop_timer(int numsec, int ntimes);
 
 /*
- * This is called by awt_ImagingLib.initLib() to figure out if we
- * can use the VIS version of medialib
+ * This is cblled by bwt_ImbgingLib.initLib() to figure out if we
+ * cbn use the VIS version of mediblib
  */
-mlib_status awt_getImagingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
+mlib_stbtus bwt_getImbgingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
                               mlibSysFnS_t *sMlibSysFns) {
-    int status;
+    int stbtus;
     jstring jstr = NULL;
     mlibFnS_t *mptr;
     void *(*vPtr)();
     int (*intPtr)();
-    mlib_status (*fPtr)();
+    mlib_stbtus (*fPtr)();
     int i;
-    void *handle = NULL;
+    void *hbndle = NULL;
     mlibSysFnS_t tempSysFns;
-    static int s_timeIt = 0;
-    static int s_verbose = 1;
-    mlib_status ret = MLIB_SUCCESS;
-    struct utsname name;
+    stbtic int s_timeIt = 0;
+    stbtic int s_verbose = 1;
+    mlib_stbtus ret = MLIB_SUCCESS;
+    struct utsnbme nbme;
 
     /*
-     * Find out the machine name. If it is an SUN ultra, we
-     * can use the vis library
+     * Find out the mbchine nbme. If it is bn SUN ultrb, we
+     * cbn use the vis librbry
      */
-    if ((uname(&name) >= 0) && (getenv("NO_VIS") == NULL) &&
-        (strncmp(name.machine, "sun4u" , 5) == 0) ||
-        ((strncmp(name.machine, "sun4v" , 5) == 0) &&
+    if ((unbme(&nbme) >= 0) && (getenv("NO_VIS") == NULL) &&
+        (strncmp(nbme.mbchine, "sun4u" , 5) == 0) ||
+        ((strncmp(nbme.mbchine, "sun4v" , 5) == 0) &&
          (getenv("USE_VIS_ON_SUN4V") != NULL)))
     {
-        handle = dlopen(JNI_LIB_NAME("mlib_image_v"), RTLD_LAZY);
+        hbndle = dlopen(JNI_LIB_NAME("mlib_imbge_v"), RTLD_LAZY);
     }
 
-    if (handle == NULL) {
-        handle = dlopen(JNI_LIB_NAME("mlib_image"), RTLD_LAZY);
+    if (hbndle == NULL) {
+        hbndle = dlopen(JNI_LIB_NAME("mlib_imbge"), RTLD_LAZY);
     }
 
-    if (handle == NULL) {
+    if (hbndle == NULL) {
         if (s_timeIt || s_verbose) {
             printf ("error in dlopen: %s", dlerror());
         }
         return MLIB_FAILURE;
     }
 
-    /* So, if we are here, then either vis or generic version of
-     * medialib library was sucessfuly loaded.
-     * Let's try to initialize handlers...
+    /* So, if we bre here, then either vis or generic version of
+     * mediblib librbry wbs sucessfuly lobded.
+     * Let's try to initiblize hbndlers...
      */
-    if ((tempSysFns.createFP = (MlibCreateFP_t)dlsym(handle,
-                                       "j2d_mlib_ImageCreate")) == NULL) {
+    if ((tempSysFns.crebteFP = (MlibCrebteFP_t)dlsym(hbndle,
+                                       "j2d_mlib_ImbgeCrebte")) == NULL) {
         if (s_timeIt) {
             printf ("error in dlsym: %s", dlerror());
         }
@@ -95,8 +95,8 @@ mlib_status awt_getImagingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
     }
 
     if (ret == MLIB_SUCCESS) {
-        if ((tempSysFns.createStructFP = (MlibCreateStructFP_t)dlsym(handle,
-                                          "j2d_mlib_ImageCreateStruct")) == NULL) {
+        if ((tempSysFns.crebteStructFP = (MlibCrebteStructFP_t)dlsym(hbndle,
+                                          "j2d_mlib_ImbgeCrebteStruct")) == NULL) {
             if (s_timeIt) {
                 printf ("error in dlsym: %s", dlerror());
             }
@@ -105,8 +105,8 @@ mlib_status awt_getImagingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
     }
 
     if (ret == MLIB_SUCCESS) {
-        if ((tempSysFns.deleteImageFP = (MlibDeleteFP_t)dlsym(handle,
-                                                 "j2d_mlib_ImageDelete")) == NULL) {
+        if ((tempSysFns.deleteImbgeFP = (MlibDeleteFP_t)dlsym(hbndle,
+                                                 "j2d_mlib_ImbgeDelete")) == NULL) {
             if (s_timeIt) {
                 printf ("error in dlsym: %s", dlerror());
             }
@@ -119,11 +119,11 @@ mlib_status awt_getImagingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
         *sMlibSysFns = tempSysFns;
     }
 
-    /* Loop through all of the fns and load them from the next library */
+    /* Loop through bll of the fns bnd lobd them from the next librbry */
     mptr = sMlibFns;
     i = 0;
-    while ((ret == MLIB_SUCCESS) && (mptr[i].fname != NULL)) {
-        fPtr = (mlib_status (*)())dlsym(handle, mptr[i].fname);
+    while ((ret == MLIB_SUCCESS) && (mptr[i].fnbme != NULL)) {
+        fPtr = (mlib_stbtus (*)())dlsym(hbndle, mptr[i].fnbme);
         if (fPtr != NULL) {
             mptr[i].fptr = fPtr;
         } else {
@@ -132,48 +132,48 @@ mlib_status awt_getImagingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
         i++;
     }
     if (ret != MLIB_SUCCESS) {
-        dlclose(handle);
+        dlclose(hbndle);
     }
     return ret;
 }
 
-mlib_start_timer awt_setMlibStartTimer() {
-    return start_timer;
+mlib_stbrt_timer bwt_setMlibStbrtTimer() {
+    return stbrt_timer;
 }
 
-mlib_stop_timer awt_setMlibStopTimer() {
+mlib_stop_timer bwt_setMlibStopTimer() {
     return stop_timer;
 }
 
 /***************************************************************************
- *                          Static Functions                               *
+ *                          Stbtic Functions                               *
  ***************************************************************************/
 
-static void start_timer(int numsec)
+stbtic void stbrt_timer(int numsec)
 {
-    struct itimerval interval;
+    struct itimervbl intervbl;
 
-    interval.it_interval.tv_sec = numsec;
-    interval.it_interval.tv_usec = 0;
-    interval.it_value.tv_sec = numsec;
-    interval.it_value.tv_usec = 0;
-    setitimer(ITIMER_REAL, &interval, 0);
+    intervbl.it_intervbl.tv_sec = numsec;
+    intervbl.it_intervbl.tv_usec = 0;
+    intervbl.it_vblue.tv_sec = numsec;
+    intervbl.it_vblue.tv_usec = 0;
+    setitimer(ITIMER_REAL, &intervbl, 0);
 }
 
 
-static void stop_timer(int numsec, int ntimes)
+stbtic void stop_timer(int numsec, int ntimes)
 {
-    struct itimerval interval;
+    struct itimervbl intervbl;
     double sec;
 
-    getitimer(ITIMER_REAL, &interval);
-    sec = (((double) (numsec - 1)) - (double) interval.it_value.tv_sec) +
-            (1000000.0 - interval.it_value.tv_usec)/1000000.0;
+    getitimer(ITIMER_REAL, &intervbl);
+    sec = (((double) (numsec - 1)) - (double) intervbl.it_vblue.tv_sec) +
+            (1000000.0 - intervbl.it_vblue.tv_usec)/1000000.0;
     sec = sec/((double) ntimes);
-    printf("%f msec per update\n", sec * 1000.0);
-    interval.it_interval.tv_sec = 0;
-    interval.it_interval.tv_usec = 0;
-    interval.it_value.tv_sec = 0;
-    interval.it_value.tv_usec = 0;
-    setitimer(ITIMER_PROF, &interval, 0);
+    printf("%f msec per updbte\n", sec * 1000.0);
+    intervbl.it_intervbl.tv_sec = 0;
+    intervbl.it_intervbl.tv_usec = 0;
+    intervbl.it_vblue.tv_sec = 0;
+    intervbl.it_vblue.tv_usec = 0;
+    setitimer(ITIMER_PROF, &intervbl, 0);
 }

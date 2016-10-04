@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -29,91 +29,91 @@
  *
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.LineMetrics;
 
 /**
- * Metrics from a font for layout of characters along a line
- * and layout of set of lines.
- * This and CoreMetrics replace what was previously a private internal class of Font
+ * Metrics from b font for lbyout of chbrbcters blong b line
+ * bnd lbyout of set of lines.
+ * This bnd CoreMetrics replbce whbt wbs previously b privbte internbl clbss of Font
  */
-public final class FontLineMetrics extends LineMetrics implements Cloneable {
-    public int numchars; // mutated by Font
-    public final CoreMetrics cm;
-    public final FontRenderContext frc;
+public finbl clbss FontLineMetrics extends LineMetrics implements Clonebble {
+    public int numchbrs; // mutbted by Font
+    public finbl CoreMetrics cm;
+    public finbl FontRenderContext frc;
 
-    public FontLineMetrics(int numchars, CoreMetrics cm, FontRenderContext frc) {
-        this.numchars = numchars;
+    public FontLineMetrics(int numchbrs, CoreMetrics cm, FontRenderContext frc) {
+        this.numchbrs = numchbrs;
         this.cm = cm;
         this.frc = frc;
     }
 
-    public final int getNumChars() {
-        return numchars;
+    public finbl int getNumChbrs() {
+        return numchbrs;
     }
 
-    public final float getAscent() {
-        return cm.ascent;
+    public finbl flobt getAscent() {
+        return cm.bscent;
     }
 
-    public final float getDescent() {
+    public finbl flobt getDescent() {
         return cm.descent;
     }
 
-    public final float getLeading() {
-        return cm.leading;
+    public finbl flobt getLebding() {
+        return cm.lebding;
     }
 
-    public final float getHeight() {
+    public finbl flobt getHeight() {
         return cm.height;
     }
 
-    public final int getBaselineIndex() {
-        return cm.baselineIndex;
+    public finbl int getBbselineIndex() {
+        return cm.bbselineIndex;
     }
 
-    public final float[] getBaselineOffsets() {
-        return cm.baselineOffsets.clone();
+    public finbl flobt[] getBbselineOffsets() {
+        return cm.bbselineOffsets.clone();
     }
 
-    public final float getStrikethroughOffset() {
+    public finbl flobt getStrikethroughOffset() {
         return cm.strikethroughOffset;
     }
 
-    public final float getStrikethroughThickness() {
+    public finbl flobt getStrikethroughThickness() {
         return cm.strikethroughThickness;
     }
 
-    public final float getUnderlineOffset() {
+    public finbl flobt getUnderlineOffset() {
         return cm.underlineOffset;
     }
 
-    public final float getUnderlineThickness() {
+    public finbl flobt getUnderlineThickness() {
         return cm.underlineThickness;
     }
 
-    public final int hashCode() {
-        return cm.hashCode();
+    public finbl int hbshCode() {
+        return cm.hbshCode();
     }
 
-    public final boolean equals(Object rhs) {
+    public finbl boolebn equbls(Object rhs) {
         try {
-            return cm.equals(((FontLineMetrics)rhs).cm);
+            return cm.equbls(((FontLineMetrics)rhs).cm);
         }
-        catch (ClassCastException e) {
-            return false;
+        cbtch (ClbssCbstException e) {
+            return fblse;
         }
     }
 
-    public final Object clone() {
+    public finbl Object clone() {
         // frc, cm do not need deep clone
         try {
             return super.clone();
         }
-        catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
     }
 }

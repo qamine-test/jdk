@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.TrayIconPeer;
-import sun.awt.*;
-import java.awt.image.*;
-import java.text.BreakIterator;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.lang.reflect.InvocationTargetException;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.TrbyIconPeer;
+import sun.bwt.*;
+import jbvb.bwt.imbge.*;
+import jbvb.text.BrebkIterbtor;
+import jbvb.util.concurrent.ArrbyBlockingQueue;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
 
 /**
- * An utility window class. This is a base class for Tooltip and Balloon.
+ * An utility window clbss. This is b bbse clbss for Tooltip bnd Bblloon.
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public abstract class InfoWindow extends Window {
-    private Container container;
-    private Closer closer;
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public bbstrbct clbss InfoWindow extends Window {
+    privbte Contbiner contbiner;
+    privbte Closer closer;
 
-    protected InfoWindow(Frame parent, Color borderColor) {
-        super(parent);
+    protected InfoWindow(Frbme pbrent, Color borderColor) {
+        super(pbrent);
         setType(Window.Type.POPUP);
-        container = new Container() {
+        contbiner = new Contbiner() {
             @Override
             public Insets getInsets() {
                 return new Insets(1, 1, 1, 1);
             }
         };
-        setLayout(new BorderLayout());
-        setBackground(borderColor);
-        add(container, BorderLayout.CENTER);
-        container.setLayout(new BorderLayout());
+        setLbyout(new BorderLbyout());
+        setBbckground(borderColor);
+        bdd(contbiner, BorderLbyout.CENTER);
+        contbiner.setLbyout(new BorderLbyout());
 
         closer = new Closer();
     }
 
-    public Component add(Component c) {
-        container.add(c, BorderLayout.CENTER);
+    public Component bdd(Component c) {
+        contbiner.bdd(c, BorderLbyout.CENTER);
         return c;
     }
 
-    protected void setCloser(Runnable action, int time) {
-        closer.set(action, time);
+    protected void setCloser(Runnbble bction, int time) {
+        closer.set(bction, time);
     }
 
     // Must be executed on EDT.
     protected void show(Point corner, int indent) {
-        assert SunToolkit.isDispatchThreadForAppContext(this);
+        bssert SunToolkit.isDispbtchThrebdForAppContext(this);
 
-        pack();
+        pbck();
 
         Dimension size = getSize();
         // TODO: When 6356322 is fixed we should get screen bounds in
-        // this way: eframe.getGraphicsConfiguration().getBounds().
-        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+        // this wby: efrbme.getGrbphicsConfigurbtion().getBounds().
+        Dimension scrSize = Toolkit.getDefbultToolkit().getScreenSize();
 
-        if (corner.x < scrSize.width/2 && corner.y < scrSize.height/2) { // 1st square
-            setLocation(corner.x + indent, corner.y + indent);
+        if (corner.x < scrSize.width/2 && corner.y < scrSize.height/2) { // 1st squbre
+            setLocbtion(corner.x + indent, corner.y + indent);
 
-        } else if (corner.x >= scrSize.width/2 && corner.y < scrSize.height/2) { // 2nd square
-            setLocation(corner.x - indent - size.width, corner.y + indent);
+        } else if (corner.x >= scrSize.width/2 && corner.y < scrSize.height/2) { // 2nd squbre
+            setLocbtion(corner.x - indent - size.width, corner.y + indent);
 
-        } else if (corner.x < scrSize.width/2 && corner.y >= scrSize.height/2) { // 3rd square
-            setLocation(corner.x + indent, corner.y - indent - size.height);
+        } else if (corner.x < scrSize.width/2 && corner.y >= scrSize.height/2) { // 3rd squbre
+            setLocbtion(corner.x + indent, corner.y - indent - size.height);
 
-        } else if (corner.x >= scrSize.width/2 && corner.y >= scrSize.height/2) { // 4th square
-            setLocation(corner.x - indent - size.width, corner.y - indent - size.height);
+        } else if (corner.x >= scrSize.width/2 && corner.y >= scrSize.height/2) { // 4th squbre
+            setLocbtion(corner.x - indent - size.width, corner.y - indent - size.height);
         }
 
         super.show();
@@ -102,16 +102,16 @@ public abstract class InfoWindow extends Window {
         closer.close();
     }
 
-    private class Closer implements Runnable {
-        Runnable action;
+    privbte clbss Closer implements Runnbble {
+        Runnbble bction;
         int time;
 
         public void run() {
             doClose();
         }
 
-        void set(Runnable action, int time) {
-            this.action = action;
+        void set(Runnbble bction, int time) {
+            this.bction = bction;
             this.time = time;
         }
 
@@ -124,14 +124,14 @@ public abstract class InfoWindow extends Window {
             doClose();
         }
 
-        // WARNING: this method may be executed on Toolkit thread.
-        private void doClose() {
-            SunToolkit.executeOnEventHandlerThread(InfoWindow.this, new Runnable() {
+        // WARNING: this method mby be executed on Toolkit threbd.
+        privbte void doClose() {
+            SunToolkit.executeOnEventHbndlerThrebd(InfoWindow.this, new Runnbble() {
                 public void run() {
                     InfoWindow.super.hide();
-                    invalidate();
-                    if (action != null) {
-                        action.run();
+                    invblidbte();
+                    if (bction != null) {
+                        bction.run();
                     }
                 }
             });
@@ -139,60 +139,60 @@ public abstract class InfoWindow extends Window {
     }
 
 
-    private interface LiveArguments {
-        /** Whether the target of the InfoWindow is disposed. */
-        boolean isDisposed();
+    privbte interfbce LiveArguments {
+        /** Whether the tbrget of the InfoWindow is disposed. */
+        boolebn isDisposed();
 
-        /** The bounds of the target of the InfoWindow. */
-        Rectangle getBounds();
+        /** The bounds of the tbrget of the InfoWindow. */
+        Rectbngle getBounds();
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    public static class Tooltip extends InfoWindow {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    public stbtic clbss Tooltip extends InfoWindow {
 
-        public interface LiveArguments extends InfoWindow.LiveArguments {
-            /** The tooltip to be displayed. */
+        public interfbce LiveArguments extends InfoWindow.LiveArguments {
+            /** The tooltip to be displbyed. */
             String getTooltipString();
         }
 
-        private final Object target;
-        private final LiveArguments liveArguments;
+        privbte finbl Object tbrget;
+        privbte finbl LiveArguments liveArguments;
 
-        private final Label textLabel = new Label("");
-        private final Runnable starter = new Runnable() {
+        privbte finbl Lbbel textLbbel = new Lbbel("");
+        privbte finbl Runnbble stbrter = new Runnbble() {
                 public void run() {
-                    display();
+                    displby();
                 }};
 
-        private final static int TOOLTIP_SHOW_TIME = 10000;
-        private final static int TOOLTIP_START_DELAY_TIME = 1000;
-        private final static int TOOLTIP_MAX_LENGTH = 64;
-        private final static int TOOLTIP_MOUSE_CURSOR_INDENT = 5;
-        private final static Color TOOLTIP_BACKGROUND_COLOR = new Color(255, 255, 220);
-        private final static Font TOOLTIP_TEXT_FONT = XWindow.getDefaultFont();
+        privbte finbl stbtic int TOOLTIP_SHOW_TIME = 10000;
+        privbte finbl stbtic int TOOLTIP_START_DELAY_TIME = 1000;
+        privbte finbl stbtic int TOOLTIP_MAX_LENGTH = 64;
+        privbte finbl stbtic int TOOLTIP_MOUSE_CURSOR_INDENT = 5;
+        privbte finbl stbtic Color TOOLTIP_BACKGROUND_COLOR = new Color(255, 255, 220);
+        privbte finbl stbtic Font TOOLTIP_TEXT_FONT = XWindow.getDefbultFont();
 
-        public Tooltip(Frame parent, Object target,
+        public Tooltip(Frbme pbrent, Object tbrget,
                 LiveArguments liveArguments)
         {
-            super(parent, Color.black);
+            super(pbrent, Color.blbck);
 
-            this.target = target;
+            this.tbrget = tbrget;
             this.liveArguments = liveArguments;
 
-            XTrayIconPeer.suppressWarningString(this);
+            XTrbyIconPeer.suppressWbrningString(this);
 
             setCloser(null, TOOLTIP_SHOW_TIME);
-            textLabel.setBackground(TOOLTIP_BACKGROUND_COLOR);
-            textLabel.setFont(TOOLTIP_TEXT_FONT);
-            add(textLabel);
+            textLbbel.setBbckground(TOOLTIP_BACKGROUND_COLOR);
+            textLbbel.setFont(TOOLTIP_TEXT_FONT);
+            bdd(textLbbel);
         }
 
         /*
-         * WARNING: this method is executed on Toolkit thread!
+         * WARNING: this method is executed on Toolkit threbd!
          */
-        private void display() {
-            // Execute on EDT to avoid deadlock (see 6280857).
-            SunToolkit.executeOnEventHandlerThread(target, new Runnable() {
+        privbte void displby() {
+            // Execute on EDT to bvoid debdlock (see 6280857).
+            SunToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
                     public void run() {
                         if (liveArguments.isDisposed()) {
                             return;
@@ -202,18 +202,18 @@ public abstract class InfoWindow extends Window {
                         if (tooltipString == null) {
                             return;
                         } else if (tooltipString.length() >  TOOLTIP_MAX_LENGTH) {
-                            textLabel.setText(tooltipString.substring(0, TOOLTIP_MAX_LENGTH));
+                            textLbbel.setText(tooltipString.substring(0, TOOLTIP_MAX_LENGTH));
                         } else {
-                            textLabel.setText(tooltipString);
+                            textLbbel.setText(tooltipString);
                         }
 
                         Point pointer = AccessController.doPrivileged(
                             new PrivilegedAction<Point>() {
                                 public Point run() {
-                                    if (!isPointerOverTrayIcon(liveArguments.getBounds())) {
+                                    if (!isPointerOverTrbyIcon(liveArguments.getBounds())) {
                                         return null;
                                     }
-                                    return MouseInfo.getPointerInfo().getLocation();
+                                    return MouseInfo.getPointerInfo().getLocbtion();
                                 }
                             });
                         if (pointer == null) {
@@ -225,273 +225,273 @@ public abstract class InfoWindow extends Window {
         }
 
         public void enter() {
-            XToolkit.schedule(starter, TOOLTIP_START_DELAY_TIME);
+            XToolkit.schedule(stbrter, TOOLTIP_START_DELAY_TIME);
         }
 
         public void exit() {
-            XToolkit.remove(starter);
+            XToolkit.remove(stbrter);
             if (isVisible()) {
                 hide();
             }
         }
 
-        private boolean isPointerOverTrayIcon(Rectangle trayRect) {
-            Point p = MouseInfo.getPointerInfo().getLocation();
-            return !(p.x < trayRect.x || p.x > (trayRect.x + trayRect.width) ||
-                     p.y < trayRect.y || p.y > (trayRect.y + trayRect.height));
+        privbte boolebn isPointerOverTrbyIcon(Rectbngle trbyRect) {
+            Point p = MouseInfo.getPointerInfo().getLocbtion();
+            return !(p.x < trbyRect.x || p.x > (trbyRect.x + trbyRect.width) ||
+                     p.y < trbyRect.y || p.y > (trbyRect.y + trbyRect.height));
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    public static class Balloon extends InfoWindow {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    public stbtic clbss Bblloon extends InfoWindow {
 
-        public interface LiveArguments extends InfoWindow.LiveArguments {
-            /** The action to be performed upon clicking the baloon. */
-            String getActionCommand();
+        public interfbce LiveArguments extends InfoWindow.LiveArguments {
+            /** The bction to be performed upon clicking the bbloon. */
+            String getActionCommbnd();
         }
 
-        private final LiveArguments liveArguments;
-        private final Object target;
+        privbte finbl LiveArguments liveArguments;
+        privbte finbl Object tbrget;
 
-        private final static int BALLOON_SHOW_TIME = 10000;
-        private final static int BALLOON_TEXT_MAX_LENGTH = 256;
-        private final static int BALLOON_WORD_LINE_MAX_LENGTH = 16;
-        private final static int BALLOON_WORD_LINE_MAX_COUNT = 4;
-        private final static int BALLOON_ICON_WIDTH = 32;
-        private final static int BALLOON_ICON_HEIGHT = 32;
-        private final static int BALLOON_TRAY_ICON_INDENT = 0;
-        private final static Color BALLOON_CAPTION_BACKGROUND_COLOR = new Color(200, 200 ,255);
-        private final static Font BALLOON_CAPTION_FONT = new Font(Font.DIALOG, Font.BOLD, 12);
+        privbte finbl stbtic int BALLOON_SHOW_TIME = 10000;
+        privbte finbl stbtic int BALLOON_TEXT_MAX_LENGTH = 256;
+        privbte finbl stbtic int BALLOON_WORD_LINE_MAX_LENGTH = 16;
+        privbte finbl stbtic int BALLOON_WORD_LINE_MAX_COUNT = 4;
+        privbte finbl stbtic int BALLOON_ICON_WIDTH = 32;
+        privbte finbl stbtic int BALLOON_ICON_HEIGHT = 32;
+        privbte finbl stbtic int BALLOON_TRAY_ICON_INDENT = 0;
+        privbte finbl stbtic Color BALLOON_CAPTION_BACKGROUND_COLOR = new Color(200, 200 ,255);
+        privbte finbl stbtic Font BALLOON_CAPTION_FONT = new Font(Font.DIALOG, Font.BOLD, 12);
 
-        private Panel mainPanel = new Panel();
-        private Panel captionPanel = new Panel();
-        private Label captionLabel = new Label("");
-        private Button closeButton = new Button("X");
-        private Panel textPanel = new Panel();
-        private XTrayIconPeer.IconCanvas iconCanvas = new XTrayIconPeer.IconCanvas(BALLOON_ICON_WIDTH, BALLOON_ICON_HEIGHT);
-        private Label[] lineLabels = new Label[BALLOON_WORD_LINE_MAX_COUNT];
-        private ActionPerformer ap = new ActionPerformer();
+        privbte Pbnel mbinPbnel = new Pbnel();
+        privbte Pbnel cbptionPbnel = new Pbnel();
+        privbte Lbbel cbptionLbbel = new Lbbel("");
+        privbte Button closeButton = new Button("X");
+        privbte Pbnel textPbnel = new Pbnel();
+        privbte XTrbyIconPeer.IconCbnvbs iconCbnvbs = new XTrbyIconPeer.IconCbnvbs(BALLOON_ICON_WIDTH, BALLOON_ICON_HEIGHT);
+        privbte Lbbel[] lineLbbels = new Lbbel[BALLOON_WORD_LINE_MAX_COUNT];
+        privbte ActionPerformer bp = new ActionPerformer();
 
-        private Image iconImage;
-        private Image errorImage;
-        private Image warnImage;
-        private Image infoImage;
-        private boolean gtkImagesLoaded;
+        privbte Imbge iconImbge;
+        privbte Imbge errorImbge;
+        privbte Imbge wbrnImbge;
+        privbte Imbge infoImbge;
+        privbte boolebn gtkImbgesLobded;
 
-        private Displayer displayer = new Displayer();
+        privbte Displbyer displbyer = new Displbyer();
 
-        public Balloon(Frame parent, Object target, LiveArguments liveArguments) {
-            super(parent, new Color(90, 80 ,190));
+        public Bblloon(Frbme pbrent, Object tbrget, LiveArguments liveArguments) {
+            super(pbrent, new Color(90, 80 ,190));
             this.liveArguments = liveArguments;
-            this.target = target;
+            this.tbrget = tbrget;
 
-            XTrayIconPeer.suppressWarningString(this);
+            XTrbyIconPeer.suppressWbrningString(this);
 
-            setCloser(new Runnable() {
+            setCloser(new Runnbble() {
                     public void run() {
-                        if (textPanel != null) {
-                            textPanel.removeAll();
-                            textPanel.setSize(0, 0);
-                            iconCanvas.setSize(0, 0);
-                            XToolkit.awtLock();
+                        if (textPbnel != null) {
+                            textPbnel.removeAll();
+                            textPbnel.setSize(0, 0);
+                            iconCbnvbs.setSize(0, 0);
+                            XToolkit.bwtLock();
                             try {
-                                displayer.isDisplayed = false;
-                                XToolkit.awtLockNotifyAll();
-                            } finally {
-                                XToolkit.awtUnlock();
+                                displbyer.isDisplbyed = fblse;
+                                XToolkit.bwtLockNotifyAll();
+                            } finblly {
+                                XToolkit.bwtUnlock();
                             }
                         }
                     }
                 }, BALLOON_SHOW_TIME);
 
-            add(mainPanel);
+            bdd(mbinPbnel);
 
-            captionLabel.setFont(BALLOON_CAPTION_FONT);
-            captionLabel.addMouseListener(ap);
+            cbptionLbbel.setFont(BALLOON_CAPTION_FONT);
+            cbptionLbbel.bddMouseListener(bp);
 
-            captionPanel.setLayout(new BorderLayout());
-            captionPanel.add(captionLabel, BorderLayout.WEST);
-            captionPanel.add(closeButton, BorderLayout.EAST);
-            captionPanel.setBackground(BALLOON_CAPTION_BACKGROUND_COLOR);
-            captionPanel.addMouseListener(ap);
+            cbptionPbnel.setLbyout(new BorderLbyout());
+            cbptionPbnel.bdd(cbptionLbbel, BorderLbyout.WEST);
+            cbptionPbnel.bdd(closeButton, BorderLbyout.EAST);
+            cbptionPbnel.setBbckground(BALLOON_CAPTION_BACKGROUND_COLOR);
+            cbptionPbnel.bddMouseListener(bp);
 
-            closeButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
+            closeButton.bddActionListener(new ActionListener() {
+                    public void bctionPerformed(ActionEvent e) {
                         hide();
                     }
                 });
 
-            mainPanel.setLayout(new BorderLayout());
-            mainPanel.setBackground(Color.white);
-            mainPanel.add(captionPanel, BorderLayout.NORTH);
-            mainPanel.add(iconCanvas, BorderLayout.WEST);
-            mainPanel.add(textPanel, BorderLayout.CENTER);
+            mbinPbnel.setLbyout(new BorderLbyout());
+            mbinPbnel.setBbckground(Color.white);
+            mbinPbnel.bdd(cbptionPbnel, BorderLbyout.NORTH);
+            mbinPbnel.bdd(iconCbnvbs, BorderLbyout.WEST);
+            mbinPbnel.bdd(textPbnel, BorderLbyout.CENTER);
 
-            iconCanvas.addMouseListener(ap);
+            iconCbnvbs.bddMouseListener(bp);
 
             for (int i = 0; i < BALLOON_WORD_LINE_MAX_COUNT; i++) {
-                lineLabels[i] = new Label();
-                lineLabels[i].addMouseListener(ap);
-                lineLabels[i].setBackground(Color.white);
+                lineLbbels[i] = new Lbbel();
+                lineLbbels[i].bddMouseListener(bp);
+                lineLbbels[i].setBbckground(Color.white);
             }
 
-            displayer.start();
+            displbyer.stbrt();
         }
 
-        public void display(String caption, String text, String messageType) {
-            if (!gtkImagesLoaded) {
-                loadGtkImages();
+        public void displby(String cbption, String text, String messbgeType) {
+            if (!gtkImbgesLobded) {
+                lobdGtkImbges();
             }
-            displayer.display(caption, text, messageType);
+            displbyer.displby(cbption, text, messbgeType);
         }
 
-        private void _display(String caption, String text, String messageType) {
-            captionLabel.setText(caption);
+        privbte void _displby(String cbption, String text, String messbgeType) {
+            cbptionLbbel.setText(cbption);
 
-            BreakIterator iter = BreakIterator.getWordInstance();
+            BrebkIterbtor iter = BrebkIterbtor.getWordInstbnce();
             if (text != null) {
                 iter.setText(text);
-                int start = iter.first(), end;
+                int stbrt = iter.first(), end;
                 int nLines = 0;
 
                 do {
                     end = iter.next();
 
-                    if (end == BreakIterator.DONE ||
-                        text.substring(start, end).length() >= 50)
+                    if (end == BrebkIterbtor.DONE ||
+                        text.substring(stbrt, end).length() >= 50)
                     {
-                        lineLabels[nLines].setText(text.substring(start, end == BreakIterator.DONE ?
-                                                                  iter.last() : end));
-                        textPanel.add(lineLabels[nLines++]);
-                        start = end;
+                        lineLbbels[nLines].setText(text.substring(stbrt, end == BrebkIterbtor.DONE ?
+                                                                  iter.lbst() : end));
+                        textPbnel.bdd(lineLbbels[nLines++]);
+                        stbrt = end;
                     }
                     if (nLines == BALLOON_WORD_LINE_MAX_COUNT) {
-                        if (end != BreakIterator.DONE) {
-                            lineLabels[nLines - 1].setText(
-                                new String(lineLabels[nLines - 1].getText() + " ..."));
+                        if (end != BrebkIterbtor.DONE) {
+                            lineLbbels[nLines - 1].setText(
+                                new String(lineLbbels[nLines - 1].getText() + " ..."));
                         }
-                        break;
+                        brebk;
                     }
-                } while (end != BreakIterator.DONE);
+                } while (end != BrebkIterbtor.DONE);
 
 
-                textPanel.setLayout(new GridLayout(nLines, 1));
+                textPbnel.setLbyout(new GridLbyout(nLines, 1));
             }
 
-            if ("ERROR".equals(messageType)) {
-                iconImage = errorImage;
-            } else if ("WARNING".equals(messageType)) {
-                iconImage = warnImage;
-            } else if ("INFO".equals(messageType)) {
-                iconImage = infoImage;
+            if ("ERROR".equbls(messbgeType)) {
+                iconImbge = errorImbge;
+            } else if ("WARNING".equbls(messbgeType)) {
+                iconImbge = wbrnImbge;
+            } else if ("INFO".equbls(messbgeType)) {
+                iconImbge = infoImbge;
             } else {
-                iconImage = null;
+                iconImbge = null;
             }
 
-            if (iconImage != null) {
-                Dimension tpSize = textPanel.getSize();
-                iconCanvas.setSize(BALLOON_ICON_WIDTH, (BALLOON_ICON_HEIGHT > tpSize.height ?
+            if (iconImbge != null) {
+                Dimension tpSize = textPbnel.getSize();
+                iconCbnvbs.setSize(BALLOON_ICON_WIDTH, (BALLOON_ICON_HEIGHT > tpSize.height ?
                                                         BALLOON_ICON_HEIGHT : tpSize.height));
-                iconCanvas.validate();
+                iconCbnvbs.vblidbte();
             }
 
-            SunToolkit.executeOnEventHandlerThread(target, new Runnable() {
+            SunToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
                     public void run() {
                         if (liveArguments.isDisposed()) {
                             return;
                         }
-                        Point parLoc = getParent().getLocationOnScreen();
-                        Dimension parSize = getParent().getSize();
-                        show(new Point(parLoc.x + parSize.width/2, parLoc.y + parSize.height/2),
+                        Point pbrLoc = getPbrent().getLocbtionOnScreen();
+                        Dimension pbrSize = getPbrent().getSize();
+                        show(new Point(pbrLoc.x + pbrSize.width/2, pbrLoc.y + pbrSize.height/2),
                              BALLOON_TRAY_ICON_INDENT);
-                        if (iconImage != null) {
-                            iconCanvas.updateImage(iconImage); // call it after the show(..) above
+                        if (iconImbge != null) {
+                            iconCbnvbs.updbteImbge(iconImbge); // cbll it bfter the show(..) bbove
                         }
                     }
                 });
         }
 
         public void dispose() {
-            displayer.interrupt();
+            displbyer.interrupt();
             super.dispose();
         }
 
-        private void loadGtkImages() {
-            if (!gtkImagesLoaded) {
-                errorImage = (Image)Toolkit.getDefaultToolkit().getDesktopProperty(
-                    "gtk.icon.gtk-dialog-error.6.rtl");
-                warnImage = (Image)Toolkit.getDefaultToolkit().getDesktopProperty(
-                    "gtk.icon.gtk-dialog-warning.6.rtl");
-                infoImage = (Image)Toolkit.getDefaultToolkit().getDesktopProperty(
-                    "gtk.icon.gtk-dialog-info.6.rtl");
-                gtkImagesLoaded = true;
+        privbte void lobdGtkImbges() {
+            if (!gtkImbgesLobded) {
+                errorImbge = (Imbge)Toolkit.getDefbultToolkit().getDesktopProperty(
+                    "gtk.icon.gtk-diblog-error.6.rtl");
+                wbrnImbge = (Imbge)Toolkit.getDefbultToolkit().getDesktopProperty(
+                    "gtk.icon.gtk-diblog-wbrning.6.rtl");
+                infoImbge = (Imbge)Toolkit.getDefbultToolkit().getDesktopProperty(
+                    "gtk.icon.gtk-diblog-info.6.rtl");
+                gtkImbgesLobded = true;
             }
         }
 
-        private class ActionPerformer extends MouseAdapter {
+        privbte clbss ActionPerformer extends MouseAdbpter {
             public void mouseClicked(MouseEvent e) {
-                // hide the balloon by any click
+                // hide the bblloon by bny click
                 hide();
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    ActionEvent aev = new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                                      liveArguments.getActionCommand(),
+                    ActionEvent bev = new ActionEvent(tbrget, ActionEvent.ACTION_PERFORMED,
+                                                      liveArguments.getActionCommbnd(),
                                                       e.getWhen(), e.getModifiers());
-                    XToolkit.postEvent(XToolkit.targetToAppContext(aev.getSource()), aev);
+                    XToolkit.postEvent(XToolkit.tbrgetToAppContext(bev.getSource()), bev);
                 }
             }
         }
 
-        private class Displayer extends Thread {
-            final int MAX_CONCURRENT_MSGS = 10;
+        privbte clbss Displbyer extends Threbd {
+            finbl int MAX_CONCURRENT_MSGS = 10;
 
-            ArrayBlockingQueue<Message> messageQueue = new ArrayBlockingQueue<Message>(MAX_CONCURRENT_MSGS);
-            boolean isDisplayed;
+            ArrbyBlockingQueue<Messbge> messbgeQueue = new ArrbyBlockingQueue<Messbge>(MAX_CONCURRENT_MSGS);
+            boolebn isDisplbyed;
 
-            Displayer() {
-                setDaemon(true);
+            Displbyer() {
+                setDbemon(true);
             }
 
             public void run() {
                 while (true) {
-                    Message msg = null;
+                    Messbge msg = null;
                     try {
-                        msg = messageQueue.take();
-                    } catch (InterruptedException e) {
+                        msg = messbgeQueue.tbke();
+                    } cbtch (InterruptedException e) {
                         return;
                     }
 
                     /*
-                     * Wait till the previous message is displayed if any
+                     * Wbit till the previous messbge is displbyed if bny
                      */
-                    XToolkit.awtLock();
+                    XToolkit.bwtLock();
                     try {
-                        while (isDisplayed) {
+                        while (isDisplbyed) {
                             try {
-                                XToolkit.awtLockWait();
-                            } catch (InterruptedException e) {
+                                XToolkit.bwtLockWbit();
+                            } cbtch (InterruptedException e) {
                                 return;
                             }
                         }
-                        isDisplayed = true;
-                    } finally {
-                        XToolkit.awtUnlock();
+                        isDisplbyed = true;
+                    } finblly {
+                        XToolkit.bwtUnlock();
                     }
-                    _display(msg.caption, msg.text, msg.messageType);
+                    _displby(msg.cbption, msg.text, msg.messbgeType);
                 }
             }
 
-            void display(String caption, String text, String messageType) {
-                messageQueue.offer(new Message(caption, text, messageType));
+            void displby(String cbption, String text, String messbgeType) {
+                messbgeQueue.offer(new Messbge(cbption, text, messbgeType));
             }
         }
 
-        private static class Message {
-            String caption, text, messageType;
+        privbte stbtic clbss Messbge {
+            String cbption, text, messbgeType;
 
-            Message(String caption, String text, String messageType) {
-                this.caption = caption;
+            Messbge(String cbption, String text, String messbgeType) {
+                this.cbption = cbption;
                 this.text = text;
-                this.messageType = messageType;
+                this.messbgeType = messbgeType;
             }
         }
     }

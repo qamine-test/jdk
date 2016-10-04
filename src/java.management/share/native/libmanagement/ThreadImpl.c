@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <jni.h>
 #include "jvm.h"
-#include "management.h"
-#include "sun_management_ThreadImpl.h"
+#include "mbnbgement.h"
+#include "sun_mbnbgement_ThrebdImpl.h"
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_setThreadContentionMonitoringEnabled0
-  (JNIEnv *env, jclass cls, jboolean flag)
+Jbvb_sun_mbnbgement_ThrebdImpl_setThrebdContentionMonitoringEnbbled0
+  (JNIEnv *env, jclbss cls, jboolebn flbg)
 {
-    jmm_interface->SetBoolAttribute(env, JMM_THREAD_CONTENTION_MONITORING, flag);
+    jmm_interfbce->SetBoolAttribute(env, JMM_THREAD_CONTENTION_MONITORING, flbg);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_setThreadCpuTimeEnabled0
-  (JNIEnv *env, jclass cls, jboolean flag)
+Jbvb_sun_mbnbgement_ThrebdImpl_setThrebdCpuTimeEnbbled0
+  (JNIEnv *env, jclbss cls, jboolebn flbg)
 {
-    jmm_interface->SetBoolAttribute(env, JMM_THREAD_CPU_TIME, flag);
+    jmm_interfbce->SetBoolAttribute(env, JMM_THREAD_CPU_TIME, flbg);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_setThreadAllocatedMemoryEnabled0
-  (JNIEnv *env, jclass cls, jboolean flag)
+Jbvb_sun_mbnbgement_ThrebdImpl_setThrebdAllocbtedMemoryEnbbled0
+  (JNIEnv *env, jclbss cls, jboolebn flbg)
 {
-    jmm_interface->SetBoolAttribute(env, JMM_THREAD_ALLOCATED_MEMORY, flag);
+    jmm_interfbce->SetBoolAttribute(env, JMM_THREAD_ALLOCATED_MEMORY, flbg);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_getThreadInfo1
-  (JNIEnv *env, jclass cls, jlongArray ids, jint maxDepth,
-   jobjectArray infoArray)
+Jbvb_sun_mbnbgement_ThrebdImpl_getThrebdInfo1
+  (JNIEnv *env, jclbss cls, jlongArrby ids, jint mbxDepth,
+   jobjectArrby infoArrby)
 {
-    jmm_interface->GetThreadInfo(env, ids, maxDepth, infoArray);
+    jmm_interfbce->GetThrebdInfo(env, ids, mbxDepth, infoArrby);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_ThreadImpl_getThreads
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_mbnbgement_ThrebdImpl_getThrebds
+  (JNIEnv *env, jclbss cls)
 {
-    return JVM_GetAllThreads(env, cls);
+    return JVM_GetAllThrebds(env, cls);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_ThreadImpl_getThreadTotalCpuTime0
-  (JNIEnv *env, jclass cls, jlong tid)
+Jbvb_sun_mbnbgement_ThrebdImpl_getThrebdTotblCpuTime0
+  (JNIEnv *env, jclbss cls, jlong tid)
 {
-    return jmm_interface->GetThreadCpuTimeWithKind(env, tid, JNI_TRUE /* user+sys */);
+    return jmm_interfbce->GetThrebdCpuTimeWithKind(env, tid, JNI_TRUE /* user+sys */);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_getThreadTotalCpuTime1
-  (JNIEnv *env, jclass cls, jlongArray ids, jlongArray timeArray)
+Jbvb_sun_mbnbgement_ThrebdImpl_getThrebdTotblCpuTime1
+  (JNIEnv *env, jclbss cls, jlongArrby ids, jlongArrby timeArrby)
 {
-    jmm_interface->GetThreadCpuTimesWithKind(env, ids, timeArray,
+    jmm_interfbce->GetThrebdCpuTimesWithKind(env, ids, timeArrby,
                                              JNI_TRUE /* user+sys */);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_ThreadImpl_getThreadUserCpuTime0
-  (JNIEnv *env, jclass cls, jlong tid)
+Jbvb_sun_mbnbgement_ThrebdImpl_getThrebdUserCpuTime0
+  (JNIEnv *env, jclbss cls, jlong tid)
 {
-    return jmm_interface->GetThreadCpuTimeWithKind(env, tid, JNI_FALSE /* user */);
+    return jmm_interfbce->GetThrebdCpuTimeWithKind(env, tid, JNI_FALSE /* user */);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_getThreadUserCpuTime1
-  (JNIEnv *env, jclass cls, jlongArray ids, jlongArray timeArray)
+Jbvb_sun_mbnbgement_ThrebdImpl_getThrebdUserCpuTime1
+  (JNIEnv *env, jclbss cls, jlongArrby ids, jlongArrby timeArrby)
 {
-    jmm_interface->GetThreadCpuTimesWithKind(env, ids, timeArray,
+    jmm_interfbce->GetThrebdCpuTimesWithKind(env, ids, timeArrby,
                                              JNI_FALSE /* user */);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_getThreadAllocatedMemory1
-  (JNIEnv *env, jclass cls, jlongArray ids, jlongArray sizeArray)
+Jbvb_sun_mbnbgement_ThrebdImpl_getThrebdAllocbtedMemory1
+  (JNIEnv *env, jclbss cls, jlongArrby ids, jlongArrby sizeArrby)
 {
-    jmm_interface->GetThreadAllocatedMemory(env, ids, sizeArray);
+    jmm_interfbce->GetThrebdAllocbtedMemory(env, ids, sizeArrby);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_ThreadImpl_findMonitorDeadlockedThreads0
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_mbnbgement_ThrebdImpl_findMonitorDebdlockedThrebds0
+  (JNIEnv *env, jclbss cls)
 {
-    return jmm_interface->FindCircularBlockedThreads(env);
+    return jmm_interfbce->FindCirculbrBlockedThrebds(env);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_ThreadImpl_findDeadlockedThreads0
-  (JNIEnv *env, jclass cls)
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_mbnbgement_ThrebdImpl_findDebdlockedThrebds0
+  (JNIEnv *env, jclbss cls)
 {
-    return jmm_interface->FindDeadlocks(env, JNI_FALSE /* !object_monitors_only */);
+    return jmm_interfbce->FindDebdlocks(env, JNI_FALSE /* !object_monitors_only */);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_resetPeakThreadCount0
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_mbnbgement_ThrebdImpl_resetPebkThrebdCount0
+  (JNIEnv *env, jclbss cls)
 {
-    jvalue unused;
+    jvblue unused;
     unused.i = 0;
-    jmm_interface->ResetStatistic(env, unused, JMM_STAT_PEAK_THREAD_COUNT);
+    jmm_interfbce->ResetStbtistic(env, unused, JMM_STAT_PEAK_THREAD_COUNT);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_management_ThreadImpl_resetContentionTimes0
+Jbvb_sun_mbnbgement_ThrebdImpl_resetContentionTimes0
   (JNIEnv *env, jobject dummy, jlong tid)
 {
-    jvalue value;
-    value.j = tid;
-    jmm_interface->ResetStatistic(env, value, JMM_STAT_THREAD_CONTENTION_TIME);
+    jvblue vblue;
+    vblue.j = tid;
+    jmm_interfbce->ResetStbtistic(env, vblue, JMM_STAT_THREAD_CONTENTION_TIME);
 }
 
-JNIEXPORT jobjectArray JNICALL
-Java_sun_management_ThreadImpl_dumpThreads0
-  (JNIEnv *env, jclass cls, jlongArray ids, jboolean lockedMonitors, jboolean lockedSynchronizers)
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_mbnbgement_ThrebdImpl_dumpThrebds0
+  (JNIEnv *env, jclbss cls, jlongArrby ids, jboolebn lockedMonitors, jboolebn lockedSynchronizers)
 {
-    return jmm_interface->DumpThreads(env, ids, lockedMonitors, lockedSynchronizers);
+    return jmm_interfbce->DumpThrebds(env, ids, lockedMonitors, lockedSynchronizers);
 }

@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,96 +53,96 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
-// This module incorporates several interpolation routines, for 1 to 8 channels on input and
-// up to 65535 channels on output. The user may change those by using the interpolation plug-in
+// This module incorporbtes severbl interpolbtion routines, for 1 to 8 chbnnels on input bnd
+// up to 65535 chbnnels on output. The user mby chbnge those by using the interpolbtion plug-in
 
-// Interpolation routines by default
-static cmsInterpFunction DefaultInterpolatorsFactory(cmsUInt32Number nInputChannels, cmsUInt32Number nOutputChannels, cmsUInt32Number dwFlags);
+// Interpolbtion routines by defbult
+stbtic cmsInterpFunction DefbultInterpolbtorsFbctory(cmsUInt32Number nInputChbnnels, cmsUInt32Number nOutputChbnnels, cmsUInt32Number dwFlbgs);
 
-// This is the default factory
-static cmsInterpFnFactory Interpolators = DefaultInterpolatorsFactory;
+// This is the defbult fbctory
+stbtic cmsInterpFnFbctory Interpolbtors = DefbultInterpolbtorsFbctory;
 
 
-// Main plug-in entry
-cmsBool  _cmsRegisterInterpPlugin(cmsPluginBase* Data)
+// Mbin plug-in entry
+cmsBool  _cmsRegisterInterpPlugin(cmsPluginBbse* Dbtb)
 {
-    cmsPluginInterpolation* Plugin = (cmsPluginInterpolation*) Data;
+    cmsPluginInterpolbtion* Plugin = (cmsPluginInterpolbtion*) Dbtb;
 
-    if (Data == NULL) {
+    if (Dbtb == NULL) {
 
-        Interpolators = DefaultInterpolatorsFactory;
+        Interpolbtors = DefbultInterpolbtorsFbctory;
         return TRUE;
     }
 
-    // Set replacement functions
-    Interpolators = Plugin ->InterpolatorsFactory;
+    // Set replbcement functions
+    Interpolbtors = Plugin ->InterpolbtorsFbctory;
     return TRUE;
 }
 
 
-// Set the interpolation method
-cmsBool _cmsSetInterpolationRoutine(cmsInterpParams* p)
+// Set the interpolbtion method
+cmsBool _cmsSetInterpolbtionRoutine(cmsInterpPbrbms* p)
 {
-    // Invoke factory, possibly in the Plug-in
-    p ->Interpolation = Interpolators(p -> nInputs, p ->nOutputs, p ->dwFlags);
+    // Invoke fbctory, possibly in the Plug-in
+    p ->Interpolbtion = Interpolbtors(p -> nInputs, p ->nOutputs, p ->dwFlbgs);
 
-    // If unsupported by the plug-in, go for the LittleCMS default.
-    // If happens only if an extern plug-in is being used
-    if (p ->Interpolation.Lerp16 == NULL)
-        p ->Interpolation = DefaultInterpolatorsFactory(p ->nInputs, p ->nOutputs, p ->dwFlags);
+    // If unsupported by the plug-in, go for the LittleCMS defbult.
+    // If hbppens only if bn extern plug-in is being used
+    if (p ->Interpolbtion.Lerp16 == NULL)
+        p ->Interpolbtion = DefbultInterpolbtorsFbctory(p ->nInputs, p ->nOutputs, p ->dwFlbgs);
 
-    // Check for valid interpolator (we just check one member of the union)
-    if (p ->Interpolation.Lerp16 == NULL) {
+    // Check for vblid interpolbtor (we just check one member of the union)
+    if (p ->Interpolbtion.Lerp16 == NULL) {
             return FALSE;
     }
     return TRUE;
 }
 
 
-// This function precalculates as many parameters as possible to speed up the interpolation.
-cmsInterpParams* _cmsComputeInterpParamsEx(cmsContext ContextID,
-                                           const cmsUInt32Number nSamples[],
-                                           int InputChan, int OutputChan,
-                                           const void *Table,
-                                           cmsUInt32Number dwFlags)
+// This function precblculbtes bs mbny pbrbmeters bs possible to speed up the interpolbtion.
+cmsInterpPbrbms* _cmsComputeInterpPbrbmsEx(cmsContext ContextID,
+                                           const cmsUInt32Number nSbmples[],
+                                           int InputChbn, int OutputChbn,
+                                           const void *Tbble,
+                                           cmsUInt32Number dwFlbgs)
 {
-    cmsInterpParams* p;
+    cmsInterpPbrbms* p;
     int i;
 
-    // Check for maximum inputs
-    if (InputChan > MAX_INPUT_DIMENSIONS) {
-             cmsSignalError(ContextID, cmsERROR_RANGE, "Too many input channels (%d channels, max=%d)", InputChan, MAX_INPUT_DIMENSIONS);
+    // Check for mbximum inputs
+    if (InputChbn > MAX_INPUT_DIMENSIONS) {
+             cmsSignblError(ContextID, cmsERROR_RANGE, "Too mbny input chbnnels (%d chbnnels, mbx=%d)", InputChbn, MAX_INPUT_DIMENSIONS);
             return NULL;
     }
 
-    // Creates an empty object
-    p = (cmsInterpParams*) _cmsMallocZero(ContextID, sizeof(cmsInterpParams));
+    // Crebtes bn empty object
+    p = (cmsInterpPbrbms*) _cmsMbllocZero(ContextID, sizeof(cmsInterpPbrbms));
     if (p == NULL) return NULL;
 
-    // Keep original parameters
-    p -> dwFlags  = dwFlags;
-    p -> nInputs  = InputChan;
-    p -> nOutputs = OutputChan;
-    p ->Table     = Table;
+    // Keep originbl pbrbmeters
+    p -> dwFlbgs  = dwFlbgs;
+    p -> nInputs  = InputChbn;
+    p -> nOutputs = OutputChbn;
+    p ->Tbble     = Tbble;
     p ->ContextID  = ContextID;
 
-    // Fill samples per input direction and domain (which is number of nodes minus one)
-    for (i=0; i < InputChan; i++) {
+    // Fill sbmples per input direction bnd dombin (which is number of nodes minus one)
+    for (i=0; i < InputChbn; i++) {
 
-        p -> nSamples[i] = nSamples[i];
-        p -> Domain[i]   = nSamples[i] - 1;
+        p -> nSbmples[i] = nSbmples[i];
+        p -> Dombin[i]   = nSbmples[i] - 1;
     }
 
-    // Compute factors to apply to each component to index the grid array
-    p -> opta[0] = p -> nOutputs;
-    for (i=1; i < InputChan; i++)
-        p ->opta[i] = p ->opta[i-1] * nSamples[InputChan-i];
+    // Compute fbctors to bpply to ebch component to index the grid brrby
+    p -> optb[0] = p -> nOutputs;
+    for (i=1; i < InputChbn; i++)
+        p ->optb[i] = p ->optb[i-1] * nSbmples[InputChbn-i];
 
 
-    if (!_cmsSetInterpolationRoutine(p)) {
-         cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported interpolation (%d->%d channels)", InputChan, OutputChan);
+    if (!_cmsSetInterpolbtionRoutine(p)) {
+         cmsSignblError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported interpolbtion (%d->%d chbnnels)", InputChbn, OutputChbn);
         _cmsFree(ContextID, p);
         return NULL;
     }
@@ -152,214 +152,214 @@ cmsInterpParams* _cmsComputeInterpParamsEx(cmsContext ContextID,
 }
 
 
-// This one is a wrapper on the anterior, but assuming all directions have same number of nodes
-cmsInterpParams* _cmsComputeInterpParams(cmsContext ContextID, int nSamples, int InputChan, int OutputChan, const void* Table, cmsUInt32Number dwFlags)
+// This one is b wrbpper on the bnterior, but bssuming bll directions hbve sbme number of nodes
+cmsInterpPbrbms* _cmsComputeInterpPbrbms(cmsContext ContextID, int nSbmples, int InputChbn, int OutputChbn, const void* Tbble, cmsUInt32Number dwFlbgs)
 {
     int i;
-    cmsUInt32Number Samples[MAX_INPUT_DIMENSIONS];
+    cmsUInt32Number Sbmples[MAX_INPUT_DIMENSIONS];
 
-    // Fill the auxiliar array
+    // Fill the buxilibr brrby
     for (i=0; i < MAX_INPUT_DIMENSIONS; i++)
-        Samples[i] = nSamples;
+        Sbmples[i] = nSbmples;
 
-    // Call the extended function
-    return _cmsComputeInterpParamsEx(ContextID, Samples, InputChan, OutputChan, Table, dwFlags);
+    // Cbll the extended function
+    return _cmsComputeInterpPbrbmsEx(ContextID, Sbmples, InputChbn, OutputChbn, Tbble, dwFlbgs);
 }
 
 
-// Free all associated memory
-void _cmsFreeInterpParams(cmsInterpParams* p)
+// Free bll bssocibted memory
+void _cmsFreeInterpPbrbms(cmsInterpPbrbms* p)
 {
     if (p != NULL) _cmsFree(p ->ContextID, p);
 }
 
 
-// Inline fixed point interpolation
-cmsINLINE cmsUInt16Number LinearInterp(cmsS15Fixed16Number a, cmsS15Fixed16Number l, cmsS15Fixed16Number h)
+// Inline fixed point interpolbtion
+cmsINLINE cmsUInt16Number LinebrInterp(cmsS15Fixed16Number b, cmsS15Fixed16Number l, cmsS15Fixed16Number h)
 {
-    cmsUInt32Number dif = (cmsUInt32Number) (h - l) * a + 0x8000;
+    cmsUInt32Number dif = (cmsUInt32Number) (h - l) * b + 0x8000;
     dif = (dif >> 16) + l;
     return (cmsUInt16Number) (dif);
 }
 
 
-//  Linear interpolation (Fixed-point optimized)
-static
-void LinLerp1D(register const cmsUInt16Number Value[],
+//  Linebr interpolbtion (Fixed-point optimized)
+stbtic
+void LinLerp1D(register const cmsUInt16Number Vblue[],
                register cmsUInt16Number Output[],
-               register const cmsInterpParams* p)
+               register const cmsInterpPbrbms* p)
 {
     cmsUInt16Number y1, y0;
     int cell0, rest;
-    int val3;
-    const cmsUInt16Number* LutTable = (cmsUInt16Number*) p ->Table;
+    int vbl3;
+    const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p ->Tbble;
 
-    // if last value...
-    if (Value[0] == 0xffff) {
+    // if lbst vblue...
+    if (Vblue[0] == 0xffff) {
 
-        Output[0] = LutTable[p -> Domain[0]];
+        Output[0] = LutTbble[p -> Dombin[0]];
         return;
     }
 
-    val3 = p -> Domain[0] * Value[0];
-    val3 = _cmsToFixedDomain(val3);    // To fixed 15.16
+    vbl3 = p -> Dombin[0] * Vblue[0];
+    vbl3 = _cmsToFixedDombin(vbl3);    // To fixed 15.16
 
-    cell0 = FIXED_TO_INT(val3);             // Cell is 16 MSB bits
-    rest  = FIXED_REST_TO_INT(val3);        // Rest is 16 LSB bits
+    cell0 = FIXED_TO_INT(vbl3);             // Cell is 16 MSB bits
+    rest  = FIXED_REST_TO_INT(vbl3);        // Rest is 16 LSB bits
 
-    y0 = LutTable[cell0];
-    y1 = LutTable[cell0+1];
+    y0 = LutTbble[cell0];
+    y1 = LutTbble[cell0+1];
 
 
-    Output[0] = LinearInterp(rest, y0, y1);
+    Output[0] = LinebrInterp(rest, y0, y1);
 }
 
 // To prevent out of bounds indexing
-cmsINLINE cmsFloat32Number fclamp(cmsFloat32Number v)
+cmsINLINE cmsFlobt32Number fclbmp(cmsFlobt32Number v)
 {
     return v < 0.0f ? 0.0f : (v > 1.0f ? 1.0f : v);
 }
 
-// Floating-point version of 1D interpolation
-static
-void LinLerp1Dfloat(const cmsFloat32Number Value[],
-                    cmsFloat32Number Output[],
-                    const cmsInterpParams* p)
+// Flobting-point version of 1D interpolbtion
+stbtic
+void LinLerp1Dflobt(const cmsFlobt32Number Vblue[],
+                    cmsFlobt32Number Output[],
+                    const cmsInterpPbrbms* p)
 {
-       cmsFloat32Number y1, y0;
-       cmsFloat32Number val2, rest;
+       cmsFlobt32Number y1, y0;
+       cmsFlobt32Number vbl2, rest;
        int cell0, cell1;
-       const cmsFloat32Number* LutTable = (cmsFloat32Number*) p ->Table;
+       const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p ->Tbble;
 
-       val2 = fclamp(Value[0]);
+       vbl2 = fclbmp(Vblue[0]);
 
-       // if last value...
-       if (val2 == 1.0) {
-           Output[0] = LutTable[p -> Domain[0]];
+       // if lbst vblue...
+       if (vbl2 == 1.0) {
+           Output[0] = LutTbble[p -> Dombin[0]];
            return;
        }
 
-       val2 *= p -> Domain[0];
+       vbl2 *= p -> Dombin[0];
 
-       cell0 = (int) floor(val2);
-       cell1 = (int) ceil(val2);
+       cell0 = (int) floor(vbl2);
+       cell1 = (int) ceil(vbl2);
 
        // Rest is 16 LSB bits
-       rest = val2 - cell0;
+       rest = vbl2 - cell0;
 
-       y0 = LutTable[cell0] ;
-       y1 = LutTable[cell1] ;
+       y0 = LutTbble[cell0] ;
+       y1 = LutTbble[cell1] ;
 
        Output[0] = y0 + (y1 - y0) * rest;
 }
 
 
 
-// Eval gray LUT having only one input channel
-static
-void Eval1Input(register const cmsUInt16Number Input[],
+// Evbl grby LUT hbving only one input chbnnel
+stbtic
+void Evbl1Input(register const cmsUInt16Number Input[],
                 register cmsUInt16Number Output[],
-                register const cmsInterpParams* p16)
+                register const cmsInterpPbrbms* p16)
 {
        cmsS15Fixed16Number fk;
        cmsS15Fixed16Number k0, k1, rk, K0, K1;
        int v;
-       cmsUInt32Number OutChan;
-       const cmsUInt16Number* LutTable = (cmsUInt16Number*) p16 -> Table;
+       cmsUInt32Number OutChbn;
+       const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p16 -> Tbble;
 
-       v = Input[0] * p16 -> Domain[0];
-       fk = _cmsToFixedDomain(v);
+       v = Input[0] * p16 -> Dombin[0];
+       fk = _cmsToFixedDombin(v);
 
        k0 = FIXED_TO_INT(fk);
        rk = (cmsUInt16Number) FIXED_REST_TO_INT(fk);
 
        k1 = k0 + (Input[0] != 0xFFFFU ? 1 : 0);
 
-       K0 = p16 -> opta[0] * k0;
-       K1 = p16 -> opta[0] * k1;
+       K0 = p16 -> optb[0] * k0;
+       K1 = p16 -> optb[0] * k1;
 
-       for (OutChan=0; OutChan < p16->nOutputs; OutChan++) {
+       for (OutChbn=0; OutChbn < p16->nOutputs; OutChbn++) {
 
-           Output[OutChan] = LinearInterp(rk, LutTable[K0+OutChan], LutTable[K1+OutChan]);
+           Output[OutChbn] = LinebrInterp(rk, LutTbble[K0+OutChbn], LutTbble[K1+OutChbn]);
        }
 }
 
 
 
-// Eval gray LUT having only one input channel
-static
-void Eval1InputFloat(const cmsFloat32Number Value[],
-                     cmsFloat32Number Output[],
-                     const cmsInterpParams* p)
+// Evbl grby LUT hbving only one input chbnnel
+stbtic
+void Evbl1InputFlobt(const cmsFlobt32Number Vblue[],
+                     cmsFlobt32Number Output[],
+                     const cmsInterpPbrbms* p)
 {
-    cmsFloat32Number y1, y0;
-    cmsFloat32Number val2, rest;
+    cmsFlobt32Number y1, y0;
+    cmsFlobt32Number vbl2, rest;
     int cell0, cell1;
-    cmsUInt32Number OutChan;
-    const cmsFloat32Number* LutTable = (cmsFloat32Number*) p ->Table;
+    cmsUInt32Number OutChbn;
+    const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p ->Tbble;
 
-    val2 = fclamp(Value[0]);
+    vbl2 = fclbmp(Vblue[0]);
 
-        // if last value...
-       if (val2 == 1.0) {
-           Output[0] = LutTable[p -> Domain[0]];
+        // if lbst vblue...
+       if (vbl2 == 1.0) {
+           Output[0] = LutTbble[p -> Dombin[0]];
            return;
        }
 
-       val2 *= p -> Domain[0];
+       vbl2 *= p -> Dombin[0];
 
-       cell0 = (int) floor(val2);
-       cell1 = (int) ceil(val2);
+       cell0 = (int) floor(vbl2);
+       cell1 = (int) ceil(vbl2);
 
        // Rest is 16 LSB bits
-       rest = val2 - cell0;
+       rest = vbl2 - cell0;
 
-       cell0 *= p -> opta[0];
-       cell1 *= p -> opta[0];
+       cell0 *= p -> optb[0];
+       cell1 *= p -> optb[0];
 
-       for (OutChan=0; OutChan < p->nOutputs; OutChan++) {
+       for (OutChbn=0; OutChbn < p->nOutputs; OutChbn++) {
 
-            y0 = LutTable[cell0 + OutChan] ;
-            y1 = LutTable[cell1 + OutChan] ;
+            y0 = LutTbble[cell0 + OutChbn] ;
+            y1 = LutTbble[cell1 + OutChbn] ;
 
-            Output[OutChan] = y0 + (y1 - y0) * rest;
+            Output[OutChbn] = y0 + (y1 - y0) * rest;
        }
 }
 
-// Bilinear interpolation (16 bits) - cmsFloat32Number version
-static
-void BilinearInterpFloat(const cmsFloat32Number Input[],
-                         cmsFloat32Number Output[],
-                         const cmsInterpParams* p)
+// Bilinebr interpolbtion (16 bits) - cmsFlobt32Number version
+stbtic
+void BilinebrInterpFlobt(const cmsFlobt32Number Input[],
+                         cmsFlobt32Number Output[],
+                         const cmsInterpPbrbms* p)
 
 {
-#   define LERP(a,l,h)    (cmsFloat32Number) ((l)+(((h)-(l))*(a)))
-#   define DENS(i,j)      (LutTable[(i)+(j)+OutChan])
+#   define LERP(b,l,h)    (cmsFlobt32Number) ((l)+(((h)-(l))*(b)))
+#   define DENS(i,j)      (LutTbble[(i)+(j)+OutChbn])
 
-    const cmsFloat32Number* LutTable = (cmsFloat32Number*) p ->Table;
-    cmsFloat32Number      px, py;
+    const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p ->Tbble;
+    cmsFlobt32Number      px, py;
     int        x0, y0,
                X0, Y0, X1, Y1;
-    int        TotalOut, OutChan;
-    cmsFloat32Number      fx, fy,
+    int        TotblOut, OutChbn;
+    cmsFlobt32Number      fx, fy,
         d00, d01, d10, d11,
         dx0, dx1,
         dxy;
 
-    TotalOut   = p -> nOutputs;
-    px = fclamp(Input[0]) * p->Domain[0];
-    py = fclamp(Input[1]) * p->Domain[1];
+    TotblOut   = p -> nOutputs;
+    px = fclbmp(Input[0]) * p->Dombin[0];
+    py = fclbmp(Input[1]) * p->Dombin[1];
 
-    x0 = (int) _cmsQuickFloor(px); fx = px - (cmsFloat32Number) x0;
-    y0 = (int) _cmsQuickFloor(py); fy = py - (cmsFloat32Number) y0;
+    x0 = (int) _cmsQuickFloor(px); fx = px - (cmsFlobt32Number) x0;
+    y0 = (int) _cmsQuickFloor(py); fy = py - (cmsFlobt32Number) y0;
 
-    X0 = p -> opta[1] * x0;
-    X1 = X0 + (Input[0] >= 1.0 ? 0 : p->opta[1]);
+    X0 = p -> optb[1] * x0;
+    X1 = X0 + (Input[0] >= 1.0 ? 0 : p->optb[1]);
 
-    Y0 = p -> opta[0] * y0;
-    Y1 = Y0 + (Input[1] >= 1.0 ? 0 : p->opta[0]);
+    Y0 = p -> optb[0] * y0;
+    Y1 = Y0 + (Input[1] >= 1.0 ? 0 : p->optb[0]);
 
-    for (OutChan = 0; OutChan < TotalOut; OutChan++) {
+    for (OutChbn = 0; OutChbn < TotblOut; OutChbn++) {
 
         d00 = DENS(X0, Y0);
         d01 = DENS(X0, Y1);
@@ -371,7 +371,7 @@ void BilinearInterpFloat(const cmsFloat32Number Input[],
 
         dxy = LERP(fy, dx0, dx1);
 
-        Output[OutChan] = dxy;
+        Output[OutChbn] = dxy;
     }
 
 
@@ -379,18 +379,18 @@ void BilinearInterpFloat(const cmsFloat32Number Input[],
 #   undef DENS
 }
 
-// Bilinear interpolation (16 bits) - optimized version
-static
-void BilinearInterp16(register const cmsUInt16Number Input[],
+// Bilinebr interpolbtion (16 bits) - optimized version
+stbtic
+void BilinebrInterp16(register const cmsUInt16Number Input[],
                       register cmsUInt16Number Output[],
-                      register const cmsInterpParams* p)
+                      register const cmsInterpPbrbms* p)
 
 {
-#define DENS(i,j) (LutTable[(i)+(j)+OutChan])
-#define LERP(a,l,h)     (cmsUInt16Number) (l + ROUND_FIXED_TO_INT(((h-l)*a)))
+#define DENS(i,j) (LutTbble[(i)+(j)+OutChbn])
+#define LERP(b,l,h)     (cmsUInt16Number) (l + ROUND_FIXED_TO_INT(((h-l)*b)))
 
-           const cmsUInt16Number* LutTable = (cmsUInt16Number*) p ->Table;
-           int        OutChan, TotalOut;
+           const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p ->Tbble;
+           int        OutChbn, TotblOut;
            cmsS15Fixed16Number    fx, fy;
   register int        rx, ry;
            int        x0, y0;
@@ -399,25 +399,25 @@ void BilinearInterp16(register const cmsUInt16Number Input[],
                       dx0, dx1,
                       dxy;
 
-    TotalOut   = p -> nOutputs;
+    TotblOut   = p -> nOutputs;
 
-    fx = _cmsToFixedDomain((int) Input[0] * p -> Domain[0]);
+    fx = _cmsToFixedDombin((int) Input[0] * p -> Dombin[0]);
     x0  = FIXED_TO_INT(fx);
-    rx  = FIXED_REST_TO_INT(fx);    // Rest in 0..1.0 domain
+    rx  = FIXED_REST_TO_INT(fx);    // Rest in 0..1.0 dombin
 
 
-    fy = _cmsToFixedDomain((int) Input[1] * p -> Domain[1]);
+    fy = _cmsToFixedDombin((int) Input[1] * p -> Dombin[1]);
     y0  = FIXED_TO_INT(fy);
     ry  = FIXED_REST_TO_INT(fy);
 
 
-    X0 = p -> opta[1] * x0;
-    X1 = X0 + (Input[0] == 0xFFFFU ? 0 : p->opta[1]);
+    X0 = p -> optb[1] * x0;
+    X1 = X0 + (Input[0] == 0xFFFFU ? 0 : p->optb[1]);
 
-    Y0 = p -> opta[0] * y0;
-    Y1 = Y0 + (Input[1] == 0xFFFFU ? 0 : p->opta[0]);
+    Y0 = p -> optb[0] * y0;
+    Y1 = Y0 + (Input[1] == 0xFFFFU ? 0 : p->optb[0]);
 
-    for (OutChan = 0; OutChan < TotalOut; OutChan++) {
+    for (OutChbn = 0; OutChbn < TotblOut; OutChbn++) {
 
         d00 = DENS(X0, Y0);
         d01 = DENS(X0, Y1);
@@ -429,7 +429,7 @@ void BilinearInterp16(register const cmsUInt16Number Input[],
 
         dxy = LERP(ry, dx0, dx1);
 
-        Output[OutChan] = (cmsUInt16Number) dxy;
+        Output[OutChbn] = (cmsUInt16Number) dxy;
     }
 
 
@@ -438,48 +438,48 @@ void BilinearInterp16(register const cmsUInt16Number Input[],
 }
 
 
-// Trilinear interpolation (16 bits) - cmsFloat32Number version
-static
-void TrilinearInterpFloat(const cmsFloat32Number Input[],
-                          cmsFloat32Number Output[],
-                          const cmsInterpParams* p)
+// Trilinebr interpolbtion (16 bits) - cmsFlobt32Number version
+stbtic
+void TrilinebrInterpFlobt(const cmsFlobt32Number Input[],
+                          cmsFlobt32Number Output[],
+                          const cmsInterpPbrbms* p)
 
 {
-#   define LERP(a,l,h)      (cmsFloat32Number) ((l)+(((h)-(l))*(a)))
-#   define DENS(i,j,k)      (LutTable[(i)+(j)+(k)+OutChan])
+#   define LERP(b,l,h)      (cmsFlobt32Number) ((l)+(((h)-(l))*(b)))
+#   define DENS(i,j,k)      (LutTbble[(i)+(j)+(k)+OutChbn])
 
-    const cmsFloat32Number* LutTable = (cmsFloat32Number*) p ->Table;
-    cmsFloat32Number      px, py, pz;
+    const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p ->Tbble;
+    cmsFlobt32Number      px, py, pz;
     int        x0, y0, z0,
                X0, Y0, Z0, X1, Y1, Z1;
-    int        TotalOut, OutChan;
-    cmsFloat32Number      fx, fy, fz,
+    int        TotblOut, OutChbn;
+    cmsFlobt32Number      fx, fy, fz,
         d000, d001, d010, d011,
         d100, d101, d110, d111,
         dx00, dx01, dx10, dx11,
         dxy0, dxy1, dxyz;
 
-    TotalOut   = p -> nOutputs;
+    TotblOut   = p -> nOutputs;
 
     // We need some clipping here
-    px = fclamp(Input[0]) * p->Domain[0];
-    py = fclamp(Input[1]) * p->Domain[1];
-    pz = fclamp(Input[2]) * p->Domain[2];
+    px = fclbmp(Input[0]) * p->Dombin[0];
+    py = fclbmp(Input[1]) * p->Dombin[1];
+    pz = fclbmp(Input[2]) * p->Dombin[2];
 
-    x0 = (int) _cmsQuickFloor(px); fx = px - (cmsFloat32Number) x0;
-    y0 = (int) _cmsQuickFloor(py); fy = py - (cmsFloat32Number) y0;
-    z0 = (int) _cmsQuickFloor(pz); fz = pz - (cmsFloat32Number) z0;
+    x0 = (int) _cmsQuickFloor(px); fx = px - (cmsFlobt32Number) x0;
+    y0 = (int) _cmsQuickFloor(py); fy = py - (cmsFlobt32Number) y0;
+    z0 = (int) _cmsQuickFloor(pz); fz = pz - (cmsFlobt32Number) z0;
 
-    X0 = p -> opta[2] * x0;
-    X1 = X0 + (Input[0] >= 1.0 ? 0 : p->opta[2]);
+    X0 = p -> optb[2] * x0;
+    X1 = X0 + (Input[0] >= 1.0 ? 0 : p->optb[2]);
 
-    Y0 = p -> opta[1] * y0;
-    Y1 = Y0 + (Input[1] >= 1.0 ? 0 : p->opta[1]);
+    Y0 = p -> optb[1] * y0;
+    Y1 = Y0 + (Input[1] >= 1.0 ? 0 : p->optb[1]);
 
-    Z0 = p -> opta[0] * z0;
-    Z1 = Z0 + (Input[2] >= 1.0 ? 0 : p->opta[0]);
+    Z0 = p -> optb[0] * z0;
+    Z1 = Z0 + (Input[2] >= 1.0 ? 0 : p->optb[0]);
 
-    for (OutChan = 0; OutChan < TotalOut; OutChan++) {
+    for (OutChbn = 0; OutChbn < TotblOut; OutChbn++) {
 
         d000 = DENS(X0, Y0, Z0);
         d001 = DENS(X0, Y0, Z1);
@@ -502,7 +502,7 @@ void TrilinearInterpFloat(const cmsFloat32Number Input[],
 
         dxyz = LERP(fz, dxy0, dxy1);
 
-        Output[OutChan] = dxyz;
+        Output[OutChbn] = dxyz;
     }
 
 
@@ -510,18 +510,18 @@ void TrilinearInterpFloat(const cmsFloat32Number Input[],
 #   undef DENS
 }
 
-// Trilinear interpolation (16 bits) - optimized version
-static
-void TrilinearInterp16(register const cmsUInt16Number Input[],
+// Trilinebr interpolbtion (16 bits) - optimized version
+stbtic
+void TrilinebrInterp16(register const cmsUInt16Number Input[],
                        register cmsUInt16Number Output[],
-                       register const cmsInterpParams* p)
+                       register const cmsInterpPbrbms* p)
 
 {
-#define DENS(i,j,k) (LutTable[(i)+(j)+(k)+OutChan])
-#define LERP(a,l,h)     (cmsUInt16Number) (l + ROUND_FIXED_TO_INT(((h-l)*a)))
+#define DENS(i,j,k) (LutTbble[(i)+(j)+(k)+OutChbn])
+#define LERP(b,l,h)     (cmsUInt16Number) (l + ROUND_FIXED_TO_INT(((h-l)*b)))
 
-           const cmsUInt16Number* LutTable = (cmsUInt16Number*) p ->Table;
-           int        OutChan, TotalOut;
+           const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p ->Tbble;
+           int        OutChbn, TotblOut;
            cmsS15Fixed16Number    fx, fy, fz;
   register int        rx, ry, rz;
            int        x0, y0, z0;
@@ -531,32 +531,32 @@ void TrilinearInterp16(register const cmsUInt16Number Input[],
                       dx00, dx01, dx10, dx11,
                       dxy0, dxy1, dxyz;
 
-    TotalOut   = p -> nOutputs;
+    TotblOut   = p -> nOutputs;
 
-    fx = _cmsToFixedDomain((int) Input[0] * p -> Domain[0]);
+    fx = _cmsToFixedDombin((int) Input[0] * p -> Dombin[0]);
     x0  = FIXED_TO_INT(fx);
-    rx  = FIXED_REST_TO_INT(fx);    // Rest in 0..1.0 domain
+    rx  = FIXED_REST_TO_INT(fx);    // Rest in 0..1.0 dombin
 
 
-    fy = _cmsToFixedDomain((int) Input[1] * p -> Domain[1]);
+    fy = _cmsToFixedDombin((int) Input[1] * p -> Dombin[1]);
     y0  = FIXED_TO_INT(fy);
     ry  = FIXED_REST_TO_INT(fy);
 
-    fz = _cmsToFixedDomain((int) Input[2] * p -> Domain[2]);
+    fz = _cmsToFixedDombin((int) Input[2] * p -> Dombin[2]);
     z0 = FIXED_TO_INT(fz);
     rz = FIXED_REST_TO_INT(fz);
 
 
-    X0 = p -> opta[2] * x0;
-    X1 = X0 + (Input[0] == 0xFFFFU ? 0 : p->opta[2]);
+    X0 = p -> optb[2] * x0;
+    X1 = X0 + (Input[0] == 0xFFFFU ? 0 : p->optb[2]);
 
-    Y0 = p -> opta[1] * y0;
-    Y1 = Y0 + (Input[1] == 0xFFFFU ? 0 : p->opta[1]);
+    Y0 = p -> optb[1] * y0;
+    Y1 = Y0 + (Input[1] == 0xFFFFU ? 0 : p->optb[1]);
 
-    Z0 = p -> opta[0] * z0;
-    Z1 = Z0 + (Input[2] == 0xFFFFU ? 0 : p->opta[0]);
+    Z0 = p -> optb[0] * z0;
+    Z1 = Z0 + (Input[2] == 0xFFFFU ? 0 : p->optb[0]);
 
-    for (OutChan = 0; OutChan < TotalOut; OutChan++) {
+    for (OutChbn = 0; OutChbn < TotblOut; OutChbn++) {
 
         d000 = DENS(X0, Y0, Z0);
         d001 = DENS(X0, Y0, Z1);
@@ -579,7 +579,7 @@ void TrilinearInterp16(register const cmsUInt16Number Input[],
 
         dxyz = LERP(rz, dxy0, dxy1);
 
-        Output[OutChan] = (cmsUInt16Number) dxyz;
+        Output[OutChbn] = (cmsUInt16Number) dxyz;
     }
 
 
@@ -588,45 +588,45 @@ void TrilinearInterp16(register const cmsUInt16Number Input[],
 }
 
 
-// Tetrahedral interpolation, using Sakamoto algorithm.
-#define DENS(i,j,k) (LutTable[(i)+(j)+(k)+OutChan])
-static
-void TetrahedralInterpFloat(const cmsFloat32Number Input[],
-                            cmsFloat32Number Output[],
-                            const cmsInterpParams* p)
+// Tetrbhedrbl interpolbtion, using Sbkbmoto blgorithm.
+#define DENS(i,j,k) (LutTbble[(i)+(j)+(k)+OutChbn])
+stbtic
+void TetrbhedrblInterpFlobt(const cmsFlobt32Number Input[],
+                            cmsFlobt32Number Output[],
+                            const cmsInterpPbrbms* p)
 {
-    const cmsFloat32Number* LutTable = (cmsFloat32Number*) p -> Table;
-    cmsFloat32Number     px, py, pz;
+    const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p -> Tbble;
+    cmsFlobt32Number     px, py, pz;
     int        x0, y0, z0,
                X0, Y0, Z0, X1, Y1, Z1;
-    cmsFloat32Number     rx, ry, rz;
-    cmsFloat32Number     c0, c1=0, c2=0, c3=0;
-    int                  OutChan, TotalOut;
+    cmsFlobt32Number     rx, ry, rz;
+    cmsFlobt32Number     c0, c1=0, c2=0, c3=0;
+    int                  OutChbn, TotblOut;
 
-    TotalOut   = p -> nOutputs;
+    TotblOut   = p -> nOutputs;
 
     // We need some clipping here
-    px = fclamp(Input[0]) * p->Domain[0];
-    py = fclamp(Input[1]) * p->Domain[1];
-    pz = fclamp(Input[2]) * p->Domain[2];
+    px = fclbmp(Input[0]) * p->Dombin[0];
+    py = fclbmp(Input[1]) * p->Dombin[1];
+    pz = fclbmp(Input[2]) * p->Dombin[2];
 
-    x0 = (int) _cmsQuickFloor(px); rx = (px - (cmsFloat32Number) x0);
-    y0 = (int) _cmsQuickFloor(py); ry = (py - (cmsFloat32Number) y0);
-    z0 = (int) _cmsQuickFloor(pz); rz = (pz - (cmsFloat32Number) z0);
+    x0 = (int) _cmsQuickFloor(px); rx = (px - (cmsFlobt32Number) x0);
+    y0 = (int) _cmsQuickFloor(py); ry = (py - (cmsFlobt32Number) y0);
+    z0 = (int) _cmsQuickFloor(pz); rz = (pz - (cmsFlobt32Number) z0);
 
 
-    X0 = p -> opta[2] * x0;
-    X1 = X0 + (Input[0] >= 1.0 ? 0 : p->opta[2]);
+    X0 = p -> optb[2] * x0;
+    X1 = X0 + (Input[0] >= 1.0 ? 0 : p->optb[2]);
 
-    Y0 = p -> opta[1] * y0;
-    Y1 = Y0 + (Input[1] >= 1.0 ? 0 : p->opta[1]);
+    Y0 = p -> optb[1] * y0;
+    Y1 = Y0 + (Input[1] >= 1.0 ? 0 : p->optb[1]);
 
-    Z0 = p -> opta[0] * z0;
-    Z1 = Z0 + (Input[2] >= 1.0 ? 0 : p->opta[0]);
+    Z0 = p -> optb[0] * z0;
+    Z1 = Z0 + (Input[2] >= 1.0 ? 0 : p->optb[0]);
 
-    for (OutChan=0; OutChan < TotalOut; OutChan++) {
+    for (OutChbn=0; OutChbn < TotblOut; OutChbn++) {
 
-       // These are the 6 Tetrahedral
+       // These bre the 6 Tetrbhedrbl
 
         c0 = DENS(X0, Y0, Z0);
 
@@ -681,7 +681,7 @@ void TetrahedralInterpFloat(const cmsFloat32Number Input[],
                                 c1 = c2 = c3 = 0;
                             }
 
-       Output[OutChan] = c0 + c1 * rx + c2 * ry + c3 * rz;
+       Output[OutChbn] = c0 + c1 * rx + c2 * ry + c3 * rz;
        }
 
 }
@@ -691,22 +691,22 @@ void TetrahedralInterpFloat(const cmsFloat32Number Input[],
 
 
 
-static
-void TetrahedralInterp16(register const cmsUInt16Number Input[],
+stbtic
+void TetrbhedrblInterp16(register const cmsUInt16Number Input[],
                          register cmsUInt16Number Output[],
-                         register const cmsInterpParams* p)
+                         register const cmsInterpPbrbms* p)
 {
-    const cmsUInt16Number* LutTable = (cmsUInt16Number*) p -> Table;
+    const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p -> Tbble;
     cmsS15Fixed16Number fx, fy, fz;
     cmsS15Fixed16Number rx, ry, rz;
     int x0, y0, z0;
     cmsS15Fixed16Number c0, c1, c2, c3, Rest;
     cmsS15Fixed16Number X0, X1, Y0, Y1, Z0, Z1;
-    cmsUInt32Number TotalOut = p -> nOutputs;
+    cmsUInt32Number TotblOut = p -> nOutputs;
 
-    fx = _cmsToFixedDomain((int) Input[0] * p -> Domain[0]);
-    fy = _cmsToFixedDomain((int) Input[1] * p -> Domain[1]);
-    fz = _cmsToFixedDomain((int) Input[2] * p -> Domain[2]);
+    fx = _cmsToFixedDombin((int) Input[0] * p -> Dombin[0]);
+    fy = _cmsToFixedDombin((int) Input[1] * p -> Dombin[1]);
+    fz = _cmsToFixedDombin((int) Input[2] * p -> Dombin[2]);
 
     x0 = FIXED_TO_INT(fx);
     y0 = FIXED_TO_INT(fy);
@@ -716,31 +716,31 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
     ry = FIXED_REST_TO_INT(fy);
     rz = FIXED_REST_TO_INT(fz);
 
-    X0 = p -> opta[2] * x0;
-    X1 = (Input[0] == 0xFFFFU ? 0 : p->opta[2]);
+    X0 = p -> optb[2] * x0;
+    X1 = (Input[0] == 0xFFFFU ? 0 : p->optb[2]);
 
-    Y0 = p -> opta[1] * y0;
-    Y1 = (Input[1] == 0xFFFFU ? 0 : p->opta[1]);
+    Y0 = p -> optb[1] * y0;
+    Y1 = (Input[1] == 0xFFFFU ? 0 : p->optb[1]);
 
-    Z0 = p -> opta[0] * z0;
-    Z1 = (Input[2] == 0xFFFFU ? 0 : p->opta[0]);
+    Z0 = p -> optb[0] * z0;
+    Z1 = (Input[2] == 0xFFFFU ? 0 : p->optb[0]);
 
-    LutTable = &LutTable[X0+Y0+Z0];
+    LutTbble = &LutTbble[X0+Y0+Z0];
 
-    // Output should be computed as x = ROUND_FIXED_TO_INT(_cmsToFixedDomain(Rest))
-    // which expands as: x = (Rest + ((Rest+0x7fff)/0xFFFF) + 0x8000)>>16
-    // This can be replaced by: t = Rest+0x8001, x = (t + (t>>16))>>16
-    // at the cost of being off by one at 7fff and 17ffe.
+    // Output should be computed bs x = ROUND_FIXED_TO_INT(_cmsToFixedDombin(Rest))
+    // which expbnds bs: x = (Rest + ((Rest+0x7fff)/0xFFFF) + 0x8000)>>16
+    // This cbn be replbced by: t = Rest+0x8001, x = (t + (t>>16))>>16
+    // bt the cost of being off by one bt 7fff bnd 17ffe.
 
     if (rx >= ry) {
         if (ry >= rz) {
             Y1 += X1;
             Z1 += Y1;
-            for (; TotalOut; TotalOut--) {
-                c1 = LutTable[X1];
-                c2 = LutTable[Y1];
-                c3 = LutTable[Z1];
-                c0 = *LutTable++;
+            for (; TotblOut; TotblOut--) {
+                c1 = LutTbble[X1];
+                c2 = LutTbble[Y1];
+                c3 = LutTbble[Z1];
+                c0 = *LutTbble++;
                 c3 -= c2;
                 c2 -= c1;
                 c1 -= c0;
@@ -750,11 +750,11 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
         } else if (rz >= rx) {
             X1 += Z1;
             Y1 += X1;
-            for (; TotalOut; TotalOut--) {
-                c1 = LutTable[X1];
-                c2 = LutTable[Y1];
-                c3 = LutTable[Z1];
-                c0 = *LutTable++;
+            for (; TotblOut; TotblOut--) {
+                c1 = LutTbble[X1];
+                c2 = LutTbble[Y1];
+                c3 = LutTbble[Z1];
+                c0 = *LutTbble++;
                 c2 -= c1;
                 c1 -= c3;
                 c3 -= c0;
@@ -764,11 +764,11 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
         } else {
             Z1 += X1;
             Y1 += Z1;
-            for (; TotalOut; TotalOut--) {
-                c1 = LutTable[X1];
-                c2 = LutTable[Y1];
-                c3 = LutTable[Z1];
-                c0 = *LutTable++;
+            for (; TotblOut; TotblOut--) {
+                c1 = LutTbble[X1];
+                c2 = LutTbble[Y1];
+                c3 = LutTbble[Z1];
+                c0 = *LutTbble++;
                 c2 -= c3;
                 c3 -= c1;
                 c1 -= c0;
@@ -780,11 +780,11 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
         if (rx >= rz) {
             X1 += Y1;
             Z1 += X1;
-            for (; TotalOut; TotalOut--) {
-                c1 = LutTable[X1];
-                c2 = LutTable[Y1];
-                c3 = LutTable[Z1];
-                c0 = *LutTable++;
+            for (; TotblOut; TotblOut--) {
+                c1 = LutTbble[X1];
+                c2 = LutTbble[Y1];
+                c3 = LutTbble[Z1];
+                c0 = *LutTbble++;
                 c3 -= c1;
                 c1 -= c2;
                 c2 -= c0;
@@ -794,11 +794,11 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
         } else if (ry >= rz) {
             Z1 += Y1;
             X1 += Z1;
-            for (; TotalOut; TotalOut--) {
-                c1 = LutTable[X1];
-                c2 = LutTable[Y1];
-                c3 = LutTable[Z1];
-                c0 = *LutTable++;
+            for (; TotblOut; TotblOut--) {
+                c1 = LutTbble[X1];
+                c2 = LutTbble[Y1];
+                c3 = LutTbble[Z1];
+                c0 = *LutTbble++;
                 c1 -= c3;
                 c3 -= c2;
                 c2 -= c0;
@@ -808,11 +808,11 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
         } else {
             Y1 += Z1;
             X1 += Y1;
-            for (; TotalOut; TotalOut--) {
-                c1 = LutTable[X1];
-                c2 = LutTable[Y1];
-                c3 = LutTable[Z1];
-                c0 = *LutTable++;
+            for (; TotblOut; TotblOut--) {
+                c1 = LutTbble[X1];
+                c2 = LutTbble[Y1];
+                c3 = LutTbble[Z1];
+                c0 = *LutTbble++;
                 c1 -= c2;
                 c2 -= c3;
                 c3 -= c0;
@@ -824,13 +824,13 @@ void TetrahedralInterp16(register const cmsUInt16Number Input[],
 }
 
 
-#define DENS(i,j,k) (LutTable[(i)+(j)+(k)+OutChan])
-static
-void Eval4Inputs(register const cmsUInt16Number Input[],
+#define DENS(i,j,k) (LutTbble[(i)+(j)+(k)+OutChbn])
+stbtic
+void Evbl4Inputs(register const cmsUInt16Number Input[],
                      register cmsUInt16Number Output[],
-                     register const cmsInterpParams* p16)
+                     register const cmsInterpPbrbms* p16)
 {
-    const cmsUInt16Number* LutTable;
+    const cmsUInt16Number* LutTbble;
     cmsS15Fixed16Number fk;
     cmsS15Fixed16Number k0, rk;
     int K0, K1;
@@ -840,14 +840,14 @@ void Eval4Inputs(register const cmsUInt16Number Input[],
     cmsS15Fixed16Number    X0, X1, Y0, Y1, Z0, Z1;
     cmsUInt32Number i;
     cmsS15Fixed16Number    c0, c1, c2, c3, Rest;
-    cmsUInt32Number        OutChan;
+    cmsUInt32Number        OutChbn;
     cmsUInt16Number        Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
 
 
-    fk  = _cmsToFixedDomain((int) Input[0] * p16 -> Domain[0]);
-    fx  = _cmsToFixedDomain((int) Input[1] * p16 -> Domain[1]);
-    fy  = _cmsToFixedDomain((int) Input[2] * p16 -> Domain[2]);
-    fz  = _cmsToFixedDomain((int) Input[3] * p16 -> Domain[3]);
+    fk  = _cmsToFixedDombin((int) Input[0] * p16 -> Dombin[0]);
+    fx  = _cmsToFixedDombin((int) Input[1] * p16 -> Dombin[1]);
+    fy  = _cmsToFixedDombin((int) Input[2] * p16 -> Dombin[2]);
+    fz  = _cmsToFixedDombin((int) Input[3] * p16 -> Dombin[3]);
 
     k0  = FIXED_TO_INT(fk);
     x0  = FIXED_TO_INT(fx);
@@ -859,22 +859,22 @@ void Eval4Inputs(register const cmsUInt16Number Input[],
     ry  = FIXED_REST_TO_INT(fy);
     rz  = FIXED_REST_TO_INT(fz);
 
-    K0 = p16 -> opta[3] * k0;
-    K1 = K0 + (Input[0] == 0xFFFFU ? 0 : p16->opta[3]);
+    K0 = p16 -> optb[3] * k0;
+    K1 = K0 + (Input[0] == 0xFFFFU ? 0 : p16->optb[3]);
 
-    X0 = p16 -> opta[2] * x0;
-    X1 = X0 + (Input[1] == 0xFFFFU ? 0 : p16->opta[2]);
+    X0 = p16 -> optb[2] * x0;
+    X1 = X0 + (Input[1] == 0xFFFFU ? 0 : p16->optb[2]);
 
-    Y0 = p16 -> opta[1] * y0;
-    Y1 = Y0 + (Input[2] == 0xFFFFU ? 0 : p16->opta[1]);
+    Y0 = p16 -> optb[1] * y0;
+    Y1 = Y0 + (Input[2] == 0xFFFFU ? 0 : p16->optb[1]);
 
-    Z0 = p16 -> opta[0] * z0;
-    Z1 = Z0 + (Input[3] == 0xFFFFU ? 0 : p16->opta[0]);
+    Z0 = p16 -> optb[0] * z0;
+    Z1 = Z0 + (Input[3] == 0xFFFFU ? 0 : p16->optb[0]);
 
-    LutTable = (cmsUInt16Number*) p16 -> Table;
-    LutTable += K0;
+    LutTbble = (cmsUInt16Number*) p16 -> Tbble;
+    LutTbble += K0;
 
-    for (OutChan=0; OutChan < p16 -> nOutputs; OutChan++) {
+    for (OutChbn=0; OutChbn < p16 -> nOutputs; OutChbn++) {
 
         c0 = DENS(X0, Y0, Z0);
 
@@ -931,14 +931,14 @@ void Eval4Inputs(register const cmsUInt16Number Input[],
 
                             Rest = c1 * rx + c2 * ry + c3 * rz;
 
-                            Tmp1[OutChan] = (cmsUInt16Number) c0 + ROUND_FIXED_TO_INT(_cmsToFixedDomain(Rest));
+                            Tmp1[OutChbn] = (cmsUInt16Number) c0 + ROUND_FIXED_TO_INT(_cmsToFixedDombin(Rest));
     }
 
 
-    LutTable = (cmsUInt16Number*) p16 -> Table;
-    LutTable += K1;
+    LutTbble = (cmsUInt16Number*) p16 -> Tbble;
+    LutTbble += K1;
 
-    for (OutChan=0; OutChan < p16 -> nOutputs; OutChan++) {
+    for (OutChbn=0; OutChbn < p16 -> nOutputs; OutChbn++) {
 
         c0 = DENS(X0, Y0, Z0);
 
@@ -995,147 +995,147 @@ void Eval4Inputs(register const cmsUInt16Number Input[],
 
                             Rest = c1 * rx + c2 * ry + c3 * rz;
 
-                            Tmp2[OutChan] = (cmsUInt16Number) c0 + ROUND_FIXED_TO_INT(_cmsToFixedDomain(Rest));
+                            Tmp2[OutChbn] = (cmsUInt16Number) c0 + ROUND_FIXED_TO_INT(_cmsToFixedDombin(Rest));
     }
 
 
 
     for (i=0; i < p16 -> nOutputs; i++) {
-        Output[i] = LinearInterp(rk, Tmp1[i], Tmp2[i]);
+        Output[i] = LinebrInterp(rk, Tmp1[i], Tmp2[i]);
     }
 }
 #undef DENS
 
 
-// For more that 3 inputs (i.e., CMYK)
-// evaluate two 3-dimensional interpolations and then linearly interpolate between them.
+// For more thbt 3 inputs (i.e., CMYK)
+// evblubte two 3-dimensionbl interpolbtions bnd then linebrly interpolbte between them.
 
 
-static
-void Eval4InputsFloat(const cmsFloat32Number Input[],
-                      cmsFloat32Number Output[],
-                      const cmsInterpParams* p)
+stbtic
+void Evbl4InputsFlobt(const cmsFlobt32Number Input[],
+                      cmsFlobt32Number Output[],
+                      const cmsInterpPbrbms* p)
 {
-       const cmsFloat32Number* LutTable = (cmsFloat32Number*) p -> Table;
-       cmsFloat32Number rest;
-       cmsFloat32Number pk;
+       const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p -> Tbble;
+       cmsFlobt32Number rest;
+       cmsFlobt32Number pk;
        int k0, K0, K1;
-       const cmsFloat32Number* T;
+       const cmsFlobt32Number* T;
        cmsUInt32Number i;
-       cmsFloat32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsFlobt32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
+       cmsInterpPbrbms p1;
 
-       pk = fclamp(Input[0]) * p->Domain[0];
+       pk = fclbmp(Input[0]) * p->Dombin[0];
        k0 = _cmsQuickFloor(pk);
-       rest = pk - (cmsFloat32Number) k0;
+       rest = pk - (cmsFlobt32Number) k0;
 
-       K0 = p -> opta[3] * k0;
-       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->opta[3]);
+       K0 = p -> optb[3] * k0;
+       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->optb[3]);
 
        p1 = *p;
-       memmove(&p1.Domain[0], &p ->Domain[1], 3*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p ->Dombin[1], 3*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       TetrahedralInterpFloat(Input + 1,  Tmp1, &p1);
+       TetrbhedrblInterpFlobt(Input + 1,  Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
-       TetrahedralInterpFloat(Input + 1,  Tmp2, &p1);
+       T = LutTbble + K1;
+       p1.Tbble = T;
+       TetrbhedrblInterpFlobt(Input + 1,  Tmp2, &p1);
 
        for (i=0; i < p -> nOutputs; i++)
        {
-              cmsFloat32Number y0 = Tmp1[i];
-              cmsFloat32Number y1 = Tmp2[i];
+              cmsFlobt32Number y0 = Tmp1[i];
+              cmsFlobt32Number y1 = Tmp2[i];
 
               Output[i] = y0 + (y1 - y0) * rest;
        }
 }
 
 
-static
-void Eval5Inputs(register const cmsUInt16Number Input[],
+stbtic
+void Evbl5Inputs(register const cmsUInt16Number Input[],
                  register cmsUInt16Number Output[],
 
-                 register const cmsInterpParams* p16)
+                 register const cmsInterpPbrbms* p16)
 {
-       const cmsUInt16Number* LutTable = (cmsUInt16Number*) p16 -> Table;
+       const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p16 -> Tbble;
        cmsS15Fixed16Number fk;
        cmsS15Fixed16Number k0, rk;
        int K0, K1;
        const cmsUInt16Number* T;
        cmsUInt32Number i;
        cmsUInt16Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsInterpPbrbms p1;
 
 
-       fk = _cmsToFixedDomain((cmsS15Fixed16Number) Input[0] * p16 -> Domain[0]);
+       fk = _cmsToFixedDombin((cmsS15Fixed16Number) Input[0] * p16 -> Dombin[0]);
        k0 = FIXED_TO_INT(fk);
        rk = FIXED_REST_TO_INT(fk);
 
-       K0 = p16 -> opta[4] * k0;
-       K1 = p16 -> opta[4] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
+       K0 = p16 -> optb[4] * k0;
+       K1 = p16 -> optb[4] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
 
        p1 = *p16;
-       memmove(&p1.Domain[0], &p16 ->Domain[1], 4*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p16 ->Dombin[1], 4*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       Eval4Inputs(Input + 1, Tmp1, &p1);
+       Evbl4Inputs(Input + 1, Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
+       T = LutTbble + K1;
+       p1.Tbble = T;
 
-       Eval4Inputs(Input + 1, Tmp2, &p1);
+       Evbl4Inputs(Input + 1, Tmp2, &p1);
 
        for (i=0; i < p16 -> nOutputs; i++) {
 
-              Output[i] = LinearInterp(rk, Tmp1[i], Tmp2[i]);
+              Output[i] = LinebrInterp(rk, Tmp1[i], Tmp2[i]);
        }
 
 }
 
 
-static
-void Eval5InputsFloat(const cmsFloat32Number Input[],
-                      cmsFloat32Number Output[],
-                      const cmsInterpParams* p)
+stbtic
+void Evbl5InputsFlobt(const cmsFlobt32Number Input[],
+                      cmsFlobt32Number Output[],
+                      const cmsInterpPbrbms* p)
 {
-       const cmsFloat32Number* LutTable = (cmsFloat32Number*) p -> Table;
-       cmsFloat32Number rest;
-       cmsFloat32Number pk;
+       const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p -> Tbble;
+       cmsFlobt32Number rest;
+       cmsFlobt32Number pk;
        int k0, K0, K1;
-       const cmsFloat32Number* T;
+       const cmsFlobt32Number* T;
        cmsUInt32Number i;
-       cmsFloat32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsFlobt32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
+       cmsInterpPbrbms p1;
 
-       pk = fclamp(Input[0]) * p->Domain[0];
+       pk = fclbmp(Input[0]) * p->Dombin[0];
        k0 = _cmsQuickFloor(pk);
-       rest = pk - (cmsFloat32Number) k0;
+       rest = pk - (cmsFlobt32Number) k0;
 
-       K0 = p -> opta[4] * k0;
-       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->opta[4]);
+       K0 = p -> optb[4] * k0;
+       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->optb[4]);
 
        p1 = *p;
-       memmove(&p1.Domain[0], &p ->Domain[1], 4*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p ->Dombin[1], 4*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       Eval4InputsFloat(Input + 1,  Tmp1, &p1);
+       Evbl4InputsFlobt(Input + 1,  Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
+       T = LutTbble + K1;
+       p1.Tbble = T;
 
-       Eval4InputsFloat(Input + 1,  Tmp2, &p1);
+       Evbl4InputsFlobt(Input + 1,  Tmp2, &p1);
 
        for (i=0; i < p -> nOutputs; i++) {
 
-              cmsFloat32Number y0 = Tmp1[i];
-              cmsFloat32Number y1 = Tmp2[i];
+              cmsFlobt32Number y0 = Tmp1[i];
+              cmsFlobt32Number y1 = Tmp2[i];
 
               Output[i] = y0 + (y1 - y0) * rest;
        }
@@ -1143,366 +1143,366 @@ void Eval5InputsFloat(const cmsFloat32Number Input[],
 
 
 
-static
-void Eval6Inputs(register const cmsUInt16Number Input[],
+stbtic
+void Evbl6Inputs(register const cmsUInt16Number Input[],
                  register cmsUInt16Number Output[],
-                 register const cmsInterpParams* p16)
+                 register const cmsInterpPbrbms* p16)
 {
-       const cmsUInt16Number* LutTable = (cmsUInt16Number*) p16 -> Table;
+       const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p16 -> Tbble;
        cmsS15Fixed16Number fk;
        cmsS15Fixed16Number k0, rk;
        int K0, K1;
        const cmsUInt16Number* T;
        cmsUInt32Number i;
        cmsUInt16Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsInterpPbrbms p1;
 
-       fk = _cmsToFixedDomain((cmsS15Fixed16Number) Input[0] * p16 -> Domain[0]);
+       fk = _cmsToFixedDombin((cmsS15Fixed16Number) Input[0] * p16 -> Dombin[0]);
        k0 = FIXED_TO_INT(fk);
        rk = FIXED_REST_TO_INT(fk);
 
-       K0 = p16 -> opta[5] * k0;
-       K1 = p16 -> opta[5] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
+       K0 = p16 -> optb[5] * k0;
+       K1 = p16 -> optb[5] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
 
        p1 = *p16;
-       memmove(&p1.Domain[0], &p16 ->Domain[1], 5*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p16 ->Dombin[1], 5*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       Eval5Inputs(Input + 1, Tmp1, &p1);
+       Evbl5Inputs(Input + 1, Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
+       T = LutTbble + K1;
+       p1.Tbble = T;
 
-       Eval5Inputs(Input + 1, Tmp2, &p1);
+       Evbl5Inputs(Input + 1, Tmp2, &p1);
 
        for (i=0; i < p16 -> nOutputs; i++) {
 
-              Output[i] = LinearInterp(rk, Tmp1[i], Tmp2[i]);
+              Output[i] = LinebrInterp(rk, Tmp1[i], Tmp2[i]);
        }
 
 }
 
 
-static
-void Eval6InputsFloat(const cmsFloat32Number Input[],
-                      cmsFloat32Number Output[],
-                      const cmsInterpParams* p)
+stbtic
+void Evbl6InputsFlobt(const cmsFlobt32Number Input[],
+                      cmsFlobt32Number Output[],
+                      const cmsInterpPbrbms* p)
 {
-       const cmsFloat32Number* LutTable = (cmsFloat32Number*) p -> Table;
-       cmsFloat32Number rest;
-       cmsFloat32Number pk;
+       const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p -> Tbble;
+       cmsFlobt32Number rest;
+       cmsFlobt32Number pk;
        int k0, K0, K1;
-       const cmsFloat32Number* T;
+       const cmsFlobt32Number* T;
        cmsUInt32Number i;
-       cmsFloat32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsFlobt32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
+       cmsInterpPbrbms p1;
 
-       pk = fclamp(Input[0]) * p->Domain[0];
+       pk = fclbmp(Input[0]) * p->Dombin[0];
        k0 = _cmsQuickFloor(pk);
-       rest = pk - (cmsFloat32Number) k0;
+       rest = pk - (cmsFlobt32Number) k0;
 
-       K0 = p -> opta[5] * k0;
-       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->opta[5]);
+       K0 = p -> optb[5] * k0;
+       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->optb[5]);
 
        p1 = *p;
-       memmove(&p1.Domain[0], &p ->Domain[1], 5*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p ->Dombin[1], 5*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       Eval5InputsFloat(Input + 1,  Tmp1, &p1);
+       Evbl5InputsFlobt(Input + 1,  Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
+       T = LutTbble + K1;
+       p1.Tbble = T;
 
-       Eval5InputsFloat(Input + 1,  Tmp2, &p1);
+       Evbl5InputsFlobt(Input + 1,  Tmp2, &p1);
 
        for (i=0; i < p -> nOutputs; i++) {
 
-              cmsFloat32Number y0 = Tmp1[i];
-              cmsFloat32Number y1 = Tmp2[i];
+              cmsFlobt32Number y0 = Tmp1[i];
+              cmsFlobt32Number y1 = Tmp2[i];
 
               Output[i] = y0 + (y1 - y0) * rest;
        }
 }
 
 
-static
-void Eval7Inputs(register const cmsUInt16Number Input[],
+stbtic
+void Evbl7Inputs(register const cmsUInt16Number Input[],
                  register cmsUInt16Number Output[],
-                 register const cmsInterpParams* p16)
+                 register const cmsInterpPbrbms* p16)
 {
-       const cmsUInt16Number* LutTable = (cmsUInt16Number*) p16 -> Table;
+       const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p16 -> Tbble;
        cmsS15Fixed16Number fk;
        cmsS15Fixed16Number k0, rk;
        int K0, K1;
        const cmsUInt16Number* T;
        cmsUInt32Number i;
        cmsUInt16Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsInterpPbrbms p1;
 
 
-       fk = _cmsToFixedDomain((cmsS15Fixed16Number) Input[0] * p16 -> Domain[0]);
+       fk = _cmsToFixedDombin((cmsS15Fixed16Number) Input[0] * p16 -> Dombin[0]);
        k0 = FIXED_TO_INT(fk);
        rk = FIXED_REST_TO_INT(fk);
 
-       K0 = p16 -> opta[6] * k0;
-       K1 = p16 -> opta[6] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
+       K0 = p16 -> optb[6] * k0;
+       K1 = p16 -> optb[6] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
 
        p1 = *p16;
-       memmove(&p1.Domain[0], &p16 ->Domain[1], 6*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p16 ->Dombin[1], 6*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       Eval6Inputs(Input + 1, Tmp1, &p1);
+       Evbl6Inputs(Input + 1, Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
+       T = LutTbble + K1;
+       p1.Tbble = T;
 
-       Eval6Inputs(Input + 1, Tmp2, &p1);
+       Evbl6Inputs(Input + 1, Tmp2, &p1);
 
        for (i=0; i < p16 -> nOutputs; i++) {
-              Output[i] = LinearInterp(rk, Tmp1[i], Tmp2[i]);
+              Output[i] = LinebrInterp(rk, Tmp1[i], Tmp2[i]);
        }
 }
 
 
-static
-void Eval7InputsFloat(const cmsFloat32Number Input[],
-                      cmsFloat32Number Output[],
-                      const cmsInterpParams* p)
+stbtic
+void Evbl7InputsFlobt(const cmsFlobt32Number Input[],
+                      cmsFlobt32Number Output[],
+                      const cmsInterpPbrbms* p)
 {
-       const cmsFloat32Number* LutTable = (cmsFloat32Number*) p -> Table;
-       cmsFloat32Number rest;
-       cmsFloat32Number pk;
+       const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p -> Tbble;
+       cmsFlobt32Number rest;
+       cmsFlobt32Number pk;
        int k0, K0, K1;
-       const cmsFloat32Number* T;
+       const cmsFlobt32Number* T;
        cmsUInt32Number i;
-       cmsFloat32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsFlobt32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
+       cmsInterpPbrbms p1;
 
-       pk = fclamp(Input[0]) * p->Domain[0];
+       pk = fclbmp(Input[0]) * p->Dombin[0];
        k0 = _cmsQuickFloor(pk);
-       rest = pk - (cmsFloat32Number) k0;
+       rest = pk - (cmsFlobt32Number) k0;
 
-       K0 = p -> opta[6] * k0;
-       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->opta[6]);
+       K0 = p -> optb[6] * k0;
+       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->optb[6]);
 
        p1 = *p;
-       memmove(&p1.Domain[0], &p ->Domain[1], 6*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p ->Dombin[1], 6*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       Eval6InputsFloat(Input + 1,  Tmp1, &p1);
+       Evbl6InputsFlobt(Input + 1,  Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
+       T = LutTbble + K1;
+       p1.Tbble = T;
 
-       Eval6InputsFloat(Input + 1,  Tmp2, &p1);
+       Evbl6InputsFlobt(Input + 1,  Tmp2, &p1);
 
 
        for (i=0; i < p -> nOutputs; i++) {
 
-              cmsFloat32Number y0 = Tmp1[i];
-              cmsFloat32Number y1 = Tmp2[i];
+              cmsFlobt32Number y0 = Tmp1[i];
+              cmsFlobt32Number y1 = Tmp2[i];
 
               Output[i] = y0 + (y1 - y0) * rest;
 
        }
 }
 
-static
-void Eval8Inputs(register const cmsUInt16Number Input[],
+stbtic
+void Evbl8Inputs(register const cmsUInt16Number Input[],
                  register cmsUInt16Number Output[],
-                 register const cmsInterpParams* p16)
+                 register const cmsInterpPbrbms* p16)
 {
-       const cmsUInt16Number* LutTable = (cmsUInt16Number*) p16 -> Table;
+       const cmsUInt16Number* LutTbble = (cmsUInt16Number*) p16 -> Tbble;
        cmsS15Fixed16Number fk;
        cmsS15Fixed16Number k0, rk;
        int K0, K1;
        const cmsUInt16Number* T;
        cmsUInt32Number i;
        cmsUInt16Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsInterpPbrbms p1;
 
-       fk = _cmsToFixedDomain((cmsS15Fixed16Number) Input[0] * p16 -> Domain[0]);
+       fk = _cmsToFixedDombin((cmsS15Fixed16Number) Input[0] * p16 -> Dombin[0]);
        k0 = FIXED_TO_INT(fk);
        rk = FIXED_REST_TO_INT(fk);
 
-       K0 = p16 -> opta[7] * k0;
-       K1 = p16 -> opta[7] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
+       K0 = p16 -> optb[7] * k0;
+       K1 = p16 -> optb[7] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
 
        p1 = *p16;
-       memmove(&p1.Domain[0], &p16 ->Domain[1], 7*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p16 ->Dombin[1], 7*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       Eval7Inputs(Input + 1, Tmp1, &p1);
+       Evbl7Inputs(Input + 1, Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
-       Eval7Inputs(Input + 1, Tmp2, &p1);
+       T = LutTbble + K1;
+       p1.Tbble = T;
+       Evbl7Inputs(Input + 1, Tmp2, &p1);
 
        for (i=0; i < p16 -> nOutputs; i++) {
-              Output[i] = LinearInterp(rk, Tmp1[i], Tmp2[i]);
+              Output[i] = LinebrInterp(rk, Tmp1[i], Tmp2[i]);
        }
 }
 
 
 
-static
-void Eval8InputsFloat(const cmsFloat32Number Input[],
-                      cmsFloat32Number Output[],
-                      const cmsInterpParams* p)
+stbtic
+void Evbl8InputsFlobt(const cmsFlobt32Number Input[],
+                      cmsFlobt32Number Output[],
+                      const cmsInterpPbrbms* p)
 {
-       const cmsFloat32Number* LutTable = (cmsFloat32Number*) p -> Table;
-       cmsFloat32Number rest;
-       cmsFloat32Number pk;
+       const cmsFlobt32Number* LutTbble = (cmsFlobt32Number*) p -> Tbble;
+       cmsFlobt32Number rest;
+       cmsFlobt32Number pk;
        int k0, K0, K1;
-       const cmsFloat32Number* T;
+       const cmsFlobt32Number* T;
        cmsUInt32Number i;
-       cmsFloat32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
-       cmsInterpParams p1;
+       cmsFlobt32Number Tmp1[MAX_STAGE_CHANNELS], Tmp2[MAX_STAGE_CHANNELS];
+       cmsInterpPbrbms p1;
 
-       pk = fclamp(Input[0]) * p->Domain[0];
+       pk = fclbmp(Input[0]) * p->Dombin[0];
        k0 = _cmsQuickFloor(pk);
-       rest = pk - (cmsFloat32Number) k0;
+       rest = pk - (cmsFlobt32Number) k0;
 
-       K0 = p -> opta[7] * k0;
-       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->opta[7]);
+       K0 = p -> optb[7] * k0;
+       K1 = K0 + (Input[0] >= 1.0 ? 0 : p->optb[7]);
 
        p1 = *p;
-       memmove(&p1.Domain[0], &p ->Domain[1], 7*sizeof(cmsUInt32Number));
+       memmove(&p1.Dombin[0], &p ->Dombin[1], 7*sizeof(cmsUInt32Number));
 
-       T = LutTable + K0;
-       p1.Table = T;
+       T = LutTbble + K0;
+       p1.Tbble = T;
 
-       Eval7InputsFloat(Input + 1,  Tmp1, &p1);
+       Evbl7InputsFlobt(Input + 1,  Tmp1, &p1);
 
-       T = LutTable + K1;
-       p1.Table = T;
+       T = LutTbble + K1;
+       p1.Tbble = T;
 
-       Eval7InputsFloat(Input + 1,  Tmp2, &p1);
+       Evbl7InputsFlobt(Input + 1,  Tmp2, &p1);
 
 
        for (i=0; i < p -> nOutputs; i++) {
 
-              cmsFloat32Number y0 = Tmp1[i];
-              cmsFloat32Number y1 = Tmp2[i];
+              cmsFlobt32Number y0 = Tmp1[i];
+              cmsFlobt32Number y1 = Tmp2[i];
 
               Output[i] = y0 + (y1 - y0) * rest;
        }
 }
 
-// The default factory
-static
-cmsInterpFunction DefaultInterpolatorsFactory(cmsUInt32Number nInputChannels, cmsUInt32Number nOutputChannels, cmsUInt32Number dwFlags)
+// The defbult fbctory
+stbtic
+cmsInterpFunction DefbultInterpolbtorsFbctory(cmsUInt32Number nInputChbnnels, cmsUInt32Number nOutputChbnnels, cmsUInt32Number dwFlbgs)
 {
 
-    cmsInterpFunction Interpolation;
-    cmsBool  IsFloat     = (dwFlags & CMS_LERP_FLAGS_FLOAT);
-    cmsBool  IsTrilinear = (dwFlags & CMS_LERP_FLAGS_TRILINEAR);
+    cmsInterpFunction Interpolbtion;
+    cmsBool  IsFlobt     = (dwFlbgs & CMS_LERP_FLAGS_FLOAT);
+    cmsBool  IsTrilinebr = (dwFlbgs & CMS_LERP_FLAGS_TRILINEAR);
 
-    memset(&Interpolation, 0, sizeof(Interpolation));
+    memset(&Interpolbtion, 0, sizeof(Interpolbtion));
 
-    // Safety check
-    if (nInputChannels >= 4 && nOutputChannels >= MAX_STAGE_CHANNELS)
-        return Interpolation;
+    // Sbfety check
+    if (nInputChbnnels >= 4 && nOutputChbnnels >= MAX_STAGE_CHANNELS)
+        return Interpolbtion;
 
-    switch (nInputChannels) {
+    switch (nInputChbnnels) {
 
-           case 1: // Gray LUT / linear
+           cbse 1: // Grby LUT / linebr
 
-               if (nOutputChannels == 1) {
+               if (nOutputChbnnels == 1) {
 
-                   if (IsFloat)
-                       Interpolation.LerpFloat = LinLerp1Dfloat;
+                   if (IsFlobt)
+                       Interpolbtion.LerpFlobt = LinLerp1Dflobt;
                    else
-                       Interpolation.Lerp16 = LinLerp1D;
+                       Interpolbtion.Lerp16 = LinLerp1D;
 
                }
                else {
 
-                   if (IsFloat)
-                       Interpolation.LerpFloat = Eval1InputFloat;
+                   if (IsFlobt)
+                       Interpolbtion.LerpFlobt = Evbl1InputFlobt;
                    else
-                       Interpolation.Lerp16 = Eval1Input;
+                       Interpolbtion.Lerp16 = Evbl1Input;
                }
-               break;
+               brebk;
 
-           case 2: // Duotone
-               if (IsFloat)
-                      Interpolation.LerpFloat =  BilinearInterpFloat;
+           cbse 2: // Duotone
+               if (IsFlobt)
+                      Interpolbtion.LerpFlobt =  BilinebrInterpFlobt;
                else
-                      Interpolation.Lerp16    =  BilinearInterp16;
-               break;
+                      Interpolbtion.Lerp16    =  BilinebrInterp16;
+               brebk;
 
-           case 3:  // RGB et al
+           cbse 3:  // RGB et bl
 
-               if (IsTrilinear) {
+               if (IsTrilinebr) {
 
-                   if (IsFloat)
-                       Interpolation.LerpFloat = TrilinearInterpFloat;
+                   if (IsFlobt)
+                       Interpolbtion.LerpFlobt = TrilinebrInterpFlobt;
                    else
-                       Interpolation.Lerp16 = TrilinearInterp16;
+                       Interpolbtion.Lerp16 = TrilinebrInterp16;
                }
                else {
 
-                   if (IsFloat)
-                       Interpolation.LerpFloat = TetrahedralInterpFloat;
+                   if (IsFlobt)
+                       Interpolbtion.LerpFlobt = TetrbhedrblInterpFlobt;
                    else {
 
-                       Interpolation.Lerp16 = TetrahedralInterp16;
+                       Interpolbtion.Lerp16 = TetrbhedrblInterp16;
                    }
                }
-               break;
+               brebk;
 
-           case 4:  // CMYK lut
+           cbse 4:  // CMYK lut
 
-               if (IsFloat)
-                   Interpolation.LerpFloat =  Eval4InputsFloat;
+               if (IsFlobt)
+                   Interpolbtion.LerpFlobt =  Evbl4InputsFlobt;
                else
-                   Interpolation.Lerp16    =  Eval4Inputs;
-               break;
+                   Interpolbtion.Lerp16    =  Evbl4Inputs;
+               brebk;
 
-           case 5: // 5 Inks
-               if (IsFloat)
-                   Interpolation.LerpFloat =  Eval5InputsFloat;
+           cbse 5: // 5 Inks
+               if (IsFlobt)
+                   Interpolbtion.LerpFlobt =  Evbl5InputsFlobt;
                else
-                   Interpolation.Lerp16    =  Eval5Inputs;
-               break;
+                   Interpolbtion.Lerp16    =  Evbl5Inputs;
+               brebk;
 
-           case 6: // 6 Inks
-               if (IsFloat)
-                   Interpolation.LerpFloat =  Eval6InputsFloat;
+           cbse 6: // 6 Inks
+               if (IsFlobt)
+                   Interpolbtion.LerpFlobt =  Evbl6InputsFlobt;
                else
-                   Interpolation.Lerp16    =  Eval6Inputs;
-               break;
+                   Interpolbtion.Lerp16    =  Evbl6Inputs;
+               brebk;
 
-           case 7: // 7 inks
-               if (IsFloat)
-                   Interpolation.LerpFloat =  Eval7InputsFloat;
+           cbse 7: // 7 inks
+               if (IsFlobt)
+                   Interpolbtion.LerpFlobt =  Evbl7InputsFlobt;
                else
-                   Interpolation.Lerp16    =  Eval7Inputs;
-               break;
+                   Interpolbtion.Lerp16    =  Evbl7Inputs;
+               brebk;
 
-           case 8: // 8 inks
-               if (IsFloat)
-                   Interpolation.LerpFloat =  Eval8InputsFloat;
+           cbse 8: // 8 inks
+               if (IsFlobt)
+                   Interpolbtion.LerpFlobt =  Evbl8InputsFlobt;
                else
-                   Interpolation.Lerp16    =  Eval8Inputs;
-               break;
+                   Interpolbtion.Lerp16    =  Evbl8Inputs;
+               brebk;
 
-               break;
+               brebk;
 
-           default:
-               Interpolation.Lerp16 = NULL;
+           defbult:
+               Interpolbtion.Lerp16 = NULL;
     }
 
-    return Interpolation;
+    return Interpolbtion;
 }

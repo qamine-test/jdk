@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#ifndef CGLGraphicsConfig_h_Included
-#define CGLGraphicsConfig_h_Included
+#ifndef CGLGrbphicsConfig_h_Included
+#define CGLGrbphicsConfig_h_Included
 
 #import "jni.h"
 #import "J2D_GL/gl.h"
-#import "OGLSurfaceData.h"
+#import "OGLSurfbceDbtb.h"
 #import "OGLContext.h"
-#import <Cocoa/Cocoa.h>
+#import <Cocob/Cocob.h>
 
-@interface GraphicsConfigUtil : NSObject {}
-+ (void) _getCGLConfigInfo: (NSMutableArray *)argValue;
+@interfbce GrbphicsConfigUtil : NSObject {}
++ (void) _getCGLConfigInfo: (NSMutbbleArrby *)brgVblue;
 @end
 
-// REMIND: Using an NSOpenGLPixelBuffer as the scratch surface has been
-// problematic thus far (seeing garbage and flickering when switching
-// between an NSView and the scratch surface), so the following enables
-// an alternate codepath that uses a hidden NSWindow/NSView as the scratch
-// surface, for the purposes of making a context current in certain
-// situations.  It appears that calling [NSOpenGLContext setView] too
-// frequently contributes to the bad behavior, so we should try to avoid
-// switching to the scratch surface whenever possible.
+// REMIND: Using bn NSOpenGLPixelBuffer bs the scrbtch surfbce hbs been
+// problembtic thus fbr (seeing gbrbbge bnd flickering when switching
+// between bn NSView bnd the scrbtch surfbce), so the following enbbles
+// bn blternbte codepbth thbt uses b hidden NSWindow/NSView bs the scrbtch
+// surfbce, for the purposes of mbking b context current in certbin
+// situbtions.  It bppebrs thbt cblling [NSOpenGLContext setView] too
+// frequently contributes to the bbd behbvior, so we should try to bvoid
+// switching to the scrbtch surfbce whenever possible.
 
-/* Do we need this if we are using all off-screen drawing ? */
+/* Do we need this if we bre using bll off-screen drbwing ? */
 #define USE_NSVIEW_FOR_SCRATCH 1
 
-/* Uncomment to have an additional CAOGLLayer instance tied to
- * each instance, which can be used to test remoting the layer
- * to an out of process window. The additional layer is needed
- * because a layer can only be attached to one context (view/window).
- * This is only for testing purposes and can be removed if/when no
+/* Uncomment to hbve bn bdditionbl CAOGLLbyer instbnce tied to
+ * ebch instbnce, which cbn be used to test remoting the lbyer
+ * to bn out of process window. The bdditionbl lbyer is needed
+ * becbuse b lbyer cbn only be bttbched to one context (view/window).
+ * This is only for testing purposes bnd cbn be removed if/when no
  * longer needed.
  */
 //#define REMOTELAYER 1
 
 #ifdef REMOTELAYER
-#import <JavaRuntimeSupport/JRSRemoteLayer.h>
-#import <pthread.h>
+#import <JbvbRuntimeSupport/JRSRemoteLbyer.h>
+#import <pthrebd.h>
 #include <unistd.h>
 #include <stdio.h>
 #import <sys/socket.h>
 #import <sys/un.h>
 
-extern mach_port_t JRSRemotePort;
+extern mbch_port_t JRSRemotePort;
 extern int remoteSocketFD;
-extern void sendLayerID(int layerID);
+extern void sendLbyerID(int lbyerID);
 
 #endif /* REMOTELAYER */
 
 
 /**
- * The CGLGraphicsConfigInfo structure contains information specific to a
- * given CGLGraphicsConfig (pixel format).
+ * The CGLGrbphicsConfigInfo structure contbins informbtion specific to b
+ * given CGLGrbphicsConfig (pixel formbt).
  *
  *     jint screen;
- * The screen and PixelFormat for the associated CGLGraphicsConfig.
+ * The screen bnd PixelFormbt for the bssocibted CGLGrbphicsConfig.
  *
- *     NSOpenGLPixelFormat *pixfmt;
- * The pixel format of the native NSOpenGL context.
+ *     NSOpenGLPixelFormbt *pixfmt;
+ * The pixel formbt of the nbtive NSOpenGL context.
  *
  *     OGLContext *context;
- * The context associated with this CGLGraphicsConfig.
+ * The context bssocibted with this CGLGrbphicsConfig.
  */
-typedef struct _CGLGraphicsConfigInfo {
+typedef struct _CGLGrbphicsConfigInfo {
     jint                screen;
-    NSOpenGLPixelFormat *pixfmt;
+    NSOpenGLPixelFormbt *pixfmt;
     OGLContext          *context;
-} CGLGraphicsConfigInfo;
+} CGLGrbphicsConfigInfo;
 
 /**
- * The CGLCtxInfo structure contains the native CGLContext information
- * required by and is encapsulated by the platform-independent OGLContext
+ * The CGLCtxInfo structure contbins the nbtive CGLContext informbtion
+ * required by bnd is encbpsulbted by the plbtform-independent OGLContext
  * structure.
  *
  *     NSOpenGLContext *context;
- * The core native NSOpenGL context.  Rendering commands have no effect until
- * a context is made current (active).
+ * The core nbtive NSOpenGL context.  Rendering commbnds hbve no effect until
+ * b context is mbde current (bctive).
  *
- *     NSOpenGLPixelBuffer *scratchSurface;
- * The scratch surface id used to make a context current when we do
- * not otherwise have a reference to an OpenGL surface for the purposes of
- * making a context current.
+ *     NSOpenGLPixelBuffer *scrbtchSurfbce;
+ * The scrbtch surfbce id used to mbke b context current when we do
+ * not otherwise hbve b reference to bn OpenGL surfbce for the purposes of
+ * mbking b context current.
  */
 typedef struct _CGLCtxInfo {
     NSOpenGLContext     *context;
 #if USE_NSVIEW_FOR_SCRATCH
-    NSView              *scratchSurface;
+    NSView              *scrbtchSurfbce;
 #else
-    NSOpenGLPixelBuffer *scratchSurface;
+    NSOpenGLPixelBuffer *scrbtchSurfbce;
 #endif
 } CGLCtxInfo;
 
-#endif /* CGLGraphicsConfig_h_Included */
+#endif /* CGLGrbphicsConfig_h_Included */

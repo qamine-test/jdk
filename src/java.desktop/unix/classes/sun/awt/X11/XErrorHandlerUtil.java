@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.security.AccessController;
-import sun.awt.SunToolkit;
-import sun.security.action.GetBooleanAction;
-import sun.util.logging.PlatformLogger;
+import jbvb.security.AccessController;
+import sun.bwt.SunToolkit;
+import sun.security.bction.GetBoolebnAction;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * This class contains code of the global toolkit error handler, exposes static
- * methods which allow to set and unset synthetic error handlers.
+ * This clbss contbins code of the globbl toolkit error hbndler, exposes stbtic
+ * methods which bllow to set bnd unset synthetic error hbndlers.
  */
-public final class XErrorHandlerUtil {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XErrorHandlerUtil");
+public finbl clbss XErrorHbndlerUtil {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XErrorHbndlerUtil");
 
     /**
      * The connection to X11 window server.
      */
-    private static long display;
+    privbte stbtic long displby;
 
     /**
-     * Error handler at the moment of {@code XErrorHandlerUtil} initialization.
+     * Error hbndler bt the moment of {@code XErrorHbndlerUtil} initiblizbtion.
      */
-    private static long saved_error_handler;
+    privbte stbtic long sbved_error_hbndler;
 
     /**
-     * XErrorEvent being handled.
+     * XErrorEvent being hbndled.
      */
-    static volatile XErrorEvent saved_error;
+    stbtic volbtile XErrorEvent sbved_error;
 
     /**
-     * Current error handler or null if no error handler is set.
+     * Current error hbndler or null if no error hbndler is set.
      */
-    private static XErrorHandler current_error_handler;
+    privbte stbtic XErrorHbndler current_error_hbndler;
 
     /**
-     * Value of sun.awt.noisyerrorhandler system property.
+     * Vblue of sun.bwt.noisyerrorhbndler system property.
      */
-    private static boolean noisyAwtHandler = AccessController.doPrivileged(
-        new GetBooleanAction("sun.awt.noisyerrorhandler"));
+    privbte stbtic boolebn noisyAwtHbndler = AccessController.doPrivileged(
+        new GetBoolebnAction("sun.bwt.noisyerrorhbndler"));
 
     /**
-     * The flag indicating that {@code init} was called already.
+     * The flbg indicbting thbt {@code init} wbs cblled blrebdy.
      */
-    private static boolean initPassed;
+    privbte stbtic boolebn initPbssed;
 
     /**
-     * Guarantees that no instance of this class can be created.
+     * Gubrbntees thbt no instbnce of this clbss cbn be crebted.
      */
-    private XErrorHandlerUtil() {}
+    privbte XErrorHbndlerUtil() {}
 
     /**
-     * Sets the toolkit global error handler, stores the connection to X11 server,
-     * which will be used during an error handling process. This method is called
-     * once from {@code awt_init_Display} function defined in {@code awt_GraphicsEnv.c}
-     * file immediately after the connection to X11 window server is opened.
-     * @param display the connection to X11 server which should be stored
+     * Sets the toolkit globbl error hbndler, stores the connection to X11 server,
+     * which will be used during bn error hbndling process. This method is cblled
+     * once from {@code bwt_init_Displby} function defined in {@code bwt_GrbphicsEnv.c}
+     * file immedibtely bfter the connection to X11 window server is opened.
+     * @pbrbm displby the connection to X11 server which should be stored
      */
-    private static void init(long display) {
-        SunToolkit.awtLock();
+    privbte stbtic void init(long displby) {
+        SunToolkit.bwtLock();
         try {
-            if (!initPassed) {
-                XErrorHandlerUtil.display = display;
-                saved_error_handler = XlibWrapper.SetToolkitErrorHandler();
-                initPassed = true;
+            if (!initPbssed) {
+                XErrorHbndlerUtil.displby = displby;
+                sbved_error_hbndler = XlibWrbpper.SetToolkitErrorHbndler();
+                initPbssed = true;
             }
-        } finally {
-            SunToolkit.awtUnlock();
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
     /**
-     * Sets a synthetic error handler. Must be called with the acquired AWT lock.
-     * @param handler the synthetic error handler to set
+     * Sets b synthetic error hbndler. Must be cblled with the bcquired AWT lock.
+     * @pbrbm hbndler the synthetic error hbndler to set
      */
-    public static void WITH_XERROR_HANDLER(XErrorHandler handler) {
+    public stbtic void WITH_XERROR_HANDLER(XErrorHbndler hbndler) {
         XSync();
-        saved_error = null;
-        current_error_handler = handler;
+        sbved_error = null;
+        current_error_hbndler = hbndler;
     }
 
     /**
-     * Unsets a current synthetic error handler. Must be called with the acquired AWT lock.
+     * Unsets b current synthetic error hbndler. Must be cblled with the bcquired AWT lock.
      */
-    public static void RESTORE_XERROR_HANDLER() {
-        // Wait until all requests are processed by the X server
-        // and only then uninstall the error handler.
+    public stbtic void RESTORE_XERROR_HANDLER() {
+        // Wbit until bll requests bre processed by the X server
+        // bnd only then uninstbll the error hbndler.
         XSync();
-        current_error_handler = null;
+        current_error_hbndler = null;
     }
 
     /**
-     * Should be called under LOCK.
+     * Should be cblled under LOCK.
      */
-    public static int SAVED_XERROR_HANDLER(long display, XErrorEvent error) {
-        if (saved_error_handler != 0) {
-            // Default XErrorHandler may just terminate the process. Don't call it.
-            // return XlibWrapper.CallErrorHandler(saved_error_handler, display, error.pData);
+    public stbtic int SAVED_XERROR_HANDLER(long displby, XErrorEvent error) {
+        if (sbved_error_hbndler != 0) {
+            // Defbult XErrorHbndler mby just terminbte the process. Don't cbll it.
+            // return XlibWrbpper.CbllErrorHbndler(sbved_error_hbndler, displby, error.pDbtb);
         }
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Unhandled XErrorEvent: " +
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Unhbndled XErrorEvent: " +
                 "id=" + error.get_resourceid() + ", " +
-                "serial=" + error.get_serial() + ", " +
+                "seribl=" + error.get_seribl() + ", " +
                 "ec=" + error.get_error_code() + ", " +
                 "rc=" + error.get_request_code() + ", " +
                 "mc=" + error.get_minor_code());
@@ -132,32 +132,32 @@ public final class XErrorHandlerUtil {
     }
 
     /**
-     * Called from the native code when an error occurs.
+     * Cblled from the nbtive code when bn error occurs.
      */
-    private static int globalErrorHandler(long display, long event_ptr) {
-        if (noisyAwtHandler) {
-            XlibWrapper.PrintXErrorEvent(display, event_ptr);
+    privbte stbtic int globblErrorHbndler(long displby, long event_ptr) {
+        if (noisyAwtHbndler) {
+            XlibWrbpper.PrintXErrorEvent(displby, event_ptr);
         }
         XErrorEvent event = new XErrorEvent(event_ptr);
-        saved_error = event;
+        sbved_error = event;
         try {
-            if (current_error_handler != null) {
-                return current_error_handler.handleError(display, event);
+            if (current_error_hbndler != null) {
+                return current_error_hbndler.hbndleError(displby, event);
             } else {
-                return SAVED_XERROR_HANDLER(display, event);
+                return SAVED_XERROR_HANDLER(displby, event);
             }
-        } catch (Throwable z) {
-            log.fine("Error in GlobalErrorHandler", z);
+        } cbtch (Throwbble z) {
+            log.fine("Error in GlobblErrorHbndler", z);
         }
         return 0;
     }
 
-    private static void XSync() {
-        SunToolkit.awtLock();
+    privbte stbtic void XSync() {
+        SunToolkit.bwtLock();
         try {
-            XlibWrapper.XSync(display, 0);
-        } finally {
-            SunToolkit.awtUnlock();
+            XlibWrbpper.XSync(displby, 0);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 }

@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.math.BigInteger;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
-import java.security.GeneralSecurityException;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.SignatureException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateNotYetValidException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.X509Certificate;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.PKIXReason;
-import java.security.cert.TrustAnchor;
-import java.security.interfaces.DSAParams;
-import java.security.interfaces.DSAPublicKey;
-import java.security.spec.DSAPublicKeySpec;
-import javax.security.auth.x500.X500Principal;
-import sun.security.x509.X500Name;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Collection;
+import jbvb.util.Dbte;
+import jbvb.util.Set;
+import jbvb.security.GenerblSecurityException;
+import jbvb.security.KeyFbctory;
+import jbvb.security.PublicKey;
+import jbvb.security.SignbtureException;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertificbteExpiredException;
+import jbvb.security.cert.CertificbteNotYetVblidException;
+import jbvb.security.cert.CertPbthVblidbtorException;
+import jbvb.security.cert.CertPbthVblidbtorException.BbsicRebson;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.PKIXCertPbthChecker;
+import jbvb.security.cert.PKIXRebson;
+import jbvb.security.cert.TrustAnchor;
+import jbvb.security.interfbces.DSAPbrbms;
+import jbvb.security.interfbces.DSAPublicKey;
+import jbvb.security.spec.DSAPublicKeySpec;
+import jbvbx.security.buth.x500.X500Principbl;
+import sun.security.x509.X500Nbme;
 import sun.security.util.Debug;
 
 /**
- * BasicChecker is a PKIXCertPathChecker that checks the basic information
- * on a PKIX certificate, namely the signature, timestamp, and subject/issuer
- * name chaining.
+ * BbsicChecker is b PKIXCertPbthChecker thbt checks the bbsic informbtion
+ * on b PKIX certificbte, nbmely the signbture, timestbmp, bnd subject/issuer
+ * nbme chbining.
  *
  * @since       1.4
- * @author      Yassir Elley
+ * @buthor      Ybssir Elley
  */
-class BasicChecker extends PKIXCertPathChecker {
+clbss BbsicChecker extends PKIXCertPbthChecker {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private final PublicKey trustedPubKey;
-    private final X500Principal caName;
-    private final Date date;
-    private final String sigProvider;
-    private final boolean sigOnly;
-    private X500Principal prevSubject;
-    private PublicKey prevPubKey;
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
+    privbte finbl PublicKey trustedPubKey;
+    privbte finbl X500Principbl cbNbme;
+    privbte finbl Dbte dbte;
+    privbte finbl String sigProvider;
+    privbte finbl boolebn sigOnly;
+    privbte X500Principbl prevSubject;
+    privbte PublicKey prevPubKey;
 
     /**
-     * Constructor that initializes the input parameters.
+     * Constructor thbt initiblizes the input pbrbmeters.
      *
-     * @param anchor the anchor selected to validate the target certificate
-     * @param testDate the time for which the validity of the certificate
+     * @pbrbm bnchor the bnchor selected to vblidbte the tbrget certificbte
+     * @pbrbm testDbte the time for which the vblidity of the certificbte
      *        should be determined
-     * @param sigProvider the name of the signature provider
-     * @param sigOnly true if only signature checking is to be done;
-     *        if false, all checks are done
+     * @pbrbm sigProvider the nbme of the signbture provider
+     * @pbrbm sigOnly true if only signbture checking is to be done;
+     *        if fblse, bll checks bre done
      */
-    BasicChecker(TrustAnchor anchor, Date date, String sigProvider,
-                 boolean sigOnly) {
-        if (anchor.getTrustedCert() != null) {
-            this.trustedPubKey = anchor.getTrustedCert().getPublicKey();
-            this.caName = anchor.getTrustedCert().getSubjectX500Principal();
+    BbsicChecker(TrustAnchor bnchor, Dbte dbte, String sigProvider,
+                 boolebn sigOnly) {
+        if (bnchor.getTrustedCert() != null) {
+            this.trustedPubKey = bnchor.getTrustedCert().getPublicKey();
+            this.cbNbme = bnchor.getTrustedCert().getSubjectX500Principbl();
         } else {
-            this.trustedPubKey = anchor.getCAPublicKey();
-            this.caName = anchor.getCA();
+            this.trustedPubKey = bnchor.getCAPublicKey();
+            this.cbNbme = bnchor.getCA();
         }
-        this.date = date;
+        this.dbte = dbte;
         this.sigProvider = sigProvider;
         this.sigOnly = sigOnly;
         this.prevPubKey = trustedPubKey;
     }
 
     /**
-     * Initializes the internal state of the checker from parameters
+     * Initiblizes the internbl stbte of the checker from pbrbmeters
      * specified in the constructor.
      */
     @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        if (!forward) {
+    public void init(boolebn forwbrd) throws CertPbthVblidbtorException {
+        if (!forwbrd) {
             prevPubKey = trustedPubKey;
-            if (PKIX.isDSAPublicKeyWithoutParams(prevPubKey)) {
-                // If TrustAnchor is a DSA public key and it has no params, it
-                // cannot be used to verify the signature of the first cert,
+            if (PKIX.isDSAPublicKeyWithoutPbrbms(prevPubKey)) {
+                // If TrustAnchor is b DSA public key bnd it hbs no pbrbms, it
+                // cbnnot be used to verify the signbture of the first cert,
                 // so throw exception
-                throw new CertPathValidatorException("Key parameters missing");
+                throw new CertPbthVblidbtorException("Key pbrbmeters missing");
             }
-            prevSubject = caName;
+            prevSubject = cbNbme;
         } else {
             throw new
-                CertPathValidatorException("forward checking not supported");
+                CertPbthVblidbtorException("forwbrd checking not supported");
         }
     }
 
     @Override
-    public boolean isForwardCheckingSupported() {
-        return false;
+    public boolebn isForwbrdCheckingSupported() {
+        return fblse;
     }
 
     @Override
@@ -125,51 +125,51 @@ class BasicChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Performs the signature, timestamp, and subject/issuer name chaining
-     * checks on the certificate using its internal state. This method does
-     * not remove any critical extensions from the Collection.
+     * Performs the signbture, timestbmp, bnd subject/issuer nbme chbining
+     * checks on the certificbte using its internbl stbte. This method does
+     * not remove bny criticbl extensions from the Collection.
      *
-     * @param cert the Certificate
-     * @param unresolvedCritExts a Collection of the unresolved critical
+     * @pbrbm cert the Certificbte
+     * @pbrbm unresolvedCritExts b Collection of the unresolved criticbl
      * extensions
-     * @throws CertPathValidatorException if certificate does not verify
+     * @throws CertPbthVblidbtorException if certificbte does not verify
      */
     @Override
-    public void check(Certificate cert, Collection<String> unresolvedCritExts)
-        throws CertPathValidatorException
+    public void check(Certificbte cert, Collection<String> unresolvedCritExts)
+        throws CertPbthVblidbtorException
     {
-        X509Certificate currCert = (X509Certificate)cert;
+        X509Certificbte currCert = (X509Certificbte)cert;
 
         if (!sigOnly) {
-            verifyTimestamp(currCert);
-            verifyNameChaining(currCert);
+            verifyTimestbmp(currCert);
+            verifyNbmeChbining(currCert);
         }
-        verifySignature(currCert);
+        verifySignbture(currCert);
 
-        updateState(currCert);
+        updbteStbte(currCert);
     }
 
     /**
-     * Verifies the signature on the certificate using the previous public key.
+     * Verifies the signbture on the certificbte using the previous public key.
      *
-     * @param cert the X509Certificate
-     * @throws CertPathValidatorException if certificate does not verify
+     * @pbrbm cert the X509Certificbte
+     * @throws CertPbthVblidbtorException if certificbte does not verify
      */
-    private void verifySignature(X509Certificate cert)
-        throws CertPathValidatorException
+    privbte void verifySignbture(X509Certificbte cert)
+        throws CertPbthVblidbtorException
     {
-        String msg = "signature";
+        String msg = "signbture";
         if (debug != null)
             debug.println("---checking " + msg + "...");
 
         try {
             cert.verify(prevPubKey, sigProvider);
-        } catch (SignatureException e) {
-            throw new CertPathValidatorException
-                (msg + " check failed", e, null, -1,
-                 BasicReason.INVALID_SIGNATURE);
-        } catch (GeneralSecurityException e) {
-            throw new CertPathValidatorException(msg + " check failed", e);
+        } cbtch (SignbtureException e) {
+            throw new CertPbthVblidbtorException
+                (msg + " check fbiled", e, null, -1,
+                 BbsicRebson.INVALID_SIGNATURE);
+        } cbtch (GenerblSecurityException e) {
+            throw new CertPbthVblidbtorException(msg + " check fbiled", e);
         }
 
         if (debug != null)
@@ -177,23 +177,23 @@ class BasicChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Internal method to verify the timestamp on a certificate
+     * Internbl method to verify the timestbmp on b certificbte
      */
-    private void verifyTimestamp(X509Certificate cert)
-        throws CertPathValidatorException
+    privbte void verifyTimestbmp(X509Certificbte cert)
+        throws CertPbthVblidbtorException
     {
-        String msg = "timestamp";
+        String msg = "timestbmp";
         if (debug != null)
-            debug.println("---checking " + msg + ":" + date.toString() + "...");
+            debug.println("---checking " + msg + ":" + dbte.toString() + "...");
 
         try {
-            cert.checkValidity(date);
-        } catch (CertificateExpiredException e) {
-            throw new CertPathValidatorException
-                (msg + " check failed", e, null, -1, BasicReason.EXPIRED);
-        } catch (CertificateNotYetValidException e) {
-            throw new CertPathValidatorException
-                (msg + " check failed", e, null, -1, BasicReason.NOT_YET_VALID);
+            cert.checkVblidity(dbte);
+        } cbtch (CertificbteExpiredException e) {
+            throw new CertPbthVblidbtorException
+                (msg + " check fbiled", e, null, -1, BbsicRebson.EXPIRED);
+        } cbtch (CertificbteNotYetVblidException e) {
+            throw new CertPbthVblidbtorException
+                (msg + " check fbiled", e, null, -1, BbsicRebson.NOT_YET_VALID);
         }
 
         if (debug != null)
@@ -201,31 +201,31 @@ class BasicChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Internal method to check that cert has a valid DN to be next in a chain
+     * Internbl method to check thbt cert hbs b vblid DN to be next in b chbin
      */
-    private void verifyNameChaining(X509Certificate cert)
-        throws CertPathValidatorException
+    privbte void verifyNbmeChbining(X509Certificbte cert)
+        throws CertPbthVblidbtorException
     {
         if (prevSubject != null) {
 
-            String msg = "subject/issuer name chaining";
+            String msg = "subject/issuer nbme chbining";
             if (debug != null)
                 debug.println("---checking " + msg + "...");
 
-            X500Principal currIssuer = cert.getIssuerX500Principal();
+            X500Principbl currIssuer = cert.getIssuerX500Principbl();
 
             // reject null or empty issuer DNs
-            if (X500Name.asX500Name(currIssuer).isEmpty()) {
-                throw new CertPathValidatorException
-                    (msg + " check failed: " +
-                     "empty/null issuer DN in certificate is invalid", null,
-                     null, -1, PKIXReason.NAME_CHAINING);
+            if (X500Nbme.bsX500Nbme(currIssuer).isEmpty()) {
+                throw new CertPbthVblidbtorException
+                    (msg + " check fbiled: " +
+                     "empty/null issuer DN in certificbte is invblid", null,
+                     null, -1, PKIXRebson.NAME_CHAINING);
             }
 
-            if (!(currIssuer.equals(prevSubject))) {
-                throw new CertPathValidatorException
-                    (msg + " check failed", null, null, -1,
-                     PKIXReason.NAME_CHAINING);
+            if (!(currIssuer.equbls(prevSubject))) {
+                throw new CertPbthVblidbtorException
+                    (msg + " check fbiled", null, null, -1,
+                     PKIXRebson.NAME_CHAINING);
             }
 
             if (debug != null)
@@ -234,67 +234,67 @@ class BasicChecker extends PKIXCertPathChecker {
     }
 
     /**
-     * Internal method to manage state information at each iteration
+     * Internbl method to mbnbge stbte informbtion bt ebch iterbtion
      */
-    private void updateState(X509Certificate currCert)
-        throws CertPathValidatorException
+    privbte void updbteStbte(X509Certificbte currCert)
+        throws CertPbthVblidbtorException
     {
         PublicKey cKey = currCert.getPublicKey();
         if (debug != null) {
-            debug.println("BasicChecker.updateState issuer: " +
-                currCert.getIssuerX500Principal().toString() + "; subject: " +
-                currCert.getSubjectX500Principal() + "; serial#: " +
-                currCert.getSerialNumber().toString());
+            debug.println("BbsicChecker.updbteStbte issuer: " +
+                currCert.getIssuerX500Principbl().toString() + "; subject: " +
+                currCert.getSubjectX500Principbl() + "; seribl#: " +
+                currCert.getSeriblNumber().toString());
         }
-        if (PKIX.isDSAPublicKeyWithoutParams(cKey)) {
-            // cKey needs to inherit DSA parameters from prev key
-            cKey = makeInheritedParamsKey(cKey, prevPubKey);
-            if (debug != null) debug.println("BasicChecker.updateState Made " +
-                                             "key with inherited params");
+        if (PKIX.isDSAPublicKeyWithoutPbrbms(cKey)) {
+            // cKey needs to inherit DSA pbrbmeters from prev key
+            cKey = mbkeInheritedPbrbmsKey(cKey, prevPubKey);
+            if (debug != null) debug.println("BbsicChecker.updbteStbte Mbde " +
+                                             "key with inherited pbrbms");
         }
         prevPubKey = cKey;
-        prevSubject = currCert.getSubjectX500Principal();
+        prevSubject = currCert.getSubjectX500Principbl();
     }
 
     /**
-     * Internal method to create a new key with inherited key parameters.
+     * Internbl method to crebte b new key with inherited key pbrbmeters.
      *
-     * @param keyValueKey key from which to obtain key value
-     * @param keyParamsKey key from which to obtain key parameters
-     * @return new public key having value and parameters
-     * @throws CertPathValidatorException if keys are not appropriate types
-     * for this operation
+     * @pbrbm keyVblueKey key from which to obtbin key vblue
+     * @pbrbm keyPbrbmsKey key from which to obtbin key pbrbmeters
+     * @return new public key hbving vblue bnd pbrbmeters
+     * @throws CertPbthVblidbtorException if keys bre not bppropribte types
+     * for this operbtion
      */
-    static PublicKey makeInheritedParamsKey(PublicKey keyValueKey,
-        PublicKey keyParamsKey) throws CertPathValidatorException
+    stbtic PublicKey mbkeInheritedPbrbmsKey(PublicKey keyVblueKey,
+        PublicKey keyPbrbmsKey) throws CertPbthVblidbtorException
     {
-        if (!(keyValueKey instanceof DSAPublicKey) ||
-            !(keyParamsKey instanceof DSAPublicKey))
-            throw new CertPathValidatorException("Input key is not " +
-                                                 "appropriate type for " +
-                                                 "inheriting parameters");
-        DSAParams params = ((DSAPublicKey)keyParamsKey).getParams();
-        if (params == null)
-            throw new CertPathValidatorException("Key parameters missing");
+        if (!(keyVblueKey instbnceof DSAPublicKey) ||
+            !(keyPbrbmsKey instbnceof DSAPublicKey))
+            throw new CertPbthVblidbtorException("Input key is not " +
+                                                 "bppropribte type for " +
+                                                 "inheriting pbrbmeters");
+        DSAPbrbms pbrbms = ((DSAPublicKey)keyPbrbmsKey).getPbrbms();
+        if (pbrbms == null)
+            throw new CertPbthVblidbtorException("Key pbrbmeters missing");
         try {
-            BigInteger y = ((DSAPublicKey)keyValueKey).getY();
-            KeyFactory kf = KeyFactory.getInstance("DSA");
+            BigInteger y = ((DSAPublicKey)keyVblueKey).getY();
+            KeyFbctory kf = KeyFbctory.getInstbnce("DSA");
             DSAPublicKeySpec ks = new DSAPublicKeySpec(y,
-                                                       params.getP(),
-                                                       params.getQ(),
-                                                       params.getG());
-            return kf.generatePublic(ks);
-        } catch (GeneralSecurityException e) {
-            throw new CertPathValidatorException("Unable to generate key with" +
-                                                 " inherited parameters: " +
-                                                 e.getMessage(), e);
+                                                       pbrbms.getP(),
+                                                       pbrbms.getQ(),
+                                                       pbrbms.getG());
+            return kf.generbtePublic(ks);
+        } cbtch (GenerblSecurityException e) {
+            throw new CertPbthVblidbtorException("Unbble to generbte key with" +
+                                                 " inherited pbrbmeters: " +
+                                                 e.getMessbge(), e);
         }
     }
 
     /**
-     * return the public key associated with the last certificate processed
+     * return the public key bssocibted with the lbst certificbte processed
      *
-     * @return PublicKey the last public key processed
+     * @return PublicKey the lbst public key processed
      */
     PublicKey getPublicKey() {
         return prevPubKey;

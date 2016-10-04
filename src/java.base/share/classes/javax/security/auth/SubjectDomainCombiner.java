@@ -1,459 +1,459 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth;
+pbckbge jbvbx.security.buth;
 
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.Permissions;
-import java.security.PermissionCollection;
-import java.security.Policy;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
-import java.security.Security;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.lang.ref.WeakReference;
+import jbvb.security.AccessController;
+import jbvb.security.Permission;
+import jbvb.security.Permissions;
+import jbvb.security.PermissionCollection;
+import jbvb.security.Policy;
+import jbvb.security.Principbl;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.ProtectionDombin;
+import jbvb.security.Security;
+import jbvb.util.Set;
+import jbvb.util.WebkHbshMbp;
+import jbvb.lbng.ref.WebkReference;
 
 /**
- * A {@code SubjectDomainCombiner} updates ProtectionDomains
- * with Principals from the {@code Subject} associated with this
- * {@code SubjectDomainCombiner}.
+ * A {@code SubjectDombinCombiner} updbtes ProtectionDombins
+ * with Principbls from the {@code Subject} bssocibted with this
+ * {@code SubjectDombinCombiner}.
  *
  */
-public class SubjectDomainCombiner implements java.security.DomainCombiner {
+public clbss SubjectDombinCombiner implements jbvb.security.DombinCombiner {
 
-    private Subject subject;
-    private WeakKeyValueMap<ProtectionDomain, ProtectionDomain> cachedPDs =
-                new WeakKeyValueMap<>();
-    private Set<Principal> principalSet;
-    private Principal[] principals;
+    privbte Subject subject;
+    privbte WebkKeyVblueMbp<ProtectionDombin, ProtectionDombin> cbchedPDs =
+                new WebkKeyVblueMbp<>();
+    privbte Set<Principbl> principblSet;
+    privbte Principbl[] principbls;
 
-    private static final sun.security.util.Debug debug =
-        sun.security.util.Debug.getInstance("combiner",
-                                        "\t[SubjectDomainCombiner]");
+    privbte stbtic finbl sun.security.util.Debug debug =
+        sun.security.util.Debug.getInstbnce("combiner",
+                                        "\t[SubjectDombinCombiner]");
 
-    @SuppressWarnings("deprecation")
-    // Note: check only at classloading time, not dynamically during combine()
-    private static final boolean useJavaxPolicy =
-        javax.security.auth.Policy.isCustomPolicySet(debug);
+    @SuppressWbrnings("deprecbtion")
+    // Note: check only bt clbsslobding time, not dynbmicblly during combine()
+    privbte stbtic finbl boolebn useJbvbxPolicy =
+        jbvbx.security.buth.Policy.isCustomPolicySet(debug);
 
-    // Relevant only when useJavaxPolicy is true
-    private static final boolean allowCaching =
-                                        (useJavaxPolicy && cachePolicy());
+    // Relevbnt only when useJbvbxPolicy is true
+    privbte stbtic finbl boolebn bllowCbching =
+                                        (useJbvbxPolicy && cbchePolicy());
 
     /**
-     * Associate the provided {@code Subject} with this
-     * {@code SubjectDomainCombiner}.
+     * Associbte the provided {@code Subject} with this
+     * {@code SubjectDombinCombiner}.
      *
      * <p>
      *
-     * @param subject the {@code Subject} to be associated with
-     *          with this {@code SubjectDomainCombiner}.
+     * @pbrbm subject the {@code Subject} to be bssocibted with
+     *          with this {@code SubjectDombinCombiner}.
      */
-    public SubjectDomainCombiner(Subject subject) {
+    public SubjectDombinCombiner(Subject subject) {
         this.subject = subject;
 
-        if (subject.isReadOnly()) {
-            principalSet = subject.getPrincipals();
-            principals = principalSet.toArray
-                        (new Principal[principalSet.size()]);
+        if (subject.isRebdOnly()) {
+            principblSet = subject.getPrincipbls();
+            principbls = principblSet.toArrby
+                        (new Principbl[principblSet.size()]);
         }
     }
 
     /**
-     * Get the {@code Subject} associated with this
-     * {@code SubjectDomainCombiner}.
+     * Get the {@code Subject} bssocibted with this
+     * {@code SubjectDombinCombiner}.
      *
      * <p>
      *
-     * @return the {@code Subject} associated with this
-     *          {@code SubjectDomainCombiner}, or {@code null}
-     *          if no {@code Subject} is associated with this
-     *          {@code SubjectDomainCombiner}.
+     * @return the {@code Subject} bssocibted with this
+     *          {@code SubjectDombinCombiner}, or {@code null}
+     *          if no {@code Subject} is bssocibted with this
+     *          {@code SubjectDombinCombiner}.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get the {@code Subject} associated with this
-     *          {@code SubjectDomainCombiner}.
+     * @exception SecurityException if the cbller does not hbve permission
+     *          to get the {@code Subject} bssocibted with this
+     *          {@code SubjectDombinCombiner}.
      */
     public Subject getSubject() {
-        java.lang.SecurityManager sm = System.getSecurityManager();
+        jbvb.lbng.SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new AuthPermission
-                ("getSubjectFromDomainCombiner"));
+                ("getSubjectFromDombinCombiner"));
         }
         return subject;
     }
 
     /**
-     * Update the relevant ProtectionDomains with the Principals
-     * from the {@code Subject} associated with this
-     * {@code SubjectDomainCombiner}.
+     * Updbte the relevbnt ProtectionDombins with the Principbls
+     * from the {@code Subject} bssocibted with this
+     * {@code SubjectDombinCombiner}.
      *
-     * <p> A new {@code ProtectionDomain} instance is created
-     * for each {@code ProtectionDomain} in the
-     * <i>currentDomains</i> array.  Each new {@code ProtectionDomain}
-     * instance is created using the {@code CodeSource},
-     * {@code Permission}s and {@code ClassLoader}
-     * from the corresponding {@code ProtectionDomain} in
-     * <i>currentDomains</i>, as well as with the Principals from
-     * the {@code Subject} associated with this
-     * {@code SubjectDomainCombiner}.
+     * <p> A new {@code ProtectionDombin} instbnce is crebted
+     * for ebch {@code ProtectionDombin} in the
+     * <i>currentDombins</i> brrby.  Ebch new {@code ProtectionDombin}
+     * instbnce is crebted using the {@code CodeSource},
+     * {@code Permission}s bnd {@code ClbssLobder}
+     * from the corresponding {@code ProtectionDombin} in
+     * <i>currentDombins</i>, bs well bs with the Principbls from
+     * the {@code Subject} bssocibted with this
+     * {@code SubjectDombinCombiner}.
      *
-     * <p> All of the newly instantiated ProtectionDomains are
-     * combined into a new array.  The ProtectionDomains from the
-     * <i>assignedDomains</i> array are appended to this new array,
-     * and the result is returned.
+     * <p> All of the newly instbntibted ProtectionDombins bre
+     * combined into b new brrby.  The ProtectionDombins from the
+     * <i>bssignedDombins</i> brrby bre bppended to this new brrby,
+     * bnd the result is returned.
      *
-     * <p> Note that optimizations such as the removal of duplicate
-     * ProtectionDomains may have occurred.
-     * In addition, caching of ProtectionDomains may be permitted.
+     * <p> Note thbt optimizbtions such bs the removbl of duplicbte
+     * ProtectionDombins mby hbve occurred.
+     * In bddition, cbching of ProtectionDombins mby be permitted.
      *
      * <p>
      *
-     * @param currentDomains the ProtectionDomains associated with the
-     *          current execution Thread, up to the most recent
-     *          privileged {@code ProtectionDomain}.
-     *          The ProtectionDomains are are listed in order of execution,
-     *          with the most recently executing {@code ProtectionDomain}
-     *          residing at the beginning of the array. This parameter may
-     *          be {@code null} if the current execution Thread
-     *          has no associated ProtectionDomains.<p>
+     * @pbrbm currentDombins the ProtectionDombins bssocibted with the
+     *          current execution Threbd, up to the most recent
+     *          privileged {@code ProtectionDombin}.
+     *          The ProtectionDombins bre bre listed in order of execution,
+     *          with the most recently executing {@code ProtectionDombin}
+     *          residing bt the beginning of the brrby. This pbrbmeter mby
+     *          be {@code null} if the current execution Threbd
+     *          hbs no bssocibted ProtectionDombins.<p>
      *
-     * @param assignedDomains the ProtectionDomains inherited from the
-     *          parent Thread, or the ProtectionDomains from the
-     *          privileged <i>context</i>, if a call to
+     * @pbrbm bssignedDombins the ProtectionDombins inherited from the
+     *          pbrent Threbd, or the ProtectionDombins from the
+     *          privileged <i>context</i>, if b cbll to
      *          AccessController.doPrivileged(..., <i>context</i>)
-     *          had occurred  This parameter may be {@code null}
-     *          if there were no ProtectionDomains inherited from the
-     *          parent Thread, or from the privileged <i>context</i>.
+     *          hbd occurred  This pbrbmeter mby be {@code null}
+     *          if there were no ProtectionDombins inherited from the
+     *          pbrent Threbd, or from the privileged <i>context</i>.
      *
-     * @return a new array consisting of the updated ProtectionDomains,
+     * @return b new brrby consisting of the updbted ProtectionDombins,
      *          or {@code null}.
      */
-    public ProtectionDomain[] combine(ProtectionDomain[] currentDomains,
-                                ProtectionDomain[] assignedDomains) {
+    public ProtectionDombin[] combine(ProtectionDombin[] currentDombins,
+                                ProtectionDombin[] bssignedDombins) {
         if (debug != null) {
             if (subject == null) {
                 debug.println("null subject");
             } else {
-                final Subject s = subject;
+                finbl Subject s = subject;
                 AccessController.doPrivileged
-                    (new java.security.PrivilegedAction<Void>() {
+                    (new jbvb.security.PrivilegedAction<Void>() {
                     public Void run() {
                         debug.println(s.toString());
                         return null;
                     }
                 });
             }
-            printInputDomains(currentDomains, assignedDomains);
+            printInputDombins(currentDombins, bssignedDombins);
         }
 
-        if (currentDomains == null || currentDomains.length == 0) {
-            // No need to optimize assignedDomains because it should
-            // have been previously optimized (when it was set).
+        if (currentDombins == null || currentDombins.length == 0) {
+            // No need to optimize bssignedDombins becbuse it should
+            // hbve been previously optimized (when it wbs set).
 
-            // Note that we are returning a direct reference
-            // to the input array - since ACC does not clone
-            // the arrays when it calls combiner.combine,
-            // multiple ACC instances may share the same
-            // array instance in this case
+            // Note thbt we bre returning b direct reference
+            // to the input brrby - since ACC does not clone
+            // the brrbys when it cblls combiner.combine,
+            // multiple ACC instbnces mby shbre the sbme
+            // brrby instbnce in this cbse
 
-            return assignedDomains;
+            return bssignedDombins;
         }
 
-        // optimize currentDomains
+        // optimize currentDombins
         //
-        // No need to optimize assignedDomains because it should
-        // have been previously optimized (when it was set).
+        // No need to optimize bssignedDombins becbuse it should
+        // hbve been previously optimized (when it wbs set).
 
-        currentDomains = optimize(currentDomains);
+        currentDombins = optimize(currentDombins);
         if (debug != null) {
-            debug.println("after optimize");
-            printInputDomains(currentDomains, assignedDomains);
+            debug.println("bfter optimize");
+            printInputDombins(currentDombins, bssignedDombins);
         }
 
-        if (currentDomains == null && assignedDomains == null) {
+        if (currentDombins == null && bssignedDombins == null) {
             return null;
         }
 
-        // maintain backwards compatibility for developers who provide
-        // their own custom javax.security.auth.Policy implementations
-        if (useJavaxPolicy) {
-            return combineJavaxPolicy(currentDomains, assignedDomains);
+        // mbintbin bbckwbrds compbtibility for developers who provide
+        // their own custom jbvbx.security.buth.Policy implementbtions
+        if (useJbvbxPolicy) {
+            return combineJbvbxPolicy(currentDombins, bssignedDombins);
         }
 
-        int cLen = (currentDomains == null ? 0 : currentDomains.length);
-        int aLen = (assignedDomains == null ? 0 : assignedDomains.length);
+        int cLen = (currentDombins == null ? 0 : currentDombins.length);
+        int bLen = (bssignedDombins == null ? 0 : bssignedDombins.length);
 
-        // the ProtectionDomains for the new AccessControlContext
-        // that we will return
-        ProtectionDomain[] newDomains = new ProtectionDomain[cLen + aLen];
+        // the ProtectionDombins for the new AccessControlContext
+        // thbt we will return
+        ProtectionDombin[] newDombins = new ProtectionDombin[cLen + bLen];
 
-        boolean allNew = true;
-        synchronized(cachedPDs) {
-            if (!subject.isReadOnly() &&
-                !subject.getPrincipals().equals(principalSet)) {
+        boolebn bllNew = true;
+        synchronized(cbchedPDs) {
+            if (!subject.isRebdOnly() &&
+                !subject.getPrincipbls().equbls(principblSet)) {
 
-                // if the Subject was mutated, clear the PD cache
-                Set<Principal> newSet = subject.getPrincipals();
+                // if the Subject wbs mutbted, clebr the PD cbche
+                Set<Principbl> newSet = subject.getPrincipbls();
                 synchronized(newSet) {
-                    principalSet = new java.util.HashSet<Principal>(newSet);
+                    principblSet = new jbvb.util.HbshSet<Principbl>(newSet);
                 }
-                principals = principalSet.toArray
-                        (new Principal[principalSet.size()]);
-                cachedPDs.clear();
+                principbls = principblSet.toArrby
+                        (new Principbl[principblSet.size()]);
+                cbchedPDs.clebr();
 
                 if (debug != null) {
-                    debug.println("Subject mutated - clearing cache");
+                    debug.println("Subject mutbted - clebring cbche");
                 }
             }
 
-            ProtectionDomain subjectPd;
+            ProtectionDombin subjectPd;
             for (int i = 0; i < cLen; i++) {
-                ProtectionDomain pd = currentDomains[i];
+                ProtectionDombin pd = currentDombins[i];
 
-                subjectPd = cachedPDs.getValue(pd);
+                subjectPd = cbchedPDs.getVblue(pd);
 
                 if (subjectPd == null) {
-                    subjectPd = new ProtectionDomain(pd.getCodeSource(),
+                    subjectPd = new ProtectionDombin(pd.getCodeSource(),
                                                 pd.getPermissions(),
-                                                pd.getClassLoader(),
-                                                principals);
-                    cachedPDs.putValue(pd, subjectPd);
+                                                pd.getClbssLobder(),
+                                                principbls);
+                    cbchedPDs.putVblue(pd, subjectPd);
                 } else {
-                    allNew = false;
+                    bllNew = fblse;
                 }
-                newDomains[i] = subjectPd;
+                newDombins[i] = subjectPd;
             }
         }
 
         if (debug != null) {
-            debug.println("updated current: ");
+            debug.println("updbted current: ");
             for (int i = 0; i < cLen; i++) {
-                debug.println("\tupdated[" + i + "] = " +
-                                printDomain(newDomains[i]));
+                debug.println("\tupdbted[" + i + "] = " +
+                                printDombin(newDombins[i]));
             }
         }
 
-        // now add on the assigned domains
-        if (aLen > 0) {
-            System.arraycopy(assignedDomains, 0, newDomains, cLen, aLen);
+        // now bdd on the bssigned dombins
+        if (bLen > 0) {
+            System.brrbycopy(bssignedDombins, 0, newDombins, cLen, bLen);
 
-            // optimize the result (cached PDs might exist in assignedDomains)
-            if (!allNew) {
-                newDomains = optimize(newDomains);
+            // optimize the result (cbched PDs might exist in bssignedDombins)
+            if (!bllNew) {
+                newDombins = optimize(newDombins);
             }
         }
 
-        // if aLen == 0 || allNew, no need to further optimize newDomains
+        // if bLen == 0 || bllNew, no need to further optimize newDombins
 
         if (debug != null) {
-            if (newDomains == null || newDomains.length == 0) {
+            if (newDombins == null || newDombins.length == 0) {
                 debug.println("returning null");
             } else {
-                debug.println("combinedDomains: ");
-                for (int i = 0; i < newDomains.length; i++) {
-                    debug.println("newDomain " + i + ": " +
-                                  printDomain(newDomains[i]));
+                debug.println("combinedDombins: ");
+                for (int i = 0; i < newDombins.length; i++) {
+                    debug.println("newDombin " + i + ": " +
+                                  printDombin(newDombins[i]));
                 }
             }
         }
 
-        // return the new ProtectionDomains
-        if (newDomains == null || newDomains.length == 0) {
+        // return the new ProtectionDombins
+        if (newDombins == null || newDombins.length == 0) {
             return null;
         } else {
-            return newDomains;
+            return newDombins;
         }
     }
 
     /**
-     * Use the javax.security.auth.Policy implementation
+     * Use the jbvbx.security.buth.Policy implementbtion
      */
-    private ProtectionDomain[] combineJavaxPolicy(
-        ProtectionDomain[] currentDomains,
-        ProtectionDomain[] assignedDomains) {
+    privbte ProtectionDombin[] combineJbvbxPolicy(
+        ProtectionDombin[] currentDombins,
+        ProtectionDombin[] bssignedDombins) {
 
-        if (!allowCaching) {
-            java.security.AccessController.doPrivileged
+        if (!bllowCbching) {
+            jbvb.security.AccessController.doPrivileged
                 (new PrivilegedAction<Void>() {
-                    @SuppressWarnings("deprecation")
+                    @SuppressWbrnings("deprecbtion")
                     public Void run() {
-                        // Call refresh only caching is disallowed
-                        javax.security.auth.Policy.getPolicy().refresh();
+                        // Cbll refresh only cbching is disbllowed
+                        jbvbx.security.buth.Policy.getPolicy().refresh();
                         return null;
                     }
                 });
         }
 
 
-        int cLen = (currentDomains == null ? 0 : currentDomains.length);
-        int aLen = (assignedDomains == null ? 0 : assignedDomains.length);
+        int cLen = (currentDombins == null ? 0 : currentDombins.length);
+        int bLen = (bssignedDombins == null ? 0 : bssignedDombins.length);
 
-        // the ProtectionDomains for the new AccessControlContext
-        // that we will return
-        ProtectionDomain[] newDomains = new ProtectionDomain[cLen + aLen];
+        // the ProtectionDombins for the new AccessControlContext
+        // thbt we will return
+        ProtectionDombin[] newDombins = new ProtectionDombin[cLen + bLen];
 
-        synchronized(cachedPDs) {
-            if (!subject.isReadOnly() &&
-                !subject.getPrincipals().equals(principalSet)) {
+        synchronized(cbchedPDs) {
+            if (!subject.isRebdOnly() &&
+                !subject.getPrincipbls().equbls(principblSet)) {
 
-                // if the Subject was mutated, clear the PD cache
-                Set<Principal> newSet = subject.getPrincipals();
+                // if the Subject wbs mutbted, clebr the PD cbche
+                Set<Principbl> newSet = subject.getPrincipbls();
                 synchronized(newSet) {
-                    principalSet = new java.util.HashSet<Principal>(newSet);
+                    principblSet = new jbvb.util.HbshSet<Principbl>(newSet);
                 }
-                principals = principalSet.toArray
-                        (new Principal[principalSet.size()]);
-                cachedPDs.clear();
+                principbls = principblSet.toArrby
+                        (new Principbl[principblSet.size()]);
+                cbchedPDs.clebr();
 
                 if (debug != null) {
-                    debug.println("Subject mutated - clearing cache");
+                    debug.println("Subject mutbted - clebring cbche");
                 }
             }
 
             for (int i = 0; i < cLen; i++) {
-                ProtectionDomain pd = currentDomains[i];
-                ProtectionDomain subjectPd = cachedPDs.getValue(pd);
+                ProtectionDombin pd = currentDombins[i];
+                ProtectionDombin subjectPd = cbchedPDs.getVblue(pd);
 
                 if (subjectPd == null) {
 
                     // XXX
-                    // we must first add the original permissions.
-                    // that way when we later add the new JAAS permissions,
-                    // any unresolved JAAS-related permissions will
-                    // automatically get resolved.
+                    // we must first bdd the originbl permissions.
+                    // thbt wby when we lbter bdd the new JAAS permissions,
+                    // bny unresolved JAAS-relbted permissions will
+                    // butombticblly get resolved.
 
-                    // get the original perms
+                    // get the originbl perms
                     Permissions perms = new Permissions();
                     PermissionCollection coll = pd.getPermissions();
-                    java.util.Enumeration<Permission> e;
+                    jbvb.util.Enumerbtion<Permission> e;
                     if (coll != null) {
                         synchronized (coll) {
                             e = coll.elements();
-                            while (e.hasMoreElements()) {
+                            while (e.hbsMoreElements()) {
                                 Permission newPerm =
                                         e.nextElement();
-                                 perms.add(newPerm);
+                                 perms.bdd(newPerm);
                             }
                         }
                     }
 
                     // get perms from the policy
 
-                    final java.security.CodeSource finalCs = pd.getCodeSource();
-                    final Subject finalS = subject;
+                    finbl jbvb.security.CodeSource finblCs = pd.getCodeSource();
+                    finbl Subject finblS = subject;
                     PermissionCollection newPerms =
-                        java.security.AccessController.doPrivileged
+                        jbvb.security.AccessController.doPrivileged
                         (new PrivilegedAction<PermissionCollection>() {
-                        @SuppressWarnings("deprecation")
+                        @SuppressWbrnings("deprecbtion")
                         public PermissionCollection run() {
                           return
-                          javax.security.auth.Policy.getPolicy().getPermissions
-                                (finalS, finalCs);
+                          jbvbx.security.buth.Policy.getPolicy().getPermissions
+                                (finblS, finblCs);
                         }
                     });
 
-                    // add the newly granted perms,
-                    // avoiding duplicates
+                    // bdd the newly grbnted perms,
+                    // bvoiding duplicbtes
                     synchronized (newPerms) {
                         e = newPerms.elements();
-                        while (e.hasMoreElements()) {
+                        while (e.hbsMoreElements()) {
                             Permission newPerm = e.nextElement();
                             if (!perms.implies(newPerm)) {
-                                perms.add(newPerm);
+                                perms.bdd(newPerm);
                                 if (debug != null)
                                     debug.println (
                                         "Adding perm " + newPerm + "\n");
                             }
                         }
                     }
-                    subjectPd = new ProtectionDomain
-                        (finalCs, perms, pd.getClassLoader(), principals);
+                    subjectPd = new ProtectionDombin
+                        (finblCs, perms, pd.getClbssLobder(), principbls);
 
-                    if (allowCaching)
-                        cachedPDs.putValue(pd, subjectPd);
+                    if (bllowCbching)
+                        cbchedPDs.putVblue(pd, subjectPd);
                 }
-                newDomains[i] = subjectPd;
+                newDombins[i] = subjectPd;
             }
         }
 
         if (debug != null) {
-            debug.println("updated current: ");
+            debug.println("updbted current: ");
             for (int i = 0; i < cLen; i++) {
-                debug.println("\tupdated[" + i + "] = " + newDomains[i]);
+                debug.println("\tupdbted[" + i + "] = " + newDombins[i]);
             }
         }
 
-        // now add on the assigned domains
-        if (aLen > 0) {
-            System.arraycopy(assignedDomains, 0, newDomains, cLen, aLen);
+        // now bdd on the bssigned dombins
+        if (bLen > 0) {
+            System.brrbycopy(bssignedDombins, 0, newDombins, cLen, bLen);
         }
 
         if (debug != null) {
-            if (newDomains == null || newDomains.length == 0) {
+            if (newDombins == null || newDombins.length == 0) {
                 debug.println("returning null");
             } else {
-                debug.println("combinedDomains: ");
-                for (int i = 0; i < newDomains.length; i++) {
-                    debug.println("newDomain " + i + ": " +
-                        newDomains[i].toString());
+                debug.println("combinedDombins: ");
+                for (int i = 0; i < newDombins.length; i++) {
+                    debug.println("newDombin " + i + ": " +
+                        newDombins[i].toString());
                 }
             }
         }
 
-        // return the new ProtectionDomains
-        if (newDomains == null || newDomains.length == 0) {
+        // return the new ProtectionDombins
+        if (newDombins == null || newDombins.length == 0) {
             return null;
         } else {
-            return newDomains;
+            return newDombins;
         }
     }
 
-    private static ProtectionDomain[] optimize(ProtectionDomain[] domains) {
-        if (domains == null || domains.length == 0)
+    privbte stbtic ProtectionDombin[] optimize(ProtectionDombin[] dombins) {
+        if (dombins == null || dombins.length == 0)
             return null;
 
-        ProtectionDomain[] optimized = new ProtectionDomain[domains.length];
-        ProtectionDomain pd;
+        ProtectionDombin[] optimized = new ProtectionDombin[dombins.length];
+        ProtectionDombin pd;
         int num = 0;
-        for (int i = 0; i < domains.length; i++) {
+        for (int i = 0; i < dombins.length; i++) {
 
-            // skip domains with AllPermission
+            // skip dombins with AllPermission
             // XXX
             //
-            //  if (domains[i].implies(ALL_PERMISSION))
+            //  if (dombins[i].implies(ALL_PERMISSION))
             //  continue;
 
-            // skip System Domains
-            if ((pd = domains[i]) != null) {
+            // skip System Dombins
+            if ((pd = dombins[i]) != null) {
 
-                // remove duplicates
-                boolean found = false;
+                // remove duplicbtes
+                boolebn found = fblse;
                 for (int j = 0; j < num && !found; j++) {
                     found = (optimized[j] == pd);
                 }
@@ -463,64 +463,64 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
             }
         }
 
-        // resize the array if necessary
-        if (num > 0 && num < domains.length) {
-            ProtectionDomain[] downSize = new ProtectionDomain[num];
-            System.arraycopy(optimized, 0, downSize, 0, downSize.length);
+        // resize the brrby if necessbry
+        if (num > 0 && num < dombins.length) {
+            ProtectionDombin[] downSize = new ProtectionDombin[num];
+            System.brrbycopy(optimized, 0, downSize, 0, downSize.length);
             optimized = downSize;
         }
 
         return ((num == 0 || optimized.length == 0) ? null : optimized);
     }
 
-    private static boolean cachePolicy() {
+    privbte stbtic boolebn cbchePolicy() {
         String s = AccessController.doPrivileged
             (new PrivilegedAction<String>() {
             public String run() {
-                return Security.getProperty("cache.auth.policy");
+                return Security.getProperty("cbche.buth.policy");
             }
         });
         if (s != null) {
-            return Boolean.parseBoolean(s);
+            return Boolebn.pbrseBoolebn(s);
         }
 
-        // cache by default
+        // cbche by defbult
         return true;
     }
 
-    private static void printInputDomains(ProtectionDomain[] currentDomains,
-                                ProtectionDomain[] assignedDomains) {
-        if (currentDomains == null || currentDomains.length == 0) {
-            debug.println("currentDomains null or 0 length");
+    privbte stbtic void printInputDombins(ProtectionDombin[] currentDombins,
+                                ProtectionDombin[] bssignedDombins) {
+        if (currentDombins == null || currentDombins.length == 0) {
+            debug.println("currentDombins null or 0 length");
         } else {
-            for (int i = 0; currentDomains != null &&
-                        i < currentDomains.length; i++) {
-                if (currentDomains[i] == null) {
-                    debug.println("currentDomain " + i + ": SystemDomain");
+            for (int i = 0; currentDombins != null &&
+                        i < currentDombins.length; i++) {
+                if (currentDombins[i] == null) {
+                    debug.println("currentDombin " + i + ": SystemDombin");
                 } else {
-                    debug.println("currentDomain " + i + ": " +
-                                printDomain(currentDomains[i]));
+                    debug.println("currentDombin " + i + ": " +
+                                printDombin(currentDombins[i]));
                 }
             }
         }
 
-        if (assignedDomains == null || assignedDomains.length == 0) {
-            debug.println("assignedDomains null or 0 length");
+        if (bssignedDombins == null || bssignedDombins.length == 0) {
+            debug.println("bssignedDombins null or 0 length");
         } else {
-            debug.println("assignedDomains = ");
-            for (int i = 0; assignedDomains != null &&
-                        i < assignedDomains.length; i++) {
-                if (assignedDomains[i] == null) {
-                    debug.println("assignedDomain " + i + ": SystemDomain");
+            debug.println("bssignedDombins = ");
+            for (int i = 0; bssignedDombins != null &&
+                        i < bssignedDombins.length; i++) {
+                if (bssignedDombins[i] == null) {
+                    debug.println("bssignedDombin " + i + ": SystemDombin");
                 } else {
-                    debug.println("assignedDomain " + i + ": " +
-                                printDomain(assignedDomains[i]));
+                    debug.println("bssignedDombin " + i + ": " +
+                                printDombin(bssignedDombins[i]));
                 }
             }
         }
     }
 
-    private static String printDomain(final ProtectionDomain pd) {
+    privbte stbtic String printDombin(finbl ProtectionDombin pd) {
         if (pd == null) {
             return "null";
         }
@@ -532,34 +532,34 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
     }
 
     /**
-     * A HashMap that has weak keys and values.
+     * A HbshMbp thbt hbs webk keys bnd vblues.
      *
-     * Key objects in this map are the "current" ProtectionDomain instances
-     * received via the combine method.  Each "current" PD is mapped to a
-     * new PD instance that holds both the contents of the "current" PD,
-     * as well as the principals from the Subject associated with this combiner.
+     * Key objects in this mbp bre the "current" ProtectionDombin instbnces
+     * received vib the combine method.  Ebch "current" PD is mbpped to b
+     * new PD instbnce thbt holds both the contents of the "current" PD,
+     * bs well bs the principbls from the Subject bssocibted with this combiner.
      *
-     * The newly created "principal-based" PD values must be stored as
-     * WeakReferences since they contain strong references to the
-     * corresponding key object (the "current" non-principal-based PD),
-     * which will prevent the key from being GC'd.  Specifically,
-     * a "principal-based" PD contains strong references to the CodeSource,
-     * signer certs, PermissionCollection and ClassLoader objects
+     * The newly crebted "principbl-bbsed" PD vblues must be stored bs
+     * WebkReferences since they contbin strong references to the
+     * corresponding key object (the "current" non-principbl-bbsed PD),
+     * which will prevent the key from being GC'd.  Specificblly,
+     * b "principbl-bbsed" PD contbins strong references to the CodeSource,
+     * signer certs, PermissionCollection bnd ClbssLobder objects
      * in the "current PD".
      */
-    private static class WeakKeyValueMap<K,V> extends
-                                        WeakHashMap<K,WeakReference<V>> {
+    privbte stbtic clbss WebkKeyVblueMbp<K,V> extends
+                                        WebkHbshMbp<K,WebkReference<V>> {
 
-        public V getValue(K key) {
-            WeakReference<V> wr = super.get(key);
+        public V getVblue(K key) {
+            WebkReference<V> wr = super.get(key);
             if (wr != null) {
                 return wr.get();
             }
             return null;
         }
 
-        public V putValue(K key, V value) {
-            WeakReference<V> wr = super.put(key, new WeakReference<V>(value));
+        public V putVblue(K key, V vblue) {
+            WebkReference<V> wr = super.put(key, new WebkReference<V>(vblue));
             if (wr != null) {
                 return wr.get();
             }

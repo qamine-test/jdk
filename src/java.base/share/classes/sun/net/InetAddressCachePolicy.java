@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1998, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net;
+pbckbge sun.net;
 
-import java.security.PrivilegedAction;
-import java.security.Security;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.Security;
 
-public final class InetAddressCachePolicy {
+public finbl clbss InetAddressCbchePolicy {
 
-    // Controls the cache policy for successful lookups only
-    private static final String cachePolicyProp = "networkaddress.cache.ttl";
-    private static final String cachePolicyPropFallback =
-        "sun.net.inetaddr.ttl";
+    // Controls the cbche policy for successful lookups only
+    privbte stbtic finbl String cbchePolicyProp = "networkbddress.cbche.ttl";
+    privbte stbtic finbl String cbchePolicyPropFbllbbck =
+        "sun.net.inetbddr.ttl";
 
-    // Controls the cache policy for negative lookups only
-    private static final String negativeCachePolicyProp =
-        "networkaddress.cache.negative.ttl";
-    private static final String negativeCachePolicyPropFallback =
-        "sun.net.inetaddr.negative.ttl";
+    // Controls the cbche policy for negbtive lookups only
+    privbte stbtic finbl String negbtiveCbchePolicyProp =
+        "networkbddress.cbche.negbtive.ttl";
+    privbte stbtic finbl String negbtiveCbchePolicyPropFbllbbck =
+        "sun.net.inetbddr.negbtive.ttl";
 
-    public static final int FOREVER = -1;
-    public static final int NEVER = 0;
+    public stbtic finbl int FOREVER = -1;
+    public stbtic finbl int NEVER = 0;
 
-    /* default value for positive lookups */
-    public static final int DEFAULT_POSITIVE = 30;
+    /* defbult vblue for positive lookups */
+    public stbtic finbl int DEFAULT_POSITIVE = 30;
 
-    /* The Java-level namelookup cache policy for successful lookups:
+    /* The Jbvb-level nbmelookup cbche policy for successful lookups:
      *
-     * -1: caching forever
-     * any positive value: the number of seconds to cache an address for
+     * -1: cbching forever
+     * bny positive vblue: the number of seconds to cbche bn bddress for
      *
-     * default value is forever (FOREVER), as we let the platform do the
-     * caching. For security reasons, this caching is made forever when
-     * a security manager is set.
+     * defbult vblue is forever (FOREVER), bs we let the plbtform do the
+     * cbching. For security rebsons, this cbching is mbde forever when
+     * b security mbnbger is set.
      */
-    private static int cachePolicy = FOREVER;
+    privbte stbtic int cbchePolicy = FOREVER;
 
-    /* The Java-level namelookup cache policy for negative lookups:
+    /* The Jbvb-level nbmelookup cbche policy for negbtive lookups:
      *
-     * -1: caching forever
-     * any positive value: the number of seconds to cache an address for
+     * -1: cbching forever
+     * bny positive vblue: the number of seconds to cbche bn bddress for
      *
-     * default value is 0. It can be set to some other value for
-     * performance reasons.
+     * defbult vblue is 0. It cbn be set to some other vblue for
+     * performbnce rebsons.
      */
-    private static int negativeCachePolicy = NEVER;
+    privbte stbtic int negbtiveCbchePolicy = NEVER;
 
     /*
-     * Whether or not the cache policy for successful lookups was set
-     * using a property (cmd line).
+     * Whether or not the cbche policy for successful lookups wbs set
+     * using b property (cmd line).
      */
-    private static boolean propertySet;
+    privbte stbtic boolebn propertySet;
 
     /*
-     * Whether or not the cache policy for negative lookups was set
-     * using a property (cmd line).
+     * Whether or not the cbche policy for negbtive lookups wbs set
+     * using b property (cmd line).
      */
-    private static boolean propertyNegativeSet;
+    privbte stbtic boolebn propertyNegbtiveSet;
 
     /*
-     * Initialize
+     * Initiblize
      */
-    static {
+    stbtic {
 
-        Integer tmp = java.security.AccessController.doPrivileged(
+        Integer tmp = jbvb.security.AccessController.doPrivileged(
           new PrivilegedAction<Integer>() {
             public Integer run() {
                 try {
-                    String tmpString = Security.getProperty(cachePolicyProp);
+                    String tmpString = Security.getProperty(cbchePolicyProp);
                     if (tmpString != null) {
-                        return Integer.valueOf(tmpString);
+                        return Integer.vblueOf(tmpString);
                     }
-                } catch (NumberFormatException ignored) {
+                } cbtch (NumberFormbtException ignored) {
                     // Ignore
                 }
 
                 try {
-                    String tmpString = System.getProperty(cachePolicyPropFallback);
+                    String tmpString = System.getProperty(cbchePolicyPropFbllbbck);
                     if (tmpString != null) {
                         return Integer.decode(tmpString);
                     }
-                } catch (NumberFormatException ignored) {
+                } cbtch (NumberFormbtException ignored) {
                     // Ignore
                 }
                 return null;
@@ -110,37 +110,37 @@ public final class InetAddressCachePolicy {
           });
 
         if (tmp != null) {
-            cachePolicy = tmp.intValue();
-            if (cachePolicy < 0) {
-                cachePolicy = FOREVER;
+            cbchePolicy = tmp.intVblue();
+            if (cbchePolicy < 0) {
+                cbchePolicy = FOREVER;
             }
             propertySet = true;
         } else {
-            /* No properties defined for positive caching. If there is no
-             * security manager then use the default positive cache value.
+            /* No properties defined for positive cbching. If there is no
+             * security mbnbger then use the defbult positive cbche vblue.
              */
-            if (System.getSecurityManager() == null) {
-                cachePolicy = DEFAULT_POSITIVE;
+            if (System.getSecurityMbnbger() == null) {
+                cbchePolicy = DEFAULT_POSITIVE;
             }
         }
-        tmp = java.security.AccessController.doPrivileged (
+        tmp = jbvb.security.AccessController.doPrivileged (
           new PrivilegedAction<Integer>() {
             public Integer run() {
                 try {
-                    String tmpString = Security.getProperty(negativeCachePolicyProp);
+                    String tmpString = Security.getProperty(negbtiveCbchePolicyProp);
                     if (tmpString != null) {
-                        return Integer.valueOf(tmpString);
+                        return Integer.vblueOf(tmpString);
                     }
-                } catch (NumberFormatException ignored) {
+                } cbtch (NumberFormbtException ignored) {
                     // Ignore
                 }
 
                 try {
-                    String tmpString = System.getProperty(negativeCachePolicyPropFallback);
+                    String tmpString = System.getProperty(negbtiveCbchePolicyPropFbllbbck);
                     if (tmpString != null) {
                         return Integer.decode(tmpString);
                     }
-                } catch (NumberFormatException ignored) {
+                } cbtch (NumberFormbtException ignored) {
                     // Ignore
                 }
                 return null;
@@ -148,67 +148,67 @@ public final class InetAddressCachePolicy {
           });
 
         if (tmp != null) {
-            negativeCachePolicy = tmp.intValue();
-            if (negativeCachePolicy < 0) {
-                negativeCachePolicy = FOREVER;
+            negbtiveCbchePolicy = tmp.intVblue();
+            if (negbtiveCbchePolicy < 0) {
+                negbtiveCbchePolicy = FOREVER;
             }
-            propertyNegativeSet = true;
+            propertyNegbtiveSet = true;
         }
     }
 
-    public static synchronized int get() {
-        return cachePolicy;
+    public stbtic synchronized int get() {
+        return cbchePolicy;
     }
 
-    public static synchronized int getNegative() {
-        return negativeCachePolicy;
+    public stbtic synchronized int getNegbtive() {
+        return negbtiveCbchePolicy;
     }
 
     /**
-     * Sets the cache policy for successful lookups if the user has not
-     * already specified a cache policy for it using a
-     * command-property.
-     * @param newPolicy the value in seconds for how long the lookup
-     * should be cached
+     * Sets the cbche policy for successful lookups if the user hbs not
+     * blrebdy specified b cbche policy for it using b
+     * commbnd-property.
+     * @pbrbm newPolicy the vblue in seconds for how long the lookup
+     * should be cbched
      */
-    public static synchronized void setIfNotSet(int newPolicy) {
+    public stbtic synchronized void setIfNotSet(int newPolicy) {
         /*
-         * When setting the new value we may want to signal that the
-         * cache should be flushed, though this doesn't seem strictly
-         * necessary.
+         * When setting the new vblue we mby wbnt to signbl thbt the
+         * cbche should be flushed, though this doesn't seem strictly
+         * necessbry.
          */
         if (!propertySet) {
-            checkValue(newPolicy, cachePolicy);
-            cachePolicy = newPolicy;
+            checkVblue(newPolicy, cbchePolicy);
+            cbchePolicy = newPolicy;
         }
     }
 
     /**
-     * Sets the cache policy for negative lookups if the user has not
-     * already specified a cache policy for it using a
-     * command-property.
-     * @param newPolicy the value in seconds for how long the lookup
-     * should be cached
+     * Sets the cbche policy for negbtive lookups if the user hbs not
+     * blrebdy specified b cbche policy for it using b
+     * commbnd-property.
+     * @pbrbm newPolicy the vblue in seconds for how long the lookup
+     * should be cbched
      */
-    public static synchronized void setNegativeIfNotSet(int newPolicy) {
+    public stbtic synchronized void setNegbtiveIfNotSet(int newPolicy) {
         /*
-         * When setting the new value we may want to signal that the
-         * cache should be flushed, though this doesn't seem strictly
-         * necessary.
+         * When setting the new vblue we mby wbnt to signbl thbt the
+         * cbche should be flushed, though this doesn't seem strictly
+         * necessbry.
          */
-        if (!propertyNegativeSet) {
-            // Negative caching does not seem to have any security
-            // implications.
-            // checkValue(newPolicy, negativeCachePolicy);
-            negativeCachePolicy = newPolicy;
+        if (!propertyNegbtiveSet) {
+            // Negbtive cbching does not seem to hbve bny security
+            // implicbtions.
+            // checkVblue(newPolicy, negbtiveCbchePolicy);
+            negbtiveCbchePolicy = newPolicy;
         }
     }
 
-    private static void checkValue(int newPolicy, int oldPolicy) {
+    privbte stbtic void checkVblue(int newPolicy, int oldPolicy) {
         /*
-         * If malicious code gets a hold of this method, prevent
-         * setting the cache policy to something laxer or some
-         * invalid negative value.
+         * If mblicious code gets b hold of this method, prevent
+         * setting the cbche policy to something lbxer or some
+         * invblid negbtive vblue.
          */
         if (newPolicy == FOREVER)
             return;
@@ -218,7 +218,7 @@ public final class InetAddressCachePolicy {
             (newPolicy < FOREVER)) {
 
             throw new
-                SecurityException("can't make InetAddress cache more lax");
+                SecurityException("cbn't mbke InetAddress cbche more lbx");
         }
     }
 }

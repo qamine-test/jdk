@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.http.ntlm;
+pbckbge sun.net.www.protocol.http.ntlm;
 
-import java.net.URL;
+import jbvb.net.URL;
 
 /**
- * This class is used to call back to deployment to determine if a given
- * URL is trusted. Transparent authentication (try with logged in users
- * credentials without prompting) should only be tried with trusted sites.
+ * This clbss is used to cbll bbck to deployment to determine if b given
+ * URL is trusted. Trbnspbrent buthenticbtion (try with logged in users
+ * credentibls without prompting) should only be tried with trusted sites.
  */
-public abstract class NTLMAuthenticationCallback {
-    private static volatile NTLMAuthenticationCallback callback =
-            new DefaultNTLMAuthenticationCallback();
+public bbstrbct clbss NTLMAuthenticbtionCbllbbck {
+    privbte stbtic volbtile NTLMAuthenticbtionCbllbbck cbllbbck =
+            new DefbultNTLMAuthenticbtionCbllbbck();
 
-    public static void setNTLMAuthenticationCallback(
-            NTLMAuthenticationCallback callback) {
-        NTLMAuthenticationCallback.callback = callback;
+    public stbtic void setNTLMAuthenticbtionCbllbbck(
+            NTLMAuthenticbtionCbllbbck cbllbbck) {
+        NTLMAuthenticbtionCbllbbck.cbllbbck = cbllbbck;
     }
 
-    public static NTLMAuthenticationCallback getNTLMAuthenticationCallback() {
-        return callback;
+    public stbtic NTLMAuthenticbtionCbllbbck getNTLMAuthenticbtionCbllbbck() {
+        return cbllbbck;
     }
 
     /**
-     * Returns true if the given site is trusted, i.e. we can try
-     * transparent Authentication.
+     * Returns true if the given site is trusted, i.e. we cbn try
+     * trbnspbrent Authenticbtion.
      */
-    public abstract boolean isTrustedSite(URL url);
+    public bbstrbct boolebn isTrustedSite(URL url);
 
-    static class DefaultNTLMAuthenticationCallback extends NTLMAuthenticationCallback {
+    stbtic clbss DefbultNTLMAuthenticbtionCbllbbck extends NTLMAuthenticbtionCbllbbck {
         @Override
-        public boolean isTrustedSite(URL url) { return true; }
+        public boolebn isTrustedSite(URL url) { return true; }
     }
 }
 

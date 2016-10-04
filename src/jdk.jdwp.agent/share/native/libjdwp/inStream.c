@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
 #include "utf_util.h"
-#include "stream.h"
-#include "inStream.h"
-#include "transport.h"
-#include "bag.h"
+#include "strebm.h"
+#include "inStrebm.h"
+#include "trbnsport.h"
+#include "bbg.h"
 #include "commonRef.h"
-#include "FrameID.h"
+#include "FrbmeID.h"
 
 #define INITIAL_REF_ALLOC 50
-#define SMALLEST(a, b) ((a) < (b)) ? (a) : (b)
+#define SMALLEST(b, b) ((b) < (b)) ? (b) : (b)
 
 /*
- * TO DO: Support processing of replies through command input streams.
+ * TO DO: Support processing of replies through commbnd input strebms.
  */
 void
-inStream_init(PacketInputStream *stream, jdwpPacket packet)
+inStrebm_init(PbcketInputStrebm *strebm, jdwpPbcket pbcket)
 {
-    stream->packet = packet;
-    stream->error = JDWP_ERROR(NONE);
-    stream->left = packet.type.cmd.len;
-    stream->current = packet.type.cmd.data;
-    stream->refs = bagCreateBag(sizeof(jobject), INITIAL_REF_ALLOC);
-    if (stream->refs == NULL) {
-        stream->error = JDWP_ERROR(OUT_OF_MEMORY);
+    strebm->pbcket = pbcket;
+    strebm->error = JDWP_ERROR(NONE);
+    strebm->left = pbcket.type.cmd.len;
+    strebm->current = pbcket.type.cmd.dbtb;
+    strebm->refs = bbgCrebteBbg(sizeof(jobject), INITIAL_REF_ALLOC);
+    if (strebm->refs == NULL) {
+        strebm->error = JDWP_ERROR(OUT_OF_MEMORY);
     }
 }
 
 jint
-inStream_id(PacketInputStream *stream)
+inStrebm_id(PbcketInputStrebm *strebm)
 {
-    return stream->packet.type.cmd.id;
+    return strebm->pbcket.type.cmd.id;
 }
 
 jbyte
-inStream_command(PacketInputStream *stream)
+inStrebm_commbnd(PbcketInputStrebm *strebm)
 {
-    return stream->packet.type.cmd.cmd;
+    return strebm->pbcket.type.cmd.cmd;
 }
 
-static jdwpError
-readBytes(PacketInputStream *stream, void *dest, int size)
+stbtic jdwpError
+rebdBytes(PbcketInputStrebm *strebm, void *dest, int size)
 {
-    if (stream->error) {
-        return stream->error;
+    if (strebm->error) {
+        return strebm->error;
     }
 
-    if (size > stream->left) {
-        stream->error = JDWP_ERROR(INTERNAL);
-        return stream->error;
+    if (size > strebm->left) {
+        strebm->error = JDWP_ERROR(INTERNAL);
+        return strebm->error;
     }
 
     if (dest) {
-        (void)memcpy(dest, stream->current, size);
+        (void)memcpy(dest, strebm->current, size);
     }
-    stream->current += size;
-    stream->left -= size;
+    strebm->current += size;
+    strebm->left -= size;
 
-    return stream->error;
+    return strebm->error;
 }
 
 jdwpError
-inStream_skipBytes(PacketInputStream *stream, jint size) {
-    return readBytes(stream, NULL, size);
+inStrebm_skipBytes(PbcketInputStrebm *strebm, jint size) {
+    return rebdBytes(strebm, NULL, size);
 }
 
-jboolean
-inStream_readBoolean(PacketInputStream *stream)
+jboolebn
+inStrebm_rebdBoolebn(PbcketInputStrebm *strebm)
 {
-    jbyte flag = 0;
-    (void)readBytes(stream, &flag, sizeof(flag));
-    if (stream->error) {
+    jbyte flbg = 0;
+    (void)rebdBytes(strebm, &flbg, sizeof(flbg));
+    if (strebm->error) {
         return 0;
     } else {
-        return flag ? JNI_TRUE : JNI_FALSE;
+        return flbg ? JNI_TRUE : JNI_FALSE;
     }
 }
 
 jbyte
-inStream_readByte(PacketInputStream *stream)
+inStrebm_rebdByte(PbcketInputStrebm *strebm)
 {
-    jbyte val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return val;
+    jbyte vbl = 0;
+    (void)rebdBytes(strebm, &vbl, sizeof(vbl));
+    return vbl;
 }
 
 jbyte *
-inStream_readBytes(PacketInputStream *stream, int length, jbyte *buf)
+inStrebm_rebdBytes(PbcketInputStrebm *strebm, int length, jbyte *buf)
 {
-    (void)readBytes(stream, buf, length);
+    (void)rebdBytes(strebm, buf, length);
     return buf;
 }
 
-jchar
-inStream_readChar(PacketInputStream *stream)
+jchbr
+inStrebm_rebdChbr(PbcketInputStrebm *strebm)
 {
-    jchar val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_CHAR(val);
+    jchbr vbl = 0;
+    (void)rebdBytes(strebm, &vbl, sizeof(vbl));
+    return JAVA_TO_HOST_CHAR(vbl);
 }
 
 jshort
-inStream_readShort(PacketInputStream *stream)
+inStrebm_rebdShort(PbcketInputStrebm *strebm)
 {
-    jshort val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_SHORT(val);
+    jshort vbl = 0;
+    (void)rebdBytes(strebm, &vbl, sizeof(vbl));
+    return JAVA_TO_HOST_SHORT(vbl);
 }
 
 jint
-inStream_readInt(PacketInputStream *stream)
+inStrebm_rebdInt(PbcketInputStrebm *strebm)
 {
-    jint val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_INT(val);
+    jint vbl = 0;
+    (void)rebdBytes(strebm, &vbl, sizeof(vbl));
+    return JAVA_TO_HOST_INT(vbl);
 }
 
 jlong
-inStream_readLong(PacketInputStream *stream)
+inStrebm_rebdLong(PbcketInputStrebm *strebm)
 {
-    jlong val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_LONG(val);
+    jlong vbl = 0;
+    (void)rebdBytes(strebm, &vbl, sizeof(vbl));
+    return JAVA_TO_HOST_LONG(vbl);
 }
 
-jfloat
-inStream_readFloat(PacketInputStream *stream)
+jflobt
+inStrebm_rebdFlobt(PbcketInputStrebm *strebm)
 {
-    jfloat val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_FLOAT(val);
+    jflobt vbl = 0;
+    (void)rebdBytes(strebm, &vbl, sizeof(vbl));
+    return JAVA_TO_HOST_FLOAT(vbl);
 }
 
 jdouble
-inStream_readDouble(PacketInputStream *stream)
+inStrebm_rebdDouble(PbcketInputStrebm *strebm)
 {
-    jdouble val = 0;
-    (void)readBytes(stream, &val, sizeof(val));
-    return JAVA_TO_HOST_DOUBLE(val);
+    jdouble vbl = 0;
+    (void)rebdBytes(strebm, &vbl, sizeof(vbl));
+    return JAVA_TO_HOST_DOUBLE(vbl);
 }
 
 /*
- * Read an object from the stream. The ID used in the wire protocol
- * is converted to a reference which is returned. The reference is
- * global and strong, but it should *not* be deleted by the caller
- * since it is freed when this stream is destroyed.
+ * Rebd bn object from the strebm. The ID used in the wire protocol
+ * is converted to b reference which is returned. The reference is
+ * globbl bnd strong, but it should *not* be deleted by the cbller
+ * since it is freed when this strebm is destroyed.
  */
 jobject
-inStream_readObjectRef(JNIEnv *env, PacketInputStream *stream)
+inStrebm_rebdObjectRef(JNIEnv *env, PbcketInputStrebm *strebm)
 {
     jobject ref;
     jobject *refPtr;
-    jlong id = inStream_readLong(stream);
-    if (stream->error) {
+    jlong id = inStrebm_rebdLong(strebm);
+    if (strebm->error) {
         return NULL;
     }
     if (id == NULL_OBJECT_ID) {
@@ -185,11 +185,11 @@ inStream_readObjectRef(JNIEnv *env, PacketInputStream *stream)
 
     ref = commonRef_idToRef(env, id);
     if (ref == NULL) {
-        stream->error = JDWP_ERROR(INVALID_OBJECT);
+        strebm->error = JDWP_ERROR(INVALID_OBJECT);
         return NULL;
     }
 
-    refPtr = bagAdd(stream->refs);
+    refPtr = bbgAdd(strebm->refs);
     if (refPtr == NULL) {
         commonRef_idToRef_delete(env, ref);
         return NULL;
@@ -200,288 +200,288 @@ inStream_readObjectRef(JNIEnv *env, PacketInputStream *stream)
 }
 
 /*
- * Read a raw object id from the stream. This should be used rarely.
- * Normally, inStream_readObjectRef is preferred since it takes care
- * of reference conversion and tracking. Only code that needs to
- * perform maintence of the commonRef hash table uses this function.
+ * Rebd b rbw object id from the strebm. This should be used rbrely.
+ * Normblly, inStrebm_rebdObjectRef is preferred since it tbkes cbre
+ * of reference conversion bnd trbcking. Only code thbt needs to
+ * perform mbintence of the commonRef hbsh tbble uses this function.
  */
 jlong
-inStream_readObjectID(PacketInputStream *stream)
+inStrebm_rebdObjectID(PbcketInputStrebm *strebm)
 {
-    return inStream_readLong(stream);
+    return inStrebm_rebdLong(strebm);
 }
 
-jclass
-inStream_readClassRef(JNIEnv *env, PacketInputStream *stream)
+jclbss
+inStrebm_rebdClbssRef(JNIEnv *env, PbcketInputStrebm *strebm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
+    jobject object = inStrebm_rebdObjectRef(env, strebm);
     if (object == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could be error or just the null reference. In either cbse,
          * stop now.
          */
         return NULL;
     }
-    if (!isClass(object)) {
-        stream->error = JDWP_ERROR(INVALID_CLASS);
+    if (!isClbss(object)) {
+        strebm->error = JDWP_ERROR(INVALID_CLASS);
         return NULL;
     }
     return object;
 }
 
-jthread
-inStream_readThreadRef(JNIEnv *env, PacketInputStream *stream)
+jthrebd
+inStrebm_rebdThrebdRef(JNIEnv *env, PbcketInputStrebm *strebm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
+    jobject object = inStrebm_rebdObjectRef(env, strebm);
     if (object == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could be error or just the null reference. In either cbse,
          * stop now.
          */
         return NULL;
     }
-    if (!isThread(object)) {
-        stream->error = JDWP_ERROR(INVALID_THREAD);
+    if (!isThrebd(object)) {
+        strebm->error = JDWP_ERROR(INVALID_THREAD);
         return NULL;
     }
     return object;
 }
 
-jthreadGroup
-inStream_readThreadGroupRef(JNIEnv *env, PacketInputStream *stream)
+jthrebdGroup
+inStrebm_rebdThrebdGroupRef(JNIEnv *env, PbcketInputStrebm *strebm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
+    jobject object = inStrebm_rebdObjectRef(env, strebm);
     if (object == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could be error or just the null reference. In either cbse,
          * stop now.
          */
         return NULL;
     }
-    if (!isThreadGroup(object)) {
-        stream->error = JDWP_ERROR(INVALID_THREAD_GROUP);
+    if (!isThrebdGroup(object)) {
+        strebm->error = JDWP_ERROR(INVALID_THREAD_GROUP);
         return NULL;
     }
     return object;
 }
 
 jstring
-inStream_readStringRef(JNIEnv *env, PacketInputStream *stream)
+inStrebm_rebdStringRef(JNIEnv *env, PbcketInputStrebm *strebm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
+    jobject object = inStrebm_rebdObjectRef(env, strebm);
     if (object == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could be error or just the null reference. In either cbse,
          * stop now.
          */
         return NULL;
     }
     if (!isString(object)) {
-        stream->error = JDWP_ERROR(INVALID_STRING);
+        strebm->error = JDWP_ERROR(INVALID_STRING);
         return NULL;
     }
     return object;
 }
 
-jclass
-inStream_readClassLoaderRef(JNIEnv *env, PacketInputStream *stream)
+jclbss
+inStrebm_rebdClbssLobderRef(JNIEnv *env, PbcketInputStrebm *strebm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
+    jobject object = inStrebm_rebdObjectRef(env, strebm);
     if (object == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could be error or just the null reference. In either cbse,
          * stop now.
          */
         return NULL;
     }
-    if (!isClassLoader(object)) {
-        stream->error = JDWP_ERROR(INVALID_CLASS_LOADER);
+    if (!isClbssLobder(object)) {
+        strebm->error = JDWP_ERROR(INVALID_CLASS_LOADER);
         return NULL;
     }
     return object;
 }
 
-jarray
-inStream_readArrayRef(JNIEnv *env, PacketInputStream *stream)
+jbrrby
+inStrebm_rebdArrbyRef(JNIEnv *env, PbcketInputStrebm *strebm)
 {
-    jobject object = inStream_readObjectRef(env, stream);
+    jobject object = inStrebm_rebdObjectRef(env, strebm);
     if (object == NULL) {
         /*
-         * Could be error or just the null reference. In either case,
+         * Could be error or just the null reference. In either cbse,
          * stop now.
          */
         return NULL;
     }
-    if (!isArray(object)) {
-        stream->error = JDWP_ERROR(INVALID_ARRAY);
+    if (!isArrby(object)) {
+        strebm->error = JDWP_ERROR(INVALID_ARRAY);
         return NULL;
     }
     return object;
 }
 
 /*
- * Next 3 functions read an Int and convert to a Pointer!?
- * If sizeof(jxxxID) == 8 we must read these values as Longs.
+ * Next 3 functions rebd bn Int bnd convert to b Pointer!?
+ * If sizeof(jxxxID) == 8 we must rebd these vblues bs Longs.
  */
-FrameID
-inStream_readFrameID(PacketInputStream *stream)
+FrbmeID
+inStrebm_rebdFrbmeID(PbcketInputStrebm *strebm)
 {
-    if (sizeof(FrameID) == 8) {
+    if (sizeof(FrbmeID) == 8) {
         /*LINTED*/
-        return (FrameID)inStream_readLong(stream);
+        return (FrbmeID)inStrebm_rebdLong(strebm);
     } else {
         /*LINTED*/
-        return (FrameID)inStream_readInt(stream);
+        return (FrbmeID)inStrebm_rebdInt(strebm);
     }
 }
 
 jmethodID
-inStream_readMethodID(PacketInputStream *stream)
+inStrebm_rebdMethodID(PbcketInputStrebm *strebm)
 {
     if (sizeof(jmethodID) == 8) {
         /*LINTED*/
-        return (jmethodID)(intptr_t)inStream_readLong(stream);
+        return (jmethodID)(intptr_t)inStrebm_rebdLong(strebm);
     } else {
         /*LINTED*/
-        return (jmethodID)(intptr_t)inStream_readInt(stream);
+        return (jmethodID)(intptr_t)inStrebm_rebdInt(strebm);
     }
 }
 
 jfieldID
-inStream_readFieldID(PacketInputStream *stream)
+inStrebm_rebdFieldID(PbcketInputStrebm *strebm)
 {
     if (sizeof(jfieldID) == 8) {
         /*LINTED*/
-        return (jfieldID)(intptr_t)inStream_readLong(stream);
+        return (jfieldID)(intptr_t)inStrebm_rebdLong(strebm);
     } else {
         /*LINTED*/
-        return (jfieldID)(intptr_t)inStream_readInt(stream);
+        return (jfieldID)(intptr_t)inStrebm_rebdInt(strebm);
     }
 }
 
-jlocation
-inStream_readLocation(PacketInputStream *stream)
+jlocbtion
+inStrebm_rebdLocbtion(PbcketInputStrebm *strebm)
 {
-    return (jlocation)inStream_readLong(stream);
+    return (jlocbtion)inStrebm_rebdLong(strebm);
 }
 
-char *
-inStream_readString(PacketInputStream *stream)
+chbr *
+inStrebm_rebdString(PbcketInputStrebm *strebm)
 {
     int length;
-    char *string;
+    chbr *string;
 
-    length = inStream_readInt(stream);
-    string = jvmtiAllocate(length + 1);
+    length = inStrebm_rebdInt(strebm);
+    string = jvmtiAllocbte(length + 1);
     if (string != NULL) {
         int new_length;
 
-        (void)readBytes(stream, string, length);
+        (void)rebdBytes(strebm, string, length);
         string[length] = '\0';
 
-        /* This is Standard UTF-8, convert to Modified UTF-8 if necessary */
+        /* This is Stbndbrd UTF-8, convert to Modified UTF-8 if necessbry */
         new_length = utf8sToUtf8mLength((jbyte*)string, length);
         if ( new_length != length ) {
-            char *new_string;
+            chbr *new_string;
 
-            new_string = jvmtiAllocate(new_length+1);
+            new_string = jvmtiAllocbte(new_length+1);
             utf8sToUtf8m((jbyte*)string, length, (jbyte*)new_string, new_length);
-            jvmtiDeallocate(string);
+            jvmtiDebllocbte(string);
             return new_string;
         }
     }
     return string;
 }
 
-jboolean
-inStream_endOfInput(PacketInputStream *stream)
+jboolebn
+inStrebm_endOfInput(PbcketInputStrebm *strebm)
 {
-    return (stream->left > 0);
+    return (strebm->left > 0);
 }
 
 jdwpError
-inStream_error(PacketInputStream *stream)
+inStrebm_error(PbcketInputStrebm *strebm)
 {
-    return stream->error;
+    return strebm->error;
 }
 
 void
-inStream_clearError(PacketInputStream *stream) {
-    stream->error = JDWP_ERROR(NONE);
+inStrebm_clebrError(PbcketInputStrebm *strebm) {
+    strebm->error = JDWP_ERROR(NONE);
 }
 
-jvalue
-inStream_readValue(PacketInputStream *stream, jbyte *typeKeyPtr)
+jvblue
+inStrebm_rebdVblue(PbcketInputStrebm *strebm, jbyte *typeKeyPtr)
 {
-    jvalue value;
-    jbyte typeKey = inStream_readByte(stream);
-    if (stream->error) {
-        value.j = 0L;
-        return value;
+    jvblue vblue;
+    jbyte typeKey = inStrebm_rebdByte(strebm);
+    if (strebm->error) {
+        vblue.j = 0L;
+        return vblue;
     }
 
-    if (isObjectTag(typeKey)) {
-        value.l = inStream_readObjectRef(getEnv(), stream);
+    if (isObjectTbg(typeKey)) {
+        vblue.l = inStrebm_rebdObjectRef(getEnv(), strebm);
     } else {
         switch (typeKey) {
-            case JDWP_TAG(BYTE):
-                value.b = inStream_readByte(stream);
-                break;
+            cbse JDWP_TAG(BYTE):
+                vblue.b = inStrebm_rebdByte(strebm);
+                brebk;
 
-            case JDWP_TAG(CHAR):
-                value.c = inStream_readChar(stream);
-                break;
+            cbse JDWP_TAG(CHAR):
+                vblue.c = inStrebm_rebdChbr(strebm);
+                brebk;
 
-            case JDWP_TAG(FLOAT):
-                value.f = inStream_readFloat(stream);
-                break;
+            cbse JDWP_TAG(FLOAT):
+                vblue.f = inStrebm_rebdFlobt(strebm);
+                brebk;
 
-            case JDWP_TAG(DOUBLE):
-                value.d = inStream_readDouble(stream);
-                break;
+            cbse JDWP_TAG(DOUBLE):
+                vblue.d = inStrebm_rebdDouble(strebm);
+                brebk;
 
-            case JDWP_TAG(INT):
-                value.i = inStream_readInt(stream);
-                break;
+            cbse JDWP_TAG(INT):
+                vblue.i = inStrebm_rebdInt(strebm);
+                brebk;
 
-            case JDWP_TAG(LONG):
-                value.j = inStream_readLong(stream);
-                break;
+            cbse JDWP_TAG(LONG):
+                vblue.j = inStrebm_rebdLong(strebm);
+                brebk;
 
-            case JDWP_TAG(SHORT):
-                value.s = inStream_readShort(stream);
-                break;
+            cbse JDWP_TAG(SHORT):
+                vblue.s = inStrebm_rebdShort(strebm);
+                brebk;
 
-            case JDWP_TAG(BOOLEAN):
-                value.z = inStream_readBoolean(stream);
-                break;
-            default:
-                stream->error = JDWP_ERROR(INVALID_TAG);
-                break;
+            cbse JDWP_TAG(BOOLEAN):
+                vblue.z = inStrebm_rebdBoolebn(strebm);
+                brebk;
+            defbult:
+                strebm->error = JDWP_ERROR(INVALID_TAG);
+                brebk;
         }
     }
     if (typeKeyPtr) {
         *typeKeyPtr = typeKey;
     }
-    return value;
+    return vblue;
 }
 
-static jboolean
-deleteRef(void *elementPtr, void *arg)
+stbtic jboolebn
+deleteRef(void *elementPtr, void *brg)
 {
-    JNIEnv *env = arg;
+    JNIEnv *env = brg;
     jobject *refPtr = elementPtr;
     commonRef_idToRef_delete(env, *refPtr);
     return JNI_TRUE;
 }
 
 void
-inStream_destroy(PacketInputStream *stream)
+inStrebm_destroy(PbcketInputStrebm *strebm)
 {
-    if (stream->packet.type.cmd.data != NULL) {
-    jvmtiDeallocate(stream->packet.type.cmd.data);
+    if (strebm->pbcket.type.cmd.dbtb != NULL) {
+    jvmtiDebllocbte(strebm->pbcket.type.cmd.dbtb);
     }
 
-    (void)bagEnumerateOver(stream->refs, deleteRef, (void *)getEnv());
-    bagDestroyBag(stream->refs);
+    (void)bbgEnumerbteOver(strebm->refs, deleteRef, (void *)getEnv());
+    bbgDestroyBbg(strebm->refs);
 }

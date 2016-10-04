@@ -1,54 +1,54 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-/* $XConsortium: wsutils.h /main/3 1996/10/14 15:04:17 swick $ */
+/* $XConsortium: wsutils.h /mbin/3 1996/10/14 15:04:17 swick $ */
 /** ------------------------------------------------------------------------
-        This file contains routines for manipulating generic lists.
-        Lists are implemented with a "harness".  In other words, each
-        node in the list consists of two pointers, one to the data item
-        and one to the next node in the list.  The head of the list is
-        the same struct as each node, but the "item" ptr is used to point
-        to the current member of the list (used by the first_in_list and
+        This file contbins routines for mbnipulbting generic lists.
+        Lists bre implemented with b "hbrness".  In other words, ebch
+        node in the list consists of two pointers, one to the dbtb item
+        bnd one to the next node in the list.  The hebd of the list is
+        the sbme struct bs ebch node, but the "item" ptr is used to point
+        to the current member of the list (used by the first_in_list bnd
         next_in_list functions).
 
- This file is available under and governed by the GNU General Public
- License version 2 only, as published by the Free Software Foundation.
- However, the following notice accompanied the original version of this
+ This file is bvbilbble under bnd governed by the GNU Generbl Public
+ License version 2 only, bs published by the Free Softwbre Foundbtion.
+ However, the following notice bccompbnied the originbl version of this
  file:
 
-Copyright (c) 1994 Hewlett-Packard Co.
+Copyright (c) 1994 Hewlett-Pbckbrd Co.
 Copyright (c) 1996  X Consortium
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
+Permission is hereby grbnted, free of chbrge, to bny person obtbining
+b copy of this softwbre bnd bssocibted documentbtion files (the
+"Softwbre"), to debl in the Softwbre without restriction, including
+without limitbtion the rights to use, copy, modify, merge, publish,
+distribute, sublicense, bnd sell copies of the Softwbre, bnd to
+permit persons to whom the Softwbre is furnished to do so, subject to
 the following conditions:
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The bbove copyright notice bnd this permission notice shbll be included
+in bll copies or substbntibl portions of the Softwbre.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -58,61 +58,61 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of the X Consortium shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except bs contbined in this notice, the nbme of the X Consortium shbll
+not be used in bdvertising or otherwise to promote the sble, use or
+other deblings in this Softwbre without prior written buthorizbtion
 from the X Consortium.
 
     ------------------------------------------------------------------------ **/
 /******************************************************************************
  *
- * This file contains various typedef's, macros and procedure declarations for
- * a set of example utility procedures contained in the file "wsutils.c".
+ * This file contbins vbrious typedef's, mbcros bnd procedure declbrbtions for
+ * b set of exbmple utility procedures contbined in the file "wsutils.c".
  *
  ******************************************************************************/
 
-/* This is the actual structure returned by the X server describing the
+/* This is the bctubl structure returned by the X server describing the
  * SERVER_OVERLAY_VISUAL property.
  */
 typedef struct
 {
-  VisualID      visualID;               /* The VisualID of the overlay visual */
-  long  transparentType;        /* Can be None, TransparentPixel or
-                                         * TransparentMask */
-  long  value;                  /* Pixel value */
-  long layer;                   /* Overlay planes will always be in
-                                         * layer 1 */
-} OverlayVisualPropertyRec;
+  VisublID      visublID;               /* The VisublID of the overlby visubl */
+  long  trbnspbrentType;        /* Cbn be None, TrbnspbrentPixel or
+                                         * TrbnspbrentMbsk */
+  long  vblue;                  /* Pixel vblue */
+  long lbyer;                   /* Overlby plbnes will blwbys be in
+                                         * lbyer 1 */
+} OverlbyVisublPropertyRec;
 
 
-/* This is structure also describes the SERVER_OVERLAY_VISUAL property, but
- * should be more useful than the one actually returned by the X server
- * because it actually points to the visual's XVisualInfo struct rather than
- * refering to the visual's ID.
+/* This is structure blso describes the SERVER_OVERLAY_VISUAL property, but
+ * should be more useful thbn the one bctublly returned by the X server
+ * becbuse it bctublly points to the visubl's XVisublInfo struct rbther thbn
+ * refering to the visubl's ID.
  */
 typedef struct
 {
-  XVisualInfo   *pOverlayVisualInfo;    /* Pointer to the XVisualInfo struct */
-  long transparentType; /* Can be None, TransparentPixel or
-                                         * TransparentMask */
-  long value;                   /* Pixel value */
-  long layer;                   /* Overlay planes will always be in
-                                         * layer 1 */
-} OverlayInfo;
+  XVisublInfo   *pOverlbyVisublInfo;    /* Pointer to the XVisublInfo struct */
+  long trbnspbrentType; /* Cbn be None, TrbnspbrentPixel or
+                                         * TrbnspbrentMbsk */
+  long vblue;                   /* Pixel vblue */
+  long lbyer;                   /* Overlby plbnes will blwbys be in
+                                         * lbyer 1 */
+} OverlbyInfo;
 
 
-/* These macros are the values of the "transparentType" above: */
+/* These mbcros bre the vblues of the "trbnspbrentType" bbove: */
 #ifndef None
 #define None 0
 #endif
-#ifndef TransparentPixel
-#define TransparentPixel        1
+#ifndef TrbnspbrentPixel
+#define TrbnspbrentPixel        1
 #endif
 
 
-/* These macros define how flexible a program is when it requests a window's
- * creation with either the CreateImagePlanesWindow() or
- * CreateOverlayPlanesWindow():
+/* These mbcros define how flexible b progrbm is when it requests b window's
+ * crebtion with either the CrebteImbgePlbnesWindow() or
+ * CrebteOverlbyPlbnesWindow():
  */
 #ifndef NOT_FLEXIBLE
 #define NOT_FLEXIBLE            0
@@ -120,8 +120,8 @@ typedef struct
 #endif
 
 
-/* These macros define the values of the "sbCmapHint" parameter of the
- * CreateImagePlanesWindow():
+/* These mbcros define the vblues of the "sbCmbpHint" pbrbmeter of the
+ * CrebteImbgePlbnesWindow():
  */
 #ifndef SB_CMAP_TYPE_NORMAL
 #define SB_CMAP_TYPE_NORMAL     1
@@ -138,243 +138,243 @@ typedef struct
 
 /******************************************************************************
  *
- * GetXVisualInfo()
+ * GetXVisublInfo()
  *
- * This routine takes an X11 Display, screen number, and returns whether the
- * screen supports transparent overlays and three arrays:
+ * This routine tbkes bn X11 Displby, screen number, bnd returns whether the
+ * screen supports trbnspbrent overlbys bnd three brrbys:
  *
- *      1) All of the XVisualInfo struct's for the screen.
- *      2) All of the OverlayInfo struct's for the screen.
- *      3) An array of pointers to the screen's image plane XVisualInfo
+ *      1) All of the XVisublInfo struct's for the screen.
+ *      2) All of the OverlbyInfo struct's for the screen.
+ *      3) An brrby of pointers to the screen's imbge plbne XVisublInfo
  *         structs.
  *
- * The code below obtains the array of all the screen's visuals, and obtains
- * the array of all the screen's overlay visual information.  It then processes
- * the array of the screen's visuals, determining whether the visual is an
- * overlay or image visual.
+ * The code below obtbins the brrby of bll the screen's visubls, bnd obtbins
+ * the brrby of bll the screen's overlby visubl informbtion.  It then processes
+ * the brrby of the screen's visubls, determining whether the visubl is bn
+ * overlby or imbge visubl.
  *
- * If the routine sucessfully obtained the visual information, it returns zero.
- * If the routine didn't obtain the visual information, it returns non-zero.
+ * If the routine sucessfully obtbined the visubl informbtion, it returns zero.
+ * If the routine didn't obtbin the visubl informbtion, it returns non-zero.
  *
  ******************************************************************************/
 
-extern int32_t GetXVisualInfo(
+extern int32_t GetXVisublInfo(
 #if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    int32_t             *transparentOverlays,   /* Non-zero if there's at least one
-                                         * overlay visual and if at least one
-                                         * of those supports a transparent
+    Displby     *displby,               /* Which X server (bkb "displby"). */
+    int32_t             screen,                 /* Which screen of the "displby". */
+    int32_t             *trbnspbrentOverlbys,   /* Non-zero if there's bt lebst one
+                                         * overlby visubl bnd if bt lebst one
+                                         * of those supports b trbnspbrent
                                          * pixel. */
-    int32_t             *numVisuals,            /* Number of XVisualInfo struct's
-                                         * pointed to to by pVisuals. */
-    XVisualInfo **pVisuals,             /* All of the device's visuals. */
-    int32_t             *numOverlayVisuals,     /* Number of OverlayInfo's pointed
-                                         * to by pOverlayVisuals.  If this
+    int32_t             *numVisubls,            /* Number of XVisublInfo struct's
+                                         * pointed to to by pVisubls. */
+    XVisublInfo **pVisubls,             /* All of the device's visubls. */
+    int32_t             *numOverlbyVisubls,     /* Number of OverlbyInfo's pointed
+                                         * to by pOverlbyVisubls.  If this
                                          * number is zero, the device does
-                                         * not have overlay planes. */
-    OverlayInfo **pOverlayVisuals,      /* The device's overlay plane visual
-                                         * information. */
-    int32_t             *numImageVisuals,       /* Number of XVisualInfo's pointed
-                                         * to by pImageVisuals. */
-    XVisualInfo ***pImageVisuals        /* The device's image visuals. */
+                                         * not hbve overlby plbnes. */
+    OverlbyInfo **pOverlbyVisubls,      /* The device's overlby plbne visubl
+                                         * informbtion. */
+    int32_t             *numImbgeVisubls,       /* Number of XVisublInfo's pointed
+                                         * to by pImbgeVisubls. */
+    XVisublInfo ***pImbgeVisubls        /* The device's imbge visubls. */
 #endif
                     );
 
 
 /******************************************************************************
  *
- * FreeXVisualInfo()
+ * FreeXVisublInfo()
  *
- * This routine frees the data that was allocated by GetXVisualInfo().
+ * This routine frees the dbtb thbt wbs bllocbted by GetXVisublInfo().
  *
  ******************************************************************************/
 
-extern void FreeXVisualInfo(
+extern void FreeXVisublInfo(
 #if NeedFunctionPrototypes
-    XVisualInfo *pVisuals,
-    OverlayInfo *pOverlayVisuals,
-    XVisualInfo **pImageVisuals
+    XVisublInfo *pVisubls,
+    OverlbyInfo *pOverlbyVisubls,
+    XVisublInfo **pImbgeVisubls
 #endif
                      );
 
 
 /******************************************************************************
  *
- * FindImagePlanesVisual()
+ * FindImbgePlbnesVisubl()
  *
- * This routine attempts to find a visual to use to create an image planes
- * window based upon the information passed in.
+ * This routine bttempts to find b visubl to use to crebte bn imbge plbnes
+ * window bbsed upon the informbtion pbssed in.
  *
- * The "Hint" values give guides to the routine as to what the program wants.
- * The "depthFlexibility" value tells the routine how much the program wants
- * the actual "depthHint" specified.  If the program can't live with the
- * screen's image planes visuals, the routine returns non-zero, and the
- * "depthObtained" and "pImageVisualToUse" return parameters are NOT valid.
- * Otherwise, the "depthObtained" and "pImageVisualToUse" return parameters
- * are valid and the routine returns zero.
+ * The "Hint" vblues give guides to the routine bs to whbt the progrbm wbnts.
+ * The "depthFlexibility" vblue tells the routine how much the progrbm wbnts
+ * the bctubl "depthHint" specified.  If the progrbm cbn't live with the
+ * screen's imbge plbnes visubls, the routine returns non-zero, bnd the
+ * "depthObtbined" bnd "pImbgeVisublToUse" return pbrbmeters bre NOT vblid.
+ * Otherwise, the "depthObtbined" bnd "pImbgeVisublToUse" return pbrbmeters
+ * bre vblid bnd the routine returns zero.
  *
- * NOTE: This is just an example of what can be done.  It may or may not be
- * useful for any specific application.
+ * NOTE: This is just bn exbmple of whbt cbn be done.  It mby or mby not be
+ * useful for bny specific bpplicbtion.
  *
  ******************************************************************************/
 
-extern int32_t FindImagePlanesVisual(
+extern int32_t FindImbgePlbnesVisubl(
 #if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    int32_t             numImageVisuals,        /* Number of XVisualInfo's pointed
-                                         * to by pImageVisuals. */
-    XVisualInfo **pImageVisuals,        /* The device's image visuals. */
-    int32_t             sbCmapHint,             /* What Starbase cmap modes will be
-                                         * used with the visual.  NOTE: This
-                                         * is a mask of the possible values. */
+    Displby     *displby,               /* Which X server (bkb "displby"). */
+    int32_t             screen,                 /* Which screen of the "displby". */
+    int32_t             numImbgeVisubls,        /* Number of XVisublInfo's pointed
+                                         * to by pImbgeVisubls. */
+    XVisublInfo **pImbgeVisubls,        /* The device's imbge visubls. */
+    int32_t             sbCmbpHint,             /* Whbt Stbrbbse cmbp modes will be
+                                         * used with the visubl.  NOTE: This
+                                         * is b mbsk of the possible vblues. */
     int32_t             depthHint,              /* Desired depth. */
-    int32_t             depthFlexibility,       /* How much the actual value in
+    int32_t             depthFlexibility,       /* How much the bctubl vblue in
                                          * "depthHint" is desired. */
-    Visual      **pImageVisualToUse,    /* The screen's image visual to use. */
-    int32_t             *depthObtained          /* Actual depth of the visual. */
+    Visubl      **pImbgeVisublToUse,    /* The screen's imbge visubl to use. */
+    int32_t             *depthObtbined          /* Actubl depth of the visubl. */
 #endif
                                      );
 
 
 /******************************************************************************
  *
- * FindOverlayPlanesVisual()
+ * FindOverlbyPlbnesVisubl()
  *
- * This routine attempts to find a visual to use to create an overlay planes
- * window based upon the information passed in.
+ * This routine bttempts to find b visubl to use to crebte bn overlby plbnes
+ * window bbsed upon the informbtion pbssed in.
  *
- * While the CreateImagePlanesWindow() routine took a sbCmapHint, this
- * routine doesn't.  Starbase's CMAP_FULL shouldn't be used in overlay planes
- * windows.  This is partially because this functionality is better suited in
- * the image planes where there are generally more planes, and partially
- * because the overlay planes generally have PseudoColor visuals with one
- * color being transparent (the transparent normally being the "white" color
+ * While the CrebteImbgePlbnesWindow() routine took b sbCmbpHint, this
+ * routine doesn't.  Stbrbbse's CMAP_FULL shouldn't be used in overlby plbnes
+ * windows.  This is pbrtiblly becbuse this functionblity is better suited in
+ * the imbge plbnes where there bre generblly more plbnes, bnd pbrtiblly
+ * becbuse the overlby plbnes generblly hbve PseudoColor visubls with one
+ * color being trbnspbrent (the trbnspbrent normblly being the "white" color
  * for CMAP_FULL).
  *
- * The "depthHint" values give guides to the routine as to what depth the
- * program wants the window to be.  The "depthFlexibility" value tells the
- * routine how much the program wants the actual "depthHint" specified.  If
- * the program can't live with the screen's overlay planes visuals, the
- * routine returns non-zero, and the "depthObtained" and "pOverlayVisualToUse"
- * return parameters are NOT valid.  Otherwise, the "depthObtained" and
- * "pOverlayVisualToUse" return parameters are valid and the routine returns
+ * The "depthHint" vblues give guides to the routine bs to whbt depth the
+ * progrbm wbnts the window to be.  The "depthFlexibility" vblue tells the
+ * routine how much the progrbm wbnts the bctubl "depthHint" specified.  If
+ * the progrbm cbn't live with the screen's overlby plbnes visubls, the
+ * routine returns non-zero, bnd the "depthObtbined" bnd "pOverlbyVisublToUse"
+ * return pbrbmeters bre NOT vblid.  Otherwise, the "depthObtbined" bnd
+ * "pOverlbyVisublToUse" return pbrbmeters bre vblid bnd the routine returns
  * zero.
  *
- * NOTE: This is just an example of what can be done.  It may or may not be
- * useful for any specific application.
+ * NOTE: This is just bn exbmple of whbt cbn be done.  It mby or mby not be
+ * useful for bny specific bpplicbtion.
  *
  ******************************************************************************/
 
-extern int32_t FindOverlayPlanesVisual(
+extern int32_t FindOverlbyPlbnesVisubl(
 #if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    int32_t             numOverlayVisuals,      /* Number of OverlayInfo's pointed
-                                         * to by pOverlayVisuals. */
-    OverlayInfo *pOverlayVisuals,       /* The device's overlay plane visual
-                                         * information. */
+    Displby     *displby,               /* Which X server (bkb "displby"). */
+    int32_t             screen,                 /* Which screen of the "displby". */
+    int32_t             numOverlbyVisubls,      /* Number of OverlbyInfo's pointed
+                                         * to by pOverlbyVisubls. */
+    OverlbyInfo *pOverlbyVisubls,       /* The device's overlby plbne visubl
+                                         * informbtion. */
     int32_t             depthHint,              /* Desired depth. */
-    int32_t             depthFlexibility,       /* How much the actual value in
+    int32_t             depthFlexibility,       /* How much the bctubl vblue in
                                          * "depthHint" is desired. */
-    int32_t             transparentBackground,  /* Non-zero if the visual must have
-                                         * a transparent color. */
-    Visual      **pOverlayVisualToUse,  /* The screen's overlay visual to
+    int32_t             trbnspbrentBbckground,  /* Non-zero if the visubl must hbve
+                                         * b trbnspbrent color. */
+    Visubl      **pOverlbyVisublToUse,  /* The screen's overlby visubl to
                                          * use. */
-    int32_t             *depthObtained,         /* Actual depth of the visual. */
-    int32_t             *transparentColor       /* The transparent color the program
-                                         * can use with the visual. */
+    int32_t             *depthObtbined,         /* Actubl depth of the visubl. */
+    int32_t             *trbnspbrentColor       /* The trbnspbrent color the progrbm
+                                         * cbn use with the visubl. */
 #endif
                                 );
 
 
 /******************************************************************************
  *
- * CreateImagePlanesWindow()
+ * CrebteImbgePlbnesWindow()
  *
- * This routine creates an image planes window, potentially creates a colormap
- * for the window to use, and sets the window's standard properties, based
- * upon the information passed in to the routine.  While "created," the window
- * has not been mapped.
+ * This routine crebtes bn imbge plbnes window, potentiblly crebtes b colormbp
+ * for the window to use, bnd sets the window's stbndbrd properties, bbsed
+ * upon the informbtion pbssed in to the routine.  While "crebted," the window
+ * hbs not been mbpped.
  *
- * If the routine suceeds, it returns zero and the return parameters
- * "imageWindow", "imageColormap" and "mustFreeImageColormap" are valid.
- * Otherwise, the routine returns non-zero and the return parameters are
- * NOT valid.
+ * If the routine suceeds, it returns zero bnd the return pbrbmeters
+ * "imbgeWindow", "imbgeColormbp" bnd "mustFreeImbgeColormbp" bre vblid.
+ * Otherwise, the routine returns non-zero bnd the return pbrbmeters bre
+ * NOT vblid.
  *
- * NOTE: This is just an example of what can be done.  It may or may not be
- * useful for any specific application.
+ * NOTE: This is just bn exbmple of whbt cbn be done.  It mby or mby not be
+ * useful for bny specific bpplicbtion.
  *
  ******************************************************************************/
 
-extern int32_t CreateImagePlanesWindow(
+extern int32_t CrebteImbgePlbnesWindow(
 #if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    Window      parentWindow,           /* Window ID of the parent window for
-                                         * the created window. */
+    Displby     *displby,               /* Which X server (bkb "displby"). */
+    int32_t             screen,                 /* Which screen of the "displby". */
+    Window      pbrentWindow,           /* Window ID of the pbrent window for
+                                         * the crebted window. */
     int32_t             windowX,                /* Desired X coord. of the window. */
     int32_t             windowY,                /* Desired Y coord of the window. */
     int32_t             windowWidth,            /* Desired width of the window. */
     int32_t             windowHeight,           /* Desired height of the window. */
     int32_t             windowDepth,            /* Desired depth of the window. */
-    Visual      *pImageVisualToUse,     /* The window's image planes visual. */
-    int32_t             argc,                   /* Program's argc parameter. */
-    char        *argv[],                /* Program's argv parameter. */
-    char        *windowName,            /* Name to put on window's border. */
-    char        *iconName,              /* Name to put on window's icon. */
-    Window      *imageWindow,           /* Window ID of the created window. */
-    Colormap    *imageColormap,         /* The window's colormap. */
-    int32_t             *mustFreeImageColormap  /* Non-zero if the program must call
-                                         * XFreeColormap() for imageColormap. */
+    Visubl      *pImbgeVisublToUse,     /* The window's imbge plbnes visubl. */
+    int32_t             brgc,                   /* Progrbm's brgc pbrbmeter. */
+    chbr        *brgv[],                /* Progrbm's brgv pbrbmeter. */
+    chbr        *windowNbme,            /* Nbme to put on window's border. */
+    chbr        *iconNbme,              /* Nbme to put on window's icon. */
+    Window      *imbgeWindow,           /* Window ID of the crebted window. */
+    Colormbp    *imbgeColormbp,         /* The window's colormbp. */
+    int32_t             *mustFreeImbgeColormbp  /* Non-zero if the progrbm must cbll
+                                         * XFreeColormbp() for imbgeColormbp. */
 #endif
                                 );
 
 
 /******************************************************************************
  *
- * CreateOverlayPlanesWindow()
+ * CrebteOverlbyPlbnesWindow()
  *
- * This routine creates an overlay planes window, potentially creates a colormap
- * for the window to use, and sets the window's standard properties, based
- * upon the information passed in to the routine.  While "created," the window
- * has not been mapped.
+ * This routine crebtes bn overlby plbnes window, potentiblly crebtes b colormbp
+ * for the window to use, bnd sets the window's stbndbrd properties, bbsed
+ * upon the informbtion pbssed in to the routine.  While "crebted," the window
+ * hbs not been mbpped.
  *
- * If the routine suceeds, it returns zero and the return parameters
- * "overlayWindow", "overlayColormap" and "mustFreeOverlayColormap" are valid.
- * Otherwise, the routine returns non-zero and the return parameters are
- * NOT valid.
+ * If the routine suceeds, it returns zero bnd the return pbrbmeters
+ * "overlbyWindow", "overlbyColormbp" bnd "mustFreeOverlbyColormbp" bre vblid.
+ * Otherwise, the routine returns non-zero bnd the return pbrbmeters bre
+ * NOT vblid.
  *
- * NOTE: This is just an example of what can be done.  It may or may not be
- * useful for any specific application.
+ * NOTE: This is just bn exbmple of whbt cbn be done.  It mby or mby not be
+ * useful for bny specific bpplicbtion.
  *
  ******************************************************************************/
 
-int32_t CreateOverlayPlanesWindow(
+int32_t CrebteOverlbyPlbnesWindow(
 #if NeedFunctionPrototypes
-    Display     *display,               /* Which X server (aka "display"). */
-    int32_t             screen,                 /* Which screen of the "display". */
-    Window      parentWindow,           /* Window ID of the parent window for
-                                         * the created window. */
+    Displby     *displby,               /* Which X server (bkb "displby"). */
+    int32_t             screen,                 /* Which screen of the "displby". */
+    Window      pbrentWindow,           /* Window ID of the pbrent window for
+                                         * the crebted window. */
     int32_t             windowX,                /* Desired X coord. of the window. */
     int32_t             windowY,                /* Desired Y coord of the window. */
     int32_t             windowWidth,            /* Desired width of the window. */
     int32_t             windowHeight,           /* Desired height of the window. */
     int32_t             windowDepth,            /* Desired depth of the window. */
-    Visual      *pOverlayVisualToUse,   /* The window's overlay planes visual.*/
-    int32_t             argc,                   /* Program's argc parameter. */
-    char        *argv[],                /* Program's argv parameter. */
-    char        *windowName,            /* Name to put on window's border. */
-    char        *iconName,              /* Name to put on window's icon. */
-    int32_t             transparentBackground,  /* Non-zero if the window's background
-                                         * should be a transparent color. */
-    int32_t             *transparentColor,      /* The transparent color to use as the
-                                         * window's background. */
-    Window      *overlayWindow,         /* Window ID of the created window. */
-    Colormap    *overlayColormap,       /* The window's colormap. */
-    int32_t             *mustFreeOverlayColormap/* Non-zero if the program must call
-                                          * XFreeColormap() for
-                                          * overlayColormap. */
+    Visubl      *pOverlbyVisublToUse,   /* The window's overlby plbnes visubl.*/
+    int32_t             brgc,                   /* Progrbm's brgc pbrbmeter. */
+    chbr        *brgv[],                /* Progrbm's brgv pbrbmeter. */
+    chbr        *windowNbme,            /* Nbme to put on window's border. */
+    chbr        *iconNbme,              /* Nbme to put on window's icon. */
+    int32_t             trbnspbrentBbckground,  /* Non-zero if the window's bbckground
+                                         * should be b trbnspbrent color. */
+    int32_t             *trbnspbrentColor,      /* The trbnspbrent color to use bs the
+                                         * window's bbckground. */
+    Window      *overlbyWindow,         /* Window ID of the crebted window. */
+    Colormbp    *overlbyColormbp,       /* The window's colormbp. */
+    int32_t             *mustFreeOverlbyColormbp/* Non-zero if the progrbm must cbll
+                                          * XFreeColormbp() for
+                                          * overlbyColormbp. */
 #endif
                                 );

@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import javax.swing.text.*;
-import java.io.Serializable;
-import java.util.*;
+import jbvbx.swing.text.*;
+import jbvb.io.Seriblizbble;
+import jbvb.util.*;
 
 /**
- * An implementation of <code>AttributeSet</code> that can multiplex
- * across a set of <code>AttributeSet</code>s.
+ * An implementbtion of <code>AttributeSet</code> thbt cbn multiplex
+ * bcross b set of <code>AttributeSet</code>s.
  *
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class MuxingAttributeSet implements AttributeSet, Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+clbss MuxingAttributeSet implements AttributeSet, Seriblizbble {
     /**
-     * Creates a <code>MuxingAttributeSet</code> with the passed in
-     * attributes.
+     * Crebtes b <code>MuxingAttributeSet</code> with the pbssed in
+     * bttributes.
      */
-    public MuxingAttributeSet(AttributeSet[] attrs) {
-        this.attrs = attrs;
+    public MuxingAttributeSet(AttributeSet[] bttrs) {
+        this.bttrs = bttrs;
     }
 
     /**
-     * Creates an empty <code>MuxingAttributeSet</code>. This is intended for
-     * use by subclasses only, and it is also intended that subclasses will
-     * set the constituent <code>AttributeSet</code>s before invoking any
+     * Crebtes bn empty <code>MuxingAttributeSet</code>. This is intended for
+     * use by subclbsses only, bnd it is blso intended thbt subclbsses will
+     * set the constituent <code>AttributeSet</code>s before invoking bny
      * of the <code>AttributeSet</code> methods.
      */
     protected MuxingAttributeSet() {
     }
 
     /**
-     * Directly sets the <code>AttributeSet</code>s that comprise this
+     * Directly sets the <code>AttributeSet</code>s thbt comprise this
      * <code>MuxingAttributeSet</code>.
      */
-    protected synchronized void setAttributes(AttributeSet[] attrs) {
-        this.attrs = attrs;
+    protected synchronized void setAttributes(AttributeSet[] bttrs) {
+        this.bttrs = bttrs;
     }
 
     /**
      * Returns the <code>AttributeSet</code>s multiplexing too. When the
-     * <code>AttributeSet</code>s need to be referenced, this should be called.
+     * <code>AttributeSet</code>s need to be referenced, this should be cblled.
      */
     protected synchronized AttributeSet[] getAttributes() {
-        return attrs;
+        return bttrs;
     }
 
     /**
-     * Inserts <code>as</code> at <code>index</code>. This assumes
-     * the value of <code>index</code> is between 0 and attrs.length,
+     * Inserts <code>bs</code> bt <code>index</code>. This bssumes
+     * the vblue of <code>index</code> is between 0 bnd bttrs.length,
      * inclusive.
      */
-    protected synchronized void insertAttributeSetAt(AttributeSet as,
+    protected synchronized void insertAttributeSetAt(AttributeSet bs,
                                                      int index) {
-        int numAttrs = attrs.length;
+        int numAttrs = bttrs.length;
         AttributeSet newAttrs[] = new AttributeSet[numAttrs + 1];
         if (index < numAttrs) {
             if (index > 0) {
-                System.arraycopy(attrs, 0, newAttrs, 0, index);
-                System.arraycopy(attrs, index, newAttrs, index + 1,
+                System.brrbycopy(bttrs, 0, newAttrs, 0, index);
+                System.brrbycopy(bttrs, index, newAttrs, index + 1,
                                  numAttrs - index);
             }
             else {
-                System.arraycopy(attrs, 0, newAttrs, 1, numAttrs);
+                System.brrbycopy(bttrs, 0, newAttrs, 1, numAttrs);
             }
         }
         else {
-            System.arraycopy(attrs, 0, newAttrs, 0, numAttrs);
+            System.brrbycopy(bttrs, 0, newAttrs, 0, numAttrs);
         }
-        newAttrs[index] = as;
-        attrs = newAttrs;
+        newAttrs[index] = bs;
+        bttrs = newAttrs;
     }
 
     /**
-     * Removes the AttributeSet at <code>index</code>. This assumes
-     * the value of <code>index</code> is greater than or equal to 0,
-     * and less than attrs.length.
+     * Removes the AttributeSet bt <code>index</code>. This bssumes
+     * the vblue of <code>index</code> is grebter thbn or equbl to 0,
+     * bnd less thbn bttrs.length.
      */
     protected synchronized void removeAttributeSetAt(int index) {
-        int numAttrs = attrs.length;
+        int numAttrs = bttrs.length;
         AttributeSet[] newAttrs = new AttributeSet[numAttrs - 1];
         if (numAttrs > 0) {
             if (index == 0) {
                 // FIRST
-                System.arraycopy(attrs, 1, newAttrs, 0, numAttrs - 1);
+                System.brrbycopy(bttrs, 1, newAttrs, 0, numAttrs - 1);
             }
             else if (index < (numAttrs - 1)) {
                 // MIDDLE
-                System.arraycopy(attrs, 0, newAttrs, 0, index);
-                System.arraycopy(attrs, index + 1, newAttrs, index,
+                System.brrbycopy(bttrs, 0, newAttrs, 0, index);
+                System.brrbycopy(bttrs, index + 1, newAttrs, index,
                                  numAttrs - index - 1);
             }
             else {
                 // END
-                System.arraycopy(attrs, 0, newAttrs, 0, numAttrs - 1);
+                System.brrbycopy(bttrs, 0, newAttrs, 0, numAttrs - 1);
             }
         }
-        attrs = newAttrs;
+        bttrs = newAttrs;
     }
 
     //  --- AttributeSet methods ----------------------------
 
     /**
-     * Gets the number of attributes that are defined.
+     * Gets the number of bttributes thbt bre defined.
      *
-     * @return the number of attributes
+     * @return the number of bttributes
      * @see AttributeSet#getAttributeCount
      */
     public int getAttributeCount() {
-        AttributeSet[] as = getAttributes();
+        AttributeSet[] bs = getAttributes();
         int n = 0;
-        for (int i = 0; i < as.length; i++) {
-            n += as[i].getAttributeCount();
+        for (int i = 0; i < bs.length; i++) {
+            n += bs[i].getAttributeCount();
         }
         return n;
     }
 
     /**
-     * Checks whether a given attribute is defined.
+     * Checks whether b given bttribute is defined.
      * This will convert the key over to CSS if the
-     * key is a StyleConstants key that has a CSS
-     * mapping.
+     * key is b StyleConstbnts key thbt hbs b CSS
+     * mbpping.
      *
-     * @param key the attribute key
-     * @return true if the attribute is defined
+     * @pbrbm key the bttribute key
+     * @return true if the bttribute is defined
      * @see AttributeSet#isDefined
      */
-    public boolean isDefined(Object key) {
-        AttributeSet[] as = getAttributes();
-        for (int i = 0; i < as.length; i++) {
-            if (as[i].isDefined(key)) {
+    public boolebn isDefined(Object key) {
+        AttributeSet[] bs = getAttributes();
+        for (int i = 0; i < bs.length; i++) {
+            if (bs[i].isDefined(key)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Checks whether two attribute sets are equal.
+     * Checks whether two bttribute sets bre equbl.
      *
-     * @param attr the attribute set to check against
-     * @return true if the same
-     * @see AttributeSet#isEqual
+     * @pbrbm bttr the bttribute set to check bgbinst
+     * @return true if the sbme
+     * @see AttributeSet#isEqubl
      */
-    public boolean isEqual(AttributeSet attr) {
-        return ((getAttributeCount() == attr.getAttributeCount()) &&
-                containsAttributes(attr));
+    public boolebn isEqubl(AttributeSet bttr) {
+        return ((getAttributeCount() == bttr.getAttributeCount()) &&
+                contbinsAttributes(bttr));
     }
 
     /**
-     * Copies a set of attributes.
+     * Copies b set of bttributes.
      *
      * @return the copy
      * @see AttributeSet#copyAttributes
      */
     public AttributeSet copyAttributes() {
-        AttributeSet[] as = getAttributes();
-        MutableAttributeSet a = new SimpleAttributeSet();
+        AttributeSet[] bs = getAttributes();
+        MutbbleAttributeSet b = new SimpleAttributeSet();
         int n = 0;
-        for (int i = as.length - 1; i >= 0; i--) {
-            a.addAttributes(as[i]);
+        for (int i = bs.length - 1; i >= 0; i--) {
+            b.bddAttributes(bs[i]);
         }
-        return a;
+        return b;
     }
 
     /**
-     * Gets the value of an attribute.  If the requested
-     * attribute is a StyleConstants attribute that has
-     * a CSS mapping, the request will be converted.
+     * Gets the vblue of bn bttribute.  If the requested
+     * bttribute is b StyleConstbnts bttribute thbt hbs
+     * b CSS mbpping, the request will be converted.
      *
-     * @param key the attribute name
-     * @return the attribute value
+     * @pbrbm key the bttribute nbme
+     * @return the bttribute vblue
      * @see AttributeSet#getAttribute
      */
     public Object getAttribute(Object key) {
-        AttributeSet[] as = getAttributes();
-        int n = as.length;
+        AttributeSet[] bs = getAttributes();
+        int n = bs.length;
         for (int i = 0; i < n; i++) {
-            Object o = as[i].getAttribute(key);
+            Object o = bs[i].getAttribute(key);
             if (o != null) {
                 return o;
             }
@@ -208,105 +208,105 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
     }
 
     /**
-     * Gets the names of all attributes.
+     * Gets the nbmes of bll bttributes.
      *
-     * @return the attribute names
-     * @see AttributeSet#getAttributeNames
+     * @return the bttribute nbmes
+     * @see AttributeSet#getAttributeNbmes
      */
-    public Enumeration<?> getAttributeNames() {
-        return new MuxingAttributeNameEnumeration();
+    public Enumerbtion<?> getAttributeNbmes() {
+        return new MuxingAttributeNbmeEnumerbtion();
     }
 
     /**
-     * Checks whether a given attribute name/value is defined.
+     * Checks whether b given bttribute nbme/vblue is defined.
      *
-     * @param name the attribute name
-     * @param value the attribute value
-     * @return true if the name/value is defined
-     * @see AttributeSet#containsAttribute
+     * @pbrbm nbme the bttribute nbme
+     * @pbrbm vblue the bttribute vblue
+     * @return true if the nbme/vblue is defined
+     * @see AttributeSet#contbinsAttribute
      */
-    public boolean containsAttribute(Object name, Object value) {
-        return value.equals(getAttribute(name));
+    public boolebn contbinsAttribute(Object nbme, Object vblue) {
+        return vblue.equbls(getAttribute(nbme));
     }
 
     /**
-     * Checks whether the attribute set contains all of
-     * the given attributes.
+     * Checks whether the bttribute set contbins bll of
+     * the given bttributes.
      *
-     * @param attrs the attributes to check
-     * @return true if the element contains all the attributes
-     * @see AttributeSet#containsAttributes
+     * @pbrbm bttrs the bttributes to check
+     * @return true if the element contbins bll the bttributes
+     * @see AttributeSet#contbinsAttributes
      */
-    public boolean containsAttributes(AttributeSet attrs) {
-        boolean result = true;
+    public boolebn contbinsAttributes(AttributeSet bttrs) {
+        boolebn result = true;
 
-        Enumeration<?> names = attrs.getAttributeNames();
-        while (result && names.hasMoreElements()) {
-            Object name = names.nextElement();
-            result = attrs.getAttribute(name).equals(getAttribute(name));
+        Enumerbtion<?> nbmes = bttrs.getAttributeNbmes();
+        while (result && nbmes.hbsMoreElements()) {
+            Object nbme = nbmes.nextElement();
+            result = bttrs.getAttribute(nbme).equbls(getAttribute(nbme));
         }
 
         return result;
     }
 
     /**
-     * Returns null, subclasses may wish to do something more
+     * Returns null, subclbsses mby wish to do something more
      * intelligent with this.
      */
-    public AttributeSet getResolveParent() {
+    public AttributeSet getResolvePbrent() {
         return null;
     }
 
     /**
-     * The <code>AttributeSet</code>s that make up the resulting
+     * The <code>AttributeSet</code>s thbt mbke up the resulting
      * <code>AttributeSet</code>.
      */
-    private AttributeSet[] attrs;
+    privbte AttributeSet[] bttrs;
 
 
     /**
-     * An Enumeration of the Attribute names in a MuxingAttributeSet.
-     * This may return the same name more than once.
+     * An Enumerbtion of the Attribute nbmes in b MuxingAttributeSet.
+     * This mby return the sbme nbme more thbn once.
      */
-    private class MuxingAttributeNameEnumeration implements Enumeration<Object> {
+    privbte clbss MuxingAttributeNbmeEnumerbtion implements Enumerbtion<Object> {
 
-        MuxingAttributeNameEnumeration() {
-            updateEnum();
+        MuxingAttributeNbmeEnumerbtion() {
+            updbteEnum();
         }
 
-        public boolean hasMoreElements() {
+        public boolebn hbsMoreElements() {
             if (currentEnum == null) {
-                return false;
+                return fblse;
             }
-            return currentEnum.hasMoreElements();
+            return currentEnum.hbsMoreElements();
         }
 
         public Object nextElement() {
             if (currentEnum == null) {
-                throw new NoSuchElementException("No more names");
+                throw new NoSuchElementException("No more nbmes");
             }
             Object retObject = currentEnum.nextElement();
-            if (!currentEnum.hasMoreElements()) {
-                updateEnum();
+            if (!currentEnum.hbsMoreElements()) {
+                updbteEnum();
             }
             return retObject;
         }
 
-        void updateEnum() {
-            AttributeSet[] as = getAttributes();
+        void updbteEnum() {
+            AttributeSet[] bs = getAttributes();
             currentEnum = null;
-            while (currentEnum == null && attrIndex < as.length) {
-                currentEnum = as[attrIndex++].getAttributeNames();
-                if (!currentEnum.hasMoreElements()) {
+            while (currentEnum == null && bttrIndex < bs.length) {
+                currentEnum = bs[bttrIndex++].getAttributeNbmes();
+                if (!currentEnum.hbsMoreElements()) {
                     currentEnum = null;
                 }
             }
         }
 
 
-        /** Index into attrs the current Enumeration came from. */
-        private int attrIndex;
-        /** Enumeration from attrs. */
-        private Enumeration<?> currentEnum;
+        /** Index into bttrs the current Enumerbtion cbme from. */
+        privbte int bttrIndex;
+        /** Enumerbtion from bttrs. */
+        privbte Enumerbtion<?> currentEnum;
     }
 }

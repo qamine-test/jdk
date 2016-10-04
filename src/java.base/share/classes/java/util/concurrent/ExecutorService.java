@@ -1,370 +1,370 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.List;
-import java.util.Collection;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.List;
+import jbvb.util.Collection;
 
 /**
- * An {@link Executor} that provides methods to manage termination and
- * methods that can produce a {@link Future} for tracking progress of
- * one or more asynchronous tasks.
+ * An {@link Executor} thbt provides methods to mbnbge terminbtion bnd
+ * methods thbt cbn produce b {@link Future} for trbcking progress of
+ * one or more bsynchronous tbsks.
  *
- * <p>An {@code ExecutorService} can be shut down, which will cause
- * it to reject new tasks.  Two different methods are provided for
- * shutting down an {@code ExecutorService}. The {@link #shutdown}
- * method will allow previously submitted tasks to execute before
- * terminating, while the {@link #shutdownNow} method prevents waiting
- * tasks from starting and attempts to stop currently executing tasks.
- * Upon termination, an executor has no tasks actively executing, no
- * tasks awaiting execution, and no new tasks can be submitted.  An
- * unused {@code ExecutorService} should be shut down to allow
- * reclamation of its resources.
+ * <p>An {@code ExecutorService} cbn be shut down, which will cbuse
+ * it to reject new tbsks.  Two different methods bre provided for
+ * shutting down bn {@code ExecutorService}. The {@link #shutdown}
+ * method will bllow previously submitted tbsks to execute before
+ * terminbting, while the {@link #shutdownNow} method prevents wbiting
+ * tbsks from stbrting bnd bttempts to stop currently executing tbsks.
+ * Upon terminbtion, bn executor hbs no tbsks bctively executing, no
+ * tbsks bwbiting execution, bnd no new tbsks cbn be submitted.  An
+ * unused {@code ExecutorService} should be shut down to bllow
+ * reclbmbtion of its resources.
  *
- * <p>Method {@code submit} extends base method {@link
- * Executor#execute(Runnable)} by creating and returning a {@link Future}
- * that can be used to cancel execution and/or wait for completion.
- * Methods {@code invokeAny} and {@code invokeAll} perform the most
- * commonly useful forms of bulk execution, executing a collection of
- * tasks and then waiting for at least one, or all, to
- * complete. (Class {@link ExecutorCompletionService} can be used to
- * write customized variants of these methods.)
+ * <p>Method {@code submit} extends bbse method {@link
+ * Executor#execute(Runnbble)} by crebting bnd returning b {@link Future}
+ * thbt cbn be used to cbncel execution bnd/or wbit for completion.
+ * Methods {@code invokeAny} bnd {@code invokeAll} perform the most
+ * commonly useful forms of bulk execution, executing b collection of
+ * tbsks bnd then wbiting for bt lebst one, or bll, to
+ * complete. (Clbss {@link ExecutorCompletionService} cbn be used to
+ * write customized vbribnts of these methods.)
  *
- * <p>The {@link Executors} class provides factory methods for the
- * executor services provided in this package.
+ * <p>The {@link Executors} clbss provides fbctory methods for the
+ * executor services provided in this pbckbge.
  *
- * <h3>Usage Examples</h3>
+ * <h3>Usbge Exbmples</h3>
  *
- * Here is a sketch of a network service in which threads in a thread
+ * Here is b sketch of b network service in which threbds in b threbd
  * pool service incoming requests. It uses the preconfigured {@link
- * Executors#newFixedThreadPool} factory method:
+ * Executors#newFixedThrebdPool} fbctory method:
  *
  *  <pre> {@code
- * class NetworkService implements Runnable {
- *   private final ServerSocket serverSocket;
- *   private final ExecutorService pool;
+ * clbss NetworkService implements Runnbble {
+ *   privbte finbl ServerSocket serverSocket;
+ *   privbte finbl ExecutorService pool;
  *
  *   public NetworkService(int port, int poolSize)
  *       throws IOException {
  *     serverSocket = new ServerSocket(port);
- *     pool = Executors.newFixedThreadPool(poolSize);
+ *     pool = Executors.newFixedThrebdPool(poolSize);
  *   }
  *
  *   public void run() { // run the service
  *     try {
  *       for (;;) {
- *         pool.execute(new Handler(serverSocket.accept()));
+ *         pool.execute(new Hbndler(serverSocket.bccept()));
  *       }
- *     } catch (IOException ex) {
+ *     } cbtch (IOException ex) {
  *       pool.shutdown();
  *     }
  *   }
  * }
  *
- * class Handler implements Runnable {
- *   private final Socket socket;
- *   Handler(Socket socket) { this.socket = socket; }
+ * clbss Hbndler implements Runnbble {
+ *   privbte finbl Socket socket;
+ *   Hbndler(Socket socket) { this.socket = socket; }
  *   public void run() {
- *     // read and service request on socket
+ *     // rebd bnd service request on socket
  *   }
  * }}</pre>
  *
- * The following method shuts down an {@code ExecutorService} in two phases,
- * first by calling {@code shutdown} to reject incoming tasks, and then
- * calling {@code shutdownNow}, if necessary, to cancel any lingering tasks:
+ * The following method shuts down bn {@code ExecutorService} in two phbses,
+ * first by cblling {@code shutdown} to reject incoming tbsks, bnd then
+ * cblling {@code shutdownNow}, if necessbry, to cbncel bny lingering tbsks:
  *
  *  <pre> {@code
- * void shutdownAndAwaitTermination(ExecutorService pool) {
- *   pool.shutdown(); // Disable new tasks from being submitted
+ * void shutdownAndAwbitTerminbtion(ExecutorService pool) {
+ *   pool.shutdown(); // Disbble new tbsks from being submitted
  *   try {
- *     // Wait a while for existing tasks to terminate
- *     if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
- *       pool.shutdownNow(); // Cancel currently executing tasks
- *       // Wait a while for tasks to respond to being cancelled
- *       if (!pool.awaitTermination(60, TimeUnit.SECONDS))
- *           System.err.println("Pool did not terminate");
+ *     // Wbit b while for existing tbsks to terminbte
+ *     if (!pool.bwbitTerminbtion(60, TimeUnit.SECONDS)) {
+ *       pool.shutdownNow(); // Cbncel currently executing tbsks
+ *       // Wbit b while for tbsks to respond to being cbncelled
+ *       if (!pool.bwbitTerminbtion(60, TimeUnit.SECONDS))
+ *           System.err.println("Pool did not terminbte");
  *     }
- *   } catch (InterruptedException ie) {
- *     // (Re-)Cancel if current thread also interrupted
+ *   } cbtch (InterruptedException ie) {
+ *     // (Re-)Cbncel if current threbd blso interrupted
  *     pool.shutdownNow();
- *     // Preserve interrupt status
- *     Thread.currentThread().interrupt();
+ *     // Preserve interrupt stbtus
+ *     Threbd.currentThrebd().interrupt();
  *   }
  * }}</pre>
  *
- * <p>Memory consistency effects: Actions in a thread prior to the
- * submission of a {@code Runnable} or {@code Callable} task to an
+ * <p>Memory consistency effects: Actions in b threbd prior to the
+ * submission of b {@code Runnbble} or {@code Cbllbble} tbsk to bn
  * {@code ExecutorService}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * any actions taken by that task, which in turn <i>happen-before</i> the
- * result is retrieved via {@code Future.get()}.
+ * <b href="pbckbge-summbry.html#MemoryVisibility"><i>hbppen-before</i></b>
+ * bny bctions tbken by thbt tbsk, which in turn <i>hbppen-before</i> the
+ * result is retrieved vib {@code Future.get()}.
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public interface ExecutorService extends Executor {
+public interfbce ExecutorService extends Executor {
 
     /**
-     * Initiates an orderly shutdown in which previously submitted
-     * tasks are executed, but no new tasks will be accepted.
-     * Invocation has no additional effect if already shut down.
+     * Initibtes bn orderly shutdown in which previously submitted
+     * tbsks bre executed, but no new tbsks will be bccepted.
+     * Invocbtion hbs no bdditionbl effect if blrebdy shut down.
      *
-     * <p>This method does not wait for previously submitted tasks to
-     * complete execution.  Use {@link #awaitTermination awaitTermination}
-     * to do that.
+     * <p>This method does not wbit for previously submitted tbsks to
+     * complete execution.  Use {@link #bwbitTerminbtion bwbitTerminbtion}
+     * to do thbt.
      *
-     * @throws SecurityException if a security manager exists and
-     *         shutting down this ExecutorService may manipulate
-     *         threads that the caller is not permitted to modify
-     *         because it does not hold {@link
-     *         java.lang.RuntimePermission}{@code ("modifyThread")},
-     *         or the security manager's {@code checkAccess} method
-     *         denies access.
+     * @throws SecurityException if b security mbnbger exists bnd
+     *         shutting down this ExecutorService mby mbnipulbte
+     *         threbds thbt the cbller is not permitted to modify
+     *         becbuse it does not hold {@link
+     *         jbvb.lbng.RuntimePermission}{@code ("modifyThrebd")},
+     *         or the security mbnbger's {@code checkAccess} method
+     *         denies bccess.
      */
     void shutdown();
 
     /**
-     * Attempts to stop all actively executing tasks, halts the
-     * processing of waiting tasks, and returns a list of the tasks
-     * that were awaiting execution.
+     * Attempts to stop bll bctively executing tbsks, hblts the
+     * processing of wbiting tbsks, bnd returns b list of the tbsks
+     * thbt were bwbiting execution.
      *
-     * <p>This method does not wait for actively executing tasks to
-     * terminate.  Use {@link #awaitTermination awaitTermination} to
-     * do that.
+     * <p>This method does not wbit for bctively executing tbsks to
+     * terminbte.  Use {@link #bwbitTerminbtion bwbitTerminbtion} to
+     * do thbt.
      *
-     * <p>There are no guarantees beyond best-effort attempts to stop
-     * processing actively executing tasks.  For example, typical
-     * implementations will cancel via {@link Thread#interrupt}, so any
-     * task that fails to respond to interrupts may never terminate.
+     * <p>There bre no gubrbntees beyond best-effort bttempts to stop
+     * processing bctively executing tbsks.  For exbmple, typicbl
+     * implementbtions will cbncel vib {@link Threbd#interrupt}, so bny
+     * tbsk thbt fbils to respond to interrupts mby never terminbte.
      *
-     * @return list of tasks that never commenced execution
-     * @throws SecurityException if a security manager exists and
-     *         shutting down this ExecutorService may manipulate
-     *         threads that the caller is not permitted to modify
-     *         because it does not hold {@link
-     *         java.lang.RuntimePermission}{@code ("modifyThread")},
-     *         or the security manager's {@code checkAccess} method
-     *         denies access.
+     * @return list of tbsks thbt never commenced execution
+     * @throws SecurityException if b security mbnbger exists bnd
+     *         shutting down this ExecutorService mby mbnipulbte
+     *         threbds thbt the cbller is not permitted to modify
+     *         becbuse it does not hold {@link
+     *         jbvb.lbng.RuntimePermission}{@code ("modifyThrebd")},
+     *         or the security mbnbger's {@code checkAccess} method
+     *         denies bccess.
      */
-    List<Runnable> shutdownNow();
+    List<Runnbble> shutdownNow();
 
     /**
-     * Returns {@code true} if this executor has been shut down.
+     * Returns {@code true} if this executor hbs been shut down.
      *
-     * @return {@code true} if this executor has been shut down
+     * @return {@code true} if this executor hbs been shut down
      */
-    boolean isShutdown();
+    boolebn isShutdown();
 
     /**
-     * Returns {@code true} if all tasks have completed following shut down.
-     * Note that {@code isTerminated} is never {@code true} unless
-     * either {@code shutdown} or {@code shutdownNow} was called first.
+     * Returns {@code true} if bll tbsks hbve completed following shut down.
+     * Note thbt {@code isTerminbted} is never {@code true} unless
+     * either {@code shutdown} or {@code shutdownNow} wbs cblled first.
      *
-     * @return {@code true} if all tasks have completed following shut down
+     * @return {@code true} if bll tbsks hbve completed following shut down
      */
-    boolean isTerminated();
+    boolebn isTerminbted();
 
     /**
-     * Blocks until all tasks have completed execution after a shutdown
-     * request, or the timeout occurs, or the current thread is
-     * interrupted, whichever happens first.
+     * Blocks until bll tbsks hbve completed execution bfter b shutdown
+     * request, or the timeout occurs, or the current threbd is
+     * interrupted, whichever hbppens first.
      *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
-     * @return {@code true} if this executor terminated and
-     *         {@code false} if the timeout elapsed before termination
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm timeout the mbximum time to wbit
+     * @pbrbm unit the time unit of the timeout brgument
+     * @return {@code true} if this executor terminbted bnd
+     *         {@code fblse} if the timeout elbpsed before terminbtion
+     * @throws InterruptedException if interrupted while wbiting
      */
-    boolean awaitTermination(long timeout, TimeUnit unit)
+    boolebn bwbitTerminbtion(long timeout, TimeUnit unit)
         throws InterruptedException;
 
     /**
-     * Submits a value-returning task for execution and returns a
-     * Future representing the pending results of the task. The
-     * Future's {@code get} method will return the task's result upon
+     * Submits b vblue-returning tbsk for execution bnd returns b
+     * Future representing the pending results of the tbsk. The
+     * Future's {@code get} method will return the tbsk's result upon
      * successful completion.
      *
      * <p>
-     * If you would like to immediately block waiting
-     * for a task, you can use constructions of the form
-     * {@code result = exec.submit(aCallable).get();}
+     * If you would like to immedibtely block wbiting
+     * for b tbsk, you cbn use constructions of the form
+     * {@code result = exec.submit(bCbllbble).get();}
      *
-     * <p>Note: The {@link Executors} class includes a set of methods
-     * that can convert some other common closure-like objects,
-     * for example, {@link java.security.PrivilegedAction} to
-     * {@link Callable} form so they can be submitted.
+     * <p>Note: The {@link Executors} clbss includes b set of methods
+     * thbt cbn convert some other common closure-like objects,
+     * for exbmple, {@link jbvb.security.PrivilegedAction} to
+     * {@link Cbllbble} form so they cbn be submitted.
      *
-     * @param task the task to submit
-     * @param <T> the type of the task's result
-     * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
+     * @pbrbm tbsk the tbsk to submit
+     * @pbrbm <T> the type of the tbsk's result
+     * @return b Future representing pending completion of the tbsk
+     * @throws RejectedExecutionException if the tbsk cbnnot be
      *         scheduled for execution
-     * @throws NullPointerException if the task is null
+     * @throws NullPointerException if the tbsk is null
      */
-    <T> Future<T> submit(Callable<T> task);
+    <T> Future<T> submit(Cbllbble<T> tbsk);
 
     /**
-     * Submits a Runnable task for execution and returns a Future
-     * representing that task. The Future's {@code get} method will
+     * Submits b Runnbble tbsk for execution bnd returns b Future
+     * representing thbt tbsk. The Future's {@code get} method will
      * return the given result upon successful completion.
      *
-     * @param task the task to submit
-     * @param result the result to return
-     * @param <T> the type of the result
-     * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
+     * @pbrbm tbsk the tbsk to submit
+     * @pbrbm result the result to return
+     * @pbrbm <T> the type of the result
+     * @return b Future representing pending completion of the tbsk
+     * @throws RejectedExecutionException if the tbsk cbnnot be
      *         scheduled for execution
-     * @throws NullPointerException if the task is null
+     * @throws NullPointerException if the tbsk is null
      */
-    <T> Future<T> submit(Runnable task, T result);
+    <T> Future<T> submit(Runnbble tbsk, T result);
 
     /**
-     * Submits a Runnable task for execution and returns a Future
-     * representing that task. The Future's {@code get} method will
+     * Submits b Runnbble tbsk for execution bnd returns b Future
+     * representing thbt tbsk. The Future's {@code get} method will
      * return {@code null} upon <em>successful</em> completion.
      *
-     * @param task the task to submit
-     * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
+     * @pbrbm tbsk the tbsk to submit
+     * @return b Future representing pending completion of the tbsk
+     * @throws RejectedExecutionException if the tbsk cbnnot be
      *         scheduled for execution
-     * @throws NullPointerException if the task is null
+     * @throws NullPointerException if the tbsk is null
      */
-    Future<?> submit(Runnable task);
+    Future<?> submit(Runnbble tbsk);
 
     /**
-     * Executes the given tasks, returning a list of Futures holding
-     * their status and results when all complete.
-     * {@link Future#isDone} is {@code true} for each
+     * Executes the given tbsks, returning b list of Futures holding
+     * their stbtus bnd results when bll complete.
+     * {@link Future#isDone} is {@code true} for ebch
      * element of the returned list.
-     * Note that a <em>completed</em> task could have
-     * terminated either normally or by throwing an exception.
-     * The results of this method are undefined if the given
-     * collection is modified while this operation is in progress.
+     * Note thbt b <em>completed</em> tbsk could hbve
+     * terminbted either normblly or by throwing bn exception.
+     * The results of this method bre undefined if the given
+     * collection is modified while this operbtion is in progress.
      *
-     * @param tasks the collection of tasks
-     * @param <T> the type of the values returned from the tasks
-     * @return a list of Futures representing the tasks, in the same
-     *         sequential order as produced by the iterator for the
-     *         given task list, each of which has completed
-     * @throws InterruptedException if interrupted while waiting, in
-     *         which case unfinished tasks are cancelled
-     * @throws NullPointerException if tasks or any of its elements are {@code null}
-     * @throws RejectedExecutionException if any task cannot be
+     * @pbrbm tbsks the collection of tbsks
+     * @pbrbm <T> the type of the vblues returned from the tbsks
+     * @return b list of Futures representing the tbsks, in the sbme
+     *         sequentibl order bs produced by the iterbtor for the
+     *         given tbsk list, ebch of which hbs completed
+     * @throws InterruptedException if interrupted while wbiting, in
+     *         which cbse unfinished tbsks bre cbncelled
+     * @throws NullPointerException if tbsks or bny of its elements bre {@code null}
+     * @throws RejectedExecutionException if bny tbsk cbnnot be
      *         scheduled for execution
      */
-    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+    <T> List<Future<T>> invokeAll(Collection<? extends Cbllbble<T>> tbsks)
         throws InterruptedException;
 
     /**
-     * Executes the given tasks, returning a list of Futures holding
-     * their status and results
-     * when all complete or the timeout expires, whichever happens first.
-     * {@link Future#isDone} is {@code true} for each
+     * Executes the given tbsks, returning b list of Futures holding
+     * their stbtus bnd results
+     * when bll complete or the timeout expires, whichever hbppens first.
+     * {@link Future#isDone} is {@code true} for ebch
      * element of the returned list.
-     * Upon return, tasks that have not completed are cancelled.
-     * Note that a <em>completed</em> task could have
-     * terminated either normally or by throwing an exception.
-     * The results of this method are undefined if the given
-     * collection is modified while this operation is in progress.
+     * Upon return, tbsks thbt hbve not completed bre cbncelled.
+     * Note thbt b <em>completed</em> tbsk could hbve
+     * terminbted either normblly or by throwing bn exception.
+     * The results of this method bre undefined if the given
+     * collection is modified while this operbtion is in progress.
      *
-     * @param tasks the collection of tasks
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
-     * @param <T> the type of the values returned from the tasks
-     * @return a list of Futures representing the tasks, in the same
-     *         sequential order as produced by the iterator for the
-     *         given task list. If the operation did not time out,
-     *         each task will have completed. If it did time out, some
-     *         of these tasks will not have completed.
-     * @throws InterruptedException if interrupted while waiting, in
-     *         which case unfinished tasks are cancelled
-     * @throws NullPointerException if tasks, any of its elements, or
-     *         unit are {@code null}
-     * @throws RejectedExecutionException if any task cannot be scheduled
+     * @pbrbm tbsks the collection of tbsks
+     * @pbrbm timeout the mbximum time to wbit
+     * @pbrbm unit the time unit of the timeout brgument
+     * @pbrbm <T> the type of the vblues returned from the tbsks
+     * @return b list of Futures representing the tbsks, in the sbme
+     *         sequentibl order bs produced by the iterbtor for the
+     *         given tbsk list. If the operbtion did not time out,
+     *         ebch tbsk will hbve completed. If it did time out, some
+     *         of these tbsks will not hbve completed.
+     * @throws InterruptedException if interrupted while wbiting, in
+     *         which cbse unfinished tbsks bre cbncelled
+     * @throws NullPointerException if tbsks, bny of its elements, or
+     *         unit bre {@code null}
+     * @throws RejectedExecutionException if bny tbsk cbnnot be scheduled
      *         for execution
      */
-    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
+    <T> List<Future<T>> invokeAll(Collection<? extends Cbllbble<T>> tbsks,
                                   long timeout, TimeUnit unit)
         throws InterruptedException;
 
     /**
-     * Executes the given tasks, returning the result
-     * of one that has completed successfully (i.e., without throwing
-     * an exception), if any do. Upon normal or exceptional return,
-     * tasks that have not completed are cancelled.
-     * The results of this method are undefined if the given
-     * collection is modified while this operation is in progress.
+     * Executes the given tbsks, returning the result
+     * of one thbt hbs completed successfully (i.e., without throwing
+     * bn exception), if bny do. Upon normbl or exceptionbl return,
+     * tbsks thbt hbve not completed bre cbncelled.
+     * The results of this method bre undefined if the given
+     * collection is modified while this operbtion is in progress.
      *
-     * @param tasks the collection of tasks
-     * @param <T> the type of the values returned from the tasks
-     * @return the result returned by one of the tasks
-     * @throws InterruptedException if interrupted while waiting
-     * @throws NullPointerException if tasks or any element task
+     * @pbrbm tbsks the collection of tbsks
+     * @pbrbm <T> the type of the vblues returned from the tbsks
+     * @return the result returned by one of the tbsks
+     * @throws InterruptedException if interrupted while wbiting
+     * @throws NullPointerException if tbsks or bny element tbsk
      *         subject to execution is {@code null}
-     * @throws IllegalArgumentException if tasks is empty
-     * @throws ExecutionException if no task successfully completes
-     * @throws RejectedExecutionException if tasks cannot be scheduled
+     * @throws IllegblArgumentException if tbsks is empty
+     * @throws ExecutionException if no tbsk successfully completes
+     * @throws RejectedExecutionException if tbsks cbnnot be scheduled
      *         for execution
      */
-    <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+    <T> T invokeAny(Collection<? extends Cbllbble<T>> tbsks)
         throws InterruptedException, ExecutionException;
 
     /**
-     * Executes the given tasks, returning the result
-     * of one that has completed successfully (i.e., without throwing
-     * an exception), if any do before the given timeout elapses.
-     * Upon normal or exceptional return, tasks that have not
-     * completed are cancelled.
-     * The results of this method are undefined if the given
-     * collection is modified while this operation is in progress.
+     * Executes the given tbsks, returning the result
+     * of one thbt hbs completed successfully (i.e., without throwing
+     * bn exception), if bny do before the given timeout elbpses.
+     * Upon normbl or exceptionbl return, tbsks thbt hbve not
+     * completed bre cbncelled.
+     * The results of this method bre undefined if the given
+     * collection is modified while this operbtion is in progress.
      *
-     * @param tasks the collection of tasks
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
-     * @param <T> the type of the values returned from the tasks
-     * @return the result returned by one of the tasks
-     * @throws InterruptedException if interrupted while waiting
-     * @throws NullPointerException if tasks, or unit, or any element
-     *         task subject to execution is {@code null}
-     * @throws TimeoutException if the given timeout elapses before
-     *         any task successfully completes
-     * @throws ExecutionException if no task successfully completes
-     * @throws RejectedExecutionException if tasks cannot be scheduled
+     * @pbrbm tbsks the collection of tbsks
+     * @pbrbm timeout the mbximum time to wbit
+     * @pbrbm unit the time unit of the timeout brgument
+     * @pbrbm <T> the type of the vblues returned from the tbsks
+     * @return the result returned by one of the tbsks
+     * @throws InterruptedException if interrupted while wbiting
+     * @throws NullPointerException if tbsks, or unit, or bny element
+     *         tbsk subject to execution is {@code null}
+     * @throws TimeoutException if the given timeout elbpses before
+     *         bny tbsk successfully completes
+     * @throws ExecutionException if no tbsk successfully completes
+     * @throws RejectedExecutionException if tbsks cbnnot be scheduled
      *         for execution
      */
-    <T> T invokeAny(Collection<? extends Callable<T>> tasks,
+    <T> T invokeAny(Collection<? extends Cbllbble<T>> tbsks,
                     long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException;
 }

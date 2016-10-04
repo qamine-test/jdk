@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
+import jbvb.io.Seriblizbble;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.lbng.mbnbgement.OperbtingSystemMXBebn;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
+import jbvbx.mbnbgement.MBebnServer;
 import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpMib;
 
-import sun.management.snmp.jvmmib.JvmOSMBean;
+import sun.mbnbgement.snmp.jvmmib.JvmOSMBebn;
 
 /**
- * The class is used for implementing the "JvmOS" group.
+ * The clbss is used for implementing the "JvmOS" group.
  */
-public class JvmOSImpl implements JvmOSMBean, Serializable {
+public clbss JvmOSImpl implements JvmOSMBebn, Seriblizbble {
 
-     static final long serialVersionUID = 1839834731763310809L;
+     stbtic finbl long seriblVersionUID = 1839834731763310809L;
 
     /**
      * Constructor for the "JvmOS" group.
-     * If the group contains a table, the entries created through an
-     * SNMP SET will not be registered in Java DMK.
+     * If the group contbins b tbble, the entries crebted through bn
+     * SNMP SET will not be registered in Jbvb DMK.
      */
     public JvmOSImpl(SnmpMib myMib) {
     }
@@ -60,51 +60,51 @@ public class JvmOSImpl implements JvmOSMBean, Serializable {
 
     /**
      * Constructor for the "JvmOS" group.
-     * If the group contains a table, the entries created through an
-     * SNMP SET will be AUTOMATICALLY REGISTERED in Java DMK.
+     * If the group contbins b tbble, the entries crebted through bn
+     * SNMP SET will be AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmOSImpl(SnmpMib myMib, MBeanServer server) {
+    public JvmOSImpl(SnmpMib myMib, MBebnServer server) {
     }
 
-    static OperatingSystemMXBean getOSMBean() {
-        return ManagementFactory.getOperatingSystemMXBean();
+    stbtic OperbtingSystemMXBebn getOSMBebn() {
+        return MbnbgementFbctory.getOperbtingSystemMXBebn();
     }
 
-    private static String validDisplayStringTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validDisplayStringTC(str);
+    privbte stbtic String vblidDisplbyStringTC(String str) {
+        return JVM_MANAGEMENT_MIB_IMPL.vblidDisplbyStringTC(str);
     }
 
-    private static String validJavaObjectNameTC(String str) {
-        return JVM_MANAGEMENT_MIB_IMPL.validJavaObjectNameTC(str);
+    privbte stbtic String vblidJbvbObjectNbmeTC(String str) {
+        return JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjectNbmeTC(str);
     }
 
     /**
-     * Getter for the "JvmRTProcessorCount" variable.
+     * Getter for the "JvmRTProcessorCount" vbribble.
      */
-    public Integer getJvmOSProcessorCount() throws SnmpStatusException {
-        return getOSMBean().getAvailableProcessors();
+    public Integer getJvmOSProcessorCount() throws SnmpStbtusException {
+        return getOSMBebn().getAvbilbbleProcessors();
 
     }
 
     /**
-     * Getter for the "JvmOSVersion" variable.
+     * Getter for the "JvmOSVersion" vbribble.
      */
-    public String getJvmOSVersion() throws SnmpStatusException {
-        return validDisplayStringTC(getOSMBean().getVersion());
+    public String getJvmOSVersion() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getOSMBebn().getVersion());
     }
 
     /**
-     * Getter for the "JvmOSArch" variable.
+     * Getter for the "JvmOSArch" vbribble.
      */
-    public String getJvmOSArch() throws SnmpStatusException {
-        return validDisplayStringTC(getOSMBean().getArch());
+    public String getJvmOSArch() throws SnmpStbtusException {
+        return vblidDisplbyStringTC(getOSMBebn().getArch());
     }
 
     /**
-     * Getter for the "JvmOSName" variable.
+     * Getter for the "JvmOSNbme" vbribble.
      */
-    public String getJvmOSName() throws SnmpStatusException {
-        return validJavaObjectNameTC(getOSMBean().getName());
+    public String getJvmOSNbme() throws SnmpStbtusException {
+        return vblidJbvbObjectNbmeTC(getOSMBebn().getNbme());
     }
 
 }

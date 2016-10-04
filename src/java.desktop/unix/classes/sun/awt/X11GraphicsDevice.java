@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.AWTPermission;
-import java.awt.DisplayMode;
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsConfiguration;
-import java.awt.Rectangle;
-import java.awt.Window;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.HashMap;
+import jbvb.bwt.AWTPermission;
+import jbvb.bwt.DisplbyMode;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Window;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.HbshMbp;
 
-import sun.java2d.opengl.GLXGraphicsConfig;
-import sun.java2d.xr.XRGraphicsConfig;
-import sun.java2d.loops.SurfaceType;
+import sun.jbvb2d.opengl.GLXGrbphicsConfig;
+import sun.jbvb2d.xr.XRGrbphicsConfig;
+import sun.jbvb2d.loops.SurfbceType;
 
-import sun.awt.util.ThreadGroupUtils;
+import sun.bwt.util.ThrebdGroupUtils;
 
 /**
- * This is an implementation of a GraphicsDevice object for a single
+ * This is bn implementbtion of b GrbphicsDevice object for b single
  * X11 screen.
  *
- * @see GraphicsEnvironment
- * @see GraphicsConfiguration
+ * @see GrbphicsEnvironment
+ * @see GrbphicsConfigurbtion
  */
-public class X11GraphicsDevice
-    extends GraphicsDevice
-    implements DisplayChangedListener
+public clbss X11GrbphicsDevice
+    extends GrbphicsDevice
+    implements DisplbyChbngedListener
 {
     int screen;
-    HashMap<SurfaceType, Object> x11ProxyKeyMap = new HashMap<>();
+    HbshMbp<SurfbceType, Object> x11ProxyKeyMbp = new HbshMbp<>();
 
-    private static AWTPermission fullScreenExclusivePermission;
-    private static Boolean xrandrExtSupported;
-    private final Object configLock = new Object();
-    private SunDisplayChanger topLevels = new SunDisplayChanger();
-    private DisplayMode origDisplayMode;
-    private boolean shutdownHookRegistered;
+    privbte stbtic AWTPermission fullScreenExclusivePermission;
+    privbte stbtic Boolebn xrbndrExtSupported;
+    privbte finbl Object configLock = new Object();
+    privbte SunDisplbyChbnger topLevels = new SunDisplbyChbnger();
+    privbte DisplbyMode origDisplbyMode;
+    privbte boolebn shutdownHookRegistered;
 
-    public X11GraphicsDevice(int screennum) {
+    public X11GrbphicsDevice(int screennum) {
         this.screen = screennum;
     }
 
     /*
-     * Initialize JNI field and method IDs for fields that may be
-     * accessed from C.
+     * Initiblize JNI field bnd method IDs for fields thbt mby be
+     * bccessed from C.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
@@ -88,26 +88,26 @@ public class X11GraphicsDevice
         return screen;
     }
 
-    public Object getProxyKeyFor(SurfaceType st) {
-        synchronized (x11ProxyKeyMap) {
-            Object o = x11ProxyKeyMap.get(st);
+    public Object getProxyKeyFor(SurfbceType st) {
+        synchronized (x11ProxyKeyMbp) {
+            Object o = x11ProxyKeyMbp.get(st);
             if (o == null) {
                 o = new Object();
-                x11ProxyKeyMap.put(st, o);
+                x11ProxyKeyMbp.put(st, o);
             }
             return o;
         }
     }
 
     /**
-     * Returns the X11 Display of this device.
-     * This method is also in MDrawingSurfaceInfo but need it here
-     * to be able to allow a GraphicsConfigTemplate to get the Display.
+     * Returns the X11 Displby of this device.
+     * This method is blso in MDrbwingSurfbceInfo but need it here
+     * to be bble to bllow b GrbphicsConfigTemplbte to get the Displby.
      */
-    public native long getDisplay();
+    public nbtive long getDisplby();
 
     /**
-     * Returns the type of the graphics device.
+     * Returns the type of the grbphics device.
      * @see #TYPE_RASTER_SCREEN
      * @see #TYPE_PRINTER
      * @see #TYPE_IMAGE_BUFFER
@@ -117,7 +117,7 @@ public class X11GraphicsDevice
     }
 
     /**
-     * Returns the identification string associated with this graphics
+     * Returns the identificbtion string bssocibted with this grbphics
      * device.
      */
     public String getIDstring() {
@@ -125,60 +125,60 @@ public class X11GraphicsDevice
     }
 
 
-    GraphicsConfiguration[] configs;
-    GraphicsConfiguration defaultConfig;
-    HashSet<Integer> doubleBufferVisuals;
+    GrbphicsConfigurbtion[] configs;
+    GrbphicsConfigurbtion defbultConfig;
+    HbshSet<Integer> doubleBufferVisubls;
 
     /**
-     * Returns all of the graphics
-     * configurations associated with this graphics device.
+     * Returns bll of the grbphics
+     * configurbtions bssocibted with this grbphics device.
      */
-    public GraphicsConfiguration[] getConfigurations() {
+    public GrbphicsConfigurbtion[] getConfigurbtions() {
         if (configs == null) {
             synchronized (configLock) {
-                makeConfigurations();
+                mbkeConfigurbtions();
             }
         }
         return configs.clone();
     }
 
-    private void makeConfigurations() {
+    privbte void mbkeConfigurbtions() {
         if (configs == null) {
-            int i = 1;  // Index 0 is always the default config
+            int i = 1;  // Index 0 is blwbys the defbult config
             int num = getNumConfigs(screen);
-            GraphicsConfiguration[] ret = new GraphicsConfiguration[num];
-            if (defaultConfig == null) {
-                ret [0] = getDefaultConfiguration();
+            GrbphicsConfigurbtion[] ret = new GrbphicsConfigurbtion[num];
+            if (defbultConfig == null) {
+                ret [0] = getDefbultConfigurbtion();
             }
             else {
-                ret [0] = defaultConfig;
+                ret [0] = defbultConfig;
             }
 
-            boolean glxSupported = X11GraphicsEnvironment.isGLXAvailable();
-            boolean xrenderSupported = X11GraphicsEnvironment.isXRenderAvailable();
+            boolebn glxSupported = X11GrbphicsEnvironment.isGLXAvbilbble();
+            boolebn xrenderSupported = X11GrbphicsEnvironment.isXRenderAvbilbble();
 
-            boolean dbeSupported = isDBESupported();
-            if (dbeSupported && doubleBufferVisuals == null) {
-                doubleBufferVisuals = new HashSet<>();
-                getDoubleBufferVisuals(screen);
+            boolebn dbeSupported = isDBESupported();
+            if (dbeSupported && doubleBufferVisubls == null) {
+                doubleBufferVisubls = new HbshSet<>();
+                getDoubleBufferVisubls(screen);
             }
             for ( ; i < num; i++) {
-                int visNum = getConfigVisualId(i, screen);
+                int visNum = getConfigVisublId(i, screen);
                 int depth = getConfigDepth (i, screen);
                 if (glxSupported) {
-                    ret[i] = GLXGraphicsConfig.getConfig(this, visNum);
+                    ret[i] = GLXGrbphicsConfig.getConfig(this, visNum);
                 }
                 if (ret[i] == null) {
-                    boolean doubleBuffer =
+                    boolebn doubleBuffer =
                         (dbeSupported &&
-                         doubleBufferVisuals.contains(Integer.valueOf(visNum)));
+                         doubleBufferVisubls.contbins(Integer.vblueOf(visNum)));
 
                     if (xrenderSupported) {
-                        ret[i] = XRGraphicsConfig.getConfig(this, visNum, depth,                                getConfigColormap(i, screen),
+                        ret[i] = XRGrbphicsConfig.getConfig(this, visNum, depth,                                getConfigColormbp(i, screen),
                                 doubleBuffer);
                     } else {
-                       ret[i] = X11GraphicsConfig.getConfig(this, visNum, depth,
-                              getConfigColormap(i, screen),
+                       ret[i] = X11GrbphicsConfig.getConfig(this, visNum, depth,
+                              getConfigColormbp(i, screen),
                               doubleBuffer);
                     }
                 }
@@ -188,123 +188,123 @@ public class X11GraphicsDevice
     }
 
     /*
-     * Returns the number of X11 visuals representable as an
-     * X11GraphicsConfig object.
+     * Returns the number of X11 visubls representbble bs bn
+     * X11GrbphicsConfig object.
      */
-    public native int getNumConfigs(int screen);
+    public nbtive int getNumConfigs(int screen);
 
     /*
-     * Returns the visualid for the given index of graphics configurations.
+     * Returns the visublid for the given index of grbphics configurbtions.
      */
-    public native int getConfigVisualId (int index, int screen);
+    public nbtive int getConfigVisublId (int index, int screen);
     /*
-     * Returns the depth for the given index of graphics configurations.
+     * Returns the depth for the given index of grbphics configurbtions.
      */
-    public native int getConfigDepth (int index, int screen);
+    public nbtive int getConfigDepth (int index, int screen);
 
     /*
-     * Returns the colormap for the given index of graphics configurations.
+     * Returns the colormbp for the given index of grbphics configurbtions.
      */
-    public native int getConfigColormap (int index, int screen);
+    public nbtive int getConfigColormbp (int index, int screen);
 
 
     // Whether or not double-buffering extension is supported
-    public static native boolean isDBESupported();
-    // Callback for adding a new double buffer visual into our set
-    private void addDoubleBufferVisual(int visNum) {
-        doubleBufferVisuals.add(Integer.valueOf(visNum));
+    public stbtic nbtive boolebn isDBESupported();
+    // Cbllbbck for bdding b new double buffer visubl into our set
+    privbte void bddDoubleBufferVisubl(int visNum) {
+        doubleBufferVisubls.bdd(Integer.vblueOf(visNum));
     }
-    // Enumerates all visuals that support double buffering
-    private native void getDoubleBufferVisuals(int screen);
+    // Enumerbtes bll visubls thbt support double buffering
+    privbte nbtive void getDoubleBufferVisubls(int screen);
 
     /**
-     * Returns the default graphics configuration
-     * associated with this graphics device.
+     * Returns the defbult grbphics configurbtion
+     * bssocibted with this grbphics device.
      */
-    public GraphicsConfiguration getDefaultConfiguration() {
-        if (defaultConfig == null) {
+    public GrbphicsConfigurbtion getDefbultConfigurbtion() {
+        if (defbultConfig == null) {
             synchronized (configLock) {
-                makeDefaultConfiguration();
+                mbkeDefbultConfigurbtion();
             }
         }
-        return defaultConfig;
+        return defbultConfig;
     }
 
-    private void makeDefaultConfiguration() {
-        if (defaultConfig == null) {
-            int visNum = getConfigVisualId(0, screen);
-            if (X11GraphicsEnvironment.isGLXAvailable()) {
-                defaultConfig = GLXGraphicsConfig.getConfig(this, visNum);
-                if (X11GraphicsEnvironment.isGLXVerbose()) {
-                    if (defaultConfig != null) {
-                        System.out.print("OpenGL pipeline enabled");
+    privbte void mbkeDefbultConfigurbtion() {
+        if (defbultConfig == null) {
+            int visNum = getConfigVisublId(0, screen);
+            if (X11GrbphicsEnvironment.isGLXAvbilbble()) {
+                defbultConfig = GLXGrbphicsConfig.getConfig(this, visNum);
+                if (X11GrbphicsEnvironment.isGLXVerbose()) {
+                    if (defbultConfig != null) {
+                        System.out.print("OpenGL pipeline enbbled");
                     } else {
-                        System.out.print("Could not enable OpenGL pipeline");
+                        System.out.print("Could not enbble OpenGL pipeline");
                     }
-                    System.out.println(" for default config on screen " +
+                    System.out.println(" for defbult config on screen " +
                                        screen);
                 }
             }
-            if (defaultConfig == null) {
+            if (defbultConfig == null) {
                 int depth = getConfigDepth(0, screen);
-                boolean doubleBuffer = false;
-                if (isDBESupported() && doubleBufferVisuals == null) {
-                    doubleBufferVisuals = new HashSet<>();
-                    getDoubleBufferVisuals(screen);
+                boolebn doubleBuffer = fblse;
+                if (isDBESupported() && doubleBufferVisubls == null) {
+                    doubleBufferVisubls = new HbshSet<>();
+                    getDoubleBufferVisubls(screen);
                     doubleBuffer =
-                        doubleBufferVisuals.contains(Integer.valueOf(visNum));
+                        doubleBufferVisubls.contbins(Integer.vblueOf(visNum));
                 }
 
-                if (X11GraphicsEnvironment.isXRenderAvailable()) {
-                    if (X11GraphicsEnvironment.isXRenderVerbose()) {
-                        System.out.println("XRender pipeline enabled");
+                if (X11GrbphicsEnvironment.isXRenderAvbilbble()) {
+                    if (X11GrbphicsEnvironment.isXRenderVerbose()) {
+                        System.out.println("XRender pipeline enbbled");
                     }
-                    defaultConfig = XRGraphicsConfig.getConfig(this, visNum,
-                            depth, getConfigColormap(0, screen),
+                    defbultConfig = XRGrbphicsConfig.getConfig(this, visNum,
+                            depth, getConfigColormbp(0, screen),
                             doubleBuffer);
                 } else {
-                    defaultConfig = X11GraphicsConfig.getConfig(this, visNum,
-                                        depth, getConfigColormap(0, screen),
+                    defbultConfig = X11GrbphicsConfig.getConfig(this, visNum,
+                                        depth, getConfigColormbp(0, screen),
                                         doubleBuffer);
                 }
             }
         }
     }
 
-    private static native void enterFullScreenExclusive(long window);
-    private static native void exitFullScreenExclusive(long window);
-    private static native boolean initXrandrExtension();
-    private static native DisplayMode getCurrentDisplayMode(int screen);
-    private static native void enumDisplayModes(int screen,
-                                                ArrayList<DisplayMode> modes);
-    private static native void configDisplayMode(int screen,
+    privbte stbtic nbtive void enterFullScreenExclusive(long window);
+    privbte stbtic nbtive void exitFullScreenExclusive(long window);
+    privbte stbtic nbtive boolebn initXrbndrExtension();
+    privbte stbtic nbtive DisplbyMode getCurrentDisplbyMode(int screen);
+    privbte stbtic nbtive void enumDisplbyModes(int screen,
+                                                ArrbyList<DisplbyMode> modes);
+    privbte stbtic nbtive void configDisplbyMode(int screen,
                                                  int width, int height,
-                                                 int displayMode);
-    private static native void resetNativeData(int screen);
+                                                 int displbyMode);
+    privbte stbtic nbtive void resetNbtiveDbtb(int screen);
 
     /**
      * Returns true only if:
-     *   - the Xrandr extension is present
-     *   - the necessary Xrandr functions were loaded successfully
-     *   - XINERAMA is not enabled
+     *   - the Xrbndr extension is present
+     *   - the necessbry Xrbndr functions were lobded successfully
+     *   - XINERAMA is not enbbled
      */
-    private static synchronized boolean isXrandrExtensionSupported() {
-        if (xrandrExtSupported == null) {
-            xrandrExtSupported =
-                Boolean.valueOf(initXrandrExtension());
+    privbte stbtic synchronized boolebn isXrbndrExtensionSupported() {
+        if (xrbndrExtSupported == null) {
+            xrbndrExtSupported =
+                Boolebn.vblueOf(initXrbndrExtension());
         }
-        return xrandrExtSupported.booleanValue();
+        return xrbndrExtSupported.boolebnVblue();
     }
 
     @Override
-    public boolean isFullScreenSupported() {
-        // REMIND: for now we will only allow fullscreen exclusive mode
-        // on the primary screen; we could change this behavior slightly
-        // in the future by allowing only one screen to be in fullscreen
-        // exclusive mode at any given time...
-        boolean fsAvailable = (screen == 0) && isXrandrExtensionSupported();
-        if (fsAvailable) {
-            SecurityManager security = System.getSecurityManager();
+    public boolebn isFullScreenSupported() {
+        // REMIND: for now we will only bllow fullscreen exclusive mode
+        // on the primbry screen; we could chbnge this behbvior slightly
+        // in the future by bllowing only one screen to be in fullscreen
+        // exclusive mode bt bny given time...
+        boolebn fsAvbilbble = (screen == 0) && isXrbndrExtensionSupported();
+        if (fsAvbilbble) {
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
                 if (fullScreenExclusivePermission == null) {
                     fullScreenExclusivePermission =
@@ -312,31 +312,31 @@ public class X11GraphicsDevice
                 }
                 try {
                     security.checkPermission(fullScreenExclusivePermission);
-                } catch (SecurityException e) {
-                    return false;
+                } cbtch (SecurityException e) {
+                    return fblse;
                 }
             }
         }
-        return fsAvailable;
+        return fsAvbilbble;
     }
 
     @Override
-    public boolean isDisplayChangeSupported() {
+    public boolebn isDisplbyChbngeSupported() {
         return (isFullScreenSupported() && (getFullScreenWindow() != null));
     }
 
-    private static void enterFullScreenExclusive(Window w) {
+    privbte stbtic void enterFullScreenExclusive(Window w) {
         X11ComponentPeer peer = (X11ComponentPeer)w.getPeer();
         if (peer != null) {
             enterFullScreenExclusive(peer.getContentWindow());
-            peer.setFullScreenExclusiveModeState(true);
+            peer.setFullScreenExclusiveModeStbte(true);
         }
     }
 
-    private static void exitFullScreenExclusive(Window w) {
+    privbte stbtic void exitFullScreenExclusive(Window w) {
         X11ComponentPeer peer = (X11ComponentPeer)w.getPeer();
         if (peer != null) {
-            peer.setFullScreenExclusiveModeState(false);
+            peer.setFullScreenExclusiveModeStbte(fblse);
             exitFullScreenExclusive(peer.getContentWindow());
         }
     }
@@ -348,19 +348,19 @@ public class X11GraphicsDevice
             return;
         }
 
-        boolean fsSupported = isFullScreenSupported();
+        boolebn fsSupported = isFullScreenSupported();
         if (fsSupported && old != null) {
-            // enter windowed mode (and restore original display mode)
+            // enter windowed mode (bnd restore originbl displby mode)
             exitFullScreenExclusive(old);
-            setDisplayMode(origDisplayMode);
+            setDisplbyMode(origDisplbyMode);
         }
 
         super.setFullScreenWindow(w);
 
         if (fsSupported && w != null) {
-            // save original display mode
-            if (origDisplayMode == null) {
-                origDisplayMode = getDisplayMode();
+            // sbve originbl displby mode
+            if (origDisplbyMode == null) {
+                origDisplbyMode = getDisplbyMode();
             }
 
             // enter fullscreen mode
@@ -368,103 +368,103 @@ public class X11GraphicsDevice
         }
     }
 
-    private DisplayMode getDefaultDisplayMode() {
-        GraphicsConfiguration gc = getDefaultConfiguration();
-        Rectangle r = gc.getBounds();
-        return new DisplayMode(r.width, r.height,
-                               DisplayMode.BIT_DEPTH_MULTI,
-                               DisplayMode.REFRESH_RATE_UNKNOWN);
+    privbte DisplbyMode getDefbultDisplbyMode() {
+        GrbphicsConfigurbtion gc = getDefbultConfigurbtion();
+        Rectbngle r = gc.getBounds();
+        return new DisplbyMode(r.width, r.height,
+                               DisplbyMode.BIT_DEPTH_MULTI,
+                               DisplbyMode.REFRESH_RATE_UNKNOWN);
     }
 
     @Override
-    public synchronized DisplayMode getDisplayMode() {
+    public synchronized DisplbyMode getDisplbyMode() {
         if (isFullScreenSupported()) {
-            return getCurrentDisplayMode(screen);
+            return getCurrentDisplbyMode(screen);
         } else {
-            if (origDisplayMode == null) {
-                origDisplayMode = getDefaultDisplayMode();
+            if (origDisplbyMode == null) {
+                origDisplbyMode = getDefbultDisplbyMode();
             }
-            return origDisplayMode;
+            return origDisplbyMode;
         }
     }
 
     @Override
-    public synchronized DisplayMode[] getDisplayModes() {
+    public synchronized DisplbyMode[] getDisplbyModes() {
         if (!isFullScreenSupported()) {
-            return super.getDisplayModes();
+            return super.getDisplbyModes();
         }
-        ArrayList<DisplayMode> modes = new ArrayList<DisplayMode>();
-        enumDisplayModes(screen, modes);
-        DisplayMode[] retArray = new DisplayMode[modes.size()];
-        return modes.toArray(retArray);
+        ArrbyList<DisplbyMode> modes = new ArrbyList<DisplbyMode>();
+        enumDisplbyModes(screen, modes);
+        DisplbyMode[] retArrby = new DisplbyMode[modes.size()];
+        return modes.toArrby(retArrby);
     }
 
     @Override
-    public synchronized void setDisplayMode(DisplayMode dm) {
-        if (!isDisplayChangeSupported()) {
-            super.setDisplayMode(dm);
+    public synchronized void setDisplbyMode(DisplbyMode dm) {
+        if (!isDisplbyChbngeSupported()) {
+            super.setDisplbyMode(dm);
             return;
         }
         Window w = getFullScreenWindow();
         if (w == null) {
-            throw new IllegalStateException("Must be in fullscreen mode " +
-                                            "in order to set display mode");
+            throw new IllegblStbteException("Must be in fullscreen mode " +
+                                            "in order to set displby mode");
         }
-        if (getDisplayMode().equals(dm)) {
+        if (getDisplbyMode().equbls(dm)) {
             return;
         }
         if (dm == null ||
-            (dm = getMatchingDisplayMode(dm)) == null)
+            (dm = getMbtchingDisplbyMode(dm)) == null)
         {
-            throw new IllegalArgumentException("Invalid display mode");
+            throw new IllegblArgumentException("Invblid displby mode");
         }
 
         if (!shutdownHookRegistered) {
-            // register a shutdown hook so that we return to the
-            // original DisplayMode when the VM exits (if the application
-            // is already in the original DisplayMode at that time, this
-            // hook will have no effect)
+            // register b shutdown hook so thbt we return to the
+            // originbl DisplbyMode when the VM exits (if the bpplicbtion
+            // is blrebdy in the originbl DisplbyMode bt thbt time, this
+            // hook will hbve no effect)
             shutdownHookRegistered = true;
-            PrivilegedAction<Void> a = () -> {
-                ThreadGroup rootTG = ThreadGroupUtils.getRootThreadGroup();
-                Runnable r = () -> {
+            PrivilegedAction<Void> b = () -> {
+                ThrebdGroup rootTG = ThrebdGroupUtils.getRootThrebdGroup();
+                Runnbble r = () -> {
                     Window old = getFullScreenWindow();
                     if (old != null) {
                         exitFullScreenExclusive(old);
-                        setDisplayMode(origDisplayMode);
+                        setDisplbyMode(origDisplbyMode);
                     }
                 };
-                Thread t = new Thread(rootTG, r,"Display-Change-Shutdown-Thread-"+screen);
-                t.setContextClassLoader(null);
-                Runtime.getRuntime().addShutdownHook(t);
+                Threbd t = new Threbd(rootTG, r,"Displby-Chbnge-Shutdown-Threbd-"+screen);
+                t.setContextClbssLobder(null);
+                Runtime.getRuntime().bddShutdownHook(t);
                 return null;
             };
-            AccessController.doPrivileged(a);
+            AccessController.doPrivileged(b);
         }
 
-        // switch to the new DisplayMode
-        configDisplayMode(screen,
+        // switch to the new DisplbyMode
+        configDisplbyMode(screen,
                           dm.getWidth(), dm.getHeight(),
-                          dm.getRefreshRate());
+                          dm.getRefreshRbte());
 
-        // update bounds of the fullscreen window
+        // updbte bounds of the fullscreen window
         w.setBounds(0, 0, dm.getWidth(), dm.getHeight());
 
-        // configDisplayMode() is synchronous, so the display change will be
-        // complete by the time we get here (and it is therefore safe to call
-        // displayChanged() now)
-        ((X11GraphicsEnvironment)
-         GraphicsEnvironment.getLocalGraphicsEnvironment()).displayChanged();
+        // configDisplbyMode() is synchronous, so the displby chbnge will be
+        // complete by the time we get here (bnd it is therefore sbfe to cbll
+        // displbyChbnged() now)
+        ((X11GrbphicsEnvironment)
+         GrbphicsEnvironment.getLocblGrbphicsEnvironment()).displbyChbnged();
     }
 
-    private synchronized DisplayMode getMatchingDisplayMode(DisplayMode dm) {
-        if (!isDisplayChangeSupported()) {
+    privbte synchronized DisplbyMode getMbtchingDisplbyMode(DisplbyMode dm) {
+        if (!isDisplbyChbngeSupported()) {
             return null;
         }
-        DisplayMode[] modes = getDisplayModes();
-        for (DisplayMode mode : modes) {
-            if (dm.equals(mode) ||
-                (dm.getRefreshRate() == DisplayMode.REFRESH_RATE_UNKNOWN &&
+        DisplbyMode[] modes = getDisplbyModes();
+        for (DisplbyMode mode : modes) {
+            if (dm.equbls(mode) ||
+                (dm.getRefreshRbte() == DisplbyMode.REFRESH_RATE_UNKNOWN &&
                  dm.getWidth() == mode.getWidth() &&
                  dm.getHeight() == mode.getHeight() &&
                  dm.getBitDepth() == mode.getBitDepth()))
@@ -476,42 +476,42 @@ public class X11GraphicsDevice
     }
 
     /**
-     * From the DisplayChangedListener interface; called from
-     * X11GraphicsEnvironment when the display mode has been changed.
+     * From the DisplbyChbngedListener interfbce; cblled from
+     * X11GrbphicsEnvironment when the displby mode hbs been chbnged.
      */
-    public synchronized void displayChanged() {
-        // On X11 the visuals do not change, and therefore we don't need
-        // to reset the defaultConfig, config, doubleBufferVisuals,
-        // neither do we need to reset the native data.
+    public synchronized void displbyChbnged() {
+        // On X11 the visubls do not chbnge, bnd therefore we don't need
+        // to reset the defbultConfig, config, doubleBufferVisubls,
+        // neither do we need to reset the nbtive dbtb.
 
-        // pass on to all top-level windows on this screen
+        // pbss on to bll top-level windows on this screen
         topLevels.notifyListeners();
     }
 
     /**
-     * From the DisplayChangedListener interface; devices do not need
-     * to react to this event.
+     * From the DisplbyChbngedListener interfbce; devices do not need
+     * to rebct to this event.
      */
-    public void paletteChanged() {
+    public void pbletteChbnged() {
     }
 
     /**
-     * Add a DisplayChangeListener to be notified when the display settings
-     * are changed.  Typically, only top-level containers need to be added
-     * to X11GraphicsDevice.
+     * Add b DisplbyChbngeListener to be notified when the displby settings
+     * bre chbnged.  Typicblly, only top-level contbiners need to be bdded
+     * to X11GrbphicsDevice.
      */
-    public void addDisplayChangedListener(DisplayChangedListener client) {
-        topLevels.add(client);
+    public void bddDisplbyChbngedListener(DisplbyChbngedListener client) {
+        topLevels.bdd(client);
     }
 
     /**
-     * Remove a DisplayChangeListener from this X11GraphicsDevice.
+     * Remove b DisplbyChbngeListener from this X11GrbphicsDevice.
      */
-    public void removeDisplayChangedListener(DisplayChangedListener client) {
+    public void removeDisplbyChbngedListener(DisplbyChbngedListener client) {
         topLevels.remove(client);
     }
 
     public String toString() {
-        return ("X11GraphicsDevice[screen="+screen+"]");
+        return ("X11GrbphicsDevice[screen="+screen+"]");
     }
 }

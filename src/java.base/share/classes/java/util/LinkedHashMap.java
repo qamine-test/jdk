@@ -1,747 +1,747 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.io.IOException;
+import jbvb.util.function.Consumer;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BiFunction;
+import jbvb.io.IOException;
 
 /**
- * <p>Hash table and linked list implementation of the <tt>Map</tt> interface,
- * with predictable iteration order.  This implementation differs from
- * <tt>HashMap</tt> in that it maintains a doubly-linked list running through
- * all of its entries.  This linked list defines the iteration ordering,
- * which is normally the order in which keys were inserted into the map
- * (<i>insertion-order</i>).  Note that insertion order is not affected
- * if a key is <i>re-inserted</i> into the map.  (A key <tt>k</tt> is
- * reinserted into a map <tt>m</tt> if <tt>m.put(k, v)</tt> is invoked when
- * <tt>m.containsKey(k)</tt> would return <tt>true</tt> immediately prior to
- * the invocation.)
+ * <p>Hbsh tbble bnd linked list implementbtion of the <tt>Mbp</tt> interfbce,
+ * with predictbble iterbtion order.  This implementbtion differs from
+ * <tt>HbshMbp</tt> in thbt it mbintbins b doubly-linked list running through
+ * bll of its entries.  This linked list defines the iterbtion ordering,
+ * which is normblly the order in which keys were inserted into the mbp
+ * (<i>insertion-order</i>).  Note thbt insertion order is not bffected
+ * if b key is <i>re-inserted</i> into the mbp.  (A key <tt>k</tt> is
+ * reinserted into b mbp <tt>m</tt> if <tt>m.put(k, v)</tt> is invoked when
+ * <tt>m.contbinsKey(k)</tt> would return <tt>true</tt> immedibtely prior to
+ * the invocbtion.)
  *
- * <p>This implementation spares its clients from the unspecified, generally
- * chaotic ordering provided by {@link HashMap} (and {@link Hashtable}),
- * without incurring the increased cost associated with {@link TreeMap}.  It
- * can be used to produce a copy of a map that has the same order as the
- * original, regardless of the original map's implementation:
+ * <p>This implementbtion spbres its clients from the unspecified, generblly
+ * chbotic ordering provided by {@link HbshMbp} (bnd {@link Hbshtbble}),
+ * without incurring the increbsed cost bssocibted with {@link TreeMbp}.  It
+ * cbn be used to produce b copy of b mbp thbt hbs the sbme order bs the
+ * originbl, regbrdless of the originbl mbp's implementbtion:
  * <pre>
- *     void foo(Map m) {
- *         Map copy = new LinkedHashMap(m);
+ *     void foo(Mbp m) {
+ *         Mbp copy = new LinkedHbshMbp(m);
  *         ...
  *     }
  * </pre>
- * This technique is particularly useful if a module takes a map on input,
- * copies it, and later returns results whose order is determined by that of
- * the copy.  (Clients generally appreciate having things returned in the same
+ * This technique is pbrticulbrly useful if b module tbkes b mbp on input,
+ * copies it, bnd lbter returns results whose order is determined by thbt of
+ * the copy.  (Clients generblly bpprecibte hbving things returned in the sbme
  * order they were presented.)
  *
- * <p>A special {@link #LinkedHashMap(int,float,boolean) constructor} is
- * provided to create a linked hash map whose order of iteration is the order
- * in which its entries were last accessed, from least-recently accessed to
- * most-recently (<i>access-order</i>).  This kind of map is well-suited to
- * building LRU caches.  Invoking the {@code put}, {@code putIfAbsent},
- * {@code get}, {@code getOrDefault}, {@code compute}, {@code computeIfAbsent},
+ * <p>A specibl {@link #LinkedHbshMbp(int,flobt,boolebn) constructor} is
+ * provided to crebte b linked hbsh mbp whose order of iterbtion is the order
+ * in which its entries were lbst bccessed, from lebst-recently bccessed to
+ * most-recently (<i>bccess-order</i>).  This kind of mbp is well-suited to
+ * building LRU cbches.  Invoking the {@code put}, {@code putIfAbsent},
+ * {@code get}, {@code getOrDefbult}, {@code compute}, {@code computeIfAbsent},
  * {@code computeIfPresent}, or {@code merge} methods results
- * in an access to the corresponding entry (assuming it exists after the
- * invocation completes). The {@code replace} methods only result in an access
- * of the entry if the value is replaced.  The {@code putAll} method generates one
- * entry access for each mapping in the specified map, in the order that
- * key-value mappings are provided by the specified map's entry set iterator.
- * <i>No other methods generate entry accesses.</i>  In particular, operations
- * on collection-views do <i>not</i> affect the order of iteration of the
- * backing map.
+ * in bn bccess to the corresponding entry (bssuming it exists bfter the
+ * invocbtion completes). The {@code replbce} methods only result in bn bccess
+ * of the entry if the vblue is replbced.  The {@code putAll} method generbtes one
+ * entry bccess for ebch mbpping in the specified mbp, in the order thbt
+ * key-vblue mbppings bre provided by the specified mbp's entry set iterbtor.
+ * <i>No other methods generbte entry bccesses.</i>  In pbrticulbr, operbtions
+ * on collection-views do <i>not</i> bffect the order of iterbtion of the
+ * bbcking mbp.
  *
- * <p>The {@link #removeEldestEntry(Map.Entry)} method may be overridden to
- * impose a policy for removing stale mappings automatically when new mappings
- * are added to the map.
+ * <p>The {@link #removeEldestEntry(Mbp.Entry)} method mby be overridden to
+ * impose b policy for removing stble mbppings butombticblly when new mbppings
+ * bre bdded to the mbp.
  *
- * <p>This class provides all of the optional <tt>Map</tt> operations, and
- * permits null elements.  Like <tt>HashMap</tt>, it provides constant-time
- * performance for the basic operations (<tt>add</tt>, <tt>contains</tt> and
- * <tt>remove</tt>), assuming the hash function disperses elements
- * properly among the buckets.  Performance is likely to be just slightly
- * below that of <tt>HashMap</tt>, due to the added expense of maintaining the
- * linked list, with one exception: Iteration over the collection-views
- * of a <tt>LinkedHashMap</tt> requires time proportional to the <i>size</i>
- * of the map, regardless of its capacity.  Iteration over a <tt>HashMap</tt>
- * is likely to be more expensive, requiring time proportional to its
- * <i>capacity</i>.
+ * <p>This clbss provides bll of the optionbl <tt>Mbp</tt> operbtions, bnd
+ * permits null elements.  Like <tt>HbshMbp</tt>, it provides constbnt-time
+ * performbnce for the bbsic operbtions (<tt>bdd</tt>, <tt>contbins</tt> bnd
+ * <tt>remove</tt>), bssuming the hbsh function disperses elements
+ * properly bmong the buckets.  Performbnce is likely to be just slightly
+ * below thbt of <tt>HbshMbp</tt>, due to the bdded expense of mbintbining the
+ * linked list, with one exception: Iterbtion over the collection-views
+ * of b <tt>LinkedHbshMbp</tt> requires time proportionbl to the <i>size</i>
+ * of the mbp, regbrdless of its cbpbcity.  Iterbtion over b <tt>HbshMbp</tt>
+ * is likely to be more expensive, requiring time proportionbl to its
+ * <i>cbpbcity</i>.
  *
- * <p>A linked hash map has two parameters that affect its performance:
- * <i>initial capacity</i> and <i>load factor</i>.  They are defined precisely
- * as for <tt>HashMap</tt>.  Note, however, that the penalty for choosing an
- * excessively high value for initial capacity is less severe for this class
- * than for <tt>HashMap</tt>, as iteration times for this class are unaffected
- * by capacity.
+ * <p>A linked hbsh mbp hbs two pbrbmeters thbt bffect its performbnce:
+ * <i>initibl cbpbcity</i> bnd <i>lobd fbctor</i>.  They bre defined precisely
+ * bs for <tt>HbshMbp</tt>.  Note, however, thbt the penblty for choosing bn
+ * excessively high vblue for initibl cbpbcity is less severe for this clbss
+ * thbn for <tt>HbshMbp</tt>, bs iterbtion times for this clbss bre unbffected
+ * by cbpbcity.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access a linked hash map concurrently, and at least
- * one of the threads modifies the map structurally, it <em>must</em> be
- * synchronized externally.  This is typically accomplished by
- * synchronizing on some object that naturally encapsulates the map.
+ * <p><strong>Note thbt this implementbtion is not synchronized.</strong>
+ * If multiple threbds bccess b linked hbsh mbp concurrently, bnd bt lebst
+ * one of the threbds modifies the mbp structurblly, it <em>must</em> be
+ * synchronized externblly.  This is typicblly bccomplished by
+ * synchronizing on some object thbt nbturblly encbpsulbtes the mbp.
  *
- * If no such object exists, the map should be "wrapped" using the
- * {@link Collections#synchronizedMap Collections.synchronizedMap}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the map:<pre>
- *   Map m = Collections.synchronizedMap(new LinkedHashMap(...));</pre>
+ * If no such object exists, the mbp should be "wrbpped" using the
+ * {@link Collections#synchronizedMbp Collections.synchronizedMbp}
+ * method.  This is best done bt crebtion time, to prevent bccidentbl
+ * unsynchronized bccess to the mbp:<pre>
+ *   Mbp m = Collections.synchronizedMbp(new LinkedHbshMbp(...));</pre>
  *
- * A structural modification is any operation that adds or deletes one or more
- * mappings or, in the case of access-ordered linked hash maps, affects
- * iteration order.  In insertion-ordered linked hash maps, merely changing
- * the value associated with a key that is already contained in the map is not
- * a structural modification.  <strong>In access-ordered linked hash maps,
- * merely querying the map with <tt>get</tt> is a structural modification.
+ * A structurbl modificbtion is bny operbtion thbt bdds or deletes one or more
+ * mbppings or, in the cbse of bccess-ordered linked hbsh mbps, bffects
+ * iterbtion order.  In insertion-ordered linked hbsh mbps, merely chbnging
+ * the vblue bssocibted with b key thbt is blrebdy contbined in the mbp is not
+ * b structurbl modificbtion.  <strong>In bccess-ordered linked hbsh mbps,
+ * merely querying the mbp with <tt>get</tt> is b structurbl modificbtion.
  * </strong>)
  *
- * <p>The iterators returned by the <tt>iterator</tt> method of the collections
- * returned by all of this class's collection view methods are
- * <em>fail-fast</em>: if the map is structurally modified at any time after
- * the iterator is created, in any way except through the iterator's own
- * <tt>remove</tt> method, the iterator will throw a {@link
- * ConcurrentModificationException}.  Thus, in the face of concurrent
- * modification, the iterator fails quickly and cleanly, rather than risking
- * arbitrary, non-deterministic behavior at an undetermined time in the future.
+ * <p>The iterbtors returned by the <tt>iterbtor</tt> method of the collections
+ * returned by bll of this clbss's collection view methods bre
+ * <em>fbil-fbst</em>: if the mbp is structurblly modified bt bny time bfter
+ * the iterbtor is crebted, in bny wby except through the iterbtor's own
+ * <tt>remove</tt> method, the iterbtor will throw b {@link
+ * ConcurrentModificbtionException}.  Thus, in the fbce of concurrent
+ * modificbtion, the iterbtor fbils quickly bnd clebnly, rbther thbn risking
+ * brbitrbry, non-deterministic behbvior bt bn undetermined time in the future.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness:   <i>the fail-fast behavior of iterators
+ * <p>Note thbt the fbil-fbst behbvior of bn iterbtor cbnnot be gubrbnteed
+ * bs it is, generblly spebking, impossible to mbke bny hbrd gubrbntees in the
+ * presence of unsynchronized concurrent modificbtion.  Fbil-fbst iterbtors
+ * throw <tt>ConcurrentModificbtionException</tt> on b best-effort bbsis.
+ * Therefore, it would be wrong to write b progrbm thbt depended on this
+ * exception for its correctness:   <i>the fbil-fbst behbvior of iterbtors
  * should be used only to detect bugs.</i>
  *
- * <p>The spliterators returned by the spliterator method of the collections
- * returned by all of this class's collection view methods are
- * <em><a href="Spliterator.html#binding">late-binding</a></em>,
- * <em>fail-fast</em>, and additionally report {@link Spliterator#ORDERED}.
+ * <p>The spliterbtors returned by the spliterbtor method of the collections
+ * returned by bll of this clbss's collection view methods bre
+ * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>,
+ * <em>fbil-fbst</em>, bnd bdditionblly report {@link Spliterbtor#ORDERED}.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @implNote
- * The spliterators returned by the spliterator method of the collections
- * returned by all of this class's collection view methods are created from
- * the iterators of the corresponding collections.
+ * The spliterbtors returned by the spliterbtor method of the collections
+ * returned by bll of this clbss's collection view methods bre crebted from
+ * the iterbtors of the corresponding collections.
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @pbrbm <K> the type of keys mbintbined by this mbp
+ * @pbrbm <V> the type of mbpped vblues
  *
- * @author  Josh Bloch
- * @see     Object#hashCode()
+ * @buthor  Josh Bloch
+ * @see     Object#hbshCode()
  * @see     Collection
- * @see     Map
- * @see     HashMap
- * @see     TreeMap
- * @see     Hashtable
+ * @see     Mbp
+ * @see     HbshMbp
+ * @see     TreeMbp
+ * @see     Hbshtbble
  * @since   1.4
  */
-public class LinkedHashMap<K,V>
-    extends HashMap<K,V>
-    implements Map<K,V>
+public clbss LinkedHbshMbp<K,V>
+    extends HbshMbp<K,V>
+    implements Mbp<K,V>
 {
 
     /*
-     * Implementation note.  A previous version of this class was
-     * internally structured a little differently. Because superclass
-     * HashMap now uses trees for some of its nodes, class
-     * LinkedHashMap.Entry is now treated as intermediary node class
-     * that can also be converted to tree form. The name of this
-     * class, LinkedHashMap.Entry, is confusing in several ways in its
-     * current context, but cannot be changed.  Otherwise, even though
-     * it is not exported outside this package, some existing source
-     * code is known to have relied on a symbol resolution corner case
-     * rule in calls to removeEldestEntry that suppressed compilation
-     * errors due to ambiguous usages. So, we keep the name to
-     * preserve unmodified compilability.
+     * Implementbtion note.  A previous version of this clbss wbs
+     * internblly structured b little differently. Becbuse superclbss
+     * HbshMbp now uses trees for some of its nodes, clbss
+     * LinkedHbshMbp.Entry is now trebted bs intermedibry node clbss
+     * thbt cbn blso be converted to tree form. The nbme of this
+     * clbss, LinkedHbshMbp.Entry, is confusing in severbl wbys in its
+     * current context, but cbnnot be chbnged.  Otherwise, even though
+     * it is not exported outside this pbckbge, some existing source
+     * code is known to hbve relied on b symbol resolution corner cbse
+     * rule in cblls to removeEldestEntry thbt suppressed compilbtion
+     * errors due to bmbiguous usbges. So, we keep the nbme to
+     * preserve unmodified compilbbility.
      *
-     * The changes in node classes also require using two fields
-     * (head, tail) rather than a pointer to a header node to maintain
-     * the doubly-linked before/after list. This class also
-     * previously used a different style of callback methods upon
-     * access, insertion, and removal.
+     * The chbnges in node clbsses blso require using two fields
+     * (hebd, tbil) rbther thbn b pointer to b hebder node to mbintbin
+     * the doubly-linked before/bfter list. This clbss blso
+     * previously used b different style of cbllbbck methods upon
+     * bccess, insertion, bnd removbl.
      */
 
     /**
-     * HashMap.Node subclass for normal LinkedHashMap entries.
+     * HbshMbp.Node subclbss for normbl LinkedHbshMbp entries.
      */
-    static class Entry<K,V> extends HashMap.Node<K,V> {
-        Entry<K,V> before, after;
-        Entry(int hash, K key, V value, Node<K,V> next) {
-            super(hash, key, value, next);
+    stbtic clbss Entry<K,V> extends HbshMbp.Node<K,V> {
+        Entry<K,V> before, bfter;
+        Entry(int hbsh, K key, V vblue, Node<K,V> next) {
+            super(hbsh, key, vblue, next);
         }
     }
 
-    private static final long serialVersionUID = 3801124242820219131L;
+    privbte stbtic finbl long seriblVersionUID = 3801124242820219131L;
 
     /**
-     * The head (eldest) of the doubly linked list.
+     * The hebd (eldest) of the doubly linked list.
      */
-    transient LinkedHashMap.Entry<K,V> head;
+    trbnsient LinkedHbshMbp.Entry<K,V> hebd;
 
     /**
-     * The tail (youngest) of the doubly linked list.
+     * The tbil (youngest) of the doubly linked list.
      */
-    transient LinkedHashMap.Entry<K,V> tail;
+    trbnsient LinkedHbshMbp.Entry<K,V> tbil;
 
     /**
-     * The iteration ordering method for this linked hash map: <tt>true</tt>
-     * for access-order, <tt>false</tt> for insertion-order.
+     * The iterbtion ordering method for this linked hbsh mbp: <tt>true</tt>
+     * for bccess-order, <tt>fblse</tt> for insertion-order.
      *
-     * @serial
+     * @seribl
      */
-    final boolean accessOrder;
+    finbl boolebn bccessOrder;
 
-    // internal utilities
+    // internbl utilities
 
-    // link at the end of list
-    private void linkNodeLast(LinkedHashMap.Entry<K,V> p) {
-        LinkedHashMap.Entry<K,V> last = tail;
-        tail = p;
-        if (last == null)
-            head = p;
+    // link bt the end of list
+    privbte void linkNodeLbst(LinkedHbshMbp.Entry<K,V> p) {
+        LinkedHbshMbp.Entry<K,V> lbst = tbil;
+        tbil = p;
+        if (lbst == null)
+            hebd = p;
         else {
-            p.before = last;
-            last.after = p;
+            p.before = lbst;
+            lbst.bfter = p;
         }
     }
 
-    // apply src's links to dst
-    private void transferLinks(LinkedHashMap.Entry<K,V> src,
-                               LinkedHashMap.Entry<K,V> dst) {
-        LinkedHashMap.Entry<K,V> b = dst.before = src.before;
-        LinkedHashMap.Entry<K,V> a = dst.after = src.after;
+    // bpply src's links to dst
+    privbte void trbnsferLinks(LinkedHbshMbp.Entry<K,V> src,
+                               LinkedHbshMbp.Entry<K,V> dst) {
+        LinkedHbshMbp.Entry<K,V> b = dst.before = src.before;
+        LinkedHbshMbp.Entry<K,V> b = dst.bfter = src.bfter;
         if (b == null)
-            head = dst;
+            hebd = dst;
         else
-            b.after = dst;
-        if (a == null)
-            tail = dst;
+            b.bfter = dst;
+        if (b == null)
+            tbil = dst;
         else
-            a.before = dst;
+            b.before = dst;
     }
 
-    // overrides of HashMap hook methods
+    // overrides of HbshMbp hook methods
 
-    void reinitialize() {
-        super.reinitialize();
-        head = tail = null;
+    void reinitiblize() {
+        super.reinitiblize();
+        hebd = tbil = null;
     }
 
-    Node<K,V> newNode(int hash, K key, V value, Node<K,V> e) {
-        LinkedHashMap.Entry<K,V> p =
-            new LinkedHashMap.Entry<>(hash, key, value, e);
-        linkNodeLast(p);
+    Node<K,V> newNode(int hbsh, K key, V vblue, Node<K,V> e) {
+        LinkedHbshMbp.Entry<K,V> p =
+            new LinkedHbshMbp.Entry<>(hbsh, key, vblue, e);
+        linkNodeLbst(p);
         return p;
     }
 
-    Node<K,V> replacementNode(Node<K,V> p, Node<K,V> next) {
-        LinkedHashMap.Entry<K,V> q = (LinkedHashMap.Entry<K,V>)p;
-        LinkedHashMap.Entry<K,V> t =
-            new LinkedHashMap.Entry<>(q.hash, q.key, q.value, next);
-        transferLinks(q, t);
+    Node<K,V> replbcementNode(Node<K,V> p, Node<K,V> next) {
+        LinkedHbshMbp.Entry<K,V> q = (LinkedHbshMbp.Entry<K,V>)p;
+        LinkedHbshMbp.Entry<K,V> t =
+            new LinkedHbshMbp.Entry<>(q.hbsh, q.key, q.vblue, next);
+        trbnsferLinks(q, t);
         return t;
     }
 
-    TreeNode<K,V> newTreeNode(int hash, K key, V value, Node<K,V> next) {
-        TreeNode<K,V> p = new TreeNode<>(hash, key, value, next);
-        linkNodeLast(p);
+    TreeNode<K,V> newTreeNode(int hbsh, K key, V vblue, Node<K,V> next) {
+        TreeNode<K,V> p = new TreeNode<>(hbsh, key, vblue, next);
+        linkNodeLbst(p);
         return p;
     }
 
-    TreeNode<K,V> replacementTreeNode(Node<K,V> p, Node<K,V> next) {
-        LinkedHashMap.Entry<K,V> q = (LinkedHashMap.Entry<K,V>)p;
-        TreeNode<K,V> t = new TreeNode<>(q.hash, q.key, q.value, next);
-        transferLinks(q, t);
+    TreeNode<K,V> replbcementTreeNode(Node<K,V> p, Node<K,V> next) {
+        LinkedHbshMbp.Entry<K,V> q = (LinkedHbshMbp.Entry<K,V>)p;
+        TreeNode<K,V> t = new TreeNode<>(q.hbsh, q.key, q.vblue, next);
+        trbnsferLinks(q, t);
         return t;
     }
 
-    void afterNodeRemoval(Node<K,V> e) { // unlink
-        LinkedHashMap.Entry<K,V> p =
-            (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
-        p.before = p.after = null;
+    void bfterNodeRemovbl(Node<K,V> e) { // unlink
+        LinkedHbshMbp.Entry<K,V> p =
+            (LinkedHbshMbp.Entry<K,V>)e, b = p.before, b = p.bfter;
+        p.before = p.bfter = null;
         if (b == null)
-            head = a;
+            hebd = b;
         else
-            b.after = a;
-        if (a == null)
-            tail = b;
+            b.bfter = b;
+        if (b == null)
+            tbil = b;
         else
-            a.before = b;
+            b.before = b;
     }
 
-    void afterNodeInsertion(boolean evict) { // possibly remove eldest
-        LinkedHashMap.Entry<K,V> first;
-        if (evict && (first = head) != null && removeEldestEntry(first)) {
+    void bfterNodeInsertion(boolebn evict) { // possibly remove eldest
+        LinkedHbshMbp.Entry<K,V> first;
+        if (evict && (first = hebd) != null && removeEldestEntry(first)) {
             K key = first.key;
-            removeNode(hash(key), key, null, false, true);
+            removeNode(hbsh(key), key, null, fblse, true);
         }
     }
 
-    void afterNodeAccess(Node<K,V> e) { // move node to last
-        LinkedHashMap.Entry<K,V> last;
-        if (accessOrder && (last = tail) != e) {
-            LinkedHashMap.Entry<K,V> p =
-                (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
-            p.after = null;
+    void bfterNodeAccess(Node<K,V> e) { // move node to lbst
+        LinkedHbshMbp.Entry<K,V> lbst;
+        if (bccessOrder && (lbst = tbil) != e) {
+            LinkedHbshMbp.Entry<K,V> p =
+                (LinkedHbshMbp.Entry<K,V>)e, b = p.before, b = p.bfter;
+            p.bfter = null;
             if (b == null)
-                head = a;
+                hebd = b;
             else
-                b.after = a;
-            if (a != null)
-                a.before = b;
+                b.bfter = b;
+            if (b != null)
+                b.before = b;
             else
-                last = b;
-            if (last == null)
-                head = p;
+                lbst = b;
+            if (lbst == null)
+                hebd = p;
             else {
-                p.before = last;
-                last.after = p;
+                p.before = lbst;
+                lbst.bfter = p;
             }
-            tail = p;
+            tbil = p;
             ++modCount;
         }
     }
 
-    void internalWriteEntries(java.io.ObjectOutputStream s) throws IOException {
-        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
+    void internblWriteEntries(jbvb.io.ObjectOutputStrebm s) throws IOException {
+        for (LinkedHbshMbp.Entry<K,V> e = hebd; e != null; e = e.bfter) {
             s.writeObject(e.key);
-            s.writeObject(e.value);
+            s.writeObject(e.vblue);
         }
     }
 
     /**
-     * Constructs an empty insertion-ordered <tt>LinkedHashMap</tt> instance
-     * with the specified initial capacity and load factor.
+     * Constructs bn empty insertion-ordered <tt>LinkedHbshMbp</tt> instbnce
+     * with the specified initibl cbpbcity bnd lobd fbctor.
      *
-     * @param  initialCapacity the initial capacity
-     * @param  loadFactor      the load factor
-     * @throws IllegalArgumentException if the initial capacity is negative
-     *         or the load factor is nonpositive
+     * @pbrbm  initiblCbpbcity the initibl cbpbcity
+     * @pbrbm  lobdFbctor      the lobd fbctor
+     * @throws IllegblArgumentException if the initibl cbpbcity is negbtive
+     *         or the lobd fbctor is nonpositive
      */
-    public LinkedHashMap(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
-        accessOrder = false;
+    public LinkedHbshMbp(int initiblCbpbcity, flobt lobdFbctor) {
+        super(initiblCbpbcity, lobdFbctor);
+        bccessOrder = fblse;
     }
 
     /**
-     * Constructs an empty insertion-ordered <tt>LinkedHashMap</tt> instance
-     * with the specified initial capacity and a default load factor (0.75).
+     * Constructs bn empty insertion-ordered <tt>LinkedHbshMbp</tt> instbnce
+     * with the specified initibl cbpbcity bnd b defbult lobd fbctor (0.75).
      *
-     * @param  initialCapacity the initial capacity
-     * @throws IllegalArgumentException if the initial capacity is negative
+     * @pbrbm  initiblCbpbcity the initibl cbpbcity
+     * @throws IllegblArgumentException if the initibl cbpbcity is negbtive
      */
-    public LinkedHashMap(int initialCapacity) {
-        super(initialCapacity);
-        accessOrder = false;
+    public LinkedHbshMbp(int initiblCbpbcity) {
+        super(initiblCbpbcity);
+        bccessOrder = fblse;
     }
 
     /**
-     * Constructs an empty insertion-ordered <tt>LinkedHashMap</tt> instance
-     * with the default initial capacity (16) and load factor (0.75).
+     * Constructs bn empty insertion-ordered <tt>LinkedHbshMbp</tt> instbnce
+     * with the defbult initibl cbpbcity (16) bnd lobd fbctor (0.75).
      */
-    public LinkedHashMap() {
+    public LinkedHbshMbp() {
         super();
-        accessOrder = false;
+        bccessOrder = fblse;
     }
 
     /**
-     * Constructs an insertion-ordered <tt>LinkedHashMap</tt> instance with
-     * the same mappings as the specified map.  The <tt>LinkedHashMap</tt>
-     * instance is created with a default load factor (0.75) and an initial
-     * capacity sufficient to hold the mappings in the specified map.
+     * Constructs bn insertion-ordered <tt>LinkedHbshMbp</tt> instbnce with
+     * the sbme mbppings bs the specified mbp.  The <tt>LinkedHbshMbp</tt>
+     * instbnce is crebted with b defbult lobd fbctor (0.75) bnd bn initibl
+     * cbpbcity sufficient to hold the mbppings in the specified mbp.
      *
-     * @param  m the map whose mappings are to be placed in this map
-     * @throws NullPointerException if the specified map is null
+     * @pbrbm  m the mbp whose mbppings bre to be plbced in this mbp
+     * @throws NullPointerException if the specified mbp is null
      */
-    public LinkedHashMap(Map<? extends K, ? extends V> m) {
+    public LinkedHbshMbp(Mbp<? extends K, ? extends V> m) {
         super();
-        accessOrder = false;
-        putMapEntries(m, false);
+        bccessOrder = fblse;
+        putMbpEntries(m, fblse);
     }
 
     /**
-     * Constructs an empty <tt>LinkedHashMap</tt> instance with the
-     * specified initial capacity, load factor and ordering mode.
+     * Constructs bn empty <tt>LinkedHbshMbp</tt> instbnce with the
+     * specified initibl cbpbcity, lobd fbctor bnd ordering mode.
      *
-     * @param  initialCapacity the initial capacity
-     * @param  loadFactor      the load factor
-     * @param  accessOrder     the ordering mode - <tt>true</tt> for
-     *         access-order, <tt>false</tt> for insertion-order
-     * @throws IllegalArgumentException if the initial capacity is negative
-     *         or the load factor is nonpositive
+     * @pbrbm  initiblCbpbcity the initibl cbpbcity
+     * @pbrbm  lobdFbctor      the lobd fbctor
+     * @pbrbm  bccessOrder     the ordering mode - <tt>true</tt> for
+     *         bccess-order, <tt>fblse</tt> for insertion-order
+     * @throws IllegblArgumentException if the initibl cbpbcity is negbtive
+     *         or the lobd fbctor is nonpositive
      */
-    public LinkedHashMap(int initialCapacity,
-                         float loadFactor,
-                         boolean accessOrder) {
-        super(initialCapacity, loadFactor);
-        this.accessOrder = accessOrder;
+    public LinkedHbshMbp(int initiblCbpbcity,
+                         flobt lobdFbctor,
+                         boolebn bccessOrder) {
+        super(initiblCbpbcity, lobdFbctor);
+        this.bccessOrder = bccessOrder;
     }
 
 
     /**
-     * Returns <tt>true</tt> if this map maps one or more keys to the
-     * specified value.
+     * Returns <tt>true</tt> if this mbp mbps one or more keys to the
+     * specified vblue.
      *
-     * @param value value whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map maps one or more keys to the
-     *         specified value
+     * @pbrbm vblue vblue whose presence in this mbp is to be tested
+     * @return <tt>true</tt> if this mbp mbps one or more keys to the
+     *         specified vblue
      */
-    public boolean containsValue(Object value) {
-        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
-            V v = e.value;
-            if (v == value || (value != null && value.equals(v)))
+    public boolebn contbinsVblue(Object vblue) {
+        for (LinkedHbshMbp.Entry<K,V> e = hebd; e != null; e = e.bfter) {
+            V v = e.vblue;
+            if (v == vblue || (vblue != null && vblue.equbls(v)))
                 return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Returns the vblue to which the specified key is mbpped,
+     * or {@code null} if this mbp contbins no mbpping for the key.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key==null ? k==null :
-     * key.equals(k))}, then this method returns {@code v}; otherwise
-     * it returns {@code null}.  (There can be at most one such mapping.)
+     * <p>More formblly, if this mbp contbins b mbpping from b key
+     * {@code k} to b vblue {@code v} such thbt {@code (key==null ? k==null :
+     * key.equbls(k))}, then this method returns {@code v}; otherwise
+     * it returns {@code null}.  (There cbn be bt most one such mbpping.)
      *
-     * <p>A return value of {@code null} does not <i>necessarily</i>
-     * indicate that the map contains no mapping for the key; it's also
-     * possible that the map explicitly maps the key to {@code null}.
-     * The {@link #containsKey containsKey} operation may be used to
-     * distinguish these two cases.
+     * <p>A return vblue of {@code null} does not <i>necessbrily</i>
+     * indicbte thbt the mbp contbins no mbpping for the key; it's blso
+     * possible thbt the mbp explicitly mbps the key to {@code null}.
+     * The {@link #contbinsKey contbinsKey} operbtion mby be used to
+     * distinguish these two cbses.
      */
     public V get(Object key) {
         Node<K,V> e;
-        if ((e = getNode(hash(key), key)) == null)
+        if ((e = getNode(hbsh(key), key)) == null)
             return null;
-        if (accessOrder)
-            afterNodeAccess(e);
-        return e.value;
+        if (bccessOrder)
+            bfterNodeAccess(e);
+        return e.vblue;
     }
 
     /**
      * {@inheritDoc}
      */
-    public V getOrDefault(Object key, V defaultValue) {
+    public V getOrDefbult(Object key, V defbultVblue) {
        Node<K,V> e;
-       if ((e = getNode(hash(key), key)) == null)
-           return defaultValue;
-       if (accessOrder)
-           afterNodeAccess(e);
-       return e.value;
+       if ((e = getNode(hbsh(key), key)) == null)
+           return defbultVblue;
+       if (bccessOrder)
+           bfterNodeAccess(e);
+       return e.vblue;
    }
 
     /**
      * {@inheritDoc}
      */
-    public void clear() {
-        super.clear();
-        head = tail = null;
+    public void clebr() {
+        super.clebr();
+        hebd = tbil = null;
     }
 
     /**
-     * Returns <tt>true</tt> if this map should remove its eldest entry.
-     * This method is invoked by <tt>put</tt> and <tt>putAll</tt> after
-     * inserting a new entry into the map.  It provides the implementor
-     * with the opportunity to remove the eldest entry each time a new one
-     * is added.  This is useful if the map represents a cache: it allows
-     * the map to reduce memory consumption by deleting stale entries.
+     * Returns <tt>true</tt> if this mbp should remove its eldest entry.
+     * This method is invoked by <tt>put</tt> bnd <tt>putAll</tt> bfter
+     * inserting b new entry into the mbp.  It provides the implementor
+     * with the opportunity to remove the eldest entry ebch time b new one
+     * is bdded.  This is useful if the mbp represents b cbche: it bllows
+     * the mbp to reduce memory consumption by deleting stble entries.
      *
-     * <p>Sample use: this override will allow the map to grow up to 100
-     * entries and then delete the eldest entry each time a new entry is
-     * added, maintaining a steady state of 100 entries.
+     * <p>Sbmple use: this override will bllow the mbp to grow up to 100
+     * entries bnd then delete the eldest entry ebch time b new entry is
+     * bdded, mbintbining b stebdy stbte of 100 entries.
      * <pre>
-     *     private static final int MAX_ENTRIES = 100;
+     *     privbte stbtic finbl int MAX_ENTRIES = 100;
      *
-     *     protected boolean removeEldestEntry(Map.Entry eldest) {
+     *     protected boolebn removeEldestEntry(Mbp.Entry eldest) {
      *        return size() &gt; MAX_ENTRIES;
      *     }
      * </pre>
      *
-     * <p>This method typically does not modify the map in any way,
-     * instead allowing the map to modify itself as directed by its
-     * return value.  It <i>is</i> permitted for this method to modify
-     * the map directly, but if it does so, it <i>must</i> return
-     * <tt>false</tt> (indicating that the map should not attempt any
-     * further modification).  The effects of returning <tt>true</tt>
-     * after modifying the map from within this method are unspecified.
+     * <p>This method typicblly does not modify the mbp in bny wby,
+     * instebd bllowing the mbp to modify itself bs directed by its
+     * return vblue.  It <i>is</i> permitted for this method to modify
+     * the mbp directly, but if it does so, it <i>must</i> return
+     * <tt>fblse</tt> (indicbting thbt the mbp should not bttempt bny
+     * further modificbtion).  The effects of returning <tt>true</tt>
+     * bfter modifying the mbp from within this method bre unspecified.
      *
-     * <p>This implementation merely returns <tt>false</tt> (so that this
-     * map acts like a normal map - the eldest element is never removed).
+     * <p>This implementbtion merely returns <tt>fblse</tt> (so thbt this
+     * mbp bcts like b normbl mbp - the eldest element is never removed).
      *
-     * @param    eldest The least recently inserted entry in the map, or if
-     *           this is an access-ordered map, the least recently accessed
-     *           entry.  This is the entry that will be removed it this
-     *           method returns <tt>true</tt>.  If the map was empty prior
-     *           to the <tt>put</tt> or <tt>putAll</tt> invocation resulting
-     *           in this invocation, this will be the entry that was just
-     *           inserted; in other words, if the map contains a single
-     *           entry, the eldest entry is also the newest.
+     * @pbrbm    eldest The lebst recently inserted entry in the mbp, or if
+     *           this is bn bccess-ordered mbp, the lebst recently bccessed
+     *           entry.  This is the entry thbt will be removed it this
+     *           method returns <tt>true</tt>.  If the mbp wbs empty prior
+     *           to the <tt>put</tt> or <tt>putAll</tt> invocbtion resulting
+     *           in this invocbtion, this will be the entry thbt wbs just
+     *           inserted; in other words, if the mbp contbins b single
+     *           entry, the eldest entry is blso the newest.
      * @return   <tt>true</tt> if the eldest entry should be removed
-     *           from the map; <tt>false</tt> if it should be retained.
+     *           from the mbp; <tt>fblse</tt> if it should be retbined.
      */
-    protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
-        return false;
+    protected boolebn removeEldestEntry(Mbp.Entry<K,V> eldest) {
+        return fblse;
     }
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation), the results of
-     * the iteration are undefined.  The set supports element removal,
-     * which removes the corresponding mapping from the map, via the
-     * <tt>Iterator.remove</tt>, <tt>Set.remove</tt>,
-     * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt>
-     * operations.  It does not support the <tt>add</tt> or <tt>addAll</tt>
-     * operations.
-     * Its {@link Spliterator} typically provides faster sequential
-     * performance but much poorer parallel performance than that of
-     * {@code HashMap}.
+     * Returns b {@link Set} view of the keys contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  If the mbp is modified
+     * while bn iterbtion over the set is in progress (except through
+     * the iterbtor's own <tt>remove</tt> operbtion), the results of
+     * the iterbtion bre undefined.  The set supports element removbl,
+     * which removes the corresponding mbpping from the mbp, vib the
+     * <tt>Iterbtor.remove</tt>, <tt>Set.remove</tt>,
+     * <tt>removeAll</tt>, <tt>retbinAll</tt>, bnd <tt>clebr</tt>
+     * operbtions.  It does not support the <tt>bdd</tt> or <tt>bddAll</tt>
+     * operbtions.
+     * Its {@link Spliterbtor} typicblly provides fbster sequentibl
+     * performbnce but much poorer pbrbllel performbnce thbn thbt of
+     * {@code HbshMbp}.
      *
-     * @return a set view of the keys contained in this map
+     * @return b set view of the keys contbined in this mbp
      */
     public Set<K> keySet() {
         Set<K> ks;
         return (ks = keySet) == null ? (keySet = new LinkedKeySet()) : ks;
     }
 
-    final class LinkedKeySet extends AbstractSet<K> {
-        public final int size()                 { return size; }
-        public final void clear()               { LinkedHashMap.this.clear(); }
-        public final Iterator<K> iterator() {
-            return new LinkedKeyIterator();
+    finbl clbss LinkedKeySet extends AbstrbctSet<K> {
+        public finbl int size()                 { return size; }
+        public finbl void clebr()               { LinkedHbshMbp.this.clebr(); }
+        public finbl Iterbtor<K> iterbtor() {
+            return new LinkedKeyIterbtor();
         }
-        public final boolean contains(Object o) { return containsKey(o); }
-        public final boolean remove(Object key) {
-            return removeNode(hash(key), key, null, false, true) != null;
+        public finbl boolebn contbins(Object o) { return contbinsKey(o); }
+        public finbl boolebn remove(Object key) {
+            return removeNode(hbsh(key), key, null, fblse, true) != null;
         }
-        public final Spliterator<K> spliterator()  {
-            return Spliterators.spliterator(this, Spliterator.SIZED |
-                                            Spliterator.ORDERED |
-                                            Spliterator.DISTINCT);
+        public finbl Spliterbtor<K> spliterbtor()  {
+            return Spliterbtors.spliterbtor(this, Spliterbtor.SIZED |
+                                            Spliterbtor.ORDERED |
+                                            Spliterbtor.DISTINCT);
         }
-        public final void forEach(Consumer<? super K> action) {
-            if (action == null)
+        public finbl void forEbch(Consumer<? super K> bction) {
+            if (bction == null)
                 throw new NullPointerException();
             int mc = modCount;
-            for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-                action.accept(e.key);
+            for (LinkedHbshMbp.Entry<K,V> e = hebd; e != null; e = e.bfter)
+                bction.bccept(e.key);
             if (modCount != mc)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
         }
     }
 
     /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  If the map is
-     * modified while an iteration over the collection is in progress
-     * (except through the iterator's own <tt>remove</tt> operation),
-     * the results of the iteration are undefined.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
+     * Returns b {@link Collection} view of the vblues contbined in this mbp.
+     * The collection is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the collection, bnd vice-versb.  If the mbp is
+     * modified while bn iterbtion over the collection is in progress
+     * (except through the iterbtor's own <tt>remove</tt> operbtion),
+     * the results of the iterbtion bre undefined.  The collection
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the <tt>Iterbtor.remove</tt>,
      * <tt>Collection.remove</tt>, <tt>removeAll</tt>,
-     * <tt>retainAll</tt> and <tt>clear</tt> operations.  It does not
-     * support the <tt>add</tt> or <tt>addAll</tt> operations.
-     * Its {@link Spliterator} typically provides faster sequential
-     * performance but much poorer parallel performance than that of
-     * {@code HashMap}.
+     * <tt>retbinAll</tt> bnd <tt>clebr</tt> operbtions.  It does not
+     * support the <tt>bdd</tt> or <tt>bddAll</tt> operbtions.
+     * Its {@link Spliterbtor} typicblly provides fbster sequentibl
+     * performbnce but much poorer pbrbllel performbnce thbn thbt of
+     * {@code HbshMbp}.
      *
-     * @return a view of the values contained in this map
+     * @return b view of the vblues contbined in this mbp
      */
-    public Collection<V> values() {
+    public Collection<V> vblues() {
         Collection<V> vs;
-        return (vs = values) == null ? (values = new LinkedValues()) : vs;
+        return (vs = vblues) == null ? (vblues = new LinkedVblues()) : vs;
     }
 
-    final class LinkedValues extends AbstractCollection<V> {
-        public final int size()                 { return size; }
-        public final void clear()               { LinkedHashMap.this.clear(); }
-        public final Iterator<V> iterator() {
-            return new LinkedValueIterator();
+    finbl clbss LinkedVblues extends AbstrbctCollection<V> {
+        public finbl int size()                 { return size; }
+        public finbl void clebr()               { LinkedHbshMbp.this.clebr(); }
+        public finbl Iterbtor<V> iterbtor() {
+            return new LinkedVblueIterbtor();
         }
-        public final boolean contains(Object o) { return containsValue(o); }
-        public final Spliterator<V> spliterator() {
-            return Spliterators.spliterator(this, Spliterator.SIZED |
-                                            Spliterator.ORDERED);
+        public finbl boolebn contbins(Object o) { return contbinsVblue(o); }
+        public finbl Spliterbtor<V> spliterbtor() {
+            return Spliterbtors.spliterbtor(this, Spliterbtor.SIZED |
+                                            Spliterbtor.ORDERED);
         }
-        public final void forEach(Consumer<? super V> action) {
-            if (action == null)
+        public finbl void forEbch(Consumer<? super V> bction) {
+            if (bction == null)
                 throw new NullPointerException();
             int mc = modCount;
-            for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-                action.accept(e.value);
+            for (LinkedHbshMbp.Entry<K,V> e = hebd; e != null; e = e.bfter)
+                bction.bccept(e.vblue);
             if (modCount != mc)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
         }
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation, or through the
-     * <tt>setValue</tt> operation on a map entry returned by the
-     * iterator) the results of the iteration are undefined.  The set
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
-     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt> and
-     * <tt>clear</tt> operations.  It does not support the
-     * <tt>add</tt> or <tt>addAll</tt> operations.
-     * Its {@link Spliterator} typically provides faster sequential
-     * performance but much poorer parallel performance than that of
-     * {@code HashMap}.
+     * Returns b {@link Set} view of the mbppings contbined in this mbp.
+     * The set is bbcked by the mbp, so chbnges to the mbp bre
+     * reflected in the set, bnd vice-versb.  If the mbp is modified
+     * while bn iterbtion over the set is in progress (except through
+     * the iterbtor's own <tt>remove</tt> operbtion, or through the
+     * <tt>setVblue</tt> operbtion on b mbp entry returned by the
+     * iterbtor) the results of the iterbtion bre undefined.  The set
+     * supports element removbl, which removes the corresponding
+     * mbpping from the mbp, vib the <tt>Iterbtor.remove</tt>,
+     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retbinAll</tt> bnd
+     * <tt>clebr</tt> operbtions.  It does not support the
+     * <tt>bdd</tt> or <tt>bddAll</tt> operbtions.
+     * Its {@link Spliterbtor} typicblly provides fbster sequentibl
+     * performbnce but much poorer pbrbllel performbnce thbn thbt of
+     * {@code HbshMbp}.
      *
-     * @return a set view of the mappings contained in this map
+     * @return b set view of the mbppings contbined in this mbp
      */
-    public Set<Map.Entry<K,V>> entrySet() {
-        Set<Map.Entry<K,V>> es;
+    public Set<Mbp.Entry<K,V>> entrySet() {
+        Set<Mbp.Entry<K,V>> es;
         return (es = entrySet) == null ? (entrySet = new LinkedEntrySet()) : es;
     }
 
-    final class LinkedEntrySet extends AbstractSet<Map.Entry<K,V>> {
-        public final int size()                 { return size; }
-        public final void clear()               { LinkedHashMap.this.clear(); }
-        public final Iterator<Map.Entry<K,V>> iterator() {
-            return new LinkedEntryIterator();
+    finbl clbss LinkedEntrySet extends AbstrbctSet<Mbp.Entry<K,V>> {
+        public finbl int size()                 { return size; }
+        public finbl void clebr()               { LinkedHbshMbp.this.clebr(); }
+        public finbl Iterbtor<Mbp.Entry<K,V>> iterbtor() {
+            return new LinkedEntryIterbtor();
         }
-        public final boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> e = (Map.Entry<?,?>) o;
+        public finbl boolebn contbins(Object o) {
+            if (!(o instbnceof Mbp.Entry))
+                return fblse;
+            Mbp.Entry<?,?> e = (Mbp.Entry<?,?>) o;
             Object key = e.getKey();
-            Node<K,V> candidate = getNode(hash(key), key);
-            return candidate != null && candidate.equals(e);
+            Node<K,V> cbndidbte = getNode(hbsh(key), key);
+            return cbndidbte != null && cbndidbte.equbls(e);
         }
-        public final boolean remove(Object o) {
-            if (o instanceof Map.Entry) {
-                Map.Entry<?,?> e = (Map.Entry<?,?>) o;
+        public finbl boolebn remove(Object o) {
+            if (o instbnceof Mbp.Entry) {
+                Mbp.Entry<?,?> e = (Mbp.Entry<?,?>) o;
                 Object key = e.getKey();
-                Object value = e.getValue();
-                return removeNode(hash(key), key, value, true, true) != null;
+                Object vblue = e.getVblue();
+                return removeNode(hbsh(key), key, vblue, true, true) != null;
             }
-            return false;
+            return fblse;
         }
-        public final Spliterator<Map.Entry<K,V>> spliterator() {
-            return Spliterators.spliterator(this, Spliterator.SIZED |
-                                            Spliterator.ORDERED |
-                                            Spliterator.DISTINCT);
+        public finbl Spliterbtor<Mbp.Entry<K,V>> spliterbtor() {
+            return Spliterbtors.spliterbtor(this, Spliterbtor.SIZED |
+                                            Spliterbtor.ORDERED |
+                                            Spliterbtor.DISTINCT);
         }
-        public final void forEach(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null)
+        public finbl void forEbch(Consumer<? super Mbp.Entry<K,V>> bction) {
+            if (bction == null)
                 throw new NullPointerException();
             int mc = modCount;
-            for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-                action.accept(e);
+            for (LinkedHbshMbp.Entry<K,V> e = hebd; e != null; e = e.bfter)
+                bction.bccept(e);
             if (modCount != mc)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
         }
     }
 
-    // Map overrides
+    // Mbp overrides
 
-    public void forEach(BiConsumer<? super K, ? super V> action) {
-        if (action == null)
+    public void forEbch(BiConsumer<? super K, ? super V> bction) {
+        if (bction == null)
             throw new NullPointerException();
         int mc = modCount;
-        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-            action.accept(e.key, e.value);
+        for (LinkedHbshMbp.Entry<K,V> e = hebd; e != null; e = e.bfter)
+            bction.bccept(e.key, e.vblue);
         if (modCount != mc)
-            throw new ConcurrentModificationException();
+            throw new ConcurrentModificbtionException();
     }
 
-    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+    public void replbceAll(BiFunction<? super K, ? super V, ? extends V> function) {
         if (function == null)
             throw new NullPointerException();
         int mc = modCount;
-        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-            e.value = function.apply(e.key, e.value);
+        for (LinkedHbshMbp.Entry<K,V> e = hebd; e != null; e = e.bfter)
+            e.vblue = function.bpply(e.key, e.vblue);
         if (modCount != mc)
-            throw new ConcurrentModificationException();
+            throw new ConcurrentModificbtionException();
     }
 
-    // Iterators
+    // Iterbtors
 
-    abstract class LinkedHashIterator {
-        LinkedHashMap.Entry<K,V> next;
-        LinkedHashMap.Entry<K,V> current;
+    bbstrbct clbss LinkedHbshIterbtor {
+        LinkedHbshMbp.Entry<K,V> next;
+        LinkedHbshMbp.Entry<K,V> current;
         int expectedModCount;
 
-        LinkedHashIterator() {
-            next = head;
+        LinkedHbshIterbtor() {
+            next = hebd;
             expectedModCount = modCount;
             current = null;
         }
 
-        public final boolean hasNext() {
+        public finbl boolebn hbsNext() {
             return next != null;
         }
 
-        final LinkedHashMap.Entry<K,V> nextNode() {
-            LinkedHashMap.Entry<K,V> e = next;
+        finbl LinkedHbshMbp.Entry<K,V> nextNode() {
+            LinkedHbshMbp.Entry<K,V> e = next;
             if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             if (e == null)
                 throw new NoSuchElementException();
             current = e;
-            next = e.after;
+            next = e.bfter;
             return e;
         }
 
-        public final void remove() {
+        public finbl void remove() {
             Node<K,V> p = current;
             if (p == null)
-                throw new IllegalStateException();
+                throw new IllegblStbteException();
             if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             current = null;
             K key = p.key;
-            removeNode(hash(key), key, null, false, false);
+            removeNode(hbsh(key), key, null, fblse, fblse);
             expectedModCount = modCount;
         }
     }
 
-    final class LinkedKeyIterator extends LinkedHashIterator
-        implements Iterator<K> {
-        public final K next() { return nextNode().getKey(); }
+    finbl clbss LinkedKeyIterbtor extends LinkedHbshIterbtor
+        implements Iterbtor<K> {
+        public finbl K next() { return nextNode().getKey(); }
     }
 
-    final class LinkedValueIterator extends LinkedHashIterator
-        implements Iterator<V> {
-        public final V next() { return nextNode().value; }
+    finbl clbss LinkedVblueIterbtor extends LinkedHbshIterbtor
+        implements Iterbtor<V> {
+        public finbl V next() { return nextNode().vblue; }
     }
 
-    final class LinkedEntryIterator extends LinkedHashIterator
-        implements Iterator<Map.Entry<K,V>> {
-        public final Map.Entry<K,V> next() { return nextNode(); }
+    finbl clbss LinkedEntryIterbtor extends LinkedHbshIterbtor
+        implements Iterbtor<Mbp.Entry<K,V>> {
+        public finbl Mbp.Entry<K,V> next() { return nextNode(); }
     }
 
 

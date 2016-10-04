@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.mscapi;
+pbckbge sun.security.mscbpi;
 
 import sun.security.util.Length;
 
 /**
- * The handle for an RSA or DSA key using the Microsoft Crypto API.
+ * The hbndle for bn RSA or DSA key using the Microsoft Crypto API.
  *
- * @see DSAPrivateKey
- * @see RSAPrivateKey
+ * @see DSAPrivbteKey
+ * @see RSAPrivbteKey
  * @see RSAPublicKey
  *
  * @since 1.6
- * @author  Stanley Man-Kit Ho
+ * @buthor  Stbnley Mbn-Kit Ho
  */
-abstract class Key implements java.security.Key, Length
+bbstrbct clbss Key implements jbvb.security.Key, Length
 {
-    private static final long serialVersionUID = -1088859394025049194L;
+    privbte stbtic finbl long seriblVersionUID = -1088859394025049194L;
 
-    // Native handle
+    // Nbtive hbndle
     protected long hCryptProv = 0;
     protected long hCryptKey = 0;
 
@@ -49,7 +49,7 @@ abstract class Key implements java.security.Key, Length
     protected int keyLength = 0;
 
     /**
-     * Construct a Key object.
+     * Construct b Key object.
      */
     protected Key(long hCryptProv, long hCryptKey, int keyLength)
     {
@@ -59,27 +59,27 @@ abstract class Key implements java.security.Key, Length
     }
 
     /**
-     * Finalization method
+     * Finblizbtion method
      */
-    protected void finalize() throws Throwable
+    protected void finblize() throws Throwbble
     {
         try {
             synchronized(this)
             {
-                cleanUp(hCryptProv, hCryptKey);
+                clebnUp(hCryptProv, hCryptKey);
                 hCryptProv = 0;
                 hCryptKey = 0;
             }
 
-        } finally {
-            super.finalize();
+        } finblly {
+            super.finblize();
         }
     }
 
     /**
-     * Native method to cleanup the key handle.
+     * Nbtive method to clebnup the key hbndle.
      */
-    private native static void cleanUp(long hCryptProv, long hCryptKey);
+    privbte nbtive stbtic void clebnUp(long hCryptProv, long hCryptKey);
 
     /**
      * Return bit length of the key.
@@ -92,7 +92,7 @@ abstract class Key implements java.security.Key, Length
 
 
     /**
-     * Return native HCRYPTKEY handle.
+     * Return nbtive HCRYPTKEY hbndle.
      */
     public long getHCryptKey()
     {
@@ -100,7 +100,7 @@ abstract class Key implements java.security.Key, Length
     }
 
     /**
-     * Return native HCRYPTPROV handle.
+     * Return nbtive HCRYPTPROV hbndle.
      */
     public long getHCryptProvider()
     {
@@ -108,41 +108,41 @@ abstract class Key implements java.security.Key, Length
     }
 
     /**
-     * Returns the standard algorithm name for this key. For
-     * example, "DSA" would indicate that this key is a DSA key.
-     * See Appendix A in the <a href=
+     * Returns the stbndbrd blgorithm nbme for this key. For
+     * exbmple, "DSA" would indicbte thbt this key is b DSA key.
+     * See Appendix A in the <b href=
      * "../../../guide/security/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard algorithm names.
+     * Jbvb Cryptogrbphy Architecture API Specificbtion &bmp; Reference </b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the name of the algorithm associated with this key.
+     * @return the nbme of the blgorithm bssocibted with this key.
      */
-    public abstract String getAlgorithm();
+    public bbstrbct String getAlgorithm();
 
     /**
-     * Returns the name of the primary encoding format of this key,
+     * Returns the nbme of the primbry encoding formbt of this key,
      * or null if this key does not support encoding.
-     * The primary encoding format is
-     * named in terms of the appropriate ASN.1 data format, if an
-     * ASN.1 specification for this key exists.
-     * For example, the name of the ASN.1 data format for public
-     * keys is <I>SubjectPublicKeyInfo</I>, as
-     * defined by the X.509 standard; in this case, the returned format is
-     * <code>"X.509"</code>. Similarly,
-     * the name of the ASN.1 data format for private keys is
-     * <I>PrivateKeyInfo</I>,
-     * as defined by the PKCS #8 standard; in this case, the returned format is
+     * The primbry encoding formbt is
+     * nbmed in terms of the bppropribte ASN.1 dbtb formbt, if bn
+     * ASN.1 specificbtion for this key exists.
+     * For exbmple, the nbme of the ASN.1 dbtb formbt for public
+     * keys is <I>SubjectPublicKeyInfo</I>, bs
+     * defined by the X.509 stbndbrd; in this cbse, the returned formbt is
+     * <code>"X.509"</code>. Similbrly,
+     * the nbme of the ASN.1 dbtb formbt for privbte keys is
+     * <I>PrivbteKeyInfo</I>,
+     * bs defined by the PKCS #8 stbndbrd; in this cbse, the returned formbt is
      * <code>"PKCS#8"</code>.
      *
-     * @return the primary encoding format of the key.
+     * @return the primbry encoding formbt of the key.
      */
-    public String getFormat()
+    public String getFormbt()
     {
         return null;
     }
 
     /**
-     * Returns the key in its primary encoding format, or null
+     * Returns the key in its primbry encoding formbt, or null
      * if this key does not support encoding.
      *
      * @return the encoded key, or null if the key does not support
@@ -153,7 +153,7 @@ abstract class Key implements java.security.Key, Length
         return null;
     }
 
-    protected native static String getContainerName(long hCryptProv);
+    protected nbtive stbtic String getContbinerNbme(long hCryptProv);
 
-    protected native static String getKeyType(long hCryptKey);
+    protected nbtive stbtic String getKeyType(long hCryptKey);
 }

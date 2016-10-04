@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util;
+pbckbge sun.util;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.NoSuchElementException;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.AbstrbctMbp;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.NoSuchElementException;
 
 
 /**
- * A precomputed hash map.
+ * A precomputed hbsh mbp.
  *
- * <p> Subclasses of this class are of the following form:
+ * <p> Subclbsses of this clbss bre of the following form:
  *
  * <blockquote><pre>
- * class FooMap
- *     extends sun.util.PreHashedMap&lt;String&gt;
+ * clbss FooMbp
+ *     extends sun.util.PreHbshedMbp&lt;String&gt;
  * {
  *
- *     private FooMap() {
+ *     privbte FooMbp() {
  *         super(ROWS, SIZE, SHIFT, MASK);
  *     }
  *
  *     protected void init(Object[] ht) {
- *         ht[0] = new Object[] { "key-1", value_1 };
- *         ht[1] = new Object[] { "key-2", value_2,
- *                      new Object { "key-3", value_3 } };
+ *         ht[0] = new Object[] { "key-1", vblue_1 };
+ *         ht[1] = new Object[] { "key-2", vblue_2,
+ *                      new Object { "key-3", vblue_3 } };
  *         ...
  *     }
  *
  * }</pre></blockquote>
  *
- * <p> The <tt>init</tt> method is invoked by the <tt>PreHashedMap</tt>
- * constructor with an object array long enough for the map's rows.  The method
- * must construct the hash chain for each row and store it in the appropriate
- * element of the array.
+ * <p> The <tt>init</tt> method is invoked by the <tt>PreHbshedMbp</tt>
+ * constructor with bn object brrby long enough for the mbp's rows.  The method
+ * must construct the hbsh chbin for ebch row bnd store it in the bppropribte
+ * element of the brrby.
  *
- * <p> Each entry in the map is represented by a unique hash-chain node.  The
- * final node of a hash chain is a two-element object array whose first element
- * is the entry's key and whose second element is the entry's value.  A
- * non-final node of a hash chain is a three-element object array whose first
- * two elements are the entry's key and value and whose third element is the
- * next node in the chain.
+ * <p> Ebch entry in the mbp is represented by b unique hbsh-chbin node.  The
+ * finbl node of b hbsh chbin is b two-element object brrby whose first element
+ * is the entry's key bnd whose second element is the entry's vblue.  A
+ * non-finbl node of b hbsh chbin is b three-element object brrby whose first
+ * two elements bre the entry's key bnd vblue bnd whose third element is the
+ * next node in the chbin.
  *
- * <p> Instances of this class are mutable and are not safe for concurrent
- * access.  They may be made immutable and thread-safe via the appropriate
- * methods in the {@link java.util.Collections} utility class.
+ * <p> Instbnces of this clbss bre mutbble bnd bre not sbfe for concurrent
+ * bccess.  They mby be mbde immutbble bnd threbd-sbfe vib the bppropribte
+ * methods in the {@link jbvb.util.Collections} utility clbss.
  *
- * <p> In the JDK build, subclasses of this class are typically created via the
- * <tt>Hasher</tt> program in the <tt>make/tools/Hasher</tt> directory.
+ * <p> In the JDK build, subclbsses of this clbss bre typicblly crebted vib the
+ * <tt>Hbsher</tt> progrbm in the <tt>mbke/tools/Hbsher</tt> directory.
  *
- * @author Mark Reinhold
+ * @buthor Mbrk Reinhold
  * @since 1.5
  *
- * @see java.util.AbstractMap
+ * @see jbvb.util.AbstrbctMbp
  */
 
-public abstract class PreHashedMap<V>
-    extends AbstractMap<String,V>
+public bbstrbct clbss PreHbshedMbp<V>
+    extends AbstrbctMbp<String,V>
 {
 
-    private final int rows;
-    private final int size;
-    private final int shift;
-    private final int mask;
-    private final Object[] ht;
+    privbte finbl int rows;
+    privbte finbl int size;
+    privbte finbl int shift;
+    privbte finbl int mbsk;
+    privbte finbl Object[] ht;
 
     /**
-     * Creates a new map.
+     * Crebtes b new mbp.
      *
-     * <p> This constructor invokes the {@link #init init} method, passing it a
-     * newly-constructed row array that is <tt>rows</tt> elements long.
+     * <p> This constructor invokes the {@link #init init} method, pbssing it b
+     * newly-constructed row brrby thbt is <tt>rows</tt> elements long.
      *
-     * @param rows
-     *        The number of rows in the map
-     * @param size
-     *        The number of entries in the map
-     * @param shift
-     *        The value by which hash codes are right-shifted
-     * @param mask
-     *        The value with which hash codes are masked after being shifted
+     * @pbrbm rows
+     *        The number of rows in the mbp
+     * @pbrbm size
+     *        The number of entries in the mbp
+     * @pbrbm shift
+     *        The vblue by which hbsh codes bre right-shifted
+     * @pbrbm mbsk
+     *        The vblue with which hbsh codes bre mbsked bfter being shifted
      */
-    protected PreHashedMap(int rows, int size, int shift, int mask) {
+    protected PreHbshedMbp(int rows, int size, int shift, int mbsk) {
         this.rows = rows;
         this.size = size;
         this.shift = shift;
-        this.mask = mask;
+        this.mbsk = mbsk;
         this.ht = new Object[rows];
         init(ht);
     }
 
     /**
-     * Initializes this map.
+     * Initiblizes this mbp.
      *
-     * <p> This method must construct the map's hash chains and store them into
-     * the appropriate elements of the given hash-table row array.
+     * <p> This method must construct the mbp's hbsh chbins bnd store them into
+     * the bppropribte elements of the given hbsh-tbble row brrby.
      *
-     * @param rows
-     *        The row array to be initialized
+     * @pbrbm rows
+     *        The row brrby to be initiblized
      */
-    protected abstract void init(Object[] ht);
+    protected bbstrbct void init(Object[] ht);
 
-    @SuppressWarnings("unchecked")
-    private V toV(Object x) {
+    @SuppressWbrnings("unchecked")
+    privbte V toV(Object x) {
         return (V)x;
     }
 
     public V get(Object k) {
-        int h = (k.hashCode() >> shift) & mask;
-        Object[] a = (Object[])ht[h];
-        if (a == null) return null;
+        int h = (k.hbshCode() >> shift) & mbsk;
+        Object[] b = (Object[])ht[h];
+        if (b == null) return null;
         for (;;) {
-            if (a[0].equals(k))
-                return toV(a[1]);
-            if (a.length < 3)
+            if (b[0].equbls(k))
+                return toV(b[1]);
+            if (b.length < 3)
                 return null;
-            a = (Object[])a[2];
+            b = (Object[])b[2];
         }
     }
 
     /**
-     * @throws UnsupportedOperationException
-     *         If the given key is not part of this map's initial key set
+     * @throws UnsupportedOperbtionException
+     *         If the given key is not pbrt of this mbp's initibl key set
      */
     public V put(String k, V v) {
-        int h = (k.hashCode() >> shift) & mask;
-        Object[] a = (Object[])ht[h];
-        if (a == null)
-            throw new UnsupportedOperationException(k);
+        int h = (k.hbshCode() >> shift) & mbsk;
+        Object[] b = (Object[])ht[h];
+        if (b == null)
+            throw new UnsupportedOperbtionException(k);
         for (;;) {
-            if (a[0].equals(k)) {
-                V ov = toV(a[1]);
-                a[1] = v;
+            if (b[0].equbls(k)) {
+                V ov = toV(b[1]);
+                b[1] = v;
                 return ov;
             }
-            if (a.length < 3)
-                throw new UnsupportedOperationException(k);
-            a = (Object[])a[2];
+            if (b.length < 3)
+                throw new UnsupportedOperbtionException(k);
+            b = (Object[])b[2];
         }
     }
 
     public Set<String> keySet() {
-        return new AbstractSet<String> () {
+        return new AbstrbctSet<String> () {
 
             public int size() {
                 return size;
             }
 
-            public Iterator<String> iterator() {
-                return new Iterator<String>() {
-                    private int i = -1;
-                    Object[] a = null;
+            public Iterbtor<String> iterbtor() {
+                return new Iterbtor<String>() {
+                    privbte int i = -1;
+                    Object[] b = null;
                     String cur = null;
 
-                    private boolean findNext() {
-                        if (a != null) {
-                            if (a.length == 3) {
-                                a = (Object[])a[2];
-                                cur = (String)a[0];
+                    privbte boolebn findNext() {
+                        if (b != null) {
+                            if (b.length == 3) {
+                                b = (Object[])b[2];
+                                cur = (String)b[0];
                                 return true;
                             }
                             i++;
-                            a = null;
+                            b = null;
                         }
                         cur = null;
                         if (i >= rows)
-                            return false;
+                            return fblse;
                         if (i < 0 || ht[i] == null) {
                             do {
                                 if (++i >= rows)
-                                    return false;
+                                    return fblse;
                             } while (ht[i] == null);
                         }
-                        a = (Object[])ht[i];
-                        cur = (String)a[0];
+                        b = (Object[])ht[i];
+                        cur = (String)b[0];
                         return true;
                     }
 
-                    public boolean hasNext() {
+                    public boolebn hbsNext() {
                         if (cur != null)
                             return true;
                         return findNext();
@@ -219,7 +219,7 @@ public abstract class PreHashedMap<V>
                     }
 
                     public void remove() {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperbtionException();
                     }
 
                 };
@@ -227,57 +227,57 @@ public abstract class PreHashedMap<V>
         };
     }
 
-    public Set<Map.Entry<String,V>> entrySet() {
-        return new AbstractSet<Map.Entry<String,V>> () {
+    public Set<Mbp.Entry<String,V>> entrySet() {
+        return new AbstrbctSet<Mbp.Entry<String,V>> () {
 
             public int size() {
                 return size;
             }
 
-            public Iterator<Map.Entry<String,V>> iterator() {
-                return new Iterator<Map.Entry<String,V>>() {
-                    final Iterator<String> i = keySet().iterator();
+            public Iterbtor<Mbp.Entry<String,V>> iterbtor() {
+                return new Iterbtor<Mbp.Entry<String,V>>() {
+                    finbl Iterbtor<String> i = keySet().iterbtor();
 
-                    public boolean hasNext() {
-                        return i.hasNext();
+                    public boolebn hbsNext() {
+                        return i.hbsNext();
                     }
 
-                    public Map.Entry<String,V> next() {
-                        return new Map.Entry<String,V>() {
+                    public Mbp.Entry<String,V> next() {
+                        return new Mbp.Entry<String,V>() {
                             String k = i.next();
                             public String getKey() { return k; }
-                            public V getValue() { return get(k); }
-                            public int hashCode() {
+                            public V getVblue() { return get(k); }
+                            public int hbshCode() {
                                 V v = get(k);
-                                return (k.hashCode()
+                                return (k.hbshCode()
                                         + (v == null
                                            ? 0
-                                           : v.hashCode()));
+                                           : v.hbshCode()));
                             }
-                            public boolean equals(Object ob) {
+                            public boolebn equbls(Object ob) {
                                 if (ob == this)
                                     return true;
-                                if (!(ob instanceof Map.Entry))
-                                    return false;
-                                Map.Entry<?,?> that = (Map.Entry<?,?>)ob;
+                                if (!(ob instbnceof Mbp.Entry))
+                                    return fblse;
+                                Mbp.Entry<?,?> thbt = (Mbp.Entry<?,?>)ob;
                                 return ((this.getKey() == null
-                                         ? that.getKey() == null
+                                         ? thbt.getKey() == null
                                          : this.getKey()
-                                               .equals(that.getKey()))
+                                               .equbls(thbt.getKey()))
                                         &&
-                                        (this.getValue() == null
-                                         ? that.getValue() == null
-                                         : this.getValue()
-                                               .equals(that.getValue())));
+                                        (this.getVblue() == null
+                                         ? thbt.getVblue() == null
+                                         : this.getVblue()
+                                               .equbls(thbt.getVblue())));
                             }
-                            public V setValue(V v) {
-                                throw new UnsupportedOperationException();
+                            public V setVblue(V v) {
+                                throw new UnsupportedOperbtionException();
                             }
                         };
                     }
 
                     public void remove() {
-                        throw new UnsupportedOperationException();
+                        throw new UnsupportedOperbtionException();
                     }
 
                 };

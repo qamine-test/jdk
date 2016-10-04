@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.*;
-import java.lang.ref.*;
-import java.util.*;
-import java.util.concurrent.locks.*;
-import sun.awt.AppContext;
+import jbvb.bwt.*;
+import jbvb.lbng.ref.*;
+import jbvb.util.*;
+import jbvb.util.concurrent.locks.*;
+import sun.bwt.AppContext;
 
 /**
- * ImageCache - A fixed pixel count sized cache of Images keyed by arbitrary
- * set of arguments. All images are held with SoftReferences so they will be
- * dropped by the GC if heap memory gets tight. When our size hits max pixel
- * count least recently requested images are removed first.
+ * ImbgeCbche - A fixed pixel count sized cbche of Imbges keyed by brbitrbry
+ * set of brguments. All imbges bre held with SoftReferences so they will be
+ * dropped by the GC if hebp memory gets tight. When our size hits mbx pixel
+ * count lebst recently requested imbges bre removed first.
  *
- * The ImageCache must be used from the thread with an AppContext only.
+ * The ImbgeCbche must be used from the threbd with bn AppContext only.
  *
  */
-final public class ImageCache {
+finbl public clbss ImbgeCbche {
 
-    // Ordered Map keyed by args hash, ordered by most recent accessed entry.
-    private final LinkedHashMap<PixelsKey, ImageSoftReference> map
-            = new LinkedHashMap<>(16, 0.75f, true);
+    // Ordered Mbp keyed by brgs hbsh, ordered by most recent bccessed entry.
+    privbte finbl LinkedHbshMbp<PixelsKey, ImbgeSoftReference> mbp
+            = new LinkedHbshMbp<>(16, 0.75f, true);
 
-    // Maximum number of pixels to cache, this is used if maxCount
-    private final int maxPixelCount;
-    // The current number of pixels stored in the cache
-    private int currentPixelCount = 0;
+    // Mbximum number of pixels to cbche, this is used if mbxCount
+    privbte finbl int mbxPixelCount;
+    // The current number of pixels stored in the cbche
+    privbte int currentPixelCount = 0;
 
-    // Lock for concurrent access to map
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    // Reference queue for tracking lost softreferences to images in the cache
-    private final ReferenceQueue<Image> referenceQueue = new ReferenceQueue<>();
+    // Lock for concurrent bccess to mbp
+    privbte finbl RebdWriteLock lock = new ReentrbntRebdWriteLock();
+    // Reference queue for trbcking lost softreferences to imbges in the cbche
+    privbte finbl ReferenceQueue<Imbge> referenceQueue = new ReferenceQueue<>();
 
-    public static ImageCache getInstance() {
-        return AppContext.getSoftReferenceValue(ImageCache.class,
-                () -> new ImageCache());
+    public stbtic ImbgeCbche getInstbnce() {
+        return AppContext.getSoftReferenceVblue(ImbgeCbche.clbss,
+                () -> new ImbgeCbche());
     }
 
-    ImageCache(final int maxPixelCount) {
-        this.maxPixelCount = maxPixelCount;
+    ImbgeCbche(finbl int mbxPixelCount) {
+        this.mbxPixelCount = mbxPixelCount;
     }
 
-    ImageCache() {
+    ImbgeCbche() {
         this((8 * 1024 * 1024) / 4); // 8Mb of pixels
     }
 
     public void flush() {
         lock.writeLock().lock();
         try {
-            map.clear();
-        } finally {
+            mbp.clebr();
+        } finblly {
             lock.writeLock().unlock();
         }
     }
 
-    public Image getImage(final PixelsKey key){
-        final ImageSoftReference ref;
-        lock.readLock().lock();
+    public Imbge getImbge(finbl PixelsKey key){
+        finbl ImbgeSoftReference ref;
+        lock.rebdLock().lock();
         try {
-            ref = map.get(key);
-        } finally {
-            lock.readLock().unlock();
+            ref = mbp.get(key);
+        } finblly {
+            lock.rebdLock().unlock();
         }
         return ref == null ? null : ref.get();
     }
 
     /**
-     * Sets the cached image for the specified constraints.
+     * Sets the cbched imbge for the specified constrbints.
      *
-     * @param key The key with which the specified image is to be associated
-     * @param image  The image to store in cache
+     * @pbrbm key The key with which the specified imbge is to be bssocibted
+     * @pbrbm imbge  The imbge to store in cbche
      */
-    public void setImage(final PixelsKey key, final Image image) {
+    public void setImbge(finbl PixelsKey key, finbl Imbge imbge) {
 
         lock.writeLock().lock();
         try {
-            ImageSoftReference ref = map.get(key);
+            ImbgeSoftReference ref = mbp.get(key);
 
-            // check if currently in map
+            // check if currently in mbp
             if (ref != null) {
                 if (ref.get() != null) {
                     return;
                 }
-                // soft image has been removed
+                // soft imbge hbs been removed
                 currentPixelCount -= key.getPixelCount();
-                map.remove(key);
+                mbp.remove(key);
             };
 
 
-            // add new image to pixel count
-            final int newPixelCount = key.getPixelCount();
+            // bdd new imbge to pixel count
+            finbl int newPixelCount = key.getPixelCount();
             currentPixelCount += newPixelCount;
-            // clean out lost references if not enough space
-            if (currentPixelCount > maxPixelCount) {
-                while ((ref = (ImageSoftReference)referenceQueue.poll()) != null) {
+            // clebn out lost references if not enough spbce
+            if (currentPixelCount > mbxPixelCount) {
+                while ((ref = (ImbgeSoftReference)referenceQueue.poll()) != null) {
                     //reference lost
-                    map.remove(ref.key);
+                    mbp.remove(ref.key);
                     currentPixelCount -= ref.key.getPixelCount();
                 }
             }
 
-            // remove old items till there is enough free space
-            if (currentPixelCount > maxPixelCount) {
-                final Iterator<Map.Entry<PixelsKey, ImageSoftReference>>
-                        mapIter = map.entrySet().iterator();
-                while ((currentPixelCount > maxPixelCount) && mapIter.hasNext()) {
-                    final Map.Entry<PixelsKey, ImageSoftReference> entry =
-                            mapIter.next();
-                    mapIter.remove();
-                    final Image img = entry.getValue().get();
+            // remove old items till there is enough free spbce
+            if (currentPixelCount > mbxPixelCount) {
+                finbl Iterbtor<Mbp.Entry<PixelsKey, ImbgeSoftReference>>
+                        mbpIter = mbp.entrySet().iterbtor();
+                while ((currentPixelCount > mbxPixelCount) && mbpIter.hbsNext()) {
+                    finbl Mbp.Entry<PixelsKey, ImbgeSoftReference> entry =
+                            mbpIter.next();
+                    mbpIter.remove();
+                    finbl Imbge img = entry.getVblue().get();
                     if (img != null) img.flush();
-                    currentPixelCount -= entry.getValue().key.getPixelCount();
+                    currentPixelCount -= entry.getVblue().key.getPixelCount();
                 }
             }
 
-            // finally put new in map
-            map.put(key, new ImageSoftReference(key, image, referenceQueue));
-        } finally {
+            // finblly put new in mbp
+            mbp.put(key, new ImbgeSoftReference(key, imbge, referenceQueue));
+        } finblly {
             lock.writeLock().unlock();
         }
     }
 
-    public interface PixelsKey {
+    public interfbce PixelsKey {
 
         int getPixelCount();
     }
 
-    private static class ImageSoftReference extends SoftReference<Image> {
+    privbte stbtic clbss ImbgeSoftReference extends SoftReference<Imbge> {
 
-        final PixelsKey key;
+        finbl PixelsKey key;
 
-        ImageSoftReference(final PixelsKey key, final Image referent,
-                final ReferenceQueue<? super Image> q) {
+        ImbgeSoftReference(finbl PixelsKey key, finbl Imbge referent,
+                finbl ReferenceQueue<? super Imbge> q) {
             super(referent, q);
             this.key = key;
         }

@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import sun.awt.AWTPermissions;
+import sun.bwt.AWTPermissions;
 
 /**
- * <code>MouseInfo</code>  provides methods for getting information about the mouse,
- * such as mouse pointer location and the number of mouse buttons.
+ * <code>MouseInfo</code>  provides methods for getting informbtion bbout the mouse,
+ * such bs mouse pointer locbtion bnd the number of mouse buttons.
  *
- * @author     Roman Poborchiy
+ * @buthor     Rombn Poborchiy
  * @since 1.5
  */
 
-public class MouseInfo {
+public clbss MouseInfo {
 
     /**
-     * Private constructor to prevent instantiation.
+     * Privbte constructor to prevent instbntibtion.
      */
-    private MouseInfo() {
+    privbte MouseInfo() {
     }
 
     /**
-     * Returns a <code>PointerInfo</code> instance that represents the current
-     * location of the mouse pointer.
-     * The <code>GraphicsDevice</code> stored in this <code>PointerInfo</code>
-     * contains the mouse pointer. The coordinate system used for the mouse position
-     * depends on whether or not the <code>GraphicsDevice</code> is part of a virtual
+     * Returns b <code>PointerInfo</code> instbnce thbt represents the current
+     * locbtion of the mouse pointer.
+     * The <code>GrbphicsDevice</code> stored in this <code>PointerInfo</code>
+     * contbins the mouse pointer. The coordinbte system used for the mouse position
+     * depends on whether or not the <code>GrbphicsDevice</code> is pbrt of b virtubl
      * screen device.
-     * For virtual screen devices, the coordinates are given in the virtual
-     * coordinate system, otherwise they are returned in the coordinate system
-     * of the <code>GraphicsDevice</code>. See {@link GraphicsConfiguration}
-     * for more information about the virtual screen devices.
-     * On systems without a mouse, returns <code>null</code>.
+     * For virtubl screen devices, the coordinbtes bre given in the virtubl
+     * coordinbte system, otherwise they bre returned in the coordinbte system
+     * of the <code>GrbphicsDevice</code>. See {@link GrbphicsConfigurbtion}
+     * for more informbtion bbout the virtubl screen devices.
+     * On systems without b mouse, returns <code>null</code>.
      * <p>
-     * If there is a security manager, its <code>checkPermission</code> method
-     * is called with an <code>AWTPermission("watchMousePointer")</code>
-     * permission before creating and returning a <code>PointerInfo</code>
-     * object. This may result in a <code>SecurityException</code>.
+     * If there is b security mbnbger, its <code>checkPermission</code> method
+     * is cblled with bn <code>AWTPermission("wbtchMousePointer")</code>
+     * permission before crebting bnd returning b <code>PointerInfo</code>
+     * object. This mby result in b <code>SecurityException</code>.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless() returns true
-     * @exception SecurityException if a security manager exists and its
-     *            <code>checkPermission</code> method doesn't allow the operation
-     * @see       GraphicsConfiguration
-     * @see       SecurityManager#checkPermission
-     * @see       java.awt.AWTPermission
-     * @return    location of the mouse pointer
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless() returns true
+     * @exception SecurityException if b security mbnbger exists bnd its
+     *            <code>checkPermission</code> method doesn't bllow the operbtion
+     * @see       GrbphicsConfigurbtion
+     * @see       SecurityMbnbger#checkPermission
+     * @see       jbvb.bwt.AWTPermission
+     * @return    locbtion of the mouse pointer
      * @since     1.5
      */
-    public static PointerInfo getPointerInfo() throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public stbtic PointerInfo getPointerInfo() throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
 
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.WATCH_MOUSE_PERMISSION);
         }
 
         Point point = new Point(0, 0);
-        int deviceNum = Toolkit.getDefaultToolkit().getMouseInfoPeer().fillPointWithCoords(point);
-        GraphicsDevice[] gds = GraphicsEnvironment.getLocalGraphicsEnvironment().
+        int deviceNum = Toolkit.getDefbultToolkit().getMouseInfoPeer().fillPointWithCoords(point);
+        GrbphicsDevice[] gds = GrbphicsEnvironment.getLocblGrbphicsEnvironment().
                                    getScreenDevices();
-        PointerInfo retval = null;
-        if (areScreenDevicesIndependent(gds)) {
-            retval = new PointerInfo(gds[deviceNum], point);
+        PointerInfo retvbl = null;
+        if (breScreenDevicesIndependent(gds)) {
+            retvbl = new PointerInfo(gds[deviceNum], point);
         } else {
             for (int i = 0; i < gds.length; i++) {
-                GraphicsConfiguration gc = gds[i].getDefaultConfiguration();
-                Rectangle bounds = gc.getBounds();
-                if (bounds.contains(point)) {
-                    retval = new PointerInfo(gds[i], point);
+                GrbphicsConfigurbtion gc = gds[i].getDefbultConfigurbtion();
+                Rectbngle bounds = gc.getBounds();
+                if (bounds.contbins(point)) {
+                    retvbl = new PointerInfo(gds[i], point);
                 }
             }
         }
 
-        return retval;
+        return retvbl;
     }
 
-    private static boolean areScreenDevicesIndependent(GraphicsDevice[] gds) {
+    privbte stbtic boolebn breScreenDevicesIndependent(GrbphicsDevice[] gds) {
         for (int i = 0; i < gds.length; i++) {
-            Rectangle bounds = gds[i].getDefaultConfiguration().getBounds();
+            Rectbngle bounds = gds[i].getDefbultConfigurbtion().getBounds();
             if (bounds.x != 0 || bounds.y != 0) {
-                return false;
+                return fblse;
             }
         }
         return true;
@@ -112,24 +112,24 @@ public class MouseInfo {
 
     /**
      * Returns the number of buttons on the mouse.
-     * On systems without a mouse, returns <code>-1</code>.
+     * On systems without b mouse, returns <code>-1</code>.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless() returns true
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless() returns true
      * @return number of buttons on the mouse
      * @since 1.5
      */
-    public static int getNumberOfButtons() throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public stbtic int getNumberOfButtons() throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        Object prop = Toolkit.getDefaultToolkit().
-                              getDesktopProperty("awt.mouse.numButtons");
-        if (prop instanceof Integer) {
-            return ((Integer)prop).intValue();
+        Object prop = Toolkit.getDefbultToolkit().
+                              getDesktopProperty("bwt.mouse.numButtons");
+        if (prop instbnceof Integer) {
+            return ((Integer)prop).intVblue();
         }
 
-        // This should never happen.
-        assert false : "awt.mouse.numButtons is not an integer property";
+        // This should never hbppen.
+        bssert fblse : "bwt.mouse.numButtons is not bn integer property";
         return 0;
     }
 

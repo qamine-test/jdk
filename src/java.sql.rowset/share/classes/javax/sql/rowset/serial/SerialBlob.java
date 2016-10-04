@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.serial;
+pbckbge jbvbx.sql.rowset.seribl;
 
-import java.sql.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.Arrays;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.Arrbys;
 
 
 /**
- * A serialized mapping in the Java programming language of an SQL
- * <code>BLOB</code> value.
+ * A seriblized mbpping in the Jbvb progrbmming lbngubge of bn SQL
+ * <code>BLOB</code> vblue.
  * <P>
- * The <code>SerialBlob</code> class provides a constructor for creating
- * an instance from a <code>Blob</code> object.  Note that the
+ * The <code>SeriblBlob</code> clbss provides b constructor for crebting
+ * bn instbnce from b <code>Blob</code> object.  Note thbt the
  * <code>Blob</code>
- * object should have brought the SQL <code>BLOB</code> value's data over
- * to the client before a <code>SerialBlob</code> object
- * is constructed from it.  The data of an SQL <code>BLOB</code> value can
- * be materialized on the client as an array of bytes (using the method
- * <code>Blob.getBytes</code>) or as a stream of uninterpreted bytes
- * (using the method <code>Blob.getBinaryStream</code>).
+ * object should hbve brought the SQL <code>BLOB</code> vblue's dbtb over
+ * to the client before b <code>SeriblBlob</code> object
+ * is constructed from it.  The dbtb of bn SQL <code>BLOB</code> vblue cbn
+ * be mbteriblized on the client bs bn brrby of bytes (using the method
+ * <code>Blob.getBytes</code>) or bs b strebm of uninterpreted bytes
+ * (using the method <code>Blob.getBinbryStrebm</code>).
  * <P>
- * <code>SerialBlob</code> methods make it possible to make a copy of a
- * <code>SerialBlob</code> object as an array of bytes or as a stream.
- * They also make it possible to locate a given pattern of bytes or a
- * <code>Blob</code> object within a <code>SerialBlob</code> object
- * and to update or truncate a <code>Blob</code> object.
+ * <code>SeriblBlob</code> methods mbke it possible to mbke b copy of b
+ * <code>SeriblBlob</code> object bs bn brrby of bytes or bs b strebm.
+ * They blso mbke it possible to locbte b given pbttern of bytes or b
+ * <code>Blob</code> object within b <code>SeriblBlob</code> object
+ * bnd to updbte or truncbte b <code>Blob</code> object.
  *
- * <h3> Thread safety </h3>
+ * <h3> Threbd sbfety </h3>
  *
- * <p> A SerialBlob is not safe for use by multiple concurrent threads.  If a
- * SerialBlob is to be used by more than one thread then access to the SerialBlob
- * should be controlled by appropriate synchronization.
+ * <p> A SeriblBlob is not sbfe for use by multiple concurrent threbds.  If b
+ * SeriblBlob is to be used by more thbn one threbd then bccess to the SeriblBlob
+ * should be controlled by bppropribte synchronizbtion.
  *
- * @author Jonathan Bruce
+ * @buthor Jonbthbn Bruce
  * @since 1.5
  */
-public class SerialBlob implements Blob, Serializable, Cloneable {
+public clbss SeriblBlob implements Blob, Seriblizbble, Clonebble {
 
     /**
-     * A serialized array of uninterpreted bytes representing the
-     * value of this <code>SerialBlob</code> object.
-     * @serial
+     * A seriblized brrby of uninterpreted bytes representing the
+     * vblue of this <code>SeriblBlob</code> object.
+     * @seribl
      */
-    private byte buf[];
+    privbte byte buf[];
 
     /**
-     * The internal representation of the <code>Blob</code> object on which this
-     * <code>SerialBlob</code> object is based.
+     * The internbl representbtion of the <code>Blob</code> object on which this
+     * <code>SeriblBlob</code> object is bbsed.
      */
-    private Blob blob;
+    privbte Blob blob;
 
     /**
-     * The number of bytes in this <code>SerialBlob</code> object's
-     * array of bytes.
-     * @serial
+     * The number of bytes in this <code>SeriblBlob</code> object's
+     * brrby of bytes.
+     * @seribl
      */
-    private long len;
+    privbte long len;
 
     /**
-     * The original number of bytes in this <code>SerialBlob</code> object's
-     * array of bytes when it was first established.
-     * @serial
+     * The originbl number of bytes in this <code>SeriblBlob</code> object's
+     * brrby of bytes when it wbs first estbblished.
+     * @seribl
      */
-    private long origLen;
+    privbte long origLen;
 
     /**
-     * Constructs a <code>SerialBlob</code> object that is a serialized version of
-     * the given <code>byte</code> array.
+     * Constructs b <code>SeriblBlob</code> object thbt is b seriblized version of
+     * the given <code>byte</code> brrby.
      * <p>
-     * The new <code>SerialBlob</code> object is initialized with the data from the
-     * <code>byte</code> array, thus allowing disconnected <code>RowSet</code>
-     * objects to establish serialized <code>Blob</code> objects without
-     * touching the data source.
+     * The new <code>SeriblBlob</code> object is initiblized with the dbtb from the
+     * <code>byte</code> brrby, thus bllowing disconnected <code>RowSet</code>
+     * objects to estbblish seriblized <code>Blob</code> objects without
+     * touching the dbtb source.
      *
-     * @param b the <code>byte</code> array containing the data for the
-     *        <code>Blob</code> object to be serialized
-     * @throws SerialException if an error occurs during serialization
-     * @throws SQLException if a SQL errors occurs
+     * @pbrbm b the <code>byte</code> brrby contbining the dbtb for the
+     *        <code>Blob</code> object to be seriblized
+     * @throws SeriblException if bn error occurs during seriblizbtion
+     * @throws SQLException if b SQL errors occurs
      */
-    public SerialBlob(byte[] b) throws SerialException, SQLException {
+    public SeriblBlob(byte[] b) throws SeriblException, SQLException {
 
         len = b.length;
         buf = new byte[(int)len];
@@ -115,29 +115,29 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
 
 
     /**
-     * Constructs a <code>SerialBlob</code> object that is a serialized
+     * Constructs b <code>SeriblBlob</code> object thbt is b seriblized
      * version of the given <code>Blob</code> object.
      * <P>
-     * The new <code>SerialBlob</code> object is initialized with the
-     * data from the <code>Blob</code> object; therefore, the
-     * <code>Blob</code> object should have previously brought the
-     * SQL <code>BLOB</code> value's data over to the client from
-     * the database. Otherwise, the new <code>SerialBlob</code> object
-     * will contain no data.
+     * The new <code>SeriblBlob</code> object is initiblized with the
+     * dbtb from the <code>Blob</code> object; therefore, the
+     * <code>Blob</code> object should hbve previously brought the
+     * SQL <code>BLOB</code> vblue's dbtb over to the client from
+     * the dbtbbbse. Otherwise, the new <code>SeriblBlob</code> object
+     * will contbin no dbtb.
      *
-     * @param blob the <code>Blob</code> object from which this
-     *     <code>SerialBlob</code> object is to be constructed;
-     *     cannot be null.
-     * @throws SerialException if an error occurs during serialization
-     * @throws SQLException if the <code>Blob</code> passed to this
-     *     to this constructor is a <code>null</code>.
-     * @see java.sql.Blob
+     * @pbrbm blob the <code>Blob</code> object from which this
+     *     <code>SeriblBlob</code> object is to be constructed;
+     *     cbnnot be null.
+     * @throws SeriblException if bn error occurs during seriblizbtion
+     * @throws SQLException if the <code>Blob</code> pbssed to this
+     *     to this constructor is b <code>null</code>.
+     * @see jbvb.sql.Blob
      */
-    public SerialBlob (Blob blob) throws SerialException, SQLException {
+    public SeriblBlob (Blob blob) throws SeriblException, SQLException {
 
         if (blob == null) {
-            throw new SQLException("Cannot instantiate a SerialBlob " +
-                 "object with a null Blob object");
+            throw new SQLException("Cbnnot instbntibte b SeriblBlob " +
+                 "object with b null Blob object");
         }
 
         len = blob.length();
@@ -150,38 +150,38 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
     }
 
     /**
-     * Copies the specified number of bytes, starting at the given
-     * position, from this <code>SerialBlob</code> object to
-     * another array of bytes.
+     * Copies the specified number of bytes, stbrting bt the given
+     * position, from this <code>SeriblBlob</code> object to
+     * bnother brrby of bytes.
      * <P>
-     * Note that if the given number of bytes to be copied is larger than
-     * the length of this <code>SerialBlob</code> object's array of
-     * bytes, the given number will be shortened to the array's length.
+     * Note thbt if the given number of bytes to be copied is lbrger thbn
+     * the length of this <code>SeriblBlob</code> object's brrby of
+     * bytes, the given number will be shortened to the brrby's length.
      *
-     * @param pos the ordinal position of the first byte in this
-     *            <code>SerialBlob</code> object to be copied;
-     *            numbering starts at <code>1</code>; must not be less
-     *            than <code>1</code> and must be less than or equal
-     *            to the length of this <code>SerialBlob</code> object
-     * @param length the number of bytes to be copied
-     * @return an array of bytes that is a copy of a region of this
-     *         <code>SerialBlob</code> object, starting at the given
-     *         position and containing the given number of consecutive bytes
-     * @throws SerialException if the given starting position is out of bounds;
-     * if {@code free} had previously been called on this object
+     * @pbrbm pos the ordinbl position of the first byte in this
+     *            <code>SeriblBlob</code> object to be copied;
+     *            numbering stbrts bt <code>1</code>; must not be less
+     *            thbn <code>1</code> bnd must be less thbn or equbl
+     *            to the length of this <code>SeriblBlob</code> object
+     * @pbrbm length the number of bytes to be copied
+     * @return bn brrby of bytes thbt is b copy of b region of this
+     *         <code>SeriblBlob</code> object, stbrting bt the given
+     *         position bnd contbining the given number of consecutive bytes
+     * @throws SeriblException if the given stbrting position is out of bounds;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public byte[] getBytes(long pos, int length) throws SerialException {
-        isValid();
+    public byte[] getBytes(long pos, int length) throws SeriblException {
+        isVblid();
         if (length > len) {
             length = (int)len;
         }
 
         if (pos < 1 || len - pos < 0 ) {
-            throw new SerialException("Invalid arguments: position cannot be "
-                    + "less than 1 or greater than the length of the SerialBlob");
+            throw new SeriblException("Invblid brguments: position cbnnot be "
+                    + "less thbn 1 or grebter thbn the length of the SeriblBlob");
         }
 
-        pos--; // correct pos to array index
+        pos--; // correct pos to brrby index
 
         byte[] b = new byte[length];
 
@@ -193,76 +193,76 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
     }
 
     /**
-     * Retrieves the number of bytes in this <code>SerialBlob</code>
-     * object's array of bytes.
+     * Retrieves the number of bytes in this <code>SeriblBlob</code>
+     * object's brrby of bytes.
      *
-     * @return a <code>long</code> indicating the length in bytes of this
-     *         <code>SerialBlob</code> object's array of bytes
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @return b <code>long</code> indicbting the length in bytes of this
+     *         <code>SeriblBlob</code> object's brrby of bytes
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public long length() throws SerialException {
-        isValid();
+    public long length() throws SeriblException {
+        isVblid();
         return len;
     }
 
     /**
-     * Returns this <code>SerialBlob</code> object as an input stream.
-     * Unlike the related method, <code>setBinaryStream</code>,
-     * a stream is produced regardless of whether the <code>SerialBlob</code>
-     * was created with a <code>Blob</code> object or a <code>byte</code> array.
+     * Returns this <code>SeriblBlob</code> object bs bn input strebm.
+     * Unlike the relbted method, <code>setBinbryStrebm</code>,
+     * b strebm is produced regbrdless of whether the <code>SeriblBlob</code>
+     * wbs crebted with b <code>Blob</code> object or b <code>byte</code> brrby.
      *
-     * @return a <code>java.io.InputStream</code> object that contains
-     *         this <code>SerialBlob</code> object's array of bytes
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
-     * @see #setBinaryStream
+     * @return b <code>jbvb.io.InputStrebm</code> object thbt contbins
+     *         this <code>SeriblBlob</code> object's brrby of bytes
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
+     * @see #setBinbryStrebm
      */
-    public java.io.InputStream getBinaryStream() throws SerialException {
-        isValid();
-        InputStream stream = new ByteArrayInputStream(buf);
-        return stream;
+    public jbvb.io.InputStrebm getBinbryStrebm() throws SeriblException {
+        isVblid();
+        InputStrebm strebm = new ByteArrbyInputStrebm(buf);
+        return strebm;
     }
 
     /**
-     * Returns the position in this <code>SerialBlob</code> object where
-     * the given pattern of bytes begins, starting the search at the
+     * Returns the position in this <code>SeriblBlob</code> object where
+     * the given pbttern of bytes begins, stbrting the sebrch bt the
      * specified position.
      *
-     * @param pattern the pattern of bytes for which to search
-     * @param start the position of the byte in this
-     *              <code>SerialBlob</code> object from which to begin
-     *              the search; the first position is <code>1</code>;
-     *              must not be less than <code>1</code> nor greater than
-     *              the length of this <code>SerialBlob</code> object
-     * @return the position in this <code>SerialBlob</code> object
-     *         where the given pattern begins, starting at the specified
-     *         position; <code>-1</code> if the pattern is not found
-     *         or the given starting position is out of bounds; position
-     *         numbering for the return value starts at <code>1</code>
-     * @throws SerialException if an error occurs when serializing the blob;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the <code>BLOB</code>
-     *         value from the database
+     * @pbrbm pbttern the pbttern of bytes for which to sebrch
+     * @pbrbm stbrt the position of the byte in this
+     *              <code>SeriblBlob</code> object from which to begin
+     *              the sebrch; the first position is <code>1</code>;
+     *              must not be less thbn <code>1</code> nor grebter thbn
+     *              the length of this <code>SeriblBlob</code> object
+     * @return the position in this <code>SeriblBlob</code> object
+     *         where the given pbttern begins, stbrting bt the specified
+     *         position; <code>-1</code> if the pbttern is not found
+     *         or the given stbrting position is out of bounds; position
+     *         numbering for the return vblue stbrts bt <code>1</code>
+     * @throws SeriblException if bn error occurs when seriblizing the blob;
+     * if {@code free} hbd previously been cblled on this object
+     * @throws SQLException if there is bn error bccessing the <code>BLOB</code>
+     *         vblue from the dbtbbbse
      */
-    public long position(byte[] pattern, long start)
-                throws SerialException, SQLException {
-        isValid();
-        if (start < 1 || start > len) {
+    public long position(byte[] pbttern, long stbrt)
+                throws SeriblException, SQLException {
+        isVblid();
+        if (stbrt < 1 || stbrt > len) {
             return -1;
         }
 
-        int pos = (int)start-1; // internally Blobs are stored as arrays.
+        int pos = (int)stbrt-1; // internblly Blobs bre stored bs brrbys.
         int i = 0;
-        long patlen = pattern.length;
+        long pbtlen = pbttern.length;
 
         while (pos < len) {
-            if (pattern[i] == buf[pos]) {
-                if (i + 1 == patlen) {
-                    return (pos + 1) - (patlen - 1);
+            if (pbttern[i] == buf[pos]) {
+                if (i + 1 == pbtlen) {
+                    return (pos + 1) - (pbtlen - 1);
                 }
-                i++; pos++; // increment pos, and i
-            } else if (pattern[i] != buf[pos]) {
+                i++; pos++; // increment pos, bnd i
+            } else if (pbttern[i] != buf[pos]) {
                 pos++; // increment pos only
             }
         }
@@ -270,111 +270,111 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
     }
 
     /**
-     * Returns the position in this <code>SerialBlob</code> object where
-     * the given <code>Blob</code> object begins, starting the search at the
+     * Returns the position in this <code>SeriblBlob</code> object where
+     * the given <code>Blob</code> object begins, stbrting the sebrch bt the
      * specified position.
      *
-     * @param pattern the <code>Blob</code> object for which to search;
-     * @param start the position of the byte in this
-     *              <code>SerialBlob</code> object from which to begin
-     *              the search; the first position is <code>1</code>;
-     *              must not be less than <code>1</code> nor greater than
-     *              the length of this <code>SerialBlob</code> object
-     * @return the position in this <code>SerialBlob</code> object
-     *         where the given <code>Blob</code> object begins, starting
-     *         at the specified position; <code>-1</code> if the pattern is
-     *         not found or the given starting position is out of bounds;
-     *         position numbering for the return value starts at <code>1</code>
-     * @throws SerialException if an error occurs when serializing the blob;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the <code>BLOB</code>
-     *         value from the database
+     * @pbrbm pbttern the <code>Blob</code> object for which to sebrch;
+     * @pbrbm stbrt the position of the byte in this
+     *              <code>SeriblBlob</code> object from which to begin
+     *              the sebrch; the first position is <code>1</code>;
+     *              must not be less thbn <code>1</code> nor grebter thbn
+     *              the length of this <code>SeriblBlob</code> object
+     * @return the position in this <code>SeriblBlob</code> object
+     *         where the given <code>Blob</code> object begins, stbrting
+     *         bt the specified position; <code>-1</code> if the pbttern is
+     *         not found or the given stbrting position is out of bounds;
+     *         position numbering for the return vblue stbrts bt <code>1</code>
+     * @throws SeriblException if bn error occurs when seriblizing the blob;
+     * if {@code free} hbd previously been cblled on this object
+     * @throws SQLException if there is bn error bccessing the <code>BLOB</code>
+     *         vblue from the dbtbbbse
      */
-    public long position(Blob pattern, long start)
-       throws SerialException, SQLException {
-        isValid();
-        return position(pattern.getBytes(1, (int)(pattern.length())), start);
+    public long position(Blob pbttern, long stbrt)
+       throws SeriblException, SQLException {
+        isVblid();
+        return position(pbttern.getBytes(1, (int)(pbttern.length())), stbrt);
     }
 
     /**
-     * Writes the given array of bytes to the <code>BLOB</code> value that
-     * this <code>Blob</code> object represents, starting at position
-     * <code>pos</code>, and returns the number of bytes written.
+     * Writes the given brrby of bytes to the <code>BLOB</code> vblue thbt
+     * this <code>Blob</code> object represents, stbrting bt position
+     * <code>pos</code>, bnd returns the number of bytes written.
      *
-     * @param pos the position in the SQL <code>BLOB</code> value at which
-     *     to start writing. The first position is <code>1</code>;
-     *     must not be less than <code>1</code> nor greater than
-     *     the length of this <code>SerialBlob</code> object.
-     * @param bytes the array of bytes to be written to the <code>BLOB</code>
-     *        value that this <code>Blob</code> object represents
+     * @pbrbm pos the position in the SQL <code>BLOB</code> vblue bt which
+     *     to stbrt writing. The first position is <code>1</code>;
+     *     must not be less thbn <code>1</code> nor grebter thbn
+     *     the length of this <code>SeriblBlob</code> object.
+     * @pbrbm bytes the brrby of bytes to be written to the <code>BLOB</code>
+     *        vblue thbt this <code>Blob</code> object represents
      * @return the number of bytes written
-     * @throws SerialException if there is an error accessing the
-     *     <code>BLOB</code> value; or if an invalid position is set; if an
-     *     invalid offset value is set;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the <code>BLOB</code>
-     *         value from the database
+     * @throws SeriblException if there is bn error bccessing the
+     *     <code>BLOB</code> vblue; or if bn invblid position is set; if bn
+     *     invblid offset vblue is set;
+     * if {@code free} hbd previously been cblled on this object
+     * @throws SQLException if there is bn error bccessing the <code>BLOB</code>
+     *         vblue from the dbtbbbse
      * @see #getBytes
      */
     public int setBytes(long pos, byte[] bytes)
-        throws SerialException, SQLException {
+        throws SeriblException, SQLException {
         return (setBytes(pos, bytes, 0, bytes.length));
     }
 
     /**
-     * Writes all or part of the given <code>byte</code> array to the
-     * <code>BLOB</code> value that this <code>Blob</code> object represents
-     * and returns the number of bytes written.
-     * Writing starts at position <code>pos</code> in the <code>BLOB</code>
-     * value; <i>len</i> bytes from the given byte array are written.
+     * Writes bll or pbrt of the given <code>byte</code> brrby to the
+     * <code>BLOB</code> vblue thbt this <code>Blob</code> object represents
+     * bnd returns the number of bytes written.
+     * Writing stbrts bt position <code>pos</code> in the <code>BLOB</code>
+     * vblue; <i>len</i> bytes from the given byte brrby bre written.
      *
-     * @param pos the position in the <code>BLOB</code> object at which
-     *     to start writing. The first position is <code>1</code>;
-     *     must not be less than <code>1</code> nor greater than
-     *     the length of this <code>SerialBlob</code> object.
-     * @param bytes the array of bytes to be written to the <code>BLOB</code>
-     *     value
-     * @param offset the offset in the <code>byte</code> array at which
-     *     to start reading the bytes. The first offset position is
-     *     <code>0</code>; must not be less than <code>0</code> nor greater
-     *     than the length of the <code>byte</code> array
-     * @param length the number of bytes to be written to the
-     *     <code>BLOB</code> value from the array of bytes <i>bytes</i>.
+     * @pbrbm pos the position in the <code>BLOB</code> object bt which
+     *     to stbrt writing. The first position is <code>1</code>;
+     *     must not be less thbn <code>1</code> nor grebter thbn
+     *     the length of this <code>SeriblBlob</code> object.
+     * @pbrbm bytes the brrby of bytes to be written to the <code>BLOB</code>
+     *     vblue
+     * @pbrbm offset the offset in the <code>byte</code> brrby bt which
+     *     to stbrt rebding the bytes. The first offset position is
+     *     <code>0</code>; must not be less thbn <code>0</code> nor grebter
+     *     thbn the length of the <code>byte</code> brrby
+     * @pbrbm length the number of bytes to be written to the
+     *     <code>BLOB</code> vblue from the brrby of bytes <i>bytes</i>.
      *
      * @return the number of bytes written
-     * @throws SerialException if there is an error accessing the
-     *     <code>BLOB</code> value; if an invalid position is set; if an
-     *     invalid offset value is set; if number of bytes to be written
-     *     is greater than the <code>SerialBlob</code> length; or the combined
-     *     values of the length and offset is greater than the Blob buffer;
-     * if {@code free} had previously been called on this object
-     * @throws SQLException if there is an error accessing the <code>BLOB</code>
-     *         value from the database.
+     * @throws SeriblException if there is bn error bccessing the
+     *     <code>BLOB</code> vblue; if bn invblid position is set; if bn
+     *     invblid offset vblue is set; if number of bytes to be written
+     *     is grebter thbn the <code>SeriblBlob</code> length; or the combined
+     *     vblues of the length bnd offset is grebter thbn the Blob buffer;
+     * if {@code free} hbd previously been cblled on this object
+     * @throws SQLException if there is bn error bccessing the <code>BLOB</code>
+     *         vblue from the dbtbbbse.
      * @see #getBytes
      */
     public int setBytes(long pos, byte[] bytes, int offset, int length)
-        throws SerialException, SQLException {
+        throws SeriblException, SQLException {
 
-        isValid();
+        isVblid();
         if (offset < 0 || offset > bytes.length) {
-            throw new SerialException("Invalid offset in byte array set");
+            throw new SeriblException("Invblid offset in byte brrby set");
         }
 
         if (pos < 1 || pos > this.length()) {
-            throw new SerialException("Invalid position in BLOB object set");
+            throw new SeriblException("Invblid position in BLOB object set");
         }
 
         if ((long)(length) > origLen) {
-            throw new SerialException("Buffer is not sufficient to hold the value");
+            throw new SeriblException("Buffer is not sufficient to hold the vblue");
         }
 
         if ((length + offset) > bytes.length) {
-            throw new SerialException("Invalid OffSet. Cannot have combined offset " +
-                "and length that is greater that the Blob buffer");
+            throw new SeriblException("Invblid OffSet. Cbnnot hbve combined offset " +
+                "bnd length thbt is grebter thbt the Blob buffer");
         }
 
         int i = 0;
-        pos--; // correct to array indexing
+        pos--; // correct to brrby indexing
         while ( i < length || (offset + i +1) < (bytes.length-offset) ) {
             this.buf[(int)pos + i] = bytes[offset + i ];
             i++;
@@ -383,54 +383,54 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
     }
 
     /**
-     * Retrieves a stream that can be used to write to the <code>BLOB</code>
-     * value that this <code>Blob</code> object represents.  The stream begins
-     * at position <code>pos</code>. This method forwards the
-     * <code>setBinaryStream()</code> call to the underlying <code>Blob</code> in
-     * the event that this <code>SerialBlob</code> object is instantiated with a
-     * <code>Blob</code>. If this <code>SerialBlob</code> is instantiated with
-     * a <code>byte</code> array, a <code>SerialException</code> is thrown.
+     * Retrieves b strebm thbt cbn be used to write to the <code>BLOB</code>
+     * vblue thbt this <code>Blob</code> object represents.  The strebm begins
+     * bt position <code>pos</code>. This method forwbrds the
+     * <code>setBinbryStrebm()</code> cbll to the underlying <code>Blob</code> in
+     * the event thbt this <code>SeriblBlob</code> object is instbntibted with b
+     * <code>Blob</code>. If this <code>SeriblBlob</code> is instbntibted with
+     * b <code>byte</code> brrby, b <code>SeriblException</code> is thrown.
      *
-     * @param pos the position in the <code>BLOB</code> value at which
-     *        to start writing
-     * @return a <code>java.io.OutputStream</code> object to which data can
+     * @pbrbm pos the position in the <code>BLOB</code> vblue bt which
+     *        to stbrt writing
+     * @return b <code>jbvb.io.OutputStrebm</code> object to which dbtb cbn
      *         be written
-     * @throws SQLException if there is an error accessing the
-     *            <code>BLOB</code> value
-     * @throws SerialException if the SerialBlob in not instantiated with a
-     *     <code>Blob</code> object that supports <code>setBinaryStream()</code>;
-     * if {@code free} had previously been called on this object
-     * @see #getBinaryStream
+     * @throws SQLException if there is bn error bccessing the
+     *            <code>BLOB</code> vblue
+     * @throws SeriblException if the SeriblBlob in not instbntibted with b
+     *     <code>Blob</code> object thbt supports <code>setBinbryStrebm()</code>;
+     * if {@code free} hbd previously been cblled on this object
+     * @see #getBinbryStrebm
      */
-    public java.io.OutputStream setBinaryStream(long pos)
-        throws SerialException, SQLException {
-        isValid();
+    public jbvb.io.OutputStrebm setBinbryStrebm(long pos)
+        throws SeriblException, SQLException {
+        isVblid();
         if (this.blob != null) {
-            return this.blob.setBinaryStream(pos);
+            return this.blob.setBinbryStrebm(pos);
         } else {
-            throw new SerialException("Unsupported operation. SerialBlob cannot " +
-                "return a writable binary stream, unless instantiated with a Blob object " +
-                "that provides a setBinaryStream() implementation");
+            throw new SeriblException("Unsupported operbtion. SeriblBlob cbnnot " +
+                "return b writbble binbry strebm, unless instbntibted with b Blob object " +
+                "thbt provides b setBinbryStrebm() implementbtion");
         }
     }
 
     /**
-     * Truncates the <code>BLOB</code> value that this <code>Blob</code>
+     * Truncbtes the <code>BLOB</code> vblue thbt this <code>Blob</code>
      * object represents to be <code>len</code> bytes in length.
      *
-     * @param length the length, in bytes, to which the <code>BLOB</code>
-     *        value that this <code>Blob</code> object represents should be
-     *        truncated
-     * @throws SerialException if there is an error accessing the Blob value;
-     *     or the length to truncate is greater that the SerialBlob length;
-     * if {@code free} had previously been called on this object
+     * @pbrbm length the length, in bytes, to which the <code>BLOB</code>
+     *        vblue thbt this <code>Blob</code> object represents should be
+     *        truncbted
+     * @throws SeriblException if there is bn error bccessing the Blob vblue;
+     *     or the length to truncbte is grebter thbt the SeriblBlob length;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public void truncate(long length) throws SerialException {
+    public void truncbte(long length) throws SeriblException {
 
-        isValid();
+        isVblid();
         if (length > len) {
-           throw new SerialException
-              ("Length more than what can be truncated");
+           throw new SeriblException
+              ("Length more thbn whbt cbn be truncbted");
         } else if((int)length == 0) {
              buf = new byte[0];
              len = length;
@@ -442,45 +442,45 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
 
 
     /**
-     * Returns an
-     * <code>InputStream</code> object that contains a partial
-     * {@code Blob} value, starting with the byte specified by pos, which is
+     * Returns bn
+     * <code>InputStrebm</code> object thbt contbins b pbrtibl
+     * {@code Blob} vblue, stbrting with the byte specified by pos, which is
      * length bytes in length.
      *
-     * @param pos the offset to the first byte of the partial value to be
-     * retrieved. The first byte in the {@code Blob} is at position 1
-     * @param length the length in bytes of the partial value to be retrieved
+     * @pbrbm pos the offset to the first byte of the pbrtibl vblue to be
+     * retrieved. The first byte in the {@code Blob} is bt position 1
+     * @pbrbm length the length in bytes of the pbrtibl vblue to be retrieved
      * @return
-     * <code>InputStream</code> through which the partial {@code Blob} value can
-     * be read.
-     * @throws SQLException if pos is less than 1 or if pos is greater than the
-     * number of bytes in the {@code Blob} or if pos + length is greater than
+     * <code>InputStrebm</code> through which the pbrtibl {@code Blob} vblue cbn
+     * be rebd.
+     * @throws SQLException if pos is less thbn 1 or if pos is grebter thbn the
+     * number of bytes in the {@code Blob} or if pos + length is grebter thbn
      * the number of bytes in the {@code Blob}
-     * @throws SerialException if the {@code free} method had been previously
-     * called on this object
+     * @throws SeriblException if the {@code free} method hbd been previously
+     * cblled on this object
      *
      * @since 1.6
      */
-    public InputStream getBinaryStream(long pos, long length) throws SQLException {
-        isValid();
+    public InputStrebm getBinbryStrebm(long pos, long length) throws SQLException {
+        isVblid();
         if (pos < 1 || pos > this.length()) {
-            throw new SerialException("Invalid position in BLOB object set");
+            throw new SeriblException("Invblid position in BLOB object set");
         }
         if (length < 1 || length > len - pos + 1) {
-            throw new SerialException("length is < 1 or pos + length >"
-                    + "total number of bytes");
+            throw new SeriblException("length is < 1 or pos + length >"
+                    + "totbl number of bytes");
         }
-        return new ByteArrayInputStream(buf, (int) pos - 1, (int) length);
+        return new ByteArrbyInputStrebm(buf, (int) pos - 1, (int) length);
     }
 
 
     /**
-     * This method frees the {@code SeriableBlob} object and releases the
-     * resources that it holds. The object is invalid once the {@code free}
-     * method is called. <p> If {@code free} is called multiple times, the
-     * subsequent calls to {@code free} are treated as a no-op. </P>
+     * This method frees the {@code SeribbleBlob} object bnd relebses the
+     * resources thbt it holds. The object is invblid once the {@code free}
+     * method is cblled. <p> If {@code free} is cblled multiple times, the
+     * subsequent cblls to {@code free} bre trebted bs b no-op. </P>
      *
-     * @throws SQLException if an error occurs releasing the Blob's resources
+     * @throws SQLException if bn error occurs relebsing the Blob's resources
      * @since 1.6
      */
     public void free() throws SQLException {
@@ -494,111 +494,111 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
     }
 
     /**
-     * Compares this SerialBlob to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null} and is a {@code
-     * SerialBlob} object that represents the same sequence of bytes as this
+     * Compbres this SeriblBlob to the specified object.  The result is {@code
+     * true} if bnd only if the brgument is not {@code null} bnd is b {@code
+     * SeriblBlob} object thbt represents the sbme sequence of bytes bs this
      * object.
      *
-     * @param  obj The object to compare this {@code SerialBlob} against
+     * @pbrbm  obj The object to compbre this {@code SeriblBlob} bgbinst
      *
-     * @return {@code true} if the given object represents a {@code SerialBlob}
-     *          equivalent to this SerialBlob, {@code false} otherwise
+     * @return {@code true} if the given object represents b {@code SeriblBlob}
+     *          equivblent to this SeriblBlob, {@code fblse} otherwise
      *
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof SerialBlob) {
-            SerialBlob sb = (SerialBlob)obj;
+        if (obj instbnceof SeriblBlob) {
+            SeriblBlob sb = (SeriblBlob)obj;
             if (this.len == sb.len) {
-                return Arrays.equals(buf, sb.buf);
+                return Arrbys.equbls(buf, sb.buf);
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this {@code SerialBlob}.
-     * @return  a hash code value for this object.
+     * Returns b hbsh code for this {@code SeriblBlob}.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
-       return ((31 + Arrays.hashCode(buf)) * 31 + (int)len) * 31 + (int)origLen;
+    public int hbshCode() {
+       return ((31 + Arrbys.hbshCode(buf)) * 31 + (int)len) * 31 + (int)origLen;
     }
 
     /**
-     * Returns a clone of this {@code SerialBlob}. The copy will contain a
-     * reference to a clone of the internal byte array, not a reference
-     * to the original internal byte array of this {@code SerialBlob} object.
+     * Returns b clone of this {@code SeriblBlob}. The copy will contbin b
+     * reference to b clone of the internbl byte brrby, not b reference
+     * to the originbl internbl byte brrby of this {@code SeriblBlob} object.
      * The underlying {@code Blob} object will be set to null.
      *
-     * @return  a clone of this SerialBlob
+     * @return  b clone of this SeriblBlob
      */
     public Object clone() {
         try {
-            SerialBlob sb = (SerialBlob) super.clone();
-            sb.buf =  (buf != null) ? Arrays.copyOf(buf, (int)len) : null;
+            SeriblBlob sb = (SeriblBlob) super.clone();
+            sb.buf =  (buf != null) ? Arrbys.copyOf(buf, (int)len) : null;
             sb.blob = null;
             return sb;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+        } cbtch (CloneNotSupportedException ex) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError();
         }
 
     }
 
     /**
-     * readObject is called to restore the state of the SerialBlob from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the SeriblBlob from
+     * b strebm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectInputStream.GetField fields = s.readFields();
+        ObjectInputStrebm.GetField fields = s.rebdFields();
        byte[] tmp = (byte[])fields.get("buf", null);
        if (tmp == null)
-           throw new InvalidObjectException("buf is null and should not be!");
+           throw new InvblidObjectException("buf is null bnd should not be!");
        buf = tmp.clone();
        len = fields.get("len", 0L);
        if (buf.length != len)
-           throw new InvalidObjectException("buf is not the expected size");
+           throw new InvblidObjectException("buf is not the expected size");
        origLen = fields.get("origLen", 0L);
        blob = (Blob) fields.get("blob", null);
     }
 
     /**
-     * writeObject is called to save the state of the SerialBlob
-     * to a stream.
+     * writeObject is cblled to sbve the stbte of the SeriblBlob
+     * to b strebm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void writeObject(ObjectOutputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectOutputStream.PutField fields = s.putFields();
+        ObjectOutputStrebm.PutField fields = s.putFields();
         fields.put("buf", buf);
         fields.put("len", len);
         fields.put("origLen", origLen);
-        // Note: this check to see if it is an instance of Serializable
-        // is for backwards compatibiity
-        fields.put("blob", blob instanceof Serializable ? blob : null);
+        // Note: this check to see if it is bn instbnce of Seriblizbble
+        // is for bbckwbrds compbtibiity
+        fields.put("blob", blob instbnceof Seriblizbble ? blob : null);
         s.writeFields();
     }
 
     /**
-     * Check to see if this object had previously had its {@code free} method
-     * called
+     * Check to see if this object hbd previously hbd its {@code free} method
+     * cblled
      *
-     * @throws SerialException
+     * @throws SeriblException
      */
-    private void isValid() throws SerialException {
+    privbte void isVblid() throws SeriblException {
         if (buf == null) {
-            throw new SerialException("Error: You cannot call a method on a "
-                    + "SerialBlob instance once free() has been called.");
+            throw new SeriblException("Error: You cbnnot cbll b method on b "
+                    + "SeriblBlob instbnce once free() hbs been cblled.");
         }
     }
 
     /**
-     * The identifier that assists in the serialization of this
-     * {@code SerialBlob} object.
+     * The identifier thbt bssists in the seriblizbtion of this
+     * {@code SeriblBlob} object.
      */
-    static final long serialVersionUID = -8144641928112860441L;
+    stbtic finbl long seriblVersionUID = -8144641928112860441L;
 }

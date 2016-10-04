@@ -1,352 +1,352 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.*;
-import java.beans.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import java.util.EventListener;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvb.bebns.*;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvb.util.EventListener;
 import sun.swing.SwingUtilities2;
 
 /**
- * A default implementation of Caret.  The caret is rendered as
- * a vertical line in the color specified by the CaretColor property
- * of the associated JTextComponent.  It can blink at the rate specified
- * by the BlinkRate property.
+ * A defbult implementbtion of Cbret.  The cbret is rendered bs
+ * b verticbl line in the color specified by the CbretColor property
+ * of the bssocibted JTextComponent.  It cbn blink bt the rbte specified
+ * by the BlinkRbte property.
  * <p>
- * This implementation expects two sources of asynchronous notification.
- * The timer thread fires asynchronously, and causes the caret to simply
- * repaint the most recent bounding box.  The caret also tracks change
- * as the document is modified.  Typically this will happen on the
- * event dispatch thread as a result of some mouse or keyboard event.
- * The caret behavior on both synchronous and asynchronous documents updates
- * is controlled by <code>UpdatePolicy</code> property. The repaint of the
- * new caret location will occur on the event thread in any case, as calls to
- * <code>modelToView</code> are only safe on the event thread.
+ * This implementbtion expects two sources of bsynchronous notificbtion.
+ * The timer threbd fires bsynchronously, bnd cbuses the cbret to simply
+ * repbint the most recent bounding box.  The cbret blso trbcks chbnge
+ * bs the document is modified.  Typicblly this will hbppen on the
+ * event dispbtch threbd bs b result of some mouse or keybobrd event.
+ * The cbret behbvior on both synchronous bnd bsynchronous documents updbtes
+ * is controlled by <code>UpdbtePolicy</code> property. The repbint of the
+ * new cbret locbtion will occur on the event threbd in bny cbse, bs cblls to
+ * <code>modelToView</code> bre only sbfe on the event threbd.
  * <p>
- * The caret acts as a mouse and focus listener on the text component
- * it has been installed in, and defines the caret semantics based upon
- * those events.  The listener methods can be reimplemented to change the
- * semantics.
- * By default, the first mouse button will be used to set focus and caret
- * position.  Dragging the mouse pointer with the first mouse button will
- * sweep out a selection that is contiguous in the model.  If the associated
- * text component is editable, the caret will become visible when focus
- * is gained, and invisible when focus is lost.
+ * The cbret bcts bs b mouse bnd focus listener on the text component
+ * it hbs been instblled in, bnd defines the cbret sembntics bbsed upon
+ * those events.  The listener methods cbn be reimplemented to chbnge the
+ * sembntics.
+ * By defbult, the first mouse button will be used to set focus bnd cbret
+ * position.  Drbgging the mouse pointer with the first mouse button will
+ * sweep out b selection thbt is contiguous in the model.  If the bssocibted
+ * text component is editbble, the cbret will become visible when focus
+ * is gbined, bnd invisible when focus is lost.
  * <p>
- * The Highlighter bound to the associated text component is used to
- * render the selection by default.
- * Selection appearance can be customized by supplying a
- * painter to use for the highlights.  By default a painter is used that
- * will render a solid color as specified in the associated text component
- * in the <code>SelectionColor</code> property.  This can easily be changed
+ * The Highlighter bound to the bssocibted text component is used to
+ * render the selection by defbult.
+ * Selection bppebrbnce cbn be customized by supplying b
+ * pbinter to use for the highlights.  By defbult b pbinter is used thbt
+ * will render b solid color bs specified in the bssocibted text component
+ * in the <code>SelectionColor</code> property.  This cbn ebsily be chbnged
  * by reimplementing the
- * {@link #getSelectionPainter getSelectionPainter}
+ * {@link #getSelectionPbinter getSelectionPbinter}
  * method.
  * <p>
- * A customized caret appearance can be achieved by reimplementing
- * the paint method.  If the paint method is changed, the damage method
- * should also be reimplemented to cause a repaint for the area needed
- * to render the caret.  The caret extends the Rectangle class which
- * is used to hold the bounding box for where the caret was last rendered.
- * This enables the caret to repaint in a thread-safe manner when the
- * caret moves without making a call to modelToView which is unstable
- * between model updates and view repair (i.e. the order of delivery
- * to DocumentListeners is not guaranteed).
+ * A customized cbret bppebrbnce cbn be bchieved by reimplementing
+ * the pbint method.  If the pbint method is chbnged, the dbmbge method
+ * should blso be reimplemented to cbuse b repbint for the breb needed
+ * to render the cbret.  The cbret extends the Rectbngle clbss which
+ * is used to hold the bounding box for where the cbret wbs lbst rendered.
+ * This enbbles the cbret to repbint in b threbd-sbfe mbnner when the
+ * cbret moves without mbking b cbll to modelToView which is unstbble
+ * between model updbtes bnd view repbir (i.e. the order of delivery
+ * to DocumentListeners is not gubrbnteed).
  * <p>
- * The magic caret position is set to null when the caret position changes.
- * A timer is used to determine the new location (after the caret change).
- * When the timer fires, if the magic caret position is still null it is
- * reset to the current caret position. Any actions that change
- * the caret position and want the magic caret position to remain the
- * same, must remember the magic caret position, change the cursor, and
- * then set the magic caret position to its original value. This has the
- * benefit that only actions that want the magic caret position to persist
- * (such as open/down) need to know about it.
+ * The mbgic cbret position is set to null when the cbret position chbnges.
+ * A timer is used to determine the new locbtion (bfter the cbret chbnge).
+ * When the timer fires, if the mbgic cbret position is still null it is
+ * reset to the current cbret position. Any bctions thbt chbnge
+ * the cbret position bnd wbnt the mbgic cbret position to rembin the
+ * sbme, must remember the mbgic cbret position, chbnge the cursor, bnd
+ * then set the mbgic cbret position to its originbl vblue. This hbs the
+ * benefit thbt only bctions thbt wbnt the mbgic cbret position to persist
+ * (such bs open/down) need to know bbout it.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
- * @see     Caret
+ * @buthor  Timothy Prinzing
+ * @see     Cbret
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultCaret extends Rectangle implements Caret, FocusListener, MouseListener, MouseMotionListener {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultCbret extends Rectbngle implements Cbret, FocusListener, MouseListener, MouseMotionListener {
 
     /**
-     * Indicates that the caret position is to be updated only when
-     * document changes are performed on the Event Dispatching Thread.
-     * @see #setUpdatePolicy
-     * @see #getUpdatePolicy
+     * Indicbtes thbt the cbret position is to be updbted only when
+     * document chbnges bre performed on the Event Dispbtching Threbd.
+     * @see #setUpdbtePolicy
+     * @see #getUpdbtePolicy
      * @since 1.5
      */
-    public static final int UPDATE_WHEN_ON_EDT = 0;
+    public stbtic finbl int UPDATE_WHEN_ON_EDT = 0;
 
     /**
-     * Indicates that the caret should remain at the same
-     * absolute position in the document regardless of any document
-     * updates, except when the document length becomes less than
-     * the current caret position due to removal. In that case the caret
-     * position is adjusted to the end of the document.
+     * Indicbtes thbt the cbret should rembin bt the sbme
+     * bbsolute position in the document regbrdless of bny document
+     * updbtes, except when the document length becomes less thbn
+     * the current cbret position due to removbl. In thbt cbse the cbret
+     * position is bdjusted to the end of the document.
      *
-     * @see #setUpdatePolicy
-     * @see #getUpdatePolicy
+     * @see #setUpdbtePolicy
+     * @see #getUpdbtePolicy
      * @since 1.5
      */
-    public static final int NEVER_UPDATE = 1;
+    public stbtic finbl int NEVER_UPDATE = 1;
 
     /**
-     * Indicates that the caret position is to be <b>always</b>
-     * updated accordingly to the document changes regardless whether
-     * the document updates are performed on the Event Dispatching Thread
+     * Indicbtes thbt the cbret position is to be <b>blwbys</b>
+     * updbted bccordingly to the document chbnges regbrdless whether
+     * the document updbtes bre performed on the Event Dispbtching Threbd
      * or not.
      *
-     * @see #setUpdatePolicy
-     * @see #getUpdatePolicy
+     * @see #setUpdbtePolicy
+     * @see #getUpdbtePolicy
      * @since 1.5
      */
-    public static final int ALWAYS_UPDATE = 2;
+    public stbtic finbl int ALWAYS_UPDATE = 2;
 
     /**
-     * Constructs a default caret.
+     * Constructs b defbult cbret.
      */
-    public DefaultCaret() {
+    public DefbultCbret() {
     }
 
     /**
-     * Sets the caret movement policy on the document updates. Normally
-     * the caret updates its absolute position within the document on
-     * insertions occurred before or at the caret position and
-     * on removals before the caret position. 'Absolute position'
-     * means here the position relative to the start of the document.
-     * For example if
-     * a character is typed within editable text component it is inserted
-     * at the caret position and the caret moves to the next absolute
-     * position within the document due to insertion and if
-     * <code>BACKSPACE</code> is typed then caret decreases its absolute
-     * position due to removal of a character before it. Sometimes
-     * it may be useful to turn off the caret position updates so that
-     * the caret stays at the same absolute position within the
-     * document position regardless of any document updates.
+     * Sets the cbret movement policy on the document updbtes. Normblly
+     * the cbret updbtes its bbsolute position within the document on
+     * insertions occurred before or bt the cbret position bnd
+     * on removbls before the cbret position. 'Absolute position'
+     * mebns here the position relbtive to the stbrt of the document.
+     * For exbmple if
+     * b chbrbcter is typed within editbble text component it is inserted
+     * bt the cbret position bnd the cbret moves to the next bbsolute
+     * position within the document due to insertion bnd if
+     * <code>BACKSPACE</code> is typed then cbret decrebses its bbsolute
+     * position due to removbl of b chbrbcter before it. Sometimes
+     * it mby be useful to turn off the cbret position updbtes so thbt
+     * the cbret stbys bt the sbme bbsolute position within the
+     * document position regbrdless of bny document updbtes.
      * <p>
-     * The following update policies are allowed:
+     * The following updbte policies bre bllowed:
      * <ul>
-     *   <li><code>NEVER_UPDATE</code>: the caret stays at the same
-     *       absolute position in the document regardless of any document
-     *       updates, except when document length becomes less than
-     *       the current caret position due to removal. In that case caret
-     *       position is adjusted to the end of the document.
-     *       The caret doesn't try to keep itself visible by scrolling
-     *       the associated view when using this policy. </li>
-     *   <li><code>ALWAYS_UPDATE</code>: the caret always tracks document
-     *       changes. For regular changes it increases its position
-     *       if an insertion occurs before or at its current position,
-     *       and decreases position if a removal occurs before
-     *       its current position. For undo/redo updates it is always
-     *       moved to the position where update occurred. The caret
-     *       also tries to keep itself visible by calling
-     *       <code>adjustVisibility</code> method.</li>
-     *   <li><code>UPDATE_WHEN_ON_EDT</code>: acts like <code>ALWAYS_UPDATE</code>
-     *       if the document updates are performed on the Event Dispatching Thread
-     *       and like <code>NEVER_UPDATE</code> if updates are performed on
-     *       other thread. </li>
+     *   <li><code>NEVER_UPDATE</code>: the cbret stbys bt the sbme
+     *       bbsolute position in the document regbrdless of bny document
+     *       updbtes, except when document length becomes less thbn
+     *       the current cbret position due to removbl. In thbt cbse cbret
+     *       position is bdjusted to the end of the document.
+     *       The cbret doesn't try to keep itself visible by scrolling
+     *       the bssocibted view when using this policy. </li>
+     *   <li><code>ALWAYS_UPDATE</code>: the cbret blwbys trbcks document
+     *       chbnges. For regulbr chbnges it increbses its position
+     *       if bn insertion occurs before or bt its current position,
+     *       bnd decrebses position if b removbl occurs before
+     *       its current position. For undo/redo updbtes it is blwbys
+     *       moved to the position where updbte occurred. The cbret
+     *       blso tries to keep itself visible by cblling
+     *       <code>bdjustVisibility</code> method.</li>
+     *   <li><code>UPDATE_WHEN_ON_EDT</code>: bcts like <code>ALWAYS_UPDATE</code>
+     *       if the document updbtes bre performed on the Event Dispbtching Threbd
+     *       bnd like <code>NEVER_UPDATE</code> if updbtes bre performed on
+     *       other threbd. </li>
      * </ul> <p>
-     * The default property value is <code>UPDATE_WHEN_ON_EDT</code>.
+     * The defbult property vblue is <code>UPDATE_WHEN_ON_EDT</code>.
      *
-     * @param policy one of the following values : <code>UPDATE_WHEN_ON_EDT</code>,
+     * @pbrbm policy one of the following vblues : <code>UPDATE_WHEN_ON_EDT</code>,
      * <code>NEVER_UPDATE</code>, <code>ALWAYS_UPDATE</code>
-     * @throws IllegalArgumentException if invalid value is passed
+     * @throws IllegblArgumentException if invblid vblue is pbssed
      *
-     * @see #getUpdatePolicy
-     * @see #adjustVisibility
+     * @see #getUpdbtePolicy
+     * @see #bdjustVisibility
      * @see #UPDATE_WHEN_ON_EDT
      * @see #NEVER_UPDATE
      * @see #ALWAYS_UPDATE
      *
      * @since 1.5
      */
-    public void setUpdatePolicy(int policy) {
-        updatePolicy = policy;
+    public void setUpdbtePolicy(int policy) {
+        updbtePolicy = policy;
     }
 
     /**
-     * Gets the caret movement policy on document updates.
+     * Gets the cbret movement policy on document updbtes.
      *
-     * @return one of the following values : <code>UPDATE_WHEN_ON_EDT</code>,
+     * @return one of the following vblues : <code>UPDATE_WHEN_ON_EDT</code>,
      * <code>NEVER_UPDATE</code>, <code>ALWAYS_UPDATE</code>
      *
-     * @see #setUpdatePolicy
+     * @see #setUpdbtePolicy
      * @see #UPDATE_WHEN_ON_EDT
      * @see #NEVER_UPDATE
      * @see #ALWAYS_UPDATE
      *
      * @since 1.5
      */
-    public int getUpdatePolicy() {
-        return updatePolicy;
+    public int getUpdbtePolicy() {
+        return updbtePolicy;
     }
 
     /**
-     * Gets the text editor component that this caret is
+     * Gets the text editor component thbt this cbret is
      * is bound to.
      *
      * @return the component
      */
-    protected final JTextComponent getComponent() {
+    protected finbl JTextComponent getComponent() {
         return component;
     }
 
     /**
-     * Cause the caret to be painted.  The repaint
-     * area is the bounding box of the caret (i.e.
-     * the caret rectangle or <em>this</em>).
+     * Cbuse the cbret to be pbinted.  The repbint
+     * breb is the bounding box of the cbret (i.e.
+     * the cbret rectbngle or <em>this</em>).
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * This method is threbd sbfe, blthough most Swing methods
+     * bre not. Plebse see
+     * <A HREF="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/concurrency/index.html">Concurrency
+     * in Swing</A> for more informbtion.
      */
-    protected final synchronized void repaint() {
+    protected finbl synchronized void repbint() {
         if (component != null) {
-            component.repaint(x, y, width, height);
+            component.repbint(x, y, width, height);
         }
     }
 
     /**
-     * Damages the area surrounding the caret to cause
-     * it to be repainted in a new location.  If paint()
-     * is reimplemented, this method should also be
-     * reimplemented.  This method should update the
-     * caret bounds (x, y, width, and height).
+     * Dbmbges the breb surrounding the cbret to cbuse
+     * it to be repbinted in b new locbtion.  If pbint()
+     * is reimplemented, this method should blso be
+     * reimplemented.  This method should updbte the
+     * cbret bounds (x, y, width, bnd height).
      *
-     * @param r  the current location of the caret
-     * @see #paint
+     * @pbrbm r  the current locbtion of the cbret
+     * @see #pbint
      */
-    protected synchronized void damage(Rectangle r) {
+    protected synchronized void dbmbge(Rectbngle r) {
         if (r != null) {
-            int damageWidth = getCaretWidth(r.height);
-            x = r.x - 4 - (damageWidth >> 1);
+            int dbmbgeWidth = getCbretWidth(r.height);
+            x = r.x - 4 - (dbmbgeWidth >> 1);
             y = r.y;
-            width = 9 + damageWidth;
+            width = 9 + dbmbgeWidth;
             height = r.height;
-            repaint();
+            repbint();
         }
     }
 
     /**
-     * Scrolls the associated view (if necessary) to make
-     * the caret visible.  Since how this should be done
-     * is somewhat of a policy, this method can be
-     * reimplemented to change the behavior.  By default
-     * the scrollRectToVisible method is called on the
-     * associated component.
+     * Scrolls the bssocibted view (if necessbry) to mbke
+     * the cbret visible.  Since how this should be done
+     * is somewhbt of b policy, this method cbn be
+     * reimplemented to chbnge the behbvior.  By defbult
+     * the scrollRectToVisible method is cblled on the
+     * bssocibted component.
      *
-     * @param nloc the new position to scroll to
+     * @pbrbm nloc the new position to scroll to
      */
-    protected void adjustVisibility(Rectangle nloc) {
+    protected void bdjustVisibility(Rectbngle nloc) {
         if(component == null) {
             return;
         }
-        if (SwingUtilities.isEventDispatchThread()) {
+        if (SwingUtilities.isEventDispbtchThrebd()) {
                 component.scrollRectToVisible(nloc);
         } else {
-            SwingUtilities.invokeLater(new SafeScroller(nloc));
+            SwingUtilities.invokeLbter(new SbfeScroller(nloc));
         }
     }
 
     /**
-     * Gets the painter for the Highlighter.
+     * Gets the pbinter for the Highlighter.
      *
-     * @return the painter
+     * @return the pbinter
      */
-    protected Highlighter.HighlightPainter getSelectionPainter() {
-        return DefaultHighlighter.DefaultPainter;
+    protected Highlighter.HighlightPbinter getSelectionPbinter() {
+        return DefbultHighlighter.DefbultPbinter;
     }
 
     /**
-     * Tries to set the position of the caret from
-     * the coordinates of a mouse event, using viewToModel().
+     * Tries to set the position of the cbret from
+     * the coordinbtes of b mouse event, using viewToModel().
      *
-     * @param e the mouse event
+     * @pbrbm e the mouse event
      */
-    protected void positionCaret(MouseEvent e) {
+    protected void positionCbret(MouseEvent e) {
         Point pt = new Point(e.getX(), e.getY());
-        Position.Bias[] biasRet = new Position.Bias[1];
-        int pos = component.getUI().viewToModel(component, pt, biasRet);
-        if(biasRet[0] == null)
-            biasRet[0] = Position.Bias.Forward;
+        Position.Bibs[] bibsRet = new Position.Bibs[1];
+        int pos = component.getUI().viewToModel(component, pt, bibsRet);
+        if(bibsRet[0] == null)
+            bibsRet[0] = Position.Bibs.Forwbrd;
         if (pos >= 0) {
-            setDot(pos, biasRet[0]);
+            setDot(pos, bibsRet[0]);
         }
     }
 
     /**
-     * Tries to move the position of the caret from
-     * the coordinates of a mouse event, using viewToModel().
-     * This will cause a selection if the dot and mark
-     * are different.
+     * Tries to move the position of the cbret from
+     * the coordinbtes of b mouse event, using viewToModel().
+     * This will cbuse b selection if the dot bnd mbrk
+     * bre different.
      *
-     * @param e the mouse event
+     * @pbrbm e the mouse event
      */
-    protected void moveCaret(MouseEvent e) {
+    protected void moveCbret(MouseEvent e) {
         Point pt = new Point(e.getX(), e.getY());
-        Position.Bias[] biasRet = new Position.Bias[1];
-        int pos = component.getUI().viewToModel(component, pt, biasRet);
-        if(biasRet[0] == null)
-            biasRet[0] = Position.Bias.Forward;
+        Position.Bibs[] bibsRet = new Position.Bibs[1];
+        int pos = component.getUI().viewToModel(component, pt, bibsRet);
+        if(bibsRet[0] == null)
+            bibsRet[0] = Position.Bibs.Forwbrd;
         if (pos >= 0) {
-            moveDot(pos, biasRet[0]);
+            moveDot(pos, bibsRet[0]);
         }
     }
 
     // --- FocusListener methods --------------------------
 
     /**
-     * Called when the component containing the caret gains
-     * focus.  This is implemented to set the caret to visible
-     * if the component is editable.
+     * Cblled when the component contbining the cbret gbins
+     * focus.  This is implemented to set the cbret to visible
+     * if the component is editbble.
      *
-     * @param e the focus event
-     * @see FocusListener#focusGained
+     * @pbrbm e the focus event
+     * @see FocusListener#focusGbined
      */
-    public void focusGained(FocusEvent e) {
-        if (component.isEnabled()) {
-            if (component.isEditable()) {
+    public void focusGbined(FocusEvent e) {
+        if (component.isEnbbled()) {
+            if (component.isEditbble()) {
                 setVisible(true);
             }
             setSelectionVisible(true);
@@ -354,41 +354,41 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
     }
 
     /**
-     * Called when the component containing the caret loses
-     * focus.  This is implemented to set the caret to visibility
-     * to false.
+     * Cblled when the component contbining the cbret loses
+     * focus.  This is implemented to set the cbret to visibility
+     * to fblse.
      *
-     * @param e the focus event
+     * @pbrbm e the focus event
      * @see FocusListener#focusLost
      */
     public void focusLost(FocusEvent e) {
-        setVisible(false);
-        setSelectionVisible(ownsSelection || e.isTemporary());
+        setVisible(fblse);
+        setSelectionVisible(ownsSelection || e.isTemporbry());
     }
 
 
     /**
-     * Selects word based on the MouseEvent
+     * Selects word bbsed on the MouseEvent
      */
-    private void selectWord(MouseEvent e) {
+    privbte void selectWord(MouseEvent e) {
         if (selectedWordEvent != null
             && selectedWordEvent.getX() == e.getX()
             && selectedWordEvent.getY() == e.getY()) {
-            //we already done selection for this
+            //we blrebdy done selection for this
             return;
         }
-                    Action a = null;
-                    ActionMap map = getComponent().getActionMap();
-                    if (map != null) {
-                        a = map.get(DefaultEditorKit.selectWordAction);
+                    Action b = null;
+                    ActionMbp mbp = getComponent().getActionMbp();
+                    if (mbp != null) {
+                        b = mbp.get(DefbultEditorKit.selectWordAction);
                     }
-                    if (a == null) {
+                    if (b == null) {
                         if (selectWord == null) {
-                            selectWord = new DefaultEditorKit.SelectWordAction();
+                            selectWord = new DefbultEditorKit.SelectWordAction();
                         }
-                        a = selectWord;
+                        b = selectWord;
                     }
-                    a.actionPerformed(new ActionEvent(getComponent(),
+                    b.bctionPerformed(new ActionEvent(getComponent(),
                                                       ActionEvent.ACTION_PERFORMED, null, e.getWhen(), e.getModifiers()));
         selectedWordEvent = e;
     }
@@ -396,11 +396,11 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
     // --- MouseListener methods -----------------------------------
 
     /**
-     * Called when the mouse is clicked.  If the click was generated
-     * from button1, a double click selects a word,
-     * and a triple click the current line.
+     * Cblled when the mouse is clicked.  If the click wbs generbted
+     * from button1, b double click selects b word,
+     * bnd b triple click the current line.
      *
-     * @param e the mouse event
+     * @pbrbm e the mouse event
      * @see MouseListener#mouseClicked
      */
     public void mouseClicked(MouseEvent e) {
@@ -412,61 +412,61 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
 
         if (! e.isConsumed()) {
             if (SwingUtilities.isLeftMouseButton(e)) {
-                // mouse 1 behavior
+                // mouse 1 behbvior
                 if(nclicks == 1) {
                     selectedWordEvent = null;
                 } else if(nclicks == 2
-                          && SwingUtilities2.canEventAccessSystemClipboard(e)) {
+                          && SwingUtilities2.cbnEventAccessSystemClipbobrd(e)) {
                     selectWord(e);
                     selectedWordEvent = null;
                 } else if(nclicks == 3
-                          && SwingUtilities2.canEventAccessSystemClipboard(e)) {
-                    Action a = null;
-                    ActionMap map = getComponent().getActionMap();
-                    if (map != null) {
-                        a = map.get(DefaultEditorKit.selectLineAction);
+                          && SwingUtilities2.cbnEventAccessSystemClipbobrd(e)) {
+                    Action b = null;
+                    ActionMbp mbp = getComponent().getActionMbp();
+                    if (mbp != null) {
+                        b = mbp.get(DefbultEditorKit.selectLineAction);
                     }
-                    if (a == null) {
+                    if (b == null) {
                         if (selectLine == null) {
-                            selectLine = new DefaultEditorKit.SelectLineAction();
+                            selectLine = new DefbultEditorKit.SelectLineAction();
                         }
-                        a = selectLine;
+                        b = selectLine;
                     }
-                    a.actionPerformed(new ActionEvent(getComponent(),
+                    b.bctionPerformed(new ActionEvent(getComponent(),
                                                       ActionEvent.ACTION_PERFORMED, null, e.getWhen(), e.getModifiers()));
                 }
             } else if (SwingUtilities.isMiddleMouseButton(e)) {
-                // mouse 2 behavior
-                if (nclicks == 1 && component.isEditable() && component.isEnabled()
-                    && SwingUtilities2.canEventAccessSystemClipboard(e)) {
-                    // paste system selection, if it exists
+                // mouse 2 behbvior
+                if (nclicks == 1 && component.isEditbble() && component.isEnbbled()
+                    && SwingUtilities2.cbnEventAccessSystemClipbobrd(e)) {
+                    // pbste system selection, if it exists
                     JTextComponent c = (JTextComponent) e.getSource();
                     if (c != null) {
                         try {
                             Toolkit tk = c.getToolkit();
-                            Clipboard buffer = tk.getSystemSelection();
+                            Clipbobrd buffer = tk.getSystemSelection();
                             if (buffer != null) {
-                                // platform supports system selections, update it.
-                                adjustCaret(e);
-                                TransferHandler th = c.getTransferHandler();
+                                // plbtform supports system selections, updbte it.
+                                bdjustCbret(e);
+                                TrbnsferHbndler th = c.getTrbnsferHbndler();
                                 if (th != null) {
-                                    Transferable trans = null;
+                                    Trbnsferbble trbns = null;
 
                                     try {
-                                        trans = buffer.getContents(null);
-                                    } catch (IllegalStateException ise) {
-                                        // clipboard was unavailable
-                                        UIManager.getLookAndFeel().provideErrorFeedback(c);
+                                        trbns = buffer.getContents(null);
+                                    } cbtch (IllegblStbteException ise) {
+                                        // clipbobrd wbs unbvbilbble
+                                        UIMbnbger.getLookAndFeel().provideErrorFeedbbck(c);
                                     }
 
-                                    if (trans != null) {
-                                        th.importData(c, trans);
+                                    if (trbns != null) {
+                                        th.importDbtb(c, trbns);
                                     }
                                 }
-                                adjustFocus(true);
+                                bdjustFocus(true);
                             }
-                        } catch (HeadlessException he) {
-                            // do nothing... there is no system clipboard
+                        } cbtch (HebdlessException he) {
+                            // do nothing... there is no system clipbobrd
                         }
                     }
                 }
@@ -476,14 +476,14 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
 
     /**
      * If button 1 is pressed, this is implemented to
-     * request focus on the associated text component,
-     * and to set the caret position. If the shift key is held down,
-     * the caret will be moved, potentially resulting in a selection,
+     * request focus on the bssocibted text component,
+     * bnd to set the cbret position. If the shift key is held down,
+     * the cbret will be moved, potentiblly resulting in b selection,
      * otherwise the
-     * caret position will be set to the new location.  If the component
-     * is not enabled, there will be no request for focus.
+     * cbret position will be set to the new locbtion.  If the component
+     * is not enbbled, there will be no request for focus.
      *
-     * @param e the mouse event
+     * @pbrbm e the mouse event
      * @see MouseListener#mousePressed
      */
     public void mousePressed(MouseEvent e) {
@@ -491,43 +491,43 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
 
         if (SwingUtilities.isLeftMouseButton(e)) {
             if (e.isConsumed()) {
-                shouldHandleRelease = true;
+                shouldHbndleRelebse = true;
             } else {
-                shouldHandleRelease = false;
-                adjustCaretAndFocus(e);
+                shouldHbndleRelebse = fblse;
+                bdjustCbretAndFocus(e);
                 if (nclicks == 2
-                    && SwingUtilities2.canEventAccessSystemClipboard(e)) {
+                    && SwingUtilities2.cbnEventAccessSystemClipbobrd(e)) {
                     selectWord(e);
                 }
             }
         }
     }
 
-    void adjustCaretAndFocus(MouseEvent e) {
-        adjustCaret(e);
-        adjustFocus(false);
+    void bdjustCbretAndFocus(MouseEvent e) {
+        bdjustCbret(e);
+        bdjustFocus(fblse);
     }
 
     /**
-     * Adjusts the caret location based on the MouseEvent.
+     * Adjusts the cbret locbtion bbsed on the MouseEvent.
      */
-    private void adjustCaret(MouseEvent e) {
+    privbte void bdjustCbret(MouseEvent e) {
         if ((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0 &&
             getDot() != -1) {
-            moveCaret(e);
+            moveCbret(e);
         } else if (!e.isPopupTrigger()) {
-            positionCaret(e);
+            positionCbret(e);
         }
     }
 
     /**
-     * Adjusts the focus, if necessary.
+     * Adjusts the focus, if necessbry.
      *
-     * @param inWindow if true indicates requestFocusInWindow should be used
+     * @pbrbm inWindow if true indicbtes requestFocusInWindow should be used
      */
-    private void adjustFocus(boolean inWindow) {
-        if ((component != null) && component.isEnabled() &&
-                                   component.isRequestFocusEnabled()) {
+    privbte void bdjustFocus(boolebn inWindow) {
+        if ((component != null) && component.isEnbbled() &&
+                                   component.isRequestFocusEnbbled()) {
             if (inWindow) {
                 component.requestFocusInWindow();
             }
@@ -538,33 +538,33 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
     }
 
     /**
-     * Called when the mouse is released.
+     * Cblled when the mouse is relebsed.
      *
-     * @param e the mouse event
-     * @see MouseListener#mouseReleased
+     * @pbrbm e the mouse event
+     * @see MouseListener#mouseRelebsed
      */
-    public void mouseReleased(MouseEvent e) {
+    public void mouseRelebsed(MouseEvent e) {
         if (!e.isConsumed()
-                && shouldHandleRelease
+                && shouldHbndleRelebse
                 && SwingUtilities.isLeftMouseButton(e)) {
 
-            adjustCaretAndFocus(e);
+            bdjustCbretAndFocus(e);
         }
     }
 
     /**
-     * Called when the mouse enters a region.
+     * Cblled when the mouse enters b region.
      *
-     * @param e the mouse event
+     * @pbrbm e the mouse event
      * @see MouseListener#mouseEntered
      */
     public void mouseEntered(MouseEvent e) {
     }
 
     /**
-     * Called when the mouse exits a region.
+     * Cblled when the mouse exits b region.
      *
-     * @param e the mouse event
+     * @pbrbm e the mouse event
      * @see MouseListener#mouseExited
      */
     public void mouseExited(MouseEvent e) {
@@ -573,305 +573,305 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
     // --- MouseMotionListener methods -------------------------
 
     /**
-     * Moves the caret position
-     * according to the mouse pointer's current
-     * location.  This effectively extends the
-     * selection.  By default, this is only done
+     * Moves the cbret position
+     * bccording to the mouse pointer's current
+     * locbtion.  This effectively extends the
+     * selection.  By defbult, this is only done
      * for mouse button 1.
      *
-     * @param e the mouse event
-     * @see MouseMotionListener#mouseDragged
+     * @pbrbm e the mouse event
+     * @see MouseMotionListener#mouseDrbgged
      */
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDrbgged(MouseEvent e) {
         if ((! e.isConsumed()) && SwingUtilities.isLeftMouseButton(e)) {
-            moveCaret(e);
+            moveCbret(e);
         }
     }
 
     /**
-     * Called when the mouse is moved.
+     * Cblled when the mouse is moved.
      *
-     * @param e the mouse event
+     * @pbrbm e the mouse event
      * @see MouseMotionListener#mouseMoved
      */
     public void mouseMoved(MouseEvent e) {
     }
 
-    // ---- Caret methods ---------------------------------
+    // ---- Cbret methods ---------------------------------
 
     /**
-     * Renders the caret as a vertical line.  If this is reimplemented
-     * the damage method should also be reimplemented as it assumes the
-     * shape of the caret is a vertical line.  Sets the caret color to
-     * the value returned by getCaretColor().
+     * Renders the cbret bs b verticbl line.  If this is reimplemented
+     * the dbmbge method should blso be reimplemented bs it bssumes the
+     * shbpe of the cbret is b verticbl line.  Sets the cbret color to
+     * the vblue returned by getCbretColor().
      * <p>
-     * If there are multiple text directions present in the associated
-     * document, a flag indicating the caret bias will be rendered.
-     * This will occur only if the associated document is a subclass
-     * of AbstractDocument and there are multiple bidi levels present
-     * in the bidi element structure (i.e. the text has multiple
-     * directions associated with it).
+     * If there bre multiple text directions present in the bssocibted
+     * document, b flbg indicbting the cbret bibs will be rendered.
+     * This will occur only if the bssocibted document is b subclbss
+     * of AbstrbctDocument bnd there bre multiple bidi levels present
+     * in the bidi element structure (i.e. the text hbs multiple
+     * directions bssocibted with it).
      *
-     * @param g the graphics context
-     * @see #damage
+     * @pbrbm g the grbphics context
+     * @see #dbmbge
      */
-    public void paint(Graphics g) {
+    public void pbint(Grbphics g) {
         if(isVisible()) {
             try {
-                TextUI mapper = component.getUI();
-                Rectangle r = mapper.modelToView(component, dot, dotBias);
+                TextUI mbpper = component.getUI();
+                Rectbngle r = mbpper.modelToView(component, dot, dotBibs);
 
                 if ((r == null) || ((r.width == 0) && (r.height == 0))) {
                     return;
                 }
                 if (width > 0 && height > 0 &&
-                                !this._contains(r.x, r.y, r.width, r.height)) {
-                    // We seem to have gotten out of sync and no longer
-                    // contain the right location, adjust accordingly.
-                    Rectangle clip = g.getClipBounds();
+                                !this._contbins(r.x, r.y, r.width, r.height)) {
+                    // We seem to hbve gotten out of sync bnd no longer
+                    // contbin the right locbtion, bdjust bccordingly.
+                    Rectbngle clip = g.getClipBounds();
 
-                    if (clip != null && !clip.contains(this)) {
-                        // Clip doesn't contain the old location, force it
-                        // to be repainted lest we leave a caret around.
-                        repaint();
+                    if (clip != null && !clip.contbins(this)) {
+                        // Clip doesn't contbin the old locbtion, force it
+                        // to be repbinted lest we lebve b cbret bround.
+                        repbint();
                     }
-                    // This will potentially cause a repaint of something
-                    // we're already repainting, but without changing the
-                    // semantics of damage we can't really get around this.
-                    damage(r);
+                    // This will potentiblly cbuse b repbint of something
+                    // we're blrebdy repbinting, but without chbnging the
+                    // sembntics of dbmbge we cbn't reblly get bround this.
+                    dbmbge(r);
                 }
-                g.setColor(component.getCaretColor());
-                int paintWidth = getCaretWidth(r.height);
-                r.x -= paintWidth  >> 1;
-                g.fillRect(r.x, r.y, paintWidth, r.height);
+                g.setColor(component.getCbretColor());
+                int pbintWidth = getCbretWidth(r.height);
+                r.x -= pbintWidth  >> 1;
+                g.fillRect(r.x, r.y, pbintWidth, r.height);
 
-                // see if we should paint a flag to indicate the bias
-                // of the caret.
+                // see if we should pbint b flbg to indicbte the bibs
+                // of the cbret.
                 // PENDING(prinz) this should be done through
-                // protected methods so that alternative LAF
-                // will show bidi information.
+                // protected methods so thbt blternbtive LAF
+                // will show bidi informbtion.
                 Document doc = component.getDocument();
-                if (doc instanceof AbstractDocument) {
-                    Element bidi = ((AbstractDocument)doc).getBidiRootElement();
+                if (doc instbnceof AbstrbctDocument) {
+                    Element bidi = ((AbstrbctDocument)doc).getBidiRootElement();
                     if ((bidi != null) && (bidi.getElementCount() > 1)) {
-                        // there are multiple directions present.
-                        flagXPoints[0] = r.x + ((dotLTR) ? paintWidth : 0);
-                        flagYPoints[0] = r.y;
-                        flagXPoints[1] = flagXPoints[0];
-                        flagYPoints[1] = flagYPoints[0] + 4;
-                        flagXPoints[2] = flagXPoints[0] + ((dotLTR) ? 4 : -4);
-                        flagYPoints[2] = flagYPoints[0];
-                        g.fillPolygon(flagXPoints, flagYPoints, 3);
+                        // there bre multiple directions present.
+                        flbgXPoints[0] = r.x + ((dotLTR) ? pbintWidth : 0);
+                        flbgYPoints[0] = r.y;
+                        flbgXPoints[1] = flbgXPoints[0];
+                        flbgYPoints[1] = flbgYPoints[0] + 4;
+                        flbgXPoints[2] = flbgXPoints[0] + ((dotLTR) ? 4 : -4);
+                        flbgYPoints[2] = flbgYPoints[0];
+                        g.fillPolygon(flbgXPoints, flbgYPoints, 3);
                     }
                 }
-            } catch (BadLocationException e) {
-                // can't render I guess
-                //System.err.println("Can't render cursor");
+            } cbtch (BbdLocbtionException e) {
+                // cbn't render I guess
+                //System.err.println("Cbn't render cursor");
             }
         }
     }
 
     /**
-     * Called when the UI is being installed into the
-     * interface of a JTextComponent.  This can be used
-     * to gain access to the model that is being navigated
-     * by the implementation of this interface.  Sets the dot
-     * and mark to 0, and establishes document, property change,
-     * focus, mouse, and mouse motion listeners.
+     * Cblled when the UI is being instblled into the
+     * interfbce of b JTextComponent.  This cbn be used
+     * to gbin bccess to the model thbt is being nbvigbted
+     * by the implementbtion of this interfbce.  Sets the dot
+     * bnd mbrk to 0, bnd estbblishes document, property chbnge,
+     * focus, mouse, bnd mouse motion listeners.
      *
-     * @param c the component
-     * @see Caret#install
+     * @pbrbm c the component
+     * @see Cbret#instbll
      */
-    public void install(JTextComponent c) {
+    public void instbll(JTextComponent c) {
         component = c;
         Document doc = c.getDocument();
-        dot = mark = 0;
-        dotLTR = markLTR = true;
-        dotBias = markBias = Position.Bias.Forward;
+        dot = mbrk = 0;
+        dotLTR = mbrkLTR = true;
+        dotBibs = mbrkBibs = Position.Bibs.Forwbrd;
         if (doc != null) {
-            doc.addDocumentListener(handler);
+            doc.bddDocumentListener(hbndler);
         }
-        c.addPropertyChangeListener(handler);
-        c.addFocusListener(this);
-        c.addMouseListener(this);
-        c.addMouseMotionListener(this);
+        c.bddPropertyChbngeListener(hbndler);
+        c.bddFocusListener(this);
+        c.bddMouseListener(this);
+        c.bddMouseMotionListener(this);
 
-        // if the component already has focus, it won't
+        // if the component blrebdy hbs focus, it won't
         // be notified.
-        if (component.hasFocus()) {
-            focusGained(null);
+        if (component.hbsFocus()) {
+            focusGbined(null);
         }
 
-        Number ratio = (Number) c.getClientProperty("caretAspectRatio");
-        if (ratio != null) {
-            aspectRatio = ratio.floatValue();
+        Number rbtio = (Number) c.getClientProperty("cbretAspectRbtio");
+        if (rbtio != null) {
+            bspectRbtio = rbtio.flobtVblue();
         } else {
-            aspectRatio = -1;
+            bspectRbtio = -1;
         }
 
-        Integer width = (Integer) c.getClientProperty("caretWidth");
+        Integer width = (Integer) c.getClientProperty("cbretWidth");
         if (width != null) {
-            caretWidth = width.intValue();
+            cbretWidth = width.intVblue();
         } else {
-            caretWidth = -1;
+            cbretWidth = -1;
         }
     }
 
     /**
-     * Called when the UI is being removed from the
-     * interface of a JTextComponent.  This is used to
-     * unregister any listeners that were attached.
+     * Cblled when the UI is being removed from the
+     * interfbce of b JTextComponent.  This is used to
+     * unregister bny listeners thbt were bttbched.
      *
-     * @param c the component
-     * @see Caret#deinstall
+     * @pbrbm c the component
+     * @see Cbret#deinstbll
      */
-    public void deinstall(JTextComponent c) {
+    public void deinstbll(JTextComponent c) {
         c.removeMouseListener(this);
         c.removeMouseMotionListener(this);
         c.removeFocusListener(this);
-        c.removePropertyChangeListener(handler);
+        c.removePropertyChbngeListener(hbndler);
         Document doc = c.getDocument();
         if (doc != null) {
-            doc.removeDocumentListener(handler);
+            doc.removeDocumentListener(hbndler);
         }
         synchronized(this) {
             component = null;
         }
-        if (flasher != null) {
-            flasher.stop();
+        if (flbsher != null) {
+            flbsher.stop();
         }
 
 
     }
 
     /**
-     * Adds a listener to track whenever the caret position has
-     * been changed.
+     * Adds b listener to trbck whenever the cbret position hbs
+     * been chbnged.
      *
-     * @param l the listener
-     * @see Caret#addChangeListener
+     * @pbrbm l the listener
+     * @see Cbret#bddChbngeListener
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    public void bddChbngeListener(ChbngeListener l) {
+        listenerList.bdd(ChbngeListener.clbss, l);
     }
 
     /**
-     * Removes a listener that was tracking caret position changes.
+     * Removes b listener thbt wbs trbcking cbret position chbnges.
      *
-     * @param l the listener
-     * @see Caret#removeChangeListener
+     * @pbrbm l the listener
+     * @see Cbret#removeChbngeListener
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    public void removeChbngeListener(ChbngeListener l) {
+        listenerList.remove(ChbngeListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the change listeners
-     * registered on this caret.
+     * Returns bn brrby of bll the chbnge listeners
+     * registered on this cbret.
      *
-     * @return all of this caret's <code>ChangeListener</code>s
-     *         or an empty
-     *         array if no change listeners are currently registered
+     * @return bll of this cbret's <code>ChbngeListener</code>s
+     *         or bn empty
+     *         brrby if no chbnge listeners bre currently registered
      *
-     * @see #addChangeListener
-     * @see #removeChangeListener
+     * @see #bddChbngeListener
+     * @see #removeChbngeListener
      *
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    public ChbngeListener[] getChbngeListeners() {
+        return listenerList.getListeners(ChbngeListener.clbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.  The listener list is processed last to first.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
+     * the fire method.  The listener list is processed lbst to first.
      *
      * @see EventListenerList
      */
-    protected void fireStateChanged() {
-        // Guaranteed to return a non-null array
+    protected void fireStbteChbnged() {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ChangeListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+            if (listeners[i]==ChbngeListener.clbss) {
+                // Lbzily crebte the event:
+                if (chbngeEvent == null)
+                    chbngeEvent = new ChbngeEvent(this);
+                ((ChbngeListener)listeners[i+1]).stbteChbnged(chbngeEvent);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this caret.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
+     * upon this cbret.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
      *
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,
-     * such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>DefaultCaret</code> <code>c</code>
-     * for its change listeners with the following code:
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl,
+     * such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
+     * <code>DefbultCbret</code> <code>c</code>
+     * for its chbnge listeners with the following code:
      *
-     * <pre>ChangeListener[] cls = (ChangeListener[])(c.getListeners(ChangeListener.class));</pre>
+     * <pre>ChbngeListener[] cls = (ChbngeListener[])(c.getListeners(ChbngeListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
-     * @see #getChangeListeners
+     * @see #getChbngeListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 
     /**
-     * Changes the selection visibility.
+     * Chbnges the selection visibility.
      *
-     * @param vis the new visibility
+     * @pbrbm vis the new visibility
      */
-    public void setSelectionVisible(boolean vis) {
+    public void setSelectionVisible(boolebn vis) {
         if (vis != selectionVisible) {
             selectionVisible = vis;
             if (selectionVisible) {
                 // show
                 Highlighter h = component.getHighlighter();
-                if ((dot != mark) && (h != null) && (selectionTag == null)) {
-                    int p0 = Math.min(dot, mark);
-                    int p1 = Math.max(dot, mark);
-                    Highlighter.HighlightPainter p = getSelectionPainter();
+                if ((dot != mbrk) && (h != null) && (selectionTbg == null)) {
+                    int p0 = Mbth.min(dot, mbrk);
+                    int p1 = Mbth.mbx(dot, mbrk);
+                    Highlighter.HighlightPbinter p = getSelectionPbinter();
                     try {
-                        selectionTag = h.addHighlight(p0, p1, p);
-                    } catch (BadLocationException bl) {
-                        selectionTag = null;
+                        selectionTbg = h.bddHighlight(p0, p1, p);
+                    } cbtch (BbdLocbtionException bl) {
+                        selectionTbg = null;
                     }
                 }
             } else {
                 // hide
-                if (selectionTag != null) {
+                if (selectionTbg != null) {
                     Highlighter h = component.getHighlighter();
-                    h.removeHighlight(selectionTag);
-                    selectionTag = null;
+                    h.removeHighlight(selectionTbg);
+                    selectionTbg = null;
                 }
             }
         }
@@ -882,248 +882,248 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      *
      * @return true if the selection is visible
      */
-    public boolean isSelectionVisible() {
+    public boolebn isSelectionVisible() {
         return selectionVisible;
     }
 
     /**
-     * Determines if the caret is currently active.
+     * Determines if the cbret is currently bctive.
      * <p>
-     * This method returns whether or not the <code>Caret</code>
-     * is currently in a blinking state. It does not provide
-     * information as to whether it is currently blinked on or off.
-     * To determine if the caret is currently painted use the
+     * This method returns whether or not the <code>Cbret</code>
+     * is currently in b blinking stbte. It does not provide
+     * informbtion bs to whether it is currently blinked on or off.
+     * To determine if the cbret is currently pbinted use the
      * <code>isVisible</code> method.
      *
-     * @return <code>true</code> if active else <code>false</code>
+     * @return <code>true</code> if bctive else <code>fblse</code>
      * @see #isVisible
      *
      * @since 1.5
      */
-    public boolean isActive() {
-        return active;
+    public boolebn isActive() {
+        return bctive;
     }
 
     /**
-     * Indicates whether or not the caret is currently visible. As the
-     * caret flashes on and off the return value of this will change
-     * between true, when the caret is painted, and false, when the
-     * caret is not painted. <code>isActive</code> indicates whether
-     * or not the caret is in a blinking state, such that it <b>can</b>
-     * be visible, and <code>isVisible</code> indicates whether or not
-     * the caret <b>is</b> actually visible.
+     * Indicbtes whether or not the cbret is currently visible. As the
+     * cbret flbshes on bnd off the return vblue of this will chbnge
+     * between true, when the cbret is pbinted, bnd fblse, when the
+     * cbret is not pbinted. <code>isActive</code> indicbtes whether
+     * or not the cbret is in b blinking stbte, such thbt it <b>cbn</b>
+     * be visible, bnd <code>isVisible</code> indicbtes whether or not
+     * the cbret <b>is</b> bctublly visible.
      * <p>
-     * Subclasses that wish to render a different flashing caret
-     * should override paint and only paint the caret if this method
+     * Subclbsses thbt wish to render b different flbshing cbret
+     * should override pbint bnd only pbint the cbret if this method
      * returns true.
      *
-     * @return true if visible else false
-     * @see Caret#isVisible
+     * @return true if visible else fblse
+     * @see Cbret#isVisible
      * @see #isActive
      */
-    public boolean isVisible() {
+    public boolebn isVisible() {
         return visible;
     }
 
     /**
-     * Sets the caret visibility, and repaints the caret.
-     * It is important to understand the relationship between this method,
-     * <code>isVisible</code> and <code>isActive</code>.
-     * Calling this method with a value of <code>true</code> activates the
-     * caret blinking. Setting it to <code>false</code> turns it completely off.
-     * To determine whether the blinking is active, you should call
-     * <code>isActive</code>. In effect, <code>isActive</code> is an
-     * appropriate corresponding "getter" method for this one.
-     * <code>isVisible</code> can be used to fetch the current
-     * visibility status of the caret, meaning whether or not it is currently
-     * painted. This status will change as the caret blinks on and off.
+     * Sets the cbret visibility, bnd repbints the cbret.
+     * It is importbnt to understbnd the relbtionship between this method,
+     * <code>isVisible</code> bnd <code>isActive</code>.
+     * Cblling this method with b vblue of <code>true</code> bctivbtes the
+     * cbret blinking. Setting it to <code>fblse</code> turns it completely off.
+     * To determine whether the blinking is bctive, you should cbll
+     * <code>isActive</code>. In effect, <code>isActive</code> is bn
+     * bppropribte corresponding "getter" method for this one.
+     * <code>isVisible</code> cbn be used to fetch the current
+     * visibility stbtus of the cbret, mebning whether or not it is currently
+     * pbinted. This stbtus will chbnge bs the cbret blinks on bnd off.
      * <p>
-     * Here's a list showing the potential return values of both
-     * <code>isActive</code> and <code>isVisible</code>
-     * after calling this method:
+     * Here's b list showing the potentibl return vblues of both
+     * <code>isActive</code> bnd <code>isVisible</code>
+     * bfter cblling this method:
      * <p>
      * <b><code>setVisible(true)</code></b>:
      * <ul>
      *     <li>isActive(): true</li>
-     *     <li>isVisible(): true or false depending on whether
-     *         or not the caret is blinked on or off</li>
+     *     <li>isVisible(): true or fblse depending on whether
+     *         or not the cbret is blinked on or off</li>
      * </ul>
      * <p>
-     * <b><code>setVisible(false)</code></b>:
+     * <b><code>setVisible(fblse)</code></b>:
      * <ul>
-     *     <li>isActive(): false</li>
-     *     <li>isVisible(): false</li>
+     *     <li>isActive(): fblse</li>
+     *     <li>isVisible(): fblse</li>
      * </ul>
      *
-     * @param e the visibility specifier
+     * @pbrbm e the visibility specifier
      * @see #isActive
-     * @see Caret#setVisible
+     * @see Cbret#setVisible
      */
-    public void setVisible(boolean e) {
-        // focus lost notification can come in later after the
-        // caret has been deinstalled, in which case the component
+    public void setVisible(boolebn e) {
+        // focus lost notificbtion cbn come in lbter bfter the
+        // cbret hbs been deinstblled, in which cbse the component
         // will be null.
-        active = e;
+        bctive = e;
         if (component != null) {
-            TextUI mapper = component.getUI();
+            TextUI mbpper = component.getUI();
             if (visible != e) {
                 visible = e;
-                // repaint the caret
+                // repbint the cbret
                 try {
-                    Rectangle loc = mapper.modelToView(component, dot,dotBias);
-                    damage(loc);
-                } catch (BadLocationException badloc) {
-                    // hmm... not legally positioned
+                    Rectbngle loc = mbpper.modelToView(component, dot,dotBibs);
+                    dbmbge(loc);
+                } cbtch (BbdLocbtionException bbdloc) {
+                    // hmm... not legblly positioned
                 }
             }
         }
-        if (flasher != null) {
+        if (flbsher != null) {
             if (visible) {
-                flasher.start();
+                flbsher.stbrt();
             } else {
-                flasher.stop();
+                flbsher.stop();
             }
         }
     }
 
     /**
-     * Sets the caret blink rate.
+     * Sets the cbret blink rbte.
      *
-     * @param rate the rate in milliseconds, 0 to stop blinking
-     * @see Caret#setBlinkRate
+     * @pbrbm rbte the rbte in milliseconds, 0 to stop blinking
+     * @see Cbret#setBlinkRbte
      */
-    public void setBlinkRate(int rate) {
-        if (rate != 0) {
-            if (flasher == null) {
-                flasher = new Timer(rate, handler);
+    public void setBlinkRbte(int rbte) {
+        if (rbte != 0) {
+            if (flbsher == null) {
+                flbsher = new Timer(rbte, hbndler);
             }
-            flasher.setDelay(rate);
+            flbsher.setDelby(rbte);
         } else {
-            if (flasher != null) {
-                flasher.stop();
-                flasher.removeActionListener(handler);
-                flasher = null;
+            if (flbsher != null) {
+                flbsher.stop();
+                flbsher.removeActionListener(hbndler);
+                flbsher = null;
             }
         }
     }
 
     /**
-     * Gets the caret blink rate.
+     * Gets the cbret blink rbte.
      *
-     * @return the delay in milliseconds.  If this is
-     *  zero the caret will not blink.
-     * @see Caret#getBlinkRate
+     * @return the delby in milliseconds.  If this is
+     *  zero the cbret will not blink.
+     * @see Cbret#getBlinkRbte
      */
-    public int getBlinkRate() {
-        return (flasher == null) ? 0 : flasher.getDelay();
+    public int getBlinkRbte() {
+        return (flbsher == null) ? 0 : flbsher.getDelby();
     }
 
     /**
-     * Fetches the current position of the caret.
+     * Fetches the current position of the cbret.
      *
      * @return the position &gt;= 0
-     * @see Caret#getDot
+     * @see Cbret#getDot
      */
     public int getDot() {
         return dot;
     }
 
     /**
-     * Fetches the current position of the mark.  If there is a selection,
-     * the dot and mark will not be the same.
+     * Fetches the current position of the mbrk.  If there is b selection,
+     * the dot bnd mbrk will not be the sbme.
      *
      * @return the position &gt;= 0
-     * @see Caret#getMark
+     * @see Cbret#getMbrk
      */
-    public int getMark() {
-        return mark;
+    public int getMbrk() {
+        return mbrk;
     }
 
     /**
-     * Sets the caret position and mark to the specified position,
-     * with a forward bias. This implicitly sets the
-     * selection range to zero.
+     * Sets the cbret position bnd mbrk to the specified position,
+     * with b forwbrd bibs. This implicitly sets the
+     * selection rbnge to zero.
      *
-     * @param dot the position &gt;= 0
-     * @see #setDot(int, Position.Bias)
-     * @see Caret#setDot
+     * @pbrbm dot the position &gt;= 0
+     * @see #setDot(int, Position.Bibs)
+     * @see Cbret#setDot
      */
     public void setDot(int dot) {
-        setDot(dot, Position.Bias.Forward);
+        setDot(dot, Position.Bibs.Forwbrd);
     }
 
     /**
-     * Moves the caret position to the specified position,
-     * with a forward bias.
+     * Moves the cbret position to the specified position,
+     * with b forwbrd bibs.
      *
-     * @param dot the position &gt;= 0
-     * @see #moveDot(int, javax.swing.text.Position.Bias)
-     * @see Caret#moveDot
+     * @pbrbm dot the position &gt;= 0
+     * @see #moveDot(int, jbvbx.swing.text.Position.Bibs)
+     * @see Cbret#moveDot
      */
     public void moveDot(int dot) {
-        moveDot(dot, Position.Bias.Forward);
+        moveDot(dot, Position.Bibs.Forwbrd);
     }
 
-    // ---- Bidi methods (we could put these in a subclass)
+    // ---- Bidi methods (we could put these in b subclbss)
 
     /**
-     * Moves the caret position to the specified position, with the
-     * specified bias.
+     * Moves the cbret position to the specified position, with the
+     * specified bibs.
      *
-     * @param dot the position &gt;= 0
-     * @param dotBias the bias for this position, not <code>null</code>
-     * @throws IllegalArgumentException if the bias is <code>null</code>
-     * @see Caret#moveDot
+     * @pbrbm dot the position &gt;= 0
+     * @pbrbm dotBibs the bibs for this position, not <code>null</code>
+     * @throws IllegblArgumentException if the bibs is <code>null</code>
+     * @see Cbret#moveDot
      * @since 1.6
      */
-    public void moveDot(int dot, Position.Bias dotBias) {
-        if (dotBias == null) {
-            throw new IllegalArgumentException("null bias");
+    public void moveDot(int dot, Position.Bibs dotBibs) {
+        if (dotBibs == null) {
+            throw new IllegblArgumentException("null bibs");
         }
 
-        if (! component.isEnabled()) {
-            // don't allow selection on disabled components.
-            setDot(dot, dotBias);
+        if (! component.isEnbbled()) {
+            // don't bllow selection on disbbled components.
+            setDot(dot, dotBibs);
             return;
         }
         if (dot != this.dot) {
-            NavigationFilter filter = component.getNavigationFilter();
+            NbvigbtionFilter filter = component.getNbvigbtionFilter();
 
             if (filter != null) {
-                filter.moveDot(getFilterBypass(), dot, dotBias);
+                filter.moveDot(getFilterBypbss(), dot, dotBibs);
             }
             else {
-                handleMoveDot(dot, dotBias);
+                hbndleMoveDot(dot, dotBibs);
             }
         }
     }
 
-    void handleMoveDot(int dot, Position.Bias dotBias) {
-        changeCaretPosition(dot, dotBias);
+    void hbndleMoveDot(int dot, Position.Bibs dotBibs) {
+        chbngeCbretPosition(dot, dotBibs);
 
         if (selectionVisible) {
             Highlighter h = component.getHighlighter();
             if (h != null) {
-                int p0 = Math.min(dot, mark);
-                int p1 = Math.max(dot, mark);
+                int p0 = Mbth.min(dot, mbrk);
+                int p1 = Mbth.mbx(dot, mbrk);
 
-                // if p0 == p1 then there should be no highlight, remove it if necessary
+                // if p0 == p1 then there should be no highlight, remove it if necessbry
                 if (p0 == p1) {
-                    if (selectionTag != null) {
-                        h.removeHighlight(selectionTag);
-                        selectionTag = null;
+                    if (selectionTbg != null) {
+                        h.removeHighlight(selectionTbg);
+                        selectionTbg = null;
                     }
-                // otherwise, change or add the highlight
+                // otherwise, chbnge or bdd the highlight
                 } else {
                     try {
-                        if (selectionTag != null) {
-                            h.changeHighlight(selectionTag, p0, p1);
+                        if (selectionTbg != null) {
+                            h.chbngeHighlight(selectionTbg, p0, p1);
                         } else {
-                            Highlighter.HighlightPainter p = getSelectionPainter();
-                            selectionTag = h.addHighlight(p0, p1, p);
+                            Highlighter.HighlightPbinter p = getSelectionPbinter();
+                            selectionTbg = h.bddHighlight(p0, p1, p);
                         }
-                    } catch (BadLocationException e) {
-                        throw new StateInvariantError("Bad caret position");
+                    } cbtch (BbdLocbtionException e) {
+                        throw new StbteInvbribntError("Bbd cbret position");
                     }
                 }
             }
@@ -1131,220 +1131,220 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
     }
 
     /**
-     * Sets the caret position and mark to the specified position, with the
-     * specified bias. This implicitly sets the selection range
+     * Sets the cbret position bnd mbrk to the specified position, with the
+     * specified bibs. This implicitly sets the selection rbnge
      * to zero.
      *
-     * @param dot the position &gt;= 0
-     * @param dotBias the bias for this position, not <code>null</code>
-     * @throws IllegalArgumentException if the bias is <code>null</code>
-     * @see Caret#setDot
+     * @pbrbm dot the position &gt;= 0
+     * @pbrbm dotBibs the bibs for this position, not <code>null</code>
+     * @throws IllegblArgumentException if the bibs is <code>null</code>
+     * @see Cbret#setDot
      * @since 1.6
      */
-    public void setDot(int dot, Position.Bias dotBias) {
-        if (dotBias == null) {
-            throw new IllegalArgumentException("null bias");
+    public void setDot(int dot, Position.Bibs dotBibs) {
+        if (dotBibs == null) {
+            throw new IllegblArgumentException("null bibs");
         }
 
-        NavigationFilter filter = component.getNavigationFilter();
+        NbvigbtionFilter filter = component.getNbvigbtionFilter();
 
         if (filter != null) {
-            filter.setDot(getFilterBypass(), dot, dotBias);
+            filter.setDot(getFilterBypbss(), dot, dotBibs);
         }
         else {
-            handleSetDot(dot, dotBias);
+            hbndleSetDot(dot, dotBibs);
         }
     }
 
-    void handleSetDot(int dot, Position.Bias dotBias) {
-        // move dot, if it changed
+    void hbndleSetDot(int dot, Position.Bibs dotBibs) {
+        // move dot, if it chbnged
         Document doc = component.getDocument();
         if (doc != null) {
-            dot = Math.min(dot, doc.getLength());
+            dot = Mbth.min(dot, doc.getLength());
         }
-        dot = Math.max(dot, 0);
+        dot = Mbth.mbx(dot, 0);
 
-        // The position (0,Backward) is out of range so disallow it.
+        // The position (0,Bbckwbrd) is out of rbnge so disbllow it.
         if( dot == 0 )
-            dotBias = Position.Bias.Forward;
+            dotBibs = Position.Bibs.Forwbrd;
 
-        mark = dot;
-        if (this.dot != dot || this.dotBias != dotBias ||
-            selectionTag != null || forceCaretPositionChange) {
-            changeCaretPosition(dot, dotBias);
+        mbrk = dot;
+        if (this.dot != dot || this.dotBibs != dotBibs ||
+            selectionTbg != null || forceCbretPositionChbnge) {
+            chbngeCbretPosition(dot, dotBibs);
         }
-        this.markBias = this.dotBias;
-        this.markLTR = dotLTR;
+        this.mbrkBibs = this.dotBibs;
+        this.mbrkLTR = dotLTR;
         Highlighter h = component.getHighlighter();
-        if ((h != null) && (selectionTag != null)) {
-            h.removeHighlight(selectionTag);
-            selectionTag = null;
+        if ((h != null) && (selectionTbg != null)) {
+            h.removeHighlight(selectionTbg);
+            selectionTbg = null;
         }
     }
 
     /**
-     * Returns the bias of the caret position.
+     * Returns the bibs of the cbret position.
      *
-     * @return the bias of the caret position
+     * @return the bibs of the cbret position
      * @since 1.6
      */
-    public Position.Bias getDotBias() {
-        return dotBias;
+    public Position.Bibs getDotBibs() {
+        return dotBibs;
     }
 
     /**
-     * Returns the bias of the mark.
+     * Returns the bibs of the mbrk.
      *
-     * @return the bias of the mark
+     * @return the bibs of the mbrk
      * @since 1.6
      */
-    public Position.Bias getMarkBias() {
-        return markBias;
+    public Position.Bibs getMbrkBibs() {
+        return mbrkBibs;
     }
 
-    boolean isDotLeftToRight() {
+    boolebn isDotLeftToRight() {
         return dotLTR;
     }
 
-    boolean isMarkLeftToRight() {
-        return markLTR;
+    boolebn isMbrkLeftToRight() {
+        return mbrkLTR;
     }
 
-    boolean isPositionLTR(int position, Position.Bias bias) {
+    boolebn isPositionLTR(int position, Position.Bibs bibs) {
         Document doc = component.getDocument();
-        if(bias == Position.Bias.Backward && --position < 0)
+        if(bibs == Position.Bibs.Bbckwbrd && --position < 0)
             position = 0;
-        return AbstractDocument.isLeftToRight(doc, position, position);
+        return AbstrbctDocument.isLeftToRight(doc, position, position);
     }
 
-    Position.Bias guessBiasForOffset(int offset, Position.Bias lastBias,
-                                     boolean lastLTR) {
-        // There is an abiguous case here. That if your model looks like:
-        // abAB with the cursor at abB]A (visual representation of
-        // 3 forward) deleting could either become abB] or
-        // ab[B. I'ld actually prefer abB]. But, if I implement that
-        // a delete at abBA] would result in aBA] vs a[BA which I
-        // think is totally wrong. To get this right we need to know what
-        // was deleted. And we could get this from the bidi structure
-        // in the change event. So:
-        // PENDING: base this off what was deleted.
-        if(lastLTR != isPositionLTR(offset, lastBias)) {
-            lastBias = Position.Bias.Backward;
+    Position.Bibs guessBibsForOffset(int offset, Position.Bibs lbstBibs,
+                                     boolebn lbstLTR) {
+        // There is bn bbiguous cbse here. Thbt if your model looks like:
+        // bbAB with the cursor bt bbB]A (visubl representbtion of
+        // 3 forwbrd) deleting could either become bbB] or
+        // bb[B. I'ld bctublly prefer bbB]. But, if I implement thbt
+        // b delete bt bbBA] would result in bBA] vs b[BA which I
+        // think is totblly wrong. To get this right we need to know whbt
+        // wbs deleted. And we could get this from the bidi structure
+        // in the chbnge event. So:
+        // PENDING: bbse this off whbt wbs deleted.
+        if(lbstLTR != isPositionLTR(offset, lbstBibs)) {
+            lbstBibs = Position.Bibs.Bbckwbrd;
         }
-        else if(lastBias != Position.Bias.Backward &&
-                lastLTR != isPositionLTR(offset, Position.Bias.Backward)) {
-            lastBias = Position.Bias.Backward;
+        else if(lbstBibs != Position.Bibs.Bbckwbrd &&
+                lbstLTR != isPositionLTR(offset, Position.Bibs.Bbckwbrd)) {
+            lbstBibs = Position.Bibs.Bbckwbrd;
         }
-        if (lastBias == Position.Bias.Backward && offset > 0) {
+        if (lbstBibs == Position.Bibs.Bbckwbrd && offset > 0) {
             try {
                 Segment s = new Segment();
                 component.getDocument().getText(offset - 1, 1, s);
-                if (s.count > 0 && s.array[s.offset] == '\n') {
-                    lastBias = Position.Bias.Forward;
+                if (s.count > 0 && s.brrby[s.offset] == '\n') {
+                    lbstBibs = Position.Bibs.Forwbrd;
                 }
             }
-            catch (BadLocationException ble) {}
+            cbtch (BbdLocbtionException ble) {}
         }
-        return lastBias;
+        return lbstBibs;
     }
 
-    // ---- local methods --------------------------------------------
+    // ---- locbl methods --------------------------------------------
 
     /**
-     * Sets the caret position (dot) to a new location.  This
-     * causes the old and new location to be repainted.  It
-     * also makes sure that the caret is within the visible
-     * region of the view, if the view is scrollable.
+     * Sets the cbret position (dot) to b new locbtion.  This
+     * cbuses the old bnd new locbtion to be repbinted.  It
+     * blso mbkes sure thbt the cbret is within the visible
+     * region of the view, if the view is scrollbble.
      */
-    void changeCaretPosition(int dot, Position.Bias dotBias) {
-        // repaint the old position and set the new value of
+    void chbngeCbretPosition(int dot, Position.Bibs dotBibs) {
+        // repbint the old position bnd set the new vblue of
         // the dot.
-        repaint();
+        repbint();
 
 
-        // Make sure the caret is visible if this window has the focus.
-        if (flasher != null && flasher.isRunning()) {
+        // Mbke sure the cbret is visible if this window hbs the focus.
+        if (flbsher != null && flbsher.isRunning()) {
             visible = true;
-            flasher.restart();
+            flbsher.restbrt();
         }
 
-        // notify listeners at the caret moved
+        // notify listeners bt the cbret moved
         this.dot = dot;
-        this.dotBias = dotBias;
-        dotLTR = isPositionLTR(dot, dotBias);
-        fireStateChanged();
+        this.dotBibs = dotBibs;
+        dotLTR = isPositionLTR(dot, dotBibs);
+        fireStbteChbnged();
 
-        updateSystemSelection();
+        updbteSystemSelection();
 
-        setMagicCaretPosition(null);
+        setMbgicCbretPosition(null);
 
-        // We try to repaint the caret later, since things
-        // may be unstable at the time this is called
-        // (i.e. we don't want to depend upon notification
-        // order or the fact that this might happen on
-        // an unsafe thread).
-        Runnable callRepaintNewCaret = new Runnable() {
+        // We try to repbint the cbret lbter, since things
+        // mby be unstbble bt the time this is cblled
+        // (i.e. we don't wbnt to depend upon notificbtion
+        // order or the fbct thbt this might hbppen on
+        // bn unsbfe threbd).
+        Runnbble cbllRepbintNewCbret = new Runnbble() {
             public void run() {
-                repaintNewCaret();
+                repbintNewCbret();
             }
         };
-        SwingUtilities.invokeLater(callRepaintNewCaret);
+        SwingUtilities.invokeLbter(cbllRepbintNewCbret);
     }
 
     /**
-     * Repaints the new caret position, with the
-     * assumption that this is happening on the
-     * event thread so that calling <code>modelToView</code>
-     * is safe.
+     * Repbints the new cbret position, with the
+     * bssumption thbt this is hbppening on the
+     * event threbd so thbt cblling <code>modelToView</code>
+     * is sbfe.
      */
-    void repaintNewCaret() {
+    void repbintNewCbret() {
         if (component != null) {
-            TextUI mapper = component.getUI();
+            TextUI mbpper = component.getUI();
             Document doc = component.getDocument();
-            if ((mapper != null) && (doc != null)) {
-                // determine the new location and scroll if
+            if ((mbpper != null) && (doc != null)) {
+                // determine the new locbtion bnd scroll if
                 // not visible.
-                Rectangle newLoc;
+                Rectbngle newLoc;
                 try {
-                    newLoc = mapper.modelToView(component, this.dot, this.dotBias);
-                } catch (BadLocationException e) {
+                    newLoc = mbpper.modelToView(component, this.dot, this.dotBibs);
+                } cbtch (BbdLocbtionException e) {
                     newLoc = null;
                 }
                 if (newLoc != null) {
-                    adjustVisibility(newLoc);
-                    // If there is no magic caret position, make one
-                    if (getMagicCaretPosition() == null) {
-                        setMagicCaretPosition(new Point(newLoc.x, newLoc.y));
+                    bdjustVisibility(newLoc);
+                    // If there is no mbgic cbret position, mbke one
+                    if (getMbgicCbretPosition() == null) {
+                        setMbgicCbretPosition(new Point(newLoc.x, newLoc.y));
                     }
                 }
 
-                // repaint the new position
-                damage(newLoc);
+                // repbint the new position
+                dbmbge(newLoc);
             }
         }
     }
 
-    private void updateSystemSelection() {
-        if ( ! SwingUtilities2.canCurrentEventAccessSystemClipboard() ) {
+    privbte void updbteSystemSelection() {
+        if ( ! SwingUtilities2.cbnCurrentEventAccessSystemClipbobrd() ) {
             return;
         }
-        if (this.dot != this.mark && component != null && component.hasFocus()) {
-            Clipboard clip = getSystemSelection();
+        if (this.dot != this.mbrk && component != null && component.hbsFocus()) {
+            Clipbobrd clip = getSystemSelection();
             if (clip != null) {
                 String selectedText;
-                if (component instanceof JPasswordField
-                    && component.getClientProperty("JPasswordField.cutCopyAllowed") !=
-                    Boolean.TRUE) {
+                if (component instbnceof JPbsswordField
+                    && component.getClientProperty("JPbsswordField.cutCopyAllowed") !=
+                    Boolebn.TRUE) {
                     //fix for 4793761
                     StringBuilder txt = null;
-                    char echoChar = ((JPasswordField)component).getEchoChar();
-                    int p0 = Math.min(getDot(), getMark());
-                    int p1 = Math.max(getDot(), getMark());
+                    chbr echoChbr = ((JPbsswordField)component).getEchoChbr();
+                    int p0 = Mbth.min(getDot(), getMbrk());
+                    int p1 = Mbth.mbx(getDot(), getMbrk());
                     for (int i = p0; i < p1; i++) {
                         if (txt == null) {
                             txt = new StringBuilder();
                         }
-                        txt.append(echoChar);
+                        txt.bppend(echoChbr);
                     }
                     selectedText = (txt != null) ? txt.toString() : null;
                 } else {
@@ -1352,193 +1352,193 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
                 }
                 try {
                     clip.setContents(
-                        new StringSelection(selectedText), getClipboardOwner());
+                        new StringSelection(selectedText), getClipbobrdOwner());
 
                     ownsSelection = true;
-                } catch (IllegalStateException ise) {
-                    // clipboard was unavailable
-                    // no need to provide error feedback to user since updating
-                    // the system selection is not a user invoked action
+                } cbtch (IllegblStbteException ise) {
+                    // clipbobrd wbs unbvbilbble
+                    // no need to provide error feedbbck to user since updbting
+                    // the system selection is not b user invoked bction
                 }
             }
         }
     }
 
-    private Clipboard getSystemSelection() {
+    privbte Clipbobrd getSystemSelection() {
         try {
             return component.getToolkit().getSystemSelection();
-        } catch (HeadlessException he) {
-            // do nothing... there is no system clipboard
-        } catch (SecurityException se) {
-            // do nothing... there is no allowed system clipboard
+        } cbtch (HebdlessException he) {
+            // do nothing... there is no system clipbobrd
+        } cbtch (SecurityException se) {
+            // do nothing... there is no bllowed system clipbobrd
         }
         return null;
     }
 
-    private ClipboardOwner getClipboardOwner() {
-        return handler;
+    privbte ClipbobrdOwner getClipbobrdOwner() {
+        return hbndler;
     }
 
     /**
-     * This is invoked after the document changes to verify the current
-     * dot/mark is valid. We do this in case the <code>NavigationFilter</code>
-     * changed where to position the dot, that resulted in the current location
+     * This is invoked bfter the document chbnges to verify the current
+     * dot/mbrk is vblid. We do this in cbse the <code>NbvigbtionFilter</code>
+     * chbnged where to position the dot, thbt resulted in the current locbtion
      * being bogus.
      */
-    private void ensureValidPosition() {
+    privbte void ensureVblidPosition() {
         int length = component.getDocument().getLength();
-        if (dot > length || mark > length) {
-            // Current location is bogus and filter likely vetoed the
-            // change, force the reset without giving the filter a
-            // chance at changing it.
-            handleSetDot(length, Position.Bias.Forward);
+        if (dot > length || mbrk > length) {
+            // Current locbtion is bogus bnd filter likely vetoed the
+            // chbnge, force the reset without giving the filter b
+            // chbnce bt chbnging it.
+            hbndleSetDot(length, Position.Bibs.Forwbrd);
         }
     }
 
 
     /**
-     * Saves the current caret position.  This is used when
-     * caret up/down actions occur, moving between lines
-     * that have uneven end positions.
+     * Sbves the current cbret position.  This is used when
+     * cbret up/down bctions occur, moving between lines
+     * thbt hbve uneven end positions.
      *
-     * @param p the position
-     * @see #getMagicCaretPosition
+     * @pbrbm p the position
+     * @see #getMbgicCbretPosition
      */
-    public void setMagicCaretPosition(Point p) {
-        magicCaretPosition = p;
+    public void setMbgicCbretPosition(Point p) {
+        mbgicCbretPosition = p;
     }
 
     /**
-     * Gets the saved caret position.
+     * Gets the sbved cbret position.
      *
      * @return the position
-     * see #setMagicCaretPosition
+     * see #setMbgicCbretPosition
      */
-    public Point getMagicCaretPosition() {
-        return magicCaretPosition;
+    public Point getMbgicCbretPosition() {
+        return mbgicCbretPosition;
     }
 
     /**
-     * Compares this object to the specified object.
-     * The superclass behavior of comparing rectangles
-     * is not desired, so this is changed to the Object
-     * behavior.
+     * Compbres this object to the specified object.
+     * The superclbss behbvior of compbring rectbngles
+     * is not desired, so this is chbnged to the Object
+     * behbvior.
      *
-     * @param     obj   the object to compare this font with
-     * @return    <code>true</code> if the objects are equal;
-     *            <code>false</code> otherwise
+     * @pbrbm     obj   the object to compbre this font with
+     * @return    <code>true</code> if the objects bre equbl;
+     *            <code>fblse</code> otherwise
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         return (this == obj);
     }
 
     public String toString() {
-        String s = "Dot=(" + dot + ", " + dotBias + ")";
-        s += " Mark=(" + mark + ", " + markBias + ")";
+        String s = "Dot=(" + dot + ", " + dotBibs + ")";
+        s += " Mbrk=(" + mbrk + ", " + mbrkBibs + ")";
         return s;
     }
 
-    private NavigationFilter.FilterBypass getFilterBypass() {
-        if (filterBypass == null) {
-            filterBypass = new DefaultFilterBypass();
+    privbte NbvigbtionFilter.FilterBypbss getFilterBypbss() {
+        if (filterBypbss == null) {
+            filterBypbss = new DefbultFilterBypbss();
         }
-        return filterBypass;
+        return filterBypbss;
     }
 
-    // Rectangle.contains returns false if passed a rect with a w or h == 0,
-    // this won't (assuming X,Y are contained with this rectangle).
-    private boolean _contains(int X, int Y, int W, int H) {
+    // Rectbngle.contbins returns fblse if pbssed b rect with b w or h == 0,
+    // this won't (bssuming X,Y bre contbined with this rectbngle).
+    privbte boolebn _contbins(int X, int Y, int W, int H) {
         int w = this.width;
         int h = this.height;
         if ((w | h | W | H) < 0) {
-            // At least one of the dimensions is negative...
-            return false;
+            // At lebst one of the dimensions is negbtive...
+            return fblse;
         }
-        // Note: if any dimension is zero, tests below must return false...
+        // Note: if bny dimension is zero, tests below must return fblse...
         int x = this.x;
         int y = this.y;
         if (X < x || Y < y) {
-            return false;
+            return fblse;
         }
         if (W > 0) {
             w += x;
             W += X;
             if (W <= X) {
-                // X+W overflowed or W was zero, return false if...
-                // either original w or W was zero or
+                // X+W overflowed or W wbs zero, return fblse if...
+                // either originbl w or W wbs zero or
                 // x+w did not overflow or
-                // the overflowed x+w is smaller than the overflowed X+W
-                if (w >= x || W > w) return false;
+                // the overflowed x+w is smbller thbn the overflowed X+W
+                if (w >= x || W > w) return fblse;
             } else {
-                // X+W did not overflow and W was not zero, return false if...
-                // original w was zero or
-                // x+w did not overflow and x+w is smaller than X+W
-                if (w >= x && W > w) return false;
+                // X+W did not overflow bnd W wbs not zero, return fblse if...
+                // originbl w wbs zero or
+                // x+w did not overflow bnd x+w is smbller thbn X+W
+                if (w >= x && W > w) return fblse;
             }
         }
         else if ((x + w) < X) {
-            return false;
+            return fblse;
         }
         if (H > 0) {
             h += y;
             H += Y;
             if (H <= Y) {
-                if (h >= y || H > h) return false;
+                if (h >= y || H > h) return fblse;
             } else {
-                if (h >= y && H > h) return false;
+                if (h >= y && H > h) return fblse;
             }
         }
         else if ((y + h) < Y) {
-            return false;
+            return fblse;
         }
         return true;
     }
 
-    int getCaretWidth(int height) {
-        if (aspectRatio > -1) {
-            return (int) (aspectRatio * height) + 1;
+    int getCbretWidth(int height) {
+        if (bspectRbtio > -1) {
+            return (int) (bspectRbtio * height) + 1;
         }
 
-        if (caretWidth > -1) {
-            return caretWidth;
+        if (cbretWidth > -1) {
+            return cbretWidth;
         } else {
-            Object property = UIManager.get("Caret.width");
-            if (property instanceof Integer) {
-                return ((Integer) property).intValue();
+            Object property = UIMbnbger.get("Cbret.width");
+            if (property instbnceof Integer) {
+                return ((Integer) property).intVblue();
             } else {
                 return 1;
             }
         }
     }
 
-    // --- serialization ---------------------------------------------
+    // --- seriblizbtion ---------------------------------------------
 
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException
     {
-        s.defaultReadObject();
-        handler = new Handler();
-        if (!s.readBoolean()) {
-            dotBias = Position.Bias.Forward;
+        s.defbultRebdObject();
+        hbndler = new Hbndler();
+        if (!s.rebdBoolebn()) {
+            dotBibs = Position.Bibs.Forwbrd;
         }
         else {
-            dotBias = Position.Bias.Backward;
+            dotBibs = Position.Bibs.Bbckwbrd;
         }
-        if (!s.readBoolean()) {
-            markBias = Position.Bias.Forward;
+        if (!s.rebdBoolebn()) {
+            mbrkBibs = Position.Bibs.Forwbrd;
         }
         else {
-            markBias = Position.Bias.Backward;
+            mbrkBibs = Position.Bibs.Bbckwbrd;
         }
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        s.writeBoolean((dotBias == Position.Bias.Backward));
-        s.writeBoolean((markBias == Position.Bias.Backward));
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        s.writeBoolebn((dotBibs == Position.Bibs.Bbckwbrd));
+        s.writeBoolebn((mbrkBibs == Position.Bibs.Bbckwbrd));
     }
 
-    // ---- member variables ------------------------------------------
+    // ---- member vbribbles ------------------------------------------
 
     /**
      * The event listener list.
@@ -1546,73 +1546,73 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
     protected EventListenerList listenerList = new EventListenerList();
 
     /**
-     * The change event for the model.
-     * Only one ChangeEvent is needed per model instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
+     * The chbnge event for the model.
+     * Only one ChbngeEvent is needed per model instbnce since the
+     * event's only (rebd-only) stbte is the source property.  The source
+     * of events generbted here is blwbys "this".
      */
-    protected transient ChangeEvent changeEvent = null;
+    protected trbnsient ChbngeEvent chbngeEvent = null;
 
-    // package-private to avoid inner classes private member
-    // access bug
+    // pbckbge-privbte to bvoid inner clbsses privbte member
+    // bccess bug
     JTextComponent component;
 
-    int updatePolicy = UPDATE_WHEN_ON_EDT;
-    boolean visible;
-    boolean active;
+    int updbtePolicy = UPDATE_WHEN_ON_EDT;
+    boolebn visible;
+    boolebn bctive;
     int dot;
-    int mark;
-    Object selectionTag;
-    boolean selectionVisible;
-    Timer flasher;
-    Point magicCaretPosition;
-    transient Position.Bias dotBias;
-    transient Position.Bias markBias;
-    boolean dotLTR;
-    boolean markLTR;
-    transient Handler handler = new Handler();
-    transient private int[] flagXPoints = new int[3];
-    transient private int[] flagYPoints = new int[3];
-    private transient NavigationFilter.FilterBypass filterBypass;
-    static private transient Action selectWord = null;
-    static private transient Action selectLine = null;
+    int mbrk;
+    Object selectionTbg;
+    boolebn selectionVisible;
+    Timer flbsher;
+    Point mbgicCbretPosition;
+    trbnsient Position.Bibs dotBibs;
+    trbnsient Position.Bibs mbrkBibs;
+    boolebn dotLTR;
+    boolebn mbrkLTR;
+    trbnsient Hbndler hbndler = new Hbndler();
+    trbnsient privbte int[] flbgXPoints = new int[3];
+    trbnsient privbte int[] flbgYPoints = new int[3];
+    privbte trbnsient NbvigbtionFilter.FilterBypbss filterBypbss;
+    stbtic privbte trbnsient Action selectWord = null;
+    stbtic privbte trbnsient Action selectLine = null;
     /**
-     * This is used to indicate if the caret currently owns the selection.
-     * This is always false if the system does not support the system
-     * clipboard.
+     * This is used to indicbte if the cbret currently owns the selection.
+     * This is blwbys fblse if the system does not support the system
+     * clipbobrd.
      */
-    private boolean ownsSelection;
-
-    /**
-     * If this is true, the location of the dot is updated regardless of
-     * the current location. This is set in the DocumentListener
-     * such that even if the model location of dot hasn't changed (perhaps do
-     * to a forward delete) the visual location is updated.
-     */
-    private boolean forceCaretPositionChange;
+    privbte boolebn ownsSelection;
 
     /**
-     * Whether or not mouseReleased should adjust the caret and focus.
-     * This flag is set by mousePressed if it wanted to adjust the caret
-     * and focus but couldn't because of a possible DnD operation.
+     * If this is true, the locbtion of the dot is updbted regbrdless of
+     * the current locbtion. This is set in the DocumentListener
+     * such thbt even if the model locbtion of dot hbsn't chbnged (perhbps do
+     * to b forwbrd delete) the visubl locbtion is updbted.
      */
-    private transient boolean shouldHandleRelease;
+    privbte boolebn forceCbretPositionChbnge;
+
+    /**
+     * Whether or not mouseRelebsed should bdjust the cbret bnd focus.
+     * This flbg is set by mousePressed if it wbnted to bdjust the cbret
+     * bnd focus but couldn't becbuse of b possible DnD operbtion.
+     */
+    privbte trbnsient boolebn shouldHbndleRelebse;
 
 
     /**
-     * holds last MouseEvent which caused the word selection
+     * holds lbst MouseEvent which cbused the word selection
      */
-    private transient MouseEvent selectedWordEvent = null;
+    privbte trbnsient MouseEvent selectedWordEvent = null;
 
     /**
-     * The width of the caret in pixels.
+     * The width of the cbret in pixels.
      */
-    private int caretWidth = -1;
-    private float aspectRatio = -1;
+    privbte int cbretWidth = -1;
+    privbte flobt bspectRbtio = -1;
 
-    class SafeScroller implements Runnable {
+    clbss SbfeScroller implements Runnbble {
 
-        SafeScroller(Rectangle r) {
+        SbfeScroller(Rectbngle r) {
             this.r = r;
         }
 
@@ -1622,62 +1622,62 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
             }
         }
 
-        Rectangle r;
+        Rectbngle r;
     }
 
 
-    class Handler implements PropertyChangeListener, DocumentListener, ActionListener, ClipboardOwner {
+    clbss Hbndler implements PropertyChbngeListener, DocumentListener, ActionListener, ClipbobrdOwner {
 
         // --- ActionListener methods ----------------------------------
 
         /**
-         * Invoked when the blink timer fires.  This is called
-         * asynchronously.  The simply changes the visibility
-         * and repaints the rectangle that last bounded the caret.
+         * Invoked when the blink timer fires.  This is cblled
+         * bsynchronously.  The simply chbnges the visibility
+         * bnd repbints the rectbngle thbt lbst bounded the cbret.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          */
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (width == 0 || height == 0) {
-                // setVisible(true) will cause a scroll, only do this if the
-                // new location is really valid.
+                // setVisible(true) will cbuse b scroll, only do this if the
+                // new locbtion is reblly vblid.
                 if (component != null) {
-                    TextUI mapper = component.getUI();
+                    TextUI mbpper = component.getUI();
                     try {
-                        Rectangle r = mapper.modelToView(component, dot,
-                                                         dotBias);
+                        Rectbngle r = mbpper.modelToView(component, dot,
+                                                         dotBibs);
                         if (r != null && r.width != 0 && r.height != 0) {
-                            damage(r);
+                            dbmbge(r);
                         }
-                    } catch (BadLocationException ble) {
+                    } cbtch (BbdLocbtionException ble) {
                     }
                 }
             }
             visible = !visible;
-            repaint();
+            repbint();
         }
 
         // --- DocumentListener methods --------------------------------
 
         /**
-         * Updates the dot and mark if they were changed by
+         * Updbtes the dot bnd mbrk if they were chbnged by
          * the insertion.
          *
-         * @param e the document event
-         * @see DocumentListener#insertUpdate
+         * @pbrbm e the document event
+         * @see DocumentListener#insertUpdbte
          */
-        public void insertUpdate(DocumentEvent e) {
-            if (getUpdatePolicy() == NEVER_UPDATE ||
-                    (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
-                    !SwingUtilities.isEventDispatchThread())) {
+        public void insertUpdbte(DocumentEvent e) {
+            if (getUpdbtePolicy() == NEVER_UPDATE ||
+                    (getUpdbtePolicy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilities.isEventDispbtchThrebd())) {
 
-                if ((e.getOffset() <= dot || e.getOffset() <= mark)
-                        && selectionTag != null) {
+                if ((e.getOffset() <= dot || e.getOffset() <= mbrk)
+                        && selectionTbg != null) {
                     try {
-                        component.getHighlighter().changeHighlight(selectionTag,
-                                Math.min(dot, mark), Math.max(dot, mark));
-                    } catch (BadLocationException e1) {
-                        e1.printStackTrace();
+                        component.getHighlighter().chbngeHighlight(selectionTbg,
+                                Mbth.min(dot, mbrk), Mbth.mbx(dot, mbrk));
+                    } cbtch (BbdLocbtionException e1) {
+                        e1.printStbckTrbce();
                     }
                 }
                 return;
@@ -1685,80 +1685,80 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
             int offset = e.getOffset();
             int length = e.getLength();
             int newDot = dot;
-            short changed = 0;
+            short chbnged = 0;
 
-            if (e instanceof AbstractDocument.UndoRedoDocumentEvent) {
+            if (e instbnceof AbstrbctDocument.UndoRedoDocumentEvent) {
                 setDot(offset + length);
                 return;
             }
             if (newDot >= offset) {
                 newDot += length;
-                changed |= 1;
+                chbnged |= 1;
             }
-            int newMark = mark;
-            if (newMark >= offset) {
-                newMark += length;
-                changed |= 2;
+            int newMbrk = mbrk;
+            if (newMbrk >= offset) {
+                newMbrk += length;
+                chbnged |= 2;
             }
 
-            if (changed != 0) {
-                Position.Bias dotBias = DefaultCaret.this.dotBias;
+            if (chbnged != 0) {
+                Position.Bibs dotBibs = DefbultCbret.this.dotBibs;
                 if (dot == offset) {
                     Document doc = component.getDocument();
-                    boolean isNewline;
+                    boolebn isNewline;
                     try {
                         Segment s = new Segment();
                         doc.getText(newDot - 1, 1, s);
                         isNewline = (s.count > 0 &&
-                                s.array[s.offset] == '\n');
-                    } catch (BadLocationException ble) {
-                        isNewline = false;
+                                s.brrby[s.offset] == '\n');
+                    } cbtch (BbdLocbtionException ble) {
+                        isNewline = fblse;
                     }
                     if (isNewline) {
-                        dotBias = Position.Bias.Forward;
+                        dotBibs = Position.Bibs.Forwbrd;
                     } else {
-                        dotBias = Position.Bias.Backward;
+                        dotBibs = Position.Bibs.Bbckwbrd;
                     }
                 }
-                if (newMark == newDot) {
-                    setDot(newDot, dotBias);
-                    ensureValidPosition();
+                if (newMbrk == newDot) {
+                    setDot(newDot, dotBibs);
+                    ensureVblidPosition();
                 }
                 else {
-                    setDot(newMark, markBias);
-                    if (getDot() == newMark) {
-                        // Due this test in case the filter vetoed the
-                        // change in which case this probably won't be
-                        // valid either.
-                        moveDot(newDot, dotBias);
+                    setDot(newMbrk, mbrkBibs);
+                    if (getDot() == newMbrk) {
+                        // Due this test in cbse the filter vetoed the
+                        // chbnge in which cbse this probbbly won't be
+                        // vblid either.
+                        moveDot(newDot, dotBibs);
                     }
-                    ensureValidPosition();
+                    ensureVblidPosition();
                 }
             }
         }
 
         /**
-         * Updates the dot and mark if they were changed
-         * by the removal.
+         * Updbtes the dot bnd mbrk if they were chbnged
+         * by the removbl.
          *
-         * @param e the document event
-         * @see DocumentListener#removeUpdate
+         * @pbrbm e the document event
+         * @see DocumentListener#removeUpdbte
          */
-        public void removeUpdate(DocumentEvent e) {
-            if (getUpdatePolicy() == NEVER_UPDATE ||
-                    (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
-                    !SwingUtilities.isEventDispatchThread())) {
+        public void removeUpdbte(DocumentEvent e) {
+            if (getUpdbtePolicy() == NEVER_UPDATE ||
+                    (getUpdbtePolicy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilities.isEventDispbtchThrebd())) {
 
                 int length = component.getDocument().getLength();
-                dot = Math.min(dot, length);
-                mark = Math.min(mark, length);
-                if ((e.getOffset() < dot || e.getOffset() < mark)
-                        && selectionTag != null) {
+                dot = Mbth.min(dot, length);
+                mbrk = Mbth.min(mbrk, length);
+                if ((e.getOffset() < dot || e.getOffset() < mbrk)
+                        && selectionTbg != null) {
                     try {
-                        component.getHighlighter().changeHighlight(selectionTag,
-                                Math.min(dot, mark), Math.max(dot, mark));
-                    } catch (BadLocationException e1) {
-                        e1.printStackTrace();
+                        component.getHighlighter().chbngeHighlight(selectionTbg,
+                                Mbth.min(dot, mbrk), Mbth.mbx(dot, mbrk));
+                    } cbtch (BbdLocbtionException e1) {
+                        e1.printStbckTrbce();
                     }
                 }
                 return;
@@ -1766,156 +1766,156 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
             int offs0 = e.getOffset();
             int offs1 = offs0 + e.getLength();
             int newDot = dot;
-            boolean adjustDotBias = false;
-            int newMark = mark;
-            boolean adjustMarkBias = false;
+            boolebn bdjustDotBibs = fblse;
+            int newMbrk = mbrk;
+            boolebn bdjustMbrkBibs = fblse;
 
-            if(e instanceof AbstractDocument.UndoRedoDocumentEvent) {
+            if(e instbnceof AbstrbctDocument.UndoRedoDocumentEvent) {
                 setDot(offs0);
                 return;
             }
             if (newDot >= offs1) {
                 newDot -= (offs1 - offs0);
                 if(newDot == offs1) {
-                    adjustDotBias = true;
+                    bdjustDotBibs = true;
                 }
             } else if (newDot >= offs0) {
                 newDot = offs0;
-                adjustDotBias = true;
+                bdjustDotBibs = true;
             }
-            if (newMark >= offs1) {
-                newMark -= (offs1 - offs0);
-                if(newMark == offs1) {
-                    adjustMarkBias = true;
+            if (newMbrk >= offs1) {
+                newMbrk -= (offs1 - offs0);
+                if(newMbrk == offs1) {
+                    bdjustMbrkBibs = true;
                 }
-            } else if (newMark >= offs0) {
-                newMark = offs0;
-                adjustMarkBias = true;
+            } else if (newMbrk >= offs0) {
+                newMbrk = offs0;
+                bdjustMbrkBibs = true;
             }
-            if (newMark == newDot) {
-                forceCaretPositionChange = true;
+            if (newMbrk == newDot) {
+                forceCbretPositionChbnge = true;
                 try {
-                    setDot(newDot, guessBiasForOffset(newDot, dotBias,
+                    setDot(newDot, guessBibsForOffset(newDot, dotBibs,
                             dotLTR));
-                } finally {
-                    forceCaretPositionChange = false;
+                } finblly {
+                    forceCbretPositionChbnge = fblse;
                 }
-                ensureValidPosition();
+                ensureVblidPosition();
             } else {
-                Position.Bias dotBias = DefaultCaret.this.dotBias;
-                Position.Bias markBias = DefaultCaret.this.markBias;
-                if(adjustDotBias) {
-                    dotBias = guessBiasForOffset(newDot, dotBias, dotLTR);
+                Position.Bibs dotBibs = DefbultCbret.this.dotBibs;
+                Position.Bibs mbrkBibs = DefbultCbret.this.mbrkBibs;
+                if(bdjustDotBibs) {
+                    dotBibs = guessBibsForOffset(newDot, dotBibs, dotLTR);
                 }
-                if(adjustMarkBias) {
-                    markBias = guessBiasForOffset(mark, markBias, markLTR);
+                if(bdjustMbrkBibs) {
+                    mbrkBibs = guessBibsForOffset(mbrk, mbrkBibs, mbrkLTR);
                 }
-                setDot(newMark, markBias);
-                if (getDot() == newMark) {
-                    // Due this test in case the filter vetoed the change
-                    // in which case this probably won't be valid either.
-                    moveDot(newDot, dotBias);
+                setDot(newMbrk, mbrkBibs);
+                if (getDot() == newMbrk) {
+                    // Due this test in cbse the filter vetoed the chbnge
+                    // in which cbse this probbbly won't be vblid either.
+                    moveDot(newDot, dotBibs);
                 }
-                ensureValidPosition();
+                ensureVblidPosition();
             }
         }
 
         /**
-         * Gives notification that an attribute or set of attributes changed.
+         * Gives notificbtion thbt bn bttribute or set of bttributes chbnged.
          *
-         * @param e the document event
-         * @see DocumentListener#changedUpdate
+         * @pbrbm e the document event
+         * @see DocumentListener#chbngedUpdbte
          */
-        public void changedUpdate(DocumentEvent e) {
-            if (getUpdatePolicy() == NEVER_UPDATE ||
-                    (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
-                    !SwingUtilities.isEventDispatchThread())) {
+        public void chbngedUpdbte(DocumentEvent e) {
+            if (getUpdbtePolicy() == NEVER_UPDATE ||
+                    (getUpdbtePolicy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilities.isEventDispbtchThrebd())) {
                 return;
             }
-            if(e instanceof AbstractDocument.UndoRedoDocumentEvent) {
+            if(e instbnceof AbstrbctDocument.UndoRedoDocumentEvent) {
                 setDot(e.getOffset() + e.getLength());
             }
         }
 
-        // --- PropertyChangeListener methods -----------------------
+        // --- PropertyChbngeListener methods -----------------------
 
         /**
-         * This method gets called when a bound property is changed.
-         * We are looking for document changes on the editor.
+         * This method gets cblled when b bound property is chbnged.
+         * We bre looking for document chbnges on the editor.
          */
-        public void propertyChange(PropertyChangeEvent evt) {
-            Object oldValue = evt.getOldValue();
-            Object newValue = evt.getNewValue();
-            if ((oldValue instanceof Document) || (newValue instanceof Document)) {
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            Object oldVblue = evt.getOldVblue();
+            Object newVblue = evt.getNewVblue();
+            if ((oldVblue instbnceof Document) || (newVblue instbnceof Document)) {
                 setDot(0);
-                if (oldValue != null) {
-                    ((Document)oldValue).removeDocumentListener(this);
+                if (oldVblue != null) {
+                    ((Document)oldVblue).removeDocumentListener(this);
                 }
-                if (newValue != null) {
-                    ((Document)newValue).addDocumentListener(this);
+                if (newVblue != null) {
+                    ((Document)newVblue).bddDocumentListener(this);
                 }
-            } else if("enabled".equals(evt.getPropertyName())) {
-                Boolean enabled = (Boolean) evt.getNewValue();
+            } else if("enbbled".equbls(evt.getPropertyNbme())) {
+                Boolebn enbbled = (Boolebn) evt.getNewVblue();
                 if(component.isFocusOwner()) {
-                    if(enabled == Boolean.TRUE) {
-                        if(component.isEditable()) {
+                    if(enbbled == Boolebn.TRUE) {
+                        if(component.isEditbble()) {
                             setVisible(true);
                         }
                         setSelectionVisible(true);
                     } else {
-                        setVisible(false);
-                        setSelectionVisible(false);
+                        setVisible(fblse);
+                        setSelectionVisible(fblse);
                     }
                 }
-            } else if("caretWidth".equals(evt.getPropertyName())) {
-                Integer newWidth = (Integer) evt.getNewValue();
+            } else if("cbretWidth".equbls(evt.getPropertyNbme())) {
+                Integer newWidth = (Integer) evt.getNewVblue();
                 if (newWidth != null) {
-                    caretWidth = newWidth.intValue();
+                    cbretWidth = newWidth.intVblue();
                 } else {
-                    caretWidth = -1;
+                    cbretWidth = -1;
                 }
-                repaint();
-            } else if("caretAspectRatio".equals(evt.getPropertyName())) {
-                Number newRatio = (Number) evt.getNewValue();
-                if (newRatio != null) {
-                    aspectRatio = newRatio.floatValue();
+                repbint();
+            } else if("cbretAspectRbtio".equbls(evt.getPropertyNbme())) {
+                Number newRbtio = (Number) evt.getNewVblue();
+                if (newRbtio != null) {
+                    bspectRbtio = newRbtio.flobtVblue();
                 } else {
-                    aspectRatio = -1;
+                    bspectRbtio = -1;
                 }
-                repaint();
+                repbint();
             }
         }
 
 
         //
-        // ClipboardOwner
+        // ClipbobrdOwner
         //
         /**
          * Toggles the visibility of the selection when ownership is lost.
          */
-        public void lostOwnership(Clipboard clipboard,
-                                      Transferable contents) {
+        public void lostOwnership(Clipbobrd clipbobrd,
+                                      Trbnsferbble contents) {
             if (ownsSelection) {
-                ownsSelection = false;
-                if (component != null && !component.hasFocus()) {
-                    setSelectionVisible(false);
+                ownsSelection = fblse;
+                if (component != null && !component.hbsFocus()) {
+                    setSelectionVisible(fblse);
                 }
             }
         }
     }
 
 
-    private class DefaultFilterBypass extends NavigationFilter.FilterBypass {
-        public Caret getCaret() {
-            return DefaultCaret.this;
+    privbte clbss DefbultFilterBypbss extends NbvigbtionFilter.FilterBypbss {
+        public Cbret getCbret() {
+            return DefbultCbret.this;
         }
 
-        public void setDot(int dot, Position.Bias bias) {
-            handleSetDot(dot, bias);
+        public void setDot(int dot, Position.Bibs bibs) {
+            hbndleSetDot(dot, bibs);
         }
 
-        public void moveDot(int dot, Position.Bias bias) {
-            handleMoveDot(dot, bias);
+        public void moveDot(int dot, Position.Bibs bibs) {
+            hbndleMoveDot(dot, bibs);
         }
     }
 }

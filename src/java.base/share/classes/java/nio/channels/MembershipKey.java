@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.NetworkInterfbce;
+import jbvb.io.IOException;
 
 /**
- * A token representing the membership of an Internet Protocol (IP) multicast
+ * A token representing the membership of bn Internet Protocol (IP) multicbst
  * group.
  *
- * <p> A membership key may represent a membership to receive all datagrams sent
- * to the group, or it may be <em>source-specific</em>, meaning that it
- * represents a membership that receives only datagrams from a specific source
- * address. Whether or not a membership key is source-specific may be determined
+ * <p> A membership key mby represent b membership to receive bll dbtbgrbms sent
+ * to the group, or it mby be <em>source-specific</em>, mebning thbt it
+ * represents b membership thbt receives only dbtbgrbms from b specific source
+ * bddress. Whether or not b membership key is source-specific mby be determined
  * by invoking its {@link #sourceAddress() sourceAddress} method.
  *
- * <p> A membership key is valid upon creation and remains valid until the
+ * <p> A membership key is vblid upon crebtion bnd rembins vblid until the
  * membership is dropped by invoking the {@link #drop() drop} method, or
- * the channel is closed. The validity of the membership key may be tested
- * by invoking its {@link #isValid() isValid} method.
+ * the chbnnel is closed. The vblidity of the membership key mby be tested
+ * by invoking its {@link #isVblid() isVblid} method.
  *
- * <p> Where a membership key is not source-specific and the underlying operation
- * system supports source filtering, then the {@link #block block} and {@link
- * #unblock unblock} methods can be used to block or unblock multicast datagrams
- * from particular source addresses.
+ * <p> Where b membership key is not source-specific bnd the underlying operbtion
+ * system supports source filtering, then the {@link #block block} bnd {@link
+ * #unblock unblock} methods cbn be used to block or unblock multicbst dbtbgrbms
+ * from pbrticulbr source bddresses.
  *
- * @see MulticastChannel
+ * @see MulticbstChbnnel
  *
  * @since 1.7
  */
-public abstract class MembershipKey {
+public bbstrbct clbss MembershipKey {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
     protected MembershipKey() {
     }
 
     /**
-     * Tells whether or not this membership is valid.
+     * Tells whether or not this membership is vblid.
      *
-     * <p> A multicast group membership is valid upon creation and remains
-     * valid until the membership is dropped by invoking the {@link #drop() drop}
-     * method, or the channel is closed.
+     * <p> A multicbst group membership is vblid upon crebtion bnd rembins
+     * vblid until the membership is dropped by invoking the {@link #drop() drop}
+     * method, or the chbnnel is closed.
      *
-     * @return  {@code true} if this membership key is valid, {@code false}
+     * @return  {@code true} if this membership key is vblid, {@code fblse}
      *          otherwise
      */
-    public abstract boolean isValid();
+    public bbstrbct boolebn isVblid();
 
     /**
      * Drop membership.
      *
-     * <p> If the membership key represents a membership to receive all datagrams
-     * then the membership is dropped and the channel will no longer receive any
-     * datagrams sent to the group. If the membership key is source-specific
-     * then the channel will no longer receive datagrams sent to the group from
-     * that source address.
+     * <p> If the membership key represents b membership to receive bll dbtbgrbms
+     * then the membership is dropped bnd the chbnnel will no longer receive bny
+     * dbtbgrbms sent to the group. If the membership key is source-specific
+     * then the chbnnel will no longer receive dbtbgrbms sent to the group from
+     * thbt source bddress.
      *
-     * <p> After membership is dropped it may still be possible to receive
-     * datagrams sent to the group. This can arise when datagrams are waiting to
+     * <p> After membership is dropped it mby still be possible to receive
+     * dbtbgrbms sent to the group. This cbn brise when dbtbgrbms bre wbiting to
      * be received in the socket's receive buffer. After membership is dropped
-     * then the channel may {@link MulticastChannel#join join} the group again
-     * in which case a new membership key is returned.
+     * then the chbnnel mby {@link MulticbstChbnnel#join join} the group bgbin
+     * in which cbse b new membership key is returned.
      *
-     * <p> Upon return, this membership object will be {@link #isValid() invalid}.
-     * If the multicast group membership is already invalid then invoking this
-     * method has no effect. Once a multicast group membership is invalid,
-     * it remains invalid forever.
+     * <p> Upon return, this membership object will be {@link #isVblid() invblid}.
+     * If the multicbst group membership is blrebdy invblid then invoking this
+     * method hbs no effect. Once b multicbst group membership is invblid,
+     * it rembins invblid forever.
      */
-    public abstract void drop();
+    public bbstrbct void drop();
 
     /**
-     * Block multicast datagrams from the given source address.
+     * Block multicbst dbtbgrbms from the given source bddress.
      *
-     * <p> If this membership key is not source-specific, and the underlying
-     * operating system supports source filtering, then this method blocks
-     * multicast datagrams from the given source address. If the given source
-     * address is already blocked then this method has no effect.
-     * After a source address is blocked it may still be possible to receive
-     * datagrams from that source. This can arise when datagrams are waiting to
+     * <p> If this membership key is not source-specific, bnd the underlying
+     * operbting system supports source filtering, then this method blocks
+     * multicbst dbtbgrbms from the given source bddress. If the given source
+     * bddress is blrebdy blocked then this method hbs no effect.
+     * After b source bddress is blocked it mby still be possible to receive
+     * dbtbgrbms from thbt source. This cbn brise when dbtbgrbms bre wbiting to
      * be received in the socket's receive buffer.
      *
-     * @param   source
-     *          The source address to block
+     * @pbrbm   source
+     *          The source bddress to block
      *
      * @return  This membership key
      *
-     * @throws  IllegalArgumentException
-     *          If the {@code source} parameter is not a unicast address or
-     *          is not the same address type as the multicast group
-     * @throws  IllegalStateException
-     *          If this membership key is source-specific or is no longer valid
-     * @throws  UnsupportedOperationException
-     *          If the underlying operating system does not support source
+     * @throws  IllegblArgumentException
+     *          If the {@code source} pbrbmeter is not b unicbst bddress or
+     *          is not the sbme bddress type bs the multicbst group
+     * @throws  IllegblStbteException
+     *          If this membership key is source-specific or is no longer vblid
+     * @throws  UnsupportedOperbtionException
+     *          If the underlying operbting system does not support source
      *          filtering
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public abstract MembershipKey block(InetAddress source) throws IOException;
+    public bbstrbct MembershipKey block(InetAddress source) throws IOException;
 
     /**
-     * Unblock multicast datagrams from the given source address that was
+     * Unblock multicbst dbtbgrbms from the given source bddress thbt wbs
      * previously blocked using the {@link #block(InetAddress) block} method.
      *
-     * @param   source
-     *          The source address to unblock
+     * @pbrbm   source
+     *          The source bddress to unblock
      *
      * @return  This membership key
      *
-     * @throws  IllegalStateException
-     *          If the given source address is not currently blocked or the
-     *          membership key is no longer valid
+     * @throws  IllegblStbteException
+     *          If the given source bddress is not currently blocked or the
+     *          membership key is no longer vblid
      */
-    public abstract MembershipKey unblock(InetAddress source);
+    public bbstrbct MembershipKey unblock(InetAddress source);
 
     /**
-     * Returns the channel for which this membership key was created. This
-     * method will continue to return the channel even after the membership
-     * becomes {@link #isValid invalid}.
+     * Returns the chbnnel for which this membership key wbs crebted. This
+     * method will continue to return the chbnnel even bfter the membership
+     * becomes {@link #isVblid invblid}.
      *
-     * @return  the channel
+     * @return  the chbnnel
      */
-    public abstract MulticastChannel channel();
+    public bbstrbct MulticbstChbnnel chbnnel();
 
     /**
-     * Returns the multicast group for which this membership key was created.
-     * This method will continue to return the group even after the membership
-     * becomes {@link #isValid invalid}.
+     * Returns the multicbst group for which this membership key wbs crebted.
+     * This method will continue to return the group even bfter the membership
+     * becomes {@link #isVblid invblid}.
      *
-     * @return  the multicast group
+     * @return  the multicbst group
      */
-    public abstract InetAddress group();
+    public bbstrbct InetAddress group();
 
     /**
-     * Returns the network interface for which this membership key was created.
-     * This method will continue to return the network interface even after the
-     * membership becomes {@link #isValid invalid}.
+     * Returns the network interfbce for which this membership key wbs crebted.
+     * This method will continue to return the network interfbce even bfter the
+     * membership becomes {@link #isVblid invblid}.
      *
-     * @return  the network interface
+     * @return  the network interfbce
      */
-    public abstract NetworkInterface networkInterface();
+    public bbstrbct NetworkInterfbce networkInterfbce();
 
     /**
-     * Returns the source address if this membership key is source-specific,
+     * Returns the source bddress if this membership key is source-specific,
      * or {@code null} if this membership is not source-specific.
      *
-     * @return  The source address if this membership key is source-specific,
+     * @return  The source bddress if this membership key is source-specific,
      *          otherwise {@code null}
      */
-    public abstract InetAddress sourceAddress();
+    public bbstrbct InetAddress sourceAddress();
 }

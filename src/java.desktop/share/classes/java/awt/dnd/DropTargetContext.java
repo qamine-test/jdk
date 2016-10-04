@@ -1,404 +1,404 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd;
+pbckbge jbvb.bwt.dnd;
 
-import java.awt.Component;
+import jbvb.bwt.Component;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dbtbtrbnsfer.UnsupportedFlbvorException;
 
-import java.awt.dnd.peer.DropTargetContextPeer;
+import jbvb.bwt.dnd.peer.DropTbrgetContextPeer;
 
-import java.io.IOException;
-import java.io.Serializable;
+import jbvb.io.IOException;
+import jbvb.io.Seriblizbble;
 
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
 
 /**
- * A <code>DropTargetContext</code> is created
- * whenever the logical cursor associated
- * with a Drag and Drop operation coincides with the visible geometry of
- * a <code>Component</code> associated with a <code>DropTarget</code>.
- * The <code>DropTargetContext</code> provides
- * the mechanism for a potential receiver
- * of a drop operation to both provide the end user with the appropriate
- * drag under feedback, but also to effect the subsequent data transfer
- * if appropriate.
+ * A <code>DropTbrgetContext</code> is crebted
+ * whenever the logicbl cursor bssocibted
+ * with b Drbg bnd Drop operbtion coincides with the visible geometry of
+ * b <code>Component</code> bssocibted with b <code>DropTbrget</code>.
+ * The <code>DropTbrgetContext</code> provides
+ * the mechbnism for b potentibl receiver
+ * of b drop operbtion to both provide the end user with the bppropribte
+ * drbg under feedbbck, but blso to effect the subsequent dbtb trbnsfer
+ * if bppropribte.
  *
  * @since 1.2
  */
 
-public class DropTargetContext implements Serializable {
+public clbss DropTbrgetContext implements Seriblizbble {
 
-    private static final long serialVersionUID = -634158968993743371L;
+    privbte stbtic finbl long seriblVersionUID = -634158968993743371L;
 
     /**
-     * Construct a <code>DropTargetContext</code>
-     * given a specified <code>DropTarget</code>.
+     * Construct b <code>DropTbrgetContext</code>
+     * given b specified <code>DropTbrget</code>.
      *
-     * @param dt the DropTarget to associate with
+     * @pbrbm dt the DropTbrget to bssocibte with
      */
 
-    DropTargetContext(DropTarget dt) {
+    DropTbrgetContext(DropTbrget dt) {
         super();
 
-        dropTarget = dt;
+        dropTbrget = dt;
     }
 
     /**
-     * This method returns the <code>DropTarget</code> associated with this
-     * <code>DropTargetContext</code>.
+     * This method returns the <code>DropTbrget</code> bssocibted with this
+     * <code>DropTbrgetContext</code>.
      *
-     * @return the <code>DropTarget</code> associated with this <code>DropTargetContext</code>
+     * @return the <code>DropTbrget</code> bssocibted with this <code>DropTbrgetContext</code>
      */
 
-    public DropTarget getDropTarget() { return dropTarget; }
+    public DropTbrget getDropTbrget() { return dropTbrget; }
 
     /**
-     * This method returns the <code>Component</code> associated with
-     * this <code>DropTargetContext</code>.
+     * This method returns the <code>Component</code> bssocibted with
+     * this <code>DropTbrgetContext</code>.
      *
-     * @return the Component associated with this Context
+     * @return the Component bssocibted with this Context
      */
 
-    public Component getComponent() { return dropTarget.getComponent(); }
+    public Component getComponent() { return dropTbrget.getComponent(); }
 
     /**
-     * Called when associated with the <code>DropTargetContextPeer</code>.
+     * Cblled when bssocibted with the <code>DropTbrgetContextPeer</code>.
      *
-     * @param dtcp the <code>DropTargetContextPeer</code>
+     * @pbrbm dtcp the <code>DropTbrgetContextPeer</code>
      */
 
-    public void addNotify(DropTargetContextPeer dtcp) {
-        dropTargetContextPeer = dtcp;
+    public void bddNotify(DropTbrgetContextPeer dtcp) {
+        dropTbrgetContextPeer = dtcp;
     }
 
     /**
-     * Called when disassociated with the <code>DropTargetContextPeer</code>.
+     * Cblled when disbssocibted with the <code>DropTbrgetContextPeer</code>.
      */
 
     public void removeNotify() {
-        dropTargetContextPeer = null;
-        transferable          = null;
+        dropTbrgetContextPeer = null;
+        trbnsferbble          = null;
     }
 
     /**
-     * This method sets the current actions acceptable to
-     * this <code>DropTarget</code>.
+     * This method sets the current bctions bcceptbble to
+     * this <code>DropTbrget</code>.
      *
-     * @param actions an <code>int</code> representing the supported action(s)
+     * @pbrbm bctions bn <code>int</code> representing the supported bction(s)
      */
 
-    protected void setTargetActions(int actions) {
-        DropTargetContextPeer peer = getDropTargetContextPeer();
+    protected void setTbrgetActions(int bctions) {
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
         if (peer != null) {
             synchronized (peer) {
-                peer.setTargetActions(actions);
-                getDropTarget().doSetDefaultActions(actions);
+                peer.setTbrgetActions(bctions);
+                getDropTbrget().doSetDefbultActions(bctions);
             }
         } else {
-            getDropTarget().doSetDefaultActions(actions);
+            getDropTbrget().doSetDefbultActions(bctions);
         }
     }
 
     /**
-     * This method returns an <code>int</code> representing the
-     * current actions this <code>DropTarget</code> will accept.
+     * This method returns bn <code>int</code> representing the
+     * current bctions this <code>DropTbrget</code> will bccept.
      *
-     * @return the current actions acceptable to this <code>DropTarget</code>
+     * @return the current bctions bcceptbble to this <code>DropTbrget</code>
      */
 
-    protected int getTargetActions() {
-        DropTargetContextPeer peer = getDropTargetContextPeer();
+    protected int getTbrgetActions() {
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
         return ((peer != null)
-                        ? peer.getTargetActions()
-                        : dropTarget.getDefaultActions()
+                        ? peer.getTbrgetActions()
+                        : dropTbrget.getDefbultActions()
         );
     }
 
     /**
-     * This method signals that the drop is completed and
-     * if it was successful or not.
+     * This method signbls thbt the drop is completed bnd
+     * if it wbs successful or not.
      *
-     * @param success true for success, false if not
+     * @pbrbm success true for success, fblse if not
      *
-     * @throws InvalidDnDOperationException if a drop is not outstanding/extant
+     * @throws InvblidDnDOperbtionException if b drop is not outstbnding/extbnt
      */
 
-    public void dropComplete(boolean success) throws InvalidDnDOperationException{
-        DropTargetContextPeer peer = getDropTargetContextPeer();
+    public void dropComplete(boolebn success) throws InvblidDnDOperbtionException{
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
         if (peer != null) {
             peer.dropComplete(success);
         }
     }
 
     /**
-     * accept the Drag.
+     * bccept the Drbg.
      *
-     * @param dragOperation the supported action(s)
+     * @pbrbm drbgOperbtion the supported bction(s)
      */
 
-    protected void acceptDrag(int dragOperation) {
-        DropTargetContextPeer peer = getDropTargetContextPeer();
+    protected void bcceptDrbg(int drbgOperbtion) {
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
         if (peer != null) {
-            peer.acceptDrag(dragOperation);
+            peer.bcceptDrbg(drbgOperbtion);
         }
     }
 
     /**
-     * reject the Drag.
+     * reject the Drbg.
      */
 
-    protected void rejectDrag() {
-        DropTargetContextPeer peer = getDropTargetContextPeer();
+    protected void rejectDrbg() {
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
         if (peer != null) {
-            peer.rejectDrag();
+            peer.rejectDrbg();
         }
     }
 
     /**
-     * called to signal that the drop is acceptable
-     * using the specified operation.
-     * must be called during DropTargetListener.drop method invocation.
+     * cblled to signbl thbt the drop is bcceptbble
+     * using the specified operbtion.
+     * must be cblled during DropTbrgetListener.drop method invocbtion.
      *
-     * @param dropOperation the supported action(s)
+     * @pbrbm dropOperbtion the supported bction(s)
      */
 
-    protected void acceptDrop(int dropOperation) {
-        DropTargetContextPeer peer = getDropTargetContextPeer();
+    protected void bcceptDrop(int dropOperbtion) {
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
         if (peer != null) {
-            peer.acceptDrop(dropOperation);
+            peer.bcceptDrop(dropOperbtion);
         }
     }
 
     /**
-     * called to signal that the drop is unacceptable.
-     * must be called during DropTargetListener.drop method invocation.
+     * cblled to signbl thbt the drop is unbcceptbble.
+     * must be cblled during DropTbrgetListener.drop method invocbtion.
      */
 
     protected void rejectDrop() {
-        DropTargetContextPeer peer = getDropTargetContextPeer();
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
         if (peer != null) {
             peer.rejectDrop();
         }
     }
 
     /**
-     * get the available DataFlavors of the
-     * <code>Transferable</code> operand of this operation.
+     * get the bvbilbble DbtbFlbvors of the
+     * <code>Trbnsferbble</code> operbnd of this operbtion.
      *
-     * @return a <code>DataFlavor[]</code> containing the
-     * supported <code>DataFlavor</code>s of the
-     * <code>Transferable</code> operand.
+     * @return b <code>DbtbFlbvor[]</code> contbining the
+     * supported <code>DbtbFlbvor</code>s of the
+     * <code>Trbnsferbble</code> operbnd.
      */
 
-    protected DataFlavor[] getCurrentDataFlavors() {
-        DropTargetContextPeer peer = getDropTargetContextPeer();
-        return peer != null ? peer.getTransferDataFlavors() : new DataFlavor[0];
+    protected DbtbFlbvor[] getCurrentDbtbFlbvors() {
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
+        return peer != null ? peer.getTrbnsferDbtbFlbvors() : new DbtbFlbvor[0];
     }
 
     /**
-     * This method returns a the currently available DataFlavors
-     * of the <code>Transferable</code> operand
-     * as a <code>java.util.List</code>.
+     * This method returns b the currently bvbilbble DbtbFlbvors
+     * of the <code>Trbnsferbble</code> operbnd
+     * bs b <code>jbvb.util.List</code>.
      *
-     * @return the currently available
-     * DataFlavors as a <code>java.util.List</code>
+     * @return the currently bvbilbble
+     * DbtbFlbvors bs b <code>jbvb.util.List</code>
      */
 
-    protected List<DataFlavor> getCurrentDataFlavorsAsList() {
-        return Arrays.asList(getCurrentDataFlavors());
+    protected List<DbtbFlbvor> getCurrentDbtbFlbvorsAsList() {
+        return Arrbys.bsList(getCurrentDbtbFlbvors());
     }
 
     /**
-     * This method returns a <code>boolean</code>
-     * indicating if the given <code>DataFlavor</code> is
-     * supported by this <code>DropTargetContext</code>.
+     * This method returns b <code>boolebn</code>
+     * indicbting if the given <code>DbtbFlbvor</code> is
+     * supported by this <code>DropTbrgetContext</code>.
      *
-     * @param df the <code>DataFlavor</code>
+     * @pbrbm df the <code>DbtbFlbvor</code>
      *
-     * @return if the <code>DataFlavor</code> specified is supported
+     * @return if the <code>DbtbFlbvor</code> specified is supported
      */
 
-    protected boolean isDataFlavorSupported(DataFlavor df) {
-        return getCurrentDataFlavorsAsList().contains(df);
+    protected boolebn isDbtbFlbvorSupported(DbtbFlbvor df) {
+        return getCurrentDbtbFlbvorsAsList().contbins(df);
     }
 
     /**
-     * get the Transferable (proxy) operand of this operation
+     * get the Trbnsferbble (proxy) operbnd of this operbtion
      *
-     * @throws InvalidDnDOperationException if a drag is not outstanding/extant
+     * @throws InvblidDnDOperbtionException if b drbg is not outstbnding/extbnt
      *
-     * @return the <code>Transferable</code>
+     * @return the <code>Trbnsferbble</code>
      */
 
-    protected Transferable getTransferable() throws InvalidDnDOperationException {
-        DropTargetContextPeer peer = getDropTargetContextPeer();
+    protected Trbnsferbble getTrbnsferbble() throws InvblidDnDOperbtionException {
+        DropTbrgetContextPeer peer = getDropTbrgetContextPeer();
         if (peer == null) {
-            throw new InvalidDnDOperationException();
+            throw new InvblidDnDOperbtionException();
         } else {
-            if (transferable == null) {
-                Transferable t = peer.getTransferable();
-                boolean isLocal = peer.isTransferableJVMLocal();
+            if (trbnsferbble == null) {
+                Trbnsferbble t = peer.getTrbnsferbble();
+                boolebn isLocbl = peer.isTrbnsferbbleJVMLocbl();
                 synchronized (this) {
-                    if (transferable == null) {
-                        transferable = createTransferableProxy(t, isLocal);
+                    if (trbnsferbble == null) {
+                        trbnsferbble = crebteTrbnsferbbleProxy(t, isLocbl);
                     }
                 }
             }
 
-            return transferable;
+            return trbnsferbble;
         }
     }
 
     /**
-     * Get the <code>DropTargetContextPeer</code>
+     * Get the <code>DropTbrgetContextPeer</code>
      *
-     * @return the platform peer
+     * @return the plbtform peer
      */
 
-    DropTargetContextPeer getDropTargetContextPeer() {
-        return dropTargetContextPeer;
+    DropTbrgetContextPeer getDropTbrgetContextPeer() {
+        return dropTbrgetContextPeer;
     }
 
     /**
-     * Creates a TransferableProxy to proxy for the specified
-     * Transferable.
+     * Crebtes b TrbnsferbbleProxy to proxy for the specified
+     * Trbnsferbble.
      *
-     * @param t the <tt>Transferable</tt> to be proxied
-     * @param local <tt>true</tt> if <tt>t</tt> represents
-     *        the result of a local drag-n-drop operation.
-     * @return the new <tt>TransferableProxy</tt> instance.
+     * @pbrbm t the <tt>Trbnsferbble</tt> to be proxied
+     * @pbrbm locbl <tt>true</tt> if <tt>t</tt> represents
+     *        the result of b locbl drbg-n-drop operbtion.
+     * @return the new <tt>TrbnsferbbleProxy</tt> instbnce.
      */
-    protected Transferable createTransferableProxy(Transferable t, boolean local) {
-        return new TransferableProxy(t, local);
+    protected Trbnsferbble crebteTrbnsferbbleProxy(Trbnsferbble t, boolebn locbl) {
+        return new TrbnsferbbleProxy(t, locbl);
     }
 
 /****************************************************************************/
 
 
     /**
-     * <code>TransferableProxy</code> is a helper inner class that implements
-     * <code>Transferable</code> interface and serves as a proxy for another
-     * <code>Transferable</code> object which represents data transfer for
-     * a particular drag-n-drop operation.
+     * <code>TrbnsferbbleProxy</code> is b helper inner clbss thbt implements
+     * <code>Trbnsferbble</code> interfbce bnd serves bs b proxy for bnother
+     * <code>Trbnsferbble</code> object which represents dbtb trbnsfer for
+     * b pbrticulbr drbg-n-drop operbtion.
      * <p>
-     * The proxy forwards all requests to the encapsulated transferable
-     * and automatically performs additional conversion on the data
-     * returned by the encapsulated transferable in case of local transfer.
+     * The proxy forwbrds bll requests to the encbpsulbted trbnsferbble
+     * bnd butombticblly performs bdditionbl conversion on the dbtb
+     * returned by the encbpsulbted trbnsferbble in cbse of locbl trbnsfer.
      */
 
-    protected class TransferableProxy implements Transferable {
+    protected clbss TrbnsferbbleProxy implements Trbnsferbble {
 
         /**
-         * Constructs a <code>TransferableProxy</code> given
-         * a specified <code>Transferable</code> object representing
-         * data transfer for a particular drag-n-drop operation and
-         * a <code>boolean</code> which indicates whether the
-         * drag-n-drop operation is local (within the same JVM).
+         * Constructs b <code>TrbnsferbbleProxy</code> given
+         * b specified <code>Trbnsferbble</code> object representing
+         * dbtb trbnsfer for b pbrticulbr drbg-n-drop operbtion bnd
+         * b <code>boolebn</code> which indicbtes whether the
+         * drbg-n-drop operbtion is locbl (within the sbme JVM).
          *
-         * @param t the <code>Transferable</code> object
-         * @param local <code>true</code>, if <code>t</code> represents
-         *        the result of local drag-n-drop operation
+         * @pbrbm t the <code>Trbnsferbble</code> object
+         * @pbrbm locbl <code>true</code>, if <code>t</code> represents
+         *        the result of locbl drbg-n-drop operbtion
          */
-        TransferableProxy(Transferable t, boolean local) {
-            proxy = new sun.awt.datatransfer.TransferableProxy(t, local);
-            transferable = t;
-            isLocal      = local;
+        TrbnsferbbleProxy(Trbnsferbble t, boolebn locbl) {
+            proxy = new sun.bwt.dbtbtrbnsfer.TrbnsferbbleProxy(t, locbl);
+            trbnsferbble = t;
+            isLocbl      = locbl;
         }
 
         /**
-         * Returns an array of DataFlavor objects indicating the flavors
-         * the data can be provided in by the encapsulated transferable.
+         * Returns bn brrby of DbtbFlbvor objects indicbting the flbvors
+         * the dbtb cbn be provided in by the encbpsulbted trbnsferbble.
          *
-         * @return an array of data flavors in which the data can be
-         *         provided by the encapsulated transferable
+         * @return bn brrby of dbtb flbvors in which the dbtb cbn be
+         *         provided by the encbpsulbted trbnsferbble
          */
-        public DataFlavor[] getTransferDataFlavors() {
-            return proxy.getTransferDataFlavors();
+        public DbtbFlbvor[] getTrbnsferDbtbFlbvors() {
+            return proxy.getTrbnsferDbtbFlbvors();
         }
 
         /**
-         * Returns whether or not the specified data flavor is supported by
-         * the encapsulated transferable.
-         * @param flavor the requested flavor for the data
-         * @return <code>true</code> if the data flavor is supported,
-         *         <code>false</code> otherwise
+         * Returns whether or not the specified dbtb flbvor is supported by
+         * the encbpsulbted trbnsferbble.
+         * @pbrbm flbvor the requested flbvor for the dbtb
+         * @return <code>true</code> if the dbtb flbvor is supported,
+         *         <code>fblse</code> otherwise
          */
-        public boolean isDataFlavorSupported(DataFlavor flavor) {
-            return proxy.isDataFlavorSupported(flavor);
+        public boolebn isDbtbFlbvorSupported(DbtbFlbvor flbvor) {
+            return proxy.isDbtbFlbvorSupported(flbvor);
         }
 
         /**
-         * Returns an object which represents the data provided by
-         * the encapsulated transferable for the requested data flavor.
+         * Returns bn object which represents the dbtb provided by
+         * the encbpsulbted trbnsferbble for the requested dbtb flbvor.
          * <p>
-         * In case of local transfer a serialized copy of the object
-         * returned by the encapsulated transferable is provided when
-         * the data is requested in application/x-java-serialized-object
-         * data flavor.
+         * In cbse of locbl trbnsfer b seriblized copy of the object
+         * returned by the encbpsulbted trbnsferbble is provided when
+         * the dbtb is requested in bpplicbtion/x-jbvb-seriblized-object
+         * dbtb flbvor.
          *
-         * @param df the requested flavor for the data
-         * @throws IOException if the data is no longer available
-         *              in the requested flavor.
-         * @throws UnsupportedFlavorException if the requested data flavor is
+         * @pbrbm df the requested flbvor for the dbtb
+         * @throws IOException if the dbtb is no longer bvbilbble
+         *              in the requested flbvor.
+         * @throws UnsupportedFlbvorException if the requested dbtb flbvor is
          *              not supported.
          */
-        public Object getTransferData(DataFlavor df)
-            throws UnsupportedFlavorException, IOException
+        public Object getTrbnsferDbtb(DbtbFlbvor df)
+            throws UnsupportedFlbvorException, IOException
         {
-            return proxy.getTransferData(df);
+            return proxy.getTrbnsferDbtb(df);
         }
 
         /*
          * fields
          */
 
-        // We don't need to worry about client code changing the values of
-        // these variables. Since TransferableProxy is a protected class, only
-        // subclasses of DropTargetContext can access it. And DropTargetContext
-        // cannot be subclassed by client code because it does not have a
+        // We don't need to worry bbout client code chbnging the vblues of
+        // these vbribbles. Since TrbnsferbbleProxy is b protected clbss, only
+        // subclbsses of DropTbrgetContext cbn bccess it. And DropTbrgetContext
+        // cbnnot be subclbssed by client code becbuse it does not hbve b
         // public constructor.
 
         /**
-         * The encapsulated <code>Transferable</code> object.
+         * The encbpsulbted <code>Trbnsferbble</code> object.
          */
-        protected Transferable  transferable;
+        protected Trbnsferbble  trbnsferbble;
 
         /**
-         * A <code>boolean</code> indicating if the encapsulated
-         * <code>Transferable</code> object represents the result
-         * of local drag-n-drop operation (within the same JVM).
+         * A <code>boolebn</code> indicbting if the encbpsulbted
+         * <code>Trbnsferbble</code> object represents the result
+         * of locbl drbg-n-drop operbtion (within the sbme JVM).
          */
-        protected boolean       isLocal;
+        protected boolebn       isLocbl;
 
-        private sun.awt.datatransfer.TransferableProxy proxy;
+        privbte sun.bwt.dbtbtrbnsfer.TrbnsferbbleProxy proxy;
     }
 
 /****************************************************************************/
@@ -408,13 +408,13 @@ public class DropTargetContext implements Serializable {
      */
 
     /**
-     * The DropTarget associated with this DropTargetContext.
+     * The DropTbrget bssocibted with this DropTbrgetContext.
      *
-     * @serial
+     * @seribl
      */
-    private DropTarget dropTarget;
+    privbte DropTbrget dropTbrget;
 
-    private transient DropTargetContextPeer dropTargetContextPeer;
+    privbte trbnsient DropTbrgetContextPeer dropTbrgetContextPeer;
 
-    private transient Transferable transferable;
+    privbte trbnsient Trbnsferbble trbnsferbble;
 }

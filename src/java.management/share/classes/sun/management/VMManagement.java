@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.util.List;
-import sun.management.counter.Counter;
+import jbvb.util.List;
+import sun.mbnbgement.counter.Counter;
 /**
- * An interface for the monitoring and management of the
- * Java virtual machine.
+ * An interfbce for the monitoring bnd mbnbgement of the
+ * Jbvb virtubl mbchine.
  */
-public interface VMManagement {
+public interfbce VMMbnbgement {
 
-    // Optional supports
-    public boolean isCompilationTimeMonitoringSupported();
-    public boolean isThreadContentionMonitoringSupported();
-    public boolean isThreadContentionMonitoringEnabled();
-    public boolean isCurrentThreadCpuTimeSupported();
-    public boolean isOtherThreadCpuTimeSupported();
-    public boolean isThreadCpuTimeEnabled();
-    public boolean isBootClassPathSupported();
-    public boolean isObjectMonitorUsageSupported();
-    public boolean isSynchronizerUsageSupported();
-    public boolean isThreadAllocatedMemorySupported();
-    public boolean isThreadAllocatedMemoryEnabled();
-    public boolean isGcNotificationSupported();
-    public boolean isRemoteDiagnosticCommandsSupported();
+    // Optionbl supports
+    public boolebn isCompilbtionTimeMonitoringSupported();
+    public boolebn isThrebdContentionMonitoringSupported();
+    public boolebn isThrebdContentionMonitoringEnbbled();
+    public boolebn isCurrentThrebdCpuTimeSupported();
+    public boolebn isOtherThrebdCpuTimeSupported();
+    public boolebn isThrebdCpuTimeEnbbled();
+    public boolebn isBootClbssPbthSupported();
+    public boolebn isObjectMonitorUsbgeSupported();
+    public boolebn isSynchronizerUsbgeSupported();
+    public boolebn isThrebdAllocbtedMemorySupported();
+    public boolebn isThrebdAllocbtedMemoryEnbbled();
+    public boolebn isGcNotificbtionSupported();
+    public boolebn isRemoteDibgnosticCommbndsSupported();
 
-    // Class Loading Subsystem
-    public long    getTotalClassCount();
-    public int     getLoadedClassCount();
-    public long    getUnloadedClassCount();
-    public boolean getVerboseClass();
+    // Clbss Lobding Subsystem
+    public long    getTotblClbssCount();
+    public int     getLobdedClbssCount();
+    public long    getUnlobdedClbssCount();
+    public boolebn getVerboseClbss();
 
     // Memory Subsystem
-    public boolean getVerboseGC();
+    public boolebn getVerboseGC();
 
     // Runtime Subsystem
-    public String  getManagementVersion();
+    public String  getMbnbgementVersion();
     public String  getVmId();
-    public String  getVmName();
+    public String  getVmNbme();
     public String  getVmVendor();
     public String  getVmVersion();
-    public String  getVmSpecName();
+    public String  getVmSpecNbme();
     public String  getVmSpecVendor();
     public String  getVmSpecVersion();
-    public String  getClassPath();
-    public String  getLibraryPath();
-    public String  getBootClassPath();
+    public String  getClbssPbth();
+    public String  getLibrbryPbth();
+    public String  getBootClbssPbth();
     public List<String> getVmArguments();
-    public long    getStartupTime();
+    public long    getStbrtupTime();
     public long    getUptime();
-    public int     getAvailableProcessors();
+    public int     getAvbilbbleProcessors();
 
-    // Compilation Subsystem
-    public String  getCompilerName();
-    public long    getTotalCompileTime();
+    // Compilbtion Subsystem
+    public String  getCompilerNbme();
+    public long    getTotblCompileTime();
 
-    // Thread Subsystem
-    public long    getTotalThreadCount();
-    public int     getLiveThreadCount();
-    public int     getPeakThreadCount();
-    public int     getDaemonThreadCount();
+    // Threbd Subsystem
+    public long    getTotblThrebdCount();
+    public int     getLiveThrebdCount();
+    public int     getPebkThrebdCount();
+    public int     getDbemonThrebdCount();
 
-    // Operating System
-    public String  getOsName();
+    // Operbting System
+    public String  getOsNbme();
     public String  getOsArch();
     public String  getOsVersion();
 
     // Hotspot-specific Runtime support
-    public long    getSafepointCount();
-    public long    getTotalSafepointTime();
-    public long    getSafepointSyncTime();
-    public long    getTotalApplicationNonStoppedTime();
+    public long    getSbfepointCount();
+    public long    getTotblSbfepointTime();
+    public long    getSbfepointSyncTime();
+    public long    getTotblApplicbtionNonStoppedTime();
 
-    public long    getLoadedClassSize();
-    public long    getUnloadedClassSize();
-    public long    getClassLoadingTime();
-    public long    getMethodDataSize();
-    public long    getInitializedClassCount();
-    public long    getClassInitializationTime();
-    public long    getClassVerificationTime();
+    public long    getLobdedClbssSize();
+    public long    getUnlobdedClbssSize();
+    public long    getClbssLobdingTime();
+    public long    getMethodDbtbSize();
+    public long    getInitiblizedClbssCount();
+    public long    getClbssInitiblizbtionTime();
+    public long    getClbssVerificbtionTime();
 
-    // Performance counter support
-    public List<Counter>   getInternalCounters(String pattern);
+    // Performbnce counter support
+    public List<Counter>   getInternblCounters(String pbttern);
 }

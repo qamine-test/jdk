@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.counter;
+pbckbge sun.mbnbgement.counter;
 
 /**
- * Provides a typesafe enumeration for the Variability attribute for
- * instrumentation objects.
+ * Provides b typesbfe enumerbtion for the Vbribbility bttribute for
+ * instrumentbtion objects.
  *
- * @author   Brian Doherty
+ * @buthor   Bribn Doherty
  */
-public class Variability implements java.io.Serializable {
+public clbss Vbribbility implements jbvb.io.Seriblizbble {
 
-    /* The enumeration values for this typesafe enumeration must be
-     * kept in synchronization with the Variability enum in the perfData.hpp file
-     * in the HotSpot source base.
+    /* The enumerbtion vblues for this typesbfe enumerbtion must be
+     * kept in synchronizbtion with the Vbribbility enum in the perfDbtb.hpp file
+     * in the HotSpot source bbse.
      */
 
-    private static final int NATTRIBUTES = 4;
-    private static Variability[] map = new Variability[NATTRIBUTES];
+    privbte stbtic finbl int NATTRIBUTES = 4;
+    privbte stbtic Vbribbility[] mbp = new Vbribbility[NATTRIBUTES];
 
-    private String name;
-    private int value;
+    privbte String nbme;
+    privbte int vblue;
 
     /**
-     * An invalid Variablity value.
+     * An invblid Vbribblity vblue.
      */
-    public static final Variability INVALID = new Variability("Invalid",0);
+    public stbtic finbl Vbribbility INVALID = new Vbribbility("Invblid",0);
 
     /**
-     * Variability attribute representing Constant counters.
+     * Vbribbility bttribute representing Constbnt counters.
      */
-    public static final Variability CONSTANT = new Variability("Constant",1);
+    public stbtic finbl Vbribbility CONSTANT = new Vbribbility("Constbnt",1);
 
     /**
-     * Variability attribute representing a Monotonically changing counters.
+     * Vbribbility bttribute representing b Monotonicblly chbnging counters.
      */
-    public static final Variability MONOTONIC = new Variability("Monotonic",2);
+    public stbtic finbl Vbribbility MONOTONIC = new Vbribbility("Monotonic",2);
 
     /**
-     * Variability attribute representing Variable counters.
+     * Vbribbility bttribute representing Vbribble counters.
      */
-    public static final Variability VARIABLE = new Variability("Variable",3);
+    public stbtic finbl Vbribbility VARIABLE = new Vbribbility("Vbribble",3);
 
     /**
-     * Returns a string describing this Variability attribute.
+     * Returns b string describing this Vbribbility bttribute.
      *
-     * @return String - a descriptive string for this enum.
+     * @return String - b descriptive string for this enum.
      */
     public String toString() {
-        return name;
+        return nbme;
     }
 
     /**
-     * Returns the integer representation of this Variability attribute.
+     * Returns the integer representbtion of this Vbribbility bttribute.
      *
-     * @return int - an integer representation of this Variability attribute.
+     * @return int - bn integer representbtion of this Vbribbility bttribute.
      */
-    public int intValue() {
-        return value;
+    public int intVblue() {
+        return vblue;
     }
 
     /**
-     * Maps an integer value its corresponding Variability attribute.
-     * If the integer value does not have a corresponding Variability enum
-     * value, the {@link Variability#INVALID} is returned
+     * Mbps bn integer vblue its corresponding Vbribbility bttribute.
+     * If the integer vblue does not hbve b corresponding Vbribbility enum
+     * vblue, the {@link Vbribbility#INVALID} is returned
      *
-     * @param value an integer representation of a Variability attribute
-     * @return Variability - The Variability object for the given
-     *                       <code>value</code> or {@link Variability#INVALID}
-     *                       if out of range.
+     * @pbrbm vblue bn integer representbtion of b Vbribbility bttribute
+     * @return Vbribbility - The Vbribbility object for the given
+     *                       <code>vblue</code> or {@link Vbribbility#INVALID}
+     *                       if out of rbnge.
      */
-    public static Variability toVariability(int value) {
+    public stbtic Vbribbility toVbribbility(int vblue) {
 
-        if (value < 0 || value >= map.length || map[value] == null) {
+        if (vblue < 0 || vblue >= mbp.length || mbp[vblue] == null) {
             return INVALID;
         }
 
-        return map[value];
+        return mbp[vblue];
     }
 
-    private Variability(String name, int value) {
-        this.name = name;
-        this.value = value;
-        map[value]=this;
+    privbte Vbribbility(String nbme, int vblue) {
+        this.nbme = nbme;
+        this.vblue = vblue;
+        mbp[vblue]=this;
     }
 
-    private static final long serialVersionUID = 6992337162326171013L;
+    privbte stbtic finbl long seriblVersionUID = 6992337162326171013L;
 }

@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
 import sun.swing.SwingUtilities2;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.lang.reflect.*;
-import java.net.*;
-import java.util.*;
-import java.io.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.lbng.reflect.*;
+import jbvb.net.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.plaf.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
-import javax.swing.text.html.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.html.*;
+import jbvbx.bccessibility.*;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * A text component to edit various kinds of content.
- * You can find how-to information and examples of using editor panes in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/text.html">Using Text Components</a>,
- * a section in <em>The Java Tutorial.</em>
+ * A text component to edit vbrious kinds of content.
+ * You cbn find how-to informbtion bnd exbmples of using editor pbnes in
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/text.html">Using Text Components</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  *
  * <p>
- * This component uses implementations of the
- * <code>EditorKit</code> to accomplish its behavior. It effectively
+ * This component uses implementbtions of the
+ * <code>EditorKit</code> to bccomplish its behbvior. It effectively
  * morphs into the proper kind of text editor for the kind
- * of content it is given.  The content type that editor is bound
- * to at any given time is determined by the <code>EditorKit</code> currently
- * installed.  If the content is set to a new URL, its type is used
- * to determine the <code>EditorKit</code> that should be used to
- * load the content.
+ * of content it is given.  The content type thbt editor is bound
+ * to bt bny given time is determined by the <code>EditorKit</code> currently
+ * instblled.  If the content is set to b new URL, its type is used
+ * to determine the <code>EditorKit</code> thbt should be used to
+ * lobd the content.
  * <p>
- * By default, the following types of content are known:
+ * By defbult, the following types of content bre known:
  * <dl>
- * <dt><b>text/plain</b>
- * <dd>Plain text, which is the default the type given isn't
- * recognized.  The kit used in this case is an extension of
- * <code>DefaultEditorKit</code> that produces a wrapped plain text view.
+ * <dt><b>text/plbin</b>
+ * <dd>Plbin text, which is the defbult the type given isn't
+ * recognized.  The kit used in this cbse is bn extension of
+ * <code>DefbultEditorKit</code> thbt produces b wrbpped plbin text view.
  * <dt><b>text/html</b>
- * <dd>HTML text.  The kit used in this case is the class
- * <code>javax.swing.text.html.HTMLEditorKit</code>
+ * <dd>HTML text.  The kit used in this cbse is the clbss
+ * <code>jbvbx.swing.text.html.HTMLEditorKit</code>
  * which provides HTML 3.2 support.
  * <dt><b>text/rtf</b>
- * <dd>RTF text.  The kit used in this case is the class
- * <code>javax.swing.text.rtf.RTFEditorKit</code>
- * which provides a limited support of the Rich Text Format.
+ * <dd>RTF text.  The kit used in this cbse is the clbss
+ * <code>jbvbx.swing.text.rtf.RTFEditorKit</code>
+ * which provides b limited support of the Rich Text Formbt.
  * </dl>
  * <p>
- * There are several ways to load content into this component.
+ * There bre severbl wbys to lobd content into this component.
  * <ol>
  * <li>
- * The {@link #setText setText} method can be used to initialize
- * the component from a string.  In this case the current
- * <code>EditorKit</code> will be used, and the content type will be
+ * The {@link #setText setText} method cbn be used to initiblize
+ * the component from b string.  In this cbse the current
+ * <code>EditorKit</code> will be used, bnd the content type will be
  * expected to be of this type.
  * <li>
- * The {@link #read read} method can be used to initialize the
- * component from a <code>Reader</code>.  Note that if the content type is HTML,
- * relative references (e.g. for things like images) can't be resolved
- * unless the &lt;base&gt; tag is used or the <em>Base</em> property
+ * The {@link #rebd rebd} method cbn be used to initiblize the
+ * component from b <code>Rebder</code>.  Note thbt if the content type is HTML,
+ * relbtive references (e.g. for things like imbges) cbn't be resolved
+ * unless the &lt;bbse&gt; tbg is used or the <em>Bbse</em> property
  * on <code>HTMLDocument</code> is set.
- * In this case the current <code>EditorKit</code> will be used,
- * and the content type will be expected to be of this type.
+ * In this cbse the current <code>EditorKit</code> will be used,
+ * bnd the content type will be expected to be of this type.
  * <li>
- * The {@link #setPage setPage} method can be used to initialize
- * the component from a URL.  In this case, the content type will be
- * determined from the URL, and the registered <code>EditorKit</code>
- * for that content type will be set.
+ * The {@link #setPbge setPbge} method cbn be used to initiblize
+ * the component from b URL.  In this cbse, the content type will be
+ * determined from the URL, bnd the registered <code>EditorKit</code>
+ * for thbt content type will be set.
  * </ol>
  * <p>
- * Some kinds of content may provide hyperlink support by generating
- * hyperlink events.  The HTML <code>EditorKit</code> will generate
- * hyperlink events if the <code>JEditorPane</code> is <em>not editable</em>
- * (<code>JEditorPane.setEditable(false);</code> has been called).
- * If HTML frames are embedded in the document, the typical response would be
- * to change a portion of the current document.  The following code
- * fragment is a possible hyperlink listener implementation, that treats
- * HTML frame events specially, and simply displays any other activated
+ * Some kinds of content mby provide hyperlink support by generbting
+ * hyperlink events.  The HTML <code>EditorKit</code> will generbte
+ * hyperlink events if the <code>JEditorPbne</code> is <em>not editbble</em>
+ * (<code>JEditorPbne.setEditbble(fblse);</code> hbs been cblled).
+ * If HTML frbmes bre embedded in the document, the typicbl response would be
+ * to chbnge b portion of the current document.  The following code
+ * frbgment is b possible hyperlink listener implementbtion, thbt trebts
+ * HTML frbme events speciblly, bnd simply displbys bny other bctivbted
  * hyperlinks.
  * <pre>
 
-&nbsp;    class Hyperactive implements HyperlinkListener {
+&nbsp;    clbss Hyperbctive implements HyperlinkListener {
 &nbsp;
-&nbsp;        public void hyperlinkUpdate(HyperlinkEvent e) {
+&nbsp;        public void hyperlinkUpdbte(HyperlinkEvent e) {
 &nbsp;            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-&nbsp;                JEditorPane pane = (JEditorPane) e.getSource();
-&nbsp;                if (e instanceof HTMLFrameHyperlinkEvent) {
-&nbsp;                    HTMLFrameHyperlinkEvent  evt = (HTMLFrameHyperlinkEvent)e;
-&nbsp;                    HTMLDocument doc = (HTMLDocument)pane.getDocument();
-&nbsp;                    doc.processHTMLFrameHyperlinkEvent(evt);
+&nbsp;                JEditorPbne pbne = (JEditorPbne) e.getSource();
+&nbsp;                if (e instbnceof HTMLFrbmeHyperlinkEvent) {
+&nbsp;                    HTMLFrbmeHyperlinkEvent  evt = (HTMLFrbmeHyperlinkEvent)e;
+&nbsp;                    HTMLDocument doc = (HTMLDocument)pbne.getDocument();
+&nbsp;                    doc.processHTMLFrbmeHyperlinkEvent(evt);
 &nbsp;                } else {
 &nbsp;                    try {
-&nbsp;                        pane.setPage(e.getURL());
-&nbsp;                    } catch (Throwable t) {
-&nbsp;                        t.printStackTrace();
+&nbsp;                        pbne.setPbge(e.getURL());
+&nbsp;                    } cbtch (Throwbble t) {
+&nbsp;                        t.printStbckTrbce();
 &nbsp;                    }
 &nbsp;                }
 &nbsp;            }
@@ -128,685 +128,685 @@ import sun.reflect.misc.ReflectUtil;
 
  * </pre>
  * <p>
- * For information on customizing how <b>text/html</b> is rendered please see
- * {@link #W3C_LENGTH_UNITS} and {@link #HONOR_DISPLAY_PROPERTIES}
+ * For informbtion on customizing how <b>text/html</b> is rendered plebse see
+ * {@link #W3C_LENGTH_UNITS} bnd {@link #HONOR_DISPLAY_PROPERTIES}
  * <p>
- * Culturally dependent information in some documents is handled through
- * a mechanism called character encoding.  Character encoding is an
- * unambiguous mapping of the members of a character set (letters, ideographs,
- * digits, symbols, or control functions) to specific numeric code values. It
- * represents the way the file is stored. Example character encodings are
- * ISO-8859-1, ISO-8859-5, Shift-jis, Euc-jp, and UTF-8. When the file is
- * passed to an user agent (<code>JEditorPane</code>) it is converted to
- * the document character set (ISO-10646 aka Unicode).
+ * Culturblly dependent informbtion in some documents is hbndled through
+ * b mechbnism cblled chbrbcter encoding.  Chbrbcter encoding is bn
+ * unbmbiguous mbpping of the members of b chbrbcter set (letters, ideogrbphs,
+ * digits, symbols, or control functions) to specific numeric code vblues. It
+ * represents the wby the file is stored. Exbmple chbrbcter encodings bre
+ * ISO-8859-1, ISO-8859-5, Shift-jis, Euc-jp, bnd UTF-8. When the file is
+ * pbssed to bn user bgent (<code>JEditorPbne</code>) it is converted to
+ * the document chbrbcter set (ISO-10646 bkb Unicode).
  * <p>
- * There are multiple ways to get a character set mapping to happen
- * with <code>JEditorPane</code>.
+ * There bre multiple wbys to get b chbrbcter set mbpping to hbppen
+ * with <code>JEditorPbne</code>.
  * <ol>
  * <li>
- * One way is to specify the character set as a parameter of the MIME
- * type.  This will be established by a call to the
+ * One wby is to specify the chbrbcter set bs b pbrbmeter of the MIME
+ * type.  This will be estbblished by b cbll to the
  * {@link #setContentType setContentType} method.  If the content
- * is loaded by the {@link #setPage setPage} method the content
- * type will have been set according to the specification of the URL.
- * It the file is loaded directly, the content type would be expected to
- * have been set prior to loading.
+ * is lobded by the {@link #setPbge setPbge} method the content
+ * type will hbve been set bccording to the specificbtion of the URL.
+ * It the file is lobded directly, the content type would be expected to
+ * hbve been set prior to lobding.
  * <li>
- * Another way the character set can be specified is in the document itself.
- * This requires reading the document prior to determining the character set
- * that is desired.  To handle this, it is expected that the
- * <code>EditorKit</code>.read operation throw a
- * <code>ChangedCharSetException</code> which will
- * be caught.  The read is then restarted with a new Reader that uses
- * the character set specified in the <code>ChangedCharSetException</code>
- * (which is an <code>IOException</code>).
+ * Another wby the chbrbcter set cbn be specified is in the document itself.
+ * This requires rebding the document prior to determining the chbrbcter set
+ * thbt is desired.  To hbndle this, it is expected thbt the
+ * <code>EditorKit</code>.rebd operbtion throw b
+ * <code>ChbngedChbrSetException</code> which will
+ * be cbught.  The rebd is then restbrted with b new Rebder thbt uses
+ * the chbrbcter set specified in the <code>ChbngedChbrSetException</code>
+ * (which is bn <code>IOException</code>).
  * </ol>
  *
  * <dl>
  * <dt><b>Newlines</b>
  * <dd>
- * For a discussion on how newlines are handled, see
- * <a href="text/DefaultEditorKit.html">DefaultEditorKit</a>.
+ * For b discussion on how newlines bre hbndled, see
+ * <b href="text/DefbultEditorKit.html">DefbultEditorKit</b>.
  * </dl>
  *
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A text component to edit various types of content.
+ * @bebninfo
+ *   bttribute: isContbiner fblse
+ * description: A text component to edit vbrious types of content.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JEditorPane extends JTextComponent {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JEditorPbne extends JTextComponent {
 
     /**
-     * Creates a new <code>JEditorPane</code>.
+     * Crebtes b new <code>JEditorPbne</code>.
      * The document model is set to <code>null</code>.
      */
-    public JEditorPane() {
+    public JEditorPbne() {
         super();
         setFocusCycleRoot(true);
-        setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
-                public Component getComponentAfter(Container focusCycleRoot,
-                                                   Component aComponent) {
-                    if (focusCycleRoot != JEditorPane.this ||
-                        (!isEditable() && getComponentCount() > 0)) {
+        setFocusTrbversblPolicy(new LbyoutFocusTrbversblPolicy() {
+                public Component getComponentAfter(Contbiner focusCycleRoot,
+                                                   Component bComponent) {
+                    if (focusCycleRoot != JEditorPbne.this ||
+                        (!isEditbble() && getComponentCount() > 0)) {
                         return super.getComponentAfter(focusCycleRoot,
-                                                       aComponent);
+                                                       bComponent);
                     } else {
-                        Container rootAncestor = getFocusCycleRootAncestor();
+                        Contbiner rootAncestor = getFocusCycleRootAncestor();
                         return (rootAncestor != null)
-                            ? rootAncestor.getFocusTraversalPolicy().
+                            ? rootAncestor.getFocusTrbversblPolicy().
                                   getComponentAfter(rootAncestor,
-                                                    JEditorPane.this)
+                                                    JEditorPbne.this)
                             : null;
                     }
                 }
-                public Component getComponentBefore(Container focusCycleRoot,
-                                                    Component aComponent) {
-                    if (focusCycleRoot != JEditorPane.this ||
-                        (!isEditable() && getComponentCount() > 0)) {
+                public Component getComponentBefore(Contbiner focusCycleRoot,
+                                                    Component bComponent) {
+                    if (focusCycleRoot != JEditorPbne.this ||
+                        (!isEditbble() && getComponentCount() > 0)) {
                         return super.getComponentBefore(focusCycleRoot,
-                                                        aComponent);
+                                                        bComponent);
                     } else {
-                        Container rootAncestor = getFocusCycleRootAncestor();
+                        Contbiner rootAncestor = getFocusCycleRootAncestor();
                         return (rootAncestor != null)
-                            ? rootAncestor.getFocusTraversalPolicy().
+                            ? rootAncestor.getFocusTrbversblPolicy().
                                   getComponentBefore(rootAncestor,
-                                                     JEditorPane.this)
+                                                     JEditorPbne.this)
                             : null;
                     }
                 }
-                public Component getDefaultComponent(Container focusCycleRoot)
+                public Component getDefbultComponent(Contbiner focusCycleRoot)
                 {
-                    return (focusCycleRoot != JEditorPane.this ||
-                            (!isEditable() && getComponentCount() > 0))
-                        ? super.getDefaultComponent(focusCycleRoot)
+                    return (focusCycleRoot != JEditorPbne.this ||
+                            (!isEditbble() && getComponentCount() > 0))
+                        ? super.getDefbultComponent(focusCycleRoot)
                         : null;
                 }
-                protected boolean accept(Component aComponent) {
-                    return (aComponent != JEditorPane.this)
-                        ? super.accept(aComponent)
-                        : false;
+                protected boolebn bccept(Component bComponent) {
+                    return (bComponent != JEditorPbne.this)
+                        ? super.bccept(bComponent)
+                        : fblse;
                 }
             });
-        LookAndFeel.installProperty(this,
-                                    "focusTraversalKeysForward",
+        LookAndFeel.instbllProperty(this,
+                                    "focusTrbversblKeysForwbrd",
                                     JComponent.
-                                    getManagingFocusForwardTraversalKeys());
-        LookAndFeel.installProperty(this,
-                                    "focusTraversalKeysBackward",
+                                    getMbnbgingFocusForwbrdTrbversblKeys());
+        LookAndFeel.instbllProperty(this,
+                                    "focusTrbversblKeysBbckwbrd",
                                     JComponent.
-                                    getManagingFocusBackwardTraversalKeys());
+                                    getMbnbgingFocusBbckwbrdTrbversblKeys());
     }
 
     /**
-     * Creates a <code>JEditorPane</code> based on a specified URL for input.
+     * Crebtes b <code>JEditorPbne</code> bbsed on b specified URL for input.
      *
-     * @param initialPage the URL
+     * @pbrbm initiblPbge the URL
      * @exception IOException if the URL is <code>null</code>
-     *          or cannot be accessed
+     *          or cbnnot be bccessed
      */
-    public JEditorPane(URL initialPage) throws IOException {
+    public JEditorPbne(URL initiblPbge) throws IOException {
         this();
-        setPage(initialPage);
+        setPbge(initiblPbge);
     }
 
     /**
-     * Creates a <code>JEditorPane</code> based on a string containing
-     * a URL specification.
+     * Crebtes b <code>JEditorPbne</code> bbsed on b string contbining
+     * b URL specificbtion.
      *
-     * @param url the URL
+     * @pbrbm url the URL
      * @exception IOException if the URL is <code>null</code> or
-     *          cannot be accessed
+     *          cbnnot be bccessed
      */
-    public JEditorPane(String url) throws IOException {
+    public JEditorPbne(String url) throws IOException {
         this();
-        setPage(url);
+        setPbge(url);
     }
 
     /**
-     * Creates a <code>JEditorPane</code> that has been initialized
-     * to the given text.  This is a convenience constructor that calls the
-     * <code>setContentType</code> and <code>setText</code> methods.
+     * Crebtes b <code>JEditorPbne</code> thbt hbs been initiblized
+     * to the given text.  This is b convenience constructor thbt cblls the
+     * <code>setContentType</code> bnd <code>setText</code> methods.
      *
-     * @param type mime type of the given text
-     * @param text the text to initialize with; may be <code>null</code>
-     * @exception NullPointerException if the <code>type</code> parameter
+     * @pbrbm type mime type of the given text
+     * @pbrbm text the text to initiblize with; mby be <code>null</code>
+     * @exception NullPointerException if the <code>type</code> pbrbmeter
      *          is <code>null</code>
      */
-    public JEditorPane(String type, String text) {
+    public JEditorPbne(String type, String text) {
         this();
         setContentType(type);
         setText(text);
     }
 
     /**
-     * Adds a hyperlink listener for notification of any changes, for example
-     * when a link is selected and entered.
+     * Adds b hyperlink listener for notificbtion of bny chbnges, for exbmple
+     * when b link is selected bnd entered.
      *
-     * @param listener the listener
+     * @pbrbm listener the listener
      */
-    public synchronized void addHyperlinkListener(HyperlinkListener listener) {
-        listenerList.add(HyperlinkListener.class, listener);
+    public synchronized void bddHyperlinkListener(HyperlinkListener listener) {
+        listenerList.bdd(HyperlinkListener.clbss, listener);
     }
 
     /**
-     * Removes a hyperlink listener.
+     * Removes b hyperlink listener.
      *
-     * @param listener the listener
+     * @pbrbm listener the listener
      */
     public synchronized void removeHyperlinkListener(HyperlinkListener listener) {
-        listenerList.remove(HyperlinkListener.class, listener);
+        listenerList.remove(HyperlinkListener.clbss, listener);
     }
 
     /**
-     * Returns an array of all the <code>HyperLinkListener</code>s added
-     * to this JEditorPane with addHyperlinkListener().
+     * Returns bn brrby of bll the <code>HyperLinkListener</code>s bdded
+     * to this JEditorPbne with bddHyperlinkListener().
      *
-     * @return all of the <code>HyperLinkListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>HyperLinkListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
     public synchronized HyperlinkListener[] getHyperlinkListeners() {
-        return listenerList.getListeners(javax.swing.event.HyperlinkListener.class);
+        return listenerList.getListeners(jbvbx.swing.event.HyperlinkListener.clbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  This is normally called
-     * by the currently installed <code>EditorKit</code> if a content type
-     * that supports hyperlinks is currently active and there
-     * was activity with a link.  The listener list is processed
-     * last to first.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  This is normblly cblled
+     * by the currently instblled <code>EditorKit</code> if b content type
+     * thbt supports hyperlinks is currently bctive bnd there
+     * wbs bctivity with b link.  The listener list is processed
+     * lbst to first.
      *
-     * @param e the event
+     * @pbrbm e the event
      * @see EventListenerList
      */
-    public void fireHyperlinkUpdate(HyperlinkEvent e) {
-        // Guaranteed to return a non-null array
+    public void fireHyperlinkUpdbte(HyperlinkEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==HyperlinkListener.class) {
-                ((HyperlinkListener)listeners[i+1]).hyperlinkUpdate(e);
+            if (listeners[i]==HyperlinkListener.clbss) {
+                ((HyperlinkListener)listeners[i+1]).hyperlinkUpdbte(e);
             }
         }
     }
 
 
     /**
-     * Sets the current URL being displayed.  The content type of the
-     * pane is set, and if the editor kit for the pane is
+     * Sets the current URL being displbyed.  The content type of the
+     * pbne is set, bnd if the editor kit for the pbne is
      * non-<code>null</code>, then
-     * a new default document is created and the URL is read into it.
-     * If the URL contains and reference location, the location will
-     * be scrolled to by calling the <code>scrollToReference</code>
-     * method. If the desired URL is the one currently being displayed,
-     * the document will not be reloaded. To force a document
-     * reload it is necessary to clear the stream description property
-     * of the document. The following code shows how this can be done:
+     * b new defbult document is crebted bnd the URL is rebd into it.
+     * If the URL contbins bnd reference locbtion, the locbtion will
+     * be scrolled to by cblling the <code>scrollToReference</code>
+     * method. If the desired URL is the one currently being displbyed,
+     * the document will not be relobded. To force b document
+     * relobd it is necessbry to clebr the strebm description property
+     * of the document. The following code shows how this cbn be done:
      *
      * <pre>
-     *   Document doc = jEditorPane.getDocument();
-     *   doc.putProperty(Document.StreamDescriptionProperty, null);
+     *   Document doc = jEditorPbne.getDocument();
+     *   doc.putProperty(Document.StrebmDescriptionProperty, null);
      * </pre>
      *
      * If the desired URL is not the one currently being
-     * displayed, the <code>getStream</code> method is called to
-     * give subclasses control over the stream provided.
+     * displbyed, the <code>getStrebm</code> method is cblled to
+     * give subclbsses control over the strebm provided.
      * <p>
-     * This may load either synchronously or asynchronously
+     * This mby lobd either synchronously or bsynchronously
      * depending upon the document returned by the <code>EditorKit</code>.
      * If the <code>Document</code> is of type
-     * <code>AbstractDocument</code> and has a value returned by
-     * <code>AbstractDocument.getAsynchronousLoadPriority</code>
-     * that is greater than or equal to zero, the page will be
-     * loaded on a separate thread using that priority.
+     * <code>AbstrbctDocument</code> bnd hbs b vblue returned by
+     * <code>AbstrbctDocument.getAsynchronousLobdPriority</code>
+     * thbt is grebter thbn or equbl to zero, the pbge will be
+     * lobded on b sepbrbte threbd using thbt priority.
      * <p>
-     * If the document is loaded synchronously, it will be
-     * filled in with the stream prior to being installed into
-     * the editor with a call to <code>setDocument</code>, which
-     * is bound and will fire a property change event.  If an
-     * <code>IOException</code> is thrown the partially loaded
+     * If the document is lobded synchronously, it will be
+     * filled in with the strebm prior to being instblled into
+     * the editor with b cbll to <code>setDocument</code>, which
+     * is bound bnd will fire b property chbnge event.  If bn
+     * <code>IOException</code> is thrown the pbrtiblly lobded
      * document will
-     * be discarded and neither the document or page property
-     * change events will be fired.  If the document is
-     * successfully loaded and installed, a view will be
+     * be discbrded bnd neither the document or pbge property
+     * chbnge events will be fired.  If the document is
+     * successfully lobded bnd instblled, b view will be
      * built for it by the UI which will then be scrolled if
-     * necessary, and then the page property change event
+     * necessbry, bnd then the pbge property chbnge event
      * will be fired.
      * <p>
-     * If the document is loaded asynchronously, the document
-     * will be installed into the editor immediately using a
-     * call to <code>setDocument</code> which will fire a
-     * document property change event, then a thread will be
-     * created which will begin doing the actual loading.
-     * In this case, the page property change event will not be
-     * fired by the call to this method directly, but rather will be
-     * fired when the thread doing the loading has finished.
-     * It will also be fired on the event-dispatch thread.
-     * Since the calling thread can not throw an <code>IOException</code>
-     * in the event of failure on the other thread, the page
-     * property change event will be fired when the other
-     * thread is done whether the load was successful or not.
+     * If the document is lobded bsynchronously, the document
+     * will be instblled into the editor immedibtely using b
+     * cbll to <code>setDocument</code> which will fire b
+     * document property chbnge event, then b threbd will be
+     * crebted which will begin doing the bctubl lobding.
+     * In this cbse, the pbge property chbnge event will not be
+     * fired by the cbll to this method directly, but rbther will be
+     * fired when the threbd doing the lobding hbs finished.
+     * It will blso be fired on the event-dispbtch threbd.
+     * Since the cblling threbd cbn not throw bn <code>IOException</code>
+     * in the event of fbilure on the other threbd, the pbge
+     * property chbnge event will be fired when the other
+     * threbd is done whether the lobd wbs successful or not.
      *
-     * @param page the URL of the page
-     * @exception IOException for a <code>null</code> or invalid
-     *          page specification, or exception from the stream being read
-     * @see #getPage
-     * @beaninfo
+     * @pbrbm pbge the URL of the pbge
+     * @exception IOException for b <code>null</code> or invblid
+     *          pbge specificbtion, or exception from the strebm being rebd
+     * @see #getPbge
+     * @bebninfo
      *  description: the URL used to set content
      *        bound: true
      *       expert: true
      */
-    public void setPage(URL page) throws IOException {
-        if (page == null) {
-            throw new IOException("invalid url");
+    public void setPbge(URL pbge) throws IOException {
+        if (pbge == null) {
+            throw new IOException("invblid url");
         }
-        URL loaded = getPage();
+        URL lobded = getPbge();
 
 
-        // reset scrollbar
-        if (!page.equals(loaded) && page.getRef() == null) {
-            scrollRectToVisible(new Rectangle(0,0,1,1));
+        // reset scrollbbr
+        if (!pbge.equbls(lobded) && pbge.getRef() == null) {
+            scrollRectToVisible(new Rectbngle(0,0,1,1));
         }
-        boolean reloaded = false;
-        Object postData = getPostData();
-        if ((loaded == null) || !loaded.sameFile(page) || (postData != null)) {
-            // different url or POST method, load the new content
+        boolebn relobded = fblse;
+        Object postDbtb = getPostDbtb();
+        if ((lobded == null) || !lobded.sbmeFile(pbge) || (postDbtb != null)) {
+            // different url or POST method, lobd the new content
 
-            int p = getAsynchronousLoadPriority(getDocument());
+            int p = getAsynchronousLobdPriority(getDocument());
             if (p < 0) {
-                // open stream synchronously
-                InputStream in = getStream(page);
+                // open strebm synchronously
+                InputStrebm in = getStrebm(pbge);
                 if (kit != null) {
-                    Document doc = initializeModel(kit, page);
+                    Document doc = initiblizeModel(kit, pbge);
 
-                    // At this point, one could either load up the model with no
-                    // view notifications slowing it down (i.e. best synchronous
-                    // behavior) or set the model and start to feed it on a separate
-                    // thread (best asynchronous behavior).
-                    p = getAsynchronousLoadPriority(doc);
+                    // At this point, one could either lobd up the model with no
+                    // view notificbtions slowing it down (i.e. best synchronous
+                    // behbvior) or set the model bnd stbrt to feed it on b sepbrbte
+                    // threbd (best bsynchronous behbvior).
+                    p = getAsynchronousLobdPriority(doc);
                     if (p >= 0) {
-                        // load asynchronously
+                        // lobd bsynchronously
                         setDocument(doc);
                         synchronized(this) {
-                            pageLoader = new PageLoader(doc, in, loaded, page);
-                            pageLoader.execute();
+                            pbgeLobder = new PbgeLobder(doc, in, lobded, pbge);
+                            pbgeLobder.execute();
                         }
                         return;
                     }
-                    read(in, doc);
+                    rebd(in, doc);
                     setDocument(doc);
-                    reloaded = true;
+                    relobded = true;
                 }
             } else {
-                // we may need to cancel background loading
-                if (pageLoader != null) {
-                    pageLoader.cancel(true);
+                // we mby need to cbncel bbckground lobding
+                if (pbgeLobder != null) {
+                    pbgeLobder.cbncel(true);
                 }
 
-                // Do everything in a background thread.
-                // Model initialization is deferred to that thread, too.
-                pageLoader = new PageLoader(null, null, loaded, page);
-                pageLoader.execute();
+                // Do everything in b bbckground threbd.
+                // Model initiblizbtion is deferred to thbt threbd, too.
+                pbgeLobder = new PbgeLobder(null, null, lobded, pbge);
+                pbgeLobder.execute();
                 return;
             }
         }
-        final String reference = page.getRef();
+        finbl String reference = pbge.getRef();
         if (reference != null) {
-            if (!reloaded) {
+            if (!relobded) {
                 scrollToReference(reference);
             }
             else {
-                // Have to scroll after painted.
-                SwingUtilities.invokeLater(new Runnable() {
+                // Hbve to scroll bfter pbinted.
+                SwingUtilities.invokeLbter(new Runnbble() {
                     public void run() {
                         scrollToReference(reference);
                     }
                 });
             }
-            getDocument().putProperty(Document.StreamDescriptionProperty, page);
+            getDocument().putProperty(Document.StrebmDescriptionProperty, pbge);
         }
-        firePropertyChange("page", loaded, page);
+        firePropertyChbnge("pbge", lobded, pbge);
     }
 
     /**
-     * Create model and initialize document properties from page properties.
+     * Crebte model bnd initiblize document properties from pbge properties.
      */
-    private Document initializeModel(EditorKit kit, URL page) {
-        Document doc = kit.createDefaultDocument();
-        if (pageProperties != null) {
-            // transfer properties discovered in stream to the
+    privbte Document initiblizeModel(EditorKit kit, URL pbge) {
+        Document doc = kit.crebteDefbultDocument();
+        if (pbgeProperties != null) {
+            // trbnsfer properties discovered in strebm to the
             // document property collection.
-            for (Enumeration<String> e = pageProperties.keys(); e.hasMoreElements() ;) {
+            for (Enumerbtion<String> e = pbgeProperties.keys(); e.hbsMoreElements() ;) {
                 String key = e.nextElement();
-                doc.putProperty(key, pageProperties.get(key));
+                doc.putProperty(key, pbgeProperties.get(key));
             }
-            pageProperties.clear();
+            pbgeProperties.clebr();
         }
-        if (doc.getProperty(Document.StreamDescriptionProperty) == null) {
-            doc.putProperty(Document.StreamDescriptionProperty, page);
+        if (doc.getProperty(Document.StrebmDescriptionProperty) == null) {
+            doc.putProperty(Document.StrebmDescriptionProperty, pbge);
         }
         return doc;
     }
 
     /**
-     * Return load priority for the document or -1 if priority not supported.
+     * Return lobd priority for the document or -1 if priority not supported.
      */
-    private int getAsynchronousLoadPriority(Document doc) {
-        return (doc instanceof AbstractDocument ?
-            ((AbstractDocument) doc).getAsynchronousLoadPriority() : -1);
+    privbte int getAsynchronousLobdPriority(Document doc) {
+        return (doc instbnceof AbstrbctDocument ?
+            ((AbstrbctDocument) doc).getAsynchronousLobdPriority() : -1);
     }
 
     /**
-     * This method initializes from a stream.  If the kit is
-     * set to be of type <code>HTMLEditorKit</code>, and the
-     * <code>desc</code> parameter is an <code>HTMLDocument</code>,
-     * then it invokes the <code>HTMLEditorKit</code> to initiate
-     * the read. Otherwise it calls the superclass
-     * method which loads the model as plain text.
+     * This method initiblizes from b strebm.  If the kit is
+     * set to be of type <code>HTMLEditorKit</code>, bnd the
+     * <code>desc</code> pbrbmeter is bn <code>HTMLDocument</code>,
+     * then it invokes the <code>HTMLEditorKit</code> to initibte
+     * the rebd. Otherwise it cblls the superclbss
+     * method which lobds the model bs plbin text.
      *
-     * @param in the stream from which to read
-     * @param desc an object describing the stream
-     * @exception IOException as thrown by the stream being
-     *          used to initialize
-     * @see JTextComponent#read
+     * @pbrbm in the strebm from which to rebd
+     * @pbrbm desc bn object describing the strebm
+     * @exception IOException bs thrown by the strebm being
+     *          used to initiblize
+     * @see JTextComponent#rebd
      * @see #setDocument
      */
-    public void read(InputStream in, Object desc) throws IOException {
+    public void rebd(InputStrebm in, Object desc) throws IOException {
 
-        if (desc instanceof HTMLDocument &&
-            kit instanceof HTMLEditorKit) {
+        if (desc instbnceof HTMLDocument &&
+            kit instbnceof HTMLEditorKit) {
             HTMLDocument hdoc = (HTMLDocument) desc;
             setDocument(hdoc);
-            read(in, hdoc);
+            rebd(in, hdoc);
         } else {
-            String charset = (String) getClientProperty("charset");
-            Reader r = (charset != null) ? new InputStreamReader(in, charset) :
-                new InputStreamReader(in);
-            super.read(r, desc);
+            String chbrset = (String) getClientProperty("chbrset");
+            Rebder r = (chbrset != null) ? new InputStrebmRebder(in, chbrset) :
+                new InputStrebmRebder(in);
+            super.rebd(r, desc);
         }
     }
 
 
     /**
-     * This method invokes the <code>EditorKit</code> to initiate a
-     * read.  In the case where a <code>ChangedCharSetException</code>
-     * is thrown this exception will contain the new CharSet.
-     * Therefore the <code>read</code> operation
-     * is then restarted after building a new Reader with the new charset.
+     * This method invokes the <code>EditorKit</code> to initibte b
+     * rebd.  In the cbse where b <code>ChbngedChbrSetException</code>
+     * is thrown this exception will contbin the new ChbrSet.
+     * Therefore the <code>rebd</code> operbtion
+     * is then restbrted bfter building b new Rebder with the new chbrset.
      *
-     * @param in the inputstream to use
-     * @param doc the document to load
+     * @pbrbm in the inputstrebm to use
+     * @pbrbm doc the document to lobd
      *
      */
-    void read(InputStream in, Document doc) throws IOException {
-        if (! Boolean.TRUE.equals(doc.getProperty("IgnoreCharsetDirective"))) {
-            final int READ_LIMIT = 1024 * 10;
-            in = new BufferedInputStream(in, READ_LIMIT);
-            in.mark(READ_LIMIT);
+    void rebd(InputStrebm in, Document doc) throws IOException {
+        if (! Boolebn.TRUE.equbls(doc.getProperty("IgnoreChbrsetDirective"))) {
+            finbl int READ_LIMIT = 1024 * 10;
+            in = new BufferedInputStrebm(in, READ_LIMIT);
+            in.mbrk(READ_LIMIT);
         }
         try {
-            String charset = (String) getClientProperty("charset");
-            Reader r = (charset != null) ? new InputStreamReader(in, charset) :
-                new InputStreamReader(in);
-            kit.read(r, doc, 0);
-        } catch (BadLocationException e) {
-            throw new IOException(e.getMessage());
-        } catch (ChangedCharSetException changedCharSetException) {
-            String charSetSpec = changedCharSetException.getCharSetSpec();
-            if (changedCharSetException.keyEqualsCharSet()) {
-                putClientProperty("charset", charSetSpec);
+            String chbrset = (String) getClientProperty("chbrset");
+            Rebder r = (chbrset != null) ? new InputStrebmRebder(in, chbrset) :
+                new InputStrebmRebder(in);
+            kit.rebd(r, doc, 0);
+        } cbtch (BbdLocbtionException e) {
+            throw new IOException(e.getMessbge());
+        } cbtch (ChbngedChbrSetException chbngedChbrSetException) {
+            String chbrSetSpec = chbngedChbrSetException.getChbrSetSpec();
+            if (chbngedChbrSetException.keyEqublsChbrSet()) {
+                putClientProperty("chbrset", chbrSetSpec);
             } else {
-                setCharsetFromContentTypeParameters(charSetSpec);
+                setChbrsetFromContentTypePbrbmeters(chbrSetSpec);
             }
             try {
                 in.reset();
-            } catch (IOException exception) {
-                //mark was invalidated
+            } cbtch (IOException exception) {
+                //mbrk wbs invblidbted
                 in.close();
-                URL url = (URL)doc.getProperty(Document.StreamDescriptionProperty);
+                URL url = (URL)doc.getProperty(Document.StrebmDescriptionProperty);
                 if (url != null) {
                     URLConnection conn = url.openConnection();
-                    in = conn.getInputStream();
+                    in = conn.getInputStrebm();
                 } else {
-                    //there is nothing we can do to recover stream
-                    throw changedCharSetException;
+                    //there is nothing we cbn do to recover strebm
+                    throw chbngedChbrSetException;
                 }
             }
             try {
                 doc.remove(0, doc.getLength());
-            } catch (BadLocationException e) {}
-            doc.putProperty("IgnoreCharsetDirective", Boolean.valueOf(true));
-            read(in, doc);
+            } cbtch (BbdLocbtionException e) {}
+            doc.putProperty("IgnoreChbrsetDirective", Boolebn.vblueOf(true));
+            rebd(in, doc);
         }
     }
 
 
     /**
-     * Loads a stream into the text document model.
+     * Lobds b strebm into the text document model.
      */
-    class PageLoader extends SwingWorker<URL, Object> {
+    clbss PbgeLobder extends SwingWorker<URL, Object> {
 
         /**
-         * Construct an asynchronous page loader.
+         * Construct bn bsynchronous pbge lobder.
          */
-        PageLoader(Document doc, InputStream in, URL old, URL page) {
+        PbgeLobder(Document doc, InputStrebm in, URL old, URL pbge) {
             this.in = in;
             this.old = old;
-            this.page = page;
+            this.pbge = pbge;
             this.doc = doc;
         }
 
         /**
-         * Try to load the document, then scroll the view
+         * Try to lobd the document, then scroll the view
          * to the reference (if specified).  When done, fire
-         * a page property change event.
+         * b pbge property chbnge event.
          */
-        protected URL doInBackground() {
-            boolean pageLoaded = false;
+        protected URL doInBbckground() {
+            boolebn pbgeLobded = fblse;
             try {
                 if (in == null) {
-                    in = getStream(page);
+                    in = getStrebm(pbge);
                     if (kit == null) {
                         // We received document of unknown content type.
-                        UIManager.getLookAndFeel().
-                                provideErrorFeedback(JEditorPane.this);
+                        UIMbnbger.getLookAndFeel().
+                                provideErrorFeedbbck(JEditorPbne.this);
                         return old;
                     }
                 }
 
                 if (doc == null) {
                     try {
-                        SwingUtilities.invokeAndWait(new Runnable() {
+                        SwingUtilities.invokeAndWbit(new Runnbble() {
                             public void run() {
-                                doc = initializeModel(kit, page);
+                                doc = initiblizeModel(kit, pbge);
                                 setDocument(doc);
                             }
                         });
-                    } catch (InvocationTargetException ex) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(
-                                                            JEditorPane.this);
+                    } cbtch (InvocbtionTbrgetException ex) {
+                        UIMbnbger.getLookAndFeel().provideErrorFeedbbck(
+                                                            JEditorPbne.this);
                         return old;
-                    } catch (InterruptedException ex) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(
-                                                            JEditorPane.this);
+                    } cbtch (InterruptedException ex) {
+                        UIMbnbger.getLookAndFeel().provideErrorFeedbbck(
+                                                            JEditorPbne.this);
                         return old;
                     }
                 }
 
-                read(in, doc);
-                URL page = (URL) doc.getProperty(Document.StreamDescriptionProperty);
-                String reference = page.getRef();
+                rebd(in, doc);
+                URL pbge = (URL) doc.getProperty(Document.StrebmDescriptionProperty);
+                String reference = pbge.getRef();
                 if (reference != null) {
-                    // scroll the page if necessary, but do it on the
-                    // event thread... that is the only guarantee that
-                    // modelToView can be safely called.
-                    Runnable callScrollToReference = new Runnable() {
+                    // scroll the pbge if necessbry, but do it on the
+                    // event threbd... thbt is the only gubrbntee thbt
+                    // modelToView cbn be sbfely cblled.
+                    Runnbble cbllScrollToReference = new Runnbble() {
                         public void run() {
                             URL u = (URL) getDocument().getProperty
-                                (Document.StreamDescriptionProperty);
+                                (Document.StrebmDescriptionProperty);
                             String ref = u.getRef();
                             scrollToReference(ref);
                         }
                     };
-                    SwingUtilities.invokeLater(callScrollToReference);
+                    SwingUtilities.invokeLbter(cbllScrollToReference);
                 }
-                pageLoaded = true;
-            } catch (IOException ioe) {
-                UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
-            } finally {
-                if (pageLoaded) {
-                    SwingUtilities.invokeLater(new Runnable() {
+                pbgeLobded = true;
+            } cbtch (IOException ioe) {
+                UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JEditorPbne.this);
+            } finblly {
+                if (pbgeLobded) {
+                    SwingUtilities.invokeLbter(new Runnbble() {
                         public void run() {
-                            JEditorPane.this.firePropertyChange("page", old, page);
+                            JEditorPbne.this.firePropertyChbnge("pbge", old, pbge);
                         }
                     });
                 }
             }
-            return (pageLoaded ? page : old);
+            return (pbgeLobded ? pbge : old);
         }
 
         /**
-         * The stream to load the document with
+         * The strebm to lobd the document with
          */
-        InputStream in;
+        InputStrebm in;
 
         /**
-         * URL of the old page that was replaced (for the property change event)
+         * URL of the old pbge thbt wbs replbced (for the property chbnge event)
          */
         URL old;
 
         /**
-         * URL of the page being loaded (for the property change event)
+         * URL of the pbge being lobded (for the property chbnge event)
          */
-        URL page;
+        URL pbge;
 
         /**
-         * The Document instance to load into. This is cached in case a
-         * new Document is created between the time the thread this is created
-         * and run.
+         * The Document instbnce to lobd into. This is cbched in cbse b
+         * new Document is crebted between the time the threbd this is crebted
+         * bnd run.
          */
         Document doc;
     }
 
     /**
-     * Fetches a stream for the given URL, which is about to
-     * be loaded by the <code>setPage</code> method.  By
-     * default, this simply opens the URL and returns the
-     * stream.  This can be reimplemented to do useful things
-     * like fetch the stream from a cache, monitor the progress
-     * of the stream, etc.
+     * Fetches b strebm for the given URL, which is bbout to
+     * be lobded by the <code>setPbge</code> method.  By
+     * defbult, this simply opens the URL bnd returns the
+     * strebm.  This cbn be reimplemented to do useful things
+     * like fetch the strebm from b cbche, monitor the progress
+     * of the strebm, etc.
      * <p>
-     * This method is expected to have the the side effect of
-     * establishing the content type, and therefore setting the
-     * appropriate <code>EditorKit</code> to use for loading the stream.
+     * This method is expected to hbve the the side effect of
+     * estbblishing the content type, bnd therefore setting the
+     * bppropribte <code>EditorKit</code> to use for lobding the strebm.
      * <p>
-     * If this the stream was an http connection, redirects
-     * will be followed and the resulting URL will be set as
-     * the <code>Document.StreamDescriptionProperty</code> so that relative
-     * URL's can be properly resolved.
+     * If this the strebm wbs bn http connection, redirects
+     * will be followed bnd the resulting URL will be set bs
+     * the <code>Document.StrebmDescriptionProperty</code> so thbt relbtive
+     * URL's cbn be properly resolved.
      *
-     * @param page  the URL of the page
+     * @pbrbm pbge  the URL of the pbge
      */
-    protected InputStream getStream(URL page) throws IOException {
-        final URLConnection conn = page.openConnection();
-        if (conn instanceof HttpURLConnection) {
+    protected InputStrebm getStrebm(URL pbge) throws IOException {
+        finbl URLConnection conn = pbge.openConnection();
+        if (conn instbnceof HttpURLConnection) {
             HttpURLConnection hconn = (HttpURLConnection) conn;
-            hconn.setInstanceFollowRedirects(false);
-            Object postData = getPostData();
-            if (postData != null) {
-                handlePostData(hconn, postData);
+            hconn.setInstbnceFollowRedirects(fblse);
+            Object postDbtb = getPostDbtb();
+            if (postDbtb != null) {
+                hbndlePostDbtb(hconn, postDbtb);
             }
             int response = hconn.getResponseCode();
-            boolean redirect = (response >= 300 && response <= 399);
+            boolebn redirect = (response >= 300 && response <= 399);
 
             /*
-             * In the case of a redirect, we want to actually change the URL
-             * that was input to the new, redirected URL
+             * In the cbse of b redirect, we wbnt to bctublly chbnge the URL
+             * thbt wbs input to the new, redirected URL
              */
             if (redirect) {
-                String loc = conn.getHeaderField("Location");
-                if (loc.startsWith("http", 0)) {
-                    page = new URL(loc);
+                String loc = conn.getHebderField("Locbtion");
+                if (loc.stbrtsWith("http", 0)) {
+                    pbge = new URL(loc);
                 } else {
-                    page = new URL(page, loc);
+                    pbge = new URL(pbge, loc);
                 }
-                return getStream(page);
+                return getStrebm(pbge);
             }
         }
 
-        // Connection properties handler should be forced to run on EDT,
-        // as it instantiates the EditorKit.
-        if (SwingUtilities.isEventDispatchThread()) {
-            handleConnectionProperties(conn);
+        // Connection properties hbndler should be forced to run on EDT,
+        // bs it instbntibtes the EditorKit.
+        if (SwingUtilities.isEventDispbtchThrebd()) {
+            hbndleConnectionProperties(conn);
         } else {
             try {
-                SwingUtilities.invokeAndWait(new Runnable() {
+                SwingUtilities.invokeAndWbit(new Runnbble() {
                     public void run() {
-                        handleConnectionProperties(conn);
+                        hbndleConnectionProperties(conn);
                     }
                 });
-            } catch (InterruptedException e) {
+            } cbtch (InterruptedException e) {
                 throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
+            } cbtch (InvocbtionTbrgetException e) {
                 throw new RuntimeException(e);
             }
         }
-        return conn.getInputStream();
+        return conn.getInputStrebm();
     }
 
     /**
-     * Handle URL connection properties (most notably, content type).
+     * Hbndle URL connection properties (most notbbly, content type).
      */
-    private void handleConnectionProperties(URLConnection conn) {
-        if (pageProperties == null) {
-            pageProperties = new Hashtable<String, Object>();
+    privbte void hbndleConnectionProperties(URLConnection conn) {
+        if (pbgeProperties == null) {
+            pbgeProperties = new Hbshtbble<String, Object>();
         }
         String type = conn.getContentType();
         if (type != null) {
             setContentType(type);
-            pageProperties.put("content-type", type);
+            pbgeProperties.put("content-type", type);
         }
-        pageProperties.put(Document.StreamDescriptionProperty, conn.getURL());
+        pbgeProperties.put(Document.StrebmDescriptionProperty, conn.getURL());
         String enc = conn.getContentEncoding();
         if (enc != null) {
-            pageProperties.put("content-encoding", enc);
+            pbgeProperties.put("content-encoding", enc);
         }
     }
 
-    private Object getPostData() {
-        return getDocument().getProperty(PostDataProperty);
+    privbte Object getPostDbtb() {
+        return getDocument().getProperty(PostDbtbProperty);
     }
 
-    private void handlePostData(HttpURLConnection conn, Object postData)
+    privbte void hbndlePostDbtb(HttpURLConnection conn, Object postDbtb)
                                                             throws IOException {
         conn.setDoOutput(true);
-        DataOutputStream os = null;
+        DbtbOutputStrebm os = null;
         try {
             conn.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
-            os = new DataOutputStream(conn.getOutputStream());
-            os.writeBytes((String) postData);
-        } finally {
+                    "bpplicbtion/x-www-form-urlencoded");
+            os = new DbtbOutputStrebm(conn.getOutputStrebm());
+            os.writeBytes((String) postDbtb);
+        } finblly {
             if (os != null) {
                 os.close();
             }
@@ -815,44 +815,44 @@ public class JEditorPane extends JTextComponent {
 
 
     /**
-     * Scrolls the view to the given reference location
-     * (that is, the value returned by the <code>UL.getRef</code>
-     * method for the URL being displayed).  By default, this
-     * method only knows how to locate a reference in an
-     * HTMLDocument.  The implementation calls the
+     * Scrolls the view to the given reference locbtion
+     * (thbt is, the vblue returned by the <code>UL.getRef</code>
+     * method for the URL being displbyed).  By defbult, this
+     * method only knows how to locbte b reference in bn
+     * HTMLDocument.  The implementbtion cblls the
      * <code>scrollRectToVisible</code> method to
-     * accomplish the actual scrolling.  If scrolling to a
-     * reference location is needed for document types other
-     * than HTML, this method should be reimplemented.
-     * This method will have no effect if the component
+     * bccomplish the bctubl scrolling.  If scrolling to b
+     * reference locbtion is needed for document types other
+     * thbn HTML, this method should be reimplemented.
+     * This method will hbve no effect if the component
      * is not visible.
      *
-     * @param reference the named location to scroll to
+     * @pbrbm reference the nbmed locbtion to scroll to
      */
     public void scrollToReference(String reference) {
         Document d = getDocument();
-        if (d instanceof HTMLDocument) {
+        if (d instbnceof HTMLDocument) {
             HTMLDocument doc = (HTMLDocument) d;
-            HTMLDocument.Iterator iter = doc.getIterator(HTML.Tag.A);
-            for (; iter.isValid(); iter.next()) {
-                AttributeSet a = iter.getAttributes();
-                String nm = (String) a.getAttribute(HTML.Attribute.NAME);
-                if ((nm != null) && nm.equals(reference)) {
-                    // found a matching reference in the document.
+            HTMLDocument.Iterbtor iter = doc.getIterbtor(HTML.Tbg.A);
+            for (; iter.isVblid(); iter.next()) {
+                AttributeSet b = iter.getAttributes();
+                String nm = (String) b.getAttribute(HTML.Attribute.NAME);
+                if ((nm != null) && nm.equbls(reference)) {
+                    // found b mbtching reference in the document.
                     try {
-                        int pos = iter.getStartOffset();
-                        Rectangle r = modelToView(pos);
+                        int pos = iter.getStbrtOffset();
+                        Rectbngle r = modelToView(pos);
                         if (r != null) {
                             // the view is visible, scroll it to the
-                            // center of the current visible area.
-                            Rectangle vis = getVisibleRect();
+                            // center of the current visible breb.
+                            Rectbngle vis = getVisibleRect();
                             //r.y -= (vis.height / 2);
                             r.height = vis.height;
                             scrollRectToVisible(r);
-                            setCaretPosition(pos);
+                            setCbretPosition(pos);
                         }
-                    } catch (BadLocationException ble) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
+                    } cbtch (BbdLocbtionException ble) {
+                        UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JEditorPbne.this);
                     }
                 }
             }
@@ -860,192 +860,192 @@ public class JEditorPane extends JTextComponent {
     }
 
     /**
-     * Gets the current URL being displayed.  If a URL was
-     * not specified in the creation of the document, this
-     * will return <code>null</code>, and relative URL's will not be
+     * Gets the current URL being displbyed.  If b URL wbs
+     * not specified in the crebtion of the document, this
+     * will return <code>null</code>, bnd relbtive URL's will not be
      * resolved.
      *
      * @return the URL, or <code>null</code> if none
      */
-    public URL getPage() {
-        return (URL) getDocument().getProperty(Document.StreamDescriptionProperty);
+    public URL getPbge() {
+        return (URL) getDocument().getProperty(Document.StrebmDescriptionProperty);
     }
 
     /**
-     * Sets the current URL being displayed.
+     * Sets the current URL being displbyed.
      *
-     * @param url the URL for display
-     * @exception IOException for a <code>null</code> or invalid URL
-     *          specification
+     * @pbrbm url the URL for displby
+     * @exception IOException for b <code>null</code> or invblid URL
+     *          specificbtion
      */
-    public void setPage(String url) throws IOException {
+    public void setPbge(String url) throws IOException {
         if (url == null) {
-            throw new IOException("invalid url");
+            throw new IOException("invblid url");
         }
-        URL page = new URL(url);
-        setPage(page);
+        URL pbge = new URL(url);
+        setPbge(pbge);
     }
 
     /**
-     * Gets the class ID for the UI.
+     * Gets the clbss ID for the UI.
      *
-     * @return the string "EditorPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "EditorPbneUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-     * Creates the default editor kit (<code>PlainEditorKit</code>) for when
-     * the component is first created.
+     * Crebtes the defbult editor kit (<code>PlbinEditorKit</code>) for when
+     * the component is first crebted.
      *
      * @return the editor kit
      */
-    protected EditorKit createDefaultEditorKit() {
-        return new PlainEditorKit();
+    protected EditorKit crebteDefbultEditorKit() {
+        return new PlbinEditorKit();
     }
 
     /**
-     * Fetches the currently installed kit for handling content.
-     * <code>createDefaultEditorKit</code> is called to set up a default
-     * if necessary.
+     * Fetches the currently instblled kit for hbndling content.
+     * <code>crebteDefbultEditorKit</code> is cblled to set up b defbult
+     * if necessbry.
      *
      * @return the editor kit
      */
     public EditorKit getEditorKit() {
         if (kit == null) {
-            kit = createDefaultEditorKit();
-            isUserSetEditorKit = false;
+            kit = crebteDefbultEditorKit();
+            isUserSetEditorKit = fblse;
         }
         return kit;
     }
 
     /**
-     * Gets the type of content that this editor
-     * is currently set to deal with.  This is
-     * defined to be the type associated with the
-     * currently installed <code>EditorKit</code>.
+     * Gets the type of content thbt this editor
+     * is currently set to debl with.  This is
+     * defined to be the type bssocibted with the
+     * currently instblled <code>EditorKit</code>.
      *
      * @return the content type, <code>null</code> if no editor kit set
      */
-    public final String getContentType() {
+    public finbl String getContentType() {
         return (kit != null) ? kit.getContentType() : null;
     }
 
     /**
-     * Sets the type of content that this editor
-     * handles.  This calls <code>getEditorKitForContentType</code>,
-     * and then <code>setEditorKit</code> if an editor kit can
-     * be successfully located.  This is mostly convenience method
-     * that can be used as an alternative to calling
+     * Sets the type of content thbt this editor
+     * hbndles.  This cblls <code>getEditorKitForContentType</code>,
+     * bnd then <code>setEditorKit</code> if bn editor kit cbn
+     * be successfully locbted.  This is mostly convenience method
+     * thbt cbn be used bs bn blternbtive to cblling
      * <code>setEditorKit</code> directly.
      * <p>
-     * If there is a charset definition specified as a parameter
-     * of the content type specification, it will be used when
-     * loading input streams using the associated <code>EditorKit</code>.
-     * For example if the type is specified as
-     * <code>text/html; charset=EUC-JP</code> the content
-     * will be loaded using the <code>EditorKit</code> registered for
-     * <code>text/html</code> and the Reader provided to
-     * the <code>EditorKit</code> to load unicode into the document will
-     * use the <code>EUC-JP</code> charset for translating
+     * If there is b chbrset definition specified bs b pbrbmeter
+     * of the content type specificbtion, it will be used when
+     * lobding input strebms using the bssocibted <code>EditorKit</code>.
+     * For exbmple if the type is specified bs
+     * <code>text/html; chbrset=EUC-JP</code> the content
+     * will be lobded using the <code>EditorKit</code> registered for
+     * <code>text/html</code> bnd the Rebder provided to
+     * the <code>EditorKit</code> to lobd unicode into the document will
+     * use the <code>EUC-JP</code> chbrset for trbnslbting
      * to unicode.  If the type is not recognized, the content
-     * will be loaded using the <code>EditorKit</code> registered
-     * for plain text, <code>text/plain</code>.
+     * will be lobded using the <code>EditorKit</code> registered
+     * for plbin text, <code>text/plbin</code>.
      *
-     * @param type the non-<code>null</code> mime type for the content editing
+     * @pbrbm type the non-<code>null</code> mime type for the content editing
      *   support
      * @see #getContentType
-     * @beaninfo
+     * @bebninfo
      *  description: the type of content
-     * @throws NullPointerException if the <code>type</code> parameter
+     * @throws NullPointerException if the <code>type</code> pbrbmeter
      *          is <code>null</code>
      */
-    public final void setContentType(String type) {
-        // The type could have optional info is part of it,
-        // for example some charset info.  We need to strip that
-        // of and save it.
-        int parm = type.indexOf(';');
-        if (parm > -1) {
-            // Save the paramList.
-            String paramList = type.substring(parm);
-            // update the content type string.
-            type = type.substring(0, parm).trim();
-            if (type.toLowerCase().startsWith("text/")) {
-                setCharsetFromContentTypeParameters(paramList);
+    public finbl void setContentType(String type) {
+        // The type could hbve optionbl info is pbrt of it,
+        // for exbmple some chbrset info.  We need to strip thbt
+        // of bnd sbve it.
+        int pbrm = type.indexOf(';');
+        if (pbrm > -1) {
+            // Sbve the pbrbmList.
+            String pbrbmList = type.substring(pbrm);
+            // updbte the content type string.
+            type = type.substring(0, pbrm).trim();
+            if (type.toLowerCbse().stbrtsWith("text/")) {
+                setChbrsetFromContentTypePbrbmeters(pbrbmList);
             }
         }
-        if ((kit == null) || (! type.equals(kit.getContentType()))
+        if ((kit == null) || (! type.equbls(kit.getContentType()))
                 || !isUserSetEditorKit) {
             EditorKit k = getEditorKitForContentType(type);
             if (k != null && k != kit) {
                 setEditorKit(k);
-                isUserSetEditorKit = false;
+                isUserSetEditorKit = fblse;
             }
         }
 
     }
 
     /**
-     * This method gets the charset information specified as part
-     * of the content type in the http header information.
+     * This method gets the chbrset informbtion specified bs pbrt
+     * of the content type in the http hebder informbtion.
      */
-    private void setCharsetFromContentTypeParameters(String paramlist) {
-        String charset;
+    privbte void setChbrsetFromContentTypePbrbmeters(String pbrbmlist) {
+        String chbrset;
         try {
-            // paramlist is handed to us with a leading ';', strip it.
-            int semi = paramlist.indexOf(';');
-            if (semi > -1 && semi < paramlist.length()-1) {
-                paramlist = paramlist.substring(semi + 1);
+            // pbrbmlist is hbnded to us with b lebding ';', strip it.
+            int semi = pbrbmlist.indexOf(';');
+            if (semi > -1 && semi < pbrbmlist.length()-1) {
+                pbrbmlist = pbrbmlist.substring(semi + 1);
             }
 
-            if (paramlist.length() > 0) {
-                // parse the paramlist into attr-value pairs & get the
-                // charset pair's value
-                HeaderParser hdrParser = new HeaderParser(paramlist);
-                charset = hdrParser.findValue("charset");
-                if (charset != null) {
-                    putClientProperty("charset", charset);
+            if (pbrbmlist.length() > 0) {
+                // pbrse the pbrbmlist into bttr-vblue pbirs & get the
+                // chbrset pbir's vblue
+                HebderPbrser hdrPbrser = new HebderPbrser(pbrbmlist);
+                chbrset = hdrPbrser.findVblue("chbrset");
+                if (chbrset != null) {
+                    putClientProperty("chbrset", chbrset);
                 }
             }
         }
-        catch (IndexOutOfBoundsException e) {
-            // malformed parameter list, use charset we have
+        cbtch (IndexOutOfBoundsException e) {
+            // mblformed pbrbmeter list, use chbrset we hbve
         }
-        catch (NullPointerException e) {
-            // malformed parameter list, use charset we have
+        cbtch (NullPointerException e) {
+            // mblformed pbrbmeter list, use chbrset we hbve
         }
-        catch (Exception e) {
-            // malformed parameter list, use charset we have; but complain
-            System.err.println("JEditorPane.getCharsetFromContentTypeParameters failed on: " + paramlist);
-            e.printStackTrace();
+        cbtch (Exception e) {
+            // mblformed pbrbmeter list, use chbrset we hbve; but complbin
+            System.err.println("JEditorPbne.getChbrsetFromContentTypePbrbmeters fbiled on: " + pbrbmlist);
+            e.printStbckTrbce();
         }
     }
 
 
     /**
-     * Sets the currently installed kit for handling
-     * content.  This is the bound property that
-     * establishes the content type of the editor.
-     * Any old kit is first deinstalled, then if kit is
+     * Sets the currently instblled kit for hbndling
+     * content.  This is the bound property thbt
+     * estbblishes the content type of the editor.
+     * Any old kit is first deinstblled, then if kit is
      * non-<code>null</code>,
-     * the new kit is installed, and a default document created for it.
-     * A <code>PropertyChange</code> event ("editorKit") is always fired when
-     * <code>setEditorKit</code> is called.
+     * the new kit is instblled, bnd b defbult document crebted for it.
+     * A <code>PropertyChbnge</code> event ("editorKit") is blwbys fired when
+     * <code>setEditorKit</code> is cblled.
      * <p>
-     * <em>NOTE: This has the side effect of changing the model,
-     * because the <code>EditorKit</code> is the source of how a
-     * particular type
-     * of content is modeled.  This method will cause <code>setDocument</code>
-     * to be called on behalf of the caller to ensure integrity
-     * of the internal state.</em>
+     * <em>NOTE: This hbs the side effect of chbnging the model,
+     * becbuse the <code>EditorKit</code> is the source of how b
+     * pbrticulbr type
+     * of content is modeled.  This method will cbuse <code>setDocument</code>
+     * to be cblled on behblf of the cbller to ensure integrity
+     * of the internbl stbte.</em>
      *
-     * @param kit the desired editor behavior
+     * @pbrbm kit the desired editor behbvior
      * @see #getEditorKit
-     * @beaninfo
-     *  description: the currently installed kit for handling content
+     * @bebninfo
+     *  description: the currently instblled kit for hbndling content
      *        bound: true
      *       expert: true
      */
@@ -1053,97 +1053,97 @@ public class JEditorPane extends JTextComponent {
         EditorKit old = this.kit;
         isUserSetEditorKit = true;
         if (old != null) {
-            old.deinstall(this);
+            old.deinstbll(this);
         }
         this.kit = kit;
         if (this.kit != null) {
-            this.kit.install(this);
-            setDocument(this.kit.createDefaultDocument());
+            this.kit.instbll(this);
+            setDocument(this.kit.crebteDefbultDocument());
         }
-        firePropertyChange("editorKit", old, kit);
+        firePropertyChbnge("editorKit", old, kit);
     }
 
     /**
      * Fetches the editor kit to use for the given type
-     * of content.  This is called when a type is requested
-     * that doesn't match the currently installed type.
-     * If the component doesn't have an <code>EditorKit</code> registered
-     * for the given type, it will try to create an
-     * <code>EditorKit</code> from the default <code>EditorKit</code> registry.
-     * If that fails, a <code>PlainEditorKit</code> is used on the
-     * assumption that all text documents can be represented
-     * as plain text.
+     * of content.  This is cblled when b type is requested
+     * thbt doesn't mbtch the currently instblled type.
+     * If the component doesn't hbve bn <code>EditorKit</code> registered
+     * for the given type, it will try to crebte bn
+     * <code>EditorKit</code> from the defbult <code>EditorKit</code> registry.
+     * If thbt fbils, b <code>PlbinEditorKit</code> is used on the
+     * bssumption thbt bll text documents cbn be represented
+     * bs plbin text.
      * <p>
-     * This method can be reimplemented to use some
-     * other kind of type registry.  This can
-     * be reimplemented to use the Java Activation
-     * Framework, for example.
+     * This method cbn be reimplemented to use some
+     * other kind of type registry.  This cbn
+     * be reimplemented to use the Jbvb Activbtion
+     * Frbmework, for exbmple.
      *
-     * @param type the non-<code>null</code> content type
+     * @pbrbm type the non-<code>null</code> content type
      * @return the editor kit
      */
     public EditorKit getEditorKitForContentType(String type) {
-        if (typeHandlers == null) {
-            typeHandlers = new Hashtable<String, EditorKit>(3);
+        if (typeHbndlers == null) {
+            typeHbndlers = new Hbshtbble<String, EditorKit>(3);
         }
-        EditorKit k = typeHandlers.get(type);
+        EditorKit k = typeHbndlers.get(type);
         if (k == null) {
-            k = createEditorKitForContentType(type);
+            k = crebteEditorKitForContentType(type);
             if (k != null) {
                 setEditorKitForContentType(type, k);
             }
         }
         if (k == null) {
-            k = createDefaultEditorKit();
+            k = crebteDefbultEditorKit();
         }
         return k;
     }
 
     /**
      * Directly sets the editor kit to use for the given type.  A
-     * look-and-feel implementation might use this in conjunction
-     * with <code>createEditorKitForContentType</code> to install handlers for
-     * content types with a look-and-feel bias.
+     * look-bnd-feel implementbtion might use this in conjunction
+     * with <code>crebteEditorKitForContentType</code> to instbll hbndlers for
+     * content types with b look-bnd-feel bibs.
      *
-     * @param type the non-<code>null</code> content type
-     * @param k the editor kit to be set
+     * @pbrbm type the non-<code>null</code> content type
+     * @pbrbm k the editor kit to be set
      */
     public void setEditorKitForContentType(String type, EditorKit k) {
-        if (typeHandlers == null) {
-            typeHandlers = new Hashtable<String, EditorKit>(3);
+        if (typeHbndlers == null) {
+            typeHbndlers = new Hbshtbble<String, EditorKit>(3);
         }
-        typeHandlers.put(type, k);
+        typeHbndlers.put(type, k);
     }
 
     /**
-     * Replaces the currently selected content with new content
+     * Replbces the currently selected content with new content
      * represented by the given string.  If there is no selection
-     * this amounts to an insert of the given text.  If there
-     * is no replacement text (i.e. the content string is empty
-     * or <code>null</code>) this amounts to a removal of the
-     * current selection.  The replacement text will have the
-     * attributes currently defined for input.  If the component is not
-     * editable, beep and return.
+     * this bmounts to bn insert of the given text.  If there
+     * is no replbcement text (i.e. the content string is empty
+     * or <code>null</code>) this bmounts to b removbl of the
+     * current selection.  The replbcement text will hbve the
+     * bttributes currently defined for input.  If the component is not
+     * editbble, beep bnd return.
      *
-     * @param content  the content to replace the selection with.  This
-     *   value can be <code>null</code>
+     * @pbrbm content  the content to replbce the selection with.  This
+     *   vblue cbn be <code>null</code>
      */
     @Override
-    public void replaceSelection(String content) {
-        if (! isEditable()) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
+    public void replbceSelection(String content) {
+        if (! isEditbble()) {
+            UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JEditorPbne.this);
             return;
         }
         EditorKit kit = getEditorKit();
-        if(kit instanceof StyledEditorKit) {
+        if(kit instbnceof StyledEditorKit) {
             try {
                 Document doc = getDocument();
-                Caret caret = getCaret();
-                boolean composedTextSaved = saveComposedText(caret.getDot());
-                int p0 = Math.min(caret.getDot(), caret.getMark());
-                int p1 = Math.max(caret.getDot(), caret.getMark());
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(p0, p1 - p0, content,
+                Cbret cbret = getCbret();
+                boolebn composedTextSbved = sbveComposedText(cbret.getDot());
+                int p0 = Mbth.min(cbret.getDot(), cbret.getMbrk());
+                int p1 = Mbth.mbx(cbret.getDot(), cbret.getMbrk());
+                if (doc instbnceof AbstrbctDocument) {
+                    ((AbstrbctDocument)doc).replbce(p0, p1 - p0, content,
                               ((StyledEditorKit)kit).getInputAttributes());
                 }
                 else {
@@ -1155,60 +1155,60 @@ public class JEditorPane extends JTextComponent {
                                          getInputAttributes());
                     }
                 }
-                if (composedTextSaved) {
+                if (composedTextSbved) {
                     restoreComposedText();
                 }
-            } catch (BadLocationException e) {
-                UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
+            } cbtch (BbdLocbtionException e) {
+                UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JEditorPbne.this);
             }
         }
         else {
-            super.replaceSelection(content);
+            super.replbceSelection(content);
         }
     }
 
     /**
-     * Creates a handler for the given type from the default registry
-     * of editor kits.  The registry is created if necessary.  If the
-     * registered class has not yet been loaded, an attempt
-     * is made to dynamically load the prototype of the kit for the
-     * given type.  If the type was registered with a <code>ClassLoader</code>,
-     * that <code>ClassLoader</code> will be used to load the prototype.
-     * If there was no registered <code>ClassLoader</code>,
-     * <code>Class.forName</code> will be used to load the prototype.
+     * Crebtes b hbndler for the given type from the defbult registry
+     * of editor kits.  The registry is crebted if necessbry.  If the
+     * registered clbss hbs not yet been lobded, bn bttempt
+     * is mbde to dynbmicblly lobd the prototype of the kit for the
+     * given type.  If the type wbs registered with b <code>ClbssLobder</code>,
+     * thbt <code>ClbssLobder</code> will be used to lobd the prototype.
+     * If there wbs no registered <code>ClbssLobder</code>,
+     * <code>Clbss.forNbme</code> will be used to lobd the prototype.
      * <p>
-     * Once a prototype <code>EditorKit</code> instance is successfully
-     * located, it is cloned and the clone is returned.
+     * Once b prototype <code>EditorKit</code> instbnce is successfully
+     * locbted, it is cloned bnd the clone is returned.
      *
-     * @param type the content type
+     * @pbrbm type the content type
      * @return the editor kit, or <code>null</code> if there is nothing
      *   registered for the given type
      */
-    public static EditorKit createEditorKitForContentType(String type) {
-        Hashtable<String, EditorKit> kitRegistry = getKitRegisty();
+    public stbtic EditorKit crebteEditorKitForContentType(String type) {
+        Hbshtbble<String, EditorKit> kitRegistry = getKitRegisty();
         EditorKit k = kitRegistry.get(type);
         if (k == null) {
-            // try to dynamically load the support
-            String classname = getKitTypeRegistry().get(type);
-            ClassLoader loader = getKitLoaderRegistry().get(type);
+            // try to dynbmicblly lobd the support
+            String clbssnbme = getKitTypeRegistry().get(type);
+            ClbssLobder lobder = getKitLobderRegistry().get(type);
             try {
-                Class<?> c;
-                if (loader != null) {
-                    ReflectUtil.checkPackageAccess(classname);
-                    c = loader.loadClass(classname);
+                Clbss<?> c;
+                if (lobder != null) {
+                    ReflectUtil.checkPbckbgeAccess(clbssnbme);
+                    c = lobder.lobdClbss(clbssnbme);
                 } else {
-                    // Will only happen if developer has invoked
-                    // registerEditorKitForContentType(type, class, null).
-                    c = SwingUtilities.loadSystemClass(classname);
+                    // Will only hbppen if developer hbs invoked
+                    // registerEditorKitForContentType(type, clbss, null).
+                    c = SwingUtilities.lobdSystemClbss(clbssnbme);
                 }
-                k = (EditorKit) c.newInstance();
+                k = (EditorKit) c.newInstbnce();
                 kitRegistry.put(type, k);
-            } catch (Throwable e) {
+            } cbtch (Throwbble e) {
                 k = null;
             }
         }
 
-        // create a copy of the prototype or null if there
+        // crebte b copy of the prototype or null if there
         // is no prototype.
         if (k != null) {
             return (EditorKit) k.clone();
@@ -1217,150 +1217,150 @@ public class JEditorPane extends JTextComponent {
     }
 
     /**
-     * Establishes the default bindings of <code>type</code> to
-     * <code>classname</code>.
-     * The class will be dynamically loaded later when actually
-     * needed, and can be safely changed before attempted uses
-     * to avoid loading unwanted classes.  The prototype
-     * <code>EditorKit</code> will be loaded with <code>Class.forName</code>
+     * Estbblishes the defbult bindings of <code>type</code> to
+     * <code>clbssnbme</code>.
+     * The clbss will be dynbmicblly lobded lbter when bctublly
+     * needed, bnd cbn be sbfely chbnged before bttempted uses
+     * to bvoid lobding unwbnted clbsses.  The prototype
+     * <code>EditorKit</code> will be lobded with <code>Clbss.forNbme</code>
      * when registered with this method.
      *
-     * @param type the non-<code>null</code> content type
-     * @param classname the class to load later
+     * @pbrbm type the non-<code>null</code> content type
+     * @pbrbm clbssnbme the clbss to lobd lbter
      */
-    public static void registerEditorKitForContentType(String type, String classname) {
-        registerEditorKitForContentType(type, classname,Thread.currentThread().
-                                        getContextClassLoader());
+    public stbtic void registerEditorKitForContentType(String type, String clbssnbme) {
+        registerEditorKitForContentType(type, clbssnbme,Threbd.currentThrebd().
+                                        getContextClbssLobder());
     }
 
     /**
-     * Establishes the default bindings of <code>type</code> to
-     * <code>classname</code>.
-     * The class will be dynamically loaded later when actually
-     * needed using the given <code>ClassLoader</code>,
-     * and can be safely changed
-     * before attempted uses to avoid loading unwanted classes.
+     * Estbblishes the defbult bindings of <code>type</code> to
+     * <code>clbssnbme</code>.
+     * The clbss will be dynbmicblly lobded lbter when bctublly
+     * needed using the given <code>ClbssLobder</code>,
+     * bnd cbn be sbfely chbnged
+     * before bttempted uses to bvoid lobding unwbnted clbsses.
      *
-     * @param type the non-<code>null</code> content type
-     * @param classname the class to load later
-     * @param loader the <code>ClassLoader</code> to use to load the name
+     * @pbrbm type the non-<code>null</code> content type
+     * @pbrbm clbssnbme the clbss to lobd lbter
+     * @pbrbm lobder the <code>ClbssLobder</code> to use to lobd the nbme
      */
-    public static void registerEditorKitForContentType(String type, String classname, ClassLoader loader) {
-        getKitTypeRegistry().put(type, classname);
-        getKitLoaderRegistry().put(type, loader);
+    public stbtic void registerEditorKitForContentType(String type, String clbssnbme, ClbssLobder lobder) {
+        getKitTypeRegistry().put(type, clbssnbme);
+        getKitLobderRegistry().put(type, lobder);
         getKitRegisty().remove(type);
     }
 
     /**
-     * Returns the currently registered {@code EditorKit} class name for the
+     * Returns the currently registered {@code EditorKit} clbss nbme for the
      * type {@code type}.
      *
-     * @param type  the non-{@code null} content type
-     * @return a {@code String} containing the {@code EditorKit} class name
+     * @pbrbm type  the non-{@code null} content type
+     * @return b {@code String} contbining the {@code EditorKit} clbss nbme
      *         for {@code type}
      * @since 1.3
      */
-    public static String getEditorKitClassNameForContentType(String type) {
+    public stbtic String getEditorKitClbssNbmeForContentType(String type) {
         return getKitTypeRegistry().get(type);
     }
 
-    private static Hashtable<String, String> getKitTypeRegistry() {
-        loadDefaultKitsIfNecessary();
-        @SuppressWarnings("unchecked")
-        Hashtable<String, String> tmp =
-            (Hashtable)SwingUtilities.appContextGet(kitTypeRegistryKey);
+    privbte stbtic Hbshtbble<String, String> getKitTypeRegistry() {
+        lobdDefbultKitsIfNecessbry();
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String, String> tmp =
+            (Hbshtbble)SwingUtilities.bppContextGet(kitTypeRegistryKey);
         return tmp;
     }
 
-    private static Hashtable<String, ClassLoader> getKitLoaderRegistry() {
-        loadDefaultKitsIfNecessary();
-        @SuppressWarnings("unchecked")
-        Hashtable<String, ClassLoader> tmp =
-            (Hashtable)SwingUtilities.appContextGet(kitLoaderRegistryKey);
+    privbte stbtic Hbshtbble<String, ClbssLobder> getKitLobderRegistry() {
+        lobdDefbultKitsIfNecessbry();
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String, ClbssLobder> tmp =
+            (Hbshtbble)SwingUtilities.bppContextGet(kitLobderRegistryKey);
         return tmp;
     }
 
-    private static Hashtable<String, EditorKit> getKitRegisty() {
-        @SuppressWarnings("unchecked")
-        Hashtable<String, EditorKit> ht =
-            (Hashtable)SwingUtilities.appContextGet(kitRegistryKey);
+    privbte stbtic Hbshtbble<String, EditorKit> getKitRegisty() {
+        @SuppressWbrnings("unchecked")
+        Hbshtbble<String, EditorKit> ht =
+            (Hbshtbble)SwingUtilities.bppContextGet(kitRegistryKey);
         if (ht == null) {
-            ht = new Hashtable<>(3);
-            SwingUtilities.appContextPut(kitRegistryKey, ht);
+            ht = new Hbshtbble<>(3);
+            SwingUtilities.bppContextPut(kitRegistryKey, ht);
         }
         return ht;
     }
 
     /**
-     * This is invoked every time the registries are accessed. Loading
-     * is done this way instead of via a static as the static is only
-     * called once when running in plugin resulting in the entries only
-     * appearing in the first applet.
+     * This is invoked every time the registries bre bccessed. Lobding
+     * is done this wby instebd of vib b stbtic bs the stbtic is only
+     * cblled once when running in plugin resulting in the entries only
+     * bppebring in the first bpplet.
      */
-    private static void loadDefaultKitsIfNecessary() {
-        if (SwingUtilities.appContextGet(kitTypeRegistryKey) == null) {
-            synchronized(defaultEditorKitMap) {
-                if (defaultEditorKitMap.size() == 0) {
-                    defaultEditorKitMap.put("text/plain",
-                                            "javax.swing.JEditorPane$PlainEditorKit");
-                    defaultEditorKitMap.put("text/html",
-                                            "javax.swing.text.html.HTMLEditorKit");
-                    defaultEditorKitMap.put("text/rtf",
-                                            "javax.swing.text.rtf.RTFEditorKit");
-                    defaultEditorKitMap.put("application/rtf",
-                                            "javax.swing.text.rtf.RTFEditorKit");
+    privbte stbtic void lobdDefbultKitsIfNecessbry() {
+        if (SwingUtilities.bppContextGet(kitTypeRegistryKey) == null) {
+            synchronized(defbultEditorKitMbp) {
+                if (defbultEditorKitMbp.size() == 0) {
+                    defbultEditorKitMbp.put("text/plbin",
+                                            "jbvbx.swing.JEditorPbne$PlbinEditorKit");
+                    defbultEditorKitMbp.put("text/html",
+                                            "jbvbx.swing.text.html.HTMLEditorKit");
+                    defbultEditorKitMbp.put("text/rtf",
+                                            "jbvbx.swing.text.rtf.RTFEditorKit");
+                    defbultEditorKitMbp.put("bpplicbtion/rtf",
+                                            "jbvbx.swing.text.rtf.RTFEditorKit");
                 }
             }
-            Hashtable<Object, Object> ht = new Hashtable<>();
-            SwingUtilities.appContextPut(kitTypeRegistryKey, ht);
-            ht = new Hashtable<>();
-            SwingUtilities.appContextPut(kitLoaderRegistryKey, ht);
-            for (String key : defaultEditorKitMap.keySet()) {
-                registerEditorKitForContentType(key,defaultEditorKitMap.get(key));
+            Hbshtbble<Object, Object> ht = new Hbshtbble<>();
+            SwingUtilities.bppContextPut(kitTypeRegistryKey, ht);
+            ht = new Hbshtbble<>();
+            SwingUtilities.bppContextPut(kitLobderRegistryKey, ht);
+            for (String key : defbultEditorKitMbp.keySet()) {
+                registerEditorKitForContentType(key,defbultEditorKitMbp.get(key));
             }
 
         }
     }
 
-    // --- java.awt.Component methods --------------------------
+    // --- jbvb.bwt.Component methods --------------------------
 
     /**
-     * Returns the preferred size for the <code>JEditorPane</code>.
-     * The preferred size for <code>JEditorPane</code> is slightly altered
-     * from the preferred size of the superclass.  If the size
-     * of the viewport has become smaller than the minimum size
-     * of the component, the scrollable definition for tracking
-     * width or height will turn to false.  The default viewport
-     * layout will give the preferred size, and that is not desired
-     * in the case where the scrollable is tracking.  In that case
-     * the <em>normal</em> preferred size is adjusted to the
-     * minimum size.  This allows things like HTML tables to
-     * shrink down to their minimum size and then be laid out at
-     * their minimum size, refusing to shrink any further.
+     * Returns the preferred size for the <code>JEditorPbne</code>.
+     * The preferred size for <code>JEditorPbne</code> is slightly bltered
+     * from the preferred size of the superclbss.  If the size
+     * of the viewport hbs become smbller thbn the minimum size
+     * of the component, the scrollbble definition for trbcking
+     * width or height will turn to fblse.  The defbult viewport
+     * lbyout will give the preferred size, bnd thbt is not desired
+     * in the cbse where the scrollbble is trbcking.  In thbt cbse
+     * the <em>normbl</em> preferred size is bdjusted to the
+     * minimum size.  This bllows things like HTML tbbles to
+     * shrink down to their minimum size bnd then be lbid out bt
+     * their minimum size, refusing to shrink bny further.
      *
-     * @return a <code>Dimension</code> containing the preferred size
+     * @return b <code>Dimension</code> contbining the preferred size
      */
     public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            JViewport port = (JViewport) pbrent;
             TextUI ui = getUI();
             int prefWidth = d.width;
             int prefHeight = d.height;
-            if (! getScrollableTracksViewportWidth()) {
+            if (! getScrollbbleTrbcksViewportWidth()) {
                 int w = port.getWidth();
                 Dimension min = ui.getMinimumSize(this);
                 if (w != 0 && w < min.width) {
-                    // Only adjust to min if we have a valid size
+                    // Only bdjust to min if we hbve b vblid size
                     prefWidth = min.width;
                 }
             }
-            if (! getScrollableTracksViewportHeight()) {
+            if (! getScrollbbleTrbcksViewportHeight()) {
                 int h = port.getHeight();
                 Dimension min = ui.getMinimumSize(this);
                 if (h != 0 && h < min.height) {
-                    // Only adjust to min if we have a valid size
+                    // Only bdjust to min if we hbve b vblid size
                     prefHeight = min.height;
                 }
             }
@@ -1376,69 +1376,69 @@ public class JEditorPane extends JTextComponent {
     /**
      * Sets the text of this <code>TextComponent</code> to the specified
      * content,
-     * which is expected to be in the format of the content type of
-     * this editor.  For example, if the type is set to <code>text/html</code>
+     * which is expected to be in the formbt of the content type of
+     * this editor.  For exbmple, if the type is set to <code>text/html</code>
      * the string should be specified in terms of HTML.
      * <p>
      * This is implemented to remove the contents of the current document,
-     * and replace them by parsing the given string using the current
-     * <code>EditorKit</code>.  This gives the semantics of the
-     * superclass by not changing
+     * bnd replbce them by pbrsing the given string using the current
+     * <code>EditorKit</code>.  This gives the sembntics of the
+     * superclbss by not chbnging
      * out the model, while supporting the content type currently set on
-     * this component.  The assumption is that the previous content is
-     * relatively
-     * small, and that the previous content doesn't have side effects.
-     * Both of those assumptions can be violated and cause undesirable results.
-     * To avoid this, create a new document,
-     * <code>getEditorKit().createDefaultDocument()</code>, and replace the
-     * existing <code>Document</code> with the new one. You are then assured the
-     * previous <code>Document</code> won't have any lingering state.
+     * this component.  The bssumption is thbt the previous content is
+     * relbtively
+     * smbll, bnd thbt the previous content doesn't hbve side effects.
+     * Both of those bssumptions cbn be violbted bnd cbuse undesirbble results.
+     * To bvoid this, crebte b new document,
+     * <code>getEditorKit().crebteDefbultDocument()</code>, bnd replbce the
+     * existing <code>Document</code> with the new one. You bre then bssured the
+     * previous <code>Document</code> won't hbve bny lingering stbte.
      * <ol>
      * <li>
-     * Leaving the existing model in place means that the old view will be
-     * torn down, and a new view created, where replacing the document would
-     * avoid the tear down of the old view.
+     * Lebving the existing model in plbce mebns thbt the old view will be
+     * torn down, bnd b new view crebted, where replbcing the document would
+     * bvoid the tebr down of the old view.
      * <li>
-     * Some formats (such as HTML) can install things into the document that
-     * can influence future contents.  HTML can have style information embedded
-     * that would influence the next content installed unexpectedly.
+     * Some formbts (such bs HTML) cbn instbll things into the document thbt
+     * cbn influence future contents.  HTML cbn hbve style informbtion embedded
+     * thbt would influence the next content instblled unexpectedly.
      * </ol>
      * <p>
-     * An alternative way to load this component with a string would be to
-     * create a StringReader and call the read method.  In this case the model
-     * would be replaced after it was initialized with the contents of the
+     * An blternbtive wby to lobd this component with b string would be to
+     * crebte b StringRebder bnd cbll the rebd method.  In this cbse the model
+     * would be replbced bfter it wbs initiblized with the contents of the
      * string.
      *
-     * @param t the new text to be set; if <code>null</code> the old
+     * @pbrbm t the new text to be set; if <code>null</code> the old
      *    text will be deleted
      * @see #getText
-     * @beaninfo
+     * @bebninfo
      * description: the text of this component
      */
     public void setText(String t) {
         try {
             Document doc = getDocument();
             doc.remove(0, doc.getLength());
-            if (t == null || t.equals("")) {
+            if (t == null || t.equbls("")) {
                 return;
             }
-            Reader r = new StringReader(t);
+            Rebder r = new StringRebder(t);
             EditorKit kit = getEditorKit();
-            kit.read(r, doc, 0);
-        } catch (IOException ioe) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
-        } catch (BadLocationException ble) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
+            kit.rebd(r, doc, 0);
+        } cbtch (IOException ioe) {
+            UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JEditorPbne.this);
+        } cbtch (BbdLocbtionException ble) {
+            UIMbnbger.getLookAndFeel().provideErrorFeedbbck(JEditorPbne.this);
         }
     }
 
     /**
-     * Returns the text contained in this <code>TextComponent</code>
+     * Returns the text contbined in this <code>TextComponent</code>
      * in terms of the
-     * content type of this editor.  If an exception is thrown while
-     * attempting to retrieve the text, <code>null</code> will be returned.
-     * This is implemented to call <code>JTextComponent.write</code> with
-     * a <code>StringWriter</code>.
+     * content type of this editor.  If bn exception is thrown while
+     * bttempting to retrieve the text, <code>null</code> will be returned.
+     * This is implemented to cbll <code>JTextComponent.write</code> with
+     * b <code>StringWriter</code>.
      *
      * @return the text
      * @see #setText
@@ -1449,164 +1449,164 @@ public class JEditorPane extends JTextComponent {
             StringWriter buf = new StringWriter();
             write(buf);
             txt = buf.toString();
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             txt = null;
         }
         return txt;
     }
 
-    // --- Scrollable  ----------------------------------------
+    // --- Scrollbble  ----------------------------------------
 
     /**
-     * Returns true if a viewport should always force the width of this
-     * <code>Scrollable</code> to match the width of the viewport.
+     * Returns true if b viewport should blwbys force the width of this
+     * <code>Scrollbble</code> to mbtch the width of the viewport.
      *
-     * @return true if a viewport should force the Scrollables width to
-     * match its own, false otherwise
+     * @return true if b viewport should force the Scrollbbles width to
+     * mbtch its own, fblse otherwise
      */
-    public boolean getScrollableTracksViewportWidth() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
+    public boolebn getScrollbbleTrbcksViewportWidth() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            JViewport port = (JViewport) pbrent;
             TextUI ui = getUI();
             int w = port.getWidth();
             Dimension min = ui.getMinimumSize(this);
-            Dimension max = ui.getMaximumSize(this);
-            if ((w >= min.width) && (w <= max.width)) {
+            Dimension mbx = ui.getMbximumSize(this);
+            if ((w >= min.width) && (w <= mbx.width)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if a viewport should always force the height of this
-     * <code>Scrollable</code> to match the height of the viewport.
+     * Returns true if b viewport should blwbys force the height of this
+     * <code>Scrollbble</code> to mbtch the height of the viewport.
      *
-     * @return true if a viewport should force the
-     *          <code>Scrollable</code>'s height to match its own,
-     *          false otherwise
+     * @return true if b viewport should force the
+     *          <code>Scrollbble</code>'s height to mbtch its own,
+     *          fblse otherwise
      */
-    public boolean getScrollableTracksViewportHeight() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
+    public boolebn getScrollbbleTrbcksViewportHeight() {
+        Contbiner pbrent = SwingUtilities.getUnwrbppedPbrent(this);
+        if (pbrent instbnceof JViewport) {
+            JViewport port = (JViewport) pbrent;
             TextUI ui = getUI();
             int h = port.getHeight();
             Dimension min = ui.getMinimumSize(this);
             if (h >= min.height) {
-                Dimension max = ui.getMaximumSize(this);
-                if (h <= max.height) {
+                Dimension mbx = ui.getMbximumSize(this);
+                if (h <= mbx.height) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
-    // --- Serialization ------------------------------------
+    // --- Seriblizbtion ------------------------------------
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
-    // --- variables ---------------------------------------
+    // --- vbribbles ---------------------------------------
 
-    private SwingWorker<URL, Object> pageLoader;
+    privbte SwingWorker<URL, Object> pbgeLobder;
 
     /**
      * Current content binding of the editor.
      */
-    private EditorKit kit;
-    private boolean isUserSetEditorKit;
+    privbte EditorKit kit;
+    privbte boolebn isUserSetEditorKit;
 
-    private Hashtable<String, Object> pageProperties;
+    privbte Hbshtbble<String, Object> pbgeProperties;
 
-    /** Should be kept in sync with javax.swing.text.html.FormView counterpart. */
-    final static String PostDataProperty = "javax.swing.JEditorPane.postdata";
+    /** Should be kept in sync with jbvbx.swing.text.html.FormView counterpbrt. */
+    finbl stbtic String PostDbtbProperty = "jbvbx.swing.JEditorPbne.postdbtb";
 
     /**
-     * Table of registered type handlers for this editor.
+     * Tbble of registered type hbndlers for this editor.
      */
-    private Hashtable<String, EditorKit> typeHandlers;
+    privbte Hbshtbble<String, EditorKit> typeHbndlers;
 
     /*
-     * Private AppContext keys for this class's static variables.
+     * Privbte AppContext keys for this clbss's stbtic vbribbles.
      */
-    private static final Object kitRegistryKey =
-        new StringBuffer("JEditorPane.kitRegistry");
-    private static final Object kitTypeRegistryKey =
-        new StringBuffer("JEditorPane.kitTypeRegistry");
-    private static final Object kitLoaderRegistryKey =
-        new StringBuffer("JEditorPane.kitLoaderRegistry");
+    privbte stbtic finbl Object kitRegistryKey =
+        new StringBuffer("JEditorPbne.kitRegistry");
+    privbte stbtic finbl Object kitTypeRegistryKey =
+        new StringBuffer("JEditorPbne.kitTypeRegistry");
+    privbte stbtic finbl Object kitLobderRegistryKey =
+        new StringBuffer("JEditorPbne.kitLobderRegistry");
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "EditorPaneUI";
+    privbte stbtic finbl String uiClbssID = "EditorPbneUI";
 
 
     /**
-     * Key for a client property used to indicate whether
-     * <a href="http://www.w3.org/TR/CSS21/syndata.html#length-units">
-     * w3c compliant</a> length units are used for html rendering.
+     * Key for b client property used to indicbte whether
+     * <b href="http://www.w3.org/TR/CSS21/syndbtb.html#length-units">
+     * w3c complibnt</b> length units bre used for html rendering.
      * <p>
-     * By default this is not enabled; to enable
-     * it set the client {@link #putClientProperty property} with this name
-     * to <code>Boolean.TRUE</code>.
+     * By defbult this is not enbbled; to enbble
+     * it set the client {@link #putClientProperty property} with this nbme
+     * to <code>Boolebn.TRUE</code>.
      *
      * @since 1.5
      */
-    public static final String W3C_LENGTH_UNITS = "JEditorPane.w3cLengthUnits";
+    public stbtic finbl String W3C_LENGTH_UNITS = "JEditorPbne.w3cLengthUnits";
 
     /**
-     * Key for a client property used to indicate whether
-     * the default font and foreground color from the component are
-     * used if a font or foreground color is not specified in the styled
+     * Key for b client property used to indicbte whether
+     * the defbult font bnd foreground color from the component bre
+     * used if b font or foreground color is not specified in the styled
      * text.
      * <p>
-     * The default varies based on the look and feel;
-     * to enable it set the client {@link #putClientProperty property} with
-     * this name to <code>Boolean.TRUE</code>.
+     * The defbult vbries bbsed on the look bnd feel;
+     * to enbble it set the client {@link #putClientProperty property} with
+     * this nbme to <code>Boolebn.TRUE</code>.
      *
      * @since 1.5
      */
-    public static final String HONOR_DISPLAY_PROPERTIES = "JEditorPane.honorDisplayProperties";
+    public stbtic finbl String HONOR_DISPLAY_PROPERTIES = "JEditorPbne.honorDisplbyProperties";
 
-    static final Map<String, String> defaultEditorKitMap = new HashMap<String, String>(0);
+    stbtic finbl Mbp<String, String> defbultEditorKitMbp = new HbshMbp<String, String>(0);
 
     /**
-     * Returns a string representation of this <code>JEditorPane</code>.
+     * Returns b string representbtion of this <code>JEditorPbne</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JEditorPane</code>
+     * @return  b string representbtion of this <code>JEditorPbne</code>
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String kitString = (kit != null ?
                             kit.toString() : "");
-        String typeHandlersString = (typeHandlers != null ?
-                                     typeHandlers.toString() : "");
+        String typeHbndlersString = (typeHbndlers != null ?
+                                     typeHbndlers.toString() : "");
 
-        return super.paramString() +
+        return super.pbrbmString() +
         ",kit=" + kitString +
-        ",typeHandlers=" + typeHandlersString;
+        ",typeHbndlers=" + typeHbndlersString;
     }
 
 
@@ -1616,119 +1616,119 @@ public class JEditorPane extends JTextComponent {
 
 
     /**
-     * Gets the AccessibleContext associated with this JEditorPane.
-     * For editor panes, the AccessibleContext takes the form of an
-     * AccessibleJEditorPane.
-     * A new AccessibleJEditorPane instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JEditorPbne.
+     * For editor pbnes, the AccessibleContext tbkes the form of bn
+     * AccessibleJEditorPbne.
+     * A new AccessibleJEditorPbne instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJEditorPane that serves as the
-     *         AccessibleContext of this JEditorPane
+     * @return bn AccessibleJEditorPbne thbt serves bs the
+     *         AccessibleContext of this JEditorPbne
      */
     public AccessibleContext getAccessibleContext() {
-        if (getEditorKit() instanceof HTMLEditorKit) {
-            if (accessibleContext == null || accessibleContext.getClass() !=
-                    AccessibleJEditorPaneHTML.class) {
-                accessibleContext = new AccessibleJEditorPaneHTML();
+        if (getEditorKit() instbnceof HTMLEditorKit) {
+            if (bccessibleContext == null || bccessibleContext.getClbss() !=
+                    AccessibleJEditorPbneHTML.clbss) {
+                bccessibleContext = new AccessibleJEditorPbneHTML();
             }
-        } else if (accessibleContext == null || accessibleContext.getClass() !=
-                       AccessibleJEditorPane.class) {
-            accessibleContext = new AccessibleJEditorPane();
+        } else if (bccessibleContext == null || bccessibleContext.getClbss() !=
+                       AccessibleJEditorPbne.clbss) {
+            bccessibleContext = new AccessibleJEditorPbne();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JEditorPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to editor pane user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JEditorPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to editor pbne user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJEditorPane extends AccessibleJTextComponent {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJEditorPbne extends AccessibleJTextComponent {
 
         /**
-         * Gets the accessibleDescription property of this object.  If this
+         * Gets the bccessibleDescription property of this object.  If this
          * property isn't set, returns the content type of this
-         * <code>JEditorPane</code> instead (e.g. "plain/text", "html/text").
+         * <code>JEditorPbne</code> instebd (e.g. "plbin/text", "html/text").
          *
-         * @return the localized description of the object; <code>null</code>
-         *      if this object does not have a description
+         * @return the locblized description of the object; <code>null</code>
+         *      if this object does not hbve b description
          *
-         * @see #setAccessibleName
+         * @see #setAccessibleNbme
          */
         public String getAccessibleDescription() {
-            String description = accessibleDescription;
+            String description = bccessibleDescription;
 
-            // fallback to client property
+            // fbllbbck to client property
             if (description == null) {
                 description = (String)getClientProperty(AccessibleContext.ACCESSIBLE_DESCRIPTION_PROPERTY);
             }
             if (description == null) {
-                description = JEditorPane.this.getContentType();
+                description = JEditorPbne.this.getContentType();
             }
             return description;
         }
 
         /**
-         * Gets the state set of this object.
+         * Gets the stbte set of this object.
          *
-         * @return an instance of AccessibleStateSet describing the states
+         * @return bn instbnce of AccessibleStbteSet describing the stbtes
          * of the object
-         * @see AccessibleStateSet
+         * @see AccessibleStbteSet
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.MULTI_LINE);
-            return states;
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+            stbtes.bdd(AccessibleStbte.MULTI_LINE);
+            return stbtes;
         }
     }
 
     /**
-     * This class provides support for <code>AccessibleHypertext</code>,
-     * and is used in instances where the <code>EditorKit</code>
-     * installed in this <code>JEditorPane</code> is an instance of
+     * This clbss provides support for <code>AccessibleHypertext</code>,
+     * bnd is used in instbnces where the <code>EditorKit</code>
+     * instblled in this <code>JEditorPbne</code> is bn instbnce of
      * <code>HTMLEditorKit</code>.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJEditorPaneHTML extends AccessibleJEditorPane {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJEditorPbneHTML extends AccessibleJEditorPbne {
 
-        private AccessibleContext accessibleContext;
+        privbte AccessibleContext bccessibleContext;
 
         public AccessibleText getAccessibleText() {
-            return new JEditorPaneAccessibleHypertextSupport();
+            return new JEditorPbneAccessibleHypertextSupport();
         }
 
-        protected AccessibleJEditorPaneHTML () {
-            HTMLEditorKit kit = (HTMLEditorKit)JEditorPane.this.getEditorKit();
-            accessibleContext = kit.getAccessibleContext();
+        protected AccessibleJEditorPbneHTML () {
+            HTMLEditorKit kit = (HTMLEditorKit)JEditorPbne.this.getEditorKit();
+            bccessibleContext = kit.getAccessibleContext();
         }
 
         /**
-         * Returns the number of accessible children of the object.
+         * Returns the number of bccessible children of the object.
          *
-         * @return the number of accessible children of the object.
+         * @return the number of bccessible children of the object.
          */
         public int getAccessibleChildrenCount() {
-            if (accessibleContext != null) {
-                return accessibleContext.getAccessibleChildrenCount();
+            if (bccessibleContext != null) {
+                return bccessibleContext.getAccessibleChildrenCount();
             } else {
                 return 0;
             }
@@ -1736,41 +1736,41 @@ public class JEditorPane extends JTextComponent {
 
         /**
          * Returns the specified Accessible child of the object.  The Accessible
-         * children of an Accessible object are zero-based, so the first child
-         * of an Accessible child is at index 0, the second child is at index 1,
-         * and so on.
+         * children of bn Accessible object bre zero-bbsed, so the first child
+         * of bn Accessible child is bt index 0, the second child is bt index 1,
+         * bnd so on.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
         public Accessible getAccessibleChild(int i) {
-            if (accessibleContext != null) {
-                return accessibleContext.getAccessibleChild(i);
+            if (bccessibleContext != null) {
+                return bccessibleContext.getAccessibleChild(i);
             } else {
                 return null;
             }
         }
 
         /**
-         * Returns the Accessible child, if one exists, contained at the local
-         * coordinate Point.
+         * Returns the Accessible child, if one exists, contbined bt the locbl
+         * coordinbte Point.
          *
-         * @param p The point relative to the coordinate system of this object.
-         * @return the Accessible, if it exists, at the specified location;
+         * @pbrbm p The point relbtive to the coordinbte system of this object.
+         * @return the Accessible, if it exists, bt the specified locbtion;
          * otherwise null
          */
         public Accessible getAccessibleAt(Point p) {
-            if (accessibleContext != null && p != null) {
+            if (bccessibleContext != null && p != null) {
                 try {
-                    AccessibleComponent acomp =
-                        accessibleContext.getAccessibleComponent();
-                    if (acomp != null) {
-                        return acomp.getAccessibleAt(p);
+                    AccessibleComponent bcomp =
+                        bccessibleContext.getAccessibleComponent();
+                    if (bcomp != null) {
+                        return bcomp.getAccessibleAt(p);
                     } else {
                         return null;
                     }
-                } catch (IllegalComponentStateException e) {
+                } cbtch (IllegblComponentStbteException e) {
                     return null;
                 }
             } else {
@@ -1780,18 +1780,18 @@ public class JEditorPane extends JTextComponent {
     }
 
     /**
-     * What's returned by
-     * <code>AccessibleJEditorPaneHTML.getAccessibleText</code>.
+     * Whbt's returned by
+     * <code>AccessibleJEditorPbneHTML.getAccessibleText</code>.
      *
-     * Provides support for <code>AccessibleHypertext</code> in case
-     * there is an HTML document being displayed in this
-     * <code>JEditorPane</code>.
+     * Provides support for <code>AccessibleHypertext</code> in cbse
+     * there is bn HTML document being displbyed in this
+     * <code>JEditorPbne</code>.
      *
      */
-    protected class JEditorPaneAccessibleHypertextSupport
-    extends AccessibleJEditorPane implements AccessibleHypertext {
+    protected clbss JEditorPbneAccessibleHypertextSupport
+    extends AccessibleJEditorPbne implements AccessibleHypertext {
 
-        public class HTMLLink extends AccessibleHyperlink {
+        public clbss HTMLLink extends AccessibleHyperlink {
             Element element;
 
             public HTMLLink(Element e) {
@@ -1799,24 +1799,24 @@ public class JEditorPane extends JTextComponent {
             }
 
             /**
-             * Since the document a link is associated with may have
-             * changed, this method returns whether this Link is valid
-             * anymore (with respect to the document it references).
+             * Since the document b link is bssocibted with mby hbve
+             * chbnged, this method returns whether this Link is vblid
+             * bnymore (with respect to the document it references).
              *
-             * @return a flag indicating whether this link is still valid with
+             * @return b flbg indicbting whether this link is still vblid with
              *         respect to the AccessibleHypertext it belongs to
              */
-            public boolean isValid() {
-                return JEditorPaneAccessibleHypertextSupport.this.linksValid;
+            public boolebn isVblid() {
+                return JEditorPbneAccessibleHypertextSupport.this.linksVblid;
             }
 
             /**
-             * Returns the number of accessible actions available in this Link
-             * If there are more than one, the first one is NOT considered the
-             * "default" action of this LINK object (e.g. in an HTML imagemap).
-             * In general, links will have only one AccessibleAction in them.
+             * Returns the number of bccessible bctions bvbilbble in this Link
+             * If there bre more thbn one, the first one is NOT considered the
+             * "defbult" bction of this LINK object (e.g. in bn HTML imbgembp).
+             * In generbl, links will hbve only one AccessibleAction in them.
              *
-             * @return the zero-based number of Actions in this object
+             * @return the zero-bbsed number of Actions in this object
              */
             public int getAccessibleActionCount() {
                 return 1;
@@ -1825,41 +1825,41 @@ public class JEditorPane extends JTextComponent {
             /**
              * Perform the specified Action on the object
              *
-             * @param i zero-based index of actions
-             * @return true if the the action was performed; else false.
+             * @pbrbm i zero-bbsed index of bctions
+             * @return true if the the bction wbs performed; else fblse.
              * @see #getAccessibleActionCount
              */
-            public boolean doAccessibleAction(int i) {
-                if (i == 0 && isValid() == true) {
+            public boolebn doAccessibleAction(int i) {
+                if (i == 0 && isVblid() == true) {
                     URL u = (URL) getAccessibleActionObject(i);
                     if (u != null) {
                         HyperlinkEvent linkEvent =
-                            new HyperlinkEvent(JEditorPane.this, HyperlinkEvent.EventType.ACTIVATED, u);
-                        JEditorPane.this.fireHyperlinkUpdate(linkEvent);
+                            new HyperlinkEvent(JEditorPbne.this, HyperlinkEvent.EventType.ACTIVATED, u);
+                        JEditorPbne.this.fireHyperlinkUpdbte(linkEvent);
                         return true;
                     }
                 }
-                return false;  // link invalid or i != 0
+                return fblse;  // link invblid or i != 0
             }
 
             /**
-             * Return a String description of this particular
-             * link action.  The string returned is the text
-             * within the document associated with the element
-             * which contains this link.
+             * Return b String description of this pbrticulbr
+             * link bction.  The string returned is the text
+             * within the document bssocibted with the element
+             * which contbins this link.
              *
-             * @param i zero-based index of the actions
-             * @return a String description of the action
+             * @pbrbm i zero-bbsed index of the bctions
+             * @return b String description of the bction
              * @see #getAccessibleActionCount
              */
             public String getAccessibleActionDescription(int i) {
-                if (i == 0 && isValid() == true) {
-                    Document d = JEditorPane.this.getDocument();
+                if (i == 0 && isVblid() == true) {
+                    Document d = JEditorPbne.this.getDocument();
                     if (d != null) {
                         try {
-                            return d.getText(getStartIndex(),
-                                             getEndIndex() - getStartIndex());
-                        } catch (BadLocationException exception) {
+                            return d.getText(getStbrtIndex(),
+                                             getEndIndex() - getStbrtIndex());
+                        } cbtch (BbdLocbtionException exception) {
                             return null;
                         }
                     }
@@ -1868,45 +1868,45 @@ public class JEditorPane extends JTextComponent {
             }
 
             /**
-             * Returns a URL object that represents the link.
+             * Returns b URL object thbt represents the link.
              *
-             * @param i zero-based index of the actions
-             * @return an URL representing the HTML link itself
+             * @pbrbm i zero-bbsed index of the bctions
+             * @return bn URL representing the HTML link itself
              * @see #getAccessibleActionCount
              */
             public Object getAccessibleActionObject(int i) {
-                if (i == 0 && isValid() == true) {
-                    AttributeSet as = element.getAttributes();
-                    AttributeSet anchor =
-                        (AttributeSet) as.getAttribute(HTML.Tag.A);
-                    String href = (anchor != null) ?
-                        (String) anchor.getAttribute(HTML.Attribute.HREF) : null;
+                if (i == 0 && isVblid() == true) {
+                    AttributeSet bs = element.getAttributes();
+                    AttributeSet bnchor =
+                        (AttributeSet) bs.getAttribute(HTML.Tbg.A);
+                    String href = (bnchor != null) ?
+                        (String) bnchor.getAttribute(HTML.Attribute.HREF) : null;
                     if (href != null) {
                         URL u;
                         try {
-                            u = new URL(JEditorPane.this.getPage(), href);
-                        } catch (MalformedURLException m) {
+                            u = new URL(JEditorPbne.this.getPbge(), href);
+                        } cbtch (MblformedURLException m) {
                             u = null;
                         }
                         return u;
                     }
                 }
-                return null;  // link invalid or i != 0
+                return null;  // link invblid or i != 0
             }
 
             /**
-             * Return an object that represents the link anchor,
-             * as appropriate for that link.  E.g. from HTML:
-             *   <a href="http://www.sun.com/access">Accessibility</a>
-             * this method would return a String containing the text:
+             * Return bn object thbt represents the link bnchor,
+             * bs bppropribte for thbt link.  E.g. from HTML:
+             *   <b href="http://www.sun.com/bccess">Accessibility</b>
+             * this method would return b String contbining the text:
              * 'Accessibility'.
              *
-             * Similarly, from this HTML:
-             *   &lt;a HREF="#top"&gt;&lt;img src="top-hat.gif" alt="top hat"&gt;&lt;/a&gt;
-             * this might return the object ImageIcon("top-hat.gif", "top hat");
+             * Similbrly, from this HTML:
+             *   &lt;b HREF="#top"&gt;&lt;img src="top-hbt.gif" blt="top hbt"&gt;&lt;/b&gt;
+             * this might return the object ImbgeIcon("top-hbt.gif", "top hbt");
              *
-             * @param i zero-based index of the actions
-             * @return an Object representing the hypertext anchor
+             * @pbrbm i zero-bbsed index of the bctions
+             * @return bn Object representing the hypertext bnchor
              * @see #getAccessibleActionCount
              */
             public Object getAccessibleActionAnchor(int i) {
@@ -1915,17 +1915,17 @@ public class JEditorPane extends JTextComponent {
 
 
             /**
-             * Get the index with the hypertext document at which this
+             * Get the index with the hypertext document bt which this
              * link begins
              *
-             * @return index of start of link
+             * @return index of stbrt of link
              */
-            public int getStartIndex() {
-                return element.getStartOffset();
+            public int getStbrtIndex() {
+                return element.getStbrtOffset();
             }
 
             /**
-             * Get the index with the hypertext document at which this
+             * Get the index with the hypertext document bt which this
              * link ends
              *
              * @return index of end of link
@@ -1935,8 +1935,8 @@ public class JEditorPane extends JTextComponent {
             }
         }
 
-        private class LinkVector extends Vector<HTMLLink> {
-            public int baseElementIndex(Element e) {
+        privbte clbss LinkVector extends Vector<HTMLLink> {
+            public int bbseElementIndex(Element e) {
                 HTMLLink l;
                 for (int i = 0; i < elementCount; i++) {
                     l = elementAt(i);
@@ -1949,51 +1949,51 @@ public class JEditorPane extends JTextComponent {
         }
 
         LinkVector hyperlinks;
-        boolean linksValid = false;
+        boolebn linksVblid = fblse;
 
         /**
-         * Build the private table mapping links to locations in the text
+         * Build the privbte tbble mbpping links to locbtions in the text
          */
-        private void buildLinkTable() {
+        privbte void buildLinkTbble() {
             hyperlinks.removeAllElements();
-            Document d = JEditorPane.this.getDocument();
+            Document d = JEditorPbne.this.getDocument();
             if (d != null) {
-                ElementIterator ei = new ElementIterator(d);
+                ElementIterbtor ei = new ElementIterbtor(d);
                 Element e;
-                AttributeSet as;
-                AttributeSet anchor;
+                AttributeSet bs;
+                AttributeSet bnchor;
                 String href;
                 while ((e = ei.next()) != null) {
-                    if (e.isLeaf()) {
-                        as = e.getAttributes();
-                    anchor = (AttributeSet) as.getAttribute(HTML.Tag.A);
-                    href = (anchor != null) ?
-                        (String) anchor.getAttribute(HTML.Attribute.HREF) : null;
+                    if (e.isLebf()) {
+                        bs = e.getAttributes();
+                    bnchor = (AttributeSet) bs.getAttribute(HTML.Tbg.A);
+                    href = (bnchor != null) ?
+                        (String) bnchor.getAttribute(HTML.Attribute.HREF) : null;
                         if (href != null) {
-                            hyperlinks.addElement(new HTMLLink(e));
+                            hyperlinks.bddElement(new HTMLLink(e));
                         }
                     }
                 }
             }
-            linksValid = true;
+            linksVblid = true;
         }
 
         /**
-         * Make one of these puppies
+         * Mbke one of these puppies
          */
-        public JEditorPaneAccessibleHypertextSupport() {
+        public JEditorPbneAccessibleHypertextSupport() {
             hyperlinks = new LinkVector();
-            Document d = JEditorPane.this.getDocument();
+            Document d = JEditorPbne.this.getDocument();
             if (d != null) {
-                d.addDocumentListener(new DocumentListener() {
-                    public void changedUpdate(DocumentEvent theEvent) {
-                        linksValid = false;
+                d.bddDocumentListener(new DocumentListener() {
+                    public void chbngedUpdbte(DocumentEvent theEvent) {
+                        linksVblid = fblse;
                     }
-                    public void insertUpdate(DocumentEvent theEvent) {
-                        linksValid = false;
+                    public void insertUpdbte(DocumentEvent theEvent) {
+                        linksVblid = fblse;
                     }
-                    public void removeUpdate(DocumentEvent theEvent) {
-                        linksValid = false;
+                    public void removeUpdbte(DocumentEvent theEvent) {
+                        linksVblid = fblse;
                     }
                 });
             }
@@ -2005,50 +2005,50 @@ public class JEditorPane extends JTextComponent {
          * @return number of links in this hypertext doc.
          */
         public int getLinkCount() {
-            if (linksValid == false) {
-                buildLinkTable();
+            if (linksVblid == fblse) {
+                buildLinkTbble();
             }
             return hyperlinks.size();
         }
 
         /**
-         * Returns the index into an array of hyperlinks that
-         * is associated with this character index, or -1 if there
-         * is no hyperlink associated with this index.
+         * Returns the index into bn brrby of hyperlinks thbt
+         * is bssocibted with this chbrbcter index, or -1 if there
+         * is no hyperlink bssocibted with this index.
          *
-         * @param  charIndex index within the text
+         * @pbrbm  chbrIndex index within the text
          * @return index into the set of hyperlinks for this hypertext doc.
          */
-        public int getLinkIndex(int charIndex) {
-            if (linksValid == false) {
-                buildLinkTable();
+        public int getLinkIndex(int chbrIndex) {
+            if (linksVblid == fblse) {
+                buildLinkTbble();
             }
             Element e = null;
-            Document doc = JEditorPane.this.getDocument();
+            Document doc = JEditorPbne.this.getDocument();
             if (doc != null) {
-                for (e = doc.getDefaultRootElement(); ! e.isLeaf(); ) {
-                    int index = e.getElementIndex(charIndex);
+                for (e = doc.getDefbultRootElement(); ! e.isLebf(); ) {
+                    int index = e.getElementIndex(chbrIndex);
                     e = e.getElement(index);
                 }
             }
 
-            // don't need to verify that it's an HREF element; if
-            // not, then it won't be in the hyperlinks Vector, and
-            // so indexOf will return -1 in any case
-            return hyperlinks.baseElementIndex(e);
+            // don't need to verify thbt it's bn HREF element; if
+            // not, then it won't be in the hyperlinks Vector, bnd
+            // so indexOf will return -1 in bny cbse
+            return hyperlinks.bbseElementIndex(e);
         }
 
         /**
-         * Returns the index into an array of hyperlinks that
-         * index.  If there is no hyperlink at this index, it returns
+         * Returns the index into bn brrby of hyperlinks thbt
+         * index.  If there is no hyperlink bt this index, it returns
          * null.
          *
-         * @param linkIndex into the set of hyperlinks for this hypertext doc.
-         * @return string representation of the hyperlink
+         * @pbrbm linkIndex into the set of hyperlinks for this hypertext doc.
+         * @return string representbtion of the hyperlink
          */
         public AccessibleHyperlink getLink(int linkIndex) {
-            if (linksValid == false) {
-                buildLinkTable();
+            if (linksVblid == fblse) {
+                buildLinkTbble();
             }
             if (linkIndex >= 0 && linkIndex < hyperlinks.size()) {
                 return hyperlinks.elementAt(linkIndex);
@@ -2058,24 +2058,24 @@ public class JEditorPane extends JTextComponent {
         }
 
         /**
-         * Returns the contiguous text within the document that
-         * is associated with this hyperlink.
+         * Returns the contiguous text within the document thbt
+         * is bssocibted with this hyperlink.
          *
-         * @param linkIndex into the set of hyperlinks for this hypertext doc.
-         * @return the contiguous text sharing the link at this index
+         * @pbrbm linkIndex into the set of hyperlinks for this hypertext doc.
+         * @return the contiguous text shbring the link bt this index
          */
         public String getLinkText(int linkIndex) {
-            if (linksValid == false) {
-                buildLinkTable();
+            if (linksVblid == fblse) {
+                buildLinkTbble();
             }
             Element e = (Element) hyperlinks.elementAt(linkIndex);
             if (e != null) {
-                Document d = JEditorPane.this.getDocument();
+                Document d = JEditorPbne.this.getDocument();
                 if (d != null) {
                     try {
-                        return d.getText(e.getStartOffset(),
-                                         e.getEndOffset() - e.getStartOffset());
-                    } catch (BadLocationException exception) {
+                        return d.getText(e.getStbrtOffset(),
+                                         e.getEndOffset() - e.getStbrtOffset());
+                    } cbtch (BbdLocbtionException exception) {
                         return null;
                     }
                 }
@@ -2084,46 +2084,46 @@ public class JEditorPane extends JTextComponent {
         }
     }
 
-    static class PlainEditorKit extends DefaultEditorKit implements ViewFactory {
+    stbtic clbss PlbinEditorKit extends DefbultEditorKit implements ViewFbctory {
 
         /**
-         * Fetches a factory that is suitable for producing
-         * views of any models that are produced by this
-         * kit.  The default is to have the UI produce the
-         * factory, so this method has no implementation.
+         * Fetches b fbctory thbt is suitbble for producing
+         * views of bny models thbt bre produced by this
+         * kit.  The defbult is to hbve the UI produce the
+         * fbctory, so this method hbs no implementbtion.
          *
-         * @return the view factory
+         * @return the view fbctory
          */
-        public ViewFactory getViewFactory() {
+        public ViewFbctory getViewFbctory() {
             return this;
         }
 
         /**
-         * Creates a view from the given structural element of a
+         * Crebtes b view from the given structurbl element of b
          * document.
          *
-         * @param elem  the piece of the document to build a view of
+         * @pbrbm elem  the piece of the document to build b view of
          * @return the view
          * @see View
          */
-        public View create(Element elem) {
+        public View crebte(Element elem) {
             Document doc = elem.getDocument();
-            Object i18nFlag
-                = doc.getProperty("i18n"/*AbstractDocument.I18NProperty*/);
-            if ((i18nFlag != null) && i18nFlag.equals(Boolean.TRUE)) {
-                // build a view that support bidi
-                return createI18N(elem);
+            Object i18nFlbg
+                = doc.getProperty("i18n"/*AbstrbctDocument.I18NProperty*/);
+            if ((i18nFlbg != null) && i18nFlbg.equbls(Boolebn.TRUE)) {
+                // build b view thbt support bidi
+                return crebteI18N(elem);
             } else {
-                return new WrappedPlainView(elem);
+                return new WrbppedPlbinView(elem);
             }
         }
 
-        View createI18N(Element elem) {
-            String kind = elem.getName();
+        View crebteI18N(Element elem) {
+            String kind = elem.getNbme();
             if (kind != null) {
-                if (kind.equals(AbstractDocument.ContentElementName)) {
-                    return new PlainParagraph(elem);
-                } else if (kind.equals(AbstractDocument.ParagraphElementName)){
+                if (kind.equbls(AbstrbctDocument.ContentElementNbme)) {
+                    return new PlbinPbrbgrbph(elem);
+                } else if (kind.equbls(AbstrbctDocument.PbrbgrbphElementNbme)){
                     return new BoxView(elem, View.Y_AXIS);
                 }
             }
@@ -2131,54 +2131,54 @@ public class JEditorPane extends JTextComponent {
         }
 
         /**
-         * Paragraph for representing plain-text lines that support
-         * bidirectional text.
+         * Pbrbgrbph for representing plbin-text lines thbt support
+         * bidirectionbl text.
          */
-        static class PlainParagraph extends javax.swing.text.ParagraphView {
+        stbtic clbss PlbinPbrbgrbph extends jbvbx.swing.text.PbrbgrbphView {
 
-            PlainParagraph(Element elem) {
+            PlbinPbrbgrbph(Element elem) {
                 super(elem);
-                layoutPool = new LogicalView(elem);
-                layoutPool.setParent(this);
+                lbyoutPool = new LogicblView(elem);
+                lbyoutPool.setPbrent(this);
             }
 
             protected void setPropertiesFromAttributes() {
-                Component c = getContainer();
+                Component c = getContbiner();
                 if ((c != null)
-                    && (! c.getComponentOrientation().isLeftToRight()))
+                    && (! c.getComponentOrientbtion().isLeftToRight()))
                 {
-                    setJustification(StyleConstants.ALIGN_RIGHT);
+                    setJustificbtion(StyleConstbnts.ALIGN_RIGHT);
                 } else {
-                    setJustification(StyleConstants.ALIGN_LEFT);
+                    setJustificbtion(StyleConstbnts.ALIGN_LEFT);
                 }
             }
 
             /**
-             * Fetch the constraining span to flow against for
+             * Fetch the constrbining spbn to flow bgbinst for
              * the given child index.
              */
-            public int getFlowSpan(int index) {
-                Component c = getContainer();
-                if (c instanceof JTextArea) {
-                    JTextArea area = (JTextArea) c;
-                    if (! area.getLineWrap()) {
-                        // no limit if unwrapped
+            public int getFlowSpbn(int index) {
+                Component c = getContbiner();
+                if (c instbnceof JTextAreb) {
+                    JTextAreb breb = (JTextAreb) c;
+                    if (! breb.getLineWrbp()) {
+                        // no limit if unwrbpped
                         return Integer.MAX_VALUE;
                     }
                 }
-                return super.getFlowSpan(index);
+                return super.getFlowSpbn(index);
             }
 
-            protected SizeRequirements calculateMinorAxisRequirements(int axis,
+            protected SizeRequirements cblculbteMinorAxisRequirements(int bxis,
                                                             SizeRequirements r)
             {
                 SizeRequirements req
-                    = super.calculateMinorAxisRequirements(axis, r);
-                Component c = getContainer();
-                if (c instanceof JTextArea) {
-                    JTextArea area = (JTextArea) c;
-                    if (! area.getLineWrap()) {
-                        // min is pref if unwrapped
+                    = super.cblculbteMinorAxisRequirements(bxis, r);
+                Component c = getContbiner();
+                if (c instbnceof JTextAreb) {
+                    JTextAreb breb = (JTextAreb) c;
+                    if (! breb.getLineWrbp()) {
+                        // min is pref if unwrbpped
                         req.minimum = req.preferred;
                     }
                 }
@@ -2186,15 +2186,15 @@ public class JEditorPane extends JTextComponent {
             }
 
             /**
-             * This class can be used to represent a logical view for
-             * a flow.  It keeps the children updated to reflect the state
-             * of the model, gives the logical child views access to the
-             * view hierarchy, and calculates a preferred span.  It doesn't
-             * do any rendering, layout, or model/view translation.
+             * This clbss cbn be used to represent b logicbl view for
+             * b flow.  It keeps the children updbted to reflect the stbte
+             * of the model, gives the logicbl child views bccess to the
+             * view hierbrchy, bnd cblculbtes b preferred spbn.  It doesn't
+             * do bny rendering, lbyout, or model/view trbnslbtion.
              */
-            static class LogicalView extends CompositeView {
+            stbtic clbss LogicblView extends CompositeView {
 
-                LogicalView(Element elem) {
+                LogicblView(Element elem) {
                     super(elem);
                 }
 
@@ -2206,131 +2206,131 @@ public class JEditorPane extends JTextComponent {
                     return 0;
                 }
 
-                protected boolean
-                updateChildren(DocumentEvent.ElementChange ec,
-                               DocumentEvent e, ViewFactory f)
+                protected boolebn
+                updbteChildren(DocumentEvent.ElementChbnge ec,
+                               DocumentEvent e, ViewFbctory f)
                 {
-                    return false;
+                    return fblse;
                 }
 
-                protected void loadChildren(ViewFactory f) {
+                protected void lobdChildren(ViewFbctory f) {
                     Element elem = getElement();
                     if (elem.getElementCount() > 0) {
-                        super.loadChildren(f);
+                        super.lobdChildren(f);
                     } else {
                         View v = new GlyphView(elem);
-                        append(v);
+                        bppend(v);
                     }
                 }
 
-                public float getPreferredSpan(int axis) {
+                public flobt getPreferredSpbn(int bxis) {
                     if( getViewCount() != 1 )
-                        throw new Error("One child view is assumed.");
+                        throw new Error("One child view is bssumed.");
 
                     View v = getView(0);
-                    //((GlyphView)v).setGlyphPainter(null);
-                    return v.getPreferredSpan(axis);
+                    //((GlyphView)v).setGlyphPbinter(null);
+                    return v.getPreferredSpbn(bxis);
                 }
 
                 /**
-                 * Forward the DocumentEvent to the given child view.  This
-                 * is implemented to reparent the child to the logical view
-                 * (the children may have been parented by a row in the flow
-                 * if they fit without breaking) and then execute the
-                 * superclass behavior.
+                 * Forwbrd the DocumentEvent to the given child view.  This
+                 * is implemented to repbrent the child to the logicbl view
+                 * (the children mby hbve been pbrented by b row in the flow
+                 * if they fit without brebking) bnd then execute the
+                 * superclbss behbvior.
                  *
-                 * @param v the child view to forward the event to.
-                 * @param e the change information from the associated document
-                 * @param a the current allocation of the view
-                 * @param f the factory to use to rebuild if the view has
+                 * @pbrbm v the child view to forwbrd the event to.
+                 * @pbrbm e the chbnge informbtion from the bssocibted document
+                 * @pbrbm b the current bllocbtion of the view
+                 * @pbrbm f the fbctory to use to rebuild if the view hbs
                  *          children
-                 * @see #forwardUpdate
+                 * @see #forwbrdUpdbte
                  * @since 1.3
                  */
-                protected void forwardUpdateToView(View v, DocumentEvent e,
-                                                   Shape a, ViewFactory f) {
-                    v.setParent(this);
-                    super.forwardUpdateToView(v, e, a, f);
+                protected void forwbrdUpdbteToView(View v, DocumentEvent e,
+                                                   Shbpe b, ViewFbctory f) {
+                    v.setPbrent(this);
+                    super.forwbrdUpdbteToView(v, e, b, f);
                 }
 
-                // The following methods don't do anything useful, they
-                // simply keep the class from being abstract.
+                // The following methods don't do bnything useful, they
+                // simply keep the clbss from being bbstrbct.
 
-                public void paint(Graphics g, Shape allocation) {
+                public void pbint(Grbphics g, Shbpe bllocbtion) {
                 }
 
-                protected boolean isBefore(int x, int y, Rectangle alloc) {
-                    return false;
+                protected boolebn isBefore(int x, int y, Rectbngle blloc) {
+                    return fblse;
                 }
 
-                protected boolean isAfter(int x, int y, Rectangle alloc) {
-                    return false;
+                protected boolebn isAfter(int x, int y, Rectbngle blloc) {
+                    return fblse;
                 }
 
-                protected View getViewAtPoint(int x, int y, Rectangle alloc) {
+                protected View getViewAtPoint(int x, int y, Rectbngle blloc) {
                     return null;
                 }
 
-                protected void childAllocation(int index, Rectangle a) {
+                protected void childAllocbtion(int index, Rectbngle b) {
                 }
             }
         }
     }
 
-/* This is useful for the nightmare of parsing multi-part HTTP/RFC822 headers
+/* This is useful for the nightmbre of pbrsing multi-pbrt HTTP/RFC822 hebders
  * sensibly:
- * From a String like: 'timeout=15, max=5'
- * create an array of Strings:
+ * From b String like: 'timeout=15, mbx=5'
+ * crebte bn brrby of Strings:
  * { {"timeout", "15"},
- *   {"max", "5"}
+ *   {"mbx", "5"}
  * }
- * From one like: 'Basic Realm="FuzzFace" Foo="Biz Bar Baz"'
- * create one like (no quotes in literal):
- * { {"basic", null},
- *   {"realm", "FuzzFace"}
- *   {"foo", "Biz Bar Baz"}
+ * From one like: 'Bbsic Reblm="FuzzFbce" Foo="Biz Bbr Bbz"'
+ * crebte one like (no quotes in literbl):
+ * { {"bbsic", null},
+ *   {"reblm", "FuzzFbce"}
+ *   {"foo", "Biz Bbr Bbz"}
  * }
- * keys are converted to lower case, vals are left as is....
+ * keys bre converted to lower cbse, vbls bre left bs is....
  *
- * author Dave Brown
+ * buthor Dbve Brown
  */
 
 
-static class HeaderParser {
+stbtic clbss HebderPbrser {
 
-    /* table of key/val pairs - maxes out at 10!!!!*/
-    String raw;
-    String[][] tab;
+    /* tbble of key/vbl pbirs - mbxes out bt 10!!!!*/
+    String rbw;
+    String[][] tbb;
 
-    public HeaderParser(String raw) {
-        this.raw = raw;
-        tab = new String[10][2];
-        parse();
+    public HebderPbrser(String rbw) {
+        this.rbw = rbw;
+        tbb = new String[10][2];
+        pbrse();
     }
 
-    private void parse() {
+    privbte void pbrse() {
 
-        if (raw != null) {
-            raw = raw.trim();
-            char[] ca = raw.toCharArray();
+        if (rbw != null) {
+            rbw = rbw.trim();
+            chbr[] cb = rbw.toChbrArrby();
             int beg = 0, end = 0, i = 0;
-            boolean inKey = true;
-            boolean inQuote = false;
-            int len = ca.length;
+            boolebn inKey = true;
+            boolebn inQuote = fblse;
+            int len = cb.length;
             while (end < len) {
-                char c = ca[end];
-                if (c == '=') { // end of a key
-                    tab[i][0] = new String(ca, beg, end-beg).toLowerCase();
-                    inKey = false;
+                chbr c = cb[end];
+                if (c == '=') { // end of b key
+                    tbb[i][0] = new String(cb, beg, end-beg).toLowerCbse();
+                    inKey = fblse;
                     end++;
                     beg = end;
                 } else if (c == '\"') {
                     if (inQuote) {
-                        tab[i++][1]= new String(ca, beg, end-beg);
-                        inQuote=false;
+                        tbb[i++][1]= new String(cb, beg, end-beg);
+                        inQuote=fblse;
                         do {
                             end++;
-                        } while (end < len && (ca[end] == ' ' || ca[end] == ','));
+                        } while (end < len && (cb[end] == ' ' || cb[end] == ','));
                         inKey=true;
                         beg=end;
                     } else {
@@ -2338,16 +2338,16 @@ static class HeaderParser {
                         end++;
                         beg=end;
                     }
-                } else if (c == ' ' || c == ',') { // end key/val, of whatever we're in
+                } else if (c == ' ' || c == ',') { // end key/vbl, of whbtever we're in
                     if (inQuote) {
                         end++;
                         continue;
                     } else if (inKey) {
-                        tab[i++][0] = (new String(ca, beg, end-beg)).toLowerCase();
+                        tbb[i++][0] = (new String(cb, beg, end-beg)).toLowerCbse();
                     } else {
-                        tab[i++][1] = (new String(ca, beg, end-beg));
+                        tbb[i++][1] = (new String(cb, beg, end-beg));
                     }
-                    while (end < len && (ca[end] == ' ' || ca[end] == ',')) {
+                    while (end < len && (cb[end] == ' ' || cb[end] == ',')) {
                         end++;
                     }
                     inKey = true;
@@ -2356,26 +2356,26 @@ static class HeaderParser {
                     end++;
                 }
             }
-            // get last key/val, if any
+            // get lbst key/vbl, if bny
             if (--end > beg) {
                 if (!inKey) {
-                    if (ca[end] == '\"') {
-                        tab[i++][1] = (new String(ca, beg, end-beg));
+                    if (cb[end] == '\"') {
+                        tbb[i++][1] = (new String(cb, beg, end-beg));
                     } else {
-                        tab[i++][1] = (new String(ca, beg, end-beg+1));
+                        tbb[i++][1] = (new String(cb, beg, end-beg+1));
                     }
                 } else {
-                    tab[i][0] = (new String(ca, beg, end-beg+1)).toLowerCase();
+                    tbb[i][0] = (new String(cb, beg, end-beg+1)).toLowerCbse();
                 }
             } else if (end == beg) {
                 if (!inKey) {
-                    if (ca[end] == '\"') {
-                        tab[i++][1] = String.valueOf(ca[end-1]);
+                    if (cb[end] == '\"') {
+                        tbb[i++][1] = String.vblueOf(cb[end-1]);
                     } else {
-                        tab[i++][1] = String.valueOf(ca[end]);
+                        tbb[i++][1] = String.vblueOf(cb[end]);
                     }
                 } else {
-                    tab[i][0] = String.valueOf(ca[end]).toLowerCase();
+                    tbb[i][0] = String.vblueOf(cb[end]).toLowerCbse();
                 }
             }
         }
@@ -2385,38 +2385,38 @@ static class HeaderParser {
     public String findKey(int i) {
         if (i < 0 || i > 10)
             return null;
-        return tab[i][0];
+        return tbb[i][0];
     }
 
-    public String findValue(int i) {
+    public String findVblue(int i) {
         if (i < 0 || i > 10)
             return null;
-        return tab[i][1];
+        return tbb[i][1];
     }
 
-    public String findValue(String key) {
-        return findValue(key, null);
+    public String findVblue(String key) {
+        return findVblue(key, null);
     }
 
-    public String findValue(String k, String Default) {
+    public String findVblue(String k, String Defbult) {
         if (k == null)
-            return Default;
-        k = k.toLowerCase();
+            return Defbult;
+        k = k.toLowerCbse();
         for (int i = 0; i < 10; ++i) {
-            if (tab[i][0] == null) {
-                return Default;
-            } else if (k.equals(tab[i][0])) {
-                return tab[i][1];
+            if (tbb[i][0] == null) {
+                return Defbult;
+            } else if (k.equbls(tbb[i][0])) {
+                return tbb[i][1];
             }
         }
-        return Default;
+        return Defbult;
     }
 
-    public int findInt(String k, int Default) {
+    public int findInt(String k, int Defbult) {
         try {
-            return Integer.parseInt(findValue(k, String.valueOf(Default)));
-        } catch (Throwable t) {
-            return Default;
+            return Integer.pbrseInt(findVblue(k, String.vblueOf(Defbult)));
+        } cbtch (Throwbble t) {
+            return Defbult;
         }
     }
  }

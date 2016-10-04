@@ -1,651 +1,651 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
+import jbvb.bwt.Color;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.Rbster;
 
-import sun.java2d.loops.RenderCache;
-import sun.java2d.loops.RenderLoops;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.MaskFill;
-import sun.java2d.loops.DrawLine;
-import sun.java2d.loops.FillRect;
-import sun.java2d.loops.DrawRect;
-import sun.java2d.loops.DrawPolygons;
-import sun.java2d.loops.DrawPath;
-import sun.java2d.loops.FillPath;
-import sun.java2d.loops.FillSpans;
-import sun.java2d.loops.FillParallelogram;
-import sun.java2d.loops.DrawParallelogram;
-import sun.java2d.loops.FontInfo;
-import sun.java2d.loops.DrawGlyphList;
-import sun.java2d.loops.DrawGlyphListAA;
-import sun.java2d.loops.DrawGlyphListLCD;
-import sun.java2d.pipe.LoopPipe;
-import sun.java2d.pipe.ShapeDrawPipe;
-import sun.java2d.pipe.ParallelogramPipe;
-import sun.java2d.pipe.CompositePipe;
-import sun.java2d.pipe.GeneralCompositePipe;
-import sun.java2d.pipe.SpanClipRenderer;
-import sun.java2d.pipe.SpanShapeRenderer;
-import sun.java2d.pipe.AAShapePipe;
-import sun.java2d.pipe.AlphaPaintPipe;
-import sun.java2d.pipe.AlphaColorPipe;
-import sun.java2d.pipe.PixelToShapeConverter;
-import sun.java2d.pipe.PixelToParallelogramConverter;
-import sun.java2d.pipe.TextPipe;
-import sun.java2d.pipe.TextRenderer;
-import sun.java2d.pipe.AATextRenderer;
-import sun.java2d.pipe.LCDTextRenderer;
-import sun.java2d.pipe.SolidTextRenderer;
-import sun.java2d.pipe.OutlineTextRenderer;
-import sun.java2d.pipe.DrawImagePipe;
-import sun.java2d.pipe.DrawImage;
-import sun.awt.SunHints;
-import sun.awt.image.SurfaceManager;
-import sun.java2d.pipe.LoopBasedPipe;
+import sun.jbvb2d.loops.RenderCbche;
+import sun.jbvb2d.loops.RenderLoops;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.MbskFill;
+import sun.jbvb2d.loops.DrbwLine;
+import sun.jbvb2d.loops.FillRect;
+import sun.jbvb2d.loops.DrbwRect;
+import sun.jbvb2d.loops.DrbwPolygons;
+import sun.jbvb2d.loops.DrbwPbth;
+import sun.jbvb2d.loops.FillPbth;
+import sun.jbvb2d.loops.FillSpbns;
+import sun.jbvb2d.loops.FillPbrbllelogrbm;
+import sun.jbvb2d.loops.DrbwPbrbllelogrbm;
+import sun.jbvb2d.loops.FontInfo;
+import sun.jbvb2d.loops.DrbwGlyphList;
+import sun.jbvb2d.loops.DrbwGlyphListAA;
+import sun.jbvb2d.loops.DrbwGlyphListLCD;
+import sun.jbvb2d.pipe.LoopPipe;
+import sun.jbvb2d.pipe.ShbpeDrbwPipe;
+import sun.jbvb2d.pipe.PbrbllelogrbmPipe;
+import sun.jbvb2d.pipe.CompositePipe;
+import sun.jbvb2d.pipe.GenerblCompositePipe;
+import sun.jbvb2d.pipe.SpbnClipRenderer;
+import sun.jbvb2d.pipe.SpbnShbpeRenderer;
+import sun.jbvb2d.pipe.AAShbpePipe;
+import sun.jbvb2d.pipe.AlphbPbintPipe;
+import sun.jbvb2d.pipe.AlphbColorPipe;
+import sun.jbvb2d.pipe.PixelToShbpeConverter;
+import sun.jbvb2d.pipe.PixelToPbrbllelogrbmConverter;
+import sun.jbvb2d.pipe.TextPipe;
+import sun.jbvb2d.pipe.TextRenderer;
+import sun.jbvb2d.pipe.AATextRenderer;
+import sun.jbvb2d.pipe.LCDTextRenderer;
+import sun.jbvb2d.pipe.SolidTextRenderer;
+import sun.jbvb2d.pipe.OutlineTextRenderer;
+import sun.jbvb2d.pipe.DrbwImbgePipe;
+import sun.jbvb2d.pipe.DrbwImbge;
+import sun.bwt.SunHints;
+import sun.bwt.imbge.SurfbceMbnbger;
+import sun.jbvb2d.pipe.LoopBbsedPipe;
 
 /**
- * This class provides various pieces of information relevant to a
- * particular drawing surface.  The information obtained from this
- * object describes the pixels of a particular instance of a drawing
- * surface and can only be shared among the various graphics objects
- * that target the same BufferedImage or the same screen Component.
+ * This clbss provides vbrious pieces of informbtion relevbnt to b
+ * pbrticulbr drbwing surfbce.  The informbtion obtbined from this
+ * object describes the pixels of b pbrticulbr instbnce of b drbwing
+ * surfbce bnd cbn only be shbred bmong the vbrious grbphics objects
+ * thbt tbrget the sbme BufferedImbge or the sbme screen Component.
  * <p>
- * Each SurfaceData object holds a StateTrackableDelegate object
- * which tracks both changes to the content of the pixels of this
- * surface and changes to the overall state of the pixels - such
- * as becoming invalid or losing the surface.  The delegate is
- * marked "dirty" whenever the setSurfaceLost() or invalidate()
- * methods are called and should also be marked "dirty" by the
+ * Ebch SurfbceDbtb object holds b StbteTrbckbbleDelegbte object
+ * which trbcks both chbnges to the content of the pixels of this
+ * surfbce bnd chbnges to the overbll stbte of the pixels - such
+ * bs becoming invblid or losing the surfbce.  The delegbte is
+ * mbrked "dirty" whenever the setSurfbceLost() or invblidbte()
+ * methods bre cblled bnd should blso be mbrked "dirty" by the
  * rendering pipelines whenever they modify the pixels of this
- * SurfaceData.
+ * SurfbceDbtb.
  * <p>
- * If you get a StateTracker from a SurfaceData and it reports
- * that it is still "current", then you can trust that the pixels
- * have not changed and that the SurfaceData is still valid and
- * has not lost its underlying storage (surfaceLost) since you
- * retrieved the tracker.
+ * If you get b StbteTrbcker from b SurfbceDbtb bnd it reports
+ * thbt it is still "current", then you cbn trust thbt the pixels
+ * hbve not chbnged bnd thbt the SurfbceDbtb is still vblid bnd
+ * hbs not lost its underlying storbge (surfbceLost) since you
+ * retrieved the trbcker.
  */
-public abstract class SurfaceData
-    implements Transparency, DisposerTarget, StateTrackable, Surface
+public bbstrbct clbss SurfbceDbtb
+    implements Trbnspbrency, DisposerTbrget, StbteTrbckbble, Surfbce
 {
-    private long pData;
-    private boolean valid;
-    private boolean surfaceLost; // = false;
-    private SurfaceType surfaceType;
-    private ColorModel colorModel;
+    privbte long pDbtb;
+    privbte boolebn vblid;
+    privbte boolebn surfbceLost; // = fblse;
+    privbte SurfbceType surfbceType;
+    privbte ColorModel colorModel;
 
-    private Object disposerReferent = new Object();
+    privbte Object disposerReferent = new Object();
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private Object blitProxyKey;
-    private StateTrackableDelegate stateDelegate;
+    privbte Object blitProxyKey;
+    privbte StbteTrbckbbleDelegbte stbteDelegbte;
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    protected SurfaceData(SurfaceType surfaceType, ColorModel cm) {
-        this(State.STABLE, surfaceType, cm);
+    protected SurfbceDbtb(SurfbceType surfbceType, ColorModel cm) {
+        this(Stbte.STABLE, surfbceType, cm);
     }
 
-    protected SurfaceData(State state, SurfaceType surfaceType, ColorModel cm) {
-        this(StateTrackableDelegate.createInstance(state), surfaceType, cm);
+    protected SurfbceDbtb(Stbte stbte, SurfbceType surfbceType, ColorModel cm) {
+        this(StbteTrbckbbleDelegbte.crebteInstbnce(stbte), surfbceType, cm);
     }
 
-    protected SurfaceData(StateTrackableDelegate trackable,
-                          SurfaceType surfaceType, ColorModel cm)
+    protected SurfbceDbtb(StbteTrbckbbleDelegbte trbckbble,
+                          SurfbceType surfbceType, ColorModel cm)
     {
-        this.stateDelegate = trackable;
+        this.stbteDelegbte = trbckbble;
         this.colorModel = cm;
-        this.surfaceType = surfaceType;
-        valid = true;
+        this.surfbceType = surfbceType;
+        vblid = true;
     }
 
-    protected SurfaceData(State state) {
-        this.stateDelegate = StateTrackableDelegate.createInstance(state);
-        valid = true;
+    protected SurfbceDbtb(Stbte stbte) {
+        this.stbteDelegbte = StbteTrbckbbleDelegbte.crebteInstbnce(stbte);
+        vblid = true;
     }
 
     /**
-     * Subclasses can set a "blit proxy key" which will be used
-     * along with the SurfaceManager.getCacheData() mechanism to
-     * store acceleration-compatible cached copies of source images.
-     * This key is a "tag" used to identify which cached copies
-     * are compatible with this destination SurfaceData.
-     * The getSourceSurfaceData() method uses this key to manage
-     * cached copies of a source image as described below.
+     * Subclbsses cbn set b "blit proxy key" which will be used
+     * blong with the SurfbceMbnbger.getCbcheDbtb() mechbnism to
+     * store bccelerbtion-compbtible cbched copies of source imbges.
+     * This key is b "tbg" used to identify which cbched copies
+     * bre compbtible with this destinbtion SurfbceDbtb.
+     * The getSourceSurfbceDbtb() method uses this key to mbnbge
+     * cbched copies of b source imbge bs described below.
      * <p>
-     * The Object used as this key should be as unique as it needs
-     * to be to ensure that multiple acceleratible destinations can
-     * each store their cached copies separately under different keys
-     * without interfering with each other or getting back the wrong
-     * cached copy.
+     * The Object used bs this key should be bs unique bs it needs
+     * to be to ensure thbt multiple bccelerbtible destinbtions cbn
+     * ebch store their cbched copies sepbrbtely under different keys
+     * without interfering with ebch other or getting bbck the wrong
+     * cbched copy.
      * <p>
-     * Many acceleratable SurfaceData objects can use their own
-     * GraphicsConfiguration as their proxy key as the GC object will
-     * typically be unique to a given screen and pixel format, but
-     * other rendering destinations may have more or less stringent
-     * sharing requirements.  For instance, X11 pixmaps can be
-     * shared on a given screen by any GraphicsConfiguration that
-     * has the same depth and SurfaceType.  Multiple such GCs with
-     * the same depth and SurfaceType can exist per screen so storing
-     * a different cached proxy for each would be a waste.  One can
-     * imagine platforms where a single cached copy can be created
-     * and shared across all screens and pixel formats - such
-     * implementations could use a single heavily shared key Object.
+     * Mbny bccelerbtbble SurfbceDbtb objects cbn use their own
+     * GrbphicsConfigurbtion bs their proxy key bs the GC object will
+     * typicblly be unique to b given screen bnd pixel formbt, but
+     * other rendering destinbtions mby hbve more or less stringent
+     * shbring requirements.  For instbnce, X11 pixmbps cbn be
+     * shbred on b given screen by bny GrbphicsConfigurbtion thbt
+     * hbs the sbme depth bnd SurfbceType.  Multiple such GCs with
+     * the sbme depth bnd SurfbceType cbn exist per screen so storing
+     * b different cbched proxy for ebch would be b wbste.  One cbn
+     * imbgine plbtforms where b single cbched copy cbn be crebted
+     * bnd shbred bcross bll screens bnd pixel formbts - such
+     * implementbtions could use b single hebvily shbred key Object.
      */
     protected void setBlitProxyKey(Object key) {
-        // Caching is effectively disabled if we never have a proxy key
-        // since the getSourceSurfaceData() method only does caching
+        // Cbching is effectively disbbled if we never hbve b proxy key
+        // since the getSourceSurfbceDbtb() method only does cbching
         // if the key is not null.
-        if (SurfaceDataProxy.isCachingAllowed()) {
+        if (SurfbceDbtbProxy.isCbchingAllowed()) {
             this.blitProxyKey = key;
         }
     }
 
     /**
-     * This method is called on a destination SurfaceData to choose
-     * the best SurfaceData from a source Image for an imaging
-     * operation, with help from its SurfaceManager.
-     * The method may determine that the default SurfaceData was
-     * really the best choice in the first place, or it may decide
-     * to use a cached surface.  Some general decisions about whether
-     * acceleration is enabled are made by this method, but any
-     * decision based on the type of the source image is made in
-     * the makeProxyFor method below when it comes up with the
-     * appropriate SurfaceDataProxy instance.
-     * The parameters describe the type of imaging operation being performed.
+     * This method is cblled on b destinbtion SurfbceDbtb to choose
+     * the best SurfbceDbtb from b source Imbge for bn imbging
+     * operbtion, with help from its SurfbceMbnbger.
+     * The method mby determine thbt the defbult SurfbceDbtb wbs
+     * reblly the best choice in the first plbce, or it mby decide
+     * to use b cbched surfbce.  Some generbl decisions bbout whether
+     * bccelerbtion is enbbled bre mbde by this method, but bny
+     * decision bbsed on the type of the source imbge is mbde in
+     * the mbkeProxyFor method below when it comes up with the
+     * bppropribte SurfbceDbtbProxy instbnce.
+     * The pbrbmeters describe the type of imbging operbtion being performed.
      * <p>
-     * If a blitProxyKey was supplied by the subclass then it is
-     * used to potentially override the choice of source SurfaceData.
+     * If b blitProxyKey wbs supplied by the subclbss then it is
+     * used to potentiblly override the choice of source SurfbceDbtb.
      * The outline of this process is:
      * <ol>
-     * <li> Image pipeline asks destSD to find an appropriate
-     *      srcSD for a given source Image object.
-     * <li> destSD gets the SurfaceManager of the source Image
-     *      and first retrieves the default SD from it using
-     *      getPrimarySurfaceData()
+     * <li> Imbge pipeline bsks destSD to find bn bppropribte
+     *      srcSD for b given source Imbge object.
+     * <li> destSD gets the SurfbceMbnbger of the source Imbge
+     *      bnd first retrieves the defbult SD from it using
+     *      getPrimbrySurfbceDbtb()
      * <li> destSD uses its "blit proxy key" (if set) to look for
-     *      some cached data stored in the source SurfaceManager
-     * <li> If the cached data is null then makeProxyFor() is used
-     *      to create some cached data which is stored back in the
-     *      source SurfaceManager under the same key for future uses.
-     * <li> The cached data will be a SurfaceDataProxy object.
-     * <li> The SurfaceDataProxy object is then consulted to
-     *      return a replacement SurfaceData object (typically
-     *      a cached copy if appropriate, or the original if not).
+     *      some cbched dbtb stored in the source SurfbceMbnbger
+     * <li> If the cbched dbtb is null then mbkeProxyFor() is used
+     *      to crebte some cbched dbtb which is stored bbck in the
+     *      source SurfbceMbnbger under the sbme key for future uses.
+     * <li> The cbched dbtb will be b SurfbceDbtbProxy object.
+     * <li> The SurfbceDbtbProxy object is then consulted to
+     *      return b replbcement SurfbceDbtb object (typicblly
+     *      b cbched copy if bppropribte, or the originbl if not).
      * </ol>
      */
-    public SurfaceData getSourceSurfaceData(Image img,
+    public SurfbceDbtb getSourceSurfbceDbtb(Imbge img,
                                             int txtype,
                                             CompositeType comp,
                                             Color bgColor)
     {
-        SurfaceManager srcMgr = SurfaceManager.getManager(img);
-        SurfaceData srcData = srcMgr.getPrimarySurfaceData();
-        if (img.getAccelerationPriority() > 0.0f &&
+        SurfbceMbnbger srcMgr = SurfbceMbnbger.getMbnbger(img);
+        SurfbceDbtb srcDbtb = srcMgr.getPrimbrySurfbceDbtb();
+        if (img.getAccelerbtionPriority() > 0.0f &&
             blitProxyKey != null)
         {
-            SurfaceDataProxy sdp =
-                (SurfaceDataProxy) srcMgr.getCacheData(blitProxyKey);
-            if (sdp == null || !sdp.isValid()) {
-                if (srcData.getState() == State.UNTRACKABLE) {
-                    sdp = SurfaceDataProxy.UNCACHED;
+            SurfbceDbtbProxy sdp =
+                (SurfbceDbtbProxy) srcMgr.getCbcheDbtb(blitProxyKey);
+            if (sdp == null || !sdp.isVblid()) {
+                if (srcDbtb.getStbte() == Stbte.UNTRACKABLE) {
+                    sdp = SurfbceDbtbProxy.UNCACHED;
                 } else {
-                    sdp = makeProxyFor(srcData);
+                    sdp = mbkeProxyFor(srcDbtb);
                 }
-                srcMgr.setCacheData(blitProxyKey, sdp);
+                srcMgr.setCbcheDbtb(blitProxyKey, sdp);
             }
-            srcData = sdp.replaceData(srcData, txtype, comp, bgColor);
+            srcDbtb = sdp.replbceDbtb(srcDbtb, txtype, comp, bgColor);
         }
-        return srcData;
+        return srcDbtb;
     }
 
     /**
-     * This method is called on a destination SurfaceData to choose
-     * a proper SurfaceDataProxy subclass for a source SurfaceData
-     * to use to control when and with what surface to override a
-     * given image operation.  The argument is the default SurfaceData
-     * for the source Image.
+     * This method is cblled on b destinbtion SurfbceDbtb to choose
+     * b proper SurfbceDbtbProxy subclbss for b source SurfbceDbtb
+     * to use to control when bnd with whbt surfbce to override b
+     * given imbge operbtion.  The brgument is the defbult SurfbceDbtb
+     * for the source Imbge.
      * <p>
-     * The type of the return object is chosen based on the
-     * acceleration capabilities of this SurfaceData and the
-     * type of the given source SurfaceData object.
+     * The type of the return object is chosen bbsed on the
+     * bccelerbtion cbpbbilities of this SurfbceDbtb bnd the
+     * type of the given source SurfbceDbtb object.
      * <p>
-     * In some cases the original SurfaceData will always be the
-     * best choice to use to blit to this SurfaceData.  This can
-     * happen if the source image is a hardware surface of the
-     * same type as this one and so acceleration will happen without
-     * any caching.  It may also be the case that the source image
-     * can never be accelerated on this SurfaceData - for example
-     * because it is translucent and there are no accelerated
-     * translucent image ops for this surface.
+     * In some cbses the originbl SurfbceDbtb will blwbys be the
+     * best choice to use to blit to this SurfbceDbtb.  This cbn
+     * hbppen if the source imbge is b hbrdwbre surfbce of the
+     * sbme type bs this one bnd so bccelerbtion will hbppen without
+     * bny cbching.  It mby blso be the cbse thbt the source imbge
+     * cbn never be bccelerbted on this SurfbceDbtb - for exbmple
+     * becbuse it is trbnslucent bnd there bre no bccelerbted
+     * trbnslucent imbge ops for this surfbce.
      * <p>
-     * In those cases there is a special SurfaceDataProxy.UNCACHED
-     * instance that represents a NOP for caching purposes - it
-     * always returns the original sourceSD object as the replacement
-     * copy so no caching is ever performed.
+     * In those cbses there is b specibl SurfbceDbtbProxy.UNCACHED
+     * instbnce thbt represents b NOP for cbching purposes - it
+     * blwbys returns the originbl sourceSD object bs the replbcement
+     * copy so no cbching is ever performed.
      */
-    public SurfaceDataProxy makeProxyFor(SurfaceData srcData) {
-        return SurfaceDataProxy.UNCACHED;
+    public SurfbceDbtbProxy mbkeProxyFor(SurfbceDbtb srcDbtb) {
+        return SurfbceDbtbProxy.UNCACHED;
     }
 
     /**
-     * Extracts the SurfaceManager from the given Image, and then
-     * returns the SurfaceData object that would best be suited as the
-     * destination surface in some rendering operation.
+     * Extrbcts the SurfbceMbnbger from the given Imbge, bnd then
+     * returns the SurfbceDbtb object thbt would best be suited bs the
+     * destinbtion surfbce in some rendering operbtion.
      */
-    public static SurfaceData getPrimarySurfaceData(Image img) {
-        SurfaceManager sMgr = SurfaceManager.getManager(img);
-        return sMgr.getPrimarySurfaceData();
+    public stbtic SurfbceDbtb getPrimbrySurfbceDbtb(Imbge img) {
+        SurfbceMbnbger sMgr = SurfbceMbnbger.getMbnbger(img);
+        return sMgr.getPrimbrySurfbceDbtb();
     }
 
     /**
-     * Restores the contents of the given Image and then returns the new
-     * SurfaceData object in use by the Image's SurfaceManager.
+     * Restores the contents of the given Imbge bnd then returns the new
+     * SurfbceDbtb object in use by the Imbge's SurfbceMbnbger.
      */
-    public static SurfaceData restoreContents(Image img) {
-        SurfaceManager sMgr = SurfaceManager.getManager(img);
+    public stbtic SurfbceDbtb restoreContents(Imbge img) {
+        SurfbceMbnbger sMgr = SurfbceMbnbger.getMbnbger(img);
         return sMgr.restoreContents();
     }
 
-    public State getState() {
-        return stateDelegate.getState();
+    public Stbte getStbte() {
+        return stbteDelegbte.getStbte();
     }
 
-    public StateTracker getStateTracker() {
-        return stateDelegate.getStateTracker();
-    }
-
-    /**
-     * Marks this surface as dirty.
-     */
-    public final void markDirty() {
-        stateDelegate.markDirty();
+    public StbteTrbcker getStbteTrbcker() {
+        return stbteDelegbte.getStbteTrbcker();
     }
 
     /**
-     * Sets the value of the surfaceLost variable, which indicates whether
-     * something has happened to the rendering surface such that it needs
-     * to be restored and re-rendered.
+     * Mbrks this surfbce bs dirty.
      */
-    public void setSurfaceLost(boolean lost) {
-        surfaceLost = lost;
-        stateDelegate.markDirty();
-    }
-
-    public boolean isSurfaceLost() {
-        return surfaceLost;
+    public finbl void mbrkDirty() {
+        stbteDelegbte.mbrkDirty();
     }
 
     /**
-     * Returns a boolean indicating whether or not this SurfaceData is valid.
+     * Sets the vblue of the surfbceLost vbribble, which indicbtes whether
+     * something hbs hbppened to the rendering surfbce such thbt it needs
+     * to be restored bnd re-rendered.
      */
-    public final boolean isValid() {
-        return valid;
+    public void setSurfbceLost(boolebn lost) {
+        surfbceLost = lost;
+        stbteDelegbte.mbrkDirty();
+    }
+
+    public boolebn isSurfbceLost() {
+        return surfbceLost;
+    }
+
+    /**
+     * Returns b boolebn indicbting whether or not this SurfbceDbtb is vblid.
+     */
+    public finbl boolebn isVblid() {
+        return vblid;
     }
 
     public Object getDisposerReferent() {
         return disposerReferent;
     }
 
-    public long getNativeOps() {
-        return pData;
+    public long getNbtiveOps() {
+        return pDbtb;
     }
 
     /**
-     * Sets this SurfaceData object to the invalid state.  All Graphics
-     * objects must get a new SurfaceData object via the refresh method
-     * and revalidate their pipelines before continuing.
+     * Sets this SurfbceDbtb object to the invblid stbte.  All Grbphics
+     * objects must get b new SurfbceDbtb object vib the refresh method
+     * bnd revblidbte their pipelines before continuing.
      */
-    public void invalidate() {
-        valid = false;
-        stateDelegate.markDirty();
+    public void invblidbte() {
+        vblid = fblse;
+        stbteDelegbte.mbrkDirty();
     }
 
     /**
-     * Certain changes in the configuration of a surface require the
-     * invalidation of existing associated SurfaceData objects and
-     * the creation of brand new ones.  These changes include size,
-     * ColorModel, or SurfaceType.  Existing Graphics objects
-     * which are directed at such surfaces, however, must continue
-     * to render to them even after the change occurs underneath
-     * the covers.  The getReplacement() method is called from
-     * SunGraphics2D.revalidateAll() when the associated SurfaceData
-     * is found to be invalid so that a Graphics object can continue
-     * to render to the surface in its new configuration.
+     * Certbin chbnges in the configurbtion of b surfbce require the
+     * invblidbtion of existing bssocibted SurfbceDbtb objects bnd
+     * the crebtion of brbnd new ones.  These chbnges include size,
+     * ColorModel, or SurfbceType.  Existing Grbphics objects
+     * which bre directed bt such surfbces, however, must continue
+     * to render to them even bfter the chbnge occurs undernebth
+     * the covers.  The getReplbcement() method is cblled from
+     * SunGrbphics2D.revblidbteAll() when the bssocibted SurfbceDbtb
+     * is found to be invblid so thbt b Grbphics object cbn continue
+     * to render to the surfbce in its new configurbtion.
      *
-     * Such changes only tend to happen to window based surfaces since
-     * most image based surfaces never change size or pixel format.
-     * Even VolatileImage objects never change size and they only
-     * change their pixel format when manually validated against a
-     * new GraphicsConfiguration, at which point old Graphics objects
-     * are no longer expected to render to them after the validation
-     * step.  Thus, only window based surfaces really need to deal
-     * with this form of replacement.
+     * Such chbnges only tend to hbppen to window bbsed surfbces since
+     * most imbge bbsed surfbces never chbnge size or pixel formbt.
+     * Even VolbtileImbge objects never chbnge size bnd they only
+     * chbnge their pixel formbt when mbnublly vblidbted bgbinst b
+     * new GrbphicsConfigurbtion, bt which point old Grbphics objects
+     * bre no longer expected to render to them bfter the vblidbtion
+     * step.  Thus, only window bbsed surfbces reblly need to debl
+     * with this form of replbcement.
      */
-    public abstract SurfaceData getReplacement();
+    public bbstrbct SurfbceDbtb getReplbcement();
 
-    protected static final LoopPipe colorPrimitives;
+    protected stbtic finbl LoopPipe colorPrimitives;
 
-    public static final TextPipe outlineTextRenderer;
-    public static final TextPipe solidTextRenderer;
-    public static final TextPipe aaTextRenderer;
-    public static final TextPipe lcdTextRenderer;
+    public stbtic finbl TextPipe outlineTextRenderer;
+    public stbtic finbl TextPipe solidTextRenderer;
+    public stbtic finbl TextPipe bbTextRenderer;
+    public stbtic finbl TextPipe lcdTextRenderer;
 
-    protected static final AlphaColorPipe colorPipe;
-    protected static final PixelToShapeConverter colorViaShape;
-    protected static final PixelToParallelogramConverter colorViaPgram;
-    protected static final TextPipe colorText;
-    protected static final CompositePipe clipColorPipe;
-    protected static final TextPipe clipColorText;
-    protected static final AAShapePipe AAColorShape;
-    protected static final PixelToParallelogramConverter AAColorViaShape;
-    protected static final PixelToParallelogramConverter AAColorViaPgram;
-    protected static final AAShapePipe AAClipColorShape;
-    protected static final PixelToParallelogramConverter AAClipColorViaShape;
+    protected stbtic finbl AlphbColorPipe colorPipe;
+    protected stbtic finbl PixelToShbpeConverter colorVibShbpe;
+    protected stbtic finbl PixelToPbrbllelogrbmConverter colorVibPgrbm;
+    protected stbtic finbl TextPipe colorText;
+    protected stbtic finbl CompositePipe clipColorPipe;
+    protected stbtic finbl TextPipe clipColorText;
+    protected stbtic finbl AAShbpePipe AAColorShbpe;
+    protected stbtic finbl PixelToPbrbllelogrbmConverter AAColorVibShbpe;
+    protected stbtic finbl PixelToPbrbllelogrbmConverter AAColorVibPgrbm;
+    protected stbtic finbl AAShbpePipe AAClipColorShbpe;
+    protected stbtic finbl PixelToPbrbllelogrbmConverter AAClipColorVibShbpe;
 
-    protected static final CompositePipe paintPipe;
-    protected static final SpanShapeRenderer paintShape;
-    protected static final PixelToShapeConverter paintViaShape;
-    protected static final TextPipe paintText;
-    protected static final CompositePipe clipPaintPipe;
-    protected static final TextPipe clipPaintText;
-    protected static final AAShapePipe AAPaintShape;
-    protected static final PixelToParallelogramConverter AAPaintViaShape;
-    protected static final AAShapePipe AAClipPaintShape;
-    protected static final PixelToParallelogramConverter AAClipPaintViaShape;
+    protected stbtic finbl CompositePipe pbintPipe;
+    protected stbtic finbl SpbnShbpeRenderer pbintShbpe;
+    protected stbtic finbl PixelToShbpeConverter pbintVibShbpe;
+    protected stbtic finbl TextPipe pbintText;
+    protected stbtic finbl CompositePipe clipPbintPipe;
+    protected stbtic finbl TextPipe clipPbintText;
+    protected stbtic finbl AAShbpePipe AAPbintShbpe;
+    protected stbtic finbl PixelToPbrbllelogrbmConverter AAPbintVibShbpe;
+    protected stbtic finbl AAShbpePipe AAClipPbintShbpe;
+    protected stbtic finbl PixelToPbrbllelogrbmConverter AAClipPbintVibShbpe;
 
-    protected static final CompositePipe compPipe;
-    protected static final SpanShapeRenderer compShape;
-    protected static final PixelToShapeConverter compViaShape;
-    protected static final TextPipe compText;
-    protected static final CompositePipe clipCompPipe;
-    protected static final TextPipe clipCompText;
-    protected static final AAShapePipe AACompShape;
-    protected static final PixelToParallelogramConverter AACompViaShape;
-    protected static final AAShapePipe AAClipCompShape;
-    protected static final PixelToParallelogramConverter AAClipCompViaShape;
+    protected stbtic finbl CompositePipe compPipe;
+    protected stbtic finbl SpbnShbpeRenderer compShbpe;
+    protected stbtic finbl PixelToShbpeConverter compVibShbpe;
+    protected stbtic finbl TextPipe compText;
+    protected stbtic finbl CompositePipe clipCompPipe;
+    protected stbtic finbl TextPipe clipCompText;
+    protected stbtic finbl AAShbpePipe AACompShbpe;
+    protected stbtic finbl PixelToPbrbllelogrbmConverter AACompVibShbpe;
+    protected stbtic finbl AAShbpePipe AAClipCompShbpe;
+    protected stbtic finbl PixelToPbrbllelogrbmConverter AAClipCompVibShbpe;
 
-    protected static final DrawImagePipe imagepipe;
+    protected stbtic finbl DrbwImbgePipe imbgepipe;
 
-    // Utility subclass to add the LoopBasedPipe tagging interface
-    static class PixelToShapeLoopConverter
-        extends PixelToShapeConverter
-        implements LoopBasedPipe
+    // Utility subclbss to bdd the LoopBbsedPipe tbgging interfbce
+    stbtic clbss PixelToShbpeLoopConverter
+        extends PixelToShbpeConverter
+        implements LoopBbsedPipe
     {
-        public PixelToShapeLoopConverter(ShapeDrawPipe pipe) {
+        public PixelToShbpeLoopConverter(ShbpeDrbwPipe pipe) {
             super(pipe);
         }
     }
 
-    // Utility subclass to add the LoopBasedPipe tagging interface
-    static class PixelToPgramLoopConverter
-        extends PixelToParallelogramConverter
-        implements LoopBasedPipe
+    // Utility subclbss to bdd the LoopBbsedPipe tbgging interfbce
+    stbtic clbss PixelToPgrbmLoopConverter
+        extends PixelToPbrbllelogrbmConverter
+        implements LoopBbsedPipe
     {
-        public PixelToPgramLoopConverter(ShapeDrawPipe shapepipe,
-                                         ParallelogramPipe pgrampipe,
+        public PixelToPgrbmLoopConverter(ShbpeDrbwPipe shbpepipe,
+                                         PbrbllelogrbmPipe pgrbmpipe,
                                          double minPenSize,
                                          double normPosition,
-                                         boolean adjustfill)
+                                         boolebn bdjustfill)
         {
-            super(shapepipe, pgrampipe, minPenSize, normPosition, adjustfill);
+            super(shbpepipe, pgrbmpipe, minPenSize, normPosition, bdjustfill);
         }
     }
 
-    private static PixelToParallelogramConverter
-        makeConverter(AAShapePipe renderer,
-                      ParallelogramPipe pgrampipe)
+    privbte stbtic PixelToPbrbllelogrbmConverter
+        mbkeConverter(AAShbpePipe renderer,
+                      PbrbllelogrbmPipe pgrbmpipe)
     {
-        return new PixelToParallelogramConverter(renderer,
-                                                 pgrampipe,
+        return new PixelToPbrbllelogrbmConverter(renderer,
+                                                 pgrbmpipe,
                                                  1.0/8.0, 0.499,
-                                                 false);
+                                                 fblse);
     }
 
-    private static PixelToParallelogramConverter
-        makeConverter(AAShapePipe renderer)
+    privbte stbtic PixelToPbrbllelogrbmConverter
+        mbkeConverter(AAShbpePipe renderer)
     {
-        return makeConverter(renderer, renderer);
+        return mbkeConverter(renderer, renderer);
     }
 
-    static {
+    stbtic {
         colorPrimitives = new LoopPipe();
 
         outlineTextRenderer = new OutlineTextRenderer();
         solidTextRenderer = new SolidTextRenderer();
-        aaTextRenderer = new AATextRenderer();
+        bbTextRenderer = new AATextRenderer();
         lcdTextRenderer = new LCDTextRenderer();
 
-        colorPipe = new AlphaColorPipe();
-        // colorShape = colorPrimitives;
-        colorViaShape = new PixelToShapeLoopConverter(colorPrimitives);
-        colorViaPgram = new PixelToPgramLoopConverter(colorPrimitives,
+        colorPipe = new AlphbColorPipe();
+        // colorShbpe = colorPrimitives;
+        colorVibShbpe = new PixelToShbpeLoopConverter(colorPrimitives);
+        colorVibPgrbm = new PixelToPgrbmLoopConverter(colorPrimitives,
                                                       colorPrimitives,
                                                       1.0, 0.25, true);
         colorText = new TextRenderer(colorPipe);
-        clipColorPipe = new SpanClipRenderer(colorPipe);
+        clipColorPipe = new SpbnClipRenderer(colorPipe);
         clipColorText = new TextRenderer(clipColorPipe);
-        AAColorShape = new AAShapePipe(colorPipe);
-        AAColorViaShape = makeConverter(AAColorShape);
-        AAColorViaPgram = makeConverter(AAColorShape, colorPipe);
-        AAClipColorShape = new AAShapePipe(clipColorPipe);
-        AAClipColorViaShape = makeConverter(AAClipColorShape);
+        AAColorShbpe = new AAShbpePipe(colorPipe);
+        AAColorVibShbpe = mbkeConverter(AAColorShbpe);
+        AAColorVibPgrbm = mbkeConverter(AAColorShbpe, colorPipe);
+        AAClipColorShbpe = new AAShbpePipe(clipColorPipe);
+        AAClipColorVibShbpe = mbkeConverter(AAClipColorShbpe);
 
-        paintPipe = new AlphaPaintPipe();
-        paintShape = new SpanShapeRenderer.Composite(paintPipe);
-        paintViaShape = new PixelToShapeConverter(paintShape);
-        paintText = new TextRenderer(paintPipe);
-        clipPaintPipe = new SpanClipRenderer(paintPipe);
-        clipPaintText = new TextRenderer(clipPaintPipe);
-        AAPaintShape = new AAShapePipe(paintPipe);
-        AAPaintViaShape = makeConverter(AAPaintShape);
-        AAClipPaintShape = new AAShapePipe(clipPaintPipe);
-        AAClipPaintViaShape = makeConverter(AAClipPaintShape);
+        pbintPipe = new AlphbPbintPipe();
+        pbintShbpe = new SpbnShbpeRenderer.Composite(pbintPipe);
+        pbintVibShbpe = new PixelToShbpeConverter(pbintShbpe);
+        pbintText = new TextRenderer(pbintPipe);
+        clipPbintPipe = new SpbnClipRenderer(pbintPipe);
+        clipPbintText = new TextRenderer(clipPbintPipe);
+        AAPbintShbpe = new AAShbpePipe(pbintPipe);
+        AAPbintVibShbpe = mbkeConverter(AAPbintShbpe);
+        AAClipPbintShbpe = new AAShbpePipe(clipPbintPipe);
+        AAClipPbintVibShbpe = mbkeConverter(AAClipPbintShbpe);
 
-        compPipe = new GeneralCompositePipe();
-        compShape = new SpanShapeRenderer.Composite(compPipe);
-        compViaShape = new PixelToShapeConverter(compShape);
+        compPipe = new GenerblCompositePipe();
+        compShbpe = new SpbnShbpeRenderer.Composite(compPipe);
+        compVibShbpe = new PixelToShbpeConverter(compShbpe);
         compText = new TextRenderer(compPipe);
-        clipCompPipe = new SpanClipRenderer(compPipe);
+        clipCompPipe = new SpbnClipRenderer(compPipe);
         clipCompText = new TextRenderer(clipCompPipe);
-        AACompShape = new AAShapePipe(compPipe);
-        AACompViaShape = makeConverter(AACompShape);
-        AAClipCompShape = new AAShapePipe(clipCompPipe);
-        AAClipCompViaShape = makeConverter(AAClipCompShape);
+        AACompShbpe = new AAShbpePipe(compPipe);
+        AACompVibShbpe = mbkeConverter(AACompShbpe);
+        AAClipCompShbpe = new AAShbpePipe(clipCompPipe);
+        AAClipCompVibShbpe = mbkeConverter(AAClipCompShbpe);
 
-        imagepipe = new DrawImage();
+        imbgepipe = new DrbwImbge();
     }
 
-    /* Not all surfaces and rendering mode combinations support LCD text. */
-    static final int LOOP_UNKNOWN = 0;
-    static final int LOOP_FOUND = 1;
-    static final int LOOP_NOTFOUND = 2;
-    int haveLCDLoop;
-    int havePgramXORLoop;
-    int havePgramSolidLoop;
+    /* Not bll surfbces bnd rendering mode combinbtions support LCD text. */
+    stbtic finbl int LOOP_UNKNOWN = 0;
+    stbtic finbl int LOOP_FOUND = 1;
+    stbtic finbl int LOOP_NOTFOUND = 2;
+    int hbveLCDLoop;
+    int hbvePgrbmXORLoop;
+    int hbvePgrbmSolidLoop;
 
-    public boolean canRenderLCDText(SunGraphics2D sg2d) {
-        // For now the answer can only be true in the following cases:
-        if (sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY &&
-            sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-            sg2d.clipState <= SunGraphics2D.CLIP_RECTANGULAR &&
-            sg2d.surfaceData.getTransparency() == Transparency.OPAQUE)
+    public boolebn cbnRenderLCDText(SunGrbphics2D sg2d) {
+        // For now the bnswer cbn only be true in the following cbses:
+        if (sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY &&
+            sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+            sg2d.clipStbte <= SunGrbphics2D.CLIP_RECTANGULAR &&
+            sg2d.surfbceDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE)
         {
-            if (haveLCDLoop == LOOP_UNKNOWN) {
-                DrawGlyphListLCD loop =
-                    DrawGlyphListLCD.locate(SurfaceType.AnyColor,
-                                            CompositeType.SrcNoEa,
-                                            getSurfaceType());
-                haveLCDLoop = (loop != null) ? LOOP_FOUND : LOOP_NOTFOUND;
+            if (hbveLCDLoop == LOOP_UNKNOWN) {
+                DrbwGlyphListLCD loop =
+                    DrbwGlyphListLCD.locbte(SurfbceType.AnyColor,
+                                            CompositeType.SrcNoEb,
+                                            getSurfbceType());
+                hbveLCDLoop = (loop != null) ? LOOP_FOUND : LOOP_NOTFOUND;
             }
-            return haveLCDLoop == LOOP_FOUND;
+            return hbveLCDLoop == LOOP_FOUND;
         }
-        return false; /* for now - in the future we may want to search */
+        return fblse; /* for now - in the future we mby wbnt to sebrch */
     }
 
-    public boolean canRenderParallelograms(SunGraphics2D sg2d) {
-        if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR) {
-            if (sg2d.compositeState == SunGraphics2D.COMP_XOR) {
-                if (havePgramXORLoop == LOOP_UNKNOWN) {
-                    FillParallelogram loop =
-                        FillParallelogram.locate(SurfaceType.AnyColor,
+    public boolebn cbnRenderPbrbllelogrbms(SunGrbphics2D sg2d) {
+        if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR) {
+            if (sg2d.compositeStbte == SunGrbphics2D.COMP_XOR) {
+                if (hbvePgrbmXORLoop == LOOP_UNKNOWN) {
+                    FillPbrbllelogrbm loop =
+                        FillPbrbllelogrbm.locbte(SurfbceType.AnyColor,
                                                  CompositeType.Xor,
-                                                 getSurfaceType());
-                    havePgramXORLoop =
+                                                 getSurfbceType());
+                    hbvePgrbmXORLoop =
                         (loop != null) ? LOOP_FOUND : LOOP_NOTFOUND;
                 }
-                return havePgramXORLoop == LOOP_FOUND;
-            } else if (sg2d.compositeState <= SunGraphics2D.COMP_ISCOPY &&
-                       sg2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON &&
-                       sg2d.clipState != SunGraphics2D.CLIP_SHAPE)
+                return hbvePgrbmXORLoop == LOOP_FOUND;
+            } else if (sg2d.compositeStbte <= SunGrbphics2D.COMP_ISCOPY &&
+                       sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON &&
+                       sg2d.clipStbte != SunGrbphics2D.CLIP_SHAPE)
             {
-                if (havePgramSolidLoop == LOOP_UNKNOWN) {
-                    FillParallelogram loop =
-                        FillParallelogram.locate(SurfaceType.AnyColor,
-                                                 CompositeType.SrcNoEa,
-                                                 getSurfaceType());
-                    havePgramSolidLoop =
+                if (hbvePgrbmSolidLoop == LOOP_UNKNOWN) {
+                    FillPbrbllelogrbm loop =
+                        FillPbrbllelogrbm.locbte(SurfbceType.AnyColor,
+                                                 CompositeType.SrcNoEb,
+                                                 getSurfbceType());
+                    hbvePgrbmSolidLoop =
                         (loop != null) ? LOOP_FOUND : LOOP_NOTFOUND;
                 }
-                return havePgramSolidLoop == LOOP_FOUND;
+                return hbvePgrbmSolidLoop == LOOP_FOUND;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public void validatePipe(SunGraphics2D sg2d) {
-        sg2d.imagepipe = imagepipe;
-        if (sg2d.compositeState == SunGraphics2D.COMP_XOR) {
-            if (sg2d.paintState > SunGraphics2D.PAINT_ALPHACOLOR) {
-                sg2d.drawpipe = paintViaShape;
-                sg2d.fillpipe = paintViaShape;
-                sg2d.shapepipe = paintShape;
-                // REMIND: Ideally custom paint mode would use glyph
-                // rendering as opposed to outline rendering but the
-                // glyph paint rendering pipeline uses MaskBlit which
-                // is not defined for XOR.  This means that text drawn
-                // in XOR mode with a Color object is different than
-                // text drawn in XOR mode with a Paint object.
+    public void vblidbtePipe(SunGrbphics2D sg2d) {
+        sg2d.imbgepipe = imbgepipe;
+        if (sg2d.compositeStbte == SunGrbphics2D.COMP_XOR) {
+            if (sg2d.pbintStbte > SunGrbphics2D.PAINT_ALPHACOLOR) {
+                sg2d.drbwpipe = pbintVibShbpe;
+                sg2d.fillpipe = pbintVibShbpe;
+                sg2d.shbpepipe = pbintShbpe;
+                // REMIND: Ideblly custom pbint mode would use glyph
+                // rendering bs opposed to outline rendering but the
+                // glyph pbint rendering pipeline uses MbskBlit which
+                // is not defined for XOR.  This mebns thbt text drbwn
+                // in XOR mode with b Color object is different thbn
+                // text drbwn in XOR mode with b Pbint object.
                 sg2d.textpipe = outlineTextRenderer;
             } else {
-                PixelToShapeConverter converter;
-                if (canRenderParallelograms(sg2d)) {
-                    converter = colorViaPgram;
-                    // Note that we use the transforming pipe here because it
-                    // will examine the shape and possibly perform an optimized
-                    // operation if it can be simplified.  The simplifications
-                    // will be valid for all STROKE and TRANSFORM types.
-                    sg2d.shapepipe = colorViaPgram;
+                PixelToShbpeConverter converter;
+                if (cbnRenderPbrbllelogrbms(sg2d)) {
+                    converter = colorVibPgrbm;
+                    // Note thbt we use the trbnsforming pipe here becbuse it
+                    // will exbmine the shbpe bnd possibly perform bn optimized
+                    // operbtion if it cbn be simplified.  The simplificbtions
+                    // will be vblid for bll STROKE bnd TRANSFORM types.
+                    sg2d.shbpepipe = colorVibPgrbm;
                 } else {
-                    converter = colorViaShape;
-                    sg2d.shapepipe = colorPrimitives;
+                    converter = colorVibShbpe;
+                    sg2d.shbpepipe = colorPrimitives;
                 }
-                if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
-                    sg2d.drawpipe = converter;
+                if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
+                    sg2d.drbwpipe = converter;
                     sg2d.fillpipe = converter;
-                    // REMIND: We should not be changing text strategies
-                    // between outline and glyph rendering based upon the
-                    // presence of a complex clip as that could cause a
-                    // mismatch when drawing the same text both clipped
-                    // and unclipped on two separate rendering passes.
-                    // Unfortunately, all of the clipped glyph rendering
-                    // pipelines rely on the use of the MaskBlit operation
+                    // REMIND: We should not be chbnging text strbtegies
+                    // between outline bnd glyph rendering bbsed upon the
+                    // presence of b complex clip bs thbt could cbuse b
+                    // mismbtch when drbwing the sbme text both clipped
+                    // bnd unclipped on two sepbrbte rendering pbsses.
+                    // Unfortunbtely, bll of the clipped glyph rendering
+                    // pipelines rely on the use of the MbskBlit operbtion
                     // which is not defined for XOR.
                     sg2d.textpipe = outlineTextRenderer;
                 } else {
-                    if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-                        sg2d.drawpipe = converter;
+                    if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+                        sg2d.drbwpipe = converter;
                         sg2d.fillpipe = converter;
                     } else {
-                        if (sg2d.strokeState != SunGraphics2D.STROKE_THIN) {
-                            sg2d.drawpipe = converter;
+                        if (sg2d.strokeStbte != SunGrbphics2D.STROKE_THIN) {
+                            sg2d.drbwpipe = converter;
                         } else {
-                            sg2d.drawpipe = colorPrimitives;
+                            sg2d.drbwpipe = colorPrimitives;
                         }
                         sg2d.fillpipe = colorPrimitives;
                     }
                     sg2d.textpipe = solidTextRenderer;
                 }
-                // assert(sg2d.surfaceData == this);
+                // bssert(sg2d.surfbceDbtb == this);
             }
-        } else if (sg2d.compositeState == SunGraphics2D.COMP_CUSTOM) {
-            if (sg2d.antialiasHint == SunHints.INTVAL_ANTIALIAS_ON) {
-                if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
-                    sg2d.drawpipe = AAClipCompViaShape;
-                    sg2d.fillpipe = AAClipCompViaShape;
-                    sg2d.shapepipe = AAClipCompViaShape;
+        } else if (sg2d.compositeStbte == SunGrbphics2D.COMP_CUSTOM) {
+            if (sg2d.bntiblibsHint == SunHints.INTVAL_ANTIALIAS_ON) {
+                if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
+                    sg2d.drbwpipe = AAClipCompVibShbpe;
+                    sg2d.fillpipe = AAClipCompVibShbpe;
+                    sg2d.shbpepipe = AAClipCompVibShbpe;
                     sg2d.textpipe = clipCompText;
                 } else {
-                    sg2d.drawpipe = AACompViaShape;
-                    sg2d.fillpipe = AACompViaShape;
-                    sg2d.shapepipe = AACompViaShape;
+                    sg2d.drbwpipe = AACompVibShbpe;
+                    sg2d.fillpipe = AACompVibShbpe;
+                    sg2d.shbpepipe = AACompVibShbpe;
                     sg2d.textpipe = compText;
                 }
             } else {
-                sg2d.drawpipe = compViaShape;
-                sg2d.fillpipe = compViaShape;
-                sg2d.shapepipe = compShape;
-                if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
+                sg2d.drbwpipe = compVibShbpe;
+                sg2d.fillpipe = compVibShbpe;
+                sg2d.shbpepipe = compShbpe;
+                if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
                     sg2d.textpipe = clipCompText;
                 } else {
                     sg2d.textpipe = compText;
                 }
             }
-        } else if (sg2d.antialiasHint == SunHints.INTVAL_ANTIALIAS_ON) {
-            sg2d.alphafill = getMaskFill(sg2d);
-            // assert(sg2d.surfaceData == this);
-            if (sg2d.alphafill != null) {
-                if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
-                    sg2d.drawpipe = AAClipColorViaShape;
-                    sg2d.fillpipe = AAClipColorViaShape;
-                    sg2d.shapepipe = AAClipColorViaShape;
+        } else if (sg2d.bntiblibsHint == SunHints.INTVAL_ANTIALIAS_ON) {
+            sg2d.blphbfill = getMbskFill(sg2d);
+            // bssert(sg2d.surfbceDbtb == this);
+            if (sg2d.blphbfill != null) {
+                if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
+                    sg2d.drbwpipe = AAClipColorVibShbpe;
+                    sg2d.fillpipe = AAClipColorVibShbpe;
+                    sg2d.shbpepipe = AAClipColorVibShbpe;
                     sg2d.textpipe = clipColorText;
                 } else {
-                    PixelToParallelogramConverter converter =
-                        (sg2d.alphafill.canDoParallelograms()
-                         ? AAColorViaPgram
-                         : AAColorViaShape);
-                    sg2d.drawpipe = converter;
+                    PixelToPbrbllelogrbmConverter converter =
+                        (sg2d.blphbfill.cbnDoPbrbllelogrbms()
+                         ? AAColorVibPgrbm
+                         : AAColorVibShbpe);
+                    sg2d.drbwpipe = converter;
                     sg2d.fillpipe = converter;
-                    sg2d.shapepipe = converter;
-                    if (sg2d.paintState > SunGraphics2D.PAINT_ALPHACOLOR ||
-                        sg2d.compositeState > SunGraphics2D.COMP_ISCOPY)
+                    sg2d.shbpepipe = converter;
+                    if (sg2d.pbintStbte > SunGrbphics2D.PAINT_ALPHACOLOR ||
+                        sg2d.compositeStbte > SunGrbphics2D.COMP_ISCOPY)
                     {
                         sg2d.textpipe = colorText;
                     } else {
@@ -653,125 +653,125 @@ public abstract class SurfaceData
                     }
                 }
             } else {
-                if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
-                    sg2d.drawpipe = AAClipPaintViaShape;
-                    sg2d.fillpipe = AAClipPaintViaShape;
-                    sg2d.shapepipe = AAClipPaintViaShape;
-                    sg2d.textpipe = clipPaintText;
+                if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
+                    sg2d.drbwpipe = AAClipPbintVibShbpe;
+                    sg2d.fillpipe = AAClipPbintVibShbpe;
+                    sg2d.shbpepipe = AAClipPbintVibShbpe;
+                    sg2d.textpipe = clipPbintText;
                 } else {
-                    sg2d.drawpipe = AAPaintViaShape;
-                    sg2d.fillpipe = AAPaintViaShape;
-                    sg2d.shapepipe = AAPaintViaShape;
-                    sg2d.textpipe = paintText;
+                    sg2d.drbwpipe = AAPbintVibShbpe;
+                    sg2d.fillpipe = AAPbintVibShbpe;
+                    sg2d.shbpepipe = AAPbintVibShbpe;
+                    sg2d.textpipe = pbintText;
                 }
             }
-        } else if (sg2d.paintState > SunGraphics2D.PAINT_ALPHACOLOR ||
-                   sg2d.compositeState > SunGraphics2D.COMP_ISCOPY ||
-                   sg2d.clipState == SunGraphics2D.CLIP_SHAPE)
+        } else if (sg2d.pbintStbte > SunGrbphics2D.PAINT_ALPHACOLOR ||
+                   sg2d.compositeStbte > SunGrbphics2D.COMP_ISCOPY ||
+                   sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE)
         {
-            sg2d.drawpipe = paintViaShape;
-            sg2d.fillpipe = paintViaShape;
-            sg2d.shapepipe = paintShape;
-            sg2d.alphafill = getMaskFill(sg2d);
-            // assert(sg2d.surfaceData == this);
-            if (sg2d.alphafill != null) {
-                if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
+            sg2d.drbwpipe = pbintVibShbpe;
+            sg2d.fillpipe = pbintVibShbpe;
+            sg2d.shbpepipe = pbintShbpe;
+            sg2d.blphbfill = getMbskFill(sg2d);
+            // bssert(sg2d.surfbceDbtb == this);
+            if (sg2d.blphbfill != null) {
+                if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
                     sg2d.textpipe = clipColorText;
                 } else {
                     sg2d.textpipe = colorText;
                 }
             } else {
-                if (sg2d.clipState == SunGraphics2D.CLIP_SHAPE) {
-                    sg2d.textpipe = clipPaintText;
+                if (sg2d.clipStbte == SunGrbphics2D.CLIP_SHAPE) {
+                    sg2d.textpipe = clipPbintText;
                 } else {
-                    sg2d.textpipe = paintText;
+                    sg2d.textpipe = pbintText;
                 }
             }
         } else {
-            PixelToShapeConverter converter;
-            if (canRenderParallelograms(sg2d)) {
-                converter = colorViaPgram;
-                // Note that we use the transforming pipe here because it
-                // will examine the shape and possibly perform an optimized
-                // operation if it can be simplified.  The simplifications
-                // will be valid for all STROKE and TRANSFORM types.
-                sg2d.shapepipe = colorViaPgram;
+            PixelToShbpeConverter converter;
+            if (cbnRenderPbrbllelogrbms(sg2d)) {
+                converter = colorVibPgrbm;
+                // Note thbt we use the trbnsforming pipe here becbuse it
+                // will exbmine the shbpe bnd possibly perform bn optimized
+                // operbtion if it cbn be simplified.  The simplificbtions
+                // will be vblid for bll STROKE bnd TRANSFORM types.
+                sg2d.shbpepipe = colorVibPgrbm;
             } else {
-                converter = colorViaShape;
-                sg2d.shapepipe = colorPrimitives;
+                converter = colorVibShbpe;
+                sg2d.shbpepipe = colorPrimitives;
             }
-            if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-                sg2d.drawpipe = converter;
+            if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+                sg2d.drbwpipe = converter;
                 sg2d.fillpipe = converter;
             } else {
-                if (sg2d.strokeState != SunGraphics2D.STROKE_THIN) {
-                    sg2d.drawpipe = converter;
+                if (sg2d.strokeStbte != SunGrbphics2D.STROKE_THIN) {
+                    sg2d.drbwpipe = converter;
                 } else {
-                    sg2d.drawpipe = colorPrimitives;
+                    sg2d.drbwpipe = colorPrimitives;
                 }
                 sg2d.fillpipe = colorPrimitives;
             }
 
-            sg2d.textpipe = getTextPipe(sg2d, false /* AA==OFF */);
-            // assert(sg2d.surfaceData == this);
+            sg2d.textpipe = getTextPipe(sg2d, fblse /* AA==OFF */);
+            // bssert(sg2d.surfbceDbtb == this);
         }
 
         // check for loops
-        if (sg2d.textpipe  instanceof LoopBasedPipe ||
-            sg2d.shapepipe instanceof LoopBasedPipe ||
-            sg2d.fillpipe  instanceof LoopBasedPipe ||
-            sg2d.drawpipe  instanceof LoopBasedPipe ||
-            sg2d.imagepipe instanceof LoopBasedPipe)
+        if (sg2d.textpipe  instbnceof LoopBbsedPipe ||
+            sg2d.shbpepipe instbnceof LoopBbsedPipe ||
+            sg2d.fillpipe  instbnceof LoopBbsedPipe ||
+            sg2d.drbwpipe  instbnceof LoopBbsedPipe ||
+            sg2d.imbgepipe instbnceof LoopBbsedPipe)
         {
             sg2d.loops = getRenderLoops(sg2d);
         }
     }
 
-    /* Return the text pipe to be used based on the graphics AA hint setting,
-     * and the rest of the graphics state is compatible with these loops.
-     * If the text AA hint is "DEFAULT", then the AA graphics hint requests
+    /* Return the text pipe to be used bbsed on the grbphics AA hint setting,
+     * bnd the rest of the grbphics stbte is compbtible with these loops.
+     * If the text AA hint is "DEFAULT", then the AA grbphics hint requests
      * the AA text renderer, else it requests the B&W text renderer.
      */
-    private TextPipe getTextPipe(SunGraphics2D sg2d, boolean aaHintIsOn) {
+    privbte TextPipe getTextPipe(SunGrbphics2D sg2d, boolebn bbHintIsOn) {
 
-        /* Try to avoid calling getFontInfo() unless its needed to
+        /* Try to bvoid cblling getFontInfo() unless its needed to
          * resolve one of the new AA types.
          */
-        switch (sg2d.textAntialiasHint) {
-        case SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT:
-            if (aaHintIsOn) {
-                return aaTextRenderer;
+        switch (sg2d.textAntiblibsHint) {
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT:
+            if (bbHintIsOn) {
+                return bbTextRenderer;
             } else {
                 return solidTextRenderer;
             }
-        case SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
             return solidTextRenderer;
 
-        case SunHints.INTVAL_TEXT_ANTIALIAS_ON:
-            return aaTextRenderer;
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+            return bbTextRenderer;
 
-        default:
-            switch (sg2d.getFontInfo().aaHint) {
+        defbult:
+            switch (sg2d.getFontInfo().bbHint) {
 
-            case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
-            case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+            cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+            cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
                 return lcdTextRenderer;
 
-            case SunHints.INTVAL_TEXT_ANTIALIAS_ON:
-                return aaTextRenderer;
+            cbse SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+                return bbTextRenderer;
 
-            case SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+            cbse SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
                 return solidTextRenderer;
 
-                 /* This should not be reached as the FontInfo will
-                 * always explicitly set its hint value. So whilst
-                 * this could be collapsed to returning say just
+                 /* This should not be rebched bs the FontInfo will
+                 * blwbys explicitly set its hint vblue. So whilst
+                 * this could be collbpsed to returning sby just
                  * solidTextRenderer, or even removed, its left
-                 * here in case DEFAULT is ever passed in.
+                 * here in cbse DEFAULT is ever pbssed in.
                  */
-            default:
-                if (aaHintIsOn) {
-                    return aaTextRenderer;
+            defbult:
+                if (bbHintIsOn) {
+                    return bbTextRenderer;
                 } else {
                     return solidTextRenderer;
                 }
@@ -779,207 +779,207 @@ public abstract class SurfaceData
         }
     }
 
-    private static SurfaceType getPaintSurfaceType(SunGraphics2D sg2d) {
-        switch (sg2d.paintState) {
-        case SunGraphics2D.PAINT_OPAQUECOLOR:
-            return SurfaceType.OpaqueColor;
-        case SunGraphics2D.PAINT_ALPHACOLOR:
-            return SurfaceType.AnyColor;
-        case SunGraphics2D.PAINT_GRADIENT:
-            if (sg2d.paint.getTransparency() == OPAQUE) {
-                return SurfaceType.OpaqueGradientPaint;
+    privbte stbtic SurfbceType getPbintSurfbceType(SunGrbphics2D sg2d) {
+        switch (sg2d.pbintStbte) {
+        cbse SunGrbphics2D.PAINT_OPAQUECOLOR:
+            return SurfbceType.OpbqueColor;
+        cbse SunGrbphics2D.PAINT_ALPHACOLOR:
+            return SurfbceType.AnyColor;
+        cbse SunGrbphics2D.PAINT_GRADIENT:
+            if (sg2d.pbint.getTrbnspbrency() == OPAQUE) {
+                return SurfbceType.OpbqueGrbdientPbint;
             } else {
-                return SurfaceType.GradientPaint;
+                return SurfbceType.GrbdientPbint;
             }
-        case SunGraphics2D.PAINT_LIN_GRADIENT:
-            if (sg2d.paint.getTransparency() == OPAQUE) {
-                return SurfaceType.OpaqueLinearGradientPaint;
+        cbse SunGrbphics2D.PAINT_LIN_GRADIENT:
+            if (sg2d.pbint.getTrbnspbrency() == OPAQUE) {
+                return SurfbceType.OpbqueLinebrGrbdientPbint;
             } else {
-                return SurfaceType.LinearGradientPaint;
+                return SurfbceType.LinebrGrbdientPbint;
             }
-        case SunGraphics2D.PAINT_RAD_GRADIENT:
-            if (sg2d.paint.getTransparency() == OPAQUE) {
-                return SurfaceType.OpaqueRadialGradientPaint;
+        cbse SunGrbphics2D.PAINT_RAD_GRADIENT:
+            if (sg2d.pbint.getTrbnspbrency() == OPAQUE) {
+                return SurfbceType.OpbqueRbdiblGrbdientPbint;
             } else {
-                return SurfaceType.RadialGradientPaint;
+                return SurfbceType.RbdiblGrbdientPbint;
             }
-        case SunGraphics2D.PAINT_TEXTURE:
-            if (sg2d.paint.getTransparency() == OPAQUE) {
-                return SurfaceType.OpaqueTexturePaint;
+        cbse SunGrbphics2D.PAINT_TEXTURE:
+            if (sg2d.pbint.getTrbnspbrency() == OPAQUE) {
+                return SurfbceType.OpbqueTexturePbint;
             } else {
-                return SurfaceType.TexturePaint;
+                return SurfbceType.TexturePbint;
             }
-        default:
-        case SunGraphics2D.PAINT_CUSTOM:
-            return SurfaceType.AnyPaint;
+        defbult:
+        cbse SunGrbphics2D.PAINT_CUSTOM:
+            return SurfbceType.AnyPbint;
         }
     }
 
-    private static CompositeType getFillCompositeType(SunGraphics2D sg2d) {
-        CompositeType compType = sg2d.imageComp;
-        if (sg2d.compositeState == SunGraphics2D.COMP_ISCOPY) {
-            if (compType == CompositeType.SrcOverNoEa) {
-                compType = CompositeType.OpaqueSrcOverNoEa;
+    privbte stbtic CompositeType getFillCompositeType(SunGrbphics2D sg2d) {
+        CompositeType compType = sg2d.imbgeComp;
+        if (sg2d.compositeStbte == SunGrbphics2D.COMP_ISCOPY) {
+            if (compType == CompositeType.SrcOverNoEb) {
+                compType = CompositeType.OpbqueSrcOverNoEb;
             } else {
-                compType = CompositeType.SrcNoEa;
+                compType = CompositeType.SrcNoEb;
             }
         }
         return compType;
     }
 
     /**
-     * Returns a MaskFill object that can be used on this destination
-     * with the source (paint) and composite types determined by the given
-     * SunGraphics2D, or null if no such MaskFill object can be located.
-     * Subclasses can override this method if they wish to filter other
-     * attributes (such as the hardware capabilities of the destination
-     * surface) before returning a specific MaskFill object.
+     * Returns b MbskFill object thbt cbn be used on this destinbtion
+     * with the source (pbint) bnd composite types determined by the given
+     * SunGrbphics2D, or null if no such MbskFill object cbn be locbted.
+     * Subclbsses cbn override this method if they wish to filter other
+     * bttributes (such bs the hbrdwbre cbpbbilities of the destinbtion
+     * surfbce) before returning b specific MbskFill object.
      */
-    protected MaskFill getMaskFill(SunGraphics2D sg2d) {
-        SurfaceType src = getPaintSurfaceType(sg2d);
+    protected MbskFill getMbskFill(SunGrbphics2D sg2d) {
+        SurfbceType src = getPbintSurfbceType(sg2d);
         CompositeType comp = getFillCompositeType(sg2d);
-        SurfaceType dst = getSurfaceType();
-        return MaskFill.getFromCache(src, comp, dst);
+        SurfbceType dst = getSurfbceType();
+        return MbskFill.getFromCbche(src, comp, dst);
     }
 
-    private static RenderCache loopcache = new RenderCache(30);
+    privbte stbtic RenderCbche loopcbche = new RenderCbche(30);
 
     /**
-     * Return a RenderLoops object containing all of the basic
-     * GraphicsPrimitive objects for rendering to the destination
-     * surface with the current attributes of the given SunGraphics2D.
+     * Return b RenderLoops object contbining bll of the bbsic
+     * GrbphicsPrimitive objects for rendering to the destinbtion
+     * surfbce with the current bttributes of the given SunGrbphics2D.
      */
-    public RenderLoops getRenderLoops(SunGraphics2D sg2d) {
-        SurfaceType src = getPaintSurfaceType(sg2d);
+    public RenderLoops getRenderLoops(SunGrbphics2D sg2d) {
+        SurfbceType src = getPbintSurfbceType(sg2d);
         CompositeType comp = getFillCompositeType(sg2d);
-        SurfaceType dst = sg2d.getSurfaceData().getSurfaceType();
+        SurfbceType dst = sg2d.getSurfbceDbtb().getSurfbceType();
 
-        Object o = loopcache.get(src, comp, dst);
+        Object o = loopcbche.get(src, comp, dst);
         if (o != null) {
             return (RenderLoops) o;
         }
 
-        RenderLoops loops = makeRenderLoops(src, comp, dst);
-        loopcache.put(src, comp, dst, loops);
+        RenderLoops loops = mbkeRenderLoops(src, comp, dst);
+        loopcbche.put(src, comp, dst, loops);
         return loops;
     }
 
     /**
-     * Construct and return a RenderLoops object containing all of
-     * the basic GraphicsPrimitive objects for rendering to the
-     * destination surface with the given source, destination, and
+     * Construct bnd return b RenderLoops object contbining bll of
+     * the bbsic GrbphicsPrimitive objects for rendering to the
+     * destinbtion surfbce with the given source, destinbtion, bnd
      * composite types.
      */
-    public static RenderLoops makeRenderLoops(SurfaceType src,
+    public stbtic RenderLoops mbkeRenderLoops(SurfbceType src,
                                               CompositeType comp,
-                                              SurfaceType dst)
+                                              SurfbceType dst)
     {
         RenderLoops loops = new RenderLoops();
-        loops.drawLineLoop = DrawLine.locate(src, comp, dst);
-        loops.fillRectLoop = FillRect.locate(src, comp, dst);
-        loops.drawRectLoop = DrawRect.locate(src, comp, dst);
-        loops.drawPolygonsLoop = DrawPolygons.locate(src, comp, dst);
-        loops.drawPathLoop = DrawPath.locate(src, comp, dst);
-        loops.fillPathLoop = FillPath.locate(src, comp, dst);
-        loops.fillSpansLoop = FillSpans.locate(src, comp, dst);
-        loops.fillParallelogramLoop = FillParallelogram.locate(src, comp, dst);
-        loops.drawParallelogramLoop = DrawParallelogram.locate(src, comp, dst);
-        loops.drawGlyphListLoop = DrawGlyphList.locate(src, comp, dst);
-        loops.drawGlyphListAALoop = DrawGlyphListAA.locate(src, comp, dst);
-        loops.drawGlyphListLCDLoop = DrawGlyphListLCD.locate(src, comp, dst);
+        loops.drbwLineLoop = DrbwLine.locbte(src, comp, dst);
+        loops.fillRectLoop = FillRect.locbte(src, comp, dst);
+        loops.drbwRectLoop = DrbwRect.locbte(src, comp, dst);
+        loops.drbwPolygonsLoop = DrbwPolygons.locbte(src, comp, dst);
+        loops.drbwPbthLoop = DrbwPbth.locbte(src, comp, dst);
+        loops.fillPbthLoop = FillPbth.locbte(src, comp, dst);
+        loops.fillSpbnsLoop = FillSpbns.locbte(src, comp, dst);
+        loops.fillPbrbllelogrbmLoop = FillPbrbllelogrbm.locbte(src, comp, dst);
+        loops.drbwPbrbllelogrbmLoop = DrbwPbrbllelogrbm.locbte(src, comp, dst);
+        loops.drbwGlyphListLoop = DrbwGlyphList.locbte(src, comp, dst);
+        loops.drbwGlyphListAALoop = DrbwGlyphListAA.locbte(src, comp, dst);
+        loops.drbwGlyphListLCDLoop = DrbwGlyphListLCD.locbte(src, comp, dst);
         /*
-        System.out.println("drawLine: "+loops.drawLineLoop);
+        System.out.println("drbwLine: "+loops.drbwLineLoop);
         System.out.println("fillRect: "+loops.fillRectLoop);
-        System.out.println("drawRect: "+loops.drawRectLoop);
-        System.out.println("drawPolygons: "+loops.drawPolygonsLoop);
-        System.out.println("fillSpans: "+loops.fillSpansLoop);
-        System.out.println("drawGlyphList: "+loops.drawGlyphListLoop);
-        System.out.println("drawGlyphListAA: "+loops.drawGlyphListAALoop);
-        System.out.println("drawGlyphListLCD: "+loops.drawGlyphListLCDLoop);
+        System.out.println("drbwRect: "+loops.drbwRectLoop);
+        System.out.println("drbwPolygons: "+loops.drbwPolygonsLoop);
+        System.out.println("fillSpbns: "+loops.fillSpbnsLoop);
+        System.out.println("drbwGlyphList: "+loops.drbwGlyphListLoop);
+        System.out.println("drbwGlyphListAA: "+loops.drbwGlyphListAALoop);
+        System.out.println("drbwGlyphListLCD: "+loops.drbwGlyphListLCDLoop);
         */
         return loops;
     }
 
     /**
-     * Return the GraphicsConfiguration object that describes this
-     * destination surface.
+     * Return the GrbphicsConfigurbtion object thbt describes this
+     * destinbtion surfbce.
      */
-    public abstract GraphicsConfiguration getDeviceConfiguration();
+    public bbstrbct GrbphicsConfigurbtion getDeviceConfigurbtion();
 
     /**
-     * Return the SurfaceType object that describes the destination
-     * surface.
+     * Return the SurfbceType object thbt describes the destinbtion
+     * surfbce.
      */
-    public final SurfaceType getSurfaceType() {
-        return surfaceType;
+    public finbl SurfbceType getSurfbceType() {
+        return surfbceType;
     }
 
     /**
-     * Return the ColorModel for the destination surface.
+     * Return the ColorModel for the destinbtion surfbce.
      */
-    public final ColorModel getColorModel() {
+    public finbl ColorModel getColorModel() {
         return colorModel;
     }
 
     /**
-     * Returns the type of this <code>Transparency</code>.
-     * @return the field type of this <code>Transparency</code>, which is
+     * Returns the type of this <code>Trbnspbrency</code>.
+     * @return the field type of this <code>Trbnspbrency</code>, which is
      *          either OPAQUE, BITMASK or TRANSLUCENT.
      */
-    public int getTransparency() {
-        return getColorModel().getTransparency();
+    public int getTrbnspbrency() {
+        return getColorModel().getTrbnspbrency();
     }
 
     /**
-     * Return a readable Raster which contains the pixels for the
-     * specified rectangular region of the destination surface.
-     * The coordinate origin of the returned Raster is the same as
-     * the device space origin of the destination surface.
-     * In some cases the returned Raster might also be writeable.
-     * In most cases, the returned Raster might contain more pixels
-     * than requested.
+     * Return b rebdbble Rbster which contbins the pixels for the
+     * specified rectbngulbr region of the destinbtion surfbce.
+     * The coordinbte origin of the returned Rbster is the sbme bs
+     * the device spbce origin of the destinbtion surfbce.
+     * In some cbses the returned Rbster might blso be writebble.
+     * In most cbses, the returned Rbster might contbin more pixels
+     * thbn requested.
      *
      * @see useTightBBoxes
      */
-    public abstract Raster getRaster(int x, int y, int w, int h);
+    public bbstrbct Rbster getRbster(int x, int y, int w, int h);
 
     /**
-     * Does the pixel accessibility of the destination surface
-     * suggest that rendering algorithms might want to take
-     * extra time to calculate a more accurate bounding box for
-     * the operation being performed?
-     * The typical case when this will be true is when a copy of
-     * the pixels has to be made when doing a getRaster.  The
-     * fewer pixels copied, the faster the operation will go.
+     * Does the pixel bccessibility of the destinbtion surfbce
+     * suggest thbt rendering blgorithms might wbnt to tbke
+     * extrb time to cblculbte b more bccurbte bounding box for
+     * the operbtion being performed?
+     * The typicbl cbse when this will be true is when b copy of
+     * the pixels hbs to be mbde when doing b getRbster.  The
+     * fewer pixels copied, the fbster the operbtion will go.
      *
-     * @see getRaster
+     * @see getRbster
      */
-    public boolean useTightBBoxes() {
-        // Note: The native equivalent would trigger on VISIBLE_TO_NATIVE
-        // REMIND: This is not used - should be obsoleted maybe
+    public boolebn useTightBBoxes() {
+        // Note: The nbtive equivblent would trigger on VISIBLE_TO_NATIVE
+        // REMIND: This is not used - should be obsoleted mbybe
         return true;
     }
 
     /**
-     * Returns the pixel data for the specified Argb value packed
-     * into an integer for easy storage and conveyance.
+     * Returns the pixel dbtb for the specified Argb vblue pbcked
+     * into bn integer for ebsy storbge bnd conveybnce.
      */
     public int pixelFor(int rgb) {
-        return surfaceType.pixelFor(rgb, colorModel);
+        return surfbceType.pixelFor(rgb, colorModel);
     }
 
     /**
-     * Returns the pixel data for the specified color packed into an
-     * integer for easy storage and conveyance.
+     * Returns the pixel dbtb for the specified color pbcked into bn
+     * integer for ebsy storbge bnd conveybnce.
      *
      * This method will use the getRGB() method of the Color object
-     * and defer to the pixelFor(int rgb) method if not overridden.
+     * bnd defer to the pixelFor(int rgb) method if not overridden.
      *
-     * For now this is a convenience function, but for cases where
-     * the highest quality color conversion is requested, this method
-     * should be overridden in those cases so that a more direct
-     * conversion of the color to the destination color space
-     * can be done using the additional information in the Color
+     * For now this is b convenience function, but for cbses where
+     * the highest qublity color conversion is requested, this method
+     * should be overridden in those cbses so thbt b more direct
+     * conversion of the color to the destinbtion color spbce
+     * cbn be done using the bdditionbl informbtion in the Color
      * object.
      */
     public int pixelFor(Color c) {
@@ -987,84 +987,84 @@ public abstract class SurfaceData
     }
 
     /**
-     * Returns the Argb representation for the specified integer value
-     * which is packed in the format of the associated ColorModel.
+     * Returns the Argb representbtion for the specified integer vblue
+     * which is pbcked in the formbt of the bssocibted ColorModel.
      */
     public int rgbFor(int pixel) {
-        return surfaceType.rgbFor(pixel, colorModel);
+        return surfbceType.rgbFor(pixel, colorModel);
     }
 
     /**
-     * Returns the bounds of the destination surface.
+     * Returns the bounds of the destinbtion surfbce.
      */
-    public abstract Rectangle getBounds();
+    public bbstrbct Rectbngle getBounds();
 
-    static java.security.Permission compPermission;
+    stbtic jbvb.security.Permission compPermission;
 
     /**
-     * Performs Security Permissions checks to see if a Custom
-     * Composite object should be allowed access to the pixels
-     * of this surface.
+     * Performs Security Permissions checks to see if b Custom
+     * Composite object should be bllowed bccess to the pixels
+     * of this surfbce.
      */
     protected void checkCustomComposite() {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             if (compPermission == null) {
                 compPermission =
-                    new java.awt.AWTPermission("readDisplayPixels");
+                    new jbvb.bwt.AWTPermission("rebdDisplbyPixels");
             }
             sm.checkPermission(compPermission);
         }
     }
 
     /**
-     * Fetches private field IndexColorModel.allgrayopaque
-     * which is true when all palette entries in the color
-     * model are gray and opaque.
+     * Fetches privbte field IndexColorModel.bllgrbyopbque
+     * which is true when bll pblette entries in the color
+     * model bre grby bnd opbque.
      */
-    protected static native boolean isOpaqueGray(IndexColorModel icm);
+    protected stbtic nbtive boolebn isOpbqueGrby(IndexColorModel icm);
 
     /**
-     * For our purposes null and NullSurfaceData are the same as
-     * they represent a disposed surface.
+     * For our purposes null bnd NullSurfbceDbtb bre the sbme bs
+     * they represent b disposed surfbce.
      */
-    public static boolean isNull(SurfaceData sd) {
-        if (sd == null || sd == NullSurfaceData.theInstance) {
+    public stbtic boolebn isNull(SurfbceDbtb sd) {
+        if (sd == null || sd == NullSurfbceDbtb.theInstbnce) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Performs a copyarea within this surface.  Returns
-     * false if there is no algorithm to perform the copyarea
-     * given the current settings of the SunGraphics2D.
+     * Performs b copybreb within this surfbce.  Returns
+     * fblse if there is no blgorithm to perform the copybreb
+     * given the current settings of the SunGrbphics2D.
      */
-    public boolean copyArea(SunGraphics2D sg2d,
+    public boolebn copyAreb(SunGrbphics2D sg2d,
                             int x, int y, int w, int h, int dx, int dy)
     {
-        return false;
+        return fblse;
     }
 
     /**
-     * Synchronously releases resources associated with this surface.
+     * Synchronously relebses resources bssocibted with this surfbce.
      */
     public void flush() {}
 
     /**
-     * Returns destination associated with this SurfaceData.  This could be
-     * either an Image or a Component; subclasses of SurfaceData are
-     * responsible for returning the appropriate object.
+     * Returns destinbtion bssocibted with this SurfbceDbtb.  This could be
+     * either bn Imbge or b Component; subclbsses of SurfbceDbtb bre
+     * responsible for returning the bppropribte object.
      */
-    public abstract Object getDestination();
+    public bbstrbct Object getDestinbtion();
 
     /**
-     * Returns default scale factor of the destination surface. Scale factor
-     * describes the mapping between virtual and physical coordinates of the
-     * SurfaceData. If the scale is 2 then virtual pixel coordinates need to be
-     * doubled for physical pixels.
+     * Returns defbult scble fbctor of the destinbtion surfbce. Scble fbctor
+     * describes the mbpping between virtubl bnd physicbl coordinbtes of the
+     * SurfbceDbtb. If the scble is 2 then virtubl pixel coordinbtes need to be
+     * doubled for physicbl pixels.
      */
-    public int getDefaultScale() {
+    public int getDefbultScble() {
         return 1;
     }
 }

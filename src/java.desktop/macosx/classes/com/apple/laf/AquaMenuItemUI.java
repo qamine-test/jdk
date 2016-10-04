@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicMenuItemUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicMenuItemUI;
 
-import apple.laf.JRSUIConstants.Size;
+import bpple.lbf.JRSUIConstbnts.Size;
 
-// TODO: no screen menu bar for now
-public class AquaMenuItemUI extends BasicMenuItemUI implements AquaMenuPainter.Client/*, ScreenMenuItemUI*/ {
-    static final int kPlain = 0, kCheckBox = 1, kRadioButton = 2;
-    static final String sPropertyPrefixes[] = { "MenuItem", "CheckBoxMenuItem", "RadioButtonMenuItem" };
+// TODO: no screen menu bbr for now
+public clbss AqubMenuItemUI extends BbsicMenuItemUI implements AqubMenuPbinter.Client/*, ScreenMenuItemUI*/ {
+    stbtic finbl int kPlbin = 0, kCheckBox = 1, kRbdioButton = 2;
+    stbtic finbl String sPropertyPrefixes[] = { "MenuItem", "CheckBoxMenuItem", "RbdioButtonMenuItem" };
 
-    boolean fIsScreenMenuItem = false;
-    boolean fIsIndeterminate = false;
+    boolebn fIsScreenMenuItem = fblse;
+    boolebn fIsIndeterminbte = fblse;
     int fType;
 
-    AquaMenuItemUI(final int type) {
+    AqubMenuItemUI(finbl int type) {
         super();
         fType = type;
     }
 
-    public static ComponentUI createUI(final JComponent c) {
-        int type = kPlain;
-        if (c instanceof JCheckBoxMenuItem) type = kCheckBox;
-        if (c instanceof JRadioButtonMenuItem) type = kRadioButton;
-        return new AquaMenuItemUI(type);
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        int type = kPlbin;
+        if (c instbnceof JCheckBoxMenuItem) type = kCheckBox;
+        if (c instbnceof JRbdioButtonMenuItem) type = kRbdioButton;
+        return new AqubMenuItemUI(type);
     }
 
-    // The only real difference between the three is which property prefix it returns
-    // and therefore which icons!
+    // The only rebl difference between the three is which property prefix it returns
+    // bnd therefore which icons!
     protected String getPropertyPrefix() {
         return sPropertyPrefixes[fType];
     }
 
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        IndeterminateListener.install(menuItem);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        IndeterminbteListener.instbll(menuItem);
     }
 
     @Override
-    protected void uninstallListeners() {
-        IndeterminateListener.uninstall(menuItem);
-        super.uninstallListeners();
+    protected void uninstbllListeners() {
+        IndeterminbteListener.uninstbll(menuItem);
+        super.uninstbllListeners();
     }
 
-    public void updateListenersForScreenMenuItem() {
+    public void updbteListenersForScreenMenuItem() {
         setIsScreenMenu(true);
     }
 
-    // Users can dynamically change the kind of menu we're on by calling JPopupMenu.setInvoker
-    // so we need to be prepared to put the listeners back on
-    protected void setIsScreenMenu(final boolean isScreenMenuItem) {
+    // Users cbn dynbmicblly chbnge the kind of menu we're on by cblling JPopupMenu.setInvoker
+    // so we need to be prepbred to put the listeners bbck on
+    protected void setIsScreenMenu(finbl boolebn isScreenMenuItem) {
         if (fIsScreenMenuItem != isScreenMenuItem) {
             fIsScreenMenuItem = isScreenMenuItem;
             if (fIsScreenMenuItem) removeListeners();
-            else addListeners();
+            else bddListeners();
         }
     }
 
     protected void removeListeners() {
         menuItem.removeMouseListener(mouseInputListener);
         menuItem.removeMouseMotionListener(mouseInputListener);
-        menuItem.removeMenuDragMouseListener(menuDragMouseListener);
+        menuItem.removeMenuDrbgMouseListener(menuDrbgMouseListener);
     }
 
-    protected void addListeners() {
-        menuItem.addMouseListener(mouseInputListener);
-        menuItem.addMouseMotionListener(mouseInputListener);
-        menuItem.addMenuDragMouseListener(menuDragMouseListener);
+    protected void bddListeners() {
+        menuItem.bddMouseListener(mouseInputListener);
+        menuItem.bddMouseMotionListener(mouseInputListener);
+        menuItem.bddMenuDrbgMouseListener(menuDrbgMouseListener);
     }
 
-    protected void paintMenuItem(final Graphics g, final JComponent c, final Icon localCheckIcon, final Icon localArrowIcon, final Color background, final Color foreground, final int localDefaultTextIconGap) {
-        AquaMenuPainter.instance().paintMenuItem(this, g, c, localCheckIcon, localArrowIcon, background, foreground, disabledForeground, selectionForeground, localDefaultTextIconGap, acceleratorFont);
+    protected void pbintMenuItem(finbl Grbphics g, finbl JComponent c, finbl Icon locblCheckIcon, finbl Icon locblArrowIcon, finbl Color bbckground, finbl Color foreground, finbl int locblDefbultTextIconGbp) {
+        AqubMenuPbinter.instbnce().pbintMenuItem(this, g, c, locblCheckIcon, locblArrowIcon, bbckground, foreground, disbbledForeground, selectionForeground, locblDefbultTextIconGbp, bccelerbtorFont);
     }
 
-    protected Dimension getPreferredMenuItemSize(final JComponent c, final Icon localCheckIcon, final Icon localArrowIcon, final int localDefaultTextIconGap) {
-        return AquaMenuPainter.instance().getPreferredMenuItemSize(c, localCheckIcon, localArrowIcon, localDefaultTextIconGap, acceleratorFont);
+    protected Dimension getPreferredMenuItemSize(finbl JComponent c, finbl Icon locblCheckIcon, finbl Icon locblArrowIcon, finbl int locblDefbultTextIconGbp) {
+        return AqubMenuPbinter.instbnce().getPreferredMenuItemSize(c, locblCheckIcon, locblArrowIcon, locblDefbultTextIconGbp, bccelerbtorFont);
     }
 
-    public void update(final Graphics g, final JComponent c) {
-        if (c.isOpaque()) {
-            // sja fix ((PenGraphics)g).alphaClearRect(0,0,c.getWidth(),c.getHeight());
-            final Color oldColor = g.getColor();
-            g.setColor(c.getBackground());
+    public void updbte(finbl Grbphics g, finbl JComponent c) {
+        if (c.isOpbque()) {
+            // sjb fix ((PenGrbphics)g).blphbClebrRect(0,0,c.getWidth(),c.getHeight());
+            finbl Color oldColor = g.getColor();
+            g.setColor(c.getBbckground());
             g.fillRect(0, 0, c.getWidth(), c.getHeight());
             g.setColor(oldColor);
         }
 
-        paint(g, c);
+        pbint(g, c);
     }
 
-    public void paintBackground(final Graphics g, final JComponent c, final int menuWidth, final int menuHeight) {
-        if ((c.getParent() instanceof JMenuBar)) return;
-        final Color oldColor = g.getColor();
+    public void pbintBbckground(finbl Grbphics g, finbl JComponent c, finbl int menuWidth, finbl int menuHeight) {
+        if ((c.getPbrent() instbnceof JMenuBbr)) return;
+        finbl Color oldColor = g.getColor();
 
-        g.setColor(c.getBackground());
+        g.setColor(c.getBbckground());
         g.fillRect(0, 0, menuWidth, menuHeight);
-        if (((JMenuItem)c).isBorderPainted()) {
+        if (((JMenuItem)c).isBorderPbinted()) {
             if (((JMenuItem)c).getModel().isArmed()) {
-                AquaMenuPainter.instance().paintSelectedMenuItemBackground(g, menuWidth, menuHeight);
+                AqubMenuPbinter.instbnce().pbintSelectedMenuItemBbckground(g, menuWidth, menuHeight);
             }
-            //getTheme().drawMenuItem(c, g, 0, 0, menuWidth, menuHeight);
+            //getTheme().drbwMenuItem(c, g, 0, 0, menuWidth, menuHeight);
         } else {
-            // If selected, use black (see AquaLookAndFeel "Menu.selectionBackground")
+            // If selected, use blbck (see AqubLookAndFeel "Menu.selectionBbckground")
             if (((JMenuItem)c).getModel().isArmed()) {
-                final Color holdc = g.getColor();
-                g.setColor(Color.black);
+                finbl Color holdc = g.getColor();
+                g.setColor(Color.blbck);
                 g.fillRect(0, 0, menuWidth, menuHeight);
                 g.setColor(holdc);
             } else {
                 g.setColor(Color.green);
                 g.fillRect(0, 0, menuWidth, menuHeight);
-                //super.paintBackground(g,c,menuWidth, menuHeight); //getTheme().drawMenuBackground((Component)c, g, (short)1, 0, 0, menuWidth, menuHeight);
+                //super.pbintBbckground(g,c,menuWidth, menuHeight); //getTheme().drbwMenuBbckground((Component)c, g, (short)1, 0, 0, menuWidth, menuHeight);
             }
         }
         g.setColor(oldColor);
     }
 
-    protected void doClick(final MenuSelectionManager msm) {
-        final Dimension size = menuItem.getSize();
-        AquaUtils.blinkMenu(new AquaUtils.Selectable() {
-            public void paintSelected(final boolean selected) {
+    protected void doClick(finbl MenuSelectionMbnbger msm) {
+        finbl Dimension size = menuItem.getSize();
+        AqubUtils.blinkMenu(new AqubUtils.Selectbble() {
+            public void pbintSelected(finbl boolebn selected) {
                 menuItem.setArmed(selected);
-                menuItem.paintImmediately(0, 0, size.width, size.height);
+                menuItem.pbintImmedibtely(0, 0, size.width, size.height);
             }
         });
         super.doClick(msm);
     }
 
-    static final IndeterminateListener INDETERMINATE_LISTENER = new IndeterminateListener();
-    static class IndeterminateListener implements PropertyChangeListener {
-        static final String CLIENT_PROPERTY_KEY = "JMenuItem.selectedState";
+    stbtic finbl IndeterminbteListener INDETERMINATE_LISTENER = new IndeterminbteListener();
+    stbtic clbss IndeterminbteListener implements PropertyChbngeListener {
+        stbtic finbl String CLIENT_PROPERTY_KEY = "JMenuItem.selectedStbte";
 
-        static void install(final JMenuItem menuItem) {
-            menuItem.addPropertyChangeListener(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
-            apply(menuItem, menuItem.getClientProperty(CLIENT_PROPERTY_KEY));
+        stbtic void instbll(finbl JMenuItem menuItem) {
+            menuItem.bddPropertyChbngeListener(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
+            bpply(menuItem, menuItem.getClientProperty(CLIENT_PROPERTY_KEY));
         }
 
-        static void uninstall(final JMenuItem menuItem) {
-            menuItem.removePropertyChangeListener(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
+        stbtic void uninstbll(finbl JMenuItem menuItem) {
+            menuItem.removePropertyChbngeListener(CLIENT_PROPERTY_KEY, INDETERMINATE_LISTENER);
         }
 
-        public void propertyChange(final PropertyChangeEvent evt) {
-            final String key = evt.getPropertyName();
-            if (!CLIENT_PROPERTY_KEY.equalsIgnoreCase(key)) return;
+        public void propertyChbnge(finbl PropertyChbngeEvent evt) {
+            finbl String key = evt.getPropertyNbme();
+            if (!CLIENT_PROPERTY_KEY.equblsIgnoreCbse(key)) return;
 
-            final Object source = evt.getSource();
-            if (!(source instanceof JMenuItem)) return;
+            finbl Object source = evt.getSource();
+            if (!(source instbnceof JMenuItem)) return;
 
-            final JMenuItem c = (JMenuItem)source;
-            apply(c, evt.getNewValue());
+            finbl JMenuItem c = (JMenuItem)source;
+            bpply(c, evt.getNewVblue());
         }
 
-        static void apply(final JMenuItem menuItem, final Object value) {
-            final ButtonUI ui = menuItem.getUI();
-            if (!(ui instanceof AquaMenuItemUI)) return;
+        stbtic void bpply(finbl JMenuItem menuItem, finbl Object vblue) {
+            finbl ButtonUI ui = menuItem.getUI();
+            if (!(ui instbnceof AqubMenuItemUI)) return;
 
-            final AquaMenuItemUI aquaUI = (AquaMenuItemUI)ui;
+            finbl AqubMenuItemUI bqubUI = (AqubMenuItemUI)ui;
 
-            if (aquaUI.fIsIndeterminate = "indeterminate".equals(value)) {
-                aquaUI.checkIcon = UIManager.getIcon(aquaUI.getPropertyPrefix() + ".dashIcon");
+            if (bqubUI.fIsIndeterminbte = "indeterminbte".equbls(vblue)) {
+                bqubUI.checkIcon = UIMbnbger.getIcon(bqubUI.getPropertyPrefix() + ".dbshIcon");
             } else {
-                aquaUI.checkIcon = UIManager.getIcon(aquaUI.getPropertyPrefix() + ".checkIcon");
+                bqubUI.checkIcon = UIMbnbger.getIcon(bqubUI.getPropertyPrefix() + ".checkIcon");
             }
         }
 
-        public static boolean isIndeterminate(final JMenuItem menuItem) {
-            return "indeterminate".equals(menuItem.getClientProperty(CLIENT_PROPERTY_KEY));
+        public stbtic boolebn isIndeterminbte(finbl JMenuItem menuItem) {
+            return "indeterminbte".equbls(menuItem.getClientProperty(CLIENT_PROPERTY_KEY));
         }
     }
 }

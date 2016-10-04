@@ -1,324 +1,324 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bebns.*;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
 
 import sun.swing.SwingUtilities2;
 
-import apple.laf.JRSUIStateFactory;
-import apple.laf.JRSUIConstants.*;
-import apple.laf.JRSUIState.ValueState;
+import bpple.lbf.JRSUIStbteFbctory;
+import bpple.lbf.JRSUIConstbnts.*;
+import bpple.lbf.JRSUIStbte.VblueStbte;
 
-import com.apple.laf.AquaUtilControlSize.*;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import com.bpple.lbf.AqubUtilControlSize.*;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
 
-public class AquaProgressBarUI extends ProgressBarUI implements ChangeListener, PropertyChangeListener, AncestorListener, Sizeable {
-    private static final boolean ADJUSTTIMER = true;
+public clbss AqubProgressBbrUI extends ProgressBbrUI implements ChbngeListener, PropertyChbngeListener, AncestorListener, Sizebble {
+    privbte stbtic finbl boolebn ADJUSTTIMER = true;
 
-    protected static final RecyclableSingleton<SizeDescriptor> sizeDescriptor = new RecyclableSingleton<SizeDescriptor>() {
+    protected stbtic finbl RecyclbbleSingleton<SizeDescriptor> sizeDescriptor = new RecyclbbleSingleton<SizeDescriptor>() {
         @Override
-        protected SizeDescriptor getInstance() {
-            return new SizeDescriptor(new SizeVariant(146, 20)) {
-                public SizeVariant deriveSmall(final SizeVariant v) { v.alterMinSize(0, -6); return super.deriveSmall(v); }
+        protected SizeDescriptor getInstbnce() {
+            return new SizeDescriptor(new SizeVbribnt(146, 20)) {
+                public SizeVbribnt deriveSmbll(finbl SizeVbribnt v) { v.blterMinSize(0, -6); return super.deriveSmbll(v); }
             };
         }
     };
-    static SizeDescriptor getSizeDescriptor() {
+    stbtic SizeDescriptor getSizeDescriptor() {
         return sizeDescriptor.get();
     }
 
-    protected Size sizeVariant = Size.REGULAR;
+    protected Size sizeVbribnt = Size.REGULAR;
 
     protected Color selectionForeground;
 
-    private Animator animator;
-    protected boolean isAnimating;
-    protected boolean isCircular;
+    privbte Animbtor bnimbtor;
+    protected boolebn isAnimbting;
+    protected boolebn isCirculbr;
 
-    protected final AquaPainter<ValueState> painter = AquaPainter.create(JRSUIStateFactory.getProgressBar());
+    protected finbl AqubPbinter<VblueStbte> pbinter = AqubPbinter.crebte(JRSUIStbteFbctory.getProgressBbr());
 
-    protected JProgressBar progressBar;
+    protected JProgressBbr progressBbr;
 
-    public static ComponentUI createUI(final JComponent x) {
-        return new AquaProgressBarUI();
+    public stbtic ComponentUI crebteUI(finbl JComponent x) {
+        return new AqubProgressBbrUI();
     }
 
-    protected AquaProgressBarUI() { }
+    protected AqubProgressBbrUI() { }
 
-    public void installUI(final JComponent c) {
-        progressBar = (JProgressBar)c;
-        installDefaults();
-        installListeners();
+    public void instbllUI(finbl JComponent c) {
+        progressBbr = (JProgressBbr)c;
+        instbllDefbults();
+        instbllListeners();
     }
 
-    public void uninstallUI(final JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        stopAnimationTimer();
-        progressBar = null;
+    public void uninstbllUI(finbl JComponent c) {
+        uninstbllDefbults();
+        uninstbllListeners();
+        stopAnimbtionTimer();
+        progressBbr = null;
     }
 
-    protected void installDefaults() {
-        progressBar.setOpaque(false);
-        LookAndFeel.installBorder(progressBar, "ProgressBar.border");
-        LookAndFeel.installColorsAndFont(progressBar, "ProgressBar.background", "ProgressBar.foreground", "ProgressBar.font");
-        selectionForeground = UIManager.getColor("ProgressBar.selectionForeground");
+    protected void instbllDefbults() {
+        progressBbr.setOpbque(fblse);
+        LookAndFeel.instbllBorder(progressBbr, "ProgressBbr.border");
+        LookAndFeel.instbllColorsAndFont(progressBbr, "ProgressBbr.bbckground", "ProgressBbr.foreground", "ProgressBbr.font");
+        selectionForeground = UIMbnbger.getColor("ProgressBbr.selectionForeground");
     }
 
-    protected void uninstallDefaults() {
-        LookAndFeel.uninstallBorder(progressBar);
+    protected void uninstbllDefbults() {
+        LookAndFeel.uninstbllBorder(progressBbr);
     }
 
-    protected void installListeners() {
-        progressBar.addChangeListener(this); // Listen for changes in the progress bar's data
-        progressBar.addPropertyChangeListener(this); // Listen for changes between determinate and indeterminate state
-        progressBar.addAncestorListener(this);
-        AquaUtilControlSize.addSizePropertyListener(progressBar);
+    protected void instbllListeners() {
+        progressBbr.bddChbngeListener(this); // Listen for chbnges in the progress bbr's dbtb
+        progressBbr.bddPropertyChbngeListener(this); // Listen for chbnges between determinbte bnd indeterminbte stbte
+        progressBbr.bddAncestorListener(this);
+        AqubUtilControlSize.bddSizePropertyListener(progressBbr);
     }
 
-    protected void uninstallListeners() {
-        AquaUtilControlSize.removeSizePropertyListener(progressBar);
-        progressBar.removeAncestorListener(this);
-        progressBar.removePropertyChangeListener(this);
-        progressBar.removeChangeListener(this);
+    protected void uninstbllListeners() {
+        AqubUtilControlSize.removeSizePropertyListener(progressBbr);
+        progressBbr.removeAncestorListener(this);
+        progressBbr.removePropertyChbngeListener(this);
+        progressBbr.removeChbngeListener(this);
     }
 
-    public void stateChanged(final ChangeEvent e) {
-        progressBar.repaint();
+    public void stbteChbnged(finbl ChbngeEvent e) {
+        progressBbr.repbint();
     }
 
-    public void propertyChange(final PropertyChangeEvent e) {
-        final String prop = e.getPropertyName();
-        if ("indeterminate".equals(prop)) {
-            if (!progressBar.isIndeterminate()) return;
-            stopAnimationTimer();
-            // start the animation thread
-            startAnimationTimer();
+    public void propertyChbnge(finbl PropertyChbngeEvent e) {
+        finbl String prop = e.getPropertyNbme();
+        if ("indeterminbte".equbls(prop)) {
+            if (!progressBbr.isIndeterminbte()) return;
+            stopAnimbtionTimer();
+            // stbrt the bnimbtion threbd
+            stbrtAnimbtionTimer();
         }
 
-        if ("JProgressBar.style".equals(prop)) {
-            isCircular = "circular".equalsIgnoreCase(e.getNewValue() + "");
-            progressBar.repaint();
+        if ("JProgressBbr.style".equbls(prop)) {
+            isCirculbr = "circulbr".equblsIgnoreCbse(e.getNewVblue() + "");
+            progressBbr.repbint();
         }
     }
 
-    // listen for Ancestor events to stop our timer when we are no longer visible
-    // <rdar://problem/5405035> JProgressBar: UI in Aqua look and feel causes memory leaks
-    public void ancestorRemoved(final AncestorEvent e) {
-        stopAnimationTimer();
+    // listen for Ancestor events to stop our timer when we bre no longer visible
+    // <rdbr://problem/5405035> JProgressBbr: UI in Aqub look bnd feel cbuses memory lebks
+    public void bncestorRemoved(finbl AncestorEvent e) {
+        stopAnimbtionTimer();
     }
 
-    public void ancestorAdded(final AncestorEvent e) {
-        if (!progressBar.isIndeterminate()) return;
-        startAnimationTimer();
+    public void bncestorAdded(finbl AncestorEvent e) {
+        if (!progressBbr.isIndeterminbte()) return;
+        stbrtAnimbtionTimer();
     }
 
-    public void ancestorMoved(final AncestorEvent e) { }
+    public void bncestorMoved(finbl AncestorEvent e) { }
 
-    public void paint(final Graphics g, final JComponent c) {
-        revalidateAnimationTimers(); // revalidate to turn on/off timers when values change
+    public void pbint(finbl Grbphics g, finbl JComponent c) {
+        revblidbteAnimbtionTimers(); // revblidbte to turn on/off timers when vblues chbnge
 
-        painter.state.set(getState(c));
-        painter.state.set(isHorizontal() ? Orientation.HORIZONTAL : Orientation.VERTICAL);
-        painter.state.set(isAnimating ? Animating.YES : Animating.NO);
+        pbinter.stbte.set(getStbte(c));
+        pbinter.stbte.set(isHorizontbl() ? Orientbtion.HORIZONTAL : Orientbtion.VERTICAL);
+        pbinter.stbte.set(isAnimbting ? Animbting.YES : Animbting.NO);
 
-        if (progressBar.isIndeterminate()) {
-            if (isCircular) {
-                painter.state.set(Widget.PROGRESS_SPINNER);
-                painter.paint(g, c, 2, 2, 16, 16);
+        if (progressBbr.isIndeterminbte()) {
+            if (isCirculbr) {
+                pbinter.stbte.set(Widget.PROGRESS_SPINNER);
+                pbinter.pbint(g, c, 2, 2, 16, 16);
                 return;
             }
 
-            painter.state.set(Widget.PROGRESS_INDETERMINATE_BAR);
-            paint(g);
+            pbinter.stbte.set(Widget.PROGRESS_INDETERMINATE_BAR);
+            pbint(g);
             return;
         }
 
-        painter.state.set(Widget.PROGRESS_BAR);
-        painter.state.setValue(checkValue(progressBar.getPercentComplete()));
-        paint(g);
+        pbinter.stbte.set(Widget.PROGRESS_BAR);
+        pbinter.stbte.setVblue(checkVblue(progressBbr.getPercentComplete()));
+        pbint(g);
     }
 
-    static double checkValue(final double value) {
-        return Double.isNaN(value) ? 0 : value;
+    stbtic double checkVblue(finbl double vblue) {
+        return Double.isNbN(vblue) ? 0 : vblue;
     }
 
-    protected void paint(final Graphics g) {
-        // this is questionable. We may want the insets to mean something different.
-        final Insets i = progressBar.getInsets();
-        final int width = progressBar.getWidth() - (i.right + i.left);
-        final int height = progressBar.getHeight() - (i.bottom + i.top);
+    protected void pbint(finbl Grbphics g) {
+        // this is questionbble. We mby wbnt the insets to mebn something different.
+        finbl Insets i = progressBbr.getInsets();
+        finbl int width = progressBbr.getWidth() - (i.right + i.left);
+        finbl int height = progressBbr.getHeight() - (i.bottom + i.top);
 
-        painter.paint(g, progressBar, i.left, i.top, width, height);
+        pbinter.pbint(g, progressBbr, i.left, i.top, width, height);
 
-        if (progressBar.isStringPainted() && !progressBar.isIndeterminate()) {
-            paintString(g, i.left, i.top, width, height);
+        if (progressBbr.isStringPbinted() && !progressBbr.isIndeterminbte()) {
+            pbintString(g, i.left, i.top, width, height);
         }
     }
 
-    protected State getState(final JComponent c) {
-        if (!c.isEnabled()) return State.INACTIVE;
-        if (!AquaFocusHandler.isActive(c)) return State.INACTIVE;
-        return State.ACTIVE;
+    protected Stbte getStbte(finbl JComponent c) {
+        if (!c.isEnbbled()) return Stbte.INACTIVE;
+        if (!AqubFocusHbndler.isActive(c)) return Stbte.INACTIVE;
+        return Stbte.ACTIVE;
     }
 
-    protected void paintString(final Graphics g, final int x, final int y, final int width, final int height) {
-        if (!(g instanceof Graphics2D)) return;
+    protected void pbintString(finbl Grbphics g, finbl int x, finbl int y, finbl int width, finbl int height) {
+        if (!(g instbnceof Grbphics2D)) return;
 
-        final Graphics2D g2 = (Graphics2D)g;
-        final String progressString = progressBar.getString();
-        g2.setFont(progressBar.getFont());
-        final Point renderLocation = getStringPlacement(g2, progressString, x, y, width, height);
-        final Rectangle oldClip = g2.getClipBounds();
+        finbl Grbphics2D g2 = (Grbphics2D)g;
+        finbl String progressString = progressBbr.getString();
+        g2.setFont(progressBbr.getFont());
+        finbl Point renderLocbtion = getStringPlbcement(g2, progressString, x, y, width, height);
+        finbl Rectbngle oldClip = g2.getClipBounds();
 
-        if (isHorizontal()) {
+        if (isHorizontbl()) {
             g2.setColor(selectionForeground);
-            SwingUtilities2.drawString(progressBar, g2, progressString, renderLocation.x, renderLocation.y);
+            SwingUtilities2.drbwString(progressBbr, g2, progressString, renderLocbtion.x, renderLocbtion.y);
         } else { // VERTICAL
-            // We rotate it -90 degrees, then translate it down since we are going to be bottom up.
-            final AffineTransform savedAT = g2.getTransform();
-            g2.transform(AffineTransform.getRotateInstance(0.0f - (Math.PI / 2.0f), 0, 0));
-            g2.translate(-progressBar.getHeight(), 0);
+            // We rotbte it -90 degrees, then trbnslbte it down since we bre going to be bottom up.
+            finbl AffineTrbnsform sbvedAT = g2.getTrbnsform();
+            g2.trbnsform(AffineTrbnsform.getRotbteInstbnce(0.0f - (Mbth.PI / 2.0f), 0, 0));
+            g2.trbnslbte(-progressBbr.getHeight(), 0);
 
-            // 0,0 is now the bottom left of the viewable area, so we just draw our image at
-            // the render location since that calculation knows about rotation.
+            // 0,0 is now the bottom left of the viewbble breb, so we just drbw our imbge bt
+            // the render locbtion since thbt cblculbtion knows bbout rotbtion.
             g2.setColor(selectionForeground);
-            SwingUtilities2.drawString(progressBar, g2, progressString, renderLocation.x, renderLocation.y);
+            SwingUtilities2.drbwString(progressBbr, g2, progressString, renderLocbtion.x, renderLocbtion.y);
 
-            g2.setTransform(savedAT);
+            g2.setTrbnsform(sbvedAT);
         }
 
         g2.setClip(oldClip);
     }
 
     /**
-     * Designate the place where the progress string will be painted. This implementation places it at the center of the
-     * progress bar (in both x and y). Override this if you want to right, left, top, or bottom align the progress
-     * string or if you need to nudge it around for any reason.
+     * Designbte the plbce where the progress string will be pbinted. This implementbtion plbces it bt the center of the
+     * progress bbr (in both x bnd y). Override this if you wbnt to right, left, top, or bottom blign the progress
+     * string or if you need to nudge it bround for bny rebson.
      */
-    protected Point getStringPlacement(final Graphics g, final String progressString, int x, int y, int width, int height) {
-        final FontMetrics fontSizer = progressBar.getFontMetrics(progressBar.getFont());
-        final int stringWidth = fontSizer.stringWidth(progressString);
+    protected Point getStringPlbcement(finbl Grbphics g, finbl String progressString, int x, int y, int width, int height) {
+        finbl FontMetrics fontSizer = progressBbr.getFontMetrics(progressBbr.getFont());
+        finbl int stringWidth = fontSizer.stringWidth(progressString);
 
-        if (!isHorizontal()) {
-            // Calculate the location for the rotated text in real component coordinates.
-            // swapping x & y and width & height
-            final int oldH = height;
+        if (!isHorizontbl()) {
+            // Cblculbte the locbtion for the rotbted text in rebl component coordinbtes.
+            // swbpping x & y bnd width & height
+            finbl int oldH = height;
             height = width;
             width = oldH;
 
-            final int oldX = x;
+            finbl int oldX = x;
             x = y;
             y = oldX;
         }
 
-        return new Point(x + Math.round(width / 2 - stringWidth / 2), y + ((height + fontSizer.getAscent() - fontSizer.getLeading() - fontSizer.getDescent()) / 2) - 1);
+        return new Point(x + Mbth.round(width / 2 - stringWidth / 2), y + ((height + fontSizer.getAscent() - fontSizer.getLebding() - fontSizer.getDescent()) / 2) - 1);
     }
 
-    static Dimension getCircularPreferredSize() {
+    stbtic Dimension getCirculbrPreferredSize() {
         return new Dimension(20, 20);
     }
 
-    public Dimension getPreferredSize(final JComponent c) {
-        if (isCircular) {
-            return getCircularPreferredSize();
+    public Dimension getPreferredSize(finbl JComponent c) {
+        if (isCirculbr) {
+            return getCirculbrPreferredSize();
         }
 
-        final FontMetrics metrics = progressBar.getFontMetrics(progressBar.getFont());
+        finbl FontMetrics metrics = progressBbr.getFontMetrics(progressBbr.getFont());
 
-        final Dimension size = isHorizontal() ? getPreferredHorizontalSize(metrics) : getPreferredVerticalSize(metrics);
-        final Insets insets = progressBar.getInsets();
+        finbl Dimension size = isHorizontbl() ? getPreferredHorizontblSize(metrics) : getPreferredVerticblSize(metrics);
+        finbl Insets insets = progressBbr.getInsets();
 
         size.width += insets.left + insets.right;
         size.height += insets.top + insets.bottom;
         return size;
     }
 
-    protected Dimension getPreferredHorizontalSize(final FontMetrics metrics) {
-        final SizeVariant variant = getSizeDescriptor().get(sizeVariant);
-        final Dimension size = new Dimension(variant.w, variant.h);
-        if (!progressBar.isStringPainted()) return size;
+    protected Dimension getPreferredHorizontblSize(finbl FontMetrics metrics) {
+        finbl SizeVbribnt vbribnt = getSizeDescriptor().get(sizeVbribnt);
+        finbl Dimension size = new Dimension(vbribnt.w, vbribnt.h);
+        if (!progressBbr.isStringPbinted()) return size;
 
-        // Ensure that the progress string will fit
-        final String progString = progressBar.getString();
-        final int stringWidth = metrics.stringWidth(progString);
+        // Ensure thbt the progress string will fit
+        finbl String progString = progressBbr.getString();
+        finbl int stringWidth = metrics.stringWidth(progString);
         if (stringWidth > size.width) {
             size.width = stringWidth;
         }
 
-        // This uses both Height and Descent to be sure that
-        // there is more than enough room in the progress bar
+        // This uses both Height bnd Descent to be sure thbt
+        // there is more thbn enough room in the progress bbr
         // for everything.
-        // This does have a strange dependency on
-        // getStringPlacememnt() in a funny way.
-        final int stringHeight = metrics.getHeight() + metrics.getDescent();
+        // This does hbve b strbnge dependency on
+        // getStringPlbcememnt() in b funny wby.
+        finbl int stringHeight = metrics.getHeight() + metrics.getDescent();
         if (stringHeight > size.height) {
             size.height = stringHeight;
         }
         return size;
     }
 
-    protected Dimension getPreferredVerticalSize(final FontMetrics metrics) {
-        final SizeVariant variant = getSizeDescriptor().get(sizeVariant);
-        final Dimension size = new Dimension(variant.h, variant.w);
-        if (!progressBar.isStringPainted()) return size;
+    protected Dimension getPreferredVerticblSize(finbl FontMetrics metrics) {
+        finbl SizeVbribnt vbribnt = getSizeDescriptor().get(sizeVbribnt);
+        finbl Dimension size = new Dimension(vbribnt.h, vbribnt.w);
+        if (!progressBbr.isStringPbinted()) return size;
 
-        // Ensure that the progress string will fit.
-        final String progString = progressBar.getString();
-        final int stringHeight = metrics.getHeight() + metrics.getDescent();
+        // Ensure thbt the progress string will fit.
+        finbl String progString = progressBbr.getString();
+        finbl int stringHeight = metrics.getHeight() + metrics.getDescent();
         if (stringHeight > size.width) {
             size.width = stringHeight;
         }
 
-        // This is also for completeness.
-        final int stringWidth = metrics.stringWidth(progString);
+        // This is blso for completeness.
+        finbl int stringWidth = metrics.stringWidth(progString);
         if (stringWidth > size.height) {
             size.height = stringWidth;
         }
         return size;
     }
 
-    public Dimension getMinimumSize(final JComponent c) {
-        if (isCircular) {
-            return getCircularPreferredSize();
+    public Dimension getMinimumSize(finbl JComponent c) {
+        if (isCirculbr) {
+            return getCirculbrPreferredSize();
         }
 
-        final Dimension pref = getPreferredSize(progressBar);
+        finbl Dimension pref = getPreferredSize(progressBbr);
 
         // The Minimum size for this component is 10.
-        // The rationale here is that there should be at least one pixel per 10 percent.
-        if (isHorizontal()) {
+        // The rbtionble here is thbt there should be bt lebst one pixel per 10 percent.
+        if (isHorizontbl()) {
             pref.width = 10;
         } else {
             pref.height = 10;
@@ -327,14 +327,14 @@ public class AquaProgressBarUI extends ProgressBarUI implements ChangeListener, 
         return pref;
     }
 
-    public Dimension getMaximumSize(final JComponent c) {
-        if (isCircular) {
-            return getCircularPreferredSize();
+    public Dimension getMbximumSize(finbl JComponent c) {
+        if (isCirculbr) {
+            return getCirculbrPreferredSize();
         }
 
-        final Dimension pref = getPreferredSize(progressBar);
+        finbl Dimension pref = getPreferredSize(progressBbr);
 
-        if (isHorizontal()) {
+        if (isHorizontbl()) {
             pref.width = Short.MAX_VALUE;
         } else {
             pref.height = Short.MAX_VALUE;
@@ -343,149 +343,149 @@ public class AquaProgressBarUI extends ProgressBarUI implements ChangeListener, 
         return pref;
     }
 
-    public void applySizeFor(final JComponent c, final Size size) {
-        painter.state.set(sizeVariant = size == Size.MINI ? Size.SMALL : sizeVariant); // CUI doesn't support mini progress bars right now
+    public void bpplySizeFor(finbl JComponent c, finbl Size size) {
+        pbinter.stbte.set(sizeVbribnt = size == Size.MINI ? Size.SMALL : sizeVbribnt); // CUI doesn't support mini progress bbrs right now
     }
 
-    protected void startAnimationTimer() {
-        if (animator == null) animator = new Animator();
-        animator.start();
-        isAnimating = true;
+    protected void stbrtAnimbtionTimer() {
+        if (bnimbtor == null) bnimbtor = new Animbtor();
+        bnimbtor.stbrt();
+        isAnimbting = true;
     }
 
-    protected void stopAnimationTimer() {
-        if (animator != null) animator.stop();
-        isAnimating = false;
+    protected void stopAnimbtionTimer() {
+        if (bnimbtor != null) bnimbtor.stop();
+        isAnimbting = fblse;
     }
 
-    private final Rectangle fUpdateArea = new Rectangle(0, 0, 0, 0);
-    private final Dimension fLastSize = new Dimension(0, 0);
-    protected Rectangle getRepaintRect() {
-        int height = progressBar.getHeight();
-        int width = progressBar.getWidth();
+    privbte finbl Rectbngle fUpdbteAreb = new Rectbngle(0, 0, 0, 0);
+    privbte finbl Dimension fLbstSize = new Dimension(0, 0);
+    protected Rectbngle getRepbintRect() {
+        int height = progressBbr.getHeight();
+        int width = progressBbr.getWidth();
 
-        if (isCircular) {
-            return new Rectangle(20, 20);
+        if (isCirculbr) {
+            return new Rectbngle(20, 20);
         }
 
-        if (fLastSize.height == height && fLastSize.width == width) {
-            return fUpdateArea;
+        if (fLbstSize.height == height && fLbstSize.width == width) {
+            return fUpdbteAreb;
         }
 
         int x = 0;
         int y = 0;
-        fLastSize.height = height;
-        fLastSize.width = width;
+        fLbstSize.height = height;
+        fLbstSize.width = width;
 
-        final int maxHeight = getMaxProgressBarHeight();
+        finbl int mbxHeight = getMbxProgressBbrHeight();
 
-        if (isHorizontal()) {
-            final int excessHeight = height - maxHeight;
+        if (isHorizontbl()) {
+            finbl int excessHeight = height - mbxHeight;
             y += excessHeight / 2;
-            height = maxHeight;
+            height = mbxHeight;
         } else {
-            final int excessHeight = width - maxHeight;
+            finbl int excessHeight = width - mbxHeight;
             x += excessHeight / 2;
-            width = maxHeight;
+            width = mbxHeight;
         }
 
-        fUpdateArea.setBounds(x, y, width, height);
+        fUpdbteAreb.setBounds(x, y, width, height);
 
-        return fUpdateArea;
+        return fUpdbteAreb;
     }
 
-    protected int getMaxProgressBarHeight() {
-        return getSizeDescriptor().get(sizeVariant).h;
+    protected int getMbxProgressBbrHeight() {
+        return getSizeDescriptor().get(sizeVbribnt).h;
     }
 
-    protected boolean isHorizontal() {
-        return progressBar.getOrientation() == SwingConstants.HORIZONTAL;
+    protected boolebn isHorizontbl() {
+        return progressBbr.getOrientbtion() == SwingConstbnts.HORIZONTAL;
     }
 
-    protected void revalidateAnimationTimers() {
-        if (progressBar.isIndeterminate()) return;
+    protected void revblidbteAnimbtionTimers() {
+        if (progressBbr.isIndeterminbte()) return;
 
-        if (!isAnimating) {
-            startAnimationTimer(); // only starts if supposed to!
+        if (!isAnimbting) {
+            stbrtAnimbtionTimer(); // only stbrts if supposed to!
             return;
         }
 
-        final BoundedRangeModel model = progressBar.getModel();
-        final double currentValue = model.getValue();
-        if ((currentValue == model.getMaximum()) || (currentValue == model.getMinimum())) {
-            stopAnimationTimer();
+        finbl BoundedRbngeModel model = progressBbr.getModel();
+        finbl double currentVblue = model.getVblue();
+        if ((currentVblue == model.getMbximum()) || (currentVblue == model.getMinimum())) {
+            stopAnimbtionTimer();
         }
     }
 
-    protected void repaint() {
-        final Rectangle repaintRect = getRepaintRect();
-        if (repaintRect == null) {
-            progressBar.repaint();
+    protected void repbint() {
+        finbl Rectbngle repbintRect = getRepbintRect();
+        if (repbintRect == null) {
+            progressBbr.repbint();
             return;
         }
 
-        progressBar.repaint(repaintRect);
+        progressBbr.repbint(repbintRect);
     }
 
-    protected class Animator implements ActionListener {
-        private static final int MINIMUM_DELAY = 5;
-        private Timer timer;
-        private long previousDelay; // used to tune the repaint interval
-        private long lastCall; // the last time actionPerformed was called
-        private int repaintInterval;
+    protected clbss Animbtor implements ActionListener {
+        privbte stbtic finbl int MINIMUM_DELAY = 5;
+        privbte Timer timer;
+        privbte long previousDelby; // used to tune the repbint intervbl
+        privbte long lbstCbll; // the lbst time bctionPerformed wbs cblled
+        privbte int repbintIntervbl;
 
-        public Animator() {
-            repaintInterval = UIManager.getInt("ProgressBar.repaintInterval");
+        public Animbtor() {
+            repbintIntervbl = UIMbnbger.getInt("ProgressBbr.repbintIntervbl");
 
-            // Make sure repaintInterval is reasonable.
-            if (repaintInterval <= 0) repaintInterval = 100;
+            // Mbke sure repbintIntervbl is rebsonbble.
+            if (repbintIntervbl <= 0) repbintIntervbl = 100;
         }
 
-        protected void start() {
-            previousDelay = repaintInterval;
-            lastCall = 0;
+        protected void stbrt() {
+            previousDelby = repbintIntervbl;
+            lbstCbll = 0;
 
             if (timer == null) {
-                timer = new Timer(repaintInterval, this);
+                timer = new Timer(repbintIntervbl, this);
             } else {
-                timer.setDelay(repaintInterval);
+                timer.setDelby(repbintIntervbl);
             }
 
             if (ADJUSTTIMER) {
-                timer.setRepeats(false);
-                timer.setCoalesce(false);
+                timer.setRepebts(fblse);
+                timer.setCoblesce(fblse);
             }
 
-            timer.start();
+            timer.stbrt();
         }
 
         protected void stop() {
             timer.stop();
         }
 
-        public void actionPerformed(final ActionEvent e) {
+        public void bctionPerformed(finbl ActionEvent e) {
             if (!ADJUSTTIMER) {
-                repaint();
+                repbint();
                 return;
             }
 
-            final long time = System.currentTimeMillis();
+            finbl long time = System.currentTimeMillis();
 
-            if (lastCall > 0) {
-                // adjust nextDelay
-                int nextDelay = (int)(previousDelay - time + lastCall + repaintInterval);
-                if (nextDelay < MINIMUM_DELAY) {
-                    nextDelay = MINIMUM_DELAY;
+            if (lbstCbll > 0) {
+                // bdjust nextDelby
+                int nextDelby = (int)(previousDelby - time + lbstCbll + repbintIntervbl);
+                if (nextDelby < MINIMUM_DELAY) {
+                    nextDelby = MINIMUM_DELAY;
                 }
 
-                timer.setInitialDelay(nextDelay);
-                previousDelay = nextDelay;
+                timer.setInitiblDelby(nextDelby);
+                previousDelby = nextDelby;
             }
 
-            timer.start();
-            lastCall = time;
+            timer.stbrt();
+            lbstCbll = time;
 
-            repaint();
+            repbint();
         }
     }
 }

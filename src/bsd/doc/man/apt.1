@@ -1,41 +1,41 @@
-." Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+." Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
 ." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ."
-." This code is free software; you can redistribute it and/or modify it
-." under the terms of the GNU General Public License version 2 only, as
-." published by the Free Software Foundation.
+." This code is free softwbre; you cbn redistribute it bnd/or modify it
+." under the terms of the GNU Generbl Public License version 2 only, bs
+." published by the Free Softwbre Foundbtion.
 ."
-." This code is distributed in the hope that it will be useful, but WITHOUT
-." ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-." FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-." version 2 for more details (a copy is included in the LICENSE file that
-." accompanied this code).
+." This code is distributed in the hope thbt it will be useful, but WITHOUT
+." ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+." version 2 for more detbils (b copy is included in the LICENSE file thbt
+." bccompbnied this code).
 ."
-." You should have received a copy of the GNU General Public License version
-." 2 along with this work; if not, write to the Free Software Foundation,
-." Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+." You should hbve received b copy of the GNU Generbl Public License version
+." 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+." Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 ."
-." Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-." or visit www.oracle.com if you need additional information or have any
+." Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+." or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 ." questions.
 ."
-.TH apt 1 "10 May 2011"
+.TH bpt 1 "10 Mby 2011"
 
 .LP
 .SH "NAME"
 .LP
 .LP
-\f2apt\fP \- annotation processing tool
+\f2bpt\fP \- bnnotbtion processing tool
 .LP
 .SH "SYNOPSIS"
 .LP
 .LP
-\f2apt [\-classpath \fP\f2classpath\fP] [\-sourcepath \f2sourcepath\fP] [\-d \f2directory\fP] [\-s \f2directory\fP] [\-factorypath \f2path\fP] [\-factory \f2class\fP] [\-print] [\-nocompile] [\-A\f2key\fP[\f2=val\fP] ...] [\f2javac option\fP] sourcefiles [@files]
+\f2bpt [\-clbsspbth \fP\f2clbsspbth\fP] [\-sourcepbth \f2sourcepbth\fP] [\-d \f2directory\fP] [\-s \f2directory\fP] [\-fbctorypbth \f2pbth\fP] [\-fbctory \f2clbss\fP] [\-print] [\-nocompile] [\-A\f2key\fP[\f2=vbl\fP] ...] [\f2jbvbc option\fP] sourcefiles [@files]
 .LP
 .SH "PARAMETERS"
 .LP
 .LP
-Options may be in any order. For a discussion of parameters which apply to a specific option, see OPTIONS below.
+Options mby be in bny order. For b discussion of pbrbmeters which bpply to b specific option, see OPTIONS below.
 .LP
 .RS 3
 .TP 3
@@ -43,110 +43,110 @@ sourcefiles
 Zero or more source files to be processed.
 .TP 3
 @files
-One or more files that list source files or other options
+One or more files thbt list source files or other options
 .RE
 
 .LP
 .SH "DESCRIPTION"
 .LP
 .LP
-\f3Note\fP: The \f2apt\fP tool and its associated API contained in the package \f2com.sun.mirror\fP have been deprecated since JDK 7 and are planned to be removed in the next major JDK release. Use the options available in the \f2javac(1)\fP tool and the APIs contained in the packages \f2javax.annotation.processing\fP and \f2javax.lang.model\fP to process annotations.
+\f3Note\fP: The \f2bpt\fP tool bnd its bssocibted API contbined in the pbckbge \f2com.sun.mirror\fP hbve been deprecbted since JDK 7 bnd bre plbnned to be removed in the next mbjor JDK relebse. Use the options bvbilbble in the \f2jbvbc(1)\fP tool bnd the APIs contbined in the pbckbges \f2jbvbx.bnnotbtion.processing\fP bnd \f2jbvbx.lbng.model\fP to process bnnotbtions.
 .LP
 .LP
-The tool \f2apt\fP, annotation processing tool, includes reflective APIs and supporting infrastructure to process program annotations. The \f2apt\fP reflective APIs provide a build\-time, source\-based, read\-only view of program structure. These reflective APIs are designed to cleanly model the Java(TM) programming language's type system after the addition of generics. First, \f2apt\fP runs annotation processors that can produce new source code and other files. Next, \f2apt\fP can cause compilation of both original and generated source files, easing development. The reflective APIs and other APIs used to interact with the tool are subpackages of \f2com.sun.mirror\fP.
+The tool \f2bpt\fP, bnnotbtion processing tool, includes reflective APIs bnd supporting infrbstructure to process progrbm bnnotbtions. The \f2bpt\fP reflective APIs provide b build\-time, source\-bbsed, rebd\-only view of progrbm structure. These reflective APIs bre designed to clebnly model the Jbvb(TM) progrbmming lbngubge's type system bfter the bddition of generics. First, \f2bpt\fP runs bnnotbtion processors thbt cbn produce new source code bnd other files. Next, \f2bpt\fP cbn cbuse compilbtion of both originbl bnd generbted source files, ebsing development. The reflective APIs bnd other APIs used to interbct with the tool bre subpbckbges of \f2com.sun.mirror\fP.
 .LP
 .LP
-A fuller discussion of how the tool operates as well as instructions for developing with \f2apt\fP are in
-.na
-\f4Getting Started with \fP\f4apt\fP. @
+A fuller discussion of how the tool operbtes bs well bs instructions for developing with \f2bpt\fP bre in
+.nb
+\f4Getting Stbrted with \fP\f4bpt\fP. @
 .fi
-http://download.oracle.com/javase/7/docs/technotes/guides/apt/GettingStarted.html
+http://downlobd.orbcle.com/jbvbse/7/docs/technotes/guides/bpt/GettingStbrted.html
 .LP
 .SH "OPTIONS"
 .LP
 .SS
-apt specific options
+bpt specific options
 .LP
 .RS 3
 .TP 3
 \-s dir
-Specify the directory root under which processor\-generated source files will be placed; files are placed in subdirectories based on package namespace.
+Specify the directory root under which processor\-generbted source files will be plbced; files bre plbced in subdirectories bbsed on pbckbge nbmespbce.
 .TP 3
 \-nocompile
-Do not compile source files to class files.
+Do not compile source files to clbss files.
 .TP 3
 \-print
-Print out textual representation of specified types; perform no annotation processing or compilation.
+Print out textubl representbtion of specified types; perform no bnnotbtion processing or compilbtion.
 .TP 3
-\-A[key[=val]]
-Options to pass to annotation processors \-\- these are not interpreted by \f2apt\fP directly, but are made available for use by individual processors
+\-A[key[=vbl]]
+Options to pbss to bnnotbtion processors \-\- these bre not interpreted by \f2bpt\fP directly, but bre mbde bvbilbble for use by individubl processors
 .TP 3
-\-factorypath path
-Specify where to find annotation processor factories; if this option is used, the classpath is \f2not\fP searched for factories.
+\-fbctorypbth pbth
+Specify where to find bnnotbtion processor fbctories; if this option is used, the clbsspbth is \f2not\fP sebrched for fbctories.
 .TP 3
-\-factory classname
-Name of annotation processor factory to use; bypasses default discovery process
+\-fbctory clbssnbme
+Nbme of bnnotbtion processor fbctory to use; bypbsses defbult discovery process
 .TP 3
 \-version
-Print version information.
+Print version informbtion.
 .TP 3
 \-X
-Display information about non\-standard options.
+Displby informbtion bbout non\-stbndbrd options.
 .RE
 
 .LP
 .SS
-Options shared with javac
+Options shbred with jbvbc
 .LP
 .RS 3
 .TP 3
 \-d dir
-Specify where to place processor and javac generated class files
+Specify where to plbce processor bnd jbvbc generbted clbss files
 .TP 3
-\-cp path or \-classpath path
-Specify where to find user class files and annotation processor factories. If \f2\-factorypath\fP is given, the classpath is not searched for factories.
+\-cp pbth or \-clbsspbth pbth
+Specify where to find user clbss files bnd bnnotbtion processor fbctories. If \f2\-fbctorypbth\fP is given, the clbsspbth is not sebrched for fbctories.
 .RE
 
 .LP
 .LP
-Consult the javac(1) man page for information on \f2javac\fP options.
+Consult the jbvbc(1) mbn pbge for informbtion on \f2jbvbc\fP options.
 .LP
 .SS
-Non\-Standard Options
+Non\-Stbndbrd Options
 .LP
 .RS 3
 .TP 3
-\-XListAnnotationTypes
-List found annotation types.
+\-XListAnnotbtionTypes
+List found bnnotbtion types.
 .TP 3
-\-XListDeclarations
-List specified and included declarations.
+\-XListDeclbrbtions
+List specified bnd included declbrbtions.
 .TP 3
 \-XPrintAptRounds
-Print information about initial and recursive \f2apt\fP rounds.
+Print informbtion bbout initibl bnd recursive \f2bpt\fP rounds.
 .TP 3
-\-XPrintFactoryInfo
-Print information about which annotations a factory is asked to process.
+\-XPrintFbctoryInfo
+Print informbtion bbout which bnnotbtions b fbctory is bsked to process.
 .TP 3
-\-XclassesAsDecls
-Treat both class and source files as declarations to process.
+\-XclbssesAsDecls
+Trebt both clbss bnd source files bs declbrbtions to process.
 .RE
 
 .LP
 .LP
-\f3Note\fP: Because these options are non\-standard, they are subject to change without notice.
+\f3Note\fP: Becbuse these options bre non\-stbndbrd, they bre subject to chbnge without notice.
 .LP
 .SH "NOTES"
 .LP
 .LP
-The \f2apt\fP tool and its associated API contained in the package \f2com.sun.mirror\fP have been deprecated since JDK 7 and are planned to be removed in the next major JDK release. Use the options available in the \f2javac(1)\fP tool and the APIs contained in the packages \f2javax.annotation.processing\fP and \f2javax.lang.model\fP to process annotations.
+The \f2bpt\fP tool bnd its bssocibted API contbined in the pbckbge \f2com.sun.mirror\fP hbve been deprecbted since JDK 7 bnd bre plbnned to be removed in the next mbjor JDK relebse. Use the options bvbilbble in the \f2jbvbc(1)\fP tool bnd the APIs contbined in the pbckbges \f2jbvbx.bnnotbtion.processing\fP bnd \f2jbvbx.lbng.model\fP to process bnnotbtions.
 .LP
 .SH "SEE ALSO"
 .LP
 .RS 3
 .TP 2
 o
-javac(1), java(1)
+jbvbc(1), jbvb(1)
 .RE
 
 .LP

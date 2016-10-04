@@ -5,14 +5,14 @@
 /*
  * jutils.c
  *
- * Copyright (C) 1991-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains tables and miscellaneous utility routines needed
- * for both compression and decompression.
- * Note we prefix all global names with "j" to minimize conflicts with
- * a surrounding application.
+ * This file contbins tbbles bnd miscellbneous utility routines needed
+ * for both compression bnd decompression.
+ * Note we prefix bll globbl nbmes with "j" to minimize conflicts with
+ * b surrounding bpplicbtion.
  */
 
 #define JPEG_INTERNALS
@@ -21,13 +21,13 @@
 
 
 /*
- * jpeg_zigzag_order[i] is the zigzag-order position of the i'th element
- * of a DCT block read in natural order (left to right, top to bottom).
+ * jpeg_zigzbg_order[i] is the zigzbg-order position of the i'th element
+ * of b DCT block rebd in nbturbl order (left to right, top to bottom).
  */
 
-#if 0                           /* This table is not actually needed in v6a */
+#if 0                           /* This tbble is not bctublly needed in v6b */
 
-const int jpeg_zigzag_order[DCTSIZE2] = {
+const int jpeg_zigzbg_order[DCTSIZE2] = {
    0,  1,  5,  6, 14, 15, 27, 28,
    2,  4,  7, 13, 16, 26, 29, 42,
    3,  8, 12, 17, 25, 30, 41, 43,
@@ -41,20 +41,20 @@ const int jpeg_zigzag_order[DCTSIZE2] = {
 #endif
 
 /*
- * jpeg_natural_order[i] is the natural-order position of the i'th element
- * of zigzag order.
+ * jpeg_nbturbl_order[i] is the nbturbl-order position of the i'th element
+ * of zigzbg order.
  *
- * When reading corrupted data, the Huffman decoders could attempt
- * to reference an entry beyond the end of this array (if the decoded
- * zero run length reaches past the end of the block).  To prevent
- * wild stores without adding an inner-loop test, we put some extra
- * "63"s after the real entries.  This will cause the extra coefficient
- * to be stored in location 63 of the block, not somewhere random.
- * The worst case would be a run-length of 15, which means we need 16
- * fake entries.
+ * When rebding corrupted dbtb, the Huffmbn decoders could bttempt
+ * to reference bn entry beyond the end of this brrby (if the decoded
+ * zero run length rebches pbst the end of the block).  To prevent
+ * wild stores without bdding bn inner-loop test, we put some extrb
+ * "63"s bfter the rebl entries.  This will cbuse the extrb coefficient
+ * to be stored in locbtion 63 of the block, not somewhere rbndom.
+ * The worst cbse would be b run-length of 15, which mebns we need 16
+ * fbke entries.
  */
 
-const int jpeg_natural_order[DCTSIZE2+16] = {
+const int jpeg_nbturbl_order[DCTSIZE2+16] = {
   0,  1,  8, 16,  9,  2,  3, 10,
  17, 24, 32, 25, 18, 11,  4,  5,
  12, 19, 26, 33, 40, 48, 41, 34,
@@ -63,7 +63,7 @@ const int jpeg_natural_order[DCTSIZE2+16] = {
  29, 22, 15, 23, 30, 37, 44, 51,
  58, 59, 52, 45, 38, 31, 39, 46,
  53, 60, 61, 54, 47, 55, 62, 63,
- 63, 63, 63, 63, 63, 63, 63, 63, /* extra entries for safety in decoder */
+ 63, 63, 63, 63, 63, 63, 63, 63, /* extrb entries for sbfety in decoder */
  63, 63, 63, 63, 63, 63, 63, 63
 };
 
@@ -73,52 +73,52 @@ const int jpeg_natural_order[DCTSIZE2+16] = {
  */
 
 GLOBAL(long)
-jdiv_round_up (long a, long b)
-/* Compute a/b rounded up to next integer, ie, ceil(a/b) */
-/* Assumes a >= 0, b > 0 */
+jdiv_round_up (long b, long b)
+/* Compute b/b rounded up to next integer, ie, ceil(b/b) */
+/* Assumes b >= 0, b > 0 */
 {
-  return (a + b - 1L) / b;
+  return (b + b - 1L) / b;
 }
 
 
 GLOBAL(long)
-jround_up (long a, long b)
-/* Compute a rounded up to next multiple of b, ie, ceil(a/b)*b */
-/* Assumes a >= 0, b > 0 */
+jround_up (long b, long b)
+/* Compute b rounded up to next multiple of b, ie, ceil(b/b)*b */
+/* Assumes b >= 0, b > 0 */
 {
-  a += b - 1L;
-  return a - (a % b);
+  b += b - 1L;
+  return b - (b % b);
 }
 
 
-/* On normal machines we can apply MEMCOPY() and MEMZERO() to sample arrays
- * and coefficient-block arrays.  This won't work on 80x86 because the arrays
- * are FAR and we're assuming a small-pointer memory model.  However, some
- * DOS compilers provide far-pointer versions of memcpy() and memset() even
- * in the small-model libraries.  These will be used if USE_FMEM is defined.
- * Otherwise, the routines below do it the hard way.  (The performance cost
- * is not all that great, because these routines aren't very heavily used.)
+/* On normbl mbchines we cbn bpply MEMCOPY() bnd MEMZERO() to sbmple brrbys
+ * bnd coefficient-block brrbys.  This won't work on 80x86 becbuse the brrbys
+ * bre FAR bnd we're bssuming b smbll-pointer memory model.  However, some
+ * DOS compilers provide fbr-pointer versions of memcpy() bnd memset() even
+ * in the smbll-model librbries.  These will be used if USE_FMEM is defined.
+ * Otherwise, the routines below do it the hbrd wby.  (The performbnce cost
+ * is not bll thbt grebt, becbuse these routines bren't very hebvily used.)
  */
 
-#ifndef NEED_FAR_POINTERS       /* normal case, same as regular macros */
+#ifndef NEED_FAR_POINTERS       /* normbl cbse, sbme bs regulbr mbcros */
 #define FMEMCOPY(dest,src,size) MEMCOPY(dest,src,size)
-#define FMEMZERO(target,size)   MEMZERO(target,size)
-#else                           /* 80x86 case, define if we can */
+#define FMEMZERO(tbrget,size)   MEMZERO(tbrget,size)
+#else                           /* 80x86 cbse, define if we cbn */
 #ifdef USE_FMEM
 #define FMEMCOPY(dest,src,size) _fmemcpy((void FAR *)(dest), (const void FAR *)(src), (size_t)(size))
-#define FMEMZERO(target,size)   _fmemset((void FAR *)(target), 0, (size_t)(size))
+#define FMEMZERO(tbrget,size)   _fmemset((void FAR *)(tbrget), 0, (size_t)(size))
 #endif
 #endif
 
 
 GLOBAL(void)
-jcopy_sample_rows (JSAMPARRAY input_array, int source_row,
-                   JSAMPARRAY output_array, int dest_row,
+jcopy_sbmple_rows (JSAMPARRAY input_brrby, int source_row,
+                   JSAMPARRAY output_brrby, int dest_row,
                    int num_rows, JDIMENSION num_cols)
-/* Copy some rows of samples from one place to another.
- * num_rows rows are copied from input_array[source_row++]
- * to output_array[dest_row++]; these areas may overlap for duplication.
- * The source and destination arrays must be at least as wide as num_cols.
+/* Copy some rows of sbmples from one plbce to bnother.
+ * num_rows rows bre copied from input_brrby[source_row++]
+ * to output_brrby[dest_row++]; these brebs mby overlbp for duplicbtion.
+ * The source bnd destinbtion brrbys must be bt lebst bs wide bs num_cols.
  */
 {
   register JSAMPROW inptr, outptr;
@@ -129,12 +129,12 @@ jcopy_sample_rows (JSAMPARRAY input_array, int source_row,
 #endif
   register int row;
 
-  input_array += source_row;
-  output_array += dest_row;
+  input_brrby += source_row;
+  output_brrby += dest_row;
 
   for (row = num_rows; row > 0; row--) {
-    inptr = *input_array++;
-    outptr = *output_array++;
+    inptr = *input_brrby++;
+    outptr = *output_brrby++;
 #ifdef FMEMCOPY
     FMEMCOPY(outptr, inptr, count);
 #else
@@ -148,7 +148,7 @@ jcopy_sample_rows (JSAMPARRAY input_array, int source_row,
 GLOBAL(void)
 jcopy_block_row (JBLOCKROW input_row, JBLOCKROW output_row,
                  JDIMENSION num_blocks)
-/* Copy a row of coefficient blocks from one place to another. */
+/* Copy b row of coefficient blocks from one plbce to bnother. */
 {
 #ifdef FMEMCOPY
   FMEMCOPY(output_row, input_row, num_blocks * (DCTSIZE2 * SIZEOF(JCOEF)));
@@ -166,14 +166,14 @@ jcopy_block_row (JBLOCKROW input_row, JBLOCKROW output_row,
 
 
 GLOBAL(void)
-jzero_far (void FAR * target, size_t bytestozero)
-/* Zero out a chunk of FAR memory. */
-/* This might be sample-array data, block-array data, or alloc_large data. */
+jzero_fbr (void FAR * tbrget, size_t bytestozero)
+/* Zero out b chunk of FAR memory. */
+/* This might be sbmple-brrby dbtb, block-brrby dbtb, or blloc_lbrge dbtb. */
 {
 #ifdef FMEMZERO
-  FMEMZERO(target, bytestozero);
+  FMEMZERO(tbrget, bytestozero);
 #else
-  register char FAR * ptr = (char FAR *) target;
+  register chbr FAR * ptr = (chbr FAR *) tbrget;
   register size_t count;
 
   for (count = bytestozero; count > 0; count--) {

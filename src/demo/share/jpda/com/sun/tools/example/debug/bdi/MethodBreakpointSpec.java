@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbckbge com.sun.tools.exbmple.debug.bdi;
 
 import com.sun.jdi.*;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-public class MethodBreakpointSpec extends BreakpointSpec {
+public clbss MethodBrebkpointSpec extends BrebkpointSpec {
     String methodId;
     List<String> methodArgs;
 
-    MethodBreakpointSpec(EventRequestSpecList specs,
+    MethodBrebkpointSpec(EventRequestSpecList specs,
                          ReferenceTypeSpec refSpec,
                          String methodId, List<String> methodArgs) {
         super(specs, refSpec);
@@ -51,35 +51,35 @@ public class MethodBreakpointSpec extends BreakpointSpec {
     }
 
     /**
-     * The 'refType' is known to match.
+     * The 'refType' is known to mbtch.
      */
     @Override
-    void resolve(ReferenceType refType) throws MalformedMemberNameException,
+    void resolve(ReferenceType refType) throws MblformedMemberNbmeException,
                                              AmbiguousMethodException,
-                                             InvalidTypeException,
+                                             InvblidTypeException,
                                              NoSuchMethodException,
                                              NoSessionException {
-        if (!isValidMethodName(methodId)) {
-            throw new MalformedMemberNameException(methodId);
+        if (!isVblidMethodNbme(methodId)) {
+            throw new MblformedMemberNbmeException(methodId);
         }
-        if (!(refType instanceof ClassType)) {
-            throw new InvalidTypeException();
+        if (!(refType instbnceof ClbssType)) {
+            throw new InvblidTypeException();
         }
-        Location location = location((ClassType)refType);
-        setRequest(refType.virtualMachine().eventRequestManager()
-                   .createBreakpointRequest(location));
+        Locbtion locbtion = locbtion((ClbssType)refType);
+        setRequest(refType.virtublMbchine().eventRequestMbnbger()
+                   .crebteBrebkpointRequest(locbtion));
     }
 
-    private Location location(ClassType clazz) throws
+    privbte Locbtion locbtion(ClbssType clbzz) throws
                                                AmbiguousMethodException,
                                                NoSuchMethodException,
                                                NoSessionException {
-        Method method = findMatchingMethod(clazz);
-        Location location = method.location();
-        return location;
+        Method method = findMbtchingMethod(clbzz);
+        Locbtion locbtion = method.locbtion();
+        return locbtion;
     }
 
-    public String methodName() {
+    public String methodNbme() {
         return methodId;
     }
 
@@ -88,122 +88,122 @@ public class MethodBreakpointSpec extends BreakpointSpec {
     }
 
     @Override
-    public int hashCode() {
-        return refSpec.hashCode() +
-            ((methodId != null) ? methodId.hashCode() : 0) +
-            ((methodArgs != null) ? methodArgs.hashCode() : 0);
+    public int hbshCode() {
+        return refSpec.hbshCode() +
+            ((methodId != null) ? methodId.hbshCode() : 0) +
+            ((methodArgs != null) ? methodArgs.hbshCode() : 0);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof MethodBreakpointSpec) {
-            MethodBreakpointSpec breakpoint = (MethodBreakpointSpec)obj;
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof MethodBrebkpointSpec) {
+            MethodBrebkpointSpec brebkpoint = (MethodBrebkpointSpec)obj;
 
-            return methodId.equals(breakpoint.methodId) &&
-                   methodArgs.equals(breakpoint.methodArgs) &&
-                   refSpec.equals(breakpoint.refSpec);
+            return methodId.equbls(brebkpoint.methodId) &&
+                   methodArgs.equbls(brebkpoint.methodArgs) &&
+                   refSpec.equbls(brebkpoint.refSpec);
         } else {
-            return false;
+            return fblse;
         }
     }
 
     @Override
-    public String errorMessageFor(Exception e) {
-        if (e instanceof AmbiguousMethodException) {
-            return ("Method " + methodName() + " is overloaded; specify arguments");
+    public String errorMessbgeFor(Exception e) {
+        if (e instbnceof AmbiguousMethodException) {
+            return ("Method " + methodNbme() + " is overlobded; specify brguments");
             /*
              * TO DO: list the methods here
              */
-        } else if (e instanceof NoSuchMethodException) {
-            return ("No method " + methodName() + " in " + refSpec);
-        } else if (e instanceof InvalidTypeException) {
-            return ("Breakpoints can be located only in classes. " +
-                        refSpec + " is an interface or array");
+        } else if (e instbnceof NoSuchMethodException) {
+            return ("No method " + methodNbme() + " in " + refSpec);
+        } else if (e instbnceof InvblidTypeException) {
+            return ("Brebkpoints cbn be locbted only in clbsses. " +
+                        refSpec + " is bn interfbce or brrby");
         } else {
-            return super.errorMessageFor( e);
+            return super.errorMessbgeFor( e);
         }
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("breakpoint ");
-        sb.append(refSpec.toString());
-        sb.append('.');
-        sb.append(methodId);
+        StringBuilder sb = new StringBuilder("brebkpoint ");
+        sb.bppend(refSpec.toString());
+        sb.bppend('.');
+        sb.bppend(methodId);
         if (methodArgs != null) {
-            boolean first = true;
-            sb.append('(');
-            for (String name : methodArgs) {
+            boolebn first = true;
+            sb.bppend('(');
+            for (String nbme : methodArgs) {
                 if (!first) {
-                    sb.append(',');
+                    sb.bppend(',');
                 }
-                sb.append(name);
-                first = false;
+                sb.bppend(nbme);
+                first = fblse;
             }
-            sb.append(")");
+            sb.bppend(")");
         }
-        sb.append(" (");
-        sb.append(getStatusString());
-        sb.append(')');
+        sb.bppend(" (");
+        sb.bppend(getStbtusString());
+        sb.bppend(')');
         return sb.toString();
     }
 
-    private boolean isValidMethodName(String s) {
-        return isJavaIdentifier(s) ||
-               s.equals("<init>") ||
-               s.equals("<clinit>");
+    privbte boolebn isVblidMethodNbme(String s) {
+        return isJbvbIdentifier(s) ||
+               s.equbls("<init>") ||
+               s.equbls("<clinit>");
     }
 
     /*
-     * Compare a method's argument types with a Vector of type names.
-     * Return true if each argument type has a name identical to the
-     * corresponding string in the vector (allowing for varargs)
-     * and if the number of arguments in the method matches the
-     * number of names passed
+     * Compbre b method's brgument types with b Vector of type nbmes.
+     * Return true if ebch brgument type hbs b nbme identicbl to the
+     * corresponding string in the vector (bllowing for vbrbrgs)
+     * bnd if the number of brguments in the method mbtches the
+     * number of nbmes pbssed
      */
-    private boolean compareArgTypes(Method method, List<String> nameList) {
-        List<String> argTypeNames = method.argumentTypeNames();
+    privbte boolebn compbreArgTypes(Method method, List<String> nbmeList) {
+        List<String> brgTypeNbmes = method.brgumentTypeNbmes();
 
-        // If argument counts differ, we can stop here
-        if (argTypeNames.size() != nameList.size()) {
-            return false;
+        // If brgument counts differ, we cbn stop here
+        if (brgTypeNbmes.size() != nbmeList.size()) {
+            return fblse;
         }
 
-        // Compare each argument type's name
-        int nTypes = argTypeNames.size();
+        // Compbre ebch brgument type's nbme
+        int nTypes = brgTypeNbmes.size();
         for (int i = 0; i < nTypes; ++i) {
-            String comp1 = argTypeNames.get(i);
-            String comp2 = nameList.get(i);
-            if (! comp1.equals(comp2)) {
+            String comp1 = brgTypeNbmes.get(i);
+            String comp2 = nbmeList.get(i);
+            if (! comp1.equbls(comp2)) {
                 /*
-                 * We have to handle varargs.  EG, the
-                 * method's last arg type is xxx[]
-                 * while the nameList contains xxx...
-                 * Note that the nameList can also contain
-                 * xxx[] in which case we don't get here.
+                 * We hbve to hbndle vbrbrgs.  EG, the
+                 * method's lbst brg type is xxx[]
+                 * while the nbmeList contbins xxx...
+                 * Note thbt the nbmeList cbn blso contbin
+                 * xxx[] in which cbse we don't get here.
                  */
                 if (i != nTypes - 1 ||
-                    !method.isVarArgs()  ||
+                    !method.isVbrArgs()  ||
                     !comp2.endsWith("...")) {
-                    return false;
+                    return fblse;
                 }
                 /*
-                 * The last types differ, it is a varargs
-                 * method and the nameList item is varargs.
-                 * We just have to compare the type names, eg,
-                 * make sure we don't have xxx[] for the method
-                 * arg type and yyy... for the nameList item.
+                 * The lbst types differ, it is b vbrbrgs
+                 * method bnd the nbmeList item is vbrbrgs.
+                 * We just hbve to compbre the type nbmes, eg,
+                 * mbke sure we don't hbve xxx[] for the method
+                 * brg type bnd yyy... for the nbmeList item.
                  */
                 int comp1Length = comp1.length();
                 if (comp1Length + 1 != comp2.length()) {
-                    // The type names are different lengths
-                    return false;
+                    // The type nbmes bre different lengths
+                    return fblse;
                 }
-                // We know the two type names are the same length
-                if (!comp1.regionMatches(0, comp2, 0, comp1Length - 2)) {
-                    return false;
+                // We know the two type nbmes bre the sbme length
+                if (!comp1.regionMbtches(0, comp2, 0, comp1Length - 2)) {
+                    return fblse;
                 }
-                // We do have xxx[] and xxx... as the last param type
+                // We do hbve xxx[] bnd xxx... bs the lbst pbrbm type
                 return true;
             }
         }
@@ -211,135 +211,135 @@ public class MethodBreakpointSpec extends BreakpointSpec {
         return true;
     }
 
-  private VirtualMachine vm() {
-    return request.virtualMachine();
+  privbte VirtublMbchine vm() {
+    return request.virtublMbchine();
   }
 
   /**
-     * Remove unneeded spaces and expand class names to fully
-     * qualified names, if necessary and possible.
+     * Remove unneeded spbces bnd expbnd clbss nbmes to fully
+     * qublified nbmes, if necessbry bnd possible.
      */
-    private String normalizeArgTypeName(String name) throws NoSessionException {
+    privbte String normblizeArgTypeNbme(String nbme) throws NoSessionException {
         /*
-         * Separate the type name from any array modifiers,
-         * stripping whitespace after the name ends.
+         * Sepbrbte the type nbme from bny brrby modifiers,
+         * stripping whitespbce bfter the nbme ends.
          */
         int i = 0;
-        StringBuilder typePart = new StringBuilder();
-        StringBuilder arrayPart = new StringBuilder();
-        name = name.trim();
-        int nameLength = name.length();
+        StringBuilder typePbrt = new StringBuilder();
+        StringBuilder brrbyPbrt = new StringBuilder();
+        nbme = nbme.trim();
+        int nbmeLength = nbme.length();
         /*
-         * For varargs, there can be spaces before the ... but not
+         * For vbrbrgs, there cbn be spbces before the ... but not
          * within the ...  So, we will just ignore the ...
-         * while stripping blanks.
+         * while stripping blbnks.
          */
-        boolean isVarArgs = name.endsWith("...");
-        if (isVarArgs) {
-            nameLength -= 3;
+        boolebn isVbrArgs = nbme.endsWith("...");
+        if (isVbrArgs) {
+            nbmeLength -= 3;
         }
 
-        while (i < nameLength) {
-            char c = name.charAt(i);
-            if (Character.isWhitespace(c) || c == '[') {
-                break;      // name is complete
+        while (i < nbmeLength) {
+            chbr c = nbme.chbrAt(i);
+            if (Chbrbcter.isWhitespbce(c) || c == '[') {
+                brebk;      // nbme is complete
             }
-            typePart.append(c);
+            typePbrt.bppend(c);
             i++;
         }
-        while (i < nameLength) {
-            char c = name.charAt(i);
+        while (i < nbmeLength) {
+            chbr c = nbme.chbrAt(i);
             if ( (c == '[') || (c == ']')) {
-                arrayPart.append(c);
-            } else if (!Character.isWhitespace(c)) {
-                throw new IllegalArgumentException(
-                                                "Invalid argument type name");
+                brrbyPbrt.bppend(c);
+            } else if (!Chbrbcter.isWhitespbce(c)) {
+                throw new IllegblArgumentException(
+                                                "Invblid brgument type nbme");
 
             }
             i++;
         }
 
-        name = typePart.toString();
+        nbme = typePbrt.toString();
 
         /*
-         * When there's no sign of a package name already,
-         * try to expand the
-         * the name to a fully qualified class name
+         * When there's no sign of b pbckbge nbme blrebdy,
+         * try to expbnd the
+         * the nbme to b fully qublified clbss nbme
          */
-        if ((name.indexOf('.') == -1) || name.startsWith("*.")) {
+        if ((nbme.indexOf('.') == -1) || nbme.stbrtsWith("*.")) {
             try {
-                List<?> refs = specs.runtime.findClassesMatchingPattern(name);
-                if (refs.size() > 0) {  //### ambiguity???
-                    name = ((ReferenceType)(refs.get(0))).name();
+                List<?> refs = specs.runtime.findClbssesMbtchingPbttern(nbme);
+                if (refs.size() > 0) {  //### bmbiguity???
+                    nbme = ((ReferenceType)(refs.get(0))).nbme();
                 }
-            } catch (IllegalArgumentException e) {
-                // We'll try the name as is
+            } cbtch (IllegblArgumentException e) {
+                // We'll try the nbme bs is
             }
         }
-        name += arrayPart.toString();
-        if (isVarArgs) {
-            name += "...";
+        nbme += brrbyPbrt.toString();
+        if (isVbrArgs) {
+            nbme += "...";
         }
-        return name;
+        return nbme;
     }
 
     /*
-     * Attempt an unambiguous match of the method name and
-     * argument specification to a method. If no arguments
-     * are specified, the method must not be overloaded.
-     * Otherwise, the argument types much match exactly
+     * Attempt bn unbmbiguous mbtch of the method nbme bnd
+     * brgument specificbtion to b method. If no brguments
+     * bre specified, the method must not be overlobded.
+     * Otherwise, the brgument types much mbtch exbctly
      */
-    private Method findMatchingMethod(ClassType clazz)
+    privbte Method findMbtchingMethod(ClbssType clbzz)
                                         throws AmbiguousMethodException,
                                                NoSuchMethodException,
                                                NoSessionException  {
 
-        // Normalize the argument string once before looping below.
-        List<String> argTypeNames = null;
+        // Normblize the brgument string once before looping below.
+        List<String> brgTypeNbmes = null;
         if (methodArgs() != null) {
-            argTypeNames = new ArrayList<String>(methodArgs().size());
-            for (String name : methodArgs()) {
-                name = normalizeArgTypeName(name);
-                argTypeNames.add(name);
+            brgTypeNbmes = new ArrbyList<String>(methodArgs().size());
+            for (String nbme : methodArgs()) {
+                nbme = normblizeArgTypeNbme(nbme);
+                brgTypeNbmes.bdd(nbme);
             }
         }
 
-        // Check each method in the class for matches
-        Method firstMatch = null;  // first method with matching name
-        Method exactMatch = null;  // (only) method with same name & sig
-        int matchCount = 0;        // > 1 implies overload
-        for (Method candidate : clazz.methods()) {
-            if (candidate.name().equals(methodName())) {
-                matchCount++;
+        // Check ebch method in the clbss for mbtches
+        Method firstMbtch = null;  // first method with mbtching nbme
+        Method exbctMbtch = null;  // (only) method with sbme nbme & sig
+        int mbtchCount = 0;        // > 1 implies overlobd
+        for (Method cbndidbte : clbzz.methods()) {
+            if (cbndidbte.nbme().equbls(methodNbme())) {
+                mbtchCount++;
 
-                // Remember the first match in case it is the only one
-                if (matchCount == 1) {
-                    firstMatch = candidate;
+                // Remember the first mbtch in cbse it is the only one
+                if (mbtchCount == 1) {
+                    firstMbtch = cbndidbte;
                 }
 
-                // If argument types were specified, check against candidate
-                if ((argTypeNames != null)
-                        && compareArgTypes(candidate, argTypeNames) == true) {
-                    exactMatch = candidate;
-                    break;
+                // If brgument types were specified, check bgbinst cbndidbte
+                if ((brgTypeNbmes != null)
+                        && compbreArgTypes(cbndidbte, brgTypeNbmes) == true) {
+                    exbctMbtch = cbndidbte;
+                    brebk;
                 }
             }
         }
 
-        // Determine method for breakpoint
+        // Determine method for brebkpoint
         Method method = null;
-        if (exactMatch != null) {
-            // Name and signature match
-            method = exactMatch;
-        } else if ((argTypeNames == null) && (matchCount > 0)) {
-            // At least one name matched and no arg types were specified
-            if (matchCount == 1) {
-                method = firstMatch;       // Only one match; safe to use it
+        if (exbctMbtch != null) {
+            // Nbme bnd signbture mbtch
+            method = exbctMbtch;
+        } else if ((brgTypeNbmes == null) && (mbtchCount > 0)) {
+            // At lebst one nbme mbtched bnd no brg types were specified
+            if (mbtchCount == 1) {
+                method = firstMbtch;       // Only one mbtch; sbfe to use it
             } else {
                 throw new AmbiguousMethodException();
             }
         } else {
-            throw new NoSuchMethodException(methodName());
+            throw new NoSuchMethodException(methodNbme());
         }
         return method;
     }

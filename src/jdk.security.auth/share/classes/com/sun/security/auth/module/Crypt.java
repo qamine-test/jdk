@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,37 +27,37 @@
 /*        All Rights Reserved   */
 
 /**
- * Implements the UNIX crypt(3) function, based on a direct port of the
+ * Implements the UNIX crypt(3) function, bbsed on b direct port of the
  * libc crypt function.
  *
  * <p>
- * From the crypt man page:
+ * From the crypt mbn pbge:
  * <p>
- * crypt() is the password encryption routine, based on the NBS
- * Data  Encryption  Standard,  with variations intended (among
- * other things) to frustrate use of  hardware  implementations
- * of the DES for key search.
+ * crypt() is the pbssword encryption routine, bbsed on the NBS
+ * Dbtb  Encryption  Stbndbrd,  with vbribtions intended (bmong
+ * other things) to frustrbte use of  hbrdwbre  implementbtions
+ * of the DES for key sebrch.
  * <p>
- * The first argument to crypt() is  normally  a  user's  typed
- * password.   The  second  is a 2-character string chosen from
- * the set [a-zA-Z0-9./].  the  salt string is used to perturb
- * the DES algorithm in one
- * of 4096 different ways, after which the password is used  as
- * the  key  to  encrypt  repeatedly  a  constant  string.  The
- * returned value points to the encrypted password, in the same
- * alphabet as the salt.  The first two characters are the salt
+ * The first brgument to crypt() is  normblly  b  user's  typed
+ * pbssword.   The  second  is b 2-chbrbcter string chosen from
+ * the set [b-zA-Z0-9./].  the  sblt string is used to perturb
+ * the DES blgorithm in one
+ * of 4096 different wbys, bfter which the pbssword is used  bs
+ * the  key  to  encrypt  repebtedly  b  constbnt  string.  The
+ * returned vblue points to the encrypted pbssword, in the sbme
+ * blphbbet bs the sblt.  The first two chbrbcters bre the sblt
  * itself.
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  */
 
-package com.sun.security.auth.module;
+pbckbge com.sun.security.buth.module;
 
-class Crypt {
+clbss Crypt {
 
 /* EXPORT DELETE START */
 
-    private static final byte[] IP = {
+    privbte stbtic finbl byte[] IP = {
         58, 50, 42, 34, 26, 18, 10, 2,
         60, 52, 44, 36, 28, 20, 12, 4,
         62, 54, 46, 38, 30, 22, 14, 6,
@@ -68,7 +68,7 @@ class Crypt {
         63, 55, 47, 39, 31, 23, 15, 7,
     };
 
-    private static final byte[] FP = {
+    privbte stbtic finbl byte[] FP = {
         40, 8, 48, 16, 56, 24, 64, 32,
         39, 7, 47, 15,  55, 23, 63, 31,
         38, 6, 46, 14, 54, 22, 62, 30,
@@ -79,44 +79,44 @@ class Crypt {
         33, 1, 41, 9, 49, 17, 57, 25,
     };
 
-    private static final byte[] PC1_C = {
+    privbte stbtic finbl byte[] PC1_C = {
         57, 49, 41, 33, 25, 17, 9,
         1, 58, 50, 42, 34, 26, 18,
         10, 2, 59, 51, 43, 35, 27,
         19, 11, 3, 60, 52, 44, 36,
     };
 
-    private static final byte[] PC1_D = {
+    privbte stbtic finbl byte[] PC1_D = {
         63, 55, 47, 39, 31, 23, 15,
         7, 62, 54, 46, 38, 30, 22,
         14, 6, 61, 53, 45, 37, 29,
         21, 13, 5, 28, 20, 12, 4,
     };
 
-    private static final byte[] shifts = { 1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1, };
+    privbte stbtic finbl byte[] shifts = { 1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1, };
 
-    private static final byte[] PC2_C = {
+    privbte stbtic finbl byte[] PC2_C = {
         14, 17, 11, 24, 1, 5,
         3, 28, 15, 6, 21, 10,
         23, 19, 12, 4, 26, 8,
         16, 7, 27, 20, 13, 2,
     };
 
-    private static final byte[] PC2_D = {
+    privbte stbtic finbl byte[] PC2_D = {
         41,52,31,37,47,55,
         30,40,51,45,33,48,
         44,49,39,56,34,53,
         46,42,50,36,29,32,
     };
 
-    private byte[] C = new byte[28];
-    private byte[] D = new byte[28];
+    privbte byte[] C = new byte[28];
+    privbte byte[] D = new byte[28];
 
-    private byte[] KS;
+    privbte byte[] KS;
 
-    private byte[] E = new byte[48];
+    privbte byte[] E = new byte[48];
 
-    private static final byte[] e2 = {
+    privbte stbtic finbl byte[] e2 = {
         32, 1, 2, 3, 4, 5,
         4, 5, 6, 7, 8, 9,
         8, 9,10,11,12,13,
@@ -127,7 +127,7 @@ class Crypt {
         28,29,30,31,32, 1,
     };
 
-    private void setkey(byte[] key) {
+    privbte void setkey(byte[] key) {
         int i, j, k;
         byte t;
 
@@ -162,7 +162,7 @@ class Crypt {
     }
 
 
-    private static final byte[][] S = {
+    privbte stbtic finbl byte[][] S = {
         {14, 4,13, 1, 2,15,11, 8, 3,10, 6,12, 5, 9, 0, 7,
         0,15, 7, 4,14, 2,13, 1,10, 6,12,11, 9, 5, 3, 8,
         4, 1,14, 8,13, 6, 2,11,15,12, 9, 7, 3,10, 5, 0,
@@ -205,7 +205,7 @@ class Crypt {
     };
 
 
-    private static final byte[] P = {
+    privbte stbtic finbl byte[] P = {
         16, 7,20,21,
         29,12,28,17,
          1,15,23,26,
@@ -216,13 +216,13 @@ class Crypt {
         22,11, 4,25,
     };
 
-    private byte[]  L = new byte[64];
-    private byte[] tempL = new byte[32];
-    private byte[] f = new byte[32];
-    private byte[] preS = new byte[48];
+    privbte byte[]  L = new byte[64];
+    privbte byte[] tempL = new byte[32];
+    privbte byte[] f = new byte[32];
+    privbte byte[] preS = new byte[48];
 
 
-    private void encrypt(byte[] block,int fake) {
+    privbte void encrypt(byte[] block,int fbke) {
         int     i;
         int t, j, k;
         int R = 32; // &L[32]
@@ -276,29 +276,29 @@ class Crypt {
 /* EXPORT DELETE END */
 
     /**
-     * Creates a new Crypt object for use with the crypt method.
+     * Crebtes b new Crypt object for use with the crypt method.
      *
      */
 
     public Crypt()
     {
-        // does nothing at this time
+        // does nothing bt this time
         super();
     }
 
     /**
      * Implements the libc crypt(3) function.
      *
-     * @param pw the password to "encrypt".
+     * @pbrbm pw the pbssword to "encrypt".
      *
-     * @param salt the salt to use.
+     * @pbrbm sblt the sblt to use.
      *
-     * @return A new byte[13] array that contains the encrypted
-     * password. The first two characters are the salt.
+     * @return A new byte[13] brrby thbt contbins the encrypted
+     * pbssword. The first two chbrbcters bre the sblt.
      *
      */
 
-    public synchronized byte[] crypt(byte[] pw, byte[] salt) {
+    public synchronized byte[] crypt(byte[] pw, byte[] sblt) {
         int c, i, j, pwi;
         byte temp;
         byte[] block = new byte[66];
@@ -323,7 +323,7 @@ class Crypt {
         }
 
         for(i=0; i < 2; i++) {
-            c = salt[i];
+            c = sblt[i];
             iobuf[i] = (byte)c;
             if(c > 'Z')
                 c -= 6;
@@ -367,32 +367,32 @@ class Crypt {
     }
 
     /**
-     * program to test the crypt routine.
+     * progrbm to test the crypt routine.
      *
-     * The first parameter is the cleartext password, the second is
-     * the salt to use. The salt should be two characters from the
-     * set [a-zA-Z0-9./]. Outputs the crypt result.
+     * The first pbrbmeter is the clebrtext pbssword, the second is
+     * the sblt to use. The sblt should be two chbrbcters from the
+     * set [b-zA-Z0-9./]. Outputs the crypt result.
      *
-     * @param arg command line arguments.
+     * @pbrbm brg commbnd line brguments.
      *
      */
 
-    public static void main(String arg[]) {
+    public stbtic void mbin(String brg[]) {
 
-        if (arg.length!=2) {
-            System.err.println("usage: Crypt password salt");
+        if (brg.length!=2) {
+            System.err.println("usbge: Crypt pbssword sblt");
             System.exit(1);
         }
 
         Crypt c = new Crypt();
         try {
             byte result[] = c.crypt
-                (arg[0].getBytes("ISO-8859-1"), arg[1].getBytes("ISO-8859-1"));
+                (brg[0].getBytes("ISO-8859-1"), brg[1].getBytes("ISO-8859-1"));
             for (int i=0; i<result.length; i++) {
-                System.out.println(" "+i+" "+(char)result[i]);
+                System.out.println(" "+i+" "+(chbr)result[i]);
             }
-        } catch (java.io.UnsupportedEncodingException uee) {
-            // cannot happen
+        } cbtch (jbvb.io.UnsupportedEncodingException uee) {
+            // cbnnot hbppen
         }
     }
 }

@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jni.h"
-#include "awt_Mlib.h"
-#include "java_awt_image_BufferedImage.h"
+#include "bwt_Mlib.h"
+#include "jbvb_bwt_imbge_BufferedImbge.h"
 
 #include <windows.h>
-#include "alloc.h"
+#include "blloc.h"
 
 extern "C"
 {
     /*
- * This is called by awt_ImagingLib.initLib() to figure out if there
- * is a native imaging lib tied to the ImagingLib.java (other than
- * the shared medialib).
+ * This is cblled by bwt_ImbgingLib.initLib() to figure out if there
+ * is b nbtive imbging lib tied to the ImbgingLib.jbvb (other thbn
+ * the shbred mediblib).
  */
-    mlib_status awt_getImagingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
+    mlib_stbtus bwt_getImbgingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
                                   mlibSysFnS_t *sMlibSysFns) {
-        static HINSTANCE hDLL = NULL;
+        stbtic HINSTANCE hDLL = NULL;
         mlibSysFnS_t tempSysFns;
-        mlib_status ret = MLIB_SUCCESS;
+        mlib_stbtus ret = MLIB_SUCCESS;
 
-        /* Try to receive handle for the library. Routine should find
-         * the library successfully because this library is already
-         * loaded to the process space by the System.loadLibrary() call.
-         * Here we just need to get handle to initialize the pointers to
+        /* Try to receive hbndle for the librbry. Routine should find
+         * the librbry successfully becbuse this librbry is blrebdy
+         * lobded to the process spbce by the System.lobdLibrbry() cbll.
+         * Here we just need to get hbndle to initiblize the pointers to
          * required mlib routines.
          */
-        hDLL = ::GetModuleHandle(TEXT("mlib_image.dll"));
+        hDLL = ::GetModuleHbndle(TEXT("mlib_imbge.dll"));
 
         if (hDLL == NULL) {
             return MLIB_FAILURE;
         }
 
-        /* Initialize pointers to medilib routines... */
-        tempSysFns.createFP = (MlibCreateFP_t)
-            ::GetProcAddress(hDLL, "j2d_mlib_ImageCreate");
-        if (tempSysFns.createFP == NULL) {
+        /* Initiblize pointers to medilib routines... */
+        tempSysFns.crebteFP = (MlibCrebteFP_t)
+            ::GetProcAddress(hDLL, "j2d_mlib_ImbgeCrebte");
+        if (tempSysFns.crebteFP == NULL) {
             ret = MLIB_FAILURE;
         }
 
         if (ret == MLIB_SUCCESS) {
-            tempSysFns.createStructFP = (MlibCreateStructFP_t)
-                ::GetProcAddress(hDLL, "j2d_mlib_ImageCreateStruct");
-            if (tempSysFns.createStructFP == NULL) {
+            tempSysFns.crebteStructFP = (MlibCrebteStructFP_t)
+                ::GetProcAddress(hDLL, "j2d_mlib_ImbgeCrebteStruct");
+            if (tempSysFns.crebteStructFP == NULL) {
                 ret = MLIB_FAILURE;
             }
         }
 
         if (ret == MLIB_SUCCESS) {
-            tempSysFns.deleteImageFP = (MlibDeleteFP_t)
-                ::GetProcAddress(hDLL, "j2d_mlib_ImageDelete");
-            if (tempSysFns.deleteImageFP == NULL) {
+            tempSysFns.deleteImbgeFP = (MlibDeleteFP_t)
+                ::GetProcAddress(hDLL, "j2d_mlib_ImbgeDelete");
+            if (tempSysFns.deleteImbgeFP == NULL) {
                 ret = MLIB_FAILURE;
             }
         }
@@ -81,12 +81,12 @@ extern "C"
             *sMlibSysFns = tempSysFns;
         }
 
-        mlib_status (*fPtr)();
+        mlib_stbtus (*fPtr)();
         mlibFnS_t* pMlibFns = sMlibFns;
         int i = 0;
-        while ((ret == MLIB_SUCCESS) && (pMlibFns[i].fname != NULL)) {
-            fPtr = (mlib_status (*)())
-                ::GetProcAddress(hDLL, pMlibFns[i].fname);
+        while ((ret == MLIB_SUCCESS) && (pMlibFns[i].fnbme != NULL)) {
+            fPtr = (mlib_stbtus (*)())
+                ::GetProcAddress(hDLL, pMlibFns[i].fnbme);
             if (fPtr != NULL) {
                 pMlibFns[i].fptr = fPtr;
             } else {
@@ -98,11 +98,11 @@ extern "C"
         return ret;
     }
 
-    mlib_start_timer awt_setMlibStartTimer() {
+    mlib_stbrt_timer bwt_setMlibStbrtTimer() {
         return NULL;
     }
 
-    mlib_stop_timer awt_setMlibStopTimer() {
+    mlib_stop_timer bwt_setMlibStopTimer() {
         return NULL;
     }
 }

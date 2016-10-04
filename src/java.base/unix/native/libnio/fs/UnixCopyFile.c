@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -38,8 +38,8 @@
   } while((_result == -1) && (errno == EINTR)); \
 } while(0)
 
-static void throwUnixException(JNIEnv* env, int errnum) {
-    jobject x = JNU_NewObjectByName(env, "sun/nio/fs/UnixException",
+stbtic void throwUnixException(JNIEnv* env, int errnum) {
+    jobject x = JNU_NewObjectByNbme(env, "sun/nio/fs/UnixException",
         "(I)V", errnum);
     if (x != NULL) {
         (*env)->Throw(env, x);
@@ -47,31 +47,31 @@ static void throwUnixException(JNIEnv* env, int errnum) {
 }
 
 /**
- * Transfer all bytes from src to dst via user-space buffers
+ * Trbnsfer bll bytes from src to dst vib user-spbce buffers
  */
 JNIEXPORT void JNICALL
-Java_sun_nio_fs_UnixCopyFile_transfer
-    (JNIEnv* env, jclass this, jint dst, jint src, jlong cancelAddress)
+Jbvb_sun_nio_fs_UnixCopyFile_trbnsfer
+    (JNIEnv* env, jclbss this, jint dst, jint src, jlong cbncelAddress)
 {
-    char buf[8192];
-    volatile jint* cancel = (jint*)jlong_to_ptr(cancelAddress);
+    chbr buf[8192];
+    volbtile jint* cbncel = (jint*)jlong_to_ptr(cbncelAddress);
 
     for (;;) {
         ssize_t n, pos, len;
-        RESTARTABLE(read((int)src, &buf, sizeof(buf)), n);
+        RESTARTABLE(rebd((int)src, &buf, sizeof(buf)), n);
         if (n <= 0) {
             if (n < 0)
                 throwUnixException(env, errno);
             return;
         }
-        if (cancel != NULL && *cancel != 0) {
+        if (cbncel != NULL && *cbncel != 0) {
             throwUnixException(env, ECANCELED);
             return;
         }
         pos = 0;
         len = n;
         do {
-            char* bufp = buf;
+            chbr* bufp = buf;
             bufp += pos;
             RESTARTABLE(write((int)dst, bufp, len), n);
             if (n == -1) {

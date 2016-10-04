@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe.hw;
+pbckbge sun.jbvb2d.pipe.hw;
 
-import java.awt.Rectangle;
-import sun.java2d.Surface;
+import jbvb.bwt.Rectbngle;
+import sun.jbvb2d.Surfbce;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * Abstraction for a hardware accelerated surface.
+ * Abstrbction for b hbrdwbre bccelerbted surfbce.
  */
-public interface AccelSurface extends BufferedContextProvider, Surface {
+public interfbce AccelSurfbce extends BufferedContextProvider, Surfbce {
     /**
      * Undefined
      */
-    @Native public static final int UNDEFINED       = 0;
+    @Nbtive public stbtic finbl int UNDEFINED       = 0;
     /**
-     * Window (or window substitute) surface
+     * Window (or window substitute) surfbce
      */
-    @Native public static final int WINDOW          = 1;
+    @Nbtive public stbtic finbl int WINDOW          = 1;
     /**
-     * Render-To Plain surface (pbuffer for OpenGL, Render Target surface
+     * Render-To Plbin surfbce (pbuffer for OpenGL, Render Tbrget surfbce
      * for Direct3D)
      */
-    @Native public static final int RT_PLAIN        = 2;
+    @Nbtive public stbtic finbl int RT_PLAIN        = 2;
     /**
-     * Texture surface
+     * Texture surfbce
      */
-    @Native public static final int TEXTURE         = 3;
+    @Nbtive public stbtic finbl int TEXTURE         = 3;
     /**
-     * A back-buffer surface (SwapChain surface for Direct3D, backbuffer for
+     * A bbck-buffer surfbce (SwbpChbin surfbce for Direct3D, bbckbuffer for
      * OpenGL)
      */
-    @Native public static final int FLIP_BACKBUFFER = 4;
+    @Nbtive public stbtic finbl int FLIP_BACKBUFFER = 4;
     /**
-     * Render-To Texture surface (fbobject for OpenGL, texture with render-to
-     * attribute for Direct3D)
+     * Render-To Texture surfbce (fbobject for OpenGL, texture with render-to
+     * bttribute for Direct3D)
      */
-    @Native public static final int RT_TEXTURE      = 5;
+    @Nbtive public stbtic finbl int RT_TEXTURE      = 5;
 
     /**
-     * Returns {@code int} representing surface's type as defined by constants
-     * in this interface.
+     * Returns {@code int} representing surfbce's type bs defined by constbnts
+     * in this interfbce.
      *
-     * @return an integer representing this surface's type
-     * @see AccelSurface#UNDEFINED
-     * @see AccelSurface#WINDOW
-     * @see AccelSurface#RT_PLAIN
-     * @see AccelSurface#TEXTURE
-     * @see AccelSurface#FLIP_BACKBUFFER
-     * @see AccelSurface#RT_TEXTURE
+     * @return bn integer representing this surfbce's type
+     * @see AccelSurfbce#UNDEFINED
+     * @see AccelSurfbce#WINDOW
+     * @see AccelSurfbce#RT_PLAIN
+     * @see AccelSurfbce#TEXTURE
+     * @see AccelSurfbce#FLIP_BACKBUFFER
+     * @see AccelSurfbce#RT_TEXTURE
      */
     public int getType();
 
     /**
-     * Returns a pointer to the native surface data associated with this
-     * surface.
-     * Note: this pointer is only valid on the rendering thread.
+     * Returns b pointer to the nbtive surfbce dbtb bssocibted with this
+     * surfbce.
+     * Note: this pointer is only vblid on the rendering threbd.
      *
-     * @return pointer to the native surface's data
+     * @return pointer to the nbtive surfbce's dbtb
      */
-    public long getNativeOps();
+    public long getNbtiveOps();
 
     /**
-     * Returns a pointer to the real native resource
-     * of the specified type associated with this AccelSurface.
-     * Note: this pointer is only valid on the rendering thread.
+     * Returns b pointer to the rebl nbtive resource
+     * of the specified type bssocibted with this AccelSurfbce.
+     * Note: this pointer is only vblid on the rendering threbd.
      *
-     * @param resType the type of the requested resource
-     * @return a long containing a pointer to the native resource of the
-     * specified type or 0L if such resource doesn't exist for this surface
+     * @pbrbm resType the type of the requested resource
+     * @return b long contbining b pointer to the nbtive resource of the
+     * specified type or 0L if such resource doesn't exist for this surfbce
      */
-    public long getNativeResource(int resType);
+    public long getNbtiveResource(int resType);
 
     /**
-     * Marks this surface dirty.
+     * Mbrks this surfbce dirty.
      */
-    public void markDirty();
+    public void mbrkDirty();
 
     /**
-     * Returns whether the pipeline considers this surface valid. A surface
-     * may become invalid if it is disposed of, or resized.
+     * Returns whether the pipeline considers this surfbce vblid. A surfbce
+     * mby become invblid if it is disposed of, or resized.
      *
-     * @return true if valid, false otherwise
+     * @return true if vblid, fblse otherwise
      */
-    public boolean isValid();
+    public boolebn isVblid();
 
     /**
-     * Returns whether this surface is lost. The return value is only valid
-     * on the render thread, meaning that even if this method returns
-     * {@code true} it could be lost in the next moment unless it is called
-     * on the rendering thread.
+     * Returns whether this surfbce is lost. The return vblue is only vblid
+     * on the render threbd, mebning thbt even if this method returns
+     * {@code true} it could be lost in the next moment unless it is cblled
+     * on the rendering threbd.
      *
-     * @return true if the surface is known to be lost, false otherwise
+     * @return true if the surfbce is known to be lost, fblse otherwise
      */
-    public boolean isSurfaceLost();
+    public boolebn isSurfbceLost();
 
     /**
-     * Returns the requested bounds of the destination surface. The real bounds
-     * of the native accelerated surface may differ. Use
-     * {@link #getNativeBounds} to get the bounds of the native surface.
+     * Returns the requested bounds of the destinbtion surfbce. The rebl bounds
+     * of the nbtive bccelerbted surfbce mby differ. Use
+     * {@link #getNbtiveBounds} to get the bounds of the nbtive surfbce.
      *
-     * @return Rectangle representing java surface's bounds
+     * @return Rectbngle representing jbvb surfbce's bounds
      */
-    public Rectangle getBounds();
+    public Rectbngle getBounds();
 
     /**
-     * Returns real bounds of the native surface, which may differ from those
+     * Returns rebl bounds of the nbtive surfbce, which mby differ from those
      * returned by {@link #getBounds}.
      *
-     * @return Rectangle representing native surface's bounds
+     * @return Rectbngle representing nbtive surfbce's bounds
      */
-    public Rectangle getNativeBounds();
+    public Rectbngle getNbtiveBounds();
 }

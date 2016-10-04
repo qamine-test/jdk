@@ -1,578 +1,578 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Unix system and library calls.
+ * Unix system bnd librbry cblls.
  */
 
-class UnixNativeDispatcher {
-    protected UnixNativeDispatcher() { }
+clbss UnixNbtiveDispbtcher {
+    protected UnixNbtiveDispbtcher() { }
 
-    // returns a NativeBuffer containing the given path
-    private static NativeBuffer copyToNativeBuffer(UnixPath path) {
-        byte[] cstr = path.getByteArrayForSysCalls();
+    // returns b NbtiveBuffer contbining the given pbth
+    privbte stbtic NbtiveBuffer copyToNbtiveBuffer(UnixPbth pbth) {
+        byte[] cstr = pbth.getByteArrbyForSysCblls();
         int size = cstr.length + 1;
-        NativeBuffer buffer = NativeBuffers.getNativeBufferFromCache(size);
+        NbtiveBuffer buffer = NbtiveBuffers.getNbtiveBufferFromCbche(size);
         if (buffer == null) {
-            buffer = NativeBuffers.allocNativeBuffer(size);
+            buffer = NbtiveBuffers.bllocNbtiveBuffer(size);
         } else {
-            // buffer already contains the path
-            if (buffer.owner() == path)
+            // buffer blrebdy contbins the pbth
+            if (buffer.owner() == pbth)
                 return buffer;
         }
-        NativeBuffers.copyCStringToNativeBuffer(cstr, buffer);
-        buffer.setOwner(path);
+        NbtiveBuffers.copyCStringToNbtiveBuffer(cstr, buffer);
+        buffer.setOwner(pbth);
         return buffer;
     }
 
     /**
-     * char *getcwd(char *buf, size_t size);
+     * chbr *getcwd(chbr *buf, size_t size);
      */
-    static native byte[] getcwd();
+    stbtic nbtive byte[] getcwd();
 
     /**
      * int dup(int filedes)
      */
-    static native int dup(int filedes) throws UnixException;
+    stbtic nbtive int dup(int filedes) throws UnixException;
 
     /**
-     * int open(const char* path, int oflag, mode_t mode)
+     * int open(const chbr* pbth, int oflbg, mode_t mode)
      */
-    static int open(UnixPath path, int flags, int mode) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic int open(UnixPbth pbth, int flbgs, int mode) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            return open0(buffer.address(), flags, mode);
-        } finally {
-            buffer.release();
+            return open0(buffer.bddress(), flbgs, mode);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native int open0(long pathAddress, int flags, int mode)
+    privbte stbtic nbtive int open0(long pbthAddress, int flbgs, int mode)
         throws UnixException;
 
     /**
-     * int openat(int dfd, const char* path, int oflag, mode_t mode)
+     * int openbt(int dfd, const chbr* pbth, int oflbg, mode_t mode)
      */
-    static int openat(int dfd, byte[] path, int flags, int mode) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(path);
+    stbtic int openbt(int dfd, byte[] pbth, int flbgs, int mode) throws UnixException {
+        NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(pbth);
         try {
-            return openat0(dfd, buffer.address(), flags, mode);
-        } finally {
-            buffer.release();
+            return openbt0(dfd, buffer.bddress(), flbgs, mode);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native int openat0(int dfd, long pathAddress, int flags, int mode)
+    privbte stbtic nbtive int openbt0(int dfd, long pbthAddress, int flbgs, int mode)
         throws UnixException;
 
     /**
      * close(int filedes)
      */
-    static native void close(int fd);
+    stbtic nbtive void close(int fd);
 
     /**
-     * FILE* fopen(const char *filename, const char* mode);
+     * FILE* fopen(const chbr *filenbme, const chbr* mode);
      */
-    static long fopen(UnixPath filename, String mode) throws UnixException {
-        NativeBuffer pathBuffer = copyToNativeBuffer(filename);
-        NativeBuffer modeBuffer = NativeBuffers.asNativeBuffer(Util.toBytes(mode));
+    stbtic long fopen(UnixPbth filenbme, String mode) throws UnixException {
+        NbtiveBuffer pbthBuffer = copyToNbtiveBuffer(filenbme);
+        NbtiveBuffer modeBuffer = NbtiveBuffers.bsNbtiveBuffer(Util.toBytes(mode));
         try {
-            return fopen0(pathBuffer.address(), modeBuffer.address());
-        } finally {
-            modeBuffer.release();
-            pathBuffer.release();
+            return fopen0(pbthBuffer.bddress(), modeBuffer.bddress());
+        } finblly {
+            modeBuffer.relebse();
+            pbthBuffer.relebse();
         }
     }
-    private static native long fopen0(long pathAddress, long modeAddress)
+    privbte stbtic nbtive long fopen0(long pbthAddress, long modeAddress)
         throws UnixException;
 
     /**
-     * fclose(FILE* stream)
+     * fclose(FILE* strebm)
      */
-    static native void fclose(long stream) throws UnixException;
+    stbtic nbtive void fclose(long strebm) throws UnixException;
 
     /**
-     * link(const char* existing, const char* new)
+     * link(const chbr* existing, const chbr* new)
      */
-    static void link(UnixPath existing, UnixPath newfile) throws UnixException {
-        NativeBuffer existingBuffer = copyToNativeBuffer(existing);
-        NativeBuffer newBuffer = copyToNativeBuffer(newfile);
+    stbtic void link(UnixPbth existing, UnixPbth newfile) throws UnixException {
+        NbtiveBuffer existingBuffer = copyToNbtiveBuffer(existing);
+        NbtiveBuffer newBuffer = copyToNbtiveBuffer(newfile);
         try {
-            link0(existingBuffer.address(), newBuffer.address());
-        } finally {
-            newBuffer.release();
-            existingBuffer.release();
+            link0(existingBuffer.bddress(), newBuffer.bddress());
+        } finblly {
+            newBuffer.relebse();
+            existingBuffer.relebse();
         }
     }
-    private static native void link0(long existingAddress, long newAddress)
+    privbte stbtic nbtive void link0(long existingAddress, long newAddress)
         throws UnixException;
 
     /**
-     * unlink(const char* path)
+     * unlink(const chbr* pbth)
      */
-    static void unlink(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void unlink(UnixPbth pbth) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            unlink0(buffer.address());
-        } finally {
-            buffer.release();
+            unlink0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void unlink0(long pathAddress) throws UnixException;
+    privbte stbtic nbtive void unlink0(long pbthAddress) throws UnixException;
 
     /**
-     * unlinkat(int dfd, const char* path, int flag)
+     * unlinkbt(int dfd, const chbr* pbth, int flbg)
      */
-    static void unlinkat(int dfd, byte[] path, int flag) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(path);
+    stbtic void unlinkbt(int dfd, byte[] pbth, int flbg) throws UnixException {
+        NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(pbth);
         try {
-            unlinkat0(dfd, buffer.address(), flag);
-        } finally {
-            buffer.release();
+            unlinkbt0(dfd, buffer.bddress(), flbg);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void unlinkat0(int dfd, long pathAddress, int flag)
+    privbte stbtic nbtive void unlinkbt0(int dfd, long pbthAddress, int flbg)
         throws UnixException;
 
     /**
-     * mknod(const char* path, mode_t mode, dev_t dev)
+     * mknod(const chbr* pbth, mode_t mode, dev_t dev)
      */
-    static void mknod(UnixPath path, int mode, long dev) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void mknod(UnixPbth pbth, int mode, long dev) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            mknod0(buffer.address(), mode, dev);
-        } finally {
-            buffer.release();
+            mknod0(buffer.bddress(), mode, dev);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void mknod0(long pathAddress, int mode, long dev)
+    privbte stbtic nbtive void mknod0(long pbthAddress, int mode, long dev)
         throws UnixException;
 
     /**
-     *  rename(const char* old, const char* new)
+     *  renbme(const chbr* old, const chbr* new)
      */
-    static void rename(UnixPath from, UnixPath to) throws UnixException {
-        NativeBuffer fromBuffer = copyToNativeBuffer(from);
-        NativeBuffer toBuffer = copyToNativeBuffer(to);
+    stbtic void renbme(UnixPbth from, UnixPbth to) throws UnixException {
+        NbtiveBuffer fromBuffer = copyToNbtiveBuffer(from);
+        NbtiveBuffer toBuffer = copyToNbtiveBuffer(to);
         try {
-            rename0(fromBuffer.address(), toBuffer.address());
-        } finally {
-            toBuffer.release();
-            fromBuffer.release();
+            renbme0(fromBuffer.bddress(), toBuffer.bddress());
+        } finblly {
+            toBuffer.relebse();
+            fromBuffer.relebse();
         }
     }
-    private static native void rename0(long fromAddress, long toAddress)
+    privbte stbtic nbtive void renbme0(long fromAddress, long toAddress)
         throws UnixException;
 
     /**
-     *  renameat(int fromfd, const char* old, int tofd, const char* new)
+     *  renbmebt(int fromfd, const chbr* old, int tofd, const chbr* new)
      */
-    static void renameat(int fromfd, byte[] from, int tofd, byte[] to) throws UnixException {
-        NativeBuffer fromBuffer = NativeBuffers.asNativeBuffer(from);
-        NativeBuffer toBuffer = NativeBuffers.asNativeBuffer(to);
+    stbtic void renbmebt(int fromfd, byte[] from, int tofd, byte[] to) throws UnixException {
+        NbtiveBuffer fromBuffer = NbtiveBuffers.bsNbtiveBuffer(from);
+        NbtiveBuffer toBuffer = NbtiveBuffers.bsNbtiveBuffer(to);
         try {
-            renameat0(fromfd, fromBuffer.address(), tofd, toBuffer.address());
-        } finally {
-            toBuffer.release();
-            fromBuffer.release();
+            renbmebt0(fromfd, fromBuffer.bddress(), tofd, toBuffer.bddress());
+        } finblly {
+            toBuffer.relebse();
+            fromBuffer.relebse();
         }
     }
-    private static native void renameat0(int fromfd, long fromAddress, int tofd, long toAddress)
+    privbte stbtic nbtive void renbmebt0(int fromfd, long fromAddress, int tofd, long toAddress)
         throws UnixException;
 
     /**
-     * mkdir(const char* path, mode_t mode)
+     * mkdir(const chbr* pbth, mode_t mode)
      */
-    static void mkdir(UnixPath path, int mode) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void mkdir(UnixPbth pbth, int mode) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            mkdir0(buffer.address(), mode);
-        } finally {
-            buffer.release();
+            mkdir0(buffer.bddress(), mode);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void mkdir0(long pathAddress, int mode) throws UnixException;
+    privbte stbtic nbtive void mkdir0(long pbthAddress, int mode) throws UnixException;
 
     /**
-     * rmdir(const char* path)
+     * rmdir(const chbr* pbth)
      */
-    static void rmdir(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void rmdir(UnixPbth pbth) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            rmdir0(buffer.address());
-        } finally {
-            buffer.release();
+            rmdir0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void rmdir0(long pathAddress) throws UnixException;
+    privbte stbtic nbtive void rmdir0(long pbthAddress) throws UnixException;
 
     /**
-     * readlink(const char* path, char* buf, size_t bufsize)
+     * rebdlink(const chbr* pbth, chbr* buf, size_t bufsize)
      *
-     * @return  link target
+     * @return  link tbrget
      */
-    static byte[] readlink(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic byte[] rebdlink(UnixPbth pbth) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            return readlink0(buffer.address());
-        } finally {
-            buffer.release();
+            return rebdlink0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native byte[] readlink0(long pathAddress) throws UnixException;
+    privbte stbtic nbtive byte[] rebdlink0(long pbthAddress) throws UnixException;
 
     /**
-     * realpath(const char* path, char* resolved_name)
+     * reblpbth(const chbr* pbth, chbr* resolved_nbme)
      *
-     * @return  resolved path
+     * @return  resolved pbth
      */
-    static byte[] realpath(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic byte[] reblpbth(UnixPbth pbth) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            return realpath0(buffer.address());
-        } finally {
-            buffer.release();
+            return reblpbth0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native byte[] realpath0(long pathAddress) throws UnixException;
+    privbte stbtic nbtive byte[] reblpbth0(long pbthAddress) throws UnixException;
 
     /**
-     * symlink(const char* name1, const char* name2)
+     * symlink(const chbr* nbme1, const chbr* nbme2)
      */
-    static void symlink(byte[] name1, UnixPath name2) throws UnixException {
-        NativeBuffer targetBuffer = NativeBuffers.asNativeBuffer(name1);
-        NativeBuffer linkBuffer = copyToNativeBuffer(name2);
+    stbtic void symlink(byte[] nbme1, UnixPbth nbme2) throws UnixException {
+        NbtiveBuffer tbrgetBuffer = NbtiveBuffers.bsNbtiveBuffer(nbme1);
+        NbtiveBuffer linkBuffer = copyToNbtiveBuffer(nbme2);
         try {
-            symlink0(targetBuffer.address(), linkBuffer.address());
-        } finally {
-            linkBuffer.release();
-            targetBuffer.release();
+            symlink0(tbrgetBuffer.bddress(), linkBuffer.bddress());
+        } finblly {
+            linkBuffer.relebse();
+            tbrgetBuffer.relebse();
         }
     }
-    private static native void symlink0(long name1, long name2)
+    privbte stbtic nbtive void symlink0(long nbme1, long nbme2)
         throws UnixException;
 
     /**
-     * stat(const char* path, struct stat* buf)
+     * stbt(const chbr* pbth, struct stbt* buf)
      */
-    static void stat(UnixPath path, UnixFileAttributes attrs) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void stbt(UnixPbth pbth, UnixFileAttributes bttrs) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            stat0(buffer.address(), attrs);
-        } finally {
-            buffer.release();
+            stbt0(buffer.bddress(), bttrs);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void stat0(long pathAddress, UnixFileAttributes attrs)
+    privbte stbtic nbtive void stbt0(long pbthAddress, UnixFileAttributes bttrs)
         throws UnixException;
 
     /**
-     * lstat(const char* path, struct stat* buf)
+     * lstbt(const chbr* pbth, struct stbt* buf)
      */
-    static void lstat(UnixPath path, UnixFileAttributes attrs) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void lstbt(UnixPbth pbth, UnixFileAttributes bttrs) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            lstat0(buffer.address(), attrs);
-        } finally {
-            buffer.release();
+            lstbt0(buffer.bddress(), bttrs);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void lstat0(long pathAddress, UnixFileAttributes attrs)
+    privbte stbtic nbtive void lstbt0(long pbthAddress, UnixFileAttributes bttrs)
         throws UnixException;
 
     /**
-     * fstat(int filedes, struct stat* buf)
+     * fstbt(int filedes, struct stbt* buf)
      */
-    static native void fstat(int fd, UnixFileAttributes attrs) throws UnixException;
+    stbtic nbtive void fstbt(int fd, UnixFileAttributes bttrs) throws UnixException;
 
     /**
-     * fstatat(int filedes,const char* path,  struct stat* buf, int flag)
+     * fstbtbt(int filedes,const chbr* pbth,  struct stbt* buf, int flbg)
      */
-    static void fstatat(int dfd, byte[] path, int flag, UnixFileAttributes attrs)
+    stbtic void fstbtbt(int dfd, byte[] pbth, int flbg, UnixFileAttributes bttrs)
         throws UnixException
     {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(path);
+        NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(pbth);
         try {
-            fstatat0(dfd, buffer.address(), flag, attrs);
-        } finally {
-            buffer.release();
+            fstbtbt0(dfd, buffer.bddress(), flbg, bttrs);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void fstatat0(int dfd, long pathAddress, int flag,
-        UnixFileAttributes attrs) throws UnixException;
+    privbte stbtic nbtive void fstbtbt0(int dfd, long pbthAddress, int flbg,
+        UnixFileAttributes bttrs) throws UnixException;
 
     /**
-     * chown(const char* path, uid_t owner, gid_t group)
+     * chown(const chbr* pbth, uid_t owner, gid_t group)
      */
-    static void chown(UnixPath path, int uid, int gid) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void chown(UnixPbth pbth, int uid, int gid) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            chown0(buffer.address(), uid, gid);
-        } finally {
-            buffer.release();
+            chown0(buffer.bddress(), uid, gid);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void chown0(long pathAddress, int uid, int gid)
+    privbte stbtic nbtive void chown0(long pbthAddress, int uid, int gid)
         throws UnixException;
 
     /**
-     * lchown(const char* path, uid_t owner, gid_t group)
+     * lchown(const chbr* pbth, uid_t owner, gid_t group)
      */
-    static void lchown(UnixPath path, int uid, int gid) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void lchown(UnixPbth pbth, int uid, int gid) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            lchown0(buffer.address(), uid, gid);
-        } finally {
-            buffer.release();
+            lchown0(buffer.bddress(), uid, gid);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void lchown0(long pathAddress, int uid, int gid)
+    privbte stbtic nbtive void lchown0(long pbthAddress, int uid, int gid)
         throws UnixException;
 
     /**
      * fchown(int filedes, uid_t owner, gid_t group)
      */
-    static native void fchown(int fd, int uid, int gid) throws UnixException;
+    stbtic nbtive void fchown(int fd, int uid, int gid) throws UnixException;
 
     /**
-     * chmod(const char* path, mode_t mode)
+     * chmod(const chbr* pbth, mode_t mode)
      */
-    static void chmod(UnixPath path, int mode) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void chmod(UnixPbth pbth, int mode) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            chmod0(buffer.address(), mode);
-        } finally {
-            buffer.release();
+            chmod0(buffer.bddress(), mode);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void chmod0(long pathAddress, int mode)
+    privbte stbtic nbtive void chmod0(long pbthAddress, int mode)
         throws UnixException;
 
     /**
      * fchmod(int fildes, mode_t mode)
      */
-    static native void fchmod(int fd, int mode) throws UnixException;
+    stbtic nbtive void fchmod(int fd, int mode) throws UnixException;
 
     /**
-     * utimes(conar char* path, const struct timeval times[2])
+     * utimes(conbr chbr* pbth, const struct timevbl times[2])
      */
-    static void utimes(UnixPath path, long times0, long times1)
+    stbtic void utimes(UnixPbth pbth, long times0, long times1)
         throws UnixException
     {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            utimes0(buffer.address(), times0, times1);
-        } finally {
-            buffer.release();
+            utimes0(buffer.bddress(), times0, times1);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void utimes0(long pathAddress, long times0, long times1)
+    privbte stbtic nbtive void utimes0(long pbthAddress, long times0, long times1)
         throws UnixException;
 
     /**
-     * futimes(int fildes,, const struct timeval times[2])
+     * futimes(int fildes,, const struct timevbl times[2])
      */
-    static native void futimes(int fd, long times0, long times1) throws UnixException;
+    stbtic nbtive void futimes(int fd, long times0, long times1) throws UnixException;
 
     /**
-     * DIR *opendir(const char* dirname)
+     * DIR *opendir(const chbr* dirnbme)
      */
-    static long opendir(UnixPath path) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic long opendir(UnixPbth pbth) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            return opendir0(buffer.address());
-        } finally {
-            buffer.release();
+            return opendir0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native long opendir0(long pathAddress) throws UnixException;
+    privbte stbtic nbtive long opendir0(long pbthAddress) throws UnixException;
 
     /**
      * DIR* fdopendir(int filedes)
      */
-    static native long fdopendir(int dfd) throws UnixException;
+    stbtic nbtive long fdopendir(int dfd) throws UnixException;
 
 
     /**
      * closedir(DIR* dirp)
      */
-    static native void closedir(long dir) throws UnixException;
+    stbtic nbtive void closedir(long dir) throws UnixException;
 
     /**
-     * struct dirent* readdir(DIR *dirp)
+     * struct dirent* rebddir(DIR *dirp)
      *
-     * @return  dirent->d_name
+     * @return  dirent->d_nbme
      */
-    static native byte[] readdir(long dir) throws UnixException;
+    stbtic nbtive byte[] rebddir(long dir) throws UnixException;
 
     /**
-     * size_t read(int fildes, void* buf, size_t nbyte)
+     * size_t rebd(int fildes, void* buf, size_t nbyte)
      */
-    static native int read(int fildes, long buf, int nbyte) throws UnixException;
+    stbtic nbtive int rebd(int fildes, long buf, int nbyte) throws UnixException;
 
     /**
      * size_t writeint fildes, void* buf, size_t nbyte)
      */
-    static native int write(int fildes, long buf, int nbyte) throws UnixException;
+    stbtic nbtive int write(int fildes, long buf, int nbyte) throws UnixException;
 
     /**
-     * access(const char* path, int amode);
+     * bccess(const chbr* pbth, int bmode);
      */
-    static void access(UnixPath path, int amode) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic void bccess(UnixPbth pbth, int bmode) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            access0(buffer.address(), amode);
-        } finally {
-            buffer.release();
+            bccess0(buffer.bddress(), bmode);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void access0(long pathAddress, int amode) throws UnixException;
+    privbte stbtic nbtive void bccess0(long pbthAddress, int bmode) throws UnixException;
 
     /**
-     * struct passwd *getpwuid(uid_t uid);
+     * struct pbsswd *getpwuid(uid_t uid);
      *
-     * @return  passwd->pw_name
+     * @return  pbsswd->pw_nbme
      */
-    static native byte[] getpwuid(int uid) throws UnixException;
+    stbtic nbtive byte[] getpwuid(int uid) throws UnixException;
 
     /**
      * struct group *getgrgid(gid_t gid);
      *
-     * @return  group->gr_name
+     * @return  group->gr_nbme
      */
-    static native byte[] getgrgid(int gid) throws UnixException;
+    stbtic nbtive byte[] getgrgid(int gid) throws UnixException;
 
     /**
-     * struct passwd *getpwnam(const char *name);
+     * struct pbsswd *getpwnbm(const chbr *nbme);
      *
-     * @return  passwd->pw_uid
+     * @return  pbsswd->pw_uid
      */
-    static int getpwnam(String name) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(Util.toBytes(name));
+    stbtic int getpwnbm(String nbme) throws UnixException {
+        NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(Util.toBytes(nbme));
         try {
-            return getpwnam0(buffer.address());
-        } finally {
-            buffer.release();
+            return getpwnbm0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native int getpwnam0(long nameAddress) throws UnixException;
+    privbte stbtic nbtive int getpwnbm0(long nbmeAddress) throws UnixException;
 
     /**
-     * struct group *getgrnam(const char *name);
+     * struct group *getgrnbm(const chbr *nbme);
      *
-     * @return  group->gr_name
+     * @return  group->gr_nbme
      */
-    static int getgrnam(String name) throws UnixException {
-        NativeBuffer buffer = NativeBuffers.asNativeBuffer(Util.toBytes(name));
+    stbtic int getgrnbm(String nbme) throws UnixException {
+        NbtiveBuffer buffer = NbtiveBuffers.bsNbtiveBuffer(Util.toBytes(nbme));
         try {
-            return getgrnam0(buffer.address());
-        } finally {
-            buffer.release();
+            return getgrnbm0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native int getgrnam0(long nameAddress) throws UnixException;
+    privbte stbtic nbtive int getgrnbm0(long nbmeAddress) throws UnixException;
 
     /**
-     * statvfs(const char* path, struct statvfs *buf)
+     * stbtvfs(const chbr* pbth, struct stbtvfs *buf)
      */
-    static void statvfs(UnixPath path, UnixFileStoreAttributes attrs)
+    stbtic void stbtvfs(UnixPbth pbth, UnixFileStoreAttributes bttrs)
         throws UnixException
     {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            statvfs0(buffer.address(), attrs);
-        } finally {
-            buffer.release();
+            stbtvfs0(buffer.bddress(), bttrs);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void statvfs0(long pathAddress, UnixFileStoreAttributes attrs)
+    privbte stbtic nbtive void stbtvfs0(long pbthAddress, UnixFileStoreAttributes bttrs)
         throws UnixException;
 
     /**
-     * long int pathconf(const char *path, int name);
+     * long int pbthconf(const chbr *pbth, int nbme);
      */
-    static long pathconf(UnixPath path, int name) throws UnixException {
-        NativeBuffer buffer = copyToNativeBuffer(path);
+    stbtic long pbthconf(UnixPbth pbth, int nbme) throws UnixException {
+        NbtiveBuffer buffer = copyToNbtiveBuffer(pbth);
         try {
-            return pathconf0(buffer.address(), name);
-        } finally {
-            buffer.release();
+            return pbthconf0(buffer.bddress(), nbme);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native long pathconf0(long pathAddress, int name)
+    privbte stbtic nbtive long pbthconf0(long pbthAddress, int nbme)
         throws UnixException;
 
     /**
-     * long fpathconf(int fildes, int name);
+     * long fpbthconf(int fildes, int nbme);
      */
-    static native long fpathconf(int filedes, int name) throws UnixException;
+    stbtic nbtive long fpbthconf(int filedes, int nbme) throws UnixException;
 
     /**
-     * char* strerror(int errnum)
+     * chbr* strerror(int errnum)
      */
-    static native byte[] strerror(int errnum);
+    stbtic nbtive byte[] strerror(int errnum);
 
     /**
-     * Capabilities
+     * Cbpbbilities
      */
-    private static final int SUPPORTS_OPENAT        = 1 << 1;    // syscalls
-    private static final int SUPPORTS_FUTIMES       = 1 << 2;
-    private static final int SUPPORTS_BIRTHTIME     = 1 << 16;   // other features
-    private static final int capabilities;
+    privbte stbtic finbl int SUPPORTS_OPENAT        = 1 << 1;    // syscblls
+    privbte stbtic finbl int SUPPORTS_FUTIMES       = 1 << 2;
+    privbte stbtic finbl int SUPPORTS_BIRTHTIME     = 1 << 16;   // other febtures
+    privbte stbtic finbl int cbpbbilities;
 
     /**
-     * Supports openat and other *at calls.
+     * Supports openbt bnd other *bt cblls.
      */
-    static boolean openatSupported() {
-        return (capabilities & SUPPORTS_OPENAT) != 0;
+    stbtic boolebn openbtSupported() {
+        return (cbpbbilities & SUPPORTS_OPENAT) != 0;
     }
 
     /**
-     * Supports futimes or futimesat
+     * Supports futimes or futimesbt
      */
-    static boolean futimesSupported() {
-        return (capabilities & SUPPORTS_FUTIMES) != 0;
+    stbtic boolebn futimesSupported() {
+        return (cbpbbilities & SUPPORTS_FUTIMES) != 0;
     }
 
     /**
-     * Supports file birth (creation) time attribute
+     * Supports file birth (crebtion) time bttribute
      */
-    static boolean birthtimeSupported() {
-        return (capabilities & SUPPORTS_BIRTHTIME) != 0;
+    stbtic boolebn birthtimeSupported() {
+        return (cbpbbilities & SUPPORTS_BIRTHTIME) != 0;
     }
 
-    private static native int init();
-    static {
+    privbte stbtic nbtive int init();
+    stbtic {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                System.loadLibrary("nio");
+                System.lobdLibrbry("nio");
                 return null;
         }});
-        capabilities = init();
+        cbpbbilities = init();
     }
 }

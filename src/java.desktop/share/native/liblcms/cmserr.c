@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -52,16 +52,16 @@
 //
 //---------------------------------------------------------------------------------
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
-// I am so tired about incompatibilities on those functions that here are some replacements
-// that hopefully would be fully portable.
+// I bm so tired bbout incompbtibilities on those functions thbt here bre some replbcements
+// thbt hopefully would be fully portbble.
 
-// compare two strings ignoring case
-int CMSEXPORT cmsstrcasecmp(const char* s1, const char* s2)
+// compbre two strings ignoring cbse
+int CMSEXPORT cmsstrcbsecmp(const chbr* s1, const chbr* s2)
 {
-         register const unsigned char *us1 = (const unsigned char *)s1,
-                                      *us2 = (const unsigned char *)s2;
+         register const unsigned chbr *us1 = (const unsigned chbr *)s1,
+                                      *us2 = (const unsigned chbr *)s2;
 
         while (toupper(*us1) == toupper(*us2++))
                 if (*us1++ == '\0')
@@ -69,7 +69,7 @@ int CMSEXPORT cmsstrcasecmp(const char* s1, const char* s2)
         return (toupper(*us1) - toupper(*--us2));
 }
 
-// long int because C99 specifies ftell in such way (7.19.9.2)
+// long int becbuse C99 specifies ftell in such wby (7.19.9.2)
 long int CMSEXPORT cmsfilelength(FILE* f)
 {
     long int p , n;
@@ -87,43 +87,43 @@ long int CMSEXPORT cmsfilelength(FILE* f)
 }
 
 
-// Memory handling ------------------------------------------------------------------
+// Memory hbndling ------------------------------------------------------------------
 //
-// This is the interface to low-level memory management routines. By default a simple
-// wrapping to malloc/free/realloc is provided, although there is a limit on the max
-// amount of memoy that can be reclaimed. This is mostly as a safety feature to
-// prevent bogus or malintentionated code to allocate huge blocks that otherwise lcms
+// This is the interfbce to low-level memory mbnbgement routines. By defbult b simple
+// wrbpping to mblloc/free/reblloc is provided, blthough there is b limit on the mbx
+// bmount of memoy thbt cbn be reclbimed. This is mostly bs b sbfety febture to
+// prevent bogus or mblintentionbted code to bllocbte huge blocks thbt otherwise lcms
 // would never need.
 
 #define MAX_MEMORY_FOR_ALLOC  ((cmsUInt32Number)(1024U*1024U*512U))
 
-// User may override this behaviour by using a memory plug-in, which basically replaces
-// the default memory management functions. In this case, no check is performed and it
-// is up to the plug-in writter to keep in the safe side. There are only three functions
-// required to be implemented: malloc, realloc and free, although the user may want to
-// replace the optional mallocZero, calloc and dup as well.
+// User mby override this behbviour by using b memory plug-in, which bbsicblly replbces
+// the defbult memory mbnbgement functions. In this cbse, no check is performed bnd it
+// is up to the plug-in writter to keep in the sbfe side. There bre only three functions
+// required to be implemented: mblloc, reblloc bnd free, blthough the user mby wbnt to
+// replbce the optionbl mbllocZero, cblloc bnd dup bs well.
 
-cmsBool   _cmsRegisterMemHandlerPlugin(cmsPluginBase* Plugin);
+cmsBool   _cmsRegisterMemHbndlerPlugin(cmsPluginBbse* Plugin);
 
 // *********************************************************************************
 
-// This is the default memory allocation function. It does a very coarse
-// check of amout of memory, just to prevent exploits
-static
-void* _cmsMallocDefaultFn(cmsContext ContextID, cmsUInt32Number size)
+// This is the defbult memory bllocbtion function. It does b very cobrse
+// check of bmout of memory, just to prevent exploits
+stbtic
+void* _cmsMbllocDefbultFn(cmsContext ContextID, cmsUInt32Number size)
 {
-    if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never allow over maximum
+    if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never bllow over mbximum
 
-    return (void*) malloc(size);
+    return (void*) mblloc(size);
 
     cmsUNUSED_PARAMETER(ContextID);
 }
 
-// Generic allocate & zero
-static
-void* _cmsMallocZeroDefaultFn(cmsContext ContextID, cmsUInt32Number size)
+// Generic bllocbte & zero
+stbtic
+void* _cmsMbllocZeroDefbultFn(cmsContext ContextID, cmsUInt32Number size)
 {
-    void *pt = _cmsMalloc(ContextID, size);
+    void *pt = _cmsMblloc(ContextID, size);
     if (pt == NULL) return NULL;
 
     memset(pt, 0, size);
@@ -131,64 +131,64 @@ void* _cmsMallocZeroDefaultFn(cmsContext ContextID, cmsUInt32Number size)
 }
 
 
-// The default free function. The only check proformed is against NULL pointers
-static
-void _cmsFreeDefaultFn(cmsContext ContextID, void *Ptr)
+// The defbult free function. The only check proformed is bgbinst NULL pointers
+stbtic
+void _cmsFreeDefbultFn(cmsContext ContextID, void *Ptr)
 {
-    // free(NULL) is defined a no-op by C99, therefore it is safe to
-    // avoid the check, but it is here just in case...
+    // free(NULL) is defined b no-op by C99, therefore it is sbfe to
+    // bvoid the check, but it is here just in cbse...
 
     if (Ptr) free(Ptr);
 
     cmsUNUSED_PARAMETER(ContextID);
 }
 
-// The default realloc function. Again it check for exploits. If Ptr is NULL,
-// realloc behaves the same way as malloc and allocates a new block of size bytes.
-static
-void* _cmsReallocDefaultFn(cmsContext ContextID, void* Ptr, cmsUInt32Number size)
+// The defbult reblloc function. Agbin it check for exploits. If Ptr is NULL,
+// reblloc behbves the sbme wby bs mblloc bnd bllocbtes b new block of size bytes.
+stbtic
+void* _cmsRebllocDefbultFn(cmsContext ContextID, void* Ptr, cmsUInt32Number size)
 {
 
-    if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never realloc over 512Mb
+    if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never reblloc over 512Mb
 
-    return realloc(Ptr, size);
+    return reblloc(Ptr, size);
 
     cmsUNUSED_PARAMETER(ContextID);
 }
 
 
-// The default calloc function. Allocates an array of num elements, each one of size bytes
-// all memory is initialized to zero.
-static
-void* _cmsCallocDefaultFn(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)
+// The defbult cblloc function. Allocbtes bn brrby of num elements, ebch one of size bytes
+// bll memory is initiblized to zero.
+stbtic
+void* _cmsCbllocDefbultFn(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)
 {
-    cmsUInt32Number Total = num * size;
+    cmsUInt32Number Totbl = num * size;
 
-    // Preserve calloc behaviour
-    if (Total == 0) return NULL;
+    // Preserve cblloc behbviour
+    if (Totbl == 0) return NULL;
 
-    // Safe check for overflow.
+    // Sbfe check for overflow.
     if (num >= UINT_MAX / size) return NULL;
 
     // Check for overflow
-    if (Total < num || Total < size) {
+    if (Totbl < num || Totbl < size) {
         return NULL;
     }
 
-    if (Total > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never alloc over 512Mb
+    if (Totbl > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never blloc over 512Mb
 
-    return _cmsMallocZero(ContextID, Total);
+    return _cmsMbllocZero(ContextID, Totbl);
 }
 
-// Generic block duplication
-static
-void* _cmsDupDefaultFn(cmsContext ContextID, const void* Org, cmsUInt32Number size)
+// Generic block duplicbtion
+stbtic
+void* _cmsDupDefbultFn(cmsContext ContextID, const void* Org, cmsUInt32Number size)
 {
     void* mem;
 
     if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never dup over 512Mb
 
-    mem = _cmsMalloc(ContextID, size);
+    mem = _cmsMblloc(ContextID, size);
 
     if (mem != NULL && Org != NULL)
         memmove(mem, Org, size);
@@ -196,70 +196,70 @@ void* _cmsDupDefaultFn(cmsContext ContextID, const void* Org, cmsUInt32Number si
     return mem;
 }
 
-// Pointers to malloc and _cmsFree functions in current environment
-static void * (* MallocPtr)(cmsContext ContextID, cmsUInt32Number size)                     = _cmsMallocDefaultFn;
-static void * (* MallocZeroPtr)(cmsContext ContextID, cmsUInt32Number size)                 = _cmsMallocZeroDefaultFn;
-static void   (* FreePtr)(cmsContext ContextID, void *Ptr)                                  = _cmsFreeDefaultFn;
-static void * (* ReallocPtr)(cmsContext ContextID, void *Ptr, cmsUInt32Number NewSize)      = _cmsReallocDefaultFn;
-static void * (* CallocPtr)(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)= _cmsCallocDefaultFn;
-static void * (* DupPtr)(cmsContext ContextID, const void* Org, cmsUInt32Number size)       = _cmsDupDefaultFn;
+// Pointers to mblloc bnd _cmsFree functions in current environment
+stbtic void * (* MbllocPtr)(cmsContext ContextID, cmsUInt32Number size)                     = _cmsMbllocDefbultFn;
+stbtic void * (* MbllocZeroPtr)(cmsContext ContextID, cmsUInt32Number size)                 = _cmsMbllocZeroDefbultFn;
+stbtic void   (* FreePtr)(cmsContext ContextID, void *Ptr)                                  = _cmsFreeDefbultFn;
+stbtic void * (* RebllocPtr)(cmsContext ContextID, void *Ptr, cmsUInt32Number NewSize)      = _cmsRebllocDefbultFn;
+stbtic void * (* CbllocPtr)(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)= _cmsCbllocDefbultFn;
+stbtic void * (* DupPtr)(cmsContext ContextID, const void* Org, cmsUInt32Number size)       = _cmsDupDefbultFn;
 
-// Plug-in replacement entry
-cmsBool  _cmsRegisterMemHandlerPlugin(cmsPluginBase *Data)
+// Plug-in replbcement entry
+cmsBool  _cmsRegisterMemHbndlerPlugin(cmsPluginBbse *Dbtb)
 {
-    cmsPluginMemHandler* Plugin = (cmsPluginMemHandler*) Data;
+    cmsPluginMemHbndler* Plugin = (cmsPluginMemHbndler*) Dbtb;
 
-    // NULL forces to reset to defaults
-    if (Data == NULL) {
+    // NULL forces to reset to defbults
+    if (Dbtb == NULL) {
 
-        MallocPtr    = _cmsMallocDefaultFn;
-        MallocZeroPtr= _cmsMallocZeroDefaultFn;
-        FreePtr      = _cmsFreeDefaultFn;
-        ReallocPtr   = _cmsReallocDefaultFn;
-        CallocPtr    = _cmsCallocDefaultFn;
-        DupPtr       = _cmsDupDefaultFn;
+        MbllocPtr    = _cmsMbllocDefbultFn;
+        MbllocZeroPtr= _cmsMbllocZeroDefbultFn;
+        FreePtr      = _cmsFreeDefbultFn;
+        RebllocPtr   = _cmsRebllocDefbultFn;
+        CbllocPtr    = _cmsCbllocDefbultFn;
+        DupPtr       = _cmsDupDefbultFn;
         return TRUE;
     }
 
-    // Check for required callbacks
-    if (Plugin -> MallocPtr == NULL ||
+    // Check for required cbllbbcks
+    if (Plugin -> MbllocPtr == NULL ||
         Plugin -> FreePtr == NULL ||
-        Plugin -> ReallocPtr == NULL) return FALSE;
+        Plugin -> RebllocPtr == NULL) return FALSE;
 
-    // Set replacement functions
-    MallocPtr  = Plugin -> MallocPtr;
+    // Set replbcement functions
+    MbllocPtr  = Plugin -> MbllocPtr;
     FreePtr    = Plugin -> FreePtr;
-    ReallocPtr = Plugin -> ReallocPtr;
+    RebllocPtr = Plugin -> RebllocPtr;
 
-    if (Plugin ->MallocZeroPtr != NULL) MallocZeroPtr = Plugin ->MallocZeroPtr;
-    if (Plugin ->CallocPtr != NULL)     CallocPtr     = Plugin -> CallocPtr;
+    if (Plugin ->MbllocZeroPtr != NULL) MbllocZeroPtr = Plugin ->MbllocZeroPtr;
+    if (Plugin ->CbllocPtr != NULL)     CbllocPtr     = Plugin -> CbllocPtr;
     if (Plugin ->DupPtr != NULL)        DupPtr        = Plugin -> DupPtr;
 
     return TRUE;
 }
 
-// Generic allocate
-void* CMSEXPORT _cmsMalloc(cmsContext ContextID, cmsUInt32Number size)
+// Generic bllocbte
+void* CMSEXPORT _cmsMblloc(cmsContext ContextID, cmsUInt32Number size)
 {
-    return MallocPtr(ContextID, size);
+    return MbllocPtr(ContextID, size);
 }
 
-// Generic allocate & zero
-void* CMSEXPORT _cmsMallocZero(cmsContext ContextID, cmsUInt32Number size)
+// Generic bllocbte & zero
+void* CMSEXPORT _cmsMbllocZero(cmsContext ContextID, cmsUInt32Number size)
 {
-    return MallocZeroPtr(ContextID, size);
+    return MbllocZeroPtr(ContextID, size);
 }
 
-// Generic calloc
-void* CMSEXPORT _cmsCalloc(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)
+// Generic cblloc
+void* CMSEXPORT _cmsCblloc(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)
 {
-    return CallocPtr(ContextID, num, size);
+    return CbllocPtr(ContextID, num, size);
 }
 
-// Generic reallocate
-void* CMSEXPORT _cmsRealloc(cmsContext ContextID, void* Ptr, cmsUInt32Number size)
+// Generic rebllocbte
+void* CMSEXPORT _cmsReblloc(cmsContext ContextID, void* Ptr, cmsUInt32Number size)
 {
-    return ReallocPtr(ContextID, Ptr, size);
+    return RebllocPtr(ContextID, Ptr, size);
 }
 
 // Generic free memory
@@ -268,7 +268,7 @@ void CMSEXPORT _cmsFree(cmsContext ContextID, void* Ptr)
     if (Ptr != NULL) FreePtr(ContextID, Ptr);
 }
 
-// Generic block duplication
+// Generic block duplicbtion
 void* CMSEXPORT _cmsDupMem(cmsContext ContextID, const void* Org, cmsUInt32Number size)
 {
     return DupPtr(ContextID, Org, size);
@@ -276,25 +276,25 @@ void* CMSEXPORT _cmsDupMem(cmsContext ContextID, const void* Org, cmsUInt32Numbe
 
 // ********************************************************************************************
 
-// Sub allocation takes care of many pointers of small size. The memory allocated in
-// this way have be freed at once. Next function allocates a single chunk for linked list
-// I prefer this method over realloc due to the big inpact on xput realloc may have if
-// memory is being swapped to disk. This approach is safer (although that may not be true on all platforms)
-static
-_cmsSubAllocator_chunk* _cmsCreateSubAllocChunk(cmsContext ContextID, cmsUInt32Number Initial)
+// Sub bllocbtion tbkes cbre of mbny pointers of smbll size. The memory bllocbted in
+// this wby hbve be freed bt once. Next function bllocbtes b single chunk for linked list
+// I prefer this method over reblloc due to the big inpbct on xput reblloc mby hbve if
+// memory is being swbpped to disk. This bpprobch is sbfer (blthough thbt mby not be true on bll plbtforms)
+stbtic
+_cmsSubAllocbtor_chunk* _cmsCrebteSubAllocChunk(cmsContext ContextID, cmsUInt32Number Initibl)
 {
-    _cmsSubAllocator_chunk* chunk;
+    _cmsSubAllocbtor_chunk* chunk;
 
-    // 20K by default
-    if (Initial == 0)
-        Initial = 20*1024;
+    // 20K by defbult
+    if (Initibl == 0)
+        Initibl = 20*1024;
 
-    // Create the container
-    chunk = (_cmsSubAllocator_chunk*) _cmsMallocZero(ContextID, sizeof(_cmsSubAllocator_chunk));
+    // Crebte the contbiner
+    chunk = (_cmsSubAllocbtor_chunk*) _cmsMbllocZero(ContextID, sizeof(_cmsSubAllocbtor_chunk));
     if (chunk == NULL) return NULL;
 
-    // Initialize values
-    chunk ->Block     = (cmsUInt8Number*) _cmsMalloc(ContextID, Initial);
+    // Initiblize vblues
+    chunk ->Block     = (cmsUInt8Number*) _cmsMblloc(ContextID, Initibl);
     if (chunk ->Block == NULL) {
 
         // Something went wrong
@@ -302,26 +302,26 @@ _cmsSubAllocator_chunk* _cmsCreateSubAllocChunk(cmsContext ContextID, cmsUInt32N
         return NULL;
     }
 
-    chunk ->BlockSize = Initial;
+    chunk ->BlockSize = Initibl;
     chunk ->Used      = 0;
     chunk ->next      = NULL;
 
     return chunk;
 }
 
-// The suballocated is nothing but a pointer to the first element in the list. We also keep
-// the thread ID in this structure.
-_cmsSubAllocator* _cmsCreateSubAlloc(cmsContext ContextID, cmsUInt32Number Initial)
+// The subbllocbted is nothing but b pointer to the first element in the list. We blso keep
+// the threbd ID in this structure.
+_cmsSubAllocbtor* _cmsCrebteSubAlloc(cmsContext ContextID, cmsUInt32Number Initibl)
 {
-    _cmsSubAllocator* sub;
+    _cmsSubAllocbtor* sub;
 
-    // Create the container
-    sub = (_cmsSubAllocator*) _cmsMallocZero(ContextID, sizeof(_cmsSubAllocator));
+    // Crebte the contbiner
+    sub = (_cmsSubAllocbtor*) _cmsMbllocZero(ContextID, sizeof(_cmsSubAllocbtor));
     if (sub == NULL) return NULL;
 
     sub ->ContextID = ContextID;
 
-    sub ->h = _cmsCreateSubAllocChunk(ContextID, Initial);
+    sub ->h = _cmsCrebteSubAllocChunk(ContextID, Initibl);
     if (sub ->h == NULL) {
         _cmsFree(ContextID, sub);
         return NULL;
@@ -332,9 +332,9 @@ _cmsSubAllocator* _cmsCreateSubAlloc(cmsContext ContextID, cmsUInt32Number Initi
 
 
 // Get rid of whole linked list
-void _cmsSubAllocDestroy(_cmsSubAllocator* sub)
+void _cmsSubAllocDestroy(_cmsSubAllocbtor* sub)
 {
-    _cmsSubAllocator_chunk *chunk, *n;
+    _cmsSubAllocbtor_chunk *chunk, *n;
 
     for (chunk = sub ->h; chunk != NULL; chunk = n) {
 
@@ -343,29 +343,29 @@ void _cmsSubAllocDestroy(_cmsSubAllocator* sub)
         _cmsFree(sub ->ContextID, chunk);
     }
 
-    // Free the header
+    // Free the hebder
     _cmsFree(sub ->ContextID, sub);
 }
 
 
-// Get a pointer to small memory block.
-void*  _cmsSubAlloc(_cmsSubAllocator* sub, cmsUInt32Number size)
+// Get b pointer to smbll memory block.
+void*  _cmsSubAlloc(_cmsSubAllocbtor* sub, cmsUInt32Number size)
 {
     cmsUInt32Number Free = sub -> h ->BlockSize - sub -> h -> Used;
     cmsUInt8Number* ptr;
 
     size = _cmsALIGNMEM(size);
 
-    // Check for memory. If there is no room, allocate a new chunk of double memory size.
+    // Check for memory. If there is no room, bllocbte b new chunk of double memory size.
     if (size > Free) {
 
-        _cmsSubAllocator_chunk* chunk;
+        _cmsSubAllocbtor_chunk* chunk;
         cmsUInt32Number newSize;
 
         newSize = sub -> h ->BlockSize * 2;
         if (newSize < size) newSize = size;
 
-        chunk = _cmsCreateSubAllocChunk(sub -> ContextID, newSize);
+        chunk = _cmsCrebteSubAllocChunk(sub -> ContextID, newSize);
         if (chunk == NULL) return NULL;
 
         // Link list
@@ -382,31 +382,31 @@ void*  _cmsSubAlloc(_cmsSubAllocator* sub, cmsUInt32Number size)
 
 // Error logging ******************************************************************
 
-// There is no error handling at all. When a funtion fails, it returns proper value.
-// For example, all create functions does return NULL on failure. Other return FALSE
-// It may be interesting, for the developer, to know why the function is failing.
-// for that reason, lcms2 does offer a logging function. This function does recive
-// a ENGLISH string with some clues on what is going wrong. You can show this
-// info to the end user, or just create some sort of log.
-// The logging function should NOT terminate the program, as this obviously can leave
-// resources. It is the programmer's responsability to check each function return code
-// to make sure it didn't fail.
+// There is no error hbndling bt bll. When b funtion fbils, it returns proper vblue.
+// For exbmple, bll crebte functions does return NULL on fbilure. Other return FALSE
+// It mby be interesting, for the developer, to know why the function is fbiling.
+// for thbt rebson, lcms2 does offer b logging function. This function does recive
+// b ENGLISH string with some clues on whbt is going wrong. You cbn show this
+// info to the end user, or just crebte some sort of log.
+// The logging function should NOT terminbte the progrbm, bs this obviously cbn lebve
+// resources. It is the progrbmmer's responsbbility to check ebch function return code
+// to mbke sure it didn't fbil.
 
-// Error messages are limited to MAX_ERROR_MESSAGE_LEN
+// Error messbges bre limited to MAX_ERROR_MESSAGE_LEN
 
 #define MAX_ERROR_MESSAGE_LEN   1024
 
 // ---------------------------------------------------------------------------------------------------------
 
-// This is our default log error
-static void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorCode, const char *Text);
+// This is our defbult log error
+stbtic void DefbultLogErrorHbndlerFunction(cmsContext ContextID, cmsUInt32Number ErrorCode, const chbr *Text);
 
-// The current handler in actual environment
-static cmsLogErrorHandlerFunction LogErrorHandler   = DefaultLogErrorHandlerFunction;
+// The current hbndler in bctubl environment
+stbtic cmsLogErrorHbndlerFunction LogErrorHbndler   = DefbultLogErrorHbndlerFunction;
 
-// The default error logger does nothing.
-static
-void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorCode, const char *Text)
+// The defbult error logger does nothing.
+stbtic
+void DefbultLogErrorHbndlerFunction(cmsContext ContextID, cmsUInt32Number ErrorCode, const chbr *Text)
 {
     // fprintf(stderr, "[lcms]: %s\n", Text);
     // fflush(stderr);
@@ -416,42 +416,42 @@ void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorC
      cmsUNUSED_PARAMETER(Text);
 }
 
-// Change log error
-void CMSEXPORT cmsSetLogErrorHandler(cmsLogErrorHandlerFunction Fn)
+// Chbnge log error
+void CMSEXPORT cmsSetLogErrorHbndler(cmsLogErrorHbndlerFunction Fn)
 {
     if (Fn == NULL)
-        LogErrorHandler = DefaultLogErrorHandlerFunction;
+        LogErrorHbndler = DefbultLogErrorHbndlerFunction;
     else
-        LogErrorHandler = Fn;
+        LogErrorHbndler = Fn;
 }
 
-// Log an error
-// ErrorText is a text holding an english description of error.
-void CMSEXPORT cmsSignalError(cmsContext ContextID, cmsUInt32Number ErrorCode, const char *ErrorText, ...)
+// Log bn error
+// ErrorText is b text holding bn english description of error.
+void CMSEXPORT cmsSignblError(cmsContext ContextID, cmsUInt32Number ErrorCode, const chbr *ErrorText, ...)
 {
-    va_list args;
-    char Buffer[MAX_ERROR_MESSAGE_LEN];
+    vb_list brgs;
+    chbr Buffer[MAX_ERROR_MESSAGE_LEN];
 
-    va_start(args, ErrorText);
-    vsnprintf(Buffer, MAX_ERROR_MESSAGE_LEN-1, ErrorText, args);
-    va_end(args);
+    vb_stbrt(brgs, ErrorText);
+    vsnprintf(Buffer, MAX_ERROR_MESSAGE_LEN-1, ErrorText, brgs);
+    vb_end(brgs);
 
-    // Call handler
-    LogErrorHandler(ContextID, ErrorCode, Buffer);
+    // Cbll hbndler
+    LogErrorHbndler(ContextID, ErrorCode, Buffer);
 }
 
-// Utility function to print signatures
-void _cmsTagSignature2String(char String[5], cmsTagSignature sig)
+// Utility function to print signbtures
+void _cmsTbgSignbture2String(chbr String[5], cmsTbgSignbture sig)
 {
     cmsUInt32Number be;
 
-    // Convert to big endian
-    be = _cmsAdjustEndianess32((cmsUInt32Number) sig);
+    // Convert to big endibn
+    be = _cmsAdjustEndibness32((cmsUInt32Number) sig);
 
-    // Move chars
+    // Move chbrs
     memmove(String, &be, 4);
 
-    // Make sure of terminator
+    // Mbke sure of terminbtor
     String[4] = 0;
 }
 

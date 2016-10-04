@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.log;
+pbckbge sun.rmi.log;
 
-import java.io.*;
+import jbvb.io.*;
 
 public
-class LogOutputStream extends OutputStream {
+clbss LogOutputStrebm extends OutputStrebm {
 
-    private RandomAccessFile raf;
+    privbte RbndomAccessFile rbf;
 
     /**
-     * Creates an output file with the specified system dependent
+     * Crebtes bn output file with the specified system dependent
      * file descriptor.
-     * @param fd the system dependent file descriptor
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm fd the system dependent file descriptor
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public LogOutputStream(RandomAccessFile raf) throws IOException {
-        this.raf = raf;
+    public LogOutputStrebm(RbndomAccessFile rbf) throws IOException {
+        this.rbf = rbf;
     }
 
     /**
-     * Writes a byte of data. This method will block until the byte is
-     * actually written.
-     * @param b the byte to be written
-     * @exception IOException If an I/O error has occurred.
+     * Writes b byte of dbtb. This method will block until the byte is
+     * bctublly written.
+     * @pbrbm b the byte to be written
+     * @exception IOException If bn I/O error hbs occurred.
      */
     public void write(int b) throws IOException {
-        raf.write(b);
+        rbf.write(b);
     }
 
     /**
-     * Writes an array of bytes. Will block until the bytes
-     * are actually written.
-     * @param b the data to be written
-     * @exception IOException If an I/O error has occurred.
+     * Writes bn brrby of bytes. Will block until the bytes
+     * bre bctublly written.
+     * @pbrbm b the dbtb to be written
+     * @exception IOException If bn I/O error hbs occurred.
      */
     public void write(byte b[]) throws IOException {
-        raf.write(b);
+        rbf.write(b);
     }
 
     /**
-     * Writes a sub array of bytes.
-     * @param b the data to be written
-     * @param off       the start offset in the data
-     * @param len       the number of bytes that are written
-     * @exception IOException If an I/O error has occurred.
+     * Writes b sub brrby of bytes.
+     * @pbrbm b the dbtb to be written
+     * @pbrbm off       the stbrt offset in the dbtb
+     * @pbrbm len       the number of bytes thbt bre written
+     * @exception IOException If bn I/O error hbs occurred.
      */
     public void write(byte b[], int off, int len) throws IOException {
-        raf.write(b, off, len);
+        rbf.write(b, off, len);
     }
 
     /**
-     * Can not close a LogOutputStream, so this does nothing.
-     * @exception IOException If an I/O error has occurred.
+     * Cbn not close b LogOutputStrebm, so this does nothing.
+     * @exception IOException If bn I/O error hbs occurred.
      */
-    public final void close() throws IOException {
+    public finbl void close() throws IOException {
     }
 
 }

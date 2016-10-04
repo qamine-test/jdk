@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import sun.awt.AWTAccessor;
-import sun.lwawt.macosx.CMenuBar;
+import sun.bwt.AWTAccessor;
+import sun.lwbwt.mbcosx.CMenuBbr;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.lang.reflect.*;
-import java.security.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.lbng.reflect.*;
+import jbvb.security.*;
+import jbvb.util.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-@SuppressWarnings("serial") // JDK implementation class
-public class ScreenMenuBar extends MenuBar implements ContainerListener, ScreenMenuPropertyHandler, ComponentListener {
-    static boolean sJMenuBarHasHelpMenus = false; //$ could check by calling getHelpMenu in a try block
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public clbss ScreenMenuBbr extends MenuBbr implements ContbinerListener, ScreenMenuPropertyHbndler, ComponentListener {
+    stbtic boolebn sJMenuBbrHbsHelpMenus = fblse; //$ could check by cblling getHelpMenu in b try block
 
-    JMenuBar fSwingBar;
-    Hashtable<JMenu, ScreenMenu> fSubmenus;
+    JMenuBbr fSwingBbr;
+    Hbshtbble<JMenu, ScreenMenu> fSubmenus;
 
     ScreenMenuPropertyListener fPropertyListener;
     ScreenMenuPropertyListener fAccessibleListener;
 
-    public ScreenMenuBar(final JMenuBar swingBar) {
-        fSwingBar = swingBar;
-        fSubmenus = new Hashtable<JMenu, ScreenMenu>(fSwingBar.getMenuCount());
+    public ScreenMenuBbr(finbl JMenuBbr swingBbr) {
+        fSwingBbr = swingBbr;
+        fSubmenus = new Hbshtbble<JMenu, ScreenMenu>(fSwingBbr.getMenuCount());
     }
 
-    public void addNotify() {
-        super.addNotify();
+    public void bddNotify() {
+        super.bddNotify();
 
-        fSwingBar.addContainerListener(this);
+        fSwingBbr.bddContbinerListener(this);
         fPropertyListener = new ScreenMenuPropertyListener(this);
-        fSwingBar.addPropertyChangeListener(fPropertyListener);
+        fSwingBbr.bddPropertyChbngeListener(fPropertyListener);
         fAccessibleListener = new ScreenMenuPropertyListener(this);
-        fSwingBar.getAccessibleContext().addPropertyChangeListener(fAccessibleListener);
+        fSwingBbr.getAccessibleContext().bddPropertyChbngeListener(fAccessibleListener);
 
-        // We disable component events when the menu bar is not parented.  So now we need to
-        // sync back up with the current state of the JMenuBar.  We first add the menus we
-        // don't have and then remove the items that are no longer on the JMenuBar.
-        final int count = fSwingBar.getMenuCount();
+        // We disbble component events when the menu bbr is not pbrented.  So now we need to
+        // sync bbck up with the current stbte of the JMenuBbr.  We first bdd the menus we
+        // don't hbve bnd then remove the items thbt bre no longer on the JMenuBbr.
+        finbl int count = fSwingBbr.getMenuCount();
         for(int i = 0; i < count ; i++) {
-            final JMenu m = fSwingBar.getMenu(i);
+            finbl JMenu m = fSwingBbr.getMenu(i);
             if (m != null) {
-                addSubmenu(m);
+                bddSubmenu(m);
             }
         }
 
-        final Enumeration<JMenu> e = fSubmenus.keys();
-        while (e.hasMoreElements()) {
-            final JMenu m = e.nextElement();
-            if (fSwingBar.getComponentIndex(m) == -1) {
+        finbl Enumerbtion<JMenu> e = fSubmenus.keys();
+        while (e.hbsMoreElements()) {
+            finbl JMenu m = e.nextElement();
+            if (fSwingBbr.getComponentIndex(m) == -1) {
                 removeSubmenu(m);
             }
         }
     }
 
     public void removeNotify() {
-        // KCH - 3974930 - We do null checks for fSwingBar and fSubmenus because some people are using
-        // reflection to muck about with our ivars
-        if (fSwingBar != null) {
-            fSwingBar.removePropertyChangeListener(fPropertyListener);
-            fSwingBar.getAccessibleContext().removePropertyChangeListener(fAccessibleListener);
-            fSwingBar.removeContainerListener(this);
+        // KCH - 3974930 - We do null checks for fSwingBbr bnd fSubmenus becbuse some people bre using
+        // reflection to muck bbout with our ivbrs
+        if (fSwingBbr != null) {
+            fSwingBbr.removePropertyChbngeListener(fPropertyListener);
+            fSwingBbr.getAccessibleContext().removePropertyChbngeListener(fAccessibleListener);
+            fSwingBbr.removeContbinerListener(this);
         }
 
         fPropertyListener = null;
         fAccessibleListener = null;
 
         if (fSubmenus != null) {
-            // We don't listen to events when the menu bar is not parented.
-            // Remove all the component listeners.
-            final Enumeration<JMenu> e = fSubmenus.keys();
-            while (e.hasMoreElements()) {
-                final JMenu m = e.nextElement();
+            // We don't listen to events when the menu bbr is not pbrented.
+            // Remove bll the component listeners.
+            finbl Enumerbtion<JMenu> e = fSubmenus.keys();
+            while (e.hbsMoreElements()) {
+                finbl JMenu m = e.nextElement();
                 m.removeComponentListener(this);
             }
         }
@@ -106,67 +106,67 @@ public class ScreenMenuBar extends MenuBar implements ContainerListener, ScreenM
     }
 
     /**
-     * Invoked when a component has been added to the container.
+     * Invoked when b component hbs been bdded to the contbiner.
      */
-    public void componentAdded(final ContainerEvent e) {
-        final Component child = e.getChild();
-        if (!(child instanceof JMenu)) return;
-            addSubmenu((JMenu)child);
+    public void componentAdded(finbl ContbinerEvent e) {
+        finbl Component child = e.getChild();
+        if (!(child instbnceof JMenu)) return;
+            bddSubmenu((JMenu)child);
      }
 
     /**
-     * Invoked when a component has been removed from the container.
+     * Invoked when b component hbs been removed from the contbiner.
      */
-    public void componentRemoved(final ContainerEvent e) {
-          final Component child = e.getChild();
-          if (!(child instanceof JMenu)) return;
+    public void componentRemoved(finbl ContbinerEvent e) {
+          finbl Component child = e.getChild();
+          if (!(child instbnceof JMenu)) return;
             removeSubmenu((JMenu)child);
         }
 
     /**
-        * Invoked when the component's size changes.
+        * Invoked when the component's size chbnges.
      */
-    public void componentResized(final ComponentEvent e)  {}
+    public void componentResized(finbl ComponentEvent e)  {}
 
     /**
-        * Invoked when the component's position changes.
+        * Invoked when the component's position chbnges.
      */
-    public void componentMoved(final ComponentEvent e)  {}
+    public void componentMoved(finbl ComponentEvent e)  {}
 
     /**
-        * Invoked when the component has been made visible.
-     * See componentHidden - we should still have a MenuItem
+        * Invoked when the component hbs been mbde visible.
+     * See componentHidden - we should still hbve b MenuItem
      * it just isn't inserted
      */
-    public void componentShown(final ComponentEvent e) {
-        final Object source = e.getSource();
-        if (!(source instanceof JMenuItem)) return;
+    public void componentShown(finbl ComponentEvent e) {
+        finbl Object source = e.getSource();
+        if (!(source instbnceof JMenuItem)) return;
         setChildVisible((JMenuItem)source, true);
     }
 
     /**
-        * Invoked when the component has been made invisible.
+        * Invoked when the component hbs been mbde invisible.
      * MenuComponent.setVisible does nothing,
      * so we remove the ScreenMenuItem from the ScreenMenu
-     * but leave it in fItems
+     * but lebve it in fItems
      */
-    public void componentHidden(final ComponentEvent e)  {
-        final Object source = e.getSource();
-        if (!(source instanceof JMenuItem)) return;
-        setChildVisible((JMenuItem)source, false);
+    public void componentHidden(finbl ComponentEvent e)  {
+        finbl Object source = e.getSource();
+        if (!(source instbnceof JMenuItem)) return;
+        setChildVisible((JMenuItem)source, fblse);
     }
 
     /*
      * MenuComponent.setVisible does nothing,
-     * so we just add or remove the child from the ScreenMenuBar
-     * but leave it in the list
+     * so we just bdd or remove the child from the ScreenMenuBbr
+     * but lebve it in the list
      */
-    public void setChildVisible(final JMenuItem child, final boolean b) {
-        if (child instanceof JMenu) {
+    public void setChildVisible(finbl JMenuItem child, finbl boolebn b) {
+        if (child instbnceof JMenu) {
             if (b) {
-                addSubmenu((JMenu)child);
+                bddSubmenu((JMenu)child);
             } else {
-                final ScreenMenu sm = fSubmenus.get(child);
+                finbl ScreenMenu sm = fSubmenus.get(child);
                 if (sm != null)
                     remove(sm);
             }
@@ -175,70 +175,70 @@ public class ScreenMenuBar extends MenuBar implements ContainerListener, ScreenM
 
     public void removeAll() {
         synchronized (getTreeLock()) {
-            final int nitems = getMenuCount();
+            finbl int nitems = getMenuCount();
             for (int i = nitems-1 ; i >= 0 ; i--) {
                 remove(i);
             }
         }
     }
 
-    public void setIcon(final Icon i) {}
-    public void setLabel(final String s) {}
+    public void setIcon(finbl Icon i) {}
+    public void setLbbel(finbl String s) {}
 
-    public void setEnabled(final boolean b) {
-        final int count = fSwingBar.getMenuCount();
+    public void setEnbbled(finbl boolebn b) {
+        finbl int count = fSwingBbr.getMenuCount();
         for (int i = 0; i < count; i++) {
-            fSwingBar.getMenu(i).setEnabled(b);
+            fSwingBbr.getMenu(i).setEnbbled(b);
         }
     }
 
-    public void setAccelerator(final KeyStroke ks) {}
-    public void setToolTipText(final String tooltip) {}
+    public void setAccelerbtor(finbl KeyStroke ks) {}
+    public void setToolTipText(finbl String tooltip) {}
 
-    // only check and radio items can be indeterminate
-    public void setIndeterminate(boolean indeterminate) { }
+    // only check bnd rbdio items cbn be indeterminbte
+    public void setIndeterminbte(boolebn indeterminbte) { }
 
-    ScreenMenu addSubmenu(final JMenu m) {
+    ScreenMenu bddSubmenu(finbl JMenu m) {
         ScreenMenu sm = fSubmenus.get(m);
 
         if (sm == null) {
             sm = new ScreenMenu(m);
-            m.addComponentListener(this);
+            m.bddComponentListener(this);
             fSubmenus.put(m, sm);
         }
 
-        sm.setEnabled(m.isEnabled());
+        sm.setEnbbled(m.isEnbbled());
 
-        // MenuComponents don't support setVisible, so we just don't add it to the menubar
-        if (m.isVisible() && sm.getParent() == null) {
+        // MenuComponents don't support setVisible, so we just don't bdd it to the menubbr
+        if (m.isVisible() && sm.getPbrent() == null) {
             int newIndex = 0, currVisibleIndex = 0;
             JMenu menu = null;
-            final int menuCount = fSwingBar.getMenuCount();
+            finbl int menuCount = fSwingBbr.getMenuCount();
             for (int i = 0; i < menuCount; i++) {
-                menu = fSwingBar.getMenu(i);
+                menu = fSwingBbr.getMenu(i);
                 if (menu == m) {
                     newIndex = currVisibleIndex;
-                    break;
+                    brebk;
                 }
                 if (menu != null && menu.isVisible()) {
                     currVisibleIndex++;
                 }
             }
-            add(sm, newIndex);
+            bdd(sm, newIndex);
         }
 
         return sm;
     }
 
     /**
-     * Remove the screen menu associated with the specifiec menu.  This
-     * also removes any associated component listener on the screen menu
-     * and removes the key/value (menu/screen menu) from the fSubmenus cache.
+     * Remove the screen menu bssocibted with the specifiec menu.  This
+     * blso removes bny bssocibted component listener on the screen menu
+     * bnd removes the key/vblue (menu/screen menu) from the fSubmenus cbche.
      *
-     * @param menu The swing menu we want to remove the screen menu for.
+     * @pbrbm menu The swing menu we wbnt to remove the screen menu for.
      */
-    private void removeSubmenu(final JMenu menu) {
-        final ScreenMenu screenMenu = fSubmenus.get(menu);
+    privbte void removeSubmenu(finbl JMenu menu) {
+        finbl ScreenMenu screenMenu = fSubmenus.get(menu);
         if (screenMenu == null) return;
 
             menu.removeComponentListener(this);
@@ -246,22 +246,22 @@ public class ScreenMenuBar extends MenuBar implements ContainerListener, ScreenM
             fSubmenus.remove(menu);
     }
 
-    public Menu add(final Menu m, final int index) {
+    public Menu bdd(finbl Menu m, finbl int index) {
         synchronized (getTreeLock()) {
-            if (m.getParent() != null) {
-                m.getParent().remove(m);
+            if (m.getPbrent() != null) {
+                m.getPbrent().remove(m);
             }
 
-            final Vector<Menu> menus = AWTAccessor.getMenuBarAccessor().getMenus(this);
+            finbl Vector<Menu> menus = AWTAccessor.getMenuBbrAccessor().getMenus(this);
             menus.insertElementAt(m, index);
-            AWTAccessor.getMenuComponentAccessor().setParent(m, this);
+            AWTAccessor.getMenuComponentAccessor().setPbrent(m, this);
 
-            final CMenuBar peer = (CMenuBar)getPeer();
+            finbl CMenuBbr peer = (CMenuBbr)getPeer();
             if (peer == null) return m;
 
             peer.setNextInsertionIndex(index);
             if (m.getPeer() == null) {
-                m.addNotify();
+                m.bddNotify();
             }
 
             peer.setNextInsertionIndex(-1);

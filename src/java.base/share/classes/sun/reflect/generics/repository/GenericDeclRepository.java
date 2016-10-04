@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.generics.repository;
+pbckbge sun.reflect.generics.repository;
 
-import java.lang.reflect.TypeVariable;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.tree.FormalTypeParameter;
-import sun.reflect.generics.tree.Signature;
+import jbvb.lbng.reflect.TypeVbribble;
+import sun.reflect.generics.fbctory.GenericsFbctory;
+import sun.reflect.generics.tree.FormblTypePbrbmeter;
+import sun.reflect.generics.tree.Signbture;
 import sun.reflect.generics.visitor.Reifier;
 
 
 
 /**
- * This class represents the generic type information for a generic
- * declaration.
- * The code is not dependent on a particular reflective implementation.
- * It is designed to be used unchanged by at least core reflection and JDI.
+ * This clbss represents the generic type informbtion for b generic
+ * declbrbtion.
+ * The code is not dependent on b pbrticulbr reflective implementbtion.
+ * It is designed to be used unchbnged by bt lebst core reflection bnd JDI.
  */
-public abstract class GenericDeclRepository<S extends Signature>
-    extends AbstractRepository<S> {
+public bbstrbct clbss GenericDeclRepository<S extends Signbture>
+    extends AbstrbctRepository<S> {
 
-    private TypeVariable<?>[] typeParams; // caches the formal type parameters
+    privbte TypeVbribble<?>[] typePbrbms; // cbches the formbl type pbrbmeters
 
-    protected GenericDeclRepository(String rawSig, GenericsFactory f) {
-        super(rawSig, f);
+    protected GenericDeclRepository(String rbwSig, GenericsFbctory f) {
+        super(rbwSig, f);
     }
 
     // public API
  /*
- * When queried for a particular piece of type information, the
- * general pattern is to consult the corresponding cached value.
+ * When queried for b pbrticulbr piece of type informbtion, the
+ * generbl pbttern is to consult the corresponding cbched vblue.
  * If the corresponding field is non-null, it is returned.
- * If not, it is created lazily. This is done by selecting the appropriate
- * part of the tree and transforming it into a reflective object
- * using a visitor.
- * a visitor, which is created by feeding it the factory
- * with which the repository was created.
+ * If not, it is crebted lbzily. This is done by selecting the bppropribte
+ * pbrt of the tree bnd trbnsforming it into b reflective object
+ * using b visitor.
+ * b visitor, which is crebted by feeding it the fbctory
+ * with which the repository wbs crebted.
  */
 
     /**
-     * Return the formal type parameters of this generic declaration.
-     * @return the formal type parameters of this generic declaration
+     * Return the formbl type pbrbmeters of this generic declbrbtion.
+     * @return the formbl type pbrbmeters of this generic declbrbtion
      */
-    public TypeVariable<?>[] getTypeParameters(){
-        if (typeParams == null) { // lazily initialize type parameters
-            // first, extract type parameter subtree(s) from AST
-            FormalTypeParameter[] ftps = getTree().getFormalTypeParameters();
-            // create array to store reified subtree(s)
-            TypeVariable<?>[] tps = new TypeVariable<?>[ftps.length];
-            // reify all subtrees
+    public TypeVbribble<?>[] getTypePbrbmeters(){
+        if (typePbrbms == null) { // lbzily initiblize type pbrbmeters
+            // first, extrbct type pbrbmeter subtree(s) from AST
+            FormblTypePbrbmeter[] ftps = getTree().getFormblTypePbrbmeters();
+            // crebte brrby to store reified subtree(s)
+            TypeVbribble<?>[] tps = new TypeVbribble<?>[ftps.length];
+            // reify bll subtrees
             for (int i = 0; i < ftps.length; i++) {
-                Reifier r = getReifier(); // obtain visitor
-                ftps[i].accept(r); // reify subtree
-                // extract result from visitor and store it
-                tps[i] = (TypeVariable<?>) r.getResult();
+                Reifier r = getReifier(); // obtbin visitor
+                ftps[i].bccept(r); // reify subtree
+                // extrbct result from visitor bnd store it
+                tps[i] = (TypeVbribble<?>) r.getResult();
             }
-            typeParams = tps; // cache overall result
+            typePbrbms = tps; // cbche overbll result
         }
-        return typeParams.clone(); // return cached result
+        return typePbrbms.clone(); // return cbched result
     }
 }

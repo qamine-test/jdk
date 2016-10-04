@@ -1,511 +1,511 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.util.Arrbys;
 
 /**
- * The subclass of {@link SQLException} thrown when an error
- * occurs during a batch update operation.  In addition to the
- * information provided by {@link SQLException}, a
- * <code>BatchUpdateException</code> provides the update
- * counts for all commands that were executed successfully during the
- * batch update, that is, all commands that were executed before the error
- * occurred.  The order of elements in an array of update counts
- * corresponds to the order in which commands were added to the batch.
+ * The subclbss of {@link SQLException} thrown when bn error
+ * occurs during b bbtch updbte operbtion.  In bddition to the
+ * informbtion provided by {@link SQLException}, b
+ * <code>BbtchUpdbteException</code> provides the updbte
+ * counts for bll commbnds thbt were executed successfully during the
+ * bbtch updbte, thbt is, bll commbnds thbt were executed before the error
+ * occurred.  The order of elements in bn brrby of updbte counts
+ * corresponds to the order in which commbnds were bdded to the bbtch.
  * <P>
- * After a command in a batch update fails to execute properly
- * and a <code>BatchUpdateException</code> is thrown, the driver
- * may or may not continue to process the remaining commands in
- * the batch.  If the driver continues processing after a failure,
- * the array returned by the method
- * <code>BatchUpdateException.getUpdateCounts</code> will have
- * an element for every command in the batch rather than only
- * elements for the commands that executed successfully before
- * the error.  In the case where the driver continues processing
- * commands, the array element for any command
- * that failed is <code>Statement.EXECUTE_FAILED</code>.
+ * After b commbnd in b bbtch updbte fbils to execute properly
+ * bnd b <code>BbtchUpdbteException</code> is thrown, the driver
+ * mby or mby not continue to process the rembining commbnds in
+ * the bbtch.  If the driver continues processing bfter b fbilure,
+ * the brrby returned by the method
+ * <code>BbtchUpdbteException.getUpdbteCounts</code> will hbve
+ * bn element for every commbnd in the bbtch rbther thbn only
+ * elements for the commbnds thbt executed successfully before
+ * the error.  In the cbse where the driver continues processing
+ * commbnds, the brrby element for bny commbnd
+ * thbt fbiled is <code>Stbtement.EXECUTE_FAILED</code>.
  * <P>
- * A JDBC driver implementation should use
- * the constructor {@code BatchUpdateException(String reason, String SQLState,
- * int vendorCode, long []updateCounts,Throwable cause) } instead of
- * constructors that take {@code int[]} for the update counts to avoid the
+ * A JDBC driver implementbtion should use
+ * the constructor {@code BbtchUpdbteException(String rebson, String SQLStbte,
+ * int vendorCode, long []updbteCounts,Throwbble cbuse) } instebd of
+ * constructors thbt tbke {@code int[]} for the updbte counts to bvoid the
  * possibility of overflow.
  * <p>
- * If {@code Statement.executeLargeBatch} method is invoked it is recommended that
- * {@code getLargeUpdateCounts} be called instead of {@code getUpdateCounts}
- * in order to avoid a possible overflow of the integer update count.
+ * If {@code Stbtement.executeLbrgeBbtch} method is invoked it is recommended thbt
+ * {@code getLbrgeUpdbteCounts} be cblled instebd of {@code getUpdbteCounts}
+ * in order to bvoid b possible overflow of the integer updbte count.
  * @since 1.2
  */
 
-public class BatchUpdateException extends SQLException {
+public clbss BbtchUpdbteException extends SQLException {
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a given
-   * <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code> and
-   * <code>updateCounts</code>.
-   * The <code>cause</code> is not initialized, and may subsequently be
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with b given
+   * <code>rebson</code>, <code>SQLStbte</code>, <code>vendorCode</code> bnd
+   * <code>updbteCounts</code>.
+   * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+   * initiblized by b cbll to the
+   * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Note:</strong> There is no vblidbtion of {@code updbteCounts} for
+   * overflow bnd becbuse of this it is recommended thbt you use the constructor
+   * {@code BbtchUpdbteException(String rebson, String SQLStbte,
+   * int vendorCode, long []updbteCounts,Throwbble cbuse) }.
    * </p>
-   * @param reason a description of the error
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param vendorCode an exception code used by a particular
-   * database vendor
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
+   * @pbrbm rebson b description of the error
+   * @pbrbm SQLStbte bn XOPEN or SQL:2003 code identifying the exception
+   * @pbrbm vendorCode bn exception code used by b pbrticulbr
+   * dbtbbbse vendor
+   * @pbrbm updbteCounts bn brrby of <code>int</code>, with ebch element
+   * indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
    * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException( String reason, String SQLState, int vendorCode,
-                               int[] updateCounts ) {
-      super(reason, SQLState, vendorCode);
-      this.updateCounts  = (updateCounts == null) ? null : Arrays.copyOf(updateCounts, updateCounts.length);
-      this.longUpdateCounts = (updateCounts == null) ? null : copyUpdateCount(updateCounts);
+  public BbtchUpdbteException( String rebson, String SQLStbte, int vendorCode,
+                               int[] updbteCounts ) {
+      super(rebson, SQLStbte, vendorCode);
+      this.updbteCounts  = (updbteCounts == null) ? null : Arrbys.copyOf(updbteCounts, updbteCounts.length);
+      this.longUpdbteCounts = (updbteCounts == null) ? null : copyUpdbteCount(updbteCounts);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a given
-   * <code>reason</code>, <code>SQLState</code> and
-   * <code>updateCounts</code>.
-   * The <code>cause</code> is not initialized, and may subsequently be
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method. The vendor code
-   * is initialized to 0.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with b given
+   * <code>rebson</code>, <code>SQLStbte</code> bnd
+   * <code>updbteCounts</code>.
+   * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+   * initiblized by b cbll to the
+   * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method. The vendor code
+   * is initiblized to 0.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Note:</strong> There is no vblidbtion of {@code updbteCounts} for
+   * overflow bnd becbuse of this it is recommended thbt you use the constructor
+   * {@code BbtchUpdbteException(String rebson, String SQLStbte,
+   * int vendorCode, long []updbteCounts,Throwbble cbuse) }.
    * </p>
-   * @param reason a description of the exception
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
+   * @pbrbm rebson b description of the exception
+   * @pbrbm SQLStbte bn XOPEN or SQL:2003 code identifying the exception
+   * @pbrbm updbteCounts bn brrby of <code>int</code>, with ebch element
+   * indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
    * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException(String reason, String SQLState,
-                              int[] updateCounts) {
-      this(reason, SQLState, 0, updateCounts);
+  public BbtchUpdbteException(String rebson, String SQLStbte,
+                              int[] updbteCounts) {
+      this(rebson, SQLStbte, 0, updbteCounts);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a given
-   * <code>reason</code> and <code>updateCounts</code>.
-   * The <code>cause</code> is not initialized, and may subsequently be
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method.  The
-   * <code>SQLState</code> is initialized to <code>null</code>
-   * and the vendor code is initialized to 0.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with b given
+   * <code>rebson</code> bnd <code>updbteCounts</code>.
+   * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+   * initiblized by b cbll to the
+   * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method.  The
+   * <code>SQLStbte</code> is initiblized to <code>null</code>
+   * bnd the vendor code is initiblized to 0.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Note:</strong> There is no vblidbtion of {@code updbteCounts} for
+   * overflow bnd becbuse of this it is recommended thbt you use the constructor
+   * {@code BbtchUpdbteException(String rebson, String SQLStbte,
+   * int vendorCode, long []updbteCounts,Throwbble cbuse) }.
    * </p>
-   * @param reason a description of the exception
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
+   * @pbrbm rebson b description of the exception
+   * @pbrbm updbteCounts bn brrby of <code>int</code>, with ebch element
+   * indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
    * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public  BatchUpdateException(String reason, int[] updateCounts) {
-      this(reason, null, 0, updateCounts);
+  public  BbtchUpdbteException(String rebson, int[] updbteCounts) {
+      this(rebson, null, 0, updbteCounts);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a given
-   * <code>updateCounts</code>.
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method. The  <code>reason</code>
-   * and <code>SQLState</code> are initialized to null and the vendor code
-   * is initialized to 0.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with b given
+   * <code>updbteCounts</code>.
+   * initiblized by b cbll to the
+   * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method. The  <code>rebson</code>
+   * bnd <code>SQLStbte</code> bre initiblized to null bnd the vendor code
+   * is initiblized to 0.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Note:</strong> There is no vblidbtion of {@code updbteCounts} for
+   * overflow bnd becbuse of this it is recommended thbt you use the constructor
+   * {@code BbtchUpdbteException(String rebson, String SQLStbte,
+   * int vendorCode, long []updbteCounts,Throwbble cbuse) }.
    * </p>
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
+   * @pbrbm updbteCounts bn brrby of <code>int</code>, with ebch element
+   * indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
    * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException(int[] updateCounts) {
-      this(null, null, 0, updateCounts);
+  public BbtchUpdbteException(int[] updbteCounts) {
+      this(null, null, 0, updbteCounts);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object.
-   * The <code>reason</code>, <code>SQLState</code> and <code>updateCounts</code>
-   *  are initialized to <code>null</code> and the vendor code is initialized to 0.
-   * The <code>cause</code> is not initialized, and may subsequently be
-   * initialized by a call to the
-   * {@link Throwable#initCause(java.lang.Throwable)} method.
+   * Constructs b <code>BbtchUpdbteException</code> object.
+   * The <code>rebson</code>, <code>SQLStbte</code> bnd <code>updbteCounts</code>
+   *  bre initiblized to <code>null</code> bnd the vendor code is initiblized to 0.
+   * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+   * initiblized by b cbll to the
+   * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method.
    *
    * @since 1.2
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException() {
+  public BbtchUpdbteException() {
         this(null, null, 0, null);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   *  a given <code>cause</code>.
-   * The <code>SQLState</code> and <code>updateCounts</code>
-   * are initialized
-   * to <code>null</code> and the vendor code is initialized to 0.
-   * The <code>reason</code>  is initialized to <code>null</code> if
-   * <code>cause==null</code> or to <code>cause.toString()</code> if
-   *  <code>cause!=null</code>.
-   * @param cause the underlying reason for this <code>SQLException</code>
-   * (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating the cause is non-existent or unknown.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with
+   *  b given <code>cbuse</code>.
+   * The <code>SQLStbte</code> bnd <code>updbteCounts</code>
+   * bre initiblized
+   * to <code>null</code> bnd the vendor code is initiblized to 0.
+   * The <code>rebson</code>  is initiblized to <code>null</code> if
+   * <code>cbuse==null</code> or to <code>cbuse.toString()</code> if
+   *  <code>cbuse!=null</code>.
+   * @pbrbm cbuse the underlying rebson for this <code>SQLException</code>
+   * (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+   * mby be null indicbting the cbuse is non-existent or unknown.
    * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException(Throwable cause) {
-      this((cause == null ? null : cause.toString()), null, 0, (int[])null, cause);
+  public BbtchUpdbteException(Throwbble cbuse) {
+      this((cbuse == null ? null : cbuse.toString()), null, 0, (int[])null, cbuse);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with a
-   * given <code>cause</code> and <code>updateCounts</code>.
-   * The <code>SQLState</code> is initialized
-   * to <code>null</code> and the vendor code is initialized to 0.
-   * The <code>reason</code>  is initialized to <code>null</code> if
-   * <code>cause==null</code> or to <code>cause.toString()</code> if
-   * <code>cause!=null</code>.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with b
+   * given <code>cbuse</code> bnd <code>updbteCounts</code>.
+   * The <code>SQLStbte</code> is initiblized
+   * to <code>null</code> bnd the vendor code is initiblized to 0.
+   * The <code>rebson</code>  is initiblized to <code>null</code> if
+   * <code>cbuse==null</code> or to <code>cbuse.toString()</code> if
+   * <code>cbuse!=null</code>.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Note:</strong> There is no vblidbtion of {@code updbteCounts} for
+   * overflow bnd becbuse of this it is recommended thbt you use the constructor
+   * {@code BbtchUpdbteException(String rebson, String SQLStbte,
+   * int vendorCode, long []updbteCounts,Throwbble cbuse) }.
    * </p>
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @param cause the underlying reason for this <code>SQLException</code>
-   * (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-   * the cause is non-existent or unknown.
+   * @pbrbm updbteCounts bn brrby of <code>int</code>, with ebch element
+   * indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
+   * @pbrbm cbuse the underlying rebson for this <code>SQLException</code>
+   * (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method); mby be null indicbting
+   * the cbuse is non-existent or unknown.
    * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException(int []updateCounts , Throwable cause) {
-      this((cause == null ? null : cause.toString()), null, 0, updateCounts, cause);
+  public BbtchUpdbteException(int []updbteCounts , Throwbble cbuse) {
+      this((cbuse == null ? null : cbuse.toString()), null, 0, updbteCounts, cbuse);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   * a given <code>reason</code>, <code>cause</code>
-   * and <code>updateCounts</code>. The <code>SQLState</code> is initialized
-   * to <code>null</code> and the vendor code is initialized to 0.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with
+   * b given <code>rebson</code>, <code>cbuse</code>
+   * bnd <code>updbteCounts</code>. The <code>SQLStbte</code> is initiblized
+   * to <code>null</code> bnd the vendor code is initiblized to 0.
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Note:</strong> There is no vblidbtion of {@code updbteCounts} for
+   * overflow bnd becbuse of this it is recommended thbt you use the constructor
+   * {@code BbtchUpdbteException(String rebson, String SQLStbte,
+   * int vendorCode, long []updbteCounts,Throwbble cbuse) }.
    * </p>
-   * @param reason a description of the exception
-   * @param updateCounts an array of <code>int</code>, with each element
-   *indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @param cause the underlying reason for this <code>SQLException</code> (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating
-   * the cause is non-existent or unknown.
+   * @pbrbm rebson b description of the exception
+   * @pbrbm updbteCounts bn brrby of <code>int</code>, with ebch element
+   *indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
+   * @pbrbm cbuse the underlying rebson for this <code>SQLException</code> (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+   * mby be null indicbting
+   * the cbuse is non-existent or unknown.
    * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException(String reason, int []updateCounts, Throwable cause) {
-      this(reason, null, 0, updateCounts, cause);
+  public BbtchUpdbteException(String rebson, int []updbteCounts, Throwbble cbuse) {
+      this(rebson, null, 0, updbteCounts, cbuse);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   * a given <code>reason</code>, <code>SQLState</code>,<code>cause</code>, and
-   * <code>updateCounts</code>. The vendor code is initialized to 0.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with
+   * b given <code>rebson</code>, <code>SQLStbte</code>,<code>cbuse</code>, bnd
+   * <code>updbteCounts</code>. The vendor code is initiblized to 0.
    *
-   * @param reason a description of the exception
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param updateCounts an array of <code>int</code>, with each element
-   * indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
+   * @pbrbm rebson b description of the exception
+   * @pbrbm SQLStbte bn XOPEN or SQL:2003 code identifying the exception
+   * @pbrbm updbteCounts bn brrby of <code>int</code>, with ebch element
+   * indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Note:</strong> There is no vblidbtion of {@code updbteCounts} for
+   * overflow bnd becbuse of this it is recommended thbt you use the constructor
+   * {@code BbtchUpdbteException(String rebson, String SQLStbte,
+   * int vendorCode, long []updbteCounts,Throwbble cbuse) }.
    * </p>
-   * @param cause the underlying reason for this <code>SQLException</code>
-   * (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating
-   * the cause is non-existent or unknown.
+   * @pbrbm cbuse the underlying rebson for this <code>SQLException</code>
+   * (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+   * mby be null indicbting
+   * the cbuse is non-existent or unknown.
    * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException(String reason, String SQLState,
-          int []updateCounts, Throwable cause) {
-      this(reason, SQLState, 0, updateCounts, cause);
+  public BbtchUpdbteException(String rebson, String SQLStbte,
+          int []updbteCounts, Throwbble cbuse) {
+      this(rebson, SQLStbte, 0, updbteCounts, cbuse);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   * a given <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code>
-   * <code>cause</code> and <code>updateCounts</code>.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with
+   * b given <code>rebson</code>, <code>SQLStbte</code>, <code>vendorCode</code>
+   * <code>cbuse</code> bnd <code>updbteCounts</code>.
    *
-   * @param reason a description of the error
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param vendorCode an exception code used by a particular
-   * database vendor
-   * @param updateCounts an array of <code>int</code>, with each element
-   *indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
+   * @pbrbm rebson b description of the error
+   * @pbrbm SQLStbte bn XOPEN or SQL:2003 code identifying the exception
+   * @pbrbm vendorCode bn exception code used by b pbrticulbr
+   * dbtbbbse vendor
+   * @pbrbm updbteCounts bn brrby of <code>int</code>, with ebch element
+   *indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
    * <p>
-   * <strong>Note:</strong> There is no validation of {@code updateCounts} for
-   * overflow and because of this it is recommended that you use the constructor
-   * {@code BatchUpdateException(String reason, String SQLState,
-   * int vendorCode, long []updateCounts,Throwable cause) }.
+   * <strong>Note:</strong> There is no vblidbtion of {@code updbteCounts} for
+   * overflow bnd becbuse of this it is recommended thbt you use the constructor
+   * {@code BbtchUpdbteException(String rebson, String SQLStbte,
+   * int vendorCode, long []updbteCounts,Throwbble cbuse) }.
    * </p>
-   * @param cause the underlying reason for this <code>SQLException</code> (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating
-   * the cause is non-existent or unknown.
+   * @pbrbm cbuse the underlying rebson for this <code>SQLException</code> (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+   * mby be null indicbting
+   * the cbuse is non-existent or unknown.
    * @since 1.6
-   * @see #BatchUpdateException(java.lang.String, java.lang.String, int, long[],
-   * java.lang.Throwable)
+   * @see #BbtchUpdbteException(jbvb.lbng.String, jbvb.lbng.String, int, long[],
+   * jbvb.lbng.Throwbble)
    */
-  public BatchUpdateException(String reason, String SQLState, int vendorCode,
-                                int []updateCounts,Throwable cause) {
-        super(reason, SQLState, vendorCode, cause);
-        this.updateCounts  = (updateCounts == null) ? null : Arrays.copyOf(updateCounts, updateCounts.length);
-        this.longUpdateCounts = (updateCounts == null) ? null : copyUpdateCount(updateCounts);
+  public BbtchUpdbteException(String rebson, String SQLStbte, int vendorCode,
+                                int []updbteCounts,Throwbble cbuse) {
+        super(rebson, SQLStbte, vendorCode, cbuse);
+        this.updbteCounts  = (updbteCounts == null) ? null : Arrbys.copyOf(updbteCounts, updbteCounts.length);
+        this.longUpdbteCounts = (updbteCounts == null) ? null : copyUpdbteCount(updbteCounts);
   }
 
   /**
-   * Retrieves the update count for each update statement in the batch
-   * update that executed successfully before this exception occurred.
-   * A driver that implements batch updates may or may not continue to
-   * process the remaining commands in a batch when one of the commands
-   * fails to execute properly. If the driver continues processing commands,
-   * the array returned by this method will have as many elements as
-   * there are commands in the batch; otherwise, it will contain an
-   * update count for each command that executed successfully before
-   * the <code>BatchUpdateException</code> was thrown.
+   * Retrieves the updbte count for ebch updbte stbtement in the bbtch
+   * updbte thbt executed successfully before this exception occurred.
+   * A driver thbt implements bbtch updbtes mby or mby not continue to
+   * process the rembining commbnds in b bbtch when one of the commbnds
+   * fbils to execute properly. If the driver continues processing commbnds,
+   * the brrby returned by this method will hbve bs mbny elements bs
+   * there bre commbnds in the bbtch; otherwise, it will contbin bn
+   * updbte count for ebch commbnd thbt executed successfully before
+   * the <code>BbtchUpdbteException</code> wbs thrown.
    * <P>
-   * The possible return values for this method were modified for
-   * the Java 2 SDK, Standard Edition, version 1.3.  This was done to
-   * accommodate the new option of continuing to process commands
-   * in a batch update after a <code>BatchUpdateException</code> object
-   * has been thrown.
+   * The possible return vblues for this method were modified for
+   * the Jbvb 2 SDK, Stbndbrd Edition, version 1.3.  This wbs done to
+   * bccommodbte the new option of continuing to process commbnds
+   * in b bbtch updbte bfter b <code>BbtchUpdbteException</code> object
+   * hbs been thrown.
    *
-   * @return an array of <code>int</code> containing the update counts
-   * for the updates that were executed successfully before this error
-   * occurred.  Or, if the driver continues to process commands after an
-   * error, one of the following for every command in the batch:
+   * @return bn brrby of <code>int</code> contbining the updbte counts
+   * for the updbtes thbt were executed successfully before this error
+   * occurred.  Or, if the driver continues to process commbnds bfter bn
+   * error, one of the following for every commbnd in the bbtch:
    * <OL>
-   * <LI>an update count
-   *  <LI><code>Statement.SUCCESS_NO_INFO</code> to indicate that the command
-   *     executed successfully but the number of rows affected is unknown
-   *  <LI><code>Statement.EXECUTE_FAILED</code> to indicate that the command
-   *     failed to execute successfully
+   * <LI>bn updbte count
+   *  <LI><code>Stbtement.SUCCESS_NO_INFO</code> to indicbte thbt the commbnd
+   *     executed successfully but the number of rows bffected is unknown
+   *  <LI><code>Stbtement.EXECUTE_FAILED</code> to indicbte thbt the commbnd
+   *     fbiled to execute successfully
    * </OL>
    * @since 1.3
-   * @see #getLargeUpdateCounts()
+   * @see #getLbrgeUpdbteCounts()
    */
-  public int[] getUpdateCounts() {
-      return (updateCounts == null) ? null : Arrays.copyOf(updateCounts, updateCounts.length);
+  public int[] getUpdbteCounts() {
+      return (updbteCounts == null) ? null : Arrbys.copyOf(updbteCounts, updbteCounts.length);
   }
 
   /**
-   * Constructs a <code>BatchUpdateException</code> object initialized with
-   * a given <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code>
-   * <code>cause</code> and <code>updateCounts</code>.
+   * Constructs b <code>BbtchUpdbteException</code> object initiblized with
+   * b given <code>rebson</code>, <code>SQLStbte</code>, <code>vendorCode</code>
+   * <code>cbuse</code> bnd <code>updbteCounts</code>.
    * <p>
-   * This constructor should be used when the returned update count may exceed
+   * This constructor should be used when the returned updbte count mby exceed
    * {@link Integer#MAX_VALUE}.
    *
-   * @param reason a description of the error
-   * @param SQLState an XOPEN or SQL:2003 code identifying the exception
-   * @param vendorCode an exception code used by a particular
-   * database vendor
-   * @param updateCounts an array of <code>long</code>, with each element
-   *indicating the update count, <code>Statement.SUCCESS_NO_INFO</code> or
-   * <code>Statement.EXECUTE_FAILED</code> for each SQL command in
-   * the batch for JDBC drivers that continue processing
-   * after a command failure; an update count or
-   * <code>Statement.SUCCESS_NO_INFO</code> for each SQL command in the batch
-   * prior to the failure for JDBC drivers that stop processing after a command
-   * failure
-   * @param cause the underlying reason for this <code>SQLException</code>
-   * (which is saved for later retrieval by the <code>getCause()</code> method);
-   * may be null indicating the cause is non-existent or unknown.
+   * @pbrbm rebson b description of the error
+   * @pbrbm SQLStbte bn XOPEN or SQL:2003 code identifying the exception
+   * @pbrbm vendorCode bn exception code used by b pbrticulbr
+   * dbtbbbse vendor
+   * @pbrbm updbteCounts bn brrby of <code>long</code>, with ebch element
+   *indicbting the updbte count, <code>Stbtement.SUCCESS_NO_INFO</code> or
+   * <code>Stbtement.EXECUTE_FAILED</code> for ebch SQL commbnd in
+   * the bbtch for JDBC drivers thbt continue processing
+   * bfter b commbnd fbilure; bn updbte count or
+   * <code>Stbtement.SUCCESS_NO_INFO</code> for ebch SQL commbnd in the bbtch
+   * prior to the fbilure for JDBC drivers thbt stop processing bfter b commbnd
+   * fbilure
+   * @pbrbm cbuse the underlying rebson for this <code>SQLException</code>
+   * (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+   * mby be null indicbting the cbuse is non-existent or unknown.
    * @since 1.8
    */
-  public BatchUpdateException(String reason, String SQLState, int vendorCode,
-          long []updateCounts,Throwable cause) {
-      super(reason, SQLState, vendorCode, cause);
-      this.longUpdateCounts  = (updateCounts == null) ? null : Arrays.copyOf(updateCounts, updateCounts.length);
-      this.updateCounts = (longUpdateCounts == null) ? null : copyUpdateCount(longUpdateCounts);
+  public BbtchUpdbteException(String rebson, String SQLStbte, int vendorCode,
+          long []updbteCounts,Throwbble cbuse) {
+      super(rebson, SQLStbte, vendorCode, cbuse);
+      this.longUpdbteCounts  = (updbteCounts == null) ? null : Arrbys.copyOf(updbteCounts, updbteCounts.length);
+      this.updbteCounts = (longUpdbteCounts == null) ? null : copyUpdbteCount(longUpdbteCounts);
   }
 
   /**
-   * Retrieves the update count for each update statement in the batch
-   * update that executed successfully before this exception occurred.
-   * A driver that implements batch updates may or may not continue to
-   * process the remaining commands in a batch when one of the commands
-   * fails to execute properly. If the driver continues processing commands,
-   * the array returned by this method will have as many elements as
-   * there are commands in the batch; otherwise, it will contain an
-   * update count for each command that executed successfully before
-   * the <code>BatchUpdateException</code> was thrown.
+   * Retrieves the updbte count for ebch updbte stbtement in the bbtch
+   * updbte thbt executed successfully before this exception occurred.
+   * A driver thbt implements bbtch updbtes mby or mby not continue to
+   * process the rembining commbnds in b bbtch when one of the commbnds
+   * fbils to execute properly. If the driver continues processing commbnds,
+   * the brrby returned by this method will hbve bs mbny elements bs
+   * there bre commbnds in the bbtch; otherwise, it will contbin bn
+   * updbte count for ebch commbnd thbt executed successfully before
+   * the <code>BbtchUpdbteException</code> wbs thrown.
    * <p>
-   * This method should be used when {@code Statement.executeLargeBatch} is
-   * invoked and the returned update count may exceed {@link Integer#MAX_VALUE}.
+   * This method should be used when {@code Stbtement.executeLbrgeBbtch} is
+   * invoked bnd the returned updbte count mby exceed {@link Integer#MAX_VALUE}.
    *
-   * @return an array of <code>long</code> containing the update counts
-   * for the updates that were executed successfully before this error
-   * occurred.  Or, if the driver continues to process commands after an
-   * error, one of the following for every command in the batch:
+   * @return bn brrby of <code>long</code> contbining the updbte counts
+   * for the updbtes thbt were executed successfully before this error
+   * occurred.  Or, if the driver continues to process commbnds bfter bn
+   * error, one of the following for every commbnd in the bbtch:
    * <OL>
-   * <LI>an update count
-   *  <LI><code>Statement.SUCCESS_NO_INFO</code> to indicate that the command
-   *     executed successfully but the number of rows affected is unknown
-   *  <LI><code>Statement.EXECUTE_FAILED</code> to indicate that the command
-   *     failed to execute successfully
+   * <LI>bn updbte count
+   *  <LI><code>Stbtement.SUCCESS_NO_INFO</code> to indicbte thbt the commbnd
+   *     executed successfully but the number of rows bffected is unknown
+   *  <LI><code>Stbtement.EXECUTE_FAILED</code> to indicbte thbt the commbnd
+   *     fbiled to execute successfully
    * </OL>
    * @since 1.8
    */
-  public long[] getLargeUpdateCounts() {
-      return (longUpdateCounts == null) ? null :
-              Arrays.copyOf(longUpdateCounts, longUpdateCounts.length);
+  public long[] getLbrgeUpdbteCounts() {
+      return (longUpdbteCounts == null) ? null :
+              Arrbys.copyOf(longUpdbteCounts, longUpdbteCounts.length);
   }
 
   /**
-   * The array that describes the outcome of a batch execution.
-   * @serial
+   * The brrby thbt describes the outcome of b bbtch execution.
+   * @seribl
    * @since 1.2
    */
-  private  int[] updateCounts;
+  privbte  int[] updbteCounts;
 
   /*
-   * Starting with Java SE 8, JDBC has added support for returning an update
-   * count > Integer.MAX_VALUE.  Because of this the following changes were made
-   * to BatchUpdateException:
+   * Stbrting with Jbvb SE 8, JDBC hbs bdded support for returning bn updbte
+   * count > Integer.MAX_VALUE.  Becbuse of this the following chbnges were mbde
+   * to BbtchUpdbteException:
    * <ul>
-   * <li>Add field longUpdateCounts</li>
-   * <li>Add Constructorr which takes long[] for update counts</li>
-   * <li>Add getLargeUpdateCounts method</li>
+   * <li>Add field longUpdbteCounts</li>
+   * <li>Add Constructorr which tbkes long[] for updbte counts</li>
+   * <li>Add getLbrgeUpdbteCounts method</li>
    * </ul>
-   * When any of the constructors are called, the int[] and long[] updateCount
-   * fields are populated by copying the one array to each other.
+   * When bny of the constructors bre cblled, the int[] bnd long[] updbteCount
+   * fields bre populbted by copying the one brrby to ebch other.
    *
-   * As the JDBC driver passes in the updateCounts, there has always been the
-   * possiblity for overflow and BatchUpdateException does not need to account
-   * for that, it simply copies the arrays.
+   * As the JDBC driver pbsses in the updbteCounts, there hbs blwbys been the
+   * possiblity for overflow bnd BbtchUpdbteException does not need to bccount
+   * for thbt, it simply copies the brrbys.
    *
-   * JDBC drivers should always use the constructor that specifies long[] and
-   * JDBC application developers should call getLargeUpdateCounts.
+   * JDBC drivers should blwbys use the constructor thbt specifies long[] bnd
+   * JDBC bpplicbtion developers should cbll getLbrgeUpdbteCounts.
    */
 
   /**
-   * The array that describes the outcome of a batch execution.
-   * @serial
+   * The brrby thbt describes the outcome of b bbtch execution.
+   * @seribl
    * @since 1.8
    */
-  private  long[] longUpdateCounts;
+  privbte  long[] longUpdbteCounts;
 
-  private static final long serialVersionUID = 5977529877145521757L;
+  privbte stbtic finbl long seriblVersionUID = 5977529877145521757L;
 
   /*
-   * Utility method to copy int[] updateCount to long[] updateCount
+   * Utility method to copy int[] updbteCount to long[] updbteCount
    */
-  private static long[] copyUpdateCount(int[] uc) {
+  privbte stbtic long[] copyUpdbteCount(int[] uc) {
       long[] copy = new long[uc.length];
       for(int i= 0; i< uc.length; i++) {
           copy[i] = uc[i];
@@ -514,11 +514,11 @@ public class BatchUpdateException extends SQLException {
   }
 
   /*
-   * Utility method to copy long[] updateCount to int[] updateCount.
-   * No checks for overflow will be done as it is expected a  user will call
-   * getLargeUpdateCounts.
+   * Utility method to copy long[] updbteCount to int[] updbteCount.
+   * No checks for overflow will be done bs it is expected b  user will cbll
+   * getLbrgeUpdbteCounts.
    */
-  private static int[] copyUpdateCount(long[] uc) {
+  privbte stbtic int[] copyUpdbteCount(long[] uc) {
       int[] copy = new int[uc.length];
       for(int i= 0; i< uc.length; i++) {
           copy[i] = (int) uc[i];
@@ -526,38 +526,38 @@ public class BatchUpdateException extends SQLException {
       return copy;
   }
     /**
-     * readObject is called to restore the state of the
-     * {@code BatchUpdateException} from a stream.
+     * rebdObject is cblled to restore the stbte of the
+     * {@code BbtchUpdbteException} from b strebm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-       ObjectInputStream.GetField fields = s.readFields();
-       int[] tmp = (int[])fields.get("updateCounts", null);
-       long[] tmp2 = (long[])fields.get("longUpdateCounts", null);
+       ObjectInputStrebm.GetField fields = s.rebdFields();
+       int[] tmp = (int[])fields.get("updbteCounts", null);
+       long[] tmp2 = (long[])fields.get("longUpdbteCounts", null);
        if(tmp != null && tmp2 != null && tmp.length != tmp2.length)
-           throw new InvalidObjectException("update counts are not the expected size");
+           throw new InvblidObjectException("updbte counts bre not the expected size");
        if (tmp != null)
-           updateCounts = tmp.clone();
+           updbteCounts = tmp.clone();
        if (tmp2 != null)
-           longUpdateCounts = tmp2.clone();
-       if(updateCounts == null && longUpdateCounts != null)
-           updateCounts = copyUpdateCount(longUpdateCounts);
-       if(longUpdateCounts == null && updateCounts != null)
-           longUpdateCounts = copyUpdateCount(updateCounts);
+           longUpdbteCounts = tmp2.clone();
+       if(updbteCounts == null && longUpdbteCounts != null)
+           updbteCounts = copyUpdbteCount(longUpdbteCounts);
+       if(longUpdbteCounts == null && updbteCounts != null)
+           longUpdbteCounts = copyUpdbteCount(updbteCounts);
 
     }
 
     /**
-     * writeObject is called to save the state of the {@code BatchUpdateException}
-     * to a stream.
+     * writeObject is cblled to sbve the stbte of the {@code BbtchUpdbteException}
+     * to b strebm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void writeObject(ObjectOutputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("updateCounts", updateCounts);
-        fields.put("longUpdateCounts", longUpdateCounts);
+        ObjectOutputStrebm.PutField fields = s.putFields();
+        fields.put("updbteCounts", updbteCounts);
+        fields.put("longUpdbteCounts", longUpdbteCounts);
         s.writeFields();
     }
 }

@@ -1,37 +1,37 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*****************************************************************************
- *   "Gif-Lib" - Yet another gif library.
+ *   "Gif-Lib" - Yet bnother gif librbry.
  *
  * Written by:  Gershon Elber                Ver 0.1, Jun. 1989
- * Extensively hacked by: Eric S. Raymond        Ver 1.?, Sep 1992
+ * Extensively hbcked by: Eric S. Rbymond        Ver 1.?, Sep 1992
  *****************************************************************************
  * GIF construction tools
  *****************************************************************************
  * History:
- * 15 Sep 92 - Version 1.0 by Eric Raymond.
+ * 15 Sep 92 - Version 1.0 by Eric Rbymond.
  ****************************************************************************/
 
 #ifdef HAVE_CONFIG_H
@@ -46,10 +46,10 @@
 #define MAX(x, y)    (((x) > (y)) ? (x) : (y))
 
 /******************************************************************************
- * Miscellaneous utility functions
+ * Miscellbneous utility functions
  *****************************************************************************/
 
-/* return smallest bitfield size n will fit in */
+/* return smbllest bitfield size n will fit in */
 int
 BitSize(int n) {
 
@@ -57,57 +57,57 @@ BitSize(int n) {
 
     for (i = 1; i <= 8; i++)
         if ((1 << i) >= n)
-            break;
+            brebk;
     return (i);
 }
 
 /******************************************************************************
- * Color map object functions
+ * Color mbp object functions
  *****************************************************************************/
 
 /*
- * Allocate a color map of given size; initialize with contents of
- * ColorMap if that pointer is non-NULL.
+ * Allocbte b color mbp of given size; initiblize with contents of
+ * ColorMbp if thbt pointer is non-NULL.
  */
-ColorMapObject *
-MakeMapObject(int ColorCount,
-              const GifColorType * ColorMap) {
+ColorMbpObject *
+MbkeMbpObject(int ColorCount,
+              const GifColorType * ColorMbp) {
 
-    ColorMapObject *Object;
+    ColorMbpObject *Object;
 
-    /*** FIXME: Our ColorCount has to be a power of two.  Is it necessary to
-     * make the user know that or should we automatically round up instead? */
+    /*** FIXME: Our ColorCount hbs to be b power of two.  Is it necessbry to
+     * mbke the user know thbt or should we butombticblly round up instebd? */
     if (ColorCount != (1 << BitSize(ColorCount))) {
-        return ((ColorMapObject *) NULL);
+        return ((ColorMbpObject *) NULL);
     }
 
-    Object = (ColorMapObject *)malloc(sizeof(ColorMapObject));
-    if (Object == (ColorMapObject *) NULL) {
-        return ((ColorMapObject *) NULL);
+    Object = (ColorMbpObject *)mblloc(sizeof(ColorMbpObject));
+    if (Object == (ColorMbpObject *) NULL) {
+        return ((ColorMbpObject *) NULL);
     }
 
-    Object->Colors = (GifColorType *)calloc(ColorCount, sizeof(GifColorType));
+    Object->Colors = (GifColorType *)cblloc(ColorCount, sizeof(GifColorType));
     if (Object->Colors == (GifColorType *) NULL) {
         free(Object);
-        return ((ColorMapObject *) NULL);
+        return ((ColorMbpObject *) NULL);
     }
 
     Object->ColorCount = ColorCount;
     Object->BitsPerPixel = BitSize(ColorCount);
 
-    if (ColorMap) {
-        memcpy((char *)Object->Colors,
-               (char *)ColorMap, ColorCount * sizeof(GifColorType));
+    if (ColorMbp) {
+        memcpy((chbr *)Object->Colors,
+               (chbr *)ColorMbp, ColorCount * sizeof(GifColorType));
     }
 
     return (Object);
 }
 
 /*
- * Free a color map object
+ * Free b color mbp object
  */
 void
-FreeMapObject(ColorMapObject * Object) {
+FreeMbpObject(ColorMbpObject * Object) {
 
     if (Object != NULL) {
         free(Object->Colors);
@@ -118,7 +118,7 @@ FreeMapObject(ColorMapObject * Object) {
 
 #ifdef DEBUG
 void
-DumpColorMap(ColorMapObject * Object,
+DumpColorMbp(ColorMbpObject * Object,
              FILE * fp) {
 
     if (Object) {
@@ -142,33 +142,33 @@ DumpColorMap(ColorMapObject * Object,
  *****************************************************************************/
 
 void
-MakeExtension(SavedImage * New,
+MbkeExtension(SbvedImbge * New,
               int Function) {
 
     New->Function = Function;
     /*** FIXME:
-     * Someday we might have to deal with multiple extensions.
-     * ??? Was this a note from Gershon or from me?  Does the multiple
+     * Somedby we might hbve to debl with multiple extensions.
+     * ??? Wbs this b note from Gershon or from me?  Does the multiple
      * extension blocks solve this or do we need multiple Functions?  Or is
-     * this an obsolete function?  (People should use AddExtensionBlock
-     * instead?)
-     * Looks like AddExtensionBlock needs to take the int Function argument
-     * then it can take the place of this function.  Right now people have to
-     * use both.  Fix AddExtensionBlock and add this to the deprecation list.
+     * this bn obsolete function?  (People should use AddExtensionBlock
+     * instebd?)
+     * Looks like AddExtensionBlock needs to tbke the int Function brgument
+     * then it cbn tbke the plbce of this function.  Right now people hbve to
+     * use both.  Fix AddExtensionBlock bnd bdd this to the deprecbtion list.
      */
 }
 
 int
-AddExtensionBlock(SavedImage * New,
+AddExtensionBlock(SbvedImbge * New,
                   int Len,
-                  unsigned char ExtData[]) {
+                  unsigned chbr ExtDbtb[]) {
 
     ExtensionBlock *ep;
 
     if (New->ExtensionBlocks == NULL)
-        New->ExtensionBlocks=(ExtensionBlock *)malloc(sizeof(ExtensionBlock));
+        New->ExtensionBlocks=(ExtensionBlock *)mblloc(sizeof(ExtensionBlock));
     else
-        New->ExtensionBlocks = (ExtensionBlock *)realloc(New->ExtensionBlocks,
+        New->ExtensionBlocks = (ExtensionBlock *)reblloc(New->ExtensionBlocks,
                                       sizeof(ExtensionBlock) *
                                       (New->ExtensionBlockCount + 1));
 
@@ -178,12 +178,12 @@ AddExtensionBlock(SavedImage * New,
     ep = &New->ExtensionBlocks[New->ExtensionBlockCount++];
 
     ep->ByteCount=Len;
-    ep->Bytes = (char *)malloc(ep->ByteCount);
+    ep->Bytes = (chbr *)mblloc(ep->ByteCount);
     if (ep->Bytes == NULL)
         return (GIF_ERROR);
 
-    if (ExtData) {
-        memcpy(ep->Bytes, ExtData, Len);
+    if (ExtDbtb) {
+        memcpy(ep->Bytes, ExtDbtb, Len);
         ep->Function = New->Function;
     }
 
@@ -191,131 +191,131 @@ AddExtensionBlock(SavedImage * New,
 }
 
 void
-FreeExtension(SavedImage * Image)
+FreeExtension(SbvedImbge * Imbge)
 {
     ExtensionBlock *ep;
 
-    if ((Image == NULL) || (Image->ExtensionBlocks == NULL)) {
+    if ((Imbge == NULL) || (Imbge->ExtensionBlocks == NULL)) {
         return;
     }
-    for (ep = Image->ExtensionBlocks;
-         ep < (Image->ExtensionBlocks + Image->ExtensionBlockCount); ep++)
-        (void)free((char *)ep->Bytes);
-    free((char *)Image->ExtensionBlocks);
-    Image->ExtensionBlocks = NULL;
+    for (ep = Imbge->ExtensionBlocks;
+         ep < (Imbge->ExtensionBlocks + Imbge->ExtensionBlockCount); ep++)
+        (void)free((chbr *)ep->Bytes);
+    free((chbr *)Imbge->ExtensionBlocks);
+    Imbge->ExtensionBlocks = NULL;
 }
 
 /******************************************************************************
- * Image block allocation functions
+ * Imbge block bllocbtion functions
 ******************************************************************************/
 
-/* Private Function:
- * Frees the last image in the GifFile->SavedImages array
+/* Privbte Function:
+ * Frees the lbst imbge in the GifFile->SbvedImbges brrby
  */
 void
-FreeLastSavedImage(GifFileType *GifFile) {
+FreeLbstSbvedImbge(GifFileType *GifFile) {
 
-    SavedImage *sp;
+    SbvedImbge *sp;
 
-    if ((GifFile == NULL) || (GifFile->SavedImages == NULL))
+    if ((GifFile == NULL) || (GifFile->SbvedImbges == NULL))
         return;
 
-    /* Remove one SavedImage from the GifFile */
-    GifFile->ImageCount--;
-    sp = &GifFile->SavedImages[GifFile->ImageCount];
+    /* Remove one SbvedImbge from the GifFile */
+    GifFile->ImbgeCount--;
+    sp = &GifFile->SbvedImbges[GifFile->ImbgeCount];
 
-    /* Deallocate its Colormap */
-    if (sp->ImageDesc.ColorMap)
-        FreeMapObject(sp->ImageDesc.ColorMap);
+    /* Debllocbte its Colormbp */
+    if (sp->ImbgeDesc.ColorMbp)
+        FreeMbpObject(sp->ImbgeDesc.ColorMbp);
 
-    /* Deallocate the image data */
-    if (sp->RasterBits)
-        free((char *)sp->RasterBits);
+    /* Debllocbte the imbge dbtb */
+    if (sp->RbsterBits)
+        free((chbr *)sp->RbsterBits);
 
-    /* Deallocate any extensions */
+    /* Debllocbte bny extensions */
     if (sp->ExtensionBlocks)
         FreeExtension(sp);
 
-    /*** FIXME: We could realloc the GifFile->SavedImages structure but is
-     * there a point to it? Saves some memory but we'd have to do it every
-     * time.  If this is used in FreeSavedImages then it would be inefficient
-     * (The whole array is going to be deallocated.)  If we just use it when
-     * we want to free the last Image it's convenient to do it here.
+    /*** FIXME: We could reblloc the GifFile->SbvedImbges structure but is
+     * there b point to it? Sbves some memory but we'd hbve to do it every
+     * time.  If this is used in FreeSbvedImbges then it would be inefficient
+     * (The whole brrby is going to be debllocbted.)  If we just use it when
+     * we wbnt to free the lbst Imbge it's convenient to do it here.
      */
 }
 
 /*
- * Append an image block to the SavedImages array
+ * Append bn imbge block to the SbvedImbges brrby
  */
-SavedImage *
-MakeSavedImage(GifFileType * GifFile,
-               const SavedImage * CopyFrom) {
+SbvedImbge *
+MbkeSbvedImbge(GifFileType * GifFile,
+               const SbvedImbge * CopyFrom) {
 
-    SavedImage *sp;
+    SbvedImbge *sp;
 
-    if (GifFile->SavedImages == NULL)
-        GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage));
+    if (GifFile->SbvedImbges == NULL)
+        GifFile->SbvedImbges = (SbvedImbge *)mblloc(sizeof(SbvedImbge));
     else
-        GifFile->SavedImages = (SavedImage *)realloc(GifFile->SavedImages,
-                               sizeof(SavedImage) * (GifFile->ImageCount + 1));
+        GifFile->SbvedImbges = (SbvedImbge *)reblloc(GifFile->SbvedImbges,
+                               sizeof(SbvedImbge) * (GifFile->ImbgeCount + 1));
 
-    if (GifFile->SavedImages == NULL)
-        return ((SavedImage *)NULL);
+    if (GifFile->SbvedImbges == NULL)
+        return ((SbvedImbge *)NULL);
     else {
-        sp = &GifFile->SavedImages[GifFile->ImageCount++];
-        memset((char *)sp, '\0', sizeof(SavedImage));
+        sp = &GifFile->SbvedImbges[GifFile->ImbgeCount++];
+        memset((chbr *)sp, '\0', sizeof(SbvedImbge));
 
         if (CopyFrom) {
-            memcpy((char *)sp, CopyFrom, sizeof(SavedImage));
+            memcpy((chbr *)sp, CopyFrom, sizeof(SbvedImbge));
 
             /*
-             * Make our own allocated copies of the heap fields in the
-             * copied record.  This guards against potential aliasing
+             * Mbke our own bllocbted copies of the hebp fields in the
+             * copied record.  This gubrds bgbinst potentibl blibsing
              * problems.
              */
 
-            /* first, the local color map */
-            if (sp->ImageDesc.ColorMap) {
-                sp->ImageDesc.ColorMap = MakeMapObject(
-                                         CopyFrom->ImageDesc.ColorMap->ColorCount,
-                                         CopyFrom->ImageDesc.ColorMap->Colors);
-                if (sp->ImageDesc.ColorMap == NULL) {
-                    FreeLastSavedImage(GifFile);
-                    return (SavedImage *)(NULL);
+            /* first, the locbl color mbp */
+            if (sp->ImbgeDesc.ColorMbp) {
+                sp->ImbgeDesc.ColorMbp = MbkeMbpObject(
+                                         CopyFrom->ImbgeDesc.ColorMbp->ColorCount,
+                                         CopyFrom->ImbgeDesc.ColorMbp->Colors);
+                if (sp->ImbgeDesc.ColorMbp == NULL) {
+                    FreeLbstSbvedImbge(GifFile);
+                    return (SbvedImbge *)(NULL);
                 }
             }
 
-            /* next, the raster */
-            sp->RasterBits = (unsigned char *)malloc(sizeof(GifPixelType) *
-                                                   CopyFrom->ImageDesc.Height *
-                                                   CopyFrom->ImageDesc.Width);
-            if (sp->RasterBits == NULL) {
-                FreeLastSavedImage(GifFile);
-                return (SavedImage *)(NULL);
+            /* next, the rbster */
+            sp->RbsterBits = (unsigned chbr *)mblloc(sizeof(GifPixelType) *
+                                                   CopyFrom->ImbgeDesc.Height *
+                                                   CopyFrom->ImbgeDesc.Width);
+            if (sp->RbsterBits == NULL) {
+                FreeLbstSbvedImbge(GifFile);
+                return (SbvedImbge *)(NULL);
             }
-            memcpy(sp->RasterBits, CopyFrom->RasterBits,
-                   sizeof(GifPixelType) * CopyFrom->ImageDesc.Height *
-                   CopyFrom->ImageDesc.Width);
+            memcpy(sp->RbsterBits, CopyFrom->RbsterBits,
+                   sizeof(GifPixelType) * CopyFrom->ImbgeDesc.Height *
+                   CopyFrom->ImbgeDesc.Width);
 
-            /* finally, the extension blocks */
+            /* finblly, the extension blocks */
             if (sp->ExtensionBlocks) {
-                sp->ExtensionBlocks = (ExtensionBlock *)malloc(
+                sp->ExtensionBlocks = (ExtensionBlock *)mblloc(
                                       sizeof(ExtensionBlock) *
                                       CopyFrom->ExtensionBlockCount);
                 if (sp->ExtensionBlocks == NULL) {
-                    FreeLastSavedImage(GifFile);
-                    return (SavedImage *)(NULL);
+                    FreeLbstSbvedImbge(GifFile);
+                    return (SbvedImbge *)(NULL);
                 }
                 memcpy(sp->ExtensionBlocks, CopyFrom->ExtensionBlocks,
                        sizeof(ExtensionBlock) * CopyFrom->ExtensionBlockCount);
 
                 /*
-                 * For the moment, the actual blocks can take their
-                 * chances with free().  We'll fix this later.
+                 * For the moment, the bctubl blocks cbn tbke their
+                 * chbnces with free().  We'll fix this lbter.
                  *** FIXME: [Better check this out... Toshio]
-                 * 2004 May 27: Looks like this was an ESR note.
-                 * It means the blocks are shallow copied from InFile to
-                 * OutFile.  However, I don't see that in this code....
+                 * 2004 Mby 27: Looks like this wbs bn ESR note.
+                 * It mebns the blocks bre shbllow copied from InFile to
+                 * OutFile.  However, I don't see thbt in this code....
                  * Did ESR fix it but never remove this note (And other notes
                  * in gifspnge?)
                  */
@@ -327,24 +327,24 @@ MakeSavedImage(GifFileType * GifFile,
 }
 
 void
-FreeSavedImages(GifFileType * GifFile) {
+FreeSbvedImbges(GifFileType * GifFile) {
 
-    SavedImage *sp;
+    SbvedImbge *sp;
 
-    if ((GifFile == NULL) || (GifFile->SavedImages == NULL)) {
+    if ((GifFile == NULL) || (GifFile->SbvedImbges == NULL)) {
         return;
     }
-    for (sp = GifFile->SavedImages;
-         sp < GifFile->SavedImages + GifFile->ImageCount; sp++) {
-        if (sp->ImageDesc.ColorMap)
-            FreeMapObject(sp->ImageDesc.ColorMap);
+    for (sp = GifFile->SbvedImbges;
+         sp < GifFile->SbvedImbges + GifFile->ImbgeCount; sp++) {
+        if (sp->ImbgeDesc.ColorMbp)
+            FreeMbpObject(sp->ImbgeDesc.ColorMbp);
 
-        if (sp->RasterBits)
-            free((char *)sp->RasterBits);
+        if (sp->RbsterBits)
+            free((chbr *)sp->RbsterBits);
 
         if (sp->ExtensionBlocks)
             FreeExtension(sp);
     }
-    free((char *)GifFile->SavedImages);
-    GifFile->SavedImages=NULL;
+    free((chbr *)GifFile->SbvedImbges);
+    GifFile->SbvedImbges=NULL;
 }

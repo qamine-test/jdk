@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package org.ietf.jgss;
+pbckbge org.ietf.jgss;
 
 /**
- * This is a utility class used within the per-message GSSContext
- * methods to convey per-message properties.<p>
+ * This is b utility clbss used within the per-messbge GSSContext
+ * methods to convey per-messbge properties.<p>
  *
- * When used with the GSSContext interface's wrap and getMIC methods, an
- * instance of this class is used to indicate the desired
- * Quality-of-Protection (QOP) and to request if confidentiality services
- * are to be applied to caller supplied data (wrap only).  To request
- * default QOP, the value of 0 should be used for QOP.<p>
+ * When used with the GSSContext interfbce's wrbp bnd getMIC methods, bn
+ * instbnce of this clbss is used to indicbte the desired
+ * Qublity-of-Protection (QOP) bnd to request if confidentiblity services
+ * bre to be bpplied to cbller supplied dbtb (wrbp only).  To request
+ * defbult QOP, the vblue of 0 should be used for QOP.<p>
  *
- * When used with the unwrap and verifyMIC methods of the GSSContext
- * interface, an instance of this class will be used to indicate the
- * applied QOP and confidentiality services over the supplied message.
- * In the case of verifyMIC, the confidentiality state will always be
- * <code>false</code>.  Upon return from these methods, this object will also
- * contain any supplementary status values applicable to the processed
- * token.  The supplementary status values can indicate old tokens, out
- * of sequence tokens, gap tokens or duplicate tokens.<p>
+ * When used with the unwrbp bnd verifyMIC methods of the GSSContext
+ * interfbce, bn instbnce of this clbss will be used to indicbte the
+ * bpplied QOP bnd confidentiblity services over the supplied messbge.
+ * In the cbse of verifyMIC, the confidentiblity stbte will blwbys be
+ * <code>fblse</code>.  Upon return from these methods, this object will blso
+ * contbin bny supplementbry stbtus vblues bpplicbble to the processed
+ * token.  The supplementbry stbtus vblues cbn indicbte old tokens, out
+ * of sequence tokens, gbp tokens or duplicbte tokens.<p>
  *
- * @see GSSContext#wrap
- * @see GSSContext#unwrap
+ * @see GSSContext#wrbp
+ * @see GSSContext#unwrbp
  * @see GSSContext#getMIC
  * @see GSSContext#verifyMIC
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
-public class MessageProp {
+public clbss MessbgeProp {
 
-    private boolean privacyState;
-    private int qop;
-    private boolean dupToken;
-    private boolean oldToken;
-    private boolean unseqToken;
-    private boolean gapToken;
-    private int minorStatus;
-    private String minorString;
+    privbte boolebn privbcyStbte;
+    privbte int qop;
+    privbte boolebn dupToken;
+    privbte boolebn oldToken;
+    privbte boolebn unseqToken;
+    privbte boolebn gbpToken;
+    privbte int minorStbtus;
+    privbte String minorString;
 
    /**
-    * Constructor which sets the desired privacy state. The QOP value used
+    * Constructor which sets the desired privbcy stbte. The QOP vblue used
     * is 0.
     *
-    * @param privState the privacy (i.e. confidentiality) state
+    * @pbrbm privStbte the privbcy (i.e. confidentiblity) stbte
     */
-    public MessageProp(boolean privState) {
-        this(0, privState);
+    public MessbgeProp(boolebn privStbte) {
+        this(0, privStbte);
     }
 
     /**
-     * Constructor which sets the values for the qop and privacy state.
+     * Constructor which sets the vblues for the qop bnd privbcy stbte.
      *
-     * @param qop the QOP value
-     * @param privState the privacy (i.e. confidentiality) state
+     * @pbrbm qop the QOP vblue
+     * @pbrbm privStbte the privbcy (i.e. confidentiblity) stbte
      */
-    public MessageProp(int qop, boolean privState) {
+    public MessbgeProp(int qop, boolebn privStbte) {
         this.qop = qop;
-        this.privacyState = privState;
-        resetStatusValues();
+        this.privbcyStbte = privStbte;
+        resetStbtusVblues();
     }
 
     /**
-     * Retrieves the QOP value.
+     * Retrieves the QOP vblue.
      *
-     * @return an int representing the QOP value
+     * @return bn int representing the QOP vblue
      * @see #setQOP
      */
     public int getQOP() {
@@ -96,21 +96,21 @@ public class MessageProp {
     }
 
     /**
-     * Retrieves the privacy state.
+     * Retrieves the privbcy stbte.
      *
-     * @return true if the privacy (i.e., confidentiality) state is true,
-     * false otherwise.
-     * @see #setPrivacy
+     * @return true if the privbcy (i.e., confidentiblity) stbte is true,
+     * fblse otherwise.
+     * @see #setPrivbcy
      */
-    public boolean getPrivacy() {
+    public boolebn getPrivbcy() {
 
-        return (privacyState);
+        return (privbcyStbte);
     }
 
     /**
-     * Sets the QOP value.
+     * Sets the QOP vblue.
      *
-     * @param qop the int value to set the QOP to
+     * @pbrbm qop the int vblue to set the QOP to
      * @see #getQOP
      */
     public void setQOP(int qop) {
@@ -119,117 +119,117 @@ public class MessageProp {
 
 
     /**
-     * Sets the privacy state.
+     * Sets the privbcy stbte.
      *
-     * @param privState true is the privacy (i.e., confidentiality) state
-     * is true, false otherwise.
-     * @see #getPrivacy
+     * @pbrbm privStbte true is the privbcy (i.e., confidentiblity) stbte
+     * is true, fblse otherwise.
+     * @see #getPrivbcy
      */
-    public void setPrivacy(boolean privState) {
+    public void setPrivbcy(boolebn privStbte) {
 
-        this.privacyState = privState;
+        this.privbcyStbte = privStbte;
     }
 
 
     /**
-     * Tests if this is a duplicate of an earlier token.
+     * Tests if this is b duplicbte of bn ebrlier token.
      *
-     * @return true if this is a duplicate, false otherwise.
+     * @return true if this is b duplicbte, fblse otherwise.
      */
-    public boolean isDuplicateToken() {
+    public boolebn isDuplicbteToken() {
         return dupToken;
     }
 
     /**
-     * Tests if this token's validity period has expired, i.e., the token
-     * is too old to be checked for duplication.
+     * Tests if this token's vblidity period hbs expired, i.e., the token
+     * is too old to be checked for duplicbtion.
      *
-     * @return true if the token's validity period has expired, false
+     * @return true if the token's vblidity period hbs expired, fblse
      * otherwise.
      */
-    public boolean isOldToken() {
+    public boolebn isOldToken() {
         return oldToken;
     }
 
     /**
-     * Tests if a later token had already been processed.
+     * Tests if b lbter token hbd blrebdy been processed.
      *
-     * @return true if a later token had already been processed, false otherwise.
+     * @return true if b lbter token hbd blrebdy been processed, fblse otherwise.
      */
-    public boolean isUnseqToken() {
+    public boolebn isUnseqToken() {
         return unseqToken;
     }
 
     /**
-     * Tests if an expected token was not received, i.e., one or more
-     * predecessor tokens have not yet been successfully processed.
+     * Tests if bn expected token wbs not received, i.e., one or more
+     * predecessor tokens hbve not yet been successfully processed.
      *
-     * @return true if an expected per-message token was not received,
-     * false otherwise.
+     * @return true if bn expected per-messbge token wbs not received,
+     * fblse otherwise.
      */
-    public boolean isGapToken() {
-        return gapToken;
+    public boolebn isGbpToken() {
+        return gbpToken;
     }
 
     /**
-     * Retrieves the minor status code that the underlying mechanism might
-     * have set for this per-message operation.
+     * Retrieves the minor stbtus code thbt the underlying mechbnism might
+     * hbve set for this per-messbge operbtion.
      *
-     * @return the int minor status
+     * @return the int minor stbtus
      */
-    public int getMinorStatus(){
-        return minorStatus;
+    public int getMinorStbtus(){
+        return minorStbtus;
     }
 
     /**
-     * Retrieves a string explaining the minor status code.
+     * Retrieves b string explbining the minor stbtus code.
      *
-     * @return a String corresponding to the minor status
-     * code. <code>null</code> will be returned when no minor status code
-     * has been set.
+     * @return b String corresponding to the minor stbtus
+     * code. <code>null</code> will be returned when no minor stbtus code
+     * hbs been set.
      */
     public String getMinorString(){
         return minorString;
     }
 
     /**
-     * This method sets the state for the supplementary information flags
-     * and the minor status in MessageProp.  It is not used by the
-     * application but by the GSS implementation to return this information
-     * to the caller of a per-message context method.
+     * This method sets the stbte for the supplementbry informbtion flbgs
+     * bnd the minor stbtus in MessbgeProp.  It is not used by the
+     * bpplicbtion but by the GSS implementbtion to return this informbtion
+     * to the cbller of b per-messbge context method.
      *
-     * @param duplicate true if the token was a duplicate of an earlier
-     * token, false otherwise
-     * @param old true if the token's validity period has expired, false
+     * @pbrbm duplicbte true if the token wbs b duplicbte of bn ebrlier
+     * token, fblse otherwise
+     * @pbrbm old true if the token's vblidity period hbs expired, fblse
      * otherwise
-     * @param unseq true if a later token has already been processed, false
+     * @pbrbm unseq true if b lbter token hbs blrebdy been processed, fblse
      * otherwise
-     * @param gap true if one or more predecessor tokens have not yet been
-     * successfully processed, false otherwise
-     * @param minorStatus the int minor status code for the per-message
-     * operation
-     * @param  minorString the textual representation of the minorStatus value
+     * @pbrbm gbp true if one or more predecessor tokens hbve not yet been
+     * successfully processed, fblse otherwise
+     * @pbrbm minorStbtus the int minor stbtus code for the per-messbge
+     * operbtion
+     * @pbrbm  minorString the textubl representbtion of the minorStbtus vblue
      */
-   public void setSupplementaryStates(boolean duplicate,
-                  boolean old, boolean unseq, boolean gap,
-                  int minorStatus, String minorString) {
-       this.dupToken = duplicate;
+   public void setSupplementbryStbtes(boolebn duplicbte,
+                  boolebn old, boolebn unseq, boolebn gbp,
+                  int minorStbtus, String minorString) {
+       this.dupToken = duplicbte;
        this.oldToken = old;
        this.unseqToken = unseq;
-       this.gapToken = gap;
-       this.minorStatus = minorStatus;
+       this.gbpToken = gbp;
+       this.minorStbtus = minorStbtus;
        this.minorString = minorString;
     }
 
     /**
-     * Resets the supplementary status values to false.
+     * Resets the supplementbry stbtus vblues to fblse.
      */
-    private void resetStatusValues() {
-        dupToken = false;
-        oldToken = false;
-        unseqToken = false;
-        gapToken = false;
-        minorStatus = 0;
+    privbte void resetStbtusVblues() {
+        dupToken = fblse;
+        oldToken = fblse;
+        unseqToken = fblse;
+        gbpToken = fblse;
+        minorStbtus = 0;
         minorString = null;
     }
 }

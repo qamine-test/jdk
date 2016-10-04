@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
-import com.apple.eawt.AppEvent.OpenFilesEvent;
+import com.bpple.ebwt.AppEvent.OpenFilesEvent;
 
 /**
- * An implementor is notified when the application is asked to open a list of files.
- * This message is only sent if the application has registered that it handles CFBundleDocumentTypes in it's Info.plist.
+ * An implementor is notified when the bpplicbtion is bsked to open b list of files.
+ * This messbge is only sent if the bpplicbtion hbs registered thbt it hbndles CFBundleDocumentTypes in it's Info.plist.
  *
- * @see Application#setOpenFileHandler(OpenFilesHandler)
+ * @see Applicbtion#setOpenFileHbndler(OpenFilesHbndler)
  *
- * @since Java for Mac OS X 10.6 Update 3
- * @since Java for Mac OS X 10.5 Update 8
+ * @since Jbvb for Mbc OS X 10.6 Updbte 3
+ * @since Jbvb for Mbc OS X 10.5 Updbte 8
  */
-public interface OpenFilesHandler {
+public interfbce OpenFilesHbndler {
     /**
-     * Called when the application is asked to open a list of files.
-     * @param e the request to open a list of files, and the search term used to find them, if any.
+     * Cblled when the bpplicbtion is bsked to open b list of files.
+     * @pbrbm e the request to open b list of files, bnd the sebrch term used to find them, if bny.
      */
-    public void openFiles(final OpenFilesEvent e);
+    public void openFiles(finbl OpenFilesEvent e);
 }

@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.util.*;
-import java.nio.ByteBuffer;
+import jbvb.util.*;
+import jbvb.nio.ByteBuffer;
 
-import java.security.*;
+import jbvb.security.*;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
 import sun.nio.ch.DirectBuffer;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * MessageDigest implementation class. This class currently supports
- * MD2, MD5, SHA-1, SHA-224, SHA-256, SHA-384, and SHA-512.
+ * MessbgeDigest implementbtion clbss. This clbss currently supports
+ * MD2, MD5, SHA-1, SHA-224, SHA-256, SHA-384, bnd SHA-512.
  *
- * Note that many digest operations are on fairly small amounts of data
- * (less than 100 bytes total). For example, the 2nd hashing in HMAC or
+ * Note thbt mbny digest operbtions bre on fbirly smbll bmounts of dbtb
+ * (less thbn 100 bytes totbl). For exbmple, the 2nd hbshing in HMAC or
  * the PRF in TLS. In order to speed those up, we use some buffering to
- * minimize number of the Java->native transitions.
+ * minimize number of the Jbvb->nbtive trbnsitions.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class P11Digest extends MessageDigestSpi implements Cloneable {
+finbl clbss P11Digest extends MessbgeDigestSpi implements Clonebble {
 
-    /* fields initialized, no session acquired */
-    private final static int S_BLANK    = 1;
+    /* fields initiblized, no session bcquired */
+    privbte finbl stbtic int S_BLANK    = 1;
 
-    /* data in buffer, session acquired, but digest not initialized */
-    private final static int S_BUFFERED = 2;
+    /* dbtb in buffer, session bcquired, but digest not initiblized */
+    privbte finbl stbtic int S_BUFFERED = 2;
 
-    /* session initialized for digesting */
-    private final static int S_INIT     = 3;
+    /* session initiblized for digesting */
+    privbte finbl stbtic int S_INIT     = 3;
 
-    private final static int BUFFER_SIZE = 96;
+    privbte finbl stbtic int BUFFER_SIZE = 96;
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name
-    private final String algorithm;
+    // blgorithm nbme
+    privbte finbl String blgorithm;
 
-    // mechanism id object
-    private final CK_MECHANISM mechanism;
+    // mechbnism id object
+    privbte finbl CK_MECHANISM mechbnism;
 
     // length of the digest in bytes
-    private final int digestLength;
+    privbte finbl int digestLength;
 
-    // associated session, if any
-    private Session session;
+    // bssocibted session, if bny
+    privbte Session session;
 
-    // current state, one of S_* above
-    private int state;
+    // current stbte, one of S_* bbove
+    privbte int stbte;
 
-    // buffer to reduce number of JNI calls
-    private byte[] buffer;
+    // buffer to reduce number of JNI cblls
+    privbte byte[] buffer;
 
     // offset into the buffer
-    private int bufOfs;
+    privbte int bufOfs;
 
-    P11Digest(Token token, String algorithm, long mechanism) {
+    P11Digest(Token token, String blgorithm, long mechbnism) {
         super();
         this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = new CK_MECHANISM(mechanism);
-        switch ((int)mechanism) {
-        case (int)CKM_MD2:
-        case (int)CKM_MD5:
+        this.blgorithm = blgorithm;
+        this.mechbnism = new CK_MECHANISM(mechbnism);
+        switch ((int)mechbnism) {
+        cbse (int)CKM_MD2:
+        cbse (int)CKM_MD5:
             digestLength = 16;
-            break;
-        case (int)CKM_SHA_1:
+            brebk;
+        cbse (int)CKM_SHA_1:
             digestLength = 20;
-            break;
-        case (int)CKM_SHA224:
+            brebk;
+        cbse (int)CKM_SHA224:
             digestLength = 28;
-            break;
-        case (int)CKM_SHA256:
+            brebk;
+        cbse (int)CKM_SHA256:
             digestLength = 32;
-            break;
-        case (int)CKM_SHA384:
+            brebk;
+        cbse (int)CKM_SHA384:
             digestLength = 48;
-            break;
-        case (int)CKM_SHA512:
+            brebk;
+        cbse (int)CKM_SHA512:
             digestLength = 64;
-            break;
-        default:
-            throw new ProviderException("Unknown mechanism: " + mechanism);
+            brebk;
+        defbult:
+            throw new ProviderException("Unknown mechbnism: " + mechbnism);
         }
         buffer = new byte[BUFFER_SIZE];
-        state = S_BLANK;
+        stbte = S_BLANK;
     }
 
     // see JCA spec
@@ -123,30 +123,30 @@ final class P11Digest extends MessageDigestSpi implements Cloneable {
         return digestLength;
     }
 
-    private void fetchSession() {
-        token.ensureValid();
-        if (state == S_BLANK) {
+    privbte void fetchSession() {
+        token.ensureVblid();
+        if (stbte == S_BLANK) {
             try {
                 session = token.getOpSession();
-                state = S_BUFFERED;
-            } catch (PKCS11Exception e) {
-                throw new ProviderException("No more session available", e);
+                stbte = S_BUFFERED;
+            } cbtch (PKCS11Exception e) {
+                throw new ProviderException("No more session bvbilbble", e);
             }
         }
     }
 
     // see JCA spec
     protected void engineReset() {
-        token.ensureValid();
+        token.ensureVblid();
 
         if (session != null) {
-            if (state == S_INIT && token.explicitCancel == true) {
+            if (stbte == S_INIT && token.explicitCbncel == true) {
                 session = token.killSession(session);
             } else {
-                session = token.releaseSession(session);
+                session = token.relebseSession(session);
             }
         }
-        state = S_BLANK;
+        stbte = S_BLANK;
         bufOfs = 0;
     }
 
@@ -156,8 +156,8 @@ final class P11Digest extends MessageDigestSpi implements Cloneable {
             byte[] digest = new byte[digestLength];
             int n = engineDigest(digest, 0, digestLength);
             return digest;
-        } catch (DigestException e) {
-            throw new ProviderException("internal error", e);
+        } cbtch (DigestException e) {
+            throw new ProviderException("internbl error", e);
         }
     }
 
@@ -165,137 +165,137 @@ final class P11Digest extends MessageDigestSpi implements Cloneable {
     protected int engineDigest(byte[] digest, int ofs, int len)
             throws DigestException {
         if (len < digestLength) {
-            throw new DigestException("Length must be at least " +
+            throw new DigestException("Length must be bt lebst " +
                     digestLength);
         }
 
         fetchSession();
         try {
             int n;
-            if (state == S_BUFFERED) {
-                n = token.p11.C_DigestSingle(session.id(), mechanism, buffer, 0,
+            if (stbte == S_BUFFERED) {
+                n = token.p11.C_DigestSingle(session.id(), mechbnism, buffer, 0,
                         bufOfs, digest, ofs, len);
                 bufOfs = 0;
             } else {
                 if (bufOfs != 0) {
-                    token.p11.C_DigestUpdate(session.id(), 0, buffer, 0,
+                    token.p11.C_DigestUpdbte(session.id(), 0, buffer, 0,
                             bufOfs);
                     bufOfs = 0;
                 }
-                n = token.p11.C_DigestFinal(session.id(), digest, ofs, len);
+                n = token.p11.C_DigestFinbl(session.id(), digest, ofs, len);
             }
             if (n != digestLength) {
-                throw new ProviderException("internal digest length error");
+                throw new ProviderException("internbl digest length error");
             }
             return n;
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("digest() failed", e);
-        } finally {
+        } cbtch (PKCS11Exception e) {
+            throw new ProviderException("digest() fbiled", e);
+        } finblly {
             engineReset();
         }
     }
 
     // see JCA spec
-    protected void engineUpdate(byte in) {
+    protected void engineUpdbte(byte in) {
         byte[] temp = { in };
-        engineUpdate(temp, 0, 1);
+        engineUpdbte(temp, 0, 1);
     }
 
     // see JCA spec
-    protected void engineUpdate(byte[] in, int ofs, int len) {
+    protected void engineUpdbte(byte[] in, int ofs, int len) {
         if (len <= 0) {
             return;
         }
 
         fetchSession();
         try {
-            if (state == S_BUFFERED) {
-                token.p11.C_DigestInit(session.id(), mechanism);
-                state = S_INIT;
+            if (stbte == S_BUFFERED) {
+                token.p11.C_DigestInit(session.id(), mechbnism);
+                stbte = S_INIT;
             }
             if ((bufOfs != 0) && (bufOfs + len > buffer.length)) {
-                // process the buffered data
-                token.p11.C_DigestUpdate(session.id(), 0, buffer, 0, bufOfs);
+                // process the buffered dbtb
+                token.p11.C_DigestUpdbte(session.id(), 0, buffer, 0, bufOfs);
                 bufOfs = 0;
             }
             if (bufOfs + len > buffer.length) {
-                // process the new data
-                token.p11.C_DigestUpdate(session.id(), 0, in, ofs, len);
+                // process the new dbtb
+                token.p11.C_DigestUpdbte(session.id(), 0, in, ofs, len);
              } else {
-                // buffer the new data
-                System.arraycopy(in, ofs, buffer, bufOfs, len);
+                // buffer the new dbtb
+                System.brrbycopy(in, ofs, buffer, bufOfs, len);
                 bufOfs += len;
             }
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             engineReset();
-            throw new ProviderException("update() failed", e);
+            throw new ProviderException("updbte() fbiled", e);
         }
     }
 
-    // Called by SunJSSE via reflection during the SSL 3.0 handshake if
-    // the master secret is sensitive. We may want to consider making this
-    // method public in a future release.
-    protected void implUpdate(SecretKey key) throws InvalidKeyException {
+    // Cblled by SunJSSE vib reflection during the SSL 3.0 hbndshbke if
+    // the mbster secret is sensitive. We mby wbnt to consider mbking this
+    // method public in b future relebse.
+    protected void implUpdbte(SecretKey key) throws InvblidKeyException {
 
-        // SunJSSE calls this method only if the key does not have a RAW
-        // encoding, i.e. if it is sensitive. Therefore, no point in calling
-        // SecretKeyFactory to try to convert it. Just verify it ourselves.
-        if (key instanceof P11Key == false) {
-            throw new InvalidKeyException("Not a P11Key: " + key);
+        // SunJSSE cblls this method only if the key does not hbve b RAW
+        // encoding, i.e. if it is sensitive. Therefore, no point in cblling
+        // SecretKeyFbctory to try to convert it. Just verify it ourselves.
+        if (key instbnceof P11Key == fblse) {
+            throw new InvblidKeyException("Not b P11Key: " + key);
         }
         P11Key p11Key = (P11Key)key;
         if (p11Key.token != token) {
-            throw new InvalidKeyException("Not a P11Key of this provider: " +
+            throw new InvblidKeyException("Not b P11Key of this provider: " +
                     key);
         }
 
         fetchSession();
         try {
-            if (state == S_BUFFERED) {
-                token.p11.C_DigestInit(session.id(), mechanism);
-                state = S_INIT;
+            if (stbte == S_BUFFERED) {
+                token.p11.C_DigestInit(session.id(), mechbnism);
+                stbte = S_INIT;
             }
 
             if (bufOfs != 0) {
-                token.p11.C_DigestUpdate(session.id(), 0, buffer, 0, bufOfs);
+                token.p11.C_DigestUpdbte(session.id(), 0, buffer, 0, bufOfs);
                 bufOfs = 0;
             }
             token.p11.C_DigestKey(session.id(), p11Key.keyID);
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             engineReset();
-            throw new ProviderException("update(SecretKey) failed", e);
+            throw new ProviderException("updbte(SecretKey) fbiled", e);
         }
     }
 
     // see JCA spec
-    protected void engineUpdate(ByteBuffer byteBuffer) {
-        int len = byteBuffer.remaining();
+    protected void engineUpdbte(ByteBuffer byteBuffer) {
+        int len = byteBuffer.rembining();
         if (len <= 0) {
             return;
         }
 
-        if (byteBuffer instanceof DirectBuffer == false) {
-            super.engineUpdate(byteBuffer);
+        if (byteBuffer instbnceof DirectBuffer == fblse) {
+            super.engineUpdbte(byteBuffer);
             return;
         }
 
         fetchSession();
-        long addr = ((DirectBuffer)byteBuffer).address();
+        long bddr = ((DirectBuffer)byteBuffer).bddress();
         int ofs = byteBuffer.position();
         try {
-            if (state == S_BUFFERED) {
-                token.p11.C_DigestInit(session.id(), mechanism);
-                state = S_INIT;
+            if (stbte == S_BUFFERED) {
+                token.p11.C_DigestInit(session.id(), mechbnism);
+                stbte = S_INIT;
             }
             if (bufOfs != 0) {
-                token.p11.C_DigestUpdate(session.id(), 0, buffer, 0, bufOfs);
+                token.p11.C_DigestUpdbte(session.id(), 0, buffer, 0, bufOfs);
                 bufOfs = 0;
             }
-            token.p11.C_DigestUpdate(session.id(), addr + ofs, null, 0, len);
+            token.p11.C_DigestUpdbte(session.id(), bddr + ofs, null, 0, len);
             byteBuffer.position(ofs + len);
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             engineReset();
-            throw new ProviderException("update() failed", e);
+            throw new ProviderException("updbte() fbiled", e);
         }
     }
 
@@ -306,15 +306,15 @@ final class P11Digest extends MessageDigestSpi implements Cloneable {
             if (session != null) {
                 copy.session = copy.token.getOpSession();
             }
-            if (state == S_INIT) {
-                byte[] stateValues =
-                    token.p11.C_GetOperationState(session.id());
-                token.p11.C_SetOperationState(copy.session.id(),
-                                              stateValues, 0, 0);
+            if (stbte == S_INIT) {
+                byte[] stbteVblues =
+                    token.p11.C_GetOperbtionStbte(session.id());
+                token.p11.C_SetOperbtionStbte(copy.session.id(),
+                                              stbteVblues, 0, 0);
             }
-        } catch (PKCS11Exception e) {
+        } cbtch (PKCS11Exception e) {
             throw (CloneNotSupportedException)
-                (new CloneNotSupportedException(algorithm).initCause(e));
+                (new CloneNotSupportedException(blgorithm).initCbuse(e));
         }
         return copy;
     }

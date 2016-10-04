@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
 
-import sun.awt.IconInfo;
-import sun.awt.image.ToolkitImage;
-import sun.awt.image.ImageRepresentation;
+import sun.bwt.IconInfo;
+import sun.bwt.imbge.ToolkitImbge;
+import sun.bwt.imbge.ImbgeRepresentbtion;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-public class XIconWindow extends XBaseWindow {
-    private final static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XIconWindow");
-    XDecoratedPeer parent;
+public clbss XIconWindow extends XBbseWindow {
+    privbte finbl stbtic PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XIconWindow");
+    XDecorbtedPeer pbrent;
     Dimension size;
-    long iconPixmap = 0;
-    long iconMask = 0;
+    long iconPixmbp = 0;
+    long iconMbsk = 0;
     int iconWidth = 0;
     int iconHeight = 0;
-    XIconWindow(XDecoratedPeer parent) {
-        super(new XCreateWindowParams(new Object[] {
-            PARENT, parent,
-            DELAYED, Boolean.TRUE}));
+    XIconWindow(XDecorbtedPeer pbrent) {
+        super(new XCrebteWindowPbrbms(new Object[] {
+            PARENT, pbrent,
+            DELAYED, Boolebn.TRUE}));
     }
 
-    void instantPreInit(XCreateWindowParams params) {
-        super.instantPreInit(params);
-        this.parent = (XDecoratedPeer)params.get(PARENT);
+    void instbntPreInit(XCrebteWindowPbrbms pbrbms) {
+        super.instbntPreInit(pbrbms);
+        this.pbrent = (XDecorbtedPeer)pbrbms.get(PARENT);
     }
 
     /**
-     * @return array of XIconsSize structures, caller must free this array after use.
+     * @return brrby of XIconsSize structures, cbller must free this brrby bfter use.
      */
-    private XIconSize[] getIconSizes() {
-        XToolkit.awtLock();
+    privbte XIconSize[] getIconSizes() {
+        XToolkit.bwtLock();
         try {
-            AwtGraphicsConfigData adata = parent.getGraphicsConfigurationData();
-            final long screen = adata.get_awt_visInfo().get_screen();
-            final long display = XToolkit.getDisplay();
+            AwtGrbphicsConfigDbtb bdbtb = pbrent.getGrbphicsConfigurbtionDbtb();
+            finbl long screen = bdbtb.get_bwt_visInfo().get_screen();
+            finbl long displby = XToolkit.getDisplby();
 
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest(adata.toString());
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                log.finest(bdbtb.toString());
             }
 
-            long status =
-                XlibWrapper.XGetIconSizes(display, XToolkit.getDefaultRootWindow(),
-                                          XlibWrapper.larg1, XlibWrapper.iarg1);
-            if (status == 0) {
+            long stbtus =
+                XlibWrbpper.XGetIconSizes(displby, XToolkit.getDefbultRootWindow(),
+                                          XlibWrbpper.lbrg1, XlibWrbpper.ibrg1);
+            if (stbtus == 0) {
                 return null;
             }
-            int count = Native.getInt(XlibWrapper.iarg1);
-            long sizes_ptr = Native.getLong(XlibWrapper.larg1); // XIconSize*
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("count = {1}, sizes_ptr = {0}", Long.valueOf(sizes_ptr), Integer.valueOf(count));
+            int count = Nbtive.getInt(XlibWrbpper.ibrg1);
+            long sizes_ptr = Nbtive.getLong(XlibWrbpper.lbrg1); // XIconSize*
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                log.finest("count = {1}, sizes_ptr = {0}", Long.vblueOf(sizes_ptr), Integer.vblueOf(count));
             }
             XIconSize[] res = new XIconSize[count];
             for (int i = 0; i < count; i++, sizes_ptr += XIconSize.getSize()) {
                 res[i] = new XIconSize(sizes_ptr);
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("sizes_ptr[{1}] = {0}", res[i], Integer.valueOf(i));
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+                    log.finest("sizes_ptr[{1}] = {0}", res[i], Integer.vblueOf(i));
                 }
             }
             return res;
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    private Dimension calcIconSize(int widthHint, int heightHint) {
+    privbte Dimension cblcIconSize(int widthHint, int heightHint) {
         if (XWM.getWMID() == XWM.ICE_WM) {
-            // ICE_WM has a bug - it only displays icons of the size
+            // ICE_WM hbs b bug - it only displbys icons of the size
             // 16x16, while reporting 32x32 in its size list
             log.finest("Returning ICE_WM icon size: 16x16");
             return new Dimension(16, 16);
         }
 
         XIconSize[] sizeList = getIconSizes();
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
             log.finest("Icon sizes: {0}", (Object[]) sizeList);
         }
         if (sizeList == null) {
-            // No icon sizes so we simply fall back to 16x16
+            // No icon sizes so we simply fbll bbck to 16x16
             return new Dimension(16, 16);
         }
-        boolean found = false;
+        boolebn found = fblse;
         int dist = 0xffffffff, newDist, diff = 0, closestHeight, closestWidth;
-        int saveWidth = 0, saveHeight = 0;
+        int sbveWidth = 0, sbveHeight = 0;
         for (int i = 0; i < sizeList.length; i++) {
             if (widthHint >= sizeList[i].get_min_width() &&
-                widthHint <= sizeList[i].get_max_width() &&
+                widthHint <= sizeList[i].get_mbx_width() &&
                 heightHint >= sizeList[i].get_min_height() &&
-                heightHint <= sizeList[i].get_max_height()) {
+                heightHint <= sizeList[i].get_mbx_height()) {
                 found = true;
                 if ((((widthHint-sizeList[i].get_min_width())
                       % sizeList[i].get_width_inc()) == 0) &&
                     (((heightHint-sizeList[i].get_min_height())
                       % sizeList[i].get_height_inc()) ==0)) {
-                    /* Found an exact match */
-                    saveWidth = widthHint;
-                    saveHeight = heightHint;
+                    /* Found bn exbct mbtch */
+                    sbveWidth = widthHint;
+                    sbveHeight = heightHint;
                     dist = 0;
-                    break;
+                    brebk;
                 }
                 diff = widthHint - sizeList[i].get_min_width();
                 if (diff == 0) {
@@ -142,167 +142,167 @@ public class XIconWindow extends XBaseWindow {
                 newDist = closestWidth*closestWidth +
                     closestHeight*closestHeight;
                 if (dist > newDist) {
-                    saveWidth = closestWidth;
-                    saveHeight = closestHeight;
+                    sbveWidth = closestWidth;
+                    sbveHeight = closestHeight;
                     dist = newDist;
                 }
             }
         }
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
             log.finest("found=" + found);
         }
         if (!found) {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
                 log.finest("widthHint=" + widthHint + ", heightHint=" + heightHint
-                           + ", saveWidth=" + saveWidth + ", saveHeight=" + saveHeight
-                           + ", max_width=" + sizeList[0].get_max_width()
-                           + ", max_height=" + sizeList[0].get_max_height()
+                           + ", sbveWidth=" + sbveWidth + ", sbveHeight=" + sbveHeight
+                           + ", mbx_width=" + sizeList[0].get_mbx_width()
+                           + ", mbx_height=" + sizeList[0].get_mbx_height()
                            + ", min_width=" + sizeList[0].get_min_width()
                            + ", min_height=" + sizeList[0].get_min_height());
             }
 
-            if (widthHint  > sizeList[0].get_max_width() ||
-                heightHint > sizeList[0].get_max_height())
+            if (widthHint  > sizeList[0].get_mbx_width() ||
+                heightHint > sizeList[0].get_mbx_height())
             {
-                // Icon image too big
-                /* determine which way to scale */
-                int wdiff = widthHint - sizeList[0].get_max_width();
-                int hdiff = heightHint - sizeList[0].get_max_height();
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
+                // Icon imbge too big
+                /* determine which wby to scble */
+                int wdiff = widthHint - sizeList[0].get_mbx_width();
+                int hdiff = heightHint - sizeList[0].get_mbx_height();
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
                     log.finest("wdiff=" + wdiff + ", hdiff=" + hdiff);
                 }
-                if (wdiff >= hdiff) { /* need to scale width more  */
-                    saveWidth = sizeList[0].get_max_width();
-                    saveHeight =
-                        (int)(((double)sizeList[0].get_max_width()/widthHint) * heightHint);
+                if (wdiff >= hdiff) { /* need to scble width more  */
+                    sbveWidth = sizeList[0].get_mbx_width();
+                    sbveHeight =
+                        (int)(((double)sizeList[0].get_mbx_width()/widthHint) * heightHint);
                 } else {
-                    saveWidth =
-                        (int)(((double)sizeList[0].get_max_height()/heightHint) * widthHint);
-                    saveHeight = sizeList[0].get_max_height();
+                    sbveWidth =
+                        (int)(((double)sizeList[0].get_mbx_height()/heightHint) * widthHint);
+                    sbveHeight = sizeList[0].get_mbx_height();
                 }
             } else if (widthHint  < sizeList[0].get_min_width() ||
                        heightHint < sizeList[0].get_min_height())
             {
-                // Icon image too small
-                saveWidth = (sizeList[0].get_min_width()+sizeList[0].get_max_width())/2;
-                saveHeight = (sizeList[0].get_min_height()+sizeList[0].get_max_height())/2;
+                // Icon imbge too smbll
+                sbveWidth = (sizeList[0].get_min_width()+sizeList[0].get_mbx_width())/2;
+                sbveHeight = (sizeList[0].get_min_height()+sizeList[0].get_mbx_height())/2;
             } else {
-                // Icon image fits within right size
-                saveWidth = widthHint;
-                saveHeight = widthHint;
+                // Icon imbge fits within right size
+                sbveWidth = widthHint;
+                sbveHeight = widthHint;
             }
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
-            XlibWrapper.XFree(sizeList[0].pData);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbpper.XFree(sizeList[0].pDbtb);
+        } finblly {
+            XToolkit.bwtUnlock();
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("return " + saveWidth + "x" + saveHeight);
+        if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            log.finest("return " + sbveWidth + "x" + sbveHeight);
         }
-        return new Dimension(saveWidth, saveHeight);
+        return new Dimension(sbveWidth, sbveHeight);
     }
 
     /**
-     * @return preffered icon size calculated from specific icon
+     * @return preffered icon size cblculbted from specific icon
      */
     Dimension getIconSize(int widthHint, int heightHint) {
         if (size == null) {
-            size = calcIconSize(widthHint, heightHint);
+            size = cblcIconSize(widthHint, heightHint);
         }
         return size;
     }
 
    /**
-    * This function replaces iconPixmap handle with new image
-    * It does not replace window's hints, so it should be
-    * called only from setIconImage()
+    * This function replbces iconPixmbp hbndle with new imbge
+    * It does not replbce window's hints, so it should be
+    * cblled only from setIconImbge()
     */
-   void replaceImage(Image img)
+   void replbceImbge(Imbge img)
     {
-        if (parent == null) {
+        if (pbrent == null) {
             return;
         }
-        //Prepare image
-        //create new buffered image of desired size
+        //Prepbre imbge
+        //crebte new buffered imbge of desired size
         //in current window's color model
-        BufferedImage bi = null;
+        BufferedImbge bi = null;
         if (img != null && iconWidth != 0 && iconHeight != 0) {
-            GraphicsConfiguration defaultGC = parent.getGraphicsConfiguration().getDevice().getDefaultConfiguration();
-            ColorModel model = defaultGC.getColorModel();
-            WritableRaster raster = model.createCompatibleWritableRaster(iconWidth, iconHeight);
-            bi = new BufferedImage(model, raster, model.isAlphaPremultiplied(), null);
-            Graphics g = bi.getGraphics();
+            GrbphicsConfigurbtion defbultGC = pbrent.getGrbphicsConfigurbtion().getDevice().getDefbultConfigurbtion();
+            ColorModel model = defbultGC.getColorModel();
+            WritbbleRbster rbster = model.crebteCompbtibleWritbbleRbster(iconWidth, iconHeight);
+            bi = new BufferedImbge(model, rbster, model.isAlphbPremultiplied(), null);
+            Grbphics g = bi.getGrbphics();
             try {
-                //We need to draw image on SystemColors.window
-                //for using as iconWindow's background
+                //We need to drbw imbge on SystemColors.window
+                //for using bs iconWindow's bbckground
                 g.setColor(SystemColor.window);
                 g.fillRect(0, 0, iconWidth, iconHeight);
-                if (g instanceof Graphics2D) {
-                    ((Graphics2D)g).setComposite(AlphaComposite.Src);
+                if (g instbnceof Grbphics2D) {
+                    ((Grbphics2D)g).setComposite(AlphbComposite.Src);
                 }
-                g.drawImage(img, 0, 0, iconWidth, iconHeight, null);
-            } finally {
+                g.drbwImbge(img, 0, 0, iconWidth, iconHeight, null);
+            } finblly {
                 g.dispose();
             }
         }
-        //create pixmap
-        XToolkit.awtLock();
+        //crebte pixmbp
+        XToolkit.bwtLock();
         try {
-            if (iconPixmap != 0) {
-                XlibWrapper.XFreePixmap(XToolkit.getDisplay(), iconPixmap);
-                iconPixmap = 0;
-                log.finest("Freed previous pixmap");
+            if (iconPixmbp != 0) {
+                XlibWrbpper.XFreePixmbp(XToolkit.getDisplby(), iconPixmbp);
+                iconPixmbp = 0;
+                log.finest("Freed previous pixmbp");
             }
             if (bi == null || iconWidth == 0 || iconHeight == 0) {
-                return;  //The iconPixmap is 0 now, we have done everything
+                return;  //The iconPixmbp is 0 now, we hbve done everything
             }
-            AwtGraphicsConfigData adata = parent.getGraphicsConfigurationData();
-            awtImageData awtImage = adata.get_awtImage(0);
-            XVisualInfo visInfo = adata.get_awt_visInfo();
-            iconPixmap = XlibWrapper.XCreatePixmap(XToolkit.getDisplay(),
-                                                   XlibWrapper.RootWindow(XToolkit.getDisplay(), visInfo.get_screen()),
+            AwtGrbphicsConfigDbtb bdbtb = pbrent.getGrbphicsConfigurbtionDbtb();
+            bwtImbgeDbtb bwtImbge = bdbtb.get_bwtImbge(0);
+            XVisublInfo visInfo = bdbtb.get_bwt_visInfo();
+            iconPixmbp = XlibWrbpper.XCrebtePixmbp(XToolkit.getDisplby(),
+                                                   XlibWrbpper.RootWindow(XToolkit.getDisplby(), visInfo.get_screen()),
                                                    iconWidth,
                                                    iconHeight,
-                                                   awtImage.get_Depth()
+                                                   bwtImbge.get_Depth()
                                                    );
-            if (iconPixmap == 0) {
-                log.finest("Can't create new pixmap for icon");
-                return; //Can't do nothing
+            if (iconPixmbp == 0) {
+                log.finest("Cbn't crebte new pixmbp for icon");
+                return; //Cbn't do nothing
             }
-            //Transform image data
+            //Trbnsform imbge dbtb
             long bytes = 0;
-            DataBuffer srcBuf = bi.getData().getDataBuffer();
-            if (srcBuf instanceof DataBufferByte) {
-                byte[] buf = ((DataBufferByte)srcBuf).getData();
-                ColorData cdata = adata.get_color_data(0);
-                int num_colors = cdata.get_awt_numICMcolors();
+            DbtbBuffer srcBuf = bi.getDbtb().getDbtbBuffer();
+            if (srcBuf instbnceof DbtbBufferByte) {
+                byte[] buf = ((DbtbBufferByte)srcBuf).getDbtb();
+                ColorDbtb cdbtb = bdbtb.get_color_dbtb(0);
+                int num_colors = cdbtb.get_bwt_numICMcolors();
                 for (int i = 0; i < buf.length; i++) {
                     buf[i] = (buf[i] >= num_colors) ?
-                        0 : cdata.get_awt_icmLUT2Colors(buf[i]);
+                        0 : cdbtb.get_bwt_icmLUT2Colors(buf[i]);
                 }
-                bytes = Native.toData(buf);
-            } else if (srcBuf instanceof DataBufferInt) {
-                bytes = Native.toData(((DataBufferInt)srcBuf).getData());
-            } else if (srcBuf instanceof DataBufferUShort) {
-                bytes = Native.toData(((DataBufferUShort)srcBuf).getData());
+                bytes = Nbtive.toDbtb(buf);
+            } else if (srcBuf instbnceof DbtbBufferInt) {
+                bytes = Nbtive.toDbtb(((DbtbBufferInt)srcBuf).getDbtb());
+            } else if (srcBuf instbnceof DbtbBufferUShort) {
+                bytes = Nbtive.toDbtb(((DbtbBufferUShort)srcBuf).getDbtb());
             } else {
-                throw new IllegalArgumentException("Unknown data buffer: " + srcBuf);
+                throw new IllegblArgumentException("Unknown dbtb buffer: " + srcBuf);
             }
-            int bpp = awtImage.get_wsImageFormat().get_bits_per_pixel();
-            int slp =awtImage.get_wsImageFormat().get_scanline_pad();
-            int bpsl = paddedwidth(iconWidth*bpp, slp) >> 3;
+            int bpp = bwtImbge.get_wsImbgeFormbt().get_bits_per_pixel();
+            int slp =bwtImbge.get_wsImbgeFormbt().get_scbnline_pbd();
+            int bpsl = pbddedwidth(iconWidth*bpp, slp) >> 3;
             if (((bpsl << 3) / bpp) < iconWidth) {
-                log.finest("Image format doesn't fit to icon width");
+                log.finest("Imbge formbt doesn't fit to icon width");
                 return;
             }
-            long dst = XlibWrapper.XCreateImage(XToolkit.getDisplay(),
-                                                visInfo.get_visual(),
-                                                awtImage.get_Depth(),
-                                                XConstants.ZPixmap,
+            long dst = XlibWrbpper.XCrebteImbge(XToolkit.getDisplby(),
+                                                visInfo.get_visubl(),
+                                                bwtImbge.get_Depth(),
+                                                XConstbnts.ZPixmbp,
                                                 0,
                                                 bytes,
                                                 iconWidth,
@@ -310,78 +310,78 @@ public class XIconWindow extends XBaseWindow {
                                                 32,
                                                 bpsl);
             if (dst == 0) {
-                log.finest("Can't create XImage for icon");
-                XlibWrapper.XFreePixmap(XToolkit.getDisplay(), iconPixmap);
-                iconPixmap = 0;
+                log.finest("Cbn't crebte XImbge for icon");
+                XlibWrbpper.XFreePixmbp(XToolkit.getDisplby(), iconPixmbp);
+                iconPixmbp = 0;
                 return;
             } else {
-                log.finest("Created XImage for icon");
+                log.finest("Crebted XImbge for icon");
             }
-            long gc = XlibWrapper.XCreateGC(XToolkit.getDisplay(), iconPixmap, 0, 0);
+            long gc = XlibWrbpper.XCrebteGC(XToolkit.getDisplby(), iconPixmbp, 0, 0);
             if (gc == 0) {
-                log.finest("Can't create GC for pixmap");
-                XlibWrapper.XFreePixmap(XToolkit.getDisplay(), iconPixmap);
-                iconPixmap = 0;
+                log.finest("Cbn't crebte GC for pixmbp");
+                XlibWrbpper.XFreePixmbp(XToolkit.getDisplby(), iconPixmbp);
+                iconPixmbp = 0;
                 return;
             } else {
-                log.finest("Created GC for pixmap");
+                log.finest("Crebted GC for pixmbp");
             }
             try {
-                XlibWrapper.XPutImage(XToolkit.getDisplay(), iconPixmap, gc,
+                XlibWrbpper.XPutImbge(XToolkit.getDisplby(), iconPixmbp, gc,
                                       dst, 0, 0, 0, 0, iconWidth, iconHeight);
-            } finally {
-                XlibWrapper.XFreeGC(XToolkit.getDisplay(), gc);
+            } finblly {
+                XlibWrbpper.XFreeGC(XToolkit.getDisplby(), gc);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
    /**
-    * This function replaces iconPixmap handle with new image
-    * It does not replace window's hints, so it should be
-    * called only from setIconImage()
+    * This function replbces iconPixmbp hbndle with new imbge
+    * It does not replbce window's hints, so it should be
+    * cblled only from setIconImbge()
     */
-    void replaceMask(Image img) {
-        if (parent == null) {
+    void replbceMbsk(Imbge img) {
+        if (pbrent == null) {
             return;
         }
-        //Prepare image
-        BufferedImage bi = null;
+        //Prepbre imbge
+        BufferedImbge bi = null;
         if (img != null && iconWidth != 0 && iconHeight != 0) {
-            bi = new BufferedImage(iconWidth, iconHeight, BufferedImage.TYPE_INT_ARGB);
-            Graphics g = bi.getGraphics();
+            bi = new BufferedImbge(iconWidth, iconHeight, BufferedImbge.TYPE_INT_ARGB);
+            Grbphics g = bi.getGrbphics();
             try {
-                g.drawImage(img, 0, 0, iconWidth, iconHeight, null);
-            } finally {
+                g.drbwImbge(img, 0, 0, iconWidth, iconHeight, null);
+            } finblly {
                 g.dispose();
             }
         }
-        //create mask
-        XToolkit.awtLock();
+        //crebte mbsk
+        XToolkit.bwtLock();
         try {
-            if (iconMask != 0) {
-                XlibWrapper.XFreePixmap(XToolkit.getDisplay(), iconMask);
-                iconMask = 0;
-                log.finest("Freed previous mask");
+            if (iconMbsk != 0) {
+                XlibWrbpper.XFreePixmbp(XToolkit.getDisplby(), iconMbsk);
+                iconMbsk = 0;
+                log.finest("Freed previous mbsk");
             }
             if (bi == null || iconWidth == 0 || iconHeight == 0) {
-                return;  //The iconMask is 0 now, we have done everything
+                return;  //The iconMbsk is 0 now, we hbve done everything
             }
-            AwtGraphicsConfigData adata = parent.getGraphicsConfigurationData();
-            awtImageData awtImage = adata.get_awtImage(0);
-            XVisualInfo visInfo = adata.get_awt_visInfo();
+            AwtGrbphicsConfigDbtb bdbtb = pbrent.getGrbphicsConfigurbtionDbtb();
+            bwtImbgeDbtb bwtImbge = bdbtb.get_bwtImbge(0);
+            XVisublInfo visInfo = bdbtb.get_bwt_visInfo();
             ColorModel cm = bi.getColorModel();
-            DataBuffer srcBuf = bi.getRaster().getDataBuffer();
+            DbtbBuffer srcBuf = bi.getRbster().getDbtbBuffer();
             int sidx = 0;//index of source element
             int bpl = (iconWidth + 7) >> 3;//bytes per line
             byte[] destBuf = new byte[bpl * iconHeight];
-            int didx = 0;//index of destination element
+            int didx = 0;//index of destinbtion element
             for (int i = 0; i < iconHeight; i++) {
                 int dbit = 0;//index of current bit
                 int cv = 0;
                 for (int j = 0; j < iconWidth; j++) {
-                    if (cm.getAlpha(srcBuf.getElem(sidx)) != 0 ) {
+                    if (cm.getAlphb(srcBuf.getElem(sidx)) != 0 ) {
                         cv = cv + (1 << dbit);
                     }
                     dbit++;
@@ -394,58 +394,58 @@ public class XIconWindow extends XBaseWindow {
                     sidx++;
                 }
             }
-            iconMask = XlibWrapper.XCreateBitmapFromData(XToolkit.getDisplay(),
-                XlibWrapper.RootWindow(XToolkit.getDisplay(), visInfo.get_screen()),
-                Native.toData(destBuf),
+            iconMbsk = XlibWrbpper.XCrebteBitmbpFromDbtb(XToolkit.getDisplby(),
+                XlibWrbpper.RootWindow(XToolkit.getDisplby(), visInfo.get_screen()),
+                Nbtive.toDbtb(destBuf),
                 iconWidth, iconHeight);
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
     /**
-     * Sets icon image by selecting one of the images from the list.
-     * The selected image is the one having the best matching size.
+     * Sets icon imbge by selecting one of the imbges from the list.
+     * The selected imbge is the one hbving the best mbtching size.
      */
-    void setIconImages(java.util.List<IconInfo> icons) {
+    void setIconImbges(jbvb.util.List<IconInfo> icons) {
         if (icons == null || icons.size() == 0) return;
 
         int minDiff = Integer.MAX_VALUE;
-        Image min = null;
+        Imbge min = null;
         for (IconInfo iconInfo : icons) {
-            if (iconInfo.isValid()) {
-                Image image = iconInfo.getImage();
-                Dimension dim = calcIconSize(image.getWidth(null), image.getHeight(null));
-                int widthDiff = Math.abs(dim.width - image.getWidth(null));
-                int heightDiff = Math.abs(image.getHeight(null) - dim.height);
+            if (iconInfo.isVblid()) {
+                Imbge imbge = iconInfo.getImbge();
+                Dimension dim = cblcIconSize(imbge.getWidth(null), imbge.getHeight(null));
+                int widthDiff = Mbth.bbs(dim.width - imbge.getWidth(null));
+                int heightDiff = Mbth.bbs(imbge.getHeight(null) - dim.height);
 
-                // "=" below allows to select the best matching icon
+                // "=" below bllows to select the best mbtching icon
                 if (minDiff >= (widthDiff + heightDiff)) {
                     minDiff = (widthDiff + heightDiff);
-                    min = image;
+                    min = imbge;
                 }
             }
         }
         if (min != null) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
+            if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
                 log.finer("Icon: {0}x{1}", min.getWidth(null), min.getHeight(null));
             }
-            setIconImage(min);
+            setIconImbge(min);
         }
     }
 
-    void setIconImage(Image img) {
+    void setIconImbge(Imbge img) {
         if (img == null) {
-            //if image is null, reset to default image
-            replaceImage(null);
-            replaceMask(null);
+            //if imbge is null, reset to defbult imbge
+            replbceImbge(null);
+            replbceMbsk(null);
         } else {
-            //get image size
+            //get imbge size
             int width;
             int height;
-            if (img instanceof ToolkitImage) {
-                ImageRepresentation ir = ((ToolkitImage)img).getImageRep();
-                ir.reconstruct(ImageObserver.ALLBITS);
+            if (img instbnceof ToolkitImbge) {
+                ImbgeRepresentbtion ir = ((ToolkitImbge)img).getImbgeRep();
+                ir.reconstruct(ImbgeObserver.ALLBITS);
                 width = ir.getWidth();
                 height = ir.getHeight();
             }
@@ -455,69 +455,69 @@ public class XIconWindow extends XBaseWindow {
             }
             Dimension iconSize = getIconSize(width, height);
             if (iconSize != null) {
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
+                if (log.isLoggbble(PlbtformLogger.Level.FINEST)) {
                     log.finest("Icon size: {0}", iconSize);
                 }
                 iconWidth = iconSize.width;
                 iconHeight = iconSize.height;
             } else {
-                log.finest("Error calculating image size");
+                log.finest("Error cblculbting imbge size");
                 iconWidth = 0;
                 iconHeight = 0;
             }
-            replaceImage(img);
-            replaceMask(img);
+            replbceImbge(img);
+            replbceMbsk(img);
         }
-        //create icon window and set XWMHints
-        XToolkit.awtLock();
+        //crebte icon window bnd set XWMHints
+        XToolkit.bwtLock();
         try {
-            AwtGraphicsConfigData adata = parent.getGraphicsConfigurationData();
-            awtImageData awtImage = adata.get_awtImage(0);
-            XVisualInfo visInfo = adata.get_awt_visInfo();
-            XWMHints hints = parent.getWMHints();
+            AwtGrbphicsConfigDbtb bdbtb = pbrent.getGrbphicsConfigurbtionDbtb();
+            bwtImbgeDbtb bwtImbge = bdbtb.get_bwtImbge(0);
+            XVisublInfo visInfo = bdbtb.get_bwt_visInfo();
+            XWMHints hints = pbrent.getWMHints();
             window = hints.get_icon_window();
             if (window == 0) {
-                log.finest("Icon window wasn't set");
-                XCreateWindowParams params = getDelayedParams();
-                params.add(BORDER_PIXEL, Long.valueOf(XToolkit.getAwtDefaultFg()));
-                params.add(BACKGROUND_PIXMAP, iconPixmap);
-                params.add(COLORMAP, adata.get_awt_cmap());
-                params.add(DEPTH, awtImage.get_Depth());
-                params.add(VISUAL_CLASS, XConstants.InputOutput);
-                params.add(VISUAL, visInfo.get_visual());
-                params.add(VALUE_MASK, XConstants.CWBorderPixel | XConstants.CWColormap | XConstants.CWBackPixmap);
-                params.add(PARENT_WINDOW, XlibWrapper.RootWindow(XToolkit.getDisplay(), visInfo.get_screen()));
-                params.add(BOUNDS, new Rectangle(0, 0, iconWidth, iconHeight));
-                params.remove(DELAYED);
-                init(params);
+                log.finest("Icon window wbsn't set");
+                XCrebteWindowPbrbms pbrbms = getDelbyedPbrbms();
+                pbrbms.bdd(BORDER_PIXEL, Long.vblueOf(XToolkit.getAwtDefbultFg()));
+                pbrbms.bdd(BACKGROUND_PIXMAP, iconPixmbp);
+                pbrbms.bdd(COLORMAP, bdbtb.get_bwt_cmbp());
+                pbrbms.bdd(DEPTH, bwtImbge.get_Depth());
+                pbrbms.bdd(VISUAL_CLASS, XConstbnts.InputOutput);
+                pbrbms.bdd(VISUAL, visInfo.get_visubl());
+                pbrbms.bdd(VALUE_MASK, XConstbnts.CWBorderPixel | XConstbnts.CWColormbp | XConstbnts.CWBbckPixmbp);
+                pbrbms.bdd(PARENT_WINDOW, XlibWrbpper.RootWindow(XToolkit.getDisplby(), visInfo.get_screen()));
+                pbrbms.bdd(BOUNDS, new Rectbngle(0, 0, iconWidth, iconHeight));
+                pbrbms.remove(DELAYED);
+                init(pbrbms);
                 if (getWindow() == 0) {
-                    log.finest("Can't create new icon window");
+                    log.finest("Cbn't crebte new icon window");
                 } else {
-                    log.finest("Created new icon window");
+                    log.finest("Crebted new icon window");
                 }
             }
             if (getWindow() != 0) {
-                XlibWrapper.XSetWindowBackgroundPixmap(XToolkit.getDisplay(), getWindow(), iconPixmap);
-                XlibWrapper.XClearWindow(XToolkit.getDisplay(), getWindow());
+                XlibWrbpper.XSetWindowBbckgroundPixmbp(XToolkit.getDisplby(), getWindow(), iconPixmbp);
+                XlibWrbpper.XClebrWindow(XToolkit.getDisplby(), getWindow());
             }
-            // Provide both pixmap and window, WM or Taskbar will use the one they find more appropriate
-            long newFlags = hints.get_flags() | XUtilConstants.IconPixmapHint | XUtilConstants.IconMaskHint;
+            // Provide both pixmbp bnd window, WM or Tbskbbr will use the one they find more bppropribte
+            long newFlbgs = hints.get_flbgs() | XUtilConstbnts.IconPixmbpHint | XUtilConstbnts.IconMbskHint;
             if (getWindow()  != 0) {
-                newFlags |= XUtilConstants.IconWindowHint;
+                newFlbgs |= XUtilConstbnts.IconWindowHint;
             }
-            hints.set_flags(newFlags);
-            hints.set_icon_pixmap(iconPixmap);
-            hints.set_icon_mask(iconMask);
+            hints.set_flbgs(newFlbgs);
+            hints.set_icon_pixmbp(iconPixmbp);
+            hints.set_icon_mbsk(iconMbsk);
             hints.set_icon_window(getWindow());
-            XlibWrapper.XSetWMHints(XToolkit.getDisplay(), parent.getShell(), hints.pData);
+            XlibWrbpper.XSetWMHints(XToolkit.getDisplby(), pbrent.getShell(), hints.pDbtb);
             log.finest("Set icon window hint");
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    static int paddedwidth(int number, int boundary)
+    stbtic int pbddedwidth(int number, int boundbry)
     {
-        return (((number) + ((boundary) - 1)) & (~((boundary) - 1)));
+        return (((number) + ((boundbry) - 1)) & (~((boundbry) - 1)));
     }
 }

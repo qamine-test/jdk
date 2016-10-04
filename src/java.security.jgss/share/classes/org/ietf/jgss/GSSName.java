@@ -1,251 +1,251 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package org.ietf.jgss;
+pbckbge org.ietf.jgss;
 
 import sun.security.jgss.spi.*;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
 /**
- * This interface encapsulates a single GSS-API principal entity. The
- * application obtains an implementation of this interface
- * through one of the <code>createName</code> methods that exist in the {@link
- * GSSManager GSSManager} class. Conceptually a GSSName contains many
- * representations of the entity or many primitive name elements, one for
- * each supported underlying mechanism. In GSS terminology, a GSSName that
- * contains an element from just one mechanism is called a Mechanism Name
+ * This interfbce encbpsulbtes b single GSS-API principbl entity. The
+ * bpplicbtion obtbins bn implementbtion of this interfbce
+ * through one of the <code>crebteNbme</code> methods thbt exist in the {@link
+ * GSSMbnbger GSSMbnbger} clbss. Conceptublly b GSSNbme contbins mbny
+ * representbtions of the entity or mbny primitive nbme elements, one for
+ * ebch supported underlying mechbnism. In GSS terminology, b GSSNbme thbt
+ * contbins bn element from just one mechbnism is cblled b Mechbnism Nbme
  * (MN)<p>
  *
- * Since different authentication mechanisms may employ different
- * namespaces for identifying their principals, GSS-API's naming support is
- * necessarily complex in multi-mechanism environments (or even in some
- * single-mechanism environments where the underlying mechanism supports
- * multiple namespaces). Different name formats and their definitions are
- * identified with {@link Oid Oid's} and some standard types
- * are defined in this interface. The format of the names can be derived
- * based on the unique <code>Oid</code> of its name type.<p>
+ * Since different buthenticbtion mechbnisms mby employ different
+ * nbmespbces for identifying their principbls, GSS-API's nbming support is
+ * necessbrily complex in multi-mechbnism environments (or even in some
+ * single-mechbnism environments where the underlying mechbnism supports
+ * multiple nbmespbces). Different nbme formbts bnd their definitions bre
+ * identified with {@link Oid Oid's} bnd some stbndbrd types
+ * bre defined in this interfbce. The formbt of the nbmes cbn be derived
+ * bbsed on the unique <code>Oid</code> of its nbme type.<p>
  *
- * Included below are code examples utilizing the <code>GSSName</code> interface.
- * The code below creates a <code>GSSName</code>, converts it to an MN, performs a
- * comparison, obtains a printable representation of the name, exports it
- * to a byte array and then re-imports to obtain a
- * new <code>GSSName</code>.<p>
+ * Included below bre code exbmples utilizing the <code>GSSNbme</code> interfbce.
+ * The code below crebtes b <code>GSSNbme</code>, converts it to bn MN, performs b
+ * compbrison, obtbins b printbble representbtion of the nbme, exports it
+ * to b byte brrby bnd then re-imports to obtbin b
+ * new <code>GSSNbme</code>.<p>
  * <pre>
- *      GSSManager manager = GSSManager.getInstance();
+ *      GSSMbnbger mbnbger = GSSMbnbger.getInstbnce();
  *
- *      // create a host based service name
- *      GSSName name = manager.createName("service@host",
- *                   GSSName.NT_HOSTBASED_SERVICE);
+ *      // crebte b host bbsed service nbme
+ *      GSSNbme nbme = mbnbger.crebteNbme("service@host",
+ *                   GSSNbme.NT_HOSTBASED_SERVICE);
  *
  *      Oid krb5 = new Oid("1.2.840.113554.1.2.2");
  *
- *      GSSName mechName = name.canonicalize(krb5);
+ *      GSSNbme mechNbme = nbme.cbnonicblize(krb5);
  *
- *      // the above two steps are equivalent to the following
- *      GSSName mechName = manager.createName("service@host",
- *                      GSSName.NT_HOSTBASED_SERVICE, krb5);
+ *      // the bbove two steps bre equivblent to the following
+ *      GSSNbme mechNbme = mbnbger.crebteNbme("service@host",
+ *                      GSSNbme.NT_HOSTBASED_SERVICE, krb5);
  *
- *      // perform name comparison
- *      if (name.equals(mechName))
- *              print("Names are equals.");
+ *      // perform nbme compbrison
+ *      if (nbme.equbls(mechNbme))
+ *              print("Nbmes bre equbls.");
  *
- *      // obtain textual representation of name and its printable
- *      // name type
- *      print(mechName.toString() +
- *                      mechName.getStringNameType().toString());
+ *      // obtbin textubl representbtion of nbme bnd its printbble
+ *      // nbme type
+ *      print(mechNbme.toString() +
+ *                      mechNbme.getStringNbmeType().toString());
  *
- *      // export and re-import the name
- *      byte [] exportName = mechName.export();
+ *      // export bnd re-import the nbme
+ *      byte [] exportNbme = mechNbme.export();
  *
- *      // create a new name object from the exported buffer
- *      GSSName newName = manager.createName(exportName,
- *                      GSSName.NT_EXPORT_NAME);
+ *      // crebte b new nbme object from the exported buffer
+ *      GSSNbme newNbme = mbnbger.crebteNbme(exportNbme,
+ *                      GSSNbme.NT_EXPORT_NAME);
  *
  * </pre>
  * @see #export()
- * @see #equals(GSSName)
- * @see GSSManager#createName(String, Oid)
- * @see GSSManager#createName(String, Oid, Oid)
- * @see GSSManager#createName(byte[], Oid)
+ * @see #equbls(GSSNbme)
+ * @see GSSMbnbger#crebteNbme(String, Oid)
+ * @see GSSMbnbger#crebteNbme(String, Oid, Oid)
+ * @see GSSMbnbger#crebteNbme(byte[], Oid)
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
-public interface GSSName {
+public interfbce GSSNbme {
 
     /**
-     * Oid indicating a host-based service name form.  It is used to
-     * represent services associated with host computers.  This name form
-     * is constructed using two elements, "service" and "hostname", as
-     * follows: service@hostname.<p>
+     * Oid indicbting b host-bbsed service nbme form.  It is used to
+     * represent services bssocibted with host computers.  This nbme form
+     * is constructed using two elements, "service" bnd "hostnbme", bs
+     * follows: service@hostnbme.<p>
      *
-     * It represents the following Oid value:<br>
+     * It represents the following Oid vblue:<br>
      *  <code>{ iso(1) member-body(2) United
-     * States(840) mit(113554) infosys(1) gssapi(2) generic(1) service_name(4)
+     * Stbtes(840) mit(113554) infosys(1) gssbpi(2) generic(1) service_nbme(4)
      * }</code>
      */
-    public static final Oid NT_HOSTBASED_SERVICE
-        = Oid.getInstance("1.2.840.113554.1.2.1.4");
+    public stbtic finbl Oid NT_HOSTBASED_SERVICE
+        = Oid.getInstbnce("1.2.840.113554.1.2.1.4");
 
     /**
-     * Name type to indicate a named user on a local system.<p>
-     * It represents the following Oid value:<br>
+     * Nbme type to indicbte b nbmed user on b locbl system.<p>
+     * It represents the following Oid vblue:<br>
      *  <code>{ iso(1) member-body(2) United
-     * States(840) mit(113554) infosys(1) gssapi(2) generic(1) user_name(1)
+     * Stbtes(840) mit(113554) infosys(1) gssbpi(2) generic(1) user_nbme(1)
      * }</code>
      */
-    public static final Oid NT_USER_NAME
-        = Oid.getInstance("1.2.840.113554.1.2.1.1");
+    public stbtic finbl Oid NT_USER_NAME
+        = Oid.getInstbnce("1.2.840.113554.1.2.1.1");
 
     /**
-     * Name type to indicate a numeric user identifier corresponding to a
-     * user on a local system. (e.g. Uid).<p>
+     * Nbme type to indicbte b numeric user identifier corresponding to b
+     * user on b locbl system. (e.g. Uid).<p>
      *
-     *  It represents the following Oid value:<br>
-     * <code>{ iso(1) member-body(2) United States(840) mit(113554)
-     * infosys(1) gssapi(2) generic(1) machine_uid_name(2) }</code>
+     *  It represents the following Oid vblue:<br>
+     * <code>{ iso(1) member-body(2) United Stbtes(840) mit(113554)
+     * infosys(1) gssbpi(2) generic(1) mbchine_uid_nbme(2) }</code>
      */
-    public static final Oid NT_MACHINE_UID_NAME
-        = Oid.getInstance("1.2.840.113554.1.2.1.2");
+    public stbtic finbl Oid NT_MACHINE_UID_NAME
+        = Oid.getInstbnce("1.2.840.113554.1.2.1.2");
 
     /**
-     * Name type to indicate a string of digits representing the numeric
-     * user identifier of a user on a local system.<p>
+     * Nbme type to indicbte b string of digits representing the numeric
+     * user identifier of b user on b locbl system.<p>
      *
-     * It represents the following Oid value:<br>
+     * It represents the following Oid vblue:<br>
      * <code>{ iso(1) member-body(2) United
-     * States(840) mit(113554) infosys(1) gssapi(2) generic(1)
-     * string_uid_name(3) }</code>
+     * Stbtes(840) mit(113554) infosys(1) gssbpi(2) generic(1)
+     * string_uid_nbme(3) }</code>
      */
-    public static final Oid NT_STRING_UID_NAME
-        = Oid.getInstance("1.2.840.113554.1.2.1.3");
+    public stbtic finbl Oid NT_STRING_UID_NAME
+        = Oid.getInstbnce("1.2.840.113554.1.2.1.3");
 
     /**
-     * Name type for representing an anonymous entity.<p>
-     * It represents the following Oid value:<br>
+     * Nbme type for representing bn bnonymous entity.<p>
+     * It represents the following Oid vblue:<br>
      * <code>{ 1(iso), 3(org), 6(dod), 1(internet),
-     * 5(security), 6(nametypes), 3(gss-anonymous-name) }</code>
+     * 5(security), 6(nbmetypes), 3(gss-bnonymous-nbme) }</code>
      */
-    public static final Oid NT_ANONYMOUS
-        = Oid.getInstance("1.3.6.1.5.6.3");
+    public stbtic finbl Oid NT_ANONYMOUS
+        = Oid.getInstbnce("1.3.6.1.5.6.3");
 
     /**
-     * Name type used to indicate an exported name produced by the export
+     * Nbme type used to indicbte bn exported nbme produced by the export
      * method.<p>
      *
-     * It represents the following Oid value:<br> <code>{ 1(iso),
-     * 3(org), 6(dod), 1(internet), 5(security), 6(nametypes),
-     * 4(gss-api-exported-name) }</code>
+     * It represents the following Oid vblue:<br> <code>{ 1(iso),
+     * 3(org), 6(dod), 1(internet), 5(security), 6(nbmetypes),
+     * 4(gss-bpi-exported-nbme) }</code>
      */
-    public static final Oid NT_EXPORT_NAME
-        = Oid.getInstance("1.3.6.1.5.6.4");
+    public stbtic finbl Oid NT_EXPORT_NAME
+        = Oid.getInstbnce("1.3.6.1.5.6.4");
 
     /**
-     * Compares two <code>GSSName</code> objects to determine if they refer to the
-     * same entity.
+     * Compbres two <code>GSSNbme</code> objects to determine if they refer to the
+     * sbme entity.
      *
-     * @param another the <code>GSSName</code> to compare this name with
-     * @return true if the two names contain at least one primitive element
-     * in common. If either of the names represents an anonymous entity, the
-     * method will return false.
+     * @pbrbm bnother the <code>GSSNbme</code> to compbre this nbme with
+     * @return true if the two nbmes contbin bt lebst one primitive element
+     * in common. If either of the nbmes represents bn bnonymous entity, the
+     * method will return fblse.
      *
-     * @throws GSSException when the names cannot be compared, containing the following
-     * major error codes:
+     * @throws GSSException when the nbmes cbnnot be compbred, contbining the following
+     * mbjor error codes:
      *         {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
      *         {@link GSSException#FAILURE GSSException.FAILURE}
      */
-    public boolean equals(GSSName another) throws GSSException;
+    public boolebn equbls(GSSNbme bnother) throws GSSException;
 
     /**
-     * Compares this <code>GSSName</code> object to another Object that might be a
-     * <code>GSSName</code>. The behaviour is exactly the same as in {@link
-     * #equals(GSSName) equals} except that no GSSException is thrown;
-     * instead, false will be returned in the situation where an error
+     * Compbres this <code>GSSNbme</code> object to bnother Object thbt might be b
+     * <code>GSSNbme</code>. The behbviour is exbctly the sbme bs in {@link
+     * #equbls(GSSNbme) equbls} except thbt no GSSException is thrown;
+     * instebd, fblse will be returned in the situbtion where bn error
      * occurs.
-     * @return true if the object to compare to is also a <code>GSSName</code> and the two
-     * names refer to the same entity.
-     * @param another the object to compare this name to
-     * @see #equals(GSSName)
+     * @return true if the object to compbre to is blso b <code>GSSNbme</code> bnd the two
+     * nbmes refer to the sbme entity.
+     * @pbrbm bnother the object to compbre this nbme to
+     * @see #equbls(GSSNbme)
      */
-    public boolean equals(Object another);
+    public boolebn equbls(Object bnother);
 
     /**
-     * Returns a hashcode value for this GSSName.
+     * Returns b hbshcode vblue for this GSSNbme.
      *
-     * @return a hashCode value
+     * @return b hbshCode vblue
      */
-    public int hashCode();
+    public int hbshCode();
 
     /**
-     * Creates a name that is canonicalized for some
-     * mechanism.
+     * Crebtes b nbme thbt is cbnonicblized for some
+     * mechbnism.
      *
-     * @return a <code>GSSName</code> that contains just one primitive
-     * element representing this name in a canonicalized form for the desired
-     * mechanism.
-     * @param mech the oid for the mechanism for which the canonical form of
-     * the name is requested.
+     * @return b <code>GSSNbme</code> thbt contbins just one primitive
+     * element representing this nbme in b cbnonicblized form for the desired
+     * mechbnism.
+     * @pbrbm mech the oid for the mechbnism for which the cbnonicbl form of
+     * the nbme is requested.
      *
-     * @throws GSSException containing the following
-     * major error codes:
+     * @throws GSSException contbining the following
+     * mbjor error codes:
      *         {@link GSSException#BAD_MECH GSSException.BAD_MECH},
      *         {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
      *         {@link GSSException#BAD_NAME GSSException.BAD_NAME},
      *         {@link GSSException#FAILURE GSSException.FAILURE}
      */
-    public GSSName canonicalize(Oid mech) throws GSSException;
+    public GSSNbme cbnonicblize(Oid mech) throws GSSException;
 
     /**
-     * Returns a canonical contiguous byte representation of a mechanism name
-     * (MN), suitable for direct, byte by byte comparison by authorization
-     * functions.  If the name is not an MN, implementations may throw a
-     * GSSException with the NAME_NOT_MN status code.  If an implementation
-     * chooses not to throw an exception, it should use some system specific
-     * default mechanism to canonicalize the name and then export
-     * it. Structurally, an exported name object consists of a header
-     * containing an OID identifying the mechanism that authenticated the
-     * name, and a trailer containing the name itself, where the syntax of
-     * the trailer is defined by the individual mechanism specification. The
-     * format of the header of the output buffer is specified in RFC 2743.<p>
+     * Returns b cbnonicbl contiguous byte representbtion of b mechbnism nbme
+     * (MN), suitbble for direct, byte by byte compbrison by buthorizbtion
+     * functions.  If the nbme is not bn MN, implementbtions mby throw b
+     * GSSException with the NAME_NOT_MN stbtus code.  If bn implementbtion
+     * chooses not to throw bn exception, it should use some system specific
+     * defbult mechbnism to cbnonicblize the nbme bnd then export
+     * it. Structurblly, bn exported nbme object consists of b hebder
+     * contbining bn OID identifying the mechbnism thbt buthenticbted the
+     * nbme, bnd b trbiler contbining the nbme itself, where the syntbx of
+     * the trbiler is defined by the individubl mechbnism specificbtion. The
+     * formbt of the hebder of the output buffer is specified in RFC 2743.<p>
      *
-     * The exported name is useful when used in large access control lists
-     * where the overhead of creating a <code>GSSName</code> object on each
-     * name and invoking the equals method on each name from the ACL may be
+     * The exported nbme is useful when used in lbrge bccess control lists
+     * where the overhebd of crebting b <code>GSSNbme</code> object on ebch
+     * nbme bnd invoking the equbls method on ebch nbme from the ACL mby be
      * prohibitive.<p>
      *
-     * Exported names may be re-imported by using the byte array factory
-     * method {@link GSSManager#createName(byte[], Oid)
-     * GSSManager.createName} and specifying the NT_EXPORT_NAME as the name
-     * type object identifier. The resulting <code>GSSName</code> name will
-     * also be a MN.<p>
-     * @return a byte[] containing the exported name. RFC 2743 defines the
-     * "Mechanism-Independent Exported Name Object Format" for these bytes.
+     * Exported nbmes mby be re-imported by using the byte brrby fbctory
+     * method {@link GSSMbnbger#crebteNbme(byte[], Oid)
+     * GSSMbnbger.crebteNbme} bnd specifying the NT_EXPORT_NAME bs the nbme
+     * type object identifier. The resulting <code>GSSNbme</code> nbme will
+     * blso be b MN.<p>
+     * @return b byte[] contbining the exported nbme. RFC 2743 defines the
+     * "Mechbnism-Independent Exported Nbme Object Formbt" for these bytes.
      *
-     * @throws GSSException containing the following
-     * major error codes:
+     * @throws GSSException contbining the following
+     * mbjor error codes:
      *         {@link GSSException#BAD_NAME GSSException.BAD_NAME},
      *         {@link GSSException#BAD_NAMETYPE GSSException.BAD_NAMETYPE},
      *         {@link GSSException#FAILURE GSSException.FAILURE}
@@ -253,43 +253,43 @@ public interface GSSName {
     public byte[] export() throws GSSException;
 
     /**
-     * Returns a textual representation of the <code>GSSName</code> object.  To retrieve
-     * the printed name format, which determines the syntax of the returned
-     * string, use the {@link #getStringNameType() getStringNameType}
+     * Returns b textubl representbtion of the <code>GSSNbme</code> object.  To retrieve
+     * the printed nbme formbt, which determines the syntbx of the returned
+     * string, use the {@link #getStringNbmeType() getStringNbmeType}
      * method.
      *
-     * @return a String representing this name in printable form.
+     * @return b String representing this nbme in printbble form.
      */
     public String toString();
 
     /**
-     * Returns the name type of the printable
-     * representation of this name that can be obtained from the <code>
+     * Returns the nbme type of the printbble
+     * representbtion of this nbme thbt cbn be obtbined from the <code>
      * toString</code> method.
      *
-     * @return an Oid representing the namespace of the name returned
+     * @return bn Oid representing the nbmespbce of the nbme returned
      * from the toString method.
      *
-     * @throws GSSException containing the following
-     * major error codes:
+     * @throws GSSException contbining the following
+     * mbjor error codes:
      *         {@link GSSException#FAILURE GSSException.FAILURE}
      */
-    public Oid getStringNameType() throws GSSException;
+    public Oid getStringNbmeType() throws GSSException;
 
     /**
-     * Tests if this name object represents an anonymous entity.
+     * Tests if this nbme object represents bn bnonymous entity.
      *
-     * @return true if this is an anonymous name, false otherwise.
+     * @return true if this is bn bnonymous nbme, fblse otherwise.
      */
-    public boolean isAnonymous();
+    public boolebn isAnonymous();
 
     /**
-     * Tests if this name object represents a Mechanism Name (MN). An MN is
-     * a GSSName the contains exactly one mechanism's primitive name
+     * Tests if this nbme object represents b Mechbnism Nbme (MN). An MN is
+     * b GSSNbme the contbins exbctly one mechbnism's primitive nbme
      * element.
      *
-     * @return true if this is an MN, false otherwise.
+     * @return true if this is bn MN, fblse otherwise.
      */
-    public boolean isMN();
+    public boolebn isMN();
 
 }

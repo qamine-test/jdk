@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.dnd.DropTarget;
+import jbvb.bwt.dnd.DropTbrget;
 
-import java.awt.event.*;
+import jbvb.bwt.event.*;
 
-import java.awt.peer.ContainerPeer;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.LightweightPeer;
+import jbvb.bwt.peer.ContbinerPeer;
+import jbvb.bwt.peer.ComponentPeer;
+import jbvb.bwt.peer.LightweightPeer;
 
-import java.beans.PropertyChangeListener;
+import jbvb.bebns.PropertyChbngeListener;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.PrintStrebm;
+import jbvb.io.PrintWriter;
 
-import java.security.AccessController;
+import jbvb.security.AccessController;
 
-import java.util.EventListener;
-import java.util.HashSet;
-import java.util.Set;
+import jbvb.util.EventListener;
+import jbvb.util.HbshSet;
+import jbvb.util.Set;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.AppContext;
-import sun.awt.AWTAccessor;
-import sun.awt.CausedFocusEvent;
-import sun.awt.PeerEvent;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.AWTAccessor;
+import sun.bwt.CbusedFocusEvent;
+import sun.bwt.PeerEvent;
+import sun.bwt.SunToolkit;
 
-import sun.awt.dnd.SunDropTargetEvent;
+import sun.bwt.dnd.SunDropTbrgetEvent;
 
-import sun.java2d.pipe.Region;
+import sun.jbvb2d.pipe.Region;
 
-import sun.security.action.GetBooleanAction;
+import sun.security.bction.GetBoolebnAction;
 
 /**
- * A generic Abstract Window Toolkit(AWT) container object is a component
- * that can contain other AWT components.
+ * A generic Abstrbct Window Toolkit(AWT) contbiner object is b component
+ * thbt cbn contbin other AWT components.
  * <p>
- * Components added to a container are tracked in a list.  The order
- * of the list will define the components' front-to-back stacking order
- * within the container.  If no index is specified when adding a
- * component to a container, it will be added to the end of the list
- * (and hence to the bottom of the stacking order).
+ * Components bdded to b contbiner bre trbcked in b list.  The order
+ * of the list will define the components' front-to-bbck stbcking order
+ * within the contbiner.  If no index is specified when bdding b
+ * component to b contbiner, it will be bdded to the end of the list
+ * (bnd hence to the bottom of the stbcking order).
  * <p>
- * <b>Note</b>: For details on the focus subsystem, see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/misc/focus.html">
- * How to Use the Focus Subsystem</a>,
- * a section in <em>The Java Tutorial</em>, and the
- * <a href="../../java/awt/doc-files/FocusSpec.html">Focus Specification</a>
- * for more information.
+ * <b>Note</b>: For detbils on the focus subsystem, see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/focus.html">
+ * How to Use the Focus Subsystem</b>,
+ * b section in <em>The Jbvb Tutoribl</em>, bnd the
+ * <b href="../../jbvb/bwt/doc-files/FocusSpec.html">Focus Specificbtion</b>
+ * for more informbtion.
  *
- * @author      Arthur van Hoff
- * @author      Sami Shaio
- * @see       #add(java.awt.Component, int)
+ * @buthor      Arthur vbn Hoff
+ * @buthor      Sbmi Shbio
+ * @see       #bdd(jbvb.bwt.Component, int)
  * @see       #getComponent(int)
- * @see       LayoutManager
+ * @see       LbyoutMbnbger
  * @since     1.0
  */
-public class Container extends Component {
+public clbss Contbiner extends Component {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("java.awt.Container");
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("java.awt.event.Container");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("jbvb.bwt.Contbiner");
+    privbte stbtic finbl PlbtformLogger eventLog = PlbtformLogger.getLogger("jbvb.bwt.event.Contbiner");
 
-    private static final Component[] EMPTY_ARRAY = new Component[0];
+    privbte stbtic finbl Component[] EMPTY_ARRAY = new Component[0];
 
     /**
-     * The components in this container.
-     * @see #add
+     * The components in this contbiner.
+     * @see #bdd
      * @see #getComponents
      */
-    private java.util.List<Component> component = new java.util.ArrayList<Component>();
+    privbte jbvb.util.List<Component> component = new jbvb.util.ArrbyList<Component>();
 
     /**
-     * Layout manager for this container.
-     * @see #doLayout
-     * @see #setLayout
-     * @see #getLayout
+     * Lbyout mbnbger for this contbiner.
+     * @see #doLbyout
+     * @see #setLbyout
+     * @see #getLbyout
      */
-    LayoutManager layoutMgr;
+    LbyoutMbnbger lbyoutMgr;
 
     /**
-     * Event router for lightweight components.  If this container
-     * is native, this dispatcher takes care of forwarding and
-     * retargeting the events to lightweight components contained
-     * (if any).
+     * Event router for lightweight components.  If this contbiner
+     * is nbtive, this dispbtcher tbkes cbre of forwbrding bnd
+     * retbrgeting the events to lightweight components contbined
+     * (if bny).
      */
-    private LightweightDispatcher dispatcher;
+    privbte LightweightDispbtcher dispbtcher;
 
     /**
-     * The focus traversal policy that will manage keyboard traversal of this
-     * Container's children, if this Container is a focus cycle root. If the
-     * value is null, this Container inherits its policy from its focus-cycle-
-     * root ancestor. If all such ancestors of this Container have null
-     * policies, then the current KeyboardFocusManager's default policy is
-     * used. If the value is non-null, this policy will be inherited by all
-     * focus-cycle-root children that have no keyboard-traversal policy of
-     * their own (as will, recursively, their focus-cycle-root children).
+     * The focus trbversbl policy thbt will mbnbge keybobrd trbversbl of this
+     * Contbiner's children, if this Contbiner is b focus cycle root. If the
+     * vblue is null, this Contbiner inherits its policy from its focus-cycle-
+     * root bncestor. If bll such bncestors of this Contbiner hbve null
+     * policies, then the current KeybobrdFocusMbnbger's defbult policy is
+     * used. If the vblue is non-null, this policy will be inherited by bll
+     * focus-cycle-root children thbt hbve no keybobrd-trbversbl policy of
+     * their own (bs will, recursively, their focus-cycle-root children).
      * <p>
-     * If this Container is not a focus cycle root, the value will be
-     * remembered, but will not be used or inherited by this or any other
-     * Containers until this Container is made a focus cycle root.
+     * If this Contbiner is not b focus cycle root, the vblue will be
+     * remembered, but will not be used or inherited by this or bny other
+     * Contbiners until this Contbiner is mbde b focus cycle root.
      *
-     * @see #setFocusTraversalPolicy
-     * @see #getFocusTraversalPolicy
+     * @see #setFocusTrbversblPolicy
+     * @see #getFocusTrbversblPolicy
      * @since 1.4
      */
-    private transient FocusTraversalPolicy focusTraversalPolicy;
+    privbte trbnsient FocusTrbversblPolicy focusTrbversblPolicy;
 
     /**
-     * Indicates whether this Component is the root of a focus traversal cycle.
-     * Once focus enters a traversal cycle, typically it cannot leave it via
-     * focus traversal unless one of the up- or down-cycle keys is pressed.
-     * Normal traversal is limited to this Container, and all of this
-     * Container's descendants that are not descendants of inferior focus cycle
+     * Indicbtes whether this Component is the root of b focus trbversbl cycle.
+     * Once focus enters b trbversbl cycle, typicblly it cbnnot lebve it vib
+     * focus trbversbl unless one of the up- or down-cycle keys is pressed.
+     * Normbl trbversbl is limited to this Contbiner, bnd bll of this
+     * Contbiner's descendbnts thbt bre not descendbnts of inferior focus cycle
      * roots.
      *
      * @see #setFocusCycleRoot
      * @see #isFocusCycleRoot
      * @since 1.4
      */
-    private boolean focusCycleRoot = false;
+    privbte boolebn focusCycleRoot = fblse;
 
 
     /**
-     * Stores the value of focusTraversalPolicyProvider property.
+     * Stores the vblue of focusTrbversblPolicyProvider property.
      * @since 1.5
-     * @see #setFocusTraversalPolicyProvider
+     * @see #setFocusTrbversblPolicyProvider
      */
-    private boolean focusTraversalPolicyProvider;
+    privbte boolebn focusTrbversblPolicyProvider;
 
-    // keeps track of the threads that are printing this component
-    private transient Set<Thread> printingThreads;
-    // True if there is at least one thread that's printing this component
-    private transient boolean printing = false;
+    // keeps trbck of the threbds thbt bre printing this component
+    privbte trbnsient Set<Threbd> printingThrebds;
+    // True if there is bt lebst one threbd thbt's printing this component
+    privbte trbnsient boolebn printing = fblse;
 
-    transient ContainerListener containerListener;
+    trbnsient ContbinerListener contbinerListener;
 
-    /* HierarchyListener and HierarchyBoundsListener support */
-    transient int listeningChildren;
-    transient int listeningBoundsChildren;
-    transient int descendantsCount;
+    /* HierbrchyListener bnd HierbrchyBoundsListener support */
+    trbnsient int listeningChildren;
+    trbnsient int listeningBoundsChildren;
+    trbnsient int descendbntsCount;
 
-    /* Non-opaque window support -- see Window.setLayersOpaque */
-    transient Color preserveBackgroundColor = null;
+    /* Non-opbque window support -- see Window.setLbyersOpbque */
+    trbnsient Color preserveBbckgroundColor = null;
 
     /**
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 4613797578919906343L;
+    privbte stbtic finbl long seriblVersionUID = 4613797578919906343L;
 
     /**
-     * A constant which toggles one of the controllable behaviors
-     * of <code>getMouseEventTarget</code>. It is used to specify whether
-     * the method can return the Container on which it is originally called
-     * in case if none of its children are the current mouse event targets.
+     * A constbnt which toggles one of the controllbble behbviors
+     * of <code>getMouseEventTbrget</code>. It is used to specify whether
+     * the method cbn return the Contbiner on which it is originblly cblled
+     * in cbse if none of its children bre the current mouse event tbrgets.
      *
-     * @see #getMouseEventTarget(int, int, boolean)
+     * @see #getMouseEventTbrget(int, int, boolebn)
      */
-    static final boolean INCLUDE_SELF = true;
+    stbtic finbl boolebn INCLUDE_SELF = true;
 
     /**
-     * A constant which toggles one of the controllable behaviors
-     * of <code>getMouseEventTarget</code>. It is used to specify whether
-     * the method should search only lightweight components.
+     * A constbnt which toggles one of the controllbble behbviors
+     * of <code>getMouseEventTbrget</code>. It is used to specify whether
+     * the method should sebrch only lightweight components.
      *
-     * @see #getMouseEventTarget(int, int, boolean)
+     * @see #getMouseEventTbrget(int, int, boolebn)
      */
-    static final boolean SEARCH_HEAVYWEIGHTS = true;
+    stbtic finbl boolebn SEARCH_HEAVYWEIGHTS = true;
 
     /*
-     * Number of HW or LW components in this container (including
-     * all descendant containers).
+     * Number of HW or LW components in this contbiner (including
+     * bll descendbnt contbiners).
      */
-    private transient int numOfHWComponents = 0;
-    private transient int numOfLWComponents = 0;
+    privbte trbnsient int numOfHWComponents = 0;
+    privbte trbnsient int numOfLWComponents = 0;
 
-    private static final PlatformLogger mixingLog = PlatformLogger.getLogger("java.awt.mixing.Container");
+    privbte stbtic finbl PlbtformLogger mixingLog = PlbtformLogger.getLogger("jbvb.bwt.mixing.Contbiner");
 
     /**
-     * @serialField ncomponents                     int
-     *       The number of components in this container.
-     *       This value can be null.
-     * @serialField component                       Component[]
-     *       The components in this container.
-     * @serialField layoutMgr                       LayoutManager
-     *       Layout manager for this container.
-     * @serialField dispatcher                      LightweightDispatcher
-     *       Event router for lightweight components.  If this container
-     *       is native, this dispatcher takes care of forwarding and
-     *       retargeting the events to lightweight components contained
-     *       (if any).
-     * @serialField maxSize                         Dimension
-     *       Maximum size of this Container.
-     * @serialField focusCycleRoot                  boolean
-     *       Indicates whether this Component is the root of a focus traversal cycle.
-     *       Once focus enters a traversal cycle, typically it cannot leave it via
-     *       focus traversal unless one of the up- or down-cycle keys is pressed.
-     *       Normal traversal is limited to this Container, and all of this
-     *       Container's descendants that are not descendants of inferior focus cycle
+     * @seriblField ncomponents                     int
+     *       The number of components in this contbiner.
+     *       This vblue cbn be null.
+     * @seriblField component                       Component[]
+     *       The components in this contbiner.
+     * @seriblField lbyoutMgr                       LbyoutMbnbger
+     *       Lbyout mbnbger for this contbiner.
+     * @seriblField dispbtcher                      LightweightDispbtcher
+     *       Event router for lightweight components.  If this contbiner
+     *       is nbtive, this dispbtcher tbkes cbre of forwbrding bnd
+     *       retbrgeting the events to lightweight components contbined
+     *       (if bny).
+     * @seriblField mbxSize                         Dimension
+     *       Mbximum size of this Contbiner.
+     * @seriblField focusCycleRoot                  boolebn
+     *       Indicbtes whether this Component is the root of b focus trbversbl cycle.
+     *       Once focus enters b trbversbl cycle, typicblly it cbnnot lebve it vib
+     *       focus trbversbl unless one of the up- or down-cycle keys is pressed.
+     *       Normbl trbversbl is limited to this Contbiner, bnd bll of this
+     *       Contbiner's descendbnts thbt bre not descendbnts of inferior focus cycle
      *       roots.
-     * @serialField containerSerializedDataVersion  int
-     *       Container Serial Data Version.
-     * @serialField focusTraversalPolicyProvider    boolean
-     *       Stores the value of focusTraversalPolicyProvider property.
+     * @seriblField contbinerSeriblizedDbtbVersion  int
+     *       Contbiner Seribl Dbtb Version.
+     * @seriblField focusTrbversblPolicyProvider    boolebn
+     *       Stores the vblue of focusTrbversblPolicyProvider property.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("ncomponents", Integer.TYPE),
-        new ObjectStreamField("component", Component[].class),
-        new ObjectStreamField("layoutMgr", LayoutManager.class),
-        new ObjectStreamField("dispatcher", LightweightDispatcher.class),
-        new ObjectStreamField("maxSize", Dimension.class),
-        new ObjectStreamField("focusCycleRoot", Boolean.TYPE),
-        new ObjectStreamField("containerSerializedDataVersion", Integer.TYPE),
-        new ObjectStreamField("focusTraversalPolicyProvider", Boolean.TYPE),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("ncomponents", Integer.TYPE),
+        new ObjectStrebmField("component", Component[].clbss),
+        new ObjectStrebmField("lbyoutMgr", LbyoutMbnbger.clbss),
+        new ObjectStrebmField("dispbtcher", LightweightDispbtcher.clbss),
+        new ObjectStrebmField("mbxSize", Dimension.clbss),
+        new ObjectStrebmField("focusCycleRoot", Boolebn.TYPE),
+        new ObjectStrebmField("contbinerSeriblizedDbtbVersion", Integer.TYPE),
+        new ObjectStrebmField("focusTrbversblPolicyProvider", Boolebn.TYPE),
     };
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
 
-        AWTAccessor.setContainerAccessor(new AWTAccessor.ContainerAccessor() {
+        AWTAccessor.setContbinerAccessor(new AWTAccessor.ContbinerAccessor() {
             @Override
-            public void validateUnconditionally(Container cont) {
-                cont.validateUnconditionally();
+            public void vblidbteUnconditionblly(Contbiner cont) {
+                cont.vblidbteUnconditionblly();
             }
 
             @Override
-            public Component findComponentAt(Container cont, int x, int y,
-                    boolean ignoreEnabled) {
-                return cont.findComponentAt(x, y, ignoreEnabled);
+            public Component findComponentAt(Contbiner cont, int x, int y,
+                    boolebn ignoreEnbbled) {
+                return cont.findComponentAt(x, y, ignoreEnbbled);
             }
 
             @Override
-            public void startLWModal(Container cont) {
-                cont.startLWModal();
+            public void stbrtLWModbl(Contbiner cont) {
+                cont.stbrtLWModbl();
             }
 
             @Override
-            public void stopLWModal(Container cont) {
-                cont.stopLWModal();
+            public void stopLWModbl(Contbiner cont) {
+                cont.stopLWModbl();
             }
         });
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-       called from C.
+     * Initiblize JNI field bnd method IDs for fields thbt mby be
+       cblled from C.
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /**
-     * Constructs a new Container. Containers can be extended directly,
-     * but are lightweight in this case and must be contained by a parent
-     * somewhere higher up in the component tree that is native.
-     * (such as Frame for example).
+     * Constructs b new Contbiner. Contbiners cbn be extended directly,
+     * but bre lightweight in this cbse bnd must be contbined by b pbrent
+     * somewhere higher up in the component tree thbt is nbtive.
+     * (such bs Frbme for exbmple).
      */
-    public Container() {
+    public Contbiner() {
     }
-    @SuppressWarnings({"unchecked","rawtypes"})
-    void initializeFocusTraversalKeys() {
-        focusTraversalKeys = new Set[4];
+    @SuppressWbrnings({"unchecked","rbwtypes"})
+    void initiblizeFocusTrbversblKeys() {
+        focusTrbversblKeys = new Set[4];
     }
 
     /**
-     * Gets the number of components in this panel.
+     * Gets the number of components in this pbnel.
      * <p>
-     * Note: This method should be called under AWT tree lock.
+     * Note: This method should be cblled under AWT tree lock.
      *
-     * @return    the number of components in this panel.
+     * @return    the number of components in this pbnel.
      * @see       #getComponent
      * @since     1.1
      * @see Component#getTreeLock()
@@ -310,67 +310,67 @@ public class Container extends Component {
     }
 
     /**
-     * Returns the number of components in this container.
+     * Returns the number of components in this contbiner.
      *
-     * @return the number of components in this container
-     * @deprecated As of JDK version 1.1,
-     * replaced by getComponentCount().
+     * @return the number of components in this contbiner
+     * @deprecbted As of JDK version 1.1,
+     * replbced by getComponentCount().
      */
-    @Deprecated
+    @Deprecbted
     public int countComponents() {
         // This method is not synchronized under AWT tree lock.
-        // Instead, the calling code is responsible for the
-        // synchronization. See 6784816 for details.
+        // Instebd, the cblling code is responsible for the
+        // synchronizbtion. See 6784816 for detbils.
         return component.size();
     }
 
     /**
-     * Gets the nth component in this container.
+     * Gets the nth component in this contbiner.
      * <p>
-     * Note: This method should be called under AWT tree lock.
+     * Note: This method should be cblled under AWT tree lock.
      *
-     * @param      n   the index of the component to get.
-     * @return     the n<sup>th</sup> component in this container.
-     * @exception  ArrayIndexOutOfBoundsException
-     *                 if the n<sup>th</sup> value does not exist.
+     * @pbrbm      n   the index of the component to get.
+     * @return     the n<sup>th</sup> component in this contbiner.
+     * @exception  ArrbyIndexOutOfBoundsException
+     *                 if the n<sup>th</sup> vblue does not exist.
      * @see Component#getTreeLock()
      */
     public Component getComponent(int n) {
         // This method is not synchronized under AWT tree lock.
-        // Instead, the calling code is responsible for the
-        // synchronization. See 6784816 for details.
+        // Instebd, the cblling code is responsible for the
+        // synchronizbtion. See 6784816 for detbils.
         try {
             return component.get(n);
-        } catch (IndexOutOfBoundsException z) {
-            throw new ArrayIndexOutOfBoundsException("No such child: " + n);
+        } cbtch (IndexOutOfBoundsException z) {
+            throw new ArrbyIndexOutOfBoundsException("No such child: " + n);
         }
     }
 
     /**
-     * Gets all the components in this container.
+     * Gets bll the components in this contbiner.
      * <p>
-     * Note: This method should be called under AWT tree lock.
+     * Note: This method should be cblled under AWT tree lock.
      *
-     * @return    an array of all the components in this container.
+     * @return    bn brrby of bll the components in this contbiner.
      * @see Component#getTreeLock()
      */
     public Component[] getComponents() {
         // This method is not synchronized under AWT tree lock.
-        // Instead, the calling code is responsible for the
-        // synchronization. See 6784816 for details.
+        // Instebd, the cblling code is responsible for the
+        // synchronizbtion. See 6784816 for detbils.
         return getComponents_NoClientCode();
     }
 
-    // NOTE: This method may be called by privileged threads.
-    //       This functionality is implemented in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: This method mby be cblled by privileged threbds.
+    //       This functionblity is implemented in b pbckbge-privbte method
+    //       to insure thbt it cbnnot be overridden by client subclbsses.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    final Component[] getComponents_NoClientCode() {
-        return component.toArray(EMPTY_ARRAY);
+    finbl Component[] getComponents_NoClientCode() {
+        return component.toArrby(EMPTY_ARRAY);
     }
 
     /*
-     * Wrapper for getComponents() method with a proper synchronization.
+     * Wrbpper for getComponents() method with b proper synchronizbtion.
      */
     Component[] getComponentsSync() {
         synchronized (getTreeLock()) {
@@ -379,14 +379,14 @@ public class Container extends Component {
     }
 
     /**
-     * Determines the insets of this container, which indicate the size
-     * of the container's border.
+     * Determines the insets of this contbiner, which indicbte the size
+     * of the contbiner's border.
      * <p>
-     * A <code>Frame</code> object, for example, has a top inset that
-     * corresponds to the height of the frame's title bar.
-     * @return    the insets of this container.
+     * A <code>Frbme</code> object, for exbmple, hbs b top inset thbt
+     * corresponds to the height of the frbme's title bbr.
+     * @return    the insets of this contbiner.
      * @see       Insets
-     * @see       LayoutManager
+     * @see       LbyoutMbnbger
      * @since     1.1
      */
     public Insets getInsets() {
@@ -394,152 +394,152 @@ public class Container extends Component {
     }
 
     /**
-     * Returns the insets for this container.
+     * Returns the insets for this contbiner.
      *
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getInsets()</code>.
-     * @return the insets for this container
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getInsets()</code>.
+     * @return the insets for this contbiner
      */
-    @Deprecated
+    @Deprecbted
     public Insets insets() {
         ComponentPeer peer = this.peer;
-        if (peer instanceof ContainerPeer) {
-            ContainerPeer cpeer = (ContainerPeer)peer;
+        if (peer instbnceof ContbinerPeer) {
+            ContbinerPeer cpeer = (ContbinerPeer)peer;
             return (Insets)cpeer.getInsets().clone();
         }
         return new Insets(0, 0, 0, 0);
     }
 
     /**
-     * Appends the specified component to the end of this container.
-     * This is a convenience method for {@link #addImpl}.
+     * Appends the specified component to the end of this contbiner.
+     * This is b convenience method for {@link #bddImpl}.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * display the added component.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * displby the bdded component.
      *
-     * @param     comp   the component to be added
+     * @pbrbm     comp   the component to be bdded
      * @exception NullPointerException if {@code comp} is {@code null}
-     * @see #addImpl
-     * @see #invalidate
-     * @see #validate
-     * @see javax.swing.JComponent#revalidate()
-     * @return    the component argument
+     * @see #bddImpl
+     * @see #invblidbte
+     * @see #vblidbte
+     * @see jbvbx.swing.JComponent#revblidbte()
+     * @return    the component brgument
      */
-    public Component add(Component comp) {
-        addImpl(comp, null, -1);
+    public Component bdd(Component comp) {
+        bddImpl(comp, null, -1);
         return comp;
     }
 
     /**
-     * Adds the specified component to this container.
-     * This is a convenience method for {@link #addImpl}.
+     * Adds the specified component to this contbiner.
+     * This is b convenience method for {@link #bddImpl}.
      * <p>
-     * This method is obsolete as of 1.1.  Please use the
-     * method <code>add(Component, Object)</code> instead.
+     * This method is obsolete bs of 1.1.  Plebse use the
+     * method <code>bdd(Component, Object)</code> instebd.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * display the added component.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * displby the bdded component.
      *
-     * @param  name the name of the component to be added
-     * @param  comp the component to be added
-     * @return the component added
+     * @pbrbm  nbme the nbme of the component to be bdded
+     * @pbrbm  comp the component to be bdded
+     * @return the component bdded
      * @exception NullPointerException if {@code comp} is {@code null}
-     * @see #add(Component, Object)
-     * @see #invalidate
+     * @see #bdd(Component, Object)
+     * @see #invblidbte
      */
-    public Component add(String name, Component comp) {
-        addImpl(comp, name, -1);
+    public Component bdd(String nbme, Component comp) {
+        bddImpl(comp, nbme, -1);
         return comp;
     }
 
     /**
-     * Adds the specified component to this container at the given
+     * Adds the specified component to this contbiner bt the given
      * position.
-     * This is a convenience method for {@link #addImpl}.
+     * This is b convenience method for {@link #bddImpl}.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * display the added component.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * displby the bdded component.
      *
      *
-     * @param     comp   the component to be added
-     * @param     index    the position at which to insert the component,
-     *                   or <code>-1</code> to append the component to the end
+     * @pbrbm     comp   the component to be bdded
+     * @pbrbm     index    the position bt which to insert the component,
+     *                   or <code>-1</code> to bppend the component to the end
      * @exception NullPointerException if {@code comp} is {@code null}
-     * @exception IllegalArgumentException if {@code index} is invalid (see
-     *            {@link #addImpl} for details)
+     * @exception IllegblArgumentException if {@code index} is invblid (see
+     *            {@link #bddImpl} for detbils)
      * @return    the component <code>comp</code>
-     * @see #addImpl
+     * @see #bddImpl
      * @see #remove
-     * @see #invalidate
-     * @see #validate
-     * @see javax.swing.JComponent#revalidate()
+     * @see #invblidbte
+     * @see #vblidbte
+     * @see jbvbx.swing.JComponent#revblidbte()
      */
-    public Component add(Component comp, int index) {
-        addImpl(comp, null, index);
+    public Component bdd(Component comp, int index) {
+        bddImpl(comp, null, index);
         return comp;
     }
 
     /**
-     * Checks that the component
-     * isn't supposed to be added into itself.
+     * Checks thbt the component
+     * isn't supposed to be bdded into itself.
      */
-    private void checkAddToSelf(Component comp){
-        if (comp instanceof Container) {
-            for (Container cn = this; cn != null; cn=cn.parent) {
+    privbte void checkAddToSelf(Component comp){
+        if (comp instbnceof Contbiner) {
+            for (Contbiner cn = this; cn != null; cn=cn.pbrent) {
                 if (cn == comp) {
-                    throw new IllegalArgumentException("adding container's parent to itself");
+                    throw new IllegblArgumentException("bdding contbiner's pbrent to itself");
                 }
             }
         }
     }
 
     /**
-     * Checks that the component is not a Window instance.
+     * Checks thbt the component is not b Window instbnce.
      */
-    private void checkNotAWindow(Component comp){
-        if (comp instanceof Window) {
-            throw new IllegalArgumentException("adding a window to a container");
+    privbte void checkNotAWindow(Component comp){
+        if (comp instbnceof Window) {
+            throw new IllegblArgumentException("bdding b window to b contbiner");
         }
     }
 
     /**
-     * Checks that the component comp can be added to this container
-     * Checks :  index in bounds of container's size,
-     * comp is not one of this container's parents,
-     * and comp is not a window.
-     * Comp and container must be on the same GraphicsDevice.
-     * if comp is container, all sub-components must be on
-     * same GraphicsDevice.
+     * Checks thbt the component comp cbn be bdded to this contbiner
+     * Checks :  index in bounds of contbiner's size,
+     * comp is not one of this contbiner's pbrents,
+     * bnd comp is not b window.
+     * Comp bnd contbiner must be on the sbme GrbphicsDevice.
+     * if comp is contbiner, bll sub-components must be on
+     * sbme GrbphicsDevice.
      *
      * @since 1.5
      */
-    private void checkAdding(Component comp, int index) {
+    privbte void checkAdding(Component comp, int index) {
         checkTreeLock();
 
-        GraphicsConfiguration thisGC = getGraphicsConfiguration();
+        GrbphicsConfigurbtion thisGC = getGrbphicsConfigurbtion();
 
         if (index > component.size() || index < 0) {
-            throw new IllegalArgumentException("illegal component position");
+            throw new IllegblArgumentException("illegbl component position");
         }
-        if (comp.parent == this) {
+        if (comp.pbrent == this) {
             if (index == component.size()) {
-                throw new IllegalArgumentException("illegal component position " +
+                throw new IllegblArgumentException("illegbl component position " +
                                                    index + " should be less then " + component.size());
             }
         }
         checkAddToSelf(comp);
         checkNotAWindow(comp);
 
-        Window thisTopLevel = getContainingWindow();
-        Window compTopLevel = comp.getContainingWindow();
+        Window thisTopLevel = getContbiningWindow();
+        Window compTopLevel = comp.getContbiningWindow();
         if (thisTopLevel != compTopLevel) {
-            throw new IllegalArgumentException("component and container should be in the same top-level window");
+            throw new IllegblArgumentException("component bnd contbiner should be in the sbme top-level window");
         }
         if (thisGC != null) {
             comp.checkGD(thisGC.getDevice().getIDstring());
@@ -547,407 +547,407 @@ public class Container extends Component {
     }
 
     /**
-     * Removes component comp from this container without making unneccessary changes
-     * and generating unneccessary events. This function intended to perform optimized
-     * remove, for example, if newParent and current parent are the same it just changes
-     * index without calling removeNotify.
-     * Note: Should be called while holding treeLock
-     * Returns whether removeNotify was invoked
+     * Removes component comp from this contbiner without mbking unneccessbry chbnges
+     * bnd generbting unneccessbry events. This function intended to perform optimized
+     * remove, for exbmple, if newPbrent bnd current pbrent bre the sbme it just chbnges
+     * index without cblling removeNotify.
+     * Note: Should be cblled while holding treeLock
+     * Returns whether removeNotify wbs invoked
      * @since: 1.5
      */
-    private boolean removeDelicately(Component comp, Container newParent, int newIndex) {
+    privbte boolebn removeDelicbtely(Component comp, Contbiner newPbrent, int newIndex) {
         checkTreeLock();
 
         int index = getComponentZOrder(comp);
-        boolean needRemoveNotify = isRemoveNotifyNeeded(comp, this, newParent);
+        boolebn needRemoveNotify = isRemoveNotifyNeeded(comp, this, newPbrent);
         if (needRemoveNotify) {
             comp.removeNotify();
         }
-        if (newParent != this) {
-            if (layoutMgr != null) {
-                layoutMgr.removeLayoutComponent(comp);
+        if (newPbrent != this) {
+            if (lbyoutMgr != null) {
+                lbyoutMgr.removeLbyoutComponent(comp);
             }
-            adjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
                                     -comp.numListening(AWTEvent.HIERARCHY_EVENT_MASK));
-            adjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
                                     -comp.numListening(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
-            adjustDescendants(-(comp.countHierarchyMembers()));
+            bdjustDescendbnts(-(comp.countHierbrchyMembers()));
 
-            comp.parent = null;
+            comp.pbrent = null;
             if (needRemoveNotify) {
-                comp.setGraphicsConfiguration(null);
+                comp.setGrbphicsConfigurbtion(null);
             }
             component.remove(index);
 
-            invalidateIfValid();
+            invblidbteIfVblid();
         } else {
-            // We should remove component and then
-            // add it by the newIndex without newIndex decrement if even we shift components to the left
-            // after remove. Consult the rules below:
+            // We should remove component bnd then
+            // bdd it by the newIndex without newIndex decrement if even we shift components to the left
+            // bfter remove. Consult the rules below:
             // 2->4: 012345 -> 013425, 2->5: 012345 -> 013452
             // 4->2: 012345 -> 014235
             component.remove(index);
-            component.add(newIndex, comp);
+            component.bdd(newIndex, comp);
         }
-        if (comp.parent == null) { // was actually removed
-            if (containerListener != null ||
-                (eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
-                Toolkit.enabledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
-                ContainerEvent e = new ContainerEvent(this,
-                                                      ContainerEvent.COMPONENT_REMOVED,
+        if (comp.pbrent == null) { // wbs bctublly removed
+            if (contbinerListener != null ||
+                (eventMbsk & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
+                Toolkit.enbbledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
+                ContbinerEvent e = new ContbinerEvent(this,
+                                                      ContbinerEvent.COMPONENT_REMOVED,
                                                       comp);
-                dispatchEvent(e);
+                dispbtchEvent(e);
 
             }
-            comp.createHierarchyEvents(HierarchyEvent.HIERARCHY_CHANGED, comp,
-                                       this, HierarchyEvent.PARENT_CHANGED,
-                                       Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
-            if (peer != null && layoutMgr == null && isVisible()) {
-                updateCursorImmediately();
+            comp.crebteHierbrchyEvents(HierbrchyEvent.HIERARCHY_CHANGED, comp,
+                                       this, HierbrchyEvent.PARENT_CHANGED,
+                                       Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
+            if (peer != null && lbyoutMgr == null && isVisible()) {
+                updbteCursorImmedibtely();
             }
         }
         return needRemoveNotify;
     }
 
     /**
-     * Checks whether this container can contain component which is focus owner.
-     * Verifies that container is enable and showing, and if it is focus cycle root
-     * its FTP allows component to be focus owner
+     * Checks whether this contbiner cbn contbin component which is focus owner.
+     * Verifies thbt contbiner is enbble bnd showing, bnd if it is focus cycle root
+     * its FTP bllows component to be focus owner
      * @since 1.5
      */
-    boolean canContainFocusOwner(Component focusOwnerCandidate) {
-        if (!(isEnabled() && isDisplayable()
-              && isVisible() && isFocusable()))
+    boolebn cbnContbinFocusOwner(Component focusOwnerCbndidbte) {
+        if (!(isEnbbled() && isDisplbybble()
+              && isVisible() && isFocusbble()))
         {
-            return false;
+            return fblse;
         }
         if (isFocusCycleRoot()) {
-            FocusTraversalPolicy policy = getFocusTraversalPolicy();
-            if (policy instanceof DefaultFocusTraversalPolicy) {
-                if (!((DefaultFocusTraversalPolicy)policy).accept(focusOwnerCandidate)) {
-                    return false;
+            FocusTrbversblPolicy policy = getFocusTrbversblPolicy();
+            if (policy instbnceof DefbultFocusTrbversblPolicy) {
+                if (!((DefbultFocusTrbversblPolicy)policy).bccept(focusOwnerCbndidbte)) {
+                    return fblse;
                 }
             }
         }
         synchronized(getTreeLock()) {
-            if (parent != null) {
-                return parent.canContainFocusOwner(focusOwnerCandidate);
+            if (pbrent != null) {
+                return pbrent.cbnContbinFocusOwner(focusOwnerCbndidbte);
             }
         }
         return true;
     }
 
     /**
-     * Checks whether or not this container has heavyweight children.
-     * Note: Should be called while holding tree lock
-     * @return true if there is at least one heavyweight children in a container, false otherwise
+     * Checks whether or not this contbiner hbs hebvyweight children.
+     * Note: Should be cblled while holding tree lock
+     * @return true if there is bt lebst one hebvyweight children in b contbiner, fblse otherwise
      * @since 1.5
      */
-    final boolean hasHeavyweightDescendants() {
+    finbl boolebn hbsHebvyweightDescendbnts() {
         checkTreeLock();
         return numOfHWComponents > 0;
     }
 
     /**
-     * Checks whether or not this container has lightweight children.
-     * Note: Should be called while holding tree lock
-     * @return true if there is at least one lightweight children in a container, false otherwise
+     * Checks whether or not this contbiner hbs lightweight children.
+     * Note: Should be cblled while holding tree lock
+     * @return true if there is bt lebst one lightweight children in b contbiner, fblse otherwise
      * @since 1.7
      */
-    final boolean hasLightweightDescendants() {
+    finbl boolebn hbsLightweightDescendbnts() {
         checkTreeLock();
         return numOfLWComponents > 0;
     }
 
     /**
-     * Returns closest heavyweight component to this container. If this container is heavyweight
+     * Returns closest hebvyweight component to this contbiner. If this contbiner is hebvyweight
      * returns this.
      * @since 1.5
      */
-    Container getHeavyweightContainer() {
+    Contbiner getHebvyweightContbiner() {
         checkTreeLock();
-        if (peer != null && !(peer instanceof LightweightPeer)) {
+        if (peer != null && !(peer instbnceof LightweightPeer)) {
             return this;
         } else {
-            return getNativeContainer();
+            return getNbtiveContbiner();
         }
     }
 
     /**
-     * Detects whether or not remove from current parent and adding to new parent requires call of
-     * removeNotify on the component. Since removeNotify destroys native window this might (not)
-     * be required. For example, if new container and old containers are the same we don't need to
-     * destroy native window.
+     * Detects whether or not remove from current pbrent bnd bdding to new pbrent requires cbll of
+     * removeNotify on the component. Since removeNotify destroys nbtive window this might (not)
+     * be required. For exbmple, if new contbiner bnd old contbiners bre the sbme we don't need to
+     * destroy nbtive window.
      * @since: 1.5
      */
-    private static boolean isRemoveNotifyNeeded(Component comp, Container oldContainer, Container newContainer) {
-        if (oldContainer == null) { // Component didn't have parent - no removeNotify
-            return false;
+    privbte stbtic boolebn isRemoveNotifyNeeded(Component comp, Contbiner oldContbiner, Contbiner newContbiner) {
+        if (oldContbiner == null) { // Component didn't hbve pbrent - no removeNotify
+            return fblse;
         }
-        if (comp.peer == null) { // Component didn't have peer - no removeNotify
-            return false;
+        if (comp.peer == null) { // Component didn't hbve peer - no removeNotify
+            return fblse;
         }
-        if (newContainer.peer == null) {
-            // Component has peer but new Container doesn't - call removeNotify
+        if (newContbiner.peer == null) {
+            // Component hbs peer but new Contbiner doesn't - cbll removeNotify
             return true;
         }
 
-        // If component is lightweight non-Container or lightweight Container with all but heavyweight
-        // children there is no need to call remove notify
+        // If component is lightweight non-Contbiner or lightweight Contbiner with bll but hebvyweight
+        // children there is no need to cbll remove notify
         if (comp.isLightweight()) {
-            boolean isContainer = comp instanceof Container;
+            boolebn isContbiner = comp instbnceof Contbiner;
 
-            if (!isContainer || (isContainer && !((Container)comp).hasHeavyweightDescendants())) {
-                return false;
+            if (!isContbiner || (isContbiner && !((Contbiner)comp).hbsHebvyweightDescendbnts())) {
+                return fblse;
             }
         }
 
-        // If this point is reached, then the comp is either a HW or a LW container with HW descendants.
+        // If this point is rebched, then the comp is either b HW or b LW contbiner with HW descendbnts.
 
-        // All three components have peers, check for peer change
-        Container newNativeContainer = oldContainer.getHeavyweightContainer();
-        Container oldNativeContainer = newContainer.getHeavyweightContainer();
-        if (newNativeContainer != oldNativeContainer) {
-            // Native containers change - check whether or not current platform supports
-            // changing of widget hierarchy on native level without recreation.
-            // The current implementation forbids reparenting of LW containers with HW descendants
-            // into another native container w/o destroying the peers. Actually such an operation
-            // is quite rare. If we ever need to save the peers, we'll have to slightly change the
-            // addDelicately() method in order to handle such LW containers recursively, reparenting
-            // each HW descendant independently.
-            return !comp.peer.isReparentSupported();
+        // All three components hbve peers, check for peer chbnge
+        Contbiner newNbtiveContbiner = oldContbiner.getHebvyweightContbiner();
+        Contbiner oldNbtiveContbiner = newContbiner.getHebvyweightContbiner();
+        if (newNbtiveContbiner != oldNbtiveContbiner) {
+            // Nbtive contbiners chbnge - check whether or not current plbtform supports
+            // chbnging of widget hierbrchy on nbtive level without recrebtion.
+            // The current implementbtion forbids repbrenting of LW contbiners with HW descendbnts
+            // into bnother nbtive contbiner w/o destroying the peers. Actublly such bn operbtion
+            // is quite rbre. If we ever need to sbve the peers, we'll hbve to slightly chbnge the
+            // bddDelicbtely() method in order to hbndle such LW contbiners recursively, repbrenting
+            // ebch HW descendbnt independently.
+            return !comp.peer.isRepbrentSupported();
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
      * Moves the specified component to the specified z-order index in
-     * the container. The z-order determines the order that components
-     * are painted; the component with the highest z-order paints first
-     * and the component with the lowest z-order paints last.
-     * Where components overlap, the component with the lower
-     * z-order paints over the component with the higher z-order.
+     * the contbiner. The z-order determines the order thbt components
+     * bre pbinted; the component with the highest z-order pbints first
+     * bnd the component with the lowest z-order pbints lbst.
+     * Where components overlbp, the component with the lower
+     * z-order pbints over the component with the higher z-order.
      * <p>
-     * If the component is a child of some other container, it is
-     * removed from that container before being added to this container.
-     * The important difference between this method and
-     * <code>java.awt.Container.add(Component, int)</code> is that this method
-     * doesn't call <code>removeNotify</code> on the component while
-     * removing it from its previous container unless necessary and when
-     * allowed by the underlying native windowing system. This way, if the
-     * component has the keyboard focus, it maintains the focus when
+     * If the component is b child of some other contbiner, it is
+     * removed from thbt contbiner before being bdded to this contbiner.
+     * The importbnt difference between this method bnd
+     * <code>jbvb.bwt.Contbiner.bdd(Component, int)</code> is thbt this method
+     * doesn't cbll <code>removeNotify</code> on the component while
+     * removing it from its previous contbiner unless necessbry bnd when
+     * bllowed by the underlying nbtive windowing system. This wby, if the
+     * component hbs the keybobrd focus, it mbintbins the focus when
      * moved to the new position.
      * <p>
-     * This property is guaranteed to apply only to lightweight
-     * non-<code>Container</code> components.
+     * This property is gubrbnteed to bpply only to lightweight
+     * non-<code>Contbiner</code> components.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy.
      * <p>
-     * <b>Note</b>: Not all platforms support changing the z-order of
-     * heavyweight components from one container into another without
-     * the call to <code>removeNotify</code>. There is no way to detect
-     * whether a platform supports this, so developers shouldn't make
-     * any assumptions.
+     * <b>Note</b>: Not bll plbtforms support chbnging the z-order of
+     * hebvyweight components from one contbiner into bnother without
+     * the cbll to <code>removeNotify</code>. There is no wby to detect
+     * whether b plbtform supports this, so developers shouldn't mbke
+     * bny bssumptions.
      *
-     * @param     comp the component to be moved
-     * @param     index the position in the container's list to
+     * @pbrbm     comp the component to be moved
+     * @pbrbm     index the position in the contbiner's list to
      *            insert the component, where <code>getComponentCount()</code>
-     *            appends to the end
+     *            bppends to the end
      * @exception NullPointerException if <code>comp</code> is
      *            <code>null</code>
-     * @exception IllegalArgumentException if <code>comp</code> is one of the
-     *            container's parents
-     * @exception IllegalArgumentException if <code>index</code> is not in
-     *            the range <code>[0, getComponentCount()]</code> for moving
-     *            between containers, or not in the range
+     * @exception IllegblArgumentException if <code>comp</code> is one of the
+     *            contbiner's pbrents
+     * @exception IllegblArgumentException if <code>index</code> is not in
+     *            the rbnge <code>[0, getComponentCount()]</code> for moving
+     *            between contbiners, or not in the rbnge
      *            <code>[0, getComponentCount()-1]</code> for moving inside
-     *            a container
-     * @exception IllegalArgumentException if adding a container to itself
-     * @exception IllegalArgumentException if adding a <code>Window</code>
-     *            to a container
-     * @see #getComponentZOrder(java.awt.Component)
-     * @see #invalidate
+     *            b contbiner
+     * @exception IllegblArgumentException if bdding b contbiner to itself
+     * @exception IllegblArgumentException if bdding b <code>Window</code>
+     *            to b contbiner
+     * @see #getComponentZOrder(jbvb.bwt.Component)
+     * @see #invblidbte
      * @since 1.5
      */
     public void setComponentZOrder(Component comp, int index) {
          synchronized (getTreeLock()) {
-             // Store parent because remove will clear it
-             Container curParent = comp.parent;
+             // Store pbrent becbuse remove will clebr it
+             Contbiner curPbrent = comp.pbrent;
              int oldZindex = getComponentZOrder(comp);
 
-             if (curParent == this && index == oldZindex) {
+             if (curPbrent == this && index == oldZindex) {
                  return;
              }
              checkAdding(comp, index);
 
-             boolean peerRecreated = (curParent != null) ?
-                 curParent.removeDelicately(comp, this, index) : false;
+             boolebn peerRecrebted = (curPbrent != null) ?
+                 curPbrent.removeDelicbtely(comp, this, index) : fblse;
 
-             addDelicately(comp, curParent, index);
+             bddDelicbtely(comp, curPbrent, index);
 
              // If the oldZindex == -1, the component gets inserted,
-             // rather than it changes its z-order.
-             if (!peerRecreated && oldZindex != -1) {
-                 // The new 'index' cannot be == -1.
-                 // It gets checked at the checkAdding() method.
-                 // Therefore both oldZIndex and index denote
-                 // some existing positions at this point and
-                 // this is actually a Z-order changing.
-                 comp.mixOnZOrderChanging(oldZindex, index);
+             // rbther thbn it chbnges its z-order.
+             if (!peerRecrebted && oldZindex != -1) {
+                 // The new 'index' cbnnot be == -1.
+                 // It gets checked bt the checkAdding() method.
+                 // Therefore both oldZIndex bnd index denote
+                 // some existing positions bt this point bnd
+                 // this is bctublly b Z-order chbnging.
+                 comp.mixOnZOrderChbnging(oldZindex, index);
              }
          }
     }
 
     /**
-     * Traverses the tree of components and reparents children heavyweight component
-     * to new heavyweight parent.
+     * Trbverses the tree of components bnd repbrents children hebvyweight component
+     * to new hebvyweight pbrent.
      * @since 1.5
      */
-    private void reparentTraverse(ContainerPeer parentPeer, Container child) {
+    privbte void repbrentTrbverse(ContbinerPeer pbrentPeer, Contbiner child) {
         checkTreeLock();
 
         for (int i = 0; i < child.getComponentCount(); i++) {
             Component comp = child.getComponent(i);
             if (comp.isLightweight()) {
-                // If components is lightweight check if it is container
-                // If it is container it might contain heavyweight children we need to reparent
-                if (comp instanceof Container) {
-                    reparentTraverse(parentPeer, (Container)comp);
+                // If components is lightweight check if it is contbiner
+                // If it is contbiner it might contbin hebvyweight children we need to repbrent
+                if (comp instbnceof Contbiner) {
+                    repbrentTrbverse(pbrentPeer, (Contbiner)comp);
                 }
             } else {
-                // Q: Need to update NativeInLightFixer?
-                comp.getPeer().reparent(parentPeer);
+                // Q: Need to updbte NbtiveInLightFixer?
+                comp.getPeer().repbrent(pbrentPeer);
             }
         }
     }
 
     /**
-     * Reparents child component peer to this container peer.
-     * Container must be heavyweight.
+     * Repbrents child component peer to this contbiner peer.
+     * Contbiner must be hebvyweight.
      * @since 1.5
      */
-    private void reparentChild(Component comp) {
+    privbte void repbrentChild(Component comp) {
         checkTreeLock();
         if (comp == null) {
             return;
         }
         if (comp.isLightweight()) {
-            // If component is lightweight container we need to reparent all its explicit  heavyweight children
-            if (comp instanceof Container) {
-                // Traverse component's tree till depth-first until encountering heavyweight component
-                reparentTraverse((ContainerPeer)getPeer(), (Container)comp);
+            // If component is lightweight contbiner we need to repbrent bll its explicit  hebvyweight children
+            if (comp instbnceof Contbiner) {
+                // Trbverse component's tree till depth-first until encountering hebvyweight component
+                repbrentTrbverse((ContbinerPeer)getPeer(), (Contbiner)comp);
             }
         } else {
-            comp.getPeer().reparent((ContainerPeer)getPeer());
+            comp.getPeer().repbrent((ContbinerPeer)getPeer());
         }
     }
 
     /**
-     * Adds component to this container. Tries to minimize side effects of this adding -
-     * doesn't call remove notify if it is not required.
+     * Adds component to this contbiner. Tries to minimize side effects of this bdding -
+     * doesn't cbll remove notify if it is not required.
      * @since 1.5
      */
-    private void addDelicately(Component comp, Container curParent, int index) {
+    privbte void bddDelicbtely(Component comp, Contbiner curPbrent, int index) {
         checkTreeLock();
 
-        // Check if moving between containers
-        if (curParent != this) {
-            //index == -1 means add to the end.
+        // Check if moving between contbiners
+        if (curPbrent != this) {
+            //index == -1 mebns bdd to the end.
             if (index == -1) {
-                component.add(comp);
+                component.bdd(comp);
             } else {
-                component.add(index, comp);
+                component.bdd(index, comp);
             }
-            comp.parent = this;
-            comp.setGraphicsConfiguration(getGraphicsConfiguration());
+            comp.pbrent = this;
+            comp.setGrbphicsConfigurbtion(getGrbphicsConfigurbtion());
 
-            adjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
                                     comp.numListening(AWTEvent.HIERARCHY_EVENT_MASK));
-            adjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
                                     comp.numListening(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
-            adjustDescendants(comp.countHierarchyMembers());
+            bdjustDescendbnts(comp.countHierbrchyMembers());
         } else {
             if (index < component.size()) {
                 component.set(index, comp);
             }
         }
 
-        invalidateIfValid();
+        invblidbteIfVblid();
         if (peer != null) {
-            if (comp.peer == null) { // Remove notify was called or it didn't have peer - create new one
-                comp.addNotify();
-            } else { // Both container and child have peers, it means child peer should be reparented.
-                // In both cases we need to reparent native widgets.
-                Container newNativeContainer = getHeavyweightContainer();
-                Container oldNativeContainer = curParent.getHeavyweightContainer();
-                if (oldNativeContainer != newNativeContainer) {
-                    // Native container changed - need to reparent native widgets
-                    newNativeContainer.reparentChild(comp);
+            if (comp.peer == null) { // Remove notify wbs cblled or it didn't hbve peer - crebte new one
+                comp.bddNotify();
+            } else { // Both contbiner bnd child hbve peers, it mebns child peer should be repbrented.
+                // In both cbses we need to repbrent nbtive widgets.
+                Contbiner newNbtiveContbiner = getHebvyweightContbiner();
+                Contbiner oldNbtiveContbiner = curPbrent.getHebvyweightContbiner();
+                if (oldNbtiveContbiner != newNbtiveContbiner) {
+                    // Nbtive contbiner chbnged - need to repbrent nbtive widgets
+                    newNbtiveContbiner.repbrentChild(comp);
                 }
-                comp.updateZOrder();
+                comp.updbteZOrder();
 
                 if (!comp.isLightweight() && isLightweight()) {
-                    // If component is heavyweight and one of the containers is lightweight
-                    // the location of the component should be fixed.
-                    comp.relocateComponent();
+                    // If component is hebvyweight bnd one of the contbiners is lightweight
+                    // the locbtion of the component should be fixed.
+                    comp.relocbteComponent();
                 }
             }
         }
-        if (curParent != this) {
-            /* Notify the layout manager of the added component. */
-            if (layoutMgr != null) {
-                if (layoutMgr instanceof LayoutManager2) {
-                    ((LayoutManager2)layoutMgr).addLayoutComponent(comp, null);
+        if (curPbrent != this) {
+            /* Notify the lbyout mbnbger of the bdded component. */
+            if (lbyoutMgr != null) {
+                if (lbyoutMgr instbnceof LbyoutMbnbger2) {
+                    ((LbyoutMbnbger2)lbyoutMgr).bddLbyoutComponent(comp, null);
                 } else {
-                    layoutMgr.addLayoutComponent(null, comp);
+                    lbyoutMgr.bddLbyoutComponent(null, comp);
                 }
             }
-            if (containerListener != null ||
-                (eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
-                Toolkit.enabledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
-                ContainerEvent e = new ContainerEvent(this,
-                                                      ContainerEvent.COMPONENT_ADDED,
+            if (contbinerListener != null ||
+                (eventMbsk & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
+                Toolkit.enbbledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
+                ContbinerEvent e = new ContbinerEvent(this,
+                                                      ContbinerEvent.COMPONENT_ADDED,
                                                       comp);
-                dispatchEvent(e);
+                dispbtchEvent(e);
             }
-            comp.createHierarchyEvents(HierarchyEvent.HIERARCHY_CHANGED, comp,
-                                       this, HierarchyEvent.PARENT_CHANGED,
-                                       Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
+            comp.crebteHierbrchyEvents(HierbrchyEvent.HIERARCHY_CHANGED, comp,
+                                       this, HierbrchyEvent.PARENT_CHANGED,
+                                       Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
 
-            // If component is focus owner or parent container of focus owner check that after reparenting
-            // focus owner moved out if new container prohibit this kind of focus owner.
-            if (comp.isFocusOwner() && !comp.canBeFocusOwnerRecursively()) {
-                comp.transferFocus();
-            } else if (comp instanceof Container) {
-                Component focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-                if (focusOwner != null && isParentOf(focusOwner) && !focusOwner.canBeFocusOwnerRecursively()) {
-                    focusOwner.transferFocus();
+            // If component is focus owner or pbrent contbiner of focus owner check thbt bfter repbrenting
+            // focus owner moved out if new contbiner prohibit this kind of focus owner.
+            if (comp.isFocusOwner() && !comp.cbnBeFocusOwnerRecursively()) {
+                comp.trbnsferFocus();
+            } else if (comp instbnceof Contbiner) {
+                Component focusOwner = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().getFocusOwner();
+                if (focusOwner != null && isPbrentOf(focusOwner) && !focusOwner.cbnBeFocusOwnerRecursively()) {
+                    focusOwner.trbnsferFocus();
                 }
             }
         } else {
-            comp.createHierarchyEvents(HierarchyEvent.HIERARCHY_CHANGED, comp,
-                                       this, HierarchyEvent.HIERARCHY_CHANGED,
-                                       Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
+            comp.crebteHierbrchyEvents(HierbrchyEvent.HIERARCHY_CHANGED, comp,
+                                       this, HierbrchyEvent.HIERARCHY_CHANGED,
+                                       Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
         }
 
-        if (peer != null && layoutMgr == null && isVisible()) {
-            updateCursorImmediately();
+        if (peer != null && lbyoutMgr == null && isVisible()) {
+            updbteCursorImmedibtely();
         }
     }
 
     /**
-     * Returns the z-order index of the component inside the container.
-     * The higher a component is in the z-order hierarchy, the lower
+     * Returns the z-order index of the component inside the contbiner.
+     * The higher b component is in the z-order hierbrchy, the lower
      * its index.  The component with the lowest z-order index is
-     * painted last, above all other child components.
+     * pbinted lbst, bbove bll other child components.
      *
-     * @param comp the component being queried
+     * @pbrbm comp the component being queried
      * @return  the z-order index of the component; otherwise
      *          returns -1 if the component is <code>null</code>
-     *          or doesn't belong to the container
-     * @see #setComponentZOrder(java.awt.Component, int)
+     *          or doesn't belong to the contbiner
+     * @see #setComponentZOrder(jbvb.bwt.Component, int)
      * @since 1.5
      */
     public int getComponentZOrder(Component comp) {
@@ -955,8 +955,8 @@ public class Container extends Component {
             return -1;
         }
         synchronized(getTreeLock()) {
-            // Quick check - container should be immediate parent of the component
-            if (comp.parent != this) {
+            // Quick check - contbiner should be immedibte pbrent of the component
+            if (comp.pbrent != this) {
                 return -1;
             }
             return component.indexOf(comp);
@@ -964,145 +964,145 @@ public class Container extends Component {
     }
 
     /**
-     * Adds the specified component to the end of this container.
-     * Also notifies the layout manager to add the component to
-     * this container's layout using the specified constraints object.
-     * This is a convenience method for {@link #addImpl}.
+     * Adds the specified component to the end of this contbiner.
+     * Also notifies the lbyout mbnbger to bdd the component to
+     * this contbiner's lbyout using the specified constrbints object.
+     * This is b convenience method for {@link #bddImpl}.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * display the added component.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * displby the bdded component.
      *
      *
-     * @param     comp the component to be added
-     * @param     constraints an object expressing
-     *                  layout constraints for this component
+     * @pbrbm     comp the component to be bdded
+     * @pbrbm     constrbints bn object expressing
+     *                  lbyout constrbints for this component
      * @exception NullPointerException if {@code comp} is {@code null}
-     * @see #addImpl
-     * @see #invalidate
-     * @see #validate
-     * @see javax.swing.JComponent#revalidate()
-     * @see       LayoutManager
+     * @see #bddImpl
+     * @see #invblidbte
+     * @see #vblidbte
+     * @see jbvbx.swing.JComponent#revblidbte()
+     * @see       LbyoutMbnbger
      * @since     1.1
      */
-    public void add(Component comp, Object constraints) {
-        addImpl(comp, constraints, -1);
+    public void bdd(Component comp, Object constrbints) {
+        bddImpl(comp, constrbints, -1);
     }
 
     /**
-     * Adds the specified component to this container with the specified
-     * constraints at the specified index.  Also notifies the layout
-     * manager to add the component to the this container's layout using
-     * the specified constraints object.
-     * This is a convenience method for {@link #addImpl}.
+     * Adds the specified component to this contbiner with the specified
+     * constrbints bt the specified index.  Also notifies the lbyout
+     * mbnbger to bdd the component to the this contbiner's lbyout using
+     * the specified constrbints object.
+     * This is b convenience method for {@link #bddImpl}.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * display the added component.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * displby the bdded component.
      *
      *
-     * @param comp the component to be added
-     * @param constraints an object expressing layout constraints for this
-     * @param index the position in the container's list at which to insert
-     * the component; <code>-1</code> means insert at the end
+     * @pbrbm comp the component to be bdded
+     * @pbrbm constrbints bn object expressing lbyout constrbints for this
+     * @pbrbm index the position in the contbiner's list bt which to insert
+     * the component; <code>-1</code> mebns insert bt the end
      * component
      * @exception NullPointerException if {@code comp} is {@code null}
-     * @exception IllegalArgumentException if {@code index} is invalid (see
-     *            {@link #addImpl} for details)
-     * @see #addImpl
-     * @see #invalidate
-     * @see #validate
-     * @see javax.swing.JComponent#revalidate()
+     * @exception IllegblArgumentException if {@code index} is invblid (see
+     *            {@link #bddImpl} for detbils)
+     * @see #bddImpl
+     * @see #invblidbte
+     * @see #vblidbte
+     * @see jbvbx.swing.JComponent#revblidbte()
      * @see #remove
-     * @see LayoutManager
+     * @see LbyoutMbnbger
      */
-    public void add(Component comp, Object constraints, int index) {
-       addImpl(comp, constraints, index);
+    public void bdd(Component comp, Object constrbints, int index) {
+       bddImpl(comp, constrbints, index);
     }
 
     /**
-     * Adds the specified component to this container at the specified
-     * index. This method also notifies the layout manager to add
-     * the component to this container's layout using the specified
-     * constraints object via the <code>addLayoutComponent</code>
+     * Adds the specified component to this contbiner bt the specified
+     * index. This method blso notifies the lbyout mbnbger to bdd
+     * the component to this contbiner's lbyout using the specified
+     * constrbints object vib the <code>bddLbyoutComponent</code>
      * method.
      * <p>
-     * The constraints are
-     * defined by the particular layout manager being used.  For
-     * example, the <code>BorderLayout</code> class defines five
-     * constraints: <code>BorderLayout.NORTH</code>,
-     * <code>BorderLayout.SOUTH</code>, <code>BorderLayout.EAST</code>,
-     * <code>BorderLayout.WEST</code>, and <code>BorderLayout.CENTER</code>.
+     * The constrbints bre
+     * defined by the pbrticulbr lbyout mbnbger being used.  For
+     * exbmple, the <code>BorderLbyout</code> clbss defines five
+     * constrbints: <code>BorderLbyout.NORTH</code>,
+     * <code>BorderLbyout.SOUTH</code>, <code>BorderLbyout.EAST</code>,
+     * <code>BorderLbyout.WEST</code>, bnd <code>BorderLbyout.CENTER</code>.
      * <p>
-     * The <code>GridBagLayout</code> class requires a
-     * <code>GridBagConstraints</code> object.  Failure to pass
-     * the correct type of constraints object results in an
-     * <code>IllegalArgumentException</code>.
+     * The <code>GridBbgLbyout</code> clbss requires b
+     * <code>GridBbgConstrbints</code> object.  Fbilure to pbss
+     * the correct type of constrbints object results in bn
+     * <code>IllegblArgumentException</code>.
      * <p>
-     * If the current layout manager implements {@code LayoutManager2}, then
-     * {@link LayoutManager2#addLayoutComponent(Component,Object)} is invoked on
-     * it. If the current layout manager does not implement
-     * {@code LayoutManager2}, and constraints is a {@code String}, then
-     * {@link LayoutManager#addLayoutComponent(String,Component)} is invoked on it.
+     * If the current lbyout mbnbger implements {@code LbyoutMbnbger2}, then
+     * {@link LbyoutMbnbger2#bddLbyoutComponent(Component,Object)} is invoked on
+     * it. If the current lbyout mbnbger does not implement
+     * {@code LbyoutMbnbger2}, bnd constrbints is b {@code String}, then
+     * {@link LbyoutMbnbger#bddLbyoutComponent(String,Component)} is invoked on it.
      * <p>
-     * If the component is not an ancestor of this container and has a non-null
-     * parent, it is removed from its current parent before it is added to this
-     * container.
+     * If the component is not bn bncestor of this contbiner bnd hbs b non-null
+     * pbrent, it is removed from its current pbrent before it is bdded to this
+     * contbiner.
      * <p>
-     * This is the method to override if a program needs to track
-     * every add request to a container as all other add methods defer
+     * This is the method to override if b progrbm needs to trbck
+     * every bdd request to b contbiner bs bll other bdd methods defer
      * to this one. An overriding method should
-     * usually include a call to the superclass's version of the method:
+     * usublly include b cbll to the superclbss's version of the method:
      *
      * <blockquote>
-     * <code>super.addImpl(comp, constraints, index)</code>
+     * <code>super.bddImpl(comp, constrbints, index)</code>
      * </blockquote>
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * display the added component.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * displby the bdded component.
      *
-     * @param     comp       the component to be added
-     * @param     constraints an object expressing layout constraints
+     * @pbrbm     comp       the component to be bdded
+     * @pbrbm     constrbints bn object expressing lbyout constrbints
      *                 for this component
-     * @param     index the position in the container's list at which to
+     * @pbrbm     index the position in the contbiner's list bt which to
      *                 insert the component, where <code>-1</code>
-     *                 means append to the end
-     * @exception IllegalArgumentException if {@code index} is invalid;
-     *            if {@code comp} is a child of this container, the valid
-     *            range is {@code [-1, getComponentCount()-1]}; if component is
-     *            not a child of this container, the valid range is
+     *                 mebns bppend to the end
+     * @exception IllegblArgumentException if {@code index} is invblid;
+     *            if {@code comp} is b child of this contbiner, the vblid
+     *            rbnge is {@code [-1, getComponentCount()-1]}; if component is
+     *            not b child of this contbiner, the vblid rbnge is
      *            {@code [-1, getComponentCount()]}
      *
-     * @exception IllegalArgumentException if {@code comp} is an ancestor of
-     *                                     this container
-     * @exception IllegalArgumentException if adding a window to a container
+     * @exception IllegblArgumentException if {@code comp} is bn bncestor of
+     *                                     this contbiner
+     * @exception IllegblArgumentException if bdding b window to b contbiner
      * @exception NullPointerException if {@code comp} is {@code null}
-     * @see       #add(Component)
-     * @see       #add(Component, int)
-     * @see       #add(Component, java.lang.Object)
-     * @see #invalidate
-     * @see       LayoutManager
-     * @see       LayoutManager2
+     * @see       #bdd(Component)
+     * @see       #bdd(Component, int)
+     * @see       #bdd(Component, jbvb.lbng.Object)
+     * @see #invblidbte
+     * @see       LbyoutMbnbger
+     * @see       LbyoutMbnbger2
      * @since     1.1
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
+    protected void bddImpl(Component comp, Object constrbints, int index) {
         synchronized (getTreeLock()) {
-            /* Check for correct arguments:  index in bounds,
-             * comp cannot be one of this container's parents,
-             * and comp cannot be a window.
-             * comp and container must be on the same GraphicsDevice.
-             * if comp is container, all sub-components must be on
-             * same GraphicsDevice.
+            /* Check for correct brguments:  index in bounds,
+             * comp cbnnot be one of this contbiner's pbrents,
+             * bnd comp cbnnot be b window.
+             * comp bnd contbiner must be on the sbme GrbphicsDevice.
+             * if comp is contbiner, bll sub-components must be on
+             * sbme GrbphicsDevice.
              */
-            GraphicsConfiguration thisGC = this.getGraphicsConfiguration();
+            GrbphicsConfigurbtion thisGC = this.getGrbphicsConfigurbtion();
 
             if (index > component.size() || (index < 0 && index != -1)) {
-                throw new IllegalArgumentException(
-                          "illegal component position");
+                throw new IllegblArgumentException(
+                          "illegbl component position");
             }
             checkAddToSelf(comp);
             checkNotAWindow(comp);
@@ -1110,78 +1110,78 @@ public class Container extends Component {
                 comp.checkGD(thisGC.getDevice().getIDstring());
             }
 
-            /* Reparent the component and tidy up the tree's state. */
-            if (comp.parent != null) {
-                comp.parent.remove(comp);
+            /* Repbrent the component bnd tidy up the tree's stbte. */
+            if (comp.pbrent != null) {
+                comp.pbrent.remove(comp);
                     if (index > component.size()) {
-                        throw new IllegalArgumentException("illegal component position");
+                        throw new IllegblArgumentException("illegbl component position");
                     }
             }
 
-            //index == -1 means add to the end.
+            //index == -1 mebns bdd to the end.
             if (index == -1) {
-                component.add(comp);
+                component.bdd(comp);
             } else {
-                component.add(index, comp);
+                component.bdd(index, comp);
             }
-            comp.parent = this;
-            comp.setGraphicsConfiguration(thisGC);
+            comp.pbrent = this;
+            comp.setGrbphicsConfigurbtion(thisGC);
 
-            adjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
                 comp.numListening(AWTEvent.HIERARCHY_EVENT_MASK));
-            adjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
                 comp.numListening(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
-            adjustDescendants(comp.countHierarchyMembers());
+            bdjustDescendbnts(comp.countHierbrchyMembers());
 
-            invalidateIfValid();
+            invblidbteIfVblid();
             if (peer != null) {
-                comp.addNotify();
+                comp.bddNotify();
             }
 
-            /* Notify the layout manager of the added component. */
-            if (layoutMgr != null) {
-                if (layoutMgr instanceof LayoutManager2) {
-                    ((LayoutManager2)layoutMgr).addLayoutComponent(comp, constraints);
-                } else if (constraints instanceof String) {
-                    layoutMgr.addLayoutComponent((String)constraints, comp);
+            /* Notify the lbyout mbnbger of the bdded component. */
+            if (lbyoutMgr != null) {
+                if (lbyoutMgr instbnceof LbyoutMbnbger2) {
+                    ((LbyoutMbnbger2)lbyoutMgr).bddLbyoutComponent(comp, constrbints);
+                } else if (constrbints instbnceof String) {
+                    lbyoutMgr.bddLbyoutComponent((String)constrbints, comp);
                 }
             }
-            if (containerListener != null ||
-                (eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
-                Toolkit.enabledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
-                ContainerEvent e = new ContainerEvent(this,
-                                     ContainerEvent.COMPONENT_ADDED,
+            if (contbinerListener != null ||
+                (eventMbsk & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
+                Toolkit.enbbledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
+                ContbinerEvent e = new ContbinerEvent(this,
+                                     ContbinerEvent.COMPONENT_ADDED,
                                      comp);
-                dispatchEvent(e);
+                dispbtchEvent(e);
             }
 
-            comp.createHierarchyEvents(HierarchyEvent.HIERARCHY_CHANGED, comp,
-                                       this, HierarchyEvent.PARENT_CHANGED,
-                                       Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
-            if (peer != null && layoutMgr == null && isVisible()) {
-                updateCursorImmediately();
+            comp.crebteHierbrchyEvents(HierbrchyEvent.HIERARCHY_CHANGED, comp,
+                                       this, HierbrchyEvent.PARENT_CHANGED,
+                                       Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
+            if (peer != null && lbyoutMgr == null && isVisible()) {
+                updbteCursorImmedibtely();
             }
         }
     }
 
     @Override
-    boolean updateGraphicsData(GraphicsConfiguration gc) {
+    boolebn updbteGrbphicsDbtb(GrbphicsConfigurbtion gc) {
         checkTreeLock();
 
-        boolean ret = super.updateGraphicsData(gc);
+        boolebn ret = super.updbteGrbphicsDbtb(gc);
 
         for (Component comp : component) {
             if (comp != null) {
-                ret |= comp.updateGraphicsData(gc);
+                ret |= comp.updbteGrbphicsDbtb(gc);
             }
         }
         return ret;
     }
 
     /**
-     * Checks that all Components that this Container contains are on
-     * the same GraphicsDevice as this Container.  If not, throws an
-     * IllegalArgumentException.
+     * Checks thbt bll Components thbt this Contbiner contbins bre on
+     * the sbme GrbphicsDevice bs this Contbiner.  If not, throws bn
+     * IllegblArgumentException.
      */
     void checkGD(String stringID) {
         for (Component comp : component) {
@@ -1193,89 +1193,89 @@ public class Container extends Component {
 
     /**
      * Removes the component, specified by <code>index</code>,
-     * from this container.
-     * This method also notifies the layout manager to remove the
-     * component from this container's layout via the
-     * <code>removeLayoutComponent</code> method.
+     * from this contbiner.
+     * This method blso notifies the lbyout mbnbger to remove the
+     * component from this contbiner's lbyout vib the
+     * <code>removeLbyoutComponent</code> method.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * reflect the changes.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * reflect the chbnges.
      *
      *
-     * @param     index   the index of the component to be removed
-     * @throws ArrayIndexOutOfBoundsException if {@code index} is not in
-     *         range {@code [0, getComponentCount()-1]}
-     * @see #add
-     * @see #invalidate
-     * @see #validate
+     * @pbrbm     index   the index of the component to be removed
+     * @throws ArrbyIndexOutOfBoundsException if {@code index} is not in
+     *         rbnge {@code [0, getComponentCount()-1]}
+     * @see #bdd
+     * @see #invblidbte
+     * @see #vblidbte
      * @see #getComponentCount
      * @since 1.1
      */
     public void remove(int index) {
         synchronized (getTreeLock()) {
             if (index < 0  || index >= component.size()) {
-                throw new ArrayIndexOutOfBoundsException(index);
+                throw new ArrbyIndexOutOfBoundsException(index);
             }
             Component comp = component.get(index);
             if (peer != null) {
                 comp.removeNotify();
             }
-            if (layoutMgr != null) {
-                layoutMgr.removeLayoutComponent(comp);
+            if (lbyoutMgr != null) {
+                lbyoutMgr.removeLbyoutComponent(comp);
             }
 
-            adjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
                 -comp.numListening(AWTEvent.HIERARCHY_EVENT_MASK));
-            adjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
                 -comp.numListening(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
-            adjustDescendants(-(comp.countHierarchyMembers()));
+            bdjustDescendbnts(-(comp.countHierbrchyMembers()));
 
-            comp.parent = null;
+            comp.pbrent = null;
             component.remove(index);
-            comp.setGraphicsConfiguration(null);
+            comp.setGrbphicsConfigurbtion(null);
 
-            invalidateIfValid();
-            if (containerListener != null ||
-                (eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
-                Toolkit.enabledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
-                ContainerEvent e = new ContainerEvent(this,
-                                     ContainerEvent.COMPONENT_REMOVED,
+            invblidbteIfVblid();
+            if (contbinerListener != null ||
+                (eventMbsk & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
+                Toolkit.enbbledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
+                ContbinerEvent e = new ContbinerEvent(this,
+                                     ContbinerEvent.COMPONENT_REMOVED,
                                      comp);
-                dispatchEvent(e);
+                dispbtchEvent(e);
             }
 
-            comp.createHierarchyEvents(HierarchyEvent.HIERARCHY_CHANGED, comp,
-                                       this, HierarchyEvent.PARENT_CHANGED,
-                                       Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
-            if (peer != null && layoutMgr == null && isVisible()) {
-                updateCursorImmediately();
+            comp.crebteHierbrchyEvents(HierbrchyEvent.HIERARCHY_CHANGED, comp,
+                                       this, HierbrchyEvent.PARENT_CHANGED,
+                                       Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
+            if (peer != null && lbyoutMgr == null && isVisible()) {
+                updbteCursorImmedibtely();
             }
         }
     }
 
     /**
-     * Removes the specified component from this container.
-     * This method also notifies the layout manager to remove the
-     * component from this container's layout via the
-     * <code>removeLayoutComponent</code> method.
+     * Removes the specified component from this contbiner.
+     * This method blso notifies the lbyout mbnbger to remove the
+     * component from this contbiner's lbyout vib the
+     * <code>removeLbyoutComponent</code> method.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * reflect the changes.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * reflect the chbnges.
      *
-     * @param comp the component to be removed
+     * @pbrbm comp the component to be removed
      * @throws NullPointerException if {@code comp} is {@code null}
-     * @see #add
-     * @see #invalidate
-     * @see #validate
+     * @see #bdd
+     * @see #invblidbte
+     * @see #vblidbte
      * @see #remove(int)
      */
     public void remove(Component comp) {
         synchronized (getTreeLock()) {
-            if (comp.parent == this)  {
+            if (comp.pbrent == this)  {
                 int index = component.indexOf(comp);
                 if (index >= 0) {
                     remove(index);
@@ -1285,27 +1285,27 @@ public class Container extends Component {
     }
 
     /**
-     * Removes all the components from this container.
-     * This method also notifies the layout manager to remove the
-     * components from this container's layout via the
-     * <code>removeLayoutComponent</code> method.
+     * Removes bll the components from this contbiner.
+     * This method blso notifies the lbyout mbnbger to remove the
+     * components from this contbiner's lbyout vib the
+     * <code>removeLbyoutComponent</code> method.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy. If the container has already been
-     * displayed, the hierarchy must be validated thereafter in order to
-     * reflect the changes.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy. If the contbiner hbs blrebdy been
+     * displbyed, the hierbrchy must be vblidbted therebfter in order to
+     * reflect the chbnges.
      *
-     * @see #add
+     * @see #bdd
      * @see #remove
-     * @see #invalidate
+     * @see #invblidbte
      */
     public void removeAll() {
         synchronized (getTreeLock()) {
-            adjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
                                     -listeningChildren);
-            adjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
                                     -listeningBoundsChildren);
-            adjustDescendants(-descendantsCount);
+            bdjustDescendbnts(-descendbntsCount);
 
             while (!component.isEmpty()) {
                 Component comp = component.remove(component.size()-1);
@@ -1313,486 +1313,486 @@ public class Container extends Component {
                 if (peer != null) {
                     comp.removeNotify();
                 }
-                if (layoutMgr != null) {
-                    layoutMgr.removeLayoutComponent(comp);
+                if (lbyoutMgr != null) {
+                    lbyoutMgr.removeLbyoutComponent(comp);
                 }
-                comp.parent = null;
-                comp.setGraphicsConfiguration(null);
-                if (containerListener != null ||
-                   (eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
-                    Toolkit.enabledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
-                    ContainerEvent e = new ContainerEvent(this,
-                                     ContainerEvent.COMPONENT_REMOVED,
+                comp.pbrent = null;
+                comp.setGrbphicsConfigurbtion(null);
+                if (contbinerListener != null ||
+                   (eventMbsk & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
+                    Toolkit.enbbledOnToolkit(AWTEvent.CONTAINER_EVENT_MASK)) {
+                    ContbinerEvent e = new ContbinerEvent(this,
+                                     ContbinerEvent.COMPONENT_REMOVED,
                                      comp);
-                    dispatchEvent(e);
+                    dispbtchEvent(e);
                 }
 
-                comp.createHierarchyEvents(HierarchyEvent.HIERARCHY_CHANGED,
+                comp.crebteHierbrchyEvents(HierbrchyEvent.HIERARCHY_CHANGED,
                                            comp, this,
-                                           HierarchyEvent.PARENT_CHANGED,
-                                           Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
+                                           HierbrchyEvent.PARENT_CHANGED,
+                                           Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
             }
-            if (peer != null && layoutMgr == null && isVisible()) {
-                updateCursorImmediately();
+            if (peer != null && lbyoutMgr == null && isVisible()) {
+                updbteCursorImmedibtely();
             }
-            invalidateIfValid();
+            invblidbteIfVblid();
         }
     }
 
-    // Should only be called while holding tree lock
-    int numListening(long mask) {
-        int superListening = super.numListening(mask);
+    // Should only be cblled while holding tree lock
+    int numListening(long mbsk) {
+        int superListening = super.numListening(mbsk);
 
-        if (mask == AWTEvent.HIERARCHY_EVENT_MASK) {
-            if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (mbsk == AWTEvent.HIERARCHY_EVENT_MASK) {
+            if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 // Verify listeningChildren is correct
                 int sum = 0;
                 for (Component comp : component) {
-                    sum += comp.numListening(mask);
+                    sum += comp.numListening(mbsk);
                 }
                 if (listeningChildren != sum) {
-                    eventLog.fine("Assertion (listeningChildren == sum) failed");
+                    eventLog.fine("Assertion (listeningChildren == sum) fbiled");
                 }
             }
             return listeningChildren + superListening;
-        } else if (mask == AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) {
-            if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
+        } else if (mbsk == AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) {
+            if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 // Verify listeningBoundsChildren is correct
                 int sum = 0;
                 for (Component comp : component) {
-                    sum += comp.numListening(mask);
+                    sum += comp.numListening(mbsk);
                 }
                 if (listeningBoundsChildren != sum) {
-                    eventLog.fine("Assertion (listeningBoundsChildren == sum) failed");
+                    eventLog.fine("Assertion (listeningBoundsChildren == sum) fbiled");
                 }
             }
             return listeningBoundsChildren + superListening;
         } else {
-            // assert false;
-            if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                eventLog.fine("This code must never be reached");
+            // bssert fblse;
+            if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+                eventLog.fine("This code must never be rebched");
             }
             return superListening;
         }
     }
 
-    // Should only be called while holding tree lock
-    void adjustListeningChildren(long mask, int num) {
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            boolean toAssert = (mask == AWTEvent.HIERARCHY_EVENT_MASK ||
-                                mask == AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK ||
-                                mask == (AWTEvent.HIERARCHY_EVENT_MASK |
+    // Should only be cblled while holding tree lock
+    void bdjustListeningChildren(long mbsk, int num) {
+        if (eventLog.isLoggbble(PlbtformLogger.Level.FINE)) {
+            boolebn toAssert = (mbsk == AWTEvent.HIERARCHY_EVENT_MASK ||
+                                mbsk == AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK ||
+                                mbsk == (AWTEvent.HIERARCHY_EVENT_MASK |
                                          AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
             if (!toAssert) {
-                eventLog.fine("Assertion failed");
+                eventLog.fine("Assertion fbiled");
             }
         }
 
         if (num == 0)
             return;
 
-        if ((mask & AWTEvent.HIERARCHY_EVENT_MASK) != 0) {
+        if ((mbsk & AWTEvent.HIERARCHY_EVENT_MASK) != 0) {
             listeningChildren += num;
         }
-        if ((mask & AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) != 0) {
+        if ((mbsk & AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) != 0) {
             listeningBoundsChildren += num;
         }
 
-        adjustListeningChildrenOnParent(mask, num);
+        bdjustListeningChildrenOnPbrent(mbsk, num);
     }
 
-    // Should only be called while holding tree lock
-    void adjustDescendants(int num) {
+    // Should only be cblled while holding tree lock
+    void bdjustDescendbnts(int num) {
         if (num == 0)
             return;
 
-        descendantsCount += num;
-        adjustDecendantsOnParent(num);
+        descendbntsCount += num;
+        bdjustDecendbntsOnPbrent(num);
     }
 
-    // Should only be called while holding tree lock
-    void adjustDecendantsOnParent(int num) {
-        if (parent != null) {
-            parent.adjustDescendants(num);
+    // Should only be cblled while holding tree lock
+    void bdjustDecendbntsOnPbrent(int num) {
+        if (pbrent != null) {
+            pbrent.bdjustDescendbnts(num);
         }
     }
 
-    // Should only be called while holding tree lock
-    int countHierarchyMembers() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            // Verify descendantsCount is correct
+    // Should only be cblled while holding tree lock
+    int countHierbrchyMembers() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            // Verify descendbntsCount is correct
             int sum = 0;
             for (Component comp : component) {
-                sum += comp.countHierarchyMembers();
+                sum += comp.countHierbrchyMembers();
             }
-            if (descendantsCount != sum) {
-                log.fine("Assertion (descendantsCount == sum) failed");
+            if (descendbntsCount != sum) {
+                log.fine("Assertion (descendbntsCount == sum) fbiled");
             }
         }
-        return descendantsCount + 1;
+        return descendbntsCount + 1;
     }
 
-    private int getListenersCount(int id, boolean enabledOnToolkit) {
+    privbte int getListenersCount(int id, boolebn enbbledOnToolkit) {
         checkTreeLock();
-        if (enabledOnToolkit) {
-            return descendantsCount;
+        if (enbbledOnToolkit) {
+            return descendbntsCount;
         }
         switch (id) {
-          case HierarchyEvent.HIERARCHY_CHANGED:
+          cbse HierbrchyEvent.HIERARCHY_CHANGED:
             return listeningChildren;
-          case HierarchyEvent.ANCESTOR_MOVED:
-          case HierarchyEvent.ANCESTOR_RESIZED:
+          cbse HierbrchyEvent.ANCESTOR_MOVED:
+          cbse HierbrchyEvent.ANCESTOR_RESIZED:
             return listeningBoundsChildren;
-          default:
+          defbult:
             return 0;
         }
     }
 
-    final int createHierarchyEvents(int id, Component changed,
-        Container changedParent, long changeFlags, boolean enabledOnToolkit)
+    finbl int crebteHierbrchyEvents(int id, Component chbnged,
+        Contbiner chbngedPbrent, long chbngeFlbgs, boolebn enbbledOnToolkit)
     {
         checkTreeLock();
-        int listeners = getListenersCount(id, enabledOnToolkit);
+        int listeners = getListenersCount(id, enbbledOnToolkit);
 
         for (int count = listeners, i = 0; count > 0; i++) {
-            count -= component.get(i).createHierarchyEvents(id, changed,
-                changedParent, changeFlags, enabledOnToolkit);
+            count -= component.get(i).crebteHierbrchyEvents(id, chbnged,
+                chbngedPbrent, chbngeFlbgs, enbbledOnToolkit);
         }
         return listeners +
-            super.createHierarchyEvents(id, changed, changedParent,
-                                        changeFlags, enabledOnToolkit);
+            super.crebteHierbrchyEvents(id, chbnged, chbngedPbrent,
+                                        chbngeFlbgs, enbbledOnToolkit);
     }
 
-    final void createChildHierarchyEvents(int id, long changeFlags,
-        boolean enabledOnToolkit)
+    finbl void crebteChildHierbrchyEvents(int id, long chbngeFlbgs,
+        boolebn enbbledOnToolkit)
     {
         checkTreeLock();
         if (component.isEmpty()) {
             return;
         }
-        int listeners = getListenersCount(id, enabledOnToolkit);
+        int listeners = getListenersCount(id, enbbledOnToolkit);
 
         for (int count = listeners, i = 0; count > 0; i++) {
-            count -= component.get(i).createHierarchyEvents(id, this, parent,
-                changeFlags, enabledOnToolkit);
+            count -= component.get(i).crebteHierbrchyEvents(id, this, pbrent,
+                chbngeFlbgs, enbbledOnToolkit);
         }
     }
 
     /**
-     * Gets the layout manager for this container.
+     * Gets the lbyout mbnbger for this contbiner.
      *
-     * @see #doLayout
-     * @see #setLayout
-     * @return the current layout manager for this container
+     * @see #doLbyout
+     * @see #setLbyout
+     * @return the current lbyout mbnbger for this contbiner
      */
-    public LayoutManager getLayout() {
-        return layoutMgr;
+    public LbyoutMbnbger getLbyout() {
+        return lbyoutMgr;
     }
 
     /**
-     * Sets the layout manager for this container.
+     * Sets the lbyout mbnbger for this contbiner.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy.
      *
-     * @param mgr the specified layout manager
-     * @see #doLayout
-     * @see #getLayout
-     * @see #invalidate
+     * @pbrbm mgr the specified lbyout mbnbger
+     * @see #doLbyout
+     * @see #getLbyout
+     * @see #invblidbte
      */
-    public void setLayout(LayoutManager mgr) {
-        layoutMgr = mgr;
-        invalidateIfValid();
+    public void setLbyout(LbyoutMbnbger mgr) {
+        lbyoutMgr = mgr;
+        invblidbteIfVblid();
     }
 
     /**
-     * Causes this container to lay out its components.  Most programs
-     * should not call this method directly, but should invoke
-     * the <code>validate</code> method instead.
-     * @see LayoutManager#layoutContainer
-     * @see #setLayout
-     * @see #validate
+     * Cbuses this contbiner to lby out its components.  Most progrbms
+     * should not cbll this method directly, but should invoke
+     * the <code>vblidbte</code> method instebd.
+     * @see LbyoutMbnbger#lbyoutContbiner
+     * @see #setLbyout
+     * @see #vblidbte
      * @since 1.1
      */
-    public void doLayout() {
-        layout();
+    public void doLbyout() {
+        lbyout();
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>doLayout()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>doLbyout()</code>.
      */
-    @Deprecated
-    public void layout() {
-        LayoutManager layoutMgr = this.layoutMgr;
-        if (layoutMgr != null) {
-            layoutMgr.layoutContainer(this);
+    @Deprecbted
+    public void lbyout() {
+        LbyoutMbnbger lbyoutMgr = this.lbyoutMgr;
+        if (lbyoutMgr != null) {
+            lbyoutMgr.lbyoutContbiner(this);
         }
     }
 
     /**
-     * Indicates if this container is a <i>validate root</i>.
+     * Indicbtes if this contbiner is b <i>vblidbte root</i>.
      * <p>
-     * Layout-related changes, such as bounds of the validate root descendants,
-     * do not affect the layout of the validate root parent. This peculiarity
-     * enables the {@code invalidate()} method to stop invalidating the
-     * component hierarchy when the method encounters a validate root. However,
-     * to preserve backward compatibility this new optimized behavior is
-     * enabled only when the {@code java.awt.smartInvalidate} system property
-     * value is set to {@code true}.
+     * Lbyout-relbted chbnges, such bs bounds of the vblidbte root descendbnts,
+     * do not bffect the lbyout of the vblidbte root pbrent. This peculibrity
+     * enbbles the {@code invblidbte()} method to stop invblidbting the
+     * component hierbrchy when the method encounters b vblidbte root. However,
+     * to preserve bbckwbrd compbtibility this new optimized behbvior is
+     * enbbled only when the {@code jbvb.bwt.smbrtInvblidbte} system property
+     * vblue is set to {@code true}.
      * <p>
-     * If a component hierarchy contains validate roots and the new optimized
-     * {@code invalidate()} behavior is enabled, the {@code validate()} method
-     * must be invoked on the validate root of a previously invalidated
-     * component to restore the validity of the hierarchy later. Otherwise,
-     * calling the {@code validate()} method on the top-level container (such
-     * as a {@code Frame} object) should be used to restore the validity of the
-     * component hierarchy.
+     * If b component hierbrchy contbins vblidbte roots bnd the new optimized
+     * {@code invblidbte()} behbvior is enbbled, the {@code vblidbte()} method
+     * must be invoked on the vblidbte root of b previously invblidbted
+     * component to restore the vblidity of the hierbrchy lbter. Otherwise,
+     * cblling the {@code vblidbte()} method on the top-level contbiner (such
+     * bs b {@code Frbme} object) should be used to restore the vblidity of the
+     * component hierbrchy.
      * <p>
-     * The {@code Window} class and the {@code Applet} class are the validate
-     * roots in AWT.  Swing introduces more validate roots.
+     * The {@code Window} clbss bnd the {@code Applet} clbss bre the vblidbte
+     * roots in AWT.  Swing introduces more vblidbte roots.
      *
-     * @return whether this container is a validate root
-     * @see #invalidate
-     * @see java.awt.Component#invalidate
-     * @see javax.swing.JComponent#isValidateRoot
-     * @see javax.swing.JComponent#revalidate
+     * @return whether this contbiner is b vblidbte root
+     * @see #invblidbte
+     * @see jbvb.bwt.Component#invblidbte
+     * @see jbvbx.swing.JComponent#isVblidbteRoot
+     * @see jbvbx.swing.JComponent#revblidbte
      * @since 1.7
      */
-    public boolean isValidateRoot() {
-        return false;
+    public boolebn isVblidbteRoot() {
+        return fblse;
     }
 
-    private static final boolean isJavaAwtSmartInvalidate;
-    static {
-        // Don't lazy-read because every app uses invalidate()
-        isJavaAwtSmartInvalidate = AccessController.doPrivileged(
-                new GetBooleanAction("java.awt.smartInvalidate"));
+    privbte stbtic finbl boolebn isJbvbAwtSmbrtInvblidbte;
+    stbtic {
+        // Don't lbzy-rebd becbuse every bpp uses invblidbte()
+        isJbvbAwtSmbrtInvblidbte = AccessController.doPrivileged(
+                new GetBoolebnAction("jbvb.bwt.smbrtInvblidbte"));
     }
 
     /**
-     * Invalidates the parent of the container unless the container
-     * is a validate root.
+     * Invblidbtes the pbrent of the contbiner unless the contbiner
+     * is b vblidbte root.
      */
     @Override
-    void invalidateParent() {
-        if (!isJavaAwtSmartInvalidate || !isValidateRoot()) {
-            super.invalidateParent();
+    void invblidbtePbrent() {
+        if (!isJbvbAwtSmbrtInvblidbte || !isVblidbteRoot()) {
+            super.invblidbtePbrent();
         }
     }
 
     /**
-     * Invalidates the container.
+     * Invblidbtes the contbiner.
      * <p>
-     * If the {@code LayoutManager} installed on this container is an instance
-     * of the {@code LayoutManager2} interface, then
-     * the {@link LayoutManager2#invalidateLayout(Container)} method is invoked
-     * on it supplying this {@code Container} as the argument.
+     * If the {@code LbyoutMbnbger} instblled on this contbiner is bn instbnce
+     * of the {@code LbyoutMbnbger2} interfbce, then
+     * the {@link LbyoutMbnbger2#invblidbteLbyout(Contbiner)} method is invoked
+     * on it supplying this {@code Contbiner} bs the brgument.
      * <p>
-     * Afterwards this method marks this container invalid, and invalidates its
-     * ancestors. See the {@link Component#invalidate} method for more details.
+     * Afterwbrds this method mbrks this contbiner invblid, bnd invblidbtes its
+     * bncestors. See the {@link Component#invblidbte} method for more detbils.
      *
-     * @see #validate
-     * @see #layout
-     * @see LayoutManager2
+     * @see #vblidbte
+     * @see #lbyout
+     * @see LbyoutMbnbger2
      */
     @Override
-    public void invalidate() {
-        LayoutManager layoutMgr = this.layoutMgr;
-        if (layoutMgr instanceof LayoutManager2) {
-            LayoutManager2 lm = (LayoutManager2) layoutMgr;
-            lm.invalidateLayout(this);
+    public void invblidbte() {
+        LbyoutMbnbger lbyoutMgr = this.lbyoutMgr;
+        if (lbyoutMgr instbnceof LbyoutMbnbger2) {
+            LbyoutMbnbger2 lm = (LbyoutMbnbger2) lbyoutMgr;
+            lm.invblidbteLbyout(this);
         }
-        super.invalidate();
+        super.invblidbte();
     }
 
     /**
-     * Validates this container and all of its subcomponents.
+     * Vblidbtes this contbiner bnd bll of its subcomponents.
      * <p>
-     * Validating a container means laying out its subcomponents.
-     * Layout-related changes, such as setting the bounds of a component, or
-     * adding a component to the container, invalidate the container
-     * automatically.  Note that the ancestors of the container may be
-     * invalidated also (see {@link Component#invalidate} for details.)
-     * Therefore, to restore the validity of the hierarchy, the {@code
-     * validate()} method should be invoked on the top-most invalid
-     * container of the hierarchy.
+     * Vblidbting b contbiner mebns lbying out its subcomponents.
+     * Lbyout-relbted chbnges, such bs setting the bounds of b component, or
+     * bdding b component to the contbiner, invblidbte the contbiner
+     * butombticblly.  Note thbt the bncestors of the contbiner mby be
+     * invblidbted blso (see {@link Component#invblidbte} for detbils.)
+     * Therefore, to restore the vblidity of the hierbrchy, the {@code
+     * vblidbte()} method should be invoked on the top-most invblid
+     * contbiner of the hierbrchy.
      * <p>
-     * Validating the container may be a quite time-consuming operation. For
-     * performance reasons a developer may postpone the validation of the
-     * hierarchy till a set of layout-related operations completes, e.g. after
-     * adding all the children to the container.
+     * Vblidbting the contbiner mby be b quite time-consuming operbtion. For
+     * performbnce rebsons b developer mby postpone the vblidbtion of the
+     * hierbrchy till b set of lbyout-relbted operbtions completes, e.g. bfter
+     * bdding bll the children to the contbiner.
      * <p>
-     * If this {@code Container} is not valid, this method invokes
-     * the {@code validateTree} method and marks this {@code Container}
-     * as valid. Otherwise, no action is performed.
+     * If this {@code Contbiner} is not vblid, this method invokes
+     * the {@code vblidbteTree} method bnd mbrks this {@code Contbiner}
+     * bs vblid. Otherwise, no bction is performed.
      *
-     * @see #add(java.awt.Component)
-     * @see #invalidate
-     * @see Container#isValidateRoot
-     * @see javax.swing.JComponent#revalidate()
-     * @see #validateTree
+     * @see #bdd(jbvb.bwt.Component)
+     * @see #invblidbte
+     * @see Contbiner#isVblidbteRoot
+     * @see jbvbx.swing.JComponent#revblidbte()
+     * @see #vblidbteTree
      */
-    public void validate() {
-        boolean updateCur = false;
+    public void vblidbte() {
+        boolebn updbteCur = fblse;
         synchronized (getTreeLock()) {
-            if ((!isValid() || descendUnconditionallyWhenValidating)
+            if ((!isVblid() || descendUnconditionbllyWhenVblidbting)
                     && peer != null)
             {
-                ContainerPeer p = null;
-                if (peer instanceof ContainerPeer) {
-                    p = (ContainerPeer) peer;
+                ContbinerPeer p = null;
+                if (peer instbnceof ContbinerPeer) {
+                    p = (ContbinerPeer) peer;
                 }
                 if (p != null) {
-                    p.beginValidate();
+                    p.beginVblidbte();
                 }
-                validateTree();
+                vblidbteTree();
                 if (p != null) {
-                    p.endValidate();
-                    // Avoid updating cursor if this is an internal call.
-                    // See validateUnconditionally() for details.
-                    if (!descendUnconditionallyWhenValidating) {
-                        updateCur = isVisible();
+                    p.endVblidbte();
+                    // Avoid updbting cursor if this is bn internbl cbll.
+                    // See vblidbteUnconditionblly() for detbils.
+                    if (!descendUnconditionbllyWhenVblidbting) {
+                        updbteCur = isVisible();
                     }
                 }
             }
         }
-        if (updateCur) {
-            updateCursorImmediately();
+        if (updbteCur) {
+            updbteCursorImmedibtely();
         }
     }
 
     /**
-     * Indicates whether valid containers should also traverse their
-     * children and call the validateTree() method on them.
+     * Indicbtes whether vblid contbiners should blso trbverse their
+     * children bnd cbll the vblidbteTree() method on them.
      *
-     * Synchronization: TreeLock.
+     * Synchronizbtion: TreeLock.
      *
-     * The field is allowed to be static as long as the TreeLock itself is
-     * static.
+     * The field is bllowed to be stbtic bs long bs the TreeLock itself is
+     * stbtic.
      *
-     * @see #validateUnconditionally()
+     * @see #vblidbteUnconditionblly()
      */
-    private static boolean descendUnconditionallyWhenValidating = false;
+    privbte stbtic boolebn descendUnconditionbllyWhenVblidbting = fblse;
 
     /**
-     * Unconditionally validate the component hierarchy.
+     * Unconditionblly vblidbte the component hierbrchy.
      */
-    final void validateUnconditionally() {
-        boolean updateCur = false;
+    finbl void vblidbteUnconditionblly() {
+        boolebn updbteCur = fblse;
         synchronized (getTreeLock()) {
-            descendUnconditionallyWhenValidating = true;
+            descendUnconditionbllyWhenVblidbting = true;
 
-            validate();
-            if (peer instanceof ContainerPeer) {
-                updateCur = isVisible();
+            vblidbte();
+            if (peer instbnceof ContbinerPeer) {
+                updbteCur = isVisible();
             }
 
-            descendUnconditionallyWhenValidating = false;
+            descendUnconditionbllyWhenVblidbting = fblse;
         }
-        if (updateCur) {
-            updateCursorImmediately();
+        if (updbteCur) {
+            updbteCursorImmedibtely();
         }
     }
 
     /**
-     * Recursively descends the container tree and recomputes the
-     * layout for any subtrees marked as needing it (those marked as
-     * invalid).  Synchronization should be provided by the method
-     * that calls this one:  <code>validate</code>.
+     * Recursively descends the contbiner tree bnd recomputes the
+     * lbyout for bny subtrees mbrked bs needing it (those mbrked bs
+     * invblid).  Synchronizbtion should be provided by the method
+     * thbt cblls this one:  <code>vblidbte</code>.
      *
-     * @see #doLayout
-     * @see #validate
+     * @see #doLbyout
+     * @see #vblidbte
      */
-    protected void validateTree() {
+    protected void vblidbteTree() {
         checkTreeLock();
-        if (!isValid() || descendUnconditionallyWhenValidating) {
-            if (peer instanceof ContainerPeer) {
-                ((ContainerPeer)peer).beginLayout();
+        if (!isVblid() || descendUnconditionbllyWhenVblidbting) {
+            if (peer instbnceof ContbinerPeer) {
+                ((ContbinerPeer)peer).beginLbyout();
             }
-            if (!isValid()) {
-                doLayout();
+            if (!isVblid()) {
+                doLbyout();
             }
             for (int i = 0; i < component.size(); i++) {
                 Component comp = component.get(i);
-                if (   (comp instanceof Container)
-                       && !(comp instanceof Window)
-                       && (!comp.isValid() ||
-                           descendUnconditionallyWhenValidating))
+                if (   (comp instbnceof Contbiner)
+                       && !(comp instbnceof Window)
+                       && (!comp.isVblid() ||
+                           descendUnconditionbllyWhenVblidbting))
                 {
-                    ((Container)comp).validateTree();
+                    ((Contbiner)comp).vblidbteTree();
                 } else {
-                    comp.validate();
+                    comp.vblidbte();
                 }
             }
-            if (peer instanceof ContainerPeer) {
-                ((ContainerPeer)peer).endLayout();
+            if (peer instbnceof ContbinerPeer) {
+                ((ContbinerPeer)peer).endLbyout();
             }
         }
-        super.validate();
+        super.vblidbte();
     }
 
     /**
-     * Recursively descends the container tree and invalidates all
-     * contained components.
+     * Recursively descends the contbiner tree bnd invblidbtes bll
+     * contbined components.
      */
-    void invalidateTree() {
+    void invblidbteTree() {
         synchronized (getTreeLock()) {
             for (int i = 0; i < component.size(); i++) {
                 Component comp = component.get(i);
-                if (comp instanceof Container) {
-                    ((Container)comp).invalidateTree();
+                if (comp instbnceof Contbiner) {
+                    ((Contbiner)comp).invblidbteTree();
                 }
                 else {
-                    comp.invalidateIfValid();
+                    comp.invblidbteIfVblid();
                 }
             }
-            invalidateIfValid();
+            invblidbteIfVblid();
         }
     }
 
     /**
-     * Sets the font of this container.
+     * Sets the font of this contbiner.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy.
      *
-     * @param f The font to become this container's font.
+     * @pbrbm f The font to become this contbiner's font.
      * @see Component#getFont
-     * @see #invalidate
+     * @see #invblidbte
      * @since 1.0
      */
     public void setFont(Font f) {
-        boolean shouldinvalidate = false;
+        boolebn shouldinvblidbte = fblse;
 
         Font oldfont = getFont();
         super.setFont(f);
         Font newfont = getFont();
         if (newfont != oldfont && (oldfont == null ||
-                                   !oldfont.equals(newfont))) {
-            invalidateTree();
+                                   !oldfont.equbls(newfont))) {
+            invblidbteTree();
         }
     }
 
     /**
-     * Returns the preferred size of this container.  If the preferred size has
+     * Returns the preferred size of this contbiner.  If the preferred size hbs
      * not been set explicitly by {@link Component#setPreferredSize(Dimension)}
-     * and this {@code Container} has a {@code non-null} {@link LayoutManager},
-     * then {@link LayoutManager#preferredLayoutSize(Container)}
-     * is used to calculate the preferred size.
+     * bnd this {@code Contbiner} hbs b {@code non-null} {@link LbyoutMbnbger},
+     * then {@link LbyoutMbnbger#preferredLbyoutSize(Contbiner)}
+     * is used to cblculbte the preferred size.
      *
-     * <p>Note: some implementations may cache the value returned from the
-     * {@code LayoutManager}.  Implementations that cache need not invoke
-     * {@code preferredLayoutSize} on the {@code LayoutManager} every time
-     * this method is invoked, rather the {@code LayoutManager} will only
-     * be queried after the {@code Container} becomes invalid.
+     * <p>Note: some implementbtions mby cbche the vblue returned from the
+     * {@code LbyoutMbnbger}.  Implementbtions thbt cbche need not invoke
+     * {@code preferredLbyoutSize} on the {@code LbyoutMbnbger} every time
+     * this method is invoked, rbther the {@code LbyoutMbnbger} will only
+     * be queried bfter the {@code Contbiner} becomes invblid.
      *
-     * @return    an instance of <code>Dimension</code> that represents
-     *                the preferred size of this container.
+     * @return    bn instbnce of <code>Dimension</code> thbt represents
+     *                the preferred size of this contbiner.
      * @see       #getMinimumSize
-     * @see       #getMaximumSize
-     * @see       #getLayout
-     * @see       LayoutManager#preferredLayoutSize(Container)
+     * @see       #getMbximumSize
+     * @see       #getLbyout
+     * @see       LbyoutMbnbger#preferredLbyoutSize(Contbiner)
      * @see       Component#getPreferredSize
      */
     public Dimension getPreferredSize() {
@@ -1800,19 +1800,19 @@ public class Container extends Component {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getPreferredSize()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension preferredSize() {
-        /* Avoid grabbing the lock if a reasonable cached size value
-         * is available.
+        /* Avoid grbbbing the lock if b rebsonbble cbched size vblue
+         * is bvbilbble.
          */
         Dimension dim = prefSize;
-        if (dim == null || !(isPreferredSizeSet() || isValid())) {
+        if (dim == null || !(isPreferredSizeSet() || isVblid())) {
             synchronized (getTreeLock()) {
-                prefSize = (layoutMgr != null) ?
-                    layoutMgr.preferredLayoutSize(this) :
+                prefSize = (lbyoutMgr != null) ?
+                    lbyoutMgr.preferredLbyoutSize(this) :
                     super.preferredSize();
                 dim = prefSize;
             }
@@ -1826,24 +1826,24 @@ public class Container extends Component {
     }
 
     /**
-     * Returns the minimum size of this container.  If the minimum size has
+     * Returns the minimum size of this contbiner.  If the minimum size hbs
      * not been set explicitly by {@link Component#setMinimumSize(Dimension)}
-     * and this {@code Container} has a {@code non-null} {@link LayoutManager},
-     * then {@link LayoutManager#minimumLayoutSize(Container)}
-     * is used to calculate the minimum size.
+     * bnd this {@code Contbiner} hbs b {@code non-null} {@link LbyoutMbnbger},
+     * then {@link LbyoutMbnbger#minimumLbyoutSize(Contbiner)}
+     * is used to cblculbte the minimum size.
      *
-     * <p>Note: some implementations may cache the value returned from the
-     * {@code LayoutManager}.  Implementations that cache need not invoke
-     * {@code minimumLayoutSize} on the {@code LayoutManager} every time
-     * this method is invoked, rather the {@code LayoutManager} will only
-     * be queried after the {@code Container} becomes invalid.
+     * <p>Note: some implementbtions mby cbche the vblue returned from the
+     * {@code LbyoutMbnbger}.  Implementbtions thbt cbche need not invoke
+     * {@code minimumLbyoutSize} on the {@code LbyoutMbnbger} every time
+     * this method is invoked, rbther the {@code LbyoutMbnbger} will only
+     * be queried bfter the {@code Contbiner} becomes invblid.
      *
-     * @return    an instance of <code>Dimension</code> that represents
-     *                the minimum size of this container.
+     * @return    bn instbnce of <code>Dimension</code> thbt represents
+     *                the minimum size of this contbiner.
      * @see       #getPreferredSize
-     * @see       #getMaximumSize
-     * @see       #getLayout
-     * @see       LayoutManager#minimumLayoutSize(Container)
+     * @see       #getMbximumSize
+     * @see       #getLbyout
+     * @see       LbyoutMbnbger#minimumLbyoutSize(Contbiner)
      * @see       Component#getMinimumSize
      * @since     1.1
      */
@@ -1852,19 +1852,19 @@ public class Container extends Component {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getMinimumSize()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension minimumSize() {
-        /* Avoid grabbing the lock if a reasonable cached size value
-         * is available.
+        /* Avoid grbbbing the lock if b rebsonbble cbched size vblue
+         * is bvbilbble.
          */
         Dimension dim = minSize;
-        if (dim == null || !(isMinimumSizeSet() || isValid())) {
+        if (dim == null || !(isMinimumSizeSet() || isVblid())) {
             synchronized (getTreeLock()) {
-                minSize = (layoutMgr != null) ?
-                    layoutMgr.minimumLayoutSize(this) :
+                minSize = (lbyoutMgr != null) ?
+                    lbyoutMgr.minimumLbyoutSize(this) :
                     super.minimumSize();
                 dim = minSize;
             }
@@ -1878,41 +1878,41 @@ public class Container extends Component {
     }
 
     /**
-     * Returns the maximum size of this container.  If the maximum size has
-     * not been set explicitly by {@link Component#setMaximumSize(Dimension)}
-     * and the {@link LayoutManager} installed on this {@code Container}
-     * is an instance of {@link LayoutManager2}, then
-     * {@link LayoutManager2#maximumLayoutSize(Container)}
-     * is used to calculate the maximum size.
+     * Returns the mbximum size of this contbiner.  If the mbximum size hbs
+     * not been set explicitly by {@link Component#setMbximumSize(Dimension)}
+     * bnd the {@link LbyoutMbnbger} instblled on this {@code Contbiner}
+     * is bn instbnce of {@link LbyoutMbnbger2}, then
+     * {@link LbyoutMbnbger2#mbximumLbyoutSize(Contbiner)}
+     * is used to cblculbte the mbximum size.
      *
-     * <p>Note: some implementations may cache the value returned from the
-     * {@code LayoutManager2}.  Implementations that cache need not invoke
-     * {@code maximumLayoutSize} on the {@code LayoutManager2} every time
-     * this method is invoked, rather the {@code LayoutManager2} will only
-     * be queried after the {@code Container} becomes invalid.
+     * <p>Note: some implementbtions mby cbche the vblue returned from the
+     * {@code LbyoutMbnbger2}.  Implementbtions thbt cbche need not invoke
+     * {@code mbximumLbyoutSize} on the {@code LbyoutMbnbger2} every time
+     * this method is invoked, rbther the {@code LbyoutMbnbger2} will only
+     * be queried bfter the {@code Contbiner} becomes invblid.
      *
-     * @return    an instance of <code>Dimension</code> that represents
-     *                the maximum size of this container.
+     * @return    bn instbnce of <code>Dimension</code> thbt represents
+     *                the mbximum size of this contbiner.
      * @see       #getPreferredSize
      * @see       #getMinimumSize
-     * @see       #getLayout
-     * @see       LayoutManager2#maximumLayoutSize(Container)
-     * @see       Component#getMaximumSize
+     * @see       #getLbyout
+     * @see       LbyoutMbnbger2#mbximumLbyoutSize(Contbiner)
+     * @see       Component#getMbximumSize
      */
-    public Dimension getMaximumSize() {
-        /* Avoid grabbing the lock if a reasonable cached size value
-         * is available.
+    public Dimension getMbximumSize() {
+        /* Avoid grbbbing the lock if b rebsonbble cbched size vblue
+         * is bvbilbble.
          */
-        Dimension dim = maxSize;
-        if (dim == null || !(isMaximumSizeSet() || isValid())) {
+        Dimension dim = mbxSize;
+        if (dim == null || !(isMbximumSizeSet() || isVblid())) {
             synchronized (getTreeLock()) {
-               if (layoutMgr instanceof LayoutManager2) {
-                    LayoutManager2 lm = (LayoutManager2) layoutMgr;
-                    maxSize = lm.maximumLayoutSize(this);
+               if (lbyoutMgr instbnceof LbyoutMbnbger2) {
+                    LbyoutMbnbger2 lm = (LbyoutMbnbger2) lbyoutMgr;
+                    mbxSize = lm.mbximumLbyoutSize(this);
                } else {
-                    maxSize = super.getMaximumSize();
+                    mbxSize = super.getMbximumSize();
                }
-               dim = maxSize;
+               dim = mbxSize;
             }
         }
         if (dim != null){
@@ -1924,18 +1924,18 @@ public class Container extends Component {
     }
 
     /**
-     * Returns the alignment along the x axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the blignment blong the x bxis.  This specifies how
+     * the component would like to be bligned relbtive to other
+     * components.  The vblue should be b number between 0 bnd 1
+     * where 0 represents blignment blong the origin, 1 is bligned
+     * the furthest bwby from the origin, 0.5 is centered, etc.
      */
-    public float getAlignmentX() {
-        float xAlign;
-        if (layoutMgr instanceof LayoutManager2) {
+    public flobt getAlignmentX() {
+        flobt xAlign;
+        if (lbyoutMgr instbnceof LbyoutMbnbger2) {
             synchronized (getTreeLock()) {
-                LayoutManager2 lm = (LayoutManager2) layoutMgr;
-                xAlign = lm.getLayoutAlignmentX(this);
+                LbyoutMbnbger2 lm = (LbyoutMbnbger2) lbyoutMgr;
+                xAlign = lm.getLbyoutAlignmentX(this);
             }
         } else {
             xAlign = super.getAlignmentX();
@@ -1944,18 +1944,18 @@ public class Container extends Component {
     }
 
     /**
-     * Returns the alignment along the y axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Returns the blignment blong the y bxis.  This specifies how
+     * the component would like to be bligned relbtive to other
+     * components.  The vblue should be b number between 0 bnd 1
+     * where 0 represents blignment blong the origin, 1 is bligned
+     * the furthest bwby from the origin, 0.5 is centered, etc.
      */
-    public float getAlignmentY() {
-        float yAlign;
-        if (layoutMgr instanceof LayoutManager2) {
+    public flobt getAlignmentY() {
+        flobt yAlign;
+        if (lbyoutMgr instbnceof LbyoutMbnbger2) {
             synchronized (getTreeLock()) {
-                LayoutManager2 lm = (LayoutManager2) layoutMgr;
-                yAlign = lm.getLayoutAlignmentY(this);
+                LbyoutMbnbger2 lm = (LbyoutMbnbger2) lbyoutMgr;
+                yAlign = lm.getLbyoutAlignmentY(this);
             }
         } else {
             yAlign = super.getAlignmentY();
@@ -1964,570 +1964,570 @@ public class Container extends Component {
     }
 
     /**
-     * Paints the container. This forwards the paint to any lightweight
-     * components that are children of this container. If this method is
-     * reimplemented, super.paint(g) should be called so that lightweight
-     * components are properly rendered. If a child component is entirely
-     * clipped by the current clipping setting in g, paint() will not be
-     * forwarded to that child.
+     * Pbints the contbiner. This forwbrds the pbint to bny lightweight
+     * components thbt bre children of this contbiner. If this method is
+     * reimplemented, super.pbint(g) should be cblled so thbt lightweight
+     * components bre properly rendered. If b child component is entirely
+     * clipped by the current clipping setting in g, pbint() will not be
+     * forwbrded to thbt child.
      *
-     * @param g the specified Graphics window
-     * @see   Component#update(Graphics)
+     * @pbrbm g the specified Grbphics window
+     * @see   Component#updbte(Grbphics)
      */
-    public void paint(Graphics g) {
+    public void pbint(Grbphics g) {
         if (isShowing()) {
             synchronized (getObjectLock()) {
                 if (printing) {
-                    if (printingThreads.contains(Thread.currentThread())) {
+                    if (printingThrebds.contbins(Threbd.currentThrebd())) {
                         return;
                     }
                 }
             }
 
-            // The container is showing on screen and
-            // this paint() is not called from print().
-            // Paint self and forward the paint to lightweight subcomponents.
+            // The contbiner is showing on screen bnd
+            // this pbint() is not cblled from print().
+            // Pbint self bnd forwbrd the pbint to lightweight subcomponents.
 
-            // super.paint(); -- Don't bother, since it's a NOP.
+            // super.pbint(); -- Don't bother, since it's b NOP.
 
-            GraphicsCallback.PaintCallback.getInstance().
-                runComponents(getComponentsSync(), g, GraphicsCallback.LIGHTWEIGHTS);
+            GrbphicsCbllbbck.PbintCbllbbck.getInstbnce().
+                runComponents(getComponentsSync(), g, GrbphicsCbllbbck.LIGHTWEIGHTS);
         }
     }
 
     /**
-     * Updates the container.  This forwards the update to any lightweight
-     * components that are children of this container.  If this method is
-     * reimplemented, super.update(g) should be called so that lightweight
-     * components are properly rendered.  If a child component is entirely
-     * clipped by the current clipping setting in g, update() will not be
-     * forwarded to that child.
+     * Updbtes the contbiner.  This forwbrds the updbte to bny lightweight
+     * components thbt bre children of this contbiner.  If this method is
+     * reimplemented, super.updbte(g) should be cblled so thbt lightweight
+     * components bre properly rendered.  If b child component is entirely
+     * clipped by the current clipping setting in g, updbte() will not be
+     * forwbrded to thbt child.
      *
-     * @param g the specified Graphics window
-     * @see   Component#update(Graphics)
+     * @pbrbm g the specified Grbphics window
+     * @see   Component#updbte(Grbphics)
      */
-    public void update(Graphics g) {
+    public void updbte(Grbphics g) {
         if (isShowing()) {
-            if (! (peer instanceof LightweightPeer)) {
-                g.clearRect(0, 0, width, height);
+            if (! (peer instbnceof LightweightPeer)) {
+                g.clebrRect(0, 0, width, height);
             }
-            paint(g);
+            pbint(g);
         }
     }
 
     /**
-     * Prints the container. This forwards the print to any lightweight
-     * components that are children of this container. If this method is
-     * reimplemented, super.print(g) should be called so that lightweight
-     * components are properly rendered. If a child component is entirely
+     * Prints the contbiner. This forwbrds the print to bny lightweight
+     * components thbt bre children of this contbiner. If this method is
+     * reimplemented, super.print(g) should be cblled so thbt lightweight
+     * components bre properly rendered. If b child component is entirely
      * clipped by the current clipping setting in g, print() will not be
-     * forwarded to that child.
+     * forwbrded to thbt child.
      *
-     * @param g the specified Graphics window
-     * @see   Component#update(Graphics)
+     * @pbrbm g the specified Grbphics window
+     * @see   Component#updbte(Grbphics)
      */
-    public void print(Graphics g) {
+    public void print(Grbphics g) {
         if (isShowing()) {
-            Thread t = Thread.currentThread();
+            Threbd t = Threbd.currentThrebd();
             try {
                 synchronized (getObjectLock()) {
-                    if (printingThreads == null) {
-                        printingThreads = new HashSet<>();
+                    if (printingThrebds == null) {
+                        printingThrebds = new HbshSet<>();
                     }
-                    printingThreads.add(t);
+                    printingThrebds.bdd(t);
                     printing = true;
                 }
-                super.print(g);  // By default, Component.print() calls paint()
-            } finally {
+                super.print(g);  // By defbult, Component.print() cblls pbint()
+            } finblly {
                 synchronized (getObjectLock()) {
-                    printingThreads.remove(t);
-                    printing = !printingThreads.isEmpty();
+                    printingThrebds.remove(t);
+                    printing = !printingThrebds.isEmpty();
                 }
             }
 
-            GraphicsCallback.PrintCallback.getInstance().
-                runComponents(getComponentsSync(), g, GraphicsCallback.LIGHTWEIGHTS);
+            GrbphicsCbllbbck.PrintCbllbbck.getInstbnce().
+                runComponents(getComponentsSync(), g, GrbphicsCbllbbck.LIGHTWEIGHTS);
         }
     }
 
     /**
-     * Paints each of the components in this container.
-     * @param     g   the graphics context.
-     * @see       Component#paint
-     * @see       Component#paintAll
+     * Pbints ebch of the components in this contbiner.
+     * @pbrbm     g   the grbphics context.
+     * @see       Component#pbint
+     * @see       Component#pbintAll
      */
-    public void paintComponents(Graphics g) {
+    public void pbintComponents(Grbphics g) {
         if (isShowing()) {
-            GraphicsCallback.PaintAllCallback.getInstance().
-                runComponents(getComponentsSync(), g, GraphicsCallback.TWO_PASSES);
+            GrbphicsCbllbbck.PbintAllCbllbbck.getInstbnce().
+                runComponents(getComponentsSync(), g, GrbphicsCbllbbck.TWO_PASSES);
         }
     }
 
     /**
-     * Simulates the peer callbacks into java.awt for printing of
-     * lightweight Containers.
-     * @param     g   the graphics context to use for printing.
+     * Simulbtes the peer cbllbbcks into jbvb.bwt for printing of
+     * lightweight Contbiners.
+     * @pbrbm     g   the grbphics context to use for printing.
      * @see       Component#printAll
      * @see       #printComponents
      */
-    void lightweightPaint(Graphics g) {
-        super.lightweightPaint(g);
-        paintHeavyweightComponents(g);
+    void lightweightPbint(Grbphics g) {
+        super.lightweightPbint(g);
+        pbintHebvyweightComponents(g);
     }
 
     /**
-     * Prints all the heavyweight subcomponents.
+     * Prints bll the hebvyweight subcomponents.
      */
-    void paintHeavyweightComponents(Graphics g) {
+    void pbintHebvyweightComponents(Grbphics g) {
         if (isShowing()) {
-            GraphicsCallback.PaintHeavyweightComponentsCallback.getInstance().
+            GrbphicsCbllbbck.PbintHebvyweightComponentsCbllbbck.getInstbnce().
                 runComponents(getComponentsSync(), g,
-                              GraphicsCallback.LIGHTWEIGHTS | GraphicsCallback.HEAVYWEIGHTS);
+                              GrbphicsCbllbbck.LIGHTWEIGHTS | GrbphicsCbllbbck.HEAVYWEIGHTS);
         }
     }
 
     /**
-     * Prints each of the components in this container.
-     * @param     g   the graphics context.
+     * Prints ebch of the components in this contbiner.
+     * @pbrbm     g   the grbphics context.
      * @see       Component#print
      * @see       Component#printAll
      */
-    public void printComponents(Graphics g) {
+    public void printComponents(Grbphics g) {
         if (isShowing()) {
-            GraphicsCallback.PrintAllCallback.getInstance().
-                runComponents(getComponentsSync(), g, GraphicsCallback.TWO_PASSES);
+            GrbphicsCbllbbck.PrintAllCbllbbck.getInstbnce().
+                runComponents(getComponentsSync(), g, GrbphicsCbllbbck.TWO_PASSES);
         }
     }
 
     /**
-     * Simulates the peer callbacks into java.awt for printing of
-     * lightweight Containers.
-     * @param     g   the graphics context to use for printing.
+     * Simulbtes the peer cbllbbcks into jbvb.bwt for printing of
+     * lightweight Contbiners.
+     * @pbrbm     g   the grbphics context to use for printing.
      * @see       Component#printAll
      * @see       #printComponents
      */
-    void lightweightPrint(Graphics g) {
+    void lightweightPrint(Grbphics g) {
         super.lightweightPrint(g);
-        printHeavyweightComponents(g);
+        printHebvyweightComponents(g);
     }
 
     /**
-     * Prints all the heavyweight subcomponents.
+     * Prints bll the hebvyweight subcomponents.
      */
-    void printHeavyweightComponents(Graphics g) {
+    void printHebvyweightComponents(Grbphics g) {
         if (isShowing()) {
-            GraphicsCallback.PrintHeavyweightComponentsCallback.getInstance().
+            GrbphicsCbllbbck.PrintHebvyweightComponentsCbllbbck.getInstbnce().
                 runComponents(getComponentsSync(), g,
-                              GraphicsCallback.LIGHTWEIGHTS | GraphicsCallback.HEAVYWEIGHTS);
+                              GrbphicsCbllbbck.LIGHTWEIGHTS | GrbphicsCbllbbck.HEAVYWEIGHTS);
         }
     }
 
     /**
-     * Adds the specified container listener to receive container events
-     * from this container.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Adds the specified contbiner listener to receive contbiner events
+     * from this contbiner.
+     * If l is null, no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param    l the container listener
+     * @pbrbm    l the contbiner listener
      *
-     * @see #removeContainerListener
-     * @see #getContainerListeners
+     * @see #removeContbinerListener
+     * @see #getContbinerListeners
      */
-    public synchronized void addContainerListener(ContainerListener l) {
+    public synchronized void bddContbinerListener(ContbinerListener l) {
         if (l == null) {
             return;
         }
-        containerListener = AWTEventMulticaster.add(containerListener, l);
+        contbinerListener = AWTEventMulticbster.bdd(contbinerListener, l);
         newEventsOnly = true;
     }
 
     /**
-     * Removes the specified container listener so it no longer receives
-     * container events from this container.
-     * If l is null, no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Removes the specified contbiner listener so it no longer receives
+     * contbiner events from this contbiner.
+     * If l is null, no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param   l the container listener
+     * @pbrbm   l the contbiner listener
      *
-     * @see #addContainerListener
-     * @see #getContainerListeners
+     * @see #bddContbinerListener
+     * @see #getContbinerListeners
      */
-    public synchronized void removeContainerListener(ContainerListener l) {
+    public synchronized void removeContbinerListener(ContbinerListener l) {
         if (l == null) {
             return;
         }
-        containerListener = AWTEventMulticaster.remove(containerListener, l);
+        contbinerListener = AWTEventMulticbster.remove(contbinerListener, l);
     }
 
     /**
-     * Returns an array of all the container listeners
-     * registered on this container.
+     * Returns bn brrby of bll the contbiner listeners
+     * registered on this contbiner.
      *
-     * @return all of this container's <code>ContainerListener</code>s
-     *         or an empty array if no container
-     *         listeners are currently registered
+     * @return bll of this contbiner's <code>ContbinerListener</code>s
+     *         or bn empty brrby if no contbiner
+     *         listeners bre currently registered
      *
-     * @see #addContainerListener
-     * @see #removeContainerListener
+     * @see #bddContbinerListener
+     * @see #removeContbinerListener
      * @since 1.4
      */
-    public synchronized ContainerListener[] getContainerListeners() {
-        return getListeners(ContainerListener.class);
+    public synchronized ContbinerListener[] getContbinerListeners() {
+        return getListeners(ContbinerListener.clbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>Container</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
+     * upon this <code>Contbiner</code>.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>Container</code> <code>c</code>
-     * for its container listeners with the following code:
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
+     * <code>Contbiner</code> <code>c</code>
+     * for its contbiner listeners with the following code:
      *
-     * <pre>ContainerListener[] cls = (ContainerListener[])(c.getListeners(ContainerListener.class));</pre>
+     * <pre>ContbinerListener[] cls = (ContbinerListener[])(c.getListeners(ContbinerListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this container,
-     *          or an empty array if no such listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
+     *          <code><em>Foo</em>Listener</code>s on this contbiner,
+     *          or bn empty brrby if no such listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      * @exception NullPointerException if {@code listenerType} is {@code null}
      *
-     * @see #getContainerListeners
+     * @see #getContbinerListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         EventListener l = null;
-        if  (listenerType == ContainerListener.class) {
-            l = containerListener;
+        if  (listenerType == ContbinerListener.clbss) {
+            l = contbinerListener;
         } else {
             return super.getListeners(listenerType);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        return AWTEventMulticbster.getListeners(l, listenerType);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
+    // REMIND: remove when filtering is done bt lower level
+    boolebn eventEnbbled(AWTEvent e) {
         int id = e.getID();
 
-        if (id == ContainerEvent.COMPONENT_ADDED ||
-            id == ContainerEvent.COMPONENT_REMOVED) {
-            if ((eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
-                containerListener != null) {
+        if (id == ContbinerEvent.COMPONENT_ADDED ||
+            id == ContbinerEvent.COMPONENT_REMOVED) {
+            if ((eventMbsk & AWTEvent.CONTAINER_EVENT_MASK) != 0 ||
+                contbinerListener != null) {
                 return true;
             }
-            return false;
+            return fblse;
         }
-        return super.eventEnabled(e);
+        return super.eventEnbbled(e);
     }
 
     /**
-     * Processes events on this container. If the event is a
-     * <code>ContainerEvent</code>, it invokes the
-     * <code>processContainerEvent</code> method, else it invokes
-     * its superclass's <code>processEvent</code>.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * Processes events on this contbiner. If the event is b
+     * <code>ContbinerEvent</code>, it invokes the
+     * <code>processContbinerEvent</code> method, else it invokes
+     * its superclbss's <code>processEvent</code>.
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param e the event
+     * @pbrbm e the event
      */
     protected void processEvent(AWTEvent e) {
-        if (e instanceof ContainerEvent) {
-            processContainerEvent((ContainerEvent)e);
+        if (e instbnceof ContbinerEvent) {
+            processContbinerEvent((ContbinerEvent)e);
             return;
         }
         super.processEvent(e);
     }
 
     /**
-     * Processes container events occurring on this container by
-     * dispatching them to any registered ContainerListener objects.
-     * NOTE: This method will not be called unless container events
-     * are enabled for this component; this happens when one of the
+     * Processes contbiner events occurring on this contbiner by
+     * dispbtching them to bny registered ContbinerListener objects.
+     * NOTE: This method will not be cblled unless contbiner events
+     * bre enbbled for this component; this hbppens when one of the
      * following occurs:
      * <ul>
-     * <li>A ContainerListener object is registered via
-     *     <code>addContainerListener</code>
-     * <li>Container events are enabled via <code>enableEvents</code>
+     * <li>A ContbinerListener object is registered vib
+     *     <code>bddContbinerListener</code>
+     * <li>Contbiner events bre enbbled vib <code>enbbleEvents</code>
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param e the container event
-     * @see Component#enableEvents
+     * @pbrbm e the contbiner event
+     * @see Component#enbbleEvents
      */
-    protected void processContainerEvent(ContainerEvent e) {
-        ContainerListener listener = containerListener;
+    protected void processContbinerEvent(ContbinerEvent e) {
+        ContbinerListener listener = contbinerListener;
         if (listener != null) {
             switch(e.getID()) {
-              case ContainerEvent.COMPONENT_ADDED:
+              cbse ContbinerEvent.COMPONENT_ADDED:
                 listener.componentAdded(e);
-                break;
-              case ContainerEvent.COMPONENT_REMOVED:
+                brebk;
+              cbse ContbinerEvent.COMPONENT_REMOVED:
                 listener.componentRemoved(e);
-                break;
+                brebk;
             }
         }
     }
 
     /*
-     * Dispatches an event to this component or one of its sub components.
-     * Create ANCESTOR_RESIZED and ANCESTOR_MOVED events in response to
-     * COMPONENT_RESIZED and COMPONENT_MOVED events. We have to do this
-     * here instead of in processComponentEvent because ComponentEvents
-     * may not be enabled for this Container.
-     * @param e the event
+     * Dispbtches bn event to this component or one of its sub components.
+     * Crebte ANCESTOR_RESIZED bnd ANCESTOR_MOVED events in response to
+     * COMPONENT_RESIZED bnd COMPONENT_MOVED events. We hbve to do this
+     * here instebd of in processComponentEvent becbuse ComponentEvents
+     * mby not be enbbled for this Contbiner.
+     * @pbrbm e the event
      */
-    void dispatchEventImpl(AWTEvent e) {
-        if ((dispatcher != null) && dispatcher.dispatchEvent(e)) {
-            // event was sent to a lightweight component.  The
-            // native-produced event sent to the native container
+    void dispbtchEventImpl(AWTEvent e) {
+        if ((dispbtcher != null) && dispbtcher.dispbtchEvent(e)) {
+            // event wbs sent to b lightweight component.  The
+            // nbtive-produced event sent to the nbtive contbiner
             // must be properly disposed of by the peer, so it
-            // gets forwarded.  If the native host has been removed
-            // as a result of the sending the lightweight event,
+            // gets forwbrded.  If the nbtive host hbs been removed
+            // bs b result of the sending the lightweight event,
             // the peer reference will be null.
             e.consume();
             if (peer != null) {
-                peer.handleEvent(e);
+                peer.hbndleEvent(e);
             }
             return;
         }
 
-        super.dispatchEventImpl(e);
+        super.dispbtchEventImpl(e);
 
         synchronized (getTreeLock()) {
             switch (e.getID()) {
-              case ComponentEvent.COMPONENT_RESIZED:
-                createChildHierarchyEvents(HierarchyEvent.ANCESTOR_RESIZED, 0,
-                                           Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
-                break;
-              case ComponentEvent.COMPONENT_MOVED:
-                createChildHierarchyEvents(HierarchyEvent.ANCESTOR_MOVED, 0,
-                                       Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
-                break;
-              default:
-                break;
+              cbse ComponentEvent.COMPONENT_RESIZED:
+                crebteChildHierbrchyEvents(HierbrchyEvent.ANCESTOR_RESIZED, 0,
+                                           Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
+                brebk;
+              cbse ComponentEvent.COMPONENT_MOVED:
+                crebteChildHierbrchyEvents(HierbrchyEvent.ANCESTOR_MOVED, 0,
+                                       Toolkit.enbbledOnToolkit(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
+                brebk;
+              defbult:
+                brebk;
             }
         }
     }
 
     /*
-     * Dispatches an event to this component, without trying to forward
-     * it to any subcomponents
-     * @param e the event
+     * Dispbtches bn event to this component, without trying to forwbrd
+     * it to bny subcomponents
+     * @pbrbm e the event
      */
-    void dispatchEventToSelf(AWTEvent e) {
-        super.dispatchEventImpl(e);
+    void dispbtchEventToSelf(AWTEvent e) {
+        super.dispbtchEventImpl(e);
     }
 
     /**
-     * Fetchs the top-most (deepest) lightweight component that is interested
+     * Fetchs the top-most (deepest) lightweight component thbt is interested
      * in receiving mouse events.
      */
-    Component getMouseEventTarget(int x, int y, boolean includeSelf) {
-        return getMouseEventTarget(x, y, includeSelf,
-                                   MouseEventTargetFilter.FILTER,
+    Component getMouseEventTbrget(int x, int y, boolebn includeSelf) {
+        return getMouseEventTbrget(x, y, includeSelf,
+                                   MouseEventTbrgetFilter.FILTER,
                                    !SEARCH_HEAVYWEIGHTS);
     }
 
     /**
-     * Fetches the top-most (deepest) component to receive SunDropTargetEvents.
+     * Fetches the top-most (deepest) component to receive SunDropTbrgetEvents.
      */
-    Component getDropTargetEventTarget(int x, int y, boolean includeSelf) {
-        return getMouseEventTarget(x, y, includeSelf,
-                                   DropTargetEventTargetFilter.FILTER,
+    Component getDropTbrgetEventTbrget(int x, int y, boolebn includeSelf) {
+        return getMouseEventTbrget(x, y, includeSelf,
+                                   DropTbrgetEventTbrgetFilter.FILTER,
                                    SEARCH_HEAVYWEIGHTS);
     }
 
     /**
-     * A private version of getMouseEventTarget which has two additional
-     * controllable behaviors. This method searches for the top-most
-     * descendant of this container that contains the given coordinates
-     * and is accepted by the given filter. The search will be constrained to
-     * lightweight descendants if the last argument is <code>false</code>.
+     * A privbte version of getMouseEventTbrget which hbs two bdditionbl
+     * controllbble behbviors. This method sebrches for the top-most
+     * descendbnt of this contbiner thbt contbins the given coordinbtes
+     * bnd is bccepted by the given filter. The sebrch will be constrbined to
+     * lightweight descendbnts if the lbst brgument is <code>fblse</code>.
      *
-     * @param filter EventTargetFilter instance to determine whether the
-     *        given component is a valid target for this event.
-     * @param searchHeavyweights if <code>false</code>, the method
-     *        will bypass heavyweight components during the search.
+     * @pbrbm filter EventTbrgetFilter instbnce to determine whether the
+     *        given component is b vblid tbrget for this event.
+     * @pbrbm sebrchHebvyweights if <code>fblse</code>, the method
+     *        will bypbss hebvyweight components during the sebrch.
      */
-    private Component getMouseEventTarget(int x, int y, boolean includeSelf,
-                                          EventTargetFilter filter,
-                                          boolean searchHeavyweights) {
+    privbte Component getMouseEventTbrget(int x, int y, boolebn includeSelf,
+                                          EventTbrgetFilter filter,
+                                          boolebn sebrchHebvyweights) {
         Component comp = null;
-        if (searchHeavyweights) {
-            comp = getMouseEventTargetImpl(x, y, includeSelf, filter,
+        if (sebrchHebvyweights) {
+            comp = getMouseEventTbrgetImpl(x, y, includeSelf, filter,
                                            SEARCH_HEAVYWEIGHTS,
-                                           searchHeavyweights);
+                                           sebrchHebvyweights);
         }
 
         if (comp == null || comp == this) {
-            comp = getMouseEventTargetImpl(x, y, includeSelf, filter,
+            comp = getMouseEventTbrgetImpl(x, y, includeSelf, filter,
                                            !SEARCH_HEAVYWEIGHTS,
-                                           searchHeavyweights);
+                                           sebrchHebvyweights);
         }
 
         return comp;
     }
 
     /**
-     * A private version of getMouseEventTarget which has three additional
-     * controllable behaviors. This method searches for the top-most
-     * descendant of this container that contains the given coordinates
-     * and is accepted by the given filter. The search will be constrained to
-     * descendants of only lightweight children or only heavyweight children
-     * of this container depending on searchHeavyweightChildren. The search will
-     * be constrained to only lightweight descendants of the searched children
-     * of this container if searchHeavyweightDescendants is <code>false</code>.
+     * A privbte version of getMouseEventTbrget which hbs three bdditionbl
+     * controllbble behbviors. This method sebrches for the top-most
+     * descendbnt of this contbiner thbt contbins the given coordinbtes
+     * bnd is bccepted by the given filter. The sebrch will be constrbined to
+     * descendbnts of only lightweight children or only hebvyweight children
+     * of this contbiner depending on sebrchHebvyweightChildren. The sebrch will
+     * be constrbined to only lightweight descendbnts of the sebrched children
+     * of this contbiner if sebrchHebvyweightDescendbnts is <code>fblse</code>.
      *
-     * @param filter EventTargetFilter instance to determine whether the
-     *        selected component is a valid target for this event.
-     * @param searchHeavyweightChildren if <code>true</code>, the method
-     *        will bypass immediate lightweight children during the search.
-     *        If <code>false</code>, the methods will bypass immediate
-     *        heavyweight children during the search.
-     * @param searchHeavyweightDescendants if <code>false</code>, the method
-     *        will bypass heavyweight descendants which are not immediate
-     *        children during the search. If <code>true</code>, the method
-     *        will traverse both lightweight and heavyweight descendants during
-     *        the search.
+     * @pbrbm filter EventTbrgetFilter instbnce to determine whether the
+     *        selected component is b vblid tbrget for this event.
+     * @pbrbm sebrchHebvyweightChildren if <code>true</code>, the method
+     *        will bypbss immedibte lightweight children during the sebrch.
+     *        If <code>fblse</code>, the methods will bypbss immedibte
+     *        hebvyweight children during the sebrch.
+     * @pbrbm sebrchHebvyweightDescendbnts if <code>fblse</code>, the method
+     *        will bypbss hebvyweight descendbnts which bre not immedibte
+     *        children during the sebrch. If <code>true</code>, the method
+     *        will trbverse both lightweight bnd hebvyweight descendbnts during
+     *        the sebrch.
      */
-    private Component getMouseEventTargetImpl(int x, int y, boolean includeSelf,
-                                         EventTargetFilter filter,
-                                         boolean searchHeavyweightChildren,
-                                         boolean searchHeavyweightDescendants) {
+    privbte Component getMouseEventTbrgetImpl(int x, int y, boolebn includeSelf,
+                                         EventTbrgetFilter filter,
+                                         boolebn sebrchHebvyweightChildren,
+                                         boolebn sebrchHebvyweightDescendbnts) {
         synchronized (getTreeLock()) {
 
             for (int i = 0; i < component.size(); i++) {
                 Component comp = component.get(i);
                 if (comp != null && comp.visible &&
-                    ((!searchHeavyweightChildren &&
-                      comp.peer instanceof LightweightPeer) ||
-                     (searchHeavyweightChildren &&
-                      !(comp.peer instanceof LightweightPeer))) &&
-                    comp.contains(x - comp.x, y - comp.y)) {
+                    ((!sebrchHebvyweightChildren &&
+                      comp.peer instbnceof LightweightPeer) ||
+                     (sebrchHebvyweightChildren &&
+                      !(comp.peer instbnceof LightweightPeer))) &&
+                    comp.contbins(x - comp.x, y - comp.y)) {
 
-                    // found a component that intersects the point, see if there
-                    // is a deeper possibility.
-                    if (comp instanceof Container) {
-                        Container child = (Container) comp;
-                        Component deeper = child.getMouseEventTarget(
+                    // found b component thbt intersects the point, see if there
+                    // is b deeper possibility.
+                    if (comp instbnceof Contbiner) {
+                        Contbiner child = (Contbiner) comp;
+                        Component deeper = child.getMouseEventTbrget(
                                 x - child.x,
                                 y - child.y,
                                 includeSelf,
                                 filter,
-                                searchHeavyweightDescendants);
+                                sebrchHebvyweightDescendbnts);
                         if (deeper != null) {
                             return deeper;
                         }
                     } else {
-                        if (filter.accept(comp)) {
-                            // there isn't a deeper target, but this component
-                            // is a target
+                        if (filter.bccept(comp)) {
+                            // there isn't b deeper tbrget, but this component
+                            // is b tbrget
                             return comp;
                         }
                     }
                 }
             }
 
-            boolean isPeerOK;
-            boolean isMouseOverMe;
+            boolebn isPeerOK;
+            boolebn isMouseOverMe;
 
-            isPeerOK = (peer instanceof LightweightPeer) || includeSelf;
-            isMouseOverMe = contains(x,y);
+            isPeerOK = (peer instbnceof LightweightPeer) || includeSelf;
+            isMouseOverMe = contbins(x,y);
 
-            // didn't find a child target, return this component if it's
-            // a possible target
-            if (isMouseOverMe && isPeerOK && filter.accept(this)) {
+            // didn't find b child tbrget, return this component if it's
+            // b possible tbrget
+            if (isMouseOverMe && isPeerOK && filter.bccept(this)) {
                 return this;
             }
-            // no possible target
+            // no possible tbrget
             return null;
         }
     }
 
-    static interface EventTargetFilter {
-        boolean accept(final Component comp);
+    stbtic interfbce EventTbrgetFilter {
+        boolebn bccept(finbl Component comp);
     }
 
-    static class MouseEventTargetFilter implements EventTargetFilter {
-        static final EventTargetFilter FILTER = new MouseEventTargetFilter();
+    stbtic clbss MouseEventTbrgetFilter implements EventTbrgetFilter {
+        stbtic finbl EventTbrgetFilter FILTER = new MouseEventTbrgetFilter();
 
-        private MouseEventTargetFilter() {}
+        privbte MouseEventTbrgetFilter() {}
 
-        public boolean accept(final Component comp) {
-            return (comp.eventMask & AWTEvent.MOUSE_MOTION_EVENT_MASK) != 0
-                || (comp.eventMask & AWTEvent.MOUSE_EVENT_MASK) != 0
-                || (comp.eventMask & AWTEvent.MOUSE_WHEEL_EVENT_MASK) != 0
+        public boolebn bccept(finbl Component comp) {
+            return (comp.eventMbsk & AWTEvent.MOUSE_MOTION_EVENT_MASK) != 0
+                || (comp.eventMbsk & AWTEvent.MOUSE_EVENT_MASK) != 0
+                || (comp.eventMbsk & AWTEvent.MOUSE_WHEEL_EVENT_MASK) != 0
                 || comp.mouseListener != null
                 || comp.mouseMotionListener != null
                 || comp.mouseWheelListener != null;
         }
     }
 
-    static class DropTargetEventTargetFilter implements EventTargetFilter {
-        static final EventTargetFilter FILTER = new DropTargetEventTargetFilter();
+    stbtic clbss DropTbrgetEventTbrgetFilter implements EventTbrgetFilter {
+        stbtic finbl EventTbrgetFilter FILTER = new DropTbrgetEventTbrgetFilter();
 
-        private DropTargetEventTargetFilter() {}
+        privbte DropTbrgetEventTbrgetFilter() {}
 
-        public boolean accept(final Component comp) {
-            DropTarget dt = comp.getDropTarget();
+        public boolebn bccept(finbl Component comp) {
+            DropTbrget dt = comp.getDropTbrget();
             return dt != null && dt.isActive();
         }
     }
 
     /**
-     * This is called by lightweight components that want the containing
-     * windowed parent to enable some kind of events on their behalf.
-     * This is needed for events that are normally only dispatched to
-     * windows to be accepted so that they can be forwarded downward to
-     * the lightweight component that has enabled them.
+     * This is cblled by lightweight components thbt wbnt the contbining
+     * windowed pbrent to enbble some kind of events on their behblf.
+     * This is needed for events thbt bre normblly only dispbtched to
+     * windows to be bccepted so thbt they cbn be forwbrded downwbrd to
+     * the lightweight component thbt hbs enbbled them.
      */
-    void proxyEnableEvents(long events) {
-        if (peer instanceof LightweightPeer) {
-            // this container is lightweight.... continue sending it
-            // upward.
-            if (parent != null) {
-                parent.proxyEnableEvents(events);
+    void proxyEnbbleEvents(long events) {
+        if (peer instbnceof LightweightPeer) {
+            // this contbiner is lightweight.... continue sending it
+            // upwbrd.
+            if (pbrent != null) {
+                pbrent.proxyEnbbleEvents(events);
             }
         } else {
-            // This is a native container, so it needs to host
-            // one of it's children.  If this function is called before
-            // a peer has been created we don't yet have a dispatcher
-            // because it has not yet been determined if this instance
+            // This is b nbtive contbiner, so it needs to host
+            // one of it's children.  If this function is cblled before
+            // b peer hbs been crebted we don't yet hbve b dispbtcher
+            // becbuse it hbs not yet been determined if this instbnce
             // is lightweight.
-            if (dispatcher != null) {
-                dispatcher.enableEvents(events);
+            if (dispbtcher != null) {
+                dispbtcher.enbbleEvents(events);
             }
         }
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>dispatchEvent(AWTEvent e)</code>
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>dispbtchEvent(AWTEvent e)</code>
      */
-    @Deprecated
+    @Deprecbted
     public void deliverEvent(Event e) {
         Component comp = getComponentAt(e.x, e.y);
         if ((comp != null) && (comp != this)) {
-            e.translate(-comp.x, -comp.y);
+            e.trbnslbte(-comp.x, -comp.y);
             comp.deliverEvent(e);
         } else {
             postEvent(e);
@@ -2535,43 +2535,43 @@ public class Container extends Component {
     }
 
     /**
-     * Locates the component that contains the x,y position.  The
-     * top-most child component is returned in the case where there
-     * is overlap in the components.  This is determined by finding
-     * the component closest to the index 0 that claims to contain
-     * the given point via Component.contains(), except that Components
-     * which have native peers take precedence over those which do not
+     * Locbtes the component thbt contbins the x,y position.  The
+     * top-most child component is returned in the cbse where there
+     * is overlbp in the components.  This is determined by finding
+     * the component closest to the index 0 thbt clbims to contbin
+     * the given point vib Component.contbins(), except thbt Components
+     * which hbve nbtive peers tbke precedence over those which do not
      * (i.e., lightweight Components).
      *
-     * @param x the <i>x</i> coordinate
-     * @param y the <i>y</i> coordinate
-     * @return null if the component does not contain the position.
-     * If there is no child component at the requested point and the
-     * point is within the bounds of the container the container itself
+     * @pbrbm x the <i>x</i> coordinbte
+     * @pbrbm y the <i>y</i> coordinbte
+     * @return null if the component does not contbin the position.
+     * If there is no child component bt the requested point bnd the
+     * point is within the bounds of the contbiner the contbiner itself
      * is returned; otherwise the top-most child is returned.
-     * @see Component#contains
+     * @see Component#contbins
      * @since 1.1
      */
     public Component getComponentAt(int x, int y) {
-        return locate(x, y);
+        return locbte(x, y);
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getComponentAt(int, int)</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getComponentAt(int, int)</code>.
      */
-    @Deprecated
-    public Component locate(int x, int y) {
-        if (!contains(x, y)) {
+    @Deprecbted
+    public Component locbte(int x, int y) {
+        if (!contbins(x, y)) {
             return null;
         }
         synchronized (getTreeLock()) {
-            // Two passes: see comment in sun.awt.SunGraphicsCallback
+            // Two pbsses: see comment in sun.bwt.SunGrbphicsCbllbbck
             for (int i = 0; i < component.size(); i++) {
                 Component comp = component.get(i);
                 if (comp != null &&
-                    !(comp.peer instanceof LightweightPeer)) {
-                    if (comp.contains(x - comp.x, y - comp.y)) {
+                    !(comp.peer instbnceof LightweightPeer)) {
+                    if (comp.contbins(x - comp.x, y - comp.y)) {
                         return comp;
                     }
                 }
@@ -2579,8 +2579,8 @@ public class Container extends Component {
             for (int i = 0; i < component.size(); i++) {
                 Component comp = component.get(i);
                 if (comp != null &&
-                    comp.peer instanceof LightweightPeer) {
-                    if (comp.contains(x - comp.x, y - comp.y)) {
+                    comp.peer instbnceof LightweightPeer) {
+                    if (comp.contbins(x - comp.x, y - comp.y)) {
                         return comp;
                     }
                 }
@@ -2590,12 +2590,12 @@ public class Container extends Component {
     }
 
     /**
-     * Gets the component that contains the specified point.
-     * @param      p   the point.
-     * @return     returns the component that contains the point,
+     * Gets the component thbt contbins the specified point.
+     * @pbrbm      p   the point.
+     * @return     returns the component thbt contbins the point,
      *                 or <code>null</code> if the component does
-     *                 not contain the point.
-     * @see        Component#contains
+     *                 not contbin the point.
+     * @see        Component#contbins
      * @since      1.1
      */
     public Component getComponentAt(Point p) {
@@ -2603,68 +2603,68 @@ public class Container extends Component {
     }
 
     /**
-     * Returns the position of the mouse pointer in this <code>Container</code>'s
-     * coordinate space if the <code>Container</code> is under the mouse pointer,
+     * Returns the position of the mouse pointer in this <code>Contbiner</code>'s
+     * coordinbte spbce if the <code>Contbiner</code> is under the mouse pointer,
      * otherwise returns <code>null</code>.
-     * This method is similar to {@link Component#getMousePosition()} with the exception
-     * that it can take the <code>Container</code>'s children into account.
-     * If <code>allowChildren</code> is <code>false</code>, this method will return
-     * a non-null value only if the mouse pointer is above the <code>Container</code>
-     * directly, not above the part obscured by children.
-     * If <code>allowChildren</code> is <code>true</code>, this method returns
-     * a non-null value if the mouse pointer is above <code>Container</code> or any
-     * of its descendants.
+     * This method is similbr to {@link Component#getMousePosition()} with the exception
+     * thbt it cbn tbke the <code>Contbiner</code>'s children into bccount.
+     * If <code>bllowChildren</code> is <code>fblse</code>, this method will return
+     * b non-null vblue only if the mouse pointer is bbove the <code>Contbiner</code>
+     * directly, not bbove the pbrt obscured by children.
+     * If <code>bllowChildren</code> is <code>true</code>, this method returns
+     * b non-null vblue if the mouse pointer is bbove <code>Contbiner</code> or bny
+     * of its descendbnts.
      *
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless() returns true
-     * @param     allowChildren true if children should be taken into account
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless() returns true
+     * @pbrbm     bllowChildren true if children should be tbken into bccount
      * @see       Component#getMousePosition
-     * @return    mouse coordinates relative to this <code>Component</code>, or null
+     * @return    mouse coordinbtes relbtive to this <code>Component</code>, or null
      * @since     1.5
      */
-    public Point getMousePosition(boolean allowChildren) throws HeadlessException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    public Point getMousePosition(boolebn bllowChildren) throws HebdlessException {
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        PointerInfo pi = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<PointerInfo>() {
+        PointerInfo pi = jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<PointerInfo>() {
                 public PointerInfo run() {
                     return MouseInfo.getPointerInfo();
                 }
             }
         );
         synchronized (getTreeLock()) {
-            Component inTheSameWindow = findUnderMouseInWindow(pi);
-            if (isSameOrAncestorOf(inTheSameWindow, allowChildren)) {
-                return  pointRelativeToComponent(pi.getLocation());
+            Component inTheSbmeWindow = findUnderMouseInWindow(pi);
+            if (isSbmeOrAncestorOf(inTheSbmeWindow, bllowChildren)) {
+                return  pointRelbtiveToComponent(pi.getLocbtion());
             }
             return null;
         }
     }
 
-    boolean isSameOrAncestorOf(Component comp, boolean allowChildren) {
-        return this == comp || (allowChildren && isParentOf(comp));
+    boolebn isSbmeOrAncestorOf(Component comp, boolebn bllowChildren) {
+        return this == comp || (bllowChildren && isPbrentOf(comp));
     }
 
     /**
-     * Locates the visible child component that contains the specified
-     * position.  The top-most child component is returned in the case
-     * where there is overlap in the components.  If the containing child
-     * component is a Container, this method will continue searching for
-     * the deepest nested child component.  Components which are not
-     * visible are ignored during the search.<p>
+     * Locbtes the visible child component thbt contbins the specified
+     * position.  The top-most child component is returned in the cbse
+     * where there is overlbp in the components.  If the contbining child
+     * component is b Contbiner, this method will continue sebrching for
+     * the deepest nested child component.  Components which bre not
+     * visible bre ignored during the sebrch.<p>
      *
      * The findComponentAt method is different from getComponentAt in
-     * that getComponentAt only searches the Container's immediate
-     * children; if the containing component is a Container,
-     * findComponentAt will search that child to find a nested component.
+     * thbt getComponentAt only sebrches the Contbiner's immedibte
+     * children; if the contbining component is b Contbiner,
+     * findComponentAt will sebrch thbt child to find b nested component.
      *
-     * @param x the <i>x</i> coordinate
-     * @param y the <i>y</i> coordinate
-     * @return null if the component does not contain the position.
-     * If there is no child component at the requested point and the
-     * point is within the bounds of the container the container itself
+     * @pbrbm x the <i>x</i> coordinbte
+     * @pbrbm y the <i>y</i> coordinbte
+     * @return null if the component does not contbin the position.
+     * If there is no child component bt the requested point bnd the
+     * point is within the bounds of the contbiner the contbiner itself
      * is returned.
-     * @see Component#contains
+     * @see Component#contbins
      * @see #getComponentAt
      * @since 1.2
      */
@@ -2673,44 +2673,44 @@ public class Container extends Component {
     }
 
     /**
-     * Private version of findComponentAt which has a controllable
-     * behavior. Setting 'ignoreEnabled' to 'false' bypasses disabled
-     * Components during the search. This behavior is used by the
-     * lightweight cursor support in sun.awt.GlobalCursorManager.
+     * Privbte version of findComponentAt which hbs b controllbble
+     * behbvior. Setting 'ignoreEnbbled' to 'fblse' bypbsses disbbled
+     * Components during the sebrch. This behbvior is used by the
+     * lightweight cursor support in sun.bwt.GlobblCursorMbnbger.
      *
-     * The addition of this feature is temporary, pending the
-     * adoption of new, public API which exports this feature.
+     * The bddition of this febture is temporbry, pending the
+     * bdoption of new, public API which exports this febture.
      */
-    final Component findComponentAt(int x, int y, boolean ignoreEnabled) {
+    finbl Component findComponentAt(int x, int y, boolebn ignoreEnbbled) {
         synchronized (getTreeLock()) {
             if (isRecursivelyVisible()){
-                return findComponentAtImpl(x, y, ignoreEnabled);
+                return findComponentAtImpl(x, y, ignoreEnbbled);
             }
         }
         return null;
     }
 
-    final Component findComponentAtImpl(int x, int y, boolean ignoreEnabled){
+    finbl Component findComponentAtImpl(int x, int y, boolebn ignoreEnbbled){
         checkTreeLock();
 
-        if (!(contains(x, y) && visible && (ignoreEnabled || enabled))) {
+        if (!(contbins(x, y) && visible && (ignoreEnbbled || enbbled))) {
             return null;
         }
 
-        // Two passes: see comment in sun.awt.SunGraphicsCallback
+        // Two pbsses: see comment in sun.bwt.SunGrbphicsCbllbbck
         for (int i = 0; i < component.size(); i++) {
             Component comp = component.get(i);
             if (comp != null &&
-                !(comp.peer instanceof LightweightPeer)) {
-                if (comp instanceof Container) {
-                    comp = ((Container)comp).findComponentAtImpl(x - comp.x,
+                !(comp.peer instbnceof LightweightPeer)) {
+                if (comp instbnceof Contbiner) {
+                    comp = ((Contbiner)comp).findComponentAtImpl(x - comp.x,
                                                                  y - comp.y,
-                                                                 ignoreEnabled);
+                                                                 ignoreEnbbled);
                 } else {
                     comp = comp.getComponentAt(x - comp.x, y - comp.y);
                 }
                 if (comp != null && comp.visible &&
-                    (ignoreEnabled || comp.enabled))
+                    (ignoreEnbbled || comp.enbbled))
                 {
                     return comp;
                 }
@@ -2719,16 +2719,16 @@ public class Container extends Component {
         for (int i = 0; i < component.size(); i++) {
             Component comp = component.get(i);
             if (comp != null &&
-                comp.peer instanceof LightweightPeer) {
-                if (comp instanceof Container) {
-                    comp = ((Container)comp).findComponentAtImpl(x - comp.x,
+                comp.peer instbnceof LightweightPeer) {
+                if (comp instbnceof Contbiner) {
+                    comp = ((Contbiner)comp).findComponentAtImpl(x - comp.x,
                                                                  y - comp.y,
-                                                                 ignoreEnabled);
+                                                                 ignoreEnbbled);
                 } else {
                     comp = comp.getComponentAt(x - comp.x, y - comp.y);
                 }
                 if (comp != null && comp.visible &&
-                    (ignoreEnabled || comp.enabled))
+                    (ignoreEnbbled || comp.enbbled))
                 {
                     return comp;
                 }
@@ -2739,25 +2739,25 @@ public class Container extends Component {
     }
 
     /**
-     * Locates the visible child component that contains the specified
-     * point.  The top-most child component is returned in the case
-     * where there is overlap in the components.  If the containing child
-     * component is a Container, this method will continue searching for
-     * the deepest nested child component.  Components which are not
-     * visible are ignored during the search.<p>
+     * Locbtes the visible child component thbt contbins the specified
+     * point.  The top-most child component is returned in the cbse
+     * where there is overlbp in the components.  If the contbining child
+     * component is b Contbiner, this method will continue sebrching for
+     * the deepest nested child component.  Components which bre not
+     * visible bre ignored during the sebrch.<p>
      *
      * The findComponentAt method is different from getComponentAt in
-     * that getComponentAt only searches the Container's immediate
-     * children; if the containing component is a Container,
-     * findComponentAt will search that child to find a nested component.
+     * thbt getComponentAt only sebrches the Contbiner's immedibte
+     * children; if the contbining component is b Contbiner,
+     * findComponentAt will sebrch thbt child to find b nested component.
      *
-     * @param      p   the point.
-     * @return null if the component does not contain the position.
-     * If there is no child component at the requested point and the
-     * point is within the bounds of the container the container itself
+     * @pbrbm      p   the point.
+     * @return null if the component does not contbin the position.
+     * If there is no child component bt the requested point bnd the
+     * point is within the bounds of the contbiner the contbiner itself
      * is returned.
      * @throws NullPointerException if {@code p} is {@code null}
-     * @see Component#contains
+     * @see Component#contbins
      * @see #getComponentAt
      * @since 1.2
      */
@@ -2766,254 +2766,254 @@ public class Container extends Component {
     }
 
     /**
-     * Makes this Container displayable by connecting it to
-     * a native screen resource.  Making a container displayable will
-     * cause all of its children to be made displayable.
-     * This method is called internally by the toolkit and should
-     * not be called directly by programs.
-     * @see Component#isDisplayable
+     * Mbkes this Contbiner displbybble by connecting it to
+     * b nbtive screen resource.  Mbking b contbiner displbybble will
+     * cbuse bll of its children to be mbde displbybble.
+     * This method is cblled internblly by the toolkit bnd should
+     * not be cblled directly by progrbms.
+     * @see Component#isDisplbybble
      * @see #removeNotify
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
-            // addNotify() on the children may cause proxy event enabling
-            // on this instance, so we first call super.addNotify() and
-            // possibly create an lightweight event dispatcher before calling
-            // addNotify() on the children which may be lightweight.
-            super.addNotify();
-            if (! (peer instanceof LightweightPeer)) {
-                dispatcher = new LightweightDispatcher(this);
+            // bddNotify() on the children mby cbuse proxy event enbbling
+            // on this instbnce, so we first cbll super.bddNotify() bnd
+            // possibly crebte bn lightweight event dispbtcher before cblling
+            // bddNotify() on the children which mby be lightweight.
+            super.bddNotify();
+            if (! (peer instbnceof LightweightPeer)) {
+                dispbtcher = new LightweightDispbtcher(this);
             }
 
-            // We shouldn't use iterator because of the Swing menu
-            // implementation specifics:
-            // the menu is being assigned as a child to JLayeredPane
-            // instead of particular component so always affect
+            // We shouldn't use iterbtor becbuse of the Swing menu
+            // implementbtion specifics:
+            // the menu is being bssigned bs b child to JLbyeredPbne
+            // instebd of pbrticulbr component so blwbys bffect
             // collection of component if menu is becoming shown or hidden.
             for (int i = 0; i < component.size(); i++) {
-                component.get(i).addNotify();
+                component.get(i).bddNotify();
             }
         }
     }
 
     /**
-     * Makes this Container undisplayable by removing its connection
-     * to its native screen resource.  Making a container undisplayable
-     * will cause all of its children to be made undisplayable.
-     * This method is called by the toolkit internally and should
-     * not be called directly by programs.
-     * @see Component#isDisplayable
-     * @see #addNotify
+     * Mbkes this Contbiner undisplbybble by removing its connection
+     * to its nbtive screen resource.  Mbking b contbiner undisplbybble
+     * will cbuse bll of its children to be mbde undisplbybble.
+     * This method is cblled by the toolkit internblly bnd should
+     * not be cblled directly by progrbms.
+     * @see Component#isDisplbybble
+     * @see #bddNotify
      */
     public void removeNotify() {
         synchronized (getTreeLock()) {
-            // We shouldn't use iterator because of the Swing menu
-            // implementation specifics:
-            // the menu is being assigned as a child to JLayeredPane
-            // instead of particular component so always affect
+            // We shouldn't use iterbtor becbuse of the Swing menu
+            // implementbtion specifics:
+            // the menu is being bssigned bs b child to JLbyeredPbne
+            // instebd of pbrticulbr component so blwbys bffect
             // collection of component if menu is becoming shown or hidden.
             for (int i = component.size()-1 ; i >= 0 ; i--) {
                 Component comp = component.get(i);
                 if (comp != null) {
                     // Fix for 6607170.
-                    // We want to suppress focus change on disposal
-                    // of the focused component. But because of focus
-                    // is asynchronous, we should suppress focus change
-                    // on every component in case it receives native focus
-                    // in the process of disposal.
-                    comp.setAutoFocusTransferOnDisposal(false);
+                    // We wbnt to suppress focus chbnge on disposbl
+                    // of the focused component. But becbuse of focus
+                    // is bsynchronous, we should suppress focus chbnge
+                    // on every component in cbse it receives nbtive focus
+                    // in the process of disposbl.
+                    comp.setAutoFocusTrbnsferOnDisposbl(fblse);
                     comp.removeNotify();
-                    comp.setAutoFocusTransferOnDisposal(true);
+                    comp.setAutoFocusTrbnsferOnDisposbl(true);
                  }
              }
-            // If some of the children had focus before disposal then it still has.
-            // Auto-transfer focus to the next (or previous) component if auto-transfer
-            // is enabled.
-            if (containsFocus() && KeyboardFocusManager.isAutoFocusTransferEnabledFor(this)) {
-                if (!transferFocus(false)) {
-                    transferFocusBackward(true);
+            // If some of the children hbd focus before disposbl then it still hbs.
+            // Auto-trbnsfer focus to the next (or previous) component if buto-trbnsfer
+            // is enbbled.
+            if (contbinsFocus() && KeybobrdFocusMbnbger.isAutoFocusTrbnsferEnbbledFor(this)) {
+                if (!trbnsferFocus(fblse)) {
+                    trbnsferFocusBbckwbrd(true);
                 }
             }
-            if ( dispatcher != null ) {
-                dispatcher.dispose();
-                dispatcher = null;
+            if ( dispbtcher != null ) {
+                dispbtcher.dispose();
+                dispbtcher = null;
             }
             super.removeNotify();
         }
     }
 
     /**
-     * Checks if the component is contained in the component hierarchy of
-     * this container.
-     * @param c the component
-     * @return     <code>true</code> if it is an ancestor;
-     *             <code>false</code> otherwise.
+     * Checks if the component is contbined in the component hierbrchy of
+     * this contbiner.
+     * @pbrbm c the component
+     * @return     <code>true</code> if it is bn bncestor;
+     *             <code>fblse</code> otherwise.
      * @since      1.1
      */
-    public boolean isAncestorOf(Component c) {
-        Container p;
-        if (c == null || ((p = c.getParent()) == null)) {
-            return false;
+    public boolebn isAncestorOf(Component c) {
+        Contbiner p;
+        if (c == null || ((p = c.getPbrent()) == null)) {
+            return fblse;
         }
         while (p != null) {
             if (p == this) {
                 return true;
             }
-            p = p.getParent();
+            p = p.getPbrent();
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * The following code was added to support modal JInternalFrames
-     * Unfortunately this code has to be added here so that we can get access to
-     * some private AWT classes like SequencedEvent.
+     * The following code wbs bdded to support modbl JInternblFrbmes
+     * Unfortunbtely this code hbs to be bdded here so thbt we cbn get bccess to
+     * some privbte AWT clbsses like SequencedEvent.
      *
-     * The native container of the LW component has this field set
-     * to tell it that it should block Mouse events for all LW
-     * children except for the modal component.
+     * The nbtive contbiner of the LW component hbs this field set
+     * to tell it thbt it should block Mouse events for bll LW
+     * children except for the modbl component.
      *
-     * In the case of nested Modal components, we store the previous
-     * modal component in the new modal components value of modalComp;
+     * In the cbse of nested Modbl components, we store the previous
+     * modbl component in the new modbl components vblue of modblComp;
      */
 
-    transient Component modalComp;
-    transient AppContext modalAppContext;
+    trbnsient Component modblComp;
+    trbnsient AppContext modblAppContext;
 
-    private void startLWModal() {
-        // Store the app context on which this component is being shown.
-        // Event dispatch thread of this app context will be sleeping until
-        // we wake it by any event from hideAndDisposeHandler().
-        modalAppContext = AppContext.getAppContext();
+    privbte void stbrtLWModbl() {
+        // Store the bpp context on which this component is being shown.
+        // Event dispbtch threbd of this bpp context will be sleeping until
+        // we wbke it by bny event from hideAndDisposeHbndler().
+        modblAppContext = AppContext.getAppContext();
 
-        // keep the KeyEvents from being dispatched
-        // until the focus has been transfered
+        // keep the KeyEvents from being dispbtched
+        // until the focus hbs been trbnsfered
         long time = Toolkit.getEventQueue().getMostRecentKeyEventTime();
-        Component predictedFocusOwner = (Component.isInstanceOf(this, "javax.swing.JInternalFrame")) ? ((javax.swing.JInternalFrame)(this)).getMostRecentFocusOwner() : null;
+        Component predictedFocusOwner = (Component.isInstbnceOf(this, "jbvbx.swing.JInternblFrbme")) ? ((jbvbx.swing.JInternblFrbme)(this)).getMostRecentFocusOwner() : null;
         if (predictedFocusOwner != null) {
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                 enqueueKeyEvents(time, predictedFocusOwner);
         }
-        // We have two mechanisms for blocking: 1. If we're on the
-        // EventDispatchThread, start a new event pump. 2. If we're
-        // on any other thread, call wait() on the treelock.
-        final Container nativeContainer;
+        // We hbve two mechbnisms for blocking: 1. If we're on the
+        // EventDispbtchThrebd, stbrt b new event pump. 2. If we're
+        // on bny other threbd, cbll wbit() on the treelock.
+        finbl Contbiner nbtiveContbiner;
         synchronized (getTreeLock()) {
-            nativeContainer = getHeavyweightContainer();
-            if (nativeContainer.modalComp != null) {
-                this.modalComp =  nativeContainer.modalComp;
-                nativeContainer.modalComp = this;
+            nbtiveContbiner = getHebvyweightContbiner();
+            if (nbtiveContbiner.modblComp != null) {
+                this.modblComp =  nbtiveContbiner.modblComp;
+                nbtiveContbiner.modblComp = this;
                 return;
             }
             else {
-                nativeContainer.modalComp = this;
+                nbtiveContbiner.modblComp = this;
             }
         }
 
-        Runnable pumpEventsForHierarchy = () -> {
-            EventDispatchThread dispatchThread = (EventDispatchThread)Thread.currentThread();
-            dispatchThread.pumpEventsForHierarchy(() -> nativeContainer.modalComp != null,
-                    Container.this);
+        Runnbble pumpEventsForHierbrchy = () -> {
+            EventDispbtchThrebd dispbtchThrebd = (EventDispbtchThrebd)Threbd.currentThrebd();
+            dispbtchThrebd.pumpEventsForHierbrchy(() -> nbtiveContbiner.modblComp != null,
+                    Contbiner.this);
         };
 
-        if (EventQueue.isDispatchThread()) {
+        if (EventQueue.isDispbtchThrebd()) {
             SequencedEvent currentSequencedEvent =
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                 getCurrentSequencedEvent();
             if (currentSequencedEvent != null) {
                 currentSequencedEvent.dispose();
             }
 
-            pumpEventsForHierarchy.run();
+            pumpEventsForHierbrchy.run();
         } else {
             synchronized (getTreeLock()) {
                 Toolkit.getEventQueue().
                     postEvent(new PeerEvent(this,
-                                pumpEventsForHierarchy,
+                                pumpEventsForHierbrchy,
                                 PeerEvent.PRIORITY_EVENT));
-                while (nativeContainer.modalComp != null)
+                while (nbtiveContbiner.modblComp != null)
                 {
                     try {
-                        getTreeLock().wait();
-                    } catch (InterruptedException e) {
-                        break;
+                        getTreeLock().wbit();
+                    } cbtch (InterruptedException e) {
+                        brebk;
                     }
                 }
             }
         }
         if (predictedFocusOwner != null) {
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
                 dequeueKeyEvents(time, predictedFocusOwner);
         }
     }
 
-    private void stopLWModal() {
+    privbte void stopLWModbl() {
         synchronized (getTreeLock()) {
-            if (modalAppContext != null) {
-                Container nativeContainer = getHeavyweightContainer();
-                if(nativeContainer != null) {
-                    if (this.modalComp !=  null) {
-                        nativeContainer.modalComp = this.modalComp;
-                        this.modalComp = null;
+            if (modblAppContext != null) {
+                Contbiner nbtiveContbiner = getHebvyweightContbiner();
+                if(nbtiveContbiner != null) {
+                    if (this.modblComp !=  null) {
+                        nbtiveContbiner.modblComp = this.modblComp;
+                        this.modblComp = null;
                         return;
                     }
                     else {
-                        nativeContainer.modalComp = null;
+                        nbtiveContbiner.modblComp = null;
                     }
                 }
-                // Wake up event dispatch thread on which the dialog was
-                // initially shown
-                SunToolkit.postEvent(modalAppContext,
+                // Wbke up event dispbtch threbd on which the diblog wbs
+                // initiblly shown
+                SunToolkit.postEvent(modblAppContext,
                         new PeerEvent(this,
-                                new WakingRunnable(),
+                                new WbkingRunnbble(),
                                 PeerEvent.PRIORITY_EVENT));
             }
-            EventQueue.invokeLater(new WakingRunnable());
+            EventQueue.invokeLbter(new WbkingRunnbble());
             getTreeLock().notifyAll();
         }
     }
 
-    final static class WakingRunnable implements Runnable {
+    finbl stbtic clbss WbkingRunnbble implements Runnbble {
         public void run() {
         }
     }
 
-    /* End of JOptionPane support code */
+    /* End of JOptionPbne support code */
 
     /**
-     * Returns a string representing the state of this <code>Container</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>Contbiner</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return    the parameter string of this container
+     * @return    the pbrbmeter string of this contbiner
      */
-    protected String paramString() {
-        String str = super.paramString();
-        LayoutManager layoutMgr = this.layoutMgr;
-        if (layoutMgr != null) {
-            str += ",layout=" + layoutMgr.getClass().getName();
+    protected String pbrbmString() {
+        String str = super.pbrbmString();
+        LbyoutMbnbger lbyoutMgr = this.lbyoutMgr;
+        if (lbyoutMgr != null) {
+            str += ",lbyout=" + lbyoutMgr.getClbss().getNbme();
         }
         return str;
     }
 
     /**
-     * Prints a listing of this container to the specified output
-     * stream. The listing starts at the specified indentation.
+     * Prints b listing of this contbiner to the specified output
+     * strebm. The listing stbrts bt the specified indentbtion.
      * <p>
-     * The immediate children of the container are printed with
-     * an indentation of <code>indent+1</code>.  The children
-     * of those children are printed at <code>indent+2</code>
-     * and so on.
+     * The immedibte children of the contbiner bre printed with
+     * bn indentbtion of <code>indent+1</code>.  The children
+     * of those children bre printed bt <code>indent+2</code>
+     * bnd so on.
      *
-     * @param    out      a print stream
-     * @param    indent   the number of spaces to indent
+     * @pbrbm    out      b print strebm
+     * @pbrbm    indent   the number of spbces to indent
      * @throws   NullPointerException if {@code out} is {@code null}
-     * @see      Component#list(java.io.PrintStream, int)
+     * @see      Component#list(jbvb.io.PrintStrebm, int)
      * @since    1.0
      */
-    public void list(PrintStream out, int indent) {
+    public void list(PrintStrebm out, int indent) {
         super.list(out, indent);
         synchronized(getTreeLock()) {
             for (int i = 0; i < component.size(); i++) {
@@ -3026,18 +3026,18 @@ public class Container extends Component {
     }
 
     /**
-     * Prints out a list, starting at the specified indentation,
+     * Prints out b list, stbrting bt the specified indentbtion,
      * to the specified print writer.
      * <p>
-     * The immediate children of the container are printed with
-     * an indentation of <code>indent+1</code>.  The children
-     * of those children are printed at <code>indent+2</code>
-     * and so on.
+     * The immedibte children of the contbiner bre printed with
+     * bn indentbtion of <code>indent+1</code>.  The children
+     * of those children bre printed bt <code>indent+2</code>
+     * bnd so on.
      *
-     * @param    out      a print writer
-     * @param    indent   the number of spaces to indent
+     * @pbrbm    out      b print writer
+     * @pbrbm    indent   the number of spbces to indent
      * @throws   NullPointerException if {@code out} is {@code null}
-     * @see      Component#list(java.io.PrintWriter, int)
+     * @see      Component#list(jbvb.io.PrintWriter, int)
      * @since    1.1
      */
     public void list(PrintWriter out, int indent) {
@@ -3053,199 +3053,199 @@ public class Container extends Component {
     }
 
     /**
-     * Sets the focus traversal keys for a given traversal operation for this
-     * Container.
+     * Sets the focus trbversbl keys for b given trbversbl operbtion for this
+     * Contbiner.
      * <p>
-     * The default values for a Container's focus traversal keys are
-     * implementation-dependent. Sun recommends that all implementations for a
-     * particular native platform use the same default values. The
-     * recommendations for Windows and Unix are listed below. These
-     * recommendations are used in the Sun AWT implementations.
+     * The defbult vblues for b Contbiner's focus trbversbl keys bre
+     * implementbtion-dependent. Sun recommends thbt bll implementbtions for b
+     * pbrticulbr nbtive plbtform use the sbme defbult vblues. The
+     * recommendbtions for Windows bnd Unix bre listed below. These
+     * recommendbtions bre used in the Sun AWT implementbtions.
      *
-     * <table border=1 summary="Recommended default values for a Container's focus traversal keys">
+     * <tbble border=1 summbry="Recommended defbult vblues for b Contbiner's focus trbversbl keys">
      * <tr>
      *    <th>Identifier</th>
-     *    <th>Meaning</th>
-     *    <th>Default</th>
+     *    <th>Mebning</th>
+     *    <th>Defbult</th>
      * </tr>
      * <tr>
-     *    <td>KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS</td>
-     *    <td>Normal forward keyboard traversal</td>
+     *    <td>KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS</td>
+     *    <td>Normbl forwbrd keybobrd trbversbl</td>
      *    <td>TAB on KEY_PRESSED, CTRL-TAB on KEY_PRESSED</td>
      * </tr>
      * <tr>
-     *    <td>KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS</td>
-     *    <td>Normal reverse keyboard traversal</td>
+     *    <td>KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS</td>
+     *    <td>Normbl reverse keybobrd trbversbl</td>
      *    <td>SHIFT-TAB on KEY_PRESSED, CTRL-SHIFT-TAB on KEY_PRESSED</td>
      * </tr>
      * <tr>
-     *    <td>KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS</td>
-     *    <td>Go up one focus traversal cycle</td>
+     *    <td>KeybobrdFocusMbnbger.UP_CYCLE_TRAVERSAL_KEYS</td>
+     *    <td>Go up one focus trbversbl cycle</td>
      *    <td>none</td>
      * </tr>
      * <tr>
-     *    <td>KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS<td>
-     *    <td>Go down one focus traversal cycle</td>
+     *    <td>KeybobrdFocusMbnbger.DOWN_CYCLE_TRAVERSAL_KEYS<td>
+     *    <td>Go down one focus trbversbl cycle</td>
      *    <td>none</td>
      * </tr>
-     * </table>
+     * </tbble>
      *
-     * To disable a traversal key, use an empty Set; Collections.EMPTY_SET is
+     * To disbble b trbversbl key, use bn empty Set; Collections.EMPTY_SET is
      * recommended.
      * <p>
-     * Using the AWTKeyStroke API, client code can specify on which of two
-     * specific KeyEvents, KEY_PRESSED or KEY_RELEASED, the focus traversal
-     * operation will occur. Regardless of which KeyEvent is specified,
-     * however, all KeyEvents related to the focus traversal key, including the
-     * associated KEY_TYPED event, will be consumed, and will not be dispatched
-     * to any Container. It is a runtime error to specify a KEY_TYPED event as
-     * mapping to a focus traversal operation, or to map the same event to
-     * multiple default focus traversal operations.
+     * Using the AWTKeyStroke API, client code cbn specify on which of two
+     * specific KeyEvents, KEY_PRESSED or KEY_RELEASED, the focus trbversbl
+     * operbtion will occur. Regbrdless of which KeyEvent is specified,
+     * however, bll KeyEvents relbted to the focus trbversbl key, including the
+     * bssocibted KEY_TYPED event, will be consumed, bnd will not be dispbtched
+     * to bny Contbiner. It is b runtime error to specify b KEY_TYPED event bs
+     * mbpping to b focus trbversbl operbtion, or to mbp the sbme event to
+     * multiple defbult focus trbversbl operbtions.
      * <p>
-     * If a value of null is specified for the Set, this Container inherits the
-     * Set from its parent. If all ancestors of this Container have null
-     * specified for the Set, then the current KeyboardFocusManager's default
+     * If b vblue of null is specified for the Set, this Contbiner inherits the
+     * Set from its pbrent. If bll bncestors of this Contbiner hbve null
+     * specified for the Set, then the current KeybobrdFocusMbnbger's defbult
      * Set is used.
      * <p>
-     * This method may throw a {@code ClassCastException} if any {@code Object}
-     * in {@code keystrokes} is not an {@code AWTKeyStroke}.
+     * This method mby throw b {@code ClbssCbstException} if bny {@code Object}
+     * in {@code keystrokes} is not bn {@code AWTKeyStroke}.
      *
-     * @param id one of KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-     *        KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-     *        KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, or
-     *        KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS
-     * @param keystrokes the Set of AWTKeyStroke for the specified operation
-     * @see #getFocusTraversalKeys
-     * @see KeyboardFocusManager#FORWARD_TRAVERSAL_KEYS
-     * @see KeyboardFocusManager#BACKWARD_TRAVERSAL_KEYS
-     * @see KeyboardFocusManager#UP_CYCLE_TRAVERSAL_KEYS
-     * @see KeyboardFocusManager#DOWN_CYCLE_TRAVERSAL_KEYS
-     * @throws IllegalArgumentException if id is not one of
-     *         KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-     *         KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-     *         KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, or
-     *         KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS, or if keystrokes
-     *         contains null, or if any keystroke represents a KEY_TYPED event,
-     *         or if any keystroke already maps to another focus traversal
-     *         operation for this Container
+     * @pbrbm id one of KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+     *        KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+     *        KeybobrdFocusMbnbger.UP_CYCLE_TRAVERSAL_KEYS, or
+     *        KeybobrdFocusMbnbger.DOWN_CYCLE_TRAVERSAL_KEYS
+     * @pbrbm keystrokes the Set of AWTKeyStroke for the specified operbtion
+     * @see #getFocusTrbversblKeys
+     * @see KeybobrdFocusMbnbger#FORWARD_TRAVERSAL_KEYS
+     * @see KeybobrdFocusMbnbger#BACKWARD_TRAVERSAL_KEYS
+     * @see KeybobrdFocusMbnbger#UP_CYCLE_TRAVERSAL_KEYS
+     * @see KeybobrdFocusMbnbger#DOWN_CYCLE_TRAVERSAL_KEYS
+     * @throws IllegblArgumentException if id is not one of
+     *         KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+     *         KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+     *         KeybobrdFocusMbnbger.UP_CYCLE_TRAVERSAL_KEYS, or
+     *         KeybobrdFocusMbnbger.DOWN_CYCLE_TRAVERSAL_KEYS, or if keystrokes
+     *         contbins null, or if bny keystroke represents b KEY_TYPED event,
+     *         or if bny keystroke blrebdy mbps to bnother focus trbversbl
+     *         operbtion for this Contbiner
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      */
-    public void setFocusTraversalKeys(int id,
+    public void setFocusTrbversblKeys(int id,
                                       Set<? extends AWTKeyStroke> keystrokes)
     {
-        if (id < 0 || id >= KeyboardFocusManager.TRAVERSAL_KEY_LENGTH) {
-            throw new IllegalArgumentException("invalid focus traversal key identifier");
+        if (id < 0 || id >= KeybobrdFocusMbnbger.TRAVERSAL_KEY_LENGTH) {
+            throw new IllegblArgumentException("invblid focus trbversbl key identifier");
         }
 
-        // Don't call super.setFocusTraversalKey. The Component parameter check
-        // does not allow DOWN_CYCLE_TRAVERSAL_KEYS, but we do.
-        setFocusTraversalKeys_NoIDCheck(id, keystrokes);
+        // Don't cbll super.setFocusTrbversblKey. The Component pbrbmeter check
+        // does not bllow DOWN_CYCLE_TRAVERSAL_KEYS, but we do.
+        setFocusTrbversblKeys_NoIDCheck(id, keystrokes);
     }
 
     /**
-     * Returns the Set of focus traversal keys for a given traversal operation
-     * for this Container. (See
-     * <code>setFocusTraversalKeys</code> for a full description of each key.)
+     * Returns the Set of focus trbversbl keys for b given trbversbl operbtion
+     * for this Contbiner. (See
+     * <code>setFocusTrbversblKeys</code> for b full description of ebch key.)
      * <p>
-     * If a Set of traversal keys has not been explicitly defined for this
-     * Container, then this Container's parent's Set is returned. If no Set
-     * has been explicitly defined for any of this Container's ancestors, then
-     * the current KeyboardFocusManager's default Set is returned.
+     * If b Set of trbversbl keys hbs not been explicitly defined for this
+     * Contbiner, then this Contbiner's pbrent's Set is returned. If no Set
+     * hbs been explicitly defined for bny of this Contbiner's bncestors, then
+     * the current KeybobrdFocusMbnbger's defbult Set is returned.
      *
-     * @param id one of KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-     *        KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-     *        KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, or
-     *        KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS
-     * @return the Set of AWTKeyStrokes for the specified operation. The Set
-     *         will be unmodifiable, and may be empty. null will never be
+     * @pbrbm id one of KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+     *        KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+     *        KeybobrdFocusMbnbger.UP_CYCLE_TRAVERSAL_KEYS, or
+     *        KeybobrdFocusMbnbger.DOWN_CYCLE_TRAVERSAL_KEYS
+     * @return the Set of AWTKeyStrokes for the specified operbtion. The Set
+     *         will be unmodifibble, bnd mby be empty. null will never be
      *         returned.
-     * @see #setFocusTraversalKeys
-     * @see KeyboardFocusManager#FORWARD_TRAVERSAL_KEYS
-     * @see KeyboardFocusManager#BACKWARD_TRAVERSAL_KEYS
-     * @see KeyboardFocusManager#UP_CYCLE_TRAVERSAL_KEYS
-     * @see KeyboardFocusManager#DOWN_CYCLE_TRAVERSAL_KEYS
-     * @throws IllegalArgumentException if id is not one of
-     *         KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-     *         KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-     *         KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, or
-     *         KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS
+     * @see #setFocusTrbversblKeys
+     * @see KeybobrdFocusMbnbger#FORWARD_TRAVERSAL_KEYS
+     * @see KeybobrdFocusMbnbger#BACKWARD_TRAVERSAL_KEYS
+     * @see KeybobrdFocusMbnbger#UP_CYCLE_TRAVERSAL_KEYS
+     * @see KeybobrdFocusMbnbger#DOWN_CYCLE_TRAVERSAL_KEYS
+     * @throws IllegblArgumentException if id is not one of
+     *         KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+     *         KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+     *         KeybobrdFocusMbnbger.UP_CYCLE_TRAVERSAL_KEYS, or
+     *         KeybobrdFocusMbnbger.DOWN_CYCLE_TRAVERSAL_KEYS
      * @since 1.4
      */
-    public Set<AWTKeyStroke> getFocusTraversalKeys(int id) {
-        if (id < 0 || id >= KeyboardFocusManager.TRAVERSAL_KEY_LENGTH) {
-            throw new IllegalArgumentException("invalid focus traversal key identifier");
+    public Set<AWTKeyStroke> getFocusTrbversblKeys(int id) {
+        if (id < 0 || id >= KeybobrdFocusMbnbger.TRAVERSAL_KEY_LENGTH) {
+            throw new IllegblArgumentException("invblid focus trbversbl key identifier");
         }
 
-        // Don't call super.getFocusTraversalKey. The Component parameter check
-        // does not allow DOWN_CYCLE_TRAVERSAL_KEY, but we do.
-        return getFocusTraversalKeys_NoIDCheck(id);
+        // Don't cbll super.getFocusTrbversblKey. The Component pbrbmeter check
+        // does not bllow DOWN_CYCLE_TRAVERSAL_KEY, but we do.
+        return getFocusTrbversblKeys_NoIDCheck(id);
     }
 
     /**
-     * Returns whether the Set of focus traversal keys for the given focus
-     * traversal operation has been explicitly defined for this Container. If
-     * this method returns <code>false</code>, this Container is inheriting the
-     * Set from an ancestor, or from the current KeyboardFocusManager.
+     * Returns whether the Set of focus trbversbl keys for the given focus
+     * trbversbl operbtion hbs been explicitly defined for this Contbiner. If
+     * this method returns <code>fblse</code>, this Contbiner is inheriting the
+     * Set from bn bncestor, or from the current KeybobrdFocusMbnbger.
      *
-     * @param id one of KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-     *        KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-     *        KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, or
-     *        KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS
-     * @return <code>true</code> if the the Set of focus traversal keys for the
-     *         given focus traversal operation has been explicitly defined for
-     *         this Component; <code>false</code> otherwise.
-     * @throws IllegalArgumentException if id is not one of
-     *         KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-     *        KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-     *        KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, or
-     *        KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS
+     * @pbrbm id one of KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+     *        KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+     *        KeybobrdFocusMbnbger.UP_CYCLE_TRAVERSAL_KEYS, or
+     *        KeybobrdFocusMbnbger.DOWN_CYCLE_TRAVERSAL_KEYS
+     * @return <code>true</code> if the the Set of focus trbversbl keys for the
+     *         given focus trbversbl operbtion hbs been explicitly defined for
+     *         this Component; <code>fblse</code> otherwise.
+     * @throws IllegblArgumentException if id is not one of
+     *         KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS,
+     *        KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS,
+     *        KeybobrdFocusMbnbger.UP_CYCLE_TRAVERSAL_KEYS, or
+     *        KeybobrdFocusMbnbger.DOWN_CYCLE_TRAVERSAL_KEYS
      * @since 1.4
      */
-    public boolean areFocusTraversalKeysSet(int id) {
-        if (id < 0 || id >= KeyboardFocusManager.TRAVERSAL_KEY_LENGTH) {
-            throw new IllegalArgumentException("invalid focus traversal key identifier");
+    public boolebn breFocusTrbversblKeysSet(int id) {
+        if (id < 0 || id >= KeybobrdFocusMbnbger.TRAVERSAL_KEY_LENGTH) {
+            throw new IllegblArgumentException("invblid focus trbversbl key identifier");
         }
 
-        return (focusTraversalKeys != null && focusTraversalKeys[id] != null);
+        return (focusTrbversblKeys != null && focusTrbversblKeys[id] != null);
     }
 
     /**
-     * Returns whether the specified Container is the focus cycle root of this
-     * Container's focus traversal cycle. Each focus traversal cycle has only
-     * a single focus cycle root and each Container which is not a focus cycle
-     * root belongs to only a single focus traversal cycle. Containers which
-     * are focus cycle roots belong to two cycles: one rooted at the Container
-     * itself, and one rooted at the Container's nearest focus-cycle-root
-     * ancestor. This method will return <code>true</code> for both such
-     * Containers in this case.
+     * Returns whether the specified Contbiner is the focus cycle root of this
+     * Contbiner's focus trbversbl cycle. Ebch focus trbversbl cycle hbs only
+     * b single focus cycle root bnd ebch Contbiner which is not b focus cycle
+     * root belongs to only b single focus trbversbl cycle. Contbiners which
+     * bre focus cycle roots belong to two cycles: one rooted bt the Contbiner
+     * itself, bnd one rooted bt the Contbiner's nebrest focus-cycle-root
+     * bncestor. This method will return <code>true</code> for both such
+     * Contbiners in this cbse.
      *
-     * @param container the Container to be tested
-     * @return <code>true</code> if the specified Container is a focus-cycle-
-     *         root of this Container; <code>false</code> otherwise
+     * @pbrbm contbiner the Contbiner to be tested
+     * @return <code>true</code> if the specified Contbiner is b focus-cycle-
+     *         root of this Contbiner; <code>fblse</code> otherwise
      * @see #isFocusCycleRoot()
      * @since 1.4
      */
-    public boolean isFocusCycleRoot(Container container) {
-        if (isFocusCycleRoot() && container == this) {
+    public boolebn isFocusCycleRoot(Contbiner contbiner) {
+        if (isFocusCycleRoot() && contbiner == this) {
             return true;
         } else {
-            return super.isFocusCycleRoot(container);
+            return super.isFocusCycleRoot(contbiner);
         }
     }
 
-    private Container findTraversalRoot() {
-        // I potentially have two roots, myself and my root parent
-        // If I am the current root, then use me
-        // If none of my parents are roots, then use me
-        // If my root parent is the current root, then use my root parent
-        // If neither I nor my root parent is the current root, then
-        // use my root parent (a guess)
+    privbte Contbiner findTrbversblRoot() {
+        // I potentiblly hbve two roots, myself bnd my root pbrent
+        // If I bm the current root, then use me
+        // If none of my pbrents bre roots, then use me
+        // If my root pbrent is the current root, then use my root pbrent
+        // If neither I nor my root pbrent is the current root, then
+        // use my root pbrent (b guess)
 
-        Container currentFocusCycleRoot = KeyboardFocusManager.
-            getCurrentKeyboardFocusManager().getCurrentFocusCycleRoot();
-        Container root;
+        Contbiner currentFocusCycleRoot = KeybobrdFocusMbnbger.
+            getCurrentKeybobrdFocusMbnbger().getCurrentFocusCycleRoot();
+        Contbiner root;
 
         if (currentFocusCycleRoot == this) {
             root = this;
@@ -3257,532 +3257,532 @@ public class Container extends Component {
         }
 
         if (root != currentFocusCycleRoot) {
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                setGlobalCurrentFocusCycleRootPriv(root);
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+                setGlobblCurrentFocusCycleRootPriv(root);
         }
         return root;
     }
 
-    final boolean containsFocus() {
-        final Component focusOwner = KeyboardFocusManager.
-            getCurrentKeyboardFocusManager().getFocusOwner();
-        return isParentOf(focusOwner);
+    finbl boolebn contbinsFocus() {
+        finbl Component focusOwner = KeybobrdFocusMbnbger.
+            getCurrentKeybobrdFocusMbnbger().getFocusOwner();
+        return isPbrentOf(focusOwner);
     }
 
     /**
-     * Check if this component is the child of this container or its children.
-     * Note: this function acquires treeLock
-     * Note: this function traverses children tree only in one Window.
-     * @param comp a component in test, must not be null
+     * Check if this component is the child of this contbiner or its children.
+     * Note: this function bcquires treeLock
+     * Note: this function trbverses children tree only in one Window.
+     * @pbrbm comp b component in test, must not be null
      */
-    private boolean isParentOf(Component comp) {
+    privbte boolebn isPbrentOf(Component comp) {
         synchronized(getTreeLock()) {
-            while (comp != null && comp != this && !(comp instanceof Window)) {
-                comp = comp.getParent();
+            while (comp != null && comp != this && !(comp instbnceof Window)) {
+                comp = comp.getPbrent();
             }
             return (comp == this);
         }
     }
 
-    void clearMostRecentFocusOwnerOnHide() {
-        boolean reset = false;
+    void clebrMostRecentFocusOwnerOnHide() {
+        boolebn reset = fblse;
         Window window = null;
 
         synchronized (getTreeLock()) {
-            window = getContainingWindow();
+            window = getContbiningWindow();
             if (window != null) {
-                Component comp = KeyboardFocusManager.getMostRecentFocusOwner(window);
-                reset = ((comp == this) || isParentOf(comp));
-                // This synchronized should always be the second in a pair
-                // (tree lock, KeyboardFocusManager.class)
-                synchronized(KeyboardFocusManager.class) {
-                    Component storedComp = window.getTemporaryLostComponent();
-                    if (isParentOf(storedComp) || storedComp == this) {
-                        window.setTemporaryLostComponent(null);
+                Component comp = KeybobrdFocusMbnbger.getMostRecentFocusOwner(window);
+                reset = ((comp == this) || isPbrentOf(comp));
+                // This synchronized should blwbys be the second in b pbir
+                // (tree lock, KeybobrdFocusMbnbger.clbss)
+                synchronized(KeybobrdFocusMbnbger.clbss) {
+                    Component storedComp = window.getTemporbryLostComponent();
+                    if (isPbrentOf(storedComp) || storedComp == this) {
+                        window.setTemporbryLostComponent(null);
                     }
                 }
             }
         }
 
         if (reset) {
-            KeyboardFocusManager.setMostRecentFocusOwner(window, null);
+            KeybobrdFocusMbnbger.setMostRecentFocusOwner(window, null);
         }
     }
 
-    void clearCurrentFocusCycleRootOnHide() {
-        KeyboardFocusManager kfm =
-            KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        Container cont = kfm.getCurrentFocusCycleRoot();
+    void clebrCurrentFocusCycleRootOnHide() {
+        KeybobrdFocusMbnbger kfm =
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger();
+        Contbiner cont = kfm.getCurrentFocusCycleRoot();
 
-        if (cont == this || isParentOf(cont)) {
-            kfm.setGlobalCurrentFocusCycleRootPriv(null);
+        if (cont == this || isPbrentOf(cont)) {
+            kfm.setGlobblCurrentFocusCycleRootPriv(null);
         }
     }
 
     @Override
-    void clearLightweightDispatcherOnRemove(Component removedComponent) {
-        if (dispatcher != null) {
-            dispatcher.removeReferences(removedComponent);
+    void clebrLightweightDispbtcherOnRemove(Component removedComponent) {
+        if (dispbtcher != null) {
+            dispbtcher.removeReferences(removedComponent);
         } else {
-            //It is a Lightweight Container, should clear parent`s Dispatcher
-            super.clearLightweightDispatcherOnRemove(removedComponent);
+            //It is b Lightweight Contbiner, should clebr pbrent`s Dispbtcher
+            super.clebrLightweightDispbtcherOnRemove(removedComponent);
         }
     }
 
-    final Container getTraversalRoot() {
+    finbl Contbiner getTrbversblRoot() {
         if (isFocusCycleRoot()) {
-            return findTraversalRoot();
+            return findTrbversblRoot();
         }
 
-        return super.getTraversalRoot();
+        return super.getTrbversblRoot();
     }
 
     /**
-     * Sets the focus traversal policy that will manage keyboard traversal of
-     * this Container's children, if this Container is a focus cycle root. If
-     * the argument is null, this Container inherits its policy from its focus-
-     * cycle-root ancestor. If the argument is non-null, this policy will be
-     * inherited by all focus-cycle-root children that have no keyboard-
-     * traversal policy of their own (as will, recursively, their focus-cycle-
+     * Sets the focus trbversbl policy thbt will mbnbge keybobrd trbversbl of
+     * this Contbiner's children, if this Contbiner is b focus cycle root. If
+     * the brgument is null, this Contbiner inherits its policy from its focus-
+     * cycle-root bncestor. If the brgument is non-null, this policy will be
+     * inherited by bll focus-cycle-root children thbt hbve no keybobrd-
+     * trbversbl policy of their own (bs will, recursively, their focus-cycle-
      * root children).
      * <p>
-     * If this Container is not a focus cycle root, the policy will be
-     * remembered, but will not be used or inherited by this or any other
-     * Containers until this Container is made a focus cycle root.
+     * If this Contbiner is not b focus cycle root, the policy will be
+     * remembered, but will not be used or inherited by this or bny other
+     * Contbiners until this Contbiner is mbde b focus cycle root.
      *
-     * @param policy the new focus traversal policy for this Container
-     * @see #getFocusTraversalPolicy
+     * @pbrbm policy the new focus trbversbl policy for this Contbiner
+     * @see #getFocusTrbversblPolicy
      * @see #setFocusCycleRoot
      * @see #isFocusCycleRoot
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      */
-    public void setFocusTraversalPolicy(FocusTraversalPolicy policy) {
-        FocusTraversalPolicy oldPolicy;
+    public void setFocusTrbversblPolicy(FocusTrbversblPolicy policy) {
+        FocusTrbversblPolicy oldPolicy;
         synchronized (this) {
-            oldPolicy = this.focusTraversalPolicy;
-            this.focusTraversalPolicy = policy;
+            oldPolicy = this.focusTrbversblPolicy;
+            this.focusTrbversblPolicy = policy;
         }
-        firePropertyChange("focusTraversalPolicy", oldPolicy, policy);
+        firePropertyChbnge("focusTrbversblPolicy", oldPolicy, policy);
     }
 
     /**
-     * Returns the focus traversal policy that will manage keyboard traversal
-     * of this Container's children, or null if this Container is not a focus
-     * cycle root. If no traversal policy has been explicitly set for this
-     * Container, then this Container's focus-cycle-root ancestor's policy is
+     * Returns the focus trbversbl policy thbt will mbnbge keybobrd trbversbl
+     * of this Contbiner's children, or null if this Contbiner is not b focus
+     * cycle root. If no trbversbl policy hbs been explicitly set for this
+     * Contbiner, then this Contbiner's focus-cycle-root bncestor's policy is
      * returned.
      *
-     * @return this Container's focus traversal policy, or null if this
-     *         Container is not a focus cycle root.
-     * @see #setFocusTraversalPolicy
+     * @return this Contbiner's focus trbversbl policy, or null if this
+     *         Contbiner is not b focus cycle root.
+     * @see #setFocusTrbversblPolicy
      * @see #setFocusCycleRoot
      * @see #isFocusCycleRoot
      * @since 1.4
      */
-    public FocusTraversalPolicy getFocusTraversalPolicy() {
-        if (!isFocusTraversalPolicyProvider() && !isFocusCycleRoot()) {
+    public FocusTrbversblPolicy getFocusTrbversblPolicy() {
+        if (!isFocusTrbversblPolicyProvider() && !isFocusCycleRoot()) {
             return null;
         }
 
-        FocusTraversalPolicy policy = this.focusTraversalPolicy;
+        FocusTrbversblPolicy policy = this.focusTrbversblPolicy;
         if (policy != null) {
             return policy;
         }
 
-        Container rootAncestor = getFocusCycleRootAncestor();
+        Contbiner rootAncestor = getFocusCycleRootAncestor();
         if (rootAncestor != null) {
-            return rootAncestor.getFocusTraversalPolicy();
+            return rootAncestor.getFocusTrbversblPolicy();
         } else {
-            return KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getDefaultFocusTraversalPolicy();
+            return KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+                getDefbultFocusTrbversblPolicy();
         }
     }
 
     /**
-     * Returns whether the focus traversal policy has been explicitly set for
-     * this Container. If this method returns <code>false</code>, this
-     * Container will inherit its focus traversal policy from an ancestor.
+     * Returns whether the focus trbversbl policy hbs been explicitly set for
+     * this Contbiner. If this method returns <code>fblse</code>, this
+     * Contbiner will inherit its focus trbversbl policy from bn bncestor.
      *
-     * @return <code>true</code> if the focus traversal policy has been
-     *         explicitly set for this Container; <code>false</code> otherwise.
+     * @return <code>true</code> if the focus trbversbl policy hbs been
+     *         explicitly set for this Contbiner; <code>fblse</code> otherwise.
      * @since 1.4
      */
-    public boolean isFocusTraversalPolicySet() {
-        return (focusTraversalPolicy != null);
+    public boolebn isFocusTrbversblPolicySet() {
+        return (focusTrbversblPolicy != null);
     }
 
     /**
-     * Sets whether this Container is the root of a focus traversal cycle. Once
-     * focus enters a traversal cycle, typically it cannot leave it via focus
-     * traversal unless one of the up- or down-cycle keys is pressed. Normal
-     * traversal is limited to this Container, and all of this Container's
-     * descendants that are not descendants of inferior focus cycle roots. Note
-     * that a FocusTraversalPolicy may bend these restrictions, however. For
-     * example, ContainerOrderFocusTraversalPolicy supports implicit down-cycle
-     * traversal.
+     * Sets whether this Contbiner is the root of b focus trbversbl cycle. Once
+     * focus enters b trbversbl cycle, typicblly it cbnnot lebve it vib focus
+     * trbversbl unless one of the up- or down-cycle keys is pressed. Normbl
+     * trbversbl is limited to this Contbiner, bnd bll of this Contbiner's
+     * descendbnts thbt bre not descendbnts of inferior focus cycle roots. Note
+     * thbt b FocusTrbversblPolicy mby bend these restrictions, however. For
+     * exbmple, ContbinerOrderFocusTrbversblPolicy supports implicit down-cycle
+     * trbversbl.
      * <p>
-     * The alternative way to specify the traversal order of this Container's
-     * children is to make this Container a
-     * <a href="doc-files/FocusSpec.html#FocusTraversalPolicyProviders">focus traversal policy provider</a>.
+     * The blternbtive wby to specify the trbversbl order of this Contbiner's
+     * children is to mbke this Contbiner b
+     * <b href="doc-files/FocusSpec.html#FocusTrbversblPolicyProviders">focus trbversbl policy provider</b>.
      *
-     * @param focusCycleRoot indicates whether this Container is the root of a
-     *        focus traversal cycle
+     * @pbrbm focusCycleRoot indicbtes whether this Contbiner is the root of b
+     *        focus trbversbl cycle
      * @see #isFocusCycleRoot()
-     * @see #setFocusTraversalPolicy
-     * @see #getFocusTraversalPolicy
-     * @see ContainerOrderFocusTraversalPolicy
-     * @see #setFocusTraversalPolicyProvider
+     * @see #setFocusTrbversblPolicy
+     * @see #getFocusTrbversblPolicy
+     * @see ContbinerOrderFocusTrbversblPolicy
+     * @see #setFocusTrbversblPolicyProvider
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *       bound: true
      */
-    public void setFocusCycleRoot(boolean focusCycleRoot) {
-        boolean oldFocusCycleRoot;
+    public void setFocusCycleRoot(boolebn focusCycleRoot) {
+        boolebn oldFocusCycleRoot;
         synchronized (this) {
             oldFocusCycleRoot = this.focusCycleRoot;
             this.focusCycleRoot = focusCycleRoot;
         }
-        firePropertyChange("focusCycleRoot", oldFocusCycleRoot,
+        firePropertyChbnge("focusCycleRoot", oldFocusCycleRoot,
                            focusCycleRoot);
     }
 
     /**
-     * Returns whether this Container is the root of a focus traversal cycle.
-     * Once focus enters a traversal cycle, typically it cannot leave it via
-     * focus traversal unless one of the up- or down-cycle keys is pressed.
-     * Normal traversal is limited to this Container, and all of this
-     * Container's descendants that are not descendants of inferior focus
-     * cycle roots. Note that a FocusTraversalPolicy may bend these
-     * restrictions, however. For example, ContainerOrderFocusTraversalPolicy
-     * supports implicit down-cycle traversal.
+     * Returns whether this Contbiner is the root of b focus trbversbl cycle.
+     * Once focus enters b trbversbl cycle, typicblly it cbnnot lebve it vib
+     * focus trbversbl unless one of the up- or down-cycle keys is pressed.
+     * Normbl trbversbl is limited to this Contbiner, bnd bll of this
+     * Contbiner's descendbnts thbt bre not descendbnts of inferior focus
+     * cycle roots. Note thbt b FocusTrbversblPolicy mby bend these
+     * restrictions, however. For exbmple, ContbinerOrderFocusTrbversblPolicy
+     * supports implicit down-cycle trbversbl.
      *
-     * @return whether this Container is the root of a focus traversal cycle
+     * @return whether this Contbiner is the root of b focus trbversbl cycle
      * @see #setFocusCycleRoot
-     * @see #setFocusTraversalPolicy
-     * @see #getFocusTraversalPolicy
-     * @see ContainerOrderFocusTraversalPolicy
+     * @see #setFocusTrbversblPolicy
+     * @see #getFocusTrbversblPolicy
+     * @see ContbinerOrderFocusTrbversblPolicy
      * @since 1.4
      */
-    public boolean isFocusCycleRoot() {
+    public boolebn isFocusCycleRoot() {
         return focusCycleRoot;
     }
 
     /**
-     * Sets whether this container will be used to provide focus
-     * traversal policy. Container with this property as
-     * <code>true</code> will be used to acquire focus traversal policy
-     * instead of closest focus cycle root ancestor.
-     * @param provider indicates whether this container will be used to
-     *                provide focus traversal policy
-     * @see #setFocusTraversalPolicy
-     * @see #getFocusTraversalPolicy
-     * @see #isFocusTraversalPolicyProvider
+     * Sets whether this contbiner will be used to provide focus
+     * trbversbl policy. Contbiner with this property bs
+     * <code>true</code> will be used to bcquire focus trbversbl policy
+     * instebd of closest focus cycle root bncestor.
+     * @pbrbm provider indicbtes whether this contbiner will be used to
+     *                provide focus trbversbl policy
+     * @see #setFocusTrbversblPolicy
+     * @see #getFocusTrbversblPolicy
+     * @see #isFocusTrbversblPolicyProvider
      * @since 1.5
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      */
-    public final void setFocusTraversalPolicyProvider(boolean provider) {
-        boolean oldProvider;
+    public finbl void setFocusTrbversblPolicyProvider(boolebn provider) {
+        boolebn oldProvider;
         synchronized(this) {
-            oldProvider = focusTraversalPolicyProvider;
-            focusTraversalPolicyProvider = provider;
+            oldProvider = focusTrbversblPolicyProvider;
+            focusTrbversblPolicyProvider = provider;
         }
-        firePropertyChange("focusTraversalPolicyProvider", oldProvider, provider);
+        firePropertyChbnge("focusTrbversblPolicyProvider", oldProvider, provider);
     }
 
     /**
-     * Returns whether this container provides focus traversal
+     * Returns whether this contbiner provides focus trbversbl
      * policy. If this property is set to <code>true</code> then when
-     * keyboard focus manager searches container hierarchy for focus
-     * traversal policy and encounters this container before any other
-     * container with this property as true or focus cycle roots then
-     * its focus traversal policy will be used instead of focus cycle
+     * keybobrd focus mbnbger sebrches contbiner hierbrchy for focus
+     * trbversbl policy bnd encounters this contbiner before bny other
+     * contbiner with this property bs true or focus cycle roots then
+     * its focus trbversbl policy will be used instebd of focus cycle
      * root's policy.
-     * @see #setFocusTraversalPolicy
-     * @see #getFocusTraversalPolicy
+     * @see #setFocusTrbversblPolicy
+     * @see #getFocusTrbversblPolicy
      * @see #setFocusCycleRoot
-     * @see #setFocusTraversalPolicyProvider
-     * @return <code>true</code> if this container provides focus traversal
-     *         policy, <code>false</code> otherwise
+     * @see #setFocusTrbversblPolicyProvider
+     * @return <code>true</code> if this contbiner provides focus trbversbl
+     *         policy, <code>fblse</code> otherwise
      * @since 1.5
-     * @beaninfo
+     * @bebninfo
      *        bound: true
      */
-    public final boolean isFocusTraversalPolicyProvider() {
-        return focusTraversalPolicyProvider;
+    public finbl boolebn isFocusTrbversblPolicyProvider() {
+        return focusTrbversblPolicyProvider;
     }
 
     /**
-     * Transfers the focus down one focus traversal cycle. If this Container is
-     * a focus cycle root, then the focus owner is set to this Container's
-     * default Component to focus, and the current focus cycle root is set to
-     * this Container. If this Container is not a focus cycle root, then no
-     * focus traversal operation occurs.
+     * Trbnsfers the focus down one focus trbversbl cycle. If this Contbiner is
+     * b focus cycle root, then the focus owner is set to this Contbiner's
+     * defbult Component to focus, bnd the current focus cycle root is set to
+     * this Contbiner. If this Contbiner is not b focus cycle root, then no
+     * focus trbversbl operbtion occurs.
      *
      * @see       Component#requestFocus()
      * @see       #isFocusCycleRoot
      * @see       #setFocusCycleRoot
      * @since     1.4
      */
-    public void transferFocusDownCycle() {
+    public void trbnsferFocusDownCycle() {
         if (isFocusCycleRoot()) {
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                setGlobalCurrentFocusCycleRootPriv(this);
-            Component toFocus = getFocusTraversalPolicy().
-                getDefaultComponent(this);
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+                setGlobblCurrentFocusCycleRootPriv(this);
+            Component toFocus = getFocusTrbversblPolicy().
+                getDefbultComponent(this);
             if (toFocus != null) {
-                toFocus.requestFocus(CausedFocusEvent.Cause.TRAVERSAL_DOWN);
+                toFocus.requestFocus(CbusedFocusEvent.Cbuse.TRAVERSAL_DOWN);
             }
         }
     }
 
     void preProcessKeyEvent(KeyEvent e) {
-        Container parent = this.parent;
-        if (parent != null) {
-            parent.preProcessKeyEvent(e);
+        Contbiner pbrent = this.pbrent;
+        if (pbrent != null) {
+            pbrent.preProcessKeyEvent(e);
         }
     }
 
     void postProcessKeyEvent(KeyEvent e) {
-        Container parent = this.parent;
-        if (parent != null) {
-            parent.postProcessKeyEvent(e);
+        Contbiner pbrent = this.pbrent;
+        if (pbrent != null) {
+            pbrent.postProcessKeyEvent(e);
         }
     }
 
-    boolean postsOldMouseEvents() {
+    boolebn postsOldMouseEvents() {
         return true;
     }
 
     /**
-     * Sets the <code>ComponentOrientation</code> property of this container
-     * and all components contained within it.
+     * Sets the <code>ComponentOrientbtion</code> property of this contbiner
+     * bnd bll components contbined within it.
      * <p>
-     * This method changes layout-related information, and therefore,
-     * invalidates the component hierarchy.
+     * This method chbnges lbyout-relbted informbtion, bnd therefore,
+     * invblidbtes the component hierbrchy.
      *
-     * @param o the new component orientation of this container and
-     *        the components contained within it.
-     * @exception NullPointerException if <code>orientation</code> is null.
-     * @see Component#setComponentOrientation
-     * @see Component#getComponentOrientation
-     * @see #invalidate
+     * @pbrbm o the new component orientbtion of this contbiner bnd
+     *        the components contbined within it.
+     * @exception NullPointerException if <code>orientbtion</code> is null.
+     * @see Component#setComponentOrientbtion
+     * @see Component#getComponentOrientbtion
+     * @see #invblidbte
      * @since 1.4
      */
-    public void applyComponentOrientation(ComponentOrientation o) {
-        super.applyComponentOrientation(o);
+    public void bpplyComponentOrientbtion(ComponentOrientbtion o) {
+        super.bpplyComponentOrientbtion(o);
         synchronized (getTreeLock()) {
             for (int i = 0; i < component.size(); i++) {
                 Component comp = component.get(i);
-                comp.applyComponentOrientation(o);
+                comp.bpplyComponentOrientbtion(o);
             }
         }
     }
 
     /**
-     * Adds a PropertyChangeListener to the listener list. The listener is
-     * registered for all bound properties of this class, including the
+     * Adds b PropertyChbngeListener to the listener list. The listener is
+     * registered for bll bound properties of this clbss, including the
      * following:
      * <ul>
-     *    <li>this Container's font ("font")</li>
-     *    <li>this Container's background color ("background")</li>
-     *    <li>this Container's foreground color ("foreground")</li>
-     *    <li>this Container's focusability ("focusable")</li>
-     *    <li>this Container's focus traversal keys enabled state
-     *        ("focusTraversalKeysEnabled")</li>
-     *    <li>this Container's Set of FORWARD_TRAVERSAL_KEYS
-     *        ("forwardFocusTraversalKeys")</li>
-     *    <li>this Container's Set of BACKWARD_TRAVERSAL_KEYS
-     *        ("backwardFocusTraversalKeys")</li>
-     *    <li>this Container's Set of UP_CYCLE_TRAVERSAL_KEYS
-     *        ("upCycleFocusTraversalKeys")</li>
-     *    <li>this Container's Set of DOWN_CYCLE_TRAVERSAL_KEYS
-     *        ("downCycleFocusTraversalKeys")</li>
-     *    <li>this Container's focus traversal policy ("focusTraversalPolicy")
+     *    <li>this Contbiner's font ("font")</li>
+     *    <li>this Contbiner's bbckground color ("bbckground")</li>
+     *    <li>this Contbiner's foreground color ("foreground")</li>
+     *    <li>this Contbiner's focusbbility ("focusbble")</li>
+     *    <li>this Contbiner's focus trbversbl keys enbbled stbte
+     *        ("focusTrbversblKeysEnbbled")</li>
+     *    <li>this Contbiner's Set of FORWARD_TRAVERSAL_KEYS
+     *        ("forwbrdFocusTrbversblKeys")</li>
+     *    <li>this Contbiner's Set of BACKWARD_TRAVERSAL_KEYS
+     *        ("bbckwbrdFocusTrbversblKeys")</li>
+     *    <li>this Contbiner's Set of UP_CYCLE_TRAVERSAL_KEYS
+     *        ("upCycleFocusTrbversblKeys")</li>
+     *    <li>this Contbiner's Set of DOWN_CYCLE_TRAVERSAL_KEYS
+     *        ("downCycleFocusTrbversblKeys")</li>
+     *    <li>this Contbiner's focus trbversbl policy ("focusTrbversblPolicy")
      *        </li>
-     *    <li>this Container's focus-cycle-root state ("focusCycleRoot")</li>
+     *    <li>this Contbiner's focus-cycle-root stbte ("focusCycleRoot")</li>
      * </ul>
-     * Note that if this Container is inheriting a bound property, then no
-     * event will be fired in response to a change in the inherited property.
+     * Note thbt if this Contbiner is inheriting b bound property, then no
+     * event will be fired in response to b chbnge in the inherited property.
      * <p>
-     * If listener is null, no exception is thrown and no action is performed.
+     * If listener is null, no exception is thrown bnd no bction is performed.
      *
-     * @param    listener  the PropertyChangeListener to be added
+     * @pbrbm    listener  the PropertyChbngeListener to be bdded
      *
-     * @see Component#removePropertyChangeListener
-     * @see #addPropertyChangeListener(java.lang.String,java.beans.PropertyChangeListener)
+     * @see Component#removePropertyChbngeListener
+     * @see #bddPropertyChbngeListener(jbvb.lbng.String,jbvb.bebns.PropertyChbngeListener)
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        super.addPropertyChangeListener(listener);
+    public void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+        super.bddPropertyChbngeListener(listener);
     }
 
     /**
-     * Adds a PropertyChangeListener to the listener list for a specific
-     * property. The specified property may be user-defined, or one of the
-     * following defaults:
+     * Adds b PropertyChbngeListener to the listener list for b specific
+     * property. The specified property mby be user-defined, or one of the
+     * following defbults:
      * <ul>
-     *    <li>this Container's font ("font")</li>
-     *    <li>this Container's background color ("background")</li>
-     *    <li>this Container's foreground color ("foreground")</li>
-     *    <li>this Container's focusability ("focusable")</li>
-     *    <li>this Container's focus traversal keys enabled state
-     *        ("focusTraversalKeysEnabled")</li>
-     *    <li>this Container's Set of FORWARD_TRAVERSAL_KEYS
-     *        ("forwardFocusTraversalKeys")</li>
-     *    <li>this Container's Set of BACKWARD_TRAVERSAL_KEYS
-     *        ("backwardFocusTraversalKeys")</li>
-     *    <li>this Container's Set of UP_CYCLE_TRAVERSAL_KEYS
-     *        ("upCycleFocusTraversalKeys")</li>
-     *    <li>this Container's Set of DOWN_CYCLE_TRAVERSAL_KEYS
-     *        ("downCycleFocusTraversalKeys")</li>
-     *    <li>this Container's focus traversal policy ("focusTraversalPolicy")
+     *    <li>this Contbiner's font ("font")</li>
+     *    <li>this Contbiner's bbckground color ("bbckground")</li>
+     *    <li>this Contbiner's foreground color ("foreground")</li>
+     *    <li>this Contbiner's focusbbility ("focusbble")</li>
+     *    <li>this Contbiner's focus trbversbl keys enbbled stbte
+     *        ("focusTrbversblKeysEnbbled")</li>
+     *    <li>this Contbiner's Set of FORWARD_TRAVERSAL_KEYS
+     *        ("forwbrdFocusTrbversblKeys")</li>
+     *    <li>this Contbiner's Set of BACKWARD_TRAVERSAL_KEYS
+     *        ("bbckwbrdFocusTrbversblKeys")</li>
+     *    <li>this Contbiner's Set of UP_CYCLE_TRAVERSAL_KEYS
+     *        ("upCycleFocusTrbversblKeys")</li>
+     *    <li>this Contbiner's Set of DOWN_CYCLE_TRAVERSAL_KEYS
+     *        ("downCycleFocusTrbversblKeys")</li>
+     *    <li>this Contbiner's focus trbversbl policy ("focusTrbversblPolicy")
      *        </li>
-     *    <li>this Container's focus-cycle-root state ("focusCycleRoot")</li>
-     *    <li>this Container's focus-traversal-policy-provider state("focusTraversalPolicyProvider")</li>
-     *    <li>this Container's focus-traversal-policy-provider state("focusTraversalPolicyProvider")</li>
+     *    <li>this Contbiner's focus-cycle-root stbte ("focusCycleRoot")</li>
+     *    <li>this Contbiner's focus-trbversbl-policy-provider stbte("focusTrbversblPolicyProvider")</li>
+     *    <li>this Contbiner's focus-trbversbl-policy-provider stbte("focusTrbversblPolicyProvider")</li>
      * </ul>
-     * Note that if this Container is inheriting a bound property, then no
-     * event will be fired in response to a change in the inherited property.
+     * Note thbt if this Contbiner is inheriting b bound property, then no
+     * event will be fired in response to b chbnge in the inherited property.
      * <p>
-     * If listener is null, no exception is thrown and no action is performed.
+     * If listener is null, no exception is thrown bnd no bction is performed.
      *
-     * @param propertyName one of the property names listed above
-     * @param listener the PropertyChangeListener to be added
+     * @pbrbm propertyNbme one of the property nbmes listed bbove
+     * @pbrbm listener the PropertyChbngeListener to be bdded
      *
-     * @see #addPropertyChangeListener(java.beans.PropertyChangeListener)
-     * @see Component#removePropertyChangeListener
+     * @see #bddPropertyChbngeListener(jbvb.bebns.PropertyChbngeListener)
+     * @see Component#removePropertyChbngeListener
      */
-    public void addPropertyChangeListener(String propertyName,
-                                          PropertyChangeListener listener) {
-        super.addPropertyChangeListener(propertyName, listener);
+    public void bddPropertyChbngeListener(String propertyNbme,
+                                          PropertyChbngeListener listener) {
+        super.bddPropertyChbngeListener(propertyNbme, listener);
     }
 
-    // Serialization support. A Container is responsible for restoring the
-    // parent fields of its component children.
+    // Seriblizbtion support. A Contbiner is responsible for restoring the
+    // pbrent fields of its component children.
 
     /**
-     * Container Serial Data Version.
+     * Contbiner Seribl Dbtb Version.
      */
-    private int containerSerializedDataVersion = 1;
+    privbte int contbinerSeriblizedDbtbVersion = 1;
 
     /**
-     * Serializes this <code>Container</code> to the specified
-     * <code>ObjectOutputStream</code>.
+     * Seriblizes this <code>Contbiner</code> to the specified
+     * <code>ObjectOutputStrebm</code>.
      * <ul>
-     *    <li>Writes default serializable fields to the stream.</li>
-     *    <li>Writes a list of serializable ContainerListener(s) as optional
-     *        data. The non-serializable ContainerListner(s) are detected and
-     *        no attempt is made to serialize them.</li>
-     *    <li>Write this Container's FocusTraversalPolicy if and only if it
-     *        is Serializable; otherwise, <code>null</code> is written.</li>
+     *    <li>Writes defbult seriblizbble fields to the strebm.</li>
+     *    <li>Writes b list of seriblizbble ContbinerListener(s) bs optionbl
+     *        dbtb. The non-seriblizbble ContbinerListner(s) bre detected bnd
+     *        no bttempt is mbde to seriblize them.</li>
+     *    <li>Write this Contbiner's FocusTrbversblPolicy if bnd only if it
+     *        is Seriblizbble; otherwise, <code>null</code> is written.</li>
      * </ul>
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData <code>null</code> terminated sequence of 0 or more pairs;
-     *   the pair consists of a <code>String</code> and <code>Object</code>;
-     *   the <code>String</code> indicates the type of object and
+     * @pbrbm s the <code>ObjectOutputStrebm</code> to write
+     * @seriblDbtb <code>null</code> terminbted sequence of 0 or more pbirs;
+     *   the pbir consists of b <code>String</code> bnd <code>Object</code>;
+     *   the <code>String</code> indicbtes the type of object bnd
      *   is one of the following:
-     *   <code>containerListenerK</code> indicating an
-     *     <code>ContainerListener</code> object;
-     *   the <code>Container</code>'s <code>FocusTraversalPolicy</code>,
+     *   <code>contbinerListenerK</code> indicbting bn
+     *     <code>ContbinerListener</code> object;
+     *   the <code>Contbiner</code>'s <code>FocusTrbversblPolicy</code>,
      *     or <code>null</code>
      *
-     * @see AWTEventMulticaster#save(java.io.ObjectOutputStream, java.lang.String, java.util.EventListener)
-     * @see Container#containerListenerK
-     * @see #readObject(ObjectInputStream)
+     * @see AWTEventMulticbster#sbve(jbvb.io.ObjectOutputStrebm, jbvb.lbng.String, jbvb.util.EventListener)
+     * @see Contbiner#contbinerListenerK
+     * @see #rebdObject(ObjectInputStrebm)
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        ObjectOutputStream.PutField f = s.putFields();
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        ObjectOutputStrebm.PutField f = s.putFields();
         f.put("ncomponents", component.size());
         f.put("component", getComponentsSync());
-        f.put("layoutMgr", layoutMgr);
-        f.put("dispatcher", dispatcher);
-        f.put("maxSize", maxSize);
+        f.put("lbyoutMgr", lbyoutMgr);
+        f.put("dispbtcher", dispbtcher);
+        f.put("mbxSize", mbxSize);
         f.put("focusCycleRoot", focusCycleRoot);
-        f.put("containerSerializedDataVersion", containerSerializedDataVersion);
-        f.put("focusTraversalPolicyProvider", focusTraversalPolicyProvider);
+        f.put("contbinerSeriblizedDbtbVersion", contbinerSeriblizedDbtbVersion);
+        f.put("focusTrbversblPolicyProvider", focusTrbversblPolicyProvider);
         s.writeFields();
 
-        AWTEventMulticaster.save(s, containerListenerK, containerListener);
+        AWTEventMulticbster.sbve(s, contbinerListenerK, contbinerListener);
         s.writeObject(null);
 
-        if (focusTraversalPolicy instanceof java.io.Serializable) {
-            s.writeObject(focusTraversalPolicy);
+        if (focusTrbversblPolicy instbnceof jbvb.io.Seriblizbble) {
+            s.writeObject(focusTrbversblPolicy);
         } else {
             s.writeObject(null);
         }
     }
 
     /**
-     * Deserializes this <code>Container</code> from the specified
-     * <code>ObjectInputStream</code>.
+     * Deseriblizes this <code>Contbiner</code> from the specified
+     * <code>ObjectInputStrebm</code>.
      * <ul>
-     *    <li>Reads default serializable fields from the stream.</li>
-     *    <li>Reads a list of serializable ContainerListener(s) as optional
-     *        data. If the list is null, no Listeners are installed.</li>
-     *    <li>Reads this Container's FocusTraversalPolicy, which may be null,
-     *        as optional data.</li>
+     *    <li>Rebds defbult seriblizbble fields from the strebm.</li>
+     *    <li>Rebds b list of seriblizbble ContbinerListener(s) bs optionbl
+     *        dbtb. If the list is null, no Listeners bre instblled.</li>
+     *    <li>Rebds this Contbiner's FocusTrbversblPolicy, which mby be null,
+     *        bs optionbl dbtb.</li>
      * </ul>
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @serial
-     * @see #addContainerListener
-     * @see #writeObject(ObjectOutputStream)
+     * @pbrbm s the <code>ObjectInputStrebm</code> to rebd
+     * @seribl
+     * @see #bddContbinerListener
+     * @see #writeObject(ObjectOutputStrebm)
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws ClbssNotFoundException, IOException
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjectInputStrebm.GetField f = s.rebdFields();
         Component [] tmpComponent = (Component[])f.get("component", EMPTY_ARRAY);
         int ncomponents = (Integer) f.get("ncomponents", 0);
-        component = new java.util.ArrayList<Component>(ncomponents);
+        component = new jbvb.util.ArrbyList<Component>(ncomponents);
         for (int i = 0; i < ncomponents; ++i) {
-            component.add(tmpComponent[i]);
+            component.bdd(tmpComponent[i]);
         }
-        layoutMgr = (LayoutManager)f.get("layoutMgr", null);
-        dispatcher = (LightweightDispatcher)f.get("dispatcher", null);
-        // Old stream. Doesn't contain maxSize among Component's fields.
-        if (maxSize == null) {
-            maxSize = (Dimension)f.get("maxSize", null);
+        lbyoutMgr = (LbyoutMbnbger)f.get("lbyoutMgr", null);
+        dispbtcher = (LightweightDispbtcher)f.get("dispbtcher", null);
+        // Old strebm. Doesn't contbin mbxSize bmong Component's fields.
+        if (mbxSize == null) {
+            mbxSize = (Dimension)f.get("mbxSize", null);
         }
-        focusCycleRoot = f.get("focusCycleRoot", false);
-        containerSerializedDataVersion = f.get("containerSerializedDataVersion", 1);
-        focusTraversalPolicyProvider = f.get("focusTraversalPolicyProvider", false);
-        java.util.List<Component> component = this.component;
+        focusCycleRoot = f.get("focusCycleRoot", fblse);
+        contbinerSeriblizedDbtbVersion = f.get("contbinerSeriblizedDbtbVersion", 1);
+        focusTrbversblPolicyProvider = f.get("focusTrbversblPolicyProvider", fblse);
+        jbvb.util.List<Component> component = this.component;
         for(Component comp : component) {
-            comp.parent = this;
-            adjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
+            comp.pbrent = this;
+            bdjustListeningChildren(AWTEvent.HIERARCHY_EVENT_MASK,
                                     comp.numListening(AWTEvent.HIERARCHY_EVENT_MASK));
-            adjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
+            bdjustListeningChildren(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK,
                                     comp.numListening(AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK));
-            adjustDescendants(comp.countHierarchyMembers());
+            bdjustDescendbnts(comp.countHierbrchyMembers());
         }
 
         Object keyOrNull;
-        while(null != (keyOrNull = s.readObject())) {
+        while(null != (keyOrNull = s.rebdObject())) {
             String key = ((String)keyOrNull).intern();
 
-            if (containerListenerK == key) {
-                addContainerListener((ContainerListener)(s.readObject()));
+            if (contbinerListenerK == key) {
+                bddContbinerListener((ContbinerListener)(s.rebdObject()));
             } else {
-                // skip value for unrecognized key
-                s.readObject();
+                // skip vblue for unrecognized key
+                s.rebdObject();
             }
         }
 
         try {
-            Object policy = s.readObject();
-            if (policy instanceof FocusTraversalPolicy) {
-                focusTraversalPolicy = (FocusTraversalPolicy)policy;
+            Object policy = s.rebdObject();
+            if (policy instbnceof FocusTrbversblPolicy) {
+                focusTrbversblPolicy = (FocusTrbversblPolicy)policy;
             }
-        } catch (java.io.OptionalDataException e) {
-            // JDK 1.1/1.2/1.3 instances will not have this optional data.
-            // e.eof will be true to indicate that there is no more data
-            // available for this object. If e.eof is not true, throw the
-            // exception as it might have been caused by reasons unrelated to
-            // focusTraversalPolicy.
+        } cbtch (jbvb.io.OptionblDbtbException e) {
+            // JDK 1.1/1.2/1.3 instbnces will not hbve this optionbl dbtb.
+            // e.eof will be true to indicbte thbt there is no more dbtb
+            // bvbilbble for this object. If e.eof is not true, throw the
+            // exception bs it might hbve been cbused by rebsons unrelbted to
+            // focusTrbversblPolicy.
 
             if (!e.eof) {
                 throw e;
@@ -3795,89 +3795,89 @@ public class Container extends Component {
      */
 
     /**
-     * Inner class of Container used to provide default support for
-     * accessibility.  This class is not meant to be used directly by
-     * application developers, but is instead meant only to be
-     * subclassed by container developers.
+     * Inner clbss of Contbiner used to provide defbult support for
+     * bccessibility.  This clbss is not mebnt to be used directly by
+     * bpplicbtion developers, but is instebd mebnt only to be
+     * subclbssed by contbiner developers.
      * <p>
-     * The class used to obtain the accessible role for this object,
-     * as well as implementing many of the methods in the
-     * AccessibleContainer interface.
+     * The clbss used to obtbin the bccessible role for this object,
+     * bs well bs implementing mbny of the methods in the
+     * AccessibleContbiner interfbce.
      * @since 1.3
      */
-    protected class AccessibleAWTContainer extends AccessibleAWTComponent {
+    protected clbss AccessibleAWTContbiner extends AccessibleAWTComponent {
 
         /**
-         * JDK1.3 serialVersionUID
+         * JDK1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 5081320404842566097L;
+        privbte stbtic finbl long seriblVersionUID = 5081320404842566097L;
 
         /**
-         * Returns the number of accessible children in the object.  If all
+         * Returns the number of bccessible children in the object.  If bll
          * of the children of this object implement <code>Accessible</code>,
          * then this method should return the number of children of this object.
          *
-         * @return the number of accessible children in the object
+         * @return the number of bccessible children in the object
          */
         public int getAccessibleChildrenCount() {
-            return Container.this.getAccessibleChildrenCount();
+            return Contbiner.this.getAccessibleChildrenCount();
         }
 
         /**
          * Returns the nth <code>Accessible</code> child of the object.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the nth <code>Accessible</code> child of the object
          */
         public Accessible getAccessibleChild(int i) {
-            return Container.this.getAccessibleChild(i);
+            return Contbiner.this.getAccessibleChild(i);
         }
 
         /**
          * Returns the <code>Accessible</code> child, if one exists,
-         * contained at the local coordinate <code>Point</code>.
+         * contbined bt the locbl coordinbte <code>Point</code>.
          *
-         * @param p the point defining the top-left corner of the
-         *    <code>Accessible</code>, given in the coordinate space
-         *    of the object's parent
+         * @pbrbm p the point defining the top-left corner of the
+         *    <code>Accessible</code>, given in the coordinbte spbce
+         *    of the object's pbrent
          * @return the <code>Accessible</code>, if it exists,
-         *    at the specified location; else <code>null</code>
+         *    bt the specified locbtion; else <code>null</code>
          */
         public Accessible getAccessibleAt(Point p) {
-            return Container.this.getAccessibleAt(p);
+            return Contbiner.this.getAccessibleAt(p);
         }
 
         /**
-         * Number of PropertyChangeListener objects registered. It's used
-         * to add/remove ContainerListener to track target Container's state.
+         * Number of PropertyChbngeListener objects registered. It's used
+         * to bdd/remove ContbinerListener to trbck tbrget Contbiner's stbte.
          */
-        private volatile transient int propertyListenersCount = 0;
+        privbte volbtile trbnsient int propertyListenersCount = 0;
 
         /**
-         * The handler to fire {@code PropertyChange}
-         * when children are added or removed
+         * The hbndler to fire {@code PropertyChbnge}
+         * when children bre bdded or removed
          */
-        protected ContainerListener accessibleContainerHandler = null;
+        protected ContbinerListener bccessibleContbinerHbndler = null;
 
         /**
-         * Fire <code>PropertyChange</code> listener, if one is registered,
-         * when children are added or removed.
+         * Fire <code>PropertyChbnge</code> listener, if one is registered,
+         * when children bre bdded or removed.
          * @since 1.3
          */
-        protected class AccessibleContainerHandler
-            implements ContainerListener {
-            public void componentAdded(ContainerEvent e) {
+        protected clbss AccessibleContbinerHbndler
+            implements ContbinerListener {
+            public void componentAdded(ContbinerEvent e) {
                 Component c = e.getChild();
-                if (c != null && c instanceof Accessible) {
-                    AccessibleAWTContainer.this.firePropertyChange(
+                if (c != null && c instbnceof Accessible) {
+                    AccessibleAWTContbiner.this.firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_CHILD_PROPERTY,
                         null, ((Accessible) c).getAccessibleContext());
                 }
             }
-            public void componentRemoved(ContainerEvent e) {
+            public void componentRemoved(ContbinerEvent e) {
                 Component c = e.getChild();
-                if (c != null && c instanceof Accessible) {
-                    AccessibleAWTContainer.this.firePropertyChange(
+                if (c != null && c instbnceof Accessible) {
+                    AccessibleAWTContbiner.this.firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_CHILD_PROPERTY,
                         ((Accessible) c).getAccessibleContext(), null);
                 }
@@ -3885,68 +3885,68 @@ public class Container extends Component {
         }
 
         /**
-         * Adds a PropertyChangeListener to the listener list.
+         * Adds b PropertyChbngeListener to the listener list.
          *
-         * @param listener  the PropertyChangeListener to be added
+         * @pbrbm listener  the PropertyChbngeListener to be bdded
          */
-        public void addPropertyChangeListener(PropertyChangeListener listener) {
-            if (accessibleContainerHandler == null) {
-                accessibleContainerHandler = new AccessibleContainerHandler();
+        public void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+            if (bccessibleContbinerHbndler == null) {
+                bccessibleContbinerHbndler = new AccessibleContbinerHbndler();
             }
             if (propertyListenersCount++ == 0) {
-                Container.this.addContainerListener(accessibleContainerHandler);
+                Contbiner.this.bddContbinerListener(bccessibleContbinerHbndler);
             }
-            super.addPropertyChangeListener(listener);
+            super.bddPropertyChbngeListener(listener);
         }
 
         /**
-         * Remove a PropertyChangeListener from the listener list.
-         * This removes a PropertyChangeListener that was registered
-         * for all properties.
+         * Remove b PropertyChbngeListener from the listener list.
+         * This removes b PropertyChbngeListener thbt wbs registered
+         * for bll properties.
          *
-         * @param listener the PropertyChangeListener to be removed
+         * @pbrbm listener the PropertyChbngeListener to be removed
          */
-        public void removePropertyChangeListener(PropertyChangeListener listener) {
+        public void removePropertyChbngeListener(PropertyChbngeListener listener) {
             if (--propertyListenersCount == 0) {
-                Container.this.removeContainerListener(accessibleContainerHandler);
+                Contbiner.this.removeContbinerListener(bccessibleContbinerHbndler);
             }
-            super.removePropertyChangeListener(listener);
+            super.removePropertyChbngeListener(listener);
         }
 
-    } // inner class AccessibleAWTContainer
+    } // inner clbss AccessibleAWTContbiner
 
     /**
-     * Returns the <code>Accessible</code> child contained at the local
-     * coordinate <code>Point</code>, if one exists.  Otherwise
+     * Returns the <code>Accessible</code> child contbined bt the locbl
+     * coordinbte <code>Point</code>, if one exists.  Otherwise
      * returns <code>null</code>.
      *
-     * @param p the point defining the top-left corner of the
-     *    <code>Accessible</code>, given in the coordinate space
-     *    of the object's parent
-     * @return the <code>Accessible</code> at the specified location,
+     * @pbrbm p the point defining the top-left corner of the
+     *    <code>Accessible</code>, given in the coordinbte spbce
+     *    of the object's pbrent
+     * @return the <code>Accessible</code> bt the specified locbtion,
      *    if it exists; otherwise <code>null</code>
      */
     Accessible getAccessibleAt(Point p) {
         synchronized (getTreeLock()) {
-            if (this instanceof Accessible) {
-                Accessible a = (Accessible)this;
-                AccessibleContext ac = a.getAccessibleContext();
-                if (ac != null) {
-                    AccessibleComponent acmp;
-                    Point location;
-                    int nchildren = ac.getAccessibleChildrenCount();
+            if (this instbnceof Accessible) {
+                Accessible b = (Accessible)this;
+                AccessibleContext bc = b.getAccessibleContext();
+                if (bc != null) {
+                    AccessibleComponent bcmp;
+                    Point locbtion;
+                    int nchildren = bc.getAccessibleChildrenCount();
                     for (int i=0; i < nchildren; i++) {
-                        a = ac.getAccessibleChild(i);
-                        if ((a != null)) {
-                            ac = a.getAccessibleContext();
-                            if (ac != null) {
-                                acmp = ac.getAccessibleComponent();
-                                if ((acmp != null) && (acmp.isShowing())) {
-                                    location = acmp.getLocation();
-                                    Point np = new Point(p.x-location.x,
-                                                         p.y-location.y);
-                                    if (acmp.contains(np)){
-                                        return a;
+                        b = bc.getAccessibleChild(i);
+                        if ((b != null)) {
+                            bc = b.getAccessibleContext();
+                            if (bc != null) {
+                                bcmp = bc.getAccessibleComponent();
+                                if ((bcmp != null) && (bcmp.isShowing())) {
+                                    locbtion = bcmp.getLocbtion();
+                                    Point np = new Point(p.x-locbtion.x,
+                                                         p.y-locbtion.y);
+                                    if (bcmp.contbins(np)){
+                                        return b;
                                     }
                                 }
                             }
@@ -3956,21 +3956,21 @@ public class Container extends Component {
                 return (Accessible)this;
             } else {
                 Component ret = this;
-                if (!this.contains(p.x,p.y)) {
+                if (!this.contbins(p.x,p.y)) {
                     ret = null;
                 } else {
                     int ncomponents = this.getComponentCount();
                     for (int i=0; i < ncomponents; i++) {
                         Component comp = this.getComponent(i);
                         if ((comp != null) && comp.isShowing()) {
-                            Point location = comp.getLocation();
-                            if (comp.contains(p.x-location.x,p.y-location.y)) {
+                            Point locbtion = comp.getLocbtion();
+                            if (comp.contbins(p.x-locbtion.x,p.y-locbtion.y)) {
                                 ret = comp;
                             }
                         }
                     }
                 }
-                if (ret instanceof Accessible) {
+                if (ret instbnceof Accessible) {
                     return (Accessible) ret;
                 }
             }
@@ -3979,18 +3979,18 @@ public class Container extends Component {
     }
 
     /**
-     * Returns the number of accessible children in the object.  If all
+     * Returns the number of bccessible children in the object.  If bll
      * of the children of this object implement <code>Accessible</code>,
      * then this method should return the number of children of this object.
      *
-     * @return the number of accessible children in the object
+     * @return the number of bccessible children in the object
      */
     int getAccessibleChildrenCount() {
         synchronized (getTreeLock()) {
             int count = 0;
             Component[] children = this.getComponents();
             for (int i = 0; i < children.length; i++) {
-                if (children[i] instanceof Accessible) {
+                if (children[i] instbnceof Accessible) {
                     count++;
                 }
             }
@@ -4001,7 +4001,7 @@ public class Container extends Component {
     /**
      * Returns the nth <code>Accessible</code> child of the object.
      *
-     * @param i zero-based index of child
+     * @pbrbm i zero-bbsed index of child
      * @return the nth <code>Accessible</code> child of the object
      */
     Accessible getAccessibleChild(int i) {
@@ -4009,7 +4009,7 @@ public class Container extends Component {
             Component[] children = this.getComponents();
             int count = 0;
             for (int j = 0; j < children.length; j++) {
-                if (children[j] instanceof Accessible) {
+                if (children[j] instbnceof Accessible) {
                     if (count == i) {
                         return (Accessible) children[j];
                     } else {
@@ -4023,48 +4023,48 @@ public class Container extends Component {
 
     // ************************** MIXING CODE *******************************
 
-    final void increaseComponentCount(Component c) {
+    finbl void increbseComponentCount(Component c) {
         synchronized (getTreeLock()) {
-            if (!c.isDisplayable()) {
-                throw new IllegalStateException(
-                    "Peer does not exist while invoking the increaseComponentCount() method"
+            if (!c.isDisplbybble()) {
+                throw new IllegblStbteException(
+                    "Peer does not exist while invoking the increbseComponentCount() method"
                 );
             }
 
-            int addHW = 0;
-            int addLW = 0;
+            int bddHW = 0;
+            int bddLW = 0;
 
-            if (c instanceof Container) {
-                addLW = ((Container)c).numOfLWComponents;
-                addHW = ((Container)c).numOfHWComponents;
+            if (c instbnceof Contbiner) {
+                bddLW = ((Contbiner)c).numOfLWComponents;
+                bddHW = ((Contbiner)c).numOfHWComponents;
             }
             if (c.isLightweight()) {
-                addLW++;
+                bddLW++;
             } else {
-                addHW++;
+                bddHW++;
             }
 
-            for (Container cont = this; cont != null; cont = cont.getContainer()) {
-                cont.numOfLWComponents += addLW;
-                cont.numOfHWComponents += addHW;
+            for (Contbiner cont = this; cont != null; cont = cont.getContbiner()) {
+                cont.numOfLWComponents += bddLW;
+                cont.numOfHWComponents += bddHW;
             }
         }
     }
 
-    final void decreaseComponentCount(Component c) {
+    finbl void decrebseComponentCount(Component c) {
         synchronized (getTreeLock()) {
-            if (!c.isDisplayable()) {
-                throw new IllegalStateException(
-                    "Peer does not exist while invoking the decreaseComponentCount() method"
+            if (!c.isDisplbybble()) {
+                throw new IllegblStbteException(
+                    "Peer does not exist while invoking the decrebseComponentCount() method"
                 );
             }
 
             int subHW = 0;
             int subLW = 0;
 
-            if (c instanceof Container) {
-                subLW = ((Container)c).numOfLWComponents;
-                subHW = ((Container)c).numOfHWComponents;
+            if (c instbnceof Contbiner) {
+                subLW = ((Contbiner)c).numOfLWComponents;
+                subHW = ((Contbiner)c).numOfHWComponents;
             }
             if (c.isLightweight()) {
                 subLW++;
@@ -4072,14 +4072,14 @@ public class Container extends Component {
                 subHW++;
             }
 
-            for (Container cont = this; cont != null; cont = cont.getContainer()) {
+            for (Contbiner cont = this; cont != null; cont = cont.getContbiner()) {
                 cont.numOfLWComponents -= subLW;
                 cont.numOfHWComponents -= subHW;
             }
         }
     }
 
-    private int getTopmostComponentIndex() {
+    privbte int getTopmostComponentIndex() {
         checkTreeLock();
         if (getComponentCount() > 0) {
             return 0;
@@ -4087,7 +4087,7 @@ public class Container extends Component {
         return -1;
     }
 
-    private int getBottommostComponentIndex() {
+    privbte int getBottommostComponentIndex() {
         checkTreeLock();
         if (getComponentCount() > 0) {
             return getComponentCount() - 1;
@@ -4096,108 +4096,108 @@ public class Container extends Component {
     }
 
     /*
-     * This method is overriden to handle opaque children in non-opaque
-     * containers.
+     * This method is overriden to hbndle opbque children in non-opbque
+     * contbiners.
      */
     @Override
-    final Region getOpaqueShape() {
+    finbl Region getOpbqueShbpe() {
         checkTreeLock();
-        if (isLightweight() && isNonOpaqueForMixing()
-                && hasLightweightDescendants())
+        if (isLightweight() && isNonOpbqueForMixing()
+                && hbsLightweightDescendbnts())
         {
             Region s = Region.EMPTY_REGION;
             for (int index = 0; index < getComponentCount(); index++) {
                 Component c = getComponent(index);
                 if (c.isLightweight() && c.isShowing()) {
-                    s = s.getUnion(c.getOpaqueShape());
+                    s = s.getUnion(c.getOpbqueShbpe());
                 }
             }
-            return s.getIntersection(getNormalShape());
+            return s.getIntersection(getNormblShbpe());
         }
-        return super.getOpaqueShape();
+        return super.getOpbqueShbpe();
     }
 
-    final void recursiveSubtractAndApplyShape(Region shape) {
-        recursiveSubtractAndApplyShape(shape, getTopmostComponentIndex(), getBottommostComponentIndex());
+    finbl void recursiveSubtrbctAndApplyShbpe(Region shbpe) {
+        recursiveSubtrbctAndApplyShbpe(shbpe, getTopmostComponentIndex(), getBottommostComponentIndex());
     }
 
-    final void recursiveSubtractAndApplyShape(Region shape, int fromZorder) {
-        recursiveSubtractAndApplyShape(shape, fromZorder, getBottommostComponentIndex());
+    finbl void recursiveSubtrbctAndApplyShbpe(Region shbpe, int fromZorder) {
+        recursiveSubtrbctAndApplyShbpe(shbpe, fromZorder, getBottommostComponentIndex());
     }
 
-    final void recursiveSubtractAndApplyShape(Region shape, int fromZorder, int toZorder) {
+    finbl void recursiveSubtrbctAndApplyShbpe(Region shbpe, int fromZorder, int toZorder) {
         checkTreeLock();
-        if (mixingLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (mixingLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             mixingLog.fine("this = " + this +
-                "; shape=" + shape + "; fromZ=" + fromZorder + "; toZ=" + toZorder);
+                "; shbpe=" + shbpe + "; fromZ=" + fromZorder + "; toZ=" + toZorder);
         }
         if (fromZorder == -1) {
             return;
         }
-        if (shape.isEmpty()) {
+        if (shbpe.isEmpty()) {
             return;
         }
-        // An invalid container with not-null layout should be ignored
-        // by the mixing code, the container will be validated later
-        // and the mixing code will be executed later.
-        if (getLayout() != null && !isValid()) {
+        // An invblid contbiner with not-null lbyout should be ignored
+        // by the mixing code, the contbiner will be vblidbted lbter
+        // bnd the mixing code will be executed lbter.
+        if (getLbyout() != null && !isVblid()) {
             return;
         }
         for (int index = fromZorder; index <= toZorder; index++) {
             Component comp = getComponent(index);
             if (!comp.isLightweight()) {
-                comp.subtractAndApplyShape(shape);
-            } else if (comp instanceof Container &&
-                    ((Container)comp).hasHeavyweightDescendants() && comp.isShowing()) {
-                ((Container)comp).recursiveSubtractAndApplyShape(shape);
+                comp.subtrbctAndApplyShbpe(shbpe);
+            } else if (comp instbnceof Contbiner &&
+                    ((Contbiner)comp).hbsHebvyweightDescendbnts() && comp.isShowing()) {
+                ((Contbiner)comp).recursiveSubtrbctAndApplyShbpe(shbpe);
             }
         }
     }
 
-    final void recursiveApplyCurrentShape() {
-        recursiveApplyCurrentShape(getTopmostComponentIndex(), getBottommostComponentIndex());
+    finbl void recursiveApplyCurrentShbpe() {
+        recursiveApplyCurrentShbpe(getTopmostComponentIndex(), getBottommostComponentIndex());
     }
 
-    final void recursiveApplyCurrentShape(int fromZorder) {
-        recursiveApplyCurrentShape(fromZorder, getBottommostComponentIndex());
+    finbl void recursiveApplyCurrentShbpe(int fromZorder) {
+        recursiveApplyCurrentShbpe(fromZorder, getBottommostComponentIndex());
     }
 
-    final void recursiveApplyCurrentShape(int fromZorder, int toZorder) {
+    finbl void recursiveApplyCurrentShbpe(int fromZorder, int toZorder) {
         checkTreeLock();
-        if (mixingLog.isLoggable(PlatformLogger.Level.FINE)) {
+        if (mixingLog.isLoggbble(PlbtformLogger.Level.FINE)) {
             mixingLog.fine("this = " + this +
                 "; fromZ=" + fromZorder + "; toZ=" + toZorder);
         }
         if (fromZorder == -1) {
             return;
         }
-        // An invalid container with not-null layout should be ignored
-        // by the mixing code, the container will be validated later
-        // and the mixing code will be executed later.
-        if (getLayout() != null && !isValid()) {
+        // An invblid contbiner with not-null lbyout should be ignored
+        // by the mixing code, the contbiner will be vblidbted lbter
+        // bnd the mixing code will be executed lbter.
+        if (getLbyout() != null && !isVblid()) {
             return;
         }
         for (int index = fromZorder; index <= toZorder; index++) {
             Component comp = getComponent(index);
             if (!comp.isLightweight()) {
-                comp.applyCurrentShape();
+                comp.bpplyCurrentShbpe();
             }
-            if (comp instanceof Container &&
-                    ((Container)comp).hasHeavyweightDescendants()) {
-                ((Container)comp).recursiveApplyCurrentShape();
+            if (comp instbnceof Contbiner &&
+                    ((Contbiner)comp).hbsHebvyweightDescendbnts()) {
+                ((Contbiner)comp).recursiveApplyCurrentShbpe();
             }
         }
     }
 
-    private void recursiveShowHeavyweightChildren() {
-        if (!hasHeavyweightDescendants() || !isVisible()) {
+    privbte void recursiveShowHebvyweightChildren() {
+        if (!hbsHebvyweightDescendbnts() || !isVisible()) {
             return;
         }
         for (int index = 0; index < getComponentCount(); index++) {
             Component comp = getComponent(index);
             if (comp.isLightweight()) {
-                if  (comp instanceof Container) {
-                    ((Container)comp).recursiveShowHeavyweightChildren();
+                if  (comp instbnceof Contbiner) {
+                    ((Contbiner)comp).recursiveShowHebvyweightChildren();
                 }
             } else {
                 if (comp.isVisible()) {
@@ -4210,37 +4210,37 @@ public class Container extends Component {
         }
     }
 
-    private void recursiveHideHeavyweightChildren() {
-        if (!hasHeavyweightDescendants()) {
+    privbte void recursiveHideHebvyweightChildren() {
+        if (!hbsHebvyweightDescendbnts()) {
             return;
         }
         for (int index = 0; index < getComponentCount(); index++) {
             Component comp = getComponent(index);
             if (comp.isLightweight()) {
-                if  (comp instanceof Container) {
-                    ((Container)comp).recursiveHideHeavyweightChildren();
+                if  (comp instbnceof Contbiner) {
+                    ((Contbiner)comp).recursiveHideHebvyweightChildren();
                 }
             } else {
                 if (comp.isVisible()) {
                     ComponentPeer peer = comp.getPeer();
                     if (peer != null) {
-                        peer.setVisible(false);
+                        peer.setVisible(fblse);
                     }
                 }
             }
         }
     }
 
-    private void recursiveRelocateHeavyweightChildren(Point origin) {
+    privbte void recursiveRelocbteHebvyweightChildren(Point origin) {
         for (int index = 0; index < getComponentCount(); index++) {
             Component comp = getComponent(index);
             if (comp.isLightweight()) {
-                if  (comp instanceof Container &&
-                        ((Container)comp).hasHeavyweightDescendants())
+                if  (comp instbnceof Contbiner &&
+                        ((Contbiner)comp).hbsHebvyweightDescendbnts())
                 {
-                    final Point newOrigin = new Point(origin);
-                    newOrigin.translate(comp.getX(), comp.getY());
-                    ((Container)comp).recursiveRelocateHeavyweightChildren(newOrigin);
+                    finbl Point newOrigin = new Point(origin);
+                    newOrigin.trbnslbte(comp.getX(), comp.getY());
+                    ((Contbiner)comp).recursiveRelocbteHebvyweightChildren(newOrigin);
                 }
             } else {
                 ComponentPeer peer = comp.getPeer();
@@ -4254,25 +4254,25 @@ public class Container extends Component {
     }
 
     /**
-     * Checks if the container and its direct lightweight containers are
+     * Checks if the contbiner bnd its direct lightweight contbiners bre
      * visible.
      *
-     * Consider the heavyweight container hides or shows the HW descendants
-     * automatically. Therefore we care of LW containers' visibility only.
+     * Consider the hebvyweight contbiner hides or shows the HW descendbnts
+     * butombticblly. Therefore we cbre of LW contbiners' visibility only.
      *
      * This method MUST be invoked under the TreeLock.
      */
-    final boolean isRecursivelyVisibleUpToHeavyweightContainer() {
+    finbl boolebn isRecursivelyVisibleUpToHebvyweightContbiner() {
         if (!isLightweight()) {
             return true;
         }
 
-        for (Container cont = this;
+        for (Contbiner cont = this;
                 cont != null && cont.isLightweight();
-                cont = cont.getContainer())
+                cont = cont.getContbiner())
         {
             if (!cont.isVisible()) {
-                return false;
+                return fblse;
             }
         }
         return true;
@@ -4281,22 +4281,22 @@ public class Container extends Component {
     @Override
     void mixOnShowing() {
         synchronized (getTreeLock()) {
-            if (mixingLog.isLoggable(PlatformLogger.Level.FINE)) {
+            if (mixingLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 mixingLog.fine("this = " + this);
             }
 
-            boolean isLightweight = isLightweight();
+            boolebn isLightweight = isLightweight();
 
-            if (isLightweight && isRecursivelyVisibleUpToHeavyweightContainer()) {
-                recursiveShowHeavyweightChildren();
+            if (isLightweight && isRecursivelyVisibleUpToHebvyweightContbiner()) {
+                recursiveShowHebvyweightChildren();
             }
 
             if (!isMixingNeeded()) {
                 return;
             }
 
-            if (!isLightweight || (isLightweight && hasHeavyweightDescendants())) {
-                recursiveApplyCurrentShape();
+            if (!isLightweight || (isLightweight && hbsHebvyweightDescendbnts())) {
+                recursiveApplyCurrentShbpe();
             }
 
             super.mixOnShowing();
@@ -4304,58 +4304,58 @@ public class Container extends Component {
     }
 
     @Override
-    void mixOnHiding(boolean isLightweight) {
+    void mixOnHiding(boolebn isLightweight) {
         synchronized (getTreeLock()) {
-            if (mixingLog.isLoggable(PlatformLogger.Level.FINE)) {
+            if (mixingLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 mixingLog.fine("this = " + this +
                         "; isLightweight=" + isLightweight);
             }
             if (isLightweight) {
-                recursiveHideHeavyweightChildren();
+                recursiveHideHebvyweightChildren();
             }
             super.mixOnHiding(isLightweight);
         }
     }
 
     @Override
-    void mixOnReshaping() {
+    void mixOnReshbping() {
         synchronized (getTreeLock()) {
-            if (mixingLog.isLoggable(PlatformLogger.Level.FINE)) {
+            if (mixingLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 mixingLog.fine("this = " + this);
             }
 
-            boolean isMixingNeeded = isMixingNeeded();
+            boolebn isMixingNeeded = isMixingNeeded();
 
-            if (isLightweight() && hasHeavyweightDescendants()) {
-                final Point origin = new Point(getX(), getY());
-                for (Container cont = getContainer();
+            if (isLightweight() && hbsHebvyweightDescendbnts()) {
+                finbl Point origin = new Point(getX(), getY());
+                for (Contbiner cont = getContbiner();
                         cont != null && cont.isLightweight();
-                        cont = cont.getContainer())
+                        cont = cont.getContbiner())
                 {
-                    origin.translate(cont.getX(), cont.getY());
+                    origin.trbnslbte(cont.getX(), cont.getY());
                 }
 
-                recursiveRelocateHeavyweightChildren(origin);
+                recursiveRelocbteHebvyweightChildren(origin);
 
                 if (!isMixingNeeded) {
                     return;
                 }
 
-                recursiveApplyCurrentShape();
+                recursiveApplyCurrentShbpe();
             }
 
             if (!isMixingNeeded) {
                 return;
             }
 
-            super.mixOnReshaping();
+            super.mixOnReshbping();
         }
     }
 
     @Override
-    void mixOnZOrderChanging(int oldZorder, int newZorder) {
+    void mixOnZOrderChbnging(int oldZorder, int newZorder) {
         synchronized (getTreeLock()) {
-            if (mixingLog.isLoggable(PlatformLogger.Level.FINE)) {
+            if (mixingLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 mixingLog.fine("this = " + this +
                     "; oldZ=" + oldZorder + "; newZ=" + newZorder);
             }
@@ -4364,19 +4364,19 @@ public class Container extends Component {
                 return;
             }
 
-            boolean becameHigher = newZorder < oldZorder;
+            boolebn becbmeHigher = newZorder < oldZorder;
 
-            if (becameHigher && isLightweight() && hasHeavyweightDescendants()) {
-                recursiveApplyCurrentShape();
+            if (becbmeHigher && isLightweight() && hbsHebvyweightDescendbnts()) {
+                recursiveApplyCurrentShbpe();
             }
-            super.mixOnZOrderChanging(oldZorder, newZorder);
+            super.mixOnZOrderChbnging(oldZorder, newZorder);
         }
     }
 
     @Override
-    void mixOnValidating() {
+    void mixOnVblidbting() {
         synchronized (getTreeLock()) {
-            if (mixingLog.isLoggable(PlatformLogger.Level.FINE)) {
+            if (mixingLog.isLoggbble(PlbtformLogger.Level.FINE)) {
                 mixingLog.fine("this = " + this);
             }
 
@@ -4384,15 +4384,15 @@ public class Container extends Component {
                 return;
             }
 
-            if (hasHeavyweightDescendants()) {
-                recursiveApplyCurrentShape();
+            if (hbsHebvyweightDescendbnts()) {
+                recursiveApplyCurrentShbpe();
             }
 
-            if (isLightweight() && isNonOpaqueForMixing()) {
-                subtractAndApplyShapeBelowMe();
+            if (isLightweight() && isNonOpbqueForMixing()) {
+                subtrbctAndApplyShbpeBelowMe();
             }
 
-            super.mixOnValidating();
+            super.mixOnVblidbting();
         }
     }
 
@@ -4401,204 +4401,204 @@ public class Container extends Component {
 
 
 /**
- * Class to manage the dispatching of MouseEvents to the lightweight descendants
- * and SunDropTargetEvents to both lightweight and heavyweight descendants
- * contained by a native container.
+ * Clbss to mbnbge the dispbtching of MouseEvents to the lightweight descendbnts
+ * bnd SunDropTbrgetEvents to both lightweight bnd hebvyweight descendbnts
+ * contbined by b nbtive contbiner.
  *
- * NOTE: the class name is not appropriate anymore, but we cannot change it
- * because we must keep serialization compatibility.
+ * NOTE: the clbss nbme is not bppropribte bnymore, but we cbnnot chbnge it
+ * becbuse we must keep seriblizbtion compbtibility.
  *
- * @author Timothy Prinzing
+ * @buthor Timothy Prinzing
  */
-class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
+clbss LightweightDispbtcher implements jbvb.io.Seriblizbble, AWTEventListener {
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-    private static final long serialVersionUID = 5184291520170872969L;
+    privbte stbtic finbl long seriblVersionUID = 5184291520170872969L;
     /*
-     * Our own mouse event for when we're dragged over from another hw
-     * container
+     * Our own mouse event for when we're drbgged over from bnother hw
+     * contbiner
      */
-    private static final int  LWD_MOUSE_DRAGGED_OVER = 1500;
+    privbte stbtic finbl int  LWD_MOUSE_DRAGGED_OVER = 1500;
 
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("java.awt.event.LightweightDispatcher");
+    privbte stbtic finbl PlbtformLogger eventLog = PlbtformLogger.getLogger("jbvb.bwt.event.LightweightDispbtcher");
 
-    LightweightDispatcher(Container nativeContainer) {
-        this.nativeContainer = nativeContainer;
-        mouseEventTarget = null;
-        eventMask = 0;
+    LightweightDispbtcher(Contbiner nbtiveContbiner) {
+        this.nbtiveContbiner = nbtiveContbiner;
+        mouseEventTbrget = null;
+        eventMbsk = 0;
     }
 
     /*
-     * Clean up any resources allocated when dispatcher was created;
-     * should be called from Container.removeNotify
+     * Clebn up bny resources bllocbted when dispbtcher wbs crebted;
+     * should be cblled from Contbiner.removeNotify
      */
     void dispose() {
-        //System.out.println("Disposing lw dispatcher");
-        stopListeningForOtherDrags();
-        mouseEventTarget = null;
-        targetLastEntered = null;
-        targetLastEnteredDT = null;
+        //System.out.println("Disposing lw dispbtcher");
+        stopListeningForOtherDrbgs();
+        mouseEventTbrget = null;
+        tbrgetLbstEntered = null;
+        tbrgetLbstEnteredDT = null;
     }
 
     /**
-     * Enables events to subcomponents.
+     * Enbbles events to subcomponents.
      */
-    void enableEvents(long events) {
-        eventMask |= events;
+    void enbbleEvents(long events) {
+        eventMbsk |= events;
     }
 
     /**
-     * Dispatches an event to a sub-component if necessary, and
-     * returns whether or not the event was forwarded to a
+     * Dispbtches bn event to b sub-component if necessbry, bnd
+     * returns whether or not the event wbs forwbrded to b
      * sub-component.
      *
-     * @param e the event
+     * @pbrbm e the event
      */
-    boolean dispatchEvent(AWTEvent e) {
-        boolean ret = false;
+    boolebn dispbtchEvent(AWTEvent e) {
+        boolebn ret = fblse;
 
         /*
-         * Fix for BugTraq Id 4389284.
-         * Dispatch SunDropTargetEvents regardless of eventMask value.
-         * Do not update cursor on dispatching SunDropTargetEvents.
+         * Fix for BugTrbq Id 4389284.
+         * Dispbtch SunDropTbrgetEvents regbrdless of eventMbsk vblue.
+         * Do not updbte cursor on dispbtching SunDropTbrgetEvents.
          */
-        if (e instanceof SunDropTargetEvent) {
+        if (e instbnceof SunDropTbrgetEvent) {
 
-            SunDropTargetEvent sdde = (SunDropTargetEvent) e;
-            ret = processDropTargetEvent(sdde);
+            SunDropTbrgetEvent sdde = (SunDropTbrgetEvent) e;
+            ret = processDropTbrgetEvent(sdde);
 
         } else {
-            if (e instanceof MouseEvent && (eventMask & MOUSE_MASK) != 0) {
+            if (e instbnceof MouseEvent && (eventMbsk & MOUSE_MASK) != 0) {
                 MouseEvent me = (MouseEvent) e;
                 ret = processMouseEvent(me);
             }
 
             if (e.getID() == MouseEvent.MOUSE_MOVED) {
-                nativeContainer.updateCursorImmediately();
+                nbtiveContbiner.updbteCursorImmedibtely();
             }
         }
 
         return ret;
     }
 
-    /* This method effectively returns whether or not a mouse button was down
-     * just BEFORE the event happened.  A better method name might be
-     * wasAMouseButtonDownBeforeThisEvent().
+    /* This method effectively returns whether or not b mouse button wbs down
+     * just BEFORE the event hbppened.  A better method nbme might be
+     * wbsAMouseButtonDownBeforeThisEvent().
      */
-    private boolean isMouseGrab(MouseEvent e) {
+    privbte boolebn isMouseGrbb(MouseEvent e) {
         int modifiers = e.getModifiersEx();
 
         if(e.getID() == MouseEvent.MOUSE_PRESSED
             || e.getID() == MouseEvent.MOUSE_RELEASED)
         {
             switch (e.getButton()) {
-            case MouseEvent.BUTTON1:
+            cbse MouseEvent.BUTTON1:
                 modifiers ^= InputEvent.BUTTON1_DOWN_MASK;
-                break;
-            case MouseEvent.BUTTON2:
+                brebk;
+            cbse MouseEvent.BUTTON2:
                 modifiers ^= InputEvent.BUTTON2_DOWN_MASK;
-                break;
-            case MouseEvent.BUTTON3:
+                brebk;
+            cbse MouseEvent.BUTTON3:
                 modifiers ^= InputEvent.BUTTON3_DOWN_MASK;
-                break;
+                brebk;
             }
         }
-        /* modifiers now as just before event */
+        /* modifiers now bs just before event */
         return ((modifiers & (InputEvent.BUTTON1_DOWN_MASK
                               | InputEvent.BUTTON2_DOWN_MASK
                               | InputEvent.BUTTON3_DOWN_MASK)) != 0);
     }
 
     /**
-     * This method attempts to distribute a mouse event to a lightweight
-     * component.  It tries to avoid doing any unnecessary probes down
-     * into the component tree to minimize the overhead of determining
+     * This method bttempts to distribute b mouse event to b lightweight
+     * component.  It tries to bvoid doing bny unnecessbry probes down
+     * into the component tree to minimize the overhebd of determining
      * where to route the event, since mouse movement events tend to
-     * come in large and frequent amounts.
+     * come in lbrge bnd frequent bmounts.
      */
-    private boolean processMouseEvent(MouseEvent e) {
+    privbte boolebn processMouseEvent(MouseEvent e) {
         int id = e.getID();
         Component mouseOver =   // sensitive to mouse events
-            nativeContainer.getMouseEventTarget(e.getX(), e.getY(),
-                                                Container.INCLUDE_SELF);
+            nbtiveContbiner.getMouseEventTbrget(e.getX(), e.getY(),
+                                                Contbiner.INCLUDE_SELF);
 
-        trackMouseEnterExit(mouseOver, e);
+        trbckMouseEnterExit(mouseOver, e);
 
     // 4508327 : MOUSE_CLICKED should only go to the recipient of
-    // the accompanying MOUSE_PRESSED, so don't reset mouseEventTarget on a
+    // the bccompbnying MOUSE_PRESSED, so don't reset mouseEventTbrget on b
     // MOUSE_CLICKED.
-    if (!isMouseGrab(e) && id != MouseEvent.MOUSE_CLICKED) {
-            mouseEventTarget = (mouseOver != nativeContainer) ? mouseOver: null;
-            isCleaned = false;
+    if (!isMouseGrbb(e) && id != MouseEvent.MOUSE_CLICKED) {
+            mouseEventTbrget = (mouseOver != nbtiveContbiner) ? mouseOver: null;
+            isClebned = fblse;
         }
 
-        if (mouseEventTarget != null) {
+        if (mouseEventTbrget != null) {
             switch (id) {
-            case MouseEvent.MOUSE_ENTERED:
-            case MouseEvent.MOUSE_EXITED:
-                break;
-            case MouseEvent.MOUSE_PRESSED:
-                retargetMouseEvent(mouseEventTarget, id, e);
-                break;
-        case MouseEvent.MOUSE_RELEASED:
-            retargetMouseEvent(mouseEventTarget, id, e);
-        break;
-        case MouseEvent.MOUSE_CLICKED:
-        // 4508327: MOUSE_CLICKED should never be dispatched to a Component
-        // other than that which received the MOUSE_PRESSED event.  If the
-        // mouse is now over a different Component, don't dispatch the event.
-        // The previous fix for a similar problem was associated with bug
+            cbse MouseEvent.MOUSE_ENTERED:
+            cbse MouseEvent.MOUSE_EXITED:
+                brebk;
+            cbse MouseEvent.MOUSE_PRESSED:
+                retbrgetMouseEvent(mouseEventTbrget, id, e);
+                brebk;
+        cbse MouseEvent.MOUSE_RELEASED:
+            retbrgetMouseEvent(mouseEventTbrget, id, e);
+        brebk;
+        cbse MouseEvent.MOUSE_CLICKED:
+        // 4508327: MOUSE_CLICKED should never be dispbtched to b Component
+        // other thbn thbt which received the MOUSE_PRESSED event.  If the
+        // mouse is now over b different Component, don't dispbtch the event.
+        // The previous fix for b similbr problem wbs bssocibted with bug
         // 4155217.
-        if (mouseOver == mouseEventTarget) {
-            retargetMouseEvent(mouseOver, id, e);
+        if (mouseOver == mouseEventTbrget) {
+            retbrgetMouseEvent(mouseOver, id, e);
         }
-        break;
-            case MouseEvent.MOUSE_MOVED:
-                retargetMouseEvent(mouseEventTarget, id, e);
-                break;
-        case MouseEvent.MOUSE_DRAGGED:
-            if (isMouseGrab(e)) {
-                retargetMouseEvent(mouseEventTarget, id, e);
+        brebk;
+            cbse MouseEvent.MOUSE_MOVED:
+                retbrgetMouseEvent(mouseEventTbrget, id, e);
+                brebk;
+        cbse MouseEvent.MOUSE_DRAGGED:
+            if (isMouseGrbb(e)) {
+                retbrgetMouseEvent(mouseEventTbrget, id, e);
             }
-                break;
-        case MouseEvent.MOUSE_WHEEL:
-            // This may send it somewhere that doesn't have MouseWheelEvents
-            // enabled.  In this case, Component.dispatchEventImpl() will
-            // retarget the event to a parent that DOES have the events enabled.
-            if (eventLog.isLoggable(PlatformLogger.Level.FINEST) && (mouseOver != null)) {
-                eventLog.finest("retargeting mouse wheel to " +
-                                mouseOver.getName() + ", " +
-                                mouseOver.getClass());
+                brebk;
+        cbse MouseEvent.MOUSE_WHEEL:
+            // This mby send it somewhere thbt doesn't hbve MouseWheelEvents
+            // enbbled.  In this cbse, Component.dispbtchEventImpl() will
+            // retbrget the event to b pbrent thbt DOES hbve the events enbbled.
+            if (eventLog.isLoggbble(PlbtformLogger.Level.FINEST) && (mouseOver != null)) {
+                eventLog.finest("retbrgeting mouse wheel to " +
+                                mouseOver.getNbme() + ", " +
+                                mouseOver.getClbss());
             }
-            retargetMouseEvent(mouseOver, id, e);
-        break;
+            retbrgetMouseEvent(mouseOver, id, e);
+        brebk;
             }
-        //Consuming of wheel events is implemented in "retargetMouseEvent".
+        //Consuming of wheel events is implemented in "retbrgetMouseEvent".
         if (id != MouseEvent.MOUSE_WHEEL) {
             e.consume();
         }
-    } else if (isCleaned && id != MouseEvent.MOUSE_WHEEL) {
-        //After mouseEventTarget was removed and cleaned should consume all events
-        //until new mouseEventTarget is found
+    } else if (isClebned && id != MouseEvent.MOUSE_WHEEL) {
+        //After mouseEventTbrget wbs removed bnd clebned should consume bll events
+        //until new mouseEventTbrget is found
         e.consume();
     }
     return e.isConsumed();
     }
 
-    private boolean processDropTargetEvent(SunDropTargetEvent e) {
+    privbte boolebn processDropTbrgetEvent(SunDropTbrgetEvent e) {
         int id = e.getID();
         int x = e.getX();
         int y = e.getY();
 
         /*
-         * Fix for BugTraq ID 4395290.
-         * It is possible that SunDropTargetEvent's Point is outside of the
-         * native container bounds. In this case we truncate coordinates.
+         * Fix for BugTrbq ID 4395290.
+         * It is possible thbt SunDropTbrgetEvent's Point is outside of the
+         * nbtive contbiner bounds. In this cbse we truncbte coordinbtes.
          */
-        if (!nativeContainer.contains(x, y)) {
-            final Dimension d = nativeContainer.getSize();
+        if (!nbtiveContbiner.contbins(x, y)) {
+            finbl Dimension d = nbtiveContbiner.getSize();
             if (d.width <= x) {
                 x = d.width - 1;
             } else if (x < 0) {
@@ -4610,56 +4610,56 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
                 y = 0;
             }
         }
-        Component mouseOver =   // not necessarily sensitive to mouse events
-            nativeContainer.getDropTargetEventTarget(x, y,
-                                                     Container.INCLUDE_SELF);
-        trackMouseEnterExit(mouseOver, e);
+        Component mouseOver =   // not necessbrily sensitive to mouse events
+            nbtiveContbiner.getDropTbrgetEventTbrget(x, y,
+                                                     Contbiner.INCLUDE_SELF);
+        trbckMouseEnterExit(mouseOver, e);
 
-        if (mouseOver != nativeContainer && mouseOver != null) {
+        if (mouseOver != nbtiveContbiner && mouseOver != null) {
             switch (id) {
-            case SunDropTargetEvent.MOUSE_ENTERED:
-            case SunDropTargetEvent.MOUSE_EXITED:
-                break;
-            default:
-                retargetMouseEvent(mouseOver, id, e);
+            cbse SunDropTbrgetEvent.MOUSE_ENTERED:
+            cbse SunDropTbrgetEvent.MOUSE_EXITED:
+                brebk;
+            defbult:
+                retbrgetMouseEvent(mouseOver, id, e);
                 e.consume();
-                break;
+                brebk;
             }
         }
         return e.isConsumed();
     }
 
     /*
-     * Generates dnd enter/exit events as mouse moves over lw components
-     * @param targetOver       Target mouse is over (including native container)
-     * @param e                SunDropTarget mouse event in native container
+     * Generbtes dnd enter/exit events bs mouse moves over lw components
+     * @pbrbm tbrgetOver       Tbrget mouse is over (including nbtive contbiner)
+     * @pbrbm e                SunDropTbrget mouse event in nbtive contbiner
      */
-    private void trackDropTargetEnterExit(Component targetOver, MouseEvent e) {
+    privbte void trbckDropTbrgetEnterExit(Component tbrgetOver, MouseEvent e) {
         int id = e.getID();
-        if (id == MouseEvent.MOUSE_ENTERED && isMouseDTInNativeContainer) {
-            // This can happen if a lightweight component which initiated the
-            // drag has an associated drop target. MOUSE_ENTERED comes when the
-            // mouse is in the native container already. To propagate this event
-            // properly we should null out targetLastEntered.
-            targetLastEnteredDT = null;
+        if (id == MouseEvent.MOUSE_ENTERED && isMouseDTInNbtiveContbiner) {
+            // This cbn hbppen if b lightweight component which initibted the
+            // drbg hbs bn bssocibted drop tbrget. MOUSE_ENTERED comes when the
+            // mouse is in the nbtive contbiner blrebdy. To propbgbte this event
+            // properly we should null out tbrgetLbstEntered.
+            tbrgetLbstEnteredDT = null;
         } else if (id == MouseEvent.MOUSE_ENTERED) {
-            isMouseDTInNativeContainer = true;
+            isMouseDTInNbtiveContbiner = true;
         } else if (id == MouseEvent.MOUSE_EXITED) {
-            isMouseDTInNativeContainer = false;
+            isMouseDTInNbtiveContbiner = fblse;
         }
-        targetLastEnteredDT = retargetMouseEnterExit(targetOver, e,
-                                                     targetLastEnteredDT,
-                                                     isMouseDTInNativeContainer);
+        tbrgetLbstEnteredDT = retbrgetMouseEnterExit(tbrgetOver, e,
+                                                     tbrgetLbstEnteredDT,
+                                                     isMouseDTInNbtiveContbiner);
     }
 
     /*
-     * Generates enter/exit events as mouse moves over lw components
-     * @param targetOver        Target mouse is over (including native container)
-     * @param e                 Mouse event in native container
+     * Generbtes enter/exit events bs mouse moves over lw components
+     * @pbrbm tbrgetOver        Tbrget mouse is over (including nbtive contbiner)
+     * @pbrbm e                 Mouse event in nbtive contbiner
      */
-    private void trackMouseEnterExit(Component targetOver, MouseEvent e) {
-        if (e instanceof SunDropTargetEvent) {
-            trackDropTargetEnterExit(targetOver, e);
+    privbte void trbckMouseEnterExit(Component tbrgetOver, MouseEvent e) {
+        if (e instbnceof SunDropTbrgetEvent) {
+            trbckDropTbrgetEnterExit(tbrgetOver, e);
             return;
         }
         int id = e.getID();
@@ -4667,57 +4667,57 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
         if ( id != MouseEvent.MOUSE_EXITED &&
              id != MouseEvent.MOUSE_DRAGGED &&
              id != LWD_MOUSE_DRAGGED_OVER &&
-                !isMouseInNativeContainer) {
-            // any event but an exit or drag means we're in the native container
-            isMouseInNativeContainer = true;
-            startListeningForOtherDrags();
+                !isMouseInNbtiveContbiner) {
+            // bny event but bn exit or drbg mebns we're in the nbtive contbiner
+            isMouseInNbtiveContbiner = true;
+            stbrtListeningForOtherDrbgs();
         } else if (id == MouseEvent.MOUSE_EXITED) {
-            isMouseInNativeContainer = false;
-            stopListeningForOtherDrags();
+            isMouseInNbtiveContbiner = fblse;
+            stopListeningForOtherDrbgs();
         }
-        targetLastEntered = retargetMouseEnterExit(targetOver, e,
-                                                   targetLastEntered,
-                                                   isMouseInNativeContainer);
+        tbrgetLbstEntered = retbrgetMouseEnterExit(tbrgetOver, e,
+                                                   tbrgetLbstEntered,
+                                                   isMouseInNbtiveContbiner);
     }
 
-    private Component retargetMouseEnterExit(Component targetOver, MouseEvent e,
-                                             Component lastEntered,
-                                             boolean inNativeContainer) {
+    privbte Component retbrgetMouseEnterExit(Component tbrgetOver, MouseEvent e,
+                                             Component lbstEntered,
+                                             boolebn inNbtiveContbiner) {
         int id = e.getID();
-        Component targetEnter = inNativeContainer ? targetOver : null;
+        Component tbrgetEnter = inNbtiveContbiner ? tbrgetOver : null;
 
-        if (lastEntered != targetEnter) {
-            if (lastEntered != null) {
-                retargetMouseEvent(lastEntered, MouseEvent.MOUSE_EXITED, e);
+        if (lbstEntered != tbrgetEnter) {
+            if (lbstEntered != null) {
+                retbrgetMouseEvent(lbstEntered, MouseEvent.MOUSE_EXITED, e);
             }
             if (id == MouseEvent.MOUSE_EXITED) {
-                // consume native exit event if we generate one
+                // consume nbtive exit event if we generbte one
                 e.consume();
             }
 
-            if (targetEnter != null) {
-                retargetMouseEvent(targetEnter, MouseEvent.MOUSE_ENTERED, e);
+            if (tbrgetEnter != null) {
+                retbrgetMouseEvent(tbrgetEnter, MouseEvent.MOUSE_ENTERED, e);
             }
             if (id == MouseEvent.MOUSE_ENTERED) {
-                // consume native enter event if we generate one
+                // consume nbtive enter event if we generbte one
                 e.consume();
             }
         }
-        return targetEnter;
+        return tbrgetEnter;
     }
 
     /*
-     * Listens to global mouse drag events so even drags originating
-     * from other heavyweight containers will generate enter/exit
-     * events in this container
+     * Listens to globbl mouse drbg events so even drbgs originbting
+     * from other hebvyweight contbiners will generbte enter/exit
+     * events in this contbiner
      */
-    private void startListeningForOtherDrags() {
+    privbte void stbrtListeningForOtherDrbgs() {
         //System.out.println("Adding AWTEventListener");
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>() {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Object>() {
                 public Object run() {
-                    nativeContainer.getToolkit().addAWTEventListener(
-                        LightweightDispatcher.this,
+                    nbtiveContbiner.getToolkit().bddAWTEventListener(
+                        LightweightDispbtcher.this,
                         AWTEvent.MOUSE_EVENT_MASK |
                         AWTEvent.MOUSE_MOTION_EVENT_MASK);
                     return null;
@@ -4726,12 +4726,12 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
         );
     }
 
-    private void stopListeningForOtherDrags() {
+    privbte void stopListeningForOtherDrbgs() {
         //System.out.println("Removing AWTEventListener");
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>() {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Object>() {
                 public Object run() {
-                    nativeContainer.getToolkit().removeAWTEventListener(LightweightDispatcher.this);
+                    nbtiveContbiner.getToolkit().removeAWTEventListener(LightweightDispbtcher.this);
                     return null;
                 }
             }
@@ -4739,48 +4739,48 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
     }
 
     /*
-     * (Implementation of AWTEventListener)
-     * Listen for drag events posted in other hw components so we can
-     * track enter/exit regardless of where a drag originated
+     * (Implementbtion of AWTEventListener)
+     * Listen for drbg events posted in other hw components so we cbn
+     * trbck enter/exit regbrdless of where b drbg originbted
      */
-    public void eventDispatched(AWTEvent e) {
-        boolean isForeignDrag = (e instanceof MouseEvent) &&
-                                !(e instanceof SunDropTargetEvent) &&
+    public void eventDispbtched(AWTEvent e) {
+        boolebn isForeignDrbg = (e instbnceof MouseEvent) &&
+                                !(e instbnceof SunDropTbrgetEvent) &&
                                 (e.id == MouseEvent.MOUSE_DRAGGED) &&
-                                (e.getSource() != nativeContainer);
+                                (e.getSource() != nbtiveContbiner);
 
-        if (!isForeignDrag) {
-            // only interested in drags from other hw components
+        if (!isForeignDrbg) {
+            // only interested in drbgs from other hw components
             return;
         }
 
         MouseEvent      srcEvent = (MouseEvent)e;
         MouseEvent      me;
 
-        synchronized (nativeContainer.getTreeLock()) {
+        synchronized (nbtiveContbiner.getTreeLock()) {
             Component srcComponent = srcEvent.getComponent();
 
-            // component may have disappeared since drag event posted
-            // (i.e. Swing hierarchical menus)
+            // component mby hbve disbppebred since drbg event posted
+            // (i.e. Swing hierbrchicbl menus)
             if ( !srcComponent.isShowing() ) {
                 return;
             }
 
             // see 5083555
-            // check if srcComponent is in any modal blocked window
-            Component c = nativeContainer;
-            while ((c != null) && !(c instanceof Window)) {
-                c = c.getParent_NoClientCode();
+            // check if srcComponent is in bny modbl blocked window
+            Component c = nbtiveContbiner;
+            while ((c != null) && !(c instbnceof Window)) {
+                c = c.getPbrent_NoClientCode();
             }
-            if ((c == null) || ((Window)c).isModalBlocked()) {
+            if ((c == null) || ((Window)c).isModblBlocked()) {
                 return;
             }
 
             //
-            // create an internal 'dragged-over' event indicating
-            // we are being dragged over from another hw component
+            // crebte bn internbl 'drbgged-over' event indicbting
+            // we bre being drbgged over from bnother hw component
             //
-            me = new MouseEvent(nativeContainer,
+            me = new MouseEvent(nbtiveContbiner,
                                LWD_MOUSE_DRAGGED_OVER,
                                srcEvent.getWhen(),
                                srcEvent.getModifiersEx() | srcEvent.getModifiers(),
@@ -4791,80 +4791,80 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
                                srcEvent.getClickCount(),
                                srcEvent.isPopupTrigger(),
                                srcEvent.getButton());
-            ((AWTEvent)srcEvent).copyPrivateDataInto(me);
-            // translate coordinates to this native container
-            final Point ptSrcOrigin = srcComponent.getLocationOnScreen();
+            ((AWTEvent)srcEvent).copyPrivbteDbtbInto(me);
+            // trbnslbte coordinbtes to this nbtive contbiner
+            finbl Point ptSrcOrigin = srcComponent.getLocbtionOnScreen();
 
-            if (AppContext.getAppContext() != nativeContainer.appContext) {
-                final MouseEvent mouseEvent = me;
-                Runnable r = new Runnable() {
+            if (AppContext.getAppContext() != nbtiveContbiner.bppContext) {
+                finbl MouseEvent mouseEvent = me;
+                Runnbble r = new Runnbble() {
                         public void run() {
-                            if (!nativeContainer.isShowing() ) {
+                            if (!nbtiveContbiner.isShowing() ) {
                                 return;
                             }
 
-                            Point       ptDstOrigin = nativeContainer.getLocationOnScreen();
-                            mouseEvent.translatePoint(ptSrcOrigin.x - ptDstOrigin.x,
+                            Point       ptDstOrigin = nbtiveContbiner.getLocbtionOnScreen();
+                            mouseEvent.trbnslbtePoint(ptSrcOrigin.x - ptDstOrigin.x,
                                               ptSrcOrigin.y - ptDstOrigin.y );
-                            Component targetOver =
-                                nativeContainer.getMouseEventTarget(mouseEvent.getX(),
+                            Component tbrgetOver =
+                                nbtiveContbiner.getMouseEventTbrget(mouseEvent.getX(),
                                                                     mouseEvent.getY(),
-                                                                    Container.INCLUDE_SELF);
-                            trackMouseEnterExit(targetOver, mouseEvent);
+                                                                    Contbiner.INCLUDE_SELF);
+                            trbckMouseEnterExit(tbrgetOver, mouseEvent);
                         }
                     };
-                SunToolkit.executeOnEventHandlerThread(nativeContainer, r);
+                SunToolkit.executeOnEventHbndlerThrebd(nbtiveContbiner, r);
                 return;
             } else {
-                if (!nativeContainer.isShowing() ) {
+                if (!nbtiveContbiner.isShowing() ) {
                     return;
                 }
 
-                Point   ptDstOrigin = nativeContainer.getLocationOnScreen();
-                me.translatePoint( ptSrcOrigin.x - ptDstOrigin.x, ptSrcOrigin.y - ptDstOrigin.y );
+                Point   ptDstOrigin = nbtiveContbiner.getLocbtionOnScreen();
+                me.trbnslbtePoint( ptSrcOrigin.x - ptDstOrigin.x, ptSrcOrigin.y - ptDstOrigin.y );
             }
         }
-        //System.out.println("Track event: " + me);
-        // feed the 'dragged-over' event directly to the enter/exit
-        // code (not a real event so don't pass it to dispatchEvent)
-        Component targetOver =
-            nativeContainer.getMouseEventTarget(me.getX(), me.getY(),
-                                                Container.INCLUDE_SELF);
-        trackMouseEnterExit(targetOver, me);
+        //System.out.println("Trbck event: " + me);
+        // feed the 'drbgged-over' event directly to the enter/exit
+        // code (not b rebl event so don't pbss it to dispbtchEvent)
+        Component tbrgetOver =
+            nbtiveContbiner.getMouseEventTbrget(me.getX(), me.getY(),
+                                                Contbiner.INCLUDE_SELF);
+        trbckMouseEnterExit(tbrgetOver, me);
     }
 
     /**
-     * Sends a mouse event to the current mouse event recipient using
-     * the given event (sent to the windowed host) as a srcEvent.  If
-     * the mouse event target is still in the component tree, the
-     * coordinates of the event are translated to those of the target.
-     * If the target has been removed, we don't bother to send the
-     * message.
+     * Sends b mouse event to the current mouse event recipient using
+     * the given event (sent to the windowed host) bs b srcEvent.  If
+     * the mouse event tbrget is still in the component tree, the
+     * coordinbtes of the event bre trbnslbted to those of the tbrget.
+     * If the tbrget hbs been removed, we don't bother to send the
+     * messbge.
      */
-    void retargetMouseEvent(Component target, int id, MouseEvent e) {
-        if (target == null) {
-            return; // mouse is over another hw component or target is disabled
+    void retbrgetMouseEvent(Component tbrget, int id, MouseEvent e) {
+        if (tbrget == null) {
+            return; // mouse is over bnother hw component or tbrget is disbbled
         }
 
         int x = e.getX(), y = e.getY();
         Component component;
 
-        for(component = target;
-            component != null && component != nativeContainer;
-            component = component.getParent()) {
+        for(component = tbrget;
+            component != null && component != nbtiveContbiner;
+            component = component.getPbrent()) {
             x -= component.x;
             y -= component.y;
         }
-        MouseEvent retargeted;
+        MouseEvent retbrgeted;
         if (component != null) {
-            if (e instanceof SunDropTargetEvent) {
-                retargeted = new SunDropTargetEvent(target,
+            if (e instbnceof SunDropTbrgetEvent) {
+                retbrgeted = new SunDropTbrgetEvent(tbrget,
                                                     id,
                                                     x,
                                                     y,
-                                                    ((SunDropTargetEvent)e).getDispatcher());
+                                                    ((SunDropTbrgetEvent)e).getDispbtcher());
             } else if (id == MouseEvent.MOUSE_WHEEL) {
-                retargeted = new MouseWheelEvent(target,
+                retbrgeted = new MouseWheelEvent(tbrget,
                                       id,
                                        e.getWhen(),
                                        e.getModifiersEx() | e.getModifiers(),
@@ -4876,11 +4876,11 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
                                        e.isPopupTrigger(),
                                        ((MouseWheelEvent)e).getScrollType(),
                                        ((MouseWheelEvent)e).getScrollAmount(),
-                                       ((MouseWheelEvent)e).getWheelRotation(),
-                                       ((MouseWheelEvent)e).getPreciseWheelRotation());
+                                       ((MouseWheelEvent)e).getWheelRotbtion(),
+                                       ((MouseWheelEvent)e).getPreciseWheelRotbtion());
             }
             else {
-                retargeted = new MouseEvent(target,
+                retbrgeted = new MouseEvent(tbrget,
                                             id,
                                             e.getWhen(),
                                             e.getModifiersEx() | e.getModifiers(),
@@ -4893,119 +4893,119 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
                                             e.getButton());
             }
 
-            ((AWTEvent)e).copyPrivateDataInto(retargeted);
+            ((AWTEvent)e).copyPrivbteDbtbInto(retbrgeted);
 
-            if (target == nativeContainer) {
-                // avoid recursively calling LightweightDispatcher...
-                ((Container)target).dispatchEventToSelf(retargeted);
+            if (tbrget == nbtiveContbiner) {
+                // bvoid recursively cblling LightweightDispbtcher...
+                ((Contbiner)tbrget).dispbtchEventToSelf(retbrgeted);
             } else {
-                assert AppContext.getAppContext() == target.appContext;
+                bssert AppContext.getAppContext() == tbrget.bppContext;
 
-                if (nativeContainer.modalComp != null) {
-                    if (((Container)nativeContainer.modalComp).isAncestorOf(target)) {
-                        target.dispatchEvent(retargeted);
+                if (nbtiveContbiner.modblComp != null) {
+                    if (((Contbiner)nbtiveContbiner.modblComp).isAncestorOf(tbrget)) {
+                        tbrget.dispbtchEvent(retbrgeted);
                     } else {
                         e.consume();
                     }
                 } else {
-                    target.dispatchEvent(retargeted);
+                    tbrget.dispbtchEvent(retbrgeted);
                 }
             }
-            if (id == MouseEvent.MOUSE_WHEEL && retargeted.isConsumed()) {
-                //An exception for wheel bubbling to the native system.
-                //In "processMouseEvent" total event consuming for wheel events is skipped.
-                //Protection from bubbling of Java-accepted wheel events.
+            if (id == MouseEvent.MOUSE_WHEEL && retbrgeted.isConsumed()) {
+                //An exception for wheel bubbling to the nbtive system.
+                //In "processMouseEvent" totbl event consuming for wheel events is skipped.
+                //Protection from bubbling of Jbvb-bccepted wheel events.
                 e.consume();
             }
         }
     }
 
-    // --- member variables -------------------------------
+    // --- member vbribbles -------------------------------
 
     /**
-     * The windowed container that might be hosting events for
+     * The windowed contbiner thbt might be hosting events for
      * subcomponents.
      */
-    private Container nativeContainer;
+    privbte Contbiner nbtiveContbiner;
 
     /**
-     * This variable is not used, but kept for serialization compatibility
+     * This vbribble is not used, but kept for seriblizbtion compbtibility
      */
-    private Component focus;
+    privbte Component focus;
 
     /**
      * The current subcomponent being hosted by this windowed
-     * component that has events being forwarded to it.  If this
-     * is null, there are currently no events being forwarded to
-     * a subcomponent.
+     * component thbt hbs events being forwbrded to it.  If this
+     * is null, there bre currently no events being forwbrded to
+     * b subcomponent.
      */
-    private transient Component mouseEventTarget;
+    privbte trbnsient Component mouseEventTbrget;
 
     /**
-     * The last component entered by the {@code MouseEvent}.
+     * The lbst component entered by the {@code MouseEvent}.
      */
-    private transient Component targetLastEntered;
+    privbte trbnsient Component tbrgetLbstEntered;
 
     /**
-     * The last component entered by the {@code SunDropTargetEvent}.
+     * The lbst component entered by the {@code SunDropTbrgetEvent}.
      */
-    private transient Component targetLastEnteredDT;
+    privbte trbnsient Component tbrgetLbstEnteredDT;
 
     /**
-     * Indicates whether {@code mouseEventTarget} was removed and nulled
+     * Indicbtes whether {@code mouseEventTbrget} wbs removed bnd nulled
      */
-    private transient boolean isCleaned;
+    privbte trbnsient boolebn isClebned;
 
     /**
-     * Is the mouse over the native container.
+     * Is the mouse over the nbtive contbiner.
      */
-    private transient boolean isMouseInNativeContainer = false;
+    privbte trbnsient boolebn isMouseInNbtiveContbiner = fblse;
 
     /**
-     * Is DnD over the native container.
+     * Is DnD over the nbtive contbiner.
      */
-    private transient boolean isMouseDTInNativeContainer = false;
+    privbte trbnsient boolebn isMouseDTInNbtiveContbiner = fblse;
 
     /**
-     * This variable is not used, but kept for serialization compatibility
+     * This vbribble is not used, but kept for seriblizbtion compbtibility
      */
-    private Cursor nativeCursor;
+    privbte Cursor nbtiveCursor;
 
     /**
-     * The event mask for contained lightweight components.  Lightweight
-     * components need a windowed container to host window-related
-     * events.  This separate mask indicates events that have been
-     * requested by contained lightweight components without effecting
-     * the mask of the windowed component itself.
+     * The event mbsk for contbined lightweight components.  Lightweight
+     * components need b windowed contbiner to host window-relbted
+     * events.  This sepbrbte mbsk indicbtes events thbt hbve been
+     * requested by contbined lightweight components without effecting
+     * the mbsk of the windowed component itself.
      */
-    private long eventMask;
+    privbte long eventMbsk;
 
     /**
      * The kind of events routed to lightweight components from windowed
      * hosts.
      */
-    private static final long PROXY_EVENT_MASK =
+    privbte stbtic finbl long PROXY_EVENT_MASK =
         AWTEvent.FOCUS_EVENT_MASK |
         AWTEvent.KEY_EVENT_MASK |
         AWTEvent.MOUSE_EVENT_MASK |
         AWTEvent.MOUSE_MOTION_EVENT_MASK |
         AWTEvent.MOUSE_WHEEL_EVENT_MASK;
 
-    private static final long MOUSE_MASK =
+    privbte stbtic finbl long MOUSE_MASK =
         AWTEvent.MOUSE_EVENT_MASK |
         AWTEvent.MOUSE_MOTION_EVENT_MASK |
         AWTEvent.MOUSE_WHEEL_EVENT_MASK;
 
     void removeReferences(Component removedComponent) {
-        if (mouseEventTarget == removedComponent) {
-            isCleaned = true;
-            mouseEventTarget = null;
+        if (mouseEventTbrget == removedComponent) {
+            isClebned = true;
+            mouseEventTbrget = null;
         }
-        if (targetLastEntered == removedComponent) {
-            targetLastEntered = null;
+        if (tbrgetLbstEntered == removedComponent) {
+            tbrgetLbstEntered = null;
         }
-        if (targetLastEnteredDT == removedComponent) {
-            targetLastEnteredDT = null;
+        if (tbrgetLbstEnteredDT == removedComponent) {
+            tbrgetLbstEnteredDT = null;
         }
     }
 }

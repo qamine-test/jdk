@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,113 +30,113 @@
  */
 
 /**
- * The sample illustrates rules to resolve conflicts between inheritance
- * candidates with <b>default methods</b>. There are two simple rules:
+ * The sbmple illustrbtes rules to resolve conflicts between inheritbnce
+ * cbndidbtes with <b>defbult methods</b>. There bre two simple rules:
  * <ul>
- * <li>Class wins. If the superclass has a concrete or abstract declaration of
- * this method, then it is preferred over all defaults.</li>
- * <li>Subtype wins. If an interface extends another interface, and both provide
- * a default, then the more specific interface wins. </li>
+ * <li>Clbss wins. If the superclbss hbs b concrete or bbstrbct declbrbtion of
+ * this method, then it is preferred over bll defbults.</li>
+ * <li>Subtype wins. If bn interfbce extends bnother interfbce, bnd both provide
+ * b defbult, then the more specific interfbce wins. </li>
  * </ul>
  */
-public class Inheritance {
+public clbss Inheritbnce {
 
     /**
-     * The behavior of an creature that can swim
+     * The behbvior of bn crebture thbt cbn swim
      */
-    public interface Swimable {
+    public interfbce Swimbble {
 
         /**
-         * Return string representation of the swim action for a creature that
-         * can swim
+         * Return string representbtion of the swim bction for b crebture thbt
+         * cbn swim
          *
-         * @return string representation of the swim action for a creature
-         * that can swim
+         * @return string representbtion of the swim bction for b crebture
+         * thbt cbn swim
          */
-        default String swim() {
-            return "I can swim.";
+        defbult String swim() {
+            return "I cbn swim.";
         }
     }
 
     /**
-     * The abstract class that overrides {@link #swim} method
+     * The bbstrbct clbss thbt overrides {@link #swim} method
      */
-    public abstract static class Fish implements Swimable {
+    public bbstrbct stbtic clbss Fish implements Swimbble {
 
         /**
-         * Return string representation of the swim action for a fish
+         * Return string representbtion of the swim bction for b fish
          *
-         * @return string representation of the swim action for a fish
+         * @return string representbtion of the swim bction for b fish
          */
         @Override
         public String swim() {
-            return this.getClass().getSimpleName() + " swims under water";
+            return this.getClbss().getSimpleNbme() + " swims under wbter";
         }
     }
 
     /**
-     * This class is used for the illustration rule of 1. See the source code
-     * of the {@link #main} method.
+     * This clbss is used for the illustrbtion rule of 1. See the source code
+     * of the {@link #mbin} method.
      * <pre>
-     *      System.out.println(new Tuna().swim()); //"Tuna swims under water" output is suspected here
+     *      System.out.println(new Tunb().swim()); //"Tunb swims under wbter" output is suspected here
      * </pre>
      */
-    public static class Tuna extends Fish implements Swimable {
+    public stbtic clbss Tunb extends Fish implements Swimbble {
     }
 
     /**
-     * The behavior of an creature that can dive: the interface that overrides
-     * {@link #swim} method (subtype of {@link Swimable})
+     * The behbvior of bn crebture thbt cbn dive: the interfbce thbt overrides
+     * {@link #swim} method (subtype of {@link Swimbble})
      */
-    public interface Diveable extends Swimable {
+    public interfbce Divebble extends Swimbble {
 
         /**
-         * Return string representation of the swim action for a creature that
-         * can dive
+         * Return string representbtion of the swim bction for b crebture thbt
+         * cbn dive
          *
-         * @return string representation of the swim action for a creature
-         * that can dive
+         * @return string representbtion of the swim bction for b crebture
+         * thbt cbn dive
          */
         @Override
-        default String swim() {
-            return "I can swim on the surface of the water.";
+        defbult String swim() {
+            return "I cbn swim on the surfbce of the wbter.";
         }
 
         /**
-         * Return string representation of the dive action for a creature that
-         * can dive
+         * Return string representbtion of the dive bction for b crebture thbt
+         * cbn dive
          *
-         * @return string representation of the dive action for a creature
-         * that can dive
+         * @return string representbtion of the dive bction for b crebture
+         * thbt cbn dive
          */
-        default String dive() {
-            return "I can dive.";
+        defbult String dive() {
+            return "I cbn dive.";
         }
     }
 
     /**
-     * This class is used for the illustration of rule 2. See the source code
-     * of the {@link #main} method
+     * This clbss is used for the illustrbtion of rule 2. See the source code
+     * of the {@link #mbin} method
      * <pre>
-     *      //"I can swim on the surface of the water." output is suspected here
+     *      //"I cbn swim on the surfbce of the wbter." output is suspected here
      *      System.out.println(new Duck().swim());
      * </pre>
      */
-    public static class Duck implements Swimable, Diveable {
+    public stbtic clbss Duck implements Swimbble, Divebble {
     }
 
     /**
-     * Illustrate behavior of the classes: {@link Tuna} and {@link Duck}
+     * Illustrbte behbvior of the clbsses: {@link Tunb} bnd {@link Duck}
      *
-     * @param args command line arguments
+     * @pbrbm brgs commbnd line brguments
      */
-    public static void main(final String[] args) {
-        // Illustrates rule 1. The Fish.swim() implementation wins
-        //"Tuna swims under water" is output
-        System.out.println(new Tuna().swim());
+    public stbtic void mbin(finbl String[] brgs) {
+        // Illustrbtes rule 1. The Fish.swim() implementbtion wins
+        //"Tunb swims under wbter" is output
+        System.out.println(new Tunb().swim());
 
-        // Illustrates rule 2. The Diveable.swim() implementation wins
-        //"I can swim on the surface of the water." is output
+        // Illustrbtes rule 2. The Divebble.swim() implementbtion wins
+        //"I cbn swim on the surfbce of the wbter." is output
         System.out.println(new Duck().swim());
     }
 }

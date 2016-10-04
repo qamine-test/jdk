@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbckbge sun.jvmstbt.perfdbtb.monitor;
 
-import sun.jvmstat.monitor.*;
-import java.nio.ByteOrder;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
+import sun.jvmstbt.monitor.*;
+import jbvb.nio.ByteOrder;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.IntBuffer;
 
 /**
- * Abstraction representing the HotSpot PerfData instrumentation buffer
- * header. This class represents only the fixed portion of the header.
- * Version specific classes represent the portion of the header that
- * may change from release to release.
+ * Abstrbction representing the HotSpot PerfDbtb instrumentbtion buffer
+ * hebder. This clbss represents only the fixed portion of the hebder.
+ * Version specific clbsses represent the portion of the hebder thbt
+ * mby chbnge from relebse to relebse.
  * <p>
- * The PerfDataBufferProlog class supports parsing of the following
+ * The PerfDbtbBufferProlog clbss supports pbrsing of the following
  * C structure:
  * <pre>
  * typedef struct {
- *   jint magic;             // magic number - 0xcafec0c0
+ *   jint mbgic;             // mbgic number - 0xcbfec0c0
  *   jbyte byte_order;       // byte order of the buffer
- *   jbyte major_version;    // major and minor version numbers
+ *   jbyte mbjor_version;    // mbjor bnd minor version numbers
  *   jbyte minor_version;
- *   jbyte reserved_byte1;   // reserved - see concrete implementations for
+ *   jbyte reserved_byte1;   // reserved - see concrete implementbtions for
  *                           // possible definition.
- *   ...                     // remainder is handled by the subclasses.
- * } PerfDataPrologue
+ *   ...                     // rembinder is hbndled by the subclbsses.
+ * } PerfDbtbPrologue
  * </pre>
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public abstract class AbstractPerfDataBufferPrologue {
+public bbstrbct clbss AbstrbctPerfDbtbBufferPrologue {
 
     protected ByteBuffer byteBuffer;
 
     /*
-     * the following constants must match the field offsets and sizes
-     * in the PerfDataPrologue structure in perfMemory.hpp
+     * the following constbnts must mbtch the field offsets bnd sizes
+     * in the PerfDbtbPrologue structure in perfMemory.hpp
      */
-    final static int PERFDATA_PROLOG_OFFSET=0;
-    final static int PERFDATA_PROLOG_MAGIC_OFFSET=0;
-    final static int PERFDATA_PROLOG_BYTEORDER_OFFSET=4;
-    final static int PERFDATA_PROLOG_BYTEORDER_SIZE=1;         // sizeof(byte)
-    final static int PERFDATA_PROLOG_MAJOR_OFFSET=5;
-    final static int PERFDATA_PROLOG_MAJOR_SIZE=1;             // sizeof(byte)
-    final static int PERFDATA_PROLOG_MINOR_OFFSET=6;
-    final static int PERFDATA_PROLOG_MINOR_SIZE=1;             // sizeof(byte)
-    final static int PERFDATA_PROLOG_RESERVEDB1_OFFSET=7;
-    final static int PERFDATA_PROLOG_RESERVEDB1_SIZE=1;        // sizeof(byte)
+    finbl stbtic int PERFDATA_PROLOG_OFFSET=0;
+    finbl stbtic int PERFDATA_PROLOG_MAGIC_OFFSET=0;
+    finbl stbtic int PERFDATA_PROLOG_BYTEORDER_OFFSET=4;
+    finbl stbtic int PERFDATA_PROLOG_BYTEORDER_SIZE=1;         // sizeof(byte)
+    finbl stbtic int PERFDATA_PROLOG_MAJOR_OFFSET=5;
+    finbl stbtic int PERFDATA_PROLOG_MAJOR_SIZE=1;             // sizeof(byte)
+    finbl stbtic int PERFDATA_PROLOG_MINOR_OFFSET=6;
+    finbl stbtic int PERFDATA_PROLOG_MINOR_SIZE=1;             // sizeof(byte)
+    finbl stbtic int PERFDATA_PROLOG_RESERVEDB1_OFFSET=7;
+    finbl stbtic int PERFDATA_PROLOG_RESERVEDB1_SIZE=1;        // sizeof(byte)
 
-    final static int PERFDATA_PROLOG_SIZE=8;   // sizeof(struct PerfDataProlog)
+    finbl stbtic int PERFDATA_PROLOG_SIZE=8;   // sizeof(struct PerfDbtbProlog)
 
-    // these constants should match their #define counterparts in perfMemory.hpp
-    final static byte PERFDATA_BIG_ENDIAN=0;
-    final static byte PERFDATA_LITTLE_ENDIAN=1;
-    final static int  PERFDATA_MAGIC = 0xcafec0c0;
+    // these constbnts should mbtch their #define counterpbrts in perfMemory.hpp
+    finbl stbtic byte PERFDATA_BIG_ENDIAN=0;
+    finbl stbtic byte PERFDATA_LITTLE_ENDIAN=1;
+    finbl stbtic int  PERFDATA_MAGIC = 0xcbfec0c0;
 
-    // names for counters that expose the prolog fields
-    public final static String PERFDATA_MAJOR_NAME =
-            "sun.perfdata.majorVersion";
-    public final static String PERFDATA_MINOR_NAME =
-            "sun.perfdata.minorVersion";
+    // nbmes for counters thbt expose the prolog fields
+    public finbl stbtic String PERFDATA_MAJOR_NAME =
+            "sun.perfdbtb.mbjorVersion";
+    public finbl stbtic String PERFDATA_MINOR_NAME =
+            "sun.perfdbtb.minorVersion";
 
     /**
-     * Construct a PerfDataBufferPrologue instance.
+     * Construct b PerfDbtbBufferPrologue instbnce.
      *
-     * @param byteBuffer buffer containing the instrumentation data
+     * @pbrbm byteBuffer buffer contbining the instrumentbtion dbtb
      */
-    public AbstractPerfDataBufferPrologue(ByteBuffer byteBuffer)
+    public AbstrbctPerfDbtbBufferPrologue(ByteBuffer byteBuffer)
            throws MonitorException  {
-        this.byteBuffer = byteBuffer.duplicate();
+        this.byteBuffer = byteBuffer.duplicbte();
 
-        // the magic number is always stored in big-endian format
-        if (getMagic() != PERFDATA_MAGIC) {
+        // the mbgic number is blwbys stored in big-endibn formbt
+        if (getMbgic() != PERFDATA_MAGIC) {
             throw new MonitorVersionException(
-                    "Bad Magic: " + Integer.toHexString(getMagic()));
+                    "Bbd Mbgic: " + Integer.toHexString(getMbgic()));
         }
 
         // set the byte order
@@ -105,28 +105,28 @@ public abstract class AbstractPerfDataBufferPrologue {
     }
 
     /**
-     * Get the magic number.
+     * Get the mbgic number.
      *
-     * @return int - the magic number
+     * @return int - the mbgic number
      */
-    public int getMagic() {
-        // the magic number is always stored in big-endian format
+    public int getMbgic() {
+        // the mbgic number is blwbys stored in big-endibn formbt
         ByteOrder order = byteBuffer.order();
         byteBuffer.order(ByteOrder.BIG_ENDIAN);
 
-        // get the magic number
+        // get the mbgic number
         byteBuffer.position(PERFDATA_PROLOG_MAGIC_OFFSET);
-        int magic = byteBuffer.getInt();
+        int mbgic = byteBuffer.getInt();
 
         // restore the byte order
         byteBuffer.order(order);
-        return magic;
+        return mbgic;
     }
 
     /**
      * Get the byte order.
      *
-     * @return int - the byte order of the instrumentation buffer
+     * @return int - the byte order of the instrumentbtion buffer
      */
     public ByteOrder getByteOrder() {
         // byte order field is byte order independent
@@ -142,12 +142,12 @@ public abstract class AbstractPerfDataBufferPrologue {
     }
 
     /**
-     * Get the major version.
+     * Get the mbjor version.
      *
-     * @return int - the major version
+     * @return int - the mbjor version
      */
-    public int getMajorVersion() {
-        // major version field is byte order independent
+    public int getMbjorVersion() {
+        // mbjor version field is byte order independent
         byteBuffer.position(PERFDATA_PROLOG_MAJOR_OFFSET);
         return (int)byteBuffer.get();
     }
@@ -164,101 +164,101 @@ public abstract class AbstractPerfDataBufferPrologue {
     }
 
     /**
-     * Get the accessible flag. If supported, it indicates that the shared
-     * memory region is sufficiently initialized for client acccess.
+     * Get the bccessible flbg. If supported, it indicbtes thbt the shbred
+     * memory region is sufficiently initiblized for client bcccess.
      *
-     * @return boolean - the initialized status
+     * @return boolebn - the initiblized stbtus
      * @see #supportsAccessible()
      */
-    public abstract boolean isAccessible();
+    public bbstrbct boolebn isAccessible();
 
     /**
-     * Test if the accessible flag is supported by this version of
-     * the PerfDataBufferPrologue. Although not an abstract method, this
-     * method should be overridden by version specific subclasses.
+     * Test if the bccessible flbg is supported by this version of
+     * the PerfDbtbBufferPrologue. Although not bn bbstrbct method, this
+     * method should be overridden by version specific subclbsses.
      *
-     * @return boolean - the initialized flag support status.
+     * @return boolebn - the initiblized flbg support stbtus.
      * @see #isAccessible()
      */
-    public abstract boolean supportsAccessible();
+    public bbstrbct boolebn supportsAccessible();
 
     /**
-     * Get the size of the header portion of the instrumentation buffer.
+     * Get the size of the hebder portion of the instrumentbtion buffer.
      *
-     * @return int - the size of the header
+     * @return int - the size of the hebder
      */
     public int getSize() {
-        return PERFDATA_PROLOG_SIZE;  // sizeof(struct PerfDataProlog)
+        return PERFDATA_PROLOG_SIZE;  // sizeof(struct PerfDbtbProlog)
     }
 
     /**
-     * Return an IntBuffer that accesses the major version number.
-     * This is used to create a Monitor object for this value.
+     * Return bn IntBuffer thbt bccesses the mbjor version number.
+     * This is used to crebte b Monitor object for this vblue.
      *
-     * @return IntBuffer - a ByteBuffer that accesses the major version number
-     *                     in the instrumentation buffer header.
+     * @return IntBuffer - b ByteBuffer thbt bccesses the mbjor version number
+     *                     in the instrumentbtion buffer hebder.
      */
-    public IntBuffer majorVersionBuffer() {
+    public IntBuffer mbjorVersionBuffer() {
         int[] holder = new int[1];
-        holder[0] = getMajorVersion();
-        IntBuffer ib = IntBuffer.wrap(holder);
+        holder[0] = getMbjorVersion();
+        IntBuffer ib = IntBuffer.wrbp(holder);
         ib.limit(1);
         return ib;
       }
 
     /**
-     * Return an IntBuffer that accesses the minor version number.
-     * This is used to create a Monitor object for this value.
+     * Return bn IntBuffer thbt bccesses the minor version number.
+     * This is used to crebte b Monitor object for this vblue.
      *
-     * @return IntBuffer - a ByteBuffer that accesses the minor version number
-     *                     in the instrumentation buffer header.
+     * @return IntBuffer - b ByteBuffer thbt bccesses the minor version number
+     *                     in the instrumentbtion buffer hebder.
      */
     public IntBuffer minorVersionBuffer() {
         int[] holder = new int[1];
         holder[0] = getMinorVersion();
-        IntBuffer ib = IntBuffer.wrap(holder);
+        IntBuffer ib = IntBuffer.wrbp(holder);
         ib.limit(1);
         return ib;
     }
 
     /**
-     * Get the magic number from the given byteBuffer.
+     * Get the mbgic number from the given byteBuffer.
      *
-     * @return int - the magic number
+     * @return int - the mbgic number
      */
-    public static int getMagic(ByteBuffer bb) {
-        // save buffer state
+    public stbtic int getMbgic(ByteBuffer bb) {
+        // sbve buffer stbte
         int position = bb.position();
         ByteOrder order = bb.order();
 
-        // the magic number is always stored in big-endian format
+        // the mbgic number is blwbys stored in big-endibn formbt
         bb.order(ByteOrder.BIG_ENDIAN);
         bb.position(PERFDATA_PROLOG_MAGIC_OFFSET);
-        int magic = bb.getInt();
+        int mbgic = bb.getInt();
 
-        // restore buffer state.
+        // restore buffer stbte.
         bb.order(order);
         bb.position(position);
 
-        return magic;
+        return mbgic;
     }
 
     /**
-     * Get the major version number from the given ByteBuffer.
+     * Get the mbjor version number from the given ByteBuffer.
      *
-     * @return int - the major version
+     * @return int - the mbjor version
      */
-    public static int getMajorVersion(ByteBuffer bb) {
-        // save buffer state
+    public stbtic int getMbjorVersion(ByteBuffer bb) {
+        // sbve buffer stbte
         int position = bb.position();
 
         bb.position(PERFDATA_PROLOG_MAJOR_OFFSET);
-        int major = (int) bb.get();
+        int mbjor = (int) bb.get();
 
-        // restore buffer state.
+        // restore buffer stbte.
         bb.position(position);
 
-        return major;
+        return mbjor;
     }
 
     /**
@@ -266,14 +266,14 @@ public abstract class AbstractPerfDataBufferPrologue {
      *
      * @return int - the minor version
      */
-    public static int getMinorVersion(ByteBuffer bb) {
-        // save buffer state
+    public stbtic int getMinorVersion(ByteBuffer bb) {
+        // sbve buffer stbte
         int position = bb.position();
 
         bb.position(PERFDATA_PROLOG_MINOR_OFFSET);
         int minor = (int)bb.get();
 
-        // restore buffer state.
+        // restore buffer stbte.
         bb.position(position);
 
         return minor;
@@ -282,10 +282,10 @@ public abstract class AbstractPerfDataBufferPrologue {
     /**
      * Get the byte order for the given ByteBuffer.
      *
-     * @return int - the byte order of the instrumentation buffer
+     * @return int - the byte order of the instrumentbtion buffer
      */
-    public static ByteOrder getByteOrder(ByteBuffer bb) {
-        // save buffer state
+    public stbtic ByteOrder getByteOrder(ByteBuffer bb) {
+        // sbve buffer stbte
         int position = bb.position();
 
         bb.position(PERFDATA_PROLOG_BYTEORDER_OFFSET);
@@ -293,7 +293,7 @@ public abstract class AbstractPerfDataBufferPrologue {
                           ? ByteOrder.BIG_ENDIAN
                           : ByteOrder.LITTLE_ENDIAN;
 
-        // restore buffer state.
+        // restore buffer stbte.
         bb.position(position);
         return order;
     }

@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import sun.awt.AWTAccessor;
-import sun.awt.IconInfo;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.opengl.CGLLayer;
-import sun.lwawt.LWWindowPeer;
-import sun.lwawt.PlatformEventNotifier;
-import sun.lwawt.SecurityWarningWindow;
+import sun.bwt.AWTAccessor;
+import sun.bwt.IconInfo;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.opengl.CGLLbyer;
+import sun.lwbwt.LWWindowPeer;
+import sun.lwbwt.PlbtformEventNotifier;
+import sun.lwbwt.SecurityWbrningWindow;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.*;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.geom.Point2D;
+import jbvb.lbng.ref.WebkReference;
 
-public final class CWarningWindow extends CPlatformWindow
-        implements SecurityWarningWindow, PlatformEventNotifier {
+public finbl clbss CWbrningWindow extends CPlbtformWindow
+        implements SecurityWbrningWindow, PlbtformEventNotifier {
 
-    private static class Lock {}
-    private final Lock lock = new Lock();
+    privbte stbtic clbss Lock {}
+    privbte finbl Lock lock = new Lock();
 
-    private final static int SHOWING_DELAY = 300;
-    private final static int HIDING_DELAY = 2000;
+    privbte finbl stbtic int SHOWING_DELAY = 300;
+    privbte finbl stbtic int HIDING_DELAY = 2000;
 
-    private Rectangle bounds = new Rectangle();
-    private final WeakReference<LWWindowPeer> ownerPeer;
-    private final Window ownerWindow;
+    privbte Rectbngle bounds = new Rectbngle();
+    privbte finbl WebkReference<LWWindowPeer> ownerPeer;
+    privbte finbl Window ownerWindow;
 
     /**
-     * Animation stage.
+     * Animbtion stbge.
      */
-    private volatile int currentIcon = 0;
+    privbte volbtile int currentIcon = 0;
 
-    /* -1 - uninitialized.
+    /* -1 - uninitiblized.
      * 0 - 16x16
      * 1 - 24x24
      * 2 - 32x32
      * 3 - 48x48
      */
-    private int currentSize = -1;
-    private static IconInfo[][] icons;
-    private static IconInfo getSecurityIconInfo(int size, int num) {
-        synchronized (CWarningWindow.class) {
+    privbte int currentSize = -1;
+    privbte stbtic IconInfo[][] icons;
+    privbte stbtic IconInfo getSecurityIconInfo(int size, int num) {
+        synchronized (CWbrningWindow.clbss) {
             if (icons == null) {
                 icons = new IconInfo[4][3];
-                icons[0][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw16_png.security_icon_bw16_png);
-                icons[0][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim16_png.security_icon_interim16_png);
-                icons[0][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow16_png.security_icon_yellow16_png);
-                icons[1][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw24_png.security_icon_bw24_png);
-                icons[1][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim24_png.security_icon_interim24_png);
-                icons[1][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow24_png.security_icon_yellow24_png);
-                icons[2][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw32_png.security_icon_bw32_png);
-                icons[2][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim32_png.security_icon_interim32_png);
-                icons[2][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow32_png.security_icon_yellow32_png);
-                icons[3][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw48_png.security_icon_bw48_png);
-                icons[3][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim48_png.security_icon_interim48_png);
-                icons[3][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow48_png.security_icon_yellow48_png);
+                icons[0][0] = new IconInfo(sun.bwt.AWTIcon32_security_icon_bw16_png.security_icon_bw16_png);
+                icons[0][1] = new IconInfo(sun.bwt.AWTIcon32_security_icon_interim16_png.security_icon_interim16_png);
+                icons[0][2] = new IconInfo(sun.bwt.AWTIcon32_security_icon_yellow16_png.security_icon_yellow16_png);
+                icons[1][0] = new IconInfo(sun.bwt.AWTIcon32_security_icon_bw24_png.security_icon_bw24_png);
+                icons[1][1] = new IconInfo(sun.bwt.AWTIcon32_security_icon_interim24_png.security_icon_interim24_png);
+                icons[1][2] = new IconInfo(sun.bwt.AWTIcon32_security_icon_yellow24_png.security_icon_yellow24_png);
+                icons[2][0] = new IconInfo(sun.bwt.AWTIcon32_security_icon_bw32_png.security_icon_bw32_png);
+                icons[2][1] = new IconInfo(sun.bwt.AWTIcon32_security_icon_interim32_png.security_icon_interim32_png);
+                icons[2][2] = new IconInfo(sun.bwt.AWTIcon32_security_icon_yellow32_png.security_icon_yellow32_png);
+                icons[3][0] = new IconInfo(sun.bwt.AWTIcon32_security_icon_bw48_png.security_icon_bw48_png);
+                icons[3][1] = new IconInfo(sun.bwt.AWTIcon32_security_icon_interim48_png.security_icon_interim48_png);
+                icons[3][2] = new IconInfo(sun.bwt.AWTIcon32_security_icon_yellow48_png.security_icon_yellow48_png);
             }
         }
-        final int sizeIndex = size % icons.length;
+        finbl int sizeIndex = size % icons.length;
         return icons[sizeIndex][num % icons[sizeIndex].length];
     }
 
-    public CWarningWindow(final Window _ownerWindow, final LWWindowPeer _ownerPeer) {
+    public CWbrningWindow(finbl Window _ownerWindow, finbl LWWindowPeer _ownerPeer) {
         super();
 
-        this.ownerPeer = new WeakReference<>(_ownerPeer);
+        this.ownerPeer = new WebkReference<>(_ownerPeer);
         this.ownerWindow = _ownerWindow;
 
-        initialize(null, null, _ownerPeer.getPlatformWindow());
+        initiblize(null, null, _ownerPeer.getPlbtformWindow());
 
-        setOpaque(false);
+        setOpbque(fblse);
 
-        String warningString = ownerWindow.getWarningString();
-        if (warningString != null) {
-            contentView.setToolTip(ownerWindow.getWarningString());
+        String wbrningString = ownerWindow.getWbrningString();
+        if (wbrningString != null) {
+            contentView.setToolTip(ownerWindow.getWbrningString());
         }
 
-        updateIconSize();
+        updbteIconSize();
     }
 
     /**
-     * @param x,y,w,h coordinates of the untrusted window
+     * @pbrbm x,y,w,h coordinbtes of the untrusted window
      */
     public void reposition(int x, int y, int w, int h) {
-        final Point2D point = AWTAccessor.getWindowAccessor().
-                calculateSecurityWarningPosition(ownerWindow, x, y, w, h);
+        finbl Point2D point = AWTAccessor.getWindowAccessor().
+                cblculbteSecurityWbrningPosition(ownerWindow, x, y, w, h);
         setBounds((int)point.getX(), (int)point.getY(), getWidth(), getHeight());
     }
 
-    public void setVisible(boolean visible, boolean doSchedule) {
-        synchronized (taskLock) {
-            cancelTasks();
+    public void setVisible(boolebn visible, boolebn doSchedule) {
+        synchronized (tbskLock) {
+            cbncelTbsks();
 
             if (visible) {
                 if (isVisible()) {
@@ -125,46 +125,46 @@ public final class CWarningWindow extends CPlatformWindow
                     currentIcon = 2;
                 }
 
-                showHideTask = new ShowingTask();
-                LWCToolkit.performOnMainThreadAfterDelay(showHideTask, 50);
+                showHideTbsk = new ShowingTbsk();
+                LWCToolkit.performOnMbinThrebdAfterDelby(showHideTbsk, 50);
             } else {
                 if (!isVisible()) {
                     return;
                 }
 
-                showHideTask = new HidingTask();
+                showHideTbsk = new HidingTbsk();
                 if (doSchedule) {
-                    LWCToolkit.performOnMainThreadAfterDelay(showHideTask, HIDING_DELAY);
+                    LWCToolkit.performOnMbinThrebdAfterDelby(showHideTbsk, HIDING_DELAY);
                 } else {
-                    LWCToolkit.performOnMainThreadAfterDelay(showHideTask, 50);
+                    LWCToolkit.performOnMbinThrebdAfterDelby(showHideTbsk, 50);
                 }
             }
         }
     }
 
     @Override
-    public void notifyIconify(boolean iconify) {
+    public void notifyIconify(boolebn iconify) {
     }
 
     @Override
-    public void notifyZoom(boolean isZoomed) {
+    public void notifyZoom(boolebn isZoomed) {
     }
 
     @Override
-    public void notifyExpose(final Rectangle r) {
-        repaint();
+    public void notifyExpose(finbl Rectbngle r) {
+        repbint();
     }
 
     @Override
-    public void notifyReshape(int x, int y, int w, int h) {
+    public void notifyReshbpe(int x, int y, int w, int h) {
     }
 
     @Override
-    public void notifyUpdateCursor() {
+    public void notifyUpdbteCursor() {
     }
 
     @Override
-    public void notifyActivation(boolean activation, LWWindowPeer opposite) {
+    public void notifyActivbtion(boolebn bctivbtion, LWWindowPeer opposite) {
     }
 
     @Override
@@ -174,65 +174,65 @@ public final class CWarningWindow extends CPlatformWindow
     @Override
     public void notifyMouseEvent(int id, long when, int button, int x, int y,
                                  int screenX, int screenY, int modifiers,
-                                 int clickCount, boolean popupTrigger,
-                                 byte[] bdata) {
+                                 int clickCount, boolebn popupTrigger,
+                                 byte[] bdbtb) {
         LWWindowPeer peer = ownerPeer.get();
         if (id == MouseEvent.MOUSE_EXITED) {
             if (peer != null) {
-                peer.updateSecurityWarningVisibility();
+                peer.updbteSecurityWbrningVisibility();
             }
         } else if(id == MouseEvent.MOUSE_ENTERED) {
             if (peer != null) {
-                peer.updateSecurityWarningVisibility();
+                peer.updbteSecurityWbrningVisibility();
             }
         }
     }
 
-    public Rectangle getBounds() {
+    public Rectbngle getBounds() {
         synchronized (lock) {
             return bounds.getBounds();
         }
     }
 
     @Override
-    public boolean isVisible() {
+    public boolebn isVisible() {
         synchronized (lock) {
             return visible;
         }
     }
 
     @Override
-    public void setVisible(boolean visible) {
+    public void setVisible(boolebn visible) {
         synchronized (lock) {
-            final long nsWindowPtr = getNSWindowPtr();
+            finbl long nsWindowPtr = getNSWindowPtr();
 
-            // Process parent-child relationship when hiding
+            // Process pbrent-child relbtionship when hiding
             if (!visible) {
-                // Unparent myself
+                // Unpbrent myself
                 if (owner != null && owner.isVisible()) {
-                    CWrapper.NSWindow.removeChildWindow(
+                    CWrbpper.NSWindow.removeChildWindow(
                             owner.getNSWindowPtr(), nsWindowPtr);
                 }
             }
 
-            // Actually show or hide the window
+            // Actublly show or hide the window
             if (visible) {
-                CWrapper.NSWindow.orderFront(nsWindowPtr);
+                CWrbpper.NSWindow.orderFront(nsWindowPtr);
             } else {
-                CWrapper.NSWindow.orderOut(nsWindowPtr);
+                CWrbpper.NSWindow.orderOut(nsWindowPtr);
             }
 
             this.visible = visible;
 
-            // Manage parent-child relationship when showing
+            // Mbnbge pbrent-child relbtionship when showing
             if (visible) {
-                // Add myself as a child
+                // Add myself bs b child
                 if (owner != null && owner.isVisible()) {
-                    CWrapper.NSWindow.addChildWindow(owner.getNSWindowPtr(),
-                            nsWindowPtr, CWrapper.NSWindow.NSWindowAbove);
+                    CWrbpper.NSWindow.bddChildWindow(owner.getNSWindowPtr(),
+                            nsWindowPtr, CWrbpper.NSWindow.NSWindowAbove);
 
-                    // do not allow security warning to be obscured by other windows
-                    applyWindowLevel(ownerWindow);
+                    // do not bllow security wbrning to be obscured by other windows
+                    bpplyWindowLevel(ownerWindow);
                 }
             }
         }
@@ -241,65 +241,65 @@ public final class CWarningWindow extends CPlatformWindow
     @Override
     public void notifyMouseWheelEvent(long when, int x, int y, int modifiers,
                                       int scrollType, int scrollAmount,
-                                      int wheelRotation, double preciseWheelRotation,
-                                      byte[] bdata) {
+                                      int wheelRotbtion, double preciseWheelRotbtion,
+                                      byte[] bdbtb) {
     }
 
     @Override
     public void notifyKeyEvent(int id, long when, int modifiers, int keyCode,
-                               char keyChar, int keyLocation) {
+                               chbr keyChbr, int keyLocbtion) {
     }
 
-    protected int getInitialStyleBits() {
+    protected int getInitiblStyleBits() {
         int styleBits = 0;
-        CPlatformWindow.SET(styleBits, CPlatformWindow.UTILITY, true);
+        CPlbtformWindow.SET(styleBits, CPlbtformWindow.UTILITY, true);
         return styleBits;
     }
 
     protected void deliverMoveResizeEvent(int x, int y, int width, int height,
-                                          boolean byUser) {
+                                          boolebn byUser) {
 
-        boolean isResize;
+        boolebn isResize;
         synchronized (lock) {
             isResize = (bounds.width != width || bounds.height != height);
-            bounds = new Rectangle(x, y, width, height);
+            bounds = new Rectbngle(x, y, width, height);
         }
 
         if (isResize) {
-            replaceSurface();
+            replbceSurfbce();
         }
 
         super.deliverMoveResizeEvent(x, y, width, height, byUser);
     }
 
-    protected CPlatformResponder createPlatformResponder() {
-        return new CPlatformResponder(this, false);
+    protected CPlbtformResponder crebtePlbtformResponder() {
+        return new CPlbtformResponder(this, fblse);
     }
 
-    protected CPlatformView createContentView() {
-        return new CPlatformView() {
-            public GraphicsConfiguration getGraphicsConfiguration() {
+    protected CPlbtformView crebteContentView() {
+        return new CPlbtformView() {
+            public GrbphicsConfigurbtion getGrbphicsConfigurbtion() {
                 LWWindowPeer peer = ownerPeer.get();
-                return peer.getGraphicsConfiguration();
+                return peer.getGrbphicsConfigurbtion();
             }
 
-            public Rectangle getBounds() {
-                return CWarningWindow.this.getBounds();
+            public Rectbngle getBounds() {
+                return CWbrningWindow.this.getBounds();
             }
 
-            public CGLLayer createCGLayer() {
-                return new CGLLayer(null) {
-                    public Rectangle getBounds() {
-                        return CWarningWindow.this.getBounds();
+            public CGLLbyer crebteCGLbyer() {
+                return new CGLLbyer(null) {
+                    public Rectbngle getBounds() {
+                        return CWbrningWindow.this.getBounds();
                     }
 
-                    public GraphicsConfiguration getGraphicsConfiguration() {
+                    public GrbphicsConfigurbtion getGrbphicsConfigurbtion() {
                         LWWindowPeer peer = ownerPeer.get();
-                        return peer.getGraphicsConfiguration();
+                        return peer.getGrbphicsConfigurbtion();
                     }
 
-                    public boolean isOpaque() {
-                        return false;
+                    public boolebn isOpbque() {
+                        return fblse;
                     }
                 };
             }
@@ -308,41 +308,41 @@ public final class CWarningWindow extends CPlatformWindow
 
     @Override
     public void dispose() {
-        cancelTasks();
-        SurfaceData surfaceData = contentView.getSurfaceData();
-        if (surfaceData != null) {
-            surfaceData.invalidate();
+        cbncelTbsks();
+        SurfbceDbtb surfbceDbtb = contentView.getSurfbceDbtb();
+        if (surfbceDbtb != null) {
+            surfbceDbtb.invblidbte();
         }
         super.dispose();
     }
 
-    private void cancelTasks() {
-        synchronized (taskLock) {
-            if (showHideTask != null) {
-                showHideTask.cancel();
-                showHideTask = null;
+    privbte void cbncelTbsks() {
+        synchronized (tbskLock) {
+            if (showHideTbsk != null) {
+                showHideTbsk.cbncel();
+                showHideTbsk = null;
             }
         }
     }
 
-    private void updateIconSize() {
+    privbte void updbteIconSize() {
         int newSize = -1;
 
         if (ownerWindow != null) {
             Insets insets = ownerWindow.getInsets();
-            int max = Math.max(insets.top, Math.max(insets.bottom,
-                    Math.max(insets.left, insets.right)));
-            if (max < 24) {
+            int mbx = Mbth.mbx(insets.top, Mbth.mbx(insets.bottom,
+                    Mbth.mbx(insets.left, insets.right)));
+            if (mbx < 24) {
                 newSize = 0;
-            } else if (max < 32) {
+            } else if (mbx < 32) {
                 newSize = 1;
-            } else if (max < 48) {
+            } else if (mbx < 48) {
                 newSize = 2;
             } else {
                 newSize = 3;
             }
         }
-        // Make sure we have a valid size
+        // Mbke sure we hbve b vblid size
         if (newSize == -1) {
             newSize = 0;
         }
@@ -351,107 +351,107 @@ public final class CWarningWindow extends CPlatformWindow
             if (newSize != currentSize) {
                 currentSize = newSize;
                 IconInfo ico = getSecurityIconInfo(currentSize, 0);
-                AWTAccessor.getWindowAccessor().setSecurityWarningSize(
+                AWTAccessor.getWindowAccessor().setSecurityWbrningSize(
                     ownerWindow, ico.getWidth(), ico.getHeight());
             }
         }
     }
 
-    private Graphics getGraphics() {
-        SurfaceData sd = contentView.getSurfaceData();
+    privbte Grbphics getGrbphics() {
+        SurfbceDbtb sd = contentView.getSurfbceDbtb();
         if (ownerWindow == null || sd == null) {
             return null;
         }
 
-        return transformGraphics(new SunGraphics2D(sd, SystemColor.windowText,
+        return trbnsformGrbphics(new SunGrbphics2D(sd, SystemColor.windowText,
                 SystemColor.window, ownerWindow.getFont()));
     }
 
 
-    private void repaint() {
-        final Graphics g = getGraphics();
+    privbte void repbint() {
+        finbl Grbphics g = getGrbphics();
         if (g != null) {
             try {
-                ((Graphics2D) g).setComposite(AlphaComposite.Src);
-                g.drawImage(getSecurityIconInfo().getImage(), 0, 0, null);
-            } finally {
+                ((Grbphics2D) g).setComposite(AlphbComposite.Src);
+                g.drbwImbge(getSecurityIconInfo().getImbge(), 0, 0, null);
+            } finblly {
                 g.dispose();
             }
         }
     }
 
-    private void replaceSurface() {
-        SurfaceData oldData = contentView.getSurfaceData();
+    privbte void replbceSurfbce() {
+        SurfbceDbtb oldDbtb = contentView.getSurfbceDbtb();
 
-        replaceSurfaceData();
+        replbceSurfbceDbtb();
 
-        if (oldData != null && oldData != contentView.getSurfaceData()) {
-            oldData.flush();
+        if (oldDbtb != null && oldDbtb != contentView.getSurfbceDbtb()) {
+            oldDbtb.flush();
         }
     }
 
-    private int getWidth() {
+    privbte int getWidth() {
         return getSecurityIconInfo().getWidth();
     }
 
-    private int getHeight() {
+    privbte int getHeight() {
         return getSecurityIconInfo().getHeight();
     }
 
-    private IconInfo getSecurityIconInfo() {
+    privbte IconInfo getSecurityIconInfo() {
         return getSecurityIconInfo(currentSize, currentIcon);
     }
 
-    private final Lock taskLock = new Lock();
-    private CancelableRunnable showHideTask;
+    privbte finbl Lock tbskLock = new Lock();
+    privbte CbncelbbleRunnbble showHideTbsk;
 
-    private static abstract class CancelableRunnable implements Runnable {
-        private volatile boolean perform = true;
+    privbte stbtic bbstrbct clbss CbncelbbleRunnbble implements Runnbble {
+        privbte volbtile boolebn perform = true;
 
-        public final void cancel() {
-            perform = false;
+        public finbl void cbncel() {
+            perform = fblse;
         }
 
         @Override
-        public final void run() {
+        public finbl void run() {
             if (perform) {
                 perform();
             }
         }
 
-        public abstract void perform();
+        public bbstrbct void perform();
     }
 
-    private class HidingTask extends CancelableRunnable {
+    privbte clbss HidingTbsk extends CbncelbbleRunnbble {
         @Override
         public void perform() {
             synchronized (lock) {
-                setVisible(false);
+                setVisible(fblse);
             }
 
-            synchronized (taskLock) {
-                showHideTask = null;
+            synchronized (tbskLock) {
+                showHideTbsk = null;
             }
         }
     }
 
-    private class ShowingTask extends CancelableRunnable {
+    privbte clbss ShowingTbsk extends CbncelbbleRunnbble {
         @Override
         public void perform() {
             synchronized (lock) {
                 if (!isVisible()) {
                     setVisible(true);
                 }
-                repaint();
+                repbint();
             }
 
-            synchronized (taskLock) {
+            synchronized (tbskLock) {
                 if (currentIcon > 0) {
                     currentIcon--;
-                    showHideTask = new ShowingTask();
-                    LWCToolkit.performOnMainThreadAfterDelay(showHideTask, SHOWING_DELAY);
+                    showHideTbsk = new ShowingTbsk();
+                    LWCToolkit.performOnMbinThrebdAfterDelby(showHideTbsk, SHOWING_DELAY);
                 } else {
-                    showHideTask = null;
+                    showHideTbsk = null;
                 }
             }
         }

@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image.renderable;
-import java.awt.image.RenderedImage;
-import java.io.Serializable;
-import java.util.Vector;
+pbckbge jbvb.bwt.imbge.renderbble;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Vector;
 
 /**
- * A <code>ParameterBlock</code> encapsulates all the information about sources and
- * parameters (Objects) required by a RenderableImageOp, or other
- * classes that process images.
+ * A <code>PbrbmeterBlock</code> encbpsulbtes bll the informbtion bbout sources bnd
+ * pbrbmeters (Objects) required by b RenderbbleImbgeOp, or other
+ * clbsses thbt process imbges.
  *
- * <p> Although it is possible to place arbitrary objects in the
- * source Vector, users of this class may impose semantic constraints
- * such as requiring all sources to be RenderedImages or
- * RenderableImage.  <code>ParameterBlock</code> itself is merely a container and
- * performs no checking on source or parameter types.
+ * <p> Although it is possible to plbce brbitrbry objects in the
+ * source Vector, users of this clbss mby impose sembntic constrbints
+ * such bs requiring bll sources to be RenderedImbges or
+ * RenderbbleImbge.  <code>PbrbmeterBlock</code> itself is merely b contbiner bnd
+ * performs no checking on source or pbrbmeter types.
  *
- * <p> All parameters in a <code>ParameterBlock</code> are objects; convenience
- * add and set methods are available that take arguments of base type and
- * construct the appropriate subclass of Number (such as
- * Integer or Float).  Corresponding get methods perform a
- * downward cast and have return values of base type; an exception
- * will be thrown if the stored values do not have the correct type.
- * There is no way to distinguish between the results of
- * "short s; add(s)" and "add(new Short(s))".
+ * <p> All pbrbmeters in b <code>PbrbmeterBlock</code> bre objects; convenience
+ * bdd bnd set methods bre bvbilbble thbt tbke brguments of bbse type bnd
+ * construct the bppropribte subclbss of Number (such bs
+ * Integer or Flobt).  Corresponding get methods perform b
+ * downwbrd cbst bnd hbve return vblues of bbse type; bn exception
+ * will be thrown if the stored vblues do not hbve the correct type.
+ * There is no wby to distinguish between the results of
+ * "short s; bdd(s)" bnd "bdd(new Short(s))".
  *
- * <p> Note that the get and set methods operate on references.
- * Therefore, one must be careful not to share references between
- * <code>ParameterBlock</code>s when this is inappropriate.  For example, to create
- * a new <code>ParameterBlock</code> that is equal to an old one except for an
- * added source, one might be tempted to write:
+ * <p> Note thbt the get bnd set methods operbte on references.
+ * Therefore, one must be cbreful not to shbre references between
+ * <code>PbrbmeterBlock</code>s when this is inbppropribte.  For exbmple, to crebte
+ * b new <code>PbrbmeterBlock</code> thbt is equbl to bn old one except for bn
+ * bdded source, one might be tempted to write:
  *
  * <pre>
- * ParameterBlock addSource(ParameterBlock pb, RenderableImage im) {
- *     ParameterBlock pb1 = new ParameterBlock(pb.getSources());
- *     pb1.addSource(im);
+ * PbrbmeterBlock bddSource(PbrbmeterBlock pb, RenderbbleImbge im) {
+ *     PbrbmeterBlock pb1 = new PbrbmeterBlock(pb.getSources());
+ *     pb1.bddSource(im);
  *     return pb1;
  * }
  * </pre>
  *
- * <p> This code will have the side effect of altering the original
- * <code>ParameterBlock</code>, since the getSources operation returned a reference
- * to its source Vector.  Both pb and pb1 share their source Vector,
- * and a change in either is visible to both.
+ * <p> This code will hbve the side effect of bltering the originbl
+ * <code>PbrbmeterBlock</code>, since the getSources operbtion returned b reference
+ * to its source Vector.  Both pb bnd pb1 shbre their source Vector,
+ * bnd b chbnge in either is visible to both.
  *
- * <p> A correct way to write the addSource function is to clone
+ * <p> A correct wby to write the bddSource function is to clone
  * the source Vector:
  *
  * <pre>
- * ParameterBlock addSource (ParameterBlock pb, RenderableImage im) {
- *     ParameterBlock pb1 = new ParameterBlock(pb.getSources().clone());
- *     pb1.addSource(im);
+ * PbrbmeterBlock bddSource (PbrbmeterBlock pb, RenderbbleImbge im) {
+ *     PbrbmeterBlock pb1 = new PbrbmeterBlock(pb.getSources().clone());
+ *     pb1.bddSource(im);
  *     return pb1;
  * }
  * </pre>
  *
- * <p> The clone method of <code>ParameterBlock</code> has been defined to
- * perform a clone of both the source and parameter Vectors for
- * this reason.  A standard, shallow clone is available as
- * shallowClone.
+ * <p> The clone method of <code>PbrbmeterBlock</code> hbs been defined to
+ * perform b clone of both the source bnd pbrbmeter Vectors for
+ * this rebson.  A stbndbrd, shbllow clone is bvbilbble bs
+ * shbllowClone.
  *
- * <p> The addSource, setSource, add, and set methods are
- * defined to return 'this' after adding their argument.  This allows
- * use of syntax like:
+ * <p> The bddSource, setSource, bdd, bnd set methods bre
+ * defined to return 'this' bfter bdding their brgument.  This bllows
+ * use of syntbx like:
  *
  * <pre>
- * ParameterBlock pb = new ParameterBlock();
- * op = new RenderableImageOp("operation", pb.add(arg1).add(arg2));
+ * PbrbmeterBlock pb = new PbrbmeterBlock();
+ * op = new RenderbbleImbgeOp("operbtion", pb.bdd(brg1).bdd(brg2));
  * </pre>
  * */
-public class ParameterBlock implements Cloneable, Serializable {
-    private static final long serialVersionUID = -7577115551785240750L;
+public clbss PbrbmeterBlock implements Clonebble, Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = -7577115551785240750L;
 
-    /** A Vector of sources, stored as arbitrary Objects. */
+    /** A Vector of sources, stored bs brbitrbry Objects. */
     protected Vector<Object> sources = new Vector<Object>();
 
-    /** A Vector of non-source parameters, stored as arbitrary Objects. */
-    protected Vector<Object> parameters = new Vector<Object>();
+    /** A Vector of non-source pbrbmeters, stored bs brbitrbry Objects. */
+    protected Vector<Object> pbrbmeters = new Vector<Object>();
 
     /** A dummy constructor. */
-    public ParameterBlock() {}
+    public PbrbmeterBlock() {}
 
     /**
-     * Constructs a <code>ParameterBlock</code> with a given Vector
+     * Constructs b <code>PbrbmeterBlock</code> with b given Vector
      * of sources.
-     * @param sources a <code>Vector</code> of source images
+     * @pbrbm sources b <code>Vector</code> of source imbges
      */
-    public ParameterBlock(Vector<Object> sources) {
+    public PbrbmeterBlock(Vector<Object> sources) {
         setSources(sources);
     }
 
     /**
-     * Constructs a <code>ParameterBlock</code> with a given Vector of sources and
-     * Vector of parameters.
-     * @param sources a <code>Vector</code> of source images
-     * @param parameters a <code>Vector</code> of parameters to be used in the
-     *        rendering operation
+     * Constructs b <code>PbrbmeterBlock</code> with b given Vector of sources bnd
+     * Vector of pbrbmeters.
+     * @pbrbm sources b <code>Vector</code> of source imbges
+     * @pbrbm pbrbmeters b <code>Vector</code> of pbrbmeters to be used in the
+     *        rendering operbtion
      */
-    public ParameterBlock(Vector<Object> sources,
-                          Vector<Object> parameters)
+    public PbrbmeterBlock(Vector<Object> sources,
+                          Vector<Object> pbrbmeters)
     {
         setSources(sources);
-        setParameters(parameters);
+        setPbrbmeters(pbrbmeters);
     }
 
     /**
-     * Creates a shallow copy of a <code>ParameterBlock</code>.  The source and
-     * parameter Vectors are copied by reference -- additions or
-     * changes will be visible to both versions.
+     * Crebtes b shbllow copy of b <code>PbrbmeterBlock</code>.  The source bnd
+     * pbrbmeter Vectors bre copied by reference -- bdditions or
+     * chbnges will be visible to both versions.
      *
-     * @return an Object clone of the <code>ParameterBlock</code>.
+     * @return bn Object clone of the <code>PbrbmeterBlock</code>.
      */
-    public Object shallowClone() {
+    public Object shbllowClone() {
         try {
             return super.clone();
-        } catch (Exception e) {
-            // We can't be here since we implement Cloneable.
+        } cbtch (Exception e) {
+            // We cbn't be here since we implement Clonebble.
             return null;
         }
     }
 
     /**
-     * Creates a copy of a <code>ParameterBlock</code>.  The source and parameter
-     * Vectors are cloned, but the actual sources and parameters are
-     * copied by reference.  This allows modifications to the order
-     * and number of sources and parameters in the clone to be invisible
-     * to the original <code>ParameterBlock</code>.  Changes to the shared sources or
-     * parameters themselves will still be visible.
+     * Crebtes b copy of b <code>PbrbmeterBlock</code>.  The source bnd pbrbmeter
+     * Vectors bre cloned, but the bctubl sources bnd pbrbmeters bre
+     * copied by reference.  This bllows modificbtions to the order
+     * bnd number of sources bnd pbrbmeters in the clone to be invisible
+     * to the originbl <code>PbrbmeterBlock</code>.  Chbnges to the shbred sources or
+     * pbrbmeters themselves will still be visible.
      *
-     * @return an Object clone of the <code>ParameterBlock</code>.
+     * @return bn Object clone of the <code>PbrbmeterBlock</code>.
      */
-    @SuppressWarnings("unchecked") // casts from clone
+    @SuppressWbrnings("unchecked") // cbsts from clone
     public Object clone() {
-        ParameterBlock theClone;
+        PbrbmeterBlock theClone;
 
         try {
-            theClone = (ParameterBlock) super.clone();
-        } catch (Exception e) {
-            // We can't be here since we implement Cloneable.
+            theClone = (PbrbmeterBlock) super.clone();
+        } cbtch (Exception e) {
+            // We cbn't be here since we implement Clonebble.
             return null;
         }
 
         if (sources != null) {
             theClone.setSources((Vector<Object>)sources.clone());
         }
-        if (parameters != null) {
-            theClone.setParameters((Vector<Object>)parameters.clone());
+        if (pbrbmeters != null) {
+            theClone.setPbrbmeters((Vector<Object>)pbrbmeters.clone());
         }
         return (Object) theClone;
     }
 
     /**
-     * Adds an image to end of the list of sources.  The image is
-     * stored as an object in order to allow new node types in the
+     * Adds bn imbge to end of the list of sources.  The imbge is
+     * stored bs bn object in order to bllow new node types in the
      * future.
      *
-     * @param source an image object to be stored in the source list.
-     * @return a new <code>ParameterBlock</code> containing the specified
+     * @pbrbm source bn imbge object to be stored in the source list.
+     * @return b new <code>PbrbmeterBlock</code> contbining the specified
      *         <code>source</code>.
      */
-    public ParameterBlock addSource(Object source) {
-        sources.addElement(source);
+    public PbrbmeterBlock bddSource(Object source) {
+        sources.bddElement(source);
         return this;
     }
 
     /**
-     * Returns a source as a general Object.  The caller must cast it into
-     * an appropriate type.
+     * Returns b source bs b generbl Object.  The cbller must cbst it into
+     * bn bppropribte type.
      *
-     * @param index the index of the source to be returned.
-     * @return an <code>Object</code> that represents the source located
-     *         at the specified index in the <code>sources</code>
+     * @pbrbm index the index of the source to be returned.
+     * @return bn <code>Object</code> thbt represents the source locbted
+     *         bt the specified index in the <code>sources</code>
      *         <code>Vector</code>.
      * @see #setSource(Object, int)
      */
@@ -202,19 +202,19 @@ public class ParameterBlock implements Cloneable, Serializable {
     }
 
     /**
-     * Replaces an entry in the list of source with a new source.
+     * Replbces bn entry in the list of source with b new source.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param source the specified source image
-     * @param index the index into the <code>sources</code>
-     *              <code>Vector</code> at which to
+     * the list is extended with nulls bs needed.
+     * @pbrbm source the specified source imbge
+     * @pbrbm index the index into the <code>sources</code>
+     *              <code>Vector</code> bt which to
      *              insert the specified <code>source</code>
-     * @return a new <code>ParameterBlock</code> that contains the
-     *         specified <code>source</code> at the specified
+     * @return b new <code>PbrbmeterBlock</code> thbt contbins the
+     *         specified <code>source</code> bt the specified
      *         <code>index</code>.
      * @see #getSource(int)
      */
-    public ParameterBlock setSource(Object source, int index) {
+    public PbrbmeterBlock setSource(Object source, int index) {
         int oldSize = sources.size();
         int newSize = index + 1;
         if (oldSize < newSize) {
@@ -225,36 +225,36 @@ public class ParameterBlock implements Cloneable, Serializable {
     }
 
     /**
-     * Returns a source as a <code>RenderedImage</code>.  This method is
-     * a convenience method.
-     * An exception will be thrown if the source is not a RenderedImage.
+     * Returns b source bs b <code>RenderedImbge</code>.  This method is
+     * b convenience method.
+     * An exception will be thrown if the source is not b RenderedImbge.
      *
-     * @param index the index of the source to be returned
-     * @return a <code>RenderedImage</code> that represents the source
-     *         image that is at the specified index in the
+     * @pbrbm index the index of the source to be returned
+     * @return b <code>RenderedImbge</code> thbt represents the source
+     *         imbge thbt is bt the specified index in the
      *         <code>sources</code> <code>Vector</code>.
      */
-    public RenderedImage getRenderedSource(int index) {
-        return (RenderedImage) sources.elementAt(index);
+    public RenderedImbge getRenderedSource(int index) {
+        return (RenderedImbge) sources.elementAt(index);
     }
 
     /**
-     * Returns a source as a RenderableImage.  This method is a
+     * Returns b source bs b RenderbbleImbge.  This method is b
      * convenience method.
-     * An exception will be thrown if the sources is not a RenderableImage.
+     * An exception will be thrown if the sources is not b RenderbbleImbge.
      *
-     * @param index the index of the source to be returned
-     * @return a <code>RenderableImage</code> that represents the source
-     *         image that is at the specified index in the
+     * @pbrbm index the index of the source to be returned
+     * @return b <code>RenderbbleImbge</code> thbt represents the source
+     *         imbge thbt is bt the specified index in the
      *         <code>sources</code> <code>Vector</code>.
      */
-    public RenderableImage getRenderableSource(int index) {
-        return (RenderableImage) sources.elementAt(index);
+    public RenderbbleImbge getRenderbbleSource(int index) {
+        return (RenderbbleImbge) sources.elementAt(index);
     }
 
     /**
-     * Returns the number of source images.
-     * @return the number of source images in the <code>sources</code>
+     * Returns the number of source imbges.
+     * @return the number of source imbges in the <code>sources</code>
      *         <code>Vector</code>.
      */
     public int getNumSources() {
@@ -271,458 +271,458 @@ public class ParameterBlock implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the entire Vector of sources to a given Vector.
-     * @param sources the <code>Vector</code> of source images
+     * Sets the entire Vector of sources to b given Vector.
+     * @pbrbm sources the <code>Vector</code> of source imbges
      * @see #getSources
      */
     public void setSources(Vector<Object> sources) {
         this.sources = sources;
     }
 
-    /** Clears the list of source images. */
+    /** Clebrs the list of source imbges. */
     public void removeSources() {
         sources = new Vector<>();
     }
 
     /**
-     * Returns the number of parameters (not including source images).
-     * @return the number of parameters in the <code>parameters</code>
+     * Returns the number of pbrbmeters (not including source imbges).
+     * @return the number of pbrbmeters in the <code>pbrbmeters</code>
      *         <code>Vector</code>.
      */
-    public int getNumParameters() {
-        return parameters.size();
+    public int getNumPbrbmeters() {
+        return pbrbmeters.size();
     }
 
     /**
-     * Returns the entire Vector of parameters.
-     * @return the <code>parameters</code> <code>Vector</code>.
-     * @see #setParameters(Vector)
+     * Returns the entire Vector of pbrbmeters.
+     * @return the <code>pbrbmeters</code> <code>Vector</code>.
+     * @see #setPbrbmeters(Vector)
      */
-    public Vector<Object> getParameters() {
-        return parameters;
+    public Vector<Object> getPbrbmeters() {
+        return pbrbmeters;
     }
 
     /**
-     * Sets the entire Vector of parameters to a given Vector.
-     * @param parameters the specified <code>Vector</code> of
-     *        parameters
-     * @see #getParameters
+     * Sets the entire Vector of pbrbmeters to b given Vector.
+     * @pbrbm pbrbmeters the specified <code>Vector</code> of
+     *        pbrbmeters
+     * @see #getPbrbmeters
      */
-    public void setParameters(Vector<Object> parameters) {
-        this.parameters = parameters;
+    public void setPbrbmeters(Vector<Object> pbrbmeters) {
+        this.pbrbmeters = pbrbmeters;
     }
 
-    /** Clears the list of parameters. */
-    public void removeParameters() {
-        parameters = new Vector<>();
+    /** Clebrs the list of pbrbmeters. */
+    public void removePbrbmeters() {
+        pbrbmeters = new Vector<>();
     }
 
     /**
-     * Adds an object to the list of parameters.
-     * @param obj the <code>Object</code> to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds bn object to the list of pbrbmeters.
+     * @pbrbm obj the <code>Object</code> to bdd to the
+     *            <code>pbrbmeters</code> <code>Vector</code>
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *         the specified pbrbmeter.
      */
-    public ParameterBlock add(Object obj) {
-        parameters.addElement(obj);
+    public PbrbmeterBlock bdd(Object obj) {
+        pbrbmeters.bddElement(obj);
         return this;
     }
 
     /**
-     * Adds a Byte to the list of parameters.
-     * @param b the byte to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Byte to the list of pbrbmeters.
+     * @pbrbm b the byte to bdd to the
+     *            <code>pbrbmeters</code> <code>Vector</code>
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *         the specified pbrbmeter.
      */
-    public ParameterBlock add(byte b) {
-        return add(Byte.valueOf(b));
+    public PbrbmeterBlock bdd(byte b) {
+        return bdd(Byte.vblueOf(b));
     }
 
     /**
-     * Adds a Character to the list of parameters.
-     * @param c the char to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Chbrbcter to the list of pbrbmeters.
+     * @pbrbm c the chbr to bdd to the
+     *            <code>pbrbmeters</code> <code>Vector</code>
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *         the specified pbrbmeter.
      */
-    public ParameterBlock add(char c) {
-        return add(Character.valueOf(c));
+    public PbrbmeterBlock bdd(chbr c) {
+        return bdd(Chbrbcter.vblueOf(c));
     }
 
     /**
-     * Adds a Short to the list of parameters.
-     * @param s the short to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Short to the list of pbrbmeters.
+     * @pbrbm s the short to bdd to the
+     *            <code>pbrbmeters</code> <code>Vector</code>
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *         the specified pbrbmeter.
      */
-    public ParameterBlock add(short s) {
-        return add(Short.valueOf(s));
+    public PbrbmeterBlock bdd(short s) {
+        return bdd(Short.vblueOf(s));
     }
 
     /**
-     * Adds a Integer to the list of parameters.
-     * @param i the int to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Integer to the list of pbrbmeters.
+     * @pbrbm i the int to bdd to the
+     *            <code>pbrbmeters</code> <code>Vector</code>
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *         the specified pbrbmeter.
      */
-    public ParameterBlock add(int i) {
-        return add(i);
+    public PbrbmeterBlock bdd(int i) {
+        return bdd(i);
     }
 
     /**
-     * Adds a Long to the list of parameters.
-     * @param l the long to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Long to the list of pbrbmeters.
+     * @pbrbm l the long to bdd to the
+     *            <code>pbrbmeters</code> <code>Vector</code>
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *         the specified pbrbmeter.
      */
-    public ParameterBlock add(long l) {
-        return add(Long.valueOf(l));
+    public PbrbmeterBlock bdd(long l) {
+        return bdd(Long.vblueOf(l));
     }
 
     /**
-     * Adds a Float to the list of parameters.
-     * @param f the float to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Flobt to the list of pbrbmeters.
+     * @pbrbm f the flobt to bdd to the
+     *            <code>pbrbmeters</code> <code>Vector</code>
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *         the specified pbrbmeter.
      */
-    public ParameterBlock add(float f) {
-        return add(new Float(f));
+    public PbrbmeterBlock bdd(flobt f) {
+        return bdd(new Flobt(f));
     }
 
     /**
-     * Adds a Double to the list of parameters.
-     * @param d the double to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Double to the list of pbrbmeters.
+     * @pbrbm d the double to bdd to the
+     *            <code>pbrbmeters</code> <code>Vector</code>
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *         the specified pbrbmeter.
      */
-    public ParameterBlock add(double d) {
-        return add(new Double(d));
+    public PbrbmeterBlock bdd(double d) {
+        return bdd(new Double(d));
     }
 
     /**
-     * Replaces an Object in the list of parameters.
+     * Replbces bn Object in the list of pbrbmeters.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param obj the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * the list is extended with nulls bs needed.
+     * @pbrbm obj the pbrbmeter thbt replbces the
+     *        pbrbmeter bt the specified index in the
+     *        <code>pbrbmeters</code> <code>Vector</code>
+     * @pbrbm index the index of the pbrbmeter to be
+     *        replbced with the specified pbrbmeter
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *        the specified pbrbmeter.
      */
-    public ParameterBlock set(Object obj, int index) {
-        int oldSize = parameters.size();
+    public PbrbmeterBlock set(Object obj, int index) {
+        int oldSize = pbrbmeters.size();
         int newSize = index + 1;
         if (oldSize < newSize) {
-            parameters.setSize(newSize);
+            pbrbmeters.setSize(newSize);
         }
-        parameters.setElementAt(obj, index);
+        pbrbmeters.setElementAt(obj, index);
         return this;
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Byte.
+     * Replbces bn Object in the list of pbrbmeters with b Byte.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param b the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * the list is extended with nulls bs needed.
+     * @pbrbm b the pbrbmeter thbt replbces the
+     *        pbrbmeter bt the specified index in the
+     *        <code>pbrbmeters</code> <code>Vector</code>
+     * @pbrbm index the index of the pbrbmeter to be
+     *        replbced with the specified pbrbmeter
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *        the specified pbrbmeter.
      */
-    public ParameterBlock set(byte b, int index) {
-        return set(Byte.valueOf(b), index);
+    public PbrbmeterBlock set(byte b, int index) {
+        return set(Byte.vblueOf(b), index);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Character.
+     * Replbces bn Object in the list of pbrbmeters with b Chbrbcter.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param c the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * the list is extended with nulls bs needed.
+     * @pbrbm c the pbrbmeter thbt replbces the
+     *        pbrbmeter bt the specified index in the
+     *        <code>pbrbmeters</code> <code>Vector</code>
+     * @pbrbm index the index of the pbrbmeter to be
+     *        replbced with the specified pbrbmeter
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *        the specified pbrbmeter.
      */
-    public ParameterBlock set(char c, int index) {
-        return set(Character.valueOf(c), index);
+    public PbrbmeterBlock set(chbr c, int index) {
+        return set(Chbrbcter.vblueOf(c), index);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Short.
+     * Replbces bn Object in the list of pbrbmeters with b Short.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param s the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * the list is extended with nulls bs needed.
+     * @pbrbm s the pbrbmeter thbt replbces the
+     *        pbrbmeter bt the specified index in the
+     *        <code>pbrbmeters</code> <code>Vector</code>
+     * @pbrbm index the index of the pbrbmeter to be
+     *        replbced with the specified pbrbmeter
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *        the specified pbrbmeter.
      */
-    public ParameterBlock set(short s, int index) {
-        return set(Short.valueOf(s), index);
+    public PbrbmeterBlock set(short s, int index) {
+        return set(Short.vblueOf(s), index);
     }
 
     /**
-     * Replaces an Object in the list of parameters with an Integer.
+     * Replbces bn Object in the list of pbrbmeters with bn Integer.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param i the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * the list is extended with nulls bs needed.
+     * @pbrbm i the pbrbmeter thbt replbces the
+     *        pbrbmeter bt the specified index in the
+     *        <code>pbrbmeters</code> <code>Vector</code>
+     * @pbrbm index the index of the pbrbmeter to be
+     *        replbced with the specified pbrbmeter
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *        the specified pbrbmeter.
      */
-    public ParameterBlock set(int i, int index) {
+    public PbrbmeterBlock set(int i, int index) {
         return set(i, index);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Long.
+     * Replbces bn Object in the list of pbrbmeters with b Long.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param l the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * the list is extended with nulls bs needed.
+     * @pbrbm l the pbrbmeter thbt replbces the
+     *        pbrbmeter bt the specified index in the
+     *        <code>pbrbmeters</code> <code>Vector</code>
+     * @pbrbm index the index of the pbrbmeter to be
+     *        replbced with the specified pbrbmeter
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *        the specified pbrbmeter.
      */
-    public ParameterBlock set(long l, int index) {
-        return set(Long.valueOf(l), index);
+    public PbrbmeterBlock set(long l, int index) {
+        return set(Long.vblueOf(l), index);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Float.
+     * Replbces bn Object in the list of pbrbmeters with b Flobt.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param f the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * the list is extended with nulls bs needed.
+     * @pbrbm f the pbrbmeter thbt replbces the
+     *        pbrbmeter bt the specified index in the
+     *        <code>pbrbmeters</code> <code>Vector</code>
+     * @pbrbm index the index of the pbrbmeter to be
+     *        replbced with the specified pbrbmeter
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *        the specified pbrbmeter.
      */
-    public ParameterBlock set(float f, int index) {
-        return set(new Float(f), index);
+    public PbrbmeterBlock set(flobt f, int index) {
+        return set(new Flobt(f), index);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Double.
+     * Replbces bn Object in the list of pbrbmeters with b Double.
      * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param d the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * the list is extended with nulls bs needed.
+     * @pbrbm d the pbrbmeter thbt replbces the
+     *        pbrbmeter bt the specified index in the
+     *        <code>pbrbmeters</code> <code>Vector</code>
+     * @pbrbm index the index of the pbrbmeter to be
+     *        replbced with the specified pbrbmeter
+     * @return b new <code>PbrbmeterBlock</code> contbining
+     *        the specified pbrbmeter.
      */
-    public ParameterBlock set(double d, int index) {
+    public PbrbmeterBlock set(double d, int index) {
         return set(new Double(d), index);
     }
 
     /**
-     * Gets a parameter as an object.
-     * @param index the index of the parameter to get
-     * @return an <code>Object</code> representing the
-     *         the parameter at the specified index
-     *         into the <code>parameters</code>
+     * Gets b pbrbmeter bs bn object.
+     * @pbrbm index the index of the pbrbmeter to get
+     * @return bn <code>Object</code> representing the
+     *         the pbrbmeter bt the specified index
+     *         into the <code>pbrbmeters</code>
      *         <code>Vector</code>.
      */
-    public Object getObjectParameter(int index) {
-        return parameters.elementAt(index);
+    public Object getObjectPbrbmeter(int index) {
+        return pbrbmeters.elementAt(index);
     }
 
     /**
-     * A convenience method to return a parameter as a byte.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Byte</code>.
+     * A convenience method to return b pbrbmeter bs b byte.  An
+     * exception is thrown if the pbrbmeter is
+     * <code>null</code> or not b <code>Byte</code>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>byte</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Byte</code>
-     * @throws NullPointerException if the parameter at the specified
+     * @pbrbm index the index of the pbrbmeter to be returned.
+     * @return the pbrbmeter bt the specified index
+     *         bs b <code>byte</code> vblue.
+     * @throws ClbssCbstException if the pbrbmeter bt the
+     *         specified index is not b <code>Byte</code>
+     * @throws NullPointerException if the pbrbmeter bt the specified
      *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @throws ArrbyIndexOutOfBoundsException if <code>index</code>
+     *         is negbtive or not less thbn the current size of this
+     *         <code>PbrbmeterBlock</code> object
      */
-    public byte getByteParameter(int index) {
-        return ((Byte)parameters.elementAt(index)).byteValue();
+    public byte getBytePbrbmeter(int index) {
+        return ((Byte)pbrbmeters.elementAt(index)).byteVblue();
     }
 
     /**
-     * A convenience method to return a parameter as a char.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Character</code>.
+     * A convenience method to return b pbrbmeter bs b chbr.  An
+     * exception is thrown if the pbrbmeter is
+     * <code>null</code> or not b <code>Chbrbcter</code>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>char</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Character</code>
-     * @throws NullPointerException if the parameter at the specified
+     * @pbrbm index the index of the pbrbmeter to be returned.
+     * @return the pbrbmeter bt the specified index
+     *         bs b <code>chbr</code> vblue.
+     * @throws ClbssCbstException if the pbrbmeter bt the
+     *         specified index is not b <code>Chbrbcter</code>
+     * @throws NullPointerException if the pbrbmeter bt the specified
      *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @throws ArrbyIndexOutOfBoundsException if <code>index</code>
+     *         is negbtive or not less thbn the current size of this
+     *         <code>PbrbmeterBlock</code> object
      */
-    public char getCharParameter(int index) {
-        return ((Character)parameters.elementAt(index)).charValue();
+    public chbr getChbrPbrbmeter(int index) {
+        return ((Chbrbcter)pbrbmeters.elementAt(index)).chbrVblue();
     }
 
     /**
-     * A convenience method to return a parameter as a short.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Short</code>.
+     * A convenience method to return b pbrbmeter bs b short.  An
+     * exception is thrown if the pbrbmeter is
+     * <code>null</code> or not b <code>Short</code>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>short</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Short</code>
-     * @throws NullPointerException if the parameter at the specified
+     * @pbrbm index the index of the pbrbmeter to be returned.
+     * @return the pbrbmeter bt the specified index
+     *         bs b <code>short</code> vblue.
+     * @throws ClbssCbstException if the pbrbmeter bt the
+     *         specified index is not b <code>Short</code>
+     * @throws NullPointerException if the pbrbmeter bt the specified
      *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @throws ArrbyIndexOutOfBoundsException if <code>index</code>
+     *         is negbtive or not less thbn the current size of this
+     *         <code>PbrbmeterBlock</code> object
      */
-    public short getShortParameter(int index) {
-        return ((Short)parameters.elementAt(index)).shortValue();
+    public short getShortPbrbmeter(int index) {
+        return ((Short)pbrbmeters.elementAt(index)).shortVblue();
     }
 
     /**
-     * A convenience method to return a parameter as an int.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not an <code>Integer</code>.
+     * A convenience method to return b pbrbmeter bs bn int.  An
+     * exception is thrown if the pbrbmeter is
+     * <code>null</code> or not bn <code>Integer</code>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>int</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Integer</code>
-     * @throws NullPointerException if the parameter at the specified
+     * @pbrbm index the index of the pbrbmeter to be returned.
+     * @return the pbrbmeter bt the specified index
+     *         bs b <code>int</code> vblue.
+     * @throws ClbssCbstException if the pbrbmeter bt the
+     *         specified index is not b <code>Integer</code>
+     * @throws NullPointerException if the pbrbmeter bt the specified
      *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @throws ArrbyIndexOutOfBoundsException if <code>index</code>
+     *         is negbtive or not less thbn the current size of this
+     *         <code>PbrbmeterBlock</code> object
      */
-    public int getIntParameter(int index) {
-        return ((Integer)parameters.elementAt(index)).intValue();
+    public int getIntPbrbmeter(int index) {
+        return ((Integer)pbrbmeters.elementAt(index)).intVblue();
     }
 
     /**
-     * A convenience method to return a parameter as a long.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Long</code>.
+     * A convenience method to return b pbrbmeter bs b long.  An
+     * exception is thrown if the pbrbmeter is
+     * <code>null</code> or not b <code>Long</code>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>long</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Long</code>
-     * @throws NullPointerException if the parameter at the specified
+     * @pbrbm index the index of the pbrbmeter to be returned.
+     * @return the pbrbmeter bt the specified index
+     *         bs b <code>long</code> vblue.
+     * @throws ClbssCbstException if the pbrbmeter bt the
+     *         specified index is not b <code>Long</code>
+     * @throws NullPointerException if the pbrbmeter bt the specified
      *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @throws ArrbyIndexOutOfBoundsException if <code>index</code>
+     *         is negbtive or not less thbn the current size of this
+     *         <code>PbrbmeterBlock</code> object
      */
-    public long getLongParameter(int index) {
-        return ((Long)parameters.elementAt(index)).longValue();
+    public long getLongPbrbmeter(int index) {
+        return ((Long)pbrbmeters.elementAt(index)).longVblue();
     }
 
     /**
-     * A convenience method to return a parameter as a float.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Float</code>.
+     * A convenience method to return b pbrbmeter bs b flobt.  An
+     * exception is thrown if the pbrbmeter is
+     * <code>null</code> or not b <code>Flobt</code>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>float</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Float</code>
-     * @throws NullPointerException if the parameter at the specified
+     * @pbrbm index the index of the pbrbmeter to be returned.
+     * @return the pbrbmeter bt the specified index
+     *         bs b <code>flobt</code> vblue.
+     * @throws ClbssCbstException if the pbrbmeter bt the
+     *         specified index is not b <code>Flobt</code>
+     * @throws NullPointerException if the pbrbmeter bt the specified
      *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @throws ArrbyIndexOutOfBoundsException if <code>index</code>
+     *         is negbtive or not less thbn the current size of this
+     *         <code>PbrbmeterBlock</code> object
      */
-    public float getFloatParameter(int index) {
-        return ((Float)parameters.elementAt(index)).floatValue();
+    public flobt getFlobtPbrbmeter(int index) {
+        return ((Flobt)pbrbmeters.elementAt(index)).flobtVblue();
     }
 
     /**
-     * A convenience method to return a parameter as a double.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Double</code>.
+     * A convenience method to return b pbrbmeter bs b double.  An
+     * exception is thrown if the pbrbmeter is
+     * <code>null</code> or not b <code>Double</code>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>double</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Double</code>
-     * @throws NullPointerException if the parameter at the specified
+     * @pbrbm index the index of the pbrbmeter to be returned.
+     * @return the pbrbmeter bt the specified index
+     *         bs b <code>double</code> vblue.
+     * @throws ClbssCbstException if the pbrbmeter bt the
+     *         specified index is not b <code>Double</code>
+     * @throws NullPointerException if the pbrbmeter bt the specified
      *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @throws ArrbyIndexOutOfBoundsException if <code>index</code>
+     *         is negbtive or not less thbn the current size of this
+     *         <code>PbrbmeterBlock</code> object
      */
-    public double getDoubleParameter(int index) {
-        return ((Double)parameters.elementAt(index)).doubleValue();
+    public double getDoublePbrbmeter(int index) {
+        return ((Double)pbrbmeters.elementAt(index)).doubleVblue();
     }
 
     /**
-     * Returns an array of Class objects describing the types
-     * of the parameters.
-     * @return an array of <code>Class</code> objects.
+     * Returns bn brrby of Clbss objects describing the types
+     * of the pbrbmeters.
+     * @return bn brrby of <code>Clbss</code> objects.
      */
-    public Class<?>[] getParamClasses() {
-        int numParams = getNumParameters();
-        Class<?>[] classes = new Class<?>[numParams];
+    public Clbss<?>[] getPbrbmClbsses() {
+        int numPbrbms = getNumPbrbmeters();
+        Clbss<?>[] clbsses = new Clbss<?>[numPbrbms];
         int i;
 
-        for (i = 0; i < numParams; i++) {
-            Object obj = getObjectParameter(i);
-            if (obj instanceof Byte) {
-              classes[i] = byte.class;
-            } else if (obj instanceof Character) {
-              classes[i] = char.class;
-            } else if (obj instanceof Short) {
-              classes[i] = short.class;
-            } else if (obj instanceof Integer) {
-              classes[i] = int.class;
-            } else if (obj instanceof Long) {
-              classes[i] = long.class;
-            } else if (obj instanceof Float) {
-              classes[i] = float.class;
-            } else if (obj instanceof Double) {
-              classes[i] = double.class;
+        for (i = 0; i < numPbrbms; i++) {
+            Object obj = getObjectPbrbmeter(i);
+            if (obj instbnceof Byte) {
+              clbsses[i] = byte.clbss;
+            } else if (obj instbnceof Chbrbcter) {
+              clbsses[i] = chbr.clbss;
+            } else if (obj instbnceof Short) {
+              clbsses[i] = short.clbss;
+            } else if (obj instbnceof Integer) {
+              clbsses[i] = int.clbss;
+            } else if (obj instbnceof Long) {
+              clbsses[i] = long.clbss;
+            } else if (obj instbnceof Flobt) {
+              clbsses[i] = flobt.clbss;
+            } else if (obj instbnceof Double) {
+              clbsses[i] = double.clbss;
             } else {
-              classes[i] = obj.getClass();
+              clbsses[i] = obj.getClbss();
             }
         }
 
-        return classes;
+        return clbsses;
     }
 }

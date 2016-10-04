@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset;
+pbckbge com.sun.rowset;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.math.*;
-import java.util.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.*;
 
-import javax.sql.rowset.*;
+import jbvbx.sql.rowset.*;
 
 /**
- * The standard implementation of the <code>JdbcRowSet</code> interface. See the interface
- * definition for full behavior and implementation requirements.
+ * The stbndbrd implementbtion of the <code>JdbcRowSet</code> interfbce. See the interfbce
+ * definition for full behbvior bnd implementbtion requirements.
  *
- * @author Jonathan Bruce, Amit Handa
+ * @buthor Jonbthbn Bruce, Amit Hbndb
  */
 
-public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
+public clbss JdbcRowSetImpl extends BbseRowSet implements JdbcRowSet, Joinbble {
 
     /**
-     * The <code>Connection</code> object that is this rowset's
-     * current connection to the database.  This field is set
-     * internally when the connection is established.
+     * The <code>Connection</code> object thbt is this rowset's
+     * current connection to the dbtbbbse.  This field is set
+     * internblly when the connection is estbblished.
      */
-    private Connection conn;
+    privbte Connection conn;
 
     /**
-     * The <code>PreparedStatement</code> object that is this rowset's
-     * current command.  This field is set internally when the method
-     * <code>execute</code> creates the <code>PreparedStatement</code>
+     * The <code>PrepbredStbtement</code> object thbt is this rowset's
+     * current commbnd.  This field is set internblly when the method
+     * <code>execute</code> crebtes the <code>PrepbredStbtement</code>
      * object.
      */
-    private PreparedStatement ps;
+    privbte PrepbredStbtement ps;
 
     /**
-     * The <code>ResultSet</code> object that is this rowset's
-     * current result set.  This field is set internally when the method
-     * <code>execute</code> executes the rowset's command and thereby
-     * creates the rowset's <code>ResultSet</code> object.
+     * The <code>ResultSet</code> object thbt is this rowset's
+     * current result set.  This field is set internblly when the method
+     * <code>execute</code> executes the rowset's commbnd bnd thereby
+     * crebtes the rowset's <code>ResultSet</code> object.
      */
-    private ResultSet rs;
+    privbte ResultSet rs;
 
     /**
-     * The <code>RowSetMetaDataImpl</code> object that is constructed when
-     * a <code>ResultSet</code> object is passed to the <code>JdbcRowSet</code>
-     * constructor. This helps in constructing all metadata associated
+     * The <code>RowSetMetbDbtbImpl</code> object thbt is constructed when
+     * b <code>ResultSet</code> object is pbssed to the <code>JdbcRowSet</code>
+     * constructor. This helps in constructing bll metbdbtb bssocibted
      * with the <code>ResultSet</code> object using the setter methods of
-     * <code>RowSetMetaDataImpl</code>.
+     * <code>RowSetMetbDbtbImpl</code>.
      */
-    private RowSetMetaDataImpl rowsMD;
+    privbte RowSetMetbDbtbImpl rowsMD;
 
     /**
-     * The <code>ResultSetMetaData</code> object from which this
-     * <code>RowSetMetaDataImpl</code> is formed and which  helps in getting
-     * the metadata information.
+     * The <code>ResultSetMetbDbtb</code> object from which this
+     * <code>RowSetMetbDbtbImpl</code> is formed bnd which  helps in getting
+     * the metbdbtb informbtion.
      */
-    private ResultSetMetaData resMD;
+    privbte ResultSetMetbDbtb resMD;
 
 
     /**
-     * The Vector holding the Match Columns
+     * The Vector holding the Mbtch Columns
      */
-    private Vector<Integer> iMatchColumns;
+    privbte Vector<Integer> iMbtchColumns;
 
     /**
-     * The Vector that will hold the Match Column names.
+     * The Vector thbt will hold the Mbtch Column nbmes.
      */
-    private Vector<String> strMatchColumns;
+    privbte Vector<String> strMbtchColumns;
 
 
-    protected transient JdbcRowSetResourceBundle resBundle;
+    protected trbnsient JdbcRowSetResourceBundle resBundle;
 
     /**
-     * Constructs a default <code>JdbcRowSet</code> object.
-     * The new instance of <code>JdbcRowSet</code> will serve as a proxy
-     * for the <code>ResultSet</code> object it creates, and by so doing,
-     * it will make it possible to use the result set as a JavaBeans
+     * Constructs b defbult <code>JdbcRowSet</code> object.
+     * The new instbnce of <code>JdbcRowSet</code> will serve bs b proxy
+     * for the <code>ResultSet</code> object it crebtes, bnd by so doing,
+     * it will mbke it possible to use the result set bs b JbvbBebns
      * component.
      * <P>
-     * The following is true of a default <code>JdbcRowSet</code> instance:
+     * The following is true of b defbult <code>JdbcRowSet</code> instbnce:
      * <UL>
      *   <LI>Does not show deleted rows
-     *   <LI>Has no time limit for how long a driver may take to
-     *       execute the rowset's command
-     *   <LI>Has no limit for the number of rows it may contain
-     *   <LI>Has no limit for the number of bytes a column may contain
-     *   <LI>Has a scrollable cursor and does not show changes
-     *       made by others
-     *   <LI>Will not see uncommitted data (make "dirty" reads)
-     *   <LI>Has escape processing turned on
-     *   <LI>Has its connection's type map set to <code>null</code>
-     *   <LI>Has an empty <code>Hashtable</code> object for storing any
-     *       parameters that are set
+     *   <LI>Hbs no time limit for how long b driver mby tbke to
+     *       execute the rowset's commbnd
+     *   <LI>Hbs no limit for the number of rows it mby contbin
+     *   <LI>Hbs no limit for the number of bytes b column mby contbin
+     *   <LI>Hbs b scrollbble cursor bnd does not show chbnges
+     *       mbde by others
+     *   <LI>Will not see uncommitted dbtb (mbke "dirty" rebds)
+     *   <LI>Hbs escbpe processing turned on
+     *   <LI>Hbs its connection's type mbp set to <code>null</code>
+     *   <LI>Hbs bn empty <code>Hbshtbble</code> object for storing bny
+     *       pbrbmeters thbt bre set
      * </UL>
-     * A newly created <code>JdbcRowSet</code> object must have its
+     * A newly crebted <code>JdbcRowSet</code> object must hbve its
      * <code>execute</code> method invoked before other public methods
-     * are called on it; otherwise, such method calls will cause an
+     * bre cblled on it; otherwise, such method cblls will cbuse bn
      * exception to be thrown.
      *
-     * @throws SQLException [1] if any of its public methods are called prior
-     * to calling the <code>execute</code> method; [2] if invalid JDBC driver
-     * properties are set or [3] if no connection to a data source exists.
+     * @throws SQLException [1] if bny of its public methods bre cblled prior
+     * to cblling the <code>execute</code> method; [2] if invblid JDBC driver
+     * properties bre set or [3] if no connection to b dbtb source exists.
      */
     public JdbcRowSetImpl() {
         conn = null;
@@ -134,119 +134,119 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
 
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
 
-        initParams();
+        initPbrbms();
 
-        // set the defaults
+        // set the defbults
 
         try {
-            setShowDeleted(false);
-        } catch(SQLException sqle) {
-             System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setshowdeleted").toString() +
-                                sqle.getLocalizedMessage());
+            setShowDeleted(fblse);
+        } cbtch(SQLException sqle) {
+             System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setshowdeleted").toString() +
+                                sqle.getLocblizedMessbge());
         }
 
         try {
             setQueryTimeout(0);
-        } catch(SQLException sqle) {
-            System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setquerytimeout").toString() +
-                                sqle.getLocalizedMessage());
+        } cbtch(SQLException sqle) {
+            System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setquerytimeout").toString() +
+                                sqle.getLocblizedMessbge());
         }
 
         try {
-            setMaxRows(0);
-        } catch(SQLException sqle) {
-            System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setmaxrows").toString() +
-                                sqle.getLocalizedMessage());
+            setMbxRows(0);
+        } cbtch(SQLException sqle) {
+            System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setmbxrows").toString() +
+                                sqle.getLocblizedMessbge());
         }
 
         try {
-            setMaxFieldSize(0);
-        } catch(SQLException sqle) {
-             System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setmaxfieldsize").toString() +
-                                sqle.getLocalizedMessage());
+            setMbxFieldSize(0);
+        } cbtch(SQLException sqle) {
+             System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setmbxfieldsize").toString() +
+                                sqle.getLocblizedMessbge());
         }
 
         try {
-            setEscapeProcessing(true);
-        } catch(SQLException sqle) {
-             System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setescapeprocessing").toString() +
-                                sqle.getLocalizedMessage());
+            setEscbpeProcessing(true);
+        } cbtch(SQLException sqle) {
+             System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setescbpeprocessing").toString() +
+                                sqle.getLocblizedMessbge());
         }
 
         try {
             setConcurrency(ResultSet.CONCUR_UPDATABLE);
-        } catch (SQLException sqle) {
-            System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setconcurrency").toString() +
-                                sqle.getLocalizedMessage());
+        } cbtch (SQLException sqle) {
+            System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setconcurrency").toString() +
+                                sqle.getLocblizedMessbge());
         }
 
-        setTypeMap(null);
+        setTypeMbp(null);
 
         try {
             setType(ResultSet.TYPE_SCROLL_INSENSITIVE);
-        } catch(SQLException sqle){
-          System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.settype").toString() +
-                                sqle.getLocalizedMessage());
+        } cbtch(SQLException sqle){
+          System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.settype").toString() +
+                                sqle.getLocblizedMessbge());
         }
 
-        setReadOnly(true);
+        setRebdOnly(true);
 
         try {
-            setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-        } catch(SQLException sqle){
-            System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.settransactionisolation").toString() +
-                                sqle.getLocalizedMessage());
+            setTrbnsbctionIsolbtion(Connection.TRANSACTION_READ_COMMITTED);
+        } cbtch(SQLException sqle){
+            System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.settrbnsbctionisolbtion").toString() +
+                                sqle.getLocblizedMessbge());
         }
 
-        //Instantiating the vector for MatchColumns
+        //Instbntibting the vector for MbtchColumns
 
-        iMatchColumns = new Vector<Integer>(10);
+        iMbtchColumns = new Vector<Integer>(10);
         for(int i = 0; i < 10 ; i++) {
-           iMatchColumns.add(i,Integer.valueOf(-1));
+           iMbtchColumns.bdd(i,Integer.vblueOf(-1));
         }
 
-        strMatchColumns = new Vector<String>(10);
+        strMbtchColumns = new Vector<String>(10);
         for(int j = 0; j < 10; j++) {
-           strMatchColumns.add(j,null);
+           strMbtchColumns.bdd(j,null);
         }
     }
 
     /**
-     * Constructs a default <code>JdbcRowSet</code> object given a
-     * valid <code>Connection</code> object. The new
-     * instance of <code>JdbcRowSet</code> will serve as a proxy for
-     * the <code>ResultSet</code> object it creates, and by so doing,
-     * it will make it possible to use the result set as a JavaBeans
+     * Constructs b defbult <code>JdbcRowSet</code> object given b
+     * vblid <code>Connection</code> object. The new
+     * instbnce of <code>JdbcRowSet</code> will serve bs b proxy for
+     * the <code>ResultSet</code> object it crebtes, bnd by so doing,
+     * it will mbke it possible to use the result set bs b JbvbBebns
      * component.
      * <P>
-     * The following is true of a default <code>JdbcRowSet</code> instance:
+     * The following is true of b defbult <code>JdbcRowSet</code> instbnce:
      * <UL>
      *   <LI>Does not show deleted rows
-     *   <LI>Has no time limit for how long a driver may take to
-     *       execute the rowset's command
-     *   <LI>Has no limit for the number of rows it may contain
-     *   <LI>Has no limit for the number of bytes a column may contain
-     *   <LI>Has a scrollable cursor and does not show changes
-     *       made by others
-     *   <LI>Will not see uncommitted data (make "dirty" reads)
-     *   <LI>Has escape processing turned on
-     *   <LI>Has its connection's type map set to <code>null</code>
-     *   <LI>Has an empty <code>Hashtable</code> object for storing any
-     *       parameters that are set
+     *   <LI>Hbs no time limit for how long b driver mby tbke to
+     *       execute the rowset's commbnd
+     *   <LI>Hbs no limit for the number of rows it mby contbin
+     *   <LI>Hbs no limit for the number of bytes b column mby contbin
+     *   <LI>Hbs b scrollbble cursor bnd does not show chbnges
+     *       mbde by others
+     *   <LI>Will not see uncommitted dbtb (mbke "dirty" rebds)
+     *   <LI>Hbs escbpe processing turned on
+     *   <LI>Hbs its connection's type mbp set to <code>null</code>
+     *   <LI>Hbs bn empty <code>Hbshtbble</code> object for storing bny
+     *       pbrbmeters thbt bre set
      * </UL>
-     * A newly created <code>JdbcRowSet</code> object must have its
+     * A newly crebted <code>JdbcRowSet</code> object must hbve its
      * <code>execute</code> method invoked before other public methods
-     * are called on it; otherwise, such method calls will cause an
+     * bre cblled on it; otherwise, such method cblls will cbuse bn
      * exception to be thrown.
      *
-     * @throws SQLException [1] if any of its public methods are called prior
-     * to calling the <code>execute</code> method, [2] if invalid JDBC driver
-     * properties are set, or [3] if no connection to a data source exists.
+     * @throws SQLException [1] if bny of its public methods bre cblled prior
+     * to cblling the <code>execute</code> method, [2] if invblid JDBC driver
+     * properties bre set, or [3] if no connection to b dbtb source exists.
      */
     public JdbcRowSetImpl(Connection con) throws SQLException {
 
@@ -256,159 +256,159 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
 
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
 
-        initParams();
-        // set the defaults
-        setShowDeleted(false);
+        initPbrbms();
+        // set the defbults
+        setShowDeleted(fblse);
         setQueryTimeout(0);
-        setMaxRows(0);
-        setMaxFieldSize(0);
+        setMbxRows(0);
+        setMbxFieldSize(0);
 
-        setParams();
+        setPbrbms();
 
-        setReadOnly(true);
-        setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-        setEscapeProcessing(true);
-        setTypeMap(null);
+        setRebdOnly(true);
+        setTrbnsbctionIsolbtion(Connection.TRANSACTION_READ_COMMITTED);
+        setEscbpeProcessing(true);
+        setTypeMbp(null);
 
-        //Instantiating the vector for MatchColumns
+        //Instbntibting the vector for MbtchColumns
 
-        iMatchColumns = new Vector<Integer>(10);
+        iMbtchColumns = new Vector<Integer>(10);
         for(int i = 0; i < 10 ; i++) {
-           iMatchColumns.add(i,Integer.valueOf(-1));
+           iMbtchColumns.bdd(i,Integer.vblueOf(-1));
         }
 
-        strMatchColumns = new Vector<String>(10);
+        strMbtchColumns = new Vector<String>(10);
         for(int j = 0; j < 10; j++) {
-           strMatchColumns.add(j,null);
+           strMbtchColumns.bdd(j,null);
         }
     }
 
     /**
-     * Constructs a default <code>JdbcRowSet</code> object using the
-     * URL, username, and password arguments supplied. The new
-     * instance of <code>JdbcRowSet</code> will serve as a proxy for
-     * the <code>ResultSet</code> object it creates, and by so doing,
-     * it will make it possible to use the result set as a JavaBeans
+     * Constructs b defbult <code>JdbcRowSet</code> object using the
+     * URL, usernbme, bnd pbssword brguments supplied. The new
+     * instbnce of <code>JdbcRowSet</code> will serve bs b proxy for
+     * the <code>ResultSet</code> object it crebtes, bnd by so doing,
+     * it will mbke it possible to use the result set bs b JbvbBebns
      * component.
      *
      * <P>
-     * The following is true of a default <code>JdbcRowSet</code> instance:
+     * The following is true of b defbult <code>JdbcRowSet</code> instbnce:
      * <UL>
      *   <LI>Does not show deleted rows
-     *   <LI>Has no time limit for how long a driver may take to
-     *       execute the rowset's command
-     *   <LI>Has no limit for the number of rows it may contain
-     *   <LI>Has no limit for the number of bytes a column may contain
-     *   <LI>Has a scrollable cursor and does not show changes
-     *       made by others
-     *   <LI>Will not see uncommitted data (make "dirty" reads)
-     *   <LI>Has escape processing turned on
-     *   <LI>Has its connection's type map set to <code>null</code>
-     *   <LI>Has an empty <code>Hashtable</code> object for storing any
-     *       parameters that are set
+     *   <LI>Hbs no time limit for how long b driver mby tbke to
+     *       execute the rowset's commbnd
+     *   <LI>Hbs no limit for the number of rows it mby contbin
+     *   <LI>Hbs no limit for the number of bytes b column mby contbin
+     *   <LI>Hbs b scrollbble cursor bnd does not show chbnges
+     *       mbde by others
+     *   <LI>Will not see uncommitted dbtb (mbke "dirty" rebds)
+     *   <LI>Hbs escbpe processing turned on
+     *   <LI>Hbs its connection's type mbp set to <code>null</code>
+     *   <LI>Hbs bn empty <code>Hbshtbble</code> object for storing bny
+     *       pbrbmeters thbt bre set
      * </UL>
      *
-     * @param url - a JDBC URL for the database to which this <code>JdbcRowSet</code>
-     *        object will be connected. The form for a JDBC URL is
-     *        <code>jdbc:subprotocol:subname</code>.
-     * @param user - the database user on whose behalf the connection
-     *        is being made
-     * @param password - the user's password
+     * @pbrbm url - b JDBC URL for the dbtbbbse to which this <code>JdbcRowSet</code>
+     *        object will be connected. The form for b JDBC URL is
+     *        <code>jdbc:subprotocol:subnbme</code>.
+     * @pbrbm user - the dbtbbbse user on whose behblf the connection
+     *        is being mbde
+     * @pbrbm pbssword - the user's pbssword
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public JdbcRowSetImpl(String url, String user, String password) throws SQLException {
+    public JdbcRowSetImpl(String url, String user, String pbssword) throws SQLException {
         conn = null;
         ps = null;
         rs = null;
 
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
 
-        initParams();
+        initPbrbms();
 
-        // Pass the arguments to BaseRowSet
+        // Pbss the brguments to BbseRowSet
         // setter methods now.
 
-        setUsername(user);
-        setPassword(password);
+        setUsernbme(user);
+        setPbssword(pbssword);
         setUrl(url);
 
-        // set the defaults
-        setShowDeleted(false);
+        // set the defbults
+        setShowDeleted(fblse);
         setQueryTimeout(0);
-        setMaxRows(0);
-        setMaxFieldSize(0);
+        setMbxRows(0);
+        setMbxFieldSize(0);
 
-        setParams();
+        setPbrbms();
 
-        setReadOnly(true);
-        setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-        setEscapeProcessing(true);
-        setTypeMap(null);
+        setRebdOnly(true);
+        setTrbnsbctionIsolbtion(Connection.TRANSACTION_READ_COMMITTED);
+        setEscbpeProcessing(true);
+        setTypeMbp(null);
 
-        //Instantiating the vector for MatchColumns
+        //Instbntibting the vector for MbtchColumns
 
-        iMatchColumns = new Vector<Integer>(10);
+        iMbtchColumns = new Vector<Integer>(10);
         for(int i = 0; i < 10 ; i++) {
-           iMatchColumns.add(i,Integer.valueOf(-1));
+           iMbtchColumns.bdd(i,Integer.vblueOf(-1));
         }
 
-        strMatchColumns = new Vector<String>(10);
+        strMbtchColumns = new Vector<String>(10);
         for(int j = 0; j < 10; j++) {
-           strMatchColumns.add(j,null);
+           strMbtchColumns.bdd(j,null);
         }
     }
 
 
     /**
-     * Constructs a <code>JdbcRowSet</code> object using the given valid
+     * Constructs b <code>JdbcRowSet</code> object using the given vblid
      * <code>ResultSet</code> object. The new
-     * instance of <code>JdbcRowSet</code> will serve as a proxy for
-     * the <code>ResultSet</code> object, and by so doing,
-     * it will make it possible to use the result set as a JavaBeans
+     * instbnce of <code>JdbcRowSet</code> will serve bs b proxy for
+     * the <code>ResultSet</code> object, bnd by so doing,
+     * it will mbke it possible to use the result set bs b JbvbBebns
      * component.
      *
      * <P>
-     * The following is true of a default <code>JdbcRowSet</code> instance:
+     * The following is true of b defbult <code>JdbcRowSet</code> instbnce:
      * <UL>
      *   <LI>Does not show deleted rows
-     *   <LI>Has no time limit for how long a driver may take to
-     *       execute the rowset's command
-     *   <LI>Has no limit for the number of rows it may contain
-     *   <LI>Has no limit for the number of bytes a column may contain
-     *   <LI>Has a scrollable cursor and does not show changes
-     *       made by others
-     *   <LI>Will not see uncommitted data (make "dirty" reads)
-     *   <LI>Has escape processing turned on
-     *   <LI>Has its connection's type map set to <code>null</code>
-     *   <LI>Has an empty <code>Hashtable</code> object for storing any
-     *       parameters that are set
+     *   <LI>Hbs no time limit for how long b driver mby tbke to
+     *       execute the rowset's commbnd
+     *   <LI>Hbs no limit for the number of rows it mby contbin
+     *   <LI>Hbs no limit for the number of bytes b column mby contbin
+     *   <LI>Hbs b scrollbble cursor bnd does not show chbnges
+     *       mbde by others
+     *   <LI>Will not see uncommitted dbtb (mbke "dirty" rebds)
+     *   <LI>Hbs escbpe processing turned on
+     *   <LI>Hbs its connection's type mbp set to <code>null</code>
+     *   <LI>Hbs bn empty <code>Hbshtbble</code> object for storing bny
+     *       pbrbmeters thbt bre set
      * </UL>
      *
-     * @param res a valid <code>ResultSet</code> object
+     * @pbrbm res b vblid <code>ResultSet</code> object
      *
-     * @throws SQLException if a database access occurs due to a non
-     * valid ResultSet handle.
+     * @throws SQLException if b dbtbbbse bccess occurs due to b non
+     * vblid ResultSet hbndle.
      */
     public JdbcRowSetImpl(ResultSet res) throws SQLException {
 
-        // A ResultSet handle encapsulates a connection handle.
-        // But there is no way we can retrieve a Connection handle
-        // from a ResultSet object.
-        // So to avoid any anomalies we keep the conn = null
-        // The passed rs handle will be a wrapper around for
-        // "this" object's all operations.
+        // A ResultSet hbndle encbpsulbtes b connection hbndle.
+        // But there is no wby we cbn retrieve b Connection hbndle
+        // from b ResultSet object.
+        // So to bvoid bny bnomblies we keep the conn = null
+        // The pbssed rs hbndle will be b wrbpper bround for
+        // "this" object's bll operbtions.
         conn = null;
 
         ps = null;
@@ -417,230 +417,230 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
 
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
 
-        initParams();
+        initPbrbms();
 
-        // get the values from the resultset handle.
-        setShowDeleted(false);
+        // get the vblues from the resultset hbndle.
+        setShowDeleted(fblse);
         setQueryTimeout(0);
-        setMaxRows(0);
-        setMaxFieldSize(0);
+        setMbxRows(0);
+        setMbxFieldSize(0);
 
-        setParams();
+        setPbrbms();
 
-        setReadOnly(true);
-        setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-        setEscapeProcessing(true);
-        setTypeMap(null);
+        setRebdOnly(true);
+        setTrbnsbctionIsolbtion(Connection.TRANSACTION_READ_COMMITTED);
+        setEscbpeProcessing(true);
+        setTypeMbp(null);
 
-        // Get a handle to ResultSetMetaData
-        // Construct RowSetMetaData out of it.
+        // Get b hbndle to ResultSetMetbDbtb
+        // Construct RowSetMetbDbtb out of it.
 
-        resMD = rs.getMetaData();
+        resMD = rs.getMetbDbtb();
 
-        rowsMD = new RowSetMetaDataImpl();
+        rowsMD = new RowSetMetbDbtbImpl();
 
-        initMetaData(rowsMD, resMD);
+        initMetbDbtb(rowsMD, resMD);
 
-        //Instantiating the vector for MatchColumns
+        //Instbntibting the vector for MbtchColumns
 
-        iMatchColumns = new Vector<Integer>(10);
+        iMbtchColumns = new Vector<Integer>(10);
         for(int i = 0; i < 10 ; i++) {
-           iMatchColumns.add(i,Integer.valueOf(-1));
+           iMbtchColumns.bdd(i,Integer.vblueOf(-1));
         }
 
-        strMatchColumns = new Vector<String>(10);
+        strMbtchColumns = new Vector<String>(10);
         for(int j = 0; j < 10; j++) {
-           strMatchColumns.add(j,null);
+           strMbtchColumns.bdd(j,null);
         }
     }
 
     /**
-     * Initializes the given <code>RowSetMetaData</code> object with the values
-     * in the given <code>ResultSetMetaData</code> object.
+     * Initiblizes the given <code>RowSetMetbDbtb</code> object with the vblues
+     * in the given <code>ResultSetMetbDbtb</code> object.
      *
-     * @param md the <code>RowSetMetaData</code> object for this
+     * @pbrbm md the <code>RowSetMetbDbtb</code> object for this
      *           <code>JdbcRowSetImpl</code> object, which will be set with
-     *           values from rsmd
-     * @param rsmd the <code>ResultSetMetaData</code> object from which new
-     *             values for md will be read
-     * @throws SQLException if an error occurs
+     *           vblues from rsmd
+     * @pbrbm rsmd the <code>ResultSetMetbDbtb</code> object from which new
+     *             vblues for md will be rebd
+     * @throws SQLException if bn error occurs
      */
-    protected void initMetaData(RowSetMetaData md, ResultSetMetaData rsmd) throws SQLException {
+    protected void initMetbDbtb(RowSetMetbDbtb md, ResultSetMetbDbtb rsmd) throws SQLException {
         int numCols = rsmd.getColumnCount();
 
         md.setColumnCount(numCols);
         for (int col=1; col <= numCols; col++) {
             md.setAutoIncrement(col, rsmd.isAutoIncrement(col));
-            md.setCaseSensitive(col, rsmd.isCaseSensitive(col));
+            md.setCbseSensitive(col, rsmd.isCbseSensitive(col));
             md.setCurrency(col, rsmd.isCurrency(col));
-            md.setNullable(col, rsmd.isNullable(col));
+            md.setNullbble(col, rsmd.isNullbble(col));
             md.setSigned(col, rsmd.isSigned(col));
-            md.setSearchable(col, rsmd.isSearchable(col));
-            md.setColumnDisplaySize(col, rsmd.getColumnDisplaySize(col));
-            md.setColumnLabel(col, rsmd.getColumnLabel(col));
-            md.setColumnName(col, rsmd.getColumnName(col));
-            md.setSchemaName(col, rsmd.getSchemaName(col));
+            md.setSebrchbble(col, rsmd.isSebrchbble(col));
+            md.setColumnDisplbySize(col, rsmd.getColumnDisplbySize(col));
+            md.setColumnLbbel(col, rsmd.getColumnLbbel(col));
+            md.setColumnNbme(col, rsmd.getColumnNbme(col));
+            md.setSchembNbme(col, rsmd.getSchembNbme(col));
             md.setPrecision(col, rsmd.getPrecision(col));
-            md.setScale(col, rsmd.getScale(col));
-            md.setTableName(col, rsmd.getTableName(col));
-            md.setCatalogName(col, rsmd.getCatalogName(col));
+            md.setScble(col, rsmd.getScble(col));
+            md.setTbbleNbme(col, rsmd.getTbbleNbme(col));
+            md.setCbtblogNbme(col, rsmd.getCbtblogNbme(col));
             md.setColumnType(col, rsmd.getColumnType(col));
-            md.setColumnTypeName(col, rsmd.getColumnTypeName(col));
+            md.setColumnTypeNbme(col, rsmd.getColumnTypeNbme(col));
         }
     }
 
 
-    protected void checkState() throws SQLException {
+    protected void checkStbte() throws SQLException {
 
-        // If all the three i.e.  conn, ps & rs are
-        // simultaneously null implies we are not connected
-        // to the db, implies undesirable state so throw exception
+        // If bll the three i.e.  conn, ps & rs bre
+        // simultbneously null implies we bre not connected
+        // to the db, implies undesirbble stbte so throw exception
 
         if (conn == null && ps == null && rs == null ) {
-            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.invalstate").toString());
+            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.invblstbte").toString());
         }
     }
 
     //---------------------------------------------------------------------
-    // Reading and writing data
+    // Rebding bnd writing dbtb
     //---------------------------------------------------------------------
 
     /**
-     * Creates the internal <code>ResultSet</code> object for which this
-     * <code>JdbcRowSet</code> object is a wrapper, effectively
-     * making the result set a JavaBeans component.
+     * Crebtes the internbl <code>ResultSet</code> object for which this
+     * <code>JdbcRowSet</code> object is b wrbpper, effectively
+     * mbking the result set b JbvbBebns component.
      * <P>
-     * Certain properties must have been set before this method is called
-     * so that it can establish a connection to a database and execute the
-     * query that will create the result set.  If a <code>DataSource</code>
-     * object will be used to create the connection, properties for the
-     * data source name, user name, and password must be set.  If the
-     * <code>DriverManager</code> will be used, the properties for the
-     * URL, user name, and password must be set.  In either case, the
-     * property for the command must be set.  If the command has placeholder
-     * parameters, those must also be set. This method throws
-     * an exception if the required properties are not set.
+     * Certbin properties must hbve been set before this method is cblled
+     * so thbt it cbn estbblish b connection to b dbtbbbse bnd execute the
+     * query thbt will crebte the result set.  If b <code>DbtbSource</code>
+     * object will be used to crebte the connection, properties for the
+     * dbtb source nbme, user nbme, bnd pbssword must be set.  If the
+     * <code>DriverMbnbger</code> will be used, the properties for the
+     * URL, user nbme, bnd pbssword must be set.  In either cbse, the
+     * property for the commbnd must be set.  If the commbnd hbs plbceholder
+     * pbrbmeters, those must blso be set. This method throws
+     * bn exception if the required properties bre not set.
      * <P>
-     * Other properties have default values that may optionally be set
-     * to new values. The <code>execute</code> method will use the value
-     * for the command property to create a <code>PreparedStatement</code>
-     * object and set its properties (escape processing, maximum field
-     * size, maximum number of rows, and query timeout limit) to be those
+     * Other properties hbve defbult vblues thbt mby optionblly be set
+     * to new vblues. The <code>execute</code> method will use the vblue
+     * for the commbnd property to crebte b <code>PrepbredStbtement</code>
+     * object bnd set its properties (escbpe processing, mbximum field
+     * size, mbximum number of rows, bnd query timeout limit) to be those
      * of this rowset.
      *
-     * @throws SQLException if (1) a database access error occurs,
-     * (2) any required JDBC properties are not set, or (3) if an
-     * invalid connection exists.
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
+     * (2) bny required JDBC properties bre not set, or (3) if bn
+     * invblid connection exists.
      */
     public void execute() throws SQLException {
         /*
-         * To execute based on the properties:
-         * i) determine how to get a connection
-         * ii) prepare the statement
-         * iii) set the properties of the statement
-         * iv) parse the params. and set them
-         * v) execute the statement
+         * To execute bbsed on the properties:
+         * i) determine how to get b connection
+         * ii) prepbre the stbtement
+         * iii) set the properties of the stbtement
+         * iv) pbrse the pbrbms. bnd set them
+         * v) execute the stbtement
          *
-         * During all of this try to tolerate as many errors
-         * as possible, many drivers will not support all of
-         * the properties and will/should throw SQLException
-         * at us...
+         * During bll of this try to tolerbte bs mbny errors
+         * bs possible, mbny drivers will not support bll of
+         * the properties bnd will/should throw SQLException
+         * bt us...
          *
          */
 
-        prepare();
+        prepbre();
 
-        // set the properties of our shiny new statement
+        // set the properties of our shiny new stbtement
         setProperties(ps);
 
 
-        // set the parameters
-        decodeParams(getParams(), ps);
+        // set the pbrbmeters
+        decodePbrbms(getPbrbms(), ps);
 
 
-        // execute the statement
+        // execute the stbtement
         rs = ps.executeQuery();
 
 
         // notify listeners
-        notifyRowSetChanged();
+        notifyRowSetChbnged();
 
 
     }
 
-    protected void setProperties(PreparedStatement ps) throws SQLException {
+    protected void setProperties(PrepbredStbtement ps) throws SQLException {
 
         try {
-            ps.setEscapeProcessing(getEscapeProcessing());
-        } catch (SQLException ex) {
-            System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setescapeprocessing").toString() +
-                                ex.getLocalizedMessage());
+            ps.setEscbpeProcessing(getEscbpeProcessing());
+        } cbtch (SQLException ex) {
+            System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setescbpeprocessing").toString() +
+                                ex.getLocblizedMessbge());
         }
 
         try {
-            ps.setMaxFieldSize(getMaxFieldSize());
-        } catch (SQLException ex) {
-            System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setmaxfieldsize").toString() +
-                                ex.getLocalizedMessage());
+            ps.setMbxFieldSize(getMbxFieldSize());
+        } cbtch (SQLException ex) {
+            System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setmbxfieldsize").toString() +
+                                ex.getLocblizedMessbge());
         }
 
         try {
-            ps.setMaxRows(getMaxRows());
-        } catch (SQLException ex) {
-           System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setmaxrows").toString() +
-                                ex.getLocalizedMessage());
+            ps.setMbxRows(getMbxRows());
+        } cbtch (SQLException ex) {
+           System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setmbxrows").toString() +
+                                ex.getLocblizedMessbge());
         }
 
         try {
             ps.setQueryTimeout(getQueryTimeout());
-        } catch (SQLException ex) {
-           System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.setquerytimeout").toString() +
-                                ex.getLocalizedMessage());
+        } cbtch (SQLException ex) {
+           System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.setquerytimeout").toString() +
+                                ex.getLocblizedMessbge());
         }
 
     }
 
-    private Connection connect() throws SQLException {
+    privbte Connection connect() throws SQLException {
 
-        // Get a JDBC connection.
+        // Get b JDBC connection.
 
-        // First check for Connection handle object as such if
-        // "this" initialized  using conn.
+        // First check for Connection hbndle object bs such if
+        // "this" initiblized  using conn.
 
         if(conn != null) {
             return conn;
 
-        } else if (getDataSourceName() != null) {
+        } else if (getDbtbSourceNbme() != null) {
 
             // Connect using JNDI.
             try {
-                Context ctx = new InitialContext();
-                DataSource ds = (DataSource)ctx.lookup
-                    (getDataSourceName());
-                //return ds.getConnection(getUsername(),getPassword());
+                Context ctx = new InitiblContext();
+                DbtbSource ds = (DbtbSource)ctx.lookup
+                    (getDbtbSourceNbme());
+                //return ds.getConnection(getUsernbme(),getPbssword());
 
-                if(getUsername() != null && !getUsername().equals("")) {
-                     return ds.getConnection(getUsername(),getPassword());
+                if(getUsernbme() != null && !getUsernbme().equbls("")) {
+                     return ds.getConnection(getUsernbme(),getPbssword());
                 } else {
                      return ds.getConnection();
                 }
             }
-            catch (javax.naming.NamingException ex) {
-                throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.connect").toString());
+            cbtch (jbvbx.nbming.NbmingException ex) {
+                throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.connect").toString());
             }
 
         } else if (getUrl() != null) {
-            // Check only for getUrl() != null because
-            // user, passwd can be null
-            // Connect using the driver manager.
+            // Check only for getUrl() != null becbuse
+            // user, pbsswd cbn be null
+            // Connect using the driver mbnbger.
 
-            return DriverManager.getConnection
-                    (getUrl(), getUsername(), getPassword());
+            return DriverMbnbger.getConnection
+                    (getUrl(), getUsernbme(), getPbssword());
         }
         else {
             return null;
@@ -649,135 +649,135 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
     }
 
 
-    protected PreparedStatement prepare() throws SQLException {
-        // get a connection
+    protected PrepbredStbtement prepbre() throws SQLException {
+        // get b connection
         conn = connect();
 
         try {
 
-            Map<String, Class<?>> aMap = getTypeMap();
-            if( aMap != null) {
-                conn.setTypeMap(aMap);
+            Mbp<String, Clbss<?>> bMbp = getTypeMbp();
+            if( bMbp != null) {
+                conn.setTypeMbp(bMbp);
             }
-            ps = conn.prepareStatement(getCommand(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-        } catch (SQLException ex) {
-            System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.prepare").toString() +
-                                ex.getLocalizedMessage());
+            ps = conn.prepbreStbtement(getCommbnd(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+        } cbtch (SQLException ex) {
+            System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.prepbre").toString() +
+                                ex.getLocblizedMessbge());
 
             if (ps != null)
                 ps.close();
             if (conn != null)
                 conn.close();
 
-            throw new SQLException(ex.getMessage());
+            throw new SQLException(ex.getMessbge());
         }
 
         return ps;
     }
 
-    @SuppressWarnings("deprecation")
-    private void decodeParams(Object[] params, PreparedStatement ps)
+    @SuppressWbrnings("deprecbtion")
+    privbte void decodePbrbms(Object[] pbrbms, PrepbredStbtement ps)
     throws SQLException {
 
-    // There is a corresponding decodeParams in JdbcRowSetImpl
-    // which does the same as this method. This is a design flaw.
-    // Update the CachedRowsetReader.decodeParams when you update
+    // There is b corresponding decodePbrbms in JdbcRowSetImpl
+    // which does the sbme bs this method. This is b design flbw.
+    // Updbte the CbchedRowsetRebder.decodePbrbms when you updbte
     // this method.
 
-    // Adding the same comments to CachedRowsetReader.decodeParams.
+    // Adding the sbme comments to CbchedRowsetRebder.decodePbrbms.
 
-        int arraySize;
-        Object[] param = null;
+        int brrbySize;
+        Object[] pbrbm = null;
 
-        for (int i=0; i < params.length; i++) {
-            if (params[i] instanceof Object[]) {
-                param = (Object[])params[i];
+        for (int i=0; i < pbrbms.length; i++) {
+            if (pbrbms[i] instbnceof Object[]) {
+                pbrbm = (Object[])pbrbms[i];
 
-                if (param.length == 2) {
-                    if (param[0] == null) {
-                        ps.setNull(i + 1, ((Integer)param[1]).intValue());
+                if (pbrbm.length == 2) {
+                    if (pbrbm[0] == null) {
+                        ps.setNull(i + 1, ((Integer)pbrbm[1]).intVblue());
                         continue;
                     }
 
-                    if (param[0] instanceof java.sql.Date ||
-                        param[0] instanceof java.sql.Time ||
-                        param[0] instanceof java.sql.Timestamp) {
-                        System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.detecteddate"));
-                        if (param[1] instanceof java.util.Calendar) {
-                            System.err.println(resBundle.handleGetObject("jdbcrowsetimpl.detectedcalendar"));
-                            ps.setDate(i + 1, (java.sql.Date)param[0],
-                                       (java.util.Calendar)param[1]);
+                    if (pbrbm[0] instbnceof jbvb.sql.Dbte ||
+                        pbrbm[0] instbnceof jbvb.sql.Time ||
+                        pbrbm[0] instbnceof jbvb.sql.Timestbmp) {
+                        System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.detecteddbte"));
+                        if (pbrbm[1] instbnceof jbvb.util.Cblendbr) {
+                            System.err.println(resBundle.hbndleGetObject("jdbcrowsetimpl.detectedcblendbr"));
+                            ps.setDbte(i + 1, (jbvb.sql.Dbte)pbrbm[0],
+                                       (jbvb.util.Cblendbr)pbrbm[1]);
                             continue;
                         }
                         else {
-                            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.paramtype").toString());
+                            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.pbrbmtype").toString());
                         }
                     }
 
-                    if (param[0] instanceof Reader) {
-                        ps.setCharacterStream(i + 1, (Reader)param[0],
-                                              ((Integer)param[1]).intValue());
+                    if (pbrbm[0] instbnceof Rebder) {
+                        ps.setChbrbcterStrebm(i + 1, (Rebder)pbrbm[0],
+                                              ((Integer)pbrbm[1]).intVblue());
                         continue;
                     }
 
                     /*
-                     * What's left should be setObject(int, Object, scale)
+                     * Whbt's left should be setObject(int, Object, scble)
                      */
-                    if (param[1] instanceof Integer) {
-                        ps.setObject(i + 1, param[0], ((Integer)param[1]).intValue());
+                    if (pbrbm[1] instbnceof Integer) {
+                        ps.setObject(i + 1, pbrbm[0], ((Integer)pbrbm[1]).intVblue());
                         continue;
                     }
 
-                } else if (param.length == 3) {
+                } else if (pbrbm.length == 3) {
 
-                    if (param[0] == null) {
-                        ps.setNull(i + 1, ((Integer)param[1]).intValue(),
-                                   (String)param[2]);
+                    if (pbrbm[0] == null) {
+                        ps.setNull(i + 1, ((Integer)pbrbm[1]).intVblue(),
+                                   (String)pbrbm[2]);
                         continue;
                     }
 
-                    if (param[0] instanceof java.io.InputStream) {
-                        switch (((Integer)param[2]).intValue()) {
-                        case JdbcRowSetImpl.UNICODE_STREAM_PARAM:
-                            ps.setUnicodeStream(i + 1,
-                                                (java.io.InputStream)param[0],
-                                                ((Integer)param[1]).intValue());
-                            break;
-                        case JdbcRowSetImpl.BINARY_STREAM_PARAM:
-                            ps.setBinaryStream(i + 1,
-                                               (java.io.InputStream)param[0],
-                                               ((Integer)param[1]).intValue());
-                            break;
-                        case JdbcRowSetImpl.ASCII_STREAM_PARAM:
-                            ps.setAsciiStream(i + 1,
-                                              (java.io.InputStream)param[0],
-                                              ((Integer)param[1]).intValue());
-                            break;
-                        default:
-                            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.paramtype").toString());
+                    if (pbrbm[0] instbnceof jbvb.io.InputStrebm) {
+                        switch (((Integer)pbrbm[2]).intVblue()) {
+                        cbse JdbcRowSetImpl.UNICODE_STREAM_PARAM:
+                            ps.setUnicodeStrebm(i + 1,
+                                                (jbvb.io.InputStrebm)pbrbm[0],
+                                                ((Integer)pbrbm[1]).intVblue());
+                            brebk;
+                        cbse JdbcRowSetImpl.BINARY_STREAM_PARAM:
+                            ps.setBinbryStrebm(i + 1,
+                                               (jbvb.io.InputStrebm)pbrbm[0],
+                                               ((Integer)pbrbm[1]).intVblue());
+                            brebk;
+                        cbse JdbcRowSetImpl.ASCII_STREAM_PARAM:
+                            ps.setAsciiStrebm(i + 1,
+                                              (jbvb.io.InputStrebm)pbrbm[0],
+                                              ((Integer)pbrbm[1]).intVblue());
+                            brebk;
+                        defbult:
+                            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.pbrbmtype").toString());
                         }
                     }
 
                     /*
-                     * no point at looking at the first element now;
-                     * what's left must be the setObject() cases.
+                     * no point bt looking bt the first element now;
+                     * whbt's left must be the setObject() cbses.
                      */
-                    if (param[1] instanceof Integer && param[2] instanceof Integer) {
-                        ps.setObject(i + 1, param[0], ((Integer)param[1]).intValue(),
-                                     ((Integer)param[2]).intValue());
+                    if (pbrbm[1] instbnceof Integer && pbrbm[2] instbnceof Integer) {
+                        ps.setObject(i + 1, pbrbm[0], ((Integer)pbrbm[1]).intVblue(),
+                                     ((Integer)pbrbm[2]).intVblue());
                         continue;
                     }
 
-                    throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.paramtype").toString());
+                    throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.pbrbmtype").toString());
 
                 } else {
-                    // common case - this catches all SQL92 types
-                    ps.setObject(i + 1, params[i]);
+                    // common cbse - this cbtches bll SQL92 types
+                    ps.setObject(i + 1, pbrbms[i]);
                     continue;
                 }
             }  else {
-               // Try to get all the params to be set here
-               ps.setObject(i + 1, params[i]);
+               // Try to get bll the pbrbms to be set here
+               ps.setObject(i + 1, pbrbms[i]);
 
             }
         }
@@ -786,44 +786,44 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
     /**
      * Moves the cursor for this rowset's <code>ResultSet</code>
      * object down one row from its current position.
-     * A <code>ResultSet</code> cursor is initially positioned
-     * before the first row; the first call to the method
-     * <code>next</code> makes the first row the current row; the
-     * second call makes the second row the current row, and so on.
+     * A <code>ResultSet</code> cursor is initiblly positioned
+     * before the first row; the first cbll to the method
+     * <code>next</code> mbkes the first row the current row; the
+     * second cbll mbkes the second row the current row, bnd so on.
      *
-     * <P>If an input stream is open for the current row, a call
+     * <P>If bn input strebm is open for the current row, b cbll
      * to the method <code>next</code> will
      * implicitly close it. A <code>ResultSet</code> object's
-     * warning chain is cleared when a new row is read.
+     * wbrning chbin is clebred when b new row is rebd.
      *
-     * @return <code>true</code> if the new current row is valid;
-     *         <code>false</code> if there are no more rows
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @return <code>true</code> if the new current row is vblid;
+     *         <code>fblse</code> if there bre no more rows
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public boolean next() throws SQLException {
-        checkState();
+    public boolebn next() throws SQLException {
+        checkStbte();
 
-        boolean b = rs.next();
+        boolebn b = rs.next();
         notifyCursorMoved();
         return b;
     }
 
     /**
-     * Releases this rowset's <code>ResultSet</code> object's database and
-     * JDBC resources immediately instead of waiting for
-     * this to happen when it is automatically closed.
+     * Relebses this rowset's <code>ResultSet</code> object's dbtbbbse bnd
+     * JDBC resources immedibtely instebd of wbiting for
+     * this to hbppen when it is butombticblly closed.
      *
      * <P><B>Note:</B> A <code>ResultSet</code> object
-     * is automatically closed by the
-     * <code>Statement</code> object that generated it when
-     * that <code>Statement</code> object is closed,
-     * re-executed, or is used to retrieve the next result from a
+     * is butombticblly closed by the
+     * <code>Stbtement</code> object thbt generbted it when
+     * thbt <code>Stbtement</code> object is closed,
+     * re-executed, or is used to retrieve the next result from b
      * sequence of multiple results. A <code>ResultSet</code> object
-     * is also automatically closed when it is garbage collected.
+     * is blso butombticblly closed when it is gbrbbge collected.
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
     public void close() throws SQLException {
         if (rs != null)
@@ -835,1021 +835,1021 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
     }
 
     /**
-     * Reports whether the last column read from this rowset's
-     * <code>ResultSet</code> object had a value of SQL <code>NULL</code>.
-     * Note that you must first call one of the <code>getXXX</code> methods
-     * on a column to try to read its value and then call
-     * the method <code>wasNull</code> to see if the value read was
+     * Reports whether the lbst column rebd from this rowset's
+     * <code>ResultSet</code> object hbd b vblue of SQL <code>NULL</code>.
+     * Note thbt you must first cbll one of the <code>getXXX</code> methods
+     * on b column to try to rebd its vblue bnd then cbll
+     * the method <code>wbsNull</code> to see if the vblue rebd wbs
      * SQL <code>NULL</code>.
      *
-     * @return <code>true</code> if the last column value read was SQL
-     *         <code>NULL</code> and <code>false</code> otherwise
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @return <code>true</code> if the lbst column vblue rebd wbs SQL
+     *         <code>NULL</code> bnd <code>fblse</code> otherwise
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public boolean wasNull() throws SQLException {
-        checkState();
+    public boolebn wbsNull() throws SQLException {
+        checkStbte();
 
-        return rs.wasNull();
+        return rs.wbsNull();
     }
 
     //======================================================================
-    // Methods for accessing results by column index
+    // Methods for bccessing results by column index
     //======================================================================
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>String</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>String</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public String getString(int columnIndex) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getString(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>boolean</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>boolebn</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>false</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>fblse</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public boolean getBoolean(int columnIndex) throws SQLException {
-        checkState();
+    public boolebn getBoolebn(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getBoolean(columnIndex);
+        return rs.getBoolebn(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>byte</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>byte</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public byte getByte(int columnIndex) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getByte(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>short</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>short</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public short getShort(int columnIndex) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getShort(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * an <code>int</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * bn <code>int</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public int getInt(int columnIndex) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getInt(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>long</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>long</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public long getLong(int columnIndex) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getLong(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>float</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>flobt</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public float getFloat(int columnIndex) throws SQLException {
-        checkState();
+    public flobt getFlobt(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getFloat(columnIndex);
+        return rs.getFlobt(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>double</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>double</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public double getDouble(int columnIndex) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getDouble(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>java.sql.BigDecimal</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>jbvb.sql.BigDecimbl</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param scale the number of digits to the right of the decimal point
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
-     * @deprecated
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm scble the number of digits to the right of the decimbl point
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
+     * @deprecbted
      */
-    @Deprecated
-    public BigDecimal getBigDecimal(int columnIndex, int scale) throws SQLException {
-        checkState();
+    @Deprecbted
+    public BigDecimbl getBigDecimbl(int columnIndex, int scble) throws SQLException {
+        checkStbte();
 
-        return rs.getBigDecimal(columnIndex, scale);
+        return rs.getBigDecimbl(columnIndex, scble);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>byte</code> array in the Java programming language.
-     * The bytes represent the raw values returned by the driver.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>byte</code> brrby in the Jbvb progrbmming lbngubge.
+     * The bytes represent the rbw vblues returned by the driver.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public byte[] getBytes(int columnIndex) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getBytes(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>java.sql.Date</code> object in the Java programming language.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>jbvb.sql.Dbte</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Date getDate(int columnIndex) throws SQLException {
-        checkState();
+    public jbvb.sql.Dbte getDbte(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getDate(columnIndex);
+        return rs.getDbte(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>java.sql.Time</code> object in the Java programming language.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>jbvb.sql.Time</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Time getTime(int columnIndex) throws SQLException {
-        checkState();
+    public jbvb.sql.Time getTime(int columnIndex) throws SQLException {
+        checkStbte();
 
         return rs.getTime(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>java.sql.Timestamp</code> object in the Java programming language.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>jbvb.sql.Timestbmp</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Timestamp getTimestamp(int columnIndex) throws SQLException {
-        checkState();
+    public jbvb.sql.Timestbmp getTimestbmp(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getTimestamp(columnIndex);
+        return rs.getTimestbmp(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a stream of ASCII characters. The value can then be read in chunks from the
-     * stream. This method is particularly
-     * suitable for retrieving large <code>LONGVARCHAR</code> values.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b strebm of ASCII chbrbcters. The vblue cbn then be rebd in chunks from the
+     * strebm. This method is pbrticulbrly
+     * suitbble for retrieving lbrge <code>LONGVARCHAR</code> vblues.
      * The JDBC driver will
-     * do any necessary conversion from the database format into ASCII.
+     * do bny necessbry conversion from the dbtbbbse formbt into ASCII.
      *
-     * <P><B>Note:</B> All the data in the returned stream must be
-     * read prior to getting the value of any other column. The next
-     * call to a <code>getXXX</code> method implicitly closes the stream.  Also, a
-     * stream may return <code>0</code> when the method
-     * <code>InputStream.available</code>
-     * is called whether there is data available or not.
+     * <P><B>Note:</B> All the dbtb in the returned strebm must be
+     * rebd prior to getting the vblue of bny other column. The next
+     * cbll to b <code>getXXX</code> method implicitly closes the strebm.  Also, b
+     * strebm mby return <code>0</code> when the method
+     * <code>InputStrebm.bvbilbble</code>
+     * is cblled whether there is dbtb bvbilbble or not.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return a Java input stream that delivers the database column value
-     * as a stream of one-byte ASCII characters;
-     * if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) database access error occurs
-     *            (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return b Jbvb input strebm thbt delivers the dbtbbbse column vblue
+     * bs b strebm of one-byte ASCII chbrbcters;
+     * if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) dbtbbbse bccess error occurs
+     *            (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.io.InputStream getAsciiStream(int columnIndex) throws SQLException {
-        checkState();
+    public jbvb.io.InputStrebm getAsciiStrebm(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getAsciiStream(columnIndex);
+        return rs.getAsciiStrebm(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * as a stream of Unicode characters.
-     * The value can then be read in chunks from the
-     * stream. This method is particularly
-     * suitable for retrieving large<code>LONGVARCHAR</code>values.  The JDBC driver will
-     * do any necessary conversion from the database format into Unicode.
-     * The byte format of the Unicode stream must be Java UTF-8,
-     * as specified in the Java virtual machine specification.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * bs b strebm of Unicode chbrbcters.
+     * The vblue cbn then be rebd in chunks from the
+     * strebm. This method is pbrticulbrly
+     * suitbble for retrieving lbrge<code>LONGVARCHAR</code>vblues.  The JDBC driver will
+     * do bny necessbry conversion from the dbtbbbse formbt into Unicode.
+     * The byte formbt of the Unicode strebm must be Jbvb UTF-8,
+     * bs specified in the Jbvb virtubl mbchine specificbtion.
      *
-     * <P><B>Note:</B> All the data in the returned stream must be
-     * read prior to getting the value of any other column. The next
-     * call to a <code>getXXX</code> method implicitly closes the stream.  Also, a
-     * stream may return <code>0</code> when the method
-     * <code>InputStream.available</code>
-     * is called whether there is data available or not.
+     * <P><B>Note:</B> All the dbtb in the returned strebm must be
+     * rebd prior to getting the vblue of bny other column. The next
+     * cbll to b <code>getXXX</code> method implicitly closes the strebm.  Also, b
+     * strebm mby return <code>0</code> when the method
+     * <code>InputStrebm.bvbilbble</code>
+     * is cblled whether there is dbtb bvbilbble or not.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return a Java input stream that delivers the database column value
-     * as a stream in Java UTF-8 byte format;
-     * if the value is SQL <code>NULL</code>, the value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
-     * @deprecated use <code>getCharacterStream</code> in place of
-     *              <code>getUnicodeStream</code>
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return b Jbvb input strebm thbt delivers the dbtbbbse column vblue
+     * bs b strebm in Jbvb UTF-8 byte formbt;
+     * if the vblue is SQL <code>NULL</code>, the vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
+     * @deprecbted use <code>getChbrbcterStrebm</code> in plbce of
+     *              <code>getUnicodeStrebm</code>
      */
-    @Deprecated
-    public java.io.InputStream getUnicodeStream(int columnIndex) throws SQLException {
-        checkState();
+    @Deprecbted
+    public jbvb.io.InputStrebm getUnicodeStrebm(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getUnicodeStream(columnIndex);
+        return rs.getUnicodeStrebm(columnIndex);
     }
 
     /**
-     * Gets the value of a column in the current row as a stream of
-     * the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a binary stream of
-     * uninterpreted bytes. The value can then be read in chunks from the
-     * stream. This method is particularly
-     * suitable for retrieving large <code>LONGVARBINARY</code> values.
+     * Gets the vblue of b column in the current row bs b strebm of
+     * the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b binbry strebm of
+     * uninterpreted bytes. The vblue cbn then be rebd in chunks from the
+     * strebm. This method is pbrticulbrly
+     * suitbble for retrieving lbrge <code>LONGVARBINARY</code> vblues.
      *
-     * <P><B>Note:</B> All the data in the returned stream must be
-     * read prior to getting the value of any other column. The next
-     * call to a <code>getXXX</code> method implicitly closes the stream.  Also, a
-     * stream may return <code>0</code> when the method
-     * <code>InputStream.available</code>
-     * is called whether there is data available or not.
+     * <P><B>Note:</B> All the dbtb in the returned strebm must be
+     * rebd prior to getting the vblue of bny other column. The next
+     * cbll to b <code>getXXX</code> method implicitly closes the strebm.  Also, b
+     * strebm mby return <code>0</code> when the method
+     * <code>InputStrebm.bvbilbble</code>
+     * is cblled whether there is dbtb bvbilbble or not.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return a Java input stream that delivers the database column value
-     * as a stream of uninterpreted bytes;
-     * if the value is SQL <code>NULL</code>, the value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return b Jbvb input strebm thbt delivers the dbtbbbse column vblue
+     * bs b strebm of uninterpreted bytes;
+     * if the vblue is SQL <code>NULL</code>, the vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.io.InputStream getBinaryStream(int columnIndex) throws SQLException {
-        checkState();
+    public jbvb.io.InputStrebm getBinbryStrebm(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getBinaryStream(columnIndex);
+        return rs.getBinbryStrebm(columnIndex);
     }
 
 
     //======================================================================
-    // Methods for accessing results by column name
+    // Methods for bccessing results by column nbme
     //======================================================================
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>String</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>String</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public String getString(String columnName) throws SQLException {
-        return getString(findColumn(columnName));
+    public String getString(String columnNbme) throws SQLException {
+        return getString(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>boolean</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>boolebn</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>false</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>fblse</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public boolean getBoolean(String columnName) throws SQLException {
-        return getBoolean(findColumn(columnName));
+    public boolebn getBoolebn(String columnNbme) throws SQLException {
+        return getBoolebn(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>byte</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>byte</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public byte getByte(String columnName) throws SQLException {
-        return getByte(findColumn(columnName));
+    public byte getByte(String columnNbme) throws SQLException {
+        return getByte(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>short</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>short</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public short getShort(String columnName) throws SQLException {
-        return getShort(findColumn(columnName));
+    public short getShort(String columnNbme) throws SQLException {
+        return getShort(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * an <code>int</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * bn <code>int</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public int getInt(String columnName) throws SQLException {
-        return getInt(findColumn(columnName));
+    public int getInt(String columnNbme) throws SQLException {
+        return getInt(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>long</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>long</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public long getLong(String columnName) throws SQLException {
-        return getLong(findColumn(columnName));
+    public long getLong(String columnNbme) throws SQLException {
+        return getLong(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>float</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>flobt</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public float getFloat(String columnName) throws SQLException {
-        return getFloat(findColumn(columnName));
+    public flobt getFlobt(String columnNbme) throws SQLException {
+        return getFlobt(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>double</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>double</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>0</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>0</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public double getDouble(String columnName) throws SQLException {
-        return getDouble(findColumn(columnName));
+    public double getDouble(String columnNbme) throws SQLException {
+        return getDouble(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>java.math.BigDecimal</code>.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>jbvb.mbth.BigDecimbl</code>.
      *
-     * @param columnName the SQL name of the column
-     * @param scale the number of digits to the right of the decimal point
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) adatabase access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
-     * @deprecated
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @pbrbm scble the number of digits to the right of the decimbl point
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) bdbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
+     * @deprecbted
      */
-    @Deprecated
-    public BigDecimal getBigDecimal(String columnName, int scale) throws SQLException {
-        return getBigDecimal(findColumn(columnName), scale);
+    @Deprecbted
+    public BigDecimbl getBigDecimbl(String columnNbme, int scble) throws SQLException {
+        return getBigDecimbl(findColumn(columnNbme), scble);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>byte</code> array in the Java programming language.
-     * The bytes represent the raw values returned by the driver.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>byte</code> brrby in the Jbvb progrbmming lbngubge.
+     * The bytes represent the rbw vblues returned by the driver.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public byte[] getBytes(String columnName) throws SQLException {
-        return getBytes(findColumn(columnName));
+    public byte[] getBytes(String columnNbme) throws SQLException {
+        return getBytes(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>java.sql.Date</code> object in the Java programming language.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>jbvb.sql.Dbte</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Date getDate(String columnName) throws SQLException {
-        return getDate(findColumn(columnName));
+    public jbvb.sql.Dbte getDbte(String columnNbme) throws SQLException {
+        return getDbte(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>java.sql.Time</code> object in the Java programming language.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>jbvb.sql.Time</code> object in the Jbvb progrbmming lbngubge.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value;
-     * if the value is SQL <code>NULL</code>,
-     * the value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue;
+     * if the vblue is SQL <code>NULL</code>,
+     * the vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Time getTime(String columnName) throws SQLException {
-        return getTime(findColumn(columnName));
+    public jbvb.sql.Time getTime(String columnNbme) throws SQLException {
+        return getTime(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * a <code>java.sql.Timestamp</code> object.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * b <code>jbvb.sql.Timestbmp</code> object.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Timestamp getTimestamp(String columnName) throws SQLException {
-        return getTimestamp(findColumn(columnName));
+    public jbvb.sql.Timestbmp getTimestbmp(String columnNbme) throws SQLException {
+        return getTimestbmp(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a stream of
-     * ASCII characters. The value can then be read in chunks from the
-     * stream. This method is particularly
-     * suitable for retrieving large <code>LONGVARCHAR</code> values.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b strebm of
+     * ASCII chbrbcters. The vblue cbn then be rebd in chunks from the
+     * strebm. This method is pbrticulbrly
+     * suitbble for retrieving lbrge <code>LONGVARCHAR</code> vblues.
      * The JDBC driver will
-     * do any necessary conversion from the database format into ASCII.
+     * do bny necessbry conversion from the dbtbbbse formbt into ASCII.
      *
-     * <P><B>Note:</B> All the data in the returned stream must be
-     * read prior to getting the value of any other column. The next
-     * call to a <code>getXXX</code> method implicitly closes the stream. Also, a
-     * stream may return <code>0</code> when the method <code>available</code>
-     * is called whether there is data available or not.
+     * <P><B>Note:</B> All the dbtb in the returned strebm must be
+     * rebd prior to getting the vblue of bny other column. The next
+     * cbll to b <code>getXXX</code> method implicitly closes the strebm. Also, b
+     * strebm mby return <code>0</code> when the method <code>bvbilbble</code>
+     * is cblled whether there is dbtb bvbilbble or not.
      *
-     * @param columnName the SQL name of the column
-     * @return a Java input stream that delivers the database column value
-     * as a stream of one-byte ASCII characters.
-     * If the value is SQL <code>NULL</code>,
-     * the value returned is <code>null</code>.
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return b Jbvb input strebm thbt delivers the dbtbbbse column vblue
+     * bs b strebm of one-byte ASCII chbrbcters.
+     * If the vblue is SQL <code>NULL</code>,
+     * the vblue returned is <code>null</code>.
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.io.InputStream getAsciiStream(String columnName) throws SQLException {
-        return getAsciiStream(findColumn(columnName));
+    public jbvb.io.InputStrebm getAsciiStrebm(String columnNbme) throws SQLException {
+        return getAsciiStrebm(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a stream of
-     * Unicode characters. The value can then be read in chunks from the
-     * stream. This method is particularly
-     * suitable for retrieving large <code>LONGVARCHAR</code> values.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b strebm of
+     * Unicode chbrbcters. The vblue cbn then be rebd in chunks from the
+     * strebm. This method is pbrticulbrly
+     * suitbble for retrieving lbrge <code>LONGVARCHAR</code> vblues.
      * The JDBC driver will
-     * do any necessary conversion from the database format into Unicode.
-     * The byte format of the Unicode stream must be Java UTF-8,
-     * as defined in the Java virtual machine specification.
+     * do bny necessbry conversion from the dbtbbbse formbt into Unicode.
+     * The byte formbt of the Unicode strebm must be Jbvb UTF-8,
+     * bs defined in the Jbvb virtubl mbchine specificbtion.
      *
-     * <P><B>Note:</B> All the data in the returned stream must be
-     * read prior to getting the value of any other column. The next
-     * call to a <code>getXXX</code> method implicitly closes the stream. Also, a
-     * stream may return <code>0</code> when the method <code>available</code>
-     * is called whether there is data available or not.
+     * <P><B>Note:</B> All the dbtb in the returned strebm must be
+     * rebd prior to getting the vblue of bny other column. The next
+     * cbll to b <code>getXXX</code> method implicitly closes the strebm. Also, b
+     * strebm mby return <code>0</code> when the method <code>bvbilbble</code>
+     * is cblled whether there is dbtb bvbilbble or not.
      *
-     * @param columnName the SQL name of the column
-     * @return a Java input stream that delivers the database column value
-     * as a stream of two-byte Unicode characters.
-     * If the value is SQL <code>NULL</code>,
-     * the value returned is <code>null</code>.
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
-     * @deprecated
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return b Jbvb input strebm thbt delivers the dbtbbbse column vblue
+     * bs b strebm of two-byte Unicode chbrbcters.
+     * If the vblue is SQL <code>NULL</code>,
+     * the vblue returned is <code>null</code>.
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
+     * @deprecbted
      */
-    @Deprecated
-    public java.io.InputStream getUnicodeStream(String columnName) throws SQLException {
-        return getUnicodeStream(findColumn(columnName));
+    @Deprecbted
+    public jbvb.io.InputStrebm getUnicodeStrebm(String columnNbme) throws SQLException {
+        return getUnicodeStrebm(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a stream of uninterpreted
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b strebm of uninterpreted
      * <code>byte</code>s.
-     * The value can then be read in chunks from the
-     * stream. This method is particularly
-     * suitable for retrieving large <code>LONGVARBINARY</code>
-     * values.
+     * The vblue cbn then be rebd in chunks from the
+     * strebm. This method is pbrticulbrly
+     * suitbble for retrieving lbrge <code>LONGVARBINARY</code>
+     * vblues.
      *
-     * <P><B>Note:</B> All the data in the returned stream must be
-     * read prior to getting the value of any other column. The next
-     * call to a <code>getXXX</code> method implicitly closes the stream. Also, a
-     * stream may return <code>0</code> when the method <code>available</code>
-     * is called whether there is data available or not.
+     * <P><B>Note:</B> All the dbtb in the returned strebm must be
+     * rebd prior to getting the vblue of bny other column. The next
+     * cbll to b <code>getXXX</code> method implicitly closes the strebm. Also, b
+     * strebm mby return <code>0</code> when the method <code>bvbilbble</code>
+     * is cblled whether there is dbtb bvbilbble or not.
      *
-     * @param columnName the SQL name of the column
-     * @return a Java input stream that delivers the database column value
-     * as a stream of uninterpreted bytes;
-     * if the value is SQL <code>NULL</code>, the result is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return b Jbvb input strebm thbt delivers the dbtbbbse column vblue
+     * bs b strebm of uninterpreted bytes;
+     * if the vblue is SQL <code>NULL</code>, the result is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.io.InputStream getBinaryStream(String columnName) throws SQLException {
-        return getBinaryStream(findColumn(columnName));
+    public jbvb.io.InputStrebm getBinbryStrebm(String columnNbme) throws SQLException {
+        return getBinbryStrebm(findColumn(columnNbme));
     }
 
 
     //=====================================================================
-    // Advanced features:
+    // Advbnced febtures:
     //=====================================================================
 
     /**
-     * Returns the first warning reported by calls on this rowset's
+     * Returns the first wbrning reported by cblls on this rowset's
      * <code>ResultSet</code> object.
-     * Subsequent warnings on this rowset's <code>ResultSet</code> object
-     * will be chained to the <code>SQLWarning</code> object that
+     * Subsequent wbrnings on this rowset's <code>ResultSet</code> object
+     * will be chbined to the <code>SQLWbrning</code> object thbt
      * this method returns.
      *
-     * <P>The warning chain is automatically cleared each time a new
-     * row is read.
+     * <P>The wbrning chbin is butombticblly clebred ebch time b new
+     * row is rebd.
      *
-     * <P><B>Note:</B> This warning chain only covers warnings caused
-     * by <code>ResultSet</code> methods.  Any warning caused by
-     * <code>Statement</code> methods
-     * (such as reading OUT parameters) will be chained on the
-     * <code>Statement</code> object.
+     * <P><B>Note:</B> This wbrning chbin only covers wbrnings cbused
+     * by <code>ResultSet</code> methods.  Any wbrning cbused by
+     * <code>Stbtement</code> methods
+     * (such bs rebding OUT pbrbmeters) will be chbined on the
+     * <code>Stbtement</code> object.
      *
-     * @return the first <code>SQLWarning</code> object reported or <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @return the first <code>SQLWbrning</code> object reported or <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public SQLWarning getWarnings() throws SQLException {
-        checkState();
+    public SQLWbrning getWbrnings() throws SQLException {
+        checkStbte();
 
-        return rs.getWarnings();
+        return rs.getWbrnings();
     }
 
     /**
-     * Clears all warnings reported on this rowset's <code>ResultSet</code> object.
-     * After this method is called, the method <code>getWarnings</code>
-     * returns <code>null</code> until a new warning is
+     * Clebrs bll wbrnings reported on this rowset's <code>ResultSet</code> object.
+     * After this method is cblled, the method <code>getWbrnings</code>
+     * returns <code>null</code> until b new wbrning is
      * reported for this rowset's <code>ResultSet</code> object.
      *
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public void clearWarnings() throws SQLException {
-        checkState();
+    public void clebrWbrnings() throws SQLException {
+        checkStbte();
 
-        rs.clearWarnings();
+        rs.clebrWbrnings();
     }
 
     /**
-     * Gets the name of the SQL cursor used by this rowset's <code>ResultSet</code>
+     * Gets the nbme of the SQL cursor used by this rowset's <code>ResultSet</code>
      * object.
      *
-     * <P>In SQL, a result table is retrieved through a cursor that is
-     * named. The current row of a result set can be updated or deleted
-     * using a positioned update/delete statement that references the
-     * cursor name. To insure that the cursor has the proper isolation
-     * level to support update, the cursor's <code>select</code> statement should be
-     * of the form 'select for update'. If the 'for update' clause is
-     * omitted, the positioned updates may fail.
+     * <P>In SQL, b result tbble is retrieved through b cursor thbt is
+     * nbmed. The current row of b result set cbn be updbted or deleted
+     * using b positioned updbte/delete stbtement thbt references the
+     * cursor nbme. To insure thbt the cursor hbs the proper isolbtion
+     * level to support updbte, the cursor's <code>select</code> stbtement should be
+     * of the form 'select for updbte'. If the 'for updbte' clbuse is
+     * omitted, the positioned updbtes mby fbil.
      *
-     * <P>The JDBC API supports this SQL feature by providing the name of the
-     * SQL cursor used by a <code>ResultSet</code> object.
-     * The current row of a <code>ResultSet</code> object
-     * is also the current row of this SQL cursor.
+     * <P>The JDBC API supports this SQL febture by providing the nbme of the
+     * SQL cursor used by b <code>ResultSet</code> object.
+     * The current row of b <code>ResultSet</code> object
+     * is blso the current row of this SQL cursor.
      *
-     * <P><B>Note:</B> If positioned update is not supported, a
+     * <P><B>Note:</B> If positioned updbte is not supported, b
      * <code>SQLException</code> is thrown.
      *
-     * @return the SQL name for this rowset's <code>ResultSet</code> object's cursor
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) xthis rowset does not have a currently valid connection,
-     *            prepared statement, and result set
+     * @return the SQL nbme for this rowset's <code>ResultSet</code> object's cursor
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) xthis rowset does not hbve b currently vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public String getCursorName() throws SQLException {
-        checkState();
+    public String getCursorNbme() throws SQLException {
+        checkStbte();
 
-        return rs.getCursorName();
+        return rs.getCursorNbme();
     }
 
     /**
-     * Retrieves the  number, types and properties of
+     * Retrieves the  number, types bnd properties of
      * this rowset's <code>ResultSet</code> object's columns.
      *
      * @return the description of this rowset's <code>ResultSet</code>
      *     object's columns
-     * @throws SQLException if (1) a database access error occurs
-     *     or (2) this rowset does not have a currently valid connection,
-     *     prepared statement, and result set
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *     or (2) this rowset does not hbve b currently vblid connection,
+     *     prepbred stbtement, bnd result set
      */
-    public ResultSetMetaData getMetaData() throws SQLException {
+    public ResultSetMetbDbtb getMetbDbtb() throws SQLException {
 
-        checkState();
+        checkStbte();
 
-        // It may be the case that JdbcRowSet might not have been
-        // initialized with ResultSet handle and may be by PreparedStatement
-        // internally when we set JdbcRowSet.setCommand().
-        // We may require all the basic properties of setEscapeProcessing
-        // setMaxFieldSize etc. which an application can use before we call
+        // It mby be the cbse thbt JdbcRowSet might not hbve been
+        // initiblized with ResultSet hbndle bnd mby be by PrepbredStbtement
+        // internblly when we set JdbcRowSet.setCommbnd().
+        // We mby require bll the bbsic properties of setEscbpeProcessing
+        // setMbxFieldSize etc. which bn bpplicbtion cbn use before we cbll
         // execute.
         try {
-             checkState();
-        } catch(SQLException sqle) {
-             prepare();
-             // will return ResultSetMetaData
-             return ps.getMetaData();
+             checkStbte();
+        } cbtch(SQLException sqle) {
+             prepbre();
+             // will return ResultSetMetbDbtb
+             return ps.getMetbDbtb();
         }
-        return rs.getMetaData();
+        return rs.getMetbDbtb();
     }
 
     /**
-     * <p>Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * an <code>Object</code>.
+     * <p>Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * bn <code>Object</code>.
      *
-     * <p>This method will return the value of the given column as a
-     * Java object.  The type of the Java object will be the default
-     * Java object type corresponding to the column's SQL type,
-     * following the mapping for built-in types specified in the JDBC
-     * specification.
+     * <p>This method will return the vblue of the given column bs b
+     * Jbvb object.  The type of the Jbvb object will be the defbult
+     * Jbvb object type corresponding to the column's SQL type,
+     * following the mbpping for built-in types specified in the JDBC
+     * specificbtion.
      *
-     * <p>This method may also be used to read datatabase-specific
-     * abstract data types.
+     * <p>This method mby blso be used to rebd dbtbtbbbse-specific
+     * bbstrbct dbtb types.
      *
-     * In the JDBC 3.0 API, the behavior of method
-     * <code>getObject</code> is extended to materialize
-     * data of SQL user-defined types.  When a column contains
-     * a structured or distinct value, the behavior of this method is as
-     * if it were a call to: <code>getObject(columnIndex,
-     * this.getStatement().getConnection().getTypeMap())</code>.
+     * In the JDBC 3.0 API, the behbvior of method
+     * <code>getObject</code> is extended to mbteriblize
+     * dbtb of SQL user-defined types.  When b column contbins
+     * b structured or distinct vblue, the behbvior of this method is bs
+     * if it were b cbll to: <code>getObject(columnIndex,
+     * this.getStbtement().getConnection().getTypeMbp())</code>.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return a <code>java.lang.Object</code> holding the column value
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return b <code>jbvb.lbng.Object</code> holding the column vblue
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public Object getObject(int columnIndex) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getObject(columnIndex);
     }
 
     /**
-     * <p>Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as
-     * an <code>Object</code>.
+     * <p>Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs
+     * bn <code>Object</code>.
      *
-     * <p>This method will return the value of the given column as a
-     * Java object.  The type of the Java object will be the default
-     * Java object type corresponding to the column's SQL type,
-     * following the mapping for built-in types specified in the JDBC
-     * specification.
+     * <p>This method will return the vblue of the given column bs b
+     * Jbvb object.  The type of the Jbvb object will be the defbult
+     * Jbvb object type corresponding to the column's SQL type,
+     * following the mbpping for built-in types specified in the JDBC
+     * specificbtion.
      *
-     * <p>This method may also be used to read datatabase-specific
-     * abstract data types.
+     * <p>This method mby blso be used to rebd dbtbtbbbse-specific
+     * bbstrbct dbtb types.
      *
-     * In the JDBC 3.0 API, the behavior of the method
-     * <code>getObject</code> is extended to materialize
-     * data of SQL user-defined types.  When a column contains
-     * a structured or distinct value, the behavior of this method is as
-     * if it were a call to: <code>getObject(columnIndex,
-     * this.getStatement().getConnection().getTypeMap())</code>.
+     * In the JDBC 3.0 API, the behbvior of the method
+     * <code>getObject</code> is extended to mbteriblize
+     * dbtb of SQL user-defined types.  When b column contbins
+     * b structured or distinct vblue, the behbvior of this method is bs
+     * if it were b cbll to: <code>getObject(columnIndex,
+     * this.getStbtement().getConnection().getTypeMbp())</code>.
      *
-     * @param columnName the SQL name of the column
-     * @return a <code>java.lang.Object</code> holding the column value
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return b <code>jbvb.lbng.Object</code> holding the column vblue
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public Object getObject(String columnName) throws SQLException {
-        return getObject(findColumn(columnName));
+    public Object getObject(String columnNbme) throws SQLException {
+        return getObject(findColumn(columnNbme));
     }
 
     //----------------------------------------------------------------
 
     /**
-     * Maps the given <code>JdbcRowSetImpl</code> column name to its
-     * <code>JdbcRowSetImpl</code> column index and reflects this on
-     * the internal <code>ResultSet</code> object.
+     * Mbps the given <code>JdbcRowSetImpl</code> column nbme to its
+     * <code>JdbcRowSetImpl</code> column index bnd reflects this on
+     * the internbl <code>ResultSet</code> object.
      *
-     * @param columnName the name of the column
-     * @return the column index of the given column name
-     * @throws SQLException if (1) a database access error occurs
-     * (2) this rowset does not have a currently valid connection,
-     * prepared statement, and result set
+     * @pbrbm columnNbme the nbme of the column
+     * @return the column index of the given column nbme
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     * (2) this rowset does not hbve b currently vblid connection,
+     * prepbred stbtement, bnd result set
      */
-    public int findColumn(String columnName) throws SQLException {
-        checkState();
+    public int findColumn(String columnNbme) throws SQLException {
+        checkStbte();
 
-        return rs.findColumn(columnName);
+        return rs.findColumn(columnNbme);
     }
 
 
     //--------------------------JDBC 2.0-----------------------------------
 
     //---------------------------------------------------------------------
-    // Getters and Setters
+    // Getters bnd Setters
     //---------------------------------------------------------------------
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a
-     * <code>java.io.Reader</code> object.
-     * @return a <code>java.io.Reader</code> object that contains the column
-     * value; if the value is SQL <code>NULL</code>, the value returned is
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b
+     * <code>jbvb.io.Rebder</code> object.
+     * @return b <code>jbvb.io.Rebder</code> object thbt contbins the column
+     * vblue; if the vblue is SQL <code>NULL</code>, the vblue returned is
      * <code>null</code>.
-     * @param columnIndex the first column is 1, the second is 2, and so on
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
      *
      */
-    public java.io.Reader getCharacterStream(int columnIndex) throws SQLException {
-        checkState();
+    public jbvb.io.Rebder getChbrbcterStrebm(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getCharacterStream(columnIndex);
+        return rs.getChbrbcterStrebm(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a
-     * <code>java.io.Reader</code> object.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b
+     * <code>jbvb.io.Rebder</code> object.
      *
-     * @return a <code>java.io.Reader</code> object that contains the column
-     * value; if the value is SQL <code>NULL</code>, the value returned is
+     * @return b <code>jbvb.io.Rebder</code> object thbt contbins the column
+     * vblue; if the vblue is SQL <code>NULL</code>, the vblue returned is
      * <code>null</code>.
-     * @param columnName the name of the column
-     * @return the value in the specified column as a <code>java.io.Reader</code>
+     * @pbrbm columnNbme the nbme of the column
+     * @return the vblue in the specified column bs b <code>jbvb.io.Rebder</code>
      *
      */
-    public java.io.Reader getCharacterStream(String columnName) throws SQLException {
-        return getCharacterStream(findColumn(columnName));
+    public jbvb.io.Rebder getChbrbcterStrebm(String columnNbme) throws SQLException {
+        return getChbrbcterStrebm(findColumn(columnNbme));
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a
-     * <code>java.math.BigDecimal</code> with full precision.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b
+     * <code>jbvb.mbth.BigDecimbl</code> with full precision.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @return the column value (full precision);
-     * if the value is SQL <code>NULL</code>, the value returned is
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @return the column vblue (full precision);
+     * if the vblue is SQL <code>NULL</code>, the vblue returned is
      * <code>null</code>.
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public BigDecimal getBigDecimal(int columnIndex) throws SQLException {
-        checkState();
+    public BigDecimbl getBigDecimbl(int columnIndex) throws SQLException {
+        checkStbte();
 
-        return rs.getBigDecimal(columnIndex);
+        return rs.getBigDecimbl(columnIndex);
     }
 
     /**
-     * Gets the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a
-     * <code>java.math.BigDecimal</code> with full precision.
+     * Gets the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b
+     * <code>jbvb.mbth.BigDecimbl</code> with full precision.
      *
-     * @param columnName the column name
-     * @return the column value (full precision);
-     * if the value is SQL <code>NULL</code>, the value returned is
+     * @pbrbm columnNbme the column nbme
+     * @return the column vblue (full precision);
+     * if the vblue is SQL <code>NULL</code>, the vblue returned is
      * <code>null</code>.
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public BigDecimal getBigDecimal(String columnName) throws SQLException {
-        return getBigDecimal(findColumn(columnName));
+    public BigDecimbl getBigDecimbl(String columnNbme) throws SQLException {
+        return getBigDecimbl(findColumn(columnNbme));
     }
 
     //---------------------------------------------------------------------
-    // Traversal/Positioning
+    // Trbversbl/Positioning
     //---------------------------------------------------------------------
 
     /**
-     * Indicates whether the cursor is before the first row in
+     * Indicbtes whether the cursor is before the first row in
      * this rowset's <code>ResultSet</code> object.
      *
      * @return <code>true</code> if the cursor is before the first row;
-     * <code>false</code> if the cursor is at any other position or the
-     * result set contains no rows
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     * <code>fblse</code> if the cursor is bt bny other position or the
+     * result set contbins no rows
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public boolean isBeforeFirst() throws SQLException {
-        checkState();
+    public boolebn isBeforeFirst() throws SQLException {
+        checkStbte();
 
         return rs.isBeforeFirst();
     }
 
     /**
-     * Indicates whether the cursor is after the last row in
+     * Indicbtes whether the cursor is bfter the lbst row in
      * this rowset's <code>ResultSet</code> object.
      *
-     * @return <code>true</code> if the cursor is after the last row;
-     * <code>false</code> if the cursor is at any other position or the
-     * result set contains no rows
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     * @return <code>true</code> if the cursor is bfter the lbst row;
+     * <code>fblse</code> if the cursor is bt bny other position or the
+     * result set contbins no rows
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public boolean isAfterLast() throws SQLException {
-        checkState();
+    public boolebn isAfterLbst() throws SQLException {
+        checkStbte();
 
-        return rs.isAfterLast();
+        return rs.isAfterLbst();
     }
 
     /**
-     * Indicates whether the cursor is on the first row of
+     * Indicbtes whether the cursor is on the first row of
      * this rowset's <code>ResultSet</code> object.
      *
      * @return <code>true</code> if the cursor is on the first row;
-     * <code>false</code> otherwise
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     * <code>fblse</code> otherwise
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public boolean isFirst() throws SQLException {
-        checkState();
+    public boolebn isFirst() throws SQLException {
+        checkStbte();
 
         return rs.isFirst();
     }
 
     /**
-     * Indicates whether the cursor is on the last row of
+     * Indicbtes whether the cursor is on the lbst row of
      * this rowset's <code>ResultSet</code> object.
-     * Note: Calling the method <code>isLast</code> may be expensive
-     * because the JDBC driver
-     * might need to fetch ahead one row in order to determine
-     * whether the current row is the last row in the result set.
+     * Note: Cblling the method <code>isLbst</code> mby be expensive
+     * becbuse the JDBC driver
+     * might need to fetch bhebd one row in order to determine
+     * whether the current row is the lbst row in the result set.
      *
-     * @return <code>true</code> if the cursor is on the last row;
-     * <code>false</code> otherwise
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     * @return <code>true</code> if the cursor is on the lbst row;
+     * <code>fblse</code> otherwise
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      *
      */
-    public boolean isLast() throws SQLException {
-        checkState();
+    public boolebn isLbst() throws SQLException {
+        checkStbte();
 
-        return rs.isLast();
+        return rs.isLbst();
     }
 
     /**
      * Moves the cursor to the front of
      * this rowset's <code>ResultSet</code> object, just before the
-     * first row. This method has no effect if the result set contains no rows.
+     * first row. This method hbs no effect if the result set contbins no rows.
      *
-     * @throws SQLException if (1) a database access error occurs,
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) the result set type is <code>TYPE_FORWARD_ONLY</code>,
-     *            or (3) this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     *            or (3) this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
     public void beforeFirst() throws SQLException {
-        checkState();
+        checkStbte();
 
         rs.beforeFirst();
         notifyCursorMoved();
@@ -1857,17 +1857,17 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
 
     /**
      * Moves the cursor to the end of
-     * this rowset's <code>ResultSet</code> object, just after the
-     * last row. This method has no effect if the result set contains no rows.
-     * @throws SQLException if (1) a database access error occurs,
+     * this rowset's <code>ResultSet</code> object, just bfter the
+     * lbst row. This method hbs no effect if the result set contbins no rows.
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) the result set type is <code>TYPE_FORWARD_ONLY</code>,
-     *            or (3) this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     *            or (3) this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public void afterLast() throws SQLException {
-        checkState();
+    public void bfterLbst() throws SQLException {
+        checkStbte();
 
-        rs.afterLast();
+        rs.bfterLbst();
         notifyCursorMoved();
     }
 
@@ -1875,122 +1875,122 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
      * Moves the cursor to the first row in
      * this rowset's <code>ResultSet</code> object.
      *
-     * @return <code>true</code> if the cursor is on a valid row;
-     * <code>false</code> if there are no rows in the result set
-     * @throws SQLException if (1) a database access error occurs,
+     * @return <code>true</code> if the cursor is on b vblid row;
+     * <code>fblse</code> if there bre no rows in the result set
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) the result set type is <code>TYPE_FORWARD_ONLY</code>,
-     *            or (3) this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     *            or (3) this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public boolean first() throws SQLException {
-        checkState();
+    public boolebn first() throws SQLException {
+        checkStbte();
 
-        boolean b = rs.first();
+        boolebn b = rs.first();
         notifyCursorMoved();
         return b;
 
     }
 
     /**
-     * Moves the cursor to the last row in
+     * Moves the cursor to the lbst row in
      * this rowset's <code>ResultSet</code> object.
      *
-     * @return <code>true</code> if the cursor is on a valid row;
-     * <code>false</code> if there are no rows in the result set
-     * @throws SQLException if (1) a database access error occurs,
+     * @return <code>true</code> if the cursor is on b vblid row;
+     * <code>fblse</code> if there bre no rows in the result set
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) the result set type is <code>TYPE_FORWARD_ONLY</code>,
-     *            or (3) this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     *            or (3) this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public boolean last() throws SQLException {
-        checkState();
+    public boolebn lbst() throws SQLException {
+        checkStbte();
 
-        boolean b = rs.last();
+        boolebn b = rs.lbst();
         notifyCursorMoved();
         return b;
     }
 
     /**
      * Retrieves the current row number.  The first row is number 1, the
-     * second is number 2, and so on.
+     * second is number 2, bnd so on.
      *
      * @return the current row number; <code>0</code> if there is no current row
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public int getRow() throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getRow();
     }
 
     /**
      * Moves the cursor to the given row number in
-     * this rowset's internal <code>ResultSet</code> object.
+     * this rowset's internbl <code>ResultSet</code> object.
      *
      * <p>If the row number is positive, the cursor moves to
      * the given row number with respect to the
      * beginning of the result set.  The first row is row 1, the second
-     * is row 2, and so on.
+     * is row 2, bnd so on.
      *
-     * <p>If the given row number is negative, the cursor moves to
-     * an absolute row position with respect to
-     * the end of the result set.  For example, calling the method
-     * <code>absolute(-1)</code> positions the
-     * cursor on the last row, calling the method <code>absolute(-2)</code>
-     * moves the cursor to the next-to-last row, and so on.
+     * <p>If the given row number is negbtive, the cursor moves to
+     * bn bbsolute row position with respect to
+     * the end of the result set.  For exbmple, cblling the method
+     * <code>bbsolute(-1)</code> positions the
+     * cursor on the lbst row, cblling the method <code>bbsolute(-2)</code>
+     * moves the cursor to the next-to-lbst row, bnd so on.
      *
-     * <p>An attempt to position the cursor beyond the first/last row in
-     * the result set leaves the cursor before the first row or after
-     * the last row.
+     * <p>An bttempt to position the cursor beyond the first/lbst row in
+     * the result set lebves the cursor before the first row or bfter
+     * the lbst row.
      *
-     * <p><B>Note:</B> Calling <code>absolute(1)</code> is the same
-     * as calling <code>first()</code>. Calling <code>absolute(-1)</code>
-     * is the same as calling <code>last()</code>.
+     * <p><B>Note:</B> Cblling <code>bbsolute(1)</code> is the sbme
+     * bs cblling <code>first()</code>. Cblling <code>bbsolute(-1)</code>
+     * is the sbme bs cblling <code>lbst()</code>.
      *
      * @return <code>true</code> if the cursor is on the result set;
-     * <code>false</code> otherwise
-     * @throws SQLException if (1) a database access error occurs,
+     * <code>fblse</code> otherwise
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) the row is <code>0</code>, (3) the result set
      *            type is <code>TYPE_FORWARD_ONLY</code>, or (4) this
-     *            rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     *            rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public boolean absolute(int row) throws SQLException {
-        checkState();
+    public boolebn bbsolute(int row) throws SQLException {
+        checkStbte();
 
-        boolean b = rs.absolute(row);
+        boolebn b = rs.bbsolute(row);
         notifyCursorMoved();
         return b;
     }
 
     /**
-     * Moves the cursor a relative number of rows, either positive or negative.
-     * Attempting to move beyond the first/last row in the
-     * result set positions the cursor before/after the
-     * the first/last row. Calling <code>relative(0)</code> is valid, but does
-     * not change the cursor position.
+     * Moves the cursor b relbtive number of rows, either positive or negbtive.
+     * Attempting to move beyond the first/lbst row in the
+     * result set positions the cursor before/bfter the
+     * the first/lbst row. Cblling <code>relbtive(0)</code> is vblid, but does
+     * not chbnge the cursor position.
      *
-     * <p>Note: Calling the method <code>relative(1)</code>
-     * is different from calling the method <code>next()</code>
-     * because is makes sense to call <code>next()</code> when there
+     * <p>Note: Cblling the method <code>relbtive(1)</code>
+     * is different from cblling the method <code>next()</code>
+     * becbuse is mbkes sense to cbll <code>next()</code> when there
      * is no current row,
-     * for example, when the cursor is positioned before the first row
-     * or after the last row of the result set.
+     * for exbmple, when the cursor is positioned before the first row
+     * or bfter the lbst row of the result set.
      *
-     * @return <code>true</code> if the cursor is on a row;
-     * <code>false</code> otherwise
-     * @throws SQLException if (1) a database access error occurs,
+     * @return <code>true</code> if the cursor is on b row;
+     * <code>fblse</code> otherwise
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) there is no current row, (3) the result set
      *            type is <code>TYPE_FORWARD_ONLY</code>, or (4) this
-     *            rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     *            rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public boolean relative(int rows) throws SQLException {
-        checkState();
+    public boolebn relbtive(int rows) throws SQLException {
+        checkStbte();
 
-        boolean b = rs.relative(rows);
+        boolebn b = rs.relbtive(rows);
         notifyCursorMoved();
         return b;
     }
@@ -1999,42 +1999,42 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
      * Moves the cursor to the previous row in this
      * <code>ResultSet</code> object.
      *
-     * <p><B>Note:</B> Calling the method <code>previous()</code> is not the same as
-     * calling the method <code>relative(-1)</code> because it
-     * makes sense to call <code>previous()</code> when there is no current row.
+     * <p><B>Note:</B> Cblling the method <code>previous()</code> is not the sbme bs
+     * cblling the method <code>relbtive(-1)</code> becbuse it
+     * mbkes sense to cbll <code>previous()</code> when there is no current row.
      *
-     * @return <code>true</code> if the cursor is on a valid row;
-     * <code>false</code> if it is off the result set
-     * @throws SQLException if (1) a database access error occurs,
+     * @return <code>true</code> if the cursor is on b vblid row;
+     * <code>fblse</code> if it is off the result set
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) the result set type is <code>TYPE_FORWARD_ONLY</code>,
-     *            or (3) this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     *            or (3) this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      */
-    public boolean previous() throws SQLException {
-        checkState();
+    public boolebn previous() throws SQLException {
+        checkStbte();
 
-        boolean b = rs.previous();
+        boolebn b = rs.previous();
         notifyCursorMoved();
         return b;
     }
 
     /**
-     * Gives a hint as to the direction in which the rows in this
+     * Gives b hint bs to the direction in which the rows in this
      * <code>ResultSet</code> object will be processed.
-     * The initial value is determined by the
-     * <code>Statement</code> object
-     * that produced this rowset's <code>ResultSet</code> object.
-     * The fetch direction may be changed at any time.
+     * The initibl vblue is determined by the
+     * <code>Stbtement</code> object
+     * thbt produced this rowset's <code>ResultSet</code> object.
+     * The fetch direction mby be chbnged bt bny time.
      *
-     * @throws SQLException if (1) a database access error occurs,
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) the result set type is <code>TYPE_FORWARD_ONLY</code>
-     *            and the fetch direction is not <code>FETCH_FORWARD</code>,
-     *            or (3) this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
-     * @see java.sql.Statement#setFetchDirection
+     *            bnd the fetch direction is not <code>FETCH_FORWARD</code>,
+     *            or (3) this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
+     * @see jbvb.sql.Stbtement#setFetchDirection
      */
     public void setFetchDirection(int direction) throws SQLException {
-        checkState();
+        checkStbte();
 
         rs.setFetchDirection(direction);
     }
@@ -2045,38 +2045,38 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
      *
      * @return the current fetch direction for this rowset's
      *         <code>ResultSet</code> object
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public int getFetchDirection() throws SQLException {
         try {
-             checkState();
-        } catch(SQLException sqle) {
+             checkStbte();
+        } cbtch(SQLException sqle) {
              super.getFetchDirection();
         }
         return rs.getFetchDirection();
     }
 
     /**
-     * Gives the JDBC driver a hint as to the number of rows that should
-     * be fetched from the database when more rows are needed for this
+     * Gives the JDBC driver b hint bs to the number of rows thbt should
+     * be fetched from the dbtbbbse when more rows bre needed for this
      * <code>ResultSet</code> object.
      * If the fetch size specified is zero, the JDBC driver
-     * ignores the value and is free to make its own best guess as to what
-     * the fetch size should be.  The default value is set by the
-     * <code>Statement</code> object
-     * that created the result set.  The fetch size may be changed at any time.
+     * ignores the vblue bnd is free to mbke its own best guess bs to whbt
+     * the fetch size should be.  The defbult vblue is set by the
+     * <code>Stbtement</code> object
+     * thbt crebted the result set.  The fetch size mby be chbnged bt bny time.
      *
-     * @param rows the number of rows to fetch
-     * @throws SQLException if (1) a database access error occurs, (2) the
-     *            condition <code>0 <= rows <= this.getMaxRows()</code> is not
-     *            satisfied, or (3) this rowset does not currently have a valid
-     *            connection, prepared statement, and result set
+     * @pbrbm rows the number of rows to fetch
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs, (2) the
+     *            condition <code>0 <= rows <= this.getMbxRows()</code> is not
+     *            sbtisfied, or (3) this rowset does not currently hbve b vblid
+     *            connection, prepbred stbtement, bnd result set
      *
      */
     public void setFetchSize(int rows) throws SQLException {
-        checkState();
+        checkStbte();
 
         rs.setFetchSize(rows);
     }
@@ -2087,18 +2087,18 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
      * <code>ResultSet</code> object.
      *
      * @return the current fetch size for this rowset's <code>ResultSet</code> object
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public int getType() throws SQLException {
         try {
-             checkState();
-        } catch(SQLException sqle) {
+             checkStbte();
+        } cbtch(SQLException sqle) {
             return super.getType();
         }
 
-        // If the ResultSet has not been created, then return the default type
+        // If the ResultSet hbs not been crebted, then return the defbult type
         // otherwise return the type from the ResultSet.
         if(rs == null) {
             return super.getType();
@@ -2113,2014 +2113,2014 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
     /**
      * Returns the concurrency mode of this rowset's <code>ResultSet</code> object.
      * The concurrency used is determined by the
-     * <code>Statement</code> object that created the result set.
+     * <code>Stbtement</code> object thbt crebted the result set.
      *
      * @return the concurrency type, either <code>CONCUR_READ_ONLY</code>
      * or <code>CONCUR_UPDATABLE</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public int getConcurrency() throws SQLException {
         try {
-             checkState();
-        } catch(SQLException sqle) {
+             checkStbte();
+        } cbtch(SQLException sqle) {
              super.getConcurrency();
         }
         return rs.getConcurrency();
     }
 
     //---------------------------------------------------------------------
-    // Updates
+    // Updbtes
     //---------------------------------------------------------------------
 
     /**
-     * Indicates whether the current row has been updated.  The value returned
-     * depends on whether or not the result set can detect updates.
+     * Indicbtes whether the current row hbs been updbted.  The vblue returned
+     * depends on whether or not the result set cbn detect updbtes.
      *
-     * @return <code>true</code> if the row has been visibly updated
-     * by the owner or another, and updates are detected
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
-     * @see java.sql.DatabaseMetaData#updatesAreDetected
+     * @return <code>true</code> if the row hbs been visibly updbted
+     * by the owner or bnother, bnd updbtes bre detected
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
+     * @see jbvb.sql.DbtbbbseMetbDbtb#updbtesAreDetected
      */
-    public boolean rowUpdated() throws SQLException {
-        checkState();
+    public boolebn rowUpdbted() throws SQLException {
+        checkStbte();
 
-        return rs.rowUpdated();
+        return rs.rowUpdbted();
     }
 
     /**
-     * Indicates whether the current row has had an insertion.
-     * The value returned depends on whether or not this
-     * <code>ResultSet</code> object can detect visible inserts.
+     * Indicbtes whether the current row hbs hbd bn insertion.
+     * The vblue returned depends on whether or not this
+     * <code>ResultSet</code> object cbn detect visible inserts.
      *
-     * @return <code>true</code> if a row has had an insertion
-     * and insertions are detected; <code>false</code> otherwise
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
-     * @see java.sql.DatabaseMetaData#insertsAreDetected
+     * @return <code>true</code> if b row hbs hbd bn insertion
+     * bnd insertions bre detected; <code>fblse</code> otherwise
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
+     * @see jbvb.sql.DbtbbbseMetbDbtb#insertsAreDetected
      *
      */
-    public boolean rowInserted() throws SQLException {
-        checkState();
+    public boolebn rowInserted() throws SQLException {
+        checkStbte();
 
         return rs.rowInserted();
     }
 
     /**
-     * Indicates whether a row has been deleted.  A deleted row may leave
-     * a visible "hole" in a result set.  This method can be used to
-     * detect holes in a result set.  The value returned depends on whether
-     * or not this rowset's <code>ResultSet</code> object can detect deletions.
+     * Indicbtes whether b row hbs been deleted.  A deleted row mby lebve
+     * b visible "hole" in b result set.  This method cbn be used to
+     * detect holes in b result set.  The vblue returned depends on whether
+     * or not this rowset's <code>ResultSet</code> object cbn detect deletions.
      *
-     * @return <code>true</code> if a row was deleted and deletions are detected;
-     * <code>false</code> otherwise
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
-     * @see java.sql.DatabaseMetaData#deletesAreDetected
+     * @return <code>true</code> if b row wbs deleted bnd deletions bre detected;
+     * <code>fblse</code> otherwise
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
+     * @see jbvb.sql.DbtbbbseMetbDbtb#deletesAreDetected
      */
-    public boolean rowDeleted() throws SQLException {
-        checkState();
+    public boolebn rowDeleted() throws SQLException {
+        checkStbte();
 
         return rs.rowDeleted();
     }
 
     /**
-     * Gives a nullable column a null value.
+     * Gives b nullbble column b null vblue.
      *
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code>
-     * or <code>insertRow</code> methods are called to update the database.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code>
+     * or <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public void updateNull(int columnIndex) throws SQLException {
-        checkState();
+    public void updbteNull(int columnIndex) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateNull(columnIndex);
+        rs.updbteNull(columnIndex);
     }
 
     /**
-     * Updates the designated column with a <code>boolean</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>boolebn</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateBoolean(int columnIndex, boolean x) throws SQLException {
-        checkState();
+    public void updbteBoolebn(int columnIndex, boolebn x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateBoolean(columnIndex, x);
+        rs.updbteBoolebn(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>byte</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>byte</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateByte(int columnIndex, byte x) throws SQLException {
-        checkState();
+    public void updbteByte(int columnIndex, byte x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateByte(columnIndex, x);
+        rs.updbteByte(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>short</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>short</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateShort(int columnIndex, short x) throws SQLException {
-        checkState();
+    public void updbteShort(int columnIndex, short x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateShort(columnIndex, x);
+        rs.updbteShort(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with an <code>int</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn <code>int</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public void updateInt(int columnIndex, int x) throws SQLException {
-        checkState();
+    public void updbteInt(int columnIndex, int x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateInt(columnIndex, x);
+        rs.updbteInt(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>long</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>long</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateLong(int columnIndex, long x) throws SQLException {
-        checkState();
+    public void updbteLong(int columnIndex, long x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateLong(columnIndex, x);
+        rs.updbteLong(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>float</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>flobt</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateFloat(int columnIndex, float x) throws SQLException {
-        checkState();
+    public void updbteFlobt(int columnIndex, flobt x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateFloat(columnIndex, x);
+        rs.updbteFlobt(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>double</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>double</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateDouble(int columnIndex, double x) throws SQLException {
-        checkState();
+    public void updbteDouble(int columnIndex, double x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateDouble(columnIndex, x);
+        rs.updbteDouble(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>java.math.BigDecimal</code>
-     * value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>jbvb.mbth.BigDecimbl</code>
+     * vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateBigDecimal(int columnIndex, BigDecimal x) throws SQLException {
-        checkState();
+    public void updbteBigDecimbl(int columnIndex, BigDecimbl x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateBigDecimal(columnIndex, x);
+        rs.updbteBigDecimbl(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>String</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>String</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateString(int columnIndex, String x) throws SQLException {
-        checkState();
+    public void updbteString(int columnIndex, String x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateString(columnIndex, x);
+        rs.updbteString(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>byte</code> array value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>byte</code> brrby vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateBytes(int columnIndex, byte x[]) throws SQLException {
-        checkState();
+    public void updbteBytes(int columnIndex, byte x[]) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateBytes(columnIndex, x);
+        rs.updbteBytes(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>java.sql.Date</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>jbvb.sql.Dbte</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateDate(int columnIndex, java.sql.Date x) throws SQLException {
-        checkState();
+    public void updbteDbte(int columnIndex, jbvb.sql.Dbte x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateDate(columnIndex, x);
+        rs.updbteDbte(columnIndex, x);
     }
 
 
     /**
-     * Updates the designated column with a <code>java.sql.Time</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>jbvb.sql.Time</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateTime(int columnIndex, java.sql.Time x) throws SQLException {
-        checkState();
+    public void updbteTime(int columnIndex, jbvb.sql.Time x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateTime(columnIndex, x);
+        rs.updbteTime(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>java.sql.Timestamp</code>
-     * value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>jbvb.sql.Timestbmp</code>
+     * vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateTimestamp(int columnIndex, java.sql.Timestamp x) throws SQLException {
-        checkState();
+    public void updbteTimestbmp(int columnIndex, jbvb.sql.Timestbmp x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateTimestamp(columnIndex, x);
+        rs.updbteTimestbmp(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with an ascii stream value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn bscii strebm vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @param length the length of the stream
-     * @throws SQLException if (1) a database access error occurs
-     *            (2) or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            (2) or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateAsciiStream(int columnIndex, java.io.InputStream x, int length) throws SQLException {
-        checkState();
+    public void updbteAsciiStrebm(int columnIndex, jbvb.io.InputStrebm x, int length) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateAsciiStream(columnIndex, x, length);
+        rs.updbteAsciiStrebm(columnIndex, x, length);
     }
 
     /**
-     * Updates the designated column with a binary stream value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b binbry strebm vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @param length the length of the stream
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateBinaryStream(int columnIndex, java.io.InputStream x, int length) throws SQLException {
-        checkState();
+    public void updbteBinbryStrebm(int columnIndex, jbvb.io.InputStrebm x, int length) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateBinaryStream(columnIndex, x, length);
+        rs.updbteBinbryStrebm(columnIndex, x, length);
     }
 
     /**
-     * Updates the designated column with a character stream value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b chbrbcter strebm vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @param length the length of the stream
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateCharacterStream(int columnIndex, java.io.Reader x, int length) throws SQLException {
-        checkState();
+    public void updbteChbrbcterStrebm(int columnIndex, jbvb.io.Rebder x, int length) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateCharacterStream(columnIndex, x, length);
+        rs.updbteChbrbcterStrebm(columnIndex, x, length);
     }
 
     /**
-     * Updates the designated column with an <code>Object</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn <code>Object</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @param scale for <code>java.sql.Types.DECIMAl</code>
-     *  or <code>java.sql.Types.NUMERIC</code> types,
-     *  this is the number of digits after the decimal point.  For all other
-     *  types this value will be ignored.
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @pbrbm scble for <code>jbvb.sql.Types.DECIMAl</code>
+     *  or <code>jbvb.sql.Types.NUMERIC</code> types,
+     *  this is the number of digits bfter the decimbl point.  For bll other
+     *  types this vblue will be ignored.
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateObject(int columnIndex, Object x, int scale) throws SQLException {
-        checkState();
+    public void updbteObject(int columnIndex, Object x, int scble) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateObject(columnIndex, x, scale);
+        rs.updbteObject(columnIndex, x, scble);
     }
 
     /**
-     * Updates the designated column with an <code>Object</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn <code>Object</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateObject(int columnIndex, Object x) throws SQLException {
-        checkState();
+    public void updbteObject(int columnIndex, Object x) throws SQLException {
+        checkStbte();
 
-        // To check the type and concurrency of the ResultSet
-        // to verify whether updates are possible or not
+        // To check the type bnd concurrency of the ResultSet
+        // to verify whether updbtes bre possible or not
         checkTypeConcurrency();
 
-        rs.updateObject(columnIndex, x);
+        rs.updbteObject(columnIndex, x);
     }
 
     /**
-     * Updates the designated column with a <code>null</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>null</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the nbme of the column
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public void updateNull(String columnName) throws SQLException {
-        updateNull(findColumn(columnName));
+    public void updbteNull(String columnNbme) throws SQLException {
+        updbteNull(findColumn(columnNbme));
     }
 
     /**
-     * Updates the designated column with a <code>boolean</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>boolebn</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateBoolean(String columnName, boolean x) throws SQLException {
-        updateBoolean(findColumn(columnName), x);
+    public void updbteBoolebn(String columnNbme, boolebn x) throws SQLException {
+        updbteBoolebn(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>byte</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>byte</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateByte(String columnName, byte x) throws SQLException {
-        updateByte(findColumn(columnName), x);
+    public void updbteByte(String columnNbme, byte x) throws SQLException {
+        updbteByte(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>short</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>short</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateShort(String columnName, short x) throws SQLException {
-        updateShort(findColumn(columnName), x);
+    public void updbteShort(String columnNbme, short x) throws SQLException {
+        updbteShort(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with an <code>int</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn <code>int</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateInt(String columnName, int x) throws SQLException {
-        updateInt(findColumn(columnName), x);
+    public void updbteInt(String columnNbme, int x) throws SQLException {
+        updbteInt(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>long</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>long</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateLong(String columnName, long x) throws SQLException {
-        updateLong(findColumn(columnName), x);
+    public void updbteLong(String columnNbme, long x) throws SQLException {
+        updbteLong(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>float </code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>flobt </code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateFloat(String columnName, float x) throws SQLException {
-        updateFloat(findColumn(columnName), x);
+    public void updbteFlobt(String columnNbme, flobt x) throws SQLException {
+        updbteFlobt(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>double</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>double</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateDouble(String columnName, double x) throws SQLException {
-        updateDouble(findColumn(columnName), x);
+    public void updbteDouble(String columnNbme, double x) throws SQLException {
+        updbteDouble(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>java.sql.BigDecimal</code>
-     * value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>jbvb.sql.BigDecimbl</code>
+     * vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateBigDecimal(String columnName, BigDecimal x) throws SQLException {
-        updateBigDecimal(findColumn(columnName), x);
+    public void updbteBigDecimbl(String columnNbme, BigDecimbl x) throws SQLException {
+        updbteBigDecimbl(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>String</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>String</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateString(String columnName, String x) throws SQLException {
-        updateString(findColumn(columnName), x);
+    public void updbteString(String columnNbme, String x) throws SQLException {
+        updbteString(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>boolean</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>boolebn</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
      * JDBC 2.0
      *
-     * Updates a column with a byte array value.
+     * Updbtes b column with b byte brrby vblue.
      *
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row, or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or <code>insertRow</code>
-     * methods are called to update the database.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row, or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or <code>insertRow</code>
+     * methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateBytes(String columnName, byte x[]) throws SQLException {
-        updateBytes(findColumn(columnName), x);
+    public void updbteBytes(String columnNbme, byte x[]) throws SQLException {
+        updbteBytes(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>java.sql.Date</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>jbvb.sql.Dbte</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateDate(String columnName, java.sql.Date x) throws SQLException {
-        updateDate(findColumn(columnName), x);
+    public void updbteDbte(String columnNbme, jbvb.sql.Dbte x) throws SQLException {
+        updbteDbte(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>java.sql.Time</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>jbvb.sql.Time</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateTime(String columnName, java.sql.Time x) throws SQLException {
-        updateTime(findColumn(columnName), x);
+    public void updbteTime(String columnNbme, jbvb.sql.Time x) throws SQLException {
+        updbteTime(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with a <code>java.sql.Timestamp</code>
-     * value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b <code>jbvb.sql.Timestbmp</code>
+     * vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateTimestamp(String columnName, java.sql.Timestamp x) throws SQLException {
-        updateTimestamp(findColumn(columnName), x);
+    public void updbteTimestbmp(String columnNbme, jbvb.sql.Timestbmp x) throws SQLException {
+        updbteTimestbmp(findColumn(columnNbme), x);
     }
 
     /**
-     * Updates the designated column with an ascii stream value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn bscii strebm vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @param length the length of the stream
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateAsciiStream(String columnName, java.io.InputStream x, int length) throws SQLException {
-        updateAsciiStream(findColumn(columnName), x, length);
+    public void updbteAsciiStrebm(String columnNbme, jbvb.io.InputStrebm x, int length) throws SQLException {
+        updbteAsciiStrebm(findColumn(columnNbme), x, length);
     }
 
     /**
-     * Updates the designated column with a binary stream value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b binbry strebm vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @param length the length of the stream
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateBinaryStream(String columnName, java.io.InputStream x, int length) throws SQLException {
-        updateBinaryStream(findColumn(columnName), x, length);
+    public void updbteBinbryStrebm(String columnNbme, jbvb.io.InputStrebm x, int length) throws SQLException {
+        updbteBinbryStrebm(findColumn(columnNbme), x, length);
     }
 
     /**
-     * Updates the designated column with a character stream value.
-     * The <code>updateXXX</code> methods are used to update column values
-     * in the current row or the insert row.  The <code>updateXXX</code>
-     * methods do not update the underlying database; instead the
-     * <code>updateRow</code> or <code>insertRow</code> methods are called
-     * to update the database.
+     * Updbtes the designbted column with b chbrbcter strebm vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues
+     * in the current row or the insert row.  The <code>updbteXXX</code>
+     * methods do not updbte the underlying dbtbbbse; instebd the
+     * <code>updbteRow</code> or <code>insertRow</code> methods bre cblled
+     * to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param reader the new column <code>Reader</code> stream value
-     * @param length the length of the stream
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm rebder the new column <code>Rebder</code> strebm vblue
+     * @pbrbm length the length of the strebm
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateCharacterStream(String columnName, java.io.Reader reader, int length) throws SQLException {
-        updateCharacterStream(findColumn(columnName), reader, length);
+    public void updbteChbrbcterStrebm(String columnNbme, jbvb.io.Rebder rebder, int length) throws SQLException {
+        updbteChbrbcterStrebm(findColumn(columnNbme), rebder, length);
     }
 
     /**
-     * Updates the designated column with an <code>Object</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn <code>Object</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @param scale for <code>java.sql.Types.DECIMAL</code>
-     *  or <code>java.sql.Types.NUMERIC</code> types,
-     *  this is the number of digits after the decimal point.  For all other
-     *  types this value will be ignored.
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @pbrbm scble for <code>jbvb.sql.Types.DECIMAL</code>
+     *  or <code>jbvb.sql.Types.NUMERIC</code> types,
+     *  this is the number of digits bfter the decimbl point.  For bll other
+     *  types this vblue will be ignored.
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateObject(String columnName, Object x, int scale) throws SQLException {
-        updateObject(findColumn(columnName), x, scale);
+    public void updbteObject(String columnNbme, Object x, int scble) throws SQLException {
+        updbteObject(findColumn(columnNbme), x, scble);
     }
 
     /**
-     * Updates the designated column with an <code>Object</code> value.
-     * The <code>updateXXX</code> methods are used to update column values in the
-     * current row or the insert row.  The <code>updateXXX</code> methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn <code>Object</code> vblue.
+     * The <code>updbteXXX</code> methods bre used to updbte column vblues in the
+     * current row or the insert row.  The <code>updbteXXX</code> methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the new column value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the new column vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      */
-    public void updateObject(String columnName, Object x) throws SQLException {
-        updateObject(findColumn(columnName), x);
+    public void updbteObject(String columnNbme, Object x) throws SQLException {
+        updbteObject(findColumn(columnNbme), x);
     }
 
     /**
      * Inserts the contents of the insert row into this
-     * <code>ResultSet</code> object and into the database
-     * and also notifies listeners that a row has changed.
-     * The cursor must be on the insert row when this method is called.
+     * <code>ResultSet</code> object bnd into the dbtbbbse
+     * bnd blso notifies listeners thbt b row hbs chbnged.
+     * The cursor must be on the insert row when this method is cblled.
      *
-     * @throws SQLException if (1) a database access error occurs,
-     *            (2) this method is called when the cursor is not
-     *             on the insert row, (3) not all non-nullable columns in
-     *             the insert row have been given a value, or (4) this
-     *             rowset does not currently have a valid connection,
-     *             prepared statement, and result set
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
+     *            (2) this method is cblled when the cursor is not
+     *             on the insert row, (3) not bll non-nullbble columns in
+     *             the insert row hbve been given b vblue, or (4) this
+     *             rowset does not currently hbve b vblid connection,
+     *             prepbred stbtement, bnd result set
      */
     public void insertRow() throws SQLException {
-        checkState();
+        checkStbte();
 
         rs.insertRow();
-        notifyRowChanged();
+        notifyRowChbnged();
     }
 
     /**
-     * Updates the underlying database with the new contents of the
+     * Updbtes the underlying dbtbbbse with the new contents of the
      * current row of this rowset's <code>ResultSet</code> object
-     * and notifies listeners that a row has changed.
-     * This method cannot be called when the cursor is on the insert row.
+     * bnd notifies listeners thbt b row hbs chbnged.
+     * This method cbnnot be cblled when the cursor is on the insert row.
      *
-     * @throws SQLException if (1) a database access error occurs,
-     *            (2) this method is called when the cursor is
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
+     *            (2) this method is cblled when the cursor is
      *             on the insert row, (3) the concurrency of the result
      *             set is <code>ResultSet.CONCUR_READ_ONLY</code>, or
-     *             (4) this rowset does not currently have a valid connection,
-     *             prepared statement, and result set
+     *             (4) this rowset does not currently hbve b vblid connection,
+     *             prepbred stbtement, bnd result set
      */
-    public void updateRow() throws SQLException {
-        checkState();
+    public void updbteRow() throws SQLException {
+        checkStbte();
 
-        rs.updateRow();
-        notifyRowChanged();
+        rs.updbteRow();
+        notifyRowChbnged();
     }
 
     /**
      * Deletes the current row from this rowset's <code>ResultSet</code> object
-     * and from the underlying database and also notifies listeners that a row
-     * has changed.  This method cannot be called when the cursor is on the insert
+     * bnd from the underlying dbtbbbse bnd blso notifies listeners thbt b row
+     * hbs chbnged.  This method cbnnot be cblled when the cursor is on the insert
      * row.
      *
-     * @throws SQLException if a database access error occurs
-     * or if this method is called when the cursor is on the insert row
-     * @throws SQLException if (1) a database access error occurs,
-     *            (2) this method is called when the cursor is before the
-     *            first row, after the last row, or on the insert row,
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     * or if this method is cblled when the cursor is on the insert row
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
+     *            (2) this method is cblled when the cursor is before the
+     *            first row, bfter the lbst row, or on the insert row,
      *            (3) the concurrency of this rowset's result
      *            set is <code>ResultSet.CONCUR_READ_ONLY</code>, or
-     *            (4) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     *            (4) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public void deleteRow() throws SQLException {
-        checkState();
+        checkStbte();
 
         rs.deleteRow();
-        notifyRowChanged();
+        notifyRowChbnged();
     }
 
     /**
      * Refreshes the current row of this rowset's <code>ResultSet</code>
-     * object with its most recent value in the database.  This method
-     * cannot be called when the cursor is on the insert row.
+     * object with its most recent vblue in the dbtbbbse.  This method
+     * cbnnot be cblled when the cursor is on the insert row.
      *
-     * <P>The <code>refreshRow</code> method provides a way for an
-     * application to explicitly tell the JDBC driver to refetch
-     * a row(s) from the database.  An application may want to call
-     * <code>refreshRow</code> when caching or prefetching is being
-     * done by the JDBC driver to fetch the latest value of a row
-     * from the database.  The JDBC driver may actually refresh multiple
-     * rows at once if the fetch size is greater than one.
+     * <P>The <code>refreshRow</code> method provides b wby for bn
+     * bpplicbtion to explicitly tell the JDBC driver to refetch
+     * b row(s) from the dbtbbbse.  An bpplicbtion mby wbnt to cbll
+     * <code>refreshRow</code> when cbching or prefetching is being
+     * done by the JDBC driver to fetch the lbtest vblue of b row
+     * from the dbtbbbse.  The JDBC driver mby bctublly refresh multiple
+     * rows bt once if the fetch size is grebter thbn one.
      *
-     * <P> All values are refetched subject to the transaction isolation
-     * level and cursor sensitivity.  If <code>refreshRow</code> is called after
-     * calling an <code>updateXXX</code> method, but before calling
-     * the method <code>updateRow</code>, then the
-     * updates made to the row are lost.  Calling the method
-     * <code>refreshRow</code> frequently will likely slow performance.
+     * <P> All vblues bre refetched subject to the trbnsbction isolbtion
+     * level bnd cursor sensitivity.  If <code>refreshRow</code> is cblled bfter
+     * cblling bn <code>updbteXXX</code> method, but before cblling
+     * the method <code>updbteRow</code>, then the
+     * updbtes mbde to the row bre lost.  Cblling the method
+     * <code>refreshRow</code> frequently will likely slow performbnce.
      *
-     * @throws SQLException if (1) a database access error occurs,
-     *            (2) this method is called when the cursor is
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
+     *            (2) this method is cblled when the cursor is
      *             on the insert row, or (3) this rowset does not
-     *             currently have a valid connection, prepared statement,
-     *             and result set
+     *             currently hbve b vblid connection, prepbred stbtement,
+     *             bnd result set
      *
      */
     public void refreshRow() throws SQLException {
-        checkState();
+        checkStbte();
 
         rs.refreshRow();
     }
 
     /**
-     * Cancels the updates made to the current row in this
-     * <code>ResultSet</code> object and notifies listeners that a row
-     * has changed. This method may be called after calling an
-     * <code>updateXXX</code> method(s) and before calling
-     * the method <code>updateRow</code> to roll back
-     * the updates made to a row.  If no updates have been made or
-     * <code>updateRow</code> has already been called, this method has no
+     * Cbncels the updbtes mbde to the current row in this
+     * <code>ResultSet</code> object bnd notifies listeners thbt b row
+     * hbs chbnged. This method mby be cblled bfter cblling bn
+     * <code>updbteXXX</code> method(s) bnd before cblling
+     * the method <code>updbteRow</code> to roll bbck
+     * the updbtes mbde to b row.  If no updbtes hbve been mbde or
+     * <code>updbteRow</code> hbs blrebdy been cblled, this method hbs no
      * effect.
      *
-     * @throws SQLException if (1) a database access error occurs,
-     *            (2) this method is called when the cursor is
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
+     *            (2) this method is cblled when the cursor is
      *             on the insert row, or (3) this rowset does not
-     *             currently have a valid connection, prepared statement,
-     *             and result set
+     *             currently hbve b vblid connection, prepbred stbtement,
+     *             bnd result set
      */
-    public void cancelRowUpdates() throws SQLException {
-        checkState();
+    public void cbncelRowUpdbtes() throws SQLException {
+        checkStbte();
 
-        rs.cancelRowUpdates();
+        rs.cbncelRowUpdbtes();
 
-        notifyRowChanged();
+        notifyRowChbnged();
     }
 
     /**
      * Moves the cursor to the insert row.  The current cursor position is
      * remembered while the cursor is positioned on the insert row.
      *
-     * The insert row is a special row associated with an updatable
-     * result set.  It is essentially a buffer where a new row may
-     * be constructed by calling the <code>updateXXX</code> methods prior to
+     * The insert row is b specibl row bssocibted with bn updbtbble
+     * result set.  It is essentiblly b buffer where b new row mby
+     * be constructed by cblling the <code>updbteXXX</code> methods prior to
      * inserting the row into the result set.
      *
-     * Only the <code>updateXXX</code>, <code>getXXX</code>,
-     * and <code>insertRow</code> methods may be
-     * called when the cursor is on the insert row.  All of the columns in
-     * a result set must be given a value each time this method is
-     * called before calling <code>insertRow</code>.
-     * An <code>updateXXX</code> method must be called before a
-     * <code>getXXX</code> method can be called on a column value.
+     * Only the <code>updbteXXX</code>, <code>getXXX</code>,
+     * bnd <code>insertRow</code> methods mby be
+     * cblled when the cursor is on the insert row.  All of the columns in
+     * b result set must be given b vblue ebch time this method is
+     * cblled before cblling <code>insertRow</code>.
+     * An <code>updbteXXX</code> method must be cblled before b
+     * <code>getXXX</code> method cbn be cblled on b column vblue.
      *
-     * @throws SQLException if (1) a database access error occurs,
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) this rowset's <code>ResultSet</code> object is
-     *             not updatable, or (3) this rowset does not
-     *             currently have a valid connection, prepared statement,
-     *             and result set
+     *             not updbtbble, or (3) this rowset does not
+     *             currently hbve b vblid connection, prepbred stbtement,
+     *             bnd result set
      *
      */
     public void moveToInsertRow() throws SQLException {
-        checkState();
+        checkStbte();
 
         rs.moveToInsertRow();
     }
 
     /**
-     * Moves the cursor to the remembered cursor position, usually the
-     * current row.  This method has no effect if the cursor is not on
+     * Moves the cursor to the remembered cursor position, usublly the
+     * current row.  This method hbs no effect if the cursor is not on
      * the insert row.
      *
-     * @throws SQLException if (1) a database access error occurs,
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs,
      *            (2) this rowset's <code>ResultSet</code> object is
-     *             not updatable, or (3) this rowset does not
-     *             currently have a valid connection, prepared statement,
-     *             and result set
+     *             not updbtbble, or (3) this rowset does not
+     *             currently hbve b vblid connection, prepbred stbtement,
+     *             bnd result set
      */
     public void moveToCurrentRow() throws SQLException {
-        checkState();
+        checkStbte();
 
         rs.moveToCurrentRow();
     }
 
     /**
-     * Returns the <code>Statement</code> object that produced this
+     * Returns the <code>Stbtement</code> object thbt produced this
      * <code>ResultSet</code> object.
-     * If the result set was generated some other way, such as by a
-     * <code>DatabaseMetaData</code> method, this method returns
+     * If the result set wbs generbted some other wby, such bs by b
+     * <code>DbtbbbseMetbDbtb</code> method, this method returns
      * <code>null</code>.
      *
-     * @return the <code>Statement</code> object that produced
+     * @return the <code>Stbtement</code> object thbt produced
      * this rowset's <code>ResultSet</code> object or <code>null</code>
-     * if the result set was produced some other way
-     * @throws SQLException if a database access error occurs
+     * if the result set wbs produced some other wby
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public java.sql.Statement getStatement() throws SQLException {
+    public jbvb.sql.Stbtement getStbtement() throws SQLException {
 
         if(rs != null)
         {
-           return rs.getStatement();
+           return rs.getStbtement();
         } else {
            return null;
         }
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as an <code>Object</code>.
-     * This method uses the given <code>Map</code> object
-     * for the custom mapping of the
-     * SQL structured or distinct type that is being retrieved.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs bn <code>Object</code>.
+     * This method uses the given <code>Mbp</code> object
+     * for the custom mbpping of the
+     * SQL structured or distinct type thbt is being retrieved.
      *
-     * @param i the first column is 1, the second is 2, and so on
-     * @param map a <code>java.util.Map</code> object that contains the mapping
-     * from SQL type names to classes in the Java programming language
-     * @return an <code>Object</code> in the Java programming language
-     * representing the SQL value
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm i the first column is 1, the second is 2, bnd so on
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object thbt contbins the mbpping
+     * from SQL type nbmes to clbsses in the Jbvb progrbmming lbngubge
+     * @return bn <code>Object</code> in the Jbvb progrbmming lbngubge
+     * representing the SQL vblue
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public Object getObject(int i, java.util.Map<String,Class<?>> map)
+    public Object getObject(int i, jbvb.util.Mbp<String,Clbss<?>> mbp)
         throws SQLException
     {
-        checkState();
+        checkStbte();
 
-        return rs.getObject(i, map);
+        return rs.getObject(i, mbp);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>Ref</code> object.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>Ref</code> object.
      *
-     * @param i the first column is 1, the second is 2, and so on
-     * @return a <code>Ref</code> object representing an SQL <code>REF</code> value
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm i the first column is 1, the second is 2, bnd so on
+     * @return b <code>Ref</code> object representing bn SQL <code>REF</code> vblue
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public Ref getRef(int i) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getRef(i);
     }
 
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>Blob</code> object.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>Blob</code> object.
      *
-     * @param i the first column is 1, the second is 2, and so on
-     * @return a <code>Blob</code> object representing the SQL <code>BLOB</code>
-     *         value in the specified column
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm i the first column is 1, the second is 2, bnd so on
+     * @return b <code>Blob</code> object representing the SQL <code>BLOB</code>
+     *         vblue in the specified column
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public Blob getBlob(int i) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getBlob(i);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>Clob</code> object.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>Clob</code> object.
      *
-     * @param i the first column is 1, the second is 2, and so on
-     * @return a <code>Clob</code> object representing the SQL <code>CLOB</code>
-     *         value in the specified column
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm i the first column is 1, the second is 2, bnd so on
+     * @return b <code>Clob</code> object representing the SQL <code>CLOB</code>
+     *         vblue in the specified column
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
     public Clob getClob(int i) throws SQLException {
-        checkState();
+        checkStbte();
 
         return rs.getClob(i);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as an <code>Array</code> object.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs bn <code>Arrby</code> object.
      *
-     * @param i the first column is 1, the second is 2, and so on.
-     * @return an <code>Array</code> object representing the SQL <code>ARRAY</code>
-     *         value in the specified column
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm i the first column is 1, the second is 2, bnd so on.
+     * @return bn <code>Arrby</code> object representing the SQL <code>ARRAY</code>
+     *         vblue in the specified column
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public Array getArray(int i) throws SQLException {
-        checkState();
+    public Arrby getArrby(int i) throws SQLException {
+        checkStbte();
 
-        return rs.getArray(i);
+        return rs.getArrby(i);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as an <code>Object</code>.
-     * This method uses the specified <code>Map</code> object for
-     * custom mapping if appropriate.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs bn <code>Object</code>.
+     * This method uses the specified <code>Mbp</code> object for
+     * custom mbpping if bppropribte.
      *
-     * @param colName the name of the column from which to retrieve the value
-     * @param map a <code>java.util.Map</code> object that contains the mapping
-     * from SQL type names to classes in the Java programming language
-     * @return an <code>Object</code> representing the SQL
-     *         value in the specified column
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm colNbme the nbme of the column from which to retrieve the vblue
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object thbt contbins the mbpping
+     * from SQL type nbmes to clbsses in the Jbvb progrbmming lbngubge
+     * @return bn <code>Object</code> representing the SQL
+     *         vblue in the specified column
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public Object getObject(String colName, java.util.Map<String,Class<?>> map)
+    public Object getObject(String colNbme, jbvb.util.Mbp<String,Clbss<?>> mbp)
         throws SQLException
     {
-        return getObject(findColumn(colName), map);
+        return getObject(findColumn(colNbme), mbp);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>Ref</code> object.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>Ref</code> object.
      *
-     * @param colName the column name
-     * @return a <code>Ref</code> object representing the SQL <code>REF</code> value in
+     * @pbrbm colNbme the column nbme
+     * @return b <code>Ref</code> object representing the SQL <code>REF</code> vblue in
      *         the specified column
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public Ref getRef(String colName) throws SQLException {
-        return getRef(findColumn(colName));
+    public Ref getRef(String colNbme) throws SQLException {
+        return getRef(findColumn(colNbme));
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>Blob</code> object.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>Blob</code> object.
      *
-     * @param colName the name of the column from which to retrieve the value
-     * @return a <code>Blob</code> object representing the SQL <code>BLOB</code>
-     *         value in the specified column
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm colNbme the nbme of the column from which to retrieve the vblue
+     * @return b <code>Blob</code> object representing the SQL <code>BLOB</code>
+     *         vblue in the specified column
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public Blob getBlob(String colName) throws SQLException {
-        return getBlob(findColumn(colName));
+    public Blob getBlob(String colNbme) throws SQLException {
+        return getBlob(findColumn(colNbme));
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>Clob</code> object.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>Clob</code> object.
      *
-     * @param colName the name of the column from which to retrieve the value
-     * @return a <code>Clob</code> object representing the SQL <code>CLOB</code>
-     *         value in the specified column
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm colNbme the nbme of the column from which to retrieve the vblue
+     * @return b <code>Clob</code> object representing the SQL <code>CLOB</code>
+     *         vblue in the specified column
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public Clob getClob(String colName) throws SQLException {
-        return getClob(findColumn(colName));
+    public Clob getClob(String colNbme) throws SQLException {
+        return getClob(findColumn(colNbme));
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as an <code>Array</code> object.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs bn <code>Arrby</code> object.
      *
-     * @param colName the name of the column from which to retrieve the value
-     * @return an <code>Array</code> object representing the SQL <code>ARRAY</code>
-     *         value in the specified column
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm colNbme the nbme of the column from which to retrieve the vblue
+     * @return bn <code>Arrby</code> object representing the SQL <code>ARRAY</code>
+     *         vblue in the specified column
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public Array getArray(String colName) throws SQLException {
-        return getArray(findColumn(colName));
+    public Arrby getArrby(String colNbme) throws SQLException {
+        return getArrby(findColumn(colNbme));
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>java.sql.Date</code>
-     * object. This method uses the given calendar to construct an appropriate
-     * millisecond value for the date if the underlying database does not store
-     * timezone information.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>jbvb.sql.Dbte</code>
+     * object. This method uses the given cblendbr to construct bn bppropribte
+     * millisecond vblue for the dbte if the underlying dbtbbbse does not store
+     * timezone informbtion.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param cal the <code>java.util.Calendar</code> object
-     *        to use in constructing the date
-     * @return the column value as a <code>java.sql.Date</code> object;
-     *         if the value is SQL <code>NULL</code>,
-     *         the value returned is <code>null</code>
-     * @throws SQLException if (1) a database access error occurs
-     *            or (2) this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object
+     *        to use in constructing the dbte
+     * @return the column vblue bs b <code>jbvb.sql.Dbte</code> object;
+     *         if the vblue is SQL <code>NULL</code>,
+     *         the vblue returned is <code>null</code>
+     * @throws SQLException if (1) b dbtbbbse bccess error occurs
+     *            or (2) this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Date getDate(int columnIndex, Calendar cal) throws SQLException {
-        checkState();
+    public jbvb.sql.Dbte getDbte(int columnIndex, Cblendbr cbl) throws SQLException {
+        checkStbte();
 
-        return rs.getDate(columnIndex, cal);
+        return rs.getDbte(columnIndex, cbl);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>java.sql.Date</code>
-     * object. This method uses the given calendar to construct an appropriate
-     * millisecond value for the date if the underlying database does not store
-     * timezone information.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>jbvb.sql.Dbte</code>
+     * object. This method uses the given cblendbr to construct bn bppropribte
+     * millisecond vblue for the dbte if the underlying dbtbbbse does not store
+     * timezone informbtion.
      *
-     * @param columnName the SQL name of the column from which to retrieve the value
-     * @param cal the <code>java.util.Calendar</code> object
-     *        to use in constructing the date
-     * @return the column value as a <code>java.sql.Date</code> object;
-     *         if the value is SQL <code>NULL</code>,
-     *         the value returned is <code>null</code>
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column from which to retrieve the vblue
+     * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object
+     *        to use in constructing the dbte
+     * @return the column vblue bs b <code>jbvb.sql.Dbte</code> object;
+     *         if the vblue is SQL <code>NULL</code>,
+     *         the vblue returned is <code>null</code>
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      *
      */
-    public java.sql.Date getDate(String columnName, Calendar cal) throws SQLException {
-        return getDate(findColumn(columnName), cal);
+    public jbvb.sql.Dbte getDbte(String columnNbme, Cblendbr cbl) throws SQLException {
+        return getDbte(findColumn(columnNbme), cbl);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>java.sql.Time</code>
-     * object. This method uses the given calendar to construct an appropriate
-     * millisecond value for the date if the underlying database does not store
-     * timezone information.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>jbvb.sql.Time</code>
+     * object. This method uses the given cblendbr to construct bn bppropribte
+     * millisecond vblue for the dbte if the underlying dbtbbbse does not store
+     * timezone informbtion.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param cal the <code>java.util.Calendar</code> object
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object
      *        to use in constructing the time
-     * @return the column value as a <code>java.sql.Time</code> object;
-     *         if the value is SQL <code>NULL</code>,
-     *         the value returned is <code>null</code> in the Java programming language
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @return the column vblue bs b <code>jbvb.sql.Time</code> object;
+     *         if the vblue is SQL <code>NULL</code>,
+     *         the vblue returned is <code>null</code> in the Jbvb progrbmming lbngubge
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Time getTime(int columnIndex, Calendar cal) throws SQLException {
-        checkState();
+    public jbvb.sql.Time getTime(int columnIndex, Cblendbr cbl) throws SQLException {
+        checkStbte();
 
-        return rs.getTime(columnIndex, cal);
+        return rs.getTime(columnIndex, cbl);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a <code>java.sql.Time</code>
-     * object. This method uses the given calendar to construct an appropriate
-     * millisecond value for the date if the underlying database does not store
-     * timezone information.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b <code>jbvb.sql.Time</code>
+     * object. This method uses the given cblendbr to construct bn bppropribte
+     * millisecond vblue for the dbte if the underlying dbtbbbse does not store
+     * timezone informbtion.
      *
-     * @param columnName the SQL name of the column
-     * @param cal the <code>java.util.Calendar</code> object
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object
      *        to use in constructing the time
-     * @return the column value as a <code>java.sql.Time</code> object;
-     *         if the value is SQL <code>NULL</code>,
-     *         the value returned is <code>null</code> in the Java programming language
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @return the column vblue bs b <code>jbvb.sql.Time</code> object;
+     *         if the vblue is SQL <code>NULL</code>,
+     *         the vblue returned is <code>null</code> in the Jbvb progrbmming lbngubge
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Time getTime(String columnName, Calendar cal) throws SQLException {
-        return getTime(findColumn(columnName), cal);
+    public jbvb.sql.Time getTime(String columnNbme, Cblendbr cbl) throws SQLException {
+        return getTime(findColumn(columnNbme), cbl);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a
-     * <code>java.sql.Timestamp</code> object.
-     * This method uses the given calendar to construct an appropriate millisecond
-     * value for the timestamp if the underlying database does not store
-     * timezone information.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b
+     * <code>jbvb.sql.Timestbmp</code> object.
+     * This method uses the given cblendbr to construct bn bppropribte millisecond
+     * vblue for the timestbmp if the underlying dbtbbbse does not store
+     * timezone informbtion.
      *
-     * @param columnIndex the first column is 1, the second is 2, and so on
-     * @param cal the <code>java.util.Calendar</code> object
-     *        to use in constructing the timestamp
-     * @return the column value as a <code>java.sql.Timestamp</code> object;
-     *         if the value is SQL <code>NULL</code>,
-     *         the value returned is <code>null</code>
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnIndex the first column is 1, the second is 2, bnd so on
+     * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object
+     *        to use in constructing the timestbmp
+     * @return the column vblue bs b <code>jbvb.sql.Timestbmp</code> object;
+     *         if the vblue is SQL <code>NULL</code>,
+     *         the vblue returned is <code>null</code>
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {
-        checkState();
+    public jbvb.sql.Timestbmp getTimestbmp(int columnIndex, Cblendbr cbl) throws SQLException {
+        checkStbte();
 
-        return rs.getTimestamp(columnIndex, cal);
+        return rs.getTimestbmp(columnIndex, cbl);
     }
 
     /**
-     * Returns the value of the designated column in the current row
-     * of this rowset's <code>ResultSet</code> object as a
-     * <code>java.sql.Timestamp</code> object.
-     * This method uses the given calendar to construct an appropriate millisecond
-     * value for the timestamp if the underlying database does not store
-     * timezone information.
+     * Returns the vblue of the designbted column in the current row
+     * of this rowset's <code>ResultSet</code> object bs b
+     * <code>jbvb.sql.Timestbmp</code> object.
+     * This method uses the given cblendbr to construct bn bppropribte millisecond
+     * vblue for the timestbmp if the underlying dbtbbbse does not store
+     * timezone informbtion.
      *
-     * @param columnName the SQL name of the column
-     * @param cal the <code>java.util.Calendar</code> object
-     *        to use in constructing the timestamp
-     * @return the column value as a <code>java.sql.Timestamp</code> object;
-     *         if the value is SQL <code>NULL</code>,
-     *         the value returned is <code>null</code>
-     * @throws SQLException if a database access error occurs
-     *            or this rowset does not currently have a valid connection,
-     *            prepared statement, and result set
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @pbrbm cbl the <code>jbvb.util.Cblendbr</code> object
+     *        to use in constructing the timestbmp
+     * @return the column vblue bs b <code>jbvb.sql.Timestbmp</code> object;
+     *         if the vblue is SQL <code>NULL</code>,
+     *         the vblue returned is <code>null</code>
+     * @throws SQLException if b dbtbbbse bccess error occurs
+     *            or this rowset does not currently hbve b vblid connection,
+     *            prepbred stbtement, bnd result set
      */
-    public java.sql.Timestamp getTimestamp(String columnName, Calendar cal) throws SQLException {
-        return getTimestamp(findColumn(columnName), cal);
+    public jbvb.sql.Timestbmp getTimestbmp(String columnNbme, Cblendbr cbl) throws SQLException {
+        return getTimestbmp(findColumn(columnNbme), cbl);
     }
 
 
     /**
-     * Sets the designated column in either the current row or the insert
+     * Sets the designbted column in either the current row or the insert
      * row of this <code>JdbcRowSetImpl</code> object with the given
-     * <code>double</code> value.
+     * <code>double</code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param ref the new <code>Ref</code> column value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm ref the new <code>Ref</code> column vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-    public void updateRef(int columnIndex, java.sql.Ref ref)
+    public void updbteRef(int columnIndex, jbvb.sql.Ref ref)
         throws SQLException {
-        checkState();
-        rs.updateRef(columnIndex, ref);
+        checkStbte();
+        rs.updbteRef(columnIndex, ref);
     }
 
     /**
-     * Sets the designated column in either the current row or the insert
+     * Sets the designbted column in either the current row or the insert
      * row of this <code>JdbcRowSetImpl</code> object with the given
-     * <code>double</code> value.
+     * <code>double</code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param ref the new column value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm ref the new column vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-    public void updateRef(String columnName, java.sql.Ref ref)
+    public void updbteRef(String columnNbme, jbvb.sql.Ref ref)
         throws SQLException {
-        updateRef(findColumn(columnName), ref);
+        updbteRef(findColumn(columnNbme), ref);
     }
 
     /**
-     * Sets the designated column in either the current row or the insert
+     * Sets the designbted column in either the current row or the insert
      * row of this <code>JdbcRowSetImpl</code> object with the given
-     * <code>double</code> value.
+     * <code>double</code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param c the new column <code>Clob</code> value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm c the new column <code>Clob</code> vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-    public void updateClob(int columnIndex, Clob c) throws SQLException {
-        checkState();
-        rs.updateClob(columnIndex, c);
+    public void updbteClob(int columnIndex, Clob c) throws SQLException {
+        checkStbte();
+        rs.updbteClob(columnIndex, c);
     }
 
 
     /**
-     * Sets the designated column in either the current row or the insert
+     * Sets the designbted column in either the current row or the insert
      * row of this <code>JdbcRowSetImpl</code> object with the given
-     * <code>double</code> value.
+     * <code>double</code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param c the new column <code>Clob</code> value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm c the new column <code>Clob</code> vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-    public void updateClob(String columnName, Clob c) throws SQLException {
-        updateClob(findColumn(columnName), c);
+    public void updbteClob(String columnNbme, Clob c) throws SQLException {
+        updbteClob(findColumn(columnNbme), c);
     }
 
     /**
-     * Sets the designated column in either the current row or the insert
+     * Sets the designbted column in either the current row or the insert
      * row of this <code>JdbcRowSetImpl</code> object with the given
-     * <code>java.sql.Blob</code> value.
+     * <code>jbvb.sql.Blob</code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param b the new column <code>Blob</code> value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm b the new column <code>Blob</code> vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-    public void updateBlob(int columnIndex, Blob b) throws SQLException {
-        checkState();
-        rs.updateBlob(columnIndex, b);
+    public void updbteBlob(int columnIndex, Blob b) throws SQLException {
+        checkStbte();
+        rs.updbteBlob(columnIndex, b);
     }
 
     /**
-     * Sets the designated column in either the current row or the insert
+     * Sets the designbted column in either the current row or the insert
      * row of this <code>JdbcRowSetImpl</code> object with the given
-     * <code>java.sql.Blob </code> value.
+     * <code>jbvb.sql.Blob </code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param b the new column <code>Blob</code> value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm b the new column <code>Blob</code> vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-    public void updateBlob(String columnName, Blob b) throws SQLException {
-        updateBlob(findColumn(columnName), b);
+    public void updbteBlob(String columnNbme, Blob b) throws SQLException {
+        updbteBlob(findColumn(columnNbme), b);
     }
 
     /**
-     * Sets the designated column in either the current row or the insert
+     * Sets the designbted column in either the current row or the insert
      * row of this <code>JdbcRowSetImpl</code> object with the given
-     * <code>java.sql.Array</code> values.
+     * <code>jbvb.sql.Arrby</code> vblues.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnIndex the first column is <code>1</code>, the second
-     *        is <code>2</code>, and so on; must be <code>1</code> or larger
-     *        and equal to or less than the number of columns in this rowset
-     * @param a the new column <code>Array</code> value
+     * @pbrbm columnIndex the first column is <code>1</code>, the second
+     *        is <code>2</code>, bnd so on; must be <code>1</code> or lbrger
+     *        bnd equbl to or less thbn the number of columns in this rowset
+     * @pbrbm b the new column <code>Arrby</code> vblue
      * @throws SQLException if (1) the given column index is out of bounds,
      *            (2) the cursor is not on one of this rowset's rows or its
      *            insert row, or (3) this rowset is
      *            <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-    public void updateArray(int columnIndex, Array a) throws SQLException {
-        checkState();
-        rs.updateArray(columnIndex, a);
+    public void updbteArrby(int columnIndex, Arrby b) throws SQLException {
+        checkStbte();
+        rs.updbteArrby(columnIndex, b);
     }
 
     /**
-     * Sets the designated column in either the current row or the insert
+     * Sets the designbted column in either the current row or the insert
      * row of this <code>JdbcRowSetImpl</code> object with the given
-     * <code>java.sql.Array</code> value.
+     * <code>jbvb.sql.Arrby</code> vblue.
      *
-     * This method updates a column value in either the current row or
-     * the insert row of this rowset, but it does not update the
-     * database.  If the cursor is on a row in the rowset, the
-     * method {@link #updateRow} must be called to update the database.
+     * This method updbtes b column vblue in either the current row or
+     * the insert row of this rowset, but it does not updbte the
+     * dbtbbbse.  If the cursor is on b row in the rowset, the
+     * method {@link #updbteRow} must be cblled to updbte the dbtbbbse.
      * If the cursor is on the insert row, the method {@link #insertRow}
-     * must be called, which will insert the new row into both this rowset
-     * and the database. Both of these methods must be called before the
-     * cursor moves to another row.
+     * must be cblled, which will insert the new row into both this rowset
+     * bnd the dbtbbbse. Both of these methods must be cblled before the
+     * cursor moves to bnother row.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this rowset, ignoring case
-     * @param a the new column <code>Array</code> value
-     * @throws SQLException if (1) the given column name does not match the
-     *            name of a column in this rowset, (2) the cursor is not on
+     * @pbrbm columnNbme b <code>String</code> object thbt must mbtch the
+     *        SQL nbme of b column in this rowset, ignoring cbse
+     * @pbrbm b the new column <code>Arrby</code> vblue
+     * @throws SQLException if (1) the given column nbme does not mbtch the
+     *            nbme of b column in this rowset, (2) the cursor is not on
      *            one of this rowset's rows or its insert row, or (3) this
      *            rowset is <code>ResultSet.CONCUR_READ_ONLY</code>
      */
-    public void updateArray(String columnName, Array a) throws SQLException {
-        updateArray(findColumn(columnName), a);
+    public void updbteArrby(String columnNbme, Arrby b) throws SQLException {
+        updbteArrby(findColumn(columnNbme), b);
     }
 
     /**
-     * Provide interface coverage for getURL(int) in ResultSet->RowSet
+     * Provide interfbce coverbge for getURL(int) in ResultSet->RowSet
      */
-    public java.net.URL getURL(int columnIndex) throws SQLException {
-        checkState();
+    public jbvb.net.URL getURL(int columnIndex) throws SQLException {
+        checkStbte();
         return rs.getURL(columnIndex);
     }
 
     /**
-     * Provide interface coverage for getURL(String) in ResultSet->RowSet
+     * Provide interfbce coverbge for getURL(String) in ResultSet->RowSet
      */
-    public java.net.URL getURL(String columnName) throws SQLException {
-        return getURL(findColumn(columnName));
+    public jbvb.net.URL getURL(String columnNbme) throws SQLException {
+        return getURL(findColumn(columnNbme));
     }
 
     /**
-     * Return the RowSetWarning object for the current row of a
+     * Return the RowSetWbrning object for the current row of b
      * <code>JdbcRowSetImpl</code>
      */
-    public RowSetWarning getRowSetWarnings() throws SQLException {
+    public RowSetWbrning getRowSetWbrnings() throws SQLException {
        return null;
     }
     /**
-     * Unsets the designated parameter to the given int array.
-     * This was set using <code>setMatchColumn</code>
-     * as the column which will form the basis of the join.
+     * Unsets the designbted pbrbmeter to the given int brrby.
+     * This wbs set using <code>setMbtchColumn</code>
+     * bs the column which will form the bbsis of the join.
      * <P>
-     * The parameter value unset by this method should be same
-     * as was set.
+     * The pbrbmeter vblue unset by this method should be sbme
+     * bs wbs set.
      *
-     * @param columnIdxes the index into this rowset
-     *        object's internal representation of parameter values
-     * @throws SQLException if an error occurs or the
-     *  parameter index is out of bounds or if the columnIdx is
-     *  not the same as set using <code>setMatchColumn(int [])</code>
+     * @pbrbm columnIdxes the index into this rowset
+     *        object's internbl representbtion of pbrbmeter vblues
+     * @throws SQLException if bn error occurs or the
+     *  pbrbmeter index is out of bounds or if the columnIdx is
+     *  not the sbme bs set using <code>setMbtchColumn(int [])</code>
      */
-    public void unsetMatchColumn(int[] columnIdxes) throws SQLException {
+    public void unsetMbtchColumn(int[] columnIdxes) throws SQLException {
 
-         int i_val;
+         int i_vbl;
          for( int j= 0 ;j < columnIdxes.length; j++) {
-            i_val = (Integer.parseInt(iMatchColumns.get(j).toString()));
-            if(columnIdxes[j] != i_val) {
-               throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.matchcols").toString());
+            i_vbl = (Integer.pbrseInt(iMbtchColumns.get(j).toString()));
+            if(columnIdxes[j] != i_vbl) {
+               throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.mbtchcols").toString());
             }
          }
 
          for( int i = 0;i < columnIdxes.length ;i++) {
-            iMatchColumns.set(i,Integer.valueOf(-1));
+            iMbtchColumns.set(i,Integer.vblueOf(-1));
          }
     }
 
    /**
-     * Unsets the designated parameter to the given String array.
-     * This was set using <code>setMatchColumn</code>
-     * as the column which will form the basis of the join.
+     * Unsets the designbted pbrbmeter to the given String brrby.
+     * This wbs set using <code>setMbtchColumn</code>
+     * bs the column which will form the bbsis of the join.
      * <P>
-     * The parameter value unset by this method should be same
-     * as was set.
+     * The pbrbmeter vblue unset by this method should be sbme
+     * bs wbs set.
      *
-     * @param columnIdxes the index into this rowset
-     *        object's internal representation of parameter values
-     * @throws SQLException if an error occurs or the
-     *  parameter index is out of bounds or if the columnName is
-     *  not the same as set using <code>setMatchColumn(String [])</code>
+     * @pbrbm columnIdxes the index into this rowset
+     *        object's internbl representbtion of pbrbmeter vblues
+     * @throws SQLException if bn error occurs or the
+     *  pbrbmeter index is out of bounds or if the columnNbme is
+     *  not the sbme bs set using <code>setMbtchColumn(String [])</code>
      */
-    public void unsetMatchColumn(String[] columnIdxes) throws SQLException {
+    public void unsetMbtchColumn(String[] columnIdxes) throws SQLException {
 
         for(int j = 0 ;j < columnIdxes.length; j++) {
-           if( !columnIdxes[j].equals(strMatchColumns.get(j)) ){
-              throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.matchcols").toString());
+           if( !columnIdxes[j].equbls(strMbtchColumns.get(j)) ){
+              throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.mbtchcols").toString());
            }
         }
 
         for(int i = 0 ; i < columnIdxes.length; i++) {
-           strMatchColumns.set(i,null);
+           strMbtchColumns.set(i,null);
         }
     }
 
     /**
-     * Retrieves the column name as <code>String</code> array
-     * that was set using <code>setMatchColumn(String [])</code>
+     * Retrieves the column nbme bs <code>String</code> brrby
+     * thbt wbs set using <code>setMbtchColumn(String [])</code>
      * for this rowset.
      *
-     * @return a <code>String</code> array object that contains the column names
-     *         for the rowset which has this the match columns
+     * @return b <code>String</code> brrby object thbt contbins the column nbmes
+     *         for the rowset which hbs this the mbtch columns
      *
-     * @throws SQLException if an error occurs or column name is not set
+     * @throws SQLException if bn error occurs or column nbme is not set
      */
-    public String[] getMatchColumnNames() throws SQLException {
+    public String[] getMbtchColumnNbmes() throws SQLException {
 
-        String []str_temp = new String[strMatchColumns.size()];
+        String []str_temp = new String[strMbtchColumns.size()];
 
-        if( strMatchColumns.get(0) == null) {
-           throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.setmatchcols").toString());
+        if( strMbtchColumns.get(0) == null) {
+           throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.setmbtchcols").toString());
         }
 
-        strMatchColumns.copyInto(str_temp);
+        strMbtchColumns.copyInto(str_temp);
         return str_temp;
     }
 
     /**
-     * Retrieves the column id as <code>int</code> array that was set using
-     * <code>setMatchColumn(int [])</code> for this rowset.
+     * Retrieves the column id bs <code>int</code> brrby thbt wbs set using
+     * <code>setMbtchColumn(int [])</code> for this rowset.
      *
-     * @return a <code>int</code> array object that contains the column ids
-     *         for the rowset which has this as the match columns.
+     * @return b <code>int</code> brrby object thbt contbins the column ids
+     *         for the rowset which hbs this bs the mbtch columns.
      *
-     * @throws SQLException if an error occurs or column index is not set
+     * @throws SQLException if bn error occurs or column index is not set
      */
-    public int[] getMatchColumnIndexes() throws SQLException {
+    public int[] getMbtchColumnIndexes() throws SQLException {
 
-        Integer []int_temp = new Integer[iMatchColumns.size()];
-        int [] i_temp = new int[iMatchColumns.size()];
-        int i_val;
+        Integer []int_temp = new Integer[iMbtchColumns.size()];
+        int [] i_temp = new int[iMbtchColumns.size()];
+        int i_vbl;
 
-        i_val = iMatchColumns.get(0);
+        i_vbl = iMbtchColumns.get(0);
 
-        if( i_val == -1 ) {
-           throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.setmatchcols").toString());
+        if( i_vbl == -1 ) {
+           throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.setmbtchcols").toString());
         }
 
 
-        iMatchColumns.copyInto(int_temp);
+        iMbtchColumns.copyInto(int_temp);
 
         for(int i = 0; i < int_temp.length; i++) {
-           i_temp[i] = (int_temp[i]).intValue();
+           i_temp[i] = (int_temp[i]).intVblue();
         }
 
         return i_temp;
     }
 
     /**
-     * Sets the designated parameter to the given int array.
-     * This forms the basis of the join for the
-     * <code>JoinRowSet</code> as the column which will form the basis of the
+     * Sets the designbted pbrbmeter to the given int brrby.
+     * This forms the bbsis of the join for the
+     * <code>JoinRowSet</code> bs the column which will form the bbsis of the
      * join.
      * <P>
-     * The parameter value set by this method is stored internally and
-     * will be supplied as the appropriate parameter in this rowset's
-     * command when the method <code>getMatchColumnIndexes</code> is called.
+     * The pbrbmeter vblue set by this method is stored internblly bnd
+     * will be supplied bs the bppropribte pbrbmeter in this rowset's
+     * commbnd when the method <code>getMbtchColumnIndexes</code> is cblled.
      *
-     * @param columnIdxes the indexes into this rowset
-     *        object's internal representation of parameter values; the
-     *        first parameter is 0, the second is 1, and so on; must be
-     *        <code>0</code> or greater
-     * @throws SQLException if an error occurs or the
-     *                         parameter index is out of bounds
+     * @pbrbm columnIdxes the indexes into this rowset
+     *        object's internbl representbtion of pbrbmeter vblues; the
+     *        first pbrbmeter is 0, the second is 1, bnd so on; must be
+     *        <code>0</code> or grebter
+     * @throws SQLException if bn error occurs or the
+     *                         pbrbmeter index is out of bounds
      */
-    public void setMatchColumn(int[] columnIdxes) throws SQLException {
+    public void setMbtchColumn(int[] columnIdxes) throws SQLException {
 
         for(int j = 0 ; j < columnIdxes.length; j++) {
            if( columnIdxes[j] < 0 ) {
-              throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.matchcols1").toString());
+              throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.mbtchcols1").toString());
            }
         }
         for(int i = 0 ;i < columnIdxes.length; i++) {
-           iMatchColumns.add(i,Integer.valueOf(columnIdxes[i]));
+           iMbtchColumns.bdd(i,Integer.vblueOf(columnIdxes[i]));
         }
     }
 
     /**
-     * Sets the designated parameter to the given String array.
-     *  This forms the basis of the join for the
-     * <code>JoinRowSet</code> as the column which will form the basis of the
+     * Sets the designbted pbrbmeter to the given String brrby.
+     *  This forms the bbsis of the join for the
+     * <code>JoinRowSet</code> bs the column which will form the bbsis of the
      * join.
      * <P>
-     * The parameter value set by this method is stored internally and
-     * will be supplied as the appropriate parameter in this rowset's
-     * command when the method <code>getMatchColumn</code> is called.
+     * The pbrbmeter vblue set by this method is stored internblly bnd
+     * will be supplied bs the bppropribte pbrbmeter in this rowset's
+     * commbnd when the method <code>getMbtchColumn</code> is cblled.
      *
-     * @param columnNames the name of the column into this rowset
-     *        object's internal representation of parameter values
-     * @throws SQLException if an error occurs or the
-     *  parameter index is out of bounds
+     * @pbrbm columnNbmes the nbme of the column into this rowset
+     *        object's internbl representbtion of pbrbmeter vblues
+     * @throws SQLException if bn error occurs or the
+     *  pbrbmeter index is out of bounds
      */
-    public void setMatchColumn(String[] columnNames) throws SQLException {
+    public void setMbtchColumn(String[] columnNbmes) throws SQLException {
 
-        for(int j = 0; j < columnNames.length; j++) {
-           if( columnNames[j] == null || columnNames[j].equals("")) {
-              throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.matchcols2").toString());
+        for(int j = 0; j < columnNbmes.length; j++) {
+           if( columnNbmes[j] == null || columnNbmes[j].equbls("")) {
+              throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.mbtchcols2").toString());
            }
         }
-        for( int i = 0; i < columnNames.length; i++) {
-           strMatchColumns.add(i,columnNames[i]);
+        for( int i = 0; i < columnNbmes.length; i++) {
+           strMbtchColumns.bdd(i,columnNbmes[i]);
         }
     }
 
 
         /**
-     * Sets the designated parameter to the given <code>int</code>
-     * object.  This forms the basis of the join for the
-     * <code>JoinRowSet</code> as the column which will form the basis of the
+     * Sets the designbted pbrbmeter to the given <code>int</code>
+     * object.  This forms the bbsis of the join for the
+     * <code>JoinRowSet</code> bs the column which will form the bbsis of the
      * join.
      * <P>
-     * The parameter value set by this method is stored internally and
-     * will be supplied as the appropriate parameter in this rowset's
-     * command when the method <code>getMatchColumn</code> is called.
+     * The pbrbmeter vblue set by this method is stored internblly bnd
+     * will be supplied bs the bppropribte pbrbmeter in this rowset's
+     * commbnd when the method <code>getMbtchColumn</code> is cblled.
      *
-     * @param columnIdx the index into this rowset
-     *        object's internal representation of parameter values; the
-     *        first parameter is 0, the second is 1, and so on; must be
-     *        <code>0</code> or greater
-     * @throws SQLException if an error occurs or the
-     *                         parameter index is out of bounds
+     * @pbrbm columnIdx the index into this rowset
+     *        object's internbl representbtion of pbrbmeter vblues; the
+     *        first pbrbmeter is 0, the second is 1, bnd so on; must be
+     *        <code>0</code> or grebter
+     * @throws SQLException if bn error occurs or the
+     *                         pbrbmeter index is out of bounds
      */
-    public void setMatchColumn(int columnIdx) throws SQLException {
-        // validate, if col is ok to be set
+    public void setMbtchColumn(int columnIdx) throws SQLException {
+        // vblidbte, if col is ok to be set
         if(columnIdx < 0) {
-            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.matchcols1").toString());
+            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.mbtchcols1").toString());
         } else {
-            // set iMatchColumn
-            iMatchColumns.set(0, Integer.valueOf(columnIdx));
-            //strMatchColumn = null;
+            // set iMbtchColumn
+            iMbtchColumns.set(0, Integer.vblueOf(columnIdx));
+            //strMbtchColumn = null;
         }
     }
 
     /**
-     * Sets the designated parameter to the given <code>String</code>
-     * object.  This forms the basis of the join for the
-     * <code>JoinRowSet</code> as the column which will form the basis of the
+     * Sets the designbted pbrbmeter to the given <code>String</code>
+     * object.  This forms the bbsis of the join for the
+     * <code>JoinRowSet</code> bs the column which will form the bbsis of the
      * join.
      * <P>
-     * The parameter value set by this method is stored internally and
-     * will be supplied as the appropriate parameter in this rowset's
-     * command when the method <code>getMatchColumn</code> is called.
+     * The pbrbmeter vblue set by this method is stored internblly bnd
+     * will be supplied bs the bppropribte pbrbmeter in this rowset's
+     * commbnd when the method <code>getMbtchColumn</code> is cblled.
      *
-     * @param columnName the name of the column into this rowset
-     *        object's internal representation of parameter values
-     * @throws SQLException if an error occurs or the
-     *  parameter index is out of bounds
+     * @pbrbm columnNbme the nbme of the column into this rowset
+     *        object's internbl representbtion of pbrbmeter vblues
+     * @throws SQLException if bn error occurs or the
+     *  pbrbmeter index is out of bounds
      */
-    public void setMatchColumn(String columnName) throws SQLException {
-        // validate, if col is ok to be set
-        if(columnName == null || (columnName= columnName.trim()).equals("")) {
-            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.matchcols2").toString());
+    public void setMbtchColumn(String columnNbme) throws SQLException {
+        // vblidbte, if col is ok to be set
+        if(columnNbme == null || (columnNbme= columnNbme.trim()).equbls("")) {
+            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.mbtchcols2").toString());
         } else {
-            // set strMatchColumn
-            strMatchColumns.set(0, columnName);
-            //iMatchColumn = -1;
+            // set strMbtchColumn
+            strMbtchColumns.set(0, columnNbme);
+            //iMbtchColumn = -1;
         }
     }
 
     /**
-     * Unsets the designated parameter to the given <code>int</code>
-     * object.  This was set using <code>setMatchColumn</code>
-     * as the column which will form the basis of the join.
+     * Unsets the designbted pbrbmeter to the given <code>int</code>
+     * object.  This wbs set using <code>setMbtchColumn</code>
+     * bs the column which will form the bbsis of the join.
      * <P>
-     * The parameter value unset by this method should be same
-     * as was set.
+     * The pbrbmeter vblue unset by this method should be sbme
+     * bs wbs set.
      *
-     * @param columnIdx the index into this rowset
-     *        object's internal representation of parameter values
-     * @throws SQLException if an error occurs or the
-     *  parameter index is out of bounds or if the columnIdx is
-     *  not the same as set using <code>setMatchColumn(int)</code>
+     * @pbrbm columnIdx the index into this rowset
+     *        object's internbl representbtion of pbrbmeter vblues
+     * @throws SQLException if bn error occurs or the
+     *  pbrbmeter index is out of bounds or if the columnIdx is
+     *  not the sbme bs set using <code>setMbtchColumn(int)</code>
      */
-    public void unsetMatchColumn(int columnIdx) throws SQLException {
-        // check if we are unsetting the SAME column
-        if(! iMatchColumns.get(0).equals(Integer.valueOf(columnIdx) )  ) {
-            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.unsetmatch").toString());
-        } else if(strMatchColumns.get(0) != null) {
-            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.usecolname").toString());
+    public void unsetMbtchColumn(int columnIdx) throws SQLException {
+        // check if we bre unsetting the SAME column
+        if(! iMbtchColumns.get(0).equbls(Integer.vblueOf(columnIdx) )  ) {
+            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.unsetmbtch").toString());
+        } else if(strMbtchColumns.get(0) != null) {
+            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.usecolnbme").toString());
         } else {
-                // that is, we are unsetting it.
-               iMatchColumns.set(0, Integer.valueOf(-1));
+                // thbt is, we bre unsetting it.
+               iMbtchColumns.set(0, Integer.vblueOf(-1));
         }
     }
 
     /**
-     * Unsets the designated parameter to the given <code>String</code>
-     * object.  This was set using <code>setMatchColumn</code>
-     * as the column which will form the basis of the join.
+     * Unsets the designbted pbrbmeter to the given <code>String</code>
+     * object.  This wbs set using <code>setMbtchColumn</code>
+     * bs the column which will form the bbsis of the join.
      * <P>
-     * The parameter value unset by this method should be same
-     * as was set.
+     * The pbrbmeter vblue unset by this method should be sbme
+     * bs wbs set.
      *
-     * @param columnName the index into this rowset
-     *        object's internal representation of parameter values
-     * @throws SQLException if an error occurs or the
-     *  parameter index is out of bounds or if the columnName is
-     *  not the same as set using <code>setMatchColumn(String)</code>
+     * @pbrbm columnNbme the index into this rowset
+     *        object's internbl representbtion of pbrbmeter vblues
+     * @throws SQLException if bn error occurs or the
+     *  pbrbmeter index is out of bounds or if the columnNbme is
+     *  not the sbme bs set using <code>setMbtchColumn(String)</code>
      *
      */
-    public void unsetMatchColumn(String columnName) throws SQLException {
-        // check if we are unsetting the same column
-        columnName = columnName.trim();
+    public void unsetMbtchColumn(String columnNbme) throws SQLException {
+        // check if we bre unsetting the sbme column
+        columnNbme = columnNbme.trim();
 
-        if(!((strMatchColumns.get(0)).equals(columnName))) {
-            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.unsetmatch").toString());
-        } else if(iMatchColumns.get(0) > 0) {
-            throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.usecolid").toString());
+        if(!((strMbtchColumns.get(0)).equbls(columnNbme))) {
+            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.unsetmbtch").toString());
+        } else if(iMbtchColumns.get(0) > 0) {
+            throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.usecolid").toString());
         } else {
-            strMatchColumns.set(0, null);   // that is, we are unsetting it.
+            strMbtchColumns.set(0, null);   // thbt is, we bre unsetting it.
         }
     }
 
     /**
-     * Retrieves the <code>DatabaseMetaData</code> associated with
-     * the connection handle associated this this
+     * Retrieves the <code>DbtbbbseMetbDbtb</code> bssocibted with
+     * the connection hbndle bssocibted this this
      * <code>JdbcRowSet</code> object.
      *
-     * @return the <code>DatabaseMetadata</code> associated
+     * @return the <code>DbtbbbseMetbdbtb</code> bssocibted
      *  with the rowset's connection.
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public DatabaseMetaData getDatabaseMetaData() throws SQLException {
+    public DbtbbbseMetbDbtb getDbtbbbseMetbDbtb() throws SQLException {
         Connection con = connect();
-        return con.getMetaData();
+        return con.getMetbDbtb();
     }
 
     /**
-     * Retrieves the <code>ParameterMetaData</code> associated with
-     * the connection handle associated this this
+     * Retrieves the <code>PbrbmeterMetbDbtb</code> bssocibted with
+     * the connection hbndle bssocibted this this
      * <code>JdbcRowSet</code> object.
      *
-     * @return the <code>ParameterMetadata</code> associated
+     * @return the <code>PbrbmeterMetbdbtb</code> bssocibted
      *  with the rowset's connection.
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public ParameterMetaData getParameterMetaData() throws SQLException {
-        prepare();
-        return (ps.getParameterMetaData());
+    public PbrbmeterMetbDbtb getPbrbmeterMetbDbtb() throws SQLException {
+        prepbre();
+        return (ps.getPbrbmeterMetbDbtb());
     }
 
     /**
-     * Commits all updates in this <code>JdbcRowSet</code> object by
-     * wrapping the internal <code>Connection</code> object and calling
+     * Commits bll updbtes in this <code>JdbcRowSet</code> object by
+     * wrbpping the internbl <code>Connection</code> object bnd cblling
      * its <code>commit</code> method.
-     * This method sets this <code>JdbcRowSet</code> object's private field
-     * <code>rs</code> to <code>null</code> after saving its value to another
+     * This method sets this <code>JdbcRowSet</code> object's privbte field
+     * <code>rs</code> to <code>null</code> bfter sbving its vblue to bnother
      * object, but only if the <code>ResultSet</code>
-     * constant <code>HOLD_CURSORS_OVER_COMMIT</code> has not been set.
+     * constbnt <code>HOLD_CURSORS_OVER_COMMIT</code> hbs not been set.
      * (The field <code>rs</code> is this <code>JdbcRowSet</code> object's
      * <code>ResultSet</code> object.)
      *
-     * @throws SQLException if autoCommit is set to true or if a database
-     * access error occurs
+     * @throws SQLException if butoCommit is set to true or if b dbtbbbse
+     * bccess error occurs
      */
     public void commit() throws SQLException {
       conn.commit();
 
-      // Checking the holadbility value and making the result set handle null
-      // Added as per Rave requirements
+      // Checking the holbdbility vblue bnd mbking the result set hbndle null
+      // Added bs per Rbve requirements
 
-      if( conn.getHoldability() != HOLD_CURSORS_OVER_COMMIT) {
+      if( conn.getHoldbbility() != HOLD_CURSORS_OVER_COMMIT) {
          rs = null;
       }
     }
 
     /**
-     * Sets auto-commit on the internal <code>Connection</code> object with this
+     * Sets buto-commit on the internbl <code>Connection</code> object with this
      * <code>JdbcRowSet</code>
      *
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public void setAutoCommit(boolean autoCommit) throws SQLException {
+    public void setAutoCommit(boolebn butoCommit) throws SQLException {
         // The connection object should be there
-        // in order to commit the connection handle on or off.
+        // in order to commit the connection hbndle on or off.
 
         if(conn != null) {
-           conn.setAutoCommit(autoCommit);
+           conn.setAutoCommit(butoCommit);
         } else {
-           // Coming here means the connection object is null.
-           // So generate a connection handle internally, since
-           // a JdbcRowSet is always connected to a db, it is fine
-           // to get a handle to the connection.
+           // Coming here mebns the connection object is null.
+           // So generbte b connection hbndle internblly, since
+           // b JdbcRowSet is blwbys connected to b db, it is fine
+           // to get b hbndle to the connection.
 
-           // Get hold of a connection handle
-           // and change the autcommit as passesd.
+           // Get hold of b connection hbndle
+           // bnd chbnge the butcommit bs pbssesd.
            conn = connect();
 
            // After setting the below the conn.getAutoCommit()
-           // should return the same value.
-           conn.setAutoCommit(autoCommit);
+           // should return the sbme vblue.
+           conn.setAutoCommit(butoCommit);
 
         }
     }
 
     /**
-     * Returns the auto-commit status with this <code>JdbcRowSet</code>.
+     * Returns the buto-commit stbtus with this <code>JdbcRowSet</code>.
      *
-     * @return true if auto commit is true; false otherwise
-     * @throws SQLException if a database access error occurs
+     * @return true if buto commit is true; fblse otherwise
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public boolean getAutoCommit() throws SQLException {
+    public boolebn getAutoCommit() throws SQLException {
         return conn.getAutoCommit();
     }
 
     /**
-     * Rolls back all the updates in this <code>JdbcRowSet</code> object by
-     * wrapping the internal <code>Connection</code> object and calling its
-     * <code>rollback</code> method.
-     * This method sets this <code>JdbcRowSet</code> object's private field
-     * <code>rs</code> to <code>null</code> after saving its value to another object.
+     * Rolls bbck bll the updbtes in this <code>JdbcRowSet</code> object by
+     * wrbpping the internbl <code>Connection</code> object bnd cblling its
+     * <code>rollbbck</code> method.
+     * This method sets this <code>JdbcRowSet</code> object's privbte field
+     * <code>rs</code> to <code>null</code> bfter sbving its vblue to bnother object.
      * (The field <code>rs</code> is this <code>JdbcRowSet</code> object's
-     * internal <code>ResultSet</code> object.)
+     * internbl <code>ResultSet</code> object.)
      *
-     * @throws SQLException if autoCommit is set to true or a database
-     * access error occurs
+     * @throws SQLException if butoCommit is set to true or b dbtbbbse
+     * bccess error occurs
      */
-    public void rollback() throws SQLException {
-        conn.rollback();
+    public void rollbbck() throws SQLException {
+        conn.rollbbck();
 
-        // Makes the result ste handle null after rollback
-        // Added as per Rave requirements
+        // Mbkes the result ste hbndle null bfter rollbbck
+        // Added bs per Rbve requirements
 
         rs = null;
     }
 
 
     /**
-     * Rollbacks all the updates in the <code>JdbcRowSet</code> back to the
-     * last <code>Savepoint</code> transaction marker. Wraps the internal
-     * <code>Connection</code> object and call it's rollback method
+     * Rollbbcks bll the updbtes in the <code>JdbcRowSet</code> bbck to the
+     * lbst <code>Sbvepoint</code> trbnsbction mbrker. Wrbps the internbl
+     * <code>Connection</code> object bnd cbll it's rollbbck method
      *
-     * @param s the <code>Savepoint</code> transaction marker to roll the
-     * transaction to.
-     * @throws SQLException if autoCommit is set to true; or ia a database
-     * access error occurs
+     * @pbrbm s the <code>Sbvepoint</code> trbnsbction mbrker to roll the
+     * trbnsbction to.
+     * @throws SQLException if butoCommit is set to true; or ib b dbtbbbse
+     * bccess error occurs
      */
-    public void rollback(Savepoint s) throws SQLException {
-        conn.rollback(s);
+    public void rollbbck(Sbvepoint s) throws SQLException {
+        conn.rollbbck(s);
     }
 
-    // Setting the ResultSet Type and Concurrency
-    protected void setParams() throws SQLException {
+    // Setting the ResultSet Type bnd Concurrency
+    protected void setPbrbms() throws SQLException {
         if(rs == null) {
            setType(ResultSet.TYPE_SCROLL_INSENSITIVE);
            setConcurrency(ResultSet.CONCUR_UPDATABLE);
@@ -4132,95 +4132,95 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
     }
 
 
-    // Checking ResultSet Type and Concurrency
-    private void checkTypeConcurrency() throws SQLException {
+    // Checking ResultSet Type bnd Concurrency
+    privbte void checkTypeConcurrency() throws SQLException {
         if(rs.getType() == TYPE_FORWARD_ONLY ||
            rs.getConcurrency() == CONCUR_READ_ONLY) {
-              throw new SQLException(resBundle.handleGetObject("jdbcrowsetimpl.resnotupd").toString());
+              throw new SQLException(resBundle.hbndleGetObject("jdbcrowsetimpl.resnotupd").toString());
          }
     }
 
-     // Returns a Connection Handle
-    //  Added as per Rave requirements
+     // Returns b Connection Hbndle
+    //  Added bs per Rbve requirements
 
     /**
      * Gets this <code>JdbcRowSet</code> object's Connection property
      *
      *
-     * @return the <code>Connection</code> object associated with this rowset;
+     * @return the <code>Connection</code> object bssocibted with this rowset;
      */
 
     protected Connection getConnection() {
        return conn;
     }
 
-    // Sets the connection handle with the parameter
-    // Added as per rave requirements
+    // Sets the connection hbndle with the pbrbmeter
+    // Added bs per rbve requirements
 
     /**
      * Sets this <code>JdbcRowSet</code> object's connection property
      * to the given <code>Connection</code> object.
      *
-     * @param connection the <code>Connection</code> object.
+     * @pbrbm connection the <code>Connection</code> object.
      */
 
     protected void setConnection(Connection connection) {
        conn = connection;
     }
 
-    // Returns a PreparedStatement Handle
-    // Added as per Rave requirements
+    // Returns b PrepbredStbtement Hbndle
+    // Added bs per Rbve requirements
 
     /**
-     * Gets this <code>JdbcRowSet</code> object's PreparedStatement property
+     * Gets this <code>JdbcRowSet</code> object's PrepbredStbtement property
      *
      *
-     * @return the <code>PreparedStatement</code> object associated with this rowset;
+     * @return the <code>PrepbredStbtement</code> object bssocibted with this rowset;
      */
 
-    protected PreparedStatement getPreparedStatement() {
+    protected PrepbredStbtement getPrepbredStbtement() {
        return ps;
     }
 
-    //Sets the prepared statement handle to the parameter
-    // Added as per Rave requirements
+    //Sets the prepbred stbtement hbndle to the pbrbmeter
+    // Added bs per Rbve requirements
 
     /**
-     * Sets this <code>JdbcRowSet</code> object's preparedtsatement property
-     * to the given <code>PreparedStatemennt</code> object.
+     * Sets this <code>JdbcRowSet</code> object's prepbredtsbtement property
+     * to the given <code>PrepbredStbtemennt</code> object.
      *
-     * @param preparedStatement the <code>PreparedStatement</code> object
+     * @pbrbm prepbredStbtement the <code>PrepbredStbtement</code> object
      *
      */
-    protected void setPreparedStatement(PreparedStatement preparedStatement) {
-       ps = preparedStatement;
+    protected void setPrepbredStbtement(PrepbredStbtement prepbredStbtement) {
+       ps = prepbredStbtement;
     }
 
-    // Returns a ResultSet handle
-    // Added as per Rave requirements
+    // Returns b ResultSet hbndle
+    // Added bs per Rbve requirements
 
     /**
      * Gets this <code>JdbcRowSet</code> object's ResultSet property
      *
      *
-     * @return the <code>ResultSet</code> object associated with this rowset;
+     * @return the <code>ResultSet</code> object bssocibted with this rowset;
      */
 
     protected ResultSet getResultSet() throws SQLException {
 
-       checkState();
+       checkStbte();
 
        return rs;
     }
 
-    // Sets the result set handle to the parameter
-    // Added as per Rave requirements
+    // Sets the result set hbndle to the pbrbmeter
+    // Added bs per Rbve requirements
 
     /**
      * Sets this <code>JdbcRowSet</code> object's resultset property
      * to the given <code>ResultSet</code> object.
      *
-     * @param resultSet the <code>ResultSet</code> object
+     * @pbrbm resultSet the <code>ResultSet</code> object
      *
      */
     protected void setResultSet(ResultSet resultSet) {
@@ -4228,124 +4228,124 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
     }
 
     /**
-     * Sets this <code>JdbcRowSet</code> object's <code>command</code> property to
-     * the given <code>String</code> object and clears the parameters, if any,
-     * that were set for the previous command. In addition,
-     * if the <code>command</code> property has previously been set to a
-     * non-null value and it is
+     * Sets this <code>JdbcRowSet</code> object's <code>commbnd</code> property to
+     * the given <code>String</code> object bnd clebrs the pbrbmeters, if bny,
+     * thbt were set for the previous commbnd. In bddition,
+     * if the <code>commbnd</code> property hbs previously been set to b
+     * non-null vblue bnd it is
      * different from the <code>String</code> object supplied,
-     * this method sets this <code>JdbcRowSet</code> object's private fields
-     * <code>ps</code> and <code>rs</code> to <code>null</code>.
-     * (The field <code>ps</code> is its <code>PreparedStatement</code> object, and
+     * this method sets this <code>JdbcRowSet</code> object's privbte fields
+     * <code>ps</code> bnd <code>rs</code> to <code>null</code>.
+     * (The field <code>ps</code> is its <code>PrepbredStbtement</code> object, bnd
      * the field <code>rs</code> is its <code>ResultSet</code> object.)
      * <P>
-     * The <code>command</code> property may not be needed if the <code>RowSet</code>
-     * object gets its data from a source that does not support commands,
-     * such as a spreadsheet or other tabular file.
-     * Thus, this property is optional and may be <code>null</code>.
+     * The <code>commbnd</code> property mby not be needed if the <code>RowSet</code>
+     * object gets its dbtb from b source thbt does not support commbnds,
+     * such bs b sprebdsheet or other tbbulbr file.
+     * Thus, this property is optionbl bnd mby be <code>null</code>.
      *
-     * @param command a <code>String</code> object containing an SQL query
-     *            that will be set as this <code>RowSet</code> object's command
-     *            property; may be <code>null</code> but may not be an empty string
-     * @throws SQLException if an empty string is provided as the command value
-     * @see #getCommand
+     * @pbrbm commbnd b <code>String</code> object contbining bn SQL query
+     *            thbt will be set bs this <code>RowSet</code> object's commbnd
+     *            property; mby be <code>null</code> but mby not be bn empty string
+     * @throws SQLException if bn empty string is provided bs the commbnd vblue
+     * @see #getCommbnd
      */
-    public void setCommand(String command) throws SQLException {
+    public void setCommbnd(String commbnd) throws SQLException {
 
-       if (getCommand() != null) {
-          if(!getCommand().equals(command)) {
-             super.setCommand(command);
+       if (getCommbnd() != null) {
+          if(!getCommbnd().equbls(commbnd)) {
+             super.setCommbnd(commbnd);
              ps = null;
              rs = null;
           }
        }
        else {
-          super.setCommand(command);
+          super.setCommbnd(commbnd);
        }
     }
 
     /**
-     * Sets the <code>dataSourceName</code> property for this <code>JdbcRowSet</code>
-     * object to the given logical name and sets this <code>JdbcRowSet</code> object's
-     * Url property to <code>null</code>. In addition, if the <code>dataSourceName</code>
-     * property has previously been set and is different from the one supplied,
-     * this method sets this <code>JdbcRowSet</code> object's private fields
-     * <code>ps</code>, <code>rs</code>, and <code>conn</code> to <code>null</code>.
-     * (The field <code>ps</code> is its <code>PreparedStatement</code> object,
-     * the field <code>rs</code> is its <code>ResultSet</code> object, and
+     * Sets the <code>dbtbSourceNbme</code> property for this <code>JdbcRowSet</code>
+     * object to the given logicbl nbme bnd sets this <code>JdbcRowSet</code> object's
+     * Url property to <code>null</code>. In bddition, if the <code>dbtbSourceNbme</code>
+     * property hbs previously been set bnd is different from the one supplied,
+     * this method sets this <code>JdbcRowSet</code> object's privbte fields
+     * <code>ps</code>, <code>rs</code>, bnd <code>conn</code> to <code>null</code>.
+     * (The field <code>ps</code> is its <code>PrepbredStbtement</code> object,
+     * the field <code>rs</code> is its <code>ResultSet</code> object, bnd
      * the field <code>conn</code> is its <code>Connection</code> object.)
      * <P>
-     * The name supplied to this method must have been bound to a
-     * <code>DataSource</code> object in a JNDI naming service so that an
-     * application can do a lookup using that name to retrieve the
-     * <code>DataSource</code> object bound to it. The <code>DataSource</code>
-     * object can then be used to establish a connection to the data source it
+     * The nbme supplied to this method must hbve been bound to b
+     * <code>DbtbSource</code> object in b JNDI nbming service so thbt bn
+     * bpplicbtion cbn do b lookup using thbt nbme to retrieve the
+     * <code>DbtbSource</code> object bound to it. The <code>DbtbSource</code>
+     * object cbn then be used to estbblish b connection to the dbtb source it
      * represents.
      * <P>
-     * Users should set either the Url property or the dataSourceName property.
-     * If both properties are set, the driver will use the property set most recently.
+     * Users should set either the Url property or the dbtbSourceNbme property.
+     * If both properties bre set, the driver will use the property set most recently.
      *
-     * @param dsName a <code>String</code> object with the name that can be supplied
-     *        to a naming service based on JNDI technology to retrieve the
-     *        <code>DataSource</code> object that can be used to get a connection;
-     *        may be <code>null</code>
-     * @throws SQLException if there is a problem setting the
-     *          <code>dataSourceName</code> property
-     * @see #getDataSourceName
+     * @pbrbm dsNbme b <code>String</code> object with the nbme thbt cbn be supplied
+     *        to b nbming service bbsed on JNDI technology to retrieve the
+     *        <code>DbtbSource</code> object thbt cbn be used to get b connection;
+     *        mby be <code>null</code>
+     * @throws SQLException if there is b problem setting the
+     *          <code>dbtbSourceNbme</code> property
+     * @see #getDbtbSourceNbme
      */
-    public void setDataSourceName(String dsName) throws SQLException{
+    public void setDbtbSourceNbme(String dsNbme) throws SQLException{
 
-       if(getDataSourceName() != null) {
-          if(!getDataSourceName().equals(dsName)) {
-             super.setDataSourceName(dsName);
+       if(getDbtbSourceNbme() != null) {
+          if(!getDbtbSourceNbme().equbls(dsNbme)) {
+             super.setDbtbSourceNbme(dsNbme);
              conn = null;
              ps = null;
              rs = null;
           }
        }
        else {
-          super.setDataSourceName(dsName);
+          super.setDbtbSourceNbme(dsNbme);
        }
     }
 
 
     /**
      * Sets the Url property for this <code>JdbcRowSet</code> object
-     * to the given <code>String</code> object and sets the dataSource name
-     * property to <code>null</code>. In addition, if the Url property has
-     * previously been set to a non <code>null</code> value and its value
-     * is different from the value to be set,
-     * this method sets this <code>JdbcRowSet</code> object's private fields
-     * <code>ps</code>, <code>rs</code>, and <code>conn</code> to <code>null</code>.
-     * (The field <code>ps</code> is its <code>PreparedStatement</code> object,
-     * the field <code>rs</code> is its <code>ResultSet</code> object, and
+     * to the given <code>String</code> object bnd sets the dbtbSource nbme
+     * property to <code>null</code>. In bddition, if the Url property hbs
+     * previously been set to b non <code>null</code> vblue bnd its vblue
+     * is different from the vblue to be set,
+     * this method sets this <code>JdbcRowSet</code> object's privbte fields
+     * <code>ps</code>, <code>rs</code>, bnd <code>conn</code> to <code>null</code>.
+     * (The field <code>ps</code> is its <code>PrepbredStbtement</code> object,
+     * the field <code>rs</code> is its <code>ResultSet</code> object, bnd
      * the field <code>conn</code> is its <code>Connection</code> object.)
      * <P>
-     * The Url property is a JDBC URL that is used when
-     * the connection is created using a JDBC technology-enabled driver
-     * ("JDBC driver") and the <code>DriverManager</code>.
-     * The correct JDBC URL for the specific driver to be used can be found
-     * in the driver documentation.  Although there are guidelines for for how
-     * a JDBC URL is formed,
-     * a driver vendor can specify any <code>String</code> object except
-     * one with a length of <code>0</code> (an empty string).
+     * The Url property is b JDBC URL thbt is used when
+     * the connection is crebted using b JDBC technology-enbbled driver
+     * ("JDBC driver") bnd the <code>DriverMbnbger</code>.
+     * The correct JDBC URL for the specific driver to be used cbn be found
+     * in the driver documentbtion.  Although there bre guidelines for for how
+     * b JDBC URL is formed,
+     * b driver vendor cbn specify bny <code>String</code> object except
+     * one with b length of <code>0</code> (bn empty string).
      * <P>
-     * Setting the Url property is optional if connections are established using
-     * a <code>DataSource</code> object instead of the <code>DriverManager</code>.
+     * Setting the Url property is optionbl if connections bre estbblished using
+     * b <code>DbtbSource</code> object instebd of the <code>DriverMbnbger</code>.
      * The driver will use either the URL property or the
-     * dataSourceName property to create a connection, whichever was
-     * specified most recently. If an application uses a JDBC URL, it
-     * must load a JDBC driver that accepts the JDBC URL before it uses the
-     * <code>RowSet</code> object to connect to a database.  The <code>RowSet</code>
-     * object will use the URL internally to create a database connection in order
-     * to read or write data.
+     * dbtbSourceNbme property to crebte b connection, whichever wbs
+     * specified most recently. If bn bpplicbtion uses b JDBC URL, it
+     * must lobd b JDBC driver thbt bccepts the JDBC URL before it uses the
+     * <code>RowSet</code> object to connect to b dbtbbbse.  The <code>RowSet</code>
+     * object will use the URL internblly to crebte b dbtbbbse connection in order
+     * to rebd or write dbtb.
      *
-     * @param url a <code>String</code> object that contains the JDBC URL
-     *            that will be used to establish the connection to a database for this
-     *            <code>RowSet</code> object; may be <code>null</code> but must not
-     *            be an empty string
-     * @throws SQLException if an error occurs setting the Url property or the
-     *         parameter supplied is a string with a length of <code>0</code> (an
+     * @pbrbm url b <code>String</code> object thbt contbins the JDBC URL
+     *            thbt will be used to estbblish the connection to b dbtbbbse for this
+     *            <code>RowSet</code> object; mby be <code>null</code> but must not
+     *            be bn empty string
+     * @throws SQLException if bn error occurs setting the Url property or the
+     *         pbrbmeter supplied is b string with b length of <code>0</code> (bn
      *         empty string)
      * @see #getUrl
      */
@@ -4353,7 +4353,7 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
     public void setUrl(String url) throws SQLException {
 
        if(getUrl() != null) {
-          if(!getUrl().equals(url)) {
+          if(!getUrl().equbls(url)) {
              super.setUrl(url);
              conn = null;
              ps = null;
@@ -4366,84 +4366,84 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
     }
 
      /**
-     * Sets the username property for this <code>JdbcRowSet</code> object
-     * to the given user name. Because it
-     * is not serialized, the username property is set at run time before
-     * calling the method <code>execute</code>. In addition,
-     * if the <code>username</code> property is already set with a
-     * non-null value and that value is different from the <code>String</code>
+     * Sets the usernbme property for this <code>JdbcRowSet</code> object
+     * to the given user nbme. Becbuse it
+     * is not seriblized, the usernbme property is set bt run time before
+     * cblling the method <code>execute</code>. In bddition,
+     * if the <code>usernbme</code> property is blrebdy set with b
+     * non-null vblue bnd thbt vblue is different from the <code>String</code>
      * object to be set,
-     * this method sets this <code>JdbcRowSet</code> object's private fields
-     * <code>ps</code>, <code>rs</code>, and <code>conn</code> to <code>null</code>.
-     * (The field <code>ps</code> is its <code>PreparedStatement</code> object,
-     * <code>rs</code> is its <code>ResultSet</code> object, and
+     * this method sets this <code>JdbcRowSet</code> object's privbte fields
+     * <code>ps</code>, <code>rs</code>, bnd <code>conn</code> to <code>null</code>.
+     * (The field <code>ps</code> is its <code>PrepbredStbtement</code> object,
+     * <code>rs</code> is its <code>ResultSet</code> object, bnd
      * <code>conn</code> is its <code>Connection</code> object.)
-     * Setting these fields to <code>null</code> ensures that only current
-     * values will be used.
+     * Setting these fields to <code>null</code> ensures thbt only current
+     * vblues will be used.
      *
-     * @param uname the <code>String</code> object containing the user name that
-     *     is supplied to the data source to create a connection. It may be null.
-     * @see #getUsername
+     * @pbrbm unbme the <code>String</code> object contbining the user nbme thbt
+     *     is supplied to the dbtb source to crebte b connection. It mby be null.
+     * @see #getUsernbme
      */
-    public void setUsername(String uname) {
+    public void setUsernbme(String unbme) {
 
-       if( getUsername() != null) {
-          if(!getUsername().equals(uname)) {
-             super.setUsername(uname);
+       if( getUsernbme() != null) {
+          if(!getUsernbme().equbls(unbme)) {
+             super.setUsernbme(unbme);
              conn = null;
              ps = null;
              rs = null;
           }
        }
        else{
-          super.setUsername(uname);
+          super.setUsernbme(unbme);
        }
     }
 
      /**
-     * Sets the password property for this <code>JdbcRowSet</code> object
-     * to the given <code>String</code> object. Because it
-     * is not serialized, the password property is set at run time before
-     * calling the method <code>execute</code>. Its default valus is
-     * <code>null</code>. In addition,
-     * if the <code>password</code> property is already set with a
-     * non-null value and that value is different from the one being set,
-     * this method sets this <code>JdbcRowSet</code> object's private fields
-     * <code>ps</code>, <code>rs</code>, and <code>conn</code> to <code>null</code>.
-     * (The field <code>ps</code> is its <code>PreparedStatement</code> object,
-     * <code>rs</code> is its <code>ResultSet</code> object, and
+     * Sets the pbssword property for this <code>JdbcRowSet</code> object
+     * to the given <code>String</code> object. Becbuse it
+     * is not seriblized, the pbssword property is set bt run time before
+     * cblling the method <code>execute</code>. Its defbult vblus is
+     * <code>null</code>. In bddition,
+     * if the <code>pbssword</code> property is blrebdy set with b
+     * non-null vblue bnd thbt vblue is different from the one being set,
+     * this method sets this <code>JdbcRowSet</code> object's privbte fields
+     * <code>ps</code>, <code>rs</code>, bnd <code>conn</code> to <code>null</code>.
+     * (The field <code>ps</code> is its <code>PrepbredStbtement</code> object,
+     * <code>rs</code> is its <code>ResultSet</code> object, bnd
      * <code>conn</code> is its <code>Connection</code> object.)
-     * Setting these fields to <code>null</code> ensures that only current
-     * values will be used.
+     * Setting these fields to <code>null</code> ensures thbt only current
+     * vblues will be used.
      *
-     * @param password the <code>String</code> object that represents the password
-     *     that must be supplied to the database to create a connection
+     * @pbrbm pbssword the <code>String</code> object thbt represents the pbssword
+     *     thbt must be supplied to the dbtbbbse to crebte b connection
      */
-    public void setPassword(String password) {
+    public void setPbssword(String pbssword) {
 
-       if ( getPassword() != null) {
-          if(!getPassword().equals(password)) {
-             super.setPassword(password);
+       if ( getPbssword() != null) {
+          if(!getPbssword().equbls(pbssword)) {
+             super.setPbssword(pbssword);
              conn = null;
              ps = null;
              rs = null;
           }
        }
        else{
-          super.setPassword(password);
+          super.setPbssword(pbssword);
        }
     }
 
     /**
      * Sets the type for this <code>RowSet</code> object to the specified type.
-     * The default type is <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>.
+     * The defbult type is <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>.
      *
-     * @param type one of the following constants:
+     * @pbrbm type one of the following constbnts:
      *             <code>ResultSet.TYPE_FORWARD_ONLY</code>,
      *             <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>, or
      *             <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
-     * @throws SQLException if the parameter supplied is not one of the
-     *         following constants:
+     * @throws SQLException if the pbrbmeter supplied is not one of the
+     *         following constbnts:
      *          <code>ResultSet.TYPE_FORWARD_ONLY</code> or
      *          <code>ResultSet.TYPE_SCROLL_INSENSITIVE</code>
      *          <code>ResultSet.TYPE_SCROLL_SENSITIVE</code>
@@ -4453,15 +4453,15 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
 
     public void setType(int type) throws SQLException {
 
-       int oldVal;
+       int oldVbl;
 
        try {
-          oldVal = getType();
-        }catch(SQLException ex) {
-           oldVal = 0;
+          oldVbl = getType();
+        }cbtch(SQLException ex) {
+           oldVbl = 0;
         }
 
-       if(oldVal != type) {
+       if(oldVbl != type) {
            super.setType(type);
        }
 
@@ -4469,2445 +4469,2445 @@ public class JdbcRowSetImpl extends BaseRowSet implements JdbcRowSet, Joinable {
 
     /**
      * Sets the concurrency for this <code>RowSet</code> object to
-     * the specified concurrency. The default concurrency for any <code>RowSet</code>
+     * the specified concurrency. The defbult concurrency for bny <code>RowSet</code>
      * object (connected or disconnected) is <code>ResultSet.CONCUR_UPDATABLE</code>,
-     * but this method may be called at any time to change the concurrency.
+     * but this method mby be cblled bt bny time to chbnge the concurrency.
      *
-     * @param concur one of the following constants:
+     * @pbrbm concur one of the following constbnts:
      *                    <code>ResultSet.CONCUR_READ_ONLY</code> or
      *                    <code>ResultSet.CONCUR_UPDATABLE</code>
-     * @throws SQLException if the parameter supplied is not one of the
-     *         following constants:
+     * @throws SQLException if the pbrbmeter supplied is not one of the
+     *         following constbnts:
      *          <code>ResultSet.CONCUR_UPDATABLE</code> or
      *          <code>ResultSet.CONCUR_READ_ONLY</code>
      * @see #getConcurrency
-     * @see #isReadOnly
+     * @see #isRebdOnly
      */
     public void setConcurrency(int concur) throws SQLException {
 
-       int oldVal;
+       int oldVbl;
 
        try {
-          oldVal = getConcurrency();
-        }catch(NullPointerException ex) {
-           oldVal = 0;
+          oldVbl = getConcurrency();
+        }cbtch(NullPointerException ex) {
+           oldVbl = 0;
         }
 
-       if(oldVal != concur) {
+       if(oldVbl != concur) {
            super.setConcurrency(concur);
        }
 
     }
 
     /**
-     * Retrieves the value of the designated <code>SQL XML</code> parameter as a
-     * <code>SQLXML</code> object in the Java programming language.
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @return a SQLXML object that maps an SQL XML value
-     * @throws SQLException if a database access error occurs
+     * Retrieves the vblue of the designbted <code>SQL XML</code> pbrbmeter bs b
+     * <code>SQLXML</code> object in the Jbvb progrbmming lbngubge.
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @return b SQLXML object thbt mbps bn SQL XML vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
     public SQLXML getSQLXML(int columnIndex) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Retrieves the value of the designated <code>SQL XML</code> parameter as a
-     * <code>SQLXML</code> object in the Java programming language.
-     * @param colName the name of the column from which to retrieve the value
-     * @return a SQLXML object that maps an SQL XML value
-     * @throws SQLException if a database access error occurs
+     * Retrieves the vblue of the designbted <code>SQL XML</code> pbrbmeter bs b
+     * <code>SQLXML</code> object in the Jbvb progrbmming lbngubge.
+     * @pbrbm colNbme the nbme of the column from which to retrieve the vblue
+     * @return b SQLXML object thbt mbps bn SQL XML vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      */
-    public SQLXML getSQLXML(String colName) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public SQLXML getSQLXML(String colNbme) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Retrieves the value of the designated column in the current row of this
-     * <code>ResultSet</code> object as a java.sql.RowId object in the Java
-     * programming language.
+     * Retrieves the vblue of the designbted column in the current row of this
+     * <code>ResultSet</code> object bs b jbvb.sql.RowId object in the Jbvb
+     * progrbmming lbngubge.
      *
-     * @param columnIndex the first column is 1, the second 2, ...
-     * @return the column value if the value is a SQL <code>NULL</code> the
-     *     value returned is <code>null</code>
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnIndex the first column is 1, the second 2, ...
+     * @return the column vblue if the vblue is b SQL <code>NULL</code> the
+     *     vblue returned is <code>null</code>
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
     public RowId getRowId(int columnIndex) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Retrieves the value of the designated column in the current row of this
-     * <code>ResultSet</code> object as a java.sql.RowId object in the Java
-     * programming language.
+     * Retrieves the vblue of the designbted column in the current row of this
+     * <code>ResultSet</code> object bs b jbvb.sql.RowId object in the Jbvb
+     * progrbmming lbngubge.
      *
-     * @param columnName the name of the column
-     * @return the column value if the value is a SQL <code>NULL</code> the
-     *     value returned is <code>null</code>
-     * @throws SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @return the column vblue if the vblue is b SQL <code>NULL</code> the
+     *     vblue returned is <code>null</code>
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public RowId getRowId(String columnName) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public RowId getRowId(String columnNbme) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a <code>RowId</code> value. The updater
-     * methods are used to update column values in the current row or the insert
-     * row. The updater methods do not update the underlying database; instead
-     * the <code>updateRow<code> or <code>insertRow</code> methods are called
-     * to update the database.
+     * Updbtes the designbted column with b <code>RowId</code> vblue. The updbter
+     * methods bre used to updbte column vblues in the current row or the insert
+     * row. The updbter methods do not updbte the underlying dbtbbbse; instebd
+     * the <code>updbteRow<code> or <code>insertRow</code> methods bre cblled
+     * to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second 2, ...
-     * @param x the column value
-     * @throws SQLException if a database access occurs
+     * @pbrbm columnIndex the first column is 1, the second 2, ...
+     * @pbrbm x the column vblue
+     * @throws SQLException if b dbtbbbse bccess occurs
      * @since 1.6
      */
-    public void updateRowId(int columnIndex, RowId x) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteRowId(int columnIndex, RowId x) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a <code>RowId</code> value. The updater
-     * methods are used to update column values in the current row or the insert
-     * row. The updater methods do not update the underlying database; instead
-     * the <code>updateRow<code> or <code>insertRow</code> methods are called
-     * to update the database.
+     * Updbtes the designbted column with b <code>RowId</code> vblue. The updbter
+     * methods bre used to updbte column vblues in the current row or the insert
+     * row. The updbter methods do not updbte the underlying dbtbbbse; instebd
+     * the <code>updbteRow<code> or <code>insertRow</code> methods bre cblled
+     * to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param x the column value
-     * @throws SQLException if a database access occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm x the column vblue
+     * @throws SQLException if b dbtbbbse bccess occurs
      * @since 1.6
      */
-    public void updateRowId(String columnName, RowId x) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteRowId(String columnNbme, RowId x) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Retrieves the holdability of this ResultSet object
+     * Retrieves the holdbbility of this ResultSet object
      * @return  either ResultSet.HOLD_CURSORS_OVER_COMMIT or ResultSet.CLOSE_CURSORS_AT_COMMIT
-     * @throws SQLException if a database error occurs
+     * @throws SQLException if b dbtbbbse error occurs
      * @since 1.6
      */
-    public int getHoldability() throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public int getHoldbbility() throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Retrieves whether this ResultSet object has been closed. A ResultSet is closed if the
-     * method close has been called on it, or if it is automatically closed.
-     * @return true if this ResultSet object is closed; false if it is still open
-     * @throws SQLException if a database access error occurs
+     * Retrieves whether this ResultSet object hbs been closed. A ResultSet is closed if the
+     * method close hbs been cblled on it, or if it is butombticblly closed.
+     * @return true if this ResultSet object is closed; fblse if it is still open
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public boolean isClosed() throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public boolebn isClosed() throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * This method is used for updating columns that support National Character sets.
-     * It can be used for updating NCHAR,NVARCHAR and LONGNVARCHAR columns.
-     * @param columnIndex the first column is 1, the second 2, ...
-     * @param nString the value for the column to be updated
-     * @throws SQLException if a database access error occurs
+     * This method is used for updbting columns thbt support Nbtionbl Chbrbcter sets.
+     * It cbn be used for updbting NCHAR,NVARCHAR bnd LONGNVARCHAR columns.
+     * @pbrbm columnIndex the first column is 1, the second 2, ...
+     * @pbrbm nString the vblue for the column to be updbted
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public void updateNString(int columnIndex, String nString) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNString(int columnIndex, String nString) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * This method is used for updating columns that support National Character sets.
-     * It can be used for updating NCHAR,NVARCHAR and LONGNVARCHAR columns.
-     * @param columnName name of the Column
-     * @param nString the value for the column to be updated
-     * @throws SQLException if a database access error occurs
+     * This method is used for updbting columns thbt support Nbtionbl Chbrbcter sets.
+     * It cbn be used for updbting NCHAR,NVARCHAR bnd LONGNVARCHAR columns.
+     * @pbrbm columnNbme nbme of the Column
+     * @pbrbm nString the vblue for the column to be updbted
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public void updateNString(String columnName, String nString) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNString(String columnNbme, String nString) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
 
     /*o
-     * This method is used for updating SQL <code>NCLOB</code>  type that maps
-     * to <code>java.sql.Types.NCLOB</code>
-     * @param columnIndex the first column is 1, the second 2, ...
-     * @param nClob the value for the column to be updated
-     * @throws SQLException if a database access error occurs
+     * This method is used for updbting SQL <code>NCLOB</code>  type thbt mbps
+     * to <code>jbvb.sql.Types.NCLOB</code>
+     * @pbrbm columnIndex the first column is 1, the second 2, ...
+     * @pbrbm nClob the vblue for the column to be updbted
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public void updateNClob(int columnIndex, NClob nClob) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNClob(int columnIndex, NClob nClob) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * This method is used for updating SQL <code>NCLOB</code>  type that maps
-     * to <code>java.sql.Types.NCLOB</code>
-     * @param columnName name of the column
-     * @param nClob the value for the column to be updated
-     * @throws SQLException if a database access error occurs
+     * This method is used for updbting SQL <code>NCLOB</code>  type thbt mbps
+     * to <code>jbvb.sql.Types.NCLOB</code>
+     * @pbrbm columnNbme nbme of the column
+     * @pbrbm nClob the vblue for the column to be updbted
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public void updateNClob(String columnName, NClob nClob) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNClob(String columnNbme, NClob nClob) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Retrieves the value of the designated column in the current row
-     * of this <code>ResultSet</code> object as a <code>NClob</code> object
-     * in the Java programming language.
+     * Retrieves the vblue of the designbted column in the current row
+     * of this <code>ResultSet</code> object bs b <code>NClob</code> object
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @param i the first column is 1, the second is 2, ...
-     * @return a <code>NClob</code> object representing the SQL
-     *         <code>NCLOB</code> value in the specified column
-     * @exception SQLException if a database access error occurs
+     * @pbrbm i the first column is 1, the second is 2, ...
+     * @return b <code>NClob</code> object representing the SQL
+     *         <code>NCLOB</code> vblue in the specified column
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
     public NClob getNClob(int i) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
 
   /**
-     * Retrieves the value of the designated column in the current row
-     * of this <code>ResultSet</code> object as a <code>NClob</code> object
-     * in the Java programming language.
+     * Retrieves the vblue of the designbted column in the current row
+     * of this <code>ResultSet</code> object bs b <code>NClob</code> object
+     * in the Jbvb progrbmming lbngubge.
      *
-     * @param colName the name of the column from which to retrieve the value
-     * @return a <code>NClob</code> object representing the SQL <code>NCLOB</code>
-     * value in the specified column
-     * @exception SQLException if a database access error occurs
+     * @pbrbm colNbme the nbme of the column from which to retrieve the vblue
+     * @return b <code>NClob</code> object representing the SQL <code>NCLOB</code>
+     * vblue in the specified column
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public NClob getNClob(String colName) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public NClob getNClob(String colNbme) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
-    public <T> T unwrap(java.lang.Class<T> iface) throws java.sql.SQLException{
+    public <T> T unwrbp(jbvb.lbng.Clbss<T> ifbce) throws jbvb.sql.SQLException{
         return null;
     }
 
-    public boolean isWrapperFor(Class<?> interfaces) throws SQLException {
-        return false;
+    public boolebn isWrbpperFor(Clbss<?> interfbces) throws SQLException {
+        return fblse;
     }
 
     /**
-      * Sets the designated parameter to the given <code>java.sql.SQLXML</code> object. The driver converts this to an
-      * SQL <code>XML</code> value when it sends it to the database.
-      * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-      * @param xmlObject a <code>SQLXML</code> object that maps an SQL <code>XML</code> value
-      * @throws SQLException if a database access error occurs
+      * Sets the designbted pbrbmeter to the given <code>jbvb.sql.SQLXML</code> object. The driver converts this to bn
+      * SQL <code>XML</code> vblue when it sends it to the dbtbbbse.
+      * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+      * @pbrbm xmlObject b <code>SQLXML</code> object thbt mbps bn SQL <code>XML</code> vblue
+      * @throws SQLException if b dbtbbbse bccess error occurs
       * @since 1.6
       */
-     public void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException {
-         throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+     public void setSQLXML(int pbrbmeterIndex, SQLXML xmlObject) throws SQLException {
+         throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
      }
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.SQLXML</code> object. The driver converts this to an
-     * <code>SQL XML</code> value when it sends it to the database.
-     * @param parameterName the name of the parameter
-     * @param xmlObject a <code>SQLXML</code> object that maps an <code>SQL XML</code> value
-     * @throws SQLException if a database access error occurs
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.SQLXML</code> object. The driver converts this to bn
+     * <code>SQL XML</code> vblue when it sends it to the dbtbbbse.
+     * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+     * @pbrbm xmlObject b <code>SQLXML</code> object thbt mbps bn <code>SQL XML</code> vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public void setSQLXML(String parameterName, SQLXML xmlObject) throws SQLException {
-         throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void setSQLXML(String pbrbmeterNbme, SQLXML xmlObject) throws SQLException {
+         throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
      }
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.RowId</code> object. The
-     * driver converts this to a SQL <code>ROWID</code> value when it sends it
-     * to the database
+     * Sets the designbted pbrbmeter to the given <code>jbvb.sql.RowId</code> object. The
+     * driver converts this to b SQL <code>ROWID</code> vblue when it sends it
+     * to the dbtbbbse
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @throws SQLException if a database access error occurs
+     * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm x the pbrbmeter vblue
+     * @throws SQLException if b dbtbbbse bccess error occurs
      *
      * @since 1.6
      */
-    public void setRowId(int parameterIndex, RowId x) throws SQLException {
-         throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void setRowId(int pbrbmeterIndex, RowId x) throws SQLException {
+         throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
      }
 
     /**
-    * Sets the designated parameter to the given <code>java.sql.RowId</code> object. The
-    * driver converts this to a SQL <code>ROWID</code> when it sends it to the
-    * database.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.RowId</code> object. The
+    * driver converts this to b SQL <code>ROWID</code> when it sends it to the
+    * dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @throws SQLException if a database access error occurs
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @throws SQLException if b dbtbbbse bccess error occurs
     * @since 1.6
     */
-   public void setRowId(String parameterName, RowId x) throws SQLException {
-         throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setRowId(String pbrbmeterNbme, RowId x) throws SQLException {
+         throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
      }
 
 
    /**
-     * Sets the designated parameter to the given <code>String</code> object.
-     * The driver converts this to a SQL <code>NCHAR</code> or
-     * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code> value
-     * (depending on the argument's
-     * size relative to the driver's limits on <code>NVARCHAR</code> values)
-     * when it sends it to the database.
+     * Sets the designbted pbrbmeter to the given <code>String</code> object.
+     * The driver converts this to b SQL <code>NCHAR</code> or
+     * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code> vblue
+     * (depending on the brgument's
+     * size relbtive to the driver's limits on <code>NVARCHAR</code> vblues)
+     * when it sends it to the dbtbbbse.
      *
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur ; or if a database access error occurs
+     * @pbrbm pbrbmeterIndex of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm vblue the pbrbmeter vblue
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur ; or if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-     public void setNString(int parameterIndex, String value) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+     public void setNString(int pbrbmeterIndex, String vblue) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
      }
 
 
    /**
-    * Sets the designated parameter in this <code>RowSet</code> object's command
-    * to a <code>Reader</code> object. The
-    * <code>Reader</code> reads the data till end-of-file is reached. The
-    * driver does the necessary conversion from Java character format to
-    * the national character set in the database.
+    * Sets the designbted pbrbmeter in this <code>RowSet</code> object's commbnd
+    * to b <code>Rebder</code> object. The
+    * <code>Rebder</code> rebds the dbtb till end-of-file is rebched. The
+    * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+    * the nbtionbl chbrbcter set in the dbtbbbse.
 
-    * <P><B>Note:</B> This stream object can either be a standard
-    * Java stream object or your own subclass that implements the
-    * standard interface.
-    * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-    * it might be more efficient to use a version of
-    * <code>setNCharacterStream</code> which takes a length parameter.
+    * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+    * Jbvb strebm object or your own subclbss thbt implements the
+    * stbndbrd interfbce.
+    * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+    * it might be more efficient to use b version of
+    * <code>setNChbrbcterStrebm</code> which tbkes b length pbrbmeter.
     *
-    * @param parameterIndex of the first parameter is 1, the second is 2, ...
-    * @param value the parameter value
-    * @throws SQLException if the driver does not support national
-    *         character sets;  if the driver can detect that a data conversion
-    *  error could occur ; if a database access error occurs; or
-    * this method is called on a closed <code>PreparedStatement</code>
-    * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+    * @pbrbm pbrbmeterIndex of the first pbrbmeter is 1, the second is 2, ...
+    * @pbrbm vblue the pbrbmeter vblue
+    * @throws SQLException if the driver does not support nbtionbl
+    *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+    *  error could occur ; if b dbtbbbse bccess error occurs; or
+    * this method is cblled on b closed <code>PrepbredStbtement</code>
+    * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
     * @since 1.6
     */
-    public void setNCharacterStream(int parameterIndex, Reader value) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void setNChbrbcterStrebm(int pbrbmeterIndex, Rebder vblue) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
   /**
-    * Sets the designated parameter to a <code>java.sql.NClob</code> object. The object
-    * implements the <code>java.sql.NClob</code> interface. This <code>NClob</code>
-    * object maps to a SQL <code>NCLOB</code>.
-    * @param parameterName the name of the column to be set
-    * @param value the parameter value
-    * @throws SQLException if the driver does not support national
-    *         character sets;  if the driver can detect that a data conversion
-    *  error could occur; or if a database access error occurs
+    * Sets the designbted pbrbmeter to b <code>jbvb.sql.NClob</code> object. The object
+    * implements the <code>jbvb.sql.NClob</code> interfbce. This <code>NClob</code>
+    * object mbps to b SQL <code>NCLOB</code>.
+    * @pbrbm pbrbmeterNbme the nbme of the column to be set
+    * @pbrbm vblue the pbrbmeter vblue
+    * @throws SQLException if the driver does not support nbtionbl
+    *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+    *  error could occur; or if b dbtbbbse bccess error occurs
     * @since 1.6
     */
-    public void setNClob(String parameterName, NClob value) throws SQLException {
-         throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void setNClob(String pbrbmeterNbme, NClob vblue) throws SQLException {
+         throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
      }
 
 
   /**
-     * Retrieves the value of the designated column in the current row
-     * of this <code>ResultSet</code> object as a
-     * <code>java.io.Reader</code> object.
+     * Retrieves the vblue of the designbted column in the current row
+     * of this <code>ResultSet</code> object bs b
+     * <code>jbvb.io.Rebder</code> object.
      * It is intended for use when
-     * accessing  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * bccessing  <code>NCHAR</code>,<code>NVARCHAR</code>
+     * bnd <code>LONGNVARCHAR</code> columns.
      *
-     * @return a <code>java.io.Reader</code> object that contains the column
-     * value; if the value is SQL <code>NULL</code>, the value returned is
-     * <code>null</code> in the Java programming language.
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @exception SQLException if a database access error occurs
+     * @return b <code>jbvb.io.Rebder</code> object thbt contbins the column
+     * vblue; if the vblue is SQL <code>NULL</code>, the vblue returned is
+     * <code>null</code> in the Jbvb progrbmming lbngubge.
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public java.io.Reader getNCharacterStream(int columnIndex) throws SQLException {
-       throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public jbvb.io.Rebder getNChbrbcterStrebm(int columnIndex) throws SQLException {
+       throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
      }
 
 
     /**
-     * Retrieves the value of the designated column in the current row
-     * of this <code>ResultSet</code> object as a
-     * <code>java.io.Reader</code> object.
+     * Retrieves the vblue of the designbted column in the current row
+     * of this <code>ResultSet</code> object bs b
+     * <code>jbvb.io.Rebder</code> object.
      * It is intended for use when
-     * accessing  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * bccessing  <code>NCHAR</code>,<code>NVARCHAR</code>
+     * bnd <code>LONGNVARCHAR</code> columns.
      *
-     * @param columnName the name of the column
-     * @return a <code>java.io.Reader</code> object that contains the column
-     * value; if the value is SQL <code>NULL</code>, the value returned is
-     * <code>null</code> in the Java programming language
-     * @exception SQLException if a database access error occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @return b <code>jbvb.io.Rebder</code> object thbt contbins the column
+     * vblue; if the vblue is SQL <code>NULL</code>, the vblue returned is
+     * <code>null</code> in the Jbvb progrbmming lbngubge
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public java.io.Reader getNCharacterStream(String columnName) throws SQLException {
-       throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public jbvb.io.Rebder getNChbrbcterStrebm(String columnNbme) throws SQLException {
+       throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
      }
 
     /**
-     * Updates the designated column with a <code>java.sql.SQLXML</code> value.
-     * The updater
-     * methods are used to update column values in the current row or the insert
-     * row. The updater methods do not update the underlying database; instead
-     * the <code>updateRow</code> or <code>insertRow</code> methods are called
-     * to update the database.
-     * @param columnIndex the first column is 1, the second 2, ...
-     * @param xmlObject the value for the column to be updated
-     * @throws SQLException if a database access error occurs
+     * Updbtes the designbted column with b <code>jbvb.sql.SQLXML</code> vblue.
+     * The updbter
+     * methods bre used to updbte column vblues in the current row or the insert
+     * row. The updbter methods do not updbte the underlying dbtbbbse; instebd
+     * the <code>updbteRow</code> or <code>insertRow</code> methods bre cblled
+     * to updbte the dbtbbbse.
+     * @pbrbm columnIndex the first column is 1, the second 2, ...
+     * @pbrbm xmlObject the vblue for the column to be updbted
+     * @throws SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public void updateSQLXML(int columnIndex, SQLXML xmlObject) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteSQLXML(int columnIndex, SQLXML xmlObject) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a <code>java.sql.SQLXML</code> value.
-     * The updater
-     * methods are used to update column values in the current row or the insert
-     * row. The updater methods do not update the underlying database; instead
-     * the <code>updateRow</code> or <code>insertRow</code> methods are called
-     * to update the database.
+     * Updbtes the designbted column with b <code>jbvb.sql.SQLXML</code> vblue.
+     * The updbter
+     * methods bre used to updbte column vblues in the current row or the insert
+     * row. The updbter methods do not updbte the underlying dbtbbbse; instebd
+     * the <code>updbteRow</code> or <code>insertRow</code> methods bre cblled
+     * to updbte the dbtbbbse.
      *
-     * @param columnName the name of the column
-     * @param xmlObject the column value
-     * @throws SQLException if a database access occurs
+     * @pbrbm columnNbme the nbme of the column
+     * @pbrbm xmlObject the column vblue
+     * @throws SQLException if b dbtbbbse bccess occurs
      * @since 1.6
      */
-    public void updateSQLXML(String columnName, SQLXML xmlObject) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteSQLXML(String columnNbme, SQLXML xmlObject) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
      /**
-     * Retrieves the value of the designated column in the current row
-     * of this <code>ResultSet</code> object as
-     * a <code>String</code> in the Java programming language.
+     * Retrieves the vblue of the designbted column in the current row
+     * of this <code>ResultSet</code> object bs
+     * b <code>String</code> in the Jbvb progrbmming lbngubge.
      * It is intended for use when
-     * accessing  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * bccessing  <code>NCHAR</code>,<code>NVARCHAR</code>
+     * bnd <code>LONGNVARCHAR</code> columns.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @exception SQLException if a database access error occurs
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
     public String getNString(int columnIndex) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Retrieves the value of the designated column in the current row
-     * of this <code>ResultSet</code> object as
-     * a <code>String</code> in the Java programming language.
+     * Retrieves the vblue of the designbted column in the current row
+     * of this <code>ResultSet</code> object bs
+     * b <code>String</code> in the Jbvb progrbmming lbngubge.
      * It is intended for use when
-     * accessing  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * bccessing  <code>NCHAR</code>,<code>NVARCHAR</code>
+     * bnd <code>LONGNVARCHAR</code> columns.
      *
-     * @param columnName the SQL name of the column
-     * @return the column value; if the value is SQL <code>NULL</code>, the
-     * value returned is <code>null</code>
-     * @exception SQLException if a database access error occurs
+     * @pbrbm columnNbme the SQL nbme of the column
+     * @return the column vblue; if the vblue is SQL <code>NULL</code>, the
+     * vblue returned is <code>null</code>
+     * @exception SQLException if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-    public String getNString(String columnName) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public String getNString(String columnNbme) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
      /**
-       * Updates the designated column with a character stream value, which will
-       * have the specified number of bytes. The driver does the necessary conversion
-       * from Java character format to the national character set in the database.
-       * It is intended for use when updating NCHAR,NVARCHAR and LONGNVARCHAR columns.
-       * The updater methods are used to update column values in the current row or
-       * the insert row. The updater methods do not update the underlying database;
-       * instead the updateRow or insertRow methods are called to update the database.
+       * Updbtes the designbted column with b chbrbcter strebm vblue, which will
+       * hbve the specified number of bytes. The driver does the necessbry conversion
+       * from Jbvb chbrbcter formbt to the nbtionbl chbrbcter set in the dbtbbbse.
+       * It is intended for use when updbting NCHAR,NVARCHAR bnd LONGNVARCHAR columns.
+       * The updbter methods bre used to updbte column vblues in the current row or
+       * the insert row. The updbter methods do not updbte the underlying dbtbbbse;
+       * instebd the updbteRow or insertRow methods bre cblled to updbte the dbtbbbse.
        *
-       * @param columnIndex - the first column is 1, the second is 2, ...
-       * @param x - the new column value
-       * @param length - the length of the stream
-       * @exception SQLException if a database access error occurs
+       * @pbrbm columnIndex - the first column is 1, the second is 2, ...
+       * @pbrbm x - the new column vblue
+       * @pbrbm length - the length of the strebm
+       * @exception SQLException if b dbtbbbse bccess error occurs
        * @since 1.6
        */
-       public void updateNCharacterStream(int columnIndex,
-                            java.io.Reader x,
+       public void updbteNChbrbcterStrebm(int columnIndex,
+                            jbvb.io.Rebder x,
                             long length)
                             throws SQLException {
-          throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+          throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
        }
 
      /**
-       * Updates the designated column with a character stream value, which will
-       * have the specified number of bytes. The driver does the necessary conversion
-       * from Java character format to the national character set in the database.
-       * It is intended for use when updating NCHAR,NVARCHAR and LONGNVARCHAR columns.
-       * The updater methods are used to update column values in the current row or
-       * the insert row. The updater methods do not update the underlying database;
-       * instead the updateRow or insertRow methods are called to update the database.
+       * Updbtes the designbted column with b chbrbcter strebm vblue, which will
+       * hbve the specified number of bytes. The driver does the necessbry conversion
+       * from Jbvb chbrbcter formbt to the nbtionbl chbrbcter set in the dbtbbbse.
+       * It is intended for use when updbting NCHAR,NVARCHAR bnd LONGNVARCHAR columns.
+       * The updbter methods bre used to updbte column vblues in the current row or
+       * the insert row. The updbter methods do not updbte the underlying dbtbbbse;
+       * instebd the updbteRow or insertRow methods bre cblled to updbte the dbtbbbse.
        *
-       * @param columnName - name of the Column
-       * @param x - the new column value
-       * @param length - the length of the stream
-       * @exception SQLException if a database access error occurs
+       * @pbrbm columnNbme - nbme of the Column
+       * @pbrbm x - the new column vblue
+       * @pbrbm length - the length of the strebm
+       * @exception SQLException if b dbtbbbse bccess error occurs
        * @since 1.6
        */
-       public void updateNCharacterStream(String columnName,
-                            java.io.Reader x,
+       public void updbteNChbrbcterStrebm(String columnNbme,
+                            jbvb.io.Rebder x,
                             long length)
                             throws SQLException {
-          throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+          throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
        }
 
     /**
-     * Updates the designated column with a character stream value.   The
-     * driver does the necessary conversion from Java character format to
-     * the national character set in the database.
+     * Updbtes the designbted column with b chbrbcter strebm vblue.   The
+     * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+     * the nbtionbl chbrbcter set in the dbtbbbse.
      * It is intended for use when
-     * updating  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * updbting  <code>NCHAR</code>,<code>NVARCHAR</code>
+     * bnd <code>LONGNVARCHAR</code> columns.
      *
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateNCharacterStream</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteNChbrbcterStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param x the new column value
-     * @exception SQLException if a database access error occurs,
-     * the result set concurrency is <code>CONCUR_READ_ONLY</code> or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm x the new column vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     * the result set concurrency is <code>CONCUR_READ_ONLY</code> or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateNCharacterStream(int columnIndex,
-                             java.io.Reader x) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNChbrbcterStrebm(int columnIndex,
+                             jbvb.io.Rebder x) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a character stream value.  The
-     * driver does the necessary conversion from Java character format to
-     * the national character set in the database.
+     * Updbtes the designbted column with b chbrbcter strebm vblue.  The
+     * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+     * the nbtionbl chbrbcter set in the dbtbbbse.
      * It is intended for use when
-     * updating  <code>NCHAR</code>,<code>NVARCHAR</code>
-     * and <code>LONGNVARCHAR</code> columns.
+     * updbting  <code>NCHAR</code>,<code>NVARCHAR</code>
+     * bnd <code>LONGNVARCHAR</code> columns.
      *
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateNCharacterStream</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteNChbrbcterStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the la
-bel is the name of the column
-     * @param reader the <code>java.io.Reader</code> object containing
-     *        the new column value
-     * @exception SQLException if a database access error occurs,
-     * the result set concurrency is <code>CONCUR_READ_ONLY</code> or this method is called on a closed result set
-      * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lb
+bel is the nbme of the column
+     * @pbrbm rebder the <code>jbvb.io.Rebder</code> object contbining
+     *        the new column vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
+     * the result set concurrency is <code>CONCUR_READ_ONLY</code> or this method is cblled on b closed result set
+      * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateNCharacterStream(String columnLabel,
-                             java.io.Reader reader) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNChbrbcterStrebm(String columnLbbel,
+                             jbvb.io.Rebder rebder) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given input stream, which
-     * will have the specified number of bytes.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * Updbtes the designbted column using the given input strebm, which
+     * will hbve the specified number of bytes.
+     * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @param length the number of bytes in the parameter data.
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+     * vblue to.
+     * @pbrbm length the number of bytes in the pbrbmeter dbtb.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateBlob(int columnIndex, InputStream inputStream, long length) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteBlob(int columnIndex, InputStrebm inputStrebm, long length) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given input stream, which
-     * will have the specified number of bytes.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * Updbtes the designbted column using the given input strebm, which
+     * will hbve the specified number of bytes.
+     * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @param length the number of bytes in the parameter data.
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lbbel is the nbme of the column
+     * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+     * vblue to.
+     * @pbrbm length the number of bytes in the pbrbmeter dbtb.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateBlob(String columnLabel, InputStream inputStream, long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteBlob(String columnLbbel, InputStrebm inputStrebm, long length) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given input stream.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * Updbtes the designbted column using the given input strebm.
+     * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      *
-     *  <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateBlob</code> which takes a length parameter.
+     *  <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteBlob</code> which tbkes b length pbrbmeter.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+     * vblue to.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateBlob(int columnIndex, InputStream inputStream) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteBlob(int columnIndex, InputStrebm inputStrebm) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given input stream.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * Updbtes the designbted column using the given input strebm.
+     * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     *   <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateBlob</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     *   <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteBlob</code> which tbkes b length pbrbmeter.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the la
-bel is the name of the column
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lb
+bel is the nbme of the column
+     * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+     * vblue to.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateBlob(String columnLabel, InputStream inputStream) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteBlob(String columnLbbel, InputStrebm inputStrebm) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given <code>Reader</code>
-     * object, which is the given number of characters long.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * Updbtes the designbted column using the given <code>Rebder</code>
+     * object, which is the given number of chbrbcters long.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateClob(int columnIndex,  Reader reader, long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteClob(int columnIndex,  Rebder rebder, long length) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given <code>Reader</code>
-     * object, which is the given number of characters long.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * Updbtes the designbted column using the given <code>Rebder</code>
+     * object, which is the given number of chbrbcters long.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lbbel is the nbme of the column
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateClob(String columnLabel,  Reader reader, long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteClob(String columnLbbel,  Rebder rebder, long length) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given <code>Reader</code>
+     * Updbtes the designbted column using the given <code>Rebder</code>
      * object.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     *   <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateClob</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     *   <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteClob</code> which tbkes b length pbrbmeter.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateClob(int columnIndex,  Reader reader) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteClob(int columnIndex,  Rebder rebder) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given <code>Reader</code>
+     * Updbtes the designbted column using the given <code>Rebder</code>
      * object.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     *  <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateClob</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     *  <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteClob</code> which tbkes b length pbrbmeter.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the la
-bel is the name of the column
-     * @param reader An object that contains the data to set the parameter value to.
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lb
+bel is the nbme of the column
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateClob(String columnLabel,  Reader reader) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteClob(String columnLbbel,  Rebder rebder) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
    /**
-     * Updates the designated column using the given <code>Reader</code>
-     * object, which is the given number of characters long.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * Updbtes the designbted column using the given <code>Rebder</code>
+     * object, which is the given number of chbrbcters long.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; this method is called on a closed result set,
-     * if a database access error occurs or
+     * @pbrbm columnIndex the first column is 1, the second 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur; this method is cblled on b closed result set,
+     * if b dbtbbbse bccess error occurs or
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateNClob(int columnIndex,  Reader reader, long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNClob(int columnIndex,  Rebder rebder, long length) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given <code>Reader</code>
-     * object, which is the given number of characters long.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * Updbtes the designbted column using the given <code>Rebder</code>
+     * object, which is the given number of chbrbcters long.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; this method is called on a closed result set;
-     *  if a database access error occurs or
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lbbel is the nbme of the column
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur; this method is cblled on b closed result set;
+     *  if b dbtbbbse bccess error occurs or
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateNClob(String columnLabel,  Reader reader, long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNClob(String columnLbbel,  Rebder rebder, long length) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given <code>Reader</code>
+     * Updbtes the designbted column using the given <code>Rebder</code>
      * object.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateNClob</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteNClob</code> which tbkes b length pbrbmeter.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; this method is called on a closed result set,
-     * if a database access error occurs or
+     * @pbrbm columnIndex the first column is 1, the second 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur; this method is cblled on b closed result set,
+     * if b dbtbbbse bccess error occurs or
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateNClob(int columnIndex,  Reader reader) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNClob(int columnIndex,  Rebder rebder) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column using the given <code>Reader</code>
+     * Updbtes the designbted column using the given <code>Rebder</code>
      * object.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+     * pbrbmeter, it mby be more prbcticbl to send it vib b
+     * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+     * bs needed until end-of-file is rebched.  The JDBC driver will
+     * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateNClob</code> which takes a length parameter.
+     * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+     * Jbvb strebm object or your own subclbss thbt implements the
+     * stbndbrd interfbce.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteNClob</code> which tbkes b length pbrbmeter.
      * <p>
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the la
-bel is the name of the column
-     * @param reader An object that contains the data to set the parameter value to.
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; this method is called on a closed result set;
-     *  if a database access error occurs or
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lb
+bel is the nbme of the column
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur; this method is cblled on b closed result set;
+     *  if b dbtbbbse bccess error occurs or
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateNClob(String columnLabel,  Reader reader) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteNClob(String columnLbbel,  Rebder rebder) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
 
         /**
-     * Updates the designated column with an ascii stream value, which will have
+     * Updbtes the designbted column with bn bscii strebm vblue, which will hbve
      * the specified number of bytes.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param x the new column value
-     * @param length the length of the stream
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateAsciiStream(int columnIndex,
-                           java.io.InputStream x,
+    public void updbteAsciiStrebm(int columnIndex,
+                           jbvb.io.InputStrebm x,
                            long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a binary stream value, which will have
+     * Updbtes the designbted column with b binbry strebm vblue, which will hbve
      * the specified number of bytes.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param x the new column value
-     * @param length the length of the stream
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateBinaryStream(int columnIndex,
-                            java.io.InputStream x,
+    public void updbteBinbryStrebm(int columnIndex,
+                            jbvb.io.InputStrebm x,
                             long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a character stream value, which will have
+     * Updbtes the designbted column with b chbrbcter strebm vblue, which will hbve
      * the specified number of bytes.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param x the new column value
-     * @param length the length of the stream
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateCharacterStream(int columnIndex,
-                             java.io.Reader x,
+    public void updbteChbrbcterStrebm(int columnIndex,
+                             jbvb.io.Rebder x,
                              long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
      /**
-     * Updates the designated column with an ascii stream value, which will have
+     * Updbtes the designbted column with bn bscii strebm vblue, which will hbve
      * the specified number of bytes..
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
-     * @param x the new column value
-     * @param length the length of the stream
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lbbel is the nbme of the column
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateAsciiStream(String columnLabel,
-                           java.io.InputStream x,
+    public void updbteAsciiStrebm(String columnLbbel,
+                           jbvb.io.InputStrebm x,
                            long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with an ascii stream value.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn bscii strebm vblue.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateAsciiStream</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteAsciiStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param x the new column value
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm x the new column vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateAsciiStream(int columnIndex,
-                           java.io.InputStream x) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteAsciiStrebm(int columnIndex,
+                           jbvb.io.InputStrebm x) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with an ascii stream value.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with bn bscii strebm vblue.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateAsciiStream</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteAsciiStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the la
-bel is the name of the column
-     * @param x the new column value
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lb
+bel is the nbme of the column
+     * @pbrbm x the new column vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateAsciiStream(String columnLabel,
-                           java.io.InputStream x) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteAsciiStrebm(String columnLbbel,
+                           jbvb.io.InputStrebm x) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
 
     /**
-     * Updates the designated column with a binary stream value, which will have
+     * Updbtes the designbted column with b binbry strebm vblue, which will hbve
      * the specified number of bytes.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
-     * @param x the new column value
-     * @param length the length of the stream
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lbbel is the nbme of the column
+     * @pbrbm x the new column vblue
+     * @pbrbm length the length of the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateBinaryStream(String columnLabel,
-                            java.io.InputStream x,
+    public void updbteBinbryStrebm(String columnLbbel,
+                            jbvb.io.InputStrebm x,
                             long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a binary stream value.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b binbry strebm vblue.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateBinaryStream</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteBinbryStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param x the new column value
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm x the new column vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateBinaryStream(int columnIndex,
-                            java.io.InputStream x) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteBinbryStrebm(int columnIndex,
+                            jbvb.io.InputStrebm x) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
 
     /**
-     * Updates the designated column with a binary stream value.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b binbry strebm vblue.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateBinaryStream</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteBinbryStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the la
-bel is the name of the column
-     * @param x the new column value
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lb
+bel is the nbme of the column
+     * @pbrbm x the new column vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateBinaryStream(String columnLabel,
-                            java.io.InputStream x) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteBinbryStrebm(String columnLbbel,
+                            jbvb.io.InputStrebm x) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
 
     /**
-     * Updates the designated column with a character stream value, which will have
+     * Updbtes the designbted column with b chbrbcter strebm vblue, which will hbve
      * the specified number of bytes.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the label is the name of the column
-     * @param reader the <code>java.io.Reader</code> object containing
-     *        the new column value
-     * @param length the length of the stream
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lbbel is the nbme of the column
+     * @pbrbm rebder the <code>jbvb.io.Rebder</code> object contbining
+     *        the new column vblue
+     * @pbrbm length the length of the strebm
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateCharacterStream(String columnLabel,
-                             java.io.Reader reader,
+    public void updbteChbrbcterStrebm(String columnLbbel,
+                             jbvb.io.Rebder rebder,
                              long length) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a character stream value.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b chbrbcter strebm vblue.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateCharacterStream</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteChbrbcterStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param columnIndex the first column is 1, the second is 2, ...
-     * @param x the new column value
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnIndex the first column is 1, the second is 2, ...
+     * @pbrbm x the new column vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateCharacterStream(int columnIndex,
-                             java.io.Reader x) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteChbrbcterStrebm(int columnIndex,
+                             jbvb.io.Rebder x) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
     /**
-     * Updates the designated column with a character stream value.
-     * The updater methods are used to update column values in the
-     * current row or the insert row.  The updater methods do not
-     * update the underlying database; instead the <code>updateRow</code> or
-     * <code>insertRow</code> methods are called to update the database.
+     * Updbtes the designbted column with b chbrbcter strebm vblue.
+     * The updbter methods bre used to updbte column vblues in the
+     * current row or the insert row.  The updbter methods do not
+     * updbte the underlying dbtbbbse; instebd the <code>updbteRow</code> or
+     * <code>insertRow</code> methods bre cblled to updbte the dbtbbbse.
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>updateCharacterStream</code> which takes a length parameter.
+     * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+     * it might be more efficient to use b version of
+     * <code>updbteChbrbcterStrebm</code> which tbkes b length pbrbmeter.
      *
-     * @param columnLabel the label for the column specified with the SQL AS clause.  If the SQL AS clause was not specified, then the la
-bel is the name of the column
-     * @param reader the <code>java.io.Reader</code> object containing
-     *        the new column value
-     * @exception SQLException if a database access error occurs,
+     * @pbrbm columnLbbel the lbbel for the column specified with the SQL AS clbuse.  If the SQL AS clbuse wbs not specified, then the lb
+bel is the nbme of the column
+     * @pbrbm rebder the <code>jbvb.io.Rebder</code> object contbining
+     *        the new column vblue
+     * @exception SQLException if b dbtbbbse bccess error occurs,
      * the result set concurrency is <code>CONCUR_READ_ONLY</code>
-     * or this method is called on a closed result set
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+     * or this method is cblled on b closed result set
+     * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
      * this method
      * @since 1.6
      */
-    public void updateCharacterStream(String columnLabel,
-                             java.io.Reader reader) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void updbteChbrbcterStrebm(String columnLbbel,
+                             jbvb.io.Rebder rebder) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
 
      /**
-  * Sets the designated parameter to the given <code>java.net.URL</code> value.
-  * The driver converts this to an SQL <code>DATALINK</code> value
-  * when it sends it to the database.
+  * Sets the designbted pbrbmeter to the given <code>jbvb.net.URL</code> vblue.
+  * The driver converts this to bn SQL <code>DATALINK</code> vblue
+  * when it sends it to the dbtbbbse.
   *
-  * @param parameterIndex the first parameter is 1, the second is 2, ...
-  * @param x the <code>java.net.URL</code> object to be set
-  * @exception SQLException if a database access error occurs or
-  * this method is called on a closed <code>PreparedStatement</code>
-  * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+  * @pbrbm pbrbmeterIndex the first pbrbmeter is 1, the second is 2, ...
+  * @pbrbm x the <code>jbvb.net.URL</code> object to be set
+  * @exception SQLException if b dbtbbbse bccess error occurs or
+  * this method is cblled on b closed <code>PrepbredStbtement</code>
+  * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
   * @since 1.4
   */
-  public void setURL(int parameterIndex, java.net.URL x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+  public void setURL(int pbrbmeterIndex, jbvb.net.URL x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
    /**
-  * Sets the designated parameter to a <code>Reader</code> object.
-  * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-  * because it informs the driver that the parameter value should be sent to
-  * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-  * driver may have to do extra work to determine whether the parameter
-  * data should be sent to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
-  * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-  * it might be more efficient to use a version of
-  * <code>setNClob</code> which takes a length parameter.
+  * Sets the designbted pbrbmeter to b <code>Rebder</code> object.
+  * This method differs from the <code>setChbrbcterStrebm (int, Rebder)</code> method
+  * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+  * the server bs b <code>NCLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+  * driver mby hbve to do extrb work to determine whether the pbrbmeter
+  * dbtb should be sent to the server bs b <code>LONGNVARCHAR</code> or b <code>NCLOB</code>
+  * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+  * it might be more efficient to use b version of
+  * <code>setNClob</code> which tbkes b length pbrbmeter.
   *
-  * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-  * @param reader An object that contains the data to set the parameter value to.
-  * @throws SQLException if parameterIndex does not correspond to a parameter
-  * marker in the SQL statement;
-  * if the driver does not support national character sets;
-  * if the driver can detect that a data conversion
-  *  error could occur;  if a database access error occurs or
-  * this method is called on a closed <code>PreparedStatement</code>
-  * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+  * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+  * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+  * @throws SQLException if pbrbmeterIndex does not correspond to b pbrbmeter
+  * mbrker in the SQL stbtement;
+  * if the driver does not support nbtionbl chbrbcter sets;
+  * if the driver cbn detect thbt b dbtb conversion
+  *  error could occur;  if b dbtbbbse bccess error occurs or
+  * this method is cblled on b closed <code>PrepbredStbtement</code>
+  * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
   *
   * @since 1.6
   */
-  public void setNClob(int parameterIndex, Reader reader)
+  public void setNClob(int pbrbmeterIndex, Rebder rebder)
     throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
    /**
-  * Sets the designated parameter to a <code>Reader</code> object.  The <code>reader</code> must contain the number
-             * of characters specified by length otherwise a <code>SQLException</code> will be
-            * generated when the <code>CallableStatement</code> is executed.
-            * This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-            * because it informs the driver that the parameter value should be sent to
-            * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-            * driver may have to do extra work to determine whether the parameter
-            * data should be send to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
+  * Sets the designbted pbrbmeter to b <code>Rebder</code> object.  The <code>rebder</code> must contbin the number
+             * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+            * generbted when the <code>CbllbbleStbtement</code> is executed.
+            * This method differs from the <code>setChbrbcterStrebm (int, Rebder, int)</code> method
+            * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+            * the server bs b <code>NCLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+            * driver mby hbve to do extrb work to determine whether the pbrbmeter
+            * dbtb should be send to the server bs b <code>LONGNVARCHAR</code> or b <code>NCLOB</code>
             *
-            * @param parameterName the name of the parameter to be set
-            * @param reader An object that contains the data to set the parameter value to.
-            * @param length the number of characters in the parameter data.
-            * @throws SQLException if parameterIndex does not correspond to a parameter
-            * marker in the SQL statement; if the length specified is less than zero;
-            * if the driver does not support national
-            *         character sets;  if the driver can detect that a data conversion
-            *  error could occur; if a database access error occurs or
-            * this method is called on a closed <code>CallableStatement</code>
-            * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+            * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter to be set
+            * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+            * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+            * @throws SQLException if pbrbmeterIndex does not correspond to b pbrbmeter
+            * mbrker in the SQL stbtement; if the length specified is less thbn zero;
+            * if the driver does not support nbtionbl
+            *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+            *  error could occur; if b dbtbbbse bccess error occurs or
+            * this method is cblled on b closed <code>CbllbbleStbtement</code>
+            * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
             * this method
             * @since 1.6
             */
-            public void setNClob(String parameterName, Reader reader, long length)
+            public void setNClob(String pbrbmeterNbme, Rebder rebder, long length)
     throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
  /**
-  * Sets the designated parameter to a <code>Reader</code> object.
-  * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-  * because it informs the driver that the parameter value should be sent to
-  * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-  * driver may have to do extra work to determine whether the parameter
-  * data should be send to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
-  * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-  * it might be more efficient to use a version of
-  * <code>setNClob</code> which takes a length parameter.
+  * Sets the designbted pbrbmeter to b <code>Rebder</code> object.
+  * This method differs from the <code>setChbrbcterStrebm (int, Rebder)</code> method
+  * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+  * the server bs b <code>NCLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+  * driver mby hbve to do extrb work to determine whether the pbrbmeter
+  * dbtb should be send to the server bs b <code>LONGNVARCHAR</code> or b <code>NCLOB</code>
+  * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+  * it might be more efficient to use b version of
+  * <code>setNClob</code> which tbkes b length pbrbmeter.
   *
-  * @param parameterName the name of the parameter
-  * @param reader An object that contains the data to set the parameter value to.
-  * @throws SQLException if the driver does not support national character sets;
-  * if the driver can detect that a data conversion
-  *  error could occur;  if a database access error occurs or
-  * this method is called on a closed <code>CallableStatement</code>
-  * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+  * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+  * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+  * @throws SQLException if the driver does not support nbtionbl chbrbcter sets;
+  * if the driver cbn detect thbt b dbtb conversion
+  *  error could occur;  if b dbtbbbse bccess error occurs or
+  * this method is cblled on b closed <code>CbllbbleStbtement</code>
+  * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
   *
   * @since 1.6
   */
-  public void setNClob(String parameterName, Reader reader)
+  public void setNClob(String pbrbmeterNbme, Rebder rebder)
     throws SQLException{
-             throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+             throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
    /**
-     ** of characters specified by length otherwise a <code>SQLException</code> will becontain  the number
-     * generated when the <code>PreparedStatement</code> is executed.
-     * This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the length specified is less than zero;
-     * if the driver does not support national character sets;
-     * if the driver can detect that a data conversion
-     *  error could occur;  if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     ** of chbrbcters specified by length otherwise b <code>SQLException</code> will becontbin  the number
+     * generbted when the <code>PrepbredStbtement</code> is executed.
+     * This method differs from the <code>setChbrbcterStrebm (int, Rebder, int)</code> method
+     * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+     * the server bs b <code>NCLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+     * driver mby hbve to do extrb work to determine whether the pbrbmeter
+     * dbtb should be sent to the server bs b <code>LONGNVARCHAR</code> or b <code>NCLOB</code>
+     * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+     * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+     * @throws SQLException if pbrbmeterIndex does not correspond to b pbrbmeter
+     * mbrker in the SQL stbtement; if the length specified is less thbn zero;
+     * if the driver does not support nbtionbl chbrbcter sets;
+     * if the driver cbn detect thbt b dbtb conversion
+     *  error could occur;  if b dbtbbbse bccess error occurs or
+     * this method is cblled on b closed <code>PrepbredStbtement</code>
+     * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      *
      * @since 1.6
      */
-     public void setNClob(int parameterIndex, Reader reader, long length)
+     public void setNClob(int pbrbmeterIndex, Rebder rebder, long length)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
     /**
-     * Sets the designated parameter to a <code>java.sql.NClob</code> object. The driver converts this to
-a
-     * SQL <code>NCLOB</code> value when it sends it to the database.
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @throws SQLException if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur ; or if a database access error occurs
+     * Sets the designbted pbrbmeter to b <code>jbvb.sql.NClob</code> object. The driver converts this to
+b
+     * SQL <code>NCLOB</code> vblue when it sends it to the dbtbbbse.
+     * @pbrbm pbrbmeterIndex of the first pbrbmeter is 1, the second is 2, ...
+     * @pbrbm vblue the pbrbmeter vblue
+     * @throws SQLException if the driver does not support nbtionbl
+     *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+     *  error could occur ; or if b dbtbbbse bccess error occurs
      * @since 1.6
      */
-     public void setNClob(int parameterIndex, NClob value) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+     public void setNClob(int pbrbmeterIndex, NClob vblue) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
  /**
-  * Sets the designated parameter to the given <code>String</code> object.
-  * The driver converts this to a SQL <code>NCHAR</code> or
+  * Sets the designbted pbrbmeter to the given <code>String</code> object.
+  * The driver converts this to b SQL <code>NCHAR</code> or
   * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code>
-  * @param parameterName the name of the column to be set
-  * @param value the parameter value
-  * @throws SQLException if the driver does not support national
-  *         character sets;  if the driver can detect that a data conversion
-  *  error could occur; or if a database access error occurs
+  * @pbrbm pbrbmeterNbme the nbme of the column to be set
+  * @pbrbm vblue the pbrbmeter vblue
+  * @throws SQLException if the driver does not support nbtionbl
+  *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+  *  error could occur; or if b dbtbbbse bccess error occurs
   * @since 1.6
   */
- public void setNString(String parameterName, String value)
+ public void setNString(String pbrbmeterNbme, String vblue)
          throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-  * Sets the designated parameter to a <code>Reader</code> object. The
-  * <code>Reader</code> reads the data till end-of-file is reached. The
-  * driver does the necessary conversion from Java character format to
-  * the national character set in the database.
-  * @param parameterIndex of the first parameter is 1, the second is 2, ...
-  * @param value the parameter value
-  * @param length the number of characters in the parameter data.
-  * @throws SQLException if the driver does not support national
-  *         character sets;  if the driver can detect that a data conversion
-  *  error could occur ; or if a database access error occurs
+  * Sets the designbted pbrbmeter to b <code>Rebder</code> object. The
+  * <code>Rebder</code> rebds the dbtb till end-of-file is rebched. The
+  * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+  * the nbtionbl chbrbcter set in the dbtbbbse.
+  * @pbrbm pbrbmeterIndex of the first pbrbmeter is 1, the second is 2, ...
+  * @pbrbm vblue the pbrbmeter vblue
+  * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+  * @throws SQLException if the driver does not support nbtionbl
+  *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+  *  error could occur ; or if b dbtbbbse bccess error occurs
   * @since 1.6
   */
-  public void setNCharacterStream(int parameterIndex, Reader value, long length) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+  public void setNChbrbcterStrebm(int pbrbmeterIndex, Rebder vblue, long length) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
 
  /**
-  * Sets the designated parameter to a <code>Reader</code> object. The
-  * <code>Reader</code> reads the data till end-of-file is reached. The
-  * driver does the necessary conversion from Java character format to
-  * the national character set in the database.
-  * @param parameterName the name of the column to be set
-  * @param value the parameter value
-  * @param length the number of characters in the parameter data.
-  * @throws SQLException if the driver does not support national
-  *         character sets;  if the driver can detect that a data conversion
-  *  error could occur; or if a database access error occurs
+  * Sets the designbted pbrbmeter to b <code>Rebder</code> object. The
+  * <code>Rebder</code> rebds the dbtb till end-of-file is rebched. The
+  * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+  * the nbtionbl chbrbcter set in the dbtbbbse.
+  * @pbrbm pbrbmeterNbme the nbme of the column to be set
+  * @pbrbm vblue the pbrbmeter vblue
+  * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+  * @throws SQLException if the driver does not support nbtionbl
+  *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+  *  error could occur; or if b dbtbbbse bccess error occurs
   * @since 1.6
   */
- public void setNCharacterStream(String parameterName, Reader value, long length)
+ public void setNChbrbcterStrebm(String pbrbmeterNbme, Rebder vblue, long length)
          throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
   /**
-  * Sets the designated parameter to a <code>Reader</code> object. The
-  * <code>Reader</code> reads the data till end-of-file is reached. The
-  * driver does the necessary conversion from Java character format to
-  * the national character set in the database.
+  * Sets the designbted pbrbmeter to b <code>Rebder</code> object. The
+  * <code>Rebder</code> rebds the dbtb till end-of-file is rebched. The
+  * driver does the necessbry conversion from Jbvb chbrbcter formbt to
+  * the nbtionbl chbrbcter set in the dbtbbbse.
 
-  * <P><B>Note:</B> This stream object can either be a standard
-  * Java stream object or your own subclass that implements the
-  * standard interface.
-  * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-  * it might be more efficient to use a version of
-  * <code>setNCharacterStream</code> which takes a length parameter.
+  * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+  * Jbvb strebm object or your own subclbss thbt implements the
+  * stbndbrd interfbce.
+  * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+  * it might be more efficient to use b version of
+  * <code>setNChbrbcterStrebm</code> which tbkes b length pbrbmeter.
   *
-  * @param parameterName the name of the parameter
-  * @param value the parameter value
-  * @throws SQLException if the driver does not support national
-  *         character sets;  if the driver can detect that a data conversion
-  *  error could occur ; if a database access error occurs; or
-  * this method is called on a closed <code>CallableStatement</code>
-  * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+  * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+  * @pbrbm vblue the pbrbmeter vblue
+  * @throws SQLException if the driver does not support nbtionbl
+  *         chbrbcter sets;  if the driver cbn detect thbt b dbtb conversion
+  *  error could occur ; if b dbtbbbse bccess error occurs; or
+  * this method is cblled on b closed <code>CbllbbleStbtement</code>
+  * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
   * @since 1.6
   */
-  public void setNCharacterStream(String parameterName, Reader value) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+  public void setNChbrbcterStrebm(String pbrbmeterNbme, Rebder vblue) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
   /**
-    * Sets the designated parameter to the given <code>java.sql.Timestamp</code> value,
-    * using the given <code>Calendar</code> object.  The driver uses
-    * the <code>Calendar</code> object to construct an SQL <code>TIMESTAMP</code> value,
-    * which the driver then sends to the database.  With a
-    * a <code>Calendar</code> object, the driver can calculate the timestamp
-    * taking into account a custom timezone.  If no
-    * <code>Calendar</code> object is specified, the driver uses the default
-    * timezone, which is that of the virtual machine running the application.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Timestbmp</code> vblue,
+    * using the given <code>Cblendbr</code> object.  The driver uses
+    * the <code>Cblendbr</code> object to construct bn SQL <code>TIMESTAMP</code> vblue,
+    * which the driver then sends to the dbtbbbse.  With b
+    * b <code>Cblendbr</code> object, the driver cbn cblculbte the timestbmp
+    * tbking into bccount b custom timezone.  If no
+    * <code>Cblendbr</code> object is specified, the driver uses the defbult
+    * timezone, which is thbt of the virtubl mbchine running the bpplicbtion.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @param cal the <code>Calendar</code> object the driver will use
-    *            to construct the timestamp
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @pbrbm cbl the <code>Cblendbr</code> object the driver will use
+    *            to construct the timestbmp
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
-    * @see #getTimestamp
+    * @see #getTimestbmp
     * @since 1.4
     */
-    public void setTimestamp(String parameterName, java.sql.Timestamp x, Calendar cal)
+    public void setTimestbmp(String pbrbmeterNbme, jbvb.sql.Timestbmp x, Cblendbr cbl)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
     /**
-    * Sets the designated parameter to a <code>Reader</code> object.  The <code>reader</code> must contain  the number
-               * of characters specified by length otherwise a <code>SQLException</code> will be
-               * generated when the <code>CallableStatement</code> is executed.
-              * This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-              * because it informs the driver that the parameter value should be sent to
-              * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-               * driver may have to do extra work to determine whether the parameter
-               * data should be send to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
-               * @param parameterName the name of the parameter to be set
-              * @param reader An object that contains the data to set the parameter value to.
-              * @param length the number of characters in the parameter data.
-              * @throws SQLException if parameterIndex does not correspond to a parameter
-              * marker in the SQL statement; if the length specified is less than zero;
-              * a database access error occurs or
-              * this method is called on a closed <code>CallableStatement</code>
-              * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * Sets the designbted pbrbmeter to b <code>Rebder</code> object.  The <code>rebder</code> must contbin  the number
+               * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+               * generbted when the <code>CbllbbleStbtement</code> is executed.
+              * This method differs from the <code>setChbrbcterStrebm (int, Rebder, int)</code> method
+              * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+              * the server bs b <code>CLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+               * driver mby hbve to do extrb work to determine whether the pbrbmeter
+               * dbtb should be send to the server bs b <code>LONGVARCHAR</code> or b <code>CLOB</code>
+               * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter to be set
+              * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+              * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+              * @throws SQLException if pbrbmeterIndex does not correspond to b pbrbmeter
+              * mbrker in the SQL stbtement; if the length specified is less thbn zero;
+              * b dbtbbbse bccess error occurs or
+              * this method is cblled on b closed <code>CbllbbleStbtement</code>
+              * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
               * this method
               *
               * @since 1.6
               */
-      public  void setClob(String parameterName, Reader reader, long length)
+      public  void setClob(String pbrbmeterNbme, Rebder rebder, long length)
       throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
 
   /**
-    * Sets the designated parameter to the given <code>java.sql.Clob</code> object.
-    * The driver converts this to an SQL <code>CLOB</code> value when it
-    * sends it to the database.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Clob</code> object.
+    * The driver converts this to bn SQL <code>CLOB</code> vblue when it
+    * sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x a <code>Clob</code> object that maps an SQL <code>CLOB</code> value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x b <code>Clob</code> object thbt mbps bn SQL <code>CLOB</code> vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @since 1.6
     */
-    public void setClob (String parameterName, Clob x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+    public void setClob (String pbrbmeterNbme, Clob x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to a <code>Reader</code> object.
-    * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-    * because it informs the driver that the parameter value should be sent to
-    * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-    * driver may have to do extra work to determine whether the parameter
-    * data should be send to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
+    * Sets the designbted pbrbmeter to b <code>Rebder</code> object.
+    * This method differs from the <code>setChbrbcterStrebm (int, Rebder)</code> method
+    * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+    * the server bs b <code>CLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+    * driver mby hbve to do extrb work to determine whether the pbrbmeter
+    * dbtb should be send to the server bs b <code>LONGVARCHAR</code> or b <code>CLOB</code>
     *
-    * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-    * it might be more efficient to use a version of
-    * <code>setClob</code> which takes a length parameter.
+    * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+    * it might be more efficient to use b version of
+    * <code>setClob</code> which tbkes b length pbrbmeter.
     *
-    * @param parameterName the name of the parameter
-    * @param reader An object that contains the data to set the parameter value to.
-    * @throws SQLException if a database access error occurs or this method is called on
-    * a closed <code>CallableStatement</code>
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+    * @throws SQLException if b dbtbbbse bccess error occurs or this method is cblled on
+    * b closed <code>CbllbbleStbtement</code>
     *
-    * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+    * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
     * @since 1.6
     */
-    public void setClob(String parameterName, Reader reader)
+    public void setClob(String pbrbmeterNbme, Rebder rebder)
       throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
  /**
-    * Sets the designated parameter to the given <code>java.sql.Date</code> value
-    * using the default time zone of the virtual machine that is running
-    * the application.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Dbte</code> vblue
+    * using the defbult time zone of the virtubl mbchine thbt is running
+    * the bpplicbtion.
     * The driver converts this
-    * to an SQL <code>DATE</code> value when it sends it to the database.
+    * to bn SQL <code>DATE</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
-    * @see #getDate
+    * @see #getDbte
     * @since 1.4
     */
-    public void setDate(String parameterName, java.sql.Date x)
+    public void setDbte(String pbrbmeterNbme, jbvb.sql.Dbte x)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
    /**
-    * Sets the designated parameter to the given <code>java.sql.Date</code> value,
-    * using the given <code>Calendar</code> object.  The driver uses
-    * the <code>Calendar</code> object to construct an SQL <code>DATE</code> value,
-    * which the driver then sends to the database.  With a
-    * a <code>Calendar</code> object, the driver can calculate the date
-    * taking into account a custom timezone.  If no
-    * <code>Calendar</code> object is specified, the driver uses the default
-    * timezone, which is that of the virtual machine running the application.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Dbte</code> vblue,
+    * using the given <code>Cblendbr</code> object.  The driver uses
+    * the <code>Cblendbr</code> object to construct bn SQL <code>DATE</code> vblue,
+    * which the driver then sends to the dbtbbbse.  With b
+    * b <code>Cblendbr</code> object, the driver cbn cblculbte the dbte
+    * tbking into bccount b custom timezone.  If no
+    * <code>Cblendbr</code> object is specified, the driver uses the defbult
+    * timezone, which is thbt of the virtubl mbchine running the bpplicbtion.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @param cal the <code>Calendar</code> object the driver will use
-    *            to construct the date
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @pbrbm cbl the <code>Cblendbr</code> object the driver will use
+    *            to construct the dbte
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
-    * @see #getDate
+    * @see #getDbte
     * @since 1.4
     */
-   public void setDate(String parameterName, java.sql.Date x, Calendar cal)
+   public void setDbte(String pbrbmeterNbme, jbvb.sql.Dbte x, Cblendbr cbl)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
  /**
-    * Sets the designated parameter to the given <code>java.sql.Time</code> value.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Time</code> vblue.
     * The driver converts this
-    * to an SQL <code>TIME</code> value when it sends it to the database.
+    * to bn SQL <code>TIME</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getTime
     * @since 1.4
     */
-   public void setTime(String parameterName, java.sql.Time x)
+   public void setTime(String pbrbmeterNbme, jbvb.sql.Time x)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to the given <code>java.sql.Time</code> value,
-    * using the given <code>Calendar</code> object.  The driver uses
-    * the <code>Calendar</code> object to construct an SQL <code>TIME</code> value,
-    * which the driver then sends to the database.  With a
-    * a <code>Calendar</code> object, the driver can calculate the time
-    * taking into account a custom timezone.  If no
-    * <code>Calendar</code> object is specified, the driver uses the default
-    * timezone, which is that of the virtual machine running the application.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Time</code> vblue,
+    * using the given <code>Cblendbr</code> object.  The driver uses
+    * the <code>Cblendbr</code> object to construct bn SQL <code>TIME</code> vblue,
+    * which the driver then sends to the dbtbbbse.  With b
+    * b <code>Cblendbr</code> object, the driver cbn cblculbte the time
+    * tbking into bccount b custom timezone.  If no
+    * <code>Cblendbr</code> object is specified, the driver uses the defbult
+    * timezone, which is thbt of the virtubl mbchine running the bpplicbtion.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @param cal the <code>Calendar</code> object the driver will use
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @pbrbm cbl the <code>Cblendbr</code> object the driver will use
     *            to construct the time
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getTime
     * @since 1.4
     */
-   public void setTime(String parameterName, java.sql.Time x, Calendar cal)
+   public void setTime(String pbrbmeterNbme, jbvb.sql.Time x, Cblendbr cbl)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
    /**
-   * Sets the designated parameter to a <code>Reader</code> object.
-   * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-   * because it informs the driver that the parameter value should be sent to
-   * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-   * driver may have to do extra work to determine whether the parameter
-   * data should be sent to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
+   * Sets the designbted pbrbmeter to b <code>Rebder</code> object.
+   * This method differs from the <code>setChbrbcterStrebm (int, Rebder)</code> method
+   * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+   * the server bs b <code>CLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+   * driver mby hbve to do extrb work to determine whether the pbrbmeter
+   * dbtb should be sent to the server bs b <code>LONGVARCHAR</code> or b <code>CLOB</code>
    *
-   * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-   * it might be more efficient to use a version of
-   * <code>setClob</code> which takes a length parameter.
+   * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+   * it might be more efficient to use b version of
+   * <code>setClob</code> which tbkes b length pbrbmeter.
    *
-   * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-   * @param reader An object that contains the data to set the parameter value to.
-   * @throws SQLException if a database access error occurs, this method is called on
-   * a closed <code>PreparedStatement</code>or if parameterIndex does not correspond to a parameter
-   * marker in the SQL statement
+   * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+   * @throws SQLException if b dbtbbbse bccess error occurs, this method is cblled on
+   * b closed <code>PrepbredStbtement</code>or if pbrbmeterIndex does not correspond to b pbrbmeter
+   * mbrker in the SQL stbtement
    *
-   * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+   * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
    * @since 1.6
    */
-   public void setClob(int parameterIndex, Reader reader)
+   public void setClob(int pbrbmeterIndex, Rebder rebder)
      throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
    /**
-   * Sets the designated parameter to a <code>Reader</code> object.  The reader must contain  the number
-   * of characters specified by length otherwise a <code>SQLException</code> will be
-   * generated when the <code>PreparedStatement</code> is executed.
-   *This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-   * because it informs the driver that the parameter value should be sent to
-   * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-   * driver may have to do extra work to determine whether the parameter
-   * data should be sent to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
-   * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-   * @param reader An object that contains the data to set the parameter value to.
-   * @param length the number of characters in the parameter data.
-   * @throws SQLException if a database access error occurs, this method is called on
-   * a closed <code>PreparedStatement</code>, if parameterIndex does not correspond to a parameter
-   * marker in the SQL statement, or if the length specified is less than zero.
+   * Sets the designbted pbrbmeter to b <code>Rebder</code> object.  The rebder must contbin  the number
+   * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+   * generbted when the <code>PrepbredStbtement</code> is executed.
+   *This method differs from the <code>setChbrbcterStrebm (int, Rebder, int)</code> method
+   * becbuse it informs the driver thbt the pbrbmeter vblue should be sent to
+   * the server bs b <code>CLOB</code>.  When the <code>setChbrbcterStrebm</code> method is used, the
+   * driver mby hbve to do extrb work to determine whether the pbrbmeter
+   * dbtb should be sent to the server bs b <code>LONGVARCHAR</code> or b <code>CLOB</code>
+   * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1, the second is 2, ...
+   * @pbrbm rebder An object thbt contbins the dbtb to set the pbrbmeter vblue to.
+   * @pbrbm length the number of chbrbcters in the pbrbmeter dbtb.
+   * @throws SQLException if b dbtbbbse bccess error occurs, this method is cblled on
+   * b closed <code>PrepbredStbtement</code>, if pbrbmeterIndex does not correspond to b pbrbmeter
+   * mbrker in the SQL stbtement, or if the length specified is less thbn zero.
    *
-   * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+   * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
    * @since 1.6
    */
-   public void setClob(int parameterIndex, Reader reader, long length)
+   public void setClob(int pbrbmeterIndex, Rebder rebder, long length)
      throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
  /**
-    * Sets the designated parameter to a <code>InputStream</code> object.  The inputstream must contain  the number
-    * of characters specified by length otherwise a <code>SQLException</code> will be
-    * generated when the <code>PreparedStatement</code> is executed.
-    * This method differs from the <code>setBinaryStream (int, InputStream, int)</code>
-    * method because it informs the driver that the parameter value should be
-    * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-    * the driver may have to do extra work to determine whether the parameter
-    * data should be sent to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
-    * @param parameterIndex index of the first parameter is 1,
+    * Sets the designbted pbrbmeter to b <code>InputStrebm</code> object.  The inputstrebm must contbin  the number
+    * of chbrbcters specified by length otherwise b <code>SQLException</code> will be
+    * generbted when the <code>PrepbredStbtement</code> is executed.
+    * This method differs from the <code>setBinbryStrebm (int, InputStrebm, int)</code>
+    * method becbuse it informs the driver thbt the pbrbmeter vblue should be
+    * sent to the server bs b <code>BLOB</code>.  When the <code>setBinbryStrebm</code> method is used,
+    * the driver mby hbve to do extrb work to determine whether the pbrbmeter
+    * dbtb should be sent to the server bs b <code>LONGVARBINARY</code> or b <code>BLOB</code>
+    * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1,
     * the second is 2, ...
-    * @param inputStream An object that contains the data to set the parameter
-    * value to.
-    * @param length the number of bytes in the parameter data.
-    * @throws SQLException if a database access error occurs,
-    * this method is called on a closed <code>PreparedStatement</code>,
-    * if parameterIndex does not correspond
-    * to a parameter marker in the SQL statement,  if the length specified
-    * is less than zero or if the number of bytes in the inputstream does not match
+    * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+    * vblue to.
+    * @pbrbm length the number of bytes in the pbrbmeter dbtb.
+    * @throws SQLException if b dbtbbbse bccess error occurs,
+    * this method is cblled on b closed <code>PrepbredStbtement</code>,
+    * if pbrbmeterIndex does not correspond
+    * to b pbrbmeter mbrker in the SQL stbtement,  if the length specified
+    * is less thbn zero or if the number of bytes in the inputstrebm does not mbtch
     * the specified length.
-    * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+    * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
     *
     * @since 1.6
     */
-    public void setBlob(int parameterIndex, InputStream inputStream, long length)
+    public void setBlob(int pbrbmeterIndex, InputStrebm inputStrebm, long length)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to a <code>InputStream</code> object.
-    * This method differs from the <code>setBinaryStream (int, InputStream)</code>
-    * This method differs from the <code>setBinaryStream (int, InputStream)</code>
-    * method because it informs the driver that the parameter value should be
-    * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-    * the driver may have to do extra work to determine whether the parameter
-    * data should be sent to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
+    * Sets the designbted pbrbmeter to b <code>InputStrebm</code> object.
+    * This method differs from the <code>setBinbryStrebm (int, InputStrebm)</code>
+    * This method differs from the <code>setBinbryStrebm (int, InputStrebm)</code>
+    * method becbuse it informs the driver thbt the pbrbmeter vblue should be
+    * sent to the server bs b <code>BLOB</code>.  When the <code>setBinbryStrebm</code> method is used,
+    * the driver mby hbve to do extrb work to determine whether the pbrbmeter
+    * dbtb should be sent to the server bs b <code>LONGVARBINARY</code> or b <code>BLOB</code>
     *
-    * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-    * it might be more efficient to use a version of
-    * <code>setBlob</code> which takes a length parameter.
+    * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+    * it might be more efficient to use b version of
+    * <code>setBlob</code> which tbkes b length pbrbmeter.
     *
-    * @param parameterIndex index of the first parameter is 1,
+    * @pbrbm pbrbmeterIndex index of the first pbrbmeter is 1,
     * the second is 2, ...
 
 
-    * @param inputStream An object that contains the data to set the parameter
-    * value to.
-    * @throws SQLException if a database access error occurs,
-    * this method is called on a closed <code>PreparedStatement</code> or
-    * if parameterIndex does not correspond
-    * to a parameter marker in the SQL statement,
-    * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+    * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+    * vblue to.
+    * @throws SQLException if b dbtbbbse bccess error occurs,
+    * this method is cblled on b closed <code>PrepbredStbtement</code> or
+    * if pbrbmeterIndex does not correspond
+    * to b pbrbmeter mbrker in the SQL stbtement,
+    * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
     *
     * @since 1.6
     */
-    public void setBlob(int parameterIndex, InputStream inputStream)
+    public void setBlob(int pbrbmeterIndex, InputStrebm inputStrebm)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to a <code>InputStream</code> object.  The <code>inputstream</code> must contain  the number
-      * of characters specified by length, otherwise a <code>SQLException</code> will be
-      * generated when the <code>CallableStatement</code> is executed.
-      * This method differs from the <code>setBinaryStream (int, InputStream, int)</code>
-      * method because it informs the driver that the parameter value should be
-      * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-      * the driver may have to do extra work to determine whether the parameter
-      * data should be sent to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
+    * Sets the designbted pbrbmeter to b <code>InputStrebm</code> object.  The <code>inputstrebm</code> must contbin  the number
+      * of chbrbcters specified by length, otherwise b <code>SQLException</code> will be
+      * generbted when the <code>CbllbbleStbtement</code> is executed.
+      * This method differs from the <code>setBinbryStrebm (int, InputStrebm, int)</code>
+      * method becbuse it informs the driver thbt the pbrbmeter vblue should be
+      * sent to the server bs b <code>BLOB</code>.  When the <code>setBinbryStrebm</code> method is used,
+      * the driver mby hbve to do extrb work to determine whether the pbrbmeter
+      * dbtb should be sent to the server bs b <code>LONGVARBINARY</code> or b <code>BLOB</code>
       *
-      * @param parameterName the name of the parameter to be set
+      * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter to be set
       * the second is 2, ...
       *
-      * @param inputStream An object that contains the data to set the parameter
-      * value to.
-      * @param length the number of bytes in the parameter data.
-      * @throws SQLException  if parameterIndex does not correspond
-      * to a parameter marker in the SQL statement,  or if the length specified
-      * is less than zero; if the number of bytes in the inputstream does not match
-      * the specified length; if a database access error occurs or
-      * this method is called on a closed <code>CallableStatement</code>
-      * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+      * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+      * vblue to.
+      * @pbrbm length the number of bytes in the pbrbmeter dbtb.
+      * @throws SQLException  if pbrbmeterIndex does not correspond
+      * to b pbrbmeter mbrker in the SQL stbtement,  or if the length specified
+      * is less thbn zero; if the number of bytes in the inputstrebm does not mbtch
+      * the specified length; if b dbtbbbse bccess error occurs or
+      * this method is cblled on b closed <code>CbllbbleStbtement</code>
+      * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
       * this method
       *
       * @since 1.6
       */
-      public void setBlob(String parameterName, InputStream inputStream, long length)
+      public void setBlob(String pbrbmeterNbme, InputStrebm inputStrebm, long length)
          throws SQLException{
-         throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+         throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
     }
 
 
  /**
-    * Sets the designated parameter to the given <code>java.sql.Blob</code> object.
-    * The driver converts this to an SQL <code>BLOB</code> value when it
-    * sends it to the database.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Blob</code> object.
+    * The driver converts this to bn SQL <code>BLOB</code> vblue when it
+    * sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x a <code>Blob</code> object that maps an SQL <code>BLOB</code> value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x b <code>Blob</code> object thbt mbps bn SQL <code>BLOB</code> vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @since 1.6
     */
-   public void setBlob (String parameterName, Blob x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setBlob (String pbrbmeterNbme, Blob x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to a <code>InputStream</code> object.
-    * This method differs from the <code>setBinaryStream (int, InputStream)</code>
-    * method because it informs the driver that the parameter value should be
-    * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-    * the driver may have to do extra work to determine whether the parameter
-    * data should be send to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
+    * Sets the designbted pbrbmeter to b <code>InputStrebm</code> object.
+    * This method differs from the <code>setBinbryStrebm (int, InputStrebm)</code>
+    * method becbuse it informs the driver thbt the pbrbmeter vblue should be
+    * sent to the server bs b <code>BLOB</code>.  When the <code>setBinbryStrebm</code> method is used,
+    * the driver mby hbve to do extrb work to determine whether the pbrbmeter
+    * dbtb should be send to the server bs b <code>LONGVARBINARY</code> or b <code>BLOB</code>
     *
-    * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-    * it might be more efficient to use a version of
-    * <code>setBlob</code> which takes a length parameter.
+    * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+    * it might be more efficient to use b version of
+    * <code>setBlob</code> which tbkes b length pbrbmeter.
     *
-    * @param parameterName the name of the parameter
-    * @param inputStream An object that contains the data to set the parameter
-    * value to.
-    * @throws SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm inputStrebm An object thbt contbins the dbtb to set the pbrbmeter
+    * vblue to.
+    * @throws SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
     *
     * @since 1.6
     */
-    public void setBlob(String parameterName, InputStream inputStream)
+    public void setBlob(String pbrbmeterNbme, InputStrebm inputStrebm)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
   /**
-  * Sets the value of the designated parameter with the given object. The second
-  * argument must be an object type; for integral values, the
-  * <code>java.lang</code> equivalent objects should be used.
+  * Sets the vblue of the designbted pbrbmeter with the given object. The second
+  * brgument must be bn object type; for integrbl vblues, the
+  * <code>jbvb.lbng</code> equivblent objects should be used.
   *
-  * <p>The given Java object will be converted to the given targetSqlType
-  * before being sent to the database.
+  * <p>The given Jbvb object will be converted to the given tbrgetSqlType
+  * before being sent to the dbtbbbse.
   *
-  * If the object has a custom mapping (is of a class implementing the
-  * interface <code>SQLData</code>),
-  * the JDBC driver should call the method <code>SQLData.writeSQL</code> to write it
-  * to the SQL data stream.
-  * If, on the other hand, the object is of a class implementing
+  * If the object hbs b custom mbpping (is of b clbss implementing the
+  * interfbce <code>SQLDbtb</code>),
+  * the JDBC driver should cbll the method <code>SQLDbtb.writeSQL</code> to write it
+  * to the SQL dbtb strebm.
+  * If, on the other hbnd, the object is of b clbss implementing
   * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>,  <code>NClob</code>,
-  *  <code>Struct</code>, <code>java.net.URL</code>,
-  * or <code>Array</code>, the driver should pass it to the database as a
-  * value of the corresponding SQL type.
+  *  <code>Struct</code>, <code>jbvb.net.URL</code>,
+  * or <code>Arrby</code>, the driver should pbss it to the dbtbbbse bs b
+  * vblue of the corresponding SQL type.
   * <P>
-  * Note that this method may be used to pass datatabase-
-  * specific abstract data types.
+  * Note thbt this method mby be used to pbss dbtbtbbbse-
+  * specific bbstrbct dbtb types.
   *
-  * @param parameterName the name of the parameter
-  * @param x the object containing the input parameter value
-  * @param targetSqlType the SQL type (as defined in java.sql.Types) to be
-  * sent to the database. The scale argument may further qualify this type.
-  * @param scale for java.sql.Types.DECIMAL or java.sql.Types.NUMERIC types,
-  *          this is the number of digits after the decimal point.  For all other
-  *          types, this value will be ignored.
-  * @exception SQLException if a database access error occurs or
-  * this method is called on a closed <code>CallableStatement</code>
-  * @exception SQLFeatureNotSupportedException if <code>targetSqlType</code> is
-  * a <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
+  * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+  * @pbrbm x the object contbining the input pbrbmeter vblue
+  * @pbrbm tbrgetSqlType the SQL type (bs defined in jbvb.sql.Types) to be
+  * sent to the dbtbbbse. The scble brgument mby further qublify this type.
+  * @pbrbm scble for jbvb.sql.Types.DECIMAL or jbvb.sql.Types.NUMERIC types,
+  *          this is the number of digits bfter the decimbl point.  For bll other
+  *          types, this vblue will be ignored.
+  * @exception SQLException if b dbtbbbse bccess error occurs or
+  * this method is cblled on b closed <code>CbllbbleStbtement</code>
+  * @exception SQLFebtureNotSupportedException if <code>tbrgetSqlType</code> is
+  * b <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
   * <code>DATALINK</code>, <code>JAVA_OBJECT</code>, <code>NCHAR</code>,
   * <code>NCLOB</code>, <code>NVARCHAR</code>, <code>LONGNVARCHAR</code>,
   *  <code>REF</code>, <code>ROWID</code>, <code>SQLXML</code>
-  * or  <code>STRUCT</code> data type and the JDBC driver does not support
-  * this data type
+  * or  <code>STRUCT</code> dbtb type bnd the JDBC driver does not support
+  * this dbtb type
   * @see Types
   * @see #getObject
   * @since 1.4
   */
-  public void setObject(String parameterName, Object x, int targetSqlType, int scale)
+  public void setObject(String pbrbmeterNbme, Object x, int tbrgetSqlType, int scble)
      throws SQLException{
-      throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+      throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
  }
 
   /**
-    * Sets the value of the designated parameter with the given object.
+    * Sets the vblue of the designbted pbrbmeter with the given object.
     * This method is like the method <code>setObject</code>
-    * above, except that it assumes a scale of zero.
+    * bbove, except thbt it bssumes b scble of zero.
     *
-    * @param parameterName the name of the parameter
-    * @param x the object containing the input parameter value
-    * @param targetSqlType the SQL type (as defined in java.sql.Types) to be
-    *                      sent to the database
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if <code>targetSqlType</code> is
-    * a <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the object contbining the input pbrbmeter vblue
+    * @pbrbm tbrgetSqlType the SQL type (bs defined in jbvb.sql.Types) to be
+    *                      sent to the dbtbbbse
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if <code>tbrgetSqlType</code> is
+    * b <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
     * <code>DATALINK</code>, <code>JAVA_OBJECT</code>, <code>NCHAR</code>,
     * <code>NCLOB</code>, <code>NVARCHAR</code>, <code>LONGNVARCHAR</code>,
     *  <code>REF</code>, <code>ROWID</code>, <code>SQLXML</code>
-    * or  <code>STRUCT</code> data type and the JDBC driver does not support
-    * this data type
+    * or  <code>STRUCT</code> dbtb type bnd the JDBC driver does not support
+    * this dbtb type
     * @see #getObject
     * @since 1.4
     */
-    public void setObject(String parameterName, Object x, int targetSqlType)
+    public void setObject(String pbrbmeterNbme, Object x, int tbrgetSqlType)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-   * Sets the value of the designated parameter with the given object.
-   * The second parameter must be of type <code>Object</code>; therefore, the
-   * <code>java.lang</code> equivalent objects should be used for built-in types.
+   * Sets the vblue of the designbted pbrbmeter with the given object.
+   * The second pbrbmeter must be of type <code>Object</code>; therefore, the
+   * <code>jbvb.lbng</code> equivblent objects should be used for built-in types.
    *
-   * <p>The JDBC specification specifies a standard mapping from
-   * Java <code>Object</code> types to SQL types.  The given argument
+   * <p>The JDBC specificbtion specifies b stbndbrd mbpping from
+   * Jbvb <code>Object</code> types to SQL types.  The given brgument
    * will be converted to the corresponding SQL type before being
-   * sent to the database.
+   * sent to the dbtbbbse.
    *
-   * <p>Note that this method may be used to pass datatabase-
-   * specific abstract data types, by using a driver-specific Java
+   * <p>Note thbt this method mby be used to pbss dbtbtbbbse-
+   * specific bbstrbct dbtb types, by using b driver-specific Jbvb
    * type.
    *
-   * If the object is of a class implementing the interface <code>SQLData</code>,
-   * the JDBC driver should call the method <code>SQLData.writeSQL</code>
-   * to write it to the SQL data stream.
-   * If, on the other hand, the object is of a class implementing
+   * If the object is of b clbss implementing the interfbce <code>SQLDbtb</code>,
+   * the JDBC driver should cbll the method <code>SQLDbtb.writeSQL</code>
+   * to write it to the SQL dbtb strebm.
+   * If, on the other hbnd, the object is of b clbss implementing
    * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>,  <code>NClob</code>,
-   *  <code>Struct</code>, <code>java.net.URL</code>,
-   * or <code>Array</code>, the driver should pass it to the database as a
-   * value of the corresponding SQL type.
+   *  <code>Struct</code>, <code>jbvb.net.URL</code>,
+   * or <code>Arrby</code>, the driver should pbss it to the dbtbbbse bs b
+   * vblue of the corresponding SQL type.
    * <P>
-   * This method throws an exception if there is an ambiguity, for example, if the
-   * object is of a class implementing more than one of the interfaces named above.
+   * This method throws bn exception if there is bn bmbiguity, for exbmple, if the
+   * object is of b clbss implementing more thbn one of the interfbces nbmed bbove.
    *
-   * @param parameterName the name of the parameter
-   * @param x the object containing the input parameter value
-   * @exception SQLException if a database access error occurs,
-   * this method is called on a closed <code>CallableStatement</code> or if the given
-   *            <code>Object</code> parameter is ambiguous
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+   * @pbrbm x the object contbining the input pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs,
+   * this method is cblled on b closed <code>CbllbbleStbtement</code> or if the given
+   *            <code>Object</code> pbrbmeter is bmbiguous
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @see #getObject
    * @since 1.4
    */
-   public void setObject(String parameterName, Object x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setObject(String pbrbmeterNbme, Object x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
   /**
-  * Sets the designated parameter to the given input stream, which will have
+  * Sets the designbted pbrbmeter to the given input strebm, which will hbve
   * the specified number of bytes.
-  * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-  * parameter, it may be more practical to send it via a
-  * <code>java.io.InputStream</code>. Data will be read from the stream
-  * as needed until end-of-file is reached.  The JDBC driver will
-  * do any necessary conversion from ASCII to the database char format.
+  * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+  * pbrbmeter, it mby be more prbcticbl to send it vib b
+  * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+  * bs needed until end-of-file is rebched.  The JDBC driver will
+  * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
   *
-  * <P><B>Note:</B> This stream object can either be a standard
-  * Java stream object or your own subclass that implements the
-  * standard interface.
+  * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+  * Jbvb strebm object or your own subclbss thbt implements the
+  * stbndbrd interfbce.
   *
-  * @param parameterName the name of the parameter
-  * @param x the Java input stream that contains the ASCII parameter value
-  * @param length the number of bytes in the stream
-  * @exception SQLException if a database access error occurs or
-  * this method is called on a closed <code>CallableStatement</code>
-  * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+  * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+  * @pbrbm x the Jbvb input strebm thbt contbins the ASCII pbrbmeter vblue
+  * @pbrbm length the number of bytes in the strebm
+  * @exception SQLException if b dbtbbbse bccess error occurs or
+  * this method is cblled on b closed <code>CbllbbleStbtement</code>
+  * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
   * this method
   * @since 1.4
   */
- public void setAsciiStream(String parameterName, java.io.InputStream x, int length)
+ public void setAsciiStrebm(String pbrbmeterNbme, jbvb.io.InputStrebm x, int length)
      throws SQLException{
-      throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+      throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
  }
 
 
 /**
-  * Sets the designated parameter to the given input stream, which will have
+  * Sets the designbted pbrbmeter to the given input strebm, which will hbve
   * the specified number of bytes.
-  * When a very large binary value is input to a <code>LONGVARBINARY</code>
-  * parameter, it may be more practical to send it via a
-  * <code>java.io.InputStream</code> object. The data will be read from the stream
-  * as needed until end-of-file is reached.
+  * When b very lbrge binbry vblue is input to b <code>LONGVARBINARY</code>
+  * pbrbmeter, it mby be more prbcticbl to send it vib b
+  * <code>jbvb.io.InputStrebm</code> object. The dbtb will be rebd from the strebm
+  * bs needed until end-of-file is rebched.
   *
-  * <P><B>Note:</B> This stream object can either be a standard
-  * Java stream object or your own subclass that implements the
-  * standard interface.
+  * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+  * Jbvb strebm object or your own subclbss thbt implements the
+  * stbndbrd interfbce.
   *
-  * @param parameterName the name of the parameter
-  * @param x the java input stream which contains the binary parameter value
-  * @param length the number of bytes in the stream
-  * @exception SQLException if a database access error occurs or
-  * this method is called on a closed <code>CallableStatement</code>
-  * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+  * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+  * @pbrbm x the jbvb input strebm which contbins the binbry pbrbmeter vblue
+  * @pbrbm length the number of bytes in the strebm
+  * @exception SQLException if b dbtbbbse bccess error occurs or
+  * this method is cblled on b closed <code>CbllbbleStbtement</code>
+  * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
   * this method
   * @since 1.4
   */
- public void setBinaryStream(String parameterName, java.io.InputStream x,
+ public void setBinbryStrebm(String pbrbmeterNbme, jbvb.io.InputStrebm x,
                       int length) throws SQLException{
-      throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+      throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
  }
 
  /**
-   * Sets the designated parameter to the given <code>Reader</code>
-   * object, which is the given number of characters long.
-   * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-   * parameter, it may be more practical to send it via a
-   * <code>java.io.Reader</code> object. The data will be read from the stream
-   * as needed until end-of-file is reached.  The JDBC driver will
-   * do any necessary conversion from UNICODE to the database char format.
+   * Sets the designbted pbrbmeter to the given <code>Rebder</code>
+   * object, which is the given number of chbrbcters long.
+   * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+   * pbrbmeter, it mby be more prbcticbl to send it vib b
+   * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+   * bs needed until end-of-file is rebched.  The JDBC driver will
+   * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
    *
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
    *
-   * @param parameterName the name of the parameter
-   * @param reader the <code>java.io.Reader</code> object that
-   *        contains the UNICODE data used as the designated parameter
-   * @param length the number of characters in the stream
-   * @exception SQLException if a database access error occurs or
-   * this method is called on a closed <code>CallableStatement</code>
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+   * @pbrbm rebder the <code>jbvb.io.Rebder</code> object thbt
+   *        contbins the UNICODE dbtb used bs the designbted pbrbmeter
+   * @pbrbm length the number of chbrbcters in the strebm
+   * @exception SQLException if b dbtbbbse bccess error occurs or
+   * this method is cblled on b closed <code>CbllbbleStbtement</code>
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.4
    */
-  public void setCharacterStream(String parameterName,
-                          java.io.Reader reader,
+  public void setChbrbcterStrebm(String pbrbmeterNbme,
+                          jbvb.io.Rebder rebder,
                           int length) throws SQLException{
-       throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+       throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
   }
 
   /**
-   * Sets the designated parameter to the given input stream.
-   * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-   * parameter, it may be more practical to send it via a
-   * <code>java.io.InputStream</code>. Data will be read from the stream
-   * as needed until end-of-file is reached.  The JDBC driver will
-   * do any necessary conversion from ASCII to the database char format.
+   * Sets the designbted pbrbmeter to the given input strebm.
+   * When b very lbrge ASCII vblue is input to b <code>LONGVARCHAR</code>
+   * pbrbmeter, it mby be more prbcticbl to send it vib b
+   * <code>jbvb.io.InputStrebm</code>. Dbtb will be rebd from the strebm
+   * bs needed until end-of-file is rebched.  The JDBC driver will
+   * do bny necessbry conversion from ASCII to the dbtbbbse chbr formbt.
    *
-   * <P><B>Note:</B> This stream object can either be a standard
-   * Java stream object or your own subclass that implements the
-   * standard interface.
-   * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-   * it might be more efficient to use a version of
-   * <code>setAsciiStream</code> which takes a length parameter.
+   * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+   * Jbvb strebm object or your own subclbss thbt implements the
+   * stbndbrd interfbce.
+   * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+   * it might be more efficient to use b version of
+   * <code>setAsciiStrebm</code> which tbkes b length pbrbmeter.
    *
-   * @param parameterName the name of the parameter
-   * @param x the Java input stream that contains the ASCII parameter value
-   * @exception SQLException if a database access error occurs or
-   * this method is called on a closed <code>CallableStatement</code>
-   * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+   * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+   * @pbrbm x the Jbvb input strebm thbt contbins the ASCII pbrbmeter vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs or
+   * this method is cblled on b closed <code>CbllbbleStbtement</code>
+   * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
      * @since 1.6
   */
-  public void setAsciiStream(String parameterName, java.io.InputStream x)
+  public void setAsciiStrebm(String pbrbmeterNbme, jbvb.io.InputStrebm x)
           throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
  /**
-    * Sets the designated parameter to the given input stream.
-    * When a very large binary value is input to a <code>LONGVARBINARY</code>
-    * parameter, it may be more practical to send it via a
-    * <code>java.io.InputStream</code> object. The data will be read from the
-    * stream as needed until end-of-file is reached.
+    * Sets the designbted pbrbmeter to the given input strebm.
+    * When b very lbrge binbry vblue is input to b <code>LONGVARBINARY</code>
+    * pbrbmeter, it mby be more prbcticbl to send it vib b
+    * <code>jbvb.io.InputStrebm</code> object. The dbtb will be rebd from the
+    * strebm bs needed until end-of-file is rebched.
     *
-    * <P><B>Note:</B> This stream object can either be a standard
-    * Java stream object or your own subclass that implements the
-    * standard interface.
-    * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-    * it might be more efficient to use a version of
-    * <code>setBinaryStream</code> which takes a length parameter.
+    * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+    * Jbvb strebm object or your own subclbss thbt implements the
+    * stbndbrd interfbce.
+    * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+    * it might be more efficient to use b version of
+    * <code>setBinbryStrebm</code> which tbkes b length pbrbmeter.
     *
-    * @param parameterName the name of the parameter
-    * @param x the java input stream which contains the binary parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the jbvb input strebm which contbins the binbry pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
     * @since 1.6
     */
-   public void setBinaryStream(String parameterName, java.io.InputStream x)
+   public void setBinbryStrebm(String pbrbmeterNbme, jbvb.io.InputStrebm x)
    throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to the given <code>Reader</code>
+    * Sets the designbted pbrbmeter to the given <code>Rebder</code>
     * object.
-    * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-    * parameter, it may be more practical to send it via a
-    * <code>java.io.Reader</code> object. The data will be read from the stream
-    * as needed until end-of-file is reached.  The JDBC driver will
-    * do any necessary conversion from UNICODE to the database char format.
+    * When b very lbrge UNICODE vblue is input to b <code>LONGVARCHAR</code>
+    * pbrbmeter, it mby be more prbcticbl to send it vib b
+    * <code>jbvb.io.Rebder</code> object. The dbtb will be rebd from the strebm
+    * bs needed until end-of-file is rebched.  The JDBC driver will
+    * do bny necessbry conversion from UNICODE to the dbtbbbse chbr formbt.
     *
-    * <P><B>Note:</B> This stream object can either be a standard
-    * Java stream object or your own subclass that implements the
-    * standard interface.
-    * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-    * it might be more efficient to use a version of
-    * <code>setCharacterStream</code> which takes a length parameter.
+    * <P><B>Note:</B> This strebm object cbn either be b stbndbrd
+    * Jbvb strebm object or your own subclbss thbt implements the
+    * stbndbrd interfbce.
+    * <P><B>Note:</B> Consult your JDBC driver documentbtion to determine if
+    * it might be more efficient to use b version of
+    * <code>setChbrbcterStrebm</code> which tbkes b length pbrbmeter.
     *
-    * @param parameterName the name of the parameter
-    * @param reader the <code>java.io.Reader</code> object that contains the
-    *        Unicode data
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm rebder the <code>jbvb.io.Rebder</code> object thbt contbins the
+    *        Unicode dbtb
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @throws SQLFebtureNotSupportedException  if the JDBC driver does not support this method
     * @since 1.6
     */
-   public void setCharacterStream(String parameterName,
-                         java.io.Reader reader) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setChbrbcterStrebm(String pbrbmeterNbme,
+                         jbvb.io.Rebder rebder) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
    /**
-    * Sets the designated parameter to the given
-    * <code>java.math.BigDecimal</code> value.
-    * The driver converts this to an SQL <code>NUMERIC</code> value when
-    * it sends it to the database.
+    * Sets the designbted pbrbmeter to the given
+    * <code>jbvb.mbth.BigDecimbl</code> vblue.
+    * The driver converts this to bn SQL <code>NUMERIC</code> vblue when
+    * it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
-    * @see #getBigDecimal
+    * @see #getBigDecimbl
     * @since 1.4
     */
-   public void setBigDecimal(String parameterName, BigDecimal x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setBigDecimbl(String pbrbmeterNbme, BigDecimbl x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to the given Java <code>String</code> value.
+    * Sets the designbted pbrbmeter to the given Jbvb <code>String</code> vblue.
     * The driver converts this
-    * to an SQL <code>VARCHAR</code> or <code>LONGVARCHAR</code> value
-    * (depending on the argument's
-    * size relative to the driver's limits on <code>VARCHAR</code> values)
-    * when it sends it to the database.
+    * to bn SQL <code>VARCHAR</code> or <code>LONGVARCHAR</code> vblue
+    * (depending on the brgument's
+    * size relbtive to the driver's limits on <code>VARCHAR</code> vblues)
+    * when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getString
     * @since 1.4
     */
-   public void setString(String parameterName, String x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setString(String pbrbmeterNbme, String x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
 
  /**
-    * Sets the designated parameter to the given Java array of bytes.
-    * The driver converts this to an SQL <code>VARBINARY</code> or
-    * <code>LONGVARBINARY</code> (depending on the argument's size relative
-    * to the driver's limits on <code>VARBINARY</code> values) when it sends
-    * it to the database.
+    * Sets the designbted pbrbmeter to the given Jbvb brrby of bytes.
+    * The driver converts this to bn SQL <code>VARBINARY</code> or
+    * <code>LONGVARBINARY</code> (depending on the brgument's size relbtive
+    * to the driver's limits on <code>VARBINARY</code> vblues) when it sends
+    * it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getBytes
     * @since 1.4
     */
-   public void setBytes(String parameterName, byte x[]) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setBytes(String pbrbmeterNbme, byte x[]) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to the given <code>java.sql.Timestamp</code> value.
+    * Sets the designbted pbrbmeter to the given <code>jbvb.sql.Timestbmp</code> vblue.
     * The driver
-    * converts this to an SQL <code>TIMESTAMP</code> value when it sends it to the
-    * database.
+    * converts this to bn SQL <code>TIMESTAMP</code> vblue when it sends it to the
+    * dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
-    * @see #getTimestamp
+    * @see #getTimestbmp
     * @since 1.4
     */
-   public void setTimestamp(String parameterName, java.sql.Timestamp x)
+   public void setTimestbmp(String pbrbmeterNbme, jbvb.sql.Timestbmp x)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
     /**
-    * Sets the designated parameter to SQL <code>NULL</code>.
+    * Sets the designbted pbrbmeter to SQL <code>NULL</code>.
     *
-    * <P><B>Note:</B> You must specify the parameter's SQL type.
+    * <P><B>Note:</B> You must specify the pbrbmeter's SQL type.
     *
-    * @param parameterName the name of the parameter
-    * @param sqlType the SQL type code defined in <code>java.sql.Types</code>
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm sqlType the SQL type code defined in <code>jbvb.sql.Types</code>
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @since 1.4
     */
-   public void setNull(String parameterName, int sqlType) throws SQLException {
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setNull(String pbrbmeterNbme, int sqlType) throws SQLException {
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to SQL <code>NULL</code>.
+    * Sets the designbted pbrbmeter to SQL <code>NULL</code>.
     * This version of the method <code>setNull</code> should
-    * be used for user-defined types and REF type parameters.  Examples
-    * of user-defined types include: STRUCT, DISTINCT, JAVA_OBJECT, and
-    * named array types.
+    * be used for user-defined types bnd REF type pbrbmeters.  Exbmples
+    * of user-defined types include: STRUCT, DISTINCT, JAVA_OBJECT, bnd
+    * nbmed brrby types.
     *
-    * <P><B>Note:</B> To be portable, applications must give the
-    * SQL type code and the fully-qualified SQL type name when specifying
-    * a NULL user-defined or REF parameter.  In the case of a user-defined type
-    * the name is the type name of the parameter itself.  For a REF
-    * parameter, the name is the type name of the referenced type.  If
-    * a JDBC driver does not need the type code or type name information,
-    * it may ignore it.
+    * <P><B>Note:</B> To be portbble, bpplicbtions must give the
+    * SQL type code bnd the fully-qublified SQL type nbme when specifying
+    * b NULL user-defined or REF pbrbmeter.  In the cbse of b user-defined type
+    * the nbme is the type nbme of the pbrbmeter itself.  For b REF
+    * pbrbmeter, the nbme is the type nbme of the referenced type.  If
+    * b JDBC driver does not need the type code or type nbme informbtion,
+    * it mby ignore it.
     *
-    * Although it is intended for user-defined and Ref parameters,
-    * this method may be used to set a null parameter of any JDBC type.
-    * If the parameter does not have a user-defined or REF type, the given
-    * typeName is ignored.
+    * Although it is intended for user-defined bnd Ref pbrbmeters,
+    * this method mby be used to set b null pbrbmeter of bny JDBC type.
+    * If the pbrbmeter does not hbve b user-defined or REF type, the given
+    * typeNbme is ignored.
     *
     *
-    * @param parameterName the name of the parameter
-    * @param sqlType a value from <code>java.sql.Types</code>
-    * @param typeName the fully-qualified name of an SQL user-defined type;
-    *        ignored if the parameter is not a user-defined type or
-    *        SQL <code>REF</code> value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm sqlType b vblue from <code>jbvb.sql.Types</code>
+    * @pbrbm typeNbme the fully-qublified nbme of bn SQL user-defined type;
+    *        ignored if the pbrbmeter is not b user-defined type or
+    *        SQL <code>REF</code> vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @since 1.4
     */
-   public void setNull (String parameterName, int sqlType, String typeName)
+   public void setNull (String pbrbmeterNbme, int sqlType, String typeNbme)
        throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to the given Java <code>boolean</code> value.
+    * Sets the designbted pbrbmeter to the given Jbvb <code>boolebn</code> vblue.
     * The driver converts this
-    * to an SQL <code>BIT</code> or <code>BOOLEAN</code> value when it sends it to the database.
+    * to bn SQL <code>BIT</code> or <code>BOOLEAN</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @see #getBoolean
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @see #getBoolebn
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @since 1.4
     */
-   public void setBoolean(String parameterName, boolean x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setBoolebn(String pbrbmeterNbme, boolebn x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
 
  /**
-    * Sets the designated parameter to the given Java <code>byte</code> value.
+    * Sets the designbted pbrbmeter to the given Jbvb <code>byte</code> vblue.
     * The driver converts this
-    * to an SQL <code>TINYINT</code> value when it sends it to the database.
+    * to bn SQL <code>TINYINT</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getByte
     * @since 1.4
     */
-   public void setByte(String parameterName, byte x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setByte(String pbrbmeterNbme, byte x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
  /**
-    * Sets the designated parameter to the given Java <code>short</code> value.
+    * Sets the designbted pbrbmeter to the given Jbvb <code>short</code> vblue.
     * The driver converts this
-    * to an SQL <code>SMALLINT</code> value when it sends it to the database.
+    * to bn SQL <code>SMALLINT</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getShort
     * @since 1.4
     */
-   public void setShort(String parameterName, short x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setShort(String pbrbmeterNbme, short x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
    /**
-    * Sets the designated parameter to the given Java <code>int</code> value.
+    * Sets the designbted pbrbmeter to the given Jbvb <code>int</code> vblue.
     * The driver converts this
-    * to an SQL <code>INTEGER</code> value when it sends it to the database.
+    * to bn SQL <code>INTEGER</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getInt
     * @since 1.4
     */
-   public void setInt(String parameterName, int x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setInt(String pbrbmeterNbme, int x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to the given Java <code>long</code> value.
+    * Sets the designbted pbrbmeter to the given Jbvb <code>long</code> vblue.
     * The driver converts this
-    * to an SQL <code>BIGINT</code> value when it sends it to the database.
+    * to bn SQL <code>BIGINT</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getLong
     * @since 1.4
     */
-   public void setLong(String parameterName, long x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setLong(String pbrbmeterNbme, long x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
 
  /**
-    * Sets the designated parameter to the given Java <code>float</code> value.
+    * Sets the designbted pbrbmeter to the given Jbvb <code>flobt</code> vblue.
     * The driver converts this
-    * to an SQL <code>FLOAT</code> value when it sends it to the database.
+    * to bn SQL <code>FLOAT</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
-    * @see #getFloat
+    * @see #getFlobt
     * @since 1.4
     */
-   public void setFloat(String parameterName, float x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setFlobt(String pbrbmeterNbme, flobt x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
  /**
-    * Sets the designated parameter to the given Java <code>double</code> value.
+    * Sets the designbted pbrbmeter to the given Jbvb <code>double</code> vblue.
     * The driver converts this
-    * to an SQL <code>DOUBLE</code> value when it sends it to the database.
+    * to bn SQL <code>DOUBLE</code> vblue when it sends it to the dbtbbbse.
     *
-    * @param parameterName the name of the parameter
-    * @param x the parameter value
-    * @exception SQLException if a database access error occurs or
-    * this method is called on a closed <code>CallableStatement</code>
-    * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+    * @pbrbm pbrbmeterNbme the nbme of the pbrbmeter
+    * @pbrbm x the pbrbmeter vblue
+    * @exception SQLException if b dbtbbbse bccess error occurs or
+    * this method is cblled on b closed <code>CbllbbleStbtement</code>
+    * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
     * this method
     * @see #getDouble
     * @since 1.4
     */
-   public void setDouble(String parameterName, double x) throws SQLException{
-        throw new SQLFeatureNotSupportedException(resBundle.handleGetObject("jdbcrowsetimpl.featnotsupp").toString());
+   public void setDouble(String pbrbmeterNbme, double x) throws SQLException{
+        throw new SQLFebtureNotSupportedException(resBundle.hbndleGetObject("jdbcrowsetimpl.febtnotsupp").toString());
    }
 
     /**
-     * This method re populates the resBundle
-     * during the deserialization process
+     * This method re populbtes the resBundle
+     * during the deseriblizbtion process
      *
      */
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of transient Res Bundle happens here .
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        // Defbult stbte initiblizbtion hbppens here
+        ois.defbultRebdObject();
+        // Initiblizbtion of trbnsient Res Bundle hbppens here .
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {}
+        } cbtch(IOException ioe) {}
 
     }
 
-   static final long serialVersionUID = -3591946023893483003L;
+   stbtic finbl long seriblVersionUID = -3591946023893483003L;
 
  //------------------------- JDBC 4.1 -----------------------------------
 
-    public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
-        throw new SQLFeatureNotSupportedException("Not supported yet.");
+    public <T> T getObject(int columnIndex, Clbss<T> type) throws SQLException {
+        throw new SQLFebtureNotSupportedException("Not supported yet.");
     }
 
-    public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
-        throw new SQLFeatureNotSupportedException("Not supported yet.");
+    public <T> T getObject(String columnLbbel, Clbss<T> type) throws SQLException {
+        throw new SQLFebtureNotSupportedException("Not supported yet.");
     }
 }

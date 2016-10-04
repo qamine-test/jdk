@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.kerberos;
+pbckbge jbvbx.security.buth.kerberos;
 
-import java.io.File;
-import java.security.AccessControlException;
-import java.util.Objects;
+import jbvb.io.File;
+import jbvb.security.AccessControlException;
+import jbvb.util.Objects;
 import sun.security.krb5.EncryptionKey;
 import sun.security.krb5.KerberosSecrets;
-import sun.security.krb5.PrincipalName;
-import sun.security.krb5.RealmException;
+import sun.security.krb5.PrincipblNbme;
+import sun.security.krb5.ReblmException;
 
 /**
- * This class encapsulates a keytab file.
+ * This clbss encbpsulbtes b keytbb file.
  * <p>
- * A Kerberos JAAS login module that obtains long term secret keys from a
- * keytab file should use this class. The login module will store
- * an instance of this class in the private credential set of a
- * {@link javax.security.auth.Subject Subject} during the commit phase of the
- * authentication process.
+ * A Kerberos JAAS login module thbt obtbins long term secret keys from b
+ * keytbb file should use this clbss. The login module will store
+ * bn instbnce of this clbss in the privbte credentibl set of b
+ * {@link jbvbx.security.buth.Subject Subject} during the commit phbse of the
+ * buthenticbtion process.
  * <p>
- * If a {@code KeyTab} object is obtained from {@link #getUnboundInstance()}
- * or {@link #getUnboundInstance(java.io.File)}, it is unbound and thus can be
- * used by any service principal. Otherwise, if it's obtained from
- * {@link #getInstance(KerberosPrincipal)} or
- * {@link #getInstance(KerberosPrincipal, java.io.File)}, it is bound to the
- * specific service principal and can only be used by it.
+ * If b {@code KeyTbb} object is obtbined from {@link #getUnboundInstbnce()}
+ * or {@link #getUnboundInstbnce(jbvb.io.File)}, it is unbound bnd thus cbn be
+ * used by bny service principbl. Otherwise, if it's obtbined from
+ * {@link #getInstbnce(KerberosPrincipbl)} or
+ * {@link #getInstbnce(KerberosPrincipbl, jbvb.io.File)}, it is bound to the
+ * specific service principbl bnd cbn only be used by it.
  * <p>
- * Please note the constructors {@link #getInstance()} and
- * {@link #getInstance(java.io.File)} were created when there was no support
- * for unbound keytabs. These methods should not be used anymore. An object
- * created with either of these methods are considered to be bound to an
- * unknown principal, which means, its {@link #isBound()} returns true and
- * {@link #getPrincipal()} returns null.
+ * Plebse note the constructors {@link #getInstbnce()} bnd
+ * {@link #getInstbnce(jbvb.io.File)} were crebted when there wbs no support
+ * for unbound keytbbs. These methods should not be used bnymore. An object
+ * crebted with either of these methods bre considered to be bound to bn
+ * unknown principbl, which mebns, its {@link #isBound()} returns true bnd
+ * {@link #getPrincipbl()} returns null.
  * <p>
- * It might be necessary for the application to be granted a
- * {@link javax.security.auth.PrivateCredentialPermission
- * PrivateCredentialPermission} if it needs to access the KeyTab
- * instance from a Subject. This permission is not needed when the
- * application depends on the default JGSS Kerberos mechanism to access the
- * KeyTab. In that case, however, the application will need an appropriate
- * {@link javax.security.auth.kerberos.ServicePermission ServicePermission}.
+ * It might be necessbry for the bpplicbtion to be grbnted b
+ * {@link jbvbx.security.buth.PrivbteCredentiblPermission
+ * PrivbteCredentiblPermission} if it needs to bccess the KeyTbb
+ * instbnce from b Subject. This permission is not needed when the
+ * bpplicbtion depends on the defbult JGSS Kerberos mechbnism to bccess the
+ * KeyTbb. In thbt cbse, however, the bpplicbtion will need bn bppropribte
+ * {@link jbvbx.security.buth.kerberos.ServicePermission ServicePermission}.
  * <p>
- * The keytab file format is described at
- * <a href="http://www.ioplex.com/utilities/keytab.txt">
- * http://www.ioplex.com/utilities/keytab.txt</a>.
+ * The keytbb file formbt is described bt
+ * <b href="http://www.ioplex.com/utilities/keytbb.txt">
+ * http://www.ioplex.com/utilities/keytbb.txt</b>.
  * <p>
  * @since 1.7
  */
-public final class KeyTab {
+public finbl clbss KeyTbb {
 
     /*
      * Impl notes:
      *
-     * This class is only a name, a permanent link to the keytab source
-     * (can be missing). Itself has no content. In order to read content,
-     * take a snapshot and read from it.
+     * This clbss is only b nbme, b permbnent link to the keytbb source
+     * (cbn be missing). Itself hbs no content. In order to rebd content,
+     * tbke b snbpshot bnd rebd from it.
      *
-     * The snapshot is of type sun.security.krb5.internal.ktab.KeyTab, which
-     * contains the content of the keytab file when the snapshot is taken.
-     * Itself has no refresh function and mostly an immutable class (except
-     * for the create/add/save methods only used by the ktab command).
+     * The snbpshot is of type sun.security.krb5.internbl.ktbb.KeyTbb, which
+     * contbins the content of the keytbb file when the snbpshot is tbken.
+     * Itself hbs no refresh function bnd mostly bn immutbble clbss (except
+     * for the crebte/bdd/sbve methods only used by the ktbb commbnd).
      */
 
-    // Source, null if using the default one. Note that the default name
-    // is maintained in snapshot, this field is never "resolved".
-    private final File file;
+    // Source, null if using the defbult one. Note thbt the defbult nbme
+    // is mbintbined in snbpshot, this field is never "resolved".
+    privbte finbl File file;
 
-    // Bound user: normally from the "principal" value in a JAAS krb5
+    // Bound user: normblly from the "principbl" vblue in b JAAS krb5
     // login conf. Will be null if it's "*".
-    private final KerberosPrincipal princ;
+    privbte finbl KerberosPrincipbl princ;
 
-    private final boolean bound;
+    privbte finbl boolebn bound;
 
-    // Set up JavaxSecurityAuthKerberosAccess in KerberosSecrets
-    static {
-        KerberosSecrets.setJavaxSecurityAuthKerberosAccess(
-                new JavaxSecurityAuthKerberosAccessImpl());
+    // Set up JbvbxSecurityAuthKerberosAccess in KerberosSecrets
+    stbtic {
+        KerberosSecrets.setJbvbxSecurityAuthKerberosAccess(
+                new JbvbxSecurityAuthKerberosAccessImpl());
     }
 
-    private KeyTab(KerberosPrincipal princ, File file, boolean bound) {
+    privbte KeyTbb(KerberosPrincipbl princ, File file, boolebn bound) {
         this.princ = princ;
         this.file = file;
         this.bound = bound;
     }
 
     /**
-     * Returns a {@code KeyTab} instance from a {@code File} object
-     * that is bound to an unknown service principal.
+     * Returns b {@code KeyTbb} instbnce from b {@code File} object
+     * thbt is bound to bn unknown service principbl.
      * <p>
-     * The result of this method is never null. This method only associates
-     * the returned {@code KeyTab} object with the file and does not read it.
+     * The result of this method is never null. This method only bssocibtes
+     * the returned {@code KeyTbb} object with the file bnd does not rebd it.
      * <p>
-     * Developers should call {@link #getInstance(KerberosPrincipal,File)}
-     * when the bound service principal is known.
-     * @param file the keytab {@code File} object, must not be null
-     * @return the keytab instance
-     * @throws NullPointerException if the {@code file} argument is null
+     * Developers should cbll {@link #getInstbnce(KerberosPrincipbl,File)}
+     * when the bound service principbl is known.
+     * @pbrbm file the keytbb {@code File} object, must not be null
+     * @return the keytbb instbnce
+     * @throws NullPointerException if the {@code file} brgument is null
      */
-    public static KeyTab getInstance(File file) {
+    public stbtic KeyTbb getInstbnce(File file) {
         if (file == null) {
             throw new NullPointerException("file must be non null");
         }
-        return new KeyTab(null, file, true);
+        return new KeyTbb(null, file, true);
     }
 
     /**
-     * Returns an unbound {@code KeyTab} instance from a {@code File}
+     * Returns bn unbound {@code KeyTbb} instbnce from b {@code File}
      * object.
      * <p>
-     * The result of this method is never null. This method only associates
-     * the returned {@code KeyTab} object with the file and does not read it.
-     * @param file the keytab {@code File} object, must not be null
-     * @return the keytab instance
-     * @throws NullPointerException if the file argument is null
+     * The result of this method is never null. This method only bssocibtes
+     * the returned {@code KeyTbb} object with the file bnd does not rebd it.
+     * @pbrbm file the keytbb {@code File} object, must not be null
+     * @return the keytbb instbnce
+     * @throws NullPointerException if the file brgument is null
      * @since 1.8
      */
-    public static KeyTab getUnboundInstance(File file) {
+    public stbtic KeyTbb getUnboundInstbnce(File file) {
         if (file == null) {
             throw new NullPointerException("file must be non null");
         }
-        return new KeyTab(null, file, false);
+        return new KeyTbb(null, file, fblse);
     }
 
     /**
-     * Returns a {@code KeyTab} instance from a {@code File} object
-     * that is bound to the specified service principal.
+     * Returns b {@code KeyTbb} instbnce from b {@code File} object
+     * thbt is bound to the specified service principbl.
      * <p>
-     * The result of this method is never null. This method only associates
-     * the returned {@code KeyTab} object with the file and does not read it.
-     * @param princ the bound service principal, must not be null
-     * @param file the keytab {@code File} object, must not be null
-     * @return the keytab instance
-     * @throws NullPointerException if either of the arguments is null
+     * The result of this method is never null. This method only bssocibtes
+     * the returned {@code KeyTbb} object with the file bnd does not rebd it.
+     * @pbrbm princ the bound service principbl, must not be null
+     * @pbrbm file the keytbb {@code File} object, must not be null
+     * @return the keytbb instbnce
+     * @throws NullPointerException if either of the brguments is null
      * @since 1.8
      */
-    public static KeyTab getInstance(KerberosPrincipal princ, File file) {
+    public stbtic KeyTbb getInstbnce(KerberosPrincipbl princ, File file) {
         if (princ == null) {
             throw new NullPointerException("princ must be non null");
         }
         if (file == null) {
             throw new NullPointerException("file must be non null");
         }
-        return new KeyTab(princ, file, true);
+        return new KeyTbb(princ, file, true);
     }
 
     /**
-     * Returns the default {@code KeyTab} instance that is bound
-     * to an unknown service principal.
+     * Returns the defbult {@code KeyTbb} instbnce thbt is bound
+     * to bn unknown service principbl.
      * <p>
-     * The result of this method is never null. This method only associates
-     * the returned {@code KeyTab} object with the default keytab file and
-     * does not read it.
+     * The result of this method is never null. This method only bssocibtes
+     * the returned {@code KeyTbb} object with the defbult keytbb file bnd
+     * does not rebd it.
      * <p>
-     * Developers should call {@link #getInstance(KerberosPrincipal)}
-     * when the bound service principal is known.
-     * @return the default keytab instance.
+     * Developers should cbll {@link #getInstbnce(KerberosPrincipbl)}
+     * when the bound service principbl is known.
+     * @return the defbult keytbb instbnce.
      */
-    public static KeyTab getInstance() {
-        return new KeyTab(null, null, true);
+    public stbtic KeyTbb getInstbnce() {
+        return new KeyTbb(null, null, true);
     }
 
     /**
-     * Returns the default unbound {@code KeyTab} instance.
+     * Returns the defbult unbound {@code KeyTbb} instbnce.
      * <p>
-     * The result of this method is never null. This method only associates
-     * the returned {@code KeyTab} object with the default keytab file and
-     * does not read it.
-     * @return the default keytab instance
+     * The result of this method is never null. This method only bssocibtes
+     * the returned {@code KeyTbb} object with the defbult keytbb file bnd
+     * does not rebd it.
+     * @return the defbult keytbb instbnce
      * @since 1.8
      */
-    public static KeyTab getUnboundInstance() {
-        return new KeyTab(null, null, false);
+    public stbtic KeyTbb getUnboundInstbnce() {
+        return new KeyTbb(null, null, fblse);
     }
 
     /**
-     * Returns the default {@code KeyTab} instance that is bound
-     * to the specified service principal.
+     * Returns the defbult {@code KeyTbb} instbnce thbt is bound
+     * to the specified service principbl.
      * <p>
-     * The result of this method is never null. This method only associates
-     * the returned {@code KeyTab} object with the default keytab file and
-     * does not read it.
-     * @param princ the bound service principal, must not be null
-     * @return the default keytab instance
+     * The result of this method is never null. This method only bssocibtes
+     * the returned {@code KeyTbb} object with the defbult keytbb file bnd
+     * does not rebd it.
+     * @pbrbm princ the bound service principbl, must not be null
+     * @return the defbult keytbb instbnce
      * @throws NullPointerException if {@code princ} is null
      * @since 1.8
      */
-    public static KeyTab getInstance(KerberosPrincipal princ) {
+    public stbtic KeyTbb getInstbnce(KerberosPrincipbl princ) {
         if (princ == null) {
             throw new NullPointerException("princ must be non null");
         }
-        return new KeyTab(princ, null, true);
+        return new KeyTbb(princ, null, true);
     }
 
-    // Takes a snapshot of the keytab content. This method is called by
-    // JavaxSecurityAuthKerberosAccessImpl so no more private
-    sun.security.krb5.internal.ktab.KeyTab takeSnapshot() {
+    // Tbkes b snbpshot of the keytbb content. This method is cblled by
+    // JbvbxSecurityAuthKerberosAccessImpl so no more privbte
+    sun.security.krb5.internbl.ktbb.KeyTbb tbkeSnbpshot() {
         try {
-            return sun.security.krb5.internal.ktab.KeyTab.getInstance(file);
-        } catch (AccessControlException ace) {
+            return sun.security.krb5.internbl.ktbb.KeyTbb.getInstbnce(file);
+        } cbtch (AccessControlException bce) {
             if (file != null) {
-                // It's OK to show the name if caller specified it
-                throw ace;
+                // It's OK to show the nbme if cbller specified it
+                throw bce;
             } else {
-                AccessControlException ace2 = new AccessControlException(
-                        "Access to default keytab denied (modified exception)");
-                ace2.setStackTrace(ace.getStackTrace());
-                throw ace2;
+                AccessControlException bce2 = new AccessControlException(
+                        "Access to defbult keytbb denied (modified exception)");
+                bce2.setStbckTrbce(bce.getStbckTrbce());
+                throw bce2;
             }
         }
     }
 
     /**
-     * Returns fresh keys for the given Kerberos principal.
+     * Returns fresh keys for the given Kerberos principbl.
      * <p>
-     * Implementation of this method should make sure the returned keys match
-     * the latest content of the keytab file. The result is a newly created
-     * copy that can be modified by the caller without modifying the keytab
-     * object. The caller should {@link KerberosKey#destroy() destroy} the
-     * result keys after they are used.
+     * Implementbtion of this method should mbke sure the returned keys mbtch
+     * the lbtest content of the keytbb file. The result is b newly crebted
+     * copy thbt cbn be modified by the cbller without modifying the keytbb
+     * object. The cbller should {@link KerberosKey#destroy() destroy} the
+     * result keys bfter they bre used.
      * <p>
-     * Please note that the keytab file can be created after the
-     * {@code KeyTab} object is instantiated and its content may change over
-     * time. Therefore, an application should call this method only when it
-     * needs to use the keys. Any previous result from an earlier invocation
-     * could potentially be expired.
+     * Plebse note thbt the keytbb file cbn be crebted bfter the
+     * {@code KeyTbb} object is instbntibted bnd its content mby chbnge over
+     * time. Therefore, bn bpplicbtion should cbll this method only when it
+     * needs to use the keys. Any previous result from bn ebrlier invocbtion
+     * could potentiblly be expired.
      * <p>
-     * If there is any error (say, I/O error or format error)
-     * during the reading process of the KeyTab file, a saved result should be
-     * returned. If there is no saved result (say, this is the first time this
-     * method is called, or, all previous read attempts failed), an empty array
-     * should be returned. This can make sure the result is not drastically
-     * changed during the (probably slow) update of the keytab file.
+     * If there is bny error (sby, I/O error or formbt error)
+     * during the rebding process of the KeyTbb file, b sbved result should be
+     * returned. If there is no sbved result (sby, this is the first time this
+     * method is cblled, or, bll previous rebd bttempts fbiled), bn empty brrby
+     * should be returned. This cbn mbke sure the result is not drbsticblly
+     * chbnged during the (probbbly slow) updbte of the keytbb file.
      * <p>
-     * Each time this method is called and the reading of the file succeeds
-     * with no exception (say, I/O error or file format error),
-     * the result should be saved for {@code principal}. The implementation can
-     * also save keys for other principals having keys in the same keytab object
+     * Ebch time this method is cblled bnd the rebding of the file succeeds
+     * with no exception (sby, I/O error or file formbt error),
+     * the result should be sbved for {@code principbl}. The implementbtion cbn
+     * blso sbve keys for other principbls hbving keys in the sbme keytbb object
      * if convenient.
      * <p>
-     * Any unsupported key read from the keytab is ignored and not included
+     * Any unsupported key rebd from the keytbb is ignored bnd not included
      * in the result.
      * <p>
-     * If this keytab is bound to a specific principal, calling this method on
-     * another principal will return an empty array.
+     * If this keytbb is bound to b specific principbl, cblling this method on
+     * bnother principbl will return bn empty brrby.
      *
-     * @param principal the Kerberos principal, must not be null.
-     * @return the keys (never null, may be empty)
-     * @throws NullPointerException if the {@code principal}
-     * argument is null
-     * @throws SecurityException if a security manager exists and the read
-     * access to the keytab file is not permitted
+     * @pbrbm principbl the Kerberos principbl, must not be null.
+     * @return the keys (never null, mby be empty)
+     * @throws NullPointerException if the {@code principbl}
+     * brgument is null
+     * @throws SecurityException if b security mbnbger exists bnd the rebd
+     * bccess to the keytbb file is not permitted
      */
-    public KerberosKey[] getKeys(KerberosPrincipal principal) {
+    public KerberosKey[] getKeys(KerberosPrincipbl principbl) {
         try {
-            if (princ != null && !principal.equals(princ)) {
+            if (princ != null && !principbl.equbls(princ)) {
                 return new KerberosKey[0];
             }
-            PrincipalName pn = new PrincipalName(principal.getName());
-            EncryptionKey[] keys = takeSnapshot().readServiceKeys(pn);
+            PrincipblNbme pn = new PrincipblNbme(principbl.getNbme());
+            EncryptionKey[] keys = tbkeSnbpshot().rebdServiceKeys(pn);
             KerberosKey[] kks = new KerberosKey[keys.length];
             for (int i=0; i<kks.length; i++) {
                 Integer tmp = keys[i].getKeyVersionNumber();
                 kks[i] = new KerberosKey(
-                        principal,
+                        principbl,
                         keys[i].getBytes(),
                         keys[i].getEType(),
-                        tmp == null ? 0 : tmp.intValue());
+                        tmp == null ? 0 : tmp.intVblue());
                 keys[i].destroy();
             }
             return kks;
-        } catch (RealmException re) {
+        } cbtch (ReblmException re) {
             return new KerberosKey[0];
         }
     }
 
-    EncryptionKey[] getEncryptionKeys(PrincipalName principal) {
-        return takeSnapshot().readServiceKeys(principal);
+    EncryptionKey[] getEncryptionKeys(PrincipblNbme principbl) {
+        return tbkeSnbpshot().rebdServiceKeys(principbl);
     }
 
     /**
-     * Checks if the keytab file exists. Implementation of this method
-     * should make sure that the result matches the latest status of the
-     * keytab file.
+     * Checks if the keytbb file exists. Implementbtion of this method
+     * should mbke sure thbt the result mbtches the lbtest stbtus of the
+     * keytbb file.
      * <p>
-     * The caller can use the result to determine if it should fallback to
-     * another mechanism to read the keys.
-     * @return true if the keytab file exists; false otherwise.
-     * @throws SecurityException if a security manager exists and the read
-     * access to the keytab file is not permitted
+     * The cbller cbn use the result to determine if it should fbllbbck to
+     * bnother mechbnism to rebd the keys.
+     * @return true if the keytbb file exists; fblse otherwise.
+     * @throws SecurityException if b security mbnbger exists bnd the rebd
+     * bccess to the keytbb file is not permitted
      */
-    public boolean exists() {
-        return !takeSnapshot().isMissing();
+    public boolebn exists() {
+        return !tbkeSnbpshot().isMissing();
     }
 
     public String toString() {
-        String s = (file == null) ? "Default keytab" : file.toString();
+        String s = (file == null) ? "Defbult keytbb" : file.toString();
         if (!bound) return s;
         else if (princ == null) return s + " for someone";
         else return s + " for " + princ;
     }
 
     /**
-     * Returns a hashcode for this KeyTab.
+     * Returns b hbshcode for this KeyTbb.
      *
-     * @return a hashCode() for the {@code KeyTab}
+     * @return b hbshCode() for the {@code KeyTbb}
      */
-    public int hashCode() {
-        return Objects.hash(file, princ, bound);
+    public int hbshCode() {
+        return Objects.hbsh(file, princ, bound);
     }
 
     /**
-     * Compares the specified Object with this KeyTab for equality.
-     * Returns true if the given object is also a
-     * {@code KeyTab} and the two
-     * {@code KeyTab} instances are equivalent.
+     * Compbres the specified Object with this KeyTbb for equblity.
+     * Returns true if the given object is blso b
+     * {@code KeyTbb} bnd the two
+     * {@code KeyTbb} instbnces bre equivblent.
      *
-     * @param other the Object to compare to
-     * @return true if the specified object is equal to this KeyTab
+     * @pbrbm other the Object to compbre to
+     * @return true if the specified object is equbl to this KeyTbb
      */
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (other == this)
             return true;
 
-        if (! (other instanceof KeyTab)) {
-            return false;
+        if (! (other instbnceof KeyTbb)) {
+            return fblse;
         }
 
-        KeyTab otherKtab = (KeyTab) other;
-        return Objects.equals(otherKtab.princ, princ) &&
-                Objects.equals(otherKtab.file, file) &&
-                bound == otherKtab.bound;
+        KeyTbb otherKtbb = (KeyTbb) other;
+        return Objects.equbls(otherKtbb.princ, princ) &&
+                Objects.equbls(otherKtbb.file, file) &&
+                bound == otherKtbb.bound;
     }
 
     /**
-     * Returns the service principal this {@code KeyTab} object
+     * Returns the service principbl this {@code KeyTbb} object
      * is bound to. Returns {@code null} if it's not bound.
      * <p>
-     * Please note the deprecated constructors create a KeyTab object bound for
-     * some unknown principal. In this case, this method also returns null.
-     * User can call {@link #isBound()} to verify this case.
-     * @return the service principal
+     * Plebse note the deprecbted constructors crebte b KeyTbb object bound for
+     * some unknown principbl. In this cbse, this method blso returns null.
+     * User cbn cbll {@link #isBound()} to verify this cbse.
+     * @return the service principbl
      * @since 1.8
      */
-    public KerberosPrincipal getPrincipal() {
+    public KerberosPrincipbl getPrincipbl() {
         return princ;
     }
 
     /**
-     * Returns if the keytab is bound to a principal
-     * @return if the keytab is bound to a principal
+     * Returns if the keytbb is bound to b principbl
+     * @return if the keytbb is bound to b principbl
      * @since 1.8
      */
-    public boolean isBound() {
+    public boolebn isBound() {
         return bound;
     }
 }

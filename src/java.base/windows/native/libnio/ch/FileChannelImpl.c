@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2000, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,119 +30,119 @@
 #include <io.h>
 #include "nio.h"
 #include "nio_util.h"
-#include "sun_nio_ch_FileChannelImpl.h"
+#include "sun_nio_ch_FileChbnnelImpl.h"
 
-static jfieldID chan_fd; /* id for jobject 'fd' in java.io.FileChannel */
+stbtic jfieldID chbn_fd; /* id for jobject 'fd' in jbvb.io.FileChbnnel */
 
 /**************************************************************
- * static method to store field ID's in initializers
- * and retrieve the allocation granularity
+ * stbtic method to store field ID's in initiblizers
+ * bnd retrieve the bllocbtion grbnulbrity
  */
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_ch_FileChbnnelImpl_initIDs(JNIEnv *env, jclbss clbzz)
 {
     SYSTEM_INFO si;
-    jint align;
+    jint blign;
     GetSystemInfo(&si);
-    align = si.dwAllocationGranularity;
-    chan_fd = (*env)->GetFieldID(env, clazz, "fd", "Ljava/io/FileDescriptor;");
-    return align;
+    blign = si.dwAllocbtionGrbnulbrity;
+    chbn_fd = (*env)->GetFieldID(env, clbzz, "fd", "Ljbvb/io/FileDescriptor;");
+    return blign;
 }
 
 
 /**************************************************************
- * Channel
+ * Chbnnel
  */
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_map0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_FileChbnnelImpl_mbp0(JNIEnv *env, jobject this,
                                jint prot, jlong off, jlong len)
 {
-    void *mapAddress = 0;
+    void *mbpAddress = 0;
     jint lowOffset = (jint)off;
     jint highOffset = (jint)(off >> 32);
-    jlong maxSize = off + len;
-    jint lowLen = (jint)(maxSize);
-    jint highLen = (jint)(maxSize >> 32);
-    jobject fdo = (*env)->GetObjectField(env, this, chan_fd);
-    HANDLE fileHandle = (HANDLE)(handleval(env, fdo));
-    HANDLE mapping;
-    DWORD mapAccess = FILE_MAP_READ;
+    jlong mbxSize = off + len;
+    jint lowLen = (jint)(mbxSize);
+    jint highLen = (jint)(mbxSize >> 32);
+    jobject fdo = (*env)->GetObjectField(env, this, chbn_fd);
+    HANDLE fileHbndle = (HANDLE)(hbndlevbl(env, fdo));
+    HANDLE mbpping;
+    DWORD mbpAccess = FILE_MAP_READ;
     DWORD fileProtect = PAGE_READONLY;
-    DWORD mapError;
+    DWORD mbpError;
     BOOL result;
 
-    if (prot == sun_nio_ch_FileChannelImpl_MAP_RO) {
+    if (prot == sun_nio_ch_FileChbnnelImpl_MAP_RO) {
         fileProtect = PAGE_READONLY;
-        mapAccess = FILE_MAP_READ;
-    } else if (prot == sun_nio_ch_FileChannelImpl_MAP_RW) {
+        mbpAccess = FILE_MAP_READ;
+    } else if (prot == sun_nio_ch_FileChbnnelImpl_MAP_RW) {
         fileProtect = PAGE_READWRITE;
-        mapAccess = FILE_MAP_WRITE;
-    } else if (prot == sun_nio_ch_FileChannelImpl_MAP_PV) {
+        mbpAccess = FILE_MAP_WRITE;
+    } else if (prot == sun_nio_ch_FileChbnnelImpl_MAP_PV) {
         fileProtect = PAGE_WRITECOPY;
-        mapAccess = FILE_MAP_COPY;
+        mbpAccess = FILE_MAP_COPY;
     }
 
-    mapping = CreateFileMapping(
-        fileHandle,      /* Handle of file */
-        NULL,            /* Not inheritable */
-        fileProtect,     /* Read and write */
-        highLen,         /* High word of max size */
-        lowLen,          /* Low word of max size */
-        NULL);           /* No name for object */
+    mbpping = CrebteFileMbpping(
+        fileHbndle,      /* Hbndle of file */
+        NULL,            /* Not inheritbble */
+        fileProtect,     /* Rebd bnd write */
+        highLen,         /* High word of mbx size */
+        lowLen,          /* Low word of mbx size */
+        NULL);           /* No nbme for object */
 
-    if (mapping == NULL) {
-        JNU_ThrowIOExceptionWithLastError(env, "Map failed");
+    if (mbpping == NULL) {
+        JNU_ThrowIOExceptionWithLbstError(env, "Mbp fbiled");
         return IOS_THROWN;
     }
 
-    mapAddress = MapViewOfFile(
-        mapping,             /* Handle of file mapping object */
-        mapAccess,           /* Read and write access */
+    mbpAddress = MbpViewOfFile(
+        mbpping,             /* Hbndle of file mbpping object */
+        mbpAccess,           /* Rebd bnd write bccess */
         highOffset,          /* High word of offset */
         lowOffset,           /* Low word of offset */
-        (DWORD)len);         /* Number of bytes to map */
-    mapError = GetLastError();
+        (DWORD)len);         /* Number of bytes to mbp */
+    mbpError = GetLbstError();
 
-    result = CloseHandle(mapping);
+    result = CloseHbndle(mbpping);
     if (result == 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "Map failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Mbp fbiled");
         return IOS_THROWN;
     }
 
-    if (mapAddress == NULL) {
-        if (mapError == ERROR_NOT_ENOUGH_MEMORY)
-            JNU_ThrowOutOfMemoryError(env, "Map failed");
+    if (mbpAddress == NULL) {
+        if (mbpError == ERROR_NOT_ENOUGH_MEMORY)
+            JNU_ThrowOutOfMemoryError(env, "Mbp fbiled");
         else
-            JNU_ThrowIOExceptionWithLastError(env, "Map failed");
+            JNU_ThrowIOExceptionWithLbstError(env, "Mbp fbiled");
         return IOS_THROWN;
     }
 
-    return ptr_to_jlong(mapAddress);
+    return ptr_to_jlong(mbpAddress);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileChannelImpl_unmap0(JNIEnv *env, jobject this,
-                                 jlong address, jlong len)
+Jbvb_sun_nio_ch_FileChbnnelImpl_unmbp0(JNIEnv *env, jobject this,
+                                 jlong bddress, jlong len)
 {
     BOOL result;
-    void *a = (void *) jlong_to_ptr(address);
+    void *b = (void *) jlong_to_ptr(bddress);
 
-    result = UnmapViewOfFile(a);
+    result = UnmbpViewOfFile(b);
     if (result == 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "Unmap failed");
+        JNU_ThrowIOExceptionWithLbstError(env, "Unmbp fbiled");
         return IOS_THROWN;
     }
     return 0;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_position0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_FileChbnnelImpl_position0(JNIEnv *env, jobject this,
                                           jobject fdo, jlong offset)
 {
     DWORD lowPos = 0;
     long highPos = 0;
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    HANDLE h = (HANDLE)(hbndlevbl(env, fdo));
 
     if (offset < 0) {
         lowPos = SetFilePointer(h, 0, &highPos, FILE_CURRENT);
@@ -152,8 +152,8 @@ Java_sun_nio_ch_FileChannelImpl_position0(JNIEnv *env, jobject this,
         lowPos = SetFilePointer(h, lowPos, &highPos, FILE_BEGIN);
     }
     if (lowPos == ((DWORD)-1)) {
-        if (GetLastError() != ERROR_SUCCESS) {
-            JNU_ThrowIOExceptionWithLastError(env, "Seek failed");
+        if (GetLbstError() != ERROR_SUCCESS) {
+            JNU_ThrowIOExceptionWithLbstError(env, "Seek fbiled");
             return IOS_THROWN;
         }
     }
@@ -161,19 +161,19 @@ Java_sun_nio_ch_FileChannelImpl_position0(JNIEnv *env, jobject this,
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileChannelImpl_close0(JNIEnv *env, jobject this, jobject fdo)
+Jbvb_sun_nio_ch_FileChbnnelImpl_close0(JNIEnv *env, jobject this, jobject fdo)
 {
-    HANDLE h = (HANDLE)(handleval(env, fdo));
+    HANDLE h = (HANDLE)(hbndlevbl(env, fdo));
     if (h != INVALID_HANDLE_VALUE) {
-        jint result = CloseHandle(h);
+        jint result = CloseHbndle(h);
         if (result < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, "Close failed");
+            JNU_ThrowIOExceptionWithLbstError(env, "Close fbiled");
         }
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
+Jbvb_sun_nio_ch_FileChbnnelImpl_trbnsferTo0(JNIEnv *env, jobject this,
                                             jint srcFD,
                                             jlong position, jlong count,
                                             jint dstFD)

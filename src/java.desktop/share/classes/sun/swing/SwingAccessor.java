@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.swing;
+pbckbge sun.swing;
 
-import sun.misc.Unsafe;
+import sun.misc.Unsbfe;
 
-import java.awt.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
 
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.text.JTextComponent;
 
 /**
- * The SwingAccessor utility class.
- * The main purpose of this class is to enable accessing
- * private and package-private fields of classes from
- * different classes/packages. See sun.misc.SharedSecretes
- * for another example.
+ * The SwingAccessor utility clbss.
+ * The mbin purpose of this clbss is to enbble bccessing
+ * privbte bnd pbckbge-privbte fields of clbsses from
+ * different clbsses/pbckbges. See sun.misc.ShbredSecretes
+ * for bnother exbmple.
  */
-public final class SwingAccessor {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+public finbl clbss SwingAccessor {
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
     /**
-     * We don't need any objects of this class.
-     * It's rather a collection of static methods
-     * and interfaces.
+     * We don't need bny objects of this clbss.
+     * It's rbther b collection of stbtic methods
+     * bnd interfbces.
      */
-    private SwingAccessor() {
+    privbte SwingAccessor() {
     }
 
     /**
-     * An accessor for the JTextComponent class.
-     * Note that we intentionally introduce the JTextComponentAccessor,
-     * and not the JComponentAccessor because the needed methods
-     * aren't override methods.
+     * An bccessor for the JTextComponent clbss.
+     * Note thbt we intentionblly introduce the JTextComponentAccessor,
+     * bnd not the JComponentAccessor becbuse the needed methods
+     * bren't override methods.
      */
-    public interface JTextComponentAccessor {
+    public interfbce JTextComponentAccessor {
 
         /**
-         * Calculates a custom drop location for the text component,
-         * representing where a drop at the given point should insert data.
+         * Cblculbtes b custom drop locbtion for the text component,
+         * representing where b drop bt the given point should insert dbtb.
          */
-        TransferHandler.DropLocation dropLocationForPoint(JTextComponent textComp, Point p);
+        TrbnsferHbndler.DropLocbtion dropLocbtionForPoint(JTextComponent textComp, Point p);
 
         /**
-         * Called to set or clear the drop location during a DnD operation.
+         * Cblled to set or clebr the drop locbtion during b DnD operbtion.
          */
-        Object setDropLocation(JTextComponent textComp, TransferHandler.DropLocation location,
-                               Object state, boolean forDrop);
+        Object setDropLocbtion(JTextComponent textComp, TrbnsferHbndler.DropLocbtion locbtion,
+                               Object stbte, boolebn forDrop);
     }
 
     /**
-     * An accessor for the JLightweightFrame class.
+     * An bccessor for the JLightweightFrbme clbss.
      */
-    public interface JLightweightFrameAccessor {
+    public interfbce JLightweightFrbmeAccessor {
         /**
-         * Notifies the JLightweight frame that it needs to update a cursor
+         * Notifies the JLightweight frbme thbt it needs to updbte b cursor
          */
-        void updateCursor(JLightweightFrame frame);
+        void updbteCursor(JLightweightFrbme frbme);
     }
 
     /**
-     * An accessor for the RepaintManager class.
+     * An bccessor for the RepbintMbnbger clbss.
      */
-    public interface RepaintManagerAccessor {
-        void addRepaintListener(RepaintManager rm, SwingUtilities2.RepaintListener l);
-        void removeRepaintListener(RepaintManager rm, SwingUtilities2.RepaintListener l);
+    public interfbce RepbintMbnbgerAccessor {
+        void bddRepbintListener(RepbintMbnbger rm, SwingUtilities2.RepbintListener l);
+        void removeRepbintListener(RepbintMbnbger rm, SwingUtilities2.RepbintListener l);
     }
 
     /**
-     * An accessor for PopupFactory class.
+     * An bccessor for PopupFbctory clbss.
      */
-    public interface PopupFactoryAccessor {
-        Popup getHeavyWeightPopup(PopupFactory factory, Component owner, Component contents,
+    public interfbce PopupFbctoryAccessor {
+        Popup getHebvyWeightPopup(PopupFbctory fbctory, Component owner, Component contents,
                                   int ownerX, int ownerY);
     }
 
     /**
-     * The javax.swing.text.JTextComponent class accessor object.
+     * The jbvbx.swing.text.JTextComponent clbss bccessor object.
      */
-    private static JTextComponentAccessor jtextComponentAccessor;
+    privbte stbtic JTextComponentAccessor jtextComponentAccessor;
 
     /**
-     * Set an accessor object for the javax.swing.text.JTextComponent class.
+     * Set bn bccessor object for the jbvbx.swing.text.JTextComponent clbss.
      */
-    public static void setJTextComponentAccessor(JTextComponentAccessor jtca) {
-         jtextComponentAccessor = jtca;
+    public stbtic void setJTextComponentAccessor(JTextComponentAccessor jtcb) {
+         jtextComponentAccessor = jtcb;
     }
 
     /**
-     * Retrieve the accessor object for the javax.swing.text.JTextComponent class.
+     * Retrieve the bccessor object for the jbvbx.swing.text.JTextComponent clbss.
      */
-    public static JTextComponentAccessor getJTextComponentAccessor() {
+    public stbtic JTextComponentAccessor getJTextComponentAccessor() {
         if (jtextComponentAccessor == null) {
-            unsafe.ensureClassInitialized(JTextComponent.class);
+            unsbfe.ensureClbssInitiblized(JTextComponent.clbss);
         }
 
         return jtextComponentAccessor;
     }
 
     /**
-     * The JLightweightFrame class accessor object
+     * The JLightweightFrbme clbss bccessor object
      */
-    private static JLightweightFrameAccessor jLightweightFrameAccessor;
+    privbte stbtic JLightweightFrbmeAccessor jLightweightFrbmeAccessor;
 
     /**
-     * Set an accessor object for the JLightweightFrame class.
+     * Set bn bccessor object for the JLightweightFrbme clbss.
      */
-    public static void setJLightweightFrameAccessor(JLightweightFrameAccessor accessor) {
-        jLightweightFrameAccessor = accessor;
+    public stbtic void setJLightweightFrbmeAccessor(JLightweightFrbmeAccessor bccessor) {
+        jLightweightFrbmeAccessor = bccessor;
     }
 
     /**
-     * Retrieve the accessor object for the JLightweightFrame class
+     * Retrieve the bccessor object for the JLightweightFrbme clbss
      */
-    public static JLightweightFrameAccessor getJLightweightFrameAccessor() {
-        if (jLightweightFrameAccessor == null) {
-            unsafe.ensureClassInitialized(JLightweightFrame.class);
+    public stbtic JLightweightFrbmeAccessor getJLightweightFrbmeAccessor() {
+        if (jLightweightFrbmeAccessor == null) {
+            unsbfe.ensureClbssInitiblized(JLightweightFrbme.clbss);
         }
-        return jLightweightFrameAccessor;
+        return jLightweightFrbmeAccessor;
     }
 
     /**
-     * The RepaintManager class accessor object.
+     * The RepbintMbnbger clbss bccessor object.
      */
-    private static RepaintManagerAccessor repaintManagerAccessor;
+    privbte stbtic RepbintMbnbgerAccessor repbintMbnbgerAccessor;
 
     /**
-     * Set an accessor object for the RepaintManager class.
+     * Set bn bccessor object for the RepbintMbnbger clbss.
      */
-    public static void setRepaintManagerAccessor(RepaintManagerAccessor accessor) {
-        repaintManagerAccessor = accessor;
+    public stbtic void setRepbintMbnbgerAccessor(RepbintMbnbgerAccessor bccessor) {
+        repbintMbnbgerAccessor = bccessor;
     }
 
     /**
-     * Retrieve the accessor object for the RepaintManager class.
+     * Retrieve the bccessor object for the RepbintMbnbger clbss.
      */
-    public static RepaintManagerAccessor getRepaintManagerAccessor() {
-        if (repaintManagerAccessor == null) {
-            unsafe.ensureClassInitialized(RepaintManager.class);
+    public stbtic RepbintMbnbgerAccessor getRepbintMbnbgerAccessor() {
+        if (repbintMbnbgerAccessor == null) {
+            unsbfe.ensureClbssInitiblized(RepbintMbnbger.clbss);
         }
-        return repaintManagerAccessor;
+        return repbintMbnbgerAccessor;
     }
 
     /**
-     * The PopupFactory class accessor object.
+     * The PopupFbctory clbss bccessor object.
      */
-    private static PopupFactoryAccessor popupFactoryAccessor;
+    privbte stbtic PopupFbctoryAccessor popupFbctoryAccessor;
 
     /**
-     * Retrieve the accessor object for the PopupFactory class.
+     * Retrieve the bccessor object for the PopupFbctory clbss.
      */
-    public static PopupFactoryAccessor getPopupFactoryAccessor() {
-        if (popupFactoryAccessor == null) {
-            unsafe.ensureClassInitialized(PopupFactory.class);
+    public stbtic PopupFbctoryAccessor getPopupFbctoryAccessor() {
+        if (popupFbctoryAccessor == null) {
+            unsbfe.ensureClbssInitiblized(PopupFbctory.clbss);
         }
-        return popupFactoryAccessor;
+        return popupFbctoryAccessor;
     }
 
     /**
-     * Set an Accessor object for the PopupFactory class.
+     * Set bn Accessor object for the PopupFbctory clbss.
      */
-    public static void setPopupFactoryAccessor(PopupFactoryAccessor popupFactoryAccessor) {
-        SwingAccessor.popupFactoryAccessor = popupFactoryAccessor;
+    public stbtic void setPopupFbctoryAccessor(PopupFbctoryAccessor popupFbctoryAccessor) {
+        SwingAccessor.popupFbctoryAccessor = popupFbctoryAccessor;
     }
 }

@@ -1,356 +1,356 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.color.ColorSpbce;
 
 /**
- * The <code>PackedColorModel</code> class is an abstract
- * {@link ColorModel} class that works with pixel values which represent
- * color and alpha information as separate samples and which pack all
- * samples for a single pixel into a single int, short, or byte quantity.
- * This class can be used with an arbitrary {@link ColorSpace}.  The number of
- * color samples in the pixel values must be the same as the number of color
- * components in the <code>ColorSpace</code>.  There can be a single alpha
- * sample.  The array length is always 1 for those methods that use a
- * primitive array pixel representation of type <code>transferType</code>.
- * The transfer types supported are DataBuffer.TYPE_BYTE,
- * DataBuffer.TYPE_USHORT, and DataBuffer.TYPE_INT.
- * Color and alpha samples are stored in the single element of the array
- * in bits indicated by bit masks.  Each bit mask must be contiguous and
- * masks must not overlap.  The same masks apply to the single int
- * pixel representation used by other methods.  The correspondence of
- * masks and color/alpha samples is as follows:
+ * The <code>PbckedColorModel</code> clbss is bn bbstrbct
+ * {@link ColorModel} clbss thbt works with pixel vblues which represent
+ * color bnd blphb informbtion bs sepbrbte sbmples bnd which pbck bll
+ * sbmples for b single pixel into b single int, short, or byte qubntity.
+ * This clbss cbn be used with bn brbitrbry {@link ColorSpbce}.  The number of
+ * color sbmples in the pixel vblues must be the sbme bs the number of color
+ * components in the <code>ColorSpbce</code>.  There cbn be b single blphb
+ * sbmple.  The brrby length is blwbys 1 for those methods thbt use b
+ * primitive brrby pixel representbtion of type <code>trbnsferType</code>.
+ * The trbnsfer types supported bre DbtbBuffer.TYPE_BYTE,
+ * DbtbBuffer.TYPE_USHORT, bnd DbtbBuffer.TYPE_INT.
+ * Color bnd blphb sbmples bre stored in the single element of the brrby
+ * in bits indicbted by bit mbsks.  Ebch bit mbsk must be contiguous bnd
+ * mbsks must not overlbp.  The sbme mbsks bpply to the single int
+ * pixel representbtion used by other methods.  The correspondence of
+ * mbsks bnd color/blphb sbmples is bs follows:
  * <ul>
- * <li> Masks are identified by indices running from 0 through
+ * <li> Mbsks bre identified by indices running from 0 through
  * {@link ColorModel#getNumComponents() getNumComponents}&nbsp;-&nbsp;1.
  * <li> The first
  * {@link ColorModel#getNumColorComponents() getNumColorComponents}
- * indices refer to color samples.
- * <li> If an alpha sample is present, it corresponds the last index.
+ * indices refer to color sbmples.
+ * <li> If bn blphb sbmple is present, it corresponds the lbst index.
  * <li> The order of the color indices is specified
- * by the <code>ColorSpace</code>.  Typically, this reflects the name of
- * the color space type (for example, TYPE_RGB), index 0
- * corresponds to red, index 1 to green, and index 2 to blue.
+ * by the <code>ColorSpbce</code>.  Typicblly, this reflects the nbme of
+ * the color spbce type (for exbmple, TYPE_RGB), index 0
+ * corresponds to red, index 1 to green, bnd index 2 to blue.
  * </ul>
  * <p>
- * The translation from pixel values to color/alpha components for
- * display or processing purposes is a one-to-one correspondence of
- * samples to components.
- * A <code>PackedColorModel</code> is typically used with image data
- * that uses masks to define packed samples.  For example, a
- * <code>PackedColorModel</code> can be used in conjunction with a
- * {@link SinglePixelPackedSampleModel} to construct a
- * {@link BufferedImage}.  Normally the masks used by the
- * {@link SampleModel} and the <code>ColorModel</code> would be the same.
- * However, if they are different, the color interpretation of pixel data is
- * done according to the masks of the <code>ColorModel</code>.
+ * The trbnslbtion from pixel vblues to color/blphb components for
+ * displby or processing purposes is b one-to-one correspondence of
+ * sbmples to components.
+ * A <code>PbckedColorModel</code> is typicblly used with imbge dbtb
+ * thbt uses mbsks to define pbcked sbmples.  For exbmple, b
+ * <code>PbckedColorModel</code> cbn be used in conjunction with b
+ * {@link SinglePixelPbckedSbmpleModel} to construct b
+ * {@link BufferedImbge}.  Normblly the mbsks used by the
+ * {@link SbmpleModel} bnd the <code>ColorModel</code> would be the sbme.
+ * However, if they bre different, the color interpretbtion of pixel dbtb is
+ * done bccording to the mbsks of the <code>ColorModel</code>.
  * <p>
- * A single <code>int</code> pixel representation is valid for all objects
- * of this class since it is always possible to represent pixel values
- * used with this class in a single <code>int</code>.  Therefore, methods
- * that use this representation do not throw an
- * <code>IllegalArgumentException</code> due to an invalid pixel value.
+ * A single <code>int</code> pixel representbtion is vblid for bll objects
+ * of this clbss since it is blwbys possible to represent pixel vblues
+ * used with this clbss in b single <code>int</code>.  Therefore, methods
+ * thbt use this representbtion do not throw bn
+ * <code>IllegblArgumentException</code> due to bn invblid pixel vblue.
  * <p>
- * A subclass of <code>PackedColorModel</code> is {@link DirectColorModel},
- * which is similar to an X11 TrueColor visual.
+ * A subclbss of <code>PbckedColorModel</code> is {@link DirectColorModel},
+ * which is similbr to bn X11 TrueColor visubl.
  *
  * @see DirectColorModel
- * @see SinglePixelPackedSampleModel
- * @see BufferedImage
+ * @see SinglePixelPbckedSbmpleModel
+ * @see BufferedImbge
  */
 
-public abstract class PackedColorModel extends ColorModel {
-    int[] maskArray;
-    int[] maskOffsets;
-    float[] scaleFactors;
+public bbstrbct clbss PbckedColorModel extends ColorModel {
+    int[] mbskArrby;
+    int[] mbskOffsets;
+    flobt[] scbleFbctors;
 
     /**
-     * Constructs a <code>PackedColorModel</code> from a color mask array,
-     * which specifies which bits in an <code>int</code> pixel representation
-     * contain each of the color samples, and an alpha mask.  Color
-     * components are in the specified <code>ColorSpace</code>.  The length of
-     * <code>colorMaskArray</code> should be the number of components in
-     * the <code>ColorSpace</code>.  All of the bits in each mask
-     * must be contiguous and fit in the specified number of least significant
-     * bits of an <code>int</code> pixel representation.  If the
-     * <code>alphaMask</code> is 0, there is no alpha.  If there is alpha,
-     * the <code>boolean</code> <code>isAlphaPremultiplied</code> specifies
-     * how to interpret color and alpha samples in pixel values.  If the
-     * <code>boolean</code> is <code>true</code>, color samples are assumed
-     * to have been multiplied by the alpha sample.  The transparency,
-     * <code>trans</code>, specifies what alpha values can be represented
-     * by this color model.  The transfer type is the type of primitive
-     * array used to represent pixel values.
-     * @param space the specified <code>ColorSpace</code>
-     * @param bits the number of bits in the pixel values
-     * @param colorMaskArray array that specifies the masks representing
-     *         the bits of the pixel values that represent the color
+     * Constructs b <code>PbckedColorModel</code> from b color mbsk brrby,
+     * which specifies which bits in bn <code>int</code> pixel representbtion
+     * contbin ebch of the color sbmples, bnd bn blphb mbsk.  Color
+     * components bre in the specified <code>ColorSpbce</code>.  The length of
+     * <code>colorMbskArrby</code> should be the number of components in
+     * the <code>ColorSpbce</code>.  All of the bits in ebch mbsk
+     * must be contiguous bnd fit in the specified number of lebst significbnt
+     * bits of bn <code>int</code> pixel representbtion.  If the
+     * <code>blphbMbsk</code> is 0, there is no blphb.  If there is blphb,
+     * the <code>boolebn</code> <code>isAlphbPremultiplied</code> specifies
+     * how to interpret color bnd blphb sbmples in pixel vblues.  If the
+     * <code>boolebn</code> is <code>true</code>, color sbmples bre bssumed
+     * to hbve been multiplied by the blphb sbmple.  The trbnspbrency,
+     * <code>trbns</code>, specifies whbt blphb vblues cbn be represented
+     * by this color model.  The trbnsfer type is the type of primitive
+     * brrby used to represent pixel vblues.
+     * @pbrbm spbce the specified <code>ColorSpbce</code>
+     * @pbrbm bits the number of bits in the pixel vblues
+     * @pbrbm colorMbskArrby brrby thbt specifies the mbsks representing
+     *         the bits of the pixel vblues thbt represent the color
      *         components
-     * @param alphaMask specifies the mask representing
-     *         the bits of the pixel values that represent the alpha
+     * @pbrbm blphbMbsk specifies the mbsk representing
+     *         the bits of the pixel vblues thbt represent the blphb
      *         component
-     * @param isAlphaPremultiplied <code>true</code> if color samples are
-     *        premultiplied by the alpha sample; <code>false</code> otherwise
-     * @param trans specifies the alpha value that can be represented by
+     * @pbrbm isAlphbPremultiplied <code>true</code> if color sbmples bre
+     *        premultiplied by the blphb sbmple; <code>fblse</code> otherwise
+     * @pbrbm trbns specifies the blphb vblue thbt cbn be represented by
      *        this color model
-     * @param transferType the type of array used to represent pixel values
-     * @throws IllegalArgumentException if <code>bits</code> is less than
-     *         1 or greater than 32
+     * @pbrbm trbnsferType the type of brrby used to represent pixel vblues
+     * @throws IllegblArgumentException if <code>bits</code> is less thbn
+     *         1 or grebter thbn 32
      */
-    public PackedColorModel (ColorSpace space, int bits,
-                             int[] colorMaskArray, int alphaMask,
-                             boolean isAlphaPremultiplied,
-                             int trans, int transferType) {
-        super(bits, PackedColorModel.createBitsArray(colorMaskArray,
-                                                     alphaMask),
-              space, (alphaMask == 0 ? false : true),
-              isAlphaPremultiplied, trans, transferType);
+    public PbckedColorModel (ColorSpbce spbce, int bits,
+                             int[] colorMbskArrby, int blphbMbsk,
+                             boolebn isAlphbPremultiplied,
+                             int trbns, int trbnsferType) {
+        super(bits, PbckedColorModel.crebteBitsArrby(colorMbskArrby,
+                                                     blphbMbsk),
+              spbce, (blphbMbsk == 0 ? fblse : true),
+              isAlphbPremultiplied, trbns, trbnsferType);
         if (bits < 1 || bits > 32) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 32.");
+            throw new IllegblArgumentException("Number of bits must be between"
+                                               +" 1 bnd 32.");
         }
-        maskArray   = new int[numComponents];
-        maskOffsets = new int[numComponents];
-        scaleFactors = new float[numComponents];
+        mbskArrby   = new int[numComponents];
+        mbskOffsets = new int[numComponents];
+        scbleFbctors = new flobt[numComponents];
 
         for (int i=0; i < numColorComponents; i++) {
-            // Get the mask offset and #bits
-            DecomposeMask(colorMaskArray[i], i, space.getName(i));
+            // Get the mbsk offset bnd #bits
+            DecomposeMbsk(colorMbskArrby[i], i, spbce.getNbme(i));
         }
-        if (alphaMask != 0) {
-            DecomposeMask(alphaMask, numColorComponents, "alpha");
+        if (blphbMbsk != 0) {
+            DecomposeMbsk(blphbMbsk, numColorComponents, "blphb");
             if (nBits[numComponents-1] == 1) {
-                transparency = Transparency.BITMASK;
+                trbnspbrency = Trbnspbrency.BITMASK;
             }
         }
     }
 
     /**
-     * Constructs a <code>PackedColorModel</code> from the specified
-     * masks which indicate which bits in an <code>int</code> pixel
-     * representation contain the alpha, red, green and blue color samples.
-     * Color components are in the specified <code>ColorSpace</code>, which
-     * must be of type ColorSpace.TYPE_RGB.  All of the bits in each
-     * mask must be contiguous and fit in the specified number of
-     * least significant bits of an <code>int</code> pixel representation.  If
-     * <code>amask</code> is 0, there is no alpha.  If there is alpha,
-     * the <code>boolean</code> <code>isAlphaPremultiplied</code>
-     * specifies how to interpret color and alpha samples
-     * in pixel values.  If the <code>boolean</code> is <code>true</code>,
-     * color samples are assumed to have been multiplied by the alpha sample.
-     * The transparency, <code>trans</code>, specifies what alpha values
-     * can be represented by this color model.
-     * The transfer type is the type of primitive array used to represent
-     * pixel values.
-     * @param space the specified <code>ColorSpace</code>
-     * @param bits the number of bits in the pixel values
-     * @param rmask specifies the mask representing
-     *         the bits of the pixel values that represent the red
+     * Constructs b <code>PbckedColorModel</code> from the specified
+     * mbsks which indicbte which bits in bn <code>int</code> pixel
+     * representbtion contbin the blphb, red, green bnd blue color sbmples.
+     * Color components bre in the specified <code>ColorSpbce</code>, which
+     * must be of type ColorSpbce.TYPE_RGB.  All of the bits in ebch
+     * mbsk must be contiguous bnd fit in the specified number of
+     * lebst significbnt bits of bn <code>int</code> pixel representbtion.  If
+     * <code>bmbsk</code> is 0, there is no blphb.  If there is blphb,
+     * the <code>boolebn</code> <code>isAlphbPremultiplied</code>
+     * specifies how to interpret color bnd blphb sbmples
+     * in pixel vblues.  If the <code>boolebn</code> is <code>true</code>,
+     * color sbmples bre bssumed to hbve been multiplied by the blphb sbmple.
+     * The trbnspbrency, <code>trbns</code>, specifies whbt blphb vblues
+     * cbn be represented by this color model.
+     * The trbnsfer type is the type of primitive brrby used to represent
+     * pixel vblues.
+     * @pbrbm spbce the specified <code>ColorSpbce</code>
+     * @pbrbm bits the number of bits in the pixel vblues
+     * @pbrbm rmbsk specifies the mbsk representing
+     *         the bits of the pixel vblues thbt represent the red
      *         color component
-     * @param gmask specifies the mask representing
-     *         the bits of the pixel values that represent the green
+     * @pbrbm gmbsk specifies the mbsk representing
+     *         the bits of the pixel vblues thbt represent the green
      *         color component
-     * @param bmask specifies the mask representing
-     *         the bits of the pixel values that represent
+     * @pbrbm bmbsk specifies the mbsk representing
+     *         the bits of the pixel vblues thbt represent
      *         the blue color component
-     * @param amask specifies the mask representing
-     *         the bits of the pixel values that represent
-     *         the alpha component
-     * @param isAlphaPremultiplied <code>true</code> if color samples are
-     *        premultiplied by the alpha sample; <code>false</code> otherwise
-     * @param trans specifies the alpha value that can be represented by
+     * @pbrbm bmbsk specifies the mbsk representing
+     *         the bits of the pixel vblues thbt represent
+     *         the blphb component
+     * @pbrbm isAlphbPremultiplied <code>true</code> if color sbmples bre
+     *        premultiplied by the blphb sbmple; <code>fblse</code> otherwise
+     * @pbrbm trbns specifies the blphb vblue thbt cbn be represented by
      *        this color model
-     * @param transferType the type of array used to represent pixel values
-     * @throws IllegalArgumentException if <code>space</code> is not a
-     *         TYPE_RGB space
-     * @see ColorSpace
+     * @pbrbm trbnsferType the type of brrby used to represent pixel vblues
+     * @throws IllegblArgumentException if <code>spbce</code> is not b
+     *         TYPE_RGB spbce
+     * @see ColorSpbce
      */
-    public PackedColorModel(ColorSpace space, int bits, int rmask, int gmask,
-                            int bmask, int amask,
-                            boolean isAlphaPremultiplied,
-                            int trans, int transferType) {
-        super (bits, PackedColorModel.createBitsArray(rmask, gmask, bmask,
-                                                      amask),
-               space, (amask == 0 ? false : true),
-               isAlphaPremultiplied, trans, transferType);
+    public PbckedColorModel(ColorSpbce spbce, int bits, int rmbsk, int gmbsk,
+                            int bmbsk, int bmbsk,
+                            boolebn isAlphbPremultiplied,
+                            int trbns, int trbnsferType) {
+        super (bits, PbckedColorModel.crebteBitsArrby(rmbsk, gmbsk, bmbsk,
+                                                      bmbsk),
+               spbce, (bmbsk == 0 ? fblse : true),
+               isAlphbPremultiplied, trbns, trbnsferType);
 
-        if (space.getType() != ColorSpace.TYPE_RGB) {
-            throw new IllegalArgumentException("ColorSpace must be TYPE_RGB.");
+        if (spbce.getType() != ColorSpbce.TYPE_RGB) {
+            throw new IllegblArgumentException("ColorSpbce must be TYPE_RGB.");
         }
-        maskArray = new int[numComponents];
-        maskOffsets = new int[numComponents];
-        scaleFactors = new float[numComponents];
+        mbskArrby = new int[numComponents];
+        mbskOffsets = new int[numComponents];
+        scbleFbctors = new flobt[numComponents];
 
-        DecomposeMask(rmask, 0, "red");
+        DecomposeMbsk(rmbsk, 0, "red");
 
-        DecomposeMask(gmask, 1, "green");
+        DecomposeMbsk(gmbsk, 1, "green");
 
-        DecomposeMask(bmask, 2, "blue");
+        DecomposeMbsk(bmbsk, 2, "blue");
 
-        if (amask != 0) {
-            DecomposeMask(amask, 3, "alpha");
+        if (bmbsk != 0) {
+            DecomposeMbsk(bmbsk, 3, "blphb");
             if (nBits[3] == 1) {
-                transparency = Transparency.BITMASK;
+                trbnspbrency = Trbnspbrency.BITMASK;
             }
         }
     }
 
     /**
-     * Returns the mask indicating which bits in a pixel
-     * contain the specified color/alpha sample.  For color
-     * samples, <code>index</code> corresponds to the placement of color
-     * sample names in the color space.  Thus, an <code>index</code>
-     * equal to 0 for a CMYK ColorSpace would correspond to
-     * Cyan and an <code>index</code> equal to 1 would correspond to
-     * Magenta.  If there is alpha, the alpha <code>index</code> would be:
+     * Returns the mbsk indicbting which bits in b pixel
+     * contbin the specified color/blphb sbmple.  For color
+     * sbmples, <code>index</code> corresponds to the plbcement of color
+     * sbmple nbmes in the color spbce.  Thus, bn <code>index</code>
+     * equbl to 0 for b CMYK ColorSpbce would correspond to
+     * Cybn bnd bn <code>index</code> equbl to 1 would correspond to
+     * Mbgentb.  If there is blphb, the blphb <code>index</code> would be:
      * <pre>
-     *      alphaIndex = numComponents() - 1;
+     *      blphbIndex = numComponents() - 1;
      * </pre>
-     * @param index the specified color or alpha sample
-     * @return the mask, which indicates which bits of the <code>int</code>
-     *         pixel representation contain the color or alpha sample specified
+     * @pbrbm index the specified color or blphb sbmple
+     * @return the mbsk, which indicbtes which bits of the <code>int</code>
+     *         pixel representbtion contbin the color or blphb sbmple specified
      *         by <code>index</code>.
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is
-     *         greater than the number of components minus 1 in this
-     *         <code>PackedColorModel</code> or if <code>index</code> is
-     *         less than zero
+     * @throws ArrbyIndexOutOfBoundsException if <code>index</code> is
+     *         grebter thbn the number of components minus 1 in this
+     *         <code>PbckedColorModel</code> or if <code>index</code> is
+     *         less thbn zero
      */
-    final public int getMask(int index) {
-        return maskArray[index];
+    finbl public int getMbsk(int index) {
+        return mbskArrby[index];
     }
 
     /**
-     * Returns a mask array indicating which bits in a pixel
-     * contain the color and alpha samples.
-     * @return the mask array , which indicates which bits of the
+     * Returns b mbsk brrby indicbting which bits in b pixel
+     * contbin the color bnd blphb sbmples.
+     * @return the mbsk brrby , which indicbtes which bits of the
      *         <code>int</code> pixel
-     *         representation contain the color or alpha samples.
+     *         representbtion contbin the color or blphb sbmples.
      */
-    final public int[] getMasks() {
-        return maskArray.clone();
+    finbl public int[] getMbsks() {
+        return mbskArrby.clone();
     }
 
     /*
-     * A utility function to compute the mask offset and scalefactor,
-     * store these and the mask in instance arrays, and verify that
-     * the mask fits in the specified pixel size.
+     * A utility function to compute the mbsk offset bnd scblefbctor,
+     * store these bnd the mbsk in instbnce brrbys, bnd verify thbt
+     * the mbsk fits in the specified pixel size.
      */
-    private void DecomposeMask(int mask,  int idx, String componentName) {
+    privbte void DecomposeMbsk(int mbsk,  int idx, String componentNbme) {
         int off = 0;
         int count = nBits[idx];
 
-        // Store the mask
-        maskArray[idx]   = mask;
+        // Store the mbsk
+        mbskArrby[idx]   = mbsk;
 
         // Now find the shift
-        if (mask != 0) {
-            while ((mask & 1) == 0) {
-                mask >>>= 1;
+        if (mbsk != 0) {
+            while ((mbsk & 1) == 0) {
+                mbsk >>>= 1;
                 off++;
             }
         }
 
         if (off + count > pixel_bits) {
-            throw new IllegalArgumentException(componentName + " mask "+
-                                        Integer.toHexString(maskArray[idx])+
+            throw new IllegblArgumentException(componentNbme + " mbsk "+
+                                        Integer.toHexString(mbskArrby[idx])+
                                                " overflows pixel (expecting "+
                                                pixel_bits+" bits");
         }
 
-        maskOffsets[idx] = off;
+        mbskOffsets[idx] = off;
         if (count == 0) {
-            // High enough to scale any 0-ff value down to 0.0, but not
-            // high enough to get Infinity when scaling back to pixel bits
-            scaleFactors[idx] = 256.0f;
+            // High enough to scble bny 0-ff vblue down to 0.0, but not
+            // high enough to get Infinity when scbling bbck to pixel bits
+            scbleFbctors[idx] = 256.0f;
         } else {
-            scaleFactors[idx] = 255.0f / ((1 << count) - 1);
+            scbleFbctors[idx] = 255.0f / ((1 << count) - 1);
         }
 
     }
 
     /**
-     * Creates a <code>SampleModel</code> with the specified width and
-     * height that has a data layout compatible with this
+     * Crebtes b <code>SbmpleModel</code> with the specified width bnd
+     * height thbt hbs b dbtb lbyout compbtible with this
      * <code>ColorModel</code>.
-     * @param w the width (in pixels) of the region of the image data
+     * @pbrbm w the width (in pixels) of the region of the imbge dbtb
      *          described
-     * @param h the height (in pixels) of the region of the image data
+     * @pbrbm h the height (in pixels) of the region of the imbge dbtb
      *          described
-     * @return the newly created <code>SampleModel</code>.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @see SampleModel
+     * @return the newly crebted <code>SbmpleModel</code>.
+     * @throws IllegblArgumentException if <code>w</code> or
+     *         <code>h</code> is not grebter thbn 0
+     * @see SbmpleModel
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-        return new SinglePixelPackedSampleModel(transferType, w, h,
-                                                maskArray);
+    public SbmpleModel crebteCompbtibleSbmpleModel(int w, int h) {
+        return new SinglePixelPbckedSbmpleModel(trbnsferType, w, h,
+                                                mbskArrby);
     }
 
     /**
-     * Checks if the specified <code>SampleModel</code> is compatible
+     * Checks if the specified <code>SbmpleModel</code> is compbtible
      * with this <code>ColorModel</code>.  If <code>sm</code> is
-     * <code>null</code>, this method returns <code>false</code>.
-     * @param sm the specified <code>SampleModel</code>,
+     * <code>null</code>, this method returns <code>fblse</code>.
+     * @pbrbm sm the specified <code>SbmpleModel</code>,
      * or <code>null</code>
-     * @return <code>true</code> if the specified <code>SampleModel</code>
-     *         is compatible with this <code>ColorModel</code>;
-     *         <code>false</code> otherwise.
-     * @see SampleModel
+     * @return <code>true</code> if the specified <code>SbmpleModel</code>
+     *         is compbtible with this <code>ColorModel</code>;
+     *         <code>fblse</code> otherwise.
+     * @see SbmpleModel
      */
-    public boolean isCompatibleSampleModel(SampleModel sm) {
-        if (! (sm instanceof SinglePixelPackedSampleModel)) {
-            return false;
+    public boolebn isCompbtibleSbmpleModel(SbmpleModel sm) {
+        if (! (sm instbnceof SinglePixelPbckedSbmpleModel)) {
+            return fblse;
         }
 
-        // Must have the same number of components
-        if (numComponents != sm.getNumBands()) {
-            return false;
+        // Must hbve the sbme number of components
+        if (numComponents != sm.getNumBbnds()) {
+            return fblse;
         }
 
-        // Transfer type must be the same
-        if (sm.getTransferType() != transferType) {
-            return false;
+        // Trbnsfer type must be the sbme
+        if (sm.getTrbnsferType() != trbnsferType) {
+            return fblse;
         }
 
-        SinglePixelPackedSampleModel sppsm = (SinglePixelPackedSampleModel) sm;
-        // Now compare the specific masks
-        int[] bitMasks = sppsm.getBitMasks();
-        if (bitMasks.length != maskArray.length) {
-            return false;
+        SinglePixelPbckedSbmpleModel sppsm = (SinglePixelPbckedSbmpleModel) sm;
+        // Now compbre the specific mbsks
+        int[] bitMbsks = sppsm.getBitMbsks();
+        if (bitMbsks.length != mbskArrby.length) {
+            return fblse;
         }
 
-        /* compare 'effective' masks only, i.e. only part of the mask
-         * which fits the capacity of the transfer type.
+        /* compbre 'effective' mbsks only, i.e. only pbrt of the mbsk
+         * which fits the cbpbcity of the trbnsfer type.
          */
-        int maxMask = (int)((1L << DataBuffer.getDataTypeSize(transferType)) - 1);
-        for (int i=0; i < bitMasks.length; i++) {
-            if ((maxMask & bitMasks[i]) != (maxMask & maskArray[i])) {
-                return false;
+        int mbxMbsk = (int)((1L << DbtbBuffer.getDbtbTypeSize(trbnsferType)) - 1);
+        for (int i=0; i < bitMbsks.length; i++) {
+            if ((mbxMbsk & bitMbsks[i]) != (mbxMbsk & mbskArrby[i])) {
+                return fblse;
             }
         }
 
@@ -358,126 +358,126 @@ public abstract class PackedColorModel extends ColorModel {
     }
 
     /**
-     * Returns a {@link WritableRaster} representing the alpha channel of
-     * an image, extracted from the input <code>WritableRaster</code>.
-     * This method assumes that <code>WritableRaster</code> objects
-     * associated with this <code>ColorModel</code> store the alpha band,
-     * if present, as the last band of image data.  Returns <code>null</code>
-     * if there is no separate spatial alpha channel associated with this
-     * <code>ColorModel</code>.  This method creates a new
-     * <code>WritableRaster</code>, but shares the data array.
-     * @param raster a <code>WritableRaster</code> containing an image
-     * @return a <code>WritableRaster</code> that represents the alpha
-     *         channel of the image contained in <code>raster</code>.
+     * Returns b {@link WritbbleRbster} representing the blphb chbnnel of
+     * bn imbge, extrbcted from the input <code>WritbbleRbster</code>.
+     * This method bssumes thbt <code>WritbbleRbster</code> objects
+     * bssocibted with this <code>ColorModel</code> store the blphb bbnd,
+     * if present, bs the lbst bbnd of imbge dbtb.  Returns <code>null</code>
+     * if there is no sepbrbte spbtibl blphb chbnnel bssocibted with this
+     * <code>ColorModel</code>.  This method crebtes b new
+     * <code>WritbbleRbster</code>, but shbres the dbtb brrby.
+     * @pbrbm rbster b <code>WritbbleRbster</code> contbining bn imbge
+     * @return b <code>WritbbleRbster</code> thbt represents the blphb
+     *         chbnnel of the imbge contbined in <code>rbster</code>.
      */
-    public WritableRaster getAlphaRaster(WritableRaster raster) {
-        if (hasAlpha() == false) {
+    public WritbbleRbster getAlphbRbster(WritbbleRbster rbster) {
+        if (hbsAlphb() == fblse) {
             return null;
         }
 
-        int x = raster.getMinX();
-        int y = raster.getMinY();
-        int[] band = new int[1];
-        band[0] = raster.getNumBands() - 1;
-        return raster.createWritableChild(x, y, raster.getWidth(),
-                                          raster.getHeight(), x, y,
-                                          band);
+        int x = rbster.getMinX();
+        int y = rbster.getMinY();
+        int[] bbnd = new int[1];
+        bbnd[0] = rbster.getNumBbnds() - 1;
+        return rbster.crebteWritbbleChild(x, y, rbster.getWidth(),
+                                          rbster.getHeight(), x, y,
+                                          bbnd);
     }
 
     /**
-     * Tests if the specified <code>Object</code> is an instance
-     * of <code>PackedColorModel</code> and equals this
-     * <code>PackedColorModel</code>.
-     * @param obj the <code>Object</code> to test for equality
+     * Tests if the specified <code>Object</code> is bn instbnce
+     * of <code>PbckedColorModel</code> bnd equbls this
+     * <code>PbckedColorModel</code>.
+     * @pbrbm obj the <code>Object</code> to test for equblity
      * @return <code>true</code> if the specified <code>Object</code>
-     * is an instance of <code>PackedColorModel</code> and equals this
-     * <code>PackedColorModel</code>; <code>false</code> otherwise.
+     * is bn instbnce of <code>PbckedColorModel</code> bnd equbls this
+     * <code>PbckedColorModel</code>; <code>fblse</code> otherwise.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PackedColorModel)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof PbckedColorModel)) {
+            return fblse;
         }
 
-        if (!super.equals(obj)) {
-            return false;
+        if (!super.equbls(obj)) {
+            return fblse;
         }
 
-        PackedColorModel cm = (PackedColorModel) obj;
+        PbckedColorModel cm = (PbckedColorModel) obj;
         int numC = cm.getNumComponents();
         if (numC != numComponents) {
-            return false;
+            return fblse;
         }
         for(int i=0; i < numC; i++) {
-            if (maskArray[i] != cm.getMask(i)) {
-                return false;
+            if (mbskArrby[i] != cm.getMbsk(i)) {
+                return fblse;
             }
         }
         return true;
     }
 
-    private final static int[] createBitsArray(int[]colorMaskArray,
-                                               int alphaMask) {
-        int numColors = colorMaskArray.length;
-        int numAlpha = (alphaMask == 0 ? 0 : 1);
-        int[] arr = new int[numColors+numAlpha];
+    privbte finbl stbtic int[] crebteBitsArrby(int[]colorMbskArrby,
+                                               int blphbMbsk) {
+        int numColors = colorMbskArrby.length;
+        int numAlphb = (blphbMbsk == 0 ? 0 : 1);
+        int[] brr = new int[numColors+numAlphb];
         for (int i=0; i < numColors; i++) {
-            arr[i] = countBits(colorMaskArray[i]);
-            if (arr[i] < 0) {
-                throw new IllegalArgumentException("Noncontiguous color mask ("
-                                     + Integer.toHexString(colorMaskArray[i])+
-                                     "at index "+i);
+            brr[i] = countBits(colorMbskArrby[i]);
+            if (brr[i] < 0) {
+                throw new IllegblArgumentException("Noncontiguous color mbsk ("
+                                     + Integer.toHexString(colorMbskArrby[i])+
+                                     "bt index "+i);
             }
         }
-        if (alphaMask != 0) {
-            arr[numColors] = countBits(alphaMask);
-            if (arr[numColors] < 0) {
-                throw new IllegalArgumentException("Noncontiguous alpha mask ("
-                                     + Integer.toHexString(alphaMask));
+        if (blphbMbsk != 0) {
+            brr[numColors] = countBits(blphbMbsk);
+            if (brr[numColors] < 0) {
+                throw new IllegblArgumentException("Noncontiguous blphb mbsk ("
+                                     + Integer.toHexString(blphbMbsk));
             }
         }
-        return arr;
+        return brr;
     }
 
-    private final static int[] createBitsArray(int rmask, int gmask, int bmask,
-                                         int amask) {
-        int[] arr = new int[3 + (amask == 0 ? 0 : 1)];
-        arr[0] = countBits(rmask);
-        arr[1] = countBits(gmask);
-        arr[2] = countBits(bmask);
-        if (arr[0] < 0) {
-            throw new IllegalArgumentException("Noncontiguous red mask ("
-                                     + Integer.toHexString(rmask));
+    privbte finbl stbtic int[] crebteBitsArrby(int rmbsk, int gmbsk, int bmbsk,
+                                         int bmbsk) {
+        int[] brr = new int[3 + (bmbsk == 0 ? 0 : 1)];
+        brr[0] = countBits(rmbsk);
+        brr[1] = countBits(gmbsk);
+        brr[2] = countBits(bmbsk);
+        if (brr[0] < 0) {
+            throw new IllegblArgumentException("Noncontiguous red mbsk ("
+                                     + Integer.toHexString(rmbsk));
         }
-        else if (arr[1] < 0) {
-            throw new IllegalArgumentException("Noncontiguous green mask ("
-                                     + Integer.toHexString(gmask));
+        else if (brr[1] < 0) {
+            throw new IllegblArgumentException("Noncontiguous green mbsk ("
+                                     + Integer.toHexString(gmbsk));
         }
-        else if (arr[2] < 0) {
-            throw new IllegalArgumentException("Noncontiguous blue mask ("
-                                     + Integer.toHexString(bmask));
+        else if (brr[2] < 0) {
+            throw new IllegblArgumentException("Noncontiguous blue mbsk ("
+                                     + Integer.toHexString(bmbsk));
         }
-        if (amask != 0) {
-            arr[3] = countBits(amask);
-            if (arr[3] < 0) {
-                throw new IllegalArgumentException("Noncontiguous alpha mask ("
-                                     + Integer.toHexString(amask));
+        if (bmbsk != 0) {
+            brr[3] = countBits(bmbsk);
+            if (brr[3] < 0) {
+                throw new IllegblArgumentException("Noncontiguous blphb mbsk ("
+                                     + Integer.toHexString(bmbsk));
             }
         }
-        return arr;
+        return brr;
     }
 
-    private final static int countBits(int mask) {
+    privbte finbl stbtic int countBits(int mbsk) {
         int count = 0;
-        if (mask != 0) {
-            while ((mask & 1) == 0) {
-                mask >>>= 1;
+        if (mbsk != 0) {
+            while ((mbsk & 1) == 0) {
+                mbsk >>>= 1;
             }
-            while ((mask & 1) == 1) {
-                mask >>>= 1;
+            while ((mbsk & 1) == 1) {
+                mbsk >>>= 1;
                 count++;
             }
         }
-        if (mask != 0) {
+        if (mbsk != 0) {
             return -1;
         }
         return count;

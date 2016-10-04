@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.border;
+pbckbge jbvbx.swing.border;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.Pbth2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.RoundRectbngle2D;
+import jbvb.bebns.ConstructorProperties;
 
 /**
- * A class which implements a line border of arbitrary thickness
- * and of a single color.
+ * A clbss which implements b line border of brbitrbry thickness
+ * bnd of b single color.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class LineBorder extends AbstractBorder
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss LineBorder extends AbstrbctBorder
 {
-    private static Border blackLine;
-    private static Border grayLine;
+    privbte stbtic Border blbckLine;
+    privbte stbtic Border grbyLine;
 
     protected int thickness;
     protected Color lineColor;
-    protected boolean roundedCorners;
+    protected boolebn roundedCorners;
 
     /**
-     * Convenience method for getting the Color.black LineBorder of thickness 1.
+     * Convenience method for getting the Color.blbck LineBorder of thickness 1.
      *
-     * @return a {@code LineBorder} with {@code Color.black} and thickness of 1
+     * @return b {@code LineBorder} with {@code Color.blbck} bnd thickness of 1
      */
-    public static Border createBlackLineBorder() {
-        if (blackLine == null) {
-            blackLine = new LineBorder(Color.black, 1);
+    public stbtic Border crebteBlbckLineBorder() {
+        if (blbckLine == null) {
+            blbckLine = new LineBorder(Color.blbck, 1);
         }
-        return blackLine;
+        return blbckLine;
     }
 
     /**
-     * Convenience method for getting the Color.gray LineBorder of thickness 1.
+     * Convenience method for getting the Color.grby LineBorder of thickness 1.
      *
-     * @return a {@code LineBorder} with {@code Color.gray} and thickness of 1
+     * @return b {@code LineBorder} with {@code Color.grby} bnd thickness of 1
      */
-    public static Border createGrayLineBorder() {
-        if (grayLine == null) {
-            grayLine = new LineBorder(Color.gray, 1);
+    public stbtic Border crebteGrbyLineBorder() {
+        if (grbyLine == null) {
+            grbyLine = new LineBorder(Color.grby, 1);
         }
-        return grayLine;
+        return grbyLine;
     }
 
     /**
-     * Creates a line border with the specified color and a
+     * Crebtes b line border with the specified color bnd b
      * thickness = 1.
      *
-     * @param color the color for the border
+     * @pbrbm color the color for the border
      */
     public LineBorder(Color color) {
-        this(color, 1, false);
+        this(color, 1, fblse);
     }
 
     /**
-     * Creates a line border with the specified color and thickness.
+     * Crebtes b line border with the specified color bnd thickness.
      *
-     * @param color the color of the border
-     * @param thickness the thickness of the border
+     * @pbrbm color the color of the border
+     * @pbrbm thickness the thickness of the border
      */
     public LineBorder(Color color, int thickness)  {
-        this(color, thickness, false);
+        this(color, thickness, fblse);
     }
 
     /**
-     * Creates a line border with the specified color, thickness,
-     * and corner shape.
+     * Crebtes b line border with the specified color, thickness,
+     * bnd corner shbpe.
      *
-     * @param color the color of the border
-     * @param thickness the thickness of the border
-     * @param roundedCorners whether or not border corners should be round
+     * @pbrbm color the color of the border
+     * @pbrbm thickness the thickness of the border
+     * @pbrbm roundedCorners whether or not border corners should be round
      * @since 1.3
      */
     @ConstructorProperties({"lineColor", "thickness", "roundedCorners"})
-    public LineBorder(Color color, int thickness, boolean roundedCorners)  {
+    public LineBorder(Color color, int thickness, boolebn roundedCorners)  {
         lineColor = color;
         this.thickness = thickness;
         this.roundedCorners = roundedCorners;
     }
 
     /**
-     * Paints the border for the specified component with the
-     * specified position and size.
+     * Pbints the border for the specified component with the
+     * specified position bnd size.
      *
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * @pbrbm c the component for which this border is being pbinted
+     * @pbrbm g the pbint grbphics
+     * @pbrbm x the x position of the pbinted border
+     * @pbrbm y the y position of the pbinted border
+     * @pbrbm width the width of the pbinted border
+     * @pbrbm height the height of the pbinted border
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        if ((this.thickness > 0) && (g instanceof Graphics2D)) {
-            Graphics2D g2d = (Graphics2D) g;
+    public void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height) {
+        if ((this.thickness > 0) && (g instbnceof Grbphics2D)) {
+            Grbphics2D g2d = (Grbphics2D) g;
 
             Color oldColor = g2d.getColor();
             g2d.setColor(this.lineColor);
 
-            Shape outer;
-            Shape inner;
+            Shbpe outer;
+            Shbpe inner;
 
             int offs = this.thickness;
             int size = offs + offs;
             if (this.roundedCorners) {
-                float arc = .2f * offs;
-                outer = new RoundRectangle2D.Float(x, y, width, height, offs, offs);
-                inner = new RoundRectangle2D.Float(x + offs, y + offs, width - size, height - size, arc, arc);
+                flobt brc = .2f * offs;
+                outer = new RoundRectbngle2D.Flobt(x, y, width, height, offs, offs);
+                inner = new RoundRectbngle2D.Flobt(x + offs, y + offs, width - size, height - size, brc, brc);
             }
             else {
-                outer = new Rectangle2D.Float(x, y, width, height);
-                inner = new Rectangle2D.Float(x + offs, y + offs, width - size, height - size);
+                outer = new Rectbngle2D.Flobt(x, y, width, height);
+                inner = new Rectbngle2D.Flobt(x + offs, y + offs, width - size, height - size);
             }
-            Path2D path = new Path2D.Float(Path2D.WIND_EVEN_ODD);
-            path.append(outer, false);
-            path.append(inner, false);
-            g2d.fill(path);
+            Pbth2D pbth = new Pbth2D.Flobt(Pbth2D.WIND_EVEN_ODD);
+            pbth.bppend(outer, fblse);
+            pbth.bppend(inner, fblse);
+            g2d.fill(pbth);
             g2d.setColor(oldColor);
         }
     }
 
     /**
-     * Reinitialize the insets parameter with this Border's current Insets.
+     * Reinitiblize the insets pbrbmeter with this Border's current Insets.
      *
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
+     * @pbrbm c the component for which this border insets vblue bpplies
+     * @pbrbm insets the object to be reinitiblized
      */
     public Insets getBorderInsets(Component c, Insets insets) {
         insets.set(thickness, thickness, thickness, thickness);
@@ -174,7 +174,7 @@ public class LineBorder extends AbstractBorder
     /**
      * Returns the color of the border.
      *
-     * @return a {@code Color} object representing the color of this object
+     * @return b {@code Color} object representing the color of this object
      */
     public Color getLineColor()     {
         return lineColor;
@@ -190,21 +190,21 @@ public class LineBorder extends AbstractBorder
     }
 
     /**
-     * Returns whether this border will be drawn with rounded corners.
+     * Returns whether this border will be drbwn with rounded corners.
      *
-     * @return {@code true} if this border should have rounded corners
+     * @return {@code true} if this border should hbve rounded corners
      * @since 1.3
      */
-    public boolean getRoundedCorners() {
+    public boolebn getRoundedCorners() {
         return roundedCorners;
     }
 
     /**
-     * Returns whether or not the border is opaque.
+     * Returns whether or not the border is opbque.
      *
-     * @return {@code true} if the border is opaque, {@code false} otherwise
+     * @return {@code true} if the border is opbque, {@code fblse} otherwise
      */
-    public boolean isBorderOpaque() {
+    public boolebn isBorderOpbque() {
         return !roundedCorners;
     }
 

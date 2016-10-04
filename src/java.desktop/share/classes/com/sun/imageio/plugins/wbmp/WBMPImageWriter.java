@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.wbmp;
+pbckbge com.sun.imbgeio.plugins.wbmp;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.DbtbBufferByte;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.MultiPixelPbckedSbmpleModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.SbmpleModel;
+import jbvb.bwt.imbge.WritbbleRbster;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import javax.imageio.IIOImage;
-import javax.imageio.IIOException;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
+import jbvbx.imbgeio.IIOImbge;
+import jbvbx.imbgeio.IIOException;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.ImbgeWritePbrbm;
+import jbvbx.imbgeio.ImbgeWriter;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtb;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
+import jbvbx.imbgeio.metbdbtb.IIOInvblidTreeException;
+import jbvbx.imbgeio.spi.ImbgeWriterSpi;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
 
-import com.sun.imageio.plugins.common.I18N;
+import com.sun.imbgeio.plugins.common.I18N;
 
 /**
- * The Java Image IO plugin writer for encoding a binary RenderedImage into
- * a WBMP format.
+ * The Jbvb Imbge IO plugin writer for encoding b binbry RenderedImbge into
+ * b WBMP formbt.
  *
- * The encoding process may clip, subsample using the parameters
- * specified in the <code>ImageWriteParam</code>.
+ * The encoding process mby clip, subsbmple using the pbrbmeters
+ * specified in the <code>ImbgeWritePbrbm</code>.
  *
- * @see com.sun.media.imageio.plugins.WBMPImageWriteParam
+ * @see com.sun.medib.imbgeio.plugins.WBMPImbgeWritePbrbm
  */
-public class WBMPImageWriter extends ImageWriter {
-    /** The output stream to write into */
-    private ImageOutputStream stream = null;
+public clbss WBMPImbgeWriter extends ImbgeWriter {
+    /** The output strebm to write into */
+    privbte ImbgeOutputStrebm strebm = null;
 
-    // Get the number of bits required to represent an int.
-    private static int getNumBits(int intValue) {
+    // Get the number of bits required to represent bn int.
+    privbte stbtic int getNumBits(int intVblue) {
         int numBits = 32;
-        int mask = 0x80000000;
-        while(mask != 0 && (intValue & mask) == 0) {
+        int mbsk = 0x80000000;
+        while(mbsk != 0 && (intVblue & mbsk) == 0) {
             numBits--;
-            mask >>>= 1;
+            mbsk >>>= 1;
         }
         return numBits;
     }
 
-    // Convert an int value to WBMP multi-byte format.
-    private static byte[] intToMultiByte(int intValue) {
-        int numBitsLeft = getNumBits(intValue);
+    // Convert bn int vblue to WBMP multi-byte formbt.
+    privbte stbtic byte[] intToMultiByte(int intVblue) {
+        int numBitsLeft = getNumBits(intVblue);
         byte[] multiBytes = new byte[(numBitsLeft + 6)/7];
 
-        int maxIndex = multiBytes.length - 1;
-        for(int b = 0; b <= maxIndex; b++) {
-            multiBytes[b] = (byte)((intValue >>> ((maxIndex - b)*7))&0x7f);
-            if(b != maxIndex) {
+        int mbxIndex = multiBytes.length - 1;
+        for(int b = 0; b <= mbxIndex; b++) {
+            multiBytes[b] = (byte)((intVblue >>> ((mbxIndex - b)*7))&0x7f);
+            if(b != mbxIndex) {
                 multiBytes[b] |= (byte)0x80;
             }
         }
@@ -92,224 +92,224 @@ public class WBMPImageWriter extends ImageWriter {
         return multiBytes;
     }
 
-    /** Constructs <code>WBMPImageWriter</code> based on the provided
-     *  <code>ImageWriterSpi</code>.
+    /** Constructs <code>WBMPImbgeWriter</code> bbsed on the provided
+     *  <code>ImbgeWriterSpi</code>.
      */
-    public WBMPImageWriter(ImageWriterSpi originator) {
-        super(originator);
+    public WBMPImbgeWriter(ImbgeWriterSpi originbtor) {
+        super(originbtor);
     }
 
     public void setOutput(Object output) {
-        super.setOutput(output); // validates output
+        super.setOutput(output); // vblidbtes output
         if (output != null) {
-            if (!(output instanceof ImageOutputStream))
-                throw new IllegalArgumentException(I18N.getString("WBMPImageWriter"));
-            this.stream = (ImageOutputStream)output;
+            if (!(output instbnceof ImbgeOutputStrebm))
+                throw new IllegblArgumentException(I18N.getString("WBMPImbgeWriter"));
+            this.strebm = (ImbgeOutputStrebm)output;
         } else
-            this.stream = null;
+            this.strebm = null;
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
+    public IIOMetbdbtb getDefbultStrebmMetbdbtb(ImbgeWritePbrbm pbrbm) {
         return null;
     }
 
-    public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
-        WBMPMetadata meta = new WBMPMetadata();
-        meta.wbmpType = 0; // default wbmp level
-        return meta;
+    public IIOMetbdbtb getDefbultImbgeMetbdbtb(ImbgeTypeSpecifier imbgeType,
+                                               ImbgeWritePbrbm pbrbm) {
+        WBMPMetbdbtb metb = new WBMPMetbdbtb();
+        metb.wbmpType = 0; // defbult wbmp level
+        return metb;
     }
 
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
+    public IIOMetbdbtb convertStrebmMetbdbtb(IIOMetbdbtb inDbtb,
+                                             ImbgeWritePbrbm pbrbm) {
         return null;
     }
 
-    public IIOMetadata convertImageMetadata(IIOMetadata metadata,
-                                            ImageTypeSpecifier type,
-                                            ImageWriteParam param) {
+    public IIOMetbdbtb convertImbgeMetbdbtb(IIOMetbdbtb metbdbtb,
+                                            ImbgeTypeSpecifier type,
+                                            ImbgeWritePbrbm pbrbm) {
         return null;
     }
 
-    public boolean canWriteRasters() {
+    public boolebn cbnWriteRbsters() {
         return true;
     }
 
-    public void write(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IOException {
+    public void write(IIOMetbdbtb strebmMetbdbtb,
+                      IIOImbge imbge,
+                      ImbgeWritePbrbm pbrbm) throws IOException {
 
-        if (stream == null) {
-            throw new IllegalStateException(I18N.getString("WBMPImageWriter3"));
+        if (strebm == null) {
+            throw new IllegblStbteException(I18N.getString("WBMPImbgeWriter3"));
         }
 
-        if (image == null) {
-            throw new IllegalArgumentException(I18N.getString("WBMPImageWriter4"));
+        if (imbge == null) {
+            throw new IllegblArgumentException(I18N.getString("WBMPImbgeWriter4"));
         }
 
-        clearAbortRequest();
-        processImageStarted(0);
-        if (param == null)
-            param = getDefaultWriteParam();
+        clebrAbortRequest();
+        processImbgeStbrted(0);
+        if (pbrbm == null)
+            pbrbm = getDefbultWritePbrbm();
 
-        RenderedImage input = null;
-        Raster inputRaster = null;
-        boolean writeRaster = image.hasRaster();
-        Rectangle sourceRegion = param.getSourceRegion();
-        SampleModel sampleModel = null;
+        RenderedImbge input = null;
+        Rbster inputRbster = null;
+        boolebn writeRbster = imbge.hbsRbster();
+        Rectbngle sourceRegion = pbrbm.getSourceRegion();
+        SbmpleModel sbmpleModel = null;
 
-        if (writeRaster) {
-            inputRaster = image.getRaster();
-            sampleModel = inputRaster.getSampleModel();
+        if (writeRbster) {
+            inputRbster = imbge.getRbster();
+            sbmpleModel = inputRbster.getSbmpleModel();
         } else {
-            input = image.getRenderedImage();
-            sampleModel = input.getSampleModel();
+            input = imbge.getRenderedImbge();
+            sbmpleModel = input.getSbmpleModel();
 
-            inputRaster = input.getData();
+            inputRbster = input.getDbtb();
         }
 
-        checkSampleModel(sampleModel);
+        checkSbmpleModel(sbmpleModel);
         if (sourceRegion == null)
-            sourceRegion = inputRaster.getBounds();
+            sourceRegion = inputRbster.getBounds();
         else
-            sourceRegion = sourceRegion.intersection(inputRaster.getBounds());
+            sourceRegion = sourceRegion.intersection(inputRbster.getBounds());
 
         if (sourceRegion.isEmpty())
-            throw new RuntimeException(I18N.getString("WBMPImageWriter1"));
+            throw new RuntimeException(I18N.getString("WBMPImbgeWriter1"));
 
-        int scaleX = param.getSourceXSubsampling();
-        int scaleY = param.getSourceYSubsampling();
-        int xOffset = param.getSubsamplingXOffset();
-        int yOffset = param.getSubsamplingYOffset();
+        int scbleX = pbrbm.getSourceXSubsbmpling();
+        int scbleY = pbrbm.getSourceYSubsbmpling();
+        int xOffset = pbrbm.getSubsbmplingXOffset();
+        int yOffset = pbrbm.getSubsbmplingYOffset();
 
-        sourceRegion.translate(xOffset, yOffset);
+        sourceRegion.trbnslbte(xOffset, yOffset);
         sourceRegion.width -= xOffset;
         sourceRegion.height -= yOffset;
 
-        int minX = sourceRegion.x / scaleX;
-        int minY = sourceRegion.y / scaleY;
-        int w = (sourceRegion.width + scaleX - 1) / scaleX;
-        int h = (sourceRegion.height + scaleY - 1) / scaleY;
+        int minX = sourceRegion.x / scbleX;
+        int minY = sourceRegion.y / scbleY;
+        int w = (sourceRegion.width + scbleX - 1) / scbleX;
+        int h = (sourceRegion.height + scbleY - 1) / scbleY;
 
-        Rectangle destinationRegion = new Rectangle(minX, minY, w, h);
-        sampleModel = sampleModel.createCompatibleSampleModel(w, h);
+        Rectbngle destinbtionRegion = new Rectbngle(minX, minY, w, h);
+        sbmpleModel = sbmpleModel.crebteCompbtibleSbmpleModel(w, h);
 
-        SampleModel destSM= sampleModel;
+        SbmpleModel destSM= sbmpleModel;
 
-        // If the data are not formatted nominally then reformat.
-        if(sampleModel.getDataType() != DataBuffer.TYPE_BYTE ||
-           !(sampleModel instanceof MultiPixelPackedSampleModel) ||
-           ((MultiPixelPackedSampleModel)sampleModel).getDataBitOffset() != 0) {
+        // If the dbtb bre not formbtted nominblly then reformbt.
+        if(sbmpleModel.getDbtbType() != DbtbBuffer.TYPE_BYTE ||
+           !(sbmpleModel instbnceof MultiPixelPbckedSbmpleModel) ||
+           ((MultiPixelPbckedSbmpleModel)sbmpleModel).getDbtbBitOffset() != 0) {
            destSM =
-                new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE,
+                new MultiPixelPbckedSbmpleModel(DbtbBuffer.TYPE_BYTE,
                                                 w, h, 1,
                                                 w + 7 >> 3, 0);
         }
 
-        if (!destinationRegion.equals(sourceRegion)) {
-            if (scaleX == 1 && scaleY == 1)
-                inputRaster = inputRaster.createChild(inputRaster.getMinX(),
-                                                      inputRaster.getMinY(),
+        if (!destinbtionRegion.equbls(sourceRegion)) {
+            if (scbleX == 1 && scbleY == 1)
+                inputRbster = inputRbster.crebteChild(inputRbster.getMinX(),
+                                                      inputRbster.getMinY(),
                                                       w, h, minX, minY, null);
             else {
-                WritableRaster ras = Raster.createWritableRaster(destSM,
+                WritbbleRbster rbs = Rbster.crebteWritbbleRbster(destSM,
                                                                  new Point(minX, minY));
 
-                byte[] data = ((DataBufferByte)ras.getDataBuffer()).getData();
+                byte[] dbtb = ((DbtbBufferByte)rbs.getDbtbBuffer()).getDbtb();
 
                 for(int j = minY, y = sourceRegion.y, k = 0;
-                    j < minY + h; j++, y += scaleY) {
+                    j < minY + h; j++, y += scbleY) {
 
                     for (int i = 0, x = sourceRegion.x;
-                        i <w; i++, x +=scaleX) {
-                        int v = inputRaster.getSample(x, y, 0);
-                        data[k + (i >> 3)] |= v << (7 - (i & 7));
+                        i <w; i++, x +=scbleX) {
+                        int v = inputRbster.getSbmple(x, y, 0);
+                        dbtb[k + (i >> 3)] |= v << (7 - (i & 7));
                     }
                     k += w + 7 >> 3;
                 }
-                inputRaster = ras;
+                inputRbster = rbs;
             }
         }
 
-        // If the data are not formatted nominally then reformat.
-        if(!destSM.equals(inputRaster.getSampleModel())) {
-            WritableRaster raster =
-                Raster.createWritableRaster(destSM,
-                                            new Point(inputRaster.getMinX(),
-                                                      inputRaster.getMinY()));
-            raster.setRect(inputRaster);
-            inputRaster = raster;
+        // If the dbtb bre not formbtted nominblly then reformbt.
+        if(!destSM.equbls(inputRbster.getSbmpleModel())) {
+            WritbbleRbster rbster =
+                Rbster.crebteWritbbleRbster(destSM,
+                                            new Point(inputRbster.getMinX(),
+                                                      inputRbster.getMinY()));
+            rbster.setRect(inputRbster);
+            inputRbster = rbster;
         }
 
-        // Check whether the image is white-is-zero.
-        boolean isWhiteZero = false;
-        if(!writeRaster && input.getColorModel() instanceof IndexColorModel) {
+        // Check whether the imbge is white-is-zero.
+        boolebn isWhiteZero = fblse;
+        if(!writeRbster && input.getColorModel() instbnceof IndexColorModel) {
             IndexColorModel icm = (IndexColorModel)input.getColorModel();
             isWhiteZero = icm.getRed(0) > icm.getRed(1);
         }
 
-        // Get the line stride, bytes per row, and data array.
+        // Get the line stride, bytes per row, bnd dbtb brrby.
         int lineStride =
-            ((MultiPixelPackedSampleModel)destSM).getScanlineStride();
+            ((MultiPixelPbckedSbmpleModel)destSM).getScbnlineStride();
         int bytesPerRow = (w + 7)/8;
-        byte[] bdata = ((DataBufferByte)inputRaster.getDataBuffer()).getData();
+        byte[] bdbtb = ((DbtbBufferByte)inputRbster.getDbtbBuffer()).getDbtb();
 
-        // Write WBMP header.
-        stream.write(0); // TypeField
-        stream.write(0); // FixHeaderField
-        stream.write(intToMultiByte(w)); // width
-        stream.write(intToMultiByte(h)); // height
+        // Write WBMP hebder.
+        strebm.write(0); // TypeField
+        strebm.write(0); // FixHebderField
+        strebm.write(intToMultiByte(w)); // width
+        strebm.write(intToMultiByte(h)); // height
 
-        // Write the data.
+        // Write the dbtb.
         if(!isWhiteZero && lineStride == bytesPerRow) {
-            // Write the entire image.
-            stream.write(bdata, 0, h * bytesPerRow);
-            processImageProgress(100.0F);
+            // Write the entire imbge.
+            strebm.write(bdbtb, 0, h * bytesPerRow);
+            processImbgeProgress(100.0F);
         } else {
-            // Write the image row-by-row.
+            // Write the imbge row-by-row.
             int offset = 0;
             if(!isWhiteZero) {
-                // Black-is-zero
+                // Blbck-is-zero
                 for(int row = 0; row < h; row++) {
-                    if (abortRequested())
-                        break;
-                    stream.write(bdata, offset, bytesPerRow);
+                    if (bbortRequested())
+                        brebk;
+                    strebm.write(bdbtb, offset, bytesPerRow);
                     offset += lineStride;
-                    processImageProgress(100.0F * row / h);
+                    processImbgeProgress(100.0F * row / h);
                 }
             } else {
-                // White-is-zero: need to invert data.
+                // White-is-zero: need to invert dbtb.
                 byte[] inverted = new byte[bytesPerRow];
                 for(int row = 0; row < h; row++) {
-                    if (abortRequested())
-                        break;
+                    if (bbortRequested())
+                        brebk;
                     for(int col = 0; col < bytesPerRow; col++) {
-                        inverted[col] = (byte)(~(bdata[col+offset]));
+                        inverted[col] = (byte)(~(bdbtb[col+offset]));
                     }
-                    stream.write(inverted, 0, bytesPerRow);
+                    strebm.write(inverted, 0, bytesPerRow);
                     offset += lineStride;
-                    processImageProgress(100.0F * row / h);
+                    processImbgeProgress(100.0F * row / h);
                 }
             }
         }
 
-        if (abortRequested())
+        if (bbortRequested())
             processWriteAborted();
         else {
-            processImageComplete();
-            stream.flushBefore(stream.getStreamPosition());
+            processImbgeComplete();
+            strebm.flushBefore(strebm.getStrebmPosition());
         }
     }
 
     public void reset() {
         super.reset();
-        stream = null;
+        strebm = null;
     }
 
-    private void checkSampleModel(SampleModel sm) {
-        int type = sm.getDataType();
-        if (type < DataBuffer.TYPE_BYTE || type > DataBuffer.TYPE_INT
-            || sm.getNumBands() != 1 || sm.getSampleSize(0) != 1)
-            throw new IllegalArgumentException(I18N.getString("WBMPImageWriter2"));
+    privbte void checkSbmpleModel(SbmpleModel sm) {
+        int type = sm.getDbtbType();
+        if (type < DbtbBuffer.TYPE_BYTE || type > DbtbBuffer.TYPE_INT
+            || sm.getNumBbnds() != 1 || sm.getSbmpleSize(0) != 1)
+            throw new IllegblArgumentException(I18N.getString("WBMPImbgeWriter2"));
     }
 }

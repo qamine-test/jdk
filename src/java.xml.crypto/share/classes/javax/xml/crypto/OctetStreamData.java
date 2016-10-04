@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: OctetStreamData.java,v 1.3 2005/05/10 15:47:42 mullan Exp $
+ * $Id: OctetStrebmDbtb.jbvb,v 1.3 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbckbge jbvbx.xml.crypto;
 
-import java.io.InputStream;
+import jbvb.io.InputStrebm;
 
 /**
- * A representation of a <code>Data</code> type containing an octet stream.
+ * A representbtion of b <code>Dbtb</code> type contbining bn octet strebm.
  *
  * @since 1.6
  */
-public class OctetStreamData implements Data {
+public clbss OctetStrebmDbtb implements Dbtb {
 
-    private InputStream octetStream;
-    private String uri;
-    private String mimeType;
+    privbte InputStrebm octetStrebm;
+    privbte String uri;
+    privbte String mimeType;
 
     /**
-     * Creates a new <code>OctetStreamData</code>.
+     * Crebtes b new <code>OctetStrebmDbtb</code>.
      *
-     * @param octetStream the input stream containing the octets
-     * @throws NullPointerException if <code>octetStream</code> is
+     * @pbrbm octetStrebm the input strebm contbining the octets
+     * @throws NullPointerException if <code>octetStrebm</code> is
      *    <code>null</code>
      */
-    public OctetStreamData(InputStream octetStream) {
-        if (octetStream == null) {
-            throw new NullPointerException("octetStream is null");
+    public OctetStrebmDbtb(InputStrebm octetStrebm) {
+        if (octetStrebm == null) {
+            throw new NullPointerException("octetStrebm is null");
         }
-        this.octetStream = octetStream;
+        this.octetStrebm = octetStrebm;
     }
 
     /**
-     * Creates a new <code>OctetStreamData</code>.
+     * Crebtes b new <code>OctetStrebmDbtb</code>.
      *
-     * @param octetStream the input stream containing the octets
-     * @param uri the URI String identifying the data object (may be
+     * @pbrbm octetStrebm the input strebm contbining the octets
+     * @pbrbm uri the URI String identifying the dbtb object (mby be
      *    <code>null</code>)
-     * @param mimeType the MIME type associated with the data object (may be
+     * @pbrbm mimeType the MIME type bssocibted with the dbtb object (mby be
      *    <code>null</code>)
-     * @throws NullPointerException if <code>octetStream</code> is
+     * @throws NullPointerException if <code>octetStrebm</code> is
      *    <code>null</code>
      */
-    public OctetStreamData(InputStream octetStream, String uri,
+    public OctetStrebmDbtb(InputStrebm octetStrebm, String uri,
         String mimeType) {
-        if (octetStream == null) {
-            throw new NullPointerException("octetStream is null");
+        if (octetStrebm == null) {
+            throw new NullPointerException("octetStrebm is null");
         }
-        this.octetStream = octetStream;
+        this.octetStrebm = octetStrebm;
         this.uri = uri;
         this.mimeType = mimeType;
     }
 
     /**
-     * Returns the input stream of this <code>OctetStreamData</code>.
+     * Returns the input strebm of this <code>OctetStrebmDbtb</code>.
      *
-     * @return the input stream of this <code>OctetStreamData</code>.
+     * @return the input strebm of this <code>OctetStrebmDbtb</code>.
      */
-    public InputStream getOctetStream() {
-        return octetStream;
+    public InputStrebm getOctetStrebm() {
+        return octetStrebm;
     }
 
     /**
-     * Returns the URI String identifying the data object represented by this
-     * <code>OctetStreamData</code>.
+     * Returns the URI String identifying the dbtb object represented by this
+     * <code>OctetStrebmDbtb</code>.
      *
-     * @return the URI String or <code>null</code> if not applicable
+     * @return the URI String or <code>null</code> if not bpplicbble
      */
     public String getURI() {
         return uri;
     }
 
     /**
-     * Returns the MIME type associated with the data object represented by this
-     * <code>OctetStreamData</code>.
+     * Returns the MIME type bssocibted with the dbtb object represented by this
+     * <code>OctetStrebmDbtb</code>.
      *
-     * @return the MIME type or <code>null</code> if not applicable
+     * @return the MIME type or <code>null</code> if not bpplicbble
      */
     public String getMimeType() {
         return mimeType;

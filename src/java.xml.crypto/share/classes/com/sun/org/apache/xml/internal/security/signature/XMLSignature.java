@@ -3,51 +3,51 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbckbge com.sun.org.bpbche.xml.internbl.security.signbture;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.Key;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.X509Certificbte;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm;
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.KeyInfo;
-import com.sun.org.apache.xml.internal.security.keys.content.X509Data;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.SignerOutputStream;
-import com.sun.org.apache.xml.internal.security.utils.UnsyncBufferedOutputStream;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.blgorithms.SignbtureAlgorithm;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.Bbse64DecodingException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.KeyInfo;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.X509Dbtb;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.I18n;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignerOutputStrebm;
+import com.sun.org.bpbche.xml.internbl.security.utils.UnsyncBufferedOutputStrebm;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolver;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverSpi;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -56,341 +56,341 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 /**
- * Handles <code>&lt;ds:Signature&gt;</code> elements.
- * This is the main class that deals with creating and verifying signatures.
+ * Hbndles <code>&lt;ds:Signbture&gt;</code> elements.
+ * This is the mbin clbss thbt debls with crebting bnd verifying signbtures.
  *
- * <p>There are 2 types of constructors for this class. The ones that take a
- * document, baseURI and 1 or more Java Objects. This is mostly used for
+ * <p>There bre 2 types of constructors for this clbss. The ones thbt tbke b
+ * document, bbseURI bnd 1 or more Jbvb Objects. This is mostly used for
  * signing purposes.
- * The other constructor is the one that takes a DOM Element and a baseURI.
- * This is used mostly with for verifying, when you have a SignatureElement.
+ * The other constructor is the one thbt tbkes b DOM Element bnd b bbseURI.
+ * This is used mostly with for verifying, when you hbve b SignbtureElement.
  *
- * There are a few different types of methods:
- * <ul><li>The addDocument* methods are used to add References with optional
- * transforms during signing. </li>
- * <li>addKeyInfo* methods are to add Certificates and Keys to the
- * KeyInfo tags during signing. </li>
- * <li>appendObject allows a user to add any XML Structure as an
- * ObjectContainer during signing.</li>
- * <li>sign and checkSignatureValue methods are used to sign and validate the
- * signature. </li></ul>
+ * There bre b few different types of methods:
+ * <ul><li>The bddDocument* methods bre used to bdd References with optionbl
+ * trbnsforms during signing. </li>
+ * <li>bddKeyInfo* methods bre to bdd Certificbtes bnd Keys to the
+ * KeyInfo tbgs during signing. </li>
+ * <li>bppendObject bllows b user to bdd bny XML Structure bs bn
+ * ObjectContbiner during signing.</li>
+ * <li>sign bnd checkSignbtureVblue methods bre used to sign bnd vblidbte the
+ * signbture. </li></ul>
  */
-public final class XMLSignature extends SignatureElementProxy {
+public finbl clbss XMLSignbture extends SignbtureElementProxy {
 
     /** MAC - Required HMAC-SHA1 */
-    public static final String ALGO_ID_MAC_HMAC_SHA1 =
-        Constants.SignatureSpecNS + "hmac-sha1";
+    public stbtic finbl String ALGO_ID_MAC_HMAC_SHA1 =
+        Constbnts.SignbtureSpecNS + "hmbc-shb1";
 
-    /** Signature - Required DSAwithSHA1 (DSS) */
-    public static final String ALGO_ID_SIGNATURE_DSA =
-        Constants.SignatureSpecNS + "dsa-sha1";
+    /** Signbture - Required DSAwithSHA1 (DSS) */
+    public stbtic finbl String ALGO_ID_SIGNATURE_DSA =
+        Constbnts.SignbtureSpecNS + "dsb-shb1";
 
-    /** Signature - Optional DSAwithSHA256 */
-    public static final String ALGO_ID_SIGNATURE_DSA_SHA256 =
-        Constants.SignatureSpec11NS + "dsa-sha256";
+    /** Signbture - Optionbl DSAwithSHA256 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_DSA_SHA256 =
+        Constbnts.SignbtureSpec11NS + "dsb-shb256";
 
-    /** Signature - Recommended RSAwithSHA1 */
-    public static final String ALGO_ID_SIGNATURE_RSA =
-        Constants.SignatureSpecNS + "rsa-sha1";
+    /** Signbture - Recommended RSAwithSHA1 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_RSA =
+        Constbnts.SignbtureSpecNS + "rsb-shb1";
 
-    /** Signature - Recommended RSAwithSHA1 */
-    public static final String ALGO_ID_SIGNATURE_RSA_SHA1 =
-        Constants.SignatureSpecNS + "rsa-sha1";
+    /** Signbture - Recommended RSAwithSHA1 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_RSA_SHA1 =
+        Constbnts.SignbtureSpecNS + "rsb-shb1";
 
-    /** Signature - NOT Recommended RSAwithMD5 */
-    public static final String ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-md5";
+    /** Signbture - NOT Recommended RSAwithMD5 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5 =
+        Constbnts.MoreAlgorithmsSpecNS + "rsb-md5";
 
-    /** Signature - Optional RSAwithRIPEMD160 */
-    public static final String ALGO_ID_SIGNATURE_RSA_RIPEMD160 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-ripemd160";
+    /** Signbture - Optionbl RSAwithRIPEMD160 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_RSA_RIPEMD160 =
+        Constbnts.MoreAlgorithmsSpecNS + "rsb-ripemd160";
 
-    /** Signature - Optional RSAwithSHA256 */
-    public static final String ALGO_ID_SIGNATURE_RSA_SHA256 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-sha256";
+    /** Signbture - Optionbl RSAwithSHA256 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_RSA_SHA256 =
+        Constbnts.MoreAlgorithmsSpecNS + "rsb-shb256";
 
-    /** Signature - Optional RSAwithSHA384 */
-    public static final String ALGO_ID_SIGNATURE_RSA_SHA384 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-sha384";
+    /** Signbture - Optionbl RSAwithSHA384 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_RSA_SHA384 =
+        Constbnts.MoreAlgorithmsSpecNS + "rsb-shb384";
 
-    /** Signature - Optional RSAwithSHA512 */
-    public static final String ALGO_ID_SIGNATURE_RSA_SHA512 =
-        Constants.MoreAlgorithmsSpecNS + "rsa-sha512";
+    /** Signbture - Optionbl RSAwithSHA512 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_RSA_SHA512 =
+        Constbnts.MoreAlgorithmsSpecNS + "rsb-shb512";
 
     /** HMAC - NOT Recommended HMAC-MD5 */
-    public static final String ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-md5";
+    public stbtic finbl String ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5 =
+        Constbnts.MoreAlgorithmsSpecNS + "hmbc-md5";
 
-    /** HMAC - Optional HMAC-RIPEMD160 */
-    public static final String ALGO_ID_MAC_HMAC_RIPEMD160 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-ripemd160";
+    /** HMAC - Optionbl HMAC-RIPEMD160 */
+    public stbtic finbl String ALGO_ID_MAC_HMAC_RIPEMD160 =
+        Constbnts.MoreAlgorithmsSpecNS + "hmbc-ripemd160";
 
-    /** HMAC - Optional HMAC-SHA256 */
-    public static final String ALGO_ID_MAC_HMAC_SHA256 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-sha256";
+    /** HMAC - Optionbl HMAC-SHA256 */
+    public stbtic finbl String ALGO_ID_MAC_HMAC_SHA256 =
+        Constbnts.MoreAlgorithmsSpecNS + "hmbc-shb256";
 
-    /** HMAC - Optional HMAC-SHA284 */
-    public static final String ALGO_ID_MAC_HMAC_SHA384 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-sha384";
+    /** HMAC - Optionbl HMAC-SHA284 */
+    public stbtic finbl String ALGO_ID_MAC_HMAC_SHA384 =
+        Constbnts.MoreAlgorithmsSpecNS + "hmbc-shb384";
 
-    /** HMAC - Optional HMAC-SHA512 */
-    public static final String ALGO_ID_MAC_HMAC_SHA512 =
-        Constants.MoreAlgorithmsSpecNS + "hmac-sha512";
+    /** HMAC - Optionbl HMAC-SHA512 */
+    public stbtic finbl String ALGO_ID_MAC_HMAC_SHA512 =
+        Constbnts.MoreAlgorithmsSpecNS + "hmbc-shb512";
 
-    /**Signature - Optional ECDSAwithSHA1 */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_SHA1 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1";
+    /**Signbture - Optionbl ECDSAwithSHA1 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_ECDSA_SHA1 =
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsb-shb1";
 
-    /**Signature - Optional ECDSAwithSHA256 */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_SHA256 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256";
+    /**Signbture - Optionbl ECDSAwithSHA256 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_ECDSA_SHA256 =
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsb-shb256";
 
-    /**Signature - Optional ECDSAwithSHA384 */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_SHA384 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384";
+    /**Signbture - Optionbl ECDSAwithSHA384 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_ECDSA_SHA384 =
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsb-shb384";
 
-    /**Signature - Optional ECDSAwithSHA512 */
-    public static final String ALGO_ID_SIGNATURE_ECDSA_SHA512 =
-        "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512";
+    /**Signbture - Optionbl ECDSAwithSHA512 */
+    public stbtic finbl String ALGO_ID_SIGNATURE_ECDSA_SHA512 =
+        "http://www.w3.org/2001/04/xmldsig-more#ecdsb-shb512";
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(XMLSignature.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(XMLSignbture.clbss.getNbme());
 
-    /** ds:Signature.ds:SignedInfo element */
-    private SignedInfo signedInfo;
+    /** ds:Signbture.ds:SignedInfo element */
+    privbte SignedInfo signedInfo;
 
-    /** ds:Signature.ds:KeyInfo */
-    private KeyInfo keyInfo;
+    /** ds:Signbture.ds:KeyInfo */
+    privbte KeyInfo keyInfo;
 
     /**
-     * Checking the digests in References in a Signature are mandatory, but for
-     * References inside a Manifest it is application specific. This boolean is
-     * to indicate that the References inside Manifests should be validated.
+     * Checking the digests in References in b Signbture bre mbndbtory, but for
+     * References inside b Mbnifest it is bpplicbtion specific. This boolebn is
+     * to indicbte thbt the References inside Mbnifests should be vblidbted.
      */
-    private boolean followManifestsDuringValidation = false;
+    privbte boolebn followMbnifestsDuringVblidbtion = fblse;
 
-    private Element signatureValueElement;
+    privbte Element signbtureVblueElement;
 
-    private static final int MODE_SIGN = 0;
-    private static final int MODE_VERIFY = 1;
-    private int state = MODE_SIGN;
+    privbte stbtic finbl int MODE_SIGN = 0;
+    privbte stbtic finbl int MODE_VERIFY = 1;
+    privbte int stbte = MODE_SIGN;
 
     /**
-     * This creates a new <CODE>ds:Signature</CODE> Element and adds an empty
+     * This crebtes b new <CODE>ds:Signbture</CODE> Element bnd bdds bn empty
      * <CODE>ds:SignedInfo</CODE>.
-     * The <code>ds:SignedInfo</code> is initialized with the specified Signature
-     * algorithm and Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS which is REQUIRED
-     * by the spec. This method's main use is for creating a new signature.
+     * The <code>ds:SignedInfo</code> is initiblized with the specified Signbture
+     * blgorithm bnd Cbnonicblizer.ALGO_ID_C14N_OMIT_COMMENTS which is REQUIRED
+     * by the spec. This method's mbin use is for crebting b new signbture.
      *
-     * @param doc Document in which the signature will be appended after creation.
-     * @param baseURI URI to be used as context for all relative URIs.
-     * @param signatureMethodURI signature algorithm to use.
+     * @pbrbm doc Document in which the signbture will be bppended bfter crebtion.
+     * @pbrbm bbseURI URI to be used bs context for bll relbtive URIs.
+     * @pbrbm signbtureMethodURI signbture blgorithm to use.
      * @throws XMLSecurityException
      */
-    public XMLSignature(Document doc, String baseURI, String signatureMethodURI)
+    public XMLSignbture(Document doc, String bbseURI, String signbtureMethodURI)
         throws XMLSecurityException {
-        this(doc, baseURI, signatureMethodURI, 0, Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS);
+        this(doc, bbseURI, signbtureMethodURI, 0, Cbnonicblizer.ALGO_ID_C14N_OMIT_COMMENTS);
     }
 
     /**
-     * Constructor XMLSignature
+     * Constructor XMLSignbture
      *
-     * @param doc
-     * @param baseURI
-     * @param signatureMethodURI the Signature method to be used.
-     * @param hmacOutputLength
+     * @pbrbm doc
+     * @pbrbm bbseURI
+     * @pbrbm signbtureMethodURI the Signbture method to be used.
+     * @pbrbm hmbcOutputLength
      * @throws XMLSecurityException
      */
-    public XMLSignature(Document doc, String baseURI, String signatureMethodURI,
-                        int hmacOutputLength) throws XMLSecurityException {
+    public XMLSignbture(Document doc, String bbseURI, String signbtureMethodURI,
+                        int hmbcOutputLength) throws XMLSecurityException {
         this(
-            doc, baseURI, signatureMethodURI, hmacOutputLength,
-            Canonicalizer.ALGO_ID_C14N_OMIT_COMMENTS
+            doc, bbseURI, signbtureMethodURI, hmbcOutputLength,
+            Cbnonicblizer.ALGO_ID_C14N_OMIT_COMMENTS
         );
     }
 
     /**
-     * Constructor XMLSignature
+     * Constructor XMLSignbture
      *
-     * @param doc
-     * @param baseURI
-     * @param signatureMethodURI the Signature method to be used.
-     * @param canonicalizationMethodURI the canonicalization algorithm to be
+     * @pbrbm doc
+     * @pbrbm bbseURI
+     * @pbrbm signbtureMethodURI the Signbture method to be used.
+     * @pbrbm cbnonicblizbtionMethodURI the cbnonicblizbtion blgorithm to be
      * used to c14nize the SignedInfo element.
      * @throws XMLSecurityException
      */
-    public XMLSignature(
+    public XMLSignbture(
         Document doc,
-        String baseURI,
-        String signatureMethodURI,
-        String canonicalizationMethodURI
+        String bbseURI,
+        String signbtureMethodURI,
+        String cbnonicblizbtionMethodURI
     ) throws XMLSecurityException {
-        this(doc, baseURI, signatureMethodURI, 0, canonicalizationMethodURI);
+        this(doc, bbseURI, signbtureMethodURI, 0, cbnonicblizbtionMethodURI);
     }
 
     /**
-     * Constructor XMLSignature
+     * Constructor XMLSignbture
      *
-     * @param doc
-     * @param baseURI
-     * @param signatureMethodURI
-     * @param hmacOutputLength
-     * @param canonicalizationMethodURI
+     * @pbrbm doc
+     * @pbrbm bbseURI
+     * @pbrbm signbtureMethodURI
+     * @pbrbm hmbcOutputLength
+     * @pbrbm cbnonicblizbtionMethodURI
      * @throws XMLSecurityException
      */
-    public XMLSignature(
+    public XMLSignbture(
         Document doc,
-        String baseURI,
-        String signatureMethodURI,
-        int hmacOutputLength,
-        String canonicalizationMethodURI
+        String bbseURI,
+        String signbtureMethodURI,
+        int hmbcOutputLength,
+        String cbnonicblizbtionMethodURI
     ) throws XMLSecurityException {
         super(doc);
 
-        String xmlnsDsPrefix = getDefaultPrefix(Constants.SignatureSpecNS);
+        String xmlnsDsPrefix = getDefbultPrefix(Constbnts.SignbtureSpecNS);
         if (xmlnsDsPrefix == null || xmlnsDsPrefix.length() == 0) {
             this.constructionElement.setAttributeNS(
-                Constants.NamespaceSpecNS, "xmlns", Constants.SignatureSpecNS
+                Constbnts.NbmespbceSpecNS, "xmlns", Constbnts.SignbtureSpecNS
             );
         } else {
             this.constructionElement.setAttributeNS(
-                Constants.NamespaceSpecNS, "xmlns:" + xmlnsDsPrefix, Constants.SignatureSpecNS
+                Constbnts.NbmespbceSpecNS, "xmlns:" + xmlnsDsPrefix, Constbnts.SignbtureSpecNS
             );
         }
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        this.baseURI = baseURI;
+        this.bbseURI = bbseURI;
         this.signedInfo =
             new SignedInfo(
-                this.doc, signatureMethodURI, hmacOutputLength, canonicalizationMethodURI
+                this.doc, signbtureMethodURI, hmbcOutputLength, cbnonicblizbtionMethodURI
             );
 
-        this.constructionElement.appendChild(this.signedInfo.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(this.signedInfo.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        // create an empty SignatureValue; this is filled by setSignatureValueElement
-        signatureValueElement =
-            XMLUtils.createElementInSignatureSpace(this.doc, Constants._TAG_SIGNATUREVALUE);
+        // crebte bn empty SignbtureVblue; this is filled by setSignbtureVblueElement
+        signbtureVblueElement =
+            XMLUtils.crebteElementInSignbtureSpbce(this.doc, Constbnts._TAG_SIGNATUREVALUE);
 
-        this.constructionElement.appendChild(signatureValueElement);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(signbtureVblueElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     *  Creates a XMLSignature in a Document
-     * @param doc
-     * @param baseURI
-     * @param SignatureMethodElem
-     * @param CanonicalizationMethodElem
+     *  Crebtes b XMLSignbture in b Document
+     * @pbrbm doc
+     * @pbrbm bbseURI
+     * @pbrbm SignbtureMethodElem
+     * @pbrbm CbnonicblizbtionMethodElem
      * @throws XMLSecurityException
      */
-    public XMLSignature(
+    public XMLSignbture(
         Document doc,
-        String baseURI,
-        Element SignatureMethodElem,
-        Element CanonicalizationMethodElem
+        String bbseURI,
+        Element SignbtureMethodElem,
+        Element CbnonicblizbtionMethodElem
     ) throws XMLSecurityException {
         super(doc);
 
-        String xmlnsDsPrefix = getDefaultPrefix(Constants.SignatureSpecNS);
+        String xmlnsDsPrefix = getDefbultPrefix(Constbnts.SignbtureSpecNS);
         if (xmlnsDsPrefix == null || xmlnsDsPrefix.length() == 0) {
             this.constructionElement.setAttributeNS(
-                Constants.NamespaceSpecNS, "xmlns", Constants.SignatureSpecNS
+                Constbnts.NbmespbceSpecNS, "xmlns", Constbnts.SignbtureSpecNS
             );
         } else {
             this.constructionElement.setAttributeNS(
-                Constants.NamespaceSpecNS, "xmlns:" + xmlnsDsPrefix, Constants.SignatureSpecNS
+                Constbnts.NbmespbceSpecNS, "xmlns:" + xmlnsDsPrefix, Constbnts.SignbtureSpecNS
             );
         }
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        this.baseURI = baseURI;
+        this.bbseURI = bbseURI;
         this.signedInfo =
-            new SignedInfo(this.doc, SignatureMethodElem, CanonicalizationMethodElem);
+            new SignedInfo(this.doc, SignbtureMethodElem, CbnonicblizbtionMethodElem);
 
-        this.constructionElement.appendChild(this.signedInfo.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(this.signedInfo.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        // create an empty SignatureValue; this is filled by setSignatureValueElement
-        signatureValueElement =
-            XMLUtils.createElementInSignatureSpace(this.doc, Constants._TAG_SIGNATUREVALUE);
+        // crebte bn empty SignbtureVblue; this is filled by setSignbtureVblueElement
+        signbtureVblueElement =
+            XMLUtils.crebteElementInSignbtureSpbce(this.doc, Constbnts._TAG_SIGNATUREVALUE);
 
-        this.constructionElement.appendChild(signatureValueElement);
-        XMLUtils.addReturnToElement(this.constructionElement);
+        this.constructionElement.bppendChild(signbtureVblueElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
     }
 
     /**
-     * This will parse the element and construct the Java Objects.
-     * That will allow a user to validate the signature.
+     * This will pbrse the element bnd construct the Jbvb Objects.
+     * Thbt will bllow b user to vblidbte the signbture.
      *
-     * @param element ds:Signature element that contains the whole signature
-     * @param baseURI URI to be prepended to all relative URIs
+     * @pbrbm element ds:Signbture element thbt contbins the whole signbture
+     * @pbrbm bbseURI URI to be prepended to bll relbtive URIs
      * @throws XMLSecurityException
-     * @throws XMLSignatureException if the signature is badly formatted
+     * @throws XMLSignbtureException if the signbture is bbdly formbtted
      */
-    public XMLSignature(Element element, String baseURI)
-        throws XMLSignatureException, XMLSecurityException {
-        this(element, baseURI, false);
+    public XMLSignbture(Element element, String bbseURI)
+        throws XMLSignbtureException, XMLSecurityException {
+        this(element, bbseURI, fblse);
     }
 
     /**
-     * This will parse the element and construct the Java Objects.
-     * That will allow a user to validate the signature.
+     * This will pbrse the element bnd construct the Jbvb Objects.
+     * Thbt will bllow b user to vblidbte the signbture.
      *
-     * @param element ds:Signature element that contains the whole signature
-     * @param baseURI URI to be prepended to all relative URIs
-     * @param secureValidation whether secure secureValidation is enabled or not
+     * @pbrbm element ds:Signbture element thbt contbins the whole signbture
+     * @pbrbm bbseURI URI to be prepended to bll relbtive URIs
+     * @pbrbm secureVblidbtion whether secure secureVblidbtion is enbbled or not
      * @throws XMLSecurityException
-     * @throws XMLSignatureException if the signature is badly formatted
+     * @throws XMLSignbtureException if the signbture is bbdly formbtted
      */
-    public XMLSignature(Element element, String baseURI, boolean secureValidation)
-        throws XMLSignatureException, XMLSecurityException {
-        super(element, baseURI);
+    public XMLSignbture(Element element, String bbseURI, boolebn secureVblidbtion)
+        throws XMLSignbtureException, XMLSecurityException {
+        super(element, bbseURI);
 
         // check out SignedInfo child
         Element signedInfoElem = XMLUtils.getNextElement(element.getFirstChild());
 
         // check to see if it is there
         if (signedInfoElem == null) {
-            Object exArgs[] = { Constants._TAG_SIGNEDINFO, Constants._TAG_SIGNATURE };
-            throw new XMLSignatureException("xml.WrongContent", exArgs);
+            Object exArgs[] = { Constbnts._TAG_SIGNEDINFO, Constbnts._TAG_SIGNATURE };
+            throw new XMLSignbtureException("xml.WrongContent", exArgs);
         }
 
-        // create a SignedInfo object from that element
-        this.signedInfo = new SignedInfo(signedInfoElem, baseURI, secureValidation);
-        // get signedInfoElem again in case it has changed
+        // crebte b SignedInfo object from thbt element
+        this.signedInfo = new SignedInfo(signedInfoElem, bbseURI, secureVblidbtion);
+        // get signedInfoElem bgbin in cbse it hbs chbnged
         signedInfoElem = XMLUtils.getNextElement(element.getFirstChild());
 
-        // check out SignatureValue child
-        this.signatureValueElement =
+        // check out SignbtureVblue child
+        this.signbtureVblueElement =
             XMLUtils.getNextElement(signedInfoElem.getNextSibling());
 
         // check to see if it exists
-        if (signatureValueElement == null) {
-            Object exArgs[] = { Constants._TAG_SIGNATUREVALUE, Constants._TAG_SIGNATURE };
-            throw new XMLSignatureException("xml.WrongContent", exArgs);
+        if (signbtureVblueElement == null) {
+            Object exArgs[] = { Constbnts._TAG_SIGNATUREVALUE, Constbnts._TAG_SIGNATURE };
+            throw new XMLSignbtureException("xml.WrongContent", exArgs);
         }
-        Attr signatureValueAttr = signatureValueElement.getAttributeNodeNS(null, "Id");
-        if (signatureValueAttr != null) {
-            signatureValueElement.setIdAttributeNode(signatureValueAttr, true);
+        Attr signbtureVblueAttr = signbtureVblueElement.getAttributeNodeNS(null, "Id");
+        if (signbtureVblueAttr != null) {
+            signbtureVblueElement.setIdAttributeNode(signbtureVblueAttr, true);
         }
 
         // <element ref="ds:KeyInfo" minOccurs="0"/>
         Element keyInfoElem =
-            XMLUtils.getNextElement(signatureValueElement.getNextSibling());
+            XMLUtils.getNextElement(signbtureVblueElement.getNextSibling());
 
-        // If it exists use it, but it's not mandatory
+        // If it exists use it, but it's not mbndbtory
         if (keyInfoElem != null
-            && keyInfoElem.getNamespaceURI().equals(Constants.SignatureSpecNS)
-            && keyInfoElem.getLocalName().equals(Constants._TAG_KEYINFO)) {
-            this.keyInfo = new KeyInfo(keyInfoElem, baseURI);
-            this.keyInfo.setSecureValidation(secureValidation);
+            && keyInfoElem.getNbmespbceURI().equbls(Constbnts.SignbtureSpecNS)
+            && keyInfoElem.getLocblNbme().equbls(Constbnts._TAG_KEYINFO)) {
+            this.keyInfo = new KeyInfo(keyInfoElem, bbseURI);
+            this.keyInfo.setSecureVblidbtion(secureVblidbtion);
         }
 
-        // <element ref="ds:Object" minOccurs="0" maxOccurs="unbounded"/>
+        // <element ref="ds:Object" minOccurs="0" mbxOccurs="unbounded"/>
         Element objectElem =
-            XMLUtils.getNextElement(signatureValueElement.getNextSibling());
+            XMLUtils.getNextElement(signbtureVblueElement.getNextSibling());
         while (objectElem != null) {
             Attr objectAttr = objectElem.getAttributeNodeNS(null, "Id");
             if (objectAttr != null) {
@@ -404,11 +404,11 @@ public final class XMLSignature extends SignatureElementProxy {
                 Node child = nodes.item(i);
                 if (child.getNodeType() == Node.ELEMENT_NODE) {
                     Element childElem = (Element)child;
-                    String tag = childElem.getLocalName();
-                    if (tag.equals("Manifest")) {
-                        new Manifest(childElem, baseURI);
-                    } else if (tag.equals("SignatureProperties")) {
-                        new SignatureProperties(childElem, baseURI);
+                    String tbg = childElem.getLocblNbme();
+                    if (tbg.equbls("Mbnifest")) {
+                        new Mbnifest(childElem, bbseURI);
+                    } else if (tbg.equbls("SignbtureProperties")) {
+                        new SignbtureProperties(childElem, bbseURI);
                     }
                 }
             }
@@ -416,106 +416,106 @@ public final class XMLSignature extends SignatureElementProxy {
             objectElem = XMLUtils.getNextElement(objectElem.getNextSibling());
         }
 
-        this.state = MODE_VERIFY;
+        this.stbte = MODE_VERIFY;
     }
 
     /**
-     * Sets the <code>Id</code> attribute
+     * Sets the <code>Id</code> bttribute
      *
-     * @param id Id value for the id attribute on the Signature Element
+     * @pbrbm id Id vblue for the id bttribute on the Signbture Element
      */
     public void setId(String id) {
         if (id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            this.constructionElement.setAttributeNS(null, Constbnts._ATT_ID, id);
+            this.constructionElement.setIdAttributeNS(null, Constbnts._ATT_ID, true);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute
+     * Returns the <code>Id</code> bttribute
      *
-     * @return the <code>Id</code> attribute
+     * @return the <code>Id</code> bttribute
      */
     public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+        return this.constructionElement.getAttributeNS(null, Constbnts._ATT_ID);
     }
 
     /**
-     * Returns the completely parsed <code>SignedInfo</code> object.
+     * Returns the completely pbrsed <code>SignedInfo</code> object.
      *
-     * @return the completely parsed <code>SignedInfo</code> object.
+     * @return the completely pbrsed <code>SignedInfo</code> object.
      */
     public SignedInfo getSignedInfo() {
         return this.signedInfo;
     }
 
     /**
-     * Returns the octet value of the SignatureValue element.
-     * Throws an XMLSignatureException if it has no or wrong content.
+     * Returns the octet vblue of the SignbtureVblue element.
+     * Throws bn XMLSignbtureException if it hbs no or wrong content.
      *
-     * @return the value of the SignatureValue element.
-     * @throws XMLSignatureException If there is no content
+     * @return the vblue of the SignbtureVblue element.
+     * @throws XMLSignbtureException If there is no content
      */
-    public byte[] getSignatureValue() throws XMLSignatureException {
+    public byte[] getSignbtureVblue() throws XMLSignbtureException {
         try {
-            return Base64.decode(signatureValueElement);
-        } catch (Base64DecodingException ex) {
-            throw new XMLSignatureException("empty", ex);
+            return Bbse64.decode(signbtureVblueElement);
+        } cbtch (Bbse64DecodingException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /**
-     * Base64 encodes and sets the bytes as the content of the SignatureValue
+     * Bbse64 encodes bnd sets the bytes bs the content of the SignbtureVblue
      * Node.
      *
-     * @param bytes bytes to be used by SignatureValue before Base64 encoding
+     * @pbrbm bytes bytes to be used by SignbtureVblue before Bbse64 encoding
      */
-    private void setSignatureValueElement(byte[] bytes) {
+    privbte void setSignbtureVblueElement(byte[] bytes) {
 
-        while (signatureValueElement.hasChildNodes()) {
-            signatureValueElement.removeChild(signatureValueElement.getFirstChild());
+        while (signbtureVblueElement.hbsChildNodes()) {
+            signbtureVblueElement.removeChild(signbtureVblueElement.getFirstChild());
         }
 
-        String base64codedValue = Base64.encode(bytes);
+        String bbse64codedVblue = Bbse64.encode(bytes);
 
-        if (base64codedValue.length() > 76 && !XMLUtils.ignoreLineBreaks()) {
-            base64codedValue = "\n" + base64codedValue + "\n";
+        if (bbse64codedVblue.length() > 76 && !XMLUtils.ignoreLineBrebks()) {
+            bbse64codedVblue = "\n" + bbse64codedVblue + "\n";
         }
 
-        Text t = this.doc.createTextNode(base64codedValue);
-        signatureValueElement.appendChild(t);
+        Text t = this.doc.crebteTextNode(bbse64codedVblue);
+        signbtureVblueElement.bppendChild(t);
     }
 
     /**
-     * Returns the KeyInfo child. If we are in signing mode and the KeyInfo
-     * does not exist yet, it is created on demand and added to the Signature.
+     * Returns the KeyInfo child. If we bre in signing mode bnd the KeyInfo
+     * does not exist yet, it is crebted on dembnd bnd bdded to the Signbture.
      * <br>
-     * This allows to add arbitrary content to the KeyInfo during signing.
+     * This bllows to bdd brbitrbry content to the KeyInfo during signing.
      *
      * @return the KeyInfo object
      */
     public KeyInfo getKeyInfo() {
-        // check to see if we are signing and if we have to create a keyinfo
-        if (this.state == MODE_SIGN && this.keyInfo == null) {
+        // check to see if we bre signing bnd if we hbve to crebte b keyinfo
+        if (this.stbte == MODE_SIGN && this.keyInfo == null) {
 
-            // create the KeyInfo
+            // crebte the KeyInfo
             this.keyInfo = new KeyInfo(this.doc);
 
             // get the Element from KeyInfo
             Element keyInfoElement = this.keyInfo.getElement();
             Element firstObject =
                 XMLUtils.selectDsNode(
-                    this.constructionElement.getFirstChild(), Constants._TAG_OBJECT, 0
+                    this.constructionElement.getFirstChild(), Constbnts._TAG_OBJECT, 0
                 );
 
             if (firstObject != null) {
-                // add it before the object
+                // bdd it before the object
                 this.constructionElement.insertBefore(keyInfoElement, firstObject);
-                XMLUtils.addReturnBeforeChild(this.constructionElement, firstObject);
+                XMLUtils.bddReturnBeforeChild(this.constructionElement, firstObject);
             } else {
-                // add it as the last element to the signature
-                this.constructionElement.appendChild(keyInfoElement);
-                XMLUtils.addReturnToElement(this.constructionElement);
+                // bdd it bs the lbst element to the signbture
+                this.constructionElement.bppendChild(keyInfoElement);
+                XMLUtils.bddReturnToElement(this.constructionElement);
             }
         }
 
@@ -523,352 +523,352 @@ public final class XMLSignature extends SignatureElementProxy {
     }
 
     /**
-     * Appends an Object (not a <code>java.lang.Object</code> but an Object
-     * element) to the Signature. Please note that this is only possible
+     * Appends bn Object (not b <code>jbvb.lbng.Object</code> but bn Object
+     * element) to the Signbture. Plebse note thbt this is only possible
      * when signing.
      *
-     * @param object ds:Object to be appended.
-     * @throws XMLSignatureException When this object is used to verify.
+     * @pbrbm object ds:Object to be bppended.
+     * @throws XMLSignbtureException When this object is used to verify.
      */
-    public void appendObject(ObjectContainer object) throws XMLSignatureException {
+    public void bppendObject(ObjectContbiner object) throws XMLSignbtureException {
         //try {
-        //if (this.state != MODE_SIGN) {
-        // throw new XMLSignatureException(
-        //  "signature.operationOnlyBeforeSign");
+        //if (this.stbte != MODE_SIGN) {
+        // throw new XMLSignbtureException(
+        //  "signbture.operbtionOnlyBeforeSign");
         //}
 
-        this.constructionElement.appendChild(object.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
-        //} catch (XMLSecurityException ex) {
-        // throw new XMLSignatureException("empty", ex);
+        this.constructionElement.bppendChild(object.getElement());
+        XMLUtils.bddReturnToElement(this.constructionElement);
+        //} cbtch (XMLSecurityException ex) {
+        // throw new XMLSignbtureException("empty", ex);
         //}
     }
 
     /**
-     * Returns the <code>i<code>th <code>ds:Object</code> child of the signature
+     * Returns the <code>i<code>th <code>ds:Object</code> child of the signbture
      * or null if no such <code>ds:Object</code> element exists.
      *
-     * @param i
-     * @return the <code>i<code>th <code>ds:Object</code> child of the signature
+     * @pbrbm i
+     * @return the <code>i<code>th <code>ds:Object</code> child of the signbture
      * or null if no such <code>ds:Object</code> element exists.
      */
-    public ObjectContainer getObjectItem(int i) {
+    public ObjectContbiner getObjectItem(int i) {
         Element objElem =
             XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_OBJECT, i
+                this.constructionElement.getFirstChild(), Constbnts._TAG_OBJECT, i
             );
 
         try {
-            return new ObjectContainer(objElem, this.baseURI);
-        } catch (XMLSecurityException ex) {
+            return new ObjectContbiner(objElem, this.bbseURI);
+        } cbtch (XMLSecurityException ex) {
             return null;
         }
     }
 
     /**
-     * Returns the number of all <code>ds:Object</code> elements.
+     * Returns the number of bll <code>ds:Object</code> elements.
      *
-     * @return the number of all <code>ds:Object</code> elements.
+     * @return the number of bll <code>ds:Object</code> elements.
      */
     public int getObjectLength() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_OBJECT);
+        return this.length(Constbnts.SignbtureSpecNS, Constbnts._TAG_OBJECT);
     }
 
     /**
-     * Digests all References in the SignedInfo, calculates the signature value
-     * and sets it in the SignatureValue Element.
+     * Digests bll References in the SignedInfo, cblculbtes the signbture vblue
+     * bnd sets it in the SignbtureVblue Element.
      *
-     * @param signingKey the {@link java.security.PrivateKey} or
-     * {@link javax.crypto.SecretKey} that is used to sign.
-     * @throws XMLSignatureException
+     * @pbrbm signingKey the {@link jbvb.security.PrivbteKey} or
+     * {@link jbvbx.crypto.SecretKey} thbt is used to sign.
+     * @throws XMLSignbtureException
      */
-    public void sign(Key signingKey) throws XMLSignatureException {
+    public void sign(Key signingKey) throws XMLSignbtureException {
 
-        if (signingKey instanceof PublicKey) {
-            throw new IllegalArgumentException(
-                I18n.translate("algorithms.operationOnlyVerification")
+        if (signingKey instbnceof PublicKey) {
+            throw new IllegblArgumentException(
+                I18n.trbnslbte("blgorithms.operbtionOnlyVerificbtion")
             );
         }
 
         try {
-            //Create a SignatureAlgorithm object
+            //Crebte b SignbtureAlgorithm object
             SignedInfo si = this.getSignedInfo();
-            SignatureAlgorithm sa = si.getSignatureAlgorithm();
-            OutputStream so = null;
+            SignbtureAlgorithm sb = si.getSignbtureAlgorithm();
+            OutputStrebm so = null;
             try {
-                // initialize SignatureAlgorithm for signing
-                sa.initSign(signingKey);
+                // initiblize SignbtureAlgorithm for signing
+                sb.initSign(signingKey);
 
-                // generate digest values for all References in this SignedInfo
-                si.generateDigestValues();
-                so = new UnsyncBufferedOutputStream(new SignerOutputStream(sa));
-                // get the canonicalized bytes from SignedInfo
-                si.signInOctetStream(so);
-            } catch (XMLSecurityException ex) {
+                // generbte digest vblues for bll References in this SignedInfo
+                si.generbteDigestVblues();
+                so = new UnsyncBufferedOutputStrebm(new SignerOutputStrebm(sb));
+                // get the cbnonicblized bytes from SignedInfo
+                si.signInOctetStrebm(so);
+            } cbtch (XMLSecurityException ex) {
                 throw ex;
-            } finally {
+            } finblly {
                 if (so != null) {
                     try {
                         so.close();
-                    } catch (IOException ex) {
-                        if (log.isLoggable(java.util.logging.Level.FINE)) {
-                            log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+                    } cbtch (IOException ex) {
+                        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                            log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
                         }
                     }
                 }
             }
 
-            // set them on the SignatureValue element
-            this.setSignatureValueElement(sa.sign());
-        } catch (XMLSignatureException ex) {
+            // set them on the SignbtureVblue element
+            this.setSignbtureVblueElement(sb.sign());
+        } cbtch (XMLSignbtureException ex) {
             throw ex;
-        } catch (CanonicalizationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (InvalidCanonicalizerException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+        } cbtch (CbnonicblizbtionException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (InvblidCbnonicblizerException ex) {
+            throw new XMLSignbtureException("empty", ex);
+        } cbtch (XMLSecurityException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /**
-     * Adds a {@link ResourceResolver} to enable the retrieval of resources.
+     * Adds b {@link ResourceResolver} to enbble the retrievbl of resources.
      *
-     * @param resolver
+     * @pbrbm resolver
      */
-    public void addResourceResolver(ResourceResolver resolver) {
-        this.getSignedInfo().addResourceResolver(resolver);
+    public void bddResourceResolver(ResourceResolver resolver) {
+        this.getSignedInfo().bddResourceResolver(resolver);
     }
 
     /**
-     * Adds a {@link ResourceResolverSpi} to enable the retrieval of resources.
+     * Adds b {@link ResourceResolverSpi} to enbble the retrievbl of resources.
      *
-     * @param resolver
+     * @pbrbm resolver
      */
-    public void addResourceResolver(ResourceResolverSpi resolver) {
-        this.getSignedInfo().addResourceResolver(resolver);
+    public void bddResourceResolver(ResourceResolverSpi resolver) {
+        this.getSignedInfo().bddResourceResolver(resolver);
     }
 
     /**
-     * Extracts the public key from the certificate and verifies if the signature
-     * is valid by re-digesting all References, comparing those against the
-     * stored DigestValues and then checking to see if the Signatures match on
+     * Extrbcts the public key from the certificbte bnd verifies if the signbture
+     * is vblid by re-digesting bll References, compbring those bgbinst the
+     * stored DigestVblues bnd then checking to see if the Signbtures mbtch on
      * the SignedInfo.
      *
-     * @param cert Certificate that contains the public key part of the keypair
-     * that was used to sign.
-     * @return true if the signature is valid, false otherwise
-     * @throws XMLSignatureException
+     * @pbrbm cert Certificbte thbt contbins the public key pbrt of the keypbir
+     * thbt wbs used to sign.
+     * @return true if the signbture is vblid, fblse otherwise
+     * @throws XMLSignbtureException
      */
-    public boolean checkSignatureValue(X509Certificate cert)
-        throws XMLSignatureException {
+    public boolebn checkSignbtureVblue(X509Certificbte cert)
+        throws XMLSignbtureException {
         // see if cert is null
         if (cert != null) {
-            // check the values with the public key from the cert
-            return this.checkSignatureValue(cert.getPublicKey());
+            // check the vblues with the public key from the cert
+            return this.checkSignbtureVblue(cert.getPublicKey());
         }
 
-        Object exArgs[] = { "Didn't get a certificate" };
-        throw new XMLSignatureException("empty", exArgs);
+        Object exArgs[] = { "Didn't get b certificbte" };
+        throw new XMLSignbtureException("empty", exArgs);
     }
 
     /**
-     * Verifies if the signature is valid by redigesting all References,
-     * comparing those against the stored DigestValues and then checking to see
-     * if the Signatures match on the SignedInfo.
+     * Verifies if the signbture is vblid by redigesting bll References,
+     * compbring those bgbinst the stored DigestVblues bnd then checking to see
+     * if the Signbtures mbtch on the SignedInfo.
      *
-     * @param pk {@link java.security.PublicKey} part of the keypair or
-     * {@link javax.crypto.SecretKey} that was used to sign
-     * @return true if the signature is valid, false otherwise
-     * @throws XMLSignatureException
+     * @pbrbm pk {@link jbvb.security.PublicKey} pbrt of the keypbir or
+     * {@link jbvbx.crypto.SecretKey} thbt wbs used to sign
+     * @return true if the signbture is vblid, fblse otherwise
+     * @throws XMLSignbtureException
      */
-    public boolean checkSignatureValue(Key pk) throws XMLSignatureException {
-        //COMMENT: pk suggests it can only be a public key?
+    public boolebn checkSignbtureVblue(Key pk) throws XMLSignbtureException {
+        //COMMENT: pk suggests it cbn only be b public key?
         //check to see if the key is not null
         if (pk == null) {
-            Object exArgs[] = { "Didn't get a key" };
-            throw new XMLSignatureException("empty", exArgs);
+            Object exArgs[] = { "Didn't get b key" };
+            throw new XMLSignbtureException("empty", exArgs);
         }
-        // all references inside the signedinfo need to be dereferenced and
-        // digested again to see if the outcome matches the stored value in the
+        // bll references inside the signedinfo need to be dereferenced bnd
+        // digested bgbin to see if the outcome mbtches the stored vblue in the
         // SignedInfo.
-        // If followManifestsDuringValidation is true it will do the same for
-        // References inside a Manifest.
+        // If followMbnifestsDuringVblidbtion is true it will do the sbme for
+        // References inside b Mbnifest.
         try {
             SignedInfo si = this.getSignedInfo();
-            //create a SignatureAlgorithms from the SignatureMethod inside
-            //SignedInfo. This is used to validate the signature.
-            SignatureAlgorithm sa = si.getSignatureAlgorithm();
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "signatureMethodURI = " + sa.getAlgorithmURI());
-                log.log(java.util.logging.Level.FINE, "jceSigAlgorithm    = " + sa.getJCEAlgorithmString());
-                log.log(java.util.logging.Level.FINE, "jceSigProvider     = " + sa.getJCEProviderName());
-                log.log(java.util.logging.Level.FINE, "PublicKey = " + pk);
+            //crebte b SignbtureAlgorithms from the SignbtureMethod inside
+            //SignedInfo. This is used to vblidbte the signbture.
+            SignbtureAlgorithm sb = si.getSignbtureAlgorithm();
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "signbtureMethodURI = " + sb.getAlgorithmURI());
+                log.log(jbvb.util.logging.Level.FINE, "jceSigAlgorithm    = " + sb.getJCEAlgorithmString());
+                log.log(jbvb.util.logging.Level.FINE, "jceSigProvider     = " + sb.getJCEProviderNbme());
+                log.log(jbvb.util.logging.Level.FINE, "PublicKey = " + pk);
             }
             byte sigBytes[] = null;
             try {
-                sa.initVerify(pk);
+                sb.initVerify(pk);
 
-                // Get the canonicalized (normalized) SignedInfo
-                SignerOutputStream so = new SignerOutputStream(sa);
-                OutputStream bos = new UnsyncBufferedOutputStream(so);
+                // Get the cbnonicblized (normblized) SignedInfo
+                SignerOutputStrebm so = new SignerOutputStrebm(sb);
+                OutputStrebm bos = new UnsyncBufferedOutputStrebm(so);
 
-                si.signInOctetStream(bos);
+                si.signInOctetStrebm(bos);
                 bos.close();
-                // retrieve the byte[] from the stored signature
-                sigBytes = this.getSignatureValue();
-            } catch (IOException ex) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+                // retrieve the byte[] from the stored signbture
+                sigBytes = this.getSignbtureVblue();
+            } cbtch (IOException ex) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
                 }
                 // Impossible...
-            } catch (XMLSecurityException ex) {
+            } cbtch (XMLSecurityException ex) {
                 throw ex;
             }
 
-            // have SignatureAlgorithm sign the input bytes and compare them to
-            // the bytes that were stored in the signature.
-            if (!sa.verify(sigBytes)) {
-                log.log(java.util.logging.Level.WARNING, "Signature verification failed.");
-                return false;
+            // hbve SignbtureAlgorithm sign the input bytes bnd compbre them to
+            // the bytes thbt were stored in the signbture.
+            if (!sb.verify(sigBytes)) {
+                log.log(jbvb.util.logging.Level.WARNING, "Signbture verificbtion fbiled.");
+                return fblse;
             }
 
-            return si.verify(this.followManifestsDuringValidation);
-        } catch (XMLSignatureException ex) {
+            return si.verify(this.followMbnifestsDuringVblidbtion);
+        } cbtch (XMLSignbtureException ex) {
             throw ex;
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+        } cbtch (XMLSecurityException ex) {
+            throw new XMLSignbtureException("empty", ex);
         }
     }
 
     /**
-     * Add a Reference with full parameters to this Signature
+     * Add b Reference with full pbrbmeters to this Signbture
      *
-     * @param referenceURI URI of the resource to be signed. Can be null in
-     * which case the dereferencing is application specific. Can be "" in which
-     * it's the parent node (or parent document?). There can only be one "" in
-     * each signature.
-     * @param trans Optional list of transformations to be done before digesting
-     * @param digestURI Mandatory URI of the digesting algorithm to use.
-     * @param referenceId Optional id attribute for this Reference
-     * @param referenceType Optional mimetype for the URI
-     * @throws XMLSignatureException
+     * @pbrbm referenceURI URI of the resource to be signed. Cbn be null in
+     * which cbse the dereferencing is bpplicbtion specific. Cbn be "" in which
+     * it's the pbrent node (or pbrent document?). There cbn only be one "" in
+     * ebch signbture.
+     * @pbrbm trbns Optionbl list of trbnsformbtions to be done before digesting
+     * @pbrbm digestURI Mbndbtory URI of the digesting blgorithm to use.
+     * @pbrbm referenceId Optionbl id bttribute for this Reference
+     * @pbrbm referenceType Optionbl mimetype for the URI
+     * @throws XMLSignbtureException
      */
-    public void addDocument(
+    public void bddDocument(
         String referenceURI,
-        Transforms trans,
+        Trbnsforms trbns,
         String digestURI,
         String referenceId,
         String referenceType
-    ) throws XMLSignatureException {
-        this.signedInfo.addDocument(
-            this.baseURI, referenceURI, trans, digestURI, referenceId, referenceType
+    ) throws XMLSignbtureException {
+        this.signedInfo.bddDocument(
+            this.bbseURI, referenceURI, trbns, digestURI, referenceId, referenceType
         );
     }
 
     /**
-     * This method is a proxy method for the {@link Manifest#addDocument} method.
+     * This method is b proxy method for the {@link Mbnifest#bddDocument} method.
      *
-     * @param referenceURI URI according to the XML Signature specification.
-     * @param trans List of transformations to be applied.
-     * @param digestURI URI of the digest algorithm to be used.
-     * @see Manifest#addDocument
-     * @throws XMLSignatureException
+     * @pbrbm referenceURI URI bccording to the XML Signbture specificbtion.
+     * @pbrbm trbns List of trbnsformbtions to be bpplied.
+     * @pbrbm digestURI URI of the digest blgorithm to be used.
+     * @see Mbnifest#bddDocument
+     * @throws XMLSignbtureException
      */
-    public void addDocument(
+    public void bddDocument(
         String referenceURI,
-        Transforms trans,
+        Trbnsforms trbns,
         String digestURI
-    ) throws XMLSignatureException {
-        this.signedInfo.addDocument(this.baseURI, referenceURI, trans, digestURI, null, null);
+    ) throws XMLSignbtureException {
+        this.signedInfo.bddDocument(this.bbseURI, referenceURI, trbns, digestURI, null, null);
     }
 
     /**
-     * Adds a Reference with just the URI and the transforms. This used the
-     * SHA1 algorithm as a default digest algorithm.
+     * Adds b Reference with just the URI bnd the trbnsforms. This used the
+     * SHA1 blgorithm bs b defbult digest blgorithm.
      *
-     * @param referenceURI URI according to the XML Signature specification.
-     * @param trans List of transformations to be applied.
-     * @throws XMLSignatureException
+     * @pbrbm referenceURI URI bccording to the XML Signbture specificbtion.
+     * @pbrbm trbns List of trbnsformbtions to be bpplied.
+     * @throws XMLSignbtureException
      */
-    public void addDocument(String referenceURI, Transforms trans)
-        throws XMLSignatureException {
-        this.signedInfo.addDocument(
-            this.baseURI, referenceURI, trans, Constants.ALGO_ID_DIGEST_SHA1, null, null
+    public void bddDocument(String referenceURI, Trbnsforms trbns)
+        throws XMLSignbtureException {
+        this.signedInfo.bddDocument(
+            this.bbseURI, referenceURI, trbns, Constbnts.ALGO_ID_DIGEST_SHA1, null, null
         );
     }
 
     /**
-     * Add a Reference with just this URI. It uses SHA1 by default as the digest
-     * algorithm
+     * Add b Reference with just this URI. It uses SHA1 by defbult bs the digest
+     * blgorithm
      *
-     * @param referenceURI URI according to the XML Signature specification.
-     * @throws XMLSignatureException
+     * @pbrbm referenceURI URI bccording to the XML Signbture specificbtion.
+     * @throws XMLSignbtureException
      */
-    public void addDocument(String referenceURI) throws XMLSignatureException {
-        this.signedInfo.addDocument(
-            this.baseURI, referenceURI, null, Constants.ALGO_ID_DIGEST_SHA1, null, null
+    public void bddDocument(String referenceURI) throws XMLSignbtureException {
+        this.signedInfo.bddDocument(
+            this.bbseURI, referenceURI, null, Constbnts.ALGO_ID_DIGEST_SHA1, null, null
         );
     }
 
     /**
-     * Add an X509 Certificate to the KeyInfo. This will include the whole cert
-     * inside X509Data/X509Certificate tags.
+     * Add bn X509 Certificbte to the KeyInfo. This will include the whole cert
+     * inside X509Dbtb/X509Certificbte tbgs.
      *
-     * @param cert Certificate to be included. This should be the certificate of
-     * the key that was used to sign.
+     * @pbrbm cert Certificbte to be included. This should be the certificbte of
+     * the key thbt wbs used to sign.
      * @throws XMLSecurityException
      */
-    public void addKeyInfo(X509Certificate cert) throws XMLSecurityException {
-        X509Data x509data = new X509Data(this.doc);
+    public void bddKeyInfo(X509Certificbte cert) throws XMLSecurityException {
+        X509Dbtb x509dbtb = new X509Dbtb(this.doc);
 
-        x509data.addCertificate(cert);
-        this.getKeyInfo().add(x509data);
+        x509dbtb.bddCertificbte(cert);
+        this.getKeyInfo().bdd(x509dbtb);
     }
 
     /**
      * Add this public key to the KeyInfo. This will include the complete key in
      * the KeyInfo structure.
      *
-     * @param pk
+     * @pbrbm pk
      */
-    public void addKeyInfo(PublicKey pk) {
-        this.getKeyInfo().add(pk);
+    public void bddKeyInfo(PublicKey pk) {
+        this.getKeyInfo().bdd(pk);
     }
 
     /**
-     * Proxy method for {@link SignedInfo#createSecretKey(byte[])}. If you want
-     * to create a MAC, this method helps you to obtain the
-     * {@link javax.crypto.SecretKey} from octets.
+     * Proxy method for {@link SignedInfo#crebteSecretKey(byte[])}. If you wbnt
+     * to crebte b MAC, this method helps you to obtbin the
+     * {@link jbvbx.crypto.SecretKey} from octets.
      *
-     * @param secretKeyBytes
-     * @return the secret key created.
-     * @see SignedInfo#createSecretKey(byte[])
+     * @pbrbm secretKeyBytes
+     * @return the secret key crebted.
+     * @see SignedInfo#crebteSecretKey(byte[])
      */
-    public SecretKey createSecretKey(byte[] secretKeyBytes) {
-        return this.getSignedInfo().createSecretKey(secretKeyBytes);
+    public SecretKey crebteSecretKey(byte[] secretKeyBytes) {
+        return this.getSignedInfo().crebteSecretKey(secretKeyBytes);
     }
 
     /**
-     * Signal whether Manifest should be automatically validated.
-     * Checking the digests in References in a Signature are mandatory, but for
-     * References inside a Manifest it is application specific. This boolean is
-     * to indicate that the References inside Manifests should be validated.
+     * Signbl whether Mbnifest should be butombticblly vblidbted.
+     * Checking the digests in References in b Signbture bre mbndbtory, but for
+     * References inside b Mbnifest it is bpplicbtion specific. This boolebn is
+     * to indicbte thbt the References inside Mbnifests should be vblidbted.
      *
-     * @param followManifests
-     * @see <a href="http://www.w3.org/TR/xmldsig-core/#sec-CoreValidation">
-     * Core validation section in the XML Signature Rec.</a>
+     * @pbrbm followMbnifests
+     * @see <b href="http://www.w3.org/TR/xmldsig-core/#sec-CoreVblidbtion">
+     * Core vblidbtion section in the XML Signbture Rec.</b>
      */
-    public void setFollowNestedManifests(boolean followManifests) {
-        this.followManifestsDuringValidation = followManifests;
+    public void setFollowNestedMbnifests(boolebn followMbnifests) {
+        this.followMbnifestsDuringVblidbtion = followMbnifests;
     }
 
     /**
-     * Get the local name of this element
+     * Get the locbl nbme of this element
      *
-     * @return Constants._TAG_SIGNATURE
+     * @return Constbnts._TAG_SIGNATURE
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_SIGNATURE;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_SIGNATURE;
     }
 }

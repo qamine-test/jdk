@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
 /**
- * A FocusTraversalPolicy defines the order in which Components with a
- * particular focus cycle root are traversed. Instances can apply the policy to
- * arbitrary focus cycle roots, allowing themselves to be shared across
- * Containers. They do not need to be reinitialized when the focus cycle roots
- * of a Component hierarchy change.
+ * A FocusTrbversblPolicy defines the order in which Components with b
+ * pbrticulbr focus cycle root bre trbversed. Instbnces cbn bpply the policy to
+ * brbitrbry focus cycle roots, bllowing themselves to be shbred bcross
+ * Contbiners. They do not need to be reinitiblized when the focus cycle roots
+ * of b Component hierbrchy chbnge.
  * <p>
- * The core responsibility of a FocusTraversalPolicy is to provide algorithms
- * determining the next and previous Components to focus when traversing
- * forward or backward in a UI. Each FocusTraversalPolicy must also provide
- * algorithms for determining the first, last, and default Components in a
- * traversal cycle. First and last Components are used when normal forward and
- * backward traversal, respectively, wraps. The default Component is the first
- * to receive focus when traversing down into a new focus traversal cycle.
- * A FocusTraversalPolicy can optionally provide an algorithm for determining
- * a Window's initial Component. The initial Component is the first to receive
- * focus when a Window is first made visible.
+ * The core responsibility of b FocusTrbversblPolicy is to provide blgorithms
+ * determining the next bnd previous Components to focus when trbversing
+ * forwbrd or bbckwbrd in b UI. Ebch FocusTrbversblPolicy must blso provide
+ * blgorithms for determining the first, lbst, bnd defbult Components in b
+ * trbversbl cycle. First bnd lbst Components bre used when normbl forwbrd bnd
+ * bbckwbrd trbversbl, respectively, wrbps. The defbult Component is the first
+ * to receive focus when trbversing down into b new focus trbversbl cycle.
+ * A FocusTrbversblPolicy cbn optionblly provide bn blgorithm for determining
+ * b Window's initibl Component. The initibl Component is the first to receive
+ * focus when b Window is first mbde visible.
  * <p>
- * FocusTraversalPolicy takes into account <a
- * href="doc-files/FocusSpec.html#FocusTraversalPolicyProviders">focus traversal
- * policy providers</a>.  When searching for first/last/next/previous Component,
- * if a focus traversal policy provider is encountered, its focus traversal
- * policy is used to perform the search operation.
+ * FocusTrbversblPolicy tbkes into bccount <b
+ * href="doc-files/FocusSpec.html#FocusTrbversblPolicyProviders">focus trbversbl
+ * policy providers</b>.  When sebrching for first/lbst/next/previous Component,
+ * if b focus trbversbl policy provider is encountered, its focus trbversbl
+ * policy is used to perform the sebrch operbtion.
  * <p>
- * Please see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/misc/focus.html">
- * How to Use the Focus Subsystem</a>,
- * a section in <em>The Java Tutorial</em>, and the
- * <a href="../../java/awt/doc-files/FocusSpec.html">Focus Specification</a>
- * for more information.
+ * Plebse see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/focus.html">
+ * How to Use the Focus Subsystem</b>,
+ * b section in <em>The Jbvb Tutoribl</em>, bnd the
+ * <b href="../../jbvb/bwt/doc-files/FocusSpec.html">Focus Specificbtion</b>
+ * for more informbtion.
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  *
- * @see Container#setFocusTraversalPolicy
- * @see Container#getFocusTraversalPolicy
- * @see Container#setFocusCycleRoot
- * @see Container#isFocusCycleRoot
- * @see Container#setFocusTraversalPolicyProvider
- * @see Container#isFocusTraversalPolicyProvider
- * @see KeyboardFocusManager#setDefaultFocusTraversalPolicy
- * @see KeyboardFocusManager#getDefaultFocusTraversalPolicy
+ * @see Contbiner#setFocusTrbversblPolicy
+ * @see Contbiner#getFocusTrbversblPolicy
+ * @see Contbiner#setFocusCycleRoot
+ * @see Contbiner#isFocusCycleRoot
+ * @see Contbiner#setFocusTrbversblPolicyProvider
+ * @see Contbiner#isFocusTrbversblPolicyProvider
+ * @see KeybobrdFocusMbnbger#setDefbultFocusTrbversblPolicy
+ * @see KeybobrdFocusMbnbger#getDefbultFocusTrbversblPolicy
  * @since 1.4
  */
-public abstract class FocusTraversalPolicy {
+public bbstrbct clbss FocusTrbversblPolicy {
 
     /**
-     * Returns the Component that should receive the focus after aComponent.
-     * aContainer must be a focus cycle root of aComponent or a focus traversal
+     * Returns the Component thbt should receive the focus bfter bComponent.
+     * bContbiner must be b focus cycle root of bComponent or b focus trbversbl
      * policy provider.
      *
-     * @param aContainer a focus cycle root of aComponent or focus traversal
+     * @pbrbm bContbiner b focus cycle root of bComponent or focus trbversbl
      *        policy provider
-     * @param aComponent a (possibly indirect) child of aContainer, or
-     *        aContainer itself
-     * @return the Component that should receive the focus after aComponent, or
-     *         null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is not a focus cycle
-     *         root of aComponent or a focus traversal policy provider, or if
-     *         either aContainer or aComponent is null
+     * @pbrbm bComponent b (possibly indirect) child of bContbiner, or
+     *        bContbiner itself
+     * @return the Component thbt should receive the focus bfter bComponent, or
+     *         null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is not b focus cycle
+     *         root of bComponent or b focus trbversbl policy provider, or if
+     *         either bContbiner or bComponent is null
      */
-    public abstract Component getComponentAfter(Container aContainer,
-                                                Component aComponent);
+    public bbstrbct Component getComponentAfter(Contbiner bContbiner,
+                                                Component bComponent);
 
     /**
-     * Returns the Component that should receive the focus before aComponent.
-     * aContainer must be a focus cycle root of aComponent or a focus traversal
+     * Returns the Component thbt should receive the focus before bComponent.
+     * bContbiner must be b focus cycle root of bComponent or b focus trbversbl
      * policy provider.
      *
-     * @param aContainer a focus cycle root of aComponent or focus traversal
+     * @pbrbm bContbiner b focus cycle root of bComponent or focus trbversbl
      *        policy provider
-     * @param aComponent a (possibly indirect) child of aContainer, or
-     *        aContainer itself
-     * @return the Component that should receive the focus before aComponent,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is not a focus cycle
-     *         root of aComponent or a focus traversal policy provider, or if
-     *         either aContainer or aComponent is null
+     * @pbrbm bComponent b (possibly indirect) child of bContbiner, or
+     *        bContbiner itself
+     * @return the Component thbt should receive the focus before bComponent,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is not b focus cycle
+     *         root of bComponent or b focus trbversbl policy provider, or if
+     *         either bContbiner or bComponent is null
      */
-    public abstract Component getComponentBefore(Container aContainer,
-                                                 Component aComponent);
+    public bbstrbct Component getComponentBefore(Contbiner bContbiner,
+                                                 Component bComponent);
 
     /**
-     * Returns the first Component in the traversal cycle. This method is used
-     * to determine the next Component to focus when traversal wraps in the
-     * forward direction.
+     * Returns the first Component in the trbversbl cycle. This method is used
+     * to determine the next Component to focus when trbversbl wrbps in the
+     * forwbrd direction.
      *
-     * @param aContainer the focus cycle root or focus traversal policy provider
+     * @pbrbm bContbiner the focus cycle root or focus trbversbl policy provider
      *        whose first Component is to be returned
-     * @return the first Component in the traversal cycle of aContainer,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is null
+     * @return the first Component in the trbversbl cycle of bContbiner,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is null
      */
-    public abstract Component getFirstComponent(Container aContainer);
+    public bbstrbct Component getFirstComponent(Contbiner bContbiner);
 
     /**
-     * Returns the last Component in the traversal cycle. This method is used
-     * to determine the next Component to focus when traversal wraps in the
+     * Returns the lbst Component in the trbversbl cycle. This method is used
+     * to determine the next Component to focus when trbversbl wrbps in the
      * reverse direction.
      *
-     * @param aContainer the focus cycle root or focus traversal policy
-     *        provider whose last Component is to be returned
-     * @return the last Component in the traversal cycle of aContainer,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is null
+     * @pbrbm bContbiner the focus cycle root or focus trbversbl policy
+     *        provider whose lbst Component is to be returned
+     * @return the lbst Component in the trbversbl cycle of bContbiner,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is null
      */
-    public abstract Component getLastComponent(Container aContainer);
+    public bbstrbct Component getLbstComponent(Contbiner bContbiner);
 
     /**
-     * Returns the default Component to focus. This Component will be the first
-     * to receive focus when traversing down into a new focus traversal cycle
-     * rooted at aContainer.
+     * Returns the defbult Component to focus. This Component will be the first
+     * to receive focus when trbversing down into b new focus trbversbl cycle
+     * rooted bt bContbiner.
      *
-     * @param aContainer the focus cycle root or focus traversal policy
-     *        provider whose default Component is to be returned
-     * @return the default Component in the traversal cycle of aContainer,
-     *         or null if no suitable Component can be found
-     * @throws IllegalArgumentException if aContainer is null
+     * @pbrbm bContbiner the focus cycle root or focus trbversbl policy
+     *        provider whose defbult Component is to be returned
+     * @return the defbult Component in the trbversbl cycle of bContbiner,
+     *         or null if no suitbble Component cbn be found
+     * @throws IllegblArgumentException if bContbiner is null
      */
-    public abstract Component getDefaultComponent(Container aContainer);
+    public bbstrbct Component getDefbultComponent(Contbiner bContbiner);
 
     /**
-     * Returns the Component that should receive the focus when a Window is
-     * made visible for the first time. Once the Window has been made visible
-     * by a call to <code>show()</code> or <code>setVisible(true)</code>, the
-     * initial Component will not be used again. Instead, if the Window loses
-     * and subsequently regains focus, or is made invisible or undisplayable
-     * and subsequently made visible and displayable, the Window's most
-     * recently focused Component will become the focus owner. The default
-     * implementation of this method returns the default Component.
+     * Returns the Component thbt should receive the focus when b Window is
+     * mbde visible for the first time. Once the Window hbs been mbde visible
+     * by b cbll to <code>show()</code> or <code>setVisible(true)</code>, the
+     * initibl Component will not be used bgbin. Instebd, if the Window loses
+     * bnd subsequently regbins focus, or is mbde invisible or undisplbybble
+     * bnd subsequently mbde visible bnd displbybble, the Window's most
+     * recently focused Component will become the focus owner. The defbult
+     * implementbtion of this method returns the defbult Component.
      *
-     * @param window the Window whose initial Component is to be returned
-     * @return the Component that should receive the focus when window is made
-     *         visible for the first time, or null if no suitable Component can
+     * @pbrbm window the Window whose initibl Component is to be returned
+     * @return the Component thbt should receive the focus when window is mbde
+     *         visible for the first time, or null if no suitbble Component cbn
      *         be found
-     * @see #getDefaultComponent
+     * @see #getDefbultComponent
      * @see Window#getMostRecentFocusOwner
-     * @throws IllegalArgumentException if window is null
+     * @throws IllegblArgumentException if window is null
      */
-    public Component getInitialComponent(Window window) {
+    public Component getInitiblComponent(Window window) {
         if ( window == null ){
-            throw new IllegalArgumentException("window cannot be equal to null.");
+            throw new IllegblArgumentException("window cbnnot be equbl to null.");
         }
-        Component def = getDefaultComponent(window);
-        if (def == null && window.isFocusableWindow()) {
+        Component def = getDefbultComponent(window);
+        if (def == null && window.isFocusbbleWindow()) {
             def = window;
         }
         return def;

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,67 +30,67 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.demo.scripting.jconsole;
+pbckbge com.sun.demo.scripting.jconsole;
 
-import javax.swing.text.*;
+import jbvbx.swing.text.*;
 
-/** This class implements a special type of document in which edits
- * can only be performed at the end, from "mark" to the end of the
- * document. This is used in ScriptShellPanel class as document for editor.
+/** This clbss implements b specibl type of document in which edits
+ * cbn only be performed bt the end, from "mbrk" to the end of the
+ * document. This is used in ScriptShellPbnel clbss bs document for editor.
  */
-public class EditableAtEndDocument extends PlainDocument {
+public clbss EditbbleAtEndDocument extends PlbinDocument {
 
-    private static final long serialVersionUID = 5358116444851502167L;
-    private int mark;
+    privbte stbtic finbl long seriblVersionUID = 5358116444851502167L;
+    privbte int mbrk;
 
     @Override
-    public void insertString(int offset, String text, AttributeSet a)
-        throws BadLocationException {
+    public void insertString(int offset, String text, AttributeSet b)
+        throws BbdLocbtionException {
         int len = getLength();
-        super.insertString(len, text, a);
+        super.insertString(len, text, b);
     }
 
     @Override
-    public void remove(int offs, int len) throws BadLocationException {
-        int start = offs;
+    public void remove(int offs, int len) throws BbdLocbtionException {
+        int stbrt = offs;
         int end = offs + len;
 
-        int markStart = mark;
-        int markEnd = getLength();
+        int mbrkStbrt = mbrk;
+        int mbrkEnd = getLength();
 
-        if ((end < markStart) || (start > markEnd)) {
-            // no overlap
+        if ((end < mbrkStbrt) || (stbrt > mbrkEnd)) {
+            // no overlbp
             return;
         }
 
-        // Determine interval intersection
-        int cutStart = Math.max(start, markStart);
-        int cutEnd = Math.min(end, markEnd);
-        super.remove(cutStart, cutEnd - cutStart);
+        // Determine intervbl intersection
+        int cutStbrt = Mbth.mbx(stbrt, mbrkStbrt);
+        int cutEnd = Mbth.min(end, mbrkEnd);
+        super.remove(cutStbrt, cutEnd - cutStbrt);
     }
 
-    public void setMark() {
-        mark = getLength();
+    public void setMbrk() {
+        mbrk = getLength();
     }
 
-    public String getMarkedText() throws BadLocationException {
-        return getText(mark, getLength() - mark);
+    public String getMbrkedText() throws BbdLocbtionException {
+        return getText(mbrk, getLength() - mbrk);
     }
 
     /** Used to reset the contents of this document */
-    public void clear() {
+    public void clebr() {
         try {
             super.remove(0, getLength());
-            setMark();
-        } catch (BadLocationException e) {
+            setMbrk();
+        } cbtch (BbdLocbtionException e) {
         }
     }
 }

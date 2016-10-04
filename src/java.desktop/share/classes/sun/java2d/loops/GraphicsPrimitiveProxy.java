@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
 /**
- *   GraphicsPrimitiveProxy
+ *   GrbphicsPrimitiveProxy
  *
- * Acts as a proxy for instances of GraphicsPrimitive, enabling lazy
- * classloading of these primitives.  This leads to a substantial
- * savings in start-up time and footprint.  In the typical case,
- * it has been found that a small number of GraphicsPrimitive instance
- * actually end up getting instantiated.
+ * Acts bs b proxy for instbnces of GrbphicsPrimitive, enbbling lbzy
+ * clbsslobding of these primitives.  This lebds to b substbntibl
+ * sbvings in stbrt-up time bnd footprint.  In the typicbl cbse,
+ * it hbs been found thbt b smbll number of GrbphicsPrimitive instbnce
+ * bctublly end up getting instbntibted.
  * <p>
- * Note that the makePrimitive method should never be invoked on
- * a GraphicsPrimitiveProxy object since they are instantiated as
- * soon as they are found in the primitive list and never returned
- * to the caller.
+ * Note thbt the mbkePrimitive method should never be invoked on
+ * b GrbphicsPrimitiveProxy object since they bre instbntibted bs
+ * soon bs they bre found in the primitive list bnd never returned
+ * to the cbller.
  */
-public class GraphicsPrimitiveProxy extends GraphicsPrimitive {
+public clbss GrbphicsPrimitiveProxy extends GrbphicsPrimitive {
 
-    private Class<?> owner;
-    private String relativeClassName;
+    privbte Clbss<?> owner;
+    privbte String relbtiveClbssNbme;
 
     /**
-     * Create a GraphicsPrimitiveProxy for a primitive with a no-argument
+     * Crebte b GrbphicsPrimitiveProxy for b primitive with b no-brgument
      * constructor.
      *
-     * @param owner The owner class for this primitive.  The primitive
-     *          must be in the same package as this owner.
-     * @param relativeClassName  The name of the class this is a proxy for.
-     *          This should not include the package.
+     * @pbrbm owner The owner clbss for this primitive.  The primitive
+     *          must be in the sbme pbckbge bs this owner.
+     * @pbrbm relbtiveClbssNbme  The nbme of the clbss this is b proxy for.
+     *          This should not include the pbckbge.
      */
-    public GraphicsPrimitiveProxy(Class<?> owner, String relativeClassName,
-                                  String methodSignature,
+    public GrbphicsPrimitiveProxy(Clbss<?> owner, String relbtiveClbssNbme,
+                                  String methodSignbture,
                                   int primID,
-                                  SurfaceType srctype,
+                                  SurfbceType srctype,
                                   CompositeType comptype,
-                                  SurfaceType dsttype)
+                                  SurfbceType dsttype)
     {
-        super(methodSignature, primID, srctype, comptype, dsttype);
+        super(methodSignbture, primID, srctype, comptype, dsttype);
         this.owner = owner;
-        this.relativeClassName = relativeClassName;
+        this.relbtiveClbssNbme = relbtiveClbssNbme;
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
+    public GrbphicsPrimitive mbkePrimitive(SurfbceType srctype,
                                            CompositeType comptype,
-                                           SurfaceType dsttype) {
-        // This should never happen.
-        throw new InternalError("makePrimitive called on a Proxy!");
+                                           SurfbceType dsttype) {
+        // This should never hbppen.
+        throw new InternblError("mbkePrimitive cblled on b Proxy!");
     }
 
     //
-    // Come up with the real instance.  Called from
-    // GraphicsPrimitiveMgr.locate()
+    // Come up with the rebl instbnce.  Cblled from
+    // GrbphicsPrimitiveMgr.locbte()
     //
-    GraphicsPrimitive instantiate() {
-        String name = getPackageName(owner.getName()) + "."
-                        + relativeClassName;
+    GrbphicsPrimitive instbntibte() {
+        String nbme = getPbckbgeNbme(owner.getNbme()) + "."
+                        + relbtiveClbssNbme;
         try {
-            Class<?> clazz = Class.forName(name);
-            GraphicsPrimitive p = (GraphicsPrimitive) clazz.newInstance();
-            if (!satisfiesSameAs(p)) {
+            Clbss<?> clbzz = Clbss.forNbme(nbme);
+            GrbphicsPrimitive p = (GrbphicsPrimitive) clbzz.newInstbnce();
+            if (!sbtisfiesSbmeAs(p)) {
                 throw new RuntimeException("Primitive " + p
-                                           + " incompatible with proxy for "
-                                           + name);
+                                           + " incompbtible with proxy for "
+                                           + nbme);
             }
             return p;
-        } catch (ClassNotFoundException ex) {
+        } cbtch (ClbssNotFoundException ex) {
             throw new RuntimeException(ex.toString());
-        } catch (InstantiationException ex) {
+        } cbtch (InstbntibtionException ex) {
             throw new RuntimeException(ex.toString());
-        } catch (IllegalAccessException ex) {
+        } cbtch (IllegblAccessException ex) {
             throw new RuntimeException(ex.toString());
         }
-        // A RuntimeException should never happen in a deployed JDK, because
-        // the regression test GraphicsPrimitiveProxyTest will catch any
+        // A RuntimeException should never hbppen in b deployed JDK, becbuse
+        // the regression test GrbphicsPrimitiveProxyTest will cbtch bny
         // of these errors.
     }
 
-    private static String getPackageName(String className) {
-        int lastDotIdx = className.lastIndexOf('.');
-        if (lastDotIdx < 0) {
-            return className;
+    privbte stbtic String getPbckbgeNbme(String clbssNbme) {
+        int lbstDotIdx = clbssNbme.lbstIndexOf('.');
+        if (lbstDotIdx < 0) {
+            return clbssNbme;
         }
-        return className.substring(0, lastDotIdx);
+        return clbssNbme.substring(0, lbstDotIdx);
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return instantiate().traceWrap();
+    public GrbphicsPrimitive trbceWrbp() {
+        return instbntibte().trbceWrbp();
     }
 }

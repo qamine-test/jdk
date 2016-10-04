@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.colorchooser;
+pbckbge jbvbx.swing.colorchooser;
 
-final class ColorModelHSL extends ColorModel {
+finbl clbss ColorModelHSL extends ColorModel {
 
     ColorModelHSL() {
-        super("hsl", "Hue", "Saturation", "Lightness", "Transparency"); // NON-NLS: components
+        super("hsl", "Hue", "Sbturbtion", "Lightness", "Trbnspbrency"); // NON-NLS: components
     }
 
     @Override
-    void setColor(int color, float[] space) {
-        super.setColor(color, space);
-        RGBtoHSL(space, space);
-        space[3] = 1.0f - space[3];
+    void setColor(int color, flobt[] spbce) {
+        super.setColor(color, spbce);
+        RGBtoHSL(spbce, spbce);
+        spbce[3] = 1.0f - spbce[3];
     }
 
     @Override
-    int getColor(float[] space) {
-        space[3] = 1.0f - space[3];
-        HSLtoRGB(space, space);
-        return super.getColor(space);
+    int getColor(flobt[] spbce) {
+        spbce[3] = 1.0f - spbce[3];
+        HSLtoRGB(spbce, spbce);
+        return super.getColor(spbce);
     }
 
     @Override
-    int getMaximum(int index) {
+    int getMbximum(int index) {
         return (index == 0) ? 360 : 100;
     }
 
     @Override
-    float getDefault(int index) {
+    flobt getDefbult(int index) {
         return (index == 0) ? -1.0f : (index == 2) ? 0.5f : 1.0f;
     }
 
     /**
-     * Converts HSL components of a color to a set of RGB components.
+     * Converts HSL components of b color to b set of RGB components.
      *
-     * @param hsl  a float array with length equal to
+     * @pbrbm hsl  b flobt brrby with length equbl to
      *             the number of HSL components
-     * @param rgb  a float array with length of at least 3
-     *             that contains RGB components of a color
-     * @return a float array that contains RGB components
+     * @pbrbm rgb  b flobt brrby with length of bt lebst 3
+     *             thbt contbins RGB components of b color
+     * @return b flobt brrby thbt contbins RGB components
      */
-    private static float[] HSLtoRGB(float[] hsl, float[] rgb) {
+    privbte stbtic flobt[] HSLtoRGB(flobt[] hsl, flobt[] rgb) {
         if (rgb == null) {
-            rgb = new float[3];
+            rgb = new flobt[3];
         }
-        float hue = hsl[0];
-        float saturation = hsl[1];
-        float lightness = hsl[2];
+        flobt hue = hsl[0];
+        flobt sbturbtion = hsl[1];
+        flobt lightness = hsl[2];
 
-        if (saturation > 0.0f) {
+        if (sbturbtion > 0.0f) {
             hue = (hue < 1.0f) ? hue * 6.0f : 0.0f;
-            float q = lightness + saturation * ((lightness > 0.5f) ? 1.0f - lightness : lightness);
-            float p = 2.0f * lightness - q;
-            rgb[0]= normalize(q, p, (hue < 4.0f) ? (hue + 2.0f) : (hue - 4.0f));
-            rgb[1]= normalize(q, p, hue);
-            rgb[2]= normalize(q, p, (hue < 2.0f) ? (hue + 4.0f) : (hue - 2.0f));
+            flobt q = lightness + sbturbtion * ((lightness > 0.5f) ? 1.0f - lightness : lightness);
+            flobt p = 2.0f * lightness - q;
+            rgb[0]= normblize(q, p, (hue < 4.0f) ? (hue + 2.0f) : (hue - 4.0f));
+            rgb[1]= normblize(q, p, hue);
+            rgb[2]= normblize(q, p, (hue < 2.0f) ? (hue + 4.0f) : (hue - 2.0f));
         }
         else {
             rgb[0] = lightness;
@@ -89,83 +89,83 @@ final class ColorModelHSL extends ColorModel {
     }
 
     /**
-     * Converts RGB components of a color to a set of HSL components.
+     * Converts RGB components of b color to b set of HSL components.
      *
-     * @param rgb  a float array with length of at least 3
-     *             that contains RGB components of a color
-     * @param hsl  a float array with length equal to
+     * @pbrbm rgb  b flobt brrby with length of bt lebst 3
+     *             thbt contbins RGB components of b color
+     * @pbrbm hsl  b flobt brrby with length equbl to
      *             the number of HSL components
-     * @return a float array that contains HSL components
+     * @return b flobt brrby thbt contbins HSL components
      */
-    private static float[] RGBtoHSL(float[] rgb, float[] hsl) {
+    privbte stbtic flobt[] RGBtoHSL(flobt[] rgb, flobt[] hsl) {
         if (hsl == null) {
-            hsl = new float[3];
+            hsl = new flobt[3];
         }
-        float max = max(rgb[0], rgb[1], rgb[2]);
-        float min = min(rgb[0], rgb[1], rgb[2]);
+        flobt mbx = mbx(rgb[0], rgb[1], rgb[2]);
+        flobt min = min(rgb[0], rgb[1], rgb[2]);
 
-        float summa = max + min;
-        float saturation = max - min;
-        if (saturation > 0.0f) {
-            saturation /= (summa > 1.0f)
-                    ? 2.0f - summa
-                    : summa;
+        flobt summb = mbx + min;
+        flobt sbturbtion = mbx - min;
+        if (sbturbtion > 0.0f) {
+            sbturbtion /= (summb > 1.0f)
+                    ? 2.0f - summb
+                    : summb;
         }
-        hsl[0] = getHue(rgb[0], rgb[1], rgb[2], max, min);
-        hsl[1] = saturation;
-        hsl[2] = summa / 2.0f;
+        hsl[0] = getHue(rgb[0], rgb[1], rgb[2], mbx, min);
+        hsl[1] = sbturbtion;
+        hsl[2] = summb / 2.0f;
         return hsl;
     }
 
     /**
-     * Returns the smaller of three color components.
+     * Returns the smbller of three color components.
      *
-     * @param red    the red component of the color
-     * @param green  the green component of the color
-     * @param blue   the blue component of the color
-     * @return the smaller of {@code red}, {@code green} and {@code blue}
+     * @pbrbm red    the red component of the color
+     * @pbrbm green  the green component of the color
+     * @pbrbm blue   the blue component of the color
+     * @return the smbller of {@code red}, {@code green} bnd {@code blue}
      */
-    static float min(float red, float green, float blue) {
-        float min = (red < green) ? red : green;
+    stbtic flobt min(flobt red, flobt green, flobt blue) {
+        flobt min = (red < green) ? red : green;
         return (min < blue) ? min : blue;
     }
 
     /**
-     * Returns the larger of three color components.
+     * Returns the lbrger of three color components.
      *
-     * @param red    the red component of the color
-     * @param green  the green component of the color
-     * @param blue   the blue component of the color
-     * @return the larger of {@code red}, {@code green} and {@code blue}
+     * @pbrbm red    the red component of the color
+     * @pbrbm green  the green component of the color
+     * @pbrbm blue   the blue component of the color
+     * @return the lbrger of {@code red}, {@code green} bnd {@code blue}
      */
-    static float max(float red, float green, float blue) {
-        float max = (red > green) ? red : green;
-        return (max > blue) ? max : blue;
+    stbtic flobt mbx(flobt red, flobt green, flobt blue) {
+        flobt mbx = (red > green) ? red : green;
+        return (mbx > blue) ? mbx : blue;
     }
 
     /**
-     * Calculates the hue component for HSL and HSV color spaces.
+     * Cblculbtes the hue component for HSL bnd HSV color spbces.
      *
-     * @param red    the red component of the color
-     * @param green  the green component of the color
-     * @param blue   the blue component of the color
-     * @param max    the larger of {@code red}, {@code green} and {@code blue}
-     * @param min    the smaller of {@code red}, {@code green} and {@code blue}
+     * @pbrbm red    the red component of the color
+     * @pbrbm green  the green component of the color
+     * @pbrbm blue   the blue component of the color
+     * @pbrbm mbx    the lbrger of {@code red}, {@code green} bnd {@code blue}
+     * @pbrbm min    the smbller of {@code red}, {@code green} bnd {@code blue}
      * @return the hue component
      */
-    static float getHue(float red, float green, float blue, float max, float min) {
-        float hue = max - min;
+    stbtic flobt getHue(flobt red, flobt green, flobt blue, flobt mbx, flobt min) {
+        flobt hue = mbx - min;
         if (hue > 0.0f) {
-            if (max == red) {
+            if (mbx == red) {
                 hue = (green - blue) / hue;
                 if (hue < 0.0f) {
                     hue += 6.0f;
                 }
             }
-            else if (max == green) {
+            else if (mbx == green) {
                 hue = 2.0f + (blue - red) / hue;
             }
-            else /*max == blue*/ {
+            else /*mbx == blue*/ {
                 hue = 4.0f + (red - green) / hue;
             }
             hue /= 6.0f;
@@ -173,7 +173,7 @@ final class ColorModelHSL extends ColorModel {
         return hue;
     }
 
-    private static float normalize(float q, float p, float color) {
+    privbte stbtic flobt normblize(flobt q, flobt p, flobt color) {
         if (color < 1.0f) {
             return p + (q - p) * color;
         }

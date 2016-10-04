@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.connect.spi;
+pbckbge com.sun.jdi.connect.spi;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * A connection between a debugger and a target VM which it debugs.
+ * A connection between b debugger bnd b tbrget VM which it debugs.
  *
- * <p> A Connection represents a bi-directional communication channel
- * between a debugger and a target VM. A Connection is created when
- * {@link com.sun.jdi.connect.spi.TransportService TransportService}
- * establishes a connection and successfully handshakes with a target
- * VM. A TransportService implementation provides a reliable
- * JDWP packet transportation service and consequently a Connection
- * provides a reliable flow of JDWP packets between the debugger
- * and the target VM. A Connection is stream oriented, that is, the
- * JDWP packets written to a connection are read by the target VM
- * in the order in which they were written. Similiarly packets written
- * to a Connection by the target VM are read by the debugger in the
+ * <p> A Connection represents b bi-directionbl communicbtion chbnnel
+ * between b debugger bnd b tbrget VM. A Connection is crebted when
+ * {@link com.sun.jdi.connect.spi.TrbnsportService TrbnsportService}
+ * estbblishes b connection bnd successfully hbndshbkes with b tbrget
+ * VM. A TrbnsportService implementbtion provides b relibble
+ * JDWP pbcket trbnsportbtion service bnd consequently b Connection
+ * provides b relibble flow of JDWP pbckets between the debugger
+ * bnd the tbrget VM. A Connection is strebm oriented, thbt is, the
+ * JDWP pbckets written to b connection bre rebd by the tbrget VM
+ * in the order in which they were written. Similibrly pbckets written
+ * to b Connection by the tbrget VM bre rebd by the debugger in the
  * order in which they were written.
  *
- * <p> A connection is either open or closed. It is open upon creation,
- * and remains open until it is closed. Once closed, it remains closed,
- * and any attempt to invoke an I/O operation upon it will cause a
- * {@link ClosedConnectionException} to be thrown. A connection can
+ * <p> A connection is either open or closed. It is open upon crebtion,
+ * bnd rembins open until it is closed. Once closed, it rembins closed,
+ * bnd bny bttempt to invoke bn I/O operbtion upon it will cbuse b
+ * {@link ClosedConnectionException} to be thrown. A connection cbn
  * be tested by invoking the {@link #isOpen isOpen} method.
  *
- * <p> A Connection is safe for access by multiple concurrent threads,
- * although at most one thread may be reading and at most one thread may
- * be writing at any given time. </p>
+ * <p> A Connection is sbfe for bccess by multiple concurrent threbds,
+ * blthough bt most one threbd mby be rebding bnd bt most one threbd mby
+ * be writing bt bny given time. </p>
  *
  * @since 1.5
  */
 
 @jdk.Exported
-public abstract class Connection {
+public bbstrbct clbss Connection {
 
     /**
-     * Reads a packet from the target VM.
+     * Rebds b pbcket from the tbrget VM.
      *
-     * <p> Attempts to read a JDWP packet from the target VM.
-     * A read operation may block indefinitely and only returns
-     * when it reads all bytes of a packet, or in the case of a
-     * transport service that is based on a stream-oriented
-     * communication protocol, the end of stream is encountered.
+     * <p> Attempts to rebd b JDWP pbcket from the tbrget VM.
+     * A rebd operbtion mby block indefinitely bnd only returns
+     * when it rebds bll bytes of b pbcket, or in the cbse of b
+     * trbnsport service thbt is bbsed on b strebm-oriented
+     * communicbtion protocol, the end of strebm is encountered.
      *
-     * <p> Reading a packet does not do any integrity checking on
-     * the packet aside from a check that the length of the packet
-     * (as indicated by the value of the <tt>length</tt> field, the
-     * first four bytes of the packet) is 11 or more bytes.
-     * If the value of the <tt>length</tt> value is less then 11
-     * then an <tt>IOException</tt> is thrown.
+     * <p> Rebding b pbcket does not do bny integrity checking on
+     * the pbcket bside from b check thbt the length of the pbcket
+     * (bs indicbted by the vblue of the <tt>length</tt> field, the
+     * first four bytes of the pbcket) is 11 or more bytes.
+     * If the vblue of the <tt>length</tt> vblue is less then 11
+     * then bn <tt>IOException</tt> is thrown.
      *
-     * <p> Returns a byte array of a length equal to the length
-     * of the received packet, or a byte array of length 0 when an
-     * end of stream is encountered. If end of stream is encountered
-     * after some, but not all bytes of a packet, are read then it
-     * is considered an I/O error and an <tt>IOException</tt> is
-     * thrown. The first byte of the packet is stored in element
-     * <tt>0</tt> of the byte array, the second in element <tt>1</tt>,
-     * and so on. The bytes in the byte array are laid out as per the
-     * <a href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
-     * JDWP specification</a>. That is, all fields in the packet
-     * are in big endian order as per the JDWP specification.
+     * <p> Returns b byte brrby of b length equbl to the length
+     * of the received pbcket, or b byte brrby of length 0 when bn
+     * end of strebm is encountered. If end of strebm is encountered
+     * bfter some, but not bll bytes of b pbcket, bre rebd then it
+     * is considered bn I/O error bnd bn <tt>IOException</tt> is
+     * thrown. The first byte of the pbcket is stored in element
+     * <tt>0</tt> of the byte brrby, the second in element <tt>1</tt>,
+     * bnd so on. The bytes in the byte brrby bre lbid out bs per the
+     * <b href="../../../../../../../../../technotes/guides/jpdb/jdwp-spec.html">
+     * JDWP specificbtion</b>. Thbt is, bll fields in the pbcket
+     * bre in big endibn order bs per the JDWP specificbtion.
      *
-     * <p> This method may be invoked at any time.  If another thread has
-     * already initiated a {@link #readPacket readPacket} on this
-     * connection then the invocation of this method will block until the
-     * first operation is complete. </p>
+     * <p> This method mby be invoked bt bny time.  If bnother threbd hbs
+     * blrebdy initibted b {@link #rebdPbcket rebdPbcket} on this
+     * connection then the invocbtion of this method will block until the
+     * first operbtion is complete. </p>
      *
-     * @return  the packet read from the target VM
+     * @return  the pbcket rebd from the tbrget VM
      *
      * @throws  ClosedConnectionException
-     *          If the connection is closed, or another thread closes
-     *          the connection while the readPacket is in progress.
+     *          If the connection is closed, or bnother threbd closes
+     *          the connection while the rebdPbcket is in progress.
      *
-     * @throws  java.io.IOException
-     *          If the length of the packet (as indictaed by the first
-     *          4 bytes) is less than 11 bytes, or an I/O error occurs.
+     * @throws  jbvb.io.IOException
+     *          If the length of the pbcket (bs indictbed by the first
+     *          4 bytes) is less thbn 11 bytes, or bn I/O error occurs.
      *
      *
      */
-    public abstract byte[] readPacket() throws IOException;
+    public bbstrbct byte[] rebdPbcket() throws IOException;
 
     /**
-     * Writes a packet to the target VM.
+     * Writes b pbcket to the tbrget VM.
      *
-     * <p> Attempts to write, or send, a JDWP packet to the target VM.
-     * A write operation only returns after writing the entire packet
-     * to the target VM. Writing the entire packet does not mean
-     * the entire packet has been transmitted to the target VM
-     * but rather that all bytes have been written to the
-     * transport service. A transport service based on a TCP/IP connection
-     * may, for example, buffer some or all of the packet before
-     * transmission on the network.
+     * <p> Attempts to write, or send, b JDWP pbcket to the tbrget VM.
+     * A write operbtion only returns bfter writing the entire pbcket
+     * to the tbrget VM. Writing the entire pbcket does not mebn
+     * the entire pbcket hbs been trbnsmitted to the tbrget VM
+     * but rbther thbt bll bytes hbve been written to the
+     * trbnsport service. A trbnsport service bbsed on b TCP/IP connection
+     * mby, for exbmple, buffer some or bll of the pbcket before
+     * trbnsmission on the network.
      *
-     * <p> The byte array provided to this method should be laid out
-     * as per the <a
-     * href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
-     * JDWP specification</a>. That is, all fields in the packet
-     * are in big endian order. The first byte, that is element
+     * <p> The byte brrby provided to this method should be lbid out
+     * bs per the <b
+     * href="../../../../../../../../../technotes/guides/jpdb/jdwp-spec.html">
+     * JDWP specificbtion</b>. Thbt is, bll fields in the pbcket
+     * bre in big endibn order. The first byte, thbt is element
      * <tt>pkt[0]</tt>, is the first byte of the <tt>length</tt> field.
      * <tt>pkt[1]</tt> is the second byte of the <tt>length</tt> field,
-     * and so on.
+     * bnd so on.
      *
-     * <p> Writing a packet does not do any integrity checking on
-     * the packet aside from checking the packet length. Checking
-     * the packet length requires checking that the value of the
-     * <tt>length</tt> field (as indicated by the first four bytes
-     * of the packet) is 11 or greater. Consequently the length of
-     * the byte array provided to this method, that is
-     * <tt>pkt.length</tt>, must be 11 or more, and must be equal
-     * or greater than the value of the <tt>length</tt> field. If the
-     * length of the byte array is greater than the value of
-     * the <tt>length</tt> field then all bytes from element
-     * <tt>pkt[length]</tt> onwards are ignored. In other words,
-     * any additional bytes that follow the packet in the byte
-     * array are ignored and will not be transmitted to the target
+     * <p> Writing b pbcket does not do bny integrity checking on
+     * the pbcket bside from checking the pbcket length. Checking
+     * the pbcket length requires checking thbt the vblue of the
+     * <tt>length</tt> field (bs indicbted by the first four bytes
+     * of the pbcket) is 11 or grebter. Consequently the length of
+     * the byte brrby provided to this method, thbt is
+     * <tt>pkt.length</tt>, must be 11 or more, bnd must be equbl
+     * or grebter thbn the vblue of the <tt>length</tt> field. If the
+     * length of the byte brrby is grebter thbn the vblue of
+     * the <tt>length</tt> field then bll bytes from element
+     * <tt>pkt[length]</tt> onwbrds bre ignored. In other words,
+     * bny bdditionbl bytes thbt follow the pbcket in the byte
+     * brrby bre ignored bnd will not be trbnsmitted to the tbrget
      * VM.
      *
-     * <p> A write operation may block or may complete immediately.
-     * The exact circumstances when an operation blocks depends on
-     * the transport service. In the case of a TCP/IP connection to
-     * the target VM, the writePacket method may block if there is
-     * network congestion or there is insufficient space to buffer
-     * the packet in the underlying network system.
+     * <p> A write operbtion mby block or mby complete immedibtely.
+     * The exbct circumstbnces when bn operbtion blocks depends on
+     * the trbnsport service. In the cbse of b TCP/IP connection to
+     * the tbrget VM, the writePbcket method mby block if there is
+     * network congestion or there is insufficient spbce to buffer
+     * the pbcket in the underlying network system.
      *
-     * <p> This method may be invoked at any time.  If another thread has
-     * already initiated a write operation upon this Connection then
-     * a subsequent invocation of this method will block until the first
-     * operation is complete. </p>
+     * <p> This method mby be invoked bt bny time.  If bnother threbd hbs
+     * blrebdy initibted b write operbtion upon this Connection then
+     * b subsequent invocbtion of this method will block until the first
+     * operbtion is complete. </p>
      *
-     * @param   pkt
-     *          The packet to write to the target VM.
+     * @pbrbm   pkt
+     *          The pbcket to write to the tbrget VM.
      *
      * @throws  ClosedConnectionException
-     *          If the connection is closed, or another thread closes
-     *          the connection while the write operation is in progress.
+     *          If the connection is closed, or bnother threbd closes
+     *          the connection while the write operbtion is in progress.
      *
-     * @throws  java.io.IOException
-     *          If an I/O error occurs.
+     * @throws  jbvb.io.IOException
+     *          If bn I/O error occurs.
      *
-     * @throws  IllegalArgumentException
-     *          If the value of the <tt>length</tt> field is invalid,
-     *          or the byte array is of insufficient length.
+     * @throws  IllegblArgumentException
+     *          If the vblue of the <tt>length</tt> field is invblid,
+     *          or the byte brrby is of insufficient length.
      */
-    public abstract void writePacket(byte pkt[]) throws IOException;
+    public bbstrbct void writePbcket(byte pkt[]) throws IOException;
 
     /**
      * Closes this connection.
      *
-     * <p> If the connection is already closed then invoking this method
-     * has no effect. After a connection is closed, any further attempt
-     * calls to {@link #readPacket readPacket} or {@link #writePacket
-     * writePacket} will throw a {@link ClosedConnectionException}.
+     * <p> If the connection is blrebdy closed then invoking this method
+     * hbs no effect. After b connection is closed, bny further bttempt
+     * cblls to {@link #rebdPbcket rebdPbcket} or {@link #writePbcket
+     * writePbcket} will throw b {@link ClosedConnectionException}.
      *
-     * <p> Any thread currently blocked in an I/O operation ({@link
-     * #readPacket readPacket} or {@link #writePacket writePacket})
-     * will throw a {@link ClosedConnectionException}).
+     * <p> Any threbd currently blocked in bn I/O operbtion ({@link
+     * #rebdPbcket rebdPbcket} or {@link #writePbcket writePbcket})
+     * will throw b {@link ClosedConnectionException}).
      *
-     * <p> This method may be invoked at any time.  If some other thread has
-     * already invoked it, however, then another invocation will block until
-     * the first invocation is complete, after which it will return without
+     * <p> This method mby be invoked bt bny time.  If some other threbd hbs
+     * blrebdy invoked it, however, then bnother invocbtion will block until
+     * the first invocbtion is complete, bfter which it will return without
      * effect. </p>
      *
-     * @throws  java.io.IOException
-     *          If an I/O error occurs
+     * @throws  jbvb.io.IOException
+     *          If bn I/O error occurs
      */
-    public abstract void close() throws IOException;
+    public bbstrbct void close() throws IOException;
 
     /**
      * Tells whether or not this connection is open.  </p>
      *
-     * @return <tt>true</tt> if, and only if, this connection is open
+     * @return <tt>true</tt> if, bnd only if, this connection is open
      */
-    public abstract boolean isOpen();
+    public bbstrbct boolebn isOpen();
 }

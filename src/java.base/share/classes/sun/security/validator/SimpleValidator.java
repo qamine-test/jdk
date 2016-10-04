@@ -1,417 +1,417 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.validator;
+pbckbge sun.security.vblidbtor;
 
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.cert.*;
+import jbvb.security.*;
+import jbvb.security.cert.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.x509.X509CertImpl;
-import sun.security.x509.NetscapeCertTypeExtension;
-import sun.security.util.DerValue;
-import sun.security.util.DerInputStream;
+import sun.security.x509.NetscbpeCertTypeExtension;
+import sun.security.util.DerVblue;
+import sun.security.util.DerInputStrebm;
 import sun.security.util.ObjectIdentifier;
 
-import sun.security.provider.certpath.AlgorithmChecker;
-import sun.security.provider.certpath.UntrustedChecker;
+import sun.security.provider.certpbth.AlgorithmChecker;
+import sun.security.provider.certpbth.UntrustedChecker;
 
 /**
- * A simple validator implementation. It is based on code from the JSSE
- * X509TrustManagerImpl. This implementation is designed for compatibility with
- * deployed certificates and previous J2SE versions. It will never support
- * more advanced features and will be deemphasized in favor of the PKIX
- * validator going forward.
+ * A simple vblidbtor implementbtion. It is bbsed on code from the JSSE
+ * X509TrustMbnbgerImpl. This implementbtion is designed for compbtibility with
+ * deployed certificbtes bnd previous J2SE versions. It will never support
+ * more bdvbnced febtures bnd will be deemphbsized in fbvor of the PKIX
+ * vblidbtor going forwbrd.
  * <p>
- * {@code SimpleValidator} objects are immutable once they have been created.
- * Please DO NOT add methods that can change the state of an instance once
- * it has been created.
+ * {@code SimpleVblidbtor} objects bre immutbble once they hbve been crebted.
+ * Plebse DO NOT bdd methods thbt cbn chbnge the stbte of bn instbnce once
+ * it hbs been crebted.
  *
- * @author Andreas Sterbenz
+ * @buthor Andrebs Sterbenz
  */
-public final class SimpleValidator extends Validator {
+public finbl clbss SimpleVblidbtor extends Vblidbtor {
 
-    // Constants for the OIDs we need
+    // Constbnts for the OIDs we need
 
-    final static String OID_BASIC_CONSTRAINTS = "2.5.29.19";
+    finbl stbtic String OID_BASIC_CONSTRAINTS = "2.5.29.19";
 
-    final static String OID_NETSCAPE_CERT_TYPE = "2.16.840.1.113730.1.1";
+    finbl stbtic String OID_NETSCAPE_CERT_TYPE = "2.16.840.1.113730.1.1";
 
-    final static String OID_KEY_USAGE = "2.5.29.15";
+    finbl stbtic String OID_KEY_USAGE = "2.5.29.15";
 
-    final static String OID_EXTENDED_KEY_USAGE = "2.5.29.37";
+    finbl stbtic String OID_EXTENDED_KEY_USAGE = "2.5.29.37";
 
-    final static String OID_EKU_ANY_USAGE = "2.5.29.37.0";
+    finbl stbtic String OID_EKU_ANY_USAGE = "2.5.29.37.0";
 
-    final static ObjectIdentifier OBJID_NETSCAPE_CERT_TYPE =
-        NetscapeCertTypeExtension.NetscapeCertType_Id;
+    finbl stbtic ObjectIdentifier OBJID_NETSCAPE_CERT_TYPE =
+        NetscbpeCertTypeExtension.NetscbpeCertType_Id;
 
-    private final static String NSCT_SSL_CA =
-                                NetscapeCertTypeExtension.SSL_CA;
+    privbte finbl stbtic String NSCT_SSL_CA =
+                                NetscbpeCertTypeExtension.SSL_CA;
 
-    private final static String NSCT_CODE_SIGNING_CA =
-                                NetscapeCertTypeExtension.OBJECT_SIGNING_CA;
-
-    /**
-     * The trusted certificates as:
-     * Map (X500Principal)subject of trusted cert -> List of X509Certificate
-     * The list is used because there may be multiple certificates
-     * with an identical subject DN.
-     */
-    private final Map<X500Principal, List<X509Certificate>>
-                                            trustedX500Principals;
+    privbte finbl stbtic String NSCT_CODE_SIGNING_CA =
+                                NetscbpeCertTypeExtension.OBJECT_SIGNING_CA;
 
     /**
-     * Set of the trusted certificates. Present only for
-     * getTrustedCertificates().
+     * The trusted certificbtes bs:
+     * Mbp (X500Principbl)subject of trusted cert -> List of X509Certificbte
+     * The list is used becbuse there mby be multiple certificbtes
+     * with bn identicbl subject DN.
      */
-    private final Collection<X509Certificate> trustedCerts;
+    privbte finbl Mbp<X500Principbl, List<X509Certificbte>>
+                                            trustedX500Principbls;
 
-    SimpleValidator(String variant, Collection<X509Certificate> trustedCerts) {
-        super(TYPE_SIMPLE, variant);
+    /**
+     * Set of the trusted certificbtes. Present only for
+     * getTrustedCertificbtes().
+     */
+    privbte finbl Collection<X509Certificbte> trustedCerts;
+
+    SimpleVblidbtor(String vbribnt, Collection<X509Certificbte> trustedCerts) {
+        super(TYPE_SIMPLE, vbribnt);
         this.trustedCerts = trustedCerts;
-        trustedX500Principals =
-                        new HashMap<X500Principal, List<X509Certificate>>();
-        for (X509Certificate cert : trustedCerts) {
-            X500Principal principal = cert.getSubjectX500Principal();
-            List<X509Certificate> list = trustedX500Principals.get(principal);
+        trustedX500Principbls =
+                        new HbshMbp<X500Principbl, List<X509Certificbte>>();
+        for (X509Certificbte cert : trustedCerts) {
+            X500Principbl principbl = cert.getSubjectX500Principbl();
+            List<X509Certificbte> list = trustedX500Principbls.get(principbl);
             if (list == null) {
-                // this actually should be a set, but duplicate entries
-                // are not a problem and we can avoid the Set overhead
-                list = new ArrayList<X509Certificate>(2);
-                trustedX500Principals.put(principal, list);
+                // this bctublly should be b set, but duplicbte entries
+                // bre not b problem bnd we cbn bvoid the Set overhebd
+                list = new ArrbyList<X509Certificbte>(2);
+                trustedX500Principbls.put(principbl, list);
             }
-            list.add(cert);
+            list.bdd(cert);
         }
     }
 
-    public Collection<X509Certificate> getTrustedCertificates() {
+    public Collection<X509Certificbte> getTrustedCertificbtes() {
         return trustedCerts;
     }
 
     /**
-     * Perform simple validation of chain. The arguments otherCerts and
-     * parameter are ignored.
+     * Perform simple vblidbtion of chbin. The brguments otherCerts bnd
+     * pbrbmeter bre ignored.
      */
     @Override
-    X509Certificate[] engineValidate(X509Certificate[] chain,
-            Collection<X509Certificate> otherCerts,
-            AlgorithmConstraints constraints,
-            Object parameter) throws CertificateException {
-        if ((chain == null) || (chain.length == 0)) {
-            throw new CertificateException
-                ("null or zero-length certificate chain");
+    X509Certificbte[] engineVblidbte(X509Certificbte[] chbin,
+            Collection<X509Certificbte> otherCerts,
+            AlgorithmConstrbints constrbints,
+            Object pbrbmeter) throws CertificbteException {
+        if ((chbin == null) || (chbin.length == 0)) {
+            throw new CertificbteException
+                ("null or zero-length certificbte chbin");
         }
 
-        // make sure chain includes a trusted cert
-        chain = buildTrustedChain(chain);
+        // mbke sure chbin includes b trusted cert
+        chbin = buildTrustedChbin(chbin);
 
-        @SuppressWarnings("deprecation")
-        Date date = validationDate;
-        if (date == null) {
-            date = new Date();
+        @SuppressWbrnings("deprecbtion")
+        Dbte dbte = vblidbtionDbte;
+        if (dbte == null) {
+            dbte = new Dbte();
         }
 
-        // create distrusted certificates checker
+        // crebte distrusted certificbtes checker
         UntrustedChecker untrustedChecker = new UntrustedChecker();
 
-        // create default algorithm constraints checker
-        TrustAnchor anchor = new TrustAnchor(chain[chain.length - 1], null);
-        AlgorithmChecker defaultAlgChecker = new AlgorithmChecker(anchor);
+        // crebte defbult blgorithm constrbints checker
+        TrustAnchor bnchor = new TrustAnchor(chbin[chbin.length - 1], null);
+        AlgorithmChecker defbultAlgChecker = new AlgorithmChecker(bnchor);
 
-        // create application level algorithm constraints checker
-        AlgorithmChecker appAlgChecker = null;
-        if (constraints != null) {
-            appAlgChecker = new AlgorithmChecker(anchor, constraints);
+        // crebte bpplicbtion level blgorithm constrbints checker
+        AlgorithmChecker bppAlgChecker = null;
+        if (constrbints != null) {
+            bppAlgChecker = new AlgorithmChecker(bnchor, constrbints);
         }
 
-        // verify top down, starting at the certificate issued by
-        // the trust anchor
-        int maxPathLength = chain.length - 1;
-        for (int i = chain.length - 2; i >= 0; i--) {
-            X509Certificate issuerCert = chain[i + 1];
-            X509Certificate cert = chain[i];
+        // verify top down, stbrting bt the certificbte issued by
+        // the trust bnchor
+        int mbxPbthLength = chbin.length - 1;
+        for (int i = chbin.length - 2; i >= 0; i--) {
+            X509Certificbte issuerCert = chbin[i + 1];
+            X509Certificbte cert = chbin[i];
 
-            // check untrusted certificate
+            // check untrusted certificbte
             try {
-                // Untrusted checker does not care about the unresolved
-                // critical extensions.
+                // Untrusted checker does not cbre bbout the unresolved
+                // criticbl extensions.
                 untrustedChecker.check(cert, Collections.<String>emptySet());
-            } catch (CertPathValidatorException cpve) {
-                throw new ValidatorException(
-                    "Untrusted certificate: " + cert.getSubjectX500Principal(),
-                    ValidatorException.T_UNTRUSTED_CERT, cert, cpve);
+            } cbtch (CertPbthVblidbtorException cpve) {
+                throw new VblidbtorException(
+                    "Untrusted certificbte: " + cert.getSubjectX500Principbl(),
+                    VblidbtorException.T_UNTRUSTED_CERT, cert, cpve);
             }
 
-            // check certificate algorithm
+            // check certificbte blgorithm
             try {
-                // Algorithm checker does not care about the unresolved
-                // critical extensions.
-                defaultAlgChecker.check(cert, Collections.<String>emptySet());
-                if (appAlgChecker != null) {
-                    appAlgChecker.check(cert, Collections.<String>emptySet());
+                // Algorithm checker does not cbre bbout the unresolved
+                // criticbl extensions.
+                defbultAlgChecker.check(cert, Collections.<String>emptySet());
+                if (bppAlgChecker != null) {
+                    bppAlgChecker.check(cert, Collections.<String>emptySet());
                 }
-            } catch (CertPathValidatorException cpve) {
-                throw new ValidatorException
-                        (ValidatorException.T_ALGORITHM_DISABLED, cert, cpve);
+            } cbtch (CertPbthVblidbtorException cpve) {
+                throw new VblidbtorException
+                        (VblidbtorException.T_ALGORITHM_DISABLED, cert, cpve);
             }
 
-            // no validity check for code signing certs
-            if ((variant.equals(VAR_CODE_SIGNING) == false)
-                        && (variant.equals(VAR_JCE_SIGNING) == false)) {
-                cert.checkValidity(date);
+            // no vblidity check for code signing certs
+            if ((vbribnt.equbls(VAR_CODE_SIGNING) == fblse)
+                        && (vbribnt.equbls(VAR_JCE_SIGNING) == fblse)) {
+                cert.checkVblidity(dbte);
             }
 
-            // check name chaining
-            if (cert.getIssuerX500Principal().equals(
-                        issuerCert.getSubjectX500Principal()) == false) {
-                throw new ValidatorException
-                        (ValidatorException.T_NAME_CHAINING, cert);
+            // check nbme chbining
+            if (cert.getIssuerX500Principbl().equbls(
+                        issuerCert.getSubjectX500Principbl()) == fblse) {
+                throw new VblidbtorException
+                        (VblidbtorException.T_NAME_CHAINING, cert);
             }
 
-            // check signature
+            // check signbture
             try {
                 cert.verify(issuerCert.getPublicKey());
-            } catch (GeneralSecurityException e) {
-                throw new ValidatorException
-                        (ValidatorException.T_SIGNATURE_ERROR, cert, e);
+            } cbtch (GenerblSecurityException e) {
+                throw new VblidbtorException
+                        (VblidbtorException.T_SIGNATURE_ERROR, cert, e);
             }
 
             // check extensions for CA certs
             if (i != 0) {
-                maxPathLength = checkExtensions(cert, maxPathLength);
+                mbxPbthLength = checkExtensions(cert, mbxPbthLength);
             }
         }
 
-        return chain;
+        return chbin;
     }
 
-    private int checkExtensions(X509Certificate cert, int maxPathLen)
-            throws CertificateException {
-        Set<String> critSet = cert.getCriticalExtensionOIDs();
+    privbte int checkExtensions(X509Certificbte cert, int mbxPbthLen)
+            throws CertificbteException {
+        Set<String> critSet = cert.getCriticblExtensionOIDs();
         if (critSet == null) {
             critSet = Collections.<String>emptySet();
         }
 
-        // Check the basic constraints extension
-        int pathLenConstraint =
-                checkBasicConstraints(cert, critSet, maxPathLen);
+        // Check the bbsic constrbints extension
+        int pbthLenConstrbint =
+                checkBbsicConstrbints(cert, critSet, mbxPbthLen);
 
-        // Check the key usage and extended key usage extensions
-        checkKeyUsage(cert, critSet);
+        // Check the key usbge bnd extended key usbge extensions
+        checkKeyUsbge(cert, critSet);
 
-        // check Netscape certificate type extension
-        checkNetscapeCertType(cert, critSet);
+        // check Netscbpe certificbte type extension
+        checkNetscbpeCertType(cert, critSet);
 
         if (!critSet.isEmpty()) {
-            throw new ValidatorException
-                ("Certificate contains unknown critical extensions: " + critSet,
-                ValidatorException.T_CA_EXTENSIONS, cert);
+            throw new VblidbtorException
+                ("Certificbte contbins unknown criticbl extensions: " + critSet,
+                VblidbtorException.T_CA_EXTENSIONS, cert);
         }
 
-        return pathLenConstraint;
+        return pbthLenConstrbint;
     }
 
-    private void checkNetscapeCertType(X509Certificate cert,
-            Set<String> critSet) throws CertificateException {
-        if (variant.equals(VAR_GENERIC)) {
+    privbte void checkNetscbpeCertType(X509Certificbte cert,
+            Set<String> critSet) throws CertificbteException {
+        if (vbribnt.equbls(VAR_GENERIC)) {
             // nothing
-        } else if (variant.equals(VAR_TLS_CLIENT)
-                || variant.equals(VAR_TLS_SERVER)) {
-            if (getNetscapeCertTypeBit(cert, NSCT_SSL_CA) == false) {
-                throw new ValidatorException
-                        ("Invalid Netscape CertType extension for SSL CA "
-                        + "certificate",
-                        ValidatorException.T_CA_EXTENSIONS, cert);
+        } else if (vbribnt.equbls(VAR_TLS_CLIENT)
+                || vbribnt.equbls(VAR_TLS_SERVER)) {
+            if (getNetscbpeCertTypeBit(cert, NSCT_SSL_CA) == fblse) {
+                throw new VblidbtorException
+                        ("Invblid Netscbpe CertType extension for SSL CA "
+                        + "certificbte",
+                        VblidbtorException.T_CA_EXTENSIONS, cert);
             }
             critSet.remove(OID_NETSCAPE_CERT_TYPE);
-        } else if (variant.equals(VAR_CODE_SIGNING)
-                || variant.equals(VAR_JCE_SIGNING)) {
-            if (getNetscapeCertTypeBit(cert, NSCT_CODE_SIGNING_CA) == false) {
-                throw new ValidatorException
-                        ("Invalid Netscape CertType extension for code "
-                        + "signing CA certificate",
-                        ValidatorException.T_CA_EXTENSIONS, cert);
+        } else if (vbribnt.equbls(VAR_CODE_SIGNING)
+                || vbribnt.equbls(VAR_JCE_SIGNING)) {
+            if (getNetscbpeCertTypeBit(cert, NSCT_CODE_SIGNING_CA) == fblse) {
+                throw new VblidbtorException
+                        ("Invblid Netscbpe CertType extension for code "
+                        + "signing CA certificbte",
+                        VblidbtorException.T_CA_EXTENSIONS, cert);
             }
             critSet.remove(OID_NETSCAPE_CERT_TYPE);
         } else {
-            throw new CertificateException("Unknown variant " + variant);
+            throw new CertificbteException("Unknown vbribnt " + vbribnt);
         }
     }
 
     /**
-     * Get the value of the specified bit in the Netscape certificate type
-     * extension. If the extension is not present at all, we return true.
+     * Get the vblue of the specified bit in the Netscbpe certificbte type
+     * extension. If the extension is not present bt bll, we return true.
      */
-    static boolean getNetscapeCertTypeBit(X509Certificate cert, String type) {
+    stbtic boolebn getNetscbpeCertTypeBit(X509Certificbte cert, String type) {
         try {
-            NetscapeCertTypeExtension ext;
-            if (cert instanceof X509CertImpl) {
+            NetscbpeCertTypeExtension ext;
+            if (cert instbnceof X509CertImpl) {
                 X509CertImpl certImpl = (X509CertImpl)cert;
                 ObjectIdentifier oid = OBJID_NETSCAPE_CERT_TYPE;
-                ext = (NetscapeCertTypeExtension)certImpl.getExtension(oid);
+                ext = (NetscbpeCertTypeExtension)certImpl.getExtension(oid);
                 if (ext == null) {
                     return true;
                 }
             } else {
-                byte[] extVal = cert.getExtensionValue(OID_NETSCAPE_CERT_TYPE);
-                if (extVal == null) {
+                byte[] extVbl = cert.getExtensionVblue(OID_NETSCAPE_CERT_TYPE);
+                if (extVbl == null) {
                     return true;
                 }
-                DerInputStream in = new DerInputStream(extVal);
+                DerInputStrebm in = new DerInputStrebm(extVbl);
                 byte[] encoded = in.getOctetString();
-                encoded = new DerValue(encoded).getUnalignedBitString()
-                                                                .toByteArray();
-                ext = new NetscapeCertTypeExtension(encoded);
+                encoded = new DerVblue(encoded).getUnblignedBitString()
+                                                                .toByteArrby();
+                ext = new NetscbpeCertTypeExtension(encoded);
             }
-            Boolean val = ext.get(type);
-            return val.booleanValue();
-        } catch (IOException e) {
-            return false;
+            Boolebn vbl = ext.get(type);
+            return vbl.boolebnVblue();
+        } cbtch (IOException e) {
+            return fblse;
         }
     }
 
-    private int checkBasicConstraints(X509Certificate cert,
-            Set<String> critSet, int maxPathLen) throws CertificateException {
+    privbte int checkBbsicConstrbints(X509Certificbte cert,
+            Set<String> critSet, int mbxPbthLen) throws CertificbteException {
 
         critSet.remove(OID_BASIC_CONSTRAINTS);
-        int constraints = cert.getBasicConstraints();
-        // reject, if extension missing or not a CA (constraints == -1)
-        if (constraints < 0) {
-            throw new ValidatorException("End user tried to act as a CA",
-                ValidatorException.T_CA_EXTENSIONS, cert);
+        int constrbints = cert.getBbsicConstrbints();
+        // reject, if extension missing or not b CA (constrbints == -1)
+        if (constrbints < 0) {
+            throw new VblidbtorException("End user tried to bct bs b CA",
+                VblidbtorException.T_CA_EXTENSIONS, cert);
         }
 
-        // if the certificate is self-issued, ignore the pathLenConstraint
+        // if the certificbte is self-issued, ignore the pbthLenConstrbint
         // checking.
         if (!X509CertImpl.isSelfIssued(cert)) {
-            if (maxPathLen <= 0) {
-                throw new ValidatorException("Violated path length constraints",
-                    ValidatorException.T_CA_EXTENSIONS, cert);
+            if (mbxPbthLen <= 0) {
+                throw new VblidbtorException("Violbted pbth length constrbints",
+                    VblidbtorException.T_CA_EXTENSIONS, cert);
             }
 
-            maxPathLen--;
+            mbxPbthLen--;
         }
 
-        if (maxPathLen > constraints) {
-            maxPathLen = constraints;
+        if (mbxPbthLen > constrbints) {
+            mbxPbthLen = constrbints;
         }
 
-        return maxPathLen;
+        return mbxPbthLen;
     }
 
     /*
-     * Verify the key usage and extended key usage for intermediate
-     * certificates.
+     * Verify the key usbge bnd extended key usbge for intermedibte
+     * certificbtes.
      */
-    private void checkKeyUsage(X509Certificate cert, Set<String> critSet)
-            throws CertificateException {
+    privbte void checkKeyUsbge(X509Certificbte cert, Set<String> critSet)
+            throws CertificbteException {
 
         critSet.remove(OID_KEY_USAGE);
-        // EKU irrelevant in CA certificates
+        // EKU irrelevbnt in CA certificbtes
         critSet.remove(OID_EXTENDED_KEY_USAGE);
 
-        // check key usage extension
-        boolean[] keyUsageInfo = cert.getKeyUsage();
-        if (keyUsageInfo != null) {
-            // keyUsageInfo[5] is for keyCertSign.
-            if ((keyUsageInfo.length < 6) || (keyUsageInfo[5] == false)) {
-                throw new ValidatorException
-                        ("Wrong key usage: expected keyCertSign",
-                        ValidatorException.T_CA_EXTENSIONS, cert);
+        // check key usbge extension
+        boolebn[] keyUsbgeInfo = cert.getKeyUsbge();
+        if (keyUsbgeInfo != null) {
+            // keyUsbgeInfo[5] is for keyCertSign.
+            if ((keyUsbgeInfo.length < 6) || (keyUsbgeInfo[5] == fblse)) {
+                throw new VblidbtorException
+                        ("Wrong key usbge: expected keyCertSign",
+                        VblidbtorException.T_CA_EXTENSIONS, cert);
             }
         }
     }
 
     /**
-     * Build a trusted certificate chain. This method always returns a chain
-     * with a trust anchor as the final cert in the chain. If no trust anchor
-     * could be found, a CertificateException is thrown.
+     * Build b trusted certificbte chbin. This method blwbys returns b chbin
+     * with b trust bnchor bs the finbl cert in the chbin. If no trust bnchor
+     * could be found, b CertificbteException is thrown.
      */
-    private X509Certificate[] buildTrustedChain(X509Certificate[] chain)
-            throws CertificateException {
-        List<X509Certificate> c = new ArrayList<X509Certificate>(chain.length);
-        // scan chain starting at EE cert
-        // if a trusted certificate is found, append it and return
-        for (int i = 0; i < chain.length; i++) {
-            X509Certificate cert = chain[i];
-            X509Certificate trustedCert = getTrustedCertificate(cert);
+    privbte X509Certificbte[] buildTrustedChbin(X509Certificbte[] chbin)
+            throws CertificbteException {
+        List<X509Certificbte> c = new ArrbyList<X509Certificbte>(chbin.length);
+        // scbn chbin stbrting bt EE cert
+        // if b trusted certificbte is found, bppend it bnd return
+        for (int i = 0; i < chbin.length; i++) {
+            X509Certificbte cert = chbin[i];
+            X509Certificbte trustedCert = getTrustedCertificbte(cert);
             if (trustedCert != null) {
-                c.add(trustedCert);
-                return c.toArray(CHAIN0);
+                c.bdd(trustedCert);
+                return c.toArrby(CHAIN0);
             }
-            c.add(cert);
+            c.bdd(cert);
         }
 
-        // check if we can append a trusted cert
-        X509Certificate cert = chain[chain.length - 1];
-        X500Principal subject = cert.getSubjectX500Principal();
-        X500Principal issuer = cert.getIssuerX500Principal();
-        List<X509Certificate> list = trustedX500Principals.get(issuer);
+        // check if we cbn bppend b trusted cert
+        X509Certificbte cert = chbin[chbin.length - 1];
+        X500Principbl subject = cert.getSubjectX500Principbl();
+        X500Principbl issuer = cert.getIssuerX500Principbl();
+        List<X509Certificbte> list = trustedX500Principbls.get(issuer);
         if (list != null) {
-            X509Certificate trustedCert = list.iterator().next();
-            c.add(trustedCert);
-            return c.toArray(CHAIN0);
+            X509Certificbte trustedCert = list.iterbtor().next();
+            c.bdd(trustedCert);
+            return c.toArrby(CHAIN0);
         }
 
         // no trusted cert found, error
-        throw new ValidatorException(ValidatorException.T_NO_TRUST_ANCHOR);
+        throw new VblidbtorException(VblidbtorException.T_NO_TRUST_ANCHOR);
     }
 
     /**
-     * Return a trusted certificate that matches the input certificate,
-     * or null if no such certificate can be found. This method also handles
-     * cases where a CA re-issues a trust anchor with the same public key and
-     * same subject and issuer names but a new validity period, etc.
+     * Return b trusted certificbte thbt mbtches the input certificbte,
+     * or null if no such certificbte cbn be found. This method blso hbndles
+     * cbses where b CA re-issues b trust bnchor with the sbme public key bnd
+     * sbme subject bnd issuer nbmes but b new vblidity period, etc.
      */
-    private X509Certificate getTrustedCertificate(X509Certificate cert) {
-        Principal certSubjectName = cert.getSubjectX500Principal();
-        List<X509Certificate> list = trustedX500Principals.get(certSubjectName);
+    privbte X509Certificbte getTrustedCertificbte(X509Certificbte cert) {
+        Principbl certSubjectNbme = cert.getSubjectX500Principbl();
+        List<X509Certificbte> list = trustedX500Principbls.get(certSubjectNbme);
         if (list == null) {
             return null;
         }
 
-        Principal certIssuerName = cert.getIssuerX500Principal();
+        Principbl certIssuerNbme = cert.getIssuerX500Principbl();
         PublicKey certPublicKey = cert.getPublicKey();
 
-        for (X509Certificate mycert : list) {
-            if (mycert.equals(cert)) {
+        for (X509Certificbte mycert : list) {
+            if (mycert.equbls(cert)) {
                 return cert;
             }
-            if (!mycert.getIssuerX500Principal().equals(certIssuerName)) {
+            if (!mycert.getIssuerX500Principbl().equbls(certIssuerNbme)) {
                 continue;
             }
-            if (!mycert.getPublicKey().equals(certPublicKey)) {
+            if (!mycert.getPublicKey().equbls(certPublicKey)) {
                 continue;
             }
 
-            // All tests pass, this must be the one to use...
+            // All tests pbss, this must be the one to use...
             return mycert;
         }
         return null;

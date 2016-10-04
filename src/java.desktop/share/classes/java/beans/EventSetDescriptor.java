@@ -1,325 +1,325 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
-import java.lang.ref.Reference;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
 
-import com.sun.beans.introspect.EventSetInfo;
+import com.sun.bebns.introspect.EventSetInfo;
 
 /**
- * An EventSetDescriptor describes a group of events that a given Java
- * bean fires.
+ * An EventSetDescriptor describes b group of events thbt b given Jbvb
+ * bebn fires.
  * <P>
- * The given group of events are all delivered as method calls on a single
- * event listener interface, and an event listener object can be registered
- * via a call on a registration method supplied by the event source.
+ * The given group of events bre bll delivered bs method cblls on b single
+ * event listener interfbce, bnd bn event listener object cbn be registered
+ * vib b cbll on b registrbtion method supplied by the event source.
  *
  * @since 1.1
  */
-public class EventSetDescriptor extends FeatureDescriptor {
+public clbss EventSetDescriptor extends FebtureDescriptor {
 
-    private MethodDescriptor[] listenerMethodDescriptors;
-    private MethodDescriptor addMethodDescriptor;
-    private MethodDescriptor removeMethodDescriptor;
-    private MethodDescriptor getMethodDescriptor;
+    privbte MethodDescriptor[] listenerMethodDescriptors;
+    privbte MethodDescriptor bddMethodDescriptor;
+    privbte MethodDescriptor removeMethodDescriptor;
+    privbte MethodDescriptor getMethodDescriptor;
 
-    private Reference<Method[]> listenerMethodsRef;
-    private Reference<? extends Class<?>> listenerTypeRef;
+    privbte Reference<Method[]> listenerMethodsRef;
+    privbte Reference<? extends Clbss<?>> listenerTypeRef;
 
-    private boolean unicast;
-    private boolean inDefaultEventSet = true;
+    privbte boolebn unicbst;
+    privbte boolebn inDefbultEventSet = true;
 
     /**
-     * Creates an <TT>EventSetDescriptor</TT> assuming that you are
-     * following the most simple standard design pattern where a named
-     * event &quot;fred&quot; is (1) delivered as a call on the single method of
-     * interface FredListener, (2) has a single argument of type FredEvent,
-     * and (3) where the FredListener may be registered with a call on an
-     * addFredListener method of the source component and removed with a
-     * call on a removeFredListener method.
+     * Crebtes bn <TT>EventSetDescriptor</TT> bssuming thbt you bre
+     * following the most simple stbndbrd design pbttern where b nbmed
+     * event &quot;fred&quot; is (1) delivered bs b cbll on the single method of
+     * interfbce FredListener, (2) hbs b single brgument of type FredEvent,
+     * bnd (3) where the FredListener mby be registered with b cbll on bn
+     * bddFredListener method of the source component bnd removed with b
+     * cbll on b removeFredListener method.
      *
-     * @param sourceClass  The class firing the event.
-     * @param eventSetName  The programmatic name of the event.  E.g. &quot;fred&quot;.
-     *          Note that this should normally start with a lower-case character.
-     * @param listenerType  The target interface that events
+     * @pbrbm sourceClbss  The clbss firing the event.
+     * @pbrbm eventSetNbme  The progrbmmbtic nbme of the event.  E.g. &quot;fred&quot;.
+     *          Note thbt this should normblly stbrt with b lower-cbse chbrbcter.
+     * @pbrbm listenerType  The tbrget interfbce thbt events
      *          will get delivered to.
-     * @param listenerMethodName  The method that will get called when the event gets
-     *          delivered to its target listener interface.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm listenerMethodNbme  The method thbt will get cblled when the event gets
+     *          delivered to its tbrget listener interfbce.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      */
-    public EventSetDescriptor(Class<?> sourceClass, String eventSetName,
-                Class<?> listenerType, String listenerMethodName)
+    public EventSetDescriptor(Clbss<?> sourceClbss, String eventSetNbme,
+                Clbss<?> listenerType, String listenerMethodNbme)
                 throws IntrospectionException {
-        this(sourceClass, eventSetName, listenerType,
-             new String[] { listenerMethodName },
-             Introspector.ADD_PREFIX + getListenerClassName(listenerType),
-             Introspector.REMOVE_PREFIX + getListenerClassName(listenerType),
-             Introspector.GET_PREFIX + getListenerClassName(listenerType) + "s");
+        this(sourceClbss, eventSetNbme, listenerType,
+             new String[] { listenerMethodNbme },
+             Introspector.ADD_PREFIX + getListenerClbssNbme(listenerType),
+             Introspector.REMOVE_PREFIX + getListenerClbssNbme(listenerType),
+             Introspector.GET_PREFIX + getListenerClbssNbme(listenerType) + "s");
 
-        String eventName = NameGenerator.capitalize(eventSetName) + "Event";
+        String eventNbme = NbmeGenerbtor.cbpitblize(eventSetNbme) + "Event";
         Method[] listenerMethods = getListenerMethods();
         if (listenerMethods.length > 0) {
-            Class<?>[] args = getParameterTypes(getClass0(), listenerMethods[0]);
-            // Check for EventSet compliance. Special case for vetoableChange. See 4529996
-            if (!"vetoableChange".equals(eventSetName) && !args[0].getName().endsWith(eventName)) {
-                throw new IntrospectionException("Method \"" + listenerMethodName +
-                                                 "\" should have argument \"" +
-                                                 eventName + "\"");
+            Clbss<?>[] brgs = getPbrbmeterTypes(getClbss0(), listenerMethods[0]);
+            // Check for EventSet complibnce. Specibl cbse for vetobbleChbnge. See 4529996
+            if (!"vetobbleChbnge".equbls(eventSetNbme) && !brgs[0].getNbme().endsWith(eventNbme)) {
+                throw new IntrospectionException("Method \"" + listenerMethodNbme +
+                                                 "\" should hbve brgument \"" +
+                                                 eventNbme + "\"");
             }
         }
     }
 
-    private static String getListenerClassName(Class<?> cls) {
-        String className = cls.getName();
-        return className.substring(className.lastIndexOf('.') + 1);
+    privbte stbtic String getListenerClbssNbme(Clbss<?> cls) {
+        String clbssNbme = cls.getNbme();
+        return clbssNbme.substring(clbssNbme.lbstIndexOf('.') + 1);
     }
 
     /**
-     * Creates an <TT>EventSetDescriptor</TT> from scratch using
-     * string names.
+     * Crebtes bn <TT>EventSetDescriptor</TT> from scrbtch using
+     * string nbmes.
      *
-     * @param sourceClass  The class firing the event.
-     * @param eventSetName The programmatic name of the event set.
-     *          Note that this should normally start with a lower-case character.
-     * @param listenerType  The Class of the target interface that events
+     * @pbrbm sourceClbss  The clbss firing the event.
+     * @pbrbm eventSetNbme The progrbmmbtic nbme of the event set.
+     *          Note thbt this should normblly stbrt with b lower-cbse chbrbcter.
+     * @pbrbm listenerType  The Clbss of the tbrget interfbce thbt events
      *          will get delivered to.
-     * @param listenerMethodNames The names of the methods that will get called
-     *          when the event gets delivered to its target listener interface.
-     * @param addListenerMethodName  The name of the method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethodName  The name of the method on the event source
-     *          that can be used to de-register an event listener object.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm listenerMethodNbmes The nbmes of the methods thbt will get cblled
+     *          when the event gets delivered to its tbrget listener interfbce.
+     * @pbrbm bddListenerMethodNbme  The nbme of the method on the event source
+     *          thbt cbn be used to register bn event listener object.
+     * @pbrbm removeListenerMethodNbme  The nbme of the method on the event source
+     *          thbt cbn be used to de-register bn event listener object.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      */
-    public EventSetDescriptor(Class<?> sourceClass,
-                String eventSetName,
-                Class<?> listenerType,
-                String listenerMethodNames[],
-                String addListenerMethodName,
-                String removeListenerMethodName)
+    public EventSetDescriptor(Clbss<?> sourceClbss,
+                String eventSetNbme,
+                Clbss<?> listenerType,
+                String listenerMethodNbmes[],
+                String bddListenerMethodNbme,
+                String removeListenerMethodNbme)
                 throws IntrospectionException {
-        this(sourceClass, eventSetName, listenerType,
-             listenerMethodNames, addListenerMethodName,
-             removeListenerMethodName, null);
+        this(sourceClbss, eventSetNbme, listenerType,
+             listenerMethodNbmes, bddListenerMethodNbme,
+             removeListenerMethodNbme, null);
     }
 
     /**
-     * This constructor creates an EventSetDescriptor from scratch using
-     * string names.
+     * This constructor crebtes bn EventSetDescriptor from scrbtch using
+     * string nbmes.
      *
-     * @param sourceClass  The class firing the event.
-     * @param eventSetName The programmatic name of the event set.
-     *          Note that this should normally start with a lower-case character.
-     * @param listenerType  The Class of the target interface that events
+     * @pbrbm sourceClbss  The clbss firing the event.
+     * @pbrbm eventSetNbme The progrbmmbtic nbme of the event set.
+     *          Note thbt this should normblly stbrt with b lower-cbse chbrbcter.
+     * @pbrbm listenerType  The Clbss of the tbrget interfbce thbt events
      *          will get delivered to.
-     * @param listenerMethodNames The names of the methods that will get called
-     *          when the event gets delivered to its target listener interface.
-     * @param addListenerMethodName  The name of the method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethodName  The name of the method on the event source
-     *          that can be used to de-register an event listener object.
-     * @param getListenerMethodName The method on the event source that
-     *          can be used to access the array of event listener objects.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm listenerMethodNbmes The nbmes of the methods thbt will get cblled
+     *          when the event gets delivered to its tbrget listener interfbce.
+     * @pbrbm bddListenerMethodNbme  The nbme of the method on the event source
+     *          thbt cbn be used to register bn event listener object.
+     * @pbrbm removeListenerMethodNbme  The nbme of the method on the event source
+     *          thbt cbn be used to de-register bn event listener object.
+     * @pbrbm getListenerMethodNbme The method on the event source thbt
+     *          cbn be used to bccess the brrby of event listener objects.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      * @since 1.4
      */
-    public EventSetDescriptor(Class<?> sourceClass,
-                String eventSetName,
-                Class<?> listenerType,
-                String listenerMethodNames[],
-                String addListenerMethodName,
-                String removeListenerMethodName,
-                String getListenerMethodName)
+    public EventSetDescriptor(Clbss<?> sourceClbss,
+                String eventSetNbme,
+                Clbss<?> listenerType,
+                String listenerMethodNbmes[],
+                String bddListenerMethodNbme,
+                String removeListenerMethodNbme,
+                String getListenerMethodNbme)
                 throws IntrospectionException {
-        if (sourceClass == null || eventSetName == null || listenerType == null) {
+        if (sourceClbss == null || eventSetNbme == null || listenerType == null) {
             throw new NullPointerException();
         }
-        setName(eventSetName);
-        setClass0(sourceClass);
+        setNbme(eventSetNbme);
+        setClbss0(sourceClbss);
         setListenerType(listenerType);
 
-        Method[] listenerMethods = new Method[listenerMethodNames.length];
-        for (int i = 0; i < listenerMethodNames.length; i++) {
-            // Check for null names
-            if (listenerMethodNames[i] == null) {
+        Method[] listenerMethods = new Method[listenerMethodNbmes.length];
+        for (int i = 0; i < listenerMethodNbmes.length; i++) {
+            // Check for null nbmes
+            if (listenerMethodNbmes[i] == null) {
                 throw new NullPointerException();
             }
-            listenerMethods[i] = getMethod(listenerType, listenerMethodNames[i], 1);
+            listenerMethods[i] = getMethod(listenerType, listenerMethodNbmes[i], 1);
         }
         setListenerMethods(listenerMethods);
 
-        setAddListenerMethod(getMethod(sourceClass, addListenerMethodName, 1));
-        setRemoveListenerMethod(getMethod(sourceClass, removeListenerMethodName, 1));
+        setAddListenerMethod(getMethod(sourceClbss, bddListenerMethodNbme, 1));
+        setRemoveListenerMethod(getMethod(sourceClbss, removeListenerMethodNbme, 1));
 
         // Be more forgiving of not finding the getListener method.
-        Method method = Introspector.findMethod(sourceClass, getListenerMethodName, 0);
+        Method method = Introspector.findMethod(sourceClbss, getListenerMethodNbme, 0);
         if (method != null) {
             setGetListenerMethod(method);
         }
     }
 
-    private static Method getMethod(Class<?> cls, String name, int args)
+    privbte stbtic Method getMethod(Clbss<?> cls, String nbme, int brgs)
         throws IntrospectionException {
-        if (name == null) {
+        if (nbme == null) {
             return null;
         }
-        Method method = Introspector.findMethod(cls, name, args);
-        if ((method == null) || Modifier.isStatic(method.getModifiers())) {
-            throw new IntrospectionException("Method not found: " + name +
-                                             " on class " + cls.getName());
+        Method method = Introspector.findMethod(cls, nbme, brgs);
+        if ((method == null) || Modifier.isStbtic(method.getModifiers())) {
+            throw new IntrospectionException("Method not found: " + nbme +
+                                             " on clbss " + cls.getNbme());
         }
         return method;
     }
 
     /**
-     * Creates an <TT>EventSetDescriptor</TT> from scratch using
-     * <TT>java.lang.reflect.Method</TT> and <TT>java.lang.Class</TT> objects.
+     * Crebtes bn <TT>EventSetDescriptor</TT> from scrbtch using
+     * <TT>jbvb.lbng.reflect.Method</TT> bnd <TT>jbvb.lbng.Clbss</TT> objects.
      *
-     * @param eventSetName The programmatic name of the event set.
-     * @param listenerType The Class for the listener interface.
-     * @param listenerMethods  An array of Method objects describing each
-     *          of the event handling methods in the target listener.
-     * @param addListenerMethod  The method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethod  The method on the event source
-     *          that can be used to de-register an event listener object.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm eventSetNbme The progrbmmbtic nbme of the event set.
+     * @pbrbm listenerType The Clbss for the listener interfbce.
+     * @pbrbm listenerMethods  An brrby of Method objects describing ebch
+     *          of the event hbndling methods in the tbrget listener.
+     * @pbrbm bddListenerMethod  The method on the event source
+     *          thbt cbn be used to register bn event listener object.
+     * @pbrbm removeListenerMethod  The method on the event source
+     *          thbt cbn be used to de-register bn event listener object.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      */
-    public EventSetDescriptor(String eventSetName,
-                Class<?> listenerType,
+    public EventSetDescriptor(String eventSetNbme,
+                Clbss<?> listenerType,
                 Method listenerMethods[],
-                Method addListenerMethod,
+                Method bddListenerMethod,
                 Method removeListenerMethod)
                 throws IntrospectionException {
-        this(eventSetName, listenerType, listenerMethods,
-             addListenerMethod, removeListenerMethod, null);
+        this(eventSetNbme, listenerType, listenerMethods,
+             bddListenerMethod, removeListenerMethod, null);
     }
 
     /**
-     * This constructor creates an EventSetDescriptor from scratch using
-     * java.lang.reflect.Method and java.lang.Class objects.
+     * This constructor crebtes bn EventSetDescriptor from scrbtch using
+     * jbvb.lbng.reflect.Method bnd jbvb.lbng.Clbss objects.
      *
-     * @param eventSetName The programmatic name of the event set.
-     * @param listenerType The Class for the listener interface.
-     * @param listenerMethods  An array of Method objects describing each
-     *          of the event handling methods in the target listener.
-     * @param addListenerMethod  The method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethod  The method on the event source
-     *          that can be used to de-register an event listener object.
-     * @param getListenerMethod The method on the event source
-     *          that can be used to access the array of event listener objects.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm eventSetNbme The progrbmmbtic nbme of the event set.
+     * @pbrbm listenerType The Clbss for the listener interfbce.
+     * @pbrbm listenerMethods  An brrby of Method objects describing ebch
+     *          of the event hbndling methods in the tbrget listener.
+     * @pbrbm bddListenerMethod  The method on the event source
+     *          thbt cbn be used to register bn event listener object.
+     * @pbrbm removeListenerMethod  The method on the event source
+     *          thbt cbn be used to de-register bn event listener object.
+     * @pbrbm getListenerMethod The method on the event source
+     *          thbt cbn be used to bccess the brrby of event listener objects.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      * @since 1.4
      */
-    public EventSetDescriptor(String eventSetName,
-                Class<?> listenerType,
+    public EventSetDescriptor(String eventSetNbme,
+                Clbss<?> listenerType,
                 Method listenerMethods[],
-                Method addListenerMethod,
+                Method bddListenerMethod,
                 Method removeListenerMethod,
                 Method getListenerMethod)
                 throws IntrospectionException {
-        setName(eventSetName);
+        setNbme(eventSetNbme);
         setListenerMethods(listenerMethods);
-        setAddListenerMethod(addListenerMethod);
+        setAddListenerMethod(bddListenerMethod);
         setRemoveListenerMethod( removeListenerMethod);
         setGetListenerMethod(getListenerMethod);
         setListenerType(listenerType);
     }
 
-    EventSetDescriptor(String base, EventSetInfo info, Method... methods) {
-        setName(Introspector.decapitalize(base));
+    EventSetDescriptor(String bbse, EventSetInfo info, Method... methods) {
+        setNbme(Introspector.decbpitblize(bbse));
         setListenerMethods(methods);
         setAddListenerMethod(info.getAddMethod());
         setRemoveListenerMethod(info.getRemoveMethod());
         setGetListenerMethod(info.getGetMethod());
         setListenerType(info.getListenerType());
-        setUnicast(info.isUnicast());
+        setUnicbst(info.isUnicbst());
     }
 
     /**
-     * Creates an <TT>EventSetDescriptor</TT> from scratch using
-     * <TT>java.lang.reflect.MethodDescriptor</TT> and <TT>java.lang.Class</TT>
+     * Crebtes bn <TT>EventSetDescriptor</TT> from scrbtch using
+     * <TT>jbvb.lbng.reflect.MethodDescriptor</TT> bnd <TT>jbvb.lbng.Clbss</TT>
      *  objects.
      *
-     * @param eventSetName The programmatic name of the event set.
-     * @param listenerType The Class for the listener interface.
-     * @param listenerMethodDescriptors  An array of MethodDescriptor objects
-     *           describing each of the event handling methods in the
-     *           target listener.
-     * @param addListenerMethod  The method on the event source
-     *          that can be used to register an event listener object.
-     * @param removeListenerMethod  The method on the event source
-     *          that can be used to de-register an event listener object.
-     * @exception IntrospectionException if an exception occurs during
+     * @pbrbm eventSetNbme The progrbmmbtic nbme of the event set.
+     * @pbrbm listenerType The Clbss for the listener interfbce.
+     * @pbrbm listenerMethodDescriptors  An brrby of MethodDescriptor objects
+     *           describing ebch of the event hbndling methods in the
+     *           tbrget listener.
+     * @pbrbm bddListenerMethod  The method on the event source
+     *          thbt cbn be used to register bn event listener object.
+     * @pbrbm removeListenerMethod  The method on the event source
+     *          thbt cbn be used to de-register bn event listener object.
+     * @exception IntrospectionException if bn exception occurs during
      *              introspection.
      */
-    public EventSetDescriptor(String eventSetName,
-                Class<?> listenerType,
+    public EventSetDescriptor(String eventSetNbme,
+                Clbss<?> listenerType,
                 MethodDescriptor listenerMethodDescriptors[],
-                Method addListenerMethod,
+                Method bddListenerMethod,
                 Method removeListenerMethod)
                 throws IntrospectionException {
-        setName(eventSetName);
+        setNbme(eventSetNbme);
         this.listenerMethodDescriptors = (listenerMethodDescriptors != null)
                 ? listenerMethodDescriptors.clone()
                 : null;
-        setAddListenerMethod(addListenerMethod);
+        setAddListenerMethod(bddListenerMethod);
         setRemoveListenerMethod(removeListenerMethod);
         setListenerType(listenerType);
     }
 
     /**
-     * Gets the <TT>Class</TT> object for the target interface.
+     * Gets the <TT>Clbss</TT> object for the tbrget interfbce.
      *
-     * @return The Class object for the target interface that will
+     * @return The Clbss object for the tbrget interfbce thbt will
      * get invoked when the event is fired.
      */
-    public Class<?> getListenerType() {
+    public Clbss<?> getListenerType() {
         return (this.listenerTypeRef != null)
                 ? this.listenerTypeRef.get()
                 : null;
     }
 
-    private void setListenerType(Class<?> cls) {
-        this.listenerTypeRef = getWeakReference(cls);
+    privbte void setListenerType(Clbss<?> cls) {
+        this.listenerTypeRef = getWebkReference(cls);
     }
 
     /**
-     * Gets the methods of the target listener interface.
+     * Gets the methods of the tbrget listener interfbce.
      *
-     * @return An array of <TT>Method</TT> objects for the target methods
-     * within the target listener interface that will get called when
-     * events are fired.
+     * @return An brrby of <TT>Method</TT> objects for the tbrget methods
+     * within the tbrget listener interfbce thbt will get cblled when
+     * events bre fired.
      */
     public synchronized Method[] getListenerMethods() {
         Method[] methods = getListenerMethods0();
@@ -335,7 +335,7 @@ public class EventSetDescriptor extends FeatureDescriptor {
         return methods;
     }
 
-    private void setListenerMethods(Method[] methods) {
+    privbte void setListenerMethods(Method[] methods) {
         if (methods == null) {
             return;
         }
@@ -348,18 +348,18 @@ public class EventSetDescriptor extends FeatureDescriptor {
         this.listenerMethodsRef = getSoftReference(methods);
     }
 
-    private Method[] getListenerMethods0() {
+    privbte Method[] getListenerMethods0() {
         return (this.listenerMethodsRef != null)
                 ? this.listenerMethodsRef.get()
                 : null;
     }
 
     /**
-     * Gets the <code>MethodDescriptor</code>s of the target listener interface.
+     * Gets the <code>MethodDescriptor</code>s of the tbrget listener interfbce.
      *
-     * @return An array of <code>MethodDescriptor</code> objects for the target methods
-     * within the target listener interface that will get called when
-     * events are fired.
+     * @return An brrby of <code>MethodDescriptor</code> objects for the tbrget methods
+     * within the tbrget listener interfbce thbt will get cblled when
+     * events bre fired.
      */
     public synchronized MethodDescriptor[] getListenerMethodDescriptors() {
         return (this.listenerMethodDescriptors != null)
@@ -368,49 +368,49 @@ public class EventSetDescriptor extends FeatureDescriptor {
     }
 
     /**
-     * Gets the method used to add event listeners.
+     * Gets the method used to bdd event listeners.
      *
-     * @return The method used to register a listener at the event source.
+     * @return The method used to register b listener bt the event source.
      */
     public synchronized Method getAddListenerMethod() {
-        return getMethod(this.addMethodDescriptor);
+        return getMethod(this.bddMethodDescriptor);
     }
 
-    private synchronized void setAddListenerMethod(Method method) {
+    privbte synchronized void setAddListenerMethod(Method method) {
         if (method == null) {
             return;
         }
-        if (getClass0() == null) {
-            setClass0(method.getDeclaringClass());
+        if (getClbss0() == null) {
+            setClbss0(method.getDeclbringClbss());
         }
-        addMethodDescriptor = new MethodDescriptor(method);
-        setTransient(method.getAnnotation(Transient.class));
+        bddMethodDescriptor = new MethodDescriptor(method);
+        setTrbnsient(method.getAnnotbtion(Trbnsient.clbss));
     }
 
     /**
      * Gets the method used to remove event listeners.
      *
-     * @return The method used to remove a listener at the event source.
+     * @return The method used to remove b listener bt the event source.
      */
     public synchronized Method getRemoveListenerMethod() {
         return getMethod(this.removeMethodDescriptor);
     }
 
-    private synchronized void setRemoveListenerMethod(Method method) {
+    privbte synchronized void setRemoveListenerMethod(Method method) {
         if (method == null) {
             return;
         }
-        if (getClass0() == null) {
-            setClass0(method.getDeclaringClass());
+        if (getClbss0() == null) {
+            setClbss0(method.getDeclbringClbss());
         }
         removeMethodDescriptor = new MethodDescriptor(method);
-        setTransient(method.getAnnotation(Transient.class));
+        setTrbnsient(method.getAnnotbtion(Trbnsient.clbss));
     }
 
     /**
-     * Gets the method used to access the registered event listeners.
+     * Gets the method used to bccess the registered event listeners.
      *
-     * @return The method used to access the array of listeners at the event
+     * @return The method used to bccess the brrby of listeners bt the event
      *         source or null if it doesn't exist.
      * @since 1.4
      */
@@ -418,66 +418,66 @@ public class EventSetDescriptor extends FeatureDescriptor {
         return getMethod(this.getMethodDescriptor);
     }
 
-    private synchronized void setGetListenerMethod(Method method) {
+    privbte synchronized void setGetListenerMethod(Method method) {
         if (method == null) {
             return;
         }
-        if (getClass0() == null) {
-            setClass0(method.getDeclaringClass());
+        if (getClbss0() == null) {
+            setClbss0(method.getDeclbringClbss());
         }
         getMethodDescriptor = new MethodDescriptor(method);
-        setTransient(method.getAnnotation(Transient.class));
+        setTrbnsient(method.getAnnotbtion(Trbnsient.clbss));
     }
 
     /**
-     * Mark an event set as unicast (or not).
+     * Mbrk bn event set bs unicbst (or not).
      *
-     * @param unicast  True if the event set is unicast.
+     * @pbrbm unicbst  True if the event set is unicbst.
      */
-    public void setUnicast(boolean unicast) {
-        this.unicast = unicast;
+    public void setUnicbst(boolebn unicbst) {
+        this.unicbst = unicbst;
     }
 
     /**
-     * Normally event sources are multicast.  However there are some
-     * exceptions that are strictly unicast.
+     * Normblly event sources bre multicbst.  However there bre some
+     * exceptions thbt bre strictly unicbst.
      *
-     * @return  <TT>true</TT> if the event set is unicast.
-     *          Defaults to <TT>false</TT>.
+     * @return  <TT>true</TT> if the event set is unicbst.
+     *          Defbults to <TT>fblse</TT>.
      */
-    public boolean isUnicast() {
-        return unicast;
+    public boolebn isUnicbst() {
+        return unicbst;
     }
 
     /**
-     * Marks an event set as being in the &quot;default&quot; set (or not).
-     * By default this is <TT>true</TT>.
+     * Mbrks bn event set bs being in the &quot;defbult&quot; set (or not).
+     * By defbult this is <TT>true</TT>.
      *
-     * @param inDefaultEventSet <code>true</code> if the event set is in
-     *                          the &quot;default&quot; set,
-     *                          <code>false</code> if not
+     * @pbrbm inDefbultEventSet <code>true</code> if the event set is in
+     *                          the &quot;defbult&quot; set,
+     *                          <code>fblse</code> if not
      */
-    public void setInDefaultEventSet(boolean inDefaultEventSet) {
-        this.inDefaultEventSet = inDefaultEventSet;
+    public void setInDefbultEventSet(boolebn inDefbultEventSet) {
+        this.inDefbultEventSet = inDefbultEventSet;
     }
 
     /**
-     * Reports if an event set is in the &quot;default&quot; set.
+     * Reports if bn event set is in the &quot;defbult&quot; set.
      *
      * @return  <TT>true</TT> if the event set is in
-     *          the &quot;default&quot; set.  Defaults to <TT>true</TT>.
+     *          the &quot;defbult&quot; set.  Defbults to <TT>true</TT>.
      */
-    public boolean isInDefaultEventSet() {
-        return inDefaultEventSet;
+    public boolebn isInDefbultEventSet() {
+        return inDefbultEventSet;
     }
 
     /*
-     * Package-private constructor
+     * Pbckbge-privbte constructor
      * Merge two event set descriptors.  Where they conflict, give the
-     * second argument (y) priority over the first argument (x).
+     * second brgument (y) priority over the first brgument (x).
      *
-     * @param x  The first (lower priority) EventSetDescriptor
-     * @param y  The second (higher priority) EventSetDescriptor
+     * @pbrbm x  The first (lower priority) EventSetDescriptor
+     * @pbrbm y  The second (higher priority) EventSetDescriptor
      */
     EventSetDescriptor(EventSetDescriptor x, EventSetDescriptor y) {
         super(x,y);
@@ -491,9 +491,9 @@ public class EventSetDescriptor extends FeatureDescriptor {
             listenerTypeRef = y.listenerTypeRef;
         }
 
-        addMethodDescriptor = x.addMethodDescriptor;
-        if (y.addMethodDescriptor != null) {
-            addMethodDescriptor = y.addMethodDescriptor;
+        bddMethodDescriptor = x.bddMethodDescriptor;
+        if (y.bddMethodDescriptor != null) {
+            bddMethodDescriptor = y.bddMethodDescriptor;
         }
 
         removeMethodDescriptor = x.removeMethodDescriptor;
@@ -506,15 +506,15 @@ public class EventSetDescriptor extends FeatureDescriptor {
             getMethodDescriptor = y.getMethodDescriptor;
         }
 
-        unicast = y.unicast;
-        if (!x.inDefaultEventSet || !y.inDefaultEventSet) {
-            inDefaultEventSet = false;
+        unicbst = y.unicbst;
+        if (!x.inDefbultEventSet || !y.inDefbultEventSet) {
+            inDefbultEventSet = fblse;
         }
     }
 
     /*
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbckbge-privbte dup constructor
+     * This must isolbte the new object from bny chbnges to the old object.
      */
     EventSetDescriptor(EventSetDescriptor old) {
         super(old);
@@ -528,24 +528,24 @@ public class EventSetDescriptor extends FeatureDescriptor {
         }
         listenerTypeRef = old.listenerTypeRef;
 
-        addMethodDescriptor = old.addMethodDescriptor;
+        bddMethodDescriptor = old.bddMethodDescriptor;
         removeMethodDescriptor = old.removeMethodDescriptor;
         getMethodDescriptor = old.getMethodDescriptor;
 
-        unicast = old.unicast;
-        inDefaultEventSet = old.inDefaultEventSet;
+        unicbst = old.unicbst;
+        inDefbultEventSet = old.inDefbultEventSet;
     }
 
-    void appendTo(StringBuilder sb) {
-        appendTo(sb, "unicast", this.unicast);
-        appendTo(sb, "inDefaultEventSet", this.inDefaultEventSet);
-        appendTo(sb, "listenerType", this.listenerTypeRef);
-        appendTo(sb, "getListenerMethod", getMethod(this.getMethodDescriptor));
-        appendTo(sb, "addListenerMethod", getMethod(this.addMethodDescriptor));
-        appendTo(sb, "removeListenerMethod", getMethod(this.removeMethodDescriptor));
+    void bppendTo(StringBuilder sb) {
+        bppendTo(sb, "unicbst", this.unicbst);
+        bppendTo(sb, "inDefbultEventSet", this.inDefbultEventSet);
+        bppendTo(sb, "listenerType", this.listenerTypeRef);
+        bppendTo(sb, "getListenerMethod", getMethod(this.getMethodDescriptor));
+        bppendTo(sb, "bddListenerMethod", getMethod(this.bddMethodDescriptor));
+        bppendTo(sb, "removeListenerMethod", getMethod(this.removeMethodDescriptor));
     }
 
-    private static Method getMethod(MethodDescriptor descriptor) {
+    privbte stbtic Method getMethod(MethodDescriptor descriptor) {
         return (descriptor != null)
                 ? descriptor.getMethod()
                 : null;

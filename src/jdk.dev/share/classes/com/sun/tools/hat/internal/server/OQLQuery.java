@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbckbge com.sun.tools.hbt.internbl.server;
 
-import com.sun.tools.hat.internal.oql.*;
+import com.sun.tools.hbt.internbl.oql.*;
 
 /**
- * This handles Object Query Language (OQL) queries.
+ * This hbndles Object Query Lbngubge (OQL) queries.
  *
- * @author A. Sundararajan
+ * @buthor A. Sundbrbrbjbn
  */
 
-class OQLQuery extends QueryHandler {
+clbss OQLQuery extends QueryHbndler {
 
     public OQLQuery(OQLEngine engine) {
         this.engine = engine;
     }
 
     public void run() {
-        startHtml("Object Query Language (OQL) query");
+        stbrtHtml("Object Query Lbngubge (OQL) query");
         String oql = null;
-        if (query != null && !query.equals("")) {
+        if (query != null && !query.equbls("")) {
             int index = query.indexOf("?query=");
             if (index != -1 && query.length() > 7) {
                 oql = query.substring(index + 7);
             }
         }
-        out.println("<p align='center'><table>");
+        out.println("<p blign='center'><tbble>");
         out.println("<tr><td><b>");
-        out.println("<a href='/'>All Classes (excluding platform)</a>");
+        out.println("<b href='/'>All Clbsses (excluding plbtform)</b>");
         out.println("</b></td>");
-        out.println("<td><b><a href='/oqlhelp/'>OQL Help</a></b></td></tr>");
-        out.println("</table></p>");
-        out.println("<form action='/oql/' method='get'>");
-        out.println("<p align='center'>");
-        out.println("<textarea name='query' cols=80 rows=10>");
+        out.println("<td><b><b href='/oqlhelp/'>OQL Help</b></b></td></tr>");
+        out.println("</tbble></p>");
+        out.println("<form bction='/oql/' method='get'>");
+        out.println("<p blign='center'>");
+        out.println("<textbreb nbme='query' cols=80 rows=10>");
         if (oql != null) {
             println(oql);
         }
-        out.println("</textarea>");
+        out.println("</textbreb>");
         out.println("</p>");
-        out.println("<p align='center'>");
-        out.println("<input type='submit' value='Execute'></input>");
+        out.println("<p blign='center'>");
+        out.println("<input type='submit' vblue='Execute'></input>");
         out.println("</p>");
         out.println("</form>");
         if (oql != null) {
@@ -79,26 +79,26 @@ class OQLQuery extends QueryHandler {
         endHtml();
     }
 
-    private void executeQuery(String q) {
+    privbte void executeQuery(String q) {
         try {
-            out.println("<table border='1'>");
+            out.println("<tbble border='1'>");
             engine.executeQuery(q, new ObjectVisitor() {
-                     public boolean visit(Object o) {
+                     public boolebn visit(Object o) {
                          out.println("<tr><td>");
                          try {
                              out.println(engine.toHtml(o));
-                         } catch (Exception e) {
+                         } cbtch (Exception e) {
                              printException(e);
                          }
                          out.println("</td></tr>");
-                         return false;
+                         return fblse;
                      }
                  });
-            out.println("</table>");
-        } catch (OQLException exp) {
+            out.println("</tbble>");
+        } cbtch (OQLException exp) {
             printException(exp);
         }
     }
 
-    private OQLEngine engine;
+    privbte OQLEngine engine;
 }

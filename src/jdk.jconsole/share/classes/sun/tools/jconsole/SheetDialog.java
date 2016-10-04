@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.text.*;
 
-import static javax.swing.JOptionPane.*;
+import stbtic jbvbx.swing.JOptionPbne.*;
 
-@SuppressWarnings("serial")
-public final class SheetDialog {
-    // Reusable objects
-    private static Rectangle iconR = new Rectangle();
-    private static Rectangle textR = new Rectangle();
-    private static Rectangle viewR = new Rectangle();
-    private static Insets viewInsets = new Insets(0, 0, 0, 0);
+@SuppressWbrnings("seribl")
+public finbl clbss SheetDiblog {
+    // Reusbble objects
+    privbte stbtic Rectbngle iconR = new Rectbngle();
+    privbte stbtic Rectbngle textR = new Rectbngle();
+    privbte stbtic Rectbngle viewR = new Rectbngle();
+    privbte stbtic Insets viewInsets = new Insets(0, 0, 0, 0);
 
-    /** Don't let anyone instantiate this class */
-    private SheetDialog() {
+    /** Don't let bnyone instbntibte this clbss */
+    privbte SheetDiblog() {
     }
 
-    static JOptionPane showOptionDialog(final VMPanel vmPanel, Object message,
-                                        int optionType, int messageType,
-                                        Icon icon, Object[] options, Object initialValue) {
+    stbtic JOptionPbne showOptionDiblog(finbl VMPbnel vmPbnel, Object messbge,
+                                        int optionType, int messbgeType,
+                                        Icon icon, Object[] options, Object initiblVblue) {
 
-        JRootPane rootPane = SwingUtilities.getRootPane(vmPanel);
-        JPanel glassPane = (JPanel)rootPane.getGlassPane();
+        JRootPbne rootPbne = SwingUtilities.getRootPbne(vmPbnel);
+        JPbnel glbssPbne = (JPbnel)rootPbne.getGlbssPbne();
 
-        if (!(glassPane instanceof SlideAndFadeGlassPane)) {
-            glassPane = new SlideAndFadeGlassPane();
-            glassPane.setName(rootPane.getName()+".glassPane");
-            rootPane.setGlassPane(glassPane);
-            rootPane.revalidate();
+        if (!(glbssPbne instbnceof SlideAndFbdeGlbssPbne)) {
+            glbssPbne = new SlideAndFbdeGlbssPbne();
+            glbssPbne.setNbme(rootPbne.getNbme()+".glbssPbne");
+            rootPbne.setGlbssPbne(glbssPbne);
+            rootPbne.revblidbte();
         }
 
-        final SlideAndFadeGlassPane safGlassPane = (SlideAndFadeGlassPane)glassPane;
+        finbl SlideAndFbdeGlbssPbne sbfGlbssPbne = (SlideAndFbdeGlbssPbne)glbssPbne;
 
-        // Workaround for the fact that JOptionPane does not handle
-        // limiting the width when using multi-line html messages.
-        // See Swing bug 5074006 and JConsole bug 6426317
-        message = fixWrapping(message, rootPane.getWidth() - 75); // Leave room for icon
+        // Workbround for the fbct thbt JOptionPbne does not hbndle
+        // limiting the width when using multi-line html messbges.
+        // See Swing bug 5074006 bnd JConsole bug 6426317
+        messbge = fixWrbpping(messbge, rootPbne.getWidth() - 75); // Lebve room for icon
 
-        final SheetOptionPane optionPane = new SheetOptionPane(message, messageType, optionType,
-                                                           icon, options, initialValue);
+        finbl SheetOptionPbne optionPbne = new SheetOptionPbne(messbge, messbgeType, optionType,
+                                                           icon, options, initiblVblue);
 
-        optionPane.setComponentOrientation(vmPanel.getComponentOrientation());
-        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                if (event.getPropertyName().equals(VALUE_PROPERTY) &&
-                    event.getNewValue() != null &&
-                    event.getNewValue() != UNINITIALIZED_VALUE) {
-                    ((SlideAndFadeGlassPane)optionPane.getParent()).hide(optionPane);
+        optionPbne.setComponentOrientbtion(vmPbnel.getComponentOrientbtion());
+        optionPbne.bddPropertyChbngeListener(new PropertyChbngeListener() {
+            public void propertyChbnge(PropertyChbngeEvent event) {
+                if (event.getPropertyNbme().equbls(VALUE_PROPERTY) &&
+                    event.getNewVblue() != null &&
+                    event.getNewVblue() != UNINITIALIZED_VALUE) {
+                    ((SlideAndFbdeGlbssPbne)optionPbne.getPbrent()).hide(optionPbne);
                 }
             }
         });
 
-        // Delay this (even though we're already on the EDT)
-        EventQueue.invokeLater(new Runnable() {
+        // Delby this (even though we're blrebdy on the EDT)
+        EventQueue.invokeLbter(new Runnbble() {
             public void run() {
-                safGlassPane.show(optionPane);
+                sbfGlbssPbne.show(optionPbne);
             }
         });
 
-        return optionPane;
+        return optionPbne;
     }
 
-    private static Object fixWrapping(Object message, final int maxWidth) {
-        if (message instanceof Object[]) {
-            Object[] arr = (Object[])message;
-            for (int i = 0; i < arr.length; i++) {
-                arr[i] = fixWrapping(arr[i], maxWidth);
+    privbte stbtic Object fixWrbpping(Object messbge, finbl int mbxWidth) {
+        if (messbge instbnceof Object[]) {
+            Object[] brr = (Object[])messbge;
+            for (int i = 0; i < brr.length; i++) {
+                brr[i] = fixWrbpping(brr[i], mbxWidth);
             }
-        } else if (message instanceof String &&
-                   ((String)message).startsWith("<html>")) {
-            message = new JLabel((String)message) {
+        } else if (messbge instbnceof String &&
+                   ((String)messbge).stbrtsWith("<html>")) {
+            messbge = new JLbbel((String)messbge) {
                 public Dimension getPreferredSize() {
                     String text = getText();
                     Insets insets = getInsets(viewInsets);
@@ -118,137 +118,137 @@ public final class SheetDialog {
 
                     View v = (View)getClientProperty("html");
                     if (v != null) {
-                        // Use pref width if less than 300, otherwise
+                        // Use pref width if less thbn 300, otherwise
                         // min width up to size of window.
-                        int w = Math.min(maxWidth,
-                                         Math.min(pref.width,
-                                                  Math.max(min.width, 300)));
-                        v.setSize((float)w, 0F);
+                        int w = Mbth.min(mbxWidth,
+                                         Mbth.min(pref.width,
+                                                  Mbth.mbx(min.width, 300)));
+                        v.setSize((flobt)w, 0F);
 
-                        SwingUtilities.layoutCompoundLabel(this, fm, text, null,
-                                                           getVerticalAlignment(),
-                                                           getHorizontalAlignment(),
-                                                           getVerticalTextPosition(),
-                                                           getHorizontalTextPosition(),
+                        SwingUtilities.lbyoutCompoundLbbel(this, fm, text, null,
+                                                           getVerticblAlignment(),
+                                                           getHorizontblAlignment(),
+                                                           getVerticblTextPosition(),
+                                                           getHorizontblTextPosition(),
                                                            viewR, iconR, textR,
-                                                           getIconTextGap());
+                                                           getIconTextGbp());
                         return new Dimension(textR.width + dx,
                                              textR.height + dy);
                     } else {
-                        return pref; //  Should not happen
+                        return pref; //  Should not hbppen
                     }
                 }
             };
         }
-        return message;
+        return messbge;
     }
 
-    private static class SlideAndFadeGlassPane extends JPanel {
-        SheetOptionPane optionPane;
+    privbte stbtic clbss SlideAndFbdeGlbssPbne extends JPbnel {
+        SheetOptionPbne optionPbne;
 
-        int fade = 20;
-        boolean slideIn = true;
+        int fbde = 20;
+        boolebn slideIn = true;
 
-        SlideAndFadeGlassPane() {
+        SlideAndFbdeGlbssPbne() {
             super(null);
-            setVisible(false);
-            setOpaque(false);
+            setVisible(fblse);
+            setOpbque(fblse);
 
-            // Grab mouse input, making the dialog modal
-            addMouseListener(new MouseAdapter() {});
+            // Grbb mouse input, mbking the diblog modbl
+            bddMouseListener(new MouseAdbpter() {});
         }
 
-        public void show(SheetOptionPane optionPane) {
-            this.optionPane = optionPane;
+        public void show(SheetOptionPbne optionPbne) {
+            this.optionPbne = optionPbne;
             removeAll();
-            add(optionPane);
+            bdd(optionPbne);
             setVisible(true);
             slideIn = true;
-            revalidate();
-            repaint();
+            revblidbte();
+            repbint();
             doSlide();
         }
 
-        public void hide(SheetOptionPane optionPane) {
-            if (optionPane != this.optionPane) {
+        public void hide(SheetOptionPbne optionPbne) {
+            if (optionPbne != this.optionPbne) {
                 return;
             }
 
-            slideIn = false;
-            revalidate();
-            repaint();
+            slideIn = fblse;
+            revblidbte();
+            repbint();
             doSlide();
         }
 
-        private void doSlide() {
-            if (optionPane.getParent() == null) {
+        privbte void doSlide() {
+            if (optionPbne.getPbrent() == null) {
                 return;
             }
 
-            if (optionPane.getWidth() == 0) {
-                optionPane.setSize(optionPane.getPreferredSize());
+            if (optionPbne.getWidth() == 0) {
+                optionPbne.setSize(optionPbne.getPreferredSize());
             }
 
-            int glassPaneWidth = getWidth();
-            if (glassPaneWidth == 0 && getParent() != null) {
-                glassPaneWidth = getParent().getWidth();
+            int glbssPbneWidth = getWidth();
+            if (glbssPbneWidth == 0 && getPbrent() != null) {
+                glbssPbneWidth = getPbrent().getWidth();
             }
 
-            int x = (glassPaneWidth - optionPane.getWidth()) / 2;
+            int x = (glbssPbneWidth - optionPbne.getWidth()) / 2;
 
             if (!slideIn) {
-                    remove(optionPane);
-                    setVisible(false);
+                    remove(optionPbne);
+                    setVisible(fblse);
                     return;
             } else {
-                    optionPane.setLocation(x, 0);
-                    setGrayLevel(fade);
+                    optionPbne.setLocbtion(x, 0);
+                    setGrbyLevel(fbde);
                     return;
             }
         }
 
-        public void setGrayLevel(int gray) {
-            gray = gray * 255 / 100;
-            setBackground(new Color(0, 0, 0, gray));
+        public void setGrbyLevel(int grby) {
+            grby = grby * 255 / 100;
+            setBbckground(new Color(0, 0, 0, grby));
         }
 
-        public void paint(Graphics g) {
-            g.setColor(getBackground());
+        public void pbint(Grbphics g) {
+            g.setColor(getBbckground());
             g.fillRect(0, 0, getWidth(), getHeight());
-            super.paint(g);
+            super.pbint(g);
         }
     }
 
 
 
-    static class SheetOptionPane extends JOptionPane {
-        SheetOptionPane(Object message, int messageType, int optionType,
-                        Icon icon, Object[] options, Object initialValue) {
-            super(message, messageType, optionType, icon, options, initialValue);
+    stbtic clbss SheetOptionPbne extends JOptionPbne {
+        SheetOptionPbne(Object messbge, int messbgeType, int optionType,
+                        Icon icon, Object[] options, Object initiblVblue) {
+            super(messbge, messbgeType, optionType, icon, options, initiblVblue);
 
             setBorder(new CompoundBorder(new LineBorder(new Color(204, 204, 204), 1),
                                          new EmptyBorder(4, 4, 4, 4)));
         }
 
 
-        private static Composite comp =
-            AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8F);
+        privbte stbtic Composite comp =
+            AlphbComposite.getInstbnce(AlphbComposite.SRC_OVER, 0.8F);
 
-        private static Color bgColor = new Color(241, 239, 239);
+        privbte stbtic Color bgColor = new Color(241, 239, 239);
 
-        public void setVisible(boolean visible) {
-            SlideAndFadeGlassPane glassPane = (SlideAndFadeGlassPane)getParent();
-            if (glassPane != null) {
+        public void setVisible(boolebn visible) {
+            SlideAndFbdeGlbssPbne glbssPbne = (SlideAndFbdeGlbssPbne)getPbrent();
+            if (glbssPbne != null) {
                 if (visible) {
-                    glassPane.show(this);
+                    glbssPbne.show(this);
                 } else {
-                    glassPane.hide(this);
+                    glbssPbne.hide(this);
                 }
             }
         }
 
-        public void paint(Graphics g) {
-            Graphics2D g2d = (Graphics2D)g;
+        public void pbint(Grbphics g) {
+            Grbphics2D g2d = (Grbphics2D)g;
             Composite oldComp = g2d.getComposite();
             g2d.setComposite(comp);
             Color oldColor = g2d.getColor();
@@ -256,7 +256,7 @@ public final class SheetDialog {
             g2d.fillRect(0, 0, getWidth(), getHeight());
             g2d.setColor(oldColor);
             g2d.setComposite(oldComp);
-            super.paint(g);
+            super.pbint(g);
         }
     }
 

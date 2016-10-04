@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
-import java.lang.management.ClassLoadingMXBean;
-import java.lang.management.ManagementFactory;
+import jbvb.lbng.mbnbgement.ClbssLobdingMXBebn;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
 // jmx imports
 //
-import javax.management.MBeanServer;
+import jbvbx.mbnbgement.MBebnServer;
 import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpMib;
 
-import sun.management.snmp.jvmmib.JvmClassLoadingMBean;
-import sun.management.snmp.jvmmib.EnumJvmClassesVerboseLevel;
-import sun.management.snmp.util.MibLogger;
+import sun.mbnbgement.snmp.jvmmib.JvmClbssLobdingMBebn;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmClbssesVerboseLevel;
+import sun.mbnbgement.snmp.util.MibLogger;
 
 /**
- * The class is used for implementing the "JvmClassLoading" group.
+ * The clbss is used for implementing the "JvmClbssLobding" group.
  */
-public class JvmClassLoadingImpl implements JvmClassLoadingMBean {
+public clbss JvmClbssLobdingImpl implements JvmClbssLobdingMBebn {
 
     /**
-     * Variable for storing the value of "JvmClassesVerboseLevel".
+     * Vbribble for storing the vblue of "JvmClbssesVerboseLevel".
      *
-     * "verbose: if the -verbose:class flag is set.
+     * "verbose: if the -verbose:clbss flbg is set.
      * silent:  otherwise.
      *
-     * See java.management.ClassLoadingMXBean.isVerbose(),
-     * java.management.ClassLoadingMXBean.setVerbose()
+     * See jbvb.mbnbgement.ClbssLobdingMXBebn.isVerbose(),
+     * jbvb.mbnbgement.ClbssLobdingMXBebn.setVerbose()
      * "
      *
      */
-    static final EnumJvmClassesVerboseLevel JvmClassesVerboseLevelVerbose =
-        new EnumJvmClassesVerboseLevel("verbose");
-    static final EnumJvmClassesVerboseLevel JvmClassesVerboseLevelSilent =
-        new EnumJvmClassesVerboseLevel("silent");
+    stbtic finbl EnumJvmClbssesVerboseLevel JvmClbssesVerboseLevelVerbose =
+        new EnumJvmClbssesVerboseLevel("verbose");
+    stbtic finbl EnumJvmClbssesVerboseLevel JvmClbssesVerboseLevelSilent =
+        new EnumJvmClbssesVerboseLevel("silent");
 
     /**
-     * Constructor for the "JvmClassLoading" group.
-     * If the group contains a table, the entries created through an
-     * SNMP SET will not be registered in Java DMK.
+     * Constructor for the "JvmClbssLobding" group.
+     * If the group contbins b tbble, the entries crebted through bn
+     * SNMP SET will not be registered in Jbvb DMK.
      */
-    public JvmClassLoadingImpl(SnmpMib myMib) {
+    public JvmClbssLobdingImpl(SnmpMib myMib) {
     }
 
     /**
-     * Constructor for the "JvmClassLoading" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will be AUTOMATICALLY REGISTERED in Java DMK.
+     * Constructor for the "JvmClbssLobding" group.
+     * If the group contbins b tbble, the entries crebted through bn SNMP SET
+     * will be AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmClassLoadingImpl(SnmpMib myMib, MBeanServer server) {
+    public JvmClbssLobdingImpl(SnmpMib myMib, MBebnServer server) {
     }
 
-    static ClassLoadingMXBean getClassLoadingMXBean() {
-        return ManagementFactory.getClassLoadingMXBean();
+    stbtic ClbssLobdingMXBebn getClbssLobdingMXBebn() {
+        return MbnbgementFbctory.getClbssLobdingMXBebn();
     }
 
     /**
-     * Getter for the "JvmClassesVerboseLevel" variable.
+     * Getter for the "JvmClbssesVerboseLevel" vbribble.
      */
-    public EnumJvmClassesVerboseLevel getJvmClassesVerboseLevel()
-        throws SnmpStatusException {
-        if(getClassLoadingMXBean().isVerbose())
-            return JvmClassesVerboseLevelVerbose;
+    public EnumJvmClbssesVerboseLevel getJvmClbssesVerboseLevel()
+        throws SnmpStbtusException {
+        if(getClbssLobdingMXBebn().isVerbose())
+            return JvmClbssesVerboseLevelVerbose;
         else
-            return JvmClassesVerboseLevelSilent;
+            return JvmClbssesVerboseLevelSilent;
     }
 
     /**
-     * Setter for the "JvmClassesVerboseLevel" variable.
+     * Setter for the "JvmClbssesVerboseLevel" vbribble.
      */
-    public void setJvmClassesVerboseLevel(EnumJvmClassesVerboseLevel x)
-        throws SnmpStatusException {
-        final boolean verbose;
-        if (JvmClassesVerboseLevelVerbose.equals(x)) verbose=true;
-        else if (JvmClassesVerboseLevelSilent.equals(x)) verbose=false;
-        // Should never happen, this case is handled by
-        // checkJvmClassesVerboseLevel();
+    public void setJvmClbssesVerboseLevel(EnumJvmClbssesVerboseLevel x)
+        throws SnmpStbtusException {
+        finbl boolebn verbose;
+        if (JvmClbssesVerboseLevelVerbose.equbls(x)) verbose=true;
+        else if (JvmClbssesVerboseLevelSilent.equbls(x)) verbose=fblse;
+        // Should never hbppen, this cbse is hbndled by
+        // checkJvmClbssesVerboseLevel();
         else throw new
-            SnmpStatusException(SnmpStatusException.snmpRspWrongValue);
-        getClassLoadingMXBean().setVerbose(verbose);
+            SnmpStbtusException(SnmpStbtusException.snmpRspWrongVblue);
+        getClbssLobdingMXBebn().setVerbose(verbose);
     }
 
     /**
-     * Checker for the "JvmClassesVerboseLevel" variable.
+     * Checker for the "JvmClbssesVerboseLevel" vbribble.
      */
-    public void checkJvmClassesVerboseLevel(EnumJvmClassesVerboseLevel x)
-        throws SnmpStatusException {
+    public void checkJvmClbssesVerboseLevel(EnumJvmClbssesVerboseLevel x)
+        throws SnmpStbtusException {
         //
         // Add your own checking policy.
         //
-        if (JvmClassesVerboseLevelVerbose.equals(x)) return;
-        if (JvmClassesVerboseLevelSilent.equals(x))  return;
-        throw new SnmpStatusException(SnmpStatusException.snmpRspWrongValue);
+        if (JvmClbssesVerboseLevelVerbose.equbls(x)) return;
+        if (JvmClbssesVerboseLevelSilent.equbls(x))  return;
+        throw new SnmpStbtusException(SnmpStbtusException.snmpRspWrongVblue);
 
     }
 
     /**
-     * Getter for the "JvmClassesUnloadedCount" variable.
+     * Getter for the "JvmClbssesUnlobdedCount" vbribble.
      */
-    public Long getJvmClassesUnloadedCount() throws SnmpStatusException {
-        return getClassLoadingMXBean().getUnloadedClassCount();
+    public Long getJvmClbssesUnlobdedCount() throws SnmpStbtusException {
+        return getClbssLobdingMXBebn().getUnlobdedClbssCount();
     }
 
     /**
-     * Getter for the "JvmClassesTotalLoadedCount" variable.
+     * Getter for the "JvmClbssesTotblLobdedCount" vbribble.
      */
-    public Long getJvmClassesTotalLoadedCount() throws SnmpStatusException {
-        return getClassLoadingMXBean().getTotalLoadedClassCount();
+    public Long getJvmClbssesTotblLobdedCount() throws SnmpStbtusException {
+        return getClbssLobdingMXBebn().getTotblLobdedClbssCount();
     }
 
     /**
-     * Getter for the "JvmClassesLoadedCount" variable.
+     * Getter for the "JvmClbssesLobdedCount" vbribble.
      */
-    public Long getJvmClassesLoadedCount() throws SnmpStatusException {
-        return (long)getClassLoadingMXBean().getLoadedClassCount();
+    public Long getJvmClbssesLobdedCount() throws SnmpStbtusException {
+        return (long)getClbssLobdingMXBebn().getLobdedClbssCount();
     }
 
 }

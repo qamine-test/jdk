@@ -1,862 +1,862 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
 import sun.invoke.util.BytecodeDescriptor;
 import sun.invoke.util.VerifyAccess;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Member;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import static java.lang.invoke.MethodHandleNatives.Constants.*;
-import static java.lang.invoke.MethodHandleStatics.*;
-import java.util.Objects;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Member;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import stbtic jbvb.lbng.invoke.MethodHbndleNbtives.Constbnts.*;
+import stbtic jbvb.lbng.invoke.MethodHbndleStbtics.*;
+import jbvb.util.Objects;
 
 /**
- * A {@code MemberName} is a compact symbolic datum which fully characterizes
- * a method or field reference.
- * A member name refers to a field, method, constructor, or member type.
- * Every member name has a simple name (a string) and a type (either a Class or MethodType).
- * A member name may also have a non-null declaring class, or it may be simply
- * a naked name/type pair.
- * A member name may also have non-zero modifier flags.
- * Finally, a member name may be either resolved or unresolved.
- * If it is resolved, the existence of the named
+ * A {@code MemberNbme} is b compbct symbolic dbtum which fully chbrbcterizes
+ * b method or field reference.
+ * A member nbme refers to b field, method, constructor, or member type.
+ * Every member nbme hbs b simple nbme (b string) bnd b type (either b Clbss or MethodType).
+ * A member nbme mby blso hbve b non-null declbring clbss, or it mby be simply
+ * b nbked nbme/type pbir.
+ * A member nbme mby blso hbve non-zero modifier flbgs.
+ * Finblly, b member nbme mby be either resolved or unresolved.
+ * If it is resolved, the existence of the nbmed
  * <p>
- * Whether resolved or not, a member name provides no access rights or
- * invocation capability to its possessor.  It is merely a compact
- * representation of all symbolic information necessary to link to
- * and properly use the named member.
+ * Whether resolved or not, b member nbme provides no bccess rights or
+ * invocbtion cbpbbility to its possessor.  It is merely b compbct
+ * representbtion of bll symbolic informbtion necessbry to link to
+ * bnd properly use the nbmed member.
  * <p>
- * When resolved, a member name's internal implementation may include references to JVM metadata.
- * This representation is stateless and only decriptive.
- * It provides no private information and no capability to use the member.
+ * When resolved, b member nbme's internbl implementbtion mby include references to JVM metbdbtb.
+ * This representbtion is stbteless bnd only decriptive.
+ * It provides no privbte informbtion bnd no cbpbbility to use the member.
  * <p>
- * By contrast, a {@linkplain java.lang.reflect.Method} contains fuller information
- * about the internals of a method (except its bytecodes) and also
- * allows invocation.  A MemberName is much lighter than a Method,
- * since it contains about 7 fields to the 16 of Method (plus its sub-arrays),
- * and those seven fields omit much of the information in Method.
- * @author jrose
+ * By contrbst, b {@linkplbin jbvb.lbng.reflect.Method} contbins fuller informbtion
+ * bbout the internbls of b method (except its bytecodes) bnd blso
+ * bllows invocbtion.  A MemberNbme is much lighter thbn b Method,
+ * since it contbins bbout 7 fields to the 16 of Method (plus its sub-brrbys),
+ * bnd those seven fields omit much of the informbtion in Method.
+ * @buthor jrose
  */
-/*non-public*/ final class MemberName implements Member, Cloneable {
-    private Class<?> clazz;       // class in which the method is defined
-    private String   name;        // may be null if not yet materialized
-    private Object   type;        // may be null if not yet materialized
-    private int      flags;       // modifier bits; see reflect.Modifier
-    //@Injected JVM_Method* vmtarget;
+/*non-public*/ finbl clbss MemberNbme implements Member, Clonebble {
+    privbte Clbss<?> clbzz;       // clbss in which the method is defined
+    privbte String   nbme;        // mby be null if not yet mbteriblized
+    privbte Object   type;        // mby be null if not yet mbteriblized
+    privbte int      flbgs;       // modifier bits; see reflect.Modifier
+    //@Injected JVM_Method* vmtbrget;
     //@Injected int         vmindex;
-    private Object   resolution;  // if null, this guy is resolved
+    privbte Object   resolution;  // if null, this guy is resolved
 
-    /** Return the declaring class of this member.
-     *  In the case of a bare name and type, the declaring class will be null.
+    /** Return the declbring clbss of this member.
+     *  In the cbse of b bbre nbme bnd type, the declbring clbss will be null.
      */
-    public Class<?> getDeclaringClass() {
-        return clazz;
+    public Clbss<?> getDeclbringClbss() {
+        return clbzz;
     }
 
-    /** Utility method producing the class loader of the declaring class. */
-    public ClassLoader getClassLoader() {
-        return clazz.getClassLoader();
+    /** Utility method producing the clbss lobder of the declbring clbss. */
+    public ClbssLobder getClbssLobder() {
+        return clbzz.getClbssLobder();
     }
 
-    /** Return the simple name of this member.
-     *  For a type, it is the same as {@link Class#getSimpleName}.
-     *  For a method or field, it is the simple name of the member.
-     *  For a constructor, it is always {@code "&lt;init&gt;"}.
+    /** Return the simple nbme of this member.
+     *  For b type, it is the sbme bs {@link Clbss#getSimpleNbme}.
+     *  For b method or field, it is the simple nbme of the member.
+     *  For b constructor, it is blwbys {@code "&lt;init&gt;"}.
      */
-    public String getName() {
-        if (name == null) {
-            expandFromVM();
-            if (name == null) {
+    public String getNbme() {
+        if (nbme == null) {
+            expbndFromVM();
+            if (nbme == null) {
                 return null;
             }
         }
-        return name;
+        return nbme;
     }
 
     public MethodType getMethodOrFieldType() {
-        if (isInvocable())
+        if (isInvocbble())
             return getMethodType();
         if (isGetter())
             return MethodType.methodType(getFieldType());
         if (isSetter())
-            return MethodType.methodType(void.class, getFieldType());
-        throw new InternalError("not a method or field: "+this);
+            return MethodType.methodType(void.clbss, getFieldType());
+        throw new InternblError("not b method or field: "+this);
     }
 
-    /** Return the declared type of this member, which
-     *  must be a method or constructor.
+    /** Return the declbred type of this member, which
+     *  must be b method or constructor.
      */
     public MethodType getMethodType() {
         if (type == null) {
-            expandFromVM();
+            expbndFromVM();
             if (type == null) {
                 return null;
             }
         }
-        if (!isInvocable()) {
-            throw newIllegalArgumentException("not invocable, no method type");
+        if (!isInvocbble()) {
+            throw newIllegblArgumentException("not invocbble, no method type");
         }
 
         {
-            // Get a snapshot of type which doesn't get changed by racing threads.
-            final Object type = this.type;
-            if (type instanceof MethodType) {
+            // Get b snbpshot of type which doesn't get chbnged by rbcing threbds.
+            finbl Object type = this.type;
+            if (type instbnceof MethodType) {
                 return (MethodType) type;
             }
         }
 
-        // type is not a MethodType yet.  Convert it thread-safely.
+        // type is not b MethodType yet.  Convert it threbd-sbfely.
         synchronized (this) {
-            if (type instanceof String) {
+            if (type instbnceof String) {
                 String sig = (String) type;
-                MethodType res = MethodType.fromMethodDescriptorString(sig, getClassLoader());
+                MethodType res = MethodType.fromMethodDescriptorString(sig, getClbssLobder());
                 type = res;
-            } else if (type instanceof Object[]) {
+            } else if (type instbnceof Object[]) {
                 Object[] typeInfo = (Object[]) type;
-                Class<?>[] ptypes = (Class<?>[]) typeInfo[1];
-                Class<?> rtype = (Class<?>) typeInfo[0];
+                Clbss<?>[] ptypes = (Clbss<?>[]) typeInfo[1];
+                Clbss<?> rtype = (Clbss<?>) typeInfo[0];
                 MethodType res = MethodType.methodType(rtype, ptypes);
                 type = res;
             }
-            // Make sure type is a MethodType for racing threads.
-            assert type instanceof MethodType : "bad method type " + type;
+            // Mbke sure type is b MethodType for rbcing threbds.
+            bssert type instbnceof MethodType : "bbd method type " + type;
         }
         return (MethodType) type;
     }
 
-    /** Return the actual type under which this method or constructor must be invoked.
-     *  For non-static methods or constructors, this is the type with a leading parameter,
-     *  a reference to declaring class.  For static methods, it is the same as the declared type.
+    /** Return the bctubl type under which this method or constructor must be invoked.
+     *  For non-stbtic methods or constructors, this is the type with b lebding pbrbmeter,
+     *  b reference to declbring clbss.  For stbtic methods, it is the sbme bs the declbred type.
      */
-    public MethodType getInvocationType() {
+    public MethodType getInvocbtionType() {
         MethodType itype = getMethodOrFieldType();
-        if (isConstructor() && getReferenceKind() == REF_newInvokeSpecial)
-            return itype.changeReturnType(clazz);
-        if (!isStatic())
-            return itype.insertParameterTypes(0, clazz);
+        if (isConstructor() && getReferenceKind() == REF_newInvokeSpecibl)
+            return itype.chbngeReturnType(clbzz);
+        if (!isStbtic())
+            return itype.insertPbrbmeterTypes(0, clbzz);
         return itype;
     }
 
-    /** Utility method producing the parameter types of the method type. */
-    public Class<?>[] getParameterTypes() {
-        return getMethodType().parameterArray();
+    /** Utility method producing the pbrbmeter types of the method type. */
+    public Clbss<?>[] getPbrbmeterTypes() {
+        return getMethodType().pbrbmeterArrby();
     }
 
     /** Utility method producing the return type of the method type. */
-    public Class<?> getReturnType() {
+    public Clbss<?> getReturnType() {
         return getMethodType().returnType();
     }
 
-    /** Return the declared type of this member, which
-     *  must be a field or type.
-     *  If it is a type member, that type itself is returned.
+    /** Return the declbred type of this member, which
+     *  must be b field or type.
+     *  If it is b type member, thbt type itself is returned.
      */
-    public Class<?> getFieldType() {
+    public Clbss<?> getFieldType() {
         if (type == null) {
-            expandFromVM();
+            expbndFromVM();
             if (type == null) {
                 return null;
             }
         }
-        if (isInvocable()) {
-            throw newIllegalArgumentException("not a field or nested class, no simple type");
+        if (isInvocbble()) {
+            throw newIllegblArgumentException("not b field or nested clbss, no simple type");
         }
 
         {
-            // Get a snapshot of type which doesn't get changed by racing threads.
-            final Object type = this.type;
-            if (type instanceof Class<?>) {
-                return (Class<?>) type;
+            // Get b snbpshot of type which doesn't get chbnged by rbcing threbds.
+            finbl Object type = this.type;
+            if (type instbnceof Clbss<?>) {
+                return (Clbss<?>) type;
             }
         }
 
-        // type is not a Class yet.  Convert it thread-safely.
+        // type is not b Clbss yet.  Convert it threbd-sbfely.
         synchronized (this) {
-            if (type instanceof String) {
+            if (type instbnceof String) {
                 String sig = (String) type;
-                MethodType mtype = MethodType.fromMethodDescriptorString("()"+sig, getClassLoader());
-                Class<?> res = mtype.returnType();
+                MethodType mtype = MethodType.fromMethodDescriptorString("()"+sig, getClbssLobder());
+                Clbss<?> res = mtype.returnType();
                 type = res;
             }
-            // Make sure type is a Class for racing threads.
-            assert type instanceof Class<?> : "bad field type " + type;
+            // Mbke sure type is b Clbss for rbcing threbds.
+            bssert type instbnceof Clbss<?> : "bbd field type " + type;
         }
-        return (Class<?>) type;
+        return (Clbss<?>) type;
     }
 
     /** Utility method to produce either the method type or field type of this member. */
     public Object getType() {
-        return (isInvocable() ? getMethodType() : getFieldType());
+        return (isInvocbble() ? getMethodType() : getFieldType());
     }
 
-    /** Utility method to produce the signature of this member,
-     *  used within the class file format to describe its type.
+    /** Utility method to produce the signbture of this member,
+     *  used within the clbss file formbt to describe its type.
      */
-    public String getSignature() {
+    public String getSignbture() {
         if (type == null) {
-            expandFromVM();
+            expbndFromVM();
             if (type == null) {
                 return null;
             }
         }
-        if (isInvocable())
-            return BytecodeDescriptor.unparse(getMethodType());
+        if (isInvocbble())
+            return BytecodeDescriptor.unpbrse(getMethodType());
         else
-            return BytecodeDescriptor.unparse(getFieldType());
+            return BytecodeDescriptor.unpbrse(getFieldType());
     }
 
-    /** Return the modifier flags of this member.
-     *  @see java.lang.reflect.Modifier
+    /** Return the modifier flbgs of this member.
+     *  @see jbvb.lbng.reflect.Modifier
      */
     public int getModifiers() {
-        return (flags & RECOGNIZED_MODIFIERS);
+        return (flbgs & RECOGNIZED_MODIFIERS);
     }
 
     /** Return the reference kind of this member, or zero if none.
      */
     public byte getReferenceKind() {
-        return (byte) ((flags >>> MN_REFERENCE_KIND_SHIFT) & MN_REFERENCE_KIND_MASK);
+        return (byte) ((flbgs >>> MN_REFERENCE_KIND_SHIFT) & MN_REFERENCE_KIND_MASK);
     }
-    private boolean referenceKindIsConsistent() {
+    privbte boolebn referenceKindIsConsistent() {
         byte refKind = getReferenceKind();
         if (refKind == REF_NONE)  return isType();
         if (isField()) {
-            assert(staticIsConsistent());
-            assert(MethodHandleNatives.refKindIsField(refKind));
+            bssert(stbticIsConsistent());
+            bssert(MethodHbndleNbtives.refKindIsField(refKind));
         } else if (isConstructor()) {
-            assert(refKind == REF_newInvokeSpecial || refKind == REF_invokeSpecial);
+            bssert(refKind == REF_newInvokeSpecibl || refKind == REF_invokeSpecibl);
         } else if (isMethod()) {
-            assert(staticIsConsistent());
-            assert(MethodHandleNatives.refKindIsMethod(refKind));
-            if (clazz.isInterface())
-                assert(refKind == REF_invokeInterface ||
-                       refKind == REF_invokeStatic    ||
-                       refKind == REF_invokeSpecial   ||
-                       refKind == REF_invokeVirtual && isObjectPublicMethod());
+            bssert(stbticIsConsistent());
+            bssert(MethodHbndleNbtives.refKindIsMethod(refKind));
+            if (clbzz.isInterfbce())
+                bssert(refKind == REF_invokeInterfbce ||
+                       refKind == REF_invokeStbtic    ||
+                       refKind == REF_invokeSpecibl   ||
+                       refKind == REF_invokeVirtubl && isObjectPublicMethod());
         } else {
-            assert(false);
+            bssert(fblse);
         }
         return true;
     }
-    private boolean isObjectPublicMethod() {
-        if (clazz == Object.class)  return true;
+    privbte boolebn isObjectPublicMethod() {
+        if (clbzz == Object.clbss)  return true;
         MethodType mtype = getMethodType();
-        if (name.equals("toString") && mtype.returnType() == String.class && mtype.parameterCount() == 0)
+        if (nbme.equbls("toString") && mtype.returnType() == String.clbss && mtype.pbrbmeterCount() == 0)
             return true;
-        if (name.equals("hashCode") && mtype.returnType() == int.class && mtype.parameterCount() == 0)
+        if (nbme.equbls("hbshCode") && mtype.returnType() == int.clbss && mtype.pbrbmeterCount() == 0)
             return true;
-        if (name.equals("equals") && mtype.returnType() == boolean.class && mtype.parameterCount() == 1 && mtype.parameterType(0) == Object.class)
+        if (nbme.equbls("equbls") && mtype.returnType() == boolebn.clbss && mtype.pbrbmeterCount() == 1 && mtype.pbrbmeterType(0) == Object.clbss)
             return true;
-        return false;
+        return fblse;
     }
-    /*non-public*/ boolean referenceKindIsConsistentWith(int originalRefKind) {
+    /*non-public*/ boolebn referenceKindIsConsistentWith(int originblRefKind) {
         int refKind = getReferenceKind();
-        if (refKind == originalRefKind)  return true;
-        switch (originalRefKind) {
-        case REF_invokeInterface:
-            // Looking up an interface method, can get (e.g.) Object.hashCode
-            assert(refKind == REF_invokeVirtual ||
-                   refKind == REF_invokeSpecial) : this;
+        if (refKind == originblRefKind)  return true;
+        switch (originblRefKind) {
+        cbse REF_invokeInterfbce:
+            // Looking up bn interfbce method, cbn get (e.g.) Object.hbshCode
+            bssert(refKind == REF_invokeVirtubl ||
+                   refKind == REF_invokeSpecibl) : this;
             return true;
-        case REF_invokeVirtual:
-        case REF_newInvokeSpecial:
-            // Looked up a virtual, can get (e.g.) final String.hashCode.
-            assert(refKind == REF_invokeSpecial) : this;
+        cbse REF_invokeVirtubl:
+        cbse REF_newInvokeSpecibl:
+            // Looked up b virtubl, cbn get (e.g.) finbl String.hbshCode.
+            bssert(refKind == REF_invokeSpecibl) : this;
             return true;
         }
-        assert(false) : this+" != "+MethodHandleNatives.refKindName((byte)originalRefKind);
+        bssert(fblse) : this+" != "+MethodHbndleNbtives.refKindNbme((byte)originblRefKind);
         return true;
     }
-    private boolean staticIsConsistent() {
+    privbte boolebn stbticIsConsistent() {
         byte refKind = getReferenceKind();
-        return MethodHandleNatives.refKindIsStatic(refKind) == isStatic() || getModifiers() == 0;
+        return MethodHbndleNbtives.refKindIsStbtic(refKind) == isStbtic() || getModifiers() == 0;
     }
-    private boolean vminfoIsConsistent() {
+    privbte boolebn vminfoIsConsistent() {
         byte refKind = getReferenceKind();
-        assert(isResolved());  // else don't call
-        Object vminfo = MethodHandleNatives.getMemberVMInfo(this);
-        assert(vminfo instanceof Object[]);
+        bssert(isResolved());  // else don't cbll
+        Object vminfo = MethodHbndleNbtives.getMemberVMInfo(this);
+        bssert(vminfo instbnceof Object[]);
         long vmindex = (Long) ((Object[])vminfo)[0];
-        Object vmtarget = ((Object[])vminfo)[1];
-        if (MethodHandleNatives.refKindIsField(refKind)) {
-            assert(vmindex >= 0) : vmindex + ":" + this;
-            assert(vmtarget instanceof Class);
+        Object vmtbrget = ((Object[])vminfo)[1];
+        if (MethodHbndleNbtives.refKindIsField(refKind)) {
+            bssert(vmindex >= 0) : vmindex + ":" + this;
+            bssert(vmtbrget instbnceof Clbss);
         } else {
-            if (MethodHandleNatives.refKindDoesDispatch(refKind))
-                assert(vmindex >= 0) : vmindex + ":" + this;
+            if (MethodHbndleNbtives.refKindDoesDispbtch(refKind))
+                bssert(vmindex >= 0) : vmindex + ":" + this;
             else
-                assert(vmindex < 0) : vmindex;
-            assert(vmtarget instanceof MemberName) : vmtarget + " in " + this;
+                bssert(vmindex < 0) : vmindex;
+            bssert(vmtbrget instbnceof MemberNbme) : vmtbrget + " in " + this;
         }
         return true;
     }
 
-    private MemberName changeReferenceKind(byte refKind, byte oldKind) {
-        assert(getReferenceKind() == oldKind);
-        assert(MethodHandleNatives.refKindIsValid(refKind));
-        flags += (((int)refKind - oldKind) << MN_REFERENCE_KIND_SHIFT);
-//        if (isConstructor() && refKind != REF_newInvokeSpecial)
-//            flags += (IS_METHOD - IS_CONSTRUCTOR);
-//        else if (refKind == REF_newInvokeSpecial && isMethod())
-//            flags += (IS_CONSTRUCTOR - IS_METHOD);
+    privbte MemberNbme chbngeReferenceKind(byte refKind, byte oldKind) {
+        bssert(getReferenceKind() == oldKind);
+        bssert(MethodHbndleNbtives.refKindIsVblid(refKind));
+        flbgs += (((int)refKind - oldKind) << MN_REFERENCE_KIND_SHIFT);
+//        if (isConstructor() && refKind != REF_newInvokeSpecibl)
+//            flbgs += (IS_METHOD - IS_CONSTRUCTOR);
+//        else if (refKind == REF_newInvokeSpecibl && isMethod())
+//            flbgs += (IS_CONSTRUCTOR - IS_METHOD);
         return this;
     }
 
-    private boolean testFlags(int mask, int value) {
-        return (flags & mask) == value;
+    privbte boolebn testFlbgs(int mbsk, int vblue) {
+        return (flbgs & mbsk) == vblue;
     }
-    private boolean testAllFlags(int mask) {
-        return testFlags(mask, mask);
+    privbte boolebn testAllFlbgs(int mbsk) {
+        return testFlbgs(mbsk, mbsk);
     }
-    private boolean testAnyFlags(int mask) {
-        return !testFlags(mask, 0);
+    privbte boolebn testAnyFlbgs(int mbsk) {
+        return !testFlbgs(mbsk, 0);
     }
 
-    /** Utility method to query if this member is a method handle invocation (invoke or invokeExact). */
-    public boolean isMethodHandleInvoke() {
-        final int bits = MH_INVOKE_MODS;
-        final int negs = Modifier.STATIC;
-        if (testFlags(bits | negs, bits) &&
-            clazz == MethodHandle.class) {
-            return isMethodHandleInvokeName(name);
+    /** Utility method to query if this member is b method hbndle invocbtion (invoke or invokeExbct). */
+    public boolebn isMethodHbndleInvoke() {
+        finbl int bits = MH_INVOKE_MODS;
+        finbl int negs = Modifier.STATIC;
+        if (testFlbgs(bits | negs, bits) &&
+            clbzz == MethodHbndle.clbss) {
+            return isMethodHbndleInvokeNbme(nbme);
         }
-        return false;
+        return fblse;
     }
-    public static boolean isMethodHandleInvokeName(String name) {
-        return name.equals("invoke") || name.equals("invokeExact");
+    public stbtic boolebn isMethodHbndleInvokeNbme(String nbme) {
+        return nbme.equbls("invoke") || nbme.equbls("invokeExbct");
     }
-    private static final int MH_INVOKE_MODS = Modifier.NATIVE | Modifier.FINAL | Modifier.PUBLIC;
+    privbte stbtic finbl int MH_INVOKE_MODS = Modifier.NATIVE | Modifier.FINAL | Modifier.PUBLIC;
 
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isStatic() {
-        return Modifier.isStatic(flags);
+    /** Utility method to query the modifier flbgs of this member. */
+    public boolebn isStbtic() {
+        return Modifier.isStbtic(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isPublic() {
-        return Modifier.isPublic(flags);
+    /** Utility method to query the modifier flbgs of this member. */
+    public boolebn isPublic() {
+        return Modifier.isPublic(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isPrivate() {
-        return Modifier.isPrivate(flags);
+    /** Utility method to query the modifier flbgs of this member. */
+    public boolebn isPrivbte() {
+        return Modifier.isPrivbte(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isProtected() {
-        return Modifier.isProtected(flags);
+    /** Utility method to query the modifier flbgs of this member. */
+    public boolebn isProtected() {
+        return Modifier.isProtected(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isFinal() {
-        return Modifier.isFinal(flags);
+    /** Utility method to query the modifier flbgs of this member. */
+    public boolebn isFinbl() {
+        return Modifier.isFinbl(flbgs);
     }
-    /** Utility method to query whether this member or its defining class is final. */
-    public boolean canBeStaticallyBound() {
-        return Modifier.isFinal(flags | clazz.getModifiers());
+    /** Utility method to query whether this member or its defining clbss is finbl. */
+    public boolebn cbnBeStbticbllyBound() {
+        return Modifier.isFinbl(flbgs | clbzz.getModifiers());
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isVolatile() {
-        return Modifier.isVolatile(flags);
+    /** Utility method to query the modifier flbgs of this member. */
+    public boolebn isVolbtile() {
+        return Modifier.isVolbtile(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isAbstract() {
-        return Modifier.isAbstract(flags);
+    /** Utility method to query the modifier flbgs of this member. */
+    public boolebn isAbstrbct() {
+        return Modifier.isAbstrbct(flbgs);
     }
-    /** Utility method to query the modifier flags of this member. */
-    public boolean isNative() {
-        return Modifier.isNative(flags);
+    /** Utility method to query the modifier flbgs of this member. */
+    public boolebn isNbtive() {
+        return Modifier.isNbtive(flbgs);
     }
-    // let the rest (native, volatile, transient, etc.) be tested via Modifier.isFoo
+    // let the rest (nbtive, volbtile, trbnsient, etc.) be tested vib Modifier.isFoo
 
-    // unofficial modifier flags, used by HotSpot:
-    static final int BRIDGE    = 0x00000040;
-    static final int VARARGS   = 0x00000080;
-    static final int SYNTHETIC = 0x00001000;
-    static final int ANNOTATION= 0x00002000;
-    static final int ENUM      = 0x00004000;
-    /** Utility method to query the modifier flags of this member; returns false if the member is not a method. */
-    public boolean isBridge() {
-        return testAllFlags(IS_METHOD | BRIDGE);
+    // unofficibl modifier flbgs, used by HotSpot:
+    stbtic finbl int BRIDGE    = 0x00000040;
+    stbtic finbl int VARARGS   = 0x00000080;
+    stbtic finbl int SYNTHETIC = 0x00001000;
+    stbtic finbl int ANNOTATION= 0x00002000;
+    stbtic finbl int ENUM      = 0x00004000;
+    /** Utility method to query the modifier flbgs of this member; returns fblse if the member is not b method. */
+    public boolebn isBridge() {
+        return testAllFlbgs(IS_METHOD | BRIDGE);
     }
-    /** Utility method to query the modifier flags of this member; returns false if the member is not a method. */
-    public boolean isVarargs() {
-        return testAllFlags(VARARGS) && isInvocable();
+    /** Utility method to query the modifier flbgs of this member; returns fblse if the member is not b method. */
+    public boolebn isVbrbrgs() {
+        return testAllFlbgs(VARARGS) && isInvocbble();
     }
-    /** Utility method to query the modifier flags of this member; returns false if the member is not a method. */
-    public boolean isSynthetic() {
-        return testAllFlags(SYNTHETIC);
+    /** Utility method to query the modifier flbgs of this member; returns fblse if the member is not b method. */
+    public boolebn isSynthetic() {
+        return testAllFlbgs(SYNTHETIC);
     }
 
-    static final String CONSTRUCTOR_NAME = "<init>";  // the ever-popular
+    stbtic finbl String CONSTRUCTOR_NAME = "<init>";  // the ever-populbr
 
     // modifiers exported by the JVM:
-    static final int RECOGNIZED_MODIFIERS = 0xFFFF;
+    stbtic finbl int RECOGNIZED_MODIFIERS = 0xFFFF;
 
-    // private flags, not part of RECOGNIZED_MODIFIERS:
-    static final int
+    // privbte flbgs, not pbrt of RECOGNIZED_MODIFIERS:
+    stbtic finbl int
             IS_METHOD        = MN_IS_METHOD,        // method (not constructor)
             IS_CONSTRUCTOR   = MN_IS_CONSTRUCTOR,   // constructor
             IS_FIELD         = MN_IS_FIELD,         // field
             IS_TYPE          = MN_IS_TYPE,          // nested type
-            CALLER_SENSITIVE = MN_CALLER_SENSITIVE; // @CallerSensitive annotation detected
+            CALLER_SENSITIVE = MN_CALLER_SENSITIVE; // @CbllerSensitive bnnotbtion detected
 
-    static final int ALL_ACCESS = Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED;
-    static final int ALL_KINDS = IS_METHOD | IS_CONSTRUCTOR | IS_FIELD | IS_TYPE;
-    static final int IS_INVOCABLE = IS_METHOD | IS_CONSTRUCTOR;
-    static final int IS_FIELD_OR_METHOD = IS_METHOD | IS_FIELD;
-    static final int SEARCH_ALL_SUPERS = MN_SEARCH_SUPERCLASSES | MN_SEARCH_INTERFACES;
+    stbtic finbl int ALL_ACCESS = Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED;
+    stbtic finbl int ALL_KINDS = IS_METHOD | IS_CONSTRUCTOR | IS_FIELD | IS_TYPE;
+    stbtic finbl int IS_INVOCABLE = IS_METHOD | IS_CONSTRUCTOR;
+    stbtic finbl int IS_FIELD_OR_METHOD = IS_METHOD | IS_FIELD;
+    stbtic finbl int SEARCH_ALL_SUPERS = MN_SEARCH_SUPERCLASSES | MN_SEARCH_INTERFACES;
 
-    /** Utility method to query whether this member is a method or constructor. */
-    public boolean isInvocable() {
-        return testAnyFlags(IS_INVOCABLE);
+    /** Utility method to query whether this member is b method or constructor. */
+    public boolebn isInvocbble() {
+        return testAnyFlbgs(IS_INVOCABLE);
     }
-    /** Utility method to query whether this member is a method, constructor, or field. */
-    public boolean isFieldOrMethod() {
-        return testAnyFlags(IS_FIELD_OR_METHOD);
+    /** Utility method to query whether this member is b method, constructor, or field. */
+    public boolebn isFieldOrMethod() {
+        return testAnyFlbgs(IS_FIELD_OR_METHOD);
     }
-    /** Query whether this member is a method. */
-    public boolean isMethod() {
-        return testAllFlags(IS_METHOD);
+    /** Query whether this member is b method. */
+    public boolebn isMethod() {
+        return testAllFlbgs(IS_METHOD);
     }
-    /** Query whether this member is a constructor. */
-    public boolean isConstructor() {
-        return testAllFlags(IS_CONSTRUCTOR);
+    /** Query whether this member is b constructor. */
+    public boolebn isConstructor() {
+        return testAllFlbgs(IS_CONSTRUCTOR);
     }
-    /** Query whether this member is a field. */
-    public boolean isField() {
-        return testAllFlags(IS_FIELD);
+    /** Query whether this member is b field. */
+    public boolebn isField() {
+        return testAllFlbgs(IS_FIELD);
     }
-    /** Query whether this member is a type. */
-    public boolean isType() {
-        return testAllFlags(IS_TYPE);
+    /** Query whether this member is b type. */
+    public boolebn isType() {
+        return testAllFlbgs(IS_TYPE);
     }
-    /** Utility method to query whether this member is neither public, private, nor protected. */
-    public boolean isPackage() {
-        return !testAnyFlags(ALL_ACCESS);
+    /** Utility method to query whether this member is neither public, privbte, nor protected. */
+    public boolebn isPbckbge() {
+        return !testAnyFlbgs(ALL_ACCESS);
     }
-    /** Query whether this member has a CallerSensitive annotation. */
-    public boolean isCallerSensitive() {
-        return testAllFlags(CALLER_SENSITIVE);
-    }
-
-    /** Utility method to query whether this member is accessible from a given lookup class. */
-    public boolean isAccessibleFrom(Class<?> lookupClass) {
-        return VerifyAccess.isMemberAccessible(this.getDeclaringClass(), this.getDeclaringClass(), flags,
-                                               lookupClass, ALL_ACCESS|MethodHandles.Lookup.PACKAGE);
+    /** Query whether this member hbs b CbllerSensitive bnnotbtion. */
+    public boolebn isCbllerSensitive() {
+        return testAllFlbgs(CALLER_SENSITIVE);
     }
 
-    /** Initialize a query.   It is not resolved. */
-    private void init(Class<?> defClass, String name, Object type, int flags) {
-        // defining class is allowed to be null (for a naked name/type pair)
-        //name.toString();  // null check
-        //type.equals(type);  // null check
+    /** Utility method to query whether this member is bccessible from b given lookup clbss. */
+    public boolebn isAccessibleFrom(Clbss<?> lookupClbss) {
+        return VerifyAccess.isMemberAccessible(this.getDeclbringClbss(), this.getDeclbringClbss(), flbgs,
+                                               lookupClbss, ALL_ACCESS|MethodHbndles.Lookup.PACKAGE);
+    }
+
+    /** Initiblize b query.   It is not resolved. */
+    privbte void init(Clbss<?> defClbss, String nbme, Object type, int flbgs) {
+        // defining clbss is bllowed to be null (for b nbked nbme/type pbir)
+        //nbme.toString();  // null check
+        //type.equbls(type);  // null check
         // fill in fields:
-        this.clazz = defClass;
-        this.name = name;
+        this.clbzz = defClbss;
+        this.nbme = nbme;
         this.type = type;
-        this.flags = flags;
-        assert(testAnyFlags(ALL_KINDS));
-        assert(this.resolution == null);  // nobody should have touched this yet
-        //assert(referenceKindIsConsistent());  // do this after resolution
+        this.flbgs = flbgs;
+        bssert(testAnyFlbgs(ALL_KINDS));
+        bssert(this.resolution == null);  // nobody should hbve touched this yet
+        //bssert(referenceKindIsConsistent());  // do this bfter resolution
     }
 
     /**
-     * Calls down to the VM to fill in the fields.  This method is
-     * synchronized to avoid racing calls.
+     * Cblls down to the VM to fill in the fields.  This method is
+     * synchronized to bvoid rbcing cblls.
      */
-    private void expandFromVM() {
+    privbte void expbndFromVM() {
         if (type != null) {
             return;
         }
         if (!isResolved()) {
             return;
         }
-        MethodHandleNatives.expand(this);
+        MethodHbndleNbtives.expbnd(this);
     }
 
-    // Capturing information from the Core Reflection API:
-    private static int flagsMods(int flags, int mods, byte refKind) {
-        assert((flags & RECOGNIZED_MODIFIERS) == 0);
-        assert((mods & ~RECOGNIZED_MODIFIERS) == 0);
-        assert((refKind & ~MN_REFERENCE_KIND_MASK) == 0);
-        return flags | mods | (refKind << MN_REFERENCE_KIND_SHIFT);
+    // Cbpturing informbtion from the Core Reflection API:
+    privbte stbtic int flbgsMods(int flbgs, int mods, byte refKind) {
+        bssert((flbgs & RECOGNIZED_MODIFIERS) == 0);
+        bssert((mods & ~RECOGNIZED_MODIFIERS) == 0);
+        bssert((refKind & ~MN_REFERENCE_KIND_MASK) == 0);
+        return flbgs | mods | (refKind << MN_REFERENCE_KIND_SHIFT);
     }
-    /** Create a name for the given reflected method.  The resulting name will be in a resolved state. */
-    public MemberName(Method m) {
-        this(m, false);
+    /** Crebte b nbme for the given reflected method.  The resulting nbme will be in b resolved stbte. */
+    public MemberNbme(Method m) {
+        this(m, fblse);
     }
-    @SuppressWarnings("LeakingThisInConstructor")
-    public MemberName(Method m, boolean wantSpecial) {
-        m.getClass();  // NPE check
-        // fill in vmtarget, vmindex while we have m in hand:
-        MethodHandleNatives.init(this, m);
-        if (clazz == null) {  // MHN.init failed
-            if (m.getDeclaringClass() == MethodHandle.class &&
-                isMethodHandleInvokeName(m.getName())) {
-                // The JVM did not reify this signature-polymorphic instance.
-                // Need a special case here.
-                // See comments on MethodHandleNatives.linkMethod.
-                MethodType type = MethodType.methodType(m.getReturnType(), m.getParameterTypes());
-                int flags = flagsMods(IS_METHOD, m.getModifiers(), REF_invokeVirtual);
-                init(MethodHandle.class, m.getName(), type, flags);
-                if (isMethodHandleInvoke())
+    @SuppressWbrnings("LebkingThisInConstructor")
+    public MemberNbme(Method m, boolebn wbntSpecibl) {
+        m.getClbss();  // NPE check
+        // fill in vmtbrget, vmindex while we hbve m in hbnd:
+        MethodHbndleNbtives.init(this, m);
+        if (clbzz == null) {  // MHN.init fbiled
+            if (m.getDeclbringClbss() == MethodHbndle.clbss &&
+                isMethodHbndleInvokeNbme(m.getNbme())) {
+                // The JVM did not reify this signbture-polymorphic instbnce.
+                // Need b specibl cbse here.
+                // See comments on MethodHbndleNbtives.linkMethod.
+                MethodType type = MethodType.methodType(m.getReturnType(), m.getPbrbmeterTypes());
+                int flbgs = flbgsMods(IS_METHOD, m.getModifiers(), REF_invokeVirtubl);
+                init(MethodHbndle.clbss, m.getNbme(), type, flbgs);
+                if (isMethodHbndleInvoke())
                     return;
             }
-            throw new LinkageError(m.toString());
+            throw new LinkbgeError(m.toString());
         }
-        assert(isResolved() && this.clazz != null);
-        this.name = m.getName();
+        bssert(isResolved() && this.clbzz != null);
+        this.nbme = m.getNbme();
         if (this.type == null)
-            this.type = new Object[] { m.getReturnType(), m.getParameterTypes() };
-        if (wantSpecial) {
-            if (isAbstract())
-                throw new AbstractMethodError(this.toString());
-            if (getReferenceKind() == REF_invokeVirtual)
-                changeReferenceKind(REF_invokeSpecial, REF_invokeVirtual);
-            else if (getReferenceKind() == REF_invokeInterface)
-                // invokeSpecial on a default method
-                changeReferenceKind(REF_invokeSpecial, REF_invokeInterface);
+            this.type = new Object[] { m.getReturnType(), m.getPbrbmeterTypes() };
+        if (wbntSpecibl) {
+            if (isAbstrbct())
+                throw new AbstrbctMethodError(this.toString());
+            if (getReferenceKind() == REF_invokeVirtubl)
+                chbngeReferenceKind(REF_invokeSpecibl, REF_invokeVirtubl);
+            else if (getReferenceKind() == REF_invokeInterfbce)
+                // invokeSpecibl on b defbult method
+                chbngeReferenceKind(REF_invokeSpecibl, REF_invokeInterfbce);
         }
     }
-    public MemberName asSpecial() {
+    public MemberNbme bsSpecibl() {
         switch (getReferenceKind()) {
-        case REF_invokeSpecial:     return this;
-        case REF_invokeVirtual:     return clone().changeReferenceKind(REF_invokeSpecial, REF_invokeVirtual);
-        case REF_invokeInterface:   return clone().changeReferenceKind(REF_invokeSpecial, REF_invokeInterface);
-        case REF_newInvokeSpecial:  return clone().changeReferenceKind(REF_invokeSpecial, REF_newInvokeSpecial);
+        cbse REF_invokeSpecibl:     return this;
+        cbse REF_invokeVirtubl:     return clone().chbngeReferenceKind(REF_invokeSpecibl, REF_invokeVirtubl);
+        cbse REF_invokeInterfbce:   return clone().chbngeReferenceKind(REF_invokeSpecibl, REF_invokeInterfbce);
+        cbse REF_newInvokeSpecibl:  return clone().chbngeReferenceKind(REF_invokeSpecibl, REF_newInvokeSpecibl);
         }
-        throw new IllegalArgumentException(this.toString());
+        throw new IllegblArgumentException(this.toString());
     }
-    /** If this MN is not REF_newInvokeSpecial, return a clone with that ref. kind.
-     *  In that case it must already be REF_invokeSpecial.
+    /** If this MN is not REF_newInvokeSpecibl, return b clone with thbt ref. kind.
+     *  In thbt cbse it must blrebdy be REF_invokeSpecibl.
      */
-    public MemberName asConstructor() {
+    public MemberNbme bsConstructor() {
         switch (getReferenceKind()) {
-        case REF_invokeSpecial:     return clone().changeReferenceKind(REF_newInvokeSpecial, REF_invokeSpecial);
-        case REF_newInvokeSpecial:  return this;
+        cbse REF_invokeSpecibl:     return clone().chbngeReferenceKind(REF_newInvokeSpecibl, REF_invokeSpecibl);
+        cbse REF_newInvokeSpecibl:  return this;
         }
-        throw new IllegalArgumentException(this.toString());
+        throw new IllegblArgumentException(this.toString());
     }
-    /** If this MN is a REF_invokeSpecial, return a clone with the "normal" kind
-     *  REF_invokeVirtual; also switch either to REF_invokeInterface if clazz.isInterface.
-     *  The end result is to get a fully virtualized version of the MN.
-     *  (Note that resolving in the JVM will sometimes devirtualize, changing
-     *  REF_invokeVirtual of a final to REF_invokeSpecial, and REF_invokeInterface
-     *  in some corner cases to either of the previous two; this transform
-     *  undoes that change under the assumption that it occurred.)
+    /** If this MN is b REF_invokeSpecibl, return b clone with the "normbl" kind
+     *  REF_invokeVirtubl; blso switch either to REF_invokeInterfbce if clbzz.isInterfbce.
+     *  The end result is to get b fully virtublized version of the MN.
+     *  (Note thbt resolving in the JVM will sometimes devirtublize, chbnging
+     *  REF_invokeVirtubl of b finbl to REF_invokeSpecibl, bnd REF_invokeInterfbce
+     *  in some corner cbses to either of the previous two; this trbnsform
+     *  undoes thbt chbnge under the bssumption thbt it occurred.)
      */
-    public MemberName asNormalOriginal() {
-        byte normalVirtual = clazz.isInterface() ? REF_invokeInterface : REF_invokeVirtual;
+    public MemberNbme bsNormblOriginbl() {
+        byte normblVirtubl = clbzz.isInterfbce() ? REF_invokeInterfbce : REF_invokeVirtubl;
         byte refKind = getReferenceKind();
         byte newRefKind = refKind;
-        MemberName result = this;
+        MemberNbme result = this;
         switch (refKind) {
-        case REF_invokeInterface:
-        case REF_invokeVirtual:
-        case REF_invokeSpecial:
-            newRefKind = normalVirtual;
-            break;
+        cbse REF_invokeInterfbce:
+        cbse REF_invokeVirtubl:
+        cbse REF_invokeSpecibl:
+            newRefKind = normblVirtubl;
+            brebk;
         }
         if (newRefKind == refKind)
             return this;
-        result = clone().changeReferenceKind(newRefKind, refKind);
-        assert(this.referenceKindIsConsistentWith(result.getReferenceKind()));
+        result = clone().chbngeReferenceKind(newRefKind, refKind);
+        bssert(this.referenceKindIsConsistentWith(result.getReferenceKind()));
         return result;
     }
-    /** Create a name for the given reflected constructor.  The resulting name will be in a resolved state. */
-    @SuppressWarnings("LeakingThisInConstructor")
-    public MemberName(Constructor<?> ctor) {
-        ctor.getClass();  // NPE check
-        // fill in vmtarget, vmindex while we have ctor in hand:
-        MethodHandleNatives.init(this, ctor);
-        assert(isResolved() && this.clazz != null);
-        this.name = CONSTRUCTOR_NAME;
+    /** Crebte b nbme for the given reflected constructor.  The resulting nbme will be in b resolved stbte. */
+    @SuppressWbrnings("LebkingThisInConstructor")
+    public MemberNbme(Constructor<?> ctor) {
+        ctor.getClbss();  // NPE check
+        // fill in vmtbrget, vmindex while we hbve ctor in hbnd:
+        MethodHbndleNbtives.init(this, ctor);
+        bssert(isResolved() && this.clbzz != null);
+        this.nbme = CONSTRUCTOR_NAME;
         if (this.type == null)
-            this.type = new Object[] { void.class, ctor.getParameterTypes() };
+            this.type = new Object[] { void.clbss, ctor.getPbrbmeterTypes() };
     }
-    /** Create a name for the given reflected field.  The resulting name will be in a resolved state.
+    /** Crebte b nbme for the given reflected field.  The resulting nbme will be in b resolved stbte.
      */
-    public MemberName(Field fld) {
-        this(fld, false);
+    public MemberNbme(Field fld) {
+        this(fld, fblse);
     }
-    @SuppressWarnings("LeakingThisInConstructor")
-    public MemberName(Field fld, boolean makeSetter) {
-        fld.getClass();  // NPE check
-        // fill in vmtarget, vmindex while we have fld in hand:
-        MethodHandleNatives.init(this, fld);
-        assert(isResolved() && this.clazz != null);
-        this.name = fld.getName();
+    @SuppressWbrnings("LebkingThisInConstructor")
+    public MemberNbme(Field fld, boolebn mbkeSetter) {
+        fld.getClbss();  // NPE check
+        // fill in vmtbrget, vmindex while we hbve fld in hbnd:
+        MethodHbndleNbtives.init(this, fld);
+        bssert(isResolved() && this.clbzz != null);
+        this.nbme = fld.getNbme();
         this.type = fld.getType();
-        assert((REF_putStatic - REF_getStatic) == (REF_putField - REF_getField));
+        bssert((REF_putStbtic - REF_getStbtic) == (REF_putField - REF_getField));
         byte refKind = this.getReferenceKind();
-        assert(refKind == (isStatic() ? REF_getStatic : REF_getField));
-        if (makeSetter) {
-            changeReferenceKind((byte)(refKind + (REF_putStatic - REF_getStatic)), refKind);
+        bssert(refKind == (isStbtic() ? REF_getStbtic : REF_getField));
+        if (mbkeSetter) {
+            chbngeReferenceKind((byte)(refKind + (REF_putStbtic - REF_getStbtic)), refKind);
         }
     }
-    public boolean isGetter() {
-        return MethodHandleNatives.refKindIsGetter(getReferenceKind());
+    public boolebn isGetter() {
+        return MethodHbndleNbtives.refKindIsGetter(getReferenceKind());
     }
-    public boolean isSetter() {
-        return MethodHandleNatives.refKindIsSetter(getReferenceKind());
+    public boolebn isSetter() {
+        return MethodHbndleNbtives.refKindIsSetter(getReferenceKind());
     }
-    public MemberName asSetter() {
+    public MemberNbme bsSetter() {
         byte refKind = getReferenceKind();
-        assert(MethodHandleNatives.refKindIsGetter(refKind));
-        assert((REF_putStatic - REF_getStatic) == (REF_putField - REF_getField));
+        bssert(MethodHbndleNbtives.refKindIsGetter(refKind));
+        bssert((REF_putStbtic - REF_getStbtic) == (REF_putField - REF_getField));
         byte setterRefKind = (byte)(refKind + (REF_putField - REF_getField));
-        return clone().changeReferenceKind(setterRefKind, refKind);
+        return clone().chbngeReferenceKind(setterRefKind, refKind);
     }
-    /** Create a name for the given class.  The resulting name will be in a resolved state. */
-    public MemberName(Class<?> type) {
-        init(type.getDeclaringClass(), type.getSimpleName(), type,
-                flagsMods(IS_TYPE, type.getModifiers(), REF_NONE));
+    /** Crebte b nbme for the given clbss.  The resulting nbme will be in b resolved stbte. */
+    public MemberNbme(Clbss<?> type) {
+        init(type.getDeclbringClbss(), type.getSimpleNbme(), type,
+                flbgsMods(IS_TYPE, type.getModifiers(), REF_NONE));
         initResolved(true);
     }
 
     /**
-     * Create a name for a signature-polymorphic invoker.
-     * This is a placeholder for a signature-polymorphic instance
-     * (of MH.invokeExact, etc.) that the JVM does not reify.
-     * See comments on {@link MethodHandleNatives#linkMethod}.
+     * Crebte b nbme for b signbture-polymorphic invoker.
+     * This is b plbceholder for b signbture-polymorphic instbnce
+     * (of MH.invokeExbct, etc.) thbt the JVM does not reify.
+     * See comments on {@link MethodHbndleNbtives#linkMethod}.
      */
-    static MemberName makeMethodHandleInvoke(String name, MethodType type) {
-        return makeMethodHandleInvoke(name, type, MH_INVOKE_MODS | SYNTHETIC);
+    stbtic MemberNbme mbkeMethodHbndleInvoke(String nbme, MethodType type) {
+        return mbkeMethodHbndleInvoke(nbme, type, MH_INVOKE_MODS | SYNTHETIC);
     }
-    static MemberName makeMethodHandleInvoke(String name, MethodType type, int mods) {
-        MemberName mem = new MemberName(MethodHandle.class, name, type, REF_invokeVirtual);
-        mem.flags |= mods;  // it's not resolved, but add these modifiers anyway
-        assert(mem.isMethodHandleInvoke()) : mem;
+    stbtic MemberNbme mbkeMethodHbndleInvoke(String nbme, MethodType type, int mods) {
+        MemberNbme mem = new MemberNbme(MethodHbndle.clbss, nbme, type, REF_invokeVirtubl);
+        mem.flbgs |= mods;  // it's not resolved, but bdd these modifiers bnywby
+        bssert(mem.isMethodHbndleInvoke()) : mem;
         return mem;
     }
 
-    // bare-bones constructor; the JVM will fill it in
-    MemberName() { }
+    // bbre-bones constructor; the JVM will fill it in
+    MemberNbme() { }
 
-    // locally useful cloner
-    @Override protected MemberName clone() {
+    // locblly useful cloner
+    @Override protected MemberNbme clone() {
         try {
-            return (MemberName) super.clone();
-        } catch (CloneNotSupportedException ex) {
-            throw newInternalError(ex);
+            return (MemberNbme) super.clone();
+        } cbtch (CloneNotSupportedException ex) {
+            throw newInternblError(ex);
         }
      }
 
-    /** Get the definition of this member name.
-     *  This may be in a super-class of the declaring class of this member.
+    /** Get the definition of this member nbme.
+     *  This mby be in b super-clbss of the declbring clbss of this member.
      */
-    public MemberName getDefinition() {
-        if (!isResolved())  throw new IllegalStateException("must be resolved: "+this);
+    public MemberNbme getDefinition() {
+        if (!isResolved())  throw new IllegblStbteException("must be resolved: "+this);
         if (isType())  return this;
-        MemberName res = this.clone();
-        res.clazz = null;
+        MemberNbme res = this.clone();
+        res.clbzz = null;
         res.type = null;
-        res.name = null;
+        res.nbme = null;
         res.resolution = res;
-        res.expandFromVM();
-        assert(res.getName().equals(this.getName()));
+        res.expbndFromVM();
+        bssert(res.getNbme().equbls(this.getNbme()));
         return res;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(clazz, getReferenceKind(), name, getType());
+    public int hbshCode() {
+        return Objects.hbsh(clbzz, getReferenceKind(), nbme, getType());
     }
     @Override
-    public boolean equals(Object that) {
-        return (that instanceof MemberName && this.equals((MemberName)that));
+    public boolebn equbls(Object thbt) {
+        return (thbt instbnceof MemberNbme && this.equbls((MemberNbme)thbt));
     }
 
-    /** Decide if two member names have exactly the same symbolic content.
-     *  Does not take into account any actual class members, so even if
-     *  two member names resolve to the same actual member, they may
+    /** Decide if two member nbmes hbve exbctly the sbme symbolic content.
+     *  Does not tbke into bccount bny bctubl clbss members, so even if
+     *  two member nbmes resolve to the sbme bctubl member, they mby
      *  be distinct references.
      */
-    public boolean equals(MemberName that) {
-        if (this == that)  return true;
-        if (that == null)  return false;
-        return this.clazz == that.clazz
-                && this.getReferenceKind() == that.getReferenceKind()
-                && Objects.equals(this.name, that.name)
-                && Objects.equals(this.getType(), that.getType());
+    public boolebn equbls(MemberNbme thbt) {
+        if (this == thbt)  return true;
+        if (thbt == null)  return fblse;
+        return this.clbzz == thbt.clbzz
+                && this.getReferenceKind() == thbt.getReferenceKind()
+                && Objects.equbls(this.nbme, thbt.nbme)
+                && Objects.equbls(this.getType(), thbt.getType());
     }
 
-    // Construction from symbolic parts, for queries:
-    /** Create a field or type name from the given components:
-     *  Declaring class, name, type, reference kind.
-     *  The declaring class may be supplied as null if this is to be a bare name and type.
-     *  The resulting name will in an unresolved state.
+    // Construction from symbolic pbrts, for queries:
+    /** Crebte b field or type nbme from the given components:
+     *  Declbring clbss, nbme, type, reference kind.
+     *  The declbring clbss mby be supplied bs null if this is to be b bbre nbme bnd type.
+     *  The resulting nbme will in bn unresolved stbte.
      */
-    public MemberName(Class<?> defClass, String name, Class<?> type, byte refKind) {
-        init(defClass, name, type, flagsMods(IS_FIELD, 0, refKind));
-        initResolved(false);
+    public MemberNbme(Clbss<?> defClbss, String nbme, Clbss<?> type, byte refKind) {
+        init(defClbss, nbme, type, flbgsMods(IS_FIELD, 0, refKind));
+        initResolved(fblse);
     }
-    /** Create a field or type name from the given components:  Declaring class, name, type.
-     *  The declaring class may be supplied as null if this is to be a bare name and type.
-     *  The modifier flags default to zero.
-     *  The resulting name will in an unresolved state.
+    /** Crebte b field or type nbme from the given components:  Declbring clbss, nbme, type.
+     *  The declbring clbss mby be supplied bs null if this is to be b bbre nbme bnd type.
+     *  The modifier flbgs defbult to zero.
+     *  The resulting nbme will in bn unresolved stbte.
      */
-    public MemberName(Class<?> defClass, String name, Class<?> type, Void unused) {
-        this(defClass, name, type, REF_NONE);
-        initResolved(false);
+    public MemberNbme(Clbss<?> defClbss, String nbme, Clbss<?> type, Void unused) {
+        this(defClbss, nbme, type, REF_NONE);
+        initResolved(fblse);
     }
-    /** Create a method or constructor name from the given components:  Declaring class, name, type, modifiers.
-     *  It will be a constructor if and only if the name is {@code "&lt;init&gt;"}.
-     *  The declaring class may be supplied as null if this is to be a bare name and type.
-     *  The last argument is optional, a boolean which requests REF_invokeSpecial.
-     *  The resulting name will in an unresolved state.
+    /** Crebte b method or constructor nbme from the given components:  Declbring clbss, nbme, type, modifiers.
+     *  It will be b constructor if bnd only if the nbme is {@code "&lt;init&gt;"}.
+     *  The declbring clbss mby be supplied bs null if this is to be b bbre nbme bnd type.
+     *  The lbst brgument is optionbl, b boolebn which requests REF_invokeSpecibl.
+     *  The resulting nbme will in bn unresolved stbte.
      */
-    public MemberName(Class<?> defClass, String name, MethodType type, byte refKind) {
-        int initFlags = (name != null && name.equals(CONSTRUCTOR_NAME) ? IS_CONSTRUCTOR : IS_METHOD);
-        init(defClass, name, type, flagsMods(initFlags, 0, refKind));
-        initResolved(false);
+    public MemberNbme(Clbss<?> defClbss, String nbme, MethodType type, byte refKind) {
+        int initFlbgs = (nbme != null && nbme.equbls(CONSTRUCTOR_NAME) ? IS_CONSTRUCTOR : IS_METHOD);
+        init(defClbss, nbme, type, flbgsMods(initFlbgs, 0, refKind));
+        initResolved(fblse);
     }
-    /** Create a method, constructor, or field name from the given components:
-     *  Reference kind, declaring class, name, type.
+    /** Crebte b method, constructor, or field nbme from the given components:
+     *  Reference kind, declbring clbss, nbme, type.
      */
-    public MemberName(byte refKind, Class<?> defClass, String name, Object type) {
-        int kindFlags;
-        if (MethodHandleNatives.refKindIsField(refKind)) {
-            kindFlags = IS_FIELD;
-            if (!(type instanceof Class))
-                throw newIllegalArgumentException("not a field type");
-        } else if (MethodHandleNatives.refKindIsMethod(refKind)) {
-            kindFlags = IS_METHOD;
-            if (!(type instanceof MethodType))
-                throw newIllegalArgumentException("not a method type");
-        } else if (refKind == REF_newInvokeSpecial) {
-            kindFlags = IS_CONSTRUCTOR;
-            if (!(type instanceof MethodType) ||
-                !CONSTRUCTOR_NAME.equals(name))
-                throw newIllegalArgumentException("not a constructor type or name");
+    public MemberNbme(byte refKind, Clbss<?> defClbss, String nbme, Object type) {
+        int kindFlbgs;
+        if (MethodHbndleNbtives.refKindIsField(refKind)) {
+            kindFlbgs = IS_FIELD;
+            if (!(type instbnceof Clbss))
+                throw newIllegblArgumentException("not b field type");
+        } else if (MethodHbndleNbtives.refKindIsMethod(refKind)) {
+            kindFlbgs = IS_METHOD;
+            if (!(type instbnceof MethodType))
+                throw newIllegblArgumentException("not b method type");
+        } else if (refKind == REF_newInvokeSpecibl) {
+            kindFlbgs = IS_CONSTRUCTOR;
+            if (!(type instbnceof MethodType) ||
+                !CONSTRUCTOR_NAME.equbls(nbme))
+                throw newIllegblArgumentException("not b constructor type or nbme");
         } else {
-            throw newIllegalArgumentException("bad reference kind "+refKind);
+            throw newIllegblArgumentException("bbd reference kind "+refKind);
         }
-        init(defClass, name, type, flagsMods(kindFlags, 0, refKind));
-        initResolved(false);
+        init(defClbss, nbme, type, flbgsMods(kindFlbgs, 0, refKind));
+        initResolved(fblse);
     }
-    /** Query whether this member name is resolved to a non-static, non-final method.
+    /** Query whether this member nbme is resolved to b non-stbtic, non-finbl method.
      */
-    public boolean hasReceiverTypeDispatch() {
-        return MethodHandleNatives.refKindDoesDispatch(getReferenceKind());
+    public boolebn hbsReceiverTypeDispbtch() {
+        return MethodHbndleNbtives.refKindDoesDispbtch(getReferenceKind());
     }
 
-    /** Query whether this member name is resolved.
-     *  A resolved member name is one for which the JVM has found
-     *  a method, constructor, field, or type binding corresponding exactly to the name.
+    /** Query whether this member nbme is resolved.
+     *  A resolved member nbme is one for which the JVM hbs found
+     *  b method, constructor, field, or type binding corresponding exbctly to the nbme.
      *  (Document?)
      */
-    public boolean isResolved() {
+    public boolebn isResolved() {
         return resolution == null;
     }
 
-    private void initResolved(boolean isResolved) {
-        assert(this.resolution == null);  // not initialized yet!
+    privbte void initResolved(boolebn isResolved) {
+        bssert(this.resolution == null);  // not initiblized yet!
         if (!isResolved)
             this.resolution = this;
-        assert(isResolved() == isResolved);
+        bssert(isResolved() == isResolved);
     }
 
-    void checkForTypeAlias() {
-        if (isInvocable()) {
+    void checkForTypeAlibs() {
+        if (isInvocbble()) {
             MethodType type;
-            if (this.type instanceof MethodType)
+            if (this.type instbnceof MethodType)
                 type = (MethodType) this.type;
             else
                 this.type = type = getMethodType();
-            if (type.erase() == type)  return;
-            if (VerifyAccess.isTypeVisible(type, clazz))  return;
-            throw new LinkageError("bad method type alias: "+type+" not visible from "+clazz);
+            if (type.erbse() == type)  return;
+            if (VerifyAccess.isTypeVisible(type, clbzz))  return;
+            throw new LinkbgeError("bbd method type blibs: "+type+" not visible from "+clbzz);
         } else {
-            Class<?> type;
-            if (this.type instanceof Class<?>)
-                type = (Class<?>) this.type;
+            Clbss<?> type;
+            if (this.type instbnceof Clbss<?>)
+                type = (Clbss<?>) this.type;
             else
                 this.type = type = getFieldType();
-            if (VerifyAccess.isTypeVisible(type, clazz))  return;
-            throw new LinkageError("bad field type alias: "+type+" not visible from "+clazz);
+            if (VerifyAccess.isTypeVisible(type, clbzz))  return;
+            throw new LinkbgeError("bbd field type blibs: "+type+" not visible from "+clbzz);
         }
     }
 
 
-    /** Produce a string form of this member name.
-     *  For types, it is simply the type's own string (as reported by {@code toString}).
-     *  For fields, it is {@code "DeclaringClass.name/type"}.
-     *  For methods and constructors, it is {@code "DeclaringClass.name(ptype...)rtype"}.
-     *  If the declaring class is null, the prefix {@code "DeclaringClass."} is omitted.
-     *  If the member is unresolved, a prefix {@code "*."} is prepended.
+    /** Produce b string form of this member nbme.
+     *  For types, it is simply the type's own string (bs reported by {@code toString}).
+     *  For fields, it is {@code "DeclbringClbss.nbme/type"}.
+     *  For methods bnd constructors, it is {@code "DeclbringClbss.nbme(ptype...)rtype"}.
+     *  If the declbring clbss is null, the prefix {@code "DeclbringClbss."} is omitted.
+     *  If the member is unresolved, b prefix {@code "*."} is prepended.
      */
-    @SuppressWarnings("LocalVariableHidesMemberVariable")
+    @SuppressWbrnings("LocblVbribbleHidesMemberVbribble")
     @Override
     public String toString() {
         if (isType())
-            return type.toString();  // class java.lang.String
-        // else it is a field, method, or constructor
+            return type.toString();  // clbss jbvb.lbng.String
+        // else it is b field, method, or constructor
         StringBuilder buf = new StringBuilder();
-        if (getDeclaringClass() != null) {
-            buf.append(getName(clazz));
-            buf.append('.');
+        if (getDeclbringClbss() != null) {
+            buf.bppend(getNbme(clbzz));
+            buf.bppend('.');
         }
-        String name = getName();
-        buf.append(name == null ? "*" : name);
+        String nbme = getNbme();
+        buf.bppend(nbme == null ? "*" : nbme);
         Object type = getType();
-        if (!isInvocable()) {
-            buf.append('/');
-            buf.append(type == null ? "*" : getName(type));
+        if (!isInvocbble()) {
+            buf.bppend('/');
+            buf.bppend(type == null ? "*" : getNbme(type));
         } else {
-            buf.append(type == null ? "(*)*" : getName(type));
+            buf.bppend(type == null ? "(*)*" : getNbme(type));
         }
         byte refKind = getReferenceKind();
         if (refKind != REF_NONE) {
-            buf.append('/');
-            buf.append(MethodHandleNatives.refKindName(refKind));
+            buf.bppend('/');
+            buf.bppend(MethodHbndleNbtives.refKindNbme(refKind));
         }
-        //buf.append("#").append(System.identityHashCode(this));
+        //buf.bppend("#").bppend(System.identityHbshCode(this));
         return buf.toString();
     }
-    private static String getName(Object obj) {
-        if (obj instanceof Class<?>)
-            return ((Class<?>)obj).getName();
-        return String.valueOf(obj);
+    privbte stbtic String getNbme(Object obj) {
+        if (obj instbnceof Clbss<?>)
+            return ((Clbss<?>)obj).getNbme();
+        return String.vblueOf(obj);
     }
 
-    public IllegalAccessException makeAccessException(String message, Object from) {
-        message = message + ": "+ toString();
-        if (from != null)  message += ", from " + from;
-        return new IllegalAccessException(message);
+    public IllegblAccessException mbkeAccessException(String messbge, Object from) {
+        messbge = messbge + ": "+ toString();
+        if (from != null)  messbge += ", from " + from;
+        return new IllegblAccessException(messbge);
     }
-    private String message() {
+    privbte String messbge() {
         if (isResolved())
-            return "no access";
+            return "no bccess";
         else if (isConstructor())
             return "no such constructor";
         else if (isMethod())
@@ -864,217 +864,217 @@ import java.util.Objects;
         else
             return "no such field";
     }
-    public ReflectiveOperationException makeAccessException() {
-        String message = message() + ": "+ toString();
-        ReflectiveOperationException ex;
-        if (isResolved() || !(resolution instanceof NoSuchMethodError ||
-                              resolution instanceof NoSuchFieldError))
-            ex = new IllegalAccessException(message);
+    public ReflectiveOperbtionException mbkeAccessException() {
+        String messbge = messbge() + ": "+ toString();
+        ReflectiveOperbtionException ex;
+        if (isResolved() || !(resolution instbnceof NoSuchMethodError ||
+                              resolution instbnceof NoSuchFieldError))
+            ex = new IllegblAccessException(messbge);
         else if (isConstructor())
-            ex = new NoSuchMethodException(message);
+            ex = new NoSuchMethodException(messbge);
         else if (isMethod())
-            ex = new NoSuchMethodException(message);
+            ex = new NoSuchMethodException(messbge);
         else
-            ex = new NoSuchFieldException(message);
-        if (resolution instanceof Throwable)
-            ex.initCause((Throwable) resolution);
+            ex = new NoSuchFieldException(messbge);
+        if (resolution instbnceof Throwbble)
+            ex.initCbuse((Throwbble) resolution);
         return ex;
     }
 
-    /** Actually making a query requires an access check. */
-    /*non-public*/ static Factory getFactory() {
-        return Factory.INSTANCE;
+    /** Actublly mbking b query requires bn bccess check. */
+    /*non-public*/ stbtic Fbctory getFbctory() {
+        return Fbctory.INSTANCE;
     }
-    /** A factory type for resolving member names with the help of the VM.
-     *  TBD: Define access-safe public constructors for this factory.
+    /** A fbctory type for resolving member nbmes with the help of the VM.
+     *  TBD: Define bccess-sbfe public constructors for this fbctory.
      */
-    /*non-public*/ static class Factory {
-        private Factory() { } // singleton pattern
-        static Factory INSTANCE = new Factory();
+    /*non-public*/ stbtic clbss Fbctory {
+        privbte Fbctory() { } // singleton pbttern
+        stbtic Fbctory INSTANCE = new Fbctory();
 
-        private static int ALLOWED_FLAGS = ALL_KINDS;
+        privbte stbtic int ALLOWED_FLAGS = ALL_KINDS;
 
         /// Queries
-        List<MemberName> getMembers(Class<?> defc,
-                String matchName, Object matchType,
-                int matchFlags, Class<?> lookupClass) {
-            matchFlags &= ALLOWED_FLAGS;
-            String matchSig = null;
-            if (matchType != null) {
-                matchSig = BytecodeDescriptor.unparse(matchType);
-                if (matchSig.startsWith("("))
-                    matchFlags &= ~(ALL_KINDS & ~IS_INVOCABLE);
+        List<MemberNbme> getMembers(Clbss<?> defc,
+                String mbtchNbme, Object mbtchType,
+                int mbtchFlbgs, Clbss<?> lookupClbss) {
+            mbtchFlbgs &= ALLOWED_FLAGS;
+            String mbtchSig = null;
+            if (mbtchType != null) {
+                mbtchSig = BytecodeDescriptor.unpbrse(mbtchType);
+                if (mbtchSig.stbrtsWith("("))
+                    mbtchFlbgs &= ~(ALL_KINDS & ~IS_INVOCABLE);
                 else
-                    matchFlags &= ~(ALL_KINDS & ~IS_FIELD);
+                    mbtchFlbgs &= ~(ALL_KINDS & ~IS_FIELD);
             }
-            final int BUF_MAX = 0x2000;
-            int len1 = matchName == null ? 10 : matchType == null ? 4 : 1;
-            MemberName[] buf = newMemberBuffer(len1);
-            int totalCount = 0;
-            ArrayList<MemberName[]> bufs = null;
+            finbl int BUF_MAX = 0x2000;
+            int len1 = mbtchNbme == null ? 10 : mbtchType == null ? 4 : 1;
+            MemberNbme[] buf = newMemberBuffer(len1);
+            int totblCount = 0;
+            ArrbyList<MemberNbme[]> bufs = null;
             int bufCount = 0;
             for (;;) {
-                bufCount = MethodHandleNatives.getMembers(defc,
-                        matchName, matchSig, matchFlags,
-                        lookupClass,
-                        totalCount, buf);
+                bufCount = MethodHbndleNbtives.getMembers(defc,
+                        mbtchNbme, mbtchSig, mbtchFlbgs,
+                        lookupClbss,
+                        totblCount, buf);
                 if (bufCount <= buf.length) {
                     if (bufCount < 0)  bufCount = 0;
-                    totalCount += bufCount;
-                    break;
+                    totblCount += bufCount;
+                    brebk;
                 }
-                // JVM returned to us with an intentional overflow!
-                totalCount += buf.length;
+                // JVM returned to us with bn intentionbl overflow!
+                totblCount += buf.length;
                 int excess = bufCount - buf.length;
-                if (bufs == null)  bufs = new ArrayList<>(1);
-                bufs.add(buf);
+                if (bufs == null)  bufs = new ArrbyList<>(1);
+                bufs.bdd(buf);
                 int len2 = buf.length;
-                len2 = Math.max(len2, excess);
-                len2 = Math.max(len2, totalCount / 4);
-                buf = newMemberBuffer(Math.min(BUF_MAX, len2));
+                len2 = Mbth.mbx(len2, excess);
+                len2 = Mbth.mbx(len2, totblCount / 4);
+                buf = newMemberBuffer(Mbth.min(BUF_MAX, len2));
             }
-            ArrayList<MemberName> result = new ArrayList<>(totalCount);
+            ArrbyList<MemberNbme> result = new ArrbyList<>(totblCount);
             if (bufs != null) {
-                for (MemberName[] buf0 : bufs) {
-                    Collections.addAll(result, buf0);
+                for (MemberNbme[] buf0 : bufs) {
+                    Collections.bddAll(result, buf0);
                 }
             }
-            result.addAll(Arrays.asList(buf).subList(0, bufCount));
-            // Signature matching is not the same as type matching, since
-            // one signature might correspond to several types.
-            // So if matchType is a Class or MethodType, refilter the results.
-            if (matchType != null && matchType != matchSig) {
-                for (Iterator<MemberName> it = result.iterator(); it.hasNext();) {
-                    MemberName m = it.next();
-                    if (!matchType.equals(m.getType()))
+            result.bddAll(Arrbys.bsList(buf).subList(0, bufCount));
+            // Signbture mbtching is not the sbme bs type mbtching, since
+            // one signbture might correspond to severbl types.
+            // So if mbtchType is b Clbss or MethodType, refilter the results.
+            if (mbtchType != null && mbtchType != mbtchSig) {
+                for (Iterbtor<MemberNbme> it = result.iterbtor(); it.hbsNext();) {
+                    MemberNbme m = it.next();
+                    if (!mbtchType.equbls(m.getType()))
                         it.remove();
                 }
             }
             return result;
         }
-        /** Produce a resolved version of the given member.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  If lookup fails or access is not permitted, null is returned.
-         *  Otherwise a fresh copy of the given member is returned, with modifier bits filled in.
+        /** Produce b resolved version of the given member.
+         *  Super types bre sebrched (for inherited members) if {@code sebrchSupers} is true.
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  If lookup fbils or bccess is not permitted, null is returned.
+         *  Otherwise b fresh copy of the given member is returned, with modifier bits filled in.
          */
-        private MemberName resolve(byte refKind, MemberName ref, Class<?> lookupClass) {
-            MemberName m = ref.clone();  // JVM will side-effect the ref
-            assert(refKind == m.getReferenceKind());
+        privbte MemberNbme resolve(byte refKind, MemberNbme ref, Clbss<?> lookupClbss) {
+            MemberNbme m = ref.clone();  // JVM will side-effect the ref
+            bssert(refKind == m.getReferenceKind());
             try {
-                m = MethodHandleNatives.resolve(m, lookupClass);
-                m.checkForTypeAlias();
+                m = MethodHbndleNbtives.resolve(m, lookupClbss);
+                m.checkForTypeAlibs();
                 m.resolution = null;
-            } catch (LinkageError ex) {
-                // JVM reports that the "bytecode behavior" would get an error
-                assert(!m.isResolved());
+            } cbtch (LinkbgeError ex) {
+                // JVM reports thbt the "bytecode behbvior" would get bn error
+                bssert(!m.isResolved());
                 m.resolution = ex;
                 return m;
             }
-            assert(m.referenceKindIsConsistent());
+            bssert(m.referenceKindIsConsistent());
             m.initResolved(true);
-            assert(m.vminfoIsConsistent());
+            bssert(m.vminfoIsConsistent());
             return m;
         }
-        /** Produce a resolved version of the given member.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  If lookup fails or access is not permitted, a {@linkplain ReflectiveOperationException} is thrown.
-         *  Otherwise a fresh copy of the given member is returned, with modifier bits filled in.
+        /** Produce b resolved version of the given member.
+         *  Super types bre sebrched (for inherited members) if {@code sebrchSupers} is true.
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  If lookup fbils or bccess is not permitted, b {@linkplbin ReflectiveOperbtionException} is thrown.
+         *  Otherwise b fresh copy of the given member is returned, with modifier bits filled in.
          */
         public
-        <NoSuchMemberException extends ReflectiveOperationException>
-        MemberName resolveOrFail(byte refKind, MemberName m, Class<?> lookupClass,
-                                 Class<NoSuchMemberException> nsmClass)
-                throws IllegalAccessException, NoSuchMemberException {
-            MemberName result = resolve(refKind, m, lookupClass);
+        <NoSuchMemberException extends ReflectiveOperbtionException>
+        MemberNbme resolveOrFbil(byte refKind, MemberNbme m, Clbss<?> lookupClbss,
+                                 Clbss<NoSuchMemberException> nsmClbss)
+                throws IllegblAccessException, NoSuchMemberException {
+            MemberNbme result = resolve(refKind, m, lookupClbss);
             if (result.isResolved())
                 return result;
-            ReflectiveOperationException ex = result.makeAccessException();
-            if (ex instanceof IllegalAccessException)  throw (IllegalAccessException) ex;
-            throw nsmClass.cast(ex);
+            ReflectiveOperbtionException ex = result.mbkeAccessException();
+            if (ex instbnceof IllegblAccessException)  throw (IllegblAccessException) ex;
+            throw nsmClbss.cbst(ex);
         }
-        /** Produce a resolved version of the given member.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  If lookup fails or access is not permitted, return null.
-         *  Otherwise a fresh copy of the given member is returned, with modifier bits filled in.
+        /** Produce b resolved version of the given member.
+         *  Super types bre sebrched (for inherited members) if {@code sebrchSupers} is true.
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  If lookup fbils or bccess is not permitted, return null.
+         *  Otherwise b fresh copy of the given member is returned, with modifier bits filled in.
          */
         public
-        MemberName resolveOrNull(byte refKind, MemberName m, Class<?> lookupClass) {
-            MemberName result = resolve(refKind, m, lookupClass);
+        MemberNbme resolveOrNull(byte refKind, MemberNbme m, Clbss<?> lookupClbss) {
+            MemberNbme result = resolve(refKind, m, lookupClbss);
             if (result.isResolved())
                 return result;
             return null;
         }
-        /** Return a list of all methods defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Return b list of bll methods defined by the given clbss.
+         *  Super types bre sebrched (for inherited members) if {@code sebrchSupers} is true.
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  Inbccessible members bre not bdded to the lbst.
          */
-        public List<MemberName> getMethods(Class<?> defc, boolean searchSupers,
-                Class<?> lookupClass) {
-            return getMethods(defc, searchSupers, null, null, lookupClass);
+        public List<MemberNbme> getMethods(Clbss<?> defc, boolebn sebrchSupers,
+                Clbss<?> lookupClbss) {
+            return getMethods(defc, sebrchSupers, null, null, lookupClbss);
         }
-        /** Return a list of matching methods defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Returned methods will match the name (if not null) and the type (if not null).
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Return b list of mbtching methods defined by the given clbss.
+         *  Super types bre sebrched (for inherited members) if {@code sebrchSupers} is true.
+         *  Returned methods will mbtch the nbme (if not null) bnd the type (if not null).
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  Inbccessible members bre not bdded to the lbst.
          */
-        public List<MemberName> getMethods(Class<?> defc, boolean searchSupers,
-                String name, MethodType type, Class<?> lookupClass) {
-            int matchFlags = IS_METHOD | (searchSupers ? SEARCH_ALL_SUPERS : 0);
-            return getMembers(defc, name, type, matchFlags, lookupClass);
+        public List<MemberNbme> getMethods(Clbss<?> defc, boolebn sebrchSupers,
+                String nbme, MethodType type, Clbss<?> lookupClbss) {
+            int mbtchFlbgs = IS_METHOD | (sebrchSupers ? SEARCH_ALL_SUPERS : 0);
+            return getMembers(defc, nbme, type, mbtchFlbgs, lookupClbss);
         }
-        /** Return a list of all constructors defined by the given class.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Return b list of bll constructors defined by the given clbss.
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  Inbccessible members bre not bdded to the lbst.
          */
-        public List<MemberName> getConstructors(Class<?> defc, Class<?> lookupClass) {
-            return getMembers(defc, null, null, IS_CONSTRUCTOR, lookupClass);
+        public List<MemberNbme> getConstructors(Clbss<?> defc, Clbss<?> lookupClbss) {
+            return getMembers(defc, null, null, IS_CONSTRUCTOR, lookupClbss);
         }
-        /** Return a list of all fields defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Return b list of bll fields defined by the given clbss.
+         *  Super types bre sebrched (for inherited members) if {@code sebrchSupers} is true.
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  Inbccessible members bre not bdded to the lbst.
          */
-        public List<MemberName> getFields(Class<?> defc, boolean searchSupers,
-                Class<?> lookupClass) {
-            return getFields(defc, searchSupers, null, null, lookupClass);
+        public List<MemberNbme> getFields(Clbss<?> defc, boolebn sebrchSupers,
+                Clbss<?> lookupClbss) {
+            return getFields(defc, sebrchSupers, null, null, lookupClbss);
         }
-        /** Return a list of all fields defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Returned fields will match the name (if not null) and the type (if not null).
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Return b list of bll fields defined by the given clbss.
+         *  Super types bre sebrched (for inherited members) if {@code sebrchSupers} is true.
+         *  Returned fields will mbtch the nbme (if not null) bnd the type (if not null).
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  Inbccessible members bre not bdded to the lbst.
          */
-        public List<MemberName> getFields(Class<?> defc, boolean searchSupers,
-                String name, Class<?> type, Class<?> lookupClass) {
-            int matchFlags = IS_FIELD | (searchSupers ? SEARCH_ALL_SUPERS : 0);
-            return getMembers(defc, name, type, matchFlags, lookupClass);
+        public List<MemberNbme> getFields(Clbss<?> defc, boolebn sebrchSupers,
+                String nbme, Clbss<?> type, Clbss<?> lookupClbss) {
+            int mbtchFlbgs = IS_FIELD | (sebrchSupers ? SEARCH_ALL_SUPERS : 0);
+            return getMembers(defc, nbme, type, mbtchFlbgs, lookupClbss);
         }
-        /** Return a list of all nested types defined by the given class.
-         *  Super types are searched (for inherited members) if {@code searchSupers} is true.
-         *  Access checking is performed on behalf of the given {@code lookupClass}.
-         *  Inaccessible members are not added to the last.
+        /** Return b list of bll nested types defined by the given clbss.
+         *  Super types bre sebrched (for inherited members) if {@code sebrchSupers} is true.
+         *  Access checking is performed on behblf of the given {@code lookupClbss}.
+         *  Inbccessible members bre not bdded to the lbst.
          */
-        public List<MemberName> getNestedTypes(Class<?> defc, boolean searchSupers,
-                Class<?> lookupClass) {
-            int matchFlags = IS_TYPE | (searchSupers ? SEARCH_ALL_SUPERS : 0);
-            return getMembers(defc, null, null, matchFlags, lookupClass);
+        public List<MemberNbme> getNestedTypes(Clbss<?> defc, boolebn sebrchSupers,
+                Clbss<?> lookupClbss) {
+            int mbtchFlbgs = IS_TYPE | (sebrchSupers ? SEARCH_ALL_SUPERS : 0);
+            return getMembers(defc, null, null, mbtchFlbgs, lookupClbss);
         }
-        private static MemberName[] newMemberBuffer(int length) {
-            MemberName[] buf = new MemberName[length];
+        privbte stbtic MemberNbme[] newMemberBuffer(int length) {
+            MemberNbme[] buf = new MemberNbme[length];
             // fill the buffer with dummy structs for the JVM to fill in
             for (int i = 0; i < length; i++)
-                buf[i] = new MemberName();
+                buf[i] = new MemberNbme();
             return buf;
         }
     }
 
-//    static {
-//        System.out.println("Hello world!  My methods are:");
-//        System.out.println(Factory.INSTANCE.getMethods(MemberName.class, true, null));
+//    stbtic {
+//        System.out.println("Hello world!  My methods bre:");
+//        System.out.println(Fbctory.INSTANCE.getMethods(MemberNbme.clbss, true, null));
 //    }
 }

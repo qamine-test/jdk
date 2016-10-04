@@ -3,65 +3,65 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.transforms.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.trbnsforms.implementbtions;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
+import jbvbx.xml.trbnsform.TrbnsformerException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.signature.NodeFilter;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.TransformSpi;
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.transforms.params.XPath2FilterContainer;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.XPathAPI;
-import com.sun.org.apache.xml.internal.security.utils.XPathFactory;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.signbture.NodeFilter;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsform;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformSpi;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.TrbnsformbtionException;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.pbrbms.XPbth2FilterContbiner;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.XPbthAPI;
+import com.sun.org.bpbche.xml.internbl.security.utils.XPbthFbctory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * Implements the <I>XML Signature XPath Filter v2.0</I>
+ * Implements the <I>XML Signbture XPbth Filter v2.0</I>
  *
- * @see <A HREF="http://www.w3.org/TR/xmldsig-filter2/">XPath Filter v2.0 (TR)</A>
+ * @see <A HREF="http://www.w3.org/TR/xmldsig-filter2/">XPbth Filter v2.0 (TR)</A>
  */
-public class TransformXPath2Filter extends TransformSpi {
+public clbss TrbnsformXPbth2Filter extends TrbnsformSpi {
 
-    /** Field implementedTransformURI */
-    public static final String implementedTransformURI =
-        Transforms.TRANSFORM_XPATH2FILTER;
+    /** Field implementedTrbnsformURI */
+    public stbtic finbl String implementedTrbnsformURI =
+        Trbnsforms.TRANSFORM_XPATH2FILTER;
 
     /**
      * Method engineGetURI
@@ -69,34 +69,34 @@ public class TransformXPath2Filter extends TransformSpi {
      * @inheritDoc
      */
     protected String engineGetURI() {
-        return implementedTransformURI;
+        return implementedTrbnsformURI;
     }
 
     /**
-     * Method enginePerformTransform
+     * Method enginePerformTrbnsform
      * @inheritDoc
-     * @param input
+     * @pbrbm input
      *
-     * @throws TransformationException
+     * @throws TrbnsformbtionException
      */
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, OutputStream os, Transform transformObject
-    ) throws TransformationException {
+    protected XMLSignbtureInput enginePerformTrbnsform(
+        XMLSignbtureInput input, OutputStrebm os, Trbnsform trbnsformObject
+    ) throws TrbnsformbtionException {
         try {
-            List<NodeList> unionNodes = new ArrayList<NodeList>();
-            List<NodeList> subtractNodes = new ArrayList<NodeList>();
-            List<NodeList> intersectNodes = new ArrayList<NodeList>();
+            List<NodeList> unionNodes = new ArrbyList<NodeList>();
+            List<NodeList> subtrbctNodes = new ArrbyList<NodeList>();
+            List<NodeList> intersectNodes = new ArrbyList<NodeList>();
 
-            Element[] xpathElements =
+            Element[] xpbthElements =
                 XMLUtils.selectNodes(
-                    transformObject.getElement().getFirstChild(),
-                    XPath2FilterContainer.XPathFilter2NS,
-                    XPath2FilterContainer._TAG_XPATH2
+                    trbnsformObject.getElement().getFirstChild(),
+                    XPbth2FilterContbiner.XPbthFilter2NS,
+                    XPbth2FilterContbiner._TAG_XPATH2
                 );
-            if (xpathElements.length == 0) {
-                Object exArgs[] = { Transforms.TRANSFORM_XPATH2FILTER, "XPath" };
+            if (xpbthElements.length == 0) {
+                Object exArgs[] = { Trbnsforms.TRANSFORM_XPATH2FILTER, "XPbth" };
 
-                throw new TransformationException("xml.WrongContent", exArgs);
+                throw new TrbnsformbtionException("xml.WrongContent", exArgs);
             }
 
             Document inputDoc = null;
@@ -106,89 +106,89 @@ public class TransformXPath2Filter extends TransformSpi {
                 inputDoc = XMLUtils.getOwnerDocument(input.getNodeSet());
             }
 
-            for (int i = 0; i < xpathElements.length; i++) {
-                Element xpathElement = xpathElements[i];
+            for (int i = 0; i < xpbthElements.length; i++) {
+                Element xpbthElement = xpbthElements[i];
 
-                XPath2FilterContainer xpathContainer =
-                    XPath2FilterContainer.newInstance(xpathElement, input.getSourceURI());
+                XPbth2FilterContbiner xpbthContbiner =
+                    XPbth2FilterContbiner.newInstbnce(xpbthElement, input.getSourceURI());
 
                 String str =
-                    XMLUtils.getStrFromNode(xpathContainer.getXPathFilterTextNode());
+                    XMLUtils.getStrFromNode(xpbthContbiner.getXPbthFilterTextNode());
 
-                XPathFactory xpathFactory = XPathFactory.newInstance();
-                XPathAPI xpathAPIInstance = xpathFactory.newXPathAPI();
+                XPbthFbctory xpbthFbctory = XPbthFbctory.newInstbnce();
+                XPbthAPI xpbthAPIInstbnce = xpbthFbctory.newXPbthAPI();
 
                 NodeList subtreeRoots =
-                    xpathAPIInstance.selectNodeList(
+                    xpbthAPIInstbnce.selectNodeList(
                         inputDoc,
-                        xpathContainer.getXPathFilterTextNode(),
+                        xpbthContbiner.getXPbthFilterTextNode(),
                         str,
-                        xpathContainer.getElement());
-                if (xpathContainer.isIntersect()) {
-                    intersectNodes.add(subtreeRoots);
-                } else if (xpathContainer.isSubtract()) {
-                    subtractNodes.add(subtreeRoots);
-                } else if (xpathContainer.isUnion()) {
-                    unionNodes.add(subtreeRoots);
+                        xpbthContbiner.getElement());
+                if (xpbthContbiner.isIntersect()) {
+                    intersectNodes.bdd(subtreeRoots);
+                } else if (xpbthContbiner.isSubtrbct()) {
+                    subtrbctNodes.bdd(subtreeRoots);
+                } else if (xpbthContbiner.isUnion()) {
+                    unionNodes.bdd(subtreeRoots);
                 }
             }
 
-            input.addNodeFilter(
-                new XPath2NodeFilter(unionNodes, subtractNodes, intersectNodes)
+            input.bddNodeFilter(
+                new XPbth2NodeFilter(unionNodes, subtrbctNodes, intersectNodes)
             );
             input.setNodeSet(true);
             return input;
-        } catch (TransformerException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (DOMException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (CanonicalizationException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (InvalidCanonicalizerException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (XMLSecurityException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (SAXException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (IOException ex) {
-            throw new TransformationException("empty", ex);
-        } catch (ParserConfigurationException ex) {
-            throw new TransformationException("empty", ex);
+        } cbtch (TrbnsformerException ex) {
+            throw new TrbnsformbtionException("empty", ex);
+        } cbtch (DOMException ex) {
+            throw new TrbnsformbtionException("empty", ex);
+        } cbtch (CbnonicblizbtionException ex) {
+            throw new TrbnsformbtionException("empty", ex);
+        } cbtch (InvblidCbnonicblizerException ex) {
+            throw new TrbnsformbtionException("empty", ex);
+        } cbtch (XMLSecurityException ex) {
+            throw new TrbnsformbtionException("empty", ex);
+        } cbtch (SAXException ex) {
+            throw new TrbnsformbtionException("empty", ex);
+        } cbtch (IOException ex) {
+            throw new TrbnsformbtionException("empty", ex);
+        } cbtch (PbrserConfigurbtionException ex) {
+            throw new TrbnsformbtionException("empty", ex);
         }
     }
 }
 
-class XPath2NodeFilter implements NodeFilter {
+clbss XPbth2NodeFilter implements NodeFilter {
 
-    boolean hasUnionFilter;
-    boolean hasSubtractFilter;
-    boolean hasIntersectFilter;
+    boolebn hbsUnionFilter;
+    boolebn hbsSubtrbctFilter;
+    boolebn hbsIntersectFilter;
     Set<Node> unionNodes;
-    Set<Node> subtractNodes;
+    Set<Node> subtrbctNodes;
     Set<Node> intersectNodes;
-    int inSubtract = -1;
+    int inSubtrbct = -1;
     int inIntersect = -1;
     int inUnion = -1;
 
-    XPath2NodeFilter(List<NodeList> unionNodes, List<NodeList> subtractNodes,
+    XPbth2NodeFilter(List<NodeList> unionNodes, List<NodeList> subtrbctNodes,
                      List<NodeList> intersectNodes) {
-        hasUnionFilter = !unionNodes.isEmpty();
+        hbsUnionFilter = !unionNodes.isEmpty();
         this.unionNodes = convertNodeListToSet(unionNodes);
-        hasSubtractFilter = !subtractNodes.isEmpty();
-        this.subtractNodes = convertNodeListToSet(subtractNodes);
-        hasIntersectFilter = !intersectNodes.isEmpty();
+        hbsSubtrbctFilter = !subtrbctNodes.isEmpty();
+        this.subtrbctNodes = convertNodeListToSet(subtrbctNodes);
+        hbsIntersectFilter = !intersectNodes.isEmpty();
         this.intersectNodes = convertNodeListToSet(intersectNodes);
     }
 
     /**
-     * @see com.sun.org.apache.xml.internal.security.signature.NodeFilter#isNodeInclude(org.w3c.dom.Node)
+     * @see com.sun.org.bpbche.xml.internbl.security.signbture.NodeFilter#isNodeInclude(org.w3c.dom.Node)
      */
     public int isNodeInclude(Node currentNode) {
         int result = 1;
 
-        if (hasSubtractFilter && rooted(currentNode, subtractNodes)) {
+        if (hbsSubtrbctFilter && rooted(currentNode, subtrbctNodes)) {
             result = -1;
-        } else if (hasIntersectFilter && !rooted(currentNode, intersectNodes)) {
+        } else if (hbsIntersectFilter && !rooted(currentNode, intersectNodes)) {
             result = 0;
         }
 
@@ -196,7 +196,7 @@ class XPath2NodeFilter implements NodeFilter {
         if (result == 1) {
             return 1;
         }
-        if (hasUnionFilter) {
+        if (hbsUnionFilter) {
             if (rooted(currentNode, unionNodes)) {
                 return 1;
             }
@@ -207,19 +207,19 @@ class XPath2NodeFilter implements NodeFilter {
 
     public int isNodeIncludeDO(Node n, int level) {
         int result = 1;
-        if (hasSubtractFilter) {
-            if ((inSubtract == -1) || (level <= inSubtract)) {
-                if (inList(n, subtractNodes)) {
-                    inSubtract = level;
+        if (hbsSubtrbctFilter) {
+            if ((inSubtrbct == -1) || (level <= inSubtrbct)) {
+                if (inList(n, subtrbctNodes)) {
+                    inSubtrbct = level;
                 } else {
-                    inSubtract = -1;
+                    inSubtrbct = -1;
                 }
             }
-            if (inSubtract != -1){
+            if (inSubtrbct != -1){
                 result = -1;
             }
         }
-        if (result != -1 && hasIntersectFilter
+        if (result != -1 && hbsIntersectFilter
             && ((inIntersect == -1) || (level <= inIntersect))) {
             if (!inList(n, intersectNodes)) {
                 inIntersect = -1;
@@ -235,7 +235,7 @@ class XPath2NodeFilter implements NodeFilter {
         if (result == 1) {
             return 1;
         }
-        if (hasUnionFilter) {
+        if (hbsUnionFilter) {
             if ((inUnion == -1) && inList(n, unionNodes)) {
                 inUnion = level;
             }
@@ -250,45 +250,45 @@ class XPath2NodeFilter implements NodeFilter {
 
     /**
      * Method rooted
-     * @param currentNode
-     * @param nodeList
+     * @pbrbm currentNode
+     * @pbrbm nodeList
      *
      * @return if rooted bye the rootnodes
      */
-    static boolean rooted(Node currentNode, Set<Node> nodeList) {
+    stbtic boolebn rooted(Node currentNode, Set<Node> nodeList) {
         if (nodeList.isEmpty()) {
-            return false;
+            return fblse;
         }
-        if (nodeList.contains(currentNode)) {
+        if (nodeList.contbins(currentNode)) {
             return true;
         }
         for (Node rootNode : nodeList) {
-            if (XMLUtils.isDescendantOrSelf(rootNode, currentNode)) {
+            if (XMLUtils.isDescendbntOrSelf(rootNode, currentNode)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
      * Method rooted
-     * @param currentNode
-     * @param nodeList
+     * @pbrbm currentNode
+     * @pbrbm nodeList
      *
      * @return if rooted bye the rootnodes
      */
-    static boolean inList(Node currentNode, Set<Node> nodeList) {
-        return nodeList.contains(currentNode);
+    stbtic boolebn inList(Node currentNode, Set<Node> nodeList) {
+        return nodeList.contbins(currentNode);
     }
 
-    private static Set<Node> convertNodeListToSet(List<NodeList> l) {
-        Set<Node> result = new HashSet<Node>();
+    privbte stbtic Set<Node> convertNodeListToSet(List<NodeList> l) {
+        Set<Node> result = new HbshSet<Node>();
         for (NodeList rootNodes : l) {
             int length = rootNodes.getLength();
 
             for (int i = 0; i < length; i++) {
                 Node rootNode = rootNodes.item(i);
-                result.add(rootNode);
+                result.bdd(rootNode);
             }
         }
         return result;

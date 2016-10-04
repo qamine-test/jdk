@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIResource;
 
-import java.awt.Container;
-import java.awt.Dimension;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
 
 /**
- * The default layout manager for Popup menus and menubars.  This
- * class is an extension of BoxLayout which adds the UIResource tag
- * so that pluggable L&amp;Fs can distinguish it from user-installed
- * layout managers on menus.
+ * The defbult lbyout mbnbger for Popup menus bnd menubbrs.  This
+ * clbss is bn extension of BoxLbyout which bdds the UIResource tbg
+ * so thbt pluggbble L&bmp;Fs cbn distinguish it from user-instblled
+ * lbyout mbnbgers on menus.
  *
- * @author Georges Saab
+ * @buthor Georges Sbbb
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class DefaultMenuLayout extends BoxLayout implements UIResource {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss DefbultMenuLbyout extends BoxLbyout implements UIResource {
 
     /**
-     * Constructs a new instance of {@code DefaultMenuLayout}.
+     * Constructs b new instbnce of {@code DefbultMenuLbyout}.
      *
-     * @param target the container that needs to be laid out
-     * @param axis the axis to lay out components along. Can be one of:
-     *              {@code BoxLayout.X_AXIS},
-     *              {@code BoxLayout.Y_AXIS},
-     *              {@code BoxLayout.LINE_AXIS} or
-     *              {@code BoxLayout.PAGE_AXIS}
+     * @pbrbm tbrget the contbiner thbt needs to be lbid out
+     * @pbrbm bxis the bxis to lby out components blong. Cbn be one of:
+     *              {@code BoxLbyout.X_AXIS},
+     *              {@code BoxLbyout.Y_AXIS},
+     *              {@code BoxLbyout.LINE_AXIS} or
+     *              {@code BoxLbyout.PAGE_AXIS}
      */
-    public DefaultMenuLayout(Container target, int axis) {
-        super(target, axis);
+    public DefbultMenuLbyout(Contbiner tbrget, int bxis) {
+        super(tbrget, bxis);
     }
 
-    public Dimension preferredLayoutSize(Container target) {
-        if (target instanceof JPopupMenu) {
-            JPopupMenu popupMenu = (JPopupMenu) target;
-            sun.swing.MenuItemLayoutHelper.clearUsedClientProperties(popupMenu);
+    public Dimension preferredLbyoutSize(Contbiner tbrget) {
+        if (tbrget instbnceof JPopupMenu) {
+            JPopupMenu popupMenu = (JPopupMenu) tbrget;
+            sun.swing.MenuItemLbyoutHelper.clebrUsedClientProperties(popupMenu);
             if (popupMenu.getComponentCount() == 0) {
                 return new Dimension(0, 0);
             }
         }
 
-        // Make BoxLayout recalculate cached preferred sizes
-        super.invalidateLayout(target);
+        // Mbke BoxLbyout recblculbte cbched preferred sizes
+        super.invblidbteLbyout(tbrget);
 
-        return super.preferredLayoutSize(target);
+        return super.preferredLbyoutSize(tbrget);
     }
 }

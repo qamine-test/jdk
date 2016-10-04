@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.stream;
+pbckbge jbvb.util.strebm;
 
-import java.util.DoubleSummaryStatistics;
-import java.util.Objects;
-import java.util.OptionalDouble;
-import java.util.PrimitiveIterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.DoubleBinaryOperator;
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleFunction;
-import java.util.function.DoublePredicate;
-import java.util.function.DoubleToIntFunction;
-import java.util.function.DoubleToLongFunction;
-import java.util.function.DoubleUnaryOperator;
-import java.util.function.IntFunction;
-import java.util.function.ObjDoubleConsumer;
-import java.util.function.Supplier;
+import jbvb.util.DoubleSummbryStbtistics;
+import jbvb.util.Objects;
+import jbvb.util.OptionblDouble;
+import jbvb.util.PrimitiveIterbtor;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.BiConsumer;
+import jbvb.util.function.BinbryOperbtor;
+import jbvb.util.function.DoubleBinbryOperbtor;
+import jbvb.util.function.DoubleConsumer;
+import jbvb.util.function.DoubleFunction;
+import jbvb.util.function.DoublePredicbte;
+import jbvb.util.function.DoubleToIntFunction;
+import jbvb.util.function.DoubleToLongFunction;
+import jbvb.util.function.DoubleUnbryOperbtor;
+import jbvb.util.function.IntFunction;
+import jbvb.util.function.ObjDoubleConsumer;
+import jbvb.util.function.Supplier;
 
 /**
- * Abstract base class for an intermediate pipeline stage or pipeline source
- * stage implementing whose elements are of type {@code double}.
+ * Abstrbct bbse clbss for bn intermedibte pipeline stbge or pipeline source
+ * stbge implementing whose elements bre of type {@code double}.
  *
- * @param <E_IN> type of elements in the upstream source
+ * @pbrbm <E_IN> type of elements in the upstrebm source
  *
  * @since 1.8
  */
-abstract class DoublePipeline<E_IN>
-        extends AbstractPipeline<E_IN, Double, DoubleStream>
-        implements DoubleStream {
+bbstrbct clbss DoublePipeline<E_IN>
+        extends AbstrbctPipeline<E_IN, Double, DoubleStrebm>
+        implements DoubleStrebm {
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Constructor for the hebd of b strebm pipeline.
      *
-     * @param source {@code Supplier<Spliterator>} describing the stream source
-     * @param sourceFlags the source flags for the stream source, described in
-     * {@link StreamOpFlag}
+     * @pbrbm source {@code Supplier<Spliterbtor>} describing the strebm source
+     * @pbrbm sourceFlbgs the source flbgs for the strebm source, described in
+     * {@link StrebmOpFlbg}
      */
-    DoublePipeline(Supplier<? extends Spliterator<Double>> source,
-                   int sourceFlags, boolean parallel) {
-        super(source, sourceFlags, parallel);
+    DoublePipeline(Supplier<? extends Spliterbtor<Double>> source,
+                   int sourceFlbgs, boolebn pbrbllel) {
+        super(source, sourceFlbgs, pbrbllel);
     }
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Constructor for the hebd of b strebm pipeline.
      *
-     * @param source {@code Spliterator} describing the stream source
-     * @param sourceFlags the source flags for the stream source, described in
-     * {@link StreamOpFlag}
+     * @pbrbm source {@code Spliterbtor} describing the strebm source
+     * @pbrbm sourceFlbgs the source flbgs for the strebm source, described in
+     * {@link StrebmOpFlbg}
      */
-    DoublePipeline(Spliterator<Double> source,
-                   int sourceFlags, boolean parallel) {
-        super(source, sourceFlags, parallel);
+    DoublePipeline(Spliterbtor<Double> source,
+                   int sourceFlbgs, boolebn pbrbllel) {
+        super(source, sourceFlbgs, pbrbllel);
     }
 
     /**
-     * Constructor for appending an intermediate operation onto an existing
+     * Constructor for bppending bn intermedibte operbtion onto bn existing
      * pipeline.
      *
-     * @param upstream the upstream element source.
-     * @param opFlags the operation flags
+     * @pbrbm upstrebm the upstrebm element source.
+     * @pbrbm opFlbgs the operbtion flbgs
      */
-    DoublePipeline(AbstractPipeline<?, E_IN, ?> upstream, int opFlags) {
-        super(upstream, opFlags);
+    DoublePipeline(AbstrbctPipeline<?, E_IN, ?> upstrebm, int opFlbgs) {
+        super(upstrebm, opFlbgs);
     }
 
     /**
-     * Adapt a {@code Sink<Double> to a {@code DoubleConsumer}, ideally simply
-     * by casting.
+     * Adbpt b {@code Sink<Double> to b {@code DoubleConsumer}, ideblly simply
+     * by cbsting.
      */
-    private static DoubleConsumer adapt(Sink<Double> sink) {
-        if (sink instanceof DoubleConsumer) {
+    privbte stbtic DoubleConsumer bdbpt(Sink<Double> sink) {
+        if (sink instbnceof DoubleConsumer) {
             return (DoubleConsumer) sink;
         } else {
             if (Tripwire.ENABLED)
-                Tripwire.trip(AbstractPipeline.class,
-                              "using DoubleStream.adapt(Sink<Double> s)");
-            return sink::accept;
+                Tripwire.trip(AbstrbctPipeline.clbss,
+                              "using DoubleStrebm.bdbpt(Sink<Double> s)");
+            return sink::bccept;
         }
     }
 
     /**
-     * Adapt a {@code Spliterator<Double>} to a {@code Spliterator.OfDouble}.
+     * Adbpt b {@code Spliterbtor<Double>} to b {@code Spliterbtor.OfDouble}.
      *
      * @implNote
-     * The implementation attempts to cast to a Spliterator.OfDouble, and throws
-     * an exception if this cast is not possible.
+     * The implementbtion bttempts to cbst to b Spliterbtor.OfDouble, bnd throws
+     * bn exception if this cbst is not possible.
      */
-    private static Spliterator.OfDouble adapt(Spliterator<Double> s) {
-        if (s instanceof Spliterator.OfDouble) {
-            return (Spliterator.OfDouble) s;
+    privbte stbtic Spliterbtor.OfDouble bdbpt(Spliterbtor<Double> s) {
+        if (s instbnceof Spliterbtor.OfDouble) {
+            return (Spliterbtor.OfDouble) s;
         } else {
             if (Tripwire.ENABLED)
-                Tripwire.trip(AbstractPipeline.class,
-                              "using DoubleStream.adapt(Spliterator<Double> s)");
-            throw new UnsupportedOperationException("DoubleStream.adapt(Spliterator<Double> s)");
+                Tripwire.trip(AbstrbctPipeline.clbss,
+                              "using DoubleStrebm.bdbpt(Spliterbtor<Double> s)");
+            throw new UnsupportedOperbtionException("DoubleStrebm.bdbpt(Spliterbtor<Double> s)");
         }
     }
 
 
-    // Shape-specific methods
+    // Shbpe-specific methods
 
     @Override
-    final StreamShape getOutputShape() {
-        return StreamShape.DOUBLE_VALUE;
+    finbl StrebmShbpe getOutputShbpe() {
+        return StrebmShbpe.DOUBLE_VALUE;
     }
 
     @Override
-    final <P_IN> Node<Double> evaluateToNode(PipelineHelper<Double> helper,
-                                             Spliterator<P_IN> spliterator,
-                                             boolean flattenTree,
-                                             IntFunction<Double[]> generator) {
-        return Nodes.collectDouble(helper, spliterator, flattenTree);
+    finbl <P_IN> Node<Double> evblubteToNode(PipelineHelper<Double> helper,
+                                             Spliterbtor<P_IN> spliterbtor,
+                                             boolebn flbttenTree,
+                                             IntFunction<Double[]> generbtor) {
+        return Nodes.collectDouble(helper, spliterbtor, flbttenTree);
     }
 
     @Override
-    final <P_IN> Spliterator<Double> wrap(PipelineHelper<Double> ph,
-                                          Supplier<Spliterator<P_IN>> supplier,
-                                          boolean isParallel) {
-        return new StreamSpliterators.DoubleWrappingSpliterator<>(ph, supplier, isParallel);
+    finbl <P_IN> Spliterbtor<Double> wrbp(PipelineHelper<Double> ph,
+                                          Supplier<Spliterbtor<P_IN>> supplier,
+                                          boolebn isPbrbllel) {
+        return new StrebmSpliterbtors.DoubleWrbppingSpliterbtor<>(ph, supplier, isPbrbllel);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    final Spliterator.OfDouble lazySpliterator(Supplier<? extends Spliterator<Double>> supplier) {
-        return new StreamSpliterators.DelegatingSpliterator.OfDouble((Supplier<Spliterator.OfDouble>) supplier);
+    @SuppressWbrnings("unchecked")
+    finbl Spliterbtor.OfDouble lbzySpliterbtor(Supplier<? extends Spliterbtor<Double>> supplier) {
+        return new StrebmSpliterbtors.DelegbtingSpliterbtor.OfDouble((Supplier<Spliterbtor.OfDouble>) supplier);
     }
 
     @Override
-    final void forEachWithCancel(Spliterator<Double> spliterator, Sink<Double> sink) {
-        Spliterator.OfDouble spl = adapt(spliterator);
-        DoubleConsumer adaptedSink = adapt(sink);
-        do { } while (!sink.cancellationRequested() && spl.tryAdvance(adaptedSink));
+    finbl void forEbchWithCbncel(Spliterbtor<Double> spliterbtor, Sink<Double> sink) {
+        Spliterbtor.OfDouble spl = bdbpt(spliterbtor);
+        DoubleConsumer bdbptedSink = bdbpt(sink);
+        do { } while (!sink.cbncellbtionRequested() && spl.tryAdvbnce(bdbptedSink));
     }
 
     @Override
-    final  Node.Builder<Double> makeNodeBuilder(long exactSizeIfKnown, IntFunction<Double[]> generator) {
-        return Nodes.doubleBuilder(exactSizeIfKnown);
+    finbl  Node.Builder<Double> mbkeNodeBuilder(long exbctSizeIfKnown, IntFunction<Double[]> generbtor) {
+        return Nodes.doubleBuilder(exbctSizeIfKnown);
     }
 
 
-    // DoubleStream
+    // DoubleStrebm
 
     @Override
-    public final PrimitiveIterator.OfDouble iterator() {
-        return Spliterators.iterator(spliterator());
+    public finbl PrimitiveIterbtor.OfDouble iterbtor() {
+        return Spliterbtors.iterbtor(spliterbtor());
     }
 
     @Override
-    public final Spliterator.OfDouble spliterator() {
-        return adapt(super.spliterator());
+    public finbl Spliterbtor.OfDouble spliterbtor() {
+        return bdbpt(super.spliterbtor());
     }
 
-    // Stateless intermediate ops from DoubleStream
+    // Stbteless intermedibte ops from DoubleStrebm
 
     @Override
-    public final Stream<Double> boxed() {
-        return mapToObj(Double::valueOf);
+    public finbl Strebm<Double> boxed() {
+        return mbpToObj(Double::vblueOf);
     }
 
     @Override
-    public final DoubleStream map(DoubleUnaryOperator mapper) {
-        Objects.requireNonNull(mapper);
-        return new StatelessOp<Double>(this, StreamShape.DOUBLE_VALUE,
-                                       StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl DoubleStrebm mbp(DoubleUnbryOperbtor mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new StbtelessOp<Double>(this, StrebmShbpe.DOUBLE_VALUE,
+                                       StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Double> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedDouble<Double>(sink) {
+            Sink<Double> opWrbpSink(int flbgs, Sink<Double> sink) {
+                return new Sink.ChbinedDouble<Double>(sink) {
                     @Override
-                    public void accept(double t) {
-                        downstream.accept(mapper.applyAsDouble(t));
+                    public void bccept(double t) {
+                        downstrebm.bccept(mbpper.bpplyAsDouble(t));
                     }
                 };
             }
@@ -202,16 +202,16 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final <U> Stream<U> mapToObj(DoubleFunction<? extends U> mapper) {
-        Objects.requireNonNull(mapper);
-        return new ReferencePipeline.StatelessOp<Double, U>(this, StreamShape.DOUBLE_VALUE,
-                                                            StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl <U> Strebm<U> mbpToObj(DoubleFunction<? extends U> mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new ReferencePipeline.StbtelessOp<Double, U>(this, StrebmShbpe.DOUBLE_VALUE,
+                                                            StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Double> opWrapSink(int flags, Sink<U> sink) {
-                return new Sink.ChainedDouble<U>(sink) {
+            Sink<Double> opWrbpSink(int flbgs, Sink<U> sink) {
+                return new Sink.ChbinedDouble<U>(sink) {
                     @Override
-                    public void accept(double t) {
-                        downstream.accept(mapper.apply(t));
+                    public void bccept(double t) {
+                        downstrebm.bccept(mbpper.bpply(t));
                     }
                 };
             }
@@ -219,16 +219,16 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final IntStream mapToInt(DoubleToIntFunction mapper) {
-        Objects.requireNonNull(mapper);
-        return new IntPipeline.StatelessOp<Double>(this, StreamShape.DOUBLE_VALUE,
-                                                   StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl IntStrebm mbpToInt(DoubleToIntFunction mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new IntPipeline.StbtelessOp<Double>(this, StrebmShbpe.DOUBLE_VALUE,
+                                                   StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Double> opWrapSink(int flags, Sink<Integer> sink) {
-                return new Sink.ChainedDouble<Integer>(sink) {
+            Sink<Double> opWrbpSink(int flbgs, Sink<Integer> sink) {
+                return new Sink.ChbinedDouble<Integer>(sink) {
                     @Override
-                    public void accept(double t) {
-                        downstream.accept(mapper.applyAsInt(t));
+                    public void bccept(double t) {
+                        downstrebm.bccept(mbpper.bpplyAsInt(t));
                     }
                 };
             }
@@ -236,16 +236,16 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final LongStream mapToLong(DoubleToLongFunction mapper) {
-        Objects.requireNonNull(mapper);
-        return new LongPipeline.StatelessOp<Double>(this, StreamShape.DOUBLE_VALUE,
-                                                    StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
+    public finbl LongStrebm mbpToLong(DoubleToLongFunction mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new LongPipeline.StbtelessOp<Double>(this, StrebmShbpe.DOUBLE_VALUE,
+                                                    StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT) {
             @Override
-            Sink<Double> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedDouble<Long>(sink) {
+            Sink<Double> opWrbpSink(int flbgs, Sink<Long> sink) {
+                return new Sink.ChbinedDouble<Long>(sink) {
                     @Override
-                    public void accept(double t) {
-                        downstream.accept(mapper.applyAsLong(t));
+                    public void bccept(double t) {
+                        downstrebm.bccept(mbpper.bpplyAsLong(t));
                     }
                 };
             }
@@ -253,24 +253,24 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final DoubleStream flatMap(DoubleFunction<? extends DoubleStream> mapper) {
-        Objects.requireNonNull(mapper);
-        return new StatelessOp<Double>(this, StreamShape.DOUBLE_VALUE,
-                                        StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
+    public finbl DoubleStrebm flbtMbp(DoubleFunction<? extends DoubleStrebm> mbpper) {
+        Objects.requireNonNull(mbpper);
+        return new StbtelessOp<Double>(this, StrebmShbpe.DOUBLE_VALUE,
+                                        StrebmOpFlbg.NOT_SORTED | StrebmOpFlbg.NOT_DISTINCT | StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<Double> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedDouble<Double>(sink) {
+            Sink<Double> opWrbpSink(int flbgs, Sink<Double> sink) {
+                return new Sink.ChbinedDouble<Double>(sink) {
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(double t) {
-                        try (DoubleStream result = mapper.apply(t)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
+                    public void bccept(double t) {
+                        try (DoubleStrebm result = mbpper.bpply(t)) {
+                            // We cbn do better thbt this too; optimize for depth=0 cbse bnd just grbb spliterbtor bnd forEbch it
                             if (result != null)
-                                result.sequential().forEach(i -> downstream.accept(i));
+                                result.sequentibl().forEbch(i -> downstrebm.bccept(i));
                         }
                     }
                 };
@@ -279,34 +279,34 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public DoubleStream unordered() {
+    public DoubleStrebm unordered() {
         if (!isOrdered())
             return this;
-        return new StatelessOp<Double>(this, StreamShape.DOUBLE_VALUE, StreamOpFlag.NOT_ORDERED) {
+        return new StbtelessOp<Double>(this, StrebmShbpe.DOUBLE_VALUE, StrebmOpFlbg.NOT_ORDERED) {
             @Override
-            Sink<Double> opWrapSink(int flags, Sink<Double> sink) {
+            Sink<Double> opWrbpSink(int flbgs, Sink<Double> sink) {
                 return sink;
             }
         };
     }
 
     @Override
-    public final DoubleStream filter(DoublePredicate predicate) {
-        Objects.requireNonNull(predicate);
-        return new StatelessOp<Double>(this, StreamShape.DOUBLE_VALUE,
-                                       StreamOpFlag.NOT_SIZED) {
+    public finbl DoubleStrebm filter(DoublePredicbte predicbte) {
+        Objects.requireNonNull(predicbte);
+        return new StbtelessOp<Double>(this, StrebmShbpe.DOUBLE_VALUE,
+                                       StrebmOpFlbg.NOT_SIZED) {
             @Override
-            Sink<Double> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedDouble<Double>(sink) {
+            Sink<Double> opWrbpSink(int flbgs, Sink<Double> sink) {
+                return new Sink.ChbinedDouble<Double>(sink) {
                     @Override
                     public void begin(long size) {
-                        downstream.begin(-1);
+                        downstrebm.begin(-1);
                     }
 
                     @Override
-                    public void accept(double t) {
-                        if (predicate.test(t))
-                            downstream.accept(t);
+                    public void bccept(double t) {
+                        if (predicbte.test(t))
+                            downstrebm.bccept(t);
                     }
                 };
             }
@@ -314,328 +314,328 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final DoubleStream peek(DoubleConsumer action) {
-        Objects.requireNonNull(action);
-        return new StatelessOp<Double>(this, StreamShape.DOUBLE_VALUE,
+    public finbl DoubleStrebm peek(DoubleConsumer bction) {
+        Objects.requireNonNull(bction);
+        return new StbtelessOp<Double>(this, StrebmShbpe.DOUBLE_VALUE,
                                        0) {
             @Override
-            Sink<Double> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedDouble<Double>(sink) {
+            Sink<Double> opWrbpSink(int flbgs, Sink<Double> sink) {
+                return new Sink.ChbinedDouble<Double>(sink) {
                     @Override
-                    public void accept(double t) {
-                        action.accept(t);
-                        downstream.accept(t);
+                    public void bccept(double t) {
+                        bction.bccept(t);
+                        downstrebm.bccept(t);
                     }
                 };
             }
         };
     }
 
-    // Stateful intermediate ops from DoubleStream
+    // Stbteful intermedibte ops from DoubleStrebm
 
     @Override
-    public final DoubleStream limit(long maxSize) {
-        if (maxSize < 0)
-            throw new IllegalArgumentException(Long.toString(maxSize));
-        return SliceOps.makeDouble(this, (long) 0, maxSize);
+    public finbl DoubleStrebm limit(long mbxSize) {
+        if (mbxSize < 0)
+            throw new IllegblArgumentException(Long.toString(mbxSize));
+        return SliceOps.mbkeDouble(this, (long) 0, mbxSize);
     }
 
     @Override
-    public final DoubleStream skip(long n) {
+    public finbl DoubleStrebm skip(long n) {
         if (n < 0)
-            throw new IllegalArgumentException(Long.toString(n));
+            throw new IllegblArgumentException(Long.toString(n));
         if (n == 0)
             return this;
         else {
             long limit = -1;
-            return SliceOps.makeDouble(this, n, limit);
+            return SliceOps.mbkeDouble(this, n, limit);
         }
     }
 
     @Override
-    public final DoubleStream sorted() {
-        return SortedOps.makeDouble(this);
+    public finbl DoubleStrebm sorted() {
+        return SortedOps.mbkeDouble(this);
     }
 
     @Override
-    public final DoubleStream distinct() {
-        // While functional and quick to implement, this approach is not very efficient.
-        // An efficient version requires a double-specific map/set implementation.
-        return boxed().distinct().mapToDouble(i -> (double) i);
+    public finbl DoubleStrebm distinct() {
+        // While functionbl bnd quick to implement, this bpprobch is not very efficient.
+        // An efficient version requires b double-specific mbp/set implementbtion.
+        return boxed().distinct().mbpToDouble(i -> (double) i);
     }
 
-    // Terminal ops from DoubleStream
+    // Terminbl ops from DoubleStrebm
 
     @Override
-    public void forEach(DoubleConsumer consumer) {
-        evaluate(ForEachOps.makeDouble(consumer, false));
-    }
-
-    @Override
-    public void forEachOrdered(DoubleConsumer consumer) {
-        evaluate(ForEachOps.makeDouble(consumer, true));
+    public void forEbch(DoubleConsumer consumer) {
+        evblubte(ForEbchOps.mbkeDouble(consumer, fblse));
     }
 
     @Override
-    public final double sum() {
+    public void forEbchOrdered(DoubleConsumer consumer) {
+        evblubte(ForEbchOps.mbkeDouble(consumer, true));
+    }
+
+    @Override
+    public finbl double sum() {
         /*
-         * In the arrays allocated for the collect operation, index 0
+         * In the brrbys bllocbted for the collect operbtion, index 0
          * holds the high-order bits of the running sum, index 1 holds
-         * the low-order bits of the sum computed via compensated
-         * summation, and index 2 holds the simple sum used to compute
-         * the proper result if the stream contains infinite values of
-         * the same sign.
+         * the low-order bits of the sum computed vib compensbted
+         * summbtion, bnd index 2 holds the simple sum used to compute
+         * the proper result if the strebm contbins infinite vblues of
+         * the sbme sign.
          */
-        double[] summation = collect(() -> new double[3],
+        double[] summbtion = collect(() -> new double[3],
                                (ll, d) -> {
-                                   Collectors.sumWithCompensation(ll, d);
+                                   Collectors.sumWithCompensbtion(ll, d);
                                    ll[2] += d;
                                },
                                (ll, rr) -> {
-                                   Collectors.sumWithCompensation(ll, rr[0]);
-                                   Collectors.sumWithCompensation(ll, rr[1]);
+                                   Collectors.sumWithCompensbtion(ll, rr[0]);
+                                   Collectors.sumWithCompensbtion(ll, rr[1]);
                                    ll[2] += rr[2];
                                });
 
-        return Collectors.computeFinalSum(summation);
+        return Collectors.computeFinblSum(summbtion);
     }
 
     @Override
-    public final OptionalDouble min() {
-        return reduce(Math::min);
+    public finbl OptionblDouble min() {
+        return reduce(Mbth::min);
     }
 
     @Override
-    public final OptionalDouble max() {
-        return reduce(Math::max);
+    public finbl OptionblDouble mbx() {
+        return reduce(Mbth::mbx);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @implNote The {@code double} format can represent all
-     * consecutive integers in the range -2<sup>53</sup> to
-     * 2<sup>53</sup>. If the pipeline has more than 2<sup>53</sup>
-     * values, the divisor in the average computation will saturate at
-     * 2<sup>53</sup>, leading to additional numerical errors.
+     * @implNote The {@code double} formbt cbn represent bll
+     * consecutive integers in the rbnge -2<sup>53</sup> to
+     * 2<sup>53</sup>. If the pipeline hbs more thbn 2<sup>53</sup>
+     * vblues, the divisor in the bverbge computbtion will sbturbte bt
+     * 2<sup>53</sup>, lebding to bdditionbl numericbl errors.
      */
     @Override
-    public final OptionalDouble average() {
+    public finbl OptionblDouble bverbge() {
         /*
-         * In the arrays allocated for the collect operation, index 0
+         * In the brrbys bllocbted for the collect operbtion, index 0
          * holds the high-order bits of the running sum, index 1 holds
-         * the low-order bits of the sum computed via compensated
-         * summation, index 2 holds the number of values seen, index 3
+         * the low-order bits of the sum computed vib compensbted
+         * summbtion, index 2 holds the number of vblues seen, index 3
          * holds the simple sum.
          */
-        double[] avg = collect(() -> new double[4],
+        double[] bvg = collect(() -> new double[4],
                                (ll, d) -> {
                                    ll[2]++;
-                                   Collectors.sumWithCompensation(ll, d);
+                                   Collectors.sumWithCompensbtion(ll, d);
                                    ll[3] += d;
                                },
                                (ll, rr) -> {
-                                   Collectors.sumWithCompensation(ll, rr[0]);
-                                   Collectors.sumWithCompensation(ll, rr[1]);
+                                   Collectors.sumWithCompensbtion(ll, rr[0]);
+                                   Collectors.sumWithCompensbtion(ll, rr[1]);
                                    ll[2] += rr[2];
                                    ll[3] += rr[3];
                                });
-        return avg[2] > 0
-            ? OptionalDouble.of(Collectors.computeFinalSum(avg) / avg[2])
-            : OptionalDouble.empty();
+        return bvg[2] > 0
+            ? OptionblDouble.of(Collectors.computeFinblSum(bvg) / bvg[2])
+            : OptionblDouble.empty();
     }
 
     @Override
-    public final long count() {
-        return mapToLong(e -> 1L).sum();
+    public finbl long count() {
+        return mbpToLong(e -> 1L).sum();
     }
 
     @Override
-    public final DoubleSummaryStatistics summaryStatistics() {
-        return collect(DoubleSummaryStatistics::new, DoubleSummaryStatistics::accept,
-                       DoubleSummaryStatistics::combine);
+    public finbl DoubleSummbryStbtistics summbryStbtistics() {
+        return collect(DoubleSummbryStbtistics::new, DoubleSummbryStbtistics::bccept,
+                       DoubleSummbryStbtistics::combine);
     }
 
     @Override
-    public final double reduce(double identity, DoubleBinaryOperator op) {
-        return evaluate(ReduceOps.makeDouble(identity, op));
+    public finbl double reduce(double identity, DoubleBinbryOperbtor op) {
+        return evblubte(ReduceOps.mbkeDouble(identity, op));
     }
 
     @Override
-    public final OptionalDouble reduce(DoubleBinaryOperator op) {
-        return evaluate(ReduceOps.makeDouble(op));
+    public finbl OptionblDouble reduce(DoubleBinbryOperbtor op) {
+        return evblubte(ReduceOps.mbkeDouble(op));
     }
 
     @Override
-    public final <R> R collect(Supplier<R> supplier,
-                               ObjDoubleConsumer<R> accumulator,
+    public finbl <R> R collect(Supplier<R> supplier,
+                               ObjDoubleConsumer<R> bccumulbtor,
                                BiConsumer<R, R> combiner) {
         Objects.requireNonNull(combiner);
-        BinaryOperator<R> operator = (left, right) -> {
-            combiner.accept(left, right);
+        BinbryOperbtor<R> operbtor = (left, right) -> {
+            combiner.bccept(left, right);
             return left;
         };
-        return evaluate(ReduceOps.makeDouble(supplier, accumulator, operator));
+        return evblubte(ReduceOps.mbkeDouble(supplier, bccumulbtor, operbtor));
     }
 
     @Override
-    public final boolean anyMatch(DoublePredicate predicate) {
-        return evaluate(MatchOps.makeDouble(predicate, MatchOps.MatchKind.ANY));
+    public finbl boolebn bnyMbtch(DoublePredicbte predicbte) {
+        return evblubte(MbtchOps.mbkeDouble(predicbte, MbtchOps.MbtchKind.ANY));
     }
 
     @Override
-    public final boolean allMatch(DoublePredicate predicate) {
-        return evaluate(MatchOps.makeDouble(predicate, MatchOps.MatchKind.ALL));
+    public finbl boolebn bllMbtch(DoublePredicbte predicbte) {
+        return evblubte(MbtchOps.mbkeDouble(predicbte, MbtchOps.MbtchKind.ALL));
     }
 
     @Override
-    public final boolean noneMatch(DoublePredicate predicate) {
-        return evaluate(MatchOps.makeDouble(predicate, MatchOps.MatchKind.NONE));
+    public finbl boolebn noneMbtch(DoublePredicbte predicbte) {
+        return evblubte(MbtchOps.mbkeDouble(predicbte, MbtchOps.MbtchKind.NONE));
     }
 
     @Override
-    public final OptionalDouble findFirst() {
-        return evaluate(FindOps.makeDouble(true));
+    public finbl OptionblDouble findFirst() {
+        return evblubte(FindOps.mbkeDouble(true));
     }
 
     @Override
-    public final OptionalDouble findAny() {
-        return evaluate(FindOps.makeDouble(false));
+    public finbl OptionblDouble findAny() {
+        return evblubte(FindOps.mbkeDouble(fblse));
     }
 
     @Override
-    public final double[] toArray() {
-        return Nodes.flattenDouble((Node.OfDouble) evaluateToArrayNode(Double[]::new))
-                        .asPrimitiveArray();
+    public finbl double[] toArrby() {
+        return Nodes.flbttenDouble((Node.OfDouble) evblubteToArrbyNode(Double[]::new))
+                        .bsPrimitiveArrby();
     }
 
     //
 
     /**
-     * Source stage of a DoubleStream
+     * Source stbge of b DoubleStrebm
      *
-     * @param <E_IN> type of elements in the upstream source
+     * @pbrbm <E_IN> type of elements in the upstrebm source
      */
-    static class Head<E_IN> extends DoublePipeline<E_IN> {
+    stbtic clbss Hebd<E_IN> extends DoublePipeline<E_IN> {
         /**
-         * Constructor for the source stage of a DoubleStream.
+         * Constructor for the source stbge of b DoubleStrebm.
          *
-         * @param source {@code Supplier<Spliterator>} describing the stream
+         * @pbrbm source {@code Supplier<Spliterbtor>} describing the strebm
          *               source
-         * @param sourceFlags the source flags for the stream source, described
-         *                    in {@link StreamOpFlag}
-         * @param parallel {@code true} if the pipeline is parallel
+         * @pbrbm sourceFlbgs the source flbgs for the strebm source, described
+         *                    in {@link StrebmOpFlbg}
+         * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
          */
-        Head(Supplier<? extends Spliterator<Double>> source,
-             int sourceFlags, boolean parallel) {
-            super(source, sourceFlags, parallel);
+        Hebd(Supplier<? extends Spliterbtor<Double>> source,
+             int sourceFlbgs, boolebn pbrbllel) {
+            super(source, sourceFlbgs, pbrbllel);
         }
 
         /**
-         * Constructor for the source stage of a DoubleStream.
+         * Constructor for the source stbge of b DoubleStrebm.
          *
-         * @param source {@code Spliterator} describing the stream source
-         * @param sourceFlags the source flags for the stream source, described
-         *                    in {@link StreamOpFlag}
-         * @param parallel {@code true} if the pipeline is parallel
+         * @pbrbm source {@code Spliterbtor} describing the strebm source
+         * @pbrbm sourceFlbgs the source flbgs for the strebm source, described
+         *                    in {@link StrebmOpFlbg}
+         * @pbrbm pbrbllel {@code true} if the pipeline is pbrbllel
          */
-        Head(Spliterator<Double> source,
-             int sourceFlags, boolean parallel) {
-            super(source, sourceFlags, parallel);
+        Hebd(Spliterbtor<Double> source,
+             int sourceFlbgs, boolebn pbrbllel) {
+            super(source, sourceFlbgs, pbrbllel);
         }
 
         @Override
-        final boolean opIsStateful() {
-            throw new UnsupportedOperationException();
+        finbl boolebn opIsStbteful() {
+            throw new UnsupportedOperbtionException();
         }
 
         @Override
-        final Sink<E_IN> opWrapSink(int flags, Sink<Double> sink) {
-            throw new UnsupportedOperationException();
+        finbl Sink<E_IN> opWrbpSink(int flbgs, Sink<Double> sink) {
+            throw new UnsupportedOperbtionException();
         }
 
-        // Optimized sequential terminal operations for the head of the pipeline
+        // Optimized sequentibl terminbl operbtions for the hebd of the pipeline
 
         @Override
-        public void forEach(DoubleConsumer consumer) {
-            if (!isParallel()) {
-                adapt(sourceStageSpliterator()).forEachRemaining(consumer);
+        public void forEbch(DoubleConsumer consumer) {
+            if (!isPbrbllel()) {
+                bdbpt(sourceStbgeSpliterbtor()).forEbchRembining(consumer);
             }
             else {
-                super.forEach(consumer);
+                super.forEbch(consumer);
             }
         }
 
         @Override
-        public void forEachOrdered(DoubleConsumer consumer) {
-            if (!isParallel()) {
-                adapt(sourceStageSpliterator()).forEachRemaining(consumer);
+        public void forEbchOrdered(DoubleConsumer consumer) {
+            if (!isPbrbllel()) {
+                bdbpt(sourceStbgeSpliterbtor()).forEbchRembining(consumer);
             }
             else {
-                super.forEachOrdered(consumer);
+                super.forEbchOrdered(consumer);
             }
         }
 
     }
 
     /**
-     * Base class for a stateless intermediate stage of a DoubleStream.
+     * Bbse clbss for b stbteless intermedibte stbge of b DoubleStrebm.
      *
-     * @param <E_IN> type of elements in the upstream source
+     * @pbrbm <E_IN> type of elements in the upstrebm source
      * @since 1.8
      */
-    abstract static class StatelessOp<E_IN> extends DoublePipeline<E_IN> {
+    bbstrbct stbtic clbss StbtelessOp<E_IN> extends DoublePipeline<E_IN> {
         /**
-         * Construct a new DoubleStream by appending a stateless intermediate
-         * operation to an existing stream.
+         * Construct b new DoubleStrebm by bppending b stbteless intermedibte
+         * operbtion to bn existing strebm.
          *
-         * @param upstream the upstream pipeline stage
-         * @param inputShape the stream shape for the upstream pipeline stage
-         * @param opFlags operation flags for the new stage
+         * @pbrbm upstrebm the upstrebm pipeline stbge
+         * @pbrbm inputShbpe the strebm shbpe for the upstrebm pipeline stbge
+         * @pbrbm opFlbgs operbtion flbgs for the new stbge
          */
-        StatelessOp(AbstractPipeline<?, E_IN, ?> upstream,
-                    StreamShape inputShape,
-                    int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
+        StbtelessOp(AbstrbctPipeline<?, E_IN, ?> upstrebm,
+                    StrebmShbpe inputShbpe,
+                    int opFlbgs) {
+            super(upstrebm, opFlbgs);
+            bssert upstrebm.getOutputShbpe() == inputShbpe;
         }
 
         @Override
-        final boolean opIsStateful() {
-            return false;
+        finbl boolebn opIsStbteful() {
+            return fblse;
         }
     }
 
     /**
-     * Base class for a stateful intermediate stage of a DoubleStream.
+     * Bbse clbss for b stbteful intermedibte stbge of b DoubleStrebm.
      *
-     * @param <E_IN> type of elements in the upstream source
+     * @pbrbm <E_IN> type of elements in the upstrebm source
      * @since 1.8
      */
-    abstract static class StatefulOp<E_IN> extends DoublePipeline<E_IN> {
+    bbstrbct stbtic clbss StbtefulOp<E_IN> extends DoublePipeline<E_IN> {
         /**
-         * Construct a new DoubleStream by appending a stateful intermediate
-         * operation to an existing stream.
+         * Construct b new DoubleStrebm by bppending b stbteful intermedibte
+         * operbtion to bn existing strebm.
          *
-         * @param upstream the upstream pipeline stage
-         * @param inputShape the stream shape for the upstream pipeline stage
-         * @param opFlags operation flags for the new stage
+         * @pbrbm upstrebm the upstrebm pipeline stbge
+         * @pbrbm inputShbpe the strebm shbpe for the upstrebm pipeline stbge
+         * @pbrbm opFlbgs operbtion flbgs for the new stbge
          */
-        StatefulOp(AbstractPipeline<?, E_IN, ?> upstream,
-                   StreamShape inputShape,
-                   int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
+        StbtefulOp(AbstrbctPipeline<?, E_IN, ?> upstrebm,
+                   StrebmShbpe inputShbpe,
+                   int opFlbgs) {
+            super(upstrebm, opFlbgs);
+            bssert upstrebm.getOutputShbpe() == inputShbpe;
         }
 
         @Override
-        final boolean opIsStateful() {
+        finbl boolebn opIsStbteful() {
             return true;
         }
 
         @Override
-        abstract <P_IN> Node<Double> opEvaluateParallel(PipelineHelper<Double> helper,
-                                                        Spliterator<P_IN> spliterator,
-                                                        IntFunction<Double[]> generator);
+        bbstrbct <P_IN> Node<Double> opEvblubtePbrbllel(PipelineHelper<Double> helper,
+                                                        Spliterbtor<P_IN> spliterbtor,
+                                                        IntFunction<Double[]> generbtor);
     }
 }

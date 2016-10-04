@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import javax.crypto.ShortBufferException;
+import jbvbx.crypto.ShortBufferException;
 
 /**
- * Padding interface.
+ * Pbdding interfbce.
  *
- * This interface is implemented by general-purpose padding schemes, such as
+ * This interfbce is implemented by generbl-purpose pbdding schemes, such bs
  * the one described in PKCS#5.
  *
- * @author Jan Luehe
- * @author Gigi Ankeny
+ * @buthor Jbn Luehe
+ * @buthor Gigi Ankeny
  *
  *
- * @see PKCS5Padding
+ * @see PKCS5Pbdding
  */
 
-interface Padding {
+interfbce Pbdding {
 
     /**
-     * Adds the given number of padding bytes to the data input.
-     * The value of the padding bytes is determined
-     * by the specific padding mechanism that implements this
-     * interface.
+     * Adds the given number of pbdding bytes to the dbtb input.
+     * The vblue of the pbdding bytes is determined
+     * by the specific pbdding mechbnism thbt implements this
+     * interfbce.
      *
-     * @param in the input buffer with the data to pad
-     * @param the offset in <code>in</code> where the padding bytes
-     *  are appended
-     * @param len the number of padding bytes to add
+     * @pbrbm in the input buffer with the dbtb to pbd
+     * @pbrbm the offset in <code>in</code> where the pbdding bytes
+     *  bre bppended
+     * @pbrbm len the number of pbdding bytes to bdd
      *
-     * @exception ShortBufferException if <code>in</code> is too small to hold
-     * the padding bytes
+     * @exception ShortBufferException if <code>in</code> is too smbll to hold
+     * the pbdding bytes
      */
-    void padWithLen(byte[] in, int off, int len) throws ShortBufferException;
+    void pbdWithLen(byte[] in, int off, int len) throws ShortBufferException;
 
     /**
-     * Returns the index where padding starts.
+     * Returns the index where pbdding stbrts.
      *
-     * <p>Given a buffer with data and their padding, this method returns the
-     * index where the padding starts.
+     * <p>Given b buffer with dbtb bnd their pbdding, this method returns the
+     * index where the pbdding stbrts.
      *
-     * @param in the buffer with the data and their padding
-     * @param off the offset in <code>in</code> where the data starts
-     * @param len the length of the data and their padding
+     * @pbrbm in the buffer with the dbtb bnd their pbdding
+     * @pbrbm off the offset in <code>in</code> where the dbtb stbrts
+     * @pbrbm len the length of the dbtb bnd their pbdding
      *
-     * @return the index where the padding starts, or -1 if the input is
-     * not properly padded
+     * @return the index where the pbdding stbrts, or -1 if the input is
+     * not properly pbdded
      */
-    int unpad(byte[] in, int off, int len);
+    int unpbd(byte[] in, int off, int len);
 
     /**
-     * Determines how long the padding will be for a given input length.
+     * Determines how long the pbdding will be for b given input length.
      *
-     * @param len the length of the data to pad
+     * @pbrbm len the length of the dbtb to pbd
      *
-     * @return the length of the padding
+     * @return the length of the pbdding
      */
-    int padLength(int len);
+    int pbdLength(int len);
 }

@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Paint;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Color;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Pbint;
 
-import java.awt.font.TextLayout;
+import jbvb.bwt.font.TextLbyout;
 
-import java.awt.image.RenderedImage;
-import java.awt.image.renderable.RenderableImage;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.bwt.imbge.renderbble.RenderbbleImbge;
 
 /**
- * Maintain information about the type of drawing
- * performed by a printing application.
+ * Mbintbin informbtion bbout the type of drbwing
+ * performed by b printing bpplicbtion.
  */
-public class PeekMetrics {
+public clbss PeekMetrics {
 
-    private boolean mHasNonSolidColors;
+    privbte boolebn mHbsNonSolidColors;
 
-    private boolean mHasCompositing;
+    privbte boolebn mHbsCompositing;
 
-    private boolean mHasText;
+    privbte boolebn mHbsText;
 
-    private boolean mHasImages;
+    privbte boolebn mHbsImbges;
 
     /**
-     * Return <code>true</code> if the application
-     * has done any drawing with a Paint that
-     * is not an instance of <code>Color</code>
+     * Return <code>true</code> if the bpplicbtion
+     * hbs done bny drbwing with b Pbint thbt
+     * is not bn instbnce of <code>Color</code>
      */
-    public boolean hasNonSolidColors() {
-        return mHasNonSolidColors;
+    public boolebn hbsNonSolidColors() {
+        return mHbsNonSolidColors;
     }
 
     /**
-     * Return true if the application has
-     * done any drawing with an alpha other
-     * than 1.0.
+     * Return true if the bpplicbtion hbs
+     * done bny drbwing with bn blphb other
+     * thbn 1.0.
      */
-    public boolean hasCompositing() {
-        return mHasCompositing;
+    public boolebn hbsCompositing() {
+        return mHbsCompositing;
     }
 
     /**
-     * Return true if the application has
-     * drawn any text.
+     * Return true if the bpplicbtion hbs
+     * drbwn bny text.
      */
-    public boolean hasText() {
-        return mHasText;
+    public boolebn hbsText() {
+        return mHbsText;
     }
 
     /**
-     * Return true if the application has
-     * drawn any images.
+     * Return true if the bpplicbtion hbs
+     * drbwn bny imbges.
      */
-    public boolean hasImages() {
-        return mHasImages;
+    public boolebn hbsImbges() {
+        return mHbsImbges;
     }
 
     /**
-     * The application is performing a fill
-     * so record the needed information.
+     * The bpplicbtion is performing b fill
+     * so record the needed informbtion.
      */
-    public void fill(Graphics2D g) {
-        checkDrawingMode(g);
+    public void fill(Grbphics2D g) {
+        checkDrbwingMode(g);
     }
 
     /**
-     * The application is performing a draw
-     * so record the needed information.
+     * The bpplicbtion is performing b drbw
+     * so record the needed informbtion.
      */
-    public void draw(Graphics2D g) {
-        checkDrawingMode(g);
+    public void drbw(Grbphics2D g) {
+        checkDrbwingMode(g);
     }
 
     /**
-     * The application is performing a clearRect
-     * so record the needed information.
+     * The bpplicbtion is performing b clebrRect
+     * so record the needed informbtion.
      */
-    public void clear(Graphics2D g) {
-        checkPaint(g.getBackground());
+    public void clebr(Grbphics2D g) {
+        checkPbint(g.getBbckground());
     }
     /**
-     * The application is drawing text
-     * so record the needed information.
+     * The bpplicbtion is drbwing text
+     * so record the needed informbtion.
      */
-    public void drawText(Graphics2D g) {
-        mHasText = true;
-        checkDrawingMode(g);
-    }
-
-    /**
-     * The application is drawing text
-     * defined by <code>TextLayout</code>
-     * so record the needed information.
-     */
-    public void drawText(Graphics2D g, TextLayout textLayout) {
-        mHasText = true;
-        checkDrawingMode(g);
+    public void drbwText(Grbphics2D g) {
+        mHbsText = true;
+        checkDrbwingMode(g);
     }
 
     /**
-     * The application is drawing the passed
-     * in image.
+     * The bpplicbtion is drbwing text
+     * defined by <code>TextLbyout</code>
+     * so record the needed informbtion.
      */
-    public void drawImage(Graphics2D g, Image image) {
-        mHasImages = true;
+    public void drbwText(Grbphics2D g, TextLbyout textLbyout) {
+        mHbsText = true;
+        checkDrbwingMode(g);
     }
 
     /**
-     * The application is drawing the passed
-     * in image.
+     * The bpplicbtion is drbwing the pbssed
+     * in imbge.
      */
-    public void drawImage(Graphics2D g, RenderedImage image) {
-        mHasImages = true;
+    public void drbwImbge(Grbphics2D g, Imbge imbge) {
+        mHbsImbges = true;
     }
 
     /**
-     * The application is drawing the passed
-     * in image.
+     * The bpplicbtion is drbwing the pbssed
+     * in imbge.
      */
-    public void drawImage(Graphics2D g, RenderableImage image) {
-        mHasImages = true;
+    public void drbwImbge(Grbphics2D g, RenderedImbge imbge) {
+        mHbsImbges = true;
     }
 
     /**
-     * Record information about the current paint
-     * and composite.
+     * The bpplicbtion is drbwing the pbssed
+     * in imbge.
      */
-    private void checkDrawingMode(Graphics2D g) {
+    public void drbwImbge(Grbphics2D g, RenderbbleImbge imbge) {
+        mHbsImbges = true;
+    }
 
-        checkPaint(g.getPaint());
-        checkAlpha(g.getComposite());
+    /**
+     * Record informbtion bbout the current pbint
+     * bnd composite.
+     */
+    privbte void checkDrbwingMode(Grbphics2D g) {
+
+        checkPbint(g.getPbint());
+        checkAlphb(g.getComposite());
 
     }
 
     /**
-     * Record information about drawing done
-     * with the supplied <code>Paint</code>.
+     * Record informbtion bbout drbwing done
+     * with the supplied <code>Pbint</code>.
      */
-    private void checkPaint(Paint paint) {
+    privbte void checkPbint(Pbint pbint) {
 
-        if (paint instanceof Color) {
-            if (((Color)paint).getAlpha() < 255) {
-                mHasNonSolidColors = true;
+        if (pbint instbnceof Color) {
+            if (((Color)pbint).getAlphb() < 255) {
+                mHbsNonSolidColors = true;
             }
         } else {
-            mHasNonSolidColors = true;
+            mHbsNonSolidColors = true;
         }
     }
 
     /**
-     * Record information about drawing done
+     * Record informbtion bbout drbwing done
      * with the supplied <code>Composite</code>.
      */
-    private void checkAlpha(Composite composite) {
+    privbte void checkAlphb(Composite composite) {
 
-        if (composite instanceof AlphaComposite) {
-            AlphaComposite alphaComposite = (AlphaComposite) composite;
-            float alpha = alphaComposite.getAlpha();
-            int rule = alphaComposite.getRule();
+        if (composite instbnceof AlphbComposite) {
+            AlphbComposite blphbComposite = (AlphbComposite) composite;
+            flobt blphb = blphbComposite.getAlphb();
+            int rule = blphbComposite.getRule();
 
-            if (alpha != 1.0
-                    || (rule != AlphaComposite.SRC
-                        && rule != AlphaComposite.SRC_OVER)) {
+            if (blphb != 1.0
+                    || (rule != AlphbComposite.SRC
+                        && rule != AlphbComposite.SRC_OVER)) {
 
-                mHasCompositing = true;
+                mHbsCompositing = true;
             }
 
         } else {
-            mHasCompositing = true;
+            mHbsCompositing = true;
         }
 
     }

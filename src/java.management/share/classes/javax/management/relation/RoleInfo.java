@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.relation;
+pbckbge jbvbx.mbnbgement.relbtion;
 
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import com.sun.jmx.mbebnserver.GetPropertyAction;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
-import java.security.AccessController;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessController;
 
-import javax.management.MBeanServer;
+import jbvbx.mbnbgement.MBebnServer;
 
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
 
 /**
- * A RoleInfo object summarises a role in a relation type.
+ * A RoleInfo object summbrises b role in b relbtion type.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>2504952983494636987L</code>.
+ * <p>The <b>seriblVersionUID</b> of this clbss is <code>2504952983494636987L</code>.
  *
  * @since 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class RoleInfo implements Serializable {
+@SuppressWbrnings("seribl")  // seriblVersionUID not constbnt
+public clbss RoleInfo implements Seriblizbble {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Seriblizbtion compbtibility stuff:
+    // Two seribl forms bre supported in this clbss. The selected form depends
+    // on system property "jmx.seribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny other vblue for JMX 1.1 bnd higher
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 7227256952085334351L;
+    // Seribl version for old seribl form
+    privbte stbtic finbl long oldSeriblVersionUID = 7227256952085334351L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 2504952983494636987L;
+    // Seribl version for new seribl form
+    privbte stbtic finbl long newSeriblVersionUID = 2504952983494636987L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Seriblizbble fields in old seribl form
+    privbte stbtic finbl ObjectStrebmField[] oldSeriblPersistentFields =
     {
-      new ObjectStreamField("myName", String.class),
-      new ObjectStreamField("myIsReadableFlg", boolean.class),
-      new ObjectStreamField("myIsWritableFlg", boolean.class),
-      new ObjectStreamField("myDescription", String.class),
-      new ObjectStreamField("myMinDegree", int.class),
-      new ObjectStreamField("myMaxDegree", int.class),
-      new ObjectStreamField("myRefMBeanClassName", String.class)
+      new ObjectStrebmField("myNbme", String.clbss),
+      new ObjectStrebmField("myIsRebdbbleFlg", boolebn.clbss),
+      new ObjectStrebmField("myIsWritbbleFlg", boolebn.clbss),
+      new ObjectStrebmField("myDescription", String.clbss),
+      new ObjectStrebmField("myMinDegree", int.clbss),
+      new ObjectStrebmField("myMbxDegree", int.clbss),
+      new ObjectStrebmField("myRefMBebnClbssNbme", String.clbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Seriblizbble fields in new seribl form
+    privbte stbtic finbl ObjectStrebmField[] newSeriblPersistentFields =
     {
-      new ObjectStreamField("name", String.class),
-      new ObjectStreamField("isReadable", boolean.class),
-      new ObjectStreamField("isWritable", boolean.class),
-      new ObjectStreamField("description", String.class),
-      new ObjectStreamField("minDegree", int.class),
-      new ObjectStreamField("maxDegree", int.class),
-      new ObjectStreamField("referencedMBeanClassName", String.class)
+      new ObjectStrebmField("nbme", String.clbss),
+      new ObjectStrebmField("isRebdbble", boolebn.clbss),
+      new ObjectStrebmField("isWritbble", boolebn.clbss),
+      new ObjectStrebmField("description", String.clbss),
+      new ObjectStrebmField("minDegree", int.clbss),
+      new ObjectStrebmField("mbxDegree", int.clbss),
+      new ObjectStrebmField("referencedMBebnClbssNbme", String.clbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Actubl seribl version bnd seribl form
+    privbte stbtic finbl long seriblVersionUID;
     /**
-     * @serialField name String Role name
-     * @serialField isReadable boolean Read access mode: <code>true</code> if role is readable
-     * @serialField isWritable boolean Write access mode: <code>true</code> if role is writable
-     * @serialField description String Role description
-     * @serialField minDegree int Minimum degree (i.e. minimum number of referenced MBeans in corresponding role)
-     * @serialField maxDegree int Maximum degree (i.e. maximum number of referenced MBeans in corresponding role)
-     * @serialField referencedMBeanClassName String Name of class of MBean(s) expected to be referenced in corresponding role
+     * @seriblField nbme String Role nbme
+     * @seriblField isRebdbble boolebn Rebd bccess mode: <code>true</code> if role is rebdbble
+     * @seriblField isWritbble boolebn Write bccess mode: <code>true</code> if role is writbble
+     * @seriblField description String Role description
+     * @seriblField minDegree int Minimum degree (i.e. minimum number of referenced MBebns in corresponding role)
+     * @seriblField mbxDegree int Mbximum degree (i.e. mbximum number of referenced MBebns in corresponding role)
+     * @seriblField referencedMBebnClbssNbme String Nbme of clbss of MBebn(s) expected to be referenced in corresponding role
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields;
+    privbte stbtic boolebn compbt = fblse;
+    stbtic {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GetPropertyAction bct = new GetPropertyAction("jmx.seribl.form");
+            String form = AccessController.doPrivileged(bct);
+            compbt = (form != null && form.equbls("1.0"));
+        } cbtch (Exception e) {
+            // OK : Too bbd, no compbt with 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
+        if (compbt) {
+            seriblPersistentFields = oldSeriblPersistentFields;
+            seriblVersionUID = oldSeriblVersionUID;
         } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+            seriblPersistentFields = newSeriblPersistentFields;
+            seriblVersionUID = newSeriblVersionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Seriblizbtion compbtibility stuff
 
     //
-    // Public constants
-    //
-
-    /**
-     * To specify an unlimited cardinality.
-     */
-    public static final int ROLE_CARDINALITY_INFINITY = -1;
-
-    //
-    // Private members
+    // Public constbnts
     //
 
     /**
-     * @serial Role name
+     * To specify bn unlimited cbrdinblity.
      */
-    private String name = null;
+    public stbtic finbl int ROLE_CARDINALITY_INFINITY = -1;
+
+    //
+    // Privbte members
+    //
 
     /**
-     * @serial Read access mode: <code>true</code> if role is readable
+     * @seribl Role nbme
      */
-    private boolean isReadable;
+    privbte String nbme = null;
 
     /**
-     * @serial Write access mode: <code>true</code> if role is writable
+     * @seribl Rebd bccess mode: <code>true</code> if role is rebdbble
      */
-    private boolean isWritable;
+    privbte boolebn isRebdbble;
 
     /**
-     * @serial Role description
+     * @seribl Write bccess mode: <code>true</code> if role is writbble
      */
-    private String description = null;
+    privbte boolebn isWritbble;
 
     /**
-     * @serial Minimum degree (i.e. minimum number of referenced MBeans in corresponding role)
+     * @seribl Role description
      */
-    private int minDegree;
+    privbte String description = null;
 
     /**
-     * @serial Maximum degree (i.e. maximum number of referenced MBeans in corresponding role)
+     * @seribl Minimum degree (i.e. minimum number of referenced MBebns in corresponding role)
      */
-    private int maxDegree;
+    privbte int minDegree;
 
     /**
-     * @serial Name of class of MBean(s) expected to be referenced in corresponding role
+     * @seribl Mbximum degree (i.e. mbximum number of referenced MBebns in corresponding role)
      */
-    private String referencedMBeanClassName = null;
+    privbte int mbxDegree;
+
+    /**
+     * @seribl Nbme of clbss of MBebn(s) expected to be referenced in corresponding role
+     */
+    privbte String referencedMBebnClbssNbme = null;
 
     //
     // Constructors
@@ -172,52 +172,52 @@ public class RoleInfo implements Serializable {
     /**
      * Constructor.
      *
-     * @param roleName  name of the role.
-     * @param mbeanClassName  name of the class of MBean(s) expected to
-     * be referenced in corresponding role.  If an MBean <em>M</em> is in
-     * this role, then the MBean server must return true for
-     * {@link MBeanServer#isInstanceOf isInstanceOf(M, mbeanClassName)}.
-     * @param read  flag to indicate if the corresponding role
-     * can be read
-     * @param write  flag to indicate if the corresponding role
-     * can be set
-     * @param min  minimum degree for role, i.e. minimum number of
-     * MBeans to provide in corresponding role
-     * Must be less than or equal to <tt>max</tt>.
+     * @pbrbm roleNbme  nbme of the role.
+     * @pbrbm mbebnClbssNbme  nbme of the clbss of MBebn(s) expected to
+     * be referenced in corresponding role.  If bn MBebn <em>M</em> is in
+     * this role, then the MBebn server must return true for
+     * {@link MBebnServer#isInstbnceOf isInstbnceOf(M, mbebnClbssNbme)}.
+     * @pbrbm rebd  flbg to indicbte if the corresponding role
+     * cbn be rebd
+     * @pbrbm write  flbg to indicbte if the corresponding role
+     * cbn be set
+     * @pbrbm min  minimum degree for role, i.e. minimum number of
+     * MBebns to provide in corresponding role
+     * Must be less thbn or equbl to <tt>mbx</tt>.
      * (ROLE_CARDINALITY_INFINITY for unlimited)
-     * @param max  maximum degree for role, i.e. maximum number of
-     * MBeans to provide in corresponding role
-     * Must be greater than or equal to <tt>min</tt>
+     * @pbrbm mbx  mbximum degree for role, i.e. mbximum number of
+     * MBebns to provide in corresponding role
+     * Must be grebter thbn or equbl to <tt>min</tt>
      * (ROLE_CARDINALITY_INFINITY for unlimited)
-     * @param descr  description of the role (can be null)
+     * @pbrbm descr  description of the role (cbn be null)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception InvalidRoleInfoException  if the minimum degree is
-     * greater than the maximum degree.
-     * @exception ClassNotFoundException As of JMX 1.2, this exception
-     * can no longer be thrown.  It is retained in the declaration of
-     * this class for compatibility with existing code.
-     * @exception NotCompliantMBeanException  if the class mbeanClassName
-     * is not a MBean class.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception InvblidRoleInfoException  if the minimum degree is
+     * grebter thbn the mbximum degree.
+     * @exception ClbssNotFoundException As of JMX 1.2, this exception
+     * cbn no longer be thrown.  It is retbined in the declbrbtion of
+     * this clbss for compbtibility with existing code.
+     * @exception NotComplibntMBebnException  if the clbss mbebnClbssNbme
+     * is not b MBebn clbss.
      */
-    public RoleInfo(String roleName,
-                    String mbeanClassName,
-                    boolean read,
-                    boolean write,
+    public RoleInfo(String roleNbme,
+                    String mbebnClbssNbme,
+                    boolebn rebd,
+                    boolebn write,
                     int min,
-                    int max,
+                    int mbx,
                     String descr)
-    throws IllegalArgumentException,
-           InvalidRoleInfoException,
-           ClassNotFoundException,
-           NotCompliantMBeanException {
+    throws IllegblArgumentException,
+           InvblidRoleInfoException,
+           ClbssNotFoundException,
+           NotComplibntMBebnException {
 
-        init(roleName,
-             mbeanClassName,
-             read,
+        init(roleNbme,
+             mbebnClbssNbme,
+             rebd,
              write,
              min,
-             max,
+             mbx,
              descr);
         return;
     }
@@ -225,46 +225,46 @@ public class RoleInfo implements Serializable {
     /**
      * Constructor.
      *
-     * @param roleName  name of the role
-     * @param mbeanClassName  name of the class of MBean(s) expected to
-     * be referenced in corresponding role.  If an MBean <em>M</em> is in
-     * this role, then the MBean server must return true for
-     * {@link MBeanServer#isInstanceOf isInstanceOf(M, mbeanClassName)}.
-     * @param read  flag to indicate if the corresponding role
-     * can be read
-     * @param write  flag to indicate if the corresponding role
-     * can be set
+     * @pbrbm roleNbme  nbme of the role
+     * @pbrbm mbebnClbssNbme  nbme of the clbss of MBebn(s) expected to
+     * be referenced in corresponding role.  If bn MBebn <em>M</em> is in
+     * this role, then the MBebn server must return true for
+     * {@link MBebnServer#isInstbnceOf isInstbnceOf(M, mbebnClbssNbme)}.
+     * @pbrbm rebd  flbg to indicbte if the corresponding role
+     * cbn be rebd
+     * @pbrbm write  flbg to indicbte if the corresponding role
+     * cbn be set
      *
-     * <P>Minimum and maximum degrees defaulted to 1.
-     * <P>Description of role defaulted to null.
+     * <P>Minimum bnd mbximum degrees defbulted to 1.
+     * <P>Description of role defbulted to null.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception ClassNotFoundException As of JMX 1.2, this exception
-     * can no longer be thrown.  It is retained in the declaration of
-     * this class for compatibility with existing code.
-     * @exception NotCompliantMBeanException As of JMX 1.2, this
-     * exception can no longer be thrown.  It is retained in the
-     * declaration of this class for compatibility with existing code.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception ClbssNotFoundException As of JMX 1.2, this exception
+     * cbn no longer be thrown.  It is retbined in the declbrbtion of
+     * this clbss for compbtibility with existing code.
+     * @exception NotComplibntMBebnException As of JMX 1.2, this
+     * exception cbn no longer be thrown.  It is retbined in the
+     * declbrbtion of this clbss for compbtibility with existing code.
      */
-    public RoleInfo(String roleName,
-                    String mbeanClassName,
-                    boolean read,
-                    boolean write)
-    throws IllegalArgumentException,
-           ClassNotFoundException,
-           NotCompliantMBeanException {
+    public RoleInfo(String roleNbme,
+                    String mbebnClbssNbme,
+                    boolebn rebd,
+                    boolebn write)
+    throws IllegblArgumentException,
+           ClbssNotFoundException,
+           NotComplibntMBebnException {
 
         try {
-            init(roleName,
-                 mbeanClassName,
-                 read,
+            init(roleNbme,
+                 mbebnClbssNbme,
+                 rebd,
                  write,
                  1,
                  1,
                  null);
-        } catch (InvalidRoleInfoException exc) {
-            // OK : Can never happen as the minimum
-            //      degree equals the maximum degree.
+        } cbtch (InvblidRoleInfoException exc) {
+            // OK : Cbn never hbppen bs the minimum
+            //      degree equbls the mbximum degree.
         }
 
         return;
@@ -273,41 +273,41 @@ public class RoleInfo implements Serializable {
     /**
      * Constructor.
      *
-     * @param roleName  name of the role
-     * @param mbeanClassName  name of the class of MBean(s) expected to
-     * be referenced in corresponding role.  If an MBean <em>M</em> is in
-     * this role, then the MBean server must return true for
-     * {@link MBeanServer#isInstanceOf isInstanceOf(M, mbeanClassName)}.
+     * @pbrbm roleNbme  nbme of the role
+     * @pbrbm mbebnClbssNbme  nbme of the clbss of MBebn(s) expected to
+     * be referenced in corresponding role.  If bn MBebn <em>M</em> is in
+     * this role, then the MBebn server must return true for
+     * {@link MBebnServer#isInstbnceOf isInstbnceOf(M, mbebnClbssNbme)}.
      *
-     * <P>IsReadable and IsWritable defaulted to true.
-     * <P>Minimum and maximum degrees defaulted to 1.
-     * <P>Description of role defaulted to null.
+     * <P>IsRebdbble bnd IsWritbble defbulted to true.
+     * <P>Minimum bnd mbximum degrees defbulted to 1.
+     * <P>Description of role defbulted to null.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception ClassNotFoundException As of JMX 1.2, this exception
-     * can no longer be thrown.  It is retained in the declaration of
-     * this class for compatibility with existing code.
-     * @exception NotCompliantMBeanException As of JMX 1.2, this
-     * exception can no longer be thrown.  It is retained in the
-     * declaration of this class for compatibility with existing code.
+     * @exception IllegblArgumentException  if null pbrbmeter
+     * @exception ClbssNotFoundException As of JMX 1.2, this exception
+     * cbn no longer be thrown.  It is retbined in the declbrbtion of
+     * this clbss for compbtibility with existing code.
+     * @exception NotComplibntMBebnException As of JMX 1.2, this
+     * exception cbn no longer be thrown.  It is retbined in the
+     * declbrbtion of this clbss for compbtibility with existing code.
       */
-    public RoleInfo(String roleName,
-                    String mbeanClassName)
-    throws IllegalArgumentException,
-           ClassNotFoundException,
-           NotCompliantMBeanException {
+    public RoleInfo(String roleNbme,
+                    String mbebnClbssNbme)
+    throws IllegblArgumentException,
+           ClbssNotFoundException,
+           NotComplibntMBebnException {
 
         try {
-            init(roleName,
-                 mbeanClassName,
+            init(roleNbme,
+                 mbebnClbssNbme,
                  true,
                  true,
                  1,
                  1,
                  null);
-        } catch (InvalidRoleInfoException exc) {
-            // OK : Can never happen as the minimum
-            //      degree equals the maximum degree.
+        } cbtch (InvblidRoleInfoException exc) {
+            // OK : Cbn never hbppen bs the minimum
+            //      degree equbls the mbximum degree.
         }
 
         return;
@@ -316,31 +316,31 @@ public class RoleInfo implements Serializable {
     /**
      * Copy constructor.
      *
-     * @param roleInfo the <tt>RoleInfo</tt> instance to be copied.
+     * @pbrbm roleInfo the <tt>RoleInfo</tt> instbnce to be copied.
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @exception IllegblArgumentException  if null pbrbmeter
      */
     public RoleInfo(RoleInfo roleInfo)
-        throws IllegalArgumentException {
+        throws IllegblArgumentException {
 
         if (roleInfo == null) {
-            // Revisit [cebro] Localize message
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+            // Revisit [cebro] Locblize messbge
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
         try {
-            init(roleInfo.getName(),
-                 roleInfo.getRefMBeanClassName(),
-                 roleInfo.isReadable(),
-                 roleInfo.isWritable(),
+            init(roleInfo.getNbme(),
+                 roleInfo.getRefMBebnClbssNbme(),
+                 roleInfo.isRebdbble(),
+                 roleInfo.isWritbble(),
                  roleInfo.getMinDegree(),
-                 roleInfo.getMaxDegree(),
+                 roleInfo.getMbxDegree(),
                  roleInfo.getDescription());
-        } catch (InvalidRoleInfoException exc3) {
-            // OK : Can never happen as the minimum degree and the maximum
-            //      degree were already checked at the time the roleInfo
-            //      instance was created.
+        } cbtch (InvblidRoleInfoException exc3) {
+            // OK : Cbn never hbppen bs the minimum degree bnd the mbximum
+            //      degree were blrebdy checked bt the time the roleInfo
+            //      instbnce wbs crebted.
         }
     }
 
@@ -349,30 +349,30 @@ public class RoleInfo implements Serializable {
     //
 
     /**
-     * Returns the name of the role.
+     * Returns the nbme of the role.
      *
-     * @return the name of the role.
+     * @return the nbme of the role.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns read access mode for the role (true if it is readable).
+     * Returns rebd bccess mode for the role (true if it is rebdbble).
      *
-     * @return true if the role is readable.
+     * @return true if the role is rebdbble.
      */
-    public boolean isReadable() {
-        return isReadable;
+    public boolebn isRebdbble() {
+        return isRebdbble;
     }
 
     /**
-     * Returns write access mode for the role (true if it is writable).
+     * Returns write bccess mode for the role (true if it is writbble).
      *
-     * @return true if the role is writable.
+     * @return true if the role is writbble.
      */
-    public boolean isWritable() {
-        return isWritable;
+    public boolebn isWritbble() {
+        return isWritbble;
     }
 
     /**
@@ -394,75 +394,75 @@ public class RoleInfo implements Serializable {
     }
 
     /**
-     * Returns maximum degree for corresponding role reference.
+     * Returns mbximum degree for corresponding role reference.
      *
-     * @return the maximum degree.
+     * @return the mbximum degree.
      */
-    public int getMaxDegree() {
-        return maxDegree;
+    public int getMbxDegree() {
+        return mbxDegree;
     }
 
     /**
-     * <p>Returns name of type of MBean expected to be referenced in
+     * <p>Returns nbme of type of MBebn expected to be referenced in
      * corresponding role.</p>
      *
-     * @return the name of the referenced type.
+     * @return the nbme of the referenced type.
      */
-    public String getRefMBeanClassName() {
-        return referencedMBeanClassName;
+    public String getRefMBebnClbssNbme() {
+        return referencedMBebnClbssNbme;
     }
 
     /**
-     * Returns true if the <tt>value</tt> parameter is greater than or equal to
-     * the expected minimum degree, false otherwise.
+     * Returns true if the <tt>vblue</tt> pbrbmeter is grebter thbn or equbl to
+     * the expected minimum degree, fblse otherwise.
      *
-     * @param value  the value to be checked
+     * @pbrbm vblue  the vblue to be checked
      *
-     * @return true if greater than or equal to minimum degree, false otherwise.
+     * @return true if grebter thbn or equbl to minimum degree, fblse otherwise.
      */
-    public boolean checkMinDegree(int value) {
-        if (value >= ROLE_CARDINALITY_INFINITY &&
+    public boolebn checkMinDegree(int vblue) {
+        if (vblue >= ROLE_CARDINALITY_INFINITY &&
             (minDegree == ROLE_CARDINALITY_INFINITY
-             || value >= minDegree)) {
+             || vblue >= minDegree)) {
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns true if the <tt>value</tt> parameter is lower than or equal to
-     * the expected maximum degree, false otherwise.
+     * Returns true if the <tt>vblue</tt> pbrbmeter is lower thbn or equbl to
+     * the expected mbximum degree, fblse otherwise.
      *
-     * @param value  the value to be checked
+     * @pbrbm vblue  the vblue to be checked
      *
-     * @return true if lower than or equal to maximum degree, false otherwise.
+     * @return true if lower thbn or equbl to mbximum degree, fblse otherwise.
      */
-    public boolean checkMaxDegree(int value) {
-        if (value >= ROLE_CARDINALITY_INFINITY &&
-            (maxDegree == ROLE_CARDINALITY_INFINITY ||
-             (value != ROLE_CARDINALITY_INFINITY &&
-              value <= maxDegree))) {
+    public boolebn checkMbxDegree(int vblue) {
+        if (vblue >= ROLE_CARDINALITY_INFINITY &&
+            (mbxDegree == ROLE_CARDINALITY_INFINITY ||
+             (vblue != ROLE_CARDINALITY_INFINITY &&
+              vblue <= mbxDegree))) {
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Returns a string describing the role info.
+     * Returns b string describing the role info.
      *
-     * @return a description of the role info.
+     * @return b description of the role info.
      */
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("role info name: " + name);
-        result.append("; isReadable: " + isReadable);
-        result.append("; isWritable: " + isWritable);
-        result.append("; description: " + description);
-        result.append("; minimum degree: " + minDegree);
-        result.append("; maximum degree: " + maxDegree);
-        result.append("; MBean class: " + referencedMBeanClassName);
+        result.bppend("role info nbme: " + nbme);
+        result.bppend("; isRebdbble: " + isRebdbble);
+        result.bppend("; isWritbble: " + isWritbble);
+        result.bppend("; description: " + description);
+        result.bppend("; minimum degree: " + minDegree);
+        result.bppend("; mbximum degree: " + mbxDegree);
+        result.bppend("; MBebn clbss: " + referencedMBebnClbssNbme);
         return result.toString();
     }
 
@@ -470,139 +470,139 @@ public class RoleInfo implements Serializable {
     // Misc
     //
 
-    // Initialization
-    private void init(String roleName,
-                      String mbeanClassName,
-                      boolean read,
-                      boolean write,
+    // Initiblizbtion
+    privbte void init(String roleNbme,
+                      String mbebnClbssNbme,
+                      boolebn rebd,
+                      boolebn write,
                       int min,
-                      int max,
+                      int mbx,
                       String descr)
-            throws IllegalArgumentException,
-                   InvalidRoleInfoException {
+            throws IllegblArgumentException,
+                   InvblidRoleInfoException {
 
-        if (roleName == null ||
-            mbeanClassName == null) {
-            // Revisit [cebro] Localize message
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (roleNbme == null ||
+            mbebnClbssNbme == null) {
+            // Revisit [cebro] Locblize messbge
+            String excMsg = "Invblid pbrbmeter.";
+            throw new IllegblArgumentException(excMsg);
         }
 
-        name = roleName;
-        isReadable = read;
-        isWritable = write;
+        nbme = roleNbme;
+        isRebdbble = rebd;
+        isWritbble = write;
         if (descr != null) {
             description = descr;
         }
 
-        boolean invalidRoleInfoFlg = false;
+        boolebn invblidRoleInfoFlg = fblse;
         StringBuilder excMsgStrB = new StringBuilder();
-        if (max != ROLE_CARDINALITY_INFINITY &&
+        if (mbx != ROLE_CARDINALITY_INFINITY &&
             (min == ROLE_CARDINALITY_INFINITY ||
-             min > max)) {
-            // Revisit [cebro] Localize message
-            excMsgStrB.append("Minimum degree ");
-            excMsgStrB.append(min);
-            excMsgStrB.append(" is greater than maximum degree ");
-            excMsgStrB.append(max);
-            invalidRoleInfoFlg = true;
+             min > mbx)) {
+            // Revisit [cebro] Locblize messbge
+            excMsgStrB.bppend("Minimum degree ");
+            excMsgStrB.bppend(min);
+            excMsgStrB.bppend(" is grebter thbn mbximum degree ");
+            excMsgStrB.bppend(mbx);
+            invblidRoleInfoFlg = true;
 
         } else if (min < ROLE_CARDINALITY_INFINITY ||
-                   max < ROLE_CARDINALITY_INFINITY) {
-            // Revisit [cebro] Localize message
-            excMsgStrB.append("Minimum or maximum degree has an illegal value, must be [0, ROLE_CARDINALITY_INFINITY].");
-            invalidRoleInfoFlg = true;
+                   mbx < ROLE_CARDINALITY_INFINITY) {
+            // Revisit [cebro] Locblize messbge
+            excMsgStrB.bppend("Minimum or mbximum degree hbs bn illegbl vblue, must be [0, ROLE_CARDINALITY_INFINITY].");
+            invblidRoleInfoFlg = true;
         }
-        if (invalidRoleInfoFlg) {
-            throw new InvalidRoleInfoException(excMsgStrB.toString());
+        if (invblidRoleInfoFlg) {
+            throw new InvblidRoleInfoException(excMsgStrB.toString());
         }
         minDegree = min;
-        maxDegree = max;
+        mbxDegree = mbx;
 
-        referencedMBeanClassName = mbeanClassName;
+        referencedMBebnClbssNbme = mbebnClbssNbme;
 
         return;
     }
 
     /**
-     * Deserializes a {@link RoleInfo} from an {@link ObjectInputStream}.
+     * Deseriblizes b {@link RoleInfo} from bn {@link ObjectInputStrebm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+      if (compbt)
       {
-        // Read an object serialized in the old serial form
+        // Rebd bn object seriblized in the old seribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        name = (String) fields.get("myName", null);
-        if (fields.defaulted("myName"))
+        ObjectInputStrebm.GetField fields = in.rebdFields();
+        nbme = (String) fields.get("myNbme", null);
+        if (fields.defbulted("myNbme"))
         {
-          throw new NullPointerException("myName");
+          throw new NullPointerException("myNbme");
         }
-        isReadable = fields.get("myIsReadableFlg", false);
-        if (fields.defaulted("myIsReadableFlg"))
+        isRebdbble = fields.get("myIsRebdbbleFlg", fblse);
+        if (fields.defbulted("myIsRebdbbleFlg"))
         {
-          throw new NullPointerException("myIsReadableFlg");
+          throw new NullPointerException("myIsRebdbbleFlg");
         }
-        isWritable = fields.get("myIsWritableFlg", false);
-        if (fields.defaulted("myIsWritableFlg"))
+        isWritbble = fields.get("myIsWritbbleFlg", fblse);
+        if (fields.defbulted("myIsWritbbleFlg"))
         {
-          throw new NullPointerException("myIsWritableFlg");
+          throw new NullPointerException("myIsWritbbleFlg");
         }
         description = (String) fields.get("myDescription", null);
-        if (fields.defaulted("myDescription"))
+        if (fields.defbulted("myDescription"))
         {
           throw new NullPointerException("myDescription");
         }
         minDegree = fields.get("myMinDegree", 0);
-        if (fields.defaulted("myMinDegree"))
+        if (fields.defbulted("myMinDegree"))
         {
           throw new NullPointerException("myMinDegree");
         }
-        maxDegree = fields.get("myMaxDegree", 0);
-        if (fields.defaulted("myMaxDegree"))
+        mbxDegree = fields.get("myMbxDegree", 0);
+        if (fields.defbulted("myMbxDegree"))
         {
-          throw new NullPointerException("myMaxDegree");
+          throw new NullPointerException("myMbxDegree");
         }
-        referencedMBeanClassName = (String) fields.get("myRefMBeanClassName", null);
-        if (fields.defaulted("myRefMBeanClassName"))
+        referencedMBebnClbssNbme = (String) fields.get("myRefMBebnClbssNbme", null);
+        if (fields.defbulted("myRefMBebnClbssNbme"))
         {
-          throw new NullPointerException("myRefMBeanClassName");
+          throw new NullPointerException("myRefMBebnClbssNbme");
         }
       }
       else
       {
-        // Read an object serialized in the new serial form
+        // Rebd bn object seriblized in the new seribl form
         //
-        in.defaultReadObject();
+        in.defbultRebdObject();
       }
     }
 
 
     /**
-     * Serializes a {@link RoleInfo} to an {@link ObjectOutputStream}.
+     * Seriblizes b {@link RoleInfo} to bn {@link ObjectOutputStrebm}.
      */
-    private void writeObject(ObjectOutputStream out)
+    privbte void writeObject(ObjectOutputStrebm out)
             throws IOException {
-      if (compat)
+      if (compbt)
       {
-        // Serializes this instance in the old serial form
+        // Seriblizes this instbnce in the old seribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myName", name);
-        fields.put("myIsReadableFlg", isReadable);
-        fields.put("myIsWritableFlg", isWritable);
+        ObjectOutputStrebm.PutField fields = out.putFields();
+        fields.put("myNbme", nbme);
+        fields.put("myIsRebdbbleFlg", isRebdbble);
+        fields.put("myIsWritbbleFlg", isWritbble);
         fields.put("myDescription", description);
         fields.put("myMinDegree", minDegree);
-        fields.put("myMaxDegree", maxDegree);
-        fields.put("myRefMBeanClassName", referencedMBeanClassName);
+        fields.put("myMbxDegree", mbxDegree);
+        fields.put("myRefMBebnClbssNbme", referencedMBebnClbssNbme);
         out.writeFields();
       }
       else
       {
-        // Serializes this instance in the new serial form
+        // Seriblizes this instbnce in the new seribl form
         //
-        out.defaultWriteObject();
+        out.defbultWriteObject();
       }
     }
 

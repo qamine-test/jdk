@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import java.beans.*;
+import jbvb.bebns.*;
 
-import java.util.Hashtable;
-import java.util.HashMap;
+import jbvb.util.Hbshtbble;
+import jbvb.util.HbshMbp;
 
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import sun.swing.DefaultLookup;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
 
 /**
- * A Basic L&amp;F implementation of ToolBarUI.  This implementation
- * is a "combined" view/controller.
+ * A Bbsic L&bmp;F implementbtion of ToolBbrUI.  This implementbtion
+ * is b "combined" view/controller.
  *
- * @author Georges Saab
- * @author Jeff Shapiro
+ * @buthor Georges Sbbb
+ * @buthor Jeff Shbpiro
  */
-public class BasicToolBarUI extends ToolBarUI implements SwingConstants
+public clbss BbsicToolBbrUI extends ToolBbrUI implements SwingConstbnts
 {
     /**
-     * The instance of {@code JToolBar}.
+     * The instbnce of {@code JToolBbr}.
      */
-    protected JToolBar toolBar;
-    private boolean floating;
-    private int floatingX;
-    private int floatingY;
-    private JFrame floatingFrame;
-    private RootPaneContainer floatingToolBar;
+    protected JToolBbr toolBbr;
+    privbte boolebn flobting;
+    privbte int flobtingX;
+    privbte int flobtingY;
+    privbte JFrbme flobtingFrbme;
+    privbte RootPbneContbiner flobtingToolBbr;
     /**
-     * The instance of {@code DragWindow}.
+     * The instbnce of {@code DrbgWindow}.
      */
-    protected DragWindow dragWindow;
-    private Container dockingSource;
-    private int dockingSensitivity = 0;
+    protected DrbgWindow drbgWindow;
+    privbte Contbiner dockingSource;
+    privbte int dockingSensitivity = 0;
     /**
      * The index of the focused component.
      */
     protected int focusedCompIndex = -1;
 
     /**
-     * The background color of the docking border.
+     * The bbckground color of the docking border.
      */
     protected Color dockingColor = null;
     /**
-     * The background color of the not docking border.
+     * The bbckground color of the not docking border.
      */
-    protected Color floatingColor = null;
+    protected Color flobtingColor = null;
     /**
      * The color of the docking border.
      */
@@ -85,182 +85,182 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
     /**
      * The color of the not docking border.
      */
-    protected Color floatingBorderColor = null;
+    protected Color flobtingBorderColor = null;
 
     /**
-     * The instance of a {@code MouseInputListener}.
+     * The instbnce of b {@code MouseInputListener}.
      */
     protected MouseInputListener dockingListener;
     /**
-     * The instance of a {@code PropertyChangeListener}.
+     * The instbnce of b {@code PropertyChbngeListener}.
      */
-    protected PropertyChangeListener propertyListener;
+    protected PropertyChbngeListener propertyListener;
 
     /**
-     * The instance of a {@code ContainerListener}.
+     * The instbnce of b {@code ContbinerListener}.
      */
-    protected ContainerListener toolBarContListener;
+    protected ContbinerListener toolBbrContListener;
     /**
-     * The instance of a {@code FocusListener}.
+     * The instbnce of b {@code FocusListener}.
      */
-    protected FocusListener toolBarFocusListener;
-    private Handler handler;
-
-    /**
-     * The layout before floating.
-     */
-    protected String constraintBeforeFloating = BorderLayout.NORTH;
-
-    // Rollover button implementation.
-    private static String IS_ROLLOVER = "JToolBar.isRollover";
-    private static Border rolloverBorder;
-    private static Border nonRolloverBorder;
-    private static Border nonRolloverToggleBorder;
-    private boolean rolloverBorders = false;
-
-    private HashMap<AbstractButton, Border> borderTable = new HashMap<AbstractButton, Border>();
-    private Hashtable<AbstractButton, Boolean> rolloverTable = new Hashtable<AbstractButton, Boolean>();
-
+    protected FocusListener toolBbrFocusListener;
+    privbte Hbndler hbndler;
 
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * The lbyout before flobting.
+     */
+    protected String constrbintBeforeFlobting = BorderLbyout.NORTH;
+
+    // Rollover button implementbtion.
+    privbte stbtic String IS_ROLLOVER = "JToolBbr.isRollover";
+    privbte stbtic Border rolloverBorder;
+    privbte stbtic Border nonRolloverBorder;
+    privbte stbtic Border nonRolloverToggleBorder;
+    privbte boolebn rolloverBorders = fblse;
+
+    privbte HbshMbp<AbstrbctButton, Border> borderTbble = new HbshMbp<AbstrbctButton, Border>();
+    privbte Hbshtbble<AbstrbctButton, Boolebn> rolloverTbble = new Hbshtbble<AbstrbctButton, Boolebn>();
+
+
+    /**
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke upKey;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke downKey;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke leftKey;
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.3 this previously undocumented field is no
      * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * Key bindings bre now defined by the LookAndFeel, plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
+    @Deprecbted
     protected KeyStroke rightKey;
 
 
-    private static String FOCUSED_COMP_INDEX = "JToolBar.focusedCompIndex";
+    privbte stbtic String FOCUSED_COMP_INDEX = "JToolBbr.focusedCompIndex";
 
     /**
-     * Constructs a new instance of {@code BasicToolBarUI}.
+     * Constructs b new instbnce of {@code BbsicToolBbrUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicToolBarUI}
+     * @pbrbm c b component
+     * @return b new instbnce of {@code BbsicToolBbrUI}
      */
-    public static ComponentUI createUI( JComponent c )
+    public stbtic ComponentUI crebteUI( JComponent c )
     {
-        return new BasicToolBarUI();
+        return new BbsicToolBbrUI();
     }
 
-    public void installUI( JComponent c )
+    public void instbllUI( JComponent c )
     {
-        toolBar = (JToolBar) c;
+        toolBbr = (JToolBbr) c;
 
-        // Set defaults
-        installDefaults();
-        installComponents();
-        installListeners();
-        installKeyboardActions();
+        // Set defbults
+        instbllDefbults();
+        instbllComponents();
+        instbllListeners();
+        instbllKeybobrdActions();
 
-        // Initialize instance vars
+        // Initiblize instbnce vbrs
         dockingSensitivity = 0;
-        floating = false;
-        floatingX = floatingY = 0;
-        floatingToolBar = null;
+        flobting = fblse;
+        flobtingX = flobtingY = 0;
+        flobtingToolBbr = null;
 
-        setOrientation( toolBar.getOrientation() );
-        LookAndFeel.installProperty(c, "opaque", Boolean.TRUE);
+        setOrientbtion( toolBbr.getOrientbtion() );
+        LookAndFeel.instbllProperty(c, "opbque", Boolebn.TRUE);
 
         if ( c.getClientProperty( FOCUSED_COMP_INDEX ) != null )
         {
-            focusedCompIndex = ( (Integer) ( c.getClientProperty( FOCUSED_COMP_INDEX ) ) ).intValue();
+            focusedCompIndex = ( (Integer) ( c.getClientProperty( FOCUSED_COMP_INDEX ) ) ).intVblue();
         }
     }
 
-    public void uninstallUI( JComponent c )
+    public void uninstbllUI( JComponent c )
     {
 
-        // Clear defaults
-        uninstallDefaults();
-        uninstallComponents();
-        uninstallListeners();
-        uninstallKeyboardActions();
+        // Clebr defbults
+        uninstbllDefbults();
+        uninstbllComponents();
+        uninstbllListeners();
+        uninstbllKeybobrdActions();
 
-        // Clear instance vars
-        if (isFloating())
-            setFloating(false, null);
+        // Clebr instbnce vbrs
+        if (isFlobting())
+            setFlobting(fblse, null);
 
-        floatingToolBar = null;
-        dragWindow = null;
+        flobtingToolBbr = null;
+        drbgWindow = null;
         dockingSource = null;
 
-        c.putClientProperty( FOCUSED_COMP_INDEX, Integer.valueOf( focusedCompIndex ) );
+        c.putClientProperty( FOCUSED_COMP_INDEX, Integer.vblueOf( focusedCompIndex ) );
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      */
-    protected void installDefaults( )
+    protected void instbllDefbults( )
     {
-        LookAndFeel.installBorder(toolBar,"ToolBar.border");
-        LookAndFeel.installColorsAndFont(toolBar,
-                                              "ToolBar.background",
-                                              "ToolBar.foreground",
-                                              "ToolBar.font");
-        // Toolbar specific defaults
-        if ( dockingColor == null || dockingColor instanceof UIResource )
-            dockingColor = UIManager.getColor("ToolBar.dockingBackground");
-        if ( floatingColor == null || floatingColor instanceof UIResource )
-            floatingColor = UIManager.getColor("ToolBar.floatingBackground");
+        LookAndFeel.instbllBorder(toolBbr,"ToolBbr.border");
+        LookAndFeel.instbllColorsAndFont(toolBbr,
+                                              "ToolBbr.bbckground",
+                                              "ToolBbr.foreground",
+                                              "ToolBbr.font");
+        // Toolbbr specific defbults
+        if ( dockingColor == null || dockingColor instbnceof UIResource )
+            dockingColor = UIMbnbger.getColor("ToolBbr.dockingBbckground");
+        if ( flobtingColor == null || flobtingColor instbnceof UIResource )
+            flobtingColor = UIMbnbger.getColor("ToolBbr.flobtingBbckground");
         if ( dockingBorderColor == null ||
-             dockingBorderColor instanceof UIResource )
-            dockingBorderColor = UIManager.getColor("ToolBar.dockingForeground");
-        if ( floatingBorderColor == null ||
-             floatingBorderColor instanceof UIResource )
-            floatingBorderColor = UIManager.getColor("ToolBar.floatingForeground");
+             dockingBorderColor instbnceof UIResource )
+            dockingBorderColor = UIMbnbger.getColor("ToolBbr.dockingForeground");
+        if ( flobtingBorderColor == null ||
+             flobtingBorderColor instbnceof UIResource )
+            flobtingBorderColor = UIMbnbger.getColor("ToolBbr.flobtingForeground");
 
-        // ToolBar rollover button borders
-        Object rolloverProp = toolBar.getClientProperty( IS_ROLLOVER );
+        // ToolBbr rollover button borders
+        Object rolloverProp = toolBbr.getClientProperty( IS_ROLLOVER );
         if (rolloverProp == null) {
-            rolloverProp = UIManager.get("ToolBar.isRollover");
+            rolloverProp = UIMbnbger.get("ToolBbr.isRollover");
         }
         if ( rolloverProp != null ) {
-            rolloverBorders = ((Boolean)rolloverProp).booleanValue();
+            rolloverBorders = ((Boolebn)rolloverProp).boolebnVblue();
         }
 
         if (rolloverBorder == null) {
-            rolloverBorder = createRolloverBorder();
+            rolloverBorder = crebteRolloverBorder();
         }
         if (nonRolloverBorder == null) {
-            nonRolloverBorder = createNonRolloverBorder();
+            nonRolloverBorder = crebteNonRolloverBorder();
         }
         if (nonRolloverToggleBorder == null) {
-            nonRolloverToggleBorder = createNonRolloverToggleBorder();
+            nonRolloverToggleBorder = crebteNonRolloverToggleBorder();
         }
 
 
@@ -268,17 +268,17 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      */
-    protected void uninstallDefaults( )
+    protected void uninstbllDefbults( )
     {
-        LookAndFeel.uninstallBorder(toolBar);
+        LookAndFeel.uninstbllBorder(toolBbr);
         dockingColor = null;
-        floatingColor = null;
+        flobtingColor = null;
         dockingBorderColor = null;
-        floatingBorderColor = null;
+        flobtingBorderColor = null;
 
-        installNormalBorders(toolBar);
+        instbllNormblBorders(toolBbr);
 
         rolloverBorder = null;
         nonRolloverBorder = null;
@@ -288,49 +288,49 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
     /**
      * Registers components.
      */
-    protected void installComponents( )
+    protected void instbllComponents( )
     {
     }
 
     /**
      * Unregisters components.
      */
-    protected void uninstallComponents( )
+    protected void uninstbllComponents( )
     {
     }
 
     /**
      * Registers listeners.
      */
-    protected void installListeners( )
+    protected void instbllListeners( )
     {
-        dockingListener = createDockingListener( );
+        dockingListener = crebteDockingListener( );
 
         if ( dockingListener != null )
         {
-            toolBar.addMouseMotionListener( dockingListener );
-            toolBar.addMouseListener( dockingListener );
+            toolBbr.bddMouseMotionListener( dockingListener );
+            toolBbr.bddMouseListener( dockingListener );
         }
 
-        propertyListener = createPropertyListener();  // added in setFloating
+        propertyListener = crebtePropertyListener();  // bdded in setFlobting
         if (propertyListener != null) {
-            toolBar.addPropertyChangeListener(propertyListener);
+            toolBbr.bddPropertyChbngeListener(propertyListener);
         }
 
-        toolBarContListener = createToolBarContListener();
-        if ( toolBarContListener != null ) {
-            toolBar.addContainerListener( toolBarContListener );
+        toolBbrContListener = crebteToolBbrContListener();
+        if ( toolBbrContListener != null ) {
+            toolBbr.bddContbinerListener( toolBbrContListener );
         }
 
-        toolBarFocusListener = createToolBarFocusListener();
+        toolBbrFocusListener = crebteToolBbrFocusListener();
 
-        if ( toolBarFocusListener != null )
+        if ( toolBbrFocusListener != null )
         {
-            // Put focus listener on all components in toolbar
-            Component[] components = toolBar.getComponents();
+            // Put focus listener on bll components in toolbbr
+            Component[] components = toolBbr.getComponents();
 
             for (Component component : components) {
-                component.addFocusListener(toolBarFocusListener);
+                component.bddFocusListener(toolBbrFocusListener);
             }
         }
     }
@@ -338,499 +338,499 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners( )
+    protected void uninstbllListeners( )
     {
         if ( dockingListener != null )
         {
-            toolBar.removeMouseMotionListener(dockingListener);
-            toolBar.removeMouseListener(dockingListener);
+            toolBbr.removeMouseMotionListener(dockingListener);
+            toolBbr.removeMouseListener(dockingListener);
 
             dockingListener = null;
         }
 
         if ( propertyListener != null )
         {
-            toolBar.removePropertyChangeListener(propertyListener);
-            propertyListener = null;  // removed in setFloating
+            toolBbr.removePropertyChbngeListener(propertyListener);
+            propertyListener = null;  // removed in setFlobting
         }
 
-        if ( toolBarContListener != null )
+        if ( toolBbrContListener != null )
         {
-            toolBar.removeContainerListener( toolBarContListener );
-            toolBarContListener = null;
+            toolBbr.removeContbinerListener( toolBbrContListener );
+            toolBbrContListener = null;
         }
 
-        if ( toolBarFocusListener != null )
+        if ( toolBbrFocusListener != null )
         {
-            // Remove focus listener from all components in toolbar
-            Component[] components = toolBar.getComponents();
+            // Remove focus listener from bll components in toolbbr
+            Component[] components = toolBbr.getComponents();
 
             for (Component component : components) {
-                component.removeFocusListener(toolBarFocusListener);
+                component.removeFocusListener(toolBbrFocusListener);
             }
 
-            toolBarFocusListener = null;
+            toolBbrFocusListener = null;
         }
-        handler = null;
+        hbndler = null;
     }
 
     /**
-     * Registers keyboard actions.
+     * Registers keybobrd bctions.
      */
-    protected void installKeyboardActions( )
+    protected void instbllKeybobrdActions( )
     {
-        InputMap km = getInputMap(JComponent.
+        InputMbp km = getInputMbp(JComponent.
                                   WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        SwingUtilities.replaceUIInputMap(toolBar, JComponent.
+        SwingUtilities.replbceUIInputMbp(toolBbr, JComponent.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                                          km);
 
-    LazyActionMap.installLazyActionMap(toolBar, BasicToolBarUI.class,
-            "ToolBar.actionMap");
+    LbzyActionMbp.instbllLbzyActionMbp(toolBbr, BbsicToolBbrUI.clbss,
+            "ToolBbr.bctionMbp");
     }
 
-    InputMap getInputMap(int condition) {
+    InputMbp getInputMbp(int condition) {
         if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            return (InputMap)DefaultLookup.get(toolBar, this,
-                    "ToolBar.ancestorInputMap");
+            return (InputMbp)DefbultLookup.get(toolBbr, this,
+                    "ToolBbr.bncestorInputMbp");
         }
         return null;
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.NAVIGATE_RIGHT));
-        map.put(new Actions(Actions.NAVIGATE_LEFT));
-        map.put(new Actions(Actions.NAVIGATE_UP));
-        map.put(new Actions(Actions.NAVIGATE_DOWN));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.NAVIGATE_RIGHT));
+        mbp.put(new Actions(Actions.NAVIGATE_LEFT));
+        mbp.put(new Actions(Actions.NAVIGATE_UP));
+        mbp.put(new Actions(Actions.NAVIGATE_DOWN));
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      */
-    protected void uninstallKeyboardActions( )
+    protected void uninstbllKeybobrdActions( )
     {
-        SwingUtilities.replaceUIActionMap(toolBar, null);
-        SwingUtilities.replaceUIInputMap(toolBar, JComponent.
+        SwingUtilities.replbceUIActionMbp(toolBbr, null);
+        SwingUtilities.replbceUIInputMbp(toolBbr, JComponent.
                                          WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
                                          null);
     }
 
     /**
-     * Navigates the focused component.
+     * Nbvigbtes the focused component.
      *
-     * @param direction a direction
+     * @pbrbm direction b direction
      */
-    protected void navigateFocusedComp(int direction)
+    protected void nbvigbteFocusedComp(int direction)
     {
-        int nComp = toolBar.getComponentCount();
+        int nComp = toolBbr.getComponentCount();
         int j;
 
         switch ( direction )
         {
-            case EAST:
-            case SOUTH:
+            cbse EAST:
+            cbse SOUTH:
 
-                if ( focusedCompIndex < 0 || focusedCompIndex >= nComp ) break;
+                if ( focusedCompIndex < 0 || focusedCompIndex >= nComp ) brebk;
 
                 j = focusedCompIndex + 1;
 
                 while ( j != focusedCompIndex )
                 {
                     if ( j >= nComp ) j = 0;
-                    Component comp = toolBar.getComponentAtIndex( j++ );
+                    Component comp = toolBbr.getComponentAtIndex( j++ );
 
-                    if ( comp != null && comp.isFocusTraversable() && comp.isEnabled() )
+                    if ( comp != null && comp.isFocusTrbversbble() && comp.isEnbbled() )
                     {
                         comp.requestFocus();
-                        break;
+                        brebk;
                     }
                 }
 
-                break;
+                brebk;
 
-            case WEST:
-            case NORTH:
+            cbse WEST:
+            cbse NORTH:
 
-                if ( focusedCompIndex < 0 || focusedCompIndex >= nComp ) break;
+                if ( focusedCompIndex < 0 || focusedCompIndex >= nComp ) brebk;
 
                 j = focusedCompIndex - 1;
 
                 while ( j != focusedCompIndex )
                 {
                     if ( j < 0 ) j = nComp - 1;
-                    Component comp = toolBar.getComponentAtIndex( j-- );
+                    Component comp = toolBbr.getComponentAtIndex( j-- );
 
-                    if ( comp != null && comp.isFocusTraversable() && comp.isEnabled() )
+                    if ( comp != null && comp.isFocusTrbversbble() && comp.isEnbbled() )
                     {
                         comp.requestFocus();
-                        break;
+                        brebk;
                     }
                 }
 
-                break;
+                brebk;
 
-            default:
-                break;
+            defbult:
+                brebk;
         }
     }
 
     /**
-     * Creates a rollover border for toolbar components. The
-     * rollover border will be installed if rollover borders are
-     * enabled.
+     * Crebtes b rollover border for toolbbr components. The
+     * rollover border will be instblled if rollover borders bre
+     * enbbled.
      * <p>
-     * Override this method to provide an alternate rollover border.
+     * Override this method to provide bn blternbte rollover border.
      *
-     * @return a rollover border for toolbar components
+     * @return b rollover border for toolbbr components
      * @since 1.4
      */
-    protected Border createRolloverBorder() {
-        Object border = UIManager.get("ToolBar.rolloverBorder");
+    protected Border crebteRolloverBorder() {
+        Object border = UIMbnbger.get("ToolBbr.rolloverBorder");
         if (border != null) {
             return (Border)border;
         }
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        return new CompoundBorder(new BasicBorders.RolloverButtonBorder(
-                                           table.getColor("controlShadow"),
-                                           table.getColor("controlDkShadow"),
-                                           table.getColor("controlHighlight"),
-                                           table.getColor("controlLtHighlight")),
-                                  new BasicBorders.RolloverMarginBorder());
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        return new CompoundBorder(new BbsicBorders.RolloverButtonBorder(
+                                           tbble.getColor("controlShbdow"),
+                                           tbble.getColor("controlDkShbdow"),
+                                           tbble.getColor("controlHighlight"),
+                                           tbble.getColor("controlLtHighlight")),
+                                  new BbsicBorders.RolloverMbrginBorder());
     }
 
     /**
-     * Creates the non rollover border for toolbar components. This
-     * border will be installed as the border for components added
-     * to the toolbar if rollover borders are not enabled.
+     * Crebtes the non rollover border for toolbbr components. This
+     * border will be instblled bs the border for components bdded
+     * to the toolbbr if rollover borders bre not enbbled.
      * <p>
-     * Override this method to provide an alternate rollover border.
+     * Override this method to provide bn blternbte rollover border.
      *
-     * @return the non rollover border for toolbar components
+     * @return the non rollover border for toolbbr components
      * @since 1.4
      */
-    protected Border createNonRolloverBorder() {
-        Object border = UIManager.get("ToolBar.nonrolloverBorder");
+    protected Border crebteNonRolloverBorder() {
+        Object border = UIMbnbger.get("ToolBbr.nonrolloverBorder");
         if (border != null) {
             return (Border)border;
         }
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        return new CompoundBorder(new BasicBorders.ButtonBorder(
-                                           table.getColor("Button.shadow"),
-                                           table.getColor("Button.darkShadow"),
-                                           table.getColor("Button.light"),
-                                           table.getColor("Button.highlight")),
-                                  new BasicBorders.RolloverMarginBorder());
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        return new CompoundBorder(new BbsicBorders.ButtonBorder(
+                                           tbble.getColor("Button.shbdow"),
+                                           tbble.getColor("Button.dbrkShbdow"),
+                                           tbble.getColor("Button.light"),
+                                           tbble.getColor("Button.highlight")),
+                                  new BbsicBorders.RolloverMbrginBorder());
     }
 
     /**
-     * Creates a non rollover border for Toggle buttons in the toolbar.
+     * Crebtes b non rollover border for Toggle buttons in the toolbbr.
      */
-    private Border createNonRolloverToggleBorder() {
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        return new CompoundBorder(new BasicBorders.RadioButtonBorder(
-                                           table.getColor("ToggleButton.shadow"),
-                                           table.getColor("ToggleButton.darkShadow"),
-                                           table.getColor("ToggleButton.light"),
-                                           table.getColor("ToggleButton.highlight")),
-                                  new BasicBorders.RolloverMarginBorder());
+    privbte Border crebteNonRolloverToggleBorder() {
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+        return new CompoundBorder(new BbsicBorders.RbdioButtonBorder(
+                                           tbble.getColor("ToggleButton.shbdow"),
+                                           tbble.getColor("ToggleButton.dbrkShbdow"),
+                                           tbble.getColor("ToggleButton.light"),
+                                           tbble.getColor("ToggleButton.highlight")),
+                                  new BbsicBorders.RolloverMbrginBorder());
     }
 
     /**
-     * No longer used, use BasicToolBarUI.createFloatingWindow(JToolBar)
+     * No longer used, use BbsicToolBbrUI.crebteFlobtingWindow(JToolBbr)
      *
-     * @param toolbar an instance of {@code JToolBar}
-     * @return an instance of {@code JFrame}
-     * @see #createFloatingWindow
+     * @pbrbm toolbbr bn instbnce of {@code JToolBbr}
+     * @return bn instbnce of {@code JFrbme}
+     * @see #crebteFlobtingWindow
      */
-    protected JFrame createFloatingFrame(JToolBar toolbar) {
-        Window window = SwingUtilities.getWindowAncestor(toolbar);
-        @SuppressWarnings("serial") // anonymous class
-        JFrame frame = new JFrame(toolbar.getName(),
-                                  (window != null) ? window.getGraphicsConfiguration() : null) {
-            // Override createRootPane() to automatically resize
-            // the frame when contents change
-            protected JRootPane createRootPane() {
-                @SuppressWarnings("serial") // anonymous class
-                JRootPane rootPane = new JRootPane() {
-                    private boolean packing = false;
+    protected JFrbme crebteFlobtingFrbme(JToolBbr toolbbr) {
+        Window window = SwingUtilities.getWindowAncestor(toolbbr);
+        @SuppressWbrnings("seribl") // bnonymous clbss
+        JFrbme frbme = new JFrbme(toolbbr.getNbme(),
+                                  (window != null) ? window.getGrbphicsConfigurbtion() : null) {
+            // Override crebteRootPbne() to butombticblly resize
+            // the frbme when contents chbnge
+            protected JRootPbne crebteRootPbne() {
+                @SuppressWbrnings("seribl") // bnonymous clbss
+                JRootPbne rootPbne = new JRootPbne() {
+                    privbte boolebn pbcking = fblse;
 
-                    public void validate() {
-                        super.validate();
-                        if (!packing) {
-                            packing = true;
-                            pack();
-                            packing = false;
+                    public void vblidbte() {
+                        super.vblidbte();
+                        if (!pbcking) {
+                            pbcking = true;
+                            pbck();
+                            pbcking = fblse;
                         }
                     }
                 };
-                rootPane.setOpaque(true);
-                return rootPane;
+                rootPbne.setOpbque(true);
+                return rootPbne;
             }
         };
-        frame.getRootPane().setName("ToolBar.FloatingFrame");
-        frame.setResizable(false);
-        WindowListener wl = createFrameListener();
-        frame.addWindowListener(wl);
-        return frame;
+        frbme.getRootPbne().setNbme("ToolBbr.FlobtingFrbme");
+        frbme.setResizbble(fblse);
+        WindowListener wl = crebteFrbmeListener();
+        frbme.bddWindowListener(wl);
+        return frbme;
     }
 
     /**
-     * Creates a window which contains the toolbar after it has been
-     * dragged out from its container
+     * Crebtes b window which contbins the toolbbr bfter it hbs been
+     * drbgged out from its contbiner
      *
-     * @param toolbar an instance of {@code JToolBar}
-     * @return a {@code RootPaneContainer} object, containing the toolbar
+     * @pbrbm toolbbr bn instbnce of {@code JToolBbr}
+     * @return b {@code RootPbneContbiner} object, contbining the toolbbr
      * @since 1.4
      */
-    protected RootPaneContainer createFloatingWindow(JToolBar toolbar) {
-        @SuppressWarnings("serial") // Superclass is not serializable across versions
-        class ToolBarDialog extends JDialog {
-            public ToolBarDialog(Frame owner, String title, boolean modal) {
-                super(owner, title, modal);
+    protected RootPbneContbiner crebteFlobtingWindow(JToolBbr toolbbr) {
+        @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+        clbss ToolBbrDiblog extends JDiblog {
+            public ToolBbrDiblog(Frbme owner, String title, boolebn modbl) {
+                super(owner, title, modbl);
             }
 
-            public ToolBarDialog(Dialog owner, String title, boolean modal) {
-                super(owner, title, modal);
+            public ToolBbrDiblog(Diblog owner, String title, boolebn modbl) {
+                super(owner, title, modbl);
             }
 
-            // Override createRootPane() to automatically resize
-            // the frame when contents change
-            protected JRootPane createRootPane() {
-                @SuppressWarnings("serial") // anonymous class
-                JRootPane rootPane = new JRootPane() {
-                    private boolean packing = false;
+            // Override crebteRootPbne() to butombticblly resize
+            // the frbme when contents chbnge
+            protected JRootPbne crebteRootPbne() {
+                @SuppressWbrnings("seribl") // bnonymous clbss
+                JRootPbne rootPbne = new JRootPbne() {
+                    privbte boolebn pbcking = fblse;
 
-                    public void validate() {
-                        super.validate();
-                        if (!packing) {
-                            packing = true;
-                            pack();
-                            packing = false;
+                    public void vblidbte() {
+                        super.vblidbte();
+                        if (!pbcking) {
+                            pbcking = true;
+                            pbck();
+                            pbcking = fblse;
                         }
                     }
                 };
-                rootPane.setOpaque(true);
-                return rootPane;
+                rootPbne.setOpbque(true);
+                return rootPbne;
             }
         }
 
-        JDialog dialog;
-        Window window = SwingUtilities.getWindowAncestor(toolbar);
-        if (window instanceof Frame) {
-            dialog = new ToolBarDialog((Frame)window, toolbar.getName(), false);
-        } else if (window instanceof Dialog) {
-            dialog = new ToolBarDialog((Dialog)window, toolbar.getName(), false);
+        JDiblog diblog;
+        Window window = SwingUtilities.getWindowAncestor(toolbbr);
+        if (window instbnceof Frbme) {
+            diblog = new ToolBbrDiblog((Frbme)window, toolbbr.getNbme(), fblse);
+        } else if (window instbnceof Diblog) {
+            diblog = new ToolBbrDiblog((Diblog)window, toolbbr.getNbme(), fblse);
         } else {
-            dialog = new ToolBarDialog((Frame)null, toolbar.getName(), false);
+            diblog = new ToolBbrDiblog((Frbme)null, toolbbr.getNbme(), fblse);
         }
 
-        dialog.getRootPane().setName("ToolBar.FloatingWindow");
-        dialog.setTitle(toolbar.getName());
-        dialog.setResizable(false);
-        WindowListener wl = createFrameListener();
-        dialog.addWindowListener(wl);
-        return dialog;
+        diblog.getRootPbne().setNbme("ToolBbr.FlobtingWindow");
+        diblog.setTitle(toolbbr.getNbme());
+        diblog.setResizbble(fblse);
+        WindowListener wl = crebteFrbmeListener();
+        diblog.bddWindowListener(wl);
+        return diblog;
     }
 
     /**
-     * Returns an instance of {@code DragWindow}.
+     * Returns bn instbnce of {@code DrbgWindow}.
      *
-     * @param toolbar an instance of {@code JToolBar}
-     * @return an instance of {@code DragWindow}
+     * @pbrbm toolbbr bn instbnce of {@code JToolBbr}
+     * @return bn instbnce of {@code DrbgWindow}
      */
-    protected DragWindow createDragWindow(JToolBar toolbar) {
-        Window frame = null;
-        if(toolBar != null) {
-            Container p;
-            for(p = toolBar.getParent() ; p != null && !(p instanceof Window) ;
-                p = p.getParent());
-            if(p != null && p instanceof Window)
-                frame = (Window) p;
+    protected DrbgWindow crebteDrbgWindow(JToolBbr toolbbr) {
+        Window frbme = null;
+        if(toolBbr != null) {
+            Contbiner p;
+            for(p = toolBbr.getPbrent() ; p != null && !(p instbnceof Window) ;
+                p = p.getPbrent());
+            if(p != null && p instbnceof Window)
+                frbme = (Window) p;
         }
-        if(floatingToolBar == null) {
-            floatingToolBar = createFloatingWindow(toolBar);
+        if(flobtingToolBbr == null) {
+            flobtingToolBbr = crebteFlobtingWindow(toolBbr);
         }
-        if (floatingToolBar instanceof Window) frame = (Window) floatingToolBar;
-        DragWindow dragWindow = new DragWindow(frame);
-        return dragWindow;
+        if (flobtingToolBbr instbnceof Window) frbme = (Window) flobtingToolBbr;
+        DrbgWindow drbgWindow = new DrbgWindow(frbme);
+        return drbgWindow;
     }
 
     /**
-     * Returns a flag to determine whether rollover button borders
-     * are enabled.
+     * Returns b flbg to determine whether rollover button borders
+     * bre enbbled.
      *
-     * @return true if rollover borders are enabled; false otherwise
+     * @return true if rollover borders bre enbbled; fblse otherwise
      * @see #setRolloverBorders
      * @since 1.4
      */
-    public boolean isRolloverBorders() {
+    public boolebn isRolloverBorders() {
         return rolloverBorders;
     }
 
     /**
-     * Sets the flag for enabling rollover borders on the toolbar and it will
-     * also install the appropriate border depending on the state of the flag.
+     * Sets the flbg for enbbling rollover borders on the toolbbr bnd it will
+     * blso instbll the bppropribte border depending on the stbte of the flbg.
      *
-     * @param rollover if true, rollover borders are installed.
-     *        Otherwise non-rollover borders are installed
+     * @pbrbm rollover if true, rollover borders bre instblled.
+     *        Otherwise non-rollover borders bre instblled
      * @see #isRolloverBorders
      * @since 1.4
      */
-    public void setRolloverBorders( boolean rollover ) {
+    public void setRolloverBorders( boolebn rollover ) {
         rolloverBorders = rollover;
 
         if ( rolloverBorders )  {
-            installRolloverBorders( toolBar );
+            instbllRolloverBorders( toolBbr );
         } else  {
-            installNonRolloverBorders( toolBar );
+            instbllNonRolloverBorders( toolBbr );
         }
     }
 
     /**
-     * Installs rollover borders on all the child components of the JComponent.
+     * Instblls rollover borders on bll the child components of the JComponent.
      * <p>
-     * This is a convenience method to call <code>setBorderToRollover</code>
-     * for each child component.
+     * This is b convenience method to cbll <code>setBorderToRollover</code>
+     * for ebch child component.
      *
-     * @param c container which holds the child components (usually a JToolBar)
+     * @pbrbm c contbiner which holds the child components (usublly b JToolBbr)
      * @see #setBorderToRollover
      * @since 1.4
      */
-    protected void installRolloverBorders ( JComponent c )  {
+    protected void instbllRolloverBorders ( JComponent c )  {
         // Put rollover borders on buttons
         Component[] components = c.getComponents();
 
         for (Component component : components) {
-            if (component instanceof JComponent) {
-                ((JComponent) component).updateUI();
+            if (component instbnceof JComponent) {
+                ((JComponent) component).updbteUI();
                 setBorderToRollover(component);
             }
         }
     }
 
     /**
-     * Installs non-rollover borders on all the child components of the JComponent.
-     * A non-rollover border is the border that is installed on the child component
-     * while it is in the toolbar.
+     * Instblls non-rollover borders on bll the child components of the JComponent.
+     * A non-rollover border is the border thbt is instblled on the child component
+     * while it is in the toolbbr.
      * <p>
-     * This is a convenience method to call <code>setBorderToNonRollover</code>
-     * for each child component.
+     * This is b convenience method to cbll <code>setBorderToNonRollover</code>
+     * for ebch child component.
      *
-     * @param c container which holds the child components (usually a JToolBar)
+     * @pbrbm c contbiner which holds the child components (usublly b JToolBbr)
      * @see #setBorderToNonRollover
      * @since 1.4
      */
-    protected void installNonRolloverBorders ( JComponent c )  {
-        // Put non-rollover borders on buttons. These borders reduce the margin.
+    protected void instbllNonRolloverBorders ( JComponent c )  {
+        // Put non-rollover borders on buttons. These borders reduce the mbrgin.
         Component[] components = c.getComponents();
 
         for (Component component : components) {
-            if (component instanceof JComponent) {
-                ((JComponent) component).updateUI();
+            if (component instbnceof JComponent) {
+                ((JComponent) component).updbteUI();
                 setBorderToNonRollover(component);
             }
         }
     }
 
     /**
-     * Installs normal borders on all the child components of the JComponent.
-     * A normal border is the original border that was installed on the child
-     * component before it was added to the toolbar.
+     * Instblls normbl borders on bll the child components of the JComponent.
+     * A normbl border is the originbl border thbt wbs instblled on the child
+     * component before it wbs bdded to the toolbbr.
      * <p>
-     * This is a convenience method to call <code>setBorderNormal</code>
-     * for each child component.
+     * This is b convenience method to cbll <code>setBorderNormbl</code>
+     * for ebch child component.
      *
-     * @param c container which holds the child components (usually a JToolBar)
+     * @pbrbm c contbiner which holds the child components (usublly b JToolBbr)
      * @see #setBorderToNonRollover
      * @since 1.4
      */
-    protected void installNormalBorders ( JComponent c )  {
-        // Put back the normal borders on buttons
+    protected void instbllNormblBorders ( JComponent c )  {
+        // Put bbck the normbl borders on buttons
         Component[] components = c.getComponents();
 
         for (Component component : components) {
-            setBorderToNormal(component);
+            setBorderToNormbl(component);
         }
     }
 
     /**
-     * Sets the border of the component to have a rollover border which
-     * was created by the {@link #createRolloverBorder} method.
+     * Sets the border of the component to hbve b rollover border which
+     * wbs crebted by the {@link #crebteRolloverBorder} method.
      *
-     * @param c component which will have a rollover border installed
-     * @see #createRolloverBorder
+     * @pbrbm c component which will hbve b rollover border instblled
+     * @see #crebteRolloverBorder
      * @since 1.4
      */
     protected void setBorderToRollover(Component c) {
-        if (c instanceof AbstractButton) {
-            AbstractButton b = (AbstractButton)c;
+        if (c instbnceof AbstrbctButton) {
+            AbstrbctButton b = (AbstrbctButton)c;
 
-            Border border = borderTable.get(b);
-            if (border == null || border instanceof UIResource) {
-                borderTable.put(b, b.getBorder());
+            Border border = borderTbble.get(b);
+            if (border == null || border instbnceof UIResource) {
+                borderTbble.put(b, b.getBorder());
             }
 
-            // Only set the border if its the default border
-            if (b.getBorder() instanceof UIResource) {
+            // Only set the border if its the defbult border
+            if (b.getBorder() instbnceof UIResource) {
                 b.setBorder(getRolloverBorder(b));
             }
 
-            rolloverTable.put(b, b.isRolloverEnabled()?
-                              Boolean.TRUE: Boolean.FALSE);
-            b.setRolloverEnabled(true);
+            rolloverTbble.put(b, b.isRolloverEnbbled()?
+                              Boolebn.TRUE: Boolebn.FALSE);
+            b.setRolloverEnbbled(true);
         }
     }
 
     /**
-     * Returns a rollover border for the button.
+     * Returns b rollover border for the button.
      *
-     * @param b the button to calculate the rollover border for
+     * @pbrbm b the button to cblculbte the rollover border for
      * @return the rollover border
      * @see #setBorderToRollover
      * @since 1.6
      */
-    protected Border getRolloverBorder(AbstractButton b) {
+    protected Border getRolloverBorder(AbstrbctButton b) {
         return rolloverBorder;
     }
 
     /**
-     * Sets the border of the component to have a non-rollover border which
-     * was created by the {@link #createNonRolloverBorder} method.
+     * Sets the border of the component to hbve b non-rollover border which
+     * wbs crebted by the {@link #crebteNonRolloverBorder} method.
      *
-     * @param c component which will have a non-rollover border installed
-     * @see #createNonRolloverBorder
+     * @pbrbm c component which will hbve b non-rollover border instblled
+     * @see #crebteNonRolloverBorder
      * @since 1.4
      */
     protected void setBorderToNonRollover(Component c) {
-        if (c instanceof AbstractButton) {
-            AbstractButton b = (AbstractButton)c;
+        if (c instbnceof AbstrbctButton) {
+            AbstrbctButton b = (AbstrbctButton)c;
 
-            Border border = borderTable.get(b);
-            if (border == null || border instanceof UIResource) {
-                borderTable.put(b, b.getBorder());
+            Border border = borderTbble.get(b);
+            if (border == null || border instbnceof UIResource) {
+                borderTbble.put(b, b.getBorder());
             }
 
-            // Only set the border if its the default border
-            if (b.getBorder() instanceof UIResource) {
+            // Only set the border if its the defbult border
+            if (b.getBorder() instbnceof UIResource) {
                 b.setBorder(getNonRolloverBorder(b));
             }
-            rolloverTable.put(b, b.isRolloverEnabled()?
-                              Boolean.TRUE: Boolean.FALSE);
-            b.setRolloverEnabled(false);
+            rolloverTbble.put(b, b.isRolloverEnbbled()?
+                              Boolebn.TRUE: Boolebn.FALSE);
+            b.setRolloverEnbbled(fblse);
         }
     }
 
     /**
-     * Returns a non-rollover border for the button.
+     * Returns b non-rollover border for the button.
      *
-     * @param b the button to calculate the non-rollover border for
+     * @pbrbm b the button to cblculbte the non-rollover border for
      * @return the non-rollover border
      * @see #setBorderToNonRollover
      * @since 1.6
      */
-    protected Border getNonRolloverBorder(AbstractButton b) {
-        if (b instanceof JToggleButton) {
+    protected Border getNonRolloverBorder(AbstrbctButton b) {
+        if (b instbnceof JToggleButton) {
             return nonRolloverToggleBorder;
         } else {
             return nonRolloverBorder;
@@ -838,453 +838,453 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
     }
 
     /**
-     * Sets the border of the component to have a normal border.
-     * A normal border is the original border that was installed on the child
-     * component before it was added to the toolbar.
+     * Sets the border of the component to hbve b normbl border.
+     * A normbl border is the originbl border thbt wbs instblled on the child
+     * component before it wbs bdded to the toolbbr.
      *
-     * @param c component which will have a normal border re-installed
-     * @see #createNonRolloverBorder
+     * @pbrbm c component which will hbve b normbl border re-instblled
+     * @see #crebteNonRolloverBorder
      * @since 1.4
      */
-    protected void setBorderToNormal(Component c) {
-        if (c instanceof AbstractButton) {
-            AbstractButton b = (AbstractButton)c;
+    protected void setBorderToNormbl(Component c) {
+        if (c instbnceof AbstrbctButton) {
+            AbstrbctButton b = (AbstrbctButton)c;
 
-            Border border = borderTable.remove(b);
+            Border border = borderTbble.remove(b);
             b.setBorder(border);
 
-            Boolean value = rolloverTable.remove(b);
-            if (value != null) {
-                b.setRolloverEnabled(value.booleanValue());
+            Boolebn vblue = rolloverTbble.remove(b);
+            if (vblue != null) {
+                b.setRolloverEnbbled(vblue.boolebnVblue());
             }
         }
     }
 
     /**
-     * Sets the floating location.
+     * Sets the flobting locbtion.
      *
-     * @param x an X coordinate
-     * @param y an Y coordinate
+     * @pbrbm x bn X coordinbte
+     * @pbrbm y bn Y coordinbte
      */
-    public void setFloatingLocation(int x, int y) {
-        floatingX = x;
-        floatingY = y;
+    public void setFlobtingLocbtion(int x, int y) {
+        flobtingX = x;
+        flobtingY = y;
     }
 
     /**
-     * Returns {@code true} if the {@code JToolBar} is floating
+     * Returns {@code true} if the {@code JToolBbr} is flobting
      *
-     * @return {@code true} if the {@code JToolBar} is floating
+     * @return {@code true} if the {@code JToolBbr} is flobting
      */
-    public boolean isFloating() {
-        return floating;
+    public boolebn isFlobting() {
+        return flobting;
     }
 
     /**
-     * Sets the floating property.
+     * Sets the flobting property.
      *
-     * @param b {@code true} if the {@code JToolBar} is floating
-     * @param p the position
+     * @pbrbm b {@code true} if the {@code JToolBbr} is flobting
+     * @pbrbm p the position
      */
-    public void setFloating(boolean b, Point p) {
-        if (toolBar.isFloatable()) {
-            boolean visible = false;
-            Window ancestor = SwingUtilities.getWindowAncestor(toolBar);
-            if (ancestor != null) {
-                visible = ancestor.isVisible();
+    public void setFlobting(boolebn b, Point p) {
+        if (toolBbr.isFlobtbble()) {
+            boolebn visible = fblse;
+            Window bncestor = SwingUtilities.getWindowAncestor(toolBbr);
+            if (bncestor != null) {
+                visible = bncestor.isVisible();
             }
-            if (dragWindow != null)
-                dragWindow.setVisible(false);
-            this.floating = b;
-            if (floatingToolBar == null) {
-                floatingToolBar = createFloatingWindow(toolBar);
+            if (drbgWindow != null)
+                drbgWindow.setVisible(fblse);
+            this.flobting = b;
+            if (flobtingToolBbr == null) {
+                flobtingToolBbr = crebteFlobtingWindow(toolBbr);
             }
             if (b == true)
             {
                 if (dockingSource == null)
                 {
-                    dockingSource = toolBar.getParent();
-                    dockingSource.remove(toolBar);
+                    dockingSource = toolBbr.getPbrent();
+                    dockingSource.remove(toolBbr);
                 }
-                constraintBeforeFloating = calculateConstraint();
+                constrbintBeforeFlobting = cblculbteConstrbint();
                 if ( propertyListener != null )
-                    UIManager.addPropertyChangeListener( propertyListener );
-                floatingToolBar.getContentPane().add(toolBar,BorderLayout.CENTER);
-                if (floatingToolBar instanceof Window) {
-                    ((Window)floatingToolBar).pack();
-                    ((Window)floatingToolBar).setLocation(floatingX, floatingY);
+                    UIMbnbger.bddPropertyChbngeListener( propertyListener );
+                flobtingToolBbr.getContentPbne().bdd(toolBbr,BorderLbyout.CENTER);
+                if (flobtingToolBbr instbnceof Window) {
+                    ((Window)flobtingToolBbr).pbck();
+                    ((Window)flobtingToolBbr).setLocbtion(flobtingX, flobtingY);
                     if (visible) {
-                        ((Window)floatingToolBar).show();
+                        ((Window)flobtingToolBbr).show();
                     } else {
-                        ancestor.addWindowListener(new WindowAdapter() {
+                        bncestor.bddWindowListener(new WindowAdbpter() {
                             public void windowOpened(WindowEvent e) {
-                                ((Window)floatingToolBar).show();
+                                ((Window)flobtingToolBbr).show();
                             }
                         });
                     }
                 }
             } else {
-                if (floatingToolBar == null)
-                    floatingToolBar = createFloatingWindow(toolBar);
-                if (floatingToolBar instanceof Window) ((Window)floatingToolBar).setVisible(false);
-                floatingToolBar.getContentPane().remove(toolBar);
-                String constraint = getDockingConstraint(dockingSource,
+                if (flobtingToolBbr == null)
+                    flobtingToolBbr = crebteFlobtingWindow(toolBbr);
+                if (flobtingToolBbr instbnceof Window) ((Window)flobtingToolBbr).setVisible(fblse);
+                flobtingToolBbr.getContentPbne().remove(toolBbr);
+                String constrbint = getDockingConstrbint(dockingSource,
                                                          p);
-                if (constraint == null) {
-                    constraint = BorderLayout.NORTH;
+                if (constrbint == null) {
+                    constrbint = BorderLbyout.NORTH;
                 }
-                int orientation = mapConstraintToOrientation(constraint);
-                setOrientation(orientation);
+                int orientbtion = mbpConstrbintToOrientbtion(constrbint);
+                setOrientbtion(orientbtion);
                 if (dockingSource== null)
-                    dockingSource = toolBar.getParent();
+                    dockingSource = toolBbr.getPbrent();
                 if ( propertyListener != null )
-                    UIManager.removePropertyChangeListener( propertyListener );
-                dockingSource.add(constraint, toolBar);
+                    UIMbnbger.removePropertyChbngeListener( propertyListener );
+                dockingSource.bdd(constrbint, toolBbr);
             }
-            dockingSource.invalidate();
-            Container dockingSourceParent = dockingSource.getParent();
-            if (dockingSourceParent != null)
-                dockingSourceParent.validate();
-            dockingSource.repaint();
+            dockingSource.invblidbte();
+            Contbiner dockingSourcePbrent = dockingSource.getPbrent();
+            if (dockingSourcePbrent != null)
+                dockingSourcePbrent.vblidbte();
+            dockingSource.repbint();
         }
     }
 
-    private int mapConstraintToOrientation(String constraint)
+    privbte int mbpConstrbintToOrientbtion(String constrbint)
     {
-        int orientation = toolBar.getOrientation();
+        int orientbtion = toolBbr.getOrientbtion();
 
-        if ( constraint != null )
+        if ( constrbint != null )
         {
-            if ( constraint.equals(BorderLayout.EAST) || constraint.equals(BorderLayout.WEST) )
-                orientation = JToolBar.VERTICAL;
-            else if ( constraint.equals(BorderLayout.NORTH) || constraint.equals(BorderLayout.SOUTH) )
-                orientation = JToolBar.HORIZONTAL;
+            if ( constrbint.equbls(BorderLbyout.EAST) || constrbint.equbls(BorderLbyout.WEST) )
+                orientbtion = JToolBbr.VERTICAL;
+            else if ( constrbint.equbls(BorderLbyout.NORTH) || constrbint.equbls(BorderLbyout.SOUTH) )
+                orientbtion = JToolBbr.HORIZONTAL;
         }
 
-        return orientation;
+        return orientbtion;
     }
 
     /**
-     * Sets the tool bar's orientation.
+     * Sets the tool bbr's orientbtion.
      *
-     * @param orientation the new orientation
+     * @pbrbm orientbtion the new orientbtion
      */
-    public void setOrientation(int orientation)
+    public void setOrientbtion(int orientbtion)
     {
-        toolBar.setOrientation( orientation );
+        toolBbr.setOrientbtion( orientbtion );
 
-        if (dragWindow !=null)
-            dragWindow.setOrientation(orientation);
+        if (drbgWindow !=null)
+            drbgWindow.setOrientbtion(orientbtion);
     }
 
     /**
-     * Gets the color displayed when over a docking area
+     * Gets the color displbyed when over b docking breb
      *
-     * @return the color displayed when over a docking area
+     * @return the color displbyed when over b docking breb
      */
     public Color getDockingColor() {
         return dockingColor;
     }
 
     /**
-     * Sets the color displayed when over a docking area
+     * Sets the color displbyed when over b docking breb
      *
-     * @param c the new color
+     * @pbrbm c the new color
      */
    public void setDockingColor(Color c) {
         this.dockingColor = c;
     }
 
     /**
-     * Gets the color displayed when over a floating area
+     * Gets the color displbyed when over b flobting breb
      *
-     * @return the color displayed when over a floating area
+     * @return the color displbyed when over b flobting breb
      */
-    public Color getFloatingColor() {
-        return floatingColor;
+    public Color getFlobtingColor() {
+        return flobtingColor;
     }
 
     /**
-     * Sets the color displayed when over a floating area
+     * Sets the color displbyed when over b flobting breb
      *
-     * @param c the new color
+     * @pbrbm c the new color
      */
-    public void setFloatingColor(Color c) {
-        this.floatingColor = c;
+    public void setFlobtingColor(Color c) {
+        this.flobtingColor = c;
     }
 
-    private boolean isBlocked(Component comp, Object constraint) {
-        if (comp instanceof Container) {
-            Container cont = (Container)comp;
-            LayoutManager lm = cont.getLayout();
-            if (lm instanceof BorderLayout) {
-                BorderLayout blm = (BorderLayout)lm;
-                Component c = blm.getLayoutComponent(cont, constraint);
-                return (c != null && c != toolBar);
+    privbte boolebn isBlocked(Component comp, Object constrbint) {
+        if (comp instbnceof Contbiner) {
+            Contbiner cont = (Contbiner)comp;
+            LbyoutMbnbger lm = cont.getLbyout();
+            if (lm instbnceof BorderLbyout) {
+                BorderLbyout blm = (BorderLbyout)lm;
+                Component c = blm.getLbyoutComponent(cont, constrbint);
+                return (c != null && c != toolBbr);
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns {@code true} if the {@code JToolBar} can dock at the given position.
+     * Returns {@code true} if the {@code JToolBbr} cbn dock bt the given position.
      *
-     * @param c a component
-     * @param p a position
-     * @return {@code true} if the {@code JToolBar} can dock at the given position
+     * @pbrbm c b component
+     * @pbrbm p b position
+     * @return {@code true} if the {@code JToolBbr} cbn dock bt the given position
      */
-    public boolean canDock(Component c, Point p) {
-        return (p != null && getDockingConstraint(c, p) != null);
+    public boolebn cbnDock(Component c, Point p) {
+        return (p != null && getDockingConstrbint(c, p) != null);
     }
 
-    private String calculateConstraint() {
-        String constraint = null;
-        LayoutManager lm = dockingSource.getLayout();
-        if (lm instanceof BorderLayout) {
-            constraint = (String)((BorderLayout)lm).getConstraints(toolBar);
+    privbte String cblculbteConstrbint() {
+        String constrbint = null;
+        LbyoutMbnbger lm = dockingSource.getLbyout();
+        if (lm instbnceof BorderLbyout) {
+            constrbint = (String)((BorderLbyout)lm).getConstrbints(toolBbr);
         }
-        return (constraint != null) ? constraint : constraintBeforeFloating;
+        return (constrbint != null) ? constrbint : constrbintBeforeFlobting;
     }
 
 
 
-    private String getDockingConstraint(Component c, Point p) {
-        if (p == null) return constraintBeforeFloating;
-        if (c.contains(p)) {
-            dockingSensitivity = (toolBar.getOrientation() == JToolBar.HORIZONTAL)
-                                                ? toolBar.getSize().height
-                                                : toolBar.getSize().width;
-            // North  (Base distance on height for now!)
-            if (p.y < dockingSensitivity && !isBlocked(c, BorderLayout.NORTH)) {
-                return BorderLayout.NORTH;
+    privbte String getDockingConstrbint(Component c, Point p) {
+        if (p == null) return constrbintBeforeFlobting;
+        if (c.contbins(p)) {
+            dockingSensitivity = (toolBbr.getOrientbtion() == JToolBbr.HORIZONTAL)
+                                                ? toolBbr.getSize().height
+                                                : toolBbr.getSize().width;
+            // North  (Bbse distbnce on height for now!)
+            if (p.y < dockingSensitivity && !isBlocked(c, BorderLbyout.NORTH)) {
+                return BorderLbyout.NORTH;
             }
-            // East  (Base distance on height for now!)
-            if (p.x >= c.getWidth() - dockingSensitivity && !isBlocked(c, BorderLayout.EAST)) {
-                return BorderLayout.EAST;
+            // Ebst  (Bbse distbnce on height for now!)
+            if (p.x >= c.getWidth() - dockingSensitivity && !isBlocked(c, BorderLbyout.EAST)) {
+                return BorderLbyout.EAST;
             }
-            // West  (Base distance on height for now!)
-            if (p.x < dockingSensitivity && !isBlocked(c, BorderLayout.WEST)) {
-                return BorderLayout.WEST;
+            // West  (Bbse distbnce on height for now!)
+            if (p.x < dockingSensitivity && !isBlocked(c, BorderLbyout.WEST)) {
+                return BorderLbyout.WEST;
             }
-            if (p.y >= c.getHeight() - dockingSensitivity && !isBlocked(c, BorderLayout.SOUTH)) {
-                return BorderLayout.SOUTH;
+            if (p.y >= c.getHeight() - dockingSensitivity && !isBlocked(c, BorderLbyout.SOUTH)) {
+                return BorderLbyout.SOUTH;
             }
         }
         return null;
     }
 
     /**
-     * The method is used to drag {@code DragWindow} during the {@code JToolBar}
-     * is being dragged.
+     * The method is used to drbg {@code DrbgWindow} during the {@code JToolBbr}
+     * is being drbgged.
      *
-     * @param position the relative to the {@code JTollBar} position
-     * @param origin the screen position of {@code JToolBar} before dragging
+     * @pbrbm position the relbtive to the {@code JTollBbr} position
+     * @pbrbm origin the screen position of {@code JToolBbr} before drbgging
      */
-    protected void dragTo(Point position, Point origin)
+    protected void drbgTo(Point position, Point origin)
     {
-        if (toolBar.isFloatable())
+        if (toolBbr.isFlobtbble())
         {
           try
           {
-            if (dragWindow == null)
-                dragWindow = createDragWindow(toolBar);
-            Point offset = dragWindow.getOffset();
+            if (drbgWindow == null)
+                drbgWindow = crebteDrbgWindow(toolBbr);
+            Point offset = drbgWindow.getOffset();
             if (offset == null) {
-                Dimension size = toolBar.getPreferredSize();
+                Dimension size = toolBbr.getPreferredSize();
                 offset = new Point(size.width/2, size.height/2);
-                dragWindow.setOffset(offset);
+                drbgWindow.setOffset(offset);
             }
-            Point global = new Point(origin.x+ position.x,
+            Point globbl = new Point(origin.x+ position.x,
                                      origin.y+position.y);
-            Point dragPoint = new Point(global.x- offset.x,
-                                        global.y- offset.y);
+            Point drbgPoint = new Point(globbl.x- offset.x,
+                                        globbl.y- offset.y);
             if (dockingSource == null)
-                dockingSource = toolBar.getParent();
-                constraintBeforeFloating = calculateConstraint();
-            Point dockingPosition = dockingSource.getLocationOnScreen();
-            Point comparisonPoint = new Point(global.x-dockingPosition.x,
-                                              global.y-dockingPosition.y);
-            if (canDock(dockingSource, comparisonPoint)) {
-                dragWindow.setBackground(getDockingColor());
-                String constraint = getDockingConstraint(dockingSource,
-                                                         comparisonPoint);
-                int orientation = mapConstraintToOrientation(constraint);
-                dragWindow.setOrientation(orientation);
-                dragWindow.setBorderColor(dockingBorderColor);
+                dockingSource = toolBbr.getPbrent();
+                constrbintBeforeFlobting = cblculbteConstrbint();
+            Point dockingPosition = dockingSource.getLocbtionOnScreen();
+            Point compbrisonPoint = new Point(globbl.x-dockingPosition.x,
+                                              globbl.y-dockingPosition.y);
+            if (cbnDock(dockingSource, compbrisonPoint)) {
+                drbgWindow.setBbckground(getDockingColor());
+                String constrbint = getDockingConstrbint(dockingSource,
+                                                         compbrisonPoint);
+                int orientbtion = mbpConstrbintToOrientbtion(constrbint);
+                drbgWindow.setOrientbtion(orientbtion);
+                drbgWindow.setBorderColor(dockingBorderColor);
             } else {
-                dragWindow.setBackground(getFloatingColor());
-                dragWindow.setBorderColor(floatingBorderColor);
-                dragWindow.setOrientation(toolBar.getOrientation());
+                drbgWindow.setBbckground(getFlobtingColor());
+                drbgWindow.setBorderColor(flobtingBorderColor);
+                drbgWindow.setOrientbtion(toolBbr.getOrientbtion());
             }
 
-            dragWindow.setLocation(dragPoint.x, dragPoint.y);
-            if (dragWindow.isVisible() == false) {
-                Dimension size = toolBar.getPreferredSize();
-                dragWindow.setSize(size.width, size.height);
-                dragWindow.show();
+            drbgWindow.setLocbtion(drbgPoint.x, drbgPoint.y);
+            if (drbgWindow.isVisible() == fblse) {
+                Dimension size = toolBbr.getPreferredSize();
+                drbgWindow.setSize(size.width, size.height);
+                drbgWindow.show();
             }
           }
-          catch ( IllegalComponentStateException e )
+          cbtch ( IllegblComponentStbteException e )
           {
           }
         }
     }
 
     /**
-     * The method is called at end of dragging to place the frame in either
-     * its original place or in its floating frame.
+     * The method is cblled bt end of drbgging to plbce the frbme in either
+     * its originbl plbce or in its flobting frbme.
      *
-     * @param position the relative to the {@code JTollBar} position
-     * @param origin the screen position of {@code JToolBar} before dragging
+     * @pbrbm position the relbtive to the {@code JTollBbr} position
+     * @pbrbm origin the screen position of {@code JToolBbr} before drbgging
      */
-    protected void floatAt(Point position, Point origin)
+    protected void flobtAt(Point position, Point origin)
     {
-        if(toolBar.isFloatable())
+        if(toolBbr.isFlobtbble())
         {
           try
           {
-            Point offset = dragWindow.getOffset();
+            Point offset = drbgWindow.getOffset();
             if (offset == null) {
                 offset = position;
-                dragWindow.setOffset(offset);
+                drbgWindow.setOffset(offset);
             }
-            Point global = new Point(origin.x+ position.x,
+            Point globbl = new Point(origin.x+ position.x,
                                      origin.y+position.y);
-            setFloatingLocation(global.x-offset.x,
-                                global.y-offset.y);
+            setFlobtingLocbtion(globbl.x-offset.x,
+                                globbl.y-offset.y);
             if (dockingSource != null) {
-                Point dockingPosition = dockingSource.getLocationOnScreen();
-                Point comparisonPoint = new Point(global.x-dockingPosition.x,
-                                                  global.y-dockingPosition.y);
-                if (canDock(dockingSource, comparisonPoint)) {
-                    setFloating(false, comparisonPoint);
+                Point dockingPosition = dockingSource.getLocbtionOnScreen();
+                Point compbrisonPoint = new Point(globbl.x-dockingPosition.x,
+                                                  globbl.y-dockingPosition.y);
+                if (cbnDock(dockingSource, compbrisonPoint)) {
+                    setFlobting(fblse, compbrisonPoint);
                 } else {
-                    setFloating(true, null);
+                    setFlobting(true, null);
                 }
             } else {
-                setFloating(true, null);
+                setFlobting(true, null);
             }
-            dragWindow.setOffset(null);
+            drbgWindow.setOffset(null);
           }
-          catch ( IllegalComponentStateException e )
+          cbtch ( IllegblComponentStbteException e )
           {
           }
         }
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
     /**
-     * Returns an instance of {@code ContainerListener}.
+     * Returns bn instbnce of {@code ContbinerListener}.
      *
-     * @return an instance of {@code ContainerListener}
+     * @return bn instbnce of {@code ContbinerListener}
      */
-    protected ContainerListener createToolBarContListener( )
+    protected ContbinerListener crebteToolBbrContListener( )
     {
-        return getHandler();
+        return getHbndler();
     }
 
     /**
-     * Returns an instance of {@code FocusListener}.
+     * Returns bn instbnce of {@code FocusListener}.
      *
-     * @return an instance of {@code FocusListener}
+     * @return bn instbnce of {@code FocusListener}
      */
-    protected FocusListener createToolBarFocusListener( )
+    protected FocusListener crebteToolBbrFocusListener( )
     {
-        return getHandler();
+        return getHbndler();
     }
 
     /**
-     * Returns an instance of {@code PropertyChangeListener}.
+     * Returns bn instbnce of {@code PropertyChbngeListener}.
      *
-     * @return an instance of {@code PropertyChangeListener}
+     * @return bn instbnce of {@code PropertyChbngeListener}
      */
-    protected PropertyChangeListener createPropertyListener()
+    protected PropertyChbngeListener crebtePropertyListener()
     {
-        return getHandler();
+        return getHbndler();
     }
 
     /**
-     * Returns an instance of {@code MouseInputListener}.
+     * Returns bn instbnce of {@code MouseInputListener}.
      *
-     * @return an instance of {@code MouseInputListener}
+     * @return bn instbnce of {@code MouseInputListener}
      */
-    protected MouseInputListener createDockingListener( ) {
-        getHandler().tb = toolBar;
-        return getHandler();
+    protected MouseInputListener crebteDockingListener( ) {
+        getHbndler().tb = toolBbr;
+        return getHbndler();
     }
 
     /**
-     * Constructs a new instance of {@code WindowListener}.
+     * Constructs b new instbnce of {@code WindowListener}.
      *
-     * @return a new instance of {@code WindowListener}
+     * @return b new instbnce of {@code WindowListener}
      */
-    protected WindowListener createFrameListener() {
-        return new FrameListener();
+    protected WindowListener crebteFrbmeListener() {
+        return new FrbmeListener();
     }
 
     /**
-     * Paints the contents of the window used for dragging.
+     * Pbints the contents of the window used for drbgging.
      *
-     * @param g Graphics to paint to.
+     * @pbrbm g Grbphics to pbint to.
      * @throws NullPointerException is <code>g</code> is null
      * @since 1.5
      */
-    protected void paintDragWindow(Graphics g) {
-        g.setColor(dragWindow.getBackground());
-        int w = dragWindow.getWidth();
-        int h = dragWindow.getHeight();
+    protected void pbintDrbgWindow(Grbphics g) {
+        g.setColor(drbgWindow.getBbckground());
+        int w = drbgWindow.getWidth();
+        int h = drbgWindow.getHeight();
         g.fillRect(0, 0, w, h);
-        g.setColor(dragWindow.getBorderColor());
-        g.drawRect(0, 0, w - 1, h - 1);
+        g.setColor(drbgWindow.getBorderColor());
+        g.drbwRect(0, 0, w - 1, h - 1);
     }
 
 
-    private static class Actions extends UIAction {
-        private static final String NAVIGATE_RIGHT = "navigateRight";
-        private static final String NAVIGATE_LEFT = "navigateLeft";
-        private static final String NAVIGATE_UP = "navigateUp";
-        private static final String NAVIGATE_DOWN = "navigateDown";
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String NAVIGATE_RIGHT = "nbvigbteRight";
+        privbte stbtic finbl String NAVIGATE_LEFT = "nbvigbteLeft";
+        privbte stbtic finbl String NAVIGATE_UP = "nbvigbteUp";
+        privbte stbtic finbl String NAVIGATE_DOWN = "nbvigbteDown";
 
-        public Actions(String name) {
-            super(name);
+        public Actions(String nbme) {
+            super(nbme);
         }
 
-        public void actionPerformed(ActionEvent evt) {
-            String key = getName();
-            JToolBar toolBar = (JToolBar)evt.getSource();
-            BasicToolBarUI ui = (BasicToolBarUI)BasicLookAndFeel.getUIOfType(
-                     toolBar.getUI(), BasicToolBarUI.class);
+        public void bctionPerformed(ActionEvent evt) {
+            String key = getNbme();
+            JToolBbr toolBbr = (JToolBbr)evt.getSource();
+            BbsicToolBbrUI ui = (BbsicToolBbrUI)BbsicLookAndFeel.getUIOfType(
+                     toolBbr.getUI(), BbsicToolBbrUI.clbss);
 
             if (NAVIGATE_RIGHT == key) {
-                ui.navigateFocusedComp(EAST);
+                ui.nbvigbteFocusedComp(EAST);
             } else if (NAVIGATE_LEFT == key) {
-                ui.navigateFocusedComp(WEST);
+                ui.nbvigbteFocusedComp(WEST);
             } else if (NAVIGATE_UP == key) {
-                ui.navigateFocusedComp(NORTH);
+                ui.nbvigbteFocusedComp(NORTH);
             } else if (NAVIGATE_DOWN == key) {
-                ui.navigateFocusedComp(SOUTH);
+                ui.nbvigbteFocusedComp(SOUTH);
             }
         }
     }
 
 
-    private class Handler implements ContainerListener,
-            FocusListener, MouseInputListener, PropertyChangeListener {
+    privbte clbss Hbndler implements ContbinerListener,
+            FocusListener, MouseInputListener, PropertyChbngeListener {
 
         //
-        // ContainerListener
+        // ContbinerListener
         //
-        public void componentAdded(ContainerEvent evt) {
+        public void componentAdded(ContbinerEvent evt) {
             Component c = evt.getChild();
 
-            if (toolBarFocusListener != null) {
-                c.addFocusListener(toolBarFocusListener);
+            if (toolBbrFocusListener != null) {
+                c.bddFocusListener(toolBbrFocusListener);
             }
 
             if (isRolloverBorders()) {
@@ -1294,24 +1294,24 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
             }
         }
 
-        public void componentRemoved(ContainerEvent evt) {
+        public void componentRemoved(ContbinerEvent evt) {
             Component c = evt.getChild();
 
-            if (toolBarFocusListener != null) {
-                c.removeFocusListener(toolBarFocusListener);
+            if (toolBbrFocusListener != null) {
+                c.removeFocusListener(toolBbrFocusListener);
             }
 
             // Revert the button border
-            setBorderToNormal(c);
+            setBorderToNormbl(c);
         }
 
 
         //
         // FocusListener
         //
-        public void focusGained(FocusEvent evt) {
+        public void focusGbined(FocusEvent evt) {
             Component c = evt.getComponent();
-            focusedCompIndex = toolBar.getComponentIndex(c);
+            focusedCompIndex = toolBbr.getComponentIndex(c);
         }
 
         public void focusLost(FocusEvent evt) { }
@@ -1320,41 +1320,41 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
         //
         // MouseInputListener (DockingListener)
         //
-        JToolBar tb;
-        boolean isDragging = false;
+        JToolBbr tb;
+        boolebn isDrbgging = fblse;
         Point origin = null;
 
         public void mousePressed(MouseEvent evt) {
-            if (!tb.isEnabled()) {
+            if (!tb.isEnbbled()) {
                 return;
             }
-            isDragging = false;
+            isDrbgging = fblse;
         }
 
-        public void mouseReleased(MouseEvent evt) {
-            if (!tb.isEnabled()) {
+        public void mouseRelebsed(MouseEvent evt) {
+            if (!tb.isEnbbled()) {
                 return;
             }
-            if (isDragging) {
+            if (isDrbgging) {
                 Point position = evt.getPoint();
                 if (origin == null)
-                    origin = evt.getComponent().getLocationOnScreen();
-                floatAt(position, origin);
+                    origin = evt.getComponent().getLocbtionOnScreen();
+                flobtAt(position, origin);
             }
             origin = null;
-            isDragging = false;
+            isDrbgging = fblse;
         }
 
-        public void mouseDragged(MouseEvent evt) {
-            if (!tb.isEnabled()) {
+        public void mouseDrbgged(MouseEvent evt) {
+            if (!tb.isEnbbled()) {
                 return;
             }
-            isDragging = true;
+            isDrbgging = true;
             Point position = evt.getPoint();
             if (origin == null) {
-                origin = evt.getComponent().getLocationOnScreen();
+                origin = evt.getComponent().getLocbtionOnScreen();
             }
-            dragTo(position, origin);
+            drbgTo(position, origin);
         }
 
         public void mouseClicked(MouseEvent evt) {}
@@ -1364,249 +1364,249 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
 
 
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent evt) {
-            String propertyName = evt.getPropertyName();
-            if (propertyName == "lookAndFeel") {
-                toolBar.updateUI();
-            } else if (propertyName == "orientation") {
-                // Search for JSeparator components and change it's orientation
-                // to match the toolbar and flip it's orientation.
-                Component[] components = toolBar.getComponents();
-                int orientation = ((Integer)evt.getNewValue()).intValue();
-                JToolBar.Separator separator;
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            String propertyNbme = evt.getPropertyNbme();
+            if (propertyNbme == "lookAndFeel") {
+                toolBbr.updbteUI();
+            } else if (propertyNbme == "orientbtion") {
+                // Sebrch for JSepbrbtor components bnd chbnge it's orientbtion
+                // to mbtch the toolbbr bnd flip it's orientbtion.
+                Component[] components = toolBbr.getComponents();
+                int orientbtion = ((Integer)evt.getNewVblue()).intVblue();
+                JToolBbr.Sepbrbtor sepbrbtor;
 
                 for (int i = 0; i < components.length; ++i) {
-                    if (components[i] instanceof JToolBar.Separator) {
-                        separator = (JToolBar.Separator)components[i];
-                        if ((orientation == JToolBar.HORIZONTAL)) {
-                            separator.setOrientation(JSeparator.VERTICAL);
+                    if (components[i] instbnceof JToolBbr.Sepbrbtor) {
+                        sepbrbtor = (JToolBbr.Sepbrbtor)components[i];
+                        if ((orientbtion == JToolBbr.HORIZONTAL)) {
+                            sepbrbtor.setOrientbtion(JSepbrbtor.VERTICAL);
                         } else {
-                            separator.setOrientation(JSeparator.HORIZONTAL);
+                            sepbrbtor.setOrientbtion(JSepbrbtor.HORIZONTAL);
                         }
-                        Dimension size = separator.getSeparatorSize();
+                        Dimension size = sepbrbtor.getSepbrbtorSize();
                         if (size != null && size.width != size.height) {
-                            // Flip the orientation.
+                            // Flip the orientbtion.
                             Dimension newSize =
                                 new Dimension(size.height, size.width);
-                            separator.setSeparatorSize(newSize);
+                            sepbrbtor.setSepbrbtorSize(newSize);
                         }
                     }
                 }
-            } else if (propertyName == IS_ROLLOVER) {
-                installNormalBorders(toolBar);
-                setRolloverBorders(((Boolean)evt.getNewValue()).booleanValue());
+            } else if (propertyNbme == IS_ROLLOVER) {
+                instbllNormblBorders(toolBbr);
+                setRolloverBorders(((Boolebn)evt.getNewVblue()).boolebnVblue());
             }
         }
     }
 
     /**
-     * The class listens for window events.
+     * The clbss listens for window events.
      */
-    protected class FrameListener extends WindowAdapter {
+    protected clbss FrbmeListener extends WindowAdbpter {
         public void windowClosing(WindowEvent w) {
-            if (toolBar.isFloatable()) {
-                if (dragWindow != null)
-                    dragWindow.setVisible(false);
-                floating = false;
-                if (floatingToolBar == null)
-                    floatingToolBar = createFloatingWindow(toolBar);
-                if (floatingToolBar instanceof Window) ((Window)floatingToolBar).setVisible(false);
-                floatingToolBar.getContentPane().remove(toolBar);
-                String constraint = constraintBeforeFloating;
-                if (toolBar.getOrientation() == JToolBar.HORIZONTAL) {
-                    if (constraint == "West" || constraint == "East") {
-                        constraint = "North";
+            if (toolBbr.isFlobtbble()) {
+                if (drbgWindow != null)
+                    drbgWindow.setVisible(fblse);
+                flobting = fblse;
+                if (flobtingToolBbr == null)
+                    flobtingToolBbr = crebteFlobtingWindow(toolBbr);
+                if (flobtingToolBbr instbnceof Window) ((Window)flobtingToolBbr).setVisible(fblse);
+                flobtingToolBbr.getContentPbne().remove(toolBbr);
+                String constrbint = constrbintBeforeFlobting;
+                if (toolBbr.getOrientbtion() == JToolBbr.HORIZONTAL) {
+                    if (constrbint == "West" || constrbint == "Ebst") {
+                        constrbint = "North";
                     }
                 } else {
-                    if (constraint == "North" || constraint == "South") {
-                        constraint = "West";
+                    if (constrbint == "North" || constrbint == "South") {
+                        constrbint = "West";
                     }
                 }
                 if (dockingSource == null)
-                    dockingSource = toolBar.getParent();
+                    dockingSource = toolBbr.getPbrent();
                 if (propertyListener != null)
-                    UIManager.removePropertyChangeListener(propertyListener);
-                dockingSource.add(toolBar, constraint);
-                dockingSource.invalidate();
-                Container dockingSourceParent = dockingSource.getParent();
-                if (dockingSourceParent != null)
-                        dockingSourceParent.validate();
-                dockingSource.repaint();
+                    UIMbnbger.removePropertyChbngeListener(propertyListener);
+                dockingSource.bdd(toolBbr, constrbint);
+                dockingSource.invblidbte();
+                Contbiner dockingSourcePbrent = dockingSource.getPbrent();
+                if (dockingSourcePbrent != null)
+                        dockingSourcePbrent.vblidbte();
+                dockingSource.repbint();
             }
         }
 
     }
 
     /**
-     * The class listens for component events.
+     * The clbss listens for component events.
      */
-    protected class ToolBarContListener implements ContainerListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void componentAdded( ContainerEvent e )  {
-            getHandler().componentAdded(e);
+    protected clbss ToolBbrContListener implements ContbinerListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void componentAdded( ContbinerEvent e )  {
+            getHbndler().componentAdded(e);
         }
 
-        public void componentRemoved( ContainerEvent e ) {
-            getHandler().componentRemoved(e);
+        public void componentRemoved( ContbinerEvent e ) {
+            getHbndler().componentRemoved(e);
         }
 
     }
 
     /**
-     * The class listens for focus events.
+     * The clbss listens for focus events.
      */
-    protected class ToolBarFocusListener implements FocusListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void focusGained( FocusEvent e ) {
-            getHandler().focusGained(e);
+    protected clbss ToolBbrFocusListener implements FocusListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void focusGbined( FocusEvent e ) {
+            getHbndler().focusGbined(e);
             }
 
         public void focusLost( FocusEvent e ) {
-            getHandler().focusLost(e);
+            getHbndler().focusLost(e);
             }
     }
 
     /**
-     * The class listens for property changed events.
+     * The clbss listens for property chbnged events.
      */
-    protected class PropertyListener implements PropertyChangeListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void propertyChange( PropertyChangeEvent e ) {
-            getHandler().propertyChange(e);
+    protected clbss PropertyListener implements PropertyChbngeListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void propertyChbnge( PropertyChbngeEvent e ) {
+            getHbndler().propertyChbnge(e);
             }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicToolBarUI.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of BbsicToolBbrUI.
      */
-    public class DockingListener implements MouseInputListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    public clbss DockingListener implements MouseInputListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
         /**
-         * The instance of {@code JToolBar}.
+         * The instbnce of {@code JToolBbr}.
          */
-        protected JToolBar toolBar;
+        protected JToolBbr toolBbr;
         /**
-         * {@code true} if the {@code JToolBar} is being dragged.
+         * {@code true} if the {@code JToolBbr} is being drbgged.
          */
-        protected boolean isDragging = false;
+        protected boolebn isDrbgging = fblse;
         /**
          * The origin point.
          */
         protected Point origin = null;
 
         /**
-         * Constructs a new instance of {@code DockingListener}.
+         * Constructs b new instbnce of {@code DockingListener}.
          *
-         * @param t an instance of {@code JToolBar}
+         * @pbrbm t bn instbnce of {@code JToolBbr}
          */
-        public DockingListener(JToolBar t) {
-            this.toolBar = t;
-            getHandler().tb = t;
+        public DockingListener(JToolBbr t) {
+            this.toolBbr = t;
+            getHbndler().tb = t;
         }
 
         public void mouseClicked(MouseEvent e) {
-        getHandler().mouseClicked(e);
+        getHbndler().mouseClicked(e);
     }
 
         public void mousePressed(MouseEvent e) {
-        getHandler().tb = toolBar;
-        getHandler().mousePressed(e);
-        isDragging = getHandler().isDragging;
+        getHbndler().tb = toolBbr;
+        getHbndler().mousePressed(e);
+        isDrbgging = getHbndler().isDrbgging;
         }
 
-        public void mouseReleased(MouseEvent e) {
-        getHandler().tb = toolBar;
-        getHandler().isDragging = isDragging;
-        getHandler().origin = origin;
-        getHandler().mouseReleased(e);
-        isDragging = getHandler().isDragging;
-        origin = getHandler().origin;
+        public void mouseRelebsed(MouseEvent e) {
+        getHbndler().tb = toolBbr;
+        getHbndler().isDrbgging = isDrbgging;
+        getHbndler().origin = origin;
+        getHbndler().mouseRelebsed(e);
+        isDrbgging = getHbndler().isDrbgging;
+        origin = getHbndler().origin;
         }
 
         public void mouseEntered(MouseEvent e) {
-        getHandler().mouseEntered(e);
+        getHbndler().mouseEntered(e);
     }
 
         public void mouseExited(MouseEvent e) {
-        getHandler().mouseExited(e);
+        getHbndler().mouseExited(e);
     }
 
-        public void mouseDragged(MouseEvent e) {
-        getHandler().tb = toolBar;
-        getHandler().origin = origin;
-        getHandler().mouseDragged(e);
-        isDragging = getHandler().isDragging;
-        origin = getHandler().origin;
+        public void mouseDrbgged(MouseEvent e) {
+        getHbndler().tb = toolBbr;
+        getHbndler().origin = origin;
+        getHbndler().mouseDrbgged(e);
+        isDrbgging = getHbndler().isDrbgging;
+        origin = getHbndler().origin;
         }
 
         public void mouseMoved(MouseEvent e) {
-        getHandler().mouseMoved(e);
+        getHbndler().mouseMoved(e);
         }
     }
 
     /**
-     * The window which appears during dragging the {@code JToolBar}.
+     * The window which bppebrs during drbgging the {@code JToolBbr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class DragWindow extends Window
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss DrbgWindow extends Window
     {
-        Color borderColor = Color.gray;
-        int orientation = toolBar.getOrientation();
-        Point offset; // offset of the mouse cursor inside the DragWindow
+        Color borderColor = Color.grby;
+        int orientbtion = toolBbr.getOrientbtion();
+        Point offset; // offset of the mouse cursor inside the DrbgWindow
 
-        DragWindow(Window w) {
+        DrbgWindow(Window w) {
             super(w);
         }
 
     /**
-     * Returns the orientation of the toolbar window when the toolbar is
-     * floating. The orientation is either one of <code>JToolBar.HORIZONTAL</code>
-     * or <code>JToolBar.VERTICAL</code>.
+     * Returns the orientbtion of the toolbbr window when the toolbbr is
+     * flobting. The orientbtion is either one of <code>JToolBbr.HORIZONTAL</code>
+     * or <code>JToolBbr.VERTICAL</code>.
      *
-     * @return the orientation of the toolbar window
+     * @return the orientbtion of the toolbbr window
      * @since 1.6
      */
-    public int getOrientation() {
-        return orientation;
+    public int getOrientbtion() {
+        return orientbtion;
     }
 
         /**
-         * Sets the orientation.
+         * Sets the orientbtion.
          *
-         * @param o the new orientation
+         * @pbrbm o the new orientbtion
          */
-        public void setOrientation(int o) {
+        public void setOrientbtion(int o) {
             if(isShowing()) {
-                if (o == this.orientation)
+                if (o == this.orientbtion)
                     return;
-                this.orientation = o;
+                this.orientbtion = o;
                 Dimension size = getSize();
                 setSize(new Dimension(size.height, size.width));
                 if (offset!=null) {
-                    if( BasicGraphicsUtils.isLeftToRight(toolBar) ) {
+                    if( BbsicGrbphicsUtils.isLeftToRight(toolBbr) ) {
                         setOffset(new Point(offset.y, offset.x));
-                    } else if( o == JToolBar.HORIZONTAL ) {
+                    } else if( o == JToolBbr.HORIZONTAL ) {
                         setOffset(new Point( size.height-offset.y, offset.x));
                     } else {
                         setOffset(new Point(offset.y, size.width-offset.x));
                     }
                 }
-                repaint();
+                repbint();
             }
         }
 
@@ -1622,7 +1622,7 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
         /**
          * Sets the offset.
          *
-         * @param p the new offset
+         * @pbrbm p the new offset
          */
         public void setOffset(Point p) {
             this.offset = p;
@@ -1631,13 +1631,13 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
         /**
          * Sets the border color.
          *
-         * @param c the new border color
+         * @pbrbm c the new border color
          */
         public void setBorderColor(Color c) {
             if (this.borderColor == c)
                 return;
             this.borderColor = c;
-            repaint();
+            repbint();
         }
 
         /**
@@ -1649,10 +1649,10 @@ public class BasicToolBarUI extends ToolBarUI implements SwingConstants
             return this.borderColor;
         }
 
-        public void paint(Graphics g) {
-            paintDragWindow(g);
-            // Paint the children
-            super.paint(g);
+        public void pbint(Grbphics g) {
+            pbintDrbgWindow(g);
+            // Pbint the children
+            super.pbint(g);
         }
         public Insets getInsets() {
             return new Insets(1,1,1,1);

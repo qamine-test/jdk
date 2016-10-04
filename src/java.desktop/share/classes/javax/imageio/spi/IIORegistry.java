@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.spi;
+pbckbge jbvbx.imbgeio.spi;
 
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.Vector;
-import com.sun.imageio.spi.FileImageInputStreamSpi;
-import com.sun.imageio.spi.FileImageOutputStreamSpi;
-import com.sun.imageio.spi.InputStreamImageInputStreamSpi;
-import com.sun.imageio.spi.OutputStreamImageOutputStreamSpi;
-import com.sun.imageio.spi.RAFImageInputStreamSpi;
-import com.sun.imageio.spi.RAFImageOutputStreamSpi;
-import com.sun.imageio.plugins.gif.GIFImageReaderSpi;
-import com.sun.imageio.plugins.gif.GIFImageWriterSpi;
-import com.sun.imageio.plugins.jpeg.JPEGImageReaderSpi;
-import com.sun.imageio.plugins.jpeg.JPEGImageWriterSpi;
-import com.sun.imageio.plugins.png.PNGImageReaderSpi;
-import com.sun.imageio.plugins.png.PNGImageWriterSpi;
-import com.sun.imageio.plugins.bmp.BMPImageReaderSpi;
-import com.sun.imageio.plugins.bmp.BMPImageWriterSpi;
-import com.sun.imageio.plugins.wbmp.WBMPImageReaderSpi;
-import com.sun.imageio.plugins.wbmp.WBMPImageWriterSpi;
-import sun.awt.AppContext;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
+import jbvb.util.Vector;
+import com.sun.imbgeio.spi.FileImbgeInputStrebmSpi;
+import com.sun.imbgeio.spi.FileImbgeOutputStrebmSpi;
+import com.sun.imbgeio.spi.InputStrebmImbgeInputStrebmSpi;
+import com.sun.imbgeio.spi.OutputStrebmImbgeOutputStrebmSpi;
+import com.sun.imbgeio.spi.RAFImbgeInputStrebmSpi;
+import com.sun.imbgeio.spi.RAFImbgeOutputStrebmSpi;
+import com.sun.imbgeio.plugins.gif.GIFImbgeRebderSpi;
+import com.sun.imbgeio.plugins.gif.GIFImbgeWriterSpi;
+import com.sun.imbgeio.plugins.jpeg.JPEGImbgeRebderSpi;
+import com.sun.imbgeio.plugins.jpeg.JPEGImbgeWriterSpi;
+import com.sun.imbgeio.plugins.png.PNGImbgeRebderSpi;
+import com.sun.imbgeio.plugins.png.PNGImbgeWriterSpi;
+import com.sun.imbgeio.plugins.bmp.BMPImbgeRebderSpi;
+import com.sun.imbgeio.plugins.bmp.BMPImbgeWriterSpi;
+import com.sun.imbgeio.plugins.wbmp.WBMPImbgeRebderSpi;
+import com.sun.imbgeio.plugins.wbmp.WBMPImbgeWriterSpi;
+import sun.bwt.AppContext;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
 
 /**
- * A registry for service provider instances.  Service provider
- * classes may be detected at run time by means of meta-information in
- * the JAR files containing them.  The intent is that it be relatively
- * inexpensive to load and inspect all available service provider
- * classes.  These classes may them be used to locate and instantiate
- * more heavyweight classes that will perform actual work, in this
- * case instances of <code>ImageReader</code>,
- * <code>ImageWriter</code>, <code>ImageTranscoder</code>,
- * <code>ImageInputStream</code>, and <code>ImageOutputStream</code>.
+ * A registry for service provider instbnces.  Service provider
+ * clbsses mby be detected bt run time by mebns of metb-informbtion in
+ * the JAR files contbining them.  The intent is thbt it be relbtively
+ * inexpensive to lobd bnd inspect bll bvbilbble service provider
+ * clbsses.  These clbsses mby them be used to locbte bnd instbntibte
+ * more hebvyweight clbsses thbt will perform bctubl work, in this
+ * cbse instbnces of <code>ImbgeRebder</code>,
+ * <code>ImbgeWriter</code>, <code>ImbgeTrbnscoder</code>,
+ * <code>ImbgeInputStrebm</code>, bnd <code>ImbgeOutputStrebm</code>.
  *
- * <p> Service providers found on the system classpath (typically
- * the <code>lib/ext</code> directory in the Java
- * installation directory) are automatically loaded as soon as this class is
- * instantiated.
+ * <p> Service providers found on the system clbsspbth (typicblly
+ * the <code>lib/ext</code> directory in the Jbvb
+ * instbllbtion directory) bre butombticblly lobded bs soon bs this clbss is
+ * instbntibted.
  *
- * <p> When the <code>registerApplicationClasspathSpis</code> method
- * is called, service provider instances declared in the
- * meta-information section of JAR files on the application class path
- * are loaded.  To declare a service provider, a <code>services</code>
- * subdirectory is placed within the <code>META-INF</code> directory
- * that is present in every JAR file.  This directory contains a file
- * for each service provider interface that has one or more
- * implementation classes present in the JAR file.  For example, if
- * the JAR file contained a class named
- * <code>com.mycompany.imageio.MyFormatReaderSpi</code> which
- * implements the <code>ImageReaderSpi</code> interface, the JAR file
- * would contain a file named:
- *
- * <pre>
- * META-INF/services/javax.imageio.spi.ImageReaderSpi
- * </pre>
- *
- * containing the line:
+ * <p> When the <code>registerApplicbtionClbsspbthSpis</code> method
+ * is cblled, service provider instbnces declbred in the
+ * metb-informbtion section of JAR files on the bpplicbtion clbss pbth
+ * bre lobded.  To declbre b service provider, b <code>services</code>
+ * subdirectory is plbced within the <code>META-INF</code> directory
+ * thbt is present in every JAR file.  This directory contbins b file
+ * for ebch service provider interfbce thbt hbs one or more
+ * implementbtion clbsses present in the JAR file.  For exbmple, if
+ * the JAR file contbined b clbss nbmed
+ * <code>com.mycompbny.imbgeio.MyFormbtRebderSpi</code> which
+ * implements the <code>ImbgeRebderSpi</code> interfbce, the JAR file
+ * would contbin b file nbmed:
  *
  * <pre>
- * com.mycompany.imageio.MyFormatReaderSpi
+ * META-INF/services/jbvbx.imbgeio.spi.ImbgeRebderSpi
  * </pre>
  *
- * <p> The service provider classes are intended to be lightweight
- * and quick to load.  Implementations of these interfaces
- * should avoid complex dependencies on other classes and on
- * native code.
+ * contbining the line:
  *
- * <p> It is also possible to manually add service providers not found
- * automatically, as well as to remove those that are using the
- * interfaces of the <code>ServiceRegistry</code> class.  Thus
- * the application may customize the contents of the registry as it
+ * <pre>
+ * com.mycompbny.imbgeio.MyFormbtRebderSpi
+ * </pre>
+ *
+ * <p> The service provider clbsses bre intended to be lightweight
+ * bnd quick to lobd.  Implementbtions of these interfbces
+ * should bvoid complex dependencies on other clbsses bnd on
+ * nbtive code.
+ *
+ * <p> It is blso possible to mbnublly bdd service providers not found
+ * butombticblly, bs well bs to remove those thbt bre using the
+ * interfbces of the <code>ServiceRegistry</code> clbss.  Thus
+ * the bpplicbtion mby customize the contents of the registry bs it
  * sees fit.
  *
- * <p> For more details on declaring service providers, and the JAR
- * format in general, see the <a
- * href="{@docRoot}/../technotes/guides/jar/jar.html">
- * JAR File Specification</a>.
+ * <p> For more detbils on declbring service providers, bnd the JAR
+ * formbt in generbl, see the <b
+ * href="{@docRoot}/../technotes/guides/jbr/jbr.html">
+ * JAR File Specificbtion</b>.
  *
  */
-public final class IIORegistry extends ServiceRegistry {
+public finbl clbss IIORegistry extends ServiceRegistry {
 
     /**
-     * A <code>Vector</code> containing the valid IIO registry
-     * categories (superinterfaces) to be used in the constructor.
+     * A <code>Vector</code> contbining the vblid IIO registry
+     * cbtegories (superinterfbces) to be used in the constructor.
      */
-    private static final Vector<Class<?>> initialCategories = new Vector<>(5);
+    privbte stbtic finbl Vector<Clbss<?>> initiblCbtegories = new Vector<>(5);
 
-    static {
-        initialCategories.add(ImageReaderSpi.class);
-        initialCategories.add(ImageWriterSpi.class);
-        initialCategories.add(ImageTranscoderSpi.class);
-        initialCategories.add(ImageInputStreamSpi.class);
-        initialCategories.add(ImageOutputStreamSpi.class);
+    stbtic {
+        initiblCbtegories.bdd(ImbgeRebderSpi.clbss);
+        initiblCbtegories.bdd(ImbgeWriterSpi.clbss);
+        initiblCbtegories.bdd(ImbgeTrbnscoderSpi.clbss);
+        initiblCbtegories.bdd(ImbgeInputStrebmSpi.clbss);
+        initiblCbtegories.bdd(ImbgeOutputStrebmSpi.clbss);
     }
 
     /**
-     * Set up the valid service provider categories and automatically
-     * register all available service providers.
+     * Set up the vblid service provider cbtegories bnd butombticblly
+     * register bll bvbilbble service providers.
      *
-     * <p> The constructor is private in order to prevent creation of
-     * additional instances.
+     * <p> The constructor is privbte in order to prevent crebtion of
+     * bdditionbl instbnces.
      */
-    private IIORegistry() {
-        super(initialCategories.iterator());
-        registerStandardSpis();
-        registerApplicationClasspathSpis();
+    privbte IIORegistry() {
+        super(initiblCbtegories.iterbtor());
+        registerStbndbrdSpis();
+        registerApplicbtionClbsspbthSpis();
     }
 
     /**
-     * Returns the default <code>IIORegistry</code> instance used by
-     * the Image I/O API.  This instance should be used for all
+     * Returns the defbult <code>IIORegistry</code> instbnce used by
+     * the Imbge I/O API.  This instbnce should be used for bll
      * registry functions.
      *
-     * <p> Each <code>ThreadGroup</code> will receive its own
-     * instance; this allows different <code>Applet</code>s in the
-     * same browser (for example) to each have their own registry.
+     * <p> Ebch <code>ThrebdGroup</code> will receive its own
+     * instbnce; this bllows different <code>Applet</code>s in the
+     * sbme browser (for exbmple) to ebch hbve their own registry.
      *
-     * @return the default registry for the current
-     * <code>ThreadGroup</code>.
+     * @return the defbult registry for the current
+     * <code>ThrebdGroup</code>.
      */
-    public static IIORegistry getDefaultInstance() {
+    public stbtic IIORegistry getDefbultInstbnce() {
         AppContext context = AppContext.getAppContext();
         IIORegistry registry =
-            (IIORegistry)context.get(IIORegistry.class);
+            (IIORegistry)context.get(IIORegistry.clbss);
         if (registry == null) {
-            // Create an instance for this AppContext
+            // Crebte bn instbnce for this AppContext
             registry = new IIORegistry();
-            context.put(IIORegistry.class, registry);
+            context.put(IIORegistry.clbss, registry);
         }
         return registry;
     }
 
-    private void registerStandardSpis() {
-        // Hardwire standard SPIs
-        registerServiceProvider(new GIFImageReaderSpi());
-        registerServiceProvider(new GIFImageWriterSpi());
-        registerServiceProvider(new BMPImageReaderSpi());
-        registerServiceProvider(new BMPImageWriterSpi());
-        registerServiceProvider(new WBMPImageReaderSpi());
-        registerServiceProvider(new WBMPImageWriterSpi());
-        registerServiceProvider(new PNGImageReaderSpi());
-        registerServiceProvider(new PNGImageWriterSpi());
-        registerServiceProvider(new JPEGImageReaderSpi());
-        registerServiceProvider(new JPEGImageWriterSpi());
-        registerServiceProvider(new FileImageInputStreamSpi());
-        registerServiceProvider(new FileImageOutputStreamSpi());
-        registerServiceProvider(new InputStreamImageInputStreamSpi());
-        registerServiceProvider(new OutputStreamImageOutputStreamSpi());
-        registerServiceProvider(new RAFImageInputStreamSpi());
-        registerServiceProvider(new RAFImageOutputStreamSpi());
+    privbte void registerStbndbrdSpis() {
+        // Hbrdwire stbndbrd SPIs
+        registerServiceProvider(new GIFImbgeRebderSpi());
+        registerServiceProvider(new GIFImbgeWriterSpi());
+        registerServiceProvider(new BMPImbgeRebderSpi());
+        registerServiceProvider(new BMPImbgeWriterSpi());
+        registerServiceProvider(new WBMPImbgeRebderSpi());
+        registerServiceProvider(new WBMPImbgeWriterSpi());
+        registerServiceProvider(new PNGImbgeRebderSpi());
+        registerServiceProvider(new PNGImbgeWriterSpi());
+        registerServiceProvider(new JPEGImbgeRebderSpi());
+        registerServiceProvider(new JPEGImbgeWriterSpi());
+        registerServiceProvider(new FileImbgeInputStrebmSpi());
+        registerServiceProvider(new FileImbgeOutputStrebmSpi());
+        registerServiceProvider(new InputStrebmImbgeInputStrebmSpi());
+        registerServiceProvider(new OutputStrebmImbgeOutputStrebmSpi());
+        registerServiceProvider(new RAFImbgeInputStrebmSpi());
+        registerServiceProvider(new RAFImbgeOutputStrebmSpi());
 
-        registerInstalledProviders();
+        registerInstblledProviders();
     }
 
     /**
-     * Registers all available service providers found on the
-     * application class path, using the default
-     * <code>ClassLoader</code>.  This method is typically invoked by
-     * the <code>ImageIO.scanForPlugins</code> method.
+     * Registers bll bvbilbble service providers found on the
+     * bpplicbtion clbss pbth, using the defbult
+     * <code>ClbssLobder</code>.  This method is typicblly invoked by
+     * the <code>ImbgeIO.scbnForPlugins</code> method.
      *
-     * @see javax.imageio.ImageIO#scanForPlugins
-     * @see ClassLoader#getResources
+     * @see jbvbx.imbgeio.ImbgeIO#scbnForPlugins
+     * @see ClbssLobder#getResources
      */
-    public void registerApplicationClasspathSpis() {
-        // FIX: load only from application classpath
+    public void registerApplicbtionClbsspbthSpis() {
+        // FIX: lobd only from bpplicbtion clbsspbth
 
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        ClbssLobder lobder = Threbd.currentThrebd().getContextClbssLobder();
 
-        Iterator<Class<?>> categories = getCategories();
-        while (categories.hasNext()) {
-            @SuppressWarnings("unchecked")
-            Class<IIOServiceProvider> c = (Class<IIOServiceProvider>)categories.next();
-            Iterator<IIOServiceProvider> riter =
-                    ServiceLoader.load(c, loader).iterator();
-            while (riter.hasNext()) {
+        Iterbtor<Clbss<?>> cbtegories = getCbtegories();
+        while (cbtegories.hbsNext()) {
+            @SuppressWbrnings("unchecked")
+            Clbss<IIOServiceProvider> c = (Clbss<IIOServiceProvider>)cbtegories.next();
+            Iterbtor<IIOServiceProvider> riter =
+                    ServiceLobder.lobd(c, lobder).iterbtor();
+            while (riter.hbsNext()) {
                 try {
-                    // Note that the next() call is required to be inside
-                    // the try/catch block; see 6342404.
+                    // Note thbt the next() cbll is required to be inside
+                    // the try/cbtch block; see 6342404.
                     IIOServiceProvider r = riter.next();
                     registerServiceProvider(r);
-                } catch (ServiceConfigurationError err) {
-                    if (System.getSecurityManager() != null) {
-                        // In the applet case, we will catch the  error so
-                        // registration of other plugins can  proceed
-                        err.printStackTrace();
+                } cbtch (ServiceConfigurbtionError err) {
+                    if (System.getSecurityMbnbger() != null) {
+                        // In the bpplet cbse, we will cbtch the  error so
+                        // registrbtion of other plugins cbn  proceed
+                        err.printStbckTrbce();
                     } else {
-                        // In the application case, we will  throw the
-                        // error to indicate app/system  misconfiguration
+                        // In the bpplicbtion cbse, we will  throw the
+                        // error to indicbte bpp/system  misconfigurbtion
                         throw err;
                     }
                 }
@@ -225,24 +225,24 @@ public final class IIORegistry extends ServiceRegistry {
         }
     }
 
-    private void registerInstalledProviders() {
+    privbte void registerInstblledProviders() {
         /*
-          We need to load installed providers from the
-          system classpath (typically the <code>lib/ext</code>
-          directory in in the Java installation directory)
+          We need to lobd instblled providers from the
+          system clbsspbth (typicblly the <code>lib/ext</code>
+          directory in in the Jbvb instbllbtion directory)
           in the privileged mode in order to
-          be able read corresponding jar files even if
-          file read capability is restricted (like the
-          applet context case).
+          be bble rebd corresponding jbr files even if
+          file rebd cbpbbility is restricted (like the
+          bpplet context cbse).
          */
-        PrivilegedAction<Object> doRegistration =
+        PrivilegedAction<Object> doRegistrbtion =
             new PrivilegedAction<Object>() {
                 public Object run() {
-                    Iterator<Class<?>> categories = getCategories();
-                    while (categories.hasNext()) {
-                        @SuppressWarnings("unchecked")
-                        Class<IIOServiceProvider> c = (Class<IIOServiceProvider>)categories.next();
-                        for (IIOServiceProvider p : ServiceLoader.loadInstalled(c)) {
+                    Iterbtor<Clbss<?>> cbtegories = getCbtegories();
+                    while (cbtegories.hbsNext()) {
+                        @SuppressWbrnings("unchecked")
+                        Clbss<IIOServiceProvider> c = (Clbss<IIOServiceProvider>)cbtegories.next();
+                        for (IIOServiceProvider p : ServiceLobder.lobdInstblled(c)) {
                             registerServiceProvider(p);
                         }
                     }
@@ -250,6 +250,6 @@ public final class IIORegistry extends ServiceRegistry {
                 }
             };
 
-        AccessController.doPrivileged(doRegistration);
+        AccessController.doPrivileged(doRegistrbtion);
     }
 }

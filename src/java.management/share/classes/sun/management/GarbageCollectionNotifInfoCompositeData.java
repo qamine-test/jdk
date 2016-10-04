@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import com.sun.management.GarbageCollectionNotificationInfo;
-import com.sun.management.GcInfo;
-import java.lang.reflect.Method;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
-import javax.management.openmbean.OpenType;
-import javax.management.openmbean.SimpleType;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.lang.reflect.Field;
-import java.util.HashMap;
+import com.sun.mbnbgement.GbrbbgeCollectionNotificbtionInfo;
+import com.sun.mbnbgement.GcInfo;
+import jbvb.lbng.reflect.Method;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.OpenDbtbException;
+import jbvbx.mbnbgement.openmbebn.OpenType;
+import jbvbx.mbnbgement.openmbebn.SimpleType;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.lbng.reflect.Field;
+import jbvb.util.HbshMbp;
 
 /**
- * A CompositeData for GarbageCollectionNotificationInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositeDbtb for GbrbbgeCollectionNotificbtionInfo for the locbl mbnbgement support.
+ * This clbss bvoids the performbnce penblty pbid to the
+ * construction of b CompositeDbtb use in the locbl cbse.
  */
-public class GarbageCollectionNotifInfoCompositeData extends LazyCompositeData {
-    private final GarbageCollectionNotificationInfo gcNotifInfo;
+public clbss GbrbbgeCollectionNotifInfoCompositeDbtb extends LbzyCompositeDbtb {
+    privbte finbl GbrbbgeCollectionNotificbtionInfo gcNotifInfo;
 
-    public GarbageCollectionNotifInfoCompositeData(GarbageCollectionNotificationInfo info) {
+    public GbrbbgeCollectionNotifInfoCompositeDbtb(GbrbbgeCollectionNotificbtionInfo info) {
         this.gcNotifInfo = info;
     }
 
-    public GarbageCollectionNotificationInfo getGarbageCollectionNotifInfo() {
+    public GbrbbgeCollectionNotificbtionInfo getGbrbbgeCollectionNotifInfo() {
         return gcNotifInfo;
     }
 
-    public static CompositeData toCompositeData(GarbageCollectionNotificationInfo info) {
-        GarbageCollectionNotifInfoCompositeData gcnicd =
-            new GarbageCollectionNotifInfoCompositeData(info);
-        return gcnicd.getCompositeData();
+    public stbtic CompositeDbtb toCompositeDbtb(GbrbbgeCollectionNotificbtionInfo info) {
+        GbrbbgeCollectionNotifInfoCompositeDbtb gcnicd =
+            new GbrbbgeCollectionNotifInfoCompositeDbtb(info);
+        return gcnicd.getCompositeDbtb();
     }
 
-    private CompositeType getCompositeTypeByBuilder() {
-        final GcInfoBuilder builder = AccessController.doPrivileged (new PrivilegedAction<GcInfoBuilder>() {
+    privbte CompositeType getCompositeTypeByBuilder() {
+        finbl GcInfoBuilder builder = AccessController.doPrivileged (new PrivilegedAction<GcInfoBuilder>() {
                 public GcInfoBuilder run() {
                     try {
-                        Class<?> cl = Class.forName("com.sun.management.GcInfo");
-                        Field f = cl.getDeclaredField("builder");
+                        Clbss<?> cl = Clbss.forNbme("com.sun.mbnbgement.GcInfo");
+                        Field f = cl.getDeclbredField("builder");
                         f.setAccessible(true);
                         return (GcInfoBuilder)f.get(gcNotifInfo.getGcInfo());
-                    } catch(ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+                    } cbtch(ClbssNotFoundException | NoSuchFieldException | IllegblAccessException e) {
                         return null;
                     }
                 }
@@ -85,16 +85,16 @@ public class GarbageCollectionNotifInfoCompositeData extends LazyCompositeData {
                     builder.getGcInfoCompositeType(),
                 };
                 try {
-                    final String typeName =
-                        "sun.management.GarbageCollectionNotifInfoCompositeType";
-                    gict = new CompositeType(typeName,
-                                             "CompositeType for GC notification info",
-                                             gcNotifInfoItemNames,
-                                             gcNotifInfoItemNames,
+                    finbl String typeNbme =
+                        "sun.mbnbgement.GbrbbgeCollectionNotifInfoCompositeType";
+                    gict = new CompositeType(typeNbme,
+                                             "CompositeType for GC notificbtion info",
+                                             gcNotifInfoItemNbmes,
+                                             gcNotifInfoItemNbmes,
                                              gcNotifInfoItemTypes);
                     compositeTypeByBuilder.put(builder,gict);
-                } catch (OpenDataException e) {
-                    // shouldn't reach here
+                } cbtch (OpenDbtbException e) {
+                    // shouldn't rebch here
                     throw Util.newException(e);
                 }
             }
@@ -102,114 +102,114 @@ public class GarbageCollectionNotifInfoCompositeData extends LazyCompositeData {
         return gict;
     }
 
-    protected CompositeData getCompositeData() {
+    protected CompositeDbtb getCompositeDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // gcNotifInfoItemNames!
-        final Object[] gcNotifInfoItemValues;
-        gcNotifInfoItemValues = new Object[] {
-            gcNotifInfo.getGcName(),
+        // gcNotifInfoItemNbmes!
+        finbl Object[] gcNotifInfoItemVblues;
+        gcNotifInfoItemVblues = new Object[] {
+            gcNotifInfo.getGcNbme(),
             gcNotifInfo.getGcAction(),
-            gcNotifInfo.getGcCause(),
-            GcInfoCompositeData.toCompositeData(gcNotifInfo.getGcInfo())
+            gcNotifInfo.getGcCbuse(),
+            GcInfoCompositeDbtb.toCompositeDbtb(gcNotifInfo.getGcInfo())
         };
 
         CompositeType gict = getCompositeTypeByBuilder();
 
         try {
-            return new CompositeDataSupport(gict,
-                                            gcNotifInfoItemNames,
-                                            gcNotifInfoItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
+            return new CompositeDbtbSupport(gict,
+                                            gcNotifInfoItemNbmes,
+                                            gcNotifInfoItemVblues);
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    //    private static MappedMXBeanType gcInfoMapType;
-    private static final String GC_NAME = "gcName";
-    private static final String GC_ACTION = "gcAction";
-    private static final String GC_CAUSE = "gcCause";
-    private static final String GC_INFO     = "gcInfo";
-    private static final String[] gcNotifInfoItemNames = {
+    //    privbte stbtic MbppedMXBebnType gcInfoMbpType;
+    privbte stbtic finbl String GC_NAME = "gcNbme";
+    privbte stbtic finbl String GC_ACTION = "gcAction";
+    privbte stbtic finbl String GC_CAUSE = "gcCbuse";
+    privbte stbtic finbl String GC_INFO     = "gcInfo";
+    privbte stbtic finbl String[] gcNotifInfoItemNbmes = {
         GC_NAME,
         GC_ACTION,
         GC_CAUSE,
         GC_INFO
     };
-    private static HashMap<GcInfoBuilder,CompositeType> compositeTypeByBuilder =
-        new HashMap<>();
+    privbte stbtic HbshMbp<GcInfoBuilder,CompositeType> compositeTypeByBuilder =
+        new HbshMbp<>();
 
-    public static String getGcName(CompositeData cd) {
-        String gcname = getString(cd, GC_NAME);
-        if (gcname == null) {
-            throw new IllegalArgumentException("Invalid composite data: " +
-                "Attribute " + GC_NAME + " has null value");
+    public stbtic String getGcNbme(CompositeDbtb cd) {
+        String gcnbme = getString(cd, GC_NAME);
+        if (gcnbme == null) {
+            throw new IllegblArgumentException("Invblid composite dbtb: " +
+                "Attribute " + GC_NAME + " hbs null vblue");
         }
-        return gcname;
+        return gcnbme;
     }
 
-    public static String getGcAction(CompositeData cd) {
-        String gcaction = getString(cd, GC_ACTION);
-        if (gcaction == null) {
-            throw new IllegalArgumentException("Invalid composite data: " +
-                "Attribute " + GC_ACTION + " has null value");
+    public stbtic String getGcAction(CompositeDbtb cd) {
+        String gcbction = getString(cd, GC_ACTION);
+        if (gcbction == null) {
+            throw new IllegblArgumentException("Invblid composite dbtb: " +
+                "Attribute " + GC_ACTION + " hbs null vblue");
         }
-        return gcaction;
+        return gcbction;
     }
 
-    public static String getGcCause(CompositeData cd) {
-        String gccause = getString(cd, GC_CAUSE);
-        if (gccause == null) {
-            throw new IllegalArgumentException("Invalid composite data: " +
-                "Attribute " + GC_CAUSE + " has null value");
+    public stbtic String getGcCbuse(CompositeDbtb cd) {
+        String gccbuse = getString(cd, GC_CAUSE);
+        if (gccbuse == null) {
+            throw new IllegblArgumentException("Invblid composite dbtb: " +
+                "Attribute " + GC_CAUSE + " hbs null vblue");
         }
-        return gccause;
+        return gccbuse;
     }
 
-    public static GcInfo getGcInfo(CompositeData cd) {
-        CompositeData gcInfoData = (CompositeData) cd.get(GC_INFO);
-        return GcInfo.from(gcInfoData);
+    public stbtic GcInfo getGcInfo(CompositeDbtb cd) {
+        CompositeDbtb gcInfoDbtb = (CompositeDbtb) cd.get(GC_INFO);
+        return GcInfo.from(gcInfoDbtb);
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbte if the input CompositeDbtb hbs the expected
+     * CompositeType (i.e. contbin bll bttributes with expected
+     * nbmes bnd types).
      */
-    public static void validateCompositeData(CompositeData cd) {
+    public stbtic void vblidbteCompositeDbtb(CompositeDbtb cd) {
         if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+            throw new NullPointerException("Null CompositeDbtb");
         }
 
-        if (!isTypeMatched( getBaseGcNotifInfoCompositeType(), cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for GarbageCollectionNotificationInfo");
+        if (!isTypeMbtched( getBbseGcNotifInfoCompositeType(), cd.getCompositeType())) {
+            throw new IllegblArgumentException(
+                "Unexpected composite type for GbrbbgeCollectionNotificbtionInfo");
         }
     }
 
-    // This is only used for validation.
-    private static CompositeType baseGcNotifInfoCompositeType = null;
-    private static synchronized CompositeType getBaseGcNotifInfoCompositeType() {
-        if (baseGcNotifInfoCompositeType == null) {
+    // This is only used for vblidbtion.
+    privbte stbtic CompositeType bbseGcNotifInfoCompositeType = null;
+    privbte stbtic synchronized CompositeType getBbseGcNotifInfoCompositeType() {
+        if (bbseGcNotifInfoCompositeType == null) {
             try {
-                OpenType<?>[] baseGcNotifInfoItemTypes = new OpenType<?>[] {
+                OpenType<?>[] bbseGcNotifInfoItemTypes = new OpenType<?>[] {
                     SimpleType.STRING,
                     SimpleType.STRING,
                     SimpleType.STRING,
-                    GcInfoCompositeData.getBaseGcInfoCompositeType()
+                    GcInfoCompositeDbtb.getBbseGcInfoCompositeType()
                 };
-                baseGcNotifInfoCompositeType =
-                    new CompositeType("sun.management.BaseGarbageCollectionNotifInfoCompositeType",
-                                      "CompositeType for Base GarbageCollectionNotificationInfo",
-                                      gcNotifInfoItemNames,
-                                      gcNotifInfoItemNames,
-                                      baseGcNotifInfoItemTypes);
-            } catch (OpenDataException e) {
-                // shouldn't reach here
+                bbseGcNotifInfoCompositeType =
+                    new CompositeType("sun.mbnbgement.BbseGbrbbgeCollectionNotifInfoCompositeType",
+                                      "CompositeType for Bbse GbrbbgeCollectionNotificbtionInfo",
+                                      gcNotifInfoItemNbmes,
+                                      gcNotifInfoItemNbmes,
+                                      bbseGcNotifInfoItemTypes);
+            } cbtch (OpenDbtbException e) {
+                // shouldn't rebch here
                 throw Util.newException(e);
             }
         }
-        return baseGcNotifInfoCompositeType;
+        return bbseGcNotifInfoCompositeType;
     }
 
-    private static final long serialVersionUID = -1805123446483771292L;
+    privbte stbtic finbl long seriblVersionUID = -1805123446483771292L;
 }

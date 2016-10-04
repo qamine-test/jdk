@@ -1,252 +1,252 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbckbge com.sun.imbgeio.plugins.jpeg;
 
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.IIOException;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import jbvbx.imbgeio.IIOException;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * A class wrapping a buffer and its state.  For efficiency,
- * the members are made visible to other classes in this package.
+ * A clbss wrbpping b buffer bnd its stbte.  For efficiency,
+ * the members bre mbde visible to other clbsses in this pbckbge.
  */
-class JPEGBuffer {
+clbss JPEGBuffer {
 
-    private boolean debug = false;
+    privbte boolebn debug = fblse;
 
     /**
-     * The size of the buffer.  This is large enough to hold all
-     * known marker segments (other than thumbnails and icc profiles)
+     * The size of the buffer.  This is lbrge enough to hold bll
+     * known mbrker segments (other thbn thumbnbils bnd icc profiles)
      */
-    final int BUFFER_SIZE = 4096;
+    finbl int BUFFER_SIZE = 4096;
 
     /**
-     * The actual buffer.
+     * The bctubl buffer.
      */
     byte [] buf;
 
     /**
-     * The number of bytes available for reading from the buffer.
-     * Anytime data is read from the buffer, this should be updated.
+     * The number of bytes bvbilbble for rebding from the buffer.
+     * Anytime dbtb is rebd from the buffer, this should be updbted.
      */
-    int bufAvail;
+    int bufAvbil;
 
     /**
-     * A pointer to the next available byte in the buffer.  This is
-     * used to read data from the buffer and must be updated to
+     * A pointer to the next bvbilbble byte in the buffer.  This is
+     * used to rebd dbtb from the buffer bnd must be updbted to
      * move through the buffer.
      */
     int bufPtr;
 
     /**
-     * The ImageInputStream buffered.
+     * The ImbgeInputStrebm buffered.
      */
-    ImageInputStream iis;
+    ImbgeInputStrebm iis;
 
-    JPEGBuffer (ImageInputStream iis) {
+    JPEGBuffer (ImbgeInputStrebm iis) {
         buf = new byte[BUFFER_SIZE];
-        bufAvail = 0;
+        bufAvbil = 0;
         bufPtr = 0;
         this.iis = iis;
     }
 
     /**
-     * Ensures that there are at least <code>count</code> bytes available
-     * in the buffer, loading more data and moving any remaining
-     * bytes to the front.  A count of 0 means to just fill the buffer.
-     * If the count is larger than the buffer size, just fills the buffer.
-     * If the end of the stream is encountered before a non-0 count can
-     * be satisfied, an <code>IIOException</code> is thrown with the
-     * message "Image Format Error".
+     * Ensures thbt there bre bt lebst <code>count</code> bytes bvbilbble
+     * in the buffer, lobding more dbtb bnd moving bny rembining
+     * bytes to the front.  A count of 0 mebns to just fill the buffer.
+     * If the count is lbrger thbn the buffer size, just fills the buffer.
+     * If the end of the strebm is encountered before b non-0 count cbn
+     * be sbtisfied, bn <code>IIOException</code> is thrown with the
+     * messbge "Imbge Formbt Error".
      */
-    void loadBuf(int count) throws IOException {
+    void lobdBuf(int count) throws IOException {
         if (debug) {
-            System.out.print("loadbuf called with ");
+            System.out.print("lobdbuf cblled with ");
             System.out.print("count " + count + ", ");
-            System.out.println("bufAvail " + bufAvail + ", ");
+            System.out.println("bufAvbil " + bufAvbil + ", ");
         }
         if (count != 0) {
-            if (bufAvail >= count) {  // have enough
+            if (bufAvbil >= count) {  // hbve enough
                 return;
             }
         } else {
-            if (bufAvail == BUFFER_SIZE) {  // already full
+            if (bufAvbil == BUFFER_SIZE) {  // blrebdy full
                 return;
             }
         }
-        // First copy any remaining bytes down to the beginning
-        if ((bufAvail > 0) && (bufAvail < BUFFER_SIZE)) {
-            System.arraycopy(buf, bufPtr, buf, 0, bufAvail);
+        // First copy bny rembining bytes down to the beginning
+        if ((bufAvbil > 0) && (bufAvbil < BUFFER_SIZE)) {
+            System.brrbycopy(buf, bufPtr, buf, 0, bufAvbil);
         }
         // Now fill the rest of the buffer
-        int ret = iis.read(buf, bufAvail, buf.length - bufAvail);
+        int ret = iis.rebd(buf, bufAvbil, buf.length - bufAvbil);
         if (debug) {
-            System.out.println("iis.read returned " + ret);
+            System.out.println("iis.rebd returned " + ret);
         }
         if (ret != -1) {
-            bufAvail += ret;
+            bufAvbil += ret;
         }
         bufPtr = 0;
-        int minimum = Math.min(BUFFER_SIZE, count);
-        if (bufAvail < minimum) {
-            throw new IIOException ("Image Format Error");
+        int minimum = Mbth.min(BUFFER_SIZE, count);
+        if (bufAvbil < minimum) {
+            throw new IIOException ("Imbge Formbt Error");
         }
     }
 
     /**
-     * Fills the data array from the stream, starting with
-     * the buffer and then reading directly from the stream
-     * if necessary.  The buffer is left in an appropriate
-     * state.  If the end of the stream is encountered, an
+     * Fills the dbtb brrby from the strebm, stbrting with
+     * the buffer bnd then rebding directly from the strebm
+     * if necessbry.  The buffer is left in bn bppropribte
+     * stbte.  If the end of the strebm is encountered, bn
      * <code>IIOException</code> is thrown with the
-     * message "Image Format Error".
+     * messbge "Imbge Formbt Error".
      */
-    void readData(byte [] data) throws IOException {
-        int count = data.length;
-        // First see what's left in the buffer.
-        if (bufAvail >= count) {  // It's enough
-            System.arraycopy(buf, bufPtr, data, 0, count);
-            bufAvail -= count;
+    void rebdDbtb(byte [] dbtb) throws IOException {
+        int count = dbtb.length;
+        // First see whbt's left in the buffer.
+        if (bufAvbil >= count) {  // It's enough
+            System.brrbycopy(buf, bufPtr, dbtb, 0, count);
+            bufAvbil -= count;
             bufPtr += count;
             return;
         }
         int offset = 0;
-        if (bufAvail > 0) {  // Some there, but not enough
-            System.arraycopy(buf, bufPtr, data, 0, bufAvail);
-            offset = bufAvail;
-            count -= bufAvail;
-            bufAvail = 0;
+        if (bufAvbil > 0) {  // Some there, but not enough
+            System.brrbycopy(buf, bufPtr, dbtb, 0, bufAvbil);
+            offset = bufAvbil;
+            count -= bufAvbil;
+            bufAvbil = 0;
             bufPtr = 0;
         }
-        // Now read the rest directly from the stream
-        if (iis.read(data, offset, count) != count) {
-            throw new IIOException ("Image format Error");
+        // Now rebd the rest directly from the strebm
+        if (iis.rebd(dbtb, offset, count) != count) {
+            throw new IIOException ("Imbge formbt Error");
         }
     }
 
     /**
-     * Skips <code>count</code> bytes, leaving the buffer
-     * in an appropriate state.  If the end of the stream is
-     * encountered, an <code>IIOException</code> is thrown with the
-     * message "Image Format Error".
+     * Skips <code>count</code> bytes, lebving the buffer
+     * in bn bppropribte stbte.  If the end of the strebm is
+     * encountered, bn <code>IIOException</code> is thrown with the
+     * messbge "Imbge Formbt Error".
      */
-    void skipData(int count) throws IOException {
-        // First see what's left in the buffer.
-        if (bufAvail >= count) {  // It's enough
-            bufAvail -= count;
+    void skipDbtb(int count) throws IOException {
+        // First see whbt's left in the buffer.
+        if (bufAvbil >= count) {  // It's enough
+            bufAvbil -= count;
             bufPtr += count;
             return;
         }
-        if (bufAvail > 0) {  // Some there, but not enough
-            count -= bufAvail;
-            bufAvail = 0;
+        if (bufAvbil > 0) {  // Some there, but not enough
+            count -= bufAvbil;
+            bufAvbil = 0;
             bufPtr = 0;
         }
-        // Now read the rest directly from the stream
+        // Now rebd the rest directly from the strebm
         if (iis.skipBytes(count) != count) {
-            throw new IIOException ("Image format Error");
+            throw new IIOException ("Imbge formbt Error");
         }
     }
 
     /**
-     * Push back the remaining contents of the buffer by
-     * repositioning the input stream.
+     * Push bbck the rembining contents of the buffer by
+     * repositioning the input strebm.
      */
-    void pushBack() throws IOException {
-        iis.seek(iis.getStreamPosition()-bufAvail);
-        bufAvail = 0;
+    void pushBbck() throws IOException {
+        iis.seek(iis.getStrebmPosition()-bufAvbil);
+        bufAvbil = 0;
         bufPtr = 0;
     }
 
     /**
-     * Return the stream position corresponding to the next
-     * available byte in the buffer.
+     * Return the strebm position corresponding to the next
+     * bvbilbble byte in the buffer.
      */
-    long getStreamPosition() throws IOException {
-        return (iis.getStreamPosition()-bufAvail);
+    long getStrebmPosition() throws IOException {
+        return (iis.getStrebmPosition()-bufAvbil);
     }
 
     /**
-     * Scan the buffer until the next 0xff byte, reloading
-     * the buffer as necessary.  The buffer position is left
-     * pointing to the first non-0xff byte after a run of
-     * 0xff bytes.  If the end of the stream is encountered,
-     * an EOI marker is inserted into the buffer and <code>true</code>
-     * is returned.  Otherwise returns <code>false</code>.
+     * Scbn the buffer until the next 0xff byte, relobding
+     * the buffer bs necessbry.  The buffer position is left
+     * pointing to the first non-0xff byte bfter b run of
+     * 0xff bytes.  If the end of the strebm is encountered,
+     * bn EOI mbrker is inserted into the buffer bnd <code>true</code>
+     * is returned.  Otherwise returns <code>fblse</code>.
      */
-    boolean scanForFF(JPEGImageReader reader) throws IOException {
-        boolean retval = false;
-        boolean foundFF = false;
-        while (foundFF == false) {
-            while (bufAvail > 0) {
+    boolebn scbnForFF(JPEGImbgeRebder rebder) throws IOException {
+        boolebn retvbl = fblse;
+        boolebn foundFF = fblse;
+        while (foundFF == fblse) {
+            while (bufAvbil > 0) {
                 if ((buf[bufPtr++] & 0xff) == 0xff) {
-                    bufAvail--;
+                    bufAvbil--;
                     foundFF = true;
-                    break;  // out of inner while
+                    brebk;  // out of inner while
                 }
-                bufAvail--;
+                bufAvbil--;
             }
-            // Reload the buffer and keep going
-            loadBuf(0);
-            // Skip any remaining pad bytes
+            // Relobd the buffer bnd keep going
+            lobdBuf(0);
+            // Skip bny rembining pbd bytes
             if (foundFF == true) {
-                while ((bufAvail > 0) && (buf[bufPtr] & 0xff) == 0xff) {
+                while ((bufAvbil > 0) && (buf[bufPtr] & 0xff) == 0xff) {
                     bufPtr++;  // Only if it still is 0xff
-                    bufAvail--;
+                    bufAvbil--;
                 }
             }
-            if (bufAvail == 0) {  // Premature EOF
-                // send out a warning, but treat it as EOI
-                //reader.warningOccurred(JPEGImageReader.WARNING_NO_EOI);
-                retval = true;
+            if (bufAvbil == 0) {  // Prembture EOF
+                // send out b wbrning, but trebt it bs EOI
+                //rebder.wbrningOccurred(JPEGImbgeRebder.WARNING_NO_EOI);
+                retvbl = true;
                 buf[0] = (byte)JPEG.EOI;
-                bufAvail = 1;
+                bufAvbil = 1;
                 bufPtr = 0;
                 foundFF = true;
             }
         }
-        return retval;
+        return retvbl;
     }
 
     /**
      * Prints the contents of the buffer, in hex.
-     * @param count the number of bytes to print,
-     * starting at the current available byte.
+     * @pbrbm count the number of bytes to print,
+     * stbrting bt the current bvbilbble byte.
      */
     void print(int count) {
-        System.out.print("buffer has ");
-        System.out.print(bufAvail);
-        System.out.println(" bytes available");
-        if (bufAvail < count) {
-            count = bufAvail;
+        System.out.print("buffer hbs ");
+        System.out.print(bufAvbil);
+        System.out.println(" bytes bvbilbble");
+        if (bufAvbil < count) {
+            count = bufAvbil;
         }
         for (int ptr = bufPtr; count > 0; count--) {
-            int val = (int)buf[ptr++] & 0xff;
-            System.out.print(" " + Integer.toHexString(val));
+            int vbl = (int)buf[ptr++] & 0xff;
+            System.out.print(" " + Integer.toHexString(vbl));
         }
         System.out.println();
     }
